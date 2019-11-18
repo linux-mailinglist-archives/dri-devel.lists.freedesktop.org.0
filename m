@@ -1,64 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 545C1100C7D
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2019 21:04:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D16BF100CFD
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Nov 2019 21:17:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 937526E821;
-	Mon, 18 Nov 2019 20:04:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB90D6E81D;
+	Mon, 18 Nov 2019 20:17:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
- [IPv6:2a00:1450:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7ED7D6E81F;
- Mon, 18 Nov 2019 20:04:13 +0000 (UTC)
-Received: by mail-ed1-x543.google.com with SMTP id a21so14801561edj.8;
- Mon, 18 Nov 2019 12:04:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=CEpxsa38CKvF/Mp8r/bd526NkvwF7ZOMn3pCygANfHk=;
- b=pH7TDIVTQwOPiWdqcutaDyLX+Y4nsdXjO9pX7B3WOoF0IgsSMmXBllG2BfsQuN1gCN
- v30KVIPTTwgl9gNKokH53YPmKA63WgQ8NDswS5CLUV53ltdAKQcAT6mcq6SOV+deR3ey
- O++M1BHKCuzEgHKQ5xRDUYamNR/tH0ubiEDkS9HdQsKSor08EzeDHN/H3TQRG0AZwrco
- akbx6u+6/H6/VUHNcC9eRnehcJgxLqyoBWPFMoe3eSjOnJJWwg4cfF/Vkjac0SWoOVZk
- 77oXmWbxSNH/iwMiXTGCoR8LyteMaFISTtEpyCD7QVZeX+hkwMuEtqY3P6Ll1LLRQBxt
- 0Wlw==
-X-Gm-Message-State: APjAAAVZXOaMFy4634SkDqUVX9rbRGheNx2bszDUImcFPirW3EnTBKC/
- XIE92sgT185aB80yw1HgvYN4nUaQ
-X-Google-Smtp-Source: APXvYqyyGb/TjOulw9IbberraL7bnSp6Kwe0vYo11brTQqWLC9/MVJ9HtrbefQa7wCSphpzyOw3TRA==
-X-Received: by 2002:a5d:4f09:: with SMTP id c9mr34362390wru.175.1574107450665; 
- Mon, 18 Nov 2019 12:04:10 -0800 (PST)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id 4sm474330wmd.33.2019.11.18.12.04.09
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 18 Nov 2019 12:04:10 -0800 (PST)
-Subject: Re: [PATCH v2] drm/scheduler: Avoid accessing freed bad job.
-To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-References: <1574099545-20430-1-git-send-email-andrey.grodzovsky@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <56c4b6e9-8aa8-9c55-4443-70bc869115a0@gmail.com>
-Date: Mon, 18 Nov 2019 21:04:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E29486E81D
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2019 20:17:13 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id D95F5720E2; Mon, 18 Nov 2019 20:17:13 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 112303] [LENOVO E595] Black screen on resume!
+Date: Mon, 18 Nov 2019 20:17:14 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: dracaphallus@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-112303-502-sD4RF0X7c2@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-112303-502@http.bugs.freedesktop.org/>
+References: <bug-112303-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <1574099545-20430-1-git-send-email-andrey.grodzovsky@amd.com>
-Content-Language: en-US
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=CEpxsa38CKvF/Mp8r/bd526NkvwF7ZOMn3pCygANfHk=;
- b=lQkfwc2wlIzU20H7zB8k9Ql9wfTfv3OCVKuUt7sWDaw5+r8j6uCwHfuqsLe/SeKFqq
- eTs3boWEsRYNVmydPQ8tF7O3GIWKle1clqL7TYy9qwcYeAaaEsvqPmudoTz5TBtGM6Js
- fQbx6kcPUTz8wxkXkDVFk/OezRPY1qJTUZ+058q1+MGqjxsTObkDK7diBuHVk2eFzkvv
- eVUI35bWGVsD201kxY8OKKyS2FptCcTr7UWgYtb+sRMU0uNiok0xVG0OFFoDEQlKld5I
- BReNmiKuBvPbpWx61BZLW/8VKsxwxHGIS7JGBFZidsKZs6pjexJKMdNMEkal2jCseohR
- lYYg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,88 +52,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: christian.koenig@amd.com
-Cc: Emily.Deng@amd.com, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Christian.Koenig@amd.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============1123311143=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMTguMTEuMTkgdW0gMTg6NTIgc2NocmllYiBBbmRyZXkgR3JvZHpvdnNreToKPiBQcm9ibGVt
-Ogo+IER1ZSB0byBhIHJhY2UgYmV0d2VlbiBkcm1fc2NoZWRfY2xlYW51cF9qb2JzIGluIHNjaGVk
-IHRocmVhZCBhbmQKPiBkcm1fc2NoZWRfam9iX3RpbWVkb3V0IGluIHRpbWVvdXQgd29yayB0aGVy
-ZSBpcyBhIHBvc3NpYmxpdHkgdGhhdAo+IGJhZCBqb2Igd2FzIGFscmVhZHkgZnJlZWQgd2hpbGUg
-c3RpbGwgYmVpbmcgYWNjZXNzZWQgZnJvbSB0aGUKPiB0aW1lb3V0IHRocmVhZC4KPgo+IEZpeDoK
-PiBJbnN0ZWFkIG9mIGp1c3QgcGVla2luZyBhdCB0aGUgYmFkIGpvYiBpbiB0aGUgbWlycm9yIGxp
-c3QKPiByZW1vdmUgaXQgZnJvbSB0aGUgbGlzdCB1bmRlciBsb2NrIGFuZCB0aGVuIHB1dCBpdCBi
-YWNrIGxhdGVyIHdoZW4KPiB3ZSBhcmUgZ2FyYW50ZWVkIG5vIHJhY2Ugd2l0aCBtYWluIHNjaGVk
-IHRocmVhZCBpcyBwb3NzaWJsZSB3aGljaAo+IGlzIGFmdGVyIHRoZSB0aHJlYWQgaXMgcGFya2Vk
-Lgo+Cj4gdjI6IExvY2sgYXJvdW5kIHByb2Nlc3NpbmcgcmluZ19taXJyb3JfbGlzdCBpbiBkcm1f
-c2NoZWRfY2xlYW51cF9qb2JzLgo+Cj4gU2lnbmVkLW9mZi1ieTogQW5kcmV5IEdyb2R6b3Zza3kg
-PGFuZHJleS5ncm9kem92c2t5QGFtZC5jb20+CgpQbGVhc2UgcmViYXNlIG9uIHRvcCBvZiB0aGUg
-Y2hhbmdlcyBpbiBkcm0tbWlzYy1uZXh0LgoKQXBhcnQgZnJvbSB0aGF0IG9uZSBtaW5vciBjb2Rp
-bmcgc3R5bGUgbml0IHBpY2sgYmVsb3cuCgo+IC0tLQo+ICAgZHJpdmVycy9ncHUvZHJtL3NjaGVk
-dWxlci9zY2hlZF9tYWluLmMgfCA0NCArKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0tLS0t
-Cj4gICAxIGZpbGUgY2hhbmdlZCwgMzggaW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkKPgo+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4uYyBiL2Ry
-aXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFpbi5jCj4gaW5kZXggODBkZGJkZi4uYjA1
-YjIxMCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4u
-Ywo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFpbi5jCj4gQEAgLTI4
-NywxMCArMjg3LDI0IEBAIHN0YXRpYyB2b2lkIGRybV9zY2hlZF9qb2JfdGltZWRvdXQoc3RydWN0
-IHdvcmtfc3RydWN0ICp3b3JrKQo+ICAgCXVuc2lnbmVkIGxvbmcgZmxhZ3M7Cj4gICAKPiAgIAlz
-Y2hlZCA9IGNvbnRhaW5lcl9vZih3b3JrLCBzdHJ1Y3QgZHJtX2dwdV9zY2hlZHVsZXIsIHdvcmtf
-dGRyLndvcmspOwo+ICsKPiArCS8qCj4gKwkgKiBQcm90ZWN0cyBhZ2FpbnN0IGNvbmN1cnJlbnQg
-ZGVsZXRpb24gaW4gZHJtX3NjaGVkX2NsZWFudXBfam9icyB0aGF0Cj4gKwkgKiBpcyBhbHJlYWR5
-IGluIHByb2dyZXNzLgo+ICsJICovCj4gKwlzcGluX2xvY2tfaXJxc2F2ZSgmc2NoZWQtPmpvYl9s
-aXN0X2xvY2ssIGZsYWdzKTsKPiAgIAlqb2IgPSBsaXN0X2ZpcnN0X2VudHJ5X29yX251bGwoJnNj
-aGVkLT5yaW5nX21pcnJvcl9saXN0LAo+ICAgCQkJCSAgICAgICBzdHJ1Y3QgZHJtX3NjaGVkX2pv
-Yiwgbm9kZSk7Cj4gICAKPiAgIAlpZiAoam9iKSB7Cj4gKwkJLyoKPiArCQkgKiBSZW1vdmUgdGhl
-IGJhZCBqb2Igc28gaXQgY2Fubm90IGJlIGZyZWVkIGJ5IGFscmVhZHkgaW4gcHJvZ3Jlc3MKPiAr
-CQkgKiBkcm1fc2NoZWRfY2xlYW51cF9qb2JzLiBJdCB3aWxsIGJlIHJlaW5zcnRlZCBiYWNrIGFm
-dGVyIHNjaGVkLT50aHJlYWQKPiArCQkgKiBpcyBwYXJrZWQgYXQgd2hpY2ggcG9pbnQgaXQncyBz
-YWZlLgo+ICsJCSAqLwo+ICsJCWxpc3RfZGVsX2luaXQoJmpvYi0+bm9kZSk7Cj4gKwkJc3Bpbl91
-bmxvY2tfaXJxcmVzdG9yZSgmc2NoZWQtPmpvYl9saXN0X2xvY2ssIGZsYWdzKTsKPiArCj4gICAJ
-CWpvYi0+c2NoZWQtPm9wcy0+dGltZWRvdXRfam9iKGpvYik7Cj4gICAKPiAgIAkJLyoKPiBAQCAt
-MzAyLDYgKzMxNiw4IEBAIHN0YXRpYyB2b2lkIGRybV9zY2hlZF9qb2JfdGltZWRvdXQoc3RydWN0
-IHdvcmtfc3RydWN0ICp3b3JrKQo+ICAgCQkJc2NoZWQtPmZyZWVfZ3VpbHR5ID0gZmFsc2U7Cj4g
-ICAJCX0KPiAgIAl9Cj4gKwllbHNlCgpQbGVhc2UgdXNlICJ9IGVsc2UgeyIgaW5zdGVhZCwgd2Ug
-aGF2ZSBhdXRvbWF0ZWQgdGVzdHMgd2hpY2ggY29tcGxhaW4gCmFib3V0IHRoYXQgbm93LgoKQ2hy
-aXN0aWFuLgoKPiArCQlzcGluX3VubG9ja19pcnFyZXN0b3JlKCZzY2hlZC0+am9iX2xpc3RfbG9j
-aywgZmxhZ3MpOwo+ICAgCj4gICAJc3Bpbl9sb2NrX2lycXNhdmUoJnNjaGVkLT5qb2JfbGlzdF9s
-b2NrLCBmbGFncyk7Cj4gICAJZHJtX3NjaGVkX3N0YXJ0X3RpbWVvdXQoc2NoZWQpOwo+IEBAIC0z
-NzMsNiArMzg5LDE5IEBAIHZvaWQgZHJtX3NjaGVkX3N0b3Aoc3RydWN0IGRybV9ncHVfc2NoZWR1
-bGVyICpzY2hlZCwgc3RydWN0IGRybV9zY2hlZF9qb2IgKmJhZCkKPiAgIAlrdGhyZWFkX3Bhcmso
-c2NoZWQtPnRocmVhZCk7Cj4gICAKPiAgIAkvKgo+ICsJICogUmVpbnNlcnQgYmFjayB0aGUgYmFk
-IGpvYiBoZXJlIC0gbm93IGl0J3Mgc2FmZSBhcyBkcm1fc2NoZWRfY2xlYW51cF9qb2JzCj4gKwkg
-KiBjYW5ub3QgcmFjZSBhZ2FpbnN0IHVzIGFuZCByZWxlYXNlIHRoZSBiYWQgam9iIGF0IHRoaXMg
-cG9pbnQgLSB3ZSBwYXJrZWQKPiArCSAqICh3YWl0ZWQgZm9yKSBhbnkgaW4gcHJvZ3Jlc3MgKGVh
-cmxpZXIpIGNsZWFudXBzIGFuZCBhbnkgbGF0ZXIgb25lcyB3aWxsCj4gKwkgKiBiYWlsIG91dCBk
-dWUgdG8gc2NoZWQtPnRocmVhZCBiZWluZyBwYXJrZWQuCj4gKwkgKi8KPiArCWlmIChiYWQgJiYg
-YmFkLT5zY2hlZCA9PSBzY2hlZCkKPiArCQkvKgo+ICsJCSAqIEFkZCBhdCB0aGUgaGVhZCBvZiB0
-aGUgcXVldWUgdG8gcmVmbGVjdCBpdCB3YXMgdGhlIGVhcmxpZXN0Cj4gKwkJICogam9iIGV4dHJh
-Y3RlZC4KPiArCQkgKi8KPiArCQlsaXN0X2FkZCgmYmFkLT5ub2RlLCAmc2NoZWQtPnJpbmdfbWly
-cm9yX2xpc3QpOwo+ICsKPiArCS8qCj4gICAJICogSXRlcmF0ZSB0aGUgam9iIGxpc3QgZnJvbSBs
-YXRlciB0byAgZWFybGllciBvbmUgYW5kIGVpdGhlciBkZWFjdGl2ZQo+ICAgCSAqIHRoZWlyIEhX
-IGNhbGxiYWNrcyBvciByZW1vdmUgdGhlbSBmcm9tIG1pcnJvciBsaXN0IGlmIHRoZXkgYWxyZWFk
-eQo+ICAgCSAqIHNpZ25hbGVkLgo+IEBAIC02NTYsMTYgKzY4NSwxOSBAQCBzdGF0aWMgdm9pZCBk
-cm1fc2NoZWRfY2xlYW51cF9qb2JzKHN0cnVjdCBkcm1fZ3B1X3NjaGVkdWxlciAqc2NoZWQpCj4g
-ICAJICAgIF9fa3RocmVhZF9zaG91bGRfcGFyayhzY2hlZC0+dGhyZWFkKSkKPiAgIAkJcmV0dXJu
-Owo+ICAgCj4gLQo+IC0Jd2hpbGUgKCFsaXN0X2VtcHR5KCZzY2hlZC0+cmluZ19taXJyb3JfbGlz
-dCkpIHsKPiArCS8qIFNlZSBkcm1fc2NoZWRfam9iX3RpbWVkb3V0IGZvciB3aHkgdGhlIGxvY2tp
-bmcgaXMgaGVyZSAqLwo+ICsJd2hpbGUgKHRydWUpIHsKPiAgIAkJc3RydWN0IGRybV9zY2hlZF9q
-b2IgKmpvYjsKPiAgIAo+IC0JCWpvYiA9IGxpc3RfZmlyc3RfZW50cnkoJnNjaGVkLT5yaW5nX21p
-cnJvcl9saXN0LAo+IC0JCQkJICAgICAgIHN0cnVjdCBkcm1fc2NoZWRfam9iLCBub2RlKTsKPiAt
-CQlpZiAoIWRtYV9mZW5jZV9pc19zaWduYWxlZCgmam9iLT5zX2ZlbmNlLT5maW5pc2hlZCkpCj4g
-KwkJc3Bpbl9sb2NrX2lycXNhdmUoJnNjaGVkLT5qb2JfbGlzdF9sb2NrLCBmbGFncyk7Cj4gKwkJ
-am9iID0gbGlzdF9maXJzdF9lbnRyeV9vcl9udWxsKCZzY2hlZC0+cmluZ19taXJyb3JfbGlzdCwK
-PiArCQkJCQkgICAgICAgc3RydWN0IGRybV9zY2hlZF9qb2IsIG5vZGUpOwo+ICsKPiArCQlpZiAo
-IWpvYiB8fCAhZG1hX2ZlbmNlX2lzX3NpZ25hbGVkKCZqb2ItPnNfZmVuY2UtPmZpbmlzaGVkKSkg
-ewo+ICsJCQlzcGluX3VubG9ja19pcnFyZXN0b3JlKCZzY2hlZC0+am9iX2xpc3RfbG9jaywgZmxh
-Z3MpOwo+ICAgCQkJYnJlYWs7Cj4gKwkJfQo+ICAgCj4gLQkJc3Bpbl9sb2NrX2lycXNhdmUoJnNj
-aGVkLT5qb2JfbGlzdF9sb2NrLCBmbGFncyk7Cj4gICAJCS8qIHJlbW92ZSBqb2IgZnJvbSByaW5n
-X21pcnJvcl9saXN0ICovCj4gICAJCWxpc3RfZGVsX2luaXQoJmpvYi0+bm9kZSk7Cj4gICAJCXNw
-aW5fdW5sb2NrX2lycXJlc3RvcmUoJnNjaGVkLT5qb2JfbGlzdF9sb2NrLCBmbGFncyk7CgpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1123311143==
+Content-Type: multipart/alternative; boundary="15741082330.91fa74.3952"
+Content-Transfer-Encoding: 7bit
+
+
+--15741082330.91fa74.3952
+Date: Mon, 18 Nov 2019 20:17:13 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D112303
+
+--- Comment #2 from Icy_Thought <dracaphallus@gmail.com> ---
+(In reply to Alex Deucher from comment #1)
+> Does it work with kernel 5.4?  There were several fixes for resume that w=
+ere
+> added (which will be making their way back to stable kernels).
+
+Can't answer this question until kernel 5.4 has been pushed to the Arch Lin=
+ux
+repositories. Will report back when I receive an update!
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15741082330.91fa74.3952
+Date: Mon, 18 Nov 2019 20:17:13 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [LENOVO E595] Black screen on resume!"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112303#c2">Commen=
+t # 2</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [LENOVO E595] Black screen on resume!"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112303">bug 11230=
+3</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+dracaphallus&#64;gmail.com" title=3D"Icy_Thought &lt;dracaphallus&#64;gmail=
+.com&gt;"> <span class=3D"fn">Icy_Thought</span></a>
+</span></b>
+        <pre>(In reply to Alex Deucher from <a href=3D"show_bug.cgi?id=3D11=
+2303#c1">comment #1</a>)
+<span class=3D"quote">&gt; Does it work with kernel 5.4?  There were severa=
+l fixes for resume that were
+&gt; added (which will be making their way back to stable kernels).</span >
+
+Can't answer this question until kernel 5.4 has been pushed to the Arch Lin=
+ux
+repositories. Will report back when I receive an update!</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15741082330.91fa74.3952--
+
+--===============1123311143==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1123311143==--
