@@ -2,70 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B096101B0A
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:06:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FE25101AFA
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:05:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A2A26EB59;
-	Tue, 19 Nov 2019 08:04:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4FD06EBD9;
+	Tue, 19 Nov 2019 08:04:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8ACC689167
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2019 16:56:43 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 406F622677;
- Mon, 18 Nov 2019 11:56:42 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Mon, 18 Nov 2019 11:56:42 -0500
-X-ME-Sender: <xms:SM3SXT7MgQEz6fybTAmFetyWA56SV-nAeA00Vv7O8UtErYApgHQWow>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudegiedgjedvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjfgesghdtreertdervdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkpheple
- dtrdekledrieekrdejieenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegt
- vghrnhhordhtvggthhenucevlhhushhtvghrufhiiigvpedu
-X-ME-Proxy: <xmx:Sc3SXTNRmeGnYMVNvpBzTZejQpY2gDFuXJ9i9y6XqJEH2F633sDUjw>
- <xmx:Sc3SXR9V0iRSBrZOGqLT6ax0pxckAzHtI9hdP0juSqMjB_i6zXph9w>
- <xmx:Sc3SXS5NTNQEhMtOca0aJyWT-NgcBFjS07Wp92X0OgIQBJXcNmeRxg>
- <xmx:Ss3SXZysoDI-vvhNLxDXVs9dvoHEx126-zB7nIEIfRNDp2qHFhceCw>
-Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id AAEF73060060;
- Mon, 18 Nov 2019 11:56:40 -0500 (EST)
-Date: Mon, 18 Nov 2019 17:56:39 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v3 11/13] drm/modes: parse_cmdline: Explicitly memset the
- passed in drm_cmdline_mode struct
-Message-ID: <20191118165639.GR4345@gilmour.lan>
-References: <20191118155134.30468-1-hdegoede@redhat.com>
- <20191118155134.30468-11-hdegoede@redhat.com>
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0C7A6E81F
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2019 20:05:30 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id g3so20409122ljl.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2019 12:05:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+lYduyo7vPgxp45RLwsY0ZnQLiYVsuFTry8aLXbx4kM=;
+ b=HKSasDqBRd0Xnx09NhMaSOSAQ5KBHqdhRfsK4yPH/OgVqpma7x9FEbl7h1RBT2QgHS
+ IN0xohcd3XgFK3YKiqSQcMb0gyMfle1WTk0cL74KDjELxmkN9OzIy2fJWXZuotcT6UU+
+ 8RkHjEDAH4iPx35Xxebg5lBoky3YYtagXULijBu7x/vig7W+CMFDNmEX4HWwDZ0rNO0X
+ SZB7wkt/gLr+Y2tRjt3qgwka2nMfW8Mjfpi68xriM7c7fRYHSQiXSbYNV6V3EblPJMIa
+ XVkaNibgmL1BsRbtYOSe1/T6lD0mgwXjgFfJd7Se/yOn1ZFTfIQL7oPTc0pWaDr+sZDg
+ K/3A==
+X-Gm-Message-State: APjAAAWWHUP9wvMkTZg85KkNXcGyobcV92APDRbe4k4ZOSODmFu29roq
+ PvNr5H1fPNE6DmYX5WT/yzI=
+X-Google-Smtp-Source: APXvYqxptZWcgvS7sdySo1sH5FxDJRVUucG9P8wDoJrg5exzZstUPyRLwr6nfSCBfGL7tbiFLrJUzA==
+X-Received: by 2002:a2e:574d:: with SMTP id r13mr934150ljd.10.1574107529313;
+ Mon, 18 Nov 2019 12:05:29 -0800 (PST)
+Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru.
+ [79.139.233.37])
+ by smtp.gmail.com with ESMTPSA id j23sm9166942lji.41.2019.11.18.12.05.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Nov 2019 12:05:28 -0800 (PST)
+From: Dmitry Osipenko <digetx@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Georgi Djakov <georgi.djakov@linaro.org>, Rob Herring <robh+dt@kernel.org>
+Subject: [PATCH v1 00/29] Introduce memory interconnect for NVIDIA Tegra SoCs
+Date: Mon, 18 Nov 2019 23:02:18 +0300
+Message-Id: <20191118200247.3567-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <20191118155134.30468-11-hdegoede@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
 X-Mailman-Approved-At: Tue, 19 Nov 2019 08:04:07 +0000
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=4eRdwIALHzSVDrGCE/A7ssqZDnT
- ZBwZw2DZ1Ti7cNoo=; b=CVfTjtCbyhRFf+YjC8+CwXXzwK0xE07rxtK9yUmxXQw
- DiulHQZxpiypCyy4+DlAzXSL5OtOp/Fgwb3LJtFHQGEkub0H5uhpNGTDirO1OgaI
- SBFR74cxH7EtEGgDELB6EwVtv8FphvR6jl1mMdCYXUA+dqT+iUuFcAMlQGd2cDTr
- B+jXf204T7OX5em7d0TUec7gcDLaAp4wA7cooXTA9BaIytJlLfAXST0r2foxOJk9
- zLpiqe3PpO8avgliYfl26yngxSGIAvjbbNCX8cVm98MBetADsJzugYeqadkzVSF9
- 8KyPrOitXm0GVWieVtOLBjVQyH1g5bHW6YbUqN9/FRA==
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=4eRdwI
- ALHzSVDrGCE/A7ssqZDnTZBwZw2DZ1Ti7cNoo=; b=Zwq59umu1vlsTzIX/QRlT9
- YeWmibImSkEnZSEnOETLpIDuU1rpqTADTSId6KP0zhgrjdjaZeqCF3UOUPvgQd1H
- ntSUxNHZnhV/2teUIGa+WGrh5O7SsPMsSFeNYIAaNitIqDfKXblNhe03uqfAtJ7x
- XgBDgFhTCv/ZZqdA0/CqDMV0K1YZ45PfHDqhQWDGNMSPXpWHUCmj+Oy6mC+Mn4ZV
- PLR3WagBX+xtVFMSxHbjwSM8swPyqdIO6T14OR9jPur/f6EIPLN/+1cSD6Rvmqov
- chsId0z6mE9JfwuzKM6i0fbxdLRFVk0t3vgvKII+JN+oD/INkTZVxmSjr8+56lMQ
- ==
+ d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+lYduyo7vPgxp45RLwsY0ZnQLiYVsuFTry8aLXbx4kM=;
+ b=APzSWzS1AWv0t0oARIksAL9UGz8A49gKk4636qenUrw+Td8W04Iz2y8qkPl3AHCr6m
+ l/Y7ReHNWM+fX2S6YoWckzLWIag7992BEYqUq4Gn7ppw4+46i/FfNOopAHsAijIGhjKR
+ tD7SA9PLTVi2s4wgrPZldc+6eFwRb93c5lbw3Ix93bgb7lhuXJ0PlExD9gV/yxANzVju
+ ztDiniGHZn5D2BJ4iYP8hDynklw+eD4ahvr9rBJ6wzY3kA2s+pBf2hpwaxyTKPUB/KNS
+ oCMyalrSMkpWiyay05T2MnJa3wwN2B5WySinWwolMDf4wTAKiDFgGzlR2428ByxDD+/O
+ jcJw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,63 +71,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Derek Basehore <dbasehore@chromium.org>,
- Sean Paul <seanpaul@chromium.org>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@intel.com>,
- Mathieu =?iso-8859-1?Q?Alexandre-T=E9treault?= <alexandretm@amotus.ca>
-Content-Type: multipart/mixed; boundary="===============1406198569=="
+Cc: linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1406198569==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="BF73NQnaRilDmNOH"
-Content-Disposition: inline
-
-
---BF73NQnaRilDmNOH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Mon, Nov 18, 2019 at 04:51:32PM +0100, Hans de Goede wrote:
-> Instead of only setting mode->specified on false on an early exit and
-> leaving e.g. mode->bpp_specified and mode->refresh_specified as is,
-> lets be consistent and just zero out the entire passed in struct at
-> the top of drm_mode_parse_command_line_for_connector()
->
-> Changes in v3:
-> -Drop "mode->specified = false;" line instead of the "return false;" (oops)
->  This crasher was reported-by: kernel test robot <lkp@intel.com>
->
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-
-Acked-by: Maxime Ripard <mripard@kernel.org>
-
-Thanks!
-Maxime
-
---BF73NQnaRilDmNOH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXdLNRwAKCRDj7w1vZxhR
-xQk1AP9XtVqOhNcTiaQxip6sZP71nBRozV9vdpHbK2EYlQUE5QD9E5jG7lAInqW0
-SHEUcKaSUL7bHPydlDb95yu6iJuOBwg=
-=6vLm
------END PGP SIGNATURE-----
-
---BF73NQnaRilDmNOH--
-
---===============1406198569==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1406198569==--
+SGVsbG8sCgpUaGlzIHNlcmllcyBicmluZ3MgaW5pdGlhbCBzdXBwb3J0IGZvciBtZW1vcnkgaW50
+ZXJjb25uZWN0IHRvIFRlZ3JhMjAsClRlcmdhMzAgYW5kIFRlZ3JhMTI0IFNvQ3MuIFRoZSBpbnRl
+cmNvbm5lY3QgcHJvdmlkZXMgYXJlIHF1aXRlIGdlbmVyaWMKYW5kIHNob3VsZCBiZSBzdWl0YWJs
+ZSBmb3IgYWxsIFRlZ3JhIFNvQ3MsIGJ1dCBjdXJyZW50bHkgdXBzdHJlYW0ga2VybmVsCmhhcyBF
+TUMvTUMgZHJpdmVycyBvbmx5IGZvciB0aG9zZSB0aHJlZSBnZW5lcmF0aW9ucyBvZiBUZWdyYSBT
+b0NzLgoKRm9yIHRoZSBzdGFydCBvbmx5IGRpc3BsYXkgY29udHJvbGxlcnMgYXJlIGdldHRpbmcg
+aW50ZXJjb25uZWN0IEFQSQpzdXBwb3J0LCBvdGhlcnMgY291bGQgYmUgc3VwcG9ydGVkIGxhdGVy
+IG9uLiBUaGUgZGlzcGxheSBjb250cm9sbGVycwpoYXZlIHRoZSBiaWdnZXN0IGRlbWFuZCBmb3Ig
+aW50ZXJjb25uZWN0IEFQSSByaWdodCBub3cgYmVjYXVzZSBkeW5hbWljCm1lbW9yeSBmcmVxdWVu
+Y3kgc2NhbGluZyBjYW4ndCBiZSBkb25lIHNhZmVseSB3aXRob3V0IHRha2luZyBpbnRvIGFjY291
+bnQKYmFuZHdpZHRoIHJlcXVpcmVtZW50IGZyb20gdGhlIGRpc3BsYXlzLgoKRG1pdHJ5IE9zaXBl
+bmtvICgyOSk6CiAgZHQtYmluZGluZ3M6IG1lbW9yeTogdGVncmEyMDogbWM6IERvY3VtZW50IG5l
+dyBpbnRlcmNvbm5lY3QgcHJvcGVydHkKICBkdC1iaW5kaW5nczogbWVtb3J5OiB0ZWdyYTIwOiBl
+bWM6IERvY3VtZW50IG5ldyBpbnRlcmNvbm5lY3QgcHJvcGVydHkKICBkdC1iaW5kaW5nczogbWVt
+b3J5OiB0ZWdyYTMwOiBtYzogRG9jdW1lbnQgbmV3IGludGVyY29ubmVjdCBwcm9wZXJ0eQogIGR0
+LWJpbmRpbmdzOiBtZW1vcnk6IHRlZ3JhMzA6IGVtYzogRG9jdW1lbnQgbmV3IGludGVyY29ubmVj
+dCBwcm9wZXJ0eQogIGR0LWJpbmRpbmdzOiBtZW1vcnk6IHRlZ3JhMTI0OiBtYzogRG9jdW1lbnQg
+bmV3IGludGVyY29ubmVjdCBwcm9wZXJ0eQogIGR0LWJpbmRpbmdzOiBtZW1vcnk6IHRlZ3JhMTI0
+OiBlbWM6IERvY3VtZW50IG5ldyBpbnRlcmNvbm5lY3QgcHJvcGVydHkKICBkdC1iaW5kaW5nczog
+aG9zdDF4OiBEb2N1bWVudCBuZXcgaW50ZXJjb25uZWN0IHByb3BlcnRpZXMKICBkdC1iaW5kaW5n
+czogaW50ZXJjb25uZWN0OiB0ZWdyYTogQWRkIGluaXRpYWwgSURzCiAgQVJNOiB0ZWdyYTogQWRk
+IGludGVyY29ubmVjdCBwcm9wZXJ0aWVzIHRvIFRlZ3JhMjAgZGV2aWNlLXRyZWUKICBBUk06IHRl
+Z3JhOiBBZGQgaW50ZXJjb25uZWN0IHByb3BlcnRpZXMgdG8gVGVncmEzMCBkZXZpY2UtdHJlZQog
+IEFSTTogdGVncmE6IEFkZCBpbnRlcmNvbm5lY3QgcHJvcGVydGllcyB0byBUZWdyYTEyNCBkZXZp
+Y2UtdHJlZQogIGludGVyY29ubmVjdDogQWRkIG1lbW9yeSBpbnRlcmNvbm5lY3Rpb24gcHJvdmlk
+ZXJzIGZvciBOVklESUEgVGVncmEKICAgIFNvQ3MKICBtZW1vcnk6IHRlZ3JhOiBSZWdpc3RlciBh
+cyBpbnRlcmNvbm5lY3QgcHJvdmlkZXIKICBtZW1vcnk6IHRlZ3JhOiBBZGQgaW50ZXJjb25uZWN0
+IG5vZGVzIGZvciBUZXJnYTIwIGRpc3BsYXkgY29udHJvbGxlcnMKICBtZW1vcnk6IHRlZ3JhOiBB
+ZGQgaW50ZXJjb25uZWN0IG5vZGVzIGZvciBUZXJnYTMwIGRpc3BsYXkgY29udHJvbGxlcnMKICBt
+ZW1vcnk6IHRlZ3JhOiBBZGQgaW50ZXJjb25uZWN0IG5vZGVzIGZvciBUZXJnYTEyNCBkaXNwbGF5
+IGNvbnRyb2xsZXJzCiAgbWVtb3J5OiB0ZWdyYTIwLWVtYzogVXNlIGRldm1fcGxhdGZvcm1faW9y
+ZW1hcF9yZXNvdXJjZQogIG1lbW9yeTogdGVncmEyMC1lbWM6IENvbnRpbnVlIHByb2JpbmcgaWYg
+dGltaW5ncy9JUlEgYXJlIG1pc3NpbmcgaW4KICAgIGRldmljZS10cmVlCiAgbWVtb3J5OiB0ZWdy
+YTIwLWVtYzogUmVnaXN0ZXIgYXMgaW50ZXJjb25uZWN0IHByb3ZpZGVyCiAgbWVtb3J5OiB0ZWdy
+YTMwLWVtYzogQ29udGludWUgcHJvYmluZyBpZiB0aW1pbmdzIGFyZSBtaXNzaW5nIGluCiAgICBk
+ZXZpY2UtdHJlZQogIG1lbW9yeTogdGVncmEzMC1lbWM6IFJlZ2lzdGVyIGFzIGludGVyY29ubmVj
+dCBwcm92aWRlcgogIG1lbW9yeTogdGVncmExMjQtZW1jOiBVc2UgZGV2bV9wbGF0Zm9ybV9pb3Jl
+bWFwX3Jlc291cmNlCiAgbWVtb3J5OiB0ZWdyYTEyNC1lbWM6IFJlZ2lzdGVyIGFzIGludGVyY29u
+bmVjdCBwcm92aWRlcgogIGRybS90ZWdyYTogZGM6IFVzZSBkZXZtX3BsYXRmb3JtX2lvcmVtYXBf
+cmVzb3VyY2UKICBkcm0vdGVncmE6IGRjOiBSZWxlYXNlIFBNIGFuZCBSR0Igb3V0cHV0IHdoZW4g
+Y2xpZW50J3MgcmVnaXN0cmF0aW9uCiAgICBmYWlscwogIGRybS90ZWdyYTogZGM6IFN1cHBvcnQg
+bWVtb3J5IGJhbmR3aWR0aCBtYW5hZ2VtZW50CiAgQVJNOiB0ZWdyYTogRW5hYmxlIGludGVyY29u
+bmVjdCBBUEkgaW4gdGVncmFfZGVmY29uZmlnCiAgQVJNOiBtdWx0aV92N19kZWZjb25maWc6IEVu
+YWJsZSBOVklESUEgVGVncmEgaW50ZXJjb25uZWN0IHByb3ZpZGVycwogIE1BSU5UQUlORVJTOiBB
+ZGQgbWFpbnRhaW5lcnMgZm9yIE5WSURJQSBUZWdyYSBpbnRlcmNvbm5lY3QgZHJpdmVycwoKIC4u
+Li9kaXNwbGF5L3RlZ3JhL252aWRpYSx0ZWdyYTIwLWhvc3QxeC50eHQgICB8ICA2NyArKysrKwog
+Li4uL252aWRpYSx0ZWdyYTEyNC1lbWMudHh0ICAgICAgICAgICAgICAgICAgIHwgICAzICsKIC4u
+Li9udmlkaWEsdGVncmExMjQtbWMueWFtbCAgICAgICAgICAgICAgICAgICB8ICAgNSArCiAuLi4v
+bWVtb3J5LWNvbnRyb2xsZXJzL252aWRpYSx0ZWdyYTIwLWVtYy50eHQgfCAgIDQgKwogLi4uL21l
+bW9yeS1jb250cm9sbGVycy9udmlkaWEsdGVncmEyMC1tYy50eHQgIHwgICA0ICsKIC4uLi9udmlk
+aWEsdGVncmEzMC1lbWMueWFtbCAgICAgICAgICAgICAgICAgICB8ICAgNiArCiAuLi4vbWVtb3J5
+LWNvbnRyb2xsZXJzL252aWRpYSx0ZWdyYTMwLW1jLnlhbWwgfCAgIDUgKwogTUFJTlRBSU5FUlMg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICA5ICsKIGFyY2gvYXJtL2Jvb3Qv
+ZHRzL3RlZ3JhMTI0LmR0c2kgICAgICAgICAgICAgICB8ICAxMCArCiBhcmNoL2FybS9ib290L2R0
+cy90ZWdyYTIwLmR0c2kgICAgICAgICAgICAgICAgfCAgMTEgKy0KIGFyY2gvYXJtL2Jvb3QvZHRz
+L3RlZ3JhMzAuZHRzaSAgICAgICAgICAgICAgICB8ICAxMiArLQogYXJjaC9hcm0vY29uZmlncy9t
+dWx0aV92N19kZWZjb25maWcgICAgICAgICAgIHwgICAyICsKIGFyY2gvYXJtL2NvbmZpZ3MvdGVn
+cmFfZGVmY29uZmlnICAgICAgICAgICAgICB8ICAgMiArCiBkcml2ZXJzL2dwdS9kcm0vdGVncmEv
+ZGMuYyAgICAgICAgICAgICAgICAgICAgfCAyNTIgKysrKysrKysrKysrKysrKystCiBkcml2ZXJz
+L2dwdS9kcm0vdGVncmEvZGMuaCAgICAgICAgICAgICAgICAgICAgfCAgIDggKwogZHJpdmVycy9n
+cHUvZHJtL3RlZ3JhL2RybS5jICAgICAgICAgICAgICAgICAgIHwgIDE4ICsrCiBkcml2ZXJzL2dw
+dS9kcm0vdGVncmEvcGxhbmUuYyAgICAgICAgICAgICAgICAgfCAgIDEgKwogZHJpdmVycy9ncHUv
+ZHJtL3RlZ3JhL3BsYW5lLmggICAgICAgICAgICAgICAgIHwgICA0ICstCiBkcml2ZXJzL2ludGVy
+Y29ubmVjdC9LY29uZmlnICAgICAgICAgICAgICAgICAgfCAgIDEgKwogZHJpdmVycy9pbnRlcmNv
+bm5lY3QvTWFrZWZpbGUgICAgICAgICAgICAgICAgIHwgICAxICsKIGRyaXZlcnMvaW50ZXJjb25u
+ZWN0L3RlZ3JhL0tjb25maWcgICAgICAgICAgICB8ICAgNiArCiBkcml2ZXJzL2ludGVyY29ubmVj
+dC90ZWdyYS9NYWtlZmlsZSAgICAgICAgICAgfCAgIDQgKwogZHJpdmVycy9pbnRlcmNvbm5lY3Qv
+dGVncmEvdGVncmEtaWNjLWVtYy5jICAgIHwgMTM4ICsrKysrKysrKysKIGRyaXZlcnMvaW50ZXJj
+b25uZWN0L3RlZ3JhL3RlZ3JhLWljYy1tYy5jICAgICB8IDEzMCArKysrKysrKysKIGRyaXZlcnMv
+bWVtb3J5L3RlZ3JhL21jLmMgICAgICAgICAgICAgICAgICAgICB8ICAgNCArCiBkcml2ZXJzL21l
+bW9yeS90ZWdyYS90ZWdyYTEyNC1lbWMuYyAgICAgICAgICAgfCAgMjggKy0KIGRyaXZlcnMvbWVt
+b3J5L3RlZ3JhL3RlZ3JhMTI0LmMgICAgICAgICAgICAgICB8ICAxNiArKwogZHJpdmVycy9tZW1v
+cnkvdGVncmEvdGVncmEyMC1lbWMuYyAgICAgICAgICAgIHwgIDkxICsrKystLS0KIGRyaXZlcnMv
+bWVtb3J5L3RlZ3JhL3RlZ3JhMjAuYyAgICAgICAgICAgICAgICB8ICAxNCArCiBkcml2ZXJzL21l
+bW9yeS90ZWdyYS90ZWdyYTMwLWVtYy5jICAgICAgICAgICAgfCAgMzQgKystCiBkcml2ZXJzL21l
+bW9yeS90ZWdyYS90ZWdyYTMwLmMgICAgICAgICAgICAgICAgfCAgMTQgKwogaW5jbHVkZS9kdC1i
+aW5kaW5ncy9pbnRlcmNvbm5lY3QvdGVncmEtaWNjLmggIHwgIDExICsKIGluY2x1ZGUvc29jL3Rl
+Z3JhL21jLmggICAgICAgICAgICAgICAgICAgICAgICB8ICAyNiArKwogMzMgZmlsZXMgY2hhbmdl
+ZCwgODgzIGluc2VydGlvbnMoKyksIDU4IGRlbGV0aW9ucygtKQogY3JlYXRlIG1vZGUgMTAwNjQ0
+IGRyaXZlcnMvaW50ZXJjb25uZWN0L3RlZ3JhL0tjb25maWcKIGNyZWF0ZSBtb2RlIDEwMDY0NCBk
+cml2ZXJzL2ludGVyY29ubmVjdC90ZWdyYS9NYWtlZmlsZQogY3JlYXRlIG1vZGUgMTAwNjQ0IGRy
+aXZlcnMvaW50ZXJjb25uZWN0L3RlZ3JhL3RlZ3JhLWljYy1lbWMuYwogY3JlYXRlIG1vZGUgMTAw
+NjQ0IGRyaXZlcnMvaW50ZXJjb25uZWN0L3RlZ3JhL3RlZ3JhLWljYy1tYy5jCiBjcmVhdGUgbW9k
+ZSAxMDA2NDQgaW5jbHVkZS9kdC1iaW5kaW5ncy9pbnRlcmNvbm5lY3QvdGVncmEtaWNjLmgKCi0t
+IAoyLjIzLjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
