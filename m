@@ -2,33 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06CBF101AD3
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:04:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10BA2101ADB
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:04:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D990E6EBAF;
-	Tue, 19 Nov 2019 08:04:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC0F36EBA0;
+	Tue, 19 Nov 2019 08:04:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E3336E0F8
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2019 14:33:36 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: sre)
- with ESMTPSA id 0CDE928D7EE
-Received: by earth.universe (Postfix, from userid 1000)
- id 8C7BA3C0C78; Mon, 18 Nov 2019 15:33:32 +0100 (CET)
-Date: Mon, 18 Nov 2019 15:33:32 +0100
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Received: from mo6-p01-ob.smtp.rzone.de (mo6-p01-ob.smtp.rzone.de
+ [IPv6:2a01:238:20a:202:5301::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A66876E0F8
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Nov 2019 14:37:11 +0000 (UTC)
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj4Qpw9iZeHmMlw43pqoI="
+X-RZG-CLASS-ID: mo00
+Received: from mbp-13-nikolaus.fritz.box
+ by smtp.strato.de (RZmta 44.29.0 DYNA|AUTH)
+ with ESMTPSA id L09db3vAIEb8TUi
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve secp521r1 with 521 ECDH
+ bits, eq. 15360 bits RSA)) (Client did not present a certificate);
+ Mon, 18 Nov 2019 15:37:08 +0100 (CET)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
 Subject: Re: [RFCv1 11/42] ARM: dts: omap: add channel to DSI panels
-Message-ID: <20191118143332.nyyr6hb4b5c34xew@earth.universe>
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <20191118143332.nyyr6hb4b5c34xew@earth.universe>
+Date: Mon, 18 Nov 2019 15:37:12 +0100
+Message-Id: <7CBD93FA-60AB-4313-BF9C-230BDE2DAE7D@goldelico.com>
 References: <20191117024028.2233-1-sebastian.reichel@collabora.com>
  <20191117024028.2233-12-sebastian.reichel@collabora.com>
  <2db2d505-2f92-621c-ba7c-552b89255594@ti.com>
-MIME-Version: 1.0
-In-Reply-To: <2db2d505-2f92-621c-ba7c-552b89255594@ti.com>
-User-Agent: NeoMutt/20180716
+ <20191118143332.nyyr6hb4b5c34xew@earth.universe>
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+X-Mailer: Apple Mail (2.3124)
 X-Mailman-Approved-At: Tue, 19 Nov 2019 08:04:07 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ t=1574087829; 
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=NccyzmP1agUOJi6AkNkNhwRgnV6m5woxZkl+LYAkrB8=;
+ b=KWmZ9LwpEr2bLXMYmc2iF1MZJyeyKRmnRueS/OvgqxMQArqRcgswirfvxBWAzwai0T
+ 0N7/jZYSm8gGiyJ5HGOxlZYwoD/aAUAgyY4vuSFKlDMFKGURRKivR1pbJeEfzJRQUSqX
+ W2hEvmPWvZyvf6HXiYUXI3iYP//1Sc+PWaRJXeiC2LUbYYM7+GvpD5OgSva62nDfF65f
+ DHrc4o4vTx4MBrr0EOB8F+mSG2nPW/+//3XgfiMXo+uPT7Qf37NrJwjmG9iWnh9MTbjd
+ UjaTTI26h2FGmSoLbTT8E8N0NFcDX8YjBIcJcIfED65S0ouAMIl2FFo0Xqch0WLaouF2
+ N+VQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -42,98 +59,54 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: kernel@collabora.com, Tony Lindgren <tony@atomide.com>,
- "H. Nikolaus Schaller" <hns@goldelico.com>, Merlijn Wajer <merlijn@wizzup.org>,
- dri-devel@lists.freedesktop.org,
+ Merlijn Wajer <merlijn@wizzup.org>, dri-devel@lists.freedesktop.org,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  linux-omap@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============1480616751=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1480616751==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7gyttedf64o66f7u"
-Content-Disposition: inline
-
-
---7gyttedf64o66f7u
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Mon, Nov 18, 2019 at 03:05:07PM +0200, Tomi Valkeinen wrote:
-> On 17/11/2019 04:39, Sebastian Reichel wrote:
-> > The standard binding for DSI requires, that the channel number
-> > of the panel is encoded in DT. This adds the channel number in
-> > all OMAP3-5 boards, in preparation for using common infrastructure.
-> >=20
-> > Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> > ---
-> >   .../devicetree/bindings/display/panel/panel-dsi-cm.txt      | 4 +++-
-> >   arch/arm/boot/dts/omap3-n950.dts                            | 3 ++-
-> >   arch/arm/boot/dts/omap3.dtsi                                | 3 +++
-> >   arch/arm/boot/dts/omap4-droid4-xt894.dts                    | 3 ++-
-> >   arch/arm/boot/dts/omap4-sdp.dts                             | 6 ++++--
-> >   arch/arm/boot/dts/omap4.dtsi                                | 6 ++++++
-> >   arch/arm/boot/dts/omap5.dtsi                                | 6 ++++++
-> >   7 files changed, 26 insertions(+), 5 deletions(-)
->=20
-> Is this required only in the .txt, or also by the driver? This does break
-> backward compatibility with the dtbs, and there's always someone who won't
-> like it.
-
-I add a compatible string for the Droid 4 panel in addition to the
-generic one, which is not really required and just a precaution in
-case we need some quirks in the future.
-
-But I had to add the DSI channel to DT, which is required to follow
-the standard DSI bindings. We cannot use the generic infrastructure
-without this change. Technically it should have been there all the
-time, it is only working because it is currently hardcoded to 0 in
-the panel driver.
-
-TLDR: Yes, it is required by the driver and it does break backward
-compatibility for N950 (panel does not yet work on mainline, since
-the OMAP3 quirks are missing in the omapdrm DSI code), omap4-sdp (
-untested, I do not know if its working) and Droid 4 (known to be
-working with current mainline code, most likely people update their
-DT anyways).
-
--- Sebastian
-
---7gyttedf64o66f7u
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl3Sq7gACgkQ2O7X88g7
-+pomnQ/+NDCGBbuhvwe0NciJeQx4ay66qWzTVPX4mhQJ74usiePwJ546KxTh+jFn
-QIMBkbYs/dVbxizZMvKL3p4s+kOKB3QjDrT0hc3CC29C/F2j32vgpwUG89I94DuQ
-9Kdd4Gec0wB45EFrKLr/kd+VHN2BivdjoUVcyhGqiPtamwXB/Oc70Ql42mIuQMb5
-v3ujMPXGnTOfKpBbAAA5xULcApa0ZAHO7/+tupsZIXPEr+6yXR1nqED9Typ/AHVM
-yEzDh3pQKTeK8fPzENll12LWfQ/lN4mMj1xH0JC3ouTUexCj8T7FrmupvTk/pOG9
-isEX3OL/x0EK1upqMZQuFrECITX3E1916u+3LedOlCKCKVQhBQ0l5E6PUebZB5eY
-EYGD4+ous5/m+Ygn34DWoxklcSQYfQzqLFpCKUx9S2bzREnUm0SeNEIkX0fPxc6f
-u7FnrVrbC/VZ8rZX8zfUgPRkVIsGBVHSVBL8QVW3+X1pLVtpIqGD/eKcd9pvE+5I
-Wod3+A8lvAk0VJ2P4ijtvroFix5kz8kRORS2ovGYowwfOT9vLj2DzZUWXjdHPQ2/
-b7XVn9/LjH/yVipQmm4phoPqXtxxFHuhnXLA4sl6tV/FzP2laVZoYJAyqSsy+taq
-yKwCaR65BC8Qjaa1yHbYY57klDdaLQidqDccvGELHYb6kNOslfc=
-=ow+4
------END PGP SIGNATURE-----
-
---7gyttedf64o66f7u--
-
---===============1480616751==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1480616751==--
+Cj4gQW0gMTguMTEuMjAxOSB1bSAxNTozMyBzY2hyaWViIFNlYmFzdGlhbiBSZWljaGVsIDxzZWJh
+c3RpYW4ucmVpY2hlbEBjb2xsYWJvcmEuY29tPjoKPiAKPiBIaSwKPiAKPiBPbiBNb24sIE5vdiAx
+OCwgMjAxOSBhdCAwMzowNTowN1BNICswMjAwLCBUb21pIFZhbGtlaW5lbiB3cm90ZToKPj4gT24g
+MTcvMTEvMjAxOSAwNDozOSwgU2ViYXN0aWFuIFJlaWNoZWwgd3JvdGU6Cj4+PiBUaGUgc3RhbmRh
+cmQgYmluZGluZyBmb3IgRFNJIHJlcXVpcmVzLCB0aGF0IHRoZSBjaGFubmVsIG51bWJlcgo+Pj4g
+b2YgdGhlIHBhbmVsIGlzIGVuY29kZWQgaW4gRFQuIFRoaXMgYWRkcyB0aGUgY2hhbm5lbCBudW1i
+ZXIgaW4KPj4+IGFsbCBPTUFQMy01IGJvYXJkcywgaW4gcHJlcGFyYXRpb24gZm9yIHVzaW5nIGNv
+bW1vbiBpbmZyYXN0cnVjdHVyZS4KPj4+IAo+Pj4gU2lnbmVkLW9mZi1ieTogU2ViYXN0aWFuIFJl
+aWNoZWwgPHNlYmFzdGlhbi5yZWljaGVsQGNvbGxhYm9yYS5jb20+Cj4+PiAtLS0KPj4+ICAuLi4v
+ZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL3BhbmVsLWRzaS1jbS50eHQgICAgICB8
+IDQgKysrLQo+Pj4gIGFyY2gvYXJtL2Jvb3QvZHRzL29tYXAzLW45NTAuZHRzICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIHwgMyArKy0KPj4+ICBhcmNoL2FybS9ib290L2R0cy9vbWFwMy5kdHNp
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8IDMgKysrCj4+PiAgYXJjaC9hcm0vYm9v
+dC9kdHMvb21hcDQtZHJvaWQ0LXh0ODk0LmR0cyAgICAgICAgICAgICAgICAgICAgfCAzICsrLQo+
+Pj4gIGFyY2gvYXJtL2Jvb3QvZHRzL29tYXA0LXNkcC5kdHMgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIHwgNiArKysrLS0KPj4+ICBhcmNoL2FybS9ib290L2R0cy9vbWFwNC5kdHNpICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICB8IDYgKysrKysrCj4+PiAgYXJjaC9hcm0vYm9vdC9k
+dHMvb21hcDUuZHRzaSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCA2ICsrKysrKwo+
+Pj4gIDcgZmlsZXMgY2hhbmdlZCwgMjYgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKPj4g
+Cj4+IElzIHRoaXMgcmVxdWlyZWQgb25seSBpbiB0aGUgLnR4dCwgb3IgYWxzbyBieSB0aGUgZHJp
+dmVyPyBUaGlzIGRvZXMgYnJlYWsKPj4gYmFja3dhcmQgY29tcGF0aWJpbGl0eSB3aXRoIHRoZSBk
+dGJzLCBhbmQgdGhlcmUncyBhbHdheXMgc29tZW9uZSB3aG8gd29uJ3QKPj4gbGlrZSBpdC4KPiAK
+PiBJIGFkZCBhIGNvbXBhdGlibGUgc3RyaW5nIGZvciB0aGUgRHJvaWQgNCBwYW5lbCBpbiBhZGRp
+dGlvbiB0byB0aGUKPiBnZW5lcmljIG9uZSwgd2hpY2ggaXMgbm90IHJlYWxseSByZXF1aXJlZCBh
+bmQganVzdCBhIHByZWNhdXRpb24gaW4KPiBjYXNlIHdlIG5lZWQgc29tZSBxdWlya3MgaW4gdGhl
+IGZ1dHVyZS4KPiAKPiBCdXQgSSBoYWQgdG8gYWRkIHRoZSBEU0kgY2hhbm5lbCB0byBEVCwgd2hp
+Y2ggaXMgcmVxdWlyZWQgdG8gZm9sbG93Cj4gdGhlIHN0YW5kYXJkIERTSSBiaW5kaW5ncy4gV2Ug
+Y2Fubm90IHVzZSB0aGUgZ2VuZXJpYyBpbmZyYXN0cnVjdHVyZQo+IHdpdGhvdXQgdGhpcyBjaGFu
+Z2UuIFRlY2huaWNhbGx5IGl0IHNob3VsZCBoYXZlIGJlZW4gdGhlcmUgYWxsIHRoZQo+IHRpbWUs
+IGl0IGlzIG9ubHkgd29ya2luZyBiZWNhdXNlIGl0IGlzIGN1cnJlbnRseSBoYXJkY29kZWQgdG8g
+MCBpbgo+IHRoZSBwYW5lbCBkcml2ZXIuCgpJcyBpdCBwb3NzaWJsZSB0byBjaGFuZ2UgaXQgdG8g
+ZGVmYXVsdCB0byBjaGFubmVsIDwwPiBpZiByZWcgaXMgbm90CnNwZWNpZmllZD8KCj4gCj4gVExE
+UjogWWVzLCBpdCBpcyByZXF1aXJlZCBieSB0aGUgZHJpdmVyIGFuZCBpdCBkb2VzIGJyZWFrIGJh
+Y2t3YXJkCj4gY29tcGF0aWJpbGl0eSBmb3IgTjk1MCAocGFuZWwgZG9lcyBub3QgeWV0IHdvcmsg
+b24gbWFpbmxpbmUsIHNpbmNlCj4gdGhlIE9NQVAzIHF1aXJrcyBhcmUgbWlzc2luZyBpbiB0aGUg
+b21hcGRybSBEU0kgY29kZSksIG9tYXA0LXNkcCAoCj4gdW50ZXN0ZWQsIEkgZG8gbm90IGtub3cg
+aWYgaXRzIHdvcmtpbmcpIGFuZCBEcm9pZCA0IChrbm93biB0byBiZQo+IHdvcmtpbmcgd2l0aCBj
+dXJyZW50IG1haW5saW5lIGNvZGUsIG1vc3QgbGlrZWx5IHBlb3BsZSB1cGRhdGUgdGhlaXIKPiBE
+VCBhbnl3YXlzKS4KPiAKPiAtLSBTZWJhc3RpYW4KCkJSLApOaWtvbGF1cwoKX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
