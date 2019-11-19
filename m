@@ -2,30 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1727D1020B1
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 10:35:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC2BB1020B3
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 10:35:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B4EB6F44C;
-	Tue, 19 Nov 2019 09:35:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E2896F44B;
+	Tue, 19 Nov 2019 09:35:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id C5A226F44B
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 09:35:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3F0DA6F44B
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 09:35:22 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C33C5720E2; Tue, 19 Nov 2019 09:35:13 +0000 (UTC)
+ id 3C759720E2; Tue, 19 Nov 2019 09:35:22 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110538] [drm:r600_ring_test [radeon]] *ERROR* radeon: ring 0
- test failed (scratch(0x850C)=0xCAFEDEAD)
-Date: Tue, 19 Nov 2019 09:35:14 +0000
+Subject: [Bug 110751] AMD Radeon HD 7670M, power_profile: Invalid argument
+Date: Tue, 19 Nov 2019 09:35:22 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/Radeon
-X-Bugzilla-Version: DRI git
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: martin.peres@free.fr
@@ -34,10 +33,10 @@ X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-110538-502-7aByGRFnUI@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110538-502@http.bugs.freedesktop.org/>
-References: <bug-110538-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-110751-502-5pgBH2OaZi@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110751-502@http.bugs.freedesktop.org/>
+References: <bug-110751-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,34 +52,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0929048061=="
+Content-Type: multipart/mixed; boundary="===============1922483056=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0929048061==
-Content-Type: multipart/alternative; boundary="15741561130.6A5A1CdAd.9463"
+--===============1922483056==
+Content-Type: multipart/alternative; boundary="15741561220.EdC2.9463"
 Content-Transfer-Encoding: 7bit
 
 
---15741561130.6A5A1CdAd.9463
-Date: Tue, 19 Nov 2019 09:35:13 +0000
+--15741561220.EdC2.9463
+Date: Tue, 19 Nov 2019 09:35:22 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110538
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110751
 
 Martin Peres <martin.peres@free.fr> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
+             Status|NEW                         |RESOLVED
 
---- Comment #1 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #7 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,14 +87,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/865.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/866.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741561130.6A5A1CdAd.9463
-Date: Tue, 19 Nov 2019 09:35:13 +0000
+--15741561220.EdC2.9463
+Date: Tue, 19 Nov 2019 09:35:22 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,10 +111,10 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [drm:r600_ring_test [radeon]] *ERROR* radeon: =
-ring 0 test failed (scratch(0x850C)=3D0xCAFEDEAD)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110538">bug 11053=
-8</a>
+   title=3D"RESOLVED MOVED - AMD Radeon HD 7670M, power_profile: Invalid ar=
+gument"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110751">bug 11075=
+1</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -125,34 +124,34 @@ ring 0 test failed (scratch(0x850C)=3D0xCAFEDEAD)"
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Resolution</td>
            <td>---
            </td>
            <td>MOVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [drm:r600_ring_test [radeon]] *ERROR* radeon: =
-ring 0 test failed (scratch(0x850C)=3D0xCAFEDEAD)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110538#c1">Commen=
-t # 1</a>
+   title=3D"RESOLVED MOVED - AMD Radeon HD 7670M, power_profile: Invalid ar=
+gument"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110751#c7">Commen=
+t # 7</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [drm:r600_ring_test [radeon]] *ERROR* radeon: =
-ring 0 test failed (scratch(0x850C)=3D0xCAFEDEAD)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110538">bug 11053=
-8</a>
+   title=3D"RESOLVED MOVED - AMD Radeon HD 7670M, power_profile: Invalid ar=
+gument"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110751">bug 11075=
+1</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
 r&gt;"> <span class=3D"fn">Martin Peres</span></a>
@@ -165,7 +164,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/865">https://gitlab.freedesktop.org/drm/amd/issues/865</a>.</pre>
+ssues/866">https://gitlab.freedesktop.org/drm/amd/issues/866</a>.</pre>
         </div>
       </p>
 
@@ -179,9 +178,9 @@ ssues/865">https://gitlab.freedesktop.org/drm/amd/issues/865</a>.</pre>
     </body>
 </html>=
 
---15741561130.6A5A1CdAd.9463--
+--15741561220.EdC2.9463--
 
---===============0929048061==
+--===============1922483056==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -191,4 +190,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0929048061==--
+--===============1922483056==--
