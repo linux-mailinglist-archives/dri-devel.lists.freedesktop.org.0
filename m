@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CCBA101EBC
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:56:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FD1A101EBD
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:56:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07EA46EDFB;
-	Tue, 19 Nov 2019 08:56:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FEC36EDF3;
+	Tue, 19 Nov 2019 08:56:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 74D696EE08
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:56:05 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 143586EE05
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:56:11 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 709D2720E2; Tue, 19 Nov 2019 08:56:05 +0000 (UTC)
+ id 1194D720E2; Tue, 19 Nov 2019 08:56:11 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 107947] REG_WAIT timeout 10us * 3500 tries - dce_mi_free_dmif
- line:563 during boot
-Date: Tue, 19 Nov 2019 08:56:05 +0000
+Subject: [Bug 83792] Kernel hangs on boot without nomodeset option
+Date: Tue, 19 Nov 2019 08:56:11 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Component: DRM/Radeon
+X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
+X-Bugzilla-Severity: normal
 X-Bugzilla-Who: martin.peres@free.fr
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-107947-502-max5Mm8EYG@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-107947-502@http.bugs.freedesktop.org/>
-References: <bug-107947-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-83792-502-bZHmufJFAl@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-83792-502@http.bugs.freedesktop.org/>
+References: <bug-83792-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,34 +52,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1320557824=="
+Content-Type: multipart/mixed; boundary="===============1457585949=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1320557824==
-Content-Type: multipart/alternative; boundary="15741537654.83AfC4a.28041"
+--===============1457585949==
+Content-Type: multipart/alternative; boundary="15741537710.f03BD6e.28319"
 Content-Transfer-Encoding: 7bit
 
 
---15741537654.83AfC4a.28041
-Date: Tue, 19 Nov 2019 08:56:05 +0000
+--15741537710.f03BD6e.28319
+Date: Tue, 19 Nov 2019 08:56:11 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D107947
+https://bugs.freedesktop.org/show_bug.cgi?id=3D83792
 
 Martin Peres <martin.peres@free.fr> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
+             Status|NEW                         |RESOLVED
 
---- Comment #9 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #15 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,14 +87,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/528.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/530.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741537654.83AfC4a.28041
-Date: Tue, 19 Nov 2019 08:56:05 +0000
+--15741537710.f03BD6e.28319
+Date: Tue, 19 Nov 2019 08:56:11 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,10 +111,9 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - REG_WAIT timeout 10us * 3500 tries - dce_mi_fr=
-ee_dmif line:563 during boot"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107947">bug 10794=
-7</a>
+   title=3D"RESOLVED MOVED - Kernel hangs on boot without nomodeset option"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D83792">bug 83792<=
+/a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -125,34 +123,32 @@ ee_dmif line:563 during boot"
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Resolution</td>
            <td>---
            </td>
            <td>MOVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - REG_WAIT timeout 10us * 3500 tries - dce_mi_fr=
-ee_dmif line:563 during boot"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107947#c9">Commen=
-t # 9</a>
+   title=3D"RESOLVED MOVED - Kernel hangs on boot without nomodeset option"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D83792#c15">Commen=
+t # 15</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - REG_WAIT timeout 10us * 3500 tries - dce_mi_fr=
-ee_dmif line:563 during boot"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107947">bug 10794=
-7</a>
+   title=3D"RESOLVED MOVED - Kernel hangs on boot without nomodeset option"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D83792">bug 83792<=
+/a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
 r&gt;"> <span class=3D"fn">Martin Peres</span></a>
@@ -165,7 +161,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/528">https://gitlab.freedesktop.org/drm/amd/issues/528</a>.</pre>
+ssues/530">https://gitlab.freedesktop.org/drm/amd/issues/530</a>.</pre>
         </div>
       </p>
 
@@ -179,9 +175,9 @@ ssues/528">https://gitlab.freedesktop.org/drm/amd/issues/528</a>.</pre>
     </body>
 </html>=
 
---15741537654.83AfC4a.28041--
+--15741537710.f03BD6e.28319--
 
---===============1320557824==
+--===============1457585949==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -191,4 +187,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1320557824==--
+--===============1457585949==--
