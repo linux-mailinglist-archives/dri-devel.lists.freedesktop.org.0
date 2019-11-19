@@ -1,30 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2A58101D5C
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:28:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2EF4101D5D
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:28:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52DA56ECBF;
-	Tue, 19 Nov 2019 08:28:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26D216EB49;
+	Tue, 19 Nov 2019 08:28:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 41E456ECF2
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:28:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 24A196ECD0
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:28:54 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 3EE46720E2; Tue, 19 Nov 2019 08:28:49 +0000 (UTC)
+ id 21B1A720E2; Tue, 19 Nov 2019 08:28:54 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 104611] [fiji, polaris10] BUG: unable to handle kernel NULL
- pointer dereference when waking up displays with amdgpu.dc=1
-Date: Tue, 19 Nov 2019 08:28:49 +0000
+Subject: [Bug 54133] [radeon][RV620] Resuming from suspend/hibernation
+ randomly fails since kernel 3.5.0
+Date: Tue, 19 Nov 2019 08:28:54 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Component: DRM/Radeon
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: major
@@ -35,9 +35,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-104611-502-Pd88TNhGpH@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-104611-502@http.bugs.freedesktop.org/>
-References: <bug-104611-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-54133-502-734uViwkrI@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-54133-502@http.bugs.freedesktop.org/>
+References: <bug-54133-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,25 +53,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0321660722=="
+Content-Type: multipart/mixed; boundary="===============1224862507=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0321660722==
-Content-Type: multipart/alternative; boundary="15741521293.36bAE42.17962"
+--===============1224862507==
+Content-Type: multipart/alternative; boundary="15741521341.6aaA.18153"
 Content-Transfer-Encoding: 7bit
 
 
---15741521293.36bAE42.17962
-Date: Tue, 19 Nov 2019 08:28:49 +0000
+--15741521341.6aaA.18153
+Date: Tue, 19 Nov 2019 08:28:54 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D104611
+https://bugs.freedesktop.org/show_bug.cgi?id=3D54133
 
 Martin Peres <martin.peres@free.fr> changed:
 
@@ -80,7 +80,7 @@ Martin Peres <martin.peres@free.fr> changed:
              Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
 
---- Comment #12 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #14 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,14 +88,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/294.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/295.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741521293.36bAE42.17962
-Date: Tue, 19 Nov 2019 08:28:49 +0000
+--15741521341.6aaA.18153
+Date: Tue, 19 Nov 2019 08:28:54 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,10 +112,10 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [fiji, polaris10] BUG: unable to handle kernel=
- NULL pointer dereference when waking up displays with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104611">bug 10461=
-1</a>
+   title=3D"RESOLVED MOVED - [radeon][RV620] Resuming from suspend/hibernat=
+ion randomly fails since kernel 3.5.0"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D54133">bug 54133<=
+/a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -143,16 +143,16 @@ span class=3D"fn">Martin Peres</span></a>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [fiji, polaris10] BUG: unable to handle kernel=
- NULL pointer dereference when waking up displays with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104611#c12">Comme=
-nt # 12</a>
+   title=3D"RESOLVED MOVED - [radeon][RV620] Resuming from suspend/hibernat=
+ion randomly fails since kernel 3.5.0"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D54133#c14">Commen=
+t # 14</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [fiji, polaris10] BUG: unable to handle kernel=
- NULL pointer dereference when waking up displays with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104611">bug 10461=
-1</a>
+   title=3D"RESOLVED MOVED - [radeon][RV620] Resuming from suspend/hibernat=
+ion randomly fails since kernel 3.5.0"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D54133">bug 54133<=
+/a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
 r&gt;"> <span class=3D"fn">Martin Peres</span></a>
@@ -165,7 +165,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/294">https://gitlab.freedesktop.org/drm/amd/issues/294</a>.</pre>
+ssues/295">https://gitlab.freedesktop.org/drm/amd/issues/295</a>.</pre>
         </div>
       </p>
 
@@ -179,9 +179,9 @@ ssues/294">https://gitlab.freedesktop.org/drm/amd/issues/294</a>.</pre>
     </body>
 </html>=
 
---15741521293.36bAE42.17962--
+--15741521341.6aaA.18153--
 
---===============0321660722==
+--===============1224862507==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -191,4 +191,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0321660722==--
+--===============1224862507==--
