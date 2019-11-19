@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E10D101EA9
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:54:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53D78101EA8
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:54:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FE566EDE7;
-	Tue, 19 Nov 2019 08:54:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 552F46EDF0;
+	Tue, 19 Nov 2019 08:54:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4B10B6EDF1
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:54:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id BE9B96EDF4
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:54:34 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 473E8720E2; Tue, 19 Nov 2019 08:54:33 +0000 (UTC)
+ id BBEC3720E2; Tue, 19 Nov 2019 08:54:34 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 82473] No picture
-Date: Tue, 19 Nov 2019 08:54:33 +0000
+Subject: [Bug 107863] Kernel panic when external monitors go blank
+Date: Tue, 19 Nov 2019 08:54:34 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/Radeon
+X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
+X-Bugzilla-Severity: major
 X-Bugzilla-Who: martin.peres@free.fr
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-82473-502-rUEoCRTRto@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-82473-502@http.bugs.freedesktop.org/>
-References: <bug-82473-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-107863-502-gpeziCx7rc@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-107863-502@http.bugs.freedesktop.org/>
+References: <bug-107863-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,34 +52,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1377080445=="
+Content-Type: multipart/mixed; boundary="===============1689387844=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1377080445==
-Content-Type: multipart/alternative; boundary="15741536732.9Ecfc.27643"
+--===============1689387844==
+Content-Type: multipart/alternative; boundary="15741536743.7fFCda6A.27646"
 Content-Transfer-Encoding: 7bit
 
 
---15741536732.9Ecfc.27643
-Date: Tue, 19 Nov 2019 08:54:33 +0000
+--15741536743.7fFCda6A.27646
+Date: Tue, 19 Nov 2019 08:54:34 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D82473
+https://bugs.freedesktop.org/show_bug.cgi?id=3D107863
 
 Martin Peres <martin.peres@free.fr> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
+             Status|NEW                         |RESOLVED
 
---- Comment #26 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #2 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -87,14 +87,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/513.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/517.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741536732.9Ecfc.27643
-Date: Tue, 19 Nov 2019 08:54:33 +0000
+--15741536743.7fFCda6A.27646
+Date: Tue, 19 Nov 2019 08:54:34 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -111,9 +111,9 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - No picture"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D82473">bug 82473<=
-/a>
+   title=3D"RESOLVED MOVED - Kernel panic when external monitors go blank"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107863">bug 10786=
+3</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -123,32 +123,32 @@ span class=3D"fn">Martin Peres</span></a>
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Resolution</td>
            <td>---
            </td>
            <td>MOVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - No picture"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D82473#c26">Commen=
-t # 26</a>
+   title=3D"RESOLVED MOVED - Kernel panic when external monitors go blank"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107863#c2">Commen=
+t # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - No picture"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D82473">bug 82473<=
-/a>
+   title=3D"RESOLVED MOVED - Kernel panic when external monitors go blank"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107863">bug 10786=
+3</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
 r&gt;"> <span class=3D"fn">Martin Peres</span></a>
@@ -161,7 +161,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/513">https://gitlab.freedesktop.org/drm/amd/issues/513</a>.</pre>
+ssues/517">https://gitlab.freedesktop.org/drm/amd/issues/517</a>.</pre>
         </div>
       </p>
 
@@ -175,9 +175,9 @@ ssues/513">https://gitlab.freedesktop.org/drm/amd/issues/513</a>.</pre>
     </body>
 </html>=
 
---15741536732.9Ecfc.27643--
+--15741536743.7fFCda6A.27646--
 
---===============1377080445==
+--===============1689387844==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -187,4 +187,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1377080445==--
+--===============1689387844==--
