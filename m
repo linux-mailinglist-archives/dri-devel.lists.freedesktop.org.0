@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C9A1101D8B
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:32:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F048D101D8C
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:32:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B2306E332;
-	Tue, 19 Nov 2019 08:32:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A89106EBDD;
+	Tue, 19 Nov 2019 08:32:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 085D96EAD0
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:32:40 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id BAF276EA54
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:32:53 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0592A720E2; Tue, 19 Nov 2019 08:32:40 +0000 (UTC)
+ id B7C54720E2; Tue, 19 Nov 2019 08:32:53 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 62671] [Radeon HD 5650][kms] KDE thinks the monitor is
- reconnected each time it resumes
-Date: Tue, 19 Nov 2019 08:32:40 +0000
+Subject: [Bug 64801] KMS/R7xx - [drm:radeon_cs_ioctl] *ERROR* Failed to parse
+ relocation -12!
+Date: Tue, 19 Nov 2019 08:32:53 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/Radeon
-X-Bugzilla-Version: XOrg git
+X-Bugzilla-Version: DRI git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
+X-Bugzilla-Severity: major
 X-Bugzilla-Who: martin.peres@free.fr
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: MOVED
@@ -35,9 +35,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-62671-502-JdNBHzypsK@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-62671-502@http.bugs.freedesktop.org/>
-References: <bug-62671-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-64801-502-mcOo1FU3uK@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-64801-502@http.bugs.freedesktop.org/>
+References: <bug-64801-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,25 +53,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1527381928=="
+Content-Type: multipart/mixed; boundary="===============1884657662=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1527381928==
-Content-Type: multipart/alternative; boundary="15741523592.805AFee.19074"
+--===============1884657662==
+Content-Type: multipart/alternative; boundary="15741523733.81b8bEBf8.19074"
 Content-Transfer-Encoding: 7bit
 
 
---15741523592.805AFee.19074
-Date: Tue, 19 Nov 2019 08:32:39 +0000
+--15741523733.81b8bEBf8.19074
+Date: Tue, 19 Nov 2019 08:32:53 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D62671
+https://bugs.freedesktop.org/show_bug.cgi?id=3D64801
 
 Martin Peres <martin.peres@free.fr> changed:
 
@@ -80,7 +80,7 @@ Martin Peres <martin.peres@free.fr> changed:
              Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
 
---- Comment #4 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #16 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,14 +88,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/329.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/330.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741523592.805AFee.19074
-Date: Tue, 19 Nov 2019 08:32:39 +0000
+--15741523733.81b8bEBf8.19074
+Date: Tue, 19 Nov 2019 08:32:53 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,9 +112,9 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [Radeon HD 5650][kms] KDE thinks the monitor i=
-s reconnected each time it resumes"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D62671">bug 62671<=
+   title=3D"RESOLVED MOVED - KMS/R7xx - [drm:radeon_cs_ioctl] *ERROR* Faile=
+d to parse relocation -12!"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D64801">bug 64801<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -143,15 +143,15 @@ s reconnected each time it resumes"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [Radeon HD 5650][kms] KDE thinks the monitor i=
-s reconnected each time it resumes"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D62671#c4">Comment=
- # 4</a>
+   title=3D"RESOLVED MOVED - KMS/R7xx - [drm:radeon_cs_ioctl] *ERROR* Faile=
+d to parse relocation -12!"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D64801#c16">Commen=
+t # 16</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [Radeon HD 5650][kms] KDE thinks the monitor i=
-s reconnected each time it resumes"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D62671">bug 62671<=
+   title=3D"RESOLVED MOVED - KMS/R7xx - [drm:radeon_cs_ioctl] *ERROR* Faile=
+d to parse relocation -12!"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D64801">bug 64801<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
@@ -165,7 +165,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/329">https://gitlab.freedesktop.org/drm/amd/issues/329</a>.</pre>
+ssues/330">https://gitlab.freedesktop.org/drm/amd/issues/330</a>.</pre>
         </div>
       </p>
 
@@ -179,9 +179,9 @@ ssues/329">https://gitlab.freedesktop.org/drm/amd/issues/329</a>.</pre>
     </body>
 </html>=
 
---15741523592.805AFee.19074--
+--15741523733.81b8bEBf8.19074--
 
---===============1527381928==
+--===============1884657662==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -191,4 +191,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1527381928==--
+--===============1884657662==--
