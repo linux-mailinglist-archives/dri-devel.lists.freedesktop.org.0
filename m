@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CF55101AB1
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:00:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEDB5101AB3
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:00:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24C336EA57;
-	Tue, 19 Nov 2019 08:00:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9EFB6EAF6;
+	Tue, 19 Nov 2019 08:00:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id E93416EAFC
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:00:18 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 078706EAF7
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:00:22 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E604E720E2; Tue, 19 Nov 2019 08:00:18 +0000 (UTC)
+ id 043B9720E2; Tue, 19 Nov 2019 08:00:22 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110956] List of 19.20-812932 release mistakes
-Date: Tue, 19 Nov 2019 08:00:19 +0000
+Date: Tue, 19 Nov 2019 08:00:22 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: dep_changed
 X-Bugzilla-Watch-Reason: None
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-110956-502-hYs0CluIPU@http.bugs.freedesktop.org/>
+Message-ID: <bug-110956-502-16VhMeNRzQ@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110956-502@http.bugs.freedesktop.org/>
 References: <bug-110956-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2077566397=="
+Content-Type: multipart/mixed; boundary="===============0715875587=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============2077566397==
-Content-Type: multipart/alternative; boundary="15741504187.049B.6906"
+--===============0715875587==
+Content-Type: multipart/alternative; boundary="15741504214.7C40cf.6906"
 Content-Transfer-Encoding: 7bit
 
 
---15741504187.049B.6906
-Date: Tue, 19 Nov 2019 08:00:18 +0000
+--15741504214.7C40cf.6906
+Date: Tue, 19 Nov 2019 08:00:21 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -71,22 +71,23 @@ X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110956
-Bug 110956 depends on bug 110962, which changed state.
+Bug 110956 depends on bug 110963, which changed state.
 
-Bug 110962 Summary: Wrong dependencies cause force dependency on amdgpu-dkms
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110962
+Bug 110963 Summary: Wrong condition and wrong variable substitution in libg=
+l1-amdgpu-mesa-dri in postinst script
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110963
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|REOPENED                    |RESOLVED
+             Status|ASSIGNED                    |RESOLVED
          Resolution|---                         |MOVED
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741504187.049B.6906
-Date: Tue, 19 Nov 2019 08:00:18 +0000
+--15741504214.7C40cf.6906
+Date: Tue, 19 Nov 2019 08:00:21 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -105,10 +106,10 @@ Auto-Submitted: auto-generated
           depends on
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Wrong dependencies cause force dependency on a=
-mdgpu-dkms"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110962">bug 11096=
-2</a>,
+   title=3D"RESOLVED MOVED - Wrong condition and wrong variable substitutio=
+n in libgl1-amdgpu-mesa-dri in postinst script"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110963">bug 11096=
+3</a>,
           which changed state.
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -120,7 +121,7 @@ mdgpu-dkms"
 
          <tr>
            <td style=3D"text-align:right;">Status</td>
-           <td>REOPENED
+           <td>ASSIGNED
            </td>
            <td>RESOLVED
            </td>
@@ -146,9 +147,9 @@ mdgpu-dkms"
     </body>
 </html>=
 
---15741504187.049B.6906--
+--15741504214.7C40cf.6906--
 
---===============2077566397==
+--===============0715875587==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -158,4 +159,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============2077566397==--
+--===============0715875587==--
