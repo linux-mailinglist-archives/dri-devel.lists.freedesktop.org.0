@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3416C101C86
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:19:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2320101C93
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:19:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 199D26EC59;
-	Tue, 19 Nov 2019 08:19:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FA296EC26;
+	Tue, 19 Nov 2019 08:19:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4942F6EC33
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:19:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 15B5E6EC32
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:19:53 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 460FE720E2; Tue, 19 Nov 2019 08:19:50 +0000 (UTC)
+ id 13452720E2; Tue, 19 Nov 2019 08:19:53 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 38694] Server freezes with latest commit on 22/06/2011
-Date: Tue, 19 Nov 2019 08:19:50 +0000
+Subject: [Bug 38756] [RV770] System hangs when display goes in sleep mode
+ (with mid profile setting)
+Date: Tue, 19 Nov 2019 08:19:53 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/Radeon
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
+X-Bugzilla-Severity: normal
 X-Bugzilla-Who: martin.peres@free.fr
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: MOVED
-X-Bugzilla-Priority: high
+X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-38694-502-f0NFFEyu6s@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-38694-502@http.bugs.freedesktop.org/>
-References: <bug-38694-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-38756-502-UAR4G6TFhd@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-38756-502@http.bugs.freedesktop.org/>
+References: <bug-38756-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,25 +53,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1698907445=="
+Content-Type: multipart/mixed; boundary="===============1402516102=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1698907445==
-Content-Type: multipart/alternative; boundary="15741515900.ad2574.14457"
+--===============1402516102==
+Content-Type: multipart/alternative; boundary="15741515930.FF4a32548.14457"
 Content-Transfer-Encoding: 7bit
 
 
---15741515900.ad2574.14457
-Date: Tue, 19 Nov 2019 08:19:50 +0000
+--15741515930.FF4a32548.14457
+Date: Tue, 19 Nov 2019 08:19:53 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D38694
+https://bugs.freedesktop.org/show_bug.cgi?id=3D38756
 
 Martin Peres <martin.peres@free.fr> changed:
 
@@ -79,7 +80,7 @@ Martin Peres <martin.peres@free.fr> changed:
              Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
 
---- Comment #17 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #1 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -87,14 +88,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/199.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/201.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741515900.ad2574.14457
-Date: Tue, 19 Nov 2019 08:19:50 +0000
+--15741515930.FF4a32548.14457
+Date: Tue, 19 Nov 2019 08:19:53 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -111,9 +112,9 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Server freezes with latest commit on 22/06/201=
-1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D38694">bug 38694<=
+   title=3D"RESOLVED MOVED - [RV770] System hangs when display goes in slee=
+p mode (with mid profile setting)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D38756">bug 38756<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -142,15 +143,15 @@ span class=3D"fn">Martin Peres</span></a>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Server freezes with latest commit on 22/06/201=
-1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D38694#c17">Commen=
-t # 17</a>
+   title=3D"RESOLVED MOVED - [RV770] System hangs when display goes in slee=
+p mode (with mid profile setting)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D38756#c1">Comment=
+ # 1</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Server freezes with latest commit on 22/06/201=
-1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D38694">bug 38694<=
+   title=3D"RESOLVED MOVED - [RV770] System hangs when display goes in slee=
+p mode (with mid profile setting)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D38756">bug 38756<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
@@ -164,7 +165,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/199">https://gitlab.freedesktop.org/drm/amd/issues/199</a>.</pre>
+ssues/201">https://gitlab.freedesktop.org/drm/amd/issues/201</a>.</pre>
         </div>
       </p>
 
@@ -178,9 +179,9 @@ ssues/199">https://gitlab.freedesktop.org/drm/amd/issues/199</a>.</pre>
     </body>
 </html>=
 
---15741515900.ad2574.14457--
+--15741515930.FF4a32548.14457--
 
---===============1698907445==
+--===============1402516102==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -190,4 +191,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1698907445==--
+--===============1402516102==--
