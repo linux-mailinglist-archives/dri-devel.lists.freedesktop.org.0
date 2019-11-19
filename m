@@ -1,31 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49F5E101F18
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 10:04:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94015101F19
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 10:04:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1E006EBB7;
-	Tue, 19 Nov 2019 09:03:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6046C6E9CD;
+	Tue, 19 Nov 2019 09:04:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 360F06EBB7
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 09:03:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5DDEE6E9B3
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 09:03:59 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 33629720E2; Tue, 19 Nov 2019 09:03:58 +0000 (UTC)
+ id 5A97F720E2; Tue, 19 Nov 2019 09:03:59 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 108710] Since 4.20 kernel Vega 56 hangs when I surf pages in
- steam client
-Date: Tue, 19 Nov 2019 09:03:58 +0000
+Subject: [Bug 90263] GPU card fans run full speed at all times
+Date: Tue, 19 Nov 2019 09:03:59 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
+X-Bugzilla-Component: DRM/Radeon
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: martin.peres@free.fr
@@ -35,9 +34,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-108710-502-ZA61dFzsGa@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-108710-502@http.bugs.freedesktop.org/>
-References: <bug-108710-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-90263-502-O51FJUWbLg@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-90263-502@http.bugs.freedesktop.org/>
+References: <bug-90263-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,25 +52,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1002894561=="
+Content-Type: multipart/mixed; boundary="===============0751567858=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1002894561==
-Content-Type: multipart/alternative; boundary="15741542382.F729EFF3C.31137"
+--===============0751567858==
+Content-Type: multipart/alternative; boundary="15741542392.af9e4F50B.30540"
 Content-Transfer-Encoding: 7bit
 
 
---15741542382.F729EFF3C.31137
-Date: Tue, 19 Nov 2019 09:03:58 +0000
+--15741542392.af9e4F50B.30540
+Date: Tue, 19 Nov 2019 09:03:59 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D108710
+https://bugs.freedesktop.org/show_bug.cgi?id=3D90263
 
 Martin Peres <martin.peres@free.fr> changed:
 
@@ -80,7 +79,7 @@ Martin Peres <martin.peres@free.fr> changed:
          Resolution|---                         |MOVED
              Status|NEW                         |RESOLVED
 
---- Comment #13 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #22 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,14 +87,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/604.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/606.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741542382.F729EFF3C.31137
-Date: Tue, 19 Nov 2019 09:03:58 +0000
+--15741542392.af9e4F50B.30540
+Date: Tue, 19 Nov 2019 09:03:59 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,10 +111,9 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Since 4.20 kernel Vega 56 hangs when I surf pa=
-ges in steam client"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108710">bug 10871=
-0</a>
+   title=3D"RESOLVED MOVED - GPU card fans run full speed at all times"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D90263">bug 90263<=
+/a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -143,16 +141,14 @@ ges in steam client"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Since 4.20 kernel Vega 56 hangs when I surf pa=
-ges in steam client"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108710#c13">Comme=
-nt # 13</a>
+   title=3D"RESOLVED MOVED - GPU card fans run full speed at all times"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D90263#c22">Commen=
+t # 22</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Since 4.20 kernel Vega 56 hangs when I surf pa=
-ges in steam client"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108710">bug 10871=
-0</a>
+   title=3D"RESOLVED MOVED - GPU card fans run full speed at all times"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D90263">bug 90263<=
+/a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
 r&gt;"> <span class=3D"fn">Martin Peres</span></a>
@@ -165,7 +161,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/604">https://gitlab.freedesktop.org/drm/amd/issues/604</a>.</pre>
+ssues/606">https://gitlab.freedesktop.org/drm/amd/issues/606</a>.</pre>
         </div>
       </p>
 
@@ -179,9 +175,9 @@ ssues/604">https://gitlab.freedesktop.org/drm/amd/issues/604</a>.</pre>
     </body>
 </html>=
 
---15741542382.F729EFF3C.31137--
+--15741542392.af9e4F50B.30540--
 
---===============1002894561==
+--===============0751567858==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -191,4 +187,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1002894561==--
+--===============0751567858==--
