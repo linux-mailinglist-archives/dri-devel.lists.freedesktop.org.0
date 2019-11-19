@@ -1,30 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E22B9101D27
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:26:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6753C101D2A
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:26:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D274F6ECD4;
-	Tue, 19 Nov 2019 08:26:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78B7A6ECDA;
+	Tue, 19 Nov 2019 08:26:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 866C56ECD4
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:26:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 694F76ECDC
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:26:20 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 8331C720E2; Tue, 19 Nov 2019 08:26:16 +0000 (UTC)
+ id 66429720E2; Tue, 19 Nov 2019 08:26:20 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 48772] Signal unstable over Display Port on 2560x1440 monitor
-Date: Tue, 19 Nov 2019 08:26:16 +0000
+Subject: [Bug 49029] [DRM,KMS,R300,laptop]Power management not working
+Date: Tue, 19 Nov 2019 08:26:20 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/Radeon
-X-Bugzilla-Version: XOrg git
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: martin.peres@free.fr
@@ -33,10 +33,10 @@ X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-48772-502-8kUNbVeKS6@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-48772-502@http.bugs.freedesktop.org/>
-References: <bug-48772-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-49029-502-Ays6UjYtUH@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-49029-502@http.bugs.freedesktop.org/>
+References: <bug-49029-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,34 +52,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0832509070=="
+Content-Type: multipart/mixed; boundary="===============0560966106=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0832509070==
-Content-Type: multipart/alternative; boundary="15741519762.1b27529.15795"
+--===============0560966106==
+Content-Type: multipart/alternative; boundary="15741519802.4E0Ac7.15795"
 Content-Transfer-Encoding: 7bit
 
 
---15741519762.1b27529.15795
-Date: Tue, 19 Nov 2019 08:26:16 +0000
+--15741519802.4E0Ac7.15795
+Date: Tue, 19 Nov 2019 08:26:20 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D48772
+https://bugs.freedesktop.org/show_bug.cgi?id=3D49029
 
 Martin Peres <martin.peres@free.fr> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
+             Status|NEW                         |RESOLVED
 
---- Comment #18 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #2 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -87,14 +87,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/260.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/262.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741519762.1b27529.15795
-Date: Tue, 19 Nov 2019 08:26:16 +0000
+--15741519802.4E0Ac7.15795
+Date: Tue, 19 Nov 2019 08:26:20 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -111,9 +111,9 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Signal unstable over Display Port on 2560x1440=
- monitor"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D48772">bug 48772<=
+   title=3D"RESOLVED MOVED - [DRM,KMS,R300,laptop]Power management not work=
+ing"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D49029">bug 49029<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -124,33 +124,33 @@ span class=3D"fn">Martin Peres</span></a>
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Resolution</td>
            <td>---
            </td>
            <td>MOVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Signal unstable over Display Port on 2560x1440=
- monitor"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D48772#c18">Commen=
-t # 18</a>
+   title=3D"RESOLVED MOVED - [DRM,KMS,R300,laptop]Power management not work=
+ing"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D49029#c2">Comment=
+ # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Signal unstable over Display Port on 2560x1440=
- monitor"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D48772">bug 48772<=
+   title=3D"RESOLVED MOVED - [DRM,KMS,R300,laptop]Power management not work=
+ing"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D49029">bug 49029<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
@@ -164,7 +164,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/260">https://gitlab.freedesktop.org/drm/amd/issues/260</a>.</pre>
+ssues/262">https://gitlab.freedesktop.org/drm/amd/issues/262</a>.</pre>
         </div>
       </p>
 
@@ -178,9 +178,9 @@ ssues/260">https://gitlab.freedesktop.org/drm/amd/issues/260</a>.</pre>
     </body>
 </html>=
 
---15741519762.1b27529.15795--
+--15741519802.4E0Ac7.15795--
 
---===============0832509070==
+--===============0560966106==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -190,4 +190,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0832509070==--
+--===============0560966106==--
