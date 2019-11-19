@@ -1,31 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB23E102030
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 10:25:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAEB1102032
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 10:25:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FDC96F3D8;
-	Tue, 19 Nov 2019 09:25:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E76506F3D5;
+	Tue, 19 Nov 2019 09:25:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8BBAC6F3D5
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 09:25:11 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 242CE6F3E3
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 09:25:18 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 8856B720E2; Tue, 19 Nov 2019 09:25:11 +0000 (UTC)
+ id 2192F720E2; Tue, 19 Nov 2019 09:25:18 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110610] kernel BUG at
- drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:5611
-Date: Tue, 19 Nov 2019 09:25:11 +0000
+Subject: [Bug 110615] starting X on AMDGPU takes up to a minute
+Date: Tue, 19 Nov 2019 09:25:18 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: martin.peres@free.fr
@@ -35,9 +34,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-110610-502-VxmwSLHR9m@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110610-502@http.bugs.freedesktop.org/>
-References: <bug-110610-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-110615-502-b7anPYqJIq@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110615-502@http.bugs.freedesktop.org/>
+References: <bug-110615-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,25 +52,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1453135824=="
+Content-Type: multipart/mixed; boundary="===============1274139881=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1453135824==
-Content-Type: multipart/alternative; boundary="15741555112.7aee.6140"
+--===============1274139881==
+Content-Type: multipart/alternative; boundary="15741555181.3DFAAb.6140"
 Content-Transfer-Encoding: 7bit
 
 
---15741555112.7aee.6140
-Date: Tue, 19 Nov 2019 09:25:11 +0000
+--15741555181.3DFAAb.6140
+Date: Tue, 19 Nov 2019 09:25:18 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110610
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110615
 
 Martin Peres <martin.peres@free.fr> changed:
 
@@ -80,7 +79,7 @@ Martin Peres <martin.peres@free.fr> changed:
          Resolution|---                         |MOVED
              Status|NEW                         |RESOLVED
 
---- Comment #3 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #2 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,14 +87,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/775.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/776.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741555112.7aee.6140
-Date: Tue, 19 Nov 2019 09:25:11 +0000
+--15741555181.3DFAAb.6140
+Date: Tue, 19 Nov 2019 09:25:18 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,10 +111,9 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - kernel BUG at drivers/gpu/drm/amd/amdgpu/../di=
-splay/amdgpu_dm/amdgpu_dm.c:5611"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110610">bug 11061=
-0</a>
+   title=3D"RESOLVED MOVED - starting X on AMDGPU takes up to a minute"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110615">bug 11061=
+5</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -143,16 +141,14 @@ splay/amdgpu_dm/amdgpu_dm.c:5611"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - kernel BUG at drivers/gpu/drm/amd/amdgpu/../di=
-splay/amdgpu_dm/amdgpu_dm.c:5611"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110610#c3">Commen=
-t # 3</a>
+   title=3D"RESOLVED MOVED - starting X on AMDGPU takes up to a minute"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110615#c2">Commen=
+t # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - kernel BUG at drivers/gpu/drm/amd/amdgpu/../di=
-splay/amdgpu_dm/amdgpu_dm.c:5611"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110610">bug 11061=
-0</a>
+   title=3D"RESOLVED MOVED - starting X on AMDGPU takes up to a minute"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110615">bug 11061=
+5</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
 r&gt;"> <span class=3D"fn">Martin Peres</span></a>
@@ -165,7 +161,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/775">https://gitlab.freedesktop.org/drm/amd/issues/775</a>.</pre>
+ssues/776">https://gitlab.freedesktop.org/drm/amd/issues/776</a>.</pre>
         </div>
       </p>
 
@@ -179,9 +175,9 @@ ssues/775">https://gitlab.freedesktop.org/drm/amd/issues/775</a>.</pre>
     </body>
 </html>=
 
---15741555112.7aee.6140--
+--15741555181.3DFAAb.6140--
 
---===============1453135824==
+--===============1274139881==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -191,4 +187,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1453135824==--
+--===============1274139881==--
