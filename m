@@ -2,36 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66ECA103035
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2019 00:28:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FEC3103030
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2019 00:28:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE2B86EA0C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 947026EA08;
 	Tue, 19 Nov 2019 23:28:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E7186E060
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 14:28:06 +0000 (UTC)
-From: Paul Cercueil <paul@crapouillou.net>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>
-Subject: [PATCH 6/6] gpu/drm: ingenic: Add support for the JZ4770
-Date: Tue, 19 Nov 2019 15:17:36 +0100
-Message-Id: <20191119141736.74607-6-paul@crapouillou.net>
-In-Reply-To: <20191119141736.74607-1-paul@crapouillou.net>
-References: <20191119141736.74607-1-paul@crapouillou.net>
+Received: from muru.com (muru.com [72.249.23.125])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4BD3B6E898
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 14:32:49 +0000 (UTC)
+Received: from atomide.com (localhost [127.0.0.1])
+ by muru.com (Postfix) with ESMTPS id 2EE64809B;
+ Tue, 19 Nov 2019 14:33:23 +0000 (UTC)
+Date: Tue, 19 Nov 2019 06:32:43 -0800
+From: Tony Lindgren <tony@atomide.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [RFCv1 33/42] drm/omap: dsi: use atomic helper for dirtyfb
+Message-ID: <20191119143243.GH35479@atomide.com>
+References: <20191117024028.2233-1-sebastian.reichel@collabora.com>
+ <20191117024028.2233-34-sebastian.reichel@collabora.com>
+ <20191118230535.GG35479@atomide.com>
+ <e91c7fc9-18e0-cc22-4617-127fe9be2c1b@ti.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <e91c7fc9-18e0-cc22-4617-127fe9be2c1b@ti.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-Mailman-Approved-At: Tue, 19 Nov 2019 23:28:08 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=crapouillou.net; 
- s=mail; t=1574173076; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2UrhUYbsD3pMOWmt9KIawFCqDt6dwZ+tLHQeK8ZQBjg=;
- b=gIxkZEYi0V3r2rGBs93YvAPBXiDzGaTirC7WlymA6PdIjhBsacsRLpZG0e0FCCtW9qgDt9
- Z49FfMP17i3mebExiAN8I8C2CbJMQypOjeaMe8QZx2gjHYg1TXDA7EKDE1W0yuG6OwQ6vv
- Iuwu5ENUpaLQWkIW7zCZkZftePkfUWc=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -44,32 +41,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Cercueil <paul@crapouillou.net>, devicetree@vger.kernel.org,
- od@zcrc.me, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: kernel@collabora.com, "H. Nikolaus Schaller" <hns@goldelico.com>,
+ Merlijn Wajer <merlijn@wizzup.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ dri-devel@lists.freedesktop.org, Sebastian Reichel <sre@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-omap@vger.kernel.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIExDRCBjb250cm9sbGVyIGluIHRoZSBKWjQ3NzAgc3VwcG9ydHMgdXAgdG8gNzIwcC4gV2hp
-bGUgdGhlcmUgaGFzCmJlZW4gbWFueSBuZXcgZmVhdHVyZXMgYWRkZWQgc2luY2UgdGhlIG9sZCBK
-WjQ3NDAsIHdoaWNoIGFyZSBub3QgeWV0CmhhbmRsZWQgaGVyZSwgdGhpcyBkcml2ZXIgc3RpbGwg
-d29ya3MgZmluZS4KClNpZ25lZC1vZmYtYnk6IFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxs
-b3UubmV0PgotLS0KIGRyaXZlcnMvZ3B1L2RybS9pbmdlbmljL2luZ2VuaWMtZHJtLmMgfCA3ICsr
-KysrKysKIDEgZmlsZSBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2
-ZXJzL2dwdS9kcm0vaW5nZW5pYy9pbmdlbmljLWRybS5jIGIvZHJpdmVycy9ncHUvZHJtL2luZ2Vu
-aWMvaW5nZW5pYy1kcm0uYwppbmRleCBkNTc4YzRjYjYwMDkuLjQ2ZDNjZTc2M2JiOSAxMDA2NDQK
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL2luZ2VuaWMvaW5nZW5pYy1kcm0uYworKysgYi9kcml2ZXJz
-L2dwdS9kcm0vaW5nZW5pYy9pbmdlbmljLWRybS5jCkBAIC04MjksOSArODI5LDE2IEBAIHN0YXRp
-YyBjb25zdCBzdHJ1Y3Qganpfc29jX2luZm8gano0NzI1Yl9zb2NfaW5mbyA9IHsKIAkubWF4X2hl
-aWdodCA9IDYwMCwKIH07CiAKK3N0YXRpYyBjb25zdCBzdHJ1Y3Qganpfc29jX2luZm8gano0Nzcw
-X3NvY19pbmZvID0geworCS5uZWVkc19kZXZfY2xrID0gZmFsc2UsCisJLm1heF93aWR0aCA9IDEy
-ODAsCisJLm1heF9oZWlnaHQgPSA3MjAsCit9OworCiBzdGF0aWMgY29uc3Qgc3RydWN0IG9mX2Rl
-dmljZV9pZCBpbmdlbmljX2RybV9vZl9tYXRjaFtdID0gewogCXsgLmNvbXBhdGlibGUgPSAiaW5n
-ZW5pYyxqejQ3NDAtbGNkIiwgLmRhdGEgPSAmano0NzQwX3NvY19pbmZvIH0sCiAJeyAuY29tcGF0
-aWJsZSA9ICJpbmdlbmljLGp6NDcyNWItbGNkIiwgLmRhdGEgPSAmano0NzI1Yl9zb2NfaW5mbyB9
-LAorCXsgLmNvbXBhdGlibGUgPSAiaW5nZW5pYyxqejQ3NzAtbGNkIiwgLmRhdGEgPSAmano0Nzcw
-X3NvY19pbmZvIH0sCiAJeyAvKiBzZW50aW5lbCAqLyB9LAogfTsKIAotLSAKMi4yNC4wCgpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+KiBUb21pIFZhbGtlaW5lbiA8dG9taS52YWxrZWluZW5AdGkuY29tPiBbMTkxMTE5IDA1OjQyXToK
+PiBPbiAxOS8xMS8yMDE5IDAxOjA1LCBUb255IExpbmRncmVuIHdyb3RlOgo+ID4gKiBTZWJhc3Rp
+YW4gUmVpY2hlbCA8c2ViYXN0aWFuLnJlaWNoZWxAY29sbGFib3JhLmNvbT4gWzE5MTExNyAwNzox
+MV06Cj4gPiA+IFdlIGNhbiBzaW1wbHkgdXNlIHRoZSBhdG9taWMgaGVscGVyIGZvcgo+ID4gPiBo
+YW5kbGluZyB0aGUgZGlydHlmYiBjYWxsYmFjay4KPiA+IC4uLgo+ID4gPiAtLS0gYS9kcml2ZXJz
+L2dwdS9kcm0vb21hcGRybS9vbWFwX2NydGMuYwo+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
+b21hcGRybS9vbWFwX2NydGMuYwo+ID4gPiAtdm9pZCBvbWFwX2NydGNfZmx1c2goc3RydWN0IGRy
+bV9jcnRjICpjcnRjKQo+ID4gPiArc3RhdGljIHZvaWQgb21hcF9jcnRjX2ZsdXNoKHN0cnVjdCBk
+cm1fY3J0YyAqY3J0YykKPiA+ID4gICB7Cj4gPiA+ICAgCXN0cnVjdCBvbWFwX2NydGMgKm9tYXBf
+Y3J0YyA9IHRvX29tYXBfY3J0YyhjcnRjKTsKPiA+ID4gLQlzdHJ1Y3Qgb21hcF9jcnRjX3N0YXRl
+ICpvbWFwX3N0YXRlID0gdG9fb21hcF9jcnRjX3N0YXRlKGNydGMtPnN0YXRlKTsKPiA+ID4gLQo+
+ID4gPiAtCWlmICghb21hcF9zdGF0ZS0+bWFudWFsbHlfdXBkYXRlZCkKPiA+ID4gLQkJcmV0dXJu
+Owo+ID4gPiAgIAlpZiAoIWRlbGF5ZWRfd29ya19wZW5kaW5nKCZvbWFwX2NydGMtPnVwZGF0ZV93
+b3JrKSkKPiA+ID4gICAJCXNjaGVkdWxlX2RlbGF5ZWRfd29yaygmb21hcF9jcnRjLT51cGRhdGVf
+d29yaywgMCk7Cj4gPiAKPiA+IEl0IHdvdWxkIGJlIG5pY2UgaWYgb21hcF9jcnRjX2ZsdXNoKCkg
+d291bGQgYmVjb21lIGp1c3Qgc29tZSBnZW5lcmljCj4gPiB2b2lkIGZ1bmN0aW9uIHdpdGggbm8g
+bmVlZCB0byBwYXNzIGl0IGEgY3J0Yy4gSSBndWVzcyBmb3IgdGhhdCBpdAo+ID4gc2hvdWxkIGtu
+b3cgd2hhdCBwYW5lbHMgYXJlIGluIG1hbnVhbCBjb21tYW5kIG1vZGUgdG8gcmVmcmVzaCB0aGVt
+LgoKUHJvYWJseSBzdGlsbCBjYW5ub3QgYmUgYSB2b2lkIGZ1bmN0aW9uLCBidXQgc2VlbXMgbGlr
+ZSB3ZSBuZWVkIHRvCmNhbGwgc29tZXRoaW5nIG91dHNpZGUgb21hcF9jcnRjLmMuCgo+ID4gVGhl
+IHJlYXNvbiBJJ20gYnJpbmdpbmcgdGhpcyB1cCBpcyBiZWNhdXNlIGl0IGxvb2tzIGxpa2Ugd2Ug
+bmVlZAo+ID4gdG8gYWxzbyBmbHVzaCBEU0kgY29tbWFuZCBtb2RlIHBhbmVscyBmcm9tIG9tYXBf
+Z2VtX29wX2ZpbmlzaCgpCj4gPiBmb3IgZ2xlcyBhbmQgdGhlIGdlbSBjb2RlIHByb2JhYmx5IHNo
+b3VsZCBub3QgbmVlZCB0byBrbm93IGFueXRoaW5nCj4gPiBhYm91dCBjcnRjLCByaWdodD8KPiAK
+PiBXZSBoYXZlbid0IGhhZCBvbWFwX2dlbV9vcF9maW5pc2goKSBpbiB0aGUga2VybmVsIGZvciBz
+b21lIHllYXJzIG5vdy4uLgo+IAo+IFNob3VsZG4ndCBhIG5vcm1hbCBwYWdlIGZsaXAsIG9yIGlm
+IGRvaW5nIHNpbmdsZS1idWZmZXJpbmcsIHVzaW5nIHRoZQo+IGRpcnR5ZmIgaW9jdGwsIGRvIHRo
+ZSBqb2I/CgpJdCBkb2VzIG5vdCBzZWVtIHRvIGhhcHBlbiB3aXRoIHRoZSBvbGQgcHZyLW9tYXA0
+IHJlbGF0ZWQgcGF0Y2hlcwphbmQgd2hhdGV2ZXIgZ2xlcyByZWxhdGVkIHRlc3RzIGF0IGxlYXN0
+LiBJZiB5b3UgaGF2ZSBzb21lIGlkZWEKd2hlcmUgaXQgc2hvdWxkIGdldCBjYWxsZWQgSSBjYW4g
+dGFrZSBhIGxvb2sgYXQgc29tZSBwb2ludC4KClJlZ2FyZHMsCgpUb255Cl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
