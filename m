@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B013101AA7
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 08:59:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D617101AA8
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 08:59:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72F0D6EAD9;
-	Tue, 19 Nov 2019 07:59:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8EA06EAD5;
+	Tue, 19 Nov 2019 07:59:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id AC1806EAD6
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 07:59:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 057986EAD6
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 07:59:26 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id A7957720E2; Tue, 19 Nov 2019 07:59:21 +0000 (UTC)
+ id 02264720E2; Tue, 19 Nov 2019 07:59:25 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109923] Chromium shows blackscreen on sketchfab like sites
- (WebGL?) (rx460, 18.50-725072, 7/2/2019)
-Date: Tue, 19 Nov 2019 07:59:21 +0000
+Subject: [Bug 110035] AMDGPU and AMDGPU-PRO driver installation fails on
+ Ubuntu 18.04.2 (Radeon VII)
+Date: Tue, 19 Nov 2019 07:59:26 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -27,17 +27,17 @@ X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu-pro
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
+X-Bugzilla-Severity: normal
 X-Bugzilla-Who: martin.peres@free.fr
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-109923-502-3FRMFu0OTI@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109923-502@http.bugs.freedesktop.org/>
-References: <bug-109923-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-110035-502-xb13yqGARx@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110035-502@http.bugs.freedesktop.org/>
+References: <bug-110035-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,34 +53,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2038410741=="
+Content-Type: multipart/mixed; boundary="===============0002274208=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============2038410741==
-Content-Type: multipart/alternative; boundary="15741503611.d2E179a.6323"
+--===============0002274208==
+Content-Type: multipart/alternative; boundary="15741503650.bDd5b9b37.6323"
 Content-Transfer-Encoding: 7bit
 
 
---15741503611.d2E179a.6323
-Date: Tue, 19 Nov 2019 07:59:21 +0000
+--15741503650.bDd5b9b37.6323
+Date: Tue, 19 Nov 2019 07:59:25 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109923
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110035
 
 Martin Peres <martin.peres@free.fr> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
+             Status|NEW                         |RESOLVED
 
---- Comment #12 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #2 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,14 +88,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/21.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/22.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741503611.d2E179a.6323
-Date: Tue, 19 Nov 2019 07:59:21 +0000
+--15741503650.bDd5b9b37.6323
+Date: Tue, 19 Nov 2019 07:59:25 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,10 +112,10 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Chromium shows blackscreen on sketchfab like s=
-ites (WebGL?) (rx460, 18.50-725072, 7/2/2019)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109923">bug 10992=
-3</a>
+   title=3D"RESOLVED MOVED - AMDGPU and AMDGPU-PRO driver installation fail=
+s on Ubuntu 18.04.2 (Radeon VII)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110035">bug 11003=
+5</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -125,34 +125,34 @@ ites (WebGL?) (rx460, 18.50-725072, 7/2/2019)"
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Resolution</td>
            <td>---
            </td>
            <td>MOVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Chromium shows blackscreen on sketchfab like s=
-ites (WebGL?) (rx460, 18.50-725072, 7/2/2019)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109923#c12">Comme=
-nt # 12</a>
+   title=3D"RESOLVED MOVED - AMDGPU and AMDGPU-PRO driver installation fail=
+s on Ubuntu 18.04.2 (Radeon VII)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110035#c2">Commen=
+t # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Chromium shows blackscreen on sketchfab like s=
-ites (WebGL?) (rx460, 18.50-725072, 7/2/2019)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109923">bug 10992=
-3</a>
+   title=3D"RESOLVED MOVED - AMDGPU and AMDGPU-PRO driver installation fail=
+s on Ubuntu 18.04.2 (Radeon VII)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110035">bug 11003=
+5</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
 r&gt;"> <span class=3D"fn">Martin Peres</span></a>
@@ -165,7 +165,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/21">https://gitlab.freedesktop.org/drm/amd/issues/21</a>.</pre>
+ssues/22">https://gitlab.freedesktop.org/drm/amd/issues/22</a>.</pre>
         </div>
       </p>
 
@@ -179,9 +179,9 @@ ssues/21">https://gitlab.freedesktop.org/drm/amd/issues/21</a>.</pre>
     </body>
 </html>=
 
---15741503611.d2E179a.6323--
+--15741503650.bDd5b9b37.6323--
 
---===============2038410741==
+--===============0002274208==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -191,4 +191,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============2038410741==--
+--===============0002274208==--
