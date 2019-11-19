@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD14E101D4F
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:28:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8675C101D50
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:28:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0C9F6EC42;
-	Tue, 19 Nov 2019 08:27:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A17DC6EC3A;
+	Tue, 19 Nov 2019 08:28:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id BBAFD6EC97
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:27:56 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1C61F6EA81
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:28:03 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B9040720E2; Tue, 19 Nov 2019 08:27:56 +0000 (UTC)
+ id 197E8720E2; Tue, 19 Nov 2019 08:28:03 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 104391] DC R9 285 HDMI audio regression since drm/amd/display:
- try to find matching audio inst for enc inst first
-Date: Tue, 19 Nov 2019 08:27:56 +0000
+Subject: [Bug 52266] No DVI output on "ATI Radeon XPRESS 200 5A41 (PCIE)"
+ (ChipID = 0x5a41)
+Date: Tue, 19 Nov 2019 08:28:03 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
+X-Bugzilla-Component: DRM/Radeon
+X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: martin.peres@free.fr
@@ -35,9 +35,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-104391-502-i7Z9MsbJWk@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-104391-502@http.bugs.freedesktop.org/>
-References: <bug-104391-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-52266-502-TGctIK5Nnh@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-52266-502@http.bugs.freedesktop.org/>
+References: <bug-52266-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,32 +53,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1802412526=="
+Content-Type: multipart/mixed; boundary="===============1926066842=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1802412526==
-Content-Type: multipart/alternative; boundary="15741520764.aaBD64e6.17962"
+--===============1926066842==
+Content-Type: multipart/alternative; boundary="15741520831.8e96.18153"
 Content-Transfer-Encoding: 7bit
 
 
---15741520764.aaBD64e6.17962
-Date: Tue, 19 Nov 2019 08:27:56 +0000
+--15741520831.8e96.18153
+Date: Tue, 19 Nov 2019 08:28:03 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D104391
+https://bugs.freedesktop.org/show_bug.cgi?id=3D52266
 
 Martin Peres <martin.peres@free.fr> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
          Resolution|---                         |MOVED
-             Status|ASSIGNED                    |RESOLVED
+             Status|NEW                         |RESOLVED
 
 --- Comment #10 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
@@ -88,14 +88,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/281.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/282.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741520764.aaBD64e6.17962
-Date: Tue, 19 Nov 2019 08:27:56 +0000
+--15741520831.8e96.18153
+Date: Tue, 19 Nov 2019 08:28:03 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,10 +112,10 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - DC R9 285 HDMI audio regression since drm/amd/=
-display: try to find matching audio inst for enc inst first"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104391">bug 10439=
-1</a>
+   title=3D"RESOLVED MOVED - No DVI output on &quot;ATI Radeon XPRESS 200 5=
+A41 (PCIE)&quot; (ChipID =3D 0x5a41)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D52266">bug 52266<=
+/a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -134,7 +134,7 @@ display: try to find matching audio inst for enc inst first"
 
          <tr>
            <td style=3D"text-align:right;">Status</td>
-           <td>ASSIGNED
+           <td>NEW
            </td>
            <td>RESOLVED
            </td>
@@ -143,16 +143,16 @@ display: try to find matching audio inst for enc inst first"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - DC R9 285 HDMI audio regression since drm/amd/=
-display: try to find matching audio inst for enc inst first"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104391#c10">Comme=
-nt # 10</a>
+   title=3D"RESOLVED MOVED - No DVI output on &quot;ATI Radeon XPRESS 200 5=
+A41 (PCIE)&quot; (ChipID =3D 0x5a41)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D52266#c10">Commen=
+t # 10</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - DC R9 285 HDMI audio regression since drm/amd/=
-display: try to find matching audio inst for enc inst first"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104391">bug 10439=
-1</a>
+   title=3D"RESOLVED MOVED - No DVI output on &quot;ATI Radeon XPRESS 200 5=
+A41 (PCIE)&quot; (ChipID =3D 0x5a41)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D52266">bug 52266<=
+/a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
 r&gt;"> <span class=3D"fn">Martin Peres</span></a>
@@ -165,7 +165,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/281">https://gitlab.freedesktop.org/drm/amd/issues/281</a>.</pre>
+ssues/282">https://gitlab.freedesktop.org/drm/amd/issues/282</a>.</pre>
         </div>
       </p>
 
@@ -179,9 +179,9 @@ ssues/281">https://gitlab.freedesktop.org/drm/amd/issues/281</a>.</pre>
     </body>
 </html>=
 
---15741520764.aaBD64e6.17962--
+--15741520831.8e96.18153--
 
---===============1802412526==
+--===============1926066842==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -191,4 +191,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1802412526==--
+--===============1926066842==--
