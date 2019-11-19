@@ -1,24 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A105E101E99
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:53:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BD06101E9A
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:53:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF2746E923;
-	Tue, 19 Nov 2019 08:53:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E44E6E8FB;
+	Tue, 19 Nov 2019 08:53:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id C2DD26E8FB
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:53:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id ACED96E415
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:53:26 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id BF9D6720E2; Tue, 19 Nov 2019 08:53:15 +0000 (UTC)
+ id A9AF2720E2; Tue, 19 Nov 2019 08:53:26 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 80618] [r600g] XCOM Ennemy Unknown crash (RV770)
-Date: Tue, 19 Nov 2019 08:53:16 +0000
+Subject: [Bug 80691] HDMI audio stops working when drm_kms_helper edid
+ overwrite in place
+Date: Tue, 19 Nov 2019 08:53:26 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -33,10 +34,10 @@ X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-80618-502-J3YmY4Vx3b@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-80618-502@http.bugs.freedesktop.org/>
-References: <bug-80618-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-80691-502-KBoemD4h62@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-80691-502@http.bugs.freedesktop.org/>
+References: <bug-80691-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,32 +53,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1566006908=="
+Content-Type: multipart/mixed; boundary="===============1529383722=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1566006908==
-Content-Type: multipart/alternative; boundary="15741535951.A056d2F.26983"
+--===============1529383722==
+Content-Type: multipart/alternative; boundary="15741536061.0f9e.26983"
 Content-Transfer-Encoding: 7bit
 
 
---15741535951.A056d2F.26983
-Date: Tue, 19 Nov 2019 08:53:15 +0000
+--15741536061.0f9e.26983
+Date: Tue, 19 Nov 2019 08:53:26 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D80618
+https://bugs.freedesktop.org/show_bug.cgi?id=3D80691
 
 Martin Peres <martin.peres@free.fr> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
-             Status|NEEDINFO                    |RESOLVED
 
 --- Comment #6 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
@@ -87,14 +88,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/508.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/509.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741535951.A056d2F.26983
-Date: Tue, 19 Nov 2019 08:53:15 +0000
+--15741536061.0f9e.26983
+Date: Tue, 19 Nov 2019 08:53:26 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -111,8 +112,9 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [r600g] XCOM Ennemy Unknown crash (RV770)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D80618">bug 80618<=
+   title=3D"RESOLVED MOVED - HDMI audio stops working when drm_kms_helper e=
+did overwrite in place"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D80691">bug 80691<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -123,31 +125,33 @@ span class=3D"fn">Martin Peres</span></a>
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
            </td>
-           <td>MOVED
+           <td>RESOLVED
            </td>
          </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEEDINFO
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
            </td>
-           <td>RESOLVED
+           <td>MOVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [r600g] XCOM Ennemy Unknown crash (RV770)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D80618#c6">Comment=
+   title=3D"RESOLVED MOVED - HDMI audio stops working when drm_kms_helper e=
+did overwrite in place"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D80691#c6">Comment=
  # 6</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [r600g] XCOM Ennemy Unknown crash (RV770)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D80618">bug 80618<=
+   title=3D"RESOLVED MOVED - HDMI audio stops working when drm_kms_helper e=
+did overwrite in place"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D80691">bug 80691<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
@@ -161,7 +165,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/508">https://gitlab.freedesktop.org/drm/amd/issues/508</a>.</pre>
+ssues/509">https://gitlab.freedesktop.org/drm/amd/issues/509</a>.</pre>
         </div>
       </p>
 
@@ -175,9 +179,9 @@ ssues/508">https://gitlab.freedesktop.org/drm/amd/issues/508</a>.</pre>
     </body>
 </html>=
 
---15741535951.A056d2F.26983--
+--15741536061.0f9e.26983--
 
---===============1566006908==
+--===============1529383722==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -187,4 +191,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1566006908==--
+--===============1529383722==--
