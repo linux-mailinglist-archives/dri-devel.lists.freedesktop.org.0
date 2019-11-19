@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34886102096
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 10:32:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 821C9102097
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 10:32:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C67476F440;
-	Tue, 19 Nov 2019 09:32:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E87586F43C;
+	Tue, 19 Nov 2019 09:32:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id D700A6F445
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 09:32:34 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7B6B56EE0C
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 09:32:47 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id D3F13720E2; Tue, 19 Nov 2019 09:32:34 +0000 (UTC)
+ id 7140E720E2; Tue, 19 Nov 2019 09:32:47 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 105500] AMD Richland (ARUBA) no screen at DP output when using
- three displays
-Date: Tue, 19 Nov 2019 09:32:35 +0000
+Subject: [Bug 105664] AMD HAINAN (Radeon R5 M330) Clock frequency is 750MHz
+ while it is supposed to be 1030MHz
+Date: Tue, 19 Nov 2019 09:32:47 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -27,7 +27,7 @@ X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/Radeon
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
+X-Bugzilla-Severity: normal
 X-Bugzilla-Who: martin.peres@free.fr
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: MOVED
@@ -35,9 +35,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-105500-502-braagi0Crn@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-105500-502@http.bugs.freedesktop.org/>
-References: <bug-105500-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-105664-502-pj4NohpFCq@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-105664-502@http.bugs.freedesktop.org/>
+References: <bug-105664-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,25 +53,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0140931241=="
+Content-Type: multipart/mixed; boundary="===============0724025037=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0140931241==
-Content-Type: multipart/alternative; boundary="15741559542.ebFEA2.8597"
+--===============0724025037==
+Content-Type: multipart/alternative; boundary="15741559670.f90c6ee.8255"
 Content-Transfer-Encoding: 7bit
 
 
---15741559542.ebFEA2.8597
-Date: Tue, 19 Nov 2019 09:32:34 +0000
+--15741559670.f90c6ee.8255
+Date: Tue, 19 Nov 2019 09:32:47 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D105500
+https://bugs.freedesktop.org/show_bug.cgi?id=3D105664
 
 Martin Peres <martin.peres@free.fr> changed:
 
@@ -88,14 +88,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/844.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/846.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741559542.ebFEA2.8597
-Date: Tue, 19 Nov 2019 09:32:34 +0000
+--15741559670.f90c6ee.8255
+Date: Tue, 19 Nov 2019 09:32:47 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,10 +112,10 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - AMD Richland (ARUBA) no screen at DP output wh=
-en using three displays"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105500">bug 10550=
-0</a>
+   title=3D"RESOLVED MOVED - AMD HAINAN (Radeon R5 M330) Clock frequency is=
+ 750MHz while it is supposed to be 1030MHz"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105664">bug 10566=
+4</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -143,16 +143,16 @@ en using three displays"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - AMD Richland (ARUBA) no screen at DP output wh=
-en using three displays"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105500#c6">Commen=
+   title=3D"RESOLVED MOVED - AMD HAINAN (Radeon R5 M330) Clock frequency is=
+ 750MHz while it is supposed to be 1030MHz"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105664#c6">Commen=
 t # 6</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - AMD Richland (ARUBA) no screen at DP output wh=
-en using three displays"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105500">bug 10550=
-0</a>
+   title=3D"RESOLVED MOVED - AMD HAINAN (Radeon R5 M330) Clock frequency is=
+ 750MHz while it is supposed to be 1030MHz"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105664">bug 10566=
+4</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
 r&gt;"> <span class=3D"fn">Martin Peres</span></a>
@@ -165,7 +165,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/844">https://gitlab.freedesktop.org/drm/amd/issues/844</a>.</pre>
+ssues/846">https://gitlab.freedesktop.org/drm/amd/issues/846</a>.</pre>
         </div>
       </p>
 
@@ -179,9 +179,9 @@ ssues/844">https://gitlab.freedesktop.org/drm/amd/issues/844</a>.</pre>
     </body>
 </html>=
 
---15741559542.ebFEA2.8597--
+--15741559670.f90c6ee.8255--
 
---===============0140931241==
+--===============0724025037==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -191,4 +191,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0140931241==--
+--===============0724025037==--
