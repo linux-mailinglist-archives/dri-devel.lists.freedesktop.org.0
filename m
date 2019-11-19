@@ -2,30 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9796B101A95
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 08:57:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F203101A97
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 08:58:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 240B66E922;
-	Tue, 19 Nov 2019 07:57:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 544F66E887;
+	Tue, 19 Nov 2019 07:57:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 443C56E916
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 07:57:48 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id ADF1F6E93E
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 07:57:56 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 4121C720E2; Tue, 19 Nov 2019 07:57:48 +0000 (UTC)
+ id AB5AD720E2; Tue, 19 Nov 2019 07:57:56 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 96906] OpenCL program causes steady stream of GPU fault
- detected errors
-Date: Tue, 19 Nov 2019 07:57:48 +0000
+Subject: [Bug 97220] miss detect monitor. dell UP3214Q
+Date: Tue, 19 Nov 2019 07:57:56 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu-pro
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: martin.peres@free.fr
@@ -35,9 +34,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-96906-502-hE96FXECGg@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-96906-502@http.bugs.freedesktop.org/>
-References: <bug-96906-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-97220-502-xyEQxdQ3Lq@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-97220-502@http.bugs.freedesktop.org/>
+References: <bug-97220-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,25 +52,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0625877759=="
+Content-Type: multipart/mixed; boundary="===============0772387356=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0625877759==
-Content-Type: multipart/alternative; boundary="15741502682.AEBd284.6866"
+--===============0772387356==
+Content-Type: multipart/alternative; boundary="15741502760.40CE20.6866"
 Content-Transfer-Encoding: 7bit
 
 
---15741502682.AEBd284.6866
-Date: Tue, 19 Nov 2019 07:57:48 +0000
+--15741502760.40CE20.6866
+Date: Tue, 19 Nov 2019 07:57:56 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D96906
+https://bugs.freedesktop.org/show_bug.cgi?id=3D97220
 
 Martin Peres <martin.peres@free.fr> changed:
 
@@ -80,7 +79,7 @@ Martin Peres <martin.peres@free.fr> changed:
              Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
 
---- Comment #10 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #8 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,14 +87,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/8.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/9.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741502682.AEBd284.6866
-Date: Tue, 19 Nov 2019 07:57:48 +0000
+--15741502760.40CE20.6866
+Date: Tue, 19 Nov 2019 07:57:56 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,9 +111,8 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - OpenCL program causes steady stream of GPU fau=
-lt detected errors"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D96906">bug 96906<=
+   title=3D"RESOLVED MOVED - miss detect monitor. dell UP3214Q"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D97220">bug 97220<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -143,15 +141,13 @@ lt detected errors"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - OpenCL program causes steady stream of GPU fau=
-lt detected errors"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D96906#c10">Commen=
-t # 10</a>
+   title=3D"RESOLVED MOVED - miss detect monitor. dell UP3214Q"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D97220#c8">Comment=
+ # 8</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - OpenCL program causes steady stream of GPU fau=
-lt detected errors"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D96906">bug 96906<=
+   title=3D"RESOLVED MOVED - miss detect monitor. dell UP3214Q"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D97220">bug 97220<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
@@ -165,7 +161,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/8">https://gitlab.freedesktop.org/drm/amd/issues/8</a>.</pre>
+ssues/9">https://gitlab.freedesktop.org/drm/amd/issues/9</a>.</pre>
         </div>
       </p>
 
@@ -179,9 +175,9 @@ ssues/8">https://gitlab.freedesktop.org/drm/amd/issues/8</a>.</pre>
     </body>
 </html>=
 
---15741502682.AEBd284.6866--
+--15741502760.40CE20.6866--
 
---===============0625877759==
+--===============0772387356==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -191,4 +187,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0625877759==--
+--===============0772387356==--
