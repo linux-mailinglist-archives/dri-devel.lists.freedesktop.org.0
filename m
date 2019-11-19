@@ -1,30 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E1F3101E82
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:49:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C51E101E83
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:49:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDE486ED07;
-	Tue, 19 Nov 2019 08:49:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37A336ED02;
+	Tue, 19 Nov 2019 08:49:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 222306EAD6
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:49:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4BA516ECFA
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:49:37 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 1D20C720E0; Tue, 19 Nov 2019 08:49:26 +0000 (UTC)
+ id 48BC6720E2; Tue, 19 Nov 2019 08:49:37 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 78096] Linux 3.14 doesn't boot with Radeon HD 5870
-Date: Tue, 19 Nov 2019 08:49:26 +0000
+Subject: [Bug 79223] extra vsync when reading back pixels in xbmc
+Date: Tue, 19 Nov 2019 08:49:37 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/Radeon
-X-Bugzilla-Version: XOrg git
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: martin.peres@free.fr
@@ -33,10 +33,10 @@ X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-78096-502-Kil1Uw8XVM@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-78096-502@http.bugs.freedesktop.org/>
-References: <bug-78096-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-79223-502-qkDOy09dhA@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-79223-502@http.bugs.freedesktop.org/>
+References: <bug-79223-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,34 +52,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0890530206=="
+Content-Type: multipart/mixed; boundary="===============0046101224=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0890530206==
-Content-Type: multipart/alternative; boundary="15741533661.e36849e.25789"
+--===============0046101224==
+Content-Type: multipart/alternative; boundary="15741533772.6AD8E0FCD.26199"
 Content-Transfer-Encoding: 7bit
 
 
---15741533661.e36849e.25789
-Date: Tue, 19 Nov 2019 08:49:26 +0000
+--15741533772.6AD8E0FCD.26199
+Date: Tue, 19 Nov 2019 08:49:37 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D78096
+https://bugs.freedesktop.org/show_bug.cgi?id=3D79223
 
 Martin Peres <martin.peres@free.fr> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
-             Status|REOPENED                    |RESOLVED
 
---- Comment #9 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #19 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -87,14 +87,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/492.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/494.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741533661.e36849e.25789
-Date: Tue, 19 Nov 2019 08:49:26 +0000
+--15741533772.6AD8E0FCD.26199
+Date: Tue, 19 Nov 2019 08:49:37 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -111,8 +111,8 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Linux 3.14 doesn't boot with Radeon HD 5870"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D78096">bug 78096<=
+   title=3D"RESOLVED MOVED - extra vsync when reading back pixels in xbmc"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D79223">bug 79223<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -123,31 +123,31 @@ span class=3D"fn">Martin Peres</span></a>
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
            </td>
-           <td>MOVED
+           <td>RESOLVED
            </td>
          </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>REOPENED
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
            </td>
-           <td>RESOLVED
+           <td>MOVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Linux 3.14 doesn't boot with Radeon HD 5870"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D78096#c9">Comment=
- # 9</a>
+   title=3D"RESOLVED MOVED - extra vsync when reading back pixels in xbmc"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D79223#c19">Commen=
+t # 19</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Linux 3.14 doesn't boot with Radeon HD 5870"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D78096">bug 78096<=
+   title=3D"RESOLVED MOVED - extra vsync when reading back pixels in xbmc"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D79223">bug 79223<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
@@ -161,7 +161,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/492">https://gitlab.freedesktop.org/drm/amd/issues/492</a>.</pre>
+ssues/494">https://gitlab.freedesktop.org/drm/amd/issues/494</a>.</pre>
         </div>
       </p>
 
@@ -175,9 +175,9 @@ ssues/492">https://gitlab.freedesktop.org/drm/amd/issues/492</a>.</pre>
     </body>
 </html>=
 
---15741533661.e36849e.25789--
+--15741533772.6AD8E0FCD.26199--
 
---===============0890530206==
+--===============0046101224==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -187,4 +187,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0890530206==--
+--===============0046101224==--
