@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C50E101AB5
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:00:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 267FD101AB7
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:00:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEEB06EAFC;
-	Tue, 19 Nov 2019 08:00:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 590AF6EB17;
+	Tue, 19 Nov 2019 08:00:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id B9CFE6EAF7
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CAEB16EAD2
  for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:00:24 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B478A720E2; Tue, 19 Nov 2019 08:00:24 +0000 (UTC)
+ id C7F22720E2; Tue, 19 Nov 2019 08:00:24 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110964] Documentation update about provided Open Vulkan
- implementation
-Date: Tue, 19 Nov 2019 08:00:24 +0000
+Subject: [Bug 111268] Documentation related bugs
+Date: Tue, 19 Nov 2019 08:00:25 +0000
 X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
+X-Bugzilla-Type: dep_changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu-pro
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: enhancement
+X-Bugzilla-Severity: normal
 X-Bugzilla-Who: martin.peres@free.fr
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: MOVED
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-110964-502-O3NDsPSpId@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110964-502@http.bugs.freedesktop.org/>
-References: <bug-110964-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-111268-502-vGSyRhtUwh@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111268-502@http.bugs.freedesktop.org/>
+References: <bug-111268-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,17 +52,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0519487108=="
+Content-Type: multipart/mixed; boundary="===============0149705013=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0519487108==
-Content-Type: multipart/alternative; boundary="15741504242.Dd7cCddb8.6906"
+--===============0149705013==
+Content-Type: multipart/alternative; boundary="15741504243.61e0cC1.6906"
 Content-Transfer-Encoding: 7bit
 
 
---15741504242.Dd7cCddb8.6906
+--15741504243.61e0cC1.6906
 Date: Tue, 19 Nov 2019 08:00:24 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -71,30 +70,23 @@ Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110964
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111268
+Bug 111268 depends on bug 110964, which changed state.
 
-Martin Peres <martin.peres@free.fr> changed:
+Bug 110964 Summary: Documentation update about provided Open Vulkan impleme=
+ntation
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110964
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-         Resolution|---                         |MOVED
              Status|REOPENED                    |RESOLVED
-
---- Comment #3 from Martin Peres <martin.peres@free.fr> ---
--- GitLab Migration Automatic Message --
-
-This bug has been migrated to freedesktop.org's GitLab instance and has been
-closed from further activity.
-
-You can subscribe and participate further through the new bug through this =
-link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/31.
+         Resolution|---                         |MOVED
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741504242.Dd7cCddb8.6906
+--15741504243.61e0cC1.6906
 Date: Tue, 19 Nov 2019 08:00:24 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
@@ -106,16 +98,19 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:martin.pe=
-res&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.fr&gt;"> <=
-span class=3D"fn">Martin Peres</span></a>
-</span> changed
+    <body><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Documentation related bugs"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111268">Bug 11126=
+8</a>
+          depends on
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
    title=3D"RESOLVED MOVED - Documentation update about provided Open Vulka=
 n implementation"
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110964">bug 11096=
-4</a>
+4</a>,
+          which changed state.
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -125,48 +120,21 @@ n implementation"
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>MOVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Status</td>
            <td>REOPENED
            </td>
            <td>RESOLVED
            </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>MOVED
+           </td>
          </tr></table>
       <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Documentation update about provided Open Vulka=
-n implementation"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110964#c3">Commen=
-t # 3</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Documentation update about provided Open Vulka=
-n implementation"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110964">bug 11096=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
-r&gt;"> <span class=3D"fn">Martin Peres</span></a>
-</span></b>
-        <pre>-- GitLab Migration Automatic Message --
-
-This bug has been migrated to freedesktop.org's GitLab instance and has been
-closed from further activity.
-
-You can subscribe and participate further through the new bug through this =
-link
-to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/31">https://gitlab.freedesktop.org/drm/amd/issues/31</a>.</pre>
-        </div>
       </p>
 
 
@@ -179,9 +147,9 @@ ssues/31">https://gitlab.freedesktop.org/drm/amd/issues/31</a>.</pre>
     </body>
 </html>=
 
---15741504242.Dd7cCddb8.6906--
+--15741504243.61e0cC1.6906--
 
---===============0519487108==
+--===============0149705013==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -191,4 +159,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0519487108==--
+--===============0149705013==--
