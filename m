@@ -2,55 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5127E101BB6
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:16:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D5C8101BA8
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:16:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 971F66EC98;
-	Tue, 19 Nov 2019 08:16:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 303EC6EC04;
+	Tue, 19 Nov 2019 08:16:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqemgate14.nvidia.com (hqemgate14.nvidia.com [216.228.121.143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE25A6EC8A
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:16:48 +0000 (UTC)
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5dd3a4f30000>; Tue, 19 Nov 2019 00:16:51 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Tue, 19 Nov 2019 00:16:48 -0800
-X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Tue, 19 Nov 2019 00:16:48 -0800
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 19 Nov
- 2019 08:16:47 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via
- Frontend Transport; Tue, 19 Nov 2019 08:16:47 +0000
-Received: from blueforge.nvidia.com (Not Verified[10.110.48.28]) by
- rnnvemgw01.nvidia.com with Trustwave SEG (v7, 5, 8, 10121)
- id <B5dd3a4ed0008>; Tue, 19 Nov 2019 00:16:46 -0800
-From: John Hubbard <jhubbard@nvidia.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v6 01/24] mm/gup: pass flags arg to __gup_device_* functions
-Date: Tue, 19 Nov 2019 00:16:20 -0800
-Message-ID: <20191119081643.1866232-2-jhubbard@nvidia.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191119081643.1866232-1-jhubbard@nvidia.com>
-References: <20191119081643.1866232-1-jhubbard@nvidia.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 707576EC8B
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:16:21 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 6D2F5720E2; Tue, 19 Nov 2019 08:16:21 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 100964] RX-480 [drm:gfx_v8_0_ring_test_ring [amdgpu]] *ERROR*
+ amdgpu: ring 0 test failed (scratch(0xC040)=0xCAFEDEAD)
+Date: Tue, 19 Nov 2019 08:16:21 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: martin.peres@free.fr
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: MOVED
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-100964-502-kegJfrLok9@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-100964-502@http.bugs.freedesktop.org/>
+References: <bug-100964-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-NVConfidentiality: public
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nvidia.com; s=n1; 
- t=1574151411; bh=shQdk3aSV65MVp9nCFIR9V5hifAIbJq1aZuVoQR8zJ0=;
- h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
- In-Reply-To:References:MIME-Version:X-NVConfidentiality:
- Content-Type:Content-Transfer-Encoding;
- b=BeFB+A+EJ4mKjCv+/UFQ4KvRmvqdyjoWqtWaibjOPbCpARHJdf2BQCQj0Y5VYK2SK
- l4yZ90D68hdTXPCnOTR8pAtb21gqPg1SGtOTRMOm/B8hMOaAZ8dQS5wTi9dsLxXPtb
- i4va/2iA6HIzBf+9wQW4kJJSQzMfFSUs0Vou9prfpmaND6CYavsinow28ibfv30yph
- C2EC8doSqu/g7/B76TfjNUMReCFcBZbpy3XTq7OjKJ68xEUTnNhNMwBRjlxjIwGFoJ
- MN1jgXaLuV6UcOdOZI0IPuf9eOnbuFZglMCLrUVLgvDJQp6pjEehLD+NYHX/nNFExC
- Ho6R0samwlY6w==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,102 +53,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
- linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
- linux-kselftest@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
- Michael Ellerman <mpe@ellerman.id.au>, Christoph Hellwig <hch@infradead.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@suse.cz>,
- =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn.topel@intel.com>,
- linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- John Hubbard <jhubbard@nvidia.com>, linux-block@vger.kernel.org,
- =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
- Al Viro <viro@zeniv.linux.org.uk>, Dan Williams <dan.j.williams@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Magnus Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
- netdev@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
- linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- Mike Kravetz <mike.kravetz@oracle.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0159773638=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QSBzdWJzZXF1ZW50IHBhdGNoIHJlcXVpcmVzIGFjY2VzcyB0byBndXAgZmxhZ3MsIHNvCnBhc3Mg
-dGhlIGZsYWdzIGFyZ3VtZW50IHRocm91Z2ggdG8gdGhlIF9fZ3VwX2RldmljZV8qCmZ1bmN0aW9u
-cy4KCkFsc28gcGxhY2F0ZSBjaGVja3BhdGNoLnBsIGJ5IHNob3J0ZW5pbmcgYSBuZWFyYnkgbGlu
-ZS4KClJldmlld2VkLWJ5OiBKYW4gS2FyYSA8amFja0BzdXNlLmN6PgpSZXZpZXdlZC1ieTogSsOp
-csO0bWUgR2xpc3NlIDxqZ2xpc3NlQHJlZGhhdC5jb20+ClJldmlld2VkLWJ5OiBJcmEgV2Vpbnkg
-PGlyYS53ZWlueUBpbnRlbC5jb20+CkNjOiBLaXJpbGwgQS4gU2h1dGVtb3YgPGtpcmlsbC5zaHV0
-ZW1vdkBsaW51eC5pbnRlbC5jb20+ClNpZ25lZC1vZmYtYnk6IEpvaG4gSHViYmFyZCA8amh1YmJh
-cmRAbnZpZGlhLmNvbT4KLS0tCiBtbS9ndXAuYyB8IDI4ICsrKysrKysrKysrKysrKysrKy0tLS0t
-LS0tLS0KIDEgZmlsZSBjaGFuZ2VkLCAxOCBpbnNlcnRpb25zKCspLCAxMCBkZWxldGlvbnMoLSkK
-CmRpZmYgLS1naXQgYS9tbS9ndXAuYyBiL21tL2d1cC5jCmluZGV4IDhmMjM2YTMzNWFlOS4uODVj
-YWY3NmIzMDEyIDEwMDY0NAotLS0gYS9tbS9ndXAuYworKysgYi9tbS9ndXAuYwpAQCAtMTg5MCw3
-ICsxODkwLDggQEAgc3RhdGljIGludCBndXBfcHRlX3JhbmdlKHBtZF90IHBtZCwgdW5zaWduZWQg
-bG9uZyBhZGRyLCB1bnNpZ25lZCBsb25nIGVuZCwKIAogI2lmIGRlZmluZWQoQ09ORklHX0FSQ0hf
-SEFTX1BURV9ERVZNQVApICYmIGRlZmluZWQoQ09ORklHX1RSQU5TUEFSRU5UX0hVR0VQQUdFKQog
-c3RhdGljIGludCBfX2d1cF9kZXZpY2VfaHVnZSh1bnNpZ25lZCBsb25nIHBmbiwgdW5zaWduZWQg
-bG9uZyBhZGRyLAotCQl1bnNpZ25lZCBsb25nIGVuZCwgc3RydWN0IHBhZ2UgKipwYWdlcywgaW50
-ICpucikKKwkJCSAgICAgdW5zaWduZWQgbG9uZyBlbmQsIHVuc2lnbmVkIGludCBmbGFncywKKwkJ
-CSAgICAgc3RydWN0IHBhZ2UgKipwYWdlcywgaW50ICpucikKIHsKIAlpbnQgbnJfc3RhcnQgPSAq
-bnI7CiAJc3RydWN0IGRldl9wYWdlbWFwICpwZ21hcCA9IE5VTEw7CkBAIC0xOTE2LDEzICsxOTE3
-LDE0IEBAIHN0YXRpYyBpbnQgX19ndXBfZGV2aWNlX2h1Z2UodW5zaWduZWQgbG9uZyBwZm4sIHVu
-c2lnbmVkIGxvbmcgYWRkciwKIH0KIAogc3RhdGljIGludCBfX2d1cF9kZXZpY2VfaHVnZV9wbWQo
-cG1kX3Qgb3JpZywgcG1kX3QgKnBtZHAsIHVuc2lnbmVkIGxvbmcgYWRkciwKLQkJdW5zaWduZWQg
-bG9uZyBlbmQsIHN0cnVjdCBwYWdlICoqcGFnZXMsIGludCAqbnIpCisJCQkJIHVuc2lnbmVkIGxv
-bmcgZW5kLCB1bnNpZ25lZCBpbnQgZmxhZ3MsCisJCQkJIHN0cnVjdCBwYWdlICoqcGFnZXMsIGlu
-dCAqbnIpCiB7CiAJdW5zaWduZWQgbG9uZyBmYXVsdF9wZm47CiAJaW50IG5yX3N0YXJ0ID0gKm5y
-OwogCiAJZmF1bHRfcGZuID0gcG1kX3BmbihvcmlnKSArICgoYWRkciAmIH5QTURfTUFTSykgPj4g
-UEFHRV9TSElGVCk7Ci0JaWYgKCFfX2d1cF9kZXZpY2VfaHVnZShmYXVsdF9wZm4sIGFkZHIsIGVu
-ZCwgcGFnZXMsIG5yKSkKKwlpZiAoIV9fZ3VwX2RldmljZV9odWdlKGZhdWx0X3BmbiwgYWRkciwg
-ZW5kLCBmbGFncywgcGFnZXMsIG5yKSkKIAkJcmV0dXJuIDA7CiAKIAlpZiAodW5saWtlbHkocG1k
-X3ZhbChvcmlnKSAhPSBwbWRfdmFsKCpwbWRwKSkpIHsKQEAgLTE5MzMsMTMgKzE5MzUsMTQgQEAg
-c3RhdGljIGludCBfX2d1cF9kZXZpY2VfaHVnZV9wbWQocG1kX3Qgb3JpZywgcG1kX3QgKnBtZHAs
-IHVuc2lnbmVkIGxvbmcgYWRkciwKIH0KIAogc3RhdGljIGludCBfX2d1cF9kZXZpY2VfaHVnZV9w
-dWQocHVkX3Qgb3JpZywgcHVkX3QgKnB1ZHAsIHVuc2lnbmVkIGxvbmcgYWRkciwKLQkJdW5zaWdu
-ZWQgbG9uZyBlbmQsIHN0cnVjdCBwYWdlICoqcGFnZXMsIGludCAqbnIpCisJCQkJIHVuc2lnbmVk
-IGxvbmcgZW5kLCB1bnNpZ25lZCBpbnQgZmxhZ3MsCisJCQkJIHN0cnVjdCBwYWdlICoqcGFnZXMs
-IGludCAqbnIpCiB7CiAJdW5zaWduZWQgbG9uZyBmYXVsdF9wZm47CiAJaW50IG5yX3N0YXJ0ID0g
-Km5yOwogCiAJZmF1bHRfcGZuID0gcHVkX3BmbihvcmlnKSArICgoYWRkciAmIH5QVURfTUFTSykg
-Pj4gUEFHRV9TSElGVCk7Ci0JaWYgKCFfX2d1cF9kZXZpY2VfaHVnZShmYXVsdF9wZm4sIGFkZHIs
-IGVuZCwgcGFnZXMsIG5yKSkKKwlpZiAoIV9fZ3VwX2RldmljZV9odWdlKGZhdWx0X3BmbiwgYWRk
-ciwgZW5kLCBmbGFncywgcGFnZXMsIG5yKSkKIAkJcmV0dXJuIDA7CiAKIAlpZiAodW5saWtlbHko
-cHVkX3ZhbChvcmlnKSAhPSBwdWRfdmFsKCpwdWRwKSkpIHsKQEAgLTE5NTAsMTQgKzE5NTMsMTYg
-QEAgc3RhdGljIGludCBfX2d1cF9kZXZpY2VfaHVnZV9wdWQocHVkX3Qgb3JpZywgcHVkX3QgKnB1
-ZHAsIHVuc2lnbmVkIGxvbmcgYWRkciwKIH0KICNlbHNlCiBzdGF0aWMgaW50IF9fZ3VwX2Rldmlj
-ZV9odWdlX3BtZChwbWRfdCBvcmlnLCBwbWRfdCAqcG1kcCwgdW5zaWduZWQgbG9uZyBhZGRyLAot
-CQl1bnNpZ25lZCBsb25nIGVuZCwgc3RydWN0IHBhZ2UgKipwYWdlcywgaW50ICpucikKKwkJCQkg
-dW5zaWduZWQgbG9uZyBlbmQsIHVuc2lnbmVkIGludCBmbGFncywKKwkJCQkgc3RydWN0IHBhZ2Ug
-KipwYWdlcywgaW50ICpucikKIHsKIAlCVUlMRF9CVUcoKTsKIAlyZXR1cm4gMDsKIH0KIAogc3Rh
-dGljIGludCBfX2d1cF9kZXZpY2VfaHVnZV9wdWQocHVkX3QgcHVkLCBwdWRfdCAqcHVkcCwgdW5z
-aWduZWQgbG9uZyBhZGRyLAotCQl1bnNpZ25lZCBsb25nIGVuZCwgc3RydWN0IHBhZ2UgKipwYWdl
-cywgaW50ICpucikKKwkJCQkgdW5zaWduZWQgbG9uZyBlbmQsIHVuc2lnbmVkIGludCBmbGFncywK
-KwkJCQkgc3RydWN0IHBhZ2UgKipwYWdlcywgaW50ICpucikKIHsKIAlCVUlMRF9CVUcoKTsKIAly
-ZXR1cm4gMDsKQEAgLTIwNjIsNyArMjA2Nyw4IEBAIHN0YXRpYyBpbnQgZ3VwX2h1Z2VfcG1kKHBt
-ZF90IG9yaWcsIHBtZF90ICpwbWRwLCB1bnNpZ25lZCBsb25nIGFkZHIsCiAJaWYgKHBtZF9kZXZt
-YXAob3JpZykpIHsKIAkJaWYgKHVubGlrZWx5KGZsYWdzICYgRk9MTF9MT05HVEVSTSkpCiAJCQly
-ZXR1cm4gMDsKLQkJcmV0dXJuIF9fZ3VwX2RldmljZV9odWdlX3BtZChvcmlnLCBwbWRwLCBhZGRy
-LCBlbmQsIHBhZ2VzLCBucik7CisJCXJldHVybiBfX2d1cF9kZXZpY2VfaHVnZV9wbWQob3JpZywg
-cG1kcCwgYWRkciwgZW5kLCBmbGFncywKKwkJCQkJICAgICBwYWdlcywgbnIpOwogCX0KIAogCXJl
-ZnMgPSAwOwpAQCAtMjA5Miw3ICsyMDk4LDggQEAgc3RhdGljIGludCBndXBfaHVnZV9wbWQocG1k
-X3Qgb3JpZywgcG1kX3QgKnBtZHAsIHVuc2lnbmVkIGxvbmcgYWRkciwKIH0KIAogc3RhdGljIGlu
-dCBndXBfaHVnZV9wdWQocHVkX3Qgb3JpZywgcHVkX3QgKnB1ZHAsIHVuc2lnbmVkIGxvbmcgYWRk
-ciwKLQkJdW5zaWduZWQgbG9uZyBlbmQsIHVuc2lnbmVkIGludCBmbGFncywgc3RydWN0IHBhZ2Ug
-KipwYWdlcywgaW50ICpucikKKwkJCXVuc2lnbmVkIGxvbmcgZW5kLCB1bnNpZ25lZCBpbnQgZmxh
-Z3MsCisJCQlzdHJ1Y3QgcGFnZSAqKnBhZ2VzLCBpbnQgKm5yKQogewogCXN0cnVjdCBwYWdlICpo
-ZWFkLCAqcGFnZTsKIAlpbnQgcmVmczsKQEAgLTIxMDMsNyArMjExMCw4IEBAIHN0YXRpYyBpbnQg
-Z3VwX2h1Z2VfcHVkKHB1ZF90IG9yaWcsIHB1ZF90ICpwdWRwLCB1bnNpZ25lZCBsb25nIGFkZHIs
-CiAJaWYgKHB1ZF9kZXZtYXAob3JpZykpIHsKIAkJaWYgKHVubGlrZWx5KGZsYWdzICYgRk9MTF9M
-T05HVEVSTSkpCiAJCQlyZXR1cm4gMDsKLQkJcmV0dXJuIF9fZ3VwX2RldmljZV9odWdlX3B1ZChv
-cmlnLCBwdWRwLCBhZGRyLCBlbmQsIHBhZ2VzLCBucik7CisJCXJldHVybiBfX2d1cF9kZXZpY2Vf
-aHVnZV9wdWQob3JpZywgcHVkcCwgYWRkciwgZW5kLCBmbGFncywKKwkJCQkJICAgICBwYWdlcywg
-bnIpOwogCX0KIAogCXJlZnMgPSAwOwotLSAKMi4yNC4wCgpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0159773638==
+Content-Type: multipart/alternative; boundary="15741513811.c6f5.13083"
+Content-Transfer-Encoding: 7bit
+
+
+--15741513811.c6f5.13083
+Date: Tue, 19 Nov 2019 08:16:21 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D100964
+
+Martin Peres <martin.peres@free.fr> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+         Resolution|---                         |MOVED
+             Status|NEW                         |RESOLVED
+
+--- Comment #12 from Martin Peres <martin.peres@free.fr> ---
+-- GitLab Migration Automatic Message --
+
+This bug has been migrated to freedesktop.org's GitLab instance and has been
+closed from further activity.
+
+You can subscribe and participate further through the new bug through this =
+link
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/165.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15741513811.c6f5.13083
+Date: Tue, 19 Nov 2019 08:16:21 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:martin.pe=
+res&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.fr&gt;"> <=
+span class=3D"fn">Martin Peres</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED MOVED - RX-480 [drm:gfx_v8_0_ring_test_ring [amdgpu]] =
+*ERROR* amdgpu: ring 0 test failed (scratch(0xC040)=3D0xCAFEDEAD)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D100964">bug 10096=
+4</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>MOVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED MOVED - RX-480 [drm:gfx_v8_0_ring_test_ring [amdgpu]] =
+*ERROR* amdgpu: ring 0 test failed (scratch(0xC040)=3D0xCAFEDEAD)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D100964#c12">Comme=
+nt # 12</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED MOVED - RX-480 [drm:gfx_v8_0_ring_test_ring [amdgpu]] =
+*ERROR* amdgpu: ring 0 test failed (scratch(0xC040)=3D0xCAFEDEAD)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D100964">bug 10096=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
+r&gt;"> <span class=3D"fn">Martin Peres</span></a>
+</span></b>
+        <pre>-- GitLab Migration Automatic Message --
+
+This bug has been migrated to freedesktop.org's GitLab instance and has been
+closed from further activity.
+
+You can subscribe and participate further through the new bug through this =
+link
+to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
+ssues/165">https://gitlab.freedesktop.org/drm/amd/issues/165</a>.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15741513811.c6f5.13083--
+
+--===============0159773638==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0159773638==--
