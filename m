@@ -2,29 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D7AC102151
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 10:56:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCF80102152
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 10:56:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFF6B6F48A;
-	Tue, 19 Nov 2019 09:56:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C8096F48B;
+	Tue, 19 Nov 2019 09:56:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1AD996F48A
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 09:56:45 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id F32D46F488
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 09:56:54 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 17AF4720E2; Tue, 19 Nov 2019 09:56:45 +0000 (UTC)
+ id EF852720E2; Tue, 19 Nov 2019 09:56:54 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111869] Navi "divide error" hang
-Date: Tue, 19 Nov 2019 09:56:45 +0000
+Subject: [Bug 111876] AMD 5700 XT / Navi - BenQ XL2420G - No EDID read with
+ DP connector, HDMI works fine
+Date: Tue, 19 Nov 2019 09:56:55 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Version: DRI git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: not set
 X-Bugzilla-Who: martin.peres@free.fr
@@ -34,9 +35,9 @@ X-Bugzilla-Priority: not set
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-111869-502-KiG3SmD0v7@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111869-502@http.bugs.freedesktop.org/>
-References: <bug-111869-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-111876-502-ugNVDVPbEm@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111876-502@http.bugs.freedesktop.org/>
+References: <bug-111876-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,25 +53,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1478543883=="
+Content-Type: multipart/mixed; boundary="===============1954348602=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1478543883==
-Content-Type: multipart/alternative; boundary="15741574050.02c8DA.14467"
+--===============1954348602==
+Content-Type: multipart/alternative; boundary="15741574140.C009f7EB4.14467"
 Content-Transfer-Encoding: 7bit
 
 
---15741574050.02c8DA.14467
-Date: Tue, 19 Nov 2019 09:56:45 +0000
+--15741574140.C009f7EB4.14467
+Date: Tue, 19 Nov 2019 09:56:54 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111869
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111876
 
 Martin Peres <martin.peres@free.fr> changed:
 
@@ -87,14 +88,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/926.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/927.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741574050.02c8DA.14467
-Date: Tue, 19 Nov 2019 09:56:45 +0000
+--15741574140.C009f7EB4.14467
+Date: Tue, 19 Nov 2019 09:56:54 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -111,9 +112,10 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Navi &quot;divide error&quot; hang"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111869">bug 11186=
-9</a>
+   title=3D"RESOLVED MOVED - AMD 5700 XT / Navi - BenQ XL2420G - No EDID re=
+ad with DP connector, HDMI works fine"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111876">bug 11187=
+6</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -141,14 +143,16 @@ span class=3D"fn">Martin Peres</span></a>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Navi &quot;divide error&quot; hang"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111869#c5">Commen=
+   title=3D"RESOLVED MOVED - AMD 5700 XT / Navi - BenQ XL2420G - No EDID re=
+ad with DP connector, HDMI works fine"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111876#c5">Commen=
 t # 5</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Navi &quot;divide error&quot; hang"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111869">bug 11186=
-9</a>
+   title=3D"RESOLVED MOVED - AMD 5700 XT / Navi - BenQ XL2420G - No EDID re=
+ad with DP connector, HDMI works fine"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111876">bug 11187=
+6</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
 r&gt;"> <span class=3D"fn">Martin Peres</span></a>
@@ -161,7 +165,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/926">https://gitlab.freedesktop.org/drm/amd/issues/926</a>.</pre>
+ssues/927">https://gitlab.freedesktop.org/drm/amd/issues/927</a>.</pre>
         </div>
       </p>
 
@@ -175,9 +179,9 @@ ssues/926">https://gitlab.freedesktop.org/drm/amd/issues/926</a>.</pre>
     </body>
 </html>=
 
---15741574050.02c8DA.14467--
+--15741574140.C009f7EB4.14467--
 
---===============1478543883==
+--===============1954348602==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -187,4 +191,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1478543883==--
+--===============1954348602==--
