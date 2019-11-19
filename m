@@ -1,30 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C07E101ED5
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:57:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9BC5101ED6
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:58:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A3E26E2EC;
-	Tue, 19 Nov 2019 08:57:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0351E6E3DA;
+	Tue, 19 Nov 2019 08:58:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5E6416E32C
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:57:48 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3AF546E44C
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:58:00 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 5B6BF720E2; Tue, 19 Nov 2019 08:57:48 +0000 (UTC)
+ id 37CD1720E2; Tue, 19 Nov 2019 08:58:00 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 85180] [drm:r100_ring_test] *ERROR* radeon: ring test failed
- (scratch(0x15E4)=0xCAFEDEAD)
-Date: Tue, 19 Nov 2019 08:57:48 +0000
+Subject: [Bug 108309] Raven Ridge 2700U system lock-up on multiple games
+Date: Tue, 19 Nov 2019 08:58:00 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/Radeon
+X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
@@ -35,9 +34,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-85180-502-NK9oBIjUxZ@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-85180-502@http.bugs.freedesktop.org/>
-References: <bug-85180-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-108309-502-9ThfmVlaTq@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-108309-502@http.bugs.freedesktop.org/>
+References: <bug-108309-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,25 +52,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1138858008=="
+Content-Type: multipart/mixed; boundary="===============1846903215=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1138858008==
-Content-Type: multipart/alternative; boundary="15741538682.8abAc5.28114"
+--===============1846903215==
+Content-Type: multipart/alternative; boundary="15741538800.F07e46F.28985"
 Content-Transfer-Encoding: 7bit
 
 
---15741538682.8abAc5.28114
-Date: Tue, 19 Nov 2019 08:57:48 +0000
+--15741538800.F07e46F.28985
+Date: Tue, 19 Nov 2019 08:58:00 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D85180
+https://bugs.freedesktop.org/show_bug.cgi?id=3D108309
 
 Martin Peres <martin.peres@free.fr> changed:
 
@@ -80,7 +79,7 @@ Martin Peres <martin.peres@free.fr> changed:
          Resolution|---                         |MOVED
              Status|NEW                         |RESOLVED
 
---- Comment #4 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #12 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,14 +87,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/549.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/548.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741538682.8abAc5.28114
-Date: Tue, 19 Nov 2019 08:57:48 +0000
+--15741538800.F07e46F.28985
+Date: Tue, 19 Nov 2019 08:58:00 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,10 +111,10 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [drm:r100_ring_test] *ERROR* radeon: ring test=
- failed (scratch(0x15E4)=3D0xCAFEDEAD)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D85180">bug 85180<=
-/a>
+   title=3D"RESOLVED MOVED - Raven Ridge 2700U system lock-up on multiple g=
+ames"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108309">bug 10830=
+9</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -143,16 +142,16 @@ span class=3D"fn">Martin Peres</span></a>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [drm:r100_ring_test] *ERROR* radeon: ring test=
- failed (scratch(0x15E4)=3D0xCAFEDEAD)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D85180#c4">Comment=
- # 4</a>
+   title=3D"RESOLVED MOVED - Raven Ridge 2700U system lock-up on multiple g=
+ames"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108309#c12">Comme=
+nt # 12</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [drm:r100_ring_test] *ERROR* radeon: ring test=
- failed (scratch(0x15E4)=3D0xCAFEDEAD)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D85180">bug 85180<=
-/a>
+   title=3D"RESOLVED MOVED - Raven Ridge 2700U system lock-up on multiple g=
+ames"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108309">bug 10830=
+9</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
 r&gt;"> <span class=3D"fn">Martin Peres</span></a>
@@ -165,7 +164,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/549">https://gitlab.freedesktop.org/drm/amd/issues/549</a>.</pre>
+ssues/548">https://gitlab.freedesktop.org/drm/amd/issues/548</a>.</pre>
         </div>
       </p>
 
@@ -179,9 +178,9 @@ ssues/549">https://gitlab.freedesktop.org/drm/amd/issues/549</a>.</pre>
     </body>
 </html>=
 
---15741538682.8abAc5.28114--
+--15741538800.F07e46F.28985--
 
---===============1138858008==
+--===============1846903215==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -191,4 +190,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1138858008==--
+--===============1846903215==--
