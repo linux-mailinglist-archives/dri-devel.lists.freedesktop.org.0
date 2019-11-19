@@ -2,30 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06CCA101D88
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:32:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B99B6101D89
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:32:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3ECF16E1A4;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72CEA6E347;
 	Tue, 19 Nov 2019 08:32:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id D2EE86EA9A
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:32:29 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4AA7A6EA54
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:32:33 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id D00BA720E2; Tue, 19 Nov 2019 08:32:29 +0000 (UTC)
+ id 46FE7720E2; Tue, 19 Nov 2019 08:32:33 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 59903] [RS880] Xorg.0.log: flip queue failed: Device or
- resource busy
-Date: Tue, 19 Nov 2019 08:32:30 +0000
+Subject: [Bug 61678] SNA causes problems with DRI_PRIME
+Date: Tue, 19 Nov 2019 08:32:33 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/Radeon
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: martin.peres@free.fr
@@ -34,10 +33,10 @@ X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-59903-502-DtxgW8ZKrn@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-59903-502@http.bugs.freedesktop.org/>
-References: <bug-59903-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-61678-502-ONo6MwnBcX@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-61678-502@http.bugs.freedesktop.org/>
+References: <bug-61678-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,34 +52,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0969725509=="
+Content-Type: multipart/mixed; boundary="===============1382528224=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0969725509==
-Content-Type: multipart/alternative; boundary="15741523492.cd78.19074"
+--===============1382528224==
+Content-Type: multipart/alternative; boundary="15741523531.aFAD.19074"
 Content-Transfer-Encoding: 7bit
 
 
---15741523492.cd78.19074
-Date: Tue, 19 Nov 2019 08:32:29 +0000
+--15741523531.aFAD.19074
+Date: Tue, 19 Nov 2019 08:32:33 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D59903
+https://bugs.freedesktop.org/show_bug.cgi?id=3D61678
 
 Martin Peres <martin.peres@free.fr> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
+             Status|REOPENED                    |RESOLVED
 
---- Comment #13 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #5 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,14 +87,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/325.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/326.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741523492.cd78.19074
-Date: Tue, 19 Nov 2019 08:32:29 +0000
+--15741523531.aFAD.19074
+Date: Tue, 19 Nov 2019 08:32:33 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,9 +111,8 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [RS880] Xorg.0.log: flip queue failed: Device =
-or resource busy"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D59903">bug 59903<=
+   title=3D"RESOLVED MOVED - SNA causes problems with DRI_PRIME"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D61678">bug 61678<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -125,33 +123,31 @@ or resource busy"
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Resolution</td>
            <td>---
            </td>
            <td>MOVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>REOPENED
+           </td>
+           <td>RESOLVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [RS880] Xorg.0.log: flip queue failed: Device =
-or resource busy"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D59903#c13">Commen=
-t # 13</a>
+   title=3D"RESOLVED MOVED - SNA causes problems with DRI_PRIME"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D61678#c5">Comment=
+ # 5</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [RS880] Xorg.0.log: flip queue failed: Device =
-or resource busy"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D59903">bug 59903<=
+   title=3D"RESOLVED MOVED - SNA causes problems with DRI_PRIME"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D61678">bug 61678<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
@@ -165,7 +161,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/325">https://gitlab.freedesktop.org/drm/amd/issues/325</a>.</pre>
+ssues/326">https://gitlab.freedesktop.org/drm/amd/issues/326</a>.</pre>
         </div>
       </p>
 
@@ -179,9 +175,9 @@ ssues/325">https://gitlab.freedesktop.org/drm/amd/issues/325</a>.</pre>
     </body>
 </html>=
 
---15741523492.cd78.19074--
+--15741523531.aFAD.19074--
 
---===============0969725509==
+--===============1382528224==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -191,4 +187,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0969725509==--
+--===============1382528224==--
