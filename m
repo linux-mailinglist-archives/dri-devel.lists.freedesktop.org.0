@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9B9C101ECB
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DD77101ECA
 	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:56:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BFB26EE14;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 294936EE1D;
 	Tue, 19 Nov 2019 08:56:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 17F666EE10
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:56:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5A3C46EE10
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:56:49 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0BEE2720E6; Tue, 19 Nov 2019 08:56:48 +0000 (UTC)
+ id 568D1720E2; Tue, 19 Nov 2019 08:56:49 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 84106] GPU faults with Xonotic 0.7
-Date: Tue, 19 Nov 2019 08:56:48 +0000
+Subject: [Bug 108031] [Regression] amdgpu_device_ip_init failed on Bonaire XT
+Date: Tue, 19 Nov 2019 08:56:49 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/Radeon
-X-Bugzilla-Version: XOrg git
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
+X-Bugzilla-Severity: major
 X-Bugzilla-Who: martin.peres@free.fr
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: MOVED
@@ -34,9 +34,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-84106-502-P0snFVd1bE@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-84106-502@http.bugs.freedesktop.org/>
-References: <bug-84106-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-108031-502-TPgAXlaq0X@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-108031-502@http.bugs.freedesktop.org/>
+References: <bug-108031-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,25 +52,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1434776767=="
+Content-Type: multipart/mixed; boundary="===============0847758711=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1434776767==
-Content-Type: multipart/alternative; boundary="15741538080.f1Cf5.28584"
+--===============0847758711==
+Content-Type: multipart/alternative; boundary="15741538092.d5bB26e.28041"
 Content-Transfer-Encoding: 7bit
 
 
---15741538080.f1Cf5.28584
-Date: Tue, 19 Nov 2019 08:56:48 +0000
+--15741538092.d5bB26e.28041
+Date: Tue, 19 Nov 2019 08:56:49 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D84106
+https://bugs.freedesktop.org/show_bug.cgi?id=3D108031
 
 Martin Peres <martin.peres@free.fr> changed:
 
@@ -79,7 +79,7 @@ Martin Peres <martin.peres@free.fr> changed:
          Resolution|---                         |MOVED
              Status|NEW                         |RESOLVED
 
---- Comment #7 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #6 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -87,14 +87,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/539.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/538.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741538080.f1Cf5.28584
-Date: Tue, 19 Nov 2019 08:56:48 +0000
+--15741538092.d5bB26e.28041
+Date: Tue, 19 Nov 2019 08:56:49 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -111,9 +111,10 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - GPU faults with Xonotic 0.7"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D84106">bug 84106<=
-/a>
+   title=3D"RESOLVED MOVED - [Regression] amdgpu_device_ip_init failed on B=
+onaire XT"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108031">bug 10803=
+1</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -141,14 +142,16 @@ span class=3D"fn">Martin Peres</span></a>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - GPU faults with Xonotic 0.7"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D84106#c7">Comment=
- # 7</a>
+   title=3D"RESOLVED MOVED - [Regression] amdgpu_device_ip_init failed on B=
+onaire XT"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108031#c6">Commen=
+t # 6</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - GPU faults with Xonotic 0.7"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D84106">bug 84106<=
-/a>
+   title=3D"RESOLVED MOVED - [Regression] amdgpu_device_ip_init failed on B=
+onaire XT"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108031">bug 10803=
+1</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
 r&gt;"> <span class=3D"fn">Martin Peres</span></a>
@@ -161,7 +164,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/539">https://gitlab.freedesktop.org/drm/amd/issues/539</a>.</pre>
+ssues/538">https://gitlab.freedesktop.org/drm/amd/issues/538</a>.</pre>
         </div>
       </p>
 
@@ -175,9 +178,9 @@ ssues/539">https://gitlab.freedesktop.org/drm/amd/issues/539</a>.</pre>
     </body>
 </html>=
 
---15741538080.f1Cf5.28584--
+--15741538092.d5bB26e.28041--
 
---===============1434776767==
+--===============0847758711==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -187,4 +190,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1434776767==--
+--===============0847758711==--
