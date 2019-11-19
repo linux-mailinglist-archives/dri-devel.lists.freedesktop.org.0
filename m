@@ -1,30 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1F94101D0A
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:23:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBB3D101D0B
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:23:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E69626E8A6;
-	Tue, 19 Nov 2019 08:23:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B9586EA04;
+	Tue, 19 Nov 2019 08:23:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 452826E8A6
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:22:58 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id F20EC6EAAC
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:23:10 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 342F8720E2; Tue, 19 Nov 2019 08:22:58 +0000 (UTC)
+ id EDD11720E2; Tue, 19 Nov 2019 08:23:10 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 102641] amdgpu: Oops when setting battery profile on a RX480
-Date: Tue, 19 Nov 2019 08:22:58 +0000
+Subject: [Bug 42490] NUTMEG DP to VGA bridge not working
+Date: Tue, 19 Nov 2019 08:23:10 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
+X-Bugzilla-Component: DRM/Radeon
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: martin.peres@free.fr
@@ -33,10 +33,10 @@ X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-102641-502-yx33uyZwAP@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-102641-502@http.bugs.freedesktop.org/>
-References: <bug-102641-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-42490-502-srguwev0Jy@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-42490-502@http.bugs.freedesktop.org/>
+References: <bug-42490-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,34 +52,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0512173917=="
+Content-Type: multipart/mixed; boundary="===============1764237352=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0512173917==
-Content-Type: multipart/alternative; boundary="15741517780.E1f6CA4A.14840"
+--===============1764237352==
+Content-Type: multipart/alternative; boundary="15741517906.32f356.14386"
 Content-Transfer-Encoding: 7bit
 
 
---15741517780.E1f6CA4A.14840
-Date: Tue, 19 Nov 2019 08:22:58 +0000
+--15741517906.32f356.14386
+Date: Tue, 19 Nov 2019 08:23:10 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D102641
+https://bugs.freedesktop.org/show_bug.cgi?id=3D42490
 
 Martin Peres <martin.peres@free.fr> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
+             Status|NEW                         |RESOLVED
 
---- Comment #1 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #47 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -87,14 +87,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/233.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/231.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741517780.E1f6CA4A.14840
-Date: Tue, 19 Nov 2019 08:22:58 +0000
+--15741517906.32f356.14386
+Date: Tue, 19 Nov 2019 08:23:10 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -111,10 +111,9 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - amdgpu: Oops when setting battery profile on a=
- RX480"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102641">bug 10264=
-1</a>
+   title=3D"RESOLVED MOVED - NUTMEG DP to VGA bridge not working"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D42490">bug 42490<=
+/a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -124,34 +123,32 @@ span class=3D"fn">Martin Peres</span></a>
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Resolution</td>
            <td>---
            </td>
            <td>MOVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - amdgpu: Oops when setting battery profile on a=
- RX480"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102641#c1">Commen=
-t # 1</a>
+   title=3D"RESOLVED MOVED - NUTMEG DP to VGA bridge not working"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D42490#c47">Commen=
+t # 47</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - amdgpu: Oops when setting battery profile on a=
- RX480"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102641">bug 10264=
-1</a>
+   title=3D"RESOLVED MOVED - NUTMEG DP to VGA bridge not working"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D42490">bug 42490<=
+/a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
 r&gt;"> <span class=3D"fn">Martin Peres</span></a>
@@ -164,7 +161,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/233">https://gitlab.freedesktop.org/drm/amd/issues/233</a>.</pre>
+ssues/231">https://gitlab.freedesktop.org/drm/amd/issues/231</a>.</pre>
         </div>
       </p>
 
@@ -178,9 +175,9 @@ ssues/233">https://gitlab.freedesktop.org/drm/amd/issues/233</a>.</pre>
     </body>
 </html>=
 
---15741517780.E1f6CA4A.14840--
+--15741517906.32f356.14386--
 
---===============0512173917==
+--===============1764237352==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -190,4 +187,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0512173917==--
+--===============1764237352==--
