@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20ED210203B
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 10:26:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23EB810203E
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 10:26:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56C516F3F3;
-	Tue, 19 Nov 2019 09:26:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71D7B6F3F7;
+	Tue, 19 Nov 2019 09:26:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id D86736F3F5
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 09:26:19 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AA1D16F3F5
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 09:26:29 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id D4678720E2; Tue, 19 Nov 2019 09:26:19 +0000 (UTC)
+ id A610A720E2; Tue, 19 Nov 2019 09:26:29 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 100143] [SNB] i915 4.11.0-rc1 circular locking dependency
- detected, switcheroo-cont/776 is trying to acquire lock
-Date: Tue, 19 Nov 2019 09:26:19 +0000
+Subject: [Bug 100222] Hang regression with R7 M370, identified possible
+ culprit commit
+Date: Tue, 19 Nov 2019 09:26:29 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -35,9 +35,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-100143-502-FkdsLiCebt@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-100143-502@http.bugs.freedesktop.org/>
-References: <bug-100143-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-100222-502-iN5fUapR2h@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-100222-502@http.bugs.freedesktop.org/>
+References: <bug-100222-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,25 +53,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0975880274=="
+Content-Type: multipart/mixed; boundary="===============1550254280=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0975880274==
-Content-Type: multipart/alternative; boundary="15741555793.b2d6b0.6395"
+--===============1550254280==
+Content-Type: multipart/alternative; boundary="15741555890.E5A1623.6395"
 Content-Transfer-Encoding: 7bit
 
 
---15741555793.b2d6b0.6395
-Date: Tue, 19 Nov 2019 09:26:19 +0000
+--15741555890.E5A1623.6395
+Date: Tue, 19 Nov 2019 09:26:29 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D100143
+https://bugs.freedesktop.org/show_bug.cgi?id=3D100222
 
 Martin Peres <martin.peres@free.fr> changed:
 
@@ -80,7 +80,7 @@ Martin Peres <martin.peres@free.fr> changed:
              Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
 
---- Comment #3 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #6 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,14 +88,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/782.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/784.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741555793.b2d6b0.6395
-Date: Tue, 19 Nov 2019 09:26:19 +0000
+--15741555890.E5A1623.6395
+Date: Tue, 19 Nov 2019 09:26:29 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,10 +112,10 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [SNB] i915 4.11.0-rc1 circular locking depende=
-ncy detected, switcheroo-cont/776 is trying to acquire lock"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D100143">bug 10014=
-3</a>
+   title=3D"RESOLVED MOVED - Hang regression with R7 M370, identified possi=
+ble culprit commit"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D100222">bug 10022=
+2</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -143,16 +143,16 @@ ncy detected, switcheroo-cont/776 is trying to acquire lock"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [SNB] i915 4.11.0-rc1 circular locking depende=
-ncy detected, switcheroo-cont/776 is trying to acquire lock"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D100143#c3">Commen=
-t # 3</a>
+   title=3D"RESOLVED MOVED - Hang regression with R7 M370, identified possi=
+ble culprit commit"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D100222#c6">Commen=
+t # 6</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [SNB] i915 4.11.0-rc1 circular locking depende=
-ncy detected, switcheroo-cont/776 is trying to acquire lock"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D100143">bug 10014=
-3</a>
+   title=3D"RESOLVED MOVED - Hang regression with R7 M370, identified possi=
+ble culprit commit"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D100222">bug 10022=
+2</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
 r&gt;"> <span class=3D"fn">Martin Peres</span></a>
@@ -165,7 +165,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/782">https://gitlab.freedesktop.org/drm/amd/issues/782</a>.</pre>
+ssues/784">https://gitlab.freedesktop.org/drm/amd/issues/784</a>.</pre>
         </div>
       </p>
 
@@ -179,9 +179,9 @@ ssues/782">https://gitlab.freedesktop.org/drm/amd/issues/782</a>.</pre>
     </body>
 </html>=
 
---15741555793.b2d6b0.6395--
+--15741555890.E5A1623.6395--
 
---===============0975880274==
+--===============1550254280==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -191,4 +191,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0975880274==--
+--===============1550254280==--
