@@ -2,51 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BE97101B12
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:06:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17ADB101AB4
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:00:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F1E36EBDC;
-	Tue, 19 Nov 2019 08:04:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AE2E6E97C;
+	Tue, 19 Nov 2019 08:00:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:e::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C47A86E112;
- Tue, 19 Nov 2019 03:13:11 +0000 (UTC)
-Received: from [2601:1c0:6280:3f0::5a22]
- by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iWtwt-0000dD-JO; Tue, 19 Nov 2019 03:13:03 +0000
-Subject: Re: [PATCH V13 4/6] mdev: introduce mediated virtio bus
-To: Jason Wang <jasowang@redhat.com>, kvm@vger.kernel.org,
- linux-s390@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org, kwankhede@nvidia.com,
- alex.williamson@redhat.com, mst@redhat.com, tiwei.bie@intel.com,
- gregkh@linuxfoundation.org, jgg@mellanox.com
-References: <20191118105923.7991-1-jasowang@redhat.com>
- <20191118105923.7991-5-jasowang@redhat.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <6c5f6e9e-0a4a-f514-2c26-08476b9a09f8@infradead.org>
-Date: Mon, 18 Nov 2019 19:13:01 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 25BAD6EB08
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:00:15 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 0A833720E9; Tue, 19 Nov 2019 08:00:15 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111268] Documentation related bugs
+Date: Tue, 19 Nov 2019 08:00:15 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: dep_changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu-pro
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: martin.peres@free.fr
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-111268-502-yHogOalrXx@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111268-502@http.bugs.freedesktop.org/>
+References: <bug-111268-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20191118105923.7991-5-jasowang@redhat.com>
-Content-Language: en-US
-X-Mailman-Approved-At: Tue, 19 Nov 2019 08:04:07 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/relaxed; 
- d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
- Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=w1ly8URM0uOTflt/kZy0TJgrnspB9XQu8w6aCtnLvW8=; b=KtVyMulpSnDq9tntYDC+RCTtm
- 3c6gDhbbLXKTBKKG74KEtprK1lDyXcTafqs2dcpktR3n0+xokaPZNR9T5WyQjEbwEdEds3DhdXZ4d
- 0Ro+8OLmVNDYLs9rZ1FpweXI1r26UTL/od3f2b/k1dap9wL/AKYGlAU9fmVHeSYf8OgCg6OS9baB+
- Us/Iy6vf8X/rVjc52xbJxiW7osJxNcjlB9jznCRfyQadI2nKpiDMU1fQWMwvqMOxKn5n6uOTzoE0i
- neVNEEJz7xBHo/L5sPOuSyVX1gF3xDEMd74hnHPXbJjX5qIccAbE088ZoeCm3qSzLSOhtcykJek+c
- YsXsmBv6A==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,36 +52,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jakub.kicinski@netronome.com, christophe.de.dinechin@gmail.com,
- sebott@linux.ibm.com, airlied@linux.ie, heiko.carstens@de.ibm.com,
- kevin.tian@intel.com, rob.miller@broadcom.com, hch@infradead.org,
- lulu@redhat.com, eperezma@redhat.com, pasic@linux.ibm.com,
- borntraeger@de.ibm.com, haotian.wang@sifive.com, jeffrey.t.kirsher@intel.com,
- zhi.a.wang@intel.com, farman@linux.ibm.com, parav@mellanox.com,
- gor@linux.ibm.com, cunming.liang@intel.com, rodrigo.vivi@intel.com,
- xiao.w.wang@intel.com, freude@linux.ibm.com, stefanha@redhat.com,
- zhihong.wang@intel.com, akrowiak@linux.ibm.com, jiri@mellanox.com,
- netdev@vger.kernel.org, cohuck@redhat.com, oberpar@linux.ibm.com,
- maxime.coquelin@redhat.com, aadam@redhat.com, lingshan.zhu@intel.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0392044771=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCgpPbiAxMS8xOC8xOSAyOjU5IEFNLCBKYXNvbiBXYW5nIHdyb3RlOgo+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL21kZXYvS2NvbmZpZyBiL2RyaXZlcnMvbWRldi9LY29uZmlnCj4gaW5kZXggNDU2
-MWYyZDQxNzhmLi5jZDg0ZDQ2NzA1NTIgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9tZGV2L0tjb25m
-aWcKPiArKysgYi9kcml2ZXJzL21kZXYvS2NvbmZpZwo+IEBAIC0xNywzICsxNywxMyBAQCBjb25m
-aWcgVkZJT19NREVWCj4gIAkgIG1vcmUgZGV0YWlscy4KPiAgCj4gIAkgIElmIHlvdSBkb24ndCBr
-bm93IHdoYXQgZG8gaGVyZSwgc2F5IE4uCj4gKwo+ICtjb25maWcgTURFVl9WSVJUSU8KPiArICAg
-ICAgIHRyaXN0YXRlICJNZWRpYXRlZCBWSVJUSU8gYnVzIgo+ICsgICAgICAgZGVwZW5kcyBvbiBW
-SVJUSU8gJiYgTURFVgo+ICsgICAgICAgZGVmYXVsdCBuCj4gKyAgICAgICBoZWxwCj4gKwkgIFBy
-b2l2ZGVzIGEgbWVkaWF0ZWQgQlVTIGZvciB2aXJ0aW8uIEl0IGNvdWxkIGJlIHVzZWQgYnkKCgkg
-IFByb3ZpZGVzCgo+ICsgICAgICAgICAgZWl0aGVyIGtlbnJlbCBkcml2ZXIgb3IgdXNlcnNwYWNl
-IGRyaXZlci4KCgkgICAgICAgICAgICBrZXJuZWwKCj4gKwo+ICsJICBJZiB5b3UgZG9uJ3Qga25v
-dyB3aGF0IGRvIGhlcmUsIHNheSBOLgoKQWxsIG9mIHRoZXNlIGxpbmVzIHNob3VsZCBiZSBpbmRl
-bnRlZCB3aXRoIG9uZSB0YWIsIG5vdCBzcGFjZXMuCgotLSAKflJhbmR5ClJlcG9ydGVkLWJ5OiBS
-YW5keSBEdW5sYXAgPHJkdW5sYXBAaW5mcmFkZWFkLm9yZz4KX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0392044771==
+Content-Type: multipart/alternative; boundary="15741504150.c9ECEC7C1.6906"
+Content-Transfer-Encoding: 7bit
+
+
+--15741504150.c9ECEC7C1.6906
+Date: Tue, 19 Nov 2019 08:00:14 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111268
+Bug 111268 depends on bug 110959, which changed state.
+
+Bug 110959 Summary: Broken link to Homepage of some packages
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110959
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|REOPENED                    |RESOLVED
+         Resolution|---                         |MOVED
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15741504150.c9ECEC7C1.6906
+Date: Tue, 19 Nov 2019 08:00:15 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Documentation related bugs"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111268">Bug 11126=
+8</a>
+          depends on
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED MOVED - Broken link to Homepage of some packages"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110959">bug 11095=
+9</a>,
+          which changed state.
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>REOPENED
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>MOVED
+           </td>
+         </tr></table>
+      <p>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15741504150.c9ECEC7C1.6906--
+
+--===============0392044771==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0392044771==--
