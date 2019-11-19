@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C51102013
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 10:20:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74AD8102015
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 10:20:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFF806F3B5;
-	Tue, 19 Nov 2019 09:20:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88C906F3C0;
+	Tue, 19 Nov 2019 09:20:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4FB0F6F3B5
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 09:20:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 31BAB6F3A4
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 09:20:17 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 4BEEF720E2; Tue, 19 Nov 2019 09:20:07 +0000 (UTC)
+ id 2EA3A720E2; Tue, 19 Nov 2019 09:20:17 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 98897] Macbook pro 11,5 screen flicker when AC adapter plugged in
-Date: Tue, 19 Nov 2019 09:20:07 +0000
+Subject: [Bug 98987] [RS690] BUG: soft lockup when radeon modesetting
+Date: Tue, 19 Nov 2019 09:20:17 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -26,17 +26,17 @@ X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/Radeon
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
+X-Bugzilla-Severity: critical
 X-Bugzilla-Who: martin.peres@free.fr
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: MOVED
-X-Bugzilla-Priority: medium
+X-Bugzilla-Priority: high
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-98897-502-KRosGEx22B@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-98897-502@http.bugs.freedesktop.org/>
-References: <bug-98897-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-98987-502-XYVgOzQygH@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-98987-502@http.bugs.freedesktop.org/>
+References: <bug-98987-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,25 +52,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0145706796=="
+Content-Type: multipart/mixed; boundary="===============1637720838=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0145706796==
-Content-Type: multipart/alternative; boundary="15741552072.bD04ADB.4447"
+--===============1637720838==
+Content-Type: multipart/alternative; boundary="15741552171.2F8EF1.4447"
 Content-Transfer-Encoding: 7bit
 
 
---15741552072.bD04ADB.4447
-Date: Tue, 19 Nov 2019 09:20:07 +0000
+--15741552171.2F8EF1.4447
+Date: Tue, 19 Nov 2019 09:20:17 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D98897
+https://bugs.freedesktop.org/show_bug.cgi?id=3D98987
 
 Martin Peres <martin.peres@free.fr> changed:
 
@@ -79,7 +79,7 @@ Martin Peres <martin.peres@free.fr> changed:
              Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
 
---- Comment #28 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #8 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -87,14 +87,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/759.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/762.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741552072.bD04ADB.4447
-Date: Tue, 19 Nov 2019 09:20:07 +0000
+--15741552171.2F8EF1.4447
+Date: Tue, 19 Nov 2019 09:20:17 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -111,9 +111,9 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Macbook pro 11,5 screen flicker when AC adapte=
-r plugged in"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D98897">bug 98897<=
+   title=3D"RESOLVED MOVED - [RS690] BUG: soft lockup when radeon modesetti=
+ng"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D98987">bug 98987<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -142,15 +142,15 @@ r plugged in"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Macbook pro 11,5 screen flicker when AC adapte=
-r plugged in"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D98897#c28">Commen=
-t # 28</a>
+   title=3D"RESOLVED MOVED - [RS690] BUG: soft lockup when radeon modesetti=
+ng"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D98987#c8">Comment=
+ # 8</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Macbook pro 11,5 screen flicker when AC adapte=
-r plugged in"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D98897">bug 98897<=
+   title=3D"RESOLVED MOVED - [RS690] BUG: soft lockup when radeon modesetti=
+ng"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D98987">bug 98987<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
@@ -164,7 +164,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/759">https://gitlab.freedesktop.org/drm/amd/issues/759</a>.</pre>
+ssues/762">https://gitlab.freedesktop.org/drm/amd/issues/762</a>.</pre>
         </div>
       </p>
 
@@ -178,9 +178,9 @@ ssues/759">https://gitlab.freedesktop.org/drm/amd/issues/759</a>.</pre>
     </body>
 </html>=
 
---15741552072.bD04ADB.4447--
+--15741552171.2F8EF1.4447--
 
---===============0145706796==
+--===============1637720838==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -190,4 +190,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0145706796==--
+--===============1637720838==--
