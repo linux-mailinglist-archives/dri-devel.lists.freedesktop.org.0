@@ -1,33 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4B73101E4E
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:46:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FF11101E52
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:46:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B6A86EDD5;
-	Tue, 19 Nov 2019 08:46:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A1336EDD7;
+	Tue, 19 Nov 2019 08:46:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 698176EDD4
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:46:40 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8804A6EDC7
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:46:47 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 660F1720E2; Tue, 19 Nov 2019 08:46:40 +0000 (UTC)
+ id 84F78720E2; Tue, 19 Nov 2019 08:46:47 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 107518] polaris powerplay init fails: There must be 1 or more
- PCIE levels defined in PPTable
-Date: Tue, 19 Nov 2019 08:46:40 +0000
+Subject: [Bug 107536] gfx_v8_0_priv_reg_irq [amdgpu]] *ERROR* Illegal
+ register access in command stream
+Date: Tue, 19 Nov 2019 08:46:47 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Version: DRI git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
+X-Bugzilla-Severity: major
 X-Bugzilla-Who: martin.peres@free.fr
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: MOVED
@@ -35,9 +35,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-107518-502-xQ3QywvNm8@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-107518-502@http.bugs.freedesktop.org/>
-References: <bug-107518-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-107536-502-6w2dGbuqfF@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-107536-502@http.bugs.freedesktop.org/>
+References: <bug-107536-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,25 +53,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0877265099=="
+Content-Type: multipart/mixed; boundary="===============0129001130=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0877265099==
-Content-Type: multipart/alternative; boundary="15741532003.7d98.24848"
+--===============0129001130==
+Content-Type: multipart/alternative; boundary="15741532070.f1E4eb.24848"
 Content-Transfer-Encoding: 7bit
 
 
---15741532003.7d98.24848
-Date: Tue, 19 Nov 2019 08:46:40 +0000
+--15741532070.f1E4eb.24848
+Date: Tue, 19 Nov 2019 08:46:47 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D107518
+https://bugs.freedesktop.org/show_bug.cgi?id=3D107536
 
 Martin Peres <martin.peres@free.fr> changed:
 
@@ -80,7 +80,7 @@ Martin Peres <martin.peres@free.fr> changed:
          Resolution|---                         |MOVED
              Status|NEW                         |RESOLVED
 
---- Comment #15 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #7 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,14 +88,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/474.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/475.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741532003.7d98.24848
-Date: Tue, 19 Nov 2019 08:46:40 +0000
+--15741532070.f1E4eb.24848
+Date: Tue, 19 Nov 2019 08:46:47 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,10 +112,10 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - polaris powerplay init fails: There must be 1 =
-or more PCIE levels defined in PPTable"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107518">bug 10751=
-8</a>
+   title=3D"RESOLVED MOVED - gfx_v8_0_priv_reg_irq [amdgpu]] *ERROR* Illega=
+l register access in command stream"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107536">bug 10753=
+6</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -143,16 +143,16 @@ or more PCIE levels defined in PPTable"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - polaris powerplay init fails: There must be 1 =
-or more PCIE levels defined in PPTable"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107518#c15">Comme=
-nt # 15</a>
+   title=3D"RESOLVED MOVED - gfx_v8_0_priv_reg_irq [amdgpu]] *ERROR* Illega=
+l register access in command stream"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107536#c7">Commen=
+t # 7</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - polaris powerplay init fails: There must be 1 =
-or more PCIE levels defined in PPTable"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107518">bug 10751=
-8</a>
+   title=3D"RESOLVED MOVED - gfx_v8_0_priv_reg_irq [amdgpu]] *ERROR* Illega=
+l register access in command stream"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107536">bug 10753=
+6</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
 r&gt;"> <span class=3D"fn">Martin Peres</span></a>
@@ -165,7 +165,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/474">https://gitlab.freedesktop.org/drm/amd/issues/474</a>.</pre>
+ssues/475">https://gitlab.freedesktop.org/drm/amd/issues/475</a>.</pre>
         </div>
       </p>
 
@@ -179,9 +179,9 @@ ssues/474">https://gitlab.freedesktop.org/drm/amd/issues/474</a>.</pre>
     </body>
 </html>=
 
---15741532003.7d98.24848--
+--15741532070.f1E4eb.24848--
 
---===============0877265099==
+--===============0129001130==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -191,4 +191,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0877265099==--
+--===============0129001130==--
