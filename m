@@ -1,31 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD44A101D14
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:24:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE1EF101D15
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:24:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD2346EC83;
-	Tue, 19 Nov 2019 08:24:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 103416EA80;
+	Tue, 19 Nov 2019 08:24:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id E866A6EBEE
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:24:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 76E316EBA9
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:24:42 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E46DC720E2; Tue, 19 Nov 2019 08:24:21 +0000 (UTC)
+ id 73C61720E2; Tue, 19 Nov 2019 08:24:42 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 103080] DC driver from drm-next-4.15-dc branch (upstream PR)
- not working
-Date: Tue, 19 Nov 2019 08:24:22 +0000
+Subject: [Bug 103111] Tonga PRO [Radeon R9 285/380] [1002:6939] blank screen
+Date: Tue, 19 Nov 2019 08:24:42 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: martin.peres@free.fr
@@ -35,9 +34,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-103080-502-JeDUEgrrB4@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-103080-502@http.bugs.freedesktop.org/>
-References: <bug-103080-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-103111-502-dIIL8OUrIE@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-103111-502@http.bugs.freedesktop.org/>
+References: <bug-103111-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,25 +52,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1372977407=="
+Content-Type: multipart/mixed; boundary="===============2003081273=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1372977407==
-Content-Type: multipart/alternative; boundary="15741518612.dA1641b.16198"
+--===============2003081273==
+Content-Type: multipart/alternative; boundary="15741518822.c76e0F2b1.16198"
 Content-Transfer-Encoding: 7bit
 
 
---15741518612.dA1641b.16198
-Date: Tue, 19 Nov 2019 08:24:21 +0000
+--15741518822.c76e0F2b1.16198
+Date: Tue, 19 Nov 2019 08:24:42 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D103080
+https://bugs.freedesktop.org/show_bug.cgi?id=3D103111
 
 Martin Peres <martin.peres@free.fr> changed:
 
@@ -80,7 +79,7 @@ Martin Peres <martin.peres@free.fr> changed:
              Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
 
---- Comment #9 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #12 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,14 +87,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/242.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/243.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741518612.dA1641b.16198
-Date: Tue, 19 Nov 2019 08:24:21 +0000
+--15741518822.c76e0F2b1.16198
+Date: Tue, 19 Nov 2019 08:24:42 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,10 +111,10 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - DC driver from drm-next-4.15-dc branch (upstre=
-am PR) not working"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D103080">bug 10308=
-0</a>
+   title=3D"RESOLVED MOVED - Tonga PRO [Radeon R9 285/380] [1002:6939] blan=
+k screen"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D103111">bug 10311=
+1</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -143,16 +142,16 @@ am PR) not working"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - DC driver from drm-next-4.15-dc branch (upstre=
-am PR) not working"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D103080#c9">Commen=
-t # 9</a>
+   title=3D"RESOLVED MOVED - Tonga PRO [Radeon R9 285/380] [1002:6939] blan=
+k screen"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D103111#c12">Comme=
+nt # 12</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - DC driver from drm-next-4.15-dc branch (upstre=
-am PR) not working"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D103080">bug 10308=
-0</a>
+   title=3D"RESOLVED MOVED - Tonga PRO [Radeon R9 285/380] [1002:6939] blan=
+k screen"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D103111">bug 10311=
+1</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
 r&gt;"> <span class=3D"fn">Martin Peres</span></a>
@@ -165,7 +164,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/242">https://gitlab.freedesktop.org/drm/amd/issues/242</a>.</pre>
+ssues/243">https://gitlab.freedesktop.org/drm/amd/issues/243</a>.</pre>
         </div>
       </p>
 
@@ -179,9 +178,9 @@ ssues/242">https://gitlab.freedesktop.org/drm/amd/issues/242</a>.</pre>
     </body>
 </html>=
 
---15741518612.dA1641b.16198--
+--15741518822.c76e0F2b1.16198--
 
---===============1372977407==
+--===============2003081273==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -191,4 +190,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1372977407==--
+--===============2003081273==--
