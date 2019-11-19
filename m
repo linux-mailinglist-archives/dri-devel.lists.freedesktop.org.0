@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A488C101FEB
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 10:17:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6685C101FEC
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 10:17:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEDC66EADF;
-	Tue, 19 Nov 2019 09:17:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6B2F6EAF2;
+	Tue, 19 Nov 2019 09:17:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id EC4EC6EF27
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 09:17:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0EB8E6EF3E
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 09:17:52 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E75F4720E2; Tue, 19 Nov 2019 09:17:41 +0000 (UTC)
+ id 0B256720E2; Tue, 19 Nov 2019 09:17:52 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 97084] BUG: scheduling while atomic
-Date: Tue, 19 Nov 2019 09:17:42 +0000
+Subject: [Bug 110199] [amdgpu] Screen flickering when using a 75Hz monitor
+ paired with an RX 480 GPU
+Date: Tue, 19 Nov 2019 09:17:51 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/Radeon
+X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
+X-Bugzilla-Severity: critical
 X-Bugzilla-Who: martin.peres@free.fr
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: MOVED
-X-Bugzilla-Priority: medium
+X-Bugzilla-Priority: high
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-97084-502-KBFniUce5e@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-97084-502@http.bugs.freedesktop.org/>
-References: <bug-97084-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-110199-502-vxBQu15XNm@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110199-502@http.bugs.freedesktop.org/>
+References: <bug-110199-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,25 +53,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2121825372=="
+Content-Type: multipart/mixed; boundary="===============1638105362=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============2121825372==
-Content-Type: multipart/alternative; boundary="15741550610.9d20d1.3935"
+--===============1638105362==
+Content-Type: multipart/alternative; boundary="15741550720.dE4BF9.3595"
 Content-Transfer-Encoding: 7bit
 
 
---15741550610.9d20d1.3935
-Date: Tue, 19 Nov 2019 09:17:41 +0000
+--15741550720.dE4BF9.3595
+Date: Tue, 19 Nov 2019 09:17:52 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D97084
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110199
 
 Martin Peres <martin.peres@free.fr> changed:
 
@@ -79,7 +80,7 @@ Martin Peres <martin.peres@free.fr> changed:
              Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
 
---- Comment #5 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #16 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -87,14 +88,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/728.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/729.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741550610.9d20d1.3935
-Date: Tue, 19 Nov 2019 09:17:41 +0000
+--15741550720.dE4BF9.3595
+Date: Tue, 19 Nov 2019 09:17:52 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -111,9 +112,10 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - BUG: scheduling while atomic"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D97084">bug 97084<=
-/a>
+   title=3D"RESOLVED MOVED - [amdgpu] Screen flickering when using a 75Hz m=
+onitor paired with an RX 480 GPU"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110199">bug 11019=
+9</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -141,14 +143,16 @@ span class=3D"fn">Martin Peres</span></a>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - BUG: scheduling while atomic"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D97084#c5">Comment=
- # 5</a>
+   title=3D"RESOLVED MOVED - [amdgpu] Screen flickering when using a 75Hz m=
+onitor paired with an RX 480 GPU"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110199#c16">Comme=
+nt # 16</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - BUG: scheduling while atomic"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D97084">bug 97084<=
-/a>
+   title=3D"RESOLVED MOVED - [amdgpu] Screen flickering when using a 75Hz m=
+onitor paired with an RX 480 GPU"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110199">bug 11019=
+9</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
 r&gt;"> <span class=3D"fn">Martin Peres</span></a>
@@ -161,7 +165,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/728">https://gitlab.freedesktop.org/drm/amd/issues/728</a>.</pre>
+ssues/729">https://gitlab.freedesktop.org/drm/amd/issues/729</a>.</pre>
         </div>
       </p>
 
@@ -175,9 +179,9 @@ ssues/728">https://gitlab.freedesktop.org/drm/amd/issues/728</a>.</pre>
     </body>
 </html>=
 
---15741550610.9d20d1.3935--
+--15741550720.dE4BF9.3595--
 
---===============2121825372==
+--===============1638105362==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -187,4 +191,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============2121825372==--
+--===============1638105362==--
