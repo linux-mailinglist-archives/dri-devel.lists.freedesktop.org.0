@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EAD110200C
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 10:19:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9BC610200E
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 10:19:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8340E6F3AE;
-	Tue, 19 Nov 2019 09:19:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BABB6F39D;
+	Tue, 19 Nov 2019 09:19:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2F3CE6F39D
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 09:19:48 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 03F796F3B5
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 09:19:49 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 2C61E720E2; Tue, 19 Nov 2019 09:19:48 +0000 (UTC)
+ id 00A07720E2; Tue, 19 Nov 2019 09:19:48 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110510] Radeon VII HDMI issues: Flicking/system crashing
-Date: Tue, 19 Nov 2019 09:19:48 +0000
+Subject: [Bug 98812] video and switching windows causing flickering
+Date: Tue, 19 Nov 2019 09:19:49 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
+X-Bugzilla-Component: DRM/Radeon
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: martin.peres@free.fr
@@ -33,10 +33,10 @@ X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-110510-502-uEL4MX9xol@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110510-502@http.bugs.freedesktop.org/>
-References: <bug-110510-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-98812-502-8SRmgwyUWc@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-98812-502@http.bugs.freedesktop.org/>
+References: <bug-98812-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,17 +52,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1562422839=="
+Content-Type: multipart/mixed; boundary="===============1668998404=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1562422839==
-Content-Type: multipart/alternative; boundary="15741551880.E6b4a2f.4403"
+--===============1668998404==
+Content-Type: multipart/alternative; boundary="15741551880.D4421560.4447"
 Content-Transfer-Encoding: 7bit
 
 
---15741551880.E6b4a2f.4403
+--15741551880.D4421560.4447
 Date: Tue, 19 Nov 2019 09:19:48 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -70,16 +70,16 @@ Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110510
+https://bugs.freedesktop.org/show_bug.cgi?id=3D98812
 
 Martin Peres <martin.peres@free.fr> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
+             Status|NEW                         |RESOLVED
 
---- Comment #6 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #13 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -87,13 +87,13 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/757.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/755.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741551880.E6b4a2f.4403
+--15741551880.D4421560.4447
 Date: Tue, 19 Nov 2019 09:19:48 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
@@ -111,10 +111,9 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Radeon VII HDMI issues: Flicking/system crashi=
-ng"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110510">bug 11051=
-0</a>
+   title=3D"RESOLVED MOVED - video and switching windows causing flickering"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D98812">bug 98812<=
+/a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -124,34 +123,32 @@ ng"
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Resolution</td>
            <td>---
            </td>
            <td>MOVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Radeon VII HDMI issues: Flicking/system crashi=
-ng"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110510#c6">Commen=
-t # 6</a>
+   title=3D"RESOLVED MOVED - video and switching windows causing flickering"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D98812#c13">Commen=
+t # 13</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Radeon VII HDMI issues: Flicking/system crashi=
-ng"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110510">bug 11051=
-0</a>
+   title=3D"RESOLVED MOVED - video and switching windows causing flickering"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D98812">bug 98812<=
+/a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
 r&gt;"> <span class=3D"fn">Martin Peres</span></a>
@@ -164,7 +161,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/757">https://gitlab.freedesktop.org/drm/amd/issues/757</a>.</pre>
+ssues/755">https://gitlab.freedesktop.org/drm/amd/issues/755</a>.</pre>
         </div>
       </p>
 
@@ -178,9 +175,9 @@ ssues/757">https://gitlab.freedesktop.org/drm/amd/issues/757</a>.</pre>
     </body>
 </html>=
 
---15741551880.E6b4a2f.4403--
+--15741551880.D4421560.4447--
 
---===============1562422839==
+--===============1668998404==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -190,4 +187,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1562422839==--
+--===============1668998404==--
