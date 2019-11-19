@@ -2,24 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50415101F64
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 10:08:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31141101F65
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 10:08:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C7F96E4C9;
-	Tue, 19 Nov 2019 09:07:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E9946E4B0;
+	Tue, 19 Nov 2019 09:08:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2AF356E44C
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 09:07:53 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 572A16E44C
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 09:07:58 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 27BC2720E2; Tue, 19 Nov 2019 09:07:53 +0000 (UTC)
+ id 53DD0720E2; Tue, 19 Nov 2019 09:07:58 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 91961] Hard lock after running built-in radeon.ko tests (Linux
- kernel 4.2.0)
-Date: Tue, 19 Nov 2019 09:07:53 +0000
+Subject: [Bug 91965] RS482M [Mobility Radeon Xpress 200] screen corruption
+Date: Tue, 19 Nov 2019 09:07:58 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,10 +33,10 @@ X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-91961-502-w1Aqjg6rJR@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-91961-502@http.bugs.freedesktop.org/>
-References: <bug-91961-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-91965-502-8LcMa2BQr8@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-91965-502@http.bugs.freedesktop.org/>
+References: <bug-91965-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,34 +52,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1443300564=="
+Content-Type: multipart/mixed; boundary="===============0465546868=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1443300564==
-Content-Type: multipart/alternative; boundary="15741544730.DacFc.32163"
+--===============0465546868==
+Content-Type: multipart/alternative; boundary="15741544780.6c0E1cd1.32163"
 Content-Transfer-Encoding: 7bit
 
 
---15741544730.DacFc.32163
-Date: Tue, 19 Nov 2019 09:07:53 +0000
+--15741544780.6c0E1cd1.32163
+Date: Tue, 19 Nov 2019 09:07:58 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D91961
+https://bugs.freedesktop.org/show_bug.cgi?id=3D91965
 
 Martin Peres <martin.peres@free.fr> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-         Resolution|---                         |MOVED
              Status|NEW                         |RESOLVED
+         Resolution|---                         |MOVED
 
---- Comment #1 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #4 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,14 +87,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/640.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/642.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741544730.DacFc.32163
-Date: Tue, 19 Nov 2019 09:07:53 +0000
+--15741544780.6c0E1cd1.32163
+Date: Tue, 19 Nov 2019 09:07:58 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,9 +111,9 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Hard lock after running built-in radeon.ko tes=
-ts (Linux kernel 4.2.0)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D91961">bug 91961<=
+   title=3D"RESOLVED MOVED - RS482M [Mobility Radeon Xpress 200] screen cor=
+ruption"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D91965">bug 91965<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -125,33 +124,33 @@ ts (Linux kernel 4.2.0)"
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>MOVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Status</td>
            <td>NEW
            </td>
            <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>MOVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Hard lock after running built-in radeon.ko tes=
-ts (Linux kernel 4.2.0)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D91961#c1">Comment=
- # 1</a>
+   title=3D"RESOLVED MOVED - RS482M [Mobility Radeon Xpress 200] screen cor=
+ruption"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D91965#c4">Comment=
+ # 4</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Hard lock after running built-in radeon.ko tes=
-ts (Linux kernel 4.2.0)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D91961">bug 91961<=
+   title=3D"RESOLVED MOVED - RS482M [Mobility Radeon Xpress 200] screen cor=
+ruption"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D91965">bug 91965<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
@@ -165,7 +164,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/640">https://gitlab.freedesktop.org/drm/amd/issues/640</a>.</pre>
+ssues/642">https://gitlab.freedesktop.org/drm/amd/issues/642</a>.</pre>
         </div>
       </p>
 
@@ -179,9 +178,9 @@ ssues/640">https://gitlab.freedesktop.org/drm/amd/issues/640</a>.</pre>
     </body>
 </html>=
 
---15741544730.DacFc.32163--
+--15741544780.6c0E1cd1.32163--
 
---===============1443300564==
+--===============0465546868==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -191,4 +190,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1443300564==--
+--===============0465546868==--
