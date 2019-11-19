@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8903101B63
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:11:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E68E1101B62
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:10:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 902F86EC56;
-	Tue, 19 Nov 2019 08:10:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BF896EC5B;
+	Tue, 19 Nov 2019 08:10:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 44B616EC59
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 148336EC2D
  for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:10:56 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 41D21720E2; Tue, 19 Nov 2019 08:10:56 +0000 (UTC)
+ id 0EFFE720E2; Tue, 19 Nov 2019 08:10:56 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 98324] [DC] amd-staging-4.7: problems with unblanking displays
- when monitors are switched off
+Subject: [Bug 27184] Radeon, KMS, 6.12.99: Sleeping screen doesn't wake up
+ reliably
 Date: Tue, 19 Nov 2019 08:10:56 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Component: DRM/Radeon
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
@@ -34,10 +34,10 @@ X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-98324-502-0T7F0tR3Bp@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-98324-502@http.bugs.freedesktop.org/>
-References: <bug-98324-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-27184-502-yia6OzeXoz@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-27184-502@http.bugs.freedesktop.org/>
+References: <bug-27184-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,17 +53,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0720101549=="
+Content-Type: multipart/mixed; boundary="===============0764846848=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0720101549==
-Content-Type: multipart/alternative; boundary="15741510561.3dE0.9876"
+--===============0764846848==
+Content-Type: multipart/alternative; boundary="15741510560.a72EAfEB.10882"
 Content-Transfer-Encoding: 7bit
 
 
---15741510561.3dE0.9876
+--15741510560.a72EAfEB.10882
 Date: Tue, 19 Nov 2019 08:10:56 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -71,16 +71,16 @@ Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D98324
+https://bugs.freedesktop.org/show_bug.cgi?id=3D27184
 
 Martin Peres <martin.peres@free.fr> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
+             Status|NEW                         |RESOLVED
 
---- Comment #14 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #31 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,13 +88,13 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/108.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/107.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741510561.3dE0.9876
+--15741510560.a72EAfEB.10882
 Date: Tue, 19 Nov 2019 08:10:56 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
@@ -112,9 +112,9 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [DC] amd-staging-4.7: problems with unblanking=
- displays when monitors are switched off"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D98324">bug 98324<=
+   title=3D"RESOLVED MOVED - Radeon, KMS, 6.12.99: Sleeping screen doesn't =
+wake up reliably"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D27184">bug 27184<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -125,33 +125,33 @@ span class=3D"fn">Martin Peres</span></a>
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Resolution</td>
            <td>---
            </td>
            <td>MOVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [DC] amd-staging-4.7: problems with unblanking=
- displays when monitors are switched off"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D98324#c14">Commen=
-t # 14</a>
+   title=3D"RESOLVED MOVED - Radeon, KMS, 6.12.99: Sleeping screen doesn't =
+wake up reliably"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D27184#c31">Commen=
+t # 31</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [DC] amd-staging-4.7: problems with unblanking=
- displays when monitors are switched off"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D98324">bug 98324<=
+   title=3D"RESOLVED MOVED - Radeon, KMS, 6.12.99: Sleeping screen doesn't =
+wake up reliably"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D27184">bug 27184<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
@@ -165,7 +165,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/108">https://gitlab.freedesktop.org/drm/amd/issues/108</a>.</pre>
+ssues/107">https://gitlab.freedesktop.org/drm/amd/issues/107</a>.</pre>
         </div>
       </p>
 
@@ -179,9 +179,9 @@ ssues/108">https://gitlab.freedesktop.org/drm/amd/issues/108</a>.</pre>
     </body>
 </html>=
 
---15741510561.3dE0.9876--
+--15741510560.a72EAfEB.10882--
 
---===============0720101549==
+--===============0764846848==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -191,4 +191,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0720101549==--
+--===============0764846848==--
