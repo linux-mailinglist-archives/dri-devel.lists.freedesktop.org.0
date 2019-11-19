@@ -1,30 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BFC5101B2D
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:07:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8A6E101B30
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:07:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 334416E8B9;
-	Tue, 19 Nov 2019 08:07:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 333716EA1C;
+	Tue, 19 Nov 2019 08:07:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7F92D6E93B
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:07:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id E28266EA63
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:07:41 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 7C456720E2; Tue, 19 Nov 2019 08:07:40 +0000 (UTC)
+ id DDB35720E2; Tue, 19 Nov 2019 08:07:41 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 23103] screen not lighting up on resume when using kms
-Date: Tue, 19 Nov 2019 08:07:40 +0000
+Subject: [Bug 94207] [amdgpu][tonga]kernel BUG during X startup in
+ amdgpu_cgs_get_active_displays_info
+Date: Tue, 19 Nov 2019 08:07:42 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/Radeon
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: martin.peres@free.fr
@@ -34,9 +35,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-23103-502-2qgmDu2Xz5@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-23103-502@http.bugs.freedesktop.org/>
-References: <bug-23103-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-94207-502-AccAuiHUcp@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-94207-502@http.bugs.freedesktop.org/>
+References: <bug-94207-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,25 +53,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0627838686=="
+Content-Type: multipart/mixed; boundary="===============0594162493=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0627838686==
-Content-Type: multipart/alternative; boundary="15741508603.CA7fe4B.10185"
+--===============0594162493==
+Content-Type: multipart/alternative; boundary="15741508612.b5d8cd.10427"
 Content-Transfer-Encoding: 7bit
 
 
---15741508603.CA7fe4B.10185
-Date: Tue, 19 Nov 2019 08:07:40 +0000
+--15741508612.b5d8cd.10427
+Date: Tue, 19 Nov 2019 08:07:41 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D23103
+https://bugs.freedesktop.org/show_bug.cgi?id=3D94207
 
 Martin Peres <martin.peres@free.fr> changed:
 
@@ -79,7 +80,7 @@ Martin Peres <martin.peres@free.fr> changed:
          Resolution|---                         |MOVED
              Status|NEW                         |RESOLVED
 
---- Comment #74 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #1 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -87,14 +88,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/54.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/64.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741508603.CA7fe4B.10185
-Date: Tue, 19 Nov 2019 08:07:40 +0000
+--15741508612.b5d8cd.10427
+Date: Tue, 19 Nov 2019 08:07:41 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -111,9 +112,9 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - screen not lighting up on resume when using km=
-s"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D23103">bug 23103<=
+   title=3D"RESOLVED MOVED - [amdgpu][tonga]kernel BUG during X startup in =
+amdgpu_cgs_get_active_displays_info"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D94207">bug 94207<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -142,15 +143,15 @@ s"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - screen not lighting up on resume when using km=
-s"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D23103#c74">Commen=
-t # 74</a>
+   title=3D"RESOLVED MOVED - [amdgpu][tonga]kernel BUG during X startup in =
+amdgpu_cgs_get_active_displays_info"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D94207#c1">Comment=
+ # 1</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - screen not lighting up on resume when using km=
-s"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D23103">bug 23103<=
+   title=3D"RESOLVED MOVED - [amdgpu][tonga]kernel BUG during X startup in =
+amdgpu_cgs_get_active_displays_info"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D94207">bug 94207<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
@@ -164,7 +165,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/54">https://gitlab.freedesktop.org/drm/amd/issues/54</a>.</pre>
+ssues/64">https://gitlab.freedesktop.org/drm/amd/issues/64</a>.</pre>
         </div>
       </p>
 
@@ -178,9 +179,9 @@ ssues/54">https://gitlab.freedesktop.org/drm/amd/issues/54</a>.</pre>
     </body>
 </html>=
 
---15741508603.CA7fe4B.10185--
+--15741508612.b5d8cd.10427--
 
---===============0627838686==
+--===============0594162493==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -190,4 +191,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0627838686==--
+--===============0594162493==--
