@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBC27101C0E
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:18:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B586101C0F
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:18:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 503E76EB29;
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB6206E97F;
 	Tue, 19 Nov 2019 08:18:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id A22A56E966
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:17:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4908A6E937
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:18:02 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 9E8D4720E2; Tue, 19 Nov 2019 08:17:57 +0000 (UTC)
+ id 4468D720E2; Tue, 19 Nov 2019 08:18:02 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 101029] notebook does not work when not booted using nomodeset
- AMD APU
-Date: Tue, 19 Nov 2019 08:17:57 +0000
+Subject: [Bug 101213] Kernel 4.11: amdgpu regression causes artifacts  with
+ OLAND amd gpu gcn 1.0
+Date: Tue, 19 Nov 2019 08:18:02 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
+X-Bugzilla-Severity: major
 X-Bugzilla-Who: martin.peres@free.fr
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: MOVED
@@ -35,9 +35,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-101029-502-WcDd24u0RH@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-101029-502@http.bugs.freedesktop.org/>
-References: <bug-101029-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-101213-502-YA57oUNiJW@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-101213-502@http.bugs.freedesktop.org/>
+References: <bug-101213-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,34 +53,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0274789579=="
+Content-Type: multipart/mixed; boundary="===============2107201605=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0274789579==
-Content-Type: multipart/alternative; boundary="15741514774.48ba3441C.12718"
+--===============2107201605==
+Content-Type: multipart/alternative; boundary="15741514820.68c491B0D.12718"
 Content-Transfer-Encoding: 7bit
 
 
---15741514774.48ba3441C.12718
-Date: Tue, 19 Nov 2019 08:17:57 +0000
+--15741514820.68c491B0D.12718
+Date: Tue, 19 Nov 2019 08:18:02 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D101029
+https://bugs.freedesktop.org/show_bug.cgi?id=3D101213
 
 Martin Peres <martin.peres@free.fr> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
          Resolution|---                         |MOVED
-             Status|NEW                         |RESOLVED
+             Status|REOPENED                    |RESOLVED
 
---- Comment #26 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #8 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,14 +88,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/169.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/178.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741514774.48ba3441C.12718
-Date: Tue, 19 Nov 2019 08:17:57 +0000
+--15741514820.68c491B0D.12718
+Date: Tue, 19 Nov 2019 08:18:02 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,10 +112,10 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - notebook does not work when not booted using n=
-omodeset AMD APU"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101029">bug 10102=
-9</a>
+   title=3D"RESOLVED MOVED - Kernel 4.11: amdgpu regression causes artifact=
+s with OLAND amd gpu gcn 1.0"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101213">bug 10121=
+3</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -134,7 +134,7 @@ omodeset AMD APU"
 
          <tr>
            <td style=3D"text-align:right;">Status</td>
-           <td>NEW
+           <td>REOPENED
            </td>
            <td>RESOLVED
            </td>
@@ -143,16 +143,16 @@ omodeset AMD APU"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - notebook does not work when not booted using n=
-omodeset AMD APU"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101029#c26">Comme=
-nt # 26</a>
+   title=3D"RESOLVED MOVED - Kernel 4.11: amdgpu regression causes artifact=
+s with OLAND amd gpu gcn 1.0"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101213#c8">Commen=
+t # 8</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - notebook does not work when not booted using n=
-omodeset AMD APU"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101029">bug 10102=
-9</a>
+   title=3D"RESOLVED MOVED - Kernel 4.11: amdgpu regression causes artifact=
+s with OLAND amd gpu gcn 1.0"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101213">bug 10121=
+3</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
 r&gt;"> <span class=3D"fn">Martin Peres</span></a>
@@ -165,7 +165,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/169">https://gitlab.freedesktop.org/drm/amd/issues/169</a>.</pre>
+ssues/178">https://gitlab.freedesktop.org/drm/amd/issues/178</a>.</pre>
         </div>
       </p>
 
@@ -179,9 +179,9 @@ ssues/169">https://gitlab.freedesktop.org/drm/amd/issues/169</a>.</pre>
     </body>
 </html>=
 
---15741514774.48ba3441C.12718--
+--15741514820.68c491B0D.12718--
 
---===============0274789579==
+--===============2107201605==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -191,4 +191,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0274789579==--
+--===============2107201605==--
