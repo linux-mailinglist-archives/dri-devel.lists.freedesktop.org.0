@@ -1,31 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BBB0101EBA
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:55:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AA14101EBB
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:55:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE5606EDFC;
-	Tue, 19 Nov 2019 08:55:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F7486EDF1;
+	Tue, 19 Nov 2019 08:55:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1C5C36EDFE
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:55:33 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E5C0B6EDFE
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:55:41 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 19422720E2; Tue, 19 Nov 2019 08:55:33 +0000 (UTC)
+ id E1C51720E2; Tue, 19 Nov 2019 08:55:41 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 83708] [vdpau,uvd] kernel oops, Unable to handle kernel paging
- request at virtual address
-Date: Tue, 19 Nov 2019 08:55:33 +0000
+Subject: [Bug 83742] [radeonsi KMS] Monitors on DP outputs not enabled
+Date: Tue, 19 Nov 2019 08:55:42 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/Radeon
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: martin.peres@free.fr
@@ -35,9 +34,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-83708-502-M3M8Le7P0n@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-83708-502@http.bugs.freedesktop.org/>
-References: <bug-83708-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-83742-502-2K2lXePWEJ@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-83742-502@http.bugs.freedesktop.org/>
+References: <bug-83742-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,25 +52,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1060586478=="
+Content-Type: multipart/mixed; boundary="===============1285061227=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1060586478==
-Content-Type: multipart/alternative; boundary="15741537331.d091Ed.27643"
+--===============1285061227==
+Content-Type: multipart/alternative; boundary="15741537412.9cF4fdA.27643"
 Content-Transfer-Encoding: 7bit
 
 
---15741537331.d091Ed.27643
-Date: Tue, 19 Nov 2019 08:55:33 +0000
+--15741537412.9cF4fdA.27643
+Date: Tue, 19 Nov 2019 08:55:41 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D83708
+https://bugs.freedesktop.org/show_bug.cgi?id=3D83742
 
 Martin Peres <martin.peres@free.fr> changed:
 
@@ -80,7 +79,7 @@ Martin Peres <martin.peres@free.fr> changed:
              Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
 
---- Comment #20 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #8 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,14 +87,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/526.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/529.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741537331.d091Ed.27643
-Date: Tue, 19 Nov 2019 08:55:33 +0000
+--15741537412.9cF4fdA.27643
+Date: Tue, 19 Nov 2019 08:55:41 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,9 +111,9 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [vdpau,uvd] kernel oops, Unable to handle kern=
-el paging request at virtual address"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D83708">bug 83708<=
+   title=3D"RESOLVED MOVED - [radeonsi KMS] Monitors on DP outputs not enab=
+led"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D83742">bug 83742<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -143,15 +142,15 @@ el paging request at virtual address"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [vdpau,uvd] kernel oops, Unable to handle kern=
-el paging request at virtual address"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D83708#c20">Commen=
-t # 20</a>
+   title=3D"RESOLVED MOVED - [radeonsi KMS] Monitors on DP outputs not enab=
+led"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D83742#c8">Comment=
+ # 8</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [vdpau,uvd] kernel oops, Unable to handle kern=
-el paging request at virtual address"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D83708">bug 83708<=
+   title=3D"RESOLVED MOVED - [radeonsi KMS] Monitors on DP outputs not enab=
+led"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D83742">bug 83742<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
@@ -165,7 +164,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/526">https://gitlab.freedesktop.org/drm/amd/issues/526</a>.</pre>
+ssues/529">https://gitlab.freedesktop.org/drm/amd/issues/529</a>.</pre>
         </div>
       </p>
 
@@ -179,9 +178,9 @@ ssues/526">https://gitlab.freedesktop.org/drm/amd/issues/526</a>.</pre>
     </body>
 </html>=
 
---15741537331.d091Ed.27643--
+--15741537412.9cF4fdA.27643--
 
---===============1060586478==
+--===============1285061227==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -191,4 +190,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1060586478==--
+--===============1285061227==--
