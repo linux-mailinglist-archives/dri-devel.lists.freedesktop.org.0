@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B8C7101FD4
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 10:15:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2454B101FD6
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 10:15:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D5126EEAE;
-	Tue, 19 Nov 2019 09:15:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 837236EEB8;
+	Tue, 19 Nov 2019 09:15:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id BF3E76EEB0
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 09:15:15 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 68A3D6EEB8
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 09:15:22 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id BBFE4720E2; Tue, 19 Nov 2019 09:15:15 +0000 (UTC)
+ id 650ED720E2; Tue, 19 Nov 2019 09:15:22 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109712] S2idle is not working on AMD Gigabyte platform
-Date: Tue, 19 Nov 2019 09:15:15 +0000
+Subject: [Bug 109762] [AMDGPU] flip_done timed out when playing Xonotic
+Date: Tue, 19 Nov 2019 09:15:22 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
+X-Bugzilla-Severity: normal
 X-Bugzilla-Who: martin.peres@free.fr
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-109712-502-uuNWJEo3gk@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109712-502@http.bugs.freedesktop.org/>
-References: <bug-109712-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-109762-502-h6iyXV96SO@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109762-502@http.bugs.freedesktop.org/>
+References: <bug-109762-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,32 +52,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0706928193=="
+Content-Type: multipart/mixed; boundary="===============1968909923=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0706928193==
-Content-Type: multipart/alternative; boundary="15741549151.6c44ae.2831"
+--===============1968909923==
+Content-Type: multipart/alternative; boundary="15741549221.FcCa.2831"
 Content-Transfer-Encoding: 7bit
 
 
---15741549151.6c44ae.2831
-Date: Tue, 19 Nov 2019 09:15:15 +0000
+--15741549221.FcCa.2831
+Date: Tue, 19 Nov 2019 09:15:22 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109712
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109762
 
 Martin Peres <martin.peres@free.fr> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-         Resolution|---                         |MOVED
              Status|NEW                         |RESOLVED
+         Resolution|---                         |MOVED
 
 --- Comment #2 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
@@ -87,14 +87,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/709.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/710.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741549151.6c44ae.2831
-Date: Tue, 19 Nov 2019 09:15:15 +0000
+--15741549221.FcCa.2831
+Date: Tue, 19 Nov 2019 09:15:22 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -111,8 +111,9 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - S2idle is not working on AMD Gigabyte platform"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109712">bug 10971=
+   title=3D"RESOLVED MOVED - [AMDGPU] flip_done timed out when playing Xono=
+tic"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109762">bug 10976=
 2</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -123,31 +124,33 @@ span class=3D"fn">Martin Peres</span></a>
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>MOVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Status</td>
            <td>NEW
            </td>
            <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>MOVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - S2idle is not working on AMD Gigabyte platform"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109712#c2">Commen=
+   title=3D"RESOLVED MOVED - [AMDGPU] flip_done timed out when playing Xono=
+tic"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109762#c2">Commen=
 t # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - S2idle is not working on AMD Gigabyte platform"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109712">bug 10971=
+   title=3D"RESOLVED MOVED - [AMDGPU] flip_done timed out when playing Xono=
+tic"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109762">bug 10976=
 2</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
@@ -161,7 +164,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/709">https://gitlab.freedesktop.org/drm/amd/issues/709</a>.</pre>
+ssues/710">https://gitlab.freedesktop.org/drm/amd/issues/710</a>.</pre>
         </div>
       </p>
 
@@ -175,9 +178,9 @@ ssues/709">https://gitlab.freedesktop.org/drm/amd/issues/709</a>.</pre>
     </body>
 </html>=
 
---15741549151.6c44ae.2831--
+--15741549221.FcCa.2831--
 
---===============0706928193==
+--===============1968909923==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -187,4 +190,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0706928193==--
+--===============1968909923==--
