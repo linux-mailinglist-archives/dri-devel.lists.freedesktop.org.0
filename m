@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E48F1101B9B
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:15:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49DC8101B9C
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:15:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B3F06EC71;
-	Tue, 19 Nov 2019 08:15:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E177A6EC50;
+	Tue, 19 Nov 2019 08:15:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id F276D6EC6D
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:15:17 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id F0B7A6EC77
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:15:26 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id EE0B7720E2; Tue, 19 Nov 2019 08:15:17 +0000 (UTC)
+ id EDCFB720E2; Tue, 19 Nov 2019 08:15:26 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 29787] [RADEON:KMS::EDID] i2c bit banging + preempt kernel ->
- i2c failure (random XRandR failures)
-Date: Tue, 19 Nov 2019 08:15:18 +0000
+Subject: [Bug 29941] radeon/KMS: Screen hotplugging does not work
+Date: Tue, 19 Nov 2019 08:15:27 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/Radeon
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Version: DRI git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: martin.peres@free.fr
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: MOVED
-X-Bugzilla-Priority: low
+X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-29787-502-LvA4LyLytw@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-29787-502@http.bugs.freedesktop.org/>
-References: <bug-29787-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-29941-502-DSksV1RZTH@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-29941-502@http.bugs.freedesktop.org/>
+References: <bug-29941-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,34 +52,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1771996528=="
+Content-Type: multipart/mixed; boundary="===============1885561988=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1771996528==
-Content-Type: multipart/alternative; boundary="15741513171.d8fbCa6.12647"
+--===============1885561988==
+Content-Type: multipart/alternative; boundary="15741513260.c04bC59.12647"
 Content-Transfer-Encoding: 7bit
 
 
---15741513171.d8fbCa6.12647
-Date: Tue, 19 Nov 2019 08:15:17 +0000
+--15741513260.c04bC59.12647
+Date: Tue, 19 Nov 2019 08:15:26 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D29787
+https://bugs.freedesktop.org/show_bug.cgi?id=3D29941
 
 Martin Peres <martin.peres@free.fr> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
+             Status|NEW                         |RESOLVED
 
---- Comment #20 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #7 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,14 +87,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/153.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/155.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741513171.d8fbCa6.12647
-Date: Tue, 19 Nov 2019 08:15:17 +0000
+--15741513260.c04bC59.12647
+Date: Tue, 19 Nov 2019 08:15:26 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,9 +111,8 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [RADEON:KMS::EDID] i2c bit banging + preempt k=
-ernel -&gt; i2c failure (random XRandR failures)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D29787">bug 29787<=
+   title=3D"RESOLVED MOVED - radeon/KMS: Screen hotplugging does not work"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D29941">bug 29941<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -125,33 +123,31 @@ ernel -&gt; i2c failure (random XRandR failures)"
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Resolution</td>
            <td>---
            </td>
            <td>MOVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [RADEON:KMS::EDID] i2c bit banging + preempt k=
-ernel -&gt; i2c failure (random XRandR failures)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D29787#c20">Commen=
-t # 20</a>
+   title=3D"RESOLVED MOVED - radeon/KMS: Screen hotplugging does not work"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D29941#c7">Comment=
+ # 7</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [RADEON:KMS::EDID] i2c bit banging + preempt k=
-ernel -&gt; i2c failure (random XRandR failures)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D29787">bug 29787<=
+   title=3D"RESOLVED MOVED - radeon/KMS: Screen hotplugging does not work"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D29941">bug 29941<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
@@ -165,7 +161,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/153">https://gitlab.freedesktop.org/drm/amd/issues/153</a>.</pre>
+ssues/155">https://gitlab.freedesktop.org/drm/amd/issues/155</a>.</pre>
         </div>
       </p>
 
@@ -179,9 +175,9 @@ ssues/153">https://gitlab.freedesktop.org/drm/amd/issues/153</a>.</pre>
     </body>
 </html>=
 
---15741513171.d8fbCa6.12647--
+--15741513260.c04bC59.12647--
 
---===============1771996528==
+--===============1885561988==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -191,4 +187,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1771996528==--
+--===============1885561988==--
