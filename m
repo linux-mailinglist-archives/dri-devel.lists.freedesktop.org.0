@@ -1,57 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00876101231
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 04:29:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37B0910129D
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 05:43:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFF706E874;
-	Tue, 19 Nov 2019 03:29:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99EB56E10E;
+	Tue, 19 Nov 2019 04:43:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
- [IPv6:2a00:1450:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76F5F6E284;
- Tue, 19 Nov 2019 03:29:07 +0000 (UTC)
-Received: by mail-ed1-x542.google.com with SMTP id t11so9792679eds.13;
- Mon, 18 Nov 2019 19:29:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vlbYDXkHVS11+pIejDVy67CBctjo9Cx4yVStRKhyhsY=;
- b=qnGlw14v0Jv/NyXmihVQ7c+848oXKgkacHarfvjHZbup3d+ZeAIlscwRLOIG9efIZ9
- 0SKQu2YJGvFbkX/l0Xp1w0d2q3TS/qmjW+XclwC3K7YrROOlAofElIcL+74jmBDA3t+l
- fj6w9t1C4YyYR8fV15nlOvZNAEm+rz9QVu8+wjJeWGHtvqRBu7m9Ld5V2jf4rqFE90Yt
- 5/OwMGtRKJc5+jzSBq9Gc0N5nG8oKyvK6IaVr4CHYrgHAMcSJ9StgKWC6HSqZJgCNW9P
- TeP2Fdn8eE1nljzUR35fFv1YaKPKGFhzo+icHpD6j7CJOjy6yFAAoXrzHdBLZMsUUhOJ
- dpHw==
-X-Gm-Message-State: APjAAAU1vJobJf/M5X2d+8eOLFooJzyyPmfuds6a9D5ofjavDQpjd4Br
- FGP3zKRP6ugiIX7FRjp5GyqcdzfxTGQE3VfXylQ=
-X-Google-Smtp-Source: APXvYqxm1W9gpI9FbX3HkqAKkjJm3EXrNSSNVFtuevJ5u3ngnRzXg4dB/mAf3Ptai6GpG8/qoxqvKAOFtqnVhTSt45k=
-X-Received: by 2002:a17:906:aad5:: with SMTP id
- kt21mr1593370ejb.228.1574134146033; 
- Mon, 18 Nov 2019 19:29:06 -0800 (PST)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 089D06E284
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 04:43:26 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 04967720E2; Tue, 19 Nov 2019 04:43:26 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 112308] Screen flickering with 4k resolution on Prairie Falcon
+Date: Tue, 19 Nov 2019 04:43:26 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: not set
+X-Bugzilla-Who: kai.heng.feng@canonical.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: not set
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-112308-502-QwgmbwxFYv@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-112308-502@http.bugs.freedesktop.org/>
+References: <bug-112308-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20191118234043.331542-1-robdclark@gmail.com>
- <5dd33824.1c69fb81.2d94a.4f12@mx.google.com>
-In-Reply-To: <5dd33824.1c69fb81.2d94a.4f12@mx.google.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 18 Nov 2019 19:28:55 -0800
-Message-ID: <CAF6AEGsT6NrHp99AjgAERBsf77TC3E7OUhC733z2tFuu9XE39w@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/a6xx: restore previous freq on resume
-To: Stephen Boyd <swboyd@chromium.org>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=vlbYDXkHVS11+pIejDVy67CBctjo9Cx4yVStRKhyhsY=;
- b=e9pPJgmpwWB5+H/T4XPYX2ke0+dZt2xHpk3ckSpB6R7lZPpyKhFvMTnAivjVxKyFuN
- GCz2ah4YfBBzxbC7LgRaAffoRqYIqVE7CERvk/g63OuQsy+sp1EctRsi5AaCdpWx3SoC
- jae+MrHMcDGNaM46fcMal8dRAtyd/TRFRv2lG/sIQ1RlqbJXDofQVZP4jibg6f6O5kNM
- /SETT9+jW9R0YjL8IMaAjlAT4m++Y4mLbIArvmmKhm8daU5d3EefjKkAqXWHWsyfZsDF
- THHID6CAyNQnJ6NPyXN4EHvQ/EGjTj6T6KGGfrCBtDokPoqbhEaVTI0+tWQPD63oxtly
- UgGw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,36 +52,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Douglas Anderson <dianders@chromium.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Mamta Shukla <mamtashukla555@gmail.com>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1311026712=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBOb3YgMTgsIDIwMTkgYXQgNDozMiBQTSBTdGVwaGVuIEJveWQgPHN3Ym95ZEBjaHJv
-bWl1bS5vcmc+IHdyb3RlOgo+Cj4gUXVvdGluZyBSb2IgQ2xhcmsgKDIwMTktMTEtMTggMTU6NDA6
-MzgpCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21zbS9hZHJlbm8vYTZ4eF9nbXUu
-aCBiL2RyaXZlcnMvZ3B1L2RybS9tc20vYWRyZW5vL2E2eHhfZ211LmgKPiA+IGluZGV4IDM5YTI2
-ZGQ2MzY3NC4uMmFmOTFlZDdlZDBjIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21z
-bS9hZHJlbm8vYTZ4eF9nbXUuaAo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21zbS9hZHJlbm8v
-YTZ4eF9nbXUuaAo+ID4gQEAgLTYzLDYgKzYzLDkgQEAgc3RydWN0IGE2eHhfZ211IHsKPiA+ICAg
-ICAgICAgc3RydWN0IGNsa19idWxrX2RhdGEgKmNsb2NrczsKPiA+ICAgICAgICAgc3RydWN0IGNs
-ayAqY29yZV9jbGs7Cj4gPgo+ID4gKyAgICAgICAvKiBjdXJyZW50IHBlcmZvcm1hbmNlIGluZGV4
-IHNldCBleHRlcm5hbGx5ICovCj4gPiArICAgICAgIGludCBjdXJyZW50X3BlcmZfaW5kZXg7Cj4g
-PiArCj4KPiBJcyB0aGVyZSBhIHJlYXNvbiB0aGlzIGlzbid0IHVuc2lnbmVkPyBJdCBsb29rcyBs
-aWtlCj4gX19hNnh4X2dtdV9zZXRfZnJlcSgpIHRha2VzIGFuIGludCwgYnV0IG1heWJlIGl0IHNo
-b3VsZCB0YWtlIGEgdTE2IG9yCj4gc29tZXRoaW5nPwo+CgpubyBwYXJ0aWN1bGFyIHJlYXNvbiwg
-b3RoZXIgdGhhbiBvdGhlciB0aGluZ3Mgd2hlcmUgYWxyZWFkeSB1c2luZyBhbgppbnQuLiB0aGlz
-IGlzIGp1c3QgYW4gaW5kZXggaW50byB0aGUgdGFibGUgb2Ygb3BwJ3Mgc28gaXQgaXMgbmV2ZXIK
-Z29pbmcgdG8gYmUgYSBsYXJnZSBpbnQuCgpEZXBlbmRpbmcgb24gR01VX0RDVlNfUEVSRl9TRVRU
-SU5HIGl0IGNvdWxkIHByb2JhYmx5IGJlIGEgdTggKEknbSBub3QKKmVudGlyZWx5KiBzdXJlIGZy
-b20gdGhlIGNvZGUgaG93IGxhcmdlIHRoYXQgYml0ZmllbGQgaXMpCgpCUiwKLVIKX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1311026712==
+Content-Type: multipart/alternative; boundary="15741386052.f90F.32026"
+Content-Transfer-Encoding: 7bit
+
+
+--15741386052.f90F.32026
+Date: Tue, 19 Nov 2019 04:43:25 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D112308
+
+--- Comment #4 from Kai-Heng Feng <kai.heng.feng@canonical.com> ---
+(In reply to Alex Deucher from comment #3)
+> Created attachment 145993 [details] [review]
+> fix test
+>=20
+> Does this patch fix the issue?
+
+No, the same issue persists.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15741386052.f90F.32026
+Date: Tue, 19 Nov 2019 04:43:25 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Screen flickering with 4k resolution on Prairie Falcon"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112308#c4">Commen=
+t # 4</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Screen flickering with 4k resolution on Prairie Falcon"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D112308">bug 11230=
+8</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+kai.heng.feng&#64;canonical.com" title=3D"Kai-Heng Feng &lt;kai.heng.feng&#=
+64;canonical.com&gt;"> <span class=3D"fn">Kai-Heng Feng</span></a>
+</span></b>
+        <pre>(In reply to Alex Deucher from <a href=3D"show_bug.cgi?id=3D11=
+2308#c3">comment #3</a>)
+<span class=3D"quote">&gt; Created <span class=3D""><a href=3D"attachment.c=
+gi?id=3D145993" name=3D"attach_145993" title=3D"fix test">attachment 145993=
+</a> <a href=3D"attachment.cgi?id=3D145993&amp;action=3Dedit" title=3D"fix =
+test">[details]</a></span> <a href=3D'page.cgi?id=3Dsplinter.html&amp;bug=
+=3D112308&amp;attachment=3D145993'>[review]</a> [review]
+&gt; fix test
+&gt;=20
+&gt; Does this patch fix the issue?</span >
+
+No, the same issue persists.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15741386052.f90F.32026--
+
+--===============1311026712==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1311026712==--
