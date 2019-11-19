@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A7D6101F6D
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 10:08:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2831A101F6E
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 10:08:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94CDC6E94E;
-	Tue, 19 Nov 2019 09:08:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C12A6EE0F;
+	Tue, 19 Nov 2019 09:08:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 61CF86EA10
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 09:08:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2FAC36EA10
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 09:08:35 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 5DF72720E2; Tue, 19 Nov 2019 09:08:28 +0000 (UTC)
+ id 2C255720E2; Tue, 19 Nov 2019 09:08:35 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109068] Raven Ridge: backlight is off after suspend
-Date: Tue, 19 Nov 2019 09:08:28 +0000
+Subject: [Bug 109117] [ARM64] Unable to load module amdgpu on LS1012A-RDB board
+Date: Tue, 19 Nov 2019 09:08:35 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,9 +34,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-109068-502-umyw10NtOE@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109068-502@http.bugs.freedesktop.org/>
-References: <bug-109068-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-109117-502-yiPdaCkVJz@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109117-502@http.bugs.freedesktop.org/>
+References: <bug-109117-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,25 +52,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0950777441=="
+Content-Type: multipart/mixed; boundary="===============1434712904=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0950777441==
-Content-Type: multipart/alternative; boundary="15741545081.3A6C.31529"
+--===============1434712904==
+Content-Type: multipart/alternative; boundary="15741545151.071Eb.31529"
 Content-Transfer-Encoding: 7bit
 
 
---15741545081.3A6C.31529
-Date: Tue, 19 Nov 2019 09:08:28 +0000
+--15741545151.071Eb.31529
+Date: Tue, 19 Nov 2019 09:08:35 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109068
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109117
 
 Martin Peres <martin.peres@free.fr> changed:
 
@@ -79,7 +79,7 @@ Martin Peres <martin.peres@free.fr> changed:
          Resolution|---                         |MOVED
              Status|NEW                         |RESOLVED
 
---- Comment #4 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #5 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -87,14 +87,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/648.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/650.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741545081.3A6C.31529
-Date: Tue, 19 Nov 2019 09:08:28 +0000
+--15741545151.071Eb.31529
+Date: Tue, 19 Nov 2019 09:08:35 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -111,9 +111,10 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Raven Ridge: backlight is off after suspend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109068">bug 10906=
-8</a>
+   title=3D"RESOLVED MOVED - [ARM64] Unable to load module amdgpu on LS1012=
+A-RDB board"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109117">bug 10911=
+7</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -141,14 +142,16 @@ span class=3D"fn">Martin Peres</span></a>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Raven Ridge: backlight is off after suspend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109068#c4">Commen=
-t # 4</a>
+   title=3D"RESOLVED MOVED - [ARM64] Unable to load module amdgpu on LS1012=
+A-RDB board"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109117#c5">Commen=
+t # 5</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Raven Ridge: backlight is off after suspend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109068">bug 10906=
-8</a>
+   title=3D"RESOLVED MOVED - [ARM64] Unable to load module amdgpu on LS1012=
+A-RDB board"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109117">bug 10911=
+7</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
 r&gt;"> <span class=3D"fn">Martin Peres</span></a>
@@ -161,7 +164,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/648">https://gitlab.freedesktop.org/drm/amd/issues/648</a>.</pre>
+ssues/650">https://gitlab.freedesktop.org/drm/amd/issues/650</a>.</pre>
         </div>
       </p>
 
@@ -175,9 +178,9 @@ ssues/648">https://gitlab.freedesktop.org/drm/amd/issues/648</a>.</pre>
     </body>
 </html>=
 
---15741545081.3A6C.31529--
+--15741545151.071Eb.31529--
 
---===============0950777441==
+--===============1434712904==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -187,4 +190,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0950777441==--
+--===============1434712904==--
