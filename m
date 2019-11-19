@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63501101B7B
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:12:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAADD101B7C
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:12:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D881E89803;
-	Tue, 19 Nov 2019 08:12:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0C736EA00;
+	Tue, 19 Nov 2019 08:12:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 27901890B6
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:12:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2D2CB6EA8A
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:12:41 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 1BD82720E8; Tue, 19 Nov 2019 08:12:30 +0000 (UTC)
+ id 1141D720E6; Tue, 19 Nov 2019 08:12:39 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 28030] HDMI audio does not work with HD4200 IGP but does work
- with radeonhd
-Date: Tue, 19 Nov 2019 08:12:30 +0000
+Subject: [Bug 28069] maniadrive - smooth play with
+ LIBGL_ALWAYS_INDIRECT=true, (almost) unplayable otherwise
+Date: Tue, 19 Nov 2019 08:12:38 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -27,17 +27,17 @@ X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/Radeon
 X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
+X-Bugzilla-Severity: enhancement
 X-Bugzilla-Who: martin.peres@free.fr
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-28030-502-OsomKRduW5@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-28030-502@http.bugs.freedesktop.org/>
-References: <bug-28030-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-28069-502-xtavJz8Q3r@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-28069-502@http.bugs.freedesktop.org/>
+References: <bug-28069-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,34 +53,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0414368088=="
+Content-Type: multipart/mixed; boundary="===============1093121375=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0414368088==
-Content-Type: multipart/alternative; boundary="15741511501.7E9C3EB4.11869"
+--===============1093121375==
+Content-Type: multipart/alternative; boundary="15741511590.D8Fa4.11869"
 Content-Transfer-Encoding: 7bit
 
 
---15741511501.7E9C3EB4.11869
-Date: Tue, 19 Nov 2019 08:12:30 +0000
+--15741511590.D8Fa4.11869
+Date: Tue, 19 Nov 2019 08:12:39 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D28030
+https://bugs.freedesktop.org/show_bug.cgi?id=3D28069
 
 Martin Peres <martin.peres@free.fr> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
+             Status|NEW                         |RESOLVED
 
---- Comment #6 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #10 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,14 +88,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/124.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/126.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741511501.7E9C3EB4.11869
-Date: Tue, 19 Nov 2019 08:12:30 +0000
+--15741511590.D8Fa4.11869
+Date: Tue, 19 Nov 2019 08:12:39 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,9 +112,9 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - HDMI audio does not work with HD4200 IGP but d=
-oes work with radeonhd"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D28030">bug 28030<=
+   title=3D"RESOLVED MOVED - maniadrive - smooth play with LIBGL_ALWAYS_IND=
+IRECT=3Dtrue, (almost) unplayable otherwise"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D28069">bug 28069<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -125,33 +125,33 @@ oes work with radeonhd"
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Resolution</td>
            <td>---
            </td>
            <td>MOVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - HDMI audio does not work with HD4200 IGP but d=
-oes work with radeonhd"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D28030#c6">Comment=
- # 6</a>
+   title=3D"RESOLVED MOVED - maniadrive - smooth play with LIBGL_ALWAYS_IND=
+IRECT=3Dtrue, (almost) unplayable otherwise"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D28069#c10">Commen=
+t # 10</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - HDMI audio does not work with HD4200 IGP but d=
-oes work with radeonhd"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D28030">bug 28030<=
+   title=3D"RESOLVED MOVED - maniadrive - smooth play with LIBGL_ALWAYS_IND=
+IRECT=3Dtrue, (almost) unplayable otherwise"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D28069">bug 28069<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
@@ -165,7 +165,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/124">https://gitlab.freedesktop.org/drm/amd/issues/124</a>.</pre>
+ssues/126">https://gitlab.freedesktop.org/drm/amd/issues/126</a>.</pre>
         </div>
       </p>
 
@@ -179,9 +179,9 @@ ssues/124">https://gitlab.freedesktop.org/drm/amd/issues/124</a>.</pre>
     </body>
 </html>=
 
---15741511501.7E9C3EB4.11869--
+--15741511590.D8Fa4.11869--
 
---===============0414368088==
+--===============1093121375==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -191,4 +191,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0414368088==--
+--===============1093121375==--
