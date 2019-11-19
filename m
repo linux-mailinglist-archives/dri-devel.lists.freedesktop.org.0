@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFFB8101D57
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:28:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8182E101D58
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 09:28:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 158426ECB9;
-	Tue, 19 Nov 2019 08:28:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B07056ECBD;
+	Tue, 19 Nov 2019 08:28:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id C6C276ECBD
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:28:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6E4DB6ECA6
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 08:28:31 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C3665720E2; Tue, 19 Nov 2019 08:28:28 +0000 (UTC)
+ id 6880C720E2; Tue, 19 Nov 2019 08:28:31 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 52467] Radeon HD6450 KMS garbled screen on boot.
-Date: Tue, 19 Nov 2019 08:28:28 +0000
+Subject: [Bug 104531] Cannot turn monitor off over DP cable
+Date: Tue, 19 Nov 2019 08:28:31 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/Radeon
+X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
@@ -34,9 +34,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-52467-502-MRjqukwoQ2@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-52467-502@http.bugs.freedesktop.org/>
-References: <bug-52467-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-104531-502-ACvT1XXP8Z@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-104531-502@http.bugs.freedesktop.org/>
+References: <bug-104531-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,25 +52,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1141143327=="
+Content-Type: multipart/mixed; boundary="===============0170096672=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1141143327==
-Content-Type: multipart/alternative; boundary="15741521082.b11EE4.18153"
+--===============0170096672==
+Content-Type: multipart/alternative; boundary="15741521111.bCCf2BeeB.17962"
 Content-Transfer-Encoding: 7bit
 
 
---15741521082.b11EE4.18153
-Date: Tue, 19 Nov 2019 08:28:28 +0000
+--15741521111.bCCf2BeeB.17962
+Date: Tue, 19 Nov 2019 08:28:31 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D52467
+https://bugs.freedesktop.org/show_bug.cgi?id=3D104531
 
 Martin Peres <martin.peres@free.fr> changed:
 
@@ -79,7 +79,7 @@ Martin Peres <martin.peres@free.fr> changed:
              Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
 
---- Comment #13 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #9 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -87,14 +87,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/287.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/290.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741521082.b11EE4.18153
-Date: Tue, 19 Nov 2019 08:28:28 +0000
+--15741521111.bCCf2BeeB.17962
+Date: Tue, 19 Nov 2019 08:28:31 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -111,9 +111,9 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Radeon HD6450 KMS garbled screen on boot."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D52467">bug 52467<=
-/a>
+   title=3D"RESOLVED MOVED - Cannot turn monitor off over DP cable"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104531">bug 10453=
+1</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -141,14 +141,14 @@ span class=3D"fn">Martin Peres</span></a>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Radeon HD6450 KMS garbled screen on boot."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D52467#c13">Commen=
-t # 13</a>
+   title=3D"RESOLVED MOVED - Cannot turn monitor off over DP cable"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104531#c9">Commen=
+t # 9</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Radeon HD6450 KMS garbled screen on boot."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D52467">bug 52467<=
-/a>
+   title=3D"RESOLVED MOVED - Cannot turn monitor off over DP cable"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104531">bug 10453=
+1</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
 r&gt;"> <span class=3D"fn">Martin Peres</span></a>
@@ -161,7 +161,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/287">https://gitlab.freedesktop.org/drm/amd/issues/287</a>.</pre>
+ssues/290">https://gitlab.freedesktop.org/drm/amd/issues/290</a>.</pre>
         </div>
       </p>
 
@@ -175,9 +175,9 @@ ssues/287">https://gitlab.freedesktop.org/drm/amd/issues/287</a>.</pre>
     </body>
 </html>=
 
---15741521082.b11EE4.18153--
+--15741521111.bCCf2BeeB.17962--
 
---===============1141143327==
+--===============0170096672==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -187,4 +187,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1141143327==--
+--===============0170096672==--
