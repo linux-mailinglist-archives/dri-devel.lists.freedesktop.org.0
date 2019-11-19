@@ -1,42 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C770F102063
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 10:29:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A298102064
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Nov 2019 10:29:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FE5E6F3FC;
-	Tue, 19 Nov 2019 09:29:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE5636F40D;
+	Tue, 19 Nov 2019 09:29:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 254866F405
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 09:29:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 672B06F40D
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Nov 2019 09:29:46 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 224B6720E2; Tue, 19 Nov 2019 09:29:39 +0000 (UTC)
+ id 6386C720E2; Tue, 19 Nov 2019 09:29:46 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 101723] hdmi unplug not changing connector status
-Date: Tue, 19 Nov 2019 09:29:39 +0000
+Subject: [Bug 110822] [Bisected]Booting with kernel version 5.1.0 or higher
+ on RX 580 hangs
+Date: Tue, 19 Nov 2019 09:29:46 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/Radeon
+X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: patch
-X-Bugzilla-Severity: minor
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocker
 X-Bugzilla-Who: martin.peres@free.fr
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: MOVED
-X-Bugzilla-Priority: low
+X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-101723-502-AhqJkCyDeM@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-101723-502@http.bugs.freedesktop.org/>
-References: <bug-101723-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-110822-502-6yMZSnDOCX@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110822-502@http.bugs.freedesktop.org/>
+References: <bug-110822-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,34 +53,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1517022230=="
+Content-Type: multipart/mixed; boundary="===============1636940861=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1517022230==
-Content-Type: multipart/alternative; boundary="15741557790.06a0b0A.7278"
+--===============1636940861==
+Content-Type: multipart/alternative; boundary="15741557860.cED88e4b.7446"
 Content-Transfer-Encoding: 7bit
 
 
---15741557790.06a0b0A.7278
-Date: Tue, 19 Nov 2019 09:29:39 +0000
+--15741557860.cED88e4b.7446
+Date: Tue, 19 Nov 2019 09:29:46 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D101723
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110822
 
 Martin Peres <martin.peres@free.fr> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
+             Status|REOPENED                    |RESOLVED
          Resolution|---                         |MOVED
 
---- Comment #1 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #22 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -87,14 +88,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/808.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/807.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15741557790.06a0b0A.7278
-Date: Tue, 19 Nov 2019 09:29:39 +0000
+--15741557860.cED88e4b.7446
+Date: Tue, 19 Nov 2019 09:29:46 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -111,9 +112,10 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - hdmi unplug not changing connector status"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101723">bug 10172=
-3</a>
+   title=3D"RESOLVED MOVED - [Bisected]Booting with kernel version 5.1.0 or=
+ higher on RX 580 hangs"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110822">bug 11082=
+2</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -124,7 +126,7 @@ span class=3D"fn">Martin Peres</span></a>
 
          <tr>
            <td style=3D"text-align:right;">Status</td>
-           <td>NEW
+           <td>REOPENED
            </td>
            <td>RESOLVED
            </td>
@@ -141,14 +143,16 @@ span class=3D"fn">Martin Peres</span></a>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - hdmi unplug not changing connector status"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101723#c1">Commen=
-t # 1</a>
+   title=3D"RESOLVED MOVED - [Bisected]Booting with kernel version 5.1.0 or=
+ higher on RX 580 hangs"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110822#c22">Comme=
+nt # 22</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - hdmi unplug not changing connector status"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101723">bug 10172=
-3</a>
+   title=3D"RESOLVED MOVED - [Bisected]Booting with kernel version 5.1.0 or=
+ higher on RX 580 hangs"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110822">bug 11082=
+2</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
 r&gt;"> <span class=3D"fn">Martin Peres</span></a>
@@ -161,7 +165,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/808">https://gitlab.freedesktop.org/drm/amd/issues/808</a>.</pre>
+ssues/807">https://gitlab.freedesktop.org/drm/amd/issues/807</a>.</pre>
         </div>
       </p>
 
@@ -175,9 +179,9 @@ ssues/808">https://gitlab.freedesktop.org/drm/amd/issues/808</a>.</pre>
     </body>
 </html>=
 
---15741557790.06a0b0A.7278--
+--15741557860.cED88e4b.7446--
 
---===============1517022230==
+--===============1636940861==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -187,4 +191,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1517022230==--
+--===============1636940861==--
