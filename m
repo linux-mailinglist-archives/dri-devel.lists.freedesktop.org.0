@@ -2,66 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EBCB1035CB
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2019 09:05:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A2081035D7
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2019 09:13:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCA2B6E03D;
-	Wed, 20 Nov 2019 08:05:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35FDC6E04A;
+	Wed, 20 Nov 2019 08:13:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AEB96E03D
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Nov 2019 08:05:37 +0000 (UTC)
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-qvYX4wclN1KoCOM_EF3gOA-1; Wed, 20 Nov 2019 03:05:35 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D889A1005510;
- Wed, 20 Nov 2019 08:05:33 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-67.ams2.redhat.com
- [10.36.116.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 99BA727BDC;
- Wed, 20 Nov 2019 08:05:33 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id B251016E08; Wed, 20 Nov 2019 09:05:32 +0100 (CET)
-Date: Wed, 20 Nov 2019 09:05:32 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v2] drm/gem: Fix mmap fake offset handling for
- drm_gem_object_funcs.mmap
-Message-ID: <20191120080532.hjjjddxrsikozlpq@sirius.home.kraxel.org>
-References: <20191113073902.343vfunbjuzy725y@sirius.home.kraxel.org>
- <CAKMK7uF7G_H3ZvMpFkqKdGXc5H8P=vAtfoREksJJyysQmxOYzQ@mail.gmail.com>
- <20191113135145.itdsbojzrj5elzvu@sirius.home.kraxel.org>
- <20191113162729.GQ23790@phenom.ffwll.local>
- <20191115093738.kdi4qopah6hvntrb@sirius.home.kraxel.org>
- <CAKMK7uGq7-SpFrEXE2OJhnv66vxtJSifvSg4NUTFhLentQJ31w@mail.gmail.com>
- <20191115105601.i7ahtapysv4j7mn7@sirius.home.kraxel.org>
- <CAKMK7uHNOF5pAWCbQ1-eFWcxEOZmOoKOYL450ZJd7TOeVhMvjw@mail.gmail.com>
- <20191118104026.zg5pt5yg2wkulmrr@sirius.home.kraxel.org>
- <20191118164927.GF23790@phenom.ffwll.local>
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C4346E04A
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Nov 2019 08:13:07 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id d5so26434358ljl.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Nov 2019 00:13:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=Ym/35Yapy2qj5LZhjfpNO/wUzVkiJtYy66ZP3f0Omt0=;
+ b=tLWNuArNgwDqQq326/5rUzaxxdFJRq0EDeawE4FLfeF5GTWJEd6kTKTr5Xj8chdMyH
+ K1DLUCowoZbyz8tJtnrkXoUtkLHnsg0a1ST57MdxBgZOVcDsLhMcz1NCrMTvhWV74Cmo
+ qYkWxeZdY3o4/9jAc6yy92MS0VRgN+INFZM+BJQpuzfchb3y7yCkQrnyUcBGJpf1Vcw9
+ dfbQnRifoYmtXi+4Dxv1IiSE/NGlMHOlheeUINisJX1DCLneKuFG+ao8vJIwvbTGMNoW
+ eEnWvR7OeRukYcqCoimY+vvQYmL21rUwdbUin/HalKA2wd7oO/Q98Q+YXD3Yv16VudEI
+ bXdw==
+X-Gm-Message-State: APjAAAWyG6ZBdNqNQipEi6v02EtC4riS2GlgOU5WfVdi2LJmQzQcD94R
+ CEL5YiTHCuw0BX7Nm5RaORc=
+X-Google-Smtp-Source: APXvYqz7XKyoHXzaAHlpkV3YwE1BKSz8rVWbFhXkB0mJxWDblWC5pqUpbXj0/NWqCQ9pDEwQ28S4cg==
+X-Received: by 2002:a2e:8108:: with SMTP id d8mr1519739ljg.158.1574237584551; 
+ Wed, 20 Nov 2019 00:13:04 -0800 (PST)
+Received: from eldfell.localdomain ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id t28sm11332344ljd.47.2019.11.20.00.13.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Nov 2019 00:13:04 -0800 (PST)
+Date: Wed, 20 Nov 2019 10:12:53 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: John Donnelly <john.p.donnelly@oracle.com>
+Subject: Re: Bugzilla to Gitlabs migration - No email updates ?
+Message-ID: <20191120101253.17efb124@eldfell.localdomain>
+In-Reply-To: <5DE80E82-CE15-4B94-9150-8F474B6F6B59@oracle.com>
+References: <5DE80E82-CE15-4B94-9150-8F474B6F6B59@oracle.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20191118164927.GF23790@phenom.ffwll.local>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: qvYX4wclN1KoCOM_EF3gOA-1
-X-Mimecast-Spam-Score: 0
-Content-Disposition: inline
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=redhat.com; 
- s=mimecast20190719; t=1574237136;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=K4axRnySGgOnkKZEar5S/zHPmbRyxJhJ4FwCB3TWgm8=;
- b=XFPORvngw4s9m9uchxi9dYih7Lk5Xvl9kxc9kwAyhw+GSN298dKSWgUXHT5GnzakoFpGiF
- KJ9VRyJNiiG6/Ha2rxuJXfWP1sogCzvgqwQGYwYtGQxwIhU6dOInJ+2yc8LME7Objm8z8F
- KH8/7HyXzeF11fqbQve4/ckpq5RPQs8=
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version;
+ bh=Ym/35Yapy2qj5LZhjfpNO/wUzVkiJtYy66ZP3f0Omt0=;
+ b=Paj2PGYQBZ7+QI5hGj7Xv1My954mJ2jmmHzlnwVJpKNSpIa5rHNhCbawo/Xm7y7v6e
+ qd6dlSAUHBMOcdqpKWZ8aWx3VTODnJOj/EW31belwN69p6zypnreBELHCcqlq8l/5PAC
+ ty/6fD/KJebgkT2UDtXFep7ccPHIWS34BxmzPRXv5VCe7eyAZz7zcWLGmLo/Ohd/Tg5Y
+ XoisQ233Ra1G8t3r0SMgQRh1ZH8y2iXCP4qxb8nHcXfqWjJtOAl55B7cvyKvIV7LJ1qQ
+ 7oxKZyHIH4wpherHdWO5Ruvj9M9kEEcMlkcAJsBYAPZlCpzn3aAnti0qoYl3Eyduezra
+ I3Sg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,23 +67,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============2115547094=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ICBIaSwKCj4gPiBJIGNhbiBzZWUgbm93IHdoeSB5b3Ugd2FudCBhIHByaXZhdGUgYWRkcmVzcyBz
-cGFjZSBmb3IgZWFjaCBvYmplY3QuCj4gPiBEb2VzIHRoYXQgaW1wbHkgd2UgbmVlZCBhbiBhbm9u
-X2lub2RlIGZvciBlYWNoIGdlbSBvYmplY3Q/ICBPciBpcwo+ID4gdGhlcmUgc29tZSBtb3JlIGxp
-Z2h0d2VpZ2h0IHdheSB0byBkbyB0aGlzPwo+IAo+IEkgaGF2ZSBubyBpZGVhIHdoZXRoZXIgd2Ug
-Y2FuIGdldCBhIGFkZHJlc3Nfc3BhY2Ugc3RydWN0IHdpdGhvdXQgYW4gaW5vZGUKPiAoYW5kIG5v
-IGRpc2FzdGVycykuCgpBbnl0aGluZyBidWlsZGluZyBvbiBzaG1lbSBoZWxwZXJzIHNob3VsZCBi
-ZSBhYmxlIHRvIHVzZQpvYmotPmZpbHAtPmZfbWFwcGluZywgcmlnaHQ/ICBTbyBhbGxvY2F0aW5n
-IGFuIGlub2RlIHVuY29uZGl0aW9uYWxseQpkb2Vzbid0IGxvb2sgbGlrZSBhIGdvb2QgcGxhbi4K
-Ckd1ZXNzIEknbGwgZ28gbG9vayBhdCB0dG0tbG9jYWwgY2hhbmdlcyBmb3Igc3RhcnRlcnMgYW5k
-IHNlZSBob3cgaXQKZ29lcy4KCmNoZWVycywKICBHZXJkCgpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+--===============2115547094==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/DrZnHwfFQODnpGakcAH.rEd"; protocol="application/pgp-signature"
+
+--Sig_/DrZnHwfFQODnpGakcAH.rEd
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, 19 Nov 2019 09:05:13 -0600
+John Donnelly <john.p.donnelly@oracle.com> wrote:
+
+> Does gitlab not generate email when a comment is added to a ticket ?
+
+It does if your Gitlab notification settings are set that way. There
+are your global, your per organization, and your per project
+notification settings, and also the "notifications" switch in each
+issue and MR individually.
+
+
+Thanks,
+pq
+
+--Sig_/DrZnHwfFQODnpGakcAH.rEd
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl3U9YUACgkQI1/ltBGq
+qqeBHw/9E893k1tv+KYy+WKPnB54RYpFYxivDPThwP8jxODJnEc/fhLdSUbcAi8A
+Bj7hziihlRYu91Fi+ZnEwKGIt5SF8bxYbLfTLv4DVHzO1pNaZrdt7qt5Qt7kS2Rd
+QhWB9v3/gF/8IQjiH7kR7FB5g8DpY9+vqrlq5tIrvAL7dBRj/Iu1bHtW7WGJZrgO
+Cy/j19xk4EEf4eMZtyWUON4VFCiglmIFtNYVekOBad3ROo9f89+KVlGxCFFN71Wt
+NzI51T6BepecY7JyzCnYj1N25p64V7Xn8i7JffkCsezLfQZNDPGnpWDe7b7ckACh
+HrCN5KcQSjjxxVY6cO1tUtK7teDmxTxCQ5JXuxrxbBWKgNi0DyuNTKxHsqcFGciO
+Ec9a3PwFtdN1WuZqMVXa9StMcwp45A4QisH5cBIMImMsdlR6t0rhvxqg3AodXAOX
+S4Z2mwZ+rH+1PQ9VZiUjCqy22FccG6MLlL09onv9qwo2bsbcDBetvUz55nw8Uxlq
+FqzTapYKtJUVB76nygOX1Q+JZ46lYPjZ9nkfT/X6LxDiBxAMXKqKLRNicy4NQ0SN
+tQEjZ4TPSPE0zq0t9V1yq8c1KMT4x45MUZ0cTkxEOLJlHDyZiyUe0drKJ5+Q15PZ
+wKljfsxMYXhRv586yfXcR4457pOytgfoDtuFNwb1MPTWR4EOVQM=
+=tcQV
+-----END PGP SIGNATURE-----
+
+--Sig_/DrZnHwfFQODnpGakcAH.rEd--
+
+--===============2115547094==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2115547094==--
