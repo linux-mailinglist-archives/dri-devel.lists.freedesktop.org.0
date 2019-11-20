@@ -1,64 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9318D104129
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2019 17:43:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B67A6104138
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2019 17:45:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98D036E929;
-	Wed, 20 Nov 2019 16:43:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A160C6EA8E;
+	Wed, 20 Nov 2019 16:45:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A91BC6E8FD
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Nov 2019 16:43:44 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id y5so316273wmi.5
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Nov 2019 08:43:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=1KQFiCKYTYZzwFOLOMf9doqI26iQyvpquxyM5/JGafU=;
- b=F5D0j3HjeKjNb7WFuWEbmFkUrJ2pjcP315nkiiaAL01iWpnW31ImUzkghxtHDFQNrR
- icnHLFOfneASdW7uTtf5CGOEDOJM3pe17bu+lMUXNPoQ3VUjvF6PL7YWNk3wRV/7azRL
- a93tGfoI1OT2wdK0v300dqyQpHFUzxKXdNYBynsokRU/Y3aIRM6GlrpD+YZWAVppSKUM
- qrANj/zZL6cequILP+jxQYP3tYVe5F1JAsOjZtQEzz2+oFx2G9Hih5vkL+KuCH00Cq7O
- YFcR0rrm5H/2a4k3J/JVSSzVXZE/rhehtuBNxWg3g2AV+j2YFjeveALwviJ0/ttUM3wq
- 7mgg==
-X-Gm-Message-State: APjAAAXZfA080fYanCZeKWgqMm0HuhGqdo5VoUSmyCr0Oox7zV767m/V
- zvrjNEntpK4O7INccMDU9VHmaSTpWF8=
-X-Google-Smtp-Source: APXvYqyQXYmxIBAv76lokKHJXos/BYOogWlTqNzAAjKEHWvOzdt9njv+0f41I1awvdlkmUxZuirXUw==
-X-Received: by 2002:a1c:22c6:: with SMTP id i189mr4560529wmi.51.1574268223266; 
- Wed, 20 Nov 2019 08:43:43 -0800 (PST)
-Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net.
- [212.51.149.96])
- by smtp.gmail.com with ESMTPSA id u18sm32508584wrp.14.2019.11.20.08.43.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Nov 2019 08:43:42 -0800 (PST)
-Date: Wed, 20 Nov 2019 17:43:40 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 2/2] drm/rect: Keep the clipped dst rectangle
- in place
-Message-ID: <20191120164340.GS30416@phenom.ffwll.local>
-References: <20191120162512.12484-1-ville.syrjala@linux.intel.com>
- <20191120162512.12484-2-ville.syrjala@linux.intel.com>
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 905986EA8E
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Nov 2019 16:45:53 +0000 (UTC)
+X-Originating-IP: 90.76.211.102
+Received: from aptenodytes (lfbn-1-2154-102.w90-76.abo.wanadoo.fr
+ [90.76.211.102])
+ (Authenticated sender: paul.kocialkowski@bootlin.com)
+ by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 081036000B;
+ Wed, 20 Nov 2019 16:45:48 +0000 (UTC)
+Date: Wed, 20 Nov 2019 17:45:48 +0100
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: display: Add xylon logicvc bindings
+ documentation
+Message-ID: <20191120164548.GA168745@aptenodytes>
+References: <20190910153409.111901-1-paul.kocialkowski@bootlin.com>
+ <20190910153409.111901-2-paul.kocialkowski@bootlin.com>
+ <20190913143510.GA9504@bogus> <20190913155815.GA1554@aptenodytes>
+ <CAL_Jsq+dzT1xrfBy2QQHLx9MUNukWWq5eXyOecVV8h0z5ziC8g@mail.gmail.com>
+ <20190923153311.GE57525@aptenodytes>
+ <CAL_JsqJLfAb0xhmBoX+GUcv5wsuHBOs8wZ=Hkw3x03kfsPgOqg@mail.gmail.com>
+ <20191120144957.GA167553@aptenodytes>
+ <CAL_Jsq+n2HYz3BLm3Nad=Uv6qiJNM2=fQmCxzkXJZx-0=VQTFQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191120162512.12484-2-ville.syrjala@linux.intel.com>
-X-Operating-System: Linux phenom 5.2.0-3-amd64 
+In-Reply-To: <CAL_Jsq+n2HYz3BLm3Nad=Uv6qiJNM2=fQmCxzkXJZx-0=VQTFQ@mail.gmail.com>
 User-Agent: Mutt/1.12.2 (2019-09-21)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent;
- bh=1KQFiCKYTYZzwFOLOMf9doqI26iQyvpquxyM5/JGafU=;
- b=FbPiG4gXfFpkPthGY/tMEUKwxssDG59APisNxyiw67rcFsaY3uS4lT6Nxv3ik2tpqG
- fPUYw+m9tApJnwJApQGYeEkHrIdXpdKcye15VTqO/9XRxljPpjaFFTLlh0XBP/g74ciL
- nFz1EHu0YmyH0kdQZCo75SWf96YgUh0nhyqrY=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,67 +48,281 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org,
- Benjamin Gaignard <benjamin.gaignard@st.com>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
+Content-Type: multipart/mixed; boundary="===============0145462994=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBOb3YgMjAsIDIwMTkgYXQgMDY6MjU6MTJQTSArMDIwMCwgVmlsbGUgU3lyamFsYSB3
-cm90ZToKPiBGcm9tOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwu
-Y29tPgo+IAo+IE5vdyB0aGF0IHdlJ3ZlIGNvbnN0cmFpbmVkIHRoZSBjbGlwcGVkIHNvdXJjZSBy
-ZWN0YW5nbGUgc3VjaAo+IHRoYXQgaXQgY2FuJ3QgaGF2ZSBuZWdhdGl2ZSBkaW1lbnNpb25zIGRv
-aW5nIHRoZSBzYW1lIGZvciB0aGUKPiBkc3QgcmVjdGFuZ2xlIHNlZW1zIGFwcHJvcHJpYXRlLiBT
-aG91bGQgYXQgbGVhc3QgcmVzdWx0IGluCj4gdGhlIGNsaXBwZWQgc3JjIGFuZCBkc3QgcmVjdGFu
-Z2xlcyBiZWluZyBhIGJpdCBtb3JlIGNvbnNpc3RlbnQKPiB3aXRoIGVhY2ggb3RoZXIuCj4gCj4g
-Q2M6IEJlbmphbWluIEdhaWduYXJkIDxiZW5qYW1pbi5nYWlnbmFyZEBzdC5jb20+Cj4gQ2M6IE1h
-YXJ0ZW4gTGFua2hvcnN0IDxtYWFydGVuLmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20+Cj4gU2ln
-bmVkLW9mZi1ieTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNv
-bT4KCnNlbGZ0ZXN0cyBmb3IgdGhpcyBzdHVmZj8gTG9va3MgbGlrZSB0aGUgcHJpbWUgZXhhbXBs
-ZSwgd3JpdGUgdGVzdGNhc2UKcHJvdmluZyBjb2RlIGlzIGJ1c3RlZCwgZml4IGl0LCBldmVyeW9u
-ZSBjZWxlYnJhdGU/Ci1EYW5pZWwKCj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fcmVjdC5j
-IHwgMjIgKysrKysrKysrKystLS0tLS0tLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgMTEgaW5zZXJ0
-aW9ucygrKSwgMTEgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
-bS9kcm1fcmVjdC5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9yZWN0LmMKPiBpbmRleCA3NzYyYjZl
-OTI3OGQuLjIyOTMyNWZjZjMzMyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3Jl
-Y3QuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcmVjdC5jCj4gQEAgLTUyLDE0ICs1Miwx
-NCBAQCBib29sIGRybV9yZWN0X2ludGVyc2VjdChzdHJ1Y3QgZHJtX3JlY3QgKnIxLCBjb25zdCBz
-dHJ1Y3QgZHJtX3JlY3QgKnIyKQo+ICB9Cj4gIEVYUE9SVF9TWU1CT0woZHJtX3JlY3RfaW50ZXJz
-ZWN0KTsKPiAgCj4gLXN0YXRpYyB1MzIgY2xpcF9zY2FsZWQodTMyIHNyYywgdTMyIGRzdCwgdTMy
-IGNsaXApCj4gK3N0YXRpYyB1MzIgY2xpcF9zY2FsZWQoaW50IHNyYywgaW50IGRzdCwgaW50ICpj
-bGlwKQo+ICB7Cj4gIAl1NjQgdG1wOwo+ICAKPiAgCS8qIE9ubHkgY2xpcCB3aGF0IHdlIGhhdmUu
-IEtlZXBzIHRoZSByZXN1bHQgYm91bmRlZCBhcyB3ZWxsLiAqLwo+IC0JY2xpcCA9IG1pbihjbGlw
-LCBkc3QpOwo+ICsJKmNsaXAgPSBtaW4oKmNsaXAsIGRzdCk7Cj4gIAo+IC0JdG1wID0gbXVsX3Uz
-Ml91MzIoc3JjLCBkc3QgLSBjbGlwKTsKPiArCXRtcCA9IG11bF91MzJfdTMyKHNyYywgZHN0IC0g
-KmNsaXApOwo+ICAKPiAgCS8qCj4gIAkgKiBSb3VuZCB0b3dhcmQgMS4wIHdoZW4gY2xpcHBpbmcg
-c28gdGhhdCB3ZSBkb24ndCBhY2NpZGVudGFsbHkKPiBAQCAtOTIsMzQgKzkyLDM0IEBAIGJvb2wg
-ZHJtX3JlY3RfY2xpcF9zY2FsZWQoc3RydWN0IGRybV9yZWN0ICpzcmMsIHN0cnVjdCBkcm1fcmVj
-dCAqZHN0LAo+ICAJZGlmZiA9IGNsaXAtPngxIC0gZHN0LT54MTsKPiAgCWlmIChkaWZmID4gMCkg
-ewo+ICAJCXUzMiBuZXdfc3JjX3cgPSBjbGlwX3NjYWxlZChkcm1fcmVjdF93aWR0aChzcmMpLAo+
-IC0JCQkJCSAgICBkcm1fcmVjdF93aWR0aChkc3QpLCBkaWZmKTsKPiArCQkJCQkgICAgZHJtX3Jl
-Y3Rfd2lkdGgoZHN0KSwgJmRpZmYpOwo+ICAKPiAgCQlzcmMtPngxID0gc3JjLT54MiAtIG5ld19z
-cmNfdzsKPiAtCQlkc3QtPngxID0gY2xpcC0+eDE7Cj4gKwkJZHN0LT54MSArPSBkaWZmOwo+ICAJ
-fQo+ICAJZGlmZiA9IGNsaXAtPnkxIC0gZHN0LT55MTsKPiAgCWlmIChkaWZmID4gMCkgewo+ICAJ
-CXUzMiBuZXdfc3JjX2ggPSBjbGlwX3NjYWxlZChkcm1fcmVjdF9oZWlnaHQoc3JjKSwKPiAtCQkJ
-CQkgICAgZHJtX3JlY3RfaGVpZ2h0KGRzdCksIGRpZmYpOwo+ICsJCQkJCSAgICBkcm1fcmVjdF9o
-ZWlnaHQoZHN0KSwgJmRpZmYpOwo+ICAKPiAgCQlzcmMtPnkxID0gc3JjLT55MiAtIG5ld19zcmNf
-aDsKPiAtCQlkc3QtPnkxID0gY2xpcC0+eTE7Cj4gKwkJZHN0LT55MSArPSBkaWZmOwo+ICAJfQo+
-ICAJZGlmZiA9IGRzdC0+eDIgLSBjbGlwLT54MjsKPiAgCWlmIChkaWZmID4gMCkgewo+ICAJCXUz
-MiBuZXdfc3JjX3cgPSBjbGlwX3NjYWxlZChkcm1fcmVjdF93aWR0aChzcmMpLAo+IC0JCQkJCSAg
-ICBkcm1fcmVjdF93aWR0aChkc3QpLCBkaWZmKTsKPiArCQkJCQkgICAgZHJtX3JlY3Rfd2lkdGgo
-ZHN0KSwgJmRpZmYpOwo+ICAKPiAgCQlzcmMtPngyID0gc3JjLT54MSArIG5ld19zcmNfdzsKPiAt
-CQlkc3QtPngyID0gY2xpcC0+eDI7Cj4gKwkJZHN0LT54MiAtPSBkaWZmOwo+ICAJfQo+ICAJZGlm
-ZiA9IGRzdC0+eTIgLSBjbGlwLT55MjsKPiAgCWlmIChkaWZmID4gMCkgewo+ICAJCXUzMiBuZXdf
-c3JjX2ggPSBjbGlwX3NjYWxlZChkcm1fcmVjdF9oZWlnaHQoc3JjKSwKPiAtCQkJCQkgICAgZHJt
-X3JlY3RfaGVpZ2h0KGRzdCksIGRpZmYpOwo+ICsJCQkJCSAgICBkcm1fcmVjdF9oZWlnaHQoZHN0
-KSwgJmRpZmYpOwo+ICAKPiAgCQlzcmMtPnkyID0gc3JjLT55MSArIG5ld19zcmNfaDsKPiAtCQlk
-c3QtPnkyID0gY2xpcC0+eTI7Cj4gKwkJZHN0LT55MiAtPSBkaWZmOwo+ICAJfQo+ICAKPiAgCXJl
-dHVybiBkcm1fcmVjdF92aXNpYmxlKGRzdCk7Cj4gLS0gCj4gMi4yMy4wCj4gCj4gX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBJbnRlbC1nZnggbWFpbGlu
-ZyBsaXN0Cj4gSW50ZWwtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vaW50ZWwtZ2Z4CgotLSAKRGFuaWVsIFZl
-dHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3
-bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
-LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
-Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0145462994==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="IJpNTDwzlM2Ie8A6"
+Content-Disposition: inline
+
+
+--IJpNTDwzlM2Ie8A6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Wed 20 Nov 19, 10:02, Rob Herring wrote:
+> On Wed, Nov 20, 2019 at 8:50 AM Paul Kocialkowski
+> <paul.kocialkowski@bootlin.com> wrote:
+> >
+> > Hi,
+> >
+> > Circling back to this thread now, sorry for the delay.
+> >
+> > On Tue 24 Sep 19, 09:58, Rob Herring wrote:
+> > > On Mon, Sep 23, 2019 at 10:33 AM Paul Kocialkowski
+> > > <paul.kocialkowski@bootlin.com> wrote:
+> > > >
+> > > > Hi,
+> > > >
+> > > > On Fri 13 Sep 19, 20:16, Rob Herring wrote:
+> > > > > On Fri, Sep 13, 2019 at 4:58 PM Paul Kocialkowski
+> > > > > <paul.kocialkowski@bootlin.com> wrote:
+> > > > > >
+> > > > > > Hi Rob and thanks for the review!
+> > > > > >
+> > > > > > On Fri 13 Sep 19, 15:35, Rob Herring wrote:
+> > > > > > > On Tue, Sep 10, 2019 at 05:34:08PM +0200, Paul Kocialkowski w=
+rote:
+> > > > > > > > The Xylon LogiCVC is a display controller implemented as pr=
+ogrammable
+> > > > > > > > logic in Xilinx FPGAs.
+> > > > > > > >
+> > > > > > > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin=
+=2Ecom>
+> > > > > > > > ---
+> > > > > > > >  .../bindings/display/xylon,logicvc.txt        | 188 ++++++=
+++++++++++++
+> > > > > > > >  1 file changed, 188 insertions(+)
+> > > > > > > >  create mode 100644 Documentation/devicetree/bindings/displ=
+ay/xylon,logicvc.txt
+> > > > > > >
+> > > > > > > Consider converting this to DT schema format. See
+> > > > > > > Documentation/devicetree/writing-schema.rst (.md in 5.3).
+> > > > > >
+> > > > > > Oh right, that would certainly be much more future-proof!
+> > > > > >
+> > > > > > > > diff --git a/Documentation/devicetree/bindings/display/xylo=
+n,logicvc.txt b/Documentation/devicetree/bindings/display/xylon,logicvc.txt
+> > > > > > > > new file mode 100644
+> > > > > > > > index 000000000000..eb4b1553888a
+> > > > > > > > --- /dev/null
+> > > > > > > > +++ b/Documentation/devicetree/bindings/display/xylon,logic=
+vc.txt
+> > > > > > > > @@ -0,0 +1,188 @@
+> > > > > > > > +Xylon LogiCVC display controller
+> > > > > > > > +
+> > > > > > > > +The Xylon LogiCVC is a display controller that supports mu=
+ltiple layers.
+> > > > > > > > +It is usually implemented as programmable logic and was op=
+timized for use
+> > > > > > > > +with Xilinx Zynq-7000 SoCs and Xilinx FPGAs.
+> > > > > > > > +
+> > > > > > > > +Because the controller is intended for use in a FPGA, most=
+ of the configuration
+> > > > > > > > +of the controller takes place at logic configuration bitst=
+ream synthesis time.
+> > > > > > > > +As a result, many of the device-tree bindings are meant to=
+ reflect the
+> > > > > > > > +synthesis configuration. These do not allow configuring th=
+e controller
+> > > > > > > > +differently than synthesis configuration.
+> > > > > > > > +
+> > > > > > > > +Layers are declared in the "layers" sub-node and have dedi=
+cated configuration.
+> > > > > > > > +In version 3 of the controller, each layer has fixed memor=
+y offset and address
+> > > > > > > > +starting from the video memory base address for its frameb=
+uffer. With version 4,
+> > > > > > > > +framebuffers are configured with a direct memory address i=
+nstead.
+> > > > > > > > +
+> > > > > > > > +Matching synthesis parameters are provided when applicable.
+> > > > > > > > +
+> > > > > > > > +Required properties:
+> > > > > > > > +- compatible: Should be one of:
+> > > > > > > > +  "xylon,logicvc-3.02.a-display"
+> > > > > > > > +  "xylon,logicvc-4.01.a-display"
+> > > > > > > > +- reg: Physical base address and size for the controller r=
+egisters.
+> > > > > > > > +- clocks: List of phandle and clock-specifier pairs, one f=
+or each entry
+> > > > > > > > +  in 'clock-names'
+> > > > > > > > +- clock-names: List of clock names that should at least co=
+ntain:
+> > > > > > > > +  - "vclk": The VCLK video clock input.
+> > > > > > > > +- interrupts: The interrupt to use for VBLANK signaling.
+> > > > > > > > +- xylon,display-interface: Display interface in use, shoul=
+d be one of:
+> > > > > > > > +  - "lvds-4bits": 4-bit LVDS interface (C_DISPLAY_INTERFAC=
+E =3D=3D 4).
+> > > > > > > > +- xylon,display-colorspace: Display output colorspace in u=
+se, should be one of:
+> > > > > > > > +  - "rgb": RGB colorspace (C_DISPLAY_COLOR_SPACE =3D=3D 0).
+> > > > > > > > +- xylon,display-depth: Display output depth in use (C_PIXE=
+L_DATA_WIDTH).
+> > > > > > > > +- xylon,row-stride: Fixed number of pixels in a framebuffe=
+r row (C_ROW_STRIDE).
+> > > > > > > > +- xylon,layers-count: The number of available layers (C_NU=
+M_OF_LAYERS).
+> > > > > > >
+> > > > > > > Presumably some of this is determined by the display attached=
+=2E Isn't it
+> > > > > > > safe to assume the IP was configured correctly for the intend=
+ed display
+> > > > > > > and you can just get this from the panel?
+> > > > > >
+> > > > > > Layers are what corresponds to DRM planes, which are not actual=
+ly indicated
+> > > > > > by the panel but are a charasteristic of the display controller=
+=2E In our case,
+> > > > > > this is directly selected at bitstream synthesis time for the c=
+ontroller.
+> > > > > >
+> > > > > > So I'm afraid there is no way we can auto-detect this from the =
+driver.
+> > > > >
+> > > > > Sorry, I referring to the set of properties above. In particular,
+> > > > > xylon,display-interface and xylon,display-colorspace, though I do=
+n't
+> > > > > know if the latter is talking in memory format or on the wire for=
+mat.
+> > > >
+> > > > Both of these are about the wire format, which is also "hardcoded" =
+at synthesis
+> > > > time with no way to be detected afterwards, as far as I know. Memor=
+y format is
+> > > > described in the layer sub-nodes.
+> > >
+> > > You have to attach the controller to something at the other end of the
+> > > wire. A panel is only going to support 1 or a few wire formats, so you
+> > > do likely know because the panel knows. In the case that a panel
+> > > supports multiple wire formats, we do have some standard properties
+> > > there. See the LVDS panel binding.
+> >
+> > Looking at the LVDS panel binding, I see that the LVDS types that I have
+> > described as lvds-4bits and lvds-3bits are called jeida-24 and jeida-18.
+> >
+> > Either way, the controller cannot be dynamically configured to use one =
+or
+> > another: it is configured to support one at synthesis time and this doe=
+sn't
+> > change.
+>=20
+> Understood, but I was assuming you need to know how it was configured
+> for some reason?
+
+Well, the information that is really useful for the driver is whether it's
+configured as LVDS or something else. The detail of 3bit vs 4bit doesn't re=
+ally
+matter for Linux/DRM but I kept it to that precision to stick close to the
+hardware description. But yeah, having a single "lvds" choice in the
+display-interface property for these two cases would work too and I can do =
+that
+if you prefer.
+
+> > I'm not sure exactly what you implied here. Even if we can retreive the
+> > wire format from the lvds-panel's data-mapping property, I don't think =
+it shall
+> > describe what the display controller was configured to. This informatio=
+n could
+> > be used to make sure that both are compatible (in the driver), but that=
+'s about
+> > it as far as I can see.
+>=20
+> It's not the kernel's job to validate the DT is correct. Someone could
+> just as easily define a panel that doesn't match with the configured
+> format as they could having lvds-?bits set incorrectly.
+
+So this is a situation that we are supposed to allow?
+I assumed it would be in everyone's best interest to detect that there is a
+mismatch, but I don't have any strong opinion about that.
+
+> So get the wire format from the panel driver (either implied or by DT
+> property) and assume that matches the configuration of the controller.
+
+To be honest, it feels a bit weird to depend on a panel being connected to =
+know
+what display interface the driver should register. It might work in practice
+since these media bus formats are specific to LVDS, so it can be correctly
+deduced, but I don't understand the advantage of doing that.
+
+It will probably also require parsing the panel remote endpoint's dt props =
+as
+I don't think we can get the bus format information from DRM before having
+registered an encoder/connector on the controller side (so that's a
+chicken-and-egg problem).
+
+More generally, I don't see the issue behind describing this in the control=
+ler's
+bindings: is it because of unwanted redundency or such?
+
+> Though, I guess if the model is each end of the wire should advertise
+> what it supports and the core picks the best format, then that only
+> works if you advertise both formats. Or we could allow jeida-{24,18}
+> property at both ends of the graph.
+
+I don't think there is such negotiation currently implemented in DRM
+(and many driver actually have a strong assumption that only one bus format
+is provided).
+
+If we want the DRM core to deal with that, we need drivers to report their =
+bus
+format abilities for each concerned encoder/connector. I'm not sure this co=
+uld
+be done in a generic way with a generic dt property since the of_graph to
+encoder/connector association seems to be quite driver-specific anyway.
+This would just be deporting a description of capabilities of the hardware =
+=66rom
+the driver to dt, with no particular gain as far as I can see.
+
+But maybe I'm missing the bigger picture here and describing hardware
+capabilities in device-tree is something we want to go towards. I must admit
+that I find the boundary quite blurry.
+
+Cheers,
+
+Paul
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--IJpNTDwzlM2Ie8A6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl3VbbwACgkQ3cLmz3+f
+v9HE5Af+NjaJizxPkgLR7nGRCau5YpFK4UQrReXr0C3+W39U8TozvwO48gHl2s6c
++YzmFrzjmlHGCovaD+3+Dos3fhYmcmJ78+RikCHwe5Vo7k1oPNxSJQAFtouw/GeR
+xhcovRaufy1OTRz7/lJBKYIYc+uKCMxxeQwY28tH058qNg13Go9SG1cZoi1NmSAK
+hn2WC/l3ndDbjwGNOgVVCa1BuiGyHBQFGBUXjnqbhiLdwZGF2PmiQAO1sNPav00x
+qMrfO2P2h1iSLaqSk1wXWYXyxu+vzW4sRNeN046xplA62XIKusS9FQ3oxDFr4/9D
+63OeDPwHSP4IGizIwOlt8Oih8U+2zw==
+=9mgd
+-----END PGP SIGNATURE-----
+
+--IJpNTDwzlM2Ie8A6--
+
+--===============0145462994==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0145462994==--
