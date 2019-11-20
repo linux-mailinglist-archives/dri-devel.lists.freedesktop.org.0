@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6AC610358E
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2019 08:47:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 895CD103594
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2019 08:49:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C73F6E183;
-	Wed, 20 Nov 2019 07:47:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00FBF6E1E5;
+	Wed, 20 Nov 2019 07:49:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id E2A636E17C
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Nov 2019 07:47:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id C6A126E191
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Nov 2019 07:49:23 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id DF3BF720E2; Wed, 20 Nov 2019 07:47:55 +0000 (UTC)
+ id BBFE1720E2; Wed, 20 Nov 2019 07:49:23 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 105433] Unreliable Modesetting on Tonga with two DVI Screens
-Date: Wed, 20 Nov 2019 07:47:55 +0000
+Subject: [Bug 107376] Raven: `flush_delayed_work()` takes 500 ms
+Date: Wed, 20 Nov 2019 07:49:23 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,9 +34,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-105433-502-zJ0ocGS9l6@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-105433-502@http.bugs.freedesktop.org/>
-References: <bug-105433-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-107376-502-CL4DBSvSlk@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-107376-502@http.bugs.freedesktop.org/>
+References: <bug-107376-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,25 +52,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1169486395=="
+Content-Type: multipart/mixed; boundary="===============2089591372=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1169486395==
-Content-Type: multipart/alternative; boundary="15742360754.a1EA0F07.1540"
+--===============2089591372==
+Content-Type: multipart/alternative; boundary="15742361631.cc01D9B3.1633"
 Content-Transfer-Encoding: 7bit
 
 
---15742360754.a1EA0F07.1540
-Date: Wed, 20 Nov 2019 07:47:55 +0000
+--15742361631.cc01D9B3.1633
+Date: Wed, 20 Nov 2019 07:49:23 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D105433
+https://bugs.freedesktop.org/show_bug.cgi?id=3D107376
 
 Martin Peres <martin.peres@free.fr> changed:
 
@@ -79,7 +79,7 @@ Martin Peres <martin.peres@free.fr> changed:
              Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
 
---- Comment #12 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #1 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -87,14 +87,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/320.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/464.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15742360754.a1EA0F07.1540
-Date: Wed, 20 Nov 2019 07:47:55 +0000
+--15742361631.cc01D9B3.1633
+Date: Wed, 20 Nov 2019 07:49:23 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -111,10 +111,9 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Unreliable Modesetting on Tonga with two DVI S=
-creens"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105433">bug 10543=
-3</a>
+   title=3D"RESOLVED MOVED - Raven: `flush_delayed_work()` takes 500 ms"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107376">bug 10737=
+6</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -142,16 +141,14 @@ creens"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Unreliable Modesetting on Tonga with two DVI S=
-creens"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105433#c12">Comme=
-nt # 12</a>
+   title=3D"RESOLVED MOVED - Raven: `flush_delayed_work()` takes 500 ms"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107376#c1">Commen=
+t # 1</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Unreliable Modesetting on Tonga with two DVI S=
-creens"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105433">bug 10543=
-3</a>
+   title=3D"RESOLVED MOVED - Raven: `flush_delayed_work()` takes 500 ms"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107376">bug 10737=
+6</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
 r&gt;"> <span class=3D"fn">Martin Peres</span></a>
@@ -164,7 +161,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/320">https://gitlab.freedesktop.org/drm/amd/issues/320</a>.</pre>
+ssues/464">https://gitlab.freedesktop.org/drm/amd/issues/464</a>.</pre>
         </div>
       </p>
 
@@ -178,9 +175,9 @@ ssues/320">https://gitlab.freedesktop.org/drm/amd/issues/320</a>.</pre>
     </body>
 </html>=
 
---15742360754.a1EA0F07.1540--
+--15742361631.cc01D9B3.1633--
 
---===============1169486395==
+--===============2089591372==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -190,4 +187,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1169486395==--
+--===============2089591372==--
