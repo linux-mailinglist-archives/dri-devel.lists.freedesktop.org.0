@@ -1,33 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 100A01035C1
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2019 09:02:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EBAA1035C2
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Nov 2019 09:03:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D8FC6E144;
-	Wed, 20 Nov 2019 08:02:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F2E46E262;
+	Wed, 20 Nov 2019 08:03:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id A22026E144
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Nov 2019 08:02:49 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E29F76E291
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Nov 2019 08:03:03 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 9EF19720E2; Wed, 20 Nov 2019 08:02:49 +0000 (UTC)
+ id DE89C720E2; Wed, 20 Nov 2019 08:03:03 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 32556] [RADEON:KMS:PLL] screen flickers all the time with
- desktop image appearing only briefly
-Date: Wed, 20 Nov 2019 08:02:49 +0000
+Subject: [Bug 92977] Display artifacts when using MST
+Date: Wed, 20 Nov 2019 08:03:04 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/Radeon
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
+X-Bugzilla-Severity: normal
 X-Bugzilla-Who: martin.peres@free.fr
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: MOVED
@@ -35,9 +34,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-32556-502-MD7AIsw8q5@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-32556-502@http.bugs.freedesktop.org/>
-References: <bug-32556-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-92977-502-e8gCI9UuJJ@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-92977-502@http.bugs.freedesktop.org/>
+References: <bug-92977-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,34 +52,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0821461488=="
+Content-Type: multipart/mixed; boundary="===============1726799992=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0821461488==
-Content-Type: multipart/alternative; boundary="15742369691.e8CEafe.3002"
+--===============1726799992==
+Content-Type: multipart/alternative; boundary="15742369831.AeeD03.3002"
 Content-Transfer-Encoding: 7bit
 
 
---15742369691.e8CEafe.3002
-Date: Wed, 20 Nov 2019 08:02:49 +0000
+--15742369831.AeeD03.3002
+Date: Wed, 20 Nov 2019 08:03:03 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D32556
+https://bugs.freedesktop.org/show_bug.cgi?id=3D92977
 
 Martin Peres <martin.peres@free.fr> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|REOPENED                    |RESOLVED
+             Status|NEW                         |RESOLVED
          Resolution|---                         |MOVED
 
---- Comment #32 from Martin Peres <martin.peres@free.fr> ---
+--- Comment #6 from Martin Peres <martin.peres@free.fr> ---
 -- GitLab Migration Automatic Message --
 
 This bug has been migrated to freedesktop.org's GitLab instance and has been
@@ -88,14 +87,14 @@ closed from further activity.
 
 You can subscribe and participate further through the new bug through this =
 link
-to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/966.
+to our GitLab instance: https://gitlab.freedesktop.org/drm/amd/issues/967.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15742369691.e8CEafe.3002
-Date: Wed, 20 Nov 2019 08:02:49 +0000
+--15742369831.AeeD03.3002
+Date: Wed, 20 Nov 2019 08:03:03 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -112,9 +111,8 @@ span class=3D"fn">Martin Peres</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [RADEON:KMS:PLL] screen flickers all the time =
-with desktop image appearing only briefly"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D32556">bug 32556<=
+   title=3D"RESOLVED MOVED - Display artifacts when using MST"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D92977">bug 92977<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -126,7 +124,7 @@ with desktop image appearing only briefly"
 
          <tr>
            <td style=3D"text-align:right;">Status</td>
-           <td>REOPENED
+           <td>NEW
            </td>
            <td>RESOLVED
            </td>
@@ -143,15 +141,13 @@ with desktop image appearing only briefly"
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [RADEON:KMS:PLL] screen flickers all the time =
-with desktop image appearing only briefly"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D32556#c32">Commen=
-t # 32</a>
+   title=3D"RESOLVED MOVED - Display artifacts when using MST"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D92977#c6">Comment=
+ # 6</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - [RADEON:KMS:PLL] screen flickers all the time =
-with desktop image appearing only briefly"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D32556">bug 32556<=
+   title=3D"RESOLVED MOVED - Display artifacts when using MST"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D92977">bug 92977<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
@@ -165,7 +161,7 @@ closed from further activity.
 You can subscribe and participate further through the new bug through this =
 link
 to our GitLab instance: <a href=3D"https://gitlab.freedesktop.org/drm/amd/i=
-ssues/966">https://gitlab.freedesktop.org/drm/amd/issues/966</a>.</pre>
+ssues/967">https://gitlab.freedesktop.org/drm/amd/issues/967</a>.</pre>
         </div>
       </p>
 
@@ -179,9 +175,9 @@ ssues/966">https://gitlab.freedesktop.org/drm/amd/issues/966</a>.</pre>
     </body>
 </html>=
 
---15742369691.e8CEafe.3002--
+--15742369831.AeeD03.3002--
 
---===============0821461488==
+--===============1726799992==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -191,4 +187,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0821461488==--
+--===============1726799992==--
