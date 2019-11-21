@@ -2,51 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1DC3104E1A
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2019 09:36:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E83F104E26
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2019 09:39:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1707D6EBBE;
-	Thu, 21 Nov 2019 08:36:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B00616EBC2;
+	Thu, 21 Nov 2019 08:39:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:e::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F22E6EBBE
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2019 08:36:45 +0000 (UTC)
-Received: from j217100.upc-j.chello.nl ([24.132.217.100]
- helo=noisy.programming.kicks-ass.net)
- by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iXhx9-0004Wp-Ib; Thu, 21 Nov 2019 08:36:39 +0000
-Received: from hirez.programming.kicks-ass.net
- (hirez.programming.kicks-ass.net [192.168.1.225])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client did not present a certificate)
- by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 7DB1630068E;
- Thu, 21 Nov 2019 09:35:26 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
- id 2DED12B28AC3E; Thu, 21 Nov 2019 09:36:37 +0100 (CET)
-Date: Thu, 21 Nov 2019 09:36:37 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: linux-next: build failure after merge of the tip tree
-Message-ID: <20191121083637.GM4097@hirez.programming.kicks-ass.net>
-References: <20191121145403.46789cb5@canb.auug.org.au>
+Received: from hqemgate15.nvidia.com (hqemgate15.nvidia.com [216.228.121.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8ECE26EBC2
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2019 08:39:27 +0000 (UTC)
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5dd64d3b0000>; Thu, 21 Nov 2019 00:39:23 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Thu, 21 Nov 2019 00:39:27 -0800
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Thu, 21 Nov 2019 00:39:27 -0800
+Received: from [10.2.169.101] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 21 Nov
+ 2019 08:39:26 +0000
+Subject: Re: [PATCH v7 06/24] goldish_pipe: rename local pin_user_pages()
+ routine
+To: Christoph Hellwig <hch@infradead.org>
+References: <20191121071354.456618-1-jhubbard@nvidia.com>
+ <20191121071354.456618-7-jhubbard@nvidia.com>
+ <20191121080831.GD30991@infradead.org>
+From: John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <ca78671b-4ce6-05f6-01ae-2d0b79810956@nvidia.com>
+Date: Thu, 21 Nov 2019 00:36:38 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191121145403.46789cb5@canb.auug.org.au>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/relaxed; 
- d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
- :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=8yuhHKa2tv0IroxhcfR79s+SBVyzCtZ3ViQc9dMEjNk=; b=Wlpnle+IlnxsOWdlTWbL6jPPW
- MPfdTk2/2kqtzygaPQiLheJvJkFLb858gPiGtRyT82X1Sb0YJ2hdi8uFL2qVXXLWAgi65yzcyntww
- KDwVXdhfzn2Q3eLaePbPkN6AI1vgyRzA8DUvN7lvQmVGE61iMrufv2nqFO2aGm6KiWt4rg5FP1IIg
- R544lY3CmLXbHbAUADEnfbYLPO2xO3IEhhMqiN+rAjXTDAwTMYGSASGWB0iGW/4CWkyZD6QMBgNv7
- zuFM+jFgBsNNpSB8Iys/mXKS1a73EyCCWGPQWv2zhQ1/VahRLQq0DZWAK+TY4gw9BGottFYoMbwIm
- HffGAIk2g==;
+In-Reply-To: <20191121080831.GD30991@infradead.org>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Language: en-US
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=nvidia.com; s=n1; 
+ t=1574325563; bh=IjAmlqSQ50mtR26fvAkI3XcKPC6M4/uU5ND8d4hZ9sk=;
+ h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=GJ7FLsOPPSpCRACz8ISfrqvd6vXd1a++lXIZbI549CHSZBewXeafsw0KWGYiFyEQk
+ AjT450/QZ9YlyRa61hUCDn7RU+Oc8PL9dGnNibH+8bRoPgHv7Hz9Gs/GqPZ/w8xTGJ
+ UkFV63r7a5GxMQEBp17Bq1eVxtVmga7DN1IyZXoIl4Zpf7mXrb2vg8FAmf6Cu6rI6y
+ ak3fa9vBD/bNjvt15SEsNGr7fQAZcfHOLD1JwudJ1lf0vZTrImmtVmX/zYP64flAJZ
+ dWmb9NYUnY/5E0dPUahr3TtiO6k8/kvovVBf9GgTEDfKn0Ljy0UH2gpWXn36gxJ8fZ
+ 1KUFjQ7Bhke0w==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,75 +66,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, Kevin Wang <kevin1.wang@amd.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- "H. Peter Anvin" <hpa@zytor.com>, Alex Deucher <alexander.deucher@amd.com>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@elte.hu>
-Content-Type: multipart/mixed; boundary="===============1273895016=="
+Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
+ kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
+ dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
+ linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
+ linux-kselftest@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
+ Michael Ellerman <mpe@ellerman.id.au>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Vlastimil Babka <vbabka@suse.cz>,
+ =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+ linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ linux-block@vger.kernel.org,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Al Viro <viro@zeniv.linux.org.uk>, Dan Williams <dan.j.williams@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, bpf@vger.kernel.org,
+ Magnus Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
+ netdev@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>,
+ Mike Kravetz <mike.kravetz@oracle.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1273895016==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="LTeJQqWS0MN7I/qa"
-Content-Disposition: inline
-
-
---LTeJQqWS0MN7I/qa
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Thu, Nov 21, 2019 at 02:54:03PM +1100, Stephen Rothwell wrote:
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
-> index f940526c5889..63e734a125fb 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
-> @@ -473,7 +473,7 @@ TRACE_EVENT(amdgpu_ib_pipe_sync,
->  	    TP_PROTO(struct amdgpu_job *sched_job, struct dma_fence *fence),
->  	    TP_ARGS(sched_job, fence),
->  	    TP_STRUCT__entry(
-> -			     __string(ring, sched_job->base.sched->name);
-> +			     __string(ring, sched_job->base.sched->name)
->  			     __field(uint64_t, id)
->  			     __field(struct dma_fence *, fence)
->  			     __field(uint64_t, ctx)
-
-Correct, ';' there is invalid and now results in very verbose compile
-errors :-)
-
---LTeJQqWS0MN7I/qa
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEv3OU3/byMaA0LqWJdkfhpEvA5LoFAl3WTJUACgkQdkfhpEvA
-5LpZMw//RHTmbvHg8d+lchE5r0wyI+WJWr159P2CxPxKKfZ92bMxqbFMTqlB9ZH/
-6NWvhi2+bfMFiUL408h9HdRmuxzH2Op+x2I3JtekG2r3ckjV2pQ0VPQePeMdFndu
-YfRRyB1Sce3TGGmDd7Mx9YVcnhBFDV1AZxmZtiwaYTreb+4+8DYgniy2MYL1GaXu
-pDqkF3UcJlHYZef7ua9/Kgq25S+Wq6DS67oFe4lecctMVKmIIngKsHxg2XAYgRbz
-ajwNgjXCPFEnakbiHek2jUb9gn+zYK3903rF4cf5/PH2vShCFaRKkM+xy5qIWoem
-4u5D8eGRgmc9UlRq2SEKdbFS3CUTCYqoMVCSouL5TBiQThL9BlohGdlgaAn5gcwl
-rWCaOGt7J1/aKTsdEHNe5QdajReoF6IesslJxJokbTBsv0ly+p0pWfN3hqi6OI4G
-RqHcXLSZ2H1VNM1CoTr/5/ym3IMDIyQ9+vhbuqoRJn5diC0ZFiDLr3rieGAG7C+Q
-ASHlJBDIYnee8exD6Ykcse1/gAzDqIjugvUMucutz0jo8V4M5M9F60A5scmUtIUs
-d7z1DXxJARL+GMgwvW48p5uDirE97G3WlBpLHLpAq3gXBoSroujzoIqmGecCxHh9
-ICKjT4LmvDWFgPuObn8bJEY7sqTEwh1Mj4fXLqk2/syPQD/uMtc=
-=xHvz
------END PGP SIGNATURE-----
-
---LTeJQqWS0MN7I/qa--
-
---===============1273895016==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1273895016==--
+T24gMTEvMjEvMTkgMTI6MDggQU0sIENocmlzdG9waCBIZWxsd2lnIHdyb3RlOgo+IE9uIFdlZCwg
+Tm92IDIwLCAyMDE5IGF0IDExOjEzOjM2UE0gLTA4MDAsIEpvaG4gSHViYmFyZCB3cm90ZToKPj4g
+K3N0YXRpYyBpbnQgcGluX2dvbGRmaXNoX3BhZ2VzKHVuc2lnbmVkIGxvbmcgZmlyc3RfcGFnZSwK
+Pj4gKwkJCSAgICAgIHVuc2lnbmVkIGxvbmcgbGFzdF9wYWdlLAo+PiArCQkJICAgICAgdW5zaWdu
+ZWQgaW50IGxhc3RfcGFnZV9zaXplLAo+PiArCQkJICAgICAgaW50IGlzX3dyaXRlLAo+PiArCQkJ
+ICAgICAgc3RydWN0IHBhZ2UgKnBhZ2VzW01BWF9CVUZGRVJTX1BFUl9DT01NQU5EXSwKPj4gKwkJ
+CSAgICAgIHVuc2lnbmVkIGludCAqaXRlcl9sYXN0X3BhZ2Vfc2l6ZSkKPiAKPiBXaHkgbm90IGdv
+bGRmaXNoX3Bpbl9wYWdlcz8gIE5vcm1hbGx5IHdlIHB1dCB0aGUgbW9kdWxlIC8gc3Vic3lzdGVt
+Cj4gaW4gZnJvbnQuCgpIZWgsIGlzIHRoYXQgaG93IGl0J3Mgc3VwcG9zZWQgdG8gZ28/ICBTdXJl
+LCBJJ2xsIGNoYW5nZSBpdC4gOikKCj4gCj4gQWxzbyBjYW4gd2UgZ2V0IHRoaXMgcXVldWVkIHVw
+IGZvciA1LjUgdG8gZ2V0IHNvbWUgdHJpdmlhbCBjaGFuZ2VzCj4gb3V0IG9mIHRoZSB3YXk/Cj4g
+CgpJcyB0aGF0IGEgcXVlc3Rpb24gdG8gQW5kcmV3LCBvciBhIHJlcXVlc3QgZm9yIG1lIHRvIHNl
+bmQgdGhpcyBhcyBhCnNlcGFyYXRlIHBhdGNoIGVtYWlsIChvciBib3RoKT8KCgp0aGFua3MsCi0t
+IApKb2huIEh1YmJhcmQKTlZJRElBCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2RyaS1kZXZlbA==
