@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F065C1050B2
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2019 11:38:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 205CC1050FA
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2019 12:04:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B8026EDC8;
-	Thu, 21 Nov 2019 10:38:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 475406E086;
+	Thu, 21 Nov 2019 11:04:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21F6E6ED83
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2019 10:38:19 +0000 (UTC)
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-21-PqYQGKb9MKe9HMCdYqCfBA-1; Thu, 21 Nov 2019 05:38:14 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2BE1107BA9E;
- Thu, 21 Nov 2019 10:38:12 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-67.ams2.redhat.com
- [10.36.116.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 79FD1106F972;
- Thu, 21 Nov 2019 10:38:08 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C868DA1E0; Thu, 21 Nov 2019 11:38:07 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm: share address space for dma bufs
-Date: Thu, 21 Nov 2019 11:38:07 +0100
-Message-Id: <20191121103807.18424-3-kraxel@redhat.com>
-In-Reply-To: <20191121103807.18424-1-kraxel@redhat.com>
-References: <20191121103807.18424-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: PqYQGKb9MKe9HMCdYqCfBA-1
-X-Mimecast-Spam-Score: 0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=redhat.com; 
- s=mimecast20190719; t=1574332698;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VhfsdgfnBGFdqQ+uLrLd0ryQWfyJPaQk6Np/gMUhFtg=;
- b=dswt3taW0XrrftDDshvBfEWMNiGg6RyMUTjdl4RS7rXQx3y1L9yWWHZJLxpQ6xE9ml7nDa
- uuOpuxnj+rDKFdfuCQdbRgxjnIWyO2/47XvcJ1wCyuKMhvfCKl/Rwx7L5ChQAkmW4MERxC
- +0XSK8NBS9y6Gq//c9UP9Dda1j5Rz1Q=
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+ [209.85.210.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 546586E086;
+ Thu, 21 Nov 2019 11:04:04 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id m15so2527427otq.7;
+ Thu, 21 Nov 2019 03:04:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Dh9d0dUVp1CFrTbKfXBJy2XPGIAj+Ygua+R35GCU6hA=;
+ b=qPcIr1QM7A4z12dE0sOpvqvyt56MwWDBDBZCHSvQM2LAWlRsXjRdRfC3+5iCTXp1XY
+ uuLrlUQ9dwkzrDKAdld4PZBITvcsF0F3KIcRZSNJQPkNlNsfu6j+pK9gwDVy9jcXGd7U
+ 7wJstIL/bv7KFeEyqL8N+NkkUCSvH/QStoZQGiXWrDUm0h0f51bBscfieJsquJvm128H
+ HDiFtabLjQJNIOAxu4CFrLUMmktne/N1h9lVYHS6p7uhAPbKKWYQMheapYpxG8xAROXM
+ woP5uktkuRgY4vW7L3zznYoB98GAsNVVU5+II8wj7WIwe4iuI0jDkABb4FLYEcAHWXUt
+ gcfQ==
+X-Gm-Message-State: APjAAAWBWCZ70tgwbMQMELpPQzektWd/qlGuO1D7CJRZZ4tnpVWD13b1
+ vgJ+kOreqgiJ93G8abb9drSAgy5wTWv5b50toNQ=
+X-Google-Smtp-Source: APXvYqxFx3DFSmzLCJ7ozSiCIihOvli+a1PB/uoGzpaXFKpQWnkJxSiM2BLoRgZ+7H45DsO/f1Iw3wvPYrdDHoAhYOQ=
+X-Received: by 2002:a9d:6b91:: with SMTP id b17mr5820414otq.189.1574334243469; 
+ Thu, 21 Nov 2019 03:04:03 -0800 (PST)
+MIME-Version: 1.0
+References: <20191120115127.GD11621@lahna.fi.intel.com>
+ <CACO55tsfNOdtu5SZ-4HzO4Ji6gQtafvZ7Rm19nkPcJAgwUBFMw@mail.gmail.com>
+ <CACO55tscD_96jUVts+MTAUsCt-fZx4O5kyhRKoo4mKoC84io8A@mail.gmail.com>
+ <20191120120913.GE11621@lahna.fi.intel.com>
+ <CACO55tsHy6yZQZ8PkdW8iPA7+uc5rdcEwRJwYEQ3iqu85F8Sqg@mail.gmail.com>
+ <20191120151542.GH11621@lahna.fi.intel.com>
+ <CACO55tvo3rbPtYJcioEgXCEQqVXcVAm-iowr9Nim=bgTdMjgLw@mail.gmail.com>
+ <20191120155301.GL11621@lahna.fi.intel.com>
+ <20191120162306.GM11621@lahna.fi.intel.com>
+ <CACO55tsvTG2E7_3nn1sTdPQXzxaZA96k+gmSBBXjPvei6v=kxg@mail.gmail.com>
+ <20191121101423.GQ11621@lahna.fi.intel.com>
+In-Reply-To: <20191121101423.GQ11621@lahna.fi.intel.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Thu, 21 Nov 2019 12:03:52 +0100
+Message-ID: <CAJZ5v0hAgz4Fu=83AJE2PYUsi+Jk=Lrr4MNp5ySA9yY=3wr5rg@mail.gmail.com>
+Subject: Re: [PATCH v4] pci: prevent putting nvidia GPUs into lower device
+ states on certain intel bridges
+To: Mika Westerberg <mika.westerberg@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,36 +62,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Sean Paul <sean@poorly.run>
-MIME-Version: 1.0
+Cc: Karol Herbst <kherbst@redhat.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Linux PCI <linux-pci@vger.kernel.org>, Linux PM <linux-pm@vger.kernel.org>,
+ "Rafael J . Wysocki" <rjw@rjwysocki.net>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Mario Limonciello <Mario.Limonciello@dell.com>,
+ Bjorn Helgaas <helgaas@kernel.org>, nouveau <nouveau@lists.freedesktop.org>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VXNlIHRoZSBzaGFyZWQgYWRkcmVzcyBzcGFjZSBvZiB0aGUgZHJtIGRldmljZSAoc2VlIGRybV9v
-cGVuKCkgaW4KZHJtX2ZpbGUuYykgZm9yIGRtYS1idWZzIHRvby4gIFRoYXQgcmVtb3ZlcyBhIGRp
-ZmZlcmVuY2UgYmV0d2VlbSBkcm0KZGV2aWNlIG1tYXAgdm1hcyBhbmQgZG1hLWJ1ZiBtbWFwIHZt
-YXMgYW5kIGZpeGVzIGNvcm5lciBjYXNlcyBsaWtlCnVubWFwcyBub3Qgd29ya2luZyBwcm9wZXJs
-eS4KClNpZ25lZC1vZmYtYnk6IEdlcmQgSG9mZm1hbm4gPGtyYXhlbEByZWRoYXQuY29tPgotLS0K
-IGRyaXZlcnMvZ3B1L2RybS9kcm1fcHJpbWUuYyB8IDQgKysrLQogMSBmaWxlIGNoYW5nZWQsIDMg
-aW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
-bS9kcm1fcHJpbWUuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJpbWUuYwppbmRleCBhOTYzM2Jk
-MjQxYmIuLmMzZmMzNDE0NTNjMCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9wcmlt
-ZS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJpbWUuYwpAQCAtMjQwLDYgKzI0MCw3IEBA
-IHZvaWQgZHJtX3ByaW1lX2Rlc3Ryb3lfZmlsZV9wcml2YXRlKHN0cnVjdCBkcm1fcHJpbWVfZmls
-ZV9wcml2YXRlICpwcmltZV9mcHJpdikKIHN0cnVjdCBkbWFfYnVmICpkcm1fZ2VtX2RtYWJ1Zl9l
-eHBvcnQoc3RydWN0IGRybV9kZXZpY2UgKmRldiwKIAkJCQkgICAgICBzdHJ1Y3QgZG1hX2J1Zl9l
-eHBvcnRfaW5mbyAqZXhwX2luZm8pCiB7CisJc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmogPSBl
-eHBfaW5mby0+cHJpdjsKIAlzdHJ1Y3QgZG1hX2J1ZiAqZG1hX2J1ZjsKIAogCWRtYV9idWYgPSBk
-bWFfYnVmX2V4cG9ydChleHBfaW5mbyk7CkBAIC0yNDcsNyArMjQ4LDggQEAgc3RydWN0IGRtYV9i
-dWYgKmRybV9nZW1fZG1hYnVmX2V4cG9ydChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAogCQlyZXR1
-cm4gZG1hX2J1ZjsKIAogCWRybV9kZXZfZ2V0KGRldik7Ci0JZHJtX2dlbV9vYmplY3RfZ2V0KGV4
-cF9pbmZvLT5wcml2KTsKKwlkcm1fZ2VtX29iamVjdF9nZXQob2JqKTsKKwlkbWFfYnVmLT5maWxl
-LT5mX21hcHBpbmcgPSBvYmotPmRldi0+YW5vbl9pbm9kZS0+aV9tYXBwaW5nOwogCiAJcmV0dXJu
-IGRtYV9idWY7CiB9Ci0tIAoyLjE4LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbA==
+T24gVGh1LCBOb3YgMjEsIDIwMTkgYXQgMTE6MTQgQU0gTWlrYSBXZXN0ZXJiZXJnCjxtaWthLndl
+c3RlcmJlcmdAaW50ZWwuY29tPiB3cm90ZToKPgo+IE9uIFdlZCwgTm92IDIwLCAyMDE5IGF0IDEw
+OjM2OjMxUE0gKzAxMDAsIEthcm9sIEhlcmJzdCB3cm90ZToKPiA+IHdpdGggdGhlIGJyYW5jaCBh
+bmQgcGF0Y2ggYXBwbGllZDoKPiA+IGh0dHBzOi8vZ2lzdC5naXRodWJ1c2VyY29udGVudC5jb20v
+a2Fyb2xoZXJic3QvMDNjNGM4MTQxYjBmYTI5MmQ3ODFiYWRmYTE4NjQ3OWUvcmF3LzVjNjI2NDBh
+ZmJjNTdkNmU2OWVhOTI0YzMzOGJkMjgzNmU3NzBkMDIvZ2lzdGZpbGUxLnR4dAo+Cj4gVGhhbmtz
+IGZvciB0ZXN0aW5nLiBUb28gYmFkIGl0IGRpZCBub3QgaGVscCA6KCBJIHN1cHBvc2UgdGhlcmUg
+aXMgbm8KPiBjaGFuZ2UgaWYgeW91IGluY3JlYXNlIHRoZSBkZWxheSB0byBzYXkgMXM/CgpXZWxs
+LCBsb29rIGF0IHRoZSBvcmlnaW5hbCBwYXRjaCBpbiB0aGlzIHRocmVhZC4KCldoYXQgaXQgZG9l
+cyBpcyB0byBwcmV2ZW50IHRoZSBkZXZpY2UgKEdQVSBpbiB0aGlzIHBhcnRpY3VsYXIgY2FzZSkK
+ZnJvbSBnb2luZyBpbnRvIGEgUENJIGxvdy1wb3dlciBzdGF0ZSBiZWZvcmUgaW52b2tpbmcgQU1M
+IHRvIHBvd2VyIGl0CmRvd24gKHRoZSBBTUwgaXMgc3RpbGwgaW52b2tlZCBhZnRlciB0aGlzIHBh
+dGNoIEFGQUlDUyksIHNvIHdoeSB3b3VsZAp0aGF0IGhhdmUgYW55dGhpbmcgdG8gZG8gd2l0aCB0
+aGUgZGVsYXlzPwoKVGhlIG9ubHkgcmVhc29uIHdvdWxkIGJlIHRoZSBBTUwgcnVubmluZyB0b28g
+ZWFybHksIGJ1dCB0aGF0IGRvZXNuJ3QKc2VlbSBsaWtlbHkuICBJTU8gbW9yZSBsaWtlbHkgaXMg
+dGhhdCB0aGUgQU1MIGRvZXMgc29tZXRoaW5nIHdoaWNoCmNhbm5vdCBiZSBkb25lIHRvIGEgZGV2
+aWNlIGluIGEgUENJIGxvdy1wb3dlciBzdGF0ZS4KX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
+bGlzdGluZm8vZHJpLWRldmVs
