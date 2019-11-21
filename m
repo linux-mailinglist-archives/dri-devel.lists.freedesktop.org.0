@@ -2,57 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B7DF104DFD
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2019 09:32:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1DC3104E1A
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Nov 2019 09:36:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 712246EBA1;
-	Thu, 21 Nov 2019 08:32:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1707D6EBBE;
+	Thu, 21 Nov 2019 08:36:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqemgate14.nvidia.com (hqemgate14.nvidia.com [216.228.121.143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 614866EB9F
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2019 08:32:48 +0000 (UTC)
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5dd64bb20000>; Thu, 21 Nov 2019 00:32:51 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Thu, 21 Nov 2019 00:32:47 -0800
-X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Thu, 21 Nov 2019 00:32:47 -0800
-Received: from [10.2.169.101] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 21 Nov
- 2019 08:32:47 +0000
-Subject: Re: [PATCH v7 02/24] mm/gup: factor out duplicate code from four
- routines
-To: Christoph Hellwig <hch@lst.de>
-References: <20191121071354.456618-1-jhubbard@nvidia.com>
- <20191121071354.456618-3-jhubbard@nvidia.com> <20191121080356.GA24784@lst.de>
-From: John Hubbard <jhubbard@nvidia.com>
-X-Nvconfidentiality: public
-Message-ID: <852f6c27-8b65-547b-89e0-e8f32a4d17b9@nvidia.com>
-Date: Thu, 21 Nov 2019 00:29:59 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:e::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F22E6EBBE
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Nov 2019 08:36:45 +0000 (UTC)
+Received: from j217100.upc-j.chello.nl ([24.132.217.100]
+ helo=noisy.programming.kicks-ass.net)
+ by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1iXhx9-0004Wp-Ib; Thu, 21 Nov 2019 08:36:39 +0000
+Received: from hirez.programming.kicks-ass.net
+ (hirez.programming.kicks-ass.net [192.168.1.225])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client did not present a certificate)
+ by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 7DB1630068E;
+ Thu, 21 Nov 2019 09:35:26 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+ id 2DED12B28AC3E; Thu, 21 Nov 2019 09:36:37 +0100 (CET)
+Date: Thu, 21 Nov 2019 09:36:37 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: linux-next: build failure after merge of the tip tree
+Message-ID: <20191121083637.GM4097@hirez.programming.kicks-ass.net>
+References: <20191121145403.46789cb5@canb.auug.org.au>
 MIME-Version: 1.0
-In-Reply-To: <20191121080356.GA24784@lst.de>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Language: en-US
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nvidia.com; s=n1; 
- t=1574325171; bh=zDciOg6KuRn3nxO/F8s9PAXpBobtVEtvpIDiU9i7cho=;
- h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
- Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
- X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
- Content-Transfer-Encoding;
- b=o245NH6j1RBD/91bIgnXA2u+iVZPtUYc4XEd05QhEOZNOiZYzfw/GFcveJvKQudX5
- dLZsGgVUHhvmd1nGNx/JrZ9mxzYaJw5jBv7I9AOtjq55xyJVy978/mkepEaZsZ4Jdh
- F7Q1lJglcDgOm/TfPzXptT+ffg3dPcYqQ/YE2QHKjAn7RuUVlfvjepKyjOT8iLOeP5
- P9RGmGVhbNZZaq2buLl/ZGciWf84d+hZhxGEZwtKDXdTaeOTeOoxk+GuaJBpkc922I
- 5UIDntRh0zXkYjneJ/cY0eUs62/fAinVukvPCoGn37W+7eCdxnHrxBHjSsCjqEp6Ly
- txEbXCaryPmyA==
+In-Reply-To: <20191121145403.46789cb5@canb.auug.org.au>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
+ c=relaxed/relaxed; 
+ d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+ :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=8yuhHKa2tv0IroxhcfR79s+SBVyzCtZ3ViQc9dMEjNk=; b=Wlpnle+IlnxsOWdlTWbL6jPPW
+ MPfdTk2/2kqtzygaPQiLheJvJkFLb858gPiGtRyT82X1Sb0YJ2hdi8uFL2qVXXLWAgi65yzcyntww
+ KDwVXdhfzn2Q3eLaePbPkN6AI1vgyRzA8DUvN7lvQmVGE61iMrufv2nqFO2aGm6KiWt4rg5FP1IIg
+ R544lY3CmLXbHbAUADEnfbYLPO2xO3IEhhMqiN+rAjXTDAwTMYGSASGWB0iGW/4CWkyZD6QMBgNv7
+ zuFM+jFgBsNNpSB8Iys/mXKS1a73EyCCWGPQWv2zhQ1/VahRLQq0DZWAK+TY4gw9BGottFYoMbwIm
+ HffGAIk2g==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,59 +59,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
- linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
- linux-kselftest@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
- Michael Ellerman <mpe@ellerman.id.au>, Christoph Hellwig <hch@infradead.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@suse.cz>,
- =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
- linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- linux-block@vger.kernel.org,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Al Viro <viro@zeniv.linux.org.uk>, Dan Williams <dan.j.williams@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, bpf@vger.kernel.org,
- Magnus Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
- netdev@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
- "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>,
- Mike Kravetz <mike.kravetz@oracle.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Dave Airlie <airlied@linux.ie>, Kevin Wang <kevin1.wang@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@elte.hu>
+Content-Type: multipart/mixed; boundary="===============1273895016=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTEvMjEvMTkgMTI6MDMgQU0sIENocmlzdG9waCBIZWxsd2lnIHdyb3RlOgo+IE9uIFdlZCwg
-Tm92IDIwLCAyMDE5IGF0IDExOjEzOjMyUE0gLTA4MDAsIEpvaG4gSHViYmFyZCB3cm90ZToKPj4g
-VGhlcmUgYXJlIGZvdXIgbG9jYXRpb25zIGluIGd1cC5jIHRoYXQgaGF2ZSBhIGZhaXIgYW1vdW50
-IG9mIGNvZGUKPj4gZHVwbGljYXRpb24uIFRoaXMgbWVhbnMgdGhhdCBjaGFuZ2luZyBvbmUgcmVx
-dWlyZXMgbWFraW5nIHRoZSBzYW1lCj4+IGNoYW5nZXMgaW4gZm91ciBwbGFjZXMsIG5vdCB0byBt
-ZW50aW9uIHJlYWRpbmcgdGhlIHNhbWUgY29kZSBmb3VyCj4+IHRpbWVzLCBhbmQgd29uZGVyaW5n
-IGlmIHRoZXJlIGFyZSBzdWJ0bGUgZGlmZmVyZW5jZXMuCj4+Cj4+IEZhY3RvciBvdXQgdGhlIGNv
-bW1vbiBjb2RlIGludG8gc3RhdGljIGZ1bmN0aW9ucywgdGh1cyByZWR1Y2luZyB0aGUKPj4gb3Zl
-cmFsbCBsaW5lIGNvdW50IGFuZCB0aGUgY29kZSdzIGNvbXBsZXhpdHkuCj4+Cj4+IEFsc28sIHRh
-a2UgdGhlIG9wcG9ydHVuaXR5IHRvIHNsaWdodGx5IGltcHJvdmUgdGhlIGVmZmljaWVuY3kgb2Yg
-dGhlCj4+IGVycm9yIGNhc2VzLCBieSBkb2luZyBhIG1hc3Mgc3VidHJhY3Rpb24gb2YgdGhlIHJl
-ZmNvdW50LCBzdXJyb3VuZGVkCj4+IGJ5IGdldF9wYWdlKCkvcHV0X3BhZ2UoKS4KPj4KPj4gQWxz
-bywgZnVydGhlciBzaW1wbGlmeSAoc2xpZ2h0bHkpLCBieSB3YWl0aW5nIHVudGlsIHRoZSB0aGUg
-c3VjY2Vzc2Z1bAo+PiBlbmQgb2YgZWFjaCByb3V0aW5lLCB0byBpbmNyZW1lbnQgKm5yLgo+IAo+
-IEFueSByZWFzb24gZm9yIHRoZSBzcHVyaW91cyB1bmRlcnNjb3JlIGluIHRoZSBmdW5jdGlvbiBu
-YW1lPwoKYXJnZ2hoLCBJIGp1c3QgZml4ZWQgdGhhdCwgYnV0IGFwcGxpZWQgdGhlIGZpeCB0byB0
-aGUgd3JvbmcgcGF0Y2ghIFNvIG5vdwpwYXRjaCAxNyAoIm1tL2d1cDogdHJhY2sgRk9MTF9QSU4g
-cGFnZXMiKSBpcyBpbXByb3Blcmx5IHJlbmFtaW5nIGl0LCBpbnN0ZWFkCm9mIHRoaXMgcGF0Y2gg
-bmFtaW5nIGl0IGNvcnJlY3RseSBpbiB0aGUgZmlyc3QgcGxhY2UuIFdpbGwgZml4LgoKPiAKPiBP
-dGhlcndpc2UgdGhpcyBsb29rcyBmaW5lIGFuZCBtaWdodCBiZSBhIHdvcnRod2hpbGUgY2xlYW51
-cCB0byBmZWVkCj4gQW5kcmV3IGZvciA1LjUgaW5kZXBlbmRlbnQgb2YgdGhlIGd1dCBvZiB0aGUg
-Y2hhbmdlcy4KPiAKPiBSZXZpZXdlZC1ieTogQ2hyaXN0b3BoIEhlbGx3aWcgPGhjaEBsc3QuZGU+
-Cj4gCgpUaGFua3MgZm9yIHRoZSByZXZpZXdzISBTYXksIGl0IHNvdW5kcyBsaWtlIHlvdXIgdmll
-dyBoZXJlIGlzIHRoYXQgdGhpcwpzZXJpZXMgc2hvdWxkIGJlIHRhcmdldGVkIGF0IDUuNiAobm90
-IDUuNSksIGlzIHRoYXQgd2hhdCB5b3UgaGF2ZSBpbiBtaW5kPwpBbmQgZ2V0IHRoZSBwcmVwYXJh
-dG9yeSBwYXRjaGVzICgxLTksIGFuZCBtYXliZSBldmVuIDEwLTE2KSBpbnRvIDUuNT8KCnRoYW5r
-cywKLS0gCkpvaG4gSHViYmFyZApOVklESUEKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVs
+
+--===============1273895016==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="LTeJQqWS0MN7I/qa"
+Content-Disposition: inline
+
+
+--LTeJQqWS0MN7I/qa
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Thu, Nov 21, 2019 at 02:54:03PM +1100, Stephen Rothwell wrote:
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
+> index f940526c5889..63e734a125fb 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
+> @@ -473,7 +473,7 @@ TRACE_EVENT(amdgpu_ib_pipe_sync,
+>  	    TP_PROTO(struct amdgpu_job *sched_job, struct dma_fence *fence),
+>  	    TP_ARGS(sched_job, fence),
+>  	    TP_STRUCT__entry(
+> -			     __string(ring, sched_job->base.sched->name);
+> +			     __string(ring, sched_job->base.sched->name)
+>  			     __field(uint64_t, id)
+>  			     __field(struct dma_fence *, fence)
+>  			     __field(uint64_t, ctx)
+
+Correct, ';' there is invalid and now results in very verbose compile
+errors :-)
+
+--LTeJQqWS0MN7I/qa
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEv3OU3/byMaA0LqWJdkfhpEvA5LoFAl3WTJUACgkQdkfhpEvA
+5LpZMw//RHTmbvHg8d+lchE5r0wyI+WJWr159P2CxPxKKfZ92bMxqbFMTqlB9ZH/
+6NWvhi2+bfMFiUL408h9HdRmuxzH2Op+x2I3JtekG2r3ckjV2pQ0VPQePeMdFndu
+YfRRyB1Sce3TGGmDd7Mx9YVcnhBFDV1AZxmZtiwaYTreb+4+8DYgniy2MYL1GaXu
+pDqkF3UcJlHYZef7ua9/Kgq25S+Wq6DS67oFe4lecctMVKmIIngKsHxg2XAYgRbz
+ajwNgjXCPFEnakbiHek2jUb9gn+zYK3903rF4cf5/PH2vShCFaRKkM+xy5qIWoem
+4u5D8eGRgmc9UlRq2SEKdbFS3CUTCYqoMVCSouL5TBiQThL9BlohGdlgaAn5gcwl
+rWCaOGt7J1/aKTsdEHNe5QdajReoF6IesslJxJokbTBsv0ly+p0pWfN3hqi6OI4G
+RqHcXLSZ2H1VNM1CoTr/5/ym3IMDIyQ9+vhbuqoRJn5diC0ZFiDLr3rieGAG7C+Q
+ASHlJBDIYnee8exD6Ykcse1/gAzDqIjugvUMucutz0jo8V4M5M9F60A5scmUtIUs
+d7z1DXxJARL+GMgwvW48p5uDirE97G3WlBpLHLpAq3gXBoSroujzoIqmGecCxHh9
+ICKjT4LmvDWFgPuObn8bJEY7sqTEwh1Mj4fXLqk2/syPQD/uMtc=
+=xHvz
+-----END PGP SIGNATURE-----
+
+--LTeJQqWS0MN7I/qa--
+
+--===============1273895016==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1273895016==--
