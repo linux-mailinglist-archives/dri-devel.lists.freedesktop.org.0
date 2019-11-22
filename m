@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 976EE107BA2
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Nov 2019 00:52:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E901107BA4
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Nov 2019 00:52:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59C346F596;
-	Fri, 22 Nov 2019 23:52:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 756356F597;
+	Fri, 22 Nov 2019 23:52:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 18C6F6F595
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2019 23:52:01 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C89EA6F597
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2019 23:52:09 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 16182720E2; Fri, 22 Nov 2019 23:52:01 +0000 (UTC)
+ id C51CF720E2; Fri, 22 Nov 2019 23:52:09 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110730] [CI][RESUME] igt@kms_chamelium@hdmi-crc-single - crash
  - Received signal SIGSEGV.
-Date: Fri, 22 Nov 2019 23:52:01 +0000
+Date: Fri, 22 Nov 2019 23:52:09 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -28,14 +28,14 @@ X-Bugzilla-Component: IGT
 X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: swathi.dhanavanthri@intel.com
+X-Bugzilla-Who: cibuglog@gmail.com
 X-Bugzilla-Status: CLOSED
 X-Bugzilla-Resolution: FIXED
 X-Bugzilla-Priority: high
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status
-Message-ID: <bug-110730-502-aqnb221tqx@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110730-502-hRHsic8Ys9@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110730-502@http.bugs.freedesktop.org/>
 References: <bug-110730-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0424352047=="
+Content-Type: multipart/mixed; boundary="===============1498421558=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0424352047==
-Content-Type: multipart/alternative; boundary="15744667210.B9Ae0.4440"
+--===============1498421558==
+Content-Type: multipart/alternative; boundary="15744667291.78ab22.4399"
 Content-Transfer-Encoding: 7bit
 
 
---15744667210.B9Ae0.4440
-Date: Fri, 22 Nov 2019 23:52:01 +0000
+--15744667291.78ab22.4399
+Date: Fri, 22 Nov 2019 23:52:09 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,21 +73,18 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110730
 
-swathi.dhanavanthri@intel.com changed:
+--- Comment #10 from CI Bug Log <cibuglog@gmail.com> ---
+The CI Bug Log issue associated to this bug has been archived.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|RESOLVED                    |CLOSED
-
---- Comment #9 from swathi.dhanavanthri@intel.com ---
-Not seen on drm tip, so closing and archiving this.
+New failures matching the above filters will not be associated to this bug
+anymore.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15744667210.B9Ae0.4440
-Date: Fri, 22 Nov 2019 23:52:01 +0000
+--15744667291.78ab22.4399
+Date: Fri, 22 Nov 2019 23:52:09 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -98,39 +95,15 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:swathi.dh=
-anavanthri&#64;intel.com" title=3D"swathi.dhanavanthri&#64;intel.com">swath=
-i.dhanavanthri&#64;intel.com</a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_CLOSED  bz_closed"
-   title=3D"CLOSED FIXED - [CI][RESUME] igt&#64;kms_chamelium&#64;hdmi-crc-=
-single - crash - Received signal SIGSEGV."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110730">bug 11073=
-0</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>RESOLVED
-           </td>
-           <td>CLOSED
-           </td>
-         </tr></table>
+    <body>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_CLOSED  bz_closed"
    title=3D"CLOSED FIXED - [CI][RESUME] igt&#64;kms_chamelium&#64;hdmi-crc-=
 single - crash - Received signal SIGSEGV."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110730#c9">Commen=
-t # 9</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110730#c10">Comme=
+nt # 10</a>
               on <a class=3D"bz_bug_link=20
           bz_status_CLOSED  bz_closed"
    title=3D"CLOSED FIXED - [CI][RESUME] igt&#64;kms_chamelium&#64;hdmi-crc-=
@@ -138,10 +111,13 @@ single - crash - Received signal SIGSEGV."
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110730">bug 11073=
 0</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-swathi.dhanavanthri&#64;intel.com" title=3D"swathi.dhanavanthri&#64;intel.c=
-om">swathi.dhanavanthri&#64;intel.com</a>
+cibuglog&#64;gmail.com" title=3D"CI Bug Log &lt;cibuglog&#64;gmail.com&gt;"=
+> <span class=3D"fn">CI Bug Log</span></a>
 </span></b>
-        <pre>Not seen on drm tip, so closing and archiving this.</pre>
+        <pre>The CI Bug Log issue associated to this bug has been archived.
+
+New failures matching the above filters will not be associated to this bug
+anymore.</pre>
         </div>
       </p>
 
@@ -155,9 +131,9 @@ om">swathi.dhanavanthri&#64;intel.com</a>
     </body>
 </html>=
 
---15744667210.B9Ae0.4440--
+--15744667291.78ab22.4399--
 
---===============0424352047==
+--===============1498421558==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -167,4 +143,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0424352047==--
+--===============1498421558==--
