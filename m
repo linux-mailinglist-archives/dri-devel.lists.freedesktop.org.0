@@ -2,20 +2,20 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A452106789
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2019 09:09:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A94331067A0
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2019 09:16:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3873589C51;
-	Fri, 22 Nov 2019 08:09:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 682556F4E0;
+	Fri, 22 Nov 2019 08:16:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A81D689C51;
- Fri, 22 Nov 2019 08:09:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2DE96F4E0;
+ Fri, 22 Nov 2019 08:16:17 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 25DC8B369;
- Fri, 22 Nov 2019 08:09:17 +0000 (UTC)
+ by mx1.suse.de (Postfix) with ESMTP id 1E8D7AEA7;
+ Fri, 22 Nov 2019 08:16:16 +0000 (UTC)
 Subject: Re: [PATCH 7/8] drm/hibmc: Use drm_gem_fb_create
 To: Daniel Vetter <daniel.vetter@ffwll.ch>,
  DRI Development <dri-devel@lists.freedesktop.org>
@@ -47,8 +47,8 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
  HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
  3H26qrE=
-Message-ID: <52e29495-db21-cbbd-c4af-46b5060b3fb4@suse.de>
-Date: Fri, 22 Nov 2019 09:09:15 +0100
+Message-ID: <282c9881-6134-5d82-c408-ee90986ef123@suse.de>
+Date: Fri, 22 Nov 2019 09:16:12 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.0
 MIME-Version: 1.0
@@ -67,32 +67,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Daniel Vetter <daniel.vetter@intel.com>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============1429625050=="
+Content-Type: multipart/mixed; boundary="===============0598321717=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1429625050==
+--===============0598321717==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="q7oyimPqNFQQsrWd0Si0u2FzsNm5Qt1H7"
+ boundary="8AaJKugCtQ94cnD2cI6E06hAoB1Fr6FlG"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---q7oyimPqNFQQsrWd0Si0u2FzsNm5Qt1H7
-Content-Type: multipart/mixed; boundary="YtgsIMdgkWEp2Y4E96nq3ZJ4MbKYoHygx";
+--8AaJKugCtQ94cnD2cI6E06hAoB1Fr6FlG
+Content-Type: multipart/mixed; boundary="3u6xVeBCtpXgK3CNF8gRLX247NGhe8iVa";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Daniel Vetter <daniel.vetter@ffwll.ch>,
  DRI Development <dri-devel@lists.freedesktop.org>
 Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
  Daniel Vetter <daniel.vetter@intel.com>
-Message-ID: <52e29495-db21-cbbd-c4af-46b5060b3fb4@suse.de>
+Message-ID: <282c9881-6134-5d82-c408-ee90986ef123@suse.de>
 Subject: Re: [PATCH 7/8] drm/hibmc: Use drm_gem_fb_create
 References: <20191115092120.4445-1-daniel.vetter@ffwll.ch>
  <20191115092120.4445-8-daniel.vetter@ffwll.ch>
 In-Reply-To: <20191115092120.4445-8-daniel.vetter@ffwll.ch>
 
---YtgsIMdgkWEp2Y4E96nq3ZJ4MbKYoHygx
+--3u6xVeBCtpXgK3CNF8gRLX247NGhe8iVa
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
@@ -102,16 +102,13 @@ Hi
 Am 15.11.19 um 10:21 schrieb Daniel Vetter:
 > Again we could delete a lot more if we'd switch over to the generic
 > fbdev stuff.
-
-Actually, I do have patches for this since forever. I didn't post them
-yet as I couldn't test them. Maybe I should post them and see what
-people say.
-
-Best regards
-Thomas
-
 >=20
 > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+
+There's one comment below. Except for that,
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
 > ---
 >  .../gpu/drm/hisilicon/hibmc/hibmc_drm_de.c    |  4 +-
 >  .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   | 11 +---
@@ -139,6 +136,9 @@ ane *plane,
 > -	hibmc_fb =3D to_hibmc_framebuffer(state->fb);
 > -	gbo =3D drm_gem_vram_of_gem(hibmc_fb->obj);
 > +	gbo =3D drm_gem_vram_of_gem(fb->obj[0]);
+
+There's no fb in this function. You have to use state->fb,
+
 > =20
 >  	gpu_addr =3D drm_gem_vram_offset(gbo);
 >  	if (WARN_ON_ONCE(gpu_addr < 0))
@@ -322,28 +322,28 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---YtgsIMdgkWEp2Y4E96nq3ZJ4MbKYoHygx--
+--3u6xVeBCtpXgK3CNF8gRLX247NGhe8iVa--
 
---q7oyimPqNFQQsrWd0Si0u2FzsNm5Qt1H7
+--8AaJKugCtQ94cnD2cI6E06hAoB1Fr6FlG
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl3Xl6sACgkQaA3BHVML
-eiMykQgArAGyndubwf5TAHwznrmnr30HRDpDSlyK3CPJpgJ/6mliVzF0VlP8ASFC
-r0B8RZEzn8ydiEHq1nhlg87dQcTwxQXS2yYop0wUFzOfUIT+UafeHWO4xb1WL+Iv
-Hk/8fVskfXoKB+RBZGjHX6yUgY+/KRe8DD357+BRRLwcsyvMD6FasW6eMjsEhHpl
-GyPAVoUM+o5hvu2i4wNzWQ57Lfddr8kNwv024XBtSD+k3/EsUcB3aKuOm/0Xml/o
-Ngr1SC0FksnhwSjGnHzq3vPLltKmwTIlo1efNV1QNq2fhCzzCauWMsF0BA3UeFlS
-/YfOqNsrfUjiLNGyG5QX9VuMnWY+SQ==
-=h92z
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl3XmUwACgkQaA3BHVML
+eiN8QggAgvmQjP1jGSg8b67MmvYn0Fs6wHtMPKcAz/WgOYzIraDfZqYyD48EsRiB
+f0gHordVutx6brCdR57OwBNMC8/4kfTrXuHY4RbuAp1Kp8suoTLr7F2qSrj7TsPW
+dfFIOSFbaSv7LbaLO8jbjDcptr9Wmfqr46biFS/3fXDEeEW8l6dTN213rCUy5Whv
+MKQRT7OwHdxKpEPPRy6zOLWBM20gBQyCr77Z0JJhVdAR3bqj8Xuh5MMioe5mK5Zm
+2hAisV8M01srJqghbhJHm/UKujufRNEJBzCqRE/00llUyuN5gti9a6WtxApGyuXz
+US769tXOvKDJhpdSQqxp7vcrUGeTlQ==
+=uSfK
 -----END PGP SIGNATURE-----
 
---q7oyimPqNFQQsrWd0Si0u2FzsNm5Qt1H7--
+--8AaJKugCtQ94cnD2cI6E06hAoB1Fr6FlG--
 
---===============1429625050==
+--===============0598321717==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -353,4 +353,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1429625050==--
+--===============0598321717==--
