@@ -2,45 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5D281071CC
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2019 12:57:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80BB21071D2
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Nov 2019 12:57:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E03216F53B;
-	Fri, 22 Nov 2019 11:57:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 539506F53C;
+	Fri, 22 Nov 2019 11:57:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 82F956F53B
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2019 11:57:11 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 67008720E2; Fri, 22 Nov 2019 11:57:11 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110605] "*ERROR* Waiting for fences timed out." happens every
- time when I select "Story" in the main game menu RE2.
-Date: Fri, 22 Nov 2019 11:57:11 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: a9016009@gmx.de
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: MOVED
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_file_loc alias
-Message-ID: <bug-110605-502-ApdP2tqGvu@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110605-502@http.bugs.freedesktop.org/>
-References: <bug-110605-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2F586F53C
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Nov 2019 11:57:56 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: andrzej.p) with ESMTPSA id DE451291F14
+From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Subject: Next round of associating ddc adapters with connectors
+To: Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Eric Anholt <eric@anholt.net>,
+ Shawn Guo <shawnguo@kernel.org>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Message-ID: <00af93c8-4e59-3ff0-6bd0-69289b34846c@collabora.com>
+Date: Fri, 22 Nov 2019 12:57:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,108 +40,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0386028494=="
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0386028494==
-Content-Type: multipart/alternative; boundary="15744238310.8E1a.2793"
-Content-Transfer-Encoding: 7bit
-
-
---15744238310.8E1a.2793
-Date: Fri, 22 Nov 2019 11:57:11 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110605
-
-Andre Klapper <a9016009@gmx.de> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                URL|https://theshopolics.com/   |
-              Alias|NAGENDRA                    |
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15744238310.8E1a.2793
-Date: Fri, 22 Nov 2019 11:57:11 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:a9016009&=
-#64;gmx.de" title=3D"Andre Klapper &lt;a9016009&#64;gmx.de&gt;"> <span clas=
-s=3D"fn">Andre Klapper</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - &quot;*ERROR* Waiting for fences timed out.&qu=
-ot; happens every time when I select &quot;Story&quot; in the main game men=
-u RE2."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110605">bug 11060=
-5</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">URL</td>
-           <td>https://theshopolics.com/
-           </td>
-           <td>
-               &nbsp;
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Alias</td>
-           <td>NAGENDRA
-           </td>
-           <td>
-               &nbsp;
-           </td>
-         </tr></table>
-      <p>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15744238310.8E1a.2793--
-
---===============0386028494==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0386028494==--
+RGVhciBNYWludGFpbmVycywKCkNhbiB5b3UgcGxlYXNlIGV4cHJlc3MgeW91ciBvcGluaW9uIG9u
+IHRoZXNlIHBhdGNoZXM6CgpbdGVncmFdIGh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9y
+Zy9wYXRjaC8zMjcwOTkvP3Nlcmllcz02NTgzMSZyZXY9MQpbdmM0XSBodHRwczovL3BhdGNod29y
+ay5mcmVlZGVza3RvcC5vcmcvcGF0Y2gvMzI3MTAyLz9zZXJpZXM9NjU4MzEmcmV2PTEKW3p0ZV0g
+aHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3JnL3BhdGNoLzMyNzEwNi8/c2VyaWVzPTY1
+ODMxJnJldj0xClt6dGVdIGh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9wYXRjaC8z
+MjcxMTIvP3Nlcmllcz02NTgzMSZyZXY9MQpbaTkxNV0gaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRl
+c2t0b3Aub3JnL3BhdGNoLzMyNzEyMC8/c2VyaWVzPTY1ODMxJnJldj0xCgo/CgpPZiB0aGUgb3Jp
+Z2luYWxseSBwb3N0ZWQgcGF0Y2hlczoKCmh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9y
+Zy9zZXJpZXMvNjI3NjQvCgpvbmx5IHRoZSBhYm92ZSBhcmUgc3RpbGwgb3V0c3RhbmRpbmcsIHRo
+ZSBvdGhlcnMgaGF2ZSBiZWVuIGFwcGxpZWQKdG8gYXQgbGVhc3QgZHJtLW1pc2MtbmV4dCBvciBh
+cmUgYWxyZWFkeSB1cHN0cmVhbS4KClJlZ2FyZHMsCgpBbmRyemVqCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
