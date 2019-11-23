@@ -1,45 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A31E610800C
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Nov 2019 19:39:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A78B10803A
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Nov 2019 21:05:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A13606E0E5;
-	Sat, 23 Nov 2019 18:39:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A80346E08C;
+	Sat, 23 Nov 2019 20:05:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58F146E0E5
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Nov 2019 18:39:47 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 205523] AMDGPU display lockup during boot with 5.4 RC on Ryzen
- 2700u
-Date: Sat, 23 Nov 2019 18:39:46 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: haxk612@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-205523-2300-HTtNImqwxS@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-205523-2300@https.bugzilla.kernel.org/>
-References: <bug-205523-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29F876E08C;
+ Sat, 23 Nov 2019 20:05:21 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from localhost (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 19314250-1500050 for multiple; Sat, 23 Nov 2019 20:05:12 +0000
 MIME-Version: 1.0
-X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
- message/signature format)
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Nathan Chancellor <natechancellor@gmail.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+From: Chris Wilson <chris@chris-wilson.co.uk>
+In-Reply-To: <20191123195321.41305-1-natechancellor@gmail.com>
+References: <20191123195321.41305-1-natechancellor@gmail.com>
+Message-ID: <157453950786.2524.16955749910067219709@skylake-alporthouse-com>
+User-Agent: alot/0.6
+Subject: Re: [PATCH] drm/i915: Remove tautological compare in eb_relocate_vma
+Date: Sat, 23 Nov 2019 20:05:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,23 +41,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Nathan Chancellor <natechancellor@gmail.com>,
+ clang-built-linux@googlegroups.com, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDU1MjMKCkhheGsy
-MCAoaGF4azYxMkBnbWFpbC5jb20pIGNoYW5nZWQ6CgogICAgICAgICAgIFdoYXQgICAgfFJlbW92
-ZWQgICAgICAgICAgICAgICAgICAgICB8QWRkZWQKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQogICAgICAg
-ICAgICAgICAgIENDfCAgICAgICAgICAgICAgICAgICAgICAgICAgICB8aGF4azYxMkBnbWFpbC5j
-b20KCi0tLSBDb21tZW50ICM0IGZyb20gSGF4azIwIChoYXhrNjEyQGdtYWlsLmNvbSkgLS0tCihJ
-biByZXBseSB0byBBbGV4IERldWNoZXIgZnJvbSBjb21tZW50ICMyKQo+IERvZXMgZGlzYWJsaW5n
-IHRoZSBJT01NVSBoZWxwPyAgU2V0IGlvbW11PW9mZiBvciBpb21tdT1wdCBvbiB0aGUga2VybmVs
-Cj4gY29tbWFuZCBsaW5lLgoKSXMgdGhpcyBwZXJtYW5lbnQgdG9vID8gVGhpcyB3aWxsIHJlZ3Jl
-c3MgYW5kIHByb2R1Y2UgdGVhcmluZyBpbiBnYW1lcyBydW5uaW5nCndpdGggUFJJTUUgc2V0dXAu
-CgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hp
-bmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbA==
+UXVvdGluZyBOYXRoYW4gQ2hhbmNlbGxvciAoMjAxOS0xMS0yMyAxOTo1MzoyMikKPiAtV3RhdXRv
+bG9naWNhbC1jb21wYXJlIHdhcyByZWNlbnRseSBhZGRlZCB0byAtV2FsbCBpbiBMTFZNLCB3aGlj
+aAo+IGV4cG9zZWQgYW4gaWYgc3RhdGVtZW50IGluIGk5MTUgdGhhdCBpcyBhbHdheXMgZmFsc2U6
+Cj4gCj4gLi4vZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2V4ZWNidWZmZXIuYzox
+NDg1OjIyOiB3YXJuaW5nOgo+IHJlc3VsdCBvZiBjb21wYXJpc29uIG9mIGNvbnN0YW50IDU3NjQ2
+MDc1MjMwMzQyMzQ4NyB3aXRoIGV4cHJlc3Npb24gb2YKPiB0eXBlICd1bnNpZ25lZCBpbnQnIGlz
+IGFsd2F5cyBmYWxzZQo+IFstV3RhdXRvbG9naWNhbC1jb25zdGFudC1vdXQtb2YtcmFuZ2UtY29t
+cGFyZV0KPiAgICAgICAgIGlmICh1bmxpa2VseShyZW1haW4gPiBOX1JFTE9DKFVMT05HX01BWCkp
+KQo+ICAgICAgICAgICAgIH5+fn5+fn5+fn5+fn5+fn5efn5+fn5+fn5+fn5+fn5+fn5+fn4KPiAK
+PiBTaW5jZSByZW1haW4gaXMgYW4gdW5zaWduZWQgaW50LCBpdCBjYW4gbmV2ZXIgYmUgbGFyZ2Vy
+IHRoYW4gVUlOVF9NQVgsCj4gd2hpY2ggaXMgbGVzcyB0aGFuIFVMT05HX01BWCAvIHNpemVvZihz
+dHJ1Y3QgZHJtX2k5MTVfZ2VtX3JlbG9jYXRpb25fZW50cnkpLgo+IFJlbW92ZSB0aGlzIHN0YXRl
+bWVudCB0byBmaXggdGhlIHdhcm5pbmcuCgpUaGUgY2hlY2sgc2hvdWxkIHJlbWFpbiBhcyB3ZSBk
+byB3YW50IHRvIGRvY3VtZW50IHRoZSBvdmVyZmxvdwpjYWxjdWxhdGlvbiwgYW5kIGl0IHNob3Vs
+ZCByZXByZXNlbnQgdGhlIHR5cGVzIHVzZWQgLS0gaXQncyBtdWNoIGVhc2llcgp0byByZXZpZXcg
+YSBzdHViIHRoYW4gdHJ5aW5nIHRvIGZpbmQgYSBtaXNzaW5nIG92ZXJmbG93IGNoZWNrLiBJZiB0
+aGUKb3ZlcmZsb3cgY2Fubm90IGhhcHBlbiBhcyB0aGUgdHlwZXMgYXJlIHdpZGUgZW5vdWdoLCBu
+byBwcm9ibGVtLCB0aGUKY29tcGlsZXIgY2FuIHJlbW92ZSB0aGUga25vd24gZmFsc2UgYnJhbmNo
+LgoKVGF1dG9sb2d5IGhlcmUgaGFzIGEgcHVycG9zZSBmb3IgY29udmV5aW5nIGluZm9ybWF0aW9u
+IHRvIHRoZSByZWFkZXIuCi1DaHJpcwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
+by9kcmktZGV2ZWw=
