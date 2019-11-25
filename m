@@ -1,22 +1,22 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41BD7108667
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2019 02:37:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91F18108669
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2019 02:39:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28F9889DC2;
-	Mon, 25 Nov 2019 01:37:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF52289DB0;
+	Mon, 25 Nov 2019 01:39:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EBD089DC2
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2019 01:37:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1B5D89DB0
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2019 01:39:10 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 205169] AMDGPU driver with Navi card hangs Xorg in fullscreen
  only.
-Date: Mon, 25 Nov 2019 01:37:23 +0000
+Date: Mon, 25 Nov 2019 01:39:10 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -32,7 +32,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-205169-2300-nOpek4ojyq@https.bugzilla.kernel.org/>
+Message-ID: <bug-205169-2300-lUAvZo6408@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-205169-2300@https.bugzilla.kernel.org/>
 References: <bug-205169-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,10 +58,16 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDUxNjkKCi0tLSBD
-b21tZW50ICMyNCBmcm9tIFNobWVybCAoc2h0ZXRsZGlrQGdtYWlsLmNvbSkgLS0tCkp1c3QgRllJ
-LCA1LjQgaXMgb3V0LCBidXQgdGhlIGZpeCBkaWRuJ3QgbGFuZCB5ZXQsIHNvIGl0IG5lZWRzIHRv
-IGJlIHN0aWxsCmFwcGxpZWQgbWFudWFsbHkuCgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBt
-YWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
-LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+b21tZW50ICMyNSBmcm9tIFNobWVybCAoc2h0ZXRsZGlrQGdtYWlsLmNvbSkgLS0tCkFsc28sIGV2
+ZW4gd2l0aCAxMDAgbXMgdGltZW91dCwgdGhlIGZsaXAgaGFuZyBzdGlsbCBoYXBwZW5zIGp1c3Qg
+dmVyeSByYXJlbHkKYW5kIG5vdCBpbiB0aGUgdXN1YWwgc2NlbmFyaW9zIGZvciBtZS4gRm9yIGV4
+YW1wbGUgd2hlbiBwbGF5aW5nIFRoZSBXaXRjaGVyIDMKKFdpbmUrZHh2aykgYW5kIG1pbmltaXpp
+bmcgdGhlIGdhbWUgV2luZG93LCBvbiBzb21lIHJhcmUgb2NjYXNpb24gdGhhdCBmbGlwCmhhbmcg
+b2NjdXJzIGV2ZW4gd2l0aCB0aGUgcGF0Y2guIEkgc3VwcG9zZSBpdCdzIHNvbWV0aGluZyB0byBk
+byB3aXRoIEtXaW4gKEkKdXN1YWxseSBrZWVwIGNvbXBvc2l0aW5nIGRpc2FibGVkIHRob3VnaCBp
+biB0aG9zZSBjYXNlcykuCgpTbyBtYXkgYmUgMTAwIG1zIHZhbHVlIGlzIG5vdCBhbHdheXMgZW5v
+dWdoPwoKLS0gCllvdSBhcmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdh
+dGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9kcmktZGV2ZWw=
