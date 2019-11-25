@@ -1,46 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9216108B2C
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2019 10:47:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EAB1108B3A
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Nov 2019 10:56:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43FA36E0CF;
-	Mon, 25 Nov 2019 09:47:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B74C6E053;
+	Mon, 25 Nov 2019 09:56:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id E470C6E0CF
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2019 09:46:59 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id DB21D720E2; Mon, 25 Nov 2019 09:46:59 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 108514] heavy screen flickering with Mobility Radeon X1600 and
- kernel version 3.15rc2 onward
-Date: Mon, 25 Nov 2019 09:46:59 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/Radeon
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: bisected, patch
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: michel@daenzer.net
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_file_loc
-Message-ID: <bug-108514-502-z0QnkhE23a@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-108514-502@http.bugs.freedesktop.org/>
-References: <bug-108514-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 594166E053
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2019 09:56:33 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id y11so14025634wrt.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Nov 2019 01:56:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=mQLXL4wEvCHiGZx1WE499NjfF/ywAujK0jr8uEANUhc=;
+ b=kF13M4Ks1lB5rKUeLrPgLZFxCID7cgHftbJ5BdG6bAv5VDlRiGV6wVhhNKIVzqxhB1
+ zbTTP8TTfESjgoEJLMeatVGvwplPdsdc+QsAD/oy/HA6GDIdjumIHqawY7cxz39Z8RfV
+ 7WInbGIti6CNhscM6mrvqsOiYC/aaHNXuba83iIYVy7GikJrn1TLeLUHkHx5DpJeN9Ug
+ dt/Y569i8fogB6mNCD3X4jZl+oSu7CclaDGmU011S13qm5IF/DveokdJx5X79/hLZbmD
+ tLfJltUToxfJSuWUD4Li/wG7QfP1KRN6xipiHURMr6PABOLyAsOcdtJjhGzRaKVf8shB
+ iFsQ==
+X-Gm-Message-State: APjAAAWkc+LPpoRwH2tnfsv7Gl8+W26BiEHh+cNKrKVsTa42uCpclVjL
+ Kkz6htuQdl91CO31ILCp7wgxHQ==
+X-Google-Smtp-Source: APXvYqxT2jc/vj80jYZH5pCOS2C3bSf/Y0E/TFujPDmPYxHwgfOnnJiIxnMWRiZ/oSAW6UMxuNP5Uw==
+X-Received: by 2002:adf:f18e:: with SMTP id h14mr31979916wro.348.1574675792033; 
+ Mon, 25 Nov 2019 01:56:32 -0800 (PST)
+Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net.
+ [212.51.149.96])
+ by smtp.gmail.com with ESMTPSA id y15sm9349438wrh.94.2019.11.25.01.56.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Nov 2019 01:56:30 -0800 (PST)
+Date: Mon, 25 Nov 2019 10:56:29 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thierry Reding <thierry.reding@gmail.com>
+Subject: Re: [PATCH] drm/tegra: vic: Export module device table
+Message-ID: <20191125095629.GK29965@phenom.ffwll.local>
+References: <20191122133215.1317039-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20191122133215.1317039-1-thierry.reding@gmail.com>
+X-Operating-System: Linux phenom 5.3.0-2-amd64 
+User-Agent: Mutt/1.12.2 (2019-09-21)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=mQLXL4wEvCHiGZx1WE499NjfF/ywAujK0jr8uEANUhc=;
+ b=C2KaDLiFnlOYsWP3jS8XknzxzkuuBZxi9r3cHIV+ylP0OxOLzS8e+bYjxtNS7ODOlo
+ RE9RB1cDEI4wPLl537d/Q6XHkyN14me1kHnTZMS04AEjfIWS8n3+YXkQs1kiI3Ugsioj
+ Jaoy02TQnSYhVgnchkhrrpwsrVj9NVUpjSefI=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,97 +67,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1518565950=="
+Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jon Hunter <jonathanh@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1518565950==
-Content-Type: multipart/alternative; boundary="15746752190.eb4Ec4.15522"
-Content-Transfer-Encoding: 7bit
-
-
---15746752190.eb4Ec4.15522
-Date: Mon, 25 Nov 2019 09:46:59 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D108514
-
-Michel D=C3=A4nzer <michel@daenzer.net> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                URL|https://statuslife.in/      |
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15746752190.eb4Ec4.15522
-Date: Mon, 25 Nov 2019 09:46:59 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:michel&#6=
-4;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.net&gt;">=
- <span class=3D"fn">Michel D=C3=A4nzer</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - heavy screen flickering with Mobility Radeon X=
-1600 and kernel version 3.15rc2 onward"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108514">bug 10851=
-4</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">URL</td>
-           <td>https://statuslife.in/
-           </td>
-           <td>
-               &nbsp;
-           </td>
-         </tr></table>
-      <p>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15746752190.eb4Ec4.15522--
-
---===============1518565950==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1518565950==--
+T24gRnJpLCBOb3YgMjIsIDIwMTkgYXQgMDI6MzI6MTVQTSArMDEwMCwgVGhpZXJyeSBSZWRpbmcg
+d3JvdGU6Cj4gRnJvbTogVGhpZXJyeSBSZWRpbmcgPHRyZWRpbmdAbnZpZGlhLmNvbT4KPiAKPiBF
+eHBvcnQgdGhlIG1vZHVsZSBkZXZpY2UgdGFibGUgdG8gZW5zdXJlIHRoZSBWSUMgY29tcGF0aWJs
+ZSBzdHJpbmdzIGFyZQo+IGxpc3RlZCBpbiB0aGUgbW9kdWxlJ3MgYWxpYXNlcyB0YWJsZS4gVGhp
+cyBpbiB0dXJuIGNhdXNlcyB0aGUgZHJpdmVyIHRvCj4gYmUgYXV0b21hdGljYWxseSBsb2FkZWQg
+b24gYm9vdCBpZiBWSUMgaXMgdGhlIG9ubHkgZW5hYmxlZCBzdWJkZXZpY2Ugb2YKPiB0aGUgbG9n
+aWNhbCBob3N0MXggRFJNIGRldmljZS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBUaGllcnJ5IFJlZGlu
+ZyA8dHJlZGluZ0BudmlkaWEuY29tPgoKUmV2aWV3ZWQtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmll
+bC52ZXR0ZXJAZmZ3bGwuY2g+CgpJIG5vdGljZWQgdGhhdCB0aGUgZHJtIHN1YmRldiBkcml2ZXIg
+YWxzbyBsYWNrcyB0aGUgbWF0Y2hlcy4gSG93IGRvZXMgdGhhdAp3b3JrPyBKdXN0IGJ5IGdldHRp
+bmcgbG9hZGVkIHdoZW4gYW55IG9mIHRoZSBzdWJkZXYgZHJpdmVycyBtYXRjaD8KLURhbmllbAoK
+PiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL3RlZ3JhL3ZpYy5jIHwgNSArKystLQo+ICAxIGZpbGUg
+Y2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQg
+YS9kcml2ZXJzL2dwdS9kcm0vdGVncmEvdmljLmMgYi9kcml2ZXJzL2dwdS9kcm0vdGVncmEvdmlj
+LmMKPiBpbmRleCA5NDQ0YmExODM5OTAuLmM0ZDgyYjhiMzA2NSAxMDA2NDQKPiAtLS0gYS9kcml2
+ZXJzL2dwdS9kcm0vdGVncmEvdmljLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdGVncmEvdmlj
+LmMKPiBAQCAtMzg2LDEzICszODYsMTQgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCB2aWNfY29uZmln
+IHZpY190MTk0X2NvbmZpZyA9IHsKPiAgCS5zdXBwb3J0c19zaWQgPSB0cnVlLAo+ICB9Owo+ICAK
+PiAtc3RhdGljIGNvbnN0IHN0cnVjdCBvZl9kZXZpY2VfaWQgdmljX21hdGNoW10gPSB7Cj4gK3N0
+YXRpYyBjb25zdCBzdHJ1Y3Qgb2ZfZGV2aWNlX2lkIHRlZ3JhX3ZpY19vZl9tYXRjaFtdID0gewo+
+ICAJeyAuY29tcGF0aWJsZSA9ICJudmlkaWEsdGVncmExMjQtdmljIiwgLmRhdGEgPSAmdmljX3Qx
+MjRfY29uZmlnIH0sCj4gIAl7IC5jb21wYXRpYmxlID0gIm52aWRpYSx0ZWdyYTIxMC12aWMiLCAu
+ZGF0YSA9ICZ2aWNfdDIxMF9jb25maWcgfSwKPiAgCXsgLmNvbXBhdGlibGUgPSAibnZpZGlhLHRl
+Z3JhMTg2LXZpYyIsIC5kYXRhID0gJnZpY190MTg2X2NvbmZpZyB9LAo+ICAJeyAuY29tcGF0aWJs
+ZSA9ICJudmlkaWEsdGVncmExOTQtdmljIiwgLmRhdGEgPSAmdmljX3QxOTRfY29uZmlnIH0sCj4g
+IAl7IH0sCj4gIH07Cj4gK01PRFVMRV9ERVZJQ0VfVEFCTEUob2YsIHRlZ3JhX3ZpY19vZl9tYXRj
+aCk7Cj4gIAo+ICBzdGF0aWMgaW50IHZpY19wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpw
+ZGV2KQo+ICB7Cj4gQEAgLTUxNiw3ICs1MTcsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRldl9w
+bV9vcHMgdmljX3BtX29wcyA9IHsKPiAgc3RydWN0IHBsYXRmb3JtX2RyaXZlciB0ZWdyYV92aWNf
+ZHJpdmVyID0gewo+ICAJLmRyaXZlciA9IHsKPiAgCQkubmFtZSA9ICJ0ZWdyYS12aWMiLAo+IC0J
+CS5vZl9tYXRjaF90YWJsZSA9IHZpY19tYXRjaCwKPiArCQkub2ZfbWF0Y2hfdGFibGUgPSB0ZWdy
+YV92aWNfb2ZfbWF0Y2gsCj4gIAkJLnBtID0gJnZpY19wbV9vcHMKPiAgCX0sCj4gIAkucHJvYmUg
+PSB2aWNfcHJvYmUsCj4gLS0gCj4gMi4yMy4wCj4gCj4gX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCgotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBF
+bmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
