@@ -2,69 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 194D8109A57
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2019 09:43:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9341E109A7F
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2019 09:49:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B5046E286;
-	Tue, 26 Nov 2019 08:42:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B36C6E288;
+	Tue, 26 Nov 2019 08:49:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 577C46E286
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2019 08:42:57 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id s5so21347454wrw.2
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2019 00:42:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to:user-agent;
- bh=JHNZUTPIMG+8vm9Xx7nqvxw7Hrw7f/tddmrI9dcAnk8=;
- b=p8InpKpPxIL0PWBWUud3aSbxO/dPwFXIiMpJqHSN34nE8V7AWJ3gdSaf6AcC++Z0T6
- qlfZKaWjqISjGh/v3sbMe4e/g2Los0LDWnXvNohBOBRhzdpTbUBp1Kf7T85uSU+/qn+1
- Bfn2Ng6i8GWBpDTIMr9zcwGVawoAaCt2a3D/rK6ASIIVvO3h2IrDWd7u/k/hA0VZFa5U
- thnVA7IvrfdRte7RXPDHqaMLp91Zk514DD5pZvOl1XwFFA3xVP0afIB2QOGgDWWfaeM0
- Utxl4I8Vnic19qEvXYumFdvXCdmmL67XpG4kJTsHzefG0q26oqGcJi1Cl8LlwpHnfzE6
- mOgg==
-X-Gm-Message-State: APjAAAW7nBCjHjt6eDAQ8O0LZOqOaewT9IgsjAnKsfathK/Sp539M4M2
- wOfZsM7hGPLFPHrtn399c2HJYg==
-X-Google-Smtp-Source: APXvYqyLSv+QdXGnFV3g1p8B1aJHrD8G2pitYUfElplL8wg7O0YAPimG7NTzRuqe30vr+WEPIOitpQ==
-X-Received: by 2002:adf:cf0a:: with SMTP id o10mr22353641wrj.340.1574757775944; 
- Tue, 26 Nov 2019 00:42:55 -0800 (PST)
-Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net.
- [212.51.149.96])
- by smtp.gmail.com with ESMTPSA id b1sm14040556wrs.74.2019.11.26.00.42.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Nov 2019 00:42:55 -0800 (PST)
-Date: Tue, 26 Nov 2019 09:42:53 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: syzbot <syzbot+1e46a0864c1a6e9bd3d8@syzkaller.appspotmail.com>
-Subject: Re: WARNING in md_ioctl
-Message-ID: <20191126084253.GP29965@phenom.ffwll.local>
-Mail-Followup-To: syzbot
- <syzbot+1e46a0864c1a6e9bd3d8@syzkaller.appspotmail.com>, 
- airlied@linux.ie, chris@chris-wilson.co.uk,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
- rafael.antognolli@intel.com, rodrigo.vivi@intel.com,
- shli@kernel.org, syzkaller-bugs@googlegroups.com
-References: <000000000000a52337056b065fb3@google.com>
- <000000000000f4160705983366e8@google.com>
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E1116E288
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2019 08:49:29 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id DE157ADE0;
+ Tue, 26 Nov 2019 08:49:27 +0000 (UTC)
+Subject: Re: [PATCH 0/5] drm/udl: Convert to GEM framebuffer helpers
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20191114141025.32198-1-tzimmermann@suse.de>
+ <20191125183954.GA17436@ravnborg.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <5a189d7e-fe10-c2c4-0f8c-b2a04e1497dc@suse.de>
+Date: Tue, 26 Nov 2019 09:49:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <000000000000f4160705983366e8@google.com>
-X-Operating-System: Linux phenom 5.3.0-2-amd64 
-User-Agent: Mutt/1.12.2 (2019-09-21)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=JHNZUTPIMG+8vm9Xx7nqvxw7Hrw7f/tddmrI9dcAnk8=;
- b=CJV6ZYyKMABUO8sf/kvxRG1FphfBIzrIl/CVoIglL0z9uB6aMJrRc6kD0mwGKBlb5w
- IqPm6qOrqH2nyG0KPUls1bgLf9VGY6Hv+QYX8BF0KfscBWJmjkuurdbFuAXutMeSvhMP
- dG5tRgq7FJSADMvInlQA/GdDSbTK2HFx4h590=
+In-Reply-To: <20191125183954.GA17436@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,47 +64,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, intel-gfx@lists.freedesktop.org,
- syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
- linux-raid@vger.kernel.org, dri-devel@lists.freedesktop.org,
- rodrigo.vivi@intel.com, shli@kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel@lists.freedesktop.org, kraxel@redhat.com, airlied@redhat.com,
+ sean@poorly.run, emil.velikov@collabora.com
+Content-Type: multipart/mixed; boundary="===============1720783360=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBOb3YgMjUsIDIwMTkgYXQgMDI6Mzc6MDFQTSAtMDgwMCwgc3l6Ym90IHdyb3RlOgo+
-IHN5emJvdCBoYXMgYmlzZWN0ZWQgdGhpcyBidWcgdG86Cj4gCj4gY29tbWl0IDRiNmNlNjgxMGE1
-ZGMwYWYzODdhMjM4ZThjODUyZTBkMzgyMjM4MWYKPiBBdXRob3I6IFJhZmFlbCBBbnRvZ25vbGxp
-IDxyYWZhZWwuYW50b2dub2xsaUBpbnRlbC5jb20+Cj4gRGF0ZTogICBNb24gRmViIDUgMjM6MzM6
-MzAgMjAxOCArMDAwMAo+IAo+ICAgICBkcm0vaTkxNS9jbmw6IFdhUGlwZUNvbnRyb2xCZWZvcmUz
-RFN0YXRlU2FtcGxlUGF0dGVybgoKVGhpcyBzZWVtcyB2ZXJ5IHVubGlrZWx5LCB0aGUgcmVwcm9k
-dWNlciBkb2Vzbid0IG9wZW4gYSBkcm0gZGV2aWNlLCBhbmQKSSdkIGJlIHN1cnByaXNlZCBpZiB5
-b3VyIGdjZCBpbnN0YW5jZXMgaGF2ZSBhbiBhY3R1YWwgaTkxNSBkZXZpY2UgaW4gdGhlbQooYnV0
-IEkgY2FuJ3QgY2hlY2sgYmVjYXVzZSBib290IGxvZyBpc24ndCBwcm92aWRlZCwgZGlkbid0IGZp
-bmQgaXQgb24gdGhlCmRhc2hib2FyZCBlaXRoZXIpLgoKU2luY2UgaTkxNSBpcyBidWlsdC1pbiBJ
-IHN1c3BlY3QgdGhpcyBzaW1wbHkgbW92ZWQgc29tZXRoaW5nIGVsc2UgaW4gdGhlCmtlcm5lbCBp
-bWFnZSBhcm91bmQgd2hpY2ggcHJvdm9rZXMgdGhlIGJ1Zy4KLURhbmllbAoKPiAKPiBiaXNlY3Rp
-b24gbG9nOiAgaHR0cHM6Ly9zeXprYWxsZXIuYXBwc3BvdC5jb20veC9iaXNlY3QudHh0P3g9MTNh
-ZWI1MjJlMDAwMDAKPiBzdGFydCBjb21taXQ6ICAgYzYxYTU2YWIgTWVyZ2UgYnJhbmNoICd4ODYt
-dXJnZW50LWZvci1saW51cycgb2YgZ2l0Oi8vZ2l0Li4uCj4gZ2l0IHRyZWU6ICAgICAgIHVwc3Ry
-ZWFtCj4gZmluYWwgY3Jhc2g6ICAgIGh0dHBzOi8vc3l6a2FsbGVyLmFwcHNwb3QuY29tL3gvcmVw
-b3J0LnR4dD94PTEwNmViNTIyZTAwMDAwCj4gY29uc29sZSBvdXRwdXQ6IGh0dHBzOi8vc3l6a2Fs
-bGVyLmFwcHNwb3QuY29tL3gvbG9nLnR4dD94PTE3YWViNTIyZTAwMDAwCj4ga2VybmVsIGNvbmZp
-ZzogIGh0dHBzOi8vc3l6a2FsbGVyLmFwcHNwb3QuY29tL3gvLmNvbmZpZz94PTQwMTMxODBlN2M3
-YTlmZjkKPiBkYXNoYm9hcmQgbGluazogaHR0cHM6Ly9zeXprYWxsZXIuYXBwc3BvdC5jb20vYnVn
-P2V4dGlkPTFlNDZhMDg2NGMxYTZlOWJkM2Q4Cj4gc3l6IHJlcHJvOiAgICAgIGh0dHBzOi8vc3l6
-a2FsbGVyLmFwcHNwb3QuY29tL3gvcmVwcm8uc3l6P3g9MTZiY2EyMDc4MDAwMDAKPiBDIHJlcHJv
-ZHVjZXI6ICAgaHR0cHM6Ly9zeXprYWxsZXIuYXBwc3BvdC5jb20veC9yZXByby5jP3g9MTQ4MTlh
-NDc4MDAwMDAKPiAKPiBSZXBvcnRlZC1ieTogc3l6Ym90KzFlNDZhMDg2NGMxYTZlOWJkM2Q4QHN5
-emthbGxlci5hcHBzcG90bWFpbC5jb20KPiBGaXhlczogNGI2Y2U2ODEwYTVkICgiZHJtL2k5MTUv
-Y25sOgo+IFdhUGlwZUNvbnRyb2xCZWZvcmUzRFN0YXRlU2FtcGxlUGF0dGVybiIpCj4gCj4gRm9y
-IGluZm9ybWF0aW9uIGFib3V0IGJpc2VjdGlvbiBwcm9jZXNzIHNlZTogaHR0cHM6Ly9nb28uZ2wv
-dHBzbUVKI2Jpc2VjdGlvbgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbAoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVs
-IENvcnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1720783360==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="bP6q77B5RMeOl4tNJk26oKosFzUVQXJGK"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--bP6q77B5RMeOl4tNJk26oKosFzUVQXJGK
+Content-Type: multipart/mixed; boundary="PNRWddHDP1H7oObFKgnALSfcfs4OeCe65";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: airlied@redhat.com, sean@poorly.run, daniel@ffwll.ch, kraxel@redhat.com,
+ emil.velikov@collabora.com, noralf@tronnes.org,
+ dri-devel@lists.freedesktop.org
+Message-ID: <5a189d7e-fe10-c2c4-0f8c-b2a04e1497dc@suse.de>
+Subject: Re: [PATCH 0/5] drm/udl: Convert to GEM framebuffer helpers
+References: <20191114141025.32198-1-tzimmermann@suse.de>
+ <20191125183954.GA17436@ravnborg.org>
+In-Reply-To: <20191125183954.GA17436@ravnborg.org>
+
+--PNRWddHDP1H7oObFKgnALSfcfs4OeCe65
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+
+
+Am 25.11.19 um 19:39 schrieb Sam Ravnborg:
+> Hi Thomas.
+>=20
+> On Thu, Nov 14, 2019 at 03:10:20PM +0100, Thomas Zimmermann wrote:
+>> Udl uses struct udl_framebuffer for representing its framebuffer. The
+>> type can be replaced by the standard DRM framebuffer structure.
+>>
+>> Patches 1 to 4 prepare the driver for the conversion. Patch 5 replaces=
+
+>> the structure.
+>>
+>> The patchset has been tested by running the fb console, X11 and Weston=
+
+>> on a DisplayLink adapter.
+>=20
+> Series looks good, with some nice cleanup to prepare for the
+> removal of udl_framebuffer.
+>=20
+> Whole series is:
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+
+Thanks!
+
+>=20
+>>
+>> Thomas Zimmermann (5):
+>>   drm/udl: Unmap buffer object after damage update
+>>   drm/udl: Remove udl implementation of GEM's free_object()
+>>   drm/udl: Store active framebuffer in device structure
+>>   drm/udl: Call udl_handle_damage() with DRM framebuffer
+>>   drm/udl: Replace struct udl_framebuffer with generic implementation
+>>
+>>  drivers/gpu/drm/udl/udl_drv.h     |  14 ++--
+>>  drivers/gpu/drm/udl/udl_fb.c      | 131 +++++++++++------------------=
+-
+>>  drivers/gpu/drm/udl/udl_gem.c     |  18 +---
+>>  drivers/gpu/drm/udl/udl_main.c    |   3 +
+>>  drivers/gpu/drm/udl/udl_modeset.c |  31 +++----
+>>  5 files changed, 70 insertions(+), 127 deletions(-)
+>>
+>> --
+>> 2.23.0
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--PNRWddHDP1H7oObFKgnALSfcfs4OeCe65--
+
+--bP6q77B5RMeOl4tNJk26oKosFzUVQXJGK
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl3c5xYACgkQaA3BHVML
+eiOy9QgAvuT8YX8Oy30HDu64S/M4+ZX90Pua7WjnQEsj5HGq8dHQmLsuYjrX6qdr
+FND0/c2QKtcKDdeAXw6/8CKduCutey7e96YmFGjMYAU6YytpnSKJeEovISZKtbqY
+Z+9ba/uTsNk30e6nmmOmsuebk8st2jRGdH5Q3F/ZSZ4NmEu0mT2r6ZcwvDbqdN89
+XdcB6F+yoUvBCPo0rqLVTs7bXRmHGovo9v5trYS5MGngJ088m/yVut4g+uJiFXSg
+znWmiuj21s5NYRlkMTyhcbDAzp/p++0Tr2NyDs8ACy1TuL8pFWALx344gQJfO/BA
+eKlwcgbUifrIT1Wuvm/xDPc4nV06Kg==
+=BmRe
+-----END PGP SIGNATURE-----
+
+--bP6q77B5RMeOl4tNJk26oKosFzUVQXJGK--
+
+--===============1720783360==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1720783360==--
