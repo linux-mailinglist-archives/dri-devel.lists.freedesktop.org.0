@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 901DA10A421
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2019 19:43:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F73A10A431
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2019 19:50:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7F216E1E8;
-	Tue, 26 Nov 2019 18:43:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1CF16E483;
+	Tue, 26 Nov 2019 18:50:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
- [IPv6:2607:f8b0:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA2A26E1E8
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2019 18:43:44 +0000 (UTC)
-Received: by mail-pl1-x641.google.com with SMTP id k20so4067603pll.13
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2019 10:43:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/pT2wJFLKID1h3HcgPf2KHbbcwubk2DWN3Ne5EOqdu0=;
- b=MHS0pZz/9PZya40FVNRKOwdZVdeo4GiGc2CCgxS5xAC+4WGy4658lHLF1suT+CdQKM
- 2Lk9bbn8FyT8jNzvoSZoGHH27UpPdCP5FSx63QK/BHLysGKpIIPIjQ9nZakmXV/70jrK
- 4HI+Wh/YbVlCbone1WOH9/LE/9bwKSnUCL0nDSJxBQ96i7E0VkVF2ck0MEEYBxv9NVqX
- TDz4PG9AQJixqn2bQoj+4kHoApnw9My6qttNuimYOL1IbAHxb+sASxy9jsXhW2KKIm6w
- F8XplVIc/qnBCPLOUwyl9XCu4Ax2OOjhxHLdF8WTlIPXryaF0/zckjvO7GtV/BStYD24
- C1eQ==
-X-Gm-Message-State: APjAAAUfvMJ/auoNzMyReNRe6Tmo7T9Vi4tlj8qnyX58znX0UluPu4be
- 3YHcFB54Z4n09liDVxzWbXSf5cc9qT0=
-X-Google-Smtp-Source: APXvYqx+hgD3sxbcFBg+81vQ75EApEcwgIDBVlIX4ScwlmKZSn8HLnMxyNx34cTOMmGxAqDU3AFH4Q==
-X-Received: by 2002:a17:902:24b:: with SMTP id
- 69mr34751545plc.203.1574793824076; 
- Tue, 26 Nov 2019 10:43:44 -0800 (PST)
-Received: from gurchetansingh0.mtv.corp.google.com
- ([2620:15c:202:201:bc97:5740:52a7:6875])
- by smtp.gmail.com with ESMTPSA id w5sm2642950pgb.78.2019.11.26.10.43.43
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Tue, 26 Nov 2019 10:43:43 -0800 (PST)
-From: Gurchetan Singh <gurchetansingh@chromium.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/vram: remove unused definition
-Date: Tue, 26 Nov 2019 10:43:39 -0800
-Message-Id: <20191126184339.337-1-gurchetansingh@chromium.org>
-X-Mailer: git-send-email 2.21.0
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E82E6E483
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2019 18:50:54 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id CCC75AB9B;
+ Tue, 26 Nov 2019 18:50:52 +0000 (UTC)
+Subject: Re: [PATCH] drm/vram: remove unused definition
+To: Gurchetan Singh <gurchetansingh@chromium.org>,
+ dri-devel@lists.freedesktop.org
+References: <20191126184339.337-1-gurchetansingh@chromium.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <6263e5ee-8093-96d8-a2eb-2adbaf8b2614@suse.de>
+Date: Tue, 26 Nov 2019 19:50:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/pT2wJFLKID1h3HcgPf2KHbbcwubk2DWN3Ne5EOqdu0=;
- b=J2wb5QEklWkxxvBNA8Gh14fpm6LDTGyyApJLckFnpnWgjZ8Eh9CZuSfRC4Rx2k+6hG
- Mdn21XKnsevlW5tGthC2xszyD6RrT+ZkloyFyj+qiCz4VAMm6o8NzYTs+RvrF/xmOOIh
- cV99CPI0WSK4V8py1l/5vaZdcPkGOje/J0Ktk=
+In-Reply-To: <20191126184339.337-1-gurchetansingh@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,24 +64,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, Gurchetan Singh <gurchetansingh@chromium.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0653038353=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Q29tbWl0IGIwZTQwZSAoInZyYW06IEhhdmUgVlJBTSBNTSBjYWxsIEdFTSBWUkFNIGZ1bmN0aW9u
-cyBkaXJlY3RseSIpCnJlbW92ZWQgdGhpcy4KClNpZ25lZC1vZmYtYnk6IEd1cmNoZXRhbiBTaW5n
-aCA8Z3VyY2hldGFuc2luZ2hAY2hyb21pdW0ub3JnPgotLS0KIGluY2x1ZGUvZHJtL2RybV9nZW1f
-dnJhbV9oZWxwZXIuaCB8IDEgLQogMSBmaWxlIGNoYW5nZWQsIDEgZGVsZXRpb24oLSkKCmRpZmYg
-LS1naXQgYS9pbmNsdWRlL2RybS9kcm1fZ2VtX3ZyYW1faGVscGVyLmggYi9pbmNsdWRlL2RybS9k
-cm1fZ2VtX3ZyYW1faGVscGVyLmgKaW5kZXggZTA0MDU0MWExMDVmLi4wOGFkYWYzNjk1ZWEgMTAw
-NjQ0Ci0tLSBhL2luY2x1ZGUvZHJtL2RybV9nZW1fdnJhbV9oZWxwZXIuaAorKysgYi9pbmNsdWRl
-L2RybS9kcm1fZ2VtX3ZyYW1faGVscGVyLmgKQEAgLTE2LDcgKzE2LDYgQEAgc3RydWN0IGRybV9t
-b2RlX2NyZWF0ZV9kdW1iOwogc3RydWN0IGRybV9wbGFuZTsKIHN0cnVjdCBkcm1fcGxhbmVfc3Rh
-dGU7CiBzdHJ1Y3QgZHJtX3NpbXBsZV9kaXNwbGF5X3BpcGU7Ci1zdHJ1Y3QgZHJtX3ZyYW1fbW1f
-ZnVuY3M7CiBzdHJ1Y3QgZmlscDsKIHN0cnVjdCB2bV9hcmVhX3N0cnVjdDsKIAotLSAKMi4yNC4w
-LjQzMi5nOWQzZjVmNWI2My1nb29nCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWw=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0653038353==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="P7y6xTz9VeeJrQfP88gZu5s5lK4TaLpqh"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--P7y6xTz9VeeJrQfP88gZu5s5lK4TaLpqh
+Content-Type: multipart/mixed; boundary="SyJFO44jDqGhun2pGrvic5j9cOUn5Xlhy";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Gurchetan Singh <gurchetansingh@chromium.org>,
+ dri-devel@lists.freedesktop.org
+Message-ID: <6263e5ee-8093-96d8-a2eb-2adbaf8b2614@suse.de>
+Subject: Re: [PATCH] drm/vram: remove unused definition
+References: <20191126184339.337-1-gurchetansingh@chromium.org>
+In-Reply-To: <20191126184339.337-1-gurchetansingh@chromium.org>
+
+--SyJFO44jDqGhun2pGrvic5j9cOUn5Xlhy
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 26.11.19 um 19:43 schrieb Gurchetan Singh:
+> Commit b0e40e ("vram: Have VRAM MM call GEM VRAM functions directly")
+> removed this.
+>=20
+> Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
+
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Thanks! I'll add the patch into drm-misc-next.
+
+Best regards
+Thomas
+
+> ---
+>  include/drm/drm_gem_vram_helper.h | 1 -
+>  1 file changed, 1 deletion(-)
+>=20
+> diff --git a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vr=
+am_helper.h
+> index e040541a105f..08adaf3695ea 100644
+> --- a/include/drm/drm_gem_vram_helper.h
+> +++ b/include/drm/drm_gem_vram_helper.h
+> @@ -16,7 +16,6 @@ struct drm_mode_create_dumb;
+>  struct drm_plane;
+>  struct drm_plane_state;
+>  struct drm_simple_display_pipe;
+> -struct drm_vram_mm_funcs;
+>  struct filp;
+>  struct vm_area_struct;
+> =20
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--SyJFO44jDqGhun2pGrvic5j9cOUn5Xlhy--
+
+--P7y6xTz9VeeJrQfP88gZu5s5lK4TaLpqh
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl3ddAgACgkQaA3BHVML
+eiOIVAf/VQDFSLRvGM1LqN7XP16DkGIIgGa5INJLcX6pWwrTMpPE+apI4DQ/gN0/
+LFq5WiOgEXrhFTvivS3Z2FzcIJeAMIlY7ZY7FFxm8ymLuEOahRuSq3xGe0dglRxY
+/X595Oe4AW4G5B08lt/rGIN0kb6bF8vo9sPwUIOajLiE67KYy5C5BykCe9bjf+7i
+XyVM2HxobYZZd2OMK1qUobJoJOexExzQ0x05eG/jG5M4zuN+HdzjZXHQ2O8dr92u
+FK/HAGkfnBVboKjpk7z5DSFSGiv3rQCmx9b7qLJbg/d9vRC6pUSRqci2jd0yVzSZ
+MHmXFdxBh05Yc2k5cZy3x/XZdBgr8w==
+=Raat
+-----END PGP SIGNATURE-----
+
+--P7y6xTz9VeeJrQfP88gZu5s5lK4TaLpqh--
+
+--===============0653038353==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0653038353==--
