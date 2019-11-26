@@ -1,44 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD50310A00F
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2019 15:14:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF09310A034
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2019 15:25:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEA2289D7F;
-	Tue, 26 Nov 2019 14:14:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B1AA6E165;
+	Tue, 26 Nov 2019 14:25:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 597ED89D7F
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2019 14:14:44 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 519F2720E2; Tue, 26 Nov 2019 14:14:44 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mblankhorst.nl (mblankhorst.nl [141.105.120.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23E1F6E111
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2019 14:25:20 +0000 (UTC)
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Tue, 26 Nov 2019 14:14:44 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.mimetype
-Message-ID: <bug-110674-502-0jyEhwfBJF@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
-References: <bug-110674-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Subject: [PATCH] udmabuf: Remove deleted map/unmap handlers.
+Date: Tue, 26 Nov 2019 15:25:16 +0100
+Message-Id: <20191126142516.630200-1-maarten.lankhorst@linux.intel.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -52,96 +31,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1540391327=="
+Cc: linaro-mm-sig@lists.linaro.org, Daniel Vetter <daniel.vetter@intel.com>,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1540391327==
-Content-Type: multipart/alternative; boundary="15747776840.06edf70ba.8563"
-Content-Transfer-Encoding: 7bit
-
-
---15747776840.06edf70ba.8563
-Date: Tue, 26 Nov 2019 14:14:44 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
-
-Alex Deucher <alexdeucher@gmail.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
- Attachment #146026|text/x-log                  |text/plain
-          mime type|                            |
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15747776840.06edf70ba.8563
-Date: Tue, 26 Nov 2019 14:14:44 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:alexdeuch=
-er&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.com&gt;">=
- <span class=3D"fn">Alex Deucher</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
-4</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Attachment #146026 mime type</td>
-           <td>text/x-log
-           </td>
-           <td>text/plain
-           </td>
-         </tr></table>
-      <p>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15747776840.06edf70ba.8563--
-
---===============1540391327==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1540391327==--
+Q29tbWl0IDdmMGRlOGQ4MDgxNiAoImRtYS1idWY6IERyb3AgZG1hX2J1Zl9rKHVuKW1hcCIpIHJl
+bW92ZWQgbWFwL3VubWFwCmhhbmRsZXJzLCBidXQgdGhleSBzdGlsbCBleGlzdGVkIGluIHVkbWFi
+dWYuIFJlbW92ZSB0aGVtIHRoZXJlIGFzIHdlbGwKClNpZ25lZC1vZmYtYnk6IE1hYXJ0ZW4gTGFu
+a2hvcnN0IDxtYWFydGVuLmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20+CkZpeGVzOiA3ZjBkZThk
+ODA4MTYgKCJkbWEtYnVmOiBEcm9wIGRtYV9idWZfayh1biltYXAiKQpDYzogU3VtaXQgU2Vtd2Fs
+IDxzdW1pdC5zZW13YWxAbGluYXJvLm9yZz4KQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0
+ZXJAaW50ZWwuY29tPgpDYzogbGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnCkNjOiBsaW5hcm8t
+bW0tc2lnQGxpc3RzLmxpbmFyby5vcmcKQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKLS0tCiBkcml2ZXJzL2RtYS1idWYvdWRtYWJ1Zi5jIHwgMTYgLS0tLS0tLS0tLS0tLS0tLQog
+MSBmaWxlIGNoYW5nZWQsIDE2IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZG1h
+LWJ1Zi91ZG1hYnVmLmMgYi9kcml2ZXJzL2RtYS1idWYvdWRtYWJ1Zi5jCmluZGV4IDk2MzU4OTc0
+NThhMC4uOWRlNTM5YzFkZWY0IDEwMDY0NAotLS0gYS9kcml2ZXJzL2RtYS1idWYvdWRtYWJ1Zi5j
+CisrKyBiL2RyaXZlcnMvZG1hLWJ1Zi91ZG1hYnVmLmMKQEAgLTkzLDI2ICs5MywxMCBAQCBzdGF0
+aWMgdm9pZCByZWxlYXNlX3VkbWFidWYoc3RydWN0IGRtYV9idWYgKmJ1ZikKIAlrZnJlZSh1YnVm
+KTsKIH0KIAotc3RhdGljIHZvaWQgKmttYXBfdWRtYWJ1ZihzdHJ1Y3QgZG1hX2J1ZiAqYnVmLCB1
+bnNpZ25lZCBsb25nIHBhZ2VfbnVtKQotewotCXN0cnVjdCB1ZG1hYnVmICp1YnVmID0gYnVmLT5w
+cml2OwotCXN0cnVjdCBwYWdlICpwYWdlID0gdWJ1Zi0+cGFnZXNbcGFnZV9udW1dOwotCi0JcmV0
+dXJuIGttYXAocGFnZSk7Ci19Ci0KLXN0YXRpYyB2b2lkIGt1bm1hcF91ZG1hYnVmKHN0cnVjdCBk
+bWFfYnVmICpidWYsIHVuc2lnbmVkIGxvbmcgcGFnZV9udW0sCi0JCQkgICB2b2lkICp2YWRkcikK
+LXsKLQlrdW5tYXAodmFkZHIpOwotfQotCiBzdGF0aWMgY29uc3Qgc3RydWN0IGRtYV9idWZfb3Bz
+IHVkbWFidWZfb3BzID0gewogCS5tYXBfZG1hX2J1ZgkgID0gbWFwX3VkbWFidWYsCiAJLnVubWFw
+X2RtYV9idWYJICA9IHVubWFwX3VkbWFidWYsCiAJLnJlbGVhc2UJICA9IHJlbGVhc2VfdWRtYWJ1
+ZiwKLQkubWFwCQkgID0ga21hcF91ZG1hYnVmLAotCS51bm1hcAkJICA9IGt1bm1hcF91ZG1hYnVm
+LAogCS5tbWFwCQkgID0gbW1hcF91ZG1hYnVmLAogfTsKIAotLSAKMi4yNC4wCgpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
