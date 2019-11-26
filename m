@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2FF710A1F1
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2019 17:23:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6815B10A212
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2019 17:28:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DA0E6E1AA;
-	Tue, 26 Nov 2019 16:23:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48F4C6E430;
+	Tue, 26 Nov 2019 16:28:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD5596E1AA;
- Tue, 26 Nov 2019 16:23:52 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id 4so19916863wro.7;
- Tue, 26 Nov 2019 08:23:52 -0800 (PST)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5492E6E316;
+ Tue, 26 Nov 2019 16:28:09 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id g206so3895415wme.1;
+ Tue, 26 Nov 2019 08:28:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=SqVK1rUp5UtzJClBKJOgHqdUJMmWis3RBtvucLshmlo=;
- b=tGdijkOYLw9PLMmCxhdZvGAvI8YJ9mWgFZoBpW0V59V4mkn2JUE8anTRgqwHWMDPFi
- sW5v0CBu5wnhedCFIZXrcOdE6fhFnAmP6/ipUp4o1RZsf9Y1pMceaDxtKFc1xzCRF6qa
- V7UU7AMZ0sND/plx5AXNsQ23rcuOLJeAS8vZMPVtLpoCWfOxPfc4T4z6INPq4MWaQuFG
- d0d9TrIdOVKVEVGfAXCsUVlakJj4t9/gtwl+LMrLLLD9EDSoc0IVaVnJqedaSbIAN79P
- PfaxuukUIO3L0CKpsKYSB3yktCw1/u+YqSu621BzCaP67egjXumKqvpulnvkYmnr8K8U
- narw==
-X-Gm-Message-State: APjAAAWYjcxSAkuoZ6DBdNowwnaPuMkeGxHs1ihkeB9ifMcd30Ss/57l
- v//SlDDK0x6m++HOlDLz4zLcHL9MDW9FmHlCuOjHpw==
-X-Google-Smtp-Source: APXvYqx/4aCgU1TY8rQD+RRf5p+AdIHEziucqDIoe9tFBgToO/cDoZMMlHEqpWO63vySWN+i6pv+fbtjEFS2hfw3CaU=
-X-Received: by 2002:adf:f54c:: with SMTP id j12mr20010569wrp.40.1574785431496; 
- Tue, 26 Nov 2019 08:23:51 -0800 (PST)
+ bh=lpf541/6ikEv3JJ2ul3APwZIfgPQ6unMan8v4La6FD4=;
+ b=JGZQq/NlEdGx/Qd7NQmSHdf6RLlAXhp265J8bSzETlBisACqFXaEDSBTbXPBFLzQRG
+ 3jJ7A8YyCEGbOXypbbP5pIYZNyuOWAvCq0623lZw+/4js/qslCce5ix04+JIWtkli2QX
+ uYWGJ/LiZk/BrRcg6poCkebAZKQTAW5dhBDM43O3LlgwCpeVhAK4jF/7DXD6Ckwcp71N
+ Vk/CwxnCM7z5GlPCBjP8Nwu6oBt+ci7fVEzE8HJH9ub3/kqve+/dnmKr4gVICV0Es6HA
+ wPf6heWICsnzwOBNCxZKZ5IbsirPmlOqvUA1xmmANRDG9Gr5U4MD/ihxAWNXvF7vkslZ
+ HJmA==
+X-Gm-Message-State: APjAAAVTq8O4CHoSdEhK/6FKyyDS99Fei6JoGO97lKDCTmuF1fL0wZyA
+ sG6IqNfkIKRoCsFkNOfNlWOTA+E7/ZV80mMIMzM=
+X-Google-Smtp-Source: APXvYqwgv1uiWhI8ounqnl7xziQvTMjaQD4iWYsok936xxtQ3YUO0jFuO7HLV9vH7BCmji9L/qv8lpPQJxxXiA+Z+H8=
+X-Received: by 2002:a7b:c1d3:: with SMTP id a19mr5326942wmj.127.1574785687879; 
+ Tue, 26 Nov 2019 08:28:07 -0800 (PST)
 MIME-Version: 1.0
-References: <20191126121029.3tye7e3gyduxryfr@kili.mountain>
-In-Reply-To: <20191126121029.3tye7e3gyduxryfr@kili.mountain>
+References: <20191126003514.133692-1-jbi.octave@gmail.com>
+In-Reply-To: <20191126003514.133692-1-jbi.octave@gmail.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 26 Nov 2019 11:23:38 -0500
-Message-ID: <CADnq5_MB-M_AdArX3Bvg765iMiTR-rJLUpJjDmA=azrXAYTa-g@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Fix a bug in jpeg_v1_0_start()
-To: Dan Carpenter <dan.carpenter@oracle.com>
+Date: Tue, 26 Nov 2019 11:27:55 -0500
+Message-ID: <CADnq5_Mvx8yNG=PUYB6s+Dwqevbx4a0gC-K7iqmNtM-shrDOLw@mail.gmail.com>
+Subject: Re: [PATCH] drm: radeon: replace 0 with NULL
+To: Jules Irenge <jbi.octave@gmail.com>
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc;
- bh=SqVK1rUp5UtzJClBKJOgHqdUJMmWis3RBtvucLshmlo=;
- b=RIRHSz4A9mBUNbvlVIvad78dxTLh3dnIxYdMNyKBbqGSgJA/u9CkLt1NLqkG2YUz+x
- bZkUxzGhRiyFDr4I5Ihv699xm540fVYJx2BqiBZ8YdPg8C7Pvk1UM7AbwcTQlzr/s6Ap
- gt9s9X2jur2rG8nbuHGb1o9VLSX9kB4lFByxFpUwCl7ggPV5Ug0aA5FezG7prCvMjsAt
- bdT0PWbDBOzFFE54zP6j6d+iWDpXWYdmvH0aqN6Hx+IJKR5rFJXRUyYgL33qhroTsk8b
- WdaARZPGCTULIrAdSQxGs1y2QUTa3Ylpe9ti2QFNp/G/WHcWjMsP4sGxV3OxmMF7TjZb
- JBvw==
+ bh=lpf541/6ikEv3JJ2ul3APwZIfgPQ6unMan8v4La6FD4=;
+ b=JieTCFWq0nixSvgtCiL59CJeZu3LC4DI3ozvC6SCMq8yOfpTyvmgTzQNJB+0KAwH82
+ FZbWZ0MSaOx8Xwf/PcFSyviWSsAoeAD1S9lbb0qYtC+z0LsSqUobyrgpQBvsYKUKNeJH
+ 54d3rcSJAhK5M6xcDfm2qQeTrxTEbQ6aZXBu/JVFc6plWpWQ9ActI88B5VDmDI88O2g8
+ vzq1ICpaahQOIJ9rTg0v9zl+daqycOPMvOjmbodK1inIBUcGVJyniMp0ftf5N9SVLPji
+ eGpys0U4dyYb/gOJCFwIecl920Kn7XlKRr9hhe0yIdtQG6FInOpysmI5/FNkDA31yEYG
+ h6+w==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,44 +62,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+Cc: Dave Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
  amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, Leo Liu <leo.liu@amd.com>,
- Christian K??nig <christian.koenig@amd.com>
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBOb3YgMjYsIDIwMTkgYXQgNzoxMCBBTSBEYW4gQ2FycGVudGVyIDxkYW4uY2FycGVu
-dGVyQG9yYWNsZS5jb20+IHdyb3RlOgo+Cj4gT3JpZ2luYWxseSB0aGUgbGFzdCBXUkVHMzJfU09D
-MTUoKSB3YXMgYSBwYXJ0IG9mIHRoZSBpZiBzdGF0ZW1lbnQgYmxvY2sKPiBidXQgdGhlIGN1cmx5
-IGJyYWNlcyBhcmUgb24gdGhlIHdyb25nIGxpbmUuCj4KPiBGaXhlczogYmIwZGI3MGYzZjc1ICgi
-ZHJtL2FtZGdwdTogc2VwYXJhdGUgSlBFRzEuMCBjb2RlIG91dCBmcm9tIFZDTjEuMCIpCj4gU2ln
-bmVkLW9mZi1ieTogRGFuIENhcnBlbnRlciA8ZGFuLmNhcnBlbnRlckBvcmFjbGUuY29tPgoKQXBw
-bGllZC4gIFRoYW5rcyEKCkFsZXgKCj4gLS0tCj4gRnJvbSBzdGF0aWMgYW5hbHlzaXMgKFNtYXRj
-aCkuICBOb3QgdGVzdGVkLgo+Cj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2pwZWdfdjFf
-MC5jIHwgMyArKy0KPiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlv
-bigtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2pwZWdfdjFf
-MC5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvanBlZ192MV8wLmMKPiBpbmRleCA1NTM1
-MDZkZjA3N2QuLmExNDE0MDhkZmIyMyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1k
-L2FtZGdwdS9qcGVnX3YxXzAuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2pw
-ZWdfdjFfMC5jCj4gQEAgLTUyMiw3ICs1MjIsOCBAQCB2b2lkIGpwZWdfdjFfMF9zdGFydChzdHJ1
-Y3QgYW1kZ3B1X2RldmljZSAqYWRldiwgaW50IG1vZGUpCj4gICAgICAgICAgICAgICAgIFdSRUcz
-Ml9TT0MxNShKUEVHLCAwLCBtbVVWRF9MTUlfSlJCQ19SQl82NEJJVF9CQVJfSElHSCwgdXBwZXJf
-MzJfYml0cyhyaW5nLT5ncHVfYWRkcikpOwo+ICAgICAgICAgICAgICAgICBXUkVHMzJfU09DMTUo
-SlBFRywgMCwgbW1VVkRfSlJCQ19SQl9SUFRSLCAwKTsKPiAgICAgICAgICAgICAgICAgV1JFRzMy
-X1NPQzE1KEpQRUcsIDAsIG1tVVZEX0pSQkNfUkJfV1BUUiwgMCk7Cj4gLSAgICAgICB9ICAgICAg
-IFdSRUczMl9TT0MxNShKUEVHLCAwLCBtbVVWRF9KUkJDX1JCX0NOVEwsIFVWRF9KUkJDX1JCX0NO
-VExfX1JCX1JQVFJfV1JfRU5fTUFTSyk7Cj4gKyAgICAgICAgICAgICAgIFdSRUczMl9TT0MxNShK
-UEVHLCAwLCBtbVVWRF9KUkJDX1JCX0NOVEwsIFVWRF9KUkJDX1JCX0NOVExfX1JCX1JQVFJfV1Jf
-RU5fTUFTSyk7Cj4gKyAgICAgICB9Cj4KPiAgICAgICAgIC8qIGluaXRpYWxpemUgd3B0ciAqLwo+
-ICAgICAgICAgcmluZy0+d3B0ciA9IFJSRUczMl9TT0MxNShKUEVHLCAwLCBtbVVWRF9KUkJDX1JC
-X1dQVFIpOwo+IC0tCj4gMi4xMS4wCj4KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
-ZHJpLWRldmVs
+QXBwbGllZC4gIHRoYW5rcyEKCkFsZXgKCk9uIFR1ZSwgTm92IDI2LCAyMDE5IGF0IDM6MTUgQU0g
+SnVsZXMgSXJlbmdlIDxqYmkub2N0YXZlQGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiBSZXBsYWNlIDAg
+d2l0aCBOVUxMIHRvIGZpeCBzcGFyc2UgdG9vbCAgd2FybmluZwo+ICB3YXJuaW5nOiBVc2luZyBw
+bGFpbiBpbnRlZ2VyIGFzIE5VTEwgcG9pbnRlcgo+Cj4gU2lnbmVkLW9mZi1ieTogSnVsZXMgSXJl
+bmdlIDxqYmkub2N0YXZlQGdtYWlsLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL3JhZGVv
+bi9yYWRlb25fYXVkaW8uYyB8IDIgKy0KPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCsp
+LCAxIGRlbGV0aW9uKC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9y
+YWRlb25fYXVkaW8uYyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2F1ZGlvLmMKPiBp
+bmRleCBiOWFlYTU3NzZkM2QuLjIyNjljZmNlZDc4OCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vcmFkZW9uL3JhZGVvbl9hdWRpby5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVv
+bi9yYWRlb25fYXVkaW8uYwo+IEBAIC0yODgsNyArMjg4LDcgQEAgc3RhdGljIHZvaWQgcmFkZW9u
+X2F1ZGlvX2ludGVyZmFjZV9pbml0KHN0cnVjdCByYWRlb25fZGV2aWNlICpyZGV2KQo+ICAgICAg
+ICAgfSBlbHNlIHsKPiAgICAgICAgICAgICAgICAgcmRldi0+YXVkaW8uZnVuY3MgPSAmcjYwMF9m
+dW5jczsKPiAgICAgICAgICAgICAgICAgcmRldi0+YXVkaW8uaGRtaV9mdW5jcyA9ICZyNjAwX2hk
+bWlfZnVuY3M7Cj4gLSAgICAgICAgICAgICAgIHJkZXYtPmF1ZGlvLmRwX2Z1bmNzID0gMDsKPiAr
+ICAgICAgICAgICAgICAgcmRldi0+YXVkaW8uZHBfZnVuY3MgPSBOVUxMOwo+ICAgICAgICAgfQo+
+ICB9Cj4KPiAtLQo+IDIuMjMuMAo+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
+bGlzdGluZm8vZHJpLWRldmVsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
+aS1kZXZlbA==
