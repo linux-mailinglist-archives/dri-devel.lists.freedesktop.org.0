@@ -2,86 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A187910A14B
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2019 16:36:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D1DD10A14E
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2019 16:37:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91FC56E422;
-	Tue, 26 Nov 2019 15:36:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEB156E42F;
+	Tue, 26 Nov 2019 15:37:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM01-BN3-obe.outbound.protection.outlook.com
- (mail-eopbgr740087.outbound.protection.outlook.com [40.107.74.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19E596E422;
- Tue, 26 Nov 2019 15:36:52 +0000 (UTC)
+Received: from NAM02-CY1-obe.outbound.protection.outlook.com
+ (mail-eopbgr760085.outbound.protection.outlook.com [40.107.76.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CCB86E428;
+ Tue, 26 Nov 2019 15:37:03 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V1aeA4n8WpsFUOCf8wcZFSPJFGiUOTIOMQVkPXNbIR3Nj2+nfYAYiQKRqPWPRiggXT6WfJmjkNGnOEj9EwCEvBuoSz30+f4AqeG+x//GZymh3irAuNa5eYfyrWIyf1vqUK0Ge1mQ0SNRzuFNNE3FWtqswuZpHCHyd7rmrlMX7YEEu9fESQYO1AaakNSy9U4n5ovsguKwK4Po7C208MVOA/XpUrrpI5KDn+mAtOEQksyv/d262xRWn5/bMHT+ibj0SHHsILxTdIhczYa/NlJowgQUlVPGG7ZLeQpQQ8vFl7YPgCRKjtoYoW7mNCenRxVOj7BuDv6ArGEnmkBdETx0vg==
+ b=GuBB3jRva3FiR20a0yY6bh/1wfLIw79eX41BT3F9G/zBflAFhNJuBEYP1AMJqW7dU8dXnq+IsluzYpELf6qwfM8lMiauYV76dXoieF8TZEoz3hLQIlZfsSkiXfpYDdbqtSNs2WLnHz8sK2Lql9+7R9dvfcHdRPw7W2a1YDw7zQe0gfUM4kk6779x84ganaDWVgLiT0TVCSI0aVLXn3UZHB1ITRjgAHERQwKZINJMjwVZf95sF7opxopVyfErJbLWgDmNvUPlHrTyAbxDcXxyxt1zmgOYM5pYcukGf8nAWbAsaINiUbqVCCKCgZo8uwWHeh00h0YAmNKJciJu2c8QBQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oZTWD/ufDWxBd29tSRjvLSeRS2MIx53f7I1PP/j/yb0=;
- b=KkYO9lRPX7r6IAs2GNzYip3qpvpbEumOnD3Vf6cM9gKIn2OaebFxEwHSB6w9Hd9ToyJi2cq9HUAou1w+Q5nMsbnGrDhFz2c1g4rwsK9IsrroYelfaeKdixwr8acd8AUtzwsJ/KL5eIqK90UhQq9jMOi9c8+ma70Tbdp+E+qNovfk/qE6TlKrEkZsEUB8hUOFxcf5vC5tG3efRUJgffrWeaYVqrRtwzqSYWa1BMAN7pSB9NAz5mVGJky//RrQyx/Qpobl5CtkgI3ggBrqemgaar+VczIva7u16ibGphlunNxYCDcRih2zXCe5gg00oHkM0NSCP041lTVjUiUdvF+K2A==
+ bh=ECM84T6gt44t+ub0fonh5jGeWeOVXHbmOA/gLltTYPE=;
+ b=PFabp0lycLCpcIdYR3aGsQh3nF8sqq3k4fK7EqeVFB171cOxqPzu1pABVAAifmxBpVg7pAoYAHpHLkd3nE/IxcwhYf7MIBR8MK3Md0xCilgCgnSyISawaOeA4FDag+1ykdl8aofiqHpcGq1qFY5rpnHrbzEl/kLK/sSqEZMynJpAihg+yKwj7godzrEToi1NN9R8NhA0AfiPVFcKcgLvKzEgxVG7/kZZfrL9VaPQWMZxaMaGFMHsZnaZZofEUJ95VfWVKaOAQr1Q+74opLSTUUqgi8wm7BQVscG1GPEmclz2fJJzsZ9/Etl/bz91AQeNDVYQ8yrW1dx8CSvTF2VY+w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
-Received: from MWHPR12MB1453.namprd12.prod.outlook.com (10.172.55.22) by
- MWHPR12MB1421.namprd12.prod.outlook.com (10.169.206.20) with Microsoft SMTP
+Received: from BN6PR12MB1809.namprd12.prod.outlook.com (10.175.101.17) by
+ BN6PR12MB1426.namprd12.prod.outlook.com (10.168.230.16) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2495.17; Tue, 26 Nov 2019 15:36:46 +0000
-Received: from MWHPR12MB1453.namprd12.prod.outlook.com
- ([fe80::514b:dbf8:d19f:a80]) by MWHPR12MB1453.namprd12.prod.outlook.com
- ([fe80::514b:dbf8:d19f:a80%12]) with mapi id 15.20.2474.023; Tue, 26 Nov 2019
- 15:36:46 +0000
-Subject: Re: [PATCH v3 1/2] drm/sched: Avoid job cleanup if sched thread is
- parked.
-To: christian.koenig@amd.com, Steven Price <steven.price@arm.com>
-References: <1574691041-5499-1-git-send-email-andrey.grodzovsky@amd.com>
- <93c692cb-5306-e024-57f1-463402cb2c44@arm.com>
- <c75aff45-2fc6-47da-34e0-a179f1ce5e9a@gmail.com>
-From: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>
-Message-ID: <cdd5de63-ca5a-19c1-0ef3-02916a2655d1@amd.com>
-Date: Tue, 26 Nov 2019 10:36:43 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
-In-Reply-To: <c75aff45-2fc6-47da-34e0-a179f1ce5e9a@gmail.com>
+ 15.20.2495.17; Tue, 26 Nov 2019 15:36:57 +0000
+Received: from BN6PR12MB1809.namprd12.prod.outlook.com
+ ([fe80::a53c:342f:cd6e:a616]) by BN6PR12MB1809.namprd12.prod.outlook.com
+ ([fe80::a53c:342f:cd6e:a616%9]) with mapi id 15.20.2474.023; Tue, 26 Nov 2019
+ 15:36:57 +0000
+From: "Deucher, Alexander" <Alexander.Deucher@amd.com>
+To: "Grodzovsky, Andrey" <Andrey.Grodzovsky@amd.com>, "Deng, Emily"
+ <Emily.Deng@amd.com>
+Subject: Re: [PATCH v4] drm/scheduler: Avoid accessing freed bad job.
+Thread-Topic: [PATCH v4] drm/scheduler: Avoid accessing freed bad job.
+Thread-Index: AQHVo9InpineTkoEGkOH8nSWUSg3Daeca2sAgAAofACAAQLDdw==
+Date: Tue, 26 Nov 2019 15:36:57 +0000
+Message-ID: <BN6PR12MB18093E836DB1098A42A3853AF7450@BN6PR12MB1809.namprd12.prod.outlook.com>
+References: <1574715089-14875-1-git-send-email-andrey.grodzovsky@amd.com>,
+ <MN2PR12MB2975C10E36FF996BD423CEBA8F4A0@MN2PR12MB2975.namprd12.prod.outlook.com>,
+ <MWHPR12MB1453C6FC45A83482232CA3EDEA450@MWHPR12MB1453.namprd12.prod.outlook.com>
+In-Reply-To: <MWHPR12MB1453C6FC45A83482232CA3EDEA450@MWHPR12MB1453.namprd12.prod.outlook.com>
+Accept-Language: en-US
 Content-Language: en-US
-X-ClientProxiedBy: YTBPR01CA0012.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:14::25) To MWHPR12MB1453.namprd12.prod.outlook.com
- (2603:10b6:301:e::22)
-MIME-Version: 1.0
-X-Originating-IP: [165.204.55.251]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: ef03d27e-3aa9-42e5-868b-08d7728671f7
-X-MS-TrafficTypeDiagnostic: MWHPR12MB1421:|MWHPR12MB1421:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MWHPR12MB142146D1871145CCE639A18CEA450@MWHPR12MB1421.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-Forefront-PRVS: 0233768B38
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10009020)(4636009)(396003)(376002)(346002)(39860400002)(136003)(366004)(199004)(189003)(305945005)(6306002)(6486002)(2906002)(31696002)(186003)(8676002)(6512007)(58126008)(81166006)(81156014)(14454004)(86362001)(25786009)(6916009)(316002)(478600001)(26005)(6436002)(4326008)(31686004)(2870700001)(6246003)(7736002)(53546011)(36756003)(66476007)(386003)(65806001)(2486003)(66574012)(52116002)(6506007)(229853002)(6666004)(99286004)(66556008)(8936002)(45080400002)(23676004)(76176011)(66946007)(65956001)(47776003)(11346002)(2616005)(5660300002)(3846002)(966005)(50466002)(14444005)(446003)(66066001)(6116002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:MWHPR12MB1421;
- H:MWHPR12MB1453.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [71.219.59.120]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 5107fd80-3f6b-4268-b8c0-08d7728678bc
+x-ms-traffictypediagnostic: BN6PR12MB1426:|BN6PR12MB1426:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BN6PR12MB1426C84533AB04EE18A8972CF7450@BN6PR12MB1426.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0233768B38
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(4636009)(346002)(376002)(396003)(136003)(39860400002)(366004)(199004)(189003)(13464003)(6246003)(256004)(8676002)(6436002)(81166006)(8936002)(81156014)(478600001)(14444005)(55016002)(52536014)(2906002)(9686003)(71200400001)(71190400001)(25786009)(14454004)(86362001)(54896002)(66066001)(6636002)(33656002)(446003)(11346002)(74316002)(105004)(76116006)(91956017)(66946007)(66574012)(66446008)(64756008)(66556008)(66476007)(6506007)(5660300002)(99286004)(229853002)(7696005)(19627405001)(76176011)(4326008)(3846002)(6116002)(316002)(54906003)(110136005)(186003)(53546011)(102836004)(7736002)(26005);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:BN6PR12MB1426;
+ H:BN6PR12MB1809.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; A:1; MX:1; 
-Received-SPF: None (protection.outlook.com: amd.com does not designate
+received-spf: None (protection.outlook.com: amd.com does not designate
  permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ymFWjSr8rT8A3EQUypMM6qn7kG06wccPdJ1mpsN/iijoM0Ku/I5RsFXGzlWOHfZVpTZUAbv+vGUbc1dOG3e1smWJce31ppIyD5/Tj0IZsgPeysgt1pJfEzo9dg7x4a8dnrwrzGa1fZ/eQbwxbvitx7kU9ZeOW548cDyofDalMPeHGOfUt9mvZKbXVAK5Ham6AQnToE0DdANKgREA2uHGaPHP4q3Vl6bT0nf64MFfuJQYziZpD2eqw6fv+oW/mnQuqueCV5+txz1HGn27flS9Niuh81NgIV8VTnvn5BKiRax5fjCe9VRXShKKWQ+2wILLBfBvM6iRIZEdnd9pDKVBpCJTRKvLgWwqqtUG/XEzsuX1pU8JMrpnTuyK8KzBdIzY9WMFPISBhNy8I4LpdbpZv5QYd4tGaw9wYO5KAmhUUiO3oStrRryFDktxvG9wcQpN7+Zbjszftkq+3xYNPDh1HVmU3JgqNGljS2aBWwge8aA=
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: oiAVOJxDidKlDbbUJNBePfbgo66EeMywZCkFCrvgCMhZrXxvLF9bHEAjuWW0hC63xTxeDconDE1NC1mQxi5k+Sx4u70s/v29oRh7jpfUB7n3zblAFbMdgqERzAkh51cxwxAzEjRrQrckpwAbQqoQBMG115Oul3TkMCNUNtwG+Y4VvA95PKwntJwEBsYH220wN+3hvH885J5fZL7YHo+QMYrYiKzV2jrjPWfxpN+Q3fvosSytgNUD0T0ajkrd/IkA6GRCK+wdE+JBMBf2/zTmlt2kZJFKqKrI1bX56QL3DGniOHgK3EkraaW1eKwAhSbgVQWqHOWY9TXPJUMwnFgznWNLNd5SM9xH99GLX50/ifASgm3Db4pbm+p96zFTR3bHuSeiIXc1ScATP3bPxaMrgOqpzmWwBLXtQ0LU3kMLxv/zUeohnCcRTq4IqRyHn89X
+MIME-Version: 1.0
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef03d27e-3aa9-42e5-868b-08d7728671f7
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2019 15:36:46.1804 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TD8IQxUUATQ3X3hqyLirg58j2xGuJrW1eW4mR7RAFW2FjrBeoCSLJMrjqWcheeOwu4azSDa17RT365jzqLntTg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1421
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5107fd80-3f6b-4268-b8c0-08d7728678bc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Nov 2019 15:36:57.1773 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: SPnWatC5cPd7+7kM6Ca1HCnGwzZpOJl/d6+tw6UHj2xHHSZUvjyeZOA4cb850uC0AG5ZBDZ4KK3Iw4EIFBTBSg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1426
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oZTWD/ufDWxBd29tSRjvLSeRS2MIx53f7I1PP/j/yb0=;
- b=wiBIa88tJu+8zAox8TKzA0t9+C0bPNkU2R9gt8WPvAQ7gOu+z1LOIqB1BhoryLt1jo2ViWc9MxBaZVfDQZN/f/vb3pZK6d/LbeNLK8Ah+j5hVkR0TBgILAse90kfcaAOhocLoulEMTcXUggMmAE7Ts5fhFcpU+pdmb5bw2fLG1g=
+ bh=ECM84T6gt44t+ub0fonh5jGeWeOVXHbmOA/gLltTYPE=;
+ b=DUQhgbTzk3fZTAtpbAAXus/HC3COcEqt3bMJmr7CRruC6upiVub8GHmrCydDkg+hmCsOUXU02rbcyDY0E1DX/p0/THHCJqX7Vj48CO8aHDm3gYCSWdUdI7fnKAHeQr/ZyICc03T7YqvOebe60dCYzQPb/meI1VR3UQW/8gOTW4s=
 X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Andrey.Grodzovsky@amd.com; 
+ smtp.mailfrom=Alexander.Deucher@amd.com; 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,70 +94,405 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emily.Deng@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: "steven.price@arm.com" <steven.price@arm.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Koenig, 
+ Christian" <Christian.Koenig@amd.com>
+Content-Type: multipart/mixed; boundary="===============0609986488=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ck9uIDExLzI2LzE5IDQ6MDggQU0sIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4gQW0gMjUuMTEu
-MTkgdW0gMTc6NTEgc2NocmllYiBTdGV2ZW4gUHJpY2U6Cj4+IE9uIDI1LzExLzIwMTkgMTQ6MTAs
-IEFuZHJleSBHcm9kem92c2t5IHdyb3RlOgo+Pj4gV2hlbiB0aGUgc2NoZWQgdGhyZWFkIGlzIHBh
-cmtlZCB3ZSBhc3N1bWUgcmluZ19taXJyb3JfbGlzdCBpcwo+Pj4gbm90IGFjY2Vzc2VkIGZyb20g
-aGVyZS4KPj4gRldJVyBJIGRvbid0IHRoaW5rIHRoaXMgaXMgbmVjZXNzYXJ5LiBrdGhyZWFkX3Bh
-cmsoKSB3aWxsIHdhaXQgdW50aWwgdGhlCj4+IHRocmVhZCBpcyBwYXJrZWQsIGF0IHdoaWNoIHBv
-aW50IHRoZSB0aHJlYWQgaXMgc3R1Y2sgaW4ga3RocmVhZF9wYXJrbWUoKQo+PiB1bnRpbCB1bnBh
-cmtlZC4KPj4KPj4gU28gYWxsIHRoaXMgZG9lcyBpcyBhdm9pZCB3YWl0aW5nIGZvciBhbnkgY2xl
-YW51cCBqb2JzIGJlZm9yZSBwYXJraW5nIC0KPj4gd2hpY2ggbWlnaHQgYmUgYSByZWFzb25hYmxl
-IGdvYWwgaW4gaXRzZWxmLCBidXQgaWYgc28gbGV0cyBhdCBsZWFzdAo+PiBkb2N1bWVudCB0aGF0
-Lgo+Cj4gTm93IHRoYXQgeW91IG1lbnRpb24gaXQgdGhhdCBpcyBpbmRlZWQgd3JvbmcuCgoKSSB3
-b3VsZG4ndCBzIGNhbGwgaXQgd3JvbmcgYnV0IHN1cGVyZmx1b3VzIGluIGN1cnJlbnQgY29kZSBh
-cyBpbmRlZWQgCm9uY2UgdGhlIHRocmVhZCBpcyBwYXJrZWQgdGhlcmUgd2lsbCBiZSBubyBzdWJz
-ZXF1ZW50IGNhbGxzIHRvIApkcm1fc2NoZWRfZ2V0X2NsZWFudXBfam9iIHVudGlsIHRoZSB0aHJl
-YWQgaXMgdW5wYWNrZWQgYmFjaywgaWYgZm9yIApleGFtcGxlIHdlIGRlY2lkZSB0byBjYWxsIGRy
-bV9zY2hlZF9nZXRfY2xlYW51cF9qb2IgZnJvbSBhIHdvcmsgaXRlbSAKd2hpY2gga2VlcHMgc2No
-ZWR1bGVkIGl0IHdvdWxkIGJlIG5lZWRlZC4KCgo+Cj4gVGhlIHJlYWwgcHJvYmxlbSBpcyB0aGF0
-IGluIHRoZSBtYWluIHRocmVhZCB3ZSBtYW5nbGVkIHRoZSBjYWxsIHRvIAo+IGt0aHJlYWRfcGFy
-a21lKCkgaW50byBkcm1fc2NoZWRfYmxvY2tlZCgpIHdoaWNoIGNhbiBiZSBjYWxsZWQgaW4gCj4g
-YXRvbWljIGNvbnRleHQuCgoKV2hlcmUgaXMgdGhlIGF0b21pYyBjb250ZXh0IGluIHdhaXRfZXZl
-bnRfaW50ZXJydXB0aWJsZSA/IEkgc2VlbSBubyB0byAKc2VlIGFueS4KCkFuZHJleQoKCj4KPiBJ
-IHN1Z2dlc3QgdG8gcmV3b3JrIHRoaXMgc28gdGhhdCB0aGUga3RocmVhZF9zaG91bGRfcGFyaygp
-IGFuZCAKPiBrdGhyZWFkX3Nob3VsZF9zdG9wKCkgdGVzdCBpbiB3YWl0X2V2ZW50X2ludGVycnVw
-dGlibGUoKSBjb21lIGZpcnN0IAo+IGFuZCB0aGVuIGNhbGwga3RocmVhZF9wYXJrbWUoKSBvdXRz
-aWRlIG9mIHRoZSB3YWl0X2V2ZW50X2ludGVycnVwdGlibGUoKS4KPgo+IFJlZ2FyZHMsCj4gQ2hy
-aXN0aWFuLgo+Cj4+Cj4+IFN0ZXZlCj4+Cj4+PiBTaWduZWQtb2ZmLWJ5OiBBbmRyZXkgR3JvZHpv
-dnNreSA8YW5kcmV5Lmdyb2R6b3Zza3lAYW1kLmNvbT4KPj4+IFJldmlld2VkLWJ5OiBDaHJpc3Rp
-YW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4+PiAtLS0KPj4+IMKgIGRyaXZl
-cnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFpbi5jIHwgMTAgKysrKysrKy0tLQo+Pj4gwqAg
-MSBmaWxlIGNoYW5nZWQsIDcgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKPj4+Cj4+PiBk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9tYWluLmMgCj4+PiBi
-L2RyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFpbi5jCj4+PiBpbmRleCBkNGNjNzI4
-Li42Nzc0OTU1IDEwMDY0NAo+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hl
-ZF9tYWluLmMKPj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFpbi5j
-Cj4+PiBAQCAtNjM1LDkgKzYzNSwxMyBAQCBkcm1fc2NoZWRfZ2V0X2NsZWFudXBfam9iKHN0cnVj
-dCAKPj4+IGRybV9ncHVfc2NoZWR1bGVyICpzY2hlZCkKPj4+IMKgwqDCoMKgwqAgc3RydWN0IGRy
-bV9zY2hlZF9qb2IgKmpvYjsKPj4+IMKgwqDCoMKgwqAgdW5zaWduZWQgbG9uZyBmbGFnczsKPj4+
-IMKgIC3CoMKgwqAgLyogRG9uJ3QgZGVzdHJveSBqb2JzIHdoaWxlIHRoZSB0aW1lb3V0IHdvcmtl
-ciBpcyBydW5uaW5nICovCj4+PiAtwqDCoMKgIGlmIChzY2hlZC0+dGltZW91dCAhPSBNQVhfU0NI
-RURVTEVfVElNRU9VVCAmJgo+Pj4gLcKgwqDCoMKgwqDCoMKgICFjYW5jZWxfZGVsYXllZF93b3Jr
-KCZzY2hlZC0+d29ya190ZHIpKQo+Pj4gK8KgwqDCoCAvKgo+Pj4gK8KgwqDCoCAqIERvbid0IGRl
-c3Ryb3kgam9icyB3aGlsZSB0aGUgdGltZW91dCB3b3JrZXIgaXMgcnVubmluZyBPUiB0aHJlYWQK
-Pj4+ICvCoMKgwqAgKiBpcyBiZWluZyBwYXJrZWQgYW5kIGhlbmNlIGFzc3VtZWQgdG8gbm90IHRv
-dWNoIHJpbmdfbWlycm9yX2xpc3QKPj4+ICvCoMKgwqAgKi8KPj4+ICvCoMKgwqAgaWYgKChzY2hl
-ZC0+dGltZW91dCAhPSBNQVhfU0NIRURVTEVfVElNRU9VVCAmJgo+Pj4gK8KgwqDCoMKgwqDCoMKg
-wqAgIWNhbmNlbF9kZWxheWVkX3dvcmsoJnNjaGVkLT53b3JrX3RkcikpIHx8Cj4+PiArwqDCoMKg
-wqDCoMKgwqDCoCBfX2t0aHJlYWRfc2hvdWxkX3Bhcmsoc2NoZWQtPnRocmVhZCkpCj4+PiDCoMKg
-wqDCoMKgwqDCoMKgwqAgcmV0dXJuIE5VTEw7Cj4+PiDCoCDCoMKgwqDCoMKgIHNwaW5fbG9ja19p
-cnFzYXZlKCZzY2hlZC0+am9iX2xpc3RfbG9jaywgZmxhZ3MpOwo+Pj4KPj4gX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPj4gYW1kLWdmeCBtYWlsaW5nIGxp
-c3QKPj4gYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPj4gaHR0cHM6Ly9uYW0xMS5zYWZl
-bGlua3MucHJvdGVjdGlvbi5vdXRsb29rLmNvbS8/dXJsPWh0dHBzJTNBJTJGJTJGbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnJTJGbWFpbG1hbiUyRmxpc3RpbmZvJTJGYW1kLWdmeCZhbXA7ZGF0YT0wMiU3
-QzAxJTdDYW5kcmV5Lmdyb2R6b3Zza3klNDBhbWQuY29tJTdDZTgxYTgyNGE1Zjk4NGY1MWJjMTkw
-OGQ3NzI1MDNhMjUlN0MzZGQ4OTYxZmU0ODg0ZTYwOGUxMWE4MmQ5OTRlMTgzZCU3QzAlN0MwJTdD
-NjM3MTAzNTYxMjIxMjk4NjkxJmFtcDtzZGF0YT10VzlYdXB0N2FzY1ZQT2xIeEgwcEhHY2JVQXJW
-eVRhNVZUbGUwMTZBY0dnJTNEJmFtcDtyZXNlcnZlZD0wIAo+Pgo+Cl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+--===============0609986488==
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_BN6PR12MB18093E836DB1098A42A3853AF7450BN6PR12MB1809namp_"
+
+--_000_BN6PR12MB18093E836DB1098A42A3853AF7450BN6PR12MB1809namp_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+I recently updated amd-staging-drm-next.  Apply whatever makes sense for no=
+w and it'll naturally fall out in the next rebase.
+
+Alex
+________________________________
+From: Grodzovsky, Andrey <Andrey.Grodzovsky@amd.com>
+Sent: Monday, November 25, 2019 7:09 PM
+To: Deng, Emily <Emily.Deng@amd.com>
+Cc: dri-devel@lists.freedesktop.org <dri-devel@lists.freedesktop.org>; amd-=
+gfx@lists.freedesktop.org <amd-gfx@lists.freedesktop.org>; Koenig, Christia=
+n <Christian.Koenig@amd.com>; steven.price@arm.com <steven.price@arm.com>; =
+Deucher, Alexander <Alexander.Deucher@amd.com>
+Subject: Re: [PATCH v4] drm/scheduler: Avoid accessing freed bad job.
+
+Christian asked to submit it to drm-misc instead of our drm-next to avoid l=
+ater conflicts with Steven's patch which he mentioned in this thread which =
+is not in drm-next yet.
+Christian, Alex, once this merged to drm-misc I guess we need to pull all l=
+atest changes from there to drm-next so the issue Emily reported can be avo=
+ided.
+
+Andrey
+
+________________________________________
+From: Deng, Emily <Emily.Deng@amd.com>
+Sent: 25 November 2019 16:44:36
+To: Grodzovsky, Andrey
+Cc: dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org; Koenig,=
+ Christian; steven.price@arm.com; Grodzovsky, Andrey
+Subject: RE: [PATCH v4] drm/scheduler: Avoid accessing freed bad job.
+
+[AMD Official Use Only - Internal Distribution Only]
+
+Hi Andrey,
+    Seems you didn't submit this patch?
+
+Best wishes
+Emily Deng
+
+
+
+>-----Original Message-----
+>From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+>Sent: Monday, November 25, 2019 12:51 PM
+>Cc: dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org; Koenig=
+,
+>Christian <Christian.Koenig@amd.com>; Deng, Emily
+><Emily.Deng@amd.com>; steven.price@arm.com; Grodzovsky, Andrey
+><Andrey.Grodzovsky@amd.com>
+>Subject: [PATCH v4] drm/scheduler: Avoid accessing freed bad job.
+>
+>Problem:
+>Due to a race between drm_sched_cleanup_jobs in sched thread and
+>drm_sched_job_timedout in timeout work there is a possiblity that bad job
+>was already freed while still being accessed from the timeout thread.
+>
+>Fix:
+>Instead of just peeking at the bad job in the mirror list remove it from t=
+he list
+>under lock and then put it back later when we are garanteed no race with
+>main sched thread is possible which is after the thread is parked.
+>
+>v2: Lock around processing ring_mirror_list in drm_sched_cleanup_jobs.
+>
+>v3: Rebase on top of drm-misc-next. v2 is not needed anymore as
+>drm_sched_get_cleanup_job already has a lock there.
+>
+>v4: Fix comments to relfect latest code in drm-misc.
+>
+>Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+>Reviewed-by: Christian K=F6nig <christian.koenig@amd.com>
+>Tested-by: Emily Deng <Emily.Deng@amd.com>
+>---
+> drivers/gpu/drm/scheduler/sched_main.c | 27
+>+++++++++++++++++++++++++++
+> 1 file changed, 27 insertions(+)
+>
+>diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+>b/drivers/gpu/drm/scheduler/sched_main.c
+>index 6774955..1bf9c40 100644
+>--- a/drivers/gpu/drm/scheduler/sched_main.c
+>+++ b/drivers/gpu/drm/scheduler/sched_main.c
+>@@ -284,10 +284,21 @@ static void drm_sched_job_timedout(struct
+>work_struct *work)
+>       unsigned long flags;
+>
+>       sched =3D container_of(work, struct drm_gpu_scheduler,
+>work_tdr.work);
+>+
+>+      /* Protects against concurrent deletion in
+>drm_sched_get_cleanup_job */
+>+      spin_lock_irqsave(&sched->job_list_lock, flags);
+>       job =3D list_first_entry_or_null(&sched->ring_mirror_list,
+>                                      struct drm_sched_job, node);
+>
+>       if (job) {
+>+              /*
+>+               * Remove the bad job so it cannot be freed by concurrent
+>+               * drm_sched_cleanup_jobs. It will be reinserted back after
+>sched->thread
+>+               * is parked at which point it's safe.
+>+               */
+>+              list_del_init(&job->node);
+>+              spin_unlock_irqrestore(&sched->job_list_lock, flags);
+>+
+>               job->sched->ops->timedout_job(job);
+>
+>               /*
+>@@ -298,6 +309,8 @@ static void drm_sched_job_timedout(struct
+>work_struct *work)
+>                       job->sched->ops->free_job(job);
+>                       sched->free_guilty =3D false;
+>               }
+>+      } else {
+>+              spin_unlock_irqrestore(&sched->job_list_lock, flags);
+>       }
+>
+>       spin_lock_irqsave(&sched->job_list_lock, flags); @@ -370,6 +383,20
+>@@ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct
+>drm_sched_job *bad)
+>       kthread_park(sched->thread);
+>
+>       /*
+>+       * Reinsert back the bad job here - now it's safe as
+>+       * drm_sched_get_cleanup_job cannot race against us and release the
+>+       * bad job at this point - we parked (waited for) any in progress
+>+       * (earlier) cleanups and drm_sched_get_cleanup_job will not be
+>called
+>+       * now until the scheduler thread is unparked.
+>+       */
+>+      if (bad && bad->sched =3D=3D sched)
+>+              /*
+>+               * Add at the head of the queue to reflect it was the earli=
+est
+>+               * job extracted.
+>+               */
+>+              list_add(&bad->node, &sched->ring_mirror_list);
+>+
+>+      /*
+>        * Iterate the job list from later to  earlier one and either deact=
+ive
+>        * their HW callbacks or remove them from mirror list if they alrea=
+dy
+>        * signaled.
+>--
+>2.7.4
+
+--_000_BN6PR12MB18093E836DB1098A42A3853AF7450BN6PR12MB1809namp_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+I recently updated amd-staging-drm-next.&nbsp; Apply whatever makes sense f=
+or now and it'll naturally fall out in the next rebase.</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+Alex<br>
+</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Grodzovsky, Andrey &l=
+t;Andrey.Grodzovsky@amd.com&gt;<br>
+<b>Sent:</b> Monday, November 25, 2019 7:09 PM<br>
+<b>To:</b> Deng, Emily &lt;Emily.Deng@amd.com&gt;<br>
+<b>Cc:</b> dri-devel@lists.freedesktop.org &lt;dri-devel@lists.freedesktop.=
+org&gt;; amd-gfx@lists.freedesktop.org &lt;amd-gfx@lists.freedesktop.org&gt=
+;; Koenig, Christian &lt;Christian.Koenig@amd.com&gt;; steven.price@arm.com=
+ &lt;steven.price@arm.com&gt;; Deucher, Alexander &lt;Alexander.Deucher@amd=
+.com&gt;<br>
+<b>Subject:</b> Re: [PATCH v4] drm/scheduler: Avoid accessing freed bad job=
+.</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">Christian asked to submit it to drm-misc instead o=
+f our drm-next to avoid later conflicts with Steven's patch which he mentio=
+ned in this thread which is not in drm-next yet.<br>
+Christian, Alex, once this merged to drm-misc I guess we need to pull all l=
+atest changes from there to drm-next so the issue Emily reported can be avo=
+ided.<br>
+<br>
+Andrey<br>
+<br>
+________________________________________<br>
+From: Deng, Emily &lt;Emily.Deng@amd.com&gt;<br>
+Sent: 25 November 2019 16:44:36<br>
+To: Grodzovsky, Andrey<br>
+Cc: dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org; Koenig,=
+ Christian; steven.price@arm.com; Grodzovsky, Andrey<br>
+Subject: RE: [PATCH v4] drm/scheduler: Avoid accessing freed bad job.<br>
+<br>
+[AMD Official Use Only - Internal Distribution Only]<br>
+<br>
+Hi Andrey,<br>
+&nbsp;&nbsp;&nbsp; Seems you didn't submit this patch?<br>
+<br>
+Best wishes<br>
+Emily Deng<br>
+<br>
+<br>
+<br>
+&gt;-----Original Message-----<br>
+&gt;From: Andrey Grodzovsky &lt;andrey.grodzovsky@amd.com&gt;<br>
+&gt;Sent: Monday, November 25, 2019 12:51 PM<br>
+&gt;Cc: dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org; Koe=
+nig,<br>
+&gt;Christian &lt;Christian.Koenig@amd.com&gt;; Deng, Emily<br>
+&gt;&lt;Emily.Deng@amd.com&gt;; steven.price@arm.com; Grodzovsky, Andrey<br=
+>
+&gt;&lt;Andrey.Grodzovsky@amd.com&gt;<br>
+&gt;Subject: [PATCH v4] drm/scheduler: Avoid accessing freed bad job.<br>
+&gt;<br>
+&gt;Problem:<br>
+&gt;Due to a race between drm_sched_cleanup_jobs in sched thread and<br>
+&gt;drm_sched_job_timedout in timeout work there is a possiblity that bad j=
+ob<br>
+&gt;was already freed while still being accessed from the timeout thread.<b=
+r>
+&gt;<br>
+&gt;Fix:<br>
+&gt;Instead of just peeking at the bad job in the mirror list remove it fro=
+m the list<br>
+&gt;under lock and then put it back later when we are garanteed no race wit=
+h<br>
+&gt;main sched thread is possible which is after the thread is parked.<br>
+&gt;<br>
+&gt;v2: Lock around processing ring_mirror_list in drm_sched_cleanup_jobs.<=
+br>
+&gt;<br>
+&gt;v3: Rebase on top of drm-misc-next. v2 is not needed anymore as<br>
+&gt;drm_sched_get_cleanup_job already has a lock there.<br>
+&gt;<br>
+&gt;v4: Fix comments to relfect latest code in drm-misc.<br>
+&gt;<br>
+&gt;Signed-off-by: Andrey Grodzovsky &lt;andrey.grodzovsky@amd.com&gt;<br>
+&gt;Reviewed-by: Christian K=F6nig &lt;christian.koenig@amd.com&gt;<br>
+&gt;Tested-by: Emily Deng &lt;Emily.Deng@amd.com&gt;<br>
+&gt;---<br>
+&gt; drivers/gpu/drm/scheduler/sched_main.c | 27<br>
+&gt;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&=
+#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;<br>
+&gt; 1 file changed, 27 insertions(&#43;)<br>
+&gt;<br>
+&gt;diff --git a/drivers/gpu/drm/scheduler/sched_main.c<br>
+&gt;b/drivers/gpu/drm/scheduler/sched_main.c<br>
+&gt;index 6774955..1bf9c40 100644<br>
+&gt;--- a/drivers/gpu/drm/scheduler/sched_main.c<br>
+&gt;&#43;&#43;&#43; b/drivers/gpu/drm/scheduler/sched_main.c<br>
+&gt;@@ -284,10 &#43;284,21 @@ static void drm_sched_job_timedout(struct<br>
+&gt;work_struct *work)<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; unsigned long flags;<br>
+&gt;<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sched =3D container_of(work, struc=
+t drm_gpu_scheduler,<br>
+&gt;work_tdr.work);<br>
+&gt;&#43;<br>
+&gt;&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* Protects against concurrent dele=
+tion in<br>
+&gt;drm_sched_get_cleanup_job */<br>
+&gt;&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spin_lock_irqsave(&amp;sched-&gt;jo=
+b_list_lock, flags);<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; job =3D list_first_entry_or_null(&=
+amp;sched-&gt;ring_mirror_list,<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+; struct drm_sched_job, node);<br>
+&gt;<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (job) {<br>
+&gt;&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp; /*<br>
+&gt;&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp; * Remove the bad job so it cannot be freed by concurrent=
+<br>
+&gt;&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp; * drm_sched_cleanup_jobs. It will be reinserted back aft=
+er<br>
+&gt;sched-&gt;thread<br>
+&gt;&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp; * is parked at which point it's safe.<br>
+&gt;&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp; */<br>
+&gt;&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp; list_del_init(&amp;job-&gt;node);<br>
+&gt;&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp; spin_unlock_irqrestore(&amp;sched-&gt;job_list_lock, flags);<b=
+r>
+&gt;&#43;<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp; job-&gt;sched-&gt;ops-&gt;timedout_job(job);<br>
+&gt;<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp; /*<br>
+&gt;@@ -298,6 &#43;309,8 @@ static void drm_sched_job_timedout(struct<br>
+&gt;work_struct *work)<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; job-&gt;sched=
+-&gt;ops-&gt;free_job(job);<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sched-&gt;fre=
+e_guilty =3D false;<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp; }<br>
+&gt;&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } else {<br>
+&gt;&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp; spin_unlock_irqrestore(&amp;sched-&gt;job_list_lock, flags);<b=
+r>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&gt;<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spin_lock_irqsave(&amp;sched-&gt;j=
+ob_list_lock, flags); @@ -370,6 &#43;383,20<br>
+&gt;@@ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct<br>
+&gt;drm_sched_job *bad)<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; kthread_park(sched-&gt;thread);<br=
+>
+&gt;<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /*<br>
+&gt;&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * Reinsert back the bad job h=
+ere - now it's safe as<br>
+&gt;&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * drm_sched_get_cleanup_job c=
+annot race against us and release the<br>
+&gt;&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * bad job at this point - we =
+parked (waited for) any in progress<br>
+&gt;&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * (earlier) cleanups and drm_=
+sched_get_cleanup_job will not be<br>
+&gt;called<br>
+&gt;&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * now until the scheduler thr=
+ead is unparked.<br>
+&gt;&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+&gt;&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (bad &amp;&amp; bad-&gt;sched =
+=3D=3D sched)<br>
+&gt;&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp; /*<br>
+&gt;&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp; * Add at the head of the queue to reflect it was the ear=
+liest<br>
+&gt;&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp; * job extracted.<br>
+&gt;&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp; */<br>
+&gt;&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp; list_add(&amp;bad-&gt;node, &amp;sched-&gt;ring_mirror_list);<=
+br>
+&gt;&#43;<br>
+&gt;&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /*<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * Iterate the job list from =
+later to&nbsp; earlier one and either deactive<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * their HW callbacks or remo=
+ve them from mirror list if they already<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * signaled.<br>
+&gt;--<br>
+&gt;2.7.4<br>
+</div>
+</span></font></div>
+</body>
+</html>
+
+--_000_BN6PR12MB18093E836DB1098A42A3853AF7450BN6PR12MB1809namp_--
+
+--===============0609986488==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0609986488==--
