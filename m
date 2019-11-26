@@ -2,36 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F26B109D3B
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2019 12:47:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4386109D71
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2019 13:03:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0FBA6E073;
-	Tue, 26 Nov 2019 11:46:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54FB789CF6;
+	Tue, 26 Nov 2019 12:03:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id E7EA96E073
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2019 11:46:56 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4BC691FB;
- Tue, 26 Nov 2019 03:46:56 -0800 (PST)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2C4463F52E;
- Tue, 26 Nov 2019 03:46:56 -0800 (PST)
-Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
- id E5A28682AC4; Tue, 26 Nov 2019 11:46:54 +0000 (GMT)
-Date: Tue, 26 Nov 2019 11:46:54 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH 2/2] drm/fourcc: Fill out all block sizes for P210
-Message-ID: <20191126114654.kvncds3adtxfy77h@e110455-lin.cambridge.arm.com>
-References: <20191126091414.226070-1-daniel.vetter@ffwll.ch>
- <20191126091414.226070-2-daniel.vetter@ffwll.ch>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E01C56E30F
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2019 12:03:01 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id DD3F4720E2; Tue, 26 Nov 2019 12:03:01 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
+Date: Tue, 26 Nov 2019 12:03:01 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: linedot@xcpp.org
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: FIXED
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-110674-502-i7ws3Em0j6@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
+References: <bug-110674-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191126091414.226070-2-daniel.vetter@ffwll.ch>
-User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -44,46 +52,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Ayan Kumar Halder <ayan.halder@arm.com>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1688969742=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBOb3YgMjYsIDIwMTkgYXQgMTA6MTQ6MTRBTSArMDEwMCwgRGFuaWVsIFZldHRlciB3
-cm90ZToKPiAwIG1lYW5zIDEgYXMgdGhlIGRlZmF1bHQsIGJ1dCBpdCdzIG1pZ2h0eSBjb25mdXNp
-bmcgaWYgdGhlIGJsb2NrIHNpemUKPiBmb3IgdGhlIGZpcnN0IHBsYW5lIGlzIHNwZWxsZWQgb3V0
-IGV4cGxpY2l0bHksIGJ1dCBub3QgZm9yIHRoZSAybmQKPiBwbGFuZS4KPiAKPiBObyBjYzogc3Rh
-YmxlIGJlY2F1c2UgdGhpcyBpcyBqdXN0IGNvbmZ1c2lvbiwgYnV0IDAgZnVuY3Rpb25hbCBpc3N1
-ZS4KCkFncmVlIQoKPiAKPiBGaXhlczogN2JhMGZlZTI0N2VlICgiZHJtL2ZvdXJjYzogQWRkIEFG
-QkMgeXV2IGZvdXJjY3MgZm9yIE1hbGkiKQo+IENjOiBCcmlhbiBTdGFya2V5IDxicmlhbi5zdGFy
-a2V5QGFybS5jb20+Cj4gQ2M6IEF5YW4gS3VtYXIgSGFsZGVyIDxheWFuLmhhbGRlckBhcm0uY29t
-Pgo+IENjOiBMaXZpdSBEdWRhdSA8bGl2aXUuZHVkYXVAYXJtLmNvbT4KCkFja2VkLWJ5OiBMaXZp
-dSBEdWRhdSA8bGl2aXUuZHVkYXVAYXJtLmNvbT4KCkJlc3QgcmVnYXJkcywKCj4gQ2M6IEFseXNz
-YSBSb3Nlbnp3ZWlnIDxhbHlzc2FAcm9zZW56d2VpZy5pbz4KPiBDYzogTWFhcnRlbiBMYW5raG9y
-c3QgPG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT4KPiBDYzogTWF4aW1lIFJpcGFy
-ZCA8bXJpcGFyZEBrZXJuZWwub3JnPgo+IFNpZ25lZC1vZmYtYnk6IERhbmllbCBWZXR0ZXIgPGRh
-bmllbC52ZXR0ZXJAaW50ZWwuY29tPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2ZvdXJj
-Yy5jIHwgMiArLQo+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24o
-LSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9mb3VyY2MuYyBiL2RyaXZl
-cnMvZ3B1L2RybS9kcm1fZm91cmNjLmMKPiBpbmRleCBmZTc5Y2U4NTdjOGEuLmIyMzRiZmFlZGEw
-NiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZvdXJjYy5jCj4gKysrIGIvZHJp
-dmVycy9ncHUvZHJtL2RybV9mb3VyY2MuYwo+IEBAIC0yNjMsNyArMjYzLDcgQEAgY29uc3Qgc3Ry
-dWN0IGRybV9mb3JtYXRfaW5mbyAqX19kcm1fZm9ybWF0X2luZm8odTMyIGZvcm1hdCkKPiAgCQkg
-IC5oc3ViID0gMiwgLnZzdWIgPSAyLCAuaXNfeXV2ID0gdHJ1ZX0sCj4gIAkJeyAuZm9ybWF0ID0g
-RFJNX0ZPUk1BVF9QMjEwLAkJLmRlcHRoID0gMCwKPiAgCQkgIC5udW1fcGxhbmVzID0gMiwgLmNo
-YXJfcGVyX2Jsb2NrID0geyAyLCA0LCAwIH0sCj4gLQkJICAuYmxvY2tfdyA9IHsgMSwgMCwgMCB9
-LCAuYmxvY2tfaCA9IHsgMSwgMCwgMCB9LCAuaHN1YiA9IDIsCj4gKwkJICAuYmxvY2tfdyA9IHsg
-MSwgMSwgMCB9LCAuYmxvY2tfaCA9IHsgMSwgMSwgMCB9LCAuaHN1YiA9IDIsCj4gIAkJICAudnN1
-YiA9IDEsIC5pc195dXYgPSB0cnVlIH0sCj4gIAkJeyAuZm9ybWF0ID0gRFJNX0ZPUk1BVF9WVVkx
-MDEwMTAsCS5kZXB0aCA9IDAsCj4gIAkJICAubnVtX3BsYW5lcyA9IDEsIC5jcHAgPSB7IDAsIDAs
-IDAgfSwgLmhzdWIgPSAxLCAudnN1YiA9IDEsCj4gLS0gCj4gMi4yNC4wCj4gCgotLSAKPT09PT09
-PT09PT09PT09PT09PT0KfCBJIHdvdWxkIGxpa2UgdG8gfAp8IGZpeCB0aGUgd29ybGQsICB8Cnwg
-YnV0IHRoZXkncmUgbm90IHwKfCBnaXZpbmcgbWUgdGhlICAgfAogXCBzb3VyY2UgY29kZSEgIC8K
-ICAtLS0tLS0tLS0tLS0tLS0KICAgIMKvXF8o44OEKV8vwq8KX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1688969742==
+Content-Type: multipart/alternative; boundary="157476978110.90E12.32344"
+Content-Transfer-Encoding: 7bit
+
+
+--157476978110.90E12.32344
+Date: Tue, 26 Nov 2019 12:03:01 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
+
+--- Comment #171 from linedot@xcpp.org ---
+Created attachment 146026
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D146026&action=3Dedit
+5.4.0-arch1-1 GPU initialization fails
+
+With kernel version 5.4.0-arch1-1 the GPU can flat out no longer be
+initialized.
+
+My system is now completely unusable with the current kernel.
+
+Does this specifically mean anything?
+[   15.575361] amdgpu: [powerplay] smu driver if version =3D 0x00000013, sm=
+u fw
+if version =3D 0x00000012, smu fw version =3D 0x00282d00 (40.45.0)
+[   15.575362] amdgpu: [powerplay] SMU driver if version not matched
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--157476978110.90E12.32344
+Date: Tue, 26 Nov 2019 12:03:01 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c171">Comm=
+ent # 171</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+linedot&#64;xcpp.org" title=3D"linedot&#64;xcpp.org">linedot&#64;xcpp.org</=
+a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D146026=
+" name=3D"attach_146026" title=3D"5.4.0-arch1-1 GPU initialization fails">a=
+ttachment 146026</a> <a href=3D"attachment.cgi?id=3D146026&amp;action=3Dedi=
+t" title=3D"5.4.0-arch1-1 GPU initialization fails">[details]</a></span>
+5.4.0-arch1-1 GPU initialization fails
+
+With kernel version 5.4.0-arch1-1 the GPU can flat out no longer be
+initialized.
+
+My system is now completely unusable with the current kernel.
+
+Does this specifically mean anything?
+[   15.575361] amdgpu: [powerplay] smu driver if version =3D 0x00000013, sm=
+u fw
+if version =3D 0x00000012, smu fw version =3D 0x00282d00 (40.45.0)
+[   15.575362] amdgpu: [powerplay] SMU driver if version not matched</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--157476978110.90E12.32344--
+
+--===============1688969742==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1688969742==--
