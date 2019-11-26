@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2180110A006
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2019 15:14:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD50310A00F
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Nov 2019 15:14:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EC7C6E40C;
-	Tue, 26 Nov 2019 14:14:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEA2289D7F;
+	Tue, 26 Nov 2019 14:14:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC3FB89D7F
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2019 14:14:12 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 597ED89D7F
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Nov 2019 14:14:44 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 519F2720E2; Tue, 26 Nov 2019 14:14:44 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 205661] New: Upgrade to 5.4 from K5.3.13 fails x2 attempts
-Date: Tue, 26 Nov 2019 14:14:11 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
+Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
+Date: Tue, 26 Nov 2019 14:14:44 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: ivan@cyteck.co.uk
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: FIXED
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-205661-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
+X-Bugzilla-Changed-Fields: attachments.mimetype
+Message-ID: <bug-110674-502-0jyEhwfBJF@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
+References: <bug-110674-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
- message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,77 +52,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1540391327=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDU2NjEKCiAgICAg
-ICAgICAgIEJ1ZyBJRDogMjA1NjYxCiAgICAgICAgICAgU3VtbWFyeTogVXBncmFkZSB0byA1LjQg
-ZnJvbSBLNS4zLjEzIGZhaWxzIHgyIGF0dGVtcHRzCiAgICAgICAgICAgUHJvZHVjdDogRHJpdmVy
-cwogICAgICAgICAgIFZlcnNpb246IDIuNQogICAgS2VybmVsIFZlcnNpb246IEtlcm5lbCA1LjQK
-ICAgICAgICAgIEhhcmR3YXJlOiBBbGwKICAgICAgICAgICAgICAgIE9TOiBMaW51eAogICAgICAg
-ICAgICAgIFRyZWU6IE1haW5saW5lCiAgICAgICAgICAgIFN0YXR1czogTkVXCiAgICAgICAgICBT
-ZXZlcml0eTogbm9ybWFsCiAgICAgICAgICBQcmlvcml0eTogUDEKICAgICAgICAgQ29tcG9uZW50
-OiBWaWRlbyhEUkkgLSBub24gSW50ZWwpCiAgICAgICAgICBBc3NpZ25lZTogZHJpdmVyc192aWRl
-by1kcmlAa2VybmVsLWJ1Z3Mub3NkbC5vcmcKICAgICAgICAgIFJlcG9ydGVyOiBpdmFuQGN5dGVj
-ay5jby51awogICAgICAgIFJlZ3Jlc3Npb246IE5vCgpDcmVhdGVkIGF0dGFjaG1lbnQgMjg2MDcx
-CiAgLS0+IGh0dHBzOi8vYnVnemlsbGEua2VybmVsLm9yZy9hdHRhY2htZW50LmNnaT9pZD0yODYw
-NzEmYWN0aW9uPWVkaXQKU2NyZWVuIER1bXAgd2l0aCBlcnJvcyBzaG93aW5nLgoKV2hlbiBydW5u
-aW5nIHVwZ3JhZGUgcHJvY2VzcyAoZnJvbSBLNS4zLjEzKSB0byA1LjQgeDIgcHJvYmxlbXMgYXBw
-ZWFyLgoKYSkgMXN0IGVycm9yIGxvb2tzIGxpa2UgbWlzc2luZyBmaXJtd2FyZSAKCmIpIDJuZCBl
-cnJvciBmYWlscyBvbiBncmFwaGljcyBkcml2ZXIgKE52aWRpYSA0MzAuNTAgZHJpdmVyIGFscmVh
-ZHkgaW5zdGFsbGVkICYKaGFkIGJlZW4gd29ya2luZyBmaW5lIGluIEs1LjMuMTMpIFRoZSBncmFw
-aGljcyBjYXJkIGlzIGFuIE52aWRpYSBHVCA3MTAuCgpTeXN0ZW0gaXMgcnVubmluZyBMaW51eCBN
-aW50IDkuMiAodGluYSkKCkRldGFpbHM6LSBXaGVuIEkgaGFkIGluc3RhbGxlZCBLNS40IChhZnRl
-ciB0aGUgZXJyb3JzIHNob3dlZCkgJiByZWJvb3RlZCB0aGUKc3lzdGVtIGNhbWUgYmFjayB1cCwg
-dGhlIG1vdXNlIHBvaW50ZXIgc2hvd2VkIGltbWVkaWF0ZWx5IHRoZSB3cm9uZyBzY3JlZW4KcmVz
-b2x1dGlvbi4gQWZ0ZXIgZGVza3RvcCBsb2dpbiB0aGVyZSB3YXMgYW4gZXJyb3IgbWVzc2FnZSBz
-YXlpbmcgdGhhdCBJIGhhZCBubwp2aWRlbyBhY2NlbGVyYXRpb24uUGxlYXNlIHJ1biBkcml2ZXIg
-bWFuYWdlciB3aGljaCBJIGRpZCBidXQgaXQgb25seSBzaG93ZWQgdGhlCmNvcnJlY3QgcHJldmlv
-dXNseSBzZWxlY3RlZCBkcml2ZXIgNDMwLjUwIGFzIHNlbGVjdGVkLiBTbyBkcml2ZXIgbWFuYWdl
-ciB3YXMgbm8KaGVscCB3aGF0cyBldmVyLgoKVG8gY29uY2x1ZGU6LSBJIGhhZCB0byByZXZlcnQg
-dGhlIGtlcm5hbCBiYWNrIHRvIEs1LjMuMTMgYW5kIHRoaXMgc29sdmVkIHRoZQpwcm9ibGVtcy4K
-Ck5PVEVTOi0gU2NyZWVuIER1bXAgb2YgdGhlIHByb2JsZW1zIGF0IHVwZ3JhZGUgJiBhbHNvIHNl
-bmRpbmcgeW91IHRoZSBtYWtlLmxvZwpmcm9tIHRoZSBOdmlkaWEgZHJpdmVyL2NhcmQuCgo9PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PQpNYWtlLmxvZyB0ZXh0IHBhc3RlZCBiZWxvdyBoZXJlOi0KREtN
-UyBtYWtlLmxvZyBmb3IgbnZpZGlhLTQzMC41MCBmb3Iga2VybmVsIDUuNC4wLTA1MDQwMC1sb3ds
-YXRlbmN5ICh4ODZfNjQpCk1vbiAyNSBOb3YgMTg6NTQ6NTYgR01UIDIwMTkKbWFrZVsxXTogRW50
-ZXJpbmcgZGlyZWN0b3J5ICcvdXNyL3NyYy9saW51eC1oZWFkZXJzLTUuNC4wLTA1MDQwMC1sb3ds
-YXRlbmN5Jwp0ZXN0IC1lIGluY2x1ZGUvZ2VuZXJhdGVkL2F1dG9jb25mLmggLWEgLWUgaW5jbHVk
-ZS9jb25maWcvYXV0by5jb25mIHx8ICggICAgICAgCiAgICAgICAgXAplY2hvID4mMjsgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXAplY2hvID4m
-MiAiICBFUlJPUjogS2VybmVsIGNvbmZpZ3VyYXRpb24gaXMgaW52YWxpZC4iOyAgICAgICAgICAg
-XAplY2hvID4mMiAiICAgICAgICAgaW5jbHVkZS9nZW5lcmF0ZWQvYXV0b2NvbmYuaCBvciBpbmNs
-dWRlL2NvbmZpZy9hdXRvLmNvbmYgYXJlCm1pc3NpbmcuIjtcCmVjaG8gPiYyICIgICAgICAgICBS
-dW4gJ21ha2Ugb2xkY29uZmlnICYmIG1ha2UgcHJlcGFyZScgb24ga2VybmVsIHNyYyB0byBmaXgK
-aXQuIjsgICAgICBcCmVjaG8gPiYyIDsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICBcCi9iaW4vZmFsc2UpCm1ha2UgLWYgLi9zY3JpcHRzL01ha2Vm
-aWxlLmJ1aWxkIG9iaj0vdmFyL2xpYi9ka21zL252aWRpYS80MzAuNTAvYnVpbGQKc2luZ2xlLWJ1
-aWxkPSBuZWVkLWJ1aWx0aW49MSBuZWVkLW1vZG9yZGVyPTEKICBsbiAtc2YgL3Zhci9saWIvZGtt
-cy9udmlkaWEvNDMwLjUwL2J1aWxkL252aWRpYS9udi1rZXJuZWwub19iaW5hcnkKL3Zhci9saWIv
-ZGttcy9udmlkaWEvNDMwLjUwL2J1aWxkL252aWRpYS9udi1rZXJuZWwubwpUaGUgTW9kdWxlLnN5
-bXZlcnMgZmlsZSBpcyBtaXNzaW5nLCBvciBkb2VzIG5vdCBjb250YWluIGFueQpzeW1ib2xzIGV4
-cG9ydGVkIGZyb20gdGhlIGtlcm5lbC4gVGhpcyBjb3VsZCBjYXVzZSB0aGUgTlZJRElBCmtlcm5l
-bCBtb2R1bGVzIHRvIGJlIGJ1aWx0IGFnYWluc3QgYSBjb25maWd1cmF0aW9uIHRoYXQgZG9lcwpu
-b3QgYWNjdXJhdGVseSByZWZsZWN0IHRoZSBhY3R1YWwgdGFyZ2V0IGtlcm5lbC4KVGhlIE1vZHVs
-ZS5zeW12ZXJzIGZpbGUgY2hlY2sgY2FuIGJlIGRpc2FibGVkIGJ5IHNldHRpbmcgdGhlCmVudmly
-b25tZW50IHZhcmlhYmxlIElHTk9SRV9NSVNTSU5HX01PRFVMRV9TWU1WRVJTIHRvIDEuCiAgbG4g
-LXNmCi92YXIvbGliL2RrbXMvbnZpZGlhLzQzMC41MC9idWlsZC9udmlkaWEtbW9kZXNldC9udi1t
-b2Rlc2V0LWtlcm5lbC5vX2JpbmFyeQovdmFyL2xpYi9ka21zL252aWRpYS80MzAuNTAvYnVpbGQv
-bnZpZGlhLW1vZGVzZXQvbnYtbW9kZXNldC1rZXJuZWwubwovdmFyL2xpYi9ka21zL252aWRpYS80
-MzAuNTAvYnVpbGQvS2J1aWxkOjE4MjogcmVjaXBlIGZvciB0YXJnZXQKJ21vZHVsZV9zeW12ZXJz
-X3Nhbml0eV9jaGVjaycgZmFpbGVkCm1ha2VbMl06ICoqKiBbbW9kdWxlX3N5bXZlcnNfc2FuaXR5
-X2NoZWNrXSBFcnJvciAxCm1ha2VbMl06ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMu
-Li4uCk1ha2VmaWxlOjE2NTI6IHJlY2lwZSBmb3IgdGFyZ2V0ICcvdmFyL2xpYi9ka21zL252aWRp
-YS80MzAuNTAvYnVpbGQnIGZhaWxlZAptYWtlWzFdOiAqKiogWy92YXIvbGliL2RrbXMvbnZpZGlh
-LzQzMC41MC9idWlsZF0gRXJyb3IgMgptYWtlWzFdOiBMZWF2aW5nIGRpcmVjdG9yeSAnL3Vzci9z
-cmMvbGludXgtaGVhZGVycy01LjQuMC0wNTA0MDAtbG93bGF0ZW5jeScKTWFrZWZpbGU6ODE6IHJl
-Y2lwZSBmb3IgdGFyZ2V0ICdtb2R1bGVzJyBmYWlsZWQKbWFrZTogKioqIFttb2R1bGVzXSBFcnJv
-ciAyCgo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PQoKZW5kLi4KCi0tIApZb3UgYXJlIHJlY2Vpdmlu
-ZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhl
-IGJ1Zy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
-LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
-Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1540391327==
+Content-Type: multipart/alternative; boundary="15747776840.06edf70ba.8563"
+Content-Transfer-Encoding: 7bit
+
+
+--15747776840.06edf70ba.8563
+Date: Tue, 26 Nov 2019 14:14:44 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
+
+Alex Deucher <alexdeucher@gmail.com> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+ Attachment #146026|text/x-log                  |text/plain
+          mime type|                            |
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15747776840.06edf70ba.8563
+Date: Tue, 26 Nov 2019 14:14:44 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:alexdeuch=
+er&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.com&gt;">=
+ <span class=3D"fn">Alex Deucher</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
+4</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Attachment #146026 mime type</td>
+           <td>text/x-log
+           </td>
+           <td>text/plain
+           </td>
+         </tr></table>
+      <p>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15747776840.06edf70ba.8563--
+
+--===============1540391327==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1540391327==--
