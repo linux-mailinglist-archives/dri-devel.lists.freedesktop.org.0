@@ -2,41 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F7D710C0B3
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2019 00:39:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FB8D10C0DC
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2019 00:56:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A67596E0DA;
-	Wed, 27 Nov 2019 23:39:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 948F36E542;
+	Wed, 27 Nov 2019 23:56:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80DFD6E0DA
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2019 23:39:06 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 47Ncft6Qqwz9sS3;
- Thu, 28 Nov 2019 10:39:02 +1100 (AEDT)
-Date: Thu, 28 Nov 2019 10:39:02 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
-Subject: Re: linux-next: build failure after merge of the tip tree
-Message-ID: <20191128103902.658e2a14@canb.auug.org.au>
-In-Reply-To: <20191106135340.3fa45898@canb.auug.org.au>
-References: <20191010131448.482da2b2@canb.auug.org.au>
- <20191106135340.3fa45898@canb.auug.org.au>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8CE3D6E542
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2019 23:56:29 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 82E61720E2; Wed, 27 Nov 2019 23:56:29 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 107877] deepin-desktop: xdg-email: no method available for
+ opening 'mailto:'
+Date: Wed, 27 Nov 2019 23:56:29 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: security
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: londonts4@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: FIXED
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-107877-502-TzCjPXWDGi@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-107877-502@http.bugs.freedesktop.org/>
+References: <bug-107877-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=canb.auug.org.au; s=201702; t=1574897942;
- bh=w1LH2k7ptcCnsILry43RjKE7GrL+RUe5GvbJ+pVWI90=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=YSSbTi4EBv6SnIAsOHKbWnAauiXvBEnhcXECQzBW7mvN0snKeIsNidprQXb4hnuIr
- 7CP/gK2shdcjEojCvQeSOMs/CjoAOXmmLT01ne8hyIAs6dc2RXRX+ad53FmA6Uj21r
- yMLW/CzjGsl5AIrUjnwu4fWiIsMXLlnyhxjZLLLdo7tEA9i52LxR2wLWMw6dvXlekh
- SxKH4AW72rJkjJfENca4Q7OGsXGk/THSXmq2g5Fs/1l2fNXoWLN/P9/lsXbJKjv1n4
- e9pPHflYBUja1KWL+azipkL30xXCSbS0qyXKloGf3VM/12XUpSsUwjJqFg8D34m1UE
- DzyRR92B4UeCA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,91 +53,254 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Zijlstra <peterz@infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>, Qian Cai <cai@lca.pw>,
- "H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@linutronix.de>,
- Linus <torvalds@linux-foundation.org>, Ingo Molnar <mingo@elte.hu>
-Content-Type: multipart/mixed; boundary="===============1232860712=="
+Content-Type: multipart/mixed; boundary="===============1362403654=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1232860712==
-Content-Type: multipart/signed; boundary="Sig_/SRXdzPhxahcd.RHlGpCCP=T";
- protocol="application/pgp-signature"; micalg=pgp-sha256
 
---Sig_/SRXdzPhxahcd.RHlGpCCP=T
-Content-Type: text/plain; charset=US-ASCII
+--===============1362403654==
+Content-Type: multipart/alternative; boundary="15748989890.d220AC.27120"
+Content-Transfer-Encoding: 7bit
+
+
+--15748989890.d220AC.27120
+Date: Wed, 27 Nov 2019 23:56:29 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
-Hi all,
+https://bugs.freedesktop.org/show_bug.cgi?id=3D107877
 
-On Wed, 6 Nov 2019 13:53:40 +1100 Stephen Rothwell <sfr@canb.auug.org.au> w=
-rote:
->
-> Hi all,
->=20
-> On Thu, 10 Oct 2019 13:14:48 +1100 Stephen Rothwell <sfr@canb.auug.org.au=
-> wrote:
-> >
-> > I added the following merge fix patch for today:
-> >  =20
->=20
-> This patch is now just:
->=20
-> From: Stephen Rothwell <sfr@canb.auug.org.au>
-> Date: Thu, 10 Oct 2019 13:08:43 +1100
-> Subject: [PATCH] drm/i915: update for mutex_release API change
->=20
-> Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> ---
->  drivers/gpu/drm/i915/i915_active.c    | 2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i9=
-15_active.c
-> index aa37c07004b9..a47387174434 100644
-> --- a/drivers/gpu/drm/i915/i915_active.c
-> +++ b/drivers/gpu/drm/i915/i915_active.c
-> @@ -385,7 +385,7 @@ void i915_active_set_exclusive(struct i915_active *re=
-f, struct dma_fence *f)
->  	mutex_acquire(&ref->mutex.dep_map, 0, 0, _THIS_IP_);
->  	if (!__i915_active_fence_set(&ref->excl, f))
->  		atomic_inc(&ref->count);
-> -	mutex_release(&ref->mutex.dep_map, 0, _THIS_IP_);
-> +	mutex_release(&ref->mutex.dep_map, _THIS_IP_);
->  }
-> =20
->  bool i915_active_acquire_if_busy(struct i915_active *ref)
-> --=20
-> 2.23.0
+--- Comment #35 from Drida Infotech <londonts4@gmail.com> ---
+here is the fix
 
-This merge fix patch is now needed for the merge between the drm tree
-and Linus' tree.
+https://www.dridainfotech.com
+https://www.dridainfotech.com/bigpond-email-support-phone-number.html
+https://www.dridainfotech.com/forgot-bigpond-email-password.html
+https://www.dridainfotech.com/bigpond-email-settings-outlook.html
+https://www.dridainfotech.com/change-optus-email-password.html
+https://www.dridainfotech.com/optus-email-support-number.html
+https://www.dridainfotech.com/change-gmail-password.html
+https://www.dridainfotech.com/gmail-support.html
+https://www.dridainfotech.com/how-to-contact-google-customer-service-phone-=
+number-australia.html
+https://www.dridainfotech.com/gmail-not-working-on-mac.html
+https://www.dridainfotech.com/gmail-not-working-on-iphone.html
+https://www.dridainfotech.com/gmail-outage-australia-phone-number.html
+https://www.dridainfotech.com/hotmail-support.html
+https://www.dridainfotech.com/how-to-contact-hotmail-customer-service-phone=
+-number-australia.html
+https://www.dridainfotech.com/hotmail-email-support.html
+https://www.dridainfotech.com/hotmail-change-password.html
+https://www.dridainfotech.com/forgot-hotmail-password.html
+https://www.dridainfotech.com/hotmail-account-recovery.html
+https://www.dridainfotech.com/change-hotmail-password-on-iphone.html
+https://www.dridainfotech.com/outlook-support.html
+https://www.dridainfotech.com/how-to-contact-outlook-customer-service-phone=
+-number-australia.html
+https://www.dridainfotech.com/outlook-2016-not-working-error-0x800ccc0e.html
+https://www.dridainfotech.com/how-to-change-outlook-password.html
+https://www.dridainfotech.com/yahoo-support.html
+https://www.dridainfotech.com/yahoo-support-australia.html
+https://www.dridainfotech.com/how-to-contact-yahoo-mail-customer-service-nu=
+mber-australia.html
+https://www.dridainfotech.com/yahoo-customer-service-phone-number-australia=
+.html
+https://www.dridainfotech.com/yahoo-mail-not-working-problems-support-numbe=
+r-australia.html
+https://www.dridainfotech.com/how-to-change-yahoo-mail-password.html
+https://www.dridainfotech.com/facebook-support-phone-number-australia.html
+https://www.dridainfotech.com/how-to-buy-high-quality-domain-authority-back=
+links-online-1.html
+https://www.dridainfotech.com/buy-high-pr-do-follow-backlinks-online.html
+https://www.dridainfotech.com/best-backlinking-service-seo-company.html
+https://www.dridainfotech.com/link-building-services-seo-company.html
+https://www.dridainfotech.com/best-white-hat-seo-company-online.html
+https://www.dridainfotech.com/best-local-seo-services-company-online.html
+https://www.dridainfotech.com/search-engine-optimization-company-online.html
+https://www.dridainfotech.com/how-to-do-seo-in-2020.html
+https://www.dridainfotech.com/how-to-create-high-quality-backlinks.html
+https://www.dridainfotech.com/legit-seo-services-company.html
+https://www.dridainfotech.com/norton-tech-support-phone-number-australia.ht=
+ml
+https://www.dridainfotech.com/mcafee-technical-support-phone-number-austral=
+ia.html
+https://www.dridainfotech.com/kaspersky-technical-support-phone-number-aust=
+ralia.html
+https://www.dridainfotech.com/trend-micro-technical-support-phone-number-au=
+stralia.html
+https://www.dridainfotech.com/russell-clive-wheeler-is-a-scammer-and-fraud-=
+lexon-lwayers.html
 
 --=20
-Cheers,
-Stephen Rothwell
+You are receiving this mail because:
+You are the assignee for the bug.=
 
---Sig_/SRXdzPhxahcd.RHlGpCCP=T
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+--15748989890.d220AC.27120
+Date: Wed, 27 Nov 2019 23:56:29 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
------BEGIN PGP SIGNATURE-----
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - deepin-desktop: xdg-email: no method available=
+ for opening 'mailto:'"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107877#c35">Comme=
+nt # 35</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - deepin-desktop: xdg-email: no method available=
+ for opening 'mailto:'"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107877">bug 10787=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+londonts4&#64;gmail.com" title=3D"Drida Infotech &lt;londonts4&#64;gmail.co=
+m&gt;"> <span class=3D"fn">Drida Infotech</span></a>
+</span></b>
+        <pre>here is the fix
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl3fCRYACgkQAVBC80lX
-0Gybgwf+O6nFUE7lTsaL1+COw7BFmjwftB8S6FHMm61I6xICZcYb60/ByuZqIdjc
-Koi3o90c7FiZ6HAUwMEiv+uoFtpf2X3SToTR64IGMNZ3YhYLuckt4Gd81dwuRu3y
-1AJPxfvswRRihJCyVrtHtOiDaHSoX56WQ8u+0pj6JNz2SC5n6tc7vym4vQ1IicQ6
-/HyUA9C9Cf412RreJBu8Iosn/ec2lySsVLplmwqEXKZAgbAZUjwL5FmJrcsWPOy7
-+Y6uQqNtj9Vxgion2a+yzAFOavqL2HzeyOVgXBKkIVwIRhavmKwwml9TI2jSssXI
-k3T0CiDT2B6BF2IJP6XqFyngeIEyyg==
-=GNgk
------END PGP SIGNATURE-----
+<a href=3D"https://www.dridainfotech.com">https://www.dridainfotech.com</a>
+<a href=3D"https://www.dridainfotech.com/bigpond-email-support-phone-number=
+.html">https://www.dridainfotech.com/bigpond-email-support-phone-number.htm=
+l</a>
+<a href=3D"https://www.dridainfotech.com/forgot-bigpond-email-password.html=
+">https://www.dridainfotech.com/forgot-bigpond-email-password.html</a>
+<a href=3D"https://www.dridainfotech.com/bigpond-email-settings-outlook.htm=
+l">https://www.dridainfotech.com/bigpond-email-settings-outlook.html</a>
+<a href=3D"https://www.dridainfotech.com/change-optus-email-password.html">=
+https://www.dridainfotech.com/change-optus-email-password.html</a>
+<a href=3D"https://www.dridainfotech.com/optus-email-support-number.html">h=
+ttps://www.dridainfotech.com/optus-email-support-number.html</a>
+<a href=3D"https://www.dridainfotech.com/change-gmail-password.html">https:=
+//www.dridainfotech.com/change-gmail-password.html</a>
+<a href=3D"https://www.dridainfotech.com/gmail-support.html">https://www.dr=
+idainfotech.com/gmail-support.html</a>
+<a href=3D"https://www.dridainfotech.com/how-to-contact-google-customer-ser=
+vice-phone-number-australia.html">https://www.dridainfotech.com/how-to-cont=
+act-google-customer-service-phone-number-australia.html</a>
+<a href=3D"https://www.dridainfotech.com/gmail-not-working-on-mac.html">htt=
+ps://www.dridainfotech.com/gmail-not-working-on-mac.html</a>
+<a href=3D"https://www.dridainfotech.com/gmail-not-working-on-iphone.html">=
+https://www.dridainfotech.com/gmail-not-working-on-iphone.html</a>
+<a href=3D"https://www.dridainfotech.com/gmail-outage-australia-phone-numbe=
+r.html">https://www.dridainfotech.com/gmail-outage-australia-phone-number.h=
+tml</a>
+<a href=3D"https://www.dridainfotech.com/hotmail-support.html">https://www.=
+dridainfotech.com/hotmail-support.html</a>
+<a href=3D"https://www.dridainfotech.com/how-to-contact-hotmail-customer-se=
+rvice-phone-number-australia.html">https://www.dridainfotech.com/how-to-con=
+tact-hotmail-customer-service-phone-number-australia.html</a>
+<a href=3D"https://www.dridainfotech.com/hotmail-email-support.html">https:=
+//www.dridainfotech.com/hotmail-email-support.html</a>
+<a href=3D"https://www.dridainfotech.com/hotmail-change-password.html">http=
+s://www.dridainfotech.com/hotmail-change-password.html</a>
+<a href=3D"https://www.dridainfotech.com/forgot-hotmail-password.html">http=
+s://www.dridainfotech.com/forgot-hotmail-password.html</a>
+<a href=3D"https://www.dridainfotech.com/hotmail-account-recovery.html">htt=
+ps://www.dridainfotech.com/hotmail-account-recovery.html</a>
+<a href=3D"https://www.dridainfotech.com/change-hotmail-password-on-iphone.=
+html">https://www.dridainfotech.com/change-hotmail-password-on-iphone.html<=
+/a>
+<a href=3D"https://www.dridainfotech.com/outlook-support.html">https://www.=
+dridainfotech.com/outlook-support.html</a>
+<a href=3D"https://www.dridainfotech.com/how-to-contact-outlook-customer-se=
+rvice-phone-number-australia.html">https://www.dridainfotech.com/how-to-con=
+tact-outlook-customer-service-phone-number-australia.html</a>
+<a href=3D"https://www.dridainfotech.com/outlook-2016-not-working-error-0x8=
+00ccc0e.html">https://www.dridainfotech.com/outlook-2016-not-working-error-=
+0x800ccc0e.html</a>
+<a href=3D"https://www.dridainfotech.com/how-to-change-outlook-password.htm=
+l">https://www.dridainfotech.com/how-to-change-outlook-password.html</a>
+<a href=3D"https://www.dridainfotech.com/yahoo-support.html">https://www.dr=
+idainfotech.com/yahoo-support.html</a>
+<a href=3D"https://www.dridainfotech.com/yahoo-support-australia.html">http=
+s://www.dridainfotech.com/yahoo-support-australia.html</a>
+<a href=3D"https://www.dridainfotech.com/how-to-contact-yahoo-mail-customer=
+-service-number-australia.html">https://www.dridainfotech.com/how-to-contac=
+t-yahoo-mail-customer-service-number-australia.html</a>
+<a href=3D"https://www.dridainfotech.com/yahoo-customer-service-phone-numbe=
+r-australia.html">https://www.dridainfotech.com/yahoo-customer-service-phon=
+e-number-australia.html</a>
+<a href=3D"https://www.dridainfotech.com/yahoo-mail-not-working-problems-su=
+pport-number-australia.html">https://www.dridainfotech.com/yahoo-mail-not-w=
+orking-problems-support-number-australia.html</a>
+<a href=3D"https://www.dridainfotech.com/how-to-change-yahoo-mail-password.=
+html">https://www.dridainfotech.com/how-to-change-yahoo-mail-password.html<=
+/a>
+<a href=3D"https://www.dridainfotech.com/facebook-support-phone-number-aust=
+ralia.html">https://www.dridainfotech.com/facebook-support-phone-number-aus=
+tralia.html</a>
+<a href=3D"https://www.dridainfotech.com/how-to-buy-high-quality-domain-aut=
+hority-backlinks-online-1.html">https://www.dridainfotech.com/how-to-buy-hi=
+gh-quality-domain-authority-backlinks-online-1.html</a>
+<a href=3D"https://www.dridainfotech.com/buy-high-pr-do-follow-backlinks-on=
+line.html">https://www.dridainfotech.com/buy-high-pr-do-follow-backlinks-on=
+line.html</a>
+<a href=3D"https://www.dridainfotech.com/best-backlinking-service-seo-compa=
+ny.html">https://www.dridainfotech.com/best-backlinking-service-seo-company=
+.html</a>
+<a href=3D"https://www.dridainfotech.com/link-building-services-seo-company=
+.html">https://www.dridainfotech.com/link-building-services-seo-company.htm=
+l</a>
+<a href=3D"https://www.dridainfotech.com/best-white-hat-seo-company-online.=
+html">https://www.dridainfotech.com/best-white-hat-seo-company-online.html<=
+/a>
+<a href=3D"https://www.dridainfotech.com/best-local-seo-services-company-on=
+line.html">https://www.dridainfotech.com/best-local-seo-services-company-on=
+line.html</a>
+<a href=3D"https://www.dridainfotech.com/search-engine-optimization-company=
+-online.html">https://www.dridainfotech.com/search-engine-optimization-comp=
+any-online.html</a>
+<a href=3D"https://www.dridainfotech.com/how-to-do-seo-in-2020.html">https:=
+//www.dridainfotech.com/how-to-do-seo-in-2020.html</a>
+<a href=3D"https://www.dridainfotech.com/how-to-create-high-quality-backlin=
+ks.html">https://www.dridainfotech.com/how-to-create-high-quality-backlinks=
+.html</a>
+<a href=3D"https://www.dridainfotech.com/legit-seo-services-company.html">h=
+ttps://www.dridainfotech.com/legit-seo-services-company.html</a>
+<a href=3D"https://www.dridainfotech.com/norton-tech-support-phone-number-a=
+ustralia.html">https://www.dridainfotech.com/norton-tech-support-phone-numb=
+er-australia.html</a>
+<a href=3D"https://www.dridainfotech.com/mcafee-technical-support-phone-num=
+ber-australia.html">https://www.dridainfotech.com/mcafee-technical-support-=
+phone-number-australia.html</a>
+<a href=3D"https://www.dridainfotech.com/kaspersky-technical-support-phone-=
+number-australia.html">https://www.dridainfotech.com/kaspersky-technical-su=
+pport-phone-number-australia.html</a>
+<a href=3D"https://www.dridainfotech.com/trend-micro-technical-support-phon=
+e-number-australia.html">https://www.dridainfotech.com/trend-micro-technica=
+l-support-phone-number-australia.html</a>
+<a href=3D"https://www.dridainfotech.com/russell-clive-wheeler-is-a-scammer=
+-and-fraud-lexon-lwayers.html">https://www.dridainfotech.com/russell-clive-=
+wheeler-is-a-scammer-and-fraud-lexon-lwayers.html</a></pre>
+        </div>
+      </p>
 
---Sig_/SRXdzPhxahcd.RHlGpCCP=T--
 
---===============1232860712==
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15748989890.d220AC.27120--
+
+--===============1362403654==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -143,4 +310,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1232860712==--
+--===============1362403654==--
