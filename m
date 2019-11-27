@@ -1,63 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA63210B50F
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2019 19:05:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4B1710B53C
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Nov 2019 19:08:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AD706E563;
-	Wed, 27 Nov 2019 18:05:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F381C6E2DC;
+	Wed, 27 Nov 2019 18:08:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B51496E563
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2019 18:05:00 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id l1so8074940wme.2
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2019 10:05:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=9oVHy1y6RMaXWx6nU2J1vEuaN6G88wEXawp2NVxMucI=;
- b=XoIyb4zVibH5iaQANdmw3HNqn04klnJ9V4Hg3D+yoYe+47CZd55fBD7QPWEiZZRN7R
- +/HMFUkLRAV67zRgFsEd2Bht/Gk0zqeL4VAUD988UVHFq3mwSfQxpqEu2PWLh05i/h1j
- l7RvlmS+ZsWWziTdRbQPxPcyGnWXBfBt7t5qYIf9KHIAs3a365KPeaEgx+En2tiFJ9eI
- kW+8vF04r3i90KNpqJWl6dZNOUcRrsJMIyfgKjeGQ22nrvBsO8TylxYrVyP7xOrW9IjF
- o6AzUX13AUEm2c13GFSqpFPlPniAUIvNwclFiNhLxO4+hn0PwcAc2s7OVmGHEkeOwi1x
- fB8w==
-X-Gm-Message-State: APjAAAVU7KB/suPuCDKJtLK0GybJVQHcg+gcHAEGbEGrZoU1GkxyU8IN
- hdGfC3GsTqJizWnRMwRtobINpYFkGJU=
-X-Google-Smtp-Source: APXvYqwQk1tQ3L18EL1jtC6TFapG+FIqwV5i5Br/M2nn3V+am3ZpP9qRw1hUII3+e6ChLWhHvPHXxA==
-X-Received: by 2002:a1c:6144:: with SMTP id v65mr5773584wmb.53.1574877899321; 
- Wed, 27 Nov 2019 10:04:59 -0800 (PST)
-Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net.
- [212.51.149.96])
- by smtp.gmail.com with ESMTPSA id i71sm22076577wri.68.2019.11.27.10.04.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Nov 2019 10:04:58 -0800 (PST)
-Date: Wed, 27 Nov 2019 19:04:56 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B467E6E2DC
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2019 18:08:50 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id CF48AAC48;
+ Wed, 27 Nov 2019 18:08:48 +0000 (UTC)
+Subject: Re: [PATCH v2 1/3] drm/mgag200: Extract device type from flags
 To: Emil Velikov <emil.l.velikov@gmail.com>
-Subject: Re: [PATCH 5/5] drm: drop DRM_AUTH from PRIME_TO/FROM_HANDLE ioctls
-Message-ID: <20191127180456.GD406127@phenom.ffwll.local>
-References: <20191101130313.8862-1-emil.l.velikov@gmail.com>
- <20191101130313.8862-5-emil.l.velikov@gmail.com>
- <20191127084104.1ceb1f62@collabora.com>
- <CACvgo52UB-sAv55_kREgHbRsg6b5KXv7At0TbgUPdc0e1E+QaA@mail.gmail.com>
+References: <20191126101529.20356-1-tzimmermann@suse.de>
+ <20191126101529.20356-2-tzimmermann@suse.de>
+ <CACvgo52_L9RRCh6rKBCqkCuBwmH40NPnGQkCtqpR-T1feKC_5w@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <98068118-8988-e31a-11c3-17a88059fbed@suse.de>
+Date: Wed, 27 Nov 2019 19:08:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CACvgo52UB-sAv55_kREgHbRsg6b5KXv7At0TbgUPdc0e1E+QaA@mail.gmail.com>
-X-Operating-System: Linux phenom 5.3.0-2-amd64 
-User-Agent: Mutt/1.12.2 (2019-09-21)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=9oVHy1y6RMaXWx6nU2J1vEuaN6G88wEXawp2NVxMucI=;
- b=cWLAvMr0OaCzZhcTtzR8ZeRddCAZd8SK+k+kIQY9Q1+UWZwGG9r3UIbV/pIywTOwA1
- cz3nEvl1ddptFY8aqmpntvBV0zFiQV/2Xbs2KSoG9WweVcmooxBNqVo8vNac6Iq6y7oJ
- z+4Eo2DqLCe3Qgd8jTlMehaTFO+3DfppRWvQ0=
+In-Reply-To: <CACvgo52_L9RRCh6rKBCqkCuBwmH40NPnGQkCtqpR-T1feKC_5w@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,36 +65,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Boris Brezillon <boris.brezillon@collabora.com>, Sean Paul <sean@poorly.run>,
+Cc: john.p.donnelly@oracle.com, Gerd Hoffmann <kraxel@redhat.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
  ML dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ =?UTF-8?Q?Jos=c3=a9_Roberto_de_Souza?= <jose.souza@intel.com>,
+ Dave Airlie <airlied@redhat.com>, "# 3.13+" <stable@vger.kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.velikov@collabora.com>
+Content-Type: multipart/mixed; boundary="===============0269361450=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBOb3YgMjcsIDIwMTkgYXQgMDQ6Mjc6MjlQTSArMDAwMCwgRW1pbCBWZWxpa292IHdy
-b3RlOgo+IE9uIFdlZCwgMjcgTm92IDIwMTkgYXQgMDc6NDEsIEJvcmlzIEJyZXppbGxvbgo+IDxi
-b3Jpcy5icmV6aWxsb25AY29sbGFib3JhLmNvbT4gd3JvdGU6Cj4gPgo+ID4gSGkgRW1pbCwKPiA+
-Cj4gPiBPbiBGcmksICAxIE5vdiAyMDE5IDEzOjAzOjEzICswMDAwCj4gPiBFbWlsIFZlbGlrb3Yg
-PGVtaWwubC52ZWxpa292QGdtYWlsLmNvbT4gd3JvdGU6Cj4gPgo+ID4gPiBGcm9tOiBFbWlsIFZl
-bGlrb3YgPGVtaWwudmVsaWtvdkBjb2xsYWJvcmEuY29tPgo+ID4gPgo+ID4gPiBBcyBtZW50aW9u
-ZWQgYnkgQ2hyaXN0aWFuLCBmb3IgZHJpdmVycyB3aGljaCBzdXBwb3J0IG9ubHkgcHJpbWFyeSBu
-b2Rlcwo+ID4gPiB0aGlzIGNoYW5nZXMgdGhlIHJldHVybmVkIGVycm9yIGZyb20gLUVBQ0NFUyBp
-bnRvIC1FT1BOT1RTVVBQLy1FTk9TWVMuCj4gPgo+ID4gQXJlIHlvdSBzdXJlIHRoaXMgaXMgdHJ1
-ZSBmb3IgTU9ERVNFVC1vbmx5IG5vZGVzICh0aG9zZSB0aGF0IGRvIG5vdAo+ID4gaGF2ZSB0aGUg
-UkVOREVSIGNhcCBzZXQpIGltcGxlbWVudGluZyAtPntmZF90b19oYW5kbGUsaGFuZGxlX3RvX2Zk
-fSgpPwo+ID4gU2hvdWxkbid0IHRoZSBpc19hdXRoZW50aWNhdGVkKCkgY2hlY2sgc3RpbGwgYmUg
-ZG9uZSBpbiB0aGF0IGNhc2U/Cj4gPgo+IFRoYW5rcyBmb3IgY2F0Y2hpbmcgdGhpcy4gSnVzdCBz
-ZW50IG91dCB2Miwgd2hpY2ggSSBzaG91bGQgYWRkcmVzcyB0aGUgY29uY2Vybi4KCldoeSBkbyB3
-ZSBuZWVkIHRoaXMgYWRkaXRpb25hbCBjaGVjayBpbiB2Mj8gV2hhdCBjYW4gZ28gd3Jvbmcgb24g
-bW9kZXNldApkcml2ZXJzIGlmIG5vbi1hdXRoZW50aWNhdGVkIGxlZ2FjeSB0aGluZ3MgY2FuIHVz
-ZSB0aGlzPyBtb2Rlc2V0LW9ubHkKZHJpdmVycyBoYXZlIGFsbCB0aGVpciByZXNvdXJjZXMgc2Vn
-cmVnYXRlZCBieSB0aGUgZHJtIGNvcmUgKGRybV9mYiwKbW1hcHMsIGJ1ZmZlciBsaXN0cyksIHNv
-IHRoZXJlJ3MgcmVhbGx5IG5vIGFjY2VzcyBsaW1pdGF0aW9ucyB0aGF0IGNhbiBnbwp3cm9uZyBo
-ZXJlLgotRGFuaWVsCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBD
-b3Jwb3JhdGlvbgpodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWw=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0269361450==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="Jy9XGZCL2t6RjWiBM7l6yflx9sUzs8PsI"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--Jy9XGZCL2t6RjWiBM7l6yflx9sUzs8PsI
+Content-Type: multipart/mixed; boundary="LtlJLLS30ZVmDIRiCTdDOoNn737q9WzRL";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Emil Velikov <emil.l.velikov@gmail.com>
+Cc: john.p.donnelly@oracle.com, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ =?UTF-8?Q?Jos=c3=a9_Roberto_de_Souza?= <jose.souza@intel.com>,
+ Dave Airlie <airlied@redhat.com>, "# 3.13+" <stable@vger.kernel.org>,
+ Emil Velikov <emil.velikov@collabora.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Message-ID: <98068118-8988-e31a-11c3-17a88059fbed@suse.de>
+Subject: Re: [PATCH v2 1/3] drm/mgag200: Extract device type from flags
+References: <20191126101529.20356-1-tzimmermann@suse.de>
+ <20191126101529.20356-2-tzimmermann@suse.de>
+ <CACvgo52_L9RRCh6rKBCqkCuBwmH40NPnGQkCtqpR-T1feKC_5w@mail.gmail.com>
+In-Reply-To: <CACvgo52_L9RRCh6rKBCqkCuBwmH40NPnGQkCtqpR-T1feKC_5w@mail.gmail.com>
+
+--LtlJLLS30ZVmDIRiCTdDOoNn737q9WzRL
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi Emil
+
+Am 27.11.19 um 17:29 schrieb Emil Velikov:
+> Hi Thomas,
+>=20
+> On Tue, 26 Nov 2019 at 10:15, Thomas Zimmermann <tzimmermann@suse.de> w=
+rote:
+>>
+>> Adds a conversion function that extracts the device type from the
+>> PCI id-table flags. Allows for storing additional information in the
+>> other flag bits.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Fixes: 81da87f63a1e ("drm: Replace drm_gem_vram_push_to_system() with =
+kunmap + unpin")
+>=20
+> Are you sure the fixes tag is correct? Neither the commit summary nor
+> the patch itself seems related to the changes below.
+
+Yes, it's correct. It's part of a patch series [1][2][3] that fixes the b=
+ug.
+
+Best regards
+Thomas
+
+[1]
+https://cgit.freedesktop.org/drm/drm-tip/commit/?id=3D3a8a5aba142a44eaeba=
+0cb0ec1b4a8f177b5e59a
+[2]
+https://cgit.freedesktop.org/drm/drm-tip/commit/?id=3Dd6d437d97d54c85a1a9=
+3967b2745e31dff03365a
+[3]
+https://cgit.freedesktop.org/drm/drm-tip/commit/?id=3D1591fadf857cdbaf2ba=
+a55e421af99a61354713c
+
+>=20
+> HTH
+> Emil
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--LtlJLLS30ZVmDIRiCTdDOoNn737q9WzRL--
+
+--Jy9XGZCL2t6RjWiBM7l6yflx9sUzs8PsI
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl3eu6wACgkQaA3BHVML
+eiMX4AgAwYxbJSxcPPPQLmJcqufTvGJLKpwqRsj8QsgokxBtmZWMxZHYTFOS0zdN
+zVXwS4cw5iPx8Hs7gToCfZvvLUrBdlYCdvG1ojmz29Secg3sNyIa5FGR9ZOII4Zh
+KU+bjkU27LRMQZFHOT+lMkUTF4zQPptsQ9GMwAFvRf3s+q0+HA3IrXd/xBe+sm+G
+cHKc71IpOeP2GYRRj3C1Cgwu7L9ZdiSpC5M+EcadAZQohUh4V0Iqj3UnG+pDGUw0
+iq0OZsWiwusO9H9btut8YE0gxlptj4oW+k//HoOfDeErSf/d8/IdD9AwKj42pUqy
+h/NjyZInf1qnNks3q2sph6i4PGNxBg==
+=r5l2
+-----END PGP SIGNATURE-----
+
+--Jy9XGZCL2t6RjWiBM7l6yflx9sUzs8PsI--
+
+--===============0269361450==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0269361450==--
