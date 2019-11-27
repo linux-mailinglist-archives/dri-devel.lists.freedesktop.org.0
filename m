@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5A4210C0AC
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2019 00:37:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F7D710C0B3
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2019 00:39:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 304666E129;
-	Wed, 27 Nov 2019 23:37:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A67596E0DA;
+	Wed, 27 Nov 2019 23:39:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BABAB6E129
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2019 23:37:14 +0000 (UTC)
+Received: from ozlabs.org (ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80DFD6E0DA
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Nov 2019 23:39:06 +0000 (UTC)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 47Nccf4HMWz9sS8;
- Thu, 28 Nov 2019 10:37:06 +1100 (AEDT)
-Date: Thu, 28 Nov 2019 10:36:52 +1100
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 47Ncft6Qqwz9sS3;
+ Thu, 28 Nov 2019 10:39:02 +1100 (AEDT)
+Date: Thu, 28 Nov 2019 10:39:02 +1100
 From: Stephen Rothwell <sfr@canb.auug.org.au>
 To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
-Subject: Re: linux-next: manual merge of the tip tree with the drm tree
-Message-ID: <20191128103652.6cf09858@canb.auug.org.au>
-In-Reply-To: <20191010125106.4627d1b5@canb.auug.org.au>
-References: <20191010125106.4627d1b5@canb.auug.org.au>
+Subject: Re: linux-next: build failure after merge of the tip tree
+Message-ID: <20191128103902.658e2a14@canb.auug.org.au>
+In-Reply-To: <20191106135340.3fa45898@canb.auug.org.au>
+References: <20191010131448.482da2b2@canb.auug.org.au>
+ <20191106135340.3fa45898@canb.auug.org.au>
 MIME-Version: 1.0
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=canb.auug.org.au; s=201702; t=1574897831;
- bh=/RkBre7uSCqUQB0B/x+Br3fQIFf0/YWFV9jaAzCdSbA=;
+ d=canb.auug.org.au; s=201702; t=1574897942;
+ bh=w1LH2k7ptcCnsILry43RjKE7GrL+RUe5GvbJ+pVWI90=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=nreEgOyCtF+JfgZlJ32QsfkppYYyGQ1HmnPo3l5WzplPG/fgKqalnadSsbjnu3n8c
- AyoQLgUIJpZ2S/HAeXVoClJzTcOwOjQTXrfMOI2/1AznxKIz5GCbzXFHl0uJVLAMEH
- 0IKLOyukbs1W9w4yO3wPXQbUtZ4xJrVCgzmQzWQoVw9s/3Q22839o8xLBQIen+PNI3
- h0Z9rGnpbNBb60c554NF0JOV8RYV3EtpD4bhkjet3eEzG8CN0CD4d6N4RWQtFO+p1F
- JxqUAP0c5AYsGdEpvKuugsglFbe/9OD+oNaZlG9+XvBwjcqowCnn1uxZup9FNcK3LA
- CcGutU3Jorofg==
+ b=YSSbTi4EBv6SnIAsOHKbWnAauiXvBEnhcXECQzBW7mvN0snKeIsNidprQXb4hnuIr
+ 7CP/gK2shdcjEojCvQeSOMs/CjoAOXmmLT01ne8hyIAs6dc2RXRX+ad53FmA6Uj21r
+ yMLW/CzjGsl5AIrUjnwu4fWiIsMXLlnyhxjZLLLdo7tEA9i52LxR2wLWMw6dvXlekh
+ SxKH4AW72rJkjJfENca4Q7OGsXGk/THSXmq2g5Fs/1l2fNXoWLN/P9/lsXbJKjv1n4
+ e9pPHflYBUja1KWL+azipkL30xXCSbS0qyXKloGf3VM/12XUpSsUwjJqFg8D34m1UE
+ DzyRR92B4UeCA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,103 +54,86 @@ Cc: Peter Zijlstra <peterz@infradead.org>,
  Linux Next Mailing List <linux-next@vger.kernel.org>, Qian Cai <cai@lca.pw>,
  "H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@linutronix.de>,
  Linus <torvalds@linux-foundation.org>, Ingo Molnar <mingo@elte.hu>
-Content-Type: multipart/mixed; boundary="===============1533901063=="
+Content-Type: multipart/mixed; boundary="===============1232860712=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1533901063==
-Content-Type: multipart/signed; boundary="Sig_/+MkTPz8/57gq_NjCwSilMVY";
+--===============1232860712==
+Content-Type: multipart/signed; boundary="Sig_/SRXdzPhxahcd.RHlGpCCP=T";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 
---Sig_/+MkTPz8/57gq_NjCwSilMVY
+--Sig_/SRXdzPhxahcd.RHlGpCCP=T
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
 Hi all,
 
-On Thu, 10 Oct 2019 12:51:06 +1100 Stephen Rothwell <sfr@canb.auug.org.au> =
-wrote:
+On Wed, 6 Nov 2019 13:53:40 +1100 Stephen Rothwell <sfr@canb.auug.org.au> w=
+rote:
 >
-> Today's linux-next merge of the tip tree got a conflict in:
+> Hi all,
 >=20
->   drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+> On Thu, 10 Oct 2019 13:14:48 +1100 Stephen Rothwell <sfr@canb.auug.org.au=
+> wrote:
+> >
+> > I added the following merge fix patch for today:
+> >  =20
 >=20
-> between commit:
+> This patch is now just:
 >=20
->   2850748ef876 ("drm/i915: Pull i915_vma_pin under the vm->mutex")
+> From: Stephen Rothwell <sfr@canb.auug.org.au>
+> Date: Thu, 10 Oct 2019 13:08:43 +1100
+> Subject: [PATCH] drm/i915: update for mutex_release API change
 >=20
-> from the drm tree and commit:
+> Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> ---
+>  drivers/gpu/drm/i915/i915_active.c    | 2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
 >=20
->   5facae4f3549 ("locking/lockdep: Remove unused @nested argument from loc=
-k_release()")
->=20
-> from the tip tree.
->=20
-> I fixed it up (see below) and can carry the fix as necessary. This is
-> now fixed as far as linux-next is concerned, but any non trivial
-> conflicts should be mentioned to your upstream maintainer when your
-> tree is submitted for merging. You may also want to consider
-> cooperating with the maintainer of the conflicting tree to minimise any
-> particularly complex conflicts.
->=20
+> diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i9=
+15_active.c
+> index aa37c07004b9..a47387174434 100644
+> --- a/drivers/gpu/drm/i915/i915_active.c
+> +++ b/drivers/gpu/drm/i915/i915_active.c
+> @@ -385,7 +385,7 @@ void i915_active_set_exclusive(struct i915_active *re=
+f, struct dma_fence *f)
+>  	mutex_acquire(&ref->mutex.dep_map, 0, 0, _THIS_IP_);
+>  	if (!__i915_active_fence_set(&ref->excl, f))
+>  		atomic_inc(&ref->count);
+> -	mutex_release(&ref->mutex.dep_map, 0, _THIS_IP_);
+> +	mutex_release(&ref->mutex.dep_map, _THIS_IP_);
+>  }
+> =20
+>  bool i915_active_acquire_if_busy(struct i915_active *ref)
 > --=20
-> Cheers,
-> Stephen Rothwell
->=20
-> diff --cc drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-> index fd3ce6da8497,1a51b3598d63..000000000000
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-> @@@ -436,9 -497,22 +436,9 @@@ void i915_gem_shrinker_taints_mutex(str
->  =20
->   	fs_reclaim_acquire(GFP_KERNEL);
->  =20
->  -	/*
->  -	 * As we invariably rely on the struct_mutex within the shrinker,
->  -	 * but have a complicated recursion dance, taint all the mutexes used
->  -	 * within the shrinker with the struct_mutex. For completeness, we
->  -	 * taint with all subclass of struct_mutex, even though we should
->  -	 * only need tainting by I915_MM_NORMAL to catch possible ABBA
->  -	 * deadlocks from using struct_mutex inside @mutex.
->  -	 */
->  -	mutex_acquire(&i915->drm.struct_mutex.dep_map,
->  -		      I915_MM_SHRINKER, 0, _RET_IP_);
->  -
->   	mutex_acquire(&mutex->dep_map, 0, 0, _RET_IP_);
-> - 	mutex_release(&mutex->dep_map, 0, _RET_IP_);
-> + 	mutex_release(&mutex->dep_map, _RET_IP_);
->  =20
->  -	mutex_release(&i915->drm.struct_mutex.dep_map, _RET_IP_);
->  -
->   	fs_reclaim_release(GFP_KERNEL);
->  =20
->   	if (unlock)
+> 2.23.0
 
-This is now a conflict between the drm tree and Linus' tree.
+This merge fix patch is now needed for the merge between the drm tree
+and Linus' tree.
 
 --=20
 Cheers,
 Stephen Rothwell
 
---Sig_/+MkTPz8/57gq_NjCwSilMVY
+--Sig_/SRXdzPhxahcd.RHlGpCCP=T
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl3fCJQACgkQAVBC80lX
-0Gw2ywgAmPOTyG46QO6nwU5BJlgFBc7eiZQ6KbImblsUv8A5l8rw7nZmZaMi8ild
-IpFn4XELIpNki+aO8bqL9S2zhzZw0PHPyY60urODkdc8akDXD8V2tnIFZX+CZ9Lt
-hEWHH8qTSdNSXYLJxVSVIhoWTgZWUPM0IrbEEOMRAaCnGI4jnIqFXVu5f1nmw4y4
-QKKqsNsnQGpJfuAawFv480/cU23pYlP9yj0o2J+ftQOLV9TPHuxrN4HAtDvpPJxb
-bcVtKaUaTcbj4uPlbPKyRCsnfFVaycn7rug/t+syXTf+tke+EcEmoHeOaT7ZqnF4
-ZK/28vh67y0KO9VaVxd3y/165LxBTA==
-=VabA
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl3fCRYACgkQAVBC80lX
+0Gybgwf+O6nFUE7lTsaL1+COw7BFmjwftB8S6FHMm61I6xICZcYb60/ByuZqIdjc
+Koi3o90c7FiZ6HAUwMEiv+uoFtpf2X3SToTR64IGMNZ3YhYLuckt4Gd81dwuRu3y
+1AJPxfvswRRihJCyVrtHtOiDaHSoX56WQ8u+0pj6JNz2SC5n6tc7vym4vQ1IicQ6
+/HyUA9C9Cf412RreJBu8Iosn/ec2lySsVLplmwqEXKZAgbAZUjwL5FmJrcsWPOy7
++Y6uQqNtj9Vxgion2a+yzAFOavqL2HzeyOVgXBKkIVwIRhavmKwwml9TI2jSssXI
+k3T0CiDT2B6BF2IJP6XqFyngeIEyyg==
+=GNgk
 -----END PGP SIGNATURE-----
 
---Sig_/+MkTPz8/57gq_NjCwSilMVY--
+--Sig_/SRXdzPhxahcd.RHlGpCCP=T--
 
---===============1533901063==
+--===============1232860712==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -159,4 +143,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1533901063==--
+--===============1232860712==--
