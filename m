@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BCF610CA50
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2019 15:23:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9597110CA52
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2019 15:23:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E32146E092;
-	Thu, 28 Nov 2019 14:23:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B35016E82F;
+	Thu, 28 Nov 2019 14:23:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD80D6E092
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Nov 2019 14:23:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7241F6E830
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Nov 2019 14:23:37 +0000 (UTC)
 Received: from localhost (unknown [40.117.208.15])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id C6604217AB;
- Thu, 28 Nov 2019 14:23:34 +0000 (UTC)
-Date: Thu, 28 Nov 2019 14:23:34 +0000
+ by mail.kernel.org (Postfix) with ESMTPSA id 1B32A217F5;
+ Thu, 28 Nov 2019 14:23:37 +0000 (UTC)
+Date: Thu, 28 Nov 2019 14:23:36 +0000
 From: Sasha Levin <sashal@kernel.org>
 To: Sasha Levin <sashal@kernel.org>
 To: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, daniel@ffwll.ch, john.p.donnelly@oracle.com,
-Subject: Re: [PATCH v2 2/3] drm/mgag200: Store flags from PCI driver data in
- device structure
-In-Reply-To: <20191126101529.20356-3-tzimmermann@suse.de>
-References: <20191126101529.20356-3-tzimmermann@suse.de>
-Message-Id: <20191128142334.C6604217AB@mail.kernel.org>
+Subject: Re: [PATCH v2 3/3] drm/mgag200: Add workaround for HW that does not
+ support 'startadd'
+In-Reply-To: <20191126101529.20356-4-tzimmermann@suse.de>
+References: <20191126101529.20356-4-tzimmermann@suse.de>
+Message-Id: <20191128142337.1B32A217F5@mail.kernel.org>
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1574951015;
- bh=nKZ8EYGzj7PoNJzS7Lm/u8KvxbMYiRV+/O9E+55H/nA=;
- h=Date:From:To:To:To:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:
+ d=kernel.org; s=default; t=1574951017;
+ bh=bxffKAO0e4evJ3iMXSyJtmPAilfuSljbkg2RFoCOXJU=;
+ h=Date:From:To:To:To:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:
  Subject:In-Reply-To:References:From;
- b=A/8hv8zufSw85D79DuxoGX1miSL2fAmvk/MazGhTREF9CsJft9qcWgUtkqRcwxPWi
- t3cfKW8bZ6UcGi2cWuYtBmhRVLRDJH4RLUs/ojP+WZC/4lQFthlI7GnJViFjDmA6tX
- uxy0GcOLMN+/CLEQizOukag/c1wF+WH7XLPAd0Pk=
+ b=v0ClvEtJkwzqCdr5wEPIMYQLFor8C0SXqjpyKh4AoxjdLBivlhYhCNbmvvnig7Zt+
+ oLUaQfum3pvZLQgEj18VUjyNYoyUmfaH/oMCouCZTevsZHGhPqUTT7M3mgThivewDk
+ xuMN+hzHL32IZcR8S+FguIU2WoQneNv0HMfvL6jE=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,22 +47,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: , John Donnelly <john.p.donnelly@oracle.com>, stable@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org, Gerd Hoffmann <kraxel@redhat.com>, José Roberto de Souza <jose.souza@intel.com>, Dave Airlie <airlied@redhat.com>, Thomas Gleixner <tglx@linutronix.de>, Andrzej Pietrasiewicz <andrzej.p@collabora.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: , stable@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org, Gerd Hoffmann <kraxel@redhat.com>, José Roberto de Souza <jose.souza@intel.com>, Dave Airlie <airlied@redhat.com>, Thomas Gleixner <tglx@linutronix.de>, Andrzej Pietrasiewicz <andrzej.p@collabora.com>, Sam Ravnborg <sam@ravnborg.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1397655989=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCgpbVGhpcyBpcyBhbiBhdXRvbWF0ZWQgZW1haWxdCgpUaGlzIGNvbW1pdCBoYXMgYmVlbiBw
-cm9jZXNzZWQgYmVjYXVzZSBpdCBjb250YWlucyBhICJGaXhlczoiIHRhZywKZml4aW5nIGNvbW1p
-dDogODFkYTg3ZjYzYTFlICgiZHJtOiBSZXBsYWNlIGRybV9nZW1fdnJhbV9wdXNoX3RvX3N5c3Rl
-bSgpIHdpdGgga3VubWFwICsgdW5waW4iKS4KClRoZSBib3QgaGFzIHRlc3RlZCB0aGUgZm9sbG93
-aW5nIHRyZWVzOiB2NS4zLjEzLgoKdjUuMy4xMzogRmFpbGVkIHRvIGFwcGx5ISBQb3NzaWJsZSBk
-ZXBlbmRlbmNpZXM6CiAgICAxYzM1NWMwZWNmYzAgKCJkcm0vbWdhZzIwMDogRXh0cmFjdCBkZXZp
-Y2UgdHlwZSBmcm9tIGZsYWdzIikKCgpOT1RFOiBUaGUgcGF0Y2ggd2lsbCBub3QgYmUgcXVldWVk
-IHRvIHN0YWJsZSB0cmVlcyB1bnRpbCBpdCBpcyB1cHN0cmVhbS4KCkhvdyBzaG91bGQgd2UgcHJv
-Y2VlZCB3aXRoIHRoaXMgcGF0Y2g/CgotLSAKVGhhbmtzLApTYXNoYQpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+--===============1397655989==
+Content-Type: text/plain
+
+Hi,
+
+[This is an automated email]
+
+This commit has been processed because it contains a "Fixes:" tag,
+fixing commit: 81da87f63a1e ("drm: Replace drm_gem_vram_push_to_system() with kunmap + unpin").
+
+The bot has tested the following trees: v5.3.13.
+
+v5.3.13: Build failed! Errors:
+    drivers/gpu/drm/mgag200/mgag200_drv.c:104:18: error: ‘drm_vram_mm_debugfs_init’ undeclared here (not in a function); did you mean ‘drm_client_debugfs_init’?
+
+
+NOTE: The patch will not be queued to stable trees until it is upstream.
+
+How should we proceed with this patch?
+
+-- 
+Thanks,
+Sasha
+
+--===============1397655989==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1397655989==--
