@@ -1,77 +1,108 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55D3010DDB5
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Nov 2019 14:24:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59E9C10DDB2
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Nov 2019 14:24:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BF5B6E0FE;
-	Sat, 30 Nov 2019 13:24:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E22836E103;
+	Sat, 30 Nov 2019 13:24:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71B576E870
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Nov 2019 17:51:41 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 8DFB1342C;
- Thu, 28 Nov 2019 12:51:39 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 28 Nov 2019 12:51:39 -0500
-X-ME-Sender: <xms:KgngXUFvbDaLBE-pkVmL-IxdYmhi9W6pBOi4-tLooEaa_Un3SFr1AA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudeijedguddtvdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkpheple
- dtrdekledrieekrdejieenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegt
- vghrnhhordhtvggthhenucevlhhushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:KgngXfpoBSPQMERQxdBXb7UMv4jVWUx_iGIDaIq5z7fVAfcpwFCD7g>
- <xmx:KgngXc2r6XTst-90cPb2zh8ENJeZomZc3A3JB1-CFogecHw1dGTnFg>
- <xmx:KgngXTBqAVjTXmpxTGOGdsJwwEPeMFdXLCarHVw-0XSOhJ9eAf8_Lg>
- <xmx:KwngXfHecfjCy8435wuh4o8afqIqEiTRcu0y9GlfBm3Z9wGu7i1Y0A>
-Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id DEE4180061;
- Thu, 28 Nov 2019 12:51:37 -0500 (EST)
-Date: Thu, 28 Nov 2019 18:51:34 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Subject: Re: [PATCH v11 4/7] drm/sun4i: dsi: Handle bus clock explicitly
-Message-ID: <20191128175134.kcgtylfo4ax6ifz7@gilmour.lan>
-References: <20191025175625.8011-1-jagan@amarulasolutions.com>
- <20191025175625.8011-5-jagan@amarulasolutions.com>
- <20191028153427.pc3tnoz2d23filhx@hendrix>
- <CAMty3ZCisTrFGjzHyqSofqFAsKSLV1n2xP5Li3Lonhdi0WUZVA@mail.gmail.com>
- <20191029085401.gvqpwmmpyml75vis@hendrix>
- <CAMty3ZAWPZSHtAZDf_0Dpx588YGGv3pJX1cXMfkZus3+WF94cA@mail.gmail.com>
- <20191103173227.GF7001@gilmour>
- <CAMty3ZD5uxU=xb0z7PWaXzodYbWRJkP9HjGX-HZYFT4bwk0GOg@mail.gmail.com>
- <20191122181820.GQ4345@gilmour.lan>
- <CAMty3ZDePC=B-DgfCcjRhJTeciwZmSEU-c4u1=sN_Hs0RgbC7Q@mail.gmail.com>
+Received: from mx0b-00128a01.pphosted.com (mx0b-00128a01.pphosted.com
+ [148.163.139.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DD836E851
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Nov 2019 16:02:41 +0000 (UTC)
+Received: from pps.filterd (m0167090.ppops.net [127.0.0.1])
+ by mx0b-00128a01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xASFwZug026777; Thu, 28 Nov 2019 11:02:04 -0500
+Received: from nam03-dm3-obe.outbound.protection.outlook.com
+ (mail-dm3nam03lp2054.outbound.protection.outlook.com [104.47.41.54])
+ by mx0b-00128a01.pphosted.com with ESMTP id 2whuvq36p5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 28 Nov 2019 11:02:04 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WNb5UEJQlhugYZoo0Dwlyi9aXbxd3/qUydDqscnNSntvqHJ7V7hsJQ/WKYZCTONNjD71DMXUNZpOdEnjT7tgAPCCMqQfYSkY2QI6apR6AwypnHUNBsb4iNAU+jumVsCcYwcOsPy/+5qdeC5+CWaH5CCKwUhMjWGk1K/093ERNri8o/SYzEQ8EN7Zx5dnrrHoumx2hD90GUSWMI3xPEZBwjYMgB5BSDoAkEWZLbt4jnMO9C8PtkIBrbNoRhxmFghU2zgVCG1wn/Y6Tp1BPOLchWOJd89OFK0bgmHEk21V+uCBSBbTFSK+d8z/9RROTUbluz6m32/XbqWRt/2JTrJoUw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PXONAl8khotmNpxZIDY9Jtj9dWE9GvxOwxoDyUMVbHw=;
+ b=MiksocdMgVy9u3L03pfRLHOu7gck1mqqJVJwuu22b1GlBfknCq2cgqMAX1UWXZKCmDnTb063vadOeSTVdKIEgq1GGrxlvjRYswebBFK59ygz9dVXU9he0vNnsJi0FutEZ8qCPuF3Zu67+kXqzHUQ9XIsgZHld7NPX0CVrmjF8RgKSqToE7n0W1dQUtarKb1ZqVNqeyHlD2zIGGKUNKhfTPP1Rfqc0b2UfYmvgXLJHHJ9jElfN4cZPNvnJoqAiGU/IhVv5uU/FCCgVDjDd6XbYpOczEsZeTqkPMaQllCsTu+zO2Qbo9Xq6fVA2ZCVJqKqa4cPzBxSS/VhYdt00f1hxw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 137.71.25.57) smtp.rcpttodomain=baylibre.com smtp.mailfrom=analog.com;
+ dmarc=bestguesspass action=none header.from=analog.com; dkim=none (message
+ not signed); arc=none
+Received: from BYAPR03CA0020.namprd03.prod.outlook.com (2603:10b6:a02:a8::33)
+ by MN2PR03MB5232.namprd03.prod.outlook.com (2603:10b6:208:1e5::24)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2495.20; Thu, 28 Nov
+ 2019 16:02:02 +0000
+Received: from BL2NAM02FT021.eop-nam02.prod.protection.outlook.com
+ (2a01:111:f400:7e46::209) by BYAPR03CA0020.outlook.office365.com
+ (2603:10b6:a02:a8::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2495.18 via Frontend
+ Transport; Thu, 28 Nov 2019 16:02:02 +0000
+Received-SPF: Pass (protection.outlook.com: domain of analog.com designates
+ 137.71.25.57 as permitted sender) receiver=protection.outlook.com;
+ client-ip=137.71.25.57; helo=nwd2mta2.analog.com;
+Received: from nwd2mta2.analog.com (137.71.25.57) by
+ BL2NAM02FT021.mail.protection.outlook.com (10.152.77.158) with Microsoft SMTP
+ Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.2474.17
+ via Frontend Transport; Thu, 28 Nov 2019 16:02:02 +0000
+Received: from NWD2HUBCAS7.ad.analog.com (nwd2hubcas7.ad.analog.com
+ [10.64.69.107])
+ by nwd2mta2.analog.com (8.13.8/8.13.8) with ESMTP id xASG1ol2004457
+ (version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=OK);
+ Thu, 28 Nov 2019 08:01:51 -0800
+Received: from btogorean-pc.ad.analog.com (10.48.65.146) by
+ NWD2HUBCAS7.ad.analog.com (10.64.69.107) with Microsoft SMTP Server id
+ 14.3.408.0; Thu, 28 Nov 2019 11:01:57 -0500
+From: Bogdan Togorean <bogdan.togorean@analog.com>
+To: <dri-devel@lists.freedesktop.org>
+Subject: [PATCH v3 0/2] drm: bridge: adv7511: Add support For ADV7535
+Date: Thu, 28 Nov 2019 20:00:17 +0200
+Message-ID: <20191128180018.12073-1-bogdan.togorean@analog.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <CAMty3ZDePC=B-DgfCcjRhJTeciwZmSEU-c4u1=sN_Hs0RgbC7Q@mail.gmail.com>
+X-ADIRoutedOnPrem: True
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:137.71.25.57; IPV:NLI; CTRY:US; EFV:NLI;
+ SFV:NSPM;
+ SFS:(10009020)(396003)(136003)(346002)(376002)(39860400002)(189003)(199004)(8936002)(44832011)(186003)(6666004)(7636002)(2351001)(106002)(4744005)(86362001)(2870700001)(107886003)(356004)(54906003)(8676002)(305945005)(50466002)(316002)(47776003)(26005)(50226002)(70206006)(246002)(70586007)(2906002)(7416002)(5660300002)(4326008)(6916009)(36756003)(336012)(426003)(7696005)(2616005)(1076003)(48376002)(478600001)(51416003)(16060500001);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:MN2PR03MB5232; H:nwd2mta2.analog.com; FPR:;
+ SPF:Pass; LANG:en; PTR:nwd2mail11.analog.com; MX:1; A:1; 
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f463fd5c-ecd2-4ad1-ce26-08d7741c4e98
+X-MS-TrafficTypeDiagnostic: MN2PR03MB5232:
+X-Microsoft-Antispam-PRVS: <MN2PR03MB5232B601996C94195F302BB49B470@MN2PR03MB5232.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
+X-Forefront-PRVS: 0235CBE7D0
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bwdVYN6gDbz8/38h807ztExhIqE7xq8dBngmwFpzvZ3LjnAZzrSjb0eoJ5n+hnNG6f1IeFlQQAV6JJQ4TSdP17c//hBDplQBmvYvaNNXe9yMmjcPYgf5jvDhsIRDacMg+0nOe5MthIiiE4zuJQ9a/W9kioW6TnHHDMFtAG0sZjp5ugJewwtKTp1iPHsAIA7vQILl+NjTJtA8doHx3Geux8/Yx5JS11peEhy/0+H+22PtAVphlHCoDuKVLgSlzhbZOp7czA2gA9ZBEUgQFELVhKA9fnJyYtVv+cJ2xIhkpT48mGQpO1VycJW9eLaxcRxsEJ8qHHdUdKsSmZGjtTI1fFVV32nJ/0XrYeGgKCA6Qt80QQVba2b3Jzo8Rfqkim/4mdcZeKq6hbtXObYdx4LVx1kBg/GfR6ZiSFAHjWos/mZykmfSg1WvvecU4WlHvJ4f
+X-OriginatorOrg: analog.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2019 16:02:02.2007 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f463fd5c-ecd2-4ad1-ce26-08d7741c4e98
+X-MS-Exchange-CrossTenant-Id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=eaa689b4-8f87-40e0-9c6f-7228de4d754a; Ip=[137.71.25.57];
+ Helo=[nwd2mta2.analog.com]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR03MB5232
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-11-28_04:2019-11-28,2019-11-28 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 clxscore=1011
+ impostorscore=0 mlxscore=0 suspectscore=1 mlxlogscore=807 bulkscore=0
+ malwarescore=0 lowpriorityscore=0 priorityscore=1501 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1911280134
 X-Mailman-Approved-At: Sat, 30 Nov 2019 13:23:59 +0000
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=ZW6UxhH0Hm8lRDs/4M+dETDPOEm
- QhBVGqXhRss+nCzY=; b=DFl5tTg+prW79LfU+kzaWtNO/eowldIHYBmvX2oICxC
- z4QBHxeowgDuQeqF/wcvVgXCD/JIA7vUBEnxyFJKacjnmq2D5DhVBaPUyJEFFNpr
- ui0s990Z5w369E8CqQ+ROh372czQk2SQbSIwDUsymMubr/RBjguRYmpQqB6UX/2P
- 6bztS8S/q4uHFsQBkzNv6PQIemC7eQEEHVVW2adweCXZ8ms6fKQ0gGPz+WQpeHgc
- mTugC6RfzC4yEu5nmcPLeKpcyHCSIA3gIaLXACbUgvWmjBsUztGVm6BthVVr4c/X
- HpP8gyUiQ0b1BiXXkDwNBYfnlrWLB+73QCcjPQPcdVQ==
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=ZW6Uxh
- H0Hm8lRDs/4M+dETDPOEmQhBVGqXhRss+nCzY=; b=v+MOEEjFVGd6R+cUGyIQEp
- 8BBMItY604U7PPVeZD8V6/l/Zrk6WUqRBidI5gGkP50HSr9OnjMCT851g1HvqL5Y
- Q41d5T1R6mncxHXSErZpagb8ilXLBOWo7UG3q4R0MuBK82jFxXeMEw8AtlVBgyQQ
- uT1dXj5P/x3KBHZZoIISmoZsljpqIq9UF7MNiONNRzf8SEVM07+nDYMsIJ7kEibe
- flsO0R1+TMPHeh2VahjVuhvzMa9gJLdp0HIntlM0IiaqId/hra/wZfXV//jP3tgi
- fOhgy4BJpUtf/rzV9atguRr7uaTIlXjgQj5M9TidtAQEBG98CIqwxpjy9ipy0y3w
- ==
+ d=analog.onmicrosoft.com; s=selector2-analog-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PXONAl8khotmNpxZIDY9Jtj9dWE9GvxOwxoDyUMVbHw=;
+ b=Ag8+VU/5rPHt4gf1bkJUmJvASx4xVkUxuQ1C3eieD+TmTV+CTDRnOk2ImUnpRjoTejq8HmTntrE4aeGg/vV5FUIqsJYt6tG08dy0rrZSRYIoVTNGt/N0Raa9PCsL4eHVGxedLNPTpstL31pOQQlpP+eJeoSyLC4ShzjIzspfpcE=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,178 +115,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- devicetree <devicetree@vger.kernel.org>,
- Michael Trimarchi <michael@amarulasolutions.com>,
- David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-sunxi <linux-sunxi@googlegroups.com>, Rob Herring <robh+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Icenowy Zheng <icenowy@aosc.io>
-Content-Type: multipart/mixed; boundary="===============0200047094=="
+Cc: mark.rutland@arm.com, robdclark@chromium.org, jernej.skrabec@siol.net,
+ narmstrong@baylibre.com, airlied@linux.ie, gregkh@linuxfoundation.org,
+ jonas@kwiboo.se, wsa+renesas@sang-engineering.com,
+ linux-kernel@vger.kernel.org, robh+dt@kernel.org,
+ Laurent.pinchart@ideasonboard.com, alexander.deucher@amd.com,
+ tglx@linutronix.de, sam@ravnborg.org, matt.redfearn@thinci.com,
+ Bogdan Togorean <bogdan.togorean@analog.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0200047094==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="tueqnmro5e6uu24k"
-Content-Disposition: inline
-
-
---tueqnmro5e6uu24k
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Sat, Nov 23, 2019 at 01:20:21AM +0530, Jagan Teki wrote:
-> > > Please have a look at this snippet, I have used your second
-> > > suggestions. let me know if you have any comments?
-> > >
-> > > diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-> > > b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-> > > index 8fa90cfc2ac8..91c95e56d870 100644
-> > > --- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-> > > +++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-> > > @@ -1109,24 +1109,36 @@ static int sun6i_dsi_probe(struct platform_device *pdev)
-> > >          return PTR_ERR(dsi->regulator);
-> > >      }
-> > >
-> > > -    dsi->regs = devm_regmap_init_mmio_clk(dev, "bus", base,
-> > > -                          &sun6i_dsi_regmap_config);
-> > > -    if (IS_ERR(dsi->regs)) {
-> > > -        dev_err(dev, "Couldn't create the DSI encoder regmap\n");
-> > > -        return PTR_ERR(dsi->regs);
-> > > -    }
-> > > -
-> > >      dsi->reset = devm_reset_control_get_shared(dev, NULL);
-> > >      if (IS_ERR(dsi->reset)) {
-> > >          dev_err(dev, "Couldn't get our reset line\n");
-> > >          return PTR_ERR(dsi->reset);
-> > >      }
-> > >
-> > > +    dsi->regs = regmap_init_mmio(dev, base, &sun6i_dsi_regmap_config);
-> >
-> > You should use the devm variant here
->
-> Sure.
->
-> >
-> > > +    if (IS_ERR(dsi->regs)) {
-> > > +        dev_err(dev, "Couldn't init regmap\n");
-> > > +        return PTR_ERR(dsi->regs);
-> > > +    }
-> > > +
-> > > +    dsi->bus_clk = devm_clk_get(dev, NULL);
-> >
-> > I guess you still need to pass 'bus' here?
->
-> But the idea here is not to specify clock name explicitly to support
-> A64. otherwise A64 would fail as we are not specifying the clock-names
-> explicitly on dsi node.
-
-Right. But you have no guarantee that the bus clock is going to be the
-first one on the other SoCs either.
-
-What about something like that instead:
-
-char *clk_name = NULL;
-if (dsi->has_mod_clk)
-    clk_name = "bus";
-
-clk = devm_clk_get(dev, clk_name);
-if (IS_ERR(clk))
-    return PTR_ERR(clk));
-
-regmap_mmio_attach_clk(regmap, clk);
-
->
-> dsi: dsi@1ca0000 {
->        compatible = "allwinner,sun50i-a64-mipi-dsi";
->        reg = <0x01ca0000 0x1000>;
->        interrupts = <GIC_SPI 89 IRQ_TYPE_LEVEL_HIGH>;
->        clocks = <&ccu CLK_BUS_MIPI_DSI>;
->        resets = <&ccu RST_BUS_MIPI_DSI>;
->       phys = <&dphy>;
->       phy-names = "dphy";
-> .....
-> };
->
-> >
-> > > +    if (IS_ERR(dsi->bus_clk)) {
-> > > +        dev_err(dev, "Couldn't get the DSI bus clock\n");
-> > > +        ret = PTR_ERR(dsi->bus_clk);
-> > > +        goto err_regmap;
-> > > +    } else {
-> > > +        printk("Jagan.. Got the BUS clock\n");
-> > > +        ret = regmap_mmio_attach_clk(dsi->regs, dsi->bus_clk);
-> > > +        if (ret)
-> > > +            goto err_bus_clk;
-> > > +    }
-> > > +
-> > >      if (dsi->variant->has_mod_clk) {
-> > >          dsi->mod_clk = devm_clk_get(dev, "mod");
-> > >          if (IS_ERR(dsi->mod_clk)) {
-> > >              dev_err(dev, "Couldn't get the DSI mod clock\n");
-> > > -            return PTR_ERR(dsi->mod_clk);
-> > > +            ret = PTR_ERR(dsi->mod_clk);
-> > > +            goto err_attach_clk;
-> > >          }
-> > >      }
-> > >
-> > > @@ -1167,6 +1179,14 @@ static int sun6i_dsi_probe(struct platform_device *pdev)
-> > >  err_unprotect_clk:
-> > >      if (dsi->variant->has_mod_clk)
-> > >          clk_rate_exclusive_put(dsi->mod_clk);
-> > > +err_attach_clk:
-> > > +    if (!IS_ERR(dsi->bus_clk))
-> > > +        regmap_mmio_detach_clk(dsi->regs);
-> > > +err_bus_clk:
-> > > +    if (!IS_ERR(dsi->bus_clk))
-> > > +        clk_put(dsi->bus_clk);
-> > > +err_regmap:
-> > > +    regmap_exit(dsi->regs);
-> > >      return ret;
-> > >  }
-> > >
-> > > @@ -1181,6 +1201,13 @@ static int sun6i_dsi_remove(struct platform_device *pdev)
-> > >      if (dsi->variant->has_mod_clk)
-> > >          clk_rate_exclusive_put(dsi->mod_clk);
-> > >
-> > > +    if (!IS_ERR(dsi->bus_clk)) {
-> > > +        regmap_mmio_detach_clk(dsi->regs);
-> > > +        clk_put(dsi->bus_clk);
-> >
-> > This will trigger a warning, you put down the reference twice
->
-> You mean regmap_mmio_detach_clk will put the clk?
-
-No, devm_clk_get will.
-
-Maxime
-
---tueqnmro5e6uu24k
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXeAJJgAKCRDj7w1vZxhR
-xeTeAQCacNpV8Wm/rBcNEWf932Rl1dECN/23C4NSORo+wFWl+QEA9eslBkFZsEsR
-8bsW4OOl0eHdwYb6HSh9C+3pq52yBgU=
-=UsjM
------END PGP SIGNATURE-----
-
---tueqnmro5e6uu24k--
-
---===============0200047094==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0200047094==--
+VGhpcyBwYXRjaC1zZXQgYWRkIHN1cHBvcnQgZm9yIEFEVjc1MzUgcGFydCBpbiBBRFY3NTExIGRy
+aXZlci4KCkFEVjc1MzUgYW5kIEFEVjc1MzMgYXJlIHBpbiB0byBwaW4gY29tcGF0aWJsZSBwYXJ0
+cyBidXQgQURWNzUzNQpzdXBwb3J0IFRNRFMgY2xvY2sgdXB0byAxNDguNU1oeiBhbmQgcmVzb2x1
+dGlvbnMgdXAgdG8gMTA4MHBANjBIei4KCi0tLQpDaGFuZ2VzIGluIHYzOgogLSByZW1vdmUgQ09O
+RklHX0RSTV9JMkNfQURWNzUzMyBmcm9tIEtjb25maWcuIE5vdyBkcml2ZXIgc3VwcG9ydAphbGwg
+Y2hpcCB2ZXJzaW9ucwogLSBjcmVhdGUgbWFjcm9zIGZvciB2MXAyIGNvbmZpZyByZWdpc3RlcnMK
+IC0gcmVtb3ZlIGR1bW15IGZ1bmN0aW9ucyBmcm9tIGhlYWRlcgoKQm9nZGFuIFRvZ29yZWFuICgy
+KToKICBkdC1iaW5kaW5nczogZHJtOiBicmlkZ2U6IGFkdjc1MTE6IEFkZCBBRFY3NTM1IHN1cHBv
+cnQKICBkcm06IGJyaWRnZTogYWR2NzUxMTogQWRkIHN1cHBvcnQgZm9yIEFEVjc1MzUKCiAuLi4v
+YmluZGluZ3MvZGlzcGxheS9icmlkZ2UvYWRpLGFkdjc1MTEudHh0ICAgfCAyMyArKysrKy0tLS0t
+CiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2Fkdjc1MTEvS2NvbmZpZyAgICAgICAgfCAxMyArKy0t
+LS0KIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYWR2NzUxMS9NYWtlZmlsZSAgICAgICB8ICAzICst
+CiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2Fkdjc1MTEvYWR2NzUxMS5oICAgICAgfCA0NCArKyst
+LS0tLS0tLS0tLS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2Fkdjc1MTEvYWR2NzUxMV9k
+cnYuYyAgfCAzNSArKysrKysrKysrLS0tLS0KIDUgZmlsZXMgY2hhbmdlZCwgNDQgaW5zZXJ0aW9u
+cygrKSwgNzQgZGVsZXRpb25zKC0pCgotLSAKMi4yMy4wCgpfX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
+bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
