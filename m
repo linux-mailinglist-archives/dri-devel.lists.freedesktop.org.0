@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0634C10C4EF
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2019 09:23:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E072810C4C0
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Nov 2019 09:10:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B81B26E5FB;
-	Thu, 28 Nov 2019 08:22:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83C806E5FC;
+	Thu, 28 Nov 2019 08:10:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E15816E5EA;
- Thu, 28 Nov 2019 02:24:31 +0000 (UTC)
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id F3C7A9A82D09B260C99F;
- Thu, 28 Nov 2019 10:24:26 +0800 (CST)
-Received: from huawei.com (10.90.53.225) by DGGEMS401-HUB.china.huawei.com
- (10.3.19.201) with Microsoft SMTP Server id 14.3.439.0; Thu, 28 Nov 2019
- 10:24:19 +0800
-From: zhengbin <zhengbin13@huawei.com>
-To: <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
- <David1.Zhou@amd.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <harry.wentland@amd.com>, <sunpeng.li@amd.com>,
- <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 4/4] drm/amd/display: Remove unneeded semicolon in
- display_rq_dlg_calc_21.c
-Date: Thu, 28 Nov 2019 10:31:40 +0800
-Message-ID: <1574908300-126787-5-git-send-email-zhengbin13@huawei.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1574908300-126787-1-git-send-email-zhengbin13@huawei.com>
-References: <1574908300-126787-1-git-send-email-zhengbin13@huawei.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 514CD6E60A
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Nov 2019 08:09:59 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (unknown [104.132.253.101])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 36215729;
+ Thu, 28 Nov 2019 09:09:55 +0100 (CET)
+Date: Thu, 28 Nov 2019 10:09:46 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v7 3/7] drm: rcar-du: Add support for CMM
+Message-ID: <20191128080946.GF4711@pendragon.ideasonboard.com>
+References: <20191113100556.15616-1-jacopo+renesas@jmondi.org>
+ <20191113100556.15616-4-jacopo+renesas@jmondi.org>
+ <CAMuHMdWS2bv=RhQ3y5gNzZFT6CeH-a+h7xc6KYvcv0Anht6zGw@mail.gmail.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.90.53.225]
-X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Thu, 28 Nov 2019 08:22:47 +0000
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdWS2bv=RhQ3y5gNzZFT6CeH-a+h7xc6KYvcv0Anht6zGw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=ideasonboard.com; s=mail; t=1574928597;
+ bh=4275TLqavidGFPsDBkZNj9mIhffOCitIlDAiAtt5RTA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Jia25AtAMik5jIDCOTSO/dq60rdg6LyCZI64IGWVenk/0KEFt+8vxt//Cpd8yDmeD
+ K1BEYSDAYIa4meJ77TzXpfkM4hRjVrsgmfHxhW21shJ8aI8mQPCeXq+dFxjJyzNIum
+ 5bXL5WVlhN2v+Buuzo0PlfFmA5oVvU4PPKvLS+GQ=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,44 +47,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: zhengbin13@huawei.com
+Cc: Simon Horman <horms@verge.net.au>, David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>, Ulrich Hecht <uli+renesas@fpond.eu>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rml4ZXMgY29jY2ljaGVjayB3YXJuaW5nOgoKZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2Rj
-L2RtbC9kY24yMS9kaXNwbGF5X3JxX2RsZ19jYWxjXzIxLmM6MTUyNToxNDQtMTQ1OiBVbm5lZWRl
-ZCBzZW1pY29sb24KZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RtbC9kY24yMS9kaXNw
-bGF5X3JxX2RsZ19jYWxjXzIxLmM6MTUyNjoxNDItMTQzOiBVbm5lZWRlZCBzZW1pY29sb24KClJl
-cG9ydGVkLWJ5OiBIdWxrIFJvYm90IDxodWxrY2lAaHVhd2VpLmNvbT4KU2lnbmVkLW9mZi1ieTog
-emhlbmdiaW4gPHpoZW5nYmluMTNAaHVhd2VpLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vYW1k
-L2Rpc3BsYXkvZGMvZG1sL2RjbjIxL2Rpc3BsYXlfcnFfZGxnX2NhbGNfMjEuYyB8IDQgKystLQog
-MSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZG1sL2RjbjIxL2Rpc3BsYXlfcnFf
-ZGxnX2NhbGNfMjEuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kbWwvZGNuMjEv
-ZGlzcGxheV9ycV9kbGdfY2FsY18yMS5jCmluZGV4IGE0YjEwM2UuLmU2MGFmMzggMTAwNjQ0Ci0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kbWwvZGNuMjEvZGlzcGxheV9ycV9k
-bGdfY2FsY18yMS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kbWwvZGNu
-MjEvZGlzcGxheV9ycV9kbGdfY2FsY18yMS5jCkBAIC0xNTIyLDggKzE1MjIsOCBAQCBzdGF0aWMg
-dm9pZCBkbWxfcnFfZGxnX2dldF9kbGdfcGFyYW1zKAoKIAlkaXNwX2RsZ19yZWdzLT5yZWZjeWNf
-cGVyX3ZtX2dyb3VwX3ZibGFuayAgID0gZ2V0X3JlZmN5Y19wZXJfdm1fZ3JvdXBfdmJsYW5rKG1v
-ZGVfbGliLCBlMmVfcGlwZV9wYXJhbSwgbnVtX3BpcGVzLCBwaXBlX2lkeCkgKiByZWZjbGtfZnJl
-cV9pbl9taHo7CiAJZGlzcF9kbGdfcmVncy0+cmVmY3ljX3Blcl92bV9ncm91cF9mbGlwICAgICA9
-IGdldF9yZWZjeWNfcGVyX3ZtX2dyb3VwX2ZsaXAobW9kZV9saWIsIGUyZV9waXBlX3BhcmFtLCBu
-dW1fcGlwZXMsIHBpcGVfaWR4KSAqIHJlZmNsa19mcmVxX2luX21oejsKLQlkaXNwX2RsZ19yZWdz
-LT5yZWZjeWNfcGVyX3ZtX3JlcV92YmxhbmsgICAgID0gZ2V0X3JlZmN5Y19wZXJfdm1fcmVxX3Zi
-bGFuayhtb2RlX2xpYiwgZTJlX3BpcGVfcGFyYW0sIG51bV9waXBlcywgcGlwZV9pZHgpICogcmVm
-Y2xrX2ZyZXFfaW5fbWh6OzsKLQlkaXNwX2RsZ19yZWdzLT5yZWZjeWNfcGVyX3ZtX3JlcV9mbGlw
-ICAgICAgID0gZ2V0X3JlZmN5Y19wZXJfdm1fcmVxX2ZsaXAobW9kZV9saWIsIGUyZV9waXBlX3Bh
-cmFtLCBudW1fcGlwZXMsIHBpcGVfaWR4KSAqIHJlZmNsa19mcmVxX2luX21oejs7CisJZGlzcF9k
-bGdfcmVncy0+cmVmY3ljX3Blcl92bV9yZXFfdmJsYW5rICAgICA9IGdldF9yZWZjeWNfcGVyX3Zt
-X3JlcV92YmxhbmsobW9kZV9saWIsIGUyZV9waXBlX3BhcmFtLCBudW1fcGlwZXMsIHBpcGVfaWR4
-KSAqIHJlZmNsa19mcmVxX2luX21oejsKKwlkaXNwX2RsZ19yZWdzLT5yZWZjeWNfcGVyX3ZtX3Jl
-cV9mbGlwICAgICAgID0gZ2V0X3JlZmN5Y19wZXJfdm1fcmVxX2ZsaXAobW9kZV9saWIsIGUyZV9w
-aXBlX3BhcmFtLCBudW1fcGlwZXMsIHBpcGVfaWR4KSAqIHJlZmNsa19mcmVxX2luX21oejsKCiAJ
-Ly8gQ2xhbXAgdG8gbWF4IGZvciBub3cKIAlpZiAoZGlzcF9kbGdfcmVncy0+cmVmY3ljX3Blcl92
-bV9ncm91cF92YmxhbmsgPj0gKHVuc2lnbmVkIGludClkbWxfcG93KDIsIDIzKSkKLS0KMi43LjQK
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+SGkgR2VlcnQsCgpPbiBUaHUsIE5vdiAyOCwgMjAxOSBhdCAwODo1NjoxNEFNICswMTAwLCBHZWVy
+dCBVeXR0ZXJob2V2ZW4gd3JvdGU6Cj4gT24gV2VkLCBOb3YgMTMsIDIwMTkgYXQgMTE6MDQgQU0g
+SmFjb3BvIE1vbmRpIDxqYWNvcG8rcmVuZXNhc0BqbW9uZGkub3JnPiB3cm90ZToKPiA+IEFkZCBh
+IGRyaXZlciBmb3IgdGhlIFItQ2FyIERpc3BsYXkgVW5pdCBDb2xvciBDb3JyZWN0aW9uIE1vZHVs
+ZS4KPiA+IEluIG1vc3Qgb2YgR2VuMyBTb0NzLCBlYWNoIERVIG91dHB1dCBjaGFubmVsIGlzIHBy
+b3ZpZGVkIHdpdGggYSBDTU0gdW5pdAo+ID4gdG8gcGVyZm9ybSBpbWFnZSBlbmhhbmNlbWVudCBh
+bmQgY29sb3IgY29ycmVjdGlvbi4KPiA+Cj4gPiBBZGQgc3VwcG9ydCBmb3IgQ01NIHRocm91Z2gg
+YSBkcml2ZXIgdGhhdCBzdXBwb3J0cyBjb25maWd1cmF0aW9uIG9mCj4gPiB0aGUgMS1kaW1lbnNp
+b25hbCBMVVQgdGFibGUuIE1vcmUgYWR2YW5jZWQgQ01NIGZlYXR1cmVzIHdpbGwgYmUKPiA+IGlt
+cGxlbWVudGVkIG9uIHRvcCBvZiB0aGlzIGluaXRpYWwgb25lLgo+ID4KPiA+IFJldmlld2VkLWJ5
+OiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+Cj4g
+PiBSZXZpZXdlZC1ieTogS2llcmFuIEJpbmdoYW0gPGtpZXJhbi5iaW5naGFtK3JlbmVzYXNAaWRl
+YXNvbmJvYXJkLmNvbT4KPiA+IFNpZ25lZC1vZmYtYnk6IEphY29wbyBNb25kaSA8amFjb3BvK3Jl
+bmVzYXNAam1vbmRpLm9yZz4KPiAKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L0tj
+b25maWcKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L0tjb25maWcKPiA+IEBAIC01
+LDYgKzUsNyBAQCBjb25maWcgRFJNX1JDQVJfRFUKPiA+ICAgICAgICAgZGVwZW5kcyBvbiBBUk0g
+fHwgQVJNNjQKPiA+ICAgICAgICAgZGVwZW5kcyBvbiBBUkNIX1JFTkVTQVMgfHwgQ09NUElMRV9U
+RVNUCj4gPiAgICAgICAgIGltcGx5IERSTV9SQ0FSX0xWRFMKPiA+ICsgICAgICAgaW1wbHkgRFJN
+X1JDQVJfQ01NCj4gPiAgICAgICAgIHNlbGVjdCBEUk1fS01TX0hFTFBFUgo+ID4gICAgICAgICBz
+ZWxlY3QgRFJNX0tNU19DTUFfSEVMUEVSCj4gPiAgICAgICAgIHNlbGVjdCBEUk1fR0VNX0NNQV9I
+RUxQRVIKPiA+IEBAIC0xMyw2ICsxNCwxMyBAQCBjb25maWcgRFJNX1JDQVJfRFUKPiA+ICAgICAg
+ICAgICBDaG9vc2UgdGhpcyBvcHRpb24gaWYgeW91IGhhdmUgYW4gUi1DYXIgY2hpcHNldC4KPiA+
+ICAgICAgICAgICBJZiBNIGlzIHNlbGVjdGVkIHRoZSBtb2R1bGUgd2lsbCBiZSBjYWxsZWQgcmNh
+ci1kdS1kcm0uCj4gPgo+ID4gK2NvbmZpZyBEUk1fUkNBUl9DTU0KPiA+ICsgICAgICAgdHJpc3Rh
+dGUgIlItQ2FyIERVIENvbG9yIE1hbmFnZW1lbnQgTW9kdWxlIChDTU0pIFN1cHBvcnQiCj4gPiAr
+ICAgICAgIGRlcGVuZHMgb24gRFJNICYmIE9GCj4gPiArICAgICAgIGRlcGVuZHMgb24gRFJNX1JD
+QVJfRFUKPiAKPiBEUk1fUkNBUl9EVSBhbHJlYWR5IGRlcGVuZHMgb24gRFJNICYmIE9GLCBzbyB0
+aGUgbGluZSBhYm92ZQo+IGNhbiBiZSByZW1vdmVkLgoKSSd2ZSBzZW50IGEgcHVsbCByZXF1ZXN0
+IGFscmVhZHkuIENhbiB3ZSBhZGRyZXNzIHRoaXMgb24gdG9wID8gT3IgaXMgaXQKd29ydGggYSBz
+ZXBhcmF0ZSBwYXRjaCwgc2hvdWxkIHdlIHdhaXQgdW50aWwgd2UgaGF2ZSB0byB0b3VjaCB0aGlz
+IGFuZAp0aGVuIGZpeCBpdCBpbiBhICJ3aGlsZSBhdCBpdCIgZmFzaGlvbiA/CgotLSAKUmVnYXJk
+cywKCkxhdXJlbnQgUGluY2hhcnQKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVs
