@@ -1,37 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C1A810D440
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2019 11:36:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F74110D459
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2019 11:44:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71E296E8CF;
-	Fri, 29 Nov 2019 10:35:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02CD66E8D4;
+	Fri, 29 Nov 2019 10:44:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97EAF6E8CF;
- Fri, 29 Nov 2019 10:35:53 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 29 Nov 2019 02:35:53 -0800
-X-IronPort-AV: E=Sophos;i="5.69,257,1571727600"; d="scan'208";a="212284321"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 29 Nov 2019 02:35:48 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Subject: Re: [Intel-gfx] [PATCH v2 12/14] media: constify fb ops across all
- drivers
-In-Reply-To: <9cfc1a171d12a52dfbd5508d737681f2d89d21df.1575022735.git.jani.nikula@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1575022735.git.jani.nikula@intel.com>
- <9cfc1a171d12a52dfbd5508d737681f2d89d21df.1575022735.git.jani.nikula@intel.com>
-Date: Fri, 29 Nov 2019 12:35:44 +0200
-Message-ID: <87h82nkm0v.fsf@intel.com>
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF0ED6E8D5
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2019 10:44:15 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id c14so9951502wrn.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2019 02:44:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=eurNCSwC3LD6NpAG4KMDPTRG38ZQRaxJF+kqME8pF6A=;
+ b=N0+6xcBcEnm7pxsrFdUNNnnj5sXcMZD1fc3LPdpyOBLWeWL3lVugYQ3dbu6l25xAD5
+ Gxe+RiXR4/5FzRwkUJOnuueT/gAr4eDFCJZHqNRWOs2mQPMIcSGMRhNIoKJ4ozV7WxWS
+ 5poYc50/dO7ar0BH2SE9H3yN5szTo+6X4QpG8VQLEJZAbV4Q7Tvb5QAXBg+kKSl9ZdFw
+ nh1WERyF9EeungcoL6PAWtFvJE0JPt6FeP8rv9wMJuozBdoIeiOoAgJwnSWMqMvCEkwl
+ PGVs/C0pW/dZPGKi3grkJxrsBMMuFjklVYGIClVHsJkGtAhXQooFxlUmpk7Rp4UcHdY5
+ 3Tmw==
+X-Gm-Message-State: APjAAAUhZbHFgIAONWc6Zn+sQQVnJWgmxQpli77spMr8d/TwNlsVBrhe
+ 1sN+5sLDn3YIg6HJ+siaspU=
+X-Google-Smtp-Source: APXvYqxZYhJiyU4Uc17lCY3C6eT+scqo9XI7AK8OhO1y9svl4uJ3RfRCdPUTbTX2/vyZaD4br51UkQ==
+X-Received: by 2002:a5d:4085:: with SMTP id o5mr17211435wrp.321.1575024254336; 
+ Fri, 29 Nov 2019 02:44:14 -0800 (PST)
+Received: from localhost (pD9E518ED.dip0.t-ipconnect.de. [217.229.24.237])
+ by smtp.gmail.com with ESMTPSA id h97sm29406969wrh.56.2019.11.29.02.44.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Nov 2019 02:44:13 -0800 (PST)
+Date: Fri, 29 Nov 2019 11:44:12 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 8/9] drm/tegra: dpaux: Add missing runtime PM references
+Message-ID: <20191129104412.GD2771912@ulmo>
+References: <20191128153741.2380419-1-thierry.reding@gmail.com>
+ <20191128153741.2380419-9-thierry.reding@gmail.com>
+ <20191129092319.GD624164@phenom.ffwll.local>
 MIME-Version: 1.0
+In-Reply-To: <20191129092319.GD624164@phenom.ffwll.local>
+User-Agent: Mutt/1.12.2 (2019-09-21)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=eurNCSwC3LD6NpAG4KMDPTRG38ZQRaxJF+kqME8pF6A=;
+ b=V/7eBF73MxPSnLcon5XudasOsXBysgQ60MHS4BUPB1bIH8kQ0g2S4FfKZzxJ1ZUFkr
+ FbHvr69Dn1scgF7Jog01xZTi6BpgmvsrKpHVP/UOhSRQibHwHXvS8JpW0/Btnzo2hVEN
+ w6q7HDpqJ3vvneE8U3Hg4Yh96cLOyDQhd6uH8fu2UXJgQ89K/0cz0zbMNabNf0V7gTkG
+ xWKogpboCqmLv8Z5h6OPx0ggLSWoBU2Dzr0JbLijIU8IOMx1JSWhKyhRPFW0lb3yzc44
+ v8/1I1qnCICd6ecL++7HQEs3HSyd8dzJkj1KtBlFXcALg9Nd1nN7DQ1pYxswyJp8fy+w
+ 0a2w==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -44,59 +69,167 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andy Walls <awalls@md.metrocast.net>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- ivtv-devel@ivtvdriver.org, Hans Verkuil <hverkuil@xs4all.nl>,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============2131221687=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAyOSBOb3YgMjAxOSwgSmFuaSBOaWt1bGEgPGphbmkubmlrdWxhQGludGVsLmNvbT4g
-d3JvdGU6Cj4gTm93IHRoYXQgdGhlIGZib3BzIG1lbWJlciBvZiBzdHJ1Y3QgZmJfaW5mbyBpcyBj
-b25zdCwgd2UgY2FuIHN0YXJ0Cj4gbWFraW5nIHRoZSBvcHMgY29uc3QgYXMgd2VsbC4KPgo+IFJl
-bW92ZSB0aGUgcmVkdW5kYW50IGZib3BzIGFzc2lnbm1lbnRzIHdoaWxlIGF0IGl0Lgo+Cj4gdjI6
-Cj4gLSBhY3R1YWxseSBhZGQgY29uc3QgaW4gdml2aWQKPiAtIGZpeCB0eXBvIChDaHJpc3RvcGhl
-IGRlIERpbmVjaGluKQo+Cj4gQ2M6IEhhbnMgVmVya3VpbCA8aHZlcmt1aWxAeHM0YWxsLm5sPgo+
-IENjOiBBbmR5IFdhbGxzIDxhd2FsbHNAbWQubWV0cm9jYXN0Lm5ldD4KPiBDYzogbGludXgtbWVk
-aWFAdmdlci5rZXJuZWwub3JnCj4gQ2M6IGl2dHYtZGV2ZWxAaXZ0dmRyaXZlci5vcmcKPiBSZXZp
-ZXdlZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KPiBTaWduZWQt
-b2ZmLWJ5OiBKYW5pIE5pa3VsYSA8amFuaS5uaWt1bGFAaW50ZWwuY29tPgo+Cj4gZml4dXAtdG8t
-bWVkaWEKClJlYmFzZSBhcnRlZmFjdCwgdG8gYmUgcmVtb3ZlZCBiZWZvcmUgYXBwbHlpbmcuLi4K
-CkJSLApKYW5pLgoKPiAtLS0KPiAgZHJpdmVycy9tZWRpYS9wY2kvaXZ0di9pdnR2ZmIuYyAgICAg
-ICAgICB8IDMgKy0tCj4gIGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vdml2aWQvdml2aWQtb3NkLmMg
-fCAzICstLQo+ICAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMo
-LSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21lZGlhL3BjaS9pdnR2L2l2dHZmYi5jIGIvZHJp
-dmVycy9tZWRpYS9wY2kvaXZ0di9pdnR2ZmIuYwo+IGluZGV4IDk1YTU2Y2NlOWI2NS4uZjI5MjJi
-NTU0YjA5IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvbWVkaWEvcGNpL2l2dHYvaXZ0dmZiLmMKPiAr
-KysgYi9kcml2ZXJzL21lZGlhL3BjaS9pdnR2L2l2dHZmYi5jCj4gQEAgLTkyNSw3ICs5MjUsNyBA
-QCBzdGF0aWMgaW50IGl2dHZmYl9ibGFuayhpbnQgYmxhbmtfbW9kZSwgc3RydWN0IGZiX2luZm8g
-KmluZm8pCj4gIAlyZXR1cm4gMDsKPiAgfQo+ICAKPiAtc3RhdGljIHN0cnVjdCBmYl9vcHMgaXZ0
-dmZiX29wcyA9IHsKPiArc3RhdGljIGNvbnN0IHN0cnVjdCBmYl9vcHMgaXZ0dmZiX29wcyA9IHsK
-PiAgCS5vd25lciA9IFRISVNfTU9EVUxFLAo+ICAJLmZiX3dyaXRlICAgICAgID0gaXZ0dmZiX3dy
-aXRlLAo+ICAJLmZiX2NoZWNrX3ZhciAgID0gaXZ0dmZiX2NoZWNrX3ZhciwKPiBAQCAtMTA0OSw3
-ICsxMDQ5LDYgQEAgc3RhdGljIGludCBpdnR2ZmJfaW5pdF92aWRtb2RlKHN0cnVjdCBpdnR2ICpp
-dHYpCj4gIAo+ICAJb2ktPml2dHZmYl9pbmZvLm5vZGUgPSAtMTsKPiAgCW9pLT5pdnR2ZmJfaW5m
-by5mbGFncyA9IEZCSU5GT19GTEFHX0RFRkFVTFQ7Cj4gLQlvaS0+aXZ0dmZiX2luZm8uZmJvcHMg
-PSAmaXZ0dmZiX29wczsKPiAgCW9pLT5pdnR2ZmJfaW5mby5wYXIgPSBpdHY7Cj4gIAlvaS0+aXZ0
-dmZiX2luZm8udmFyID0gb2ktPml2dHZmYl9kZWZpbmVkOwo+ICAJb2ktPml2dHZmYl9pbmZvLmZp
-eCA9IG9pLT5pdnR2ZmJfZml4Owo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21lZGlhL3BsYXRmb3Jt
-L3ZpdmlkL3ZpdmlkLW9zZC5jIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS92aXZpZC92aXZpZC1v
-c2QuYwo+IGluZGV4IGYyZTc4OWJkZjRhNi4uZmJhZWM4YWNjMTYxIDEwMDY0NAo+IC0tLSBhL2Ry
-aXZlcnMvbWVkaWEvcGxhdGZvcm0vdml2aWQvdml2aWQtb3NkLmMKPiArKysgYi9kcml2ZXJzL21l
-ZGlhL3BsYXRmb3JtL3ZpdmlkL3ZpdmlkLW9zZC5jCj4gQEAgLTI0NCw3ICsyNDQsNyBAQCBzdGF0
-aWMgaW50IHZpdmlkX2ZiX2JsYW5rKGludCBibGFua19tb2RlLCBzdHJ1Y3QgZmJfaW5mbyAqaW5m
-bykKPiAgCXJldHVybiAwOwo+ICB9Cj4gIAo+IC1zdGF0aWMgc3RydWN0IGZiX29wcyB2aXZpZF9m
-Yl9vcHMgPSB7Cj4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgZmJfb3BzIHZpdmlkX2ZiX29wcyA9IHsK
-PiAgCS5vd25lciA9IFRISVNfTU9EVUxFLAo+ICAJLmZiX2NoZWNrX3ZhciAgID0gdml2aWRfZmJf
-Y2hlY2tfdmFyLAo+ICAJLmZiX3NldF9wYXIgICAgID0gdml2aWRfZmJfc2V0X3BhciwKPiBAQCAt
-MzExLDcgKzMxMSw2IEBAIHN0YXRpYyBpbnQgdml2aWRfZmJfaW5pdF92aWRtb2RlKHN0cnVjdCB2
-aXZpZF9kZXYgKmRldikKPiAgCj4gIAlkZXYtPmZiX2luZm8ubm9kZSA9IC0xOwo+ICAJZGV2LT5m
-Yl9pbmZvLmZsYWdzID0gRkJJTkZPX0ZMQUdfREVGQVVMVDsKPiAtCWRldi0+ZmJfaW5mby5mYm9w
-cyA9ICZ2aXZpZF9mYl9vcHM7Cj4gIAlkZXYtPmZiX2luZm8ucGFyID0gZGV2Owo+ICAJZGV2LT5m
-Yl9pbmZvLnZhciA9IGRldi0+ZmJfZGVmaW5lZDsKPiAgCWRldi0+ZmJfaW5mby5maXggPSBkZXYt
-PmZiX2ZpeDsKCi0tIApKYW5pIE5pa3VsYSwgSW50ZWwgT3BlbiBTb3VyY2UgR3JhcGhpY3MgQ2Vu
-dGVyCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============2131221687==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="5CUMAwwhRxlRszMD"
+Content-Disposition: inline
+
+
+--5CUMAwwhRxlRszMD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Nov 29, 2019 at 10:23:19AM +0100, Daniel Vetter wrote:
+> On Thu, Nov 28, 2019 at 04:37:40PM +0100, Thierry Reding wrote:
+> > From: Thierry Reding <treding@nvidia.com>
+> >=20
+> > Ensure that a runtime PM reference is acquired each time the DPAUX
+> > registers are accessed. Otherwise the code may end up running without
+> > the controller being powered, out-of-reset or clocked in some corner
+> > cases, resulting in a crash.
+> >=20
+> > Signed-off-by: Thierry Reding <treding@nvidia.com>
+>=20
+> On patches 4,5,7 in this series Acked-by: Daniel Vetter <daniel.vetter@ff=
+wll.ch>
+>=20
+> On this one here I'm very confused.
+>=20
+> - Why do you drop the runtime pm between enable and disable? Is that just
+>   how the hw works, i.e. the pad config stays, just the registers go away?
+
+Now you've made me doubt this. I don't think the pad configuration stays
+across runtime suspend/resume, so you're right, this shouldn't work.
+I'll need to go retest this one specifically.
+
+I had added these runtime PM references to ensure the device was
+properly configured at resume from suspend, but there ended up being an
+additional issue with the I2C driver that relies on this, so perhaps
+this may not be necessary in the end.
+
+> - I'm not seeing any locking between the different users (dp aux and
+>   pinctrl). We might want to change drm_dp_aux->hw_mutex to a pointer to
+>   make this easier (but I'm not super fond of that pattern from i2c).
+
+There should be no need to lock here. DP AUX transfers will only be used
+between drm_dp_aux_enable() and drm_dp_aux_disable().
+
+> - Your drm_dp_aux_enable/disable needs to be moved into the ->transfer
+>   callback, otherwise the various userspace interface (dp aux, but also
+>   i2c on top of that) won't work. Some pre/post_transfer functions like
+>   i2c has might be useful for stuff like this.
+
+I suppose it would be possible for someone to attempt to use those
+userspace interfaces outside of drm_dp_aux_enable()/drm_dp_aux_disable()
+and then the locking would be required.
+
+I'll look into that.
+
+Thierry
+
+>=20
+> Cheers, Daniel
+>=20
+> > ---
+> >  drivers/gpu/drm/tegra/dpaux.c | 16 ++++++++++++++--
+> >  1 file changed, 14 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/tegra/dpaux.c b/drivers/gpu/drm/tegra/dpau=
+x.c
+> > index 622cdf1ad246..4b2b86aed1a5 100644
+> > --- a/drivers/gpu/drm/tegra/dpaux.c
+> > +++ b/drivers/gpu/drm/tegra/dpaux.c
+> > @@ -434,8 +434,13 @@ static int tegra_dpaux_set_mux(struct pinctrl_dev =
+*pinctrl,
+> >  			       unsigned int function, unsigned int group)
+> >  {
+> >  	struct tegra_dpaux *dpaux =3D pinctrl_dev_get_drvdata(pinctrl);
+> > +	int err;
+> > +
+> > +	pm_runtime_get_sync(dpaux->dev);
+> > +	err =3D tegra_dpaux_pad_config(dpaux, function);
+> > +	pm_runtime_put(dpaux->dev);
+> > =20
+> > -	return tegra_dpaux_pad_config(dpaux, function);
+> > +	return err;
+> >  }
+> > =20
+> >  static const struct pinmux_ops tegra_dpaux_pinmux_ops =3D {
+> > @@ -809,15 +814,22 @@ enum drm_connector_status drm_dp_aux_detect(struc=
+t drm_dp_aux *aux)
+> >  int drm_dp_aux_enable(struct drm_dp_aux *aux)
+> >  {
+> >  	struct tegra_dpaux *dpaux =3D to_dpaux(aux);
+> > +	int err;
+> > +
+> > +	pm_runtime_get_sync(dpaux->dev);
+> > +	err =3D tegra_dpaux_pad_config(dpaux, DPAUX_PADCTL_FUNC_AUX);
+> > +	pm_runtime_put(dpaux->dev);
+> > =20
+> > -	return tegra_dpaux_pad_config(dpaux, DPAUX_PADCTL_FUNC_AUX);
+> > +	return err;
+> >  }
+> > =20
+> >  int drm_dp_aux_disable(struct drm_dp_aux *aux)
+> >  {
+> >  	struct tegra_dpaux *dpaux =3D to_dpaux(aux);
+> > =20
+> > +	pm_runtime_get_sync(dpaux->dev);
+> >  	tegra_dpaux_pad_power_down(dpaux);
+> > +	pm_runtime_put(dpaux->dev);
+> > =20
+> >  	return 0;
+> >  }
+> > --=20
+> > 2.23.0
+> >=20
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+> --=20
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+
+--5CUMAwwhRxlRszMD
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl3g9nkACgkQ3SOs138+
+s6Hj3A/+PqCFRb0VVrY3Li6fcisTc3P2IclxOVXVwXKk6+cuXJfVSs0i8Zd7JAzO
+jWIP8S82xEh5H338AzCy2r4hncl5YoDhHEb8Sppj/iK8aFI96CELE0+kEsamb+52
+EEn32SEgheYnSh2UcZTDqjPDW91yda6WHDRb6c33V86KEne9lf/KI0DzizsG4UZ9
+nO9nUx2a1AI38UH3czWKph+PrM594PJ0UQdZT0nP0rTDaJPmznDP0obzjiHXXS/D
+1X6qALYHNPOqZMJvPOSERY7qc9arHLbrtjMDy+qcJTKgg9Azuqzdv/ribuEHzuW0
+yH63gpK8gLsIZPss6t4EcVDn8o/fxDnUk1glQgOduBZWCMT6ukQTlRePuDICVsrA
+OUDLfWLeFD9U1OA5EMdBqaWG/dOFiK0yHUr8hEn7K/UIv+ofT4eg6cyX0HWlm1KH
+Kb/wsckpFDi/+1b9RarFUu643BvmVRvYbNWCARcfUxf4A2cLmszJ692vPCNJlWUs
+XteAG+lY8qhH+j8c/OGMuQYwWE/NpxSli/YF0cvXjSwXe4iDTqNfI0OGsFsiSHQ1
+zZjqxyd63LDdYJM/IfhdLu0Y6PQSD2NK4shyRog4wcHKlfslZ5WJGAoKa5FFbh9k
+tu+HPnoVLVORfCoX3GWVfkMy89BxWPWwe82QGpZSFgx7lc1V4+4=
+=Sf/5
+-----END PGP SIGNATURE-----
+
+--5CUMAwwhRxlRszMD--
+
+--===============2131221687==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2131221687==--
