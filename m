@@ -2,45 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32CEC10D8A1
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2019 17:48:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A93D10D8A8
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2019 17:48:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B52F89C27;
-	Fri, 29 Nov 2019 16:48:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09D1A6E93F;
+	Fri, 29 Nov 2019 16:48:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1B9DE6E941
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2019 16:48:11 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 1892B720E2; Fri, 29 Nov 2019 16:48:11 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109881] Screens reorganise, failed to enable link training
- errors in dmesg about 60s after plugging in dock
-Date: Fri, 29 Nov 2019 16:48:11 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: dep_changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/other
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: have-backtrace
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: martin.peres@free.fr
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: INVALID
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-109881-502-MhNbsZqnHG@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109881-502@http.bugs.freedesktop.org/>
-References: <bug-109881-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
+ [IPv6:2a00:1450:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 459268904A;
+ Fri, 29 Nov 2019 16:48:49 +0000 (UTC)
+Received: by mail-ed1-x543.google.com with SMTP id m8so3517712edi.13;
+ Fri, 29 Nov 2019 08:48:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UufnYlf2GsYCPyzbkkHk/dTVOPXtueY9E5VYzdhLqUs=;
+ b=aHMCS3Lo4wgNHREaCOXX8CPOpOmg6ivH3ndlAMZnYGx2Dmwu2H7aPLajRSPFlsGCRF
+ 7HzXMu5Lh/+ndLzVKqtBBorEECEbrvP5bnqnyL9A9/jqGHSLTCSbTXC0MSUDwlXseX/1
+ mGGH8V5BfeYWBTg2Jc3CQrFeoNEwbbTj2Jl9pMDu3oMLkVHGskGAJWC7tss6OyEKRRtW
+ MOkg+WzsSsXadro3g9wGfoSwl292jq0831uSH6qws7rFyD0QT82S4VEIWhQGCbkmLI0g
+ 74IwLBRhgD3huzzvC/NXawk5Ub9ALDh0tzD7pPwhQP/VBxcfQsC1b1xm9xOUp/3ab44f
+ HC0A==
+X-Gm-Message-State: APjAAAUPMQNZZ+xrgslA9upgegH/BsHoQ6xD2RDVKw2YyEDoBxfmDZ6G
+ NtBtISJKVqX1o8hBLwlvfnntJVxKj6LDa4FFge8=
+X-Google-Smtp-Source: APXvYqxMCZ12ZTAFseqpRkfanwT5QgN0HgMTMYKPNJBhwzpA+ToKqjaShI3w7o9le0g6Sk6wWYbkA/1kj05qoecE0lo=
+X-Received: by 2002:a50:9fcb:: with SMTP id c69mr46409317edf.163.1575046127828; 
+ Fri, 29 Nov 2019 08:48:47 -0800 (PST)
 MIME-Version: 1.0
+References: <1575010545-25971-1-git-send-email-harigovi@codeaurora.org>
+ <1575010545-25971-2-git-send-email-harigovi@codeaurora.org>
+In-Reply-To: <1575010545-25971-2-git-send-email-harigovi@codeaurora.org>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 29 Nov 2019 08:48:34 -0800
+Message-ID: <CAF6AEGt8zuKWz-e_yRS_hbn6HV6DAXDvK4zwjJ-naQtEoe7uuA@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH v1 1/2] dt-bindings: display: add sc7180 panel
+ variant
+To: Harigovindan P <harigovi@codeaurora.org>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=UufnYlf2GsYCPyzbkkHk/dTVOPXtueY9E5VYzdhLqUs=;
+ b=pY9tvyazS85bTfSIan9LQaMzwCiangviUqIczyltzkqih6hrGj2G5d8O0oWBBg2DVo
+ YKL90Vfw4gTHQYAwP3UzR3vqm8iE1gjZADNDnRVnfzBsdv7S2hS7H4QX3kkiPzhGnmzY
+ 4wVayL16J93zLdJ15b7j5ISMap+5xu91iJFnxOgsNWTBlyKkzkb0JON4vI+PZXXNupXi
+ PhYlFRfJpxg07Skq3LYOGnO4bnMpne6RmIJFZKxdNwJ0Ycwf0YsGBmfrefQDDtfIGyM3
+ taNJpZYsFQkWfAI3yksn8Bv0Z/bQeLW6vRY8dZnZlZyeMd3MJHGO6Idu2N0NWjYEbmSU
+ 9u4g==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,112 +64,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0457418194=="
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>, Sean Paul <seanpaul@chromium.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "Kristian H. Kristensen" <hoegsberg@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Chandan Uddaraju <chandanu@codeaurora.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0457418194==
-Content-Type: multipart/alternative; boundary="15750460910.7C5A68B.23974"
-Content-Transfer-Encoding: 7bit
-
-
---15750460910.7C5A68B.23974
-Date: Fri, 29 Nov 2019 16:48:11 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109881
-Bug 109881 depends on bug 109873, which changed state.
-
-Bug 109873 Summary: Screens reorganise, failed to enable link training erro=
-rs in dmesg about 60s after plugging in dock
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109873
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |MOVED
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15750460910.7C5A68B.23974
-Date: Fri, 29 Nov 2019 16:48:11 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - Screens reorganise, failed to enable link tr=
-aining errors in dmesg about 60s after plugging in dock"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109881">Bug 10988=
-1</a>
-          depends on
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - Screens reorganise, failed to enable link trai=
-ning errors in dmesg about 60s after plugging in dock"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109873">bug 10987=
-3</a>,
-          which changed state.
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>MOVED
-           </td>
-         </tr></table>
-      <p>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15750460910.7C5A68B.23974--
-
---===============0457418194==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0457418194==--
+T24gVGh1LCBOb3YgMjgsIDIwMTkgYXQgMTA6NTYgUE0gSGFyaWdvdmluZGFuIFAgPGhhcmlnb3Zp
+QGNvZGVhdXJvcmEub3JnPiB3cm90ZToKPgo+IEFkZCBhIGNvbXBhdGlibGUgc3RyaW5nIHRvIHN1
+cHBvcnQgc2M3MTgwIHBhbmVsIHZlcnNpb24uCj4KPiBTaWduZWQtb2ZmLWJ5OiBIYXJpZ292aW5k
+YW4gUCA8aGFyaWdvdmlAY29kZWF1cm9yYS5vcmc+Cj4gLS0tCj4gIC4uLi9iaW5kaW5ncy9kaXNw
+bGF5L3Zpc2lvbm94LHJtNjkyOTkudHh0ICAgICAgICAgIHwgNjggKysrKysrKysrKysrKysrKysr
+KysrKwo+ICAxIGZpbGUgY2hhbmdlZCwgNjggaW5zZXJ0aW9ucygrKQo+ICBjcmVhdGUgbW9kZSAx
+MDA3NTUgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvdmlzaW9ub3gs
+cm02OTI5OS50eHQKPgo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmlu
+ZGluZ3MvZGlzcGxheS92aXNpb25veCxybTY5Mjk5LnR4dCBiL0RvY3VtZW50YXRpb24vZGV2aWNl
+dHJlZS9iaW5kaW5ncy9kaXNwbGF5L3Zpc2lvbm94LHJtNjkyOTkudHh0Cj4gbmV3IGZpbGUgbW9k
+ZSAxMDA3NTUKPiBpbmRleCAwMDAwMDAwLi40NjIyMTkxCj4gLS0tIC9kZXYvbnVsbAo+ICsrKyBi
+L0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3Zpc2lvbm94LHJtNjky
+OTkudHh0Cj4gQEAgLTAsMCArMSw2OCBAQAo+ICtWaXNpb25veCBtb2RlbCBSTTY5Mjk5IERTSSBk
+aXNwbGF5IGRyaXZlcgo+ICsKPiArVGhlIFZpc2lvbm94IFJNNjkyOTkgaXMgYSBnZW5lcmljIGRp
+c3BsYXkgZHJpdmVyLCBjdXJyZW50bHkgb25seSBjb25maWd1cmVkCj4gK2ZvciB1c2UgaW4gdGhl
+IDEwODBwIGRpc3BsYXkgb24gdGhlIFF1YWxjb21tIFNDNzE4MCBNVFAgYm9hcmQuCj4gKwo+ICtS
+ZXF1aXJlZCBwcm9wZXJ0aWVzOgo+ICstIGNvbXBhdGlibGU6IHNob3VsZCBiZSAidmlzaW9ub3gs
+cm02OTI5OS0xMDgwcC1kaXNwbGF5Igo+ICstIHZkZGEtc3VwcGx5OiBwaGFuZGxlIG9mIHRoZSBy
+ZWd1bGF0b3IgdGhhdCBwcm92aWRlcyB0aGUgc3VwcGx5IHZvbHRhZ2UKPiArICBQb3dlciBJQyBz
+dXBwbHkKPiArLSB2ZGQzcDMtc3VwcGx5OiBwaGFuZGxlIG9mIHRoZSByZWd1bGF0b3IgdGhhdCBw
+cm92aWRlcyB0aGUgc3VwcGx5IHZvbHRhZ2UKPiArICBQb3dlciBJQyBzdXBwbHkKPiArLSByZXNl
+dC1ncGlvczogcGhhbmRsZSBvZiBncGlvIGZvciByZXNldCBsaW5lCj4gKyAgVGhpcyBzaG91bGQg
+YmUgOG1BLCBncGlvIGNhbiBiZSBjb25maWd1cmVkIHVzaW5nIG11eCwgcGluY3RybCwgcGluY3Ry
+bC1uYW1lcwo+ICsgIChhY3RpdmUgbG93KQo+ICstIG1vZGUtZ3Bpb3M6IHBoYW5kbGUgb2YgdGhl
+IGdwaW8gZm9yIGNob29zaW5nIHRoZSBtb2RlIG9mIHRoZSBkaXNwbGF5Cj4gKyAgZm9yIHNpbmds
+ZSBEU0kKPiArLSBwb3J0czogVGhpcyBkZXZpY2UgaGFzIG9uZSB2aWRlbyBwb3J0IGRyaXZlbiBi
+eSBvbmUgRFNJLiBUaGVpciBjb25uZWN0aW9ucwo+ICsgIGFyZSBtb2RlbGVkIHVzaW5nIHRoZSBP
+RiBncmFwaCBiaW5kaW5ncyBzcGVjaWZpZWQgaW4KPiArICBEb2N1bWVudGF0aW9uL2RldmljZXRy
+ZWUvYmluZGluZ3MvZ3JhcGgudHh0Lgo+ICsgIC0gcG9ydEAwOiBEU0kgaW5wdXQgcG9ydCBkcml2
+ZW4gYnkgbWFzdGVyIERTSQo+ICsKPiArRXhhbXBsZToKPiArCj4gKyAgICAgICBkc2lAYWU5NDAw
+MCB7Cj4gKyAgICAgICAgICAgICAgIHBhbmVsQDAgewo+ICsgICAgICAgICAgICAgICAgICAgICAg
+IGNvbXBhdGlibGUgPSAidmlzaW9ub3gscm02OTI5OS0xMDgwcC1kaXNwbGF5IjsKPiArICAgICAg
+ICAgICAgICAgICAgICAgICByZWcgPSA8MD47Cj4gKwo+ICsgICAgICAgICAgICAgICAgICAgICAg
+IHZkZGEtc3VwcGx5ID0gPCZzcmNfcHAxODAwX2w4Yz47Cj4gKyAgICAgICAgICAgICAgICAgICAg
+ICAgdmRkM3AzLXN1cHBseSA9IDwmc3JjX3BwMjgwMF9sMThhPjsKPiArCj4gKyAgICAgICAgICAg
+ICAgICAgICAgICAgcGluY3RybC1uYW1lcyA9ICJkZWZhdWx0IiwgInN1c3BlbmQiOwo+ICsgICAg
+ICAgICAgICAgICAgICAgICAgIHBpbmN0cmwtMCA9IDwmZGlzcF9waW5zX2RlZmF1bHQ+Owo+ICsg
+ICAgICAgICAgICAgICAgICAgICAgIHBpbmN0cmwtMSA9IDwmZGlzcF9waW5zX2RlZmF1bHQ+Owo+
+ICsKPiArICAgICAgICAgICAgICAgICAgICAgICByZXNldC1ncGlvcyA9IDwmcG02MTUwbF9ncGlv
+cyAzIDA+Owo+ICsKPiArICAgICAgICAgICAgICAgICAgICAgICBkaXNwbGF5LXRpbWluZ3Mgewo+
+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdGltaW5nMDogdGltaW5nLTAgewo+ICsg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAvKiBvcmlnaW5hbGx5Cj4gKyAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAqIDI2ODMxNjE2MCBNaHosCj4g
+KyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAqIGJ1dCB2YWx1ZSBiZWxv
+dyBmaXRzCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAqIGJldHRl
+ciB3LyBkb3duc3RyZWFtCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAqLwo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjbG9jay1mcmVx
+dWVuY3kgPSA8MTU4Njk1NjgwPjsKPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgaGFjdGl2ZSA9IDwxMDgwPjsKPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgdmFjdGl2ZSA9IDwyMjQ4PjsKPiArICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgaGZyb250LXBvcmNoID0gPDI2PjsKPiArICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgaGJhY2stcG9yY2ggPSA8MzY+Owo+ICsgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBoc3luYy1sZW4gPSA8Mj47Cj4gKyAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIHZmcm9udC1wb3JjaCA9IDw1Nj47Cj4gKyAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHZiYWNrLXBvcmNoID0gPDQ+Owo+ICsgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB2c3luYy1sZW4gPSA8ND47Cj4gKyAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICB9OwoKd2h5IGRvIHdlIHNwZWNpZnkgdGltaW5n
+cyBpbiBkdD8gIFdvdWxkIHRoZSBwYW5lbCB1c2UgZGlmZmVyZW50CnRpbWluZ3Mgb24gYSBkaWZm
+ZXJlbnQgYm9hcmQ/CgpCUiwKLVIKCj4gKyAgICAgICAgICAgICAgICAgICAgICAgfTsKPiArCj4g
+KyAgICAgICAgICAgICAgICAgICAgICAgcG9ydHMgewo+ICsgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgI2FkZHJlc3MtY2VsbHMgPSA8MT47Cj4gKyAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAjc2l6ZS1jZWxscyA9IDwwPjsKPiArICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIHBvcnRAMCB7Cj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJl
+ZyA9IDwwPjsKPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcGFuZWww
+X2luOiBlbmRwb2ludCB7Cj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgcmVtb3RlLWVuZHBvaW50ID0gPCZkc2kwX291dD47Cj4gKyAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIH07Cj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICB9Owo+ICsgICAgICAgICAgICAgICAgICAgICAgIH07Cj4gKyAgICAgICAgICAgICAgIH07
+Cj4gKyAgICAgICB9Owo+IC0tCj4gMi43LjQKPgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCj4gRnJlZWRyZW5vIG1haWxpbmcgbGlzdAo+IEZyZWVkcmVu
+b0BsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2ZyZWVkcmVubwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWw=
