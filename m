@@ -2,31 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03BD010D86A
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2019 17:28:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32CEC10D8A1
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2019 17:48:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 749BC6E93B;
-	Fri, 29 Nov 2019 16:28:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B52F89C27;
+	Fri, 29 Nov 2019 16:48:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBA9D6E937;
- Fri, 29 Nov 2019 16:28:34 +0000 (UTC)
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
- by youngberry.canonical.com with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <colin.king@canonical.com>)
- id 1iaj88-0000bz-Lk; Fri, 29 Nov 2019 16:28:28 +0000
-From: Colin King <colin.king@canonical.com>
-To: Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Jason Gunthorpe <jgg@ziepe.ca>,
- Ralph Campbell <rcampbell@nvidia.com>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org
-Subject: [PATCH] nouveau: fix incorrect sizeof on args.src an args.dst
-Date: Fri, 29 Nov 2019 16:28:28 +0000
-Message-Id: <20191129162828.84570-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.24.0
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1B9DE6E941
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2019 16:48:11 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 1892B720E2; Fri, 29 Nov 2019 16:48:11 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109881] Screens reorganise, failed to enable link training
+ errors in dmesg about 60s after plugging in dock
+Date: Fri, 29 Nov 2019 16:48:11 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: dep_changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/other
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: have-backtrace
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: martin.peres@free.fr
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: INVALID
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-109881-502-MhNbsZqnHG@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109881-502@http.bugs.freedesktop.org/>
+References: <bug-109881-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -40,34 +53,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0457418194=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogQ29saW4gSWFuIEtpbmcgPGNvbGluLmtpbmdAY2Fub25pY2FsLmNvbT4KClRoZSBzaXpl
-b2YgaXMgY3VycmVudGx5IG9uIGFyZ3Muc3JjIGFuZCBhcmdzLmRzdCBhbmQgc2hvdWxkIGJlIG9u
-CiphcmdzLnNyYyBhbmQgKmFyZ3MuZHN0LiBGb3J0dW5hdGVseSB0aGVzZSBzaXplcyBqdXN0IHNv
-IGhhcHBlbgp0byBiZSB0aGUgc2FtZSBzaXplIHNvIGl0IHdvcmtlZCwgaG93ZXZlciwgdGhpcyBz
-aG91bGQgYmUgZml4ZWQKYW5kIGl0IGFsc28gY2xlYW5zIHVwIHN0YXRpYyBhbmFseXNpcyB3YXJu
-aW5ncwoKQWRkcmVzc2VzLUNvdmVyaXR5OiAoInNpemVvZiBub3QgcG9ydGFibGUiKQpGaXhlczog
-ZjI2ODMwN2VjN2M3ICgibm91dmVhdTogc2ltcGxpZnkgbm91dmVhdV9kbWVtX21pZ3JhdGVfdm1h
-IikKU2lnbmVkLW9mZi1ieTogQ29saW4gSWFuIEtpbmcgPGNvbGluLmtpbmdAY2Fub25pY2FsLmNv
-bT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2RtZW0uYyB8IDQgKystLQog
-MSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2RtZW0uYyBiL2RyaXZlcnMvZ3B1
-L2RybS9ub3V2ZWF1L25vdXZlYXVfZG1lbS5jCmluZGV4IGZhMTQzOTk0MTU5Ni4uMGFkNWQ4N2I1
-YThlIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2RtZW0uYwor
-KysgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2RtZW0uYwpAQCAtNjM1LDEwICs2
-MzUsMTAgQEAgbm91dmVhdV9kbWVtX21pZ3JhdGVfdm1hKHN0cnVjdCBub3V2ZWF1X2RybSAqZHJt
-LAogCXVuc2lnbmVkIGxvbmcgYywgaTsKIAlpbnQgcmV0ID0gLUVOT01FTTsKIAotCWFyZ3Muc3Jj
-ID0ga2NhbGxvYyhtYXgsIHNpemVvZihhcmdzLnNyYyksIEdGUF9LRVJORUwpOworCWFyZ3Muc3Jj
-ID0ga2NhbGxvYyhtYXgsIHNpemVvZigqYXJncy5zcmMpLCBHRlBfS0VSTkVMKTsKIAlpZiAoIWFy
-Z3Muc3JjKQogCQlnb3RvIG91dDsKLQlhcmdzLmRzdCA9IGtjYWxsb2MobWF4LCBzaXplb2YoYXJn
-cy5kc3QpLCBHRlBfS0VSTkVMKTsKKwlhcmdzLmRzdCA9IGtjYWxsb2MobWF4LCBzaXplb2YoKmFy
-Z3MuZHN0KSwgR0ZQX0tFUk5FTCk7CiAJaWYgKCFhcmdzLmRzdCkKIAkJZ290byBvdXRfZnJlZV9z
-cmM7CiAKLS0gCjIuMjQuMAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVs
+
+--===============0457418194==
+Content-Type: multipart/alternative; boundary="15750460910.7C5A68B.23974"
+Content-Transfer-Encoding: 7bit
+
+
+--15750460910.7C5A68B.23974
+Date: Fri, 29 Nov 2019 16:48:11 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109881
+Bug 109881 depends on bug 109873, which changed state.
+
+Bug 109873 Summary: Screens reorganise, failed to enable link training erro=
+rs in dmesg about 60s after plugging in dock
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109873
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |MOVED
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15750460910.7C5A68B.23974
+Date: Fri, 29 Nov 2019 16:48:11 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED INVALID - Screens reorganise, failed to enable link tr=
+aining errors in dmesg about 60s after plugging in dock"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109881">Bug 10988=
+1</a>
+          depends on
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED MOVED - Screens reorganise, failed to enable link trai=
+ning errors in dmesg about 60s after plugging in dock"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109873">bug 10987=
+3</a>,
+          which changed state.
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>MOVED
+           </td>
+         </tr></table>
+      <p>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15750460910.7C5A68B.23974--
+
+--===============0457418194==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0457418194==--
