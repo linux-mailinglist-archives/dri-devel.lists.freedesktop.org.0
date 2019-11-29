@@ -2,61 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CF6C10D3BB
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2019 11:15:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A3AA10D3E2
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Nov 2019 11:22:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA4BB6E8A4;
-	Fri, 29 Nov 2019 10:15:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6696A6E8AD;
+	Fri, 29 Nov 2019 10:22:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B13626E8A4
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2019 10:15:40 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id y23so4811143wma.0
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2019 02:15:40 -0800 (PST)
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
+ [209.85.210.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C9556E8AD
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2019 10:22:20 +0000 (UTC)
+Received: by mail-ot1-f66.google.com with SMTP id d7so7559911otq.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Nov 2019 02:22:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=qNZ9kkRzGPvYazTCgMrPpHWIp9WiIZSwgT+T2AdzT9s=;
- b=Ui7+Mbq12M4YGXRfJuwECZ6cwl8o6QhMwfoyKPJaY1H8BXfmXxO/nhedCye9yXkvrF
- BvYnPaSdW2wnXlz9/SVXcPZI+bYXdeJeLMAmt2FxnsXPFtw1wzcd6HUXPUz/JQSu01/G
- qDH9KaWOwKJ9ETEOez0QKixZJiHERyn8OZilBznw6co0DqfGo+MK+nMTkKyCqDJjlCGC
- W59dXGmIneBUzv8YSB54u8om7GntA+LUFtOvS8/ArL3QyQ8W0O64ywe4B87xxvWAHHTr
- O68R+qpGnwSpJTNAVa9CN8nuR7RE6cYEZBUO+jsN/TUyevLzIeVsZPlkvraUZ28czogb
- LkOA==
-X-Gm-Message-State: APjAAAVDv9w+QZY+FfGbvurB023ot5s9ASq9NsIHT8NTgTRWZTSfUMt7
- o9UB2DkeccUcbJQm7bllH1o=
-X-Google-Smtp-Source: APXvYqz0TrSWYcSoJWlCAwZ3SvYC5it+2xuja+EIXWWyonuqwtq1PnoWSzxAoa9+qM5S0FmXw3d+hQ==
-X-Received: by 2002:a1c:e915:: with SMTP id q21mr14102365wmc.164.1575022539142; 
- Fri, 29 Nov 2019 02:15:39 -0800 (PST)
-Received: from localhost (pD9E518ED.dip0.t-ipconnect.de. [217.229.24.237])
- by smtp.gmail.com with ESMTPSA id c2sm9446856wrp.46.2019.11.29.02.15.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Nov 2019 02:15:38 -0800 (PST)
-Date: Fri, 29 Nov 2019 11:15:37 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 2/9] drm/tegra: gem: Properly pin imported buffers
-Message-ID: <20191129101537.GB2771912@ulmo>
-References: <20191128153741.2380419-1-thierry.reding@gmail.com>
- <20191128153741.2380419-3-thierry.reding@gmail.com>
- <20191129091038.GB624164@phenom.ffwll.local>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=eEPlDHDfElQzlynpKZC50UQTVyZXxcMCTJJAXbl0YjM=;
+ b=NIL+U0DBGR1OB0BVSD66aeNZ9CrBZ39Zi/nexvbJpwDqsu36D86cKmlEZ2X51BOUoB
+ 2gMvfQGZKgZ3V8fAQNknLjJrimYsYRsH+Jcm9qXcUelUQ7Skx1hfgUMBKlx7xylkypSh
+ aHmlH+HZlU/UxXk80exjpgWaX7ZdH5hrQy+XaZ+cWDhiGe/LBV6dLOILXPM/f+vqEptx
+ fHzKbG7B7ClrRenVUKZbGq++MGj+zUF+RnTU2nTVjBrTPTtDBcMtH4QwZIKky8iO/bIn
+ wnyj0t8VfBHmVYVg8kDokGyVfIDzLigdg2zOINg4ynCRB9Ll4kOSFE1MCzXeNxOAuBmb
+ c5bA==
+X-Gm-Message-State: APjAAAUIEyF71jAOOxuN61Q00efOauGwbNBaHYJuOmGcecYp3hgVo1bt
+ kZft4a5CZ687ozZgK5X5tJuApcIW1+bFszRrBGc=
+X-Google-Smtp-Source: APXvYqw7RBvYpcakVysZLAP41IqtSt4qsgKCCm673X7BR+/eo9R0SNTc+yaEL5eXa173X8qQUyqqQhef8r7FnE09AWA=
+X-Received: by 2002:a9d:7483:: with SMTP id t3mr10774090otk.262.1575022939737; 
+ Fri, 29 Nov 2019 02:22:19 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191129091038.GB624164@phenom.ffwll.local>
-User-Agent: Mutt/1.12.2 (2019-09-21)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=qNZ9kkRzGPvYazTCgMrPpHWIp9WiIZSwgT+T2AdzT9s=;
- b=DhI+zQZ3zBxKvstaxNnpHag2RriklL6o63vNP3mKk94Q1M77KVj4KqfON7D3wi4R/f
- TMmXH+oMFZUVfzm1EYEqPftxHDyQNxfh05QhLOoDmMW3oA7ZE2NKXnv/9LeBcrVcUHoW
- BtH+ok4Ll8NCAiD8/qan2q2LlCtDNULeIkUqV7DZXOOLvrGqvhutqB336f46vhYB075L
- cVJ31gPPWyxkZd0JZnq+ckEUsdUnXbxgoCILL2zjEY1TfgcuZ/YQU7CG7Qr5Txk/xQit
- enia/s47W1skh5kKlN6CAnV5XU4psfs4XpdYBVgfCvWRBvDE0WP7aDiqhP+mBLIruJZI
- EHCA==
+References: <20191128160314.2381249-1-thierry.reding@gmail.com>
+ <20191128163623.GA2382107@ulmo> <2310325.iNVD75376c@kreacher>
+ <4149037.GOuMSCS4uT@kreacher> <20191129094303.GB2770902@ulmo>
+In-Reply-To: <20191129094303.GB2770902@ulmo>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Fri, 29 Nov 2019 11:22:08 +0100
+Message-ID: <CAJZ5v0hhMSmLBr+M5CxCrfrcJHH2DzYkRFJBVyBymP0xs35Yzw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] PM / runtime: Allow drivers to override runtime PM
+ behaviour on sleep
+To: Thierry Reding <thierry.reding@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,167 +54,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0124221833=="
+Cc: Len Brown <len.brown@intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linux PM <linux-pm@vger.kernel.org>, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Pavel Machek <pavel@ucw.cz>,
+ linux-tegra <linux-tegra@vger.kernel.org>, Dmitry Osipenko <digetx@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0124221833==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="Hf61M2y+wYpnELGG"
-Content-Disposition: inline
-
-
---Hf61M2y+wYpnELGG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Nov 29, 2019 at 10:10:38AM +0100, Daniel Vetter wrote:
-> On Thu, Nov 28, 2019 at 04:37:34PM +0100, Thierry Reding wrote:
-> > From: Thierry Reding <treding@nvidia.com>
-> >=20
-> > Buffers that are imported from a DMA-BUF don't have pages allocated with
-> > them. At the same time an SG table for them can't be derived using the
-> > DMA API helpers because the necessary information doesn't exist. However
-> > there's already an SG table that was created during import, so this can
-> > simply be duplicated.
-> >=20
-> > Signed-off-by: Thierry Reding <treding@nvidia.com>
-> > ---
-> >  drivers/gpu/drm/tegra/gem.c | 43 +++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 43 insertions(+)
-> >=20
-> > diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
-> > index 746dae32c484..6dfad56eee2b 100644
-> > --- a/drivers/gpu/drm/tegra/gem.c
-> > +++ b/drivers/gpu/drm/tegra/gem.c
-> > @@ -27,6 +27,29 @@ static void tegra_bo_put(struct host1x_bo *bo)
-> >  	drm_gem_object_put_unlocked(&obj->gem);
-> >  }
-> > =20
-> > +/* XXX move this into lib/scatterlist.c? */
-> > +static int sg_alloc_table_from_sg(struct sg_table *sgt, struct scatter=
-list *sg,
-> > +				  unsigned int nents, gfp_t gfp_mask)
-> > +{
-> > +	struct scatterlist *dst;
-> > +	unsigned int i;
-> > +	int err;
-> > +
-> > +	err =3D sg_alloc_table(sgt, nents, gfp_mask);
-> > +	if (err < 0)
-> > +		return err;
-> > +
-> > +	dst =3D sgt->sgl;
-> > +
-> > +	for (i =3D 0; i < nents; i++) {
-> > +		sg_set_page(dst, sg_page(sg), sg->length, 0);
-> > +		dst =3D sg_next(dst);
-> > +		sg =3D sg_next(sg);
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  static struct sg_table *tegra_bo_pin(struct device *dev, struct host1x=
-_bo *bo,
-> >  				     dma_addr_t *phys)
-> >  {
-> > @@ -52,11 +75,31 @@ static struct sg_table *tegra_bo_pin(struct device =
-*dev, struct host1x_bo *bo,
-> >  		return ERR_PTR(-ENOMEM);
-> > =20
-> >  	if (obj->pages) {
-> > +		/*
-> > +		 * If the buffer object was allocated from the explicit IOMMU
-> > +		 * API code paths, construct an SG table from the pages.
-> > +		 */
-> >  		err =3D sg_alloc_table_from_pages(sgt, obj->pages, obj->num_pages,
-> >  						0, obj->gem.size, GFP_KERNEL);
-> >  		if (err < 0)
-> >  			goto free;
-> > +	} else if (obj->sgt) {
-> > +		/*
-> > +		 * If the buffer object already has an SG table but no pages
-> > +		 * were allocated for it, it means the buffer was imported and
-> > +		 * the SG table needs to be copied to avoid overwriting any
-> > +		 * other potential users of the original SG table.
-> > +		 */
-> > +		err =3D sg_alloc_table_from_sg(sgt, obj->sgt->sgl, obj->sgt->nents,
-> > +					     GFP_KERNEL);
->=20
-> Why duplicate this instead of just handing out obj->sgt, and then in unpin
-> making sure you don't release it? You could also only map/unmap the
-> dma_buf here in your pin/unpin, but that's a pile of work plus the mapping
-> is cached anyway so won't change a thing.
-
-The problem with just handing out obj->sgt is that these buffers may be
-used by several of the host1x engines in the same job. This means that
-they may end up getting dma_map()'ed by multiple devices. dma_map_*()
-stores the DMA addresses for the buffer in the SG entries, so subsequent
-calls would effectively overwrite the earlier mappings, so we need a new
-SG table for each device.
-
-Thierry
-
-> -Daniel
->=20
-> > +		if (err < 0)
-> > +			goto free;
-> >  	} else {
-> > +		/*
-> > +		 * If the buffer object had no pages allocated and if it was
-> > +		 * not imported, it had to be allocated with the DMA API, so
-> > +		 * the DMA API helper can be used.
-> > +		 */
-> >  		err =3D dma_get_sgtable(dev, sgt, obj->vaddr, obj->iova,
-> >  				      obj->gem.size);
-> >  		if (err < 0)
-> > --=20
-> > 2.23.0
-> >=20
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
-> --=20
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-
---Hf61M2y+wYpnELGG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl3g78kACgkQ3SOs138+
-s6HpxQ//VggJhmt9na98LluPjrj45QRtkZxHUX2ZpVqpVQqOq9Aja2GeCNj6HKB/
-NgiW37V+QJwVlLeEgOhWyJb49JQ48wHZJl2sW8JbXsiRlTiQXEJJtdzxPVaBHX8d
-vgiqi4jCRIOpm9McO3MrnRZJKBonCxND0fkMUZ5zUPcoByjrdO21q4lnzt8H/7K5
-ET+SniGMFGK3MZhYj2Rpd7MaDz7Ydi/SwZV+Y19qH/j8hB2aPGXInlZ8Bd+KTBfD
-dQ3qz3aSOF/5IHKdLcrNoN6iq9YXFOmzAWCp3HoizspaSqZQE3qnGmyS0g+QUKpf
-n2VngQOj3jGymh4aQ+X0EPACI5d0JnNG4edWJ8QxCdnbCahkPavZPlD52T4gGPI3
-vsP7yAp62BZi3wV6kPjGSiniwSOZbdsOaXDtrgP/Ato67qdTzc8t8KxocEWhJ25R
-AAziXEnCpMx7g3XRnoyr28UUH+RZBtFjmaGbb/EOOs96RrlSs9LIZ/wH+3AkMH+l
-4BFxmpPQB7DpGZ/2BvzRm5cnOPFgqzdwZ3ljS9MNQzkUQMxG3CDI6yonq5FWNLUI
-LHumo2QLjVrwtqXJb4ns/Au4/ifwxqOKkrrJCjlGoyBzZYogVM9IzDSp9Vkl6KK6
-FHXK84wbO6grpXUOMLQSSNKqCx7JPjS3LxLpxdNIhoK4ej7YQd4=
-=pzBO
------END PGP SIGNATURE-----
-
---Hf61M2y+wYpnELGG--
-
---===============0124221833==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0124221833==--
+T24gRnJpLCBOb3YgMjksIDIwMTkgYXQgMTE6MDggQU0gVGhpZXJyeSBSZWRpbmcKPHRoaWVycnku
+cmVkaW5nQGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiBPbiBUaHUsIE5vdiAyOCwgMjAxOSBhdCAxMToy
+MDowMVBNICswMTAwLCBSYWZhZWwgSi4gV3lzb2NraSB3cm90ZToKPiA+IE9uIFRodXJzZGF5LCBO
+b3ZlbWJlciAyOCwgMjAxOSAxMTowMzo1NyBQTSBDRVQgUmFmYWVsIEouIFd5c29ja2kgd3JvdGU6
+Cj4gPiA+IE9uIFRodXJzZGF5LCBOb3ZlbWJlciAyOCwgMjAxOSA1OjUwOjI2IFBNIENFVCBUaGll
+cnJ5IFJlZGluZyB3cm90ZToKPiA+ID4gPgo+ID4gPiA+IC0tMEYxcC8vOFBSSUNrSzRNVwo+ID4g
+PiA+IENvbnRlbnQtVHlwZTogdGV4dC9wbGFpbjsgY2hhcnNldD11cy1hc2NpaQo+ID4gPiA+IENv
+bnRlbnQtRGlzcG9zaXRpb246IGlubGluZQo+ID4gPiA+IENvbnRlbnQtVHJhbnNmZXItRW5jb2Rp
+bmc6IHF1b3RlZC1wcmludGFibGUKPiA+ID4gPgo+ID4gPiA+IE9uIFRodSwgTm92IDI4LCAyMDE5
+IGF0IDA1OjE0OjUxUE0gKzAxMDAsIFJhZmFlbCBKLiBXeXNvY2tpIHdyb3RlOgo+ID4gPiA+ID4g
+T24gVGh1LCBOb3YgMjgsIDIwMTkgYXQgNTowMyBQTSBUaGllcnJ5IFJlZGluZyA8dGhpZXJyeS5y
+ZWRpbmdAZ21haWwuY29tPj0KPiA+ID4gPiAgd3JvdGU6Cj4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+
+IEZyb206IFRoaWVycnkgUmVkaW5nIDx0cmVkaW5nQG52aWRpYS5jb20+Cj4gPiA+ID4gPiA+Cj4g
+PiA+ID4gPiA+IEN1cnJlbnRseSB0aGUgZHJpdmVyIFBNIGNvcmUgd2lsbCBhdXRvbWF0aWNhbGx5
+IGFjcXVpcmUgYSBydW50aW1lIFBNCj4gPiA+ID4gPiA+IHJlZmVyZW5jZSBmb3IgZGV2aWNlcyBi
+ZWZvcmUgc3lzdGVtIHNsZWVwIGlzIGVudGVyZWQuIFRoaXMgaXMgbmVlZGVkCj4gPiA+ID4gPiA+
+IHRvIGF2b2lkIHBvdGVudGlhbCBpc3N1ZXMgcmVsYXRlZCB0byBkZXZpY2VzJyBwYXJlbnRzIGdl
+dHRpbmcgcHV0IHRvCj4gPiA+ID4gPiA+IHJ1bnRpbWUgc3VzcGVuZCBhdCB0aGUgd3JvbmcgdGlt
+ZSBhbmQgY2F1c2luZyBwcm9ibGVtcyB3aXRoIHRoZWlyCj4gPiA+ID4gPiA+IGNoaWxkcmVuLgo+
+ID4gPiA+ID49MjAKPiA+ID4gPiA+IE5vdCBvbmx5IGZvciB0aGF0Lgo+ID4gPiA+ID49MjAKPiA+
+ID4gPiA+ID4gSW4gc29tZSBjYXNlcyBkcml2ZXJzIGFyZSBjYXJlZnVsbHkgd3JpdHRlbiB0byBh
+dm9pZCBzdWNoIGlzc3VlcyBhbmQKPiA+ID4gPiA+ID4gdGhlIGRlZmF1bHQgYmVoYXZpb3VyIGNh
+biBiZSBjaGFuZ2VkIHRvIGFsbG93IHJ1bnRpbWUgUE0gdG8gb3BlcmF0ZQo+ID4gPiA+ID4gPiBy
+ZWd1bGFybHkgZHVyaW5nIHN5c3RlbSBzbGVlcC4KPiA+ID4gPiA+PTIwCj4gPiA+ID4gPiBCdXQg
+dGhpcyBjaGFuZ2UgYnJlYWtzIHF1aXRlIGEgZmV3IGFzc3VtcHRpb25zIGluIHRoZSBjb3JlIHRv
+bywgc28gbm8sCj4gPiA+ID4gPiBpdCBjYW4ndCBiZSBtYWRlLgo+ID4gPiA+Cj4gPiA+ID4gQW55
+dGhpbmcgaW4gcGFydGljdWxhciB0aGF0IEkgY2FuIGxvb2sgYXQ/IEknbSBub3Qgc2VlaW5nIGFu
+eSBpc3N1ZXMKPiA+ID4gPiB3aGVuIEkgdGVzdCB0aGlzLCB3aGljaCBjb3VsZCBvZiBjb3Vyc2Ug
+bWVhbiB0aGF0IEknbSBqdXN0IGdldHRpbmcKPiA+ID4gPiBsdWNreS4KPiA+ID4KPiA+ID4gVGhl
+cmUgYXJlIHJhY2VzIGFuZCBzdWNoIHRoYXQgeW91IG1heSBuZXZlciBoaXQgZHVyaW5nIGNhc3Vh
+bCB0ZXN0aW5nLgo+ID4gPgo+ID4gPiA+IE9uZSB0aGluZyB0aGF0IGlycml0YXRlZCBtZSBpcyB0
+aGF0IEkgdGhpbmsgdGhpcyB1c2VkIHRvIHdvcmsuIEkgZG8KPiA+ID4gPiByZWNhbGwgdGVzdGlu
+ZyBzdXNwZW5kL3Jlc3VtZSBhIGZldyB5ZWFycyBhZ28gYW5kIGRldmljZXMgd291bGQgZ2V0Cj4g
+PiA+ID4gcHJvcGVybHkgcnVudGltZSBzdXNwZW5kZWQvcmVzdW1lZC4KPiA+ID4KPiA+ID4gTm90
+IHRydWUgYXQgYWxsLgo+ID4gPgo+ID4gPiBUaGUgUE0gY29yZSBoYXMgYWx3YXlzIHRha2VuIFBN
+LXJ1bnRpbWUgcmVmZXJlbmNlcyBvbiBhbGwgZGV2aWNlcyBwcmV0dHkgbXVjaAo+ID4gPiBzaW5j
+ZSB3aGVuIFBNLXJ1bnRpbWUgd2FzIGludHJvZHVjZWQuCj4gPiA+Cj4gPiA+ID4gSSBkaWQgc29t
+ZSBkaWdnaW5nIGJ1dCBjb3VsZG4ndAo+ID4gPiA+IGZpbmQgYW55dGhpbmcgdGhhdCB3b3VsZCBo
+YXZlIGhhZCBhbiBpbXBhY3Qgb24gdGhpcy4KPiA+ID4gPgo+ID4gPiA+IEdpdmVuIHRoYXQgdGhp
+cyBpcyBjb21wbGV0ZWx5IG9wdC1pbiBmZWF0dXJlLCB3aHkgYXJlIHlvdSBjYXRlZ29yaWNhbGx5
+Cj4gPiA+ID4gTkFLJ2luZyB0aGlzPwo+ID4gPgo+ID4gPiBUaGUgZ2VuZXJhbCBwcm9ibGVtIGlz
+IHRoYXQgaWYgYW55IGRldmljZSBoYXMgYmVlbiB0b3VjaGVkIGJ5IHN5c3RlbS13aWRlCj4gPiA+
+IHN1c3BlbmQgY29kZSwgaXQgc2hvdWxkIG5vdCBiZSBzdWJqZWN0IHRvIFBNLXJ1bnRpbWUgYW55
+IG1vcmUgdW50aWwgdGhlCj4gPiA+IHN1YnNlcXVlbnQgc3lzdGVtLXdpZGUgcmVzdW1lIGlzIGFi
+bGUgdG8gdW5kbyB3aGF0ZXZlciB0aGUgc3VzcGVuZCBkaWQuCj4gPiA+Cj4gPiA+IE1vcmVvdmVy
+LCBpZiBhIGRldmljZSBpcyBydW50aW1lLXN1c3BlbmRlZCwgdGhlIHN5c3RlbS13aWRlIHN1c3Bl
+bmQgY29kZQo+ID4gPiBtYXkgbWlzaGFuZGxlIGl0LCBpbiBnZW5lcmFsLiAgVGhhdCdzIHdoeSBQ
+TS1ydW50aW1lIHN1c3BlbmQgaXMgbm90IGFsbG93ZWQKPiA+ID4gZHVyaW5nIHN5c3RlbS13aWRl
+IHRyYW5zaXRpb25zIGF0IGFsbC4gIEFuZCBpdCBoYXMgYWx3YXlzIGJlZW4gbGlrZSB0aGF0Lgo+
+ID4gPgo+ID4gPiBGb3IgYSBzcGVjaWZpYyBwbGF0Zm9ybSB5b3UgbWF5IGJlIGFibGUgdG8gb3Zl
+cmNvbWUgdGhlc2UgbGltaXRhdGlvbnMgaWYKPiA+ID4geW91IGFyZSBjYXJlZnVsIGVub3VnaCwg
+YnV0IGNlcnRhaW5seSB0aGV5IGFyZSB0aGVyZSBpbiBnZW5lcmFsIGFuZCBzdXJlbHkKPiA+ID4g
+eW91IGNhbm5vdCBwcmV2ZW50IHBlb3BsZSBmcm9tIHVzaW5nIHlvdXIgb3B0LWluIGp1c3QgYmVj
+YXVzZSB0aGV5IHRoaW5rCj4gPiA+IHRoYXQgdGhleSBrbm93IHdoYXQgdGhleSBhcmUgZG9pbmcu
+Cj4gPgo+ID4gQlRXLCB3aGF0IGlmIHVzZXIgc3BhY2UgcHJldmVudHMgUE0tcnVudGltZSBmcm9t
+IHN1c3BlbmRpbmcgZGV2aWNlcyBieSB3cml0aW5nCj4gPiAib24iIHRvIHRoZWlyICJjb250cm9s
+IiBmaWxlcz8KPiA+Cj4gPiBTeXN0ZW0td2lkZSBzdXNwZW5kIGlzIChvZiBjb3Vyc2UpIHN0aWxs
+IGV4cGVjdGVkIHRvIHdvcmsgaW4gdGhhdCBjYXNlLCBzbyBob3cKPiA+IGV4YWN0bHkgd291bGQg
+eW91IG92ZXJjb21lIHRoYXQ/Cj4KPiBJIHN1cHBvc2Ugb25lIHdheSB0byBvdmVyY29tZSB0aGF0
+IHdvdWxkIGJlIHRvIG1ha2UgaXQgYW4gZXJyb3IgdG8gd3JpdGUKPiAib24iIHRvIHRoZSAiY29u
+dHJvbCIgZmlsZXMgZm9yIHRoZXNlIGRldmljZXMuCgpTZWVpbmcgc3VnZ2VzdGlvbnMgbGlrZSB0
+aGlzIGluIG1lc3NhZ2VzIGZyb20gc2Vhc29uZWQga2VybmVsCmRldmVsb3BlcnMgaXMgc2VyaW91
+c2x5IGRpc2FwcG9pbnRpbmcuIDotLwoKPiBDdXJyZW50bHkgZG9pbmcgdGhpcyBpcyBsaWtlbHkg
+Z29pbmcgdG8gYnJlYWsgZGlzcGxheSBzdXBwb3J0IG9uIFRlZ3JhLAo+IHNvIHRoaXMgd291bGQg
+YmUgYSBnb29kIGlkZWEgaW4gdGhpcyBjYXNlIGFueXdheS4KClBNLXJ1bnRpbWUgaGFzIGFsd2F5
+cyBhbGxvd2VkIHVzZXIgc3BhY2UgdG8gcHJldmVudCBkZXZpY2VzIGZyb20gYmVpbmcKc3VzcGVu
+ZGVkIGFuZCBpdCBzZWVtcyB0aGF0IHRoaXMgaGFzIG5vdCBiZWVuIHRha2VuIGludG8gYWNjb3Vu
+dCBieQpUZWdyYSBkaXNwbGF5IHN1cHBvcnQgZGV2ZWxvcGVycyBhdCBhbGwuCgo+IEFnYWluLCBJ
+IGNvdWxkIGF2b2lkIGFsbCBvZiB0aGVzZSBpc3N1ZXMgYnkgYXZvaWRpbmcgcnVudGltZSBQTSBp
+biB0aGlzIGRyaXZlciwKCkkgZG9uJ3QgcXVpdGUgc2VlIHRoZSBjb25uZWN0aW9uIGhlcmUuCgpQ
+cmV2ZW50aW5nIGEgZGV2aWNlIGZyb20gc3VzcGVuZGluZyBzaG91bGQgbmV2ZXIgYmUgYSBmdW5j
+dGlvbmFsCnByb2JsZW0uICBJdCBtYXkgYmUgYW4gZW5lcmd5LWVmZmljaWVuY3kgcHJvYmxlbSwg
+YnV0IHRoYXQncyBzb21ldGhpbmcKZm9yIHVzZXIgc3BhY2UgdG8gY29uc2lkZXIgYmVmb3JlIHdy
+aXRpbmcgIm9uIiB0byBhIGRldmljZSdzIGNvbnRyb2wKZmlsZS4KCj4gYnV0IEkgd291bGQgZW5k
+IHVwIHJlaW1wbGVtZW50aW5nIHNvbWUgb2YgdGhlIHNhbWUgY29uY2VwdHMuIEknZAo+IHJhdGhl
+ciB1c2Ugc29tZXRoaW5nIHRoYXQncyBzdXBwb3J0ZWQgYnkgdGhlIFBNIGNvcmUgYW5kIHRoYXQg
+bWlnaHQgYmUKPiB1c2VmdWwgdG8gb3RoZXIgZHJpdmVycyB0aGFuIHJlaW52ZW50IHRoZSB3aGVl
+bC4KCldoaWNoIGRvZXNuJ3QgaGF2ZSB0byBiZSBieSB1c2luZyBQTS1ydW50aW1lIHN1c3BlbmQg
+Zm9yIHRoZSBoYW5kbGluZwpvZiBzeXN0ZW0td2lkZSBzdXNwZW5kLCBhdCBsZWFzdCBpbiBteSB2
+aWV3LgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
