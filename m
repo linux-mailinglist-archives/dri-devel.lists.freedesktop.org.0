@@ -1,60 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12E7610E700
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2019 09:42:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9546810E70D
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2019 09:49:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FA4589C18;
-	Mon,  2 Dec 2019 08:42:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5089B89CB5;
+	Mon,  2 Dec 2019 08:49:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DACB89C18
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2019 08:42:54 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 57108AE52;
- Mon,  2 Dec 2019 08:42:52 +0000 (UTC)
-Subject: Re: [PATCH 3/3] drm/todo: Add entry for fb funcs related cleanups
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20191127180035.416209-1-daniel.vetter@ffwll.ch>
- <20191127180035.416209-3-daniel.vetter@ffwll.ch>
- <39e84cfd-9a06-bfad-1cc0-030a71ad1c9c@suse.de>
- <20191129185739.GL624164@phenom.ffwll.local>
- <20191129190512.GN624164@phenom.ffwll.local>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <9522356b-be12-85be-acf9-d79373cb0a1b@suse.de>
-Date: Mon, 2 Dec 2019 09:42:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8617689CB5
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2019 08:49:39 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id t14so4622288wmi.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Dec 2019 00:49:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to:user-agent;
+ bh=OTj1RBCZb2YMCeCoS+sNA0hsSD1PCx/KWXCN5P/k7WI=;
+ b=AIEWhz4mLodnlHmODoIsD4OIIBnHunekvnX3HiB1SWWL5o+Y10rEKNFZPegOJJQdJd
+ tSg28tuJ7Z3zQF01PTE0VQB5WPGeFwkGlky9hAALpxrypGNsyqUnZvLra89+YLMV76PP
+ b/WCMAWUhZ0S6K0Rgb3RVxy8/JqqsyFhypw2KBMePidC+YuFYjwGKAKTILsfXLp5li/+
+ iAlbWbBwkl/EWNDBkrkwVu4gHZviTqTg+KwwtIAosN1plPfWvqU1k6RvqQdZN8KoyA5f
+ SKHzMDddsHGpkqJQA0h92Mu0+hvEBYI/YfPT9h46lPiE6t09jNDJlW+hKq1SRc9mN30C
+ BRwg==
+X-Gm-Message-State: APjAAAVcmwfgJQR3dIVNEj4B+Fsn4dHlnEHLWBs4wJJ6St/e/ksV4cF1
+ N2gkDTN8FgAp9gMsT2JbjqVc8mqNAvw=
+X-Google-Smtp-Source: APXvYqynfMmdc+cNc63cE3ghvW6E0uyOdcT96eJ8oRbrseMVckK734QiBG7ddSOHI9zfdzlNiX+ppA==
+X-Received: by 2002:a1c:4e03:: with SMTP id g3mr12747171wmh.22.1575276578020; 
+ Mon, 02 Dec 2019 00:49:38 -0800 (PST)
+Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net.
+ [212.51.149.96])
+ by smtp.gmail.com with ESMTPSA id a64sm25598619wmc.18.2019.12.02.00.49.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Dec 2019 00:49:37 -0800 (PST)
+Date: Mon, 2 Dec 2019 09:49:35 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>
+Subject: Re: [01/30] drm: Introduce drm_bridge_init()
+Message-ID: <20191202084935.GW624164@phenom.ffwll.local>
+Mail-Followup-To: "james qian wang (Arm Technology China)"
+ <james.qian.wang@arm.com>, 
+ Mihail Atanassov <Mihail.Atanassov@arm.com>,
+ David Airlie <airlied@linux.ie>, nd <nd@arm.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+References: <20191126131541.47393-2-mihail.atanassov@arm.com>
+ <20191202055459.GA25729@jamwan02-TSP300>
 MIME-Version: 1.0
-In-Reply-To: <20191129190512.GN624164@phenom.ffwll.local>
+Content-Disposition: inline
+In-Reply-To: <20191202055459.GA25729@jamwan02-TSP300>
+X-Operating-System: Linux phenom 5.3.0-2-amd64 
+User-Agent: Mutt/1.12.2 (2019-09-21)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=OTj1RBCZb2YMCeCoS+sNA0hsSD1PCx/KWXCN5P/k7WI=;
+ b=lpXqgi6RxG7r8QtKa9tbrp1YCJngkhiNJXJ0eZoRoKbbZGYJNMc2FmmkfOnrrr+aIS
+ K1uhIrJieHIHhZBmIuypHu8pQnp34Mat7kQLu7jS8EH2TNQt0FpWNQ7d4/1QPg8FQecZ
+ n0Jj0Bz2KoQ0dcXy3jkwRHHXpzCWTivuBmcYs=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,246 +75,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: aou@eecs.berkeley.edu, Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>, palmer@dabbelt.com,
- paul.walmsley@sifive.com, Daniel Vetter <daniel.vetter@intel.com>,
- davem@davemloft.net
-Content-Type: multipart/mixed; boundary="===============1276390181=="
+Cc: David Airlie <airlied@linux.ie>, nd <nd@arm.com>,
+ Mihail Atanassov <Mihail.Atanassov@arm.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1276390181==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="iiL8hq7zpLLaaG3Mg54oBSRgMRIBEO3Qo"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---iiL8hq7zpLLaaG3Mg54oBSRgMRIBEO3Qo
-Content-Type: multipart/mixed; boundary="6LHh0CkF9qSJjmrB0pDYhTcU4mWAWAsUI";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>, davem@davemloft.net,
- paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu
-Message-ID: <9522356b-be12-85be-acf9-d79373cb0a1b@suse.de>
-Subject: Re: [PATCH 3/3] drm/todo: Add entry for fb funcs related cleanups
-References: <20191127180035.416209-1-daniel.vetter@ffwll.ch>
- <20191127180035.416209-3-daniel.vetter@ffwll.ch>
- <39e84cfd-9a06-bfad-1cc0-030a71ad1c9c@suse.de>
- <20191129185739.GL624164@phenom.ffwll.local>
- <20191129190512.GN624164@phenom.ffwll.local>
-In-Reply-To: <20191129190512.GN624164@phenom.ffwll.local>
-
---6LHh0CkF9qSJjmrB0pDYhTcU4mWAWAsUI
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-(cc: SPARC64 maintainer)
-(cc: RISC-V maintainers)
-
-Hi Daniel
-
-Am 29.11.19 um 20:05 schrieb Daniel Vetter:
-> On Fri, Nov 29, 2019 at 07:57:39PM +0100, Daniel Vetter wrote:
->> On Fri, Nov 29, 2019 at 10:34:10AM +0100, Thomas Zimmermann wrote:
->>> Hi
->>>
->>> Am 27.11.19 um 19:00 schrieb Daniel Vetter:
->>>> We're doing a great job for really simple drivers right now, but sti=
-ll
->>>> a lot of boilerplate for the bigger ones.
->>>>
->>>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
->>>
->>> Just a small remark below, otherwise
->>>
->>> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>
->>>
->>>> ---
->>>>  Documentation/gpu/todo.rst | 26 ++++++++++++++++++++++++++
->>>>  1 file changed, 26 insertions(+)
->>>>
->>>> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst=
-
->>>> index 3ec509381fc5..2d85f37284a1 100644
->>>> --- a/Documentation/gpu/todo.rst
->>>> +++ b/Documentation/gpu/todo.rst
->>>> @@ -182,6 +182,32 @@ Contact: Maintainer of the driver you plan to c=
-onvert
->>>> =20
->>>>  Level: Intermediate
->>>> =20
->>>> +drm_framebuffer_funcs and drm_mode_config_funcs.fb_create cleanup
->>>> +-----------------------------------------------------------------
->>>> +
->>>> +A lot more drivers could be switched over to the drm_gem_framebuffe=
-r helpers.
->>>> +Various hold-ups:
->>>> +
->>>> +- Need to switch over to the generic dirty tracking code using
->>>> +  drm_atomic_helper_dirtyfb first (e.g. qxl).
->>>> +
->>>> +- Need to switch to drm_fbdev_generic_setup(), otherwise a lot of t=
-he custom fb
->>>> +  setup code can't be deleted.
->>>
->>> From what I remember, almost all of the obvious, low-hanging fruits h=
-ave
->>> been picked here. The remaining fbdev users either have HW accelerati=
-on
->>> (nouveau, gma500), or use the cfb drawing functions.
->>
->> I think a bunch of these (from you) aren't merged yet. I'll add a note=
-
->> about sys vs cfb. About gma500/nouveau, I'm kinda tempted to just ditc=
-h
->> the acceleration ... but maybe someone cares, dunno.
->=20
-> Correction, we already have a task for drm_fbdev_generic_setup, and tha=
-t
-> mentions the sys/cfb issue already. So I'll leave this as-is.
-
-Maybe refer to the related TODO item.
-
-> -Daniel
->=20
->>
->>> The TODO item should probably mention this, with some advise to do so=
-me
->>> extra testing for compatibility or performance after moving to generi=
-c
->>> fbdev.
->>
->> Testing (at least on x86) won't catch the cfb/sysfb stuff, since it's
->> exactly the same asm instructions :-/ tbh I still don't know where thi=
-s
->> actually makes a difference.
-
-I briefly looked through the code of the CFB helpers. They use the
-helpers at [1] for accessing the framebuffer. Those are special for
-several architectures. [2]
-
-SPARC64 expands to assembly instructions. [3] The rest appears to have
-regular memory instructions in their implementations of __raw_readb().
-Although not listed here, I found that RISC V has assembly code in
-__raw_readb(). [4]
-
-In the CFB code, there's also bit-shifting code that cares about
-endianess. [5] In the end it seems to depends on FBINFO_FOREIGN_ENDIAN,
-but the only user I could find was mb862xxfb. [6]
-
-I don't know what the hand-crafted assembly instructions do in detail,
-but for the moment we seem to be good without CFB code.
-
-Best regards
-Thomas
-
-
-[1] https://elixir.bootlin.com/linux/v5.4/source/include/linux/fb.h#L564
-[2] https://elixir.bootlin.com/linux/v5.4/source/include/linux/fb.h#L527
-[3]
-https://elixir.bootlin.com/linux/v5.4/source/arch/sparc/include/asm/io_64=
-=2Eh#L20
-[4]
-https://elixir.bootlin.com/linux/v5.4/source/arch/riscv/include/asm/io.h#=
-L59
-[5] https://elixir.bootlin.com/linux/v5.4/source/include/linux/fb.h#L578
-[6]
-https://elixir.bootlin.com/linux/v5.4/source/drivers/video/fbdev/mb862xx/=
-mb862xxfbdrv.c#L501
-
->> -Daniel
->>
->>>
->>> Best regards
->>> Thomas
->>>
->>>> +
->>>> +- Many drivers wrap drm_gem_fb_create() only to check for valid for=
-mats. For
->>>> +  atomic drivers we could check for valid formats by calling
->>>> +  drm_plane_check_pixel_format() against all planes, and pass if an=
-y plane
->>>> +  supports the format. For non-atomic that's not possible since lik=
-e the format
->>>> +  list for the primary plane is fake and we'd therefor reject valid=
- formats.
->>>> +
->>>> +- Many drivers subclass drm_framebuffer, we'd need a embedding comp=
-atible
->>>> +  version of the varios drm_gem_fb_create functions. Maybe called
->>>> +  drm_gem_fb_create/_with_dirty/_with_funcs as needed.
->>>> +
->>>> +Contact: Daniel Vetter
->>>> +
->>>> +Level: Intermediate
->>>> +
->>>>  Clean up mmap forwarding
->>>>  ------------------------
->>>> =20
->>>>
->>>
->>> --=20
->>> Thomas Zimmermann
->>> Graphics Driver Developer
->>> SUSE Software Solutions Germany GmbH
->>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->>> (HRB 36809, AG N=C3=BCrnberg)
->>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->>>
->>
->>
->>
->>
->> --=20
->> Daniel Vetter
->> Software Engineer, Intel Corporation
->> http://blog.ffwll.ch
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---6LHh0CkF9qSJjmrB0pDYhTcU4mWAWAsUI--
-
---iiL8hq7zpLLaaG3Mg54oBSRgMRIBEO3Qo
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl3kzooACgkQaA3BHVML
-eiMRFQgAmO9NMFQ8BbV8DMkTARbJomLc0hjNy/nNyaRt0ZFhs/hFhj5skXndW1ME
-dXCB79wVTvwny185kssp7PkMmpXzN9UEKVPlY33zK2i9divy1f2qTxvwDpEKGfEP
-ojX1zmOFd/y1sw1wdOwg+UQ/VuqmONkn3XjdG5AUnZq4gigEu0Vjo1OZvBo+OAQ1
-snW7RVPRX7T0loK9OXPF/9gr/exBHEUfXYJe09jNI3eqUbn5WQIR8+CH8TH8+qkk
-vjWqygtKovUphNvECViDSFwPACjSvKsU7/h/75UvJkgyzbvQUNRLDyAsrFNzxRwU
-BQkcTX53H4I2k1f1OTWkA9KE856umA==
-=yaoA
------END PGP SIGNATURE-----
-
---iiL8hq7zpLLaaG3Mg54oBSRgMRIBEO3Qo--
-
---===============1276390181==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1276390181==--
+T24gTW9uLCBEZWMgMDIsIDIwMTkgYXQgMDU6NTU6MDZBTSArMDAwMCwgamFtZXMgcWlhbiB3YW5n
+IChBcm0gVGVjaG5vbG9neSBDaGluYSkgd3JvdGU6Cj4gT24gVHVlLCBOb3YgMjYsIDIwMTkgYXQg
+MDE6MTU6NTlQTSArMDAwMCwgTWloYWlsIEF0YW5hc3NvdiB3cm90ZToKPiA+IEEgc2ltcGxlIGNv
+bnZlbmllbmNlIGZ1bmN0aW9uIHRvIGluaXRpYWxpemUgdGhlIHN0cnVjdCBkcm1fYnJpZGdlLgo+
+ID4gCj4gPiBTaWduZWQtb2ZmLWJ5OiBNaWhhaWwgQXRhbmFzc292IDxtaWhhaWwuYXRhbmFzc292
+QGFybS5jb20+Cj4gPiAtLS0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2JyaWRnZS5jIHwgMjkg
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysKPiA+ICBpbmNsdWRlL2RybS9kcm1fYnJpZGdl
+LmggICAgIHwgIDQgKysrKwo+ID4gIDIgZmlsZXMgY2hhbmdlZCwgMzMgaW5zZXJ0aW9ucygrKQo+
+ID4gCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9icmlkZ2UuYyBiL2RyaXZl
+cnMvZ3B1L2RybS9kcm1fYnJpZGdlLmMKPiA+IGluZGV4IGNiYTUzN2M5OWU0My4uY2JlNjgwYWE2
+ZWFjIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9icmlkZ2UuYwo+ID4gKysr
+IGIvZHJpdmVycy9ncHUvZHJtL2RybV9icmlkZ2UuYwo+ID4gQEAgLTg5LDYgKzg5LDM1IEBAIHZv
+aWQgZHJtX2JyaWRnZV9yZW1vdmUoc3RydWN0IGRybV9icmlkZ2UgKmJyaWRnZSkKPiA+ICB9Cj4g
+PiAgRVhQT1JUX1NZTUJPTChkcm1fYnJpZGdlX3JlbW92ZSk7Cj4gPiAgCj4gPiArLyoqCj4gPiAr
+ICogZHJtX2JyaWRnZV9pbml0IC0gaW5pdGlhbGlzZSBhIGRybV9icmlkZ2Ugc3RydWN0dXJlCj4g
+PiArICoKPiA+ICsgKiBAYnJpZGdlOiBicmlkZ2UgY29udHJvbCBzdHJ1Y3R1cmUKPiA+ICsgKiBA
+ZnVuY3M6IGNvbnRyb2wgZnVuY3Rpb25zCj4gPiArICogQGRldjogZGV2aWNlCj4gPiArICogQHRp
+bWluZ3M6IHRpbWluZyBzcGVjaWZpY2F0aW9uIGZvciB0aGUgYnJpZGdlOyBvcHRpb25hbCAobWF5
+IGJlIE5VTEwpCj4gPiArICogQGRyaXZlcl9wcml2YXRlOiBwb2ludGVyIHRvIHRoZSBicmlkZ2Ug
+ZHJpdmVyIGludGVybmFsIGNvbnRleHQgKG1heSBiZSBOVUxMKQo+ID4gKyAqLwo+ID4gK3ZvaWQg
+ZHJtX2JyaWRnZV9pbml0KHN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2UsIHN0cnVjdCBkZXZpY2Ug
+KmRldiwKPiA+ICsJCSAgICAgY29uc3Qgc3RydWN0IGRybV9icmlkZ2VfZnVuY3MgKmZ1bmNzLAo+
+ID4gKwkJICAgICBjb25zdCBzdHJ1Y3QgZHJtX2JyaWRnZV90aW1pbmdzICp0aW1pbmdzLAo+ID4g
+KwkJICAgICB2b2lkICpkcml2ZXJfcHJpdmF0ZSkKPiA+ICt7Cj4gPiArCVdBUk5fT04oIWZ1bmNz
+KTsKPiA+ICsKPiA+ICsJYnJpZGdlLT5kZXYgPSBOVUxMOwo+ID4gKwlicmlkZ2UtPmVuY29kZXIg
+PSBOVUxMOwo+ID4gKwlicmlkZ2UtPm5leHQgPSBOVUxMOwo+ID4gKwo+ID4gKyNpZmRlZiBDT05G
+SUdfT0YKPiA+ICsJYnJpZGdlLT5vZl9ub2RlID0gZGV2LT5vZl9ub2RlOwo+ID4gKyNlbmRpZgo+
+ID4gKwlicmlkZ2UtPnRpbWluZ3MgPSB0aW1pbmdzOwo+ID4gKwlicmlkZ2UtPmZ1bmNzID0gZnVu
+Y3M7Cj4gPiArCWJyaWRnZS0+ZHJpdmVyX3ByaXZhdGUgPSBkcml2ZXJfcHJpdmF0ZTsKPiAKPiBD
+YW4gd2UgZGlyZWN0bHkgcHV0IGRybV9icmlkZ2VfYWRkKCkgaGVyZS4gdGhlbgo+IC0gVXNlciBh
+bHdheXMgbmVlZCB0byBjYWxsIGJyaWRnZV9pbml0IGFuZCBhZGQgdG9nZXRoZXIuCj4gLSBDb25z
+aXN0ZW50IHdpdGggb3RoZXJzIGxpa2UgZHJtX3BsYW5lL2NydGNfaW5pdCB3aGljaCBkaXJlY3Rs
+eSBoYXMKPiAgIGRybV9tb2RlX29iamVjdF9hZGQoKSBpbiBpdC4KClVoIG5vLCB0aGUgdHJvdWJs
+ZSBoZXJlIGlzIHRoYXQgZHJtX2JyaWRnZV9hZGQgc2hvdWxkIGFjdHVhbGx5IGJlIGNhbGxlZApf
+cmVnaXN0ZXIsIGJlY2F1c2UgaXQgcHVibGlzaGVzIHRoZSBicmlkZ2UgdG8gdGhlIHdvcmxkLiBJ
+IHRoaW5rIHdlIGV2ZW4KaGF2ZSBhIHRvZG8gaXRlbSB0byByZW5hbWUgX2FkZCB0byBfcmVnaXN0
+ZXIgLi4uIE9uY2UgdGhhdCdzIGRvbmUgdGhlCmJyaWRnZSBjYW4ndCBiZSBjaGFuZ2VkIGFueW1v
+cmUsIGFsbCBpbml0IGNvZGUgbXVzdCBoYXZlIGNvbXBsZXRlZC4gU28Kb2Z0ZW4geW91IG5lZWQg
+YSBiaXQgb2YgY29kZSBiZXR3ZWVuIF9pbml0KCkgYW5kIF9yZWdpc3RlcigpLgoKZHJtX21vZGVf
+b2JqZWN0X2FkZCBpcyBkaWZmZXJlbnQgc2luY2UgZm9yIG1vZGUgb2JqZWN0cyBpdCBkb2Vzbid0
+IHB1Ymxpc2gKaXQgdG8gdGhlIHdvcmxkLCB0aGF0J3MgZG9uZSB3aXRoIGRybV9kZXZfcmVnaXN0
+ZXIgYW5kCmRybV9jb25uZWN0b3JfcmVnaXN0ZXIuIGRybV9tb2RlX29iamVjdF9hZGQganVzdCBk
+b2VzIGEgYml0IG9mIGludGVybmFsCmhvdXNlIGtlZXBpbmcuCi1EYW5pZWwKCj4gCj4gSmFtZXMu
+Cj4gPiArfQo+ID4gK0VYUE9SVF9TWU1CT0woZHJtX2JyaWRnZV9pbml0KTsKPiA+ICsKPiA+ICAv
+KioKPiA+ICAgKiBkcm1fYnJpZGdlX2F0dGFjaCAtIGF0dGFjaCB0aGUgYnJpZGdlIHRvIGFuIGVu
+Y29kZXIncyBjaGFpbgo+ID4gICAqCj4gPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX2Jy
+aWRnZS5oIGIvaW5jbHVkZS9kcm0vZHJtX2JyaWRnZS5oCj4gPiBpbmRleCBjMGEyMjg2YTgxZTku
+LmQ2ZDlkNTMwMTU1MSAxMDA2NDQKPiA+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9icmlkZ2UuaAo+
+ID4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX2JyaWRnZS5oCj4gPiBAQCAtNDAyLDYgKzQwMiwxMCBA
+QCBzdHJ1Y3QgZHJtX2JyaWRnZSB7Cj4gPiAgCj4gPiAgdm9pZCBkcm1fYnJpZGdlX2FkZChzdHJ1
+Y3QgZHJtX2JyaWRnZSAqYnJpZGdlKTsKPiA+ICB2b2lkIGRybV9icmlkZ2VfcmVtb3ZlKHN0cnVj
+dCBkcm1fYnJpZGdlICpicmlkZ2UpOwo+ID4gK3ZvaWQgZHJtX2JyaWRnZV9pbml0KHN0cnVjdCBk
+cm1fYnJpZGdlICpicmlkZ2UsIHN0cnVjdCBkZXZpY2UgKmRldiwKPiA+ICsJCSAgICAgY29uc3Qg
+c3RydWN0IGRybV9icmlkZ2VfZnVuY3MgKmZ1bmNzLAo+ID4gKwkJICAgICBjb25zdCBzdHJ1Y3Qg
+ZHJtX2JyaWRnZV90aW1pbmdzICp0aW1pbmdzLAo+ID4gKwkJICAgICB2b2lkICpkcml2ZXJfcHJp
+dmF0ZSk7Cj4gPiAgc3RydWN0IGRybV9icmlkZ2UgKm9mX2RybV9maW5kX2JyaWRnZShzdHJ1Y3Qg
+ZGV2aWNlX25vZGUgKm5wKTsKPiA+ICBpbnQgZHJtX2JyaWRnZV9hdHRhY2goc3RydWN0IGRybV9l
+bmNvZGVyICplbmNvZGVyLCBzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlLAo+ID4gIAkJICAgICAg
+c3RydWN0IGRybV9icmlkZ2UgKnByZXZpb3VzKTsKPiBfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVu
+Z2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
