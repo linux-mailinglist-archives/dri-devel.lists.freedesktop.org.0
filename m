@@ -1,52 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3803610E92F
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2019 11:51:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B75D10E942
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Dec 2019 12:06:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32A6F89258;
-	Mon,  2 Dec 2019 10:51:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CE0F89D30;
+	Mon,  2 Dec 2019 11:06:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75A0D6E17E
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2019 10:51:03 +0000 (UTC)
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-229-CDvL9ayyPPiwg9S8cV5msQ-1; Mon, 02 Dec 2019 05:51:00 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 564AD10054E3;
- Mon,  2 Dec 2019 10:50:58 +0000 (UTC)
-Received: from shalem.localdomain.com (unknown [10.36.118.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 63ADE5D6A0;
- Mon,  2 Dec 2019 10:50:56 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Sean Paul <seanpaul@chromium.org>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH] drm: panel-orientation-quirks: Add quirk for Teclast X89
- tablet
-Date: Mon,  2 Dec 2019 11:50:55 +0100
-Message-Id: <20191202105055.13201-1-hdegoede@redhat.com>
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A098F89D30
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Dec 2019 11:06:53 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id j6so30543799lja.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Dec 2019 03:06:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fqvFCSoiMROC8PKnR57NyUtZIgb+WnMib9i7dpJPeHY=;
+ b=Pa2N7sqTsZ9CsNy5eY9icDW847/SjCkFXaZY0two2ZtZxaCJD1Olaz2rx2V8R2WVew
+ 86tc/wQ6IFtctqYUAnw153m+VzlMmyWffxxhlwd9Q1DLRH2jTdA3y2SpaZofHR9RO1yE
+ 1f5LySnc7XfmvKSP2XBWf04qeVfYoe4pzoYXAbozPY4pYnO37znRC04LRcs2+aqQO+t9
+ ZYJxFo+szy4TnoS/b2uOpHLmIkWOx7sSfGJEMTqnUgjalYDN0KCxvxgdssF4+iigZonw
+ OMZWuTeTkVSFrLWSWLX3oAsV1alAjCvR1LU93rQjjb+5FtY899phJ2WJqmGnfiHE4p+L
+ uvlA==
+X-Gm-Message-State: APjAAAX5dBhYCur14vyH3ADs3PsfJ7Q1HLDvieqx0mYZvgslnEdyTbdR
+ nsy7hMBgauVoEdIvEmKZWN/8JHre1zHSh+JEnu41Sg==
+X-Google-Smtp-Source: APXvYqzg0wuX6ZpIIMTZb5o7ylczQhT/yjJGKLrTZywwR5ZuTYOfgfOIK0IHbZS8WBRM2wH/HPb1M59oU60Dzu1/FTs=
+X-Received: by 2002:a2e:8045:: with SMTP id p5mr1848420ljg.251.1575284812004; 
+ Mon, 02 Dec 2019 03:06:52 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: CDvL9ayyPPiwg9S8cV5msQ-1
-X-Mimecast-Spam-Score: 0
+References: <20191202103028.102770-1-linus.walleij@linaro.org>
+ <20191202104249.GB4929@pendragon.ideasonboard.com>
+In-Reply-To: <20191202104249.GB4929@pendragon.ideasonboard.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 2 Dec 2019 12:06:40 +0100
+Message-ID: <CACRpkdZTmrRvUpjxRpgTKOu0w1hX+zOemyekLA5DmY6YS2q6nA@mail.gmail.com>
+Subject: Re: [PATCH] backlight: bd6107: Convert to use GPIO descriptor
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=redhat.com; 
- s=mimecast20190719; t=1575283862;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=GRV/6CH0yr4pHy2L6QttDEc4Y5EqiaqVLv5QhMgqSag=;
- b=AEAUeBn3FFWBCtb1h0ZnCcAqrfR59YQ0t/d8ltiQv/oGDb2mviPKFNUUZWu50lKB4t7xXh
- VCB6zP3Wgli6P0sxki1E53WbOUsSvK48d0rwCHEaDzG8zqifFUSlZbjm9dURwywmWScGpr
- oHmJWsqeEn9j6V8Z5/44MYhacSvFw3I=
+ d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=fqvFCSoiMROC8PKnR57NyUtZIgb+WnMib9i7dpJPeHY=;
+ b=DepHK/MbrQRLfF1qDM8dOIzxSfYDjTRQXWwfNcbD6IzRpDzouX/cidzUZHcBI4Q0ju
+ Cg+AciE4lWe7oiRxhLTnkMng1kTZBX82BLg0Ssm1Mbi4AtCgslWgZyhtZK3L5CPw7UvX
+ dy9UNS7e7q/JAefyamG/d6dltpkUOzyysuETLqCmV27/X/EnzBGumyscS68VsImZrg92
+ cDg+1x4NWrUhEqClFVerHwv2ZRzAbaTZZMX774EZZJO5CELtGdMQegRa99QzTQUM71nC
+ vhfsPoIgW8h/SwsR22mcOs45Im6r23aHPcZo+0aKslrqxM0JePXpEFLAj0Kk24hEyEKx
+ FZtQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,39 +63,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: Jingoo Han <jingoohan1@gmail.com>,
+ Daniel Thompson <daniel.thompson@linaro.org>, Lee Jones <lee.jones@linaro.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIFRlY2xhc3QgWDg5IHVzZXMgYW4gdXBzaWRlLWRvd24gbW91bnRlZCBlRFAgcGFuZWwsIGFk
-ZCBhCnBhbmVsLW9yaWVudGF0aW9uIHF1aXJrIGZvciB0aGlzLgoKU2lnbmVkLW9mZi1ieTogSGFu
-cyBkZSBHb2VkZSA8aGRlZ29lZGVAcmVkaGF0LmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJt
-X3BhbmVsX29yaWVudGF0aW9uX3F1aXJrcy5jIHwgMTMgKysrKysrKysrKysrKwogMSBmaWxlIGNo
-YW5nZWQsIDEzIGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJt
-X3BhbmVsX29yaWVudGF0aW9uX3F1aXJrcy5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9wYW5lbF9v
-cmllbnRhdGlvbl9xdWlya3MuYwppbmRleCBmZmQ5NWJmZWFhOTQuLjlmMmQxMmYyOGE3MyAxMDA2
-NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9wYW5lbF9vcmllbnRhdGlvbl9xdWlya3MuYwor
-KysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX3BhbmVsX29yaWVudGF0aW9uX3F1aXJrcy5jCkBAIC0x
-MDgsNiArMTA4LDEzIEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2RtaV9wYW5lbF9vcmllbnRh
-dGlvbl9kYXRhIGxjZDEyMDB4MTkyMF9yaWdodHNpZGVfdXAgPSB7CiAJLm9yaWVudGF0aW9uID0g
-RFJNX01PREVfUEFORUxfT1JJRU5UQVRJT05fUklHSFRfVVAsCiB9OwogCitzdGF0aWMgY29uc3Qg
-c3RydWN0IGRybV9kbWlfcGFuZWxfb3JpZW50YXRpb25fZGF0YSB0ZWNsYXN0X3g4OSA9IHsKKwku
-d2lkdGggPSAxNTM2LAorCS5oZWlnaHQgPSAyMDQ4LAorCS5iaW9zX2RhdGVzID0gKGNvbnN0IGNo
-YXIgKiBjb25zdCBbXSl7ICIxMi8xOS8yMDE0IiwgTlVMTCB9LAorCS5vcmllbnRhdGlvbiA9IERS
-TV9NT0RFX1BBTkVMX09SSUVOVEFUSU9OX0JPVFRPTV9VUCwKK307CisKIHN0YXRpYyBjb25zdCBz
-dHJ1Y3QgZG1pX3N5c3RlbV9pZCBvcmllbnRhdGlvbl9kYXRhW10gPSB7CiAJewkvKiBBY2VyIE9u
-ZSAxMCAoUzEwMDMpICovCiAJCS5tYXRjaGVzID0gewpAQCAtMjA1LDYgKzIxMiwxMiBAQCBzdGF0
-aWMgY29uc3Qgc3RydWN0IGRtaV9zeXN0ZW1faWQgb3JpZW50YXRpb25fZGF0YVtdID0gewogCQkg
-IERNSV9FWEFDVF9NQVRDSChETUlfUFJPRFVDVF9WRVJTSU9OLCAiTGVub3ZvIGlkZWFwYWQgRDMz
-MC0xMElHTSIpLAogCQl9LAogCQkuZHJpdmVyX2RhdGEgPSAodm9pZCAqKSZsY2QxMjAweDE5MjBf
-cmlnaHRzaWRlX3VwLAorCX0sIHsJLyogVGVjbGFzdCBYODkgKHRQQUQgaXMgdG9vIGdlbmVyaWMs
-IGFsc28gbWF0Y2ggb24gYmlvcyBkYXRlKSAqLworCQkubWF0Y2hlcyA9IHsKKwkJICBETUlfRVhB
-Q1RfTUFUQ0goRE1JX0JPQVJEX1ZFTkRPUiwgIlRFQ0xBU1QiKSwKKwkJICBETUlfRVhBQ1RfTUFU
-Q0goRE1JX0JPQVJEX05BTUUsICJ0UEFEIiksCisJCX0sCisJCS5kcml2ZXJfZGF0YSA9ICh2b2lk
-ICopJnRlY2xhc3RfeDg5LAogCX0sIHsJLyogVklPUyBMVEgxNyAqLwogCQkubWF0Y2hlcyA9IHsK
-IAkJICBETUlfRVhBQ1RfTUFUQ0goRE1JX1NZU19WRU5ET1IsICJWSU9TIiksCi0tIAoyLjIzLjAK
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+T24gTW9uLCBEZWMgMiwgMjAxOSBhdCAxMTo0MiBBTSBMYXVyZW50IFBpbmNoYXJ0CjxsYXVyZW50
+LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+IHdyb3RlOgo+IE9uIE1vbiwgRGVjIDAyLCAyMDE5
+IGF0IDExOjMwOjI4QU0gKzAxMDAsIExpbnVzIFdhbGxlaWogd3JvdGU6Cj4gPiBUaGUgUm9obSBC
+RDYxMDcgZHJpdmVyIGNhbiBwYXNzIGEgZml4ZWQgR1BJTyBsaW5lIHVzaW5nIHRoZSBvbGQKPiA+
+IEdQSU8gQVBJIHVzaW5nIHBsYXRmb3JtIGRhdGEuIEFzIHRoZXJlIGFyZSBubyBpbi10cmVlIHVz
+ZXJzIG9mIHRoaXMKPiA+IHBsYXRmb3JtIGRhdGEgc2luY2UgMjAxMywgd2UgY2FuIGNvbnZlcnQg
+dGhpcyB0byB1c2UgYSBHUElPIGRlc2NyaXB0b3IKPiA+IGFuZCByZXF1aXJlIGFueSBvdXQtb2Yt
+dHJlZSBjb25zdW1lcnMgdG8gcGFzcyB0aGUgR1BJTyB1c2luZwo+ID4gYSBtYWNoaW5lIGRlc2Ny
+aXB0b3IgdGFibGUgaW5zdGVhZC4KPgo+IE9yIGJldHRlciwgY29udmVydGluZyB0byBEVCA6LSkK
+ClllYWggcmlnaHQgbm93IG15IG9iamVjdGl2ZSBpcyBqdXN0IHRvIGdldCB0aGUgb2xkIEdQSU8g
+QVBJCm91dCBvZiB0aGUga2VybmVsLCBzbyBJJ20gZm9jdXNpbmcgb24gdGhhdC4KCj4gPiBDYzog
+TGF1cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPgo+ID4g
+U2lnbmVkLW9mZi1ieTogTGludXMgV2FsbGVpaiA8bGludXMud2FsbGVpakBsaW5hcm8ub3JnPgo+
+Cj4gUmV2aWV3ZWQtYnk6IExhdXJlbnQgUGluY2hhcnQgPGxhdXJlbnQucGluY2hhcnRAaWRlYXNv
+bmJvYXJkLmNvbT4KPgo+IEhvdyBhYm91dCBnb2luZyBvbmUgc3RlcCBmdXJ0aGVyIGFuZCByZW1v
+dmluZyBwbGF0Zm9ybSBkYXRhIHN1cHBvcnQgaW4gYQo+IHNlY29uZCBwYXRjaCA/CgpUaGF0IHNl
+ZW1zIHRvIG1hbmRhdGUgYWxzbyBhZGRpbmcgYSBEVCBiaW5kaW5nIGFuZCBwcm9iZSBwYXRoCmZv
+ciBEVCBvdGhlcndpc2UgdGhlcmUgaXMgbm8gd2F5IHRvIHByb2JlIHRoZSBkcml2ZXIgYXQgYWxs
+IDpQLCBhbmQKSSB3b3VsZCByZWFsbHkgbmVlZCB0byBoYXZlIHRoZSBoYXJkd2FyZSB0byB0ZXN0
+IHdpdGgKZm9yIHRoYXQuCgpZb3VycywKTGludXMgV2FsbGVpagpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
+ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
