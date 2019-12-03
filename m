@@ -1,109 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0D1111062F
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2019 21:58:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 383EE110651
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2019 22:09:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31DB46F3FB;
-	Tue,  3 Dec 2019 20:58:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A3B06E037;
+	Tue,  3 Dec 2019 21:09:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM03-DM3-obe.outbound.protection.outlook.com
- (mail-eopbgr800082.outbound.protection.outlook.com [40.107.80.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C820B6EE68;
- Tue,  3 Dec 2019 20:58:12 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fBw8r0kN/pmaldI2ynzMmzwyeaIqD3tTpl/MRGAqxA5L4/qzKlzuMvOtp3RVCzyeVX3+hlyBRdMIx5TB/itXVjjtzzBB+ytBmsDGCckXwHEVRlYVWoA+extNMquTPSA/LrLXTAl1fTEqutSSd67gcyE9xiOMJoIB3EjQQ5sFO+Ek/Ds5k0DHPPlu1lwkrnsxsuXgYFiPZwsePrR345j2oR0ZdTTD7NhUIWlp3He6Bg3S2Yw2wToCaC05qX3ydokBiO4ckclBL6njj7Xdr5V2mPckVC6os0cqcxltdUJNj1FtxWwyp8s/EHXNkwSzINUv73EletsBgdmqX+BWVfrCWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YjT8Wu6dhJKjlOJF3wqX16u+vQyyeQa653auCqsKI2A=;
- b=IYg/I1nRuTeUO8Fj56aBuVmcRBnpefjsCDhKqGnjtiSYFlccR2sCfqmQ9LdwRQzfvMhT4mrl8rSdPdwnjOmku1MpMuBWXGoHHVqktTJtyyUtMirYdla9T5uaeF4BhZ8tJpQHQQZUDNoV/JDDgo1H6PI/yU8BqaMh4Z8E3bBxgypSon79W12S8dZWPM4e+eQv1bWNmrjs50zgA7tSzTSelvqV7XyUSRdMhVUGFBD+RT1G2TtgmJ2OuDczejdYOEXnlNCQO14OtM8BFctlKhZWM2bC7amnITRZ3mXXTvSxGcflpuXzUfXzObPxUAU0Myb7VKp9VDKQgGV4X4h+1wta9w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-Received: from MN2PR12MB2975.namprd12.prod.outlook.com (20.178.243.142) by
- MN2PR12MB2910.namprd12.prod.outlook.com (20.179.81.219) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2495.20; Tue, 3 Dec 2019 20:58:11 +0000
-Received: from MN2PR12MB2975.namprd12.prod.outlook.com
- ([fe80::851c:eebf:b936:20fd]) by MN2PR12MB2975.namprd12.prod.outlook.com
- ([fe80::851c:eebf:b936:20fd%4]) with mapi id 15.20.2516.003; Tue, 3 Dec 2019
- 20:58:11 +0000
-From: "Deng, Emily" <Emily.Deng@amd.com>
-To: "Grodzovsky, Andrey" <Andrey.Grodzovsky@amd.com>, "Deucher, Alexander"
- <Alexander.Deucher@amd.com>
-Subject: RE: [PATCH v4] drm/scheduler: Avoid accessing freed bad job.
-Thread-Topic: [PATCH v4] drm/scheduler: Avoid accessing freed bad job.
-Thread-Index: AQHVo9IhnWBRQA7TSUuQ4gUMKSHN+6edlxiAgACX24CACRV/kIABjnSAgAAJnQCAAAPFgIAAAHmAgAAJO4CAAAcCMA==
-Date: Tue, 3 Dec 2019 20:58:11 +0000
-Message-ID: <MN2PR12MB297587DE9C55B6AC399B98BF8F420@MN2PR12MB2975.namprd12.prod.outlook.com>
-References: <1574715089-14875-1-git-send-email-andrey.grodzovsky@amd.com>
- <b8b716a7-e235-38b2-ea6d-0a21881fa64e@amd.com>
- <MN2PR12MB2975CA8858F21FDF325C33FE8F440@MN2PR12MB2975.namprd12.prod.outlook.com>
- <MN2PR12MB2975F38D8FB87D9812E0B0C88F430@MN2PR12MB2975.namprd12.prod.outlook.com>
- <40f1020c-fccf-99f9-33ff-f82ef1f5f360@amd.com>
- <MWHPR12MB13589D76D1F7D518FE7D6F08F7420@MWHPR12MB1358.namprd12.prod.outlook.com>
- <0137aad4-bd70-2abf-d321-e9c88101480a@amd.com>
- <MWHPR12MB135874597AF738D51965F925F7420@MWHPR12MB1358.namprd12.prod.outlook.com>
- <bea6ea21-4644-69c0-830c-cf240f10bf72@amd.com>
-In-Reply-To: <bea6ea21-4644-69c0-830c-cf240f10bf72@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Enabled=true;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SetDate=2019-12-03T20:58:09Z; 
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Method=Standard;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Name=Internal Use Only -
- Unrestricted;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ActionId=e982d8f8-4a05-4e83-9a01-00003480f4d0;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ContentBits=1
-msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_enabled: true
-msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_setdate: 2019-12-03T20:58:09Z
-msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_method: Standard
-msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_name: Internal Use Only -
- Unrestricted
-msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_siteid: 3dd8961f-e488-4e60-8e11-a82d994e183d
-msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_actionid: 9f3e9797-c3e5-477f-8340-0000ba2a4b6f
-msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_contentbits: 0
-x-originating-ip: [165.204.53.123]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 8a2ad490-7334-41fb-1f27-08d7783381ca
-x-ms-traffictypediagnostic: MN2PR12MB2910:|MN2PR12MB2910:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR12MB291085157D177C775552438E8F420@MN2PR12MB2910.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-forefront-prvs: 02408926C4
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(39860400002)(346002)(136003)(376002)(396003)(366004)(199004)(189003)(13464003)(66574012)(54906003)(316002)(11346002)(110136005)(3846002)(6116002)(6636002)(86362001)(9686003)(55016002)(446003)(186003)(5660300002)(76116006)(74316002)(66476007)(790700001)(64756008)(66556008)(478600001)(66946007)(6436002)(7696005)(8676002)(33656002)(66446008)(81166006)(26005)(236005)(229853002)(52536014)(14444005)(81156014)(71200400001)(71190400001)(6306002)(54896002)(4326008)(99286004)(2906002)(14454004)(7736002)(76176011)(53546011)(6506007)(102836004)(256004)(6246003)(25786009)(8936002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:MN2PR12MB2910;
- H:MN2PR12MB2975.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: GsH9cZBiCQ/QTuBI/0CprMEabIY13QxKW1thPirN+N2exsoXzGRp6g/Akz8Nesqvyqq0c1aEgKdvHYefRFBcIZredjIUe4u9DH/w3nch5biqFxwknBxhOrw1H2MUghf4gblFzxwQ9HlZlc+6ril2Fx0IGNRgbH85nyK9m1C9TWmTGsdVt0qjk7RHA01G4j77hrTPqM9kXXzFg2nizy+vWAPThP5JXY1aUNOhS+xOO4v2S0qVu59KBFOmzFJ4O0CMrHPeWvLcbb+7WXiXJf318wKW2facBlGINb0l+vjmYfQYVOc6GH1NESCtX0dWqTuQdjA9yD6Cf4CIPj/TapJ5DPuJIQoo9Ox4DqkUozi7Lxe+wnBuCE0qACqQuEUOIUr/WHlQtsl4+10z8MrMeXrBxf7dwJ7E1uK6bT9eFD+SqzJsbdiqEXsMhb7xEqdUQ2Ls
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D000C6E037;
+ Tue,  3 Dec 2019 21:09:24 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 03 Dec 2019 13:09:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,274,1571727600"; 
+ d="gz'50?scan'50,208,50";a="236024137"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+ by fmsmga004.fm.intel.com with ESMTP; 03 Dec 2019 13:09:22 -0800
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+ (envelope-from <lkp@intel.com>)
+ id 1icFQA-000D0O-E7; Wed, 04 Dec 2019 05:09:22 +0800
+Date: Wed, 4 Dec 2019 05:09:15 +0800
+From: kbuild test robot <lkp@intel.com>
+To: mikita.lipski@amd.com
+Subject: Re: [PATCH v8 02/17] drm/dp_mst: Parse FEC capability on MST ports
+Message-ID: <201912040558.F4w9BINB%lkp@intel.com>
+References: <20191203143530.27262-3-mikita.lipski@amd.com>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8a2ad490-7334-41fb-1f27-08d7783381ca
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Dec 2019 20:58:11.1197 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: CJs3BSXKZpLy/R7nP7qRQs4T50wkNc36rmI4GQkzsUebpaARQ+tiSSIN3iDl7iD3
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB2910
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YjT8Wu6dhJKjlOJF3wqX16u+vQyyeQa653auCqsKI2A=;
- b=ry1EsRDpwQVqkMy+pJUeiKbP62cbz4mOy78vbgo+OmgE2XItJHnwTABCuo9YEMNMULpUE7jBsLXkMQJssQX9HqkqbWddJsq1sRwMFM6q116DgoZ6iS9BIlBVTjjuotqbOBfRcCodMPywI91V5B+f+2HCcJ+ODRqYUMud8lkoVGs=
-X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Emily.Deng@amd.com; 
+Content-Type: multipart/mixed; boundary="wpymwtv44qr3bwti"
+Content-Disposition: inline
+In-Reply-To: <20191203143530.27262-3-mikita.lipski@amd.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -116,723 +49,318 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "steven.price@arm.com" <steven.price@arm.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Koenig, 
- Christian" <Christian.Koenig@amd.com>
-Content-Type: multipart/mixed; boundary="===============1753500159=="
+Cc: David Francis <David.Francis@amd.com>,
+ Mikita Lipski <mikita.lipski@amd.com>, kbuild-all@lists.01.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1753500159==
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_MN2PR12MB297587DE9C55B6AC399B98BF8F420MN2PR12MB2975namp_"
 
---_000_MN2PR12MB297587DE9C55B6AC399B98BF8F420MN2PR12MB2975namp_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+--wpymwtv44qr3bwti
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-[AMD Official Use Only - Internal Distribution Only]
+Hi,
 
-Hi Andrey,
-    Thanks very much.
+Thank you for the patch! Perhaps something to improve:
 
-Best wishes
-Emily Deng
-From: Grodzovsky, Andrey <Andrey.Grodzovsky@amd.com>
-Sent: Tuesday, December 3, 2019 12:33 PM
-To: Deucher, Alexander <Alexander.Deucher@amd.com>; Deng, Emily <Emily.Deng=
-@amd.com>
-Cc: dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org; Koenig,=
- Christian <Christian.Koenig@amd.com>; steven.price@arm.com
-Subject: Re: [PATCH v4] drm/scheduler: Avoid accessing freed bad job.
+[auto build test WARNING on next-20191203]
+[cannot apply to drm-intel/for-linux-next linus/master v5.4-rc8 v5.4]
+[if your patch is applied to the wrong git tree, please drop us a note to help
+improve the system. BTW, we also suggest to use '--base' option to specify the
+base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
 
+url:    https://github.com/0day-ci/linux/commits/mikita-lipski-amd-com/DSC-MST-support-for-DRM-and-AMDGPU/20191204-020604
+base:    1ab75b2e415a29dba9aec94f203c6f88dbfc0ba0
+reproduce: make htmldocs
 
-Turns out Steven's patch was already in so i just cherry-picked the change =
-from drm-next-misc
+If you fix the issue, kindly add following tag
+Reported-by: kbuild test robot <lkp@intel.com>
 
+All warnings (new ones prefixed by >>):
 
+   drivers/usb/typec/bus.c:1: warning: 'typec_altmode_unregister_driver' not found
+   drivers/usb/typec/bus.c:1: warning: 'typec_altmode_register_driver' not found
+   drivers/usb/typec/class.c:1: warning: 'typec_altmode_register_notifier' not found
+   drivers/usb/typec/class.c:1: warning: 'typec_altmode_unregister_notifier' not found
+   fs/posix_acl.c:647: warning: Function parameter or member 'inode' not described in 'posix_acl_update_mode'
+   fs/posix_acl.c:647: warning: Function parameter or member 'mode_p' not described in 'posix_acl_update_mode'
+   fs/posix_acl.c:647: warning: Function parameter or member 'acl' not described in 'posix_acl_update_mode'
+   sound/soc/soc-core.c:2509: warning: Function parameter or member 'legacy_dai_naming' not described in 'snd_soc_register_dai'
+   include/linux/regulator/machine.h:196: warning: Function parameter or member 'max_uV_step' not described in 'regulation_constraints'
+   include/linux/regulator/driver.h:223: warning: Function parameter or member 'resume' not described in 'regulator_ops'
+   include/linux/skbuff.h:888: warning: Function parameter or member 'dev_scratch' not described in 'sk_buff'
+   include/linux/skbuff.h:888: warning: Function parameter or member 'list' not described in 'sk_buff'
+   include/linux/skbuff.h:888: warning: Function parameter or member 'ip_defrag_offset' not described in 'sk_buff'
+   include/linux/skbuff.h:888: warning: Function parameter or member 'skb_mstamp_ns' not described in 'sk_buff'
+   include/linux/skbuff.h:888: warning: Function parameter or member '__cloned_offset' not described in 'sk_buff'
+   include/linux/skbuff.h:888: warning: Function parameter or member 'head_frag' not described in 'sk_buff'
+   include/linux/skbuff.h:888: warning: Function parameter or member '__pkt_type_offset' not described in 'sk_buff'
+   include/linux/skbuff.h:888: warning: Function parameter or member 'encapsulation' not described in 'sk_buff'
+   include/linux/skbuff.h:888: warning: Function parameter or member 'encap_hdr_csum' not described in 'sk_buff'
+   include/linux/skbuff.h:888: warning: Function parameter or member 'csum_valid' not described in 'sk_buff'
+   include/linux/skbuff.h:888: warning: Function parameter or member '__pkt_vlan_present_offset' not described in 'sk_buff'
+   include/linux/skbuff.h:888: warning: Function parameter or member 'vlan_present' not described in 'sk_buff'
+   include/linux/skbuff.h:888: warning: Function parameter or member 'csum_complete_sw' not described in 'sk_buff'
+   include/linux/skbuff.h:888: warning: Function parameter or member 'csum_level' not described in 'sk_buff'
+   include/linux/skbuff.h:888: warning: Function parameter or member 'inner_protocol_type' not described in 'sk_buff'
+   include/linux/skbuff.h:888: warning: Function parameter or member 'remcsum_offload' not described in 'sk_buff'
+   include/linux/skbuff.h:888: warning: Function parameter or member 'sender_cpu' not described in 'sk_buff'
+   include/linux/skbuff.h:888: warning: Function parameter or member 'reserved_tailroom' not described in 'sk_buff'
+   include/linux/skbuff.h:888: warning: Function parameter or member 'inner_ipproto' not described in 'sk_buff'
+   include/net/sock.h:232: warning: Function parameter or member 'skc_addrpair' not described in 'sock_common'
+   include/net/sock.h:232: warning: Function parameter or member 'skc_portpair' not described in 'sock_common'
+   include/net/sock.h:232: warning: Function parameter or member 'skc_ipv6only' not described in 'sock_common'
+   include/net/sock.h:232: warning: Function parameter or member 'skc_net_refcnt' not described in 'sock_common'
+   include/net/sock.h:232: warning: Function parameter or member 'skc_v6_daddr' not described in 'sock_common'
+   include/net/sock.h:232: warning: Function parameter or member 'skc_v6_rcv_saddr' not described in 'sock_common'
+   include/net/sock.h:232: warning: Function parameter or member 'skc_cookie' not described in 'sock_common'
+   include/net/sock.h:232: warning: Function parameter or member 'skc_listener' not described in 'sock_common'
+   include/net/sock.h:232: warning: Function parameter or member 'skc_tw_dr' not described in 'sock_common'
+   include/net/sock.h:232: warning: Function parameter or member 'skc_rcv_wnd' not described in 'sock_common'
+   include/net/sock.h:232: warning: Function parameter or member 'skc_tw_rcv_nxt' not described in 'sock_common'
+   include/net/sock.h:514: warning: Function parameter or member 'sk_rx_skb_cache' not described in 'sock'
+   include/net/sock.h:514: warning: Function parameter or member 'sk_wq_raw' not described in 'sock'
+   include/net/sock.h:514: warning: Function parameter or member 'tcp_rtx_queue' not described in 'sock'
+   include/net/sock.h:514: warning: Function parameter or member 'sk_tx_skb_cache' not described in 'sock'
+   include/net/sock.h:514: warning: Function parameter or member 'sk_route_forced_caps' not described in 'sock'
+   include/net/sock.h:514: warning: Function parameter or member 'sk_txtime_report_errors' not described in 'sock'
+   include/net/sock.h:514: warning: Function parameter or member 'sk_validate_xmit_skb' not described in 'sock'
+   include/net/sock.h:514: warning: Function parameter or member 'sk_bpf_storage' not described in 'sock'
+   include/net/sock.h:2454: warning: Function parameter or member 'tcp_rx_skb_cache_key' not described in 'DECLARE_STATIC_KEY_FALSE'
+   include/net/sock.h:2454: warning: Excess function parameter 'sk' description in 'DECLARE_STATIC_KEY_FALSE'
+   include/net/sock.h:2454: warning: Excess function parameter 'skb' description in 'DECLARE_STATIC_KEY_FALSE'
+   include/linux/netdevice.h:1779: warning: bad line: spinlock
+   include/linux/netdevice.h:2077: warning: Function parameter or member 'gso_partial_features' not described in 'net_device'
+   include/linux/netdevice.h:2077: warning: Function parameter or member 'l3mdev_ops' not described in 'net_device'
+   include/linux/netdevice.h:2077: warning: Function parameter or member 'xfrmdev_ops' not described in 'net_device'
+   include/linux/netdevice.h:2077: warning: Function parameter or member 'tlsdev_ops' not described in 'net_device'
+   include/linux/netdevice.h:2077: warning: Function parameter or member 'name_assign_type' not described in 'net_device'
+   include/linux/netdevice.h:2077: warning: Function parameter or member 'ieee802154_ptr' not described in 'net_device'
+   include/linux/netdevice.h:2077: warning: Function parameter or member 'mpls_ptr' not described in 'net_device'
+   include/linux/netdevice.h:2077: warning: Function parameter or member 'xdp_prog' not described in 'net_device'
+   include/linux/netdevice.h:2077: warning: Function parameter or member 'gro_flush_timeout' not described in 'net_device'
+   include/linux/netdevice.h:2077: warning: Function parameter or member 'nf_hooks_ingress' not described in 'net_device'
+   include/linux/netdevice.h:2077: warning: Function parameter or member 'qdisc_hash' not described in 'net_device'
+   include/linux/netdevice.h:2077: warning: Function parameter or member 'xps_cpus_map' not described in 'net_device'
+   include/linux/netdevice.h:2077: warning: Function parameter or member 'xps_rxqs_map' not described in 'net_device'
+   include/linux/phylink.h:56: warning: Function parameter or member '__ETHTOOL_DECLARE_LINK_MODE_MASK(advertising' not described in 'phylink_link_state'
+   include/linux/phylink.h:56: warning: Function parameter or member '__ETHTOOL_DECLARE_LINK_MODE_MASK(lp_advertising' not described in 'phylink_link_state'
+   include/linux/i2c.h:337: warning: Function parameter or member 'init_irq' not described in 'i2c_client'
+   drivers/infiniband/core/umem_odp.c:167: warning: Function parameter or member 'ops' not described in 'ib_umem_odp_alloc_child'
+   drivers/infiniband/core/umem_odp.c:217: warning: Function parameter or member 'ops' not described in 'ib_umem_odp_get'
+   drivers/infiniband/ulp/iser/iscsi_iser.h:401: warning: Function parameter or member 'all_list' not described in 'iser_fr_desc'
+   drivers/infiniband/ulp/iser/iscsi_iser.h:415: warning: Function parameter or member 'all_list' not described in 'iser_fr_pool'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:148: warning: Function parameter or member 'rsvd0' not described in 'opa_vesw_info'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:148: warning: Function parameter or member 'rsvd1' not described in 'opa_vesw_info'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:148: warning: Function parameter or member 'rsvd2' not described in 'opa_vesw_info'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:148: warning: Function parameter or member 'rsvd3' not described in 'opa_vesw_info'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:148: warning: Function parameter or member 'rsvd4' not described in 'opa_vesw_info'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:205: warning: Function parameter or member 'rsvd0' not described in 'opa_per_veswport_info'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:205: warning: Function parameter or member 'rsvd1' not described in 'opa_per_veswport_info'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:205: warning: Function parameter or member 'rsvd2' not described in 'opa_per_veswport_info'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:205: warning: Function parameter or member 'rsvd3' not described in 'opa_per_veswport_info'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:263: warning: Function parameter or member 'tbl_entries' not described in 'opa_veswport_mactable'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:342: warning: Function parameter or member 'reserved' not described in 'opa_veswport_summary_counters'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:394: warning: Function parameter or member 'rsvd0' not described in 'opa_veswport_error_counters'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:394: warning: Function parameter or member 'rsvd1' not described in 'opa_veswport_error_counters'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:394: warning: Function parameter or member 'rsvd2' not described in 'opa_veswport_error_counters'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:394: warning: Function parameter or member 'rsvd3' not described in 'opa_veswport_error_counters'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:394: warning: Function parameter or member 'rsvd4' not described in 'opa_veswport_error_counters'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:394: warning: Function parameter or member 'rsvd5' not described in 'opa_veswport_error_counters'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:394: warning: Function parameter or member 'rsvd6' not described in 'opa_veswport_error_counters'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:394: warning: Function parameter or member 'rsvd7' not described in 'opa_veswport_error_counters'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:394: warning: Function parameter or member 'rsvd8' not described in 'opa_veswport_error_counters'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:394: warning: Function parameter or member 'rsvd9' not described in 'opa_veswport_error_counters'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:460: warning: Function parameter or member 'reserved' not described in 'opa_vnic_vema_mad'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:485: warning: Function parameter or member 'reserved' not described in 'opa_vnic_notice_attr'
+   drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h:500: warning: Function parameter or member 'reserved' not described in 'opa_vnic_vema_mad_trap'
+   include/linux/input/sparse-keymap.h:43: warning: Function parameter or member 'sw' not described in 'key_entry'
+   kernel/futex.c:1187: warning: Function parameter or member 'ret' not described in 'wait_for_owner_exiting'
+   include/drm/drm_modeset_helper_vtables.h:1052: warning: Function parameter or member 'prepare_writeback_job' not described in 'drm_connector_helper_funcs'
+   include/drm/drm_modeset_helper_vtables.h:1052: warning: Function parameter or member 'cleanup_writeback_job' not described in 'drm_connector_helper_funcs'
+>> include/drm/drm_dp_mst_helper.h:162: warning: Function parameter or member 'fec_capable' not described in 'drm_dp_mst_port'
+   include/net/cfg80211.h:1189: warning: Function parameter or member 'txpwr' not described in 'station_parameters'
+   include/net/mac80211.h:4081: warning: Function parameter or member 'sta_set_txpwr' not described in 'ieee80211_ops'
+   include/net/mac80211.h:2036: warning: Function parameter or member 'txpwr' not described in 'ieee80211_sta'
+   include/linux/devfreq.h:181: warning: Function parameter or member 'last_status' not described in 'devfreq'
+   drivers/devfreq/devfreq.c:1708: warning: bad line: - Resource-managed devfreq_register_notifier()
+   drivers/devfreq/devfreq.c:1744: warning: bad line: - Resource-managed devfreq_unregister_notifier()
+   drivers/devfreq/devfreq-event.c:355: warning: Function parameter or member 'edev' not described in 'devfreq_event_remove_edev'
+   drivers/devfreq/devfreq-event.c:355: warning: Excess function parameter 'dev' description in 'devfreq_event_remove_edev'
+   Documentation/admin-guide/xfs.rst:257: WARNING: Block quote ends without a blank line; unexpected unindent.
+   Documentation/admin-guide/hw-vuln/tsx_async_abort.rst:142: WARNING: duplicate label virt_mechanism, other instance in Documentation/admin-guide/hw-vuln/mds.rst
+   Documentation/watch_queue.rst:166: WARNING: Inline literal start-string without end-string.
+   Documentation/watch_queue.rst:166: WARNING: Inline emphasis start-string without end-string.
+   Documentation/watch_queue.rst:166: WARNING: Inline emphasis start-string without end-string.
+   Documentation/watch_queue.rst:166: WARNING: Inline emphasis start-string without end-string.
+   Documentation/watch_queue.rst:243: WARNING: Inline literal start-string without end-string.
+   Documentation/watch_queue.rst:243: WARNING: Inline emphasis start-string without end-string.
+   Documentation/watch_queue.rst:242: WARNING: Inline emphasis start-string without end-string.
+   Documentation/admin-guide/ras.rst:358: WARNING: Definition list ends without a blank line; unexpected unindent.
+   Documentation/admin-guide/ras.rst:358: WARNING: Definition list ends without a blank line; unexpected unindent.
+   Documentation/admin-guide/ras.rst:363: WARNING: Definition list ends without a blank line; unexpected unindent.
+   Documentation/admin-guide/ras.rst:363: WARNING: Definition list ends without a blank line; unexpected unindent.
+   Documentation/admin-guide/sysctl/kernel.rst:397: WARNING: Title underline too short.
 
-Emily - it's in.
+vim +162 include/drm/drm_dp_mst_helper.h
 
+ad7f8a1f9ced7f Dave Airlie 2014-06-05 @162  
 
+:::::: The code at line 162 was first introduced by commit
+:::::: ad7f8a1f9ced7f049f9b66d588723f243a7034cd drm/helper: add Displayport multi-stream helper (v0.6)
 
-Andrey
+:::::: TO: Dave Airlie <airlied@redhat.com>
+:::::: CC: Dave Airlie <airlied@redhat.com>
 
+---
+0-DAY kernel test infrastructure                 Open Source Technology Center
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org Intel Corporation
 
-On 12/3/19 2:59 PM, Deucher, Alexander wrote:
+--wpymwtv44qr3bwti
+Content-Type: application/gzip
+Content-Disposition: attachment; filename=".config.gz"
+Content-Transfer-Encoding: base64
 
-[AMD Official Use Only - Internal Distribution Only]
+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
+wqEZ7CkLNv7eMf9y0QYzbTv9B6u6aJCYagAA
 
-Cherry pick whatever dependencies you need or pick the older version of the=
- patch.  Either way works.
-
-Alex
-________________________________
-From: Grodzovsky, Andrey <Andrey.Grodzovsky@amd.com><mailto:Andrey.Grodzovs=
-ky@amd.com>
-Sent: Tuesday, December 3, 2019 2:57 PM
-To: Deucher, Alexander <Alexander.Deucher@amd.com><mailto:Alexander.Deucher=
-@amd.com>; Deng, Emily <Emily.Deng@amd.com><mailto:Emily.Deng@amd.com>
-Cc: dri-devel@lists.freedesktop.org<mailto:dri-devel@lists.freedesktop.org>=
- <dri-devel@lists.freedesktop.org><mailto:dri-devel@lists.freedesktop.org>;=
- amd-gfx@lists.freedesktop.org<mailto:amd-gfx@lists.freedesktop.org> <amd-g=
-fx@lists.freedesktop.org><mailto:amd-gfx@lists.freedesktop.org>; Koenig, Ch=
-ristian <Christian.Koenig@amd.com><mailto:Christian.Koenig@amd.com>; steven=
-.price@arm.com<mailto:steven.price@arm.com> <steven.price@arm.com><mailto:s=
-teven.price@arm.com>
-Subject: Re: [PATCH v4] drm/scheduler: Avoid accessing freed bad job.
-
-
-I don't think i can apply this patch 'as is' as this has dependency on patc=
-h by Steven which also wasn't applied yet - 588b982 Steven Price        6 w=
-eeks ago    drm: Don't free jobs in wait_event_interruptible()
-
-
-
-Andrey
-
-
-On 12/3/19 2:44 PM, Deucher, Alexander wrote:
-
-[AMD Official Use Only - Internal Distribution Only]
-
-Please go ahead an apply whatever version is necessary for amd-staging-drm-=
-next.
-
-Alex
-
-________________________________
-From: Grodzovsky, Andrey <Andrey.Grodzovsky@amd.com><mailto:Andrey.Grodzovs=
-ky@amd.com>
-Sent: Tuesday, December 3, 2019 2:10 PM
-To: Deng, Emily <Emily.Deng@amd.com><mailto:Emily.Deng@amd.com>; Deucher, A=
-lexander <Alexander.Deucher@amd.com><mailto:Alexander.Deucher@amd.com>
-Cc: dri-devel@lists.freedesktop.org<mailto:dri-devel@lists.freedesktop.org>=
- <dri-devel@lists.freedesktop.org><mailto:dri-devel@lists.freedesktop.org>;=
- amd-gfx@lists.freedesktop.org<mailto:amd-gfx@lists.freedesktop.org> <amd-g=
-fx@lists.freedesktop.org><mailto:amd-gfx@lists.freedesktop.org>; Koenig, Ch=
-ristian <Christian.Koenig@amd.com><mailto:Christian.Koenig@amd.com>; steven=
-.price@arm.com<mailto:steven.price@arm.com> <steven.price@arm.com><mailto:s=
-teven.price@arm.com>
-Subject: Re: [PATCH v4] drm/scheduler: Avoid accessing freed bad job.
-
-Yes - Christian just pushed it to drm-next-misc - I guess Alex/Christian
-didn't pull to amd-staging-drm-next yet.
-
-Andrey
-
-On 12/2/19 2:24 PM, Deng, Emily wrote:
-> [AMD Official Use Only - Internal Distribution Only]
->
-> Hi Andrey,
->      Seems this patch is still not in amd-staging-drm-next?
->
-> Best wishes
-> Emily Deng
->
->
->
->> -----Original Message-----
->> From: Deng, Emily
->> Sent: Tuesday, November 26, 2019 4:41 PM
->> To: Grodzovsky, Andrey <Andrey.Grodzovsky@amd.com><mailto:Andrey.Grodzov=
-sky@amd.com>
->> Cc: dri-devel@lists.freedesktop.org<mailto:dri-devel@lists.freedesktop.o=
-rg>; amd-gfx@lists.freedesktop.org<mailto:amd-gfx@lists.freedesktop.org>; K=
-oenig,
->> Christian <Christian.Koenig@amd.com><mailto:Christian.Koenig@amd.com>; s=
-teven.price@arm.com<mailto:steven.price@arm.com>
->> Subject: RE: [PATCH v4] drm/scheduler: Avoid accessing freed bad job.
->>
->> [AMD Official Use Only - Internal Distribution Only]
->>
->> Reviewed-by: Emily Deng <Emily.Deng@amd.com><mailto:Emily.Deng@amd.com>
->>
->>> -----Original Message-----
->>> From: Grodzovsky, Andrey <Andrey.Grodzovsky@amd.com><mailto:Andrey.Grod=
-zovsky@amd.com>
->>> Sent: Tuesday, November 26, 2019 7:37 AM
->>> Cc: dri-devel@lists.freedesktop.org<mailto:dri-devel@lists.freedesktop.=
-org>; amd-gfx@lists.freedesktop.org<mailto:amd-gfx@lists.freedesktop.org>;
->>> Koenig, Christian <Christian.Koenig@amd.com><mailto:Christian.Koenig@am=
-d.com>; Deng, Emily
->>> <Emily.Deng@amd.com><mailto:Emily.Deng@amd.com>; steven.price@arm.com<m=
-ailto:steven.price@arm.com>
->>> Subject: Re: [PATCH v4] drm/scheduler: Avoid accessing freed bad job.
->>>
->>> Ping
->>>
->>> Andrey
->>>
->>> On 11/25/19 3:51 PM, Andrey Grodzovsky wrote:
->>>> Problem:
->>>> Due to a race between drm_sched_cleanup_jobs in sched thread and
->>>> drm_sched_job_timedout in timeout work there is a possiblity that bad
->>>> job was already freed while still being accessed from the timeout
->>>> thread.
->>>>
->>>> Fix:
->>>> Instead of just peeking at the bad job in the mirror list remove it
->>>> from the list under lock and then put it back later when we are
->>>> garanteed no race with main sched thread is possible which is after
->>>> the thread is parked.
->>>>
->>>> v2: Lock around processing ring_mirror_list in drm_sched_cleanup_jobs.
->>>>
->>>> v3: Rebase on top of drm-misc-next. v2 is not needed anymore as
->>>> drm_sched_get_cleanup_job already has a lock there.
->>>>
->>>> v4: Fix comments to relfect latest code in drm-misc.
->>>>
->>>> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com><mailto:an=
-drey.grodzovsky@amd.com>
->>>> Reviewed-by: Christian K=F6nig <christian.koenig@amd.com><mailto:chris=
-tian.koenig@amd.com>
->>>> Tested-by: Emily Deng <Emily.Deng@amd.com><mailto:Emily.Deng@amd.com>
->>>> ---
->>>>    drivers/gpu/drm/scheduler/sched_main.c | 27
->>> +++++++++++++++++++++++++++
->>>>    1 file changed, 27 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
->>>> b/drivers/gpu/drm/scheduler/sched_main.c
->>>> index 6774955..1bf9c40 100644
->>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>>> @@ -284,10 +284,21 @@ static void drm_sched_job_timedout(struct
->>> work_struct *work)
->>>>     unsigned long flags;
->>>>
->>>>     sched =3D container_of(work, struct drm_gpu_scheduler,
->>>> work_tdr.work);
->>>> +
->>>> +  /* Protects against concurrent deletion in
->>> drm_sched_get_cleanup_job */
->>>> +  spin_lock_irqsave(&sched->job_list_lock, flags);
->>>>     job =3D list_first_entry_or_null(&sched->ring_mirror_list,
->>>>                                    struct drm_sched_job, node);
->>>>
->>>>     if (job) {
->>>> +          /*
->>>> +           * Remove the bad job so it cannot be freed by concurrent
->>>> +           * drm_sched_cleanup_jobs. It will be reinserted back after
->>> sched->thread
->>>> +           * is parked at which point it's safe.
->>>> +           */
->>>> +          list_del_init(&job->node);
->>>> +          spin_unlock_irqrestore(&sched->job_list_lock, flags);
->>>> +
->>>>             job->sched->ops->timedout_job(job);
->>>>
->>>>             /*
->>>> @@ -298,6 +309,8 @@ static void drm_sched_job_timedout(struct
->>> work_struct *work)
->>>>                     job->sched->ops->free_job(job);
->>>>                     sched->free_guilty =3D false;
->>>>             }
->>>> +  } else {
->>>> +          spin_unlock_irqrestore(&sched->job_list_lock, flags);
->>>>     }
->>>>
->>>>     spin_lock_irqsave(&sched->job_list_lock, flags); @@ -370,6 +383,20
->>>> @@ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct
->>> drm_sched_job *bad)
->>>>     kthread_park(sched->thread);
->>>>
->>>>     /*
->>>> +   * Reinsert back the bad job here - now it's safe as
->>>> +   * drm_sched_get_cleanup_job cannot race against us and release the
->>>> +   * bad job at this point - we parked (waited for) any in progress
->>>> +   * (earlier) cleanups and drm_sched_get_cleanup_job will not be
->>> called
->>>> +   * now until the scheduler thread is unparked.
->>>> +   */
->>>> +  if (bad && bad->sched =3D=3D sched)
->>>> +          /*
->>>> +           * Add at the head of the queue to reflect it was the earli=
-est
->>>> +           * job extracted.
->>>> +           */
->>>> +          list_add(&bad->node, &sched->ring_mirror_list);
->>>> +
->>>> +  /*
->>>>      * Iterate the job list from later to  earlier one and either deac=
-tive
->>>>      * their HW callbacks or remove them from mirror list if they alre=
-ady
->>>>      * signaled.
-
---_000_MN2PR12MB297587DE9C55B6AC399B98BF8F420MN2PR12MB2975namp_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<!--[if !mso]><style>v\:* {behavior:url(#default#VML);}
-o\:* {behavior:url(#default#VML);}
-w\:* {behavior:url(#default#VML);}
-.shape {behavior:url(#default#VML);}
-</style><![endif]--><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:DengXian;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"\@DengXian";
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;
-	color:black;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:purple;
-	text-decoration:underline;}
-p.msonormal0, li.msonormal0, div.msonormal0
-	{mso-style-name:msonormal;
-	margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;
-	color:black;}
-span.EmailStyle18
-	{mso-style-type:personal-reply;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-p.msipheader4d0fcdd7, li.msipheader4d0fcdd7, div.msipheader4d0fcdd7
-	{mso-style-name:msipheader4d0fcdd7;
-	mso-margin-top-alt:auto;
-	margin-right:0in;
-	mso-margin-bottom-alt:auto;
-	margin-left:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body bgcolor=3D"white" lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
-<div class=3D"WordSection1">
-<p class=3D"msipheader4d0fcdd7" style=3D"margin:0in;margin-bottom:.0001pt">=
-<span style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;co=
-lor:#0078D7">[AMD Official Use Only - Internal Distribution Only]</span><o:=
-p></o:p></p>
-<p class=3D"MsoNormal"><span style=3D"color:windowtext"><o:p>&nbsp;</o:p></=
-span></p>
-<p class=3D"MsoNormal"><span style=3D"color:windowtext">Hi Andrey,<o:p></o:=
-p></span></p>
-<p class=3D"MsoNormal"><span style=3D"color:windowtext">&nbsp;&nbsp;&nbsp; =
-Thanks very much.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"color:windowtext"><o:p>&nbsp;</o:p></=
-span></p>
-<p class=3D"MsoNormal"><span style=3D"color:windowtext">Best wishes<o:p></o=
-:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"color:windowtext">Emily Deng<o:p></o:=
-p></span></p>
-<div style=3D"border:none;border-left:solid blue 1.5pt;padding:0in 0in 0in =
-4.0pt">
-<div>
-<div style=3D"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in =
-0in 0in">
-<p class=3D"MsoNormal"><b><span style=3D"color:windowtext">From:</span></b>=
-<span style=3D"color:windowtext"> Grodzovsky, Andrey &lt;Andrey.Grodzovsky@=
-amd.com&gt;
-<br>
-<b>Sent:</b> Tuesday, December 3, 2019 12:33 PM<br>
-<b>To:</b> Deucher, Alexander &lt;Alexander.Deucher@amd.com&gt;; Deng, Emil=
-y &lt;Emily.Deng@amd.com&gt;<br>
-<b>Cc:</b> dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org; =
-Koenig, Christian &lt;Christian.Koenig@amd.com&gt;; steven.price@arm.com<br=
->
-<b>Subject:</b> Re: [PATCH v4] drm/scheduler: Avoid accessing freed bad job=
-.<o:p></o:p></span></p>
-</div>
-</div>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p>Turns out Steven's patch was already in so i just cherry-picked the chan=
-ge from drm-next-misc<o:p></o:p></p>
-<p><o:p>&nbsp;</o:p></p>
-<p>Emily - it's in.<o:p></o:p></p>
-<p><o:p>&nbsp;</o:p></p>
-<p>Andrey<o:p></o:p></p>
-<p><o:p>&nbsp;</o:p></p>
-<div>
-<p class=3D"MsoNormal">On 12/3/19 2:59 PM, Deucher, Alexander wrote:<o:p></=
-o:p></p>
-</div>
-<blockquote style=3D"margin-top:5.0pt;margin-bottom:5.0pt">
-<p style=3D"margin:15.0pt"><span style=3D"font-size:10.0pt;font-family:&quo=
-t;Arial&quot;,sans-serif;color:#0078D7">[AMD Official Use Only - Internal D=
-istribution Only]<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<div>
-<div>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt">Cherry pick whateve=
-r dependencies you need or pick the older version of the patch.&nbsp; Eithe=
-r way works.<o:p></o:p></span></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt"><o:p>&nbsp;</o:p></=
-span></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt">Alex<o:p></o:p></sp=
-an></p>
-</div>
-<div class=3D"MsoNormal" align=3D"center" style=3D"text-align:center">
-<hr size=3D"2" width=3D"98%" align=3D"center">
-</div>
-<div id=3D"divRplyFwdMsg">
-<p class=3D"MsoNormal"><b>From:</b> Grodzovsky, Andrey <a href=3D"mailto:An=
-drey.Grodzovsky@amd.com">
-&lt;Andrey.Grodzovsky@amd.com&gt;</a><br>
-<b>Sent:</b> Tuesday, December 3, 2019 2:57 PM<br>
-<b>To:</b> Deucher, Alexander <a href=3D"mailto:Alexander.Deucher@amd.com">=
-&lt;Alexander.Deucher@amd.com&gt;</a>; Deng, Emily
-<a href=3D"mailto:Emily.Deng@amd.com">&lt;Emily.Deng@amd.com&gt;</a><br>
-<b>Cc:</b> <a href=3D"mailto:dri-devel@lists.freedesktop.org">dri-devel@lis=
-ts.freedesktop.org</a>
-<a href=3D"mailto:dri-devel@lists.freedesktop.org">&lt;dri-devel@lists.free=
-desktop.org&gt;</a>;
-<a href=3D"mailto:amd-gfx@lists.freedesktop.org">amd-gfx@lists.freedesktop.=
-org</a> <a href=3D"mailto:amd-gfx@lists.freedesktop.org">
-&lt;amd-gfx@lists.freedesktop.org&gt;</a>; Koenig, Christian <a href=3D"mai=
-lto:Christian.Koenig@amd.com">
-&lt;Christian.Koenig@amd.com&gt;</a>; <a href=3D"mailto:steven.price@arm.co=
-m">steven.price@arm.com</a>
-<a href=3D"mailto:steven.price@arm.com">&lt;steven.price@arm.com&gt;</a><br=
->
-<b>Subject:</b> Re: [PATCH v4] drm/scheduler: Avoid accessing freed bad job=
-. <o:p>
-</o:p></p>
-<div>
-<p class=3D"MsoNormal">&nbsp;<o:p></o:p></p>
-</div>
-</div>
-<div>
-<p style=3D"background:white"><span style=3D"color:black">I don't think i c=
-an apply this patch 'as is' as this has dependency on patch by Steven which=
- also wasn't applied yet - 588b982 Steven Price&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp; 6 weeks ago&nbsp;&nbsp;&nbsp; drm: Don't free jobs in wait_e=
-vent_interruptible()</span><o:p></o:p></p>
-<p style=3D"background:white"><o:p>&nbsp;</o:p></p>
-<p style=3D"background:white"><span style=3D"color:black">Andrey</span><o:p=
-></o:p></p>
-<p style=3D"background:white"><o:p>&nbsp;</o:p></p>
-<div>
-<p class=3D"MsoNormal" style=3D"background:white">On 12/3/19 2:44 PM, Deuch=
-er, Alexander wrote:<o:p></o:p></p>
-</div>
-<blockquote style=3D"margin-top:5.0pt;margin-bottom:5.0pt">
-<p style=3D"margin:15.0pt;background:white"><span style=3D"font-size:10.0pt=
-;font-family:&quot;Arial&quot;,sans-serif;color:#0078D7">[AMD Official Use =
-Only - Internal Distribution Only]<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"background:white"><o:p>&nbsp;</o:p></p>
-<div>
-<div>
-<p class=3D"MsoNormal" style=3D"background:white"><span style=3D"font-size:=
-12.0pt">Please go ahead an apply whatever version is necessary for amd-stag=
-ing-drm-next.<o:p></o:p></span></p>
-</div>
-<div>
-<p class=3D"MsoNormal" style=3D"background:white"><span style=3D"font-size:=
-12.0pt"><o:p>&nbsp;</o:p></span></p>
-</div>
-<div>
-<p class=3D"MsoNormal" style=3D"background:white"><span style=3D"font-size:=
-12.0pt">Alex<o:p></o:p></span></p>
-</div>
-<div>
-<p class=3D"MsoNormal" style=3D"background:white"><span style=3D"font-size:=
-12.0pt"><o:p>&nbsp;</o:p></span></p>
-</div>
-<div class=3D"MsoNormal" align=3D"center" style=3D"text-align:center;backgr=
-ound:white">
-<hr size=3D"2" width=3D"98%" align=3D"center">
-</div>
-<div id=3D"x_divRplyFwdMsg">
-<p class=3D"MsoNormal" style=3D"background:white"><b>From:</b> Grodzovsky, =
-Andrey <a href=3D"mailto:Andrey.Grodzovsky@amd.com">
-&lt;Andrey.Grodzovsky@amd.com&gt;</a><br>
-<b>Sent:</b> Tuesday, December 3, 2019 2:10 PM<br>
-<b>To:</b> Deng, Emily <a href=3D"mailto:Emily.Deng@amd.com">&lt;Emily.Deng=
-@amd.com&gt;</a>; Deucher, Alexander
-<a href=3D"mailto:Alexander.Deucher@amd.com">&lt;Alexander.Deucher@amd.com&=
-gt;</a><br>
-<b>Cc:</b> <a href=3D"mailto:dri-devel@lists.freedesktop.org">dri-devel@lis=
-ts.freedesktop.org</a>
-<a href=3D"mailto:dri-devel@lists.freedesktop.org">&lt;dri-devel@lists.free=
-desktop.org&gt;</a>;
-<a href=3D"mailto:amd-gfx@lists.freedesktop.org">amd-gfx@lists.freedesktop.=
-org</a> <a href=3D"mailto:amd-gfx@lists.freedesktop.org">
-&lt;amd-gfx@lists.freedesktop.org&gt;</a>; Koenig, Christian <a href=3D"mai=
-lto:Christian.Koenig@amd.com">
-&lt;Christian.Koenig@amd.com&gt;</a>; <a href=3D"mailto:steven.price@arm.co=
-m">steven.price@arm.com</a>
-<a href=3D"mailto:steven.price@arm.com">&lt;steven.price@arm.com&gt;</a><br=
->
-<b>Subject:</b> Re: [PATCH v4] drm/scheduler: Avoid accessing freed bad job=
-. <o:p>
-</o:p></p>
-<div>
-<p class=3D"MsoNormal" style=3D"background:white">&nbsp;<o:p></o:p></p>
-</div>
-</div>
-<div>
-<div>
-<p class=3D"MsoNormal" style=3D"background:white">Yes - Christian just push=
-ed it to drm-next-misc - I guess Alex/Christian
-<br>
-didn't pull to amd-staging-drm-next yet.<br>
-<br>
-Andrey<br>
-<br>
-On 12/2/19 2:24 PM, Deng, Emily wrote:<br>
-&gt; [AMD Official Use Only - Internal Distribution Only]<br>
-&gt;<br>
-&gt; Hi Andrey,<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Seems this patch is still not in amd-sta=
-ging-drm-next?<br>
-&gt;<br>
-&gt; Best wishes<br>
-&gt; Emily Deng<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt;&gt; -----Original Message-----<br>
-&gt;&gt; From: Deng, Emily<br>
-&gt;&gt; Sent: Tuesday, November 26, 2019 4:41 PM<br>
-&gt;&gt; To: Grodzovsky, Andrey <a href=3D"mailto:Andrey.Grodzovsky@amd.com=
-">&lt;Andrey.Grodzovsky@amd.com&gt;</a><br>
-&gt;&gt; Cc: <a href=3D"mailto:dri-devel@lists.freedesktop.org">dri-devel@l=
-ists.freedesktop.org</a>;
-<a href=3D"mailto:amd-gfx@lists.freedesktop.org">amd-gfx@lists.freedesktop.=
-org</a>; Koenig,<br>
-&gt;&gt; Christian <a href=3D"mailto:Christian.Koenig@amd.com">&lt;Christia=
-n.Koenig@amd.com&gt;</a>;
-<a href=3D"mailto:steven.price@arm.com">steven.price@arm.com</a><br>
-&gt;&gt; Subject: RE: [PATCH v4] drm/scheduler: Avoid accessing freed bad j=
-ob.<br>
-&gt;&gt;<br>
-&gt;&gt; [AMD Official Use Only - Internal Distribution Only]<br>
-&gt;&gt;<br>
-&gt;&gt; Reviewed-by: Emily Deng <a href=3D"mailto:Emily.Deng@amd.com">&lt;=
-Emily.Deng@amd.com&gt;</a><br>
-&gt;&gt;<br>
-&gt;&gt;&gt; -----Original Message-----<br>
-&gt;&gt;&gt; From: Grodzovsky, Andrey <a href=3D"mailto:Andrey.Grodzovsky@a=
-md.com">&lt;Andrey.Grodzovsky@amd.com&gt;</a><br>
-&gt;&gt;&gt; Sent: Tuesday, November 26, 2019 7:37 AM<br>
-&gt;&gt;&gt; Cc: <a href=3D"mailto:dri-devel@lists.freedesktop.org">dri-dev=
-el@lists.freedesktop.org</a>;
-<a href=3D"mailto:amd-gfx@lists.freedesktop.org">amd-gfx@lists.freedesktop.=
-org</a>;<br>
-&gt;&gt;&gt; Koenig, Christian <a href=3D"mailto:Christian.Koenig@amd.com">=
-&lt;Christian.Koenig@amd.com&gt;</a>; Deng, Emily<br>
-&gt;&gt;&gt; <a href=3D"mailto:Emily.Deng@amd.com">&lt;Emily.Deng@amd.com&g=
-t;</a>; <a href=3D"mailto:steven.price@arm.com">
-steven.price@arm.com</a><br>
-&gt;&gt;&gt; Subject: Re: [PATCH v4] drm/scheduler: Avoid accessing freed b=
-ad job.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Ping<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Andrey<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; On 11/25/19 3:51 PM, Andrey Grodzovsky wrote:<br>
-&gt;&gt;&gt;&gt; Problem:<br>
-&gt;&gt;&gt;&gt; Due to a race between drm_sched_cleanup_jobs in sched thre=
-ad and<br>
-&gt;&gt;&gt;&gt; drm_sched_job_timedout in timeout work there is a possibli=
-ty that bad<br>
-&gt;&gt;&gt;&gt; job was already freed while still being accessed from the =
-timeout<br>
-&gt;&gt;&gt;&gt; thread.<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Fix:<br>
-&gt;&gt;&gt;&gt; Instead of just peeking at the bad job in the mirror list =
-remove it<br>
-&gt;&gt;&gt;&gt; from the list under lock and then put it back later when w=
-e are<br>
-&gt;&gt;&gt;&gt; garanteed no race with main sched thread is possible which=
- is after<br>
-&gt;&gt;&gt;&gt; the thread is parked.<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; v2: Lock around processing ring_mirror_list in drm_sched_c=
-leanup_jobs.<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; v3: Rebase on top of drm-misc-next. v2 is not needed anymo=
-re as<br>
-&gt;&gt;&gt;&gt; drm_sched_get_cleanup_job already has a lock there.<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; v4: Fix comments to relfect latest code in drm-misc.<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Signed-off-by: Andrey Grodzovsky <a href=3D"mailto:andrey.=
-grodzovsky@amd.com">
-&lt;andrey.grodzovsky@amd.com&gt;</a><br>
-&gt;&gt;&gt;&gt; Reviewed-by: Christian K=F6nig <a href=3D"mailto:christian=
-.koenig@amd.com">&lt;christian.koenig@amd.com&gt;</a><br>
-&gt;&gt;&gt;&gt; Tested-by: Emily Deng <a href=3D"mailto:Emily.Deng@amd.com=
-">&lt;Emily.Deng@amd.com&gt;</a><br>
-&gt;&gt;&gt;&gt; ---<br>
-&gt;&gt;&gt;&gt;&nbsp;&nbsp;&nbsp; drivers/gpu/drm/scheduler/sched_main.c |=
- 27<br>
-&gt;&gt;&gt; &#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#=
-43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;<b=
-r>
-&gt;&gt;&gt;&gt;&nbsp;&nbsp;&nbsp; 1 file changed, 27 insertions(&#43;)<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; diff --git a/drivers/gpu/drm/scheduler/sched_main.c<br>
-&gt;&gt;&gt;&gt; b/drivers/gpu/drm/scheduler/sched_main.c<br>
-&gt;&gt;&gt;&gt; index 6774955..1bf9c40 100644<br>
-&gt;&gt;&gt;&gt; --- a/drivers/gpu/drm/scheduler/sched_main.c<br>
-&gt;&gt;&gt;&gt; &#43;&#43;&#43; b/drivers/gpu/drm/scheduler/sched_main.c<b=
-r>
-&gt;&gt;&gt;&gt; @@ -284,10 &#43;284,21 @@ static void drm_sched_job_timedo=
-ut(struct<br>
-&gt;&gt;&gt; work_struct *work)<br>
-&gt;&gt;&gt;&gt;&nbsp;&nbsp;&nbsp;&nbsp; unsigned long flags;<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&nbsp;&nbsp;&nbsp;&nbsp; sched =3D container_of(work, struc=
-t drm_gpu_scheduler,<br>
-&gt;&gt;&gt;&gt; work_tdr.work);<br>
-&gt;&gt;&gt;&gt; &#43;<br>
-&gt;&gt;&gt;&gt; &#43;&nbsp; /* Protects against concurrent deletion in<br>
-&gt;&gt;&gt; drm_sched_get_cleanup_job */<br>
-&gt;&gt;&gt;&gt; &#43;&nbsp; spin_lock_irqsave(&amp;sched-&gt;job_list_lock=
-, flags);<br>
-&gt;&gt;&gt;&gt;&nbsp;&nbsp;&nbsp;&nbsp; job =3D list_first_entry_or_null(&=
-amp;sched-&gt;ring_mirror_list,<br>
-&gt;&gt;&gt;&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-; struct drm_sched_job, node);<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&nbsp;&nbsp;&nbsp;&nbsp; if (job) {<br>
-&gt;&gt;&gt;&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-; /*<br>
-&gt;&gt;&gt;&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp; * Remove the bad job so it cannot be freed by concurrent<br>
-&gt;&gt;&gt;&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp; * drm_sched_cleanup_jobs. It will be reinserted back after<br>
-&gt;&gt;&gt; sched-&gt;thread<br>
-&gt;&gt;&gt;&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp; * is parked at which point it's safe.<br>
-&gt;&gt;&gt;&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp; */<br>
-&gt;&gt;&gt;&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-; list_del_init(&amp;job-&gt;node);<br>
-&gt;&gt;&gt;&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-; spin_unlock_irqrestore(&amp;sched-&gt;job_list_lock, flags);<br>
-&gt;&gt;&gt;&gt; &#43;<br>
-&gt;&gt;&gt;&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp; job-&gt;sched-&gt;ops-&gt;timedout_job(job);<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp; /*<br>
-&gt;&gt;&gt;&gt; @@ -298,6 &#43;309,8 @@ static void drm_sched_job_timedout=
-(struct<br>
-&gt;&gt;&gt; work_struct *work)<br>
-&gt;&gt;&gt;&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; job-&gt;sched=
--&gt;ops-&gt;free_job(job);<br>
-&gt;&gt;&gt;&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sched-&gt;fre=
-e_guilty =3D false;<br>
-&gt;&gt;&gt;&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp; }<br>
-&gt;&gt;&gt;&gt; &#43;&nbsp; } else {<br>
-&gt;&gt;&gt;&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-; spin_unlock_irqrestore(&amp;sched-&gt;job_list_lock, flags);<br>
-&gt;&gt;&gt;&gt;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&nbsp;&nbsp;&nbsp;&nbsp; spin_lock_irqsave(&amp;sched-&gt;j=
-ob_list_lock, flags); @@ -370,6 &#43;383,20<br>
-&gt;&gt;&gt;&gt; @@ void drm_sched_stop(struct drm_gpu_scheduler *sched, st=
-ruct<br>
-&gt;&gt;&gt; drm_sched_job *bad)<br>
-&gt;&gt;&gt;&gt;&nbsp;&nbsp;&nbsp;&nbsp; kthread_park(sched-&gt;thread);<br=
->
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&nbsp;&nbsp;&nbsp;&nbsp; /*<br>
-&gt;&gt;&gt;&gt; &#43;&nbsp;&nbsp; * Reinsert back the bad job here - now i=
-t's safe as<br>
-&gt;&gt;&gt;&gt; &#43;&nbsp;&nbsp; * drm_sched_get_cleanup_job cannot race =
-against us and release the<br>
-&gt;&gt;&gt;&gt; &#43;&nbsp;&nbsp; * bad job at this point - we parked (wai=
-ted for) any in progress<br>
-&gt;&gt;&gt;&gt; &#43;&nbsp;&nbsp; * (earlier) cleanups and drm_sched_get_c=
-leanup_job will not be<br>
-&gt;&gt;&gt; called<br>
-&gt;&gt;&gt;&gt; &#43;&nbsp;&nbsp; * now until the scheduler thread is unpa=
-rked.<br>
-&gt;&gt;&gt;&gt; &#43;&nbsp;&nbsp; */<br>
-&gt;&gt;&gt;&gt; &#43;&nbsp; if (bad &amp;&amp; bad-&gt;sched =3D=3D sched)=
-<br>
-&gt;&gt;&gt;&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-; /*<br>
-&gt;&gt;&gt;&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp; * Add at the head of the queue to reflect it was the earliest<br>
-&gt;&gt;&gt;&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp; * job extracted.<br>
-&gt;&gt;&gt;&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp; */<br>
-&gt;&gt;&gt;&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-; list_add(&amp;bad-&gt;node, &amp;sched-&gt;ring_mirror_list);<br>
-&gt;&gt;&gt;&gt; &#43;<br>
-&gt;&gt;&gt;&gt; &#43;&nbsp; /*<br>
-&gt;&gt;&gt;&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * Iterate the job list from =
-later to&nbsp; earlier one and either deactive<br>
-&gt;&gt;&gt;&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * their HW callbacks or remo=
-ve them from mirror list if they already<br>
-&gt;&gt;&gt;&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * signaled.<o:p></o:p></p>
-</div>
-</div>
-</div>
-</blockquote>
-</div>
-</div>
-</blockquote>
-</div>
-</div>
-</body>
-</html>
-
---_000_MN2PR12MB297587DE9C55B6AC399B98BF8F420MN2PR12MB2975namp_--
-
---===============1753500159==
+--wpymwtv44qr3bwti
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -842,4 +370,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1753500159==--
+--wpymwtv44qr3bwti--
