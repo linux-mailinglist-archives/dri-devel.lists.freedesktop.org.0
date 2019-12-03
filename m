@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C331110158
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2019 16:34:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DF1B11015A
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2019 16:34:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16CB86E9D4;
-	Tue,  3 Dec 2019 15:34:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C5F16E80B;
+	Tue,  3 Dec 2019 15:34:21 +0000 (UTC)
 X-Original-To: dri-devel@freedesktop.org
 Delivered-To: dri-devel@freedesktop.org
-X-Greylist: delayed 1060 seconds by postgrey-1.36 at gabe;
- Tue, 03 Dec 2019 15:33:58 UTC
+X-Greylist: delayed 990 seconds by postgrey-1.36 at gabe;
+ Tue, 03 Dec 2019 15:34:20 UTC
 Received: from a27-18.smtp-out.us-west-2.amazonses.com
  (a27-18.smtp-out.us-west-2.amazonses.com [54.240.27.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D2FC6E9D4
- for <dri-devel@freedesktop.org>; Tue,  3 Dec 2019 15:33:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8C916E80B
+ for <dri-devel@freedesktop.org>; Tue,  3 Dec 2019 15:34:20 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
- autolearn=ham autolearn_force=no version=3.4.0
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 7A637C447B5
+ autolearn=unavailable autolearn_force=no version=3.4.0
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 99223C447A0
 From: Sharat Masetty <smasetty@codeaurora.org>
-To: freedreno@lists.freedesktop.org
-Subject: [PATCH 5/5] arm: dts: sc7180: Add A618 gpu dt blob
-Date: Tue, 3 Dec 2019 15:16:17 +0000
-Message-ID: <0101016ecc556160-5dd49f8d-1af9-449a-8fe3-90bbedc5af73-000000@us-west-2.amazonses.com>
+To: freedreno@lists.freedesktop.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH] arm: dts: sc7180: Add A618 gpu dt blob
+Date: Tue, 3 Dec 2019 15:17:49 +0000
+Message-ID: <0101016ecc56c744-6557703a-b027-4bc8-aa26-e27dd96c81eb-000000@us-west-2.amazonses.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1575386150-13299-1-git-send-email-smasetty@codeaurora.org>
-References: <1575386150-13299-1-git-send-email-smasetty@codeaurora.org>
 X-SES-Outgoing: 2019.12.03-54.240.27.18
 Feedback-ID: 1.us-west-2.CZuq2qbDmUIuT3qdvXlRHZZCpfZqZ4GtG9v3VKgRyF0=:AmazonSES
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
  c=relaxed/simple; 
- s=zsmsymrwgfyinv5wlfyidntwsjeeldzt; d=codeaurora.org; t=1575386178;
- h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References;
+ s=zsmsymrwgfyinv5wlfyidntwsjeeldzt; d=codeaurora.org; t=1575386269;
+ h=From:To:Cc:Subject:Date:Message-Id;
  bh=a+ZeEDIVNB9eGTEKRl0WtwhCV5OviwdJ9UgvQi9PSGI=;
- b=WmfSZfqe9YdIXvMiMyJ68bjj4QoVlAGgvSLF2wTabEEXNWfXQN1vOJcYZvulB4iu
- u5ZvbP5oJFuwk/p8oy0J4zBcbG1BkQECmDdrpizwYdZR5kICxssRabp69KB1OifJdqg
- 1pyQfBId5SPWvNqu258b0YMm2XOAvLpScqG4/r6Y=
+ b=awv2F4INfuLjW4Joh0RRp5rJjc5WUevQzJ4Y4r9oRyzI2oqdWyLEqHz3+pjN4YWq
+ hrWaLgzoEQDBpyEmP6tu4Nb5nMYXujsYlgCVd5b1kik4M65YHg0Gji3RUIjlBafGrCB
+ 8zHFgeEahimVrFpKyNAymgJYWUxkuNBVU9dJ8Wp0=
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
  c=relaxed/simple; 
- s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1575386178;
- h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:Feedback-ID;
+ s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1575386269;
+ h=From:To:Cc:Subject:Date:Message-Id:Feedback-ID;
  bh=a+ZeEDIVNB9eGTEKRl0WtwhCV5OviwdJ9UgvQi9PSGI=;
- b=MHzw8xookcoNHzPsNA+UHHETHqR6YWSO4ZINIFULTX8Aj8lTF1cARO9KGi+k778m
- OQDrwxLwVbN1KdYtZc/RDVERfFraZbxr5WY0rNypOqc6XmvGy3EOce9rTFCEOidGZKV
- 8iu/ENtJp16l97nBrb8957vzr4ExixMeyFGYu10Y=
+ b=bGkHf8WfWgv6TTjHy+NAiY7SNzyGetqP82SUX4aPNrJi+HY9rrZTlq3aKdeCrEex
+ R6X8p+eAKr7xK4Rlj7kTQkuRD5Qgok0OjlTLghCAtv13+EfgmBmsheN6wirUyMNbf4h
+ eZ9ViQ1FELakg+kY5BaZp37TRFzwSoV/qr8kaKpQ=
 X-Mailman-Original-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 X-Mailman-Original-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
