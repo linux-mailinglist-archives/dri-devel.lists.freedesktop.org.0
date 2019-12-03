@@ -1,40 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2836F10F8B6
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2019 08:29:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C55F10F939
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Dec 2019 08:47:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A1586E3DF;
-	Tue,  3 Dec 2019 07:29:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA1446E3F2;
+	Tue,  3 Dec 2019 07:47:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC5346E3DF
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2019 07:29:40 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C1BA7309;
- Tue,  3 Dec 2019 08:29:38 +0100 (CET)
-Date: Tue, 3 Dec 2019 09:29:32 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jyri Sarha <jsarha@ti.com>
-Subject: Re: [PATCH] ARM: dts: am335x-evm: Use drm simple-panel instead of
- tilcdc-panel
-Message-ID: <20191203072932.GL4730@pendragon.ideasonboard.com>
-References: <20191202185729.12921-1-jsarha@ti.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 648986E3F0
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2019 07:47:02 +0000 (UTC)
+Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9F4CE2053B;
+ Tue,  3 Dec 2019 07:47:01 +0000 (UTC)
+Date: Tue, 3 Dec 2019 08:46:59 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v1 07/26] drm/panel: remove get_timings
+Message-ID: <20191203074659.ilsyv4yx7pzw5vax@gilmour.lan>
+References: <20191202193230.21310-1-sam@ravnborg.org>
+ <20191202193230.21310-8-sam@ravnborg.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191202185729.12921-1-jsarha@ti.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191202193230.21310-8-sam@ravnborg.org>
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=ideasonboard.com; s=mail; t=1575358179;
- bh=7cZbYLONLyPLh46EPhOTsWVY7T7ktT6/ScSQB9363YY=;
+ d=kernel.org; s=default; t=1575359222;
+ bh=zBfUPG4hr6cz9CjSTGXeqEKcIeEi2W+pTBEFRrNagxk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Leqg0R6YUsSnpROUbCxEy4cfmiGkOCfTGZM43r+n1uEKkbWIRkUzyiD+ZwmPZv+2D
- bUxAHCy4NgvqVM4tmy418aSLwIEH3jYkFVeI6UtOl5Kfo6RKPrzEueYrqlskH8QzTu
- o7Tzgq8KrwIdS85VsaLK+h90k3XWrbPCAGYKMn5c=
+ b=FJcAU9P+z4a0TjRbXzmJTn5pxxrG++bII3OcgV8W3lHBCpgWqkSBw6j/9MG/nKgUn
+ CA+ACwvDPHjLylSA0jGJ+T6BB+MgOW1qltCFkpOqY85/AeM8kpbMy2a7KNdtprE8Yh
+ gRZBIBlwAFpGvYXVoPw3Rq/30T5g2LIP5yFDY9Ag=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,59 +45,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, tony@atomide.com,
- dri-devel@lists.freedesktop.org, peter.ujfalusi@ti.com, tomi.valkeinen@ti.com,
- bcousson@baylibre.com, linux-omap@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Jitao Shi <jitao.shi@mediatek.com>,
+ Abhinav Kumar <abhinavk@codeaurora.org>, linux-mediatek@lists.infradead.org,
+ linux-tegra@vger.kernel.org, Sean Paul <sean@poorly.run>,
+ linux-arm-kernel@lists.infradead.org, Purism Kernel Team <kernel@puri.sm>,
+ linux-renesas-soc@vger.kernel.org,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>
+Content-Type: multipart/mixed; boundary="===============0279673440=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgSnlyaSwKClRoYW5rIHlvdSBmb3IgdGhlIHBhdGNoLgoKT24gTW9uLCBEZWMgMDIsIDIwMTkg
-YXQgMDg6NTc6MjlQTSArMDIwMCwgSnlyaSBTYXJoYSB3cm90ZToKPiBNb3ZlIHRvIHVzZSB0aGUg
-bmV3IGRybSBwYW5lbCBzdXBwb3J0IGluIHRpbGNkYyB0b2dldGhlciB3aXRoIGFkZGVkCj4gInRm
-YyxzOTcwMHJ0d3Y0M3RyLTAxYiItcGFuZWwgc3VwcG9ydCBpbiBkcm0gcGFuZWwtc2ltcGxlLgo+
-IAo+IFNpZ25lZC1vZmYtYnk6IEp5cmkgU2FyaGEgPGpzYXJoYUB0aS5jb20+Cj4gUmV2aWV3ZWQt
-Ynk6IFRvbWkgVmFsa2VpbmVuIDx0b21pLnZhbGtlaW5lbkB0aS5jb20+Cj4gLS0tCj4gInRmYyxz
-OTcwMHJ0d3Y0M3RyLTAxYiIgaW4gcGFuZWwtc2ltcGxlIGhhcyBiZWVuIGluIGZvciBzb21lIHRp
-bWUgbm93Cj4gc28gaXQgaXMgYWJvdXQgdGltZSB0byBnZXQgdGhpcyBpbiB0b28uCj4gCj4gIGFy
-Y2gvYXJtL2Jvb3QvZHRzL2FtMzM1eC1ldm0uZHRzIHwgNDQgKysrKysrKysrKysrKy0tLS0tLS0t
-LS0tLS0tLS0tLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDE4IGluc2VydGlvbnMoKyksIDI2IGRlbGV0
-aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9hcmNoL2FybS9ib290L2R0cy9hbTMzNXgtZXZtLmR0
-cyBiL2FyY2gvYXJtL2Jvb3QvZHRzL2FtMzM1eC1ldm0uZHRzCj4gaW5kZXggYTAwMTQ1NzA1Yzli
-Li4wZTI4NmExYzljYzUgMTAwNjQ0Cj4gLS0tIGEvYXJjaC9hcm0vYm9vdC9kdHMvYW0zMzV4LWV2
-bS5kdHMKPiArKysgYi9hcmNoL2FybS9ib290L2R0cy9hbTMzNXgtZXZtLmR0cwo+IEBAIC0xMTMs
-NyArMTEzLDcgQEAKPiAgCQl9Owo+ICAJfTsKPiAgCj4gLQliYWNrbGlnaHQgewo+ICsJYmFja2xp
-Z2h0OiBiYWNrbGlnaHQgewo+ICAJCWNvbXBhdGlibGUgPSAicHdtLWJhY2tsaWdodCI7Cj4gIAkJ
-cHdtcyA9IDwmZWNhcDAgMCA1MDAwMCAwPjsKPiAgCQlicmlnaHRuZXNzLWxldmVscyA9IDwwIDUx
-IDUzIDU2IDYyIDc1IDEwMSAxNTIgMjU1PjsKPiBAQCAtMTIxLDM1ICsxMjEsMTkgQEAKPiAgCX07
-Cj4gIAo+ICAJcGFuZWwgewo+IC0JCWNvbXBhdGlibGUgPSAidGksdGlsY2RjLHBhbmVsIjsKPiAr
-CQljb21wYXRpYmxlID0gInRmYyxzOTcwMHJ0d3Y0M3RyLTAxYiI7Cj4gKwo+ICAJCXN0YXR1cyA9
-ICJva2F5IjsKCkkgdGhpbmsgdGhpcyBjYW4gYmUgZHJvcHBlZCBhcyBpdCdzIGltcGxpY2l0LgoK
-PiArCj4gIAkJcGluY3RybC1uYW1lcyA9ICJkZWZhdWx0IjsKPiAgCQlwaW5jdHJsLTAgPSA8Jmxj
-ZF9waW5zX3MwPjsKPiAtCQlwYW5lbC1pbmZvIHsKPiAtCQkJYWMtYmlhcyAgICAgICAgICAgPSA8
-MjU1PjsKPiAtCQkJYWMtYmlhcy1pbnRycHQgICAgPSA8MD47Cj4gLQkJCWRtYS1idXJzdC1zeiAg
-ICAgID0gPDE2PjsKPiAtCQkJYnBwICAgICAgICAgICAgICAgPSA8MzI+Owo+IC0JCQlmZGQgICAg
-ICAgICAgICAgICA9IDwweDgwPjsKPiAtCQkJc3luYy1lZGdlICAgICAgICAgPSA8MD47Cj4gLQkJ
-CXN5bmMtY3RybCAgICAgICAgID0gPDE+Owo+IC0JCQlyYXN0ZXItb3JkZXIgICAgICA9IDwwPjsK
-PiAtCQkJZmlmby10aCAgICAgICAgICAgPSA8MD47Cj4gLQkJfTsKPiAgCj4gLQkJZGlzcGxheS10
-aW1pbmdzIHsKPiAtCQkJODAweDQ4MHA2MiB7Cj4gLQkJCQljbG9jay1mcmVxdWVuY3kgPSA8MzAw
-MDAwMDA+Owo+IC0JCQkJaGFjdGl2ZSA9IDw4MDA+Owo+IC0JCQkJdmFjdGl2ZSA9IDw0ODA+Owo+
-IC0JCQkJaGZyb250LXBvcmNoID0gPDM5PjsKPiAtCQkJCWhiYWNrLXBvcmNoID0gPDM5PjsKPiAt
-CQkJCWhzeW5jLWxlbiA9IDw0Nz47Cj4gLQkJCQl2YmFjay1wb3JjaCA9IDwyOT47Cj4gLQkJCQl2
-ZnJvbnQtcG9yY2ggPSA8MTM+Owo+IC0JCQkJdnN5bmMtbGVuID0gPDI+Owo+IC0JCQkJaHN5bmMt
-YWN0aXZlID0gPDE+Owo+IC0JCQkJdnN5bmMtYWN0aXZlID0gPDE+Owo+ICsJCWJhY2tsaWdodCA9
-IDwmYmFja2xpZ2h0PjsKCkkgd291bGQgYWRkIGEgYmxhbmsgbGluZSBoZXJlLgoKPiArCQlwb3J0
-cyB7Cj4gKwkJCXBvcnQgewo+ICsJCQkJcGFuZWxfMDogZW5kcG9pbnRAMCB7Cj4gKwkJCQkJcmVt
-b3RlLWVuZHBvaW50ID0gPCZsY2RjXzA+Owo+ICsJCQkJfTsKPiAgCQkJfTsKPiAgCQl9OwoKVGhl
-IG91dHRlciBwb3J0cyBub2RlIGlzbid0IHJlcXVpcmVkIGlmIHRoZXJlJ3MgYSBzaW5nbGUgcG9y
-dCwgdXAgdG8KeW91LgoKPiAgCX07Cj4gQEAgLTUyNSw2ICs1MDksMTQgQEAKPiAgCXN0YXR1cyA9
-ICJva2F5IjsKPiAgCj4gIAlibHVlLWFuZC1yZWQtd2lyaW5nID0gImNyb3NzZWQiOwo+ICsKPiAr
-CXBvcnRzIHsKPiArCQlwb3J0IHsKPiArCQkJbGNkY18wOiBlbmRwb2ludEAwIHsKPiArCQkJCXJl
-bW90ZS1lbmRwb2ludCA9IDwmcGFuZWxfMD47Cj4gKwkJCX07Cj4gKwkJfTsKPiArCX07CgpTYW1l
-IGhlcmUuCgpXaXRoIHRoZSBhYm92ZSBpc3N1ZXMgYWRkcmVzc2VkIGFzIGFwcGxpY2FibGUsCgpS
-ZXZpZXdlZC1ieTogTGF1cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9h
-cmQuY29tPgoKPiAgfTsKPiAgCj4gICZlbG0gewoKLS0gClJlZ2FyZHMsCgpMYXVyZW50IFBpbmNo
-YXJ0Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0279673440==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="mbec6vlpl4zotrv3"
+Content-Disposition: inline
+
+
+--mbec6vlpl4zotrv3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi,
+
+On Mon, Dec 02, 2019 at 08:32:11PM +0100, Sam Ravnborg wrote:
+> There was no users - so remove it.
+> The callback was implemented in two drivers - deleted.
+>
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> ---
+>  drivers/gpu/drm/panel/panel-seiko-43wvf1g.c | 18 ------------------
+>  drivers/gpu/drm/panel/panel-simple.c        | 18 ------------------
+>  include/drm/drm_panel.h                     |  9 ---------
+>  3 files changed, 45 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
+> index b878930b17e4..3bcba64235c4 100644
+> --- a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
+> +++ b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
+> @@ -217,30 +217,12 @@ static int seiko_panel_get_modes(struct drm_panel *panel,
+>  	return seiko_panel_get_fixed_modes(p, connector);
+>  }
+>
+> -static int seiko_panel_get_timings(struct drm_panel *panel,
+> -				    unsigned int num_timings,
+> -				    struct display_timing *timings)
+> -{
+> -	struct seiko_panel *p = to_seiko_panel(panel);
+> -	unsigned int i;
+> -
+> -	if (p->desc->num_timings < num_timings)
+> -		num_timings = p->desc->num_timings;
+> -
+> -	if (timings)
+> -		for (i = 0; i < num_timings; i++)
+> -			timings[i] = p->desc->timings[i];
+> -
+> -	return p->desc->num_timings;
+> -}
+> -
+>  static const struct drm_panel_funcs seiko_panel_funcs = {
+>  	.disable = seiko_panel_disable,
+>  	.unprepare = seiko_panel_unprepare,
+>  	.prepare = seiko_panel_prepare,
+>  	.enable = seiko_panel_enable,
+>  	.get_modes = seiko_panel_get_modes,
+> -	.get_timings = seiko_panel_get_timings,
+>  };
+
+If anything, I think we should grow the usage of timings and / or make
+it usable by everyone.
+
+Using only the mode as we do currently has a bunch of shortcomings as
+almost no encoder will be able to provide the typical pixel clock, and
+that situation leads to multiple things:
+
+  - If someone working on one encoder wants to upstream a panel they
+    have tested, chances are this will not be the typical pixel clock
+    / timings being used but rather the one that will match what that
+    SoC is capable of. Trouble comes when a second user comes in with
+    a different encoder and different capabilities, and then we have a
+    maintainance fight over which timing is the true timing (with a
+    significant chance that none of them are).
+
+  - If we can't match the pixel clock, we currently have no easy way
+    to make the usual measures of reducing / growing the porches and
+    blankings areas to match the pixel clock we can provide, since we
+    don't have an easy way to get the tolerance on those timings for a
+    given panel. There's some ad hoc solutions on some drivers (I
+    think vc4 has that?) to ignore the panel and just play around with
+    the timings, but I think this should be generalised.
+
+Timings solves the first case since we have the operating range now
+and not a single set of timings, and it solves the second since we can
+use that range to take those measures instead of taking a shot in the
+dark.
+
+I appreciate that it's pretty far from where we are today, but
+removing the get_timings means that all the timings already defined in
+the panel drivers are becoming useless too, and that eventually it
+will get removed.
+
+Maxime
+
+--mbec6vlpl4zotrv3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXeYS8wAKCRDj7w1vZxhR
+xeBxAP9ee3FFwY4sVlAfBJhuRT34erKIih4z1areuTzVSIN+dQD/fzdVxhMZTPAY
+gvh8rpUVFlo152hrZ+11FZmcFestiwc=
+=ElRy
+-----END PGP SIGNATURE-----
+
+--mbec6vlpl4zotrv3--
+
+--===============0279673440==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0279673440==--
