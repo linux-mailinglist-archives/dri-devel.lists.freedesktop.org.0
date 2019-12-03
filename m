@@ -2,51 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9184112416
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2019 09:01:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7CB8112415
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2019 09:01:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 303256F445;
-	Wed,  4 Dec 2019 08:01:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63C876F442;
+	Wed,  4 Dec 2019 08:01:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 941E76E842
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2019 15:52:08 +0000 (UTC)
-Received: by mail-io1-f70.google.com with SMTP id x10so2745306iob.2
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Dec 2019 07:52:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
- :from:to;
- bh=qWkyIPu2o6vdgwTgEGOSkN6/EDBPIm6eU4NPNmjP8sE=;
- b=bjgsv6opZ68cQMCXAU6pwvfN8My2n53zkSFeZuvqrpCyngcKp9a0vL5Vm5CSoee6Cm
- XqKWgQ4yjROUG74xmKR3AEdpH1R0DBJpgXGEXykJQ5crQ+um6zB6vM37tK60vZVE4Eu3
- 8PzP/ZQwXh8vE+zjH+zqs+z28yABDaodzF1HA3LHmje3jB4ji2Ho0f1EHF7u1/voT8I3
- XhZqlJSkrWFbeF0aOeQYapsLKHNbirPhJB+Hox15OcKzD/gxQtFBP2+j7AsDq9yqob5G
- Y6x7x/5fuGWRvnqWtMsdj7F/Vz0gmNKHux0q6NmlLuFfxs4l2vY6QkAwDrYzrYd/kl4A
- 2LPw==
-X-Gm-Message-State: APjAAAUGo/CL/c1bahkzHv4iEPt7CrJ5tJADraaEC7Nk4VQMoi7+wAOJ
- R/uOeIHrisGzOiFGYN0D0dAjOs9G6dAiHBix/DdM7JKk+nJt
-X-Google-Smtp-Source: APXvYqxRRjmcvHXXtfC8p3VqmQ496e1KHf7+NJNVYy0YhwBf9iB2IDre8Q3CFKBUOS2QdbxjInzY+v+6Xr9pVZTGUYCg05DmeGFs
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAE316E86E
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Dec 2019 18:26:50 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: alyssa) with ESMTPSA id 2438D28FBCB
+Date: Tue, 3 Dec 2019 13:26:45 -0500
+From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH] drm/panfrost: Register devfreq cooling device
+Message-ID: <20191203182645.GA4060@kevin>
+References: <21f228099321f460d62e0ab7c77b2d2213dd4da8.1574974319.git.robin.murphy@arm.com>
 MIME-Version: 1.0
-X-Received: by 2002:a5d:8744:: with SMTP id k4mr2936669iol.227.1575388327907; 
- Tue, 03 Dec 2019 07:52:07 -0800 (PST)
-Date: Tue, 03 Dec 2019 07:52:07 -0800
-In-Reply-To: <00000000000080f1d305988bb8ba@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000ab3afd0598cead51@google.com>
-Subject: Re: BUG: unable to handle kernel paging request in
- ion_heap_clear_pages
-From: syzbot <syzbot+be6ccf3081ce8afd1b56@syzkaller.appspotmail.com>
-To: arve@android.com, christian@brauner.io, devel@driverdev.osuosl.org, 
- dja@axtens.net, dri-devel@lists.freedesktop.org, dvyukov@google.com, 
- gregkh@linuxfoundation.org, joel@joelfernandes.org, 
- kasan-dev@googlegroups.com, labbott@redhat.com, 
- linaro-mm-sig-owner@lists.linaro.org, linaro-mm-sig@lists.linaro.org, 
- linux-kernel@vger.kernel.org, maco@android.com, sumit.semwal@linaro.org, 
- syzkaller-bugs@googlegroups.com, tkjos@android.com
+In-Reply-To: <21f228099321f460d62e0ab7c77b2d2213dd4da8.1574974319.git.robin.murphy@arm.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-Mailman-Approved-At: Wed, 04 Dec 2019 08:01:16 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -60,87 +37,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"; DelSp="yes"
+Cc: dri-devel@lists.freedesktop.org, tomeu.vizoso@collabora.com,
+ steven.price@arm.com
+Content-Type: multipart/mixed; boundary="===============2104234632=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-c3l6Ym90IGhhcyBmb3VuZCBhIHJlcHJvZHVjZXIgZm9yIHRoZSBmb2xsb3dpbmcgY3Jhc2ggb246
-CgpIRUFEIGNvbW1pdDogICAgNzZiYjhiMDUgTWVyZ2UgdGFnICdrYnVpbGQtdjUuNScgb2YgZ2l0
-Oi8vZ2l0Lmtlcm5lbC5vcmcvcC4uCmdpdCB0cmVlOiAgICAgICB1cHN0cmVhbQpjb25zb2xlIG91
-dHB1dDogaHR0cHM6Ly9zeXprYWxsZXIuYXBwc3BvdC5jb20veC9sb2cudHh0P3g9MTU5ZDBmMzZl
-MDAwMDAKa2VybmVsIGNvbmZpZzogIGh0dHBzOi8vc3l6a2FsbGVyLmFwcHNwb3QuY29tL3gvLmNv
-bmZpZz94PWRkMjI2NjUxY2IwZjM2NGIKZGFzaGJvYXJkIGxpbms6IGh0dHBzOi8vc3l6a2FsbGVy
-LmFwcHNwb3QuY29tL2J1Zz9leHRpZD1iZTZjY2YzMDgxY2U4YWZkMWI1Ngpjb21waWxlcjogICAg
-ICAgZ2NjIChHQ0MpIDkuMC4wIDIwMTgxMjMxIChleHBlcmltZW50YWwpCnN5eiByZXBybzogICAg
-ICBodHRwczovL3N5emthbGxlci5hcHBzcG90LmNvbS94L3JlcHJvLnN5ej94PTE3MWY2NzdhZTAw
-MDAwCkMgcmVwcm9kdWNlcjogICBodHRwczovL3N5emthbGxlci5hcHBzcG90LmNvbS94L3JlcHJv
-LmM/eD0xMWRiNjU5Y2UwMDAwMAoKSU1QT1JUQU5UOiBpZiB5b3UgZml4IHRoZSBidWcsIHBsZWFz
-ZSBhZGQgdGhlIGZvbGxvd2luZyB0YWcgdG8gdGhlIGNvbW1pdDoKUmVwb3J0ZWQtYnk6IHN5emJv
-dCtiZTZjY2YzMDgxY2U4YWZkMWI1NkBzeXprYWxsZXIuYXBwc3BvdG1haWwuY29tCgpCVUc6IHVu
-YWJsZSB0byBoYW5kbGUgcGFnZSBmYXVsdCBmb3IgYWRkcmVzczogZmZmZmY1MjAwMDY4MDAwMAoj
-UEY6IHN1cGVydmlzb3IgcmVhZCBhY2Nlc3MgaW4ga2VybmVsIG1vZGUKI1BGOiBlcnJvcl9jb2Rl
-KDB4MDAwMCkgLSBub3QtcHJlc2VudCBwYWdlClBHRCAyMWZmZWUwNjcgUDREIDIxZmZlZTA2NyBQ
-VUQgYWE1MWMwNjcgUE1EIGE4MzcyMDY3IFBURSAwCk9vcHM6IDAwMDAgWyMxXSBQUkVFTVBUIFNN
-UCBLQVNBTgpDUFU6IDEgUElEOiAzNjY2IENvbW06IGlvbl9zeXN0ZW1faGVhcCBOb3QgdGFpbnRl
-ZCA1LjQuMC1zeXprYWxsZXIgIzAKSGFyZHdhcmUgbmFtZTogR29vZ2xlIEdvb2dsZSBDb21wdXRl
-IEVuZ2luZS9Hb29nbGUgQ29tcHV0ZSBFbmdpbmUsIEJJT1MgIApHb29nbGUgMDEvMDEvMjAxMQpS
-SVA6IDAwMTA6bWVtb3J5X2lzX25vbnplcm8gbW0va2FzYW4vZ2VuZXJpYy5jOjEyMSBbaW5saW5l
-XQpSSVA6IDAwMTA6bWVtb3J5X2lzX3BvaXNvbmVkX24gbW0va2FzYW4vZ2VuZXJpYy5jOjEzNSBb
-aW5saW5lXQpSSVA6IDAwMTA6bWVtb3J5X2lzX3BvaXNvbmVkIG1tL2thc2FuL2dlbmVyaWMuYzox
-NjYgW2lubGluZV0KUklQOiAwMDEwOmNoZWNrX21lbW9yeV9yZWdpb25faW5saW5lIG1tL2thc2Fu
-L2dlbmVyaWMuYzoxODIgW2lubGluZV0KUklQOiAwMDEwOmNoZWNrX21lbW9yeV9yZWdpb24rMHg5
-Yy8weDFhMCBtbS9rYXNhbi9nZW5lcmljLmM6MTkyCkNvZGU6IGM5IDRkIDBmIDQ5IGMxIDQ5IGMx
-IGY4IDAzIDQ1IDg1IGMwIDBmIDg0IDEwIDAxIDAwIDAwIDQxIDgzIGU4IDAxIDRlICAKOGQgNDQg
-YzAgMDggZWIgMGQgNDggODMgYzAgMDggNGMgMzkgYzAgMGYgODQgYTcgMDAgMDAgMDAgPDQ4PiA4
-MyAzOCAwMCA3NCAgCmVkIDRjIDhkIDQwIDA4IGViIDA5IDQ4IDgzIGMwIDAxIDQ5IDM5IGMwIDc0
-IDUzIDgwClJTUDogMDAxODpmZmZmYzkwMDBjZjg3YWI4IEVGTEFHUzogMDAwMTAyMTIKUkFYOiBm
-ZmZmZjUyMDAwNjgwMDAwIFJCWDogZmZmZmY1MjAwMDY4MTYwMCBSQ1g6IGZmZmZmZmZmODVkOTU2
-MjkKUkRYOiAwMDAwMDAwMDAwMDAwMDAxIFJTSTogMDAwMDAwMDAwMDAwYjAwMCBSREk6IGZmZmZj
-OTAwMDM0MDAwMDAKUkJQOiBmZmZmYzkwMDBjZjg3YWQwIFIwODogZmZmZmY1MjAwMDY4MTYwMCBS
-MDk6IDAwMDAwMDAwMDAwMDE2MDAKUjEwOiBmZmZmZjUyMDAwNjgxNWZmIFIxMTogZmZmZmM5MDAw
-MzQwYWZmZiBSMTI6IGZmZmZmNTIwMDA2ODAwMDAKUjEzOiAwMDAwMDAwMDAwMDBiMDAwIFIxNDog
-MDAwMDAwMDAwMDAwMDAwMCBSMTU6IGZmZmZjOTAwMGNmODdkMDgKRlM6ICAwMDAwMDAwMDAwMDAw
-MDAwKDAwMDApIEdTOmZmZmY4ODgwYWU5MDAwMDAoMDAwMCkga25sR1M6MDAwMDAwMDAwMDAwMDAw
-MApDUzogIDAwMTAgRFM6IDAwMDAgRVM6IDAwMDAgQ1IwOiAwMDAwMDAwMDgwMDUwMDMzCkNSMjog
-ZmZmZmY1MjAwMDY4MDAwMCBDUjM6IDAwMDAwMDAwYTY3NTUwMDAgQ1I0OiAwMDAwMDAwMDAwMTQw
-NmUwCkRSMDogMDAwMDAwMDAwMDAwMDAwMCBEUjE6IDAwMDAwMDAwMDAwMDAwMDAgRFIyOiAwMDAw
-MDAwMDAwMDAwMDAwCkRSMzogMDAwMDAwMDAwMDAwMDAwMCBEUjY6IDAwMDAwMDAwZmZmZTBmZjAg
-RFI3OiAwMDAwMDAwMDAwMDAwNDAwCkNhbGwgVHJhY2U6CiAgbWVtc2V0KzB4MjQvMHg0MCBtbS9r
-YXNhbi9jb21tb24uYzoxMDcKICBtZW1zZXQgaW5jbHVkZS9saW51eC9zdHJpbmcuaDozNjUgW2lu
-bGluZV0KICBpb25faGVhcF9jbGVhcl9wYWdlcysweDQ5LzB4NzAgZHJpdmVycy9zdGFnaW5nL2Fu
-ZHJvaWQvaW9uL2lvbl9oZWFwLmM6MTA2CiAgaW9uX2hlYXBfc2dsaXN0X3plcm8rMHgyNDUvMHgy
-NzAgZHJpdmVycy9zdGFnaW5nL2FuZHJvaWQvaW9uL2lvbl9oZWFwLmM6MTMwCiAgaW9uX2hlYXBf
-YnVmZmVyX3plcm8rMHhmNS8weDE1MCBkcml2ZXJzL3N0YWdpbmcvYW5kcm9pZC9pb24vaW9uX2hl
-YXAuYzoxNDUKICBpb25fc3lzdGVtX2hlYXBfZnJlZSsweDFlYi8weDI1MCAgCmRyaXZlcnMvc3Rh
-Z2luZy9hbmRyb2lkL2lvbi9pb25fc3lzdGVtX2hlYXAuYzoxNjMKICBpb25fYnVmZmVyX2Rlc3Ry
-b3krMHgxNTkvMHgyZDAgZHJpdmVycy9zdGFnaW5nL2FuZHJvaWQvaW9uL2lvbi5jOjkzCiAgaW9u
-X2hlYXBfZGVmZXJyZWRfZnJlZSsweDI5ZC8weDYzMCAgCmRyaXZlcnMvc3RhZ2luZy9hbmRyb2lk
-L2lvbi9pb25faGVhcC5jOjIzOQogIGt0aHJlYWQrMHgzNjEvMHg0MzAga2VybmVsL2t0aHJlYWQu
-YzoyNTUKICByZXRfZnJvbV9mb3JrKzB4MjQvMHgzMCBhcmNoL3g4Ni9lbnRyeS9lbnRyeV82NC5T
-OjM1MgpNb2R1bGVzIGxpbmtlZCBpbjoKQ1IyOiBmZmZmZjUyMDAwNjgwMDAwCi0tLVsgZW5kIHRy
-YWNlIDZkMGUyNjY2MmM0ODI5NmEgXS0tLQpSSVA6IDAwMTA6bWVtb3J5X2lzX25vbnplcm8gbW0v
-a2FzYW4vZ2VuZXJpYy5jOjEyMSBbaW5saW5lXQpSSVA6IDAwMTA6bWVtb3J5X2lzX3BvaXNvbmVk
-X24gbW0va2FzYW4vZ2VuZXJpYy5jOjEzNSBbaW5saW5lXQpSSVA6IDAwMTA6bWVtb3J5X2lzX3Bv
-aXNvbmVkIG1tL2thc2FuL2dlbmVyaWMuYzoxNjYgW2lubGluZV0KUklQOiAwMDEwOmNoZWNrX21l
-bW9yeV9yZWdpb25faW5saW5lIG1tL2thc2FuL2dlbmVyaWMuYzoxODIgW2lubGluZV0KUklQOiAw
-MDEwOmNoZWNrX21lbW9yeV9yZWdpb24rMHg5Yy8weDFhMCBtbS9rYXNhbi9nZW5lcmljLmM6MTky
-CkNvZGU6IGM5IDRkIDBmIDQ5IGMxIDQ5IGMxIGY4IDAzIDQ1IDg1IGMwIDBmIDg0IDEwIDAxIDAw
-IDAwIDQxIDgzIGU4IDAxIDRlICAKOGQgNDQgYzAgMDggZWIgMGQgNDggODMgYzAgMDggNGMgMzkg
-YzAgMGYgODQgYTcgMDAgMDAgMDAgPDQ4PiA4MyAzOCAwMCA3NCAgCmVkIDRjIDhkIDQwIDA4IGVi
-IDA5IDQ4IDgzIGMwIDAxIDQ5IDM5IGMwIDc0IDUzIDgwClJTUDogMDAxODpmZmZmYzkwMDBjZjg3
-YWI4IEVGTEFHUzogMDAwMTAyMTIKUkFYOiBmZmZmZjUyMDAwNjgwMDAwIFJCWDogZmZmZmY1MjAw
-MDY4MTYwMCBSQ1g6IGZmZmZmZmZmODVkOTU2MjkKUkRYOiAwMDAwMDAwMDAwMDAwMDAxIFJTSTog
-MDAwMDAwMDAwMDAwYjAwMCBSREk6IGZmZmZjOTAwMDM0MDAwMDAKUkJQOiBmZmZmYzkwMDBjZjg3
-YWQwIFIwODogZmZmZmY1MjAwMDY4MTYwMCBSMDk6IDAwMDAwMDAwMDAwMDE2MDAKUjEwOiBmZmZm
-ZjUyMDAwNjgxNWZmIFIxMTogZmZmZmM5MDAwMzQwYWZmZiBSMTI6IGZmZmZmNTIwMDA2ODAwMDAK
-UjEzOiAwMDAwMDAwMDAwMDBiMDAwIFIxNDogMDAwMDAwMDAwMDAwMDAwMCBSMTU6IGZmZmZjOTAw
-MGNmODdkMDgKRlM6ICAwMDAwMDAwMDAwMDAwMDAwKDAwMDApIEdTOmZmZmY4ODgwYWU5MDAwMDAo
-MDAwMCkga25sR1M6MDAwMDAwMDAwMDAwMDAwMApDUzogIDAwMTAgRFM6IDAwMDAgRVM6IDAwMDAg
-Q1IwOiAwMDAwMDAwMDgwMDUwMDMzCkNSMjogZmZmZmY1MjAwMDY4MDAwMCBDUjM6IDAwMDAwMDAw
-YTY3NTUwMDAgQ1I0OiAwMDAwMDAwMDAwMTQwNmUwCkRSMDogMDAwMDAwMDAwMDAwMDAwMCBEUjE6
-IDAwMDAwMDAwMDAwMDAwMDAgRFIyOiAwMDAwMDAwMDAwMDAwMDAwCkRSMzogMDAwMDAwMDAwMDAw
-MDAwMCBEUjY6IDAwMDAwMDAwZmZmZTBmZjAgRFI3OiAwMDAwMDAwMDAwMDAwNDAwCgpfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
-ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
-ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============2104234632==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="MGYHOYXEY6WxJCY8"
+Content-Disposition: inline
+
+
+--MGYHOYXEY6WxJCY8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Not sure if this was already pushed but:
+
+	Acked-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+
+On Thu, Nov 28, 2019 at 08:54:27PM +0000, Robin Murphy wrote:
+> When we have devfreq, also try to register a basic cooling device in
+> case GPU workloads manage to hit thermal throttling thresholds.
+>=20
+> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_devfreq.c | 32 ++++++++++++++-------
+>  1 file changed, 21 insertions(+), 11 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/dr=
+m/panfrost/panfrost_devfreq.c
+> index 4c4e8a30a1ac..fe8ee77c96e4 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> @@ -1,6 +1,7 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>  /* Copyright 2019 Collabora ltd. */
+>  #include <linux/devfreq.h>
+> +#include <linux/devfreq_cooling.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_opp.h>
+>  #include <linux/clk.h>
+> @@ -81,8 +82,11 @@ int panfrost_devfreq_init(struct panfrost_device *pfde=
+v)
+>  	int ret;
+>  	struct dev_pm_opp *opp;
+>  	unsigned long cur_freq;
+> +	struct device *dev =3D &pfdev->pdev->dev;
+> +	struct devfreq *devfreq;
+> +	struct thermal_cooling_device *cooling;
+> =20
+> -	ret =3D dev_pm_opp_of_add_table(&pfdev->pdev->dev);
+> +	ret =3D dev_pm_opp_of_add_table(dev);
+>  	if (ret =3D=3D -ENODEV) /* Optional, continue without devfreq */
+>  		return 0;
+>  	else if (ret)
+> @@ -92,29 +96,35 @@ int panfrost_devfreq_init(struct panfrost_device *pfd=
+ev)
+> =20
+>  	cur_freq =3D clk_get_rate(pfdev->clock);
+> =20
+> -	opp =3D devfreq_recommended_opp(&pfdev->pdev->dev, &cur_freq, 0);
+> +	opp =3D devfreq_recommended_opp(dev, &cur_freq, 0);
+>  	if (IS_ERR(opp))
+>  		return PTR_ERR(opp);
+> =20
+>  	panfrost_devfreq_profile.initial_freq =3D cur_freq;
+>  	dev_pm_opp_put(opp);
+> =20
+> -	pfdev->devfreq.devfreq =3D devm_devfreq_add_device(&pfdev->pdev->dev,
+> -			&panfrost_devfreq_profile, DEVFREQ_GOV_SIMPLE_ONDEMAND,
+> -			NULL);
+> -	if (IS_ERR(pfdev->devfreq.devfreq)) {
+> -		DRM_DEV_ERROR(&pfdev->pdev->dev, "Couldn't initialize GPU devfreq\n");
+> -		ret =3D PTR_ERR(pfdev->devfreq.devfreq);
+> -		pfdev->devfreq.devfreq =3D NULL;
+> -		dev_pm_opp_of_remove_table(&pfdev->pdev->dev);
+> -		return ret;
+> +	devfreq =3D devm_devfreq_add_device(dev, &panfrost_devfreq_profile,
+> +					  DEVFREQ_GOV_SIMPLE_ONDEMAND, NULL);
+> +	if (IS_ERR(devfreq)) {
+> +		DRM_DEV_ERROR(dev, "Couldn't initialize GPU devfreq\n");
+> +		dev_pm_opp_of_remove_table(dev);
+> +		return PTR_ERR(devfreq);
+>  	}
+> +	pfdev->devfreq.devfreq =3D devfreq;
+> +
+> +	cooling =3D of_devfreq_cooling_register(dev->of_node, devfreq);
+> +	if (IS_ERR(cooling))
+> +		DRM_DEV_INFO(dev, "Failed to register cooling device\n");
+> +	else
+> +		pfdev->devfreq.cooling =3D cooling;
+> =20
+>  	return 0;
+>  }
+> =20
+>  void panfrost_devfreq_fini(struct panfrost_device *pfdev)
+>  {
+> +	if (pfdev->devfreq.cooling)
+> +		devfreq_cooling_unregister(pfdev->devfreq.cooling);
+>  	dev_pm_opp_of_remove_table(&pfdev->pdev->dev);
+>  }
+> =20
+> --=20
+> 2.17.1
+>=20
+
+--MGYHOYXEY6WxJCY8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEQ17gm7CvANAdqvY4/v5QWgr1WA0FAl3mqOAACgkQ/v5QWgr1
+WA3Mag/+McdSCrM1Uw+sbIOKo1SnS4HJ1rDMOXoPToi9Q/gLTB4Ysh75238ho0ao
+8opJgjB5dwl/JfcwNYgsh6Lk6z0KR7DFVbhq9rAteHJZJht0F3WGJ7Nwy37zrjED
+XkZGVhyh9RjmwoNYWwHfOFHwi95SQpNGHQRVb7srYcDwUyu1UBYla/Ko5TVPGtHB
+zHz/Vk39SqYVVmp8iMyjWmHdJwRPYXHI/cBfBSnp/tsgNmMmSK/4mQWtscUAqyOB
+9KsyYQCjsrDjctZ7WExVP3WNlpnJGjBXgPJfFNWnPaPGiQ3lTPcs4SDVS+B2Flf3
+yXZQQhSRFCsZMjOcgEyXqh3CnBI2cV9D9EgoLRLWMNmykaYewwo+3xhNNVhdhNOX
+xPohOLRDc8N6XceYtfDqdjUD2DiytP8qBOk8PflQvZWM07gnBfiQrtb2aJmAsxan
+a+oRMCqs482W2FnAyjek93YazCqtSTskNBe9cJaMyfn5j2QMJyUByvsjN1WKYahD
+gPrngJaD0qZ37VkBL0tgDhRoiX8a5cXsLChcq0Aw0vLYsPWruOWnS3Y/rcxsbFip
+QnNBz7J7d4LX05olo13HjgfCB1EWTz0MlyuZxwNeHJuyjyIr3/0+EIn/nWic5Q1Z
+FkcyEsn8opKBu6iHoqd9YKZLTJ+2H7OC0hCFrumHIbCJ1Q69BFw=
+=kXGT
+-----END PGP SIGNATURE-----
+
+--MGYHOYXEY6WxJCY8--
+
+--===============2104234632==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2104234632==--
