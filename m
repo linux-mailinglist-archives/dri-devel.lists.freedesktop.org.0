@@ -2,69 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49C1A112E96
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2019 16:36:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 588B7112F07
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2019 16:54:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 373E56E919;
-	Wed,  4 Dec 2019 15:36:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D910F6E91D;
+	Wed,  4 Dec 2019 15:54:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pio-pvt-msa2.bahnhof.se (pio-pvt-msa2.bahnhof.se [79.136.2.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 039566E919
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2019 15:36:44 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTP id 31F713F390;
- Wed,  4 Dec 2019 16:36:43 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
- autolearn=ham autolearn_force=no
-Received: from pio-pvt-msa2.bahnhof.se ([127.0.0.1])
- by localhost (pio-pvt-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id JTceQxKzietN; Wed,  4 Dec 2019 16:36:42 +0100 (CET)
-Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
- [155.4.205.35]) (Authenticated sender: mb878879)
- by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id 0740A3F413;
- Wed,  4 Dec 2019 16:36:36 +0100 (CET)
-Received: from localhost.localdomain (h-205-35.A357.priv.bahnhof.se
- [155.4.205.35])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 11D4D360608;
- Wed,  4 Dec 2019 16:36:36 +0100 (CET)
-Subject: Re: [PATCH 6/8] drm: Add a drm_get_unmapped_area() helper
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20191203132239.5910-1-thomas_os@shipmail.org>
- <20191203132239.5910-7-thomas_os@shipmail.org>
- <e091063c-2c4a-866e-acdb-9efb1e20d737@amd.com>
- <98af5b11-1034-91fa-aa38-5730f116d1cd@shipmail.org>
- <3cc5b796-20c6-9f4c-3f62-d844f34d81b7@amd.com>
- <90a8d09a-b3ab-cd00-0cfb-1a4c72e91836@shipmail.org>
- <016a9187-1703-2d7d-0114-7fc0cbf1d121@amd.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28VMware=29?= <thomas_os@shipmail.org>
-Organization: VMware Inc.
-Message-ID: <14f319fd-e2ca-8f13-7bb8-4452f58c6c7e@shipmail.org>
-Date: Wed, 4 Dec 2019 16:36:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43BB56E91D
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2019 15:54:36 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 89FA6B06A;
+ Wed,  4 Dec 2019 15:54:34 +0000 (UTC)
+Subject: Re: [PATCH 3/7] drm/udl: Vmap framebuffer after all tests succeeded
+ in damage handling
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20191204132430.16874-1-tzimmermann@suse.de>
+ <20191204132430.16874-4-tzimmermann@suse.de>
+ <20191204142544.GA20926@ravnborg.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <8fe45822-c34a-e18c-4f01-77ea710ab8e1@suse.de>
+Date: Wed, 4 Dec 2019 16:54:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-In-Reply-To: <016a9187-1703-2d7d-0114-7fc0cbf1d121@amd.com>
-Content-Language: en-US
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=shipmail.org; s=mail; 
- t=1575473796; bh=+P2lL4Bk8IOmIyYiEAJEi2EHSZtLBY0TVxFIVaQgcJw=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=a3Sxiu0aBnFV7FZPZMCsRIPHG0lgkyWS4ulmn+2AkMNL2HcwAlL+eOHXKZKWy4AYc
- sHYuIN8rny3O1VEDgLtSXHJBMKEBr+DeLhRYl6yjuij2krolQhyGaEn4QJbQK1P56/
- 7blMjZ0b3gt5051zqvAUhaJajkzQP/WLvvJ0XMbc=
-X-Mailman-Original-Authentication-Results: pio-pvt-msa2.bahnhof.se;
- dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=a3Sxiu0a; 
- dkim-atps=neutral
+In-Reply-To: <20191204142544.GA20926@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,63 +66,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Hellstrom <thellstrom@vmware.com>, Michal Hocko <mhocko@suse.com>,
- pv-drivers@vmware.com, Ralph Campbell <rcampbell@nvidia.com>,
- "Matthew Wilcox \(Oracle\)" <willy@infradead.org>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- linux-graphics-maintainer@vmware.com,
- Andrew Morton <akpm@linux-foundation.org>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: airlied@redhat.com, kraxel@redhat.com, dri-devel@lists.freedesktop.org,
+ emil.velikov@collabora.com
+Content-Type: multipart/mixed; boundary="===============0428419101=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTIvNC8xOSAzOjQwIFBNLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+IEFtIDA0LjEyLjE5
-IHVtIDEzOjMyIHNjaHJpZWIgVGhvbWFzIEhlbGxzdHLDtm0gKFZNd2FyZSk6Cj4+IE9uIDEyLzQv
-MTkgMTowOCBQTSwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPj4+IEFtIDA0LjEyLjE5IHVtIDEy
-OjM2IHNjaHJpZWIgVGhvbWFzIEhlbGxzdHLDtm0gKFZNd2FyZSk6Cj4+Pj4gT24gMTIvNC8xOSAx
-MjoxMSBQTSwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPj4+Pj4gQW0gMDMuMTIuMTkgdW0gMTQ6
-MjIgc2NocmllYiBUaG9tYXMgSGVsbHN0csO2bSAoVk13YXJlKToKPj4+Pj4+IEZyb206IFRob21h
-cyBIZWxsc3Ryb20gPHRoZWxsc3Ryb21Adm13YXJlLmNvbT4KPj4+Pj4+Cj4+Pj4+PiBUaGlzIGhl
-bHBlciBpcyB1c2VkIHRvIGFsaWduIHVzZXItc3BhY2UgYnVmZmVyIG9iamVjdCBhZGRyZXNzZXMg
-dG8KPj4+Pj4+IGh1Z2UgcGFnZSBib3VuZGFyaWVzLCBtaW5pbWl6aW5nIHRoZSBjaGFuY2Ugb2Yg
-YWxpZ25tZW50IG1pc21hdGNoCj4+Pj4+PiBiZXR3ZWVuIHVzZXItc3BhY2UgYWRkcmVzc2VzIGFu
-ZCBwaHlzaWNhbCBhZGRyZXNzZXMuCj4+Pj4+Cj4+Pj4+IE1obSwgSSdtIHdvbmRlcmluZyBpZiB0
-aGF0IGlzIHJlYWxseSBzdWNoIGEgZ29vZCBpZGVhLgo+Pj4+Cj4+Pj4gQ291bGQgeW91IGVsYWJv
-cmF0ZT8gV2hhdCBkcmF3YmFja3MgZG8geW91IHNlZT8KPj4+Cj4+PiBNYWluIHByb2JsZW0gZm9y
-IG1lIHNlZW1zIHRvIGJlIHRoYXQgSSBkb24ndCBmdWxseSB1bmRlcnN0YW5kIHdoYXQgCj4+PiB0
-aGUgZ2V0X3VubWFwcGVkX2FyZWEgY2FsbGJhY2sgaXMgZG9pbmcuCj4+Cj4+IEl0IG1ha2VzIHN1
-cmUgdGhhdCwgaWYgdGhlcmUgaXMgYSBjaGFuY2UgdGhhdCB3ZSBjb3VsZCB1c2UgaHVnZSAKPj4g
-cGFnZS10YWJsZSBlbnRyaWVzLCB2aXJ0dWFsIGFkZHJlc3MgaHVnZSBwYWdlIGJvdW5kYXJpZXMg
-YXJlIAo+PiBwZXJmZWN0bHkgYWxpZ25lZCB0byBwaHlzaWNhbCBhZGRyZXNzIGh1Z2UgcGFnZSBi
-b3VuZGFyaWVzLCB3aGljaCBpcyAKPj4gaWYgbm90IGEgQ1BVIGhhcmR3YXJlIHJlcXVpcmVtZW50
-LCBhdCBsZWFzdCBhIGtlcm5lbCByZXF1aXJlbWVudCAKPj4gY3VycmVudGx5Lgo+Pgo+Pgo+Pj4K
-Pj4+IEZvciBleGFtcGxlIHdoeSBkbyB3ZSBuZWVkIHRvIHVzZSBkcm1fdm1hX29mZnNldF9sb29r
-dXBfbG9ja2VkKCkgdG8gCj4+PiBhZGp1c3QgdGhlIHBnb2ZmPwo+Pj4KPj4+IFRoZSBtYXBwZWQg
-b2Zmc2V0IHNob3VsZCBiZSBjb21wbGV0ZWx5IGlycmVsZXZhbnQgZm9yIGZpbmRpbmcgc29tZSAK
-Pj4+IHBpZWNlIG9mIHVzZXJzcGFjZSBhZGRyZXNzIHNwYWNlIG9yIGFtIEkgdG90YWxseSBvZmYg
-aGVyZT8KPj4KPj4KPj4gQmVjYXVzZSB0aGUgdW5tb2RpZmllZCBwZ29mZiBhc3N1bWVzIHRoYXQg
-cGh5c2ljYWwgYWRkcmVzcyBib3VuZGFyaWVzIAo+PiBhcmUgcGVyZmVjdGx5IGFsaWduZWQgd2l0
-aCBmaWxlIG9mZnNldCBib3VuZGFyaWVzLCB3aGljaCBpcyB0eXBpY2FsIAo+PiBmb3IgYWxsIG90
-aGVyIHN1YnN5c3RlbXMuCj4+Cj4+IFRoYXQncyBub3QgdHJ1ZSBmb3IgVFRNLCBob3dldmVyLCB3
-aGVyZSBhIGJ1ZmZlciBvYmplY3Qgc3RhcnQgCj4+IHBoeXNpY2FsIGFkZHJlc3MgbWF5IGJlIGh1
-Z2UgcGFnZSBhbGlnbmVkLCBidXQgdGhlIGZpbGUgb2Zmc2V0IGlzIAo+PiBhbHdheXMgcGFnZSBh
-bGlnbmVkLiBXZSBjb3VsZCBvZiBjb3Vyc2UgY2hhbmdlIHRoYXQgdG8gYWxpZ24gYWxzbyAKPj4g
-ZmlsZSBvZmZzZXRzIHRvIGh1Z2UgcGFnZSBzaXplIGJvdW5kYXJpZXMsIGJ1dCB3aXRoIHRoZSBh
-Ym92ZSAKPj4gYWRqdXN0bWVudCwgdGhhdCdzIG5vdCBuZWVkZWQuIEkgb3B0ZWQgZm9yIHRoZSBh
-ZGp1c3RtZW50Lgo+Cj4gSSB3b3VsZCBvcHQgZm9yIGFsaWduaW5nIHRoZSBmaWxlIG9mZnNldHMg
-aW5zdGVhZC4KClllcyBidXQgdGhhdCBhZGRzIGFkZGl0aW9uYWwgY29tcGxleGl0eSBhbmQgY29u
-c2lkZXJhdGlvbnMgd2hpY2ggbWFkZSBtZSAKdGhpbmsgdGhhdCBsb29rdXAgd2FzIHRoZSBieSBm
-YXIgc2ltcGxlc3QgY2hvaWNlOgoKLSBXZSBuZWVkIHRvIG1vZGlmeSB0aGUgdm1hIG1hbmFnZXIg
-dG8gY2FyZSBhYm91dCBhbGlnbm1lbnRzLgotIEZyYWdtZW50YXRpb24gaXNzdWVzLiBEbyB3ZSB3
-YW50IHRvIGFsaWduID4gMUcgQk9zCi0gRm9yIHdoaWNoIGRyaXZlcnMgZG8gd2Ugd2FudCB0byBk
-byB0aGlzLCBob3cgZG8gd2UgaGFuZGxlIGRyaXZlcnMgdGhhdCAKd2FudCB0byBvcHQgb3V0IGlu
-IFRUTSBtbWFwKCk/Ci0gTm9uIFRUTSBkcml2ZXJzLiBDb3VsZCB0aGV5IHN0aWxsIHJldXNlIHRo
-ZSBzYW1lIGdldF91bm1hcHBlZF9hcmVhLgoKPgo+IE5vdyB0aGF0IHlvdSBleHBsYWluZWQgaXQg
-dGhhdCB0aGUgcmVzdCBvZiB0aGUga2VybmVsIGVuZm9yY2VzIHRoaXMgCj4gYWN0dWFsbHkgbWFr
-ZXMgc2Vuc2UuCgpTbyBpcyB0aGF0IGFuIGFjaz8KCgpUaGFua3MsCgpUaG9tYXMKCgoKPgo+IFJl
-Z2FyZHMsCj4gQ2hyaXN0aWFuLgo+Cj4+Cj4+IFRoYW5rcywKPj4KPj4gVGhvbWFzCj4+Cj4+Cgpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0428419101==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="6TEL3EZ5dILgVdkFb9mmNyTXMVhDGQeaq"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--6TEL3EZ5dILgVdkFb9mmNyTXMVhDGQeaq
+Content-Type: multipart/mixed; boundary="2GPMINAdsBrsFDuDq5a8TbIvIScwncUMV";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: dri-devel@lists.freedesktop.org, kraxel@redhat.com, airlied@redhat.com,
+ emil.velikov@collabora.com
+Message-ID: <8fe45822-c34a-e18c-4f01-77ea710ab8e1@suse.de>
+Subject: Re: [PATCH 3/7] drm/udl: Vmap framebuffer after all tests succeeded
+ in damage handling
+References: <20191204132430.16874-1-tzimmermann@suse.de>
+ <20191204132430.16874-4-tzimmermann@suse.de>
+ <20191204142544.GA20926@ravnborg.org>
+In-Reply-To: <20191204142544.GA20926@ravnborg.org>
+
+--2GPMINAdsBrsFDuDq5a8TbIvIScwncUMV
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi Sam
+
+Am 04.12.19 um 15:25 schrieb Sam Ravnborg:
+> Hi Thomas.
+>=20
+> I did a casual browse of the patches.
+> Looks like some nice cleanup.
+>=20
+> On Wed, Dec 04, 2019 at 02:24:26PM +0100, Thomas Zimmermann wrote:
+>> We now do the fast tests before the potentially expensive vmap operati=
+on.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>  drivers/gpu/drm/udl/udl_fb.c       | 19 +++++++------------
+>>  drivers/gpu/drm/udl/udl_transfer.c |  1 -
+>>  2 files changed, 7 insertions(+), 13 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/udl/udl_fb.c b/drivers/gpu/drm/udl/udl_fb=
+=2Ec
+>> index ed6d9476b25b..dd7ba7f63214 100644
+>> --- a/drivers/gpu/drm/udl/udl_fb.c
+>> +++ b/drivers/gpu/drm/udl/udl_fb.c
+>> @@ -85,12 +85,6 @@ int udl_handle_damage(struct drm_framebuffer *fb, i=
+nt x, int y,
+>>  	}
+>>  	spin_unlock(&udl->active_fb_16_lock);
+>> =20
+>> -	vaddr =3D drm_gem_shmem_vmap(fb->obj[0]);
+>> -	if (IS_ERR(vaddr)) {
+>> -		DRM_ERROR("failed to vmap fb\n");
+>> -		return 0;
+>> -	}
+>> -
+>>  	aligned_x =3D DL_ALIGN_DOWN(x, sizeof(unsigned long));
+>>  	width =3D DL_ALIGN_UP(width + (x-aligned_x), sizeof(unsigned long));=
+
+>>  	x =3D aligned_x;
+>> @@ -98,8 +92,13 @@ int udl_handle_damage(struct drm_framebuffer *fb, i=
+nt x, int y,
+>>  	if ((width <=3D 0) ||
+>>  	    (x + width > fb->width) ||
+>>  	    (y + height > fb->height)) {
+>> -		ret =3D -EINVAL;
+>> -		goto err_drm_gem_shmem_vunmap;
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	vaddr =3D drm_gem_shmem_vmap(fb->obj[0]);
+>> +	if (IS_ERR(vaddr)) {
+>> +		DRM_ERROR("failed to vmap fb\n");
+>> +		return 0;
+>>  	}
+>> =20
+>>  	urb =3D udl_get_urb(dev);
+>> @@ -131,10 +130,6 @@ int udl_handle_damage(struct drm_framebuffer *fb,=
+ int x, int y,
+>>  	drm_gem_shmem_vunmap(fb->obj[0], vaddr);
+>> =20
+>>  	return 0;
+>> -
+>> -err_drm_gem_shmem_vunmap:
+>> -	drm_gem_shmem_vunmap(fb->obj[0], vaddr);
+>> -	return ret;
+> This label is reintroduced two patches later.
+> Is this on purpose it is gone and reintroduced?
+
+This label is for rollback during error handling. The label in [6/7] is
+called out_drm_gem_shmem_vunmap and it's part of the regular flow.
+
+Admittedly, it's a bit unfortunate. OTOH the alternative is to add
+dma-buf calls before moving around the vmap call. That seems like the
+worse option.
+
+Best regards
+Thomas
+
+>=20
+> 	Sam
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--2GPMINAdsBrsFDuDq5a8TbIvIScwncUMV--
+
+--6TEL3EZ5dILgVdkFb9mmNyTXMVhDGQeaq
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl3n1rYACgkQaA3BHVML
+eiPgdQgAmwonE3RR6p/qfc9Y7WT8MtDwn6+6YZ/77oSWUSqvtILKSfeOz7pVRZ0+
+OZvF5SZlPNi5t621TV5n1o+f7iB6eseq9MFcUgACkvKj83tzxcWPXuW6kmT8WgOo
+ubzGM6kLoUeoGW0egV0aOG56EUYJmBHFUQGCNTfZ8HEsrkAxZr6c9Q2qWIdXc1bb
+jYa6ZlQLcXkh8u41z5cXWozffQ495Rcz/eWYt0LsCs1qpYTiNy407I9x8J4TRD9q
+gH+ePU4oNYmzz8lck6UcHxyKmuU8VlsNOsZBGjV1WFhhdAhTHquTzmfvdnyem4ax
+Culpe5Ds9ZmOwC3LvV12jpzyGJSlQg==
+=OMNi
+-----END PGP SIGNATURE-----
+
+--6TEL3EZ5dILgVdkFb9mmNyTXMVhDGQeaq--
+
+--===============0428419101==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0428419101==--
