@@ -1,46 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40C5D114D6F
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2019 09:18:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50608114D68
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2019 09:18:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6215F6F983;
-	Fri,  6 Dec 2019 08:17:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 367A16F974;
+	Fri,  6 Dec 2019 08:17:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E7C46F881
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2019 10:42:10 +0000 (UTC)
-Received: from fsav304.sakura.ne.jp (fsav304.sakura.ne.jp [153.120.85.135])
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id xB5AfI4B052654;
- Thu, 5 Dec 2019 19:41:18 +0900 (JST)
- (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav304.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav304.sakura.ne.jp);
- Thu, 05 Dec 2019 19:41:18 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav304.sakura.ne.jp)
-Received: from [192.168.1.9] (softbank126040062084.bbtec.net [126.40.62.84])
- (authenticated bits=0)
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id xB5AfHTe052651
- (version=TLSv1.2 cipher=AES256-SHA bits=256 verify=NO);
- Thu, 5 Dec 2019 19:41:18 +0900 (JST)
- (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Subject: Re: KASAN: slab-out-of-bounds Read in fbcon_get_font
-To: Paolo Bonzini <pbonzini@redhat.com>, Dmitry Vyukov <dvyukov@google.com>
+Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com
+ [IPv6:2607:f8b0:4864:20::f42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2F276E056
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2019 11:27:48 +0000 (UTC)
+Received: by mail-qv1-xf42.google.com with SMTP id t7so1135861qve.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Dec 2019 03:27:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RN4UxK4XX/wD+FOSD/QSslR64zPY0NoSPi7sfqEDTcg=;
+ b=tmsdWJ1K6lqN937Nq18LP+xTwd3N0pCdcJ5C/7CA65rIqDoMMaiaa6uG2Rbk6ux0yf
+ CYDRTXqWbzVXT5ARbrpMxlVvS2fers5qnY5M8fxOqGHZGDtTMybCaeHNry9wOU8nKkZ1
+ qBuqtjO50W+c2JFZwB85xrC1VRrrIcC1prZgnJKMcLuoBi4R8VVP1n9PWNXKwd4COlOe
+ q/taS/o4aPyYCtroP2nkYxN7JqZUiEgDfNJ1jObGwU2OZvwmDYknCu7JKt2Rsk+oogJ6
+ NahJOxSlRclCirWCX4PoHqhkDLWYFrWWlrTCQa9mbB5r4g7Wbgm/x5dOWyVh2FHg55MA
+ ebdQ==
+X-Gm-Message-State: APjAAAWvb0DpFHFBsRFoaefkpHurO1JTJaUODRxD1S29FkgVZbRGmMOj
+ wPaclnnwnbscHVfdmqOlLnkY1dpFwYmNfDxM9MiGNQ==
+X-Google-Smtp-Source: APXvYqxH9YNJe5L8BxMqoB1aZ+mLyrbeKewaHX+sfn84IGKLFUtHvCbxNr7Nz7Mt9VNZMqmAAHeTZG/lcpsKaNbOTFE=
+X-Received: by 2002:a0c:f8d1:: with SMTP id h17mr7099085qvo.80.1575545267533; 
+ Thu, 05 Dec 2019 03:27:47 -0800 (PST)
+MIME-Version: 1.0
 References: <0000000000003e640e0598e7abc3@google.com>
  <41c082f5-5d22-d398-3bdd-3f4bf69d7ea3@redhat.com>
  <CACT4Y+bCHOCLYF+TW062n8+tqfK9vizaRvyjUXNPdneciq0Ahg@mail.gmail.com>
  <f4db22f2-53a3-68ed-0f85-9f4541530f5d@redhat.com>
-From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Message-ID: <397ad276-ee2b-3883-9ed4-b5b1a2f8cf67@i-love.sakura.ne.jp>
-Date: Thu, 5 Dec 2019 19:41:18 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
-MIME-Version: 1.0
-In-Reply-To: <f4db22f2-53a3-68ed-0f85-9f4541530f5d@redhat.com>
-Content-Language: en-US
+ <CACT4Y+ZHCmTu4tdfP+iCswU3r6+_NBM9M-pAZEypVSZ9DEq3TQ@mail.gmail.com>
+ <e03140c6-8ff5-9abb-1af6-17a5f68d1829@redhat.com>
+In-Reply-To: <e03140c6-8ff5-9abb-1af6-17a5f68d1829@redhat.com>
+From: Dmitry Vyukov <dvyukov@google.com>
+Date: Thu, 5 Dec 2019 12:27:35 +0100
+Message-ID: <CACT4Y+YopHoCFDRHCE6brnWfHb5YUsTJS1Mc+58GgO8CDEcgHQ@mail.gmail.com>
+Subject: Re: KASAN: slab-out-of-bounds Read in fbcon_get_font
+To: Paolo Bonzini <pbonzini@redhat.com>
 X-Mailman-Approved-At: Fri, 06 Dec 2019 08:17:34 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=RN4UxK4XX/wD+FOSD/QSslR64zPY0NoSPi7sfqEDTcg=;
+ b=HcygGCX60Afhxpnw9ZYlpuKkkt5wdM44SN/KOzDuDxVXQAJYVla5vHk6t3E4umUT94
+ WY3Uy/DUPWgjn0jDpNuvlQTfbRf6E7c08Qp9KQdy8d9VELeRNDHm65ZdVHDB3uZSyxM7
+ eHufFLkzIjwZBrX6+UXDf4ik+qPNtMwBIdCqJDm4sA2uNoBYHBhVnpbaMdg/VJS1UEn8
+ AM0jTK3oFUhIZANAHf2pmaFrBnf0iz7jtAqeryjk6H+rOQm8s1DrQnC4hXGmy2QVdwbA
+ KebmWYKIj3F0ms5Jw0G2v2v3JX7QX7bocZ4OdEkrQzuV2CoGugRaRRbvp9/fH59JF56p
+ S+Zw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,10 +69,11 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- KVM list <kvm@vger.kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- "H. Peter Anvin" <hpa@zytor.com>, DRI <dri-devel@lists.freedesktop.org>,
- ghalat@redhat.com, Russell Currey <ruscur@russell.cc>,
- Sam Ravnborg <sam@ravnborg.org>,
+ KVM list <kvm@vger.kernel.org>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, "H. Peter Anvin" <hpa@zytor.com>,
+ DRI <dri-devel@lists.freedesktop.org>, ghalat@redhat.com,
+ Russell Currey <ruscur@russell.cc>, Sam Ravnborg <sam@ravnborg.org>,
  syzbot <syzbot+4455ca3b3291de891abc@syzkaller.appspotmail.com>,
  Kentaro Takeda <takedakn@nttdata.co.jp>, stewart@linux.vnet.ibm.com,
  Daniel Thompson <daniel.thompson@linaro.org>,
@@ -76,21 +92,34 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAxOS8xMi8wNSAxOToyMiwgUGFvbG8gQm9uemluaSB3cm90ZToKPiBBaCwgYW5kIGJlY2F1
-c2UgdGhlIG1hY2hpbmUgaXMgYSBLVk0gZ3Vlc3QsIGt2bV93YWl0IGFwcGVhcnMgaW4gYSBsb3Qg
-b2YKPiBiYWNrdHJhY2UgYW5kIEkgZ2V0IHRvIHNoYXJlIHN5emthbGxlcidzIGpveSBldmVyeSB0
-aW1lLiA6KQo+IAo+IFRoaXMgYmlzZWN0IHJlc3VsdCBpcyBib2d1cywgdGhvdWdoIFRldHN1byBm
-b3VuZCB0aGUgYnVnIGFueXdheS4KPiBQZXJoYXBzIHlvdSBjYW4gZXhjbHVkZSBjb21taXRzIHRo
-YXQgb25seSB0b3VjaCBhcmNoaXRlY3R1cmVzIG90aGVyIHRoYW4KPiB4ODY/Cj4gCgpJdCB3b3Vs
-ZCBiZSBuaWNlIGlmIGNvdmVyYWdlIGZ1bmN0aW9uYWxpdHkgY2FuIGV4dHJhY3QgZmlsZW5hbWVz
-IGluIHRoZSBzb3VyY2UKY29kZSBhbmQgc3VwcGx5IHRoZSBsaXN0IG9mIGZpbGVuYW1lcyBhcyBh
-cmd1bWVudHMgZm9yIGJpc2VjdCBvcGVyYXRpb24uCgpBbHNvLCAodW5yZWxhdGVkIGJ1dCkgaXQg
-d291bGQgYmUgbmljZSBpZiB3ZSBjYW4gaGF2ZSAibWFrZSB5ZXMybW9kY29uZmlnIgp0YXJnZXQg
-d2hpY2ggY29udmVydHMgQ09ORklHX0ZPTz15IHRvIENPTkZJR19GT089bSBpZiBGT08gaXMgdHJp
-c3RhdGUuCnN5emJvdCBpcyB0ZXN0aW5nIGtlcm5lbCBjb25maWdzIGNsb3NlIHRvICJtYWtlIGFs
-bHllc2NvbmZpZyIgYnV0IEkgd2FudCB0bwpzYXZlIGtlcm5lbCByZWJ1aWxkIHRpbWUgYnkgZGlz
-YWJsaW5nIHVucmVsYXRlZCBmdW5jdGlvbmFsaXR5IHdoZW4gbWFudWFsbHkKImRlYnVnIHByaW50
-aygpaW5nIiBrZXJuZWxzLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWw=
+T24gVGh1LCBEZWMgNSwgMjAxOSBhdCAxMTo1MyBBTSBQYW9sbyBCb256aW5pIDxwYm9uemluaUBy
+ZWRoYXQuY29tPiB3cm90ZToKPgo+IE9uIDA1LzEyLzE5IDExOjMxLCBEbWl0cnkgVnl1a292IHdy
+b3RlOgo+ID4+IEFoLCBhbmQgYmVjYXVzZSB0aGUgbWFjaGluZSBpcyBhIEtWTSBndWVzdCwga3Zt
+X3dhaXQgYXBwZWFycyBpbiBhIGxvdCBvZgo+ID4+IGJhY2t0cmFjZSBhbmQgSSBnZXQgdG8gc2hh
+cmUgc3l6a2FsbGVyJ3Mgam95IGV2ZXJ5IHRpbWUuIDopCj4gPiBJIGRvbid0IHNlZSBhbnkgbWVu
+dGlvbiBvZiAia3ZtIiBpbiB0aGUgY3Jhc2ggcmVwb3J0Lgo+Cj4gSXQncyB0aGVyZSBpbiB0aGUg
+c3RhY2sgdHJhY2UsIG5vdCBzdXJlIGlmIHRoaXMgaXMgd2hhdCB0cmlnZ2VyZWQgbXkgQ2M6Cj4K
+PiAgWzxmZmZmZmZmZjgxMGM3YzNhPl0ga3ZtX3dhaXQrMHhjYS8weGUwIGFyY2gveDg2L2tlcm5l
+bC9rdm0uYzo2MTIKPgo+IFBhb2xvCgoKT2gsIHlvdSBtZWFuIHRoZSBmaW5hbCBiaXNlY3Rpb24g
+Y3Jhc2guIEluZGVlZCBpdCBjb250YWlucyBhIGt2bSBmcmFtZQphbmQgaXQgdHVybnMgb3V0IHRv
+IGJlIGEgYnVnIGluIHN5emthbGxlciBjb2RlIHRoYXQgaW5kZWVkCm1pc2F0dHJpYnV0ZWQgaXQg
+dG8ga3ZtIGluc3RlYWQgb2YgbmV0ZmlsdGVyLgpTaG91bGQgYmUgZml4ZWQgbm93LCB5b3UgbWF5
+IHJlYWQgdGhlIGNvbW1pdCBtZXNzYWdlIGZvciBkZXRhaWxzOgpodHRwczovL2dpdGh1Yi5jb20v
+Z29vZ2xlL3N5emthbGxlci9jb21taXQvNGZiNzQ0NzRjZjBhZjIxMjZiZTNhODk4OWQ3NzBjMzk0
+N2FlOTQ3OAoKT3ZlcmFsbCB0aGlzICJtYWtpbmcgc2Vuc2Ugb3V0IG9mIGtlcm5lbCBvdXRwdXQi
+IHRhc2sgaXMgdGhlIHVsdGltYXRlCmluc2FuaXR5LCB5b3UgbWF5IHNraW0gdGhyb3VnaCB0aGlz
+IGZpbGUgdG8gZ2V0IGEgdGFzdGUgb2YgYW1vdW50IG9mCmhhcmRjb2RpbmcgYW5kIHNwZWNpYWwg
+Y29ybmVyIGNhc2VzIHRoYXQgbmVlZCB0byBiZSBoYW5kbGVkOgpodHRwczovL2dpdGh1Yi5jb20v
+Z29vZ2xlL3N5emthbGxlci9ibG9iL21hc3Rlci9wa2cvcmVwb3J0L2xpbnV4LmdvCkFuZCB0aGlz
+IGlzIG5ldmVyIGRvbmUsIHN1Y2ggImV4Y2VwdGlvbiBmcm9tIGV4Y2VwdGlvbiBjb3JuZXIgY2Fz
+ZSIKdGhpbmdzIHBvcCB1cCBldmVyeSB3ZWVrLiBUaGVyZSBpcyBhbHdheXMgc29tZXRoaW5nIHRv
+IHNodWZmbGUgYW5kCnR1bmUuIEl0IG9ubHkga2VlcHMgZnVuY3Rpb25pbmcgZHVlIHRvIDUwMCsg
+dGVzdCBjYXNlcyBmb3IgYWxsCnBvc3NpYmxlIGluc2FuZSBrZXJuZWwgb3V0cHV0czoKaHR0cHM6
+Ly9naXRodWIuY29tL2dvb2dsZS9zeXprYWxsZXIvdHJlZS9tYXN0ZXIvcGtnL3JlcG9ydC90ZXN0
+ZGF0YS9saW51eC9yZXBvcnQKaHR0cHM6Ly9naXRodWIuY29tL2dvb2dsZS9zeXprYWxsZXIvdHJl
+ZS9tYXN0ZXIvcGtnL3JlcG9ydC90ZXN0ZGF0YS9saW51eC9ndWlsdHkKClNvIHRoYW5rcyBmb3Ig
+cGVyc2lzdGluZyBhbmQgcXVlc3Rpb25pbmchIFdlIGFyZSBnZXR0aW5nIGJldHRlciB3aXRoCmVh
+Y2ggbmV3IHRlc3QuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bA==
