@@ -1,42 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CE7D114368
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2019 16:19:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 711E5114412
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2019 16:51:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC7306E13B;
-	Thu,  5 Dec 2019 15:19:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 786666E145;
+	Thu,  5 Dec 2019 15:51:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC9086E13B
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2019 15:19:22 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 946C42E5;
- Thu,  5 Dec 2019 16:19:20 +0100 (CET)
-Date: Thu, 5 Dec 2019 17:19:12 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Michal Simek <michal.simek@xilinx.com>
-Subject: Re: [PATCH v10 4/4] arm64: dts: zynqmp: zcu106-revA: Wire up the
- DisplayPort subsystem
-Message-ID: <20191205151912.GP4734@pendragon.ideasonboard.com>
-References: <20191108175935.29766-1-laurent.pinchart@ideasonboard.com>
- <20191108175935.29766-5-laurent.pinchart@ideasonboard.com>
- <11a7c38f-8fe4-09f9-3202-d976edef6843@xilinx.com>
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 549A36E145
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2019 15:51:17 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id c9so4200357wrw.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Dec 2019 07:51:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=Hqk732DASvKhf2WML2uIRMYkZ0MH2kXngVlW9J9XbT0=;
+ b=Hd63SBcN+fRESGDXNTdbQKivARvmH8NsvHMRcGmM5xoDzLa9nx0bhEwcl2lWNpOCvq
+ yQ0SF0NTn02oS9H+3z5weyflzexYJPzvfvuG0kFF6wZveI5qfFQHoExh806HiRmV3IFm
+ OqEYX4Aj3YXJImKTtzIEcmZZ0YsiF7BRl+vXdD3N/xtDLUtsOf3w9ZtvP2t24j0GhVYI
+ 26Mn0G4D7K9fg0pusWrqVC7QTb5xkKgnfQROiwVX0jzWgHEHqFbtJJNbKpzqqPv4m2A/
+ u2Hi0R+uvBXHriU04G9pg3aEYsfkRpNH1riMKM8aaYyaKb8uk/M4BIk4e2SyjfH2t3te
+ ygUQ==
+X-Gm-Message-State: APjAAAXNSXTNBGhXDY4WWR/OJl3TkJKE/zLnY0BOG11envrUun4N2NOu
+ cH+GnB1NtCZFZkRKXUxUWhM=
+X-Google-Smtp-Source: APXvYqyYNI/Iqvef/isLiabMHdyM4U4tRTb7QCIYp8t0Z+YThXI2bYmaodgFVZDFXv/v95Ow4HY7pg==
+X-Received: by 2002:adf:a141:: with SMTP id r1mr11163450wrr.285.1575561075675; 
+ Thu, 05 Dec 2019 07:51:15 -0800 (PST)
+Received: from localhost (pD9E518ED.dip0.t-ipconnect.de. [217.229.24.237])
+ by smtp.gmail.com with ESMTPSA id g69sm264905wmg.13.2019.12.05.07.51.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Dec 2019 07:51:14 -0800 (PST)
+Date: Thu, 5 Dec 2019 16:51:11 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH] MAINTAINERS: Match on dma_buf|fence|resv anywhere
+Message-ID: <20191205155111.GA1914185@ulmo>
+References: <20191204215105.874074-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <11a7c38f-8fe4-09f9-3202-d976edef6843@xilinx.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=ideasonboard.com; s=mail; t=1575559161;
- bh=YTmsTII5DKzAGvnWYl+/6aH4mqOszFNtXZM8wFQWpeo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bs5DJVAmakVLbWya4Si2S5pGcq9R+5RVlqWQKZeMN/LqxyPhbX9CjCaELdHFvq5z0
- ogasslhfg8JNPaEcC6DMvFUytH6YSve2iAkFJc6ZOoqgbLc+7FqfpV9dCXDoNBoxBg
- HqqNX4+RDcUpN1XF9le5WjokPmmdVm9wSehhr0Fc=
+In-Reply-To: <20191204215105.874074-1-daniel.vetter@ffwll.ch>
+User-Agent: Mutt/1.12.2 (2019-09-21)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=Hqk732DASvKhf2WML2uIRMYkZ0MH2kXngVlW9J9XbT0=;
+ b=keeTt6l9p4RiViea21o3Ym+sVClyOVlIXERoaiM764Nw8ERrP10Nmwqk4vdoQlVKB7
+ Jw4F6JoagBbIhllF5rL/ijCTWd4ysIjbvzYLdmPEDYBE+1pkmNIxM38cyuKJSsZEKKkC
+ crDqNovqSUksWCbMShsQUuzOkL6zKGlxuRQf749DkrImBU6EJUfxp6uQtr+iQPIFj9dF
+ THbMHKMRyaQ7NYBk0GUOyFikJW28bq0Eb8I+wpMTLelRSJz6QnNDdWkRZDI6lY32vaZI
+ iubOvM6y1SJ3bUeQj0/C4rI9kkjkOBM1fPEgtIjHZhGxmfiISWiHw9QENWiIxx2My7iQ
+ iAOg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,46 +67,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hyun Kwon <hyun.kwon@xilinx.com>, dri-devel@lists.freedesktop.org,
- Satish Kumar Nagireddy <SATISHNA@xilinx.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ linaro-mm-sig@lists.linaro.org,
+ Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+ Daniel Vetter <daniel.vetter@intel.com>, linux-media@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============0762971684=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTWljaGFsLAoKT24gRnJpLCBOb3YgMTUsIDIwMTkgYXQgMDk6MzA6MTBBTSArMDEwMCwgTWlj
-aGFsIFNpbWVrIHdyb3RlOgo+IE9uIDA4LiAxMS4gMTkgMTg6NTksIExhdXJlbnQgUGluY2hhcnQg
-d3JvdGU6Cj4gPiBFbmFibGUgdGhlIGRwc3ViIGRldmljZSBhbmQgd2lyZSBpdCB1cCB0byB0aGUg
-UFMtR1RSIFBIWSBsYW5lcyByb3V0ZWQgdG8KPiA+IHRoZSBEaXNwbGF5UG9ydCBjb25uZWN0b3Iu
-Cj4gPiAKPiA+IFNpZ25lZC1vZmYtYnk6IExhdXJlbnQgUGluY2hhcnQgPGxhdXJlbnQucGluY2hh
-cnRAaWRlYXNvbmJvYXJkLmNvbT4KPiA+IC0tLQo+ID4gIC4uLi9hcm02NC9ib290L2R0cy94aWxp
-bngvenlucW1wLXpjdTEwNi1yZXZBLmR0cyB8IDE2ICsrKysrKysrKysrKysrKysKPiA+ICAxIGZp
-bGUgY2hhbmdlZCwgMTYgaW5zZXJ0aW9ucygrKQo+ID4gCj4gPiBkaWZmIC0tZ2l0IGEvYXJjaC9h
-cm02NC9ib290L2R0cy94aWxpbngvenlucW1wLXpjdTEwNi1yZXZBLmR0cyBiL2FyY2gvYXJtNjQv
-Ym9vdC9kdHMveGlsaW54L3p5bnFtcC16Y3UxMDYtcmV2QS5kdHMKPiA+IGluZGV4IDkzY2U3ZWI4
-MTQ5OC4uNDY1NmYyNWI2YjA0IDEwMDY0NAo+ID4gLS0tIGEvYXJjaC9hcm02NC9ib290L2R0cy94
-aWxpbngvenlucW1wLXpjdTEwNi1yZXZBLmR0cwo+ID4gKysrIGIvYXJjaC9hcm02NC9ib290L2R0
-cy94aWxpbngvenlucW1wLXpjdTEwNi1yZXZBLmR0cwo+ID4gQEAgLTEzLDYgKzEzLDcgQEAKPiA+
-ICAjaW5jbHVkZSAienlucW1wLWNsay5kdHNpIgo+ID4gICNpbmNsdWRlIDxkdC1iaW5kaW5ncy9p
-bnB1dC9pbnB1dC5oPgo+ID4gICNpbmNsdWRlIDxkdC1iaW5kaW5ncy9ncGlvL2dwaW8uaD4KPiA+
-ICsjaW5jbHVkZSA8ZHQtYmluZGluZ3MvcGh5L3BoeS5oPgo+ID4gIAo+ID4gIC8gewo+ID4gIAlt
-b2RlbCA9ICJaeW5xTVAgWkNVMTA2IFJldkEiOwo+ID4gQEAgLTY5LDYgKzcwLDE3IEBACj4gPiAg
-CXN0YXR1cyA9ICJva2F5IjsKPiA+ICB9Owo+ID4gIAo+ID4gKyZkcGRtYSB7Cj4gPiArCXN0YXR1
-cyA9ICJva2F5IjsKPiA+ICt9Owo+ID4gKwo+ID4gKyZkcHN1YiB7Cj4gPiArCXN0YXR1cyA9ICJv
-a2F5IjsKPiA+ICsJcGh5LW5hbWVzID0gImRwLXBoeTAiLCAiZHAtcGh5MSI7Cj4gPiArCXBoeXMg
-PSA8JmxhbmUxIFBIWV9UWVBFX0RQIDAgMyAyNzAwMDAwMD4sCj4gPiArCSAgICAgICA8JmxhbmUw
-IFBIWV9UWVBFX0RQIDEgMyAyNzAwMDAwMD47Cj4gCj4gSXQgaXMgYWxpZ25lZCB3aXRoIHN0dWZm
-IGluIFhpbGlueCB0cmVlLgo+IEkgdGhpbmsgdGhhdCBwdXR0aW5nIGFueSBjbG9jayB2YWx1ZSBo
-ZXJlIGlzIHdyb25nLgo+IEl0IHNob3VsZCByZWFsbHkgYmUgcG9pbnRpbmcgdG8gJmNsayB3aGF0
-ZXZlciBpdCBpcy4KPiBUaGVuIHlvdSBjYW4gc3VwcG9ydCBtb3JlIGNhc2VzIHdoZXJlIGNsb2Nr
-IGRvZXNuJ3QgbmVlZCB0byBiZSBmaXhlZCBhbmQKPiBpdCBpcyBhbHNvIGFsaWduZWQgd2l0aCBj
-bG9jayBiaW5kaW5nLgoKT0ssIEknbGwgY2hlY2sgdGhhdCB3aGVuIHdvcmtpbmcgb24gdGhlIFBI
-WSBkcml2ZXIuCgo+ID4gK307Cj4gPiArCj4gPiAgLyogZnBkX2RtYSBjbGsgNjY3TUh6LCBscGRf
-ZG1hIDUwME1IeiAqLwo+ID4gICZmcGRfZG1hX2NoYW4xIHsKPiA+ICAJc3RhdHVzID0gIm9rYXki
-Owo+ID4gQEAgLTUwMyw2ICs1MTUsMTAgQEAKPiA+ICAJbm8tMS04LXY7Cj4gPiAgfTsKPiA+ICAK
-PiA+ICsmc2VyZGVzIHsKPiA+ICsJc3RhdHVzID0gIm9rYXkiOwo+ID4gK307Cj4gPiArCj4gPiAg
-JnVhcnQwIHsKPiA+ICAJc3RhdHVzID0gIm9rYXkiOwo+ID4gIH07CgotLSAKUmVnYXJkcywKCkxh
-dXJlbnQgUGluY2hhcnQKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVs
+
+--===============0762971684==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="6TrnltStXW4iwmi0"
+Content-Disposition: inline
+
+
+--6TrnltStXW4iwmi0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Dec 04, 2019 at 10:51:05PM +0100, Daniel Vetter wrote:
+> I've spent a bit too much time reviewing all kinds of users all over
+> the kernel for this buffer sharing infrastructure. And some of it is
+> at least questionable.
+>=20
+> Make sure we at least see when this stuff flies by.
+>=20
+> Acked-by: Dave Airlie <airlied@gmail.com>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> ---
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
+
+Acked-by: Thierry Reding <treding@nvidia.com>
+
+--6TrnltStXW4iwmi0
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl3pJ20ACgkQ3SOs138+
+s6FuIw/+MiBzMpaE+4A0DS+8Maw2eXygpbNzHbXbT/CqB0Q7kcibeSIUV+xnhWPY
+cnxtNxlZWtErROiGrXS2Roj5PYGftBPJVbCpxr4kMjsbVjtKq+iNbuPhfkChvihU
+CEP5jHrHzmAQ4vRcVycHHZinm5ABoo+TuBeV7ZXJf1p6ZDDJXRFIBTpA/BxiBwOZ
+ONIiq23FNnob0Zk/0r9XvQLyslRpK6FjYRdNO1V8l8OWrI0hQQqmx0kBpIppnxGE
+swt90Ak5Vf3pSq2zrNfoVS7QAcuw0/2munEnOiA936SeiKLtEb8CX/j7GmDrXsOl
+A2A0Jjhi3WWbxqq6UO1WYxyCSwmWY3WEtLzPd5F7+Henuztpygivh2d3xYCEO+jn
+X0jE7Vnp4s2Tgv71Ack2aC/7HzX3WH7BtG//HCs6BF5TCKD9liA3nz+qMBI/ZPaP
+6bQJWSJeQsJkEg6md3e2ZC14IOe6Y6UlKKkpwU8yDpY4xyY0IAjAepGh8gdmofVX
+JT+O9UbdOmC4Sn5aIw/TdSz2U7mmwaY/+NcgbYlQSsZGtIqS8ASEIcXflC7M/lbG
+lkog8ih1RRQ6Xcwhi6s+Tiyn4J6fUVnOaqwwvMxJYhXs7Z+s0KtgzlwGHwpq4ugL
+MkKmiO6Ur5Xv5LfotkD39OY6HGy+Nw1XSbtrsPXPXLH70GvEjig=
+=Spok
+-----END PGP SIGNATURE-----
+
+--6TrnltStXW4iwmi0--
+
+--===============0762971684==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0762971684==--
