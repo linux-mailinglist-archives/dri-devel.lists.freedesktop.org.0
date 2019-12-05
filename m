@@ -1,61 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83F9811444F
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2019 17:02:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 581E6114457
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2019 17:03:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29A216E97F;
-	Thu,  5 Dec 2019 16:02:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 132D36E990;
+	Thu,  5 Dec 2019 16:03:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DADA46E97F
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2019 16:02:32 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id a15so4231347wrf.9
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Dec 2019 08:02:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=nvlgkH8NpKSoq6L696ietSAe4bPe2+1xH6SqDe2K108=;
- b=U1Q9FvTlHYYfGokNOebNSvjvd6AQRhd9JJiXjiQRpdZP2MmNtIXEvlcHB/wLQD6w5W
- nTUfycBTOsyyVBf25Hg9fp7JJT/tdsfPKO2kPV0qVUztfnXLe+xW8nGS2pZQEUgg9cHJ
- C/RlTuGf865luNOs04S/cMdHLpv44BxKRfL49nPcS+VC35xSgdx2OrfDE3zQiUJaeIG9
- nVOHyjNaCgWqje9/l27Mv9Bv+OYpoVjS94tlZ74lpDTSUGLVEhy/7zxr/bXFxN8JVHTm
- yGlJilejldiSHTZOPQnpT23kSq1FHezEtBvxNsscLHcvolpPUPDmrLUMiqE5DkDuePgH
- plhA==
-X-Gm-Message-State: APjAAAW51OWM7mPw8Yf3adNOAya3Inw5uLF86QpsbwAXrRNYqOhrW2wI
- 2d+/kGxHxH3hxbdGSKpou9k=
-X-Google-Smtp-Source: APXvYqzSs6+Ql7bK8+Q1LEYtYxRemOW46Q9MiOPc3JdBAwIEzGNA/s963C5pMI1zB67+qI2rPJKbRA==
-X-Received: by 2002:adf:cd92:: with SMTP id q18mr10816164wrj.261.1575561751201; 
- Thu, 05 Dec 2019 08:02:31 -0800 (PST)
-Received: from localhost (pD9E518ED.dip0.t-ipconnect.de. [217.229.24.237])
- by smtp.gmail.com with ESMTPSA id v17sm12538873wrt.91.2019.12.05.08.02.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Dec 2019 08:02:29 -0800 (PST)
-Date: Thu, 5 Dec 2019 17:02:24 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] drm/atomc: Update docs around locking and commit
- sequencing
-Message-ID: <20191205160224.GB1914185@ulmo>
-References: <20191204100011.859468-1-daniel.vetter@ffwll.ch>
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D09E6E988
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2019 16:03:35 +0000 (UTC)
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-385-MoRTtIA4PDWwtQt6J_dX7Q-1; Thu, 05 Dec 2019 11:03:30 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E4D312A7E49;
+ Thu,  5 Dec 2019 16:03:28 +0000 (UTC)
+Received: from redhat.com (unknown [10.20.6.225])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1CC4D600D1;
+ Thu,  5 Dec 2019 16:03:26 +0000 (UTC)
+Date: Thu, 5 Dec 2019 11:03:24 -0500
+From: Jerome Glisse <jglisse@redhat.com>
+To: Jason Gunthorpe <jgg@mellanox.com>
+Subject: Re: [GIT PULL] Please pull hmm changes
+Message-ID: <20191205160324.GB5819@redhat.com>
+References: <20191125204248.GA2485@ziepe.ca>
+ <CAHk-=wiqguF5NakpL4L9XCmmYr4wY0wk__+6+wHVReF2sVVZhA@mail.gmail.com>
+ <CAHk-=wiQtTsZfgTwLYgfV8Gr_0JJiboZOzVUTAgJ2xTdf5bMiw@mail.gmail.com>
+ <20191203024206.GC5795@mellanox.com>
 MIME-Version: 1.0
-In-Reply-To: <20191204100011.859468-1-daniel.vetter@ffwll.ch>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <20191203024206.GC5795@mellanox.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: MoRTtIA4PDWwtQt6J_dX7Q-1
+X-Mimecast-Spam-Score: 0
+Content-Disposition: inline
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=nvlgkH8NpKSoq6L696ietSAe4bPe2+1xH6SqDe2K108=;
- b=BosoUyByasCYag8xecJg+ifgspGj60S0Ghx11SoYMmVd2G7BSiNabVInl3qGaNhKiT
- 21DTpFfsZj5b/0DIvioBDgO2a9yW55XIqdv+HXd8vWX8cBfygc71/q85IR+guNxhS/fO
- 9p3679G7cdflXEVJ1/2wZ4ZCEE7jPcmr63HdnMXQ5sJxwSiBpE53DoV5KQHHcHT7X7rY
- Q7zAm4gN+9PdvLLYvD40rp9Vk48BNrpGhbzkq8cOxa+bypE04sk4IQGcb8Y+fWzoqWo+
- mtLVRYTptz5IxYJ47wZNEzFlfs5DRtQjRhVECA0RrKDeXDcqHZLCl1LWiG4ZjWxnXaMU
- GKnQ==
+ d=redhat.com; 
+ s=mimecast20190719; t=1575561814;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oHd+4w0V9iVfUn6tAMIGauQiWjLxMUn18cIdw9bXNzA=;
+ b=VaSz2b/5TeIzw/CS0oNKxhi+xt/6DOgoW3/N2h9jZo8IWNBqF36g0bpDH1uDZYHYNtQ955
+ f0MROrh0HaLPHUv7va4uTno3RGcrTrA1r+F2HZ45iQETJPQbuxN7B73g+ezYG1nTulwHl3
+ ocUg8CtIIUk08irOGnwwlxBlg4aVO1I=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,345 +64,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Thierry Reding <treding@nvidia.com>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============1180370876=="
+Cc: Ralph Campbell <rcampbell@nvidia.com>, David Airlie <airlied@linux.ie>,
+ "Kuehling, Felix" <Felix.Kuehling@amd.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>, Christoph Hellwig <hch@lst.de>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1180370876==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="wzJLGUyc3ArbnUjN"
-Content-Disposition: inline
-
-
---wzJLGUyc3ArbnUjN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Dec 04, 2019 at 11:00:11AM +0100, Daniel Vetter wrote:
-> Both locking and especially sequencing of nonblocking commits have
-> evolved a lot. The details are all there, but I noticed that the big
-> picture and connections have fallen behind a bit. Apply polish.
->=20
-> Motivated by some review discussions with Thierry.
->=20
-> Cc: Thierry Reding <treding@nvidia.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> ---
->  Documentation/gpu/drm-kms.rst       | 11 ++++++-
->  drivers/gpu/drm/drm_atomic.c        | 10 ++++---
->  drivers/gpu/drm/drm_atomic_helper.c | 46 ++++++++++++++++++-----------
->  include/drm/drm_atomic.h            | 13 ++++++--
->  4 files changed, 56 insertions(+), 24 deletions(-)
-
-Hi Daniel,
-
-"drm/atomic" in the subject. A couple more minor things I noticed below.
-
->=20
-> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-> index c68588ce4090..b9330343d1bc 100644
-> --- a/Documentation/gpu/drm-kms.rst
-> +++ b/Documentation/gpu/drm-kms.rst
-> @@ -260,7 +260,8 @@ Taken all together there's two consequences for the a=
-tomic design:
->    drm_connector_state <drm_connector_state>` for connectors. These are t=
-he only
->    objects with userspace-visible and settable state. For internal state =
-drivers
->    can subclass these structures through embeddeding, or add entirely new=
- state
-> -  structures for their globally shared hardware functions.
-> +  structures for their globally shared hardware functions, see :c:type:`=
-struct
-> +  drm_private_state<drm_private_state>`.
-> =20
->  - An atomic update is assembled and validated as an entirely free-standi=
-ng pile
->    of structures within the :c:type:`drm_atomic_state <drm_atomic_state>`
-> @@ -269,6 +270,14 @@ Taken all together there's two consequences for the =
-atomic design:
->    to the driver and modeset objects. This way rolling back an update boi=
-ls down
->    to releasing memory and unreferencing objects like framebuffers.
-> =20
-> +Locking of atomic state structures is internally using :c:type:`struct
-> +drm_modeset_lock <drm_modeset_lock>`. As a general rule the locking shou=
-ldn't be
-> +exposed to drivers, instead the right locks should be automatically acqu=
-ired by
-> +any function that duplicates or peeks into a state, like e.g.
-> +:c:func:`drm_atomic_get_crtc_state()`.  Locking only protects the softwa=
-re data
-> +structure, ordering of committing state changes to hardware is sequenced=
- using
-> +:c:type:`struct drm_crtc_commit <drm_crtc_commit>`.
-> +
->  Read on in this chapter, and also in :ref:`drm_atomic_helper` for more d=
-etailed
->  coverage of specific topics.
-> =20
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index a351a9a39530..5b4787e33f0d 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -688,10 +688,12 @@ static void drm_atomic_plane_print_state(struct drm=
-_printer *p,
->   * associated state struct &drm_private_state.
->   *
->   * Similar to userspace-exposed objects, private state structures can be
-> - * acquired by calling drm_atomic_get_private_obj_state(). Since this fu=
-nction
-> - * does not take care of locking, drivers should wrap it for each type of
-> - * private state object they have with the required call to drm_modeset_=
-lock()
-> - * for the corresponding &drm_modeset_lock.
-> + * acquired by calling drm_atomic_get_private_obj_state(). This also tak=
-es care
-> + * of locking, hence drivers should not have a need to call drm_modeset_=
-lock()
-> + * directly. Sequence of the actual hardware state commit is not handled,
-> + * drivers might need to keep track of struct drm_crtc_commit within sub=
-classed
-> + * structure of &drm_private_state as necessary, e.g. similar to
-> + * &drm_plane_state.commit. See also &drm_atomic_state.fake_commit.
->   *
->   * All private state structures contained in a &drm_atomic_state update =
-can be
->   * iterated using for_each_oldnew_private_obj_in_state(),
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_at=
-omic_helper.c
-> index 711801b9d4f1..10d62f726b22 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -1827,17 +1827,21 @@ EXPORT_SYMBOL(drm_atomic_helper_commit);
->  /**
->   * DOC: implementing nonblocking commit
->   *
-> - * Nonblocking atomic commits have to be implemented in the following se=
-quence:
-> + * Nonblocking atomic commits should use struct &drm_crtc_commit to sequ=
-ence
-> + * different operations against each another. Locks, especially struct
-> + * &drm_modeset_lock, should not be held in worker threads or any other
-> + * asynchronous context used to commit the hardware state.
->   *
-> - * 1. Run drm_atomic_helper_prepare_planes() first. This is the only fun=
-ction
-> - * which commit needs to call which can fail, so we want to run it first=
- and
-> + * drm_atomic_helper_commit() implements the recommended sequence for
-> + * nonblocking commits, using drm_atomic_helper_setup_commit() internall=
-y:
-> + *
-> + * 1. Run drm_atomic_helper_prepare_planes(). Since this can fail and we
-> + * need to propagate out of memory/VRAM errors to userspace, it must be =
-called
->   * synchronously.
->   *
->   * 2. Synchronize with any outstanding nonblocking commit worker threads=
- which
-> - * might be affected the new state update. This can be done by either ca=
-ncelling
-> - * or flushing the work items, depending upon whether the driver can dea=
-l with
-> - * cancelled updates. Note that it is important to ensure that the frame=
-buffer
-> - * cleanup is still done when cancelling.
-> + * might be affected the new state update. This is handled by
-
-"affected _by_ the new state update"?
-
-> + * drm_atomic_helper_setup_commit().
->   *
->   * Asynchronous workers need to have sufficient parallelism to be able t=
-o run
->   * different atomic commits on different CRTCs in parallel. The simplest=
- way to
-> @@ -1848,21 +1852,29 @@ EXPORT_SYMBOL(drm_atomic_helper_commit);
->   * must be done as one global operation, and enabling or disabling a CRT=
-C can
->   * take a long time. But even that is not required.
->   *
-> + * IMPORTANT: A &drm_atomic_state update for multiple CRTCs is sequenced
-> + * against all CRTCs therein. Therefor for atomic state updates which on=
-ly flip
-
-I think "therefor" has a slightly different meaning than "therefore",
-and I think you actually want the latter in this case.
-
-> + * planes the driver must not get the struct &drm_crtc_state of unrelate=
-d CRTCs
-> + * in its atomic check codee: This would prevent committing of atomic up=
-dates to
-
-"code"
-
-> + * multiple CRTCs in parallel. In general, adding additional state struc=
-tures
-> + * should be avoided as much as possible, because this reduces parallism=
- in
-
-"parallelism"
-
-> + * (nonblocking) commits, both due to locking and due to commit sequenci=
-ng
-> + * requirements.
-> + *
->   * 3. The software state is updated synchronously with
->   * drm_atomic_helper_swap_state(). Doing this under the protection of al=
-l modeset
-> - * locks means concurrent callers never see inconsistent state. And doin=
-g this
-> - * while it's guaranteed that no relevant nonblocking worker runs means =
-that
-> - * nonblocking workers do not need grab any locks. Actually they must no=
-t grab
-> - * locks, for otherwise the work flushing will deadlock.
-> + * locks means concurrent callers never see inconsistent state. Note tha=
-t commit
-> + * workers do not hold any locks, their access is only coordinated throu=
-gh
-
-I stumbled across this a couple of times when reading it. I think it
-becomes clearer when you replace the comma by a colon:
-
-	Note that commit workers do not hold any locks: their access is only
-	coordinated through ordering.
-
-Or perhaps replace the comma with "and"?
-
-Other than that, looks good to me:
-
-Reviewed-by: Thierry Reding <treding@nvidia.com>
-
-> + * ordering. If workers would access state only through the pointers in =
-the
-> + * free-standing state objects (currently not the case for any driver) t=
-hen even
-> + * multiple pending commits could be in-flight at the same time.
->   *
->   * 4. Schedule a work item to do all subsequent steps, using the split-o=
-ut
->   * commit helpers: a) pre-plane commit b) plane commit c) post-plane com=
-mit and
->   * then cleaning up the framebuffers after the old framebuffer is no lon=
-ger
-> - * being displayed.
-> - *
-> - * The above scheme is implemented in the atomic helper libraries in
-> - * drm_atomic_helper_commit() using a bunch of helper functions. See
-> - * drm_atomic_helper_setup_commit() for a starting point.
-> + * being displayed. The scheduled work should synchronize against other =
-workers
-> + * using the &drm_crtc_commit infrastructure as needed. See
-> + * drm_atomic_helper_setup_commit() for more details.
->   */
-> =20
->  static int stall_checks(struct drm_crtc *crtc, bool nonblock)
-> @@ -2085,7 +2097,7 @@ EXPORT_SYMBOL(drm_atomic_helper_setup_commit);
->   *
->   * This function waits for all preceeding commits that touch the same CR=
-TC as
->   * @old_state to both be committed to the hardware (as signalled by
-> - * drm_atomic_helper_commit_hw_done) and executed by the hardware (as si=
-gnalled
-> + * drm_atomic_helper_commit_hw_done()) and executed by the hardware (as =
-signalled
->   * by calling drm_crtc_send_vblank_event() on the &drm_crtc_state.event).
->   *
->   * This is part of the atomic helper support for nonblocking commits, see
-> diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-> index b6c73fd9f55a..5923819dcd68 100644
-> --- a/include/drm/drm_atomic.h
-> +++ b/include/drm/drm_atomic.h
-> @@ -60,8 +60,8 @@
->   * 	wait for flip_done		<----
->   * 	clean up atomic state
->   *
-> - * The important bit to know is that cleanup_done is the terminal event,=
- but the
-> - * ordering between flip_done and hw_done is entirely up to the specific=
- driver
-> + * The important bit to know is that &cleanup_done is the terminal event=
-, but the
-> + * ordering between &flip_done and &hw_done is entirely up to the specif=
-ic driver
->   * and modeset state change.
->   *
->   * For an implementation of how to use this look at
-> @@ -92,6 +92,9 @@ struct drm_crtc_commit {
->  	 * commit is sent to userspace, or when an out-fence is singalled. Note
->  	 * that for most hardware, in most cases this happens after @hw_done is
->  	 * signalled.
-> +	 *
-> +	 * Completion of this stage is signalled implicitly by calling
-> +	 * drm_crtc_send_vblank_event() on &drm_crtc_state.event.
->  	 */
->  	struct completion flip_done;
-> =20
-> @@ -107,6 +110,9 @@ struct drm_crtc_commit {
->  	 * Note that this does not need to include separately reference-counted
->  	 * resources like backing storage buffer pinning, or runtime pm
->  	 * management.
-> +	 *
-> +	 * Drivers should call drm_atomic_helper_commit_hw_done() to signal
-> +	 * completion of this stage.
->  	 */
->  	struct completion hw_done;
-> =20
-> @@ -118,6 +124,9 @@ struct drm_crtc_commit {
->  	 * a vblank wait completed it might be a bit later. This completion is
->  	 * useful to throttle updates and avoid hardware updates getting ahead
->  	 * of the buffer cleanup too much.
-> +	 *
-> +	 * Drivers should call drm_atomic_helper_commit_cleanup_done() to signal
-> +	 * completion of this stage.
->  	 */
->  	struct completion cleanup_done;
-> =20
-> --=20
-> 2.24.0
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---wzJLGUyc3ArbnUjN
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl3pKg0ACgkQ3SOs138+
-s6FUqhAAsnl/+lGvNugV2T0vlCNWf8jcBNwZLs8jzKYg9SKiOkYVh3XPyALPAMms
-G5LgARUQTK8tsukQKUYdjIEwVJhiynTzLlTq/89sucZQf//2kjM050LR1oJFB2PQ
-SPFFJz00a1fCO8rBMDLetQktzKwkIp6pIvAVEkKe/s80YQOCghd301A/xgux1kGf
-z70MTqsgVqMmWS225zQtfHPw9duvPx/C8fiyUCG36O2T2J1UZGGeZSVCAOvFKGn/
-GjVXAUy7Xkr6xg/JY6VMmue0Rnes/XFHaKChiXhn/ZqBNsElFdm+1M19aWpcrF9w
-4ThOTOb5mblM/DLq8zubEOM2tCkeNmOoMvSadSMNNQxIXhLnx02SkilFUzvzuUBk
-tRTe/TliMKAGAfCcmDoMiQqPCP+2AOnoGGry3viUj9xzzFKb0GKlK97IGKytj2N0
-cHA4Ii48OBOpLR0H1xoqpbfY6DOUjgiE3gPDl3HmmeX+zQFTFCaKnPtXj1iGVHRL
-7neSk8ZM1CV75H+Af7ofEguKmat1JNP4e1bJ2WG+nQ+Jf7yIOvPNguDUgXfsz9mh
-DVUuVDk3Atdg36C42oihN16C8EmASbU8gdcBNdGreiGurg3CvJGD70VhR67UIelH
-bDlQHXTrTpHsyE1cTd0f8G4v+Vya1j5En08UM60JLAXPSiUvi+Y=
-=UVC1
------END PGP SIGNATURE-----
-
---wzJLGUyc3ArbnUjN--
-
---===============1180370876==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1180370876==--
+T24gVHVlLCBEZWMgMDMsIDIwMTkgYXQgMDI6NDI6MTJBTSArMDAwMCwgSmFzb24gR3VudGhvcnBl
+IHdyb3RlOgo+IE9uIFNhdCwgTm92IDMwLCAyMDE5IGF0IDEwOjIzOjMxQU0gLTA4MDAsIExpbnVz
+IFRvcnZhbGRzIHdyb3RlOgo+ID4gT24gU2F0LCBOb3YgMzAsIDIwMTkgYXQgMTA6MDMgQU0gTGlu
+dXMgVG9ydmFsZHMKPiA+IDx0b3J2YWxkc0BsaW51eC1mb3VuZGF0aW9uLm9yZz4gd3JvdGU6Cj4g
+PiA+Cj4gPiA+IEknbGwgdHJ5IHRvIGZpZ3VyZSB0aGUgY29kZSBvdXQsIGJ1dCBteSBpbml0aWFs
+IHJlYWN0aW9uIHdhcyAieWVhaCwKPiA+ID4gbm90IGluIG15IFZNIi4KPiA+IAo+ID4gV2h5IGlz
+IGl0IG9rIHRvIHNvbWV0aW1lcyBkbwo+ID4gCj4gPiAgICAgV1JJVEVfT05DRShtbmktPmludmFs
+aWRhdGVfc2VxLCBjdXJfc2VxKTsKPiA+IAo+ID4gKHRvIHBhaXIgd2l0aCB0aGUgdW5sb2NrZWQg
+UkVBRF9PTkNFKSwgYW5kIHNvbWV0aW1lcyB0aGVuIGRvCj4gPiAKPiA+ICAgICBtbmktPmludmFs
+aWRhdGVfc2VxID0gbW1uX21tLT5pbnZhbGlkYXRlX3NlcTsKPiA+IAo+ID4gTXkgaW5pdGlhbCBn
+dWVzcyB3YXMgdGhhdCBsYXR0ZXIgaXMgb25seSBkb25lIGF0IGluaXRpYWxpemF0aW9uIHRpbWUs
+Cj4gPiBidXQgYXQgbGVhc3QgaW4gb25lIGNhc2UgaXQncyBkb25lICphZnRlciogdGhlIG1uaSBo
+YXMgYmVlbiBhZGRlZCB0bwo+ID4gdGhlIG1tbl9tbSAob2gsIGhvdyBJIGRlc3Bpc2UgdGhvc2Ug
+bmFtZXMgLSBJIGNhbiBvbmx5IHJlcGVhdDogV1RGPykuCj4gCj4gWWVzLCB0aGUgb25seSBvY2N1
+cnJlbmNlcyBhcmUgaW4gdGhlIG5vdGlmaWVyX2luc2VydCwgdW5kZXIgdGhlCj4gc3BpbmxvY2su
+IFRoZSBvbmUgY2FzZSB3aGVyZSBpdCBpcyBvdXQgb2YgdGhlIG5hdHVyYWwgb3JkZXIgd2FzIHRv
+Cj4gbWFrZSB0aGUgbWFuaXB1bGF0aW9uIG9mIHNlcSBhIGJpdCBzYW5lciwgYnV0IGluIGFsbCBj
+YXNlcyBzaW5jZSB0aGUKPiBzcGlubG9jayBpcyBoZWxkIHRoZXJlIGlzIG5vIHdheSBmb3IgYW5v
+dGhlciB0aHJlYWQgdG8gZ2V0IHRoZSBwb2ludGVyCj4gdG8gdGhlICdtbXVfaW50ZXJ2YWxfbm90
+aWZpZXIgKicgdG8gZG8gdGhlIHVubG9ja2VkIHJlYWQuCj4gCj4gUmVnYXJkaW5nIHRoZSB1Z2x5
+IG5hbWVzLi4gTmFtaW5nIGhhcyBiZWVuIHJlYWxseSBoYXJkIGhlcmUgYmVjYXVzZQo+IGN1cnJl
+bnRseSBldmVyeXRoaW5nIGlzIGEgJ21tdSBub3RpZmllcicgYW5kIHRoZSBuYXR1cmFsIGFiYmVy
+dmlhdGlvbnMKPiBmcm9tIHRoZXJlIGFyZSBjcnVtbXkuIEhlcmUgaXMgdGhlIGJhc2ljIHN1bW1h
+cnk6Cj4gCj4gc3RydWN0IG1tdV9ub3RpZmllcl9tbSAoaWUgdGhlIG1tLT5tbXVfbm90aWZpZXJf
+bW0pCj4gICAgLT4gbW1uX21tCj4gc3RydWN0IG1tX3N0cnVjdCAKPiAgICAtPiBtbQo+IHN0cnVj
+dCBtbXVfbm90aWZpZXIgKGllIHRoZSB1c2VyIHN1YnNjcmlwdGlvbiB0byB0aGUgbW1fc3RydWN0
+KQo+ICAgIC0+IG1uCj4gc3RydWN0IG1tdV9pbnRlcnZhbF9ub3RpZmllciAodGhlIG90aGVyIGtp
+bmQgb2YgdXNlciBzdWJzY3JpcHRpb24pCj4gICAgLT4gbW5pCgpXaGF0IGFib3V0ICJpbnRlcnZh
+bCIgdGhlIGNvbnRleHQgc2hvdWxkIGFscmVhZHkgdGVsbCBwZW9wbGUKaXQgaXMgcmVsYXRlZCB0
+byBtbXUgbm90aWZpZXIgYW5kIHRodXMgYSBub3RpZmllci4gSSB3b3VsZApqdXN0IHJlbW92ZSB0
+aGUgbm90aWZpZXIgc3VmZml4LCB0aGlzIHdvdWxkIG1hdGNoIHRoZSBiZWxvdwpyYW5nZS4KCj4g
+c3RydWN0IG1tdV9ub3RpZmllcl9yYW5nZSAoaWUgdGhlIGFyZ3MgdG8gaW52YWxpZGF0ZV9yYW5n
+ZSkKPiAgICAtPiByYW5nZQoKWWVhaCByYW5nZSBhcyBjb250ZXh0IHNob3VsZCB0ZWxsIHlvdSBp
+dCBpcyByZWxhdGVkIHRvIG1tdQpub3RpZmllci4KCj4gCj4gSSBjYW4gc2VuZCBhIHBhdGNoIHRv
+IHN3aXRjaCBtbW5fbW0gdG8gbW11X25vdGlmaWVyX21tLCB3aGljaCBpcyB0aGUKPiBvbmx5IHBy
+ZS1leGlzdGluZyBuYW1lIGZvciB0aGlzIHZhbHVlLiBCdXQgSUlSQywgaXQgaXMgYSBzb21ld2hh
+dCB1Z2x5Cj4gd2l0aCBsb25nIGxpbmUgd3JhcHBpbmcuICdtbmknIGlzIGEgcGFpbiwgSSBoYXZl
+IHRvIHJlZmxlY3Qgb24gdGhhdC4KPiAoaG9uZXNseSwgSSBkaXNsaWtlIG1tdV9ub3RpZmlmZXJf
+bW0gcXVpdGUgYSBsb3QgdG9vKQo+IAo+IEkgdGhpbmsgaXQgd291bGQgYmUgb3ZlcmFsbCBuaWNl
+ciB3aXRoIGJldHRlciBuYW1lcyBmb3IgdGhlIG9yaWdpbmFsCj4gc3RydWN0cy4gUGVyaGFwczoK
+PiAKPiAgbW1uXyogLSBNTVUgbm90aWZpZXIgcHJlZml4Cj4gIG1tbl9zdGF0ZSA8LSBzdHJ1Y3Qg
+bW11X25vdGlmaWVyX21tCj4gIG1tbl9zdWJzY3JpcHRpb24gKG1tbl9zdWIpIDwtIHN0cnVjdCBt
+bXVfbm90aWZpZXIKPiAgbW1uX3JhbmdlX3N1YnNjcmlwdGlvbiAobW1uX3JhbmdlX3N1YikgPC0g
+c3RydWN0IG1tdV9pbnRlcnZhbF9ub3RpZmllcgo+ICBtbW5faW52YWxpZGF0ZV9kZXNjIDwtIHN0
+cnVjdCBtbXVfbm90aWZpZXJfcmFuZ2UKClRoaXMgbG9va3MgZ29vZC4KCj4gCj4gQXQgbGVhc3Qg
+dGhpcyBpcyBob3cgSSBkZXNjcmliZSB0aGVtIGluIG15IG1pbmQuLiAgVGhpcyBpcyBhIGxvdCBv
+Zgo+IGNodXJuLCBhbmQgc3ByZWFkcyB0aHJvdWdoIG1hbnkgZHJpdmVycy4gVGhpcyBpcyB3aHkg
+SSBrZXB0IHRoZSBuYW1lcwo+IGFzLWlzIGFuZCB3ZSBlbmRlZCB1cCB3aXRoIHRoZSBhbHNvIHF1
+aXRlIGJhZCAnbW11X2ludGVydmFsX25vdGlmaWVyJwo+IAo+IE1heWJlIGp1c3Qgc3dpdGNoIG1t
+dV9ub3RpZmllcl9tbSBmb3IgbW1uX3N0YXRlIGFuZCBsZWF2ZSB0aGUgZHJpdmVycwo+IGFsb25l
+Pwo+IAo+IEFueW9uZSBvbiB0aGUgQ0MgbGlzdCBoYXZlIGFkdmljZT8KCk1heWJlIHdlIGNhbiBk
+byBhIHNlbWFudGljIHBhdGNoIHRvIGRvIGNvbnZlcnRpb24gYW5kIHRoZW4gTGludXMKY2FuIGVh
+c2lseSBhcHBseSB0aGUgcGF0Y2ggYnkganVzdCByZS1ydW5uaW5nIHRoZSBjb2NjaW5lbGxlLgoK
+Q2hlZXJzLApKw6lyw7RtZQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVs
