@@ -2,20 +2,20 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DA28115FDF
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Dec 2019 00:50:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73DF8115FE0
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Dec 2019 00:55:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E3C76E222;
-	Sat,  7 Dec 2019 23:50:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 852156E291;
+	Sat,  7 Dec 2019 23:55:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F8E46E222
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Dec 2019 23:50:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A148D6E291
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Dec 2019 23:55:37 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 204241] amdgpu fails to resume from suspend
-Date: Sat, 07 Dec 2019 23:50:15 +0000
+Date: Sat, 07 Dec 2019 23:55:37 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -30,8 +30,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc attachments.created
-Message-ID: <bug-204241-2300-fXB8W9S7Bx@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-204241-2300-N8GpKsiqsm@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-204241-2300@https.bugzilla.kernel.org/>
 References: <bug-204241-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -56,17 +56,18 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQyNDEKClVsZiBX
-aW5rZWx2b3MgKHVsZkB3aW5rZWx2b3MuZGUpIGNoYW5nZWQ6CgogICAgICAgICAgIFdoYXQgICAg
-fFJlbW92ZWQgICAgICAgICAgICAgICAgICAgICB8QWRkZWQKLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQog
-ICAgICAgICAgICAgICAgIENDfCAgICAgICAgICAgICAgICAgICAgICAgICAgICB8dWxmQHdpbmtl
-bHZvcy5kZQoKLS0tIENvbW1lbnQgIzQxIGZyb20gVWxmIFdpbmtlbHZvcyAodWxmQHdpbmtlbHZv
-cy5kZSkgLS0tCkNyZWF0ZWQgYXR0YWNobWVudCAyODYyMTUKICAtLT4gaHR0cHM6Ly9idWd6aWxs
-YS5rZXJuZWwub3JnL2F0dGFjaG1lbnQuY2dpP2lkPTI4NjIxNSZhY3Rpb249ZWRpdApzdXNwZW5k
-IGNyYXNoIG9uIExlbm92byBUaGlua3BhZCBUNDk1IEtlcm5lbCA1LjMuMTMtYXJjaDEtMQoKLS0g
-CllvdSBhcmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRo
-ZSBhc3NpZ25lZSBvZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWw=
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQyNDEKCi0tLSBD
+b21tZW50ICM0MiBmcm9tIFVsZiBXaW5rZWx2b3MgKHVsZkB3aW5rZWx2b3MuZGUpIC0tLQpPbiBt
+eSBTeXN0ZW0gTGVub3ZvIFRoaW5rUGFkIFQ0OTUgKG1vZGVsIDIwTktTMDFZMDApIHRoZSBjcmFz
+aGVzIHN0aWxsIGhhcHBlbgpvbiBldmVyeSAxc3QgdG8gNHRoIHN1c3BlbmQgKHNlZSBhYm92ZSBs
+b2cpLgoKLS0tCmFtZGdwdSAwMDAwOjA2OjAwLjA6IFtkcm06YW1kZ3B1X2liX3JpbmdfdGVzdHMg
+W2FtZGdwdV1dICpFUlJPUiogSUIgdGVzdCBmYWlsZWQKb24gZ2Z4ICgtMTEwKS4KLS0tCgpJIGZv
+dW5kIG91dCB0aG91Z2ggdGhhdCBpZiBpIGRpc2FibGUgbXkgZmluZ2VycHJpbnQgcmVhZGVyLCBh
+c3dlbGwgYXMgdGhlCnNtYXJ0Y2FyZCByZWFkZXIgaW4gYmlvcyB0aGUgY3Jhc2hlcyBkbyBub3Qg
+b2Njb3VyIGFueW1vcmU6CgotLS0KLUJ1cyAwMDMgRGV2aWNlIDAwNjogSUQgMDZjYjowMGJkIFN5
+bmFwdGljcywgSW5jLiAKLUJ1cyAwMDMgRGV2aWNlIDAwNTogSUQgMDU4Zjo5NTQwIEFsY29yIE1p
+Y3JvIENvcnAuIEFVOTU0MCBTbWFydGNhcmQgUmVhZGVyCi0tLQoKLS0gCllvdSBhcmUgcmVjZWl2
+aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0
+aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
