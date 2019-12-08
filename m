@@ -2,39 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E908115FF6
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Dec 2019 01:07:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6631116107
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Dec 2019 07:00:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E8F56E293;
-	Sun,  8 Dec 2019 00:07:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA9B56E2B0;
+	Sun,  8 Dec 2019 06:00:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCB8F6E293;
- Sun,  8 Dec 2019 00:07:18 +0000 (UTC)
-Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 333682176D;
- Sun,  8 Dec 2019 00:07:17 +0000 (UTC)
-Date: Sun, 8 Dec 2019 01:07:02 +0100 (CET)
-From: Jiri Kosina <jikos@kernel.org>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v2 11/14] HID: picoLCD: constify fb ops
-In-Reply-To: <871rtji02a.fsf@intel.com>
-Message-ID: <nycvar.YFH.7.76.1912080106260.4603@cbobk.fhfr.pm>
-References: <cover.1575022735.git.jani.nikula@intel.com>
- <8678a9a3566279c881bb4db944850eef35d0a4bb.1575022735.git.jani.nikula@intel.com>
- <20191202094047.34525a7d@aether.lan.sysophe.eu> <871rtji02a.fsf@intel.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C03676E2B2
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Dec 2019 06:00:09 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id BD14C720E2; Sun,  8 Dec 2019 06:00:09 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 108514] heavy screen flickering with Mobility Radeon X1600 and
+ kernel version 3.15rc2 onward
+Date: Sun, 08 Dec 2019 06:00:09 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/Radeon
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: bisected, patch
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: gajoro5546@mail1web.org
+X-Bugzilla-Status: VERIFIED
+X-Bugzilla-Resolution: FIXED
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status
+Message-ID: <bug-108514-502-R0OZkojzkn@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-108514-502@http.bugs.freedesktop.org/>
+References: <bug-108514-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1575763638;
- bh=M7YFDrfsP98aHjcTFmDSkdeQQZQR99Y+Wunr3u7VZBk=;
- h=Date:From:To:cc:Subject:In-Reply-To:References:From;
- b=1TY4b7uPfggkxhFT+TY3ACqYiMTBwLT2da6upkhSP9ffdWP65lHcYCNWxCaVLoSdI
- nNqzfhmSQZ+33DwsBzNTLbncAzpH2IXNJw6CaWZR0LORJF34o81IxGrRrLHI2Au6KE
- eU8U9cK9EaBIOthIBFlz5Iupe4m6Q3Q60w8XZmh0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,27 +53,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- =?ISO-8859-15?Q?Bruno_Pr=E9mont?= <bonbons@linux-vserver.org>,
- linux-input@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1152097489=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCA1IERlYyAyMDE5LCBKYW5pIE5pa3VsYSB3cm90ZToKCj4gPj4gTm93IHRoYXQgdGhl
-IGZib3BzIG1lbWJlciBvZiBzdHJ1Y3QgZmJfaW5mbyBpcyBjb25zdCwgd2UgY2FuIHN0YXJ0Cj4g
-Pj4gbWFraW5nIHRoZSBvcHMgY29uc3QgYXMgd2VsbC4KPiA+Pgo+ID4+IHYyOiBmaXgJdHlwbyAo
-Q2hyaXN0b3BoZSBkZSBEaW5lY2hpbikKPiA+Cj4gPiBGaW5lIHdpdGggbWUuCj4gPiBJIGRvbid0
-IHRoaW5rIGdvaW5nIHRocm91Z2ggZHJtLW1pc2Mgd291bGQgdHJpZ2dlciBhbnkgY29uZmxpY3Qs
-IGJ1dAo+ID4gYWRkaW5nIEppcmkgdG8gQ0MgZm9yIHRoZSBjYXNlIHRoZXJlIHdhcyBhbnkgcHJl
-ZmVyZW5jZS4KPiA+Cj4gPiBBY2tlZC1ieTogQnJ1bm8gUHLDqW1vbnQgPGJvbmJvbnNAbGludXgt
-dnNlcnZlci5vcmc+Cj4gCj4gTm8gcmVzcG9uc2UsIG1heSBJIHByb2NlZWQgd2l0aCBtZXJnaW5n
-IHRoaXMgdGhyb3VnaCBkcm0tbWlzYyBwbGVhc2U/CgpJIGhhdmUgYmVlbiBvZmYgdGhlIGdyaWQg
-dGhlIHBhc3Qgd2Vlaywgc29ycnkgZm9yIGJlbGF0ZWQgcmVzcG9uc2UuIEZlZWwgCmZyZWUgdG8g
-YWRkCgoJQWNrZWQtYnk6IEppcmkgS29zaW5hIDxqa29zaW5hQHN1c2UuY3o+CgphbmQgdGFrZSBp
-dCB0aHJvdWdoIHlvdXIgdHJlZS4KCi0tIApKaXJpIEtvc2luYQpTVVNFIExhYnMKCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1152097489==
+Content-Type: multipart/alternative; boundary="15757848094.2ebf3b4.13397"
+Content-Transfer-Encoding: 7bit
+
+
+--15757848094.2ebf3b4.13397
+Date: Sun, 8 Dec 2019 06:00:09 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D108514
+
+BugFinder <gajoro5546@mail1web.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|RESOLVED                    |VERIFIED
+
+--- Comment #38 from BugFinder <gajoro5546@mail1web.org> ---
+Try to restore your system. <a hrefs=3D"https://www.songslyricsfree.com/">
+Songslyricsfree</a>
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15757848094.2ebf3b4.13397
+Date: Sun, 8 Dec 2019 06:00:09 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:gajoro554=
+6&#64;mail1web.org" title=3D"BugFinder &lt;gajoro5546&#64;mail1web.org&gt;"=
+> <span class=3D"fn">BugFinder</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_VERIFIED  bz_closed"
+   title=3D"VERIFIED FIXED - heavy screen flickering with Mobility Radeon X=
+1600 and kernel version 3.15rc2 onward"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108514">bug 10851=
+4</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>RESOLVED
+           </td>
+           <td>VERIFIED
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_VERIFIED  bz_closed"
+   title=3D"VERIFIED FIXED - heavy screen flickering with Mobility Radeon X=
+1600 and kernel version 3.15rc2 onward"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108514#c38">Comme=
+nt # 38</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_VERIFIED  bz_closed"
+   title=3D"VERIFIED FIXED - heavy screen flickering with Mobility Radeon X=
+1600 and kernel version 3.15rc2 onward"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108514">bug 10851=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+gajoro5546&#64;mail1web.org" title=3D"BugFinder &lt;gajoro5546&#64;mail1web=
+.org&gt;"> <span class=3D"fn">BugFinder</span></a>
+</span></b>
+        <pre>Try to restore your system. &lt;a hrefs=3D&quot;<a href=3D"htt=
+ps://www.songslyricsfree.com/">https://www.songslyricsfree.com/</a>&quot;&g=
+t;
+Songslyricsfree&lt;/a&gt;</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15757848094.2ebf3b4.13397--
+
+--===============1152097489==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1152097489==--
