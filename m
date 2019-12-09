@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22EFD1164AD
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2019 01:57:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B5E3116566
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2019 04:27:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE47C6E2FF;
-	Mon,  9 Dec 2019 00:57:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4638389F6F;
+	Mon,  9 Dec 2019 03:27:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CD2D6E2FF
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2019 00:57:07 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6921989F6F
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2019 03:27:48 +0000 (UTC)
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 08 Dec 2019 16:57:06 -0800
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 08 Dec 2019 19:27:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,293,1571727600"; 
- d="gz'50?scan'50,208,50";a="244275235"
+X-IronPort-AV: E=Sophos;i="5.69,294,1571727600"; 
+ d="gz'50?scan'50,208,50";a="206754692"
 Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
- by fmsmga002.fm.intel.com with ESMTP; 08 Dec 2019 16:57:03 -0800
+ by orsmga008.jf.intel.com with ESMTP; 08 Dec 2019 19:27:44 -0800
 Received: from kbuild by lkp-server01 with local (Exim 4.89)
  (envelope-from <lkp@intel.com>)
- id 1ie7MF-0009z9-Ap; Mon, 09 Dec 2019 08:57:03 +0800
-Date: Mon, 9 Dec 2019 08:56:28 +0800
+ id 1ie9i4-000HXA-Ev; Mon, 09 Dec 2019 11:27:44 +0800
+Date: Mon, 9 Dec 2019 11:26:43 +0800
 From: kbuild test robot <lkp@intel.com>
-To: Evan Quan <evan.quan@amd.com>
-Subject: [radeon-alex:amd-mainline-dkms-5.2 2080/3212]
- include/kcl/kcl_kref.h:9:21: warning: passing argument 1 of 'atomic_read'
- from incompatible pointer type
-Message-ID: <201912090824.zr9Kynkf%lkp@intel.com>
+To: Prike Liang <Prike.Liang@amd.com>
+Subject: [radeon-alex:amd-mainline-dkms-5.2 2082/3212]
+ drivers/gpu/drm/ttm/ttm_bo_vm.c:427:2: warning: initialization from
+ incompatible pointer type
+Message-ID: <201912091107.8yqfc9N7%lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="v5lkamkmfv2eagry"
+Content-Type: multipart/mixed; boundary="ca4ukchozzmik4wi"
 Content-Disposition: inline
 User-Agent: NeoMutt/20170113 (1.7.2)
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -50,24 +50,24 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Yifan Zhang <yifan1.zhang@amd.com>, kbuild-all@lists.01.org,
- Jack Gui <Jack.Gui@amd.com>, Slava Grigorev <slava.grigorev@amd.com>,
- dri-devel@lists.freedesktop.org, Junwei Zhang <Jerry.Zhang@amd.com>,
+ Jack Gui <Jack.Gui@amd.com>, Tao Zhou <Tao.Zhou1@amd.com>,
+ Slava Grigorev <slava.grigorev@amd.com>, dri-devel@lists.freedesktop.org,
  Flora Cui <flora.cui@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---v5lkamkmfv2eagry
+--ca4ukchozzmik4wi
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   git://people.freedesktop.org/~agd5f/linux.git amd-mainline-dkms-5.2
 head:   d269e78d6ce76b6e78f9dad26f336745130b2bfa
-commit: b35c23a557bb753b64082a4aa4057374bcbcca74 [2080/3212] drm/amdkcl: Test whether kref_read() function is available
+commit: 3ba40228e28c15ca2dfec398cd7e5ebebdb5a9c2 [2082/3212] drm/amdkcl: Test whether vmf_insert_*() functions are available
 config: x86_64-randconfig-a002-20191206 (attached as .config)
 compiler: gcc-4.9 (Debian 4.9.2-10+deb8u1) 4.9.2
 reproduce:
-        git checkout b35c23a557bb753b64082a4aa4057374bcbcca74
+        git checkout 3ba40228e28c15ca2dfec398cd7e5ebebdb5a9c2
         # save the attached .config to linux build tree
         make ARCH=x86_64 
 
@@ -76,92 +76,6 @@ Reported-by: kbuild test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   include/kcl/kcl_mm.h:75:21: error: redefinition of 'kvzalloc'
-    static inline void *kvzalloc(size_t size, gfp_t flags)
-                        ^
-   In file included from include/drm/drm_vma_manager.h:27:0,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
-                    from <command-line>:0:
-   include/linux/mm.h:643:21: note: previous definition of 'kvzalloc' was here
-    static inline void *kvzalloc(size_t size, gfp_t flags)
-                        ^
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
-                    from <command-line>:0:
-   include/kcl/kcl_mm.h:85:20: error: static declaration of 'kvfree' follows non-static declaration
-    static inline void kvfree(const void *addr)
-                       ^
-   In file included from include/drm/drm_vma_manager.h:27:0,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
-                    from <command-line>:0:
-   include/linux/mm.h:663:13: note: previous declaration of 'kvfree' was here
-    extern void kvfree(const void *addr);
-                ^
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
-                    from <command-line>:0:
-   include/kcl/kcl_mm.h:105:21: error: redefinition of 'kvmalloc_array'
-    static inline void *kvmalloc_array(size_t n, size_t size, gfp_t flags)
-                        ^
-   In file included from include/drm/drm_vma_manager.h:27:0,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
-                    from <command-line>:0:
-   include/linux/mm.h:648:21: note: previous definition of 'kvmalloc_array' was here
-    static inline void *kvmalloc_array(size_t n, size_t size, gfp_t flags)
-                        ^
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
-                    from <command-line>:0:
-   include/kcl/kcl_mm.h:118:21: error: redefinition of 'kvcalloc'
-    static inline void *kvcalloc(size_t n, size_t size, gfp_t flags)
-                        ^
-   In file included from include/drm/drm_vma_manager.h:27:0,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
-                    from <command-line>:0:
-   include/linux/mm.h:658:21: note: previous definition of 'kvcalloc' was here
-    static inline void *kvcalloc(size_t n, size_t size, gfp_t flags)
-                        ^
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:9:0,
-                    from <command-line>:0:
-   include/kcl/kcl_fence.h:161:20: error: redefinition of 'dma_fence_set_error'
-    static inline void dma_fence_set_error(struct dma_fence *fence,
-                       ^
-   In file included from include/drm/drmP.h:58:0,
-                    from include/kcl/kcl_drm.h:6,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/linux/dma-fence.h:517:20: note: previous definition of 'dma_fence_set_error' was here
-    static inline void dma_fence_set_error(struct dma_fence *fence,
-                       ^
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:9:0,
-                    from <command-line>:0:
-   include/kcl/kcl_fence.h: In function 'dma_fence_set_error':
-   include/kcl/kcl_fence.h:167:7: error: 'struct dma_fence' has no member named 'status'
-     fence->status = error;
-          ^
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:10:0,
-                    from <command-line>:0:
-   include/kcl/kcl_list.h: At top level:
-   include/kcl/kcl_list.h:6:20: error: redefinition of 'list_bulk_move_tail'
-    static inline void list_bulk_move_tail(struct list_head *head,
-                       ^
-   In file included from include/linux/preempt.h:11:0,
-                    from include/linux/rcupdate.h:27,
-                    from include/linux/rbtree.h:34,
-                    from include/drm/drm_mm.h:41,
-                    from include/drm/drm_vma_manager.h:26,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
-                    from <command-line>:0:
-   include/linux/list.h:212:20: note: previous definition of 'list_bulk_move_tail' was here
-    static inline void list_bulk_move_tail(struct list_head *head,
-                       ^
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:11:0,
-                    from <command-line>:0:
-   include/kcl/kcl_kref.h:7:28: error: redefinition of 'kref_read'
-    static inline unsigned int kref_read(const struct kref *kref)
-                               ^
    In file included from include/linux/kobject.h:23:0,
                     from include/linux/device.h:16,
                     from include/drm/drm_print.h:32,
@@ -176,7 +90,7 @@ All warnings (new ones prefixed by >>):
    In file included from drivers/gpu/drm/ttm/backport/backport.h:11:0,
                     from <command-line>:0:
    include/kcl/kcl_kref.h: In function 'kref_read':
->> include/kcl/kcl_kref.h:9:21: warning: passing argument 1 of 'atomic_read' from incompatible pointer type
+   include/kcl/kcl_kref.h:9:21: warning: passing argument 1 of 'atomic_read' from incompatible pointer type
      return atomic_read(&kref->refcount);
                         ^
    In file included from arch/x86/include/asm/atomic.h:265:0,
@@ -191,79 +105,18 @@ All warnings (new ones prefixed by >>):
    include/asm-generic/atomic-instrumented.h:24:1: note: expected 'const struct atomic_t *' but argument is of type 'const struct refcount_t *'
     atomic_read(const atomic_t *v)
     ^
-   cc1: some warnings being treated as errors
---
-   include/kcl/kcl_mm.h:75:21: error: redefinition of 'kvzalloc'
-    static inline void *kvzalloc(size_t size, gfp_t flags)
-                        ^
-   In file included from include/drm/drm_vma_manager.h:27:0,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:12:0,
                     from <command-line>:0:
-   include/linux/mm.h:643:21: note: previous definition of 'kvzalloc' was here
-    static inline void *kvzalloc(size_t size, gfp_t flags)
-                        ^
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
-                    from <command-line>:0:
-   include/kcl/kcl_mm.h:85:20: error: static declaration of 'kvfree' follows non-static declaration
-    static inline void kvfree(const void *addr)
-                       ^
-   In file included from include/drm/drm_vma_manager.h:27:0,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
-                    from <command-line>:0:
-   include/linux/mm.h:663:13: note: previous declaration of 'kvfree' was here
-    extern void kvfree(const void *addr);
-                ^
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
-                    from <command-line>:0:
-   include/kcl/kcl_mm.h:105:21: error: redefinition of 'kvmalloc_array'
-    static inline void *kvmalloc_array(size_t n, size_t size, gfp_t flags)
-                        ^
-   In file included from include/drm/drm_vma_manager.h:27:0,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
-                    from <command-line>:0:
-   include/linux/mm.h:648:21: note: previous definition of 'kvmalloc_array' was here
-    static inline void *kvmalloc_array(size_t n, size_t size, gfp_t flags)
-                        ^
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
-                    from <command-line>:0:
-   include/kcl/kcl_mm.h:118:21: error: redefinition of 'kvcalloc'
-    static inline void *kvcalloc(size_t n, size_t size, gfp_t flags)
-                        ^
-   In file included from include/drm/drm_vma_manager.h:27:0,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
-                    from <command-line>:0:
-   include/linux/mm.h:658:21: note: previous definition of 'kvcalloc' was here
-    static inline void *kvcalloc(size_t n, size_t size, gfp_t flags)
-                        ^
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:9:0,
-                    from <command-line>:0:
-   include/kcl/kcl_fence.h:161:20: error: redefinition of 'dma_fence_set_error'
-    static inline void dma_fence_set_error(struct dma_fence *fence,
-                       ^
-   In file included from include/drm/drmP.h:58:0,
-                    from include/kcl/kcl_drm.h:6,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/linux/dma-fence.h:517:20: note: previous definition of 'dma_fence_set_error' was here
-    static inline void dma_fence_set_error(struct dma_fence *fence,
-                       ^
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:9:0,
-                    from <command-line>:0:
-   include/kcl/kcl_fence.h: In function 'dma_fence_set_error':
-   include/kcl/kcl_fence.h:167:7: error: 'struct dma_fence' has no member named 'status'
-     fence->status = error;
-          ^
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:10:0,
-                    from <command-line>:0:
-   include/kcl/kcl_list.h: At top level:
-   include/kcl/kcl_list.h:6:20: error: redefinition of 'list_bulk_move_tail'
-    static inline void list_bulk_move_tail(struct list_head *head,
-                       ^
-   In file included from include/linux/preempt.h:11:0,
+   include/kcl/kcl_mm_types.h: At top level:
+   include/kcl/kcl_mm_types.h:10:3: error: conflicting types for 'pfn_t'
+    } pfn_t;
+      ^
+   In file included from include/asm-generic/memory_model.h:5:0,
+                    from arch/x86/include/asm/page.h:76,
+                    from arch/x86/include/asm/thread_info.h:12,
+                    from include/linux/thread_info.h:38,
+                    from arch/x86/include/asm/preempt.h:7,
+                    from include/linux/preempt.h:78,
                     from include/linux/rcupdate.h:27,
                     from include/linux/rbtree.h:34,
                     from include/drm/drm_mm.h:41,
@@ -271,198 +124,91 @@ All warnings (new ones prefixed by >>):
                     from include/kcl/kcl_drm_vma_manager.h:8,
                     from drivers/gpu/drm/ttm/backport/backport.h:5,
                     from <command-line>:0:
-   include/linux/list.h:212:20: note: previous definition of 'list_bulk_move_tail' was here
-    static inline void list_bulk_move_tail(struct list_head *head,
-                       ^
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:11:0,
+   include/linux/pfn.h:15:3: note: previous declaration of 'pfn_t' was here
+    } pfn_t;
+      ^
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:12:0,
                     from <command-line>:0:
-   include/kcl/kcl_kref.h:7:28: error: redefinition of 'kref_read'
-    static inline unsigned int kref_read(const struct kref *kref)
-                               ^
-   In file included from include/linux/kobject.h:23:0,
-                    from include/linux/device.h:16,
-                    from include/drm/drm_print.h:32,
-                    from include/drm/drm_mm.h:49,
-                    from include/drm/drm_vma_manager.h:26,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
-                    from <command-line>:0:
-   include/linux/kref.h:36:28: note: previous definition of 'kref_read' was here
-    static inline unsigned int kref_read(const struct kref *kref)
-                               ^
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:11:0,
-                    from <command-line>:0:
-   include/kcl/kcl_kref.h: In function 'kref_read':
->> include/kcl/kcl_kref.h:9:21: warning: passing argument 1 of 'atomic_read' from incompatible pointer type
-     return atomic_read(&kref->refcount);
-                        ^
-   In file included from arch/x86/include/asm/atomic.h:265:0,
-                    from include/linux/atomic.h:7,
-                    from include/linux/rcupdate.h:25,
-                    from include/linux/rbtree.h:34,
-                    from include/drm/drm_mm.h:41,
-                    from include/drm/drm_vma_manager.h:26,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
-                    from <command-line>:0:
-   include/asm-generic/atomic-instrumented.h:24:1: note: expected 'const struct atomic_t *' but argument is of type 'const struct refcount_t *'
-    atomic_read(const atomic_t *v)
-    ^
-   drivers/gpu/drm/ttm/ttm_bo.c: In function 'ttm_bo_mem_space_debug':
-   drivers/gpu/drm/ttm/ttm_bo.c:101:9: error: invalid initializer
-     struct drm_printer p = drm_debug_printer(TTM_PFX);
-            ^
-   cc1: some warnings being treated as errors
---
-   include/kcl/kcl_mm.h:75:21: error: redefinition of 'kvzalloc'
-    static inline void *kvzalloc(size_t size, gfp_t flags)
-                        ^
-   In file included from include/drm/drm_vma_manager.h:27:0,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
-                    from <command-line>:0:
-   include/linux/mm.h:643:21: note: previous definition of 'kvzalloc' was here
-    static inline void *kvzalloc(size_t size, gfp_t flags)
-                        ^
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
-                    from <command-line>:0:
-   include/kcl/kcl_mm.h:85:20: error: static declaration of 'kvfree' follows non-static declaration
-    static inline void kvfree(const void *addr)
-                       ^
-   In file included from include/drm/drm_vma_manager.h:27:0,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
-                    from <command-line>:0:
-   include/linux/mm.h:663:13: note: previous declaration of 'kvfree' was here
-    extern void kvfree(const void *addr);
+   include/kcl/kcl_mm_types.h:33:13: error: conflicting types for 'vm_fault_t'
+    typedef int vm_fault_t;
                 ^
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
-                    from <command-line>:0:
-   include/kcl/kcl_mm.h:105:21: error: redefinition of 'kvmalloc_array'
-    static inline void *kvmalloc_array(size_t n, size_t size, gfp_t flags)
-                        ^
-   In file included from include/drm/drm_vma_manager.h:27:0,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
-                    from <command-line>:0:
-   include/linux/mm.h:648:21: note: previous definition of 'kvmalloc_array' was here
-    static inline void *kvmalloc_array(size_t n, size_t size, gfp_t flags)
-                        ^
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
-                    from <command-line>:0:
-   include/kcl/kcl_mm.h:118:21: error: redefinition of 'kvcalloc'
-    static inline void *kvcalloc(size_t n, size_t size, gfp_t flags)
-                        ^
-   In file included from include/drm/drm_vma_manager.h:27:0,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
-                    from <command-line>:0:
-   include/linux/mm.h:658:21: note: previous definition of 'kvcalloc' was here
-    static inline void *kvcalloc(size_t n, size_t size, gfp_t flags)
-                        ^
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:9:0,
-                    from <command-line>:0:
-   include/kcl/kcl_fence.h:161:20: error: redefinition of 'dma_fence_set_error'
-    static inline void dma_fence_set_error(struct dma_fence *fence,
-                       ^
-   In file included from include/drm/drmP.h:58:0,
-                    from include/kcl/kcl_drm.h:6,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/linux/dma-fence.h:517:20: note: previous definition of 'dma_fence_set_error' was here
-    static inline void dma_fence_set_error(struct dma_fence *fence,
-                       ^
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:9:0,
-                    from <command-line>:0:
-   include/kcl/kcl_fence.h: In function 'dma_fence_set_error':
-   include/kcl/kcl_fence.h:167:7: error: 'struct dma_fence' has no member named 'status'
-     fence->status = error;
-          ^
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:10:0,
-                    from <command-line>:0:
-   include/kcl/kcl_list.h: At top level:
-   include/kcl/kcl_list.h:6:20: error: redefinition of 'list_bulk_move_tail'
-    static inline void list_bulk_move_tail(struct list_head *head,
-                       ^
-   In file included from include/linux/preempt.h:11:0,
-                    from include/linux/rcupdate.h:27,
-                    from include/linux/rbtree.h:34,
-                    from include/drm/drm_mm.h:41,
+   In file included from include/drm/drm_mm.h:43:0,
                     from include/drm/drm_vma_manager.h:26,
                     from include/kcl/kcl_drm_vma_manager.h:8,
                     from drivers/gpu/drm/ttm/backport/backport.h:5,
                     from <command-line>:0:
-   include/linux/list.h:212:20: note: previous definition of 'list_bulk_move_tail' was here
-    static inline void list_bulk_move_tail(struct list_head *head,
-                       ^
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:11:0,
+   include/linux/mm_types.h:631:32: note: previous declaration of 'vm_fault_t' was here
+    typedef __bitwise unsigned int vm_fault_t;
+                                   ^
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:12:0,
                     from <command-line>:0:
-   include/kcl/kcl_kref.h:7:28: error: redefinition of 'kref_read'
-    static inline unsigned int kref_read(const struct kref *kref)
-                               ^
-   In file included from include/linux/kobject.h:23:0,
-                    from include/linux/device.h:16,
-                    from include/drm/drm_print.h:32,
-                    from include/drm/drm_mm.h:49,
-                    from include/drm/drm_vma_manager.h:26,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
-                    from <command-line>:0:
-   include/linux/kref.h:36:28: note: previous definition of 'kref_read' was here
-    static inline unsigned int kref_read(const struct kref *kref)
-                               ^
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:11:0,
-                    from <command-line>:0:
-   include/kcl/kcl_kref.h: In function 'kref_read':
->> include/kcl/kcl_kref.h:9:21: warning: passing argument 1 of 'atomic_read' from incompatible pointer type
-     return atomic_read(&kref->refcount);
-                        ^
-   In file included from arch/x86/include/asm/atomic.h:265:0,
-                    from include/linux/atomic.h:7,
-                    from include/linux/rcupdate.h:25,
-                    from include/linux/rbtree.h:34,
-                    from include/drm/drm_mm.h:41,
-                    from include/drm/drm_vma_manager.h:26,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
-                    from <command-line>:0:
-   include/asm-generic/atomic-instrumented.h:24:1: note: expected 'const struct atomic_t *' but argument is of type 'const struct refcount_t *'
-    atomic_read(const atomic_t *v)
-    ^
-   drivers/gpu/drm/ttm/ttm_bo_manager.c: In function 'ttm_bo_man_debug':
-   drivers/gpu/drm/ttm/ttm_bo_manager.c:145:26: warning: passing argument 2 of 'drm_mm_print' from incompatible pointer type
-     drm_mm_print(&rman->mm, printer);
+   include/kcl/kcl_mm_types.h:35:26: error: conflicting types for 'vmf_insert_mixed'
+    static inline vm_fault_t vmf_insert_mixed(struct vm_area_struct *vma,
                              ^
-   In file included from include/drm/drm_vma_manager.h:26:0,
+   In file included from include/drm/drm_vma_manager.h:27:0,
                     from include/kcl/kcl_drm_vma_manager.h:8,
                     from drivers/gpu/drm/ttm/backport/backport.h:5,
                     from <command-line>:0:
-   include/drm/drm_mm.h:547:6: note: expected 'struct drm_printer *' but argument is of type 'struct drm_printer *'
-    void drm_mm_print(const struct drm_mm *mm, struct drm_printer *p);
-         ^
+   include/linux/mm.h:2587:12: note: previous declaration of 'vmf_insert_mixed' was here
+    vm_fault_t vmf_insert_mixed(struct vm_area_struct *vma, unsigned long addr,
+               ^
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:12:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm_types.h: In function 'vmf_insert_mixed':
+   include/kcl/kcl_mm_types.h:41:2: error: implicit declaration of function 'vm_insert_mixed' [-Werror=implicit-function-declaration]
+     err = vm_insert_mixed(vma, addr, pfn_t_to_pfn(pfn));
+     ^
+   include/kcl/kcl_mm_types.h: At top level:
+   include/kcl/kcl_mm_types.h:53:26: error: conflicting types for 'vmf_insert_pfn'
+    static inline vm_fault_t vmf_insert_pfn(struct vm_area_struct *vma,
+                             ^
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:2583:12: note: previous declaration of 'vmf_insert_pfn' was here
+    vm_fault_t vmf_insert_pfn(struct vm_area_struct *vma, unsigned long addr,
+               ^
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:12:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm_types.h: In function 'vmf_insert_pfn':
+   include/kcl/kcl_mm_types.h:56:3: error: implicit declaration of function 'vm_insert_pfn' [-Werror=implicit-function-declaration]
+      int err = vm_insert_pfn(vma, addr, pfn);
+      ^
+   drivers/gpu/drm/ttm/ttm_bo_vm.c: At top level:
+>> drivers/gpu/drm/ttm/ttm_bo_vm.c:427:2: warning: initialization from incompatible pointer type
+     .fault = ttm_bo_vm_fault,
+     ^
+   drivers/gpu/drm/ttm/ttm_bo_vm.c:427:2: warning: (near initialization for 'ttm_bo_vm_ops.fault')
    cc1: some warnings being treated as errors
 
-vim +/atomic_read +9 include/kcl/kcl_kref.h
+vim +427 drivers/gpu/drm/ttm/ttm_bo_vm.c
 
-     5	
-     6	#if !defined(HAVE_KREF_READ)
-     7	static inline unsigned int kref_read(const struct kref *kref)
-     8	{
-   > 9		return atomic_read(&kref->refcount);
-    10	}
-    11	#endif
-    12	
+09ac4fcb3f255e Felix Kuehling   2017-07-13  425  
+f0f37e2f77731b Alexey Dobriyan  2009-09-27  426  static const struct vm_operations_struct ttm_bo_vm_ops = {
+ba4e7d973dd09b Thomas Hellstrom 2009-06-10 @427  	.fault = ttm_bo_vm_fault,
+ba4e7d973dd09b Thomas Hellstrom 2009-06-10  428  	.open = ttm_bo_vm_open,
+09ac4fcb3f255e Felix Kuehling   2017-07-13  429  	.close = ttm_bo_vm_close,
+09ac4fcb3f255e Felix Kuehling   2017-07-13  430  	.access = ttm_bo_vm_access
+ba4e7d973dd09b Thomas Hellstrom 2009-06-10  431  };
+ba4e7d973dd09b Thomas Hellstrom 2009-06-10  432  
+
+:::::: The code at line 427 was first introduced by commit
+:::::: ba4e7d973dd09b66912ac4c0856add8b0703a997 drm: Add the TTM GPU memory manager subsystem.
+
+:::::: TO: Thomas Hellstrom <thellstrom@vmware.com>
+:::::: CC: Dave Airlie <airlied@redhat.com>
 
 ---
 0-DAY kernel test infrastructure                 Open Source Technology Center
 https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org Intel Corporation
 
---v5lkamkmfv2eagry
+--ca4ukchozzmik4wi
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICKiR7V0AAy5jb25maWcAlFxbc9w2sn7Pr5hyXpJK2ZFkRcd7TukBJMEZZEiCBsCRRi+s
+H4sICJ257V0AAy5jb25maWcAlFxbc9w2sn7Pr5hyXpJK2ZFkRcd7TukBJMEZZEiCBsCRRi+s
 iTRyVKuLdyTt2v/+dDd4AUBQybpSsQfduDe6v240+OMPPy7Y68vTw+7l7np3f/998WX/uD/s
 XvY3i9u7+/3/LTK5qKRZ8EyYD8Bc3D2+fvv126ez9ux08duHkw9H7w/Xx4v1/vC4v1+kT4+3
 d19eof7d0+MPP/4A//0IhQ9foanD/y6+XF+/P/3wj8VP2f6Pu93jAv794eT98dEvN/s/Pr0e
@@ -1118,7 +864,7 @@ Wd2Zm0K0x+vz41H1ZONgCic8Tm3PyymPJT7qo3bd9Fisjr+QRgrWpH3AN/0ro/sp1spqFzqR
 SW/i2PJO5qV3TFQumh4BRXAgmJb6lGQJr1YjSyXzNI9rpBPcTAm8aNBtH+9VrxlBk61UDou8
 NKyGBrh6KyT2zJPuzXqI/j9RV0AGaigCAA==
 
---v5lkamkmfv2eagry
+--ca4ukchozzmik4wi
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -1128,4 +874,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---v5lkamkmfv2eagry--
+--ca4ukchozzmik4wi--
