@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC06911828D
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 09:41:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C81411828A
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 09:41:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D58F6E83F;
-	Tue, 10 Dec 2019 08:40:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BC766E83C;
+	Tue, 10 Dec 2019 08:40:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A7BE6E379
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2019 10:01:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9457B89DA4
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2019 10:15:38 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: eballetbo) with ESMTPSA id A9E2C28BA5C
-Subject: Re: [resend PATCH v6 08/12] clk: mediatek: mt6779: switch mmsys to
- platform device probing
+ (Authenticated sender: eballetbo) with ESMTPSA id C67AD28EDB5
+Subject: Re: [resend PATCH v6 12/12] drm/mediatek: Add support for mmsys
+ through a pdev
 To: matthias.bgg@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
  ck.hu@mediatek.com, p.zabel@pengutronix.de, airlied@linux.ie,
  mturquette@baylibre.com, sboyd@kernel.org, ulrich.hecht+renesas@gmail.com,
  laurent.pinchart@ideasonboard.com
 References: <20191207224740.24536-1-matthias.bgg@kernel.org>
- <20191207224740.24536-9-matthias.bgg@kernel.org>
+ <20191207224740.24536-13-matthias.bgg@kernel.org>
 From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Message-ID: <ef75d3d2-7a2d-5b68-ad0a-ffdf1da4bab9@collabora.com>
-Date: Mon, 9 Dec 2019 11:01:28 +0100
+Message-ID: <96c850e0-9b12-a943-4e99-9aca7ce8ca8b@collabora.com>
+Date: Mon, 9 Dec 2019 11:15:33 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191207224740.24536-9-matthias.bgg@kernel.org>
+In-Reply-To: <20191207224740.24536-13-matthias.bgg@kernel.org>
 Content-Language: en-US
 X-Mailman-Approved-At: Tue, 10 Dec 2019 08:40:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -56,97 +56,109 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Matthias,
 
+Just one nit below and LGTM
+
 On 7/12/19 23:47, matthias.bgg@kernel.org wrote:
 > From: Matthias Brugger <mbrugger@suse.com>
 > 
-> Switch probing for the MMSYS to support invocation to a
-> plain paltform device. The driver will be probed by the DRM subsystem.
+> The MMSYS subsystem includes clocks and drm components.
+> This patch adds an initailization path through a platform device
+> for the clock part, so that both drivers get probed from the same
+> device tree compatible.
 > 
-> Singed-off-by: Matthias Brugger <mbrugger@suse.com>
+> Signed-off-by: Matthias Brugger <mbrugger@suse.com>
+
+Reviewed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+
 > ---
->  drivers/clk/mediatek/clk-mt6779-mm.c | 41 +++++++++++++++++++---------
-
-And the same comment from previous patch. The comment applies to patches until 11.
-
->  1 file changed, 28 insertions(+), 13 deletions(-)
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c | 24 ++++++++++++++++++++++++
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.h |  2 ++
+>  2 files changed, 26 insertions(+)
 > 
-> diff --git a/drivers/clk/mediatek/clk-mt6779-mm.c b/drivers/clk/mediatek/clk-mt6779-mm.c
-> index fb5fbb8e3e41..439ec460c166 100644
-> --- a/drivers/clk/mediatek/clk-mt6779-mm.c
-> +++ b/drivers/clk/mediatek/clk-mt6779-mm.c
-> @@ -4,13 +4,19 @@
->   * Author: Wendell Lin <wendell.lin@mediatek.com>
->   */
->  
-> +#include <linux/module.h>
->  #include <linux/clk-provider.h>
->  #include <linux/platform_device.h>
->  #include <dt-bindings/clock/mt6779-clk.h>
-> +#include <linux/slab.h>
->  
->  #include "clk-mtk.h"
->  #include "clk-gate.h"
->  
-> +struct clk_mt6779_mm_priv {
-> +	struct clk_onecell_data *clk_data;
-> +};
-> +
->  static const struct mtk_gate_regs mm0_cg_regs = {
->  	.set_ofs = 0x0104,
->  	.clr_ofs = 0x0108,
-> @@ -84,30 +90,39 @@ static const struct mtk_gate mm_clks[] = {
->  	GATE_MM1(CLK_MM_DISP_OVL_FBDC, "mm_disp_ovl_fbdc", "mm_sel", 16),
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> index 210455e9f46c..5ada74d8d0c9 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> @@ -186,6 +186,7 @@ static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data = {
+>  	.ext_path = mt2701_mtk_ddp_ext,
+>  	.ext_len = ARRAY_SIZE(mt2701_mtk_ddp_ext),
+>  	.shadow_register = true,
+> +	.clk_drv_name = "clk-mt2701-mm",
 >  };
 >  
-> -static const struct of_device_id of_match_clk_mt6779_mm[] = {
-> -	{ .compatible = "mediatek,mt6779-mmsys", },
-> -	{}
-> -};
-> -
->  static int clk_mt6779_mm_probe(struct platform_device *pdev)
->  {
-> -	struct clk_onecell_data *clk_data;
-> -	struct device_node *node = pdev->dev.of_node;
-> +	struct clk_mt6779_mm_priv *private;
-> +	struct device_node *node = pdev->dev.parent->of_node;
-> +
-> +	private = devm_kzalloc(&pdev->dev, sizeof(*private), GFP_KERNEL);
-> +	if (!private)
-> +		return -ENOMEM;
+>  static const struct mtk_mmsys_driver_data mt2712_mmsys_driver_data = {
+> @@ -195,6 +196,7 @@ static const struct mtk_mmsys_driver_data mt2712_mmsys_driver_data = {
+>  	.ext_len = ARRAY_SIZE(mt2712_mtk_ddp_ext),
+>  	.third_path = mt2712_mtk_ddp_third,
+>  	.third_len = ARRAY_SIZE(mt2712_mtk_ddp_third),
+> +	.clk_drv_name = "clk-mt2712-mm",
+>  };
 >  
-> -	clk_data = mtk_alloc_clk_data(CLK_MM_NR_CLK);
-> +	private->clk_data = mtk_alloc_clk_data(CLK_MM_NR_CLK);
-> +	platform_set_drvdata(pdev, private);
+>  static const struct mtk_mmsys_driver_data mt8173_mmsys_driver_data = {
+> @@ -202,6 +204,7 @@ static const struct mtk_mmsys_driver_data mt8173_mmsys_driver_data = {
+>  	.main_len = ARRAY_SIZE(mt8173_mtk_ddp_main),
+>  	.ext_path = mt8173_mtk_ddp_ext,
+>  	.ext_len = ARRAY_SIZE(mt8173_mtk_ddp_ext),
+> +	.clk_drv_name = "clk-mt8173-mm",
+>  };
 >  
->  	mtk_clk_register_gates(node, mm_clks, ARRAY_SIZE(mm_clks),
-> -			       clk_data);
-> +			       private->clk_data);
+>  static int mtk_drm_kms_init(struct drm_device *drm)
+> @@ -499,6 +502,24 @@ static int mtk_drm_probe(struct platform_device *pdev)
+>  	INIT_WORK(&private->commit.work, mtk_atomic_work);
+>  	private->data = of_device_get_match_data(dev);
 >  
-> -	return of_clk_add_provider(node, of_clk_src_onecell_get, clk_data);
-> +	return of_clk_add_provider(node, of_clk_src_onecell_get,
-> +						private->clk_data);
-> +}
+> +	/*
+> +	 * MMSYS includes apart from components management a block providing
+> +	 * clocks for the subsystem. We probe this clock driver via a platform
+> +	 * device.
+> +	 */
+> +	if (private->data->clk_drv_name) {
+> +		private->clk_dev = platform_device_register_data(dev,
+> +						private->data->clk_drv_name, -1,
+> +						NULL, 0);
+
+Replace -1 for PLATFORM_DEVID_NONE
+
 > +
-> +static int clk_mt6779_mm_remove(struct platform_device *pdev)
-> +{
-> +	struct clk_mt6779_mm_priv *private = platform_get_drvdata(pdev);
+> +		if (IS_ERR(private->clk_dev)) {
+> +			dev_err(dev, "failed to register %s platform device\n",
+> +				private->data->clk_drv_name);
 > +
-> +	kfree(private->clk_data);
+> +			return PTR_ERR(private->clk_dev);
+> +		}
+> +	}
 > +
-> +	return 0;
+>  	private->config_regs = syscon_node_to_regmap(dev->of_node);
+>  	if (IS_ERR(private->config_regs))
+>  		return PTR_ERR(private->config_regs);
+> @@ -605,6 +626,9 @@ static int mtk_drm_remove(struct platform_device *pdev)
+>  	for (i = 0; i < DDP_COMPONENT_ID_MAX; i++)
+>  		of_node_put(private->comp_node[i]);
+>  
+> +	if (private->clk_dev)
+> +		platform_device_unregister(private->clk_dev);
+> +
+>  	return 0;
 >  }
 >  
->  static struct platform_driver clk_mt6779_mm_drv = {
->  	.probe = clk_mt6779_mm_probe,
-> +	.remove = clk_mt6779_mm_remove,
->  	.driver = {
->  		.name = "clk-mt6779-mm",
-> -		.of_match_table = of_match_clk_mt6779_mm,
->  	},
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.h b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+> index 63a121577dcb..8fe9136adc38 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+> @@ -29,11 +29,13 @@ struct mtk_mmsys_driver_data {
+>  	unsigned int third_len;
+>  
+>  	bool shadow_register;
+> +	const char *clk_drv_name;
 >  };
-> -
-> -builtin_platform_driver(clk_mt6779_mm_drv);
-> +module_platform_driver(clk_mt6779_mm_drv);
+>  
+>  struct mtk_drm_private {
+>  	struct drm_device *drm;
+>  	struct device *dma_dev;
+> +	struct platform_device *clk_dev;
+>  
+>  	unsigned int num_pipes;
+>  
 > 
 _______________________________________________
 dri-devel mailing list
