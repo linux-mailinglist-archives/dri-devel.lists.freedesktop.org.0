@@ -2,61 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C010118266
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 09:40:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0121118282
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 09:40:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFED089CAD;
-	Tue, 10 Dec 2019 08:40:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4D526E833;
+	Tue, 10 Dec 2019 08:40:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
- [216.228.121.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 631796E2D7;
- Mon,  9 Dec 2019 18:43:47 +0000 (UTC)
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5dee95dd0000>; Mon, 09 Dec 2019 10:43:41 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Mon, 09 Dec 2019 10:43:46 -0800
-X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Mon, 09 Dec 2019 10:43:46 -0800
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 9 Dec
- 2019 18:43:46 +0000
-Received: from [10.40.101.166] (10.124.1.5) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 9 Dec 2019
- 18:43:43 +0000
-Subject: Re: [PATCH v3 11/12] samples: vfio-mdev: constify fb ops
-To: Jani Nikula <jani.nikula@intel.com>, <dri-devel@lists.freedesktop.org>,
- <linux-fbdev@vger.kernel.org>
-References: <cover.1575390740.git.jani.nikula@intel.com>
- <ddb10df1316ef585930cda7718643a580f4fe37b.1575390741.git.jani.nikula@intel.com>
- <87tv694myu.fsf@intel.com>
-X-Nvconfidentiality: public
-From: Kirti Wankhede <kwankhede@nvidia.com>
-Message-ID: <0d5434e0-3d86-bbb8-6377-94e00b4f0d78@nvidia.com>
-Date: Tue, 10 Dec 2019 00:13:39 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.2
+Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
+ [IPv6:2607:f8b0:4864:20::d41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AD726E517
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2019 20:05:33 +0000 (UTC)
+Received: by mail-io1-xd41.google.com with SMTP id a22so1207567ios.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Dec 2019 12:05:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=kIY713aoSEHD/x3u5PlTEokoVSLdWYfrdpPXZFMSPxQ=;
+ b=JylfxDZU9Jre6L6QN+kjA1Ig3xs+nah2MG1fWPLyf69hWYqujAozYEURQLLaP5elD9
+ LEfUbDdK9AVoMMsn0B/HVbWlVLjXga51iRODPYk9+cXpUjT87fV4ij0TAXpd83is5lCq
+ 5LyHSOW9MByPohc5Z3nnuUdziogfqN0nRiLs0m8e13je/aVQh27c9/tv5Q4lnaNuzq2O
+ 6EfAR0hvrxRCxOLxJ1J40RJOeQ9CszPKBwC5ImOond9Yx8dtOz73cACH4SaamM0M6gxq
+ 1zr54sALDFW4NtZHOUBDc13ebOFZt6Q+UlmZAhcV9yA6csQ5M/YjeNnocwYCUQFaxGJ1
+ OPWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=kIY713aoSEHD/x3u5PlTEokoVSLdWYfrdpPXZFMSPxQ=;
+ b=PZUVgYsypk4/idjqF8UtnPIJiL3D5dQcSOV9ZqUFmsJc7GT46T+xUhuZE/Q/pwS34W
+ 0V4VhTA8xjN7PLTTdEm1562ApGxiHLj4wvf4OiJiBK+qouSa8zMjkwFxEbKzexy1GmqH
+ wBD3UyQlsxnur04Ye6CaECzfNqGT6PmMk6FtnkVOV+PdllwT5Gp5tc/DgaMrQI7EcYl4
+ HldlZQRlhyCz32t/g2JFb2gsTMRbb1ZNZSPfSTP+Z1cvV5gRTCrr4/XEDWzsZH5V1C9n
+ eypaSzWzau6NcE3pLTyqCMAbtgbKAS/uYFAJ8QEmuO9MAIJvQcUrDmCmGLo0XrROSGRM
+ Q52w==
+X-Gm-Message-State: APjAAAXmHi3vXIZrdlq3I1QudEJC1aT0ibHb53g1sLeB6mQz2XE8sDDj
+ +dVmYjEf0H5Nhm15PNYS7kdcmkDhpkNz8fGGQPk=
+X-Google-Smtp-Source: APXvYqy8pV0t678lSy5tpzAGPPl7NNyMK/SS0pTYQJIEbUPGHR1AKNsHvrADh5xk5NJJEC9jlPzpKY+6g+PtFvDt/w0=
+X-Received: by 2002:a02:950d:: with SMTP id y13mr22133594jah.139.1575921932855; 
+ Mon, 09 Dec 2019 12:05:32 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <87tv694myu.fsf@intel.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1575917021; bh=/7RvFJCUG4iQV+IDvVpbMgXKzJOkAMSMaevIPIjioqo=;
- h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
- Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
- X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
- Content-Transfer-Encoding;
- b=Y6wZDvVdMVatstmzKu5SutbP2nXXb/rNT7RvDQBaUBpwel/Ppk8RHXTPSUsY2JLEI
- GPHAGnnjRUNVizRoR8Bik/EAkJv1xkvimXAesz8C2O1+4klexm8wQ8Z8yaXj+b1rRe
- c2DJ3atEyFticNm2EfmFogYLEVO30JoyzqWFA7g/xLNwAFICp1XbuysYXsrFqTTaIe
- WnmR99W4Z45WDhf3Hm7c8UcaSe8GU3sTXSiKOMqsR9q0oM/QX/Xk7J1NroSifpKyH4
- 6zfoBCmb1xYefKzninwV27B8XFwLuBGgpIkFtsmaBxU/k/iDVguLzezRXylNSPloeg
- F1vJUI8bn7FaQ==
+References: <20191208105328.15335-1-lukas.bulwahn@gmail.com>
+ <1606305704.12702713.1575886917867.JavaMail.zimbra@inria.fr>
+In-Reply-To: <1606305704.12702713.1575886917867.JavaMail.zimbra@inria.fr>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Mon, 9 Dec 2019 20:05:23 +0100
+Message-ID: <CAKXUXMzd1OBdoOToPpuv6fh=eW+mNUPHcFdUjARxx+qBGMw=Bg@mail.gmail.com>
+Subject: Re: [PATCH] drm/vmwgfx: Replace deprecated PTR_RET
+To: Julia Lawall <julia.lawall@inria.fr>
 X-Mailman-Approved-At: Tue, 10 Dec 2019 08:40:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,54 +63,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- kvm@vger.kernel.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Thomas Hellstrom <thellstrom@vmware.com>, Sinclair Yeh <syeh@vmware.com>,
+ David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-graphics-maintainer@vmware.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 12/9/2019 7:31 PM, Jani Nikula wrote:
-> On Tue, 03 Dec 2019, Jani Nikula <jani.nikula@intel.com> wrote:
->> Now that the fbops member of struct fb_info is const, we can start
->> making the ops const as well.
->>
->> v2: fix	typo (Christophe de Dinechin)
->>
->> Cc: Kirti Wankhede <kwankhede@nvidia.com>
->> Cc: kvm@vger.kernel.org
->> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> 
-> Kirti, may I have your ack to merge this through drm-misc please?
-> 
-> BR,
-> Jani.
-> 
->> ---
->>   samples/vfio-mdev/mdpy-fb.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/samples/vfio-mdev/mdpy-fb.c b/samples/vfio-mdev/mdpy-fb.c
->> index 2719bb259653..21dbf63d6e41 100644
->> --- a/samples/vfio-mdev/mdpy-fb.c
->> +++ b/samples/vfio-mdev/mdpy-fb.c
->> @@ -86,7 +86,7 @@ static void mdpy_fb_destroy(struct fb_info *info)
->>   		iounmap(info->screen_base);
->>   }
->>   
->> -static struct fb_ops mdpy_fb_ops = {
->> +static const struct fb_ops mdpy_fb_ops = {
->>   	.owner		= THIS_MODULE,
->>   	.fb_destroy	= mdpy_fb_destroy,
->>   	.fb_setcolreg	= mdpy_fb_setcolreg,
-> 
-
-Acked-by : Kirti Wankhede <kwankhede@nvidia.com>
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gTW9uLCBEZWMgOSwgMjAxOSBhdCAxMToyMSBBTSBKdWxpYSBMYXdhbGwgPGp1bGlhLmxhd2Fs
+bEBpbnJpYS5mcj4gd3JvdGU6Cj4KPiA+IERlOiAiTHVrYXMgQnVsd2FobiIgPGx1a2FzLmJ1bHdh
+aG5AZ21haWwuY29tPgo+ID4gw4A6ICJUaG9tYXMgSGVsbHN0cm9tIiA8dGhlbGxzdHJvbUB2bXdh
+cmUuY29tPiwgZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4gQ2M6ICJEYXZpZCBB
+aXJsaWUiIDxhaXJsaWVkQGxpbnV4LmllPiwgIkRhbmllbCBWZXR0ZXIiIDxkYW5pZWxAZmZ3bGwu
+Y2g+LCAiU2luY2xhaXIgWWVoIiA8c3llaEB2bXdhcmUuY29tPiwKPiA+IGxpbnV4LWdyYXBoaWNz
+LW1haW50YWluZXJAdm13YXJlLmNvbSwga2VybmVsLWphbml0b3JzQHZnZXIua2VybmVsLm9yZywg
+bGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZywgIkx1a2FzIEJ1bHdhaG4iCj4gPiA8bHVrYXMu
+YnVsd2FobkBnbWFpbC5jb20+Cj4gPiBFbnZvecOpOiBEaW1hbmNoZSA4IETDqWNlbWJyZSAyMDE5
+IDE4OjUzOjI4Cj4gPiBPYmpldDogW1BBVENIXSBkcm0vdm13Z2Z4OiBSZXBsYWNlIGRlcHJlY2F0
+ZWQgUFRSX1JFVAo+Cj4gPiBDb21taXQgNTA4MTA4ZWEyNzQ3ICgiZHJtL3Ztd2dmeDogRG9uJ3Qg
+cmVmY291bnQgY29tbWFuZC1idWZmZXIgbWFuYWdlZAo+ID4gcmVzb3VyY2UgbG9va3VwcyBkdXJp
+bmcgY29tbWFuZCBidWZmZXIgdmFsaWRhdGlvbiIpIHNsaXBzIGluIHVzZSBvZgo+ID4gZGVwcmVj
+YXRlZCBQVFJfUkVULiBVc2UgUFRSX0VSUl9PUl9aRVJPIGluc3RlYWQuCj4gPgo+ID4gQXMgdGhl
+IFBUUl9FUlJfT1JfWkVSTyBpcyBhIGJpdCBsb25nZXIgdGhhbiBQVFJfUkVULCB3ZSBpbnRyb2R1
+Y2UKPiA+IGxvY2FsIHZhcmlhYmxlIHJldCBmb3IgcHJvcGVyIGluZGVudGF0aW9uIGFuZCBsaW5l
+LWxlbmd0aCBsaW1pdHMuCj4KPiBJcyAwIGFjdHVhbGx5IHBvc3NpYmxlPyAgSSBoYXZlIHRoZSBp
+bXByZXNzaW9uIHRoYXQgaXQgaXMgbm90LCBidXQgcGVyaGFwcyBJIG1pc3NlZCBzb21ldGhpbmcu
+Cj4KCkkgZGlkIG5vdCBzYW5pdHktY2hlY2sgaWYgMCBpcyBwb3NzaWJsZSBiZWZvcmUgcGF0Y2gg
+c3VibWlzc2lvbiwganVzdApjbGVhbmluZyB0aGUgc3ludGF0aWMgc3R1ZmYgaGVyZSB0byBwcmVw
+YXJlIGZpbmFsIHJlbW92YWwgb2YgdGhlCmRlcHJlY2F0ZWQgUFRSX1JFVC4KQnV0IGFzIGZhciBh
+cyBJIHNlZToKCnZtd19jbWRfZHhfY2xlYXJfcmVuZGVydGFyZ2V0X3ZpZXcKLT4gdm13X3ZpZXdf
+aWRfdmFsX2FkZAotPiB2bXdfdmlld19sb29rdXAKLT4gdm13X2NtZGJ1Zl9yZXNfbG9va3VwCgp3
+aGljaCB3b3VsZCB0aGVuIHJldHVybiBhIHByb3BlciBwb2ludGVyL2Egbm9uIFBUUl9FUlIgdmFs
+dWUgYW5kCmhlbmNlLCBpdCB3b3VsZCBiZSBwb3NzaWJsZSB0aGF0IFBUUl9FUlJfT1JfWkVSTyBy
+ZXR1cm5zIDAuIEl0IGFsbApsb29rcyBwcmV0dHkgc2FuZS4KCkx1a2FzCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
