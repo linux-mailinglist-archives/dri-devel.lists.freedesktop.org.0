@@ -1,53 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 533BC1181F6
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 09:15:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 694B9118263
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 09:40:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E52CD6E827;
-	Tue, 10 Dec 2019 08:15:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D10FA89C14;
+	Tue, 10 Dec 2019 08:40:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com
- [IPv6:2607:f8b0:4864:20::e42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 161D86E827;
- Tue, 10 Dec 2019 08:15:43 +0000 (UTC)
-Received: by mail-vs1-xe42.google.com with SMTP id g23so12402012vsr.7;
- Tue, 10 Dec 2019 00:15:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DSBHJGZv/Ck/e1RdMtefgHGkJsjc54RUFKjHrEKkQpE=;
- b=cTrWOtCDqZLsnRwsF+oyUucWl/NqFzTEN+GkbazPxvRb4KzvkxK7NARNiIMb58kjbQ
- aIa9Ufv/Q5LpT+Ey8xqB50Oev4fi2PbJAKgPT+k5RR1zzjm9Rh207vXyYGgDVVcvH6AO
- deo3rX4CjtNnh1SDquyG9ULJucc6DbjvPuPy2rXW7BIrGhpKqJwtAC+RASAHvnyL+dsA
- IFAJQfOFM6GebBf01orH/S6Qk4nC34atXHXpJwbeksQDz7saKXzSC6vdJp/vhZjXg+1M
- 7ZzoJcMoWTHzUB5p0RJmjdRAPs91dKqDQx/0W51i7hVPIRj0tqUEZLy6YP7/8Ubbo8Is
- sRfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DSBHJGZv/Ck/e1RdMtefgHGkJsjc54RUFKjHrEKkQpE=;
- b=biuX2haY4/WzHMQVlKoe+hH/NKQtYrY/a/tMYIUj7HDSGEtV3Omji5E+95hYXj+p5P
- DXTaPcLfWl/V5YoimOzffdLQzOkXiC8mV+X54yYYKrU2XayTPJR3knIx0AkpVfGxJDYQ
- Z/VD6ZSkyhMPAk7WXCrs/xmOwzGW5x2OvcouQOyzAAloxIbQsoAJtPtGUNgQU777jAO/
- csC6I02NrH7AtGTlXf/BwDt8mNA4nK/OsYHGkgrAIzzeRcACeV1fBPdxfK9RiQtVZlYr
- mUDBVasVN+RWQTClHV+JAOVbTTLKYS6qFlhVdufDrpo3g7mNfcd3OmO6tB21QmI1OH8o
- W6/g==
-X-Gm-Message-State: APjAAAW1SUsBcZkNyn0frpBRz2nXRGk8DU4S3rEXE219hPvz/hI3tL3V
- h1j9sWVbYyGVAsxbp3E+qoc6QHLe9fjzhax3nU0=
-X-Google-Smtp-Source: APXvYqxLYqHDrZ6EowjFsDR8K0gK+VBe4GrEnGBexmziQ3qWTw85y0mfg8VgkTirFewxsRMIRD4r3H/tTR9Kh9KdHbs=
-X-Received: by 2002:a67:6345:: with SMTP id x66mr22693510vsb.132.1575965741983; 
- Tue, 10 Dec 2019 00:15:41 -0800 (PST)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36C8A6E33F
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2019 09:39:18 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: eballetbo) with ESMTPSA id 52C6028DB10
+Subject: Re: [resend PATCH v6 04/12] drm: mediatek: Omit warning on probe
+ defers
+To: matthias.bgg@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
+ ck.hu@mediatek.com, p.zabel@pengutronix.de, airlied@linux.ie,
+ mturquette@baylibre.com, sboyd@kernel.org, ulrich.hecht+renesas@gmail.com,
+ laurent.pinchart@ideasonboard.com
+References: <20191207224740.24536-1-matthias.bgg@kernel.org>
+ <20191207224740.24536-5-matthias.bgg@kernel.org>
+From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Message-ID: <48f9ec0c-1f1e-5a6c-283b-7efc4ce1bd5e@collabora.com>
+Date: Mon, 9 Dec 2019 10:39:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <20191209120005.2254786-1-thierry.reding@gmail.com>
-In-Reply-To: <20191209120005.2254786-1-thierry.reding@gmail.com>
-From: Ben Skeggs <skeggsb@gmail.com>
-Date: Tue, 10 Dec 2019 18:15:30 +1000
-Message-ID: <CACAvsv4NX7jvZb5_X5auU4-KKk9PfmtJvmnQNjY7ihqgXaRS6A@mail.gmail.com>
-Subject: Re: [Nouveau] [PATCH v3 0/9] drm/nouveau: Various fixes for GP10B
-To: Thierry Reding <thierry.reding@gmail.com>
+In-Reply-To: <20191207224740.24536-5-matthias.bgg@kernel.org>
+Content-Language: en-US
+X-Mailman-Approved-At: Tue, 10 Dec 2019 08:40:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,83 +43,200 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, ML nouveau <nouveau@lists.freedesktop.org>,
- Ben Skeggs <bskeggs@redhat.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: devicetree@vger.kernel.org, rdunlap@infradead.org, frank-w@public-files.de,
+ sean.wang@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, sean.wang@kernel.org, wens@csie.org,
+ drinkcat@chromium.org, linux-mediatek@lists.infradead.org, mbrugger@suse.com,
+ hsinyi@chromium.org, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 9 Dec 2019 at 22:00, Thierry Reding <thierry.reding@gmail.com> wrote:
->
-> From: Thierry Reding <treding@nvidia.com>
->
-> Hi Ben,
->
-> here's a revised subset of the patches I had sent out a couple of weeks
-> ago. I've reworked the BAR2 accesses in the way that you had suggested,
-> which at least for GP10B turned out to be fairly trivial to do. I have
-> not looked in detail at this for GV11B yet, but a cursory look showed
-> that BAR2 is accessed in more places, so the equivalent for GV11B might
-> be a bit more involved.
->
-> Other than that, not a lot has changed since then. I've added a couple
-> of precursory patches to add IOMMU helper dummies for the case where
-> IOMMU is disabled (as suggested by Ben Dooks).
->
-> Joerg has given an Acked-by on the first two patches, so I think it'd be
-> easiest if you picked those up into the Nouveau tree because of the
-> build dependency of subsequent patches on them.
-I've merged all the patches in my tree, after fixing a small build
-issue on !TEGRA in the WPR config readout patch.
+Hi Matthias,
 
-Thanks Thierry!
-Ben.
+On 7/12/19 23:47, matthias.bgg@kernel.org wrote:
+> From: Matthias Brugger <mbrugger@suse.com>
+> 
+> It can happen that the mmsys clock drivers aren't probed before the
+> platform driver gets invoked. The platform driver used to print a warning
+> that the driver failed to get the clocks. Omit this error on
+> the defered probe path.
+> 
+> Signed-off-by: Matthias Brugger <mbrugger@suse.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_disp_color.c |  5 ++++-
+>  drivers/gpu/drm/mediatek/mtk_disp_ovl.c   |  5 ++++-
+>  drivers/gpu/drm/mediatek/mtk_disp_rdma.c  |  5 ++++-
+>  drivers/gpu/drm/mediatek/mtk_dpi.c        | 12 +++++++++---
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp.c    |  4 +++-
+>  drivers/gpu/drm/mediatek/mtk_dsi.c        |  8 ++++++--
+>  drivers/gpu/drm/mediatek/mtk_hdmi.c       |  4 +++-
+>  7 files changed, 33 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_color.c b/drivers/gpu/drm/mediatek/mtk_disp_color.c
+> index 59de2a46aa49..8f0fc96ef7bc 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_color.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_color.c
+> @@ -118,7 +118,10 @@ static int mtk_disp_color_probe(struct platform_device *pdev)
+>  	ret = mtk_ddp_comp_init(dev, dev->of_node, &priv->ddp_comp, comp_id,
+>  				&mtk_disp_color_funcs);
+>  	if (ret) {
+> -		dev_err(dev, "Failed to initialize component: %d\n", ret);
+> +		if (ret != -EPROBE_DEFER)
+> +			dev_err(dev, "Failed to initialize component: %d\n",
+> +				ret);
+> +
+>  		return ret;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+> index 21851756c579..7487b0182c05 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+> @@ -285,7 +285,10 @@ static int mtk_disp_ovl_probe(struct platform_device *pdev)
+>  	ret = mtk_ddp_comp_init(dev, dev->of_node, &priv->ddp_comp, comp_id,
+>  				&mtk_disp_ovl_funcs);
+>  	if (ret) {
+> -		dev_err(dev, "Failed to initialize component: %d\n", ret);
+> +		if (ret != -EPROBE_DEFER)
+> +			dev_err(dev, "Failed to initialize component: %d\n",
+> +				ret);
+> +
+>  		return ret;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
+> index 405afef31407..835ea8f8dab9 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
+> @@ -287,7 +287,10 @@ static int mtk_disp_rdma_probe(struct platform_device *pdev)
+>  	ret = mtk_ddp_comp_init(dev, dev->of_node, &priv->ddp_comp, comp_id,
+>  				&mtk_disp_rdma_funcs);
+>  	if (ret) {
+> -		dev_err(dev, "Failed to initialize component: %d\n", ret);
+> +		if (ret != -EPROBE_DEFER)
+> +			dev_err(dev, "Failed to initialize component: %d\n",
+> +				ret);
+> +
+>  		return ret;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> index be6d95c5ff25..9ed32470ad02 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> @@ -700,21 +700,27 @@ static int mtk_dpi_probe(struct platform_device *pdev)
+>  	dpi->engine_clk = devm_clk_get(dev, "engine");
+>  	if (IS_ERR(dpi->engine_clk)) {
+>  		ret = PTR_ERR(dpi->engine_clk);
+> -		dev_err(dev, "Failed to get engine clock: %d\n", ret);
+> +		if (ret != -EPROBE_DEFER)
+> +			dev_err(dev, "Failed to get engine clock: %d\n", ret);
 
->
-> Thierry
->
-> Thierry Reding (9):
->   iommu: Document iommu_fwspec::flags field
->   iommu: Add dummy dev_iommu_fwspec_get() helper
->   drm/nouveau: fault: Add support for GP10B
->   drm/nouveau: tegra: Do not try to disable PCI device
->   drm/nouveau: tegra: Avoid pulsing reset twice
->   drm/nouveau: tegra: Set clock rate if not set
->   drm/nouveau: secboot: Read WPR configuration from GPU registers
->   drm/nouveau: gp10b: Add custom L2 cache implementation
->   drm/nouveau: gp10b: Use correct copy engine
->
->  .../drm/nouveau/include/nvkm/subdev/fault.h   |  1 +
->  .../gpu/drm/nouveau/include/nvkm/subdev/ltc.h |  1 +
->  drivers/gpu/drm/nouveau/nouveau_drm.c         |  3 +-
->  .../gpu/drm/nouveau/nvkm/engine/device/base.c |  6 +-
->  .../drm/nouveau/nvkm/engine/device/tegra.c    | 24 ++++--
->  .../gpu/drm/nouveau/nvkm/subdev/fault/Kbuild  |  1 +
->  .../gpu/drm/nouveau/nvkm/subdev/fault/base.c  |  2 +-
->  .../gpu/drm/nouveau/nvkm/subdev/fault/gp100.c | 17 ++--
->  .../gpu/drm/nouveau/nvkm/subdev/fault/gp10b.c | 53 ++++++++++++
->  .../gpu/drm/nouveau/nvkm/subdev/fault/gv100.c |  1 +
->  .../gpu/drm/nouveau/nvkm/subdev/fault/priv.h  | 10 +++
->  .../gpu/drm/nouveau/nvkm/subdev/ltc/Kbuild    |  1 +
->  .../gpu/drm/nouveau/nvkm/subdev/ltc/gp10b.c   | 65 +++++++++++++++
->  .../gpu/drm/nouveau/nvkm/subdev/ltc/priv.h    |  2 +
->  .../drm/nouveau/nvkm/subdev/secboot/gm200.h   |  2 +-
->  .../drm/nouveau/nvkm/subdev/secboot/gm20b.c   | 81 ++++++++++++-------
->  .../drm/nouveau/nvkm/subdev/secboot/gp10b.c   |  4 +-
->  include/linux/iommu.h                         | 47 ++++++-----
->  18 files changed, 249 insertions(+), 72 deletions(-)
->  create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/fault/gp10b.c
->  create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/ltc/gp10b.c
->
-> --
-> 2.23.0
->
-> _______________________________________________
-> Nouveau mailing list
-> Nouveau@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/nouveau
+This is only to print an error and I think that devm_clk_get will print a
+warning if the clk is not found. I guess that you can just remove the dev_err
+print logic, here and below.
+
+In case there is an optional clock you could use devm_clk_get_optional, not sure
+if there is any, though.
+
+> +
+>  		return ret;
+>  	}
+>  
+>  	dpi->pixel_clk = devm_clk_get(dev, "pixel");
+>  	if (IS_ERR(dpi->pixel_clk)) {
+>  		ret = PTR_ERR(dpi->pixel_clk);
+> -		dev_err(dev, "Failed to get pixel clock: %d\n", ret);
+> +		if (ret != -EPROBE_DEFER)
+> +			dev_err(dev, "Failed to get pixel clock: %d\n", ret);
+> +
+
+ditto
+
+>  		return ret;
+>  	}
+>  
+>  	dpi->tvd_clk = devm_clk_get(dev, "pll");
+>  	if (IS_ERR(dpi->tvd_clk)) {
+>  		ret = PTR_ERR(dpi->tvd_clk);
+> -		dev_err(dev, "Failed to get tvdpll clock: %d\n", ret);
+> +		if (ret != -EPROBE_DEFER)
+> +			dev_err(dev, "Failed to get tvdpll clock: %d\n", ret);
+> +
+
+ditto
+
+>  		return ret;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
+> index b765181223e6..6054e2b675f9 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
+> @@ -558,7 +558,9 @@ static int mtk_ddp_probe(struct platform_device *pdev)
+>  
+>  	ddp->clk = devm_clk_get(dev, NULL);
+>  	if (IS_ERR(ddp->clk)) {
+> -		dev_err(dev, "Failed to get clock\n");
+> +		if (PTR_ERR(ddp->clk) != -EPROBE_DEFER)
+> +			dev_err(dev, "Failed to get clock\n");
+> +
+
+ditto
+
+>  		return PTR_ERR(ddp->clk);
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> index 4332563df952..66d5b0fdd678 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> @@ -1110,14 +1110,18 @@ static int mtk_dsi_probe(struct platform_device *pdev)
+>  	dsi->engine_clk = devm_clk_get(dev, "engine");
+>  	if (IS_ERR(dsi->engine_clk)) {
+>  		ret = PTR_ERR(dsi->engine_clk);
+> -		dev_err(dev, "Failed to get engine clock: %d\n", ret);
+> +		if (ret != -EPROBE_DEFER)
+> +			dev_err(dev, "Failed to get engine clock: %d\n", ret);
+> +
+
+ditto
+
+>  		return ret;
+>  	}
+>  
+>  	dsi->digital_clk = devm_clk_get(dev, "digital");
+>  	if (IS_ERR(dsi->digital_clk)) {
+>  		ret = PTR_ERR(dsi->digital_clk);
+> -		dev_err(dev, "Failed to get digital clock: %d\n", ret);
+> +		if (ret != -EPROBE_DEFER)
+> +			dev_err(dev, "Failed to get digital clock: %d\n", ret);
+> +
+
+ditto
+
+>  		return ret;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+> index ce91b61364eb..62f9ca2308ee 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+> @@ -1447,7 +1447,9 @@ static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
+>  
+>  	ret = mtk_hdmi_get_all_clk(hdmi, np);
+>  	if (ret) {
+> -		dev_err(dev, "Failed to get clocks: %d\n", ret);
+> +		if (ret != -EPROBE_DEFER)
+> +			dev_err(dev, "Failed to get clocks: %d\n", ret);
+> +
+>  		return ret;
+>  	}
+>  
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
