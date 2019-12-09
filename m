@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D84A117704
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2019 21:07:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16CF6117706
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2019 21:08:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 713636E517;
-	Mon,  9 Dec 2019 20:07:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 364BF6E514;
+	Mon,  9 Dec 2019 20:08:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C41156E517
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2019 20:07:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B8896E514
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2019 20:08:27 +0000 (UTC)
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
  [83.86.89.107])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 161532073D;
- Mon,  9 Dec 2019 20:07:16 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id A15BF20836;
+ Mon,  9 Dec 2019 20:08:26 +0000 (UTC)
 Subject: Patch "drm: damage_helper: Fix race checking plane->state->fb" has
- been added to the 5.3-stable tree
+ been added to the 5.4-stable tree
 To: 20190904202938.110207-1-sean@poorly.run, airlied@linux.ie,
  daniel.vetter@ffwll.ch, daniel@ffwll.ch, drawat@vmware.com,
  dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
@@ -27,18 +27,18 @@ To: 20190904202938.110207-1-sean@poorly.run, airlied@linux.ie,
  robdclark@gmail.com, sean@poorly.run, seanpaul@chromium.org,
  thellstrom@vmware.com
 From: <gregkh@linuxfoundation.org>
-Date: Mon, 09 Dec 2019 21:02:58 +0100
-Message-ID: <157592177821982@kroah.com>
+Date: Mon, 09 Dec 2019 21:03:02 +0100
+Message-ID: <15759217821374@kroah.com>
 MIME-Version: 1.0
 X-stable: commit
 X-Patchwork-Hint: ignore 
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1575922037;
- bh=AvCYkZ/ojL9xQUI49b17kh/ZhdnqHWEQS+w2pnV45OA=;
+ d=kernel.org; s=default; t=1575922107;
+ bh=QQ97GxzKm06/cFP1H2cpJ90oQsRn5hVA1jx9Of3e0rA=;
  h=Subject:To:Cc:From:Date:From;
- b=DxDPGENOL6YiWj350zzcBcE10744vGyP1/tG2TjhneN7uGvb+tQdIqise+F8bEiT8
- je7ES1R3n3bfzI8zohnX6xluxUMgxe8LaUz+vYrH5CtdVqXnULVbMEK0g3i527yWYb
- q59yfADPKubVi1Kcrc4IONiK9iVNw0BNrcRGWBjI=
+ b=wKc+dBlJfEWQoa2RfL8H/06fAKjCCIeeYzfm8QI9BRApEU7XZuLjVAgMeGrLr3C52
+ bYaMLBXMvbFEghVbGChxqLfec2xVlH8bQnk0hWvWH8hvVJmqWJv+7ABeZxvYV56BX1
+ 0mSM8n8uDq00YRT1YO0ZWDMI2fGF/51BtQc7YqUM=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,11 +59,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 ClRoaXMgaXMgYSBub3RlIHRvIGxldCB5b3Uga25vdyB0aGF0IEkndmUganVzdCBhZGRlZCB0aGUg
 cGF0Y2ggdGl0bGVkCgogICAgZHJtOiBkYW1hZ2VfaGVscGVyOiBGaXggcmFjZSBjaGVja2luZyBw
-bGFuZS0+c3RhdGUtPmZiCgp0byB0aGUgNS4zLXN0YWJsZSB0cmVlIHdoaWNoIGNhbiBiZSBmb3Vu
+bGFuZS0+c3RhdGUtPmZiCgp0byB0aGUgNS40LXN0YWJsZSB0cmVlIHdoaWNoIGNhbiBiZSBmb3Vu
 ZCBhdDoKICAgIGh0dHA6Ly93d3cua2VybmVsLm9yZy9naXQvP3A9bGludXgva2VybmVsL2dpdC9z
 dGFibGUvc3RhYmxlLXF1ZXVlLmdpdDthPXN1bW1hcnkKClRoZSBmaWxlbmFtZSBvZiB0aGUgcGF0
 Y2ggaXM6CiAgICAgZHJtLWRhbWFnZV9oZWxwZXItZml4LXJhY2UtY2hlY2tpbmctcGxhbmUtc3Rh
-dGUtZmIucGF0Y2gKYW5kIGl0IGNhbiBiZSBmb3VuZCBpbiB0aGUgcXVldWUtNS4zIHN1YmRpcmVj
+dGUtZmIucGF0Y2gKYW5kIGl0IGNhbiBiZSBmb3VuZCBpbiB0aGUgcXVldWUtNS40IHN1YmRpcmVj
 dG9yeS4KCklmIHlvdSwgb3IgYW55b25lIGVsc2UsIGZlZWxzIGl0IHNob3VsZCBub3QgYmUgYWRk
 ZWQgdG8gdGhlIHN0YWJsZSB0cmVlLApwbGVhc2UgbGV0IDxzdGFibGVAdmdlci5rZXJuZWwub3Jn
 PiBrbm93IGFib3V0IGl0LgoKCkZyb20gMzU0YzJkMzEwMDgyZDFjMzg0MjEzYmE3NmMzNzU3ZGQz
@@ -105,8 +105,8 @@ eworCQkJZHJtX21vZGVzZXRfdW5sb2NrKCZwbGFuZS0+bXV0ZXgpOwogCQkJY29udGludWU7CisJ
 CX0KIAogCQlwbGFuZV9zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X3BsYW5lX3N0YXRlKHN0YXRlLCBw
 bGFuZSk7CiAJCWlmIChJU19FUlIocGxhbmVfc3RhdGUpKSB7CgoKUGF0Y2hlcyBjdXJyZW50bHkg
 aW4gc3RhYmxlLXF1ZXVlIHdoaWNoIG1pZ2h0IGJlIGZyb20gc2VhbnBhdWxAY2hyb21pdW0ub3Jn
-IGFyZQoKcXVldWUtNS4zL2RybS1tc20tZml4LW1lbWxlYWstb24tcmVsZWFzZS5wYXRjaApxdWV1
-ZS01LjMvZHJtLWRhbWFnZV9oZWxwZXItZml4LXJhY2UtY2hlY2tpbmctcGxhbmUtc3RhdGUtZmIu
+IGFyZQoKcXVldWUtNS40L2RybS1tc20tZml4LW1lbWxlYWstb24tcmVsZWFzZS5wYXRjaApxdWV1
+ZS01LjQvZHJtLWRhbWFnZV9oZWxwZXItZml4LXJhY2UtY2hlY2tpbmctcGxhbmUtc3RhdGUtZmIu
 cGF0Y2gKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
 LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
 Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
