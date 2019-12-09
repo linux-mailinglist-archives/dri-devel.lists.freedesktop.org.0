@@ -1,59 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7FAE11827F
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 09:40:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC042118277
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 09:40:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AFD36E835;
-	Tue, 10 Dec 2019 08:40:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FE7589FBC;
+	Tue, 10 Dec 2019 08:40:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0722B6E4A7
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2019 15:24:34 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id p17so15393408wma.1
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Dec 2019 07:24:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=r3aQgCzVXGjFTrtUbOB4wjQrTUXreQPJyiEx8595ZYo=;
- b=N/OUcju85TvBwEvD5Vm1yWqriQfQ9gJvf/eV0DfrvcmSyj9IR+tj1Mzx8pFVYPugVo
- h9QmytyNRp3GxENU3fqcGfdoqXEU5nm2t52FxN0RE8OIcZKglKfg4hJTxykmKxAOgL5k
- Z9swL+oiNTi3Db4nhRRkArw9hteRcCIkHEWxt4sK8Zz8fCfSzleaChLXd8Tj8d/aamvM
- fd8CuQKicbp/cD33vjNfxXzt/fg2jyjcD26RJD1brI1NLCZUynN0vpEgr9mBYQya9PJl
- AO7LxCzoyICLF7Spr3xox0p/UWYQ/6+90gWX45/UXxzCwl8i9m65QpxKmsCmcddQO0vU
- BPtA==
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BA8F89B0D
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2019 15:58:02 +0000 (UTC)
+Received: by mail-io1-f71.google.com with SMTP id l25so2335380ioh.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Dec 2019 07:58:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=r3aQgCzVXGjFTrtUbOB4wjQrTUXreQPJyiEx8595ZYo=;
- b=hbalPGi6x3bJPFipSYgGorU7UAeh9i9I3GHhNp5dEQu3hXq+FbKB4Gu1xwQttMosXy
- WYwv7G4UwmsuVlXAr/3TJgMkv6Nt4hf2S4U9YWg/Vga6qiH6buqgD0AGYN96jCJNvoNM
- wbWMF3/NY7wWiHXQgjhHdnAGMQ3LDfwSwauae91nTrQi2xj9tcJ21fYmvXWNyYumm0E6
- 1ogbVyXAscAdXMvMy97bO0sEVCj4+kSkarRSwL/E5nuc7abb9goKKY9ehNyABq32u8GM
- e/iDij1m4HPAL+8rROSdPTYvgpwNxVwlYGswMK/ynO6cFL3xfoAcy2kEfxNLvtDxvHmo
- cvTA==
-X-Gm-Message-State: APjAAAX6CrScBkc0ngnK5gI+6bmwwME5tcddPY59fPXVRLpOjPxtJ89+
- aqoLA4kX1CGt41/XpAf+6dQhEvtPXqsZn1ABNjs=
-X-Google-Smtp-Source: APXvYqzAs6PasDmMLo5/mmYTFJLJlTtMzommONDNOTOvYCBpIrsKmuPFEzdq8E2lVXj0f4mHvgzuMsSIyP0wd2Z2rxw=
-X-Received: by 2002:a05:600c:2951:: with SMTP id
- n17mr8752023wmd.75.1575905072548; 
- Mon, 09 Dec 2019 07:24:32 -0800 (PST)
+ h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+ :from:to;
+ bh=haSirlvjghAy8O+UGZZ1CIdjmlMMpGQNnbPGRDREiuo=;
+ b=hoOJatdcc+zJxr33SWZ2Hd2EWZfKzAKmsP8JB6YgT3gZKWrmASpwvM58qiiLDyy+ia
+ 8jOz05WDzhmSDvcaxF42N8+DhPrmH6uIdMuEtGVRn47Gwsfljfx2U+sE0mWJt8GmGlC2
+ UpbnvI85ovvVr7C8saLXOSd8RayoPc2803fpf0SvNcw6pY9FeCDn0CAHfyMlfPXkSW53
+ G568TCELsZ1Rwd3Wp5W/aNtjw1dq9C6ukMr5ojD/UVDbUWatMZPtmnqk4R03tUQrzhBK
+ NF4vTBzmEOmFXoWjQSRYpge7HsSenwzzD4ljUiThYwEh0f2A4nuZ9Z7mU+21pBczZfhB
+ MQGA==
+X-Gm-Message-State: APjAAAXKLENqEYr2Y5CuQy82CeQWcsLu4TWzVPPQIoOf74fsSBUPHZBy
+ Ep5i5q0p4KMIckmOCau/bncXtvDH1nrSLH8QXZecAVfmRpJm
+X-Google-Smtp-Source: APXvYqy7SHoywomGmpRRGQOfRHAlD50ocSW6nQ6ugt5VWZKCvCo8SfnyYovVgE3ZOkflrPwPuNULbNVTBJdi5Engji2jZ7ttDdZV
 MIME-Version: 1.0
-References: <20191209050857.31624-1-andrew.smirnov@gmail.com>
- <20191209050857.31624-3-andrew.smirnov@gmail.com>
- <45afdff8-4f91-f5be-a299-d0c7fed71ea7@ti.com>
- <CAHQ1cqH8XTYysd1Nv2Q0EziXfJWeemZeyyZZ3OKoCv8=XrHZWA@mail.gmail.com>
- <f873e4de-eabf-2746-8ad8-3d3c7d64a270@ti.com>
-In-Reply-To: <f873e4de-eabf-2746-8ad8-3d3c7d64a270@ti.com>
-From: Andrey Smirnov <andrew.smirnov@gmail.com>
-Date: Mon, 9 Dec 2019 07:24:21 -0800
-Message-ID: <CAHQ1cqE-7qof2ogCv-00uK9KBk+Uy2xFQ8RsxKFm_ts1EH75fw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] drm/bridge: tc358767: Expose test mode
- functionality via debugfs
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+X-Received: by 2002:a92:45d2:: with SMTP id z79mr28552816ilj.76.1575907081960; 
+ Mon, 09 Dec 2019 07:58:01 -0800 (PST)
+Date: Mon, 09 Dec 2019 07:58:01 -0800
+In-Reply-To: <00000000000000ffab05992442a7@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000d1c7150599477511@google.com>
+Subject: Re: KASAN: global-out-of-bounds Read in fb_pad_aligned_buffer
+From: syzbot <syzbot+0568d05e486eee0a1ba2@syzkaller.appspotmail.com>
+To: b.zolnierkie@samsung.com, coreteam@netfilter.org, daniel.vetter@ffwll.ch, 
+ davem@davemloft.net, dri-devel@lists.freedesktop.org, 
+ gwshan@linux.vnet.ibm.com, kaber@trash.net, kadlec@blackhole.kfki.hu, 
+ kraxel@redhat.com, linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ maarten.lankhorst@linux.intel.com, mpe@ellerman.id.au, netdev@vger.kernel.org, 
+ netfilter-devel@vger.kernel.org, pablo@netfilter.org, peda@axentia.se, 
+ ruscur@russell.cc, sam@ravnborg.org, stewart@linux.vnet.ibm.com, 
+ syzkaller-bugs@googlegroups.com
 X-Mailman-Approved-At: Tue, 10 Dec 2019 08:40:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,92 +60,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Cory Tusar <cory.tusar@zii.aero>,
- linux-kernel <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Chris Healy <cphealy@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"; DelSp="yes"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 9, 2019 at 7:05 AM Tomi Valkeinen <tomi.valkeinen@ti.com> wrote:
->
-> On 09/12/2019 16:38, Andrey Smirnov wrote:
-> > On Mon, Dec 9, 2019 at 1:38 AM Tomi Valkeinen <tomi.valkeinen@ti.com> wrote:
-> >>
-> >> (Cc'ing Daniel for the last paragraph)
-> >>
-> >> On 09/12/2019 07:08, Andrey Smirnov wrote:
-> >>> Presently, the driver code artificially limits test pattern mode to a
-> >>> single pattern with fixed color selection. It being a kernel module
-> >>> parameter makes switching "test pattern" <-> "proper output" modes
-> >>> on-the-fly clunky and outright impossible if the driver is built into
-> >>> the kernel.
-> >>
-> >> That's not correct, /sys/module/tc358767/parameters/test is there even if the driver is built-in.
-> >>
-> >
-> > True, I'll drop the "impossible" part of the descrption. Having to
-> > unbind and bind device to the driver to use that parameter definitely
-> > falls under "clunky" for me still, so I'll just stick to that in the
-> > description.
->
-> You don't need to re-bind. You can change the module parameter at runtime, and if the driver happens
-> to use the value, then it uses the new value. If I recall right, changing the module parameter and
-> then doing a full modeset from userspace made the driver to use the test mode (I'm not 100% sure,
-> though).
->
-> In any case, I'm not advocating for the use of module parameter here =)
->
-> >> Hmm, actually, just echoing 0 to tstctl multiple times, it makes the screen go black and then
-> >> restores it with every other echo.
-> >>
-> >
-> > Strange, works on my setup every time. No error messages in kernel log
-> > I assume? Probably unrelated, but when you echo "0" and the screen
->
-> No errors.
->
-> > stays black, what do you see in DP_SINK_STATUS register:
-> >
-> > dd if=/dev/drm_dp_aux0 bs=1 skip=$((0x205)) count=1 2>/dev/null | hexdump -Cv
-> >
-> > ? Note that this needs CONFIG_DRM_DP_AUX_CHARDEV to be enabled.
->
-> I'll check this later, and do a few more tests.
->
-> >>> +     debugfs = debugfs_create_dir(dev_name(dev), NULL);
-> >>> +     if (!IS_ERR(debugfs)) {
-> >>> +             debugfs_create_file_unsafe("tstctl", 0200, debugfs, tc,
-> >>> +                                        &tc_tstctl_fops);
-> >>> +             devm_add_action_or_reset(dev, tc_remove_debugfs, debugfs);
-> >>> +     }
-> >>> +
-> >>
-> >> For me this creates debugfs/3-000f/tstctl. I don't think that's a clear or usable path, and could
-> >> even cause a name conflict in the worst case.
-> >>
-> >
-> > I agree on usability aspect, but I am not sure I can see how a
-> > conflict can happen. What scenario do you have in mind that would
-> > cause that? My thinking was that the combination of I2C bus number +
-> > I2C address should always be unique on the system, but maybe I am
-> > missing something?
->
-> Well, the dir name doesn't have "i2c" anywhere, so at least in theory, some other bus could have
-> "3-000f" address too.
->
-> Maybe bigger problem is that it's not at all obvious what "3-000f" means. All the other debugfs dirs
-> make sense when you look at the name, and "3-000f" looks very odd there.
->
+syzbot has bisected this bug to:
 
-Fair enough, so what if we changed the name say "tc358767-3-000f" (i.
-e. used "tc358767-" + dev_name(dev)), would that be a reasonable path
-forward?
+commit 2de50e9674fc4ca3c6174b04477f69eb26b4ee31
+Author: Russell Currey <ruscur@russell.cc>
+Date:   Mon Feb 8 04:08:20 2016 +0000
 
-Thanks,
-Andrey Smirnov
+     powerpc/powernv: Remove support for p5ioc2
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=13ea0aeae00000
+start commit:   9455d25f Merge tag 'ntb-5.5' of git://github.com/jonmason/..
+git tree:       upstream
+final crash:    https://syzkaller.appspot.com/x/report.txt?x=101a0aeae00000
+console output: https://syzkaller.appspot.com/x/log.txt?x=17ea0aeae00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=7a3b8f5088d4043a
+dashboard link: https://syzkaller.appspot.com/bug?extid=0568d05e486eee0a1ba2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15ddeca6e00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16df9e41e00000
+
+Reported-by: syzbot+0568d05e486eee0a1ba2@syzkaller.appspotmail.com
+Fixes: 2de50e9674fc ("powerpc/powernv: Remove support for p5ioc2")
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
