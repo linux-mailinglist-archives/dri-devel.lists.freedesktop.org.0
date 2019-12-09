@@ -1,45 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8017C117994
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2019 23:42:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D7B811799E
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2019 23:44:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BA2D6E580;
-	Mon,  9 Dec 2019 22:42:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A31789C89;
+	Mon,  9 Dec 2019 22:44:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C33636E580
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2019 22:42:26 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 47Wyr05W3yz9sP3;
- Tue, 10 Dec 2019 09:42:24 +1100 (AEDT)
-Date: Tue, 10 Dec 2019 09:42:24 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
- <dri-devel@lists.freedesktop.org>
-Subject: Re: linux-next: build failure after merge of the drm-intel tree
-Message-ID: <20191210094224.4a294cb7@canb.auug.org.au>
-In-Reply-To: <20191210093957.5120f717@canb.auug.org.au>
-References: <20191210093957.5120f717@canb.auug.org.au>
+Received: from mail-il1-x142.google.com (mail-il1-x142.google.com
+ [IPv6:2607:f8b0:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A484C89C89
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2019 22:44:12 +0000 (UTC)
+Received: by mail-il1-x142.google.com with SMTP id w13so14331475ilo.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Dec 2019 14:44:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uV55IlHNhtol/wcYlLTE0uinmKfKptl+iqwlNCyL0l8=;
+ b=Uf0x+LBwq4WYhKzk3iBQI6WXf64yFAzdsChG3xbk/ykQAF//Xp7W8wIXHjZmKauJ+h
+ dSOEYXoIyPoFyc3U0fXCLsGuKP9PeETGb5Hrvsd5t9w0AqXMmiCTCW5imhue6z+RF9hY
+ kJJT7ytyBoOHRV5nvy4zY0GceJH0CCxX9hJ68mpfqHcivLhVslEMleR4q44SLWd3fL6G
+ 8UKAJFoyQvq9pf9KN92XyKGgMf5NmX7at94d7lUto0urjeoZUifFLnAH7Squh86oGytN
+ 0KI00CY9ID064JZiSsJqjfREF+jjCRnp1xkzztim81MpITkja2K2tRscfw2XvOu9NBp1
+ vndg==
+X-Gm-Message-State: APjAAAVvWjEhtS9VDzsPfl+FMnZGZp5vLYTl+Yk/Hfy0LGBCJ7Tg12bv
+ NUS1VuxAVaJZFRj/9gdPnkyYdVHh4bvAVEcH36s=
+X-Google-Smtp-Source: APXvYqzVN8jxNIo1yT4jyfH5fe+8sS1YEVbcESmTFnN8/rC1wO88+IfssHqFA5HvWFOCwtpwCysf6k2qCyC4hbp6pvM=
+X-Received: by 2002:a92:84ce:: with SMTP id y75mr29641081ilk.93.1575931451864; 
+ Mon, 09 Dec 2019 14:44:11 -0800 (PST)
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=canb.auug.org.au; s=201702; t=1575931345;
- bh=rbtrLmd0Sl7CbXlL69awNUOL+vEJxT9RgQ4V++Z3lTw=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=CGi9lb9AMLz5/qrcyCh8+E3Wg9bApr/23NuDOy9kbB5sRuSokoR7dM1ByVQtZTVZf
- 6Wu9D3vb8vKFSXmksXG6GUXsA2DevwNnayjkQ9GUxoQJ0LD2sDXr9atXX4TFjFc4uf
- 6BK9WHEMp8ErFxZuRRI88wat4ILFMgXFdXWRrXxPpqppchMguCe086R9cqUK/Emygj
- QoP6bYEbTA87MXDnXg64CkMNjgOHKApsDDACxSdMt+Rkn2P2yWiLMPTwoLIm7dufE8
- W+lIyE2eIYNwv8Uhzl+koBBVMPQ40MJLVNrDcqRCksEfsZfZe6wjJpGdi73DRQMLz4
- D1FzKNeflKa8Q==
+References: <20191203013627.85991-1-gurchetansingh@chromium.org>
+ <20191203013627.85991-4-gurchetansingh@chromium.org>
+In-Reply-To: <20191203013627.85991-4-gurchetansingh@chromium.org>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Mon, 9 Dec 2019 14:44:01 -0800
+Message-ID: <CAPaKu7QePQjhaSApGptAO3e1F7-pj6kzyNbMVQTZ+8M9TvEkiA@mail.gmail.com>
+Subject: Re: [PATCH 4/4] udmabuf: implement begin_cpu_access/end_cpu_access
+ hooks
+To: Gurchetan Singh <gurchetansingh@chromium.org>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=uV55IlHNhtol/wcYlLTE0uinmKfKptl+iqwlNCyL0l8=;
+ b=S3ztfUOdJM/uo8nJQ6Lln8PHWo4HLdgxg78xxMUSMZQ0yiypteK4U6lwzrsegUKuQY
+ tcjOJ5aqcHIBhtl4Dy+E1B69YKL1jLmxJZ04Snp1SiGuuVgJ3wdz3EwqpBhRvvp4e58k
+ 9ojZw3ro4vgyb6MhHMsH6qXL533eXCD1JQPTuvoowruY631cqsXQCqfwyYZdoZDluH6J
+ hzYTXYnfOxTUfTc+QzCiQTF24Ok9DyR0iS5klrrC+eZnv0BfcKCHS/IjGorX0InhQ1oW
+ eOOPdSOGhulKcX34dn/eB/ZqyuYUVN+qF6r9x3EdXMkenPerUG95fbob5uDv95a222wx
+ rCuA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,142 +64,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	S@freedesktop.org,
-	Linux Next Mailing List <linux-next@vger.kernel.org>,
-	Qian Cai <cai@lca.pw>, Ingo Molnar <mingo@kernel.org>
-Content-Type: multipart/mixed; boundary="===============0824798467=="
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>, hch@lst.de
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0824798467==
-Content-Type: multipart/signed; boundary="Sig_/Uy=O+1BroOoggdNM6mX.EEp";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-
---Sig_/Uy=O+1BroOoggdNM6mX.EEp
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-Hi all,
-
-[Just adding Dave Airlie to the cc list]
-
-On Tue, 10 Dec 2019 09:39:57 +1100 Stephen Rothwell <sfr@canb.auug.org.au> =
-wrote:
->
-> After merging the drm-intel tree, today's linux-next build (x86_64
-> allmodconfig) failed like this:
->=20
-> In file included from include/linux/spinlock_types.h:18,
->                  from include/linux/mutex.h:16,
->                  from include/linux/kernfs.h:12,
->                  from include/linux/sysfs.h:16,
->                  from include/linux/kobject.h:20,
->                  from include/linux/of.h:17,
->                  from include/linux/irqdomain.h:35,
->                  from include/linux/acpi.h:13,
->                  from drivers/gpu/drm/i915/i915_drv.c:30:
-> drivers/gpu/drm/i915/gem/i915_gem_object.h: In function 'i915_gem_object_=
-pin_pages':
-> include/linux/lockdep.h:635:2: error: too many arguments to function 'loc=
-k_release'
->   635 |  lock_release(&(lock)->dep_map, 0, _THIS_IP_);  \
->       |  ^~~~~~~~~~~~
-> drivers/gpu/drm/i915/gem/i915_gem_object.h:294:2: note: in expansion of m=
-acro 'might_lock_nested'
->   294 |  might_lock_nested(&obj->mm.lock, I915_MM_GET_PAGES);
->       |  ^~~~~~~~~~~~~~~~~
-> include/linux/lockdep.h:352:13: note: declared here
->   352 | extern void lock_release(struct lockdep_map *lock, unsigned long =
-ip);
->       |             ^~~~~~~~~~~~
-> In file included from include/linux/spinlock_types.h:18,
->                  from include/linux/spinlock.h:83,
->                  from include/linux/mmzone.h:8,
->                  from include/linux/gfp.h:6,
->                  from include/linux/slab.h:15,
->                  from drivers/gpu/drm/i915/i915_irq.c:32:
-> drivers/gpu/drm/i915/gem/i915_gem_object.h: In function 'i915_gem_object_=
-pin_pages':
-> include/linux/lockdep.h:635:2: error: too many arguments to function 'loc=
-k_release'
->   635 |  lock_release(&(lock)->dep_map, 0, _THIS_IP_);  \
->       |  ^~~~~~~~~~~~
-> drivers/gpu/drm/i915/gem/i915_gem_object.h:294:2: note: in expansion of m=
-acro 'might_lock_nested'
->   294 |  might_lock_nested(&obj->mm.lock, I915_MM_GET_PAGES);
->       |  ^~~~~~~~~~~~~~~~~
-> include/linux/lockdep.h:352:13: note: declared here
->   352 | extern void lock_release(struct lockdep_map *lock, unsigned long =
-ip);
->       |             ^~~~~~~~~~~~
->=20
-> Caused by commit
->=20
->   e692b4021a2e ("lockdep: add might_lock_nested()")
->=20
-> interacting with commit
->=20
->   5facae4f3549 ("locking/lockdep: Remove unused @nested argument from loc=
-k_release()")
->=20
-> from Linus' tree.
->=20
-> I have applied the following merge fix patch for today:
->=20
-> From: Stephen Rothwell <sfr@canb.auug.org.au>
-> Date: Tue, 10 Dec 2019 09:37:07 +1100
-> Subject: [PATCH] lockdep: fix up for lock_release API change
->=20
-> ---
->  include/linux/lockdep.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/include/linux/lockdep.h b/include/linux/lockdep.h
-> index 5bbfd5866081..664f52c6dd4c 100644
-> --- a/include/linux/lockdep.h
-> +++ b/include/linux/lockdep.h
-> @@ -632,7 +632,7 @@ do {									\
->  	typecheck(struct lockdep_map *, &(lock)->dep_map);		\
->  	lock_acquire(&(lock)->dep_map, subclass, 0, 1, 1, NULL,		\
->  		     _THIS_IP_);					\
-> -	lock_release(&(lock)->dep_map, 0, _THIS_IP_);		\
-> +	lock_release(&(lock)->dep_map, _THIS_IP_);			\
->  } while (0)
-> =20
->  #define lockdep_assert_irqs_enabled()	do {				\
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/Uy=O+1BroOoggdNM6mX.EEp
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl3uzdAACgkQAVBC80lX
-0GxcGQf/RijDSkbB4Vye8LPtcAVqvQNGx8CN+LZj1IZ34iwjePiCTl3n/mGYF1u2
-AxleCuDemMObna8edGEBjOvtAa50ifDYKJqs0py6zo7J6vJmdT7EOC1llQcUxUfr
-FrwIAYmCKCeMehekQ60Bzl38zCot+CmdCbZPelPFDthjVPyOC7nubzdsH1FtFpUL
-Dmozh08UN2X7q/ne75+EXpsuPmG2pPpi2VDpsl6SYPLLvn9OFmTQD69hpC0ztsqs
-MU4iXvIWXty+4YO1PyIqE4S3Wooq4xM8lF/A0PPNLdLMYQYHlaFuqkVn7p2JugZB
-UDc5JaMXxK6NVD/9deRYknmv78fmHg==
-=T9L2
------END PGP SIGNATURE-----
-
---Sig_/Uy=O+1BroOoggdNM6mX.EEp--
-
---===============0824798467==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0824798467==--
+T24gTW9uLCBEZWMgMiwgMjAxOSBhdCA1OjM2IFBNIEd1cmNoZXRhbiBTaW5naAo8Z3VyY2hldGFu
+c2luZ2hAY2hyb21pdW0ub3JnPiB3cm90ZToKPgo+IFdpdGggdGhlIG1pc2MgZGV2aWNlLCB3ZSBz
+aG91bGQgZW5kIHVwIHVzaW5nIHRoZSByZXN1bHQgb2YKPiBnZXRfYXJjaF9kbWFfb3BzKC4uKSBv
+ciBkbWEtZGlyZWN0IG9wcy4KPgo+IFRoaXMgY2FuIGFsbG93IHVzIHRvIGhhdmUgV0MgbWFwcGlu
+Z3MgaW4gdGhlIGd1ZXN0IGFmdGVyCj4gc3luY2hyb25pemF0aW9uLgo+Cj4gU2lnbmVkLW9mZi1i
+eTogR3VyY2hldGFuIFNpbmdoIDxndXJjaGV0YW5zaW5naEBjaHJvbWl1bS5vcmc+Cj4gLS0tCj4g
+IGRyaXZlcnMvZG1hLWJ1Zi91ZG1hYnVmLmMgfCAzOSArKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysKPiAgMSBmaWxlIGNoYW5nZWQsIDM5IGluc2VydGlvbnMoKykKPgo+IGRp
+ZmYgLS1naXQgYS9kcml2ZXJzL2RtYS1idWYvdWRtYWJ1Zi5jIGIvZHJpdmVycy9kbWEtYnVmL3Vk
+bWFidWYuYwo+IGluZGV4IDBhNjEwZTA5YWUyMy4uNjFiMGEyY2ZmODc0IDEwMDY0NAo+IC0tLSBh
+L2RyaXZlcnMvZG1hLWJ1Zi91ZG1hYnVmLmMKPiArKysgYi9kcml2ZXJzL2RtYS1idWYvdWRtYWJ1
+Zi5jCj4gQEAgLTE4LDYgKzE4LDcgQEAgc3RhdGljIGNvbnN0IHNpemVfdCBzaXplX2xpbWl0X21i
+ID0gNjQ7IC8qIHRvdGFsIGRtYWJ1ZiBzaXplLCBpbiBtZWdhYnl0ZXMgICovCj4gIHN0cnVjdCB1
+ZG1hYnVmIHsKPiAgICAgICAgIHBnb2ZmX3QgcGFnZWNvdW50Owo+ICAgICAgICAgc3RydWN0IHBh
+Z2UgKipwYWdlczsKPiArICAgICAgIHN0cnVjdCBzZ190YWJsZSAqc2c7Cj4gICAgICAgICBzdHJ1
+Y3QgbWlzY2RldmljZSAqZGV2aWNlOwo+ICB9Owo+Cj4gQEAgLTk4LDIwICs5OSw1OCBAQCBzdGF0
+aWMgdm9pZCB1bm1hcF91ZG1hYnVmKHN0cnVjdCBkbWFfYnVmX2F0dGFjaG1lbnQgKmF0LAo+ICBz
+dGF0aWMgdm9pZCByZWxlYXNlX3VkbWFidWYoc3RydWN0IGRtYV9idWYgKmJ1ZikKPiAgewo+ICAg
+ICAgICAgc3RydWN0IHVkbWFidWYgKnVidWYgPSBidWYtPnByaXY7Cj4gKyAgICAgICBzdHJ1Y3Qg
+ZGV2aWNlICpkZXYgPSB1YnVmLT5kZXZpY2UtPnRoaXNfZGV2aWNlOwo+ICAgICAgICAgcGdvZmZf
+dCBwZzsKPgo+ICsgICAgICAgaWYgKHVidWYtPnNnKQo+ICsgICAgICAgICAgICAgICBwdXRfc2df
+dGFibGUoZGV2LCB1YnVmLT5zZywgRE1BX0JJRElSRUNUSU9OQUwpOwo+ICsKPiAgICAgICAgIGZv
+ciAocGcgPSAwOyBwZyA8IHVidWYtPnBhZ2Vjb3VudDsgcGcrKykKPiAgICAgICAgICAgICAgICAg
+cHV0X3BhZ2UodWJ1Zi0+cGFnZXNbcGddKTsKPiAgICAgICAgIGtmcmVlKHVidWYtPnBhZ2VzKTsK
+PiAgICAgICAgIGtmcmVlKHVidWYpOwo+ICB9Cj4KPiArc3RhdGljIGludCBiZWdpbl9jcHVfdWRt
+YWJ1ZihzdHJ1Y3QgZG1hX2J1ZiAqYnVmLAo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ZW51bSBkbWFfZGF0YV9kaXJlY3Rpb24gZGlyZWN0aW9uKQo+ICt7Cj4gKyAgICAgICBzdHJ1Y3Qg
+dWRtYWJ1ZiAqdWJ1ZiA9IGJ1Zi0+cHJpdjsKPiArICAgICAgIHN0cnVjdCBkZXZpY2UgKmRldiA9
+IHVidWYtPmRldmljZS0+dGhpc19kZXZpY2U7Cj4gKwo+ICsgICAgICAgaWYgKCF1YnVmLT5zZykg
+ewo+ICsgICAgICAgICAgICAgICB1YnVmLT5zZyA9IGdldF9zZ190YWJsZShkZXYsIGJ1ZiwgZGly
+ZWN0aW9uKTsKPiArICAgICAgICAgICAgICAgaWYgKElTX0VSUih1YnVmLT5zZykpCj4gKyAgICAg
+ICAgICAgICAgICAgICAgICAgcmV0dXJuIFBUUl9FUlIodWJ1Zi0+c2cpOwo+ICsgICAgICAgfSBl
+bHNlIHsKPiArICAgICAgICAgICAgICAgZG1hX3N5bmNfc2dfZm9yX2RldmljZShkZXYsIHVidWYt
+PnNnLT5zZ2wsCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdWJ1Zi0+
+c2ctPm5lbnRzLAo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRpcmVj
+dGlvbik7Ckkga25vdyB0aGlzIHNvbHZlcyB0aGUgaXNzdWUgKGZsdXNoIHRoZSBDUFUgY2FjaGUg
+YmVmb3JlIFdDIGFjY2VzcyksCmJ1dCBpdCBsb29rcyBsaWtlIGFuIGFidXNlPyAgSXQgaXMgY291
+bnRlci1pbnR1aXRpdmUgdGhhdCB0aGUgYnVmZmVyCmlzIHN5bmNlZCBmb3IgZGV2aWNlIHdoZW4g
+b25lIHdhbnRzIENQVSBhY2Nlc3MuCgo+ICsgICAgICAgfQo+ICsKPiArICAgICAgIHJldHVybiAw
+Owo+ICt9Cj4gKwo+ICtzdGF0aWMgaW50IGVuZF9jcHVfdWRtYWJ1ZihzdHJ1Y3QgZG1hX2J1ZiAq
+YnVmLAo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgIGVudW0gZG1hX2RhdGFfZGlyZWN0aW9u
+IGRpcmVjdGlvbikKPiArewo+ICsgICAgICAgc3RydWN0IHVkbWFidWYgKnVidWYgPSBidWYtPnBy
+aXY7Cj4gKyAgICAgICBzdHJ1Y3QgZGV2aWNlICpkZXYgPSB1YnVmLT5kZXZpY2UtPnRoaXNfZGV2
+aWNlOwo+ICsKPiArICAgICAgIGlmICghdWJ1Zi0+c2cpCj4gKyAgICAgICAgICAgICAgIHJldHVy
+biAtRUlOVkFMOwo+ICsKPiArICAgICAgIGRtYV9zeW5jX3NnX2Zvcl9jcHUoZGV2LCB1YnVmLT5z
+Zy0+c2dsLCB1YnVmLT5zZy0+bmVudHMsIGRpcmVjdGlvbik7Cj4gKyAgICAgICByZXR1cm4gMDsK
+PiArfQo+ICsKPiAgc3RhdGljIGNvbnN0IHN0cnVjdCBkbWFfYnVmX29wcyB1ZG1hYnVmX29wcyA9
+IHsKPiAgICAgICAgIC5jYWNoZV9zZ3RfbWFwcGluZyA9IHRydWUsCj4gICAgICAgICAubWFwX2Rt
+YV9idWYgICAgICAgPSBtYXBfdWRtYWJ1ZiwKPiAgICAgICAgIC51bm1hcF9kbWFfYnVmICAgICA9
+IHVubWFwX3VkbWFidWYsCj4gICAgICAgICAucmVsZWFzZSAgICAgICAgICAgPSByZWxlYXNlX3Vk
+bWFidWYsCj4gICAgICAgICAubW1hcCAgICAgICAgICAgICAgPSBtbWFwX3VkbWFidWYsCj4gKyAg
+ICAgICAuYmVnaW5fY3B1X2FjY2VzcyAgPSBiZWdpbl9jcHVfdWRtYWJ1ZiwKPiArICAgICAgIC5l
+bmRfY3B1X2FjY2VzcyAgICA9IGVuZF9jcHVfdWRtYWJ1ZiwKPiAgfTsKPgo+ICAjZGVmaW5lIFNF
+QUxTX1dBTlRFRCAoRl9TRUFMX1NIUklOSykKPiAtLQo+IDIuMjQuMC4zOTMuZzM0ZGMzNDhlYWYt
+Z29vZwo+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+PiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+Zwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
+dmVsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
+ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
+L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
