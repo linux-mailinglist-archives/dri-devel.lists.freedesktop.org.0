@@ -2,42 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF47E11702B
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2019 16:18:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D6BE117030
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2019 16:19:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 567F66E06E;
-	Mon,  9 Dec 2019 15:18:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E9196E49C;
+	Mon,  9 Dec 2019 15:18:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC0596E4AA;
- Mon,  9 Dec 2019 15:18:50 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2019 07:18:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,296,1571727600"; d="scan'208";a="206922150"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga008.jf.intel.com with SMTP; 09 Dec 2019 07:18:46 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 09 Dec 2019 17:18:46 +0200
-Date: Mon, 9 Dec 2019 17:18:46 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Sean Paul <sean@poorly.run>
-Subject: Re: [Intel-gfx] [PATCH 03/11] drm/i915: Disable HDCP signalling on
- transcoder disable
-Message-ID: <20191209151846.GQ1208@intel.com>
-References: <20191203173638.94919-1-sean@poorly.run>
- <20191203173638.94919-4-sean@poorly.run>
- <20191205193319.GK1208@intel.com>
- <20191206135509.GE162979@art_vandelay>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0DFD6E49C
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2019 15:18:57 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 205815] New: When playing a wine game, got black screen then
+ screen flickers, game crashes and back to normal
+Date: Mon, 09 Dec 2019 15:18:57 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: ramaspaceship@free.fr
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-205815-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191206135509.GE162979@art_vandelay>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-Authentication-Results: mail.kernel.org; dkim=permerror (bad
+ message/signature format)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,32 +52,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- Sean Paul <seanpaul@chromium.org>, dri-devel@lists.freedesktop.org,
- ramalingm.c@intel.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBEZWMgMDYsIDIwMTkgYXQgMDg6NTU6MDlBTSAtMDUwMCwgU2VhbiBQYXVsIHdyb3Rl
-Ogo+IE9uIFRodSwgRGVjIDA1LCAyMDE5IGF0IDA5OjMzOjE5UE0gKzAyMDAsIFZpbGxlIFN5cmrD
-pGzDpCB3cm90ZToKPiA+IE9uIFR1ZSwgRGVjIDAzLCAyMDE5IGF0IDEyOjM2OjI2UE0gLTA1MDAs
-IFNlYW4gUGF1bCB3cm90ZToKPiA+ID4gRnJvbTogU2VhbiBQYXVsIDxzZWFucGF1bEBjaHJvbWl1
-bS5vcmc+Cj4gPiA+IAo+ID4gPiBDdXJyZW50bHkgd2UgcmVseSBvbiBpbnRlbF9oZGNwX2Rpc2Fi
-bGUoKSB0byBkaXNhYmxlIEhEQ1Agc2lnbmFsbGluZyBpbgo+ID4gPiB0aGUgRERJIEZ1bmN0aW9u
-IENvbnRyb2wgcmVnaXN0ZXIuIFRoaXMgcGF0Y2ggYWRkcyBhIHNhZmV0eSBuZXQgYnkgYWxzbwo+
-ID4gPiBjbGVhcmluZyB0aGUgYml0IHdoZW4gd2UgZGlzYWJsZSB0aGUgdHJhbnNjb2Rlci4KPiA+
-ID4gCj4gPiA+IE9uY2Ugd2UgaGF2ZSBIRENQIG92ZXIgTVNUIGFuZCBkaXNhcHBlYXJpbmcgY29u
-bmVjdG9ycywgd2Ugd2FudCB0byBtYWtlCj4gPiA+IHN1cmUgdGhhdCB0aGUgc2lnbmFsbGluZyBp
-cyB0cnVseSBkaXNhYmxlZCBldmVuIGlmIEhEQ1AgdGVhcmRvd24gZG9lc24ndAo+ID4gPiBnbyBh
-cyBwbGFubmVkLgo+ID4gCj4gPiBXaHkgd291bGRuJ3QgaXQgZ28gYXMgcGxhbm5lZD8KPiA+IAo+
-IAo+IEJlY2F1c2UgdGhpbmdzIGNhbiBmYWlsIGluIHdlaXJkIGFuZCB3b25kZXJmdWwgd2F5cyBv
-biB1bnBsdWcgOi0pCgpOb3QgcmVhbGx5LgoKPiAKPiBJdCdzIGEgc2FmZXR5IG5ldC4gSSBzYXcg
-dGhpcyBmdW5jdGlvbiBhbmQgZmlndXJlZCBIRENQIHNpZ25hbGxpbmcgc2hvdWxkIGJlCj4gZXhw
-bGljaXRseSBjbGVhcmVkIGhlcmUgYXMgd2VsbC4KCkkgY2FsbCBpdCBkZWFkIGFuZCBjb25mdXNp
-bmcgY29kZS4gSWYgd2UgZ2V0IGhlcmUgd2l0aCBIRENQIHN0aWxsCmVuYWJsZWQgd2UgaGF2ZSBh
-IG1vcmUgc2VyaW91cyBidWcgc29tZXdoZXJlIGVsc2UuCgotLSAKVmlsbGUgU3lyasOkbMOkCklu
-dGVsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDU4MTUKCiAgICAg
+ICAgICAgIEJ1ZyBJRDogMjA1ODE1CiAgICAgICAgICAgU3VtbWFyeTogV2hlbiBwbGF5aW5nIGEg
+d2luZSBnYW1lLCBnb3QgYmxhY2sgc2NyZWVuIHRoZW4gc2NyZWVuCiAgICAgICAgICAgICAgICAg
+ICAgZmxpY2tlcnMsIGdhbWUgY3Jhc2hlcyBhbmQgYmFjayB0byBub3JtYWwKICAgICAgICAgICBQ
+cm9kdWN0OiBEcml2ZXJzCiAgICAgICAgICAgVmVyc2lvbjogMi41CiAgICBLZXJuZWwgVmVyc2lv
+bjogNS40LjItMX5leHAxIChEZWJpYW4gZXhwZXJpbWVudGFsKQogICAgICAgICAgSGFyZHdhcmU6
+IHg4Ni02NAogICAgICAgICAgICAgICAgT1M6IExpbnV4CiAgICAgICAgICAgICAgVHJlZTogTWFp
+bmxpbmUKICAgICAgICAgICAgU3RhdHVzOiBORVcKICAgICAgICAgIFNldmVyaXR5OiBub3JtYWwK
+ICAgICAgICAgIFByaW9yaXR5OiBQMQogICAgICAgICBDb21wb25lbnQ6IFZpZGVvKERSSSAtIG5v
+biBJbnRlbCkKICAgICAgICAgIEFzc2lnbmVlOiBkcml2ZXJzX3ZpZGVvLWRyaUBrZXJuZWwtYnVn
+cy5vc2RsLm9yZwogICAgICAgICAgUmVwb3J0ZXI6IHJhbWFzcGFjZXNoaXBAZnJlZS5mcgogICAg
+ICAgIFJlZ3Jlc3Npb246IE5vCgpDcmVhdGVkIGF0dGFjaG1lbnQgMjg2MjM1CiAgLS0+IGh0dHBz
+Oi8vYnVnemlsbGEua2VybmVsLm9yZy9hdHRhY2htZW50LmNnaT9pZD0yODYyMzUmYWN0aW9uPWVk
+aXQKU3lzdGVtIGpvdXJuYWwKClNpbmNlIEkgdXNlIGEgUnl6ZW4gNSAzNDAwRyBJIGhhdmUgdHJv
+dWJsZSBwbGF5aW5nIHRoZSBXaW5lIGdhbWUgSSB1c2UgdG8gcGxheS4KSSBoYXZlIHRyaWVkIHNl
+dmVyYWwga2VybmVscywgYW5kIHNlZW4gYSBsb3Qgb2YgcHJvZ3Jlc3MgZnJvbSA0LjE5IHRvIDUu
+NC4KQnV0IGl0IHN0aWxsIGZhaWxzIGFmdGVyIGEgd2hpbGUuIEkgdXNlIERlYmlhbiBCdXN0ZXIg
+d2l0aCB0aGUgbGF0ZXN0IERlYmlhbgpleHBlcmltZW50YWwga2VybmVsICg1LjQuMiksIFhvcmcg
+YW5kIE1lc2EgYXJlIGZyb20gU2lkLgoKSSBhdHRhY2hlZCB0aGUgc3lzdGVtIGpvdXJuYWwgb2Yg
+dGhlIGxhc3QgdHJ5IChhbmQgZmFpbHVyZSkuCgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBt
+YWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
+YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
+LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
