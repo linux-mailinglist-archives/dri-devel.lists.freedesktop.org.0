@@ -2,54 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B7E5118270
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 09:40:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3C8B11826C
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 09:40:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85ADE89DAB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47C5689D87;
 	Tue, 10 Dec 2019 08:40:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
- [IPv6:2607:f8b0:4864:20::741])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BDA26E143
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2019 14:38:29 +0000 (UTC)
-Received: by mail-qk1-x741.google.com with SMTP id z14so2862275qkg.9
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Dec 2019 06:38:29 -0800 (PST)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E12696E486
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2019 14:45:19 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id c20so13744459wmb.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Dec 2019 06:45:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=H7XZjgL3g7KTwVnmufmCC7R6OVK7fHUfMBsGrRCsy1I=;
- b=UnqlV9gQIodeEiMkvWAZgaYU12yntYX3jw83zfinkFdaoCjrGa13NrFjSaMRF4enzO
- ZEoRx3U62+07LE1c0XeEr7Imkg7qlSnZtktjCWrj1ggRQLQmam1DmOID7VHcwh4GhLHb
- NeqMHl/BCMHfsMKT0PO6fRkp3PuMWmmbb9jvvgIF4Zd41hrZgER4mC+IvxJF/wwUjU2c
- XeAOb3q9NcP+2f8uQvs00RvKGzE0KECrVuZotHBFoBdblnfM36t+8Il5kIGRwThIFAa9
- r5+5Mis2aUsJk+fmTRx1XIxCpqPAKPuD0jd6luoN/JArA7vCpWbdTr/fA7y/dn6UiBBZ
- eZug==
+ :cc; bh=8zvLIh1fKJn6XMcG/J+M/fuqTgxFZLX92p2+j85jx1w=;
+ b=FhZFgoXzxhD9EcN6lhIAyTnxDxhTVTSpmRj1a6c8LoSftEF5EVqswjxkRqQkBzCaQa
+ u19cHhC8/une7ZW0aQ4NJuvCqht7ZcgizdvHwhBejrdRMk4QevdYsXElVqotNEVqe+jq
+ kPphcAW9Oy0FnK9te3ZLfLyMW5DR4uFaWw26iA2gF1huSWewVMEXrojOcC5V8SBsgylz
+ u+3FuVuZcMhsp5/+jyFHH3aGsj0miNMWgXdGtQJR0lqLIE7jW3et2zwkU2+lY3zJScND
+ WxbD/BBiJ3ptwPVMXy7hFR9tT/0CKCk76dKuVaW6A+bTwwIUXgMz2PEI6Fhr7+QwjY1Y
+ LA4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=H7XZjgL3g7KTwVnmufmCC7R6OVK7fHUfMBsGrRCsy1I=;
- b=BeWBZJUny2iaI7u3TGpzvGgjmCGYwqxOEp60kMAI61jc7+vZeaIzYylpyliaCv4rWU
- hmlC30S0vsOviVvLwIms8bo6SRgZjFuznR+e31Y5Ezk1Oq/rUguLnPre2e4weKLTbuPM
- SA9+HJW36vfMtHxh5fVVsrMNlQXn1U87IJOnqPdElsKEwTkmUyrOLxYCkkymqTQXL8Lx
- vjN2TnvvIsaIha+hax2hHRsxKmHov2qzl6IKLWSYwUYIcZ1F+zQqEUL/v1kFXWflo7f+
- jErE8hOI5//s2AY/c8IOyAuoXgCFcLkxfMUwDmlsC/51AJu3zl6xhRz2i7e6qReQNmBG
- Q37g==
-X-Gm-Message-State: APjAAAXkP2MrGzrJA5w3OVL6E5xdHZgT+SV3XlIvspAKOdMScl25nH8A
- Uibnn9anadQyU48DZGwN5ePo1h/EiNXKiQ8xEGI=
-X-Google-Smtp-Source: APXvYqzlFJP9WaH1O2M6iL/BZjsOlSKfCs3yxsz+r1qvHrFPWA2T29Qt5Dtrlg1uDgPPfOE1aWDrHBmMcj0X8Ct1JWw=
-X-Received: by 2002:a37:9245:: with SMTP id u66mr28555486qkd.102.1575902308099; 
- Mon, 09 Dec 2019 06:38:28 -0800 (PST)
+ bh=8zvLIh1fKJn6XMcG/J+M/fuqTgxFZLX92p2+j85jx1w=;
+ b=fsR+H/qwljvb5fpQA25YqslUlVRlBq4t4lPoTpbv27tTw8tf069IIu5gWyH9BsVISA
+ DrrlWv31u/kSeg7Vw8fPa0SjxJuMC3CtsrWwUHbMvpGWLzaynzYUezEFY10P0AbbL3nP
+ toy76sG8no2ji6tTi3OL3d8H/6RhJBZvI7YmUbbIljNOv1DpjVcNTGGZLBXkI2Uv1+JX
+ 8Mi2VBq9Cgew4SrBgkOWZ4CqeIkmcw4himag7cN2IWuryCcwXQbHX5JfpOZ2rZVsDTId
+ xSpKAVUMLf070o393Sr872VRtuNngGH342N7D/P3dmdsuCo5rbYZhm623MWpguG6ZB95
+ JZvA==
+X-Gm-Message-State: APjAAAXHZGoEnMjn3Q/6ApoViUDLjioC2JZckTAYeWwKSl21E4+vhadS
+ NUBEy/0v0ivaYDxoW9l8mIv1BkKyIw7zxYb6UMA=
+X-Google-Smtp-Source: APXvYqy27kHD4jjFDks2ntedSrUO8NkKwnnguCCFY39ACfZ8bi1ngZNHs4z3GG+mqEYAsKrMWXysnkDNFn8p2bhf9ko=
+X-Received: by 2002:a7b:cb02:: with SMTP id u2mr24458897wmj.142.1575902718240; 
+ Mon, 09 Dec 2019 06:45:18 -0800 (PST)
 MIME-Version: 1.0
-References: <20191209050857.31624-1-andrew.smirnov@gmail.com>
- <20191209050857.31624-3-andrew.smirnov@gmail.com>
- <45afdff8-4f91-f5be-a299-d0c7fed71ea7@ti.com>
-In-Reply-To: <45afdff8-4f91-f5be-a299-d0c7fed71ea7@ti.com>
+References: <20191209082707.24531-1-tomi.valkeinen@ti.com>
+In-Reply-To: <20191209082707.24531-1-tomi.valkeinen@ti.com>
 From: Andrey Smirnov <andrew.smirnov@gmail.com>
-Date: Mon, 9 Dec 2019 06:38:16 -0800
-Message-ID: <CAHQ1cqH8XTYysd1Nv2Q0EziXfJWeemZeyyZZ3OKoCv8=XrHZWA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] drm/bridge: tc358767: Expose test mode
- functionality via debugfs
+Date: Mon, 9 Dec 2019 06:45:06 -0800
+Message-ID: <CAHQ1cqHJYrDzrK9AUOGdF8uggLNHOS1pfZfbJcicPnYBXzddsA@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: tc358767: fix poll timeouts
 To: Tomi Valkeinen <tomi.valkeinen@ti.com>
 X-Mailman-Approved-At: Tue, 10 Dec 2019 08:40:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,8 +61,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Cory Tusar <cory.tusar@zii.aero>,
- linux-kernel <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+Cc: dri-devel@lists.freedesktop.org,
+ Andrey Gusakov <andrey.gusakov@cogentembedded.com>, Jyri Sarha <jsarha@ti.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Chris Healy <cphealy@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
@@ -73,84 +70,93 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 9, 2019 at 1:38 AM Tomi Valkeinen <tomi.valkeinen@ti.com> wrote:
++ Chris Healy
+
+On Mon, Dec 9, 2019 at 12:27 AM Tomi Valkeinen <tomi.valkeinen@ti.com> wrote:
 >
-> (Cc'ing Daniel for the last paragraph)
+> Link training fails with:
 >
-> On 09/12/2019 07:08, Andrey Smirnov wrote:
-> > Presently, the driver code artificially limits test pattern mode to a
-> > single pattern with fixed color selection. It being a kernel module
-> > parameter makes switching "test pattern" <-> "proper output" modes
-> > on-the-fly clunky and outright impossible if the driver is built into
-> > the kernel.
+>   Link training timeout waiting for LT_LOOPDONE!
+>   main link enable error: -110
 >
-> That's not correct, /sys/module/tc358767/parameters/test is there even if the driver is built-in.
+> This is caused by too tight timeouts, which were changed recently in
+> aa92213f388b ("drm/bridge: tc358767: Simplify polling in tc_link_training()").
 >
-
-True, I'll drop the "impossible" part of the descrption. Having to
-unbind and bind device to the driver to use that parameter definitely
-falls under "clunky" for me still, so I'll just stick to that in the
-description.
-
-> I think the bigger problems are that there's just one value, even if there are multiple devices, and
-> that with kernel parameter the driver can't act on it dynamically (afaik).
+> With a quick glance, the commit does not change the timeouts. However,
+> the method of delaying/sleeping is different, and as the timeout in the
+> previous implementation was not explicit, the new version in practice
+> has much tighter timeout.
 >
-> > To improve the situation a bit, convert current test pattern code to
-> > use debugfs instead by exposing "TestCtl" register. This way old
-> > "tc_test_pattern=1" functionality can be emulated via:
-> >
-> >      echo -n 0x78146302 > tstctl
-> >
-> > and switch back to regular mode can be done with:
-> >
-> >      echo -n 0x78146300 > tstctl
+> The same change was made to other parts in the driver, but the link
+> training timeout is the only one I have seen causing issues.
+> Nevertheless, 1 us sleep is not very sane, and the timeouts look pretty
+> tight, so lets fix all the timeouts.
 >
-> In the comment in the code you have 0 as return-to-regular-mode.
-
-Both should work, but I'll modify commit message to match the code.
-
+> One exception was the aux busy poll, where the poll sleep was much
+> longer than necessary (or optimal).
 >
-> With my setup, enabling test mode seems to work, but when I return to regular mode, the first echo
-> results in black display, but echoing 0 a second time will restore the display.
+> I measured the times on my setup, and now the sleep times are set to
+> such values that they result in multiple loops, but not too many (say,
+> 5-10 loops). The timeouts were all increased to 100ms, which should be
+> more than enough for all of these, but in case of bad errors, shouldn't
+> stop the driver as multi-second timeouts could do.
 >
-> Hmm, actually, just echoing 0 to tstctl multiple times, it makes the screen go black and then
-> restores it with every other echo.
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> Fixes: aa92213f388b ("drm/bridge: tc358767: Simplify polling in tc_link_training()")
+
+Tested on RDU2 with TC358767/eDP panel, doesn't seem to break anything
+there, so:
+
+Tested-by: Andrey Smirnov <andrew.smirnov@gmail.com>
+
+> ---
+>  drivers/gpu/drm/bridge/tc358767.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 >
-
-Strange, works on my setup every time. No error messages in kernel log
-I assume? Probably unrelated, but when you echo "0" and the screen
-stays black, what do you see in DP_SINK_STATUS register:
-
-dd if=/dev/drm_dp_aux0 bs=1 skip=$((0x205)) count=1 2>/dev/null | hexdump -Cv
-
-? Note that this needs CONFIG_DRM_DP_AUX_CHARDEV to be enabled.
-
-> > +     debugfs = debugfs_create_dir(dev_name(dev), NULL);
-> > +     if (!IS_ERR(debugfs)) {
-> > +             debugfs_create_file_unsafe("tstctl", 0200, debugfs, tc,
-> > +                                        &tc_tstctl_fops);
-> > +             devm_add_action_or_reset(dev, tc_remove_debugfs, debugfs);
-> > +     }
-> > +
+> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+> index 8a8d605021f0..0454675a44cb 100644
+> --- a/drivers/gpu/drm/bridge/tc358767.c
+> +++ b/drivers/gpu/drm/bridge/tc358767.c
+> @@ -294,7 +294,7 @@ static inline int tc_poll_timeout(struct tc_data *tc, unsigned int addr,
 >
-> For me this creates debugfs/3-000f/tstctl. I don't think that's a clear or usable path, and could
-> even cause a name conflict in the worst case.
+>  static int tc_aux_wait_busy(struct tc_data *tc)
+>  {
+> -       return tc_poll_timeout(tc, DP0_AUXSTATUS, AUX_BUSY, 0, 1000, 100000);
+> +       return tc_poll_timeout(tc, DP0_AUXSTATUS, AUX_BUSY, 0, 100, 100000);
+>  }
 >
-
-I agree on usability aspect, but I am not sure I can see how a
-conflict can happen. What scenario do you have in mind that would
-cause that? My thinking was that the combination of I2C bus number +
-I2C address should always be unique on the system, but maybe I am
-missing something?
-
-> Not sure what's a good solution here, but only two semi-good ones come to mind: have it in sysfs
-> under the device's dir,
-
-I'm fine with this option if it is the only path forward, but, given a
-choice, I would _really_ rather not go the sysfs route.
-
-Thanks,
-Andrey Smirnov
+>  static int tc_aux_write_data(struct tc_data *tc, const void *data,
+> @@ -637,7 +637,7 @@ static int tc_aux_link_setup(struct tc_data *tc)
+>         if (ret)
+>                 goto err;
+>
+> -       ret = tc_poll_timeout(tc, DP_PHY_CTRL, PHY_RDY, PHY_RDY, 1, 1000);
+> +       ret = tc_poll_timeout(tc, DP_PHY_CTRL, PHY_RDY, PHY_RDY, 100, 100000);
+>         if (ret == -ETIMEDOUT) {
+>                 dev_err(tc->dev, "Timeout waiting for PHY to become ready");
+>                 return ret;
+> @@ -861,7 +861,7 @@ static int tc_wait_link_training(struct tc_data *tc)
+>         int ret;
+>
+>         ret = tc_poll_timeout(tc, DP0_LTSTAT, LT_LOOPDONE,
+> -                             LT_LOOPDONE, 1, 1000);
+> +                             LT_LOOPDONE, 500, 100000);
+>         if (ret) {
+>                 dev_err(tc->dev, "Link training timeout waiting for LT_LOOPDONE!\n");
+>                 return ret;
+> @@ -934,7 +934,7 @@ static int tc_main_link_enable(struct tc_data *tc)
+>         dp_phy_ctrl &= ~(DP_PHY_RST | PHY_M1_RST | PHY_M0_RST);
+>         ret = regmap_write(tc->regmap, DP_PHY_CTRL, dp_phy_ctrl);
+>
+> -       ret = tc_poll_timeout(tc, DP_PHY_CTRL, PHY_RDY, PHY_RDY, 1, 1000);
+> +       ret = tc_poll_timeout(tc, DP_PHY_CTRL, PHY_RDY, PHY_RDY, 500, 100000);
+>         if (ret) {
+>                 dev_err(dev, "timeout waiting for phy become ready");
+>                 return ret;
+> --
+> Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+> Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
