@@ -2,21 +2,21 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0C6211703B
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2019 16:20:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2692B11703E
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2019 16:21:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD5316E49F;
-	Mon,  9 Dec 2019 15:20:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B4566E4A6;
+	Mon,  9 Dec 2019 15:21:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B6746E49F
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2019 15:20:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63B026E4A6
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2019 15:21:10 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 205815] When playing a wine game, got black screen then screen
- flickers, game crashes and back to normal
-Date: Mon, 09 Dec 2019 15:20:03 +0000
+Subject: [Bug 205815] amdgpu: When playing a wine game, got black screen then
+ screen flickers, game crashes and back to normal
+Date: Mon, 09 Dec 2019 15:21:10 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -31,8 +31,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-205815-2300-gZscid7Wzg@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: short_desc
+Message-ID: <bug-205815-2300-qkk2EZ6cOC@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-205815-2300@https.bugzilla.kernel.org/>
 References: <bug-205815-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -57,12 +57,17 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDU4MTUKCi0tLSBD
-b21tZW50ICMxIGZyb20gQmVybmFyZCBNQVVEUlkgKHJhbWFzcGFjZXNoaXBAZnJlZS5mcikgLS0t
-CkNyZWF0ZWQgYXR0YWNobWVudCAyODYyMzcKICAtLT4gaHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwu
-b3JnL2F0dGFjaG1lbnQuY2dpP2lkPTI4NjIzNyZhY3Rpb249ZWRpdApJIGFsc28gYXR0YWNoZWQg
-YW1kZ3B1X2Zpcm13YXJlX2luZm8uCgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJl
-Y2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDU4MTUKCkJlcm5h
+cmQgTUFVRFJZIChyYW1hc3BhY2VzaGlwQGZyZWUuZnIpIGNoYW5nZWQ6CgogICAgICAgICAgIFdo
+YXQgICAgfFJlbW92ZWQgICAgICAgICAgICAgICAgICAgICB8QWRkZWQKLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLQogICAgICAgICAgICBTdW1tYXJ5fFdoZW4gcGxheWluZyBhIHdpbmUgZ2FtZSwgICB8YW1k
+Z3B1OiBXaGVuIHBsYXlpbmcgYSB3aW5lCiAgICAgICAgICAgICAgICAgICB8Z290IGJsYWNrIHNj
+cmVlbiB0aGVuICAgICAgIHxnYW1lLCBnb3QgYmxhY2sgc2NyZWVuIHRoZW4KICAgICAgICAgICAg
+ICAgICAgIHxzY3JlZW4gZmxpY2tlcnMsIGdhbWUgICAgICAgfHNjcmVlbiBmbGlja2VycywgZ2Ft
+ZQogICAgICAgICAgICAgICAgICAgfGNyYXNoZXMgYW5kIGJhY2sgdG8gbm9ybWFsICB8Y3Jhc2hl
+cyBhbmQgYmFjayB0byBub3JtYWwKCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVj
+YXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
