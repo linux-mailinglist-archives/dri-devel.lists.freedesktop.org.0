@@ -1,43 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1749119622
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:25:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D3641196EC
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:30:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A54B6E983;
-	Tue, 10 Dec 2019 21:25:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 742586E95A;
+	Tue, 10 Dec 2019 21:30:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23D9D6E984;
- Tue, 10 Dec 2019 21:25:28 +0000 (UTC)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 1647B20838;
- Tue, 10 Dec 2019 21:25:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576013128;
- bh=/SVe0pXGAgiWiU2Aj/V5oelee8zM1PXTQwlxRsZFXfQ=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=faz4JOax0bCt5FUiU9HVE5JPH/jOAo6gysdzyZBmcZfmXIf0icq9dAjLqmPUoOhPC
- hdZq7/vVBxSwAD+dOj6/WeoA6RH8GSvJMm9NLNAzcu+3Tm4qfEl0pL2uSR7y9waD8N
- cOjE1qCk53JbqJ+axlZUpc9tIWTjQsuG5lTnUjiY=
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.3 013/292] drm/amd/display: Handle virtual signal
- type in disable_link()
-Date: Tue, 10 Dec 2019 16:20:32 -0500
-Message-Id: <20191210212511.11392-13-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191210212511.11392-1-sashal@kernel.org>
-References: <20191210212511.11392-1-sashal@kernel.org>
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
+ [IPv6:2a00:1450:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7724C6E984
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 21:30:12 +0000 (UTC)
+Received: by mail-lf1-x143.google.com with SMTP id r14so14954215lfm.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 13:30:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=StsS/69FutA1nN7N98WwTYGRBxsgRrzIAB2gro1J7SU=;
+ b=teLVRGpVO9aX1Xtmff3aE8MOjXAblaxvQsN0PT3HW9p0Vor4OShm0t4Z/yiGmooji8
+ itYT/f+M6dTuU3FbtpGWHKwDW14hAtF7CRljqra5sWojsuX4pvIL8z5GHVRI7Q4CyeT2
+ iXyjHA8OzaKa2myRJ9oiQXjG9gTw1qBCpOunO7jg2UQ0r1efL+wACdUFtsoBBb6uqAgD
+ TIlYDdFhiuDPC7sM8rjfOpeuz6zFfNg2vf8O+p3JRqSq1ydu8YSkxy3w90Z+Yv2tCw4G
+ tLn3yUXZi2/RjinSjGcyTOQQIKqJSpE2oNm6Mnp0kTeTBum7r+ZVEz4FySclHgIJQ/5Y
+ a0UQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=StsS/69FutA1nN7N98WwTYGRBxsgRrzIAB2gro1J7SU=;
+ b=YSwaPZ0VskCLWNAuSlzJg1XQUQxaf/sMLmFEy8asojUDICmLWOWvBkSOGJDvjxmXVn
+ mhiSSgthanZLPgs1+d0awVsH3vIy5uRXAtgHv8W0a9O7OMfZV4rchYUQaCZt8D+CbrM0
+ wj24Wxv7W9VJITINQJuOutGsJGGlzl1AuseO6Gs1DC/gEkirXAvnNjRvFF/VKmfrY3DE
+ bZlDJs87akH6uoFY2im19nbPme+6D25S6v9ZRPNYZIe6clMZw+68kxUcwTfoqZ+lSsq0
+ VXnzi0MTbXdwPMvAoKtYNG6+XcIG5+VSNUzHSF2NAgnIdeEgwJZYES2giZLKERBNK3Fs
+ 4U3Q==
+X-Gm-Message-State: APjAAAUBhIjD2FLnQhrLo0jnvl+InN+9ipo06Yr9ndYuINWMStHm/ysz
+ IAPsETFHdmvHjVYfxi7nUxJ/DXm3UNv+h/nexNy09w==
+X-Google-Smtp-Source: APXvYqwXhTtL7+VPyKO5IiSh3n5ljqSh1XlMtM1WFF3mWEN1L8FeOTpdPXx2wgMF2Um6Vk9E5Nzc+gaF1rXax/33moo=
+X-Received: by 2002:a19:8a41:: with SMTP id m62mr22748lfd.5.1576013410922;
+ Tue, 10 Dec 2019 13:30:10 -0800 (PST)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+References: <20191210194758.24087-1-sam@ravnborg.org>
+In-Reply-To: <20191210194758.24087-1-sam@ravnborg.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 10 Dec 2019 22:29:59 +0100
+Message-ID: <CACRpkdY-8VMN-nZ=uTmOB_10_WGLFggkEDn_M4AYDn1P-bCXEA@mail.gmail.com>
+Subject: Re: [PATCH] drm/drm_panel: fix EXPORT of drm_panel_of_backlight
+To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,59 +60,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Charlene Liu <Charlene.Liu@amd.com>,
- Martin Tsai <martin.tsai@amd.com>, Leo Li <sunpeng.li@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Martin Tsai <martin.tsai@amd.com>
+On Tue, Dec 10, 2019 at 8:48 PM Sam Ravnborg <sam@ravnborg.org> wrote:
 
-[ Upstream commit 616f5b65f1c02d3d6ae370644670d14c57de2fd8 ]
+> Fix link failure for module builds of panels.
+> The conditional compilation around drm_panel_of_backlight()
+> was wrong for a module build.
+> Fix it using IS_ENABLED().
+>
+> Fixes: 152dbdeab1b2 ("drm/panel: add backlight support")
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <maxime.ripard@bootlin.com>
+> Cc: Sean Paul <sean@poorly.run>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 
-[Why]
-The new implementation changed the behavior to allow process setMode
-to DAL when DAL returns empty mode query for unplugged display.
-This will trigger additional disable_link().
-When unplug HDMI from MST dock, driver will update stream->signal to
-"Virtual". disable_link() will call disable_output() if the signal type
-is not DP and induce other displays on MST dock show black screen.
+Looks like the right fix to me:
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-[How]
-Don't need to process disable_output() if the signal type is virtual.
-
-Signed-off-by: Martin Tsai <martin.tsai@amd.com>
-Reviewed-by: Charlene Liu <Charlene.Liu@amd.com>
-Acked-by: Leo Li <sunpeng.li@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/amd/display/dc/core/dc_link.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-index 355b4ba127966..90217cf83ce17 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-@@ -2157,8 +2157,10 @@ static void disable_link(struct dc_link *link, enum signal_type signal)
- 			dp_set_fec_ready(link, false);
- 		}
- #endif
--	} else
--		link->link_enc->funcs->disable_output(link->link_enc, signal);
-+	} else {
-+		if (signal != SIGNAL_TYPE_VIRTUAL)
-+			link->link_enc->funcs->disable_output(link->link_enc, signal);
-+	}
- 
- 	if (signal == SIGNAL_TYPE_DISPLAY_PORT_MST) {
- 		/* MST disable link only when no stream use the link */
--- 
-2.20.1
-
+Yours,
+Linus Walleij
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
