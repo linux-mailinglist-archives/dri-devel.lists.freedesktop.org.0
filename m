@@ -1,61 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2C411190F3
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 20:48:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41F2911913F
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 20:58:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5BE46E15B;
-	Tue, 10 Dec 2019 19:48:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A61326E91B;
+	Tue, 10 Dec 2019 19:58:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A52066E15B
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 19:48:13 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id c19so21195917lji.11
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 11:48:13 -0800 (PST)
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF4346E91B;
+ Tue, 10 Dec 2019 19:58:39 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id v201so14705650lfa.11;
+ Tue, 10 Dec 2019 11:58:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=P82TMLYYn0H0Vk+7jkobRYRy3Hkk+TTBJg7MhrKH4/s=;
- b=n/OUSoF3n0QiwgzRbda/51QZk6gwz1q5i8U3McL2VBH+RktUL1KscXx11vRPU2n3Dd
- ziE3cYH0O8oAubG9SzUsa3B5zx21KSjTd6T7WujO8VGKGyNHM/lV+x/2Bnxo+jjL7BBK
- uQtdDfXynU5O08esLW6CXyBwGKX1vowHwALeEyszq96YkjyBa005IpfstV7RGUf3mXgl
- +Y4bXG/+nB50urHqe59gDfFQM90h07Hyt0ctaUlL3cW7RC8AwmRfXD6tA1Z/KEvT2i+6
- Nipny51NVCY2At21qu1DcX2xbV5anz4ZOlTZuDfpBvplae+XYyYpiNDvfy4y+fasbQhF
- uW9w==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=cvLA6SLf2bKE07yg0HKaHP2/grDfEpmexDJw0d9Uy8g=;
+ b=gTFrwZsVodvFApTjCQmw3UiTwNJ+4OItpxaDmYfpRqtVGCIb4WveT1bk/NpTgTqhac
+ 4SDFeIxJGigGukw4OGlS+H4wren3Gw63Z17mzs7TBwuL9gsmvsxcRsIZyvS52fLCAPd5
+ 5IKavCuFDp806MC+KUdTcxif4p6xKxqgk+8Kpsy0tZio7VaENp7w1xHR+8oZpx550IKq
+ 4vAr5Loh8y1RuFUzv1ESwItchuI1DbAm00vd9+2KXWIHrAd6uSDNKM6IWLwRVPnOpsqB
+ 3om4eNnUmaoGUfe8/CGlIDsWyptKHl8xHk2+6ldvCa36hR3HWlx+zL6j5JIIs1iUueuh
+ bD5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=P82TMLYYn0H0Vk+7jkobRYRy3Hkk+TTBJg7MhrKH4/s=;
- b=jHmeBmbkHT/jTfZyWM8aqi5JxRDBP5qBfYRu3uIiRNz8YnI3pS4aiKd7HP+XvS/9AK
- tb+2IFOq6yjrjy0qRmlbM4KiKOLgS5O8JE07kl1EkcT2M+xnP30h6QiDyJM9irdi+92o
- L24SpZoQfyt8a33CnPZ0E25LpIPYIBpvwMsFCcOagEGRkRl6Z/ke2LRnDpcEYeFE9c92
- QCDoDNunfe4n5F3qG+5+XCSIm7esg1C6z0X1sOSUK3QCsoJZfqgjQUuMIFJ2yxo3kcKg
- /vmVnFDHEm3iP16r/EsGB+IxQiqkdTpMen0XvYt02yaZOQEi+8FY5hsvq42NKDD+yHdv
- sWcQ==
-X-Gm-Message-State: APjAAAURReVl2vmWhWAqEBFulKdaqjEF2bJJJVf5k8tao/bqTTB7Vy7A
- sK6Oorx/FoKfDtwh/EftcmgWwRTaaL0=
-X-Google-Smtp-Source: APXvYqxMcqThqjnmPpHv+veZ+fazzz/HwKfdb5pWYARoms85N0orQfmGUVti8TkdBcS0f0gZABLLkg==
-X-Received: by 2002:a05:651c:8f:: with SMTP id
- 15mr21439902ljq.109.1576007291663; 
- Tue, 10 Dec 2019 11:48:11 -0800 (PST)
-Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
- by smtp.gmail.com with ESMTPSA id
- b22sm2394532lji.66.2019.12.10.11.48.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Dec 2019 11:48:10 -0800 (PST)
-From: Sam Ravnborg <sam@ravnborg.org>
-To: dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Linus Walleij <linus.walleij@linaro.org>, Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH] drm/drm_panel: fix EXPORT of drm_panel_of_backlight
-Date: Tue, 10 Dec 2019 20:47:58 +0100
-Message-Id: <20191210194758.24087-1-sam@ravnborg.org>
-X-Mailer: git-send-email 2.20.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cvLA6SLf2bKE07yg0HKaHP2/grDfEpmexDJw0d9Uy8g=;
+ b=uXid7zc+s6rdfnZun1SmWfC/bQCaFjf0MBkxRrYx2x2IxiWEybeV+cMwQD6R4t4MKE
+ fNidHH2z12qGFf9YuFZqM84iYZywyoMV3j7Jl0d5NfyQiExrC0Di6iej5Cev3M1hsQHL
+ +75kB9RaBgnI7rfaleLw8Z4aiWuC/TMipR7mdmBmwvc1gqX4T3ILXg/FMCOYpimigwjw
+ ++MB5lmMPfKcq1ID6znSGPsFA5Kvp2ixzexSK5gwK2BX0KZ2SHGOXzG96sYG7McSgWXJ
+ fe2fS8Tzm2yk7hVDdW3WGN6YWhYPAwzeVTZJHP3pnAyA11KZp0FxKpCz5mMs8UfYqhw6
+ 3AJQ==
+X-Gm-Message-State: APjAAAWeoBoC46Pf5embgdCbnUwMI7WW+witn2kzlFjXv90WCzWNKIeA
+ 6oeWxhH9oD+Ulwudxq6b3B31ak2HCR2sARWcaTk=
+X-Google-Smtp-Source: APXvYqzYgV7pLzv9dyjVa9JvPpCT5tZXDSo5dUz5fNuTjRw5r8yUo3wM6afiUBHEPOCG5oAOE7kVEqUbErxmp2QLR6g=
+X-Received: by 2002:a19:784:: with SMTP id 126mr13582955lfh.191.1576007918112; 
+ Tue, 10 Dec 2019 11:58:38 -0800 (PST)
 MIME-Version: 1.0
+References: <CACO55ttTPi2XpRRM_NYJU5c5=OvG0=-YngFy1BiR8WpHkavwXw@mail.gmail.com>
+ <CAJZ5v0h=7zu3A+ojgUSmwTH0KeXmYP5OKDL__rwkkWaWqcJcWQ@mail.gmail.com>
+ <20191121112821.GU11621@lahna.fi.intel.com>
+ <CAJZ5v0hQhj5Wf+piU11abC4pF26yM=XHGHAcDv8Jsgdx04aN-w@mail.gmail.com>
+ <20191121114610.GW11621@lahna.fi.intel.com>
+ <CACO55ttXJgXG32HzYP_uJDfQ6T-d8zQaGjXK_AZD3kF0Rmft4g@mail.gmail.com>
+ <CAJZ5v0ibzcLEm44udUxW2uVgaF9NapdNBF8Ag+RE++u7gi2yNA@mail.gmail.com>
+ <CACO55ttBkZD9dm0Y_jT931NnzHHtDFyLz28aoo+ZG0pnLzPgbA@mail.gmail.com>
+ <CAJZ5v0jbh7jz+YQcw-gC5ztmMOc4E9+KFBCy4VGRsRFxBw-gnw@mail.gmail.com>
+ <e0eeddf4214f54dfac08e428dfb30cbd39f20680.camel@redhat.com>
+ <20191127114856.GZ11621@lahna.fi.intel.com>
+ <CACO55tt5SAf24vk0XrKguhh2J=WuKirDsdY7T+u7PsGFCpnFxg@mail.gmail.com>
+ <e7aec10d789b322ca98f4b250923b0f14f2b8226.camel@redhat.com>
+ <CACO55tu+hT1WGbBn_nxLR=A-X6YWmeuz-UztJKw0QAFQDDV_xg@mail.gmail.com>
+ <CAJZ5v0hcONxiWD+jpBe62H1SZ-84iNxT+QCn8mcesB1C7SVWjw@mail.gmail.com>
+In-Reply-To: <CAJZ5v0hcONxiWD+jpBe62H1SZ-84iNxT+QCn8mcesB1C7SVWjw@mail.gmail.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Wed, 11 Dec 2019 05:58:26 +1000
+Message-ID: <CAPM=9txefUg9_EO82an3b313mZz7J7-ydTuJtWD-hOQwE4QXkQ@mail.gmail.com>
+Subject: Re: [PATCH v4] pci: prevent putting nvidia GPUs into lower device
+ states on certain intel bridges
+To: "Rafael J. Wysocki" <rafael@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,50 +75,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>, David Airlie <airlied@linux.ie>,
- Sean Paul <sean@poorly.run>
+Cc: Karol Herbst <kherbst@redhat.com>, Linux PM <linux-pm@vger.kernel.org>,
+ Linux PCI <linux-pci@vger.kernel.org>,
+ Mika Westerberg <mika.westerberg@intel.com>,
+ Mario Limonciello <Mario.Limonciello@dell.com>,
+ "Rafael J . Wysocki" <rjw@rjwysocki.net>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Helgaas <helgaas@kernel.org>, nouveau <nouveau@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix link failure for module builds of panels.
-The conditional compilation around drm_panel_of_backlight()
-was wrong for a module build.
-Fix it using IS_ENABLED().
+On Mon, 9 Dec 2019 at 21:39, Rafael J. Wysocki <rafael@kernel.org> wrote:
+>
+> On Mon, Dec 9, 2019 at 12:17 PM Karol Herbst <kherbst@redhat.com> wrote:
+> >
+> > anybody any other ideas?
+>
+> Not yet, but I'm trying to collect some more information.
+>
+> > It seems that both patches don't really fix
+> > the issue and I have no idea left on my side to try out. The only
+> > thing left I could do to further investigate would be to reverse
+> > engineer the Nvidia driver as they support runpm on Turing+ GPUs now,
+> > but I've heard users having similar issues to the one Lyude told us
+> > about... and I couldn't verify that the patches help there either in a
+> > reliable way.
+>
+> It looks like the newer (8+) versions of Windows expect the GPU driver
+> to prepare the GPU for power removal in some specific way and the
+> latter fails if the GPU has not been prepared as expected.
+>
+> Because testing indicates that the Windows 7 path in the platform
+> firmware works, it may be worth trying to do what it does to the PCIe
+> link before invoking the _OFF method for the power resource
+> controlling the GPU power.
+>
 
-Fixes: 152dbdeab1b2 ("drm/panel: add backlight support")
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>
-Cc: Sean Paul <sean@poorly.run>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
----
- drivers/gpu/drm/drm_panel.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Remember the pre Win8 path required calling a DSM method to actually
+power the card down, I think by the time we reach these methods in
+those cases the card is already gone.
 
-diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-index 03395ad4d907..79ff3fdf6f6e 100644
---- a/drivers/gpu/drm/drm_panel.c
-+++ b/drivers/gpu/drm/drm_panel.c
-@@ -302,7 +302,7 @@ struct drm_panel *of_drm_find_panel(const struct device_node *np)
- EXPORT_SYMBOL(of_drm_find_panel);
- #endif
- 
--#ifdef CONFIG_BACKLIGHT_CLASS_DEVICE
-+#if IS_ENABLED(CONFIG_BACKLIGHT_CLASS_DEVICE)
- /**
-  * drm_panel_of_backlight - use backlight device node for backlight
-  * @panel: DRM panel
--- 
-2.20.1
-
+Dave.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
