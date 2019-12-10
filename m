@@ -2,87 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCB001191F9
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 21:30:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A29AA11922D
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 21:36:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA7716E179;
-	Tue, 10 Dec 2019 20:30:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2716D6E92F;
+	Tue, 10 Dec 2019 20:36:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-CY1-obe.outbound.protection.outlook.com
- (mail-eopbgr760050.outbound.protection.outlook.com [40.107.76.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8C666E176;
- Tue, 10 Dec 2019 20:30:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ixkWlwjs5SaChlehXYg0ZhubwqjE54XeFJywMvSB5gLONFvgVh8yrWgsvalgUQl/hOF/RSTtZgsIXAK447TBDpot4NzUlKB0Z21ef5aeIJRkpxW3Dv0VXQrkbe9BfX2EgoE3PG6XFC0sawDpfRckfOv170NAklI4AhdSGAUp1+XqLkpI0L6+/Z0tKGyV1P8NM4toKibJpYc892oI624uCylAEuWLyqj/OQpxwmmYDeclSI6DI940EZAxv6N/NsA1i2XxOQ8UU7w+oiwi8ne8UjeSvfpT5HdqPPRCArbhHyRmd1dMBPMDhjtcQ1+Ob9O4G8u9S3fvDGAMu5vF9YnBkQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dCyvppKbKI0qwsCNf/PsfxLZC0SBZCyE6Yrsf7k+GlE=;
- b=Ndbk4+J8k3HSQ5sj6RaP1Sk7fz2PQ7PkXLf8Akhc8s4Z8Dm7txx2B50lX80ik9bYlNeQfMM6hLzz/w430IPCcgKf/XwL1a2GZkjkASG1R8j2QV9USIpPKzP94Hikt7Urky8bclv0/QcXctXrXeuqFGw27sBOi4PkLaw73N3ss7Xo8MZCIEkme4xvmt4ALAsjTfsOqxdJV8C+F9LsyYAfeMGEdbd2a/OryicicXMAQNt6xcqGIA5r/5a8TbKcwmy1hx7NBAcjIV9D1FtwlfgPC/iK+IUewgfRBM2EKvZBKfpV8lWY5xZXVptHWD1fl82mweGEGww3USou6bg69g/bTA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dCyvppKbKI0qwsCNf/PsfxLZC0SBZCyE6Yrsf7k+GlE=;
- b=QIL3h0O4IfO75c5n5V7YQsQq2GKzcqm4qAPtpsZc13iFLLK1R6R7RPjwu9udm5SmTz1EnfiVgzfe8z1nEPC5QFJLKKqITu3oiMtjJJKF5PCgFssDjPjAIZcFb0YIZY/CNztIZ6z9gEmeYCENEGHPhs+nuwuVlaLRrTpQJPHEKUU=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Nicholas.Kazlauskas@amd.com; 
-Received: from BYAPR12MB3560.namprd12.prod.outlook.com (20.178.197.10) by
- BYAPR12MB2744.namprd12.prod.outlook.com (20.176.255.204) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2495.20; Tue, 10 Dec 2019 20:30:26 +0000
-Received: from BYAPR12MB3560.namprd12.prod.outlook.com
- ([fe80::81f8:ed8a:e30e:adb0]) by BYAPR12MB3560.namprd12.prod.outlook.com
- ([fe80::81f8:ed8a:e30e:adb0%7]) with mapi id 15.20.2516.018; Tue, 10 Dec 2019
- 20:30:25 +0000
-Subject: Re: [PATCH] drm/amd/display: include linux/slab.h where needed
-To: Arnd Bergmann <arnd@arndb.de>, Harry Wentland <harry.wentland@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE56B6E92F
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 20:36:19 +0000 (UTC)
+Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
+ (mreue107 [212.227.15.145]) with ESMTPA (Nemesis) id
+ 1Mw8gc-1hpI030rKO-00s44T; Tue, 10 Dec 2019 21:31:03 +0100
+From: Arnd Bergmann <arnd@arndb.de>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  "David (ChunMing) Zhou" <David1.Zhou@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-References: <20191210195941.931745-1-arnd@arndb.de>
-From: "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>
-Message-ID: <cded03ab-40fe-a904-7b1f-5b3623bb7af4@amd.com>
-Date: Tue, 10 Dec 2019 15:30:21 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
-In-Reply-To: <20191210195941.931745-1-arnd@arndb.de>
-Content-Language: en-US
-X-ClientProxiedBy: YTBPR01CA0015.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:14::28) To BYAPR12MB3560.namprd12.prod.outlook.com
- (2603:10b6:a03:ae::10)
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Zhan Liu <zhan.liu@amd.com>
+Subject: [PATCH] drm/amd/display: fix undefined struct member reference
+Date: Tue, 10 Dec 2019 21:30:46 +0100
+Message-Id: <20191210203101.2663341-1-arnd@arndb.de>
+X-Mailer: git-send-email 2.20.0
 MIME-Version: 1.0
-X-Originating-IP: [165.204.55.250]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 887df509-16fd-41ff-be5d-08d77dafc9bc
-X-MS-TrafficTypeDiagnostic: BYAPR12MB2744:|BYAPR12MB2744:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR12MB2744545568DF8001C71C663AEC5B0@BYAPR12MB2744.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-Forefront-PRVS: 02475B2A01
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10009020)(4636009)(396003)(346002)(366004)(136003)(376002)(39860400002)(199004)(189003)(2906002)(36756003)(4001150100001)(54906003)(52116002)(2616005)(26005)(53546011)(316002)(6506007)(81166006)(81156014)(110136005)(8676002)(66476007)(31686004)(8936002)(478600001)(31696002)(86362001)(4326008)(186003)(6666004)(66946007)(66556008)(6512007)(5660300002)(6486002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR12MB2744;
- H:BYAPR12MB3560.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PhVw+sDhY+X6TWmj8G1oWP3GlXom8fireg8F24HBnvkORYa2m0LfHN+W0Q2a0uWZlweH4xl/RD9zvfRgy3XLwqnybfqyCMiQt4sXUqyaTnC9Q92t4bQJgzMldt+YpciPR03Mvrbl9DcJPHYaWEJzLtNkiN2BvJIzlXdQwbxdYyzOPNHPs4pAqeqFOL6pRHyTCjpSqoviCSUvScPnlDUq3VYyOgFDi7njzMQY4eNooLoq0DCH/QV5C0BwtQO/3HgEqRw7AX4rZNSYRCN7Y+8Zx2THzdMYM9Sfjn4Zs7PecZwqIZrDrdQO7XlGfpMWolLooG8brtZmaP96gyDB4X/bdkf5peP/1fkUGN5eLky21B+mDZr4C7qYOjBAqxowyfr3yjg77Bc1UPNCO4BCm2b/B8n2LqjayhL7t5FndfRJw7l/mDGPGKDYn55gbofF4qtH
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 887df509-16fd-41ff-be5d-08d77dafc9bc
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2019 20:30:25.7041 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MvmUZm89pFyTxanMR3yIaoqnIf1ESN7jQ8YpEzDim+l3hT8wtlMNquy8zLj76sVrDiVeIHGvqArYva5QDjgipA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2744
+X-Provags-ID: V03:K1:6Y2/uQlFVUAl2FLpNaMIEOkGmiPd6/841XgCPxFoFzLNddBwEXH
+ Gv0mA5U4F2XyfY5t7Irv9sGvE7omtf7B7anfrVJBcEa6nJh0oGgFa3a8TjQPfIv9chsmwPT
+ jvm00bAGb9IDmiVsEt/HDimufrl4EuajG0pezWC+Cd9W5Z3cXKjNuVPnbUu6xNF5mo57oYn
+ vjtK9SqzVDqza+VajFYtg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:nUCT4AGSbt0=:GtLA8NfJI8V/5FpLgu6FDN
+ 0GWnhC47LM7i0xJDSuKrI2pgwypyDZZVdfiXcE0tagEQ+IBEjd1QPsKtJfoXvnA9VLmEeJCPD
+ wyaFQLSiCzSDT+TTCtrxzMW2JSyjsY6kCZkhXltjIxiKpgs/xvcbU6xCvRupJcGnPnDEVKySE
+ +MefHaC7DOqZ51Kg+H/lb/1jK/xC6YBZWVQxygixc8GFZHT52n6R8Wk+XWSYkj/lFDYiwizP1
+ fhJsKZoQb6FHskOf4iAGsxniiZ7Ej6a+J3On1G37KNf+B21qsxW8dzDhUJSpu97G2qer6oWqI
+ dvgbaGCLIAnYMsbb8rngG9LUjtIjQLC4pnFMkPS6QDv8MI046eHA9+WqbUBTGs3jWoM8avzaA
+ XkhTh7wWAbN709w+vKRXNMB+Ujf6Dt4RzCXUGRSJ43IibCFimt+hhDqRDyXC6tk64Ro1TYt+K
+ bgqdktlDzrohU7J61mNIGCntILFDDVJfU9MHxsINPzz+Ad+n6TJxe1hCOT5bSvCE3Nf7CXsgh
+ H3HPlJaO2Ug+SCc7CIEDgy3CQBDts1wO5QCLZlSgOJ78DPOmaKO6STb6TcOLAlSud/AC3e8G/
+ 2KfpmQFknX/ESEF+1iTd72TSOqhoI1A0u+7uw91IcghJuftDvlzg2iwJamdKovO5CydyAZzW0
+ QxtXp5HXot4ATK1pzlwSooSSg48g5fR7KfCG2Tm1eyNf4xWSzVeMljHNHv36d7s6Uaw2oiGod
+ AcRHHdW82EFu7O3yGepgUiDBMszdSt8QzwK8RI95VLAIJQA8sodVaDwGrfaUYxWR7g2Bvm0o7
+ rLSbAFEIosgmr6MMU6eXfXswea/sjMeCEsCjakehElx4jdbyhcCzp59tPhwBS8XTEPiO/rJKz
+ 4CU7gcgMhl/AFHfbrWBg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,58 +58,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Eric Yang <Eric.Yang2@amd.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Roman Li <Roman.Li@amd.com>,
- Michael Strauss <michael.strauss@amd.com>, amd-gfx@lists.freedesktop.org,
+Cc: Charlene Liu <charlene.liu@amd.com>, Eric Yang <Eric.Yang2@amd.com>,
+ Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Nikola Cornij <nikola.cornij@amd.com>,
+ Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
+ dri-devel@lists.freedesktop.org, Jun Lei <Jun.Lei@amd.com>,
  Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2019-12-10 2:59 p.m., Arnd Bergmann wrote:
-> Calling kzalloc() and related functions requires the
-> linux/slab.h header to be included:
-> 
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn21/dcn21_resource.c: In function 'dcn21_ipp_create':
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn21/dcn21_resource.c:679:3: error: implicit declaration of function 'kzalloc'; did you mean 'd_alloc'? [-Werror=implicit-function-declaration]
->     kzalloc(sizeof(struct dcn10_ipp), GFP_KERNEL);
-> 
-> A lot of other headers also miss a direct include in this file,
-> but this is the only one that causes a problem for now.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+An initialization was added for two optional struct members.  One of
+these is always present in the dcn20_resource file, but the other one
+depends on CONFIG_DRM_AMD_DC_DSC_SUPPORT and causes a build failure if
+that is missing:
 
-What version of the kernel are you building?
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_resource.c:926:14: error: excess elements in struct initializer [-Werror]
+   .num_dsc = 5,
 
-We have:
+Add another #ifdef around the assignment.
 
-#include <linux/slab.h>
+Fixes: c3d03c5a196f ("drm/amd/display: Include num_vmid and num_dsc within NV14's resource caps")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-in os_types.h which gets included as part of this file:
-
-#include <dc.h> -> #include <dc_types.h> -> #include <os_types.h>
-
-Nicholas Kazlauskas
-
-> ---
->   drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-> index 906c84e6b49b..af57885bbff2 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-> @@ -23,6 +23,8 @@
->    *
->    */
->   
-> +#include <linux/slab.h>
-> +
->   #include "dm_services.h"
->   #include "dc.h"
->   
-> 
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
+index faab89d1e694..fdf93e6edf43 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
+@@ -923,7 +923,9 @@ static const struct resource_caps res_cap_nv14 = {
+ 		.num_dwb = 1,
+ 		.num_ddc = 5,
+ 		.num_vmid = 16,
++#ifdef CONFIG_DRM_AMD_DC_DSC_SUPPORT
+ 		.num_dsc = 5,
++#endif
+ };
+ 
+ static const struct dc_debug_options debug_defaults_drv = {
+-- 
+2.20.0
 
 _______________________________________________
 dri-devel mailing list
