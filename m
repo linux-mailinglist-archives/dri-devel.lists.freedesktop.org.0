@@ -1,27 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC0DF1182BB
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 09:49:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 231B21182BC
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 09:49:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 410276E864;
-	Tue, 10 Dec 2019 08:49:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D1216E860;
+	Tue, 10 Dec 2019 08:49:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA2306E863
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 08:49:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 424546E864
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 08:49:09 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 64D01AF83;
+ by mx1.suse.de (Postfix) with ESMTP id BCB13AFF4;
  Tue, 10 Dec 2019 08:49:07 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, daniel@ffwll.ch, sam@ravnborg.org, kraxel@redhat.com,
  emil.velikov@collabora.com, noralf@tronnes.org, zboszor@pr.hu
-Subject: [PATCH v3 1/9] drm/udl: Init connector before encoder and CRTC
-Date: Tue, 10 Dec 2019 09:48:57 +0100
-Message-Id: <20191210084905.5570-2-tzimmermann@suse.de>
+Subject: [PATCH v3 2/9] drm/udl: Convert to struct drm_simple_display_pipe
+Date: Tue, 10 Dec 2019 09:48:58 +0100
+Message-Id: <20191210084905.5570-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20191210084905.5570-1-tzimmermann@suse.de>
 References: <20191210084905.5570-1-tzimmermann@suse.de>
@@ -38,122 +38,482 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Emil Velikov <emil.l.velikov@gmail.com>,
+Cc: Emil Velikov <emil.l.velikov@gmail.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To mimic simple-pipe, we initialize the connector before the rest of
-the display pipeline.
+Udl has a single display pipeline with a primary plane; perfect for
+simple-pipe helpers. Convert it over. The old encoder and CRTC code
+becomes unused and obsolete.
 
+Exported formats for the primary plane are RGB565 and XRGB8888, with
+the latter being emulated. The 16-bit format is the default and what
+is used when communicating with the device.
+
+This patch enables atomic modesetting for udl devices.
+
+v3:
+	* remove unused field crtc from struct udl_device
+	* set crtc_state->no_vblank at beginning of enable()
 v2:
-	* remove unnecessary calls to drm_connector_{register,unregister}()
+	* move suspend/resume changes into separate patch
+	* remove non-atomic code
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 ---
- drivers/gpu/drm/udl/udl_connector.c |  9 +++------
- drivers/gpu/drm/udl/udl_drv.h       |  2 +-
- drivers/gpu/drm/udl/udl_modeset.c   | 16 ++++++++++++++--
- 3 files changed, 18 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/udl/Makefile        |   2 +-
+ drivers/gpu/drm/udl/udl_connector.c |  12 +-
+ drivers/gpu/drm/udl/udl_drv.c       |   2 +-
+ drivers/gpu/drm/udl/udl_drv.h       |   7 +-
+ drivers/gpu/drm/udl/udl_encoder.c   |  70 ------------
+ drivers/gpu/drm/udl/udl_modeset.c   | 170 +++++++++++++---------------
+ 6 files changed, 86 insertions(+), 177 deletions(-)
+ delete mode 100644 drivers/gpu/drm/udl/udl_encoder.c
 
+diff --git a/drivers/gpu/drm/udl/Makefile b/drivers/gpu/drm/udl/Makefile
+index 9c42820ae33d..177ce74f4cf4 100644
+--- a/drivers/gpu/drm/udl/Makefile
++++ b/drivers/gpu/drm/udl/Makefile
+@@ -1,4 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-udl-y := udl_drv.o udl_modeset.o udl_connector.o udl_encoder.o udl_main.o udl_fb.o udl_transfer.o udl_gem.o
++udl-y := udl_drv.o udl_modeset.o udl_connector.o udl_main.o udl_fb.o udl_transfer.o udl_gem.o
+ 
+ obj-$(CONFIG_DRM_UDL) := udl.o
 diff --git a/drivers/gpu/drm/udl/udl_connector.c b/drivers/gpu/drm/udl/udl_connector.c
-index b4ae3e89a7b4..b1d2f38e37e0 100644
+index b1d2f38e37e0..e9671d38b4a0 100644
 --- a/drivers/gpu/drm/udl/udl_connector.c
 +++ b/drivers/gpu/drm/udl/udl_connector.c
-@@ -104,7 +104,6 @@ static void udl_connector_destroy(struct drm_connector *connector)
- 					struct udl_drm_connector,
- 					connector);
+@@ -7,6 +7,7 @@
+  * Copyright (C) 2009 Bernie Thompson <bernie@plugable.com>
+  */
  
--	drm_connector_unregister(connector);
- 	drm_connector_cleanup(connector);
- 	kfree(udl_connector->edid);
- 	kfree(connector);
-@@ -123,24 +122,22 @@ static const struct drm_connector_funcs udl_connector_funcs = {
- 	.set_property = udl_connector_set_property,
++#include <drm/drm_atomic_state_helper.h>
+ #include <drm/drm_crtc_helper.h>
+ #include <drm/drm_probe_helper.h>
+ 
+@@ -90,13 +91,6 @@ udl_detect(struct drm_connector *connector, bool force)
+ 	return connector_status_connected;
+ }
+ 
+-static int udl_connector_set_property(struct drm_connector *connector,
+-				      struct drm_property *property,
+-				      uint64_t val)
+-{
+-	return 0;
+-}
+-
+ static void udl_connector_destroy(struct drm_connector *connector)
+ {
+ 	struct udl_drm_connector *udl_connector =
+@@ -116,10 +110,12 @@ static const struct drm_connector_helper_funcs udl_connector_helper_funcs = {
+ 
+ static const struct drm_connector_funcs udl_connector_funcs = {
+ 	.dpms = drm_helper_connector_dpms,
++	.reset = drm_atomic_helper_connector_reset,
+ 	.detect = udl_detect,
+ 	.fill_modes = drm_helper_probe_single_connector_modes,
+ 	.destroy = udl_connector_destroy,
+-	.set_property = udl_connector_set_property,
++	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
++	.atomic_destroy_state   = drm_atomic_helper_connector_destroy_state,
  };
  
--int udl_connector_init(struct drm_device *dev, struct drm_encoder *encoder)
-+struct drm_connector *udl_connector_init(struct drm_device *dev)
- {
- 	struct udl_drm_connector *udl_connector;
- 	struct drm_connector *connector;
- 
- 	udl_connector = kzalloc(sizeof(struct udl_drm_connector), GFP_KERNEL);
- 	if (!udl_connector)
--		return -ENOMEM;
-+		return ERR_PTR(-ENOMEM);
- 
- 	connector = &udl_connector->connector;
- 	drm_connector_init(dev, connector, &udl_connector_funcs,
- 			   DRM_MODE_CONNECTOR_DVII);
- 	drm_connector_helper_add(connector, &udl_connector_helper_funcs);
- 
--	drm_connector_register(connector);
--	drm_connector_attach_encoder(connector, encoder);
- 	connector->polled = DRM_CONNECTOR_POLL_HPD |
- 		DRM_CONNECTOR_POLL_CONNECT | DRM_CONNECTOR_POLL_DISCONNECT;
- 
--	return 0;
-+	return connector;
+ struct drm_connector *udl_connector_init(struct drm_device *dev)
+diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_drv.c
+index d5783fa32c5b..aeb96920757c 100644
+--- a/drivers/gpu/drm/udl/udl_drv.c
++++ b/drivers/gpu/drm/udl/udl_drv.c
+@@ -45,7 +45,7 @@ static void udl_driver_release(struct drm_device *dev)
  }
+ 
+ static struct drm_driver driver = {
+-	.driver_features = DRIVER_MODESET | DRIVER_GEM,
++	.driver_features = DRIVER_ATOMIC | DRIVER_GEM | DRIVER_MODESET,
+ 	.release = udl_driver_release,
+ 
+ 	/* gem hooks */
 diff --git a/drivers/gpu/drm/udl/udl_drv.h b/drivers/gpu/drm/udl/udl_drv.h
-index 4de00bddef39..e6a669f6f204 100644
+index e6a669f6f204..c7f32c41f649 100644
 --- a/drivers/gpu/drm/udl/udl_drv.h
 +++ b/drivers/gpu/drm/udl/udl_drv.h
-@@ -73,7 +73,7 @@ struct udl_device {
- int udl_modeset_init(struct drm_device *dev);
- void udl_modeset_restore(struct drm_device *dev);
+@@ -17,8 +17,8 @@
+ #include <drm/drm_device.h>
+ #include <drm/drm_framebuffer.h>
+ #include <drm/drm_gem.h>
++#include <drm/drm_simple_kms_helper.h>
+ 
+-struct drm_encoder;
+ struct drm_mode_create_dumb;
+ 
+ #define DRIVER_NAME		"udl"
+@@ -51,7 +51,8 @@ struct udl_device {
+ 	struct drm_device drm;
+ 	struct device *dev;
+ 	struct usb_device *udev;
+-	struct drm_crtc *crtc;
++
++	struct drm_simple_display_pipe display_pipe;
+ 
+ 	/* active framebuffer on the 16-bit channel */
+ 	const struct drm_framebuffer *active_fb_16;
+@@ -75,8 +76,6 @@ void udl_modeset_restore(struct drm_device *dev);
  void udl_modeset_cleanup(struct drm_device *dev);
--int udl_connector_init(struct drm_device *dev, struct drm_encoder *encoder);
-+struct drm_connector *udl_connector_init(struct drm_device *dev);
+ struct drm_connector *udl_connector_init(struct drm_device *dev);
  
- struct drm_encoder *udl_encoder_init(struct drm_device *dev);
+-struct drm_encoder *udl_encoder_init(struct drm_device *dev);
+-
+ struct urb *udl_get_urb(struct drm_device *dev);
  
+ int udl_submit_urb(struct drm_device *dev, struct urb *urb, size_t len);
+diff --git a/drivers/gpu/drm/udl/udl_encoder.c b/drivers/gpu/drm/udl/udl_encoder.c
+deleted file mode 100644
+index 203f041e737c..000000000000
+--- a/drivers/gpu/drm/udl/udl_encoder.c
++++ /dev/null
+@@ -1,70 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-/*
+- * Copyright (C) 2012 Red Hat
+- * based in parts on udlfb.c:
+- * Copyright (C) 2009 Roberto De Ioris <roberto@unbit.it>
+- * Copyright (C) 2009 Jaya Kumar <jayakumar.lkml@gmail.com>
+- * Copyright (C) 2009 Bernie Thompson <bernie@plugable.com>
+- */
+-
+-#include <drm/drm_encoder.h>
+-#include <drm/drm_modeset_helper_vtables.h>
+-
+-#include "udl_drv.h"
+-
+-/* dummy encoder */
+-static void udl_enc_destroy(struct drm_encoder *encoder)
+-{
+-	drm_encoder_cleanup(encoder);
+-	kfree(encoder);
+-}
+-
+-static void udl_encoder_disable(struct drm_encoder *encoder)
+-{
+-}
+-
+-static void udl_encoder_prepare(struct drm_encoder *encoder)
+-{
+-}
+-
+-static void udl_encoder_commit(struct drm_encoder *encoder)
+-{
+-}
+-
+-static void udl_encoder_mode_set(struct drm_encoder *encoder,
+-				 struct drm_display_mode *mode,
+-				 struct drm_display_mode *adjusted_mode)
+-{
+-}
+-
+-static void
+-udl_encoder_dpms(struct drm_encoder *encoder, int mode)
+-{
+-}
+-
+-static const struct drm_encoder_helper_funcs udl_helper_funcs = {
+-	.dpms = udl_encoder_dpms,
+-	.prepare = udl_encoder_prepare,
+-	.mode_set = udl_encoder_mode_set,
+-	.commit = udl_encoder_commit,
+-	.disable = udl_encoder_disable,
+-};
+-
+-static const struct drm_encoder_funcs udl_enc_funcs = {
+-	.destroy = udl_enc_destroy,
+-};
+-
+-struct drm_encoder *udl_encoder_init(struct drm_device *dev)
+-{
+-	struct drm_encoder *encoder;
+-
+-	encoder = kzalloc(sizeof(struct drm_encoder), GFP_KERNEL);
+-	if (!encoder)
+-		return NULL;
+-
+-	drm_encoder_init(dev, encoder, &udl_enc_funcs, DRM_MODE_ENCODER_TMDS,
+-			 NULL);
+-	drm_encoder_helper_add(encoder, &udl_helper_funcs);
+-	encoder->possible_crtcs = 1;
+-	return encoder;
+-}
 diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
-index 91af25caed64..5bb1522036c7 100644
+index 5bb1522036c7..36b7844e8cf4 100644
 --- a/drivers/gpu/drm/udl/udl_modeset.c
 +++ b/drivers/gpu/drm/udl/udl_modeset.c
-@@ -421,7 +421,10 @@ static const struct drm_mode_config_funcs udl_mode_funcs = {
+@@ -9,12 +9,16 @@
+ 
+  */
+ 
++#include <drm/drm_atomic_helper.h>
+ #include <drm/drm_crtc_helper.h>
++#include <drm/drm_gem_framebuffer_helper.h>
+ #include <drm/drm_modeset_helper_vtables.h>
+ #include <drm/drm_vblank.h>
+ 
+ #include "udl_drv.h"
+ 
++#define UDL_COLOR_DEPTH_16BPP	0
++
+ /*
+  * All DisplayLink bulk operations start with 0xAF, followed by specific code
+  * All operations are written to buffers which then later get sent to device
+@@ -277,48 +281,44 @@ static void udl_crtc_dpms(struct drm_crtc *crtc, int mode)
+ 
+ }
+ 
+-#if 0
+-static int
+-udl_pipe_set_base_atomic(struct drm_crtc *crtc, struct drm_framebuffer *fb,
+-			   int x, int y, enum mode_set_atomic state)
+-{
+-	return 0;
+-}
++/*
++ * Simple display pipeline
++ */
+ 
+-static int
+-udl_pipe_set_base(struct drm_crtc *crtc, int x, int y,
+-		    struct drm_framebuffer *old_fb)
++static const uint32_t udl_simple_display_pipe_formats[] = {
++	DRM_FORMAT_RGB565,
++	DRM_FORMAT_XRGB8888,
++};
++
++static enum drm_mode_status
++udl_simple_display_pipe_mode_valid(struct drm_simple_display_pipe *pipe,
++				   const struct drm_display_mode *mode)
+ {
+-	return 0;
++	return MODE_OK;
+ }
+-#endif
+-
+-static int udl_crtc_mode_set(struct drm_crtc *crtc,
+-			       struct drm_display_mode *mode,
+-			       struct drm_display_mode *adjusted_mode,
+-			       int x, int y,
+-			       struct drm_framebuffer *old_fb)
+ 
++static void
++udl_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
++			       struct drm_crtc_state *crtc_state,
++			       struct drm_plane_state *plane_state)
+ {
++	struct drm_crtc *crtc = &pipe->crtc;
+ 	struct drm_device *dev = crtc->dev;
+-	struct drm_framebuffer *fb = crtc->primary->fb;
++	struct drm_framebuffer *fb = plane_state->fb;
+ 	struct udl_device *udl = dev->dev_private;
++	struct drm_display_mode *mode = &crtc_state->mode;
+ 	char *buf;
+ 	char *wrptr;
+-	int color_depth = 0;
++	int color_depth = UDL_COLOR_DEPTH_16BPP;
+ 
+-	udl->crtc = crtc;
++	crtc_state->no_vblank = true;
+ 
+ 	buf = (char *)udl->mode_buf;
+ 
+-	/* for now we just clip 24 -> 16 - if we fix that fix this */
+-	/*if  (crtc->fb->bits_per_pixel != 16)
+-	  color_depth = 1; */
+-
+ 	/* This first section has to do with setting the base address on the
+-	* controller * associated with the display. There are 2 base
+-	* pointers, currently, we only * use the 16 bpp segment.
+-	*/
++	 * controller associated with the display. There are 2 base
++	 * pointers, currently, we only use the 16 bpp segment.
++	 */
+ 	wrptr = udl_vidreg_lock(buf);
+ 	wrptr = udl_set_color_depth(wrptr, color_depth);
+ 	/* set base for 16bpp segment to 0 */
+@@ -326,7 +326,7 @@ static int udl_crtc_mode_set(struct drm_crtc *crtc,
+ 	/* set base for 8bpp segment to end of fb */
+ 	wrptr = udl_set_base8bpp(wrptr, 2 * mode->vdisplay * mode->hdisplay);
+ 
+-	wrptr = udl_set_vid_cmds(wrptr, adjusted_mode);
++	wrptr = udl_set_vid_cmds(wrptr, mode);
+ 	wrptr = udl_set_blank(wrptr, DRM_MODE_DPMS_ON);
+ 	wrptr = udl_vidreg_unlock(wrptr);
+ 
+@@ -337,92 +337,68 @@ static int udl_crtc_mode_set(struct drm_crtc *crtc,
+ 	spin_unlock(&udl->active_fb_16_lock);
+ 	udl->mode_buf_len = wrptr - buf;
+ 
+-	/* damage all of it */
+ 	udl_handle_damage(fb, 0, 0, fb->width, fb->height);
+-	return 0;
+-}
+ 
++	udl_crtc_dpms(&pipe->crtc, DRM_MODE_DPMS_ON);
++}
+ 
+-static void udl_crtc_disable(struct drm_crtc *crtc)
++static void
++udl_simple_display_pipe_disable(struct drm_simple_display_pipe *pipe)
+ {
+-	udl_crtc_dpms(crtc, DRM_MODE_DPMS_OFF);
++	udl_crtc_dpms(&pipe->crtc, DRM_MODE_DPMS_OFF);
+ }
+ 
+-static void udl_crtc_destroy(struct drm_crtc *crtc)
++static int
++udl_simple_display_pipe_check(struct drm_simple_display_pipe *pipe,
++			      struct drm_plane_state *plane_state,
++			      struct drm_crtc_state *crtc_state)
+ {
+-	drm_crtc_cleanup(crtc);
+-	kfree(crtc);
++	return 0;
+ }
+ 
+-static int udl_crtc_page_flip(struct drm_crtc *crtc,
+-			      struct drm_framebuffer *fb,
+-			      struct drm_pending_vblank_event *event,
+-			      uint32_t page_flip_flags,
+-			      struct drm_modeset_acquire_ctx *ctx)
++static void
++udl_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
++			       struct drm_plane_state *old_plane_state)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = pipe->crtc.dev;
+ 	struct udl_device *udl = dev->dev_private;
++	struct drm_framebuffer *fb = pipe->plane.state->fb;
+ 
+ 	spin_lock(&udl->active_fb_16_lock);
+ 	udl->active_fb_16 = fb;
+ 	spin_unlock(&udl->active_fb_16_lock);
+ 
+-	udl_handle_damage(fb, 0, 0, fb->width, fb->height);
+-
+-	spin_lock_irq(&dev->event_lock);
+-	if (event)
+-		drm_crtc_send_vblank_event(crtc, event);
+-	spin_unlock_irq(&dev->event_lock);
+-	crtc->primary->fb = fb;
+-
+-	return 0;
+-}
+-
+-static void udl_crtc_prepare(struct drm_crtc *crtc)
+-{
+-}
++	if (!fb)
++		return;
+ 
+-static void udl_crtc_commit(struct drm_crtc *crtc)
+-{
+-	udl_crtc_dpms(crtc, DRM_MODE_DPMS_ON);
++	udl_handle_damage(fb, 0, 0, fb->width, fb->height);
+ }
+ 
+-static const struct drm_crtc_helper_funcs udl_helper_funcs = {
+-	.dpms = udl_crtc_dpms,
+-	.mode_set = udl_crtc_mode_set,
+-	.prepare = udl_crtc_prepare,
+-	.commit = udl_crtc_commit,
+-	.disable = udl_crtc_disable,
+-};
+-
+-static const struct drm_crtc_funcs udl_crtc_funcs = {
+-	.set_config = drm_crtc_helper_set_config,
+-	.destroy = udl_crtc_destroy,
+-	.page_flip = udl_crtc_page_flip,
++static const
++struct drm_simple_display_pipe_funcs udl_simple_display_pipe_funcs = {
++	.mode_valid = udl_simple_display_pipe_mode_valid,
++	.enable = udl_simple_display_pipe_enable,
++	.disable = udl_simple_display_pipe_disable,
++	.check = udl_simple_display_pipe_check,
++	.update = udl_simple_display_pipe_update,
++	.prepare_fb = drm_gem_fb_simple_display_pipe_prepare_fb,
+ };
+ 
+-static int udl_crtc_init(struct drm_device *dev)
+-{
+-	struct drm_crtc *crtc;
+-
+-	crtc = kzalloc(sizeof(struct drm_crtc) + sizeof(struct drm_connector *), GFP_KERNEL);
+-	if (crtc == NULL)
+-		return -ENOMEM;
+-
+-	drm_crtc_init(dev, crtc, &udl_crtc_funcs);
+-	drm_crtc_helper_add(crtc, &udl_helper_funcs);
+-
+-	return 0;
+-}
++/*
++ * Modesetting
++ */
+ 
+ static const struct drm_mode_config_funcs udl_mode_funcs = {
+ 	.fb_create = udl_fb_user_fb_create,
++	.atomic_check  = drm_atomic_helper_check,
++	.atomic_commit = drm_atomic_helper_commit,
+ };
  
  int udl_modeset_init(struct drm_device *dev)
  {
-+	struct drm_connector *connector;
- 	struct drm_encoder *encoder;
-+	int ret;
-+
++	size_t format_count = ARRAY_SIZE(udl_simple_display_pipe_formats);
++	struct udl_device *udl = dev->dev_private;
+ 	struct drm_connector *connector;
+-	struct drm_encoder *encoder;
+ 	int ret;
+ 
  	drm_mode_config_init(dev);
+@@ -444,10 +420,16 @@ int udl_modeset_init(struct drm_device *dev)
+ 		goto err_drm_mode_config_cleanup;
+ 	}
  
- 	dev->mode_config.min_width = 640;
-@@ -435,13 +438,22 @@ int udl_modeset_init(struct drm_device *dev)
- 
- 	dev->mode_config.funcs = &udl_mode_funcs;
- 
-+	connector = udl_connector_init(dev);
-+	if (IS_ERR(connector)) {
-+		ret = PTR_ERR(connector);
-+		goto err_drm_mode_config_cleanup;
-+	}
+-	udl_crtc_init(dev);
++	format_count = ARRAY_SIZE(udl_simple_display_pipe_formats);
 +
- 	udl_crtc_init(dev);
++	ret = drm_simple_display_pipe_init(dev, &udl->display_pipe,
++					   &udl_simple_display_pipe_funcs,
++					   udl_simple_display_pipe_formats,
++					   format_count, NULL, connector);
++	if (ret)
++		goto err_drm_mode_config_cleanup;
  
- 	encoder = udl_encoder_init(dev);
--
--	udl_connector_init(dev, encoder);
-+	drm_connector_attach_encoder(connector, encoder);
+-	encoder = udl_encoder_init(dev);
+-	drm_connector_attach_encoder(connector, encoder);
++	drm_mode_config_reset(dev);
  
  	return 0;
+ 
+@@ -459,12 +441,14 @@ int udl_modeset_init(struct drm_device *dev)
+ void udl_modeset_restore(struct drm_device *dev)
+ {
+ 	struct udl_device *udl = dev->dev_private;
+-	struct drm_framebuffer *fb;
++	struct drm_crtc *crtc = &udl->display_pipe.crtc;
++	struct drm_plane *primary = &udl->display_pipe.plane;
++	struct drm_framebuffer *fb = primary->fb;
+ 
+-	if (!udl->crtc || !udl->crtc->primary->fb)
++	if (!fb)
+ 		return;
+-	udl_crtc_commit(udl->crtc);
+-	fb = udl->crtc->primary->fb;
 +
-+err_drm_mode_config_cleanup:
-+	drm_mode_config_cleanup(dev);
-+	return ret;
++	udl_crtc_dpms(crtc, DRM_MODE_DPMS_ON);
+ 	udl_handle_damage(fb, 0, 0, fb->width, fb->height);
  }
  
- void udl_modeset_restore(struct drm_device *dev)
 -- 
 2.24.0
 
