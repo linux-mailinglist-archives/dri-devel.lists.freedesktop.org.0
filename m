@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42D5E1199B0
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:52:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F1E4119A84
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 23:03:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F0D06E17D;
-	Tue, 10 Dec 2019 21:52:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DEDE6E98D;
+	Tue, 10 Dec 2019 22:03:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E99286E17D
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 21:52:09 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 65324DBF;
- Tue, 10 Dec 2019 22:52:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1576014727;
- bh=Ih8EqcfA4nD8hACm8d/yLl08r2Db3KdImZJ3njZhk8E=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=e+CNvBHvYgFhT/I85xrhtTzkQLHns7WVHJpYg3UMd4sJbpHR6Qd23yypDPmqv0757
- GVaIZwYM2MzQ5Shu5N/q/keQ5SHPHq86mwcwACrbDvIG4VRowIPbQuRgVes+Pi+7UZ
- CvHmfF8nUh6qaN5KnXOf/GZJLZ1wiHpMqXg4W3o0=
-Date: Tue, 10 Dec 2019 23:51:58 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: allen <allen.chen@ite.com.tw>
-Subject: Re: [PATCH v5 2/4] Revert "drm/tegra: Move drm_dp_link helpers to
- Tegra DRM"
-Message-ID: <20191210215158.GA13051@pendragon.ideasonboard.com>
-References: <1575957299-12977-1-git-send-email-allen.chen@ite.com.tw>
- <1575957299-12977-3-git-send-email-allen.chen@ite.com.tw>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A8B06E979
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 22:03:04 +0000 (UTC)
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
+ [73.47.72.35])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id D300F20637;
+ Tue, 10 Dec 2019 22:03:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1576015384;
+ bh=ZfBmlXo3vN9jtE9PM4yjP2v5WtY9rXLaxQLCYP9rM/I=;
+ h=From:To:Cc:Subject:Date:From;
+ b=aMQthjis+J/NCwE1fsE8FX1VJUOSU2S2+MBC4kfgmzFdwYJWsHIVtyLR5rFOZlTA7
+ N6/hWhwHM0COp05DytwGGNdR0tBtqWSKWhB7gabQl/i/cXJVZXn25GwLH1LLPulhAy
+ I6kvD4eR/89+aFDY5oajknjPZ9nKaXypS/HwdA8I=
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 001/130] drm: mst: Fix query_payload ack reply
+ struct
+Date: Tue, 10 Dec 2019 17:00:52 -0500
+Message-Id: <20191210220301.13262-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1575957299-12977-3-git-send-email-allen.chen@ite.com.tw>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-stable: review
+X-Patchwork-Hint: Ignore
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,46 +48,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>, David Airlie <airlied@linux.ie>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>, Pi-Hsun Shih <pihsun@chromium.org>,
- "open list:DRM DRIVERS FOR NVIDIA TEGRA" <linux-tegra@vger.kernel.org>,
- Sean Paul <sean@poorly.run>
+Cc: Todd Previte <tprevite@gmail.com>, Sasha Levin <sashal@kernel.org>,
+ Maxime Ripard <maxime.ripard@bootlin.com>, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, Sean Paul <seanpaul@chromium.org>,
+ Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Allen,
+From: Sean Paul <seanpaul@chromium.org>
 
-Thank you for the patch.
+[ Upstream commit 268de6530aa18fe5773062367fd119f0045f6e88 ]
 
-On Tue, Dec 10, 2019 at 01:53:40PM +0800, allen wrote:
-> This reverts commit 9a42c7c647a9ad0f7ebb147a52eda3dcb7c84292.
+Spec says[1] Allocated_PBN is 16 bits
 
-Why ?
+[1]- DisplayPort 1.2 Spec, Section 2.11.9.8, Table 2-98
 
-> Signed-off-by: Allen Chen <allen.chen@ite.com.tw>
-> ---
->  drivers/gpu/drm/drm_dp_helper.c | 128 ++++++
->  drivers/gpu/drm/tegra/Makefile  |   1 -
->  drivers/gpu/drm/tegra/dp.c      | 876 ----------------------------------------
->  drivers/gpu/drm/tegra/dp.h      | 177 --------
->  drivers/gpu/drm/tegra/dpaux.c   |   1 -
->  drivers/gpu/drm/tegra/sor.c     |   1 -
->  include/drm/drm_dp_helper.h     |  16 +
->  7 files changed, 144 insertions(+), 1056 deletions(-)
->  delete mode 100644 drivers/gpu/drm/tegra/dp.c
->  delete mode 100644 drivers/gpu/drm/tegra/dp.h
+Fixes: ad7f8a1f9ced ("drm/helper: add Displayport multi-stream helper (v0.6)")
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Todd Previte <tprevite@gmail.com>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>
+Cc: Sean Paul <sean@poorly.run>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+Signed-off-by: Sean Paul <seanpaul@chromium.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20190829165223.129662-1-sean@poorly.run
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ include/drm/drm_dp_mst_helper.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[snip]
-
+diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst_helper.h
+index d55abb75f29ae..eec6cba204ea8 100644
+--- a/include/drm/drm_dp_mst_helper.h
++++ b/include/drm/drm_dp_mst_helper.h
+@@ -313,7 +313,7 @@ struct drm_dp_resource_status_notify {
+ 
+ struct drm_dp_query_payload_ack_reply {
+ 	u8 port_number;
+-	u8 allocated_pbn;
++	u16 allocated_pbn;
+ };
+ 
+ struct drm_dp_sideband_msg_req_body {
 -- 
-Regards,
+2.20.1
 
-Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
