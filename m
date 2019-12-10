@@ -1,33 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36F7611A6D5
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 10:22:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D45A511A6D3
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 10:21:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEE066EAB3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A844D6EAB0;
 	Wed, 11 Dec 2019 09:20:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 227326E8EE
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 14:42:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7CFE6E8EE
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 14:42:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1575988919; h=from:from:sender:reply-to:subject:subject:date:date:
+ s=mail; t=1575988920; h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=s9hvH2pxmLMggG8P1Gf5IHE+SUI9NZfWnL9JtKDSWgg=;
- b=jTxq/z8lxAiYiywh4FKmCuH4jRo6uyBArba2AJYhm1apLevPgfjtIKFGmlzrmOELAdJ0ul
- W0sYDho+iVkrkKnx/cealH0EuQZ5/eDIa+ME2j0XXNMSmHCF+bXPrOmJxG3yveRaukqMiX
- +nE66OnkQTJGGZhX7qdWb+qosBEIvXg=
+ bh=Z2+/kJ0+3S6x9LjI8UpyG3lhPkfNRouukRngxphw6fA=;
+ b=FqxUtGPlPhVyfxXRhspVU088fqYWSigP64Qr2ND4lLwMz1U+uIxKXVqP0lhckig7AlrPiY
+ lK0eVE6d4MioOwLVXreMip2guNn8tV2DaPYmzTdWM1s6wSWzdK14EdqBg7meB6tdwtftkV
+ bx3WYaFB19Qv8lCJMbn2GzxWcZcGBZY=
 From: Paul Cercueil <paul@crapouillou.net>
 To: David Airlie <airlied@linux.ie>,
 	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 2/6] gpu/drm: ingenic: Avoid null pointer deference in
- plane atomic update
-Date: Tue, 10 Dec 2019 15:41:38 +0100
-Message-Id: <20191210144142.33143-2-paul@crapouillou.net>
+Subject: [PATCH v2 3/6] gpu/drm: ingenic: Use the plane's src_[x,
+ y] to configure DMA length
+Date: Tue, 10 Dec 2019 15:41:39 +0100
+Message-Id: <20191210144142.33143-3-paul@crapouillou.net>
 In-Reply-To: <20191210144142.33143-1-paul@crapouillou.net>
 References: <20191210144142.33143-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -51,45 +51,31 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It is possible that there is no drm_framebuffer associated with a given
-plane state.
+Instead of obtaining the width/height of the framebuffer from the CRTC
+state, obtain it from the current plane state.
 
-v2: Handle drm_plane->state which can be NULL too
+v2: No change
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/gpu/drm/ingenic/ingenic-drm.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/ingenic/ingenic-drm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/ingenic/ingenic-drm.c b/drivers/gpu/drm/ingenic/ingenic-drm.c
-index 2e2ed653e9c6..f156f245fdec 100644
+index f156f245fdec..8713f09df448 100644
 --- a/drivers/gpu/drm/ingenic/ingenic-drm.c
 +++ b/drivers/gpu/drm/ingenic/ingenic-drm.c
-@@ -371,14 +371,18 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
- 	struct ingenic_drm *priv = drm_plane_get_priv(plane);
- 	struct drm_plane_state *state = plane->state;
- 	unsigned int width, height, cpp;
-+	dma_addr_t addr;
+@@ -375,8 +375,8 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
  
--	width = state->crtc->state->adjusted_mode.hdisplay;
--	height = state->crtc->state->adjusted_mode.vdisplay;
--	cpp = state->fb->format->cpp[plane->index];
-+	if (state && state->fb) {
-+		addr = drm_fb_cma_get_gem_addr(state->fb, state, 0);
-+		width = state->crtc->state->adjusted_mode.hdisplay;
-+		height = state->crtc->state->adjusted_mode.vdisplay;
-+		cpp = state->fb->format->cpp[plane->index];
+ 	if (state && state->fb) {
+ 		addr = drm_fb_cma_get_gem_addr(state->fb, state, 0);
+-		width = state->crtc->state->adjusted_mode.hdisplay;
+-		height = state->crtc->state->adjusted_mode.vdisplay;
++		width = state->src_w >> 16;
++		height = state->src_h >> 16;
+ 		cpp = state->fb->format->cpp[plane->index];
  
--	priv->dma_hwdesc->addr = drm_fb_cma_get_gem_addr(state->fb, state, 0);
--	priv->dma_hwdesc->cmd = width * height * cpp / 4;
--	priv->dma_hwdesc->cmd |= JZ_LCD_CMD_EOF_IRQ;
-+		priv->dma_hwdesc->addr = addr;
-+		priv->dma_hwdesc->cmd = width * height * cpp / 4;
-+		priv->dma_hwdesc->cmd |= JZ_LCD_CMD_EOF_IRQ;
-+	}
- }
- 
- static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
+ 		priv->dma_hwdesc->addr = addr;
 -- 
 2.24.0
 
