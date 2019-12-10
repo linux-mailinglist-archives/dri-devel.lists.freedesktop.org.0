@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7420E119EC6
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 23:58:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05537119EC9
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 23:58:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E3236E9F2;
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECC466E9F7;
 	Tue, 10 Dec 2019 22:58:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7A996E9F1
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 22:58:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21E5A6E9EC
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 22:58:39 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 55A6619EE;
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0B01619B7;
  Tue, 10 Dec 2019 23:58:36 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1576018716;
- bh=OBwCq4XC5zRw1FJNgRvIJoue3RmizJ6RzSGk9OgdcAM=;
+ s=mail; t=1576018717;
+ bh=sqdUnFxDS3Bv1JCqF6qokZ0i82psJyelgjpmUr0Dfzw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VEu9FLAiN2f3Ds6gGGbAx2WdIzJwTaZlkXXOtgRtmuYF4gxxzYLEts8lRpHfM2BK3
- +uc1geHoal6O+RFW/eYMTA2zYYtg+Dsy/Rf8hfIQC+QmQ4MKzTOvDG1KH9zCRHTCO7
- tjEPUWKex+xi4u8Ri32lTmrTFKtUCWFBtf7091yw=
+ b=hrRa+4KDQsyO9vyskLULh48xXVbzs4erShlc8+08aDZzHngNyF5Io2xx2sbN0S+wt
+ AqgkEJP1FadREGMVGGTxm98DoOru4b6xPQ2i42unUMrxix5C/kVF1JsFzEmJbJTVP/
+ YvspHFi9YFoUi432E32vXZRVFgr5jYgEKcjUOcUI=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 36/50] drm/omap: Switch the HDMI and VENC outputs to
- drm_bridge
-Date: Wed, 11 Dec 2019 00:57:36 +0200
-Message-Id: <20191210225750.15709-37-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 37/50] drm/omap: Remove HPD,
+ detect and EDID omapdss operations
+Date: Wed, 11 Dec 2019 00:57:37 +0200
+Message-Id: <20191210225750.15709-38-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191210225750.15709-1-laurent.pinchart@ideasonboard.com>
 References: <20191210225750.15709-1-laurent.pinchart@ideasonboard.com>
@@ -54,811 +54,522 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The TPD12S015, OPA362 and analog and HDMI connectors are now supported
-by DRM bridge drivers, and the omapdrm HDMI and VENC outputs can be
-handled through the drm_bridge API. Switch the outputs to drm_bridge by
-making the next bridge mandatory and removing the related
-omapdrm-specific display drivers.
+Due to the removal of several omapdrm display drivers, the omapdss HPD,
+detected and EDID operations are not used anymore. Remove them and all
+related code.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/gpu/drm/omapdrm/displays/Kconfig      |  22 --
- drivers/gpu/drm/omapdrm/displays/Makefile     |   4 -
- .../omapdrm/displays/connector-analog-tv.c    |  97 --------
- .../gpu/drm/omapdrm/displays/connector-hdmi.c | 183 ---------------
- .../gpu/drm/omapdrm/displays/encoder-opa362.c | 137 -----------
- .../drm/omapdrm/displays/encoder-tpd12s015.c  | 217 ------------------
- drivers/gpu/drm/omapdrm/dss/hdmi4.c           |   4 +-
- drivers/gpu/drm/omapdrm/dss/hdmi5.c           |   4 +-
- .../gpu/drm/omapdrm/dss/omapdss-boot-init.c   |   5 -
- drivers/gpu/drm/omapdrm/dss/output.c          |   5 +
- drivers/gpu/drm/omapdrm/dss/venc.c            |   4 +-
- 11 files changed, 11 insertions(+), 671 deletions(-)
- delete mode 100644 drivers/gpu/drm/omapdrm/displays/connector-analog-tv.c
- delete mode 100644 drivers/gpu/drm/omapdrm/displays/connector-hdmi.c
- delete mode 100644 drivers/gpu/drm/omapdrm/displays/encoder-opa362.c
- delete mode 100644 drivers/gpu/drm/omapdrm/displays/encoder-tpd12s015.c
+ drivers/gpu/drm/omapdrm/dss/hdmi4.c      |  61 --------
+ drivers/gpu/drm/omapdrm/dss/hdmi5.c      |  46 ------
+ drivers/gpu/drm/omapdrm/dss/omapdss.h    |  25 +--
+ drivers/gpu/drm/omapdrm/omap_connector.c | 190 +++--------------------
+ drivers/gpu/drm/omapdrm/omap_connector.h |   2 -
+ drivers/gpu/drm/omapdrm/omap_drv.c       |   8 +-
+ 6 files changed, 22 insertions(+), 310 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/displays/Kconfig b/drivers/gpu/drm/omapdrm/displays/Kconfig
-index b562a8cd61bf..f2be594c7eff 100644
---- a/drivers/gpu/drm/omapdrm/displays/Kconfig
-+++ b/drivers/gpu/drm/omapdrm/displays/Kconfig
-@@ -1,28 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0-only
- menu "OMAPDRM External Display Device Drivers"
- 
--config DRM_OMAP_ENCODER_OPA362
--	tristate "OPA362 external analog amplifier"
--	help
--	  Driver for OPA362 external analog TV amplifier controlled
--	  through a GPIO.
--
--config DRM_OMAP_ENCODER_TPD12S015
--	tristate "TPD12S015 HDMI ESD protection and level shifter"
--	help
--	  Driver for TPD12S015, which offers HDMI ESD protection and level
--	  shifting.
--
--config DRM_OMAP_CONNECTOR_HDMI
--	tristate "HDMI Connector"
--	help
--	  Driver for a generic HDMI connector.
--
--config DRM_OMAP_CONNECTOR_ANALOG_TV
--	tristate "Analog TV Connector"
--	help
--	  Driver for a generic analog TV connector.
--
- config DRM_OMAP_PANEL_DSI_CM
- 	tristate "Generic DSI Command Mode Panel"
- 	depends on BACKLIGHT_CLASS_DEVICE
-diff --git a/drivers/gpu/drm/omapdrm/displays/Makefile b/drivers/gpu/drm/omapdrm/displays/Makefile
-index cb76859dc574..488ddf153613 100644
---- a/drivers/gpu/drm/omapdrm/displays/Makefile
-+++ b/drivers/gpu/drm/omapdrm/displays/Makefile
-@@ -1,6 +1,2 @@
- # SPDX-License-Identifier: GPL-2.0
--obj-$(CONFIG_DRM_OMAP_ENCODER_OPA362) += encoder-opa362.o
--obj-$(CONFIG_DRM_OMAP_ENCODER_TPD12S015) += encoder-tpd12s015.o
--obj-$(CONFIG_DRM_OMAP_CONNECTOR_HDMI) += connector-hdmi.o
--obj-$(CONFIG_DRM_OMAP_CONNECTOR_ANALOG_TV) += connector-analog-tv.o
- obj-$(CONFIG_DRM_OMAP_PANEL_DSI_CM) += panel-dsi-cm.o
-diff --git a/drivers/gpu/drm/omapdrm/displays/connector-analog-tv.c b/drivers/gpu/drm/omapdrm/displays/connector-analog-tv.c
-deleted file mode 100644
-index f36aa1885d39..000000000000
---- a/drivers/gpu/drm/omapdrm/displays/connector-analog-tv.c
-+++ /dev/null
-@@ -1,97 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
--/*
-- * Analog TV Connector driver
-- *
-- * Copyright (C) 2013 Texas Instruments Incorporated - http://www.ti.com/
-- * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
-- */
--
--#include <linux/slab.h>
--#include <linux/module.h>
--#include <linux/platform_device.h>
--#include <linux/of.h>
--
--#include "../dss/omapdss.h"
--
--struct panel_drv_data {
--	struct omap_dss_device dssdev;
--
--	struct device *dev;
--};
--
--#define to_panel_data(x) container_of(x, struct panel_drv_data, dssdev)
--
--static int tvc_connect(struct omap_dss_device *src,
--		       struct omap_dss_device *dst)
--{
--	return 0;
--}
--
--static void tvc_disconnect(struct omap_dss_device *src,
--			   struct omap_dss_device *dst)
--{
--}
--
--static const struct omap_dss_device_ops tvc_ops = {
--	.connect		= tvc_connect,
--	.disconnect		= tvc_disconnect,
--};
--
--static int tvc_probe(struct platform_device *pdev)
--{
--	struct panel_drv_data *ddata;
--	struct omap_dss_device *dssdev;
--
--	ddata = devm_kzalloc(&pdev->dev, sizeof(*ddata), GFP_KERNEL);
--	if (!ddata)
--		return -ENOMEM;
--
--	platform_set_drvdata(pdev, ddata);
--	ddata->dev = &pdev->dev;
--
--	dssdev = &ddata->dssdev;
--	dssdev->ops = &tvc_ops;
--	dssdev->dev = &pdev->dev;
--	dssdev->type = OMAP_DISPLAY_TYPE_VENC;
--	dssdev->display = true;
--	dssdev->owner = THIS_MODULE;
--	dssdev->of_port = 0;
--
--	omapdss_display_init(dssdev);
--	omapdss_device_register(dssdev);
--
--	return 0;
--}
--
--static int __exit tvc_remove(struct platform_device *pdev)
--{
--	struct panel_drv_data *ddata = platform_get_drvdata(pdev);
--
--	omapdss_device_unregister(&ddata->dssdev);
--
--	return 0;
--}
--
--static const struct of_device_id tvc_of_match[] = {
--	{ .compatible = "omapdss,svideo-connector", },
--	{ .compatible = "omapdss,composite-video-connector", },
--	{},
--};
--
--MODULE_DEVICE_TABLE(of, tvc_of_match);
--
--static struct platform_driver tvc_connector_driver = {
--	.probe	= tvc_probe,
--	.remove	= __exit_p(tvc_remove),
--	.driver	= {
--		.name	= "connector-analog-tv",
--		.of_match_table = tvc_of_match,
--		.suppress_bind_attrs = true,
--	},
--};
--
--module_platform_driver(tvc_connector_driver);
--
--MODULE_AUTHOR("Tomi Valkeinen <tomi.valkeinen@ti.com>");
--MODULE_DESCRIPTION("Analog TV Connector driver");
--MODULE_LICENSE("GPL");
-diff --git a/drivers/gpu/drm/omapdrm/displays/connector-hdmi.c b/drivers/gpu/drm/omapdrm/displays/connector-hdmi.c
-deleted file mode 100644
-index 37c212491cd3..000000000000
---- a/drivers/gpu/drm/omapdrm/displays/connector-hdmi.c
-+++ /dev/null
-@@ -1,183 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
--/*
-- * HDMI Connector driver
-- *
-- * Copyright (C) 2013 Texas Instruments Incorporated - http://www.ti.com/
-- * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
-- */
--
--#include <linux/gpio/consumer.h>
--#include <linux/module.h>
--#include <linux/mutex.h>
--#include <linux/platform_device.h>
--#include <linux/slab.h>
--
--#include "../dss/omapdss.h"
--
--struct panel_drv_data {
--	struct omap_dss_device dssdev;
--	void (*hpd_cb)(void *cb_data, enum drm_connector_status status);
--	void *hpd_cb_data;
--	struct mutex hpd_lock;
--
--	struct device *dev;
--
--	struct gpio_desc *hpd_gpio;
--};
--
--#define to_panel_data(x) container_of(x, struct panel_drv_data, dssdev)
--
--static int hdmic_connect(struct omap_dss_device *src,
--			 struct omap_dss_device *dst)
--{
--	return 0;
--}
--
--static void hdmic_disconnect(struct omap_dss_device *src,
--			     struct omap_dss_device *dst)
--{
--}
--
--static bool hdmic_detect(struct omap_dss_device *dssdev)
--{
--	struct panel_drv_data *ddata = to_panel_data(dssdev);
--
--	return gpiod_get_value_cansleep(ddata->hpd_gpio);
--}
--
--static void hdmic_register_hpd_cb(struct omap_dss_device *dssdev,
--				  void (*cb)(void *cb_data,
--					    enum drm_connector_status status),
--				  void *cb_data)
--{
--	struct panel_drv_data *ddata = to_panel_data(dssdev);
--
--	mutex_lock(&ddata->hpd_lock);
--	ddata->hpd_cb = cb;
--	ddata->hpd_cb_data = cb_data;
--	mutex_unlock(&ddata->hpd_lock);
--}
--
--static void hdmic_unregister_hpd_cb(struct omap_dss_device *dssdev)
--{
--	struct panel_drv_data *ddata = to_panel_data(dssdev);
--
--	mutex_lock(&ddata->hpd_lock);
--	ddata->hpd_cb = NULL;
--	ddata->hpd_cb_data = NULL;
--	mutex_unlock(&ddata->hpd_lock);
--}
--
--static const struct omap_dss_device_ops hdmic_ops = {
--	.connect		= hdmic_connect,
--	.disconnect		= hdmic_disconnect,
--
--	.detect			= hdmic_detect,
--	.register_hpd_cb	= hdmic_register_hpd_cb,
--	.unregister_hpd_cb	= hdmic_unregister_hpd_cb,
--};
--
--static irqreturn_t hdmic_hpd_isr(int irq, void *data)
--{
--	struct panel_drv_data *ddata = data;
--
--	mutex_lock(&ddata->hpd_lock);
--	if (ddata->hpd_cb) {
--		enum drm_connector_status status;
--
--		if (hdmic_detect(&ddata->dssdev))
--			status = connector_status_connected;
--		else
--			status = connector_status_disconnected;
--
--		ddata->hpd_cb(ddata->hpd_cb_data, status);
--	}
--	mutex_unlock(&ddata->hpd_lock);
--
--	return IRQ_HANDLED;
--}
--
--static int hdmic_probe(struct platform_device *pdev)
--{
--	struct panel_drv_data *ddata;
--	struct omap_dss_device *dssdev;
--	struct gpio_desc *gpio;
--	int r;
--
--	ddata = devm_kzalloc(&pdev->dev, sizeof(*ddata), GFP_KERNEL);
--	if (!ddata)
--		return -ENOMEM;
--
--	platform_set_drvdata(pdev, ddata);
--	ddata->dev = &pdev->dev;
--
--	mutex_init(&ddata->hpd_lock);
--
--	/* HPD GPIO */
--	gpio = devm_gpiod_get_optional(&pdev->dev, "hpd", GPIOD_IN);
--	if (IS_ERR(gpio)) {
--		dev_err(&pdev->dev, "failed to parse HPD gpio\n");
--		return PTR_ERR(gpio);
--	}
--
--	ddata->hpd_gpio = gpio;
--
--	if (ddata->hpd_gpio) {
--		r = devm_request_threaded_irq(&pdev->dev,
--				gpiod_to_irq(ddata->hpd_gpio),
--				NULL, hdmic_hpd_isr,
--				IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING |
--				IRQF_ONESHOT,
--				"hdmic hpd", ddata);
--		if (r)
--			return r;
--	}
--
--	dssdev = &ddata->dssdev;
--	dssdev->ops = &hdmic_ops;
--	dssdev->dev = &pdev->dev;
--	dssdev->type = OMAP_DISPLAY_TYPE_HDMI;
--	dssdev->display = true;
--	dssdev->owner = THIS_MODULE;
--	dssdev->of_port = 0;
--	dssdev->ops_flags = ddata->hpd_gpio
--			  ? OMAP_DSS_DEVICE_OP_DETECT | OMAP_DSS_DEVICE_OP_HPD
--			  : 0;
--
--	omapdss_display_init(dssdev);
--	omapdss_device_register(dssdev);
--
--	return 0;
--}
--
--static int __exit hdmic_remove(struct platform_device *pdev)
--{
--	struct panel_drv_data *ddata = platform_get_drvdata(pdev);
--
--	omapdss_device_unregister(&ddata->dssdev);
--
--	return 0;
--}
--
--static const struct of_device_id hdmic_of_match[] = {
--	{ .compatible = "omapdss,hdmi-connector", },
--	{},
--};
--
--MODULE_DEVICE_TABLE(of, hdmic_of_match);
--
--static struct platform_driver hdmi_connector_driver = {
--	.probe	= hdmic_probe,
--	.remove	= __exit_p(hdmic_remove),
--	.driver	= {
--		.name	= "connector-hdmi",
--		.of_match_table = hdmic_of_match,
--		.suppress_bind_attrs = true,
--	},
--};
--
--module_platform_driver(hdmi_connector_driver);
--
--MODULE_AUTHOR("Tomi Valkeinen <tomi.valkeinen@ti.com>");
--MODULE_DESCRIPTION("HDMI Connector driver");
--MODULE_LICENSE("GPL");
-diff --git a/drivers/gpu/drm/omapdrm/displays/encoder-opa362.c b/drivers/gpu/drm/omapdrm/displays/encoder-opa362.c
-deleted file mode 100644
-index 252705222ef1..000000000000
---- a/drivers/gpu/drm/omapdrm/displays/encoder-opa362.c
-+++ /dev/null
-@@ -1,137 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
--/*
-- * OPA362 analog video amplifier with output/power control
-- *
-- * Copyright (C) 2014 Golden Delicious Computers
-- * Author: H. Nikolaus Schaller <hns@goldelico.com>
-- *
-- * based on encoder-tfp410
-- *
-- * Copyright (C) 2013 Texas Instruments Incorporated - http://www.ti.com/
-- * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
-- */
--
--#include <linux/gpio/consumer.h>
--#include <linux/module.h>
--#include <linux/platform_device.h>
--#include <linux/slab.h>
--
--#include "../dss/omapdss.h"
--
--struct panel_drv_data {
--	struct omap_dss_device dssdev;
--
--	struct gpio_desc *enable_gpio;
--};
--
--#define to_panel_data(x) container_of(x, struct panel_drv_data, dssdev)
--
--static int opa362_connect(struct omap_dss_device *src,
--			  struct omap_dss_device *dst)
--{
--	return omapdss_device_connect(dst->dss, dst, dst->next);
--}
--
--static void opa362_disconnect(struct omap_dss_device *src,
--			      struct omap_dss_device *dst)
--{
--	omapdss_device_disconnect(dst, dst->next);
--}
--
--static void opa362_enable(struct omap_dss_device *dssdev)
--{
--	struct panel_drv_data *ddata = to_panel_data(dssdev);
--
--	if (ddata->enable_gpio)
--		gpiod_set_value_cansleep(ddata->enable_gpio, 1);
--}
--
--static void opa362_disable(struct omap_dss_device *dssdev)
--{
--	struct panel_drv_data *ddata = to_panel_data(dssdev);
--
--	if (ddata->enable_gpio)
--		gpiod_set_value_cansleep(ddata->enable_gpio, 0);
--}
--
--static const struct omap_dss_device_ops opa362_ops = {
--	.connect	= opa362_connect,
--	.disconnect	= opa362_disconnect,
--	.enable		= opa362_enable,
--	.disable	= opa362_disable,
--};
--
--static int opa362_probe(struct platform_device *pdev)
--{
--	struct panel_drv_data *ddata;
--	struct omap_dss_device *dssdev;
--	struct gpio_desc *gpio;
--
--	dev_dbg(&pdev->dev, "probe\n");
--
--	ddata = devm_kzalloc(&pdev->dev, sizeof(*ddata), GFP_KERNEL);
--	if (!ddata)
--		return -ENOMEM;
--
--	platform_set_drvdata(pdev, ddata);
--
--	gpio = devm_gpiod_get_optional(&pdev->dev, "enable", GPIOD_OUT_LOW);
--	if (IS_ERR(gpio))
--		return PTR_ERR(gpio);
--
--	ddata->enable_gpio = gpio;
--
--	dssdev = &ddata->dssdev;
--	dssdev->ops = &opa362_ops;
--	dssdev->dev = &pdev->dev;
--	dssdev->type = OMAP_DISPLAY_TYPE_VENC;
--	dssdev->owner = THIS_MODULE;
--	dssdev->of_port = 1;
--
--	dssdev->next = omapdss_of_find_connected_device(pdev->dev.of_node, 1);
--	if (IS_ERR(dssdev->next)) {
--		if (PTR_ERR(dssdev->next) != -EPROBE_DEFER)
--			dev_err(&pdev->dev, "failed to find video sink\n");
--		return PTR_ERR(dssdev->next);
--	}
--
--	omapdss_device_register(dssdev);
--
--	return 0;
--}
--
--static int __exit opa362_remove(struct platform_device *pdev)
--{
--	struct panel_drv_data *ddata = platform_get_drvdata(pdev);
--	struct omap_dss_device *dssdev = &ddata->dssdev;
--
--	if (dssdev->next)
--		omapdss_device_put(dssdev->next);
--	omapdss_device_unregister(&ddata->dssdev);
--
--	opa362_disable(dssdev);
--
--	return 0;
--}
--
--static const struct of_device_id opa362_of_match[] = {
--	{ .compatible = "omapdss,ti,opa362", },
--	{},
--};
--MODULE_DEVICE_TABLE(of, opa362_of_match);
--
--static struct platform_driver opa362_driver = {
--	.probe	= opa362_probe,
--	.remove	= __exit_p(opa362_remove),
--	.driver	= {
--		.name	= "amplifier-opa362",
--		.of_match_table = opa362_of_match,
--		.suppress_bind_attrs = true,
--	},
--};
--
--module_platform_driver(opa362_driver);
--
--MODULE_AUTHOR("H. Nikolaus Schaller <hns@goldelico.com>");
--MODULE_DESCRIPTION("OPA362 analog video amplifier with output/power control");
--MODULE_LICENSE("GPL v2");
-diff --git a/drivers/gpu/drm/omapdrm/displays/encoder-tpd12s015.c b/drivers/gpu/drm/omapdrm/displays/encoder-tpd12s015.c
-deleted file mode 100644
-index 857ae84cd7d1..000000000000
---- a/drivers/gpu/drm/omapdrm/displays/encoder-tpd12s015.c
-+++ /dev/null
-@@ -1,217 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
--/*
-- * TPD12S015 HDMI ESD protection & level shifter chip driver
-- *
-- * Copyright (C) 2013 Texas Instruments Incorporated - http://www.ti.com/
-- * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
-- */
--
--#include <linux/completion.h>
--#include <linux/delay.h>
--#include <linux/module.h>
--#include <linux/slab.h>
--#include <linux/platform_device.h>
--#include <linux/gpio/consumer.h>
--#include <linux/mutex.h>
--
--#include "../dss/omapdss.h"
--
--struct panel_drv_data {
--	struct omap_dss_device dssdev;
--	void (*hpd_cb)(void *cb_data, enum drm_connector_status status);
--	void *hpd_cb_data;
--	struct mutex hpd_lock;
--
--	struct gpio_desc *ct_cp_hpd_gpio;
--	struct gpio_desc *ls_oe_gpio;
--	struct gpio_desc *hpd_gpio;
--};
--
--#define to_panel_data(x) container_of(x, struct panel_drv_data, dssdev)
--
--static int tpd_connect(struct omap_dss_device *src,
--		       struct omap_dss_device *dst)
--{
--	struct panel_drv_data *ddata = to_panel_data(dst);
--	int r;
--
--	r = omapdss_device_connect(dst->dss, dst, dst->next);
--	if (r)
--		return r;
--
--	gpiod_set_value_cansleep(ddata->ct_cp_hpd_gpio, 1);
--	gpiod_set_value_cansleep(ddata->ls_oe_gpio, 1);
--
--	/* DC-DC converter needs at max 300us to get to 90% of 5V */
--	udelay(300);
--
--	return 0;
--}
--
--static void tpd_disconnect(struct omap_dss_device *src,
--			   struct omap_dss_device *dst)
--{
--	struct panel_drv_data *ddata = to_panel_data(dst);
--
--	gpiod_set_value_cansleep(ddata->ct_cp_hpd_gpio, 0);
--	gpiod_set_value_cansleep(ddata->ls_oe_gpio, 0);
--
--	omapdss_device_disconnect(dst, dst->next);
--}
--
--static bool tpd_detect(struct omap_dss_device *dssdev)
--{
--	struct panel_drv_data *ddata = to_panel_data(dssdev);
--
--	return gpiod_get_value_cansleep(ddata->hpd_gpio);
--}
--
--static void tpd_register_hpd_cb(struct omap_dss_device *dssdev,
--				void (*cb)(void *cb_data,
--					  enum drm_connector_status status),
--				void *cb_data)
--{
--	struct panel_drv_data *ddata = to_panel_data(dssdev);
--
--	mutex_lock(&ddata->hpd_lock);
--	ddata->hpd_cb = cb;
--	ddata->hpd_cb_data = cb_data;
--	mutex_unlock(&ddata->hpd_lock);
--}
--
--static void tpd_unregister_hpd_cb(struct omap_dss_device *dssdev)
--{
--	struct panel_drv_data *ddata = to_panel_data(dssdev);
--
--	mutex_lock(&ddata->hpd_lock);
--	ddata->hpd_cb = NULL;
--	ddata->hpd_cb_data = NULL;
--	mutex_unlock(&ddata->hpd_lock);
--}
--
--static const struct omap_dss_device_ops tpd_ops = {
--	.connect		= tpd_connect,
--	.disconnect		= tpd_disconnect,
--	.detect			= tpd_detect,
--	.register_hpd_cb	= tpd_register_hpd_cb,
--	.unregister_hpd_cb	= tpd_unregister_hpd_cb,
--};
--
--static irqreturn_t tpd_hpd_isr(int irq, void *data)
--{
--	struct panel_drv_data *ddata = data;
--
--	mutex_lock(&ddata->hpd_lock);
--	if (ddata->hpd_cb) {
--		enum drm_connector_status status;
--
--		if (tpd_detect(&ddata->dssdev))
--			status = connector_status_connected;
--		else
--			status = connector_status_disconnected;
--
--		ddata->hpd_cb(ddata->hpd_cb_data, status);
--	}
--	mutex_unlock(&ddata->hpd_lock);
--
--	return IRQ_HANDLED;
--}
--
--static int tpd_probe(struct platform_device *pdev)
--{
--	struct omap_dss_device *dssdev;
--	struct panel_drv_data *ddata;
--	int r;
--	struct gpio_desc *gpio;
--
--	ddata = devm_kzalloc(&pdev->dev, sizeof(*ddata), GFP_KERNEL);
--	if (!ddata)
--		return -ENOMEM;
--
--	platform_set_drvdata(pdev, ddata);
--
--	gpio = devm_gpiod_get_index_optional(&pdev->dev, NULL, 0,
--		 GPIOD_OUT_LOW);
--	if (IS_ERR(gpio))
--		return PTR_ERR(gpio);
--
--	ddata->ct_cp_hpd_gpio = gpio;
--
--	gpio = devm_gpiod_get_index_optional(&pdev->dev, NULL, 1,
--		 GPIOD_OUT_LOW);
--	if (IS_ERR(gpio))
--		return PTR_ERR(gpio);
--
--	ddata->ls_oe_gpio = gpio;
--
--	gpio = devm_gpiod_get_index(&pdev->dev, NULL, 2,
--		GPIOD_IN);
--	if (IS_ERR(gpio))
--		return PTR_ERR(gpio);
--
--	ddata->hpd_gpio = gpio;
--
--	mutex_init(&ddata->hpd_lock);
--
--	r = devm_request_threaded_irq(&pdev->dev, gpiod_to_irq(ddata->hpd_gpio),
--		NULL, tpd_hpd_isr,
--		IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
--		"tpd12s015 hpd", ddata);
--	if (r)
--		return r;
--
--	dssdev = &ddata->dssdev;
--	dssdev->ops = &tpd_ops;
--	dssdev->dev = &pdev->dev;
--	dssdev->type = OMAP_DISPLAY_TYPE_HDMI;
--	dssdev->owner = THIS_MODULE;
--	dssdev->of_port = 1;
--	dssdev->ops_flags = OMAP_DSS_DEVICE_OP_DETECT
--			  | OMAP_DSS_DEVICE_OP_HPD;
--
--	dssdev->next = omapdss_of_find_connected_device(pdev->dev.of_node, 1);
--	if (IS_ERR(dssdev->next)) {
--		if (PTR_ERR(dssdev->next) != -EPROBE_DEFER)
--			dev_err(&pdev->dev, "failed to find video sink\n");
--		return PTR_ERR(dssdev->next);
--	}
--
--	omapdss_device_register(dssdev);
--
--	return 0;
--}
--
--static int __exit tpd_remove(struct platform_device *pdev)
--{
--	struct panel_drv_data *ddata = platform_get_drvdata(pdev);
--	struct omap_dss_device *dssdev = &ddata->dssdev;
--
--	if (dssdev->next)
--		omapdss_device_put(dssdev->next);
--	omapdss_device_unregister(&ddata->dssdev);
--
--	return 0;
--}
--
--static const struct of_device_id tpd_of_match[] = {
--	{ .compatible = "omapdss,ti,tpd12s015", },
--	{},
--};
--
--MODULE_DEVICE_TABLE(of, tpd_of_match);
--
--static struct platform_driver tpd_driver = {
--	.probe	= tpd_probe,
--	.remove	= __exit_p(tpd_remove),
--	.driver	= {
--		.name	= "tpd12s015",
--		.of_match_table = tpd_of_match,
--		.suppress_bind_attrs = true,
--	},
--};
--
--module_platform_driver(tpd_driver);
--
--MODULE_AUTHOR("Tomi Valkeinen <tomi.valkeinen@ti.com>");
--MODULE_DESCRIPTION("TPD12S015 driver");
--MODULE_LICENSE("GPL");
 diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4.c b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-index 17759b6a191a..6430ec216787 100644
+index 6430ec216787..7d411f5c4193 100644
 --- a/drivers/gpu/drm/omapdrm/dss/hdmi4.c
 +++ b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-@@ -443,8 +443,8 @@ static int hdmi4_bridge_attach(struct drm_bridge *bridge,
- {
- 	struct omap_hdmi *hdmi = drm_bridge_to_hdmi(bridge);
+@@ -320,47 +320,6 @@ static void hdmi_disconnect(struct omap_dss_device *src,
+ 	omapdss_device_disconnect(dst, dst->next);
+ }
  
--	if (!hdmi->output.next_bridge)
--		return 0;
-+	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
-+		return -EINVAL;
+-#define MAX_EDID	512
+-
+-static struct edid *hdmi_read_edid_data(struct omap_hdmi *hdmi,
+-					struct drm_connector *connector)
+-{
+-	u8 *edid;
+-	int r;
+-
+-	edid = kzalloc(MAX_EDID, GFP_KERNEL);
+-	if (!edid)
+-		return NULL;
+-
+-	r = hdmi4_core_ddc_read(&hdmi->core, edid, 0, EDID_LENGTH);
+-	if (r)
+-		goto error;
+-
+-	if (edid[0x7e] > 0) {
+-		char checksum = 0;
+-		unsigned int i;
+-
+-		r = hdmi4_core_ddc_read(&hdmi->core, edid + EDID_LENGTH, 1,
+-					EDID_LENGTH);
+-		if (r)
+-			goto error;
+-
+-		for (i = 0; i < EDID_LENGTH; ++i)
+-			checksum += edid[EDID_LENGTH + i];
+-
+-		if (checksum != 0) {
+-			DSSERR("E-EDID checksum failed!!\n");
+-			goto error;
+-		}
+-	}
+-
+-	return (struct edid *)edid;
+-
+-error:
+-	kfree(edid);
+-	return NULL;
+-}
+-
+ static struct edid *
+ hdmi_do_read_edid(struct omap_hdmi *hdmi,
+ 		  struct edid *(*read)(struct omap_hdmi *hdmi,
+@@ -410,28 +369,9 @@ hdmi_do_read_edid(struct omap_hdmi *hdmi,
+ 	return edid;
+ }
  
- 	return drm_bridge_attach(bridge->encoder, hdmi->output.next_bridge,
- 				 bridge, flags);
+-static struct edid *hdmi_read_edid(struct omap_dss_device *dssdev)
+-{
+-	return hdmi_do_read_edid(dssdev_to_hdmi(dssdev), hdmi_read_edid_data,
+-				 NULL);
+-}
+-
+-static void hdmi_lost_hotplug(struct omap_dss_device *dssdev)
+-{
+-	struct omap_hdmi *hdmi = dssdev_to_hdmi(dssdev);
+-
+-	hdmi4_cec_set_phys_addr(&hdmi->core, CEC_PHYS_ADDR_INVALID);
+-}
+-
+ static const struct omap_dss_device_ops hdmi_ops = {
+ 	.connect		= hdmi_connect,
+ 	.disconnect		= hdmi_disconnect,
+-
+-	.read_edid		= hdmi_read_edid,
+-
+-	.hdmi = {
+-		.lost_hotplug		= hdmi_lost_hotplug,
+-	},
+ };
+ 
+ /* -----------------------------------------------------------------------------
+@@ -799,7 +739,6 @@ static int hdmi4_init_output(struct omap_hdmi *hdmi)
+ 	out->ops = &hdmi_ops;
+ 	out->owner = THIS_MODULE;
+ 	out->of_port = 0;
+-	out->ops_flags = OMAP_DSS_DEVICE_OP_EDID;
+ 
+ 	r = omapdss_device_init_output(out, &hdmi->bridge);
+ 	if (r < 0) {
 diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5.c b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
-index 88b637e894fa..4ecec2d71a93 100644
+index 4ecec2d71a93..0490393101fd 100644
 --- a/drivers/gpu/drm/omapdrm/dss/hdmi5.c
 +++ b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
-@@ -421,8 +421,8 @@ static int hdmi5_bridge_attach(struct drm_bridge *bridge,
- {
- 	struct omap_hdmi *hdmi = drm_bridge_to_hdmi(bridge);
+@@ -318,43 +318,6 @@ static void hdmi_disconnect(struct omap_dss_device *src,
+ 	omapdss_device_disconnect(dst, dst->next);
+ }
  
--	if (!hdmi->output.next_bridge)
--		return 0;
-+	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
-+		return -EINVAL;
+-#define MAX_EDID	512
+-
+-static struct edid *hdmi_read_edid_data(struct omap_hdmi *hdmi,
+-					struct drm_connector *connector)
+-{
+-	struct hdmi_core_data *core = &hdmi->core;
+-	int max_ext_blocks = 3;
+-	int r, n, i;
+-	u8 *edid;
+-
+-	edid = kzalloc(MAX_EDID, GFP_KERNEL);
+-	if (!edid)
+-		return NULL;
+-
+-	r = hdmi5_core_ddc_read(core, edid, 0, EDID_LENGTH);
+-	if (r)
+-		goto error;
+-
+-	n = edid[0x7e];
+-
+-	if (n > max_ext_blocks)
+-		n = max_ext_blocks;
+-
+-	for (i = 1; i <= n; i++) {
+-		r = hdmi5_core_ddc_read(core, edid + i * EDID_LENGTH, i,
+-					EDID_LENGTH);
+-		if (r)
+-			goto error;
+-	}
+-
+-	return (struct edid *)edid;
+-
+-error:
+-	kfree(edid);
+-	return NULL;
+-}
+-
+ static struct edid *
+ hdmi_do_read_edid(struct omap_hdmi *hdmi,
+ 		  struct edid *(*read)(struct omap_hdmi *hdmi,
+@@ -399,17 +362,9 @@ hdmi_do_read_edid(struct omap_hdmi *hdmi,
+ 	return (struct edid *)edid;
+ }
  
- 	return drm_bridge_attach(bridge->encoder, hdmi->output.next_bridge,
- 				 bridge, flags);
-diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c b/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
-index ce67891eedd4..00372f4ce711 100644
---- a/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
-+++ b/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
-@@ -174,12 +174,7 @@ static const struct of_device_id omapdss_of_match[] __initconst = {
+-static struct edid *hdmi_read_edid(struct omap_dss_device *dssdev)
+-{
+-	return hdmi_do_read_edid(dssdev_to_hdmi(dssdev), hdmi_read_edid_data,
+-				 NULL);
+-}
+-
+ static const struct omap_dss_device_ops hdmi_ops = {
+ 	.connect		= hdmi_connect,
+ 	.disconnect		= hdmi_disconnect,
+-
+-	.read_edid		= hdmi_read_edid,
  };
  
- static const struct of_device_id omapdss_of_fixups_whitelist[] __initconst = {
--	{ .compatible = "composite-video-connector" },
--	{ .compatible = "hdmi-connector" },
- 	{ .compatible = "panel-dsi-cm" },
--	{ .compatible = "svideo-connector" },
--	{ .compatible = "ti,opa362" },
--	{ .compatible = "ti,tpd12s015" },
- 	{},
+ /* -----------------------------------------------------------------------------
+@@ -758,7 +713,6 @@ static int hdmi5_init_output(struct omap_hdmi *hdmi)
+ 	out->ops = &hdmi_ops;
+ 	out->owner = THIS_MODULE;
+ 	out->of_port = 0;
+-	out->ops_flags = OMAP_DSS_DEVICE_OP_EDID;
+ 
+ 	r = omapdss_device_init_output(out, &hdmi->bridge);
+ 	if (r < 0) {
+diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+index 30a12cf91cbb..cb79e05c902d 100644
+--- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
++++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+@@ -285,10 +285,6 @@ struct omap_dss_writeback_info {
+ 	u8 pre_mult_alpha;
  };
  
-diff --git a/drivers/gpu/drm/omapdrm/dss/output.c b/drivers/gpu/drm/omapdrm/dss/output.c
-index 9ba7cc8539a1..ce21c798cca6 100644
---- a/drivers/gpu/drm/omapdrm/dss/output.c
-+++ b/drivers/gpu/drm/omapdrm/dss/output.c
-@@ -60,6 +60,11 @@ int omapdss_device_init_output(struct omap_dss_device *out,
- 	}
+-struct omapdss_hdmi_ops {
+-	void (*lost_hotplug)(struct omap_dss_device *dssdev);
+-};
+-
+ struct omapdss_dsi_ops {
+ 	void (*disable)(struct omap_dss_device *dssdev, bool disconnect_lanes,
+ 			bool enter_ulps);
+@@ -356,36 +352,17 @@ struct omap_dss_device_ops {
+ 	void (*set_timings)(struct omap_dss_device *dssdev,
+ 			    const struct drm_display_mode *mode);
  
- 	if (local_bridge) {
-+		if (!out->bridge) {
-+			ret = -EPROBE_DEFER;
-+			goto error;
-+		}
-+
- 		out->next_bridge = out->bridge;
- 		out->bridge = local_bridge;
- 	}
-diff --git a/drivers/gpu/drm/omapdrm/dss/venc.c b/drivers/gpu/drm/omapdrm/dss/venc.c
-index c2e2141c8375..49499e2a9d31 100644
---- a/drivers/gpu/drm/omapdrm/dss/venc.c
-+++ b/drivers/gpu/drm/omapdrm/dss/venc.c
-@@ -628,8 +628,8 @@ static int venc_bridge_attach(struct drm_bridge *bridge,
+-	bool (*detect)(struct omap_dss_device *dssdev);
+-
+-	void (*register_hpd_cb)(struct omap_dss_device *dssdev,
+-				void (*cb)(void *cb_data,
+-					  enum drm_connector_status status),
+-				void *cb_data);
+-	void (*unregister_hpd_cb)(struct omap_dss_device *dssdev);
+-
+-	struct edid *(*read_edid)(struct omap_dss_device *dssdev);
+-
+ 	int (*get_modes)(struct omap_dss_device *dssdev,
+ 			 struct drm_connector *connector);
+ 
+-	union {
+-		const struct omapdss_hdmi_ops hdmi;
+-		const struct omapdss_dsi_ops dsi;
+-	};
++	const struct omapdss_dsi_ops dsi;
+ };
+ 
+ /**
+  * enum omap_dss_device_ops_flag - Indicates which device ops are supported
+- * @OMAP_DSS_DEVICE_OP_DETECT: The device supports output connection detection
+- * @OMAP_DSS_DEVICE_OP_HPD: The device supports all hot-plug-related operations
+- * @OMAP_DSS_DEVICE_OP_EDID: The device supports reading EDID
+  * @OMAP_DSS_DEVICE_OP_MODES: The device supports reading modes
+  */
+ enum omap_dss_device_ops_flag {
+-	OMAP_DSS_DEVICE_OP_DETECT = BIT(0),
+-	OMAP_DSS_DEVICE_OP_HPD = BIT(1),
+-	OMAP_DSS_DEVICE_OP_EDID = BIT(2),
+ 	OMAP_DSS_DEVICE_OP_MODES = BIT(3),
+ };
+ 
+diff --git a/drivers/gpu/drm/omapdrm/omap_connector.c b/drivers/gpu/drm/omapdrm/omap_connector.c
+index c636ae228130..baa31ed1f993 100644
+--- a/drivers/gpu/drm/omapdrm/omap_connector.c
++++ b/drivers/gpu/drm/omapdrm/omap_connector.c
+@@ -19,111 +19,22 @@
+ struct omap_connector {
+ 	struct drm_connector base;
+ 	struct omap_dss_device *output;
+-	struct omap_dss_device *hpd;
+ };
+ 
+-static void omap_connector_hpd_notify(struct drm_connector *connector,
+-				      enum drm_connector_status status)
+-{
+-	struct omap_connector *omap_connector = to_omap_connector(connector);
+-	struct omap_dss_device *dssdev;
+-
+-	if (status != connector_status_disconnected)
+-		return;
+-
+-	/*
+-	 * Notify all devics in the pipeline of disconnection. This is required
+-	 * to let the HDMI encoders reset their internal state related to
+-	 * connection status, such as the CEC address.
+-	 */
+-	for (dssdev = omap_connector->output; dssdev; dssdev = dssdev->next) {
+-		if (dssdev->ops && dssdev->ops->hdmi.lost_hotplug)
+-			dssdev->ops->hdmi.lost_hotplug(dssdev);
+-	}
+-}
+-
+-static void omap_connector_hpd_cb(void *cb_data,
+-				  enum drm_connector_status status)
+-{
+-	struct omap_connector *omap_connector = cb_data;
+-	struct drm_connector *connector = &omap_connector->base;
+-	struct drm_device *dev = connector->dev;
+-	enum drm_connector_status old_status;
+-
+-	mutex_lock(&dev->mode_config.mutex);
+-	old_status = connector->status;
+-	connector->status = status;
+-	mutex_unlock(&dev->mode_config.mutex);
+-
+-	if (old_status == status)
+-		return;
+-
+-	omap_connector_hpd_notify(connector, status);
+-
+-	drm_kms_helper_hotplug_event(dev);
+-}
+-
+-void omap_connector_enable_hpd(struct drm_connector *connector)
+-{
+-	struct omap_connector *omap_connector = to_omap_connector(connector);
+-	struct omap_dss_device *hpd = omap_connector->hpd;
+-
+-	if (hpd)
+-		hpd->ops->register_hpd_cb(hpd, omap_connector_hpd_cb,
+-					  omap_connector);
+-}
+-
+-void omap_connector_disable_hpd(struct drm_connector *connector)
+-{
+-	struct omap_connector *omap_connector = to_omap_connector(connector);
+-	struct omap_dss_device *hpd = omap_connector->hpd;
+-
+-	if (hpd)
+-		hpd->ops->unregister_hpd_cb(hpd);
+-}
+-
+-static struct omap_dss_device *
+-omap_connector_find_device(struct drm_connector *connector,
+-			   enum omap_dss_device_ops_flag op)
+-{
+-	struct omap_connector *omap_connector = to_omap_connector(connector);
+-	struct omap_dss_device *dssdev = NULL;
+-	struct omap_dss_device *d;
+-
+-	for (d = omap_connector->output; d; d = d->next) {
+-		if (d->ops_flags & op)
+-			dssdev = d;
+-	}
+-
+-	return dssdev;
+-}
+-
+ static enum drm_connector_status omap_connector_detect(
+ 		struct drm_connector *connector, bool force)
  {
- 	struct venc_device *venc = drm_bridge_to_venc(bridge);
+-	struct omap_dss_device *dssdev;
+ 	enum drm_connector_status status;
  
--	if (venc->output.next_bridge)
--		return 0;
-+	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
-+		return -EINVAL;
+-	dssdev = omap_connector_find_device(connector,
+-					    OMAP_DSS_DEVICE_OP_DETECT);
+-
+-	if (dssdev) {
+-		status = dssdev->ops->detect(dssdev)
+-		       ? connector_status_connected
+-		       : connector_status_disconnected;
+-
+-		omap_connector_hpd_notify(connector, status);
+-	} else {
+-		switch (connector->connector_type) {
+-		case DRM_MODE_CONNECTOR_DPI:
+-		case DRM_MODE_CONNECTOR_LVDS:
+-		case DRM_MODE_CONNECTOR_DSI:
+-			status = connector_status_connected;
+-			break;
+-		default:
+-			status = connector_status_unknown;
+-			break;
+-		}
++	switch (connector->connector_type) {
++	case DRM_MODE_CONNECTOR_DPI:
++	case DRM_MODE_CONNECTOR_LVDS:
++	case DRM_MODE_CONNECTOR_DSI:
++		status = connector_status_connected;
++		break;
++	default:
++		status = connector_status_unknown;
++		break;
+ 	}
  
- 	return drm_bridge_attach(bridge->encoder, venc->output.next_bridge,
- 				 bridge, flags);
+ 	VERB("%s: %d (force=%d)", connector->name, status, force);
+@@ -137,14 +48,6 @@ static void omap_connector_destroy(struct drm_connector *connector)
+ 
+ 	DBG("%s", connector->name);
+ 
+-	if (omap_connector->hpd) {
+-		struct omap_dss_device *hpd = omap_connector->hpd;
+-
+-		hpd->ops->unregister_hpd_cb(hpd);
+-		omapdss_device_put(hpd);
+-		omap_connector->hpd = NULL;
+-	}
+-
+ 	drm_connector_unregister(connector);
+ 	drm_connector_cleanup(connector);
+ 
+@@ -153,63 +56,27 @@ static void omap_connector_destroy(struct drm_connector *connector)
+ 	kfree(omap_connector);
+ }
+ 
+-static int omap_connector_get_modes_edid(struct drm_connector *connector,
+-					 struct omap_dss_device *dssdev)
+-{
+-	enum drm_connector_status status;
+-	struct edid *edid;
+-	int n;
+-
+-	status = omap_connector_detect(connector, false);
+-	if (status != connector_status_connected)
+-		goto no_edid;
+-
+-	edid = dssdev->ops->read_edid(dssdev);
+-	if (!edid || !drm_edid_is_valid(edid)) {
+-		kfree(edid);
+-		goto no_edid;
+-	}
+-
+-	drm_connector_update_edid_property(connector, edid);
+-	n = drm_add_edid_modes(connector, edid);
+-
+-	kfree(edid);
+-	return n;
+-
+-no_edid:
+-	drm_connector_update_edid_property(connector, NULL);
+-	return 0;
+-}
+-
+ static int omap_connector_get_modes(struct drm_connector *connector)
+ {
+-	struct omap_dss_device *dssdev;
++	struct omap_connector *omap_connector = to_omap_connector(connector);
++	struct omap_dss_device *dssdev = NULL;
++	struct omap_dss_device *d;
+ 
+ 	DBG("%s", connector->name);
+ 
+ 	/*
+-	 * If display exposes EDID, then we parse that in the normal way to
+-	 * build table of supported modes.
++	 * If the display pipeline reports modes (e.g. with a fixed resolution
++	 * panel or an analog TV output), query it.
+ 	 */
+-	dssdev = omap_connector_find_device(connector,
+-					    OMAP_DSS_DEVICE_OP_EDID);
+-	if (dssdev)
+-		return omap_connector_get_modes_edid(connector, dssdev);
++	for (d = omap_connector->output; d; d = d->next) {
++		if (d->ops_flags & OMAP_DSS_DEVICE_OP_MODES)
++			dssdev = d;
++	}
+ 
+-	/*
+-	 * Otherwise if the display pipeline reports modes (e.g. with a fixed
+-	 * resolution panel or an analog TV output), query it.
+-	 */
+-	dssdev = omap_connector_find_device(connector,
+-					    OMAP_DSS_DEVICE_OP_MODES);
+ 	if (dssdev)
+ 		return dssdev->ops->get_modes(dssdev, connector);
+ 
+-	/*
+-	 * We can't retrieve modes, which can happen for instance for a DVI or
+-	 * VGA output with the DDC bus unconnected. The KMS core will add the
+-	 * default modes.
+-	 */
++	/* We can't retrieve modes. The KMS core will add the default modes. */
+ 	return 0;
+ }
+ 
+@@ -290,7 +157,6 @@ struct drm_connector *omap_connector_init(struct drm_device *dev,
+ {
+ 	struct drm_connector *connector = NULL;
+ 	struct omap_connector *omap_connector;
+-	struct omap_dss_device *dssdev;
+ 
+ 	DBG("%s", output->name);
+ 
+@@ -308,24 +174,6 @@ struct drm_connector *omap_connector_init(struct drm_device *dev,
+ 			   omap_connector_get_type(output));
+ 	drm_connector_helper_add(connector, &omap_connector_helper_funcs);
+ 
+-	/*
+-	 * Initialize connector status handling. First try to find a device that
+-	 * supports hot-plug reporting. If it fails, fall back to a device that
+-	 * support polling. If that fails too, we don't support hot-plug
+-	 * detection at all.
+-	 */
+-	dssdev = omap_connector_find_device(connector, OMAP_DSS_DEVICE_OP_HPD);
+-	if (dssdev) {
+-		omap_connector->hpd = omapdss_device_get(dssdev);
+-		connector->polled = DRM_CONNECTOR_POLL_HPD;
+-	} else {
+-		dssdev = omap_connector_find_device(connector,
+-						    OMAP_DSS_DEVICE_OP_DETECT);
+-		if (dssdev)
+-			connector->polled = DRM_CONNECTOR_POLL_CONNECT |
+-					    DRM_CONNECTOR_POLL_DISCONNECT;
+-	}
+-
+ 	return connector;
+ 
+ fail:
+diff --git a/drivers/gpu/drm/omapdrm/omap_connector.h b/drivers/gpu/drm/omapdrm/omap_connector.h
+index 4aa5608f4bbe..0ecd4f1655b7 100644
+--- a/drivers/gpu/drm/omapdrm/omap_connector.h
++++ b/drivers/gpu/drm/omapdrm/omap_connector.h
+@@ -21,8 +21,6 @@ struct omap_dss_device;
+ struct drm_connector *omap_connector_init(struct drm_device *dev,
+ 					  struct omap_dss_device *output,
+ 					  struct drm_encoder *encoder);
+-void omap_connector_enable_hpd(struct drm_connector *connector);
+-void omap_connector_disable_hpd(struct drm_connector *connector);
+ enum drm_mode_status omap_connector_mode_fixup(struct omap_dss_device *dssdev,
+ 					const struct drm_display_mode *mode,
+ 					struct drm_display_mode *adjusted_mode);
+diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
+index 097fbbaa5df0..be2430f63630 100644
+--- a/drivers/gpu/drm/omapdrm/omap_drv.c
++++ b/drivers/gpu/drm/omapdrm/omap_drv.c
+@@ -427,9 +427,7 @@ static void omap_modeset_enable_external_hpd(struct drm_device *ddev)
+ 		if (!connector)
+ 			continue;
+ 
+-		if (priv->pipes[i].output->next)
+-			omap_connector_enable_hpd(connector);
+-		else
++		if (priv->pipes[i].output->bridge)
+ 			drm_bridge_connector_enable_hpd(connector);
+ 	}
+ }
+@@ -448,9 +446,7 @@ static void omap_modeset_disable_external_hpd(struct drm_device *ddev)
+ 		if (!connector)
+ 			continue;
+ 
+-		if (priv->pipes[i].output->next)
+-			omap_connector_disable_hpd(connector);
+-		else
++		if (priv->pipes[i].output->bridge)
+ 			drm_bridge_connector_disable_hpd(connector);
+ 	}
+ }
 -- 
 Regards,
 
