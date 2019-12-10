@@ -2,79 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0622511928F
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 21:56:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61C0E119275
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 21:52:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7FFB6E938;
-	Tue, 10 Dec 2019 20:56:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9B6189B27;
+	Tue, 10 Dec 2019 20:52:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 379 seconds by postgrey-1.36 at gabe;
- Tue, 10 Dec 2019 20:56:35 UTC
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98F766E938
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 20:56:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576011394;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QKUGte0LJJOC+2J/QTsxMNBL/KSTWmiIxFV3NdoEcMk=;
- b=dVSP/D+jAZj6LpCwKMoTwdGdU0PvuX4ySGd3BfAwhKcC/bWWUELiGAcy0Vn82jKVz79Jqs
- EDZ6JHzloTLd8xrxBBaW2pUv6weIjr6eRTTzuejOMeVlgQP69/tBeG5c7xkLbXDAd7pyZI
- ZmfIaUNQf6fc2vYEecfW03vbpAJzs0k=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-262-WeuZeIVxPWCm0sF-_ZOWug-1; Tue, 10 Dec 2019 15:50:11 -0500
-Received: by mail-qv1-f71.google.com with SMTP id x22so6260456qvc.18
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 12:50:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=L2m4Tv+vpahKKFm5uAjvOrE573uy1RkQak8WAblX7g4=;
- b=rnFKTWO6CrnTRT6Z6TVUHss+tFt3akb5cGxYrkiLMWhTzKsLoGJL2BuMsAedddM2Ke
- nafs0r56altphvxx1iGoEJZqvvkeW0m0CnTjbxS0UkIq8I4j/89U1PE2b+P0g1J1NUbh
- egE49m3HU0mkwO1XfHjWBER3D4dH2jYAtOgF2lohVZlloRdyJpYAxEI4rTrcUyKHEHXP
- nZQOlX5jHflPiDUvwpuodk4FsbjOl0riY+DaxmWeWBIG2xu330hTVIu/+oSFzktezlcu
- R7pUbv5Ikjy8bAfRZ9HbMe4tRvL3L7/phRUr55koC59zFyUw/Sms5BhwzGgmPWAYWUa9
- 8a0A==
-X-Gm-Message-State: APjAAAU9gjybyOZGDlHQoS6Tl1Ttyw/YELvRFgGGv8NfdEzvU03fZNC3
- q6PDjdSWunBJP1v6ikI91S096J/xIyTh0wl8zEySHoWTP2Y3UXTocWB6CCm/Sktqk1N4V24TkKk
- jRm7FfLMkT7nraUjNibYeqdkRihfCUvS7m97fMC6jkEjF
-X-Received: by 2002:a0c:baad:: with SMTP id x45mr29886303qvf.230.1576011010492; 
- Tue, 10 Dec 2019 12:50:10 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyIAonngUfW9uC+kmuZAs4RSR2w6CHMt+zmLNoDWoivMcdar5w1+a+QgsrZGu/DH2I2RocsrHyDBA/p4a7IrDU=
-X-Received: by 2002:a0c:baad:: with SMTP id x45mr29886279qvf.230.1576011010089; 
- Tue, 10 Dec 2019 12:50:10 -0800 (PST)
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DF6C89B27;
+ Tue, 10 Dec 2019 20:52:09 +0000 (UTC)
+Received: from mail-qt1-f177.google.com ([209.85.160.177]) by
+ mrelayeu.kundenserver.de (mreue010 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1N0nzR-1hlB5e22SL-00woj5; Tue, 10 Dec 2019 21:52:07 +0100
+Received: by mail-qt1-f177.google.com with SMTP id p5so4062996qtq.12;
+ Tue, 10 Dec 2019 12:52:07 -0800 (PST)
+X-Gm-Message-State: APjAAAVak0bKV9CgZJVefYayKZoS1141QLw7ERQJ0ju0EAaL6aopPFjL
+ A6TCvpXHTXkU7gIxRxaVeL/T7wLDezuNx7iDgtw=
+X-Google-Smtp-Source: APXvYqx1uN5tm9eCOzoQBysKWKFpMTzZPxr5PqaW9bDfYB2yfC5l95PFbwxivepFESYFJ8F3qgkDRXUfr5anVcdWFA0=
+X-Received: by 2002:ac8:3a27:: with SMTP id w36mr31351077qte.204.1576011126328; 
+ Tue, 10 Dec 2019 12:52:06 -0800 (PST)
 MIME-Version: 1.0
-References: <CACO55ttTPi2XpRRM_NYJU5c5=OvG0=-YngFy1BiR8WpHkavwXw@mail.gmail.com>
- <CAJZ5v0h=7zu3A+ojgUSmwTH0KeXmYP5OKDL__rwkkWaWqcJcWQ@mail.gmail.com>
- <20191121112821.GU11621@lahna.fi.intel.com>
- <CAJZ5v0hQhj5Wf+piU11abC4pF26yM=XHGHAcDv8Jsgdx04aN-w@mail.gmail.com>
- <20191121114610.GW11621@lahna.fi.intel.com>
- <CACO55ttXJgXG32HzYP_uJDfQ6T-d8zQaGjXK_AZD3kF0Rmft4g@mail.gmail.com>
- <CAJZ5v0ibzcLEm44udUxW2uVgaF9NapdNBF8Ag+RE++u7gi2yNA@mail.gmail.com>
- <CACO55ttBkZD9dm0Y_jT931NnzHHtDFyLz28aoo+ZG0pnLzPgbA@mail.gmail.com>
- <CAJZ5v0jbh7jz+YQcw-gC5ztmMOc4E9+KFBCy4VGRsRFxBw-gnw@mail.gmail.com>
- <e0eeddf4214f54dfac08e428dfb30cbd39f20680.camel@redhat.com>
- <20191127114856.GZ11621@lahna.fi.intel.com>
- <CACO55tt5SAf24vk0XrKguhh2J=WuKirDsdY7T+u7PsGFCpnFxg@mail.gmail.com>
- <e7aec10d789b322ca98f4b250923b0f14f2b8226.camel@redhat.com>
- <CACO55tu+hT1WGbBn_nxLR=A-X6YWmeuz-UztJKw0QAFQDDV_xg@mail.gmail.com>
- <CAJZ5v0hcONxiWD+jpBe62H1SZ-84iNxT+QCn8mcesB1C7SVWjw@mail.gmail.com>
- <CAPM=9txefUg9_EO82an3b313mZz7J7-ydTuJtWD-hOQwE4QXkQ@mail.gmail.com>
-In-Reply-To: <CAPM=9txefUg9_EO82an3b313mZz7J7-ydTuJtWD-hOQwE4QXkQ@mail.gmail.com>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Tue, 10 Dec 2019 21:49:58 +0100
-Message-ID: <CACO55tvhSM0aATBOK05-05aOc6LeN67=US2zO2jqXKWGTpUZFw@mail.gmail.com>
-Subject: Re: [PATCH v4] pci: prevent putting nvidia GPUs into lower device
- states on certain intel bridges
-To: Dave Airlie <airlied@gmail.com>
-X-MC-Unique: WeuZeIVxPWCm0sF-_ZOWug-1
-X-Mimecast-Spam-Score: 0
+References: <20191210195941.931745-1-arnd@arndb.de>
+ <cded03ab-40fe-a904-7b1f-5b3623bb7af4@amd.com>
+In-Reply-To: <cded03ab-40fe-a904-7b1f-5b3623bb7af4@amd.com>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Tue, 10 Dec 2019 21:51:49 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a3XHWPBOsCpFtdoT8F-pAMXaekDOX1rNjjMWKLN6WSK6w@mail.gmail.com>
+Message-ID: <CAK8P3a3XHWPBOsCpFtdoT8F-pAMXaekDOX1rNjjMWKLN6WSK6w@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: include linux/slab.h where needed
+To: "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>
+X-Provags-ID: V03:K1:odURU4WPiLkXcucDlfc71UXCfG4jWw1BS+LkraKFiBaJJhf9Fy3
+ dI56MMQ925HwgfXKKYKCM5Pv99R82KVx7dqkhkH/UM0ZoTAfKLrwd9xBwGhBPr9dRZDf/dF
+ kzk+3LMe/oCEx/tcXRO28SzJQkrsrrHjq2YBgMJBAFazCIUTvuzV7emcIyWtaAINx95yPwB
+ VpD1QnZecxkXw2t7jkMnw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:K8n5+XbAx3k=:sInwACHy37zGBlbaLaKCZH
+ 8W3et3YlDo17Zy0KMKc4Iya5A4d3gXe9mfxxNQlR50D4zcYAhl8QLdzvw2xChJD3bBfIszU/f
+ g3UEsjKG6X/n2RPSk+IjddsPSkiQNRpJIp6isM3f5ejJo/WB/dSHvSnHFToI9pXvZJXo5ef0b
+ jA/CxWjrNq4osQeu9OIJieN1aUNU3HW5BJ1I7Hui2X1B1LnDcvuKCIOdko3rPjPXlsA7rAcpg
+ OCoLX4TliLWURZWms65CyUyjc4IK3wRDG3jElCpxft8gtuI1QpKrHTRb4/6ZRz52g3QR0+/ZV
+ rBPmZb2K93v3JbJbmg7OptuYnpYW6vQod2kwczHDdQTV5vqbecpNl8IZVtEk+46C/MCdqb0OF
+ QKfJ4gnWLS7+EtLnZlSocBqqfHK79eTsIgNEcCcUA5zdRT8DAPS3ySc2CEq4MEt7O8CS6mruU
+ VqeKiQgFk326Lqq+KxMnheZyYP49lfiCXI3uQDsPvKwN3Ztjl4aMLRAx652tTPIj03pDceeoq
+ r7dFlSis+U5OmaTgAmIJMnsesVPP0PJD1Fq0uoeGr5pkCXAa1mcdPqBmEYNKZ0I0aiwdJMMB+
+ d87XzQOUFAX+9yeppSySIZhdOEI8M86ofhnfVxT/Lk1mBQ1NPSg22uPPcbaN9fcjylxnxLnsM
+ hM0c3Tyy4R6lpZdkmQEiAYsfRHON0mM0HQNUH+0xO7PCZaqAatn2IH4r8FLf6/dbodRXwcc4u
+ 9vCl6tQ3DiXDeaMHgL/SajjfidgKnRk/0bUTyC2D2+LifjLFWcXcOQ/A0B4bIDwlvQhGzQEj9
+ EE5JwGT51+V0lW1E5WtmJiJoY+dXVGovZsja1jgInAletEJB6Rxqi/EAu5DgF8kbMIonfu7VE
+ zz8ZCb+/94nJKovf5bBg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,62 +63,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
- Linux PCI <linux-pci@vger.kernel.org>,
- Mika Westerberg <mika.westerberg@intel.com>,
- Linux PM <linux-pm@vger.kernel.org>, "Rafael J . Wysocki" <rjw@rjwysocki.net>,
- LKML <linux-kernel@vger.kernel.org>,
+Cc: Eric Yang <Eric.Yang2@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>, Roman Li <Roman.Li@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, Michael Strauss <michael.strauss@amd.com>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Mario Limonciello <Mario.Limonciello@dell.com>,
- Bjorn Helgaas <helgaas@kernel.org>, nouveau <nouveau@lists.freedesktop.org>
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 10, 2019 at 8:58 PM Dave Airlie <airlied@gmail.com> wrote:
+On Tue, Dec 10, 2019 at 9:30 PM Kazlauskas, Nicholas
+<nicholas.kazlauskas@amd.com> wrote:
 >
-> On Mon, 9 Dec 2019 at 21:39, Rafael J. Wysocki <rafael@kernel.org> wrote:
+> On 2019-12-10 2:59 p.m., Arnd Bergmann wrote:
+> > Calling kzalloc() and related functions requires the
+> > linux/slab.h header to be included:
 > >
-> > On Mon, Dec 9, 2019 at 12:17 PM Karol Herbst <kherbst@redhat.com> wrote:
-> > >
-> > > anybody any other ideas?
+> > drivers/gpu/drm/amd/amdgpu/../display/dc/dcn21/dcn21_resource.c: In function 'dcn21_ipp_create':
+> > drivers/gpu/drm/amd/amdgpu/../display/dc/dcn21/dcn21_resource.c:679:3: error: implicit declaration of function 'kzalloc'; did you mean 'd_alloc'? [-Werror=implicit-function-declaration]
+> >     kzalloc(sizeof(struct dcn10_ipp), GFP_KERNEL);
 > >
-> > Not yet, but I'm trying to collect some more information.
+> > A lot of other headers also miss a direct include in this file,
+> > but this is the only one that causes a problem for now.
 > >
-> > > It seems that both patches don't really fix
-> > > the issue and I have no idea left on my side to try out. The only
-> > > thing left I could do to further investigate would be to reverse
-> > > engineer the Nvidia driver as they support runpm on Turing+ GPUs now,
-> > > but I've heard users having similar issues to the one Lyude told us
-> > > about... and I couldn't verify that the patches help there either in a
-> > > reliable way.
-> >
-> > It looks like the newer (8+) versions of Windows expect the GPU driver
-> > to prepare the GPU for power removal in some specific way and the
-> > latter fails if the GPU has not been prepared as expected.
-> >
-> > Because testing indicates that the Windows 7 path in the platform
-> > firmware works, it may be worth trying to do what it does to the PCIe
-> > link before invoking the _OFF method for the power resource
-> > controlling the GPU power.
-> >
+> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 >
-> Remember the pre Win8 path required calling a DSM method to actually
-> power the card down, I think by the time we reach these methods in
-> those cases the card is already gone.
->
-> Dave.
->
+> What version of the kernel are you building?
 
-The point was that the firmware seems to do more in the legacy paths
-and maybe we just have to do those things inside the driver instead
-when using the new method. Also the _DSM call just wraps around the
-interfaces on newer firmware anyway. The OS check is usually what
-makes the difference. I might be wrong about the _DSM call just
-wrapping though, but I think I saw it at least in some firmware at
-some point.
+This is v5.5-rc1, plus some local patches.
 
+> We have:
+>
+> #include <linux/slab.h>
+>
+> in os_types.h which gets included as part of this file:
+>
+> #include <dc.h> -> #include <dc_types.h> -> #include <os_types.h>
+
+I don't see linux/slab.h in os_types.h. I now see that commit
+4fc4dca8320e ("drm/amd: drop use of drmp.h in os_types.h")
+was merged into linux-5.3, which may have caused this.
+
+I also don't see anything in os_types.h that needs linux/slab.h.
+
+    Arnd
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
