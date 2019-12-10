@@ -1,43 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C131119AA0
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 23:05:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CCF1119AA9
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 23:07:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54B4C89F9F;
-	Tue, 10 Dec 2019 22:05:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC29F6E9B7;
+	Tue, 10 Dec 2019 22:07:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67CBF89E52
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 22:05:25 +0000 (UTC)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7510C20637;
- Tue, 10 Dec 2019 22:05:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576015525;
- bh=FsQts3PP/nHVQrfv5wO/f72h36bv4yWUk4siqw/b69Q=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MiBfPoOQzr8o3A2z4AaOIhKkIC0Yg65WXIEvNDT33PaQgY0tlDf4ZASD1WQdhWaGM
- ikugCz4uEX73rMVlDS97K5hNoomf7pH8pRguJftNfMdq5HRbkbOkXru67oo/BAaZ26
- 346qKl+nHjiorLyyI4hBfbghGbmUfv3MESJ9hbGM=
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 120/130] fbtft: Make sure string is NULL
- terminated
-Date: Tue, 10 Dec 2019 17:02:51 -0500
-Message-Id: <20191210220301.13262-120-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191210220301.13262-1-sashal@kernel.org>
-References: <20191210220301.13262-1-sashal@kernel.org>
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 959EB6E9A8
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 22:07:21 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id d16so21822131wre.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 14:07:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=ptJt8UpVUt+TvsYxm4J67mpF+rXHgp/cv7qqisG2GRA=;
+ b=MLqUObJ81drA0eXJYbMdW3P0zg6k8UvIqavv4+NEHMpFk4uQOUZM7AGGn3WZh9Rzhw
+ 3n7GQu7QWCgx5eJF+hEeogaeMdL8wEC9aboR36ORSxBVWW0QUGNUL9e2coaTG/3YiJf8
+ EZcOhd0479ECh+LpXm5g9vv7B9kML+CXHgzdw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=ptJt8UpVUt+TvsYxm4J67mpF+rXHgp/cv7qqisG2GRA=;
+ b=ndYI0EndcszxHthgVaFCa1uo5ENN08qEYc126BsDlgmsED7m3knxWDO6bwlcr08Ieb
+ g4sSLrqtl410lab1DqxHUy+JZBdHUN3N8xhOmz8UUasQ7xZxLl9n1tcSfJLiyYqds6Ua
+ 9iPyRcnrxJAhzTZ0F4/m2JxXJGKZtjhMbZQjVQggMi5U4V4Ykg7vqXMnskif+vNevQk5
+ pXogqDaCEjobG1nttZiztZ1CYVt/Rc9wYIUhDU5fOitue54KFiYj3X2GDfzMGnSPq3RC
+ zabas9FHbaVZmYt3XihDjbQhwo8jIuhNC6V5Yfk6pZ0jf+l1HVfmf3KsyzJqzAisVCL1
+ AlTQ==
+X-Gm-Message-State: APjAAAW4+BqtFwtb9SmdpL5GW6teEb7XepXcN8SPmNXj4TJQ/in00LCE
+ 7K4PAjV51TzRbxwSXCkm9IqPYw==
+X-Google-Smtp-Source: APXvYqynFrQ1Q24pQQUBBH9773aGTAM/uCSmsEgciUNVh+e4sR+Ktxs67mwOB7Q0M250Fg24lexTWQ==
+X-Received: by 2002:adf:db41:: with SMTP id f1mr5868055wrj.392.1576015640314; 
+ Tue, 10 Dec 2019 14:07:20 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:564b:0:7567:bb67:3d7f:f863])
+ by smtp.gmail.com with ESMTPSA id c15sm4822185wrt.1.2019.12.10.14.07.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Dec 2019 14:07:19 -0800 (PST)
+Date: Tue, 10 Dec 2019 23:07:17 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH 1/8] drm/print: introduce new struct drm_device based
+ logging macros
+Message-ID: <20191210220717.GW624164@phenom.ffwll.local>
+References: <20191210123050.8799-1-jani.nikula@intel.com>
+ <87o8wge4va.fsf@intel.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+Content-Disposition: inline
+In-Reply-To: <87o8wge4va.fsf@intel.com>
+X-Operating-System: Linux phenom 5.3.0-2-amd64 
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,44 +67,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, devel@driverdev.osuosl.org,
- linux-fbdev@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sam Ravnborg <sam@ravnborg.org>, intel-gfx@lists.freedesktop.org,
+ Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogQW5keSBTaGV2Y2hlbmtvIDxhbmRyaXkuc2hldmNoZW5rb0BsaW51eC5pbnRlbC5jb20+
-CgpbIFVwc3RyZWFtIGNvbW1pdCAyMWY1ODU0ODBkZWI0YmNmMGQ5MmIwODg3OWMzNWQwNjZkZmVl
-MDMwIF0KCk5ldyBHQ0Mgd2FybnMgYWJvdXQgaW5hcHByb3ByaWF0ZSB1c2Ugb2Ygc3RybmNweSgp
-OgoKZHJpdmVycy9zdGFnaW5nL2ZidGZ0L2ZidGZ0LWNvcmUuYzogSW4gZnVuY3Rpb24g4oCYZmJ0
-ZnRfZnJhbWVidWZmZXJfYWxsb2PigJk6CmRyaXZlcnMvc3RhZ2luZy9mYnRmdC9mYnRmdC1jb3Jl
-LmM6NjY1OjI6IHdhcm5pbmc6IOKAmHN0cm5jcHnigJkgc3BlY2lmaWVkIGJvdW5kIDE2IGVxdWFs
-cyBkZXN0aW5hdGlvbiBzaXplIFstV3N0cmluZ29wLXRydW5jYXRpb25dCiAgNjY1IHwgIHN0cm5j
-cHkoaW5mby0+Zml4LmlkLCBkZXYtPmRyaXZlci0+bmFtZSwgMTYpOwogICAgICB8ICBefn5+fn5+
-fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fgoKTGF0ZXIgb24gdGhlIGNvcHkg
-aXMgYmVpbmcgdXNlZCB3aXRoIHRoZSBhc3N1bXB0aW9uIHRvIGJlIE5VTEwgdGVybWluYXRlZC4K
-TWFrZSBzdXJlIHN0cmluZyBpcyBOVUxMIHRlcm1pbmF0ZWQgYnkgc3dpdGNoaW5nIHRvIHNucHJp
-bnRmKCkuCgpTaWduZWQtb2ZmLWJ5OiBBbmR5IFNoZXZjaGVua28gPGFuZHJpeS5zaGV2Y2hlbmtv
-QGxpbnV4LmludGVsLmNvbT4KTGluazogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvci8yMDE5MTEy
-MDA5NTcxNi4yNjYyOC0xLWFuZHJpeS5zaGV2Y2hlbmtvQGxpbnV4LmludGVsLmNvbQpTaWduZWQt
-b2ZmLWJ5OiBHcmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPgpT
-aWduZWQtb2ZmLWJ5OiBTYXNoYSBMZXZpbiA8c2FzaGFsQGtlcm5lbC5vcmc+Ci0tLQogZHJpdmVy
-cy9zdGFnaW5nL2ZidGZ0L2ZidGZ0LWNvcmUuYyB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGlu
-c2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvc3RhZ2luZy9m
-YnRmdC9mYnRmdC1jb3JlLmMgYi9kcml2ZXJzL3N0YWdpbmcvZmJ0ZnQvZmJ0ZnQtY29yZS5jCmlu
-ZGV4IDBjYmNiYWQ4ZjA3NDIuLmI4MWM2ZGZhNWIyNDkgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvc3Rh
-Z2luZy9mYnRmdC9mYnRmdC1jb3JlLmMKKysrIGIvZHJpdmVycy9zdGFnaW5nL2ZidGZ0L2ZidGZ0
-LWNvcmUuYwpAQCAtNzgwLDcgKzc4MCw3IEBAIHN0cnVjdCBmYl9pbmZvICpmYnRmdF9mcmFtZWJ1
-ZmZlcl9hbGxvYyhzdHJ1Y3QgZmJ0ZnRfZGlzcGxheSAqZGlzcGxheSwKIAlmYmRlZmlvLT5kZWZl
-cnJlZF9pbyA9ICAgICBmYnRmdF9kZWZlcnJlZF9pbzsKIAlmYl9kZWZlcnJlZF9pb19pbml0KGlu
-Zm8pOwogCi0Jc3RybmNweShpbmZvLT5maXguaWQsIGRldi0+ZHJpdmVyLT5uYW1lLCAxNik7CisJ
-c25wcmludGYoaW5mby0+Zml4LmlkLCBzaXplb2YoaW5mby0+Zml4LmlkKSwgIiVzIiwgZGV2LT5k
-cml2ZXItPm5hbWUpOwogCWluZm8tPmZpeC50eXBlID0gICAgICAgICAgIEZCX1RZUEVfUEFDS0VE
-X1BJWEVMUzsKIAlpbmZvLT5maXgudmlzdWFsID0gICAgICAgICBGQl9WSVNVQUxfVFJVRUNPTE9S
-OwogCWluZm8tPmZpeC54cGFuc3RlcCA9CSAgIDA7Ci0tIAoyLjIwLjEKCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Tue, Dec 10, 2019 at 02:34:33PM +0200, Jani Nikula wrote:
+> On Tue, 10 Dec 2019, Jani Nikula <jani.nikula@intel.com> wrote:
+> > Add new struct drm_device based logging macros modeled after the core
+> > kernel device based logging macros. These would be preferred over the
+> > drm printk and struct device based macros in drm code, where possible.
+> 
+> As to cover letter, patches 2-8 using the logging macros introduced here
+> are just the beginning. It's not trivial to write a cocci script to dig
+> up struct drm_device * where there is none, so much of it may need to be
+> done manually. But we could start here.
+
+Can you pls do a patch for todo.rst to adjust the existing task to the new
+flavour of favorited debug printing? If cocci doesn't work we can at least
+throw random interns at this for starter tasks :-)
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
