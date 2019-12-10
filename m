@@ -1,47 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A790B117F53
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 06:05:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83E65117FF7
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 06:51:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 571436E7EA;
-	Tue, 10 Dec 2019 05:05:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F21EF6E479;
+	Tue, 10 Dec 2019 05:51:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by gabe.freedesktop.org (Postfix) with ESMTP id 468026E7DB
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 05:05:33 +0000 (UTC)
-X-UUID: 405eab06d9fa439c9c393a143611d3dc-20191210
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=AdxFy+I7i2jJN+rN5zx7RX8ff9ZkwUeUYe2wFRnYZxg=; 
- b=ltyfZqajvcF/5KVrFhmpV1GQAmj7Im9w9LIDXZa1p3uJF4xMwCz8j4k7u4bGNfpEZS9E/1zwdUk8DALeXKlVAJQLXXtIdGabqiIh/bdh2ytrFTHOirjU9yyW5wZhEmtl+5CWyhPSQFe+pUnYJJVf2FbJQtcDppypHgvn+wR+G1c=;
-X-UUID: 405eab06d9fa439c9c393a143611d3dc-20191210
-Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by
- mailgw01.mediatek.com (envelope-from <bibby.hsieh@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 148240179; Tue, 10 Dec 2019 13:05:30 +0800
-Received: from mtkcas09.mediatek.inc (172.21.101.178) by
- mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Tue, 10 Dec 2019 13:04:33 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas09.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via
- Frontend Transport; Tue, 10 Dec 2019 13:05:22 +0800
-From: Bibby Hsieh <bibby.hsieh@mediatek.com>
-To: David Airlie <airlied@linux.ie>, Matthias Brugger
- <matthias.bgg@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>
-Subject: [PATCH v5 7/7] drm/mediatek: apply CMDQ control flow
-Date: Tue, 10 Dec 2019 13:05:26 +0800
-Message-ID: <20191210050526.4437-8-bibby.hsieh@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20191210050526.4437-1-bibby.hsieh@mediatek.com>
-References: <20191210050526.4437-1-bibby.hsieh@mediatek.com>
+Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
+ [216.228.121.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6D136E479
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 05:51:16 +0000 (UTC)
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5def324d0000>; Mon, 09 Dec 2019 21:51:10 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Mon, 09 Dec 2019 21:51:16 -0800
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Mon, 09 Dec 2019 21:51:16 -0800
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 10 Dec
+ 2019 05:51:15 +0000
+Received: from [10.2.166.216] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 10 Dec
+ 2019 05:51:14 +0000
+Subject: Re: [PATCH v8 17/26] media/v4l2-core: set pages dirty upon releasing
+ DMA buffers
+To: Andrew Morton <akpm@linux-foundation.org>
+References: <20191209225344.99740-1-jhubbard@nvidia.com>
+ <20191209225344.99740-18-jhubbard@nvidia.com>
+ <20191209165627.bf657cb8fdf660e8f91e966c@linux-foundation.org>
+From: John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <fc100f4b-2c14-b56b-488a-e2d54d61d575@nvidia.com>
+Date: Mon, 9 Dec 2019 21:48:24 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: AEEBE7D522D0684789C27698D7E9A0893C29132C1A89D92F4F2366B10B5230492000:8
-X-MTK: N
+In-Reply-To: <20191209165627.bf657cb8fdf660e8f91e966c@linux-foundation.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1575957070; bh=KRjfdSXWCfXtj0zEL6nFRN1GkUl6vp+XI3HBba/YpY8=;
+ h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=jHN/De11w2qJ/2Whqsz+5DRlqwutNcV+vDNiSEKXdDcKWt78VSxoGM0nLPdizxgSb
+ M4m/UOUskWnEyCPODO9f1DYcD6hEBbJk74+kHw/LlXQq1xUnySbFRplwJNaq5NrVaz
+ jsqdkry+cVNaNaRw3VxAVr3+cs8cvcJ783ZVBXMfF/rtOeLzgMzsIx2ydS3WZJvth1
+ OfB3+NCkepaNAqgI1WYky+kXprKnYMmI09kgA9JzYnAnbh34pgq9lGMtxcjGnUZ1yV
+ PAP6rWIOB+cdLSKZhfV+SBX5T+eEKD+BSQbO+Vj2XcjLK4iwQtiCrGuqh1R5ggXhEY
+ xtGKcG+Qp/n6Q==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,173 +69,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: drinkcat@chromium.org, srv_heupstream@mediatek.com,
- Yongqiang Niu <yongqiang.niu@mediatek.com>, linux-kernel@vger.kernel.org,
- tfiga@chromium.org, Thierry Reding <thierry.reding@gmail.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
+ kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
+ dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
+ linux-mm@kvack.org, Paul
+ Mackerras <paulus@samba.org>, linux-kselftest@vger.kernel.org,
+ Ira Weiny <ira.weiny@intel.com>, Christoph Hellwig <hch@lst.de>,
+ Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
+ Michael Ellerman <mpe@ellerman.id.au>, Christoph Hellwig <hch@infradead.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@suse.cz>,
+ =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+ linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ linux-block@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Al Viro <viro@zeniv.linux.org.uk>, Dan Williams <dan.j.williams@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Magnus Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
+ netdev@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
+ stable@vger.kernel.org, linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Unlike other SoCs, MT8183 does not have "shadow"
-registers for performaing an atomic video mode
-set or page flip at vblank/vsync.
+On 12/9/19 4:56 PM, Andrew Morton wrote:
+> On Mon, 9 Dec 2019 14:53:35 -0800 John Hubbard <jhubbard@nvidia.com> wrote:
+> 
+>> After DMA is complete, and the device and CPU caches are synchronized,
+>> it's still required to mark the CPU pages as dirty, if the data was
+>> coming from the device. However, this driver was just issuing a
+>> bare put_page() call, without any set_page_dirty*() call.
+>>
+>> Fix the problem, by calling set_page_dirty_lock() if the CPU pages
+>> were potentially receiving data from the device.
+>>
+>> Reviewed-by: Christoph Hellwig <hch@lst.de>
+>> Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+>> Cc: <stable@vger.kernel.org>
+> 
+> What are the user-visible effects of this change?
 
-The CMDQ (Commend Queue) in MT8183 is used to help
-update all relevant display controller registers
-with critical time limation.
+I'll have to defer to Hans or other experts, because I merely spotted
+this by reading the code.
 
-Signed-off-by: YT Shen <yt.shen@mediatek.com>
-Signed-off-by: CK Hu <ck.hu@mediatek.com>
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-Signed-off-by: Bibby Hsieh <bibby.hsieh@mediatek.com>
-Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 56 +++++++++++++++++++++----
- 1 file changed, 49 insertions(+), 7 deletions(-)
+> 
+> As it's cc:stable I'd normally send this to Linus within 1-2 weeks, or
+> sooner.  Please confirm that this is a standalone fix, independent of
+> the rest of this series.
+> 
+> 
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index 5b3e24a7ef6c..ca4fc4735f9a 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -12,6 +12,8 @@
- #include <drm/drm_plane_helper.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_vblank.h>
-+#include <linux/of_address.h>
-+#include <linux/soc/mediatek/mtk-cmdq.h>
- 
- #include "mtk_drm_drv.h"
- #include "mtk_drm_crtc.h"
-@@ -43,6 +45,9 @@ struct mtk_drm_crtc {
- 	bool				pending_planes;
- 	bool				pending_async_planes;
- 
-+	struct cmdq_client		*cmdq_client;
-+	u32				cmdq_event;
-+
- 	void __iomem			*config_regs;
- 	const struct mtk_mmsys_reg_data *mmsys_reg_data;
- 	struct mtk_disp_mutex		*mutex;
-@@ -234,6 +239,13 @@ struct mtk_ddp_comp *mtk_drm_ddp_comp_for_plane(struct drm_crtc *crtc,
- 	return NULL;
- }
- 
-+#if IS_ENABLED(CONFIG_MTK_CMDQ)
-+static void ddp_cmdq_cb(struct cmdq_cb_data data)
-+{
-+	cmdq_pkt_destroy(data.data);
-+}
-+#endif
-+
- static int mtk_crtc_ddp_hw_init(struct mtk_drm_crtc *mtk_crtc)
- {
- 	struct drm_crtc *crtc = &mtk_crtc->base;
-@@ -375,7 +387,8 @@ static void mtk_crtc_ddp_hw_fini(struct mtk_drm_crtc *mtk_crtc)
- 	}
- }
- 
--static void mtk_crtc_ddp_config(struct drm_crtc *crtc)
-+static void mtk_crtc_ddp_config(struct drm_crtc *crtc,
-+				struct cmdq_pkt *cmdq_handle)
- {
- 	struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(crtc);
- 	struct mtk_crtc_state *state = to_mtk_crtc_state(mtk_crtc->base.state);
-@@ -391,7 +404,8 @@ static void mtk_crtc_ddp_config(struct drm_crtc *crtc)
- 	if (state->pending_config) {
- 		mtk_ddp_comp_config(comp, state->pending_width,
- 				    state->pending_height,
--				    state->pending_vrefresh, 0, NULL);
-+				    state->pending_vrefresh, 0,
-+				    cmdq_handle);
- 
- 		state->pending_config = false;
- 	}
-@@ -411,7 +425,8 @@ static void mtk_crtc_ddp_config(struct drm_crtc *crtc)
- 
- 			if (comp)
- 				mtk_ddp_comp_layer_config(comp, local_layer,
--							  plane_state, NULL);
-+							  plane_state,
-+							  cmdq_handle);
- 			plane_state->pending.config = false;
- 		}
- 		mtk_crtc->pending_planes = false;
-@@ -432,7 +447,8 @@ static void mtk_crtc_ddp_config(struct drm_crtc *crtc)
- 
- 			if (comp)
- 				mtk_ddp_comp_layer_config(comp, local_layer,
--							  plane_state, NULL);
-+							  plane_state,
-+							  cmdq_handle);
- 			plane_state->pending.async_config = false;
- 		}
- 		mtk_crtc->pending_async_planes = false;
-@@ -441,6 +457,7 @@ static void mtk_crtc_ddp_config(struct drm_crtc *crtc)
- 
- static void mtk_drm_crtc_hw_config(struct mtk_drm_crtc *mtk_crtc)
- {
-+	struct cmdq_pkt *cmdq_handle;
- 	struct drm_crtc *crtc = &mtk_crtc->base;
- 	struct mtk_drm_private *priv = crtc->dev->dev_private;
- 	unsigned int pending_planes = 0, pending_async_planes = 0;
-@@ -469,9 +486,18 @@ static void mtk_drm_crtc_hw_config(struct mtk_drm_crtc *mtk_crtc)
- 
- 	if (priv->data->shadow_register) {
- 		mtk_disp_mutex_acquire(mtk_crtc->mutex);
--		mtk_crtc_ddp_config(crtc);
-+		mtk_crtc_ddp_config(crtc, NULL);
- 		mtk_disp_mutex_release(mtk_crtc->mutex);
- 	}
-+#if IS_ENABLED(CONFIG_MTK_CMDQ)
-+	if (mtk_crtc->cmdq_client) {
-+		cmdq_handle = cmdq_pkt_create(mtk_crtc->cmdq_client, PAGE_SIZE);
-+		cmdq_pkt_clear_event(cmdq_handle, mtk_crtc->cmdq_event);
-+		cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event);
-+		mtk_crtc_ddp_config(crtc, cmdq_handle);
-+		cmdq_pkt_flush_async(cmdq_handle, ddp_cmdq_cb, cmdq_handle);
-+	}
-+#endif
- 	mutex_unlock(&mtk_crtc->hw_lock);
- }
- 
-@@ -640,8 +666,8 @@ void mtk_crtc_ddp_irq(struct drm_crtc *crtc, struct mtk_ddp_comp *comp)
- 	struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(crtc);
- 	struct mtk_drm_private *priv = crtc->dev->dev_private;
- 
--	if (!priv->data->shadow_register)
--		mtk_crtc_ddp_config(crtc);
-+	if (!priv->data->shadow_register && !mtk_crtc->cmdq_client)
-+		mtk_crtc_ddp_config(crtc, NULL);
- 
- 	mtk_drm_finish_page_flip(mtk_crtc);
- }
-@@ -784,5 +810,21 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
- 	priv->num_pipes++;
- 	mutex_init(&mtk_crtc->hw_lock);
- 
-+#if IS_ENABLED(CONFIG_MTK_CMDQ)
-+	mtk_crtc->cmdq_client =
-+			cmdq_mbox_create(dev, drm_crtc_index(&mtk_crtc->base),
-+					 2000);
-+	if (IS_ERR(mtk_crtc->cmdq_client)) {
-+		dev_dbg(dev, "mtk_crtc %d failed to create mailbox client, writing register by CPU now\n",
-+			drm_crtc_index(&mtk_crtc->base));
-+		mtk_crtc->cmdq_client = NULL;
-+	}
-+	ret = of_property_read_u32_index(dev->of_node, "mediatek,gce-events",
-+					 drm_crtc_index(&mtk_crtc->base),
-+					 &mtk_crtc->cmdq_event);
-+	if (ret)
-+		dev_dbg(dev, "mtk_crtc %d failed to get mediatek,gce-events property\n",
-+			drm_crtc_index(&mtk_crtc->base));
-+#endif
- 	return 0;
- }
+Yes, this is a stand-alone fix. Of course, as part of this series, the
+put_page() gets converted to put_user_pages_dirty() in the next patch,
+and that in turn gets renamed to unpin_user_pages_dirty() in a later
+patch. Just so we keep that in mind when moving patches around.
+
+
+thanks,
 -- 
-2.18.0
+John Hubbard
+NVIDIA
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
