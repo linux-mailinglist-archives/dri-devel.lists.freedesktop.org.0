@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50B241194A7
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:17:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EA181194AC
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:17:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4C626E972;
-	Tue, 10 Dec 2019 21:17:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 208C76E97E;
+	Tue, 10 Dec 2019 21:17:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66F6A6E971;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DD3C6E974;
  Tue, 10 Dec 2019 21:17:23 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 535282468B;
- Tue, 10 Dec 2019 21:07:52 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 04A522468E;
+ Tue, 10 Dec 2019 21:07:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576012073;
- bh=SBUx8yMp2GaWVuXdQGHugz9n6zPokEyvWLzJ9x4GqU8=;
+ s=default; t=1576012075;
+ bh=R3MtLN1Rj4wCOGDlYX0wo0g3yFmfhogzVgnOrcaB29Q=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=whdJJl7MCMzVqPkTV8iz0elwtIhrANvDrJfM6H5cWyIEhNRg4soUbd/ndZfUt1Yjh
- nSv+ypy2fByHVZ9AUvDAe7M/c0pBHWWi7YHKQx3M7KxAPEtGPUlWbvZAf6cNgXfuat
- I9rnsH9ukG5k4p9kq7zguqHsfdOpzyMp648fw7RI=
+ b=bdn1ehEhzZgeJSGnJm49W5hpc9b23gpjFBw+FoDcPqLXu4kfALMKe2Drrw9T5Mu6i
+ n7IGjLTINvjEsVRN+4fN83xmwbIdov16JsBI/T4z6joLE/wQ/lgRfZCuUtBfUEHzQI
+ XWXLp1A46Z18+vXK5fxeXGH1641Hh03xeUo5AUK4=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 053/350] drm/amdkfd: fix a potential NULL pointer
- dereference (v2)
-Date: Tue, 10 Dec 2019 16:02:38 -0500
-Message-Id: <20191210210735.9077-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 055/350] drm/amd/powerplay: A workaround to GPU
+ RESET on APU
+Date: Tue, 10 Dec 2019 16:02:40 -0500
+Message-Id: <20191210210735.9077-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191210210735.9077-1-sashal@kernel.org>
 References: <20191210210735.9077-1-sashal@kernel.org>
@@ -50,50 +50,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Felix Kuehling <Felix.Kuehling@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Allen Pais <allen.pais@oracle.com>
+Cc: Sasha Levin <sashal@kernel.org>, chen gong <curry.gong@amd.com>,
+ Aaron Liu <aaron.liu@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Allen Pais <allen.pais@oracle.com>
+From: chen gong <curry.gong@amd.com>
 
-[ Upstream commit 81de29d842ccb776c0f77aa3e2b11b07fff0c0e2 ]
+[ Upstream commit 068ad870bbd8f4f2c5b2fd4977a4f3330c9988f4 ]
 
-alloc_workqueue is not checked for errors and as a result,
-a potential NULL dereference could occur.
+Changes to function "smu_suspend" in amdgpu_smu.c is a workaround.
 
-v2 (Felix Kuehling):
-* Fix compile error (kfifo_free instead of fifo_free)
-* Return proper error code
+We should get real information about if baco is enabled or not, while we
+always consider APU SMU feature as enabled in current code.
 
-Signed-off-by: Allen Pais <allen.pais@oracle.com>
-Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
-Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
+I know APU do not support baco mode for GPU reset, so I use
+"adev->flags" to skip function "smu_feature_is_enabled".
+
+Signed-off-by: chen gong <curry.gong@amd.com>
+Reviewed-by: Aaron Liu <aaron.liu@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_interrupt.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/amd/powerplay/amdgpu_smu.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_interrupt.c b/drivers/gpu/drm/amd/amdkfd/kfd_interrupt.c
-index c56ac47cd3189..bc47f6a444564 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_interrupt.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_interrupt.c
-@@ -62,6 +62,11 @@ int kfd_interrupt_init(struct kfd_dev *kfd)
- 	}
+diff --git a/drivers/gpu/drm/amd/powerplay/amdgpu_smu.c b/drivers/gpu/drm/amd/powerplay/amdgpu_smu.c
+index 4acf139ea0140..58c091ab67b26 100644
+--- a/drivers/gpu/drm/amd/powerplay/amdgpu_smu.c
++++ b/drivers/gpu/drm/amd/powerplay/amdgpu_smu.c
+@@ -1344,7 +1344,10 @@ static int smu_suspend(void *handle)
+ 	int ret;
+ 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+ 	struct smu_context *smu = &adev->smu;
+-	bool baco_feature_is_enabled = smu_feature_is_enabled(smu, SMU_FEATURE_BACO_BIT);
++	bool baco_feature_is_enabled = false;
++
++	if(!(adev->flags & AMD_IS_APU))
++		baco_feature_is_enabled = smu_feature_is_enabled(smu, SMU_FEATURE_BACO_BIT);
  
- 	kfd->ih_wq = alloc_workqueue("KFD IH", WQ_HIGHPRI, 1);
-+	if (unlikely(!kfd->ih_wq)) {
-+		kfifo_free(&kfd->ih_fifo);
-+		dev_err(kfd_chardev(), "Failed to allocate KFD IH workqueue\n");
-+		return -ENOMEM;
-+	}
- 	spin_lock_init(&kfd->interrupt_lock);
- 
- 	INIT_WORK(&kfd->interrupt_work, interrupt_wq);
+ 	ret = smu_system_features_control(smu, false);
+ 	if (ret)
 -- 
 2.20.1
 
