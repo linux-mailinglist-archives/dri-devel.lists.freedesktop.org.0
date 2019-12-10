@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9B38119772
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:33:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E873119787
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:34:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E45FD6E999;
-	Tue, 10 Dec 2019 21:33:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32A806E992;
+	Tue, 10 Dec 2019 21:34:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 505776E999
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 21:33:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 890EE6E992
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 21:33:59 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 882DF24654;
- Tue, 10 Dec 2019 21:33:46 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id BFC92208C3;
+ Tue, 10 Dec 2019 21:33:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576013627;
- bh=SSBYEbquRj9NbwGFeERAqPbVG2wmC9tiqZXRafhrFxk=;
+ s=default; t=1576013639;
+ bh=xHIDsK0asZ0gjInSJ1gh58T3ePLlo1R6dUJ1aQLt5ow=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=L54AQextqEA6mt7KXBxbZwPN9UawyJMsYd03M96JCGN6GQVwqZQPr65Jn1jHMqqO9
- babLsws/veF0O+f4yQ/iPZQEYkWYyLdoYaAlum/7x8//sXQPmVzACZtWKQlcWVSQvy
- 42UMZwCaZ57YLgcdagkRlWXiWFituQHxOhx+ee5I=
+ b=BlmiRoxOi7RRzXwd5t6OppHKb+Es3aXp05IozNRjQjZtgDYjbDJTZfeUPSGGe7eZB
+ RF3NJtVC00VvOisuKHLnp8xcSOTbCs0wQ251o/eJvfaksx1EpyyjVnwrZAvbrvhL1w
+ IBxVr/B/LIlGodqPj7JqAJYj1nvFqKlWZfacOsA0=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 069/177] drm/gma500: fix memory disclosures due
- to uninitialized bytes
-Date: Tue, 10 Dec 2019 16:30:33 -0500
-Message-Id: <20191210213221.11921-69-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 079/177] drm/tegra: sor: Use correct SOR index on
+ Tegra210
+Date: Tue, 10 Dec 2019 16:30:43 -0500
+Message-Id: <20191210213221.11921-79-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191210213221.11921-1-sashal@kernel.org>
 References: <20191210213221.11921-1-sashal@kernel.org>
@@ -50,49 +50,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Kangjie Lu <kjlu@umn.edu>, dri-devel@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org,
+ Thierry Reding <treding@nvidia.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Kangjie Lu <kjlu@umn.edu>
+From: Thierry Reding <treding@nvidia.com>
 
-[ Upstream commit ec3b7b6eb8c90b52f61adff11b6db7a8db34de19 ]
+[ Upstream commit 24e64f86da40e68c5f58af08796110f147b12193 ]
 
-"clock" may be copied to "best_clock". Initializing best_clock
-is not sufficient. The fix initializes clock as well to avoid
-memory disclosures and informaiton leaks.
+The device tree bindings for the Tegra210 SOR don't require the
+controller instance to be defined, since the instance can be derived
+from the compatible string. The index is never used on Tegra210, so we
+got away with it not getting set. However, subsequent patches will
+change that, so make sure the proper index is used.
 
-Signed-off-by: Kangjie Lu <kjlu@umn.edu>
-Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Link: https://patchwork.freedesktop.org/patch/msgid/20191018044150.1899-1-kjlu@umn.edu
+Signed-off-by: Thierry Reding <treding@nvidia.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/gma500/oaktrail_crtc.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/tegra/sor.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/gpu/drm/gma500/oaktrail_crtc.c b/drivers/gpu/drm/gma500/oaktrail_crtc.c
-index 1b7fd6a9d8a51..f73a02a2a5b39 100644
---- a/drivers/gpu/drm/gma500/oaktrail_crtc.c
-+++ b/drivers/gpu/drm/gma500/oaktrail_crtc.c
-@@ -139,6 +139,7 @@ static bool mrst_sdvo_find_best_pll(const struct gma_limit_t *limit,
- 	s32 freq_error, min_error = 100000;
+diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+index d7fe9f15def1d..89cb70da2bfe6 100644
+--- a/drivers/gpu/drm/tegra/sor.c
++++ b/drivers/gpu/drm/tegra/sor.c
+@@ -2922,6 +2922,11 @@ static int tegra_sor_parse_dt(struct tegra_sor *sor)
+ 		 * earlier
+ 		 */
+ 		sor->pad = TEGRA_IO_PAD_HDMI_DP0 + sor->index;
++	} else {
++		if (sor->soc->supports_edp)
++			sor->index = 0;
++		else
++			sor->index = 1;
+ 	}
  
- 	memset(best_clock, 0, sizeof(*best_clock));
-+	memset(&clock, 0, sizeof(clock));
- 
- 	for (clock.m = limit->m.min; clock.m <= limit->m.max; clock.m++) {
- 		for (clock.n = limit->n.min; clock.n <= limit->n.max;
-@@ -195,6 +196,7 @@ static bool mrst_lvds_find_best_pll(const struct gma_limit_t *limit,
- 	int err = target;
- 
- 	memset(best_clock, 0, sizeof(*best_clock));
-+	memset(&clock, 0, sizeof(clock));
- 
- 	for (clock.m = limit->m.min; clock.m <= limit->m.max; clock.m++) {
- 		for (clock.p1 = limit->p1.min; clock.p1 <= limit->p1.max;
+ 	return 0;
 -- 
 2.20.1
 
