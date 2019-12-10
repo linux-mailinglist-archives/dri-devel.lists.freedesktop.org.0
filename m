@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E53911937C
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:12:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44CD4119381
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:12:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94A916E94C;
-	Tue, 10 Dec 2019 21:12:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE0D26E954;
+	Tue, 10 Dec 2019 21:12:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 299446E94B
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F9FA6E94D
  for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 21:12:23 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 9D78124690;
- Tue, 10 Dec 2019 21:04:24 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 5E1B724654;
+ Tue, 10 Dec 2019 21:04:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576011865;
- bh=WMu2skBz3Y0LLYO5PZ2aXwuMPKahHn2LWlwBnIshHVs=;
+ s=default; t=1576011870;
+ bh=MGJpwmzW8V6MK6vfbIXS/Ffo7ij6p1KHtpg0BMQrkBY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=YbfZlVRsetxAnkuEcbhQdl1FnrjayDKJ4yDblKhW9TQgRjXAos8NoQizmOS5HrlZP
- UblrZ78g34IrpFIZ9D3yvbYerjvUTS/DhBp4ICivFvK7+FF7sl0jU1q1zDgnnh9Yti
- +hfLTSGiDDdsFXUJcGnh35M/mzJFF8z1CspnalzU=
+ b=0zqXJh64WM4Ql57n6aR44DwT/GzQTepasohY7PjfcdDHlfsnBJGjFMFhAdNmG4+CH
+ fNx7NoHhDKlLRxIxlt2mTeIm4vReBzwsXAmZOrgdoKSStc0xEdkV//7aIhvH2X0Di5
+ RqH+8rUFs0u6AAEnQ5MBkb/rSDvlv0SwKoR5bTCQ=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 018/350] drm/amd/display: Handle virtual signal
- type in disable_link()
-Date: Tue, 10 Dec 2019 15:58:30 -0500
-Message-Id: <20191210210402.8367-18-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 022/350] drm/meson: vclk: use the correct G12A
+ frac max value
+Date: Tue, 10 Dec 2019 15:58:34 -0500
+Message-Id: <20191210210402.8367-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191210210402.8367-1-sashal@kernel.org>
 References: <20191210210402.8367-1-sashal@kernel.org>
@@ -50,55 +50,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Charlene Liu <Charlene.Liu@amd.com>,
- Martin Tsai <martin.tsai@amd.com>, Leo Li <sunpeng.li@amd.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
+ dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Martin Tsai <martin.tsai@amd.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
 
-[ Upstream commit 616f5b65f1c02d3d6ae370644670d14c57de2fd8 ]
+[ Upstream commit d56276a13c2b9ea287b9fc7cc78bed4c43b286f9 ]
 
-[Why]
-The new implementation changed the behavior to allow process setMode
-to DAL when DAL returns empty mode query for unplugged display.
-This will trigger additional disable_link().
-When unplug HDMI from MST dock, driver will update stream->signal to
-"Virtual". disable_link() will call disable_output() if the signal type
-is not DP and induce other displays on MST dock show black screen.
+When calculating the HDMI PLL settings for a DMT mode PHY frequency,
+use the correct max fractional PLL value for G12A VPU.
 
-[How]
-Don't need to process disable_output() if the signal type is virtual.
+With this fix, we can finally setup the 1024x768-60 mode.
 
-Signed-off-by: Martin Tsai <martin.tsai@amd.com>
-Reviewed-by: Charlene Liu <Charlene.Liu@amd.com>
-Acked-by: Leo Li <sunpeng.li@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Fixes: 202b9808f8ed ("drm/meson: Add G12A Video Clock setup")
+Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+Reviewed-by: Kevin Hilman <khilman@baylibre.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20190828132311.23881-1-narmstrong@baylibre.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc_link.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/meson/meson_vclk.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-index ca20b150afcc2..de1b61595ffbf 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-@@ -2169,8 +2169,10 @@ static void disable_link(struct dc_link *link, enum signal_type signal)
- 			dp_set_fec_ready(link, false);
- 		}
- #endif
--	} else
--		link->link_enc->funcs->disable_output(link->link_enc, signal);
-+	} else {
-+		if (signal != SIGNAL_TYPE_VIRTUAL)
-+			link->link_enc->funcs->disable_output(link->link_enc, signal);
-+	}
+diff --git a/drivers/gpu/drm/meson/meson_vclk.c b/drivers/gpu/drm/meson/meson_vclk.c
+index ac491a7819527..f690793ae2d57 100644
+--- a/drivers/gpu/drm/meson/meson_vclk.c
++++ b/drivers/gpu/drm/meson/meson_vclk.c
+@@ -638,13 +638,18 @@ static bool meson_hdmi_pll_validate_params(struct meson_drm *priv,
+ 		if (frac >= HDMI_FRAC_MAX_GXBB)
+ 			return false;
+ 	} else if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_GXM) ||
+-		   meson_vpu_is_compatible(priv, VPU_COMPATIBLE_GXL) ||
+-		   meson_vpu_is_compatible(priv, VPU_COMPATIBLE_G12A)) {
++		   meson_vpu_is_compatible(priv, VPU_COMPATIBLE_GXL)) {
+ 		/* Empiric supported min/max dividers */
+ 		if (m < 106 || m > 247)
+ 			return false;
+ 		if (frac >= HDMI_FRAC_MAX_GXL)
+ 			return false;
++	} else if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_G12A)) {
++		/* Empiric supported min/max dividers */
++		if (m < 106 || m > 247)
++			return false;
++		if (frac >= HDMI_FRAC_MAX_G12A)
++			return false;
+ 	}
  
- 	if (signal == SIGNAL_TYPE_DISPLAY_PORT_MST) {
- 		/* MST disable link only when no stream use the link */
+ 	return true;
 -- 
 2.20.1
 
