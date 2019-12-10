@@ -1,38 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9591711860B
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 12:17:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6F311186F6
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 12:47:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03D3C6E027;
-	Tue, 10 Dec 2019 11:17:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1AA56E064;
+	Tue, 10 Dec 2019 11:47:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 427 seconds by postgrey-1.36 at gabe;
- Tue, 10 Dec 2019 11:17:32 UTC
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 557596E027
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 11:17:32 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2019 03:10:25 -0800
-X-IronPort-AV: E=Sophos;i="5.69,299,1571727600"; d="scan'208";a="207247012"
-Received: from rmoran-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.35.46])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2019 03:10:21 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: allen <allen.chen@ite.com.tw>
-Subject: Re: [PATCH] drm/edid: fixup EDID 1.3 and 1.4 judge reduced-blanking
- timings logic
-In-Reply-To: <1574761572-26585-1-git-send-email-allen.chen@ite.com.tw>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <1574761572-26585-1-git-send-email-allen.chen@ite.com.tw>
-Date: Tue, 10 Dec 2019 13:10:18 +0200
-Message-ID: <87r21ce8rp.fsf@intel.com>
+X-Greylist: delayed 355 seconds by postgrey-1.36 at gabe;
+ Tue, 10 Dec 2019 11:47:22 UTC
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 130FE6E064
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 11:47:22 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: aratiu) with ESMTPSA id 507ED28B5FF
+From: Adrian Ratiu <adrian.ratiu@collabora.com>
+To: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-rockchip@lists.infradead.org
+Subject: Re: [Linux-stm32] [PATCH v4 0/4] Genericize DW MIPI DSI bridge and
+ add i.MX 6 driver
+In-Reply-To: <20191202193359.703709-1-adrian.ratiu@collabora.com>
+References: <20191202193359.703709-1-adrian.ratiu@collabora.com>
+Date: Tue, 10 Dec 2019 13:41:46 +0200
+Message-ID: <871rtc2yrp.fsf@collabora.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,135 +39,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>,
- Maxime Ripard <maxime.ripard@bootlin.com>, Allen Chen <allen.chen@ite.com.tw>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- David Airlie <airlied@linux.ie>, Pi-Hsun Shih <pihsun@chromium.org>,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, kernel@collabora.com,
+ linux-imx@nxp.com
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 26 Nov 2019, allen <allen.chen@ite.com.tw> wrote:
-> According to VESA ENHANCED EXTENDED DISPLAY IDENTIFICATION DATA STANDARD
-> (Defines EDID Structure Version 1, Revision 4) page: 39
-> How to determine whether the monitor support RB timing or not?
-> EDID 1.4
-> First:  read detailed timing descriptor and make sure byte 0 = 0x00,
-> 	byte 1 = 0x00, byte 2 = 0x00 and byte 3 = 0xFD
-> Second: read EDID bit 0 in feature support byte at address 18h = 1
-> 	and detailed timing descriptor byte 10 = 0x04
-> Third:  if EDID bit 0 in feature support byte = 1 &&
-> 	detailed timing descriptor byte 10 = 0x04
-> 	then we can check byte 15, if bit 4 in byte 15 = 1 is support RB
->         if EDID bit 0 in feature support byte != 1 ||
-> 	detailed timing descriptor byte 10 != 0x04,
-> 	then byte 15 can not be used
+On Mon, 02 Dec 2019, Adrian Ratiu <adrian.ratiu@collabora.com> 
+wrote:
+> Having a generic Synopsis DesignWare MIPI-DSI host controller 
+> bridge driver is a very good idea, however the current 
+> implementation has hardcoded quite a lot of the register layouts 
+> used by the two supported SoC vendors, STM and Rockchip, which 
+> use IP cores v1.30 and v1.31. 
+> 
+> This makes it hard to support other SoC vendors like the FSL/NXP 
+> i.MX 6 which use older v1.01 cores or future versions because, 
+> based on history, layout changes should also be expected in new 
+> DSI versions / SoCs. 
+> 
+> This patch series converts the bridge and platform drivers to 
+> access registers via generic regmap APIs and allows each 
+> platform driver to configure its register layout via struct 
+> reg_fields, then adds support for the host controller found on 
+> i.MX 6. 
+> 
+> I only have i.MX hardware with MIPI-DSI panel and relevant 
+> documentation available for testing so I'll really appreciate it 
+> if someone could test the series on Rockchip and 
+> STM... eyeballing register fields could only get me so far, so 
+> sorry in advance for any breakage! 
+> 
+> Many thanks to Boris Brezillon <boris.brezillon@collabora.com> 
+> for suggesting the regmap solution and to Liu Ying 
+> <Ying.Liu@freescale.com> for doing the initial i.MX platform 
+> driver implementation. 
+> 
+> This series applies on top of latest linux-next tree, 
+> next-20191202. 
+> 
+> v3 -> v4: 
+>   * Added commmit message to dt-binding patch (Neil) * Converted 
+>   the dt-binding to yaml dt-schema format (Neil) * Small DT node 
+>   + driver fixes (Rob) * Renamed platform driver to reflect it's 
+>   only for i.MX v6 (Fabio) * Added small panel example to the 
+>   host controller DT binding 
+> 
+> v2 -> v3: 
+>   * Added const declarations to dw-mipi-dsi.c structs (Emil) * 
+>   Fixed Reviewed-by tags and cc'd some more relevant ML (Emil) 
+> 
+> v1 -> v2: 
+>   * Moved register definitions & regmap initialization into 
+>   bridge module. Platform drivers get the regmap via plat_data 
+>   after calling the bridge probe (Emil). 
+
+I've been told I forgot to explicitly CC some of the maintainers, 
+sorry about that! Added a few more persons to CC.
+
 >
-> The linux code is_rb function not follow the VESA's rule
+> Adrian Ratiu (4):
+>   drm: bridge: dw_mipi_dsi: access registers via a regmap
+>   drm: bridge: dw_mipi_dsi: abstract register access using reg_fields
+>   drm: imx: Add i.MX 6 MIPI DSI host driver
+>   dt-bindings: display: add i.MX6 MIPI DSI host controller doc
 >
-> Signed-off-by: Allen Chen <allen.chen@ite.com.tw>
-> Reported-by: kbuild test robot <lkp@intel.com>
-> ---
->  drivers/gpu/drm/drm_edid.c | 36 ++++++++++++++++++++++++++++++------
->  1 file changed, 30 insertions(+), 6 deletions(-)
+>  .../display/imx/fsl,mipi-dsi-imx6.yaml        | 136 ++++
+>  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 699 +++++++++++++-----
+>  drivers/gpu/drm/imx/Kconfig                   |   7 +
+>  drivers/gpu/drm/imx/Makefile                  |   1 +
+>  drivers/gpu/drm/imx/dw_mipi_dsi-imx6.c        | 378 ++++++++++
+>  .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   |  17 +-
+>  drivers/gpu/drm/stm/dw_mipi_dsi-stm.c         |  34 +-
+>  include/drm/bridge/dw_mipi_dsi.h              |   2 +-
+>  8 files changed, 1067 insertions(+), 207 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,mipi-dsi-imx6.yaml
+>  create mode 100644 drivers/gpu/drm/imx/dw_mipi_dsi-imx6.c
 >
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index f5926bf..e11e585 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -93,6 +93,12 @@ struct detailed_mode_closure {
->  	int modes;
->  };
->  
-> +struct edid_support_rb_closure {
-> +	struct edid *edid;
-> +	bool valid_support_rb;
-> +	bool support_rb;
-> +};
-> +
->  #define LEVEL_DMT	0
->  #define LEVEL_GTF	1
->  #define LEVEL_GTF2	2
-> @@ -2017,23 +2023,41 @@ struct drm_display_mode *drm_mode_find_dmt(struct drm_device *dev,
->  	}
->  }
->  
-> +static bool
-> +is_display_descriptor(const u8 *r, u8 tag)
-> +{
-> +	return (!r[0] && !r[1] && !r[2] && r[3] == tag) ? true : false;
-> +}
-> +
->  static void
->  is_rb(struct detailed_timing *t, void *data)
->  {
->  	u8 *r = (u8 *)t;
-> -	if (r[3] == EDID_DETAIL_MONITOR_RANGE)
-> -		if (r[15] & 0x10)
-> -			*(bool *)data = true;
-> +	struct edid_support_rb_closure *closure = data;
-> +	struct edid *edid = closure->edid;
-> +
-> +	if (is_display_descriptor(r, EDID_DETAIL_MONITOR_RANGE)) {
-> +		if (edid->features & BIT(0) && r[10] == BIT(2)) {
-
-I'll try to explain my original comment again.
-
-Consider edid->features & BIT(0). It remains unchanged across the
-iteration. The code will only change anything if edid->features &
-BIT(0).
-
-> +			closure->valid_support_rb = true;
-> +			closure->support_rb = (r[15] & 0x10) ? true : false;
-
-You could combine these to e.g. a single int.
-
-	if (r[10] == BIT(2)) {
-		int *ret = data;
-		*ret = !!(r[15] & 0x10);
-	}
-
-> +		}
-> +	}
->  }
->  
->  /* EDID 1.4 defines this explicitly.  For EDID 1.3, we guess, badly. */
->  static bool
->  drm_monitor_supports_rb(struct edid *edid)
->  {
-> +	struct edid_support_rb_closure closure = {
-> +		.edid = edid,
-> +		.valid_support_rb = false,
-> +		.support_rb = false,
-> +	};
-> +
->  	if (edid->revision >= 4) {
-> -		bool ret = false;
-> -		drm_for_each_detailed_block((u8 *)edid, is_rb, &ret);
-> -		return ret;
-> +		drm_for_each_detailed_block((u8 *)edid, is_rb, &closure);
-> +		if (closure.valid_support_rb)
-> +			return closure.support_rb;
-
-Here, you'd do:
-
-        if (edid->features & BIT(0)) {
-        	int ret = -1;
-		drm_for_each_detailed_block((u8 *)edid, is_rb, &ret);
-                if (ret != -1)
-                	return ret;
-	}
-
-
->  	}
->  
->  	return ((edid->input & DRM_EDID_INPUT_DIGITAL) != 0);
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+> -- 
+> 2.24.0
+>
+> _______________________________________________
+> Linux-stm32 mailing list
+> Linux-stm32@st-md-mailman.stormreply.com
+> https://st-md-mailman.stormreply.com/mailman/listinfo/linux-stm32
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
