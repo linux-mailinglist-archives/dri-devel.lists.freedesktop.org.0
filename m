@@ -1,34 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97158119EB6
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 23:58:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03678119EB9
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 23:58:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF0D16E9DC;
-	Tue, 10 Dec 2019 22:58:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B0826E9E4;
+	Tue, 10 Dec 2019 22:58:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C53B36E9D6
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 22:58:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5C0F6E9DD
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 22:58:15 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id EBD5BDBF;
- Tue, 10 Dec 2019 23:58:10 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id A4139112C;
+ Tue, 10 Dec 2019 23:58:12 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1576018692;
- bh=eMBRf5P6SPaiGM7eM2NPvVx+dxEEiF1cdtlRJq/77uw=;
+ s=mail; t=1576018694;
+ bh=1sIEA8/1AcxRVqZF9GqfEbnfk/i10dNyK7SBX9w1jKo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XVL4f0S+Avbxg5Y/1iLTNgW7kYKFrCdarkwMZxIx3+DcontZoh89PgpI6yorMXNtx
- KJh/5sJRmpJLgZsd2FwXvOIj3/RdoR8EV/AtlONnzNjOZ2wP5jXhBo6xwLknm1stZK
- 9KioECA3iCKFkkS5yzmCHhWwy+E6vENscbc9Rg6c=
+ b=o/c2pOq1fBKxJyAslNp+/wfXq53BY16yS0fxKyDxZJxLGtq6TnfIHYu278yu2MPTQ
+ FYWBDCBmv9FvXtkvDInFX3FVmLVeBw9cf1XNrN2DWUAIdVoR3N08N+HG13HMhRfszO
+ RQcTEe3HtrZykxAdtewYHTfbQE7TEmu0kfYYr87Q=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 11/50] drm/bridge: Add bridge driver for display connectors
-Date: Wed, 11 Dec 2019 00:57:11 +0200
-Message-Id: <20191210225750.15709-12-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 12/50] drm/bridge: Add driver for the TI TPD12S015 HDMI
+ level shifter
+Date: Wed, 11 Dec 2019 00:57:12 +0200
+Message-Id: <20191210225750.15709-13-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191210225750.15709-1-laurent.pinchart@ideasonboard.com>
 References: <20191210225750.15709-1-laurent.pinchart@ideasonboard.com>
@@ -53,370 +54,274 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Display connectors are modelled in DT as a device node, but have so far
-been handled manually in several bridge drivers. This resulted in
-duplicate code in several bridge drivers, with slightly different (and
-thus confusing) logics.
-
-In order to fix this, implement a bridge driver for display connectors.
-The driver centralises logic for the DVI, HDMI, VGAn composite and
-S-video connectors and exposes corresponding bridge operations.
-
-This driver in itself doesn't solve the issue completely, changes in
-bridge and display controller drivers are needed to make use of the new
-connector driver.
+The TI TPD12S015 is an HDMI level shifter and ESD protector controlled
+through GPIOs. Add a DRM bridge driver for the device.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
 ---
 Changes since v2:
 
-- Fall back to polling if the GPIO IRQ chip doesn't support
-  edge-triggered interrupts
+- Control CT_CP_HPD GPIO from .hpd_enable() and .hpd_disable()
+- Remove unneeded hpd_gpio zero check
+- Update copyright notice
 
 Changes since v1:
 
-- Use drm_get_connector_type_name() instead of open-coding
-  display_connector_type_name()
 - Remove empty .hpd_enable() and .hpd_disable() operations
-- Set bridge.ddc
 ---
- drivers/gpu/drm/bridge/Kconfig             |  11 +
- drivers/gpu/drm/bridge/Makefile            |   1 +
- drivers/gpu/drm/bridge/display-connector.c | 292 +++++++++++++++++++++
- 3 files changed, 304 insertions(+)
- create mode 100644 drivers/gpu/drm/bridge/display-connector.c
+ drivers/gpu/drm/bridge/Kconfig        |   8 +
+ drivers/gpu/drm/bridge/Makefile       |   1 +
+ drivers/gpu/drm/bridge/ti-tpd12s015.c | 211 ++++++++++++++++++++++++++
+ 3 files changed, 220 insertions(+)
+ create mode 100644 drivers/gpu/drm/bridge/ti-tpd12s015.c
 
 diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index bf1dfc71733b..f14f63e0f6df 100644
+index f14f63e0f6df..d020f120cf21 100644
 --- a/drivers/gpu/drm/bridge/Kconfig
 +++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -27,6 +27,17 @@ config DRM_CDNS_DSI
- 	  Support Cadence DPI to DSI bridge. This is an internal
- 	  bridge and is meant to be directly embedded in a SoC.
+@@ -150,6 +150,14 @@ config DRM_TI_SN65DSI86
+ 	help
+ 	  Texas Instruments SN65DSI86 DSI to eDP Bridge driver
  
-+config DRM_DISPLAY_CONNECTOR
-+	tristate "Display connector support"
++config DRM_TI_TPD12S015
++	tristate "TI TPD12S015 HDMI level shifter and ESD protection"
 +	depends on OF
++	select DRM_KMS_HELPER
 +	help
-+	  Driver for display connectors with support for DDC and hot-plug
-+	  detection. Most display controller handle display connectors
-+	  internally and don't need this driver, but the DRM subsystem is
-+	  moving towards separating connector handling from display controllers
-+	  on ARM-based platforms. Saying Y here when this driver is not needed
-+	  will not cause any issue.
++	  Texas Instruments TPD12S015 HDMI level shifter and ESD protection
++	  driver.
 +
- config DRM_LVDS_ENCODER
- 	tristate "Transparent parallel to LVDS encoder support"
- 	depends on OF
+ source "drivers/gpu/drm/bridge/analogix/Kconfig"
+ 
+ source "drivers/gpu/drm/bridge/adv7511/Kconfig"
 diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-index a2892e3018aa..bef919d3bca6 100644
+index bef919d3bca6..4fa7786dcc8f 100644
 --- a/drivers/gpu/drm/bridge/Makefile
 +++ b/drivers/gpu/drm/bridge/Makefile
-@@ -1,5 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- obj-$(CONFIG_DRM_CDNS_DSI) += cdns-dsi.o
-+obj-$(CONFIG_DRM_DISPLAY_CONNECTOR) += display-connector.o
- obj-$(CONFIG_DRM_LVDS_ENCODER) += lvds-encoder.o
- obj-$(CONFIG_DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW) += megachips-stdpxxxx-ge-b850v3-fw.o
- obj-$(CONFIG_DRM_NXP_PTN3460) += nxp-ptn3460.o
-diff --git a/drivers/gpu/drm/bridge/display-connector.c b/drivers/gpu/drm/bridge/display-connector.c
+@@ -15,6 +15,7 @@ obj-$(CONFIG_DRM_TOSHIBA_TC358767) += tc358767.o
+ obj-$(CONFIG_DRM_I2C_ADV7511) += adv7511/
+ obj-$(CONFIG_DRM_TI_SN65DSI86) += ti-sn65dsi86.o
+ obj-$(CONFIG_DRM_TI_TFP410) += ti-tfp410.o
++obj-$(CONFIG_DRM_TI_TPD12S015) += ti-tpd12s015.o
+ 
+ obj-y += analogix/
+ obj-y += synopsys/
+diff --git a/drivers/gpu/drm/bridge/ti-tpd12s015.c b/drivers/gpu/drm/bridge/ti-tpd12s015.c
 new file mode 100644
-index 000000000000..22407f7a5549
+index 000000000000..514cbf0eac75
 --- /dev/null
-+++ b/drivers/gpu/drm/bridge/display-connector.c
-@@ -0,0 +1,292 @@
++++ b/drivers/gpu/drm/bridge/ti-tpd12s015.c
+@@ -0,0 +1,211 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * Copyright (C) 2019 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
++ * TPD12S015 HDMI ESD protection & level shifter chip driver
++ *
++ * Copyright (C) 2019 Texas Instruments Incorporated
++ *
++ * Based on the omapdrm-specific encoder-opa362 driver
++ *
++ * Copyright (C) 2013 Texas Instruments Incorporated
++ * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
 + */
 +
++#include <linux/delay.h>
 +#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
 +#include <linux/interrupt.h>
 +#include <linux/module.h>
 +#include <linux/mutex.h>
 +#include <linux/of.h>
-+#include <linux/of_device.h>
++#include <linux/of_graph.h>
 +#include <linux/platform_device.h>
 +
 +#include <drm/drm_bridge.h>
-+#include <drm/drm_edid.h>
 +
-+struct display_connector {
-+	struct drm_bridge	bridge;
++struct tpd12s015_device {
++	struct drm_bridge bridge;
 +
-+	const char		*label;
-+	struct gpio_desc	*hpd_gpio;
-+	int			hpd_irq;
++	struct gpio_desc *ct_cp_hpd_gpio;
++	struct gpio_desc *ls_oe_gpio;
++	struct gpio_desc *hpd_gpio;
++	int hpd_irq;
++
++	struct drm_bridge *next_bridge;
 +};
 +
-+static inline struct display_connector *
-+to_display_connector(struct drm_bridge *bridge)
++static inline struct tpd12s015_device *to_tpd12s015(struct drm_bridge *bridge)
 +{
-+	return container_of(bridge, struct display_connector, bridge);
++	return container_of(bridge, struct tpd12s015_device, bridge);
 +}
 +
-+static int display_connector_attach(struct drm_bridge *bridge,
-+				    enum drm_bridge_attach_flags flags)
++static int tpd12s015_attach(struct drm_bridge *bridge,
++			    enum drm_bridge_attach_flags flags)
 +{
-+	return flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR ? 0 : -EINVAL;
++	struct tpd12s015_device *tpd = to_tpd12s015(bridge);
++	int ret;
++
++	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
++		return -EINVAL;
++
++	ret = drm_bridge_attach(bridge->encoder, tpd->next_bridge,
++				bridge, flags);
++	if (ret < 0)
++		return ret;
++
++	gpiod_set_value_cansleep(tpd->ls_oe_gpio, 1);
++
++	/* DC-DC converter needs at max 300us to get to 90% of 5V. */
++	usleep_range(300, 1000);
++
++	return 0;
 +}
 +
-+static enum drm_connector_status
-+display_connector_detect(struct drm_bridge *bridge)
++static void tpd12s015_detach(struct drm_bridge *bridge)
 +{
-+	struct display_connector *conn = to_display_connector(bridge);
++	struct tpd12s015_device *tpd = to_tpd12s015(bridge);
 +
-+	if (conn->hpd_gpio) {
-+		if (gpiod_get_value_cansleep(conn->hpd_gpio))
-+			return connector_status_connected;
-+		else
-+			return connector_status_disconnected;
-+	}
++	gpiod_set_value_cansleep(tpd->ls_oe_gpio, 0);
++}
 +
-+	if (conn->bridge.ddc && drm_probe_ddc(conn->bridge.ddc))
++static enum drm_connector_status tpd12s015_detect(struct drm_bridge *bridge)
++{
++	struct tpd12s015_device *tpd = to_tpd12s015(bridge);
++
++	if (gpiod_get_value_cansleep(tpd->hpd_gpio))
 +		return connector_status_connected;
-+
-+	switch (conn->bridge.type) {
-+	case DRM_MODE_CONNECTOR_DVIA:
-+	case DRM_MODE_CONNECTOR_DVID:
-+	case DRM_MODE_CONNECTOR_DVII:
-+	case DRM_MODE_CONNECTOR_HDMIA:
-+	case DRM_MODE_CONNECTOR_HDMIB:
-+		/*
-+		 * For DVI and HDMI connectors a DDC probe failure indicates
-+		 * that no cable is connected.
-+		 */
++	else
 +		return connector_status_disconnected;
-+
-+	case DRM_MODE_CONNECTOR_Composite:
-+	case DRM_MODE_CONNECTOR_SVIDEO:
-+	case DRM_MODE_CONNECTOR_VGA:
-+	default:
-+		/*
-+		 * Composite and S-Video connectors have no other detection
-+		 * mean than the HPD GPIO. For VGA connectors, even if we have
-+		 * an I2C bus, we can't assume that the cable is disconnected
-+		 * if drm_probe_ddc fails, as some cables don't wire the DDC
-+		 * pins.
-+		 */
-+		return connector_status_unknown;
-+	}
 +}
 +
-+static struct edid *display_connector_get_edid(struct drm_bridge *bridge,
-+					       struct drm_connector *connector)
++static void tpd12s015_hpd_enable(struct drm_bridge *bridge)
 +{
-+	struct display_connector *conn = to_display_connector(bridge);
++	struct tpd12s015_device *tpd = to_tpd12s015(bridge);
 +
-+	return drm_get_edid(connector, conn->bridge.ddc);
++	gpiod_set_value_cansleep(tpd->ct_cp_hpd_gpio, 1);
 +}
 +
-+static const struct drm_bridge_funcs display_connector_bridge_funcs = {
-+	.attach = display_connector_attach,
-+	.detect = display_connector_detect,
-+	.get_edid = display_connector_get_edid,
++static void tpd12s015_hpd_disable(struct drm_bridge *bridge)
++{
++	struct tpd12s015_device *tpd = to_tpd12s015(bridge);
++
++	gpiod_set_value_cansleep(tpd->ct_cp_hpd_gpio, 0);
++}
++
++static const struct drm_bridge_funcs tpd12s015_bridge_funcs = {
++	.attach			= tpd12s015_attach,
++	.detach			= tpd12s015_detach,
++	.detect			= tpd12s015_detect,
++	.hpd_enable		= tpd12s015_hpd_enable,
++	.hpd_disable		= tpd12s015_hpd_disable,
 +};
 +
-+static irqreturn_t display_connector_hpd_irq(int irq, void *arg)
++static irqreturn_t tpd12s015_hpd_isr(int irq, void *data)
 +{
-+	struct display_connector *conn = arg;
-+	struct drm_bridge *bridge = &conn->bridge;
++	struct tpd12s015_device *tpd = data;
++	struct drm_bridge *bridge = &tpd->bridge;
 +
-+	drm_bridge_hpd_notify(bridge, display_connector_detect(bridge));
++	drm_bridge_hpd_notify(bridge, tpd12s015_detect(bridge));
 +
 +	return IRQ_HANDLED;
 +}
 +
-+static int display_connector_probe(struct platform_device *pdev)
++static int tpd12s015_probe(struct platform_device *pdev)
 +{
-+	struct display_connector *conn;
-+	unsigned int type;
++	struct tpd12s015_device *tpd;
++	struct device_node *node;
++	struct gpio_desc *gpio;
 +	int ret;
 +
-+	conn = devm_kzalloc(&pdev->dev, sizeof(*conn), GFP_KERNEL);
-+	if (!conn)
++	tpd = devm_kzalloc(&pdev->dev, sizeof(*tpd), GFP_KERNEL);
++	if (!tpd)
 +		return -ENOMEM;
 +
-+	platform_set_drvdata(pdev, conn);
++	platform_set_drvdata(pdev, tpd);
 +
-+	type = (uintptr_t)of_device_get_match_data(&pdev->dev);
++	tpd->bridge.funcs = &tpd12s015_bridge_funcs;
++	tpd->bridge.of_node = pdev->dev.of_node;
++	tpd->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
++	tpd->bridge.ops = DRM_BRIDGE_OP_DETECT;
 +
-+	/* Get the exact connector type. */
-+	switch (type) {
-+	case DRM_MODE_CONNECTOR_DVII: {
-+		bool analog, digital;
++	/* Get the next bridge, connected to port@1. */
++	node = of_graph_get_remote_node(pdev->dev.of_node, 1, -1);
++	if (!node)
++		return -ENODEV;
 +
-+		analog = of_property_read_bool(pdev->dev.of_node, "analog");
-+		digital = of_property_read_bool(pdev->dev.of_node, "digital");
-+		if (analog && !digital) {
-+			conn->bridge.type = DRM_MODE_CONNECTOR_DVIA;
-+		} else if (!analog && digital) {
-+			conn->bridge.type = DRM_MODE_CONNECTOR_DVID;
-+		} else if (analog && digital) {
-+			conn->bridge.type = DRM_MODE_CONNECTOR_DVII;
-+		} else {
-+			dev_err(&pdev->dev, "DVI connector with no type\n");
-+			return -EINVAL;
-+		}
-+		break;
-+	}
++	tpd->next_bridge = of_drm_find_bridge(node);
++	of_node_put(node);
 +
-+	case DRM_MODE_CONNECTOR_HDMIA: {
-+		const char *hdmi_type;
++	if (!tpd->next_bridge)
++		return -EPROBE_DEFER;
 +
-+		ret = of_property_read_string(pdev->dev.of_node, "type",
-+					      &hdmi_type);
-+		if (ret < 0) {
-+			dev_err(&pdev->dev, "HDMI connector with no type\n");
-+			return -EINVAL;
-+		}
++	/* Get the control and HPD GPIOs. */
++	gpio = devm_gpiod_get_index_optional(&pdev->dev, NULL, 0,
++					     GPIOD_OUT_LOW);
++	if (IS_ERR(gpio))
++		return PTR_ERR(gpio);
 +
-+		if (!strcmp(hdmi_type, "a") || !strcmp(hdmi_type, "c") ||
-+		    !strcmp(hdmi_type, "d") || !strcmp(hdmi_type, "e")) {
-+			conn->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
-+		} else if (!strcmp(hdmi_type, "b")) {
-+			conn->bridge.type = DRM_MODE_CONNECTOR_HDMIB;
-+		} else {
-+			dev_err(&pdev->dev,
-+				"Unsupported HDMI connector type '%s'\n",
-+				hdmi_type);
-+			return -EINVAL;
-+		}
++	tpd->ct_cp_hpd_gpio = gpio;
 +
-+		break;
-+	}
++	gpio = devm_gpiod_get_index_optional(&pdev->dev, NULL, 1,
++					     GPIOD_OUT_LOW);
++	if (IS_ERR(gpio))
++		return PTR_ERR(gpio);
 +
-+	default:
-+		conn->bridge.type = type;
-+		break;
-+	}
++	tpd->ls_oe_gpio = gpio;
 +
-+	/* Get the optional connector label. */
-+	of_property_read_string(pdev->dev.of_node, "label", &conn->label);
++	gpio = devm_gpiod_get_index(&pdev->dev, NULL, 2, GPIOD_IN);
++	if (IS_ERR(gpio))
++		return PTR_ERR(gpio);
 +
-+	/*
-+	 * Get the HPD GPIO for DVI and HDMI connectors. If the GPIO can provide
-+	 * edge interrupts, register an interrupt handler.
-+	 */
-+	if (type == DRM_MODE_CONNECTOR_DVII ||
-+	    type == DRM_MODE_CONNECTOR_HDMIA) {
-+		conn->hpd_gpio = devm_gpiod_get_optional(&pdev->dev, "hpd",
-+							 GPIOD_IN);
-+		if (IS_ERR(conn->hpd_gpio)) {
-+			if (PTR_ERR(conn->hpd_gpio) != -EPROBE_DEFER)
-+				dev_err(&pdev->dev,
-+					"Unable to retrieve HPD GPIO\n");
-+			return PTR_ERR(conn->hpd_gpio);
-+		}
++	tpd->hpd_gpio = gpio;
 +
-+		conn->hpd_irq = gpiod_to_irq(conn->hpd_gpio);
-+	} else {
-+		conn->hpd_irq = -EINVAL;
-+	}
-+
-+	if (conn->hpd_irq >= 0) {
-+		ret = devm_request_threaded_irq(&pdev->dev, conn->hpd_irq,
-+						NULL, display_connector_hpd_irq,
++	/* Register the IRQ if the HPD GPIO is IRQ-capable. */
++	tpd->hpd_irq = gpiod_to_irq(tpd->hpd_gpio);
++	if (tpd->hpd_irq) {
++		ret = devm_request_threaded_irq(&pdev->dev, tpd->hpd_irq, NULL,
++						tpd12s015_hpd_isr,
 +						IRQF_TRIGGER_RISING |
 +						IRQF_TRIGGER_FALLING |
 +						IRQF_ONESHOT,
-+						"HPD", conn);
-+		if (ret) {
-+			dev_info(&pdev->dev,
-+				 "Failed to request HPD edge interrupt, falling back to polling\n");
-+			conn->hpd_irq = -EINVAL;
-+		}
++						"tpd12s015 hpd", tpd);
++		if (ret)
++			return ret;
++
++		tpd->bridge.ops |= DRM_BRIDGE_OP_HPD;
 +	}
 +
-+	/* Retrieve the DDC I2C adapter for DVI, HDMI and VGA connectors. */
-+	if (type == DRM_MODE_CONNECTOR_DVII ||
-+	    type == DRM_MODE_CONNECTOR_HDMIA ||
-+	    type == DRM_MODE_CONNECTOR_VGA) {
-+		struct device_node *phandle;
-+
-+		phandle = of_parse_phandle(pdev->dev.of_node, "ddc-i2c-bus", 0);
-+		if (phandle) {
-+			conn->bridge.ddc = of_get_i2c_adapter_by_node(phandle);
-+			of_node_put(phandle);
-+			if (!conn->bridge.ddc)
-+				return -EPROBE_DEFER;
-+		} else {
-+			dev_dbg(&pdev->dev,
-+				"No I2C bus specified, disabling EDID readout\n");
-+		}
-+	}
-+
-+	conn->bridge.funcs = &display_connector_bridge_funcs;
-+	conn->bridge.of_node = pdev->dev.of_node;
-+
-+	if (conn->bridge.ddc)
-+		conn->bridge.ops |= DRM_BRIDGE_OP_EDID
-+				 |  DRM_BRIDGE_OP_DETECT;
-+	if (conn->hpd_gpio)
-+		conn->bridge.ops |= DRM_BRIDGE_OP_DETECT;
-+	if (conn->hpd_irq >= 0)
-+		conn->bridge.ops |= DRM_BRIDGE_OP_HPD;
-+
-+	dev_info(&pdev->dev,
-+		 "Found %s display connector '%s' %s DDC bus and %s HPD GPIO (ops 0x%x)\n",
-+		 drm_get_connector_type_name(conn->bridge.type),
-+		 conn->label ? conn->label : "<unlabelled>",
-+		 conn->bridge.ddc ? "with" : "without",
-+		 conn->hpd_gpio ? "with" : "without",
-+		 conn->bridge.ops);
-+
-+	drm_bridge_add(&conn->bridge);
++	/* Register the DRM bridge. */
++	drm_bridge_add(&tpd->bridge);
 +
 +	return 0;
 +}
 +
-+static int display_connector_remove(struct platform_device *pdev)
++static int __exit tpd12s015_remove(struct platform_device *pdev)
 +{
-+	struct display_connector *conn = platform_get_drvdata(pdev);
++	struct tpd12s015_device *tpd = platform_get_drvdata(pdev);
 +
-+	drm_bridge_remove(&conn->bridge);
-+
-+	if (!IS_ERR(conn->bridge.ddc))
-+		i2c_put_adapter(conn->bridge.ddc);
++	drm_bridge_remove(&tpd->bridge);
 +
 +	return 0;
 +}
 +
-+static const struct of_device_id display_connector_match[] = {
-+	{
-+		.compatible = "composite-video-connector",
-+		.data = (void *)DRM_MODE_CONNECTOR_Composite,
-+	}, {
-+		.compatible = "dvi-connector",
-+		.data = (void *)DRM_MODE_CONNECTOR_DVII,
-+	}, {
-+		.compatible = "hdmi-connector",
-+		.data = (void *)DRM_MODE_CONNECTOR_HDMIA,
-+	}, {
-+		.compatible = "svideo-connector",
-+		.data = (void *)DRM_MODE_CONNECTOR_SVIDEO,
-+	}, {
-+		.compatible = "vga-connector",
-+		.data = (void *)DRM_MODE_CONNECTOR_VGA,
-+	},
++static const struct of_device_id tpd12s015_of_match[] = {
++	{ .compatible = "ti,tpd12s015", },
 +	{},
 +};
-+MODULE_DEVICE_TABLE(of, display_connector_match);
 +
-+static struct platform_driver display_connector_driver = {
-+	.probe	= display_connector_probe,
-+	.remove	= display_connector_remove,
-+	.driver		= {
-+		.name		= "display-connector",
-+		.of_match_table	= display_connector_match,
++MODULE_DEVICE_TABLE(of, tpd12s015_of_match);
++
++static struct platform_driver tpd12s015_driver = {
++	.probe	= tpd12s015_probe,
++	.remove	= __exit_p(tpd12s015_remove),
++	.driver	= {
++		.name	= "tpd12s015",
++		.of_match_table = tpd12s015_of_match,
 +	},
 +};
-+module_platform_driver(display_connector_driver);
 +
-+MODULE_AUTHOR("Laurent Pinchart <laurent.pinchart@ideasonboard.com>");
-+MODULE_DESCRIPTION("Display connector driver");
++module_platform_driver(tpd12s015_driver);
++
++MODULE_AUTHOR("Tomi Valkeinen <tomi.valkeinen@ti.com>");
++MODULE_DESCRIPTION("TPD12S015 HDMI level shifter and ESD protection driver");
 +MODULE_LICENSE("GPL");
 -- 
 Regards,
