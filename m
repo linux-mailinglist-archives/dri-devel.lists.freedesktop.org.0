@@ -2,58 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EAE61184FE
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 11:26:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76FCC118505
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 11:28:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F1DF6E03D;
-	Tue, 10 Dec 2019 10:26:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 785A06E88E;
+	Tue, 10 Dec 2019 10:28:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAB626E03D
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 10:26:38 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id b6so19414066wrq.0
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 02:26:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=97xF32EIBIFJNHB3mGMcUkFGhGxvatxTdrICNm/qrcc=;
- b=f41oTppPt+Wg3AOVTt+B2xwxkAwtU0Z+3cEx9m09thFrxJTFSHKou4Mh3JfEbLY7ty
- zxWTSZnBiLVa9g6ck5xV0ClbF0FLM57+E9BTltMupGvFAeE3tVK8M61Asm4hSx+BuEyA
- AzI2bZzTZkDyZdPJR2HxPfMJsakbSeRZcXkDg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=97xF32EIBIFJNHB3mGMcUkFGhGxvatxTdrICNm/qrcc=;
- b=UizXLkXQk8RNQdNyUsVOPAegJ0oHD7notfkCxTwdUT4Vtx6Iv8PNJvkHCYsXo0KYqz
- 7aPGmMn1JjT2dbQw5NBDtpClONyrE6s6uP3XTFbvjAv8lcp+DcVj5OXkEPBXPD6psI4H
- wcsuP6+RDHTnfseLW2SvehJoDrwblAENmztMMc9i5cwApG8XYQlnrRzpzHSmKi4dQsiW
- buZM47kf2XP6gGs5yvU1zIMANi4ZCCJ+ut511GEJwrjmSWLW5Lz+osDeqB5DD2dpt2f4
- 21SShDeiqnVPkdSg0b6GV+XYI6QAQhTfuqOJHV9HDkD5BJFF7l4zGxxFJoQ5sx4rlPsN
- e9kw==
-X-Gm-Message-State: APjAAAV2cD/nZ5Umzq6KUtzPICzLWg2md5qrDmUCFeaA9qrNUleBYDvt
- I8YosXm72+picaHmkNyLJEUHIg==
-X-Google-Smtp-Source: APXvYqyisjRA8OXYGasr47OpUHsgLNSuGGT4qkK6eh9dxEHb8YE7Cub1BSpya6wB8Hb82X3rE8xaZA==
-X-Received: by 2002:adf:e609:: with SMTP id p9mr2220769wrm.397.1575973597557; 
- Tue, 10 Dec 2019 02:26:37 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:564b:0:7567:bb67:3d7f:f863])
- by smtp.gmail.com with ESMTPSA id m3sm2748694wrs.53.2019.12.10.02.26.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Dec 2019 02:26:36 -0800 (PST)
-Date: Tue, 10 Dec 2019 11:26:34 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thierry Reding <thierry.reding@gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: Match on dma_buf|fence|resv anywhere
-Message-ID: <20191210102634.GR624164@phenom.ffwll.local>
-References: <20191204215105.874074-1-daniel.vetter@ffwll.ch>
- <20191205155111.GA1914185@ulmo>
+X-Greylist: delayed 638 seconds by postgrey-1.36 at gabe;
+ Tue, 10 Dec 2019 10:28:22 UTC
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C14B6E88E
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 10:28:22 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 769B2B280;
+ Tue, 10 Dec 2019 10:28:20 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+ id E89EB1E0B23; Tue, 10 Dec 2019 11:28:18 +0100 (CET)
+Date: Tue, 10 Dec 2019 11:28:18 +0100
+From: Jan Kara <jack@suse.cz>
+To: John Hubbard <jhubbard@nvidia.com>
+Subject: Re: [PATCH v8 08/26] mm/gup: allow FOLL_FORCE for
+ get_user_pages_fast()
+Message-ID: <20191210102818.GF1551@quack2.suse.cz>
+References: <20191209225344.99740-1-jhubbard@nvidia.com>
+ <20191209225344.99740-9-jhubbard@nvidia.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191205155111.GA1914185@ulmo>
-X-Operating-System: Linux phenom 5.3.0-2-amd64 
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <20191209225344.99740-9-jhubbard@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,45 +44,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- linaro-mm-sig@lists.linaro.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
- Daniel Vetter <daniel.vetter@intel.com>, linux-media@vger.kernel.org
+Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
+ kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
+ dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
+ linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
+ linux-kselftest@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
+ Christoph Hellwig <hch@lst.de>, Jonathan Corbet <corbet@lwn.net>,
+ linux-rdma@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
+ Christoph Hellwig <hch@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Vlastimil Babka <vbabka@suse.cz>,
+ =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
+ linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ linux-block@vger.kernel.org, Leon Romanovsky <leonro@mellanox.com>,
+ =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+ Al Viro <viro@zeniv.linux.org.uk>, Dan Williams <dan.j.williams@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, bpf@vger.kernel.org,
+ Magnus Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
+ netdev@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 05, 2019 at 04:51:11PM +0100, Thierry Reding wrote:
-> On Wed, Dec 04, 2019 at 10:51:05PM +0100, Daniel Vetter wrote:
-> > I've spent a bit too much time reviewing all kinds of users all over
-> > the kernel for this buffer sharing infrastructure. And some of it is
-> > at least questionable.
-> > 
-> > Make sure we at least see when this stuff flies by.
-> > 
-> > Acked-by: Dave Airlie <airlied@gmail.com>
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Cc: Rob Herring <robh@kernel.org>
-> > Cc: linux-media@vger.kernel.org
-> > Cc: linaro-mm-sig@lists.linaro.org
-> > ---
-> >  MAINTAINERS | 1 +
-> >  1 file changed, 1 insertion(+)
+On Mon 09-12-19 14:53:26, John Hubbard wrote:
+> Commit 817be129e6f2 ("mm: validate get_user_pages_fast flags") allowed
+> only FOLL_WRITE and FOLL_LONGTERM to be passed to get_user_pages_fast().
+> This, combined with the fact that get_user_pages_fast() falls back to
+> "slow gup", which *does* accept FOLL_FORCE, leads to an odd situation:
+> if you need FOLL_FORCE, you cannot call get_user_pages_fast().
 > 
-> Acked-by: Thierry Reding <treding@nvidia.com>
+> There does not appear to be any reason for filtering out FOLL_FORCE.
+> There is nothing in the _fast() implementation that requires that we
+> avoid writing to the pages. So it appears to have been an oversight.
+> 
+> Fix by allowing FOLL_FORCE to be set for get_user_pages_fast().
+> 
+> Fixes: 817be129e6f2 ("mm: validate get_user_pages_fast flags")
+> Cc: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Leon Romanovsky <leonro@mellanox.com>
+> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 
-Pushed to drm-misc-fixes.
--Daniel
+Looks good to me. You can add:
+
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
+> ---
+>  mm/gup.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/mm/gup.c b/mm/gup.c
+> index c0c56888e7cc..958ab0757389 100644
+> --- a/mm/gup.c
+> +++ b/mm/gup.c
+> @@ -2414,7 +2414,8 @@ int get_user_pages_fast(unsigned long start, int nr_pages,
+>  	unsigned long addr, len, end;
+>  	int nr = 0, ret = 0;
+>  
+> -	if (WARN_ON_ONCE(gup_flags & ~(FOLL_WRITE | FOLL_LONGTERM)))
+> +	if (WARN_ON_ONCE(gup_flags & ~(FOLL_WRITE | FOLL_LONGTERM |
+> +				       FOLL_FORCE)))
+>  		return -EINVAL;
+>  
+>  	start = untagged_addr(start) & PAGE_MASK;
+> -- 
+> 2.24.0
+> 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
