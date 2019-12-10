@@ -1,27 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2D951182C0
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 09:49:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 493CB1182BD
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 09:49:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3C3F6E869;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E7656E867;
 	Tue, 10 Dec 2019 08:49:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F8B86E860
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF40B6E860
  for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 08:49:09 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 19317B039;
+ by mx1.suse.de (Postfix) with ESMTP id 6B581B087;
  Tue, 10 Dec 2019 08:49:08 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, daniel@ffwll.ch, sam@ravnborg.org, kraxel@redhat.com,
  emil.velikov@collabora.com, noralf@tronnes.org, zboszor@pr.hu
-Subject: [PATCH v3 3/9] drm/udl: Switch to atomic suspend/resume helpers
-Date: Tue, 10 Dec 2019 09:48:59 +0100
-Message-Id: <20191210084905.5570-4-tzimmermann@suse.de>
+Subject: [PATCH v3 4/9] drm/udl: Inline DPMS code into CRTC enable and disable
+ functions
+Date: Tue, 10 Dec 2019 09:49:00 +0100
+Message-Id: <20191210084905.5570-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20191210084905.5570-1-tzimmermann@suse.de>
 References: <20191210084905.5570-1-tzimmermann@suse.de>
@@ -45,78 +46,172 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We can use the generic suspend/resume helpers for atomic modesetting.
-Switch udl over.
+DPMS functionality is only used by the CRTC's enable and disable
+functions. Inline the code. The patch also adds symbolic constants
+for the blank regsiter and constants; accoding to udlfb, which is
+a bit more detailed than DRM's udl.
+
+v3:
+	* use symbolic constants for blank, according to udlfb driver
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 ---
- drivers/gpu/drm/udl/udl_drv.c     |  7 ++-----
- drivers/gpu/drm/udl/udl_drv.h     |  1 -
- drivers/gpu/drm/udl/udl_modeset.c | 14 --------------
- 3 files changed, 2 insertions(+), 20 deletions(-)
+ drivers/gpu/drm/udl/udl_drv.h     |  9 ++++
+ drivers/gpu/drm/udl/udl_modeset.c | 88 ++++++++++---------------------
+ 2 files changed, 38 insertions(+), 59 deletions(-)
 
-diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_drv.c
-index aeb96920757c..b3fa6bf41acc 100644
---- a/drivers/gpu/drm/udl/udl_drv.c
-+++ b/drivers/gpu/drm/udl/udl_drv.c
-@@ -21,17 +21,14 @@ static int udl_usb_suspend(struct usb_interface *interface,
- {
- 	struct drm_device *dev = usb_get_intfdata(interface);
- 
--	drm_kms_helper_poll_disable(dev);
--	return 0;
-+	return drm_mode_config_helper_suspend(dev);
- }
- 
- static int udl_usb_resume(struct usb_interface *interface)
- {
- 	struct drm_device *dev = usb_get_intfdata(interface);
- 
--	drm_kms_helper_poll_enable(dev);
--	udl_modeset_restore(dev);
--	return 0;
-+	return drm_mode_config_helper_resume(dev);
- }
- 
- DEFINE_DRM_GEM_FOPS(udl_driver_fops);
 diff --git a/drivers/gpu/drm/udl/udl_drv.h b/drivers/gpu/drm/udl/udl_drv.h
-index c7f32c41f649..e98d70487eab 100644
+index e98d70487eab..89c0539c758e 100644
 --- a/drivers/gpu/drm/udl/udl_drv.h
 +++ b/drivers/gpu/drm/udl/udl_drv.h
-@@ -72,7 +72,6 @@ struct udl_device {
+@@ -110,4 +110,13 @@ int udl_drop_usb(struct drm_device *dev);
+ #define CMD_WRITE_COPY16 "\xAF\x6A" /**< 16 bit copy command. */
+ #define CMD_WRITE_RLX16  "\xAF\x6B" /**< 16 bit extended run length command. */
  
- /* modeset */
- int udl_modeset_init(struct drm_device *dev);
--void udl_modeset_restore(struct drm_device *dev);
- void udl_modeset_cleanup(struct drm_device *dev);
- struct drm_connector *udl_connector_init(struct drm_device *dev);
- 
++/* On/Off for driving the DisplayLink framebuffer to the display */
++#define UDL_REG_BLANK_MODE		0x1f
++
++#define UDL_BLANK_MODE_ON		0x00 /* hsync and vsync on, visible */
++#define UDL_BLANK_MODE_BLANKED		0x01 /* hsync and vsync on, blanked */
++#define UDL_BLANK_MODE_VSYNC_OFF	0x03 /* vsync off, blanked */
++#define UDL_BLANK_MODE_HSYNC_OFF	0x05 /* hsync off, blanked */
++#define UDL_BLANK_MODE_POWERDOWN	0x07 /* powered off; requires modeset */
++
+ #endif
 diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
-index 36b7844e8cf4..cde6b7ff9599 100644
+index cde6b7ff9599..fc7aa8cb8296 100644
 --- a/drivers/gpu/drm/udl/udl_modeset.c
 +++ b/drivers/gpu/drm/udl/udl_modeset.c
-@@ -438,20 +438,6 @@ int udl_modeset_init(struct drm_device *dev)
- 	return ret;
+@@ -42,31 +42,9 @@ static char *udl_vidreg_unlock(char *buf)
+ 	return udl_set_register(buf, 0xFF, 0xFF);
  }
  
--void udl_modeset_restore(struct drm_device *dev)
+-/*
+- * On/Off for driving the DisplayLink framebuffer to the display
+- *  0x00 H and V sync on
+- *  0x01 H and V sync off (screen blank but powered)
+- *  0x07 DPMS powerdown (requires modeset to come back)
+- */
+-static char *udl_set_blank(char *buf, int dpms_mode)
++static char *udl_set_blank_mode(char *buf, u8 mode)
+ {
+-	u8 reg;
+-	switch (dpms_mode) {
+-	case DRM_MODE_DPMS_OFF:
+-		reg = 0x07;
+-		break;
+-	case DRM_MODE_DPMS_STANDBY:
+-		reg = 0x05;
+-		break;
+-	case DRM_MODE_DPMS_SUSPEND:
+-		reg = 0x01;
+-		break;
+-	case DRM_MODE_DPMS_ON:
+-		reg = 0x00;
+-		break;
+-	}
+-
+-	return udl_set_register(buf, 0x1f, reg);
++	return udl_set_register(buf, UDL_REG_BLANK_MODE, mode);
+ }
+ 
+ static char *udl_set_color_depth(char *buf, u8 selection)
+@@ -237,6 +215,11 @@ static int udl_crtc_write_mode_to_hw(struct drm_crtc *crtc)
+ 	char *buf;
+ 	int retval;
+ 
++	if (udl->mode_buf_len == 0) {
++		DRM_ERROR("No mode set\n");
++		return -EINVAL;
++	}
++
+ 	urb = udl_get_urb(dev);
+ 	if (!urb)
+ 		return -ENOMEM;
+@@ -249,38 +232,6 @@ static int udl_crtc_write_mode_to_hw(struct drm_crtc *crtc)
+ 	return retval;
+ }
+ 
+-
+-static void udl_crtc_dpms(struct drm_crtc *crtc, int mode)
 -{
+-	struct drm_device *dev = crtc->dev;
 -	struct udl_device *udl = dev->dev_private;
--	struct drm_crtc *crtc = &udl->display_pipe.crtc;
--	struct drm_plane *primary = &udl->display_pipe.plane;
--	struct drm_framebuffer *fb = primary->fb;
+-	int retval;
 -
--	if (!fb)
--		return;
+-	if (mode == DRM_MODE_DPMS_OFF) {
+-		char *buf;
+-		struct urb *urb;
+-		urb = udl_get_urb(dev);
+-		if (!urb)
+-			return;
 -
--	udl_crtc_dpms(crtc, DRM_MODE_DPMS_ON);
--	udl_handle_damage(fb, 0, 0, fb->width, fb->height);
+-		buf = (char *)urb->transfer_buffer;
+-		buf = udl_vidreg_lock(buf);
+-		buf = udl_set_blank(buf, mode);
+-		buf = udl_vidreg_unlock(buf);
+-
+-		buf = udl_dummy_render(buf);
+-		retval = udl_submit_urb(dev, urb, buf - (char *)
+-					urb->transfer_buffer);
+-	} else {
+-		if (udl->mode_buf_len == 0) {
+-			DRM_ERROR("Trying to enable DPMS with no mode\n");
+-			return;
+-		}
+-		udl_crtc_write_mode_to_hw(crtc);
+-	}
+-
 -}
 -
- void udl_modeset_cleanup(struct drm_device *dev)
+ /*
+  * Simple display pipeline
+  */
+@@ -327,7 +278,7 @@ udl_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 	wrptr = udl_set_base8bpp(wrptr, 2 * mode->vdisplay * mode->hdisplay);
+ 
+ 	wrptr = udl_set_vid_cmds(wrptr, mode);
+-	wrptr = udl_set_blank(wrptr, DRM_MODE_DPMS_ON);
++	wrptr = udl_set_blank_mode(wrptr, UDL_BLANK_MODE_ON);
+ 	wrptr = udl_vidreg_unlock(wrptr);
+ 
+ 	wrptr = udl_dummy_render(wrptr);
+@@ -339,13 +290,32 @@ udl_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 
+ 	udl_handle_damage(fb, 0, 0, fb->width, fb->height);
+ 
+-	udl_crtc_dpms(&pipe->crtc, DRM_MODE_DPMS_ON);
++	if (!crtc_state->mode_changed)
++		return;
++
++	/* enable display */
++	udl_crtc_write_mode_to_hw(crtc);
+ }
+ 
+ static void
+ udl_simple_display_pipe_disable(struct drm_simple_display_pipe *pipe)
  {
- 	drm_mode_config_cleanup(dev);
+-	udl_crtc_dpms(&pipe->crtc, DRM_MODE_DPMS_OFF);
++	struct drm_crtc *crtc= &pipe->crtc;
++	struct drm_device *dev = crtc->dev;
++	struct urb *urb;
++	char *buf;
++
++	urb = udl_get_urb(dev);
++	if (!urb)
++		return;
++
++	buf = (char *)urb->transfer_buffer;
++	buf = udl_vidreg_lock(buf);
++	buf = udl_set_blank_mode(buf, UDL_BLANK_MODE_POWERDOWN);
++	buf = udl_vidreg_unlock(buf);
++	buf = udl_dummy_render(buf);
++
++	udl_submit_urb(dev, urb, buf - (char *)urb->transfer_buffer);
+ }
+ 
+ static int
 -- 
 2.24.0
 
