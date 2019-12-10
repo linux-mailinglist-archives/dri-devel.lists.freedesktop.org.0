@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9248119382
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:12:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FE001194B0
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:17:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D80C6E952;
-	Tue, 10 Dec 2019 21:12:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42A266E986;
+	Tue, 10 Dec 2019 21:17:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3948C6E952
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 21:12:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 787886E97B;
+ Tue, 10 Dec 2019 21:17:23 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 33B3D222C4;
- Tue, 10 Dec 2019 21:04:40 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id B7E2624688;
+ Tue, 10 Dec 2019 21:07:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576011881;
- bh=wGLr9TQaZb4mysbQ1RUTvwzfb1gr3SQoaCDKmcFNx0w=;
+ s=default; t=1576012069;
+ bh=LA4jwc5q3lPFXscqOD5f2qDp4cgi4LzaCbXLHdoRLws=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KaWGeyDSwgZYLhj5P2hXYJa3/NZWSlei7a2H4ZytYFpJduEBYU+nDhEZKuzl2wciu
- 09PFR8cWN2jAM94I0xGiO6qBnrSugH8IsOcCZ9PtFMv49EtqVxelaB3U1xNLzN0Lmq
- euQFHXAkYD0NYzsYYks3S6gNlWycksIntVaY+c+8=
+ b=fs8XgcAWKNtXJ7iyIL8R8dVSPwdloZclkp3no5L66TyR32mZX0oziEKCHxYs7p9vs
+ WXKeR0YlY0saTaYzN7QU05e9qkzj/FoB6xG2jjMqYt9Qe/YRG46xDJcK3ryH3QWhiC
+ f8K0hI1POx1IWOZdIMrfxTvB/7WpM5TaEFAcNRFA=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 032/350] drm/komeda: Workaround for broken
- FLIP_COMPLETE timestamps
-Date: Tue, 10 Dec 2019 15:58:44 -0500
-Message-Id: <20191210210402.8367-32-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 050/350] drm/amd/display: Set number of pipes to 1
+ if the second pipe was disabled
+Date: Tue, 10 Dec 2019 16:02:35 -0500
+Message-Id: <20191210210735.9077-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191210210402.8367-1-sashal@kernel.org>
-References: <20191210210402.8367-1-sashal@kernel.org>
+In-Reply-To: <20191210210735.9077-1-sashal@kernel.org>
+References: <20191210210735.9077-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,70 +50,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Mihail Atanassov <mihail.atanassov@arm.com>, Liviu Dudau <Liviu.Dudau@arm.com>,
- dri-devel@lists.freedesktop.org, James Qian Wang <james.qian.wang@arm.com>,
- Ayan kumar halder <ayan.halder@arm.com>
+Cc: Sasha Levin <sashal@kernel.org>, Leo Li <sunpeng.li@amd.com>,
+ amd-gfx@lists.freedesktop.org, Nikola Cornij <nikola.cornij@amd.com>,
+ Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mihail Atanassov <Mihail.Atanassov@arm.com>
+From: Nikola Cornij <nikola.cornij@amd.com>
 
-[ Upstream commit f59769c52cd7d158df53487ec2936f5592073340 ]
+[ Upstream commit 2fef0faa1cdc5d41ce3ef83f7b8f7e7ecb02d700 ]
 
-When initially turning a crtc on, drm_reset_vblank_timestamp will
-set the vblank timestamp to 0 for any driver that doesn't provide
-a ->get_vblank_timestamp() hook.
+[why]
+Some ODM-related register settings are inconsistently updated by VBIOS, causing
+the state in DC to be invalid, which would then end up crashing in certain
+use-cases (such as disable/enable device).
 
-Unfortunately, the FLIP_COMPLETE event depends on that timestamp,
-and the only way to regenerate a valid one is to have vblank
-interrupts enabled and have a valid in-ISR call to
-drm_crtc_handle_vblank.
+[how]
+Check the enabled status of the second pipe when determining the number of
+OPTC sources. If the second pipe is disabled, set the number of sources to 1
+regardless of other settings (that may not be updated correctly).
 
-Additionally, if the user doesn't request vblanks but _does_ request
-FLIP_COMPLETE events, we still don't have a good timestamp: it'll be the
-same stamp as the last vblank one.
-
-Work around the issue by always enabling vblanks when the CRTC is on.
-Reducing the amount of time that PL0 has to be unmasked would be nice to
-fix at a later time.
-
-Changes since v1 [https://patchwork.freedesktop.org/patch/331727/]:
- - moved drm_crtc_vblank_put call to the ->atomic_disable() hook
-
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Liviu Dudau <Liviu.Dudau@arm.com>
-Signed-off-by: Mihail Atanassov <mihail.atanassov@arm.com>
-Reviewed-by: James Qian Wang (Arm Technology China) <james.qian.wang@arm.com>
-Signed-off-by: Ayan kumar halder <ayan.halder@arm.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20191001142121.13939-1-mihail.atanassov@arm.com
+Signed-off-by: Nikola Cornij <nikola.cornij@amd.com>
+Reviewed-by: Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>
+Acked-by: Leo Li <sunpeng.li@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/arm/display/komeda/komeda_crtc.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_optc.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-index 624d257da20f8..52c42569a111f 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-@@ -250,6 +250,7 @@ komeda_crtc_atomic_enable(struct drm_crtc *crtc,
- {
- 	komeda_crtc_prepare(to_kcrtc(crtc));
- 	drm_crtc_vblank_on(crtc);
-+	WARN_ON(drm_crtc_vblank_get(crtc));
- 	komeda_crtc_do_flush(crtc, old);
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_optc.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_optc.c
+index 2137e2be21404..dda90995ba933 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_optc.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_optc.c
+@@ -287,6 +287,10 @@ void optc2_get_optc_source(struct timing_generator *optc,
+ 		*num_of_src_opp = 2;
+ 	else
+ 		*num_of_src_opp = 1;
++
++	/* Work around VBIOS not updating OPTC_NUM_OF_INPUT_SEGMENT */
++	if (*src_opp_id_1 == 0xf)
++		*num_of_src_opp = 1;
  }
  
-@@ -319,6 +320,7 @@ komeda_crtc_atomic_disable(struct drm_crtc *crtc,
- 		}
- 	}
- 
-+	drm_crtc_vblank_put(crtc);
- 	drm_crtc_vblank_off(crtc);
- 	komeda_crtc_unprepare(kcrtc);
- }
+ void optc2_set_dwb_source(struct timing_generator *optc,
 -- 
 2.20.1
 
