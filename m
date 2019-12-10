@@ -1,36 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83C00119378
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:12:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 039BF119380
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:12:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C3266E94B;
-	Tue, 10 Dec 2019 21:12:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 985F86E951;
+	Tue, 10 Dec 2019 21:12:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 292736E94A
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36DD06E951
  for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 21:12:23 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6801221D7D;
- Tue, 10 Dec 2019 21:04:11 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0DDDB22464;
+ Tue, 10 Dec 2019 21:04:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576011852;
- bh=ceteDlM2gzudgpK7lNIbnJYzwn+zR/DJXRfsggSRc00=;
+ s=default; t=1576011853;
+ bh=OVm9mkPVQwdIdrLxA4tL02QJ6UnFpGy52HqcT+4xRO4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nWZLDrdgdmxqvSiASswsIDBFiLH6jJIT7+masRpXwKfUip0Bpe44enKWZwftOMnH6
- Xgi/nAiSZa4oG5/NNZYE8QftEGp0OugucXwWPc7v4niwQ6E+JveTvD5zfKRU5nehJK
- lDxex0ew0pRBUmI64CMLZdUB8tZmzH6kzNu8CuJc=
+ b=F8C/2FyGrRupP1ZCky/gMWzgKn0VA9NrcPh+HYyP8ThhKwX0PNbBRrN9CCZjufjRa
+ wVLrAYuuYIV5RXBszu5b+GpvLJyJXO5StvvnUUUVxaot5Sw2CzPe8aJ9PyuduS1Eiy
+ HwY5QAEW4K3QiwAEBI5bxDgn/8To7XP4TfP4rRO8=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 007/350] drm: Use EOPNOTSUPP, not ENOTSUPP
-Date: Tue, 10 Dec 2019 15:58:19 -0500
-Message-Id: <20191210210402.8367-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 008/350] drm/amd/display: verify stream link
+ before link test
+Date: Tue, 10 Dec 2019 15:58:20 -0500
+Message-Id: <20191210210402.8367-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191210210402.8367-1-sashal@kernel.org>
 References: <20191210210402.8367-1-sashal@kernel.org>
@@ -49,81 +50,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
+Cc: Sasha Levin <sashal@kernel.org>, Jing Zhou <Jing.Zhou@amd.com>,
+ Wenjing Liu <Wenjing.Liu@amd.com>, dri-devel@lists.freedesktop.org,
  Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Sean Paul <sean@poorly.run>,
- Andres Rodriguez <andresx7@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KClsgVXBzdHJlYW0g
-Y29tbWl0IGM3NTgxYTQxNGQyODQxM2MxZGQ2ZDExNmQ0NDg1OWI1YTUyZTA5NTAgXQoKLSBpdCdz
-IHdoYXQgd2UgcmVjb21tZW5kIGluIG91ciBkb2NzOgoKaHR0cHM6Ly9kcmkuZnJlZWRlc2t0b3Au
-b3JnL2RvY3MvZHJtL2dwdS9kcm0tdWFwaS5odG1sI3JlY29tbWVuZGVkLWlvY3RsLXJldHVybi12
-YWx1ZXMKCi0gaXQncyB0aGUgb3ZlcndoZWxtaW5nbHkgdXNlZCBlcnJvciBjb2RlIGZvciAib3Bl
-cmF0aW9uIG5vdAogIHN1cHBvcnRlZCIsIGF0IGxlYXN0IGluIGRybSBjb3JlIChzbGlnaHRseSBs
-ZXNzIHNvIGluIGRyaXZlcnMpOgoKJCBnaXQgZ3JlcCBFT1BOT1RTVVBQIC0tIGRyaXZlcnMvZ3B1
-L2RybS8qYyB8IHdjIC1sCjgzCiQgZ2l0IGdyZXAgRU5PVFNVUFAgLS0gZHJpdmVycy9ncHUvZHJt
-LypjIHwgd2MgLWwKNQoKLSBpbmNsdWRlL2xpbnV4L2Vycm5vLmggbWFrZXMgaXQgZmFpcmx5IGNs
-ZWFyIHRoYXQgdGhlc2UgYXJlIGZvciBuZnN2MwogIChwbHVzIHRoZXkgYWxzbyBoYXZlIGVycm9y
-IGNvZGVzIGFib3ZlIDUxMiwgd2hpY2ggaXMgdGhlIGJsb2NrIHdpdGgKICBzb21lIHNwZWNpYWwg
-YmVoYXZpb3VyIC4uLikKCi8qIERlZmluZWQgZm9yIHRoZSBORlN2MyBwcm90b2NvbCAqLwoKSWYg
-dGhlIGFib3ZlIGlzbid0IHJlZmxlY3RpbmcgY3VycmVudCBwcmFjdGljZSwgdGhlbiBJIGd1ZXNz
-IHdlIHNob3VsZAphdCBsZWFzdCB1cGRhdGUgdGhlIGRvY3MuCgpOb3JhbGYgY29tbWVudGVkOgoK
-QmVuIEh1dGNoaW5ncyBtYWRlIHRoaXMgY29tbWVudFsxXSBpbiBhIHRocmVhZCBhYm91dCB1c2Ug
-b2YgRU5PVFNVUFAgaW4KZHJpdmVyczoKCiAgZ2xpYmMncyBzdHJlcnJvcigpIHJldHVybnMgdGhl
-c2Ugc3RyaW5ncyBmb3IgRU5PVFNVUFAgYW5kIEVPUE5PVFNVUFAKICByZXNwZWN0aXZlbHk6Cgog
-ICJVbmtub3duIGVycm9yIDUyNCIKICAiT3BlcmF0aW9uIG5vdCBzdXBwb3J0ZWQiCgpTbyBhdCBs
-ZWFzdCBmb3IgZXJyb3JzIHJldHVybmVkIHRvIHVzZXJzcGFjZSBFT1BOT1RTVVBQIG1ha2VzIHNl
-bnNlLgoKSm9zw6kgYXNrZWQ6Cgo+IEhvcGVmdWxseSB0aGlzIHdpbGwgbm90IGJyZWFrIGFueSB1
-c2Vyc3BhY2UKCk5vbmUgb2YgdGhlIGZ1bmN0aW9ucyBpbiBkcm1fZWRpZC5jIGFmZmVjdGVkIGJ5
-IHRoaXMgcmVhY2ggdXNlcnNwYWNlLAppdCdzIGFsbCBkcml2ZXIgaW50ZXJuYWwuCgpTYW1lIGZv
-ciB0aGUgbWlwaSBmdW5jdGlvbiwgdGhhdCBlcnJvciBjb2RlIHNob3VsZCBiZSBoYW5kbGVkIGJ5
-CmRyaXZlcnMuIERyaXZlcnMgYXJlIHN1cHBvc2VkIHRvIHJlbWFwICJ0aGUgaHcgaXMgb24gZmly
-ZSIgdG8gRUlPIHdoZW4KcmVwb3J0aW5nIHVwIHRvIHVzZXJzcGFjZSwgYnV0IEkgdGhpbmsgaWYg
-YSBkcml2ZXIgc2VlcyB0aGlzIGl0IHdvdWxkCmJlIGEgZHJpdmVyIGJ1Zy4KdjI6IEF1Z21lbnQg
-Y29tbWl0IG1lc3NhZ2Ugd2l0aCBjb21tZW50cyBmcm9tIE5vcmFsZiBhbmQgSm9zw6kKClJldmll
-d2VkLWJ5OiBKb3PDqSBSb2JlcnRvIGRlIFNvdXphIDxqb3NlLnNvdXphQGludGVsLmNvbT4KQWNr
-ZWQtYnk6IE5vcmFsZiBUcsO4bm5lcyA8bm9yYWxmQHRyb25uZXMub3JnPgpDYzogSm9zw6kgUm9i
-ZXJ0byBkZSBTb3V6YSA8am9zZS5zb3V6YUBpbnRlbC5jb20+CkNjOiBNYWFydGVuIExhbmtob3Jz
-dCA8bWFhcnRlbi5sYW5raG9yc3RAbGludXguaW50ZWwuY29tPgpDYzogTWF4aW1lIFJpcGFyZCA8
-bXJpcGFyZEBrZXJuZWwub3JnPgpDYzogU2VhbiBQYXVsIDxzZWFuQHBvb3JseS5ydW4+CkNjOiBB
-bGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+CkNjOiBBbmRyZXMgUm9kcmln
-dWV6IDxhbmRyZXN4N0BnbWFpbC5jb20+CkNjOiBOb3JhbGYgVHLDuG5uZXMgPG5vcmFsZkB0cm9u
-bmVzLm9yZz4KU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRl
-bC5jb20+Ckxpbms6IGh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9wYXRjaC9tc2dp
-ZC8yMDE5MDkwNDE0Mzk0Mi4zMTc1Ni0xLWRhbmllbC52ZXR0ZXJAZmZ3bGwuY2gKU2lnbmVkLW9m
-Zi1ieTogU2FzaGEgTGV2aW4gPHNhc2hhbEBrZXJuZWwub3JnPgotLS0KIGRyaXZlcnMvZ3B1L2Ry
-bS9kcm1fZWRpZC5jICAgICB8IDYgKysrLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX21pcGlfZGJp
-LmMgfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMo
-LSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYyBiL2RyaXZlcnMvZ3B1
-L2RybS9kcm1fZWRpZC5jCmluZGV4IDZiMDE3NzExMmUxOGQuLjNmNTBiODg2NWRiNGMgMTAwNjQ0
-Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9k
-cm1fZWRpZC5jCkBAIC0zNzIyLDcgKzM3MjIsNyBAQCBjZWFfZGJfb2Zmc2V0cyhjb25zdCB1OCAq
-Y2VhLCBpbnQgKnN0YXJ0LCBpbnQgKmVuZCkKIAkJaWYgKCplbmQgPCA0IHx8ICplbmQgPiAxMjcp
-CiAJCQlyZXR1cm4gLUVSQU5HRTsKIAl9IGVsc2UgewotCQlyZXR1cm4gLUVOT1RTVVBQOworCQly
-ZXR1cm4gLUVPUE5PVFNVUFA7CiAJfQogCiAJcmV0dXJuIDA7CkBAIC00MTkxLDcgKzQxOTEsNyBA
-QCBpbnQgZHJtX2VkaWRfdG9fc2FkKHN0cnVjdCBlZGlkICplZGlkLCBzdHJ1Y3QgY2VhX3NhZCAq
-KnNhZHMpCiAKIAlpZiAoY2VhX3JldmlzaW9uKGNlYSkgPCAzKSB7CiAJCURSTV9ERUJVR19LTVMo
-IlNBRDogd3JvbmcgQ0VBIHJldmlzaW9uXG4iKTsKLQkJcmV0dXJuIC1FTk9UU1VQUDsKKwkJcmV0
-dXJuIC1FT1BOT1RTVVBQOwogCX0KIAogCWlmIChjZWFfZGJfb2Zmc2V0cyhjZWEsICZzdGFydCwg
-JmVuZCkpIHsKQEAgLTQyNTIsNyArNDI1Miw3IEBAIGludCBkcm1fZWRpZF90b19zcGVha2VyX2Fs
-bG9jYXRpb24oc3RydWN0IGVkaWQgKmVkaWQsIHU4ICoqc2FkYikKIAogCWlmIChjZWFfcmV2aXNp
-b24oY2VhKSA8IDMpIHsKIAkJRFJNX0RFQlVHX0tNUygiU0FEOiB3cm9uZyBDRUEgcmV2aXNpb25c
-biIpOwotCQlyZXR1cm4gLUVOT1RTVVBQOworCQlyZXR1cm4gLUVPUE5PVFNVUFA7CiAJfQogCiAJ
-aWYgKGNlYV9kYl9vZmZzZXRzKGNlYSwgJnN0YXJ0LCAmZW5kKSkgewpkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL2RybV9taXBpX2RiaS5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9taXBpX2Ri
-aS5jCmluZGV4IGM0ZWUyNzA5YTZmMzIuLmY4MTU0MzE2YTNiMGQgMTAwNjQ0Ci0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS9kcm1fbWlwaV9kYmkuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX21pcGlf
-ZGJpLmMKQEAgLTk1NSw3ICs5NTUsNyBAQCBzdGF0aWMgaW50IG1pcGlfZGJpX3R5cGVjMV9jb21t
-YW5kKHN0cnVjdCBtaXBpX2RiaSAqZGJpLCB1OCAqY21kLAogCWludCByZXQ7CiAKIAlpZiAobWlw
-aV9kYmlfY29tbWFuZF9pc19yZWFkKGRiaSwgKmNtZCkpCi0JCXJldHVybiAtRU5PVFNVUFA7CisJ
-CXJldHVybiAtRU9QTk9UU1VQUDsKIAogCU1JUElfREJJX0RFQlVHX0NPTU1BTkQoKmNtZCwgcGFy
-YW1ldGVycywgbnVtKTsKIAotLSAKMi4yMC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9kcmktZGV2ZWwK
+From: Jing Zhou <Jing.Zhou@amd.com>
+
+[ Upstream commit b131932215c993ea5adf8192d1de2e8d6b23048d ]
+
+[Why]
+DP1.2 LL CTS test failure.
+
+[How]
+The failure is caused by not verify stream link is equal
+to link, only check stream and link is not null.
+
+Signed-off-by: Jing Zhou <Jing.Zhou@amd.com>
+Reviewed-by: Wenjing Liu <Wenjing.Liu@amd.com>
+Acked-by: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c
+index 79438c4f1e20b..a519dbc5ecb65 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c
+@@ -277,7 +277,8 @@ void dp_retrain_link_dp_test(struct dc_link *link,
+ 		if (pipes[i].stream != NULL &&
+ 			!pipes[i].top_pipe && !pipes[i].prev_odm_pipe &&
+ 			pipes[i].stream->link != NULL &&
+-			pipes[i].stream_res.stream_enc != NULL) {
++			pipes[i].stream_res.stream_enc != NULL &&
++			pipes[i].stream->link == link) {
+ 			udelay(100);
+ 
+ 			pipes[i].stream_res.stream_enc->funcs->dp_blank(
+-- 
+2.20.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
