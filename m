@@ -2,35 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C10B81194B1
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:17:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A780A1194A0
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:17:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E0AA6E980;
-	Tue, 10 Dec 2019 21:17:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 542586E970;
+	Tue, 10 Dec 2019 21:17:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 626156E96E;
- Tue, 10 Dec 2019 21:17:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53E386E962
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 21:17:23 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7213C20836;
- Tue, 10 Dec 2019 21:08:16 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9E1082469A;
+ Tue, 10 Dec 2019 21:08:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576012097;
- bh=6fwUb6MigjWRWv6QEWMWqEYkJGBehiZ+r1aewxVkB0A=;
+ s=default; t=1576012103;
+ bh=hkuGnP/PLW8F2sD5+lSiGHfF7zSle7mPzYmQLvYVfY0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=2N260DjkA1ZYPqHnoDUUR+Hj26Vw5NsSE1Dv4DY8ubBLz52tpLXN4cVBeeduJvQIb
- q4XYPdY/OXs7YKn3/2frDQFqVycMOt1SC4YE5iFpAZ8DSLf2BH5gWGEKHO4FkD2yRU
- 9KnHrXV1PhewCXpL/xoX4fF/TalSjzyq9LqU5GU4=
+ b=rF1wU76s4X6gT3W5xrpX5y4Ee0aHSIvE6H38Jd8LbB+NG+fSELF0m7C0Za1r2a8RW
+ x1KAdio+PeDo0SVNMC1e9H87/jW2IjxuLai9OOcq/JocSTVASF4EFhwfAj7eOvzupm
+ QHsS0sMF2ValeehXQG+7y6fBNmXfYM7bSaz74ZZc=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 073/350] drm/amdkfd: Fix MQD size calculation
-Date: Tue, 10 Dec 2019 16:02:58 -0500
-Message-Id: <20191210210735.9077-34-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 078/350] drm/drm_vblank: Change EINVAL by the
+ correct errno
+Date: Tue, 10 Dec 2019 16:03:03 -0500
+Message-Id: <20191210210735.9077-39-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191210210735.9077-1-sashal@kernel.org>
 References: <20191210210735.9077-1-sashal@kernel.org>
@@ -49,52 +50,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Jonathan Kim <Jonathan.Kim@amd.com>,
- Oak Zeng <Oak.Zeng@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sasha Levin <sashal@kernel.org>, Keith Packard <keithp@keithp.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Oak Zeng <Oak.Zeng@amd.com>
-
-[ Upstream commit 40a9592a26608e16f7545a068ea4165e1869f629 ]
-
-On device initialization, a chunk of GTT memory is pre-allocated for
-HIQ and all SDMA queues mqd. The size of this allocation was wrong.
-The correct sdma engine number should be PCIe-optimized SDMA engine
-number plus xgmi SDMA engine number.
-
-Reported-by: Jonathan Kim <Jonathan.Kim@amd.com>
-Signed-off-by: Jonathan Kim <Jonathan.Kim@amd.com>
-Signed-off-by: Oak Zeng <Oak.Zeng@amd.com>
-Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-index d985e31fcc1eb..f335f73919d15 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-@@ -1676,7 +1676,8 @@ static int allocate_hiq_sdma_mqd(struct device_queue_manager *dqm)
- 	struct kfd_dev *dev = dqm->dev;
- 	struct kfd_mem_obj *mem_obj = &dqm->hiq_sdma_mqd;
- 	uint32_t size = dqm->mqd_mgrs[KFD_MQD_TYPE_SDMA]->mqd_size *
--		dev->device_info->num_sdma_engines *
-+		(dev->device_info->num_sdma_engines +
-+		dev->device_info->num_xgmi_sdma_engines) *
- 		dev->device_info->num_sdma_queues_per_engine +
- 		dqm->mqd_mgrs[KFD_MQD_TYPE_HIQ]->mqd_size;
- 
--- 
-2.20.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogUm9kcmlnbyBTaXF1ZWlyYSA8cm9kcmlnb3NpcXVlaXJhbWVsb0BnbWFpbC5jb20+Cgpb
+IFVwc3RyZWFtIGNvbW1pdCBhZWQ2MTA1YjI4YjEwNjEzZjE2YzBiZmU5NzUyNWZlNWEyMzMzOGRm
+IF0KCkZvciBoaXN0b3JpY2FsIHJlYXNvbnMsIHRoZSBmdW5jdGlvbiBkcm1fd2FpdF92Ymxhbmtf
+aW9jdGwgYWx3YXlzIHJldHVybgotRUlOVkFMIGlmIHNvbWV0aGluZyBnZXRzIHdyb25nLiBUaGlz
+IHNjZW5hcmlvIGxpbWl0cyB0aGUgZmxleGliaWxpdHkKZm9yIHRoZSB1c2Vyc3BhY2UgdG8gbWFr
+ZSBkZXRhaWxlZCB2ZXJpZmljYXRpb24gb2YgYW55IHByb2JsZW0gYW5kIHRha2UKc29tZSBhY3Rp
+b24uIEluIHBhcnRpY3VsYXIsIHRoZSB2YWxpZGF0aW9uIG9mIOKAnGlmICghZGV2LT5pcnFfZW5h
+YmxlZCnigJ0KaW4gdGhlIGRybV93YWl0X3ZibGFua19pb2N0bCBpcyByZXNwb25zaWJsZSBmb3Ig
+Y2hlY2tpbmcgaWYgdGhlIGRyaXZlcgpzdXBwb3J0IHZibGFuayBvciBub3QuIElmIHRoZSBkcml2
+ZXIgZG9lcyBub3Qgc3VwcG9ydCBWQmxhbmssIHRoZQpmdW5jdGlvbiBkcm1fd2FpdF92Ymxhbmtf
+aW9jdGwgcmV0dXJucyBFSU5WQUwsIHdoaWNoIGRvZXMgbm90IHJlcHJlc2VudAp0aGUgcmVhbCBp
+c3N1ZTsgdGhpcyBwYXRjaCBjaGFuZ2VzIHRoaXMgYmVoYXZpb3IgYnkgcmV0dXJuIEVPUE5PVFNV
+UFAuCkFkZGl0aW9uYWxseSwgZHJtX2NydGNfZ2V0X3NlcXVlbmNlX2lvY3RsIGFuZApkcm1fY3J0
+Y19xdWV1ZV9zZXF1ZW5jZV9pb2N0bCwgYWxzbyByZXR1cm5zIEVJTlZBTCBpZiB2YmxhbmsgaXMg
+bm90CnN1cHBvcnRlZDsgdGhpcyBwYXRjaCBhbHNvIGNoYW5nZXMgdGhlIHJldHVybiB2YWx1ZSB0
+byBFT1BOT1RTVVBQIGluCnRoZXNlIGZ1bmN0aW9ucy4gTGFzdGx5LCB0aGVzZSBmdW5jdGlvbnMg
+YXJlIGludm9rZWQgYnkgbGliZHJtLCB3aGljaCBpcwp1c2VkIGJ5IG1hbnkgY29tcG9zaXRvcnM7
+IGJlY2F1c2Ugb2YgdGhpcywgaXQgaXMgaW1wb3J0YW50IHRvIGNoZWNrIGlmCnRoaXMgY2hhbmdl
+IGJyZWFrcyBhbnkgY29tcG9zaXRvci4gSW4gdGhpcyBzZW5zZSwgdGhlIGZvbGxvd2luZyBwcm9q
+ZWN0cwp3ZXJlIGV4YW1pbmVkOgoKKiBEcm0taHdjb21wb3NlcgoqIEt3aW4KKiBTd2F5CiogV2xy
+b290cwoqIFdheWxhbmQKKiBXZXN0b24KKiBNdXR0ZXIKKiBYb3JnICg2NyBkaWZmZXJlbnQgZHJp
+dmVycykKCkZvciBlYWNoIHJlcG9zaXRvcnkgdGhlIHZlcmlmaWNhdGlvbiBoYXBwZW5lZCBpbiB0
+aHJlZSBzdGVwczoKCiogVXBkYXRlIHRoZSBtYWluIGJyYW5jaAoqIExvb2sgZm9yIGFueSBvY2N1
+cnJlbmNlIG9mICJkcm1DcnRjUXVldWVTZXF1ZW5jZSIsCiAgImRybUNydGNHZXRTZXF1ZW5jZSIs
+IGFuZCAiZHJtV2FpdFZCbGFuayIgd2l0aCB0aGUgY29tbWFuZCBnaXQgZ3JlcCAtbgogICJTVFJJ
+TkciLgoqIExvb2sgaW4gdGhlIGdpdCBoaXN0b3J5IG9mIHRoZSBwcm9qZWN0IHdpdGggdGhlIGNv
+bW1hbmQKZ2l0IGxvZyAtUzxTVFJJTkc+CgpOb25lIG9mIHRoZSBhYm92ZSBwcm9qZWN0cyB2YWxp
+ZGF0ZSB0aGUgdXNlIG9mIEVJTlZBTCB3aGVuIHVzaW5nCmRybVdhaXRWQmxhbmsoKSwgd2hpY2gg
+bWFrZSBzYWZlLCBhdCBsZWFzdCBmb3IgdGhlc2UgcHJvamVjdHMsIHRvIGNoYW5nZQp0aGUgcmV0
+dXJuIHZhbHVlcy4gT24gdGhlIG90aGVyIGhhbmQsIG1lc2EgYW5kIHhzZXJ2ZXIgcHJvamVjdCB1
+c2VzCmRybUNydGNRdWV1ZVNlcXVlbmNlKCkgYW5kIGRybUNydGNHZXRTZXF1ZW5jZSgpOyB0aGlz
+IGNoYW5nZSBpcyBoYXJtbGVzcwpmb3IgYm90aCBwcm9qZWN0cy4KCkNoYW5nZSBzaW5jZSBWNSAo
+UGVra2EgUGFhbGFuZW4pOgogLSBDaGVjayBpZiB0aGUgY2hhbmdlIGFsc28gYWZmZWN0cyBNdXR0
+ZXIKCkNoYW5nZSBzaW5jZSBWNCAoRGFuaWVsKToKIC0gQWxzbyByZXR1cm4gRU9QTk9UU1VQUCBp
+biBkcm1fY3J0Y19bZ2V0fHF1ZXVlXV9zZXF1ZW5jZV9pb2N0bAoKQ2hhbmdlIHNpbmNlIFYzOgog
+LSBSZXR1cm4gRUlOVkFMIGZvciBfRFJNX1ZCTEFOS19TSUdOQUwgKERhbmllbCkKCkNoYW5nZSBz
+aW5jZSBWMjoKIERhbmllbCBWZXR0ZXIgYW5kIENocmlzIFdpbHNvbgogLSBSZXBsYWNlIEVOT1RU
+WSBieSBFT1BOT1RTVVBQCiAtIFJldHVybiBFSU5WQUwgaWYgdGhlIHBhcmFtZXRlcnMgYXJlIHdy
+b25nCgpDYzogS2VpdGggUGFja2FyZCA8a2VpdGhwQGtlaXRocC5jb20+CkNjOiBNYWFydGVuIExh
+bmtob3JzdCA8bWFhcnRlbi5sYW5raG9yc3RAbGludXguaW50ZWwuY29tPgpDYzogVmlsbGUgU3ly
+asOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KQ2M6IENocmlzIFdpbHNvbiA8
+Y2hyaXNAY2hyaXMtd2lsc29uLmNvLnVrPgpDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xs
+LmNoPgpDYzogUGVra2EgUGFhbGFuZW4gPHBla2thLnBhYWxhbmVuQGNvbGxhYm9yYS5jb20+ClNp
+Z25lZC1vZmYtYnk6IFJvZHJpZ28gU2lxdWVpcmEgPHJvZHJpZ29zaXF1ZWlyYW1lbG9AZ21haWwu
+Y29tPgpSZXZpZXdlZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPgpBY2tlZC1i
+eTogUGVra2EgUGFhbGFuZW4gPHBla2thLnBhYWxhbmVuQGNvbGxhYm9yYS5jb20+Ckxpbms6IGh0
+dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9wYXRjaC9tc2dpZC8yMDE5MTAwMjE0MDUx
+Ni5hZGV5ajNodHlsaW1tbG1nQHNtdHAuZ21haWwuY29tClNpZ25lZC1vZmYtYnk6IFNhc2hhIExl
+dmluIDxzYXNoYWxAa2VybmVsLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX3ZibGFuay5j
+IHwgNiArKystLS0KIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25z
+KC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV92YmxhbmsuYyBiL2RyaXZlcnMv
+Z3B1L2RybS9kcm1fdmJsYW5rLmMKaW5kZXggZmQxZmJjNzc4NzFmMS4uNTUyZWM4MmU5YmM1MiAx
+MDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV92YmxhbmsuYworKysgYi9kcml2ZXJzL2dw
+dS9kcm0vZHJtX3ZibGFuay5jCkBAIC0xNTgxLDcgKzE1ODEsNyBAQCBpbnQgZHJtX3dhaXRfdmJs
+YW5rX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEsCiAJdW5zaWduZWQg
+aW50IGZsYWdzLCBwaXBlLCBoaWdoX3BpcGU7CiAKIAlpZiAoIWRldi0+aXJxX2VuYWJsZWQpCi0J
+CXJldHVybiAtRUlOVkFMOworCQlyZXR1cm4gLUVPUE5PVFNVUFA7CiAKIAlpZiAodmJsd2FpdC0+
+cmVxdWVzdC50eXBlICYgX0RSTV9WQkxBTktfU0lHTkFMKQogCQlyZXR1cm4gLUVJTlZBTDsKQEAg
+LTE4MzgsNyArMTgzOCw3IEBAIGludCBkcm1fY3J0Y19nZXRfc2VxdWVuY2VfaW9jdGwoc3RydWN0
+IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwKIAkJcmV0dXJuIC1FT1BOT1RTVVBQOwogCiAJ
+aWYgKCFkZXYtPmlycV9lbmFibGVkKQotCQlyZXR1cm4gLUVJTlZBTDsKKwkJcmV0dXJuIC1FT1BO
+T1RTVVBQOwogCiAJY3J0YyA9IGRybV9jcnRjX2ZpbmQoZGV2LCBmaWxlX3ByaXYsIGdldF9zZXEt
+PmNydGNfaWQpOwogCWlmICghY3J0YykKQEAgLTE4OTYsNyArMTg5Niw3IEBAIGludCBkcm1fY3J0
+Y19xdWV1ZV9zZXF1ZW5jZV9pb2N0bChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRh
+LAogCQlyZXR1cm4gLUVPUE5PVFNVUFA7CiAKIAlpZiAoIWRldi0+aXJxX2VuYWJsZWQpCi0JCXJl
+dHVybiAtRUlOVkFMOworCQlyZXR1cm4gLUVPUE5PVFNVUFA7CiAKIAljcnRjID0gZHJtX2NydGNf
+ZmluZChkZXYsIGZpbGVfcHJpdiwgcXVldWVfc2VxLT5jcnRjX2lkKTsKIAlpZiAoIWNydGMpCi0t
+IAoyLjIwLjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
