@@ -2,71 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB19B11841E
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 10:52:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 153B1118471
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 11:09:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B92AB6E048;
-	Tue, 10 Dec 2019 09:52:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A67B76E881;
+	Tue, 10 Dec 2019 10:09:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74F186E048
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 09:52:46 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id g17so19278662wro.2
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 01:52:46 -0800 (PST)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D8A06E884
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 10:09:26 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id d16so19283971wre.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 02:09:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=JezLvil0eLO2aw1UzQhJ1XxGiTMbCLIXlqvlGg+T2YE=;
- b=j/2CmDUm3QIbQshTMgVTX8LcLuPqgtJEbvKgPM+zo8SwqnUr8dyTkxFgSTUcaYnNI1
- 2DG1ShF83ESSZi/exxsPp5NgWf4i9+RW/w7YAHXykOi7NDzBxcyJvmL+XOc1TcVCsqPc
- J1CqXVmNxQEfHQBtnxaRajM+hYsqwCzFJ5Q4Q=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=hLM3dV214olDHKPTb5HMGFxG4cFXyHbFnSrVji58Umg=;
+ b=NPO49f8G2hry6qO1ulub6BzX+qHMmN47aEVt9jLv0rUKSpkskr2+3E1aZ+t6aW5oHn
+ Ks1rFOVxrldumDudNmLQnSQ3qOyZLvuYMjYQ5ff94GMthfScUzo0m+SSM4+zIxGRtkg8
+ z9rLNquQQILR4R1cpo4OZncXmmk7Yy4ajkhkM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to:user-agent;
- bh=JezLvil0eLO2aw1UzQhJ1XxGiTMbCLIXlqvlGg+T2YE=;
- b=EoWsraCtIaobD6M6xzEy41LfGLqj7accFAziI+ICMSVeKNIMVeu/RIf556GRGyK1bV
- knvN94wu8ANbU6k4EkpnHCq7We8r0luoLhmc8E9t/s31i6Wk9EuXjiTsD7Rtp9zCXreX
- hCwjCVSWtBI4oXh+8LrrBurA9c5vrzAD4y9EVZ/QD6+yE2SKbVN52EMnZoPMICILtBMg
- jX9jzS8TOoBK3DIoEQY8h2ujOxxb6OhBsGCc6Y6GiBDIGLTwxAYztQfqxme3/vcheBbb
- Y/E4Jeuy/rmB5iWAMcsFRxJi3JxkEzcpd/yXf9XnBYxjrp7Dql5trLoIVr16Pg+BecMT
- Gxzw==
-X-Gm-Message-State: APjAAAUIO49rW3oIjTisTBptuw8f34RjNZSlaLxuSVIamN+sUKCSoxmw
- s0hEVvlV4uVftLgEc+p1mSDZlA==
-X-Google-Smtp-Source: APXvYqztjH+/E4jJs3q+cB1FhU0Gy5wVXDRkd6pxHK3k2mdTUA/fnMRQd/gLDR7DTlx9yRVXnFiCHg==
-X-Received: by 2002:a5d:620b:: with SMTP id y11mr2122395wru.230.1575971565010; 
- Tue, 10 Dec 2019 01:52:45 -0800 (PST)
+ bh=hLM3dV214olDHKPTb5HMGFxG4cFXyHbFnSrVji58Umg=;
+ b=rMYN8ydabtbymnZczf01U+MGrBoz73cfBq45Ta5GPNcCwZHO4lXGB37/5IcJ1tsJgT
+ qkesQFXywPjWOXeA+wh+/GegTZTmAixkScoItMqWhmpQjMG71Tcy9xiIlB0QRdSHBBeO
+ wQP2TXJR00fH0EC5s6KjpuF/zrQuQrbgN8P8hLkXV3vU1H+/Ocxt7nnbmVSOiSb5609A
+ FQWsa5ehmJGQbhmKz8FAEdCA9YzrrVDjNqDYUj0AQtEnbX62GoBzAX7a7jdc/YDx/m3w
+ ZvtaZef3XUtfeNQDyBgldMijPveoSaG+WOXy9k50louV3SqNRxLsAjSRkcRWHS2z7PJ9
+ mk4g==
+X-Gm-Message-State: APjAAAWhiEt0kExR1avjnCk2GM6XWqFfyqH7UEnIpBJedVbuPAL4oJgk
+ rDAH8q/ougxpXvbianRSm+cRVijCo8g=
+X-Google-Smtp-Source: APXvYqwP+98aAjiA5SS5ssWUuLxFtNixnbnxs5wQucHeEuG3m3we6f6NN5/9EPMOL3CUb1X37odlbA==
+X-Received: by 2002:adf:90e7:: with SMTP id i94mr2159612wri.47.1575972564784; 
+ Tue, 10 Dec 2019 02:09:24 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:564b:0:7567:bb67:3d7f:f863])
- by smtp.gmail.com with ESMTPSA id 62sm2626546wmb.27.2019.12.10.01.52.43
+ by smtp.gmail.com with ESMTPSA id p10sm2505283wmi.15.2019.12.10.02.09.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Dec 2019 01:52:43 -0800 (PST)
-Date: Tue, 10 Dec 2019 10:52:41 +0100
+ Tue, 10 Dec 2019 02:09:23 -0800 (PST)
+Date: Tue, 10 Dec 2019 11:09:22 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Benjamin GAIGNARD <benjamin.gaignard@st.com>
-Subject: Re: [PATCH] drm/modes: remove unused variables
-Message-ID: <20191210095241.GO624164@phenom.ffwll.local>
-Mail-Followup-To: Benjamin GAIGNARD <benjamin.gaignard@st.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "sean@poorly.run" <sean@poorly.run>,
- "airlied@linux.ie" <airlied@linux.ie>,
- "yakui.zhao@intel.com" <yakui.zhao@intel.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-References: <20191119134706.10893-1-benjamin.gaignard@st.com>
- <8056f838-3ebf-26db-f5be-3e78d61aa512@suse.de>
- <f210413f-2d2f-9887-ca3b-a3c48564d9d6@st.com>
- <87tv6fgkpn.fsf@intel.com>
- <f3a86fe8-6bf8-6767-2ec5-d6fecd81231f@st.com>
+To: Sean Paul <sean@poorly.run>
+Subject: Re: [Intel-gfx] [PATCH 03/11] drm/i915: Disable HDCP signalling on
+ transcoder disable
+Message-ID: <20191210100922.GP624164@phenom.ffwll.local>
+References: <20191203173638.94919-1-sean@poorly.run>
+ <20191203173638.94919-4-sean@poorly.run>
+ <20191205193319.GK1208@intel.com>
+ <20191206135509.GE162979@art_vandelay>
+ <20191209151846.GQ1208@intel.com>
+ <CAMavQKKpk=LiOSzBvD5gJ_Oh5wv9VQQ_c3K62smK0OBCFgf9cg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <f3a86fe8-6bf8-6767-2ec5-d6fecd81231f@st.com>
-X-Operating-System: Linux phenom 5.3.0-2-amd64 
+In-Reply-To: <CAMavQKKpk=LiOSzBvD5gJ_Oh5wv9VQQ_c3K62smK0OBCFgf9cg@mail.gmail.com>
+X-Operating-System: Linux phenom 5.3.0-2-amd64
 User-Agent: Mutt/1.12.2 (2019-09-21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,145 +72,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "airlied@linux.ie" <airlied@linux.ie>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, "sean@poorly.run" <sean@poorly.run>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, ramalingm.c@intel.com,
+ Sean Paul <seanpaul@chromium.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 05, 2019 at 10:23:51AM +0000, Benjamin GAIGNARD wrote:
-> + Zhao Yakui
-> 
-> On 12/5/19 10:55 AM, Jani Nikula wrote:
-> > On Wed, 04 Dec 2019, Benjamin GAIGNARD <benjamin.gaignard@st.com> wrote:
-> >> On 12/4/19 10:35 AM, Thomas Zimmermann wrote:
-> >>> Hi
-> >>>
-> >>> Am 19.11.19 um 14:47 schrieb Benjamin Gaignard:
-> >>>> When compiling with W=1 few warnings about unused variables show up.
-> >>>> This patch removes all the involved variables.
-> >>>>
-> >>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
-> >>>> ---
-> >>>>    drivers/gpu/drm/drm_modes.c | 22 +++-------------------
-> >>>>    1 file changed, 3 insertions(+), 19 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-> >>>> index 88232698d7a0..aca901aff042 100644
-> >>>> --- a/drivers/gpu/drm/drm_modes.c
-> >>>> +++ b/drivers/gpu/drm/drm_modes.c
-> >>>> @@ -233,7 +233,7 @@ struct drm_display_mode *drm_cvt_mode(struct drm_device *dev, int hdisplay,
-> >>>>    		/* 3) Nominal HSync width (% of line period) - default 8 */
-> >>>>    #define CVT_HSYNC_PERCENTAGE	8
-> >>>>    		unsigned int hblank_percentage;
-> >>>> -		int vsyncandback_porch, vback_porch, hblank;
-> >>>> +		int vsyncandback_porch, hblank;
-> >>>>    
-> >>>>    		/* estimated the horizontal period */
-> >>>>    		tmp1 = HV_FACTOR * 1000000  -
-> >>>> @@ -249,7 +249,6 @@ struct drm_display_mode *drm_cvt_mode(struct drm_device *dev, int hdisplay,
-> >>>>    		else
-> >>>>    			vsyncandback_porch = tmp1;
-> >>>>    		/* 10. Find number of lines in back porch */
-> >>>> -		vback_porch = vsyncandback_porch - vsync;
-> >>>>    		drm_mode->vtotal = vdisplay_rnd + 2 * vmargin +
-> >>>>    				vsyncandback_porch + CVT_MIN_V_PORCH;
-> >>>>    		/* 5) Definition of Horizontal blanking time limitation */
-> >>>> @@ -386,9 +385,8 @@ drm_gtf_mode_complex(struct drm_device *dev, int hdisplay, int vdisplay,
-> >>>>    	int top_margin, bottom_margin;
-> >>>>    	int interlace;
-> >>>>    	unsigned int hfreq_est;
-> >>>> -	int vsync_plus_bp, vback_porch;
-> >>>> -	unsigned int vtotal_lines, vfieldrate_est, hperiod;
-> >>>> -	unsigned int vfield_rate, vframe_rate;
-> >>>> +	int vsync_plus_bp;
-> >>>> +	unsigned int vtotal_lines;
-> >>>>    	int left_margin, right_margin;
-> >>>>    	unsigned int total_active_pixels, ideal_duty_cycle;
-> >>>>    	unsigned int hblank, total_pixels, pixel_freq;
-> >>>> @@ -451,23 +449,9 @@ drm_gtf_mode_complex(struct drm_device *dev, int hdisplay, int vdisplay,
-> >>>>    	/* [V SYNC+BP] = RINT(([MIN VSYNC+BP] * hfreq_est / 1000000)) */
-> >>>>    	vsync_plus_bp = MIN_VSYNC_PLUS_BP * hfreq_est / 1000;
-> >>>>    	vsync_plus_bp = (vsync_plus_bp + 500) / 1000;
-> >>>> -	/*  9. Find the number of lines in V back porch alone: */
-> >>>> -	vback_porch = vsync_plus_bp - V_SYNC_RQD;
-> >>>>    	/*  10. Find the total number of lines in Vertical field period: */
-> >>>>    	vtotal_lines = vdisplay_rnd + top_margin + bottom_margin +
-> >>>>    			vsync_plus_bp + GTF_MIN_V_PORCH;
-> >>>> -	/*  11. Estimate the Vertical field frequency: */
-> >>>> -	vfieldrate_est = hfreq_est / vtotal_lines;
-> >>>> -	/*  12. Find the actual horizontal period: */
-> >>>> -	hperiod = 1000000 / (vfieldrate_rqd * vtotal_lines);
-> >>>> -
-> >>>> -	/*  13. Find the actual Vertical field frequency: */
-> >>>> -	vfield_rate = hfreq_est / vtotal_lines;
-> >>>> -	/*  14. Find the Vertical frame frequency: */
-> >>>> -	if (interlaced)
-> >>>> -		vframe_rate = vfield_rate / 2;
-> >>>> -	else
-> >>>> -		vframe_rate = vfield_rate;
-> >>> The amount of unused code is quite large, which makes me wonder if
-> >>> there's something missing below where these variables are supposed to be
-> >>> used.
-> >>>
-> >>> If these variables can be removed, comments should mention that steps 9
-> >>> and 11 to 14 are being left out. After all, the function is fairly
-> >>> explicit about implementing the GTF algorithm step by step.
-> >>>
-> >>> Best regards
-> >>> Thomas
-> >> If the goal is to keep all the steps then I could prefix all problematic
-> >> variables with __maybe_unused macro.
-> > The effect is the same; it hides a potential bug that should be analyzed
-> > and fixed. If you have the time, please look at the code and figure out
-> > what it's supposed to do, and why isn't it using the information. Look
-> > at git blame and log, was it always so, or did something change?
+On Mon, Dec 09, 2019 at 11:13:36AM -0500, Sean Paul wrote:
+> On Mon, Dec 9, 2019 at 10:18 AM Ville Syrj=E4l=E4
+> <ville.syrjala@linux.intel.com> wrote:
 > >
-> > The warnings are about potential bugs. The objective or end goal is to
-> > fix the bugs, not to silence the warnings.
-> This code haven't change since it has been added by commit:
-> 26bbdadad356e ("drm/mode: add the GTF algorithm in kernel space")
-> The variables that I'm removing are not used anywhere else.
-> The algorithm is copy from xserver/hw/xfree86/modes/xf86gtf.c where
-> vframe_rate and v_back_porch are used with (void) calls:
-> (void) v_back_porch;
-> (void) v_frame_rate;
-> It is another way avoid the warnings.
-> Note that if you start removing v_frame_rate then vfield_rate becomes 
-> unused, etc...
+> > On Fri, Dec 06, 2019 at 08:55:09AM -0500, Sean Paul wrote:
+> > > On Thu, Dec 05, 2019 at 09:33:19PM +0200, Ville Syrj=E4l=E4 wrote:
+> > > > On Tue, Dec 03, 2019 at 12:36:26PM -0500, Sean Paul wrote:
+> > > > > From: Sean Paul <seanpaul@chromium.org>
+> > > > >
+> > > > > Currently we rely on intel_hdcp_disable() to disable HDCP signall=
+ing in
+> > > > > the DDI Function Control register. This patch adds a safety net b=
+y also
+> > > > > clearing the bit when we disable the transcoder.
+> > > > >
+> > > > > Once we have HDCP over MST and disappearing connectors, we want t=
+o make
+> > > > > sure that the signalling is truly disabled even if HDCP teardown =
+doesn't
+> > > > > go as planned.
+> > > >
+> > > > Why wouldn't it go as planned?
+> > > >
+> > >
+> > > Because things can fail in weird and wonderful ways on unplug :-)
+> >
+> > Not really.
+> >
+> =
 
-I'd say we should do the same thing then as xf86 and just mark them up as
-unused. Might be good to double-check with the spec at least whether
-they're really not unused, or whether we have some issue. But given that
-it seems to have worked for ages, I suspect it's all good.
+> That is a bold position to take, bugs happen, hardware flakes, etc.
+> =
 
-Removing the code otoh feels a bit icky.
+> > >
+> > > It's a safety net. I saw this function and figured HDCP signalling sh=
+ould be
+> > > explicitly cleared here as well.
+> >
+> > I call it dead and confusing code.
+> =
+
+> ...adding a bit to an existing register clear is confusing? That might
+> be a touch hyperbolic.
+> =
+
+> > If we get here with HDCP still
+> > enabled we have a more serious bug somewhere else.
+> >
+> =
+
+> Ok, I suppose it's your call as to whether you take this patch, feel
+> free to drop.
+
+Maybe some expansion on this discussion here. We've had super-defensive
+modeset code back 10 years ago when i915 started.
+
+It was a mess, since all that "for safety" thing papered over real bugs,
+except thanks to the safety net you mostly couldn't observe machines dying
+for real. That's why we've gone pretty radical towards "you better know
+what state your hw is in".
+
+If you do want safatey, add a WARN_ON or similar that reads back hw state
+and double checks it is what we think it should be. That's much better for
+validating your driver than papering over all kinds of busg preemptively
+and making the real ones very hard to track down.
+
+tldr; WARN_ON hw/sw consistency safety checks good, "let me reclear/set
+this" safety code bad. At least if it doesn't come with a huge WARN_ON
+that things have gone terribly wrong so we can actually catch bugs in CI
+and testing.
 -Daniel
+-- =
 
-
-> 
-> Benjamin
-> 
-> >
-> > BR,
-> > Jani.
-> >
-> >
-> >> Benjamin
-> >>
-> >>>>    	/*  15. Find number of pixels in left margin: */
-> >>>>    	if (margins)
-> >>>>    		left_margin = (hdisplay_rnd * GTF_MARGIN_PERCENTAGE + 500) /
-> >>>>
-> >> _______________________________________________
-> >> dri-devel mailing list
-> >> dri-devel@lists.freedesktop.org
-> >> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
