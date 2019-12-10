@@ -2,107 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 189DB118C48
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 16:16:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5195118C70
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 16:26:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0DEF6E104;
-	Tue, 10 Dec 2019 15:16:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 783FB6E10F;
+	Tue, 10 Dec 2019 15:25:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2088.outbound.protection.outlook.com [40.107.92.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06F636E104
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 15:16:31 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OytAIw7ydSM3mGdbTY53mDW2aizo4WJcs85N8awROtOAHgESebeRp/mqehmQNzL2Oe2yKwg2NbgaQArSc1ovz0cXPg8DefEj2WNkz86eanf+4lJZ6R86Cx09xiKtznXsVeQvWOgCD/SqTBMGsAmDrowk0kAZmWl7b6lhxrnR5nkObAuEnPTaZ5ISKuv/K16a2YmOtq1+ycVpEX07pgUnCx5tewHmEri+1RjsbuyekZlvKR7uQeViLZIudixSLSrlrqy0r6KC61Lf9p1OdW6Ieguc4FVXcwsuMl+3I5uiTMg6Uv1CkwU7PzrmA0/QtdHRILu/NwIKJ7ih1ONZzNvAVg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=93wrPJMW31VpPd8EsKoAg9Ya+0bYilQVw3j3du6FlMQ=;
- b=V0sp8E9wcK/1luKmKB4tYg+yViawwOS/WF37Et/P2vmyS6OyKnoaX9JJs8m3MniEmBBfIz4uBIGE/xxogdbONO45dNt0G0T4STr6NjSffyb0S7NCaRrk1Beluv0WW/gtObNUD62eIQAhxWFCEawCZxpBalr1/KGPHtpnkg272CV1eJk2zi20gGiiWJD4VgK+0JzvVN9WHKfWXHAIDyPy5x8QhruDt7Us0YTGwRfzCZg0fwd31HQU92XOs/hydvWCvGbBJrZIzyifGNe0bkENTJZTmEnZ2UkCkL3i55OlZH7LUys1qnA7O0jB+aiICVsAzyGbQiabn3gYvInQidghKQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=93wrPJMW31VpPd8EsKoAg9Ya+0bYilQVw3j3du6FlMQ=;
- b=1uM9BvvNJzbtlk8XU60ffkf0CIggWlOEyzZSzpSJE5ZmmvO4Mm5rFE5o+ROkTTdRM9/wzXvYQcBeypDinnftCHK0jJTNPl9+beI03GA9aCxQT+0fCRQUahCjERPUdedGKw3YbjeAarRHy972yFla/s+0Sb3LV4/6W2Bdh3pZefI=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Harry.Wentland@amd.com; 
-Received: from CY4PR1201MB0230.namprd12.prod.outlook.com (10.172.79.7) by
- CY4PR1201MB0056.namprd12.prod.outlook.com (10.172.78.16) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2516.16; Tue, 10 Dec 2019 15:16:30 +0000
-Received: from CY4PR1201MB0230.namprd12.prod.outlook.com
- ([fe80::301e:b0c8:7af:d77d]) by CY4PR1201MB0230.namprd12.prod.outlook.com
- ([fe80::301e:b0c8:7af:d77d%11]) with mapi id 15.20.2516.018; Tue, 10 Dec 2019
- 15:16:30 +0000
-Subject: Re: [PATCH v2] drm: add dp helper to initialize remote aux channel.
-To: "David (Dingchen) Zhang" <dingchen.zhang@amd.com>,
- dri-devel@lists.freedesktop.org
-References: <20191206225638.609-1-dingchen.zhang@amd.com>
-From: Harry Wentland <hwentlan@amd.com>
-Autocrypt: addr=hwentlan@amd.com; keydata=
- mQENBFhb4C8BCADhHHUNoBQ7K7LupCP0FsUb443Vuqq+dH0uo4A3lnPkMF6FJmGcJ9Sbx1C6
- cd4PbVAaTFZUEmjqfpm+wCRBe11eF55hW3GJ273wvfH69Q/zmAxwO8yk+i5ZWWl8Hns5h69K
- D9QURHLpXxrcwnfHFah0DwV23TrD1KGB7vowCZyJOw93U/GzAlXKESy0FM7ZOYIJH83X7qhh
- Q9KX94iTEYTeH86Wy8hwHtqM6ySviwEz0g+UegpG8ebbz0w3b5QmdKCAg+eZTmBekP5o77YE
- BKqR+Miiwo9+tzm2N5GiF9HDeI2pVe/egOLa5UcmsgdF4Y5FKoMnBbAHNaA6Fev8PHlNABEB
- AAG0J0hhcnJ5IFdlbnRsYW5kIDxoYXJyeS53ZW50bGFuZEBhbWQuY29tPokBNwQTAQgAIQUC
- WFvgLwIbAwULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgAAKCRAtWBXJjBS24xUlCAC9MqAlIbZO
- /a37s41h+MQ+D20C6/hVErWO+RA06nA+jFDPUWrDJKYdn6EDQWdLY3ATeAq3X8GIeOTXGrPD
- b2OXD6kOViW/RNvlXdrIsnIDacdr39aoAlY1b+bhTzZVz4pto4l+K1PZb5jlMgTk/ks9HesL
- RfYVq5wOy3qIpocdjdlXnSUKn0WOkGBBd8Nv3o0OI18tiJ1S/QwLBBfZoVvfGinoB2p4j/wO
- kJxpi3F9TaOtLGcdrgfghg31Fb48DP+6kodZ4ircerp4hyAp0U2iKtsrQ/sVWR4mbe3eTfcn
- YjBxGd2JOVdNQZa2VTNf9GshIDMD8IIQK6jN0LfY8Py2uQENBFhb4C8BCAC/0KWY3pIbU2cy
- i7GMj3gqB6h0jGqRuMpMRoSNDoAUIuSh17w+bawuOF6XZPdK3D4lC9cOXMwP3aP9tTJOori2
- 8vMH8KW9jp9lAYnGWYhSqLdjzIACquMqi96EBtawJDct1e9pVgp+d4JXHlgIrl11ITJo8rCP
- dEqjro2bCBWxijsIncdCzMjf57+nR7u86SBtGSFcXKapS7YJeWcvM6MzFYgIkxHxxBDvBBvm
- U2/mAXiL72kwmlV1BNrabQxX2UnIb3xt3UovYJehrnDUMdYjxJgSPRBx27wQ/D05xAlhkmmL
- FJ01ZYc412CRCC6gjgFPfUi2y7YJTrQHS79WSyANABEBAAGJAR8EGAEIAAkFAlhb4C8CGwwA
- CgkQLVgVyYwUtuM72Qf+J6JOQ/27pWf5Ulde9GS0BigA1kV9CNfIq396TgvQzeyixHMvgPdq
- Z36x89zZi0otjMZv6ypIdEg5co1Bvz0wFaKbCiNbTjpnA1VAbQVLSFjCZLQiu0vc+BZ1yKDV
- T5ASJ97G4XvQNO+XXGY55MrmhoNqMaeIa/3Jas54fPVd5olcnUAyDty29/VWXNllUq38iBCX
- /0tTF7oav1lzPGfeW2c6B700FFZMTR4YBVSGE8jPIzu2Fj0E8EkDmsgS+nibqSvWXfo1v231
- 410h35CjbYDlYQO7Z1YD7asqbaOnF0As+rckyRMweQ9CxZn5+YBijtPJA3x5ldbCfQ9rWiTu XQ==
-Message-ID: <bbae88cf-61f0-f74e-8bd3-a5c9604f296d@amd.com>
-Date: Tue, 10 Dec 2019 10:16:28 -0500
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E9486E10F
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 15:25:57 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 83B9BAB92;
+ Tue, 10 Dec 2019 15:25:55 +0000 (UTC)
+Subject: Re: [PATCH] drm: remove drm_bridge->dev
+To: Mihail Atanassov <Mihail.Atanassov@arm.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+References: <20191205163028.19941-1-mihail.atanassov@arm.com>
+ <20191210151111.21510-1-mihail.atanassov@arm.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <03fe8874-a969-8c82-6a29-aca0d6754ee7@suse.de>
+Date: Tue, 10 Dec 2019 16:25:50 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
-In-Reply-To: <20191206225638.609-1-dingchen.zhang@amd.com>
-Content-Language: en-US
-X-ClientProxiedBy: YTXPR0101CA0068.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b00:1::45) To CY4PR1201MB0230.namprd12.prod.outlook.com
- (2603:10b6:910:1e::7)
 MIME-Version: 1.0
-X-Originating-IP: [165.204.55.251]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 62576c2d-60c1-4143-d863-08d77d83eec7
-X-MS-TrafficTypeDiagnostic: CY4PR1201MB0056:|CY4PR1201MB0056:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <CY4PR1201MB0056B2BCE890EBA1ECAFAE0E8C5B0@CY4PR1201MB0056.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
-X-Forefront-PRVS: 02475B2A01
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10009020)(4636009)(346002)(396003)(376002)(366004)(136003)(39860400002)(199004)(189003)(2906002)(6486002)(478600001)(6512007)(54906003)(966005)(66556008)(8936002)(81166006)(8676002)(4326008)(6506007)(66476007)(53546011)(186003)(81156014)(26005)(36756003)(66946007)(52116002)(31696002)(31686004)(5660300002)(316002)(2616005);
- DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR1201MB0056;
- H:CY4PR1201MB0230.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /GmarlPl5j37myL4hxothpzuiW32BJjmDcR80SH5wnHdsI0/kwhK97O2VpFxMKgI/UkBRu6OjtQIw+jfTXDphcUzH+Jsh0eL3BOt03zJn9V1AtiOjjAEiR1g9jrXPYdsuf8wC31xEO2Myr72v9snSC1cRRPIa6xMbyLaTMR62pfnMe0ICBANUOw2n+auJBKtvk3zue5cvvanAJo7rG0HPRVmvsci9bi7LKtWqM7atS5/zlpEMn13K1HwOcW2zn0aic6mNkQAqQrks0NfHjbW104NvPv33ubOk16nmAT26FlTuVUxhcUZocYjpqNgdpgbqPVTV3wxJsKQCK1Agz88GwYMf+uE7plLXtIr1Ge9K6FLqTiZHvA/iDk+CU77RhE1W13//0xfBEoq6W0m+strT5HWffhgo7siWOLfxMo2o+UuMvsxuKBFMsHIKF5fZKFIHwq0i2Pmq5cNbdz5qZGi+MXdVzFv8MCJeJJ3IAPJhqI=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 62576c2d-60c1-4143-d863-08d77d83eec7
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2019 15:16:30.0475 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bG8dnnlGR0fCmLnc0aKR0DSTj7gIc1ey89X7GwuP1EZpO/uyBz1FbRzhyUxpKHDpIpCG5hu9MZj1r7SD/w77YQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB0056
+In-Reply-To: <20191210151111.21510-1-mihail.atanassov@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,94 +65,588 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
+ Martyn Welch <martyn.welch@collabora.co.uk>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ Peter Senna Tschudin <peter.senna@gmail.com>,
+ Russell King <linux@armlinux.org.uk>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, nd <nd@arm.com>,
+ Sean Paul <sean@poorly.run>
+Content-Type: multipart/mixed; boundary="===============1548986616=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2019-12-06 5:56 p.m., David (Dingchen) Zhang wrote:
-> [why]
-> We need to minimally initialize the remote aux channel, e.g. the
-> crc work struct of remote aux to dump the sink's DPRX CRCs in MST
-> setup.
-> 
-> [how]
-> Add helper that only initializes the crc work struct of the remote
-> aux, hooke crc work queue to 'drm_dp_aux_crc_work'. Then call this
-> helper in DP MST port initialization.
-> This, plus David Francis' patch [1], fix the issue of MST remote
-> aux DPCD CRCs read.
-> 
-> [1] https://patchwork.kernel.org/patch/11217941/
-> 
-> Cc: Leo Li <sunpeng.li@amd.com>
-> Cc: Harry Wentland <Harry.Wentland@amd.com>
-> Signed-off-by: David (Dingchen) Zhang <dingchen.zhang@amd.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1548986616==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="WwTgaAT3EFqAV2Uy3j3JxQ9sqm3PeNkNM"
 
-Patch is
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--WwTgaAT3EFqAV2Uy3j3JxQ9sqm3PeNkNM
+Content-Type: multipart/mixed; boundary="RctZ3nOgqpUQbiYZuvSNZ7feVNWkR5BCw";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Mihail Atanassov <Mihail.Atanassov@arm.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: nd <nd@arm.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Peter Senna Tschudin
+ <peter.senna@gmail.com>, Martyn Welch <martyn.welch@collabora.co.uk>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Linus Walleij <linus.walleij@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Message-ID: <03fe8874-a969-8c82-6a29-aca0d6754ee7@suse.de>
+Subject: Re: [PATCH] drm: remove drm_bridge->dev
+References: <20191205163028.19941-1-mihail.atanassov@arm.com>
+ <20191210151111.21510-1-mihail.atanassov@arm.com>
+In-Reply-To: <20191210151111.21510-1-mihail.atanassov@arm.com>
 
-Harry
+--RctZ3nOgqpUQbiYZuvSNZ7feVNWkR5BCw
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+
+
+Am 10.12.19 um 16:11 schrieb Mihail Atanassov:
+> As suggested in [1], the 'dev' field is a bit repetitive, since it 1:1
+> follows the setting and NULLing of the 'encoder' field. Therefore, use
+> drm_bridge->encoder->dev in place of drm_bridge->dev.
+>=20
+> [1] https://patchwork.freedesktop.org/patch/343824/
+>=20
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Signed-off-by: Mihail Atanassov <mihail.atanassov@arm.com>
+
+Nice.
+
+Acked-by: Thomas Zimmermann
 
 > ---
->  drivers/gpu/drm/drm_dp_helper.c       | 13 +++++++++++++
->  drivers/gpu/drm/drm_dp_mst_topology.c |  3 +++
->  include/drm/drm_dp_helper.h           |  1 +
->  3 files changed, 17 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-> index 2c7870aef469..cc4845d0fcb8 100644
-> --- a/drivers/gpu/drm/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/drm_dp_helper.c
-> @@ -968,6 +968,19 @@ static void drm_dp_aux_crc_work(struct work_struct *work)
+>  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c           |  2 +-
+>  drivers/gpu/drm/bridge/analogix/analogix-anx6345.c     |  2 +-
+>  drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c     |  2 +-
+>  drivers/gpu/drm/bridge/cdns-dsi.c                      |  2 +-
+>  drivers/gpu/drm/bridge/dumb-vga-dac.c                  |  2 +-
+>  .../gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c   |  2 +-
+>  drivers/gpu/drm/bridge/nxp-ptn3460.c                   |  2 +-
+>  drivers/gpu/drm/bridge/panel.c                         |  2 +-
+>  drivers/gpu/drm/bridge/parade-ps8622.c                 |  2 +-
+>  drivers/gpu/drm/bridge/sii902x.c                       |  6 +++---
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c              |  6 +++---
+>  drivers/gpu/drm/bridge/tc358764.c                      |  4 ++--
+>  drivers/gpu/drm/bridge/tc358767.c                      |  6 +++---
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c                  |  2 +-
+>  drivers/gpu/drm/bridge/ti-tfp410.c                     |  6 +++---
+>  drivers/gpu/drm/drm_bridge.c                           | 10 ++++------=
+
+>  drivers/gpu/drm/i2c/tda998x_drv.c                      |  2 +-
+>  drivers/gpu/drm/mcde/mcde_dsi.c                        |  2 +-
+>  drivers/gpu/drm/msm/edp/edp_bridge.c                   |  2 +-
+>  drivers/gpu/drm/msm/hdmi/hdmi_bridge.c                 |  4 ++--
+>  drivers/gpu/drm/rcar-du/rcar_lvds.c                    |  3 ++-
+>  include/drm/drm_bridge.h                               |  2 --
+>  22 files changed, 35 insertions(+), 38 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu=
+/drm/bridge/adv7511/adv7511_drv.c
+> index 9e13e466e72c..009cf1fef8d4 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> @@ -863,7 +863,7 @@ static int adv7511_bridge_attach(struct drm_bridge =
+*bridge)
+>  		adv->connector.polled =3D DRM_CONNECTOR_POLL_CONNECT |
+>  				DRM_CONNECTOR_POLL_DISCONNECT;
+> =20
+> -	ret =3D drm_connector_init(bridge->dev, &adv->connector,
+> +	ret =3D drm_connector_init(bridge->encoder->dev, &adv->connector,
+>  				 &adv7511_connector_funcs,
+>  				 DRM_MODE_CONNECTOR_HDMIA);
+>  	if (ret) {
+> diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c b/drive=
+rs/gpu/drm/bridge/analogix/analogix-anx6345.c
+> index 9917ce0d86a0..5b806d23fcb3 100644
+> --- a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
+> +++ b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
+> @@ -541,7 +541,7 @@ static int anx6345_bridge_attach(struct drm_bridge =
+*bridge)
+>  		return err;
 >  	}
+> =20
+> -	err =3D drm_connector_init(bridge->dev, &anx6345->connector,
+> +	err =3D drm_connector_init(bridge->encoder->dev, &anx6345->connector,=
+
+>  				 &anx6345_connector_funcs,
+>  				 DRM_MODE_CONNECTOR_eDP);
+>  	if (err) {
+> diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c b/drive=
+rs/gpu/drm/bridge/analogix/analogix-anx78xx.c
+> index 41867be03751..7463537950cb 100644
+> --- a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
+> +++ b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
+> @@ -908,7 +908,7 @@ static int anx78xx_bridge_attach(struct drm_bridge =
+*bridge)
+>  		return err;
+>  	}
+> =20
+> -	err =3D drm_connector_init(bridge->dev, &anx78xx->connector,
+> +	err =3D drm_connector_init(bridge->encoder->dev, &anx78xx->connector,=
+
+>  				 &anx78xx_connector_funcs,
+>  				 DRM_MODE_CONNECTOR_DisplayPort);
+>  	if (err) {
+> diff --git a/drivers/gpu/drm/bridge/cdns-dsi.c b/drivers/gpu/drm/bridge=
+/cdns-dsi.c
+> index 3a5bd4e7fd1e..32863e3ad537 100644
+> --- a/drivers/gpu/drm/bridge/cdns-dsi.c
+> +++ b/drivers/gpu/drm/bridge/cdns-dsi.c
+> @@ -651,7 +651,7 @@ static int cdns_dsi_bridge_attach(struct drm_bridge=
+ *bridge)
+>  	struct cdns_dsi *dsi =3D input_to_dsi(input);
+>  	struct cdns_dsi_output *output =3D &dsi->output;
+> =20
+> -	if (!drm_core_check_feature(bridge->dev, DRIVER_ATOMIC)) {
+> +	if (!drm_core_check_feature(bridge->encoder->dev, DRIVER_ATOMIC)) {
+>  		dev_err(dsi->base.dev,
+>  			"cdns-dsi driver is only compatible with DRM devices supporting ato=
+mic updates");
+>  		return -ENOTSUPP;
+> diff --git a/drivers/gpu/drm/bridge/dumb-vga-dac.c b/drivers/gpu/drm/br=
+idge/dumb-vga-dac.c
+> index cc33dc411b9e..67ad6cecf68d 100644
+> --- a/drivers/gpu/drm/bridge/dumb-vga-dac.c
+> +++ b/drivers/gpu/drm/bridge/dumb-vga-dac.c
+> @@ -112,7 +112,7 @@ static int dumb_vga_attach(struct drm_bridge *bridg=
+e)
+> =20
+>  	drm_connector_helper_add(&vga->connector,
+>  				 &dumb_vga_con_helper_funcs);
+> -	ret =3D drm_connector_init_with_ddc(bridge->dev, &vga->connector,
+> +	ret =3D drm_connector_init_with_ddc(bridge->encoder->dev, &vga->conne=
+ctor,
+>  					  &dumb_vga_con_funcs,
+>  					  DRM_MODE_CONNECTOR_VGA,
+>  					  vga->ddc);
+> diff --git a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c b=
+/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
+> index e8a49f6146c6..c914f01e4707 100644
+> --- a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
+> +++ b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
+> @@ -223,7 +223,7 @@ static int ge_b850v3_lvds_attach(struct drm_bridge =
+*bridge)
+>  	drm_connector_helper_add(connector,
+>  				 &ge_b850v3_lvds_connector_helper_funcs);
+> =20
+> -	ret =3D drm_connector_init(bridge->dev, connector,
+> +	ret =3D drm_connector_init(bridge->encoder->dev, connector,
+>  				 &ge_b850v3_lvds_connector_funcs,
+>  				 DRM_MODE_CONNECTOR_DisplayPort);
+>  	if (ret) {
+> diff --git a/drivers/gpu/drm/bridge/nxp-ptn3460.c b/drivers/gpu/drm/bri=
+dge/nxp-ptn3460.c
+> index 57ff01339559..3999bb864eb9 100644
+> --- a/drivers/gpu/drm/bridge/nxp-ptn3460.c
+> +++ b/drivers/gpu/drm/bridge/nxp-ptn3460.c
+> @@ -247,7 +247,7 @@ static int ptn3460_bridge_attach(struct drm_bridge =
+*bridge)
+>  	}
+> =20
+>  	ptn_bridge->connector.polled =3D DRM_CONNECTOR_POLL_HPD;
+> -	ret =3D drm_connector_init(bridge->dev, &ptn_bridge->connector,
+> +	ret =3D drm_connector_init(bridge->encoder->dev, &ptn_bridge->connect=
+or,
+>  			&ptn3460_connector_funcs, DRM_MODE_CONNECTOR_LVDS);
+>  	if (ret) {
+>  		DRM_ERROR("Failed to initialize connector with drm\n");
+> diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/pa=
+nel.c
+> index f66777e24968..4ba4e9d9537a 100644
+> --- a/drivers/gpu/drm/bridge/panel.c
+> +++ b/drivers/gpu/drm/bridge/panel.c
+> @@ -67,7 +67,7 @@ static int panel_bridge_attach(struct drm_bridge *bri=
+dge)
+>  	drm_connector_helper_add(connector,
+>  				 &panel_bridge_connector_helper_funcs);
+> =20
+> -	ret =3D drm_connector_init(bridge->dev, connector,
+> +	ret =3D drm_connector_init(bridge->encoder->dev, connector,
+>  				 &panel_bridge_connector_funcs,
+>  				 panel_bridge->connector_type);
+>  	if (ret) {
+> diff --git a/drivers/gpu/drm/bridge/parade-ps8622.c b/drivers/gpu/drm/b=
+ridge/parade-ps8622.c
+> index 10c47c008b40..c32af9c2bbcc 100644
+> --- a/drivers/gpu/drm/bridge/parade-ps8622.c
+> +++ b/drivers/gpu/drm/bridge/parade-ps8622.c
+> @@ -487,7 +487,7 @@ static int ps8622_attach(struct drm_bridge *bridge)=
+
+>  	}
+> =20
+>  	ps8622->connector.polled =3D DRM_CONNECTOR_POLL_HPD;
+> -	ret =3D drm_connector_init(bridge->dev, &ps8622->connector,
+> +	ret =3D drm_connector_init(bridge->encoder->dev, &ps8622->connector,
+>  			&ps8622_connector_funcs, DRM_MODE_CONNECTOR_LVDS);
+>  	if (ret) {
+>  		DRM_ERROR("Failed to initialize connector with drm\n");
+> diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/=
+sii902x.c
+> index b70e8c5cf2e1..6ca297d78a26 100644
+> --- a/drivers/gpu/drm/bridge/sii902x.c
+> +++ b/drivers/gpu/drm/bridge/sii902x.c
+> @@ -402,7 +402,7 @@ static void sii902x_bridge_mode_set(struct drm_brid=
+ge *bridge,
+>  static int sii902x_bridge_attach(struct drm_bridge *bridge)
+>  {
+>  	struct sii902x *sii902x =3D bridge_to_sii902x(bridge);
+> -	struct drm_device *drm =3D bridge->dev;
+> +	struct drm_device *drm =3D bridge->encoder->dev;
+>  	int ret;
+> =20
+>  	drm_connector_helper_add(&sii902x->connector,
+> @@ -820,8 +820,8 @@ static irqreturn_t sii902x_interrupt(int irq, void =
+*data)
+> =20
+>  	mutex_unlock(&sii902x->mutex);
+> =20
+> -	if ((status & SII902X_HOTPLUG_EVENT) && sii902x->bridge.dev)
+> -		drm_helper_hpd_irq_event(sii902x->bridge.dev);
+> +	if ((status & SII902X_HOTPLUG_EVENT) && sii902x->bridge.encoder)
+> +		drm_helper_hpd_irq_event(sii902x->bridge.encoder->dev);
+> =20
+>  	return IRQ_HANDLED;
 >  }
->  
-> +/**
-> + * drm_dp_remote_aux_init() - minimally initialise a remote aux channel
-> + * @aux: DisplayPort AUX channel
-> + *
-> + * Used for remote aux channel in general. Merely initialize the crc work
-> + * struct.
-> + */
-> +void drm_dp_remote_aux_init(struct drm_dp_aux *aux)
-> +{
-> +	INIT_WORK(&aux->crc_work, drm_dp_aux_crc_work);
-> +}
-> +EXPORT_SYMBOL(drm_dp_remote_aux_init);
-> +
->  /**
->   * drm_dp_aux_init() - minimally initialise an aux channel
->   * @aux: DisplayPort AUX channel
-> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-> index 87fc44895d83..edafa182264a 100644
-> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-> @@ -1945,6 +1945,9 @@ drm_dp_mst_handle_link_address_port(struct drm_dp_mst_branch *mstb,
->  		port->aux.dev = dev->dev;
->  		port->aux.is_remote = true;
->  
-> +		/* initialize the MST downstream port's AUX crc work queue */
-> +		drm_dp_remote_aux_init(&port->aux);
-> +
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/dr=
+m/bridge/synopsys/dw-hdmi.c
+> index dbe38a54870b..99274ca0fdf6 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -2346,7 +2346,7 @@ static int dw_hdmi_bridge_attach(struct drm_bridg=
+e *bridge)
+> =20
+>  	drm_connector_helper_add(connector, &dw_hdmi_connector_helper_funcs);=
+
+> =20
+> -	drm_connector_init_with_ddc(bridge->dev, connector,
+> +	drm_connector_init_with_ddc(bridge->encoder->dev, connector,
+>  				    &dw_hdmi_connector_funcs,
+>  				    DRM_MODE_CONNECTOR_HDMIA,
+>  				    hdmi->ddc);
+> @@ -2554,8 +2554,8 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev=
+_id)
+>  	if (intr_stat & HDMI_IH_PHY_STAT0_HPD) {
+>  		dev_dbg(hdmi->dev, "EVENT=3D%s\n",
+>  			phy_int_pol & HDMI_PHY_HPD ? "plugin" : "plugout");
+> -		if (hdmi->bridge.dev)
+> -			drm_helper_hpd_irq_event(hdmi->bridge.dev);
+> +		if (hdmi->bridge.encoder)
+> +			drm_helper_hpd_irq_event(hdmi->bridge.encoder->dev);
+>  	}
+> =20
+>  	hdmi_writeb(hdmi, intr_stat, HDMI_IH_PHY_STAT0);
+> diff --git a/drivers/gpu/drm/bridge/tc358764.c b/drivers/gpu/drm/bridge=
+/tc358764.c
+> index 96207fcfde19..e35e17b1f396 100644
+> --- a/drivers/gpu/drm/bridge/tc358764.c
+> +++ b/drivers/gpu/drm/bridge/tc358764.c
+> @@ -352,7 +352,7 @@ static void tc358764_enable(struct drm_bridge *brid=
+ge)
+>  static int tc358764_attach(struct drm_bridge *bridge)
+>  {
+>  	struct tc358764 *ctx =3D bridge_to_tc358764(bridge);
+> -	struct drm_device *drm =3D bridge->dev;
+> +	struct drm_device *drm =3D bridge->encoder->dev;
+>  	int ret;
+> =20
+>  	ctx->connector.polled =3D DRM_CONNECTOR_POLL_HPD;
+> @@ -378,7 +378,7 @@ static int tc358764_attach(struct drm_bridge *bridg=
+e)
+>  static void tc358764_detach(struct drm_bridge *bridge)
+>  {
+>  	struct tc358764 *ctx =3D bridge_to_tc358764(bridge);
+> -	struct drm_device *drm =3D bridge->dev;
+> +	struct drm_device *drm =3D bridge->encoder->dev;
+> =20
+>  	drm_connector_unregister(&ctx->connector);
+>  	drm_fb_helper_remove_one_connector(drm->fb_helper, &ctx->connector);
+> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge=
+/tc358767.c
+> index 3709e5ace724..ab1524c00777 100644
+> --- a/drivers/gpu/drm/bridge/tc358767.c
+> +++ b/drivers/gpu/drm/bridge/tc358767.c
+> @@ -1407,7 +1407,7 @@ static int tc_bridge_attach(struct drm_bridge *br=
+idge)
+>  {
+>  	u32 bus_format =3D MEDIA_BUS_FMT_RGB888_1X24;
+>  	struct tc_data *tc =3D bridge_to_tc(bridge);
+> -	struct drm_device *drm =3D bridge->dev;
+> +	struct drm_device *drm =3D bridge->encoder->dev;
+>  	int ret;
+> =20
+>  	/* Create DP/eDP connector */
+> @@ -1514,7 +1514,7 @@ static irqreturn_t tc_irq_handler(int irq, void *=
+arg)
+>  		dev_err(tc->dev, "syserr %x\n", stat);
+>  	}
+> =20
+> -	if (tc->hpd_pin >=3D 0 && tc->bridge.dev) {
+> +	if (tc->hpd_pin >=3D 0 && tc->bridge.encoder) {
 >  		/*
->  		 * Make sure the memory allocation for our parent branch stays
->  		 * around until our own memory allocation is released
-> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-> index 8f8f3632e697..b2e6923d5929 100644
-> --- a/include/drm/drm_dp_helper.h
-> +++ b/include/drm/drm_dp_helper.h
-> @@ -1465,6 +1465,7 @@ int drm_dp_downstream_id(struct drm_dp_aux *aux, char id[6]);
->  void drm_dp_downstream_debug(struct seq_file *m, const u8 dpcd[DP_RECEIVER_CAP_SIZE],
->  			     const u8 port_cap[4], struct drm_dp_aux *aux);
->  
-> +void drm_dp_remote_aux_init(struct drm_dp_aux *aux);
->  void drm_dp_aux_init(struct drm_dp_aux *aux);
->  int drm_dp_aux_register(struct drm_dp_aux *aux);
->  void drm_dp_aux_unregister(struct drm_dp_aux *aux);
-> 
+>  		 * H is triggered when the GPIO goes high.
+>  		 *
+> @@ -1528,7 +1528,7 @@ static irqreturn_t tc_irq_handler(int irq, void *=
+arg)
+>  			h ? "H" : "", lc ? "LC" : "");
+> =20
+>  		if (h || lc)
+> -			drm_kms_helper_hotplug_event(tc->bridge.dev);
+> +			drm_kms_helper_hotplug_event(tc->bridge.encoder->dev);
+>  	}
+> =20
+>  	regmap_write(tc->regmap, INTSTS_G, val);
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/br=
+idge/ti-sn65dsi86.c
+> index 9a2dd986afa5..8a4e64cfca1e 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> @@ -275,7 +275,7 @@ static int ti_sn_bridge_attach(struct drm_bridge *b=
+ridge)
+>  						   .node =3D NULL,
+>  						 };
+> =20
+> -	ret =3D drm_connector_init(bridge->dev, &pdata->connector,
+> +	ret =3D drm_connector_init(bridge->encoder->dev, &pdata->connector,
+>  				 &ti_sn_bridge_connector_funcs,
+>  				 DRM_MODE_CONNECTOR_eDP);
+>  	if (ret) {
+> diff --git a/drivers/gpu/drm/bridge/ti-tfp410.c b/drivers/gpu/drm/bridg=
+e/ti-tfp410.c
+> index aa3198dc9903..76229367e2f4 100644
+> --- a/drivers/gpu/drm/bridge/ti-tfp410.c
+> +++ b/drivers/gpu/drm/bridge/ti-tfp410.c
+> @@ -135,7 +135,7 @@ static int tfp410_attach(struct drm_bridge *bridge)=
+
+> =20
+>  	drm_connector_helper_add(&dvi->connector,
+>  				 &tfp410_con_helper_funcs);
+> -	ret =3D drm_connector_init_with_ddc(bridge->dev, &dvi->connector,
+> +	ret =3D drm_connector_init_with_ddc(bridge->encoder->dev, &dvi->conne=
+ctor,
+>  					  &tfp410_con_funcs,
+>  					  dvi->connector_type,
+>  					  dvi->ddc);
+> @@ -179,8 +179,8 @@ static void tfp410_hpd_work_func(struct work_struct=
+ *work)
+> =20
+>  	dvi =3D container_of(work, struct tfp410, hpd_work.work);
+> =20
+> -	if (dvi->bridge.dev)
+> -		drm_helper_hpd_irq_event(dvi->bridge.dev);
+> +	if (dvi->bridge.encoder)
+> +		drm_helper_hpd_irq_event(dvi->bridge.encoder->dev);
+>  }
+> =20
+>  static irqreturn_t tfp410_hpd_irq_thread(int irq, void *arg)
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.=
+c
+> index c2cf0c90fa26..eaa20804b038 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -119,13 +119,12 @@ int drm_bridge_attach(struct drm_encoder *encoder=
+, struct drm_bridge *bridge,
+>  	if (!encoder || !bridge)
+>  		return -EINVAL;
+> =20
+> -	if (previous && (!previous->dev || previous->encoder !=3D encoder))
+> +	if (previous && (previous->encoder !=3D encoder))
+>  		return -EINVAL;
+> =20
+> -	if (bridge->dev)
+> +	if (bridge->encoder)
+>  		return -EBUSY;
+> =20
+> -	bridge->dev =3D encoder->dev;
+>  	bridge->encoder =3D encoder;
+> =20
+>  	if (previous)
+> @@ -137,7 +136,6 @@ int drm_bridge_attach(struct drm_encoder *encoder, =
+struct drm_bridge *bridge,
+>  		ret =3D bridge->funcs->attach(bridge);
+>  		if (ret < 0) {
+>  			list_del(&bridge->chain_node);
+> -			bridge->dev =3D NULL;
+>  			bridge->encoder =3D NULL;
+>  			return ret;
+>  		}
+> @@ -152,14 +150,14 @@ void drm_bridge_detach(struct drm_bridge *bridge)=
+
+>  	if (WARN_ON(!bridge))
+>  		return;
+> =20
+> -	if (WARN_ON(!bridge->dev))
+> +	if (WARN_ON(!bridge->encoder))
+>  		return;
+> =20
+>  	if (bridge->funcs->detach)
+>  		bridge->funcs->detach(bridge);
+> =20
+>  	list_del(&bridge->chain_node);
+> -	bridge->dev =3D NULL;
+> +	bridge->encoder =3D NULL;
+>  }
+> =20
+>  /**
+> diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/i2c/td=
+a998x_drv.c
+> index a63790d32d75..17a66ef3dfd4 100644
+> --- a/drivers/gpu/drm/i2c/tda998x_drv.c
+> +++ b/drivers/gpu/drm/i2c/tda998x_drv.c
+> @@ -1360,7 +1360,7 @@ static int tda998x_bridge_attach(struct drm_bridg=
+e *bridge)
+>  {
+>  	struct tda998x_priv *priv =3D bridge_to_tda998x_priv(bridge);
+> =20
+> -	return tda998x_connector_init(priv, bridge->dev);
+> +	return tda998x_connector_init(priv, bridge->encoder->dev);
+>  }
+> =20
+>  static void tda998x_bridge_detach(struct drm_bridge *bridge)
+> diff --git a/drivers/gpu/drm/mcde/mcde_dsi.c b/drivers/gpu/drm/mcde/mcd=
+e_dsi.c
+> index 42fff811653e..c08d7ede9fb8 100644
+> --- a/drivers/gpu/drm/mcde/mcde_dsi.c
+> +++ b/drivers/gpu/drm/mcde/mcde_dsi.c
+> @@ -846,7 +846,7 @@ static void mcde_dsi_bridge_disable(struct drm_brid=
+ge *bridge)
+>  static int mcde_dsi_bridge_attach(struct drm_bridge *bridge)
+>  {
+>  	struct mcde_dsi *d =3D bridge_to_mcde_dsi(bridge);
+> -	struct drm_device *drm =3D bridge->dev;
+> +	struct drm_device *drm =3D bridge->encoder->dev;
+>  	int ret;
+> =20
+>  	if (!drm_core_check_feature(drm, DRIVER_ATOMIC)) {
+> diff --git a/drivers/gpu/drm/msm/edp/edp_bridge.c b/drivers/gpu/drm/msm=
+/edp/edp_bridge.c
+> index b65b5cc2dba2..301dd7a80bde 100644
+> --- a/drivers/gpu/drm/msm/edp/edp_bridge.c
+> +++ b/drivers/gpu/drm/msm/edp/edp_bridge.c
+> @@ -47,7 +47,7 @@ static void edp_bridge_mode_set(struct drm_bridge *br=
+idge,
+>  		const struct drm_display_mode *mode,
+>  		const struct drm_display_mode *adjusted_mode)
+>  {
+> -	struct drm_device *dev =3D bridge->dev;
+> +	struct drm_device *dev =3D bridge->encoder->dev;
+>  	struct drm_connector *connector;
+>  	struct edp_bridge *edp_bridge =3D to_edp_bridge(bridge);
+>  	struct msm_edp *edp =3D edp_bridge->edp;
+> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/m=
+sm/hdmi/hdmi_bridge.c
+> index ba81338a9bf8..07c098dce310 100644
+> --- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+> +++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+> @@ -20,7 +20,7 @@ void msm_hdmi_bridge_destroy(struct drm_bridge *bridg=
+e)
+> =20
+>  static void msm_hdmi_power_on(struct drm_bridge *bridge)
+>  {
+> -	struct drm_device *dev =3D bridge->dev;
+> +	struct drm_device *dev =3D bridge->encoder->dev;
+>  	struct hdmi_bridge *hdmi_bridge =3D to_hdmi_bridge(bridge);
+>  	struct hdmi *hdmi =3D hdmi_bridge->hdmi;
+>  	const struct hdmi_platform_config *config =3D hdmi->config;
+> @@ -56,7 +56,7 @@ static void msm_hdmi_power_on(struct drm_bridge *brid=
+ge)
+> =20
+>  static void power_off(struct drm_bridge *bridge)
+>  {
+> -	struct drm_device *dev =3D bridge->dev;
+> +	struct drm_device *dev =3D bridge->encoder->dev;
+>  	struct hdmi_bridge *hdmi_bridge =3D to_hdmi_bridge(bridge);
+>  	struct hdmi *hdmi =3D hdmi_bridge->hdmi;
+>  	const struct hdmi_platform_config *config =3D hdmi->config;
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar=
+-du/rcar_lvds.c
+> index 2cf44b91853c..83538125a722 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> @@ -622,7 +622,8 @@ static int rcar_lvds_attach(struct drm_bridge *brid=
+ge)
+>  	if (!lvds->panel)
+>  		return 0;
+> =20
+> -	ret =3D drm_connector_init(bridge->dev, connector, &rcar_lvds_conn_fu=
+ncs,
+> +	ret =3D drm_connector_init(bridge->encoder->dev, connector,
+> +				 &rcar_lvds_conn_funcs,
+>  				 DRM_MODE_CONNECTOR_LVDS);
+>  	if (ret < 0)
+>  		return ret;
+> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> index 694e153a7531..695d0898df38 100644
+> --- a/include/drm/drm_bridge.h
+> +++ b/include/drm/drm_bridge.h
+> @@ -380,8 +380,6 @@ struct drm_bridge_timings {
+>   * struct drm_bridge - central DRM bridge control structure
+>   */
+>  struct drm_bridge {
+> -	/** @dev: DRM device this bridge belongs to */
+> -	struct drm_device *dev;
+>  	/** @encoder: encoder to which this bridge is connected */
+>  	struct drm_encoder *encoder;
+>  	/** @chain_node: used to form a bridge chain */
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--RctZ3nOgqpUQbiYZuvSNZ7feVNWkR5BCw--
+
+--WwTgaAT3EFqAV2Uy3j3JxQ9sqm3PeNkNM
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl3vuP4ACgkQaA3BHVML
+eiOZVgf9FBMeKRaBw6uLAfy/MUbRtGHxx9QlLi18oUwnZn89tzXB/RMCfyo4zvoD
+ORXJ56bJIfTdNYlxcN+/NvUitWjJ/mFM5FiuhdElFdPUqQPIc+3HgyQXjbEXCVxt
+rSaGG+BgiVAhJZ5Pd+OFeLI5o3uT8+xnc8na9iQwE4J8eiFgJz1cvWQKqod7ZlXR
+YWVVwG18ZFkC3GIaY7J93x/3ma+Id2CGuVmD0QKrUuRzc3QpFLeeHfjk8m39sVK/
+VOwkWCjNF01NpBrxwfHq+j5zt8OcvOqPa1FyUbnQut5UecsC1rFGq+2+Oy6/IUjW
+6OrXksb3NGzexjlZ1ANqlN3pQTP4Ww==
+=Ofrl
+-----END PGP SIGNATURE-----
+
+--WwTgaAT3EFqAV2Uy3j3JxQ9sqm3PeNkNM--
+
+--===============1548986616==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1548986616==--
