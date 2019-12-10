@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E22C111A6AA
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 10:21:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E789111A6A7
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 10:20:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D31FE6EA9F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E68526EAA0;
 	Wed, 11 Dec 2019 09:20:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
- [IPv6:2607:f8b0:4864:20::741])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0123089893
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 11:30:05 +0000 (UTC)
-Received: by mail-qk1-x741.google.com with SMTP id k6so16104212qki.5
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 03:30:05 -0800 (PST)
+Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com
+ [IPv6:2607:f8b0:4864:20::743])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4859B6E05D
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 11:32:59 +0000 (UTC)
+Received: by mail-qk1-x743.google.com with SMTP id a203so5974723qkc.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 03:32:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yUNruGoQq1gzO8XGA6jacEacQBhClJP0vKcD1a+eH/4=;
- b=O5txJKAKwKTSVVD40PccLFuNxjeKGuFvcSHgKxPZ+zD/GkZmHMHDzqBvzpEoXVP9W7
- xwTZmJe1dcBWtmhZYUKyaV1OKtfH0vjOLTtQIMVf5cap8dtQohVwWPvGafIgR9RR/dD7
- treGq6kPdVb2JsNDZ8hS20t11PIpf84qyL/mR5NJdIREUMdgWHA3u4uadN8oU3x/Sycb
- YisLOvLbakJL5FEP7UR+tK449RAz8f/meoqwMXDPhdOOPYy+FkjAlTxGKTbx/cASDAbA
- WBE7PH9wIyUf0CNjPcz9gisVzI1y1Nfvo6Dqp/Ps+JukYIVFGCfO0Aj9xn4thoi4u++/
- bI8A==
+ :cc; bh=cOEF91sFKBKf+3On2zoIQUofma9utEyq5uEGnpqwZ0A=;
+ b=mjD1W1ArVnDC/1yXbdK5eL13B8H+Wso7q3nIw2GcZWB+YZuSlQvaa7UGluj94WeX0n
+ kjYCpzzH1LXxkgivY+VGt57MpH6k1vDGJlV6IgCldKL8zeUfZ/hGyDFxyYw8TAAFxFhZ
+ I707B8A3AmQB5RA/QUGs4MooWx24SaEMkNrqtzjFxrlHXrAWW5VQ2ZDlioNe3rg8IKhs
+ ZebJ9OsJ5aDlQmhaToWmvkEw0gOvR4DumoxP2UtW5RsJgvPPE5LMpTQ9IQ4tpnPdN5RO
+ HN5Q4Y5MQ75Pk0iWtGM69SyjbtJbZXw5DFqJWF0w1kpskn/qVVmDpyo/OiAbGowqBIaV
+ RIWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=yUNruGoQq1gzO8XGA6jacEacQBhClJP0vKcD1a+eH/4=;
- b=VhguZfd8iHxJTR1MwUbVXD3USEYK8P2CSHvhwDBwsOsSdc8yovDrF7vdGPkbipnHZl
- Bpt/ycPYEYrghtC/7YDBqkpFuV6dNmMk2kNbXYws4C508lCzN+8ZqJ93vWteDQeDYFxu
- 42gefbOH2Tc1UuRFjnk/RD27R7Nt3D5+0Y4gG/bKfy+NCAaBROFeUYngejp48As2cNVH
- Zm5pm2RIG0maYaTw29UXtNw27q2LtcWX09P4RgUwzcHZHR9g1jAu5wFSgKb8JSIcLPRr
- dR7lSQJZD3EjHXFkT/LRd1hJRq5r6E2rbzig93mu5YCwFaOJidLS7YVcbctJJkZa6vx/
- eEqw==
-X-Gm-Message-State: APjAAAVnbkStpCk5ahQqqiQF9nyvzCDziZiLQgboiNpVxsZYltGJGkvu
- 97Mry+8tFywjlKGwI2UadNGkAyi8GVTCSov1/5c=
-X-Google-Smtp-Source: APXvYqwGjAmJWWmC3MK4GcQl5eG9x2aiNerZfDNzf019ul/hyBJUultEgJIEdWcbB6iqgSNxDj0aQ2RiqbQDWGs4gHI=
-X-Received: by 2002:a37:a451:: with SMTP id n78mr921091qke.304.1575977404317; 
- Tue, 10 Dec 2019 03:30:04 -0800 (PST)
+ bh=cOEF91sFKBKf+3On2zoIQUofma9utEyq5uEGnpqwZ0A=;
+ b=Djrtu494LkJWlTA3vdBn6pJAPNIgRwXUxgc5TtS8Oz2DB9A6Bqe9SvgBa9Y45TVfcb
+ xNo/QjmXlX1wG3CiD1+xfLBElxFkjCIOqkspTrepRs0Q12yIewEPXr1zsMNMoJSuR0gF
+ d8cqRKYJ4pTuPRxxThmjrJWRR6/zeUCOHIsoj59QvI+YMVU9HgteX5wx27zDdqnt2yY3
+ 4FlkWOhIPElytxpuLLXhK1nVe6Zgws6vN1hu+9lNb/9XdXXF1kvL3okFj6WT4QGOBUeb
+ K7hb9K57+23Zc3arWi8HwvLtZ94WZwaHiYBFZdjjxS26049zlqypl/zhdDO17j7r+ZfS
+ mXLg==
+X-Gm-Message-State: APjAAAV2Ey8y4e99GX+TDVLoQQmRVlgfgcHlLlqRKdfyhC7A4JLimkFg
+ rTP/8iDVNbT1jA9vwDJ+XK/6ATliOaRh0tYPwzs=
+X-Google-Smtp-Source: APXvYqy5b/ogrcCxRv7pnDSPLyCc5tSNVFVGq0WgIfDvf01nAcioMOl+rDyhji3Merj/7dH6/CriBcRNdXib9ezTFFM=
+X-Received: by 2002:a37:a451:: with SMTP id n78mr932072qke.304.1575977577084; 
+ Tue, 10 Dec 2019 03:32:57 -0800 (PST)
 MIME-Version: 1.0
 References: <1575966995-13757-1-git-send-email-kevin3.tang@gmail.com>
  <1575966995-13757-5-git-send-email-kevin3.tang@gmail.com>
  <5f5a49ce-0698-ff21-7ced-23e786d17583@suse.de>
 In-Reply-To: <5f5a49ce-0698-ff21-7ced-23e786d17583@suse.de>
 From: tang pengchuan <kevin3.tang@gmail.com>
-Date: Tue, 10 Dec 2019 19:29:52 +0800
-Message-ID: <CAFPSGXbd3UuL4vaGuU1ibMhS-E=o6J-0knnqwdW8Me7ndv5KAA@mail.gmail.com>
+Date: Tue, 10 Dec 2019 19:32:43 +0800
+Message-ID: <CAFPSGXatBPiQofn4d0XU_A43wK9ez=La5ZAXMs_4NRaS3rvjyA@mail.gmail.com>
 Subject: Re: [PATCH RFC 4/8] drm/sprd: add Unisoc's drm display controller
  driver
 To: Thomas Zimmermann <tzimmermann@suse.de>
@@ -67,14 +67,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Baolin Wang <baolin.wang@linaro.org>, airlied@linux.ie,
  Chunyan Zhang <zhang.lyra@gmail.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Orson Zhai <orsonzhai@gmail.com>
-Content-Type: multipart/mixed; boundary="===============1889974817=="
+Content-Type: multipart/mixed; boundary="===============1221022913=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1889974817==
-Content-Type: multipart/alternative; boundary="0000000000005bc2f0059957d520"
+--===============1221022913==
+Content-Type: multipart/alternative; boundary="000000000000a7fe54059957dfd1"
 
---0000000000005bc2f0059957d520
+--000000000000a7fe54059957dfd1
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -474,16 +474,7 @@ wrote:
 > helper. And efifb has similar code already. Is there an opportunity to
 > share the implementation?
 >
-Our just need to convert rgb888 to bmp for debug, if others also need this
-helper
-, i can try to share the implementation for rgb565, rgb888, yuv...
-
->
 > I cannot find any caller of load_dtb_to_mem(). Where is it being used?
->
-dump_bmp32() and  load_dtb_to_mem() for our sysfs debug node, sysfs debug
-code are upstreaming...
-
 >
 > Best regards
 > Thomas
@@ -3451,16 +3442,16 @@ c,
 >
 >
 
---0000000000005bc2f0059957d520
+--000000000000a7fe54059957dfd1
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
 <div dir=3D"ltr" class=3D"gmail_attr">On Tue, Dec 10, 2019 at 6:45 PM Thoma=
-s Zimmermann &lt;<a href=3D"mailto:tzimmermann@suse.de">tzimmermann@suse.de=
-</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
-Hi<br>
+s Zimmermann &lt;<a href=3D"mailto:tzimmermann@suse.de" target=3D"_blank">t=
+zimmermann@suse.de</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">Hi<br>
 <br>
 Am 10.12.19 um 09:36 schrieb Kevin Tang:<br>
 &gt; From: Kevin Tang &lt;<a href=3D"mailto:kevin.tang@unisoc.com" target=
@@ -3931,17 +3922,9 @@ sp_lib.h<br>
 <br>
 The bitmap-loading code seems out of place in a driver. It should be a<br>
 helper. And efifb has similar code already. Is there an opportunity to<br>
-share the implementation?<br></blockquote><div>Our just need to convert rgb=
-888 to bmp for debug, if others also need this helper</div><div>, i can try=
- to share the implementation for rgb565, rgb888, yuv...<br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">
+share the implementation?<br>
 <br>
-I cannot find any caller of load_dtb_to_mem(). Where is it being used?<br><=
-/blockquote><div>dump_bmp32() and=C2=A0 load_dtb_to_mem() for our sysfs deb=
-ug node, sysfs debug code are upstreaming...<br></div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex">
+I cannot find any caller of load_dtb_to_mem(). Where is it being used?<br>
 <br>
 Best regards<br>
 Thomas<br>
@@ -7836,9 +7819,9 @@ Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer<br>
 <br>
 </blockquote></div></div>
 
---0000000000005bc2f0059957d520--
+--000000000000a7fe54059957dfd1--
 
---===============1889974817==
+--===============1221022913==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -7849,4 +7832,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1889974817==--
+--===============1221022913==--
