@@ -1,61 +1,87 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7690D1187E1
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 13:15:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49BDF1187E8
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 13:18:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9413188EE9;
-	Tue, 10 Dec 2019 12:15:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1254D6E8C5;
+	Tue, 10 Dec 2019 12:18:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4549788EE9
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 12:15:07 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id p17so2911075wma.1
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 04:15:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=6FFSA9wNlB1mceTFZXdXOBrwfLCL+yaQKkQFS8RYW3o=;
- b=B4dMv16trqTdVzglp6FaBeEkiWC0BXW2qPhEcQ/c1Xhz+TCV/tW+tEodRuyKsYw45c
- 3vCUBg2s/zqOWsqCRiz+YpVFek/vhA3huH7WbOfCBXFPtWfExzGPIJePGmXx/c8ysP/9
- BYv2U1MwjGVNc7sY+yDZawgo5wYKpLVP5OrMpbEmW6tbBzcR5ZxAd6PyhpQAURWi0TuH
- 7yyLLHjzdwTnOMty8WD5pV2FiSdLOkn/gUJ9pW3Er03woQme00HC+/CwxqdGHG3BhK10
- cCpAykavlIAB3Zf/9fwiRG7C1VARK1u/hjMJM7Qh38ND+12sD71gHuy5+WU4N+FLniWl
- tqMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=6FFSA9wNlB1mceTFZXdXOBrwfLCL+yaQKkQFS8RYW3o=;
- b=j3j0xDb8C7PnUeC5y2AjpZvL3wTHCo0vMi0quHtty/ljCWyIpwBWEuo0eMtKvoxGTW
- emqlyVc9CLdf5aeG8q1hrze1bjkWs9nNR0jCSGQOo+g96zquRxO4YsiRN0KeHZ2BkJYn
- AqSc2HWGe1zISVCnIeJDOVFAgAiZ3yZgRrTSpSa1as39jbD2o6NQB+0fP3K8ZN/WciDq
- iLThhLMk0/M63v3a1JtWTC/uSe7rkMSUaPIx68ZprBB6lZl/ky0go1VfKNbCzKfLFcpr
- 2a2uYvXL5jzgoao/1Km48RQ0/FTbrLzMBjar4MOHZdSw5ciaeB1i3AuhtcoSCo7qHdMv
- 939w==
-X-Gm-Message-State: APjAAAUosyPkRZmkh9io8qiWTcSnP+4LhtEELnQXooeOalBbCCYRE/bO
- Bux4l7S2GDh6Al5jRfDzlno=
-X-Google-Smtp-Source: APXvYqx10e6k+vdszCn8c2+AEc5kV0jj+ooOAxynNrxL50akX3Yjrmn/5tep5SYgj/W7e2HOh3ayQw==
-X-Received: by 2002:a1c:1b88:: with SMTP id b130mr4692583wmb.4.1575980105752; 
- Tue, 10 Dec 2019 04:15:05 -0800 (PST)
-Received: from localhost (pD9E518ED.dip0.t-ipconnect.de. [217.229.24.237])
- by smtp.gmail.com with ESMTPSA id d8sm3011567wre.13.2019.12.10.04.15.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Dec 2019 04:15:04 -0800 (PST)
-Date: Tue, 10 Dec 2019 13:15:03 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm/doc: Drop :c:func: markup
-Message-ID: <20191210121503.GB2703785@ulmo>
-References: <20191204101933.861169-1-daniel.vetter@ffwll.ch>
- <20191205160537.GC1914185@ulmo>
- <20191210103316.GT624164@phenom.ffwll.local>
+Received: from NAM02-BL2-obe.outbound.protection.outlook.com
+ (mail-eopbgr750085.outbound.protection.outlook.com [40.107.75.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1F0D6E8C5
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 12:18:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=b9gnYLpgQ4J+wiZQ9Gs9udk/PjpwGXQ/7MmBOGsBIX26AC7fJ0rRg/8jkFa0OKc7XIJZF1nVZVDl59gKmbJ+ZoHAW435QIjwLEZlyzqbnkzhfp9AaW00hyvQGeKXZfdmiIZNgoN/SE15UsW37Jctgylkc3cJid/hej+skvgM3K6DbcgQllJQj+CNbvOEjEnIlPkNvtv8STQqubRHvs+fQJTZCXJizARpnSORoDSwOgmLltc7UfF19hluLUGRdogRp3Keg4dC4B6mRvxluTO/e9pBNzyOdFwZ2O+LU+bPxbl++V68SjzhxLG0EqT93MxrwmBbMrj4G1EeFV++x0nOJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gEqWUlTclevglpUTQKsDQups9jFeR90Wu4ZaJyVINc0=;
+ b=FdYlbycTqkKnTlW+MuzvxpWBO4TiRzwRUdLEawckoBTSwbb9TMm4ZS2JT4NRBrNOaTbPQ7+Smz/mtHzk/mZrKizylbgoXGP/QoC14EACsBou1GI5xpCUWkNh7/mxSijvKFDe0oSmVwpDvMNgAdWDi0uIXyRP7lxnj2nKpERlgRKi4OFqoT++rtVxsVek2GdC0Yro9ELNeMw4IQjTd5mBTipuXE48L9rxu+2TE/1olBlJ87R+Y22zLQ3s3iuGpMHoa3nW6bvvvYdtx0Say+h5HxDiupn7s/OaRYqvnRfXKl1Gi+CO18dXYnJWys/5jS8/a0khDr7J8hvHaDWEML03og==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gEqWUlTclevglpUTQKsDQups9jFeR90Wu4ZaJyVINc0=;
+ b=Eudex3g1jBrtzxgzMYT5DMmwy/VuoaAVLhfe8KxiIqJk9YNUrZYASIyen6hZhT/t024St4TSyXVM7PhmSqq1NvgtqFW+zvOj/qE9s7RNI1YfqG7sGFjSm6Spg0Q9PcxNJvIKpq8+HliIPxRRx2kLen9EJ9rFKaWYyeVwDUa2eLI=
+Received: from BN8PR05MB6132.namprd05.prod.outlook.com (20.178.210.84) by
+ BN8PR05MB6067.namprd05.prod.outlook.com (20.178.212.151) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2538.8; Tue, 10 Dec 2019 12:18:13 +0000
+Received: from BN8PR05MB6132.namprd05.prod.outlook.com
+ ([fe80::6978:c068:f6e2:f9e8]) by BN8PR05MB6132.namprd05.prod.outlook.com
+ ([fe80::6978:c068:f6e2:f9e8%3]) with mapi id 15.20.2538.012; Tue, 10 Dec 2019
+ 12:18:13 +0000
+From: Thomas Hellstrom <thellstrom@vmware.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, Linux-graphics-maintainer
+ <Linux-graphics-maintainer@vmware.com>, "airlied@linux.ie"
+ <airlied@linux.ie>, "daniel@ffwll.ch" <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm/vmwgfx: Call vmw_driver_{load,unload}() before
+ registering device
+Thread-Topic: [PATCH] drm/vmwgfx: Call vmw_driver_{load,unload}() before
+ registering device
+Thread-Index: AQHVroDEdm1GoL3zJ0K38sqhIMCcLA==
+Date: Tue, 10 Dec 2019 12:18:13 +0000
+Message-ID: <BN8PR05MB61326FF3F6AA62FD0ED6DBEEA15B0@BN8PR05MB6132.namprd05.prod.outlook.com>
+References: <20191209110641.16134-1-tzimmermann@suse.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=thellstrom@vmware.com; 
+x-originating-ip: [155.4.205.35]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 29ce8760-4235-4327-ca58-08d77d6b07a2
+x-ms-traffictypediagnostic: BN8PR05MB6067:|BN8PR05MB6067:
+x-ld-processed: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BN8PR05MB6067B703D049DD46B55A5953A15B0@BN8PR05MB6067.namprd05.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-forefront-prvs: 02475B2A01
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(4636009)(366004)(376002)(39860400002)(136003)(396003)(346002)(199004)(189003)(26005)(186003)(86362001)(478600001)(52536014)(76116006)(91956017)(4326008)(2906002)(33656002)(8936002)(316002)(71200400001)(66946007)(53546011)(64756008)(8676002)(6506007)(81156014)(55016002)(9686003)(7696005)(66556008)(81166006)(110136005)(66446008)(5660300002)(66476007)(142933001);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:BN8PR05MB6067;
+ H:BN8PR05MB6132.namprd05.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: vmware.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: p1B7XhOimPXKqfLV4p5/qbO2fmNPRD/KJcK52nNn9FSM08euaESkQ1YhIQmzwVXtlz4Ty/UH9X0T6IHqt0TsUtdMHoN43sLmbqI9BtmV7M+cxb6oH0w7ut+zAlzvfbqFsqTwLM05VBC4SrZCy1K5RPI7Bm0g8KEaYFUvlMXTb90CNRjTZBBlJWbgX9K7TMaGkObHCawAB1QXKA6lNwrjT2dyjXB6Mzaq4iMp4bjnH1frsKimdDlCCH1NxzaWTuHOZ9UeRbfAzfVcwLtB3c71V35m7hmQfkxF+j1ipEs5D95u1bl+olchiJL19yPPE28jwykolCEyKgtl90iWQzIv2MBe3cgmtbdyHvvZANrQNhhyCFJysfTEAFxp/VYDEvjBiN38r+3DU5K/T1fxJEzgF5fKBdOfZi7JJqHOZWbR2KeupFkDzEFdTYtt+UNYlmGbUD7+Zq57U5wEVXou2RCVvae48MJGNeApRVndXVXiS35rk7TKyWNaWnoGbQwgdtCM
 MIME-Version: 1.0
-In-Reply-To: <20191210103316.GT624164@phenom.ffwll.local>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 29ce8760-4235-4327-ca58-08d77d6b07a2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Dec 2019 12:18:13.5808 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /f9lhOqvZ+e3IHl+3pI7m4i+TkIYRaUsrH0bBy/IHQDblVBBP237EzMoyjTZbsVHFGHy9X4WeMH4ByroK41rQA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR05MB6067
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,103 +94,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: multipart/mixed; boundary="===============0931680717=="
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 12/9/19 12:06 PM, Thomas Zimmermann wrote:
+> The load/unload callbacks in struct drm_driver are deprecated. Remove
+> them and call functions explicitly.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 44 +++++++++++++++++++++++++----
+>  1 file changed, 38 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> index e962048f65d2..f34f1eb57cfa 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> @@ -28,10 +28,10 @@
+>  #include <linux/console.h>
+>  #include <linux/dma-mapping.h>
+>  #include <linux/module.h>
+> +#include <linux/pci.h>
+>
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_ioctl.h>
+> -#include <drm/drm_pci.h>
+>  #include <drm/drm_sysfs.h>
+>  #include <drm/ttm/ttm_bo_driver.h>
+>  #include <drm/ttm/ttm_module.h>
+> @@ -1211,8 +1211,10 @@ static void vmw_remove(struct pci_dev *pdev)
+>  {
+>  	struct drm_device *dev = pci_get_drvdata(pdev);
+>
+> +	drm_dev_unregister(dev);
+> +	vmw_driver_unload(dev);
+> +	drm_dev_put(dev);
+>  	pci_disable_device(pdev);
+> -	drm_put_dev(dev);
+>  }
+>
+>  static int vmwgfx_pm_notifier(struct notifier_block *nb, unsigned long val,
+> @@ -1329,7 +1331,7 @@ static int vmw_pm_freeze(struct device *kdev)
+>
+>  	vmw_fence_fifo_down(dev_priv->fman);
+>  	__vmw_svga_disable(dev_priv);
+> -
+> +
 
---===============0931680717==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="oC1+HKm2/end4ao3"
-Content-Disposition: inline
+Unrelated whitespace-fixup.
 
+Otherwise looks good, but still conflicts in the above hunk when I try
+to apply it. Could be some TAB-mangling on the way perhaps.
 
---oC1+HKm2/end4ao3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Could you remove that hunk and resend?
 
-On Tue, Dec 10, 2019 at 11:33:16AM +0100, Daniel Vetter wrote:
-> On Thu, Dec 05, 2019 at 05:05:37PM +0100, Thierry Reding wrote:
-> > On Wed, Dec 04, 2019 at 11:19:33AM +0100, Daniel Vetter wrote:
-> > > Kernel sphinx has learned how to do that in
-> > >=20
-> > > commit d74b0d31dddeac2b44c715588d53d9a1e5b1158e
-> > > Author: Jonathan Corbet <corbet@lwn.net>
-> > > Date:   Thu Apr 25 07:55:07 2019 -0600
-> > >=20
-> > >     Docs: An initial automarkup extension for sphinx
-> > >=20
-> > > Unfortunately it hasn't learned that yet for structures, so we're
-> > > stuck with the :c:type: noise for now still.
-> > >=20
-> > > Cc:  Jonathan Corbet <corbet@lwn.net>
->=20
-> Jon, any plans to also add the other auto-markup eventually? We have quite
-> an impressive pile of :c:type: noise in our docs ...
+Thanks,
 
-I had briefly taken a look at this and typed up a prototype that was
-basically doing the same thing as for :c:func: but it didn't work for
-some reason. After looking at the code and some Sphinx documentation
-for an hour or so without an increase in understanding I gave up.
+Thomas
 
-I'm sure someone with deeper knowledge of this would be able to make it
-work.
-
-Thierry
-
-> > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > > ---
-> > >  Documentation/gpu/drm-internals.rst |  4 +-
-> > >  Documentation/gpu/drm-kms.rst       |  7 ++-
-> > >  Documentation/gpu/drm-mm.rst        | 68 +++++++++++++--------------=
---
-> > >  3 files changed, 36 insertions(+), 43 deletions(-)
-> >=20
-> > Reviewed-by: Thierry Reding <treding@nvidia.com>
->=20
-> Thanks for taking a look, patch merged to drm-misc-next.
->=20
-> Cheers, Daniel
-> --=20
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-
---oC1+HKm2/end4ao3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl3vjEcACgkQ3SOs138+
-s6EY2g/9GZrDyY2/kNfAiq4F1EUKGgVz6nMJT1Dd89hc1/5PgUWr7kAsNjGz4uJW
-8DC7N6xgBJCk9BCMHbFKRE5AoqAbsSsZelmmIvOcNNA7amv4dIRCeOL782Soryac
-/RYmKYuNtqImspfygXCEXV3XBiOBW4PnRWVXPt1cUrPFAEr9IjZCk7YEGX42NH4R
-hzegh15E5w2ZEsswS/0ryqMavGQyirv6SiRP2g8wH6SvaYD/Fx3qdL1eG312j/2X
-8GESHe8OPINIQdX91RRKN1eGu/+Yt9zwfALyAAZ6KL6hyUvrPFGpMMn3cg4URGgP
-m3FQeFDcsnKGY5k6uEIXJ9UZhqSlaeN+UFgtN/eMji37hsxiFnxt924RduaabDBn
-K/WlCRc4DLNa9dcNTEKZ/EC+EA99G7SF1EcR2lhHd6QP4Yi6Bvc783d+/IpG1WLy
-K/fQkF60Wr+DKS0J+pZOow/7LxzIO3uAhxc6s4OWErhyS2sz9lr53pHiNO5YQTks
-Ax7isKHEsfke1Ys+VVFOIJcE37XStg9/nM9rZRcXdcgYTPP7AynmapTGFKTrM3P1
-fqACjlubHAZa+hiizoEHE9LRLyDcIVyXWGLBsoqgC/3+C7dmeqYe0gdwPLVK039P
-5BYzeygOukXIgQ8VtHQqD2M8mHd17U5XeFcp+PvBtn+xrL9NY0A=
-=Fgtc
------END PGP SIGNATURE-----
-
---oC1+HKm2/end4ao3--
-
---===============0931680717==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0931680717==--
