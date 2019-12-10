@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44CD4119381
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:12:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9248119382
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:12:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE0D26E954;
-	Tue, 10 Dec 2019 21:12:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D80C6E952;
+	Tue, 10 Dec 2019 21:12:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F9FA6E94D
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3948C6E952
  for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 21:12:23 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5E1B724654;
- Tue, 10 Dec 2019 21:04:29 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 33B3D222C4;
+ Tue, 10 Dec 2019 21:04:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576011870;
- bh=MGJpwmzW8V6MK6vfbIXS/Ffo7ij6p1KHtpg0BMQrkBY=;
+ s=default; t=1576011881;
+ bh=wGLr9TQaZb4mysbQ1RUTvwzfb1gr3SQoaCDKmcFNx0w=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=0zqXJh64WM4Ql57n6aR44DwT/GzQTepasohY7PjfcdDHlfsnBJGjFMFhAdNmG4+CH
- fNx7NoHhDKlLRxIxlt2mTeIm4vReBzwsXAmZOrgdoKSStc0xEdkV//7aIhvH2X0Di5
- RqH+8rUFs0u6AAEnQ5MBkb/rSDvlv0SwKoR5bTCQ=
+ b=KaWGeyDSwgZYLhj5P2hXYJa3/NZWSlei7a2H4ZytYFpJduEBYU+nDhEZKuzl2wciu
+ 09PFR8cWN2jAM94I0xGiO6qBnrSugH8IsOcCZ9PtFMv49EtqVxelaB3U1xNLzN0Lmq
+ euQFHXAkYD0NYzsYYks3S6gNlWycksIntVaY+c+8=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 022/350] drm/meson: vclk: use the correct G12A
- frac max value
-Date: Tue, 10 Dec 2019 15:58:34 -0500
-Message-Id: <20191210210402.8367-22-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 032/350] drm/komeda: Workaround for broken
+ FLIP_COMPLETE timestamps
+Date: Tue, 10 Dec 2019 15:58:44 -0500
+Message-Id: <20191210210402.8367-32-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191210210402.8367-1-sashal@kernel.org>
 References: <20191210210402.8367-1-sashal@kernel.org>
@@ -50,56 +50,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
- dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>
+Cc: Sasha Levin <sashal@kernel.org>,
+ Mihail Atanassov <mihail.atanassov@arm.com>, Liviu Dudau <Liviu.Dudau@arm.com>,
+ dri-devel@lists.freedesktop.org, James Qian Wang <james.qian.wang@arm.com>,
+ Ayan kumar halder <ayan.halder@arm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Neil Armstrong <narmstrong@baylibre.com>
+From: Mihail Atanassov <Mihail.Atanassov@arm.com>
 
-[ Upstream commit d56276a13c2b9ea287b9fc7cc78bed4c43b286f9 ]
+[ Upstream commit f59769c52cd7d158df53487ec2936f5592073340 ]
 
-When calculating the HDMI PLL settings for a DMT mode PHY frequency,
-use the correct max fractional PLL value for G12A VPU.
+When initially turning a crtc on, drm_reset_vblank_timestamp will
+set the vblank timestamp to 0 for any driver that doesn't provide
+a ->get_vblank_timestamp() hook.
 
-With this fix, we can finally setup the 1024x768-60 mode.
+Unfortunately, the FLIP_COMPLETE event depends on that timestamp,
+and the only way to regenerate a valid one is to have vblank
+interrupts enabled and have a valid in-ISR call to
+drm_crtc_handle_vblank.
 
-Fixes: 202b9808f8ed ("drm/meson: Add G12A Video Clock setup")
-Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-Reviewed-by: Kevin Hilman <khilman@baylibre.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20190828132311.23881-1-narmstrong@baylibre.com
+Additionally, if the user doesn't request vblanks but _does_ request
+FLIP_COMPLETE events, we still don't have a good timestamp: it'll be the
+same stamp as the last vblank one.
+
+Work around the issue by always enabling vblanks when the CRTC is on.
+Reducing the amount of time that PL0 has to be unmasked would be nice to
+fix at a later time.
+
+Changes since v1 [https://patchwork.freedesktop.org/patch/331727/]:
+ - moved drm_crtc_vblank_put call to the ->atomic_disable() hook
+
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Liviu Dudau <Liviu.Dudau@arm.com>
+Signed-off-by: Mihail Atanassov <mihail.atanassov@arm.com>
+Reviewed-by: James Qian Wang (Arm Technology China) <james.qian.wang@arm.com>
+Signed-off-by: Ayan kumar halder <ayan.halder@arm.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20191001142121.13939-1-mihail.atanassov@arm.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/meson/meson_vclk.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/arm/display/komeda/komeda_crtc.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/meson/meson_vclk.c b/drivers/gpu/drm/meson/meson_vclk.c
-index ac491a7819527..f690793ae2d57 100644
---- a/drivers/gpu/drm/meson/meson_vclk.c
-+++ b/drivers/gpu/drm/meson/meson_vclk.c
-@@ -638,13 +638,18 @@ static bool meson_hdmi_pll_validate_params(struct meson_drm *priv,
- 		if (frac >= HDMI_FRAC_MAX_GXBB)
- 			return false;
- 	} else if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_GXM) ||
--		   meson_vpu_is_compatible(priv, VPU_COMPATIBLE_GXL) ||
--		   meson_vpu_is_compatible(priv, VPU_COMPATIBLE_G12A)) {
-+		   meson_vpu_is_compatible(priv, VPU_COMPATIBLE_GXL)) {
- 		/* Empiric supported min/max dividers */
- 		if (m < 106 || m > 247)
- 			return false;
- 		if (frac >= HDMI_FRAC_MAX_GXL)
- 			return false;
-+	} else if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_G12A)) {
-+		/* Empiric supported min/max dividers */
-+		if (m < 106 || m > 247)
-+			return false;
-+		if (frac >= HDMI_FRAC_MAX_G12A)
-+			return false;
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+index 624d257da20f8..52c42569a111f 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+@@ -250,6 +250,7 @@ komeda_crtc_atomic_enable(struct drm_crtc *crtc,
+ {
+ 	komeda_crtc_prepare(to_kcrtc(crtc));
+ 	drm_crtc_vblank_on(crtc);
++	WARN_ON(drm_crtc_vblank_get(crtc));
+ 	komeda_crtc_do_flush(crtc, old);
+ }
+ 
+@@ -319,6 +320,7 @@ komeda_crtc_atomic_disable(struct drm_crtc *crtc,
+ 		}
  	}
  
- 	return true;
++	drm_crtc_vblank_put(crtc);
+ 	drm_crtc_vblank_off(crtc);
+ 	komeda_crtc_unprepare(kcrtc);
+ }
 -- 
 2.20.1
 
