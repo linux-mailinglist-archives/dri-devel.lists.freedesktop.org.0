@@ -1,19 +1,17 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 966D611A6B3
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 10:21:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F28E11A6B7
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 10:21:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B121E6EAA5;
-	Wed, 11 Dec 2019 09:20:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C9966EAAA;
+	Wed, 11 Dec 2019 09:20:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 428 seconds by postgrey-1.36 at gabe;
- Tue, 10 Dec 2019 13:32:05 UTC
 Received: from esa3.microchip.iphmx.com (esa3.microchip.iphmx.com
  [68.232.153.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 355D06E8E5
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6E6D6E8E5
  for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 13:32:05 +0000 (UTC)
 Received-SPF: Pass (esa3.microchip.iphmx.com: domain of
  Claudiu.Beznea@microchip.com designates 198.175.253.82 as
@@ -37,32 +35,35 @@ Authentication-Results: esa3.microchip.iphmx.com;
  spf=Pass smtp.mailfrom=Claudiu.Beznea@microchip.com;
  spf=None smtp.helo=postmaster@email.microchip.com;
  dmarc=pass (p=none dis=none) d=microchip.com
-IronPort-SDR: 4wxkjymyrvYDtaXLV3wnwWnmM7qbBQlkZel1+UbW6Ixk6YfU4GFTmtHWThX180tLfzzCHb0ZC6
- b6KWrHSWCpgQPokrJtJ9XX58ZcGLAA5sLqjJU6+Aq8FizLFmem5lJ+DntbqUXi8Rsg72u/JXGa
- EMTreU98lD3HBJd1p4C+11FUSZNtSjcqAeRuUVCvaFKfCkg4l5/obxIwsRllGXfiEyDykG+ocI
- LOl3JIvw9JY0MG7PtTW5kfFf8JAaU8W19PwmDKA2Gexev0142/KBOkAm1EHey/2j7aD9RpYMiY
- V+M=
-X-IronPort-AV: E=Sophos;i="5.69,299,1571727600"; d="scan'208";a="59845981"
+IronPort-SDR: vtl0h2bOnzLNBLGr60vwLu0D99FU+fmZ4BZhGZvCFJkDpisYfwZm+AGAUTe4OJvxWVu65D1vUx
+ WGX0gYCCANV4ImRaP0pzXOJuHZpanVQCR/AudJ2CFC878XlcYi+HTywhtFVuNyMXoCFU32G5d0
+ aC3xdu4UojPwUjjwQZo/1kEXx+tW6MOS+v/eMrbXDqQMDE/S2E5sZmw73p+x5nA0xkPvjjznMR
+ YJI9LKzxs9pR3pf6nA3RCcMR5COYC0jPCRRtruiqoAL0QP0gulEYSGtFWIIrWr4gQ4CEbaSht/
+ 2KQ=
+X-IronPort-AV: E=Sophos;i="5.69,299,1571727600"; d="scan'208";a="59845989"
 Received: from smtpout.microchip.com (HELO email.microchip.com)
  ([198.175.253.82])
  by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256;
- 10 Dec 2019 06:24:56 -0700
+ 10 Dec 2019 06:24:59 -0700
 Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Tue, 10 Dec 2019 06:24:55 -0700
+ 15.1.1713.5; Tue, 10 Dec 2019 06:24:59 -0700
 Received: from m18063-ThinkPad-T460p.mchp-main.com (10.10.85.251) by
  chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.1713.5 via Frontend Transport; Tue, 10 Dec 2019 06:24:56 -0700
+ 15.1.1713.5 via Frontend Transport; Tue, 10 Dec 2019 06:25:00 -0700
 From: Claudiu Beznea <claudiu.beznea@microchip.com>
 To: <sam@ravnborg.org>, <bbrezillon@kernel.org>, <airlied@linux.ie>,
  <daniel@ffwll.ch>, <nicolas.ferre@microchip.com>,
  <alexandre.belloni@bootlin.com>, <ludovic.desroches@microchip.com>,
  <lee.jones@linaro.org>
-Subject: [PATCH 0/5] fixes for atmel-hlcdc
-Date: Tue, 10 Dec 2019 15:24:42 +0200
-Message-ID: <1575984287-26787-1-git-send-email-claudiu.beznea@microchip.com>
+Subject: [PATCH 1/5] drm: atmel-hlcdc: use double rate for pixel clock only if
+ supported
+Date: Tue, 10 Dec 2019 15:24:43 +0200
+Message-ID: <1575984287-26787-2-git-send-email-claudiu.beznea@microchip.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1575984287-26787-1-git-send-email-claudiu.beznea@microchip.com>
+References: <1575984287-26787-1-git-send-email-claudiu.beznea@microchip.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Wed, 11 Dec 2019 09:20:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,29 +86,38 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Doubled system clock should be used as pixel cock source only if this
+is supported. This is emphasized by the value of
+atmel_hlcdc_crtc::dc::desc::fixed_clksrc.
 
-I have few fixes for atmel-hlcdc driver in this series as well
-as two reverts.
-Revert "drm: atmel-hlcdc: enable sys_clk during initalization." is
-due to the fix in in patch 2/5.
+Fixes: a6eca2abdd42 ("drm: atmel-hlcdc: add config option for clock selection")
+Signed-off-by: Claudiu Beznea <claudiu.beznea@microchip.com>
+---
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Thank you,
-Claudiu Beznea
-
-Claudiu Beznea (5):
-  drm: atmel-hlcdc: use double rate for pixel clock only if supported
-  drm: atmel-hlcdc: enable clock before configuring timing engine
-  mfd: atmel-hlcdc: return in case of error
-  Revert "drm/atmel-hlcdc: allow selecting a higher pixel-clock than
-    requested"
-  Revert "drm: atmel-hlcdc: enable sys_clk during initalization."
-
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c | 26 ++++++++++----------------
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c   | 19 +------------------
- drivers/mfd/atmel-hlcdc.c                      | 14 ++++++++++----
- 3 files changed, 21 insertions(+), 38 deletions(-)
-
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+index f2e73e6d46b8..5040ed8d0871 100644
+--- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+@@ -95,14 +95,14 @@ static void atmel_hlcdc_crtc_mode_set_nofb(struct drm_crtc *c)
+ 		     (adj->crtc_hdisplay - 1) |
+ 		     ((adj->crtc_vdisplay - 1) << 16));
+ 
++	prate = clk_get_rate(crtc->dc->hlcdc->sys_clk);
++	mode_rate = adj->crtc_clock * 1000;
+ 	if (!crtc->dc->desc->fixed_clksrc) {
++		prate *= 2;
+ 		cfg |= ATMEL_HLCDC_CLKSEL;
+ 		mask |= ATMEL_HLCDC_CLKSEL;
+ 	}
+ 
+-	prate = 2 * clk_get_rate(crtc->dc->hlcdc->sys_clk);
+-	mode_rate = adj->crtc_clock * 1000;
+-
+ 	div = DIV_ROUND_UP(prate, mode_rate);
+ 	if (div < 2) {
+ 		div = 2;
 -- 
 2.7.4
 
