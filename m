@@ -2,17 +2,17 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E63D11A6D4
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 10:22:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4362711A6AE
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 10:21:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D00C26EABC;
-	Wed, 11 Dec 2019 09:20:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C60806EA9D;
+	Wed, 11 Dec 2019 09:20:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from esa2.microchip.iphmx.com (esa2.microchip.iphmx.com
  [68.232.149.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 281C06E8E5
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 13:32:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2784F6E8E6
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 13:32:20 +0000 (UTC)
 Received-SPF: Pass (esa2.microchip.iphmx.com: domain of
  Claudiu.Beznea@microchip.com designates 198.175.253.82 as
  permitted sender) identity=mailfrom;
@@ -35,32 +35,32 @@ Authentication-Results: esa2.microchip.iphmx.com;
  spf=Pass smtp.mailfrom=Claudiu.Beznea@microchip.com;
  spf=None smtp.helo=postmaster@email.microchip.com;
  dmarc=pass (p=none dis=none) d=microchip.com
-IronPort-SDR: gN+M0ilfj7p1MeYGS4/vNVL4G+WI5Wtua33a6to5pm9pqGGJ4oeBPkWbLIDFuYpSmfliG+SbbU
- C9AXzMi9RXCdCyUhe2nFhLNE+8wITLwRxadgvY9/0tvvKYGI+1Mg3dJD2WNdlnIHJFV/cXEiSP
- pG8Cje3uZOx+jNKvWCPJRygBH1Ten8p23J9gopLQxSHn3oqJTVrlREEsZQ1RoUU38aRUXl6nsv
- r368o0u1nPfyeSifILUom9NGyxX2iC3Z4e2K9ye5UdgT93UL1pjxuQJWKO/oQvYos6W6OLhCuM
- M9Q=
-X-IronPort-AV: E=Sophos;i="5.69,299,1571727600"; d="scan'208";a="59325133"
+IronPort-SDR: 2O8NeUmHZGjXeUEqLIh4a3oDiPSJYwcJ90hH7Mk+1nEMmPV3G8IrHCFUL4bJePogegdpw8yTEr
+ /P7C9JECiApzdlE2Qm8rWOVIi6L0JSLGJjVZKNFPAlIfUaqOORJP7TiSpXZNtkUeSwQmhaOiJP
+ OGa8xCv6JmxNGdMokujeJdx1v2jDbdySiSnd8dO5RssK/jRPXQOskVAT678V+Oihw/XjwSiKr6
+ yqQLnBNL2mSHwcrkdwT3/g9+Biyy8Wkm+oM2jEZ1Bgt+iHpX9NLRtGK7puszH1dp2DbUrTnTXV
+ mRY=
+X-IronPort-AV: E=Sophos;i="5.69,299,1571727600"; d="scan'208";a="59325145"
 Received: from smtpout.microchip.com (HELO email.microchip.com)
  ([198.175.253.82])
  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256;
- 10 Dec 2019 06:25:10 -0700
+ 10 Dec 2019 06:25:14 -0700
 Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Tue, 10 Dec 2019 06:25:10 -0700
+ 15.1.1713.5; Tue, 10 Dec 2019 06:25:21 -0700
 Received: from m18063-ThinkPad-T460p.mchp-main.com (10.10.85.251) by
  chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.1713.5 via Frontend Transport; Tue, 10 Dec 2019 06:25:11 -0700
+ 15.1.1713.5 via Frontend Transport; Tue, 10 Dec 2019 06:25:14 -0700
 From: Claudiu Beznea <claudiu.beznea@microchip.com>
 To: <sam@ravnborg.org>, <bbrezillon@kernel.org>, <airlied@linux.ie>,
  <daniel@ffwll.ch>, <nicolas.ferre@microchip.com>,
  <alexandre.belloni@bootlin.com>, <ludovic.desroches@microchip.com>,
  <lee.jones@linaro.org>
-Subject: [PATCH 4/5] Revert "drm/atmel-hlcdc: allow selecting a higher
- pixel-clock than requested"
-Date: Tue, 10 Dec 2019 15:24:46 +0200
-Message-ID: <1575984287-26787-5-git-send-email-claudiu.beznea@microchip.com>
+Subject: [PATCH 5/5] Revert "drm: atmel-hlcdc: enable sys_clk during
+ initalization."
+Date: Tue, 10 Dec 2019 15:24:47 +0200
+Message-ID: <1575984287-26787-6-git-send-email-claudiu.beznea@microchip.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1575984287-26787-1-git-send-email-claudiu.beznea@microchip.com>
 References: <1575984287-26787-1-git-send-email-claudiu.beznea@microchip.com>
@@ -78,7 +78,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Rosin <peda@axentia.se>,
+Cc: Sandeep Sheriker Mallikarjun <sandeepsheriker.mallikarjun@microchip.com>,
  Claudiu Beznea <claudiu.beznea@microchip.com>,
  linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
@@ -87,40 +87,78 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit f6f7ad3234613f6f7f27c25036aaf078de07e9b0.
-("drm/atmel-hlcdc: allow selecting a higher pixel-clock than requested")
-because allowing selecting a higher pixel clock may overclock
-LCD devices, not all of them being capable of this.
+This reverts commit d2c755e66617620b729041c625a6396c81d1231c.
+("drm: atmel-hlcdc: enable sys_clk during initalization."). With
+commit "drm: atmel-hlcdc: enable clock before configuring timing engine"
+there is no need for this patch. Code is also simpler.
 
-Cc: Peter Rosin <peda@axentia.se>
+Cc: Sandeep Sheriker Mallikarjun <sandeepsheriker.mallikarjun@microchip.com>
 Signed-off-by: Claudiu Beznea <claudiu.beznea@microchip.com>
 ---
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c | 12 ------------
- 1 file changed, 12 deletions(-)
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 19 +------------------
+ 1 file changed, 1 insertion(+), 18 deletions(-)
 
-diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-index 721fa88bf71d..1a70dff1a417 100644
---- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-+++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-@@ -117,18 +117,6 @@ static void atmel_hlcdc_crtc_mode_set_nofb(struct drm_crtc *c)
- 		div = DIV_ROUND_UP(prate, mode_rate);
- 		if (ATMEL_HLCDC_CLKDIV(div) & ~ATMEL_HLCDC_CLKDIV_MASK)
- 			div = ATMEL_HLCDC_CLKDIV_MASK;
--	} else {
--		int div_low = prate / mode_rate;
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+index 8dc917a1270b..112aa5066cee 100644
+--- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+@@ -721,18 +721,10 @@ static int atmel_hlcdc_dc_load(struct drm_device *dev)
+ 	dc->hlcdc = dev_get_drvdata(dev->dev->parent);
+ 	dev->dev_private = dc;
+ 
+-	if (dc->desc->fixed_clksrc) {
+-		ret = clk_prepare_enable(dc->hlcdc->sys_clk);
+-		if (ret) {
+-			dev_err(dev->dev, "failed to enable sys_clk\n");
+-			goto err_destroy_wq;
+-		}
+-	}
 -
--		if (div_low >= 2 &&
--		    ((prate / div_low - mode_rate) <
--		     10 * (mode_rate - prate / div)))
--			/*
--			 * At least 10 times better when using a higher
--			 * frequency than requested, instead of a lower.
--			 * So, go with that.
--			 */
--			div = div_low;
+ 	ret = clk_prepare_enable(dc->hlcdc->periph_clk);
+ 	if (ret) {
+ 		dev_err(dev->dev, "failed to enable periph_clk\n");
+-		goto err_sys_clk_disable;
++		goto err_destroy_wq;
  	}
  
- 	cfg |= ATMEL_HLCDC_CLKDIV(div);
+ 	pm_runtime_enable(dev->dev);
+@@ -768,9 +760,6 @@ static int atmel_hlcdc_dc_load(struct drm_device *dev)
+ err_periph_clk_disable:
+ 	pm_runtime_disable(dev->dev);
+ 	clk_disable_unprepare(dc->hlcdc->periph_clk);
+-err_sys_clk_disable:
+-	if (dc->desc->fixed_clksrc)
+-		clk_disable_unprepare(dc->hlcdc->sys_clk);
+ 
+ err_destroy_wq:
+ 	destroy_workqueue(dc->wq);
+@@ -795,8 +784,6 @@ static void atmel_hlcdc_dc_unload(struct drm_device *dev)
+ 
+ 	pm_runtime_disable(dev->dev);
+ 	clk_disable_unprepare(dc->hlcdc->periph_clk);
+-	if (dc->desc->fixed_clksrc)
+-		clk_disable_unprepare(dc->hlcdc->sys_clk);
+ 	destroy_workqueue(dc->wq);
+ }
+ 
+@@ -910,8 +897,6 @@ static int atmel_hlcdc_dc_drm_suspend(struct device *dev)
+ 	regmap_read(regmap, ATMEL_HLCDC_IMR, &dc->suspend.imr);
+ 	regmap_write(regmap, ATMEL_HLCDC_IDR, dc->suspend.imr);
+ 	clk_disable_unprepare(dc->hlcdc->periph_clk);
+-	if (dc->desc->fixed_clksrc)
+-		clk_disable_unprepare(dc->hlcdc->sys_clk);
+ 
+ 	return 0;
+ }
+@@ -921,8 +906,6 @@ static int atmel_hlcdc_dc_drm_resume(struct device *dev)
+ 	struct drm_device *drm_dev = dev_get_drvdata(dev);
+ 	struct atmel_hlcdc_dc *dc = drm_dev->dev_private;
+ 
+-	if (dc->desc->fixed_clksrc)
+-		clk_prepare_enable(dc->hlcdc->sys_clk);
+ 	clk_prepare_enable(dc->hlcdc->periph_clk);
+ 	regmap_write(dc->hlcdc->regmap, ATMEL_HLCDC_IER, dc->suspend.imr);
+ 
 -- 
 2.7.4
 
