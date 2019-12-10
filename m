@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CC79119EDC
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 23:59:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F093119ED9
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 23:59:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A627E6EA0B;
-	Tue, 10 Dec 2019 22:59:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32C4A6EA06;
+	Tue, 10 Dec 2019 22:58:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC2146E9F5
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 22:58:40 +0000 (UTC)
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 761626E9F5
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 22:58:42 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6CDBB1265;
- Tue, 10 Dec 2019 23:58:38 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 20F3E1A54;
+ Tue, 10 Dec 2019 23:58:39 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1576018718;
- bh=tmjlOXmYzxzj1PgW+7qAtzQcJF/ckX2HYM+MvlI5kNI=;
+ s=mail; t=1576018719;
+ bh=MHYHpKGfYDIywGEK8cVvm9Y4+Fs9UJBfc1zlE3mpIPU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jTjmeVREBWYx8HIELNBVnnw8lV5PucOCxW/OvVrykn1pKR3QqhgN2jo4CL6bPN9HD
- LCKYrNWX5QTk7qem+m0zL9njR7WIkEgf5FRwApHU6a3tBfHMiXuU9lRhZYcPmqxJGO
- vGXcf7nUle542A9ZwYrR69zlosfQkTWDu1JiIH64=
+ b=Ps3qEjIXJFCu/rn8hFRZjXEX4iVhkSu6w5KJPXsF7Sx2ZJsMO/sd3lsAd0P6Zpulv
+ o4qdbl3RWTLQcXhI6wdvLt1mk2ZD+R3DCaUJn+VQMdjAyt2z8YUhNRh10AoI4YqTS3
+ nKFDCYnUx7pSGQbRdaanZVEBdjAmapAB2o+Z1um8=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 39/50] drm/omap: venc: Remove omap_dss_device operations
-Date: Wed, 11 Dec 2019 00:57:39 +0200
-Message-Id: <20191210225750.15709-40-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 40/50] drm/omap: hdmi4: Simplify EDID read
+Date: Wed, 11 Dec 2019 00:57:40 +0200
+Message-Id: <20191210225750.15709-41-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191210225750.15709-1-laurent.pinchart@ideasonboard.com>
 References: <20191210225750.15709-1-laurent.pinchart@ideasonboard.com>
@@ -53,91 +53,134 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that the VENC output is driven fully through the drm_bridge API its
-omap_dss_device operations are not used anymore. Remove them.
+Now that the omap_dss_device EDID read operation has been removed,
+simplify the bridge-based EDID access by merging multiple functions
+together.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/gpu/drm/omapdrm/dss/venc.c | 45 ------------------------------
- 1 file changed, 45 deletions(-)
+ drivers/gpu/drm/omapdrm/dss/hdmi4.c | 96 ++++++++++++-----------------
+ 1 file changed, 40 insertions(+), 56 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/venc.c b/drivers/gpu/drm/omapdrm/dss/venc.c
-index 49499e2a9d31..37ac41c9d085 100644
---- a/drivers/gpu/drm/omapdrm/dss/venc.c
-+++ b/drivers/gpu/drm/omapdrm/dss/venc.c
-@@ -308,7 +308,6 @@ struct venc_device {
- 	struct drm_bridge bridge;
- };
- 
--#define dssdev_to_venc(dssdev) container_of(dssdev, struct venc_device, output)
- #define drm_bridge_to_venc(b) container_of(b, struct venc_device, bridge)
- 
- static inline void venc_write_reg(struct venc_device *venc, int idx, u32 val)
-@@ -481,30 +480,6 @@ static void venc_power_off(struct venc_device *venc)
- 	venc_runtime_put(venc);
+diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4.c b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
+index 34db86ba6193..aa253d4902fe 100644
+--- a/drivers/gpu/drm/omapdrm/dss/hdmi4.c
++++ b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
+@@ -308,55 +308,6 @@ void hdmi4_core_disable(struct hdmi_core_data *core)
+ 	mutex_unlock(&hdmi->lock);
  }
  
--static int venc_get_modes(struct omap_dss_device *dssdev,
--			  struct drm_connector *connector)
+-static struct edid *
+-hdmi_do_read_edid(struct omap_hdmi *hdmi,
+-		  struct edid *(*read)(struct omap_hdmi *hdmi,
+-				       struct drm_connector *connector),
+-		  struct drm_connector *connector)
 -{
--	static const struct drm_display_mode *modes[] = {
--		&omap_dss_pal_mode,
--		&omap_dss_ntsc_mode,
--	};
--	unsigned int i;
+-	struct edid *edid = NULL;
+-	unsigned int cec_addr;
+-	bool need_enable;
+-	int r;
 -
--	for (i = 0; i < ARRAY_SIZE(modes); ++i) {
--		struct drm_display_mode *mode;
+-	need_enable = hdmi->core_enabled == false;
 -
--		mode = drm_mode_duplicate(connector->dev, modes[i]);
--		if (!mode)
--			return i;
--
--		mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
--		drm_mode_set_name(mode);
--		drm_mode_probed_add(connector, mode);
+-	if (need_enable) {
+-		r = hdmi4_core_enable(&hdmi->core);
+-		if (r)
+-			return NULL;
 -	}
 -
--	return ARRAY_SIZE(modes);
+-	mutex_lock(&hdmi->lock);
+-	r = hdmi_runtime_get(hdmi);
+-	BUG_ON(r);
+-
+-	r = hdmi4_core_ddc_init(&hdmi->core);
+-	if (r)
+-		goto done;
+-
+-	edid = read(hdmi, connector);
+-
+-done:
+-	hdmi_runtime_put(hdmi);
+-	mutex_unlock(&hdmi->lock);
+-
+-	if (edid && edid->extensions) {
+-		unsigned int len = (edid->extensions + 1) * EDID_LENGTH;
+-
+-		cec_addr = cec_get_edid_phys_addr((u8 *)edid, len, NULL);
+-	} else {
+-		cec_addr = CEC_PHYS_ADDR_INVALID;
+-	}
+-
+-	hdmi4_cec_set_phys_addr(&hdmi->core, cec_addr);
+-
+-	if (need_enable)
+-		hdmi4_core_disable(&hdmi->core);
+-
+-	return edid;
 -}
--
- static enum venc_videomode venc_get_videomode(const struct drm_display_mode *mode)
- {
- 	if (!(mode->flags & DRM_MODE_FLAG_INTERLACE))
-@@ -600,25 +575,6 @@ static int venc_get_clocks(struct venc_device *venc)
- 	return 0;
- }
- 
--static int venc_connect(struct omap_dss_device *src,
--			struct omap_dss_device *dst)
--{
--	return omapdss_device_connect(dst->dss, dst, dst->next);
--}
--
--static void venc_disconnect(struct omap_dss_device *src,
--			    struct omap_dss_device *dst)
--{
--	omapdss_device_disconnect(dst, dst->next);
--}
--
--static const struct omap_dss_device_ops venc_ops = {
--	.connect = venc_connect,
--	.disconnect = venc_disconnect,
--
--	.get_modes = venc_get_modes,
--};
 -
  /* -----------------------------------------------------------------------------
   * DRM Bridge Operations
   */
-@@ -827,7 +783,6 @@ static int venc_init_output(struct venc_device *venc)
- 	out->type = OMAP_DISPLAY_TYPE_VENC;
- 	out->name = "venc.0";
- 	out->dispc_channel = OMAP_DSS_CHANNEL_DIGIT;
--	out->ops = &venc_ops;
- 	out->owner = THIS_MODULE;
- 	out->of_port = 0;
- 	out->ops_flags = OMAP_DSS_DEVICE_OP_MODES;
+@@ -483,18 +434,51 @@ static void hdmi4_bridge_hpd_notify(struct drm_bridge *bridge,
+ 		hdmi4_cec_set_phys_addr(&hdmi->core, CEC_PHYS_ADDR_INVALID);
+ }
+ 
+-static struct edid *hdmi4_bridge_read_edid(struct omap_hdmi *hdmi,
+-					   struct drm_connector *connector)
+-{
+-	return drm_do_get_edid(connector, hdmi4_core_ddc_read, &hdmi->core);
+-}
+-
+ static struct edid *hdmi4_bridge_get_edid(struct drm_bridge *bridge,
+ 					  struct drm_connector *connector)
+ {
+ 	struct omap_hdmi *hdmi = drm_bridge_to_hdmi(bridge);
++	struct edid *edid = NULL;
++	unsigned int cec_addr;
++	bool need_enable;
++	int r;
++
++	need_enable = hdmi->core_enabled == false;
++
++	if (need_enable) {
++		r = hdmi4_core_enable(&hdmi->core);
++		if (r)
++			return NULL;
++	}
++
++	mutex_lock(&hdmi->lock);
++	r = hdmi_runtime_get(hdmi);
++	BUG_ON(r);
++
++	r = hdmi4_core_ddc_init(&hdmi->core);
++	if (r)
++		goto done;
++
++	edid = drm_do_get_edid(connector, hdmi4_core_ddc_read, &hdmi->core);
+ 
+-	return hdmi_do_read_edid(hdmi, hdmi4_bridge_read_edid, connector);
++done:
++	hdmi_runtime_put(hdmi);
++	mutex_unlock(&hdmi->lock);
++
++	if (edid && edid->extensions) {
++		unsigned int len = (edid->extensions + 1) * EDID_LENGTH;
++
++		cec_addr = cec_get_edid_phys_addr((u8 *)edid, len, NULL);
++	} else {
++		cec_addr = CEC_PHYS_ADDR_INVALID;
++	}
++
++	hdmi4_cec_set_phys_addr(&hdmi->core, cec_addr);
++
++	if (need_enable)
++		hdmi4_core_disable(&hdmi->core);
++
++	return edid;
+ }
+ 
+ static const struct drm_bridge_funcs hdmi4_bridge_funcs = {
 -- 
 Regards,
 
