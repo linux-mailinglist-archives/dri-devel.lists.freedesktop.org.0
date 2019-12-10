@@ -1,43 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7805119A93
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 23:03:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32607119A81
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 23:01:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEDEC6E99B;
-	Tue, 10 Dec 2019 22:03:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A34A6E974;
+	Tue, 10 Dec 2019 22:01:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BC756E99B
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 22:03:35 +0000 (UTC)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 8344724655;
- Tue, 10 Dec 2019 22:03:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576015415;
- bh=h9fYDAsY52yL/u7PRjPms3T2uAqlhcezyCB1LyQ2Izc=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=13z8OCBTDM/QxF8n5y/0AQEQPCvnN37fEynZmnXTmAFvd/kuzXm+cqyIA84utBVHt
- y34nRFXZd2MVARp5hiixb8ht+Ad/um6Z0yEikose1iqJRL8puHh5Q72xXaY983MGhB
- 8g8HvWaBrX3YkDRlFPe3ZGPdpqXdG8LWO7Xvt6SM=
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 028/130] drm/bridge: dw-hdmi: Refuse DDC/CI
- transfers on the internal I2C controller
-Date: Tue, 10 Dec 2019 17:01:19 -0500
-Message-Id: <20191210220301.13262-28-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191210220301.13262-1-sashal@kernel.org>
-References: <20191210220301.13262-1-sashal@kernel.org>
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBEF66E974
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 22:01:37 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id t14so4867437wmi.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 14:01:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=IdEgSF+/YKX111RPx3g26t6v4N0KcK/Dzr46XVnsmo8=;
+ b=I2lgJAKzPmhuhNR5qnb+D+kfWQWwm3GyPv7nBqZQsLKz3OVTr/Vp2dkC8snQMtsgof
+ oXwwUq4/fkGXQ7stdHlmy3Pzh+/qORuqEDYWDi9Q1/K3tgtirUKK91KMtP1YVg7jn0x6
+ 6gO8Haoq52TACeS7xbE34SeMyc4zwBYDLGpnI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to:user-agent;
+ bh=IdEgSF+/YKX111RPx3g26t6v4N0KcK/Dzr46XVnsmo8=;
+ b=I5GJhd89nZ5gcNnq1VorVW2tMRp/i4//BD8GFyAgBYhHkd7043jy8PdhgSFJvvl/99
+ r2ylgXrsQqStI22LJtQKBVey8EPsXjLca1Q8Iyn5D8tt9+Z76UrT2EJxrTjfbzr1bNwX
+ Gix73qN1q1Nh/95O+FNV+X0zQWTm70rZHfcPC+FAWtT9BskmsQQx6mwp3j82kXLkE9Bi
+ enazG3NU4baDLMNr+2p2YykoLGz6XaLCxBITPG5NbGt+9kJXELEZyHWIs9qP0OXo1MzW
+ MfGVbW6xv0UakeS4rWQW6XfDou2YsO1FLyv0xDjrR0T9W7cztbvX3eaLv2Up8QjuK11Q
+ Lh4g==
+X-Gm-Message-State: APjAAAV9WQe431oYUBvIAEwZfHeBWluUoUl1hKXq1PLxs+b41CcW9Knv
+ h4P6JmouSRrUhGCKoKjhiJwTmg==
+X-Google-Smtp-Source: APXvYqwa8TfufsDB9aSx7a9VDy0lGOIlFFjZg/YM+/m43bHWCA6z9RoxBypwGEKS/fGkDLrJFYeuEA==
+X-Received: by 2002:a7b:c19a:: with SMTP id y26mr7569408wmi.152.1576015296369; 
+ Tue, 10 Dec 2019 14:01:36 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:564b:0:7567:bb67:3d7f:f863])
+ by smtp.gmail.com with ESMTPSA id k19sm4412552wmi.42.2019.12.10.14.01.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Dec 2019 14:01:35 -0800 (PST)
+Date: Tue, 10 Dec 2019 23:01:33 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Emil Velikov <emil.l.velikov@gmail.com>
+Subject: Re: [PATCH RFC 2/8] drm/sprd: add Unisoc's drm kms master
+Message-ID: <20191210220133.GV624164@phenom.ffwll.local>
+Mail-Followup-To: Emil Velikov <emil.l.velikov@gmail.com>,
+ Kevin Tang <kevin3.tang@gmail.com>, David Airlie <airlied@linux.ie>,
+ orsonzhai@gmail.com, ML dri-devel <dri-devel@lists.freedesktop.org>,
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+ zhang.lyra@gmail.com, baolin.wang@linaro.org
+References: <1575966995-13757-1-git-send-email-kevin3.tang@gmail.com>
+ <1575966995-13757-3-git-send-email-kevin3.tang@gmail.com>
+ <CACvgo50K=43OHW33i8ZsMG3QvuVxLZSo0iBMSt0Z-X4N2eTObw@mail.gmail.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+Content-Disposition: inline
+In-Reply-To: <CACvgo50K=43OHW33i8ZsMG3QvuVxLZSo0iBMSt0Z-X4N2eTObw@mail.gmail.com>
+X-Operating-System: Linux phenom 5.3.0-2-amd64 
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,69 +73,187 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Neil Armstrong <narmstrong@baylibre.com>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Matthias Kaehlcke <mka@chromium.org>, Sean Paul <sean@poorly.run>
+Cc: Kevin Tang <kevin3.tang@gmail.com>, baolin.wang@linaro.org,
+ David Airlie <airlied@linux.ie>, zhang.lyra@gmail.com,
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>, orsonzhai@gmail.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Matthias Kaehlcke <mka@chromium.org>
+On Tue, Dec 10, 2019 at 04:06:53PM +0000, Emil Velikov wrote:
+> Welcome to DRM Kevin,
+> 
+> On Tue, 10 Dec 2019 at 08:40, Kevin Tang <kevin3.tang@gmail.com> wrote:
+> >
+> > From: Kevin Tang <kevin.tang@unisoc.com>
+> >
+> > Adds drm support for the Unisoc's display subsystem.
+> >
+> > This is drm device and gem driver. This driver provides support for the
+> > Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
+> >
+> Did you use XFree86 or Xorg to test this? The XFree86 codebase have been
+> missing for years.
+> 
+> Out of curiosity - did you try any Wayland, or bare-metal compositor?
 
-[ Upstream commit bee447e224b2645911c5d06e35dc90d8433fcef6 ]
+Just noticed that the driver also seems to be missing fbdev emulation.
+Given that that is a one-line (for a proper driver using all the right
+helpers) it should be added. See drm_fbdev_generic_setup().
+-Daniel
 
-The DDC/CI protocol involves sending a multi-byte request to the
-display via I2C, which is typically followed by a multi-byte
-response. The internal I2C controller only allows single byte
-reads/writes or reads of 8 sequential bytes, hence DDC/CI is not
-supported when the internal I2C controller is used. The I2C
-transfers complete without errors, however the data in the response
-is garbage. Abort transfers to/from slave address 0x37 (DDC) with
--EOPNOTSUPP, to make it evident that the communication is failing.
+> 
+> >  source "drivers/gpu/drm/mcde/Kconfig"
+> >
+> > +source "drivers/gpu/drm/sprd/Kconfig"
+> > +
+> >  # Keep legacy drivers last
+> >
+> >  menuconfig DRM_LEGACY
+> > diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> > index 9f1c7c4..85ca211 100644
+> > --- a/drivers/gpu/drm/Makefile
+> > +++ b/drivers/gpu/drm/Makefile
+> > @@ -122,3 +122,4 @@ obj-$(CONFIG_DRM_LIMA)  += lima/
+> >  obj-$(CONFIG_DRM_PANFROST) += panfrost/
+> >  obj-$(CONFIG_DRM_ASPEED_GFX) += aspeed/
+> >  obj-$(CONFIG_DRM_MCDE) += mcde/
+> > +obj-$(CONFIG_DRM_SPRD) += sprd/
+> > diff --git a/drivers/gpu/drm/sprd/Kconfig b/drivers/gpu/drm/sprd/Kconfig
+> > new file mode 100644
+> > index 0000000..79f286b
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/sprd/Kconfig
+> > @@ -0,0 +1,14 @@
+> > +config DRM_SPRD
+> > +       tristate "DRM Support for Unisoc SoCs Platform"
+> > +       depends on ARCH_SPRD
+> > +       depends on DRM && OF
+> > +       select DRM_KMS_HELPER
+> > +       select DRM_GEM_CMA_HELPER
+> > +       select DRM_KMS_CMA_HELPER
+> > +       select DRM_MIPI_DSI
+> > +       select DRM_PANEL
+> > +       select VIDEOMODE_HELPERS
+> > +       select BACKLIGHT_CLASS_DEVICE
+> > +       help
+> > +         Choose this option if you have a Unisoc chipsets.
+> s/chipsets/chipset/ ?
+> 
+> 
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/sprd/Makefile
+> > @@ -0,0 +1,8 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +
+> > +ccflags-y += -Iinclude/drm
+> > +
+> > +subdir-ccflags-y += -I$(src)
+> > +
+> I think we can drop the includes here, unless there's a specific error
+> message that you're setting.
+> 
+> 
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/sprd/sprd_drm.c
+> 
+> > +#define DRIVER_NAME    "sprd"
+> > +#define DRIVER_DESC    "Spreadtrum SoCs' DRM Driver"
+> > +#define DRIVER_DATE    "20180501"
+> The date is mostly for cosmetic purposes. Yet we're nearly 2020 and
+> this reads 2018 - update?
+> 
+> <snip>
+> 
+> > +static struct drm_driver sprd_drm_drv = {
+> > +       .driver_features        = DRIVER_GEM | DRIVER_MODESET |
+> > +                                 DRIVER_ATOMIC | DRIVER_HAVE_IRQ,
+> There is no modeset exposed by the driver, let alone an atomic one.
+> 
+> Thus I would drop the following code from this patch and add it with a
+> patch that uses it.
+>  - tokens - DRIVER_MODESET, DRIVER_ATOMIC)
+>  - no-op modeset/atomic functions just above, and
+>  - vblank/kms code (further down) in bind/unbind
+> 
+> 
+> <snip>
+> 
+> > +static int sprd_drm_probe(struct platform_device *pdev)
+> > +{
+> > +       int ret;
+> > +
+> > +       ret = dma_set_mask_and_coherent(&pdev->dev, ~0);
+> > +       if (ret)
+> > +               DRM_ERROR("dma_set_mask_and_coherent failed (%d)\n", ret);
+> > +
+> Is the hardware going to work correctly the dma call fails? Should we
+> use "return ret;" here?
+> 
+> > +       return sprd_drm_component_probe(&pdev->dev, &sprd_drm_component_ops);
+> > +}
+> > +
+> > +static int sprd_drm_remove(struct platform_device *pdev)
+> > +{
+> > +       component_master_del(&pdev->dev, &sprd_drm_component_ops);
+> > +       return 0;
+> > +}
+> > +
+> > +static void sprd_drm_shutdown(struct platform_device *pdev)
+> > +{
+> > +       struct drm_device *drm = platform_get_drvdata(pdev);
+> > +
+> > +       if (!drm) {
+> Can this happen in reality?
+> 
+> <snip>
+> 
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/sprd/sprd_drm.h
+> > @@ -0,0 +1,19 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Copyright (C) 2019 Unisoc Inc.
+> > + */
+> > +
+> > +#ifndef _SPRD_DRM_H_
+> > +#define _SPRD_DRM_H_
+> > +
+> > +#include <drm/drm_atomic.h>
+> > +#include <drm/drm_print.h>
+> > +
+> > +struct sprd_drm {
+> > +       struct drm_device *drm;
+> 
+> > +       struct drm_atomic_state *state;
+> > +       struct device *dpu_dev;
+> > +       struct device *gsp_dev;
+> These three are unused. Please add alongside the code which is using them.
+> 
+> 
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/sprd/sprd_gem.c
+> 
+> As Thomas pointed out, this is effectively a copy of drm_gem_cma_helper.c
+> Please drop this file and use the respective CMA functions, instead.
+> 
+> 
+> > diff --git a/drivers/gpu/drm/sprd/sprd_gem.h b/drivers/gpu/drm/sprd/sprd_gem.h
+> > new file mode 100644
+> > index 0000000..4c10d8a
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/sprd/sprd_gem.h
+> Just like the C file - this is effectively a copy of the existing CMA codebase.
+> 
+> HTH
+> Emil
 
-Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-Reviewed-by: Sean Paul <sean@poorly.run>
-Acked-by: Neil Armstrong <narmstrong@baylibre.com>
-Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20191002124354.v2.1.I709dfec496f5f0b44a7b61dcd4937924da8d8382@changeid
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 4db31b89507c5..0febaafb8d895 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -39,6 +39,7 @@
- 
- #include <media/cec-notifier.h>
- 
-+#define DDC_CI_ADDR		0x37
- #define DDC_SEGMENT_ADDR	0x30
- 
- #define HDMI_EDID_LEN		512
-@@ -320,6 +321,15 @@ static int dw_hdmi_i2c_xfer(struct i2c_adapter *adap,
- 	u8 addr = msgs[0].addr;
- 	int i, ret = 0;
- 
-+	if (addr == DDC_CI_ADDR)
-+		/*
-+		 * The internal I2C controller does not support the multi-byte
-+		 * read and write operations needed for DDC/CI.
-+		 * TOFIX: Blacklist the DDC/CI address until we filter out
-+		 * unsupported I2C operations.
-+		 */
-+		return -EOPNOTSUPP;
-+
- 	dev_dbg(hdmi->dev, "xfer: num: %d, addr: %#x\n", num, addr);
- 
- 	for (i = 0; i < num; i++) {
 -- 
-2.20.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
