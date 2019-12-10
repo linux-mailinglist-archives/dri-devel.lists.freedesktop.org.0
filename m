@@ -2,54 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C894118EB7
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 18:14:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79A36118EFB
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 18:28:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BA8B6E14F;
-	Tue, 10 Dec 2019 17:14:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E10A6E8FF;
+	Tue, 10 Dec 2019 17:28:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com
- [IPv6:2607:f8b0:4864:20::a41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AA6A6E14F
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 17:14:52 +0000 (UTC)
-Received: by mail-vk1-xa41.google.com with SMTP id r8so732106vkl.4
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 09:14:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=awtlruUsEk2kRl+JtKPViU1iCb8JGLYj7o5vhOb4Zxw=;
- b=VMNIwPei4Z4YUYDLsEl9KqXQl63xLpJ5ELTx1+OiHRL/BHtXjdyURCnVdAmZ8wTQ7Q
- u11ipBhMigkHOXVNieXgNe49Ibc2KTCR7V99VxqqzUCv5GC0rKugzNIBvNAwKSGuHLhS
- XErp43zQqVFEdqmpOv0tHzNqrHo0fagjwdnT8YM6tWO0kCR7IF8ODElssQgByxfNSXjF
- jcIh8vaf+GXHU8tT1HaASbImmrA5/ROZwaYfgTONZuNVlfLj88hGE6WM9kisbv1e4le7
- f+tPEo2+QnReocINW3Y+lw73Az1Fpckq1/Mv4vdRUy89xo2M8E3TF3TWjCDylAz0bcKf
- 0/eA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=awtlruUsEk2kRl+JtKPViU1iCb8JGLYj7o5vhOb4Zxw=;
- b=stsnnOSRv8teFkj68oxqCqgQ4JmcbkPNywdoNKyLIKOSkvuYmxH+3CRBMjfoJFMjpK
- Dr7NBBu0C5s61oVR3AvVIynMr7eGzH4AwyL3bSHwvf+BrwycA/6UrNXqkCa0DLJx+xvZ
- driEH9IqMz96N6vmoYf6I8JMF8kVWFqJuq/g76MIEoqfp2phPVeVLx1KxgBb9flTw6yW
- JNE14u/Q/KC++6qTBWWYgryMPcyD4yI8E3vav3N4xnZVrpjDtmVwc0XsniPhWGJ8wIL6
- XBa/368iiCXfgWJFsCJIPExQPebkSWi13MToPVoc4rSIaKbNA3EOZetrpfVJoPIIHD3x
- 6Ckw==
-X-Gm-Message-State: APjAAAXZSiQXFsqemUB+K7ZSlZ8AF6hIm1oxhI+w6d96g+MvT2RB8suN
- vAbFSWcBqmiezvynY97nbsmVrGjoxmuzAcsuySI=
-X-Google-Smtp-Source: APXvYqzumzI2gkBVqenl2uRLitu2zhun0WYxgzHzRMCOFggIX7PtF3YAQ9TIWKbG5HWivRcUPURj0WX5sXazZKIzeQk=
-X-Received: by 2002:a1f:cec2:: with SMTP id e185mr5218012vkg.22.1575998091409; 
- Tue, 10 Dec 2019 09:14:51 -0800 (PST)
+Received: from FRA01-MR2-obe.outbound.protection.outlook.com
+ (mail-eopbgr90083.outbound.protection.outlook.com [40.107.9.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F09756E8FF
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 17:28:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=y1XO9FqGc6EhQqGVQa+EOcQ6ucIotbgttEtouJX6wz8=;
+ b=TFn0zfb0jEgLmrnZ8q26669RPBEuLV2wMwy7OkLw4FYD5DDNb5zu2hSy/aPBc2XFwV8gLDoboLvRw4Ny95H9o1VMLnSDciZQf16EHMeBQQFm1A25r8mw6oF+Cqvg/UzMn9AEz3y2A0+LHO/ICxi+IhXOKc5I9V9XGdyX27lP2vY=
+Received: from VI1PR08CA0132.eurprd08.prod.outlook.com (2603:10a6:800:d4::34)
+ by PR2PR08MB4826.eurprd08.prod.outlook.com (2603:10a6:101:24::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2516.12; Tue, 10 Dec
+ 2019 17:28:15 +0000
+Received: from DB5EUR03FT029.eop-EUR03.prod.protection.outlook.com
+ (2a01:111:f400:7e0a::208) by VI1PR08CA0132.outlook.office365.com
+ (2603:10a6:800:d4::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2516.14 via Frontend
+ Transport; Tue, 10 Dec 2019 17:28:14 +0000
+Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; lists.freedesktop.org; dkim=pass (signature was
+ verified) header.d=armh.onmicrosoft.com;lists.freedesktop.org;
+ dmarc=bestguesspass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DB5EUR03FT029.mail.protection.outlook.com (10.152.20.131) with
+ Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2495.18 via Frontend Transport; Tue, 10 Dec 2019 17:28:14 +0000
+Received: ("Tessian outbound 45a30426f8e4:v37");
+ Tue, 10 Dec 2019 17:28:14 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: b5729deecd66b141
+X-CR-MTA-TID: 64aa7808
+Received: from b4241bf44f5d.1
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com id
+ A548F763-10C0-4918-9B96-8C27EAC6C6C6.1; 
+ Tue, 10 Dec 2019 17:28:09 +0000
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id b4241bf44f5d.1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+ Tue, 10 Dec 2019 17:28:09 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=E9pufVfUYdQN/e7hXahY0Oz84IZh4ENO/8N/b+/TKIvzfrYqXHxIc3/BkJspyMAvIdd6aeP1mJJLeLLGXALzsbptoqjO4uN+/D9IZ7tVJGkstjbbAvwKGbPJw0yXPU4UhHEoprv+41jUp3nofm79svLyh6VeaiWVAuVeHacAOq1Ru/RzmatwGc6NF0HlbfwL11WWufKr5qq/aOBaoIiHOAks0mCC8LwGzU5fZ/L7Ep2cLuLfHhVyIzoMnyAncC4yQaOv1q3kMZ509/53wjHHe/wz/SJ0QSf0EAu+JhyH/DA61ZpGSsnZajF7428qNbXeeGgRImfuCQjITeNXxcTXbg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=y1XO9FqGc6EhQqGVQa+EOcQ6ucIotbgttEtouJX6wz8=;
+ b=I9CHGAHKILsSR/Y10PmWh7wnKTDCrGHwCY/+r0nba4I2A/iisRM/rFeqNt5JqB87v+ct2gMtW39BpRwcCCK4eYO3Jqe3K3sT5rLw+okthQBR/zTHxx/iRd39Vo3e35LKBinW7vHy9RLAkC7Ru5S9LhXxtN0JwEfEP0grAeDJQzrsib5p0q/EJwbVXmWsYENdfvcHq80nnErlgxsF6Ea8jGEc55e1j+lSbBIjB8njuECJnrl1B1Yl6eHGIIr8BNJBIfvKqmmZ7gUsKN8d3/lYDXOSeaHQDNJayf05fdsTaC85u+hD1M+nSwyiI7pVBIdH+VCwRQD2ZFTgkMwAKU13KA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=y1XO9FqGc6EhQqGVQa+EOcQ6ucIotbgttEtouJX6wz8=;
+ b=TFn0zfb0jEgLmrnZ8q26669RPBEuLV2wMwy7OkLw4FYD5DDNb5zu2hSy/aPBc2XFwV8gLDoboLvRw4Ny95H9o1VMLnSDciZQf16EHMeBQQFm1A25r8mw6oF+Cqvg/UzMn9AEz3y2A0+LHO/ICxi+IhXOKc5I9V9XGdyX27lP2vY=
+Received: from VI1PR08MB4078.eurprd08.prod.outlook.com (20.178.127.92) by
+ VI1PR08MB3247.eurprd08.prod.outlook.com (52.134.30.141) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2516.14; Tue, 10 Dec 2019 17:28:07 +0000
+Received: from VI1PR08MB4078.eurprd08.prod.outlook.com
+ ([fe80::3d0a:7cde:7f1f:fe7c]) by VI1PR08MB4078.eurprd08.prod.outlook.com
+ ([fe80::3d0a:7cde:7f1f:fe7c%7]) with mapi id 15.20.2516.018; Tue, 10 Dec 2019
+ 17:28:07 +0000
+From: Mihail Atanassov <Mihail.Atanassov@arm.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sam Ravnborg
+ <sam@ravnborg.org>
+Subject: Re: [PATCH] drm/bridge: panel: export drm_panel_bridge_connector
+Thread-Topic: [PATCH] drm/bridge: panel: export drm_panel_bridge_connector
+Thread-Index: AQHVr2juqWlk00ywj0COPSlRR1t0m6ezjmqAgAARIIA=
+Date: Tue, 10 Dec 2019 17:28:07 +0000
+Message-ID: <2826541.zeyClDNUlX@e123338-lin>
+References: <20191207140353.23967-5-sam@ravnborg.org>
+ <20191210144834.27491-1-mihail.atanassov@arm.com>
+ <20191210162647.GA5211@pendragon.ideasonboard.com>
+In-Reply-To: <20191210162647.GA5211@pendragon.ideasonboard.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [217.140.106.54]
+x-clientproxiedby: LNXP265CA0018.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:5e::30) To VI1PR08MB4078.eurprd08.prod.outlook.com
+ (2603:10a6:803:e5::28)
+Authentication-Results-Original: spf=none (sender IP is )
+ smtp.mailfrom=Mihail.Atanassov@arm.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 63079c85-a512-4471-9cfc-08d77d965697
+X-MS-TrafficTypeDiagnostic: VI1PR08MB3247:|PR2PR08MB4826:
+X-Microsoft-Antispam-PRVS: <PR2PR08MB4826C290E1747D7000A77C6E8F5B0@PR2PR08MB4826.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+x-ms-oob-tlc-oobclassifiers: OLM:8273;OLM:8273;
+x-forefront-prvs: 02475B2A01
+X-Forefront-Antispam-Report-Untrusted: SFV:NSPM;
+ SFS:(10009020)(7916004)(4636009)(366004)(396003)(136003)(39860400002)(376002)(346002)(189003)(199004)(316002)(71200400001)(26005)(8676002)(6506007)(6486002)(33716001)(66556008)(66446008)(86362001)(478600001)(81156014)(54906003)(81166006)(4326008)(64756008)(52116002)(5660300002)(110136005)(8936002)(6512007)(7416002)(66946007)(186003)(9686003)(2906002)(66476007);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR08MB3247;
+ H:VI1PR08MB4078.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: arm.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: tNXagoSMVyHtq06mvEAOrj3JY0bVVcNeqLDTDE3VZo2g+tFcmNOPRpgvAYACgHH/jOhPTm123RZl1c5zMVP3UWVxCzIzVPwYAI9bKtkphzHBvnL/YacvfVpo6TOh7IvcMlRY+EfzstVFlRhbCXxB16Uy9IYee9Me2L0U6V1Qde3+8doZLGoqX4awaLkweWSrbZt65f04f86gR7Xsn3PcAuW0g0/TRMMt+e7gc/E7WtBjUAaO3Rezmet3s6RNS+cK43lhU67lKP23iAshXi0WRokvXWXK9jrDsc8TSzWlH9G1izKzdfgyRgGv0a/ZbCzf1D9uGozseFXgEIXiR/4QMTWIk5cASDJssOtN5uHiLx0E3ghQ4iot1tNiTfVfDe/zfrkjSC9buo24XApUlJeA/BBL13sTVZmpAUaBJfnYKoFs4mnfhpkhxKBxWT+nXiWZ
+x-ms-exchange-transport-forked: True
+Content-ID: <A4DDAF795D42F04ABBEE14B3EAB0B754@eurprd08.prod.outlook.com>
 MIME-Version: 1.0
-References: <1575966995-13757-1-git-send-email-kevin3.tang@gmail.com>
- <1575966995-13757-5-git-send-email-kevin3.tang@gmail.com>
-In-Reply-To: <1575966995-13757-5-git-send-email-kevin3.tang@gmail.com>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Tue, 10 Dec 2019 17:13:37 +0000
-Message-ID: <CACvgo50Hgbb8ywX2RgFqkitxwBG64EhP9g1TSxgLkQf-6L6soA@mail.gmail.com>
-Subject: Re: [PATCH RFC 4/8] drm/sprd: add Unisoc's drm display controller
- driver
-To: Kevin Tang <kevin3.tang@gmail.com>
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3247
+Original-Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Mihail.Atanassov@arm.com; 
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: DB5EUR03FT029.eop-EUR03.prod.protection.outlook.com
+X-Forefront-Antispam-Report: CIP:63.35.35.123; IPV:CAL; SCL:-1; CTRY:IE;
+ EFV:NLI; SFV:NSPM;
+ SFS:(10009020)(4636009)(7916004)(39860400002)(136003)(346002)(396003)(376002)(189003)(199004)(8936002)(478600001)(4326008)(8676002)(81156014)(26005)(26826003)(81166006)(6506007)(5660300002)(186003)(356004)(2906002)(33716001)(336012)(9686003)(316002)(6512007)(86362001)(54906003)(110136005)(107886003)(76130400001)(70206006)(70586007)(6486002);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:PR2PR08MB4826;
+ H:64aa7808-outbound-1.mta.getcheckrecipient.com; FPR:; SPF:Pass; LANG:en;
+ PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; MX:1; A:1; 
+X-MS-Office365-Filtering-Correlation-Id-Prvs: abc1e8ca-286c-42e4-8820-08d77d965242
+NoDisclaimer: True
+X-Forefront-PRVS: 02475B2A01
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: LZxZrceM/iBUNSJ1pHaH4Wyr4WUEcNbr2CkeSxsECCOfYd2dLbj/scK59oBM+SldEgN6Dgr4bTe6B4z6vQxNFCR4J6ifENgvauBN9EHHHfKkufyShI9wL6Z0e56XWCRP/6/Xvvor2NRTEljZEdd0EDpyHGZVkMYdOZKRggo9ldV/X0Lqx81a7Y/yBfCBabICuiqIrYunpJdQeQv5QqlmiGlg3sq+PFdH7sWI74t3iBzAI83QkFYDkOpwalYaPA7EiyMs6TkozuEciNL0MijWgu1Jo6iSOrxP/VAKGvfmFF/4y8YaBN9QuiOoht5VD+uL0sixJs6FlppUO/EeGY3U/Q3ibXti9YKS4QG+UN4jtuXAg2Of/U3XXveQQTBFTwWOrlXLnYsQngRbfgmukWnSeJa+zye6POiuAIclDBeGbJALDBWR637l54AnS1hf9+DO
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2019 17:28:14.7047 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 63079c85-a512-4471-9cfc-08d77d965697
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
+ Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR2PR08MB4826
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,236 +156,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: baolin.wang@linaro.org, David Airlie <airlied@linux.ie>,
- zhang.lyra@gmail.com,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>, orsonzhai@gmail.com
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Linux Walleij <linux.walleij@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ nd <nd@arm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kevin,
+On Tuesday, 10 December 2019 16:26:47 GMT Laurent Pinchart wrote:
+> Hi Mihail,
+> 
+> Thank you for the patch.
+> 
+> On Tue, Dec 10, 2019 at 02:48:49PM +0000, Mihail Atanassov wrote:
+> > The function was unexported and was causing link failures for pl111 (and
+> > probably the other user tve200) in a module build.
+> > 
+> > Fixes: d383fb5f8add ("drm: get drm_bridge_panel connector via helper")
+> > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Cc: Linux Walleij <linux.walleij@linaro.org>
+> > Signed-off-by: Mihail Atanassov <mihail.atanassov@arm.com>
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
 
-On Tue, 10 Dec 2019 at 08:41, Kevin Tang <kevin3.tang@gmail.com> wrote:
->
-> From: Kevin Tang <kevin.tang@unisoc.com>
->
-> Adds DPU(Display Processor Unit) support for the Unisoc's display subsystem.
-> It's support multi planes, scaler, rotation, PQ(Picture Quality) and more.
->
-> Cc: Orson Zhai <orsonzhai@gmail.com>
-> Cc: Baolin Wang <baolin.wang@linaro.org>
-> Cc: Chunyan Zhang <zhang.lyra@gmail.com>
-> Signed-off-by: Kevin Tang <kevin.tang@unisoc.com>
-> ---
->  drivers/gpu/drm/sprd/Makefile       |    6 +-
->  drivers/gpu/drm/sprd/disp_lib.c     |  290 +++++++
->  drivers/gpu/drm/sprd/disp_lib.h     |   40 +
->  drivers/gpu/drm/sprd/dpu/Makefile   |    8 +
->  drivers/gpu/drm/sprd/dpu/dpu_r2p0.c | 1464 +++++++++++++++++++++++++++++++++++
->  drivers/gpu/drm/sprd/sprd_dpu.c     | 1152 +++++++++++++++++++++++++++
->  drivers/gpu/drm/sprd/sprd_dpu.h     |  217 ++++++
->  7 files changed, 3176 insertions(+), 1 deletion(-)
+Thanks, applied to drm-misc-next.
 
-As we can see from the diff stat this patch is huge. So it would be fairly hard
-to provide meaningful review as-is.
-
-One can combine my earlier suggestion (to keep modeset/atomic out of 2/8), with
-the following split:
- - 4/8 add basic atomic modeset support - one format, one rotation 0, no extra
- attributes
- - 5/8 add extra formats
- - 6/8 add extra rotation support
- - ... add custom attributes
-
-<snip>
-
-> --- /dev/null
-> +++ b/drivers/gpu/drm/sprd/disp_lib.c
-
-> --- /dev/null
-> +++ b/drivers/gpu/drm/sprd/disp_lib.h
-
-Let's keep this code out, for now. If we really need it we could revive/add it
-at a later stage.
-
-<snip>
-
-> --- /dev/null
-> +++ b/drivers/gpu/drm/sprd/dpu/dpu_r2p0.c
-> @@ -0,0 +1,1464 @@
+> > ---
+> >  drivers/gpu/drm/bridge/panel.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
+> > index 1443897f999b..f66777e24968 100644
+> > --- a/drivers/gpu/drm/bridge/panel.c
+> > +++ b/drivers/gpu/drm/bridge/panel.c
+> > @@ -306,3 +306,4 @@ struct drm_connector *drm_panel_bridge_connector(struct drm_bridge *bridge)
+> >  
+> >  	return &panel_bridge->connector;
+> >  }
+> > +EXPORT_SYMBOL(drm_panel_bridge_connector);
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+> 
 
 
-> +struct gamma_entry {
-> +       u16 r;
-> +       u16 g;
-> +       u16 b;
-> +};
-> +
-Seem to be unused. Please drop this and double-check for other unused structs
-
-
-> +static struct scale_cfg scale_copy;
-> +static struct cm_cfg cm_copy;
-> +static struct slp_cfg slp_copy;
-> +static struct gamma_lut gamma_copy;
-> +static struct hsv_lut hsv_copy;
-> +static struct epf_cfg epf_copy;
-> +static u32 enhance_en;
-> +
-> +static DECLARE_WAIT_QUEUE_HEAD(wait_queue);
-> +static bool panel_ready = true;
-> +static bool need_scale;
-> +static bool mode_changed;
-> +static bool evt_update;
-> +static bool evt_stop;
-> +static u32 prev_y2r_coef;
-> +
-We should really avoid static variables. Some of the above look like enhancer
-state. One could create a struct keeping it alongside the rest of the display
-pipeline, right?
-
-
-<snip>
-
-> +static void dpu_enhance_backup(u32 id, void *param)
-> +{
-As the enhance code is fairly large, lets keep the portions to a separate patch.
-
-
-<snip>
-
-> +static struct dpu_core_ops dpu_r2p0_ops = {
-Nit: as a general rule ops should be const.
-
-
-> +static int __init dpu_core_register(void)
-> +{
-> +       return dpu_core_ops_register(&entry);
-> +}
-> +
-> +subsys_initcall(dpu_core_register);
-I think that subsys_initcall, __init and MODULE area applicable only
-when we have multiple
-modules. Not 100% sure though ;-)
-
-
-> diff --git a/drivers/gpu/drm/sprd/sprd_dpu.c b/drivers/gpu/drm/sprd/sprd_dpu.c
-> new file mode 100644
-> index 0000000..43142b3
-> --- /dev/null
-> +++ b/drivers/gpu/drm/sprd/sprd_dpu.c
-
-> +struct sprd_plane {
-> +       struct drm_plane plane;
-> +       struct drm_property *alpha_property;
-> +       struct drm_property *blend_mode_property;
-Core DRM already has alpha and blend_mode properties. Please reuse the code
-
-
-> +       struct drm_property *fbc_hsize_r_property;
-> +       struct drm_property *fbc_hsize_y_property;
-> +       struct drm_property *fbc_hsize_uv_property;
-> +       struct drm_property *y2r_coef_property;
-> +       struct drm_property *pallete_en_property;
-> +       struct drm_property *pallete_color_property;
-Let's have these properties introduced with separate follow-up patches.
-Please mention, in the commit message, why they are specific to the driver.
-
-
-<snip>
-
-> +static int sprd_dpu_init(struct sprd_dpu *dpu)
-> +{
-> +       struct dpu_context *ctx = &dpu->ctx;
-> +
-> +       down(&ctx->refresh_lock);
-> +
-> +       if (dpu->ctx.is_inited) {
-> +               up(&ctx->refresh_lock);
-> +               return 0;
-> +       }
-> +
-> +       if (dpu->glb && dpu->glb->power)
-> +               dpu->glb->power(ctx, true);
-> +       if (dpu->glb && dpu->glb->enable)
-> +               dpu->glb->enable(ctx);
-> +
-> +       if (ctx->is_stopped && dpu->glb && dpu->glb->reset)
-> +               dpu->glb->reset(ctx);
-> +
-> +       if (dpu->clk && dpu->clk->init)
-> +               dpu->clk->init(ctx);
-> +       if (dpu->clk && dpu->clk->enable)
-> +               dpu->clk->enable(ctx);
-> +
-> +       if (dpu->core && dpu->core->init)
-> +               dpu->core->init(ctx);
-> +       if (dpu->core && dpu->core->ifconfig)
-> +               dpu->core->ifconfig(ctx);
-> +
-Hmm I can see the core, clk and glb (ops) being added to the respective lists.
-Yet the code which adds those to the dpu isn't so obvious. Where is it?
-
-
-> +       ctx->is_inited = true;
-> +
-Nit: is_inited -> initialized
+-- 
+Mihail
 
 
 
-<snip>
-
-> +struct dpu_core_ops {
-> +       int (*parse_dt)(struct dpu_context *ctx,
-> +                       struct device_node *np);
-> +       u32 (*version)(struct dpu_context *ctx);
-> +       int (*init)(struct dpu_context *ctx);
-> +       void (*uninit)(struct dpu_context *ctx);
-> +       void (*run)(struct dpu_context *ctx);
-> +       void (*stop)(struct dpu_context *ctx);
-> +       void (*disable_vsync)(struct dpu_context *ctx);
-> +       void (*enable_vsync)(struct dpu_context *ctx);
-> +       u32 (*isr)(struct dpu_context *ctx);
-> +       void (*ifconfig)(struct dpu_context *ctx);
-> +       void (*write_back)(struct dpu_context *ctx, u8 count, bool debug);
-> +       void (*flip)(struct dpu_context *ctx,
-> +                    struct sprd_dpu_layer layers[], u8 count);
-> +       int (*capability)(struct dpu_context *ctx,
-> +                       struct dpu_capability *cap);
-> +       void (*bg_color)(struct dpu_context *ctx, u32 color);
-> +       void (*enhance_set)(struct dpu_context *ctx, u32 id, void *param);
-> +       void (*enhance_get)(struct dpu_context *ctx, u32 id, void *param);
-> +       int (*modeset)(struct dpu_context *ctx,
-> +                       struct drm_mode_modeinfo *mode);
-> +       bool (*check_raw_int)(struct dpu_context *ctx, u32 mask);
-> +};
-> +
-> +struct dpu_clk_ops {
-> +       int (*parse_dt)(struct dpu_context *ctx,
-> +                       struct device_node *np);
-> +       int (*init)(struct dpu_context *ctx);
-> +       int (*uinit)(struct dpu_context *ctx);
-> +       int (*enable)(struct dpu_context *ctx);
-> +       int (*disable)(struct dpu_context *ctx);
-> +       int (*update)(struct dpu_context *ctx, int clk_id, int val);
-> +};
-> +
-> +struct dpu_glb_ops {
-> +       int (*parse_dt)(struct dpu_context *ctx,
-> +                       struct device_node *np);
-> +       void (*enable)(struct dpu_context *ctx);
-> +       void (*disable)(struct dpu_context *ctx);
-> +       void (*reset)(struct dpu_context *ctx);
-> +       void (*power)(struct dpu_context *ctx, int enable);
-> +};
-> +
-Some of the above seem unused - parse_dt for example. Please drop the dead code.
-
-
-HTH
-Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
