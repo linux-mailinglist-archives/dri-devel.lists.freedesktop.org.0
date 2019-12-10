@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48753119EBC
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 23:58:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D7D0119EB8
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 23:58:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D51F56E9EB;
-	Tue, 10 Dec 2019 22:58:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E1F96E9E0;
+	Tue, 10 Dec 2019 22:58:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C63CF6E9D8
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 22:58:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 340446E9D6
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 22:58:11 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9F956128C;
- Tue, 10 Dec 2019 23:58:07 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7E310133B;
+ Tue, 10 Dec 2019 23:58:08 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1576018688;
- bh=FQGVnju9nLiAvf+06GhxUxdPUEa8bMSK96+7MOS1NZ4=;
+ s=mail; t=1576018689;
+ bh=F6ACU7sEkgpuHDa0v++RBgtOET7alxfalEdG0U797gE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=vUdxWVfXThOcTywWoUPgZoaQsump8X3hrQ5SeKdBQSTG4Vpej5LbGlngHQPi/vgL+
- 7upDR68OsW5P1HIU7T/C4HpfXYg0E8++gWJKtDo02ZU+MNfJTtYnKYIt1lJgdn3a52
- i517ApT/rqdEBLUm4+wjuOiIVos/cSYGGtGgon8M=
+ b=sBYoLfFvGqZ+hCNZCCgKf9Rg5/d2gAsM5xo5DTVyRa+iHYxy0spKSWVOpCINipMoX
+ MfXX6LLoV0TNdOKtiJax4m6pjlZx9xnkeMCyr0pvfw5GWsf3vuSuBgPoKM+4m2HB3f
+ 3zC1IN2mLebkGplrLMP8fBepAQkjL/RUAMPLmYwQ=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 07/50] drm/bridge: dumb-vga-dac: Rename driver to
- simple-bridge
-Date: Wed, 11 Dec 2019 00:57:07 +0200
-Message-Id: <20191210225750.15709-8-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 08/50] drm/bridge: simple-bridge: Add support for non-VGA
+ bridges
+Date: Wed, 11 Dec 2019 00:57:08 +0200
+Message-Id: <20191210225750.15709-9-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191210225750.15709-1-laurent.pinchart@ideasonboard.com>
 References: <20191210225750.15709-1-laurent.pinchart@ideasonboard.com>
@@ -46,187 +46,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Simon Horman <horms@verge.net.au>, Boris Brezillon <bbrezillon@kernel.org>,
- Sean Paul <sean@poorly.run>,
+Cc: Boris Brezillon <bbrezillon@kernel.org>, Sean Paul <sean@poorly.run>,
  Sebastian Reichel <sebastian.reichel@collabora.com>,
- Russell King <linux@armlinux.org.uk>, Chen-Yu Tsai <wens@csie.org>,
  Tomi Valkeinen <tomi.valkeinen@ti.com>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The dumb-vga-dac driver can support simple DRM bridges without being
-limited to VGA DACs. Rename it to simple-bridge.
+Create a new simple_bridge_info structure that stores information about
+the bridge model, and store the bridge timings in there, along with the
+connector type. Use that new structure for of_device_id data. This
+enables support for non-VGA bridges.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
+Reviewed-by: Stefan Agner <stefan@agner.ch>
 Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-Acked-by: Maxime Ripard <maxime.ripard@bootlin.com>
+Reviewed-by: Maxime Ripard <maxime.ripard@bootlin.com>
 ---
- arch/arm/configs/davinci_all_defconfig           |  2 +-
- arch/arm/configs/integrator_defconfig            |  2 +-
- arch/arm/configs/multi_v7_defconfig              |  2 +-
- arch/arm/configs/shmobile_defconfig              |  2 +-
- arch/arm/configs/sunxi_defconfig                 |  2 +-
- arch/arm/configs/versatile_defconfig             |  2 +-
- drivers/gpu/drm/bridge/Kconfig                   | 16 ++++++++--------
- drivers/gpu/drm/bridge/Makefile                  |  2 +-
- .../bridge/{dumb-vga-dac.c => simple-bridge.c}   |  2 +-
- 9 files changed, 16 insertions(+), 16 deletions(-)
- rename drivers/gpu/drm/bridge/{dumb-vga-dac.c => simple-bridge.c} (99%)
+Changes since v1:
 
-diff --git a/arch/arm/configs/davinci_all_defconfig b/arch/arm/configs/davinci_all_defconfig
-index 231f8973bbb2..b370958b0579 100644
---- a/arch/arm/configs/davinci_all_defconfig
-+++ b/arch/arm/configs/davinci_all_defconfig
-@@ -160,7 +160,7 @@ CONFIG_VIDEO_TVP514X=m
- CONFIG_VIDEO_ADV7343=m
- CONFIG_DRM=m
- CONFIG_DRM_TILCDC=m
--CONFIG_DRM_DUMB_VGA_DAC=m
-+CONFIG_DRM_SIMPLE_BRIDGE=m
- CONFIG_DRM_TINYDRM=m
- CONFIG_TINYDRM_ST7586=m
- CONFIG_FB=y
-diff --git a/arch/arm/configs/integrator_defconfig b/arch/arm/configs/integrator_defconfig
-index 2f0a762dc3a0..a9755c501bec 100644
---- a/arch/arm/configs/integrator_defconfig
-+++ b/arch/arm/configs/integrator_defconfig
-@@ -55,7 +55,7 @@ CONFIG_SMC91X=y
- # CONFIG_KEYBOARD_ATKBD is not set
- # CONFIG_SERIO_SERPORT is not set
- CONFIG_DRM=y
--CONFIG_DRM_DUMB_VGA_DAC=y
-+CONFIG_DRM_SIMPLE_BRIDGE=y
- CONFIG_DRM_PL111=y
- CONFIG_FB_MODE_HELPERS=y
- CONFIG_FB_MATROX=y
-diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
-index 3f1b96dc7faa..59321917d035 100644
---- a/arch/arm/configs/multi_v7_defconfig
-+++ b/arch/arm/configs/multi_v7_defconfig
-@@ -667,11 +667,11 @@ CONFIG_DRM_PANEL_ORISETECH_OTM8009A=m
- CONFIG_DRM_PANEL_RAYDIUM_RM68200=m
- CONFIG_DRM_PANEL_SAMSUNG_S6E63J0X03=m
- CONFIG_DRM_PANEL_SAMSUNG_S6E8AA0=m
--CONFIG_DRM_DUMB_VGA_DAC=m
- CONFIG_DRM_NXP_PTN3460=m
- CONFIG_DRM_PARADE_PS8622=m
- CONFIG_DRM_SII902X=m
- CONFIG_DRM_SII9234=m
-+CONFIG_DRM_SIMPLE_BRIDGE=m
- CONFIG_DRM_TOSHIBA_TC358764=m
- CONFIG_DRM_I2C_ADV7511=m
- CONFIG_DRM_I2C_ADV7511_AUDIO=y
-diff --git a/arch/arm/configs/shmobile_defconfig b/arch/arm/configs/shmobile_defconfig
-index bda57cafa2bc..3d7e9a6ca85d 100644
---- a/arch/arm/configs/shmobile_defconfig
-+++ b/arch/arm/configs/shmobile_defconfig
-@@ -123,8 +123,8 @@ CONFIG_VIDEO_ADV7604=y
- CONFIG_VIDEO_ML86V7667=y
- CONFIG_DRM=y
- CONFIG_DRM_RCAR_DU=y
--CONFIG_DRM_DUMB_VGA_DAC=y
- CONFIG_DRM_SII902X=y
-+CONFIG_DRM_SIMPLE_BRIDGE=y
- CONFIG_DRM_I2C_ADV7511=y
- CONFIG_DRM_I2C_ADV7511_AUDIO=y
- CONFIG_FB_SH_MOBILE_LCDC=y
-diff --git a/arch/arm/configs/sunxi_defconfig b/arch/arm/configs/sunxi_defconfig
-index 3f5d727efc41..17958ff4a2e2 100644
---- a/arch/arm/configs/sunxi_defconfig
-+++ b/arch/arm/configs/sunxi_defconfig
-@@ -100,7 +100,7 @@ CONFIG_RC_DEVICES=y
- CONFIG_IR_SUNXI=y
- CONFIG_DRM=y
- CONFIG_DRM_SUN4I=y
--CONFIG_DRM_DUMB_VGA_DAC=y
-+CONFIG_DRM_SIMPLE_BRIDGE=y
- CONFIG_FB_SIMPLE=y
- CONFIG_SOUND=y
- CONFIG_SND=y
-diff --git a/arch/arm/configs/versatile_defconfig b/arch/arm/configs/versatile_defconfig
-index fe4d4b596585..767935337413 100644
---- a/arch/arm/configs/versatile_defconfig
-+++ b/arch/arm/configs/versatile_defconfig
-@@ -59,7 +59,7 @@ CONFIG_GPIO_PL061=y
- CONFIG_DRM=y
- CONFIG_DRM_PANEL_ARM_VERSATILE=y
- CONFIG_DRM_PANEL_SIMPLE=y
--CONFIG_DRM_DUMB_VGA_DAC=y
-+CONFIG_DRM_SIMPLE_BRIDGE=y
- CONFIG_DRM_PL111=y
- CONFIG_FB_MODE_HELPERS=y
- CONFIG_BACKLIGHT_CLASS_DEVICE=y
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index ccc698c44f58..bf1dfc71733b 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -27,14 +27,6 @@ config DRM_CDNS_DSI
- 	  Support Cadence DPI to DSI bridge. This is an internal
- 	  bridge and is meant to be directly embedded in a SoC.
- 
--config DRM_DUMB_VGA_DAC
--	tristate "Dumb VGA DAC Bridge support"
--	depends on OF
--	select DRM_KMS_HELPER
--	help
--	  Support for non-programmable RGB to VGA DAC bridges, such as ADI
--	  ADV7123, TI THS8134 and THS8135 or passive resistor ladder DACs.
--
- config DRM_LVDS_ENCODER
- 	tristate "Transparent parallel to LVDS encoder support"
- 	depends on OF
-@@ -98,6 +90,14 @@ config DRM_SII9234
- 	  It is an I2C driver, that detects connection of MHL bridge
- 	  and starts encapsulation of HDMI signal.
- 
-+config DRM_SIMPLE_BRIDGE
-+	tristate "Simple DRM bridge support"
-+	depends on OF
-+	select DRM_KMS_HELPER
-+	help
-+	  Support for non-programmable DRM bridges, such as ADI ADV7123, TI
-+	  THS8134 and THS8135 or passive resistor ladder DACs.
-+
- config DRM_THINE_THC63LVD1024
- 	tristate "Thine THC63LVD1024 LVDS decoder bridge"
- 	depends on OF
-diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-index a6c7dd7727ea..a2892e3018aa 100644
---- a/drivers/gpu/drm/bridge/Makefile
-+++ b/drivers/gpu/drm/bridge/Makefile
-@@ -1,6 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0
- obj-$(CONFIG_DRM_CDNS_DSI) += cdns-dsi.o
--obj-$(CONFIG_DRM_DUMB_VGA_DAC) += dumb-vga-dac.o
- obj-$(CONFIG_DRM_LVDS_ENCODER) += lvds-encoder.o
- obj-$(CONFIG_DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW) += megachips-stdpxxxx-ge-b850v3-fw.o
- obj-$(CONFIG_DRM_NXP_PTN3460) += nxp-ptn3460.o
-@@ -8,6 +7,7 @@ obj-$(CONFIG_DRM_PARADE_PS8622) += parade-ps8622.o
- obj-$(CONFIG_DRM_SIL_SII8620) += sil-sii8620.o
- obj-$(CONFIG_DRM_SII902X) += sii902x.o
- obj-$(CONFIG_DRM_SII9234) += sii9234.o
-+obj-$(CONFIG_DRM_SIMPLE_BRIDGE) += simple-bridge.o
- obj-$(CONFIG_DRM_THINE_THC63LVD1024) += thc63lvd1024.o
- obj-$(CONFIG_DRM_TOSHIBA_TC358764) += tc358764.o
- obj-$(CONFIG_DRM_TOSHIBA_TC358767) += tc358767.o
-diff --git a/drivers/gpu/drm/bridge/dumb-vga-dac.c b/drivers/gpu/drm/bridge/simple-bridge.c
-similarity index 99%
-rename from drivers/gpu/drm/bridge/dumb-vga-dac.c
-rename to drivers/gpu/drm/bridge/simple-bridge.c
-index 6bfdff31e194..ff6684f7edea 100644
---- a/drivers/gpu/drm/bridge/dumb-vga-dac.c
+- Renamed simple_bridge_info.type field to connector_type
+---
+ drivers/gpu/drm/bridge/simple-bridge.c | 41 ++++++++++++++++++--------
+ 1 file changed, 29 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
+index ff6684f7edea..5a290c14b310 100644
+--- a/drivers/gpu/drm/bridge/simple-bridge.c
 +++ b/drivers/gpu/drm/bridge/simple-bridge.c
-@@ -293,7 +293,7 @@ static struct platform_driver simple_bridge_driver = {
- 	.probe	= simple_bridge_probe,
- 	.remove	= simple_bridge_remove,
- 	.driver		= {
--		.name		= "dumb-vga-dac",
-+		.name		= "simple-bridge",
- 		.of_match_table	= simple_bridge_match,
+@@ -17,10 +17,17 @@
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
+ 
++struct simple_bridge_info {
++	const struct drm_bridge_timings *timings;
++	unsigned int connector_type;
++};
++
+ struct simple_bridge {
+ 	struct drm_bridge	bridge;
+ 	struct drm_connector	connector;
+ 
++	const struct simple_bridge_info *info;
++
+ 	struct i2c_adapter	*ddc;
+ 	struct regulator	*vdd;
+ };
+@@ -118,7 +125,7 @@ static int simple_bridge_attach(struct drm_bridge *bridge,
+ 				 &simple_bridge_con_helper_funcs);
+ 	ret = drm_connector_init_with_ddc(bridge->dev, &sbridge->connector,
+ 					  &simple_bridge_con_funcs,
+-					  DRM_MODE_CONNECTOR_VGA,
++					  sbridge->info->connector_type,
+ 					  sbridge->ddc);
+ 	if (ret) {
+ 		DRM_ERROR("Failed to initialize connector\n");
+@@ -188,6 +195,8 @@ static int simple_bridge_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 	platform_set_drvdata(pdev, sbridge);
+ 
++	sbridge->info = of_device_get_match_data(&pdev->dev);
++
+ 	sbridge->vdd = devm_regulator_get_optional(&pdev->dev, "vdd");
+ 	if (IS_ERR(sbridge->vdd)) {
+ 		int ret = PTR_ERR(sbridge->vdd);
+@@ -211,7 +220,7 @@ static int simple_bridge_probe(struct platform_device *pdev)
+ 
+ 	sbridge->bridge.funcs = &simple_bridge_bridge_funcs;
+ 	sbridge->bridge.of_node = pdev->dev.of_node;
+-	sbridge->bridge.timings = of_device_get_match_data(&pdev->dev);
++	sbridge->bridge.timings = sbridge->info->timings;
+ 
+ 	drm_bridge_add(&sbridge->bridge);
+ 
+@@ -271,19 +280,27 @@ static const struct drm_bridge_timings ti_ths8135_bridge_timings = {
+ static const struct of_device_id simple_bridge_match[] = {
+ 	{
+ 		.compatible = "dumb-vga-dac",
+-		.data = NULL,
+-	},
+-	{
++		.data = &(const struct simple_bridge_info) {
++			.connector_type = DRM_MODE_CONNECTOR_VGA,
++		},
++	}, {
+ 		.compatible = "adi,adv7123",
+-		.data = &default_bridge_timings,
+-	},
+-	{
++		.data = &(const struct simple_bridge_info) {
++			.timings = &default_bridge_timings,
++			.connector_type = DRM_MODE_CONNECTOR_VGA,
++		},
++	}, {
+ 		.compatible = "ti,ths8135",
+-		.data = &ti_ths8135_bridge_timings,
+-	},
+-	{
++		.data = &(const struct simple_bridge_info) {
++			.timings = &ti_ths8135_bridge_timings,
++			.connector_type = DRM_MODE_CONNECTOR_VGA,
++		},
++	}, {
+ 		.compatible = "ti,ths8134",
+-		.data = &ti_ths8134_bridge_timings,
++		.data = &(const struct simple_bridge_info) {
++			.timings = &ti_ths8134_bridge_timings,
++			.connector_type = DRM_MODE_CONNECTOR_VGA,
++		},
  	},
+ 	{},
  };
 -- 
 Regards,
