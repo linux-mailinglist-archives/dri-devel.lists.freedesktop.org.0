@@ -1,51 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A29AA11922D
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 21:36:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38F6311921F
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 21:34:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2716D6E92F;
-	Tue, 10 Dec 2019 20:36:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08C0A6E92C;
+	Tue, 10 Dec 2019 20:34:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE56B6E92F
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 20:36:19 +0000 (UTC)
-Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
- (mreue107 [212.227.15.145]) with ESMTPA (Nemesis) id
- 1Mw8gc-1hpI030rKO-00s44T; Tue, 10 Dec 2019 21:31:03 +0100
-From: Arnd Bergmann <arnd@arndb.de>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "David (ChunMing) Zhou" <David1.Zhou@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Zhan Liu <zhan.liu@amd.com>
-Subject: [PATCH] drm/amd/display: fix undefined struct member reference
-Date: Tue, 10 Dec 2019 21:30:46 +0100
-Message-Id: <20191210203101.2663341-1-arnd@arndb.de>
-X-Mailer: git-send-email 2.20.0
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D49CE6E92C
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 20:34:22 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 960AF20061;
+ Tue, 10 Dec 2019 21:34:20 +0100 (CET)
+Date: Tue, 10 Dec 2019 21:34:19 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Claudiu Beznea <claudiu.beznea@microchip.com>
+Subject: Re: [PATCH 5/5] Revert "drm: atmel-hlcdc: enable sys_clk during
+ initalization."
+Message-ID: <20191210203419.GB24756@ravnborg.org>
+References: <1575984287-26787-1-git-send-email-claudiu.beznea@microchip.com>
+ <1575984287-26787-6-git-send-email-claudiu.beznea@microchip.com>
 MIME-Version: 1.0
-X-Provags-ID: V03:K1:6Y2/uQlFVUAl2FLpNaMIEOkGmiPd6/841XgCPxFoFzLNddBwEXH
- Gv0mA5U4F2XyfY5t7Irv9sGvE7omtf7B7anfrVJBcEa6nJh0oGgFa3a8TjQPfIv9chsmwPT
- jvm00bAGb9IDmiVsEt/HDimufrl4EuajG0pezWC+Cd9W5Z3cXKjNuVPnbUu6xNF5mo57oYn
- vjtK9SqzVDqza+VajFYtg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:nUCT4AGSbt0=:GtLA8NfJI8V/5FpLgu6FDN
- 0GWnhC47LM7i0xJDSuKrI2pgwypyDZZVdfiXcE0tagEQ+IBEjd1QPsKtJfoXvnA9VLmEeJCPD
- wyaFQLSiCzSDT+TTCtrxzMW2JSyjsY6kCZkhXltjIxiKpgs/xvcbU6xCvRupJcGnPnDEVKySE
- +MefHaC7DOqZ51Kg+H/lb/1jK/xC6YBZWVQxygixc8GFZHT52n6R8Wk+XWSYkj/lFDYiwizP1
- fhJsKZoQb6FHskOf4iAGsxniiZ7Ej6a+J3On1G37KNf+B21qsxW8dzDhUJSpu97G2qer6oWqI
- dvgbaGCLIAnYMsbb8rngG9LUjtIjQLC4pnFMkPS6QDv8MI046eHA9+WqbUBTGs3jWoM8avzaA
- XkhTh7wWAbN709w+vKRXNMB+Ujf6Dt4RzCXUGRSJ43IibCFimt+hhDqRDyXC6tk64Ro1TYt+K
- bgqdktlDzrohU7J61mNIGCntILFDDVJfU9MHxsINPzz+Ad+n6TJxe1hCOT5bSvCE3Nf7CXsgh
- H3HPlJaO2Ug+SCc7CIEDgy3CQBDts1wO5QCLZlSgOJ78DPOmaKO6STb6TcOLAlSud/AC3e8G/
- 2KfpmQFknX/ESEF+1iTd72TSOqhoI1A0u+7uw91IcghJuftDvlzg2iwJamdKovO5CydyAZzW0
- QxtXp5HXot4ATK1pzlwSooSSg48g5fR7KfCG2Tm1eyNf4xWSzVeMljHNHv36d7s6Uaw2oiGod
- AcRHHdW82EFu7O3yGepgUiDBMszdSt8QzwK8RI95VLAIJQA8sodVaDwGrfaUYxWR7g2Bvm0o7
- rLSbAFEIosgmr6MMU6eXfXswea/sjMeCEsCjakehElx4jdbyhcCzp59tPhwBS8XTEPiO/rJKz
- 4CU7gcgMhl/AFHfbrWBg==
+Content-Disposition: inline
+In-Reply-To: <1575984287-26787-6-git-send-email-claudiu.beznea@microchip.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=XYAwZIGsAAAA:8
+ a=vRqltxJg2XVFi9nfVjoA:9 a=CjuIK1q_8ugA:10 a=E8ToXWR_bxluHZ7gmE-Z:22
+ a=pHzHmUro8NiASowvMSCR:22 a=Ew2E2A-JSTLzCXPT_086:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,50 +47,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Charlene Liu <charlene.liu@amd.com>, Eric Yang <Eric.Yang2@amd.com>,
- Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Nikola Cornij <nikola.cornij@amd.com>,
- Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
- dri-devel@lists.freedesktop.org, Jun Lei <Jun.Lei@amd.com>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+Cc: alexandre.belloni@bootlin.com, bbrezillon@kernel.org, airlied@linux.ie,
+ Sandeep Sheriker Mallikarjun <sandeepsheriker.mallikarjun@microchip.com>,
+ nicolas.ferre@microchip.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, ludovic.desroches@microchip.com,
+ lee.jones@linaro.org, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-An initialization was added for two optional struct members.  One of
-these is always present in the dcn20_resource file, but the other one
-depends on CONFIG_DRM_AMD_DC_DSC_SUPPORT and causes a build failure if
-that is missing:
+Hi Cladiu
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_resource.c:926:14: error: excess elements in struct initializer [-Werror]
-   .num_dsc = 5,
+On Tue, Dec 10, 2019 at 03:24:47PM +0200, Claudiu Beznea wrote:
+> This reverts commit d2c755e66617620b729041c625a6396c81d1231c.
+> ("drm: atmel-hlcdc: enable sys_clk during initalization."). With
+> commit "drm: atmel-hlcdc: enable clock before configuring timing engine"
+> there is no need for this patch. Code is also simpler.
+> 
+> Cc: Sandeep Sheriker Mallikarjun <sandeepsheriker.mallikarjun@microchip.com>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea@microchip.com>
 
-Add another #ifdef around the assignment.
+Getting further in the patches tells me you looked at the
+patch I referenced in previous mail.
+Please squash the two patches together - that would make it
+easier to follow what is done.
 
-Fixes: c3d03c5a196f ("drm/amd/display: Include num_vmid and num_dsc within NV14's resource caps")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c | 2 ++
- 1 file changed, 2 insertions(+)
+With the two patches applied sysclk is enabled only in mode_set_nofb()
+and atomic_enable(). And disabled in atomic_disable().
+This is simpler and we drop the conditionals. Also good.
+So the end result looks OK.
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
-index faab89d1e694..fdf93e6edf43 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
-@@ -923,7 +923,9 @@ static const struct resource_caps res_cap_nv14 = {
- 		.num_dwb = 1,
- 		.num_ddc = 5,
- 		.num_vmid = 16,
-+#ifdef CONFIG_DRM_AMD_DC_DSC_SUPPORT
- 		.num_dsc = 5,
-+#endif
- };
- 
- static const struct dc_debug_options debug_defaults_drv = {
--- 
-2.20.0
+	Sam
 
+> ---
+>  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 19 +------------------
+>  1 file changed, 1 insertion(+), 18 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+> index 8dc917a1270b..112aa5066cee 100644
+> --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+> +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+> @@ -721,18 +721,10 @@ static int atmel_hlcdc_dc_load(struct drm_device *dev)
+>  	dc->hlcdc = dev_get_drvdata(dev->dev->parent);
+>  	dev->dev_private = dc;
+>  
+> -	if (dc->desc->fixed_clksrc) {
+> -		ret = clk_prepare_enable(dc->hlcdc->sys_clk);
+> -		if (ret) {
+> -			dev_err(dev->dev, "failed to enable sys_clk\n");
+> -			goto err_destroy_wq;
+> -		}
+> -	}
+> -
+>  	ret = clk_prepare_enable(dc->hlcdc->periph_clk);
+>  	if (ret) {
+>  		dev_err(dev->dev, "failed to enable periph_clk\n");
+> -		goto err_sys_clk_disable;
+> +		goto err_destroy_wq;
+>  	}
+>  
+>  	pm_runtime_enable(dev->dev);
+> @@ -768,9 +760,6 @@ static int atmel_hlcdc_dc_load(struct drm_device *dev)
+>  err_periph_clk_disable:
+>  	pm_runtime_disable(dev->dev);
+>  	clk_disable_unprepare(dc->hlcdc->periph_clk);
+> -err_sys_clk_disable:
+> -	if (dc->desc->fixed_clksrc)
+> -		clk_disable_unprepare(dc->hlcdc->sys_clk);
+>  
+>  err_destroy_wq:
+>  	destroy_workqueue(dc->wq);
+> @@ -795,8 +784,6 @@ static void atmel_hlcdc_dc_unload(struct drm_device *dev)
+>  
+>  	pm_runtime_disable(dev->dev);
+>  	clk_disable_unprepare(dc->hlcdc->periph_clk);
+> -	if (dc->desc->fixed_clksrc)
+> -		clk_disable_unprepare(dc->hlcdc->sys_clk);
+>  	destroy_workqueue(dc->wq);
+>  }
+>  
+> @@ -910,8 +897,6 @@ static int atmel_hlcdc_dc_drm_suspend(struct device *dev)
+>  	regmap_read(regmap, ATMEL_HLCDC_IMR, &dc->suspend.imr);
+>  	regmap_write(regmap, ATMEL_HLCDC_IDR, dc->suspend.imr);
+>  	clk_disable_unprepare(dc->hlcdc->periph_clk);
+> -	if (dc->desc->fixed_clksrc)
+> -		clk_disable_unprepare(dc->hlcdc->sys_clk);
+>  
+>  	return 0;
+>  }
+> @@ -921,8 +906,6 @@ static int atmel_hlcdc_dc_drm_resume(struct device *dev)
+>  	struct drm_device *drm_dev = dev_get_drvdata(dev);
+>  	struct atmel_hlcdc_dc *dc = drm_dev->dev_private;
+>  
+> -	if (dc->desc->fixed_clksrc)
+> -		clk_prepare_enable(dc->hlcdc->sys_clk);
+>  	clk_prepare_enable(dc->hlcdc->periph_clk);
+>  	regmap_write(dc->hlcdc->regmap, ATMEL_HLCDC_IER, dc->suspend.imr);
+>  
+> -- 
+> 2.7.4
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
