@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40A88119EE0
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 23:59:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FC71119ED7
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 23:59:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C6636EA12;
-	Tue, 10 Dec 2019 22:59:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 294496EA05;
+	Tue, 10 Dec 2019 22:58:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 553166E9FC
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F24EB6E9FD
  for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 22:58:51 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4F7E21AAD;
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 153C91A8A;
  Tue, 10 Dec 2019 23:58:45 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1576018725;
- bh=XaXELS39Oclnp+Z5jd6nBseB7MUSii2qLtXsxIWhaNs=;
+ s=mail; t=1576018727;
+ bh=+6iyfundPVTl6+vo5jEeltZ07aAbWjshhL/hfRAoXCQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IFBTLR3EXJC2zsolSNGnrd+cH5FOm1sZ8Wqd+aBJ1o7g6Eb0h6kV93DAKE3UGGnxe
- GWE0sOCo3LZyFRdhH52vNEKM+JynnyFjQcdXYrGzmf34R17lbmqUhRgDEI33JofBEu
- FXeyCXsr8xf4A37TsTd0EzxdME5kJNnbc42rjbb4=
+ b=g830+Jfy0pUjQnq9gVtukVEH9Gg5erADJUd9pnd+J1/laxmLzSpyNShiQA4S/HiNr
+ OyFVBPKrV/ElrR1je9ztWp0Z1kGkHxICDHO8uiSbyDTLBGIZNcYr1LuFvlIh3EVdIm
+ CnPiGjY2ZKhsZN9FJsg5GxFuk7R4zcEFpBs/PbqM=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 49/50] drm/omap: dss: Inline the omapdss_display_get()
- function
-Date: Wed, 11 Dec 2019 00:57:49 +0200
-Message-Id: <20191210225750.15709-50-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 50/50] drm/omap: dss: Remove unused
+ omapdss_of_find_connected_device() function
+Date: Wed, 11 Dec 2019 00:57:50 +0200
+Message-Id: <20191210225750.15709-51-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191210225750.15709-1-laurent.pinchart@ideasonboard.com>
 References: <20191210225750.15709-1-laurent.pinchart@ideasonboard.com>
@@ -54,68 +54,78 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Inline the omapdss_display_get() in its only caller to simplify the
-code.
+The omapdss_of_find_connected_device() function isn't used anymore,
+remove it.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/gpu/drm/omapdrm/dss/display.c | 9 ---------
- drivers/gpu/drm/omapdrm/dss/omapdss.h | 1 -
- drivers/gpu/drm/omapdrm/omap_drv.c    | 7 ++++---
- 3 files changed, 4 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/omapdrm/dss/Makefile  |  2 +-
+ drivers/gpu/drm/omapdrm/dss/dss-of.c  | 28 ---------------------------
+ drivers/gpu/drm/omapdrm/dss/omapdss.h |  3 ---
+ 3 files changed, 1 insertion(+), 32 deletions(-)
+ delete mode 100644 drivers/gpu/drm/omapdrm/dss/dss-of.c
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/display.c b/drivers/gpu/drm/omapdrm/dss/display.c
-index 8a3f61f5825f..3b82158b1bfd 100644
---- a/drivers/gpu/drm/omapdrm/dss/display.c
-+++ b/drivers/gpu/drm/omapdrm/dss/display.c
-@@ -40,15 +40,6 @@ void omapdss_display_init(struct omap_dss_device *dssdev)
- }
- EXPORT_SYMBOL_GPL(omapdss_display_init);
+diff --git a/drivers/gpu/drm/omapdrm/dss/Makefile b/drivers/gpu/drm/omapdrm/dss/Makefile
+index 5950c3f52c2e..f967e6948f2e 100644
+--- a/drivers/gpu/drm/omapdrm/dss/Makefile
++++ b/drivers/gpu/drm/omapdrm/dss/Makefile
+@@ -2,7 +2,7 @@
+ obj-$(CONFIG_OMAP2_DSS_INIT) += omapdss-boot-init.o
  
--struct omap_dss_device *omapdss_display_get(struct omap_dss_device *output)
+ obj-$(CONFIG_OMAP_DSS_BASE) += omapdss-base.o
+-omapdss-base-y := base.o display.o dss-of.o output.o
++omapdss-base-y := base.o display.o output.o
+ 
+ obj-$(CONFIG_OMAP2_DSS) += omapdss.o
+ # Core DSS files
+diff --git a/drivers/gpu/drm/omapdrm/dss/dss-of.c b/drivers/gpu/drm/omapdrm/dss/dss-of.c
+deleted file mode 100644
+index b7981f3b80ad..000000000000
+--- a/drivers/gpu/drm/omapdrm/dss/dss-of.c
++++ /dev/null
+@@ -1,28 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-/*
+- * Copyright (C) 2013 Texas Instruments Incorporated - http://www.ti.com/
+- * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
+- */
+-
+-#include <linux/err.h>
+-#include <linux/of.h>
+-#include <linux/of_graph.h>
+-
+-#include "omapdss.h"
+-
+-struct omap_dss_device *
+-omapdss_of_find_connected_device(struct device_node *node, unsigned int port)
 -{
--	while (output->next)
--		output = output->next;
+-	struct device_node *remote_node;
+-	struct omap_dss_device *dssdev;
 -
--	return omapdss_device_get(output);
+-	remote_node = of_graph_get_remote_node(node, port, 0);
+-	if (!remote_node)
+-		return NULL;
+-
+-	dssdev = omapdss_find_device_by_node(remote_node);
+-	of_node_put(remote_node);
+-
+-	return dssdev ? dssdev : ERR_PTR(-EPROBE_DEFER);
 -}
--EXPORT_SYMBOL_GPL(omapdss_display_get);
--
- int omapdss_display_get_modes(struct drm_connector *connector,
- 			      const struct videomode *vm)
- {
+-EXPORT_SYMBOL_GPL(omapdss_of_find_connected_device);
 diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-index 64aedc50cb0b..6ecbc7273032 100644
+index 6ecbc7273032..ab19d4af8de7 100644
 --- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
 +++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-@@ -432,7 +432,6 @@ static inline bool omapdss_is_initialized(void)
+@@ -471,9 +471,6 @@ static inline bool omapdss_device_is_enabled(struct omap_dss_device *dssdev)
+ 	return dssdev->state == OMAP_DSS_DISPLAY_ACTIVE;
  }
  
- void omapdss_display_init(struct omap_dss_device *dssdev);
--struct omap_dss_device *omapdss_display_get(struct omap_dss_device *output);
- int omapdss_display_get_modes(struct drm_connector *connector,
- 			      const struct videomode *vm);
- 
-diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
-index be2430f63630..7931ddaf94e1 100644
---- a/drivers/gpu/drm/omapdrm/omap_drv.c
-+++ b/drivers/gpu/drm/omapdrm/omap_drv.c
-@@ -207,11 +207,12 @@ static int omap_display_id(struct omap_dss_device *output)
- 	struct device_node *node = NULL;
- 
- 	if (output->next) {
--		struct omap_dss_device *display;
-+		struct omap_dss_device *display = output;
-+
-+		while (display->next)
-+			display = display->next;
- 
--		display = omapdss_display_get(output);
- 		node = display->dev->of_node;
--		omapdss_device_put(display);
- 	} else if (output->bridge) {
- 		struct drm_bridge *bridge = output->bridge;
- 
+-struct omap_dss_device *
+-omapdss_of_find_connected_device(struct device_node *node, unsigned int port);
+-
+ enum dss_writeback_channel {
+ 	DSS_WB_LCD1_MGR =	0,
+ 	DSS_WB_LCD2_MGR =	1,
 -- 
 Regards,
 
