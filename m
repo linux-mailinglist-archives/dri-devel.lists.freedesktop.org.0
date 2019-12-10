@@ -2,36 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DF3711934A
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:09:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2499C11934B
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:09:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C3746E93A;
-	Tue, 10 Dec 2019 21:09:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3ACB96E93B;
+	Tue, 10 Dec 2019 21:09:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E88AD6E93A
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 21:09:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2770B6E93A
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 21:09:26 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D915824699;
- Tue, 10 Dec 2019 21:09:23 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 23E67246A9;
+ Tue, 10 Dec 2019 21:09:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576012164;
- bh=yS2KDEXb1mtqkGjsdBPg69ZkH+a+Qekok3ngQXZ45Jc=;
+ s=default; t=1576012166;
+ bh=g4bCn+xYFLaXqyDO1JtEXbFTEVIZV6mXkDG/EmNFlH0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BBOMGUX+vuZ2Ifb1HTSH9xfKyc6fTsWNsWvTyOrj4GnZ3RIZX+4Hvspq7kgmVsPVR
- CKjV2dudYXM4AXWEJDJ4zp5GgrK450tnk315R3MTXv7yGiBnFKjaXfZ1ZTRdSWaTIo
- Rr/QfXkWxNaaHS3H51cD6WkWPH21B9eVY4dv4CkE=
+ b=2ZnHv878HS79+Zy+2Cesskbxim/UGqcwBIIg8ZAYwwdwOmqWQPJ/OCMyBiJ3tIXfA
+ tSjn4OzLjBT+DSlUqDWgQTESN3nhltObKm3LzOiLWoP/ToOIzMF9AczsgEZsasRzj4
+ tw+DfPxNMMN4rTH7IU/ONcgkTY6H9z+Gzt0CQpmg=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 125/350] drm/amd/display: enable hostvm based on
- roimmu active for dcn2.1
-Date: Tue, 10 Dec 2019 16:03:50 -0500
-Message-Id: <20191210210735.9077-86-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 126/350] drm/amd/display: fix header for RN clk mgr
+Date: Tue, 10 Dec 2019 16:03:51 -0500
+Message-Id: <20191210210735.9077-87-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191210210735.9077-1-sashal@kernel.org>
 References: <20191210210735.9077-1-sashal@kernel.org>
@@ -51,102 +50,45 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sasha Levin <sashal@kernel.org>, Roman Li <Roman.Li@amd.com>,
- amd-gfx@lists.freedesktop.org, Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
+ amd-gfx@lists.freedesktop.org, joseph gravenor <joseph.gravenor@amd.com>,
  dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
  Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>
-
-[ Upstream commit 48d92e8eda3d9b61978377e7539bfc5958e850cf ]
-
-Enabling hostvm when ROIMMU is not active seems to break GPUVM.
-This fixes the issue by not enabling hostvm if ROIMMU is not
-activated.
-
-Signed-off-by: Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>
-Acked-by: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
-Reviewed-by: Roman Li <Roman.Li@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- .../drm/amd/display/dc/dcn21/dcn21_hubbub.c   | 40 ++++++++++++-------
- 1 file changed, 25 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_hubbub.c b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_hubbub.c
-index d1266741763b9..f5f6b4a0f0aa4 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_hubbub.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_hubbub.c
-@@ -22,6 +22,7 @@
-  * Authors: AMD
-  *
-  */
-+#include <linux/delay.h>
- #include "dm_services.h"
- #include "dcn20/dcn20_hubbub.h"
- #include "dcn21_hubbub.h"
-@@ -71,30 +72,39 @@ static uint32_t convert_and_clamp(
- void dcn21_dchvm_init(struct hubbub *hubbub)
- {
- 	struct dcn20_hubbub *hubbub1 = TO_DCN20_HUBBUB(hubbub);
-+	uint32_t riommu_active;
-+	int i;
- 
- 	//Init DCHVM block
- 	REG_UPDATE(DCHVM_CTRL0, HOSTVM_INIT_REQ, 1);
- 
- 	//Poll until RIOMMU_ACTIVE = 1
--	//TODO: Figure out interval us and retry count
--	REG_WAIT(DCHVM_RIOMMU_STAT0, RIOMMU_ACTIVE, 1, 5, 100);
-+	for (i = 0; i < 100; i++) {
-+		REG_GET(DCHVM_RIOMMU_STAT0, RIOMMU_ACTIVE, &riommu_active);
- 
--	//Reflect the power status of DCHUBBUB
--	REG_UPDATE(DCHVM_RIOMMU_CTRL0, HOSTVM_POWERSTATUS, 1);
-+		if (riommu_active)
-+			break;
-+		else
-+			udelay(5);
-+	}
-+
-+	if (riommu_active) {
-+		//Reflect the power status of DCHUBBUB
-+		REG_UPDATE(DCHVM_RIOMMU_CTRL0, HOSTVM_POWERSTATUS, 1);
- 
--	//Start rIOMMU prefetching
--	REG_UPDATE(DCHVM_RIOMMU_CTRL0, HOSTVM_PREFETCH_REQ, 1);
-+		//Start rIOMMU prefetching
-+		REG_UPDATE(DCHVM_RIOMMU_CTRL0, HOSTVM_PREFETCH_REQ, 1);
- 
--	// Enable dynamic clock gating
--	REG_UPDATE_4(DCHVM_CLK_CTRL,
--					HVM_DISPCLK_R_GATE_DIS, 0,
--					HVM_DISPCLK_G_GATE_DIS, 0,
--					HVM_DCFCLK_R_GATE_DIS, 0,
--					HVM_DCFCLK_G_GATE_DIS, 0);
-+		// Enable dynamic clock gating
-+		REG_UPDATE_4(DCHVM_CLK_CTRL,
-+						HVM_DISPCLK_R_GATE_DIS, 0,
-+						HVM_DISPCLK_G_GATE_DIS, 0,
-+						HVM_DCFCLK_R_GATE_DIS, 0,
-+						HVM_DCFCLK_G_GATE_DIS, 0);
- 
--	//Poll until HOSTVM_PREFETCH_DONE = 1
--	//TODO: Figure out interval us and retry count
--	REG_WAIT(DCHVM_RIOMMU_STAT0, HOSTVM_PREFETCH_DONE, 1, 5, 100);
-+		//Poll until HOSTVM_PREFETCH_DONE = 1
-+		REG_WAIT(DCHVM_RIOMMU_STAT0, HOSTVM_PREFETCH_DONE, 1, 5, 100);
-+	}
- }
- 
- static int hubbub21_init_dchub(struct hubbub *hubbub,
--- 
-2.20.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogam9zZXBoIGdyYXZlbm9yIDxqb3NlcGguZ3JhdmVub3JAYW1kLmNvbT4KClsgVXBzdHJl
+YW0gY29tbWl0IGNkODNmYTFlYTliOTQzMWNmMWQ1N2FjNDE3OWExMWJjNDM5M2E1YjYgXQoKW3do
+eV0KU2hvdWxkIGFsd2F5cyBNUDBfQkFTRSBmb3IgYW55IHJlZ2lzdGVyIGRlZmluaXRpb24gZnJv
+bSBNUCBwZXItSVAgaGVhZGVyIGZpbGVzLgpJIGJlbGl2ZSB0aGUgcmVhc29uIHRoZSBsaW51eCB2
+ZXJzaW9uIG9mIE1QMV9CQVNFIHdvcmtzIGlzIFRoZSAwdGjCoGVsZW1lbnQgb2YgdGhlIDB0aMKg
+dGFibGUKb2YgdGhhdCBpcyBpZGVudGljYWwgdG8gdGhlIGNvcnJpc3BvbmRpbmcgdmFsdWUgb2Yg
+TVAwX0JBU0UgaW4gdGhlIHJlbm9pciBvZmZzZXQgaGVhZGVyIGZpbGUuClRoZSByZWFzb24gd2Ug
+c2hvdWxkIG9ubHkgdXNlIE1QMF9CQVNFIGlzIFRoZXJlIGlzIG9ubHkgb25lIHNldCBvZiBwZXIt
+SVAgaGVhZGVycyBNUAp0aGF0IGluY2x1ZGVzIGFsbCByZWdpc3RlciBkZWZpbml0aW9ucyByZWxh
+dGVkIHRvIFNNVSBJUCBibG9jay4gVGhpcyBJUCBpbmNsdWRlcyBNUDAsIE1QMSwgTVAyCmFuZCAg
+YW4gZWNyeXB0aW9uIGVuZ2luZSB0aGF0IGNhbiBiZSB1c2VkIG9ubHkgYnkgTVAwLiBBcyBhIHJl
+c3VsdCBhbGwgcmVnaXN0ZXIgZGVmaW5pdGlvbnMgZnJvbQpNUCBmaWxlIHNob3VsZCBiZSBiYXNl
+ZCBvbmx5IG9uIE1QMF9CQVNFIGRhdGEuCgpbSG93XQpDaGFuZ2UgTVAxX0JBU0UgdG8gTVAwX0JB
+U0UKClNpZ25lZC1vZmYtYnk6IGpvc2VwaCBncmF2ZW5vciA8am9zZXBoLmdyYXZlbm9yQGFtZC5j
+b20+CkFja2VkLWJ5OiBCaGF3YW5wcmVldCBMYWtoYSA8Qmhhd2FucHJlZXQuTGFraGFAYW1kLmNv
+bT4KUmV2aWV3ZWQtYnk6IFJvbWFuIExpIDxSb21hbi5MaUBhbWQuY29tPgpTaWduZWQtb2ZmLWJ5
+OiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+ClNpZ25lZC1vZmYtYnk6
+IFNhc2hhIExldmluIDxzYXNoYWxAa2VybmVsLm9yZz4KLS0tCiAuLi4vZ3B1L2RybS9hbWQvZGlz
+cGxheS9kYy9jbGtfbWdyL2RjbjIxL3JuX2Nsa19tZ3JfdmJpb3Nfc211LmMgfCAyICstCiAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvY2xrX21nci9kY24yMS9ybl9jbGtfbWdyX3Zi
+aW9zX3NtdS5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2Nsa19tZ3IvZGNuMjEv
+cm5fY2xrX21ncl92Ymlvc19zbXUuYwppbmRleCA1MDk4NGMxODExYmIyLi40NjhjNmJiMGUzMTE5
+IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvY2xrX21nci9kY24y
+MS9ybl9jbGtfbWdyX3ZiaW9zX3NtdS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxh
+eS9kYy9jbGtfbWdyL2RjbjIxL3JuX2Nsa19tZ3JfdmJpb3Nfc211LmMKQEAgLTMzLDcgKzMzLDcg
+QEAKICNpbmNsdWRlICJtcC9tcF8xMl8wXzBfc2hfbWFzay5oIgogCiAjZGVmaW5lIFJFRyhyZWdf
+bmFtZSkgXAotCShNUDFfQkFTRS5pbnN0YW5jZVswXS5zZWdtZW50W21tICMjIHJlZ19uYW1lICMj
+IF9CQVNFX0lEWF0gKyBtbSAjIyByZWdfbmFtZSkKKwkoTVAwX0JBU0UuaW5zdGFuY2VbMF0uc2Vn
+bWVudFttbSAjIyByZWdfbmFtZSAjIyBfQkFTRV9JRFhdICsgbW0gIyMgcmVnX25hbWUpCiAKICNk
+ZWZpbmUgRk4ocmVnX25hbWUsIGZpZWxkKSBcCiAJRkQocmVnX25hbWUjI19fIyNmaWVsZCkKLS0g
+CjIuMjAuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
