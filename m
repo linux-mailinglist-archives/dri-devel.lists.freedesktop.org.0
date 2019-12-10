@@ -2,37 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2689F11828C
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 09:41:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E757B11826F
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 09:40:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73E496E83D;
-	Tue, 10 Dec 2019 08:40:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA6D589CD5;
+	Tue, 10 Dec 2019 08:40:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ironport.ite.com.tw (60-251-196-230.HINET-IP.hinet.net
  [60.251.196.230])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1915B6E81D
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 06:15:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 24710899FF
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 08:02:02 +0000 (UTC)
 Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
- by ironport.ite.com.tw with ESMTP; 10 Dec 2019 14:05:56 +0800
-Received: from csbcas.internal.ite.com.tw (csbcas1.internal.ite.com.tw
- [192.168.65.46]) by mse.ite.com.tw with ESMTP id xBA65rTc018489;
- Tue, 10 Dec 2019 14:05:53 +0800 (GMT-8)
+ by ironport.ite.com.tw with ESMTP; 10 Dec 2019 16:02:02 +0800
+Received: from csbcas.internal.ite.com.tw (csbmail1.internal.ite.com.tw
+ [192.168.65.58]) by mse.ite.com.tw with ESMTP id xBA81ubr094420;
+ Tue, 10 Dec 2019 16:01:56 +0800 (GMT-8)
  (envelope-from allen.chen@ite.com.tw)
-Received: from allen-VirtualBox.internal.ite.com.tw (192.168.70.14) by
- csbcas1.internal.ite.com.tw (192.168.65.45) with Microsoft SMTP Server (TLS)
- id 14.3.352.0; Tue, 10 Dec 2019 14:05:53 +0800
-From: allen <allen.chen@ite.com.tw>
-To: 
-Subject: [PATCH v5 4/4] drm/bridge: add it6505 driver
-Date: Tue, 10 Dec 2019 13:53:42 +0800
-Message-ID: <1575957299-12977-5-git-send-email-allen.chen@ite.com.tw>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1575957299-12977-1-git-send-email-allen.chen@ite.com.tw>
-References: <1575957299-12977-1-git-send-email-allen.chen@ite.com.tw>
+Received: from CSBMAIL1.internal.ite.com.tw (192.168.65.58) by
+ CSBMAIL1.internal.ite.com.tw (192.168.65.58) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1713.5; Tue, 10 Dec 2019 16:01:56 +0800
+Received: from CSBMAIL1.internal.ite.com.tw ([fe80::2cba:f37c:ac09:f33f]) by
+ CSBMAIL1.internal.ite.com.tw ([fe80::2cba:f37c:ac09:f33f%22]) with mapi id
+ 15.01.1713.004; Tue, 10 Dec 2019 16:01:56 +0800
+From: <allen.chen@ite.com.tw>
+To: <jani.nikula@linux.intel.com>
+Subject: RE: [PATCH] drm/edid: fixup EDID 1.3 and 1.4 judge reduced-blanking
+ timings logic
+Thread-Topic: [PATCH] drm/edid: fixup EDID 1.3 and 1.4 judge reduced-blanking
+ timings logic
+Thread-Index: AQHVqbAHY0WR+6d4FUqjmb5FuLaBCaeqwGsAgAhKxVA=
+Date: Tue, 10 Dec 2019 08:01:56 +0000
+Message-ID: <a30ab6d484a941ec9471a57d1814f34b@ite.com.tw>
+References: <1574761572-26585-1-git-send-email-allen.chen@ite.com.tw>
+ <87pnhdobns.fsf@intel.com> <e2486891920843798e9af97209464833@ite.com.tw>
+ <87muc9kfam.fsf@intel.com> 
+Accept-Language: en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.168.70.14]
+x-tm-snts-smtp: FE967C694553D67AAA86B323C3FF8A07B84C52252C07CE70E2C5AA8144ED333B2000:8
 MIME-Version: 1.0
-X-Originating-IP: [192.168.70.14]
-X-MAIL: mse.ite.com.tw xBA65rTc018489
+X-MAIL: mse.ite.com.tw xBA81ubr094420
 X-Mailman-Approved-At: Tue, 10 Dec 2019 08:40:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,2832 +59,1070 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Jitao Shi <jitao.shi@mediatek.com>, Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>,
- Yilun Lin <yllin@google.com>, Allen Chen <allen.chen@ite.com.tw>,
- David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
- open list <linux-kernel@vger.kernel.org>, "open
- list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Jonas Karlman <jonas@kwiboo.se>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Pi-Hsun Shih <pihsun@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- "moderated
- list:ARM/Mediatek SoC support" <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Jau-Chih.Tseng@ite.com.tw, maxime.ripard@bootlin.com, hao.he@bitland.com.cn,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ airlied@linux.ie, pihsun@chromium.org, sean@poorly.run
+Content-Type: multipart/mixed; boundary="===============0339561338=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Allen Chen <allen.chen@ite.com.tw>
+--===============0339561338==
+Content-Language: zh-TW
+Content-Type: multipart/related;
+	boundary="_004_a30ab6d484a941ec9471a57d1814f34bitecomtw_";
+	type="multipart/alternative"
 
-This adds support for the iTE IT6505.
-This device can convert DPI signal to DP output.
+--_004_a30ab6d484a941ec9471a57d1814f34bitecomtw_
+Content-Type: multipart/alternative;
+	boundary="_000_a30ab6d484a941ec9471a57d1814f34bitecomtw_"
 
-Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-Signed-off-by: Yilun Lin <yllin@google.com>
-Signed-off-by: Allen Chen <allen.chen@ite.com.tw>
-Signed-off-by: Pi-Hsun Shih <pihsun@chromium.org>
----
- drivers/gpu/drm/bridge/Kconfig      |    7 +
- drivers/gpu/drm/bridge/Makefile     |    1 +
- drivers/gpu/drm/bridge/ite-it6505.c | 2753 +++++++++++++++++++++++++++++++++++
- 3 files changed, 2761 insertions(+)
- create mode 100644 drivers/gpu/drm/bridge/ite-it6505.c
+--_000_a30ab6d484a941ec9471a57d1814f34bitecomtw_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index 3436297..c8cfaf7 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -45,6 +45,13 @@ config DRM_DUMB_VGA_DAC
- 	  Support for non-programmable RGB to VGA DAC bridges, such as ADI
- 	  ADV7123, TI THS8134 and THS8135 or passive resistor ladder DACs.
- 
-+config DRM_ITE_IT6505
-+	tristate "ITE IT6505 DP bridge"
-+	depends on OF
-+	select DRM_KMS_HELPER
-+	help
-+	  ITE IT6505 DP bridge chip driver.
-+
- config DRM_LVDS_ENCODER
- 	tristate "Transparent parallel to LVDS encoder support"
- 	depends on OF
-diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-index 4934fcf..f5abca5 100644
---- a/drivers/gpu/drm/bridge/Makefile
-+++ b/drivers/gpu/drm/bridge/Makefile
-@@ -2,6 +2,7 @@
- obj-$(CONFIG_DRM_ANALOGIX_ANX78XX) += analogix-anx78xx.o
- obj-$(CONFIG_DRM_CDNS_DSI) += cdns-dsi.o
- obj-$(CONFIG_DRM_DUMB_VGA_DAC) += dumb-vga-dac.o
-+obj-$(CONFIG_DRM_ITE_IT6505) += ite-it6505.o
- obj-$(CONFIG_DRM_LVDS_ENCODER) += lvds-encoder.o
- obj-$(CONFIG_DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW) += megachips-stdpxxxx-ge-b850v3-fw.o
- obj-$(CONFIG_DRM_NXP_PTN3460) += nxp-ptn3460.o
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-new file mode 100644
-index 00000000..f9429d2
---- /dev/null
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -0,0 +1,2753 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2018, The Linux Foundation. All rights reserved.
-+ */
-+#include <linux/bits.h>
-+#include <linux/delay.h>
-+#include <linux/device.h>
-+#include <linux/err.h>
-+#include <linux/extcon.h>
-+#include <linux/fs.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/interrupt.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/regmap.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/types.h>
-+
-+#include <crypto/hash.h>
-+#include <crypto/sha.h>
-+
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_bridge.h>
-+#include <drm/drm_crtc.h>
-+#include <drm/drm_crtc_helper.h>
-+#include <drm/drm_dp_helper.h>
-+#include <drm/drm_edid.h>
-+#include <drm/drm_print.h>
-+#include <drm/drm_probe_helper.h>
-+
-+#define AX 0
-+#define BX 1
-+#define AUDSEL I2S
-+#define AUDTYPE LPCM
-+#define AUDFS AUD48K
-+#define AUDCH 2
-+
-+/*
-+ * 0: Standard I2S
-+ * 1: 32bit I2S
-+ */
-+#define I2SINPUTFMT 1
-+
-+/*
-+ * 0: Left-justified
-+ * 1: Right-justified
-+ */
-+#define I2SJUSTIFIED 0
-+
-+/*
-+ * 0: Data delay 1T correspond to WS
-+ * 1: No data delay correspond to WS
-+ */
-+#define I2SDATADELAY 0
-+
-+/*
-+ * 0: left channel
-+ * 1: right channel
-+ */
-+#define I2SWSCHANNEL 0
-+
-+/*
-+ * 0: MSB shift first
-+ * 1: LSB shift first
-+ */
-+#define I2SDATASEQ 0
-+
-+/*
-+ * IT6505 maximum link rate
-+ * RBR : 1.62 Gbps/lane
-+ * HBR : 2.7  Gbps/lane
-+ * HBR2: 5.4  Gbps/lane
-+ * HBR3: 8.1  Gbps/lane
-+ */
-+#define MAX_LINK_RATE HBR
-+
-+/* IT6505 maximum lane count */
-+#define MAX_LANE_COUNT 4
-+
-+/* User define training link rate */
-+#define TRAINING_LINK_RATE HBR
-+
-+/* User define training lane count */
-+#define TRAINING_LANE_COUNT 4
-+#define LANESWAP 0
-+#define ENSSC 1
-+#define FLAGTRAINDOWN 150
-+#define POLLINGKSVLIST 400
-+#define TRAINFAILCNT 5
-+#define TRAINFAILHPD 3
-+#define AUX_WAIT_TIMEOUT_MS 15
-+#define PCLK_DELAY 1
-+#define PCLK_INV 0
-+#define ADJUST_PHASE_THRESHOLD 80000
-+#define PWROFFRETRYTIME 5
-+#define MAXPCLK 95000
-+#define DEFAULTHDCP 1
-+#define DEFAULTAUDIO 0
-+#define DEFAULTPWRONOFF 1
-+#define DEFAULTDRVHOLD 0
-+#define DEFAULTPWRON 0
-+#define AUX_FIFO_MAX_SIZE 0x10
-+
-+/* AX or BX */
-+#define CHIP_VERSION BX
-+
-+/*
-+ * User define afe settings for different platforms
-+ * 0: for bitland 10e, quanta zde
-+ * 1: for google kukui p1/p2, huaqin krane
-+ */
-+#define AFE_SETTING 1
-+
-+static u8 afe_setting_table[2][3] = {
-+	{0, 0, 0},
-+	{0x93, 0x2a, 0x85}
-+};
-+
-+enum sys_status {
-+	SYS_UNPLUG = 0,
-+	SYS_HPD,
-+	SYS_AUTOTRAIN,
-+	SYS_WAIT,
-+	SYS_TRAINFAIL,
-+	SYS_ReHDCP,
-+	SYS_NOROP,
-+	SYS_Unknown,
-+};
-+
-+enum it6505_aud_sel {
-+	I2S = 0,
-+	SPDIF,
-+};
-+
-+enum it6505_aud_fs {
-+	AUD24K = 0x6,
-+	AUD32K = 0x3,
-+	AUD48K = 0x2,
-+	AUD96K = 0xA,
-+	AUD192K = 0xE,
-+	AUD44P1K = 0x0,
-+	AUD88P2K = 0x8,
-+	AUD176P4K = 0xC,
-+};
-+
-+enum it6505_aud_type {
-+	LPCM = 0,
-+	NLPCM,
-+	DSS,
-+};
-+
-+enum aud_word_length {
-+	AUD16BIT = 0,
-+	AUD18BIT,
-+	AUD20BIT,
-+	AUD24BIT,
-+};
-+
-+/* Audio Sample Word Length: AUD16BIT, AUD18BIT, AUD20BIT, AUD24BIT */
-+#define AUDWORDLENGTH AUD24BIT
-+
-+enum it6505_link_rate {
-+	RBR,
-+	HBR,
-+	HBR2,
-+	HBR3,
-+};
-+
-+struct it6505_platform_data {
-+	struct regulator *pwr18;
-+	struct regulator *ovdd;
-+	struct gpio_desc *gpiod_hpd;
-+	struct gpio_desc *gpiod_reset;
-+};
-+
-+struct it6505 {
-+	struct drm_dp_aux aux;
-+	struct drm_bridge bridge;
-+	struct i2c_client *client;
-+	struct edid *edid;
-+	struct drm_connector connector;
-+	struct drm_dp_link link;
-+	struct it6505_platform_data pdata;
-+	struct mutex lock;
-+	struct mutex mode_lock;
-+	struct regmap *regmap;
-+	struct drm_display_mode vid_info;
-+
-+	struct notifier_block event_nb;
-+	struct extcon_dev *extcon;
-+	struct work_struct extcon_wq;
-+	enum sys_status status;
-+	bool hbr;
-+	u8 lane_count;
-+	bool en_ssc;
-+	bool laneswap_disabled;
-+	bool laneswap;
-+
-+	enum it6505_aud_sel aud_sel;
-+	enum it6505_aud_fs aud_fs;
-+	enum it6505_aud_type aud_type;
-+	u8 aud_ch;
-+	u8 i2s_input_fmt;
-+	u8 i2s_justified;
-+	u8 i2s_data_delay;
-+	u8 i2s_ws_channel;
-+	u8 i2s_data_seq;
-+	enum aud_word_length audwordlength;
-+	bool hdcp_flag;
-+	bool en_hdcp;
-+	unsigned int en_pwronoff;
-+	unsigned int en_audio;
-+	u8 cntfsm;
-+	u8 train_fail_hpd;
-+	bool cp_capable;
-+	u8 downstream_repeater;
-+	u8 shainput[64];
-+	u8 av[5][4];
-+	u8 bv[5][4];
-+	bool powered;
-+	u8 dpcd_sink_count;
-+	/* it6505 driver hold option */
-+	unsigned int drv_hold;
-+};
-+
-+static const struct regmap_range it6505_bridge_volatile_ranges[] = {
-+	{ .range_min = 0, .range_max = 0xFF },
-+};
-+
-+static const struct regmap_access_table it6505_bridge_volatile_table = {
-+	.yes_ranges = it6505_bridge_volatile_ranges,
-+	.n_yes_ranges = ARRAY_SIZE(it6505_bridge_volatile_ranges),
-+};
-+
-+static const struct regmap_config it6505_bridge_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.volatile_table = &it6505_bridge_volatile_table,
-+	.cache_type = REGCACHE_NONE,
-+};
-+
-+static int dptxrd(struct it6505 *it6505, unsigned int reg_addr,
-+		  unsigned int *value)
-+{
-+	int err;
-+	struct device *dev = &it6505->client->dev;
-+
-+	err = regmap_read(it6505->regmap, reg_addr, value);
-+	if (err < 0) {
-+		DRM_DEV_ERROR(dev, "read failed reg[0x%x] err: %d", reg_addr,
-+			      err);
-+		return err;
-+	}
-+
-+	return 0;
-+}
-+
-+static void it6505_dump(struct it6505 *it6505)
-+{
-+	unsigned int temp[16], i, j;
-+	u8 value[16];
-+	struct device *dev = &it6505->client->dev;
-+
-+	for (i = 0; i <= 0xff; i += 16) {
-+		for (j = 0; j < 16; j++) {
-+			dptxrd(it6505, i + j, temp + j);
-+			value[j] = temp[j];
-+		}
-+		DRM_DEV_DEBUG_DRIVER(dev, "[0x%02x] = %16ph", i, value);
-+	}
-+}
-+
-+static int dptxwr(struct it6505 *it6505, unsigned int reg_addr,
-+		  unsigned int reg_val)
-+{
-+	int err;
-+	struct device *dev = &it6505->client->dev;
-+
-+	err = regmap_write(it6505->regmap, reg_addr, reg_val);
-+
-+	if (err < 0) {
-+		DRM_DEV_ERROR(dev, "write failed reg[0x%x] = 0x%x err = %d",
-+			      reg_addr, reg_val, err);
-+		return err;
-+	}
-+
-+	return 0;
-+}
-+
-+static int dptxset(struct it6505 *it6505, unsigned int reg, unsigned int mask,
-+		   unsigned int value)
-+{
-+	int err;
-+	struct device *dev = &it6505->client->dev;
-+
-+	err = regmap_update_bits(it6505->regmap, reg, mask, value);
-+	if (err < 0) {
-+		DRM_DEV_ERROR(
-+			dev, "write reg[0x%x] = 0x%x mask = 0x%x failed err %d",
-+			reg, value, mask, err);
-+		return err;
-+	}
-+
-+	return 0;
-+}
-+
-+static unsigned int dptx_dpcdrd(struct it6505 *it6505, unsigned long offset)
-+{
-+	u8 value;
-+	int ret;
-+	struct device *dev = &it6505->client->dev;
-+
-+	ret = drm_dp_dpcd_readb(&it6505->aux, offset, &value);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(dev, "DPCD read failed [0x%lx] ret: %d", offset,
-+			      ret);
-+		return ret;
-+	}
-+	return value;
-+}
-+
-+static int dptx_dpcdwr(struct it6505 *it6505, unsigned long offset,
-+		       unsigned long datain)
-+{
-+	int ret;
-+	struct device *dev = &it6505->client->dev;
-+
-+	ret = drm_dp_dpcd_writeb(&it6505->aux, offset, datain);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(dev, "DPCD write failed [0x%lx] ret: %d", offset,
-+			      ret);
-+		return ret;
-+	}
-+	return 0;
-+}
-+
-+static void dptx_debug_print(struct it6505 *it6505, unsigned int reg,
-+			     const char *prefix)
-+{
-+	unsigned int val;
-+	int err;
-+	struct device *dev = &it6505->client->dev;
-+
-+	if (likely(!(drm_debug & DRM_UT_DRIVER)))
-+		return;
-+
-+	err = dptxrd(it6505, reg, &val);
-+	if (err < 0)
-+		DRM_DEV_DEBUG_DRIVER(dev, "%s reg%02x read error", prefix, reg);
-+	else
-+		DRM_DEV_DEBUG_DRIVER(dev, "%s reg%02x = 0x%02x", prefix, reg,
-+				     val);
-+}
-+
-+static void dpcd_debug_print(struct it6505 *it6505, unsigned int reg,
-+			     const char *prefix)
-+{
-+	unsigned int val;
-+	struct device *dev = &it6505->client->dev;
-+
-+	if (likely(!(drm_debug & DRM_UT_DRIVER)))
-+		return;
-+
-+	val = dptx_dpcdrd(it6505, reg);
-+	if (val < 0)
-+		DRM_DEV_DEBUG_DRIVER(dev, "%s reg%02x read error", prefix, reg);
-+	else
-+		DRM_DEV_DEBUG_DRIVER(dev, "%s DPCD%02x = 0x%02x", prefix, reg,
-+				     val);
-+}
-+
-+static inline struct it6505 *connector_to_it6505(struct drm_connector *c)
-+{
-+	return container_of(c, struct it6505, connector);
-+}
-+
-+static inline struct it6505 *bridge_to_it6505(struct drm_bridge *bridge)
-+{
-+	return container_of(bridge, struct it6505, bridge);
-+}
-+
-+static void it6505_init_fsm(struct it6505 *it6505)
-+{
-+	it6505->aud_sel = AUDSEL;
-+	it6505->aud_fs = AUDFS;
-+	it6505->aud_ch = AUDCH;
-+	it6505->aud_type = AUDTYPE;
-+	it6505->i2s_input_fmt = I2SINPUTFMT;
-+	it6505->i2s_justified = I2SJUSTIFIED;
-+	it6505->i2s_data_delay = I2SDATADELAY;
-+	it6505->i2s_ws_channel = I2SWSCHANNEL;
-+	it6505->i2s_data_seq = I2SDATASEQ;
-+	it6505->audwordlength = AUDWORDLENGTH;
-+	it6505->en_audio = DEFAULTAUDIO;
-+	it6505->en_hdcp = DEFAULTHDCP ? true : false;
-+	it6505->lane_count = min(MAX_LANE_COUNT, TRAINING_LANE_COUNT);
-+	it6505->hbr = min(MAX_LINK_RATE, TRAINING_LINK_RATE) ? true : false;
-+	it6505->en_ssc = ENSSC ? true : false;
-+	it6505->laneswap = LANESWAP ? true : false;
-+}
-+
-+static void it6505_lane_termination_on(struct it6505 *it6505)
-+{
-+#if (CHIP_VERSION == BX)
-+	dptxset(it6505, 0x5D, 0x80, 0x00);
-+	dptxset(it6505, 0x5E, 0x02, 0x02);
-+#endif
-+}
-+
-+static void it6505_lane_termination_off(struct it6505 *it6505)
-+{
-+#if (CHIP_VERSION == BX)
-+	dptxset(it6505, 0x5D, 0x80, 0x80);
-+	dptxset(it6505, 0x5E, 0x02, 0x00);
-+	dptxset(it6505, 0x5C, 0xF0, 0x00);
-+#endif
-+}
-+
-+static void it6505_lane_power_on(struct it6505 *it6505)
-+{
-+	if (it6505->laneswap) {
-+		switch (it6505->lane_count) {
-+		case 1:
-+			dptxset(it6505, 0x5C, 0xF1, 0x81);
-+			break;
-+		case 2:
-+			dptxset(it6505, 0x5C, 0xF1, 0xC1);
-+			break;
-+		default:
-+			dptxset(it6505, 0x5C, 0xF1, 0xF1);
-+			break;
-+		}
-+	} else {
-+		switch (it6505->lane_count) {
-+		case 1:
-+			dptxset(it6505, 0x5C, 0xF1, 0x11);
-+			break;
-+		case 2:
-+			dptxset(it6505, 0x5C, 0xF1, 0x31);
-+			break;
-+		default:
-+			dptxset(it6505, 0x5C, 0xF1, 0xF1);
-+			break;
-+		}
-+	}
-+}
-+
-+static void it6505_lane_power_off(struct it6505 *it6505)
-+{
-+	dptxset(it6505, 0x5C, 0xF0, 0x00);
-+}
-+
-+static void it6505_lane_off(struct it6505 *it6505)
-+{
-+	it6505_lane_power_off(it6505);
-+	it6505_lane_termination_off(it6505);
-+}
-+
-+static void it6505_aux_termination_on(struct it6505 *it6505)
-+{
-+#if (CHIP_VERSION == BX)
-+	it6505_lane_termination_on(it6505);
-+#endif
-+}
-+
-+static void it6505_aux_power_on(struct it6505 *it6505)
-+{
-+	dptxset(it6505, 0x5E, 0x02, 0x02);
-+}
-+
-+static void it6505_aux_on(struct it6505 *it6505)
-+{
-+	it6505_aux_power_on(it6505);
-+	it6505_aux_termination_on(it6505);
-+}
-+
-+static void it6505_aux_reset(struct it6505 *it6505)
-+{
-+	dptxset(it6505, 0x05, 0x08, 0x08);
-+	dptxset(it6505, 0x05, 0x08, 0x00);
-+}
-+
-+static bool dptx_getsinkhpd(struct it6505 *it6505)
-+{
-+	unsigned int value;
-+	int ret;
-+
-+	ret = dptxrd(it6505, 0x0D, &value);
-+
-+	if (ret < 0)
-+		return false;
-+
-+	return (value & BIT(1)) == BIT(1);
-+}
-+
-+static void dptx_chgbank(struct it6505 *it6505, unsigned int bank_id)
-+{
-+	dptxset(it6505, 0x0F, 0x01, bank_id & BIT(0));
-+}
-+
-+static void it6505_int_mask_on(struct it6505 *it6505)
-+{
-+	dptxwr(it6505, 0x09, 0x1F);
-+	dptxwr(it6505, 0x0A, 0x07);
-+	dptxwr(it6505, 0x0B, 0x90);
-+}
-+
-+static void it6505_int_mask_off(struct it6505 *it6505)
-+{
-+	dptxwr(it6505, 0x09, 0x00);
-+	dptxwr(it6505, 0x0A, 0x00);
-+	dptxwr(it6505, 0x0B, 0x00);
-+}
-+
-+static void dptx_init(struct it6505 *it6505)
-+{
-+	dptxwr(it6505, 0x05, 0x3B);
-+	usleep_range(1000, 2000);
-+	dptxwr(it6505, 0x05, 0x1F);
-+	usleep_range(1000, 1500);
-+}
-+
-+static void it6505_init_and_mask_on(struct it6505 *it6505)
-+{
-+	dptx_init(it6505);
-+	it6505_int_mask_on(it6505);
-+}
-+
-+static int it6505_poweron(struct it6505 *it6505)
-+{
-+	struct it6505_platform_data *pdata = &it6505->pdata;
-+	int err = 0;
-+	struct device *dev = &it6505->client->dev;
-+
-+	if (it6505->powered) {
-+		DRM_DEV_DEBUG_DRIVER(dev, "it6505 already powered on");
-+		return 0;
-+	}
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "it6505 start to power on");
-+
-+	err = regulator_enable(pdata->pwr18);
-+	DRM_DEV_DEBUG_DRIVER(dev, "%s to enable pwr18 regulator",
-+			     err ? "Failed" : "Succeeded");
-+	if (err)
-+		return err;
-+	/* time interval between IVDD and OVDD at least be 1ms */
-+	usleep_range(1000, 2000);
-+	err = regulator_enable(pdata->ovdd);
-+	DRM_DEV_DEBUG_DRIVER(dev, "%s to enable ovdd regulator",
-+			     err ? "Failed" : "Succeeded");
-+	if (err) {
-+		regulator_disable(pdata->pwr18);
-+		return err;
-+	}
-+	/* time interval between OVDD and SYSRSTN at least be 10ms */
-+	usleep_range(10000, 20000);
-+	gpiod_set_value_cansleep(pdata->gpiod_reset, 0);
-+	usleep_range(1000, 2000);
-+	gpiod_set_value_cansleep(pdata->gpiod_reset, 1);
-+	usleep_range(10000, 20000);
-+
-+	it6505_init_and_mask_on(it6505);
-+	it6505->powered = true;
-+	return 0;
-+}
-+
-+static int it6505_poweroff(struct it6505 *it6505)
-+{
-+	struct it6505_platform_data *pdata = &it6505->pdata;
-+	int err = 0;
-+	struct device *dev = &it6505->client->dev;
-+
-+	if (!it6505->powered) {
-+		DRM_DEV_DEBUG_DRIVER(dev, "power had been already off");
-+		return 0;
-+	}
-+	gpiod_set_value_cansleep(pdata->gpiod_reset, 0);
-+	err = regulator_disable(pdata->pwr18);
-+	DRM_DEV_DEBUG_DRIVER(dev, "%s to disable pwr18 regulator",
-+			     err ? "Failed" : "Succeeded");
-+	if (err)
-+		return err;
-+	err = regulator_disable(pdata->ovdd);
-+	DRM_DEV_DEBUG_DRIVER(dev, "%s to disable ovdd regulator",
-+			     err ? "Failed" : "Succeeded");
-+	if (err)
-+		return err;
-+
-+	kfree(it6505->edid);
-+	it6505->edid = NULL;
-+	it6505->powered = false;
-+	return 0;
-+}
-+
-+static void show_vid_info(struct it6505 *it6505)
-+{
-+	int hsync_pol, vsync_pol, interlaced;
-+	int htotal, hdes, hdew, hfph, hsyncw;
-+	int vtotal, vdes, vdew, vfph, vsyncw;
-+	int rddata, rddata1, i;
-+	int pclk, sum;
-+
-+	usleep_range(10000, 15000);
-+	dptx_chgbank(it6505, 0);
-+	dptxrd(it6505, 0xa0, &rddata);
-+	hsync_pol = rddata & BIT(0);
-+	vsync_pol = (rddata & BIT(2)) >> 2;
-+	interlaced = (rddata & BIT(4)) >> 4;
-+
-+	dptxrd(it6505, 0xa1, &rddata);
-+	dptxrd(it6505, 0xa2, &rddata1);
-+	htotal = ((rddata1 & 0x1F) << 8) + rddata;
-+
-+	dptxrd(it6505, 0xa3, &rddata);
-+	dptxrd(it6505, 0xa4, &rddata1);
-+
-+	hdes = ((rddata1 & 0x1F) << 8) + rddata;
-+
-+	dptxrd(it6505, 0xa5, &rddata);
-+	dptxrd(it6505, 0xa6, &rddata1);
-+
-+	hdew = ((rddata1 & 0x1F) << 8) + rddata;
-+
-+	dptxrd(it6505, 0xa7, &rddata);
-+	dptxrd(it6505, 0xa8, &rddata1);
-+
-+	hfph = ((rddata1 & 0x1F) << 8) + rddata;
-+
-+	dptxrd(it6505, 0xa9, &rddata);
-+	dptxrd(it6505, 0xaa, &rddata1);
-+
-+	hsyncw = ((rddata1 & 0x1F) << 8) + rddata;
-+
-+	dptxrd(it6505, 0xab, &rddata);
-+	dptxrd(it6505, 0xac, &rddata1);
-+	vtotal = ((rddata1 & 0x0F) << 8) + rddata;
-+
-+	dptxrd(it6505, 0xad, &rddata);
-+	dptxrd(it6505, 0xae, &rddata1);
-+	vdes = ((rddata1 & 0x0F) << 8) + rddata;
-+
-+	dptxrd(it6505, 0xaf, &rddata);
-+	dptxrd(it6505, 0xb0, &rddata1);
-+	vdew = ((rddata1 & 0x0F) << 8) + rddata;
-+
-+	dptxrd(it6505, 0xb1, &rddata);
-+	dptxrd(it6505, 0xb2, &rddata1);
-+	vfph = ((rddata1 & 0x0F) << 8) + rddata;
-+
-+	dptxrd(it6505, 0xb3, &rddata);
-+	dptxrd(it6505, 0xb4, &rddata1);
-+	vsyncw = ((rddata1 & 0x0F) << 8) + rddata;
-+
-+	sum = 0;
-+	for (i = 0; i < 100; i++) {
-+		dptxset(it6505, 0x12, 0x80, 0x80);
-+		usleep_range(10000, 15000);
-+		dptxset(it6505, 0x12, 0x80, 0x00);
-+
-+		dptxrd(it6505, 0x13, &rddata);
-+		dptxrd(it6505, 0x14, &rddata1);
-+		rddata = ((rddata1 & 0x0F) << 8) + rddata;
-+
-+		sum += rddata;
-+	}
-+
-+	sum /= 100;
-+	pclk = 13500 * 2048 / sum;
-+	it6505->vid_info.clock = pclk;
-+	it6505->vid_info.hdisplay = hdew;
-+	it6505->vid_info.hsync_start = hdew + hfph;
-+	it6505->vid_info.hsync_end = hdew + hfph + hsyncw;
-+	it6505->vid_info.htotal = htotal;
-+	it6505->vid_info.vdisplay = vdew;
-+	it6505->vid_info.vsync_start = vdew + vfph;
-+	it6505->vid_info.vsync_end = vdew + vfph + vsyncw;
-+	it6505->vid_info.vtotal = vtotal;
-+	it6505->vid_info.vrefresh = pclk / htotal / vtotal;
-+
-+	DRM_DEV_DEBUG_DRIVER(&it6505->client->dev, DRM_MODE_FMT,
-+			     DRM_MODE_ARG(&it6505->vid_info));
-+}
-+
-+static void show_aud_mcnt(struct it6505 *it6505)
-+{
-+	unsigned int audn, regde, regdf, rege0, vclk, aclk, audmcal, audmcnt;
-+	struct device *dev = &it6505->client->dev;
-+
-+	dptxrd(it6505, 0xde, &regde);
-+	dptxrd(it6505, 0xdf, &regdf);
-+	dptxrd(it6505, 0xe0, &rege0);
-+	audn = regde + (regdf << 8) + (rege0 << 16);
-+	if (it6505->hbr)
-+		vclk = 2700000;
-+	else
-+		vclk = 1620000;
-+	switch (it6505->aud_fs) {
-+	case AUD32K:
-+		aclk = 320;
-+		break;
-+	case AUD48K:
-+		aclk = 480;
-+		break;
-+	case AUD96K:
-+		aclk = 960;
-+		break;
-+	case AUD192K:
-+		aclk = 1920;
-+		break;
-+	case AUD44P1K:
-+		aclk = 441;
-+	case AUD88P2K:
-+		aclk = 882;
-+		break;
-+	case AUD176P4K:
-+		aclk = 1764;
-+		break;
-+	default:
-+		aclk = 0;
-+		break;
-+	}
-+	audmcal = audn * aclk / vclk * 512;
-+	dptxrd(it6505, 0xe4, &regde);
-+	dptxrd(it6505, 0xe5, &regdf);
-+	dptxrd(it6505, 0xe6, &rege0);
-+	audmcnt = (rege0 << 16) + (regdf << 8) + regde;
-+	DRM_DEV_DEBUG_DRIVER(dev, "audio N:0x%06x", audn);
-+	DRM_DEV_DEBUG_DRIVER(dev, "audio Mcal:0x%06x", audmcal);
-+	DRM_DEV_DEBUG_DRIVER(dev, "audio Mcnt:0x%06x", audmcnt);
-+}
-+
-+static void it6505_audio_disable(struct it6505 *it6505)
-+{
-+	dptxset(it6505, 0xD3, 0x20, 0x20);
-+	dptxset(it6505, 0xB8, 0x0F, 0x00);
-+	dptxset(it6505, 0xE8, 0x22, 0x00);
-+	dptxset(it6505, 0x05, 0x02, 0x02);
-+	it6505->en_audio = 0;
-+}
-+
-+static const char *const state_string[] = {
-+	[SYS_UNPLUG] = "SYS_UNPLUG",
-+	[SYS_HPD] = "SYS_HPD",
-+	[SYS_AUTOTRAIN] = "SYS_AUTOTRAIN",
-+	[SYS_WAIT] = "SYS_WAIT",
-+	[SYS_TRAINFAIL] = "SYS_TRAINFAIL",
-+	[SYS_ReHDCP] = "SYS_ReHDCP",
-+	[SYS_NOROP] = "SYS_NOROP",
-+	[SYS_Unknown] = "SYS_Unknown",
-+};
-+
-+static void dptx_sys_chg(struct it6505 *it6505, enum sys_status newstate)
-+{
-+	int i = 0;
-+	struct device *dev = &it6505->client->dev;
-+
-+	if (newstate != SYS_UNPLUG) {
-+		if (!dptx_getsinkhpd(it6505))
-+			newstate = SYS_UNPLUG;
-+	}
-+	if (it6505->status == newstate)
-+		return;
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "sys_state change: %s -> %s",
-+			     state_string[it6505->status],
-+			     state_string[newstate]);
-+	it6505->status = newstate;
-+
-+	switch (it6505->status) {
-+	case SYS_UNPLUG:
-+		kfree(it6505->edid);
-+		it6505->edid = NULL;
-+		DRM_DEV_DEBUG_DRIVER(dev, "Free it6505 EDID memory");
-+
-+		if (it6505->en_audio)
-+			it6505_audio_disable(it6505);
-+
-+		it6505_init_and_mask_on(it6505);
-+		it6505_lane_off(it6505);
-+		break;
-+	case SYS_HPD:
-+		it6505_aux_on(it6505);
-+		break;
-+	case SYS_AUTOTRAIN:
-+		break;
-+	case SYS_WAIT:
-+		break;
-+	case SYS_ReHDCP:
-+		break;
-+	case SYS_NOROP:
-+		for (i = 0; i < 3; i++)
-+			show_vid_info(it6505);
-+		break;
-+	case SYS_TRAINFAIL:
-+		/* it6505 goes to idle */
-+		break;
-+	default:
-+		break;
-+	}
-+}
-+
-+static bool it6505_aux_op_finished(struct it6505 *it6505)
-+{
-+	unsigned int value;
-+	int err;
-+
-+	err = regmap_read(it6505->regmap, 0x2b, &value);
-+	if (err < 0)
-+		return false;
-+
-+	return (value & BIT(5)) == 0;
-+}
-+
-+static int dptx_auxwait(struct it6505 *it6505)
-+{
-+	unsigned int status;
-+	unsigned long timeout;
-+	int err;
-+	struct device *dev = &it6505->client->dev;
-+
-+	timeout = jiffies + msecs_to_jiffies(AUX_WAIT_TIMEOUT_MS) + 1;
-+
-+	while (!it6505_aux_op_finished(it6505)) {
-+		if (time_after(jiffies, timeout)) {
-+			DRM_DEV_ERROR(dev, "Timed out waiting AUX to finish");
-+			return -ETIMEDOUT;
-+		}
-+		usleep_range(1000, 2000);
-+	}
-+
-+	err = dptxrd(it6505, 0x9f, &status);
-+	if (err < 0) {
-+		DRM_DEV_ERROR(dev, "Failed to read AUX channel: %d", err);
-+		return err;
-+	}
-+
-+	if (status & 0x03) {
-+		DRM_DEV_ERROR(dev, "Failed to wait for AUX (status: 0x%x)",
-+			      status);
-+		return -ETIMEDOUT;
-+	}
-+
-+	return 0;
-+}
-+
-+enum aux_cmd_type {
-+	CMD_AUX_NATIVE_READ = 0x0,
-+	CMD_AUX_NATIVE_WRITE = 0x5,
-+	CMD_AUX_I2C_EDID_READ = 0xB,
-+};
-+
-+enum aux_cmd_reply {
-+	REPLY_ACK,
-+	REPLY_NACK,
-+	REPLY_DEFER,
-+};
-+
-+static ssize_t it6505_aux_do_transfer(struct it6505 *it6505,
-+				      enum aux_cmd_type cmd,
-+				      unsigned int address, u8 *buffer,
-+				      size_t size, enum aux_cmd_reply *reply)
-+{
-+	int ret;
-+	int i;
-+	int status, val;
-+
-+	if (cmd == CMD_AUX_I2C_EDID_READ) {
-+		/* DP AUX EDID FIFO has maximum length of 16 bytes. */
-+		size = min_t(size_t, size, AUX_FIFO_MAX_SIZE);
-+		/* Enable AUX FIFO read back and clear FIFO */
-+		dptxwr(it6505, 0x23, 0xC3);
-+		dptxwr(it6505, 0x23, 0xC2);
-+	} else {
-+		/* The DP AUX transmit buffer has 4 bytes. */
-+		size = min_t(size_t, size, 4);
-+		dptxwr(it6505, 0x23, 0x42);
-+	}
-+
-+	/* Start Address[7:0] */
-+	dptxwr(it6505, 0x24, (address >> 0) & 0xFF);
-+	/* Start Address[15:8] */
-+	dptxwr(it6505, 0x25, (address >> 8) & 0xFF);
-+	/* WriteNum[3:0]+StartAdr[19:16] */
-+	dptxwr(it6505, 0x26, ((address >> 16) & 0x0F) | ((size - 1) << 4));
-+
-+	if (cmd == CMD_AUX_NATIVE_WRITE)
-+		regmap_bulk_write(it6505->regmap, 0x27, buffer, size);
-+
-+	/* Aux Fire */
-+	dptxwr(it6505, 0x2B, cmd);
-+
-+	ret = dptx_auxwait(it6505);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = dptxrd(it6505, 0x9F, &status);
-+	if (ret < 0)
-+		return ret;
-+
-+	switch ((status >> 6) & 0x3) {
-+	case 0:
-+		*reply = REPLY_ACK;
-+		break;
-+	case 1:
-+		*reply = REPLY_DEFER;
-+		return 0;
-+	case 2:
-+		*reply = REPLY_NACK;
-+		return 0;
-+	case 3:
-+		return -ETIMEDOUT;
-+	}
-+
-+	if (cmd == CMD_AUX_NATIVE_WRITE)
-+		goto out;
-+
-+	if (cmd == CMD_AUX_I2C_EDID_READ) {
-+		for (i = 0; i < size; i++) {
-+			ret = dptxrd(it6505, 0x2F, &val);
-+			if (ret < 0)
-+				return ret;
-+			buffer[i] = val;
-+		}
-+	} else {
-+		for (i = 0; i < size; i++) {
-+			ret = dptxrd(it6505, 0x2C + i, &val);
-+			if (ret < 0)
-+				return ret;
-+			buffer[size - 1 - i] = val;
-+		}
-+	}
-+
-+out:
-+	dptxwr(it6505, 0x23, 0x41);
-+	dptxwr(it6505, 0x23, 0x40);
-+	return size;
-+}
-+
-+static ssize_t it6505_aux_transfer(struct drm_dp_aux *aux,
-+				   struct drm_dp_aux_msg *msg)
-+{
-+	struct it6505 *it6505 = container_of(aux, struct it6505, aux);
-+	u8 cmd;
-+	bool is_i2c = !(msg->request & DP_AUX_NATIVE_WRITE);
-+	int ret;
-+	enum aux_cmd_reply reply;
-+
-+	/* IT6505 doesn't support arbitrary I2C read / write. */
-+	if (is_i2c)
-+		return -EINVAL;
-+
-+	switch (msg->request) {
-+	case DP_AUX_NATIVE_READ:
-+		cmd = CMD_AUX_NATIVE_READ;
-+		break;
-+	case DP_AUX_NATIVE_WRITE:
-+		cmd = CMD_AUX_NATIVE_WRITE;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	ret = it6505_aux_do_transfer(it6505, cmd, msg->address, msg->buffer,
-+				     msg->size, &reply);
-+	if (ret < 0)
-+		return ret;
-+
-+	switch (reply) {
-+	case REPLY_ACK:
-+		msg->reply = DP_AUX_NATIVE_REPLY_ACK;
-+		break;
-+	case REPLY_NACK:
-+		msg->reply = DP_AUX_NATIVE_REPLY_NACK;
-+		break;
-+	case REPLY_DEFER:
-+		msg->reply = DP_AUX_NATIVE_REPLY_DEFER;
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
-+static int dptx_get_edidblock(void *data, u8 *buf, unsigned int blockno,
-+			      size_t len)
-+{
-+	struct it6505 *it6505 = data;
-+	int offset, ret, aux_retry = 100;
-+	struct device *dev = &it6505->client->dev;
-+	enum aux_cmd_reply reply;
-+
-+	it6505_aux_reset(it6505);
-+	DRM_DEV_DEBUG_DRIVER(dev, "blocknum = %d", blockno);
-+
-+	for (offset = 0; offset < EDID_LENGTH;) {
-+		ret = it6505_aux_do_transfer(it6505, CMD_AUX_I2C_EDID_READ,
-+					     blockno * EDID_LENGTH + offset,
-+					     buf + offset, 8, &reply);
-+		if (ret < 0)
-+			return ret;
-+
-+		switch (reply) {
-+		case REPLY_ACK:
-+			DRM_DEV_DEBUG_DRIVER(dev, "[0x%02x]: %8ph", offset,
-+					     buf + offset);
-+			offset += 8;
-+			aux_retry = 80;
-+			break;
-+		case REPLY_NACK:
-+			return -EIO;
-+		case REPLY_DEFER:
-+			msleep(20);
-+			if (!(--aux_retry))
-+				return -EIO;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static void it6505_disable_hdcp(struct it6505 *it6505)
-+{
-+	dptxset(it6505, 0x38, 0x0B, 0x00);
-+	dptxset(it6505, 0x05, 0x10, 0x10);
-+}
-+
-+
-+static int it6505_get_modes(struct drm_connector *connector)
-+{
-+	struct it6505 *it6505 = connector_to_it6505(connector);
-+	int err, num_modes = 0, i;
-+	struct device *dev = &it6505->client->dev;
-+
-+	it6505->train_fail_hpd = TRAINFAILHPD;
-+	DRM_DEV_DEBUG_DRIVER(dev, "sink_count:%d", it6505->dpcd_sink_count);
-+
-+	if (it6505->edid)
-+		return drm_add_edid_modes(connector, it6505->edid);
-+	mutex_lock(&it6505->mode_lock);
-+
-+	for (i = 0; i < 3; i++) {
-+		dptx_debug_print(it6505, 0x9F, "aux status");
-+		it6505_aux_reset(it6505);
-+		it6505_disable_hdcp(it6505);
-+		it6505->edid =
-+		drm_do_get_edid(&it6505->connector, dptx_get_edidblock, it6505);
-+
-+		if (it6505->edid)
-+			break;
-+		it6505_dump(it6505);
-+	}
-+	if (!it6505->edid) {
-+		DRM_DEV_ERROR(dev, "Failed to read EDID");
-+		goto unlock;
-+	}
-+
-+	err = drm_connector_update_edid_property(connector, it6505->edid);
-+	if (err) {
-+		DRM_DEV_ERROR(dev, "Failed to update EDID property: %d", err);
-+		goto unlock;
-+	}
-+
-+	num_modes = drm_add_edid_modes(connector, it6505->edid);
-+
-+unlock:
-+	mutex_unlock(&it6505->mode_lock);
-+
-+	return num_modes;
-+}
-+
-+static const struct drm_connector_helper_funcs it6505_connector_helper_funcs = {
-+	.get_modes = it6505_get_modes,
-+};
-+
-+static enum drm_connector_status it6505_detect(struct drm_connector *connector,
-+					       bool force)
-+{
-+	struct it6505 *it6505 = connector_to_it6505(connector);
-+	enum drm_connector_status status;
-+	u8 dpcd600;
-+
-+	if (!it6505->powered)
-+		goto it6505_no_powered;
-+
-+	it6505_aux_on(it6505);
-+	dpcd600 = dptx_dpcdrd(it6505, DP_SET_POWER);
-+	dpcd_debug_print(it6505, DP_SET_POWER, "");
-+
-+	if (!dptx_getsinkhpd(it6505) ||
-+	    (dpcd600 & DP_SET_POWER_MASK) != DP_SET_POWER_D0) {
-+it6505_no_powered:
-+		it6505->dpcd_sink_count = 0;
-+	}
-+
-+	if (it6505->dpcd_sink_count)
-+		status = connector_status_connected;
-+	else
-+		status = connector_status_disconnected;
-+
-+	DRM_DEV_DEBUG_DRIVER(&it6505->client->dev, "sink_count:%d status:%d",
-+			     it6505->dpcd_sink_count, status);
-+
-+	return status;
-+}
-+
-+static const struct drm_connector_funcs it6505_connector_funcs = {
-+	.fill_modes = drm_helper_probe_single_connector_modes,
-+	.detect = it6505_detect,
-+	.destroy = drm_connector_cleanup,
-+	.reset = drm_atomic_helper_connector_reset,
-+	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-+};
-+
-+static int it6505_extcon_notifier(struct notifier_block *self,
-+				  unsigned long event, void *ptr)
-+{
-+	struct it6505 *it6505 = container_of(self, struct it6505, event_nb);
-+
-+	schedule_work(&it6505->extcon_wq);
-+	return NOTIFY_DONE;
-+}
-+
-+static void it6505_extcon_work(struct work_struct *work)
-+{
-+	struct it6505 *it6505 = container_of(work, struct it6505, extcon_wq);
-+	int state = extcon_get_state(it6505->extcon, EXTCON_DISP_DP);
-+	unsigned int pwroffretry = 0;
-+	struct device *dev = &it6505->client->dev;
-+
-+	if (it6505->drv_hold)
-+		return;
-+	mutex_lock(&it6505->lock);
-+	DRM_DEV_DEBUG_DRIVER(dev, "EXTCON_DISP_DP = 0x%02x", state);
-+	if (state > 0) {
-+		DRM_DEV_DEBUG_DRIVER(dev, "start to power on");
-+		msleep(1000);
-+		it6505_poweron(it6505);
-+		if (!dptx_getsinkhpd(it6505))
-+			it6505_lane_off(it6505);
-+		it6505_aux_on(it6505);
-+	} else {
-+		if (it6505->en_pwronoff) {
-+			DRM_DEV_DEBUG_DRIVER(dev, "start to power off");
-+			while (it6505_poweroff(it6505) &&
-+			       pwroffretry++ < PWROFFRETRYTIME) {
-+				DRM_DEV_DEBUG_DRIVER(dev,
-+						     "power off fail %d times",
-+						     pwroffretry);
-+			}
-+			drm_helper_hpd_irq_event(it6505->connector.dev);
-+			DRM_DEV_DEBUG_DRIVER(dev, "power off it6505 success!");
-+		}
-+	}
-+	mutex_unlock(&it6505->lock);
-+}
-+
-+static int it6505_use_notifier_module(struct it6505 *it6505)
-+{
-+	int ret;
-+	struct device *dev = &it6505->client->dev;
-+
-+	it6505->event_nb.notifier_call = it6505_extcon_notifier;
-+	INIT_WORK(&it6505->extcon_wq, it6505_extcon_work);
-+	ret = devm_extcon_register_notifier(&it6505->client->dev,
-+					    it6505->extcon, EXTCON_DISP_DP,
-+					    &it6505->event_nb);
-+	if (ret) {
-+		DRM_DEV_ERROR(dev, "failed to register notifier for DP");
-+		return ret;
-+	}
-+	return 0;
-+}
-+
-+static int it6505_bridge_attach(struct drm_bridge *bridge)
-+{
-+	struct it6505 *it6505 = bridge_to_it6505(bridge);
-+	struct device *dev;
-+	int err;
-+
-+	dev = &it6505->client->dev;
-+	if (!bridge->encoder) {
-+		DRM_DEV_ERROR(dev, "Parent encoder object not found");
-+		return -ENODEV;
-+	}
-+
-+	err = drm_connector_init(bridge->dev, &it6505->connector,
-+				 &it6505_connector_funcs,
-+				 DRM_MODE_CONNECTOR_DisplayPort);
-+	if (err < 0) {
-+		DRM_DEV_ERROR(dev, "Failed to initialize connector: %d", err);
-+		return err;
-+	}
-+
-+	drm_connector_helper_add(&it6505->connector,
-+				 &it6505_connector_helper_funcs);
-+
-+	it6505->connector.polled = DRM_CONNECTOR_POLL_HPD;
-+
-+	err = drm_connector_attach_encoder(&it6505->connector, bridge->encoder);
-+	if (err < 0) {
-+		DRM_DEV_ERROR(dev, "Failed to link up connector to encoder: %d",
-+			      err);
-+		goto cleanup_connector;
-+	}
-+
-+	err = drm_connector_register(&it6505->connector);
-+	if (err < 0) {
-+		DRM_DEV_ERROR(dev, "Failed to register connector: %d", err);
-+		goto cleanup_connector;
-+	}
-+
-+	err = it6505_use_notifier_module(it6505);
-+	if (err < 0) {
-+		drm_connector_unregister(&it6505->connector);
-+		goto unregister_connector;
-+	}
-+	schedule_work(&it6505->extcon_wq);
-+
-+	return 0;
-+
-+unregister_connector:
-+	drm_connector_unregister(&it6505->connector);
-+cleanup_connector:
-+	drm_connector_cleanup(&it6505->connector);
-+	return err;
-+}
-+
-+static void it6505_bridge_detach(struct drm_bridge *bridge)
-+{
-+	struct it6505 *it6505 = bridge_to_it6505(bridge);
-+
-+	devm_extcon_unregister_notifier(&it6505->client->dev, it6505->extcon,
-+					EXTCON_DISP_DP, &it6505->event_nb);
-+	flush_work(&it6505->extcon_wq);
-+	drm_connector_unregister(&it6505->connector);
-+	drm_connector_cleanup(&it6505->connector);
-+}
-+
-+static enum drm_mode_status
-+it6505_bridge_mode_valid(struct drm_bridge *bridge,
-+			 const struct drm_display_mode *mode)
-+{
-+	struct it6505 *it6505 = bridge_to_it6505(bridge);
-+	struct drm_display_mode *vid = &it6505->vid_info;
-+
-+	if (mode->flags & DRM_MODE_FLAG_INTERLACE)
-+		return MODE_NO_INTERLACE;
-+
-+	/* Max 1200p at 5.4 Ghz, one lane */
-+	if (mode->clock > MAXPCLK)
-+		return MODE_CLOCK_HIGH;
-+	vid->clock = mode->clock;
-+
-+	return MODE_OK;
-+}
-+
-+static int it6505_send_video_infoframe(struct it6505 *it6505,
-+				       struct hdmi_avi_infoframe *frame)
-+{
-+	u8 buffer[HDMI_INFOFRAME_HEADER_SIZE + HDMI_AVI_INFOFRAME_SIZE];
-+	int err;
-+	struct device *dev = &it6505->client->dev;
-+
-+	err = hdmi_avi_infoframe_pack(frame, buffer, sizeof(buffer));
-+	if (err < 0) {
-+		DRM_DEV_ERROR(dev, "Failed to pack AVI infoframe: %d\n", err);
-+		return err;
-+	}
-+
-+	err = dptxset(it6505, 0xe8, 0x01, 0x00);
-+	if (err)
-+		return err;
-+
-+	err = regmap_bulk_write(it6505->regmap, 0xe9,
-+				buffer + HDMI_INFOFRAME_HEADER_SIZE,
-+				frame->length);
-+	if (err)
-+		return err;
-+
-+	err = dptxset(it6505, 0xe8, 0x01, 0x01);
-+	if (err)
-+		return err;
-+
-+	return 0;
-+}
-+
-+static void it6505_bridge_mode_set(struct drm_bridge *bridge,
-+				   const struct drm_display_mode *mode,
-+				   const struct drm_display_mode *adjusted_mode)
-+{
-+	struct it6505 *it6505 = bridge_to_it6505(bridge);
-+	struct hdmi_avi_infoframe frame;
-+	int err;
-+	struct device *dev = &it6505->client->dev;
-+
-+	mutex_lock(&it6505->mode_lock);
-+	err = drm_hdmi_avi_infoframe_from_display_mode(&frame,
-+						       &it6505->connector,
-+						       adjusted_mode);
-+	if (err) {
-+		DRM_DEV_ERROR(dev, "Failed to setup AVI infoframe: %d", err);
-+		goto unlock;
-+	}
-+
-+	strlcpy(it6505->vid_info.name, adjusted_mode->name,
-+		DRM_DISPLAY_MODE_LEN);
-+	it6505->vid_info.type = adjusted_mode->type;
-+	it6505->vid_info.flags = adjusted_mode->flags;
-+	err = it6505_send_video_infoframe(it6505, &frame);
-+	if (err)
-+		DRM_DEV_ERROR(dev, "Failed to send AVI infoframe: %d", err);
-+
-+unlock:
-+	mutex_unlock(&it6505->mode_lock);
-+}
-+
-+static bool it6505_audio_input(struct it6505 *it6505)
-+{
-+	unsigned int regbe;
-+
-+	dptxrd(it6505, 0xBE, &regbe);
-+	return regbe != 0xFF ? true : false;
-+}
-+
-+static void dptx_set_aud_fmt(struct it6505 *it6505)
-+{
-+	unsigned int audsrc;
-+
-+	/* I2S MODE */
-+	dptxwr(it6505, 0xB9,
-+	       (it6505->audwordlength << 5) | (it6505->i2s_data_seq << 4) |
-+		       (it6505->i2s_ws_channel << 3) |
-+		       (it6505->i2s_data_delay << 2) |
-+		       (it6505->i2s_justified << 1) | it6505->i2s_input_fmt);
-+	if (it6505->aud_sel == SPDIF) {
-+		dptxwr(it6505, 0xBA, 0x00);
-+		/* 0x30 = 128*FS */
-+		dptxset(it6505, 0x11, 0xF0, 0x30);
-+	} else {
-+		dptxwr(it6505, 0xBA, 0xe4);
-+	}
-+
-+	dptxwr(it6505, 0xBB, 0x20);
-+	dptxwr(it6505, 0xBC, 0x00);
-+	audsrc = 1;
-+
-+	if (it6505->aud_ch > 2)
-+		audsrc |= 2;
-+
-+	if (it6505->aud_ch > 4)
-+		audsrc |= 4;
-+
-+	if (it6505->aud_ch > 6)
-+		audsrc |= 8;
-+
-+	audsrc |= it6505->aud_sel << 4;
-+
-+	dptxwr(it6505, 0xB8, audsrc);
-+}
-+
-+static void dptx_set_aud_chsts(struct it6505 *it6505)
-+{
-+	enum it6505_aud_fs audfs = it6505->aud_fs;
-+
-+	/* Channel Status */
-+	dptxwr(it6505, 0xBF, it6505->aud_type << 1);
-+	dptxwr(it6505, 0xC0, 0x00);
-+	dptxwr(it6505, 0xC1, 0x00);
-+	dptxwr(it6505, 0xC2, audfs);
-+	switch (it6505->audwordlength) {
-+	case AUD16BIT:
-+		dptxwr(it6505, 0xC3, (~audfs << 4) + 0x02);
-+		break;
-+
-+	case AUD18BIT:
-+		dptxwr(it6505, 0xC3, (~audfs << 4) + 0x04);
-+		break;
-+
-+	case AUD20BIT:
-+		dptxwr(it6505, 0xC3, (~audfs << 4) + 0x03);
-+		break;
-+
-+	case AUD24BIT:
-+		dptxwr(it6505, 0xC3, (~audfs << 4) + 0x0B);
-+		break;
-+	}
-+}
-+
-+static void dptx_set_audio_infoframe(struct it6505 *it6505)
-+{
-+	struct device *dev = &it6505->client->dev;
-+
-+	dptxwr(it6505, 0xf7, it6505->aud_ch - 1);
-+	dptxset(it6505, 0xF8, 0x03, 0x00);
-+
-+	switch (it6505->aud_ch) {
-+	case 2:
-+		dptxwr(it6505, 0xF9, 0x00);
-+		break;
-+	case 3:
-+		dptxwr(it6505, 0xF9, 0x01);
-+		break;
-+	case 4:
-+		dptxwr(it6505, 0xF9, 0x03);
-+		break;
-+	case 5:
-+		dptxwr(it6505, 0xF9, 0x07);
-+		break;
-+	case 6:
-+		dptxwr(it6505, 0xF9, 0x0B);
-+		break;
-+	case 7:
-+		dptxwr(it6505, 0xF9, 0x0F);
-+		break;
-+	case 8:
-+		dptxwr(it6505, 0xF9, 0x1F);
-+		break;
-+	default:
-+		DRM_DEV_ERROR(dev, "audio channel number error: %u",
-+			      it6505->aud_ch);
-+	}
-+	/* Enable Audio InfoFrame */
-+	dptxset(it6505, 0xE8, 0x22, 0x22);
-+}
-+
-+static void it6505_set_audio(struct it6505 *it6505)
-+{
-+	struct device *dev = &it6505->client->dev;
-+	unsigned int regbe;
-+
-+	it6505_audio_disable(it6505);
-+	/* Audio Clock Domain Reset */
-+	dptxset(it6505, 0x05, 0x02, 0x02);
-+	/* Audio mute */
-+	dptxset(it6505, 0xD3, 0x20, 0x20);
-+	/* Release Audio Clock Domain Reset */
-+	dptxset(it6505, 0x05, 0x02, 0x00);
-+
-+	if (it6505_audio_input(it6505)) {
-+		dptxrd(it6505, 0xBE, &regbe);
-+		DRM_DEV_DEBUG_DRIVER(dev, "audio input fs: %d.%d kHz",
-+				     6750 / regbe, 67500 % regbe);
-+	} else {
-+		DRM_DEV_DEBUG_DRIVER(dev, "no audio input");
-+	}
-+
-+	dptx_set_aud_fmt(it6505);
-+	dptx_set_aud_chsts(it6505);
-+	dptx_set_audio_infoframe(it6505);
-+
-+	/* Enable Enhanced Audio TimeStmp Mode */
-+	dptxset(it6505, 0xD4, 0x04, 0x04);
-+	/* Disable Full Audio Packet */
-+	dptxset(it6505, 0xBB, 0x10, 0x00);
-+
-+	dptxwr(it6505, 0xDE, 0x00);
-+	dptxwr(it6505, 0xDF, 0x80);
-+	dptxwr(it6505, 0xE0, 0x00);
-+	dptxset(it6505, 0xB8, 0x80, 0x80);
-+	dptxset(it6505, 0xB8, 0x80, 0x00);
-+	dptxset(it6505, 0xD3, 0x20, 0x00);
-+}
-+
-+/*
-+ * DPCD Read and EDID
-+ */
-+
-+static int it6505_get_dpcd(struct it6505 *it6505, int offset, u8 *dpcd, int num)
-+{
-+	int i, ret;
-+	struct device *dev = &it6505->client->dev;
-+
-+	for (i = 0; i < num; i += 4) {
-+		ret = drm_dp_dpcd_read(&it6505->aux, offset + i, dpcd + i,
-+				       min(num - i, 4));
-+		if (ret < 0)
-+			return ret;
-+	}
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "DPCD[0x%x] = %*ph", offset, num, dpcd);
-+	return 0;
-+}
-+
-+static void it6505_parse_dpcd(struct it6505 *it6505)
-+{
-+	u8 dpcd[DP_RECEIVER_CAP_SIZE];
-+	struct device *dev = &it6505->client->dev;
-+	int bcaps;
-+	struct drm_dp_link *link = &it6505->link;
-+
-+	it6505_get_dpcd(it6505, DP_DPCD_REV, dpcd, ARRAY_SIZE(dpcd));
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "#########DPCD Rev.: %d.%d###########",
-+			     link->revision >> 4, link->revision & 0x0F);
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "Sink maximum link rate: %d.%d Gbps per lane",
-+			     link->rate / 100000, link->rate / 1000 % 100);
-+
-+	switch (link->rate) {
-+	case 162000:
-+		it6505->hbr =
-+		min3(MAX_LINK_RATE, TRAINING_LINK_RATE, RBR) ? true : false;
-+		if (it6505->hbr)
-+			DRM_DEV_DEBUG_DRIVER(
-+				dev, "Not support HBR Mode, will train RBR");
-+		else
-+			DRM_DEV_DEBUG_DRIVER(dev, "Training RBR");
-+		break;
-+
-+	case 270000:
-+		it6505->hbr =
-+		min3(MAX_LINK_RATE, TRAINING_LINK_RATE, HBR) ? true : false;
-+		if (!it6505->hbr)
-+			DRM_DEV_DEBUG_DRIVER(
-+				dev, "Support HBR mode, will train RBR");
-+		else
-+			DRM_DEV_DEBUG_DRIVER(dev, "Training HBR");
-+		break;
-+
-+	case 540000:
-+		it6505->hbr =
-+		min3(MAX_LINK_RATE, TRAINING_LINK_RATE, HBR2) ? true : false;
-+		if (it6505->hbr)
-+			DRM_DEV_DEBUG_DRIVER(
-+				dev, "Support HBR2 mode, will train HBR");
-+		else
-+			DRM_DEV_DEBUG_DRIVER(dev, "Training RBR");
-+		break;
-+
-+	case 810000:
-+		it6505->hbr =
-+		min3(MAX_LINK_RATE, TRAINING_LINK_RATE, HBR3) ? true : false;
-+		if (it6505->hbr)
-+			DRM_DEV_DEBUG_DRIVER(
-+				dev, "Support HBR3 mode, will train HBR");
-+		else
-+			DRM_DEV_DEBUG_DRIVER(dev, "Training RBR");
-+		break;
-+	default:
-+		DRM_DEV_ERROR(dev, "Unknown Maximum Link Rate: %u",
-+			      link->rate);
-+		break;
-+	}
-+
-+	if (link->num_lanes == 1 || link->num_lanes == 2 ||
-+	    link->num_lanes == 4) {
-+		DRM_DEV_DEBUG_DRIVER(
-+			dev, "Lane Count: %u lane", link->num_lanes);
-+		it6505->lane_count = min3(MAX_LANE_COUNT, TRAINING_LANE_COUNT,
-+					  (int)link->num_lanes);
-+		DRM_DEV_DEBUG_DRIVER(dev,
-+				     "Training %u lane", it6505->lane_count);
-+	} else {
-+		DRM_DEV_ERROR(dev, "Lane Count Error: %u", link->num_lanes);
-+	}
-+
-+	if (link->capabilities & DP_LINK_CAP_ENHANCED_FRAMING)
-+		DRM_DEV_DEBUG_DRIVER(dev, "Support Enhanced Framing");
-+	else
-+		DRM_DEV_DEBUG_DRIVER(dev,
-+				     "Can not support Enhanced Framing Mode");
-+
-+	if (dpcd[DP_MAX_DOWNSPREAD] & DP_MAX_DOWNSPREAD_0_5) {
-+		DRM_DEV_DEBUG_DRIVER(dev,
-+				     "Maximum Down-Spread: 0.5, support SSC!");
-+	} else {
-+		DRM_DEV_DEBUG_DRIVER(dev,
-+				     "Maximum Down-Spread: 0, No support SSC!");
-+		it6505->en_ssc = 0;
-+	}
-+
-+	if (link->revision >= 0x11 &&
-+	    dpcd[DP_MAX_DOWNSPREAD] & DP_NO_AUX_HANDSHAKE_LINK_TRAINING)
-+		DRM_DEV_DEBUG_DRIVER(dev, "Support No AUX Training");
-+	else
-+		DRM_DEV_DEBUG_DRIVER(dev, "Can not support No AUX Training");
-+
-+	bcaps = dptx_dpcdrd(it6505, DP_AUX_HDCP_BCAPS);
-+	if (bcaps & DP_BCAPS_HDCP_CAPABLE) {
-+		DRM_DEV_DEBUG_DRIVER(dev, "Sink support HDCP!");
-+		it6505->cp_capable = true;
-+		if (bcaps & DP_BCAPS_REPEATER_PRESENT) {
-+			DRM_DEV_DEBUG_DRIVER(dev, "Downstream is repeater!");
-+			it6505->downstream_repeater = true;
-+		} else {
-+			DRM_DEV_DEBUG_DRIVER(dev, "Downstream is receiver!");
-+			it6505->downstream_repeater = false;
-+		}
-+	} else {
-+		DRM_DEV_DEBUG_DRIVER(dev, "Sink not support HDCP!");
-+		it6505->cp_capable = false;
-+		it6505->en_hdcp = false;
-+	}
-+}
-+
-+static void it6505_enable_hdcp(struct it6505 *it6505)
-+{
-+	u8 bksvs[5], c;
-+	struct device *dev = &it6505->client->dev;
-+
-+	/* Disable CP_Desired */
-+	dptxset(it6505, 0x38, 0x0B, 0x00);
-+	dptxset(it6505, 0x05, 0x10, 0x10);
-+
-+	usleep_range(1000, 1500);
-+	c = dptx_dpcdrd(it6505, DP_AUX_HDCP_BCAPS);
-+	DRM_DEV_DEBUG_DRIVER(dev, "DPCD[0x68028]: 0x%x\n", c);
-+	if (!c)
-+		return;
-+
-+	dptxset(it6505, 0x05, 0x10, 0x00);
-+	/* Disable CP_Desired */
-+	dptxset(it6505, 0x38, 0x01, 0x00);
-+	/* Use R0' 100ms waiting */
-+	dptxset(it6505, 0x38, 0x08, 0x00);
-+	/* clear the repeater List Chk Done and fail bit */
-+	dptxset(it6505, 0x39, 0x30, 0x00);
-+
-+	it6505_get_dpcd(it6505, DP_AUX_HDCP_BKSV, bksvs, ARRAY_SIZE(bksvs));
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "Sink BKSV = %5ph", bksvs);
-+
-+	/* Select An Generator */
-+	dptxset(it6505, 0x3A, 0x01, 0x01);
-+	/* Enable An Generator */
-+	dptxset(it6505, 0x3A, 0x02, 0x02);
-+	/* delay1ms(10);*/
-+	usleep_range(10000, 15000);
-+	/* Stop An Generator */
-+	dptxset(it6505, 0x3A, 0x02, 0x00);
-+
-+	dptxset(it6505, 0x38, 0x01, 0x01);
-+	dptxset(it6505, 0x39, 0x01, 0x01);
-+}
-+
-+static void it6505_lanespeed_setup(struct it6505 *it6505)
-+{
-+	if (!it6505->hbr) {
-+		dptxset(it6505, 0x16, 0x01, 0x01);
-+		dptxset(it6505, 0x5C, 0x02, 0x00);
-+	} else {
-+		dptxset(it6505, 0x16, 0x01, 0x00);
-+		dptxset(it6505, 0x5C, 0x02, 0x02);
-+	}
-+}
-+
-+static void it6505_lane_swap(struct it6505 *it6505)
-+{
-+	int err;
-+	union extcon_property_value property;
-+	struct device *dev = &it6505->client->dev;
-+
-+	if (!it6505->laneswap_disabled) {
-+		err = extcon_get_property(it6505->extcon, EXTCON_DISP_DP,
-+					  EXTCON_PROP_USB_TYPEC_POLARITY,
-+					  &property);
-+		if (err) {
-+			DRM_DEV_ERROR(dev, "get property fail!");
-+			return;
-+		}
-+		it6505->laneswap = property.intval;
-+	}
-+
-+	dptxset(it6505, 0x16, 0x08, it6505->laneswap ? 0x08 : 0x00);
-+	dptxset(it6505, 0x16, 0x06, (it6505->lane_count - 1) << 1);
-+	DRM_DEV_DEBUG_DRIVER(dev, "it6505->laneswap = 0x%x", it6505->laneswap);
-+	it6505_lane_power_on(it6505);
-+	it6505_lane_termination_on(it6505);
-+}
-+
-+static void it6505_lane_config(struct it6505 *it6505)
-+{
-+	it6505_lanespeed_setup(it6505);
-+	it6505_lane_swap(it6505);
-+}
-+
-+static void it6505_set_ssc(struct it6505 *it6505)
-+{
-+	struct device *dev = &it6505->client->dev;
-+
-+	dptxset(it6505, 0x16, 0x10, it6505->en_ssc << 4);
-+	if (it6505->en_ssc) {
-+		DRM_DEV_DEBUG_DRIVER(dev, "Enable 27M 4463 PPM SSC");
-+		dptx_chgbank(it6505, 1);
-+		dptxwr(it6505, 0x88, 0x9e);
-+		dptxwr(it6505, 0x89, 0x1c);
-+		dptxwr(it6505, 0x8A, 0x42);
-+		dptx_chgbank(it6505, 0);
-+		dptxwr(it6505, 0x58, 0x07);
-+		dptxwr(it6505, 0x59, 0x29);
-+		dptxwr(it6505, 0x5A, 0x03);
-+		/* Stamp Interrupt Step */
-+		dptxset(it6505, 0xD4, 0x30, 0x10);
-+		dptx_dpcdwr(it6505, DP_DOWNSPREAD_CTRL, DP_SPREAD_AMP_0_5);
-+	} else {
-+		dptx_dpcdwr(it6505, DP_DOWNSPREAD_CTRL, 0x00);
-+		dptxset(it6505, 0xD4, 0x30, 0x00);
-+	}
-+}
-+
-+static void pclk_phase(struct it6505 *it6505)
-+{
-+	struct drm_display_mode *vid = &it6505->vid_info;
-+
-+	dptxset(it6505, 0x10, 0x03,
-+		vid->clock < ADJUST_PHASE_THRESHOLD ? PCLK_DELAY : 0);
-+	dptxset(it6505, 0x12, 0x10, PCLK_INV << 4);
-+}
-+
-+static void afe_driving_setting(struct it6505 *it6505)
-+{
-+	struct device *dev = &it6505->client->dev;
-+	unsigned int afe_setting;
-+
-+	afe_setting = AFE_SETTING;
-+	if (afe_setting >= ARRAY_SIZE(afe_setting_table)) {
-+		DRM_DEV_ERROR(dev, "afe setting value error and use default");
-+		afe_setting = 0;
-+	}
-+	if (afe_setting) {
-+		dptx_chgbank(it6505, 1);
-+		dptxwr(it6505, 0x7E, afe_setting_table[afe_setting][0]);
-+		dptxwr(it6505, 0x7F, afe_setting_table[afe_setting][1]);
-+		dptxwr(it6505, 0x81, afe_setting_table[afe_setting][2]);
-+		dptx_chgbank(it6505, 0);
-+	}
-+}
-+
-+static void dptx_output(struct it6505 *it6505)
-+{
-+	/* change bank 0 */
-+	dptx_chgbank(it6505, 0);
-+	dptxwr(it6505, 0x64, 0x10);
-+	dptxwr(it6505, 0x65, 0x80);
-+	dptxwr(it6505, 0x66, 0x10);
-+	dptxwr(it6505, 0x67, 0x4F);
-+	dptxwr(it6505, 0x68, 0x09);
-+	dptxwr(it6505, 0x69, 0xBA);
-+	dptxwr(it6505, 0x6A, 0x3B);
-+	dptxwr(it6505, 0x6B, 0x4B);
-+	dptxwr(it6505, 0x6C, 0x3E);
-+	dptxwr(it6505, 0x6D, 0x4F);
-+	dptxwr(it6505, 0x6E, 0x09);
-+	dptxwr(it6505, 0x6F, 0x56);
-+	dptxwr(it6505, 0x70, 0x0E);
-+	dptxwr(it6505, 0x71, 0x00);
-+	dptxwr(it6505, 0x72, 0x00);
-+	dptxwr(it6505, 0x73, 0x4F);
-+	dptxwr(it6505, 0x74, 0x09);
-+	dptxwr(it6505, 0x75, 0x00);
-+	dptxwr(it6505, 0x76, 0x00);
-+	dptxwr(it6505, 0x77, 0xE7);
-+	dptxwr(it6505, 0x78, 0x10);
-+	dptxwr(it6505, 0xE8, 0x00);
-+	dptxset(it6505, 0xCE, 0x70, 0x60);
-+	dptxwr(it6505, 0xCA, 0x4D);
-+	dptxwr(it6505, 0xC9, 0xF5);
-+	dptxwr(it6505, 0x5C, 0x02);
-+
-+	drm_dp_link_power_up(&it6505->aux, &it6505->link);
-+	dptxset(it6505, 0x59, 0x01, 0x01);
-+	dptxset(it6505, 0x5A, 0x05, 0x01);
-+	dptxwr(it6505, 0x12, 0x01);
-+	dptxwr(it6505, 0xCB, 0x17);
-+	dptxwr(it6505, 0x11, 0x09);
-+	dptxwr(it6505, 0x20, 0x28);
-+	dptxset(it6505, 0x23, 0x30, 0x00);
-+	dptxset(it6505, 0x3A, 0x04, 0x04);
-+	dptxset(it6505, 0x15, 0x01, 0x01);
-+	dptxwr(it6505, 0x0C, 0x08);
-+
-+	dptxset(it6505, 0x5F, 0x20, 0x00);
-+	it6505_lane_config(it6505);
-+
-+	it6505_set_ssc(it6505);
-+
-+	if (it6505->link.capabilities & DP_LINK_CAP_ENHANCED_FRAMING) {
-+		dptxwr(it6505, 0xD3, 0x33);
-+		dptx_dpcdwr(it6505, DP_LANE_COUNT_SET,
-+			    DP_LANE_COUNT_ENHANCED_FRAME_EN);
-+	} else {
-+		dptxwr(it6505, 0xD3, 0x32);
-+	}
-+
-+	dptxset(it6505, 0x15, 0x02, 0x02);
-+	dptxset(it6505, 0x15, 0x02, 0x00);
-+	dptxset(it6505, 0x05, 0x03, 0x02);
-+	dptxset(it6505, 0x05, 0x03, 0x00);
-+
-+	/* reg60[2] = InDDR */
-+	dptxwr(it6505, 0x60, 0x44);
-+	/* M444B24 format */
-+	dptxwr(it6505, 0x62, 0x01);
-+	/* select RGB Bypass CSC */
-+	dptxwr(it6505, 0x63, 0x00);
-+
-+	pclk_phase(it6505);
-+	dptxset(it6505, 0x61, 0x01, 0x01);
-+	dptxwr(it6505, 0x06, 0xFF);
-+	dptxwr(it6505, 0x07, 0xFF);
-+	dptxwr(it6505, 0x08, 0xFF);
-+
-+	dptxset(it6505, 0xd3, 0x30, 0x00);
-+	dptxset(it6505, 0xd4, 0x41, 0x41);
-+	dptxset(it6505, 0xe8, 0x11, 0x11);
-+
-+	afe_driving_setting(it6505);
-+	dptxwr(it6505, 0x17, 0x04);
-+	dptxwr(it6505, 0x17, 0x01);
-+}
-+
-+static void dptx_process_sys_wait(struct it6505 *it6505)
-+{
-+	int reg0e;
-+	struct device *dev = &it6505->client->dev;
-+
-+	dptxrd(it6505, 0x0E, &reg0e);
-+	DRM_DEV_DEBUG_DRIVER(dev, "SYS_WAIT state reg0e=0x%02x", reg0e);
-+	dptx_debug_print(it6505, 0x9F, "");
-+
-+	if (reg0e & BIT(4)) {
-+		DRM_DEV_DEBUG_DRIVER(dev, "Auto Link Training Success...");
-+		DRM_DEV_DEBUG_DRIVER(dev, "Link State: 0x%x", reg0e & 0x1F);
-+		if (it6505_audio_input(it6505)) {
-+			DRM_DEV_DEBUG_DRIVER(dev, "Enable audio!");
-+			it6505_set_audio(it6505);
-+		}
-+
-+		if (it6505->hdcp_flag) {
-+			DRM_DEV_DEBUG_DRIVER(dev, "Enable HDCP");
-+			dptx_sys_chg(it6505, SYS_ReHDCP);
-+		} else {
-+			DRM_DEV_DEBUG_DRIVER(dev, "Disable HDCP");
-+			dptx_sys_chg(it6505, SYS_NOROP);
-+		}
-+	} else {
-+		DRM_DEV_DEBUG_DRIVER(dev, "Auto Link Training fail step %d",
-+				     it6505->cntfsm);
-+		dptx_debug_print(it6505, 0x0D, "system status");
-+		if (it6505->cntfsm > 0) {
-+			it6505->cntfsm--;
-+			dptx_sys_chg(it6505, SYS_AUTOTRAIN);
-+		} else {
-+			DRM_DEV_DEBUG_DRIVER(dev, "Auto Training Fail %d times",
-+					     TRAINFAILCNT);
-+			DRM_DEV_DEBUG_DRIVER(dev, "Sys change to SYS_HPD");
-+			dptx_dpcdwr(it6505, DP_TRAINING_PATTERN_SET, 0x00);
-+			if (it6505->train_fail_hpd > 0) {
-+				it6505->train_fail_hpd--;
-+				dptx_sys_chg(it6505, SYS_HPD);
-+			} else {
-+				dptx_sys_chg(it6505, SYS_TRAINFAIL);
-+			}
-+		}
-+	}
-+}
-+
-+static void dptx_sys_fsm(struct it6505 *it6505)
-+{
-+	unsigned int i;
-+	int reg0e;
-+	struct device *dev = &it6505->client->dev;
-+
-+	if (it6505->status != SYS_UNPLUG && !dptx_getsinkhpd(it6505))
-+		dptx_sys_chg(it6505, SYS_UNPLUG);
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "state: %s", state_string[it6505->status]);
-+	switch (it6505->status) {
-+	case SYS_UNPLUG:
-+		drm_helper_hpd_irq_event(it6505->connector.dev);
-+		break;
-+
-+	case SYS_HPD:
-+		dptx_debug_print(it6505, 0x9F, "aux status");
-+		drm_dp_link_probe(&it6505->aux, &it6505->link);
-+		drm_dp_link_power_up(&it6505->aux, &it6505->link);
-+		dpcd_debug_print(it6505, DP_SET_POWER, "");
-+		it6505->dpcd_sink_count
-+			= dptx_dpcdrd(it6505, DP_SINK_COUNT);
-+		it6505->dpcd_sink_count &= 0x3F;
-+		DRM_DEV_DEBUG_DRIVER(dev, "sink_count:%d",
-+				     it6505->dpcd_sink_count);
-+		drm_helper_hpd_irq_event(it6505->connector.dev);
-+
-+		if (it6505->dpcd_sink_count) {
-+			for (i = 0; i < 4000; i++) {
-+				usleep_range(1000, 2000);
-+				if (it6505->edid)
-+					break;
-+			}
-+		}
-+
-+		it6505_init_fsm(it6505);
-+		/* GETDPCD */
-+		it6505_parse_dpcd(it6505);
-+
-+		/*
-+		 * training fail TRAINFAILCNT times,
-+		 * then change to HPD to restart
-+		 */
-+		it6505->cntfsm = TRAINFAILCNT;
-+		DRM_DEV_DEBUG_DRIVER(dev, "will Train %s, %d lanes",
-+				     it6505->hbr ? "HBR" : "RBR",
-+				     it6505->lane_count);
-+		dptx_sys_chg(it6505, SYS_AUTOTRAIN);
-+		break;
-+
-+	case SYS_AUTOTRAIN:
-+		it6505_disable_hdcp(it6505);
-+		dptx_output(it6505);
-+
-+		/*
-+		 * waiting for training down flag
-+		 * because we don't know
-+		 * how long this step will be completed
-+		 * so use step 1ms to wait
-+		 */
-+		for (i = 0; i < FLAGTRAINDOWN; i++) {
-+			usleep_range(1000, 2000);
-+			dptxrd(it6505, 0x0E, &reg0e);
-+			if (reg0e & BIT(4))
-+				break;
-+		}
-+
-+		dptx_sys_chg(it6505, SYS_WAIT);
-+		break;
-+
-+	case SYS_WAIT:
-+		dptx_process_sys_wait(it6505);
-+		break;
-+
-+	case SYS_ReHDCP:
-+		msleep(2400);
-+		dptx_debug_print(it6505, 0x3B, "ar0_low");
-+		dptx_debug_print(it6505, 0x3C, "ar0_high");
-+		dptx_debug_print(it6505, 0x45, "br0_low");
-+		dptx_debug_print(it6505, 0x46, "br0_high");
-+		it6505_enable_hdcp(it6505);
-+		DRM_DEV_DEBUG_DRIVER(dev, "SYS_ReHDCP end");
-+		break;
-+
-+	case SYS_NOROP:
-+		break;
-+
-+	case SYS_TRAINFAIL:
-+		break;
-+
-+	default:
-+		DRM_DEV_ERROR(dev, "sys_state change to unknown_state: %d",
-+			      it6505->status);
-+		break;
-+	}
-+}
-+
-+static int sha1_digest(struct it6505 *it6505, u8 *sha1_input, unsigned int size,
-+		       u8 *output_av)
-+{
-+	struct shash_desc *desc;
-+	struct crypto_shash *tfm;
-+	int err;
-+	struct device *dev = &it6505->client->dev;
-+
-+	tfm = crypto_alloc_shash("sha1", 0, 0);
-+	if (IS_ERR(tfm)) {
-+		DRM_DEV_ERROR(dev, "crypto_alloc_shash sha1 failed");
-+		return PTR_ERR(tfm);
-+	}
-+	desc = kzalloc(sizeof(*desc) + crypto_shash_descsize(tfm), GFP_KERNEL);
-+	if (!desc) {
-+		crypto_free_shash(tfm);
-+		return -ENOMEM;
-+	}
-+
-+	desc->tfm = tfm;
-+	err = crypto_shash_digest(desc, sha1_input, size, output_av);
-+	if (err)
-+		DRM_DEV_ERROR(dev, "crypto_shash_digest sha1 failed");
-+
-+	crypto_free_shash(tfm);
-+	kfree(desc);
-+	return err;
-+}
-+
-+static int it6505_makeup_sha1_input(struct it6505 *it6505)
-+{
-+	int msgcnt = 0, i;
-+	unsigned int value;
-+	u8 am0[8], binfo[2];
-+	struct device *dev = &it6505->client->dev;
-+
-+	dptxset(it6505, 0x3A, 0x20, 0x20);
-+	for (i = 0; i < 8; i++) {
-+		dptxrd(it6505, 0x4C + i, &value);
-+		am0[i] = value;
-+	}
-+	DRM_DEV_DEBUG_DRIVER(dev, "read am0 = %8ph", am0);
-+	dptxset(it6505, 0x3A, 0x20, 0x00);
-+
-+	it6505_get_dpcd(it6505, DP_AUX_HDCP_BINFO, binfo, ARRAY_SIZE(binfo));
-+	DRM_DEV_DEBUG_DRIVER(dev, "Attached devices: %02x", binfo[0] & 0x7F);
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "%s 127 devices are attached",
-+			     (binfo[0] & BIT(7)) ? "over" : "under");
-+	DRM_DEV_DEBUG_DRIVER(dev, "depth, attached levels: %02x",
-+			     binfo[1] & 0x07);
-+	DRM_DEV_DEBUG_DRIVER(dev, "%s than seven levels cascaded",
-+			     (binfo[1] & BIT(3)) ? "more" : "less");
-+
-+	for (i = 0; i < (binfo[0] & 0x7F); i++) {
-+		it6505_get_dpcd(it6505, DP_AUX_HDCP_KSV_FIFO + (i % 3) * 5,
-+				it6505->shainput + msgcnt, 5);
-+		msgcnt += 5;
-+
-+		DRM_DEV_DEBUG_DRIVER(dev, "KSV List %d device : %5ph", i,
-+				     it6505->shainput + i * 5);
-+	}
-+	it6505->shainput[msgcnt++] = binfo[0];
-+	it6505->shainput[msgcnt++] = binfo[1];
-+	for (i = 0; i < 8; i++)
-+		it6505->shainput[msgcnt++] = am0[i];
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "SHA Message Count = %d", msgcnt);
-+	return msgcnt;
-+}
-+
-+static void it6505_check_sha1_result(struct it6505 *it6505)
-+{
-+	unsigned int i, shapass;
-+	struct device *dev = &it6505->client->dev;
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "SHA calculate complete");
-+	for (i = 0; i < 5; i++)
-+		DRM_DEV_DEBUG_DRIVER(dev, "av %d: %4ph", i, it6505->av[i]);
-+
-+	shapass = 1;
-+	for (i = 0; i < 5; i++) {
-+		it6505_get_dpcd(it6505, DP_AUX_HDCP_V_PRIME(i), it6505->bv[i],
-+				4);
-+		DRM_DEV_DEBUG_DRIVER(dev, "bv %d: %4ph", i, it6505->bv[i]);
-+		if ((it6505->bv[i][3] != it6505->av[i][0]) ||
-+		    (it6505->bv[i][2] != it6505->av[i][1]) ||
-+		    (it6505->bv[i][1] != it6505->av[i][2]) ||
-+		    (it6505->bv[i][0] != it6505->av[i][3])) {
-+			shapass = 0;
-+		}
-+	}
-+	if (shapass) {
-+		DRM_DEV_DEBUG_DRIVER(dev, "SHA check result pass!");
-+		dptxset(it6505, 0x39, BIT(4), BIT(4));
-+	} else {
-+		DRM_DEV_DEBUG_DRIVER(dev, "SHA check result fail");
-+		dptxset(it6505, 0x39, BIT(5), BIT(5));
-+	}
-+}
-+
-+static void to_fsm_status(struct it6505 *it6505, enum sys_status status)
-+{
-+	while (it6505->status != status && it6505->status != SYS_TRAINFAIL) {
-+		dptx_sys_fsm(it6505);
-+		if (it6505->status == SYS_UNPLUG)
-+			return;
-+	}
-+}
-+
-+static void go_on_fsm(struct it6505 *it6505);
-+
-+static u8 dp_link_status(const u8 link_status[DP_LINK_STATUS_SIZE], int r)
-+{
-+	return link_status[r - DP_LANE0_1_STATUS];
-+}
-+
-+static void hpd_irq(struct it6505 *it6505)
-+{
-+	u8 dpcd_sink_count, dpcd_irq_vector;
-+	u8 link_status[DP_LINK_STATUS_SIZE];
-+	unsigned int bstatus;
-+	struct device *dev = &it6505->client->dev;
-+
-+	dpcd_sink_count = dptx_dpcdrd(it6505, DP_SINK_COUNT);
-+	dpcd_irq_vector = dptx_dpcdrd(it6505, DP_DEVICE_SERVICE_IRQ_VECTOR);
-+	drm_dp_dpcd_read_link_status(&it6505->aux, link_status);
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "dpcd_sink_count = 0x%x", dpcd_sink_count);
-+	DRM_DEV_DEBUG_DRIVER(dev, "dpcd_irq_vector = 0x%x", dpcd_irq_vector);
-+	DRM_DEV_DEBUG_DRIVER(dev, "link_status = %*ph",
-+			     (int)ARRAY_SIZE(link_status), link_status);
-+	DRM_DEV_DEBUG_DRIVER(dev, "dpcd_sink_count:%d",
-+			     it6505->dpcd_sink_count);
-+	if (!it6505->dpcd_sink_count) {
-+		it6505_init_and_mask_on(it6505);
-+		return;
-+	}
-+
-+	if (dpcd_irq_vector & DP_CP_IRQ) {
-+		bstatus = dptx_dpcdrd(it6505, DP_AUX_HDCP_BSTATUS);
-+		dptxset(it6505, 0x39, 0x02, 0x02);
-+		DRM_DEV_DEBUG_DRIVER(dev, "Receive CP_IRQ, bstatus = 0x%02x",
-+				     bstatus);
-+		dptx_debug_print(it6505, 0x55, "");
-+
-+		if (bstatus & DP_BSTATUS_READY)
-+			DRM_DEV_DEBUG_DRIVER(dev, "HDCP KSV list ready");
-+
-+		if (bstatus & DP_BSTATUS_LINK_FAILURE) {
-+			DRM_DEV_DEBUG_DRIVER(
-+				dev, "Link Integrity Fail, restart HDCP");
-+			return;
-+		}
-+		if (bstatus & DP_BSTATUS_R0_PRIME_READY)
-+			DRM_DEV_DEBUG_DRIVER(dev, "HDCP R0' ready");
-+	}
-+
-+	if (dp_link_status(link_status, DP_LANE_ALIGN_STATUS_UPDATED) &
-+	    DP_LINK_STATUS_UPDATED) {
-+		if (!drm_dp_channel_eq_ok(link_status,
-+					  it6505->lane_count)) {
-+			DRM_DEV_DEBUG_DRIVER(dev, "Link Re-Training");
-+			dptxset(it6505, 0xD3, 0x30, 0x30);
-+			dptxset(it6505, 0xE8, 0x33, 0x00);
-+			msleep(500);
-+			dptx_sys_chg(it6505, SYS_HPD);
-+			go_on_fsm(it6505);
-+		}
-+	}
-+}
-+
-+static void go_on_fsm(struct it6505 *it6505)
-+{
-+	struct device *dev = &it6505->client->dev;
-+
-+	if (it6505->dpcd_sink_count && it6505->cp_capable) {
-+		DRM_DEV_DEBUG_DRIVER(dev, "Support HDCP, cp_capable: %d",
-+				     it6505->cp_capable);
-+		if (it6505->en_hdcp) {
-+			DRM_DEV_DEBUG_DRIVER(dev, "Enable HDCP");
-+			it6505->hdcp_flag = true;
-+			to_fsm_status(it6505, SYS_ReHDCP);
-+			dptx_sys_fsm(it6505);
-+
-+		} else {
-+			DRM_DEV_DEBUG_DRIVER(dev, "Disable HDCP");
-+			it6505->hdcp_flag = false;
-+			to_fsm_status(it6505, SYS_NOROP);
-+		}
-+	} else {
-+		DRM_DEV_DEBUG_DRIVER(dev, "Not support HDCP");
-+		it6505->hdcp_flag = false;
-+		to_fsm_status(it6505, SYS_NOROP);
-+	}
-+}
-+
-+static void it6505_check_reg06(struct it6505 *it6505, unsigned int reg06)
-+{
-+	unsigned int rddata;
-+	struct device *dev = &it6505->client->dev;
-+
-+	if (reg06 & BIT(0)) {
-+		/* hpd pin status change */
-+		DRM_DEV_DEBUG_DRIVER(dev, "HPD Change Interrupt");
-+		if (dptx_getsinkhpd(it6505)) {
-+			dptx_sys_chg(it6505, SYS_HPD);
-+			dptx_sys_fsm(it6505);
-+
-+			if (it6505->edid) {
-+				dptxrd(it6505, 0x0D, &rddata);
-+				if (rddata & BIT(2)) {
-+					go_on_fsm(it6505);
-+				} else {
-+					dptxwr(it6505, 0x05, 0x00);
-+					dptxset(it6505, 0x61, 0x02, 0x02);
-+					dptxset(it6505, 0x61, 0x02, 0x00);
-+				}
-+			} else {
-+				go_on_fsm(it6505);
-+			}
-+		} else {
-+			dptx_sys_chg(it6505, SYS_UNPLUG);
-+			dptx_sys_fsm(it6505);
-+			return;
-+		}
-+	}
-+
-+	if (it6505->cp_capable) {
-+		if (reg06 & BIT(4)) {
-+			DRM_DEV_DEBUG_DRIVER(dev,
-+					     "HDCP encryption Done Interrupt");
-+			dptx_sys_chg(it6505, SYS_NOROP);
-+		}
-+
-+		if (reg06 & BIT(3)) {
-+			DRM_DEV_DEBUG_DRIVER(
-+				dev, "HDCP encryption Fail Interrupt, retry");
-+			it6505_init_and_mask_on(it6505);
-+		}
-+	}
-+
-+	if (reg06 & BIT(1)) {
-+		DRM_DEV_DEBUG_DRIVER(dev, "HPD IRQ Interrupt");
-+		hpd_irq(it6505);
-+	}
-+
-+	if (reg06 & BIT(2)) {
-+		dptxrd(it6505, 0x0D, &rddata);
-+
-+		if (rddata & BIT(2)) {
-+			DRM_DEV_DEBUG_DRIVER(dev, "Video Stable On Interrupt");
-+			dptx_sys_chg(it6505, SYS_AUTOTRAIN);
-+			go_on_fsm(it6505);
-+		} else {
-+			DRM_DEV_DEBUG_DRIVER(dev, "Video Stable Off Interrupt");
-+		}
-+	}
-+}
-+
-+static void it6505_check_reg07(struct it6505 *it6505, unsigned int reg07)
-+{
-+	struct device *dev = &it6505->client->dev;
-+	unsigned int len, i;
-+	unsigned int bstatus;
-+
-+	if (it6505->status == SYS_UNPLUG)
-+		return;
-+	if (reg07 & BIT(0)) {
-+		DRM_DEV_DEBUG_DRIVER(dev, "AUX PC Request Fail Interrupt");
-+		dptx_debug_print(it6505, 0x9F, "AUX status:");
-+	}
-+
-+	if (reg07 & BIT(1)) {
-+		DRM_DEV_DEBUG_DRIVER(dev, "HDCP event Interrupt");
-+		for (i = 0; i < POLLINGKSVLIST; i++) {
-+			bstatus = dptx_dpcdrd(it6505, DP_AUX_HDCP_BSTATUS);
-+			usleep_range(2000, 3000);
-+			if (bstatus & DP_BSTATUS_READY)
-+				break;
-+		}
-+
-+		/*
-+		 * Read Bstatus to determine what happened
-+		 */
-+		DRM_DEV_DEBUG_DRIVER(dev, "Bstatus: 0x%02x", bstatus);
-+		dptx_debug_print(it6505, 0x3B, "ar0_low");
-+		dptx_debug_print(it6505, 0x3C, "ar0_high");
-+		dptx_debug_print(it6505, 0x45, "br0_low");
-+		dptx_debug_print(it6505, 0x46, "br0_high");
-+
-+		if (bstatus & DP_BSTATUS_READY) {
-+			DRM_DEV_DEBUG_DRIVER(dev, "HDCP KSV list ready");
-+			len = it6505_makeup_sha1_input(it6505);
-+			sha1_digest(it6505, it6505->shainput, len,
-+				    (u8 *)it6505->av);
-+			it6505_check_sha1_result(it6505);
-+		}
-+	}
-+	if (it6505->en_audio && (reg07 & BIT(2))) {
-+		DRM_DEV_DEBUG_DRIVER(dev, "Audio FIFO OverFlow Interrupt");
-+		dptx_debug_print(it6505, 0xBE, "");
-+		dptxset(it6505, 0xD3, 0x20, 0x20);
-+		dptxset(it6505, 0xE8, 0x22, 0x00);
-+		dptxset(it6505, 0xB8, 0x80, 0x80);
-+		dptxset(it6505, 0xB8, 0x80, 0x00);
-+		it6505_set_audio(it6505);
-+	}
-+	if (it6505->en_audio && (reg07 & BIT(5)))
-+		DRM_DEV_DEBUG_DRIVER(dev, "Audio infoframe packet done");
-+}
-+
-+static void it6505_check_reg08(struct it6505 *it6505, unsigned int reg08)
-+{
-+	struct device *dev = &it6505->client->dev;
-+
-+	if (it6505->status == SYS_UNPLUG)
-+		return;
-+	if (it6505->en_audio && (reg08 & BIT(1)))
-+		DRM_DEV_DEBUG_DRIVER(dev, "Audio TimeStamp Packet Done!");
-+
-+	if (it6505->en_audio && (reg08 & BIT(3))) {
-+		DRM_DEV_DEBUG_DRIVER(dev, "Audio M Error Interrupt ...");
-+		show_aud_mcnt(it6505);
-+	}
-+	if (reg08 & BIT(4)) {
-+		DRM_DEV_DEBUG_DRIVER(dev, "Link Training Fail Interrupt");
-+		/* restart training */
-+		dptx_sys_chg(it6505, SYS_AUTOTRAIN);
-+		go_on_fsm(it6505);
-+	}
-+
-+	if (reg08 & BIT(7)) {
-+		DRM_DEV_DEBUG_DRIVER(dev, "IO Latch FIFO OverFlow Interrupt");
-+		dptxset(it6505, 0x61, 0x02, 0x02);
-+		dptxset(it6505, 0x61, 0x02, 0x00);
-+	}
-+}
-+
-+static void it6505_dptx_irq(struct it6505 *it6505)
-+{
-+	unsigned int reg06, reg07, reg08, reg0d;
-+	struct device *dev = &it6505->client->dev;
-+
-+	dptxrd(it6505, 0x06, &reg06);
-+	dptxrd(it6505, 0x07, &reg07);
-+	dptxrd(it6505, 0x08, &reg08);
-+	dptxrd(it6505, 0x0D, &reg0d);
-+
-+	dptxwr(it6505, 0x06, reg06);
-+	dptxwr(it6505, 0x07, reg07);
-+	dptxwr(it6505, 0x08, reg08);
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "reg06 = 0x%02x", reg06);
-+	DRM_DEV_DEBUG_DRIVER(dev, "reg07 = 0x%02x", reg07);
-+	DRM_DEV_DEBUG_DRIVER(dev, "reg08 = 0x%02x", reg08);
-+	DRM_DEV_DEBUG_DRIVER(dev, "reg0d = 0x%02x", reg0d);
-+
-+	if (reg06 != 0)
-+		it6505_check_reg06(it6505, reg06);
-+
-+	if (reg07 != 0)
-+		it6505_check_reg07(it6505, reg07);
-+
-+	if (reg08 != 0)
-+		it6505_check_reg08(it6505, reg08);
-+}
-+
-+static void it6505_bridge_enable(struct drm_bridge *bridge)
-+{
-+	struct it6505 *it6505 = bridge_to_it6505(bridge);
-+
-+	if (!it6505->drv_hold) {
-+		it6505_int_mask_on(it6505);
-+		dptx_sys_chg(it6505, SYS_HPD);
-+	}
-+}
-+
-+static void it6505_bridge_disable(struct drm_bridge *bridge)
-+{
-+	struct it6505 *it6505 = bridge_to_it6505(bridge);
-+
-+	dptx_sys_chg(it6505, SYS_UNPLUG);
-+}
-+
-+static const struct drm_bridge_funcs it6505_bridge_funcs = {
-+	.attach = it6505_bridge_attach,
-+	.detach = it6505_bridge_detach,
-+	.mode_valid = it6505_bridge_mode_valid,
-+	.mode_set = it6505_bridge_mode_set,
-+	.enable = it6505_bridge_enable,
-+	.disable = it6505_bridge_disable,
-+};
-+
-+static void it6505_clear_int(struct it6505 *it6505)
-+{
-+	dptxwr(it6505, 0x06, 0xFF);
-+	dptxwr(it6505, 0x07, 0xFF);
-+	dptxwr(it6505, 0x08, 0xFF);
-+}
-+
-+static irqreturn_t it6505_intp_threaded_handler(int unused, void *data)
-+{
-+	struct it6505 *it6505 = data;
-+	struct device *dev = &it6505->client->dev;
-+
-+	msleep(150);
-+	mutex_lock(&it6505->lock);
-+
-+	if (it6505->drv_hold == 0 && it6505->powered) {
-+		DRM_DEV_DEBUG_DRIVER(dev, "into it6505_dptx_irq");
-+		it6505_dptx_irq(it6505);
-+	}
-+
-+	mutex_unlock(&it6505->lock);
-+	return IRQ_HANDLED;
-+}
-+
-+static int it6505_init_pdata(struct it6505 *it6505)
-+{
-+	struct it6505_platform_data *pdata = &it6505->pdata;
-+	struct device *dev = &it6505->client->dev;
-+
-+	/* 1.0V digital core power regulator  */
-+	pdata->pwr18 = devm_regulator_get(dev, "pwr18");
-+	if (IS_ERR(pdata->pwr18)) {
-+		DRM_DEV_ERROR(dev, "pwr18 regulator not found");
-+		return PTR_ERR(pdata->pwr18);
-+	}
-+
-+	pdata->ovdd = devm_regulator_get(dev, "ovdd");
-+	if (IS_ERR(pdata->ovdd)) {
-+		DRM_DEV_ERROR(dev, "ovdd regulator not found");
-+		return PTR_ERR(pdata->ovdd);
-+	}
-+
-+	/* GPIO for HPD */
-+	pdata->gpiod_hpd = devm_gpiod_get(dev, "hpd", GPIOD_IN);
-+	if (IS_ERR(pdata->gpiod_hpd))
-+		return PTR_ERR(pdata->gpiod_hpd);
-+
-+	/* GPIO for chip reset */
-+	pdata->gpiod_reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-+
-+	return PTR_ERR_OR_ZERO(pdata->gpiod_reset);
-+}
-+
-+static ssize_t drv_hold_show(struct device *dev, struct device_attribute *attr,
-+			     char *buf)
-+{
-+	struct it6505 *it6505 = dev_get_drvdata(dev);
-+
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", it6505->drv_hold);
-+}
-+
-+static ssize_t drv_hold_store(struct device *dev, struct device_attribute *attr,
-+			      const char *buf, size_t count)
-+{
-+	struct it6505 *it6505 = dev_get_drvdata(dev);
-+
-+	if (kstrtoint(buf, 10, &it6505->drv_hold) < 0)
-+		return -EINVAL;
-+
-+	if (it6505->drv_hold) {
-+		it6505_int_mask_off(it6505);
-+	} else {
-+		it6505_clear_int(it6505);
-+		it6505_int_mask_on(it6505);
-+	}
-+	return count;
-+}
-+
-+static ssize_t print_timing_show(struct device *dev,
-+				 struct device_attribute *attr, char *buf)
-+{
-+	struct it6505 *it6505 = dev_get_drvdata(dev);
-+	struct drm_display_mode *vid = &it6505->vid_info;
-+	char *str = buf, *end = buf + PAGE_SIZE;
-+
-+	str += scnprintf(str, end - str, "---video timing---\n");
-+	str += scnprintf(str, end - str, "PCLK:%d.%03dMHz\n", vid->clock / 1000,
-+			 vid->clock % 1000);
-+	str += scnprintf(str, end - str, "HTotal:%d\n", vid->htotal);
-+	str += scnprintf(str, end - str, "HActive:%d\n", vid->hdisplay);
-+	str += scnprintf(str, end - str, "HFrontPorch:%d\n",
-+			 vid->hsync_start - vid->hdisplay);
-+	str += scnprintf(str, end - str, "HSyncWidth:%d\n",
-+			 vid->hsync_end - vid->hsync_start);
-+	str += scnprintf(str, end - str, "HBackPorch:%d\n",
-+			 vid->htotal - vid->hsync_end);
-+	str += scnprintf(str, end - str, "VTotal:%d\n", vid->vtotal);
-+	str += scnprintf(str, end - str, "VActive:%d\n", vid->vdisplay);
-+	str += scnprintf(str, end - str, "VFrontPorch:%d\n",
-+			 vid->vsync_start - vid->vdisplay);
-+	str += scnprintf(str, end - str, "VSyncWidth:%d\n",
-+			 vid->vsync_end - vid->vsync_start);
-+	str += scnprintf(str, end - str, "VBackPorch:%d\n",
-+			 vid->vtotal - vid->vsync_end);
-+
-+	return str - buf;
-+}
-+
-+static ssize_t sha_debug_show(struct device *dev, struct device_attribute *attr,
-+			      char *buf)
-+{
-+	int i = 0;
-+	char *str = buf, *end = buf + PAGE_SIZE;
-+	struct it6505 *it6505 = dev_get_drvdata(dev);
-+
-+	str += scnprintf(str, end - str, "sha input:\n");
-+	for (i = 0; i < ARRAY_SIZE(it6505->shainput); i += 16)
-+		str += scnprintf(str, end - str, "%16ph\n",
-+				 it6505->shainput + i);
-+
-+	str += scnprintf(str, end - str, "av:\n");
-+	for (i = 0; i < ARRAY_SIZE(it6505->av); i++)
-+		str += scnprintf(str, end - str, "%4ph\n", it6505->av[i]);
-+
-+	str += scnprintf(str, end - str, "bv:\n");
-+	for (i = 0; i < ARRAY_SIZE(it6505->bv); i++)
-+		str += scnprintf(str, end - str, "%4ph\n", it6505->bv[i]);
-+
-+	return end - str;
-+}
-+
-+static ssize_t en_hdcp_show(struct device *dev, struct device_attribute *attr,
-+			    char *buf)
-+{
-+	struct it6505 *it6505 = dev_get_drvdata(dev);
-+
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", it6505->en_hdcp);
-+}
-+
-+static ssize_t en_hdcp_store(struct device *dev, struct device_attribute *attr,
-+			     const char *buf, size_t count)
-+{
-+	struct it6505 *it6505 = dev_get_drvdata(dev);
-+	unsigned int reg3f, hdcp;
-+
-+	if (kstrtoint(buf, 10, &hdcp) < 0)
-+		return -EINVAL;
-+
-+	if (!it6505->powered || it6505->status == SYS_UNPLUG) {
-+		DRM_DEV_DEBUG_DRIVER(dev,
-+				     "power down or unplug, can not fire HDCP");
-+		return -EINVAL;
-+	}
-+	it6505->en_hdcp = hdcp ? true : false;
-+
-+	if (it6505->en_hdcp) {
-+		if (it6505->cp_capable) {
-+			dptx_sys_chg(it6505, SYS_ReHDCP);
-+			dptx_sys_fsm(it6505);
-+		} else {
-+			DRM_DEV_ERROR(dev, "sink not support HDCP");
-+		}
-+	} else {
-+		dptxset(it6505, 0x05, 0x10, 0x10);
-+		dptxset(it6505, 0x05, 0x10, 0x00);
-+		dptxrd(it6505, 0x3F, &reg3f);
-+		hdcp = (reg3f & BIT(7)) >> 7;
-+		DRM_DEV_DEBUG_DRIVER(dev, "%s to disable hdcp",
-+				     hdcp ? "failed" : "succeeded");
-+	}
-+	return count;
-+}
-+
-+static ssize_t en_pwronoff_show(struct device *dev,
-+				struct device_attribute *attr, char *buf)
-+{
-+	struct it6505 *it6505 = dev_get_drvdata(dev);
-+
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", it6505->en_pwronoff);
-+}
-+
-+static ssize_t en_pwronoff_store(struct device *dev,
-+				 struct device_attribute *attr, const char *buf,
-+				 size_t count)
-+{
-+	struct it6505 *it6505 = dev_get_drvdata(dev);
-+
-+	if (kstrtoint(buf, 10, &it6505->en_pwronoff) < 0)
-+		return -EINVAL;
-+	return count;
-+}
-+
-+static ssize_t en_audio_show(struct device *dev, struct device_attribute *attr,
-+			     char *buf)
-+{
-+	struct it6505 *it6505 = dev_get_drvdata(dev);
-+
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", it6505->en_audio);
-+}
-+
-+static ssize_t en_audio_store(struct device *dev, struct device_attribute *attr,
-+			      const char *buf, size_t count)
-+{
-+	struct it6505 *it6505 = dev_get_drvdata(dev);
-+
-+	if (kstrtoint(buf, 10, &it6505->en_audio) < 0)
-+		return -EINVAL;
-+	if (!it6505->powered || it6505->status == SYS_UNPLUG) {
-+		DRM_DEV_DEBUG_DRIVER(
-+			dev, "power down or unplug, can not output audio");
-+		return -EINVAL;
-+	}
-+
-+	if (it6505->en_audio)
-+		it6505_set_audio(it6505);
-+	else
-+		it6505_audio_disable(it6505);
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "%s audio",
-+			     it6505->en_audio ? "Enable" : "Disable");
-+	return count;
-+}
-+
-+static ssize_t force_pwronoff_store(struct device *dev,
-+				    struct device_attribute *attr,
-+				    const char *buf, size_t count)
-+{
-+	struct it6505 *it6505 = dev_get_drvdata(dev);
-+	int pwr;
-+
-+	if (kstrtoint(buf, 10, &pwr) < 0)
-+		return -EINVAL;
-+	if (pwr)
-+		it6505_poweron(it6505);
-+	else
-+		it6505_poweroff(it6505);
-+	return count;
-+}
-+
-+static ssize_t pwr_status_show(struct device *dev,
-+			       struct device_attribute *attr, char *buf)
-+{
-+	struct it6505 *it6505 = dev_get_drvdata(dev);
-+
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", it6505->powered);
-+}
-+
-+static DEVICE_ATTR_RO(print_timing);
-+static DEVICE_ATTR_RO(pwr_status);
-+static DEVICE_ATTR_RO(sha_debug);
-+static DEVICE_ATTR_WO(force_pwronoff);
-+static DEVICE_ATTR_RW(drv_hold);
-+static DEVICE_ATTR_RW(en_hdcp);
-+static DEVICE_ATTR_RW(en_pwronoff);
-+static DEVICE_ATTR_RW(en_audio);
-+
-+static const struct attribute *it6505_attrs[] = {
-+	&dev_attr_drv_hold.attr,
-+	&dev_attr_print_timing.attr,
-+	&dev_attr_sha_debug.attr,
-+	&dev_attr_en_hdcp.attr,
-+	&dev_attr_en_pwronoff.attr,
-+	&dev_attr_en_audio.attr,
-+	&dev_attr_force_pwronoff.attr,
-+	&dev_attr_pwr_status.attr,
-+	NULL,
-+};
-+
-+static int it6505_i2c_probe(struct i2c_client *client,
-+			    const struct i2c_device_id *id)
-+{
-+	struct it6505 *it6505;
-+	struct it6505_platform_data *pdata;
-+	struct device *dev = &client->dev;
-+	struct extcon_dev *extcon;
-+	int err, intp_irq;
-+
-+	it6505 = devm_kzalloc(&client->dev, sizeof(*it6505), GFP_KERNEL);
-+	if (!it6505)
-+		return -ENOMEM;
-+
-+	mutex_init(&it6505->lock);
-+	mutex_init(&it6505->mode_lock);
-+
-+	pdata = &it6505->pdata;
-+
-+	it6505->bridge.of_node = client->dev.of_node;
-+	it6505->client = client;
-+	i2c_set_clientdata(client, it6505);
-+
-+	/* get extcon device from DTS */
-+	extcon = extcon_get_edev_by_phandle(dev, 0);
-+	if (PTR_ERR(extcon) == -EPROBE_DEFER)
-+		return -EPROBE_DEFER;
-+	if (IS_ERR(extcon)) {
-+		DRM_DEV_ERROR(dev, "can not get extcon device!");
-+		return -EINVAL;
-+	}
-+
-+	it6505->extcon = extcon;
-+
-+	it6505->laneswap_disabled =
-+		device_property_read_bool(dev, "no-laneswap");
-+
-+	err = it6505_init_pdata(it6505);
-+	if (err) {
-+		DRM_DEV_ERROR(dev, "Failed to initialize pdata: %d", err);
-+		return err;
-+	}
-+
-+	it6505->regmap =
-+		devm_regmap_init_i2c(client, &it6505_bridge_regmap_config);
-+	if (IS_ERR(it6505->regmap)) {
-+		DRM_DEV_ERROR(dev, "regmap i2c init failed");
-+		return PTR_ERR(it6505->regmap);
-+	}
-+
-+	intp_irq = client->irq;
-+
-+	if (!intp_irq) {
-+		DRM_DEV_ERROR(dev, "Failed to get CABLE_DET and INTP IRQ");
-+		return -ENODEV;
-+	}
-+
-+	err = devm_request_threaded_irq(&client->dev, intp_irq, NULL,
-+					it6505_intp_threaded_handler,
-+					IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
-+					"it6505-intp", it6505);
-+	if (err) {
-+		DRM_DEV_ERROR(dev, "Failed to request INTP threaded IRQ: %d",
-+			      err);
-+		return err;
-+	}
-+
-+	/* Register aux channel */
-+	it6505->aux.name = "DP-AUX";
-+	it6505->aux.dev = dev;
-+	it6505->aux.transfer = it6505_aux_transfer;
-+	err = drm_dp_aux_register(&it6505->aux);
-+	if (err < 0) {
-+		DRM_DEV_ERROR(dev, "Failed to register aux: %d", err);
-+		return err;
-+	}
-+
-+	it6505->en_pwronoff = DEFAULTPWRONOFF;
-+	it6505->drv_hold = DEFAULTDRVHOLD;
-+	it6505->en_hdcp = DEFAULTHDCP;
-+	it6505->en_audio = DEFAULTAUDIO;
-+	it6505->powered = false;
-+
-+	if (DEFAULTPWRON)
-+		it6505_poweron(it6505);
-+	err = sysfs_create_files(&client->dev.kobj, it6505_attrs);
-+	if (err) {
-+		drm_dp_aux_unregister(&it6505->aux);
-+		return err;
-+	}
-+
-+	it6505->bridge.funcs = &it6505_bridge_funcs;
-+	drm_bridge_add(&it6505->bridge);
-+	return 0;
-+}
-+
-+static int it6505_remove(struct i2c_client *client)
-+{
-+	struct it6505 *it6505 = i2c_get_clientdata(client);
-+
-+	drm_connector_unregister(&it6505->connector);
-+	drm_connector_cleanup(&it6505->connector);
-+	drm_bridge_remove(&it6505->bridge);
-+	sysfs_remove_files(&client->dev.kobj, it6505_attrs);
-+	drm_dp_aux_unregister(&it6505->aux);
-+	it6505_poweroff(it6505);
-+	return 0;
-+}
-+
-+static const struct i2c_device_id it6505_id[] = {
-+	{ "it6505", 0 },
-+	{ }
-+};
-+
-+MODULE_DEVICE_TABLE(i2c, it6505_id);
-+
-+static const struct of_device_id it6505_of_match[] = {
-+	{ .compatible = "ite,it6505" },
-+	{ }
-+};
-+
-+static struct i2c_driver it6505_i2c_driver = {
-+	.driver = {
-+		.name = "it6505_dptx",
-+		.of_match_table = it6505_of_match,
-+	},
-+	.probe = it6505_i2c_probe,
-+	.remove = it6505_remove,
-+	.id_table = it6505_id,
-+};
-+
-+module_i2c_driver(it6505_i2c_driver);
-+
-+MODULE_AUTHOR("Jitao Shi <jitao.shi@mediatek.com>");
-+MODULE_DESCRIPTION("IT6505 DisplayPort Transmitter driver");
-+MODULE_LICENSE("GPL v2");
--- 
-1.9.1
+SGkgSmFuaQ0KDQpTb3JyeSB0byBib3RoZXIgeW91LiBNYXkgdGhpcyBwYXRjaCBpcyBPSyB0byBi
+ZSB1cHN0cmVhbT8NCg0KSWYgaGF2ZSBhbnkgc3VnZ2VzdGlvbiwgSSB3aWxsIHRyeSB0byBtb2Rp
+ZnkgdGhlIGNvZGUgdG8gbWVldCB0aGUgdXBzdHJlYW0gc3RhbmRhcmQuDQoNCkZyb206IEFsbGVu
+IENoZW4gKOmZs+afj+WuhykNClNlbnQ6IFRodXJzZGF5LCBEZWNlbWJlciAwNSwgMjAxOSA5OjI0
+IEFNDQpUbzogJ0phbmkgTmlrdWxhJw0KQ2M6IEphdS1DaGloIFRzZW5nICjmm77mmK3mmbopOyBt
+YXhpbWUucmlwYXJkQGJvb3RsaW4uY29tOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyBk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnOyBhaXJsaWVkQGxpbnV4LmllOyBwaWhzdW5A
+Y2hyb21pdW0ub3JnOyBzZWFuQHBvb3JseS5ydW4NClN1YmplY3Q6IFJFOiBbUEFUQ0hdIGRybS9l
+ZGlkOiBmaXh1cCBFRElEIDEuMyBhbmQgMS40IGp1ZGdlIHJlZHVjZWQtYmxhbmtpbmcgdGltaW5n
+cyBsb2dpYw0KDQoNCkhpIEphbmkgTmlrdWxhDQoNCg0KDQpUaGFua3MgZm9yIHlvdXIgc3VnZ2Vz
+dGlvbiBhbmQgSSBoYXZlIHJlcGxpZWQgb25lIGNvbW1lbnQgYmVsb3cuDQoNCg0KDQotLS0tLU9y
+aWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogSmFuaSBOaWt1bGEgW21haWx0bzpqYW5pLm5pa3Vs
+YUBsaW51eC5pbnRlbC5jb21dDQpTZW50OiBUdWVzZGF5LCBEZWNlbWJlciAwMywgMjAxOSA0OjAy
+IFBNDQpUbzogQWxsZW4gQ2hlbiAo6Zmz5p+P5a6HKQ0KQ2M6IEphdS1DaGloIFRzZW5nICjmm77m
+mK3mmbopOyBtYXhpbWUucmlwYXJkQGJvb3RsaW4uY29tOyBsaW51eC1rZXJuZWxAdmdlci5rZXJu
+ZWwub3JnOyBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnOyBhaXJsaWVkQGxpbnV4Lmll
+OyBwaWhzdW5AY2hyb21pdW0ub3JnOyBzZWFuQHBvb3JseS5ydW4NClN1YmplY3Q6IFJFOiBbUEFU
+Q0hdIGRybS9lZGlkOiBmaXh1cCBFRElEIDEuMyBhbmQgMS40IGp1ZGdlIHJlZHVjZWQtYmxhbmtp
+bmcgdGltaW5ncyBsb2dpYw0KDQoNCg0KT24gVHVlLCAwMyBEZWMgMjAxOSwgPGFsbGVuLmNoZW5A
+aXRlLmNvbS50dz4gd3JvdGU6DQoNCj4gSGkgSmFuaSBOaWt1bGENCg0KPg0KDQo+DQoNCj4NCg0K
+PiBUaGFua3MgZm9yIHlvdXIgc3VnZ2VzdGlvbiBhbmQgSSBoYXZlIHJlcGxpZWQgdHdvIGNvbW1l
+bnRzIGJlbG93Lg0KDQoNCg0KUGxlYXNlIHJlYWQgbXkgcXVlc3Rpb24gYWdhaW4uDQoNCg0KDQpC
+UiwNCg0KSmFuaS4NCg0KDQoNCj4NCg0KPg0KDQo+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdl
+LS0tLS0NCg0KPiBGcm9tOiBKYW5pIE5pa3VsYSBbbWFpbHRvOmphbmkubmlrdWxhQGxpbnV4Lmlu
+dGVsLmNvbV0NCg0KPiBTZW50OiBXZWRuZXNkYXksIE5vdmVtYmVyIDI3LCAyMDE5IDY6MjkgUE0N
+Cg0KPiBUbzogQWxsZW4gQ2hlbiAo6Zmz5p+P5a6HKQ0KDQo+IENjOiBKYXUtQ2hpaCBUc2VuZyAo
+5pu+5pit5pm6KTsgTWF4aW1lIFJpcGFyZDsgQWxsZW4gQ2hlbiAo6Zmz5p+P5a6HKTsgb3BlbiBs
+aXN0OyBvcGVuIGxpc3Q6RFJNIERSSVZFUlM7IERhdmlkIEFpcmxpZTsgUGktSHN1biBTaGloOyBT
+ZWFuIFBhdWwNCg0KPiBTdWJqZWN0OiBSZTogW1BBVENIXSBkcm0vZWRpZDogZml4dXAgRURJRCAx
+LjMgYW5kIDEuNCBqdWRnZSByZWR1Y2VkLWJsYW5raW5nIHRpbWluZ3MgbG9naWMNCg0KPg0KDQo+
+DQoNCj4NCg0KPiBPbiBUdWUsIDI2IE5vdiAyMDE5LCBhbGxlbiA8YWxsZW4uY2hlbkBpdGUuY29t
+LnR3PiB3cm90ZToNCg0KPg0KDQo+PiBBY2NvcmRpbmcgdG8gVkVTQSBFTkhBTkNFRCBFWFRFTkRF
+RCBESVNQTEFZIElERU5USUZJQ0FUSU9OIERBVEEgU1RBTkRBUkQNCg0KPg0KDQo+PiAoRGVmaW5l
+cyBFRElEIFN0cnVjdHVyZSBWZXJzaW9uIDEsIFJldmlzaW9uIDQpIHBhZ2U6IDM5DQoNCj4NCg0K
+Pj4gSG93IHRvIGRldGVybWluZSB3aGV0aGVyIHRoZSBtb25pdG9yIHN1cHBvcnQgUkIgdGltaW5n
+IG9yIG5vdD8NCg0KPg0KDQo+PiBFRElEIDEuNA0KDQo+DQoNCj4+IEZpcnN0OiAgcmVhZCBkZXRh
+aWxlZCB0aW1pbmcgZGVzY3JpcHRvciBhbmQgbWFrZSBzdXJlIGJ5dGUgMCA9IDB4MDAsDQoNCj4N
+Cg0KPj4gICAgIGJ5dGUgMSA9IDB4MDAsIGJ5dGUgMiA9IDB4MDAgYW5kIGJ5dGUgMyA9IDB4RkQN
+Cg0KPg0KDQo+PiBTZWNvbmQ6IHJlYWQgRURJRCBiaXQgMCBpbiBmZWF0dXJlIHN1cHBvcnQgYnl0
+ZSBhdCBhZGRyZXNzIDE4aCA9IDENCg0KPg0KDQo+PiAgICAgYW5kIGRldGFpbGVkIHRpbWluZyBk
+ZXNjcmlwdG9yIGJ5dGUgMTAgPSAweDA0DQoNCj4NCg0KPj4gVGhpcmQ6ICBpZiBFRElEIGJpdCAw
+IGluIGZlYXR1cmUgc3VwcG9ydCBieXRlID0gMSAmJg0KDQo+DQoNCj4+ICAgICBkZXRhaWxlZCB0
+aW1pbmcgZGVzY3JpcHRvciBieXRlIDEwID0gMHgwNA0KDQo+DQoNCj4+ICAgICB0aGVuIHdlIGNh
+biBjaGVjayBieXRlIDE1LCBpZiBiaXQgNCBpbiBieXRlIDE1ID0gMSBpcyBzdXBwb3J0IFJCDQoN
+Cj4NCg0KPj4gICAgICAgICBpZiBFRElEIGJpdCAwIGluIGZlYXR1cmUgc3VwcG9ydCBieXRlICE9
+IDEgfHwNCg0KPg0KDQo+PiAgICAgZGV0YWlsZWQgdGltaW5nIGRlc2NyaXB0b3IgYnl0ZSAxMCAh
+PSAweDA0LA0KDQo+DQoNCj4+ICAgICB0aGVuIGJ5dGUgMTUgY2FuIG5vdCBiZSB1c2VkDQoNCj4N
+Cg0KPj4NCg0KPg0KDQo+PiBUaGUgbGludXggY29kZSBpc19yYiBmdW5jdGlvbiBub3QgZm9sbG93
+IHRoZSBWRVNBJ3MgcnVsZQ0KDQo+DQoNCj4+DQoNCj4NCg0KPj4gU2lnbmVkLW9mZi1ieTogQWxs
+ZW4gQ2hlbiA8YWxsZW4uY2hlbkBpdGUuY29tLnR3Pg0KDQo+DQoNCj4+IFJlcG9ydGVkLWJ5OiBr
+YnVpbGQgdGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT4NCg0KPg0KDQo+PiAtLS0NCg0KPg0KDQo+
+PiAgZHJpdmVycy9ncHUvZHJtL2RybV9lZGlkLmMgfCAzNiArKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKystLS0tLS0NCg0KPg0KDQo+PiAgMSBmaWxlIGNoYW5nZWQsIDMwIGluc2VydGlvbnMo
+KyksIDYgZGVsZXRpb25zKC0pDQoNCj4NCg0KPj4NCg0KPg0KDQo+PiBkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9ncHUvZHJtL2RybV9lZGlkLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYw0KDQo+
+DQoNCj4+IGluZGV4IGY1OTI2YmYuLmUxMWU1ODUgMTAwNjQ0DQoNCj4NCg0KPj4gLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL2RybV9lZGlkLmMNCg0KPg0KDQo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
+ZHJtX2VkaWQuYw0KDQo+DQoNCj4+IEBAIC05Myw2ICs5MywxMiBAQCBzdHJ1Y3QgZGV0YWlsZWRf
+bW9kZV9jbG9zdXJlIHsNCg0KPg0KDQo+PiAgICBpbnQgbW9kZXM7DQoNCj4NCg0KPj4gIH07DQoN
+Cj4NCg0KPj4NCg0KPg0KDQo+PiArc3RydWN0IGVkaWRfc3VwcG9ydF9yYl9jbG9zdXJlIHsNCg0K
+Pg0KDQo+PiArICAgc3RydWN0IGVkaWQgKmVkaWQ7DQoNCj4NCg0KPj4gKyAgIGJvb2wgdmFsaWRf
+c3VwcG9ydF9yYjsNCg0KPg0KDQo+PiArICAgYm9vbCBzdXBwb3J0X3JiOw0KDQo+DQoNCj4+ICt9
+Ow0KDQo+DQoNCj4+ICsNCg0KPg0KDQo+PiAgI2RlZmluZSBMRVZFTF9ETVQgMA0KDQo+DQoNCj4+
+ICAjZGVmaW5lIExFVkVMX0dURiAgIDENCg0KPg0KDQo+PiAgI2RlZmluZSBMRVZFTF9HVEYyIDIN
+Cg0KPg0KDQo+PiBAQCAtMjAxNywyMyArMjAyMyw0MSBAQCBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9k
+ZSAqZHJtX21vZGVfZmluZF9kbXQoc3RydWN0IGRybV9kZXZpY2UgKmRldiwNCg0KPg0KDQo+PiAg
+ICB9DQoNCj4NCg0KPj4gIH0NCg0KPg0KDQo+Pg0KDQo+DQoNCj4+ICtzdGF0aWMgYm9vbA0KDQo+
+DQoNCj4+ICtpc19kaXNwbGF5X2Rlc2NyaXB0b3IoY29uc3QgdTggKnIsIHU4IHRhZykNCg0KPg0K
+DQo+PiArew0KDQo+DQoNCj4+ICsgICByZXR1cm4gKCFyWzBdICYmICFyWzFdICYmICFyWzJdICYm
+IHJbM10gPT0gdGFnKSA/IHRydWUgOiBmYWxzZTsNCg0KPg0KDQo+PiArfQ0KDQo+DQoNCj4+ICsN
+Cg0KPg0KDQo+PiAgc3RhdGljIHZvaWQNCg0KPg0KDQo+PiAgaXNfcmIoc3RydWN0IGRldGFpbGVk
+X3RpbWluZyAqdCwgdm9pZCAqZGF0YSkNCg0KPg0KDQo+PiAgew0KDQo+DQoNCj4+ICAgIHU4ICpy
+ID0gKHU4ICopdDsNCg0KPg0KDQo+PiAtICAgIGlmIChyWzNdID09IEVESURfREVUQUlMX01PTklU
+T1JfUkFOR0UpDQoNCj4NCg0KPj4gLSAgICAgICAgICAgIGlmIChyWzE1XSAmIDB4MTApDQoNCj4N
+Cg0KPj4gLSAgICAgICAgICAgICAgICAgICAgKihib29sICopZGF0YSA9IHRydWU7DQoNCj4NCg0K
+Pj4gKyAgIHN0cnVjdCBlZGlkX3N1cHBvcnRfcmJfY2xvc3VyZSAqY2xvc3VyZSA9IGRhdGE7DQoN
+Cj4NCg0KPj4gKyAgIHN0cnVjdCBlZGlkICplZGlkID0gY2xvc3VyZS0+ZWRpZDsNCg0KPg0KDQo+
+PiArDQoNCj4NCg0KPj4gKyAgIGlmIChpc19kaXNwbGF5X2Rlc2NyaXB0b3IociwgRURJRF9ERVRB
+SUxfTU9OSVRPUl9SQU5HRSkpIHsNCg0KPg0KDQo+PiArICAgICAgICAgICBpZiAoZWRpZC0+ZmVh
+dHVyZXMgJiBCSVQoMCkgJiYgclsxMF0gPT0gQklUKDIpKSB7DQoNCj4NCg0KPj4gKyAgICAgICAg
+ICAgICAgICAgICBjbG9zdXJlLT52YWxpZF9zdXBwb3J0X3JiID0gdHJ1ZTsNCg0KPg0KDQo+PiAr
+ICAgICAgICAgICAgICAgICAgIGNsb3N1cmUtPnN1cHBvcnRfcmIgPSAoclsxNV0gJiAweDEwKSA/
+IHRydWUgOiBmYWxzZTsNCg0KPg0KDQo+PiArICAgICAgICAgICB9DQoNCj4NCg0KPj4gKyAgIH0N
+Cg0KPg0KDQo+PiAgfQ0KDQo+DQoNCj4+DQoNCj4NCg0KPj4gIC8qIEVESUQgMS40IGRlZmluZXMg
+dGhpcyBleHBsaWNpdGx5LiAgRm9yIEVESUQgMS4zLCB3ZSBndWVzcywgYmFkbHkuICovDQoNCj4N
+Cg0KPj4gIHN0YXRpYyBib29sDQoNCj4NCg0KPj4gIGRybV9tb25pdG9yX3N1cHBvcnRzX3JiKHN0
+cnVjdCBlZGlkICplZGlkKQ0KDQo+DQoNCj4+ICB7DQoNCj4NCg0KPj4gKyAgIHN0cnVjdCBlZGlk
+X3N1cHBvcnRfcmJfY2xvc3VyZSBjbG9zdXJlID0gew0KDQo+DQoNCj4+ICsgICAgICAgICAgIC5l
+ZGlkID0gZWRpZCwNCg0KPg0KDQo+PiArICAgICAgICAgICAudmFsaWRfc3VwcG9ydF9yYiA9IGZh
+bHNlLA0KDQo+DQoNCj4+ICsgICAgICAgICAgIC5zdXBwb3J0X3JiID0gZmFsc2UsDQoNCj4NCg0K
+Pj4gKyAgIH07DQoNCj4NCg0KPj4gKw0KDQo+DQoNCj4+ICAgIGlmIChlZGlkLT5yZXZpc2lvbiA+
+PSA0KSB7DQoNCj4NCg0KPj4gLSAgICAgICAgICAgIGJvb2wgcmV0ID0gZmFsc2U7DQoNCj4NCg0K
+Pj4gLSAgICAgICAgICAgIGRybV9mb3JfZWFjaF9kZXRhaWxlZF9ibG9jaygodTggKillZGlkLCBp
+c19yYiwgJnJldCk7DQoNCj4NCg0KPj4gLSAgICAgICAgICAgIHJldHVybiByZXQ7DQoNCj4NCg0K
+Pj4gKyAgICAgICAgICAgZHJtX2Zvcl9lYWNoX2RldGFpbGVkX2Jsb2NrKCh1OCAqKWVkaWQsIGlz
+X3JiLCAmY2xvc3VyZSk7DQoNCj4NCg0KPj4gKyAgICAgICAgICAgaWYgKGNsb3N1cmUudmFsaWRf
+c3VwcG9ydF9yYikNCg0KPg0KDQo+PiArICAgICAgICAgICAgICAgICAgIHJldHVybiBjbG9zdXJl
+LnN1cHBvcnRfcmI7DQoNCj4NCg0KPg0KDQo+DQoNCj4gQXJlIHlvdSBwbGFubmluZyBvbiBleHRl
+bmRpbmcgdGhlIGNsb3N1cmUgdXNlIHNvbWVob3c/DQoNCj4NCg0KPg0KDQo+DQoNCj4gSSBkaWQg
+bm90IGxvb2sgdXAgdGhlIHNwZWMsDQoNCj4NCg0KPg0KDQo+DQoNCj4gPT0+IGlURTogYXMgdGhl
+IHBpY3R1cmUgYmVsb3csIGZyb20gVkVTQSBFLUVESUQgc3RhbmRhcmQNCg0KPg0KDQo+IFtjaWQ6
+aW1hZ2UwMDMuanBnQDAxRDVBOUVBLjlCNzM2NEQwXQ0KDQo+DQoNCj4NCg0KPg0KDQo+IFtjaWQ6
+aW1hZ2UwMDUuanBnQDAxRDVBOUVBLjlCNzM2NEQwXQ0KDQo+DQoNCj4NCg0KPg0KDQo+IGlmIEVE
+SUQgYml0IDAgaW4gZmVhdHVyZSBzdXBwb3J0IGJ5dGUgPSAxICYmIGRldGFpbGVkIHRpbWluZyBk
+ZXNjcmlwdG9yIGJ5dGUgMTAgPSAweDA0IHRoZW4gdGhlIENWVCB0aW1pbmcgc3VwcG9ydGVkLg0K
+DQo+DQoNCj4NCg0KPg0KDQo+IFtjaWQ6aW1hZ2UwMDkuanBnQDAxRDVBOUVBLjlCNzM2NEQwXQ0K
+DQo+DQoNCj4NCg0KPg0KDQo+IElmIENWVCB0aW1pbmcgc3VwcG9ydGVkIHRoZW4gd2UgY2FuIGNo
+ZWNrIGJ5dGUgMTUgYml0IDQgdG8gZGV0ZXJtaW5lIHdoZXRoZXIgdGhlIHJlZHVjZWQtYmxhbmtp
+bmcgdGltaW5ncyBzdXBvcnRlZCBvciBub3QuDQoNCj4NCg0KPiBJZiBDVlQgdGltaW5nIG5vdCBz
+dXBwb3J0ZWQgdGhlbiB3ZSBjYW4gbm90IHVzZSBieXRlIDE1IHRvIGp1ZGdlLg0KDQo+DQoNCj4g
+YnV0IHB1cmVseSBvbiB0aGUgY29kZSBjaGFuZ2VzIGFsb25lLCB5b3UNCg0KPg0KDQo+IGNvdWxk
+IGp1c3QgbW92ZSB0aGUgZWRpZC0+ZmVhdHVyZXMgYml0IGNoZWNrIGF0IHRoaXMgbGV2ZWwsIGFu
+ZCBub3QgcGFzcw0KDQo+DQoNCj4gaXQgZG93biwgYW5kIG5vdGhpbmcgd291bGQgY2hhbmdlLiBJ
+LmUuIGRvbid0IGl0ZXJhdGUgdGhlIEVESUQgYXQgYWxsIGlmDQoNCj4NCg0KPiB0aGUgYml0IGlz
+IG5vdCBzZXQuDQoNCj4NCg0KPg0KDQo+DQoNCj4gw7AgIGlURTogV2Ugc3RpbGwgaGF2ZSB0byBj
+aGVjayB3aGV0aGVyIGRldGFpbGVkIHRpbWluZyBkZXNjcmlwdG9yIGJ5dGUgMTAgPSAweDA0IG9y
+IG5vdCwgc28gaXQgaXMgaGFyZCB0byBjaGVjayBhdCB0aGlzIGxldmVsDQoNCj4NCg0KPiBZb3Ug
+YWxzbyBkb24ndCBhY3R1YWxseSB1c2UgdGhlIGRpc3RpbmN0aW9uIGJldHdlZW4gdmFsaWRfc3Vw
+cG9ydF9yYg0KDQo+DQoNCj4gdnMuIHN1cHBvcnRfcmIgZm9yIGFueXRoaW5nLCBzbyB0aGUgY2xv
+c3VyZSBqdXN0IGFkZHMgY29kZS4NCg0KDQoNCj09PiBJVEU6IEZyb20gVmlsbGUgU3lyasOkbMOk
+IDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbTxtYWlsdG86dmlsbGUuc3lyamFsYUBsaW51
+eC5pbnRlbC5jb20+PidzIHN1Z2dlc3Rpb24uDQoNCltjaWQ6aW1hZ2UwMDEucG5nQDAxRDVBRjcy
+LkNFQTNFRTAwXQ0KDQo+DQoNCj4NCg0KPg0KDQo+IEJSLA0KDQo+DQoNCj4gSmFuaS4NCg0KPg0K
+DQo+DQoNCj4NCg0KPg0KDQo+DQoNCj4+ICAgIH0NCg0KPg0KDQo+Pg0KDQo+DQoNCj4+ICAgIHJl
+dHVybiAoKGVkaWQtPmlucHV0ICYgRFJNX0VESURfSU5QVVRfRElHSVRBTCkgIT0gMCk7DQoNCj4N
+Cg0KPg0KDQo+DQoNCj4gLS0NCg0KPg0KDQo+IEphbmkgTmlrdWxhLCBJbnRlbCBPcGVuIFNvdXJj
+ZSBHcmFwaGljcyBDZW50ZXINCg0KDQoNCi0tDQoNCkphbmkgTmlrdWxhLCBJbnRlbCBPcGVuIFNv
+dXJjZSBHcmFwaGljcyBDZW50ZXINCg==
+
+--_000_a30ab6d484a941ec9471a57d1814f34bitecomtw_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
+
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6eD0idXJuOnNjaGVtYXMtbWljcm9z
+b2Z0LWNvbTpvZmZpY2U6ZXhjZWwiIHhtbG5zOnA9InVybjpzY2hlbWFzLW1pY3Jvc29mdC1jb206
+b2ZmaWNlOnBvd2VycG9pbnQiIHhtbG5zOmE9InVybjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2Zm
+aWNlOmFjY2VzcyIgeG1sbnM6ZHQ9InV1aWQ6QzJGNDEwMTAtNjVCMy0xMWQxLUEyOUYtMDBBQTAw
+QzE0ODgyIiB4bWxuczpzPSJ1dWlkOkJEQzZFM0YwLTZEQTMtMTFkMS1BMkEzLTAwQUEwMEMxNDg4
+MiIgeG1sbnM6cnM9InVybjpzY2hlbWFzLW1pY3Jvc29mdC1jb206cm93c2V0IiB4bWxuczp6PSIj
+Um93c2V0U2NoZW1hIiB4bWxuczpiPSJ1cm46c2NoZW1hcy1taWNyb3NvZnQtY29tOm9mZmljZTpw
+dWJsaXNoZXIiIHhtbG5zOnNzPSJ1cm46c2NoZW1hcy1taWNyb3NvZnQtY29tOm9mZmljZTpzcHJl
+YWRzaGVldCIgeG1sbnM6Yz0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6Y29tcG9u
+ZW50OnNwcmVhZHNoZWV0IiB4bWxuczpvZGM9InVybjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2Zm
+aWNlOm9kYyIgeG1sbnM6b2E9InVybjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOmFjdGl2
+YXRpb24iIHhtbG5zOmh0bWw9Imh0dHA6Ly93d3cudzMub3JnL1RSL1JFQy1odG1sNDAiIHhtbG5z
+OnE9Imh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3NvYXAvZW52ZWxvcGUvIiB4bWxuczpydGM9
+Imh0dHA6Ly9taWNyb3NvZnQuY29tL29mZmljZW5ldC9jb25mZXJlbmNpbmciIHhtbG5zOkQ9IkRB
+VjoiIHhtbG5zOlJlcGw9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vcmVwbC8iIHhtbG5z
+Om10PSJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3NoYXJlcG9pbnQvc29hcC9tZWV0aW5n
+cy8iIHhtbG5zOngyPSJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL29mZmljZS9leGNlbC8y
+MDAzL3htbCIgeG1sbnM6cHBkYT0iaHR0cDovL3d3dy5wYXNzcG9ydC5jb20vTmFtZVNwYWNlLnhz
+ZCIgeG1sbnM6b2lzPSJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3NoYXJlcG9pbnQvc29h
+cC9vaXMvIiB4bWxuczpkaXI9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vc2hhcmVwb2lu
+dC9zb2FwL2RpcmVjdG9yeS8iIHhtbG5zOmRzPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwLzA5L3ht
+bGRzaWcjIiB4bWxuczpkc3A9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vc2hhcmVwb2lu
+dC9kc3AiIHhtbG5zOnVkYz0iaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS9kYXRhL3VkYyIg
+eG1sbnM6eHNkPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYSIgeG1sbnM6c3ViPSJo
+dHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3NoYXJlcG9pbnQvc29hcC8yMDAyLzEvYWxlcnRz
+LyIgeG1sbnM6ZWM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZW5jIyIgeG1sbnM6c3A9
+Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vc2hhcmVwb2ludC8iIHhtbG5zOnNwcz0iaHR0
+cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS9zaGFyZXBvaW50L3NvYXAvIiB4bWxuczp4c2k9Imh0
+dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiB4bWxuczp1ZGNzPSJodHRw
+Oi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL2RhdGEvdWRjL3NvYXAiIHhtbG5zOnVkY3hmPSJodHRw
+Oi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL2RhdGEvdWRjL3htbGZpbGUiIHhtbG5zOnVkY3AycD0i
+aHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS9kYXRhL3VkYy9wYXJ0dG9wYXJ0IiB4bWxuczp3
+Zj0iaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS9zaGFyZXBvaW50L3NvYXAvd29ya2Zsb3cv
+IiB4bWxuczpkc3NzPSJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL29mZmljZS8yMDA2L2Rp
+Z3NpZy1zZXR1cCIgeG1sbnM6ZHNzaT0iaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS9vZmZp
+Y2UvMjAwNi9kaWdzaWciIHhtbG5zOm1kc3NpPSJodHRwOi8vc2NoZW1hcy5vcGVueG1sZm9ybWF0
+cy5vcmcvcGFja2FnZS8yMDA2L2RpZ2l0YWwtc2lnbmF0dXJlIiB4bWxuczptdmVyPSJodHRwOi8v
+c2NoZW1hcy5vcGVueG1sZm9ybWF0cy5vcmcvbWFya3VwLWNvbXBhdGliaWxpdHkvMjAwNiIgeG1s
+bnM6bT0iaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4
+bWxuczptcmVscz0iaHR0cDovL3NjaGVtYXMub3BlbnhtbGZvcm1hdHMub3JnL3BhY2thZ2UvMjAw
+Ni9yZWxhdGlvbnNoaXBzIiB4bWxuczpzcHdwPSJodHRwOi8vbWljcm9zb2Z0LmNvbS9zaGFyZXBv
+aW50L3dlYnBhcnRwYWdlcyIgeG1sbnM6ZXgxMnQ9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5j
+b20vZXhjaGFuZ2Uvc2VydmljZXMvMjAwNi90eXBlcyIgeG1sbnM6ZXgxMm09Imh0dHA6Ly9zY2hl
+bWFzLm1pY3Jvc29mdC5jb20vZXhjaGFuZ2Uvc2VydmljZXMvMjAwNi9tZXNzYWdlcyIgeG1sbnM6
+cHB0c2w9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vc2hhcmVwb2ludC9zb2FwL1NsaWRl
+TGlicmFyeS8iIHhtbG5zOnNwc2w9Imh0dHA6Ly9taWNyb3NvZnQuY29tL3dlYnNlcnZpY2VzL1No
+YXJlUG9pbnRQb3J0YWxTZXJ2ZXIvUHVibGlzaGVkTGlua3NTZXJ2aWNlIiB4bWxuczpaPSJ1cm46
+c2NoZW1hcy1taWNyb3NvZnQtY29tOiIgeG1sbnM6dGF4PSJodHRwOi8vc2NoZW1hcy5taWNyb3Nv
+ZnQuY29tL3NoYXJlcG9pbnQvdGF4b25vbXkvc29hcC8iIHhtbG5zOnRucz0iaHR0cDovL3NjaGVt
+YXMubWljcm9zb2Z0LmNvbS9zaGFyZXBvaW50L3NvYXAvcmVjb3Jkc3JlcG9zaXRvcnkvIiB4bWxu
+czpzcHN1cD0iaHR0cDovL21pY3Jvc29mdC5jb20vd2Vic2VydmljZXMvU2hhcmVQb2ludFBvcnRh
+bFNlcnZlci9Vc2VyUHJvZmlsZVNlcnZpY2UiIHhtbG5zOm1tbD0iaHR0cDovL3d3dy53My5vcmcv
+MTk5OC9NYXRoL01hdGhNTCIgeG1sbnM6c3Q9IiYjMTsiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9y
+Zy9UUi9SRUMtaHRtbDQwIj4NCjxoZWFkPg0KPG1ldGEgaHR0cC1lcXVpdj0iQ29udGVudC1UeXBl
+IiBjb250ZW50PSJ0ZXh0L2h0bWw7IGNoYXJzZXQ9dXRmLTgiPg0KPG1ldGEgbmFtZT0iR2VuZXJh
+dG9yIiBjb250ZW50PSJNaWNyb3NvZnQgV29yZCAxNCAoZmlsdGVyZWQgbWVkaXVtKSI+DQo8IS0t
+W2lmICFtc29dPjxzdHlsZT52XDoqIHtiZWhhdmlvcjp1cmwoI2RlZmF1bHQjVk1MKTt9DQpvXDoq
+IHtiZWhhdmlvcjp1cmwoI2RlZmF1bHQjVk1MKTt9DQp3XDoqIHtiZWhhdmlvcjp1cmwoI2RlZmF1
+bHQjVk1MKTt9DQouc2hhcGUge2JlaGF2aW9yOnVybCgjZGVmYXVsdCNWTUwpO30NCjwvc3R5bGU+
+PCFbZW5kaWZdLS0+PHN0eWxlPjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZh
+Y2UNCgl7Zm9udC1mYW1pbHk65paw57Sw5piO6auUOw0KCXBhbm9zZS0xOjIgMiA1IDAgMCAwIDAg
+MCAwIDA7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTrmlrDntLDmmI7pq5Q7DQoJcGFub3Nl
+LTE6MiAyIDUgMCAwIDAgMCAwIDAgMDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbWJy
+aWE7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQt
+ZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAyIDQ7fQ0KQGZvbnQt
+ZmFjZQ0KCXtmb250LWZhbWlseToiXEDmlrDntLDmmI7pq5QiOw0KCXBhbm9zZS0xOjIgMiA1IDAg
+MCAwIDAgMCAwIDA7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3Nl
+LTE6MiAxMSA2IDQgMyA1IDQgNCAyIDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNv
+Tm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCgltYXJn
+aW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiQ2Fs
+aWJyaSIsInNhbnMtc2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7bXNvLXN0
+eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGlu
+ZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7bXNvLXN0eWxlLXBy
+aW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30N
+CnAuTXNvUGxhaW5UZXh0LCBsaS5Nc29QbGFpblRleHQsIGRpdi5Nc29QbGFpblRleHQNCgl7bXNv
+LXN0eWxlLXByaW9yaXR5Ojk5Ow0KCW1zby1zdHlsZS1saW5rOiLntJTmloflrZcg5a2X5YWDIjsN
+CgltYXJnaW46MGNtOw0KCW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0
+Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7fQ0KcC5Nc29BY2V0YXRlLCBs
+aS5Nc29BY2V0YXRlLCBkaXYuTXNvQWNldGF0ZQ0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJ
+bXNvLXN0eWxlLWxpbms6Iuiou+ino+aWueWhiuaWh+WtlyDlrZflhYMiOw0KCW1hcmdpbjowY207
+DQoJbWFyZ2luLWJvdHRvbTouMDAwMXB0Ow0KCWZvbnQtc2l6ZTo5LjBwdDsNCglmb250LWZhbWls
+eToiQ2FtYnJpYSIsInNlcmlmIjt9DQpzcGFuLmENCgl7bXNvLXN0eWxlLW5hbWU6Iue0lOaWh+Wt
+lyDlrZflhYMiOw0KCW1zby1zdHlsZS1wcmlvcml0eTo5OTsNCgltc28tc3R5bGUtbGluazrntJTm
+loflrZc7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLCJzYW5zLXNlcmlmIjt9DQpzcGFuLmEwDQoJ
+e21zby1zdHlsZS1uYW1lOiLoqLvop6PmlrnloYrmloflrZcg5a2X5YWDIjsNCgltc28tc3R5bGUt
+cHJpb3JpdHk6OTk7DQoJbXNvLXN0eWxlLWxpbms66Ki76Kej5pa55aGK5paH5a2XOw0KCWZvbnQt
+ZmFtaWx5OiJDYW1icmlhIiwic2VyaWYiO30NCnNwYW4uRW1haWxTdHlsZTIxDQoJe21zby1zdHls
+ZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJp
+ZiI7DQoJY29sb3I6IzFGNDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpl
+eHBvcnQtb25seTsNCglmb250LXNpemU6MTAuMHB0O30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtz
+aXplOjYxMi4wcHQgNzkyLjBwdDsNCgltYXJnaW46NzIuMHB0IDkwLjBwdCA3Mi4wcHQgOTAuMHB0
+O30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48
+IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNw
+aWRtYXg9IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHht
+bD4NCjxvOnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBk
+YXRhPSIxIiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0K
+PGJvZHkgbGFuZz0iWkgtVFciIGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiIHN0eWxlPSJ0ZXh0
+LWp1c3RpZnktdHJpbTpwdW5jdHVhdGlvbiI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJjb2xvcjojMUY0
+OTdEIj5IaSA8L3NwYW4+PHNwYW4gbGFuZz0iRU4tVVMiPkphbmk8bzpwPjwvbzpwPjwvc3Bhbj48
+L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+PG86cD4mbmJzcDs8
+L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMi
+PlNvcnJ5IHRvIGJvdGhlciB5b3UuIE1heSB0aGlzIHBhdGNoIGlzIE9LIHRvIGJlIHVwc3RyZWFt
+PzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9
+IkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+Ij48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImNvbG9yOiMxRjQ5N0QiPklmIGhhdmUgYW55IHN1
+Z2dlc3Rpb24sIEkgd2lsbCB0cnkgdG8gbW9kaWZ5IHRoZSBjb2RlIHRvIG1lZXQgdGhlIHVwc3Ry
+ZWFtIHN0YW5kYXJkLjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+PjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iY29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286
+cD48L3NwYW4+PC9wPg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6
+c29saWQgI0I1QzRERiAxLjBwdDtwYWRkaW5nOjMuMHB0IDBjbSAwY20gMGNtIj4NCjxwIGNsYXNz
+PSJNc29Ob3JtYWwiPjxiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjBw
+dDtmb250LWZhbWlseTomcXVvdDtUYWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+
+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjBw
+dDtmb250LWZhbWlseTomcXVvdDtUYWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+
+IEFsbGVuIENoZW4gKDwvc3Bhbj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZh
+bWlseTomcXVvdDvmlrDntLDmmI7pq5QmcXVvdDssJnF1b3Q7c2VyaWYmcXVvdDsiPumZs+afj+Wu
+hzwvc3Bhbj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1m
+YW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPikNCjxicj4N
+CjxiPlNlbnQ6PC9iPiBUaHVyc2RheSwgRGVjZW1iZXIgMDUsIDIwMTkgOToyNCBBTTxicj4NCjxi
+PlRvOjwvYj4gJ0phbmkgTmlrdWxhJzxicj4NCjxiPkNjOjwvYj4gSmF1LUNoaWggVHNlbmcgKDwv
+c3Bhbj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZhbWlseTomcXVvdDvmlrDn
+tLDmmI7pq5QmcXVvdDssJnF1b3Q7c2VyaWYmcXVvdDsiPuabvuaYreaZujwvc3Bhbj48c3BhbiBs
+YW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7VGFo
+b21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPik7IG1heGltZS5yaXBhcmRAYm9vdGxp
+bi5jb207IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IGRyaS1kZXZlbEBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmc7DQogYWlybGllZEBsaW51eC5pZTsgcGloc3VuQGNocm9taXVtLm9yZzsgc2Vh
+bkBwb29ybHkucnVuPGJyPg0KPGI+U3ViamVjdDo8L2I+IFJFOiBbUEFUQ0hdIGRybS9lZGlkOiBm
+aXh1cCBFRElEIDEuMyBhbmQgMS40IGp1ZGdlIHJlZHVjZWQtYmxhbmtpbmcgdGltaW5ncyBsb2dp
+YzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9y
+bWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAg
+Y2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPkhpIEphbmkgTmlrdWxhPG86
+cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0i
+RU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRl
+eHQiPjxzcGFuIGxhbmc9IkVOLVVTIj5UaGFua3MgZm9yIHlvdXIgc3VnZ2VzdGlvbiBhbmQgSSBo
+YXZlIHJlcGxpZWQgb25lIGNvbW1lbnQgYmVsb3cuPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAg
+Y2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+
+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4t
+LS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLTxicj4NCkZyb206IEphbmkgTmlrdWxhIFttYWlsdG86
+amFuaS5uaWt1bGFAbGludXguaW50ZWwuY29tXSA8YnI+DQpTZW50OiBUdWVzZGF5LCBEZWNlbWJl
+ciAwMywgMjAxOSA0OjAyIFBNPGJyPg0KVG86IEFsbGVuIENoZW4gKDwvc3Bhbj48c3BhbiBzdHls
+ZT0iZm9udC1mYW1pbHk6JnF1b3Q75paw57Sw5piO6auUJnF1b3Q7LCZxdW90O3NlcmlmJnF1b3Q7
+Ij7pmbPmn4/lroc8L3NwYW4+PHNwYW4gbGFuZz0iRU4tVVMiPik8YnI+DQpDYzogSmF1LUNoaWgg
+VHNlbmcgKDwvc3Bhbj48c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6JnF1b3Q75paw57Sw5piO6auU
+JnF1b3Q7LCZxdW90O3NlcmlmJnF1b3Q7Ij7mm77mmK3mmbo8L3NwYW4+PHNwYW4gbGFuZz0iRU4t
+VVMiPik7IG1heGltZS5yaXBhcmRAYm9vdGxpbi5jb207IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5l
+bC5vcmc7IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IGFpcmxpZWRAbGludXguaWU7
+IHBpaHN1bkBjaHJvbWl1bS5vcmc7IHNlYW5AcG9vcmx5LnJ1bjxicj4NClN1YmplY3Q6IFJFOiBb
+UEFUQ0hdIGRybS9lZGlkOiBmaXh1cCBFRElEIDEuMyBhbmQgMS40IGp1ZGdlIHJlZHVjZWQtYmxh
+bmtpbmcgdGltaW5ncyBsb2dpYzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Q
+bGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+
+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+T24gVHVlLCAwMyBE
+ZWMgMjAxOSwgJmx0O2FsbGVuLmNoZW5AaXRlLmNvbS50dyZndDsgd3JvdGU6PG86cD48L286cD48
+L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZn
+dDsgSGkgSmFuaSBOaWt1bGE8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxh
+aW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwv
+cD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4m
+bmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFu
+Zz0iRU4tVVMiPiZndDs8bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNv
+UGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OyBUaGFua3MgZm9yIHlvdXIgc3VnZ2Vz
+dGlvbiBhbmQgSSBoYXZlIHJlcGxpZWQgdHdvIGNvbW1lbnRzIGJlbG93LjxvOnA+PC9vOnA+PC9z
+cGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj48bzpw
+PiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBs
+YW5nPSJFTi1VUyI+UGxlYXNlIHJlYWQgbXkgcXVlc3Rpb24gYWdhaW4uPG86cD48L286cD48L3Nw
+YW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPjxvOnA+
+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxh
+bmc9IkVOLVVTIj5CUiw8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5U
+ZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+SmFuaS48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBj
+bGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+PG86cD4mbmJzcDs8L286cD48
+L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZn
+dDs8bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48
+c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNs
+YXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286
+cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMi
+PiZndDsgLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS08bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8
+cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OyBGcm9tOiBKYW5p
+IE5pa3VsYSBbbWFpbHRvOmphbmkubmlrdWxhQGxpbnV4LmludGVsLmNvbV08bzpwPjwvbzpwPjwv
+c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0
+OyBTZW50OiBXZWRuZXNkYXksIE5vdmVtYmVyIDI3LCAyMDE5IDY6MjkgUE08bzpwPjwvbzpwPjwv
+c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0
+OyBUbzogQWxsZW4gQ2hlbiAoPC9zcGFuPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTomcXVvdDvm
+lrDntLDmmI7pq5QmcXVvdDssJnF1b3Q7c2VyaWYmcXVvdDsiPumZs+afj+Wuhzwvc3Bhbj48c3Bh
+biBsYW5nPSJFTi1VUyI+KTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFp
+blRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7IENjOiBKYXUtQ2hpaCBUc2VuZyAoPC9zcGFu
+PjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTomcXVvdDvmlrDntLDmmI7pq5QmcXVvdDssJnF1b3Q7
+c2VyaWYmcXVvdDsiPuabvuaYreaZujwvc3Bhbj48c3BhbiBsYW5nPSJFTi1VUyI+KTsgTWF4aW1l
+IFJpcGFyZDsgQWxsZW4gQ2hlbiAoPC9zcGFuPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTomcXVv
+dDvmlrDntLDmmI7pq5QmcXVvdDssJnF1b3Q7c2VyaWYmcXVvdDsiPumZs+afj+Wuhzwvc3Bhbj48
+c3BhbiBsYW5nPSJFTi1VUyI+KTsgb3Blbg0KIGxpc3Q7IG9wZW4gbGlzdDpEUk0gRFJJVkVSUzsg
+RGF2aWQgQWlybGllOyBQaS1Ic3VuIFNoaWg7IFNlYW4gUGF1bDxvOnA+PC9vOnA+PC9zcGFuPjwv
+cD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7IFN1Ympl
+Y3Q6IFJlOiBbUEFUQ0hdIGRybS9lZGlkOiBmaXh1cCBFRElEIDEuMyBhbmQgMS40IGp1ZGdlIHJl
+ZHVjZWQtYmxhbmtpbmcgdGltaW5ncyBsb2dpYzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNs
+YXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286
+cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMi
+PiZndDs8bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0
+Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxw
+IGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7IE9uIFR1ZSwgMjYg
+Tm92IDIwMTksIGFsbGVuICZsdDthbGxlbi5jaGVuQGl0ZS5jb20udHcmZ3Q7IHdyb3RlOjxvOnA+
+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVO
+LVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWlu
+VGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDsmZ3Q7IEFjY29yZGluZyB0byBWRVNBIEVOSEFO
+Q0VEIEVYVEVOREVEIERJU1BMQVkgSURFTlRJRklDQVRJT04gREFUQSBTVEFOREFSRDxvOnA+PC9v
+OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVT
+Ij4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4
+dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDsmZ3Q7IChEZWZpbmVzIEVESUQgU3RydWN0dXJlIFZl
+cnNpb24gMSwgUmV2aXNpb24gNCkgcGFnZTogMzk8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBj
+bGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OzxvOnA+Jm5ic3A7PC9v
+OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVT
+Ij4mZ3Q7Jmd0OyBIb3cgdG8gZGV0ZXJtaW5lIHdoZXRoZXIgdGhlIG1vbml0b3Igc3VwcG9ydCBS
+QiB0aW1pbmcgb3Igbm90PzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFp
+blRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9w
+Pg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDsmZ3Q7IEVE
+SUQgMS40PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNw
+YW4gbGFuZz0iRU4tVVMiPiZndDs8bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFz
+cz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OyZndDsgRmlyc3Q6Jm5ic3A7
+IHJlYWQgZGV0YWlsZWQgdGltaW5nIGRlc2NyaXB0b3IgYW5kIG1ha2Ugc3VyZSBieXRlIDAgPSAw
+eDAwLDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFu
+IGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9
+Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDsmZ3Q7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7IGJ5dGUgMSA9IDB4MDAsIGJ5dGUgMiA9IDB4MDAgYW5kIGJ5dGUgMyA9IDB4RkQ8
+bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5n
+PSJFTi1VUyI+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Q
+bGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7Jmd0OyBTZWNvbmQ6IHJlYWQgRURJRCBi
+aXQgMCBpbiBmZWF0dXJlIHN1cHBvcnQgYnl0ZSBhdCBhZGRyZXNzIDE4aCA9IDE8bzpwPjwvbzpw
+Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+
+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQi
+PjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7Jmd0OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyBhbmQg
+ZGV0YWlsZWQgdGltaW5nIGRlc2NyaXB0b3IgYnl0ZSAxMCA9IDB4MDQ8bzpwPjwvbzpwPjwvc3Bh
+bj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0Ozxv
+OnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFu
+IGxhbmc9IkVOLVVTIj4mZ3Q7Jmd0OyBUaGlyZDombmJzcDsgaWYgRURJRCBiaXQgMCBpbiBmZWF0
+dXJlIHN1cHBvcnQgYnl0ZSA9IDEgJmFtcDsmYW1wOzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxw
+IGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8
+L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4t
+VVMiPiZndDsmZ3Q7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IGRldGFpbGVkIHRpbWluZyBkZXNj
+cmlwdG9yIGJ5dGUgMTAgPSAweDA0PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1z
+b1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDs8bzpwPiZuYnNwOzwvbzpwPjwvc3Bh
+bj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OyZn
+dDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgdGhlbiB3ZSBjYW4gY2hlY2sgYnl0ZSAxNSwgaWYg
+Yml0IDQgaW4gYnl0ZSAxNSA9IDEgaXMgc3VwcG9ydCBSQjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4N
+CjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJz
+cDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0i
+RU4tVVMiPiZndDsmZ3Q7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7IGlmIEVESUQgYml0IDAgaW4gZmVhdHVyZSBzdXBwb3J0IGJ5dGUgIT0gMSB8fDxvOnA+
+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVO
+LVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWlu
+VGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDsmZ3Q7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+IGRldGFpbGVkIHRpbWluZyBkZXNjcmlwdG9yIGJ5dGUgMTAgIT0gMHgwNCw8bzpwPjwvbzpwPjwv
+c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0
+OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxz
+cGFuIGxhbmc9IkVOLVVTIj4mZ3Q7Jmd0OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyB0aGVuIGJ5
+dGUgMTUgY2FuIG5vdCBiZSB1c2VkPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1z
+b1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDs8bzpwPiZuYnNwOzwvbzpwPjwvc3Bh
+bj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OyZn
+dDs8bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48
+c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNs
+YXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7Jmd0OyBUaGUgbGludXgg
+Y29kZSBpc19yYiBmdW5jdGlvbiBub3QgZm9sbG93IHRoZSBWRVNBJ3MgcnVsZTxvOnA+PC9vOnA+
+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4m
+Z3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+
+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDsmZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0K
+PHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDs8bzpwPiZuYnNw
+OzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJF
+Ti1VUyI+Jmd0OyZndDsgU2lnbmVkLW9mZi1ieTogQWxsZW4gQ2hlbiAmbHQ7YWxsZW4uY2hlbkBp
+dGUuY29tLnR3Jmd0OzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRl
+eHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0K
+PHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDsmZ3Q7IFJlcG9y
+dGVkLWJ5OiBrYnVpbGQgdGVzdCByb2JvdCAmbHQ7bGtwQGludGVsLmNvbSZndDs8bzpwPjwvbzpw
+Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+
+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQi
+PjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7Jmd0OyAtLS08bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8
+cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OzxvOnA+Jm5ic3A7
+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVO
+LVVTIj4mZ3Q7Jmd0OyZuYnNwOyBkcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYyB8IDM2ICYjNDM7
+JiM0MzsmIzQzOyYjNDM7JiM0MzsmIzQzOyYjNDM7JiM0MzsmIzQzOyYjNDM7JiM0MzsmIzQzOyYj
+NDM7JiM0MzsmIzQzOyYjNDM7JiM0MzsmIzQzOyYjNDM7JiM0MzsmIzQzOyYjNDM7JiM0MzsmIzQz
+OyYjNDM7JiM0MzsmIzQzOyYjNDM7JiM0MzsmIzQzOy0tLS0tLTxvOnA+PC9vOnA+PC9zcGFuPjwv
+cD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4m
+bmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFu
+Zz0iRU4tVVMiPiZndDsmZ3Q7Jm5ic3A7IDEgZmlsZSBjaGFuZ2VkLCAzMCBpbnNlcnRpb25zKCYj
+NDM7KSwgNiBkZWxldGlvbnMoLSk8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNv
+UGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFu
+PjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7Jmd0
+OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxz
+cGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xh
+c3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDsmZ3Q7IGRpZmYgLS1naXQg
+YS9kcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5j
+PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFu
+Zz0iRU4tVVMiPiZndDs8bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNv
+UGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OyZndDsgaW5kZXggZjU5MjZiZi4uZTEx
+ZTU4NSAxMDA2NDQ8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0
+Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxw
+IGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7Jmd0OyAtLS0gYS9k
+cml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNz
+PSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48
+L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZn
+dDsmZ3Q7ICYjNDM7JiM0MzsmIzQzOyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jPG86cD48
+L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4t
+VVMiPiZndDs8bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5U
+ZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OyZndDsgQEAgLTkzLDYgJiM0Mzs5MywxMiBAQCBz
+dHJ1Y3QgZGV0YWlsZWRfbW9kZV9jbG9zdXJlIHs8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBj
+bGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OzxvOnA+Jm5ic3A7PC9v
+OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVT
+Ij4mZ3Q7Jmd0OyZuYnNwOyZuYnNwOyZuYnNwOyBpbnQgbW9kZXM7PG86cD48L286cD48L3NwYW4+
+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDs8bzpw
+PiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBs
+YW5nPSJFTi1VUyI+Jmd0OyZndDsmbmJzcDsgfTs8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBj
+bGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OzxvOnA+Jm5ic3A7PC9v
+OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVT
+Ij4mZ3Q7Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFp
+blRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9w
+Pg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDsmZ3Q7ICYj
+NDM7c3RydWN0IGVkaWRfc3VwcG9ydF9yYl9jbG9zdXJlIHs8bzpwPjwvbzpwPjwvc3Bhbj48L3A+
+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OzxvOnA+Jm5i
+c3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9
+IkVOLVVTIj4mZ3Q7Jmd0OyAmIzQzOyZuYnNwOyZuYnNwOyBzdHJ1Y3QgZWRpZCAqZWRpZDs8bzpw
+PjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJF
+Ti1VUyI+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFp
+blRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7Jmd0OyAmIzQzOyZuYnNwOyZuYnNwOyBib29s
+IHZhbGlkX3N1cHBvcnRfcmI7PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1Bs
+YWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDs8bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48
+L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OyZndDsg
+JiM0MzsmbmJzcDsmbmJzcDsgYm9vbCBzdXBwb3J0X3JiOzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4N
+CjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJz
+cDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0i
+RU4tVVMiPiZndDsmZ3Q7ICYjNDM7fTs8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0i
+TXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9z
+cGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7
+Jmd0OyAmIzQzOzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQi
+PjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAg
+Y2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDsmZ3Q7Jm5ic3A7ICNk
+ZWZpbmUgTEVWRUxfRE1UIDA8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxh
+aW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwv
+cD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7Jmd0OyZu
+YnNwOyAjZGVmaW5lIExFVkVMX0dURiZuYnNwOyZuYnNwOyAxPG86cD48L286cD48L3NwYW4+PC9w
+Pg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDs8bzpwPiZu
+YnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5n
+PSJFTi1VUyI+Jmd0OyZndDsmbmJzcDsgI2RlZmluZSBMRVZFTF9HVEYyIDI8bzpwPjwvbzpwPjwv
+c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0
+OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxz
+cGFuIGxhbmc9IkVOLVVTIj4mZ3Q7Jmd0OyBAQCAtMjAxNywyMyAmIzQzOzIwMjMsNDEgQEAgc3Ry
+dWN0IGRybV9kaXNwbGF5X21vZGUgKmRybV9tb2RlX2ZpbmRfZG10KHN0cnVjdCBkcm1fZGV2aWNl
+ICpkZXYsPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNw
+YW4gbGFuZz0iRU4tVVMiPiZndDs8bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFz
+cz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OyZndDsmbmJzcDsmbmJzcDsm
+bmJzcDsgfTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxz
+cGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xh
+c3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDsmZ3Q7Jm5ic3A7IH08bzpw
+PjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJF
+Ti1VUyI+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFp
+blRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFu
+PjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86
+cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4g
+bGFuZz0iRU4tVVMiPiZndDsmZ3Q7ICYjNDM7c3RhdGljIGJvb2w8bzpwPjwvbzpwPjwvc3Bhbj48
+L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OzxvOnA+
+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxh
+bmc9IkVOLVVTIj4mZ3Q7Jmd0OyAmIzQzO2lzX2Rpc3BsYXlfZGVzY3JpcHRvcihjb25zdCB1OCAq
+ciwgdTggdGFnKTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQi
+PjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAg
+Y2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDsmZ3Q7ICYjNDM7ezxv
+OnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9
+IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1Bs
+YWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDsmZ3Q7ICYjNDM7Jm5ic3A7Jm5ic3A7IHJl
+dHVybiAoIXJbMF0gJmFtcDsmYW1wOyAhclsxXSAmYW1wOyZhbXA7ICFyWzJdICZhbXA7JmFtcDsg
+clszXSA9PSB0YWcpID8gdHJ1ZSA6IGZhbHNlOzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNs
+YXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286
+cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMi
+PiZndDsmZ3Q7ICYjNDM7fTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFp
+blRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9w
+Pg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDsmZ3Q7ICYj
+NDM7PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4g
+bGFuZz0iRU4tVVMiPiZndDs8bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0i
+TXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OyZndDsmbmJzcDsgc3RhdGljIHZv
+aWQ8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBs
+YW5nPSJFTi1VUyI+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJN
+c29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7Jmd0OyZuYnNwOyBpc19yYihzdHJ1
+Y3QgZGV0YWlsZWRfdGltaW5nICp0LCB2b2lkICpkYXRhKTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4N
+CjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJz
+cDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0i
+RU4tVVMiPiZndDsmZ3Q7Jm5ic3A7IHs8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0i
+TXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9z
+cGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7
+Jmd0OyZuYnNwOyZuYnNwOyZuYnNwOyB1OCAqciA9ICh1OCAqKXQ7PG86cD48L286cD48L3NwYW4+
+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDs8bzpw
+PiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBs
+YW5nPSJFTi1VUyI+Jmd0OyZndDsgLSZuYnNwOyZuYnNwOyZuYnNwOyBpZiAoclszXSA9PSBFRElE
+X0RFVEFJTF9NT05JVE9SX1JBTkdFKTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJN
+c29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3Nw
+YW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDsm
+Z3Q7IC0mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsgaWYgKHJbMTVdICZhbXA7IDB4MTApPG86cD48L286cD48L3NwYW4+PC9w
+Pg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDs8bzpwPiZu
+YnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5n
+PSJFTi1VUyI+Jmd0OyZndDsgLSZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyAqKGJvb2wgKilkYXRhID0gdHJ1ZTs8bzpwPjwvbzpwPjwvc3Bh
+bj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0Ozxv
+OnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFu
+IGxhbmc9IkVOLVVTIj4mZ3Q7Jmd0OyAmIzQzOyZuYnNwOyZuYnNwOyBzdHJ1Y3QgZWRpZF9zdXBw
+b3J0X3JiX2Nsb3N1cmUgKmNsb3N1cmUgPSBkYXRhOzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxw
+IGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8
+L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4t
+VVMiPiZndDsmZ3Q7ICYjNDM7Jm5ic3A7Jm5ic3A7IHN0cnVjdCBlZGlkICplZGlkID0gY2xvc3Vy
+ZS0mZ3Q7ZWRpZDs8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0
+Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxw
+IGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7Jmd0OyAmIzQzOzxv
+OnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9
+IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1Bs
+YWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDsmZ3Q7ICYjNDM7Jm5ic3A7Jm5ic3A7IGlm
+IChpc19kaXNwbGF5X2Rlc2NyaXB0b3IociwgRURJRF9ERVRBSUxfTU9OSVRPUl9SQU5HRSkpIHs8
+bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5n
+PSJFTi1VUyI+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Q
+bGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7Jmd0OyAmIzQzOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyBpZiAoZWRpZC0m
+Z3Q7ZmVhdHVyZXMgJmFtcDsgQklUKDApICZhbXA7JmFtcDsgclsxMF0gPT0gQklUKDIpKSB7PG86
+cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0i
+RU4tVVMiPiZndDs8bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxh
+aW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OyZndDsgJiM0MzsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgY2xvc3VyZS0mZ3Q7dmFsaWRfc3Vw
+cG9ydF9yYiA9IHRydWU7PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWlu
+VGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDs8bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+
+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OyZndDsgJiM0
+MzsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgY2xv
+c3VyZS0mZ3Q7c3VwcG9ydF9yYiA9IChyWzE1XSAmYW1wOyAweDEwKSA/IHRydWUgOiBmYWxzZTs8
+bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5n
+PSJFTi1VUyI+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Q
+bGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7Jmd0OyAmIzQzOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyB9PG86cD48L286
+cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMi
+PiZndDs8bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0
+Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OyZndDsgJiM0MzsmbmJzcDsmbmJzcDsgfTxvOnA+PC9v
+OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVT
+Ij4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4
+dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDsmZ3Q7Jm5ic3A7IH08bzpwPjwvbzpwPjwvc3Bhbj48
+L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OzxvOnA+
+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxh
+bmc9IkVOLVVTIj4mZ3Q7Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNz
+PSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48
+L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZn
+dDsmZ3Q7Jm5ic3A7IC8qIEVESUQgMS40IGRlZmluZXMgdGhpcyBleHBsaWNpdGx5LiZuYnNwOyBG
+b3IgRURJRCAxLjMsIHdlIGd1ZXNzLCBiYWRseS4gKi88bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8
+cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OzxvOnA+Jm5ic3A7
+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVO
+LVVTIj4mZ3Q7Jmd0OyZuYnNwOyBzdGF0aWMgYm9vbDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxw
+IGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8
+L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4t
+VVMiPiZndDsmZ3Q7Jm5ic3A7IGRybV9tb25pdG9yX3N1cHBvcnRzX3JiKHN0cnVjdCBlZGlkICpl
+ZGlkKTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFu
+IGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9
+Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDsmZ3Q7Jm5ic3A7IHs8bzpwPjwv
+bzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1V
+UyI+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRl
+eHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7Jmd0OyAmIzQzOyZuYnNwOyZuYnNwOyBzdHJ1Y3Qg
+ZWRpZF9zdXBwb3J0X3JiX2Nsb3N1cmUgY2xvc3VyZSA9IHs8bzpwPjwvbzpwPjwvc3Bhbj48L3A+
+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OzxvOnA+Jm5i
+c3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9
+IkVOLVVTIj4mZ3Q7Jmd0OyAmIzQzOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyAuZWRpZCA9IGVkaWQsPG86cD48L286cD48L3NwYW4+
+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDs8bzpw
+PiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBs
+YW5nPSJFTi1VUyI+Jmd0OyZndDsgJiM0MzsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgLnZhbGlkX3N1cHBvcnRfcmIgPSBmYWxzZSw8
+bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5n
+PSJFTi1VUyI+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Q
+bGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7Jmd0OyAmIzQzOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyAuc3VwcG9ydF9y
+YiA9IGZhbHNlLDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQi
+PjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAg
+Y2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDsmZ3Q7ICYjNDM7Jm5i
+c3A7Jm5ic3A7IH07PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4
+dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDs8bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8
+cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OyZndDsgJiM0Mzs8
+bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5n
+PSJFTi1VUyI+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Q
+bGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7Jmd0OyZuYnNwOyZuYnNwOyZuYnNwOyBp
+ZiAoZWRpZC0mZ3Q7cmV2aXNpb24gJmd0Oz0gNCkgezxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxw
+IGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8
+L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4t
+VVMiPiZndDsmZ3Q7IC0mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgYm9vbCByZXQgPSBmYWxzZTs8bzpwPjwvbzpwPjwvc3Bh
+bj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0Ozxv
+OnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFu
+IGxhbmc9IkVOLVVTIj4mZ3Q7Jmd0OyAtJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IGRybV9mb3JfZWFjaF9kZXRhaWxlZF9i
+bG9jaygodTggKillZGlkLCBpc19yYiwgJmFtcDtyZXQpOzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4N
+CjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJz
+cDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0i
+RU4tVVMiPiZndDsmZ3Q7IC0mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgcmV0dXJuIHJldDs8bzpwPjwvbzpwPjwvc3Bhbj48
+L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OzxvOnA+
+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxh
+bmc9IkVOLVVTIj4mZ3Q7Jmd0OyAmIzQzOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyBkcm1fZm9yX2VhY2hfZGV0YWlsZWRfYmxvY2so
+KHU4ICopZWRpZCwgaXNfcmIsICZhbXA7Y2xvc3VyZSk7PG86cD48L286cD48L3NwYW4+PC9wPg0K
+PHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDs8bzpwPiZuYnNw
+OzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJF
+Ti1VUyI+Jmd0OyZndDsgJiM0MzsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgaWYgKGNsb3N1cmUudmFsaWRfc3VwcG9ydF9yYik8bzpw
+PjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJF
+Ti1VUyI+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFp
+blRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7Jmd0OyAmIzQzOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyByZXR1cm4gY2xvc3VyZS5zdXBwb3J0
+X3JiOzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFu
+IGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9
+Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDs8bzpwPiZuYnNwOzwvbzpwPjwv
+c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0
+OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxz
+cGFuIGxhbmc9IkVOLVVTIj4mZ3Q7IEFyZSB5b3UgcGxhbm5pbmcgb24gZXh0ZW5kaW5nIHRoZSBj
+bG9zdXJlIHVzZSBzb21laG93PzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Q
+bGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+
+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDs8bzpw
+PiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBs
+YW5nPSJFTi1VUyI+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJN
+c29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7IEkgZGlkIG5vdCBsb29rIHVwIHRo
+ZSBzcGVjLDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxz
+cGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xh
+c3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDs8bzpwPiZuYnNwOzwvbzpw
+Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+
+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQi
+PjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7ID09Jmd0OyBpVEU6IGFzIHRoZSBwaWN0dXJlIGJlbG93
+LCBmcm9tIFZFU0EgRS1FRElEIHN0YW5kYXJkPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xh
+c3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDs8bzpwPiZuYnNwOzwvbzpw
+Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+
+Jmd0OyBbY2lkOmltYWdlMDAzLmpwZ0AwMUQ1QTlFQS45QjczNjREMF08bzpwPjwvbzpwPjwvc3Bh
+bj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0Ozxv
+OnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFu
+IGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9
+Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDs8bzpwPiZuYnNwOzwvbzpwPjwv
+c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0
+OyBbY2lkOmltYWdlMDA1LmpwZ0AwMUQ1QTlFQS45QjczNjREMF08bzpwPjwvbzpwPjwvc3Bhbj48
+L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OzxvOnA+
+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxh
+bmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1z
+b1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDs8bzpwPiZuYnNwOzwvbzpwPjwvc3Bh
+bj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OyBp
+ZiBFRElEIGJpdCAwIGluIGZlYXR1cmUgc3VwcG9ydCBieXRlID0gMSAmYW1wOyZhbXA7IGRldGFp
+bGVkIHRpbWluZyBkZXNjcmlwdG9yIGJ5dGUgMTAgPSAweDA0IHRoZW4gdGhlIENWVCB0aW1pbmcg
+c3VwcG9ydGVkLjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQi
+PjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAg
+Y2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDs8bzpwPiZuYnNwOzwv
+bzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1V
+UyI+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRl
+eHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7IFtjaWQ6aW1hZ2UwMDkuanBnQDAxRDVBOUVBLjlC
+NzM2NEQwXTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxz
+cGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xh
+c3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDs8bzpwPiZuYnNwOzwvbzpw
+Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+
+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQi
+PjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7IElmIENWVCB0aW1pbmcgc3VwcG9ydGVkIHRoZW4gd2Ug
+Y2FuIGNoZWNrIGJ5dGUgMTUgYml0IDQgdG8gZGV0ZXJtaW5lIHdoZXRoZXIgdGhlIHJlZHVjZWQt
+YmxhbmtpbmcgdGltaW5ncyBzdXBvcnRlZCBvciBub3QuPG86cD48L286cD48L3NwYW4+PC9wPg0K
+PHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDs8bzpwPiZuYnNw
+OzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJF
+Ti1VUyI+Jmd0OyBJZiBDVlQgdGltaW5nIG5vdCBzdXBwb3J0ZWQgdGhlbiB3ZSBjYW4gbm90IHVz
+ZSBieXRlIDE1IHRvIGp1ZGdlLjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Q
+bGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+
+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDsgYnV0
+IHB1cmVseSBvbiB0aGUgY29kZSBjaGFuZ2VzIGFsb25lLCB5b3U8bzpwPjwvbzpwPjwvc3Bhbj48
+L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OzxvOnA+
+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxh
+bmc9IkVOLVVTIj4mZ3Q7IGNvdWxkIGp1c3QgbW92ZSB0aGUgZWRpZC0mZ3Q7ZmVhdHVyZXMgYml0
+IGNoZWNrIGF0IHRoaXMgbGV2ZWwsIGFuZCBub3QgcGFzczxvOnA+PC9vOnA+PC9zcGFuPjwvcD4N
+CjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJz
+cDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0i
+RU4tVVMiPiZndDsgaXQgZG93biwgYW5kIG5vdGhpbmcgd291bGQgY2hhbmdlLiBJLmUuIGRvbid0
+IGl0ZXJhdGUgdGhlIEVESUQgYXQgYWxsIGlmPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xh
+c3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDs8bzpwPiZuYnNwOzwvbzpw
+Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+
+Jmd0OyB0aGUgYml0IGlzIG5vdCBzZXQuPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9
+Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDs8bzpwPiZuYnNwOzwvbzpwPjwv
+c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0
+OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxz
+cGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xh
+c3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDsgPC9zcGFuPjxzcGFuIGxh
+bmc9IkVOLVVTIiBzdHlsZT0iZm9udC1mYW1pbHk6JnF1b3Q7Q291cmllciBOZXcmcXVvdDsiPsOw
+PC9zcGFuPjxzcGFuIGxhbmc9IkVOLVVTIj4mbmJzcDsgaVRFOiBXZSBzdGlsbCBoYXZlIHRvIGNo
+ZWNrIHdoZXRoZXIgZGV0YWlsZWQgdGltaW5nIGRlc2NyaXB0b3IgYnl0ZSAxMCA9IDB4MDQgb3Ig
+bm90LCBzbyBpdCBpcyBoYXJkIHRvIGNoZWNrIGF0IHRoaXMgbGV2ZWw8bzpwPjwvbzpwPjwvc3Bh
+bj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0Ozxv
+OnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFu
+IGxhbmc9IkVOLVVTIj4mZ3Q7IFlvdSBhbHNvIGRvbid0IGFjdHVhbGx5IHVzZSB0aGUgZGlzdGlu
+Y3Rpb24gYmV0d2VlbiB2YWxpZF9zdXBwb3J0X3JiPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAg
+Y2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDs8bzpwPiZuYnNwOzwv
+bzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1V
+UyI+Jmd0OyB2cy4gc3VwcG9ydF9yYiBmb3IgYW55dGhpbmcsIHNvIHRoZSBjbG9zdXJlIGp1c3Qg
+YWRkcyBjb2RlLjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQi
+PjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iY29sb3I6YmxhY2siPjxvOnA+Jm5ic3A7PC9vOnA+
+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIiBz
+dHlsZT0iY29sb3I6IzAwQjA1MCI+PT0mZ3Q7IElURTogRnJvbSBWaWxsZSBTeXJqPC9zcGFuPjxz
+cGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1mYW1pbHk6JnF1b3Q7Q291cmllciBOZXcmcXVv
+dDs7Y29sb3I6IzAwQjA1MCI+w6Q8L3NwYW4+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJjb2xv
+cjojMDBCMDUwIj5sPC9zcGFuPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1mYW1pbHk6
+JnF1b3Q7Q291cmllciBOZXcmcXVvdDs7Y29sb3I6IzAwQjA1MCI+w6Q8L3NwYW4+PHNwYW4gbGFu
+Zz0iRU4tVVMiIHN0eWxlPSJjb2xvcjojMDBCMDUwIj4NCiAmbHQ7PGEgaHJlZj0ibWFpbHRvOnZp
+bGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tIj48c3BhbiBzdHlsZT0iY29sb3I6IzAwQjA1MCI+
+dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb208L3NwYW4+PC9hPiZndDsncyBzdWdnZXN0aW9u
+LjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxh
+bmc9IkVOLVVTIj48aW1nIGJvcmRlcj0iMCIgd2lkdGg9IjQ5MyIgaGVpZ2h0PSIyMzQiIGlkPSLl
+nJbniYdfeDAwMjBfMSIgc3JjPSJjaWQ6aW1hZ2UwMDEucG5nQDAxRDVBRjcyLkNFQTNFRTAwIj48
+c3BhbiBzdHlsZT0iY29sb3I6YmxhY2siPjxvOnA+PC9vOnA+PC9zcGFuPjwvc3Bhbj48L3A+DQo8
+cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OzxvOnA+Jm5ic3A7
+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVO
+LVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWlu
+VGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDs8bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+
+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OyBCUiw8bzpw
+PjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJF
+Ti1VUyI+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFp
+blRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7IEphbmkuPG86cD48L286cD48L3NwYW4+PC9w
+Pg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDs8bzpwPiZu
+YnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5n
+PSJFTi1VUyI+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Q
+bGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+
+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDs8bzpw
+PiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBs
+YW5nPSJFTi1VUyI+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJN
+c29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7Jmd0OyZuYnNwOyZuYnNwOyZuYnNw
+OyB9PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4g
+bGFuZz0iRU4tVVMiPiZndDs8bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0i
+TXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OyZndDs8bzpwPiZuYnNwOzwvbzpw
+Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+
+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQi
+PjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7Jmd0OyZuYnNwOyZuYnNwOyZuYnNwOyByZXR1cm4gKChl
+ZGlkLSZndDtpbnB1dCAmYW1wOyBEUk1fRURJRF9JTlBVVF9ESUdJVEFMKSAhPSAwKTs8bzpwPjwv
+bzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1V
+UyI+Jmd0OzxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRl
+eHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0K
+PHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDs8bzpwPiZuYnNw
+OzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJF
+Ti1VUyI+Jmd0OyAtLTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRl
+eHQiPjxzcGFuIGxhbmc9IkVOLVVTIj4mZ3Q7PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0K
+PHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZndDsgSmFuaSBOaWt1
+bGEsIEludGVsIE9wZW4gU291cmNlIEdyYXBoaWNzIENlbnRlcjxvOnA+PC9vOnA+PC9zcGFuPjwv
+cD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj48bzpwPiZuYnNw
+OzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJF
+Ti1VUyI+LS0gPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+
+PHNwYW4gbGFuZz0iRU4tVVMiPkphbmkgTmlrdWxhLCBJbnRlbCBPcGVuIFNvdXJjZSBHcmFwaGlj
+cyBDZW50ZXI8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4N
+Cg==
+
+--_000_a30ab6d484a941ec9471a57d1814f34bitecomtw_--
+
+--_004_a30ab6d484a941ec9471a57d1814f34bitecomtw_
+Content-Type: image/png; name="image001.png"
+Content-Description: image001.png
+Content-Disposition: inline; filename="image001.png"; size=13750;
+	creation-date="Tue, 10 Dec 2019 08:01:56 GMT";
+	modification-date="Tue, 10 Dec 2019 08:01:56 GMT"
+Content-ID: <image001.png@01D5AF72.CEA3EE00>
+Content-Transfer-Encoding: base64
+
+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
+BQAAAABJRU5ErkJggg==
+
+--_004_a30ab6d484a941ec9471a57d1814f34bitecomtw_--
+
+--===============0339561338==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0339561338==--
