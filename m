@@ -1,52 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11FD8117DA1
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 03:20:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40A7E117F5C
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 06:05:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CBE08934F;
-	Tue, 10 Dec 2019 02:20:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 375CA6E80B;
+	Tue, 10 Dec 2019 05:05:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BC4E8934F;
- Tue, 10 Dec 2019 02:19:59 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2019 18:12:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,297,1571727600"; d="scan'208";a="264424112"
-Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
- by FMSMGA003.fm.intel.com with ESMTP; 09 Dec 2019 18:12:46 -0800
-Received: from fmsmsx101.amr.corp.intel.com (10.18.124.199) by
- FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Mon, 9 Dec 2019 18:12:45 -0800
-Received: from fmsmsx117.amr.corp.intel.com ([169.254.3.27]) by
- fmsmsx101.amr.corp.intel.com ([169.254.1.124]) with mapi id 14.03.0439.000;
- Mon, 9 Dec 2019 18:12:45 -0800
-From: "Souza, Jose" <jose.souza@intel.com>
-To: "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: Re: [Intel-gfx] [PATCH 5/5] drm/i915: Introduce
- intel_plane_state_reset()
-Thread-Topic: [Intel-gfx] [PATCH 5/5] drm/i915: Introduce
- intel_plane_state_reset()
-Thread-Index: AQHVlXceoRqLlWqfAU6qOmJ952K306ezWcyA
-Date: Tue, 10 Dec 2019 02:12:45 +0000
-Message-ID: <6067ffaec3a38192267394a7766cc5f6d4733846.camel@intel.com>
-References: <20191107142417.11107-1-ville.syrjala@linux.intel.com>
- <20191107142417.11107-5-ville.syrjala@linux.intel.com>
-In-Reply-To: <20191107142417.11107-5-ville.syrjala@linux.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.98.40.69]
-Content-ID: <2236AB4F0AC3DA468A5415A4429F6FF5@intel.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTP id BAC3F6E7EC
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 05:05:32 +0000 (UTC)
+X-UUID: d27c65d71fce4663865810f00bb512fa-20191210
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=Ely1YZpvhNjk+dbvsntQPD0NZpTuLQm46xCTloZtkzc=; 
+ b=j0tv+qYBPFqlSoT1oPOlJa55agEFNxbAkZHJlgeR2yawZ5yDImSaMzm/s95EpJjclPkRIV9jn6zKY/ssetF9n9i47Sfl+QXbEymlpZa6s5rqdOivYjgA8OEVe+KzjhesyUWErF5iQ7aGwTMXNS117Gc3JS2Ej199xXXxOf66Plo=;
+X-UUID: d27c65d71fce4663865810f00bb512fa-20191210
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
+ (envelope-from <bibby.hsieh@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 1233116922; Tue, 10 Dec 2019 13:05:29 +0800
+Received: from mtkcas09.mediatek.inc (172.21.101.178) by
+ mtkmbs08n1.mediatek.inc (172.21.101.55) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Tue, 10 Dec 2019 13:05:04 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas09.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via
+ Frontend Transport; Tue, 10 Dec 2019 13:05:21 +0800
+From: Bibby Hsieh <bibby.hsieh@mediatek.com>
+To: David Airlie <airlied@linux.ie>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>
+Subject: [PATCH v5 0/7] drm/mediatek: fix cursor issue and apply CMDQ in MTK
+ DRM
+Date: Tue, 10 Dec 2019 13:05:19 +0800
+Message-ID: <20191210050526.4437-1-bibby.hsieh@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,42 +52,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: drinkcat@chromium.org, srv_heupstream@mediatek.com,
+ linux-kernel@vger.kernel.org, tfiga@chromium.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAyMDE5LTExLTA3IGF0IDE2OjI0ICswMjAwLCBWaWxsZSBTeXJqYWxhIHdyb3RlOg0K
-PiBGcm9tOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPg0K
-PiANCj4gRm9yIHRoZSBzYWtlIG9mIHN5bW1ldHJ5IHdpdGggdGhlIGNydGMgc3R1ZmYgbGV0J3Mg
-YWRkDQo+IGEgaGVscGVyIHRvIHJlc2V0IHRoZSBwbGFuZSBzdGF0ZSB0byBzYW5lIGRlZmF1bHQg
-dmFsdWVzLg0KPiBGb3IgdGhlIG1vbWVudCB0aGlzIG9ubHkgZ2V0cyBjYWxsZXIgZnJvbSB0aGUg
-cGxhbmUgaW5pdC4NCj4gDQoNClJldmlld2VkLWJ5OiBKb3PDqSBSb2JlcnRvIGRlIFNvdXphIDxq
-b3NlLnNvdXphQGludGVsLmNvbT4NCg0KPiBTaWduZWQtb2ZmLWJ5OiBWaWxsZSBTeXJqw6Rsw6Qg
-PHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPg0KPiAtLS0NCj4gIGRyaXZlcnMvZ3B1L2Ry
-bS9pOTE1L2Rpc3BsYXkvaW50ZWxfYXRvbWljX3BsYW5lLmMgfCAxNQ0KPiArKysrKysrKysrKysr
-LS0NCj4gIDEgZmlsZSBjaGFuZ2VkLCAxMyBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0K
-PiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfYXRv
-bWljX3BsYW5lLmMNCj4gYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2F0b21p
-Y19wbGFuZS5jDQo+IGluZGV4IDQyYjNiMzQ0OWQyZS4uOTQyOWI4ZTE3MjcwIDEwMDY0NA0KPiAt
-LS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2F0b21pY19wbGFuZS5jDQo+
-ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfYXRvbWljX3BsYW5lLmMN
-Cj4gQEAgLTQxLDYgKzQxLDE2IEBADQo+ICAjaW5jbHVkZSAiaW50ZWxfcG0uaCINCj4gICNpbmNs
-dWRlICJpbnRlbF9zcHJpdGUuaCINCj4gIA0KPiArc3RhdGljIHZvaWQgaW50ZWxfcGxhbmVfc3Rh
-dGVfcmVzZXQoc3RydWN0IGludGVsX3BsYW5lX3N0YXRlDQo+ICpwbGFuZV9zdGF0ZSwNCj4gKwkJ
-CQkgICAgc3RydWN0IGludGVsX3BsYW5lICpwbGFuZSkNCj4gK3sNCj4gKwltZW1zZXQocGxhbmVf
-c3RhdGUsIDAsIHNpemVvZigqcGxhbmVfc3RhdGUpKTsNCj4gKw0KPiArCV9fZHJtX2F0b21pY19o
-ZWxwZXJfcGxhbmVfc3RhdGVfcmVzZXQoJnBsYW5lX3N0YXRlLT51YXBpLA0KPiAmcGxhbmUtPmJh
-c2UpOw0KPiArDQo+ICsJcGxhbmVfc3RhdGUtPnNjYWxlcl9pZCA9IC0xOw0KPiArfQ0KPiArDQo+
-ICBzdHJ1Y3QgaW50ZWxfcGxhbmUgKmludGVsX3BsYW5lX2FsbG9jKHZvaWQpDQo+ICB7DQo+ICAJ
-c3RydWN0IGludGVsX3BsYW5lX3N0YXRlICpwbGFuZV9zdGF0ZTsNCj4gQEAgLTU2LDggKzY2LDkg
-QEAgc3RydWN0IGludGVsX3BsYW5lICppbnRlbF9wbGFuZV9hbGxvYyh2b2lkKQ0KPiAgCQlyZXR1
-cm4gRVJSX1BUUigtRU5PTUVNKTsNCj4gIAl9DQo+ICANCj4gLQlfX2RybV9hdG9taWNfaGVscGVy
-X3BsYW5lX3Jlc2V0KCZwbGFuZS0+YmFzZSwgJnBsYW5lX3N0YXRlLQ0KPiA+dWFwaSk7DQo+IC0J
-cGxhbmVfc3RhdGUtPnNjYWxlcl9pZCA9IC0xOw0KPiArCWludGVsX3BsYW5lX3N0YXRlX3Jlc2V0
-KHBsYW5lX3N0YXRlLCBwbGFuZSk7DQo+ICsNCj4gKwlwbGFuZS0+YmFzZS5zdGF0ZSA9ICZwbGFu
-ZV9zdGF0ZS0+dWFwaTsNCj4gIA0KPiAgCXJldHVybiBwbGFuZTsNCj4gIH0NCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+The CMDQ (Command Queue) in MT8183 is used to help update all
+relevant display controller registers with critical time limation.
+This patch add cmdq interface in ddp_comp interface, let all
+ddp_comp interface can support cpu/cmdq function at the same time.
+
+These patches also can fixup cursor moving is not smooth
+when heavy load in webgl.
+
+This patch depends on ptach:
+add drm support for MT8183
+(https://patchwork.kernel.org/cover/11121519/)
+support gce on mt8183 platform
+(https://patchwork.kernel.org/cover/11255147/)
+drm/mediatek: Check return value of mtk_drm_ddp_comp_for_plane
+(https://lore.kernel.org/patchwork/patch/1154517/)
+
+Changes since v4:
+ - rebase to Linux 5.5-rc1
+ - add fixes tag
+
+Changes since v3:
+ - remove redundant code and variable
+
+Changes since v2:
+ - move some changes to another patch
+ - disable layer in atomic_disable()
+
+Changes since v1:
+ - remove redundant code
+ - merge the duplicate code
+ - use async instead of cursor
+
+Changes since v0:
+ - remove redundant code
+ - remove patch
+   "drm/mediatek: fix atomic_state reference counting"
+   After remove this patch, the issue we met before is gone.
+   So I do not add any extra code to do something.
+
+Bibby Hsieh (7):
+  drm/mediatek: use DRM core's atomic commit helper
+  drm/mediatek: handle events when enabling/disabling crtc
+  drm/mediatek: update cursors by using async atomic update
+  drm/mediatek: disable all the planes in atomic_disable
+  drm/mediatek: remove unused external function
+  drm/mediatek: support CMDQ interface in ddp component
+  drm/mediatek: apply CMDQ control flow
+
+ drivers/gpu/drm/mediatek/mtk_disp_color.c   |   7 +-
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c     |  67 ++++----
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c    |  43 ++---
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c     | 165 ++++++++++++++++----
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.h     |   2 +
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 131 ++++++++++++----
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  47 +++---
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c      |  86 +---------
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h      |   7 -
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c    |  47 ++++++
+ drivers/gpu/drm/mediatek/mtk_drm_plane.h    |   2 +
+ 11 files changed, 380 insertions(+), 224 deletions(-)
+
+-- 
+2.18.0
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
