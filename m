@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8628119767
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:33:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BA2C11976F
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:33:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2B0F6E995;
-	Tue, 10 Dec 2019 21:33:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BC9D6E98A;
+	Tue, 10 Dec 2019 21:33:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE6A26E995
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 21:33:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 552F56E98A;
+ Tue, 10 Dec 2019 21:33:21 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 99D13207FF;
- Tue, 10 Dec 2019 21:33:07 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 5107622464;
+ Tue, 10 Dec 2019 21:33:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576013588;
- bh=LBS17/9OocU4+KcWh4j4E05YvgO5fkf8tH6AOnJN0sA=;
+ s=default; t=1576013601;
+ bh=JOhl0HqBtM1x8VNLyB2pipT6lxZ2V+2AbhPlcMOKKdg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kdaFhWem2i2zlkycAPk+Ji+ZFZ5nJs4qwTRGLDQqypT+9vMuu1LpHDI7STncvRX6R
- Ws45bXDzlRjXQ4xGpduCD3ZwnbsSpCqxRIg5HCICaWnLXMxv8tksgoGMcKWWpOXHW9
- plg8ElWU8yZWkmulUk4Bmg9DXPi1AI7D8j6aZH3k=
+ b=PUoJVSbxkMzl+6pYfkOwJNkCDpiCu3YrZkTP/TQ7oclXLQnz+edZ6IT8eF+xCENKQ
+ hzXFrQjSuSoQ/+Lef3IaKTZQbyl+qUgwG9AxmGMbIwNpiXqqgKuRxXsLm+RvUW2KCU
+ ZySDw3XZfYAEIySqoGWKu/546wSG6gBUxwC5JnLk=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 039/177] drm/drm_vblank: Change EINVAL by the
- correct errno
-Date: Tue, 10 Dec 2019 16:30:03 -0500
-Message-Id: <20191210213221.11921-39-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 049/177] drm/amd/display: Fix dongle_caps
+ containing stale information.
+Date: Tue, 10 Dec 2019 16:30:13 -0500
+Message-Id: <20191210213221.11921-49-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191210213221.11921-1-sashal@kernel.org>
 References: <20191210213221.11921-1-sashal@kernel.org>
@@ -50,82 +50,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Keith Packard <keithp@keithp.com>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sasha Levin <sashal@kernel.org>, David Galiffi <david.galiffi@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, Jun Lei <Jun.Lei@amd.com>,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogUm9kcmlnbyBTaXF1ZWlyYSA8cm9kcmlnb3NpcXVlaXJhbWVsb0BnbWFpbC5jb20+Cgpb
-IFVwc3RyZWFtIGNvbW1pdCBhZWQ2MTA1YjI4YjEwNjEzZjE2YzBiZmU5NzUyNWZlNWEyMzMzOGRm
-IF0KCkZvciBoaXN0b3JpY2FsIHJlYXNvbnMsIHRoZSBmdW5jdGlvbiBkcm1fd2FpdF92Ymxhbmtf
-aW9jdGwgYWx3YXlzIHJldHVybgotRUlOVkFMIGlmIHNvbWV0aGluZyBnZXRzIHdyb25nLiBUaGlz
-IHNjZW5hcmlvIGxpbWl0cyB0aGUgZmxleGliaWxpdHkKZm9yIHRoZSB1c2Vyc3BhY2UgdG8gbWFr
-ZSBkZXRhaWxlZCB2ZXJpZmljYXRpb24gb2YgYW55IHByb2JsZW0gYW5kIHRha2UKc29tZSBhY3Rp
-b24uIEluIHBhcnRpY3VsYXIsIHRoZSB2YWxpZGF0aW9uIG9mIOKAnGlmICghZGV2LT5pcnFfZW5h
-YmxlZCnigJ0KaW4gdGhlIGRybV93YWl0X3ZibGFua19pb2N0bCBpcyByZXNwb25zaWJsZSBmb3Ig
-Y2hlY2tpbmcgaWYgdGhlIGRyaXZlcgpzdXBwb3J0IHZibGFuayBvciBub3QuIElmIHRoZSBkcml2
-ZXIgZG9lcyBub3Qgc3VwcG9ydCBWQmxhbmssIHRoZQpmdW5jdGlvbiBkcm1fd2FpdF92Ymxhbmtf
-aW9jdGwgcmV0dXJucyBFSU5WQUwsIHdoaWNoIGRvZXMgbm90IHJlcHJlc2VudAp0aGUgcmVhbCBp
-c3N1ZTsgdGhpcyBwYXRjaCBjaGFuZ2VzIHRoaXMgYmVoYXZpb3IgYnkgcmV0dXJuIEVPUE5PVFNV
-UFAuCkFkZGl0aW9uYWxseSwgZHJtX2NydGNfZ2V0X3NlcXVlbmNlX2lvY3RsIGFuZApkcm1fY3J0
-Y19xdWV1ZV9zZXF1ZW5jZV9pb2N0bCwgYWxzbyByZXR1cm5zIEVJTlZBTCBpZiB2YmxhbmsgaXMg
-bm90CnN1cHBvcnRlZDsgdGhpcyBwYXRjaCBhbHNvIGNoYW5nZXMgdGhlIHJldHVybiB2YWx1ZSB0
-byBFT1BOT1RTVVBQIGluCnRoZXNlIGZ1bmN0aW9ucy4gTGFzdGx5LCB0aGVzZSBmdW5jdGlvbnMg
-YXJlIGludm9rZWQgYnkgbGliZHJtLCB3aGljaCBpcwp1c2VkIGJ5IG1hbnkgY29tcG9zaXRvcnM7
-IGJlY2F1c2Ugb2YgdGhpcywgaXQgaXMgaW1wb3J0YW50IHRvIGNoZWNrIGlmCnRoaXMgY2hhbmdl
-IGJyZWFrcyBhbnkgY29tcG9zaXRvci4gSW4gdGhpcyBzZW5zZSwgdGhlIGZvbGxvd2luZyBwcm9q
-ZWN0cwp3ZXJlIGV4YW1pbmVkOgoKKiBEcm0taHdjb21wb3NlcgoqIEt3aW4KKiBTd2F5CiogV2xy
-b290cwoqIFdheWxhbmQKKiBXZXN0b24KKiBNdXR0ZXIKKiBYb3JnICg2NyBkaWZmZXJlbnQgZHJp
-dmVycykKCkZvciBlYWNoIHJlcG9zaXRvcnkgdGhlIHZlcmlmaWNhdGlvbiBoYXBwZW5lZCBpbiB0
-aHJlZSBzdGVwczoKCiogVXBkYXRlIHRoZSBtYWluIGJyYW5jaAoqIExvb2sgZm9yIGFueSBvY2N1
-cnJlbmNlIG9mICJkcm1DcnRjUXVldWVTZXF1ZW5jZSIsCiAgImRybUNydGNHZXRTZXF1ZW5jZSIs
-IGFuZCAiZHJtV2FpdFZCbGFuayIgd2l0aCB0aGUgY29tbWFuZCBnaXQgZ3JlcCAtbgogICJTVFJJ
-TkciLgoqIExvb2sgaW4gdGhlIGdpdCBoaXN0b3J5IG9mIHRoZSBwcm9qZWN0IHdpdGggdGhlIGNv
-bW1hbmQKZ2l0IGxvZyAtUzxTVFJJTkc+CgpOb25lIG9mIHRoZSBhYm92ZSBwcm9qZWN0cyB2YWxp
-ZGF0ZSB0aGUgdXNlIG9mIEVJTlZBTCB3aGVuIHVzaW5nCmRybVdhaXRWQmxhbmsoKSwgd2hpY2gg
-bWFrZSBzYWZlLCBhdCBsZWFzdCBmb3IgdGhlc2UgcHJvamVjdHMsIHRvIGNoYW5nZQp0aGUgcmV0
-dXJuIHZhbHVlcy4gT24gdGhlIG90aGVyIGhhbmQsIG1lc2EgYW5kIHhzZXJ2ZXIgcHJvamVjdCB1
-c2VzCmRybUNydGNRdWV1ZVNlcXVlbmNlKCkgYW5kIGRybUNydGNHZXRTZXF1ZW5jZSgpOyB0aGlz
-IGNoYW5nZSBpcyBoYXJtbGVzcwpmb3IgYm90aCBwcm9qZWN0cy4KCkNoYW5nZSBzaW5jZSBWNSAo
-UGVra2EgUGFhbGFuZW4pOgogLSBDaGVjayBpZiB0aGUgY2hhbmdlIGFsc28gYWZmZWN0cyBNdXR0
-ZXIKCkNoYW5nZSBzaW5jZSBWNCAoRGFuaWVsKToKIC0gQWxzbyByZXR1cm4gRU9QTk9UU1VQUCBp
-biBkcm1fY3J0Y19bZ2V0fHF1ZXVlXV9zZXF1ZW5jZV9pb2N0bAoKQ2hhbmdlIHNpbmNlIFYzOgog
-LSBSZXR1cm4gRUlOVkFMIGZvciBfRFJNX1ZCTEFOS19TSUdOQUwgKERhbmllbCkKCkNoYW5nZSBz
-aW5jZSBWMjoKIERhbmllbCBWZXR0ZXIgYW5kIENocmlzIFdpbHNvbgogLSBSZXBsYWNlIEVOT1RU
-WSBieSBFT1BOT1RTVVBQCiAtIFJldHVybiBFSU5WQUwgaWYgdGhlIHBhcmFtZXRlcnMgYXJlIHdy
-b25nCgpDYzogS2VpdGggUGFja2FyZCA8a2VpdGhwQGtlaXRocC5jb20+CkNjOiBNYWFydGVuIExh
-bmtob3JzdCA8bWFhcnRlbi5sYW5raG9yc3RAbGludXguaW50ZWwuY29tPgpDYzogVmlsbGUgU3ly
-asOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KQ2M6IENocmlzIFdpbHNvbiA8
-Y2hyaXNAY2hyaXMtd2lsc29uLmNvLnVrPgpDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xs
-LmNoPgpDYzogUGVra2EgUGFhbGFuZW4gPHBla2thLnBhYWxhbmVuQGNvbGxhYm9yYS5jb20+ClNp
-Z25lZC1vZmYtYnk6IFJvZHJpZ28gU2lxdWVpcmEgPHJvZHJpZ29zaXF1ZWlyYW1lbG9AZ21haWwu
-Y29tPgpSZXZpZXdlZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPgpBY2tlZC1i
-eTogUGVra2EgUGFhbGFuZW4gPHBla2thLnBhYWxhbmVuQGNvbGxhYm9yYS5jb20+Ckxpbms6IGh0
-dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9wYXRjaC9tc2dpZC8yMDE5MTAwMjE0MDUx
-Ni5hZGV5ajNodHlsaW1tbG1nQHNtdHAuZ21haWwuY29tClNpZ25lZC1vZmYtYnk6IFNhc2hhIExl
-dmluIDxzYXNoYWxAa2VybmVsLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX3ZibGFuay5j
-IHwgNiArKystLS0KIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25z
-KC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV92YmxhbmsuYyBiL2RyaXZlcnMv
-Z3B1L2RybS9kcm1fdmJsYW5rLmMKaW5kZXggZDE4NTliY2M3Y2NiYy4uMzNhNzJhODQzNjFlZiAx
-MDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV92YmxhbmsuYworKysgYi9kcml2ZXJzL2dw
-dS9kcm0vZHJtX3ZibGFuay5jCkBAIC0xNTcyLDcgKzE1NzIsNyBAQCBpbnQgZHJtX3dhaXRfdmJs
-YW5rX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEsCiAJdW5zaWduZWQg
-aW50IGZsYWdzLCBwaXBlLCBoaWdoX3BpcGU7CiAKIAlpZiAoIWRldi0+aXJxX2VuYWJsZWQpCi0J
-CXJldHVybiAtRUlOVkFMOworCQlyZXR1cm4gLUVPUE5PVFNVUFA7CiAKIAlpZiAodmJsd2FpdC0+
-cmVxdWVzdC50eXBlICYgX0RSTV9WQkxBTktfU0lHTkFMKQogCQlyZXR1cm4gLUVJTlZBTDsKQEAg
-LTE4MTMsNyArMTgxMyw3IEBAIGludCBkcm1fY3J0Y19nZXRfc2VxdWVuY2VfaW9jdGwoc3RydWN0
-IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwKIAkJcmV0dXJuIC1FSU5WQUw7CiAKIAlpZiAo
-IWRldi0+aXJxX2VuYWJsZWQpCi0JCXJldHVybiAtRUlOVkFMOworCQlyZXR1cm4gLUVPUE5PVFNV
-UFA7CiAKIAljcnRjID0gZHJtX2NydGNfZmluZChkZXYsIGZpbGVfcHJpdiwgZ2V0X3NlcS0+Y3J0
-Y19pZCk7CiAJaWYgKCFjcnRjKQpAQCAtMTg3MSw3ICsxODcxLDcgQEAgaW50IGRybV9jcnRjX3F1
-ZXVlX3NlcXVlbmNlX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEsCiAJ
-CXJldHVybiAtRUlOVkFMOwogCiAJaWYgKCFkZXYtPmlycV9lbmFibGVkKQotCQlyZXR1cm4gLUVJ
-TlZBTDsKKwkJcmV0dXJuIC1FT1BOT1RTVVBQOwogCiAJY3J0YyA9IGRybV9jcnRjX2ZpbmQoZGV2
-LCBmaWxlX3ByaXYsIHF1ZXVlX3NlcS0+Y3J0Y19pZCk7CiAJaWYgKCFjcnRjKQotLSAKMi4yMC4x
-CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
-ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+From: David Galiffi <david.galiffi@amd.com>
+
+[ Upstream commit dd998291dbe92106d8c4a7581c409b356928d711 ]
+
+[WHY]
+
+During detection:
+function: get_active_converter_info populates link->dpcd_caps.dongle_caps
+only when dpcd_rev >= DPCD_REV_11 and DWN_STRM_PORTX_TYPE is
+DOWN_STREAM_DETAILED_HDMI or DOWN_STREAM_DETAILED_DP_PLUS_PLUS.
+Otherwise, it is not cleared, and stale information remains.
+
+During mode validation:
+function: dp_active_dongle_validate_timing reads
+link->dpcd_caps.dongle_caps->dongle_type to determine the maximum
+pixel clock to support. This information is now stale and no longer
+valid.
+
+[HOW]
+dp_active_dongle_validate_timing should be using
+link->dpcd_caps->dongle_type instead.
+
+Signed-off-by: David Galiffi <david.galiffi@amd.com>
+Reviewed-by: Jun Lei <Jun.Lei@amd.com>
+Acked-by: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c    | 2 +-
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+index 23a7ef97afdd2..c6f7c1344a9b8 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+@@ -1950,7 +1950,7 @@ static bool dp_active_dongle_validate_timing(
+ 		break;
+ 	}
+ 
+-	if (dongle_caps->dongle_type != DISPLAY_DONGLE_DP_HDMI_CONVERTER ||
++	if (dpcd_caps->dongle_type != DISPLAY_DONGLE_DP_HDMI_CONVERTER ||
+ 		dongle_caps->extendedCapValid == false)
+ 		return true;
+ 
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+index 05840f5bddd59..122249da03ab7 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+@@ -2172,6 +2172,7 @@ static void get_active_converter_info(
+ 	uint8_t data, struct dc_link *link)
+ {
+ 	union dp_downstream_port_present ds_port = { .byte = data };
++	memset(&link->dpcd_caps.dongle_caps, 0, sizeof(link->dpcd_caps.dongle_caps));
+ 
+ 	/* decode converter info*/
+ 	if (!ds_port.fields.PORT_PRESENT) {
+-- 
+2.20.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
