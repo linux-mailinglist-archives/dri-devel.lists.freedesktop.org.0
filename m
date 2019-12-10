@@ -2,36 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD1291194A6
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:17:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81F9C119349
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:09:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3559D6E96E;
-	Tue, 10 Dec 2019 21:17:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2CF26E937;
+	Tue, 10 Dec 2019 21:09:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 308 seconds by postgrey-1.36 at gabe;
+ Tue, 10 Dec 2019 21:09:12 UTC
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54EB66E966
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 21:17:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6EDF6E937
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 21:09:12 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id C4FF4246A0;
- Tue, 10 Dec 2019 21:09:02 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id ED99F246A5;
+ Tue, 10 Dec 2019 21:09:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576012143;
- bh=e97XmwMHx0vI+6xD3HXRhhHq8dw7yVxvDqvo9+ujASs=;
+ s=default; t=1576012152;
+ bh=tuAaTuL8euIcbGtYBkcietDdMq711xgJAVedFgWRTR4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=QBB+9qroNE/pvujFKA2UVaKMFMmlwdTy4l5ZzsiJvub+qsp5jIr7OyXJAg5r4KrEl
- a6OEpz9tw1nEGo68A2talaqZ1S2GNTNp5Io0g2OJHlGIXuDuPmdKA2MXMebgr2a/Y7
- J50qHFu4av+IWsmx9A+NdJVvaqhoHZq0Jz5YyYeI=
+ b=2pEo0erx/FZPIVgCRRxr+b5XY38Qh+/f9bcyZBgkKfasVuvtUJwJYZQA3Hol7uj5d
+ ziS24lXub72Lbadix4sYcGNmt/pHPgvsghGWYfwoysAVAG2Hxf838klw+jMyoxTvlm
+ ltAJT8o750VCwaTj7+9dKzlErapqizuxLoodV6SQ=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 108/350] drm/bridge: dw-hdmi: Restore audio when
- setting a mode
-Date: Tue, 10 Dec 2019 16:03:33 -0500
-Message-Id: <20191210210735.9077-69-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 115/350] drm/amd/powerplay: avoid disabling ECC if
+ RAS is enabled for VEGA20
+Date: Tue, 10 Dec 2019 16:03:40 -0500
+Message-Id: <20191210210735.9077-76-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191210210735.9077-1-sashal@kernel.org>
 References: <20191210210735.9077-1-sashal@kernel.org>
@@ -50,53 +52,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Neil Armstrong <narmstrong@baylibre.com>,
- dri-devel@lists.freedesktop.org, Yakir Yang <ykk@rock-chips.com>,
- Cheng-Yi Chiang <cychiang@chromium.org>
+Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ Le Ma <le.ma@amd.com>, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Daniel Kurtz <djkurtz@chromium.org>
+From: Le Ma <le.ma@amd.com>
 
-[ Upstream commit fadfee3f9d8f114435a8a3e9f83a227600d89de7 ]
+[ Upstream commit df9331e561dab0a451cbd6a679ee88a95f306fd6 ]
 
-When setting a new display mode, dw_hdmi_setup() calls
-dw_hdmi_enable_video_path(), which disables all hdmi clocks, including
-the audio clock.
+Program THM_BACO_CNTL.SOC_DOMAIN_IDLE=1 will tell VBIOS to disable ECC when
+BACO exit. This can save BACO exit time by PSP on none-ECC SKU. Drop the setting
+for ECC supported SKU.
 
-We should only (re-)enable the audio clock if audio was already enabled
-when setting the new mode.
-
-Without this patch, on RK3288, there will be HDMI audio on some monitors
-if i2s was played to headphone when the monitor was plugged.
-ACER H277HU and ASUS PB278 are two of the monitors showing this issue.
-
-Signed-off-by: Cheng-Yi Chiang <cychiang@chromium.org>
-Signed-off-by: Daniel Kurtz <djkurtz@chromium.org>
-Signed-off-by: Yakir Yang <ykk@rock-chips.com>
-Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
-Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20191008102145.55134-1-cychiang@chromium.org
+Signed-off-by: Le Ma <le.ma@amd.com>
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/powerplay/hwmgr/vega20_baco.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 3e82d604201ee..1326f2c734bf8 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -2033,7 +2033,7 @@ static int dw_hdmi_setup(struct dw_hdmi *hdmi, struct drm_display_mode *mode)
+diff --git a/drivers/gpu/drm/amd/powerplay/hwmgr/vega20_baco.c b/drivers/gpu/drm/amd/powerplay/hwmgr/vega20_baco.c
+index df6ff92524011..b068d1c7b44d2 100644
+--- a/drivers/gpu/drm/amd/powerplay/hwmgr/vega20_baco.c
++++ b/drivers/gpu/drm/amd/powerplay/hwmgr/vega20_baco.c
+@@ -29,7 +29,7 @@
+ #include "vega20_baco.h"
+ #include "vega20_smumgr.h"
  
- 		/* HDMI Initialization Step E - Configure audio */
- 		hdmi_clk_regenerator_update_pixel_clock(hdmi);
--		hdmi_enable_audio_clk(hdmi, true);
-+		hdmi_enable_audio_clk(hdmi, hdmi->audio_enable);
- 	}
+-
++#include "amdgpu_ras.h"
  
- 	/* not for DVI mode */
+ static const struct soc15_baco_cmd_entry clean_baco_tbl[] =
+ {
+@@ -74,6 +74,7 @@ int vega20_baco_get_state(struct pp_hwmgr *hwmgr, enum BACO_STATE *state)
+ int vega20_baco_set_state(struct pp_hwmgr *hwmgr, enum BACO_STATE state)
+ {
+ 	struct amdgpu_device *adev = (struct amdgpu_device *)(hwmgr->adev);
++	struct amdgpu_ras *ras = amdgpu_ras_get_context(adev);
+ 	enum BACO_STATE cur_state;
+ 	uint32_t data;
+ 
+@@ -84,10 +85,11 @@ int vega20_baco_set_state(struct pp_hwmgr *hwmgr, enum BACO_STATE state)
+ 		return 0;
+ 
+ 	if (state == BACO_STATE_IN) {
+-		data = RREG32_SOC15(THM, 0, mmTHM_BACO_CNTL);
+-		data |= 0x80000000;
+-		WREG32_SOC15(THM, 0, mmTHM_BACO_CNTL, data);
+-
++		if (!ras || !ras->supported) {
++			data = RREG32_SOC15(THM, 0, mmTHM_BACO_CNTL);
++			data |= 0x80000000;
++			WREG32_SOC15(THM, 0, mmTHM_BACO_CNTL, data);
++		}
+ 
+ 		if(smum_send_msg_to_smc_with_parameter(hwmgr, PPSMC_MSG_EnterBaco, 0))
+ 			return -EINVAL;
 -- 
 2.20.1
 
