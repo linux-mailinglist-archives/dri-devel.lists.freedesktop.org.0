@@ -2,38 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 186E01191B8
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 21:18:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCB001191F9
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 21:30:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0595A6E927;
-	Tue, 10 Dec 2019 20:18:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA7716E179;
+	Tue, 10 Dec 2019 20:30:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9E8A6E927
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 20:18:49 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 25A422008B;
- Tue, 10 Dec 2019 21:18:46 +0100 (CET)
-Date: Tue, 10 Dec 2019 21:18:45 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Claudiu Beznea <claudiu.beznea@microchip.com>
-Subject: Re: [PATCH 2/5] drm: atmel-hlcdc: enable clock before configuring
- timing engine
-Message-ID: <20191210201845.GA24756@ravnborg.org>
-References: <1575984287-26787-1-git-send-email-claudiu.beznea@microchip.com>
- <1575984287-26787-3-git-send-email-claudiu.beznea@microchip.com>
+Received: from NAM02-CY1-obe.outbound.protection.outlook.com
+ (mail-eopbgr760050.outbound.protection.outlook.com [40.107.76.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8C666E176;
+ Tue, 10 Dec 2019 20:30:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ixkWlwjs5SaChlehXYg0ZhubwqjE54XeFJywMvSB5gLONFvgVh8yrWgsvalgUQl/hOF/RSTtZgsIXAK447TBDpot4NzUlKB0Z21ef5aeIJRkpxW3Dv0VXQrkbe9BfX2EgoE3PG6XFC0sawDpfRckfOv170NAklI4AhdSGAUp1+XqLkpI0L6+/Z0tKGyV1P8NM4toKibJpYc892oI624uCylAEuWLyqj/OQpxwmmYDeclSI6DI940EZAxv6N/NsA1i2XxOQ8UU7w+oiwi8ne8UjeSvfpT5HdqPPRCArbhHyRmd1dMBPMDhjtcQ1+Ob9O4G8u9S3fvDGAMu5vF9YnBkQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dCyvppKbKI0qwsCNf/PsfxLZC0SBZCyE6Yrsf7k+GlE=;
+ b=Ndbk4+J8k3HSQ5sj6RaP1Sk7fz2PQ7PkXLf8Akhc8s4Z8Dm7txx2B50lX80ik9bYlNeQfMM6hLzz/w430IPCcgKf/XwL1a2GZkjkASG1R8j2QV9USIpPKzP94Hikt7Urky8bclv0/QcXctXrXeuqFGw27sBOi4PkLaw73N3ss7Xo8MZCIEkme4xvmt4ALAsjTfsOqxdJV8C+F9LsyYAfeMGEdbd2a/OryicicXMAQNt6xcqGIA5r/5a8TbKcwmy1hx7NBAcjIV9D1FtwlfgPC/iK+IUewgfRBM2EKvZBKfpV8lWY5xZXVptHWD1fl82mweGEGww3USou6bg69g/bTA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dCyvppKbKI0qwsCNf/PsfxLZC0SBZCyE6Yrsf7k+GlE=;
+ b=QIL3h0O4IfO75c5n5V7YQsQq2GKzcqm4qAPtpsZc13iFLLK1R6R7RPjwu9udm5SmTz1EnfiVgzfe8z1nEPC5QFJLKKqITu3oiMtjJJKF5PCgFssDjPjAIZcFb0YIZY/CNztIZ6z9gEmeYCENEGHPhs+nuwuVlaLRrTpQJPHEKUU=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Nicholas.Kazlauskas@amd.com; 
+Received: from BYAPR12MB3560.namprd12.prod.outlook.com (20.178.197.10) by
+ BYAPR12MB2744.namprd12.prod.outlook.com (20.176.255.204) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2495.20; Tue, 10 Dec 2019 20:30:26 +0000
+Received: from BYAPR12MB3560.namprd12.prod.outlook.com
+ ([fe80::81f8:ed8a:e30e:adb0]) by BYAPR12MB3560.namprd12.prod.outlook.com
+ ([fe80::81f8:ed8a:e30e:adb0%7]) with mapi id 15.20.2516.018; Tue, 10 Dec 2019
+ 20:30:25 +0000
+Subject: Re: [PATCH] drm/amd/display: include linux/slab.h where needed
+To: Arnd Bergmann <arnd@arndb.de>, Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ "David (ChunMing) Zhou" <David1.Zhou@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+References: <20191210195941.931745-1-arnd@arndb.de>
+From: "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>
+Message-ID: <cded03ab-40fe-a904-7b1f-5b3623bb7af4@amd.com>
+Date: Tue, 10 Dec 2019 15:30:21 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
+In-Reply-To: <20191210195941.931745-1-arnd@arndb.de>
+Content-Language: en-US
+X-ClientProxiedBy: YTBPR01CA0015.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:14::28) To BYAPR12MB3560.namprd12.prod.outlook.com
+ (2603:10b6:a03:ae::10)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1575984287-26787-3-git-send-email-claudiu.beznea@microchip.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=XYAwZIGsAAAA:8
- a=3T0gCXIu3ADAjCj7PMoA:9 a=CjuIK1q_8ugA:10 a=E8ToXWR_bxluHZ7gmE-Z:22
+X-Originating-IP: [165.204.55.250]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 887df509-16fd-41ff-be5d-08d77dafc9bc
+X-MS-TrafficTypeDiagnostic: BYAPR12MB2744:|BYAPR12MB2744:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BYAPR12MB2744545568DF8001C71C663AEC5B0@BYAPR12MB2744.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-Forefront-PRVS: 02475B2A01
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10009020)(4636009)(396003)(346002)(366004)(136003)(376002)(39860400002)(199004)(189003)(2906002)(36756003)(4001150100001)(54906003)(52116002)(2616005)(26005)(53546011)(316002)(6506007)(81166006)(81156014)(110136005)(8676002)(66476007)(31686004)(8936002)(478600001)(31696002)(86362001)(4326008)(186003)(6666004)(66946007)(66556008)(6512007)(5660300002)(6486002);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR12MB2744;
+ H:BYAPR12MB3560.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: PhVw+sDhY+X6TWmj8G1oWP3GlXom8fireg8F24HBnvkORYa2m0LfHN+W0Q2a0uWZlweH4xl/RD9zvfRgy3XLwqnybfqyCMiQt4sXUqyaTnC9Q92t4bQJgzMldt+YpciPR03Mvrbl9DcJPHYaWEJzLtNkiN2BvJIzlXdQwbxdYyzOPNHPs4pAqeqFOL6pRHyTCjpSqoviCSUvScPnlDUq3VYyOgFDi7njzMQY4eNooLoq0DCH/QV5C0BwtQO/3HgEqRw7AX4rZNSYRCN7Y+8Zx2THzdMYM9Sfjn4Zs7PecZwqIZrDrdQO7XlGfpMWolLooG8brtZmaP96gyDB4X/bdkf5peP/1fkUGN5eLky21B+mDZr4C7qYOjBAqxowyfr3yjg77Bc1UPNCO4BCm2b/B8n2LqjayhL7t5FndfRJw7l/mDGPGKDYn55gbofF4qtH
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 887df509-16fd-41ff-be5d-08d77dafc9bc
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2019 20:30:25.7041 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MvmUZm89pFyTxanMR3yIaoqnIf1ESN7jQ8YpEzDim+l3hT8wtlMNquy8zLj76sVrDiVeIHGvqArYva5QDjgipA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2744
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,76 +95,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexandre.belloni@bootlin.com, bbrezillon@kernel.org, airlied@linux.ie,
- nicolas.ferre@microchip.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, ludovic.desroches@microchip.com,
- lee.jones@linaro.org, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: Eric Yang <Eric.Yang2@amd.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Roman Li <Roman.Li@amd.com>,
+ Michael Strauss <michael.strauss@amd.com>, amd-gfx@lists.freedesktop.org,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Claudiu.
-
-On Tue, Dec 10, 2019 at 03:24:44PM +0200, Claudiu Beznea wrote:
-> Changing pixel clock source without having this clock source enabled
-> will block the timing engine and the next operations after (in this case
-> setting ATMEL_HLCDC_CFG(5) settings in atmel_hlcdc_crtc_mode_set_nofb()
-> will fail). It is recomended (although in datasheet this is not present)
-> to actually enabled pixel clock source before doing any changes on timing
-> enginge (only SAM9X60 datasheet specifies that the peripheral clock and
-> pixel clock must be enabled before using LCD controller).
+On 2019-12-10 2:59 p.m., Arnd Bergmann wrote:
+> Calling kzalloc() and related functions requires the
+> linux/slab.h header to be included:
 > 
-> Fixes: 1a396789f65a ("drm: add Atmel HLCDC Display Controller support")
-> Signed-off-by: Claudiu Beznea <claudiu.beznea@microchip.com>
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn21/dcn21_resource.c: In function 'dcn21_ipp_create':
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn21/dcn21_resource.c:679:3: error: implicit declaration of function 'kzalloc'; did you mean 'd_alloc'? [-Werror=implicit-function-declaration]
+>     kzalloc(sizeof(struct dcn10_ipp), GFP_KERNEL);
+> 
+> A lot of other headers also miss a direct include in this file,
+> but this is the only one that causes a problem for now.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-We already had a remotely similar fix.
-See 262d67e73f9a920a20bd75278761400404a82de0
-("drm: atmel-hlcdc: enable sys_clk during initalization.")
+What version of the kernel are you building?
 
-In this patch sys_clk is only enabled if we have a fixed_clk.
-Maybe we should do this unconditionally in
-atmel_hlcdc_dc_load()?
+We have:
 
-Then we do not need this enable(disable in the mode_set_nofb
-implementation.
+#include <linux/slab.h>
 
-Have you considered this way to fix it?
+in os_types.h which gets included as part of this file:
 
-	Sam
+#include <dc.h> -> #include <dc_types.h> -> #include <os_types.h>
+
+Nicholas Kazlauskas
 
 > ---
->  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
+>   drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c | 2 ++
+>   1 file changed, 2 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-> index 5040ed8d0871..721fa88bf71d 100644
-> --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-> +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-> @@ -73,7 +73,11 @@ static void atmel_hlcdc_crtc_mode_set_nofb(struct drm_crtc *c)
->  	unsigned long prate;
->  	unsigned int mask = ATMEL_HLCDC_CLKDIV_MASK | ATMEL_HLCDC_CLKPOL;
->  	unsigned int cfg = 0;
-> -	int div;
-> +	int div, ret;
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
+> index 906c84e6b49b..af57885bbff2 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
+> @@ -23,6 +23,8 @@
+>    *
+>    */
+>   
+> +#include <linux/slab.h>
 > +
-> +	ret = clk_prepare_enable(crtc->dc->hlcdc->sys_clk);
-> +	if (ret)
-> +		return;
->  
->  	vm.vfront_porch = adj->crtc_vsync_start - adj->crtc_vdisplay;
->  	vm.vback_porch = adj->crtc_vtotal - adj->crtc_vsync_end;
-> @@ -147,6 +151,8 @@ static void atmel_hlcdc_crtc_mode_set_nofb(struct drm_crtc *c)
->  			   ATMEL_HLCDC_VSPSU | ATMEL_HLCDC_VSPHO |
->  			   ATMEL_HLCDC_GUARDTIME_MASK | ATMEL_HLCDC_MODE_MASK,
->  			   cfg);
-> +
-> +	clk_disable_unprepare(crtc->dc->hlcdc->sys_clk);
->  }
->  
->  static enum drm_mode_status
-> -- 
-> 2.7.4
+>   #include "dm_services.h"
+>   #include "dc.h"
+>   
+> 
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
