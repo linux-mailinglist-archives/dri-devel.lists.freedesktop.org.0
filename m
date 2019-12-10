@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C85B2119A94
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 23:03:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6DCA119A95
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 23:04:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8AE86E9A1;
-	Tue, 10 Dec 2019 22:03:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDD336E99C;
+	Tue, 10 Dec 2019 22:04:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9CBB6E9A1
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 22:03:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C65946E99C
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 22:04:06 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id BB5AF20637;
- Tue, 10 Dec 2019 22:03:53 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 06AFA24654;
+ Tue, 10 Dec 2019 22:04:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576015434;
- bh=CqcmmDdjuJ6RXhSdZZKilbhpEHoMGJnpGpaXaNnE4fc=;
+ s=default; t=1576015446;
+ bh=Ou1PSvO9mzQplgaXyRtNrAVHy52DwVJxUz6ql/HCO/Y=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=0sT1XPE30ls32mm18ksFel65j2K6lly1IfFIf43Gu7QiVcFMtf80FvDh5ZKV16l+X
- H4nQ6qCO/O8xKaH71WgV080EHkIuuLZhBG2ZJC4+QSpWdVt3y2LwQLJd7fo3sgkO9J
- zW0B9uh36ur+yFXI+Nd1ncz/+F05ysUHS6plDBhY=
+ b=wPd0xWOY8nOoIFqf0n3G38uxZBkkwW5rf/AbDUetWs26++3J1Cv936gzXPRb+0lCh
+ lnQ77GtAF5fGJFwN4cjFKzPkJS0zVOVw54OVUQhFo9/iFhWKpfAv3C1OBreWjy/fL+
+ E5ZT0AStIYSlhz+GXZS3XdFAhxfwijwHO9Rt8XTw=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 044/130] drm/bridge: dw-hdmi: Restore audio when
- setting a mode
-Date: Tue, 10 Dec 2019 17:01:35 -0500
-Message-Id: <20191210220301.13262-44-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 054/130] drm/gma500: fix memory disclosures due
+ to uninitialized bytes
+Date: Tue, 10 Dec 2019 17:01:45 -0500
+Message-Id: <20191210220301.13262-54-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191210220301.13262-1-sashal@kernel.org>
 References: <20191210220301.13262-1-sashal@kernel.org>
@@ -50,53 +50,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Neil Armstrong <narmstrong@baylibre.com>,
- dri-devel@lists.freedesktop.org, Yakir Yang <ykk@rock-chips.com>,
- Cheng-Yi Chiang <cychiang@chromium.org>
+Cc: Sasha Levin <sashal@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Kangjie Lu <kjlu@umn.edu>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Daniel Kurtz <djkurtz@chromium.org>
+From: Kangjie Lu <kjlu@umn.edu>
 
-[ Upstream commit fadfee3f9d8f114435a8a3e9f83a227600d89de7 ]
+[ Upstream commit ec3b7b6eb8c90b52f61adff11b6db7a8db34de19 ]
 
-When setting a new display mode, dw_hdmi_setup() calls
-dw_hdmi_enable_video_path(), which disables all hdmi clocks, including
-the audio clock.
+"clock" may be copied to "best_clock". Initializing best_clock
+is not sufficient. The fix initializes clock as well to avoid
+memory disclosures and informaiton leaks.
 
-We should only (re-)enable the audio clock if audio was already enabled
-when setting the new mode.
-
-Without this patch, on RK3288, there will be HDMI audio on some monitors
-if i2s was played to headphone when the monitor was plugged.
-ACER H277HU and ASUS PB278 are two of the monitors showing this issue.
-
-Signed-off-by: Cheng-Yi Chiang <cychiang@chromium.org>
-Signed-off-by: Daniel Kurtz <djkurtz@chromium.org>
-Signed-off-by: Yakir Yang <ykk@rock-chips.com>
-Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
-Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20191008102145.55134-1-cychiang@chromium.org
+Signed-off-by: Kangjie Lu <kjlu@umn.edu>
+Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Link: https://patchwork.freedesktop.org/patch/msgid/20191018044150.1899-1-kjlu@umn.edu
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/gma500/oaktrail_crtc.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 0febaafb8d895..cc1094f901255 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -1743,7 +1743,7 @@ static int dw_hdmi_setup(struct dw_hdmi *hdmi, struct drm_display_mode *mode)
+diff --git a/drivers/gpu/drm/gma500/oaktrail_crtc.c b/drivers/gpu/drm/gma500/oaktrail_crtc.c
+index 0fff269d3fe68..42785f3df60fd 100644
+--- a/drivers/gpu/drm/gma500/oaktrail_crtc.c
++++ b/drivers/gpu/drm/gma500/oaktrail_crtc.c
+@@ -139,6 +139,7 @@ static bool mrst_sdvo_find_best_pll(const struct gma_limit_t *limit,
+ 	s32 freq_error, min_error = 100000;
  
- 		/* HDMI Initialization Step E - Configure audio */
- 		hdmi_clk_regenerator_update_pixel_clock(hdmi);
--		hdmi_enable_audio_clk(hdmi, true);
-+		hdmi_enable_audio_clk(hdmi, hdmi->audio_enable);
- 	}
+ 	memset(best_clock, 0, sizeof(*best_clock));
++	memset(&clock, 0, sizeof(clock));
  
- 	/* not for DVI mode */
+ 	for (clock.m = limit->m.min; clock.m <= limit->m.max; clock.m++) {
+ 		for (clock.n = limit->n.min; clock.n <= limit->n.max;
+@@ -195,6 +196,7 @@ static bool mrst_lvds_find_best_pll(const struct gma_limit_t *limit,
+ 	int err = target;
+ 
+ 	memset(best_clock, 0, sizeof(*best_clock));
++	memset(&clock, 0, sizeof(clock));
+ 
+ 	for (clock.m = limit->m.min; clock.m <= limit->m.max; clock.m++) {
+ 		for (clock.p1 = limit->p1.min; clock.p1 <= limit->p1.max;
 -- 
 2.20.1
 
