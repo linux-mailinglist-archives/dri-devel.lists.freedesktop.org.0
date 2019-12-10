@@ -2,36 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD1A9119388
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:12:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5DB911937F
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:12:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A01C6E95F;
-	Tue, 10 Dec 2019 21:12:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B9426E950;
+	Tue, 10 Dec 2019 21:12:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 439476E957
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 334D16E94E
  for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 21:12:23 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 48C20214D8;
- Tue, 10 Dec 2019 21:04:14 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 5D39C2465A;
+ Tue, 10 Dec 2019 21:04:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576011855;
- bh=Q8Q7aNebccwD6/X1QwWVe44pv8AWPGwmTkkkV/bDDBI=;
+ s=default; t=1576011856;
+ bh=7EI7P3PGp+T2fMFBwQoRHd94hkoswcoKdHg5xbodqNU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=eT+4zNgWmPO4baFXnuqgUBG0Ybfi+7B6RFfl5hxs9knxOqFx6DGnrcny3FbtGugad
- TJwkSpPZtS6QTFCkrNTyy8QWpwzgnGb74dcU3dBPiP0kajpjAnsLTF/ahtHpj1RsAi
- UfkdEgvSLedMaufT2I86Gt865gseaiRU6G9sqED8=
+ b=MgFM7ApjZSyNoUtxI1/CyhWeYj1yPW1+/7yjegTvI+wdbbzN4WmvAld7oxasmwLrO
+ fJxna9i6u2JhF38H6vBCpUwKzJBOKeWWlrARuloWy2qIShbWJWJ32Vd65ssZ/8oSVK
+ c4czsSQDKNMmGEU7592cTj1MHT0EtCeRUrJU5qGw=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 009/350] drm/bridge: analogix-anx78xx: silence
- -EPROBE_DEFER warnings
-Date: Tue, 10 Dec 2019 15:58:21 -0500
-Message-Id: <20191210210402.8367-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 010/350] drm/amd/display: OTC underflow fix
+Date: Tue, 10 Dec 2019 15:58:22 -0500
+Message-Id: <20191210210402.8367-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191210210402.8367-1-sashal@kernel.org>
 References: <20191210210402.8367-1-sashal@kernel.org>
@@ -51,54 +50,48 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- Brian Masney <masneyb@onstation.org>
+ Jaehyun Chung <jaehyun.chung@amd.com>, Alvin Lee <Alvin.Lee2@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Brian Masney <masneyb@onstation.org>
+From: Jaehyun Chung <jaehyun.chung@amd.com>
 
-[ Upstream commit 2708e876272d89bbbff811d12834adbeef85f022 ]
+[ Upstream commit 785908cf19c9eb4803f6bf9c0a7447dc3661d5c3 ]
 
-Silence two warning messages that occur due to -EPROBE_DEFER errors to
-help cleanup the system boot log.
+[Why] Underflow occurs on some display setups(repro'd on 3x4K HDR) on boot,
+mode set, and hot-plugs with. Underflow occurs because mem clk
+is not set high after disabling pstate switching. This behaviour occurs
+because some calculations assumed displays were synchronized.
 
-Signed-off-by: Brian Masney <masneyb@onstation.org>
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: Andrzej Hajda <a.hajda@samsung.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20190815004854.19860-4-masneyb@onstation.org
+[How] Add a condition to check if timing sync is disabled so that
+synchronized vblank can be set to false.
+
+Signed-off-by: Jaehyun Chung <jaehyun.chung@amd.com>
+Reviewed-by: Alvin Lee <Alvin.Lee2@amd.com>
+Acked-by: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/bridge/analogix-anx78xx.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/analogix-anx78xx.c b/drivers/gpu/drm/bridge/analogix-anx78xx.c
-index 3c7cc5af735ce..56df07cdab68f 100644
---- a/drivers/gpu/drm/bridge/analogix-anx78xx.c
-+++ b/drivers/gpu/drm/bridge/analogix-anx78xx.c
-@@ -715,7 +715,9 @@ static int anx78xx_init_pdata(struct anx78xx *anx78xx)
- 	/* 1.0V digital core power regulator  */
- 	pdata->dvdd10 = devm_regulator_get(dev, "dvdd10");
- 	if (IS_ERR(pdata->dvdd10)) {
--		DRM_ERROR("DVDD10 regulator not found\n");
-+		if (PTR_ERR(pdata->dvdd10) != -EPROBE_DEFER)
-+			DRM_ERROR("DVDD10 regulator not found\n");
-+
- 		return PTR_ERR(pdata->dvdd10);
- 	}
- 
-@@ -1332,7 +1334,9 @@ static int anx78xx_i2c_probe(struct i2c_client *client,
- 
- 	err = anx78xx_init_pdata(anx78xx);
- 	if (err) {
--		DRM_ERROR("Failed to initialize pdata: %d\n", err);
-+		if (err != -EPROBE_DEFER)
-+			DRM_ERROR("Failed to initialize pdata: %d\n", err);
-+
- 		return err;
- 	}
- 
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
+index 6b2f2f1a1c9ce..3980c7b782599 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
+@@ -1765,7 +1765,7 @@ int dcn20_populate_dml_pipes_from_context(
+ 			pipe_cnt = i;
+ 			continue;
+ 		}
+-		if (!resource_are_streams_timing_synchronizable(
++		if (dc->debug.disable_timing_sync || !resource_are_streams_timing_synchronizable(
+ 				res_ctx->pipe_ctx[pipe_cnt].stream,
+ 				res_ctx->pipe_ctx[i].stream)) {
+ 			synchronized_vblank = false;
 -- 
 2.20.1
 
