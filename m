@@ -1,39 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A12EE119C68
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 23:32:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76824119CA8
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 23:33:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB0276E9BE;
-	Tue, 10 Dec 2019 22:32:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FCE06E9C0;
+	Tue, 10 Dec 2019 22:33:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A9D56E9BE
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 22:32:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC5736E9C0
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 22:33:18 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id A8EEC214AF;
- Tue, 10 Dec 2019 22:32:15 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 7128C2073D;
+ Tue, 10 Dec 2019 22:33:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576017136;
- bh=rYsSXhlJmyoW6Nfvt5sPsIBN9RZGmO0tbZ6Q3HLc7Mg=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=05ub06dwMrA760vRYNjwZmGyxgyvzsbfLwm/qX/c/HBouwzSnED9m4EjJNMkYgfz2
- baUdUtJ92hq/VHguM5aBlz6/IkCSuj7r+pBBLudYhveKkFf3/zQaBnbnzVvfWK8RfB
- OSBVPXUCb/buToZT8/g3iird2ikVYOyYKLbNrWYA=
+ s=default; t=1576017198;
+ bh=DiRCgErLnaPFpDFzZ7O2OQisayRi7QqIXVHj7zFDuXw=;
+ h=From:To:Cc:Subject:Date:From;
+ b=fJA7NeihFF7PkPApy56zBaOsM15RZXI3EVqn5G3Ey8/tPYVPRfHpFVUkmDDKSEsBw
+ vhlV5sdmnRgSVrUZdh7y10owGcg0JLRKYde0K5pq1Se23tt4dnxSnFTr+xkNuxKvO6
+ lBjHbl1he1Yo/LTx6OogpfOortYLuAn5yGzhtOMM=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 84/91] fbtft: Make sure string is NULL terminated
-Date: Tue, 10 Dec 2019 17:30:28 -0500
-Message-Id: <20191210223035.14270-84-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 01/71] drm: mst: Fix query_payload ack reply struct
+Date: Tue, 10 Dec 2019 17:32:06 -0500
+Message-Id: <20191210223316.14988-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191210223035.14270-1-sashal@kernel.org>
-References: <20191210223035.14270-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -49,44 +47,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, devel@driverdev.osuosl.org,
- linux-fbdev@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Todd Previte <tprevite@gmail.com>, Sasha Levin <sashal@kernel.org>,
+ Maxime Ripard <maxime.ripard@bootlin.com>, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, Sean Paul <seanpaul@chromium.org>,
+ Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogQW5keSBTaGV2Y2hlbmtvIDxhbmRyaXkuc2hldmNoZW5rb0BsaW51eC5pbnRlbC5jb20+
-CgpbIFVwc3RyZWFtIGNvbW1pdCAyMWY1ODU0ODBkZWI0YmNmMGQ5MmIwODg3OWMzNWQwNjZkZmVl
-MDMwIF0KCk5ldyBHQ0Mgd2FybnMgYWJvdXQgaW5hcHByb3ByaWF0ZSB1c2Ugb2Ygc3RybmNweSgp
-OgoKZHJpdmVycy9zdGFnaW5nL2ZidGZ0L2ZidGZ0LWNvcmUuYzogSW4gZnVuY3Rpb24g4oCYZmJ0
-ZnRfZnJhbWVidWZmZXJfYWxsb2PigJk6CmRyaXZlcnMvc3RhZ2luZy9mYnRmdC9mYnRmdC1jb3Jl
-LmM6NjY1OjI6IHdhcm5pbmc6IOKAmHN0cm5jcHnigJkgc3BlY2lmaWVkIGJvdW5kIDE2IGVxdWFs
-cyBkZXN0aW5hdGlvbiBzaXplIFstV3N0cmluZ29wLXRydW5jYXRpb25dCiAgNjY1IHwgIHN0cm5j
-cHkoaW5mby0+Zml4LmlkLCBkZXYtPmRyaXZlci0+bmFtZSwgMTYpOwogICAgICB8ICBefn5+fn5+
-fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fgoKTGF0ZXIgb24gdGhlIGNvcHkg
-aXMgYmVpbmcgdXNlZCB3aXRoIHRoZSBhc3N1bXB0aW9uIHRvIGJlIE5VTEwgdGVybWluYXRlZC4K
-TWFrZSBzdXJlIHN0cmluZyBpcyBOVUxMIHRlcm1pbmF0ZWQgYnkgc3dpdGNoaW5nIHRvIHNucHJp
-bnRmKCkuCgpTaWduZWQtb2ZmLWJ5OiBBbmR5IFNoZXZjaGVua28gPGFuZHJpeS5zaGV2Y2hlbmtv
-QGxpbnV4LmludGVsLmNvbT4KTGluazogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvci8yMDE5MTEy
-MDA5NTcxNi4yNjYyOC0xLWFuZHJpeS5zaGV2Y2hlbmtvQGxpbnV4LmludGVsLmNvbQpTaWduZWQt
-b2ZmLWJ5OiBHcmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPgpT
-aWduZWQtb2ZmLWJ5OiBTYXNoYSBMZXZpbiA8c2FzaGFsQGtlcm5lbC5vcmc+Ci0tLQogZHJpdmVy
-cy9zdGFnaW5nL2ZidGZ0L2ZidGZ0LWNvcmUuYyB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGlu
-c2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvc3RhZ2luZy9m
-YnRmdC9mYnRmdC1jb3JlLmMgYi9kcml2ZXJzL3N0YWdpbmcvZmJ0ZnQvZmJ0ZnQtY29yZS5jCmlu
-ZGV4IGQ5YmE4YzBmMTM1M2IuLmVjZTcxM2QwMjY2MDcgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvc3Rh
-Z2luZy9mYnRmdC9mYnRmdC1jb3JlLmMKKysrIGIvZHJpdmVycy9zdGFnaW5nL2ZidGZ0L2ZidGZ0
-LWNvcmUuYwpAQCAtNzY2LDcgKzc2Niw3IEBAIHN0cnVjdCBmYl9pbmZvICpmYnRmdF9mcmFtZWJ1
-ZmZlcl9hbGxvYyhzdHJ1Y3QgZmJ0ZnRfZGlzcGxheSAqZGlzcGxheSwKIAlmYmRlZmlvLT5kZWZl
-cnJlZF9pbyA9ICAgICBmYnRmdF9kZWZlcnJlZF9pbzsKIAlmYl9kZWZlcnJlZF9pb19pbml0KGlu
-Zm8pOwogCi0Jc3RybmNweShpbmZvLT5maXguaWQsIGRldi0+ZHJpdmVyLT5uYW1lLCAxNik7CisJ
-c25wcmludGYoaW5mby0+Zml4LmlkLCBzaXplb2YoaW5mby0+Zml4LmlkKSwgIiVzIiwgZGV2LT5k
-cml2ZXItPm5hbWUpOwogCWluZm8tPmZpeC50eXBlID0gICAgICAgICAgIEZCX1RZUEVfUEFDS0VE
-X1BJWEVMUzsKIAlpbmZvLT5maXgudmlzdWFsID0gICAgICAgICBGQl9WSVNVQUxfVFJVRUNPTE9S
-OwogCWluZm8tPmZpeC54cGFuc3RlcCA9CSAgIDA7Ci0tIAoyLjIwLjEKCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+From: Sean Paul <seanpaul@chromium.org>
+
+[ Upstream commit 268de6530aa18fe5773062367fd119f0045f6e88 ]
+
+Spec says[1] Allocated_PBN is 16 bits
+
+[1]- DisplayPort 1.2 Spec, Section 2.11.9.8, Table 2-98
+
+Fixes: ad7f8a1f9ced ("drm/helper: add Displayport multi-stream helper (v0.6)")
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Todd Previte <tprevite@gmail.com>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>
+Cc: Sean Paul <sean@poorly.run>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+Signed-off-by: Sean Paul <seanpaul@chromium.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20190829165223.129662-1-sean@poorly.run
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ include/drm/drm_dp_mst_helper.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst_helper.h
+index f356f9716474a..674472ac067ad 100644
+--- a/include/drm/drm_dp_mst_helper.h
++++ b/include/drm/drm_dp_mst_helper.h
+@@ -303,7 +303,7 @@ struct drm_dp_resource_status_notify {
+ 
+ struct drm_dp_query_payload_ack_reply {
+ 	u8 port_number;
+-	u8 allocated_pbn;
++	u16 allocated_pbn;
+ };
+ 
+ struct drm_dp_sideband_msg_req_body {
+-- 
+2.20.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
