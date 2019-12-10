@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6DCA119A95
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 23:04:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F802119A96
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 23:04:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDD336E99C;
-	Tue, 10 Dec 2019 22:04:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47D946E9A2;
+	Tue, 10 Dec 2019 22:04:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C65946E99C
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 22:04:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB8906E9A2
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 22:04:15 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 06AFA24654;
- Tue, 10 Dec 2019 22:04:05 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 1CC8C20828;
+ Tue, 10 Dec 2019 22:04:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576015446;
- bh=Ou1PSvO9mzQplgaXyRtNrAVHy52DwVJxUz6ql/HCO/Y=;
+ s=default; t=1576015455;
+ bh=W8FjvEdZ1OetBhrZBLdVen2FG3URZ0YyYFeokNVLBf0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=wPd0xWOY8nOoIFqf0n3G38uxZBkkwW5rf/AbDUetWs26++3J1Cv936gzXPRb+0lCh
- lnQ77GtAF5fGJFwN4cjFKzPkJS0zVOVw54OVUQhFo9/iFhWKpfAv3C1OBreWjy/fL+
- E5ZT0AStIYSlhz+GXZS3XdFAhxfwijwHO9Rt8XTw=
+ b=F8ikRw058sZ9Qc9dPDhTG2IRJrMsHhOCzRedZUljP60hOOq09q0JYjv6sco8MsKO3
+ 86INyizZn9OQk3BoV2n2DPnxJlU0RE4QEcbYcmvUwkG4Jr4eXRgVS36wRnuhlhsFKu
+ AHyqJX4nC40Jl3g6TZPMLdOU45ifcCGct9D7RNbg=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 054/130] drm/gma500: fix memory disclosures due
- to uninitialized bytes
-Date: Tue, 10 Dec 2019 17:01:45 -0500
-Message-Id: <20191210220301.13262-54-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 062/130] gpu: host1x: Allocate gather copy for
+ host1x
+Date: Tue, 10 Dec 2019 17:01:53 -0500
+Message-Id: <20191210220301.13262-62-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191210220301.13262-1-sashal@kernel.org>
 References: <20191210220301.13262-1-sashal@kernel.org>
@@ -50,49 +50,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Kangjie Lu <kjlu@umn.edu>, dri-devel@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org,
+ Thierry Reding <treding@nvidia.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Kangjie Lu <kjlu@umn.edu>
+From: Thierry Reding <treding@nvidia.com>
 
-[ Upstream commit ec3b7b6eb8c90b52f61adff11b6db7a8db34de19 ]
+[ Upstream commit b78e70c04c149299bd210759d7c7af7c86b89ca8 ]
 
-"clock" may be copied to "best_clock". Initializing best_clock
-is not sufficient. The fix initializes clock as well to avoid
-memory disclosures and informaiton leaks.
+Currently when the gather buffers are copied, they are copied to a
+buffer that is allocated for the host1x client that wants to execute the
+command streams in the buffers. However, the gather buffers will be read
+by the host1x device, which causes SMMU faults if the DMA API is backed
+by an IOMMU.
 
-Signed-off-by: Kangjie Lu <kjlu@umn.edu>
-Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Link: https://patchwork.freedesktop.org/patch/msgid/20191018044150.1899-1-kjlu@umn.edu
+Fix this by allocating the gather buffer copy for the host1x device,
+which makes sure that it will be mapped into the host1x's IOVA space if
+the DMA API is backed by an IOMMU.
+
+Signed-off-by: Thierry Reding <treding@nvidia.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/gma500/oaktrail_crtc.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/host1x/job.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/gma500/oaktrail_crtc.c b/drivers/gpu/drm/gma500/oaktrail_crtc.c
-index 0fff269d3fe68..42785f3df60fd 100644
---- a/drivers/gpu/drm/gma500/oaktrail_crtc.c
-+++ b/drivers/gpu/drm/gma500/oaktrail_crtc.c
-@@ -139,6 +139,7 @@ static bool mrst_sdvo_find_best_pll(const struct gma_limit_t *limit,
- 	s32 freq_error, min_error = 100000;
+diff --git a/drivers/gpu/host1x/job.c b/drivers/gpu/host1x/job.c
+index acd99783bbca1..67f3c050c4cfc 100644
+--- a/drivers/gpu/host1x/job.c
++++ b/drivers/gpu/host1x/job.c
+@@ -545,7 +545,8 @@ static int validate(struct host1x_firewall *fw, struct host1x_job_gather *g)
+ 	return err;
+ }
  
- 	memset(best_clock, 0, sizeof(*best_clock));
-+	memset(&clock, 0, sizeof(clock));
+-static inline int copy_gathers(struct host1x_job *job, struct device *dev)
++static inline int copy_gathers(struct device *host, struct host1x_job *job,
++			       struct device *dev)
+ {
+ 	struct host1x_firewall fw;
+ 	size_t size = 0;
+@@ -570,12 +571,12 @@ static inline int copy_gathers(struct host1x_job *job, struct device *dev)
+ 	 * Try a non-blocking allocation from a higher priority pools first,
+ 	 * as awaiting for the allocation here is a major performance hit.
+ 	 */
+-	job->gather_copy_mapped = dma_alloc_wc(dev, size, &job->gather_copy,
++	job->gather_copy_mapped = dma_alloc_wc(host, size, &job->gather_copy,
+ 					       GFP_NOWAIT);
  
- 	for (clock.m = limit->m.min; clock.m <= limit->m.max; clock.m++) {
- 		for (clock.n = limit->n.min; clock.n <= limit->n.max;
-@@ -195,6 +196,7 @@ static bool mrst_lvds_find_best_pll(const struct gma_limit_t *limit,
- 	int err = target;
+ 	/* the higher priority allocation failed, try the generic-blocking */
+ 	if (!job->gather_copy_mapped)
+-		job->gather_copy_mapped = dma_alloc_wc(dev, size,
++		job->gather_copy_mapped = dma_alloc_wc(host, size,
+ 						       &job->gather_copy,
+ 						       GFP_KERNEL);
+ 	if (!job->gather_copy_mapped)
+@@ -636,7 +637,7 @@ int host1x_job_pin(struct host1x_job *job, struct device *dev)
+ 		goto out;
  
- 	memset(best_clock, 0, sizeof(*best_clock));
-+	memset(&clock, 0, sizeof(clock));
+ 	if (IS_ENABLED(CONFIG_TEGRA_HOST1X_FIREWALL)) {
+-		err = copy_gathers(job, dev);
++		err = copy_gathers(host->dev, job, dev);
+ 		if (err)
+ 			goto out;
+ 	}
+@@ -701,7 +702,7 @@ void host1x_job_unpin(struct host1x_job *job)
+ 	job->num_unpins = 0;
  
- 	for (clock.m = limit->m.min; clock.m <= limit->m.max; clock.m++) {
- 		for (clock.p1 = limit->p1.min; clock.p1 <= limit->p1.max;
+ 	if (job->gather_copy_size)
+-		dma_free_wc(job->channel->dev, job->gather_copy_size,
++		dma_free_wc(host->dev, job->gather_copy_size,
+ 			    job->gather_copy_mapped, job->gather_copy);
+ }
+ EXPORT_SYMBOL(host1x_job_unpin);
 -- 
 2.20.1
 
