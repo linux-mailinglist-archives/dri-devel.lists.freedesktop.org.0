@@ -1,36 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1F301195EF
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:25:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47647119603
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:25:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67F7E6E966;
-	Tue, 10 Dec 2019 21:25:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBE606E96C;
+	Tue, 10 Dec 2019 21:25:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 498396E962
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 21:25:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D1026E962
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 21:25:17 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 84AEA207FF;
- Tue, 10 Dec 2019 21:25:15 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 94DDD20836;
+ Tue, 10 Dec 2019 21:25:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576013116;
- bh=1TL1cfOTkjPwCJCaGLP0Z6byKDzAchxlwBZbQAlNnoA=;
+ s=default; t=1576013117;
+ bh=LHlXup6UK4obdIwh8GDiEqMZRzr9DxRSOQoyLqXkURQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DnAmdD6Ky6wIj0bBYUt1xR52X27tDj+oJ70oQ7VZ/Inmot+/D9WhkJRROu03d+zNr
- S1qWS+dcxVN1uzRSAEFg6gKd6CPgZbBKyVh90rUKN2/87JJyzmtkRi6l9ze9R7aqmE
- 0PBID3oUrkBAWcQ9ztg0hMfAr81fAn6fKkqedswQ=
+ b=d+EsjnCEBSg784M4z5NhMBIFrQkdJz/31J2uFo5gMGa81adDuO9OcfszEZcy/jHS8
+ qNGNRE7rcx/io1FR52CmrqOh7aG/zJeKff8utbU2h4Y19Kvyp87FjDLvAVTQ7gtklt
+ TiFbMwlUUjQxfvbWVU56iZ59k/RB/SLySqhcSAnA=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.3 003/292] drm/mipi-dbi: fix a loop in debugfs code
-Date: Tue, 10 Dec 2019 16:20:22 -0500
-Message-Id: <20191210212511.11392-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.3 004/292] drm/panel: Add missing drm_panel_init()
+ in panel drivers
+Date: Tue, 10 Dec 2019 16:20:23 -0500
+Message-Id: <20191210212511.11392-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191210212511.11392-1-sashal@kernel.org>
 References: <20191210212511.11392-1-sashal@kernel.org>
@@ -49,43 +50,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- Dan Carpenter <dan.carpenter@oracle.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sasha Levin <sashal@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogRGFuIENhcnBlbnRlciA8ZGFuLmNhcnBlbnRlckBvcmFjbGUuY29tPgoKWyBVcHN0cmVh
-bSBjb21taXQgZDcyY2YwMWY0MTBhYTA5ODY4ZDk4YjY3MmYzZjkyMzI4Yzk2YjMyZCBdCgpUaGlz
-IGNvZGUgd2lsbCBsaWtlbHkgY3Jhc2ggaWYgd2UgdHJ5IHRvIGRvIGEgemVybyBieXRlIHdyaXRl
-LiAgVGhlIGNvZGUKbG9va3MgbGlrZSB0aGlzOgoKICAgICAgICAvKiBzdHJpcCB0cmFpbGluZyB3
-aGl0ZXNwYWNlICovCiAgICAgICAgZm9yIChpID0gY291bnQgLSAxOyBpID4gMDsgaS0tKQogICAg
-ICAgICAgICAgICAgaWYgKGlzc3BhY2UoYnVmW2ldKSkKCQkJLi4uCgpXZSdyZSB3cml0aW5nIHpl
-cm8gYnl0ZXMgc28gY291bnQgPSAwLiAgWW91IHdvdWxkIHRoaW5rIHRoYXQgImNvdW50IC0gMSIK
-d291bGQgYmUgbmVnYXRpdmUgb25lLCBidXQgYmVjYXVzZSAiaSIgaXMgdW5zaWduZWQgaXQgaXMg
-YSBsYXJnZQpwb3NpdGl2ZSBudW1lciBpbnN0ZWFkLiAgVGhlICJpID4gMCIgY29uZGl0aW9uIGlz
-IHRydWUgYW5kIHRoZSAiYnVmW2ldIgphY2Nlc3Mgd2lsbCBiZSBvdXQgb2YgYm91bmRzLgoKVGhl
-IGZpeCBpcyB0byBtYWtlICJpIiBzaWduZWQgYW5kIG5vdyBldmVyeXRoaW5nIHdvcmtzIGFzIGV4
-cGVjdGVkLiAgVGhlCnVwcGVyIGJvdW5kIG9mICJjb3VudCIgaXMgY2FwcGVkIGluIF9fa2VybmVs
-X3dyaXRlKCkgYXQgTUFYX1JXX0NPVU5UIHNvCndlIGRvbid0IGhhdmUgdG8gd29ycnkgYWJvdXQg
-aXQgYmVpbmcgaGlnaGVyIHRoYW4gSU5UX01BWC4KCkZpeGVzOiAwMmRkOTVmZTMxNjkgKCJkcm0v
-dGlueWRybTogQWRkIE1JUEkgREJJIHN1cHBvcnQiKQpTaWduZWQtb2ZmLWJ5OiBEYW4gQ2FycGVu
-dGVyIDxkYW4uY2FycGVudGVyQG9yYWNsZS5jb20+Cltub3JhbGY6IEFkanVzdCB0aXRsZV0KU2ln
-bmVkLW9mZi1ieTogTm9yYWxmIFRyw7hubmVzIDxub3JhbGZAdHJvbm5lcy5vcmc+Ckxpbms6IGh0
-dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9wYXRjaC9tc2dpZC8yMDE5MDgyMTA3MjQ1
-Ni5HSjI2OTU3QG13YW5kYQpTaWduZWQtb2ZmLWJ5OiBTYXNoYSBMZXZpbiA8c2FzaGFsQGtlcm5l
-bC5vcmc+Ci0tLQogZHJpdmVycy9ncHUvZHJtL3Rpbnlkcm0vbWlwaS1kYmkuYyB8IDMgKy0tCiAx
-IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9ncHUvZHJtL3Rpbnlkcm0vbWlwaS1kYmkuYyBiL2RyaXZlcnMvZ3B1L2RybS90
-aW55ZHJtL21pcGktZGJpLmMKaW5kZXggY2E5ZGE2NTRmYzZmNC4uZDZiN2M3MDZjNjc0YiAxMDA2
-NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Rpbnlkcm0vbWlwaS1kYmkuYworKysgYi9kcml2ZXJz
-L2dwdS9kcm0vdGlueWRybS9taXBpLWRiaS5jCkBAIC0xMDMzLDggKzEwMzMsNyBAQCBzdGF0aWMg
-c3NpemVfdCBtaXBpX2RiaV9kZWJ1Z2ZzX2NvbW1hbmRfd3JpdGUoc3RydWN0IGZpbGUgKmZpbGUs
-CiAJc3RydWN0IG1pcGlfZGJpICptaXBpID0gbS0+cHJpdmF0ZTsKIAl1OCB2YWwsIGNtZCA9IDAs
-IHBhcmFtZXRlcnNbNjRdOwogCWNoYXIgKmJ1ZiwgKnBvcywgKnRva2VuOwotCXVuc2lnbmVkIGlu
-dCBpOwotCWludCByZXQsIGlkeDsKKwlpbnQgaSwgcmV0LCBpZHg7CiAKIAlpZiAoIWRybV9kZXZf
-ZW50ZXIoJm1pcGktPmRybSwgJmlkeCkpCiAJCXJldHVybiAtRU5PREVWOwotLSAKMi4yMC4xCgpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+[ Upstream commit 65abbda8ed7ca48c8807d6b04a77431b438fa659 ]
+
+Panels must be initialised with drm_panel_init(). Add the missing
+function call in the panel-raspberrypi-touchscreen.c and
+panel-sitronix-st7789v.c drivers.
+
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20190823193245.23876-2-laurent.pinchart@ideasonboard.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c | 1 +
+ drivers/gpu/drm/panel/panel-sitronix-st7789v.c        | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c b/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
+index b5b14aa059ea7..2aa89eaecf6ff 100644
+--- a/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
++++ b/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
+@@ -426,6 +426,7 @@ static int rpi_touchscreen_probe(struct i2c_client *i2c,
+ 		return PTR_ERR(ts->dsi);
+ 	}
+ 
++	drm_panel_init(&ts->base);
+ 	ts->base.dev = dev;
+ 	ts->base.funcs = &rpi_touchscreen_funcs;
+ 
+diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
+index 5e3e92ea9ea69..3b2612ae931e8 100644
+--- a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
++++ b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
+@@ -381,6 +381,7 @@ static int st7789v_probe(struct spi_device *spi)
+ 	spi_set_drvdata(spi, ctx);
+ 	ctx->spi = spi;
+ 
++	drm_panel_init(&ctx->panel);
+ 	ctx->panel.dev = &spi->dev;
+ 	ctx->panel.funcs = &st7789v_drm_funcs;
+ 
+-- 
+2.20.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
