@@ -1,59 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1C8511A6A6
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 10:20:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B230C11A6D7
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 10:22:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B8246E15E;
-	Wed, 11 Dec 2019 09:20:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0802E6EAC3;
+	Wed, 11 Dec 2019 09:20:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
- [IPv6:2607:f8b0:4864:20::742])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D23546E05D
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 11:41:06 +0000 (UTC)
-Received: by mail-qk1-x742.google.com with SMTP id w127so4309564qkb.11
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 03:41:06 -0800 (PST)
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com
+ [IPv6:2607:f8b0:4864:20::744])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 679DD6E8DE
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 12:38:30 +0000 (UTC)
+Received: by mail-qk1-x744.google.com with SMTP id r14so8095891qke.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 04:38:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lZ3s8ic7yJ0QCm2th37nlcTCz5gHTEN1Pob21S4CAR0=;
- b=bQRrUQmMgKoB1eOznCAzBvRZmYycf7MSEbrLUg3fpl3Jtiq0ORKVd59YBm3wUo16fD
- 866J889NOnYnWSrkVOaP20nKUCx60om+906UBzEyvPNydmNhS49APsIArMtOsuaySuq0
- nOBrS7vLssXxeS7OMktHwLLL4H7cgZ7n2rNGFSP5s/Q22shHyyknQRz0kj4oGcviaV8+
- A6JwuV89Okt5Qrybo7wovZC3wHeakETRt1a6IEEIbiSUQV1Kd2eYodhkeCr4iUtF/isN
- s5PR8ojoHlZ15Fbf+7KXnCDjNp205S1UZKtgkhzdV2WpyCNjl16DmVReZK5a9XevkEUJ
- 1NhA==
+ :cc; bh=+W3NFzQGW6GbVeC6SaONj61k9eF+FNv7e804DL1muBg=;
+ b=BLDmeSIW3aeoz1oD9UXxJ6pmrxweZIhmKUzKnVFZBpaA48QDaBKbYUbPoQQFvD4p4l
+ qO3+BwyxMW+ahtk+txufT9hTHNQ2/xG86UcieZOuPQnDcnCyyKs773XkTG/rp4C0tTZA
+ Ss+XSd0p5doSUvGlKCOOHyL0/4/SiSdWDMdKisBxfB4ngdMO3vj2CCJW7f7IRzKleX9x
+ Q9cndBWAIFvCid+Z0/9R4OKg4C5l+eh7HsoX5WS5u5x/jXAzz0AtPdxLZEfz2rLBtMqL
+ fuins1f/3XXvgdw8I1Ob1tOPySn0/XKesX7cG9RNNv5i46A4NfjtKxIxu/v7zbenwHXd
+ hdqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=lZ3s8ic7yJ0QCm2th37nlcTCz5gHTEN1Pob21S4CAR0=;
- b=ptzLT4Cw/SW3PbFoe1wVLwaOsahNb7YWHzJkGXLDroDi1xZKgAfDgGain4ummkmtvT
- 2riycObrPRZfLemkOGnQfDkrr32Dq5+KSZ24r9PJQRCB/wyVVO44fgieYeYy5nRYX5fi
- O12eGN4Fr+bhdwTLcxpSDwF+4z91kBRwTGIhohC4Sm5PBOs1ATmXMkDz+D8PrLduDrjh
- bV027e6RUN+V+I/X0+dmbflsi3t5R77xZoyP9f/n7nmDuHp2tXyOIZtYB/gQd2U9pxfP
- GC+zbHYjOf/ag5+C0r8aIryhcHchZRbgblGCRotsf4760roiGfnFzV1ugB7fxf79KQEq
- i8RA==
-X-Gm-Message-State: APjAAAViDRuTofCXUoXyDsbTLclKqQq2TvAUI9Iqh1/LMSKudGwiTtoU
- SGm+ChY95p/VUKvo+f/tnxWf0mSKzOklU48pIlxJxirx
-X-Google-Smtp-Source: APXvYqzl8SiZnU0mnR5CCHYhhrSg6QTi20JM0JpcDgn1KSo2BPlKsGiYrvfIwxcn6JOVWb2AW49RAuDaXc6MJJ3gep4=
+ bh=+W3NFzQGW6GbVeC6SaONj61k9eF+FNv7e804DL1muBg=;
+ b=cBGjuhJNmLjuTLZA6vz7Hr9Yn0TmQ/8rB5mB964TQxsblKf7ItcsHJKeXRdNvIzoxH
+ csRyUfVqmbbR4F07yFD7cGrTiKPLxkKUAwtDYEFzmfOOoFnmzER82ReAoRInxOWA3sjg
+ cq0+uOVshMfEz19ksE1LxFK2+YifbAFpxTYyk+DBNUBu3t9e8enCQHBdZttDid5j2oMH
+ Qvodecz5ZkbTJSPkvgj4hNHvc9/iRgsDlUrEQ3ERBNHMLDsFpBeyVb5rH6gN+KTF2EdH
+ U7/w2U/RZpmmcxiv3Yhkf4pF9Npz2tRQ4w2AZBo4/Jgs4QzWK4iMioyEIfs1a77wMhNB
+ kXuA==
+X-Gm-Message-State: APjAAAX65OBeeF7Dpu15RLsBzDASOpmrw/H1ciXSQ3yvcz1TnFagyi/3
+ orPHek8UUYXpRdfaOhOk+fs8/0Y+iEL8xJ205pY=
+X-Google-Smtp-Source: APXvYqyomhTgEyL+obwEoMGBbUCNydMtSk17BKIKNpK67Oie6RES6s1dxNSiRos8o3Gg6uMDpf1dZiH0zk84b03zqiA=
 X-Received: by 2002:a05:620a:10b2:: with SMTP id
- h18mr11941521qkk.185.1575978065940; 
- Tue, 10 Dec 2019 03:41:05 -0800 (PST)
+ h18mr12174418qkk.185.1575981509434; 
+ Tue, 10 Dec 2019 04:38:29 -0800 (PST)
 MIME-Version: 1.0
 References: <1575966995-13757-1-git-send-email-kevin3.tang@gmail.com>
  <1575966995-13757-3-git-send-email-kevin3.tang@gmail.com>
- <20191210104100.GU624164@phenom.ffwll.local>
-In-Reply-To: <20191210104100.GU624164@phenom.ffwll.local>
+ <62c61dea-6297-1df2-0037-8c00fa36812b@suse.de>
+In-Reply-To: <62c61dea-6297-1df2-0037-8c00fa36812b@suse.de>
 From: tang pengchuan <kevin3.tang@gmail.com>
-Date: Tue, 10 Dec 2019 19:40:54 +0800
-Message-ID: <CAFPSGXYpwQsrgDrm6i07duAMKjZ+wiUWh_ux7W8bNk3Ot8gqCQ@mail.gmail.com>
+Date: Tue, 10 Dec 2019 20:38:17 +0800
+Message-ID: <CAFPSGXb-pbmXFXrN7adK1TO+09T8qtJjwk+dK-TidZSsfPqHFg@mail.gmail.com>
 Subject: Re: [PATCH RFC 2/8] drm/sprd: add Unisoc's drm kms master
-To: Kevin Tang <kevin3.tang@gmail.com>, airlied@linux.ie, 
- Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linaro.org>, 
- Chunyan Zhang <zhang.lyra@gmail.com>, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org
+To: Thomas Zimmermann <tzimmermann@suse.de>
 X-Mailman-Approved-At: Wed, 11 Dec 2019 09:20:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,21 +64,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1387720690=="
+Cc: Baolin Wang <baolin.wang@linaro.org>, airlied@linux.ie,
+ Chunyan Zhang <zhang.lyra@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Orson Zhai <orsonzhai@gmail.com>
+Content-Type: multipart/mixed; boundary="===============1532597432=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1387720690==
-Content-Type: multipart/alternative; boundary="000000000000cb55aa059957fcf8"
+--===============1532597432==
+Content-Type: multipart/alternative; boundary="0000000000000ae016059958ca7f"
 
---000000000000cb55aa059957fcf8
+--0000000000000ae016059958ca7f
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Daniel Vetter <daniel@ffwll.ch> =E4=BA=8E2019=E5=B9=B412=E6=9C=8810=E6=97=
-=A5=E5=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=886:41=E5=86=99=E9=81=93=EF=BC=9A
+Hi
 
-> On Tue, Dec 10, 2019 at 04:36:29PM +0800, Kevin Tang wrote:
+Thomas Zimmermann <tzimmermann@suse.de> =E4=BA=8E2019=E5=B9=B412=E6=9C=8810=
+=E6=97=A5=E5=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=886:33=E5=86=99=E9=81=93=EF=BC=
+=9A
+
+> Hi
+>
+> Am 10.12.19 um 09:36 schrieb Kevin Tang:
 > > From: Kevin Tang <kevin.tang@unisoc.com>
 > >
 > > Adds drm support for the Unisoc's display subsystem.
@@ -103,6 +108,13 @@ Daniel Vetter <daniel@ffwll.ch> =E4=BA=8E2019=E5=B9=B412=E6=9C=8810=E6=97=
 > >  drivers/gpu/drm/sprd/sprd_drm.h |  19 +++
 > >  drivers/gpu/drm/sprd/sprd_gem.c | 178 +++++++++++++++++++++++++
 > >  drivers/gpu/drm/sprd/sprd_gem.h |  30 +++++
+>
+> The GEM implementation looks like DRM's CMA helpers. Can you not use CMA
+> helpers instead?
+>
+Ok, i will remove cma keywords from the GEM implementatio.
+
+>
 > >  8 files changed, 539 insertions(+)
 > >  create mode 100644 drivers/gpu/drm/sprd/Kconfig
 > >  create mode 100644 drivers/gpu/drm/sprd/Makefile
@@ -248,19 +260,6 @@ g
 > > +static struct drm_driver sprd_drm_drv =3D {
 > > +     .driver_features        =3D DRIVER_GEM | DRIVER_MODESET |
 > > +                               DRIVER_ATOMIC | DRIVER_HAVE_IRQ,
->
-> DRIVER_HAVE_IRQ only does something for pci drivers, please remove this.
->
-Thanks for reminding=EF=BC=8C i will remove it later,
-
->
-> Just a quick drive-by, I didn't read through your driver really.
-> -Daniel
->
-This is our first submission of drm soc driver, please help to review it,
-thank you.
-
->
 > > +     .fops                   =3D &sprd_drm_fops,
 > > +
 > > +     .gem_vm_ops             =3D &drm_gem_cma_vm_ops,
@@ -572,6 +571,21 @@ thank you.
 > > +
 > > +     if (sprd_gem->vaddr)
 > > +             dma_alloc_wc(obj->dev->dev, obj->size,
+>
+> dma_free_wc
+>
+Thanks for reminding
+
+>
+> Best regards
+> Thomas
+>
+> [1]
+>
+> https://cgit.freedesktop.org/drm/drm-tip/tree/drivers/gpu/drm/drm_gem_cma=
+_helper.c
+>
+>
 > > +                                   sprd_gem->vaddr, sprd_gem->dma_addr=
 );
 > > +     else if (sprd_gem->sgtb)
@@ -750,27 +764,31 @@ e
 ;
 > > +
 > > +#endif
-> > --
-> > 2.7.4
 > >
 >
 > --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+> (HRB 36809, AG N=C3=BCrnberg)
+> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>
 >
 
---000000000000cb55aa059957fcf8
+--0000000000000ae016059958ca7f
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Daniel Vetter &lt;<a href=3D"mailto:d=
-aniel@ffwll.ch" target=3D"_blank">daniel@ffwll.ch</a>&gt; =E4=BA=8E2019=E5=
-=B9=B412=E6=9C=8810=E6=97=A5=E5=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=886:41=E5=86=
-=99=E9=81=93=EF=BC=9A<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">On Tue, Dec 10, 2019 at 04:36:29PM +0800, Kevin Tang wrote:<br>
+<div dir=3D"ltr"><div dir=3D"ltr">Hi</div><br><div class=3D"gmail_quote"><d=
+iv dir=3D"ltr" class=3D"gmail_attr">Thomas Zimmermann &lt;<a href=3D"mailto=
+:tzimmermann@suse.de">tzimmermann@suse.de</a>&gt; =E4=BA=8E2019=E5=B9=B412=
+=E6=9C=8810=E6=97=A5=E5=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=886:33=E5=86=99=E9=
+=81=93=EF=BC=9A<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
+Hi<br>
+<br>
+Am 10.12.19 um 09:36 schrieb Kevin Tang:<br>
 &gt; From: Kevin Tang &lt;<a href=3D"mailto:kevin.tang@unisoc.com" target=
 =3D"_blank">kevin.tang@unisoc.com</a>&gt;<br>
 &gt; <br>
@@ -801,6 +819,15 @@ lank">orsonzhai@gmail.com</a>&gt;<br>
 &gt;=C2=A0 drivers/gpu/drm/sprd/sprd_gem.c | 178 +++++++++++++++++++++++++<=
 br>
 &gt;=C2=A0 drivers/gpu/drm/sprd/sprd_gem.h |=C2=A0 30 +++++<br>
+<br>
+The GEM implementation looks like DRM&#39;s CMA helpers. Can you not use CM=
+A<br>
+helpers instead?<br></blockquote><div>Ok, i will remove cma <span class=3D"=
+gmail-tlid-translation gmail-translation" lang=3D"en"><span title=3D"" clas=
+s=3D"gmail-">keywords</span></span> from the GEM implementatio. </div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex">
+<br>
 &gt;=C2=A0 8 files changed, 539 insertions(+)<br>
 &gt;=C2=A0 create mode 100644 drivers/gpu/drm/sprd/Kconfig<br>
 &gt;=C2=A0 create mode 100644 drivers/gpu/drm/sprd/Makefile<br>
@@ -966,20 +993,6 @@ RIVER_GEM | DRIVER_MODESET |<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
  =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DRIVER_ATOMIC | DRIVER_HAVE_IRQ,<=
 br>
-<br>
-DRIVER_HAVE_IRQ only does something for pci drivers, please remove this.<br=
-></blockquote><div><span class=3D"gmail-tlid-translation gmail-translation"=
- lang=3D"en"><span title=3D"" class=3D"gmail-">Thanks for reminding=EF=BC=
-=8C</span></span> i will remove it later,=C2=A0 <br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">
-<br>
-Just a quick drive-by, I didn&#39;t read through your driver really.<br>
--Daniel<br></blockquote><div>This is our first submission of drm soc driver=
-, please help to review it, thank you.</div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">
-<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0.fops=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &amp;sprd_drm_fops,<br>
 &gt; +<br>
@@ -1365,6 +1378,22 @@ e(&amp;sprd_gem-&gt;base);<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0if (sprd_gem-&gt;vaddr)<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dma_alloc_wc(obj-&gt;=
 dev-&gt;dev, obj-&gt;size,<br>
+<br>
+dma_free_wc<br></blockquote><div><span class=3D"gmail-tlid-translation gmai=
+l-translation" lang=3D"en"><span title=3D"" class=3D"gmail-">Thanks for rem=
+inding</span></span> <br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">
+<br>
+Best regards<br>
+Thomas<br>
+<br>
+[1]<br>
+<a href=3D"https://cgit.freedesktop.org/drm/drm-tip/tree/drivers/gpu/drm/dr=
+m_gem_cma_helper.c" rel=3D"noreferrer" target=3D"_blank">https://cgit.freed=
+esktop.org/drm/drm-tip/tree/drivers/gpu/drm/drm_gem_cma_helper.c</a><br>
+<br>
+<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
  =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sprd_gem-&gt;vaddr,=
  sprd_gem-&gt;dma_addr);<br>
@@ -1580,20 +1609,21 @@ ce *dev,<br>
 ment *attach, struct sg_table *sgtb);<br>
 &gt; +<br>
 &gt; +#endif<br>
-&gt; -- <br>
-&gt; 2.7.4<br>
 &gt; <br>
 <br>
 -- <br>
-Daniel Vetter<br>
-Software Engineer, Intel Corporation<br>
-<a href=3D"http://blog.ffwll.ch" rel=3D"noreferrer" target=3D"_blank">http:=
-//blog.ffwll.ch</a><br>
+Thomas Zimmermann<br>
+Graphics Driver Developer<br>
+SUSE Software Solutions Germany GmbH<br>
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany<br>
+(HRB 36809, AG N=C3=BCrnberg)<br>
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer<br>
+<br>
 </blockquote></div></div>
 
---000000000000cb55aa059957fcf8--
+--0000000000000ae016059958ca7f--
 
---===============1387720690==
+--===============1532597432==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -1604,4 +1634,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1387720690==--
+--===============1532597432==--
