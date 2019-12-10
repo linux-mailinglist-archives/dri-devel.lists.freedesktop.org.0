@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13B36118821
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 13:31:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BF20118829
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 13:31:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99A036E8D6;
-	Tue, 10 Dec 2019 12:31:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 003206E8DA;
+	Tue, 10 Dec 2019 12:31:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DDBB6E8D6;
- Tue, 10 Dec 2019 12:31:38 +0000 (UTC)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AF876E8DA;
+ Tue, 10 Dec 2019 12:31:44 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2019 04:31:38 -0800
-X-IronPort-AV: E=Sophos;i="5.69,299,1571727600"; d="scan'208";a="215556771"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 10 Dec 2019 04:31:43 -0800
+X-IronPort-AV: E=Sophos;i="5.69,299,1571727600"; d="scan'208";a="203173225"
 Received: from orilivne-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.51.68])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2019 04:31:36 -0800
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 10 Dec 2019 04:31:41 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 7/8] drm/i915/uc: convert to drm device based logging
-Date: Tue, 10 Dec 2019 14:30:49 +0200
-Message-Id: <20191210123050.8799-7-jani.nikula@intel.com>
+Subject: [PATCH 8/8] drm/i915/wopcm: convert to drm device based logging
+Date: Tue, 10 Dec 2019 14:30:50 +0200
+Message-Id: <20191210123050.8799-8-jani.nikula@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191210123050.8799-1-jani.nikula@intel.com>
 References: <20191210123050.8799-1-jani.nikula@intel.com>
@@ -54,82 +54,46 @@ Prefer drm_dbg() over DRM_DEV_DEBUG_DRIVER().
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc.c   |  2 +-
- drivers/gpu/drm/i915/gt/uc/intel_huc.c   |  2 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc.c    | 12 ++++++------
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 10 +++++-----
- 4 files changed, 13 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/i915/intel_wopcm.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-index 922a19635d20..72cff3224971 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-@@ -379,7 +379,7 @@ int intel_guc_init(struct intel_guc *guc)
- 	intel_uc_fw_fini(&guc->fw);
- err_fetch:
- 	intel_uc_fw_cleanup_fetch(&guc->fw);
--	DRM_DEV_DEBUG_DRIVER(gt->i915->drm.dev, "failed with %d\n", ret);
-+	drm_dbg(&gt->i915->drm, "failed with %d\n", ret);
- 	return ret;
+diff --git a/drivers/gpu/drm/i915/intel_wopcm.c b/drivers/gpu/drm/i915/intel_wopcm.c
+index 2bb9f9f9a50a..4e8f2862cfff 100644
+--- a/drivers/gpu/drm/i915/intel_wopcm.c
++++ b/drivers/gpu/drm/i915/intel_wopcm.c
+@@ -86,7 +86,7 @@ void intel_wopcm_init_early(struct intel_wopcm *wopcm)
+ 	else
+ 		wopcm->size = GEN9_WOPCM_SIZE;
+ 
+-	DRM_DEV_DEBUG_DRIVER(i915->drm.dev, "WOPCM: %uK\n", wopcm->size / 1024);
++	drm_dbg(&i915->drm, "WOPCM: %uK\n", wopcm->size / 1024);
  }
  
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-index 32a069841c14..7f30d4a048d6 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-@@ -127,7 +127,7 @@ int intel_huc_init(struct intel_huc *huc)
- 	intel_uc_fw_fini(&huc->fw);
- out:
- 	intel_uc_fw_cleanup_fetch(&huc->fw);
--	DRM_DEV_DEBUG_DRIVER(i915->drm.dev, "failed with %d\n", err);
-+	drm_dbg(&i915->drm, "failed with %d\n", err);
- 	return err;
- }
- 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-index c6519066a0f6..de4feaa4b7a0 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-@@ -42,12 +42,12 @@ static void __confirm_options(struct intel_uc *uc)
- {
- 	struct drm_i915_private *i915 = uc_to_gt(uc)->i915;
- 
--	DRM_DEV_DEBUG_DRIVER(i915->drm.dev,
--			     "enable_guc=%d (guc:%s submission:%s huc:%s)\n",
--			     i915_modparams.enable_guc,
--			     yesno(intel_uc_uses_guc(uc)),
--			     yesno(intel_uc_uses_guc_submission(uc)),
--			     yesno(intel_uc_uses_huc(uc)));
-+	drm_dbg(&i915->drm,
-+		"enable_guc=%d (guc:%s submission:%s huc:%s)\n",
-+		i915_modparams.enable_guc,
-+		yesno(intel_uc_uses_guc(uc)),
-+		yesno(intel_uc_uses_guc_submission(uc)),
-+		yesno(intel_uc_uses_huc(uc)));
- 
- 	if (i915_modparams.enable_guc == -1)
+ static inline u32 context_reserved_size(struct drm_i915_private *i915)
+@@ -242,10 +242,8 @@ void intel_wopcm_init(struct intel_wopcm *wopcm)
  		return;
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-index 66a30ab7044a..a88f4066be41 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-@@ -26,11 +26,11 @@ void intel_uc_fw_change_status(struct intel_uc_fw *uc_fw,
- 			       enum intel_uc_fw_status status)
- {
- 	uc_fw->__status =  status;
--	DRM_DEV_DEBUG_DRIVER(__uc_fw_to_gt(uc_fw)->i915->drm.dev,
--			     "%s firmware -> %s\n",
--			     intel_uc_fw_type_repr(uc_fw->type),
--			     status == INTEL_UC_FIRMWARE_SELECTED ?
--			     uc_fw->path : intel_uc_fw_status_repr(status));
-+	drm_dbg(&__uc_fw_to_gt(uc_fw)->i915->drm,
-+		"%s firmware -> %s\n",
-+		intel_uc_fw_type_repr(uc_fw->type),
-+		status == INTEL_UC_FIRMWARE_SELECTED ?
-+		uc_fw->path : intel_uc_fw_status_repr(status));
- }
- #endif
  
+ 	if (__wopcm_regs_locked(gt->uncore, &guc_wopcm_base, &guc_wopcm_size)) {
+-		DRM_DEV_DEBUG_DRIVER(i915->drm.dev,
+-				     "GuC WOPCM is already locked [%uK, %uK)\n",
+-				     guc_wopcm_base / SZ_1K,
+-				     guc_wopcm_size / SZ_1K);
++		drm_dbg(&i915->drm, "GuC WOPCM is already locked [%uK, %uK)\n",
++			guc_wopcm_base / SZ_1K, guc_wopcm_size / SZ_1K);
+ 		goto check;
+ 	}
+ 
+@@ -266,8 +264,8 @@ void intel_wopcm_init(struct intel_wopcm *wopcm)
+ 	guc_wopcm_size = wopcm->size - ctx_rsvd - guc_wopcm_base;
+ 	guc_wopcm_size &= GUC_WOPCM_SIZE_MASK;
+ 
+-	DRM_DEV_DEBUG_DRIVER(i915->drm.dev, "Calculated GuC WOPCM [%uK, %uK)\n",
+-			     guc_wopcm_base / SZ_1K, guc_wopcm_size / SZ_1K);
++	drm_dbg(&i915->drm, "Calculated GuC WOPCM [%uK, %uK)\n",
++		guc_wopcm_base / SZ_1K, guc_wopcm_size / SZ_1K);
+ 
+ check:
+ 	if (__check_layout(i915, wopcm->size, guc_wopcm_base, guc_wopcm_size,
 -- 
 2.20.1
 
