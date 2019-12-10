@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27ACD1182BE
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 09:49:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F8981182C1
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 09:49:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F93C6E868;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 329F06E866;
 	Tue, 10 Dec 2019 08:49:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47B2C6E866
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9352D6E860
  for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 08:49:11 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id C7DD2B344;
- Tue, 10 Dec 2019 08:49:09 +0000 (UTC)
+ by mx1.suse.de (Postfix) with ESMTP id 22BB3B354;
+ Tue, 10 Dec 2019 08:49:10 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, daniel@ffwll.ch, sam@ravnborg.org, kraxel@redhat.com,
  emil.velikov@collabora.com, noralf@tronnes.org, zboszor@pr.hu
-Subject: [PATCH v3 8/9] drm/udl: Move udl_handle_damage() into udl_modeset.c
-Date: Tue, 10 Dec 2019 09:49:04 +0100
-Message-Id: <20191210084905.5570-9-tzimmermann@suse.de>
+Subject: [PATCH v3 9/9] drm/udl: Remove udl_fb.c
+Date: Tue, 10 Dec 2019 09:49:05 +0100
+Message-Id: <20191210084905.5570-10-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20191210084905.5570-1-tzimmermann@suse.de>
 References: <20191210084905.5570-1-tzimmermann@suse.de>
@@ -38,302 +38,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Emil Velikov <emil.l.velikov@gmail.com>,
+Cc: Emil Velikov <emil.l.velikov@gmail.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The only caller of udl_handle_damage() in the plane-update function
-in udl_modeset.c. Move udl_handle_damage() there.
-
-v2:
-	* remove udl_fb.c in a separate patch
+The remaining code in udl_fb.c is unused. Remove the file entirely.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 ---
- drivers/gpu/drm/udl/udl_drv.h     |   3 -
- drivers/gpu/drm/udl/udl_fb.c      | 111 ------------------------------
- drivers/gpu/drm/udl/udl_modeset.c | 111 ++++++++++++++++++++++++++++++
- 3 files changed, 111 insertions(+), 114 deletions(-)
+ drivers/gpu/drm/udl/Makefile |  2 +-
+ drivers/gpu/drm/udl/udl_fb.c | 51 ------------------------------------
+ 2 files changed, 1 insertion(+), 52 deletions(-)
+ delete mode 100644 drivers/gpu/drm/udl/udl_fb.c
 
-diff --git a/drivers/gpu/drm/udl/udl_drv.h b/drivers/gpu/drm/udl/udl_drv.h
-index dd58b9a51669..e67227c44cc4 100644
---- a/drivers/gpu/drm/udl/udl_drv.h
-+++ b/drivers/gpu/drm/udl/udl_drv.h
-@@ -86,9 +86,6 @@ int udl_render_hline(struct drm_device *dev, int log_bpp, struct urb **urb_ptr,
- struct drm_gem_object *udl_driver_gem_create_object(struct drm_device *dev,
- 						    size_t size);
+diff --git a/drivers/gpu/drm/udl/Makefile b/drivers/gpu/drm/udl/Makefile
+index 177ce74f4cf4..b50179bb4de0 100644
+--- a/drivers/gpu/drm/udl/Makefile
++++ b/drivers/gpu/drm/udl/Makefile
+@@ -1,4 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-udl-y := udl_drv.o udl_modeset.o udl_connector.o udl_main.o udl_fb.o udl_transfer.o udl_gem.o
++udl-y := udl_drv.o udl_modeset.o udl_connector.o udl_main.o udl_transfer.o udl_gem.o
  
--int udl_handle_damage(struct drm_framebuffer *fb, int x, int y,
--		      int width, int height);
--
- int udl_drop_usb(struct drm_device *dev);
- 
- #define CMD_WRITE_RAW8   "\xAF\x60" /**< 8 bit raw write command. */
+ obj-$(CONFIG_DRM_UDL) := udl.o
 diff --git a/drivers/gpu/drm/udl/udl_fb.c b/drivers/gpu/drm/udl/udl_fb.c
-index 397c62142978..84cff9d9edbe 100644
+deleted file mode 100644
+index 84cff9d9edbe..000000000000
 --- a/drivers/gpu/drm/udl/udl_fb.c
-+++ b/drivers/gpu/drm/udl/udl_fb.c
-@@ -9,10 +9,6 @@
-  */
- 
- #include <linux/moduleparam.h>
--#include <linux/dma-buf.h>
++++ /dev/null
+@@ -1,51 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-/*
+- * Copyright (C) 2012 Red Hat
+- *
+- * based in parts on udlfb.c:
+- * Copyright (C) 2009 Roberto De Ioris <roberto@unbit.it>
+- * Copyright (C) 2009 Jaya Kumar <jayakumar.lkml@gmail.com>
+- * Copyright (C) 2009 Bernie Thompson <bernie@plugable.com>
+- */
 -
--#include <drm/drm_fourcc.h>
--#include <drm/drm_gem_shmem_helper.h>
- 
- #include "udl_drv.h"
- 
-@@ -53,110 +49,3 @@ static uint16_t rgb16(uint32_t col)
- 	return (DLO_RG16(red, grn) << 8) + DLO_GB16(grn, blu);
- }
- #endif
+-#include <linux/moduleparam.h>
 -
--static long udl_log_cpp(unsigned int cpp)
+-#include "udl_drv.h"
+-
+-/** Read the red component (0..255) of a 32 bpp colour. */
+-#define DLO_RGB_GETRED(col) (uint8_t)((col) & 0xFF)
+-
+-/** Read the green component (0..255) of a 32 bpp colour. */
+-#define DLO_RGB_GETGRN(col) (uint8_t)(((col) >> 8) & 0xFF)
+-
+-/** Read the blue component (0..255) of a 32 bpp colour. */
+-#define DLO_RGB_GETBLU(col) (uint8_t)(((col) >> 16) & 0xFF)
+-
+-/** Return red/green component of a 16 bpp colour number. */
+-#define DLO_RG16(red, grn) (uint8_t)((((red) & 0xF8) | ((grn) >> 5)) & 0xFF)
+-
+-/** Return green/blue component of a 16 bpp colour number. */
+-#define DLO_GB16(grn, blu) (uint8_t)(((((grn) & 0x1C) << 3) | ((blu) >> 3)) & 0xFF)
+-
+-/** Return 8 bpp colour number from red, green and blue components. */
+-#define DLO_RGB8(red, grn, blu) ((((red) << 5) | (((grn) & 3) << 3) | ((blu) & 7)) & 0xFF)
+-
+-#if 0
+-static uint8_t rgb8(uint32_t col)
 -{
--	if (WARN_ON(!is_power_of_2(cpp)))
--		return -EINVAL;
--	return __ffs(cpp);
+-	uint8_t red = DLO_RGB_GETRED(col);
+-	uint8_t grn = DLO_RGB_GETGRN(col);
+-	uint8_t blu = DLO_RGB_GETBLU(col);
+-
+-	return DLO_RGB8(red, grn, blu);
 -}
 -
--static int udl_aligned_damage_clip(struct drm_rect *clip, int x, int y,
--				   int width, int height)
+-static uint16_t rgb16(uint32_t col)
 -{
--	int x1, x2;
+-	uint8_t red = DLO_RGB_GETRED(col);
+-	uint8_t grn = DLO_RGB_GETGRN(col);
+-	uint8_t blu = DLO_RGB_GETBLU(col);
 -
--	if (WARN_ON_ONCE(x < 0) ||
--	    WARN_ON_ONCE(y < 0) ||
--	    WARN_ON_ONCE(width < 0) ||
--	    WARN_ON_ONCE(height < 0))
--		return -EINVAL;
--
--	x1 = ALIGN_DOWN(x, sizeof(unsigned long));
--	x2 = ALIGN(width + (x - x1), sizeof(unsigned long)) + x1;
--
--	clip->x1 = x1;
--	clip->y1 = y;
--	clip->x2 = x2;
--	clip->y2 = y + height;
--
--	return 0;
+-	return (DLO_RG16(red, grn) << 8) + DLO_GB16(grn, blu);
 -}
--
--int udl_handle_damage(struct drm_framebuffer *fb, int x, int y,
--		      int width, int height)
--{
--	struct drm_device *dev = fb->dev;
--	struct dma_buf_attachment *import_attach = fb->obj[0]->import_attach;
--	int i, ret, tmp_ret;
--	char *cmd;
--	struct urb *urb;
--	struct drm_rect clip;
--	int log_bpp;
--	void *vaddr;
--
--	ret = udl_log_cpp(fb->format->cpp[0]);
--	if (ret < 0)
--		return ret;
--	log_bpp = ret;
--
--	ret = udl_aligned_damage_clip(&clip, x, y, width, height);
--	if (ret)
--		return ret;
--	else if ((clip.x2 > fb->width) || (clip.y2 > fb->height))
--		return -EINVAL;
--
--	if (import_attach) {
--		ret = dma_buf_begin_cpu_access(import_attach->dmabuf,
--					       DMA_FROM_DEVICE);
--		if (ret)
--			return ret;
--	}
--
--	vaddr = drm_gem_shmem_vmap(fb->obj[0]);
--	if (IS_ERR(vaddr)) {
--		DRM_ERROR("failed to vmap fb\n");
--		goto out_dma_buf_end_cpu_access;
--	}
--
--	urb = udl_get_urb(dev);
--	if (!urb)
--		goto out_drm_gem_shmem_vunmap;
--	cmd = urb->transfer_buffer;
--
--	for (i = clip.y1; i < clip.y2; i++) {
--		const int line_offset = fb->pitches[0] * i;
--		const int byte_offset = line_offset + (clip.x1 << log_bpp);
--		const int dev_byte_offset = (fb->width * i + clip.x1) << log_bpp;
--		const int byte_width = (clip.x2 - clip.x1) << log_bpp;
--		ret = udl_render_hline(dev, log_bpp, &urb, (char *)vaddr,
--				       &cmd, byte_offset, dev_byte_offset,
--				       byte_width);
--		if (ret)
--			goto out_drm_gem_shmem_vunmap;
--	}
--
--	if (cmd > (char *) urb->transfer_buffer) {
--		/* Send partial buffer remaining before exiting */
--		int len;
--		if (cmd < (char *) urb->transfer_buffer + urb->transfer_buffer_length)
--			*cmd++ = 0xAF;
--		len = cmd - (char *) urb->transfer_buffer;
--		ret = udl_submit_urb(dev, urb, len);
--	} else
--		udl_urb_completion(urb);
--
--	ret = 0;
--
--out_drm_gem_shmem_vunmap:
--	drm_gem_shmem_vunmap(fb->obj[0], vaddr);
--out_dma_buf_end_cpu_access:
--	if (import_attach) {
--		tmp_ret = dma_buf_end_cpu_access(import_attach->dmabuf,
--						 DMA_FROM_DEVICE);
--		if (tmp_ret && !ret)
--			ret = tmp_ret; /* only update ret if not set yet */
--	}
--
--	return ret;
--}
-diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
-index deac5e303604..9283a8224ccf 100644
---- a/drivers/gpu/drm/udl/udl_modeset.c
-+++ b/drivers/gpu/drm/udl/udl_modeset.c
-@@ -9,10 +9,14 @@
- 
-  */
- 
-+#include <linux/dma-buf.h>
-+
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_damage_helper.h>
-+#include <drm/drm_fourcc.h>
- #include <drm/drm_gem_framebuffer_helper.h>
-+#include <drm/drm_gem_shmem_helper.h>
- #include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_vblank.h>
- 
-@@ -233,6 +237,113 @@ static int udl_crtc_write_mode_to_hw(struct drm_crtc *crtc)
- 	return retval;
- }
- 
-+static long udl_log_cpp(unsigned int cpp)
-+{
-+	if (WARN_ON(!is_power_of_2(cpp)))
-+		return -EINVAL;
-+	return __ffs(cpp);
-+}
-+
-+static int udl_aligned_damage_clip(struct drm_rect *clip, int x, int y,
-+				   int width, int height)
-+{
-+	int x1, x2;
-+
-+	if (WARN_ON_ONCE(x < 0) ||
-+	    WARN_ON_ONCE(y < 0) ||
-+	    WARN_ON_ONCE(width < 0) ||
-+	    WARN_ON_ONCE(height < 0))
-+		return -EINVAL;
-+
-+	x1 = ALIGN_DOWN(x, sizeof(unsigned long));
-+	x2 = ALIGN(width + (x - x1), sizeof(unsigned long)) + x1;
-+
-+	clip->x1 = x1;
-+	clip->y1 = y;
-+	clip->x2 = x2;
-+	clip->y2 = y + height;
-+
-+	return 0;
-+}
-+
-+int udl_handle_damage(struct drm_framebuffer *fb, int x, int y,
-+		      int width, int height)
-+{
-+	struct drm_device *dev = fb->dev;
-+	struct dma_buf_attachment *import_attach = fb->obj[0]->import_attach;
-+	int i, ret, tmp_ret;
-+	char *cmd;
-+	struct urb *urb;
-+	struct drm_rect clip;
-+	int log_bpp;
-+	void *vaddr;
-+
-+	ret = udl_log_cpp(fb->format->cpp[0]);
-+	if (ret < 0)
-+		return ret;
-+	log_bpp = ret;
-+
-+	ret = udl_aligned_damage_clip(&clip, x, y, width, height);
-+	if (ret)
-+		return ret;
-+	else if ((clip.x2 > fb->width) || (clip.y2 > fb->height))
-+		return -EINVAL;
-+
-+	if (import_attach) {
-+		ret = dma_buf_begin_cpu_access(import_attach->dmabuf,
-+					       DMA_FROM_DEVICE);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	vaddr = drm_gem_shmem_vmap(fb->obj[0]);
-+	if (IS_ERR(vaddr)) {
-+		DRM_ERROR("failed to vmap fb\n");
-+		goto out_dma_buf_end_cpu_access;
-+	}
-+
-+	urb = udl_get_urb(dev);
-+	if (!urb)
-+		goto out_drm_gem_shmem_vunmap;
-+	cmd = urb->transfer_buffer;
-+
-+	for (i = clip.y1; i < clip.y2; i++) {
-+		const int line_offset = fb->pitches[0] * i;
-+		const int byte_offset = line_offset + (clip.x1 << log_bpp);
-+		const int dev_byte_offset = (fb->width * i + clip.x1) << log_bpp;
-+		const int byte_width = (clip.x2 - clip.x1) << log_bpp;
-+		ret = udl_render_hline(dev, log_bpp, &urb, (char *)vaddr,
-+				       &cmd, byte_offset, dev_byte_offset,
-+				       byte_width);
-+		if (ret)
-+			goto out_drm_gem_shmem_vunmap;
-+	}
-+
-+	if (cmd > (char *) urb->transfer_buffer) {
-+		/* Send partial buffer remaining before exiting */
-+		int len;
-+		if (cmd < (char *) urb->transfer_buffer + urb->transfer_buffer_length)
-+			*cmd++ = 0xAF;
-+		len = cmd - (char *) urb->transfer_buffer;
-+		ret = udl_submit_urb(dev, urb, len);
-+	} else
-+		udl_urb_completion(urb);
-+
-+	ret = 0;
-+
-+out_drm_gem_shmem_vunmap:
-+	drm_gem_shmem_vunmap(fb->obj[0], vaddr);
-+out_dma_buf_end_cpu_access:
-+	if (import_attach) {
-+		tmp_ret = dma_buf_end_cpu_access(import_attach->dmabuf,
-+						 DMA_FROM_DEVICE);
-+		if (tmp_ret && !ret)
-+			ret = tmp_ret; /* only update ret if not set yet */
-+	}
-+
-+	return ret;
-+}
-+
- /*
-  * Simple display pipeline
-  */
+-#endif
 -- 
 2.24.0
 
