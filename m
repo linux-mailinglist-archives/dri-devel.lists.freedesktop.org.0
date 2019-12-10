@@ -2,42 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAFFD1197CC
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:35:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5E8811978E
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:34:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84F666E9A5;
-	Tue, 10 Dec 2019 21:35:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADB6A6E99A;
+	Tue, 10 Dec 2019 21:34:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B2736E96F;
- Tue, 10 Dec 2019 21:35:55 +0000 (UTC)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 410852465C;
- Tue, 10 Dec 2019 21:35:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576013755;
- bh=Kz+VTdyHuLcHr1NQf8pq/oqyn8JEvrQiywBbtOd6lUA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=tbB9XUZeszhL6sNHtkY0hzf8wI9lV6YEV1rha6PrXtOWfGxKXwYwanqqwCcQdDN0S
- Ha3C5GQPJBxT/1cFuIb8IXZ9vBnwbiOIa6WWRr3bW3y4SHqA03AtojrRI4U+O4RJqu
- P5U1LmzxPyHy0HLhQn/+9MhurduteLH3JADq4aF0=
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 175/177] drm/amdgpu: fix bad DMA from
- INTERRUPT_CNTL2
-Date: Tue, 10 Dec 2019 16:32:19 -0500
-Message-Id: <20191210213221.11921-175-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191210213221.11921-1-sashal@kernel.org>
-References: <20191210213221.11921-1-sashal@kernel.org>
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E84B86E992
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 21:34:00 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id z17so21518382ljk.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 13:34:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sfwPNW+0w7SYOVN5vzqnBaCzSrm1enkZiO9HCQzgqjc=;
+ b=ELDYffyPwLTppPAGsVU3YxNSQOLOcATsg+IC8f7KpshW1lI8HVOS/LPhBAsT3ufSID
+ fT8v7xNJc4kv0wTGrieBMQqsRE05FMAqAlQlWeqPYjlA6ow0ox6lVlQeD3a0gHQCNpvO
+ UQuarskxChn5qju4s1+DdsIwkp9B7GHuVeF6VYnrRLMyisteUJaHFhFjU/S8KbDGs+wP
+ PxqBkBxPJ4ttyp+Sef34gOKwQPC9beuKUBnoGOn5XjUWMEO9A2EEJEl1u9PnSr5O44Lx
+ VMiuT+azPKHva2915rPrbzbWb1+RwsYjjYQJPUWnIZz+Df5kMzfE10XKxc8RFFUbhxa5
+ icmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sfwPNW+0w7SYOVN5vzqnBaCzSrm1enkZiO9HCQzgqjc=;
+ b=rn3V/1yTICZwTGsJkFDWqowXDINcIxNmCINXwTY+59+1PdFfz8MFZQgBYkJ88mWj7R
+ 4rCXFkedL5oydx0E7NOdXX+HxXd4KGyxNlsfLZJC6azVU2CCEIv1nX9OZnTqB6R8bP/b
+ TgYUXeYTB4+UMgFx1bqoLdxv+vycXPHRqIBHZqlJrS5PY/obyRThWBjhbGgb515Jve3n
+ 2G74oDbDhfrkLKBeCs/60DDFkw1ViCdllH6VOG/4RTVppwkXDow2jiOgE2rRPCPEtOA7
+ UM+tL/6OwTN/Lw59qUkK4971vsmDDcnnk6C9rbzMkr3/HQXrnImLwNh2p3P8e90nIrjq
+ WXYg==
+X-Gm-Message-State: APjAAAXR88S8K/cmE6jc7ovmi3RsHzLEqMB6WgRIsGiX25H3TdA0uZN0
+ 8xkngCKAQIjifKmhJwypl+5vDW4mhd2oj2Sd66AuMQ==
+X-Google-Smtp-Source: APXvYqxlNtTXCGGpW9eRPgRQxUIXYH1CqIcL6wpo3KqsA4rHt7y1htGJhYXnIDuRbtBsJbNT4EJP7YmxbMU5QzD97u0=
+X-Received: by 2002:a2e:9587:: with SMTP id w7mr21298405ljh.42.1576013639357; 
+ Tue, 10 Dec 2019 13:33:59 -0800 (PST)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+References: <20191202193230.21310-1-sam@ravnborg.org>
+ <20191202193230.21310-8-sam@ravnborg.org>
+ <20191203074659.ilsyv4yx7pzw5vax@gilmour.lan>
+ <CACRpkdZrReQs08+bXS7s7eJ-K76nMGvRgQ-L-1-baunEtiF40g@mail.gmail.com>
+ <20191204081650.4n4ehbub4n7pxdom@gilmour.lan>
+In-Reply-To: <20191204081650.4n4ehbub4n7pxdom@gilmour.lan>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 10 Dec 2019 22:33:48 +0100
+Message-ID: <CACRpkdZ7jg7JwNk12m9pGXOVBxHRta8nBWmpdqFvfQHB=8LptA@mail.gmail.com>
+Subject: Re: [PATCH v1 07/26] drm/panel: remove get_timings
+To: Maxime Ripard <mripard@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,51 +64,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Bobroff <sbobroff@linux.ibm.com>,
- Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Sasha Levin <sashal@kernel.org>
+Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Jitao Shi <jitao.shi@mediatek.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ linux-tegra@vger.kernel.org, Sean Paul <sean@poorly.run>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Purism Kernel Team <kernel@puri.sm>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sam Bobroff <sbobroff@linux.ibm.com>
+On Wed, Dec 4, 2019 at 9:16 AM Maxime Ripard <mripard@kernel.org> wrote:
+> On Tue, Dec 03, 2019 at 04:20:24PM +0100, Linus Walleij wrote:
 
-[ Upstream commit 3d0e3ce52ce3eb4b9de3caf9c38dbb5a4d3e13c3 ]
+> > On the DSI displays in video mode there is also this EOL area
+> > which seems to be where the logic is normally just idling for a
+> > while, that can be adjusted on some hardware as well, but
+> > I don't quite understand it admittedly. Sometimes I wonder if
+> > anyone really understands DSI... :/
+>
+> I'm not aware of any EOL area in MIPI-DSI that would make the hardware
+> idle, don't you mean LP-11?
 
-The INTERRUPT_CNTL2 register expects a valid DMA address, but is
-currently set with a GPU MC address.  This can cause problems on
-systems that detect the resulting DMA read from an invalid address
-(found on a Power8 guest).
+I think in the spec the bubble used for this is tagged "BLLP"
+Blanking-Line-Low-Power or something.
 
-Instead, use the DMA address of the dummy page because it will always
-be safe.
+IIUC it is possible for displays to either receive continuous NULL
+packets or blanking packets or go to LP mode in this area.
 
-Fixes: 27ae10641e9c ("drm/amdgpu: add interupt handler implementation for si v3")
-Signed-off-by: Sam Bobroff <sbobroff@linux.ibm.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/amd/amdgpu/si_ih.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+And since that is not there for e.g. DPI displays I feel it adds
+another layer of confusion to timings.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/si_ih.c b/drivers/gpu/drm/amd/amdgpu/si_ih.c
-index 60dad63098a2a..e40a3fbc3e760 100644
---- a/drivers/gpu/drm/amd/amdgpu/si_ih.c
-+++ b/drivers/gpu/drm/amd/amdgpu/si_ih.c
-@@ -62,7 +62,8 @@ static int si_ih_irq_init(struct amdgpu_device *adev)
- 	u64 wptr_off;
- 
- 	si_ih_disable_interrupts(adev);
--	WREG32(INTERRUPT_CNTL2, adev->irq.ih.gpu_addr >> 8);
-+	/* set dummy read address to dummy page address */
-+	WREG32(INTERRUPT_CNTL2, adev->dummy_page_addr >> 8);
- 	interrupt_cntl = RREG32(INTERRUPT_CNTL);
- 	interrupt_cntl &= ~IH_DUMMY_RD_OVERRIDE;
- 	interrupt_cntl &= ~IH_REQ_NONSNOOP_EN;
--- 
-2.20.1
-
+Yours,
+Linus Walleij
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
