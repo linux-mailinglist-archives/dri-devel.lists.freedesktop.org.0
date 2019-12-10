@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55274119355
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:10:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 551E6119357
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2019 22:10:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D67E89C82;
-	Tue, 10 Dec 2019 21:10:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F4D789CE2;
+	Tue, 10 Dec 2019 21:10:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2E8089C82
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 21:10:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55C7689CE2
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 21:10:08 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D147524680;
- Tue, 10 Dec 2019 21:10:03 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 674B8246B6;
+ Tue, 10 Dec 2019 21:10:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576012204;
- bh=bwDrjo4VRhKkKgsT4Y++69KYcmNh0F14L3E37LzRuGI=;
+ s=default; t=1576012208;
+ bh=osEMQ+qjmPG568bwq3Y3oZd6+35Cqc6/K7SPM9SAm24=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=U2vCdEKzC67ZGv7kIBY6JAacg3zsM80RXytl1ve80DUaf76DxKBQEPlsLtNoLQtxj
- WPE93vPtLt0ECqt0bAXaF5Z882ai7u5awohN1xxZCs1VM8Yrs5g9ya8kX67eQeoQUX
- FhQpz6q59zUVwg1zpamQXw2auaFJpyKhFnGj7dGM=
+ b=AYsMBrNUu4O6C739L78hFjOmDIrMbkl1orucS7TJCA0dHrdL34hC7zarEIo9Kuol9
+ FRjOier54+NlUano2ImIwidcpO9bdtfaC1xSVIjn7eyGO3+EM03riGZdeJMBo/aaF5
+ GWYpyVujBsQ4/+wUY702Nte8YPymU71B8Xz9U2vc=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 157/350] drm: Don't free jobs in
- wait_event_interruptible()
-Date: Tue, 10 Dec 2019 16:04:22 -0500
-Message-Id: <20191210210735.9077-118-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 160/350] drm/amd/display: setting the DIG_MODE to
+ the correct value.
+Date: Tue, 10 Dec 2019 16:04:25 -0500
+Message-Id: <20191210210735.9077-121-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191210210735.9077-1-sashal@kernel.org>
 References: <20191210210735.9077-1-sashal@kernel.org>
@@ -50,82 +50,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sasha Levin <sashal@kernel.org>, Zhan liu <zhan.liu@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogU3RldmVuIFByaWNlIDxzdGV2ZW4ucHJpY2VAYXJtLmNvbT4KClsgVXBzdHJlYW0gY29t
-bWl0IDU4OGI5ODI4ZjA3NDRjYTEzNTU1YzRhMzVjZDAyNTFhYzhhZDhhZDIgXQoKZHJtX3NjaGVk
-X2NsZWFudXBfam9icygpIGF0dGVtcHRzIHRvIGZyZWUgZmluaXNoZWQgam9icywgaG93ZXZlciBi
-ZWNhdXNlCml0IGlzIGNhbGxlZCBhcyB0aGUgY29uZGl0aW9uIG9mIHdhaXRfZXZlbnRfaW50ZXJy
-dXB0aWJsZSgpIGl0IG11c3Qgbm90CnNsZWVwLiBVbmZvcnR1bmF0ZWx5IHNvbWUgZnJlZSBjYWxs
-YmFja3MgKG5vdGFibHkgZm9yIFBhbmZyb3N0KSBkbyBzbGVlcC4KCkluc3RlYWQgbGV0J3MgcmVu
-YW1lIGRybV9zY2hlZF9jbGVhbnVwX2pvYnMoKSB0bwpkcm1fc2NoZWRfZ2V0X2NsZWFudXBfam9i
-KCkgYW5kIHNpbXBseSByZXR1cm4gYSBqb2IgZm9yIHByb2Nlc3NpbmcgaWYKdGhlcmUgaXMgb25l
-LiBUaGUgY2FsbGVyIGNhbiB0aGVuIGNhbGwgdGhlIGZyZWVfam9iKCkgY2FsbGJhY2sgb3V0c2lk
-ZQp0aGUgd2FpdF9ldmVudF9pbnRlcnJ1cHRpYmxlKCkgd2hlcmUgc2xlZXBpbmcgaXMgcG9zc2li
-bGUgYmVmb3JlCnJlLWNoZWNraW5nIGFuZCByZXR1cm5pbmcgdG8gc2xlZXAgaWYgbmVjZXNzYXJ5
-LgoKVGVzdGVkLWJ5OiBDaHJpc3RpYW4gR21laW5lciA8Y2hyaXN0aWFuLmdtZWluZXJAZ21haWwu
-Y29tPgpGaXhlczogNTkxODA0NWM0ZWQ0ICgiZHJtL3NjaGVkdWxlcjogcmV3b3JrIGpvYiBkZXN0
-cnVjdGlvbiIpClNpZ25lZC1vZmYtYnk6IFN0ZXZlbiBQcmljZSA8c3RldmVuLnByaWNlQGFybS5j
-b20+ClJldmlld2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5j
-b20+ClNpZ25lZC1vZmYtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1k
-LmNvbT4KTGluazogaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3JnL3BhdGNoLzMzNzY1
-Mi8KU2lnbmVkLW9mZi1ieTogU2FzaGEgTGV2aW4gPHNhc2hhbEBrZXJuZWwub3JnPgotLS0KIGRy
-aXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFpbi5jIHwgNDMgKysrKysrKysrKysrKyst
-LS0tLS0tLS0tLS0KIDEgZmlsZSBjaGFuZ2VkLCAyNCBpbnNlcnRpb25zKCspLCAxOSBkZWxldGlv
-bnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4u
-YyBiL2RyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFpbi5jCmluZGV4IGYzOWI5N2Vk
-NGFkZTQuLjJhZjY0NDU5YjNkNzcgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9zY2hlZHVs
-ZXIvc2NoZWRfbWFpbi5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFp
-bi5jCkBAIC02MzIsNDMgKzYzMiw0MSBAQCBzdGF0aWMgdm9pZCBkcm1fc2NoZWRfcHJvY2Vzc19q
-b2Ioc3RydWN0IGRtYV9mZW5jZSAqZiwgc3RydWN0IGRtYV9mZW5jZV9jYiAqY2IpCiB9CiAKIC8q
-KgotICogZHJtX3NjaGVkX2NsZWFudXBfam9icyAtIGRlc3Ryb3kgZmluaXNoZWQgam9icworICog
-ZHJtX3NjaGVkX2dldF9jbGVhbnVwX2pvYiAtIGZldGNoIHRoZSBuZXh0IGZpbmlzaGVkIGpvYiB0
-byBiZSBkZXN0cm95ZWQKICAqCiAgKiBAc2NoZWQ6IHNjaGVkdWxlciBpbnN0YW5jZQogICoKLSAq
-IFJlbW92ZSBhbGwgZmluaXNoZWQgam9icyBmcm9tIHRoZSBtaXJyb3IgbGlzdCBhbmQgZGVzdHJv
-eSB0aGVtLgorICogUmV0dXJucyB0aGUgbmV4dCBmaW5pc2hlZCBqb2IgZnJvbSB0aGUgbWlycm9y
-IGxpc3QgKGlmIHRoZXJlIGlzIG9uZSkKKyAqIHJlYWR5IGZvciBpdCB0byBiZSBkZXN0cm95ZWQu
-CiAgKi8KLXN0YXRpYyB2b2lkIGRybV9zY2hlZF9jbGVhbnVwX2pvYnMoc3RydWN0IGRybV9ncHVf
-c2NoZWR1bGVyICpzY2hlZCkKK3N0YXRpYyBzdHJ1Y3QgZHJtX3NjaGVkX2pvYiAqCitkcm1fc2No
-ZWRfZ2V0X2NsZWFudXBfam9iKHN0cnVjdCBkcm1fZ3B1X3NjaGVkdWxlciAqc2NoZWQpCiB7CisJ
-c3RydWN0IGRybV9zY2hlZF9qb2IgKmpvYjsKIAl1bnNpZ25lZCBsb25nIGZsYWdzOwogCiAJLyog
-RG9uJ3QgZGVzdHJveSBqb2JzIHdoaWxlIHRoZSB0aW1lb3V0IHdvcmtlciBpcyBydW5uaW5nICov
-CiAJaWYgKHNjaGVkLT50aW1lb3V0ICE9IE1BWF9TQ0hFRFVMRV9USU1FT1VUICYmCiAJICAgICFj
-YW5jZWxfZGVsYXllZF93b3JrKCZzY2hlZC0+d29ya190ZHIpKQotCQlyZXR1cm47Ci0KKwkJcmV0
-dXJuIE5VTEw7CiAKLQl3aGlsZSAoIWxpc3RfZW1wdHkoJnNjaGVkLT5yaW5nX21pcnJvcl9saXN0
-KSkgewotCQlzdHJ1Y3QgZHJtX3NjaGVkX2pvYiAqam9iOworCXNwaW5fbG9ja19pcnFzYXZlKCZz
-Y2hlZC0+am9iX2xpc3RfbG9jaywgZmxhZ3MpOwogCi0JCWpvYiA9IGxpc3RfZmlyc3RfZW50cnko
-JnNjaGVkLT5yaW5nX21pcnJvcl9saXN0LAorCWpvYiA9IGxpc3RfZmlyc3RfZW50cnlfb3JfbnVs
-bCgmc2NoZWQtPnJpbmdfbWlycm9yX2xpc3QsCiAJCQkJICAgICAgIHN0cnVjdCBkcm1fc2NoZWRf
-am9iLCBub2RlKTsKLQkJaWYgKCFkbWFfZmVuY2VfaXNfc2lnbmFsZWQoJmpvYi0+c19mZW5jZS0+
-ZmluaXNoZWQpKQotCQkJYnJlYWs7CiAKLQkJc3Bpbl9sb2NrX2lycXNhdmUoJnNjaGVkLT5qb2Jf
-bGlzdF9sb2NrLCBmbGFncyk7CisJaWYgKGpvYiAmJiBkbWFfZmVuY2VfaXNfc2lnbmFsZWQoJmpv
-Yi0+c19mZW5jZS0+ZmluaXNoZWQpKSB7CiAJCS8qIHJlbW92ZSBqb2IgZnJvbSByaW5nX21pcnJv
-cl9saXN0ICovCiAJCWxpc3RfZGVsX2luaXQoJmpvYi0+bm9kZSk7Ci0JCXNwaW5fdW5sb2NrX2ly
-cXJlc3RvcmUoJnNjaGVkLT5qb2JfbGlzdF9sb2NrLCBmbGFncyk7Ci0KLQkJc2NoZWQtPm9wcy0+
-ZnJlZV9qb2Ioam9iKTsKKwl9IGVsc2UgeworCQlqb2IgPSBOVUxMOworCQkvKiBxdWV1ZSB0aW1l
-b3V0IGZvciBuZXh0IGpvYiAqLworCQlkcm1fc2NoZWRfc3RhcnRfdGltZW91dChzY2hlZCk7CiAJ
-fQogCi0JLyogcXVldWUgdGltZW91dCBmb3IgbmV4dCBqb2IgKi8KLQlzcGluX2xvY2tfaXJxc2F2
-ZSgmc2NoZWQtPmpvYl9saXN0X2xvY2ssIGZsYWdzKTsKLQlkcm1fc2NoZWRfc3RhcnRfdGltZW91
-dChzY2hlZCk7CiAJc3Bpbl91bmxvY2tfaXJxcmVzdG9yZSgmc2NoZWQtPmpvYl9saXN0X2xvY2ss
-IGZsYWdzKTsKIAorCXJldHVybiBqb2I7CiB9CiAKIC8qKgpAQCAtNzA4LDEyICs3MDYsMTkgQEAg
-c3RhdGljIGludCBkcm1fc2NoZWRfbWFpbih2b2lkICpwYXJhbSkKIAkJc3RydWN0IGRybV9zY2hl
-ZF9mZW5jZSAqc19mZW5jZTsKIAkJc3RydWN0IGRybV9zY2hlZF9qb2IgKnNjaGVkX2pvYjsKIAkJ
-c3RydWN0IGRtYV9mZW5jZSAqZmVuY2U7CisJCXN0cnVjdCBkcm1fc2NoZWRfam9iICpjbGVhbnVw
-X2pvYiA9IE5VTEw7CiAKIAkJd2FpdF9ldmVudF9pbnRlcnJ1cHRpYmxlKHNjaGVkLT53YWtlX3Vw
-X3dvcmtlciwKLQkJCQkJIChkcm1fc2NoZWRfY2xlYW51cF9qb2JzKHNjaGVkKSwKKwkJCQkJIChj
-bGVhbnVwX2pvYiA9IGRybV9zY2hlZF9nZXRfY2xlYW51cF9qb2Ioc2NoZWQpKSB8fAogCQkJCQkg
-KCFkcm1fc2NoZWRfYmxvY2tlZChzY2hlZCkgJiYKIAkJCQkJICAoZW50aXR5ID0gZHJtX3NjaGVk
-X3NlbGVjdF9lbnRpdHkoc2NoZWQpKSkgfHwKLQkJCQkJIGt0aHJlYWRfc2hvdWxkX3N0b3AoKSkp
-OworCQkJCQkga3RocmVhZF9zaG91bGRfc3RvcCgpKTsKKworCQlpZiAoY2xlYW51cF9qb2IpIHsK
-KwkJCXNjaGVkLT5vcHMtPmZyZWVfam9iKGNsZWFudXBfam9iKTsKKwkJCS8qIHF1ZXVlIHRpbWVv
-dXQgZm9yIG5leHQgam9iICovCisJCQlkcm1fc2NoZWRfc3RhcnRfdGltZW91dChzY2hlZCk7CisJ
-CX0KIAogCQlpZiAoIWVudGl0eSkKIAkJCWNvbnRpbnVlOwotLSAKMi4yMC4xCgpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+From: Zhan liu <zhan.liu@amd.com>
+
+[ Upstream commit 967a3b85bac91c55eff740e61bf270c2732f48b2 ]
+
+[Why]
+This patch is for fixing Navi14 HDMI display pink screen issue.
+
+[How]
+Call stream->link->link_enc->funcs->setup twice. This is setting
+the DIG_MODE to the correct value after having been overridden by
+the call to transmitter control.
+
+Signed-off-by: Zhan Liu <zhan.liu@amd.com>
+Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+index efc1d30544bb6..067f5579f4523 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+@@ -2769,6 +2769,15 @@ void core_link_enable_stream(
+ 					CONTROLLER_DP_TEST_PATTERN_VIDEOMODE,
+ 					COLOR_DEPTH_UNDEFINED);
+ 
++		/* This second call is needed to reconfigure the DIG
++		 * as a workaround for the incorrect value being applied
++		 * from transmitter control.
++		 */
++		if (!dc_is_virtual_signal(pipe_ctx->stream->signal))
++			stream->link->link_enc->funcs->setup(
++				stream->link->link_enc,
++				pipe_ctx->stream->signal);
++
+ #ifdef CONFIG_DRM_AMD_DC_DSC_SUPPORT
+ 		if (pipe_ctx->stream->timing.flags.DSC) {
+ 			if (dc_is_dp_signal(pipe_ctx->stream->signal) ||
+-- 
+2.20.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
