@@ -1,41 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CCB211A729
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 10:32:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91FB911A84E
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 10:56:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB8786EADF;
-	Wed, 11 Dec 2019 09:31:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71B836EAEC;
+	Wed, 11 Dec 2019 09:56:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCE466EAE0;
- Wed, 11 Dec 2019 09:31:58 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 11 Dec 2019 01:31:58 -0800
-X-IronPort-AV: E=Sophos;i="5.69,301,1571727600"; d="scan'208";a="207613299"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 11 Dec 2019 01:31:54 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Stephen Rothwell <sfr@canb.auug.org.au>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- DRI <dri-devel@lists.freedesktop.org>
-Subject: Re: linux-next: build failure after merge of the drm-intel tree
-In-Reply-To: <20191210094224.4a294cb7@canb.auug.org.au>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20191210093957.5120f717@canb.auug.org.au>
- <20191210094224.4a294cb7@canb.auug.org.au>
-Date: Wed, 11 Dec 2019 11:31:51 +0200
-Message-ID: <87a77z4394.fsf@intel.com>
+X-Greylist: delayed 430 seconds by postgrey-1.36 at gabe;
+ Wed, 11 Dec 2019 09:56:00 UTC
+Received: from aer-iport-4.cisco.com (aer-iport-4.cisco.com [173.38.203.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A37326EAEC
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 09:56:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=cisco.com; i=@cisco.com; l=3636; q=dns/txt; s=iport;
+ t=1576058160; x=1577267760;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=dKUbaAlauMbq5cq0WFciv5ch7/m6Hsd9g/r+e110p8Y=;
+ b=l38FOg5QdYkX/vqA1JxIDr4foDjo3dLzZ5auKA2vyAzky5U0JW/S4IOn
+ LvT0tD8t+dSZmNRdsTzwbDOZyprkW4cuPx1sIiu1xQjMcRseU89sVOdlZ
+ cXxqVctfHFTLTrxyHE+hP0L9QiqZprXfzpGEIZtzI+nrPB88Y0ojFH4Xp g=;
+X-IronPort-AV: E=Sophos;i="5.69,301,1571702400"; d="scan'208";a="20222029"
+Received: from aer-iport-nat.cisco.com (HELO aer-core-4.cisco.com)
+ ([173.38.203.22])
+ by aer-iport-4.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA;
+ 11 Dec 2019 09:48:48 +0000
+Received: from localhost.localdomain.rd.cisco.com ([10.47.76.148])
+ by aer-core-4.cisco.com (8.15.2/8.15.2) with ESMTP id xBB9mm42004181;
+ Wed, 11 Dec 2019 09:48:48 GMT
+From: Johan Korsnes <jkorsnes@cisco.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] video: hdmi: indicate applicability in avi infoframe log
+Date: Wed, 11 Dec 2019 10:48:42 +0100
+Message-Id: <20191211094842.165087-1-jkorsnes@cisco.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
+X-Outbound-SMTP-Client: 10.47.76.148, [10.47.76.148]
+X-Outbound-Node: aer-core-4.cisco.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,105 +52,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>, Qian Cai <cai@lca.pw>,
- Ingo Molnar <mingo@kernel.org>
+Cc: Hans Verkuil <hansverk@cisco.com>, Martin Bugge <marbugge@cisco.com>,
+ Johan Korsnes <jkorsnes@cisco.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 10 Dec 2019, Stephen Rothwell <sfr@canb.auug.org.au> wrote:
-> Hi all,
->
-> [Just adding Dave Airlie to the cc list]
->
-> On Tue, 10 Dec 2019 09:39:57 +1100 Stephen Rothwell <sfr@canb.auug.org.au> wrote:
->>
->> After merging the drm-intel tree, today's linux-next build (x86_64
->> allmodconfig) failed like this:
+When logging the AVI InfoFrame, clearly indicate whether or not
+attributes are active/"in effect". The specification is given in
+CTA-861-G Section 6.4: Format of Version 2, 3 & 4 AVI InfoFrames.
 
-FYI, I've now backmerged drm-next and thus v5.5-rc1 to
-drm-intel-next-queued, resolving the conflict.
+Attribute         Bytes    Requirement
+Ext. Colorimetry  EC0..EC2 Colorimetry (C0,C1) set to Extended.
+IT Contents Type  CN0,CN1  IT Content (ITC) set to True.
+RGB Quant. Range  Q0,Q1    Color Space (Y0..Y2) set to RGB.
+YCC Quant. Range  YQ0,YQ1  Color space (Y0..Y2) set to YCbCr.
 
-BR,
-Jani.
+Example log output with patch applied:
+HDMI infoframe: Auxiliary Video Information (AVI), version 2, length 13
+    colorspace: RGB
+    scan mode: No Data
+    colorimetry: ITU709
+    picture aspect: 16:9
+    active aspect: Same as Picture
+    itc: IT Content
+    extended colorimetry: N/A (0x0)
+    quantization range: Full
+    nups: Unknown Non-uniform Scaling
+    video code: 16
+    ycc quantization range: N/A (0x0)
+    hdmi content type: Graphics
+    pixel repeat: 0
+    bar top 0, bottom 0, left 0, right 0
 
+Signed-off-by: Johan Korsnes <jkorsnes@cisco.com>
+Cc: Hans Verkuil <hansverk@cisco.com>
+Cc: Martin Bugge <marbugge@cisco.com>
 
->> 
->> In file included from include/linux/spinlock_types.h:18,
->>                  from include/linux/mutex.h:16,
->>                  from include/linux/kernfs.h:12,
->>                  from include/linux/sysfs.h:16,
->>                  from include/linux/kobject.h:20,
->>                  from include/linux/of.h:17,
->>                  from include/linux/irqdomain.h:35,
->>                  from include/linux/acpi.h:13,
->>                  from drivers/gpu/drm/i915/i915_drv.c:30:
->> drivers/gpu/drm/i915/gem/i915_gem_object.h: In function 'i915_gem_object_pin_pages':
->> include/linux/lockdep.h:635:2: error: too many arguments to function 'lock_release'
->>   635 |  lock_release(&(lock)->dep_map, 0, _THIS_IP_);  \
->>       |  ^~~~~~~~~~~~
->> drivers/gpu/drm/i915/gem/i915_gem_object.h:294:2: note: in expansion of macro 'might_lock_nested'
->>   294 |  might_lock_nested(&obj->mm.lock, I915_MM_GET_PAGES);
->>       |  ^~~~~~~~~~~~~~~~~
->> include/linux/lockdep.h:352:13: note: declared here
->>   352 | extern void lock_release(struct lockdep_map *lock, unsigned long ip);
->>       |             ^~~~~~~~~~~~
->> In file included from include/linux/spinlock_types.h:18,
->>                  from include/linux/spinlock.h:83,
->>                  from include/linux/mmzone.h:8,
->>                  from include/linux/gfp.h:6,
->>                  from include/linux/slab.h:15,
->>                  from drivers/gpu/drm/i915/i915_irq.c:32:
->> drivers/gpu/drm/i915/gem/i915_gem_object.h: In function 'i915_gem_object_pin_pages':
->> include/linux/lockdep.h:635:2: error: too many arguments to function 'lock_release'
->>   635 |  lock_release(&(lock)->dep_map, 0, _THIS_IP_);  \
->>       |  ^~~~~~~~~~~~
->> drivers/gpu/drm/i915/gem/i915_gem_object.h:294:2: note: in expansion of macro 'might_lock_nested'
->>   294 |  might_lock_nested(&obj->mm.lock, I915_MM_GET_PAGES);
->>       |  ^~~~~~~~~~~~~~~~~
->> include/linux/lockdep.h:352:13: note: declared here
->>   352 | extern void lock_release(struct lockdep_map *lock, unsigned long ip);
->>       |             ^~~~~~~~~~~~
->> 
->> Caused by commit
->> 
->>   e692b4021a2e ("lockdep: add might_lock_nested()")
->> 
->> interacting with commit
->> 
->>   5facae4f3549 ("locking/lockdep: Remove unused @nested argument from lock_release()")
->> 
->> from Linus' tree.
->> 
->> I have applied the following merge fix patch for today:
->> 
->> From: Stephen Rothwell <sfr@canb.auug.org.au>
->> Date: Tue, 10 Dec 2019 09:37:07 +1100
->> Subject: [PATCH] lockdep: fix up for lock_release API change
->> 
->> ---
->>  include/linux/lockdep.h | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->> 
->> diff --git a/include/linux/lockdep.h b/include/linux/lockdep.h
->> index 5bbfd5866081..664f52c6dd4c 100644
->> --- a/include/linux/lockdep.h
->> +++ b/include/linux/lockdep.h
->> @@ -632,7 +632,7 @@ do {									\
->>  	typecheck(struct lockdep_map *, &(lock)->dep_map);		\
->>  	lock_acquire(&(lock)->dep_map, subclass, 0, 1, 1, NULL,		\
->>  		     _THIS_IP_);					\
->> -	lock_release(&(lock)->dep_map, 0, _THIS_IP_);		\
->> +	lock_release(&(lock)->dep_map, _THIS_IP_);			\
->>  } while (0)
->>  
->>  #define lockdep_assert_irqs_enabled()	do {				\
+---
+v1 -> v2:
+ * Indicate applicability not only for ext. colorimetry
+---
+ drivers/video/hdmi.c | 40 ++++++++++++++++++++++++++++++++--------
+ 1 file changed, 32 insertions(+), 8 deletions(-)
 
+diff --git a/drivers/video/hdmi.c b/drivers/video/hdmi.c
+index 9c82e2a0a411..491a77b28a9b 100644
+--- a/drivers/video/hdmi.c
++++ b/drivers/video/hdmi.c
+@@ -1209,16 +1209,40 @@ static void hdmi_avi_infoframe_log(const char *level,
+ 	hdmi_log("    active aspect: %s\n",
+ 			hdmi_active_aspect_get_name(frame->active_aspect));
+ 	hdmi_log("    itc: %s\n", frame->itc ? "IT Content" : "No Data");
+-	hdmi_log("    extended colorimetry: %s\n",
+-			hdmi_extended_colorimetry_get_name(frame->extended_colorimetry));
+-	hdmi_log("    quantization range: %s\n",
+-			hdmi_quantization_range_get_name(frame->quantization_range));
++
++	if (frame->colorimetry == HDMI_COLORIMETRY_EXTENDED)
++		hdmi_log("    extended colorimetry: %s\n",
++			 hdmi_extended_colorimetry_get_name(frame->extended_colorimetry));
++	else
++		hdmi_log("    extended colorimetry: N/A (0x%x)\n",
++			 frame->extended_colorimetry);
++
++	if (frame->colorspace == HDMI_COLORSPACE_RGB)
++		hdmi_log("    quantization range: %s\n",
++			 hdmi_quantization_range_get_name(frame->quantization_range));
++	else
++		hdmi_log("    quantization range: N/A (0x%x)\n",
++			 frame->quantization_range);
++
+ 	hdmi_log("    nups: %s\n", hdmi_nups_get_name(frame->nups));
+ 	hdmi_log("    video code: %u\n", frame->video_code);
+-	hdmi_log("    ycc quantization range: %s\n",
+-			hdmi_ycc_quantization_range_get_name(frame->ycc_quantization_range));
+-	hdmi_log("    hdmi content type: %s\n",
+-			hdmi_content_type_get_name(frame->content_type));
++
++	if (frame->colorspace == HDMI_COLORSPACE_YUV422 ||
++	    frame->colorspace == HDMI_COLORSPACE_YUV444 ||
++	    frame->colorspace == HDMI_COLORSPACE_YUV420)
++		hdmi_log("    ycc quantization range: %s\n",
++			 hdmi_ycc_quantization_range_get_name(frame->ycc_quantization_range));
++	else
++		hdmi_log("    ycc quantization range: N/A (0x%x)\n",
++			 frame->ycc_quantization_range);
++
++	if (frame->itc)
++		hdmi_log("    hdmi content type: %s\n",
++			 hdmi_content_type_get_name(frame->content_type));
++	else
++		hdmi_log("    hdmi content type: N/A (0x%x)\n",
++			 frame->content_type);
++
+ 	hdmi_log("    pixel repeat: %u\n", frame->pixel_repeat);
+ 	hdmi_log("    bar top %u, bottom %u, left %u, right %u\n",
+ 			frame->top_bar, frame->bottom_bar,
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.23.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
