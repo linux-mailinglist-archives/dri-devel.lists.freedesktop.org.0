@@ -1,75 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0368911BA78
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 18:38:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C18AF11BAA5
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 18:52:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B0796EB97;
-	Wed, 11 Dec 2019 17:38:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5FD06EBA1;
+	Wed, 11 Dec 2019 17:52:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 362BE6EB97
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 17:38:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576085894;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CP0uyXQR34Vb7zdAkjsLxCVpBy52Rys6qtneNIbUTnk=;
- b=AFuj2O+EiSNoVboGptriGojUNUYbjrnqCvNTPTW5v9tLz7mLOJFidM7jdoHLfo6wQKgozB
- yd/il547RC6y7lMuhtVwliAyGARtBHPlzV33Vct/5L80Zr9VaKi9Xprz2pa9yCfLWYuFAG
- 8grDqjPYSXDrWG2jq9XpBRBjdTJFC2g=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-148-E9bqCj-dPgej1VBUpXS-iw-1; Wed, 11 Dec 2019 12:38:09 -0500
-Received: by mail-wm1-f69.google.com with SMTP id p5so1947082wmc.4
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 09:38:09 -0800 (PST)
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 897716EBA1
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 17:52:26 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id cm12so20127995edb.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 09:52:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=EOLH9xGCIq9oFG6bGYcwxtab5R0yLdxQF2RKFwaOSEY=;
+ b=QtS2DDWmg7esT/nYCWb3rscHFH/clJDFIgWAx22w2ai3YrtC8ZQhIe9JZZOUB138PE
+ cqZMcOAuxS1zSq2Unve1xSUAHXyPunSq4s33+3vHBf4EEeogwhOqb6YUljDudVa07Ij6
+ rhkqY9PQbXwVl7L+o3Ij6ET49Eyoe7RsSO6+1sLes0Aiegxs1jijTWc0rEqhT9B8R6fD
+ jWEuQvqgWaC9QkEWb9wzB0+ngV7hNdllDBVt3LA/S9BSjxntOvBUyvyBEj/n4apirpCZ
+ qY2ihyY4kpVNTXOoVq2j3ITU+GpJgRV7Vk8+Qjc9m+g3NDB9BjWrgmLH5Yu3VUM1inZ4
+ VlCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CP0uyXQR34Vb7zdAkjsLxCVpBy52Rys6qtneNIbUTnk=;
- b=msrPPxhH0/R93R4KLpLFK7rawcAzGEjpgVOfuhViLxxxPM61ueIkltJAKeB130VO2W
- ACeWqyVOSOQNiMH1ua9mrMGI/0UzxfPkZqcmJ8pAxjCDBNlkGPiKqZnsGU0Bz5ytBykE
- z5T7gMZrrdP1O4cgCMIr8erVLSY4NpkilthCaZD0ISkWn4DsAVI7Q16qp2xy6dqokYCp
- DFekHHRidQkN3TdNCAnssSZqmpfbBLMJM/eGAKix6fvmHhi4gRzhcwTJOaBtlSEWtJpK
- 4TwiTdwEvXECyfAPYCoAYHSbzBhopWFvd5b4+rINhMc40uBW++b142rJ8pNySq5ORdXD
- +chA==
-X-Gm-Message-State: APjAAAWdT4yJu2AwAE+9YR5g06S+TiReXhLIPaR3v/CGOrpTuwqWsXHG
- 6gTcKp/kf7tHmmuPLbfnH/gKa6bpIxjLZGOxDvGyx+C2AMc8sguHHDDrMurH3Tx4NtRouW0VDHu
- Ws2wLGgjY36vjR8bAPjrrbKfn4iEz
-X-Received: by 2002:a1c:ed09:: with SMTP id l9mr1131805wmh.101.1576085888493; 
- Wed, 11 Dec 2019 09:38:08 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxYPWq1vwpmzhCxOTxSdcCG69xJz8Q4RG7NSB1uwhcS+fYLIpJk0TP2xOm5FJNSZ5Iyz7FE/g==
-X-Received: by 2002:a1c:ed09:: with SMTP id l9mr1131790wmh.101.1576085888304; 
- Wed, 11 Dec 2019 09:38:08 -0800 (PST)
-Received: from shalem.localdomain
- (2001-1c00-0c0c-fe00-7e79-4dac-39d0-9c14.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c0c:fe00:7e79:4dac:39d0:9c14])
- by smtp.gmail.com with ESMTPSA id y139sm3258927wmd.24.2019.12.11.09.38.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Dec 2019 09:38:07 -0800 (PST)
-Subject: Re: [PATCH] drm: panel-orientation-quirks: Add quirk for Teclast X89
- tablet
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Sean Paul <seanpaul@chromium.org>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-References: <20191202105055.13201-1-hdegoede@redhat.com>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <66b14589-aba8-1cf2-21e5-7fd1c205e8da@redhat.com>
-Date: Wed, 11 Dec 2019 18:38:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=EOLH9xGCIq9oFG6bGYcwxtab5R0yLdxQF2RKFwaOSEY=;
+ b=jrQKweajMgHA0HON7wJQYBiWNGBbeag/i+79a2imJWIsJgz2mwdRW3POqXumikwObr
+ LuxVVjCSlpPjww17dRbhPqDhIjulNOxR54JNc6SvEzSZNiqVehuRIhj4KHoEbYFyPbvc
+ 3dc5QAnwNWT80SR04Xq+6thVCP/TM/n0cYCA36SakCWLY9C2xibSBmhZCpQkzYHIEhqF
+ yxvNLZU0Vm3NyZ2oAcCUbhnHKEdxQHuJ+N/CKFhlRPEpSqE7fiqIki1b9k0ya5H2dBp3
+ Vzpk1IZDxFhsF5e/tkIVHlEXYQfS1tfd6Mce/rM6x/W0RMcJO73Dcd17HPsCD+nkhnOa
+ af4Q==
+X-Gm-Message-State: APjAAAXHWbXQLxO1aobzx0Ud3E0dRrU7GpLzztnPnYLp6m2F6gvY4kBS
+ h7SV/4+nBPzY177XmqGfdklb4BvYIQnjjRq8gik=
+X-Google-Smtp-Source: APXvYqwacMwAWOGpTQKdLSDOz3XzoW/Cj4bB+7U0MWOvr3excbWCD/NOs+alqBf1oo3wDDLgUaeVQCEDNYwqJAO1vZA=
+X-Received: by 2002:a17:906:2296:: with SMTP id
+ p22mr4757180eja.269.1576086745026; 
+ Wed, 11 Dec 2019 09:52:25 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191202105055.13201-1-hdegoede@redhat.com>
-Content-Language: en-US
-X-MC-Unique: E9bqCj-dPgej1VBUpXS-iw-1
-X-Mimecast-Spam-Score: 0
+References: <CAAaE5fP+Znp1O4t=M7bwor8FH=f-z9CL0wQ9NTjtLSwjFb0LoQ@mail.gmail.com>
+In-Reply-To: <CAAaE5fP+Znp1O4t=M7bwor8FH=f-z9CL0wQ9NTjtLSwjFb0LoQ@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 11 Dec 2019 09:52:15 -0800
+Message-ID: <CAF6AEGtpPoZK4FCSLN=285hRQihhEjaLZTO82eFdKmwYWQMSHg@mail.gmail.com>
+Subject: Re: Question about MSM Driver
+To: ggermanres <ggermanres@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,69 +62,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Jeffrey Hugo <jhugo@codeaurora.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Wed, Dec 11, 2019 at 6:22 AM ggermanres <ggermanres@gmail.com> wrote:
+>
+> Hello.
+>
+> I have question about MSM Driver.
+>
+> I using Dragonboard 410 with ili9881 display. This is hobby project. This display from xiaomi redmi 3x/4x. I made PCB board for connect them. I changed dts, created panel driver (this all on buildroot with my config). All ok. Run platform. I saw linux console. Freedreno (opengl test app) is working fine. But I saw flickering like on old monitor I saw from phone. I tried changing timings, but this helped a little bit (I used it from dtsi from xiaomi repository).
+>
+> I think this is with vsync problem. Your driver support DSI_VSYNC input? In panel driver I sent command for vblank, on oscilloscope I saw pulse on this pin 60Hz. I tried find path in your driver code, added some debug output in code with sync. I saw MDSS_DSI_0_TRIG_CTRL configured with support TE. But Its not helped for me.
+>
+> If you know something, tell me. Or how change driver to support DSI_VSYNC input.
+>
 
-I know these kinda patches are sorta trivial, still I prefer to get an
-Acked-by before pushing this to drm-misc-next. Can someone review this please?
+I guess this is a command mode panel?  So you'd be caring about the TE
+signal?  As far as I understand (from, iirc, jhugo) this was handled
+by the hardware and not exposed to the driver on older devices.
 
-Alternative I guess we could agree that pushing patches which just add a dmi
-quirk to drm_panel_orientation_quirks.c is ok when the patch has sat on the
-list without any response for a week ?
+If it is a video mode panel, the problem could be different (userspace
+not waiting for pageflip event?)
 
-Regards,
-
-Hans
-
-
-
-On 02-12-2019 11:50, Hans de Goede wrote:
-> The Teclast X89 uses an upside-down mounted eDP panel, add a
-> panel-orientation quirk for this.
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->   drivers/gpu/drm/drm_panel_orientation_quirks.c | 13 +++++++++++++
->   1 file changed, 13 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> index ffd95bfeaa94..9f2d12f28a73 100644
-> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> @@ -108,6 +108,13 @@ static const struct drm_dmi_panel_orientation_data lcd1200x1920_rightside_up = {
->   	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
->   };
->   
-> +static const struct drm_dmi_panel_orientation_data teclast_x89 = {
-> +	.width = 1536,
-> +	.height = 2048,
-> +	.bios_dates = (const char * const []){ "12/19/2014", NULL },
-> +	.orientation = DRM_MODE_PANEL_ORIENTATION_BOTTOM_UP,
-> +};
-> +
->   static const struct dmi_system_id orientation_data[] = {
->   	{	/* Acer One 10 (S1003) */
->   		.matches = {
-> @@ -205,6 +212,12 @@ static const struct dmi_system_id orientation_data[] = {
->   		  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "Lenovo ideapad D330-10IGM"),
->   		},
->   		.driver_data = (void *)&lcd1200x1920_rightside_up,
-> +	}, {	/* Teclast X89 (tPAD is too generic, also match on bios date) */
-> +		.matches = {
-> +		  DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "TECLAST"),
-> +		  DMI_EXACT_MATCH(DMI_BOARD_NAME, "tPAD"),
-> +		},
-> +		.driver_data = (void *)&teclast_x89,
->   	}, {	/* VIOS LTH17 */
->   		.matches = {
->   		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "VIOS"),
-> 
-
+BR,
+-R
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
