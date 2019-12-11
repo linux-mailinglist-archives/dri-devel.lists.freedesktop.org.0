@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C6EC11A1BD
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 03:53:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 378E211A1D2
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 03:54:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 094BD6EA50;
-	Wed, 11 Dec 2019 02:53:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E735B6EA5B;
+	Wed, 11 Dec 2019 02:53:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
  [216.228.121.143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C39726EA52
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12F436EA4E
  for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 02:53:28 +0000 (UTC)
 Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
  hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5df05a120001>; Tue, 10 Dec 2019 18:53:06 -0800
+ id <B5df05a110000>; Tue, 10 Dec 2019 18:53:05 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
  by hqpgpgate101.nvidia.com (PGP Universal service);
- Tue, 10 Dec 2019 18:53:28 -0800
+ Tue, 10 Dec 2019 18:53:27 -0800
 X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Tue, 10 Dec 2019 18:53:28 -0800
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 11 Dec
- 2019 02:53:24 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via
- Frontend Transport; Wed, 11 Dec 2019 02:53:24 +0000
+ by hqpgpgate101.nvidia.com on Tue, 10 Dec 2019 18:53:27 -0800
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 11 Dec
+ 2019 02:53:26 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via
+ Frontend Transport; Wed, 11 Dec 2019 02:53:25 +0000
 Received: from blueforge.nvidia.com (Not Verified[10.110.48.28]) by
  rnnvemgw01.nvidia.com with Trustwave SEG (v7, 5, 8, 10121)
- id <B5df05a230001>; Tue, 10 Dec 2019 18:53:24 -0800
+ id <B5df05a240000>; Tue, 10 Dec 2019 18:53:25 -0800
 From: John Hubbard <jhubbard@nvidia.com>
 To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v9 06/25] mm: fix get_user_pages_remote()'s handling of
- FOLL_LONGTERM
-Date: Tue, 10 Dec 2019 18:52:59 -0800
-Message-ID: <20191211025318.457113-7-jhubbard@nvidia.com>
+Subject: [PATCH v9 07/25] vfio: fix FOLL_LONGTERM use,
+ simplify get_user_pages_remote() call
+Date: Tue, 10 Dec 2019 18:53:00 -0800
+Message-ID: <20191211025318.457113-8-jhubbard@nvidia.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20191211025318.457113-1-jhubbard@nvidia.com>
 References: <20191211025318.457113-1-jhubbard@nvidia.com>
 MIME-Version: 1.0
 X-NVConfidentiality: public
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1576032787; bh=l4ZzqtVW71Fwvoz1qyCbd1xWWEz8EY4C2cUJdAbaFHs=;
+ t=1576032786; bh=8L6xDPC0B530xp/MTT0aA3xB5v7i2RtCewyab6Z4Hgg=;
  h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
  In-Reply-To:References:MIME-Version:X-NVConfidentiality:
  Content-Transfer-Encoding:Content-Type;
- b=n/N+OScf7gQRZPE+9cnLq6+vByQhnf/bbpJxGYFlvJl1mu6Neio/kDQ7NKvV3PW97
- P2HYaouabpndll/izwPqB0vrKRZ27dbXAO0Vdg7+4SCv5YRDZqEJjc/NnnRTAnmx0D
- w0QDpBje6M/vZXNjg/EWCh56AJoDxOIn6TekJV/ITXN1qkc9NLNFL3u0d7yRjegG1B
- Qk+CbUhlaScXuIt1QYzrbuI1j4ySrf/JDTAr+1xL3k+Vsp8TiFFujpqp3WVnaHUrJc
- TH5rwA/6RO41niVQg5059M1L0TA9MEUHrSs+dFQgssv+fUqPp8PdZTXpul2iiC/fnR
- Ct24TpKQvpuyw==
+ b=URi/5q5PCkcSl6bKjodWuL9y80iOhRZcYrM/h7dq0lrSQw3DCox4bWmSt1iYz+55h
+ I3H7UDHmvNHK6sdLFtgO9F7CxEgXOAPq1VlpSMEUGZI2trz/UnR+dlzB9zVuqArSAQ
+ vjov8CfDy7FOeCyg+eBVtNsmpYgQ71rSeqQlvfFskJW7NXX9iX18GEV91BSJGMGCO3
+ mlhmkW2IBfJrzNySt2/0DyT1cAOMiimqhXc92JeEv7WTk9lQpPjG8CkXAIdDbaqhSW
+ VppA7Zou0We45wLKEy1e6aFJLozblXZF2lcy3/shw+dK88KzylBY+uhBsS5NHhIfId
+ bLD/toHbErWkw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,27 +90,19 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As it says in the updated comment in gup.c: current FOLL_LONGTERM
-behavior is incompatible with FAULT_FLAG_ALLOW_RETRY because of the
-FS DAX check requirement on vmas.
+Update VFIO to take advantage of the recently loosened restriction on
+FOLL_LONGTERM with get_user_pages_remote(). Also, now it is possible to
+fix a bug: the VFIO caller is logically a FOLL_LONGTERM user, but it
+wasn't setting FOLL_LONGTERM.
 
-However, the corresponding restriction in get_user_pages_remote() was
-slightly stricter than is actually required: it forbade all
-FOLL_LONGTERM callers, but we can actually allow FOLL_LONGTERM callers
-that do not set the "locked" arg.
+Also, remove an unnessary pair of calls that were releasing and
+reacquiring the mmap_sem. There is no need to avoid holding mmap_sem
+just in order to call page_to_pfn().
 
-Update the code and comments to loosen the restriction, allowing
-FOLL_LONGTERM in some cases.
-
-Also, copy the DAX check ("if a VMA is DAX, don't allow long term
-pinning") from the VFIO call site, all the way into the internals
-of get_user_pages_remote() and __gup_longterm_locked(). That is:
-get_user_pages_remote() calls __gup_longterm_locked(), which in turn
-calls check_dax_vmas(). This check will then be removed from the VFIO
-call site in a subsequent patch.
-
-Thanks to Jason Gunthorpe for pointing out a clean way to fix this,
-and to Dan Williams for helping clarify the DAX refactoring.
+Also, now that the the DAX check ("if a VMA is DAX, don't allow long
+term pinning") is in the internals of get_user_pages_remote() and
+__gup_longterm_locked(), there's no need for it at the VFIO call site.
+So remove it.
 
 Tested-by: Alex Williamson <alex.williamson@redhat.com>
 Acked-by: Alex Williamson <alex.williamson@redhat.com>
@@ -121,56 +113,68 @@ Cc: Dan Williams <dan.j.williams@intel.com>
 Cc: Jerome Glisse <jglisse@redhat.com>
 Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 ---
- mm/gup.c | 27 ++++++++++++++++++++++-----
- 1 file changed, 22 insertions(+), 5 deletions(-)
+ drivers/vfio/vfio_iommu_type1.c | 30 +++++-------------------------
+ 1 file changed, 5 insertions(+), 25 deletions(-)
 
-diff --git a/mm/gup.c b/mm/gup.c
-index 3ecce297a47f..c0c56888e7cc 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -29,6 +29,13 @@ struct follow_page_context {
- 	unsigned int page_mask;
- };
- 
-+static __always_inline long __gup_longterm_locked(struct task_struct *tsk,
-+						  struct mm_struct *mm,
-+						  unsigned long start,
-+						  unsigned long nr_pages,
-+						  struct page **pages,
-+						  struct vm_area_struct **vmas,
-+						  unsigned int flags);
- /*
-  * Return the compound head page with ref appropriately incremented,
-  * or NULL if that failed.
-@@ -1179,13 +1186,23 @@ long get_user_pages_remote(struct task_struct *tsk, struct mm_struct *mm,
- 		struct vm_area_struct **vmas, int *locked)
+diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
+index 2ada8e6cdb88..b800fc9a0251 100644
+--- a/drivers/vfio/vfio_iommu_type1.c
++++ b/drivers/vfio/vfio_iommu_type1.c
+@@ -322,7 +322,6 @@ static int vaddr_get_pfn(struct mm_struct *mm, unsigned long vaddr,
  {
- 	/*
--	 * FIXME: Current FOLL_LONGTERM behavior is incompatible with
-+	 * Parts of FOLL_LONGTERM behavior are incompatible with
- 	 * FAULT_FLAG_ALLOW_RETRY because of the FS DAX check requirement on
--	 * vmas.  As there are no users of this flag in this call we simply
--	 * disallow this option for now.
-+	 * vmas. However, this only comes up if locked is set, and there are
-+	 * callers that do request FOLL_LONGTERM, but do not set locked. So,
-+	 * allow what we can.
- 	 */
--	if (WARN_ON_ONCE(gup_flags & FOLL_LONGTERM))
--		return -EINVAL;
-+	if (gup_flags & FOLL_LONGTERM) {
-+		if (WARN_ON_ONCE(locked))
-+			return -EINVAL;
-+		/*
-+		 * This will check the vmas (even if our vmas arg is NULL)
-+		 * and return -ENOTSUPP if DAX isn't allowed in this case:
-+		 */
-+		return __gup_longterm_locked(tsk, mm, start, nr_pages, pages,
-+					     vmas, gup_flags | FOLL_TOUCH |
-+					     FOLL_REMOTE);
-+	}
+ 	struct page *page[1];
+ 	struct vm_area_struct *vma;
+-	struct vm_area_struct *vmas[1];
+ 	unsigned int flags = 0;
+ 	int ret;
  
- 	return __get_user_pages_locked(tsk, mm, start, nr_pages, pages, vmas,
- 				       locked,
+@@ -330,33 +329,14 @@ static int vaddr_get_pfn(struct mm_struct *mm, unsigned long vaddr,
+ 		flags |= FOLL_WRITE;
+ 
+ 	down_read(&mm->mmap_sem);
+-	if (mm == current->mm) {
+-		ret = get_user_pages(vaddr, 1, flags | FOLL_LONGTERM, page,
+-				     vmas);
+-	} else {
+-		ret = get_user_pages_remote(NULL, mm, vaddr, 1, flags, page,
+-					    vmas, NULL);
+-		/*
+-		 * The lifetime of a vaddr_get_pfn() page pin is
+-		 * userspace-controlled. In the fs-dax case this could
+-		 * lead to indefinite stalls in filesystem operations.
+-		 * Disallow attempts to pin fs-dax pages via this
+-		 * interface.
+-		 */
+-		if (ret > 0 && vma_is_fsdax(vmas[0])) {
+-			ret = -EOPNOTSUPP;
+-			put_page(page[0]);
+-		}
+-	}
+-	up_read(&mm->mmap_sem);
+-
++	ret = get_user_pages_remote(NULL, mm, vaddr, 1, flags | FOLL_LONGTERM,
++				    page, NULL, NULL);
+ 	if (ret == 1) {
+ 		*pfn = page_to_pfn(page[0]);
+-		return 0;
++		ret = 0;
++		goto done;
+ 	}
+ 
+-	down_read(&mm->mmap_sem);
+-
+ 	vaddr = untagged_addr(vaddr);
+ 
+ 	vma = find_vma_intersection(mm, vaddr, vaddr + 1);
+@@ -366,7 +346,7 @@ static int vaddr_get_pfn(struct mm_struct *mm, unsigned long vaddr,
+ 		if (is_invalid_reserved_pfn(*pfn))
+ 			ret = 0;
+ 	}
+-
++done:
+ 	up_read(&mm->mmap_sem);
+ 	return ret;
+ }
 -- 
 2.24.0
 
