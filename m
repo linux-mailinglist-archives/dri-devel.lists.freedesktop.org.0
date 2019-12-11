@@ -2,146 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C52711BA56
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 18:30:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B8EE11BA6A
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 18:36:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9F036EB9F;
-	Wed, 11 Dec 2019 17:30:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BA446EB9A;
+	Wed, 11 Dec 2019 17:36:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR03-VE1-obe.outbound.protection.outlook.com
- (mail-eopbgr50045.outbound.protection.outlook.com [40.107.5.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F7226EB9E
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 17:30:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u06jmu2D/8YUMymSB5K7vVkoOJMOJErSBpiGDn56oxM=;
- b=w2A9WgAUpN+ROmgBi1zDDIBWwMwaaHmmbcGGgSYeWgWQpkrqmoRZpuvdZH+82LOIdNfok1sTuOJIsibld9HGUAA8mYgkqzwW75s3wghxac06HLogTvq157sGNLyhW4BwWixLJWhG8VIlB1tjTLAFbNKW2Dpu7weZsbrCiXTWKeQ=
-Received: from DB6PR0802CA0047.eurprd08.prod.outlook.com (2603:10a6:4:a3::33)
- by VI1PR08MB3008.eurprd08.prod.outlook.com (2603:10a6:803:43::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2516.12; Wed, 11 Dec
- 2019 17:30:13 +0000
-Received: from VE1EUR03FT024.eop-EUR03.prod.protection.outlook.com
- (2a01:111:f400:7e09::202) by DB6PR0802CA0047.outlook.office365.com
- (2603:10a6:4:a3::33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2516.13 via Frontend
- Transport; Wed, 11 Dec 2019 17:30:13 +0000
-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; lists.freedesktop.org; dkim=pass (signature was
- verified) header.d=armh.onmicrosoft.com;lists.freedesktop.org;
- dmarc=bestguesspass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- VE1EUR03FT024.mail.protection.outlook.com (10.152.18.87) with
- Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2495.18 via Frontend Transport; Wed, 11 Dec 2019 17:30:12 +0000
-Received: ("Tessian outbound 5574dd7ffaa4:v37");
- Wed, 11 Dec 2019 17:30:12 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 789f128aa5f3e7d5
-X-CR-MTA-TID: 64aa7808
-Received: from 0c035635b898.6
- by 64aa7808-outbound-1.mta.getcheckrecipient.com id
- C4B34377-D237-493F-A40E-A505506A9E6E.1; 
- Wed, 11 Dec 2019 17:30:07 +0000
-Received: from EUR03-DB5-obe.outbound.protection.outlook.com
- by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 0c035635b898.6
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
- Wed, 11 Dec 2019 17:30:07 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J0ckJwhUhP7DfShkKQCD5oeA5SSvOUpxu9zTyFaT+BZMrcaztbEh5vzs2ntkhHHH23YSf673K0loGYoCR4hD70xlATUERgtYTIPxFuDyBm+RLC/NU/FaV/ExL4Xrh+uS/LPnAlB5Cn32XAy4SgHMTQp6ESORWNNekyatpvGeFmPyFNDWhkV1UZ5dsNq4vnqyAaIuwmbf5NqTV47dE5BoAzXP5xyyiYqrlNsT18f1nSmq88iUH+N7veW4LqaKFfls69Or3Toc0QtaQxhre8S3TumzbCn+ocaUJyhWaA/sUbY4OnH2M7s1ZFuDJGuG4oQmGuI8CrL9ZCwWv3SstQO62Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u06jmu2D/8YUMymSB5K7vVkoOJMOJErSBpiGDn56oxM=;
- b=lKDoal9PPOLKXOKMHjIQFE63VvQ+viIlSLt6ohOJGByGZhvSR/Z9DWum6mREJ2L1fL8BB1vg/nvbm4BDONniBYD33XkpVk/vWDA9l2GOqbNaWYgGCIn6dFi2gXbKq1oHvqsBM7s3rl+uBnFV55foKAFIUqgqVasjk0Ohw82xAUIIeO9uWCWvkiT+mElEd/rO5ofpoupNet+6wvqehuiUGYvQ7P7LP5E2AJBaw2TNQWQ1y0JzppGmvCANJbvRWqhgZDlVhnz7eJN3KstPURQuKn977G2+GZDsJv9iYDcaTdHF5gCm5WktZuc3K9COVjE1NQsUXhHj47drztOcAfuWUg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u06jmu2D/8YUMymSB5K7vVkoOJMOJErSBpiGDn56oxM=;
- b=w2A9WgAUpN+ROmgBi1zDDIBWwMwaaHmmbcGGgSYeWgWQpkrqmoRZpuvdZH+82LOIdNfok1sTuOJIsibld9HGUAA8mYgkqzwW75s3wghxac06HLogTvq157sGNLyhW4BwWixLJWhG8VIlB1tjTLAFbNKW2Dpu7weZsbrCiXTWKeQ=
-Received: from VI1PR08MB4078.eurprd08.prod.outlook.com (20.178.127.92) by
- VI1PR08MB3151.eurprd08.prod.outlook.com (52.133.15.138) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2516.12; Wed, 11 Dec 2019 17:30:03 +0000
-Received: from VI1PR08MB4078.eurprd08.prod.outlook.com
- ([fe80::3d0a:7cde:7f1f:fe7c]) by VI1PR08MB4078.eurprd08.prod.outlook.com
- ([fe80::3d0a:7cde:7f1f:fe7c%7]) with mapi id 15.20.2516.018; Wed, 11 Dec 2019
- 17:30:02 +0000
-From: Mihail Atanassov <Mihail.Atanassov@arm.com>
-To: "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>
-Subject: Re: [PATCH v3 2/2] drm/komeda: Enable new product D32 support
-Thread-Topic: [PATCH v3 2/2] drm/komeda: Enable new product D32 support
-Thread-Index: AQHVrzaqVXP2GgFQ50yR2yvi7QM25Ke1G/iA
-Date: Wed, 11 Dec 2019 17:30:02 +0000
-Message-ID: <1885100.onhcTcTa0I@e123338-lin>
-References: <20191210084828.19664-1-james.qian.wang@arm.com>
- <20191210084828.19664-3-james.qian.wang@arm.com>
-In-Reply-To: <20191210084828.19664-3-james.qian.wang@arm.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [217.140.106.54]
-x-clientproxiedby: LO2P265CA0202.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:9e::22) To VI1PR08MB4078.eurprd08.prod.outlook.com
- (2603:10a6:803:e5::28)
-Authentication-Results-Original: spf=none (sender IP is )
- smtp.mailfrom=Mihail.Atanassov@arm.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: ed79d94d-027a-404a-f7cc-08d77e5fc77a
-X-MS-TrafficTypeDiagnostic: VI1PR08MB3151:|VI1PR08MB3151:|VI1PR08MB3008:
-x-ms-exchange-transport-forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR08MB3008F3A0CF47873E9BF7394A8F5A0@VI1PR08MB3008.eurprd08.prod.outlook.com>
-x-checkrecipientrouted: true
-x-ms-oob-tlc-oobclassifiers: OLM:9508;OLM:9508;
-x-forefront-prvs: 024847EE92
-X-Forefront-Antispam-Report-Untrusted: SFV:NSPM;
- SFS:(10009020)(7916004)(4636009)(396003)(136003)(39860400002)(376002)(366004)(346002)(199004)(189003)(8936002)(5660300002)(86362001)(478600001)(6636002)(2906002)(54906003)(71200400001)(8676002)(81156014)(81166006)(66446008)(52116002)(186003)(4326008)(6512007)(26005)(64756008)(316002)(33716001)(9686003)(6862004)(6486002)(6506007)(66476007)(66556008)(66946007)(39026012);
- DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR08MB3151;
- H:VI1PR08MB4078.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: arm.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: D7ckdVs9JX8ipyN6F3LUMkyhocP1HfH6eqoZwI4dAxOWsC5BWmGlrb3FfBNaQzLpv5yDFZlcAEbDiFXMOCrW7JKKByyXDBVtfmWvQmBQukv3Rq6CI1iIejvOVqaC90K4bFtT01yFs/K2IuxU9IGWMFyDwqg6xSs9n2r+Y9ht+ELHqPquRFriiy3aOnRFU/PYM4fzBhR7oX5wf0a4mS6HmDQEmDSmbVmqaOUsKyTmugxpjq23EfQRVk5F6HnJFq2ppT+OtsqGzzjKGD8L4yFpNYtYKaf9DA9O2lutXnI8NmTy0hmyLVhjq1JCdx0LB2H7CqJdKCIlJ8K3EZeBqkZKtjJcKM9XVE0h3yQSvCy7FvWZDB0ovSt21wRfwQFb5Tpujlk02rn7S3x+EQqm/PVpEw32whJsjegSXPCkNTE1aK4ONhDmxeHbbHIw+45wycLaE+7bpnJnhsA24G07p+fEkEf26HhuDuo9rj3ulrAdngdxw5E2+C7EutJz7vRoaM0E
-Content-ID: <20B3528BBC97F947823614B53546D8A1@eurprd08.prod.outlook.com>
+X-Greylist: delayed 385 seconds by postgrey-1.36 at gabe;
+ Wed, 11 Dec 2019 17:36:03 UTC
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08B1F6EB52
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 17:36:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576085761;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vI8I5D2EV8LAbTP9+6YHyR2VwUD8YON5WoS15ZKn6BU=;
+ b=YmBbRKK+IhyV6UnqqLkfloy+vXk5mJ13PcATmMseBFi9zN0x1t6lyfRfE25PjnmQjmkQSu
+ YaH76zSjM6AHliRlvMKGwisMPN2S9D8rixY4j4XIH7wReSLwF5E23UkwedrSf4hVGl56dM
+ 8lTZesnjwbV44BMDb0DTF4nvz6jHZro=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-342-O3_psWBMPAupJInhvkgdEQ-1; Wed, 11 Dec 2019 12:29:36 -0500
+Received: by mail-wr1-f70.google.com with SMTP id f15so10782858wrr.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 09:29:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vI8I5D2EV8LAbTP9+6YHyR2VwUD8YON5WoS15ZKn6BU=;
+ b=tBDzWpBbtJopFYgSQnNrxkyED2IwLBYUlUvnrQbQogYZVYfpr9lgLZxx3FTAtJbY5c
+ CHZhFYyCFVyDIOhoP8mjcA3W492vVvsMC3Df+jQlod1d0M1wsr63/b6woi1WxxKcnZFM
+ EwnGg4DgVcy/VuMaG+YbGw4KQnHEHkfiRxGBIgVWxhRPR6KtDlFhxA1DQGoAUsGXNyFt
+ M7k9syzWoCxsYn8QvZfHfcjnkzyh+M7LzGqptHXtfJ6Anb680lN8sVU5ij6ff7CIqyRK
+ oBxm42XRd+IpdUY/1uM//6GCqE7MECOTpD7VxjL7+GDMuUNMG5a1jta6I59haP+C2wnL
+ ibGA==
+X-Gm-Message-State: APjAAAUYVgkmuanJ6/R07bntURycC3lXxQhoa8MUCCE3nuIp6Yu3ymnq
+ RN41M8noGRzFmDWekrUAQ2OIwNCuYwTaHpKCnskxivP193NLNAkaRqN1i1AvCKyMR4LYqyvpGuH
+ cde0D+1ar1N8KMN+W0IWb+pPn4Iue
+X-Received: by 2002:a05:600c:1009:: with SMTP id
+ c9mr1085109wmc.162.1576085374761; 
+ Wed, 11 Dec 2019 09:29:34 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwFyxoSJsKNCNIv6f3WTGZdy9wp3MAZBIA3/ejS8RZrpH+PBacqBplsEXpPCpmEEkcb9GT0/Q==
+X-Received: by 2002:a05:600c:1009:: with SMTP id
+ c9mr1085091wmc.162.1576085374559; 
+ Wed, 11 Dec 2019 09:29:34 -0800 (PST)
+Received: from shalem.localdomain
+ (2001-1c00-0c0c-fe00-7e79-4dac-39d0-9c14.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c0c:fe00:7e79:4dac:39d0:9c14])
+ by smtp.gmail.com with ESMTPSA id p5sm2875224wrt.79.2019.12.11.09.29.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 Dec 2019 09:29:33 -0800 (PST)
+Subject: Re: [PATCH 2/3] mfd: intel_soc_pmic: Rename pwm_backlight pwm-lookup
+ to pwm_pmic_backlight
+To: Lee Jones <lee.jones@linaro.org>
+References: <20191119151818.67531-1-hdegoede@redhat.com>
+ <20191119151818.67531-3-hdegoede@redhat.com> <20191210085111.GQ3468@dell>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <a05e5a2b-568e-2b0d-0293-aa937c590a74@redhat.com>
+Date: Wed, 11 Dec 2019 18:29:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3151
-Original-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Mihail.Atanassov@arm.com; 
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: VE1EUR03FT024.eop-EUR03.prod.protection.outlook.com
-X-Forefront-Antispam-Report: CIP:63.35.35.123; IPV:CAL; SCL:-1; CTRY:IE;
- EFV:NLI; SFV:NSPM;
- SFS:(10009020)(4636009)(7916004)(376002)(136003)(396003)(346002)(39860400002)(189003)(199004)(81156014)(6512007)(70586007)(6486002)(8676002)(316002)(54906003)(8936002)(76130400001)(6636002)(70206006)(81166006)(4326008)(33716001)(86362001)(9686003)(2906002)(6862004)(36906005)(336012)(26005)(356004)(26826003)(186003)(5660300002)(6506007)(478600001)(39026012);
- DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR08MB3008;
- H:64aa7808-outbound-1.mta.getcheckrecipient.com; FPR:; SPF:Pass; LANG:en;
- PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; MX:1; A:1; 
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 3239391d-82a8-428b-230c-08d77e5fc106
-NoDisclaimer: True
-X-Forefront-PRVS: 024847EE92
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +qrTrmWWPj+MyLKvZwirAvyzSQkXIE/rbP5lutIHKzhxeiABwSFj0Xlkzp0MShgEMVDVSJor8/clMjDiBUwV0WcznwRxJ3dgFI/3L8V5CSYoEJUU6WRxoOkTyB27fPjwrABKaxPBNMT4J+tndISRyXECEABowPiwOpQOj0L+0h/CncuUQ75Y/qLy5D/sDy7KoJ9QtF4V77JkoypQNGULC892pPC0TzrPsPNZDRHxNYr2xz/ZBlMntaJsmcY08KB1LVgfP3z1ZSYaNzTdXQPWBk7uWzXJgLPtnaH4xC6uvady0DvCbuTTLZNo54FNmPql5PWX7/oQoXA0FdZBdg2RkHj6Iz1128jvVYI5dFHS2AzJROht4cllnLSO3pfg87kA0TCi1/lAjGYYqzSy7oXnazZnKs394YO5N5XRBxKvludTubYPqkslIoDwFf9s/IkmQjprLYgSnC4a9nEIPHmOGONJhhHEKkzyE85Zj5MSrEaJua9SlFZ62svzJkxXXkO4
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2019 17:30:12.8901 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed79d94d-027a-404a-f7cc-08d77e5fc77a
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
- Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3008
+In-Reply-To: <20191210085111.GQ3468@dell>
+Content-Language: en-US
+X-MC-Unique: O3_psWBMPAupJInhvkgdEQ-1
+X-Mimecast-Spam-Score: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,174 +85,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nd <nd@arm.com>, "Oscar
- Zhang \(Arm Technology China\)" <Oscar.Zhang@arm.com>,
- "Tiannan Zhu \(Arm Technology China\)" <Tiannan.Zhu@arm.com>,
- "Jonathan Chai \(Arm Technology China\)" <Jonathan.Chai@arm.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Channing Chen \(Arm Technology China\)" <Channing.Chen@arm.com>,
- "Lowry Li \(Arm Technology China\)" <Lowry.Li@arm.com>,
- Ben Davis <Ben.Davis@arm.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ "Rafael J . Wysocki" <rjw@rjwysocki.net>, linux-kernel@vger.kernel.org,
+ linux-acpi@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Len Brown <lenb@kernel.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tuesday, 10 December 2019 08:48:51 GMT james qian wang (Arm Technology China) wrote:
-> D32 is simple version of D71, the difference is:
-> - Only has one pipeline
-> - Drop the periph block and merge it to GCU
+Hi Lee,
+
+On 10-12-2019 09:51, Lee Jones wrote:
+> On Tue, 19 Nov 2019, Hans de Goede wrote:
 > 
-> v2: Rebase.
-> v3: Isolate the block counting fix to a new patch
-
-I would've expected the fix to be a part of this series as 2/3 and this
-patch as 3/3.
-
-Otherwise, this patch is
-Reviewed-by: Mihail Atanassov <mihail.atanassov@arm.com>
-
+>> At least Bay Trail (BYT) and Cherry Trail (CHT) devices can use 1 of 2
+>> different PWM controllers for controlling the LCD's backlight brightness.
+>>
+>> Either the one integrated into the PMIC or the one integrated into the
+>> SoC (the 1st LPSS PWM controller).
+>>
+>> So far in the LPSS code on BYT we have skipped registering the LPSS PWM
+>> controller "pwm_backlight" lookup entry when a Crystal Cove PMIC is
+>> present, assuming that in this case the PMIC PWM controller will be used.
+>>
+>> On CHT we have been relying on only 1 of the 2 PWM controllers being
+>> enabled in the DSDT at the same time; and always registered the lookup.
+>>
+>> So far this has been working, but the correct way to determine which PWM
+>> controller needs to be used is by checking a bit in the VBT table and
+>> recently I've learned about 2 different BYT devices:
+>> Point of View MOBII TAB-P800W
+>> Acer Switch 10 SW5-012
+>>
+>> Which use a Crystal Cove PMIC, yet the LCD is connected to the SoC/LPSS
+>> PWM controller (and the VBT correctly indicates this), so here our old
+>> heuristics fail.
+>>
+>> Since only the i915 driver has access to the VBT, this commit renames
+>> the "pwm_backlight" lookup entries for the Crystal Cove PMIC's PWM
+>> controller to "pwm_pmic_backlight" so that the i915 driver can do a
+>> pwm_get() for the right controller depending on the VBT bit, instead of
+>> the i915 driver relying on a "pwm_backlight" lookup getting registered
+>> which magically points to the right controller.
+>>
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> ---
+>>   drivers/mfd/intel_soc_pmic_core.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Signed-off-by: James Qian Wang (Arm Technology China) <james.qian.wang@arm.com>
-> ---
->  .../drm/arm/display/include/malidp_product.h  |  3 +-
->  .../arm/display/komeda/d71/d71_component.c    |  2 +-
->  .../gpu/drm/arm/display/komeda/d71/d71_dev.c  | 39 ++++++++++++-------
->  .../gpu/drm/arm/display/komeda/d71/d71_regs.h | 13 +++++++
->  .../gpu/drm/arm/display/komeda/komeda_drv.c   |  1 +
->  5 files changed, 42 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/arm/display/include/malidp_product.h b/drivers/gpu/drm/arm/display/include/malidp_product.h
-> index 1053b11352eb..16a8a2c22c42 100644
-> --- a/drivers/gpu/drm/arm/display/include/malidp_product.h
-> +++ b/drivers/gpu/drm/arm/display/include/malidp_product.h
-> @@ -18,7 +18,8 @@
->  #define MALIDP_CORE_ID_STATUS(__core_id)     (((__u32)(__core_id)) & 0xFF)
->  
->  /* Mali-display product IDs */
-> -#define MALIDP_D71_PRODUCT_ID   0x0071
-> +#define MALIDP_D71_PRODUCT_ID	0x0071
-> +#define MALIDP_D32_PRODUCT_ID	0x0032
->  
->  union komeda_config_id {
->  	struct {
-> diff --git a/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c b/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
-> index b6517c46e670..8a02ade369db 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
-> +++ b/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
-> @@ -1270,7 +1270,7 @@ static int d71_timing_ctrlr_init(struct d71_dev *d71,
->  
->  	ctrlr = to_ctrlr(c);
->  
-> -	ctrlr->supports_dual_link = true;
-> +	ctrlr->supports_dual_link = d71->supports_dual_link;
->  
->  	return 0;
->  }
-> diff --git a/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c b/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
-> index 7e79c2e88421..dd1ecf4276d3 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
-> +++ b/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
-> @@ -371,23 +371,33 @@ static int d71_enum_resources(struct komeda_dev *mdev)
->  		goto err_cleanup;
->  	}
->  
-> -	/* probe PERIPH */
-> +	/* Only the legacy HW has the periph block, the newer merges the periph
-> +	 * into GCU
-> +	 */
->  	value = malidp_read32(d71->periph_addr, BLK_BLOCK_INFO);
-> -	if (BLOCK_INFO_BLK_TYPE(value) != D71_BLK_TYPE_PERIPH) {
-> -		DRM_ERROR("access blk periph but got blk: %d.\n",
-> -			  BLOCK_INFO_BLK_TYPE(value));
-> -		err = -EINVAL;
-> -		goto err_cleanup;
-> +	if (BLOCK_INFO_BLK_TYPE(value) != D71_BLK_TYPE_PERIPH)
-> +		d71->periph_addr = NULL;
-> +
-> +	if (d71->periph_addr) {
-> +		/* probe PERIPHERAL in legacy HW */
-> +		value = malidp_read32(d71->periph_addr, PERIPH_CONFIGURATION_ID);
-> +
-> +		d71->max_line_size	= value & PERIPH_MAX_LINE_SIZE ? 4096 : 2048;
-> +		d71->max_vsize		= 4096;
-> +		d71->num_rich_layers	= value & PERIPH_NUM_RICH_LAYERS ? 2 : 1;
-> +		d71->supports_dual_link	= !!(value & PERIPH_SPLIT_EN);
-> +		d71->integrates_tbu	= !!(value & PERIPH_TBU_EN);
-> +	} else {
-> +		value = malidp_read32(d71->gcu_addr, GCU_CONFIGURATION_ID0);
-> +		d71->max_line_size	= GCU_MAX_LINE_SIZE(value);
-> +		d71->max_vsize		= GCU_MAX_NUM_LINES(value);
-> +
-> +		value = malidp_read32(d71->gcu_addr, GCU_CONFIGURATION_ID1);
-> +		d71->num_rich_layers	= GCU_NUM_RICH_LAYERS(value);
-> +		d71->supports_dual_link	= GCU_DISPLAY_SPLIT_EN(value);
-> +		d71->integrates_tbu	= GCU_DISPLAY_TBU_EN(value);
->  	}
->  
-> -	value = malidp_read32(d71->periph_addr, PERIPH_CONFIGURATION_ID);
-> -
-> -	d71->max_line_size	= value & PERIPH_MAX_LINE_SIZE ? 4096 : 2048;
-> -	d71->max_vsize		= 4096;
-> -	d71->num_rich_layers	= value & PERIPH_NUM_RICH_LAYERS ? 2 : 1;
-> -	d71->supports_dual_link	= value & PERIPH_SPLIT_EN ? true : false;
-> -	d71->integrates_tbu	= value & PERIPH_TBU_EN ? true : false;
-> -
->  	for (i = 0; i < d71->num_pipelines; i++) {
->  		pipe = komeda_pipeline_add(mdev, sizeof(struct d71_pipeline),
->  					   &d71_pipeline_funcs);
-> @@ -606,6 +616,7 @@ d71_identify(u32 __iomem *reg_base, struct komeda_chip_info *chip)
->  
->  	switch (product_id) {
->  	case MALIDP_D71_PRODUCT_ID:
-> +	case MALIDP_D32_PRODUCT_ID:
->  		funcs = &d71_chip_funcs;
->  		break;
->  	default:
-> diff --git a/drivers/gpu/drm/arm/display/komeda/d71/d71_regs.h b/drivers/gpu/drm/arm/display/komeda/d71/d71_regs.h
-> index 1727dc993909..81de6a23e7f3 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/d71/d71_regs.h
-> +++ b/drivers/gpu/drm/arm/display/komeda/d71/d71_regs.h
-> @@ -72,6 +72,19 @@
->  #define GCU_CONTROL_MODE(x)	((x) & 0x7)
->  #define GCU_CONTROL_SRST	BIT(16)
->  
-> +/* GCU_CONFIGURATION registers */
-> +#define GCU_CONFIGURATION_ID0	0x100
-> +#define GCU_CONFIGURATION_ID1	0x104
-> +
-> +/* GCU configuration */
-> +#define GCU_MAX_LINE_SIZE(x)	((x) & 0xFFFF)
-> +#define GCU_MAX_NUM_LINES(x)	((x) >> 16)
-> +#define GCU_NUM_RICH_LAYERS(x)	((x) & 0x7)
-> +#define GCU_NUM_PIPELINES(x)	(((x) >> 3) & 0x7)
-> +#define GCU_NUM_SCALERS(x)	(((x) >> 6) & 0x7)
-> +#define GCU_DISPLAY_SPLIT_EN(x)	(((x) >> 16) & 0x1)
-> +#define GCU_DISPLAY_TBU_EN(x)	(((x) >> 17) & 0x1)
-> +
->  /* GCU opmode */
->  #define INACTIVE_MODE		0
->  #define TBU_CONNECT_MODE	1
-> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
-> index b7a1097c45c4..ad38bbc7431e 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
-> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
-> @@ -125,6 +125,7 @@ static int komeda_platform_remove(struct platform_device *pdev)
->  
->  static const struct of_device_id komeda_of_match[] = {
->  	{ .compatible = "arm,mali-d71", .data = d71_identify, },
-> +	{ .compatible = "arm,mali-d32", .data = d71_identify, },
->  	{},
->  };
->  
-> 
+> For my own reference:
+>    Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
 
+As mentioned in the cover-letter, to avoid breaking bi-sectability
+as well as to avoid breaking the intel-gfx CI we need to merge this series
+in one go through one tree. Specifically through the drm-intel tree.
+Is that ok with you ?
 
--- 
-Mihail
+If this is ok with you, then you do not have to do anything, I will just push
+the entire series to drm-intel. drivers/mfd/intel_soc_pmic_core.c
+does not see much changes so I do not expect this to lead to any conflicts.
 
+Regards,
 
+Hans
 
 _______________________________________________
 dri-devel mailing list
