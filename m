@@ -1,37 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B59C11C032
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 23:59:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9962111C0B1
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 00:42:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A33306EC08;
-	Wed, 11 Dec 2019 22:59:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37EE86E102;
+	Wed, 11 Dec 2019 23:42:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6A696EC08
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 22:59:43 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 11 Dec 2019 14:59:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,303,1571727600"; d="scan'208";a="220558669"
-Received: from labuser-z97x-ud5h.jf.intel.com (HELO intel.com) ([10.54.75.49])
- by fmsmga001.fm.intel.com with ESMTP; 11 Dec 2019 14:59:42 -0800
-Date: Wed, 11 Dec 2019 15:01:02 -0800
-From: Manasi Navare <manasi.d.navare@intel.com>
-To: Animesh Manna <animesh.manna@intel.com>
-Subject: Re: [PATCH 1/1] drm/dp: get/set phy compliance pattern
-Message-ID: <20191211230102.GF12192@intel.com>
-References: <20191118182555.7352-1-animesh.manna@intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96BE46E102
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 23:42:23 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0F99152B;
+ Thu, 12 Dec 2019 00:42:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1576107741;
+ bh=coL/+8qPgqI/eIeufjM09sOeDrjiuwgvgYC2pmywpkk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=kK/1IODysYKsK500erss0joksT3Figd+qWsPg8tBLY+HCLxadX0dNGqB9bvOcD/W9
+ ttGO+hzs8nBL5LUIwbsUcL7qPMMuuckDZ9SlJPLxq0waQWhpCRpwi86FDXnmOkGwkw
+ drTwSTCXNcRupan8IYsqJgSa2KW/pK6n4jZk9SKE=
+Date: Thu, 12 Dec 2019 01:42:12 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v3 06/50] drm/bridge: dumb-vga-dac: Rename internal
+ symbols to simple-bridge
+Message-ID: <20191211234212.GB26146@pendragon.ideasonboard.com>
+References: <20191210225750.15709-1-laurent.pinchart@ideasonboard.com>
+ <20191210225750.15709-7-laurent.pinchart@ideasonboard.com>
+ <20191211211318.GA27390@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191118182555.7352-1-animesh.manna@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <20191211211318.GA27390@ravnborg.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,196 +49,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, nidhi1.gupta@intel.com,
- dri-devel@lists.freedesktop.org, uma.shankar@intel.com
+Cc: Boris Brezillon <bbrezillon@kernel.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, dri-devel@lists.freedesktop.org,
+ Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 18, 2019 at 11:55:55PM +0530, Animesh Manna wrote:
-> During phy compliance auto test mode source need to read
-> requested test pattern from sink through DPCD. After processing
-> the request source need to set the pattern. So set/get method
-> added in drm layer as it is DP protocol.
+Hi Sam,
 
-You need to always make the changes, up the rev but still always include
-this as part of the whole series before sending it out so that the reviewer gets a full context.
+(CC'ing Maxime)
 
-Also this was not sent to intel-gfx and only to dri-devel, these patches that are used in i915
-but changes in DRM need to be sent to both the M-Ls.
+On Wed, Dec 11, 2019 at 10:13:18PM +0100, Sam Ravnborg wrote:
+> On Wed, Dec 11, 2019 at 12:57:06AM +0200, Laurent Pinchart wrote:
+> > The dumb-vga-dac driver is a simple DRM bridge driver for simple VGA
+> > DACs that don't require configuration. Other non-VGA bridges fall in a
+> > similar category, and would benefit from a common driver. Prepare for
+> > this by renaming the internal symbols from dumb-vga-dac to
+> > simple-bridge.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
+> > Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > Reviewed-by: Maxime Ripard <maxime.ripard@bootlin.com>
+>
+> Maxime has a new email address today.
+> The one used here bounces.
 
-Could you send this v1 along with the new revisions of other patches together as a series
-to both intel-gfx and dri-devel? That would also make it easier for the review
-since I see the patches 5-7 sent with new revisions but not others (1-4) which proobably have a r-b or ack,
-but new revision of the wnetire series would be great.
+I know, but his Reviewed-by tag was given with the bootlin.com e-mail
+address, so I haven't changed it. Maxime, should I update your tags in
+this series ?
 
-Manasi
+-- 
+Regards,
 
-> 
-> v1: As per review feedback from Manasi on RFC version,
-> - added dp revision as function argument in set_phy_pattern api.
-> - used int for link_rate and u8 for lane_count to align with existing code.
-> 
-> Signed-off-by: Animesh Manna <animesh.manna@intel.com>
-> ---
->  drivers/gpu/drm/drm_dp_helper.c | 93 +++++++++++++++++++++++++++++++++
->  include/drm/drm_dp_helper.h     | 33 +++++++++++-
->  2 files changed, 125 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-> index 2c7870aef469..91c80973aa83 100644
-> --- a/drivers/gpu/drm/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/drm_dp_helper.c
-> @@ -1371,3 +1371,96 @@ int drm_dp_dsc_sink_supported_input_bpcs(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_S
->  	return num_bpc;
->  }
->  EXPORT_SYMBOL(drm_dp_dsc_sink_supported_input_bpcs);
-> +
-> +/**
-> + * drm_dp_get_phy_test_pattern() - get the requested pattern from the sink.
-> + * @aux: DisplayPort AUX channel
-> + * @data: DP phy compliance test parameters.
-> + *
-> + * Returns 0 on success or a negative error code on failure.
-> + */
-> +int drm_dp_get_phy_test_pattern(struct drm_dp_aux *aux,
-> +				struct drm_dp_phy_test_params *data)
-> +{
-> +	int err;
-> +	u8 rate, lanes;
-> +
-> +	err = drm_dp_dpcd_readb(aux, DP_TEST_LINK_RATE, &rate);
-> +	if (err < 0)
-> +		return err;
-> +	data->link_rate = drm_dp_bw_code_to_link_rate(rate);
-> +
-> +	err = drm_dp_dpcd_readb(aux, DP_TEST_LANE_COUNT, &lanes);
-> +	if (err < 0)
-> +		return err;
-> +	data->num_lanes = lanes & DP_MAX_LANE_COUNT_MASK;
-> +
-> +	if (lanes & DP_ENHANCED_FRAME_CAP)
-> +		data->enahanced_frame_cap = true;
-> +
-> +	err = drm_dp_dpcd_readb(aux, DP_PHY_TEST_PATTERN, &data->phy_pattern);
-> +	if (err < 0)
-> +		return err;
-> +
-> +	switch (data->phy_pattern) {
-> +	case DP_PHY_TEST_PATTERN_80BIT_CUSTOM:
-> +		err = drm_dp_dpcd_read(aux, DP_TEST_80BIT_CUSTOM_PATTERN_7_0,
-> +				       &data->custom80, 10);
-> +		if (err < 0)
-> +			return err;
-> +
-> +		break;
-> +	case DP_PHY_TEST_PATTERN_CP2520:
-> +		err = drm_dp_dpcd_read(aux, DP_TEST_HBR2_SCRAMBLER_RESET,
-> +				       &data->hbr2_reset, 2);
-> +		if (err < 0)
-> +			return err;
-> +	}
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_dp_get_phy_test_pattern);
-> +
-> +/**
-> + * drm_dp_set_phy_test_pattern() - set the pattern to the sink.
-> + * @aux: DisplayPort AUX channel
-> + * @data: DP phy compliance test parameters.
-> + *
-> + * Returns 0 on success or a negative error code on failure.
-> + */
-> +int drm_dp_set_phy_test_pattern(struct drm_dp_aux *aux,
-> +				struct drm_dp_phy_test_params *data, u8 dp_rev)
-> +{
-> +	int err, i;
-> +	u8 link_config[2];
-> +	u8 test_pattern;
-> +
-> +	link_config[0] = drm_dp_link_rate_to_bw_code(data->link_rate);
-> +	link_config[1] = data->num_lanes;
-> +	if (data->enahanced_frame_cap)
-> +		link_config[1] |= DP_LANE_COUNT_ENHANCED_FRAME_EN;
-> +	err = drm_dp_dpcd_write(aux, DP_LINK_BW_SET, link_config, 2);
-> +	if (err < 0)
-> +		return err;
-> +
-> +	test_pattern = data->phy_pattern;
-> +	if (dp_rev < 0x12) {
-> +		test_pattern = (test_pattern << 2) &
-> +			       DP_LINK_QUAL_PATTERN_11_MASK;
-> +		err = drm_dp_dpcd_writeb(aux, DP_TRAINING_PATTERN_SET,
-> +					 test_pattern);
-> +		if (err < 0)
-> +			return err;
-> +	} else {
-> +		for (i = 0; i < data->num_lanes; i++) {
-> +			err = drm_dp_dpcd_writeb(aux,
-> +						 DP_LINK_QUAL_LANE0_SET + i,
-> +						 test_pattern);
-> +			if (err < 0)
-> +				return err;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_dp_set_phy_test_pattern);
-> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-> index 51ecb5112ef8..a64267d197d0 100644
-> --- a/include/drm/drm_dp_helper.h
-> +++ b/include/drm/drm_dp_helper.h
-> @@ -699,7 +699,16 @@
->  # define DP_TEST_CRC_SUPPORTED		    (1 << 5)
->  # define DP_TEST_COUNT_MASK		    0xf
->  
-> -#define DP_TEST_PHY_PATTERN                 0x248
-> +#define DP_PHY_TEST_PATTERN                 0x248
-> +# define DP_PHY_TEST_PATTERN_SEL_MASK       0x7
-> +# define DP_PHY_TEST_PATTERN_NONE           0x0
-> +# define DP_PHY_TEST_PATTERN_D10_2          0x1
-> +# define DP_PHY_TEST_PATTERN_ERROR_COUNT    0x2
-> +# define DP_PHY_TEST_PATTERN_PRBS7          0x3
-> +# define DP_PHY_TEST_PATTERN_80BIT_CUSTOM   0x4
-> +# define DP_PHY_TEST_PATTERN_CP2520         0x5
-> +
-> +#define DP_TEST_HBR2_SCRAMBLER_RESET        0x24A
->  #define DP_TEST_80BIT_CUSTOM_PATTERN_7_0    0x250
->  #define	DP_TEST_80BIT_CUSTOM_PATTERN_15_8   0x251
->  #define	DP_TEST_80BIT_CUSTOM_PATTERN_23_16  0x252
-> @@ -1568,4 +1577,26 @@ static inline void drm_dp_cec_unset_edid(struct drm_dp_aux *aux)
->  
->  #endif
->  
-> +/**
-> + * struct drm_dp_phy_test_params - DP Phy Compliance parameters
-> + * @link: Link information.
-> + * @phy_pattern: DP Phy test pattern from DPCD 0x248 (sink)
-> + * @hb2_reset: DP HBR2_COMPLIANCE_SCRAMBLER_RESET from DCPD
-> + *            0x24A and 0x24B (sink)
-> + * @custom80: DP Test_80BIT_CUSTOM_PATTERN from DPCDs 0x250
-> + *               through 0x259.
-> + */
-> +struct drm_dp_phy_test_params {
-> +	int link_rate;
-> +	u8 num_lanes;
-> +	u8 phy_pattern;
-> +	u8 hbr2_reset[2];
-> +	u8 custom80[10];
-> +	bool enahanced_frame_cap;
-> +};
-> +
-> +int drm_dp_get_phy_test_pattern(struct drm_dp_aux *aux,
-> +				struct drm_dp_phy_test_params *data);
-> +int drm_dp_set_phy_test_pattern(struct drm_dp_aux *aux,
-> +				struct drm_dp_phy_test_params *data, u8 dp_rev);
->  #endif /* _DRM_DP_HELPER_H_ */
-> -- 
-> 2.22.0
-> 
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
