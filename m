@@ -1,54 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE7E911BC74
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 20:04:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC34A11BC81
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 20:08:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42D306EAAE;
-	Wed, 11 Dec 2019 19:04:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E24966EBBA;
+	Wed, 11 Dec 2019 19:08:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x143.google.com (mail-il1-x143.google.com
- [IPv6:2607:f8b0:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 785166EAAE
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 19:04:11 +0000 (UTC)
-Received: by mail-il1-x143.google.com with SMTP id z12so20394328iln.11
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 11:04:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=f1nlOc2n0b1t3obc3rKWIj5ixOjOEEj0+iZqrVipp9o=;
- b=D/1GyM9K41JOlRCD7lN5eU3vWpokEaPbOKAJ6/7sgnF2lgivSxP9Z7lmUx2lOjkZcu
- 8jzg7Oh1qQ+jx1kIuLADi92d6wgC/Ho+yXkpv+EOzB02v3tA1EbfQSiP3ZC8yFJ1nXkc
- K6xhywDMCxsFgD/SftI9531KFjj999GO2h/5sdvutSW9i2eEXlrdUJHkZL7V65YPp6cL
- MypyIKnKw7hoh+0/isjG3MchY1pyX3aFaDRwhD720csf7KtAvEFeRmjs8lb6TDJoD19V
- PjuQdELCfa1r1/aD8M91Op+GfPLwqzlONrX3ZWrJmbL8+bAdX20m5V90dGsLIOSirdTi
- MJVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=f1nlOc2n0b1t3obc3rKWIj5ixOjOEEj0+iZqrVipp9o=;
- b=goK7sTlfx7nuA5P01NPG3CuYcNawcF4iDirMYe2hg5khh5k4HFSpSya6l2l0HxsYFV
- Sv4BdqytsW5TZJFwTJEYGC4haMPRG3lbLzjvbR4JUvgDeviLqnOlAXmAWHSSzAA5U3Ik
- PymkkNjweppjqiNOH4n0JtRV1oil4eYjOjbyx1HtUCl+KMOitX5m/E3QyksU1udeWd94
- PcRm3/XBdMC0y+COM9oFeomhh/P7bs3Rgw+cmVDRbA6m50a41GZ19L2LycJl/6CR4HV0
- Ef0/klvr6vk304oZEOmvqEPuvauYjvyRVXAbUpL4l1XhiUyWayQwitBLYKYtr4JEf75J
- Hvug==
-X-Gm-Message-State: APjAAAUXztZbczBZR1o5uHl49/RHSt5lQ1Xa+ryhxGAoMEStPn/LeNKJ
- Kog2hwY965ymtOzt+D0VjewkuXT2sJykTyevRIJgrSAS
-X-Google-Smtp-Source: APXvYqxPNqI/M/Od5Srqmugr+fhahB2I9e8NKlqPiAdGKQBh8UdtL9bsnU5VG3zxSSFDPjHZfJ8AxYuPb8Qe6AeW2VA=
-X-Received: by 2002:a92:84ce:: with SMTP id y75mr4470966ilk.93.1576091050492; 
- Wed, 11 Dec 2019 11:04:10 -0800 (PST)
+Received: from mo6-p01-ob.smtp.rzone.de (mo6-p01-ob.smtp.rzone.de
+ [IPv6:2a01:238:20a:202:5301::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E03C6EBBA
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 19:08:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1576091327;
+ s=strato-dkim-0002; d=gerhold.net;
+ h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=IrfDRBh73rWP1u73zjEpNrmuVZ5BrGbHJSfvTnckB2I=;
+ b=YAvJ95+1p5CHzKrKboSaWrACBBj/bSmWlIoMr9M1xuCdajs1cnhGJWT+Wwwdof4lR1
+ ehs1GlqFEUJN5gAXg0MyBmbaAxgfscyQnfH34dKMPv/FcK3mqR9go5qJURA77afMfqMk
+ xxzFZEVtSG4JBmBP85CBfr3lxrb4g10OKNs6Seup2HI8bIvOhDmIVMoTU7JIBxEjmtTD
+ k0qxeU3VB2CY29QfDiIiG1NWhFS+do83ZSAiE/l5tJXbstgbAP646eIRx/po5X5zXAbj
+ OCpQmYtBENThg3hznB1sd65HWMKhpOVkob2RQXF57nBRBXQSPtC2E5gYgMAZPTrSpURf
+ AMkQ==
+X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVOQ/OcYgojyw4j34+u266EZF6ORJGV8vHxv6O"
+X-RZG-CLASS-ID: mo00
+Received: from gerhold.net by smtp.strato.de (RZmta 46.0.2 AUTH)
+ with ESMTPSA id R01a59vBBJ8kolB
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Wed, 11 Dec 2019 20:08:46 +0100 (CET)
+Date: Wed, 11 Dec 2019 20:08:39 +0100
+From: Stephan Gerhold <stephan@gerhold.net>
+To: Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH] drm/modes: Support video parameters with only reflect
+ option
+Message-ID: <20191211190839.GA52803@gerhold.net>
+References: <20191209183254.211428-1-stephan@gerhold.net>
+ <20191210102046.fu5s4hzwcdfnv5zz@gilmour.lan>
+ <20191210104237.GA228968@gerhold.net>
+ <20191211181046.xhlzc74m75lb525c@gilmour.lan>
 MIME-Version: 1.0
-References: <20191211084216.25405-1-kraxel@redhat.com>
- <20191211084216.25405-4-kraxel@redhat.com>
-In-Reply-To: <20191211084216.25405-4-kraxel@redhat.com>
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Wed, 11 Dec 2019 11:03:59 -0800
-Message-ID: <CAPaKu7Tv2tGOW+Ns9yRQ0t9-Bk43wtV5KEh72fZuvPaX7Dy_gQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] virtio-gpu: use damage info for display updates.
-To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Disposition: inline
+In-Reply-To: <20191211181046.xhlzc74m75lb525c@gilmour.lan>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,124 +56,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- open list <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 11, 2019 at 12:42 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  drivers/gpu/drm/virtio/virtgpu_plane.c | 41 +++++++++++++++-----------
->  1 file changed, 24 insertions(+), 17 deletions(-)
->
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
-> index 2e0d14e005db..1a0fbbb91ec7 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_plane.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
-> @@ -24,6 +24,7 @@
->   */
->
->  #include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_damage_helper.h>
->  #include <drm/drm_fourcc.h>
->  #include <drm/drm_plane_helper.h>
->
-> @@ -103,22 +104,26 @@ static int virtio_gpu_plane_atomic_check(struct drm_plane *plane,
->  }
->
->  static void virtio_gpu_update_dumb_bo(struct virtio_gpu_device *vgdev,
-> -                                     struct virtio_gpu_object *bo,
-> -                                     struct drm_plane_state *state)
-> +                                     struct drm_plane_state *state,
-> +                                     struct drm_rect *rect)
->  {
-> +       struct virtio_gpu_object *bo =
-> +               gem_to_virtio_gpu_obj(state->fb->obj[0]);
->         struct virtio_gpu_object_array *objs;
-> +       uint32_t w = rect->x2 - rect->x1;
-> +       uint32_t h = rect->y2 - rect->y1;
-> +       uint32_t x = rect->x1 + (state->src_x >> 16);
-> +       uint32_t y = rect->y1 + (state->src_y >> 16);
-> +       uint32_t off = x * state->fb->format->cpp[0] +
-> +               y * state->fb->pitches[0];
->
->         objs = virtio_gpu_array_alloc(1);
->         if (!objs)
->                 return;
->         virtio_gpu_array_add_obj(objs, &bo->base.base);
-> -       virtio_gpu_cmd_transfer_to_host_2d
-> -               (vgdev, 0,
-> -                state->src_w >> 16,
-> -                state->src_h >> 16,
-> -                state->src_x >> 16,
-> -                state->src_y >> 16,
-> -                objs, NULL);
-> +
-> +       virtio_gpu_cmd_transfer_to_host_2d(vgdev, off, w, h, x, y,
-> +                                          objs, NULL);
->  }
->
->  static void virtio_gpu_primary_plane_update(struct drm_plane *plane,
-> @@ -127,8 +132,8 @@ static void virtio_gpu_primary_plane_update(struct drm_plane *plane,
->         struct drm_device *dev = plane->dev;
->         struct virtio_gpu_device *vgdev = dev->dev_private;
->         struct virtio_gpu_output *output = NULL;
-> -       struct virtio_gpu_framebuffer *vgfb;
->         struct virtio_gpu_object *bo;
-> +       struct drm_rect rect;
->
->         if (plane->state->crtc)
->                 output = drm_crtc_to_virtio_gpu_output(plane->state->crtc);
-> @@ -146,12 +151,14 @@ static void virtio_gpu_primary_plane_update(struct drm_plane *plane,
->                 return;
->         }
->
-> +       if (!drm_atomic_helper_damage_merged(old_state, plane->state, &rect))
-> +               return;
-> +
->         virtio_gpu_disable_notify(vgdev);
->
-> -       vgfb = to_virtio_gpu_framebuffer(plane->state->fb);
-> -       bo = gem_to_virtio_gpu_obj(vgfb->base.obj[0]);
-> +       bo = gem_to_virtio_gpu_obj(plane->state->fb->obj[0]);
->         if (bo->dumb)
-> -               virtio_gpu_update_dumb_bo(vgdev, bo, plane->state);
-> +               virtio_gpu_update_dumb_bo(vgdev, plane->state, &rect);
->
->         if (plane->state->fb != old_state->fb) {
->                 DRM_DEBUG("handle 0x%x, crtc %dx%d+%d+%d, src %dx%d+%d+%d\n",
-> @@ -171,10 +178,10 @@ static void virtio_gpu_primary_plane_update(struct drm_plane *plane,
->         }
->
->         virtio_gpu_cmd_resource_flush(vgdev, bo->hw_res_handle,
-> -                                     plane->state->src_x >> 16,
-> -                                     plane->state->src_y >> 16,
-> -                                     plane->state->src_w >> 16,
-> -                                     plane->state->src_h >> 16);
-> +                                     (plane->state->src_x >> 16) + rect.x1,
-> +                                     (plane->state->src_y >> 16) + rect.y1,
-Digging into drm_atomic_helper_damage_merged, it seems rect uses
-absolute values and is not relative to src_{x,y}.
+On Wed, Dec 11, 2019 at 07:10:46PM +0100, Maxime Ripard wrote:
+> Hi Stephan,
+> 
+> On Tue, Dec 10, 2019 at 11:42:37AM +0100, Stephan Gerhold wrote:
+> > On Tue, Dec 10, 2019 at 11:20:46AM +0100, Maxime Ripard wrote:
+> > > Hi,
+> > >
+> > > On Mon, Dec 09, 2019 at 07:32:54PM +0100, Stephan Gerhold wrote:
+> > > > At the moment, video mode parameters like video=540x960,reflect_x,
+> > > > (without rotation set) are silently ignored.
+> > > >
+> > > > One of the reasons for this is that the calculation that
+> > > > combines the panel_orientation with cmdline->rotation_reflection
+> > > > does not handle the case when cmdline->rotation_reflection does
+> > > > not have any rotation set.
+> > > > (i.e. cmdline->rotation_reflection & DRM_MODE_ROTATE_MASK == 0)
+> > > >
+> > > > Example:
+> > > >   *rotation = DRM_MODE_ROTATE_0 (no panel_orientation)
+> > > >   cmdline->rotation_reflection = DRM_MODE_REFLECT_X (video=MODE,reflect_x)
+> > > >
+> > > > The current code does:
+> > > >   panel_rot = ilog2(*rotation & DRM_MODE_ROTATE_MASK);
+> > > >   cmdline_rot = ilog2(cmdline->rotation_reflection & DRM_MODE_ROTATE_MASK);
+> > > >   sum_rot = (panel_rot + cmdline_rot) % 4;
+> > > >
+> > > > and therefore:
+> > > >   panel_rot = ilog2(DRM_MODE_ROTATE_0) = ilog2(1) = 0
+> > > >   cmdline_rot = ilog2(0) = -1
+> > > >   sum_rot = (0 + -1) % 4 = -1 % 4 = 3
+> > > >    ...
+> > > >   *rotation = DRM_MODE_ROTATE_270 | DRM_MODE_REFLECT_X
+> > > >
+> > > > So we incorrectly generate DRM_MODE_ROTATE_270 in this case.
+> > > > To prevent cmdline_rot from becoming -1, we need to treat
+> > > > the rotation as DRM_MODE_ROTATE_0.
+> > > >
+> > > > On the other hand, there is no need to go through that calculation
+> > > > at all if no rotation is set in rotation_reflection.
+> > > > A simple XOR is enough to combine the reflections.
+> > > >
+> > > > Finally, also allow DRM_MODE_ROTATE_0 in the if statement below.
+> > > > DRM_MODE_ROTATE_0 means "no rotation" and should therefore not
+> > > > require any special handling (e.g. specific tiling format).
+> > > >
+> > > > This makes video parameters with only reflect option work correctly.
+> > > >
+> > > > Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
+> > >
+> > > Thanks for that commit message.
+> > >
+> > > Can you also add a selftest to make sure we don't get a regression in
+> > > the future?
+> >
+> > Can you explain how/where I would add a test for drm_client_rotation()
+> > in drm_client_modeset.c? I'm not familiar with selftests to be honest.
+> >
+> > I found test-drm_cmdline_parser.c but that seems to cover only the
+> > cmdline parsing (which is working correctly already).
+> 
+> The cmdline here is the kernel command line. You were mentionning in
+> your commit log that video=540x960,reflect_x was broken?
+> 
 
-> +                                     rect.x2 - rect.x1,
-> +                                     rect.y2 - rect.y1);
->
->         virtio_gpu_enable_notify(vgdev);
->  }
-> --
-> 2.18.1
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+The parameter is parsed correctly and placed into connector->cmdline_mode.
+Therefore, not the *parsing* is broken, only the way we try to apply
+and merge them with the panel orientation in drm_client_modeset.c.
+
+There are existing test cases for the parsing of parameters similar to
+video=540x960,reflect_x, see drm_cmdline_test_hmirror()
+in the aforementioned test file.
+
+Maybe my commit message was not as clear as I hoped :)
+
+Thanks,
+Stephan
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
