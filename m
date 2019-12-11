@@ -1,58 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96D9311A5B3
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 09:15:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8484D11A5B8
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 09:18:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 179226EA59;
-	Wed, 11 Dec 2019 08:15:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D1206EA88;
+	Wed, 11 Dec 2019 08:18:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 83863 seconds by postgrey-1.36 at gabe;
- Wed, 11 Dec 2019 08:15:52 UTC
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85E706EA59
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 08:15:52 +0000 (UTC)
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C006D6EA88
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 08:18:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576052151;
+ s=mimecast20190719; t=1576052296;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=c9+eXVJvGhvjgCko5lAbFcvBiKAk1D5Fec1eKLqFyyY=;
- b=X4MIt5JXhAxwKR7f/hOhmMNlbr31Ylg9flFRNM4W5EFOL9YE0cgEmeZVLwCUItwivNvRVG
- IT4+3wowjwaY17FBbecHweqVGshdx2XZESu6yIUMpvtfEkxRiv7Nv6GpVx2h77x2TnmCjV
- 8g9N80DHFIBdOcYkv6iIJQLjl7FByYk=
+ to:to:cc:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=7CU/WlAtjLQAVnDOlGUg1AmODiD0ggZlJebLCB9n44s=;
+ b=cziyXSoEa9jlWB5mFuKPgGhrPUzXEWlGj6z1UgIJgsvbdHu1uCrSPmLiTDo4PXLwRKCDnb
+ boBDGjv71mVt1FMU5gQuzaUNE+H9mq5M4cfMcFtQgP0Ir2YOidqT4RwKpGmZwLww/9KION
+ 9BxgALdjpsmxCL0fLK+9cFZvh2YTUTs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-403-wgVuXbNjO-abuQ7falBagA-1; Wed, 11 Dec 2019 03:15:47 -0500
+ us-mta-32-85q3rVkWMvubiodk_6ybyg-1; Wed, 11 Dec 2019 03:18:14 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0942E911EA;
- Wed, 11 Dec 2019 08:15:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 03F0918AAFA3;
+ Wed, 11 Dec 2019 08:18:14 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-67.ams2.redhat.com
  [10.36.116.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6DEB160BE1;
- Wed, 11 Dec 2019 08:15:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 515A060BE1;
+ Wed, 11 Dec 2019 08:18:11 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id AB48E16E05; Wed, 11 Dec 2019 09:15:41 +0100 (CET)
-Date: Wed, 11 Dec 2019 09:15:41 +0100
+ id 9EAC916E08; Wed, 11 Dec 2019 09:18:10 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/virtio: fix mmap page attributes
-Message-ID: <20191211081541.ejofg4uxo6poss6v@sirius.home.kraxel.org>
-References: <20191210085759.14763-1-kraxel@redhat.com>
- <e8915378-df67-e6f4-f40c-599797e16e9c@suse.de>
-MIME-Version: 1.0
-In-Reply-To: <e8915378-df67-e6f4-f40c-599797e16e9c@suse.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 0/2] drm/virtio: fix mmap page attributes
+Date: Wed, 11 Dec 2019 09:18:08 +0100
+Message-Id: <20191211081810.20079-1-kraxel@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: wgVuXbNjO-abuQ7falBagA-1
+X-MC-Unique: 85q3rVkWMvubiodk_6ybyg-1
 X-Mimecast-Spam-Score: 0
-Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,38 +57,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, gurchetansingh@chromium.org,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, gurchetansingh@chromium.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  Hi,
+v2: make shmem helper caching configurable.
 
-> There's similar code in udl, [1] which still uses writecombine for
-> imported buffers. Virtio does not need this?
+Gerd Hoffmann (2):
+  drm/shmem: add support for per object caching attributes
+  drm/virtio: fix mmap page attributes
 
-virtio doesn't support dma-buf imports (yet).
-So no worries for now.
+ include/drm/drm_gem_shmem_helper.h      | 12 ++++++++++++
+ drivers/gpu/drm/drm_gem_shmem_helper.c  | 24 +++++++++++++++++++++---
+ drivers/gpu/drm/virtio/virtgpu_object.c |  1 +
+ 3 files changed, 34 insertions(+), 3 deletions(-)
 
-Why pick writecombine for the imported buffer btw?
-It'll probably be correct for the majority of imports, but it still
-looks like a educated guess to me.  What if you import from vgem?
-
-I guess we should either ...
-  (1) Ask the exporting driver to handle things, simliar to how it is
-      done for vmaps already, probably by calling dma_buf_mmap(), or
-  (2) Refuse to mmap imported objects via drm api.
-
-> Aside from this, do you think we could handle all special cases within
-> shmem?
-
-Probably makes sense to teach shmem helpers about caching.
-
-cheers,
-  Gerd
+-- 
+2.18.1
 
 _______________________________________________
 dri-devel mailing list
