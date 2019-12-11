@@ -1,40 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E088E11A9C7
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 12:23:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64A1011A9CF
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 12:25:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 899616EB15;
-	Wed, 11 Dec 2019 11:23:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 799356EB17;
+	Wed, 11 Dec 2019 11:25:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 063556EB15
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 11:23:04 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 858C06EB16;
+ Wed, 11 Dec 2019 11:25:08 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 11 Dec 2019 03:07:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,301,1571727600"; d="scan'208";a="203519974"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga007.jf.intel.com with SMTP; 11 Dec 2019 03:07:35 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 11 Dec 2019 13:07:35 +0200
-Date: Wed, 11 Dec 2019 13:07:35 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Tom Anderson <thomasanderson@google.com>
-Subject: Re: [v3,3/4] drm/edid: Throw away the dummy VIC 0 cea mode
-Message-ID: <20191211110735.GG1208@intel.com>
-References: <20190925135502.24055-4-ville.syrjala@linux.intel.com>
- <20191210231854.GB25612@google.com>
+ 11 Dec 2019 03:12:00 -0800
+X-IronPort-AV: E=Sophos;i="5.69,301,1571727600"; d="scan'208";a="207644152"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 11 Dec 2019 03:11:57 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Subject: Re: [PATCH v3 12/12] auxdisplay: constify fb ops
+In-Reply-To: <CANiq72nPccKZghPM-FrNRnQ8AkN_r40cUmM3ruhyGtiTs_DdyQ@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1575390740.git.jani.nikula@intel.com>
+ <31c18e3ce9d6962aabda4799b3051039ff591c92.1575390741.git.jani.nikula@intel.com>
+ <87pngx4muv.fsf@intel.com>
+ <CANiq72nPccKZghPM-FrNRnQ8AkN_r40cUmM3ruhyGtiTs_DdyQ@mail.gmail.com>
+Date: Wed, 11 Dec 2019 13:11:54 +0200
+Message-ID: <87wob32k1x.fsf@intel.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191210231854.GB25612@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,88 +45,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans Verkuil <hansverk@cisco.com>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, linux-fbdev@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Robin van der Gracht <robin@protonic.nl>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 10, 2019 at 03:18:54PM -0800, Tom Anderson wrote:
-> On Wed, Sep 25, 2019 at 04:55:01PM +0300, Ville Syrjala wrote:
-> > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > =
+On Tue, 10 Dec 2019, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> wrote:
+> On Mon, Dec 9, 2019 at 3:04 PM Jani Nikula <jani.nikula@intel.com> wrote:
+>>
+>> On Tue, 03 Dec 2019, Jani Nikula <jani.nikula@intel.com> wrote:
+>> > Now that the fbops member of struct fb_info is const, we can start
+>> > making the ops const as well.
+>> >
+>> > Cc: Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>
+>> > Cc: Robin van der Gracht <robin@protonic.nl>
+>> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>> > Reviewed-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+>> > Acked-by: Robin van der Gracht <robin@protonic.nl>
+>> > Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>>
+>> Miguel, Robin, just to err on the safe side, were you both okay with me
+>> merging this through drm-misc? Not very likely to conflict badly.
+>
+> I think that is fine, go ahead! :)
 
-> > Now that the cea mode handling is not 100% tied to the single
-> > array the dummy VIC 0 mode is pretty much pointles. Throw it
-> > out.
-> > =
+Thanks, pushed to drm-misc-next!
 
-> > Cc: Hans Verkuil <hansverk@cisco.com>
-> > Cc: Shashank Sharma <shashank.sharma@intel.com>
-> > Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > ---
-> >  drivers/gpu/drm/drm_edid.c | 14 +++++---------
-> >  1 file changed, 5 insertions(+), 9 deletions(-)
-> > =
+BR,
+Jani.
 
-> > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> > index 9f6996323efa..0007004d3221 100644
-> > --- a/drivers/gpu/drm/drm_edid.c
-> > +++ b/drivers/gpu/drm/drm_edid.c
-> > @@ -709,11 +709,9 @@ static const struct minimode extra_modes[] =3D {
-> >  /*
-> >   * From CEA/CTA-861 spec.
-> >   *
-> > - * Index with VIC.
-> > + * Index with VIC-1.
-> =
-
-> Since we shouldn't be indexing into this array directly any more, this co=
-mment
-> should instead be changed to say which functions should be used.
-
-Seems reasonable.
-
-> =
-
-> >   */
-> > -static const struct drm_display_mode edid_cea_modes_0[] =3D {
-> > -	/* 0 - dummy, VICs start at 1 */
-> > -	{ },
-> > +static const struct drm_display_mode edid_cea_modes_1[] =3D {
-> >  	/* 1 - 640x480@60Hz 4:3 */
-> >  	{ DRM_MODE("640x480", DRM_MODE_TYPE_DRIVER, 25175, 640, 656,
-> >  		   752, 800, 0, 480, 490, 492, 525, 0,
-> > @@ -3211,10 +3209,8 @@ static u8 *drm_find_cea_extension(const struct e=
-did *edid)
-> >  =
-
-> >  static const struct drm_display_mode *cea_mode_for_vic(u8 vic)
-> >  {
-> > -	if (!vic)
-> > -		return NULL;
-> > -	if (vic < ARRAY_SIZE(edid_cea_modes_0))
-> > -		return &edid_cea_modes_0[vic];
-> > +	if (vic >=3D 1 && vic < 1 + ARRAY_SIZE(edid_cea_modes_1))
-> > +		return &edid_cea_modes_1[vic - 1];
-> >  	if (vic >=3D 193 && vic < 193 + ARRAY_SIZE(edid_cea_modes_193))
-> >  		return &edid_cea_modes_193[vic - 193];
-> >  	return NULL;
-> > @@ -3227,7 +3223,7 @@ static u8 cea_num_vics(void)
-> >  =
-
-> >  static u8 cea_next_vic(u8 vic)
-> >  {
-> > -	if (++vic =3D=3D ARRAY_SIZE(edid_cea_modes_0))
-> > +	if (++vic =3D=3D 1 + ARRAY_SIZE(edid_cea_modes_1))
-> >  		vic =3D 193;
-> >  	return vic;
-> >  }
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
+-- 
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
