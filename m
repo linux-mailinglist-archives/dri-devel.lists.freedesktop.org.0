@@ -1,66 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B0411AB14
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 13:38:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0AA211AB18
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 13:43:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4826A6EB2E;
-	Wed, 11 Dec 2019 12:38:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B36706EB24;
+	Wed, 11 Dec 2019 12:43:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CA7C6EB2E
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 12:38:39 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id q10so23857767wrm.11
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 04:38:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=oilqMrWOmUSWqLKTGEJQYVnIb6Khy8rZQCIwVkV2EgI=;
- b=KJqVnq80OYD3nHpLiKB4RCWguQxg3gbAVtmRJIBQyahJ2cRtyqyDo24gpCh3PvkZOx
- 6a8X1IW2qjx02ByMsUMiXPy8XLnFUMVkQWttRFIURRebr1Gin1WWVnxvmX3RkhXVr8NA
- u+L8IgnOyLqjKoBcQNBX5FpGthRxI5USPeFLw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to:user-agent;
- bh=oilqMrWOmUSWqLKTGEJQYVnIb6Khy8rZQCIwVkV2EgI=;
- b=LLRdA1jJcLUKEu7HHGU4oOwjnelGabenSWE6z9WySx9cvw1VmMkLZAa37fJXJw6mZx
- 0SuayKzsCsHKFW6cZP8jm8fViLZ8qzWehLOzOMzO61cM0749fg4JrntPsSPsObGAvkbY
- KKp62+j5bBGIA0dY8fWfdo0+V0YK+VNqSEMaH0B9vErWo34kfxtFPUteG8BxxaweCUkS
- WUJXm96xHGQLUmeo++jNpi3SHbygZYRFpSkpBxrvcLXxwjJxWMjmWQvOv7muhx94WNGT
- smUJ3LLxkCkv5voY1EckVtYt1hKLlI+XUHt5Qul/y7kCth//LTC7b+KsK3sWcXqIClyo
- Epfw==
-X-Gm-Message-State: APjAAAX+VQdBN3IaHtDqJLk7FQod9cBtAJAnCMdOV6bNO9bUaduWtrpf
- Go67xbiRoi6EQOuEcYrCJcl/yQ==
-X-Google-Smtp-Source: APXvYqxNEgdkHL4Hk1D8WjL8Exvt/tX0nokfJtSU3/y8Vl7lUKInCWQgPwwg8G6SR3+J2hh8OSF6KQ==
-X-Received: by 2002:adf:dc8d:: with SMTP id r13mr3767933wrj.357.1576067917745; 
- Wed, 11 Dec 2019 04:38:37 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:564b:0:7567:bb67:3d7f:f863])
- by smtp.gmail.com with ESMTPSA id n12sm2200963wmd.1.2019.12.11.04.38.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Dec 2019 04:38:37 -0800 (PST)
-Date: Wed, 11 Dec 2019 13:38:35 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v3 1/4] drm: add pgprot callback to drm_gem_object_funcs
-Message-ID: <20191211123835.GZ624164@phenom.ffwll.local>
-Mail-Followup-To: Gerd Hoffmann <kraxel@redhat.com>,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
- gurchetansingh@chromium.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
- open list <linux-kernel@vger.kernel.org>
-References: <20191211121957.18637-1-kraxel@redhat.com>
- <20191211121957.18637-2-kraxel@redhat.com>
+X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
+ Wed, 11 Dec 2019 12:43:50 UTC
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 692D76EB24
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 12:43:50 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4DF7B1FB;
+ Wed, 11 Dec 2019 04:38:48 -0800 (PST)
+Received: from [10.1.194.43] (e112269-lin.cambridge.arm.com [10.1.194.43])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8C7013F6CF;
+ Wed, 11 Dec 2019 04:38:47 -0800 (PST)
+Subject: Re: [PATCH v2] drm/panfrost: Add the panfrost_gem_mapping concept
+To: Rob Herring <robh@kernel.org>, dri-devel@lists.freedesktop.org
+References: <20191210230844.794-1-robh@kernel.org>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <12053d81-88a9-8a4a-19f5-43ccdbc5bc0b@arm.com>
+Date: Wed, 11 Dec 2019 12:38:46 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191211121957.18637-2-kraxel@redhat.com>
-X-Operating-System: Linux phenom 5.3.0-2-amd64 
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <20191210230844.794-1-robh@kernel.org>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,146 +43,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- gurchetansingh@chromium.org, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 11, 2019 at 01:19:53PM +0100, Gerd Hoffmann wrote:
-> The callback allows drivers and helpers to tweak pgprot for mappings.
-> This is especially helpful when using shmem helpers.  It allows drivers
-> to switch mappings from writecombine (default) to something else (cached
-> for example) on a per-object base without having to supply their own
-> mmap() and vmap() functions.
+On 10/12/2019 23:08, Rob Herring wrote:
+> From: Boris Brezillon <boris.brezillon@collabora.com>
 > 
-> The patch also adds two implementations for the callback, for cached and
-> writecombine mappings, and the drm_gem_pgprot() function to update
-> pgprot for a given object, using the new &drm_gem_object_funcs.pgprot
-> callback if available.
+> With the introduction of per-FD address space, the same BO can be mapped
+> in different address space if the BO is globally visible (GEM_FLINK)
+> and opened in different context or if the dmabuf is self-imported. The
+> current implementation does not take that case into account, and 
+> attaches the mapping directly to the panfrost_gem_object.
 > 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> Let's create a panfrost_gem_mapping struct and allow multiple mappings
+> per BO.
+> 
+> The mappings are refcounted which helps solve another problem where
+> mappings were torn down (GEM handle closed by userspace) while GPU
+> jobs accessing those BOs were still in-flight. Jobs now keep a
+> reference on the mappings they use.
+> 
+> v2 (robh):
+> - Minor review comment clean-ups from Steven
+> - Use list_is_singular helper
+> - Just WARN if we add a mapping when madvise state is not WILLNEED.
+>   With that, drop the use of object_name_lock.
+> 
+> Fixes: a5efb4c9a562 ("drm/panfrost: Restructure the GEM object creation")
+> Fixes: 7282f7645d06 ("drm/panfrost: Implement per FD address spaces")
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
->  include/drm/drm_gem.h     | 15 +++++++++++++
->  drivers/gpu/drm/drm_gem.c | 46 ++++++++++++++++++++++++++++++++++++++-
->  2 files changed, 60 insertions(+), 1 deletion(-)
+> I've hacked up IGT prime_self_import test to run on panfrost other than 
+> the 2 test which depend on i915 debugfs files (export-vs-gem_close-race, 
+> reimport-vs-gem_close-race). With this patch, they now pass.
 > 
-> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> index 0b375069cd48..5beef7226e69 100644
-> --- a/include/drm/drm_gem.h
-> +++ b/include/drm/drm_gem.h
-> @@ -163,6 +163,17 @@ struct drm_gem_object_funcs {
->  	 */
->  	int (*mmap)(struct drm_gem_object *obj, struct vm_area_struct *vma);
+> I'm not adding the test to IGT which is just a copy-n-paste of the 
+> original except for different wrappers for BO alloc and mmap. That 
+> should be fixed first IMO.
+> 
+> Rob
+> 
+>  drivers/gpu/drm/panfrost/panfrost_drv.c       |  91 +++++++++++--
+>  drivers/gpu/drm/panfrost/panfrost_gem.c       | 123 +++++++++++++++---
+>  drivers/gpu/drm/panfrost/panfrost_gem.h       |  41 +++++-
+>  .../gpu/drm/panfrost/panfrost_gem_shrinker.c  |   3 +-
+>  drivers/gpu/drm/panfrost/panfrost_job.c       |  13 +-
+>  drivers/gpu/drm/panfrost/panfrost_job.h       |   1 +
+>  drivers/gpu/drm/panfrost/panfrost_mmu.c       |  61 +++++----
+>  drivers/gpu/drm/panfrost/panfrost_mmu.h       |   6 +-
+>  drivers/gpu/drm/panfrost/panfrost_perfcnt.c   |  34 +++--
+>  9 files changed, 299 insertions(+), 74 deletions(-)
+> 
+
+<snip>
+
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
+> index fd766b1395fb..3a7862e3e775 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+> @@ -29,6 +29,12 @@ static void panfrost_gem_free_object(struct drm_gem_object *obj)
+>  	list_del_init(&bo->base.madv_list);
+>  	mutex_unlock(&pfdev->shrinker_lock);
 >  
-> +	/**
-> +	 * @pgprot:
-> +	 *
-> +	 * Tweak pgprot as needed, typically used to set cache bits.
-> +	 *
-> +	 * This callback is optional.
-> +	 *
-> +	 * If unset drm_gem_pgprot_wc() will be used.
+> +	/*
+> +	 * If we still have mappings attached to the BO, there's a problem in
+> +	 * our refcounting.
 > +	 */
-> +	pgprot_t (*pgprot)(struct drm_gem_object *obj, pgprot_t prot);
-
-I kinda prefer v1, mostly because this is a huge can of worms, and solving
-this properly is going to be real hard (and will necessarily involve
-dma-buf and dma-api and probably more). Charging ahead here just risks
-that we dig ourselves into a corner. You're v1 is maybe not the most
-clean, but just a few code bits here&there should be more flexible and
-easier to hack on and experiment around with.
--Daniel
-
+> +	WARN_ON_ONCE(!list_empty(&bo->mappings.list));
 > +
->  	/**
->  	 * @vm_ops:
->  	 *
-> @@ -350,6 +361,10 @@ int drm_gem_mmap_obj(struct drm_gem_object *obj, unsigned long obj_size,
->  		     struct vm_area_struct *vma);
->  int drm_gem_mmap(struct file *filp, struct vm_area_struct *vma);
->  
-> +pgprot_t drm_gem_pgprot_cached(struct drm_gem_object *obj, pgprot_t prot);
-> +pgprot_t drm_gem_pgprot_wc(struct drm_gem_object *obj, pgprot_t prot);
-> +pgprot_t drm_gem_pgprot(struct drm_gem_object *obj, pgprot_t prot);
-> +
->  /**
->   * drm_gem_object_get - acquire a GEM buffer object reference
->   * @obj: GEM buffer object
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index 56f42e0f2584..1c468fe8e342 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -1119,7 +1119,8 @@ int drm_gem_mmap_obj(struct drm_gem_object *obj, unsigned long obj_size,
->  			return -EINVAL;
->  
->  		vma->vm_flags |= VM_IO | VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP;
-> -		vma->vm_page_prot = pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
-> +		vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
-> +		vma->vm_page_prot = drm_gem_pgprot(obj, vma->vm_page_prot);
->  		vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
->  	}
->  
-> @@ -1210,6 +1211,49 @@ int drm_gem_mmap(struct file *filp, struct vm_area_struct *vma)
+>  	if (bo->sgts) {
+>  		int i;
+>  		int n_sgt = bo->base.base.size / SZ_2M;
+> @@ -46,6 +52,68 @@ static void panfrost_gem_free_object(struct drm_gem_object *obj)
+>  	drm_gem_shmem_free_object(obj);
 >  }
->  EXPORT_SYMBOL(drm_gem_mmap);
 >  
-> +/**
-> + * drm_gem_mmap - update pgprot for objects needing a cachable mapping.
-> + * @obj: the GEM object.
-> + * @prot: page attributes.
-> + *
-> + * This function can be used as &drm_gem_object_funcs.pgprot callback.
-> + */
-> +pgprot_t drm_gem_pgprot_cached(struct drm_gem_object *obj, pgprot_t prot)
+> +struct panfrost_gem_mapping *
+> +panfrost_gem_mapping_get(struct panfrost_gem_object *bo,
+> +			 struct panfrost_file_priv *priv)
 > +{
-> +	return prot;
-> +}
-> +EXPORT_SYMBOL(drm_gem_pgprot_cached);
+> +	struct panfrost_gem_mapping *iter;
 > +
-> +/**
-> + * drm_gem_mmap - update pgprot for objects needing a wc mapping.
-> + * @obj: the GEM object.
-> + * @prot: page attributes.
-> + *
-> + * This function can be used as &drm_gem_object_funcs.pgprot callback.
-> + */
-> +pgprot_t drm_gem_pgprot_wc(struct drm_gem_object *obj, pgprot_t prot)
-> +{
-> +	return pgprot_writecombine(prot);
-> +}
-> +EXPORT_SYMBOL(drm_gem_pgprot_wc);
+> +	mutex_lock(&bo->mappings.lock);
+> +	list_for_each_entry(iter, &bo->mappings.list, node) {
+> +		if (iter->mmu == &priv->mmu) {
+> +			kref_get(&iter->refcount);
+> +			break;
+> +		}
+> +	}
+> +	mutex_unlock(&bo->mappings.lock);
 > +
-> +/**
-> + * drm_gem_mmap - update pgprot for a given gem object.
-> + * @obj: the GEM object.
-> + * @prot: page attributes.
-> + *
-> + * This function updates pgprot according to the needs of the given
-> + * object.  If present &drm_gem_object_funcs.pgprot callback will be
-> + * used, otherwise drm_gem_pgprot_wc() is called.
-> + */
-> +pgprot_t drm_gem_pgprot(struct drm_gem_object *obj, pgprot_t prot)
-> +{
-> +	if (obj->funcs->pgprot)
-> +		return obj->funcs->pgprot(obj, prot);
-> +	return drm_gem_pgprot_wc(obj, prot);
-> +}
-> +EXPORT_SYMBOL(drm_gem_pgprot);
-> +
->  void drm_gem_print_info(struct drm_printer *p, unsigned int indent,
->  			const struct drm_gem_object *obj)
->  {
-> -- 
-> 2.18.1
-> 
+> +	return iter;
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+If the entry isn't found then iter will equal
+container_of(&bo->mappings.list, struct panfrost_gem_mapping, node) -
+but you actually want a NULL return in this case.
+
+I also think the previous version with a "member" variable being
+returned was clearer.
+
+Thanks,
+
+Steve
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
