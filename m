@@ -2,24 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AF1F11A02D
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 01:47:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7315A11A02E
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 01:47:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 636326E16D;
-	Wed, 11 Dec 2019 00:47:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5789A6EA28;
+	Wed, 11 Dec 2019 00:47:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 599 seconds by postgrey-1.36 at gabe;
- Wed, 11 Dec 2019 00:47:24 UTC
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12F656E16D
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18C236EA28
  for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 00:47:24 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 204241] amdgpu fails to resume from suspend
-Date: Wed, 11 Dec 2019 00:37:24 +0000
+Date: Wed, 11 Dec 2019 00:39:40 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -34,8 +32,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-204241-2300-xmq3siursO@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-204241-2300-MVkIjmRF6h@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-204241-2300@https.bugzilla.kernel.org/>
 References: <bug-204241-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -60,19 +58,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=204241
 
-crab2313@gmail.com changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |crab2313@gmail.com
-
---- Comment #43 from crab2313@gmail.com ---
-Same problem with my Thinkpad x395 (model 20NL000YCD). The system refused to
-suspend consistently and showed a blurred screen. Also, the LED on power button
-do not turn off. 
-
-The issue still exist when I disable fingerprint reader and SD card reader in
-bios.
+--- Comment #44 from crab2313@gmail.com ---
+Created attachment 286253
+  --> https://bugzilla.kernel.org/attachment.cgi?id=286253&action=edit
+log of x395 when suspend
 
 -- 
 You are receiving this mail because:
