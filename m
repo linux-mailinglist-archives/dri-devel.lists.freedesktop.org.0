@@ -2,50 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBF1311A6C5
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 10:21:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8DD711A6D6
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 10:22:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEE476EAD0;
-	Wed, 11 Dec 2019 09:20:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0257B6EAC2;
+	Wed, 11 Dec 2019 09:20:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ironport.ite.com.tw (60-251-196-230.HINET-IP.hinet.net
- [60.251.196.230])
- by gabe.freedesktop.org (Postfix) with ESMTP id B8E846EA83
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 03:47:59 +0000 (UTC)
-Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
- by ironport.ite.com.tw with ESMTP; 11 Dec 2019 11:47:58 +0800
-Received: from csbcas.internal.ite.com.tw (csbmail1.internal.ite.com.tw
- [192.168.65.58]) by mse.ite.com.tw with ESMTP id xBB3lr6k079450;
- Wed, 11 Dec 2019 11:47:53 +0800 (GMT-8)
- (envelope-from allen.chen@ite.com.tw)
-Received: from CSBMAIL1.internal.ite.com.tw (192.168.65.58) by
- CSBMAIL1.internal.ite.com.tw (192.168.65.58) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1713.5; Wed, 11 Dec 2019 11:47:52 +0800
-Received: from CSBMAIL1.internal.ite.com.tw ([fe80::2cba:f37c:ac09:f33f]) by
- CSBMAIL1.internal.ite.com.tw ([fe80::2cba:f37c:ac09:f33f%22]) with mapi id
- 15.01.1713.004; Wed, 11 Dec 2019 11:47:52 +0800
-From: <allen.chen@ite.com.tw>
-To: <jani.nikula@linux.intel.com>
-Subject: RE: [PATCH] drm/edid: fixup EDID 1.3 and 1.4 judge reduced-blanking
- timings logic
-Thread-Topic: [PATCH] drm/edid: fixup EDID 1.3 and 1.4 judge reduced-blanking
- timings logic
-Thread-Index: AQHVr0p4ZifVjR0QMU2oZureDdE7SKe0TGNQ
-Date: Wed, 11 Dec 2019 03:47:52 +0000
-Message-ID: <75e96653559c4cf8a3b0f22dd611ef9b@ite.com.tw>
-References: <1574761572-26585-1-git-send-email-allen.chen@ite.com.tw>
- <87r21ce8rp.fsf@intel.com>
-In-Reply-To: <87r21ce8rp.fsf@intel.com>
-Accept-Language: en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.70.14]
-x-tm-snts-smtp: 8E5F65DFF2ADCBDEC829C5E1CBF1DB7DE2C3BCFE0E6EAB230CC4249425D7C13C2000:8
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
+ [IPv6:2607:f8b0:4864:20::644])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFA256E167
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 06:19:37 +0000 (UTC)
+Received: by mail-pl1-x644.google.com with SMTP id x13so988391plr.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2019 22:19:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YRavSC33ZtK/7zUsAUhvwvnYf94ej0Wa3q2MGL/7bjE=;
+ b=G1irwZRtD6I4pLurc23D+bW7EdIavtCQy5pnDmv2sZKR3/O+cZhA7VkC/0TGO6lA+B
+ VhX8LuaIMGiSRxxTbduglep2ElbyfqkuWpYeYldOa9suu+nvv76Z7HLGqTgfMJH/VoqJ
+ /jArc5qR+n+7P1pFQZiI63+xOzBPv904pg8q4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YRavSC33ZtK/7zUsAUhvwvnYf94ej0Wa3q2MGL/7bjE=;
+ b=bk0qVjGWVCvaVZinVniGuKLu3dSJSRPubQS2YKMqkHCtanlMajbxbb+c/xjB1+yEKK
+ /xSGo6h5jqAI304/8x76RmmMxiNepE3MFEraMHQ+4v7OdbqXwZvhKtGzfqebYv5TzxoI
+ c/xLjucxbNO1fiEhRJno6masgDiuSAzBY5jiXkJ2GYIM6GqH2Jrkguw4n1x1cQr2/nt2
+ k6WJ9v/768yt6ZGSvh22+kmDdv5aZWuEtEFhHBxF4ESnWzLBLrMDFTlIEoft8342bSRA
+ ORjaFDtmyTCqy5twY4gi/d8Kz9iBVj13/DWsMNMak6zDv6Lm5Z2CvPeZVL2REC6x1ICN
+ YGNg==
+X-Gm-Message-State: APjAAAVmJcNABkjGLHceTv0MBZYTOqtVQq/kckfSiIMF6fOiF9Nr/Jml
+ 8wwTu6//OP8QxElj+ygKCSvjXT4NbqL7Og==
+X-Google-Smtp-Source: APXvYqyyzVU6PmkPeOeBgKV6jY3bzTZPDmSqYSbUHfdlOt8oTvxIuNEEYVxyU8HYqS26xWZXbgMPvw==
+X-Received: by 2002:a17:90b:124a:: with SMTP id
+ gx10mr1680582pjb.118.1576045176977; 
+ Tue, 10 Dec 2019 22:19:36 -0800 (PST)
+Received: from hsinyi-z840.tpe.corp.google.com
+ ([2401:fa00:1:10:b852:bd51:9305:4261])
+ by smtp.gmail.com with ESMTPSA id h5sm1225579pfk.30.2019.12.10.22.19.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Dec 2019 22:19:36 -0800 (PST)
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH RESEND 0/4] drm: bridge: anx7688 and mux drivers
+Date: Wed, 11 Dec 2019 14:19:07 +0800
+Message-Id: <20191211061911.238393-1-hsinyi@chromium.org>
+X-Mailer: git-send-email 2.24.0.525.g8f36a354ae-goog
 MIME-Version: 1.0
-X-MAIL: mse.ite.com.tw xBB3lr6k079450
 X-Mailman-Approved-At: Wed, 11 Dec 2019 09:20:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,86 +64,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jau-Chih.Tseng@ite.com.tw, maxime.ripard@bootlin.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- airlied@linux.ie, pihsun@chromium.org, sean@poorly.run
-Content-Type: text/plain; charset="big5"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Nicolas Boichat <drinkcat@chromium.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Matthias Brugger <mbrugger@suse.com>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Russell King <rmk+kernel@arm.linux.org.uk>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgSmFuaQ0KDQpUaGFua3MgZm9yIHlvdXIgaGVscCBhbmQgSSB3aWxsIGZvbGxvdyB5b3VyIHN1
-Z2dlc3Rpb24gdG8gbW9kaWZ5IHRoZSBwYXRjaC4NCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0t
-LS0NCkZyb206IEphbmkgTmlrdWxhIFttYWlsdG86amFuaS5uaWt1bGFAbGludXguaW50ZWwuY29t
-XSANClNlbnQ6IFR1ZXNkYXksIERlY2VtYmVyIDEwLCAyMDE5IDc6MTAgUE0NClRvOiBBbGxlbiBD
-aGVuICizr6xmpnQpDQpDYzogSmF1LUNoaWggVHNlbmcgKLS/rEy0vCk7IE1heGltZSBSaXBhcmQ7
-IEFsbGVuIENoZW4gKLOvrGamdCk7IG9wZW4gbGlzdDsgb3BlbiBsaXN0OkRSTSBEUklWRVJTOyBE
-YXZpZCBBaXJsaWU7IFBpLUhzdW4gU2hpaDsgU2VhbiBQYXVsDQpTdWJqZWN0OiBSZTogW1BBVENI
-XSBkcm0vZWRpZDogZml4dXAgRURJRCAxLjMgYW5kIDEuNCBqdWRnZSByZWR1Y2VkLWJsYW5raW5n
-IHRpbWluZ3MgbG9naWMNCg0KT24gVHVlLCAyNiBOb3YgMjAxOSwgYWxsZW4gPGFsbGVuLmNoZW5A
-aXRlLmNvbS50dz4gd3JvdGU6DQo+IEFjY29yZGluZyB0byBWRVNBIEVOSEFOQ0VEIEVYVEVOREVE
-IERJU1BMQVkgSURFTlRJRklDQVRJT04gREFUQSBTVEFOREFSRA0KPiAoRGVmaW5lcyBFRElEIFN0
-cnVjdHVyZSBWZXJzaW9uIDEsIFJldmlzaW9uIDQpIHBhZ2U6IDM5DQo+IEhvdyB0byBkZXRlcm1p
-bmUgd2hldGhlciB0aGUgbW9uaXRvciBzdXBwb3J0IFJCIHRpbWluZyBvciBub3Q/DQo+IEVESUQg
-MS40DQo+IEZpcnN0OiAgcmVhZCBkZXRhaWxlZCB0aW1pbmcgZGVzY3JpcHRvciBhbmQgbWFrZSBz
-dXJlIGJ5dGUgMCA9IDB4MDAsDQo+IAlieXRlIDEgPSAweDAwLCBieXRlIDIgPSAweDAwIGFuZCBi
-eXRlIDMgPSAweEZEDQo+IFNlY29uZDogcmVhZCBFRElEIGJpdCAwIGluIGZlYXR1cmUgc3VwcG9y
-dCBieXRlIGF0IGFkZHJlc3MgMThoID0gMQ0KPiAJYW5kIGRldGFpbGVkIHRpbWluZyBkZXNjcmlw
-dG9yIGJ5dGUgMTAgPSAweDA0DQo+IFRoaXJkOiAgaWYgRURJRCBiaXQgMCBpbiBmZWF0dXJlIHN1
-cHBvcnQgYnl0ZSA9IDEgJiYNCj4gCWRldGFpbGVkIHRpbWluZyBkZXNjcmlwdG9yIGJ5dGUgMTAg
-PSAweDA0DQo+IAl0aGVuIHdlIGNhbiBjaGVjayBieXRlIDE1LCBpZiBiaXQgNCBpbiBieXRlIDE1
-ID0gMSBpcyBzdXBwb3J0IFJCDQo+ICAgICAgICAgaWYgRURJRCBiaXQgMCBpbiBmZWF0dXJlIHN1
-cHBvcnQgYnl0ZSAhPSAxIHx8DQo+IAlkZXRhaWxlZCB0aW1pbmcgZGVzY3JpcHRvciBieXRlIDEw
-ICE9IDB4MDQsDQo+IAl0aGVuIGJ5dGUgMTUgY2FuIG5vdCBiZSB1c2VkDQo+DQo+IFRoZSBsaW51
-eCBjb2RlIGlzX3JiIGZ1bmN0aW9uIG5vdCBmb2xsb3cgdGhlIFZFU0EncyBydWxlDQo+DQo+IFNp
-Z25lZC1vZmYtYnk6IEFsbGVuIENoZW4gPGFsbGVuLmNoZW5AaXRlLmNvbS50dz4NCj4gUmVwb3J0
-ZWQtYnk6IGtidWlsZCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPg0KPiAtLS0NCj4gIGRyaXZl
-cnMvZ3B1L2RybS9kcm1fZWRpZC5jIHwgMzYgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-LS0tLS0tDQo+ICAxIGZpbGUgY2hhbmdlZCwgMzAgaW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMo
-LSkNCj4NCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jIGIvZHJpdmVy
-cy9ncHUvZHJtL2RybV9lZGlkLmMNCj4gaW5kZXggZjU5MjZiZi4uZTExZTU4NSAxMDA2NDQNCj4g
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9lZGlkLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
-L2RybV9lZGlkLmMNCj4gQEAgLTkzLDYgKzkzLDEyIEBAIHN0cnVjdCBkZXRhaWxlZF9tb2RlX2Ns
-b3N1cmUgew0KPiAgCWludCBtb2RlczsNCj4gIH07DQo+ICANCj4gK3N0cnVjdCBlZGlkX3N1cHBv
-cnRfcmJfY2xvc3VyZSB7DQo+ICsJc3RydWN0IGVkaWQgKmVkaWQ7DQo+ICsJYm9vbCB2YWxpZF9z
-dXBwb3J0X3JiOw0KPiArCWJvb2wgc3VwcG9ydF9yYjsNCj4gK307DQo+ICsNCj4gICNkZWZpbmUg
-TEVWRUxfRE1UCTANCj4gICNkZWZpbmUgTEVWRUxfR1RGCTENCj4gICNkZWZpbmUgTEVWRUxfR1RG
-MgkyDQo+IEBAIC0yMDE3LDIzICsyMDIzLDQxIEBAIHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICpk
-cm1fbW9kZV9maW5kX2RtdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LA0KPiAgCX0NCj4gIH0NCj4g
-IA0KPiArc3RhdGljIGJvb2wNCj4gK2lzX2Rpc3BsYXlfZGVzY3JpcHRvcihjb25zdCB1OCAqciwg
-dTggdGFnKQ0KPiArew0KPiArCXJldHVybiAoIXJbMF0gJiYgIXJbMV0gJiYgIXJbMl0gJiYgclsz
-XSA9PSB0YWcpID8gdHJ1ZSA6IGZhbHNlOw0KPiArfQ0KPiArDQo+ICBzdGF0aWMgdm9pZA0KPiAg
-aXNfcmIoc3RydWN0IGRldGFpbGVkX3RpbWluZyAqdCwgdm9pZCAqZGF0YSkNCj4gIHsNCj4gIAl1
-OCAqciA9ICh1OCAqKXQ7DQo+IC0JaWYgKHJbM10gPT0gRURJRF9ERVRBSUxfTU9OSVRPUl9SQU5H
-RSkNCj4gLQkJaWYgKHJbMTVdICYgMHgxMCkNCj4gLQkJCSooYm9vbCAqKWRhdGEgPSB0cnVlOw0K
-PiArCXN0cnVjdCBlZGlkX3N1cHBvcnRfcmJfY2xvc3VyZSAqY2xvc3VyZSA9IGRhdGE7DQo+ICsJ
-c3RydWN0IGVkaWQgKmVkaWQgPSBjbG9zdXJlLT5lZGlkOw0KPiArDQo+ICsJaWYgKGlzX2Rpc3Bs
-YXlfZGVzY3JpcHRvcihyLCBFRElEX0RFVEFJTF9NT05JVE9SX1JBTkdFKSkgew0KPiArCQlpZiAo
-ZWRpZC0+ZmVhdHVyZXMgJiBCSVQoMCkgJiYgclsxMF0gPT0gQklUKDIpKSB7DQoNCkknbGwgdHJ5
-IHRvIGV4cGxhaW4gbXkgb3JpZ2luYWwgY29tbWVudCBhZ2Fpbi4NCg0KQ29uc2lkZXIgZWRpZC0+
-ZmVhdHVyZXMgJiBCSVQoMCkuIEl0IHJlbWFpbnMgdW5jaGFuZ2VkIGFjcm9zcyB0aGUNCml0ZXJh
-dGlvbi4gVGhlIGNvZGUgd2lsbCBvbmx5IGNoYW5nZSBhbnl0aGluZyBpZiBlZGlkLT5mZWF0dXJl
-cyAmDQpCSVQoMCkuDQoNCj4gKwkJCWNsb3N1cmUtPnZhbGlkX3N1cHBvcnRfcmIgPSB0cnVlOw0K
-PiArCQkJY2xvc3VyZS0+c3VwcG9ydF9yYiA9IChyWzE1XSAmIDB4MTApID8gdHJ1ZSA6IGZhbHNl
-Ow0KDQpZb3UgY291bGQgY29tYmluZSB0aGVzZSB0byBlLmcuIGEgc2luZ2xlIGludC4NCg0KCWlm
-IChyWzEwXSA9PSBCSVQoMikpIHsNCgkJaW50ICpyZXQgPSBkYXRhOw0KCQkqcmV0ID0gISEoclsx
-NV0gJiAweDEwKTsNCgl9DQoNCj4gKwkJfQ0KPiArCX0NCj4gIH0NCj4gIA0KPiAgLyogRURJRCAx
-LjQgZGVmaW5lcyB0aGlzIGV4cGxpY2l0bHkuICBGb3IgRURJRCAxLjMsIHdlIGd1ZXNzLCBiYWRs
-eS4gKi8NCj4gIHN0YXRpYyBib29sDQo+ICBkcm1fbW9uaXRvcl9zdXBwb3J0c19yYihzdHJ1Y3Qg
-ZWRpZCAqZWRpZCkNCj4gIHsNCj4gKwlzdHJ1Y3QgZWRpZF9zdXBwb3J0X3JiX2Nsb3N1cmUgY2xv
-c3VyZSA9IHsNCj4gKwkJLmVkaWQgPSBlZGlkLA0KPiArCQkudmFsaWRfc3VwcG9ydF9yYiA9IGZh
-bHNlLA0KPiArCQkuc3VwcG9ydF9yYiA9IGZhbHNlLA0KPiArCX07DQo+ICsNCj4gIAlpZiAoZWRp
-ZC0+cmV2aXNpb24gPj0gNCkgew0KPiAtCQlib29sIHJldCA9IGZhbHNlOw0KPiAtCQlkcm1fZm9y
-X2VhY2hfZGV0YWlsZWRfYmxvY2soKHU4ICopZWRpZCwgaXNfcmIsICZyZXQpOw0KPiAtCQlyZXR1
-cm4gcmV0Ow0KPiArCQlkcm1fZm9yX2VhY2hfZGV0YWlsZWRfYmxvY2soKHU4ICopZWRpZCwgaXNf
-cmIsICZjbG9zdXJlKTsNCj4gKwkJaWYgKGNsb3N1cmUudmFsaWRfc3VwcG9ydF9yYikNCj4gKwkJ
-CXJldHVybiBjbG9zdXJlLnN1cHBvcnRfcmI7DQoNCkhlcmUsIHlvdSdkIGRvOg0KDQogICAgICAg
-IGlmIChlZGlkLT5mZWF0dXJlcyAmIEJJVCgwKSkgew0KICAgICAgICAJaW50IHJldCA9IC0xOw0K
-CQlkcm1fZm9yX2VhY2hfZGV0YWlsZWRfYmxvY2soKHU4ICopZWRpZCwgaXNfcmIsICZyZXQpOw0K
-ICAgICAgICAgICAgICAgIGlmIChyZXQgIT0gLTEpDQogICAgICAgICAgICAgICAgCXJldHVybiBy
-ZXQ7DQoJfQ0KDQoNCj4gIAl9DQo+ICANCj4gIAlyZXR1cm4gKChlZGlkLT5pbnB1dCAmIERSTV9F
-RElEX0lOUFVUX0RJR0lUQUwpICE9IDApOw0KDQotLSANCkphbmkgTmlrdWxhLCBJbnRlbCBPcGVu
-IFNvdXJjZSBHcmFwaGljcyBDZW50ZXINCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbAo=
+This is a resend of [1] with a few modification due to drm core function
+changes and use regmap abstraction.
+
+The gpio mux driver is required for MT8173 board layout:
+
+                                  /-- anx7688
+-- MT8173 HDMI bridge -- GPIO mux
+                                  \-- native HDMI
+
+[1] https://lore.kernel.org/lkml/1467013727-11482-1-git-send-email-drinkcat@chromium.org/
+
+Nicolas Boichat (4):
+  dt-bindings: drm/bridge: analogix-anx7688: Add ANX7688 transmitter
+    binding
+  drm: bridge: anx7688: Add anx7688 bridge driver support.
+  dt-bindings: drm/bridge: Add GPIO display mux binding
+  drm: bridge: Generic GPIO mux driver
+
+ .../bindings/display/bridge/anx7688.yaml      |  60 ++++
+ .../bindings/display/bridge/gpio-mux.yaml     |  89 +++++
+ drivers/gpu/drm/bridge/Kconfig                |  19 ++
+ drivers/gpu/drm/bridge/Makefile               |   2 +
+ drivers/gpu/drm/bridge/analogix-anx7688.c     | 202 ++++++++++++
+ drivers/gpu/drm/bridge/generic-gpio-mux.c     | 306 ++++++++++++++++++
+ 6 files changed, 678 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/anx7688.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/gpio-mux.yaml
+ create mode 100644 drivers/gpu/drm/bridge/analogix-anx7688.c
+ create mode 100644 drivers/gpu/drm/bridge/generic-gpio-mux.c
+
+-- 
+2.24.0.525.g8f36a354ae-goog
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
