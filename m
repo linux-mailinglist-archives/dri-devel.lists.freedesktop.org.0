@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D83DE11AF83
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 16:14:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E7D911AF7E
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 16:13:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCB7A89128;
-	Wed, 11 Dec 2019 15:14:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A68CE6E098;
+	Wed, 11 Dec 2019 15:13:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F16C889128
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 15:14:09 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F13786E098
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 15:13:50 +0000 (UTC)
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
+ [73.47.72.35])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6605320663;
- Wed, 11 Dec 2019 15:14:09 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id F2D1724658;
+ Wed, 11 Dec 2019 15:13:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576077249;
- bh=vkqTVeoP7Gmqtk/Duna3R/OH1Tk748TwIhp/xbYauV8=;
+ s=default; t=1576077230;
+ bh=rpxLrDaSvagMx3JhYJPE14kyPqGFg5t4VEmZNEMZ6H4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=rD6kgdcr9+zaA1vtS7VS+3o/efZdD+d1oPj53uGKkUgBBOE2PEzDJFK6CAqoeBG0O
- YAevbIdJ7OkeWpP9lw1P4CWSIlFMVVJOPFqh4Pl54p8Op20y1zT3TGOjn6TzRBxf65
- Fejw9VMsXyZqA90watdFTg4wP3qrl1gC2Yd1BoSQ=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.3 073/105] drm: damage_helper: Fix race checking
- plane->state->fb
-Date: Wed, 11 Dec 2019 16:06:02 +0100
-Message-Id: <20191211150252.259403546@linuxfoundation.org>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20191211150221.153659747@linuxfoundation.org>
-References: <20191211150221.153659747@linuxfoundation.org>
-User-Agent: quilt/0.66
+ b=A6E16z43o4YF6TyMgA0t6mUH4Fivqsw5yD2y/5E1cWKBOEQpbuMrxOiTY6koJ4KiC
+ BAUoQlp443xpQqp5pmxCgGy8jy3yq4ZJgDVHTEOIOrLv1XDKF20+e6KSpgcsGwVO8e
+ QzmXIfbJH4+Ax3VMtRAU0qVy8AWc6+R7Dkeg2OYM=
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 109/134] drm/amdgpu: Call find_vma under mmap_sem
+Date: Wed, 11 Dec 2019 10:11:25 -0500
+Message-Id: <20191211151150.19073-109-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191211151150.19073-1-sashal@kernel.org>
+References: <20191211151150.19073-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,73 +49,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Hellstrom <thellstrom@vmware.com>,
- Maxime Ripard <maxime.ripard@bootlin.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Sean Paul <seanpaul@chromium.org>,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Deepak Rawat <drawat@vmware.com>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sasha Levin <sashal@kernel.org>, Philip Yang <Philip.Yang@amd.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, dri-devel@lists.freedesktop.org,
+ Jason Gunthorpe <jgg@mellanox.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sean Paul <seanpaul@chromium.org>
-
-commit 354c2d310082d1c384213ba76c3757dd3cd8755d upstream.
-
-Since the dirtyfb ioctl doesn't give us any hints as to which plane is
-scanning out the fb it's marking as damaged, we need to loop through
-planes to find it.
-
-Currently we just reach into plane state and check, but that can race
-with another commit changing the fb out from under us. This patch locks
-the plane before checking the fb and will release the lock if the plane
-is not displaying the dirty fb.
-
-Fixes: b9fc5e01d1ce ("drm: Add helper to implement legacy dirtyfb")
-Cc: Rob Clark <robdclark@gmail.com>
-Cc: Deepak Rawat <drawat@vmware.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Thomas Hellstrom <thellstrom@vmware.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>
-Cc: Sean Paul <sean@poorly.run>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v5.0+
-Reported-by: Daniel Vetter <daniel@ffwll.ch>
-Reviewed-by: Daniel Vetter <daniel@ffwll.ch>
-Signed-off-by: Sean Paul <seanpaul@chromium.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20190904202938.110207-1-sean@poorly.run
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
----
- drivers/gpu/drm/drm_damage_helper.c |    8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
---- a/drivers/gpu/drm/drm_damage_helper.c
-+++ b/drivers/gpu/drm/drm_damage_helper.c
-@@ -212,8 +212,14 @@ retry:
- 	drm_for_each_plane(plane, fb->dev) {
- 		struct drm_plane_state *plane_state;
- 
--		if (plane->state->fb != fb)
-+		ret = drm_modeset_lock(&plane->mutex, state->acquire_ctx);
-+		if (ret)
-+			goto out;
-+
-+		if (plane->state->fb != fb) {
-+			drm_modeset_unlock(&plane->mutex);
- 			continue;
-+		}
- 
- 		plane_state = drm_atomic_get_plane_state(state, plane);
- 		if (IS_ERR(plane_state)) {
-
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogSmFzb24gR3VudGhvcnBlIDxqZ2dAbWVsbGFub3guY29tPgoKWyBVcHN0cmVhbSBjb21t
+aXQgYTlhZTg3MzFlNmU1MjgyOWE5MzVkODFhNjVkN2Y5MjVjYjk1ZGJhYyBdCgpmaW5kX3ZtYSgp
+IG11c3QgYmUgY2FsbGVkIHVuZGVyIHRoZSBtbWFwX3NlbSwgcmVvcmdhbml6ZSB0aGlzIGNvZGUg
+dG8KZG8gdGhlIHZtYSBjaGVjayBhZnRlciBlbnRlcmluZyB0aGUgbG9jay4KCkZ1cnRoZXIsIGZp
+eCB0aGUgdW5sb2NrZWQgdXNlIG9mIHN0cnVjdCB0YXNrX3N0cnVjdCdzIG1tLCBpbnN0ZWFkIHVz
+ZQp0aGUgbW0gZnJvbSBobW1fbWlycm9yIHdoaWNoIGhhcyBhbiBhY3RpdmUgbW1fZ3JhYi4gQWxz
+byB0aGUgbW1fZ3JhYgptdXN0IGJlIGNvbnZlcnRlZCB0byBhIG1tX2dldCBiZWZvcmUgYWNxdWly
+aW5nIG1tYXBfc2VtIG9yIGNhbGxpbmcKZmluZF92bWEoKS4KCkZpeGVzOiA2NmM0NTUwMGJmZGMg
+KCJkcm0vYW1kZ3B1OiB1c2UgbmV3IEhNTSBBUElzIGFuZCBoZWxwZXJzIikKRml4ZXM6IDA5MTkx
+OTVmMmIwZCAoImRybS9hbWRncHU6IEVuYWJsZSBhbWRncHVfdHRtX3R0X2dldF91c2VyX3BhZ2Vz
+IGluIHdvcmtlciB0aHJlYWRzIikKTGluazogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvci8yMDE5
+MTExMjIwMjIzMS4zODU2LTExLWpnZ0B6aWVwZS5jYQpBY2tlZC1ieTogQ2hyaXN0aWFuIEvDtm5p
+ZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpSZXZpZXdlZC1ieTogRmVsaXggS3VlaGxpbmcg
+PEZlbGl4Lkt1ZWhsaW5nQGFtZC5jb20+ClJldmlld2VkLWJ5OiBQaGlsaXAgWWFuZyA8UGhpbGlw
+LllhbmdAYW1kLmNvbT4KVGVzdGVkLWJ5OiBQaGlsaXAgWWFuZyA8UGhpbGlwLllhbmdAYW1kLmNv
+bT4KU2lnbmVkLW9mZi1ieTogSmFzb24gR3VudGhvcnBlIDxqZ2dAbWVsbGFub3guY29tPgpTaWdu
+ZWQtb2ZmLWJ5OiBTYXNoYSBMZXZpbiA8c2FzaGFsQGtlcm5lbC5vcmc+Ci0tLQogZHJpdmVycy9n
+cHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jIHwgMzcgKysrKysrKysrKysrKystLS0tLS0t
+LS0tLQogMSBmaWxlIGNoYW5nZWQsIDIxIGluc2VydGlvbnMoKyksIDE2IGRlbGV0aW9ucygtKQoK
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90dG0uYyBiL2Ry
+aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90dG0uYwppbmRleCBkZmY0MWQwYTg1ZmU5
+Li5jMGU0MWYxZjBjMjM2IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9h
+bWRncHVfdHRtLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5j
+CkBAIC0zNSw2ICszNSw3IEBACiAjaW5jbHVkZSA8bGludXgvaG1tLmg+CiAjaW5jbHVkZSA8bGlu
+dXgvcGFnZW1hcC5oPgogI2luY2x1ZGUgPGxpbnV4L3NjaGVkL3Rhc2suaD4KKyNpbmNsdWRlIDxs
+aW51eC9zY2hlZC9tbS5oPgogI2luY2x1ZGUgPGxpbnV4L3NlcV9maWxlLmg+CiAjaW5jbHVkZSA8
+bGludXgvc2xhYi5oPgogI2luY2x1ZGUgPGxpbnV4L3N3YXAuaD4KQEAgLTc4OCw3ICs3ODksNyBA
+QCBpbnQgYW1kZ3B1X3R0bV90dF9nZXRfdXNlcl9wYWdlcyhzdHJ1Y3QgYW1kZ3B1X2JvICpibywg
+c3RydWN0IHBhZ2UgKipwYWdlcykKIAlzdHJ1Y3QgaG1tX21pcnJvciAqbWlycm9yID0gYm8tPm1u
+ID8gJmJvLT5tbi0+bWlycm9yIDogTlVMTDsKIAlzdHJ1Y3QgdHRtX3R0ICp0dG0gPSBiby0+dGJv
+LnR0bTsKIAlzdHJ1Y3QgYW1kZ3B1X3R0bV90dCAqZ3R0ID0gKHZvaWQgKil0dG07Ci0Jc3RydWN0
+IG1tX3N0cnVjdCAqbW0gPSBndHQtPnVzZXJ0YXNrLT5tbTsKKwlzdHJ1Y3QgbW1fc3RydWN0ICpt
+bTsKIAl1bnNpZ25lZCBsb25nIHN0YXJ0ID0gZ3R0LT51c2VycHRyOwogCXN0cnVjdCB2bV9hcmVh
+X3N0cnVjdCAqdm1hOwogCXN0cnVjdCBobW1fcmFuZ2UgKnJhbmdlOwpAQCAtNzk2LDI1ICs3OTcs
+MTQgQEAgaW50IGFtZGdwdV90dG1fdHRfZ2V0X3VzZXJfcGFnZXMoc3RydWN0IGFtZGdwdV9ibyAq
+Ym8sIHN0cnVjdCBwYWdlICoqcGFnZXMpCiAJdWludDY0X3QgKnBmbnM7CiAJaW50IHIgPSAwOwog
+Ci0JaWYgKCFtbSkgLyogSGFwcGVucyBkdXJpbmcgcHJvY2VzcyBzaHV0ZG93biAqLwotCQlyZXR1
+cm4gLUVTUkNIOwotCiAJaWYgKHVubGlrZWx5KCFtaXJyb3IpKSB7CiAJCURSTV9ERUJVR19EUklW
+RVIoIkZhaWxlZCB0byBnZXQgaG1tX21pcnJvclxuIik7Ci0JCXIgPSAtRUZBVUxUOwotCQlnb3Rv
+IG91dDsKKwkJcmV0dXJuIC1FRkFVTFQ7CiAJfQogCi0Jdm1hID0gZmluZF92bWEobW0sIHN0YXJ0
+KTsKLQlpZiAodW5saWtlbHkoIXZtYSB8fCBzdGFydCA8IHZtYS0+dm1fc3RhcnQpKSB7Ci0JCXIg
+PSAtRUZBVUxUOwotCQlnb3RvIG91dDsKLQl9Ci0JaWYgKHVubGlrZWx5KChndHQtPnVzZXJmbGFn
+cyAmIEFNREdQVV9HRU1fVVNFUlBUUl9BTk9OT05MWSkgJiYKLQkJdm1hLT52bV9maWxlKSkgewot
+CQlyID0gLUVQRVJNOwotCQlnb3RvIG91dDsKLQl9CisJbW0gPSBtaXJyb3ItPmhtbS0+bW11X25v
+dGlmaWVyLm1tOworCWlmICghbW1nZXRfbm90X3plcm8obW0pKSAvKiBIYXBwZW5zIGR1cmluZyBw
+cm9jZXNzIHNodXRkb3duICovCisJCXJldHVybiAtRVNSQ0g7CiAKIAlyYW5nZSA9IGt6YWxsb2Mo
+c2l6ZW9mKCpyYW5nZSksIEdGUF9LRVJORUwpOwogCWlmICh1bmxpa2VseSghcmFuZ2UpKSB7CkBA
+IC04NDcsNiArODM3LDE3IEBAIGludCBhbWRncHVfdHRtX3R0X2dldF91c2VyX3BhZ2VzKHN0cnVj
+dCBhbWRncHVfYm8gKmJvLCBzdHJ1Y3QgcGFnZSAqKnBhZ2VzKQogCWhtbV9yYW5nZV93YWl0X3Vu
+dGlsX3ZhbGlkKHJhbmdlLCBITU1fUkFOR0VfREVGQVVMVF9USU1FT1VUKTsKIAogCWRvd25fcmVh
+ZCgmbW0tPm1tYXBfc2VtKTsKKwl2bWEgPSBmaW5kX3ZtYShtbSwgc3RhcnQpOworCWlmICh1bmxp
+a2VseSghdm1hIHx8IHN0YXJ0IDwgdm1hLT52bV9zdGFydCkpIHsKKwkJciA9IC1FRkFVTFQ7CisJ
+CWdvdG8gb3V0X3VubG9jazsKKwl9CisJaWYgKHVubGlrZWx5KChndHQtPnVzZXJmbGFncyAmIEFN
+REdQVV9HRU1fVVNFUlBUUl9BTk9OT05MWSkgJiYKKwkJdm1hLT52bV9maWxlKSkgeworCQlyID0g
+LUVQRVJNOworCQlnb3RvIG91dF91bmxvY2s7CisJfQorCiAJciA9IGhtbV9yYW5nZV9mYXVsdChy
+YW5nZSwgMCk7CiAJdXBfcmVhZCgmbW0tPm1tYXBfc2VtKTsKIApAQCAtODY1LDE1ICs4NjYsMTkg
+QEAgaW50IGFtZGdwdV90dG1fdHRfZ2V0X3VzZXJfcGFnZXMoc3RydWN0IGFtZGdwdV9ibyAqYm8s
+IHN0cnVjdCBwYWdlICoqcGFnZXMpCiAJfQogCiAJZ3R0LT5yYW5nZSA9IHJhbmdlOworCW1tcHV0
+KG1tKTsKIAogCXJldHVybiAwOwogCitvdXRfdW5sb2NrOgorCXVwX3JlYWQoJm1tLT5tbWFwX3Nl
+bSk7CiBvdXRfZnJlZV9wZm5zOgogCWhtbV9yYW5nZV91bnJlZ2lzdGVyKHJhbmdlKTsKIAlrdmZy
+ZWUocGZucyk7CiBvdXRfZnJlZV9yYW5nZXM6CiAJa2ZyZWUocmFuZ2UpOwogb3V0OgorCW1tcHV0
+KG1tKTsKIAlyZXR1cm4gcjsKIH0KIAotLSAKMi4yMC4xCgpfX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
+bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
