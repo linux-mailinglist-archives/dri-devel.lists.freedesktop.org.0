@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDFD011AAA4
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 13:20:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3C7B11AAA6
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 13:20:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40A386EB27;
-	Wed, 11 Dec 2019 12:20:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A31F16EB2D;
+	Wed, 11 Dec 2019 12:20:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A5206EB2C
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 12:20:09 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF7886EB29
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 12:20:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576066808;
+ s=mimecast20190719; t=1576066805;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PkdD4/AJY6bHnmvm2xfOY1Z5pyo8lh7Kbp9qetU0nC8=;
- b=ilGDDQPjEeDoEEqDiXjP8MahyzLruMwc7pFrwtvHzjRL06n2X9KdD2EeVxU420aEE23qrE
- 3rdndF0JMx4CtSBYcYKXo5GKS8Y6KaaNv3BK+d7AJ3z/F97ovJI6E4igubuqK9cEW8OVjN
- 44Pz6eSWaAV5KvVudn1rdlomJKqR0DQ=
+ bh=UIewAyx++ktQ/Uek8hL3crFT01ZthoO/ZwsAoVP4Ej8=;
+ b=M5luoWqUburszTX0dzw3tt03OFPZp1XV52tbTTZY1du9xL4uo+WlibZ6QAKEQRk4Xwy29O
+ 6ZuCi96/T/mOGSzTCuL28iKuXTCfYalGoWGou3CT8YJEnizDnhFX10Q3qLTTz3I9bXpRnT
+ KL4MfTChAvhRADsA4MlSM1X6r0Nk4QU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-138-UBI4tOyRMcmcvF9FM1qicw-1; Wed, 11 Dec 2019 07:20:04 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-279-VXS_jZefO9GEJcB7iAO75Q-1; Wed, 11 Dec 2019 07:20:02 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 718631804488;
- Wed, 11 Dec 2019 12:20:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 052361005524;
+ Wed, 11 Dec 2019 12:20:01 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-67.ams2.redhat.com
  [10.36.116.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1533260BE0;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2D956691A0;
  Wed, 11 Dec 2019 12:19:58 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 5B1421747D; Wed, 11 Dec 2019 13:19:57 +0100 (CET)
+ id 746BA17536; Wed, 11 Dec 2019 13:19:57 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 2/4] drm/shmem: add support for per object caching flags.
-Date: Wed, 11 Dec 2019 13:19:54 +0100
-Message-Id: <20191211121957.18637-3-kraxel@redhat.com>
+Subject: [PATCH v3 3/4] drm/virtio: fix mmap page attributes
+Date: Wed, 11 Dec 2019 13:19:55 +0100
+Message-Id: <20191211121957.18637-4-kraxel@redhat.com>
 In-Reply-To: <20191211121957.18637-1-kraxel@redhat.com>
 References: <20191211121957.18637-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: UBI4tOyRMcmcvF9FM1qicw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: VXS_jZefO9GEJcB7iAO75Q-1
 X-Mimecast-Spam-Score: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,54 +60,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- gurchetansingh@chromium.org, Gerd Hoffmann <kraxel@redhat.com>,
- tzimmermann@suse.de
+Cc: tzimmermann@suse.de, David Airlie <airlied@linux.ie>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, gurchetansingh@chromium.org
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use drm_gem_pgprot_wc() as pgprot callback in drm_gem_shmem_funcs.
-Use drm_gem_pgprot() to update pgprot caching flags.
+virtio-gpu uses cached mappings, set virtio_gpu_gem_funcs.pgprot
+accordingly.
 
+Reported-by: Gurchetan Singh <gurchetansingh@chromium.org>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- drivers/gpu/drm/drm_gem_shmem_helper.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_object.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index a421a2eed48a..2a662ed77115 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -33,6 +33,7 @@ static const struct drm_gem_object_funcs drm_gem_shmem_funcs = {
+diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+index 017a9e0fc3bb..0b754c5bbcce 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_object.c
++++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+@@ -87,6 +87,7 @@ static const struct drm_gem_object_funcs virtio_gpu_gem_funcs = {
  	.vmap = drm_gem_shmem_vmap,
  	.vunmap = drm_gem_shmem_vunmap,
- 	.mmap = drm_gem_shmem_mmap,
-+	.pgprot = drm_gem_pgprot_wc,
+ 	.mmap = &drm_gem_shmem_mmap,
++	.pgprot = &drm_gem_pgprot_cached,
  };
  
- /**
-@@ -258,7 +259,7 @@ static void *drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem)
- 		shmem->vaddr = dma_buf_vmap(obj->import_attach->dmabuf);
- 	else
- 		shmem->vaddr = vmap(shmem->pages, obj->size >> PAGE_SHIFT,
--				    VM_MAP, pgprot_writecombine(PAGE_KERNEL));
-+				    VM_MAP, drm_gem_pgprot(obj, PAGE_KERNEL));
- 
- 	if (!shmem->vaddr) {
- 		DRM_DEBUG_KMS("Failed to vmap pages\n");
-@@ -540,7 +541,8 @@ int drm_gem_shmem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
- 	}
- 
- 	vma->vm_flags |= VM_MIXEDMAP | VM_DONTEXPAND;
--	vma->vm_page_prot = pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
-+	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
-+	vma->vm_page_prot = drm_gem_pgprot(obj, vma->vm_page_prot);
- 	vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
- 	vma->vm_ops = &drm_gem_shmem_vm_ops;
- 
+ struct drm_gem_object *virtio_gpu_create_object(struct drm_device *dev,
 -- 
 2.18.1
 
