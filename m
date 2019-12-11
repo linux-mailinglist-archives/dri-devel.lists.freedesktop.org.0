@@ -2,94 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FE9C11BE1A
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 21:39:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FEEC11BEAF
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 21:57:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C541A6EBD2;
-	Wed, 11 Dec 2019 20:39:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBB2A6E0B8;
+	Wed, 11 Dec 2019 20:57:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2079.outbound.protection.outlook.com [40.107.94.79])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0C996EBCE;
- Wed, 11 Dec 2019 20:39:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IbuC8mUrqWP7pK9shR2NTlbNOv7rmFeCj2bReT9G2E6skvJ7xZui359oShs5c0Jr7uy19P1xgXZYYU6o4LWh7hTQh7IFywPyzZ0WplDblr4M9ZInPr6wJShPUVKNnF9XEM9G4QYzv414WCQr72DzOqNiExecphnL67Z9zSHuOFw+yhbJ224aa1ad7fSpR6w5Hf377G/8vnO+MoKHG+Jf5Kj0CA2/Qgg3Q09LUujtAMeSVHH0XN1Ptl5U68Kt9YikAK5UmVxMddA/rj6BDH6YWJZl9EqgVm5hQuU3NsHLLRncLSMQtPfmbTCUMMpRASIYJ6WtwZWw8hXM2tj4tCzEUA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vbmvfEVDn4wlCMN0iZvdDxhc9PmPptczfmGfkV79hL4=;
- b=ghFBWUT8oZMOFvgSW/nrrj6KSk1X7InD9nxpO8K/Vm0khPNhL1cZwTbsRBzWq8yaZCihNg5DTHmkqMhUBsis1h7RUFI+EPXP/JI4NAfphZn4aeEJgCd4VGA6CIIyDmBVegELO0k1Pptp8vQsOOMo63QW7oKySRC52oQsNiTQ5eCg8ZJjvTJJQB/zdAtY5zGMZSIpmZZBsXpPeLBrq3vvgMR3n8/c7U6ltwxYcoWXiMdFd5tENm9jQKspUb6BWmNhxrtXj5EayMFzuNtVvHkWUEGycTQ3PY3a6OrZAUnOzzHyNCeEC/+RGmBtBq0cWNYEVpdxtLlWXJ4UDTUgEMJkhw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=permerror action=none header.from=amd.com; dkim=none (message not
- signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vbmvfEVDn4wlCMN0iZvdDxhc9PmPptczfmGfkV79hL4=;
- b=bYZgeM8oDjtHQiyHbAT1jU3PJdPgb3BV1MXH1Zu9oXuo7MIV3kaYObSd2tjSeEubUHSt1cDxs80hnh3DlrwlF4nY+I0Y6HtionvIzl5i+nhXju/x/WQHszMvtdOir5aRxrXcmgKFEAWxh010dNUgKj3mJTQfmURgQAGhlm2HIQ0=
-Received: from DM3PR12CA0045.namprd12.prod.outlook.com (2603:10b6:0:56::13) by
- DM6PR12MB3706.namprd12.prod.outlook.com (2603:10b6:5:1cc::27) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2538.16; Wed, 11 Dec 2019 20:39:12 +0000
-Received: from CO1NAM11FT030.eop-nam11.prod.protection.outlook.com
- (2a01:111:f400:7eab::209) by DM3PR12CA0045.outlook.office365.com
- (2603:10b6:0:56::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2516.13 via Frontend
- Transport; Wed, 11 Dec 2019 20:39:12 +0000
-Authentication-Results: spf=none (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
- header.d=none;lists.freedesktop.org; dmarc=permerror action=none
- header.from=amd.com;
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-Received: from SATLEXMB02.amd.com (165.204.84.17) by
- CO1NAM11FT030.mail.protection.outlook.com (10.13.174.125) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.2538.14 via Frontend Transport; Wed, 11 Dec 2019 20:39:11 +0000
-Received: from SATLEXMB02.amd.com (10.181.40.143) by SATLEXMB02.amd.com
- (10.181.40.143) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Wed, 11 Dec
- 2019 14:39:10 -0600
-Received: from agrodzovsky-All-Series.amd.com (10.180.168.240) by
- SATLEXMB02.amd.com (10.181.40.143) with Microsoft SMTP Server id 15.1.1713.5
- via Frontend Transport; Wed, 11 Dec 2019 14:39:09 -0600
-From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
-Subject: [RESEND PATCH 5/5] drm/amdgpu: Switch from system_highpri_wq to
- system_unbound_wq
-Date: Wed, 11 Dec 2019 15:38:52 -0500
-Message-ID: <1576096732-3596-5-git-send-email-andrey.grodzovsky@amd.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1576096732-3596-1-git-send-email-andrey.grodzovsky@amd.com>
-References: <1576096732-3596-1-git-send-email-andrey.grodzovsky@amd.com>
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A83E96E0B8
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 20:57:40 +0000 (UTC)
+Received: from lwn.net (localhost [127.0.0.1])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ms.lwn.net (Postfix) with ESMTPSA id 7D799739;
+ Wed, 11 Dec 2019 20:57:38 +0000 (UTC)
+Date: Wed, 11 Dec 2019 13:57:37 -0700
+From: Jonathan Corbet <corbet@lwn.net>
+To: John Hubbard <jhubbard@nvidia.com>
+Subject: Re: [PATCH v9 10/25] mm/gup: introduce pin_user_pages*() and FOLL_PIN
+Message-ID: <20191211135737.581add2f@lwn.net>
+In-Reply-To: <20191211025318.457113-11-jhubbard@nvidia.com>
+References: <20191211025318.457113-1-jhubbard@nvidia.com>
+ <20191211025318.457113-11-jhubbard@nvidia.com>
+Organization: LWN.net
 MIME-Version: 1.0
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:165.204.84.17; IPV:NLI; CTRY:US; EFV:NLI;
- SFV:NSPM;
- SFS:(10009020)(4636009)(396003)(136003)(376002)(346002)(39860400002)(428003)(189003)(199004)(110136005)(336012)(8936002)(70586007)(44832011)(26005)(81166006)(70206006)(36756003)(8676002)(81156014)(54906003)(4326008)(478600001)(356004)(426003)(6666004)(316002)(2616005)(5660300002)(2906002)(7696005)(450100002)(186003)(86362001);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM6PR12MB3706; H:SATLEXMB02.amd.com; FPR:;
- SPF:None; LANG:en; PTR:InfoDomainNonexistent; MX:1; A:1; 
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e9135bb6-e863-43e6-4d90-08d77e7a2df3
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3706:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB3706543FB0A34B33EFF49397EA5A0@DM6PR12MB3706.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
-X-Forefront-PRVS: 024847EE92
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TLU2fs1fKuENzN3on6mwJDLzeRGVAH4cjGqQ/8indenL9KymqUvLceI5Xbu6rFhxGNH8onltg8Bic2LxwrmqkNV4LVj03JmkqZTGwY1x4cTQr7lrb0ZG2yVhH0cPqKLIoINJtWXQFDIg2wDBhTKMXgPurLbac+4rlOnaflwMN9pfban4N5TFidsLAGcDLdePFimWyFuWuWeT2Hx/wZNe4uAzMz3C02hNFM8SuBUoPCwQj0aOxUKkgeoIN6b00dDXsNu/JOmA31imp7mcc6T2l9Vd7YBpBGvdBuIyHFkic1GlSPx1kJdyzQpLaj/gf5QbOILddTR7pQ3qbkG7+SvatjxZ2/Q6QOhJST/WNko8FGKcnY1Y4Is7XnbdCHZwUNDCiI+dprtybZLHlPC2tHoLAWa1zAPmeAeCG2t1TBpgsaqYloinqUglsa+1CrYyeYSJ
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2019 20:39:11.6651 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e9135bb6-e863-43e6-4d90-08d77e7a2df3
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB02.amd.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3706
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,38 +39,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexander.Deucher@amd.com, Le.Ma@amd.com, Evan.Quan@amd.com,
- hawking.zhang@amd.com
+Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
+ kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
+ dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
+ linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
+ linux-kselftest@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
+ linux-rdma@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
+ Mike Rapoport <rppt@linux.ibm.com>, Christoph Hellwig <hch@infradead.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@suse.cz>,
+ =?UTF-8?B?QmrDtnJuIFQ=?= =?UTF-8?B?w7ZwZWw=?= <bjorn.topel@intel.com>,
+ linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ linux-block@vger.kernel.org,
+ =?UTF-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+ Al Viro <viro@zeniv.linux.org.uk>, Dan Williams <dan.j.williams@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, bpf@vger.kernel.org,
+ Magnus Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
+ netdev@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is to avoid queueing jobs to same CPU during XGMI hive reset
-because there is a strict timeline for when the reset commands
-must reach all the GPUs in the hive.
+On Tue, 10 Dec 2019 18:53:03 -0800
+John Hubbard <jhubbard@nvidia.com> wrote:
 
-Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Introduce pin_user_pages*() variations of get_user_pages*() calls,
+> and also pin_longterm_pages*() variations.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index e4089a0..1518565 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -3842,7 +3842,7 @@ static int amdgpu_do_asic_reset(struct amdgpu_hive_info *hive,
- 		list_for_each_entry(tmp_adev, device_list_handle, gmc.xgmi.head) {
- 			/* For XGMI run all resets in parallel to speed up the process */
- 			if (tmp_adev->gmc.xgmi.num_physical_nodes > 1) {
--				if (!queue_work(system_highpri_wq, &tmp_adev->xgmi_reset_work))
-+				if (!queue_work(system_unbound_wq, &tmp_adev->xgmi_reset_work))
- 					r = -EALREADY;
- 			} else
- 				r = amdgpu_asic_reset(tmp_adev);
--- 
-2.7.4
+Just a couple of nits on the documentation patch
 
+> +++ b/Documentation/core-api/pin_user_pages.rst
+> @@ -0,0 +1,232 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +====================================================
+> +pin_user_pages() and related calls
+> +====================================================
+> +
+> +.. contents:: :local:
+> +
+> +Overview
+> +========
+> +
+> +This document describes the following functions: ::
+> +
+> + pin_user_pages
+> + pin_user_pages_fast
+> + pin_user_pages_remote
+
+You could just say "the following functions::" and get the result you're
+after with a slightly less alien plain-text reading experience.
+
+Of course, you could also just say "This document describes
+pin_user_pages(), pin_user_pages_fast(), and pin_user_pages_remote()." But
+that's a matter of personal taste, I guess.  Using the function() notation
+will cause the docs system to automatically link to the kerneldoc info,
+though.  
+
+> +Basic description of FOLL_PIN
+> +=============================
+> +
+> +FOLL_PIN and FOLL_LONGTERM are flags that can be passed to the get_user_pages*()
+> +("gup") family of functions. FOLL_PIN has significant interactions and
+> +interdependencies with FOLL_LONGTERM, so both are covered here.
+> +
+> +FOLL_PIN is internal to gup, meaning that it should not appear at the gup call
+> +sites. This allows the associated wrapper functions  (pin_user_pages*() and
+> +others) to set the correct combination of these flags, and to check for problems
+> +as well.
+> +
+> +FOLL_LONGTERM, on the other hand, *is* allowed to be set at the gup call sites.
+> +This is in order to avoid creating a large number of wrapper functions to cover
+> +all combinations of get*(), pin*(), FOLL_LONGTERM, and more. Also, the
+> +pin_user_pages*() APIs are clearly distinct from the get_user_pages*() APIs, so
+> +that's a natural dividing line, and a good point to make separate wrapper calls.
+> +In other words, use pin_user_pages*() for DMA-pinned pages, and
+> +get_user_pages*() for other cases. There are four cases described later on in
+> +this document, to further clarify that concept.
+> +
+> +FOLL_PIN and FOLL_GET are mutually exclusive for a given gup call. However,
+> +multiple threads and call sites are free to pin the same struct pages, via both
+> +FOLL_PIN and FOLL_GET. It's just the call site that needs to choose one or the
+> +other, not the struct page(s).
+> +
+> +The FOLL_PIN implementation is nearly the same as FOLL_GET, except that FOLL_PIN
+> +uses a different reference counting technique.
+> +
+> +FOLL_PIN is a prerequisite to FOLL_LONGTGERM. Another way of saying that is,
+
+FOLL_LONGTERM typoed there.
+
+Thanks,
+
+jon
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
