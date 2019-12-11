@@ -2,48 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBE7611C88F
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 09:55:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C04AB11C89E
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 09:55:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9261D6ECB4;
-	Thu, 12 Dec 2019 08:55:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 845C06ECC6;
+	Thu, 12 Dec 2019 08:55:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com
- [IPv6:2607:f8b0:4864:20::b49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 248BF89415
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 15:49:14 +0000 (UTC)
-Received: by mail-yb1-xb49.google.com with SMTP id b5so7601731ybq.23
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 07:49:14 -0800 (PST)
+Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com
+ [IPv6:2607:f8b0:4864:20::f49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B44E6EB7B
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 15:49:18 +0000 (UTC)
+Received: by mail-qv1-xf49.google.com with SMTP id r9so9154874qvs.19
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 07:49:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:message-id:mime-version:subject:from:to:cc;
- bh=+84MmMAoxZMowKg1LejiSRn+LGavX3XL0RXX6IMOW+w=;
- b=m2NiP0CnGnotNR/yMx/w5OIeIfCUnZkQxMGnHlJQgBxOA/FXbl7y2EYygJSnUU7MrL
- kJ3L4rLG6BKMC6Kw7F601lW847yaNWWQzxCbN9s1MYJ/eu1LeC5BesWLk3yZ3tt2FePN
- 92VLc8xSfXsMFhJ4ItMCqBRqc7K/K40iD+AjeKs7eASl25E05/A0xRwMtATFIE75BGE0
- P6839NDZrpb/tdJSU3vkmmUS+e7YjYoAGICMyToI9z5hc49ilIEE5SPTUDNcmV8niTEb
- HhHa8oIT6pJcepbPvKt2SuJctQ0v2091Cw9qWrvd7TEfd5roezf2Rd0FvxgpGZFv/pLU
- wWkg==
+ h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+ :cc; bh=L3bqEDJc/83H6XSH4dKpp4Sz+uUocCwUuCh066ZPD24=;
+ b=T7tmarUt73QPvvzsmlX8joprU84Bgn+q+g3Bub5VpNuPOkJ2OMgW/GR2NfK7AzKClC
+ TVaQfOgipbhJkxSaBENCKqcs/xBqhcht6ipt8vpVxU8N0K7LDCJSrRC/1rsFS9tb+m1i
+ xrDG46KfHWOx7stN/zivVYevObR3Lt28+6MPEh3++sYAWKHfWyyPtHWT99FEvqBwKUsk
+ /2L6mMknwQVjBCXY2SHvUs9Tq7wghQ+mqZ1/jCay1ViVuWUsLkq7UxOQEwPovdQGJZDZ
+ bvwP7rUww+runAY6qHX8Fl4Plmaut9fSbirsX6AWRHXQ1HGlqeCzE2/4WMjMeqTZd74Z
+ Ssjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
- bh=+84MmMAoxZMowKg1LejiSRn+LGavX3XL0RXX6IMOW+w=;
- b=Kla/7GuF5hutb9514oyalQbFGMCxLhNYPdNqBu/uVJN5SNscOadUdaWRYG6TmuO9LL
- JY2avBqikoXCGg9ZUn8vcZxiFYKCzzM5MDU8Ab13cSQMg86mexsYZB0hGaqZ0BRtJXfD
- 8NU7tl/nJUEs2/dest5U0frbGyIYRIKHLcq6MeqGkjNkDd8zWaIYOWf1I51lA4sYrC/P
- hZkIs8huAELJ9Fa7qZ56oFZwjwLZGAeNo9i70XV4slZqnAF6eKJZUeC3ht8HMlVJnCal
- PaCAUbrzzZAlLIcXoghkPW4JhxW3XUE9Pq9WnNZrDO3k0U5fyv6moL2Ycc79nG7kF/Yz
- 5Mig==
-X-Gm-Message-State: APjAAAUyHVRSCQyNXPSnjJ43t7FGALUdIPUArK7xGHga9EhvegyyDgR4
- l9cwsD4zhRGdhAjN3QYj1YvZI5HM+6LZ/vSa
-X-Google-Smtp-Source: APXvYqzgag2uEK1TrKN/WHaL/XtHsyuWNO7uPzN29U6f0LWDaOKfxY1Ep76cMLNac+NAL6BSwAjUWiYDY6LG4QTQ
-X-Received: by 2002:a0d:d247:: with SMTP id u68mr297158ywd.1.1576079353136;
- Wed, 11 Dec 2019 07:49:13 -0800 (PST)
-Date: Wed, 11 Dec 2019 10:49:00 -0500
-Message-Id: <20191211154901.176256-1-markyacoub@google.com>
+ h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+ :references:subject:from:to:cc;
+ bh=L3bqEDJc/83H6XSH4dKpp4Sz+uUocCwUuCh066ZPD24=;
+ b=DAarHB13ty17n7evqjubUkVCDkValTF/BVz1ZTjP1vsxYkiHIqp+KOMUY/2NUyBQJz
+ YfBxPNBLR945+lrgQ/C9EAETesWQmad8FoJKdnmgy6WEUVOAotRjaeidbdrs6C2Y+QMa
+ jfG8gj5uJo9s77DZ8hYAk902tulH/xV2PCEsubMzcZw1TXe6I8lBUTiBNCreidR9Cwq+
+ iIQ5HFUxgzUZGRRS60vICPpR7rNN6BmCL8+aVR51XXpY6VP2IhPv0Nl9zi3sLuqQHi9N
+ EhA18uFKqOBVSb7Hrh45fz/9kXX4MgF7V/4t8TXe9qZpMsFe304xYoO7i1F8WxNJx1jV
+ qHuQ==
+X-Gm-Message-State: APjAAAXhxRkQF8EFeUUE8tdfVBok+ca2f1ZLbXuq32WINQd+iI058rn4
+ cWZwDhdJWQrrwmtJvpLmsm1lIHtOFaQdzRXv
+X-Google-Smtp-Source: APXvYqzWVPRzbCutVlIWkKgo8ZdWbTIe/i8BsJDaINwYPE1tnMGWPJw4+4d/x/wDNk8QtVgjgmAdkZUNDVCj/ebY
+X-Received: by 2002:a0c:d0f1:: with SMTP id b46mr3637071qvh.188.1576079357145; 
+ Wed, 11 Dec 2019 07:49:17 -0800 (PST)
+Date: Wed, 11 Dec 2019 10:49:01 -0500
+In-Reply-To: <20191211154901.176256-1-markyacoub@google.com>
+Message-Id: <20191211154901.176256-2-markyacoub@google.com>
 Mime-Version: 1.0
+References: <20191211154901.176256-1-markyacoub@google.com>
 X-Mailer: git-send-email 2.24.0.525.g8f36a354ae-goog
-Subject: [PATCH 1/2] Return from mtk_ovl_layer_config after mtk_ovl_layer_off
+Subject: [PATCH 2/2] Turn off Alpha bit when plane format has no alpha
 From: Mark Yacoub <markyacoub@google.com>
 To: CK Hu <ck.hu@mediatek.com>, dri-devel@lists.freedesktop.org
 X-Mailman-Approved-At: Thu, 12 Dec 2019 08:55:06 +0000
@@ -68,12 +71,10 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm/mediatek: return if plane pending state is disabled.
+drm/mediatek: Add OVL_CON_ALPHA only when the plane format has_alpha.
 
-If the plane pending state is disabled, call mtk_ovl_layer_off then
-return.
-This guarantees that that the state is valid for all operations when the
-pending state is enabled.
+This change enables XR24 format to be displayed as an overlay on top of
+the primary plane.
 
 Suggested-by: Sean Paul <seanpaul@chromium.org>
 To: CK Hu <ck.hu@mediatek.com>
@@ -87,35 +88,22 @@ Cc: linux-arm-kernel@lists.infradead.org
 Cc: linux-mediatek@lists.infradead.org
 Signed-off-by: Mark Yacoub <markyacoub@google.com>
 ---
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-index 4a55bb6e2213..526b595eeff9 100644
+index 526b595eeff9..a7851756dddf 100644
 --- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
 +++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-@@ -260,8 +260,10 @@ static void mtk_ovl_layer_config(struct mtk_ddp_comp *comp, unsigned int idx,
- 	unsigned int src_size = (pending->height << 16) | pending->width;
- 	unsigned int con;
- 
--	if (!pending->enable)
-+	if (!pending->enable) {
- 		mtk_ovl_layer_off(comp, idx);
-+		return;
-+	}
+@@ -266,7 +266,7 @@ static void mtk_ovl_layer_config(struct mtk_ddp_comp *comp, unsigned int idx,
+ 	}
  
  	con = ovl_fmt_convert(ovl, fmt);
- 	if (idx != 0)
-@@ -283,8 +285,7 @@ static void mtk_ovl_layer_config(struct mtk_ddp_comp *comp, unsigned int idx,
- 	writel_relaxed(offset, comp->regs + DISP_REG_OVL_OFFSET(idx));
- 	writel_relaxed(addr, comp->regs + DISP_REG_OVL_ADDR(ovl, idx));
+-	if (idx != 0)
++	if (state->base.fb->format->has_alpha)
+ 		con |= OVL_CON_AEN | OVL_CON_ALPHA;
  
--	if (pending->enable)
--		mtk_ovl_layer_on(comp, idx);
-+	mtk_ovl_layer_on(comp, idx);
- }
- 
- static void mtk_ovl_bgclr_in_on(struct mtk_ddp_comp *comp)
+ 	if (pending->rotation & DRM_MODE_REFLECT_Y) {
 -- 
 2.24.0.525.g8f36a354ae-goog
 
