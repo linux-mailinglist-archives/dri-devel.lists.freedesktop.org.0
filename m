@@ -2,58 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 696F911A89B
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 11:07:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF75511A8BE
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 11:19:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0ED276E190;
-	Wed, 11 Dec 2019 10:07:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D91EE89518;
+	Wed, 11 Dec 2019 10:19:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 164BC6E190
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 10:07:31 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id A3A02AD75;
- Wed, 11 Dec 2019 10:07:29 +0000 (UTC)
-Subject: Re: [PATCH v2 1/2] drm/shmem: add support for per object caching
- attributes
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
-References: <20191211081810.20079-1-kraxel@redhat.com>
- <20191211081810.20079-2-kraxel@redhat.com>
- <0b64e917-48f7-487e-9335-2838b6c62808@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <ed9142da-ce10-7df2-8a85-ba9ad0c26551@suse.de>
-Date: Wed, 11 Dec 2019 11:07:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2062c.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7eaa::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E1CA88007
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 10:19:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cnOHf9LLwvn43vaw4sKksjmtle0Cc5DYXYHaQFD+eQVTBPZN5uTJXSCPUOpP2U2Wft8mpMNGbA9DpQyKcxamhLjGd63VHm+ZbpizZgLp6XEoz2iUMWx1XDxqNl8rAuX+dQJ2hST3PKrPJjCPoQVvQU6YSNZfBkSt3RmbiyU51Bg36VkDR8qdoISXFfLFB5r2rSnI/HGilUFsTCclUgIuOxeDoMFszPvNGu2/Tc/ojBsnMhXsl+jLObomL2dfMHoq980evfEsHlQ4FWrKaj8k1tvUQz7banF/mI+eqzBscfqLRESy0kvf3I3nOcbJ2kgqqdvFKppJAylKxpV7n2xxpw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hfufeS59T+nyMFEN+B6hSKfqdty75siR46FOnsV+EJE=;
+ b=mx0bVbdFPd5B66MLCnGaAiGX3R+9xgA775sijf8N82QnUEIzxLf6si8ILkkvPebOJaPgreKpuJZdm60IkmWGByqNkwQq7TBoklFRdIPGXJktk5zNl1RM55MCT254VqpHetcByRNa0jQgAdaX0nAVQMYfftftvSXQY2fZBu2jpsIv9tvIx5szm1vwKBIJOM205Dg4G1DcWodPkdhtXYqF55krn2mBJxtrKRCycUXYqCjBwkeOx5mSIMVsyS+FjNJAEE5r4Vwr4CAU1B/udoH+b0yJ1sdtLnGjfBrMOqCE6DE46bfz+Rruk+NV6+brGbc1XRcxdD+LWer1hlaQGJoorA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hfufeS59T+nyMFEN+B6hSKfqdty75siR46FOnsV+EJE=;
+ b=CIlJTyCls5DXHPXty9I8zwY3uzUlfz6AFckYEIoehCb5MbvItEsLGeK8qKlMhjK/aol7A5n9BsjV9Rkn5HzmHBOlLeYHMn5w7sslaiZXLIxWAcFvsBdmtUoNDPBH7l1CrN1q31mMP3NqWO6liwxi/tIX5PG9xjVmAu/ZKMIL8gI=
+Received: from MN2PR05MB6141.namprd05.prod.outlook.com (20.178.241.217) by
+ MN2PR05MB7071.namprd05.prod.outlook.com (52.135.39.13) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2538.9; Wed, 11 Dec 2019 10:19:55 +0000
+Received: from MN2PR05MB6141.namprd05.prod.outlook.com
+ ([fe80::611e:6a6b:9109:5aa8]) by MN2PR05MB6141.namprd05.prod.outlook.com
+ ([fe80::611e:6a6b:9109:5aa8%7]) with mapi id 15.20.2538.012; Wed, 11 Dec 2019
+ 10:19:55 +0000
+From: Thomas Hellstrom <thellstrom@vmware.com>
+To: Navid Emamdoost <navid.emamdoost@gmail.com>
+Subject: Re: [PATCH] drm/vmwgfx: prevent memory leak in vmw_cmdbuf_res_add
+Thread-Topic: [PATCH] drm/vmwgfx: prevent memory leak in vmw_cmdbuf_res_add
+Thread-Index: AQHVc1sNmr3ysv/LaEaIooNrIvLsMg==
+Date: Wed, 11 Dec 2019 10:19:55 +0000
+Message-ID: <MN2PR05MB6141CA532CFFE7A8C519797FA15A0@MN2PR05MB6141.namprd05.prod.outlook.com>
+References: <20190925043800.726-1-navid.emamdoost@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=thellstrom@vmware.com; 
+x-originating-ip: [155.4.205.35]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 7033cad8-5390-45c7-4c97-08d77e23aae5
+x-ms-traffictypediagnostic: MN2PR05MB7071:|MN2PR05MB7071:
+x-ld-processed: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MN2PR05MB7071D100073ED55E2B93265CA15A0@MN2PR05MB7071.namprd05.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2331;
+x-forefront-prvs: 024847EE92
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(4636009)(376002)(39860400002)(346002)(136003)(396003)(366004)(199004)(189003)(4744005)(6916009)(478600001)(91956017)(76116006)(6506007)(186003)(55016002)(86362001)(7696005)(5660300002)(52536014)(54906003)(66556008)(66946007)(64756008)(66446008)(66476007)(316002)(33656002)(8676002)(2906002)(81156014)(8936002)(71200400001)(81166006)(53546011)(26005)(4326008)(9686003);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:MN2PR05MB7071;
+ H:MN2PR05MB6141.namprd05.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: vmware.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ST5WzQnSbTMMXPoy7CXejiTIrY0BZjId/obh0+OshlrZ19Y0DXQEPiVog+aHmnYilTZDc71Ocst/9xznlTwAssa8LnvaVEGgmjlhjMkcZ6oZMm+EkGAC+1DOT62pODjjyLQGBNZ+JEclTBApIQwq+U22yn3kaQf2/jbDL/Fmg3H07gcW5s5CmMAx5C5M0P8wxBdB3V1PpT9j1KhxkzpQXC5qlj/TXKboXnliEWi3/9T5VuuuwZAhJhoe1h2CEv/YUpCmAhpGZwXSbg3SBTum+nAw7L0BRppz0WcJmnFIw7U65KQy8CQ9+adZk4QmP75csEsoHt0ia22zH4MFW0dXnntZAB1OnGKZ6ctTrvbto++udLqxU+JPC5BUyQQgdxo555lGg20DjPkoANrfVv5aluOYNfH58+SkremaMyXa6e4AJcvAlH+KjHv1YzPQpscW
 MIME-Version: 1.0
-In-Reply-To: <0b64e917-48f7-487e-9335-2838b6c62808@suse.de>
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7033cad8-5390-45c7-4c97-08d77e23aae5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Dec 2019 10:19:55.0164 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: BGQx+3H7q7hhTU/cLXfYZ+S/TFTlIl6wW0h4oQiBTgsdnrnFb+cQvIKHyQOuD7xk0dZeI5s8VG0sZvTknHBGBw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR05MB7071
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,239 +91,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- gurchetansingh@chromium.org
-Content-Type: multipart/mixed; boundary="===============1644932129=="
+Cc: David Airlie <airlied@linux.ie>, "kjlu@umn.edu" <kjlu@umn.edu>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "emamd001@umn.edu" <emamd001@umn.edu>,
+ Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
+ "smccaman@umn.edu" <smccaman@umn.edu>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1644932129==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="r8TvLUVhGQQ8aTEs6Xg8KLXS7KMPkSUSl"
+On 9/25/19 6:38 AM, Navid Emamdoost wrote:
+> In vmw_cmdbuf_res_add if drm_ht_insert_item fails the allocated memory
+> for cres should be released.
+>
+> Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
+> ---
+>  drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
+> index 4ac55fc2bf97..44d858ce4ce7 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
+> @@ -209,8 +209,10 @@ int vmw_cmdbuf_res_add(struct vmw_cmdbuf_res_manager *man,
+>  
+>  	cres->hash.key = user_key | (res_type << 24);
+>  	ret = drm_ht_insert_item(&man->resources, &cres->hash);
+> -	if (unlikely(ret != 0))
+> +	if (unlikely(ret != 0)) {
+> +		kfree(cres);
+>  		goto out_invalid_key;
+> +	}
+>  
+>  	cres->state = VMW_CMDBUF_RES_ADD;
+>  	cres->res = vmw_resource_reference(res);
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---r8TvLUVhGQQ8aTEs6Xg8KLXS7KMPkSUSl
-Content-Type: multipart/mixed; boundary="PWptc28KfncWqAB1I31NMJorptpyGRJEF";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
-Cc: David Airlie <airlied@linux.ie>, open list
- <linux-kernel@vger.kernel.org>, gurchetansingh@chromium.org
-Message-ID: <ed9142da-ce10-7df2-8a85-ba9ad0c26551@suse.de>
-Subject: Re: [PATCH v2 1/2] drm/shmem: add support for per object caching
- attributes
-References: <20191211081810.20079-1-kraxel@redhat.com>
- <20191211081810.20079-2-kraxel@redhat.com>
- <0b64e917-48f7-487e-9335-2838b6c62808@suse.de>
-In-Reply-To: <0b64e917-48f7-487e-9335-2838b6c62808@suse.de>
+Reviewed-by: Thomas Hellstrom <thellstrom@vmware.com>
 
---PWptc28KfncWqAB1I31NMJorptpyGRJEF
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Will be part of next vmwgfx-next pull.
 
+Thanks,
 
+Thomas
 
-Am 11.12.19 um 10:58 schrieb Thomas Zimmermann:
-> Hi Gerd
->=20
-> Am 11.12.19 um 09:18 schrieb Gerd Hoffmann:
->> Add caching field to drm_gem_shmem_object to specify the cachine
->> attributes for mappings.  Add helper function to tweak pgprot
->> accordingly.  Switch vmap and mmap functions to the new helper.
->>
->> Set caching to write-combine when creating the object so behavior
->> doesn't change by default.  Drivers can override that later if
->> needed.
->>
->> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
->=20
-> If you want to merge this patch, you have my
->=20
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
->=20
-> Please see my comment below.
->=20
->> ---
->>  include/drm/drm_gem_shmem_helper.h     | 12 ++++++++++++
->>  drivers/gpu/drm/drm_gem_shmem_helper.c | 24 +++++++++++++++++++++---
->>  2 files changed, 33 insertions(+), 3 deletions(-)
->>
->> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_=
-shmem_helper.h
->> index 6748379a0b44..9d6e02c6205f 100644
->> --- a/include/drm/drm_gem_shmem_helper.h
->> +++ b/include/drm/drm_gem_shmem_helper.h
->> @@ -17,6 +17,11 @@ struct drm_mode_create_dumb;
->>  struct drm_printer;
->>  struct sg_table;
->> =20
->> +enum drm_gem_shmem_caching {
->> +	DRM_GEM_SHMEM_CACHED =3D 1,
->> +	DRM_GEM_SHMEM_WC,
->> +};
->> +
->>  /**
->>   * struct drm_gem_shmem_object - GEM object backed by shmem
->>   */
->> @@ -83,6 +88,11 @@ struct drm_gem_shmem_object {
->>  	 * The address are un-mapped when the count reaches zero.
->>  	 */
->>  	unsigned int vmap_use_count;
->> +
->> +	/**
->> +	 * @caching: caching attributes for mappings.
->> +	 */
->> +	enum drm_gem_shmem_caching caching;
->>  };
->> =20
->>  #define to_drm_gem_shmem_obj(obj) \
->> @@ -130,6 +140,8 @@ drm_gem_shmem_prime_import_sg_table(struct drm_dev=
-ice *dev,
->> =20
->>  struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_object *o=
-bj);
->> =20
->> +pgprot_t drm_gem_shmem_caching(struct drm_gem_shmem_object *shmem, pg=
-prot_t prot);
->> +
->>  /**
->>   * DRM_GEM_SHMEM_DRIVER_OPS - Default shmem GEM operations
->>   *
->> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/=
-drm_gem_shmem_helper.c
->> index a421a2eed48a..5bb94e130a50 100644
->> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
->> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
->> @@ -76,6 +76,7 @@ struct drm_gem_shmem_object *drm_gem_shmem_create(st=
-ruct drm_device *dev, size_t
->>  	mutex_init(&shmem->pages_lock);
->>  	mutex_init(&shmem->vmap_lock);
->>  	INIT_LIST_HEAD(&shmem->madv_list);
->> +	shmem->caching =3D DRM_GEM_SHMEM_WC;
->> =20
->>  	/*
->>  	 * Our buffers are kept pinned, so allocating them
->> @@ -256,9 +257,11 @@ static void *drm_gem_shmem_vmap_locked(struct drm=
-_gem_shmem_object *shmem)
->> =20
->>  	if (obj->import_attach)
->>  		shmem->vaddr =3D dma_buf_vmap(obj->import_attach->dmabuf);
->> -	else
->> +	else {
->> +		pgprot_t prot =3D drm_gem_shmem_caching(shmem, PAGE_KERNEL);
->>  		shmem->vaddr =3D vmap(shmem->pages, obj->size >> PAGE_SHIFT,
->> -				    VM_MAP, pgprot_writecombine(PAGE_KERNEL));
->> +				    VM_MAP, prot);
->> +	}
->> =20
->>  	if (!shmem->vaddr) {
->>  		DRM_DEBUG_KMS("Failed to vmap pages\n");
->> @@ -540,7 +543,8 @@ int drm_gem_shmem_mmap(struct drm_gem_object *obj,=
- struct vm_area_struct *vma)
->>  	}
->> =20
->>  	vma->vm_flags |=3D VM_MIXEDMAP | VM_DONTEXPAND;
->> -	vma->vm_page_prot =3D pgprot_writecombine(vm_get_page_prot(vma->vm_f=
-lags));
->> +	vma->vm_page_prot =3D vm_get_page_prot(vma->vm_flags);
->> +	vma->vm_page_prot =3D drm_gem_shmem_caching(shmem, vma->vm_page_prot=
-);
->>  	vma->vm_page_prot =3D pgprot_decrypted(vma->vm_page_prot);
->>  	vma->vm_ops =3D &drm_gem_shmem_vm_ops;
->> =20
->> @@ -683,3 +687,17 @@ drm_gem_shmem_prime_import_sg_table(struct drm_de=
-vice *dev,
->>  	return ERR_PTR(ret);
->>  }
->>  EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_import_sg_table);
->> +
->> +pgprot_t drm_gem_shmem_caching(struct drm_gem_shmem_object *shmem, pg=
-prot_t prot)
->> +{
->> +	switch (shmem->caching) {
->> +	case DRM_GEM_SHMEM_CACHED:
->> +		return prot;
->> +	case DRM_GEM_SHMEM_WC:
->> +		return pgprot_writecombine(prot);
->> +	default:
->> +		WARN_ON_ONCE(1);
->> +		return prot;
->> +	}
->> +}
->> +EXPORT_SYMBOL_GPL(drm_gem_shmem_caching);
->=20
-> Two reason why I'd reconsider this design.
->=20
-> I don't like switch statements new the bottom of the call graph. The
-> code ends up with default warnings, such as this one.
->=20
-> Udl has different caching flags for imported and 'native' buffers. This=
-
-> would require a new constant and additional code here.
->=20
-> What do you think about turning this function into a callback in struct=
-
-> shmem_funcs? The default implementation would be for WC, virtio would
-> use CACHED. The individual implementations could still be located in th=
-e
-> shmem code. Udl would later provide its own code.
-
-On a second thought, all this might be over-engineered and v1 of the
-patchset was the correct approach. You can add my
-
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-if you prefer to merge v1.
-
->=20
-> Best regards
-> Thomas
->=20
->>
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---PWptc28KfncWqAB1I31NMJorptpyGRJEF--
-
---r8TvLUVhGQQ8aTEs6Xg8KLXS7KMPkSUSl
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl3wv90ACgkQaA3BHVML
-eiO64Qf/YBbsWDQuJn4oSmZ4mtNOipUzxozbGDzsimdp95A//zGbwtYuSiAsEaom
-gqnUWkfh4aZ6eDwixlNmyUwZa7duLQ6Nw5QmA36BCyzhHdjoUoNt22gggKMHP6Jv
-ODbtVVpOkdMpNo9MrrxKI0zwiaZFFPEbNLH1Dg6B2JcwLupSAJs4C9JITQ3vqgct
-fQsNDJqQtQk5ylIh7J4qiC9/zvt0wsfQhHFTc0YkeHv24ejvi3o37dXe2vmGKMjM
-xzILi2sG6pRPzJPx/LxkU4hcYUSAd9C9gKlkLSt2ncae+3Vh9fQajphP/1sZv+0z
-eXjXG/FPxleeSVzZenwW4dE0rgiJhQ==
-=ZM7a
------END PGP SIGNATURE-----
-
---r8TvLUVhGQQ8aTEs6Xg8KLXS7KMPkSUSl--
-
---===============1644932129==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1644932129==--
