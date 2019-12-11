@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF33911AEE6
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 16:09:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D83DE11AF83
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2019 16:14:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A72866E05F;
-	Wed, 11 Dec 2019 15:09:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCB7A89128;
+	Wed, 11 Dec 2019 15:14:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E1896E05F
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 15:09:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F16C889128
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 15:14:09 +0000 (UTC)
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
  [83.86.89.107])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 74E6424654;
- Wed, 11 Dec 2019 15:09:14 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6605320663;
+ Wed, 11 Dec 2019 15:14:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576076955;
+ s=default; t=1576077249;
  bh=vkqTVeoP7Gmqtk/Duna3R/OH1Tk748TwIhp/xbYauV8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=rPjMXRNmprMHKe0F1rT84EMQYAiemUgSk2up0rB7OrwQdcvo+JLZgxAaYLm1Zu/v8
- P8GWltslGnzFO2M2gpggiK4DItC9MCiXs1uFbYWJNl6H5P+sswsqWd+NvtIVMpQaz5
- eZKMZVVAYmpVIw5mdOLLCYzzExYQY5MrL4+Qz6oE=
+ b=rD6kgdcr9+zaA1vtS7VS+3o/efZdD+d1oPj53uGKkUgBBOE2PEzDJFK6CAqoeBG0O
+ YAevbIdJ7OkeWpP9lw1P4CWSIlFMVVJOPFqh4Pl54p8Op20y1zT3TGOjn6TzRBxf65
+ Fejw9VMsXyZqA90watdFTg4wP3qrl1gC2Yd1BoSQ=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.4 55/92] drm: damage_helper: Fix race checking
+Subject: [PATCH 5.3 073/105] drm: damage_helper: Fix race checking
  plane->state->fb
-Date: Wed, 11 Dec 2019 16:05:46 +0100
-Message-Id: <20191211150246.621431176@linuxfoundation.org>
+Date: Wed, 11 Dec 2019 16:06:02 +0100
+Message-Id: <20191211150252.259403546@linuxfoundation.org>
 X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20191211150221.977775294@linuxfoundation.org>
-References: <20191211150221.977775294@linuxfoundation.org>
+In-Reply-To: <20191211150221.153659747@linuxfoundation.org>
+References: <20191211150221.153659747@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
