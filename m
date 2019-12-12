@@ -2,77 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1749811D838
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 21:58:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E38811D8D1
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 22:53:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 079806E1ED;
-	Thu, 12 Dec 2019 20:58:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E05376E20C;
+	Thu, 12 Dec 2019 21:53:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 164D66E1ED;
- Thu, 12 Dec 2019 20:58:43 +0000 (UTC)
-Received: from [82.43.126.140] (helo=[192.168.0.10])
- by youngberry.canonical.com with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <colin.king@canonical.com>)
- id 1ifVXl-0007y4-Ib; Thu, 12 Dec 2019 20:58:41 +0000
-Subject: Re: drm/i915: Use the i915_device name for identifying our, request
- fences
-To: Chris Wilson <chris@chris-wilson.co.uk>
-References: <1d2c3c9d-5f11-db41-68ef-61ff9ec601cb@canonical.com>
- <157618313562.7396.11949995525623174493@skylake-alporthouse-com>
-From: Colin Ian King <colin.king@canonical.com>
-Autocrypt: addr=colin.king@canonical.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <820d0c95-dbd2-3ccf-eeed-ea70d4f5342f@canonical.com>
-Date: Thu, 12 Dec 2019 20:58:39 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BA806E101;
+ Thu, 12 Dec 2019 21:53:08 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id D1C2820030;
+ Thu, 12 Dec 2019 22:53:04 +0100 (CET)
+Date: Thu, 12 Dec 2019 22:53:03 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH 1/8] drm/print: introduce new struct drm_device based
+ logging macros
+Message-ID: <20191212215303.GA11520@ravnborg.org>
+References: <20191210123050.8799-1-jani.nikula@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <157618313562.7396.11949995525623174493@skylake-alporthouse-com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20191210123050.8799-1-jani.nikula@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=8nJEP1OIZ-IA:10 a=7gkXJVJtAAAA:8
+ a=QyXUC8HyAAAA:8 a=WwEPFlQGcVPyZ2Fg1gUA:9 a=wPNLvfGTeEIA:10
+ a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,45 +46,235 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: intel-gfx@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/12/2019 20:38, Chris Wilson wrote:
-> Quoting Colin Ian King (2019-12-12 19:53:33)
->> Hi,
->>
->> Static analysis with Coverity has picked up an issue with the following
->> commit:
->>
->> commit 65c29dbb19b2451990c5c477fef7ada3b8218f05
->> Author: Chris Wilson <chris@chris-wilson.co.uk>
->> Date:   Wed Dec 11 15:02:04 2019 +0000
->>
->>     drm/i915: Use the i915_device name for identifying our request fences
->>
->> In source drivers/gpu/drm/i915/i915_request.c and function
->> i915_fence_get_timeline_name there is the following:
->>
->>         return to_request(fence)->gem_context->name ?: "[" DRIVER_NAME "]";
->>
->> However name is an array: char name[TASK_COMM_LEN + 8], so it can never
->> be null, so the ternary operator will always return name and will never
->> reaturn "[" DRIVER_NAME "]".  Should it instead be checking if name[0]
->> is '\0' instead?
-> 
-> It's older than that patch, we made it a char[] some time ago. There's a
-> patch pending to make it conditional on ce->gem_context instead.
-> -Chris
-> 
-Ah, thanks for looking into that.
+Hi Jani.
 
-Colin
+On Tue, Dec 10, 2019 at 02:30:43PM +0200, Jani Nikula wrote:
+> Add new struct drm_device based logging macros modeled after the core
+> kernel device based logging macros. These would be preferred over the
+> drm printk and struct device based macros in drm code, where possible.
+> =
+
+> We have existing drm specific struct device based logging functions, but
+> they are too verbose to use for two main reasons:
+> =
+
+>  * The names are unnecessarily long, for example DRM_DEV_DEBUG_KMS().
+> =
+
+>  * The use of struct device over struct drm_device is too generic for
+>    most users, leading to an extra dereference.
+> =
+
+> For example:
+> =
+
+> 	DRM_DEV_DEBUG_KMS(drm->dev, "Hello, world\n");
+> =
+
+> vs.
+> =
+
+> 	drm_dbg_kms(drm, "Hello, world\n");
+> =
+
+> It's a matter of taste, but the SHOUTING UPPERCASE has been argued to be
+> less readable than lowercase.
+> =
+
+> Some names are changed from old DRM names to be based on the core kernel
+> logging functions. For example, NOTE -> notice, ERROR -> err, DEBUG ->
+> dbg.
+> =
+
+> Due to the conflation of DRM_DEBUG and DRM_DEBUG_DRIVER macro use
+> (DRM_DEBUG is used widely in drivers though it's supposed to be a core
+> debugging category), they are named as drm_dbg_core and drm_dbg,
+> respectively.
+> =
+
+> The drm_err and _once/_ratelimited variants no longer include the
+> function name in order to be able to use the core device based logging
+> macros. Arguably this is not a significant change; error messages should
+> not be so common to be only distinguishable by the function name.
+> =
+
+> Ratelimited debug logging macros are to be added later.
+> =
+
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Acked-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Acked-by: Sean Paul <sean@poorly.run>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+
+To my sensitive eyes the lower case variants are much preferable.
+
+As a follow-up it could be nice to clean up drm_print.h:
+- Make it obvious that the old variants are deprecated
+- Let the old variants use the new variants - to make it obvious they
+  are obsolete wrappers.
+- Add some intro that explains for newbies when to use what variant
+
+And then add a todo item - so we can get some janitorials to help with the
+conversion to the new varaints.
+
+
+For logging we have three cases:
+- We have a drm_device pointer - nicely covered by this patchset
+- We have a device * - what do we do here?
+- We have no pointers to device nor drm_device - what do we do here?
+
+Would it be OK to consider drm variants for all the above - so we get
+consistent prefix on logging?
+
+Idea:
+
+drm_<level>[_system] - example: drm_info(drm_device *, ..) or drm_info_core=
+(drm_device *, ..)
+
+drm_dev_<level>[_system] - example: drm_dev_info(device *, ..)
+
+drm_pr_<level>[_system] - example: drm_pr_info(..)
+
+level could be info, info_once, info_ratelimited and so on for dbg, err,
+notice, warn
+
+With the above I can see we can make a clean shift to drm based logging.
+And we do not need to mix different ways to log stuf.
+
+The preferred:
+drm_info()
+drm_dev_info()
+drm_pr_info()
+
+versus:
+drm_info()
+dev_info()
+pr_info()
+
+The patch is OK without the suggested change, but see this as
+suggestions for improvements.
+So patch as is has my:
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+
+
+	Sam
+
+
+> =
+
+> ---
+> =
+
+> With something like this, I think i915 could start migrating to
+> drm_device based logging. I have a hard time convincing myself or anyone
+> about migrating to the DRM_DEV_* variants.
+> ---
+>  include/drm/drm_print.h | 65 +++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 65 insertions(+)
+> =
+
+> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+> index 085a9685270c..8f99d389792d 100644
+> --- a/include/drm/drm_print.h
+> +++ b/include/drm/drm_print.h
+> @@ -322,6 +322,8 @@ static inline bool drm_debug_enabled(enum drm_debug_c=
+ategory category)
+>  =
+
+>  /*
+>   * struct device based logging
+> + *
+> + * Prefer drm_device based logging over device or prink based logging.
+>   */
+>  =
+
+>  __printf(3, 4)
+> @@ -417,8 +419,71 @@ void drm_dev_dbg(const struct device *dev, enum drm_=
+debug_category category,
+>  	_DRM_DEV_DEFINE_DEBUG_RATELIMITED(dev, DRM_UT_PRIME,		\
+>  					  fmt, ##__VA_ARGS__)
+>  =
+
+> +/*
+> + * struct drm_device based logging
+> + *
+> + * Prefer drm_device based logging over device or prink based logging.
+> + */
+> +
+> +/* Helper for struct drm_device based logging. */
+> +#define __drm_printk(drm, level, type, fmt, ...)			\
+> +	dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
+> +
+> +
+> +#define drm_info(drm, fmt, ...)					\
+> +	__drm_printk((drm), info,, fmt, ##__VA_ARGS__)
+> +
+> +#define drm_notice(drm, fmt, ...)				\
+> +	__drm_printk((drm), notice,, fmt, ##__VA_ARGS__)
+> +
+> +#define drm_warn(drm, fmt, ...)					\
+> +	__drm_printk((drm), warn,, fmt, ##__VA_ARGS__)
+> +
+> +#define drm_err(drm, fmt, ...)					\
+> +	__drm_printk((drm), err,, "*ERROR* " fmt, ##__VA_ARGS__)
+> +
+> +
+> +#define drm_info_once(drm, fmt, ...)				\
+> +	__drm_printk((drm), info, _once, fmt, ##__VA_ARGS__)
+> +
+> +#define drm_notice_once(drm, fmt, ...)				\
+> +	__drm_printk((drm), notice, _once, fmt, ##__VA_ARGS__)
+> +
+> +#define drm_warn_once(drm, fmt, ...)				\
+> +	__drm_printk((drm), warn, _once, fmt, ##__VA_ARGS__)
+> +
+> +#define drm_err_once(drm, fmt, ...)				\
+> +	__drm_printk((drm), err, _once, "*ERROR* " fmt, ##__VA_ARGS__)
+> +
+> +
+> +#define drm_err_ratelimited(drm, fmt, ...)				\
+> +	__drm_printk((drm), err, _ratelimited, "*ERROR* " fmt, ##__VA_ARGS__)
+> +
+> +
+> +#define drm_dbg_core(drm, fmt, ...)					\
+> +	drm_dev_dbg((drm)->dev, DRM_UT_CORE, fmt, ##__VA_ARGS__)
+> +#define drm_dbg(drm, fmt, ...)						\
+> +	drm_dev_dbg((drm)->dev, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+> +#define drm_dbg_kms(drm, fmt, ...)					\
+> +	drm_dev_dbg((drm)->dev, DRM_UT_KMS, fmt, ##__VA_ARGS__)
+> +#define drm_dbg_prime(drm, fmt, ...)					\
+> +	drm_dev_dbg((drm)->dev, DRM_UT_PRIME, fmt, ##__VA_ARGS__)
+> +#define drm_dbg_atomic(drm, fmt, ...)					\
+> +	drm_dev_dbg((drm)->dev, DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
+> +#define drm_dbg_vbl(drm, fmt, ...)					\
+> +	drm_dev_dbg((drm)->dev, DRM_UT_VBL, fmt, ##__VA_ARGS__)
+> +#define drm_dbg_state(drm, fmt, ...)					\
+> +	drm_dev_dbg((drm)->dev, DRM_UT_STATE, fmt, ##__VA_ARGS__)
+> +#define drm_dbg_lease(drm, fmt, ...)					\
+> +	drm_dev_dbg((drm)->dev, DRM_UT_LEASE, fmt, ##__VA_ARGS__)
+> +#define drm_dbg_dp(drm, fmt, ...)					\
+> +	drm_dev_dbg((drm)->dev, DRM_UT_DP, fmt, ##__VA_ARGS__)
+> +
+> +
+>  /*
+>   * printk based logging
+> + *
+> + * Prefer drm_device based logging over device or prink based logging.
+>   */
+>  =
+
+>  __printf(2, 3)
+> -- =
+
+> 2.20.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
