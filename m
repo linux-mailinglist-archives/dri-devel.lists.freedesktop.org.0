@@ -2,43 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D38511D7F0
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 21:36:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D515811D7F5
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 21:39:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 724BA6E1D3;
-	Thu, 12 Dec 2019 20:36:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D921E6E1D7;
+	Thu, 12 Dec 2019 20:39:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDEFE6E1D3
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 20:36:00 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 96416A2B;
- Thu, 12 Dec 2019 21:35:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1576182958;
- bh=jns3lG4yF9SJ1qJ0UZr0iN9a4ReAkskKE8/XSfSUMOE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=wQJsBnE0n8EacJ2jzzVRMtR35IRBSLJOoFr11byn52ff+vL8/mgtZauAgabU0t+qo
- uiWZjcVl6RwjzIlz0H3Hfs520q3aE118VAKvsWASr7uiCIrzmnoYZx2iTdKIk1Ngo/
- Y0yG3FN6IShh+TqEg6HQiLuTjSnVm1jR/DiLHzFE=
-Date: Thu, 12 Dec 2019 22:35:50 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH 2/3] ARM: dts: am437x-gp/epos-evm: drop unused panel
- timings
-Message-ID: <20191212203550.GB4892@pendragon.ideasonboard.com>
-References: <20191114093950.4101-1-tomi.valkeinen@ti.com>
- <20191114093950.4101-3-tomi.valkeinen@ti.com>
- <20191202130459.GH4929@pendragon.ideasonboard.com>
- <20191211165331.GC43123@atomide.com>
- <45dae8f7-2f5e-6948-5a05-dc8a09ace1fa@ti.com>
+Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78D9E6E1D7;
+ Thu, 12 Dec 2019 20:39:08 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from localhost (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 19560382-1500050 for multiple; Thu, 12 Dec 2019 20:38:54 +0000
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <45dae8f7-2f5e-6948-5a05-dc8a09ace1fa@ti.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+To: Colin Ian King <colin.king@canonical.com>
+From: Chris Wilson <chris@chris-wilson.co.uk>
+In-Reply-To: <1d2c3c9d-5f11-db41-68ef-61ff9ec601cb@canonical.com>
+References: <1d2c3c9d-5f11-db41-68ef-61ff9ec601cb@canonical.com>
+Message-ID: <157618313562.7396.11949995525623174493@skylake-alporthouse-com>
+User-Agent: alot/0.6
+Subject: re: drm/i915: Use the i915_device name for identifying our,
+ request fences
+Date: Thu, 12 Dec 2019 20:38:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,52 +39,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Tony Lindgren <tony@atomide.com>,
- Jyri Sarha <jsarha@ti.com>, Peter Ujfalusi <peter.ujfalusi@ti.com>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
-
-On Thu, Dec 12, 2019 at 11:37:51AM +0200, Tomi Valkeinen wrote:
-> On 11/12/2019 18:53, Tony Lindgren wrote:
-> > * Laurent Pinchart <laurent.pinchart@ideasonboard.com> [191202 13:05]:
-> >> Hi Tomi,
-> >>
-> >> Thank you for the patch.
-> >>
-> >> On Thu, Nov 14, 2019 at 11:39:49AM +0200, Tomi Valkeinen wrote:
-> >>> panel-simple now handled panel osd070t1718-19ts, and we no longer need
-> >>> the panel timings in the DT file. So remove them.
-> >>
-> >> Should you in that case drop the panel-dpi compatible string too, as the
-> >> panel-dpi bindings require panel timings in DT ?
-> > 
-> > Yeah sounds like if panel-dpi is no longer usable for this device it
-> > should be dropped from the compatible list.
+Quoting Colin Ian King (2019-12-12 19:53:33)
+> Hi,
 > 
-> Ok, I agree.
+> Static analysis with Coverity has picked up an issue with the following
+> commit:
 > 
-> Looking at the dts files, panel-dpi is used in a bunch of boards. But
-> we even have 3 dts files with panel-dpi, without the detailed panel
-> model in compatible...
+> commit 65c29dbb19b2451990c5c477fef7ada3b8218f05
+> Author: Chris Wilson <chris@chris-wilson.co.uk>
+> Date:   Wed Dec 11 15:02:04 2019 +0000
 > 
-> Fixing those will break the compatibility with old dtbs and new
-> kernel, unless we add timings-from-dt to a panel driver that handles
-> panel-dpi.
+>     drm/i915: Use the i915_device name for identifying our request fences
+> 
+> In source drivers/gpu/drm/i915/i915_request.c and function
+> i915_fence_get_timeline_name there is the following:
+> 
+>         return to_request(fence)->gem_context->name ?: "[" DRIVER_NAME "]";
+> 
+> However name is an array: char name[TASK_COMM_LEN + 8], so it can never
+> be null, so the ternary operator will always return name and will never
+> reaturn "[" DRIVER_NAME "]".  Should it instead be checking if name[0]
+> is '\0' instead?
 
-I know, and I don't have a perfect answer for this :-( I don't see a
-third option, it's either breaking DT backward compatibility or adding
-timings parsing to a panel driver (either a new panel-dpi driver or to
-panel-simple). What's your preferred option ?
-
--- 
-Regards,
-
-Laurent Pinchart
+It's older than that patch, we made it a char[] some time ago. There's a
+patch pending to make it conditional on ce->gem_context instead.
+-Chris
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
