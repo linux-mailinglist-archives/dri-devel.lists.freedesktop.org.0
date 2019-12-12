@@ -2,45 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FA3B11DF47
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 09:22:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3B7111DF4C
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 09:22:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 181A06E28E;
-	Fri, 13 Dec 2019 08:22:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 108386E29E;
+	Fri, 13 Dec 2019 08:22:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 848406ED13
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 10:37:10 +0000 (UTC)
-Received: by mail-io1-f69.google.com with SMTP id p206so1234381iod.13
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 02:37:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
- bh=Bms5KEZuCxqFIWyEcowNRHJS4NglBx1UsLruzo2i8fY=;
- b=P2rIZvOSUYIIAJ8gyM9hmilcAkY2ishBC1bCeH094GNRmGVG+lEzzzofTzCrLnsaLL
- H+7GT8/mB2HYbNFxZg05OdjaPQyUPEVgM5JL6NcGjmvdPsMiR6lCVkajndcfmCmaKjM+
- RMAy547epaiO857K/94jB6Bwgw26nU3Tthz047tt2u11CQA5WipJjNXvb3SVt4rGladC
- TGBMlY7y+CFwgyaIRc6kIPM/U5NCw3wI9vsLXPb9os/9o+DV/8CCcNT3DBbTwp757lz5
- DiWo5UwB4XXWD6JDccZHXqW07h5/5Kpwym7SNyVbd872FtBWY08zQG7MI3gEII/GcuL1
- 6myg==
-X-Gm-Message-State: APjAAAW1KizD+BbvB0TnXhKJNKVLPiPVsSa0x/aUQqbCGgU6zXpST9/q
- 4NKDa6wUGMUES97xHv8WhvmlIVu6DQoPDhLL9m/PZk9VFjmv
-X-Google-Smtp-Source: APXvYqy3V5/Z6YXCyYGjeN1zP/bkuqwl/DOITmE9tCkoh2BwBIXnlE7K8Ykcmtcza36DFiVfMchVS6dRIlh/GPU7lyaARABcpFy1
+X-Greylist: delayed 390 seconds by postgrey-1.36 at gabe;
+ Thu, 12 Dec 2019 11:57:24 UTC
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C9426E0CD
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 11:57:24 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: eballetbo) with ESMTPSA id 85D7D28D64B
+Subject: Re: [PATCH RESEND 2/4] drm: bridge: anx7688: Add anx7688 bridge
+ driver support.
+To: Hsin-Yi Wang <hsinyi@chromium.org>, dri-devel@lists.freedesktop.org
+References: <20191211061911.238393-1-hsinyi@chromium.org>
+ <20191211061911.238393-3-hsinyi@chromium.org>
+From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Message-ID: <cf782b68-ff86-4f48-85ce-301cccbfb80b@collabora.com>
+Date: Thu, 12 Dec 2019 12:50:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-X-Received: by 2002:a5e:8345:: with SMTP id y5mr2267186iom.122.1576147029859; 
- Thu, 12 Dec 2019 02:37:09 -0800 (PST)
-Date: Thu, 12 Dec 2019 02:37:09 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000d424a205997f53bd@google.com>
-Subject: INFO: task hung in fb_compat_ioctl
-From: syzbot <syzbot+061df5e46ec99b40552c@syzkaller.appspotmail.com>
-To: b.zolnierkie@samsung.com, daniel.vetter@ffwll.ch, 
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com, 
- peda@axentia.se, sam@ravnborg.org, syzkaller-bugs@googlegroups.com
+In-Reply-To: <20191211061911.238393-3-hsinyi@chromium.org>
+Content-Language: en-US
 X-Mailman-Approved-At: Fri, 13 Dec 2019 08:22:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,226 +42,288 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Nicolas Boichat <drinkcat@chromium.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Matthias Brugger <mbrugger@suse.com>,
+ Russell King <rmk+kernel@arm.linux.org.uk>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"; DelSp="yes"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Hi Hsin-Yi,
 
-syzbot found the following crash on:
+On 11/12/19 7:19, Hsin-Yi Wang wrote:
+> From: Nicolas Boichat <drinkcat@chromium.org>
+> 
+> ANX7688 is a HDMI to DP converter (as well as USB-C port controller),
+> that has an internal microcontroller.
+> 
+> The only reason a Linux kernel driver is necessary is to reject
+> resolutions that require more bandwidth than what is available on
+> the DP side. DP bandwidth and lane count are reported by the bridge
+> via 2 registers on I2C.
+> 
+> Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> ---
 
-HEAD commit:    687dec9b Merge tag 'erofs-for-5.5-rc2-fixes' of git://git...
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=16979cfae00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=79f79de2a27d3e3d
-dashboard link: https://syzkaller.appspot.com/bug?extid=061df5e46ec99b40552c
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-userspace arch: i386
+Although I am not a drm expert I did an initial review of this patch before
+sending and looks good to me now. Also I just tested with current mainline on my
+ELM device and I am happy to have display now, so thanks for sending this upstream:
 
-Unfortunately, I don't have any reproducer for this crash yet.
+Tested-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
 
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+061df5e46ec99b40552c@syzkaller.appspotmail.com
-
-INFO: task syz-executor.2:25386 blocked for more than 143 seconds.
-       Not tainted 5.5.0-rc1-syzkaller #0
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-syz-executor.2  D29712 25386   9095 0x20020004
-Call Trace:
-  context_switch kernel/sched/core.c:3385 [inline]
-  __schedule+0x934/0x1f90 kernel/sched/core.c:4081
-  schedule+0xdc/0x2b0 kernel/sched/core.c:4155
-  schedule_preempt_disabled+0x13/0x20 kernel/sched/core.c:4214
-  __mutex_lock_common kernel/locking/mutex.c:1036 [inline]
-  __mutex_lock+0x7ab/0x13c0 kernel/locking/mutex.c:1106
-  mutex_lock_nested+0x16/0x20 kernel/locking/mutex.c:1121
-  lock_fb_info include/linux/fb.h:637 [inline]
-  fb_get_fscreeninfo drivers/video/fbdev/core/fbmem.c:1283 [inline]
-  fb_compat_ioctl+0x6ed/0xc50 drivers/video/fbdev/core/fbmem.c:1314
-  __do_compat_sys_ioctl fs/compat_ioctl.c:214 [inline]
-  __se_compat_sys_ioctl fs/compat_ioctl.c:142 [inline]
-  __ia32_compat_sys_ioctl+0x233/0x610 fs/compat_ioctl.c:142
-  do_syscall_32_irqs_on arch/x86/entry/common.c:337 [inline]
-  do_fast_syscall_32+0x27b/0xe16 arch/x86/entry/common.c:408
-  entry_SYSENTER_compat+0x70/0x7f arch/x86/entry/entry_64_compat.S:139
-RIP: 0023:0xf7f41a39
-Code: Bad RIP value.
-RSP: 002b:00000000f5d1c0cc EFLAGS: 00000296 ORIG_RAX: 0000000000000036
-RAX: ffffffffffffffda RBX: 0000000000000005 RCX: 0000000000004602
-RDX: 0000000020000080 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-INFO: task syz-executor.2:25392 blocked for more than 143 seconds.
-       Not tainted 5.5.0-rc1-syzkaller #0
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-syz-executor.2  D28520 25392   9095 0x20020004
-Call Trace:
-  context_switch kernel/sched/core.c:3385 [inline]
-  __schedule+0x934/0x1f90 kernel/sched/core.c:4081
-  schedule+0xdc/0x2b0 kernel/sched/core.c:4155
-  schedule_preempt_disabled+0x13/0x20 kernel/sched/core.c:4214
-  __mutex_lock_common kernel/locking/mutex.c:1036 [inline]
-  __mutex_lock+0x7ab/0x13c0 kernel/locking/mutex.c:1106
-  mutex_lock_nested+0x16/0x20 kernel/locking/mutex.c:1121
-  lock_fb_info include/linux/fb.h:637 [inline]
-  fb_open+0xd7/0x450 drivers/video/fbdev/core/fbmem.c:1406
-  chrdev_open+0x245/0x6b0 fs/char_dev.c:414
-  do_dentry_open+0x4e6/0x1380 fs/open.c:797
-  vfs_open+0xa0/0xd0 fs/open.c:914
-  do_last fs/namei.c:3420 [inline]
-  path_openat+0x10df/0x4500 fs/namei.c:3537
-  do_filp_open+0x1a1/0x280 fs/namei.c:3567
-  do_sys_open+0x3fe/0x5d0 fs/open.c:1097
-  __do_compat_sys_openat fs/open.c:1143 [inline]
-  __se_compat_sys_openat fs/open.c:1141 [inline]
-  __ia32_compat_sys_openat+0x98/0xf0 fs/open.c:1141
-  do_syscall_32_irqs_on arch/x86/entry/common.c:337 [inline]
-  do_fast_syscall_32+0x27b/0xe16 arch/x86/entry/common.c:408
-  entry_SYSENTER_compat+0x70/0x7f arch/x86/entry/entry_64_compat.S:139
-RIP: 0023:0xf7f41a39
-Code: Bad RIP value.
-RSP: 002b:00000000f5cda0cc EFLAGS: 00000296 ORIG_RAX: 0000000000000127
-RAX: ffffffffffffffda RBX: 00000000ffffff9c RCX: 0000000020000180
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-
-Showing all locks held in the system:
-1 lock held by khungtaskd/1113:
-  #0: ffffffff899a56c0 (rcu_read_lock){....}, at:  
-debug_show_all_locks+0x5f/0x279 kernel/locking/lockdep.c:5334
-1 lock held by rsyslogd/8960:
-  #0: ffff88808c2640e0 (&f->f_pos_lock){+.+.}, at: __fdget_pos+0xee/0x110  
-fs/file.c:801
-2 locks held by getty/9050:
-  #0: ffff88809b3bf090 (&tty->ldisc_sem){++++}, at:  
-ldsem_down_read+0x33/0x40 drivers/tty/tty_ldsem.c:340
-  #1: ffffc900017cb2e0 (&ldata->atomic_read_lock){+.+.}, at:  
-n_tty_read+0x220/0x1bf0 drivers/tty/n_tty.c:2156
-2 locks held by getty/9051:
-  #0: ffff888095020090 (&tty->ldisc_sem){++++}, at:  
-ldsem_down_read+0x33/0x40 drivers/tty/tty_ldsem.c:340
-  #1: ffffc9000184b2e0 (&ldata->atomic_read_lock){+.+.}, at:  
-n_tty_read+0x220/0x1bf0 drivers/tty/n_tty.c:2156
-2 locks held by getty/9052:
-  #0: ffff8880a322a090 (&tty->ldisc_sem){++++}, at:  
-ldsem_down_read+0x33/0x40 drivers/tty/tty_ldsem.c:340
-  #1: ffffc9000182b2e0 (&ldata->atomic_read_lock){+.+.}, at:  
-n_tty_read+0x220/0x1bf0 drivers/tty/n_tty.c:2156
-2 locks held by getty/9053:
-  #0: ffff88809a312090 (&tty->ldisc_sem){++++}, at:  
-ldsem_down_read+0x33/0x40 drivers/tty/tty_ldsem.c:340
-  #1: ffffc9000183b2e0 (&ldata->atomic_read_lock){+.+.}, at:  
-n_tty_read+0x220/0x1bf0 drivers/tty/n_tty.c:2156
-2 locks held by getty/9054:
-  #0: ffff8880935fc090 (&tty->ldisc_sem){++++}, at:  
-ldsem_down_read+0x33/0x40 drivers/tty/tty_ldsem.c:340
-  #1: ffffc900017eb2e0 (&ldata->atomic_read_lock){+.+.}, at:  
-n_tty_read+0x220/0x1bf0 drivers/tty/n_tty.c:2156
-2 locks held by getty/9055:
-  #0: ffff88809edd6090 (&tty->ldisc_sem){++++}, at:  
-ldsem_down_read+0x33/0x40 drivers/tty/tty_ldsem.c:340
-  #1: ffffc9000181b2e0 (&ldata->atomic_read_lock){+.+.}, at:  
-n_tty_read+0x220/0x1bf0 drivers/tty/n_tty.c:2156
-2 locks held by getty/9056:
-  #0: ffff8880959b2090 (&tty->ldisc_sem){++++}, at:  
-ldsem_down_read+0x33/0x40 drivers/tty/tty_ldsem.c:340
-  #1: ffffc9000178b2e0 (&ldata->atomic_read_lock){+.+.}, at:  
-n_tty_read+0x220/0x1bf0 drivers/tty/n_tty.c:2156
-2 locks held by syz-executor.2/25382:
-1 lock held by syz-executor.2/25386:
-  #0: ffff888218cbf070 (&fb_info->lock){+.+.}, at: lock_fb_info  
-include/linux/fb.h:637 [inline]
-  #0: ffff888218cbf070 (&fb_info->lock){+.+.}, at: fb_get_fscreeninfo  
-drivers/video/fbdev/core/fbmem.c:1283 [inline]
-  #0: ffff888218cbf070 (&fb_info->lock){+.+.}, at:  
-fb_compat_ioctl+0x6ed/0xc50 drivers/video/fbdev/core/fbmem.c:1314
-1 lock held by syz-executor.2/25392:
-  #0: ffff888218cbf070 (&fb_info->lock){+.+.}, at: lock_fb_info  
-include/linux/fb.h:637 [inline]
-  #0: ffff888218cbf070 (&fb_info->lock){+.+.}, at: fb_open+0xd7/0x450  
-drivers/video/fbdev/core/fbmem.c:1406
-
-=============================================
-
-NMI backtrace for cpu 0
-CPU: 0 PID: 1113 Comm: khungtaskd Not tainted 5.5.0-rc1-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0x197/0x210 lib/dump_stack.c:118
-  nmi_cpu_backtrace.cold+0x70/0xb2 lib/nmi_backtrace.c:101
-  nmi_trigger_cpumask_backtrace+0x23b/0x28b lib/nmi_backtrace.c:62
-  arch_trigger_cpumask_backtrace+0x14/0x20 arch/x86/kernel/apic/hw_nmi.c:38
-  trigger_all_cpu_backtrace include/linux/nmi.h:146 [inline]
-  check_hung_uninterruptible_tasks kernel/hung_task.c:205 [inline]
-  watchdog+0xb11/0x10c0 kernel/hung_task.c:289
-  kthread+0x361/0x430 kernel/kthread.c:255
-  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
-Sending NMI from CPU 0 to CPUs 1:
-NMI backtrace for cpu 1
-CPU: 1 PID: 25382 Comm: syz-executor.2 Not tainted 5.5.0-rc1-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-RIP: 0010:__writeq arch/x86/include/asm/io.h:98 [inline]
-RIP: 0010:bitfill_aligned drivers/video/fbdev/core/cfbfillrect.c:50 [inline]
-RIP: 0010:bitfill_aligned+0xaa/0x210  
-drivers/video/fbdev/core/cfbfillrect.c:35
-Code: 31 ff 4c 89 fe e8 46 9b c0 fd 4d 85 ff 74 09 e8 9c 99 c0 fd 4c 21 7d  
-d0 e8 93 99 c0 fd 49 8b 06 48 31 c3 48 23 5d d0 48 31 c3 <49> 89 1e e8 7e  
-99 c0 fd 48 83 c4 18 5b 41 5c 41 5d 41 5e 41 5f 5d
-RSP: 0018:ffffc90001567388 EFLAGS: 00000246
-RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffc9000daef000
-RDX: 0000000000040000 RSI: ffffffff83b491fd RDI: 0000000000000007
-RBP: ffffc900015673c8 R08: ffff88808cdf4100 R09: 0000000000000040
-R10: ffffed10147ab25b R11: ffff8880a3d592df R12: 0000000000000040
-R13: 0000000000000040 R14: ffff8880000a0000 R15: 0000000000000000
-FS:  0000000000000000(0000) GS:ffff8880ae900000(0063) knlGS:00000000f5d3db40
-CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
-CR2: 00007f793125b140 CR3: 00000000a520a000 CR4: 00000000001406e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
-  cfb_fillrect+0x423/0x7c0 drivers/video/fbdev/core/cfbfillrect.c:327
-  vga16fb_fillrect+0x6ce/0x19b0 drivers/video/fbdev/vga16fb.c:951
-  bit_clear_margins+0x30b/0x530 drivers/video/fbdev/core/bitblit.c:232
-  fbcon_clear_margins+0x1e9/0x250 drivers/video/fbdev/core/fbcon.c:1372
-  fbcon_switch+0xd7f/0x17f0 drivers/video/fbdev/core/fbcon.c:2354
-  redraw_screen+0x2b6/0x7d0 drivers/tty/vt/vt.c:997
-  fbcon_modechanged+0x5c3/0x790 drivers/video/fbdev/core/fbcon.c:2991
-  fbcon_update_vcs+0x42/0x50 drivers/video/fbdev/core/fbcon.c:3038
-  fb_set_var+0xb32/0xdd0 drivers/video/fbdev/core/fbmem.c:1051
-  do_fb_ioctl+0x390/0x7d0 drivers/video/fbdev/core/fbmem.c:1104
-  fb_compat_ioctl+0x305/0xc50 drivers/video/fbdev/core/fbmem.c:1310
-  __do_compat_sys_ioctl fs/compat_ioctl.c:214 [inline]
-  __se_compat_sys_ioctl fs/compat_ioctl.c:142 [inline]
-  __ia32_compat_sys_ioctl+0x233/0x610 fs/compat_ioctl.c:142
-  do_syscall_32_irqs_on arch/x86/entry/common.c:337 [inline]
-  do_fast_syscall_32+0x27b/0xe16 arch/x86/entry/common.c:408
-  entry_SYSENTER_compat+0x70/0x7f arch/x86/entry/entry_64_compat.S:139
-RIP: 0023:0xf7f41a39
-Code: 00 00 00 89 d3 5b 5e 5f 5d c3 b8 80 96 98 00 eb c4 8b 04 24 c3 8b 1c  
-24 c3 8b 34 24 c3 8b 3c 24 c3 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90  
-90 90 90 eb 0d 90 90 90 90 90 90 90 90 90 90 90 90
-RSP: 002b:00000000f5d3d0cc EFLAGS: 00000296 ORIG_RAX: 0000000000000036
-RAX: ffffffffffffffda RBX: 0000000000000005 RCX: 0000000000004601
-RDX: 0000000020000000 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-
-
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+>  drivers/gpu/drm/bridge/Kconfig            |   9 +
+>  drivers/gpu/drm/bridge/Makefile           |   1 +
+>  drivers/gpu/drm/bridge/analogix-anx7688.c | 202 ++++++++++++++++++++++
+>  3 files changed, 212 insertions(+)
+>  create mode 100644 drivers/gpu/drm/bridge/analogix-anx7688.c
+> 
+> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+> index 34362976cd6f..1f3fc6bec842 100644
+> --- a/drivers/gpu/drm/bridge/Kconfig
+> +++ b/drivers/gpu/drm/bridge/Kconfig
+> @@ -16,6 +16,15 @@ config DRM_PANEL_BRIDGE
+>  menu "Display Interface Bridges"
+>  	depends on DRM && DRM_BRIDGE
+>  
+> +config DRM_ANALOGIX_ANX7688
+> +	tristate "Analogix ANX7688 bridge"
+> +	select DRM_KMS_HELPER
+> +	select REGMAP_I2C
+> +	---help---
+> +	  ANX7688 is a transmitter to support DisplayPort over USB-C for
+> +	  smartphone and tablets.
+> +	  This driver only supports the HDMI to DP component of the chip.
+> +
+>  config DRM_ANALOGIX_ANX78XX
+>  	tristate "Analogix ANX78XX bridge"
+>  	select DRM_KMS_HELPER
+> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
+> index 4934fcf5a6f8..7a1e0ec032e6 100644
+> --- a/drivers/gpu/drm/bridge/Makefile
+> +++ b/drivers/gpu/drm/bridge/Makefile
+> @@ -1,4 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0
+> +obj-$(CONFIG_DRM_ANALOGIX_ANX7688) += analogix-anx7688.o
+>  obj-$(CONFIG_DRM_ANALOGIX_ANX78XX) += analogix-anx78xx.o
+>  obj-$(CONFIG_DRM_CDNS_DSI) += cdns-dsi.o
+>  obj-$(CONFIG_DRM_DUMB_VGA_DAC) += dumb-vga-dac.o
+> diff --git a/drivers/gpu/drm/bridge/analogix-anx7688.c b/drivers/gpu/drm/bridge/analogix-anx7688.c
+> new file mode 100644
+> index 000000000000..baaed48d6201
+> --- /dev/null
+> +++ b/drivers/gpu/drm/bridge/analogix-anx7688.c
+> @@ -0,0 +1,202 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * ANX7688 HDMI->DP bridge driver
+> + *
+> + * Copyright 2016 Google LLC
+> + */
+> +
+> +#include <linux/i2c.h>
+> +#include <linux/module.h>
+> +#include <linux/regmap.h>
+> +#include <drm/drm_bridge.h>
+> +
+> +/* Register addresses */
+> +#define VENDOR_ID_REG 0x00
+> +#define DEVICE_ID_REG 0x02
+> +
+> +#define FW_VERSION_REG 0x80
+> +
+> +#define DP_BANDWIDTH_REG 0x85
+> +#define DP_LANE_COUNT_REG 0x86
+> +
+> +#define VENDOR_ID 0x1f29
+> +#define DEVICE_ID 0x7688
+> +
+> +/* First supported firmware version (0.85) */
+> +#define MINIMUM_FW_VERSION 0x0085
+> +
+> +struct anx7688 {
+> +	struct drm_bridge bridge;
+> +	struct i2c_client *client;
+> +	struct regmap *regmap;
+> +
+> +	bool filter;
+> +};
+> +
+> +static inline struct anx7688 *bridge_to_anx7688(struct drm_bridge *bridge)
+> +{
+> +	return container_of(bridge, struct anx7688, bridge);
+> +}
+> +
+> +static bool anx7688_bridge_mode_fixup(struct drm_bridge *bridge,
+> +				      const struct drm_display_mode *mode,
+> +				      struct drm_display_mode *adjusted_mode)
+> +{
+> +	struct anx7688 *anx7688 = bridge_to_anx7688(bridge);
+> +	u8 regs[2];
+> +	u8 dpbw, lanecount;
+> +	int totalbw, requiredbw;
+> +	int ret;
+> +
+> +	if (!anx7688->filter)
+> +		return true;
+> +
+> +	/* Read both regs 0x85 (bandwidth) and 0x86 (lane count). */
+> +	ret = regmap_bulk_read(anx7688->regmap, DP_BANDWIDTH_REG, regs, 2);
+> +	if (ret < 0) {
+> +		dev_err(&anx7688->client->dev,
+> +			"Failed to read bandwidth/lane count\n");
+> +		return false;
+> +	}
+> +	dpbw = regs[0];
+> +	lanecount = regs[1];
+> +
+> +	/* Maximum 0x19 bandwidth (6.75 Gbps Turbo mode), 2 lanes */
+> +	if (dpbw > 0x19 || lanecount > 2) {
+> +		dev_err(&anx7688->client->dev,
+> +			"Invalid bandwidth/lane count (%02x/%d)\n",
+> +			dpbw, lanecount);
+> +		return false;
+> +	}
+> +
+> +	/* Compute available bandwidth (kHz) */
+> +	totalbw = dpbw * lanecount * 270000 * 8 / 10;
+> +
+> +	/* Required bandwidth (8 bpc, kHz) */
+> +	requiredbw = mode->clock * 8 * 3;
+> +
+> +	dev_dbg(&anx7688->client->dev,
+> +		"DP bandwidth: %d kHz (%02x/%d); mode requires %d Khz\n",
+> +		totalbw, dpbw, lanecount, requiredbw);
+> +
+> +	if (totalbw == 0) {
+> +		dev_warn(&anx7688->client->dev,
+> +			 "Bandwidth/lane count are 0, not rejecting modes\n");
+> +		return true;
+> +	}
+> +
+> +	return totalbw >= requiredbw;
+> +}
+> +
+> +static const struct drm_bridge_funcs anx7688_bridge_funcs = {
+> +	.mode_fixup	= anx7688_bridge_mode_fixup,
+> +};
+> +
+> +static const struct regmap_config anx7688_regmap_config = {
+> +	.reg_bits = 8,
+> +	.val_bits = 8,
+> +};
+> +
+> +static int anx7688_i2c_probe(struct i2c_client *client,
+> +			     const struct i2c_device_id *id)
+> +{
+> +	struct anx7688 *anx7688;
+> +	struct device *dev = &client->dev;
+> +	int ret;
+> +	u8 buffer[4];
+> +	u16 vendor, device, fwversion;
+> +
+> +	anx7688 = devm_kzalloc(dev, sizeof(*anx7688), GFP_KERNEL);
+> +	if (!anx7688)
+> +		return -ENOMEM;
+> +
+> +#if IS_ENABLED(CONFIG_OF)
+> +	anx7688->bridge.of_node = client->dev.of_node;
+> +#endif
+> +
+> +	anx7688->client = client;
+> +	i2c_set_clientdata(client, anx7688);
+> +
+> +	anx7688->regmap =
+> +		devm_regmap_init_i2c(client, &anx7688_regmap_config);
+> +
+> +	/* Read both vendor and device id (4 bytes). */
+> +	ret = regmap_bulk_read(anx7688->regmap, VENDOR_ID_REG, buffer, 4);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to read chip vendor/device id\n");
+> +		return ret;
+> +	}
+> +
+> +	vendor = (u16)buffer[1] << 8 | buffer[0];
+> +	device = (u16)buffer[3] << 8 | buffer[2];
+> +	if (vendor != VENDOR_ID || device != DEVICE_ID) {
+> +		dev_err(dev, "Invalid vendor/device id %04x/%04x\n",
+> +			vendor, device);
+> +		return -ENODEV;
+> +	}
+> +
+> +	ret = regmap_bulk_read(anx7688->regmap, FW_VERSION_REG, buffer, 2);
+> +	if (ret) {
+> +		dev_err(&client->dev, "Failed to read firmware version\n");
+> +		return ret;
+> +	}
+> +
+> +	fwversion = (u16)buffer[0] << 8 | buffer[1];
+> +	dev_info(dev, "ANX7688 firwmare version %02x.%02x\n",
+> +		 buffer[0], buffer[1]);
+> +
+> +	/* FW version >= 0.85 supports bandwidth/lane count registers */
+> +	if (fwversion >= MINIMUM_FW_VERSION) {
+> +		anx7688->filter = true;
+> +	} else {
+> +		/* Warn, but not fail, for backwards compatibility. */
+> +		dev_warn(dev,
+> +			 "Old ANX7688 FW version (%02x.%02x), not filtering\n",
+> +			 buffer[0], buffer[1]);
+> +	}
+> +
+> +	anx7688->bridge.funcs = &anx7688_bridge_funcs;
+> +	drm_bridge_add(&anx7688->bridge);
+> +
+> +	return 0;
+> +}
+> +
+> +static int anx7688_i2c_remove(struct i2c_client *client)
+> +{
+> +	struct anx7688 *anx7688 = i2c_get_clientdata(client);
+> +
+> +	drm_bridge_remove(&anx7688->bridge);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct i2c_device_id anx7688_id[] = {
+> +	{ "anx7688", 0 },
+> +	{ /* sentinel */ }
+> +};
+> +
+> +MODULE_DEVICE_TABLE(i2c, anx7688_id);
+> +
+> +#if IS_ENABLED(CONFIG_OF)
+> +static const struct of_device_id anx7688_match_table[] = {
+> +	{ .compatible = "analogix,anx7688", },
+> +	{ /* sentinel */ },
+> +};
+> +MODULE_DEVICE_TABLE(of, anx7688_match_table);
+> +#endif
+> +
+> +static struct i2c_driver anx7688_driver = {
+> +	.driver = {
+> +		   .name = "anx7688",
+> +		   .of_match_table = of_match_ptr(anx7688_match_table),
+> +		  },
+> +	.probe = anx7688_i2c_probe,
+> +	.remove = anx7688_i2c_remove,
+> +	.id_table = anx7688_id,
+> +};
+> +
+> +module_i2c_driver(anx7688_driver);
+> +
+> +MODULE_DESCRIPTION("ANX7688 SlimPort Transmitter driver");
+> +MODULE_AUTHOR("Nicolas Boichat <drinkcat@chromium.org>");
+> +MODULE_LICENSE("GPL v2");
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
