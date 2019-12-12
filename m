@@ -1,75 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C771011D77A
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 20:53:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A80D511D7E2
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 21:30:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14AA26E1B1;
-	Thu, 12 Dec 2019 19:53:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE24188E4D;
+	Thu, 12 Dec 2019 20:29:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A807E6E1B1;
- Thu, 12 Dec 2019 19:53:36 +0000 (UTC)
-Received: from 1.general.cking.uk.vpn ([10.172.193.212])
- by youngberry.canonical.com with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <colin.king@canonical.com>)
- id 1ifUWk-0003Sp-NA; Thu, 12 Dec 2019 19:53:34 +0000
-To: Chris Wilson <chris@chris-wilson.co.uk>
-From: Colin Ian King <colin.king@canonical.com>
-Autocrypt: addr=colin.king@canonical.com; prefer-encrypt=mutual; keydata=
- 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
-Subject: re: drm/i915: Use the i915_device name for identifying our, request
- fences
-Message-ID: <1d2c3c9d-5f11-db41-68ef-61ff9ec601cb@canonical.com>
-Date: Thu, 12 Dec 2019 19:53:33 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75E5D6E1CF
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 20:29:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576182595;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=L0FJi8yZKKSNaOeWOnKLG0D2sy8Vt1RkrFL5EZ1ETrc=;
+ b=I/i6xY74Vbev+SRPCElpwhVb5dlWrfdMzkQkqtJ8Zfl0UDbI5BVZ2+35TZCASQiMLiQrGo
+ H8dMvDGPLJo0G1DEPEp3R7Ok25Ry2q9ddgMBKEeFrb/pB5UhYYUwEwjCQ196oZC6vsn0+K
+ JsdczXf5he185oegcvgLbuVyCahgGI8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-176-1qDEK_6MOcOv2N_LPMblPA-1; Thu, 12 Dec 2019 15:29:53 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A71E28017DF;
+ Thu, 12 Dec 2019 20:29:52 +0000 (UTC)
+Received: from shalem.localdomain.com (unknown [10.36.118.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 304CA5D9C9;
+ Thu, 12 Dec 2019 20:29:51 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
+Subject: [PATCH 1/2] drm/i915: panel: Use intel_panel_compute_brightness()
+ from pwm_setup_backlight()
+Date: Thu, 12 Dec 2019 21:29:48 +0100
+Message-Id: <20191212202949.190451-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: 1qDEK_6MOcOv2N_LPMblPA-1
+X-Mimecast-Spam-Score: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,37 +59,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Use intel_panel_compute_brightness() from pwm_setup_backlight() so that
+we correctly take i915_modparams.invert_brightness and/or
+QUIRK_INVERT_BRIGHTNESS into account when setting + getting the initial
+brightness value.
 
-Static analysis with Coverity has picked up an issue with the following
-commit:
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/gpu/drm/i915/display/intel_panel.c | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
-commit 65c29dbb19b2451990c5c477fef7ada3b8218f05
-Author: Chris Wilson <chris@chris-wilson.co.uk>
-Date:   Wed Dec 11 15:02:04 2019 +0000
+diff --git a/drivers/gpu/drm/i915/display/intel_panel.c b/drivers/gpu/drm/i915/display/intel_panel.c
+index ddcf311d1114..ac0a1ae5fba5 100644
+--- a/drivers/gpu/drm/i915/display/intel_panel.c
++++ b/drivers/gpu/drm/i915/display/intel_panel.c
+@@ -1843,6 +1843,7 @@ static int pwm_setup_backlight(struct intel_connector *connector,
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+ 	struct intel_panel *panel = &connector->panel;
+ 	const char *desc;
++	u32 level, ns;
+ 	int retval;
+ 
+ 	/* Get the right PWM chip for DSI backlight according to VBT */
+@@ -1866,8 +1867,12 @@ static int pwm_setup_backlight(struct intel_connector *connector,
+ 	 */
+ 	pwm_apply_args(panel->backlight.pwm);
+ 
+-	retval = pwm_config(panel->backlight.pwm, CRC_PMIC_PWM_PERIOD_NS,
+-			    CRC_PMIC_PWM_PERIOD_NS);
++	panel->backlight.min = 0; /* 0% */
++	panel->backlight.max = 100; /* 100% */
++	level = intel_panel_compute_brightness(connector, 100);
++	ns = DIV_ROUND_UP(level * CRC_PMIC_PWM_PERIOD_NS, 100);
++
++	retval = pwm_config(panel->backlight.pwm, ns, CRC_PMIC_PWM_PERIOD_NS);
+ 	if (retval < 0) {
+ 		DRM_ERROR("Failed to configure the pwm chip\n");
+ 		pwm_put(panel->backlight.pwm);
+@@ -1875,11 +1880,10 @@ static int pwm_setup_backlight(struct intel_connector *connector,
+ 		return retval;
+ 	}
+ 
+-	panel->backlight.min = 0; /* 0% */
+-	panel->backlight.max = 100; /* 100% */
+-	panel->backlight.level = DIV_ROUND_UP(
+-				 pwm_get_duty_cycle(panel->backlight.pwm) * 100,
+-				 CRC_PMIC_PWM_PERIOD_NS);
++	level = DIV_ROUND_UP(pwm_get_duty_cycle(panel->backlight.pwm) * 100,
++			     CRC_PMIC_PWM_PERIOD_NS);
++	panel->backlight.level =
++		intel_panel_compute_brightness(connector, level);
+ 	panel->backlight.enabled = panel->backlight.level != 0;
+ 
+ 	DRM_INFO("Using %s PWM for LCD backlight control\n", desc);
+-- 
+2.23.0
 
-    drm/i915: Use the i915_device name for identifying our request fences
-
-In source drivers/gpu/drm/i915/i915_request.c and function
-i915_fence_get_timeline_name there is the following:
-
-	return to_request(fence)->gem_context->name ?: "[" DRIVER_NAME "]";
-
-However name is an array: char name[TASK_COMM_LEN + 8], so it can never
-be null, so the ternary operator will always return name and will never
-reaturn "[" DRIVER_NAME "]".  Should it instead be checking if name[0]
-is '\0' instead?
-
-Colin
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
