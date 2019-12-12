@@ -2,54 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8011011D7E3
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 21:30:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BED111D815
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 21:49:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B9E588503;
-	Thu, 12 Dec 2019 20:30:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67BCE6E1E9;
+	Thu, 12 Dec 2019 20:49:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA2E388E79
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 20:29:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576182596;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fQ46nvUqunNbgCF9mSFvcSSkOg8dmX0iy8J423hZNsI=;
- b=Pe43prGmyAD9VSE6kKokRKggN0+1qpDQ5+qTL19xGkKnFnSd0BnPGim3IDEHmUlqD904Rs
- nMuzJkGyXkRD6oZQz5OpKnC7CUI07/Q5tzldkM+MDZhOqZzAWQFXEjbpKd9EKUl9Lbf/wB
- dc8fSDukBoDf7yxWGcGwlHEE2vV6p2o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-192-SJs83rnLMfigynXO0g7Fjg-1; Thu, 12 Dec 2019 15:29:55 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B6C1100551A;
- Thu, 12 Dec 2019 20:29:54 +0000 (UTC)
-Received: from shalem.localdomain.com (unknown [10.36.118.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E8E255D9C9;
- Thu, 12 Dec 2019 20:29:52 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
-Subject: [PATCH 2/2] drm/i915: Add invert-brightness quirk for Thundersoft
- TST178 tablet
-Date: Thu, 12 Dec 2019 21:29:49 +0100
-Message-Id: <20191212202949.190451-2-hdegoede@redhat.com>
-In-Reply-To: <20191212202949.190451-1-hdegoede@redhat.com>
-References: <20191212202949.190451-1-hdegoede@redhat.com>
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAD766E1E9
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 20:49:41 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBCDqBUd120811;
+ Thu, 12 Dec 2019 07:52:11 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1576158731;
+ bh=iebveN5eENepG2qkcaAtHc8Cz+P3AubKtmhx+asuWXQ=;
+ h=From:To:CC:Subject:Date:In-Reply-To:References;
+ b=C+XKVUleMGowpdWanccx7wPOPv58iO6CAFbcMxoAVrHLDYt7djEuFQ0xkAlLOu4Xh
+ dWa8RMGsZdLGSpLTf5o3MC4xh2vxWsqy1Ve8kS8YDuWDPwkJ/HQp2+rcdOWo3XsBx+
+ 4xdM24Q29xmJN6SwNavS1Fpe2qB3HtgezThGaCgk=
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xBCDqBr0013115
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 12 Dec 2019 07:52:11 -0600
+Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Thu, 12
+ Dec 2019 07:52:10 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Thu, 12 Dec 2019 07:52:10 -0600
+Received: from jadmar.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBCDq1hr023044;
+ Thu, 12 Dec 2019 07:52:07 -0600
+From: Jyri Sarha <jsarha@ti.com>
+To: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>
+Subject: [PATCH v3 2/5] dt-bindings: display: ti,
+ am65x-dss: Add dt-schema yaml binding
+Date: Thu, 12 Dec 2019 15:51:58 +0200
+Message-ID: <10030be376cdb7a44bc2bd762cf92f2ccf8c7ced.1576158368.git.jsarha@ti.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <cover.1576158368.git.jsarha@ti.com>
+References: <cover.1576158368.git.jsarha@ti.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: SJs83rnLMfigynXO0g7Fjg-1
-X-Mimecast-Spam-Score: 0
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,53 +60,182 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel@lists.freedesktop.org
+Cc: yamonkar@cadence.com, praneeth@ti.com, sjakhade@cadence.com,
+ robh+dt@kernel.org, peter.ujfalusi@ti.com, tomi.valkeinen@ti.com,
+ laurent.pinchart@ideasonboard.com, subhajit_paul@ti.com, sam@ravnborg.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Thundersoft TST178 tablet uses a DSI panel with an external PWM
-controller (as all DSI panels do). But unlike other DSI panels a duty-cycle
-of 100% turns the backlight off and 0% sets it to maximum brightness.
+Add dt-schema yaml bindig for AM65x DSS, AM65x version TI Keystone
+Display SubSystem.
 
-I've checked the VBT and there is a BDB_LVDS_BACKLIGHT section, but
-it does not set the active_low_pwm flag. This tablet re-uses the main
-PCI vendor and product ids for the subsystem ids, so I see no other option
-then to add a DMI based quirk to fix this.
+Version history:
 
-Note that the PWM backlight code in intel_panel.c currently does not honor
-the vbt.active_low_pwm flag, but that does not matter in this case.
+v2: no change
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+v3: - Add ports node
+    - use allOf in ti,am65x-oldi-io-ctrl to add both $ref and maxItems
+    - Add includes to dts example
+    - reindent dts example
+
+Signed-off-by: Jyri Sarha <jsarha@ti.com>
 ---
- drivers/gpu/drm/i915/display/intel_quirks.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ .../bindings/display/ti/ti,am65x-dss.yaml     | 142 ++++++++++++++++++
+ 1 file changed, 142 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
 
-diff --git a/drivers/gpu/drm/i915/display/intel_quirks.c b/drivers/gpu/drm/i915/display/intel_quirks.c
-index 399b1542509f..54dba152ead8 100644
---- a/drivers/gpu/drm/i915/display/intel_quirks.c
-+++ b/drivers/gpu/drm/i915/display/intel_quirks.c
-@@ -82,6 +82,16 @@ static const struct intel_dmi_quirk intel_dmi_quirks[] = {
- 					    DMI_MATCH(DMI_PRODUCT_NAME, ""),
- 				},
- 			},
-+			{
-+				.callback = intel_dmi_reverse_brightness,
-+				.ident = "Thundersoft TST178 tablet",
-+				/* DMI strings are too generic, also match on BIOS date */
-+				.matches = {DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "AMI Corporation"),
-+					    DMI_EXACT_MATCH(DMI_BOARD_NAME, "Aptio CRB"),
-+					    DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "To be filled by O.E.M."),
-+					    DMI_EXACT_MATCH(DMI_BIOS_DATE, "04/15/2014"),
-+				},
-+			},
- 			{ }  /* terminating entry */
- 		},
- 		.hook = quirk_invert_brightness,
+diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+new file mode 100644
+index 000000000000..d5d974828b20
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+@@ -0,0 +1,142 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++# Copyright 2019 Texas Instruments Incorporated
++%YAML 1.2
++---
++$id: "http://devicetree.org/schemas/display/ti/ti,am65x-dss.yaml#"
++$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++
++title: Texas Instruments AM65x Display Subsystem
++
++maintainers:
++  - Jyri Sarha <jsarha@ti.com>
++  - Tomi Valkeinen <tomi.valkeinen@ti.com>
++
++description: |
++  The AM65x TI Keystone Display SubSystem with two output ports and
++  two video planes. The first video port supports OLDI and the second
++  supports DPI format. The fist plane is full video plane with all
++  features and the second is a "lite plane" without scaling support.
++
++properties:
++  compatible:
++    const: ti,am65x-dss
++
++  reg:
++    maxItems: 7
++    minItems: 7
++
++  reg-names:
++    items:
++      - const: common
++      - const: vidl1
++      - const: vid
++      - const: ovr1
++      - const: ovr2
++      - const: vp1
++      - const: vp2
++
++  clocks:
++    maxItems: 3
++    minItems: 3
++
++  clock-names:
++    items:
++      - const: fck
++      - const: vp1
++      - const: vp2
++
++  interrupts:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++    description: phandle to the associated power domain
++
++  ports:
++    type: object
++    description:
++      Ports as described in Documentation/devictree/bindings/graph.txt
++    properties:
++      "#address-cells":
++        const: 1
++
++      "#size-cells":
++        const: 0
++
++      port@0:
++        type: object
++        description:
++          The DSS OLDI output port node form video port 1
++
++      port@1:
++        type: object
++        description:
++          The DSS DPI output port node from video port 2
++
++    required:
++      - "#address-cells"
++      - "#size-cells"
++
++  ti,am65x-oldi-io-ctrl:
++    allOf:
++      - $ref: "/schemas/types.yaml#/definitions/phandle-array"
++      - maxItems: 1
++    description:
++      phandle to syscon device node mapping OLDI IO_CTRL registers.
++      The mapped range should point to OLDI_DAT0_IO_CTRL, map it and
++      following OLDI_DAT1_IO_CTRL, OLDI_DAT2_IO_CTRL, OLDI_DAT3_IO_CTRL,
++      and OLDI_CLK_IO_CTRL registers. This property is needed for OLDI
++      interface to work.
++
++  max-memory-bandwidth:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      Input memory (from main memory to dispc) bandwidth limit in
++      bytes per second
++
++required:
++  - compatible
++  - reg
++  - reg-names
++  - clocks
++  - clock-names
++  - interrupts
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/soc/ti,sci_pm_domain.h>
++
++    dss: dss@04a00000 {
++            compatible = "ti,am65x-dss";
++            reg =   <0x0 0x04a00000 0x0 0x1000>, /* common */
++                    <0x0 0x04a02000 0x0 0x1000>, /* vidl1 */
++                    <0x0 0x04a06000 0x0 0x1000>, /* vid */
++                    <0x0 0x04a07000 0x0 0x1000>, /* ovr1 */
++                    <0x0 0x04a08000 0x0 0x1000>, /* ovr2 */
++                    <0x0 0x04a0a000 0x0 0x1000>, /* vp1 */
++                    <0x0 0x04a0b000 0x0 0x1000>; /* vp2 */
++            reg-names = "common", "vidl1", "vid",
++                    "ovr1", "ovr2", "vp1", "vp2";
++            ti,am65x-oldi-io-ctrl = <&dss_oldi_io_ctrl>;
++            power-domains = <&k3_pds 67 TI_SCI_PD_EXCLUSIVE>;
++            clocks =        <&k3_clks 67 1>,
++                            <&k3_clks 216 1>,
++                            <&k3_clks 67 2>;
++            clock-names = "fck", "vp1", "vp2";
++            interrupts = <GIC_SPI 166 IRQ_TYPE_EDGE_RISING>;
++            ports {
++                    #address-cells = <1>;
++                    #size-cells = <0>;
++                    port@0 {
++                            reg = <0>;
++                            oldi_out0: endpoint {
++                                    remote-endpoint = <&lcd_in0>;
++                            };
++                    };
++            };
++    };
 -- 
-2.23.0
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki. Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 
 _______________________________________________
 dri-devel mailing list
