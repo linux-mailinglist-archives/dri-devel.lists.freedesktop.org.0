@@ -1,88 +1,89 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE95A11D07D
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 16:07:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9768211D0D1
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 16:20:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 791EA6E18E;
-	Thu, 12 Dec 2019 15:07:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6AAE89BEC;
+	Thu, 12 Dec 2019 15:20:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2047.outbound.protection.outlook.com [40.107.92.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 522C56E180;
- Thu, 12 Dec 2019 15:07:26 +0000 (UTC)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2056.outbound.protection.outlook.com [40.107.236.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C5A089BEC;
+ Thu, 12 Dec 2019 15:20:26 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nxcrA4DPnj3R0raVYvlOxTXTzbm6JwQe9WaPIxjRwAvI5UwqvPDICIRBfGBSWoP+JBrBIIAWgAzofI9SZHokvCEGRd4cQS20/k5O1NAICOzFpIhcFFKbKQR2+Ie/UXzdA9/Efco/lfjhzdylT5EZ7KpyOtWfQwP4ypIYsgBne3RWmSjyK+GgTiICxvB/f44/FCX4+hEM0BKO6HL+XdIl6wAuxvVlo5u5H47KcdycDvwD0oDJgmKqTfv4NAiso6qz+FtidVnKdrXCfynsoo4pQFgGPqhemgl1OpDec1tNzWYJusdHT76nEX70RJbyAxb8k5ZRSxYV7NAHjJG5NSYvBg==
+ b=WUVzH5SNKljoyIuFSGBTFAuzHqcgZA839ABjRS47PEHPJTrjL84ub0F72qqdJrS+hi/P91yLGIyVWjEr5Y6c+Chmz0rx2+Ke/Yt42D2PHE2B0nyUBeLlDHVbvX9+v7azeFu2wmsvcQDBZcque/+q6jekCg0qW+if0DZfEyT14k93WRR50cM1ulG9S4Z+mWXkjJc9U3r8NjMGukRWM3vjpvjWK9/gFIwmD6g8+vwVDosXFiIiaYgIAK64Rbacl/CGuVP18QDb9O6UtZ2sJWA8gbn8jEhQCuJso0RUxnnGAhvKJ+nsPFFaeVx+h6V3KmBQy23KgB15C0odDqrE69y02g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wmgUjU/xtTcdfONRvEhFvTt1gY744k/RKA+gYEbGUiE=;
- b=G1Gt9T0p5f7xo0KhRvyVRQMC26nPXUxu7teWPSoko2VbNO7a/ZQM1knFdunP1E8egs5RwgLxQqoBK9g1akhq9KAazdNk2HR7t1kDfJeoGbOTV4FmUu7tCQXxzA+A+PybHgNu6Gnm6qllETQL1mnERjrl49IKGw7e30KO02L1KcLMujSOs0Ml+DCNcPXcFDtahWgd5OMAeUTuiiGi0LO9bSGpZFRwaI+C0HL0LxMIUHhh1solLfa6Z5iYq+My4v/8irZUP17Z4ZFVxXpN8iunlN74ycKFu1k/ibipOa8AZK5B17S80jUUvKO00ujvNQmAQmdk1KNNgzYVtsqCmtbuhA==
+ bh=mvmhn2m2+mcHTkDODqje7D02hV+6jnDqAEW/H18RHYg=;
+ b=edVSqbTQbW8nKgVJB/atdzPObKU3pQppIbcQ2DVHSsd8KeYIKuZsKbPngtBSooU9KQolA1w4b15vVx4e3I2e7B6pK5LfjP+vtxjhcJVI1ZYwysDlYF7dE8WSkJMLT7Vna5+ySNg+B+8GczpULy4g2+3Qls6fpm0seKAi7Q8HXfJVpM2qxCcd0piIbeXs6uQKs0FEMYm4fTcxQ5y+V2CRjkQ8F2p8WKmJGQ4DU5Jm83jRgAgV+UxwSTEG5QLxrtjOtkPxJRFnon67qy9atCTFHTz7TGcYB7gOpabQ5puUaFC5vaKPtPhn1BfaJwu+4Eu7ULD5kUiA2D79xSkMT0xcqA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wmgUjU/xtTcdfONRvEhFvTt1gY744k/RKA+gYEbGUiE=;
- b=vTY5CROO1qzbr/NfQHy0RtBpjPY4ecpzZy5er/oWjJVwIrc7+5Or9lHu5e+Pi0uQWZ2WYck6DuanQX3y09kNTywc2jnXHRKYSb+/i0tPCwWfcMXxQgmnt+++swsZt7DJdR47EncDQus3qSc7cezZBWqawxCkorn5Juc4Er4q8vM=
+ bh=mvmhn2m2+mcHTkDODqje7D02hV+6jnDqAEW/H18RHYg=;
+ b=hvX6L1ktTwa4mOoNtOnd5fH3qkQa0eDIy90iZHavWsdT7QflZyIhvyaozQxd5d6RcyHlUgc7SN9++JxQmJhoyzOw+yvjcnld8gkYBy7CoXYnadXNR3Ofpo5x8MOYGc3jIRm1aldkskbkyFpq4bG8BY/zXwWfZSzwHDEknuC+Q28=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=Andrey.Grodzovsky@amd.com; 
 Received: from MWHPR12MB1453.namprd12.prod.outlook.com (10.172.55.22) by
- MWHPR12MB1341.namprd12.prod.outlook.com (10.169.205.142) with Microsoft SMTP
+ MWHPR12MB1693.namprd12.prod.outlook.com (10.172.56.8) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2516.17; Thu, 12 Dec 2019 15:07:23 +0000
+ 15.20.2538.18; Thu, 12 Dec 2019 15:20:08 +0000
 Received: from MWHPR12MB1453.namprd12.prod.outlook.com
  ([fe80::514b:dbf8:d19f:a80]) by MWHPR12MB1453.namprd12.prod.outlook.com
  ([fe80::514b:dbf8:d19f:a80%12]) with mapi id 15.20.2538.016; Thu, 12 Dec 2019
- 15:07:23 +0000
-Subject: Re: [RESEND PATCH 2/5] drm: Add Reusable task barrier.
+ 15:20:08 +0000
+Subject: Re: [RESEND PATCH 4/5] Subject: drm/amdgpu: Redo XGMI reset
+ synchronization.
 To: "Ma, Le" <Le.Ma@amd.com>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
  "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
 References: <1576096732-3596-1-git-send-email-andrey.grodzovsky@amd.com>
- <1576096732-3596-2-git-send-email-andrey.grodzovsky@amd.com>
- <MN2PR12MB4285F713BEE4E4BC2E3F3F39F6550@MN2PR12MB4285.namprd12.prod.outlook.com>
+ <1576096732-3596-4-git-send-email-andrey.grodzovsky@amd.com>
+ <MN2PR12MB4285C0500B7E9363A2CF7B89F6550@MN2PR12MB4285.namprd12.prod.outlook.com>
 From: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>
-Message-ID: <a45930cd-f021-ee63-c44d-8bef569e3f9f@amd.com>
-Date: Thu, 12 Dec 2019 10:07:20 -0500
+Message-ID: <dae40279-60df-9f50-d65f-0df1005c2efa@amd.com>
+Date: Thu, 12 Dec 2019 10:20:05 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.4.0
-In-Reply-To: <MN2PR12MB4285F713BEE4E4BC2E3F3F39F6550@MN2PR12MB4285.namprd12.prod.outlook.com>
+In-Reply-To: <MN2PR12MB4285C0500B7E9363A2CF7B89F6550@MN2PR12MB4285.namprd12.prod.outlook.com>
 Content-Language: en-US
-X-ClientProxiedBy: YTXPR0101CA0058.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b00:1::35) To MWHPR12MB1453.namprd12.prod.outlook.com
+X-ClientProxiedBy: YTBPR01CA0033.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:14::46) To MWHPR12MB1453.namprd12.prod.outlook.com
  (2603:10b6:301:e::22)
 MIME-Version: 1.0
 X-Originating-IP: [2607:fea8:3edf:e127:3a1e:65e:fc37:38e9]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 7da40e1d-46d1-4e9f-0872-08d77f14fdc3
-X-MS-TrafficTypeDiagnostic: MWHPR12MB1341:|MWHPR12MB1341:
+X-MS-Office365-Filtering-Correlation-Id: 6ed155b6-8bd1-434d-3e78-08d77f16c59e
+X-MS-TrafficTypeDiagnostic: MWHPR12MB1693:|MWHPR12MB1693:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MWHPR12MB1341FE501AAA471C0082957CEA550@MWHPR12MB1341.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Microsoft-Antispam-PRVS: <MWHPR12MB1693779FD0D19389BBECADCBEA550@MWHPR12MB1693.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
 X-Forefront-PRVS: 0249EFCB0B
 X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10009020)(4636009)(39830400003)(346002)(376002)(396003)(366004)(199004)(189003)(13464003)(53546011)(52116002)(6506007)(186003)(36756003)(6512007)(2616005)(450100002)(54906003)(4326008)(508600001)(110136005)(31686004)(33964004)(31696002)(2906002)(8936002)(66556008)(81166006)(86362001)(66946007)(5660300002)(8676002)(6486002)(66476007)(81156014)(30864003);
- DIR:OUT; SFP:1101; SCL:1; SRVR:MWHPR12MB1341;
+ SFS:(10009020)(4636009)(366004)(346002)(376002)(136003)(39850400004)(396003)(501774003)(199004)(189003)(13464003)(5660300002)(6666004)(478600001)(53546011)(8676002)(6506007)(52116002)(66946007)(33964004)(66476007)(66556008)(2616005)(2906002)(110136005)(54906003)(31686004)(316002)(6512007)(4326008)(36756003)(8936002)(6486002)(450100002)(31696002)(81156014)(81166006)(186003)(86362001);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:MWHPR12MB1693;
  H:MWHPR12MB1453.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; A:1; MX:1; 
 Received-SPF: None (protection.outlook.com: amd.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1X0KCUvCGCChqTBsFTQTL8bPKSM73K0/fdWQve9eblobFpwCrSsp2aIHiQBsy2lPMwmJc+Fo4CBDbD2SLDvSTlBHGSfFQvCHXccrKm8LoZYFHDX88vnjcbVhdl+QmZ0MWRAfUhBuh1kgTz+nleFFGABHF9lbek+UM64t0TgNEjBMR3UwAgm5xsG+4xbBy7G3rgNDBiXmEtyjB2M1DcoVDRVsgENio+mVuIF8HCEvyrwlnfcAnsJ4NXAQOsQCBsD58r7kBJda1yKLXXb5yDY3lD9TK834lZZK1ZvbJjHLGs19L2cQiivSykpH4qPX1RA0X4B5oOvX6LGKkGjujW/HA+J8ayzE1Ou2Ewk3eHZMkPiNJxViCbQFKnUunl/iY65VRMDxM/l9QM2jL3NqQTSdQwoX4LLKmywgr3t9oBTnbXWhMIF/bLEGeKFcp2YAHmzBS1Mv2qqXvEjNtKFE6zD51WGP6EuxB9cXpt+ZIA5uymYraqHIAU+R1gBPDJPyVn5H
+X-Microsoft-Antispam-Message-Info: yoJ4dFmypIvOUzOybd7UNETyzggnkf1qWkh+l7WpkRxMlTIzgS51Dcu+xQH6qiy2rw7OMZYIVNmu9JJXyRkAR4eBT5wLAG0zTY+qCJvm6TjVrELG8k+B5wDJ2HqVQJGM247aC90H1uNHm4fIQnh20KjGFqBbv8f6pYGoZIgJUCgSwnkn2kn9yyH9oZwP/iBdDPtXL0yhItTrU8IDgIyQNBct1T1oz66gIHMZnTdhAKVP9+D0AwEfbIcmpmerjIShw4Nyx22cESL7QA3OhFyYVQ2Nz9W7I1MGU11rufY7monecMDS0choElMZC/BwzCvsINh3F7OgXoYFPMo00DsORQKOrRs5BWqJnui8oQU6+j/jwjiyRNZtr5jm4x2MjSqMoMv81V5LgLJ/xzu9De5Uj2940zt/ahKc70yN3jU4FPg5iaeqymLwB0W4MGHfv2N6iLJ7EnFYFy6aWaDFnSFgePEp67Hyx6C9uNm008NG7yq65ITb0TC551rOyt3XxyBrsqjseWV/5dfJBLp6teE68A==
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7da40e1d-46d1-4e9f-0872-08d77f14fdc3
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2019 15:07:23.3073 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6ed155b6-8bd1-434d-3e78-08d77f16c59e
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2019 15:20:08.1273 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: momw83947izgZxccbG0kFzoMdY7Lgwir4rHnRq7Nn3azIrgaf92MYB4UndQ6F8pwAL5dhBK5Z0epcunZH/5Ufw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1341
+X-MS-Exchange-CrossTenant-UserPrincipalName: 13tnYTYZKkHazJS/+IlRzCqGjoDY0Mn6ADPfYdrqw/nf1thX44KKF9uuHMWzQMYckTFmhzDMp9FLmG2Fx3hJ0Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1693
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,21 +98,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>, "Quan,
  Evan" <Evan.Quan@amd.com>, "Zhang, Hawking" <Hawking.Zhang@amd.com>
-Content-Type: multipart/mixed; boundary="===============2050937910=="
+Content-Type: multipart/mixed; boundary="===============0326678279=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============2050937910==
+--===============0326678279==
 Content-Type: multipart/alternative;
- boundary="------------9884471CDF8D2917872047BE"
+ boundary="------------E1B97FE587FE95F3BFF5E1EE"
 Content-Language: en-US
 
---------------9884471CDF8D2917872047BE
+--------------E1B97FE587FE95F3BFF5E1EE
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 
-On 12/11/19 11:04 PM, Ma, Le wrote:
+On 12/11/19 11:05 PM, Ma, Le wrote:
 >
 > [AMD Official Use Only - Internal Distribution Only]
 >
@@ -122,299 +123,178 @@ On 12/11/19 11:04 PM, Ma, Le wrote:
 > Cc: Deucher, Alexander <Alexander.Deucher@amd.com>; Ma, Le 
 > <Le.Ma@amd.com>; Zhang, Hawking <Hawking.Zhang@amd.com>; Quan, Evan 
 > <Evan.Quan@amd.com>; Grodzovsky, Andrey <Andrey.Grodzovsky@amd.com>
-> Subject: [RESEND PATCH 2/5] drm: Add Reusable task barrier.
+> Subject: [RESEND PATCH 4/5] Subject: drm/amdgpu: Redo XGMI reset 
+> synchronization.
 >
-> It is used to synchronize N threads at a rendevouz point before 
-> execution of critical code that has to be started by all the threads 
-> at approximatly the same time.
+> Use task barrier in XGMI hive to synchronize ASIC resets across 
+> devices in XGMI hive.
 >
 > Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com 
 > <mailto:andrey.grodzovsky@amd.com>>
 >
 > ---
 >
-> include/drm/task_barrier.h | 106 
-> +++++++++++++++++++++++++++++++++++++++++++++
+> drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 42 
+> +++++++++++++++++++++++++-----
 >
-> 1 file changed, 106 insertions(+)
+> 1 file changed, 36 insertions(+), 6 deletions(-)
 >
-> create mode 100644 include/drm/task_barrier.h
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c 
+> b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
 >
-> diff --git a/include/drm/task_barrier.h b/include/drm/task_barrier.h 
-> new file mode 100644 index 0000000..81fb0f7
+> index 1d19edfa..e4089a0 100644
 >
-> --- /dev/null
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
 >
-> +++ b/include/drm/task_barrier.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
 >
-> @@ -0,0 +1,106 @@
+> @@ -67,6 +67,7 @@
 >
-> +/*
+> #include "amdgpu_tmz.h"
 >
-> + * Copyright 2019 Advanced Micro Devices, Inc.
+>  #include <linux/suspend.h>
 >
-> + *
+> +#include <drm/task_barrier.h>
 >
-> + * Permission is hereby granted, free of charge, to any person
+>  MODULE_FIRMWARE("amdgpu/vega10_gpu_info.bin");
 >
-> +obtaining a
+> MODULE_FIRMWARE("amdgpu/vega12_gpu_info.bin");
 >
-> + * copy of this software and associated documentation files (the
+> @@ -2663,14 +2664,43 @@ static void 
+> amdgpu_device_xgmi_reset_func(struct work_struct *__work)  {
 >
-> +"Software"),
+>            struct amdgpu_device *adev =
 >
-> + * to deal in the Software without restriction, including without
+> container_of(__work, struct amdgpu_device, xgmi_reset_work);
 >
-> +limitation
+> +          struct amdgpu_hive_info *hive = amdgpu_get_xgmi_hive(adev, 0);
 >
-> + * the rights to use, copy, modify, merge, publish, distribute,
+> -           if (amdgpu_asic_reset_method(adev) == AMD_RESET_METHOD_BACO)
 >
-> +sublicense,
+> - adev->asic_reset_res = (adev->in_baco == false) ?
 >
-> + * and/or sell copies of the Software, and to permit persons to whom
+> - amdgpu_device_baco_enter(adev->ddev) :
 >
-> +the
+> - qamdgpu_device_baco_exit(adev->ddev);
 >
-> + * Software is furnished to do so, subject to the following conditions:
+> -           else
 >
-> + *
+> - adev->asic_reset_res = amdgpu_asic_reset(adev);
 >
-> + * The above copyright notice and this permission notice shall be
+> +          /*
 >
-> +included in
+> +          * Use task barrier to synchronize all xgmi reset works 
+> across the
 >
-> + * all copies or substantial portions of the Software.
+> +          * hive.
 >
-> + *
+> +          * task_barrier_enter and task_barrier_exit will block 
+> untill all the
 >
-> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+> +          * threads running the xgmi reset works reach those points. 
+> I assume
 >
-> +EXPRESS OR
+> +          * guarantee of progress here for all the threads as the 
+> workqueue code
 >
-> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+> +          * creates new worker threads as needed by amount of work 
+> items in queue
 >
-> +MERCHANTABILITY,
+> +          * (see worker_thread) and also each thread sleeps in the 
+> barrir and by
 >
-> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT
+> +          * this yielding the CPU for other work threads to make 
+> progress.
 >
-> +SHALL
+> +          */
 >
-> + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM,
+> [Le]: This comments can be adjusted since we switch to 
+> system_unbound_wq in patch #5.
 >
-> +DAMAGES OR
->
-> + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
->
-> +OTHERWISE,
->
-> + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
->
-> +OR
->
-> + * OTHER DEALINGS IN THE SOFTWARE.
->
-> + *
->
-> + */
->
-> +#include <linux/semaphore.h>
->
-> +#include <linux/atomic.h>
+> +          if (amdgpu_asic_reset_method(adev) == AMD_RESET_METHOD_BACO) {
 >
 > +
 >
-> +/*
+> +                      if (hive)
 >
-> + * Reusable 2 PHASE task barrier (randevouz point) implementation for 
-> N tasks.
+> + task_barrier_enter(&hive->tb);
 >
-> + * Based on the Little book of sempahores -
->
-> +https://greenteapress.com/wp/semaphores/
->
-> + */
->
-> +
->
-> +
->
-> +
->
-> +#ifndef DRM_TASK_BARRIER_H_
->
-> +#define DRM_TASK_BARRIER_H_
->
-> +
->
-> [Le]: It might be better to prefix “drm_” to the functions and 
-> structure below, even this header file name.
+> [Le]: The multiple hive condition can be checked only once and moved 
+> to the location right after the assignment.
 >
 
-I am not sure about this - see the example of spsc_queue we added for 
-GPU scheduler use. I just followed it as an example of where to place 
-the structure. There is nothing DRM specific about spsc_queue or 
-task_barrier, they are generic constructs that we place in DRM subsystem 
-for common use.
-
-
-> +/*
->
-> + * Represents an instance of a task barrier.
->
-> + */
->
-> +struct task_barrier {
->
-> +          unsigned int n;
->
-> [Le]: We can define it as signed type here for more common use.
->
-
-This is a counter of number of tasks/threads to synchronize in the 
-barrier it cannot go bellow 0
+Not sure what you meant here but in fact let's note that while in 
+amdgpu_device_xgmi_reset_func it's a bug for amdgpu_get_xgmi_hive to 
+return NULL so I think better instead to add WARN_ON(!hive,"...") and 
+return right at the beginning of the function if indeed hive == NULL
 
 Andrey
 
 
-> +          atomic_t count;
+> +
 >
-> +          struct semaphore enter_turnstile;
->
-> +          struct semaphore exit_turnstile;
->
-> +};
+> + adev->asic_reset_res = amdgpu_device_baco_enter(adev->ddev);
 >
 > +
 >
-> +static inline void task_barrier_signal_turnstile(struct semaphore 
-> *turnstile,
+> +                      if (adev->asic_reset_res)
 >
-> + unsigned int n)
->
-> +{
->
-> +          int i;
+> +                                  goto fail;
 >
 > +
 >
-> +          for (i = 0 ; i < n; i++)
+> +                      if (hive)
 >
-> +                      up(turnstile);
+> + task_barrier_exit(&hive->tb);
 >
-> +}
->
-> +
->
-> +static inline void task_barrier_init(struct task_barrier *tb) {
->
-> +          tb->n = 0;
->
-> +          atomic_set(&tb->count, 0);
->
-> + sema_init(&tb->enter_turnstile, 0);
->
-> + sema_init(&tb->exit_turnstile, 0);
->
-> +}
+> [Le]: Same as above.
 >
 > +
 >
-> +static inline void task_barrier_add_task(struct task_barrier *tb) {
->
-> +          tb->n++;
->
-> +}
+> + adev->asic_reset_res = amdgpu_device_baco_exit(adev->ddev);
 >
 > +
 >
-> +static inline void task_barrier_rem_task(struct task_barrier *tb) {
+> +                      if (adev->asic_reset_res)
 >
-> +          tb->n--;
+> +                                  goto fail;
 >
-> +}
+> +          } else {
 >
-> +
+> +                      if (hive)
 >
-> +/*
+> + task_barrier_full(&hive->tb);
 >
-> + * Lines up all the threads BEFORE the critical point.
+> [Le]: Same as above.
 >
-> + *
->
-> + * When all thread passed this code the entry barrier is back to 
-> locked state.
->
-> + */
->
-> +static inline void task_barrier_enter(struct task_barrier *tb) {
->
-> +          if (atomic_inc_return(&tb->count) == tb->n)
->
-> + task_barrier_signal_turnstile(&tb->enter_turnstile, tb->n);
->
-> +
->
-> + down(&tb->enter_turnstile);
->
-> +}
->
-> +
->
-> +/*
->
-> + * Lines up all the threads AFTER the critical point.
->
-> + *
->
-> + * This function is used to avoid any one thread running ahead of the
->
-> +reset if
->
-> [Le]: No need to mention “reset” here.
->
-> With the above addressed, Acked-by: Le Ma Le.Ma@amd.com 
-> <mailto:Le.Ma@amd.com>
+> With above addressed, Reviewed-by: Le Ma <Le.Ma@amd.com 
+> <mailto:Le.Ma@amd.com>>
 >
 > Regards,
 >
 > Ma Le
 >
-> + * the barrier is used in a loop (repeatedly) .
->
-> + */
->
-> +static inline void task_barrier_exit(struct task_barrier *tb) {
->
-> +          if (atomic_dec_return(&tb->count) == 0)
->
-> + task_barrier_signal_turnstile(&tb->exit_turnstile, tb->n);
->
 > +
 >
-> + down(&tb->exit_turnstile);
+> + adev->asic_reset_res =  amdgpu_asic_reset(adev);
 >
-> +}
+> +          }
 >
-> +
+> +fail:
 >
-> +static inline void task_barrier_full(struct task_barrier *tb) {
+>            if (adev->asic_reset_res)
 >
-> +          task_barrier_enter(tb);
+>                        DRM_WARN("ASIC reset failed with error, %d for 
+> drm dev, %s",
 >
-> +          task_barrier_exit(tb);
->
-> +}
->
-> +
->
-> +#endif
+>  adev->asic_reset_res, adev->ddev->unique);
 >
 > --
 >
 > 2.7.4
 >
 
---------------9884471CDF8D2917872047BE
+--------------E1B97FE587FE95F3BFF5E1EE
 Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
@@ -424,9 +304,9 @@ Content-Transfer-Encoding: 8bit
   <body text="#000000" bgcolor="#FFFFFF">
     <p><br>
     </p>
-    <div class="moz-cite-prefix">On 12/11/19 11:04 PM, Ma, Le wrote:<br>
+    <div class="moz-cite-prefix">On 12/11/19 11:05 PM, Ma, Le wrote:<br>
     </div>
-    <blockquote type="cite" cite="mid:MN2PR12MB4285F713BEE4E4BC2E3F3F39F6550@MN2PR12MB4285.namprd12.prod.outlook.com">
+    <blockquote type="cite" cite="mid:MN2PR12MB4285C0500B7E9363A2CF7B89F6550@MN2PR12MB4285.namprd12.prod.outlook.com">
       
       <meta name="Generator" content="Microsoft Word 15 (filtered
         medium)">
@@ -520,240 +400,146 @@ div.WordSection1
           <a class="moz-txt-link-rfc2396E" href="mailto:Hawking.Zhang@amd.com">&lt;Hawking.Zhang@amd.com&gt;</a>; Quan, Evan
           <a class="moz-txt-link-rfc2396E" href="mailto:Evan.Quan@amd.com">&lt;Evan.Quan@amd.com&gt;</a>; Grodzovsky, Andrey
           <a class="moz-txt-link-rfc2396E" href="mailto:Andrey.Grodzovsky@amd.com">&lt;Andrey.Grodzovsky@amd.com&gt;</a><br>
-          Subject: [RESEND PATCH 2/5] drm: Add Reusable task barrier.<o:p></o:p></p>
+          Subject: [RESEND PATCH 4/5] Subject: drm/amdgpu: Redo XGMI
+          reset synchronization.<o:p></o:p></p>
         <p class="MsoPlainText"><o:p>&nbsp;</o:p></p>
-        <p class="MsoPlainText">It is used to synchronize N threads at a
-          rendevouz point before execution of critical code that has to
-          be started by all the threads at approximatly the same time.<o:p></o:p></p>
+        <p class="MsoPlainText">Use task barrier in XGMI hive to
+          synchronize ASIC resets across devices in XGMI hive.<o:p></o:p></p>
         <p class="MsoPlainText"><o:p>&nbsp;</o:p></p>
         <p class="MsoPlainText">Signed-off-by: Andrey Grodzovsky &lt;<a href="mailto:andrey.grodzovsky@amd.com" moz-do-not-send="true"><span style="color:windowtext;text-decoration:none">andrey.grodzovsky@amd.com</span></a>&gt;<o:p></o:p></p>
         <p class="MsoPlainText">---<o:p></o:p></p>
-        <p class="MsoPlainText">include/drm/task_barrier.h | 106
-          &#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;<o:p></o:p></p>
-        <p class="MsoPlainText">1 file changed, 106 insertions(&#43;)<o:p></o:p></p>
-        <p class="MsoPlainText">create mode 100644
-          include/drm/task_barrier.h<o:p></o:p></p>
+        <p class="MsoPlainText">drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+          | 42 &#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;-----<o:p></o:p></p>
+        <p class="MsoPlainText">1 file changed, 36 insertions(&#43;), 6
+          deletions(-)<o:p></o:p></p>
         <p class="MsoPlainText"><o:p>&nbsp;</o:p></p>
-        <p class="MsoPlainText">diff --git a/include/drm/task_barrier.h
-          b/include/drm/task_barrier.h new file mode 100644 index
-          0000000..81fb0f7<o:p></o:p></p>
-        <p class="MsoPlainText">--- /dev/null<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;&#43;&#43; b/include/drm/task_barrier.h<o:p></o:p></p>
-        <p class="MsoPlainText">@@ -0,0 &#43;1,106 @@<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;/*<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; * Copyright 2019 Advanced Micro
-          Devices, Inc.<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; *<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; * Permission is hereby granted, free
-          of charge, to any person
-          <o:p></o:p></p>
-        <p class="MsoPlainText">&#43;obtaining a<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; * copy of this software and associated
-          documentation files (the
-          <o:p></o:p></p>
-        <p class="MsoPlainText">&#43;&quot;Software&quot;),<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; * to deal in the Software without
-          restriction, including without
-          <o:p></o:p></p>
-        <p class="MsoPlainText">&#43;limitation<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; * the rights to use, copy, modify,
-          merge, publish, distribute,
-          <o:p></o:p></p>
-        <p class="MsoPlainText">&#43;sublicense,<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; * and/or sell copies of the Software,
-          and to permit persons to whom
-          <o:p></o:p></p>
-        <p class="MsoPlainText">&#43;the<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; * Software is furnished to do so,
-          subject to the following conditions:<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; *<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; * The above copyright notice and this
-          permission notice shall be
-          <o:p></o:p></p>
-        <p class="MsoPlainText">&#43;included in<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; * all copies or substantial portions
-          of the Software.<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; *<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;,
-          WITHOUT WARRANTY OF ANY KIND,
-          <o:p></o:p></p>
-        <p class="MsoPlainText">&#43;EXPRESS OR<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; * IMPLIED, INCLUDING BUT NOT LIMITED
-          TO THE WARRANTIES OF
-          <o:p></o:p></p>
-        <p class="MsoPlainText">&#43;MERCHANTABILITY,<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; * FITNESS FOR A PARTICULAR PURPOSE AND
-          NONINFRINGEMENT.&nbsp; IN NO EVENT
-          <o:p></o:p></p>
-        <p class="MsoPlainText">&#43;SHALL<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; * THE COPYRIGHT HOLDER(S) OR AUTHOR(S)
-          BE LIABLE FOR ANY CLAIM,
-          <o:p></o:p></p>
-        <p class="MsoPlainText">&#43;DAMAGES OR<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; * OTHER LIABILITY, WHETHER IN AN
-          ACTION OF CONTRACT, TORT OR
-          <o:p></o:p></p>
-        <p class="MsoPlainText">&#43;OTHERWISE,<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; * ARISING FROM, OUT OF OR IN
-          CONNECTION WITH THE SOFTWARE OR THE USE
-          <o:p></o:p></p>
-        <p class="MsoPlainText">&#43;OR<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; * OTHER DEALINGS IN THE SOFTWARE.<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; *<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; */<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;#include &lt;linux/semaphore.h&gt;<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;#include &lt;linux/atomic.h&gt;<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;/*<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; * Reusable 2 PHASE task barrier
-          (randevouz point) implementation for N tasks.<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; * Based on the Little book of
-          sempahores - <o:p></o:p></p>
-        <p class="MsoPlainText">&#43;https://greenteapress.com/wp/semaphores/<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; */<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;#ifndef DRM_TASK_BARRIER_H_<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;#define DRM_TASK_BARRIER_H_<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;<o:p></o:p></p>
-        <p class="MsoPlainText"><span style="color:black"><o:p>&nbsp;</o:p></span></p>
-        <p class="MsoPlainText"><span style="color:#203864">[Le]: It
-            might be better to prefix “drm_” to the functions and
-            structure below, even this header file name.
-          </span></p>
-      </div>
-    </blockquote>
-    <p><br>
-    </p>
-    <p>I am not sure about this - see the example of spsc_queue we added
-      for GPU scheduler use. I just followed it as an example of where
-      to place the structure. There is nothing DRM specific about&nbsp;
-      spsc_queue or task_barrier, they are generic constructs that we
-      place in DRM subsystem for common use.</p>
-    <p> <br>
-    </p>
-    <blockquote type="cite" cite="mid:MN2PR12MB4285F713BEE4E4BC2E3F3F39F6550@MN2PR12MB4285.namprd12.prod.outlook.com">
-      <div class="WordSection1">
-        <p class="MsoPlainText"><span style="color:#203864"><o:p></o:p></span></p>
-        <p class="MsoPlainText"><span style="color:black"><o:p>&nbsp;</o:p></span></p>
-        <p class="MsoPlainText">&#43;/*<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; * Represents an instance of a task
-          barrier.<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; */<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;struct task_barrier {<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; unsigned int n;<o:p></o:p></p>
-        <p class="MsoPlainText"><span style="color:#203864">[Le]: We can
-            define it as signed type here for more common use.</span></p>
-      </div>
-    </blockquote>
-    <p><br>
-    </p>
-    <p>This is a counter of number of tasks/threads to synchronize in
-      the barrier it cannot go bellow 0</p>
-    <p>Andrey</p>
-    <p><br>
-    </p>
-    <blockquote type="cite" cite="mid:MN2PR12MB4285F713BEE4E4BC2E3F3F39F6550@MN2PR12MB4285.namprd12.prod.outlook.com">
-      <div class="WordSection1">
-        <p class="MsoPlainText"><span style="color:#203864"><o:p></o:p></span></p>
-        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; atomic_t count;<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct semaphore
-          enter_turnstile;<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct semaphore
-          exit_turnstile;<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;};<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;static inline void
-          task_barrier_signal_turnstile(struct semaphore *turnstile,<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          unsigned int n)<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;{<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int i;<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for (i = 0 ; i &lt; n; i&#43;&#43;)<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; up(turnstile);<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;}<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;static inline void
-          task_barrier_init(struct task_barrier *tb) {<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tb-&gt;n = 0;<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; atomic_set(&amp;tb-&gt;count,
-          0);<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          sema_init(&amp;tb-&gt;enter_turnstile, 0);<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          sema_init(&amp;tb-&gt;exit_turnstile, 0);<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;}<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;static inline void
-          task_barrier_add_task(struct task_barrier *tb) {<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tb-&gt;n&#43;&#43;;<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;}<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;static inline void
-          task_barrier_rem_task(struct task_barrier *tb) {<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tb-&gt;n--;<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;}<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;/*<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; * Lines up all the threads BEFORE the
-          critical point.<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; *<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; * When all thread passed this code the
-          entry barrier is back to locked state.<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; */<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;static inline void
-          task_barrier_enter(struct task_barrier *tb) {<o:p></o:p></p>
+        <p class="MsoPlainText">diff --git
+          a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+          b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c<o:p></o:p></p>
+        <p class="MsoPlainText">index 1d19edfa..e4089a0 100644<o:p></o:p></p>
+        <p class="MsoPlainText">---
+          a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c<o:p></o:p></p>
+        <p class="MsoPlainText">&#43;&#43;&#43;
+          b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c<o:p></o:p></p>
+        <p class="MsoPlainText">@@ -67,6 &#43;67,7 @@<o:p></o:p></p>
+        <p class="MsoPlainText">#include &quot;amdgpu_tmz.h&quot;<o:p></o:p></p>
+        <p class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+        <p class="MsoPlainText">&nbsp;#include &lt;linux/suspend.h&gt;<o:p></o:p></p>
+        <p class="MsoPlainText">&#43;#include &lt;drm/task_barrier.h&gt;<o:p></o:p></p>
+        <p class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+        <p class="MsoPlainText">&nbsp;MODULE_FIRMWARE(&quot;amdgpu/vega10_gpu_info.bin&quot;);<o:p></o:p></p>
+        <p class="MsoPlainText">MODULE_FIRMWARE(&quot;amdgpu/vega12_gpu_info.bin&quot;);<o:p></o:p></p>
+        <p class="MsoPlainText">@@ -2663,14 &#43;2664,43 @@ static void
+          amdgpu_device_xgmi_reset_func(struct work_struct *__work)&nbsp; {<o:p></o:p></p>
+        <p class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct amdgpu_device *adev =<o:p></o:p></p>
+        <p class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          container_of(__work, struct amdgpu_device, xgmi_reset_work);<o:p></o:p></p>
+        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct amdgpu_hive_info *hive
+          = amdgpu_get_xgmi_hive(adev, 0);<o:p></o:p></p>
+        <p class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+        <p class="MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
+          (amdgpu_asic_reset_method(adev) == AMD_RESET_METHOD_BACO)<o:p></o:p></p>
+        <p class="MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          adev-&gt;asic_reset_res = (adev-&gt;in_baco == false) ?<o:p></o:p></p>
+        <p class="MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          amdgpu_device_baco_enter(adev-&gt;ddev) :<o:p></o:p></p>
+        <p class="MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          qamdgpu_device_baco_exit(adev-&gt;ddev);<o:p></o:p></p>
+        <p class="MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else<o:p></o:p></p>
+        <p class="MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          adev-&gt;asic_reset_res = amdgpu_asic_reset(adev);<o:p></o:p></p>
+        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /*<o:p></o:p></p>
+        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * Use task barrier to
+          synchronize all xgmi reset works across the<o:p></o:p></p>
+        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * hive.<o:p></o:p></p>
+        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * task_barrier_enter and
+          task_barrier_exit will block untill all the<o:p></o:p></p>
+        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * threads running the xgmi
+          reset works reach those points. I assume<o:p></o:p></p>
+        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * guarantee of progress here
+          for all the threads as the workqueue code<o:p></o:p></p>
+        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * creates new worker threads
+          as needed by amount of work items in queue<o:p></o:p></p>
+        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * (see worker_thread) and
+          also each thread sleeps in the barrir and by<o:p></o:p></p>
+        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * this yielding the CPU for
+          other work threads to make progress.<o:p></o:p></p>
+        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<o:p></o:p></p>
+        <p class="MsoPlainText"><span style="color:#203864">[Le]: This
+            comments can be adjusted since we switch to
+            system_unbound_wq in patch #5.<o:p></o:p></span></p>
         <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
-          (atomic_inc_return(&amp;tb-&gt;count) == tb-&gt;n)<o:p></o:p></p>
+          (amdgpu_asic_reset_method(adev) == AMD_RESET_METHOD_BACO) {<o:p></o:p></p>
+        <p class="MsoPlainText">&#43;<o:p></o:p></p>
+        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (hive)<o:p></o:p></p>
+        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          task_barrier_enter(&amp;hive-&gt;tb);<o:p></o:p></p>
+        <p class="MsoPlainText"><span style="color:#203864">[Le]: The
+            multiple hive condition can be checked only once and moved
+            to the location right after the assignment.</span></p>
+      </div>
+    </blockquote>
+    <p><br>
+    </p>
+    <p>Not sure what you meant here but in fact let's note that while in
+      amdgpu_device_xgmi_reset_func it's a bug for amdgpu_get_xgmi_hive
+      to return NULL so I think better instead to add
+      WARN_ON(!hive,&quot;...&quot;) and return right at the beginning of the
+      function if indeed hive == NULL</p>
+    <p>Andrey<br>
+    </p>
+    <p><br>
+    </p>
+    <blockquote type="cite" cite="mid:MN2PR12MB4285C0500B7E9363A2CF7B89F6550@MN2PR12MB4285.namprd12.prod.outlook.com">
+      <div class="WordSection1">
+        <p class="MsoPlainText"><span style="color:#203864"><o:p></o:p></span></p>
+        <p class="MsoPlainText">&#43;<o:p></o:p></p>
         <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          task_barrier_signal_turnstile(&amp;tb-&gt;enter_turnstile,
-          tb-&gt;n);<o:p></o:p></p>
+          adev-&gt;asic_reset_res =
+          amdgpu_device_baco_enter(adev-&gt;ddev);<o:p></o:p></p>
         <p class="MsoPlainText">&#43;<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          down(&amp;tb-&gt;enter_turnstile);<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;}<o:p></o:p></p>
+        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
+          (adev-&gt;asic_reset_res)<o:p></o:p></p>
+        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; goto
+          fail;<o:p></o:p></p>
         <p class="MsoPlainText">&#43;<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;/*<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; * Lines up all the threads AFTER the
-          critical point.<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; *<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; * This function is used to avoid any
-          one thread running ahead of the
-          <o:p></o:p></p>
-        <p class="MsoPlainText">&#43;reset if<o:p></o:p></p>
-        <p class="MsoPlainText"><span style="color:#203864">[Le]: No
-            need to mention “reset” here.<o:p></o:p></span></p>
+        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (hive)<o:p></o:p></p>
+        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          task_barrier_exit(&amp;hive-&gt;tb);<o:p></o:p></p>
+        <p class="MsoPlainText"><span style="color:#203864">[Le]: Same
+            as above.<o:p></o:p></span></p>
+        <p class="MsoPlainText">&#43;<o:p></o:p></p>
+        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          adev-&gt;asic_reset_res =
+          amdgpu_device_baco_exit(adev-&gt;ddev);<o:p></o:p></p>
+        <p class="MsoPlainText">&#43;<o:p></o:p></p>
+        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
+          (adev-&gt;asic_reset_res)<o:p></o:p></p>
+        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; goto
+          fail;<o:p></o:p></p>
+        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } else {<o:p></o:p></p>
+        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (hive)<o:p></o:p></p>
+        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          task_barrier_full(&amp;hive-&gt;tb);<o:p></o:p></p>
+        <p class="MsoPlainText"><span style="color:#203864">[Le]: Same
+            as above.<o:p></o:p></span></p>
         <p class="MsoPlainText"><span style="color:#203864"><o:p>&nbsp;</o:p></span></p>
-        <p class="MsoPlainText"><span style="color:#203864">With the
-            above addressed, Acked-by: Le Ma
-            <a href="mailto:Le.Ma@amd.com" moz-do-not-send="true"><span style="color:#033160">Le.Ma@amd.com</span></a><o:p></o:p></span></p>
+        <p class="MsoPlainText"><span style="color:#203864">With above
+            addressed, Reviewed-by: Le Ma &lt;<a href="mailto:Le.Ma@amd.com" moz-do-not-send="true"><span style="color:#033160">Le.Ma@amd.com</span></a>&gt;<o:p></o:p></span></p>
         <p class="MsoPlainText"><span style="color:#203864"><o:p>&nbsp;</o:p></span></p>
         <p class="MsoPlainText"><span style="color:#203864">Regards,<o:p></o:p></span></p>
         <p class="MsoPlainText"><span style="color:#203864">Ma Le<o:p></o:p></span></p>
-        <p class="MsoPlainText">&#43; * the barrier is used in a loop
-          (repeatedly) .<o:p></o:p></p>
-        <p class="MsoPlainText">&#43; */<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;static inline void
-          task_barrier_exit(struct task_barrier *tb) {<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
-          (atomic_dec_return(&amp;tb-&gt;count) == 0)<o:p></o:p></p>
+        <p class="MsoPlainText">&#43;<o:p></o:p></p>
         <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          task_barrier_signal_turnstile(&amp;tb-&gt;exit_turnstile,
-          tb-&gt;n);<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          down(&amp;tb-&gt;exit_turnstile);<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;}<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;static inline void
-          task_barrier_full(struct task_barrier *tb) {<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; task_barrier_enter(tb);<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; task_barrier_exit(tb);<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;}<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;<o:p></o:p></p>
-        <p class="MsoPlainText">&#43;#endif<o:p></o:p></p>
+          adev-&gt;asic_reset_res =&nbsp; amdgpu_asic_reset(adev);<o:p></o:p></p>
+        <p class="MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<o:p></o:p></p>
+        <p class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+        <p class="MsoPlainText">&#43;fail:<o:p></o:p></p>
+        <p class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (adev-&gt;asic_reset_res)<o:p></o:p></p>
+        <p class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DRM_WARN(&quot;ASIC
+          reset failed with error, %d for drm dev, %s&quot;,<o:p></o:p></p>
+        <p class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;adev-&gt;asic_reset_res, adev-&gt;ddev-&gt;unique);<o:p></o:p></p>
         <p class="MsoPlainText">--<o:p></o:p></p>
         <p class="MsoPlainText">2.7.4<o:p></o:p></p>
         <p class="MsoPlainText"><o:p>&nbsp;</o:p></p>
@@ -762,9 +548,9 @@ div.WordSection1
   </body>
 </html>
 
---------------9884471CDF8D2917872047BE--
+--------------E1B97FE587FE95F3BFF5E1EE--
 
---===============2050937910==
+--===============0326678279==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -775,4 +561,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============2050937910==--
+--===============0326678279==--
