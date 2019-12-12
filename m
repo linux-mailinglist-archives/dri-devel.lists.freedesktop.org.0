@@ -2,42 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B88811D9F3
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 00:24:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00FC111DA23
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 00:39:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F3F489C59;
-	Thu, 12 Dec 2019 23:24:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F73E6E22D;
+	Thu, 12 Dec 2019 23:39:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEAC289C59
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 23:24:23 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id E4CC6A2B;
- Fri, 13 Dec 2019 00:24:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1576193062;
- bh=MVMWJHZvXF98KpU2UnVJPgKwy4rbbbArisF+sPKNpik=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rXSNapbtS+LpSL05+tJiBQhItss65UVk13JfSv6fYg+uf9omnH7fwW4HgqeetDMoD
- fjv7bqLQGYdcOFf0qhKnkrSnwW0u7P0Y8uWkzmceI7B1xM5A7gLZP1UZsF94PjcETN
- yr/kkpkPIgyq58O3BlKso71bYVaWbMzCrYNTAGvs=
-Date: Fri, 13 Dec 2019 01:24:12 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Mihail Atanassov <Mihail.Atanassov@arm.com>
-Subject: Re: [PATCH v3 04/50] drm/bridge: Add connector-related bridge
- operations and data
-Message-ID: <20191212232412.GD4892@pendragon.ideasonboard.com>
-References: <20191210225750.15709-1-laurent.pinchart@ideasonboard.com>
- <20191210225750.15709-5-laurent.pinchart@ideasonboard.com>
- <17760433.LU8cBYXBuO@e123338-lin>
- <20191212231512.GC4892@pendragon.ideasonboard.com>
+Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com
+ [IPv6:2607:f8b0:4864:20::a41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A760E6E22D;
+ Thu, 12 Dec 2019 23:39:28 +0000 (UTC)
+Received: by mail-vk1-xa41.google.com with SMTP id x199so247260vke.6;
+ Thu, 12 Dec 2019 15:39:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Fc2RGJ3UClAMsvSW+fKzHU87UiE/9k4bA3dodgjrviE=;
+ b=DfOwrr8xJ+MjAGBD5DPRK3CtrM98mBYbvY82OB7HXgLa1lSvy6Oh7roTWvGfy1vYmQ
+ fkK8JvcONlBAl2dde0NnSED13jqqTXZ5ZuN8OUUdY4yirTMTd5eJfgCr0ry8TQ36uANH
+ xdfhYjply1N4IvUEZb0K59zMzDOfBiJNVnbB2r0AW6CyGDbUwwgflvz5Zav1jhZHa2Hc
+ w0YBOCUEr+bBToZQVHj23JGp9HlqIIDmA6NqcJtZxtvD0hBOtbXhVDnIgAt8g0/f/u6n
+ HDWRnEdGP2SDVIYDxscK1eX/jRB4GSAjMlsJGzZvlc9NiCMDtNGeOxgcp0JjR8txI43q
+ ZXQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Fc2RGJ3UClAMsvSW+fKzHU87UiE/9k4bA3dodgjrviE=;
+ b=JeJu6KPAHlGUOHlzGUxjPT+DxlMpp4lSrS7NDXFlknsBHevua2+ft4r8ij8TyMujaz
+ ZfftFhg8ECPneRVOeBmz4BKWQDX2Bys8LpZQnIC7X5rV4UjZmAUrPiRspyOzNeQBom9K
+ ekQT3lcqQ/kVhALrcHjbgGXuNydGbm+2PnyF0CKjowulhL162XmpSV2pD/RszteFlRJt
+ WTZxS9GmsvbfULQgZSUor3mJFA8T/AY70WWOyMig5JFD8HzSbSBtW0tGozRlpxEr9M2+
+ 4owKE9iZVBg6Iohgupr6AEn3StwsypclfCIcxklnaNzbZqTpNeWz34U+1nQZgWcJKt30
+ 2TmQ==
+X-Gm-Message-State: APjAAAXoE09F9Mhu+xak+mtfGFjA7iU5cOmBa8OuJktE1V44SERIHRrX
+ 6M7IzesdUeiRnLwSvIZQijKNa/AViHmXkxm6y/I=
+X-Google-Smtp-Source: APXvYqxiVybcStEMqYeEIGEnJ+HtMBPGQkv8Kki+YBh0DS0X1ru0NT7WrnTsK5Rvcxhr0Gt1sTo4rGQEHf7vCJ/BUvQ=
+X-Received: by 2002:a05:6122:2b6:: with SMTP id
+ 22mr11219224vkq.49.1576193967753; 
+ Thu, 12 Dec 2019 15:39:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191212231512.GC4892@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20191206075321.18239-1-hslester96@gmail.com>
+ <8736dq2c66.fsf@intel.com>
+In-Reply-To: <8736dq2c66.fsf@intel.com>
+From: Ben Skeggs <skeggsb@gmail.com>
+Date: Fri, 13 Dec 2019 09:39:16 +1000
+Message-ID: <CACAvsv4He=bKpa2VxJr-cYUoy66sw8mGgFcnpMM0qDb1qXYSrg@mail.gmail.com>
+Subject: Re: [PATCH] drm/dp_mst: add missed nv50_outp_release in
+ nv50_msto_disable
+To: Jani Nikula <jani.nikula@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,178 +63,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Boris Brezillon <bbrezillon@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, nd <nd@arm.com>,
- Sean Paul <sean@poorly.run>
+Cc: David Airlie <airlied@linux.ie>, ML nouveau <nouveau@lists.freedesktop.org>,
+ Chuhong Yuan <hslester96@gmail.com>, LKML <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Ben Skeggs <bskeggs@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mihail,
+On Thu, 12 Dec 2019 at 18:14, Jani Nikula <jani.nikula@linux.intel.com> wrote:
+>
+> On Fri, 06 Dec 2019, Chuhong Yuan <hslester96@gmail.com> wrote:
+> > nv50_msto_disable() does not call nv50_outp_release() to match
+> > nv50_outp_acquire() like other disable().
+> > Add the missed call to fix it.
+This is intentional, and it's called at a later time
+(nv50_mstm_prepare()) to avoid confusing HW.
 
-On Fri, Dec 13, 2019 at 01:15:12AM +0200, Laurent Pinchart wrote:
-> On Wed, Dec 11, 2019 at 11:01:37AM +0000, Mihail Atanassov wrote:
-> > On Tuesday, 10 December 2019 22:57:04 GMT Laurent Pinchart wrote:
-> > > To support implementation of DRM connectors on top of DRM bridges
-> > > instead of by bridges, the drm_bridge needs to expose new operations and
-> > > data:
-> > > 
-> > > - Output detection, hot-plug notification, mode retrieval and EDID
-> > >   retrieval operations
-> > > - Bitmask of supported operations
-> > > - Bridge output type
-> > > - I2C adapter for DDC access
-> > > 
-> > > Add and document these.
-> > > 
-> > > Three new bridge helper functions are also added to handle hot plug
-> > > notification in a way that is as transparent as possible for the
-> > > bridges.
-> > > 
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > > ---
-> > > Changes since v2:
-> > > 
-> > > - Add wrappers around the .detect(), .get_modes() and .get_edid()
-> > >   operations
-> > > - Warn bridge drivers about valid usage of the connector argument to
-> > >   .get_modes() and .get_edid()
-> > > 
-> > > Changes since v1:
-> > > 
-> > > - Make .hpd_enable() and .hpd_disable() optional
-> > > - Rename .lost_hotplug() to .hpd_notify()
-> > > - Add ddc field to drm_bridge
-> > > ---
-> > >  drivers/gpu/drm/drm_bridge.c | 162 +++++++++++++++++++++++++++++
-> > >  include/drm/drm_bridge.h     | 193 ++++++++++++++++++++++++++++++++++-
-> > >  2 files changed, 354 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> > > index c2cf0c90fa26..473353bd762f 100644
-> > > --- a/drivers/gpu/drm/drm_bridge.c
-> > > +++ b/drivers/gpu/drm/drm_bridge.c
-> > > @@ -70,6 +70,8 @@ static LIST_HEAD(bridge_list);
+Ben.
 
-[snip]
-
-> > > +/**
-> > > + * drm_bridge_hpd_enable - enable hot plug detection for the bridge
-> > > + * @bridge: bridge control structure
-> > > + * @cb: hot-plug detection callback
-> > > + * @data: data to be passed to the hot-plug detection callback
-> > > + *
-> > > + * Call &drm_bridge_funcs.hpd_enable if implemented and register the given @cb
-> > > + * and @data as hot plug notification callback. From now on the @cb will be
-> > > + * called with @data when an output status change is detected by the bridge,
-> > > + * until hot plug notification gets disabled with drm_bridge_hpd_disable().
-> > > + *
-> > > + * Hot plug detection is supported only if the DRM_BRIDGE_OP_HPD flag is set in
-> > > + * bridge->ops. This function shall not be called when the flag is not set.
-> > > + *
-> > > + * Only one hot plug detection callback can be registered at a time, it is an
-> > > + * error to call this function when hot plug detection is already enabled for
-> > > + * the bridge.
-> > > + */
-> > > +void drm_bridge_hpd_enable(struct drm_bridge *bridge,
-> > > +			   void (*cb)(void *data,
-> > > +				      enum drm_connector_status status),
-> > > +			   void *data)
-> > > +{
-> > > +	if (!bridge || !(bridge->ops & DRM_BRIDGE_OP_HPD))
-> > > +		return;
-> > > +
-> > > +	mutex_lock(&bridge->hpd_mutex);
-> > > +
-> > > +	if (WARN(bridge->hpd_cb, "Hot plug detection already enabled\n"))
-> > > +		goto unlock;
-> > > +
-> > > +	bridge->hpd_cb = cb;
-> > > +	bridge->hpd_data = data;
-> > > +
-> > > +	if (bridge->funcs->hpd_enable)
-> > 
-> > Is this check necessary given the DRM_BRIDGE_OP_HPD check? Would a
-> > 
-> > if (WARN_ON(!bridge->funcs->hpd_enable))
-> > 	return;
-> > 
-> > suffice? Similarly for the check in _disable below.
-> 
-> You're right. I'll do so and move it out of the hpd_mutex-protected
-> section.
-
-Actually the operations are not mandatory even if DRM_BRIDGE_OP_HPD is
-set, they only have to be implemented if the bridge is capable of
-enabling and disabling HPD detection dynamically. If it can't, it can
-always generate HPD events and they will be blocked by
-drm_bridge_hpd_notify().
-
-> > > +		bridge->funcs->hpd_enable(bridge);
-> > > +
-> > > +unlock:
-> > > +	mutex_unlock(&bridge->hpd_mutex);
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(drm_bridge_hpd_enable);
-> > > +
-> > > +/**
-> > > + * drm_bridge_hpd_disable - disable hot plug detection for the bridge
-> > > + * @bridge: bridge control structure
-> > > + *
-> > > + * Call &drm_bridge_funcs.hpd_disable if implemented and unregister the hot
-> > > + * plug detection callback previously registered with drm_bridge_hpd_enable().
-> > > + * Once this function returns the callback will not be called by the bridge
-> > > + * when an output status change occurs.
-> > > + *
-> > > + * Hot plug detection is supported only if the DRM_BRIDGE_OP_HPD flag is set in
-> > > + * bridge->ops. This function shall not be called when the flag is not set.
-> > > + */
-> > > +void drm_bridge_hpd_disable(struct drm_bridge *bridge)
-> > > +{
-> > > +	if (!bridge || !(bridge->ops & DRM_BRIDGE_OP_HPD))
-> > > +		return;
-> > > +
-> > > +	mutex_lock(&bridge->hpd_mutex);
-> > > +	if (bridge->funcs->hpd_disable)
-> > > +		bridge->funcs->hpd_disable(bridge);
-> > > +
-> > > +	bridge->hpd_cb = NULL;
-> > > +	bridge->hpd_data = NULL;
-> > > +	mutex_unlock(&bridge->hpd_mutex);
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(drm_bridge_hpd_disable);
-> > > +
-> > > +/**
-> > > + * drm_bridge_hpd_notify - notify hot plug detection events
-> > > + * @bridge: bridge control structure
-> > > + * @status: output connection status
-> > > + *
-> > > + * Bridge drivers shall call this function to report hot plug events when they
-> > > + * detect a change in the output status, when hot plug detection has been
-> > > + * enabled by drm_bridge_hpd_enable().
-> > > + *
-> > > + * This function shall be called in a context that can sleep.
-> > > + */
-> > > +void drm_bridge_hpd_notify(struct drm_bridge *bridge,
-> > > +			   enum drm_connector_status status)
-> > > +{
-> > > +	mutex_lock(&bridge->hpd_mutex);
-> > > +	if (bridge->hpd_cb)
-> > > +		bridge->hpd_cb(bridge->hpd_data, status);
-> > > +	mutex_unlock(&bridge->hpd_mutex);
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(drm_bridge_hpd_notify);
-
-[snip]
-
--- 
-Regards,
-
-Laurent Pinchart
+>
+> The subject prefix "drm/dp_mst" implies drm core change, but this is
+> about nouveau. Please fix.
+>
+> BR,
+> Jani.
+>
+> >
+> > Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
+> > ---
+> >  drivers/gpu/drm/nouveau/dispnv50/disp.c | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> > index 549486f1d937..84e1417355cc 100644
+> > --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> > +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> > @@ -862,8 +862,10 @@ nv50_msto_disable(struct drm_encoder *encoder)
+> >
+> >       mstm->outp->update(mstm->outp, msto->head->base.index, NULL, 0, 0);
+> >       mstm->modified = true;
+> > -     if (!--mstm->links)
+> > +     if (!--mstm->links) {
+> >               mstm->disabled = true;
+> > +             nv50_outp_release(mstm->outp);
+> > +     }
+> >       msto->disabled = true;
+> >  }
+>
+> --
+> Jani Nikula, Intel Open Source Graphics Center
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
