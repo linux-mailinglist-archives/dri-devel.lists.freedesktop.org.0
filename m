@@ -1,38 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EF6F11C9EE
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 10:54:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD38611CA3D
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 11:08:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 590FD6E063;
-	Thu, 12 Dec 2019 09:54:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF3F76ECF5;
+	Thu, 12 Dec 2019 10:08:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 733046E063
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 09:54:19 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id C54872007F;
- Thu, 12 Dec 2019 10:54:17 +0100 (CET)
-Date: Thu, 12 Dec 2019 10:54:16 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Jerry Han <jerry.han.hq@gmail.com>
-Subject: Re: [PATCH] drm/panel: boe-himax8279d: use drm_panel backlight support
-Message-ID: <20191212095416.GB32429@ravnborg.org>
-References: <20191212022614.14728-1-jerry.han.hq@gmail.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51CC86ECF5;
+ Thu, 12 Dec 2019 10:08:07 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 12 Dec 2019 02:08:06 -0800
+X-IronPort-AV: E=Sophos;i="5.69,305,1571727600"; d="scan'208";a="208027776"
+Received: from jlahtine-desk.ger.corp.intel.com (HELO localhost)
+ ([10.252.22.216])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 12 Dec 2019 02:08:02 -0800
+Date: Thu, 12 Dec 2019 12:07:59 +0200
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-fixes
+Message-ID: <20191212100759.GA22260@jlahtine-desk.ger.corp.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191212022614.14728-1-jerry.han.hq@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=pGLkceISAAAA:8
- a=7gkXJVJtAAAA:8 a=9elUfqcO1cmAmzWN_H0A:9 a=CjuIK1q_8ugA:10
- a=E9Po1WZjFZOl8hwRPBS3:22 a=26CFN5KYESCqVWovzqLp:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,86 +42,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jerry.
+Hi Dave & Daniel,
 
-On Thu, Dec 12, 2019 at 10:26:14AM +0800, Jerry Han wrote:
-> Use the backlight support in drm_panel to simplify the driver
-> 
-> Signed-off-by: Jerry Han <jerry.han.hq@gmail.com>
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> ---
->  drivers/gpu/drm/panel/panel-boe-himax8279d.c | 17 +++--------------
->  1 file changed, 3 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-boe-himax8279d.c b/drivers/gpu/drm/panel/panel-boe-himax8279d.c
-> index 65ea6f673cdb..3a6ee2069158 100644
-> --- a/drivers/gpu/drm/panel/panel-boe-himax8279d.c
-> +++ b/drivers/gpu/drm/panel/panel-boe-himax8279d.c
-> @@ -6,7 +6,6 @@
->   *
->   */
->  
-> -#include <linux/backlight.h>
->  #include <linux/delay.h>
->  #include <linux/kernel.h>
->  #include <linux/module.h>
-> @@ -47,7 +46,6 @@ struct panel_info {
->  	struct mipi_dsi_device *link;
->  	const struct panel_desc *desc;
->  
-> -	struct backlight_device *backlight;
->  	struct gpio_desc *enable_gpio;
->  	struct gpio_desc *pp33_gpio;
->  	struct gpio_desc *pp18_gpio;
-> @@ -93,8 +91,6 @@ static int boe_panel_disable(struct drm_panel *panel)
->  	if (!pinfo->enabled)
->  		return 0;
->  
-> -	backlight_disable(pinfo->backlight);
-> -
->  	err = mipi_dsi_dcs_set_display_off(pinfo->link);
->  	if (err < 0) {
->  		DRM_DEV_ERROR(panel->dev, "failed to set display off: %d\n",
-> @@ -218,13 +214,6 @@ static int boe_panel_enable(struct drm_panel *panel)
->  		return ret;
->  	}
->  
-> -	ret = backlight_enable(pinfo->backlight);
-> -	if (ret) {
-> -		DRM_DEV_ERROR(panel->drm->dev,
-> -			      "Failed to enable backlight %d\n", ret);
-> -		return ret;
-> -	}
-> -
->  	pinfo->enabled = true;
->  
->  	return 0;
-> @@ -899,9 +888,9 @@ static int panel_add(struct panel_info *pinfo)
->  		return ret;
->  	}
->  
-> -	pinfo->backlight = devm_of_find_backlight(dev);
-> -	if (IS_ERR(pinfo->backlight))
-> -		return PTR_ERR(pinfo->backlight);
-> +	ret = drm_panel_of_backlight(&pinfo->base);
-> +	if (ret)
-> +		return ret;
->  
->  	drm_panel_init(&pinfo->base, dev, &panel_funcs,
->  		       DRM_MODE_CONNECTOR_DSI);
+Two important user visible fixes; GPU hang on BDW/SKL when idling
+and top of screen corruption on GLK+ when FBC enabled.
 
-The patch looks good.
-But we still need the original patch fixed so it can build.
+Fix to Tigerlake perf/OA, HDCP commit computation touching global
+state.
 
-Please resend a v11 that can build.
+Then two CI spotted corner cases, race condition about context
+retirement and lockdep splat about irqstate.
 
-	Sam
+I'll send a PR next week still before holidays.
+
+Regards, Joonas
+
+***
+
+drm-intel-fixes-2019-12-12:
+
+- Fix user reported issue #673: GPU hang on transition to idle
+- Avoid corruption on the top of the screen on GLK+ by disabling FBC
+- Fix non-privileged access to OA on Tigerlake
+- Fix HDCP code not to touch global state when just computing commit
+- Fix CI splat by saving irqstate around virtual_context_destroy
+- Serialise context retirement possibly on another CPU
+
+The following changes since commit e42617b825f8073569da76dc4510bfa019b1c35a:
+
+  Linux 5.5-rc1 (2019-12-08 14:57:55 -0800)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2019-12-=
+12
+
+for you to fetch changes up to 750bde2fd4ffacc297473c36d6fdb29c395b06aa:
+
+  drm/i915: Serialise with remote retirement (2019-12-11 16:19:32 +0200)
+
+----------------------------------------------------------------
+- Fix user reported issue #673: GPU hang on transition to idle
+- Avoid corruption on the top of the screen on GLK+ by disabling FBC
+- Fix non-privileged access to OA on Tigerlake
+- Fix HDCP code not to touch global state when just computing commit
+- Fix CI splat by saving irqstate around virtual_context_destroy
+- Serialise context retirement possibly on another CPU
+
+----------------------------------------------------------------
+Chris Wilson (3):
+      drm/i915/gt: Save irqstate around virtual_context_destroy
+      drm/i915/gt: Detect if we miss WaIdleLiteRestore
+      drm/i915: Serialise with remote retirement
+
+Umesh Nerlige Ramappa (2):
+      drm/i915/perf: Allow non-privileged access when OA buffer is not samp=
+led
+      drm/i915/perf: Configure OAR for specific context
+
+Ville Syrj=E4l=E4 (2):
+      drm/i915/fbc: Disable fbc by default on all glk+
+      drm/i915/hdcp: Nuke intel_hdcp_transcoder_config()
+
+ drivers/gpu/drm/i915/display/intel_ddi.c  |   5 +-
+ drivers/gpu/drm/i915/display/intel_dp.c   |   3 -
+ drivers/gpu/drm/i915/display/intel_fbc.c  |   2 +-
+ drivers/gpu/drm/i915/display/intel_hdcp.c |  26 ++--
+ drivers/gpu/drm/i915/display/intel_hdcp.h |   5 +-
+ drivers/gpu/drm/i915/display/intel_hdmi.c |   3 -
+ drivers/gpu/drm/i915/gt/intel_lrc.c       |  51 ++++----
+ drivers/gpu/drm/i915/i915_gem.c           |  26 +++-
+ drivers/gpu/drm/i915/i915_perf.c          | 204 +++++++++++++++++---------=
+----
+ 9 files changed, 177 insertions(+), 148 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
