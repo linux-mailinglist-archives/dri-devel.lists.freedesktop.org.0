@@ -1,41 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F07EE11D4C6
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 19:01:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 006A611D512
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 19:17:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E1286E057;
-	Thu, 12 Dec 2019 18:01:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88E2D6E07F;
+	Thu, 12 Dec 2019 18:17:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80D446E057;
- Thu, 12 Dec 2019 18:01:14 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2019 10:01:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,306,1571727600"; d="scan'208";a="211195325"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga008.fm.intel.com with SMTP; 12 Dec 2019 10:01:09 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 12 Dec 2019 20:01:08 +0200
-Date: Thu, 12 Dec 2019 20:01:08 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [Intel-gfx][PATCH] drm/i915/display: cleanup intel_bw_state on
- i915 module removal
-Message-ID: <20191212180108.GR1208@intel.com>
-References: <20191209143921.9240-1-pankaj.laxminarayan.bharadiya@intel.com>
- <20191212174910.GH85422@mdroper-desk1.amr.corp.intel.com>
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B74ED6E07F
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 18:17:06 +0000 (UTC)
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+ by youngberry.canonical.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <colin.king@canonical.com>)
+ id 1ifT1L-0005CM-2Q; Thu, 12 Dec 2019 18:17:03 +0000
+From: Colin King <colin.king@canonical.com>
+To: Evan Quan <evan.quan@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Zhou <David1.Zhou@amd.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Kenneth Feng <kenneth.feng@amd.com>,
+ Yintian Tao <yttao@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH][next] drm/amd/powerplay: fix various dereferences of a
+ pointer before it is null checked
+Date: Thu, 12 Dec 2019 18:16:57 +0000
+Message-Id: <20191212181657.101381-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191212174910.GH85422@mdroper-desk1.amr.corp.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,66 +43,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
- David Airlie <airlied@linux.ie>,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- Stuart Summers <stuart.summers@intel.com>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 12, 2019 at 09:49:10AM -0800, Matt Roper wrote:
-> On Mon, Dec 09, 2019 at 08:09:02PM +0530, Pankaj Bharadiya wrote:
-> > intel_bw_state allocated memory is not getting freed even after
-> > module removal.
-> > =
+From: Colin Ian King <colin.king@canonical.com>
 
-> > kmemleak reported backtrace:
-> > =
+There are several occurrances of the pointer hwmgr being dereferenced
+before it is null checked.  Fix these by performing the dereference
+of hwmgr after it has been null checked.
 
-> >     [<0000000079019739>] kmemdup+0x17/0x40
-> >     [<00000000d58c1b9d>] intel_bw_duplicate_state+0x1b/0x40 [i915]
-> >     [<000000007423ed0c>] drm_atomic_get_private_obj_state+0xca/0x140
-> >     [<00000000100e3533>] intel_bw_atomic_check+0x133/0x350 [i915]
-> >     [<00000000126d0e0c>] intel_atomic_check+0x1ab7/0x20d0 [i915]
-> >     [<00000000d5dfc004>] drm_atomic_check_only+0x563/0x810
-> >     [<00000000c9379611>] drm_atomic_commit+0xe/0x50
-> >     [<00000000ec82b765>] drm_atomic_helper_disable_all+0x133/0x160
-> >     [<000000003c44760c>] drm_atomic_helper_shutdown+0x65/0xc0
-> >     [<00000000414e3e5c>] i915_driver_remove+0xcb/0x130 [i915]
-> >     [<00000000f8544c2a>] i915_pci_remove+0x19/0x40 [i915]
-> >     [<000000002dcbd148>] pci_device_remove+0x36/0xb0
-> >     [<000000003c8c6b0a>] device_release_driver_internal+0xe0/0x1c0
-> >     [<00000000580e9566>] unbind_store+0xc3/0x120
-> >     [<00000000869d0df5>] kernfs_fop_write+0x104/0x190
-> >     [<000000004dc1a355>] vfs_write+0xb9/0x1d0
-> > =
+Addresses-Coverity: ("Dereference before null check")
+Fixes: 8497d2bcdee1 ("drm/amd/powerplay: enable pp one vf mode for vega10")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/gpu/drm/amd/powerplay/amd_powerplay.c |  6 +++---
+ drivers/gpu/drm/amd/powerplay/hwmgr/hwmgr.c   | 15 +++------------
+ 2 files changed, 6 insertions(+), 15 deletions(-)
 
-> > Call the drm_atomic_private_obj_fini(), which inturn calls the
-> > intel_bw_destroy_state() to make sure the intel_bw_state memory is
-> > freed properly.
-> > =
+diff --git a/drivers/gpu/drm/amd/powerplay/amd_powerplay.c b/drivers/gpu/drm/amd/powerplay/amd_powerplay.c
+index 5087d6bdba60..322c2015d3a0 100644
+--- a/drivers/gpu/drm/amd/powerplay/amd_powerplay.c
++++ b/drivers/gpu/drm/amd/powerplay/amd_powerplay.c
+@@ -275,12 +275,12 @@ static int pp_dpm_load_fw(void *handle)
+ {
+ 	struct pp_hwmgr *hwmgr = handle;
+ 
+-	if (!hwmgr->not_vf)
+-		return 0;
+-
+ 	if (!hwmgr || !hwmgr->smumgr_funcs || !hwmgr->smumgr_funcs->start_smu)
+ 		return -EINVAL;
+ 
++	if (!hwmgr->not_vf)
++		return 0;
++
+ 	if (hwmgr->smumgr_funcs->start_smu(hwmgr)) {
+ 		pr_err("fw load failed\n");
+ 		return -EINVAL;
+diff --git a/drivers/gpu/drm/amd/powerplay/hwmgr/hwmgr.c b/drivers/gpu/drm/amd/powerplay/hwmgr/hwmgr.c
+index e2b82c902948..f48fdc7f0382 100644
+--- a/drivers/gpu/drm/amd/powerplay/hwmgr/hwmgr.c
++++ b/drivers/gpu/drm/amd/powerplay/hwmgr/hwmgr.c
+@@ -282,10 +282,7 @@ int hwmgr_hw_init(struct pp_hwmgr *hwmgr)
+ 
+ int hwmgr_hw_fini(struct pp_hwmgr *hwmgr)
+ {
+-	if (!hwmgr->not_vf)
+-		return 0;
+-
+-	if (!hwmgr || !hwmgr->pm_en)
++	if (!hwmgr || !hwmgr->pm_en || !hwmgr->not_vf)
+ 		return 0;
+ 
+ 	phm_stop_thermal_controller(hwmgr);
+@@ -305,10 +302,7 @@ int hwmgr_suspend(struct pp_hwmgr *hwmgr)
+ {
+ 	int ret = 0;
+ 
+-	if (!hwmgr->not_vf)
+-		return 0;
+-
+-	if (!hwmgr || !hwmgr->pm_en)
++	if (!hwmgr || !hwmgr->pm_en || !hwmgr->not_vf)
+ 		return 0;
+ 
+ 	phm_disable_smc_firmware_ctf(hwmgr);
+@@ -327,13 +321,10 @@ int hwmgr_resume(struct pp_hwmgr *hwmgr)
+ {
+ 	int ret = 0;
+ 
+-	if (!hwmgr->not_vf)
+-		return 0;
+-
+ 	if (!hwmgr)
+ 		return -EINVAL;
+ 
+-	if (!hwmgr->pm_en)
++	if (!hwmgr->not_vf || !hwmgr->pm_en)
+ 		return 0;
+ 
+ 	ret = phm_setup_asic(hwmgr);
+-- 
+2.24.0
 
-> > Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.co=
-m>
-> =
-
-> It looks like we'd also leak this object if intel_modeset_init() bails
-> out early due to failure to init a crtc.  I.e., we call
-> drm_mode_config_cleanup() which cleans up any regular state objects that
-> may have been initialized by this point, but never destroy the bw_state
-> which was allocated earlier in the function.
-
-The question is why isn't the core cleaning those up for us? It already
-puts them onto a list so it could easily do it. Looks like komeda has
-already hand rolled exactly that.
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
