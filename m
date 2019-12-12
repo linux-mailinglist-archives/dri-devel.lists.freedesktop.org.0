@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 733C811C8A9
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 09:55:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD46011C8AC
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 09:56:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E3326ECDC;
-	Thu, 12 Dec 2019 08:55:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECD626ECCA;
+	Thu, 12 Dec 2019 08:55:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
  [IPv6:2607:f8b0:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DCC76EC2B
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 02:26:43 +0000 (UTC)
-Received: by mail-pl1-x641.google.com with SMTP id q16so355288plr.10
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 18:26:43 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56F296EC32
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 02:29:05 +0000 (UTC)
+Received: by mail-pl1-x641.google.com with SMTP id az3so51954plb.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2019 18:29:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=7vJFLV5AGpFPFfMe9ZJk5htpwunensz3QNYFdEkqp1c=;
- b=Cs1PLduRzmvJpiC4ReD26i6gt72XHoIOf8ztfMTz5IIhK7KIVEOos1bGQeRAGdLqsd
- i+9Wh7KNNStas35I1eHS0FDfcFftXfZwM3s7njo3ZrOjOEwsNt7GPjMImCW97VW+0R5C
- IA4WRkNRhUMW7eTiBxjzpZ6ICj0gzMg1PF0AfzVmbxZ2riIgZInmR1TWm8k8BqUNUVND
- Zlz+knZf1SKQmZvRyFOd1oCWt7dBu05KUpGGHL2smm+jVP3qsHD0w8rLHeCxngtRsswp
- 4R08jUzX3tDubTlbR9kcvWu3fPPRlf5brPRpW7QyIduXEFc3oAPlgEpVFw+l9oOxsjd5
- R6pg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lHRtwIItCexD+qfgvxzFUTKiWLGwmF9F2M8+/bnkz6M=;
+ b=ux12WCC2E3+EA1EbCjwqNx8GLRGFPRglvG3OVV3suv9+xOJ0ZqmYErZM2BHQfo/nm3
+ mXj87BhfVUxlTAgx8V6zUmF3pW4+1/V9xWDkJFTcj/krxdPoaTL3ulC8e4OwiAOOLq+x
+ hpI5I9FxsWarJ88KjytB+FmUgVmsY5e8qRbNmHqDWvA9VeDYq23iIJvLsNvqwRYbrEtL
+ pnEtwKx+Oa8J4aiVHntuyapJ/zat8zULAJN3I/BL/Q74hkrVC8T8BCoGkMxGE+cSqe4k
+ DGcD4Qfp0OSLgSuCQFikxaXFLZybCRjTX5RNHGNMtckb6zo1dIBb/60zVjbeyCfxR83C
+ Aq6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=7vJFLV5AGpFPFfMe9ZJk5htpwunensz3QNYFdEkqp1c=;
- b=twX0jCss6bRkMPaEiibu/unGfxXpcUf3C26Jz6Dhm4M2HrfZXQPWj0RoHvUn/+RrJC
- HQf/HsflO3V6tsExlmxJGA0b0WngzyRFwZsAb+0ktUOCnJxZqVKQXN7MlfFNOvJtqOlF
- DCsPMcbPCo4NTlAgWC3sEg5TBhno5wyEn2Y7m7ZmpagGYObVUEfKe9jgdtHCnjVbax2Q
- sx9swViyl73IeQoUndtrt+x3hOgbqgibpIeEFaLy8e0txksNF0woHc9fkh4JY2eLPlWV
- 7wsROCDiddCr+r6tR+Ee0SbWCg7zqdvvP/E7RsTZLbbr0hUjodyXMGLWWB4qESYFkp4Z
- dxbg==
-X-Gm-Message-State: APjAAAVj+2al0SPca20Xge3D3IRvMzsW8o4ybYH0wkaBmPwksaq8cJ5R
- NWtRkRbD2KJyrI8dg60thMq4jnSyjMU=
-X-Google-Smtp-Source: APXvYqyIGVhoBif7n60b3MzRTxD83/b3g8/Tl0fSAP3xhfP8oQ2TlJbFKlka94kIsWBUU53mFiseXQ==
-X-Received: by 2002:a17:902:fe09:: with SMTP id
- g9mr6617749plj.162.1576117602790; 
- Wed, 11 Dec 2019 18:26:42 -0800 (PST)
-Received: from super-sugar.huaqin.com ([101.78.151.194])
- by smtp.gmail.com with ESMTPSA id c1sm4509055pfa.51.2019.12.11.18.26.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Dec 2019 18:26:42 -0800 (PST)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lHRtwIItCexD+qfgvxzFUTKiWLGwmF9F2M8+/bnkz6M=;
+ b=ac1LK4UGyKRKPjQUnCgrG/lpuIdLEV6T/l8MXuu3CPWoghil7WQI9Qj3uAZHX6I5TN
+ /KqUTyMAkw1JgrC0Mo7OfUznNk7hyyyA5gV+J1Ow4DIa/w6DF1wBJachFjRtyD/yJ112
+ 25R6ZgVjY1T5wSjpkku01miKNcs72KOw2yh0Ya7MfBOWqAl4Ih/AaiAP/zfZ9lKYQVpW
+ yL0CcVscSz5fBVO3FvZTToY/l0h8ekg9w5Y+tKh7U+Pjs6CJD6bgbnZMIaaakrkXbQZs
+ g7hG/ipqPggazHA9EKvPpC3Wj/oIiz5BAGnoKTmxD9dvHpCJnk4j4odxskIHuRkmXsRz
+ d69w==
+X-Gm-Message-State: APjAAAVW+9iyWxBiuKoKnF5xqhnA1IXdCzwjzBGFEkhG3FStNoe8VSZz
+ FDt1kRovN71MBWJst2tnCmjpO1AsVxG7xbV2RLI=
+X-Google-Smtp-Source: APXvYqzraVrq0yPjV6cCdYviSkDfllH+Syt21lxgYaYIKWwpt/8depedmOxOpdcMBfn+LiqHmkD9LCYhn9W3fzSvGuw=
+X-Received: by 2002:a17:90a:d783:: with SMTP id z3mr6939052pju.3.1576117744957; 
+ Wed, 11 Dec 2019 18:29:04 -0800 (PST)
+MIME-Version: 1.0
+References: <20191209014641.24685-1-jerry.han.hq@gmail.com>
+ <20191211200651.GA10693@ravnborg.org>
+In-Reply-To: <20191211200651.GA10693@ravnborg.org>
 From: Jerry Han <jerry.han.hq@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/panel: boe-himax8279d: use drm_panel backlight support
-Date: Thu, 12 Dec 2019 10:26:14 +0800
-Message-Id: <20191212022614.14728-1-jerry.han.hq@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Date: Thu, 12 Dec 2019 10:28:54 +0800
+Message-ID: <CA+quO7Lt_961fHGPMAqHA0MUmQHJCyKnE=C8M26KunYunS2mjA@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: Add Boe Himax8279d MIPI-DSI LCD panel
+To: Sam Ravnborg <sam@ravnborg.org>
 X-Mailman-Approved-At: Thu, 12 Dec 2019 08:55:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,80 +62,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jerry Han <jerry.han.hq@gmail.com>
-MIME-Version: 1.0
+Cc: Jitao Shi <jitao.shi@mediatek.com>, Rock wang <rock_wang@himax.com.cn>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the backlight support in drm_panel to simplify the driver
+>
+> Hi Jerry.
+>
+>
+> > Support Boe Himax8279d 8.0" 1200x1920 TFT LCD panel, it is a MIPI DSI
+> > panel.
+>
+> Thanks for your persistence with this driver.
+>
+>
+> Unfortunately the driver no longer builds after the drm_panel
+> work we committed earlier this week to drm-misc-next.
+>
+> >
+> > V9:
+> > - Adjust init code, make the format more concise
+> > - kill off default_off_cmds (Emil)
+> > - use mipi_dsi_dcs_set_display_{on,off} in their enable/disable
+> >     callbacks. (Emil)
+> > - Adjusting the delay function (Emil)
+>
+> ...
+> > +
+> > +struct panel_info {
+> > +     struct drm_panel base;
+> > +     struct mipi_dsi_device *link;
+> > +     const struct panel_desc *desc;
+> > +
+> > +     struct backlight_device *backlight;
+>
+> We have included backlight support in drm_panel.
+> Can you please introduce this and post a patch updating the driver to
+> use this.
+> See other panle patches what is required to use it.
+> (Mostly deleting code)
+>
+> I took a look at the rest of the driver and everything looks good.
+>
+> Sorry for causing you this extra trouble due to the drm_panel changes.
+>
+>         Sam
+Hi sam:
 
-Signed-off-by: Jerry Han <jerry.han.hq@gmail.com>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
----
- drivers/gpu/drm/panel/panel-boe-himax8279d.c | 17 +++--------------
- 1 file changed, 3 insertions(+), 14 deletions(-)
+I'm happy to change the code for consistency.
+I have provided the corresponding patch.
 
-diff --git a/drivers/gpu/drm/panel/panel-boe-himax8279d.c b/drivers/gpu/drm/panel/panel-boe-himax8279d.c
-index 65ea6f673cdb..3a6ee2069158 100644
---- a/drivers/gpu/drm/panel/panel-boe-himax8279d.c
-+++ b/drivers/gpu/drm/panel/panel-boe-himax8279d.c
-@@ -6,7 +6,6 @@
-  *
-  */
- 
--#include <linux/backlight.h>
- #include <linux/delay.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-@@ -47,7 +46,6 @@ struct panel_info {
- 	struct mipi_dsi_device *link;
- 	const struct panel_desc *desc;
- 
--	struct backlight_device *backlight;
- 	struct gpio_desc *enable_gpio;
- 	struct gpio_desc *pp33_gpio;
- 	struct gpio_desc *pp18_gpio;
-@@ -93,8 +91,6 @@ static int boe_panel_disable(struct drm_panel *panel)
- 	if (!pinfo->enabled)
- 		return 0;
- 
--	backlight_disable(pinfo->backlight);
--
- 	err = mipi_dsi_dcs_set_display_off(pinfo->link);
- 	if (err < 0) {
- 		DRM_DEV_ERROR(panel->dev, "failed to set display off: %d\n",
-@@ -218,13 +214,6 @@ static int boe_panel_enable(struct drm_panel *panel)
- 		return ret;
- 	}
- 
--	ret = backlight_enable(pinfo->backlight);
--	if (ret) {
--		DRM_DEV_ERROR(panel->drm->dev,
--			      "Failed to enable backlight %d\n", ret);
--		return ret;
--	}
--
- 	pinfo->enabled = true;
- 
- 	return 0;
-@@ -899,9 +888,9 @@ static int panel_add(struct panel_info *pinfo)
- 		return ret;
- 	}
- 
--	pinfo->backlight = devm_of_find_backlight(dev);
--	if (IS_ERR(pinfo->backlight))
--		return PTR_ERR(pinfo->backlight);
-+	ret = drm_panel_of_backlight(&pinfo->base);
-+	if (ret)
-+		return ret;
- 
- 	drm_panel_init(&pinfo->base, dev, &panel_funcs,
- 		       DRM_MODE_CONNECTOR_DSI);
--- 
-2.17.1
-
+Thanks
+Jerry
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
