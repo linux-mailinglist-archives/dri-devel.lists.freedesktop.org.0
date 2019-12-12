@@ -1,42 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABC8011D7ED
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 21:35:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D38511D7F0
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 21:36:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 079CE6E1CF;
-	Thu, 12 Dec 2019 20:34:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 724BA6E1D3;
+	Thu, 12 Dec 2019 20:36:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15EEE6E0AC;
- Thu, 12 Dec 2019 20:34:55 +0000 (UTC)
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2019 12:34:55 -0800
-X-IronPort-AV: E=Sophos;i="5.69,307,1571727600"; d="scan'208";a="216234875"
-Received: from ldmartin-desk1.jf.intel.com (HELO ldmartin-desk1)
- ([10.24.11.18])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2019 12:34:55 -0800
-Date: Thu, 12 Dec 2019 12:34:49 -0800
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/display: cleanup intel_bw_state on
- i915 module removal
-Message-ID: <20191212203449.e5ztqbkk7ljj2qqa@ldmartin-desk1>
-X-Patchwork-Hint: ignore
-References: <20191209143921.9240-1-pankaj.laxminarayan.bharadiya@intel.com>
- <20191211055739.uxe46chnhkc2byul@ldmartin-desk1>
- <20191211064041.GA3339@plaxmina-desktop.iind.intel.com>
- <20191212002250.357dhphi3clst7qy@ldmartin-desk1>
- <20191212173717.GG85422@mdroper-desk1.amr.corp.intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDEFE6E1D3
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 20:36:00 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 96416A2B;
+ Thu, 12 Dec 2019 21:35:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1576182958;
+ bh=jns3lG4yF9SJ1qJ0UZr0iN9a4ReAkskKE8/XSfSUMOE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=wQJsBnE0n8EacJ2jzzVRMtR35IRBSLJOoFr11byn52ff+vL8/mgtZauAgabU0t+qo
+ uiWZjcVl6RwjzIlz0H3Hfs520q3aE118VAKvsWASr7uiCIrzmnoYZx2iTdKIk1Ngo/
+ Y0yG3FN6IShh+TqEg6HQiLuTjSnVm1jR/DiLHzFE=
+Date: Thu, 12 Dec 2019 22:35:50 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH 2/3] ARM: dts: am437x-gp/epos-evm: drop unused panel
+ timings
+Message-ID: <20191212203550.GB4892@pendragon.ideasonboard.com>
+References: <20191114093950.4101-1-tomi.valkeinen@ti.com>
+ <20191114093950.4101-3-tomi.valkeinen@ti.com>
+ <20191202130459.GH4929@pendragon.ideasonboard.com>
+ <20191211165331.GC43123@atomide.com>
+ <45dae8f7-2f5e-6948-5a05-dc8a09ace1fa@ti.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191212173717.GG85422@mdroper-desk1.amr.corp.intel.com>
+In-Reply-To: <45dae8f7-2f5e-6948-5a05-dc8a09ace1fa@ti.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,156 +51,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
- David Airlie <airlied@linux.ie>, "Bharadiya,
- Pankaj" <pankaj.laxminarayan.bharadiya@intel.com>,
- Stuart Summers <stuart.summers@intel.com>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Tony Lindgren <tony@atomide.com>,
+ Jyri Sarha <jsarha@ti.com>, Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 12, 2019 at 09:37:17AM -0800, Matt Roper wrote:
->On Wed, Dec 11, 2019 at 04:22:50PM -0800, Lucas De Marchi wrote:
->> On Wed, Dec 11, 2019 at 12:10:41PM +0530, Bharadiya,Pankaj wrote:
->> > On Tue, Dec 10, 2019 at 09:57:39PM -0800, Lucas De Marchi wrote:
->> > > On Mon, Dec 09, 2019 at 08:09:02PM +0530, Pankaj Bharadiya wrote:
->> > > >intel_bw_state allocated memory is not getting freed even after
->> > > >module removal.
->> > > >
->> > > >kmemleak reported backtrace:
->> > > >
->> > > >   [<0000000079019739>] kmemdup+0x17/0x40
->> > > >   [<00000000d58c1b9d>] intel_bw_duplicate_state+0x1b/0x40 [i915]
->> > > >   [<000000007423ed0c>] drm_atomic_get_private_obj_state+0xca/0x140
->> > > >   [<00000000100e3533>] intel_bw_atomic_check+0x133/0x350 [i915]
->> > > >   [<00000000126d0e0c>] intel_atomic_check+0x1ab7/0x20d0 [i915]
->> > > >   [<00000000d5dfc004>] drm_atomic_check_only+0x563/0x810
->> > > >   [<00000000c9379611>] drm_atomic_commit+0xe/0x50
->> > > >   [<00000000ec82b765>] drm_atomic_helper_disable_all+0x133/0x160
->> > > >   [<000000003c44760c>] drm_atomic_helper_shutdown+0x65/0xc0
->> > > >   [<00000000414e3e5c>] i915_driver_remove+0xcb/0x130 [i915]
->> > > >   [<00000000f8544c2a>] i915_pci_remove+0x19/0x40 [i915]
->> > > >   [<000000002dcbd148>] pci_device_remove+0x36/0xb0
->> > > >   [<000000003c8c6b0a>] device_release_driver_internal+0xe0/0x1c0
->> > > >   [<00000000580e9566>] unbind_store+0xc3/0x120
->> > > >   [<00000000869d0df5>] kernfs_fop_write+0x104/0x190
->> > > >   [<000000004dc1a355>] vfs_write+0xb9/0x1d0
->> > >
->> > > what I find strange in this is that the last state was allocated by the
->> > > "driver remove" code path.
->> > >
->> > > >
->> > > >Call the drm_atomic_private_obj_fini(), which inturn calls the
->> > > >intel_bw_destroy_state() to make sure the intel_bw_state memory is
->> > > >freed properly.
->> > > >
->> > > >Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
->> > > >---
->> > > >drivers/gpu/drm/i915/display/intel_bw.c      | 5 +++++
->> > > >drivers/gpu/drm/i915/display/intel_bw.h      | 1 +
->> > > >drivers/gpu/drm/i915/display/intel_display.c | 2 ++
->> > > >3 files changed, 8 insertions(+)
->> > > >
->> > > >diff --git a/drivers/gpu/drm/i915/display/intel_bw.c b/drivers/gpu/drm/i915/display/intel_bw.c
->> > > >index dcb66a33be9b..b228671d5a5d 100644
->> > > >--- a/drivers/gpu/drm/i915/display/intel_bw.c
->> > > >+++ b/drivers/gpu/drm/i915/display/intel_bw.c
->> > > >@@ -486,3 +486,8 @@ int intel_bw_init(struct drm_i915_private *dev_priv)
->> > > >
->> > > >	return 0;
->> > > >}
->> > > >+
->> > > >+void intel_bw_cleanup(struct drm_i915_private *dev_priv)
->> > > >+{
->> > > >+	drm_atomic_private_obj_fini(&dev_priv->bw_obj);
->> > > >+}
->> > > >diff --git a/drivers/gpu/drm/i915/display/intel_bw.h b/drivers/gpu/drm/i915/display/intel_bw.h
->> > > >index 9db10af012f4..20b9ad241802 100644
->> > > >--- a/drivers/gpu/drm/i915/display/intel_bw.h
->> > > >+++ b/drivers/gpu/drm/i915/display/intel_bw.h
->> > > >@@ -25,6 +25,7 @@ struct intel_bw_state {
->> > > >
->> > > >void intel_bw_init_hw(struct drm_i915_private *dev_priv);
->> > > >int intel_bw_init(struct drm_i915_private *dev_priv);
->> > > >+void intel_bw_cleanup(struct drm_i915_private *dev_priv);
->> > > >int intel_bw_atomic_check(struct intel_atomic_state *state);
->> > > >void intel_bw_crtc_update(struct intel_bw_state *bw_state,
->> > > >			  const struct intel_crtc_state *crtc_state);
->> > > >diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
->> > > >index 3190aa27ffdc..756eb90b1bb1 100644
->> > > >--- a/drivers/gpu/drm/i915/display/intel_display.c
->> > > >+++ b/drivers/gpu/drm/i915/display/intel_display.c
->> > > >@@ -17912,6 +17912,8 @@ void intel_modeset_driver_remove(struct drm_i915_private *i915)
->> > > >
->> > > >	intel_gmbus_teardown(i915);
->> > > >
->> > > >+	intel_bw_cleanup(i915);
->> > >
->> > > This doesn't seem to match the (reverse) order of
->> > > intel_modeset_init()... but it's actually the gmbus_teardown() that is
->> > > out of place. Did you check if it's not a wrong shutdown ordering?
->> > >
->> >
->> > In intel_modeset_init(), intel_gmbus_setup() happens after
->> > intel_bw_init().
->> > I think the patch follows the reverse ordering properly.
->> > Am I missing anything?
->>
->> I said it seems that it's the gmbus_teardown() that is out of place.
->> Have you seen my comment above? Why are we duplicating the bw_state on
->> the module-remove code path?
->
->I think that part is legitimate.  Part of the module remove sequence
->does an atomic commit to turn everything off.  During atomic
->transactions, we create duplicates of all modesetting state objects can
->be modified; if/when the transaction succeeds, those duplicates are
->swapped into the actual driver state and the old objects are destroyed.
->Thus in cases like this where we forget to destroy a private object
->state, that leaked state structure will be the one allocated during the
->very last atomic transaction that happened (i.e., on the driver teardown
->codepath).
+Hi Tomi,
 
-humn, that makes sense. The new duplicate state will replace the
-previous one and hence why we see it in the backtrace, rather than one
-allocated previously.
+On Thu, Dec 12, 2019 at 11:37:51AM +0200, Tomi Valkeinen wrote:
+> On 11/12/2019 18:53, Tony Lindgren wrote:
+> > * Laurent Pinchart <laurent.pinchart@ideasonboard.com> [191202 13:05]:
+> >> Hi Tomi,
+> >>
+> >> Thank you for the patch.
+> >>
+> >> On Thu, Nov 14, 2019 at 11:39:49AM +0200, Tomi Valkeinen wrote:
+> >>> panel-simple now handled panel osd070t1718-19ts, and we no longer need
+> >>> the panel timings in the DT file. So remove them.
+> >>
+> >> Should you in that case drop the panel-dpi compatible string too, as the
+> >> panel-dpi bindings require panel timings in DT ?
+> > 
+> > Yeah sounds like if panel-dpi is no longer usable for this device it
+> > should be dropped from the compatible list.
+> 
+> Ok, I agree.
+> 
+> Looking at the dts files, panel-dpi is used in a bunch of boards. But
+> we even have 3 dts files with panel-dpi, without the detailed panel
+> model in compatible...
+> 
+> Fixing those will break the compatibility with old dtbs and new
+> kernel, unless we add timings-from-dt to a panel driver that handles
+> panel-dpi.
 
-thanks
-Lucas De Marchi
+I know, and I don't have a perfect answer for this :-( I don't see a
+third option, it's either breaking DT backward compatibility or adding
+timings parsing to a panel driver (either a new panel-dpi driver or to
+panel-simple). What's your preferred option ?
 
->
->
->Matt
->
->>
->> Lucas De Marchi
->>
->> >
->> > Thanks,
->> > Pankaj
->> >
->> > > thanks
->> > > Lucas De Marchi
->> > >
->> > > >+
->> > > >	destroy_workqueue(i915->flip_wq);
->> > > >	destroy_workqueue(i915->modeset_wq);
->> > > >
->> > > >--
->> > > >2.23.0
->> > > >
->> > > >_______________________________________________
->> > > >Intel-gfx mailing list
->> > > >Intel-gfx@lists.freedesktop.org
->> > > >https://lists.freedesktop.org/mailman/listinfo/intel-gfx
->
->-- 
->Matt Roper
->Graphics Software Engineer
->VTT-OSGC Platform Enablement
->Intel Corporation
->(916) 356-2795
+-- 
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
