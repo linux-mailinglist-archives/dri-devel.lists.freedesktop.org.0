@@ -1,54 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC57A11C6EC
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 09:19:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8185B11C6F2
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 09:19:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60C8E6EC83;
-	Thu, 12 Dec 2019 08:19:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 041F96EC8F;
+	Thu, 12 Dec 2019 08:19:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
- [216.228.121.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE3A36EC83
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 08:19:19 +0000 (UTC)
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5df1f8000000>; Thu, 12 Dec 2019 00:19:12 -0800
+Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
+ [216.228.121.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AF2D6EC84
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 08:19:22 +0000 (UTC)
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5df1f8000000>; Thu, 12 Dec 2019 00:19:14 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate102.nvidia.com (PGP Universal service);
- Thu, 12 Dec 2019 00:19:19 -0800
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Thu, 12 Dec 2019 00:19:21 -0800
 X-PGP-Universal: processed;
- by hqpgpgate102.nvidia.com on Thu, 12 Dec 2019 00:19:19 -0800
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 12 Dec
+ by hqpgpgate101.nvidia.com on Thu, 12 Dec 2019 00:19:21 -0800
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 12 Dec
  2019 08:19:18 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
  Transport; Thu, 12 Dec 2019 08:19:18 +0000
 Received: from blueforge.nvidia.com (Not Verified[10.110.48.28]) by
  hqnvemgw03.nvidia.com with Trustwave SEG (v7, 5, 8, 10121)
- id <B5df1f8060001>; Thu, 12 Dec 2019 00:19:18 -0800
+ id <B5df1f8060002>; Thu, 12 Dec 2019 00:19:18 -0800
 From: John Hubbard <jhubbard@nvidia.com>
 To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v10 00/25] mm/gup: track dma-pinned pages: FOLL_PIN
-Date: Thu, 12 Dec 2019 00:18:52 -0800
-Message-ID: <20191212081917.1264184-1-jhubbard@nvidia.com>
+Subject: [PATCH v10 01/25] mm/gup: factor out duplicate code from four routines
+Date: Thu, 12 Dec 2019 00:18:53 -0800
+Message-ID: <20191212081917.1264184-2-jhubbard@nvidia.com>
 X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20191212081917.1264184-1-jhubbard@nvidia.com>
+References: <20191212081917.1264184-1-jhubbard@nvidia.com>
 MIME-Version: 1.0
 X-NVConfidentiality: public
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1576138752; bh=bbdNKbiq94zgFtAlPv1Fpk31g13QpEp24wIKMs3yr3M=;
+ t=1576138754; bh=NjEUDVUY50BsRhke7z2S9TxhDwSe8KFPL35zO7aJjtI=;
  h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
- MIME-Version:X-NVConfidentiality:Content-Type:
- Content-Transfer-Encoding;
- b=Y1R8hx3FJWSb27HdAzsGJjJpdnlEtl1cb0ueAaiH6SOlIouZsspbxG7ArktDIqiEr
- Br0EA4SeZmk76k65lxU0XhwiWOtj39vrLCz4Tk7KvbtAtjD6iKS78EbI/P/aRk0Wcr
- F/505JbjvlrSy16GkzIZZcghWqjJ1ItMfatoTwmulgZq0atyZONIj/xXnwzzMugmHa
- nsQ7SqaBF65k9d2TO2nv5PlfSBembIzQD/Bzvsz3gcdWMjcDVLL9MYa1oWREYAh+tm
- o5bm2AGo8Vr2PApUjLjMUQKW9TrOf/kOuUrWp+S2/FsL5AGIsQqr1L26fBA8N9ByKF
- lJHt+dnOK5rEw==
+ In-Reply-To:References:MIME-Version:X-NVConfidentiality:
+ Content-Type:Content-Transfer-Encoding;
+ b=eFoJLZ094H96VEw0VZgoT9vY9t8XJ6NaXBjIsxip9K649lfdEn/ehXVDoLK9SlQkD
+ RyOdKG0XsitgjGVAO+jZJ6f5YATGR6f+qRZQ5RNBPxs9uD5H0Yqv3a1TPRx3nck2AY
+ +LcFM2Cp9I3lHAX62B2OT04NIfdIhzEMy7EuFgIzMfLv71VoZZzbeWiefw0OnELqhp
+ zdeHTzZe1ZQtecRfLfhH+fXQP2LTjs52RlYm9LVOwnED6782E4fHDqhVmIRKUTpDTR
+ 8WXsicsI67F2F6YDOcQfqMJxTAOSyrNidx2obEbqCZpcY7FuguL2uHwUoJyDzaKobz
+ 1qlwE2jYi0Ryw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,9 +69,10 @@ Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
  dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
  linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
  linux-kselftest@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
- Michael Ellerman <mpe@ellerman.id.au>, Christoph Hellwig <hch@infradead.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@suse.cz>,
+ Christoph Hellwig <hch@lst.de>, Jonathan Corbet <corbet@lwn.net>,
+ linux-rdma@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
+ Christoph Hellwig <hch@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Vlastimil Babka <vbabka@suse.cz>,
  =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn.topel@intel.com>,
  linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
  John Hubbard <jhubbard@nvidia.com>, linux-block@vger.kernel.org,
@@ -78,226 +81,101 @@ Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  Magnus Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
  netdev@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
+ "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>,
  linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org,
  linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>,
  Mike Kravetz <mike.kravetz@oracle.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-This implements an API naming change (put_user_page*() -->
-unpin_user_page*()), and also implements tracking of FOLL_PIN pages. It
-extends that tracking to a few select subsystems. More subsystems will
-be added in follow up work.
-
-Christoph Hellwig, a point of interest:
-
-a) I've moved the bulk of the code out of the inline functions, as
-   requested, for the devmap changes (patch 4: "mm: devmap: refactor
-   1-based refcounting for ZONE_DEVICE pages").
-
-Changes since v9: Fixes resulting from Jan Kara's and Jonathan Corbet's
-reviews:
-
-* Removed reviewed-by tags from the "mm/gup: track FOLL_PIN pages" (those
-  were improperly inherited from the much smaller refactoring patch that
-  was merged into it).
-
-* Made try_grab_compound_head() and try_grab_page() behavior similar in
-  their behavior with flags, in order to avoid "gotchas" later.
-
-* follow_trans_huge_pmd(): moved the try_grab_page() to earlier in the
-  routine, in order to avoid having to undo mlock_vma_page().
-
-* follow_hugetlb_page(): removed a refcount overflow check that is now
-  extraneous (and weaker than what try_grab_page() provides a few lines
-  further down).
-
-* Fixed up two Documentation flaws, pointed out by Jonathan Corbet's
-  review.
-
-Changes since v8:
-
-* Merged the "mm/gup: pass flags arg to __gup_device_* functions" patch
-  into the "mm/gup: track FOLL_PIN pages" patch, as requested by
-  Christoph and Jan.
-
-* Changed void grab_page() to bool try_grab_page(), and handled errors
-  at the call sites. (From Jan's review comments.) try_grab_page()
-  attempts to avoid page refcount overflows, even when counting up with
-  GUP_PIN_COUNTING_BIAS increments.
-
-* Fixed a bug that I'd introduced, when changing a BUG() to a WARN().
-
-* Added Jan's reviewed-by tag to the " mm/gup: allow FOLL_FORCE for
-  get_user_pages_fast()" patch.
-
-* Documentation: pin_user_pages.rst: fixed an incorrect gup_benchmark
-  invocation, left over from the pin_longterm days, spotted while preparing
-  this version.
-
-* Rebased onto today's linux.git (-rc1), and re-tested.
-
-Changes since v7:
-
-* Rebased onto Linux 5.5-rc1
-
-* Reworked the grab_page() and try_grab_compound_head(), for API
-  consistency and less diffs (thanks to Jan Kara's reviews).
-
-* Added Leon Romanovsky's reviewed-by tags for two of the IB-related
-  patches.
-
-* patch 4 refactoring changes, as mentioned above.
-
-There is a git repo and branch, for convenience:
-
-    git@github.com:johnhubbard/linux.git pin_user_pages_tracking_v8
-
-For the remaining list of "changes since version N", those are all in
-v7, which is here:
-
-  https://lore.kernel.org/r/20191121071354.456618-1-jhubbard@nvidia.com
-
-============================================================
-Overview:
-
-This is a prerequisite to solving the problem of proper interactions
-between file-backed pages, and [R]DMA activities, as discussed in [1],
-[2], [3], and in a remarkable number of email threads since about
-2017. :)
-
-A new internal gup flag, FOLL_PIN is introduced, and thoroughly
-documented in the last patch's Documentation/vm/pin_user_pages.rst.
-
-I believe that this will provide a good starting point for doing the
-layout lease work that Ira Weiny has been working on. That's because
-these new wrapper functions provide a clean, constrained, systematically
-named set of functionality that, again, is required in order to even
-know if a page is "dma-pinned".
-
-In contrast to earlier approaches, the page tracking can be
-incrementally applied to the kernel call sites that, until now, have
-been simply calling get_user_pages() ("gup"). In other words, opt-in by
-changing from this:
-
-    get_user_pages() (sets FOLL_GET)
-    put_page()
-
-to this:
-    pin_user_pages() (sets FOLL_PIN)
-    unpin_user_page()
-
-============================================================
-Testing:
-
-* I've done some overall kernel testing (LTP, and a few other goodies),
-  and some directed testing to exercise some of the changes. And as you
-  can see, gup_benchmark is enhanced to exercise this. Basically, I've
-  been able to runtime test the core get_user_pages() and
-  pin_user_pages() and related routines, but not so much on several of
-  the call sites--but those are generally just a couple of lines
-  changed, each.
-
-  Not much of the kernel is actually using this, which on one hand
-  reduces risk quite a lot. But on the other hand, testing coverage
-  is low. So I'd love it if, in particular, the Infiniband and PowerPC
-  folks could do a smoke test of this series for me.
-
-  Runtime testing for the call sites so far is pretty light:
-
-    * io_uring: Some directed tests from liburing exercise this, and
-                they pass.
-    * process_vm_access.c: A small directed test passes.
-    * gup_benchmark: the enhanced version hits the new gup.c code, and
-                     passes.
-    * infiniband: ran "ib_write_bw", which exercises the umem.c changes,
-                  but not the other changes.
-    * VFIO: compiles (I'm vowing to set up a run time test soon, but it's
-                      not ready just yet)
-    * powerpc: it compiles...
-    * drm/via: compiles...
-    * goldfish: compiles...
-    * net/xdp: compiles...
-    * media/v4l2: compiles...
-
-[1] Some slow progress on get_user_pages() (Apr 2, 2019): https://lwn.net/Articles/784574/
-[2] DMA and get_user_pages() (LPC: Dec 12, 2018): https://lwn.net/Articles/774411/
-[3] The trouble with get_user_pages() (Apr 30, 2018): https://lwn.net/Articles/753027/
-
-Dan Williams (1):
-  mm: Cleanup __put_devmap_managed_page() vs ->page_free()
-
-John Hubbard (24):
-  mm/gup: factor out duplicate code from four routines
-  mm/gup: move try_get_compound_head() to top, fix minor issues
-  mm: devmap: refactor 1-based refcounting for ZONE_DEVICE pages
-  goldish_pipe: rename local pin_user_pages() routine
-  mm: fix get_user_pages_remote()'s handling of FOLL_LONGTERM
-  vfio: fix FOLL_LONGTERM use, simplify get_user_pages_remote() call
-  mm/gup: allow FOLL_FORCE for get_user_pages_fast()
-  IB/umem: use get_user_pages_fast() to pin DMA pages
-  mm/gup: introduce pin_user_pages*() and FOLL_PIN
-  goldish_pipe: convert to pin_user_pages() and put_user_page()
-  IB/{core,hw,umem}: set FOLL_PIN via pin_user_pages*(), fix up ODP
-  mm/process_vm_access: set FOLL_PIN via pin_user_pages_remote()
-  drm/via: set FOLL_PIN via pin_user_pages_fast()
-  fs/io_uring: set FOLL_PIN via pin_user_pages()
-  net/xdp: set FOLL_PIN via pin_user_pages()
-  media/v4l2-core: set pages dirty upon releasing DMA buffers
-  media/v4l2-core: pin_user_pages (FOLL_PIN) and put_user_page()
-    conversion
-  vfio, mm: pin_user_pages (FOLL_PIN) and put_user_page() conversion
-  powerpc: book3s64: convert to pin_user_pages() and put_user_page()
-  mm/gup_benchmark: use proper FOLL_WRITE flags instead of hard-coding
-    "1"
-  mm, tree-wide: rename put_user_page*() to unpin_user_page*()
-  mm/gup: track FOLL_PIN pages
-  mm/gup_benchmark: support pin_user_pages() and related calls
-  selftests/vm: run_vmtests: invoke gup_benchmark with basic FOLL_PIN
-    coverage
-
- Documentation/core-api/index.rst            |   1 +
- Documentation/core-api/pin_user_pages.rst   | 232 ++++++++
- arch/powerpc/mm/book3s64/iommu_api.c        |  10 +-
- drivers/gpu/drm/via/via_dmablit.c           |   6 +-
- drivers/infiniband/core/umem.c              |  19 +-
- drivers/infiniband/core/umem_odp.c          |  13 +-
- drivers/infiniband/hw/hfi1/user_pages.c     |   4 +-
- drivers/infiniband/hw/mthca/mthca_memfree.c |   8 +-
- drivers/infiniband/hw/qib/qib_user_pages.c  |   4 +-
- drivers/infiniband/hw/qib/qib_user_sdma.c   |   8 +-
- drivers/infiniband/hw/usnic/usnic_uiom.c    |   4 +-
- drivers/infiniband/sw/siw/siw_mem.c         |   4 +-
- drivers/media/v4l2-core/videobuf-dma-sg.c   |   8 +-
- drivers/nvdimm/pmem.c                       |   6 -
- drivers/platform/goldfish/goldfish_pipe.c   |  35 +-
- drivers/vfio/vfio_iommu_type1.c             |  35 +-
- fs/io_uring.c                               |   6 +-
- include/linux/mm.h                          | 149 ++++-
- include/linux/mmzone.h                      |   2 +
- include/linux/page_ref.h                    |  10 +
- mm/gup.c                                    | 626 +++++++++++++++-----
- mm/gup_benchmark.c                          |  74 ++-
- mm/huge_memory.c                            |  45 +-
- mm/hugetlb.c                                |  38 +-
- mm/memremap.c                               |  76 ++-
- mm/process_vm_access.c                      |  28 +-
- mm/swap.c                                   |  24 +
- mm/vmstat.c                                 |   2 +
- net/xdp/xdp_umem.c                          |   4 +-
- tools/testing/selftests/vm/gup_benchmark.c  |  21 +-
- tools/testing/selftests/vm/run_vmtests      |  22 +
- 31 files changed, 1147 insertions(+), 377 deletions(-)
- create mode 100644 Documentation/core-api/pin_user_pages.rst
-
---
-2.24.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhlcmUgYXJlIGZvdXIgbG9jYXRpb25zIGluIGd1cC5jIHRoYXQgaGF2ZSBhIGZhaXIgYW1vdW50
+IG9mIGNvZGUKZHVwbGljYXRpb24uIFRoaXMgbWVhbnMgdGhhdCBjaGFuZ2luZyBvbmUgcmVxdWly
+ZXMgbWFraW5nIHRoZSBzYW1lCmNoYW5nZXMgaW4gZm91ciBwbGFjZXMsIG5vdCB0byBtZW50aW9u
+IHJlYWRpbmcgdGhlIHNhbWUgY29kZSBmb3VyCnRpbWVzLCBhbmQgd29uZGVyaW5nIGlmIHRoZXJl
+IGFyZSBzdWJ0bGUgZGlmZmVyZW5jZXMuCgpGYWN0b3Igb3V0IHRoZSBjb21tb24gY29kZSBpbnRv
+IHN0YXRpYyBmdW5jdGlvbnMsIHRodXMgcmVkdWNpbmcgdGhlCm92ZXJhbGwgbGluZSBjb3VudCBh
+bmQgdGhlIGNvZGUncyBjb21wbGV4aXR5LgoKQWxzbywgdGFrZSB0aGUgb3Bwb3J0dW5pdHkgdG8g
+c2xpZ2h0bHkgaW1wcm92ZSB0aGUgZWZmaWNpZW5jeSBvZiB0aGUKZXJyb3IgY2FzZXMsIGJ5IGRv
+aW5nIGEgbWFzcyBzdWJ0cmFjdGlvbiBvZiB0aGUgcmVmY291bnQsIHN1cnJvdW5kZWQKYnkgZ2V0
+X3BhZ2UoKS9wdXRfcGFnZSgpLgoKQWxzbywgZnVydGhlciBzaW1wbGlmeSAoc2xpZ2h0bHkpLCBi
+eSB3YWl0aW5nIHVudGlsIHRoZSB0aGUgc3VjY2Vzc2Z1bAplbmQgb2YgZWFjaCByb3V0aW5lLCB0
+byBpbmNyZW1lbnQgKm5yLgoKUmV2aWV3ZWQtYnk6IENocmlzdG9waCBIZWxsd2lnIDxoY2hAbHN0
+LmRlPgpSZXZpZXdlZC1ieTogSsOpcsO0bWUgR2xpc3NlIDxqZ2xpc3NlQHJlZGhhdC5jb20+ClJl
+dmlld2VkLWJ5OiBKYW4gS2FyYSA8amFja0BzdXNlLmN6PgpDYzogSXJhIFdlaW55IDxpcmEud2Vp
+bnlAaW50ZWwuY29tPgpDYzogQ2hyaXN0b3BoIEhlbGx3aWcgPGhjaEBsc3QuZGU+CkNjOiBBbmVl
+c2ggS3VtYXIgSy5WIDxhbmVlc2gua3VtYXJAbGludXguaWJtLmNvbT4KU2lnbmVkLW9mZi1ieTog
+Sm9obiBIdWJiYXJkIDxqaHViYmFyZEBudmlkaWEuY29tPgotLS0KIG1tL2d1cC5jIHwgOTEgKysr
+KysrKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KIDEg
+ZmlsZSBjaGFuZ2VkLCAzNiBpbnNlcnRpb25zKCspLCA1NSBkZWxldGlvbnMoLSkKCmRpZmYgLS1n
+aXQgYS9tbS9ndXAuYyBiL21tL2d1cC5jCmluZGV4IDc2NDZiZjk5M2IyNS4uZjc2NDQzMjkxNGM0
+IDEwMDY0NAotLS0gYS9tbS9ndXAuYworKysgYi9tbS9ndXAuYwpAQCAtMTk3OCw2ICsxOTc4LDI1
+IEBAIHN0YXRpYyBpbnQgX19ndXBfZGV2aWNlX2h1Z2VfcHVkKHB1ZF90IHB1ZCwgcHVkX3QgKnB1
+ZHAsIHVuc2lnbmVkIGxvbmcgYWRkciwKIH0KICNlbmRpZgogCitzdGF0aWMgaW50IHJlY29yZF9z
+dWJwYWdlcyhzdHJ1Y3QgcGFnZSAqcGFnZSwgdW5zaWduZWQgbG9uZyBhZGRyLAorCQkJICAgdW5z
+aWduZWQgbG9uZyBlbmQsIHN0cnVjdCBwYWdlICoqcGFnZXMpCit7CisJaW50IG5yOworCisJZm9y
+IChuciA9IDA7IGFkZHIgIT0gZW5kOyBhZGRyICs9IFBBR0VfU0laRSkKKwkJcGFnZXNbbnIrK10g
+PSBwYWdlKys7CisKKwlyZXR1cm4gbnI7Cit9CisKK3N0YXRpYyB2b2lkIHB1dF9jb21wb3VuZF9o
+ZWFkKHN0cnVjdCBwYWdlICpwYWdlLCBpbnQgcmVmcykKK3sKKwkvKiBEbyBhIGdldF9wYWdlKCkg
+Zmlyc3QsIGluIGNhc2UgcmVmcyA9PSBwYWdlLT5fcmVmY291bnQgKi8KKwlnZXRfcGFnZShwYWdl
+KTsKKwlwYWdlX3JlZl9zdWIocGFnZSwgcmVmcyk7CisJcHV0X3BhZ2UocGFnZSk7Cit9CisKICNp
+ZmRlZiBDT05GSUdfQVJDSF9IQVNfSFVHRVBECiBzdGF0aWMgdW5zaWduZWQgbG9uZyBodWdlcHRl
+X2FkZHJfZW5kKHVuc2lnbmVkIGxvbmcgYWRkciwgdW5zaWduZWQgbG9uZyBlbmQsCiAJCQkJICAg
+ICAgdW5zaWduZWQgbG9uZyBzeikKQEAgLTIwMDcsMzIgKzIwMjYsMjAgQEAgc3RhdGljIGludCBn
+dXBfaHVnZXB0ZShwdGVfdCAqcHRlcCwgdW5zaWduZWQgbG9uZyBzeiwgdW5zaWduZWQgbG9uZyBh
+ZGRyLAogCS8qIGh1Z2VwYWdlcyBhcmUgbmV2ZXIgInNwZWNpYWwiICovCiAJVk1fQlVHX09OKCFw
+Zm5fdmFsaWQocHRlX3BmbihwdGUpKSk7CiAKLQlyZWZzID0gMDsKIAloZWFkID0gcHRlX3BhZ2Uo
+cHRlKTsKLQogCXBhZ2UgPSBoZWFkICsgKChhZGRyICYgKHN6LTEpKSA+PiBQQUdFX1NISUZUKTsK
+LQlkbyB7Ci0JCVZNX0JVR19PTihjb21wb3VuZF9oZWFkKHBhZ2UpICE9IGhlYWQpOwotCQlwYWdl
+c1sqbnJdID0gcGFnZTsKLQkJKCpucikrKzsKLQkJcGFnZSsrOwotCQlyZWZzKys7Ci0JfSB3aGls
+ZSAoYWRkciArPSBQQUdFX1NJWkUsIGFkZHIgIT0gZW5kKTsKKwlyZWZzID0gcmVjb3JkX3N1YnBh
+Z2VzKHBhZ2UsIGFkZHIsIGVuZCwgcGFnZXMgKyAqbnIpOwogCiAJaGVhZCA9IHRyeV9nZXRfY29t
+cG91bmRfaGVhZChoZWFkLCByZWZzKTsKLQlpZiAoIWhlYWQpIHsKLQkJKm5yIC09IHJlZnM7CisJ
+aWYgKCFoZWFkKQogCQlyZXR1cm4gMDsKLQl9CiAKIAlpZiAodW5saWtlbHkocHRlX3ZhbChwdGUp
+ICE9IHB0ZV92YWwoKnB0ZXApKSkgewotCQkvKiBDb3VsZCBiZSBvcHRpbWl6ZWQgYmV0dGVyICov
+Ci0JCSpuciAtPSByZWZzOwotCQl3aGlsZSAocmVmcy0tKQotCQkJcHV0X3BhZ2UoaGVhZCk7CisJ
+CXB1dF9jb21wb3VuZF9oZWFkKGhlYWQsIHJlZnMpOwogCQlyZXR1cm4gMDsKIAl9CiAKKwkqbnIg
+Kz0gcmVmczsKIAlTZXRQYWdlUmVmZXJlbmNlZChoZWFkKTsKIAlyZXR1cm4gMTsKIH0KQEAgLTIw
+NzksMjggKzIwODYsMTkgQEAgc3RhdGljIGludCBndXBfaHVnZV9wbWQocG1kX3Qgb3JpZywgcG1k
+X3QgKnBtZHAsIHVuc2lnbmVkIGxvbmcgYWRkciwKIAkJcmV0dXJuIF9fZ3VwX2RldmljZV9odWdl
+X3BtZChvcmlnLCBwbWRwLCBhZGRyLCBlbmQsIHBhZ2VzLCBucik7CiAJfQogCi0JcmVmcyA9IDA7
+CiAJcGFnZSA9IHBtZF9wYWdlKG9yaWcpICsgKChhZGRyICYgflBNRF9NQVNLKSA+PiBQQUdFX1NI
+SUZUKTsKLQlkbyB7Ci0JCXBhZ2VzWypucl0gPSBwYWdlOwotCQkoKm5yKSsrOwotCQlwYWdlKys7
+Ci0JCXJlZnMrKzsKLQl9IHdoaWxlIChhZGRyICs9IFBBR0VfU0laRSwgYWRkciAhPSBlbmQpOwor
+CXJlZnMgPSByZWNvcmRfc3VicGFnZXMocGFnZSwgYWRkciwgZW5kLCBwYWdlcyArICpucik7CiAK
+IAloZWFkID0gdHJ5X2dldF9jb21wb3VuZF9oZWFkKHBtZF9wYWdlKG9yaWcpLCByZWZzKTsKLQlp
+ZiAoIWhlYWQpIHsKLQkJKm5yIC09IHJlZnM7CisJaWYgKCFoZWFkKQogCQlyZXR1cm4gMDsKLQl9
+CiAKIAlpZiAodW5saWtlbHkocG1kX3ZhbChvcmlnKSAhPSBwbWRfdmFsKCpwbWRwKSkpIHsKLQkJ
+Km5yIC09IHJlZnM7Ci0JCXdoaWxlIChyZWZzLS0pCi0JCQlwdXRfcGFnZShoZWFkKTsKKwkJcHV0
+X2NvbXBvdW5kX2hlYWQoaGVhZCwgcmVmcyk7CiAJCXJldHVybiAwOwogCX0KIAorCSpuciArPSBy
+ZWZzOwogCVNldFBhZ2VSZWZlcmVuY2VkKGhlYWQpOwogCXJldHVybiAxOwogfQpAQCAtMjEyMCwy
+OCArMjExOCwxOSBAQCBzdGF0aWMgaW50IGd1cF9odWdlX3B1ZChwdWRfdCBvcmlnLCBwdWRfdCAq
+cHVkcCwgdW5zaWduZWQgbG9uZyBhZGRyLAogCQlyZXR1cm4gX19ndXBfZGV2aWNlX2h1Z2VfcHVk
+KG9yaWcsIHB1ZHAsIGFkZHIsIGVuZCwgcGFnZXMsIG5yKTsKIAl9CiAKLQlyZWZzID0gMDsKIAlw
+YWdlID0gcHVkX3BhZ2Uob3JpZykgKyAoKGFkZHIgJiB+UFVEX01BU0spID4+IFBBR0VfU0hJRlQp
+OwotCWRvIHsKLQkJcGFnZXNbKm5yXSA9IHBhZ2U7Ci0JCSgqbnIpKys7Ci0JCXBhZ2UrKzsKLQkJ
+cmVmcysrOwotCX0gd2hpbGUgKGFkZHIgKz0gUEFHRV9TSVpFLCBhZGRyICE9IGVuZCk7CisJcmVm
+cyA9IHJlY29yZF9zdWJwYWdlcyhwYWdlLCBhZGRyLCBlbmQsIHBhZ2VzICsgKm5yKTsKIAogCWhl
+YWQgPSB0cnlfZ2V0X2NvbXBvdW5kX2hlYWQocHVkX3BhZ2Uob3JpZyksIHJlZnMpOwotCWlmICgh
+aGVhZCkgewotCQkqbnIgLT0gcmVmczsKKwlpZiAoIWhlYWQpCiAJCXJldHVybiAwOwotCX0KIAog
+CWlmICh1bmxpa2VseShwdWRfdmFsKG9yaWcpICE9IHB1ZF92YWwoKnB1ZHApKSkgewotCQkqbnIg
+LT0gcmVmczsKLQkJd2hpbGUgKHJlZnMtLSkKLQkJCXB1dF9wYWdlKGhlYWQpOworCQlwdXRfY29t
+cG91bmRfaGVhZChoZWFkLCByZWZzKTsKIAkJcmV0dXJuIDA7CiAJfQogCisJKm5yICs9IHJlZnM7
+CiAJU2V0UGFnZVJlZmVyZW5jZWQoaGVhZCk7CiAJcmV0dXJuIDE7CiB9CkBAIC0yMTU3LDI4ICsy
+MTQ2LDIwIEBAIHN0YXRpYyBpbnQgZ3VwX2h1Z2VfcGdkKHBnZF90IG9yaWcsIHBnZF90ICpwZ2Rw
+LCB1bnNpZ25lZCBsb25nIGFkZHIsCiAJCXJldHVybiAwOwogCiAJQlVJTERfQlVHX09OKHBnZF9k
+ZXZtYXAob3JpZykpOwotCXJlZnMgPSAwOworCiAJcGFnZSA9IHBnZF9wYWdlKG9yaWcpICsgKChh
+ZGRyICYgflBHRElSX01BU0spID4+IFBBR0VfU0hJRlQpOwotCWRvIHsKLQkJcGFnZXNbKm5yXSA9
+IHBhZ2U7Ci0JCSgqbnIpKys7Ci0JCXBhZ2UrKzsKLQkJcmVmcysrOwotCX0gd2hpbGUgKGFkZHIg
+Kz0gUEFHRV9TSVpFLCBhZGRyICE9IGVuZCk7CisJcmVmcyA9IHJlY29yZF9zdWJwYWdlcyhwYWdl
+LCBhZGRyLCBlbmQsIHBhZ2VzICsgKm5yKTsKIAogCWhlYWQgPSB0cnlfZ2V0X2NvbXBvdW5kX2hl
+YWQocGdkX3BhZ2Uob3JpZyksIHJlZnMpOwotCWlmICghaGVhZCkgewotCQkqbnIgLT0gcmVmczsK
+KwlpZiAoIWhlYWQpCiAJCXJldHVybiAwOwotCX0KIAogCWlmICh1bmxpa2VseShwZ2RfdmFsKG9y
+aWcpICE9IHBnZF92YWwoKnBnZHApKSkgewotCQkqbnIgLT0gcmVmczsKLQkJd2hpbGUgKHJlZnMt
+LSkKLQkJCXB1dF9wYWdlKGhlYWQpOworCQlwdXRfY29tcG91bmRfaGVhZChoZWFkLCByZWZzKTsK
+IAkJcmV0dXJuIDA7CiAJfQogCisJKm5yICs9IHJlZnM7CiAJU2V0UGFnZVJlZmVyZW5jZWQoaGVh
+ZCk7CiAJcmV0dXJuIDE7CiB9Ci0tIAoyLjI0LjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
+c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL2RyaS1kZXZlbAo=
