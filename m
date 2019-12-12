@@ -2,33 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3B7111DF4C
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 09:22:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38AFC11DF4A
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 09:22:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 108386E29E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03AC16E29D;
 	Fri, 13 Dec 2019 08:22:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 390 seconds by postgrey-1.36 at gabe;
- Thu, 12 Dec 2019 11:57:24 UTC
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C9426E0CD
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 11:57:24 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: eballetbo) with ESMTPSA id 85D7D28D64B
-Subject: Re: [PATCH RESEND 2/4] drm: bridge: anx7688: Add anx7688 bridge
- driver support.
-To: Hsin-Yi Wang <hsinyi@chromium.org>, dri-devel@lists.freedesktop.org
-References: <20191211061911.238393-1-hsinyi@chromium.org>
- <20191211061911.238393-3-hsinyi@chromium.org>
-From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Message-ID: <cf782b68-ff86-4f48-85ce-301cccbfb80b@collabora.com>
-Date: Thu, 12 Dec 2019 12:50:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
-MIME-Version: 1.0
-In-Reply-To: <20191211061911.238393-3-hsinyi@chromium.org>
-Content-Language: en-US
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
+ [IPv6:2607:f8b0:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E92056E065
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 11:52:14 +0000 (UTC)
+Received: by mail-pg1-x542.google.com with SMTP id 6so1048770pgk.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 03:52:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=8mF7OxWnmHyMVBa4AuLWYl4i7D14Gqs7HQtBBxcCOMk=;
+ b=fsTxF6jFHRURT9/cnUETmc/AJZ9+L92Z0Oqh7Zn9BKROL5WsFcVwEQ1A8NrhJ0WqHc
+ /a07fhR66viDkpwjFUlGkGtzIyTP7MO/uCYotm8GRbqtVl9OkMefvqmz54pfUNhb/9me
+ A2pUVozQ4J2yOZHGzk6rJOsf9F9JO/yiaKWdxNY5dusUNxgASkB10cnSwKn9FozIzp0m
+ Wke8BwYTDmXpzTIdKYVoaAlmXT6lLmsZM5AAjUTw1YppgQDjWV8TKuheCrgRcg4KzXhW
+ VSP/rmzYYiCwNebz7XZSOumy90iw4ZLTsnAk1ScJcWS0owqm7NJJK1oDJzbAlimFpU2P
+ x4xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=8mF7OxWnmHyMVBa4AuLWYl4i7D14Gqs7HQtBBxcCOMk=;
+ b=iKn2+XrsD8g4ZJdRyFbNC+ba/fq8XmupYqJM6MalDsVbWte2oSqiKPTmfDslKn7D7A
+ TAui/sJxUfNiapxGSaJwV2xJ5EFze8/Nafu/Uyx40RaA5bQFh2wAN1K+lkPRgMTSA+A/
+ r01hdvmqnPi/T5Tbr9LEmmfVa8CGkP6SQtFGLMflRNfOFQuMWokHqIoWl4Fr+N1vB0jt
+ CKlFZxkTB5Fpewu9IIwwjlJ0/iPxhRwMxaJ7tMgPGz3YkUrw6NjTjq3LTmqSTDbK2MiZ
+ o869+ganhq8S9Vy0Q+6zdQburGWmBAN0GAJLRLyeoQdhIHXcJgqA8OH1ii3HaDiBZCM4
+ LHtA==
+X-Gm-Message-State: APjAAAWcsDH/xuOhQ/BmBJbVaoT4+z+2JnvdnQwaU1uICtuu/GmeYvMQ
+ 2Ft8LI0tPQDOQllWbDFCOFRgqohRAfI=
+X-Google-Smtp-Source: APXvYqysFAuFmHKx1GF3oYkmbQSkivFg6TUrPuS2WqY6ryUpjOUjg+/FImFQsNsp5mh0ZRMaLdnizw==
+X-Received: by 2002:a63:7045:: with SMTP id a5mr10193091pgn.49.1576151533825; 
+ Thu, 12 Dec 2019 03:52:13 -0800 (PST)
+Received: from super-sugar.huaqin.com ([101.78.151.194])
+ by smtp.gmail.com with ESMTPSA id t30sm6433797pgl.75.2019.12.12.03.52.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Dec 2019 03:52:13 -0800 (PST)
+From: Jerry Han <jerry.han.hq@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/panel: Add Boe Himax8279d MIPI-DSI LCD panel
+Date: Thu, 12 Dec 2019 19:52:08 +0800
+Message-Id: <20191212115208.3878-1-jerry.han.hq@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-Mailman-Approved-At: Fri, 13 Dec 2019 08:22:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,288 +62,1129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Nicolas Boichat <drinkcat@chromium.org>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Matthias Brugger <mbrugger@suse.com>,
- Russell King <rmk+kernel@arm.linux.org.uk>
+Cc: Jerry Han <jerry.han.hq@gmail.com>, Jitao Shi <jitao.shi@mediatek.com>,
+ Rock wang <rock_wang@himax.com.cn>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hsin-Yi,
+Support Boe Himax8279d 8.0" 1200x1920 TFT LCD panel, it is a MIPI DSI
+panel.
 
-On 11/12/19 7:19, Hsin-Yi Wang wrote:
-> From: Nicolas Boichat <drinkcat@chromium.org>
-> 
-> ANX7688 is a HDMI to DP converter (as well as USB-C port controller),
-> that has an internal microcontroller.
-> 
-> The only reason a Linux kernel driver is necessary is to reject
-> resolutions that require more bandwidth than what is available on
-> the DP side. DP bandwidth and lane count are reported by the bridge
-> via 2 registers on I2C.
-> 
-> Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> ---
+V11:
+- Use the backlight support in drm_panel to simplify the driver (Sam)
 
-Although I am not a drm expert I did an initial review of this patch before
-sending and looks good to me now. Also I just tested with current mainline on my
-ELM device and I am happy to have display now, so thanks for sending this upstream:
+V10:
+- Adjust init code, make the format more concise (Emil)
 
-Tested-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+V9:
+- kill off default_off_cmds (Emil)
+- use mipi_dsi_dcs_set_display_{on,off} in their enable/disable
+    callbacks. (Emil)
+- Adjusting the delay function (Emil)
 
->  drivers/gpu/drm/bridge/Kconfig            |   9 +
->  drivers/gpu/drm/bridge/Makefile           |   1 +
->  drivers/gpu/drm/bridge/analogix-anx7688.c | 202 ++++++++++++++++++++++
->  3 files changed, 212 insertions(+)
->  create mode 100644 drivers/gpu/drm/bridge/analogix-anx7688.c
-> 
-> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-> index 34362976cd6f..1f3fc6bec842 100644
-> --- a/drivers/gpu/drm/bridge/Kconfig
-> +++ b/drivers/gpu/drm/bridge/Kconfig
-> @@ -16,6 +16,15 @@ config DRM_PANEL_BRIDGE
->  menu "Display Interface Bridges"
->  	depends on DRM && DRM_BRIDGE
->  
-> +config DRM_ANALOGIX_ANX7688
-> +	tristate "Analogix ANX7688 bridge"
-> +	select DRM_KMS_HELPER
-> +	select REGMAP_I2C
-> +	---help---
-> +	  ANX7688 is a transmitter to support DisplayPort over USB-C for
-> +	  smartphone and tablets.
-> +	  This driver only supports the HDMI to DP component of the chip.
-> +
->  config DRM_ANALOGIX_ANX78XX
->  	tristate "Analogix ANX78XX bridge"
->  	select DRM_KMS_HELPER
-> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-> index 4934fcf5a6f8..7a1e0ec032e6 100644
-> --- a/drivers/gpu/drm/bridge/Makefile
-> +++ b/drivers/gpu/drm/bridge/Makefile
-> @@ -1,4 +1,5 @@
->  # SPDX-License-Identifier: GPL-2.0
-> +obj-$(CONFIG_DRM_ANALOGIX_ANX7688) += analogix-anx7688.o
->  obj-$(CONFIG_DRM_ANALOGIX_ANX78XX) += analogix-anx78xx.o
->  obj-$(CONFIG_DRM_CDNS_DSI) += cdns-dsi.o
->  obj-$(CONFIG_DRM_DUMB_VGA_DAC) += dumb-vga-dac.o
-> diff --git a/drivers/gpu/drm/bridge/analogix-anx7688.c b/drivers/gpu/drm/bridge/analogix-anx7688.c
-> new file mode 100644
-> index 000000000000..baaed48d6201
-> --- /dev/null
-> +++ b/drivers/gpu/drm/bridge/analogix-anx7688.c
-> @@ -0,0 +1,202 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * ANX7688 HDMI->DP bridge driver
-> + *
-> + * Copyright 2016 Google LLC
-> + */
-> +
-> +#include <linux/i2c.h>
-> +#include <linux/module.h>
-> +#include <linux/regmap.h>
-> +#include <drm/drm_bridge.h>
-> +
-> +/* Register addresses */
-> +#define VENDOR_ID_REG 0x00
-> +#define DEVICE_ID_REG 0x02
-> +
-> +#define FW_VERSION_REG 0x80
-> +
-> +#define DP_BANDWIDTH_REG 0x85
-> +#define DP_LANE_COUNT_REG 0x86
-> +
-> +#define VENDOR_ID 0x1f29
-> +#define DEVICE_ID 0x7688
-> +
-> +/* First supported firmware version (0.85) */
-> +#define MINIMUM_FW_VERSION 0x0085
-> +
-> +struct anx7688 {
-> +	struct drm_bridge bridge;
-> +	struct i2c_client *client;
-> +	struct regmap *regmap;
-> +
-> +	bool filter;
-> +};
-> +
-> +static inline struct anx7688 *bridge_to_anx7688(struct drm_bridge *bridge)
-> +{
-> +	return container_of(bridge, struct anx7688, bridge);
-> +}
-> +
-> +static bool anx7688_bridge_mode_fixup(struct drm_bridge *bridge,
-> +				      const struct drm_display_mode *mode,
-> +				      struct drm_display_mode *adjusted_mode)
-> +{
-> +	struct anx7688 *anx7688 = bridge_to_anx7688(bridge);
-> +	u8 regs[2];
-> +	u8 dpbw, lanecount;
-> +	int totalbw, requiredbw;
-> +	int ret;
-> +
-> +	if (!anx7688->filter)
-> +		return true;
-> +
-> +	/* Read both regs 0x85 (bandwidth) and 0x86 (lane count). */
-> +	ret = regmap_bulk_read(anx7688->regmap, DP_BANDWIDTH_REG, regs, 2);
-> +	if (ret < 0) {
-> +		dev_err(&anx7688->client->dev,
-> +			"Failed to read bandwidth/lane count\n");
-> +		return false;
-> +	}
-> +	dpbw = regs[0];
-> +	lanecount = regs[1];
-> +
-> +	/* Maximum 0x19 bandwidth (6.75 Gbps Turbo mode), 2 lanes */
-> +	if (dpbw > 0x19 || lanecount > 2) {
-> +		dev_err(&anx7688->client->dev,
-> +			"Invalid bandwidth/lane count (%02x/%d)\n",
-> +			dpbw, lanecount);
-> +		return false;
-> +	}
-> +
-> +	/* Compute available bandwidth (kHz) */
-> +	totalbw = dpbw * lanecount * 270000 * 8 / 10;
-> +
-> +	/* Required bandwidth (8 bpc, kHz) */
-> +	requiredbw = mode->clock * 8 * 3;
-> +
-> +	dev_dbg(&anx7688->client->dev,
-> +		"DP bandwidth: %d kHz (%02x/%d); mode requires %d Khz\n",
-> +		totalbw, dpbw, lanecount, requiredbw);
-> +
-> +	if (totalbw == 0) {
-> +		dev_warn(&anx7688->client->dev,
-> +			 "Bandwidth/lane count are 0, not rejecting modes\n");
-> +		return true;
-> +	}
-> +
-> +	return totalbw >= requiredbw;
-> +}
-> +
-> +static const struct drm_bridge_funcs anx7688_bridge_funcs = {
-> +	.mode_fixup	= anx7688_bridge_mode_fixup,
-> +};
-> +
-> +static const struct regmap_config anx7688_regmap_config = {
-> +	.reg_bits = 8,
-> +	.val_bits = 8,
-> +};
-> +
-> +static int anx7688_i2c_probe(struct i2c_client *client,
-> +			     const struct i2c_device_id *id)
-> +{
-> +	struct anx7688 *anx7688;
-> +	struct device *dev = &client->dev;
-> +	int ret;
-> +	u8 buffer[4];
-> +	u16 vendor, device, fwversion;
-> +
-> +	anx7688 = devm_kzalloc(dev, sizeof(*anx7688), GFP_KERNEL);
-> +	if (!anx7688)
-> +		return -ENOMEM;
-> +
-> +#if IS_ENABLED(CONFIG_OF)
-> +	anx7688->bridge.of_node = client->dev.of_node;
-> +#endif
-> +
-> +	anx7688->client = client;
-> +	i2c_set_clientdata(client, anx7688);
-> +
-> +	anx7688->regmap =
-> +		devm_regmap_init_i2c(client, &anx7688_regmap_config);
-> +
-> +	/* Read both vendor and device id (4 bytes). */
-> +	ret = regmap_bulk_read(anx7688->regmap, VENDOR_ID_REG, buffer, 4);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to read chip vendor/device id\n");
-> +		return ret;
-> +	}
-> +
-> +	vendor = (u16)buffer[1] << 8 | buffer[0];
-> +	device = (u16)buffer[3] << 8 | buffer[2];
-> +	if (vendor != VENDOR_ID || device != DEVICE_ID) {
-> +		dev_err(dev, "Invalid vendor/device id %04x/%04x\n",
-> +			vendor, device);
-> +		return -ENODEV;
-> +	}
-> +
-> +	ret = regmap_bulk_read(anx7688->regmap, FW_VERSION_REG, buffer, 2);
-> +	if (ret) {
-> +		dev_err(&client->dev, "Failed to read firmware version\n");
-> +		return ret;
-> +	}
-> +
-> +	fwversion = (u16)buffer[0] << 8 | buffer[1];
-> +	dev_info(dev, "ANX7688 firwmare version %02x.%02x\n",
-> +		 buffer[0], buffer[1]);
-> +
-> +	/* FW version >= 0.85 supports bandwidth/lane count registers */
-> +	if (fwversion >= MINIMUM_FW_VERSION) {
-> +		anx7688->filter = true;
-> +	} else {
-> +		/* Warn, but not fail, for backwards compatibility. */
-> +		dev_warn(dev,
-> +			 "Old ANX7688 FW version (%02x.%02x), not filtering\n",
-> +			 buffer[0], buffer[1]);
-> +	}
-> +
-> +	anx7688->bridge.funcs = &anx7688_bridge_funcs;
-> +	drm_bridge_add(&anx7688->bridge);
-> +
-> +	return 0;
-> +}
-> +
-> +static int anx7688_i2c_remove(struct i2c_client *client)
-> +{
-> +	struct anx7688 *anx7688 = i2c_get_clientdata(client);
-> +
-> +	drm_bridge_remove(&anx7688->bridge);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct i2c_device_id anx7688_id[] = {
-> +	{ "anx7688", 0 },
-> +	{ /* sentinel */ }
-> +};
-> +
-> +MODULE_DEVICE_TABLE(i2c, anx7688_id);
-> +
-> +#if IS_ENABLED(CONFIG_OF)
-> +static const struct of_device_id anx7688_match_table[] = {
-> +	{ .compatible = "analogix,anx7688", },
-> +	{ /* sentinel */ },
-> +};
-> +MODULE_DEVICE_TABLE(of, anx7688_match_table);
-> +#endif
-> +
-> +static struct i2c_driver anx7688_driver = {
-> +	.driver = {
-> +		   .name = "anx7688",
-> +		   .of_match_table = of_match_ptr(anx7688_match_table),
-> +		  },
-> +	.probe = anx7688_i2c_probe,
-> +	.remove = anx7688_i2c_remove,
-> +	.id_table = anx7688_id,
-> +};
-> +
-> +module_i2c_driver(anx7688_driver);
-> +
-> +MODULE_DESCRIPTION("ANX7688 SlimPort Transmitter driver");
-> +MODULE_AUTHOR("Nicolas Boichat <drinkcat@chromium.org>");
-> +MODULE_LICENSE("GPL v2");
-> 
+V8:
+- modify PARENTHESIS_ALIGNMENT format (Sam)
+- use gpios are required API replace optional gpio API (Emil)
+
+V7:
+- Modify communication address
+
+V6:
+- Add the information of the reviewer
+- Remove unnecessary delays, The udelay_range code gracefully returns
+    without hitting the scheduler on a delay of 0. (Derek)
+- Merge the same data structures, like display_mode and off_cmds (Derek)
+- Optimize the processing of results returned by
+    devm_gpiod_get_optional (Derek)
+
+V5:
+- Add the information of the reviewer (Sam)
+- Delete unnecessary header files #include <linux/fb.h> (Sam)
+- The config DRM_PANEL_BOE_HIMAX8279D appears twice. Drop one of them (Sam)
+- ADD static, set_gpios function is not used outside this module (Sam)
+
+V4:
+- Frefix all function maes with boe_ (Sam)
+- Fsed "enable_gpio" replace "reset_gpio", Make it look clearer (Sam)
+- Sort include lines alphabetically (Sam)
+- Fixed entries in the makefile must be sorted alphabetically (Sam)
+- Add send_mipi_cmds function to avoid duplicating the code (Sam)
+- Add the necessary delay(reset_delay_t5) between reset and sending
+    the initialization command (Rock wang)
+
+V3:
+- Remove unnecessary delays in sending initialization commands (Jitao Shi)
+
+V2:
+- Use SPDX identifier (Sam)
+- Use necessary header files replace drmP.h (Sam)
+- Delete unnecessary header files #include <linux/err.h> (Sam)
+- Specifies a GPIOs array to control the reset timing,
+    instead of reading "dsi-reset-sequence" data from DTS (Sam)
+- Delete backlight_disable() function when already disabled (Sam)
+- Use devm_of_find_backlight() replace of_find_backlight_by_node() (Sam)
+- Move the necessary data in the DTS to the current file,
+    like porch, display_mode and Init code etc. (Sam)
+- Add compatible device "boe,himax8279d10p" (Sam)
+
+V1:
+- Support Boe Himax8279d 8.0" 1200x1920 TFT LCD panel, it is a MIPI DSI
+    panel.
+
+Signed-off-by: Jerry Han <jerry.han.hq@gmail.com>
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+Reviewed-by: Derek Basehore <dbasehore@chromium.org>
+Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+Reported-by: kbuild test robot <lkp@intel.com>
+Cc: Jitao Shi <jitao.shi@mediatek.com>
+Cc: Rock wang <rock_wang@himax.com.cn>
+---
+ MAINTAINERS                                  |   6 +
+ drivers/gpu/drm/panel/Kconfig                |  11 +
+ drivers/gpu/drm/panel/Makefile               |   1 +
+ drivers/gpu/drm/panel/panel-boe-himax8279d.c | 977 +++++++++++++++++++
+ 4 files changed, 995 insertions(+)
+ create mode 100644 drivers/gpu/drm/panel/panel-boe-himax8279d.c
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 248938405c01..8b2e6c68832d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5153,6 +5153,12 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
+ S:	Maintained
+ F:	drivers/gpu/drm/bochs/
+ 
++DRM DRIVER FOR BOE HIMAX8279D PANELS
++M:	Jerry Han <hanxu5@huaqin.corp-partner.google.com>
++S:	Maintained
++F:	drivers/gpu/drm/panel/panel-boe-himax8279d.c
++F:	Documentation/devicetree/bindings/display/panel/boe,himax8279d.txt
++
+ DRM DRIVER FOR FARADAY TVE200 TV ENCODER
+ M:	Linus Walleij <linus.walleij@linaro.org>
+ T:	git git://anongit.freedesktop.org/drm/drm-misc
+diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+index f152bc4eeb53..683ff77a3733 100644
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -18,6 +18,17 @@ config DRM_PANEL_ARM_VERSATILE
+ 	  reference designs. The panel is detected using special registers
+ 	  in the Versatile family syscon registers.
+ 
++config DRM_PANEL_BOE_HIMAX8279D
++	tristate "Boe Himax8279d panel"
++	depends on OF
++	depends on DRM_MIPI_DSI
++	depends on BACKLIGHT_CLASS_DEVICE
++	help
++	  Say Y here if you want to enable support for Boe Himax8279d
++	  TFT-LCD modules. The panel has a 1200x1920 resolution and uses
++	  24 bit RGB per pixel. It provides a MIPI DSI interface to
++	  the host and has a built-in LED backlight.
++
+ config DRM_PANEL_LVDS
+ 	tristate "Generic LVDS panel driver"
+ 	depends on OF
+diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+index b6cd39fe0f20..8783476110a3 100644
+--- a/drivers/gpu/drm/panel/Makefile
++++ b/drivers/gpu/drm/panel/Makefile
+@@ -1,5 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0
+ obj-$(CONFIG_DRM_PANEL_ARM_VERSATILE) += panel-arm-versatile.o
++obj-$(CONFIG_DRM_PANEL_BOE_HIMAX8279D) += panel-boe-himax8279d.o
+ obj-$(CONFIG_DRM_PANEL_LVDS) += panel-lvds.o
+ obj-$(CONFIG_DRM_PANEL_SIMPLE) += panel-simple.o
+ obj-$(CONFIG_DRM_PANEL_FEIYANG_FY07024DI26A30D) += panel-feiyang-fy07024di26a30d.o
+diff --git a/drivers/gpu/drm/panel/panel-boe-himax8279d.c b/drivers/gpu/drm/panel/panel-boe-himax8279d.c
+new file mode 100644
+index 000000000000..3a6ee2069158
+--- /dev/null
++++ b/drivers/gpu/drm/panel/panel-boe-himax8279d.c
+@@ -0,0 +1,977 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (c) 2019, Huaqin Telecom Technology Co., Ltd
++ *
++ * Author: Jerry Han <jerry.han.hq@gmail.com>
++ *
++ */
++
++#include <linux/delay.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/of_device.h>
++
++#include <linux/gpio/consumer.h>
++#include <linux/regulator/consumer.h>
++
++#include <drm/drm_device.h>
++#include <drm/drm_mipi_dsi.h>
++#include <drm/drm_modes.h>
++#include <drm/drm_panel.h>
++#include <drm/drm_print.h>
++
++#include <video/mipi_display.h>
++
++struct panel_cmd {
++	char cmd;
++	char data;
++};
++
++struct panel_desc {
++	const struct drm_display_mode *display_mode;
++	unsigned int bpc;
++	unsigned int width_mm;
++	unsigned int height_mm;
++
++	unsigned long mode_flags;
++	enum mipi_dsi_pixel_format format;
++	unsigned int lanes;
++	const struct panel_cmd *on_cmds;
++	unsigned int on_cmds_num;
++};
++
++struct panel_info {
++	struct drm_panel base;
++	struct mipi_dsi_device *link;
++	const struct panel_desc *desc;
++
++	struct gpio_desc *enable_gpio;
++	struct gpio_desc *pp33_gpio;
++	struct gpio_desc *pp18_gpio;
++
++	bool prepared;
++	bool enabled;
++};
++
++static inline struct panel_info *to_panel_info(struct drm_panel *panel)
++{
++	return container_of(panel, struct panel_info, base);
++}
++
++static void disable_gpios(struct panel_info *pinfo)
++{
++	gpiod_set_value(pinfo->enable_gpio, 0);
++	gpiod_set_value(pinfo->pp33_gpio, 0);
++	gpiod_set_value(pinfo->pp18_gpio, 0);
++}
++
++static int send_mipi_cmds(struct drm_panel *panel, const struct panel_cmd *cmds)
++{
++	struct panel_info *pinfo = to_panel_info(panel);
++	unsigned int i = 0;
++	int err;
++
++	for (i = 0; i < pinfo->desc->on_cmds_num; i++) {
++		err = mipi_dsi_dcs_write_buffer(pinfo->link, &cmds[i],
++						sizeof(struct panel_cmd));
++
++		if (err < 0)
++			return err;
++	}
++
++	return 0;
++}
++
++static int boe_panel_disable(struct drm_panel *panel)
++{
++	struct panel_info *pinfo = to_panel_info(panel);
++	int err;
++
++	if (!pinfo->enabled)
++		return 0;
++
++	err = mipi_dsi_dcs_set_display_off(pinfo->link);
++	if (err < 0) {
++		DRM_DEV_ERROR(panel->dev, "failed to set display off: %d\n",
++			      err);
++		return err;
++	}
++
++	pinfo->enabled = false;
++
++	return 0;
++}
++
++static int boe_panel_unprepare(struct drm_panel *panel)
++{
++	struct panel_info *pinfo = to_panel_info(panel);
++	int err;
++
++	if (!pinfo->prepared)
++		return 0;
++
++	err = mipi_dsi_dcs_set_display_off(pinfo->link);
++	if (err < 0)
++		DRM_DEV_ERROR(panel->dev, "failed to set display off: %d\n",
++			      err);
++
++	err = mipi_dsi_dcs_enter_sleep_mode(pinfo->link);
++	if (err < 0)
++		DRM_DEV_ERROR(panel->dev, "failed to enter sleep mode: %d\n",
++			      err);
++
++	/* sleep_mode_delay: 1ms - 2ms */
++	usleep_range(1000, 2000);
++
++	disable_gpios(pinfo);
++
++	pinfo->prepared = false;
++
++	return 0;
++}
++
++static int boe_panel_prepare(struct drm_panel *panel)
++{
++	struct panel_info *pinfo = to_panel_info(panel);
++	int err;
++
++	if (pinfo->prepared)
++		return 0;
++
++	gpiod_set_value(pinfo->pp18_gpio, 1);
++	/* T1: 5ms - 6ms */
++	usleep_range(5000, 6000);
++	gpiod_set_value(pinfo->pp33_gpio, 1);
++
++	/* reset sequence */
++	/* T2: 14ms - 15ms */
++	usleep_range(14000, 15000);
++	gpiod_set_value(pinfo->enable_gpio, 1);
++
++	/* T3: 1ms - 2ms */
++	usleep_range(1000, 2000);
++	gpiod_set_value(pinfo->enable_gpio, 0);
++
++	/* T4: 1ms - 2ms */
++	usleep_range(1000, 2000);
++	gpiod_set_value(pinfo->enable_gpio, 1);
++
++	/* T5: 5ms - 6ms */
++	usleep_range(5000, 6000);
++
++	/* send init code */
++	err = send_mipi_cmds(panel, pinfo->desc->on_cmds);
++	if (err < 0) {
++		DRM_DEV_ERROR(panel->dev, "failed to send DCS Init Code: %d\n",
++			      err);
++		goto poweroff;
++	}
++
++	err = mipi_dsi_dcs_exit_sleep_mode(pinfo->link);
++	if (err < 0) {
++		DRM_DEV_ERROR(panel->dev, "failed to exit sleep mode: %d\n",
++			      err);
++		goto poweroff;
++	}
++
++	/* T6: 120ms - 121ms */
++	usleep_range(120000, 121000);
++
++	err = mipi_dsi_dcs_set_display_on(pinfo->link);
++	if (err < 0) {
++		DRM_DEV_ERROR(panel->dev, "failed to set display on: %d\n",
++			      err);
++		goto poweroff;
++	}
++
++	/* T7: 20ms - 21ms */
++	usleep_range(20000, 21000);
++
++	pinfo->prepared = true;
++
++	return 0;
++
++poweroff:
++	disable_gpios(pinfo);
++	return err;
++}
++
++static int boe_panel_enable(struct drm_panel *panel)
++{
++	struct panel_info *pinfo = to_panel_info(panel);
++	int ret;
++
++	if (pinfo->enabled)
++		return 0;
++
++	usleep_range(120000, 121000);
++
++	ret = mipi_dsi_dcs_set_display_on(pinfo->link);
++	if (ret < 0) {
++		DRM_DEV_ERROR(panel->dev, "failed to set display on: %d\n",
++			      ret);
++		return ret;
++	}
++
++	pinfo->enabled = true;
++
++	return 0;
++}
++
++static int boe_panel_get_modes(struct drm_panel *panel)
++{
++	struct panel_info *pinfo = to_panel_info(panel);
++	const struct drm_display_mode *m = pinfo->desc->display_mode;
++	struct drm_display_mode *mode;
++
++	mode = drm_mode_duplicate(panel->drm, m);
++	if (!mode) {
++		DRM_DEV_ERROR(panel->drm->dev, "failed to add mode %ux%u@%u\n",
++			      m->hdisplay, m->vdisplay, m->vrefresh);
++		return -ENOMEM;
++	}
++
++	drm_mode_set_name(mode);
++
++	drm_mode_probed_add(panel->connector, mode);
++
++	panel->connector->display_info.width_mm = pinfo->desc->width_mm;
++	panel->connector->display_info.height_mm = pinfo->desc->height_mm;
++	panel->connector->display_info.bpc = pinfo->desc->bpc;
++
++	return 1;
++}
++
++static const struct drm_panel_funcs panel_funcs = {
++	.disable = boe_panel_disable,
++	.unprepare = boe_panel_unprepare,
++	.prepare = boe_panel_prepare,
++	.enable = boe_panel_enable,
++	.get_modes = boe_panel_get_modes,
++};
++
++static const struct drm_display_mode default_display_mode = {
++	.clock = 159420,
++	.hdisplay = 1200,
++	.hsync_start = 1200 + 80,
++	.hsync_end = 1200 + 80 + 60,
++	.htotal = 1200 + 80 + 60 + 24,
++	.vdisplay = 1920,
++	.vsync_start = 1920 + 10,
++	.vsync_end = 1920 + 10 + 14,
++	.vtotal = 1920 + 10 + 14 + 4,
++	.vrefresh = 60,
++};
++
++/* 8 inch */
++static const struct panel_cmd boe_himax8279d8p_on_cmds[] = {
++	{ 0xB0, 0x05 },
++	{ 0xB1, 0xE5 },
++	{ 0xB3, 0x52 },
++	{ 0xC0, 0x00 },
++	{ 0xC2, 0x57 },
++	{ 0xD9, 0x85 },
++	{ 0xB0, 0x01 },
++	{ 0xC8, 0x00 },
++	{ 0xC9, 0x00 },
++	{ 0xCC, 0x26 },
++	{ 0xCD, 0x26 },
++	{ 0xDC, 0x00 },
++	{ 0xDD, 0x00 },
++	{ 0xE0, 0x26 },
++	{ 0xE1, 0x26 },
++	{ 0xB0, 0x03 },
++	{ 0xC3, 0x2A },
++	{ 0xE7, 0x2A },
++	{ 0xC5, 0x2A },
++	{ 0xDE, 0x2A },
++	{ 0xBC, 0x02 },
++	{ 0xCB, 0x02 },
++	{ 0xB0, 0x00 },
++	{ 0xB6, 0x03 },
++	{ 0xBA, 0x8B },
++	{ 0xBF, 0x15 },
++	{ 0xC0, 0x18 },
++	{ 0xC2, 0x14 },
++	{ 0xC3, 0x02 },
++	{ 0xC4, 0x14 },
++	{ 0xC5, 0x02 },
++	{ 0xCC, 0x0A },
++	{ 0xB0, 0x06 },
++	{ 0xC0, 0xA5 },
++	{ 0xD5, 0x20 },
++	{ 0xC0, 0x00 },
++	{ 0xB0, 0x02 },
++	{ 0xC0, 0x00 },
++	{ 0xC1, 0x02 },
++	{ 0xC2, 0x06 },
++	{ 0xC3, 0x16 },
++	{ 0xC4, 0x0E },
++	{ 0xC5, 0x18 },
++	{ 0xC6, 0x26 },
++	{ 0xC7, 0x32 },
++	{ 0xC8, 0x3F },
++	{ 0xC9, 0x3F },
++	{ 0xCA, 0x3F },
++	{ 0xCB, 0x3F },
++	{ 0xCC, 0x3D },
++	{ 0xCD, 0x2F },
++	{ 0xCE, 0x2F },
++	{ 0xCF, 0x2F },
++	{ 0xD0, 0x07 },
++	{ 0xD2, 0x00 },
++	{ 0xD3, 0x02 },
++	{ 0xD4, 0x06 },
++	{ 0xD5, 0x12 },
++	{ 0xD6, 0x0A },
++	{ 0xD7, 0x14 },
++	{ 0xD8, 0x22 },
++	{ 0xD9, 0x2E },
++	{ 0xDA, 0x3D },
++	{ 0xDB, 0x3F },
++	{ 0xDC, 0x3F },
++	{ 0xDD, 0x3F },
++	{ 0xDE, 0x3D },
++	{ 0xDF, 0x2F },
++	{ 0xE0, 0x2F },
++	{ 0xE1, 0x2F },
++	{ 0xE2, 0x07 },
++	{ 0xB0, 0x07 },
++	{ 0xB1, 0x18 },
++	{ 0xB2, 0x19 },
++	{ 0xB3, 0x2E },
++	{ 0xB4, 0x52 },
++	{ 0xB5, 0x72 },
++	{ 0xB6, 0x8C },
++	{ 0xB7, 0xBD },
++	{ 0xB8, 0xEB },
++	{ 0xB9, 0x47 },
++	{ 0xBA, 0x96 },
++	{ 0xBB, 0x1E },
++	{ 0xBC, 0x90 },
++	{ 0xBD, 0x93 },
++	{ 0xBE, 0xFA },
++	{ 0xBF, 0x56 },
++	{ 0xC0, 0x8C },
++	{ 0xC1, 0xB7 },
++	{ 0xC2, 0xCC },
++	{ 0xC3, 0xDF },
++	{ 0xC4, 0xE8 },
++	{ 0xC5, 0xF0 },
++	{ 0xC6, 0xF8 },
++	{ 0xC7, 0xFA },
++	{ 0xC8, 0xFC },
++	{ 0xC9, 0x00 },
++	{ 0xCA, 0x00 },
++	{ 0xCB, 0x5A },
++	{ 0xCC, 0xAF },
++	{ 0xCD, 0xFF },
++	{ 0xCE, 0xFF },
++	{ 0xB0, 0x08 },
++	{ 0xB1, 0x04 },
++	{ 0xB2, 0x15 },
++	{ 0xB3, 0x2D },
++	{ 0xB4, 0x51 },
++	{ 0xB5, 0x72 },
++	{ 0xB6, 0x8D },
++	{ 0xB7, 0xBE },
++	{ 0xB8, 0xED },
++	{ 0xB9, 0x4A },
++	{ 0xBA, 0x9A },
++	{ 0xBB, 0x23 },
++	{ 0xBC, 0x95 },
++	{ 0xBD, 0x98 },
++	{ 0xBE, 0xFF },
++	{ 0xBF, 0x59 },
++	{ 0xC0, 0x8E },
++	{ 0xC1, 0xB9 },
++	{ 0xC2, 0xCD },
++	{ 0xC3, 0xDF },
++	{ 0xC4, 0xE8 },
++	{ 0xC5, 0xF0 },
++	{ 0xC6, 0xF8 },
++	{ 0xC7, 0xFA },
++	{ 0xC8, 0xFC },
++	{ 0xC9, 0x00 },
++	{ 0xCA, 0x00 },
++	{ 0xCB, 0x5A },
++	{ 0xCC, 0xAF },
++	{ 0xCD, 0xFF },
++	{ 0xCE, 0xFF },
++	{ 0xB0, 0x09 },
++	{ 0xB1, 0x04 },
++	{ 0xB2, 0x2C },
++	{ 0xB3, 0x36 },
++	{ 0xB4, 0x53 },
++	{ 0xB5, 0x73 },
++	{ 0xB6, 0x8E },
++	{ 0xB7, 0xC0 },
++	{ 0xB8, 0xEF },
++	{ 0xB9, 0x4C },
++	{ 0xBA, 0x9D },
++	{ 0xBB, 0x25 },
++	{ 0xBC, 0x96 },
++	{ 0xBD, 0x9A },
++	{ 0xBE, 0x01 },
++	{ 0xBF, 0x59 },
++	{ 0xC0, 0x8E },
++	{ 0xC1, 0xB9 },
++	{ 0xC2, 0xCD },
++	{ 0xC3, 0xDF },
++	{ 0xC4, 0xE8 },
++	{ 0xC5, 0xF0 },
++	{ 0xC6, 0xF8 },
++	{ 0xC7, 0xFA },
++	{ 0xC8, 0xFC },
++	{ 0xC9, 0x00 },
++	{ 0xCA, 0x00 },
++	{ 0xCB, 0x5A },
++	{ 0xCC, 0xBF },
++	{ 0xCD, 0xFF },
++	{ 0xCE, 0xFF },
++	{ 0xB0, 0x0A },
++	{ 0xB1, 0x18 },
++	{ 0xB2, 0x19 },
++	{ 0xB3, 0x2E },
++	{ 0xB4, 0x52 },
++	{ 0xB5, 0x72 },
++	{ 0xB6, 0x8C },
++	{ 0xB7, 0xBD },
++	{ 0xB8, 0xEB },
++	{ 0xB9, 0x47 },
++	{ 0xBA, 0x96 },
++	{ 0xBB, 0x1E },
++	{ 0xBC, 0x90 },
++	{ 0xBD, 0x93 },
++	{ 0xBE, 0xFA },
++	{ 0xBF, 0x56 },
++	{ 0xC0, 0x8C },
++	{ 0xC1, 0xB7 },
++	{ 0xC2, 0xCC },
++	{ 0xC3, 0xDF },
++	{ 0xC4, 0xE8 },
++	{ 0xC5, 0xF0 },
++	{ 0xC6, 0xF8 },
++	{ 0xC7, 0xFA },
++	{ 0xC8, 0xFC },
++	{ 0xC9, 0x00 },
++	{ 0xCA, 0x00 },
++	{ 0xCB, 0x5A },
++	{ 0xCC, 0xAF },
++	{ 0xCD, 0xFF },
++	{ 0xCE, 0xFF },
++	{ 0xB0, 0x0B },
++	{ 0xB1, 0x04 },
++	{ 0xB2, 0x15 },
++	{ 0xB3, 0x2D },
++	{ 0xB4, 0x51 },
++	{ 0xB5, 0x72 },
++	{ 0xB6, 0x8D },
++	{ 0xB7, 0xBE },
++	{ 0xB8, 0xED },
++	{ 0xB9, 0x4A },
++	{ 0xBA, 0x9A },
++	{ 0xBB, 0x23 },
++	{ 0xBC, 0x95 },
++	{ 0xBD, 0x98 },
++	{ 0xBE, 0xFF },
++	{ 0xBF, 0x59 },
++	{ 0xC0, 0x8E },
++	{ 0xC1, 0xB9 },
++	{ 0xC2, 0xCD },
++	{ 0xC3, 0xDF },
++	{ 0xC4, 0xE8 },
++	{ 0xC5, 0xF0 },
++	{ 0xC6, 0xF8 },
++	{ 0xC7, 0xFA },
++	{ 0xC8, 0xFC },
++	{ 0xC9, 0x00 },
++	{ 0xCA, 0x00 },
++	{ 0xCB, 0x5A },
++	{ 0xCC, 0xAF },
++	{ 0xCD, 0xFF },
++	{ 0xCE, 0xFF },
++	{ 0xB0, 0x0C },
++	{ 0xB1, 0x04 },
++	{ 0xB2, 0x2C },
++	{ 0xB3, 0x36 },
++	{ 0xB4, 0x53 },
++	{ 0xB5, 0x73 },
++	{ 0xB6, 0x8E },
++	{ 0xB7, 0xC0 },
++	{ 0xB8, 0xEF },
++	{ 0xB9, 0x4C },
++	{ 0xBA, 0x9D },
++	{ 0xBB, 0x25 },
++	{ 0xBC, 0x96 },
++	{ 0xBD, 0x9A },
++	{ 0xBE, 0x01 },
++	{ 0xBF, 0x59 },
++	{ 0xC0, 0x8E },
++	{ 0xC1, 0xB9 },
++	{ 0xC2, 0xCD },
++	{ 0xC3, 0xDF },
++	{ 0xC4, 0xE8 },
++	{ 0xC5, 0xF0 },
++	{ 0xC6, 0xF8 },
++	{ 0xC7, 0xFA },
++	{ 0xC8, 0xFC },
++	{ 0xC9, 0x00 },
++	{ 0xCA, 0x00 },
++	{ 0xCB, 0x5A },
++	{ 0xCC, 0xBF },
++	{ 0xCD, 0xFF },
++	{ 0xCE, 0xFF },
++	{ 0xB0, 0x04 },
++	{ 0xB5, 0x02 },
++	{ 0xB6, 0x01 },
++};
++
++static const struct panel_desc boe_himax8279d8p_panel_desc = {
++	.display_mode = &default_display_mode,
++	.bpc = 8,
++	.width_mm = 107,
++	.height_mm = 172,
++	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
++			MIPI_DSI_CLOCK_NON_CONTINUOUS | MIPI_DSI_MODE_LPM,
++	.format = MIPI_DSI_FMT_RGB888,
++	.lanes = 4,
++	.on_cmds = boe_himax8279d8p_on_cmds,
++	.on_cmds_num = 260,
++};
++
++/* 10 inch */
++static const struct panel_cmd boe_himax8279d10p_on_cmds[] = {
++	{ 0xB0, 0x05 },
++	{ 0xB1, 0xE5 },
++	{ 0xB3, 0x52 },
++	{ 0xB0, 0x00 },
++	{ 0xB6, 0x03 },
++	{ 0xBA, 0x8B },
++	{ 0xBF, 0x1A },
++	{ 0xC0, 0x0F },
++	{ 0xC2, 0x0C },
++	{ 0xC3, 0x02 },
++	{ 0xC4, 0x0C },
++	{ 0xC5, 0x02 },
++	{ 0xB0, 0x01 },
++	{ 0xE0, 0x26 },
++	{ 0xE1, 0x26 },
++	{ 0xDC, 0x00 },
++	{ 0xDD, 0x00 },
++	{ 0xCC, 0x26 },
++	{ 0xCD, 0x26 },
++	{ 0xC8, 0x00 },
++	{ 0xC9, 0x00 },
++	{ 0xD2, 0x03 },
++	{ 0xD3, 0x03 },
++	{ 0xE6, 0x04 },
++	{ 0xE7, 0x04 },
++	{ 0xC4, 0x09 },
++	{ 0xC5, 0x09 },
++	{ 0xD8, 0x0A },
++	{ 0xD9, 0x0A },
++	{ 0xC2, 0x0B },
++	{ 0xC3, 0x0B },
++	{ 0xD6, 0x0C },
++	{ 0xD7, 0x0C },
++	{ 0xC0, 0x05 },
++	{ 0xC1, 0x05 },
++	{ 0xD4, 0x06 },
++	{ 0xD5, 0x06 },
++	{ 0xCA, 0x07 },
++	{ 0xCB, 0x07 },
++	{ 0xDE, 0x08 },
++	{ 0xDF, 0x08 },
++	{ 0xB0, 0x02 },
++	{ 0xC0, 0x00 },
++	{ 0xC1, 0x0D },
++	{ 0xC2, 0x17 },
++	{ 0xC3, 0x26 },
++	{ 0xC4, 0x31 },
++	{ 0xC5, 0x1C },
++	{ 0xC6, 0x2C },
++	{ 0xC7, 0x33 },
++	{ 0xC8, 0x31 },
++	{ 0xC9, 0x37 },
++	{ 0xCA, 0x37 },
++	{ 0xCB, 0x37 },
++	{ 0xCC, 0x39 },
++	{ 0xCD, 0x2E },
++	{ 0xCE, 0x2F },
++	{ 0xCF, 0x2F },
++	{ 0xD0, 0x07 },
++	{ 0xD2, 0x00 },
++	{ 0xD3, 0x0D },
++	{ 0xD4, 0x17 },
++	{ 0xD5, 0x26 },
++	{ 0xD6, 0x31 },
++	{ 0xD7, 0x3F },
++	{ 0xD8, 0x3F },
++	{ 0xD9, 0x3F },
++	{ 0xDA, 0x3F },
++	{ 0xDB, 0x37 },
++	{ 0xDC, 0x37 },
++	{ 0xDD, 0x37 },
++	{ 0xDE, 0x39 },
++	{ 0xDF, 0x2E },
++	{ 0xE0, 0x2F },
++	{ 0xE1, 0x2F },
++	{ 0xE2, 0x07 },
++	{ 0xB0, 0x03 },
++	{ 0xC8, 0x0B },
++	{ 0xC9, 0x07 },
++	{ 0xC3, 0x00 },
++	{ 0xE7, 0x00 },
++	{ 0xC5, 0x2A },
++	{ 0xDE, 0x2A },
++	{ 0xCA, 0x43 },
++	{ 0xC9, 0x07 },
++	{ 0xE4, 0xC0 },
++	{ 0xE5, 0x0D },
++	{ 0xCB, 0x01 },
++	{ 0xBC, 0x01 },
++	{ 0xB0, 0x06 },
++	{ 0xB8, 0xA5 },
++	{ 0xC0, 0xA5 },
++	{ 0xC7, 0x0F },
++	{ 0xD5, 0x32 },
++	{ 0xB8, 0x00 },
++	{ 0xC0, 0x00 },
++	{ 0xBC, 0x00 },
++	{ 0xB0, 0x07 },
++	{ 0xB1, 0x00 },
++	{ 0xB2, 0x05 },
++	{ 0xB3, 0x10 },
++	{ 0xB4, 0x22 },
++	{ 0xB5, 0x36 },
++	{ 0xB6, 0x4A },
++	{ 0xB7, 0x6C },
++	{ 0xB8, 0x9A },
++	{ 0xB9, 0xD7 },
++	{ 0xBA, 0x17 },
++	{ 0xBB, 0x92 },
++	{ 0xBC, 0x15 },
++	{ 0xBD, 0x18 },
++	{ 0xBE, 0x8C },
++	{ 0xBF, 0x00 },
++	{ 0xC0, 0x3A },
++	{ 0xC1, 0x72 },
++	{ 0xC2, 0x8C },
++	{ 0xC3, 0xA5 },
++	{ 0xC4, 0xB1 },
++	{ 0xC5, 0xBE },
++	{ 0xC6, 0xCA },
++	{ 0xC7, 0xD1 },
++	{ 0xC8, 0xD4 },
++	{ 0xC9, 0x00 },
++	{ 0xCA, 0x00 },
++	{ 0xCB, 0x16 },
++	{ 0xCC, 0xAF },
++	{ 0xCD, 0xFF },
++	{ 0xCE, 0xFF },
++	{ 0xB0, 0x08 },
++	{ 0xB1, 0x04 },
++	{ 0xB2, 0x05 },
++	{ 0xB3, 0x11 },
++	{ 0xB4, 0x24 },
++	{ 0xB5, 0x39 },
++	{ 0xB6, 0x4E },
++	{ 0xB7, 0x72 },
++	{ 0xB8, 0xA3 },
++	{ 0xB9, 0xE1 },
++	{ 0xBA, 0x25 },
++	{ 0xBB, 0xA8 },
++	{ 0xBC, 0x2E },
++	{ 0xBD, 0x32 },
++	{ 0xBE, 0xAD },
++	{ 0xBF, 0x28 },
++	{ 0xC0, 0x63 },
++	{ 0xC1, 0x9B },
++	{ 0xC2, 0xB5 },
++	{ 0xC3, 0xCF },
++	{ 0xC4, 0xDB },
++	{ 0xC5, 0xE8 },
++	{ 0xC6, 0xF5 },
++	{ 0xC7, 0xFA },
++	{ 0xC8, 0xFC },
++	{ 0xC9, 0x00 },
++	{ 0xCA, 0x00 },
++	{ 0xCB, 0x16 },
++	{ 0xCC, 0xAF },
++	{ 0xCD, 0xFF },
++	{ 0xCE, 0xFF },
++	{ 0xB0, 0x09 },
++	{ 0xB1, 0x04 },
++	{ 0xB2, 0x04 },
++	{ 0xB3, 0x0F },
++	{ 0xB4, 0x22 },
++	{ 0xB5, 0x37 },
++	{ 0xB6, 0x4D },
++	{ 0xB7, 0x71 },
++	{ 0xB8, 0xA2 },
++	{ 0xB9, 0xE1 },
++	{ 0xBA, 0x26 },
++	{ 0xBB, 0xA9 },
++	{ 0xBC, 0x2F },
++	{ 0xBD, 0x33 },
++	{ 0xBE, 0xAC },
++	{ 0xBF, 0x24 },
++	{ 0xC0, 0x5D },
++	{ 0xC1, 0x94 },
++	{ 0xC2, 0xAC },
++	{ 0xC3, 0xC5 },
++	{ 0xC4, 0xD1 },
++	{ 0xC5, 0xDC },
++	{ 0xC6, 0xE8 },
++	{ 0xC7, 0xED },
++	{ 0xC8, 0xF0 },
++	{ 0xC9, 0x00 },
++	{ 0xCA, 0x00 },
++	{ 0xCB, 0x16 },
++	{ 0xCC, 0xAF },
++	{ 0xCD, 0xFF },
++	{ 0xCE, 0xFF },
++	{ 0xB0, 0x0A },
++	{ 0xB1, 0x00 },
++	{ 0xB2, 0x05 },
++	{ 0xB3, 0x10 },
++	{ 0xB4, 0x22 },
++	{ 0xB5, 0x36 },
++	{ 0xB6, 0x4A },
++	{ 0xB7, 0x6C },
++	{ 0xB8, 0x9A },
++	{ 0xB9, 0xD7 },
++	{ 0xBA, 0x17 },
++	{ 0xBB, 0x92 },
++	{ 0xBC, 0x15 },
++	{ 0xBD, 0x18 },
++	{ 0xBE, 0x8C },
++	{ 0xBF, 0x00 },
++	{ 0xC0, 0x3A },
++	{ 0xC1, 0x72 },
++	{ 0xC2, 0x8C },
++	{ 0xC3, 0xA5 },
++	{ 0xC4, 0xB1 },
++	{ 0xC5, 0xBE },
++	{ 0xC6, 0xCA },
++	{ 0xC7, 0xD1 },
++	{ 0xC8, 0xD4 },
++	{ 0xC9, 0x00 },
++	{ 0xCA, 0x00 },
++	{ 0xCB, 0x16 },
++	{ 0xCC, 0xAF },
++	{ 0xCD, 0xFF },
++	{ 0xCE, 0xFF },
++	{ 0xB0, 0x0B },
++	{ 0xB1, 0x04 },
++	{ 0xB2, 0x05 },
++	{ 0xB3, 0x11 },
++	{ 0xB4, 0x24 },
++	{ 0xB5, 0x39 },
++	{ 0xB6, 0x4E },
++	{ 0xB7, 0x72 },
++	{ 0xB8, 0xA3 },
++	{ 0xB9, 0xE1 },
++	{ 0xBA, 0x25 },
++	{ 0xBB, 0xA8 },
++	{ 0xBC, 0x2E },
++	{ 0xBD, 0x32 },
++	{ 0xBE, 0xAD },
++	{ 0xBF, 0x28 },
++	{ 0xC0, 0x63 },
++	{ 0xC1, 0x9B },
++	{ 0xC2, 0xB5 },
++	{ 0xC3, 0xCF },
++	{ 0xC4, 0xDB },
++	{ 0xC5, 0xE8 },
++	{ 0xC6, 0xF5 },
++	{ 0xC7, 0xFA },
++	{ 0xC8, 0xFC },
++	{ 0xC9, 0x00 },
++	{ 0xCA, 0x00 },
++	{ 0xCB, 0x16 },
++	{ 0xCC, 0xAF },
++	{ 0xCD, 0xFF },
++	{ 0xCE, 0xFF },
++	{ 0xB0, 0x0C },
++	{ 0xB1, 0x04 },
++	{ 0xB2, 0x04 },
++	{ 0xB3, 0x0F },
++	{ 0xB4, 0x22 },
++	{ 0xB5, 0x37 },
++	{ 0xB6, 0x4D },
++	{ 0xB7, 0x71 },
++	{ 0xB8, 0xA2 },
++	{ 0xB9, 0xE1 },
++	{ 0xBA, 0x26 },
++	{ 0xBB, 0xA9 },
++	{ 0xBC, 0x2F },
++	{ 0xBD, 0x33 },
++	{ 0xBE, 0xAC },
++	{ 0xBF, 0x24 },
++	{ 0xC0, 0x5D },
++	{ 0xC1, 0x94 },
++	{ 0xC2, 0xAC },
++	{ 0xC3, 0xC5 },
++	{ 0xC4, 0xD1 },
++	{ 0xC5, 0xDC },
++	{ 0xC6, 0xE8 },
++	{ 0xC7, 0xED },
++	{ 0xC8, 0xF0 },
++	{ 0xC9, 0x00 },
++	{ 0xCA, 0x00 },
++	{ 0xCB, 0x16 },
++	{ 0xCC, 0xAF },
++	{ 0xCD, 0xFF },
++	{ 0xCE, 0xFF },
++};
++
++static const struct panel_desc boe_himax8279d10p_panel_desc = {
++	.display_mode = &default_display_mode,
++	.bpc = 8,
++	.width_mm = 135,
++	.height_mm = 216,
++	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
++			MIPI_DSI_CLOCK_NON_CONTINUOUS | MIPI_DSI_MODE_LPM,
++	.format = MIPI_DSI_FMT_RGB888,
++	.lanes = 4,
++	.on_cmds = boe_himax8279d10p_on_cmds,
++	.on_cmds_num = 283,
++};
++
++static const struct of_device_id panel_of_match[] = {
++	{
++		.compatible = "boe,himax8279d8p",
++		.data = &boe_himax8279d8p_panel_desc,
++	},
++	{
++		.compatible = "boe,himax8279d10p",
++		.data = &boe_himax8279d10p_panel_desc,
++	},
++	{
++		/* sentinel */
++	}
++};
++MODULE_DEVICE_TABLE(of, panel_of_match);
++
++static int panel_add(struct panel_info *pinfo)
++{
++	struct device *dev = &pinfo->link->dev;
++	int ret;
++
++	pinfo->pp18_gpio = devm_gpiod_get(dev, "pp18", GPIOD_OUT_HIGH);
++	if (IS_ERR(pinfo->pp18_gpio)) {
++		ret = PTR_ERR(pinfo->pp18_gpio);
++		if (ret != -EPROBE_DEFER)
++			DRM_DEV_ERROR(dev, "failed to get pp18 gpio: %d\n",
++				      ret);
++		return ret;
++	}
++
++	pinfo->pp33_gpio = devm_gpiod_get(dev, "pp33", GPIOD_OUT_HIGH);
++	if (IS_ERR(pinfo->pp33_gpio)) {
++		ret = PTR_ERR(pinfo->pp33_gpio);
++		if (ret != -EPROBE_DEFER)
++			DRM_DEV_ERROR(dev, "failed to get pp33 gpio: %d\n",
++				      ret);
++		return ret;
++	}
++
++	pinfo->enable_gpio = devm_gpiod_get(dev, "enable", GPIOD_OUT_HIGH);
++	if (IS_ERR(pinfo->enable_gpio)) {
++		ret = PTR_ERR(pinfo->enable_gpio);
++		if (ret != -EPROBE_DEFER)
++			DRM_DEV_ERROR(dev, "failed to get enable gpio: %d\n",
++				      ret);
++		return ret;
++	}
++
++	ret = drm_panel_of_backlight(&pinfo->base);
++	if (ret)
++		return ret;
++
++	drm_panel_init(&pinfo->base, dev, &panel_funcs,
++		       DRM_MODE_CONNECTOR_DSI);
++
++	return drm_panel_add(&pinfo->base);
++}
++
++static int panel_probe(struct mipi_dsi_device *dsi)
++{
++	struct panel_info *pinfo;
++	const struct panel_desc *desc;
++	int err;
++
++	pinfo = devm_kzalloc(&dsi->dev, sizeof(*pinfo), GFP_KERNEL);
++	if (!pinfo)
++		return -ENOMEM;
++
++	desc = of_device_get_match_data(&dsi->dev);
++	dsi->mode_flags = desc->mode_flags;
++	dsi->format = desc->format;
++	dsi->lanes = desc->lanes;
++	pinfo->desc = desc;
++
++	pinfo->link = dsi;
++	mipi_dsi_set_drvdata(dsi, pinfo);
++
++	err = panel_add(pinfo);
++	if (err < 0)
++		return err;
++
++	err = mipi_dsi_attach(dsi);
++	if (err < 0)
++		drm_panel_remove(&pinfo->base);
++
++	return err;
++}
++
++static int panel_remove(struct mipi_dsi_device *dsi)
++{
++	struct panel_info *pinfo = mipi_dsi_get_drvdata(dsi);
++	int err;
++
++	err = boe_panel_disable(&pinfo->base);
++	if (err < 0)
++		DRM_DEV_ERROR(&dsi->dev, "failed to disable panel: %d\n",
++			      err);
++
++	err = boe_panel_unprepare(&pinfo->base);
++	if (err < 0)
++		DRM_DEV_ERROR(&dsi->dev, "failed to unprepare panel: %d\n",
++			      err);
++
++	err = mipi_dsi_detach(dsi);
++	if (err < 0)
++		DRM_DEV_ERROR(&dsi->dev, "failed to detach from DSI host: %d\n",
++			      err);
++
++	drm_panel_remove(&pinfo->base);
++
++	return 0;
++}
++
++static void panel_shutdown(struct mipi_dsi_device *dsi)
++{
++	struct panel_info *pinfo = mipi_dsi_get_drvdata(dsi);
++
++	boe_panel_disable(&pinfo->base);
++	boe_panel_unprepare(&pinfo->base);
++}
++
++static struct mipi_dsi_driver panel_driver = {
++	.driver = {
++		.name = "panel-boe-himax8279d",
++		.of_match_table = panel_of_match,
++	},
++	.probe = panel_probe,
++	.remove = panel_remove,
++	.shutdown = panel_shutdown,
++};
++module_mipi_dsi_driver(panel_driver);
++
++MODULE_AUTHOR("Jerry Han <jerry.han.hq@gmail.com>");
++MODULE_DESCRIPTION("Boe Himax8279d driver");
++MODULE_LICENSE("GPL v2");
+-- 
+2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
