@@ -1,41 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C65011CAFA
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 11:34:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEA3811CC97
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 12:52:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAA246ED0D;
-	Thu, 12 Dec 2019 10:34:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0F186E065;
+	Thu, 12 Dec 2019 11:52:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36AF96ED0D;
- Thu, 12 Dec 2019 10:34:34 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2019 02:34:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,305,1571727600"; d="scan'208";a="388260888"
-Received: from plaxmina-desktop.iind.intel.com ([10.106.124.119])
- by orsmga005.jf.intel.com with ESMTP; 12 Dec 2019 02:34:28 -0800
-Date: Thu, 12 Dec 2019 15:58:43 +0530
-From: "Bharadiya,Pankaj" <pankaj.laxminarayan.bharadiya@intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/display: cleanup intel_bw_state on
- i915 module removal
-Message-ID: <20191212102842.GA32588@plaxmina-desktop.iind.intel.com>
-References: <20191209143921.9240-1-pankaj.laxminarayan.bharadiya@intel.com>
- <20191211055739.uxe46chnhkc2byul@ldmartin-desk1>
- <20191211064041.GA3339@plaxmina-desktop.iind.intel.com>
- <20191212002250.357dhphi3clst7qy@ldmartin-desk1>
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D79C56E065
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 11:52:43 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 47YXGJ2qdGz9sPK;
+ Thu, 12 Dec 2019 22:52:04 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1576151529;
+ bh=pQx0Hn9VwNLWs+av3Y7yIbP9UhlN3gaBjg53IUB7FOY=;
+ h=Date:From:To:Cc:Subject:From;
+ b=dVS8H5UBT3DT1URweU/fcAirs7m9wmDanPXZGLx3ZDie2r4yawSyVX/F24SI6VouN
+ GkDywmopFogv11mxprxZ7SwWURh+WIhX2GccEf2Rtkellz3xoNTy/deoDuwcF4/JH7
+ XRs3KPPTJH0HZpTfTbcC9FrV/gdlk+fBLYgxz/ABaSJHCwDKQUA6cvdSExBFwag0xA
+ N6L2n32CzxmvpCPUikkk7qTMhw962qIlWE4Ily9oGCt7qteQcC49L+HfcRSQExseJo
+ K4GomS2ji1C56tD/QaoV43+I94K31Phr/UH1KHlq4uey0uMrnihJw/tTlllrJCtgxd
+ cm5ey8N/EXlIQ==
+Date: Thu, 12 Dec 2019 22:52:02 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: Fixes tag needs some work in the drm-fixes tree
+Message-ID: <20191212225202.04d0d0e7@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191212002250.357dhphi3clst7qy@ldmartin-desk1>
-User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,164 +46,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
- David Airlie <airlied@linux.ie>, Stuart Summers <stuart.summers@intel.com>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Ben Skeggs <bskeggs@redhat.com>
+Content-Type: multipart/mixed; boundary="===============2121530333=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 11, 2019 at 04:22:50PM -0800, Lucas De Marchi wrote:
-> On Wed, Dec 11, 2019 at 12:10:41PM +0530, Bharadiya,Pankaj wrote:
-> >On Tue, Dec 10, 2019 at 09:57:39PM -0800, Lucas De Marchi wrote:
-> >>On Mon, Dec 09, 2019 at 08:09:02PM +0530, Pankaj Bharadiya wrote:
-> >>>intel_bw_state allocated memory is not getting freed even after
-> >>>module removal.
-> >>>
-> >>>kmemleak reported backtrace:
-> >>>
-> >>>   [<0000000079019739>] kmemdup+0x17/0x40
-> >>>   [<00000000d58c1b9d>] intel_bw_duplicate_state+0x1b/0x40 [i915]
-> >>>   [<000000007423ed0c>] drm_atomic_get_private_obj_state+0xca/0x140
-> >>>   [<00000000100e3533>] intel_bw_atomic_check+0x133/0x350 [i915]
-> >>>   [<00000000126d0e0c>] intel_atomic_check+0x1ab7/0x20d0 [i915]
-> >>>   [<00000000d5dfc004>] drm_atomic_check_only+0x563/0x810
-> >>>   [<00000000c9379611>] drm_atomic_commit+0xe/0x50
-> >>>   [<00000000ec82b765>] drm_atomic_helper_disable_all+0x133/0x160
-> >>>   [<000000003c44760c>] drm_atomic_helper_shutdown+0x65/0xc0
-> >>>   [<00000000414e3e5c>] i915_driver_remove+0xcb/0x130 [i915]
-> >>>   [<00000000f8544c2a>] i915_pci_remove+0x19/0x40 [i915]
-> >>>   [<000000002dcbd148>] pci_device_remove+0x36/0xb0
-> >>>   [<000000003c8c6b0a>] device_release_driver_internal+0xe0/0x1c0
-> >>>   [<00000000580e9566>] unbind_store+0xc3/0x120
-> >>>   [<00000000869d0df5>] kernfs_fop_write+0x104/0x190
-> >>>   [<000000004dc1a355>] vfs_write+0xb9/0x1d0
-> >>
-> >>what I find strange in this is that the last state was allocated by the
-> >>"driver remove" code path.
-> >>
-> >>>
-> >>>Call the drm_atomic_private_obj_fini(), which inturn calls the
-> >>>intel_bw_destroy_state() to make sure the intel_bw_state memory is
-> >>>freed properly.
-> >>>
-> >>>Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
-> >>>---
-> >>>drivers/gpu/drm/i915/display/intel_bw.c      | 5 +++++
-> >>>drivers/gpu/drm/i915/display/intel_bw.h      | 1 +
-> >>>drivers/gpu/drm/i915/display/intel_display.c | 2 ++
-> >>>3 files changed, 8 insertions(+)
-> >>>
-> >>>diff --git a/drivers/gpu/drm/i915/display/intel_bw.c b/drivers/gpu/drm/i915/display/intel_bw.c
-> >>>index dcb66a33be9b..b228671d5a5d 100644
-> >>>--- a/drivers/gpu/drm/i915/display/intel_bw.c
-> >>>+++ b/drivers/gpu/drm/i915/display/intel_bw.c
-> >>>@@ -486,3 +486,8 @@ int intel_bw_init(struct drm_i915_private *dev_priv)
-> >>>
-n
-> >>>	return 0;
-> >>>}
-> >>>+
-> >>>+void intel_bw_cleanup(struct drm_i915_private *dev_priv)
-> >>>+{
-> >>>+	drm_atomic_private_obj_fini(&dev_priv->bw_obj);
-> >>>+}
-> >>>diff --git a/drivers/gpu/drm/i915/display/intel_bw.h b/drivers/gpu/drm/i915/display/intel_bw.h
-> >>>index 9db10af012f4..20b9ad241802 100644
-> >>>--- a/drivers/gpu/drm/i915/display/intel_bw.h
-> >>>+++ b/drivers/gpu/drm/i915/display/intel_bw.h
-> >>>@@ -25,6 +25,7 @@ struct intel_bw_state {
-> >>>
-> >>>void intel_bw_init_hw(struct drm_i915_private *dev_priv);
-> >>>int intel_bw_init(struct drm_i915_private *dev_priv);
-> >>>+void intel_bw_cleanup(struct drm_i915_private *dev_priv);
-> >>>int intel_bw_atomic_check(struct intel_atomic_state *state);
-> >>>void intel_bw_crtc_update(struct intel_bw_state *bw_state,
-> >>>			  const struct intel_crtc_state *crtc_state);
-> >>>diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-> >>>index 3190aa27ffdc..756eb90b1bb1 100644
-> >>>--- a/drivers/gpu/drm/i915/display/intel_display.c
-> >>>+++ b/drivers/gpu/drm/i915/display/intel_display.c
-> >>>@@ -17912,6 +17912,8 @@ void intel_modeset_driver_remove(struct drm_i915_private *i915)
-> >>>
-> >>>	intel_gmbus_teardown(i915);
-> >>>
-> >>>+	intel_bw_cleanup(i915);
-> >>
-> >>This doesn't seem to match the (reverse) order of
-> >>intel_modeset_init()... but it's actually the gmbus_teardown() that is
-> >>out of place. Did you check if it's not a wrong shutdown ordering?
-> >>
-> >
-> >In intel_modeset_init(), intel_gmbus_setup() happens after
-> >intel_bw_init().
-> >I think the patch follows the reverse ordering properly.
-> >Am I missing anything?
-> 
-> I said it seems that it's the gmbus_teardown() that is out of place.
+--===============2121530333==
+Content-Type: multipart/signed; boundary="Sig_/oCbuhG6LIC_mZCajeFNESo1";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-Hummm. 
+--Sig_/oCbuhG6LIC_mZCajeFNESo1
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-> Have you seen my comment above? Why are we duplicating the bw_state on
-> the module-remove code path?
+Hi all,
 
-I am not exactly sure why duplicating of bw_state happens on removal.
+n commit
 
-Despite of this, I think we need to have a method to clean up
-the resources allocated/initialized using drm_atotomic_private_obj_init()
-from intel_bw_init() which is missing at the moment.
+  64d17f25dcad ("drm/nouveau: Fix drm-core using atomic code-paths on pre-n=
+v50 hardware")
 
-Moreover, I am getting below kmemleak trace on my NUC during module
-load/unload sequence. 
+Fixes tag
 
- backtrace:
-    [<00000000fe2b0db8>] intel_bw_init+0x1a/0x50 [i915]
-    [<00000000ae7de386>] intel_modeset_init+0x197/0x1d60 [i915]
-    [<00000000b520b2d8>] i915_driver_probe+0xae6/0x1520 [i915]
-    [<00000000682b3100>] i915_pci_probe+0x3f/0x150 [i915]
-    [<00000000efd970df>] local_pci_probe+0x3d/0x90
-    [<00000000a05c08fe>] pci_device_probe+0xd5/0x160
-    [<000000004fdf5c22>] really_probe+0x1b1/0x300
-    [<0000000006397c43>] driver_probe_device+0x4b/0xe0
-    [<000000008ac9d085>] device_driver_attach+0x4a/0x50
-    [<000000004c50b157>] __driver_attach+0x67/0xb0
-    [<000000007e27c7f9>] bus_for_each_dev+0x71/0xb0
-    [<0000000042286228>] bus_add_driver+0x177/0x1f0
-    [<000000006b066a1f>] driver_register+0x56/0xf0
-    [<0000000023883b3a>] do_one_initcall+0x41/0x1df
-    [<00000000933062b0>] do_init_module+0x56/0x1f8
-    [<00000000dde25517>] load_module+0x201c/0x2700
+  Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1706557
 
-Freeing up the resources during module unload sequence with
-drm_atomic_private_obj_fini() fixes this.
+has these problem(s):
 
-Thanks,
-Pankaj
+  - No SHA1 recognised
 
-> 
-> Lucas De Marchi
-> 
-> >
-> >Thanks,
-> >Pankaj
-> >
-> >>thanks
-> >>Lucas De Marchi
-> >>
-> >>>+
-> >>>	destroy_workqueue(i915->flip_wq);
-> >>>	destroy_workqueue(i915->modeset_wq);
-> >>>
-> >>>--
-> >>>2.23.0
-> >>>
-> >>>_______________________________________________
-> >>>Intel-gfx mailing list
-> >>>Intel-gfx@lists.freedesktop.org
-> >>>https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+I haven't seen a Fixes tag with a bug URL before, they usually reference
+the buggy commit.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/oCbuhG6LIC_mZCajeFNESo1
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl3yKeIACgkQAVBC80lX
+0Gx7OwgAi97JtVQ8Ok7s9cphYws5Mo8MnUQVlRIG5zkbVjeOK7UcVYjWvAFU/YdW
+Kvz1yC12va5kcSZycsE24KvVPOY8+sxJYb/asbqg+xZzcG/hpdUlv0aUCb/4Ch2I
+lxBkcAz7pnb/r6Mccfgxgv6hbUCxuaNmySNJuDEXNWRURFKIvKsPQDBdfX+ZAeoK
+1pij0d0SFR0zM3G1IEJ9+C7UwDoQWFqjVmqwluEu9C/zTR9pGQN2L5Lq5MUdHY7B
+YhJoXlOf/3U9FZxHnKVOSrFIQePYPAgZhs4a4xtDD0IlqUfY72v9Ryi5G1h2VVv1
+R5ZcakJSEzTsSjR+TWOohEOKIbiwIw==
+=NdW3
+-----END PGP SIGNATURE-----
+
+--Sig_/oCbuhG6LIC_mZCajeFNESo1--
+
+--===============2121530333==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============2121530333==--
