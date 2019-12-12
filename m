@@ -2,56 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36FCB11C710
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 09:20:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC3B811C70C
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 09:20:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BD9F6EC9B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0476B6EC9D;
 	Thu, 12 Dec 2019 08:19:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
- [216.228.121.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F2676EC92
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 08:19:31 +0000 (UTC)
+Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
+ [216.228.121.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11AAC6EC9F
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 08:19:27 +0000 (UTC)
 Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5df1f8030003>; Thu, 12 Dec 2019 00:19:15 -0800
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5df1f8040002>; Thu, 12 Dec 2019 00:19:16 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
  by hqpgpgate101.nvidia.com (PGP Universal service);
- Thu, 12 Dec 2019 00:19:22 -0800
+ Thu, 12 Dec 2019 00:19:23 -0800
 X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Thu, 12 Dec 2019 00:19:22 -0800
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 12 Dec
+ by hqpgpgate101.nvidia.com on Thu, 12 Dec 2019 00:19:23 -0800
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 12 Dec
  2019 08:19:21 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 12 Dec
+ 2019 08:19:21 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
  Transport; Thu, 12 Dec 2019 08:19:21 +0000
 Received: from blueforge.nvidia.com (Not Verified[10.110.48.28]) by
  hqnvemgw03.nvidia.com with Trustwave SEG (v7, 5, 8, 10121)
- id <B5df1f8090000>; Thu, 12 Dec 2019 00:19:21 -0800
+ id <B5df1f8090001>; Thu, 12 Dec 2019 00:19:21 -0800
 From: John Hubbard <jhubbard@nvidia.com>
 To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v10 24/25] mm/gup_benchmark: support pin_user_pages() and
- related calls
-Date: Thu, 12 Dec 2019 00:19:16 -0800
-Message-ID: <20191212081917.1264184-25-jhubbard@nvidia.com>
+Subject: [PATCH v10 25/25] selftests/vm: run_vmtests: invoke gup_benchmark
+ with basic FOLL_PIN coverage
+Date: Thu, 12 Dec 2019 00:19:17 -0800
+Message-ID: <20191212081917.1264184-26-jhubbard@nvidia.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20191212081917.1264184-1-jhubbard@nvidia.com>
 References: <20191212081917.1264184-1-jhubbard@nvidia.com>
 MIME-Version: 1.0
 X-NVConfidentiality: public
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1576138755; bh=x7MvVbQRVwUCvgSjQ/8SlrbWelgqje2hefrKJsxWbbs=;
+ t=1576138757; bh=efjW/rF0EGuRthlOGEU05IQnyHi57jZRzyopoxtDk8c=;
  h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
  In-Reply-To:References:MIME-Version:X-NVConfidentiality:
  Content-Transfer-Encoding:Content-Type;
- b=Qh0BMgPzoOubAk9M0J1Y25JDgFQyyO3LvOjtWte6FWJLO/xxY/fwtWvaZQHcwSc5B
- OMhrxps7I1U7qqtcK2cJrhEfjZw4yHbRE6o4IdE6pv0bWf+olaOldBBPc40dOVgdPg
- b4ILtBeLf/3HkRbQ56EDmQ4mP2uJOeoEaEJj1bJGX/zZlNLV+9Y2uItzeQh5GO2LjB
- Hu1wJ1/MKBqdLkswBKI5pRTMbAERa7l+h7tALfXkq4ciGkmaJsqvkahSR62BBcgm8O
- ov671tgfDAcZmD3iu7VL/ZuPbLVyaFTIFzSDnSYsBaTHmUQMb2cURQzlRLQf/APcAC
- WIxym8mJ1+PMQ==
+ b=WWDMGVYOnHd3iWE+NQQYwhBWbPaghrkNlNIExThbsN/YXyZZxolHhixKxcf8GqE/k
+ zF9jZ17Pvol2P/BjE3xhCV/rhnk5thJMSeLFQqOfOazFqY5oolm1j6pVo0cd95tKbN
+ F31zukDFvOKYBV2dvENEhMUn1B91vbhd3i4wJGjJ4RPIwCJFToXC8m4sBIBpz2px5U
+ F9hMccp4L8YeXaEKmlNprmiR65S6O7E7EzTLOutDvfCdRwF9rvkBaMisYbAmbMtoYZ
+ vv3yw+6/SqlvDkIXoOmGW7/OgE7PrZmOTmWZH9P9/nHXXZF5hmGt2C7TTl7TTSsXNI
+ G9Ljkzb2cb+0w==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,11 +71,12 @@ Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
  kvm@vger.kernel.org, linux-doc@vger.kernel.org,
  David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
  dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
- linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
- linux-kselftest@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
- Michael Ellerman <mpe@ellerman.id.au>, Christoph Hellwig <hch@infradead.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@suse.cz>,
+ linux-mm@kvack.org, Paul
+ Mackerras <paulus@samba.org>, linux-kselftest@vger.kernel.org,
+ Ira Weiny <ira.weiny@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-rdma@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
+ Christoph Hellwig <hch@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Vlastimil Babka <vbabka@suse.cz>,
  =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn.topel@intel.com>,
  linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
  John Hubbard <jhubbard@nvidia.com>, linux-block@vger.kernel.org,
@@ -89,191 +93,64 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Up until now, gup_benchmark supported testing of the
-following kernel functions:
+It's good to have basic unit test coverage of the new FOLL_PIN
+behavior. Fortunately, the gup_benchmark unit test is extremely
+fast (a few milliseconds), so adding it the the run_vmtests suite
+is going to cause no noticeable change in running time.
 
-* get_user_pages(): via the '-U' command line option
-* get_user_pages_longterm(): via the '-L' command line option
-* get_user_pages_fast(): as the default (no options required)
+So, add two new invocations to run_vmtests:
 
-Add test coverage for the new corresponding pin_*() functions:
+1) Run gup_benchmark with normal get_user_pages().
 
-* pin_user_pages_fast(): via the '-a' command line option
-* pin_user_pages():      via the '-b' command line option
+2) Run gup_benchmark with pin_user_pages(). This is much like
+the first call, except that it sets FOLL_PIN.
 
-Also, add an option for clarity: '-u' for what is now (still) the
-default choice: get_user_pages_fast().
+Running these two in quick succession also provide a visual
+comparison of the running times, which is convenient.
 
-Also, for the commands that set FOLL_PIN, verify that the pages
-really are dma-pinned, via the new is_dma_pinned() routine.
-Those commands are:
-
-    PIN_FAST_BENCHMARK     : calls pin_user_pages_fast()
-    PIN_BENCHMARK          : calls pin_user_pages()
-
-In between the calls to pin_*() and unpin_user_pages(),
-check each page: if page_dma_pinned() returns false, then
-WARN and return.
-
-Do this outside of the benchmark timestamps, so that it doesn't
-affect reported times.
+The new invocations are fairly early in the run_vmtests script,
+because with test suites, it's usually preferable to put the
+shorter, faster tests first, all other things being equal.
 
 Reviewed-by: Ira Weiny <ira.weiny@intel.com>
 Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 ---
- mm/gup_benchmark.c                         | 65 ++++++++++++++++++++--
- tools/testing/selftests/vm/gup_benchmark.c | 15 ++++-
- 2 files changed, 74 insertions(+), 6 deletions(-)
+ tools/testing/selftests/vm/run_vmtests | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/mm/gup_benchmark.c b/mm/gup_benchmark.c
-index 7fc44d25eca7..76d32db48af8 100644
---- a/mm/gup_benchmark.c
-+++ b/mm/gup_benchmark.c
-@@ -8,6 +8,8 @@
- #define GUP_FAST_BENCHMARK	_IOWR('g', 1, struct gup_benchmark)
- #define GUP_LONGTERM_BENCHMARK	_IOWR('g', 2, struct gup_benchmark)
- #define GUP_BENCHMARK		_IOWR('g', 3, struct gup_benchmark)
-+#define PIN_FAST_BENCHMARK	_IOWR('g', 4, struct gup_benchmark)
-+#define PIN_BENCHMARK		_IOWR('g', 5, struct gup_benchmark)
+diff --git a/tools/testing/selftests/vm/run_vmtests b/tools/testing/selftests/vm/run_vmtests
+index a692ea828317..df6a6bf3f238 100755
+--- a/tools/testing/selftests/vm/run_vmtests
++++ b/tools/testing/selftests/vm/run_vmtests
+@@ -112,6 +112,28 @@ echo "NOTE: The above hugetlb tests provide minimal coverage.  Use"
+ echo "      https://github.com/libhugetlbfs/libhugetlbfs.git for"
+ echo "      hugetlb regression testing."
  
- struct gup_benchmark {
- 	__u64 get_delta_usec;
-@@ -19,6 +21,42 @@ struct gup_benchmark {
- 	__u64 expansion[10];	/* For future use */
- };
- 
-+static void put_back_pages(int cmd, struct page **pages, unsigned long nr_pages)
-+{
-+	int i;
++echo "--------------------------------------------"
++echo "running 'gup_benchmark -U' (normal/slow gup)"
++echo "--------------------------------------------"
++./gup_benchmark -U
++if [ $? -ne 0 ]; then
++	echo "[FAIL]"
++	exitcode=1
++else
++	echo "[PASS]"
++fi
 +
-+	switch (cmd) {
-+	case GUP_FAST_BENCHMARK:
-+	case GUP_LONGTERM_BENCHMARK:
-+	case GUP_BENCHMARK:
-+		for (i = 0; i < nr_pages; i++)
-+			put_page(pages[i]);
-+		break;
++echo "------------------------------------------"
++echo "running gup_benchmark -b (pin_user_pages)"
++echo "------------------------------------------"
++./gup_benchmark -b
++if [ $? -ne 0 ]; then
++	echo "[FAIL]"
++	exitcode=1
++else
++	echo "[PASS]"
++fi
 +
-+	case PIN_FAST_BENCHMARK:
-+	case PIN_BENCHMARK:
-+		unpin_user_pages(pages, nr_pages);
-+		break;
-+	}
-+}
-+
-+static void verify_dma_pinned(int cmd, struct page **pages,
-+			      unsigned long nr_pages)
-+{
-+	int i;
-+
-+	switch (cmd) {
-+	case PIN_FAST_BENCHMARK:
-+	case PIN_BENCHMARK:
-+		for (i = 0; i < nr_pages; i++) {
-+			if (WARN(!page_dma_pinned(pages[i]),
-+				 "pages[%d] is NOT dma-pinned\n", i))
-+				break;
-+		}
-+		break;
-+	}
-+}
-+
- static int __gup_benchmark_ioctl(unsigned int cmd,
- 		struct gup_benchmark *gup)
- {
-@@ -65,6 +103,14 @@ static int __gup_benchmark_ioctl(unsigned int cmd,
- 			nr = get_user_pages(addr, nr, gup->flags, pages + i,
- 					    NULL);
- 			break;
-+		case PIN_FAST_BENCHMARK:
-+			nr = pin_user_pages_fast(addr, nr, gup->flags,
-+						 pages + i);
-+			break;
-+		case PIN_BENCHMARK:
-+			nr = pin_user_pages(addr, nr, gup->flags, pages + i,
-+					    NULL);
-+			break;
- 		default:
- 			return -1;
- 		}
-@@ -75,15 +121,22 @@ static int __gup_benchmark_ioctl(unsigned int cmd,
- 	}
- 	end_time = ktime_get();
- 
-+	/* Shifting the meaning of nr_pages: now it is actual number pinned: */
-+	nr_pages = i;
-+
- 	gup->get_delta_usec = ktime_us_delta(end_time, start_time);
- 	gup->size = addr - gup->addr;
- 
-+	/*
-+	 * Take an un-benchmark-timed moment to verify DMA pinned
-+	 * state: print a warning if any non-dma-pinned pages are found:
-+	 */
-+	verify_dma_pinned(cmd, pages, nr_pages);
-+
- 	start_time = ktime_get();
--	for (i = 0; i < nr_pages; i++) {
--		if (!pages[i])
--			break;
--		put_page(pages[i]);
--	}
-+
-+	put_back_pages(cmd, pages, nr_pages);
-+
- 	end_time = ktime_get();
- 	gup->put_delta_usec = ktime_us_delta(end_time, start_time);
- 
-@@ -101,6 +154,8 @@ static long gup_benchmark_ioctl(struct file *filep, unsigned int cmd,
- 	case GUP_FAST_BENCHMARK:
- 	case GUP_LONGTERM_BENCHMARK:
- 	case GUP_BENCHMARK:
-+	case PIN_FAST_BENCHMARK:
-+	case PIN_BENCHMARK:
- 		break;
- 	default:
- 		return -EINVAL;
-diff --git a/tools/testing/selftests/vm/gup_benchmark.c b/tools/testing/selftests/vm/gup_benchmark.c
-index 389327e9b30a..43b4dfe161a2 100644
---- a/tools/testing/selftests/vm/gup_benchmark.c
-+++ b/tools/testing/selftests/vm/gup_benchmark.c
-@@ -18,6 +18,10 @@
- #define GUP_LONGTERM_BENCHMARK	_IOWR('g', 2, struct gup_benchmark)
- #define GUP_BENCHMARK		_IOWR('g', 3, struct gup_benchmark)
- 
-+/* Similar to above, but use FOLL_PIN instead of FOLL_GET. */
-+#define PIN_FAST_BENCHMARK	_IOWR('g', 4, struct gup_benchmark)
-+#define PIN_BENCHMARK		_IOWR('g', 5, struct gup_benchmark)
-+
- /* Just the flags we need, copied from mm.h: */
- #define FOLL_WRITE	0x01	/* check pte is writable */
- 
-@@ -40,8 +44,14 @@ int main(int argc, char **argv)
- 	char *file = "/dev/zero";
- 	char *p;
- 
--	while ((opt = getopt(argc, argv, "m:r:n:f:tTLUwSH")) != -1) {
-+	while ((opt = getopt(argc, argv, "m:r:n:f:abtTLUuwSH")) != -1) {
- 		switch (opt) {
-+		case 'a':
-+			cmd = PIN_FAST_BENCHMARK;
-+			break;
-+		case 'b':
-+			cmd = PIN_BENCHMARK;
-+			break;
- 		case 'm':
- 			size = atoi(optarg) * MB;
- 			break;
-@@ -63,6 +73,9 @@ int main(int argc, char **argv)
- 		case 'U':
- 			cmd = GUP_BENCHMARK;
- 			break;
-+		case 'u':
-+			cmd = GUP_FAST_BENCHMARK;
-+			break;
- 		case 'w':
- 			write = 1;
- 			break;
+ echo "-------------------"
+ echo "running userfaultfd"
+ echo "-------------------"
 -- 
 2.24.0
 
