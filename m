@@ -2,34 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD38611CA3D
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 11:08:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6497D11CA68
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 11:17:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF3F76ECF5;
-	Thu, 12 Dec 2019 10:08:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48E046ECFF;
+	Thu, 12 Dec 2019 10:17:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51CC86ECF5;
- Thu, 12 Dec 2019 10:08:07 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2019 02:08:06 -0800
-X-IronPort-AV: E=Sophos;i="5.69,305,1571727600"; d="scan'208";a="208027776"
-Received: from jlahtine-desk.ger.corp.intel.com (HELO localhost)
- ([10.252.22.216])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2019 02:08:02 -0800
-Date: Thu, 12 Dec 2019 12:07:59 +0200
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-fixes
-Message-ID: <20191212100759.GA22260@jlahtine-desk.ger.corp.intel.com>
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E69DA6ECFD
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 10:17:48 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 340DEB16C;
+ Thu, 12 Dec 2019 10:17:45 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+ id 66CA41E0B8F; Thu, 12 Dec 2019 11:17:41 +0100 (CET)
+Date: Thu, 12 Dec 2019 11:17:41 +0100
+From: Jan Kara <jack@suse.cz>
+To: John Hubbard <jhubbard@nvidia.com>
+Subject: Re: [PATCH v10 23/25] mm/gup: track FOLL_PIN pages
+Message-ID: <20191212101741.GD10065@quack2.suse.cz>
+References: <20191212081917.1264184-1-jhubbard@nvidia.com>
+ <20191212081917.1264184-24-jhubbard@nvidia.com>
 MIME-Version: 1.0
 Content-Disposition: inline
+In-Reply-To: <20191212081917.1264184-24-jhubbard@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,87 +41,328 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
+Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
+ kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
+ dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
+ linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
+ linux-kselftest@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
+ Michael Ellerman <mpe@ellerman.id.au>, Christoph Hellwig <hch@infradead.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@suse.cz>,
+ =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
+ linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ linux-block@vger.kernel.org,
+ =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+ Al Viro <viro@zeniv.linux.org.uk>, Dan Williams <dan.j.williams@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, bpf@vger.kernel.org,
+ Magnus Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
+ netdev@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave & Daniel,
+On Thu 12-12-19 00:19:15, John Hubbard wrote:
+> Add tracking of pages that were pinned via FOLL_PIN.
+> =
 
-Two important user visible fixes; GPU hang on BDW/SKL when idling
-and top of screen corruption on GLK+ when FBC enabled.
+> As mentioned in the FOLL_PIN documentation, callers who effectively set
+> FOLL_PIN are required to ultimately free such pages via unpin_user_page().
+> The effect is similar to FOLL_GET, and may be thought of as "FOLL_GET
+> for DIO and/or RDMA use".
+> =
 
-Fix to Tigerlake perf/OA, HDCP commit computation touching global
-state.
+> Pages that have been pinned via FOLL_PIN are identifiable via a
+> new function call:
+> =
 
-Then two CI spotted corner cases, race condition about context
-retirement and lockdep splat about irqstate.
+>    bool page_dma_pinned(struct page *page);
+> =
 
-I'll send a PR next week still before holidays.
+> What to do in response to encountering such a page, is left to later
+> patchsets. There is discussion about this in [1], [2], and [3].
+> =
 
-Regards, Joonas
+> This also changes a BUG_ON(), to a WARN_ON(), in follow_page_mask().
+> =
 
-***
+> [1] Some slow progress on get_user_pages() (Apr 2, 2019):
+>     https://lwn.net/Articles/784574/
+> [2] DMA and get_user_pages() (LPC: Dec 12, 2018):
+>     https://lwn.net/Articles/774411/
+> [3] The trouble with get_user_pages() (Apr 30, 2018):
+>     https://lwn.net/Articles/753027/
+> =
 
-drm-intel-fixes-2019-12-12:
+> Suggested-by: Jan Kara <jack@suse.cz>
+> Suggested-by: J=E9r=F4me Glisse <jglisse@redhat.com>
+> Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 
-- Fix user reported issue #673: GPU hang on transition to idle
-- Avoid corruption on the top of the screen on GLK+ by disabling FBC
-- Fix non-privileged access to OA on Tigerlake
-- Fix HDCP code not to touch global state when just computing commit
-- Fix CI splat by saving irqstate around virtual_context_destroy
-- Serialise context retirement possibly on another CPU
+Thanks for the patch. As a side note, given this series is rather big, it
+may be better to send just individual updated patches (as replies to the
+review comments) instead of resending the whole series every time. And then
+you can resend the whole series once enough changes accumulate or we reach
+seemingly final state.  That way people don't have to crawl through lots of
+uninteresing emails...  Just something to keep in mind for the future.
 
-The following changes since commit e42617b825f8073569da76dc4510bfa019b1c35a:
+I've spotted just one issue in this patch (see below), the rest are just
+small style nits.
 
-  Linux 5.5-rc1 (2019-12-08 14:57:55 -0800)
+> +#define page_ref_zero_or_close_to_bias_overflow(page) \
+> +	((unsigned int) page_ref_count(page) + \
+> +		GUP_PIN_COUNTING_BIAS <=3D GUP_PIN_COUNTING_BIAS)
+> +
 
-are available in the Git repository at:
+...
 
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2019-12-=
-12
+> +/**
+> + * page_dma_pinned() - report if a page is pinned for DMA.
+> + *
+> + * This function checks if a page has been pinned via a call to
+> + * pin_user_pages*().
+> + *
+> + * The return value is partially fuzzy: false is not fuzzy, because it m=
+eans
+> + * "definitely not pinned for DMA", but true means "probably pinned for =
+DMA, but
+> + * possibly a false positive due to having at least GUP_PIN_COUNTING_BIA=
+S worth
+> + * of normal page references".
+> + *
+> + * False positives are OK, because: a) it's unlikely for a page to get t=
+hat many
+> + * refcounts, and b) all the callers of this routine are expected to be =
+able to
+> + * deal gracefully with a false positive.
+> + *
+> + * For more information, please see Documentation/vm/pin_user_pages.rst.
+> + *
+> + * @page:	pointer to page to be queried.
+> + * @Return:	True, if it is likely that the page has been "dma-pinned".
+> + *		False, if the page is definitely not dma-pinned.
+> + */
+> +static inline bool page_dma_pinned(struct page *page)
+> +{
+> +	return (page_ref_count(compound_head(page))) >=3D GUP_PIN_COUNTING_BIAS;
+> +}
+> +
 
-for you to fetch changes up to 750bde2fd4ffacc297473c36d6fdb29c395b06aa:
+I realized one think WRT handling of page refcount overflow: Page refcount =
+is
+signed and e.g. try_get_page() fails once the refcount is negative. That
+means that:
 
-  drm/i915: Serialise with remote retirement (2019-12-11 16:19:32 +0200)
+a) page_ref_zero_or_close_to_bias_overflow() is not necessary - all places
+that use pinning (i.e., advance refcount by GUP_PIN_COUNTING_BIAS) are not
+necesary, we should just rely on the check for negative value for
+consistency.
 
-----------------------------------------------------------------
-- Fix user reported issue #673: GPU hang on transition to idle
-- Avoid corruption on the top of the screen on GLK+ by disabling FBC
-- Fix non-privileged access to OA on Tigerlake
-- Fix HDCP code not to touch global state when just computing commit
-- Fix CI splat by saving irqstate around virtual_context_destroy
-- Serialise context retirement possibly on another CPU
+b) page_dma_pinned() has to be careful and type page_ref_count() to
+unsigned type for comparison as otherwise overflowed refcount would
+suddently appear as not-pinned.
 
-----------------------------------------------------------------
-Chris Wilson (3):
-      drm/i915/gt: Save irqstate around virtual_context_destroy
-      drm/i915/gt: Detect if we miss WaIdleLiteRestore
-      drm/i915: Serialise with remote retirement
+> +/**
+> + * try_pin_compound_head() - mark a compound page as being used by
+> + * pin_user_pages*().
+> + *
+> + * This is the FOLL_PIN counterpart to try_get_compound_head().
+> + *
+> + * @page:	pointer to page to be marked
+> + * @Return:	the compound head page, with ref appropriately incremented,
+> + * or NULL upon failure.
+> + */
+> +__must_check struct page *try_pin_compound_head(struct page *page, int r=
+efs)
+> +{
+> +	struct page *head =3D try_get_compound_head(page,
+> +						  GUP_PIN_COUNTING_BIAS * refs);
+> +	if (!head)
+> +		return NULL;
+> +
+> +	__update_proc_vmstat(page, NR_FOLL_PIN_REQUESTED, refs);
+> +	return head;
+> +}
+> +
+> +/*
+> + * try_grab_compound_head() - attempt to elevate a page's refcount, by a
+> + * flags-dependent amount.
+> + *
+> + * "grab" names in this file mean, "look at flags to decide whether to u=
+se
+> + * FOLL_PIN or FOLL_GET behavior, when incrementing the page's refcount.
+> + *
+> + * Either FOLL_PIN or FOLL_GET (or neither) must be set, but not both at=
+ the
+> + * same time. (That's true throughout the get_user_pages*() and
+> + * pin_user_pages*() APIs.) Cases:
+> + *
+> + *	FOLL_GET: page's refcount will be incremented by 1.
+> + *      FOLL_PIN: page's refcount will be incremented by GUP_PIN_COUNTIN=
+G_BIAS.
 
-Umesh Nerlige Ramappa (2):
-      drm/i915/perf: Allow non-privileged access when OA buffer is not samp=
-led
-      drm/i915/perf: Configure OAR for specific context
+Some tab vs space issue here... Generally we don't use tabs inside comments
+for indenting so I'd wote for using just spaces.
 
-Ville Syrj=E4l=E4 (2):
-      drm/i915/fbc: Disable fbc by default on all glk+
-      drm/i915/hdcp: Nuke intel_hdcp_transcoder_config()
+> + *
+> + * Return: head page (with refcount appropriately incremented) for succe=
+ss, or
+> + * NULL upon failure. If neither FOLL_GET nor FOLL_PIN was set, that's
+> + * considered failure, and furthermore, a likely bug in the caller, so a=
+ warning
+> + * is also emitted.
+> + */
+> +static __maybe_unused struct page *try_grab_compound_head(struct page *p=
+age,
+> +							  int refs,
+> +							  unsigned int flags)
+> +{
+> +	if (flags & FOLL_GET)
+> +		return try_get_compound_head(page, refs);
+> +	else if (flags & FOLL_PIN)
+> +		return try_pin_compound_head(page, refs);
+> +
+> +	WARN_ON_ONCE((flags & (FOLL_GET | FOLL_PIN)) =3D=3D 0);
 
- drivers/gpu/drm/i915/display/intel_ddi.c  |   5 +-
- drivers/gpu/drm/i915/display/intel_dp.c   |   3 -
- drivers/gpu/drm/i915/display/intel_fbc.c  |   2 +-
- drivers/gpu/drm/i915/display/intel_hdcp.c |  26 ++--
- drivers/gpu/drm/i915/display/intel_hdcp.h |   5 +-
- drivers/gpu/drm/i915/display/intel_hdmi.c |   3 -
- drivers/gpu/drm/i915/gt/intel_lrc.c       |  51 ++++----
- drivers/gpu/drm/i915/i915_gem.c           |  26 +++-
- drivers/gpu/drm/i915/i915_perf.c          | 204 +++++++++++++++++---------=
-----
- 9 files changed, 177 insertions(+), 148 deletions(-)
+This could be just WARN_ON_ONCE(1), right?
+
+> +	return NULL;
+> +}
+> +
+> +/**
+> + * try_grab_page() - elevate a page's refcount by a flag-dependent amount
+> + *
+> + * This might not do anything at all, depending on the flags argument.
+> + *
+> + * "grab" names in this file mean, "look at flags to decide whether to u=
+se
+> + * FOLL_PIN or FOLL_GET behavior, when incrementing the page's refcount.
+> + *
+> + * @page:	pointer to page to be grabbed
+> + * @flags:	gup flags: these are the FOLL_* flag values.
+> + *
+> + * Either FOLL_PIN or FOLL_GET (or neither) may be set, but not both at =
+the same
+> + * time. Cases:
+> + *
+> + *	FOLL_GET: page's refcount will be incremented by 1.
+> + *      FOLL_PIN: page's refcount will be incremented by GUP_PIN_COUNTIN=
+G_BIAS.
+
+Again tab vs space difference here.
+
+> + *
+> + * Return: true for success, or if no action was required (if neither FO=
+LL_PIN
+> + * nor FOLL_GET was set, nothing is done). False for failure: FOLL_GET or
+> + * FOLL_PIN was set, but the page could not be grabbed.
+> + */
+> +bool __must_check try_grab_page(struct page *page, unsigned int flags)
+> +{
+> +	if (flags & FOLL_GET)
+> +		return try_get_page(page);
+> +	else if (flags & FOLL_PIN) {
+> +		page =3D compound_head(page);
+> +		WARN_ON_ONCE(flags & FOLL_GET);
+> +
+> +		if (WARN_ON_ONCE(page_ref_zero_or_close_to_bias_overflow(page)))
+> +			return false;
+
+As I mentioned above, this will need "negative refcount" check instead...
+
+> +
+> +		page_ref_add(page, GUP_PIN_COUNTING_BIAS);
+> +		__update_proc_vmstat(page, NR_FOLL_PIN_REQUESTED, 1);
+> +	}
+> +
+> +	return true;
+> +}
+
+...
+
+> @@ -1468,6 +1482,7 @@ struct page *follow_trans_huge_pmd(struct vm_area_s=
+truct *vma,
+>  {
+>  	struct mm_struct *mm =3D vma->vm_mm;
+>  	struct page *page =3D NULL;
+> +	struct page *subpage =3D NULL;
+>  =
+
+>  	assert_spin_locked(pmd_lockptr(mm, pmd));
+>  =
+
+> @@ -1486,6 +1501,14 @@ struct page *follow_trans_huge_pmd(struct vm_area_=
+struct *vma,
+>  	VM_BUG_ON_PAGE(!PageHead(page) && !is_zone_device_page(page), page);
+>  	if (flags & FOLL_TOUCH)
+>  		touch_pmd(vma, addr, pmd, flags);
+> +
+> +	subpage =3D page;
+> +	subpage +=3D (addr & ~HPAGE_PMD_MASK) >> PAGE_SHIFT;
+> +	VM_BUG_ON_PAGE(!PageCompound(subpage) &&
+> +		       !is_zone_device_page(subpage), subpage);
+> +	if (!try_grab_page(subpage, flags))
+> +		return ERR_PTR(-EFAULT);
+> +
+
+Hum, I think you've made this change more complex than it has to be.
+try_grab_page() is the same for head page or subpage because we increment
+the refcount on the compound_head(page) anyway. So I'd leave this function
+as is (not add subpage or move VM_BUG_ON_PAGE()), just have at this place:
+
+	if (!try_grab_page(page, flags))
+		return ERR_PTR(-EFAULT);
+
+Also one comment regarding the error code. Some places seem to return -ENOM=
+EM
+when they fail to grab page reference. Shouldn't we rather return that one
+for consistency?
+
+>  	if ((flags & FOLL_MLOCK) && (vma->vm_flags & VM_LOCKED)) {
+>  		/*
+>  		 * We don't mlock() pte-mapped THPs. This way we can avoid
+> @@ -1509,24 +1532,18 @@ struct page *follow_trans_huge_pmd(struct vm_area=
+_struct *vma,
+>  		 */
+>  =
+
+>  		if (PageAnon(page) && compound_mapcount(page) !=3D 1)
+> -			goto skip_mlock;
+> +			goto out;
+>  		if (PageDoubleMap(page) || !page->mapping)
+> -			goto skip_mlock;
+> +			goto out;
+>  		if (!trylock_page(page))
+> -			goto skip_mlock;
+> +			goto out;
+>  		lru_add_drain();
+>  		if (page->mapping && !PageDoubleMap(page))
+>  			mlock_vma_page(page);
+>  		unlock_page(page);
+>  	}
+> -skip_mlock:
+> -	page +=3D (addr & ~HPAGE_PMD_MASK) >> PAGE_SHIFT;
+> -	VM_BUG_ON_PAGE(!PageCompound(page) && !is_zone_device_page(page), page);
+> -	if (flags & FOLL_GET)
+> -		get_page(page);
+> -
+>  out:
+> -	return page;
+> +	return subpage;
+>  }
+>  =
+
+
+									Honza
+-- =
+
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
