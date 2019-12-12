@@ -2,44 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6510311DF49
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 09:22:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7783011DF59
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 09:23:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1B656E291;
-	Fri, 13 Dec 2019 08:22:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2249F6E2BD;
+	Fri, 13 Dec 2019 08:22:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7039F6ECE5
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 08:58:08 +0000 (UTC)
-Received: by mail-il1-f199.google.com with SMTP id 4so1104068ill.15
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 00:58:08 -0800 (PST)
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
+ [IPv6:2607:f8b0:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B927F6ECF2;
+ Thu, 12 Dec 2019 10:04:08 +0000 (UTC)
+Received: by mail-pg1-x544.google.com with SMTP id b137so892968pga.6;
+ Thu, 12 Dec 2019 02:04:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3U83CIcKE/SRi+DvpZ5ExDXp0Aib42JfoWBjJw1CdoY=;
+ b=vCnXBu3dpOEsSlMFDA3zopAhw0OK6/iX56Ggf6RICdFnChUXqTdPp0GZCB4crBjViQ
+ xKQ9GC1t7Y8tKnAO98HbiNn5bf6rIOwJ0l1LHdlcyb8ONbACAdWkLsC+ghq+Dj2jGZwd
+ BkP0a4P8kPPU4krEASG4catRFWcTU08fwZNL9Bjgzf6Vj7Ub5TByUy/bQdHpZaVjkaKe
+ sMMfF0UTefMT4+1PyL7u82VY+8jnow6fl4iuqM8eLhAGQT/XsGort5OHykOiQ/PyEGcD
+ yOsJAT3lImH6GdddbI3mefW2LVJtpbTTxw+UMf0PKYBI3tvo85StBCS8/gMchZ4gSlqt
+ Mp+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
- bh=sKHgHXNET5NzD721BUspeErwLiJQg0Q5DJ+q3NfquJk=;
- b=Ue1xHC8FpqVjqfcwCBQuJAYJnCA1lVXERRjlHBmIohYE5nIfFJ6wAkqsxgt2LV/7Yj
- NvCYh16Xwo1hYt0mA/GiI7pRyrIiBnt8kdHpvbYuLfMb6/QpQjkYGlJ2AuiHnniZtP9c
- LXRNc9fxSf8o0R7esRhfyxW5euY5z7aDxATKo49ZnTBEtDOCRdWigAYDY+wsc5/V/qHO
- R+S3cMDNHQSk1mkD4Qh3G8zlEWjV8ZcbL7d5uEBYJGZJjM7CDSbYvJKKNM8HiZ+Qo55x
- K+jDd+kRWVH5LlDGQmqh5dK6YIfIe+7dA+d+EWJg9LUu+8GjUqqMUg3/nB8K6WTqK1Mi
- 2Fuw==
-X-Gm-Message-State: APjAAAWQpyUBdkjWLGcXUasX8j5lEO/c7fabkj5zcnHtk3x55WxSsXpm
- murc0MR73e2aELsQUy+8mHpVQemk+ZeLYp81PNWZhkb/BCXq
-X-Google-Smtp-Source: APXvYqx4u070HFRMDkGpEFRM3FrKCEMy5hsKbvsI8QdZuftRgcmVPMDZHUFnn42Ky/ql3KF7nfQd4HJp2UER/h7+3yU1ijlGeOlB
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3U83CIcKE/SRi+DvpZ5ExDXp0Aib42JfoWBjJw1CdoY=;
+ b=aRoAPGmsSF/sFIqrLUamVVYmDbT5cC3TWI5ekVchbi8ajf9sEWgqjL0aUrYaad4d1A
+ SEJTvtgwS9wNyYhVk2i5wBWS2pSZhipt3vfCXcrtGMHiKEVbVU1GmoYD3FjNim5KnWsS
+ H+Z9VfD2/nQrXtJ01RoZRdJ7qqa7KEFwvFsVcsmGPtcYG2liOmv3TCyMbPJi0DwpEF8E
+ FrjkWAhBupS+ycLNY7gl/h7vpxKiaKTDT8tCwGdunMwWZaKrfGtFsfwjV2fHi3jJ9NkS
+ hIYkEzqnGHgZMnkjHyWCDmKsMzDuqG7vE5FzgtQZWZIAwQ080uX8gxI9qNHSyDm9EgV2
+ VmBQ==
+X-Gm-Message-State: APjAAAUezCTq+DbyR3Fch68yPgF4lbjn6an9+TEvoEK5hm4HBKT1+Adq
+ 7xUpNC1SPYhqFl8c64lgXF4=
+X-Google-Smtp-Source: APXvYqwJREwsRCqyKBWa0CL0bcmG/1cRF3jdvXmB1l6ty6DnFhtsoMoX233t/vjQlv3gcKFWcqzSpg==
+X-Received: by 2002:a62:7590:: with SMTP id q138mr8630797pfc.241.1576145048455; 
+ Thu, 12 Dec 2019 02:04:08 -0800 (PST)
+Received: from suzukaze.ipads-lab.se.sjtu.edu.cn ([202.120.40.82])
+ by smtp.gmail.com with ESMTPSA id g19sm6375868pfh.134.2019.12.12.02.04.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Dec 2019 02:04:07 -0800 (PST)
+From: Chuhong Yuan <hslester96@gmail.com>
+To: 
+Subject: [PATCH v2] drm/nouveau/dispnv50: add missed nv50_outp_release in
+ nv50_msto_disable
+Date: Thu, 12 Dec 2019 18:03:56 +0800
+Message-Id: <20191212100356.11309-1-hslester96@gmail.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-X-Received: by 2002:a5d:9046:: with SMTP id v6mr2073717ioq.302.1576141087806; 
- Thu, 12 Dec 2019 00:58:07 -0800 (PST)
-Date: Thu, 12 Dec 2019 00:58:07 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000a79daf05997df166@google.com>
-Subject: KASAN: global-out-of-bounds Read in soft_cursor
-From: syzbot <syzbot+88dbe7c16ff8616b3720@syzkaller.appspotmail.com>
-To: b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org, 
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- syzkaller-bugs@googlegroups.com
 X-Mailman-Approved-At: Fri, 13 Dec 2019 08:22:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,98 +66,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ Chuhong Yuan <hslester96@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"; DelSp="yes"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+nv50_msto_disable() does not call nv50_outp_release() to match
+nv50_outp_acquire() like other disable().
+Add the missed call to fix it.
 
-syzbot found the following crash on:
-
-HEAD commit:    687dec9b Merge tag 'erofs-for-5.5-rc2-fixes' of git://git...
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=14e0acfae00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=79f79de2a27d3e3d
-dashboard link: https://syzkaller.appspot.com/bug?extid=88dbe7c16ff8616b3720
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-
-Unfortunately, I don't have any reproducer for this crash yet.
-
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+88dbe7c16ff8616b3720@syzkaller.appspotmail.com
-
-==================================================================
-BUG: KASAN: global-out-of-bounds in memcpy include/linux/string.h:380  
-[inline]
-BUG: KASAN: global-out-of-bounds in soft_cursor+0x439/0xa30  
-drivers/video/fbdev/core/softcursor.c:70
-Read of size 32 at addr ffffffff8872a360 by task syz-executor.2/24342
-
-CPU: 0 PID: 24342 Comm: syz-executor.2 Not tainted 5.5.0-rc1-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0x197/0x210 lib/dump_stack.c:118
-  print_address_description.constprop.0.cold+0x5/0x30b mm/kasan/report.c:374
-  __kasan_report.cold+0x1b/0x41 mm/kasan/report.c:506
-  kasan_report+0x12/0x20 mm/kasan/common.c:639
-  check_memory_region_inline mm/kasan/generic.c:185 [inline]
-  check_memory_region+0x134/0x1a0 mm/kasan/generic.c:192
-  memcpy+0x24/0x50 mm/kasan/common.c:125
-  memcpy include/linux/string.h:380 [inline]
-  soft_cursor+0x439/0xa30 drivers/video/fbdev/core/softcursor.c:70
-  bit_cursor+0x12fc/0x1a60 drivers/video/fbdev/core/bitblit.c:386
-  fbcon_cursor+0x487/0x660 drivers/video/fbdev/core/fbcon.c:1402
-  hide_cursor+0x9d/0x2b0 drivers/tty/vt/vt.c:895
-  redraw_screen+0x60b/0x7d0 drivers/tty/vt/vt.c:988
-  fbcon_do_set_font+0x829/0x960 drivers/video/fbdev/core/fbcon.c:2605
-  fbcon_copy_font+0x12c/0x190 drivers/video/fbdev/core/fbcon.c:2620
-  con_font_copy drivers/tty/vt/vt.c:4594 [inline]
-  con_font_op+0x6b2/0x1270 drivers/tty/vt/vt.c:4609
-  vt_ioctl+0x181a/0x26d0 drivers/tty/vt/vt_ioctl.c:965
-  tty_ioctl+0xa37/0x14f0 drivers/tty/tty_io.c:2660
-  vfs_ioctl fs/ioctl.c:47 [inline]
-  file_ioctl fs/ioctl.c:545 [inline]
-  do_vfs_ioctl+0x977/0x14e0 fs/ioctl.c:732
-  ksys_ioctl+0xab/0xd0 fs/ioctl.c:749
-  __do_sys_ioctl fs/ioctl.c:756 [inline]
-  __se_sys_ioctl fs/ioctl.c:754 [inline]
-  __x64_sys_ioctl+0x73/0xb0 fs/ioctl.c:754
-  do_syscall_64+0xfa/0x790 arch/x86/entry/common.c:294
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-RIP: 0033:0x45a909
-Code: ad b6 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7  
-48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff  
-ff 0f 83 7b b6 fb ff c3 66 2e 0f 1f 84 00 00 00 00
-RSP: 002b:00007f61bb330c78 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 000000000045a909
-RDX: 0000000020000040 RSI: 0000000000004b72 RDI: 0000000000000003
-RBP: 000000000075bf20 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007f61bb3316d4
-R13: 00000000004c3a41 R14: 00000000004d8f78 R15: 00000000ffffffff
-
-The buggy address belongs to the variable:
-  oid_index+0x520/0xb80
-
-Memory state around the buggy address:
-  ffffffff8872a200: 00 07 fa fa fa fa fa fa 00 06 fa fa fa fa fa fa
-  ffffffff8872a280: 06 fa fa fa fa fa fa fa 00 00 00 04 fa fa fa fa
-> ffffffff8872a300: 00 00 fa fa fa fa fa fa 00 00 06 fa fa fa fa fa
-                                                        ^
-  ffffffff8872a380: 00 06 fa fa fa fa fa fa 00 00 00 00 fa fa fa fa
-  ffffffff8872a400: 00 00 01 fa fa fa fa fa 06 fa fa fa fa fa fa fa
-==================================================================
-
-
+Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
 ---
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Changes in v2:
+  - Fix the subject prefix.
 
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+ drivers/gpu/drm/nouveau/dispnv50/disp.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+index 549486f1d937..84e1417355cc 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+@@ -862,8 +862,10 @@ nv50_msto_disable(struct drm_encoder *encoder)
+ 
+ 	mstm->outp->update(mstm->outp, msto->head->base.index, NULL, 0, 0);
+ 	mstm->modified = true;
+-	if (!--mstm->links)
++	if (!--mstm->links) {
+ 		mstm->disabled = true;
++		nv50_outp_release(mstm->outp);
++	}
+ 	msto->disabled = true;
+ }
+ 
+-- 
+2.24.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
