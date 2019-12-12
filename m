@@ -2,73 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B25011CD4A
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 13:36:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4DAA11CD90
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2019 13:54:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F1E16ED31;
-	Thu, 12 Dec 2019 12:36:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 141176ED42;
+	Thu, 12 Dec 2019 12:53:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 68598 seconds by postgrey-1.36 at gabe;
- Thu, 12 Dec 2019 12:36:01 UTC
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7EA66ED31
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 12:36:01 +0000 (UTC)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F19056ED42
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 12:53:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576154160;
+ s=mimecast20190719; t=1576155234;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=P7KU0yGpqd+gtXQ7PVameYcgn/rvwEa3g3YEzOaHUqM=;
- b=irhT0fJf01PpLYtwUGGjmA2OtMD29eZlM83IKK682OksDD+wNUe+/7ROQveSHsvQZwNN1k
- s4UU7yGoJGa1lfIYBDcC4h1r0VTrW+dIG8cS3+XHKOf/mY5XArZ1NrBOhYKoE/VRZmSGFi
- mqtzpKvyASuCRgQo0tYGHVUyehoHQeA=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-239-i9V3NjGkMQGitCCEL6Cu8w-1; Thu, 12 Dec 2019 07:35:58 -0500
-Received: by mail-wr1-f72.google.com with SMTP id f15so988452wrr.2
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 04:35:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=P7KU0yGpqd+gtXQ7PVameYcgn/rvwEa3g3YEzOaHUqM=;
- b=Kl1O8pq97Wug26QVYsQ4j/RdLW5QtQmRlDsY/bE9DW5Lrqx6DoazW1FKVc1x9uFIQs
- 12gX5q6Rlr47A0bKRpRnCQQzfYkdvZmPDXx+Wrwp70sZjWeDrWGb5IciUYG/sPc73CWL
- WT1Q3fZx+DGBMBouxgbBJYKrfr50qYaFOZkZiJ7MJj9nWfP8BNXD2B1gphfwYum/uFYf
- D/52cDLzDPNA0pcz1hnN39E95/LpgGzd3D7FhyyQY37+H9NvZw5cnz0EX96YwP8IqXiD
- OXbF7R391/dXCGw1ZyHBwbCg4M3F/9nZTBbpDskycRCYbwqFJOCeGFBBMJ2sCBKvJ6sn
- 7crg==
-X-Gm-Message-State: APjAAAXgtUGUh6Ye88kIFykNrCzw7/oGNPZoPurAEaPmUMzxZr5A2U0v
- soCikFLGtgpbHY573lJtMD2wMIVmpwdGeP3ovTBdV6xsCu/u9yg64Biyt4D3q5j61KjncNjx5qZ
- FTJkaee/Q1tH3A/Qb5UgTaGS4tKkt
-X-Received: by 2002:a5d:44ca:: with SMTP id z10mr6522517wrr.266.1576154157708; 
- Thu, 12 Dec 2019 04:35:57 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxxxqa0QtuibXmsZ3mhtFZnBl7CO5d4j1nkjzcJUvAG+Y6HI662ZmVrAU5ebtjXiuk4TPaDHQ==
-X-Received: by 2002:a5d:44ca:: with SMTP id z10mr6522495wrr.266.1576154157447; 
- Thu, 12 Dec 2019 04:35:57 -0800 (PST)
-Received: from shalem.localdomain
- (2001-1c00-0c0c-fe00-7e79-4dac-39d0-9c14.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c0c:fe00:7e79:4dac:39d0:9c14])
- by smtp.gmail.com with ESMTPSA id j130sm1105398wmb.18.2019.12.12.04.35.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Dec 2019 04:35:56 -0800 (PST)
-Subject: Re: linux-next: Fixes tag needs some work in the drm-fixes tree
-To: Stephen Rothwell <sfr@canb.auug.org.au>, Dave Airlie <airlied@linux.ie>,
- DRI <dri-devel@lists.freedesktop.org>
-References: <20191212225202.04d0d0e7@canb.auug.org.au>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <2dd7955d-5477-d110-9409-1c42444ac03d@redhat.com>
-Date: Thu, 12 Dec 2019 13:35:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
-MIME-Version: 1.0
-In-Reply-To: <20191212225202.04d0d0e7@canb.auug.org.au>
-Content-Language: en-US
-X-MC-Unique: i9V3NjGkMQGitCCEL6Cu8w-1
+ to:to:cc:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mGdjz5FkP/lDxyk2Jr06tkf0Jnmx44WJfXjlJXz+pNQ=;
+ b=XKPEGIERs8Yz3xzwKF7TZdNRvJTjXoEh2e1a9uwKw/xpJrNMdxRxrmIhwYyUSK47/yr8xh
+ Ex+j5lU/mtPKqt5ZGlEQPcfWgtCbRIgXV4azOSm/I5vhc/MBMneuHccKFWJ3lJ5BJA6nLN
+ MG6yXLzyaSdsjgb8FdSN2orVg49Ur9g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-236-XmNmYYhCMBa-69n991La7Q-1; Thu, 12 Dec 2019 07:53:52 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29D4F18B9FC1;
+ Thu, 12 Dec 2019 12:53:51 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.36.118.26])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9FEE35DA70;
+ Thu, 12 Dec 2019 12:53:47 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id D1A0E11AAA; Thu, 12 Dec 2019 13:53:46 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 0/3] drm/virtio: some optimitations.
+Date: Thu, 12 Dec 2019 13:53:43 +0100
+Message-Id: <20191212125346.8334-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: XmNmYYhCMBa-69n991La7Q-1
 X-Mimecast-Spam-Score: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,45 +56,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Ben Skeggs <bskeggs@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, gurchetansingh@chromium.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+v2: fix src rect handling (Chia-I Wu).
 
-On 12-12-2019 12:52, Stephen Rothwell wrote:
-> Hi all,
-> 
-> n commit
-> 
->    64d17f25dcad ("drm/nouveau: Fix drm-core using atomic code-paths on pre-nv50 hardware")
-> 
-> Fixes tag
-> 
->    Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1706557
-> 
-> has these problem(s):
-> 
->    - No SHA1 recognised
-> 
-> I haven't seen a Fixes tag with a bug URL before, they usually reference
-> the buggy commit.
+Gerd Hoffmann (3):
+  drm/virtio: skip set_scanout if framebuffer didn't change
+  virtio-gpu: batch display update commands.
+  virtio-gpu: use damage info for display updates.
 
-Sorry my bad, that should have been a BugLink tag. The patch in question is a bugfix,
-but it is sorta hard to pinpoint the cause to a specific commit, this problem was
-probably introduced during the conversion of nouveau to support atomic modesetting,
-which is quite a while ago and involves lots of patches.
+ drivers/gpu/drm/virtio/virtgpu_drv.h   |  6 ++
+ drivers/gpu/drm/virtio/virtgpu_plane.c | 80 ++++++++++++++++----------
+ drivers/gpu/drm/virtio/virtgpu_vq.c    | 23 +++++++-
+ 3 files changed, 76 insertions(+), 33 deletions(-)
 
-Not sure how to best fix this since fixing would require rewriting history. I hope this
-is just something we can live with?
-
-Regards,
-
-Hans
+-- 
+2.18.1
 
 _______________________________________________
 dri-devel mailing list
