@@ -1,62 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B98FF11EAF2
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 20:08:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 553F111EB21
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 20:34:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC9C36EC3C;
-	Fri, 13 Dec 2019 19:08:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B08416EC3E;
+	Fri, 13 Dec 2019 19:34:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-xc42.google.com (mail-yw1-xc42.google.com
- [IPv6:2607:f8b0:4864:20::c42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 921146EC3C
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 19:08:00 +0000 (UTC)
-Received: by mail-yw1-xc42.google.com with SMTP id n184so282857ywc.3
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 11:08:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=u53//nJmFj2HBNjimHgZzz/H3aQ8IHW4a1APpS8BYfM=;
- b=MY+TQkdaRjVlLRvBizfJDqVPaatex44xkXlQOYb7AAMLUiTs1GaolNIqRwaLS1uTd9
- 6ZwZLE4qWu+24JGSEngt6vH27gY2A6kthi9KAyFwP577+lVUFrq81DNFN4A+DmJni6qP
- N155Cs+kaazV9NFMguyMMrkP4eK/QVSTuNlcPGgscSdMoOSnUCuM5sMOyiNYg5ysHin7
- rQgSP6+OYAJaKiJ1ELbTyNrePb5ayIyg8fm/dslZNEAm4b1O/Pzb/E7JkBnTeFwgMLWV
- maS6FYiyXG6+jzVvE8/RZmHifc+ryvb9BWYVT5OEhvC2E13LnpKYekM6+s6cZvTHBE8Q
- +jhg==
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8DA36EC3E
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 19:34:10 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id a33so306865pgm.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 11:34:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=kpXlgKh6m6btkMxA0zEadMaZZWHTIz1EIt/IbzSmGdc=;
+ b=LY+4X4pWpqt4s6PaH3+/79XVnrg2Ghi+a/OZS5UGOHY8WFFB+32wOCdatVqRHRkBos
+ /fK+MUx15Kn5tGjKgKMoPN67yojE+aFi1Tciox7AmizrmlHdBYserTQPXpDZgLog6Svs
+ gtoXU9/Hen2M4LMinChS4miD+bYr+GFwSDQGI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=u53//nJmFj2HBNjimHgZzz/H3aQ8IHW4a1APpS8BYfM=;
- b=mM5PEQ21lUna/Bg62nRyvDT6aBPAzF3dPVEqgpBFFlZ72yKRA6QVwwzvPv3h1vh4bq
- YyRs9LCpd/nril9YorqorgOUDK31xg1QXAoLaQV5ZM/DtUD49hO3VGMabZ6JOvQLxFKN
- 4ns4cxx2EVjF/tbB7GbGijFQQ618aGa0jFACyBje32fRMuF5JCTiFDRuxv7Ujl0Ekeyy
- CPeWJczRZkYh3GioqUVgdZ0Jf+tXlxTZyhs1GactGfdNz6CJZJO9U7x1mQBevos4C5YG
- p+/3gAWs4HILiU2RoBLqJYch+6CySuvzSL98dJpz6yzBqDHukQJydFHBHTNFQUTKMTn6
- nXdw==
-X-Gm-Message-State: APjAAAUnt3LaOIfuc61e/toPSULjcrPWqN06WRKF9PUDJfJAJONuOIsf
- 69j+xzYoW7GCjeoFn13hfF8v+Q==
-X-Google-Smtp-Source: APXvYqxFc2CHCXF5UsXT4xLnxzOdiit2wth1jH63/Sx6XhBDUwTcCUgBkFwlsQt0W6DshPcrFLNBxQ==
-X-Received: by 2002:a81:3a06:: with SMTP id h6mr9494402ywa.170.1576264079756; 
- Fri, 13 Dec 2019 11:07:59 -0800 (PST)
-Received: from localhost ([2620:0:1013:11:1e1:4760:6ce4:fc64])
- by smtp.gmail.com with ESMTPSA id p133sm4527617ywb.71.2019.12.13.11.07.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Dec 2019 11:07:59 -0800 (PST)
-Date: Fri, 13 Dec 2019 14:07:58 -0500
-From: Sean Paul <sean@poorly.run>
-To: Ramalingam C <ramalingam.c@intel.com>
-Subject: Re: [PATCH v2 02/12] drm/i915: Clear the repeater bit on HDCP disable
-Message-ID: <20191213190758.GG41609@art_vandelay>
-References: <20191212190230.188505-1-sean@poorly.run>
- <20191212190230.188505-3-sean@poorly.run>
- <20191213102902.GB3829@intel.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=kpXlgKh6m6btkMxA0zEadMaZZWHTIz1EIt/IbzSmGdc=;
+ b=WLqbReZoLHX9LPFZWYmVPjYw2NcEe9dxZgPPP1bLRFxzG8g0myWMtOFJ56rN2SG+82
+ q5gAgBSq+peCoPxGPJep06osVTTt6g8dv9CaMHB9AE8pDk/1Tov6lzdJj1aUTsN7Velp
+ IuBFcj1+C7avGWO5inEGdqzy4HfJGUj3uVC7PkbJzl1LlOxI1HYpweIJfgQvk6fSDphh
+ vr5G8QoiXazW7N+CnI7etoIjApEldMFihj4rms40qZ0bI2L0frZNfXXHEY3PLcyDfIDo
+ u0q8qDOsx68Pbx8WuFT4xYbuJfLXKyY4SSa2rXxutsjhwJnOGdRgnXDiTKwt4l4x3c7C
+ YyFw==
+X-Gm-Message-State: APjAAAWo9NZSRsJvczlNst3+eBbgTtYbxFzm5ii6vQ151+2zLIdQ2fAA
+ zdn4WRkHadlnuWqOdBEA5srJOozu7hQ=
+X-Google-Smtp-Source: APXvYqxq/zHREU0s/aonRwWNvmwnlyNyQdntjGALcAMn4mnwv7S/uHg22tryGZVVry748Y4VTYr/wQ==
+X-Received: by 2002:a63:4641:: with SMTP id v1mr1163145pgk.389.1576265649990; 
+ Fri, 13 Dec 2019 11:34:09 -0800 (PST)
+Received: from gurchetansingh0.mtv.corp.google.com
+ ([2620:15c:202:201:bc97:5740:52a7:6875])
+ by smtp.gmail.com with ESMTPSA id d24sm12836652pfq.75.2019.12.13.11.34.09
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+ Fri, 13 Dec 2019 11:34:09 -0800 (PST)
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] udmabuf: fix dma-buf cpu access
+Date: Fri, 13 Dec 2019 11:33:59 -0800
+Message-Id: <20191213193359.1603-1-gurchetansingh@chromium.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191213102902.GB3829@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,86 +62,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, intel-gfx@lists.freedesktop.org,
- Sean Paul <seanpaul@chromium.org>, dri-devel@lists.freedesktop.org,
- rodrigo.vivi@intel.com, stable@vger.kernel.org, Sean Paul <sean@poorly.run>
+Cc: Gurchetan Singh <gurchetansingh@chromium.org>, kraxel@redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 13, 2019 at 03:59:02PM +0530, Ramalingam C wrote:
-> On 2019-12-12 at 14:02:20 -0500, Sean Paul wrote:
-> > From: Sean Paul <seanpaul@chromium.org>
-> > 
-> > On HDCP disable, clear the repeater bit. This ensures if we connect a
-> > non-repeater sink after a repeater, the bit is in the state we expect.
-> > 
-> > Fixes: ee5e5e7a5e0f ("drm/i915: Add HDCP framework + base implementation")
-> > Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> > Cc: Ramalingam C <ramalingam.c@intel.com>
-> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Cc: Sean Paul <seanpaul@chromium.org>
-> > Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> > Cc: intel-gfx@lists.freedesktop.org
-> > Cc: <stable@vger.kernel.org> # v4.17+
-> > Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> > 
-> > Changes in v2:
-> > -Added to the set
-> > ---
-> >  drivers/gpu/drm/i915/display/intel_hdcp.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> > index eaab9008feef..c4394c8e10eb 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> > @@ -773,6 +773,7 @@ static int _intel_hdcp_disable(struct intel_connector *connector)
-> >  	struct intel_digital_port *intel_dig_port = conn_to_dig_port(connector);
-> >  	enum port port = intel_dig_port->base.port;
-> >  	enum transcoder cpu_transcoder = hdcp->cpu_transcoder;
-> > +	u32 repeater_ctl;
-> >  	int ret;
-> >  
-> >  	DRM_DEBUG_KMS("[%s:%d] HDCP is being disabled...\n",
-> > @@ -787,6 +788,10 @@ static int _intel_hdcp_disable(struct intel_connector *connector)
-> >  		return -ETIMEDOUT;
-> >  	}
-> >  
-> > +	repeater_ctl = intel_hdcp_get_repeater_ctl(dev_priv, cpu_transcoder,
-> > +						   port);
-> > +	I915_WRITE(HDCP_REP_CTL, I915_READ(HDCP_REP_CTL) & ~repeater_ctl);
-> Do you think it will help to (double) clear HDCP_REP_CTL when detect a
-> sink which is non repeater!? But yes disable will be executed on all
-> HDCP exits.
-> 
+I'm just going to put Chia's review comment here since it sums
+the issue rather nicely:
 
-Yeah, that's probably a better idea. I was a little undecided on where to put it
-and I think I settled on the disable path since that matches the way we handle
-HDCP signalling. However if we always write REP_CTL, that cuts our callsites
-back down to 1, which seems like a Good Thing.
+"(1) Semantically, a dma-buf is in DMA domain.  CPU access from the
+importer must be surrounded by {begin,end}_cpu_access.  This gives the
+exporter a chance to move the buffer to the CPU domain temporarily.
 
-Will revise.
+(2) When the exporter itself has other means to do CPU access, it is
+only reasonable for the exporter to move the buffer to the CPU domain
+before access, and to the DMA domain after access.  The exporter can
+potentially reuse {begin,end}_cpu_access for that purpose.
 
-Sean
+Because of (1), udmabuf does need to implement the
+{begin,end}_cpu_access hooks.  But "begin" should mean
+dma_sync_sg_for_cpu and "end" should mean dma_sync_sg_for_device.
 
-> > +
-> LGTM
-> 
-> Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
-> 
-> >  	ret = hdcp->shim->toggle_signalling(intel_dig_port, false);
-> >  	if (ret) {
-> >  		DRM_ERROR("Failed to disable HDCP signalling\n");
-> > -- 
-> > Sean Paul, Software Engineer, Google / Chromium OS
-> > 
+Because of (2), if userspace wants to continuing accessing through the
+memfd mapping, it should call udmabuf's {begin,end}_cpu_access to
+avoid cache issues."
 
+Reported-by: Chia-I Wu <olvaffe@gmail.com>
+Suggested-by: Chia-I Wu <olvaffe@gmail.com>
+Fixes: 284562e1f34 ("udmabuf: implement begin_cpu_access/end_cpu_access hooks")
+---
+ drivers/dma-buf/udmabuf.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+index 61b0a2cff874..acb26c627d27 100644
+--- a/drivers/dma-buf/udmabuf.c
++++ b/drivers/dma-buf/udmabuf.c
+@@ -122,9 +122,8 @@ static int begin_cpu_udmabuf(struct dma_buf *buf,
+ 		if (IS_ERR(ubuf->sg))
+ 			return PTR_ERR(ubuf->sg);
+ 	} else {
+-		dma_sync_sg_for_device(dev, ubuf->sg->sgl,
+-				       ubuf->sg->nents,
+-				       direction);
++		dma_sync_sg_for_cpu(dev, ubuf->sg->sgl, ubuf->sg->nents,
++				    direction);
+ 	}
+ 
+ 	return 0;
+@@ -139,7 +138,7 @@ static int end_cpu_udmabuf(struct dma_buf *buf,
+ 	if (!ubuf->sg)
+ 		return -EINVAL;
+ 
+-	dma_sync_sg_for_cpu(dev, ubuf->sg->sgl, ubuf->sg->nents, direction);
++	dma_sync_sg_for_device(dev, ubuf->sg->sgl, ubuf->sg->nents, direction);
+ 	return 0;
+ }
+ 
 -- 
-Sean Paul, Software Engineer, Google / Chromium OS
+2.24.1.735.g03f4e72817-goog
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
