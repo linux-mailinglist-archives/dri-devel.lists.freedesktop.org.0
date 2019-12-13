@@ -2,45 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0E4911E14B
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 10:57:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1968411E15B
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 11:00:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B162F6E2F8;
-	Fri, 13 Dec 2019 09:57:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EE9B6E03A;
+	Fri, 13 Dec 2019 10:00:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
- Fri, 13 Dec 2019 09:57:25 UTC
-Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
- by gabe.freedesktop.org (Postfix) with ESMTP id ABA076E03A
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 09:57:25 +0000 (UTC)
-X-UUID: e805c743da8b4db283c9862ab7073ba3-20191213
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=tbtpc4HwoIizJapJHkpAGqXV6L+ForqoT7eLxcawY2k=; 
- b=KE52f8Sz/w9f0fUBpo4cy66XHSG4Rs1ivQhWgCcOEWfVXRj0HHyCOMh6/BpeFGhkk0agJlMMoR7JA/K1hje5FnEEfNeft6qdoNLopOq+eNShcc1OVuFeZfgjX6RBXBn6gWLJI6MOUIICy37RmDKvXg8pn995ttRwtcSdyxGVV84=;
-X-UUID: e805c743da8b4db283c9862ab7073ba3-20191213
-Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
- (envelope-from <jitao.shi@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 381245448; Fri, 13 Dec 2019 17:52:15 +0800
-Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS33N2.mediatek.inc
- (172.27.4.76) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
- Fri, 13 Dec 2019 17:52:35 +0800
-Received: from mszsdclx1018.gcn.mediatek.inc (172.27.4.253) by
- MTKCAS32.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
- 15.0.1395.4 via Frontend Transport; Fri, 13 Dec 2019 17:52:00 +0800
-From: Jitao Shi <jitao.shi@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/mediatek: reduce the hbp and hfp for phy timing
-Date: Fri, 13 Dec 2019 17:52:15 +0800
-Message-ID: <20191213095215.17068-1-jitao.shi@mediatek.com>
-X-Mailer: git-send-email 2.21.0
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83C9D6E03A
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 10:00:03 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id p17so5894387wma.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 02:00:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=wNP4rI1DOEGJNKJHekEUoF6Vehge/dTvDIo4/5mFf6E=;
+ b=YsQksu/cONoPVHsqBo+Ol3YlvExGinuQQnGqL/9wnK6ssNjv2acpOzR/mF/5xjb0JC
+ lLz2XwymDkMLftIpGSrkhlMGozPL55W9NaqX4oKer3AnYFXzByRAb9+fmwOtw3+Oqi0Q
+ sRod9k8H6GnE0c2uXvhE2BaddqdnXk2tHRlqw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to:user-agent;
+ bh=wNP4rI1DOEGJNKJHekEUoF6Vehge/dTvDIo4/5mFf6E=;
+ b=RP8EXw8iNh7gU0SM1RkKULwyH4hUImCSNXMuGujYcsglr4VBAnNz5EDiQd+/4HtH2S
+ bCL2DOsnT567jOEMQVNxKYF71u345QSjkTzRHEJImVkRLFZmUqwOU0IsF3bSzkqKFDk6
+ pvB2wUlrKv+lAhDpKKbhzfYj5yX10PtfT/hmxBB81WElQYTJcBowmHqz5ruiEK3An7LQ
+ kAdkK+sS2K7WtXiUuVMh++nB38ZHjO5IhmuwEH2SafSph6hK4uFM1UEeLco1OzFNcoNm
+ h1EXL9oLk/Aq5AtkvqdgEkUc4uOzIIz1OVbYb0fkcxuOXRbTnJkFrXLBmo5QOke5LGHX
+ ivig==
+X-Gm-Message-State: APjAAAV3x+/KJ/znmIlyXm7vOFYFXXzky83gz3udeGMf5zT5G4+2VkWB
+ +7HxjyuEF4pn5VbT0tSWXN+RCg==
+X-Google-Smtp-Source: APXvYqzHj5Vgx4Q+eg2SkNOJ4kzSiCtnnqAp5kkKYacZ9gRqcN7iTxNesueCnGqcTcvmU+NnrlE1Zw==
+X-Received: by 2002:a1c:8116:: with SMTP id c22mr11985885wmd.27.1576231202109; 
+ Fri, 13 Dec 2019 02:00:02 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:564b:0:7567:bb67:3d7f:f863])
+ by smtp.gmail.com with ESMTPSA id n67sm3084493wmf.46.2019.12.13.02.00.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Dec 2019 02:00:01 -0800 (PST)
+Date: Fri, 13 Dec 2019 10:59:59 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v2 1/2] drm/shmem: add support for per object caching
+ attributes
+Message-ID: <20191213095959.GA624164@phenom.ffwll.local>
+Mail-Followup-To: Gerd Hoffmann <kraxel@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ open list <linux-kernel@vger.kernel.org>,
+ gurchetansingh@chromium.org
+References: <20191211081810.20079-1-kraxel@redhat.com>
+ <20191211081810.20079-2-kraxel@redhat.com>
+ <0b64e917-48f7-487e-9335-2838b6c62808@suse.de>
+ <ed9142da-ce10-7df2-8a85-ba9ad0c26551@suse.de>
+ <20191211123635.GY624164@phenom.ffwll.local>
+ <20191211131830.iz3a2o4xzmmkjsp7@sirius.home.kraxel.org>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: F2E272E0679D42771031A586BE6A0F92036613FD0F21104A90D5407779A9FEA32000:8
-X-MTK: N
+Content-Disposition: inline
+In-Reply-To: <20191211131830.iz3a2o4xzmmkjsp7@sirius.home.kraxel.org>
+X-Operating-System: Linux phenom 5.3.0-2-amd64 
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,128 +77,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jitao Shi <jitao.shi@mediatek.com>, srv_heupstream@mediatek.com,
- stonea168@163.com, cawa.cheng@mediatek.com, sj.huang@mediatek.com,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- yingjoe.chen@mediatek.com, eddie.huang@mediatek.com
+Cc: David Airlie <airlied@linux.ie>, gurchetansingh@chromium.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ open list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are some extra data transfer in dsi.
-ex. LPX, hs_prepare, hs_zero, hs_exit and the sof/eof of dsi packet.
-This signal will enlarge the line time. So the real frame on dsi bus
-will be lower than calc by video timing.
+On Wed, Dec 11, 2019 at 02:18:30PM +0100, Gerd Hoffmann wrote:
+>   Hi,
+> 
+> > btw on why udl does this: Imported bo are usually rendered by real hw, and
+> > reading it uncached/wc is the more defensive setting. It would be kinda
+> > nice if dma-buf would expose this, but I fear dma-api maintainers would
+> > murder us if we even just propose that ... so it's a mess right now.
+> 
+> I suspect for imported dma-bufs we should leave the mmap() to the
+> exporter instead of pulling the pages out of the sgt and map them
+> ourself.
 
-So dsi driver reduces the hbp and hfp to keep the line time.
+Uh yes. If we still do that, then yes very much we shouldn't. Even better
+would be to just not do that, because the semantics of dumb gem mmap and
+dma-buf mmap differ (the latter has the begin/end access ioctl).
 
-Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_dsi.c | 67 +++++++++++++++++-------------
- 1 file changed, 38 insertions(+), 29 deletions(-)
+If we can't ditch the mmap I think we should at least improve the helpers
+to do the redirect to dma_buf_mmap directly and stop drivers from doing
+silly stuff.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index e9931bbbe846..f247fad47709 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -230,28 +230,25 @@ static void mtk_dsi_mask(struct mtk_dsi *dsi, u32 offset, u32 mask, u32 data)
- static void mtk_dsi_phy_timconfig(struct mtk_dsi *dsi)
- {
- 	u32 timcon0, timcon1, timcon2, timcon3;
--	u32 ui, cycle_time;
-+	u32 data_rate_mhz = DIV_ROUND_UP(dsi->data_rate, 1000000);
- 	struct mtk_phy_timing *timing = &dsi->phy_timing;
- 
--	ui = DIV_ROUND_UP(1000000000, dsi->data_rate);
--	cycle_time = div_u64(8000000000ULL, dsi->data_rate);
-+	timing->lpx = (60 * data_rate_mhz / (8 * 1000)) + 1;
-+	timing->da_hs_prepare = (80 * data_rate_mhz + 4 * 1000) / 8000;
-+	timing->da_hs_zero = (170 * data_rate_mhz + 10 * 1000) / 8000 + 1 -
-+				 timing->da_hs_prepare;
-+	timing->da_hs_trail = timing->da_hs_prepare + 1;
- 
--	timing->lpx = NS_TO_CYCLE(60, cycle_time);
--	timing->da_hs_prepare = NS_TO_CYCLE(50 + 5 * ui, cycle_time);
--	timing->da_hs_zero = NS_TO_CYCLE(110 + 6 * ui, cycle_time);
--	timing->da_hs_trail = NS_TO_CYCLE(77 + 4 * ui, cycle_time);
-+	timing->ta_go = 4 * timing->lpx - 2;
-+	timing->ta_sure = timing->lpx + 2;
-+	timing->ta_get = 4 * timing->lpx;
-+	timing->da_hs_exit = 2 * timing->lpx + 1;
- 
--	timing->ta_go = 4 * timing->lpx;
--	timing->ta_sure = 3 * timing->lpx / 2;
--	timing->ta_get = 5 * timing->lpx;
--	timing->da_hs_exit = 2 * timing->lpx;
--
--	timing->clk_hs_zero = NS_TO_CYCLE(336, cycle_time);
--	timing->clk_hs_trail = NS_TO_CYCLE(100, cycle_time) + 10;
--
--	timing->clk_hs_prepare = NS_TO_CYCLE(64, cycle_time);
--	timing->clk_hs_post = NS_TO_CYCLE(80 + 52 * ui, cycle_time);
--	timing->clk_hs_exit = 2 * timing->lpx;
-+	timing->clk_hs_prepare = 70 * data_rate_mhz / (8 * 1000);
-+	timing->clk_hs_post = timing->clk_hs_prepare + 8;
-+	timing->clk_hs_trail = timing->clk_hs_prepare;
-+	timing->clk_hs_zero = timing->clk_hs_trail * 4;
-+	timing->clk_hs_exit = 2 * timing->clk_hs_trail;
- 
- 	timcon0 = timing->lpx | timing->da_hs_prepare << 8 |
- 		  timing->da_hs_zero << 16 | timing->da_hs_trail << 24;
-@@ -482,27 +479,39 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
- 			dsi_tmp_buf_bpp - 10);
- 
- 	data_phy_cycles = timing->lpx + timing->da_hs_prepare +
--				  timing->da_hs_zero + timing->da_hs_exit + 2;
-+				  timing->da_hs_zero + timing->da_hs_exit + 3;
- 
- 	if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST) {
--		if (vm->hfront_porch * dsi_tmp_buf_bpp >
-+		if ((vm->hfront_porch + vm->hback_porch) * dsi_tmp_buf_bpp >
- 		    data_phy_cycles * dsi->lanes + 18) {
--			horizontal_frontporch_byte = vm->hfront_porch *
--						     dsi_tmp_buf_bpp -
--						     data_phy_cycles *
--						     dsi->lanes - 18;
-+			horizontal_frontporch_byte =
-+				vm->hfront_porch * dsi_tmp_buf_bpp -
-+				(data_phy_cycles * dsi->lanes + 18) *
-+				vm->hfront_porch /
-+				(vm->hfront_porch + vm->hback_porch);
-+
-+			horizontal_backporch_byte =
-+				horizontal_backporch_byte -
-+				(data_phy_cycles * dsi->lanes + 18) *
-+				vm->hback_porch /
-+				(vm->hfront_porch + vm->hback_porch);
- 		} else {
- 			DRM_WARN("HFP less than d-phy, FPS will under 60Hz\n");
- 			horizontal_frontporch_byte = vm->hfront_porch *
- 						     dsi_tmp_buf_bpp;
- 		}
- 	} else {
--		if (vm->hfront_porch * dsi_tmp_buf_bpp >
-+		if ((vm->hfront_porch + vm->hback_porch) * dsi_tmp_buf_bpp >
- 		    data_phy_cycles * dsi->lanes + 12) {
--			horizontal_frontporch_byte = vm->hfront_porch *
--						     dsi_tmp_buf_bpp -
--						     data_phy_cycles *
--						     dsi->lanes - 12;
-+			horizontal_frontporch_byte =
-+				vm->hfront_porch * dsi_tmp_buf_bpp -
-+				(data_phy_cycles * dsi->lanes + 12) *
-+				vm->hfront_porch /
-+				(vm->hfront_porch + vm->hback_porch);
-+			horizontal_backporch_byte = horizontal_backporch_byte -
-+				(data_phy_cycles * dsi->lanes + 12) *
-+				vm->hback_porch /
-+				(vm->hfront_porch + vm->hback_porch);
- 		} else {
- 			DRM_WARN("HFP less than d-phy, FPS will under 60Hz\n");
- 			horizontal_frontporch_byte = vm->hfront_porch *
+> > btw the issue extends to dma access by devices too, e.g. both i915 and
+> > amdgpu can select the coherency mode at runtime (using e.g. the pcie
+> > no-snoop transaction mode), and we have similar uncoordinated hacks in
+> > there too, like in udl.
+> 
+> Hmm.  Ok.  I guess I'm not going to try solve all that properly just for
+> the little virtio fix.
+> 
+> Just curious:  How do you tell your hardware?  Are there bits for that
+> in the gtt, simliar to the caching bits in the x86 page tables?
+
+Brace for contact ...
+
+- on amdgpu it's a bit in the gpu pagetable. I think (but not sure, not an
+  expert on these chips) that's the only way.
+
+- on i915 it's a also a bit in the gpu pagetables, but userspace can
+  override the caching/coherency mode on a per-texture/render target/*BO
+  level in the command stream.
+
+This is why gpus and dma-api don't mix well, since dma-api's goal is to
+hide all this even from the driver. gpus otoh leak it all the way to
+userspace. The trouble is as old as AGP from 1999 or so, I've become
+somewhat cynic at trying to fix this for real and not just with hacks. The
+disconnect between what we need and what dma-api kernel people want to
+give us is too big to bridge it seems.
+-Daniel
 -- 
-2.21.0
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
