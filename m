@@ -1,43 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABF3711E0FC
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 10:39:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0E4911E14B
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 10:57:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DEA56E047;
-	Fri, 13 Dec 2019 09:39:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B162F6E2F8;
+	Fri, 13 Dec 2019 09:57:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FF4A6E047
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 09:39:54 +0000 (UTC)
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 844FC2253D;
- Fri, 13 Dec 2019 09:39:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576229994;
- bh=EouLgj66lUoNOE7XfDu8hDJIhHOHOaUqH/rQB8IAAnE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gQOQxYL4EYRU77i1INDVBNH7YvTIGIjUL/TUZ/Z3cnGpw40YyohxwMPYYjnJbPKeb
- tfBy1HUODb06N7yj75UgDzW9Tns6mW1r8Fq4uY9eQ8DUJd/b2NUlKRXlkPppa5MBfn
- gKmpeQsjQnh88M8SAIf3Akxb7KYK8l2Ql9mYiRoQ=
-Date: Fri, 13 Dec 2019 10:39:50 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Stephan Gerhold <stephan@gerhold.net>
-Subject: Re: [PATCH] drm/modes: Support video parameters with only reflect
- option
-Message-ID: <20191213093950.2og36ohatf4jipd7@gilmour.lan>
-References: <20191209183254.211428-1-stephan@gerhold.net>
- <20191210102046.fu5s4hzwcdfnv5zz@gilmour.lan>
- <20191210104237.GA228968@gerhold.net>
- <20191211181046.xhlzc74m75lb525c@gilmour.lan>
- <20191211190839.GA52803@gerhold.net>
+X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
+ Fri, 13 Dec 2019 09:57:25 UTC
+Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
+ by gabe.freedesktop.org (Postfix) with ESMTP id ABA076E03A
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 09:57:25 +0000 (UTC)
+X-UUID: e805c743da8b4db283c9862ab7073ba3-20191213
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=tbtpc4HwoIizJapJHkpAGqXV6L+ForqoT7eLxcawY2k=; 
+ b=KE52f8Sz/w9f0fUBpo4cy66XHSG4Rs1ivQhWgCcOEWfVXRj0HHyCOMh6/BpeFGhkk0agJlMMoR7JA/K1hje5FnEEfNeft6qdoNLopOq+eNShcc1OVuFeZfgjX6RBXBn6gWLJI6MOUIICy37RmDKvXg8pn995ttRwtcSdyxGVV84=;
+X-UUID: e805c743da8b4db283c9862ab7073ba3-20191213
+Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+ (envelope-from <jitao.shi@mediatek.com>)
+ (mailgw01.mediatek.com ESMTP with TLS)
+ with ESMTP id 381245448; Fri, 13 Dec 2019 17:52:15 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS33N2.mediatek.inc
+ (172.27.4.76) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+ Fri, 13 Dec 2019 17:52:35 +0800
+Received: from mszsdclx1018.gcn.mediatek.inc (172.27.4.253) by
+ MTKCAS32.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
+ 15.0.1395.4 via Frontend Transport; Fri, 13 Dec 2019 17:52:00 +0800
+From: Jitao Shi <jitao.shi@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
+ <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/mediatek: reduce the hbp and hfp for phy timing
+Date: Fri, 13 Dec 2019 17:52:15 +0800
+Message-ID: <20191213095215.17068-1-jitao.shi@mediatek.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20191211190839.GA52803@gerhold.net>
+X-TM-SNTS-SMTP: F2E272E0679D42771031A586BE6A0F92036613FD0F21104A90D5407779A9FEA32000:8
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,126 +53,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1126887942=="
+Cc: Jitao Shi <jitao.shi@mediatek.com>, srv_heupstream@mediatek.com,
+ stonea168@163.com, cawa.cheng@mediatek.com, sj.huang@mediatek.com,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ yingjoe.chen@mediatek.com, eddie.huang@mediatek.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+There are some extra data transfer in dsi.
+ex. LPX, hs_prepare, hs_zero, hs_exit and the sof/eof of dsi packet.
+This signal will enlarge the line time. So the real frame on dsi bus
+will be lower than calc by video timing.
 
---===============1126887942==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="7aofdfi6kdvzqdmf"
-Content-Disposition: inline
+So dsi driver reduces the hbp and hfp to keep the line time.
 
+Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+---
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 67 +++++++++++++++++-------------
+ 1 file changed, 38 insertions(+), 29 deletions(-)
 
---7aofdfi6kdvzqdmf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi Stephan,
-
-On Wed, Dec 11, 2019 at 08:08:39PM +0100, Stephan Gerhold wrote:
-> On Wed, Dec 11, 2019 at 07:10:46PM +0100, Maxime Ripard wrote:
-> > On Tue, Dec 10, 2019 at 11:42:37AM +0100, Stephan Gerhold wrote:
-> > > On Tue, Dec 10, 2019 at 11:20:46AM +0100, Maxime Ripard wrote:
-> > > > Hi,
-> > > >
-> > > > On Mon, Dec 09, 2019 at 07:32:54PM +0100, Stephan Gerhold wrote:
-> > > > > At the moment, video mode parameters like video=540x960,reflect_x,
-> > > > > (without rotation set) are silently ignored.
-> > > > >
-> > > > > One of the reasons for this is that the calculation that
-> > > > > combines the panel_orientation with cmdline->rotation_reflection
-> > > > > does not handle the case when cmdline->rotation_reflection does
-> > > > > not have any rotation set.
-> > > > > (i.e. cmdline->rotation_reflection & DRM_MODE_ROTATE_MASK == 0)
-> > > > >
-> > > > > Example:
-> > > > >   *rotation = DRM_MODE_ROTATE_0 (no panel_orientation)
-> > > > >   cmdline->rotation_reflection = DRM_MODE_REFLECT_X (video=MODE,reflect_x)
-> > > > >
-> > > > > The current code does:
-> > > > >   panel_rot = ilog2(*rotation & DRM_MODE_ROTATE_MASK);
-> > > > >   cmdline_rot = ilog2(cmdline->rotation_reflection & DRM_MODE_ROTATE_MASK);
-> > > > >   sum_rot = (panel_rot + cmdline_rot) % 4;
-> > > > >
-> > > > > and therefore:
-> > > > >   panel_rot = ilog2(DRM_MODE_ROTATE_0) = ilog2(1) = 0
-> > > > >   cmdline_rot = ilog2(0) = -1
-> > > > >   sum_rot = (0 + -1) % 4 = -1 % 4 = 3
-> > > > >    ...
-> > > > >   *rotation = DRM_MODE_ROTATE_270 | DRM_MODE_REFLECT_X
-> > > > >
-> > > > > So we incorrectly generate DRM_MODE_ROTATE_270 in this case.
-> > > > > To prevent cmdline_rot from becoming -1, we need to treat
-> > > > > the rotation as DRM_MODE_ROTATE_0.
-> > > > >
-> > > > > On the other hand, there is no need to go through that calculation
-> > > > > at all if no rotation is set in rotation_reflection.
-> > > > > A simple XOR is enough to combine the reflections.
-> > > > >
-> > > > > Finally, also allow DRM_MODE_ROTATE_0 in the if statement below.
-> > > > > DRM_MODE_ROTATE_0 means "no rotation" and should therefore not
-> > > > > require any special handling (e.g. specific tiling format).
-> > > > >
-> > > > > This makes video parameters with only reflect option work correctly.
-> > > > >
-> > > > > Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
-> > > >
-> > > > Thanks for that commit message.
-> > > >
-> > > > Can you also add a selftest to make sure we don't get a regression in
-> > > > the future?
-> > >
-> > > Can you explain how/where I would add a test for drm_client_rotation()
-> > > in drm_client_modeset.c? I'm not familiar with selftests to be honest.
-> > >
-> > > I found test-drm_cmdline_parser.c but that seems to cover only the
-> > > cmdline parsing (which is working correctly already).
-> >
-> > The cmdline here is the kernel command line. You were mentionning in
-> > your commit log that video=540x960,reflect_x was broken?
-> >
->
-> The parameter is parsed correctly and placed into connector->cmdline_mode.
-> Therefore, not the *parsing* is broken, only the way we try to apply
-> and merge them with the panel orientation in drm_client_modeset.c.
->
-> There are existing test cases for the parsing of parameters similar to
-> video=540x960,reflect_x, see drm_cmdline_test_hmirror()
-> in the aforementioned test file.
->
-> Maybe my commit message was not as clear as I hoped :)
-
-Ah, I see what you meant by "silently ignored" now :)
-
-Yeah, maybe we can change that by "not taken into account when
-applying the mode" or something like that?
-
-Maxime
-
---7aofdfi6kdvzqdmf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXfNcZgAKCRDj7w1vZxhR
-xZ9+AQClGI/QqXKqNtX5HFAc9dU/YRSnuz8pEA2XW0uQjcd1AgEArxQLNwqMkb0P
-70TSWoAD7m7cQP7LkWrZqya7/8aWQwg=
-=LGI0
------END PGP SIGNATURE-----
-
---7aofdfi6kdvzqdmf--
-
---===============1126887942==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+index e9931bbbe846..f247fad47709 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dsi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+@@ -230,28 +230,25 @@ static void mtk_dsi_mask(struct mtk_dsi *dsi, u32 offset, u32 mask, u32 data)
+ static void mtk_dsi_phy_timconfig(struct mtk_dsi *dsi)
+ {
+ 	u32 timcon0, timcon1, timcon2, timcon3;
+-	u32 ui, cycle_time;
++	u32 data_rate_mhz = DIV_ROUND_UP(dsi->data_rate, 1000000);
+ 	struct mtk_phy_timing *timing = &dsi->phy_timing;
+ 
+-	ui = DIV_ROUND_UP(1000000000, dsi->data_rate);
+-	cycle_time = div_u64(8000000000ULL, dsi->data_rate);
++	timing->lpx = (60 * data_rate_mhz / (8 * 1000)) + 1;
++	timing->da_hs_prepare = (80 * data_rate_mhz + 4 * 1000) / 8000;
++	timing->da_hs_zero = (170 * data_rate_mhz + 10 * 1000) / 8000 + 1 -
++				 timing->da_hs_prepare;
++	timing->da_hs_trail = timing->da_hs_prepare + 1;
+ 
+-	timing->lpx = NS_TO_CYCLE(60, cycle_time);
+-	timing->da_hs_prepare = NS_TO_CYCLE(50 + 5 * ui, cycle_time);
+-	timing->da_hs_zero = NS_TO_CYCLE(110 + 6 * ui, cycle_time);
+-	timing->da_hs_trail = NS_TO_CYCLE(77 + 4 * ui, cycle_time);
++	timing->ta_go = 4 * timing->lpx - 2;
++	timing->ta_sure = timing->lpx + 2;
++	timing->ta_get = 4 * timing->lpx;
++	timing->da_hs_exit = 2 * timing->lpx + 1;
+ 
+-	timing->ta_go = 4 * timing->lpx;
+-	timing->ta_sure = 3 * timing->lpx / 2;
+-	timing->ta_get = 5 * timing->lpx;
+-	timing->da_hs_exit = 2 * timing->lpx;
+-
+-	timing->clk_hs_zero = NS_TO_CYCLE(336, cycle_time);
+-	timing->clk_hs_trail = NS_TO_CYCLE(100, cycle_time) + 10;
+-
+-	timing->clk_hs_prepare = NS_TO_CYCLE(64, cycle_time);
+-	timing->clk_hs_post = NS_TO_CYCLE(80 + 52 * ui, cycle_time);
+-	timing->clk_hs_exit = 2 * timing->lpx;
++	timing->clk_hs_prepare = 70 * data_rate_mhz / (8 * 1000);
++	timing->clk_hs_post = timing->clk_hs_prepare + 8;
++	timing->clk_hs_trail = timing->clk_hs_prepare;
++	timing->clk_hs_zero = timing->clk_hs_trail * 4;
++	timing->clk_hs_exit = 2 * timing->clk_hs_trail;
+ 
+ 	timcon0 = timing->lpx | timing->da_hs_prepare << 8 |
+ 		  timing->da_hs_zero << 16 | timing->da_hs_trail << 24;
+@@ -482,27 +479,39 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
+ 			dsi_tmp_buf_bpp - 10);
+ 
+ 	data_phy_cycles = timing->lpx + timing->da_hs_prepare +
+-				  timing->da_hs_zero + timing->da_hs_exit + 2;
++				  timing->da_hs_zero + timing->da_hs_exit + 3;
+ 
+ 	if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST) {
+-		if (vm->hfront_porch * dsi_tmp_buf_bpp >
++		if ((vm->hfront_porch + vm->hback_porch) * dsi_tmp_buf_bpp >
+ 		    data_phy_cycles * dsi->lanes + 18) {
+-			horizontal_frontporch_byte = vm->hfront_porch *
+-						     dsi_tmp_buf_bpp -
+-						     data_phy_cycles *
+-						     dsi->lanes - 18;
++			horizontal_frontporch_byte =
++				vm->hfront_porch * dsi_tmp_buf_bpp -
++				(data_phy_cycles * dsi->lanes + 18) *
++				vm->hfront_porch /
++				(vm->hfront_porch + vm->hback_porch);
++
++			horizontal_backporch_byte =
++				horizontal_backporch_byte -
++				(data_phy_cycles * dsi->lanes + 18) *
++				vm->hback_porch /
++				(vm->hfront_porch + vm->hback_porch);
+ 		} else {
+ 			DRM_WARN("HFP less than d-phy, FPS will under 60Hz\n");
+ 			horizontal_frontporch_byte = vm->hfront_porch *
+ 						     dsi_tmp_buf_bpp;
+ 		}
+ 	} else {
+-		if (vm->hfront_porch * dsi_tmp_buf_bpp >
++		if ((vm->hfront_porch + vm->hback_porch) * dsi_tmp_buf_bpp >
+ 		    data_phy_cycles * dsi->lanes + 12) {
+-			horizontal_frontporch_byte = vm->hfront_porch *
+-						     dsi_tmp_buf_bpp -
+-						     data_phy_cycles *
+-						     dsi->lanes - 12;
++			horizontal_frontporch_byte =
++				vm->hfront_porch * dsi_tmp_buf_bpp -
++				(data_phy_cycles * dsi->lanes + 12) *
++				vm->hfront_porch /
++				(vm->hfront_porch + vm->hback_porch);
++			horizontal_backporch_byte = horizontal_backporch_byte -
++				(data_phy_cycles * dsi->lanes + 12) *
++				vm->hback_porch /
++				(vm->hfront_porch + vm->hback_porch);
+ 		} else {
+ 			DRM_WARN("HFP less than d-phy, FPS will under 60Hz\n");
+ 			horizontal_frontporch_byte = vm->hfront_porch *
+-- 
+2.21.0
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1126887942==--
