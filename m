@@ -1,40 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A58511DB81
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 02:09:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A057B11DB86
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 02:09:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB7776E24D;
-	Fri, 13 Dec 2019 01:09:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF8896E252;
+	Fri, 13 Dec 2019 01:09:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 208E56E24D
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 01:09:01 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 834FF440;
- Fri, 13 Dec 2019 02:08:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1576199337;
- bh=nZp950UcLwTjw8VHUZ8kaObjgOl0bIox6h+fu0E+LSQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Ohb0gZwxjPgPYiL6Yx2K80a+trE8TXHcjYbXaOTMngB9spjle9SYktOLThpWYDq5Q
- 7pEg/V+APT0jm7yzeIWAgzupC2TikvTX+8MZarLIl0XOCuybUQTQdQqpQMBmYuX6FV
- MbjguD637eIpoccRhn+g5RFI1W+b43PzIp0AK3GU=
-Date: Fri, 13 Dec 2019 03:08:47 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Subject: Re: [PATCH] drm: rcar-du: lvds: Get mode from state
-Message-ID: <20191213010847.GI4892@pendragon.ideasonboard.com>
-References: <20191015232521.9455-1-laurent.pinchart+renesas@ideasonboard.com>
- <TY1PR01MB1770F50373A7E518388EEA4AC0430@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com
+ [IPv6:2607:f8b0:4864:20::d42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A60486E252
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 01:09:17 +0000 (UTC)
+Received: by mail-io1-xd42.google.com with SMTP id i11so647705ioi.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 17:09:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nQU22W9WJnbbQmtB77ahl6JXEP8mdY43dTUME0DD/50=;
+ b=aCaygJm5jMyGAedb8AXiE6RCXr143j/1ZqXYRHLOzUJonWjpJRKxQcKcMsnNeEgZ1U
+ 8j1bS0+5uUAy+O2rfpyLyJDP/gVLcGSPqjtgnv7neRGrVL3LEJHearIVwthcUYA0HO4k
+ +KbioyLuIEEXIBNd4xlAnfxvCcAZCx3SpO16SHFPhVT5RACeNVC1p5CfTUNlQ0QhcWvg
+ e99BkAX4KkM41rtZmq2rPvC0YdOZwYUo+uxp/dgIsmxXd28IO+aiY//IOPMiOn9PqfXy
+ KRHAJgvq8sLxiOV1y115sljIukpvrQDBXLxQs9ikFYV6m68qD1a/7msyNjDB97p2NKlT
+ 1wfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nQU22W9WJnbbQmtB77ahl6JXEP8mdY43dTUME0DD/50=;
+ b=cjyprt7H6/YGpZw9JUbP9dMQ9fUGV1gCfFiHwVJBhUByKbusaWzyXbdpz5GscpQPwP
+ gaU86IN2sXyxPsLohF4SkzILrgzQeOdQmTqarPBqpeFq4wz2BeQWjNtCtfwYUsXuyU8P
+ vxU7uTRZg/uVygTmCUWe/y3qSThhzQqafITGwECnRmtn36iFOf7DsmS6IPa7C52SU5OH
+ 3qQbskBQwiVk/VAa7u4hZkegNaTYBi/I7GbW0cC8VbeuJcR0tPYHXxjvb/H7GcOtfxq2
+ fDsk3Vjzxix/uaIbrPUOp8jG+yo4ovwzSy4GsfHPiTj3JU205RGlFVEPv+BB56PSO9nl
+ M1vg==
+X-Gm-Message-State: APjAAAXh7vwtbalwJ2CoLV6dcPthvy7ZGmENDcYG8tcKHuHcWWrvIsyR
+ y2d8HhdUd8v6Wd7dnatLdHjKfGxMo13yyfMcX14KQ2Bycco=
+X-Google-Smtp-Source: APXvYqxltZEkBov847kYdgaP/jZHEkNAcEho+KDIl2qtwHQSvxF0GrpStcpv+I09xvq80Dot2q9AoVTBF+BaDPteZMc=
+X-Received: by 2002:a02:9f06:: with SMTP id z6mr10371509jal.2.1576199356562;
+ Thu, 12 Dec 2019 17:09:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <TY1PR01MB1770F50373A7E518388EEA4AC0430@TY1PR01MB1770.jpnprd01.prod.outlook.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20191203013627.85991-1-gurchetansingh@chromium.org>
+ <20191203013627.85991-4-gurchetansingh@chromium.org>
+ <CAPaKu7QePQjhaSApGptAO3e1F7-pj6kzyNbMVQTZ+8M9TvEkiA@mail.gmail.com>
+In-Reply-To: <CAPaKu7QePQjhaSApGptAO3e1F7-pj6kzyNbMVQTZ+8M9TvEkiA@mail.gmail.com>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Thu, 12 Dec 2019 17:09:05 -0800
+Message-ID: <CAPaKu7RwErhYfhR5HV7V7pO0gdL_yHkbajGYdxBB6LdKC+1AMA@mail.gmail.com>
+Subject: Re: [PATCH 4/4] udmabuf: implement begin_cpu_access/end_cpu_access
+ hooks
+To: Gurchetan Singh <gurchetansingh@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,241 +63,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chris Paterson <Chris.Paterson2@renesas.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Biju Das <biju.das@bp.renesas.com>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>, hch@lst.de
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Fabrizio,
+Hi,
 
-On Mon, Dec 02, 2019 at 03:06:13PM +0000, Fabrizio Castro wrote:
-> > From: linux-renesas-soc-owner@vger.kernel.org <linux-renesas-soc-owner@vger.kernel.org> On Behalf Of Laurent Pinchart
-> > Sent: 16 October 2019 00:25
-> > Subject: [PATCH] drm: rcar-du: lvds: Get mode from state
-> > 
-> > The R-Car LVDS encoder driver implements the bridge .mode_set()
-> > operation for the sole purpose of storing the mode in the LVDS private
-> > data, to be used later when enabling the encoder.
-> > 
-> > Switch to the bridge .atomic_enable() and .atomic_disable() operations
-> > in order to access the global atomic state, and get the mode from the
-> > state instead. Remove both the unneeded .mode_set() operation and the
-> > display_mode and mode fields storing state data from the rcar_lvds
-> > private structure.
-> > 
-> > As a side effect we get the CRTC from the state, replace the CRTC
-> > pointer retrieved through the bridge's encoder that shouldn't be used by
-> > atomic drivers.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+On Mon, Dec 9, 2019 at 2:44 PM Chia-I Wu <olvaffe@gmail.com> wrote:
+>
+> On Mon, Dec 2, 2019 at 5:36 PM Gurchetan Singh
+> <gurchetansingh@chromium.org> wrote:
+> >
+> > With the misc device, we should end up using the result of
+> > get_arch_dma_ops(..) or dma-direct ops.
+> >
+> > This can allow us to have WC mappings in the guest after
+> > synchronization.
+> >
+> > Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
 > > ---
-> >  drivers/gpu/drm/rcar-du/rcar_lvds.c | 125 ++++++++++++++--------------
-> >  1 file changed, 61 insertions(+), 64 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> > index 8c6c172bbf2e..8f355ea07cb5 100644
-> > --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> > @@ -65,9 +65,6 @@ struct rcar_lvds {
-> >  		struct clk *dotclkin[2];	/* External DU clocks */
-> >  	} clocks;
-> > 
-> > -	struct drm_display_mode display_mode;
-> > -	enum rcar_lvds_mode mode;
-> > -
-> >  	struct drm_bridge *companion;
-> >  	bool dual_link;
+> >  drivers/dma-buf/udmabuf.c | 39 +++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 39 insertions(+)
+> >
+> > diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+> > index 0a610e09ae23..61b0a2cff874 100644
+> > --- a/drivers/dma-buf/udmabuf.c
+> > +++ b/drivers/dma-buf/udmabuf.c
+> > @@ -18,6 +18,7 @@ static const size_t size_limit_mb = 64; /* total dmabuf size, in megabytes  */
+> >  struct udmabuf {
+> >         pgoff_t pagecount;
+> >         struct page **pages;
+> > +       struct sg_table *sg;
+> >         struct miscdevice *device;
 > >  };
-> > @@ -402,10 +399,51 @@ EXPORT_SYMBOL_GPL(rcar_lvds_clk_disable);
-> >   * Bridge
-> >   */
-> > 
-> > -static void rcar_lvds_enable(struct drm_bridge *bridge)
-> > +static enum rcar_lvds_mode rcar_lvds_get_lvds_mode(struct rcar_lvds *lvds,
-> > +					const struct drm_connector *connector)
+> >
+> > @@ -98,20 +99,58 @@ static void unmap_udmabuf(struct dma_buf_attachment *at,
+> >  static void release_udmabuf(struct dma_buf *buf)
+> >  {
+> >         struct udmabuf *ubuf = buf->priv;
+> > +       struct device *dev = ubuf->device->this_device;
+> >         pgoff_t pg;
+> >
+> > +       if (ubuf->sg)
+> > +               put_sg_table(dev, ubuf->sg, DMA_BIDIRECTIONAL);
+> > +
+> >         for (pg = 0; pg < ubuf->pagecount; pg++)
+> >                 put_page(ubuf->pages[pg]);
+> >         kfree(ubuf->pages);
+> >         kfree(ubuf);
+> >  }
+> >
+> > +static int begin_cpu_udmabuf(struct dma_buf *buf,
+> > +                            enum dma_data_direction direction)
 > > +{
-> > +	const struct drm_display_info *info;
-> > +	enum rcar_lvds_mode mode;
+> > +       struct udmabuf *ubuf = buf->priv;
+> > +       struct device *dev = ubuf->device->this_device;
 > > +
-> > +	/*
-> > +	 * There is no API yet to retrieve LVDS mode from a bridge, only panels
-> > +	 * are supported.
-> > +	 */
-> > +	if (!lvds->panel)
-> > +		return RCAR_LVDS_MODE_JEIDA;
+> > +       if (!ubuf->sg) {
+> > +               ubuf->sg = get_sg_table(dev, buf, direction);
+> > +               if (IS_ERR(ubuf->sg))
+> > +                       return PTR_ERR(ubuf->sg);
+> > +       } else {
+> > +               dma_sync_sg_for_device(dev, ubuf->sg->sgl,
+> > +                                      ubuf->sg->nents,
+> > +                                      direction);
+> I know this solves the issue (flush the CPU cache before WC access),
+> but it looks like an abuse?  It is counter-intuitive that the buffer
+> is synced for device when one wants CPU access.
+I am skeptical about this change.
+
+(1) Semantically, a dma-buf is in DMA domain.  CPU access from the
+importer must be surrounded by {begin,end}_cpu_access.  This gives the
+exporter a chance to move the buffer to the CPU domain temporarily.
+
+(2) When the exporter itself has other means to do CPU access, it is
+only reasonable for the exporter to move the buffer to the CPU domain
+before access, and to the DMA domain after access.  The exporter can
+potentially reuse {begin,end}_cpu_access for that purpose.
+
+Because of (1), udmabuf does need to implement the
+{begin,end}_cpu_access hooks.  But "begin" should mean
+dma_sync_sg_for_cpu and "end" should mean dma_sync_sg_for_device.
+
+Because of (2), if userspace wants to continuing accessing through the
+memfd mapping, it should call udmabuf's {begin,end}_cpu_access to
+avoid cache issues.
+
+
+
+
+>
+> > +       }
 > > +
-> > +	info = &connector->display_info;
-> > +	if (!info->num_bus_formats || !info->bus_formats) {
-> > +		dev_err(lvds->dev, "no LVDS bus format reported\n");
-> > +		return RCAR_LVDS_MODE_JEIDA;
-> > +	}
-> > +
-> > +	switch (info->bus_formats[0]) {
-> > +	case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
-> > +	case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
-> > +		mode = RCAR_LVDS_MODE_JEIDA;
-> > +		break;
-> > +	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
-> > +		mode = RCAR_LVDS_MODE_VESA;
-> > +		break;
-> > +	default:
-> > +		dev_err(lvds->dev, "unsupported LVDS bus format 0x%04x\n",
-> > +			info->bus_formats[0]);
-> > +		return RCAR_LVDS_MODE_JEIDA;
-> > +	}
-> > +
-> > +	if (info->bus_flags & DRM_BUS_FLAG_DATA_LSB_TO_MSB)
-> > +		mode |= RCAR_LVDS_MODE_MIRROR;
-> > +
-> > +	return mode;
+> > +       return 0;
 > > +}
 > > +
-> > +static void rcar_lvds_atomic_enable(struct drm_bridge *bridge,
-> > +				    struct drm_atomic_state *state)
-> >  {
-> >  	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
-> > -	const struct drm_display_mode *mode = &lvds->display_mode;
-> > +	struct drm_connector *connector;
-> > +	struct drm_crtc *crtc;
-> >  	u32 lvdhcr;
-> >  	u32 lvdcr0;
-> >  	int ret;
-> > @@ -414,6 +452,11 @@ static void rcar_lvds_enable(struct drm_bridge *bridge)
-> >  	if (ret < 0)
-> >  		return;
-> > 
-> > +	/* Retrieve the connector and CRTC through the atomic state. */
-> > +	connector = drm_atomic_get_new_connector_for_encoder(state,
-> > +							     bridge->encoder);
-> > +	crtc = drm_atomic_get_new_connector_state(state, connector)->crtc;
+> > +static int end_cpu_udmabuf(struct dma_buf *buf,
+> > +                          enum dma_data_direction direction)
+> > +{
+> > +       struct udmabuf *ubuf = buf->priv;
+> > +       struct device *dev = ubuf->device->this_device;
 > > +
-> >  	/* Enable the companion LVDS encoder in dual-link mode. */
-> >  	if (lvds->dual_link && lvds->companion)
-> >  		lvds->companion->funcs->enable(lvds->companion);
-> 
-> This should call atomic_enable now, therefore I take this won't work as-is on
-> a system with a companion encoder. Do you mind testing this patch on a dual-LVDS
-> capable system?
-
-I'll do so tomorrow and send a new version.
-
-> > @@ -452,18 +495,20 @@ static void rcar_lvds_enable(struct drm_bridge *bridge)
-> >  	 * PLL clock configuration on all instances but the companion in
-> >  	 * dual-link mode.
-> >  	 */
-> > -	if (!lvds->dual_link || lvds->companion)
-> > +	if (!lvds->dual_link || lvds->companion) {
-> > +		const struct drm_crtc_state *crtc_state =
-> > +			drm_atomic_get_new_crtc_state(state, crtc);
-> > +		const struct drm_display_mode *mode =
-> > +			&crtc_state->adjusted_mode;
+> > +       if (!ubuf->sg)
+> > +               return -EINVAL;
 > > +
-> >  		lvds->info->pll_setup(lvds, mode->clock * 1000);
-> > +	}
-> > 
-> >  	/* Set the LVDS mode and select the input. */
-> > -	lvdcr0 = lvds->mode << LVDCR0_LVMD_SHIFT;
-> > +	lvdcr0 = rcar_lvds_get_lvds_mode(lvds, connector) << LVDCR0_LVMD_SHIFT;
-> > 
-> >  	if (lvds->bridge.encoder) {
-> > -		/*
-> > -		 * FIXME: We should really retrieve the CRTC through the state,
-> > -		 * but how do we get a state pointer?
-> > -		 */
-> > -		if (drm_crtc_index(lvds->bridge.encoder->crtc) == 2)
-> > +		if (drm_crtc_index(crtc) == 2)
-> >  			lvdcr0 |= LVDCR0_DUSEL;
-> >  	}
-> > 
-> > @@ -520,7 +565,8 @@ static void rcar_lvds_enable(struct drm_bridge *bridge)
-> >  	}
-> >  }
-> > 
-> > -static void rcar_lvds_disable(struct drm_bridge *bridge)
-> > +static void rcar_lvds_atomic_disable(struct drm_bridge *bridge,
-> > +				     struct drm_atomic_state *state)
-> >  {
-> >  	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
-> > 
-> > @@ -558,54 +604,6 @@ static bool rcar_lvds_mode_fixup(struct drm_bridge *bridge,
-> >  	return true;
-> >  }
-> > 
-> > -static void rcar_lvds_get_lvds_mode(struct rcar_lvds *lvds)
-> > -{
-> > -	struct drm_display_info *info = &lvds->connector.display_info;
-> > -	enum rcar_lvds_mode mode;
-> > -
-> > -	/*
-> > -	 * There is no API yet to retrieve LVDS mode from a bridge, only panels
-> > -	 * are supported.
-> > -	 */
-> > -	if (!lvds->panel)
-> > -		return;
-> > -
-> > -	if (!info->num_bus_formats || !info->bus_formats) {
-> > -		dev_err(lvds->dev, "no LVDS bus format reported\n");
-> > -		return;
-> > -	}
-> > -
-> > -	switch (info->bus_formats[0]) {
-> > -	case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
-> > -	case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
-> > -		mode = RCAR_LVDS_MODE_JEIDA;
-> > -		break;
-> > -	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
-> > -		mode = RCAR_LVDS_MODE_VESA;
-> > -		break;
-> > -	default:
-> > -		dev_err(lvds->dev, "unsupported LVDS bus format 0x%04x\n",
-> > -			info->bus_formats[0]);
-> > -		return;
-> > -	}
-> > -
-> > -	if (info->bus_flags & DRM_BUS_FLAG_DATA_LSB_TO_MSB)
-> > -		mode |= RCAR_LVDS_MODE_MIRROR;
-> > -
-> > -	lvds->mode = mode;
-> > -}
-> > -
-> > -static void rcar_lvds_mode_set(struct drm_bridge *bridge,
-> > -			       const struct drm_display_mode *mode,
-> > -			       const struct drm_display_mode *adjusted_mode)
-> > -{
-> > -	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
-> > -
-> > -	lvds->display_mode = *adjusted_mode;
-> > -
-> > -	rcar_lvds_get_lvds_mode(lvds);
-> > -}
-> > -
-> >  static int rcar_lvds_attach(struct drm_bridge *bridge)
-> >  {
-> >  	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
-> > @@ -647,10 +645,9 @@ static void rcar_lvds_detach(struct drm_bridge *bridge)
-> >  static const struct drm_bridge_funcs rcar_lvds_bridge_ops = {
-> >  	.attach = rcar_lvds_attach,
-> >  	.detach = rcar_lvds_detach,
-> > -	.enable = rcar_lvds_enable,
-> > -	.disable = rcar_lvds_disable,
-> > +	.atomic_enable = rcar_lvds_atomic_enable,
-> > +	.atomic_disable = rcar_lvds_atomic_disable,
-> >  	.mode_fixup = rcar_lvds_mode_fixup,
-> > -	.mode_set = rcar_lvds_mode_set,
+> > +       dma_sync_sg_for_cpu(dev, ubuf->sg->sgl, ubuf->sg->nents, direction);
+> > +       return 0;
+> > +}
+> > +
+> >  static const struct dma_buf_ops udmabuf_ops = {
+> >         .cache_sgt_mapping = true,
+> >         .map_dma_buf       = map_udmabuf,
+> >         .unmap_dma_buf     = unmap_udmabuf,
+> >         .release           = release_udmabuf,
+> >         .mmap              = mmap_udmabuf,
+> > +       .begin_cpu_access  = begin_cpu_udmabuf,
+> > +       .end_cpu_access    = end_cpu_udmabuf,
 > >  };
-> > 
-> >  bool rcar_lvds_dual_link(struct drm_bridge *bridge)
-
--- 
-Regards,
-
-Laurent Pinchart
+> >
+> >  #define SEALS_WANTED (F_SEAL_SHRINK)
+> > --
+> > 2.24.0.393.g34dc348eaf-goog
+> >
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
