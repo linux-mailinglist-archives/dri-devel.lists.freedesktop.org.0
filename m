@@ -2,38 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 222E911F23C
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 15:44:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EFEE11F22D
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 15:44:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 529346E3C4;
-	Sat, 14 Dec 2019 14:43:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88BCE6E395;
+	Sat, 14 Dec 2019 14:43:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from muru.com (muru.com [72.249.23.125])
- by gabe.freedesktop.org (Postfix) with ESMTP id 537746E8CD
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 14:57:38 +0000 (UTC)
-Received: from atomide.com (localhost [127.0.0.1])
- by muru.com (Postfix) with ESMTPS id 935CC80BF;
- Fri, 13 Dec 2019 14:58:14 +0000 (UTC)
-Date: Fri, 13 Dec 2019 06:57:32 -0800
-From: Tony Lindgren <tony@atomide.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH 1/4] ARM: dts: am437x-gp-evm: add HDMI support
-Message-ID: <20191213145732.GH35479@atomide.com>
-References: <20191125131100.9839-1-tomi.valkeinen@ti.com>
- <20191212172104.GY35479@atomide.com>
- <20191212173110.GA35479@atomide.com>
- <d09526b2-8435-bef2-0489-0c3c8173d451@ti.com>
- <20191213104204.GB4860@pendragon.ideasonboard.com>
- <2f5cfca4-d36d-da2d-59ba-b76669daeded@ti.com>
- <20191213114207.GC4860@pendragon.ideasonboard.com>
- <36d8dde1-1a76-5a5f-2a41-8bc52dfcf2fa@ti.com>
- <20191213122845.GD4860@pendragon.ideasonboard.com>
- <3900f4b3-4604-cb64-ebdd-ae168ef1d2fb@ti.com>
+Received: from esa1.microchip.iphmx.com (esa1.microchip.iphmx.com
+ [68.232.147.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C41E6E8CD
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 15:05:08 +0000 (UTC)
+Received-SPF: Pass (esa1.microchip.iphmx.com: domain of
+ Claudiu.Beznea@microchip.com designates 198.175.253.82 as
+ permitted sender) identity=mailfrom;
+ client-ip=198.175.253.82; receiver=esa1.microchip.iphmx.com;
+ envelope-from="Claudiu.Beznea@microchip.com";
+ x-sender="Claudiu.Beznea@microchip.com";
+ x-conformance=spf_only; x-record-type="v=spf1";
+ x-record-text="v=spf1 mx a:ushub1.microchip.com
+ a:smtpout.microchip.com -exists:%{i}.spf.microchip.iphmx.com
+ include:servers.mcsv.net include:mktomail.com
+ include:spf.protection.outlook.com ~all"
+Received-SPF: None (esa1.microchip.iphmx.com: no sender
+ authenticity information available from domain of
+ postmaster@email.microchip.com) identity=helo;
+ client-ip=198.175.253.82; receiver=esa1.microchip.iphmx.com;
+ envelope-from="Claudiu.Beznea@microchip.com";
+ x-sender="postmaster@email.microchip.com"; x-conformance=spf_only
+Authentication-Results: esa1.microchip.iphmx.com;
+ dkim=none (message not signed) header.i=none;
+ spf=Pass smtp.mailfrom=Claudiu.Beznea@microchip.com;
+ spf=None smtp.helo=postmaster@email.microchip.com;
+ dmarc=pass (p=none dis=none) d=microchip.com
+IronPort-SDR: /l3zNd7W8x5mGxD5D2YKoB1ZSgknSeaTBybraVXNXDLaHm0eK/6PWCZz5tbCMhBfosSQk99CMd
+ sun3NtdDv8aYIoRGm4z0TPZ/CjWpJ9uiZz54nOAyE58fK2qAOiwinDmKSjahHddnQWWvvfetST
+ ckayaBEyvavx3V+Kp+T9fDkeUaQyeJDbbtHiuZIPIrabWW6LqIRxB13GEMq5cdGQSZgwjzLScP
+ o1lcMPyuTP/IHzWr7cWsZm8HA2xfjYrUqmWEtVoFw7TC++lzLZVf12NqSWfQmGy4T5C19yxMlF
+ PRI=
+X-IronPort-AV: E=Sophos;i="5.69,309,1571727600"; d="scan'208";a="61646956"
+Received: from smtpout.microchip.com (HELO email.microchip.com)
+ ([198.175.253.82])
+ by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256;
+ 13 Dec 2019 08:05:07 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Fri, 13 Dec 2019 08:05:06 -0700
+Received: from m18063-ThinkPad-T460p.microchip.com (10.10.85.251) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
+ 15.1.1713.5 via Frontend Transport; Fri, 13 Dec 2019 08:05:02 -0700
+From: Claudiu Beznea <claudiu.beznea@microchip.com>
+To: <sam@ravnborg.org>, <bbrezillon@kernel.org>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>, <nicolas.ferre@microchip.com>,
+ <alexandre.belloni@bootlin.com>, <ludovic.desroches@microchip.com>,
+ <lee.jones@linaro.org>
+Subject: [PATCH v2 0/6] fixes for atmel-hlcdc
+Date: Fri, 13 Dec 2019 17:04:50 +0200
+Message-ID: <1576249496-4849-1-git-send-email-claudiu.beznea@microchip.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <3900f4b3-4604-cb64-ebdd-ae168ef1d2fb@ti.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
 X-Mailman-Approved-At: Sat, 14 Dec 2019 14:42:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,50 +75,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-omap@vger.kernel.org
+Cc: Claudiu Beznea <claudiu.beznea@microchip.com>,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* Tomi Valkeinen <tomi.valkeinen@ti.com> [191213 12:34]:
-> On 13/12/2019 14:28, Laurent Pinchart wrote:
-> 
-> > > So... In the DT file, we would have multiple endpoints in the same output port in DSS, one going to
-> > > the panel, one to the SiI9022? omapdrm could then create two encoders, one abstracting the DPI
-> > > output and the connection to the panel, one abstracting the DPI output and SiI9022?
-> > 
-> > That's the idea, yes.
-> > 
-> > > And then someone would need to handle the GPIO, and set it based on the output used. These kind of
-> > > gpios are always difficult, as they don't belong anywhere =).
-> > 
-> > https://lore.kernel.org/lkml/20191211061911.238393-5-hsinyi@chromium.org/
-> > 
-> > Still, the infrastructure in omapdrm would need quite a bit of work.
-> > We're just about to get a helper layer for linear pipelines merged, and
-> > we already need to go one step further :-)
-> 
-> Alright, sounds like this will be doable in the future. So let's drop this
-> and the epos HDMI patches for now.
+Hi,
 
-Oh OK. Sounds like no other solution is usable right now short of
-separate dts files like you've done.
+I have few fixes for atmel-hlcdc driver in this series as well
+as two reverts.
+Revert "drm: atmel-hlcdc: enable sys_clk during initalization." is
+due to the fix in in patch 2/5.
 
-> This does sound like quite a bit of work, as you say, so I have no idea when
-> we can get there (on the omapdrm side). In the minimum we should first get
-> the big omapdrm rework done, in order to avoid nasty conflicts.
-> 
-> Thanks for educating me =).
+Thank you,
+Claudiu Beznea
 
-Sounds a nice plan though :)
+Changes in v2:
+- introduce patch 3/6
+- use dev_err() inpatch 4/6
+- introduce patch 5/6 instead of reverting commit f6f7ad323461
+  ("drm/atmel-hlcdc: allow selecting a higher pixel-clock than requested")
 
-Thanks,
+Claudiu Beznea (5):
+  drm: atmel-hlcdc: use double rate for pixel clock only if supported
+  drm: atmel-hlcdc: enable clock before configuring timing engine
+  mfd: atmel-hlcdc: add struct device member to struct
+    atmel_hlcdc_regmap
+  mfd: atmel-hlcdc: return in case of error
+  Revert "drm: atmel-hlcdc: enable sys_clk during initalization."
 
-Tony
+Peter Rosin (1):
+  drm: atmel-hlcdc: prefer a lower pixel-clock than requested
+
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c | 18 ++++++++++++------
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c   | 19 +------------------
+ drivers/mfd/atmel-hlcdc.c                      | 18 ++++++++++++++----
+ 3 files changed, 27 insertions(+), 28 deletions(-)
+
+-- 
+2.7.4
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
