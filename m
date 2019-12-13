@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4EC411ED80
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 23:08:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D303211ED79
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 23:08:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5A9B6EDFB;
-	Fri, 13 Dec 2019 22:07:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C4F86EDF6;
+	Fri, 13 Dec 2019 22:07:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC28F6EDE9;
- Fri, 13 Dec 2019 22:07:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2BE16EDEE;
+ Fri, 13 Dec 2019 22:07:34 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2019 14:07:33 -0800
+ 13 Dec 2019 14:07:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,311,1571727600"; d="scan'208";a="216558919"
+X-IronPort-AV: E=Sophos;i="5.69,311,1571727600"; d="scan'208";a="216558923"
 Received: from nvishwa1-desk.sc.intel.com ([10.3.160.185])
- by orsmga006.jf.intel.com with ESMTP; 13 Dec 2019 14:07:32 -0800
+ by orsmga006.jf.intel.com with ESMTP; 13 Dec 2019 14:07:33 -0800
 From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [RFC v2 09/12] drm/i915/svm: Add functions to blitter copy SVM buffers
-Date: Fri, 13 Dec 2019 13:56:11 -0800
-Message-Id: <20191213215614.24558-10-niranjana.vishwanathapura@intel.com>
+Subject: [RFC v2 10/12] drm/i915/svm: Use blitter copy for migration
+Date: Fri, 13 Dec 2019 13:56:12 -0800
+Message-Id: <20191213215614.24558-11-niranjana.vishwanathapura@intel.com>
 X-Mailer: git-send-email 2.21.0.rc0.32.g243a4c7e27
 In-Reply-To: <20191213215614.24558-1-niranjana.vishwanathapura@intel.com>
 References: <20191213215614.24558-1-niranjana.vishwanathapura@intel.com>
@@ -47,146 +47,385 @@ Cc: kenneth.w.graunke@intel.com, sanjay.k.kumar@intel.com,
  jason.ekstrand@intel.com, dave.hansen@intel.com, jglisse@redhat.com,
  jon.bloomfield@intel.com, daniel.vetter@intel.com, dan.j.williams@intel.com,
  ira.weiny@intel.com, jgg@mellanox.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QWRkIHN1cHBvcnQgZnVuY3Rpb24gdG8gYmxpdHRlciBjb3B5IFNWTSBWQXMgd2l0aG91dCByZXF1
-aXJpbmcgYW55CmdlbSBvYmplY3RzLiBBbHNvIGFkZCBmdW5jdGlvbiB0byB3YWl0IGZvciBjb21w
-bGV0aW9uIG9mIHRoZSBjb3B5LgoKQ2M6IEpvb25hcyBMYWh0aW5lbiA8am9vbmFzLmxhaHRpbmVu
-QGxpbnV4LmludGVsLmNvbT4KQ2M6IEpvbiBCbG9vbWZpZWxkIDxqb24uYmxvb21maWVsZEBpbnRl
-bC5jb20+CkNjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4KQ2M6IFN1
-ZGVlcCBEdXR0IDxzdWRlZXAuZHV0dEBpbnRlbC5jb20+ClNpZ25lZC1vZmYtYnk6IE5pcmFuamFu
-YSBWaXNod2FuYXRoYXB1cmEgPG5pcmFuamFuYS52aXNod2FuYXRoYXB1cmFAaW50ZWwuY29tPgot
-LS0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L01ha2VmaWxlICAgICAgICAgICAgICB8ICAgMyArLQog
-ZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX29iamVjdC5oIHwgICAzICsKIGRyaXZl
-cnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV93YWl0LmMgICB8ICAgMiArLQogZHJpdmVycy9n
-cHUvZHJtL2k5MTUvaTkxNV9zdm0uaCAgICAgICAgICAgIHwgICA2ICsKIGRyaXZlcnMvZ3B1L2Ry
-bS9pOTE1L2k5MTVfc3ZtX2NvcHkuYyAgICAgICB8IDE3MiArKysrKysrKysrKysrKysrKysrKysK
-IDUgZmlsZXMgY2hhbmdlZCwgMTg0IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiBjcmVh
-dGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9zdm1fY29weS5jCgpkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvTWFrZWZpbGUgYi9kcml2ZXJzL2dwdS9kcm0v
-aTkxNS9NYWtlZmlsZQppbmRleCBiNTc0ZWMzMWVhMmUuLjk3ZDQwMTcyYmYyNyAxMDA2NDQKLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvTWFrZWZpbGUKKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5
-MTUvTWFrZWZpbGUKQEAgLTE1Niw3ICsxNTYsOCBAQCBpOTE1LXkgKz0gXAogIyBTVk0gY29kZQog
-aTkxNS0kKENPTkZJR19EUk1fSTkxNV9TVk0pICs9IGdlbS9pOTE1X2dlbV9zdm0ubyBcCiAJCQkg
-ICAgICAgaTkxNV9zdm0ubyBcCi0JCQkgICAgICAgaTkxNV9zdm1fZGV2bWVtLm8KKwkJCSAgICAg
-ICBpOTE1X3N2bV9kZXZtZW0ubyBcCisJCQkgICAgICAgaTkxNV9zdm1fY29weS5vCiAKICMgZ2Vu
-ZXJhbC1wdXJwb3NlIG1pY3JvY29udHJvbGxlciAoR3VDKSBzdXBwb3J0CiBvYmoteSArPSBndC91
-Yy8KZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9vYmplY3Qu
-aCBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9vYmplY3QuaAppbmRleCA2ZDhj
-YTNmMGNjZjcuLjFkZWZjMjI3YzcyOSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUv
-Z2VtL2k5MTVfZ2VtX29iamVjdC5oCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1
-X2dlbV9vYmplY3QuaApAQCAtNDc4LDYgKzQ3OCw5IEBAIHN0YXRpYyBpbmxpbmUgdm9pZCBfX3N0
-YXJ0X2NwdV93cml0ZShzdHJ1Y3QgZHJtX2k5MTVfZ2VtX29iamVjdCAqb2JqKQogaW50IGk5MTVf
-Z2VtX29iamVjdF93YWl0KHN0cnVjdCBkcm1faTkxNV9nZW1fb2JqZWN0ICpvYmosCiAJCQkgdW5z
-aWduZWQgaW50IGZsYWdzLAogCQkJIGxvbmcgdGltZW91dCk7Citsb25nIGk5MTVfZ2VtX29iamVj
-dF93YWl0X2ZlbmNlKHN0cnVjdCBkbWFfZmVuY2UgKmZlbmNlLAorCQkJCXVuc2lnbmVkIGludCBm
-bGFncywKKwkJCQlsb25nIHRpbWVvdXQpOwogaW50IGk5MTVfZ2VtX29iamVjdF93YWl0X3ByaW9y
-aXR5KHN0cnVjdCBkcm1faTkxNV9nZW1fb2JqZWN0ICpvYmosCiAJCQkJICB1bnNpZ25lZCBpbnQg
-ZmxhZ3MsCiAJCQkJICBjb25zdCBzdHJ1Y3QgaTkxNV9zY2hlZF9hdHRyICphdHRyKTsKZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV93YWl0LmMgYi9kcml2ZXJz
-L2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fd2FpdC5jCmluZGV4IDhhZjU1Y2QzZTY5MC4uYjc5
-MDVhYThmODIxIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1f
-d2FpdC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV93YWl0LmMKQEAg
-LTEyLDcgKzEyLDcgQEAKICNpbmNsdWRlICJpOTE1X2dlbV9pb2N0bHMuaCIKICNpbmNsdWRlICJp
-OTE1X2dlbV9vYmplY3QuaCIKIAotc3RhdGljIGxvbmcKK2xvbmcKIGk5MTVfZ2VtX29iamVjdF93
-YWl0X2ZlbmNlKHN0cnVjdCBkbWFfZmVuY2UgKmZlbmNlLAogCQkJICAgdW5zaWduZWQgaW50IGZs
-YWdzLAogCQkJICAgbG9uZyB0aW1lb3V0KQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5
-MTUvaTkxNV9zdm0uaCBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfc3ZtLmgKaW5kZXggYWUz
-OWMyZWYyZjE4Li5mOGJlZGI0NTY5YjUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1
-L2k5MTVfc3ZtLmgKKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9zdm0uaApAQCAtMzMs
-NiArMzMsMTIgQEAgc3RhdGljIGlubGluZSBib29sIGk5MTVfdm1faXNfc3ZtX2VuYWJsZWQoc3Ry
-dWN0IGk5MTVfYWRkcmVzc19zcGFjZSAqdm0pCiAJcmV0dXJuIHZtLT5zdm07CiB9CiAKK2ludCBp
-OTE1X3N2bV9jb3B5X2JsdChzdHJ1Y3QgaW50ZWxfY29udGV4dCAqY2UsCisJCSAgICAgIHU2NCBz
-cmNfc3RhcnQsIHU2NCBkc3Rfc3RhcnQsIHU2NCBzaXplLAorCQkgICAgICBzdHJ1Y3QgZG1hX2Zl
-bmNlICoqZmVuY2UpOworaW50IGk5MTVfc3ZtX2NvcHlfYmx0X3dhaXQoc3RydWN0IGRybV9pOTE1
-X3ByaXZhdGUgKmk5MTUsCisJCQkgICBzdHJ1Y3QgZG1hX2ZlbmNlICpmZW5jZSk7CisKIGludCBp
-OTE1X2RtZW1fY29udmVydF9wZm4oc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmRldl9wcml2LAog
-CQkJICBzdHJ1Y3QgaG1tX3JhbmdlICpyYW5nZSk7CiBpbnQgaTkxNV9nZW1fdm1fcHJlZmV0Y2hf
-aW9jdGwoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwKZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfc3ZtX2NvcHkuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1
-L2k5MTVfc3ZtX2NvcHkuYwpuZXcgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAwMDAwMDAwMDAwMDAu
-LjQyZjdkNTYzZjZiNAotLS0gL2Rldi9udWxsCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5
-MTVfc3ZtX2NvcHkuYwpAQCAtMCwwICsxLDE3MiBAQAorLy8gU1BEWC1MaWNlbnNlLUlkZW50aWZp
-ZXI6IE1JVAorLyoKKyAqIENvcHlyaWdodCDCqSAyMDE5IEludGVsIENvcnBvcmF0aW9uCisgKi8K
-KworI2luY2x1ZGUgImk5MTVfZHJ2LmgiCisjaW5jbHVkZSAiZ2VtL2k5MTVfZ2VtX29iamVjdF9i
-bHQuaCIKKyNpbmNsdWRlICJndC9pbnRlbF9lbmdpbmVfcG0uaCIKKyNpbmNsdWRlICJndC9pbnRl
-bF9lbmdpbmVfcG9vbC5oIgorI2luY2x1ZGUgImd0L2ludGVsX2dwdV9jb21tYW5kcy5oIgorI2lu
-Y2x1ZGUgImd0L2ludGVsX2d0LmgiCisKK3N0YXRpYyBzdHJ1Y3QgaTkxNV92bWEgKgoraW50ZWxf
-ZW1pdF9zdm1fY29weV9ibHQoc3RydWN0IGludGVsX2NvbnRleHQgKmNlLAorCQkJdTY0IHNyY19z
-dGFydCwgdTY0IGRzdF9zdGFydCwgdTY0IGJ1ZmZfc2l6ZSkKK3sKKwlzdHJ1Y3QgZHJtX2k5MTVf
-cHJpdmF0ZSAqaTkxNSA9IGNlLT52bS0+aTkxNTsKKwljb25zdCB1MzIgYmxvY2tfc2l6ZSA9IFNa
-XzhNOyAvKiB+MW1zIGF0IDhHaUIvcyBwcmVlbXB0aW9uIGRlbGF5ICovCisJc3RydWN0IGludGVs
-X2VuZ2luZV9wb29sX25vZGUgKnBvb2w7CisJc3RydWN0IGk5MTVfdm1hICpiYXRjaDsKKwl1NjQg
-Y291bnQsIHJlbTsKKwl1MzIgc2l6ZSwgKmNtZDsKKwlpbnQgZXJyOworCisJR0VNX0JVR19PTihp
-bnRlbF9lbmdpbmVfaXNfdmlydHVhbChjZS0+ZW5naW5lKSk7CisJaW50ZWxfZW5naW5lX3BtX2dl
-dChjZS0+ZW5naW5lKTsKKworCWlmIChJTlRFTF9HRU4oaTkxNSkgPCA4KQorCQlyZXR1cm4gRVJS
-X1BUUigtRU5PVFNVUFApOworCisJY291bnQgPSBkaXZfdTY0KHJvdW5kX3VwKGJ1ZmZfc2l6ZSwg
-YmxvY2tfc2l6ZSksIGJsb2NrX3NpemUpOworCXNpemUgPSAoMSArIDExICogY291bnQpICogc2l6
-ZW9mKHUzMik7CisJc2l6ZSA9IHJvdW5kX3VwKHNpemUsIFBBR0VfU0laRSk7CisJcG9vbCA9IGlu
-dGVsX2VuZ2luZV9nZXRfcG9vbChjZS0+ZW5naW5lLCBzaXplKTsKKwlpZiAoSVNfRVJSKHBvb2wp
-KSB7CisJCWVyciA9IFBUUl9FUlIocG9vbCk7CisJCWdvdG8gb3V0X3BtOworCX0KKworCWNtZCA9
-IGk5MTVfZ2VtX29iamVjdF9waW5fbWFwKHBvb2wtPm9iaiwgSTkxNV9NQVBfRk9SQ0VfV0MpOwor
-CWlmIChJU19FUlIoY21kKSkgeworCQllcnIgPSBQVFJfRVJSKGNtZCk7CisJCWdvdG8gb3V0X3B1
-dDsKKwl9CisKKwlyZW0gPSBidWZmX3NpemU7CisJZG8geworCQlzaXplID0gbWluX3QodTY0LCBy
-ZW0sIGJsb2NrX3NpemUpOworCQlHRU1fQlVHX09OKHNpemUgPj4gUEFHRV9TSElGVCA+IFMxNl9N
-QVgpOworCisJCWlmIChJTlRFTF9HRU4oaTkxNSkgPj0gOSkgeworCQkJKmNtZCsrID0gR0VOOV9Y
-WV9GQVNUX0NPUFlfQkxUX0NNRCB8ICgxMCAtIDIpOworCQkJKmNtZCsrID0gQkxUX0RFUFRIXzMy
-IHwgUEFHRV9TSVpFOworCQkJKmNtZCsrID0gMDsKKwkJCSpjbWQrKyA9IHNpemUgPj4gUEFHRV9T
-SElGVCA8PCAxNiB8IFBBR0VfU0laRSAvIDQ7CisJCQkqY21kKysgPSBsb3dlcl8zMl9iaXRzKGRz
-dF9zdGFydCk7CisJCQkqY21kKysgPSB1cHBlcl8zMl9iaXRzKGRzdF9zdGFydCk7CisJCQkqY21k
-KysgPSAwOworCQkJKmNtZCsrID0gUEFHRV9TSVpFOworCQkJKmNtZCsrID0gbG93ZXJfMzJfYml0
-cyhzcmNfc3RhcnQpOworCQkJKmNtZCsrID0gdXBwZXJfMzJfYml0cyhzcmNfc3RhcnQpOworCQl9
-IGVsc2UgaWYgKElOVEVMX0dFTihpOTE1KSA+PSA4KSB7CisJCQkqY21kKysgPSBYWV9TUkNfQ09Q
-WV9CTFRfQ01EIHwKKwkJCQkgQkxUX1dSSVRFX1JHQkEgfCAoMTAgLSAyKTsKKwkJCSpjbWQrKyA9
-IEJMVF9ERVBUSF8zMiB8IEJMVF9ST1BfU1JDX0NPUFkgfCBQQUdFX1NJWkU7CisJCQkqY21kKysg
-PSAwOworCQkJKmNtZCsrID0gc2l6ZSA+PiBQQUdFX1NISUZUIDw8IDE2IHwgUEFHRV9TSVpFIC8g
-NDsKKwkJCSpjbWQrKyA9IGxvd2VyXzMyX2JpdHMoZHN0X3N0YXJ0KTsKKwkJCSpjbWQrKyA9IHVw
-cGVyXzMyX2JpdHMoZHN0X3N0YXJ0KTsKKwkJCSpjbWQrKyA9IDA7CisJCQkqY21kKysgPSBQQUdF
-X1NJWkU7CisJCQkqY21kKysgPSBsb3dlcl8zMl9iaXRzKHNyY19zdGFydCk7CisJCQkqY21kKysg
-PSB1cHBlcl8zMl9iaXRzKHNyY19zdGFydCk7CisJCX0KKworCQkvKiBBbGxvdyBvdXJzZWx2ZXMg
-dG8gYmUgcHJlZW1wdGVkIGluIGJldHdlZW4gYmxvY2tzICovCisJCSpjbWQrKyA9IE1JX0FSQl9D
-SEVDSzsKKworCQlzcmNfc3RhcnQgKz0gc2l6ZTsKKwkJZHN0X3N0YXJ0ICs9IHNpemU7CisJCXJl
-bSAtPSBzaXplOworCX0gd2hpbGUgKHJlbSk7CisKKwkqY21kID0gTUlfQkFUQ0hfQlVGRkVSX0VO
-RDsKKwlpbnRlbF9ndF9jaGlwc2V0X2ZsdXNoKGNlLT52bS0+Z3QpOworCisJaTkxNV9nZW1fb2Jq
-ZWN0X3VucGluX21hcChwb29sLT5vYmopOworCisJYmF0Y2ggPSBpOTE1X3ZtYV9pbnN0YW5jZShw
-b29sLT5vYmosIGNlLT52bSwgTlVMTCk7CisJaWYgKElTX0VSUihiYXRjaCkpIHsKKwkJZXJyID0g
-UFRSX0VSUihiYXRjaCk7CisJCWdvdG8gb3V0X3B1dDsKKwl9CisKKwllcnIgPSBpOTE1X3ZtYV9w
-aW4oYmF0Y2gsIDAsIDAsIFBJTl9VU0VSKTsKKwlpZiAodW5saWtlbHkoZXJyKSkKKwkJZ290byBv
-dXRfcHV0OworCisJYmF0Y2gtPnByaXZhdGUgPSBwb29sOworCXJldHVybiBiYXRjaDsKKworb3V0
-X3B1dDoKKwlpbnRlbF9lbmdpbmVfcG9vbF9wdXQocG9vbCk7CitvdXRfcG06CisJaW50ZWxfZW5n
-aW5lX3BtX3B1dChjZS0+ZW5naW5lKTsKKwlyZXR1cm4gRVJSX1BUUihlcnIpOworfQorCitpbnQg
-aTkxNV9zdm1fY29weV9ibHQoc3RydWN0IGludGVsX2NvbnRleHQgKmNlLAorCQkgICAgICB1NjQg
-c3JjX3N0YXJ0LCB1NjQgZHN0X3N0YXJ0LCB1NjQgc2l6ZSwKKwkJICAgICAgc3RydWN0IGRtYV9m
-ZW5jZSAqKmZlbmNlKQoreworCXN0cnVjdCBkcm1faTkxNV9wcml2YXRlICppOTE1ID0gY2UtPmdl
-bV9jb250ZXh0LT5pOTE1OworCXN0cnVjdCBpOTE1X3JlcXVlc3QgKnJxOworCXN0cnVjdCBpOTE1
-X3ZtYSAqYmF0Y2g7CisJaW50IGVycjsKKworCURSTV9ERUJVR19EUklWRVIoInNyY19zdGFydCAw
-eCVsbHggZHN0X3N0YXJ0IDB4JWxseCBzaXplIDB4JWxseFxuIiwKKwkJCSBzcmNfc3RhcnQsIGRz
-dF9zdGFydCwgc2l6ZSk7CisJbXV0ZXhfbG9jaygmaTkxNS0+ZHJtLnN0cnVjdF9tdXRleCk7CisJ
-YmF0Y2ggPSBpbnRlbF9lbWl0X3N2bV9jb3B5X2JsdChjZSwgc3JjX3N0YXJ0LCBkc3Rfc3RhcnQs
-IHNpemUpOworCWlmIChJU19FUlIoYmF0Y2gpKSB7CisJCWVyciA9IFBUUl9FUlIoYmF0Y2gpOwor
-CQlnb3RvIG91dF91bmxvY2s7CisJfQorCisJcnEgPSBpOTE1X3JlcXVlc3RfY3JlYXRlKGNlKTsK
-KwlpZiAoSVNfRVJSKHJxKSkgeworCQllcnIgPSBQVFJfRVJSKHJxKTsKKwkJZ290byBvdXRfYmF0
-Y2g7CisJfQorCisJZXJyID0gaW50ZWxfZW1pdF92bWFfbWFya19hY3RpdmUoYmF0Y2gsIHJxKTsK
-KwlpZiAodW5saWtlbHkoZXJyKSkKKwkJZ290byBvdXRfcmVxdWVzdDsKKworCWlmIChjZS0+ZW5n
-aW5lLT5lbWl0X2luaXRfYnJlYWRjcnVtYikgeworCQllcnIgPSBjZS0+ZW5naW5lLT5lbWl0X2lu
-aXRfYnJlYWRjcnVtYihycSk7CisJCWlmICh1bmxpa2VseShlcnIpKQorCQkJZ290byBvdXRfcmVx
-dWVzdDsKKwl9CisKKwllcnIgPSBycS0+ZW5naW5lLT5lbWl0X2JiX3N0YXJ0KHJxLAorCQkJCQli
-YXRjaC0+bm9kZS5zdGFydCwgYmF0Y2gtPm5vZGUuc2l6ZSwKKwkJCQkJMCk7CitvdXRfcmVxdWVz
-dDoKKwlpZiAodW5saWtlbHkoZXJyKSkKKwkJaTkxNV9yZXF1ZXN0X3NraXAocnEsIGVycik7CisJ
-ZWxzZQorCQkqZmVuY2UgPSAmcnEtPmZlbmNlOworCisJaTkxNV9yZXF1ZXN0X2FkZChycSk7Citv
-dXRfYmF0Y2g6CisJaW50ZWxfZW1pdF92bWFfcmVsZWFzZShjZSwgYmF0Y2gpOworb3V0X3VubG9j
-azoKKwltdXRleF91bmxvY2soJmk5MTUtPmRybS5zdHJ1Y3RfbXV0ZXgpOworCXJldHVybiBlcnI7
-Cit9CisKK2ludCBpOTE1X3N2bV9jb3B5X2JsdF93YWl0KHN0cnVjdCBkcm1faTkxNV9wcml2YXRl
-ICppOTE1LAorCQkJICAgc3RydWN0IGRtYV9mZW5jZSAqZmVuY2UpCit7CisJbG9uZyB0aW1lb3V0
-OworCisJbXV0ZXhfbG9jaygmaTkxNS0+ZHJtLnN0cnVjdF9tdXRleCk7CisJdGltZW91dCA9IGk5
-MTVfZ2VtX29iamVjdF93YWl0X2ZlbmNlKGZlbmNlLAorCQkJCQkgICAgIEk5MTVfV0FJVF9JTlRF
-UlJVUFRJQkxFIHwKKwkJCQkJICAgICBJOTE1X1dBSVRfQUxMLAorCQkJCQkgICAgIE1BWF9TQ0hF
-RFVMRV9USU1FT1VUKTsKKwltdXRleF91bmxvY2soJmk5MTUtPmRybS5zdHJ1Y3RfbXV0ZXgpOwor
-CXJldHVybiAodGltZW91dCA8IDApID8gdGltZW91dCA6IDA7Cit9Ci0tIAoyLjIxLjAucmMwLjMy
-LmcyNDNhNGM3ZTI3CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWwK
+Use blitter engine to copy pages during migration.
+As blitter context virtual address space is shared with other flows,
+ensure virtual address are allocated properly from that address space.
+Also ensure completion of blitter copy by waiting on the fence of the
+issued request.
+
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Jon Bloomfield <jon.bloomfield@intel.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Sudeep Dutt <sudeep.dutt@intel.com>
+Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+---
+ drivers/gpu/drm/i915/i915_svm_devmem.c | 249 ++++++++++++++++++++++++-
+ 1 file changed, 245 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/i915_svm_devmem.c b/drivers/gpu/drm/i915/i915_svm_devmem.c
+index 2b0c7f4c51b8..589cf42bc2da 100644
+--- a/drivers/gpu/drm/i915/i915_svm_devmem.c
++++ b/drivers/gpu/drm/i915/i915_svm_devmem.c
+@@ -15,7 +15,15 @@ struct i915_devmem_migrate {
+ 
+ 	enum intel_region_id src_id;
+ 	enum intel_region_id dst_id;
++	dma_addr_t *host_dma;
++	bool blitter_copy;
+ 	u64 npages;
++
++	/* required for blitter copy */
++	struct drm_mm_node src_node;
++	struct drm_mm_node dst_node;
++	struct intel_context *ce;
++	struct dma_fence *fence;
+ };
+ 
+ struct i915_devmem {
+@@ -148,6 +156,139 @@ i915_devmem_page_free_locked(struct drm_i915_private *dev_priv,
+ 	put_page(page);
+ }
+ 
++static int i915_devmem_bind_addr(struct i915_devmem_migrate *migrate,
++				 bool is_src)
++{
++	struct i915_gem_context *ctx = migrate->ce->gem_context;
++	struct drm_i915_private *i915 = migrate->i915;
++	struct i915_address_space *vm = ctx->vm;
++	struct intel_memory_region *mem;
++	u64 npages = migrate->npages;
++	enum intel_region_id mem_id;
++	struct drm_mm_node *node;
++	struct scatterlist *sg;
++	u32 sg_page_sizes = 0;
++	struct sg_table st;
++	u64 flags = 0;
++	int i, ret;
++
++	if (unlikely(sg_alloc_table(&st, npages, GFP_KERNEL)))
++		return -ENOMEM;
++
++	if (is_src) {
++		node = &migrate->src_node;
++		mem_id = migrate->src_id;
++		flags |= I915_GTT_SVM_READONLY;
++	} else {
++		node = &migrate->dst_node;
++		mem_id = migrate->dst_id;
++	}
++
++	mutex_lock(&vm->mutex);
++	ret = i915_gem_gtt_insert(vm, node, npages * PAGE_SIZE,
++				  I915_GTT_PAGE_SIZE_2M, 0,
++				  0, vm->total, PIN_USER);
++	mutex_unlock(&vm->mutex);
++	if (unlikely(ret))
++		return ret;
++
++	sg = NULL;
++	st.nents = 0;
++
++	/*
++	 * XXX: If the source page is missing, source it from a temporary
++	 * zero filled page. If needed, destination page missing scenarios
++	 * can be similarly handled by draining data into a temporary page.
++	 */
++	for (i = 0; i < npages; i++) {
++		u64 addr;
++
++		if (mem_id == INTEL_REGION_SMEM) {
++			addr = migrate->host_dma[i];
++		} else {
++			struct page *page;
++			unsigned long mpfn;
++
++			mpfn = is_src ? migrate->args->src[i] :
++					migrate->args->dst[i];
++			page = migrate_pfn_to_page(mpfn);
++			mem = i915->mm.regions[mem_id];
++			addr = page_to_pfn(page) - mem->devmem->pfn_first;
++			addr <<= PAGE_SHIFT;
++			addr += mem->region.start;
++		}
++
++		if (sg && (addr == (sg_dma_address(sg) + sg->length))) {
++			sg->length += PAGE_SIZE;
++			sg_dma_len(sg) += PAGE_SIZE;
++			continue;
++		}
++
++		if (sg)
++			sg_page_sizes |= sg->length;
++
++		sg =  sg ? __sg_next(sg) : st.sgl;
++		sg_dma_address(sg) = addr;
++		sg_dma_len(sg) = PAGE_SIZE;
++		sg->length = PAGE_SIZE;
++		st.nents++;
++	}
++
++	sg_page_sizes |= sg->length;
++	sg_mark_end(sg);
++	i915_sg_trim(&st);
++
++	ret = svm_bind_addr(vm, node->start, npages * PAGE_SIZE,
++			    flags, &st, sg_page_sizes);
++	sg_free_table(&st);
++
++	return ret;
++}
++
++static void i915_devmem_unbind_addr(struct i915_devmem_migrate *migrate,
++				    bool is_src)
++{
++	struct i915_gem_context *ctx = migrate->ce->gem_context;
++	struct i915_address_space *vm = ctx->vm;
++	struct drm_mm_node *node;
++
++	node = is_src ? &migrate->src_node : &migrate->dst_node;
++	svm_unbind_addr(vm, node->start, migrate->npages * PAGE_SIZE);
++	mutex_lock(&vm->mutex);
++	drm_mm_remove_node(node);
++	mutex_unlock(&vm->mutex);
++}
++
++static int i915_migrate_blitter_copy(struct i915_devmem_migrate *migrate)
++{
++	struct drm_i915_private *i915 = migrate->i915;
++	int ret;
++
++	migrate->ce = i915->engine[BCS0]->kernel_context;
++	ret = i915_devmem_bind_addr(migrate, true);
++	if (unlikely(ret))
++		return ret;
++
++	ret = i915_devmem_bind_addr(migrate, false);
++	if (unlikely(ret)) {
++		i915_devmem_unbind_addr(migrate, true);
++		return ret;
++	}
++
++	DRM_DEBUG_DRIVER("npages %lld\n", migrate->npages);
++	ret = i915_svm_copy_blt(migrate->ce,
++				migrate->src_node.start,
++				migrate->dst_node.start,
++				migrate->npages * PAGE_SIZE,
++				&migrate->fence);
++	if (unlikely(ret)) {
++		i915_devmem_unbind_addr(migrate, false);
++		i915_devmem_unbind_addr(migrate, true);
++	}
++
++	return ret;
++}
++
+ static int i915_migrate_cpu_copy(struct i915_devmem_migrate *migrate)
+ {
+ 	const unsigned long *src = migrate->args->src;
+@@ -216,6 +357,7 @@ i915_devmem_migrate_alloc_and_copy(struct i915_devmem_migrate *migrate)
+ {
+ 	struct drm_i915_private *i915 = migrate->i915;
+ 	struct migrate_vma *args = migrate->args;
++	struct device *dev = i915->drm.dev;
+ 	struct intel_memory_region *mem;
+ 	struct list_head blocks = {0};
+ 	unsigned long i, npages, cnt;
+@@ -224,13 +366,35 @@ i915_devmem_migrate_alloc_and_copy(struct i915_devmem_migrate *migrate)
+ 
+ 	npages = (args->end - args->start) >> PAGE_SHIFT;
+ 	DRM_DEBUG_DRIVER("start 0x%lx npages %ld\n", args->start, npages);
++	/*
++	 * XXX: Set proper condition for cpu vs blitter copy for performance,
++	 * functionality and to avoid any deadlocks around blitter usage.
++	 */
++	migrate->blitter_copy = true;
++
++	if (migrate->blitter_copy) {
++		/* Allocate storage for DMA addresses, so we can unmap later. */
++		migrate->host_dma = kcalloc(npages, sizeof(*migrate->host_dma),
++					    GFP_KERNEL);
++		if (unlikely(!migrate->host_dma))
++			migrate->blitter_copy = false;
++	}
+ 
+-	/* Check source pages */
++	/* Check and DMA map source pages */
+ 	for (i = 0, cnt = 0; i < npages; i++) {
+ 		args->dst[i] = 0;
+ 		page = migrate_pfn_to_page(args->src[i]);
+-		if (unlikely(!page || !(args->src[i] & MIGRATE_PFN_MIGRATE)))
++		if (unlikely(!page || !(args->src[i] & MIGRATE_PFN_MIGRATE))) {
++			migrate->blitter_copy = false;
+ 			continue;
++		}
++
++		migrate->host_dma[i] = dma_map_page(dev, page, 0, PAGE_SIZE,
++						    PCI_DMA_TODEVICE);
++		if (unlikely(dma_mapping_error(dev, migrate->host_dma[i]))) {
++			migrate->blitter_copy = false;
++			migrate->host_dma[i] = 0;
++		}
+ 
+ 		args->dst[i] = MIGRATE_PFN_VALID;
+ 		cnt++;
+@@ -254,6 +418,7 @@ i915_devmem_migrate_alloc_and_copy(struct i915_devmem_migrate *migrate)
+ 		page = i915_devmem_page_get_locked(mem, &blocks);
+ 		if (unlikely(!page)) {
+ 			WARN(1, "Failed to get dst page\n");
++			migrate->blitter_copy = false;
+ 			args->dst[i] = 0;
+ 			continue;
+ 		}
+@@ -271,7 +436,11 @@ i915_devmem_migrate_alloc_and_copy(struct i915_devmem_migrate *migrate)
+ 	/* Copy the pages */
+ 	migrate->npages = npages;
+ 	/* XXX: Flush the caches? */
+-	ret = i915_migrate_cpu_copy(migrate);
++	/* XXX: Fallback to cpu_copy if blitter_copy fails? */
++	if (migrate->blitter_copy)
++		ret = i915_migrate_blitter_copy(migrate);
++	else
++		ret = i915_migrate_cpu_copy(migrate);
+ migrate_out:
+ 	if (unlikely(ret)) {
+ 		for (i = 0; i < npages; i++) {
+@@ -283,12 +452,42 @@ i915_devmem_migrate_alloc_and_copy(struct i915_devmem_migrate *migrate)
+ 		}
+ 	}
+ 
++	if (unlikely(migrate->host_dma && (!migrate->blitter_copy || ret))) {
++		for (i = 0; i < npages; i++) {
++			if (migrate->host_dma[i])
++				dma_unmap_page(dev, migrate->host_dma[i],
++					       PAGE_SIZE, PCI_DMA_TODEVICE);
++		}
++		kfree(migrate->host_dma);
++		migrate->host_dma = NULL;
++	}
++
+ 	return ret;
+ }
+ 
+ void i915_devmem_migrate_finalize_and_map(struct i915_devmem_migrate *migrate)
+ {
++	struct drm_i915_private *i915 = migrate->i915;
++	unsigned long i;
++	int ret;
++
++	if (!migrate->blitter_copy)
++		return;
++
+ 	DRM_DEBUG_DRIVER("npages %lld\n", migrate->npages);
++	ret = i915_svm_copy_blt_wait(i915, migrate->fence);
++	if (unlikely(ret < 0))
++		WARN(1, "Waiting for dma fence failed %d\n", ret);
++
++	i915_devmem_unbind_addr(migrate, true);
++	i915_devmem_unbind_addr(migrate, false);
++
++	for (i = 0; i < migrate->npages; i++)
++		dma_unmap_page(i915->drm.dev, migrate->host_dma[i],
++			       PAGE_SIZE, PCI_DMA_TODEVICE);
++
++	kfree(migrate->host_dma);
++	migrate->host_dma = NULL;
+ }
+ 
+ static void i915_devmem_migrate_chunk(struct i915_devmem_migrate *migrate)
+@@ -360,6 +559,12 @@ i915_devmem_fault_alloc_and_copy(struct i915_devmem_migrate *migrate)
+ 	int err;
+ 
+ 	DRM_DEBUG_DRIVER("start 0x%lx\n", args->start);
++	/*
++	 * XXX: Set proper condition for cpu vs blitter copy for performance,
++	 * functionality and to avoid any deadlocks around blitter usage.
++	 */
++	migrate->blitter_copy = false;
++
+ 	/* Allocate host page */
+ 	spage = migrate_pfn_to_page(args->src[0]);
+ 	if (unlikely(!spage || !(args->src[0] & MIGRATE_PFN_MIGRATE)))
+@@ -370,12 +575,31 @@ i915_devmem_fault_alloc_and_copy(struct i915_devmem_migrate *migrate)
+ 		return VM_FAULT_SIGBUS;
+ 	lock_page(dpage);
+ 
++	/* DMA map host page */
++	if (migrate->blitter_copy) {
++		migrate->host_dma[0] = dma_map_page(dev, dpage, 0, PAGE_SIZE,
++						    PCI_DMA_FROMDEVICE);
++		if (unlikely(dma_mapping_error(dev, migrate->host_dma[0]))) {
++			migrate->host_dma[0] = 0;
++			err = -ENOMEM;
++			goto fault_out;
++		}
++	}
++
+ 	args->dst[0] = migrate_pfn(page_to_pfn(dpage)) | MIGRATE_PFN_LOCKED;
+ 
+ 	/* Copy the pages */
+ 	migrate->npages = 1;
+-	err = i915_migrate_cpu_copy(migrate);
++	/* XXX: Fallback to cpu_copy if blitter_copy fails? */
++	if (migrate->blitter_copy)
++		err = i915_migrate_blitter_copy(migrate);
++	else
++		err = i915_migrate_cpu_copy(migrate);
++fault_out:
+ 	if (unlikely(err)) {
++		if (migrate->host_dma[0])
++			dma_unmap_page(dev, migrate->host_dma[0],
++				       PAGE_SIZE, PCI_DMA_FROMDEVICE);
+ 		__free_page(dpage);
+ 		args->dst[0] = 0;
+ 		return VM_FAULT_SIGBUS;
+@@ -386,7 +610,22 @@ i915_devmem_fault_alloc_and_copy(struct i915_devmem_migrate *migrate)
+ 
+ void i915_devmem_fault_finalize_and_map(struct i915_devmem_migrate *migrate)
+ {
++	struct drm_i915_private *i915 = migrate->i915;
++	int err;
++
+ 	DRM_DEBUG_DRIVER("\n");
++	if (!migrate->blitter_copy)
++		return;
++
++	err = i915_svm_copy_blt_wait(i915, migrate->fence);
++	if (unlikely(err < 0))
++		WARN(1, "Waiting for dma fence failed %d\n", err);
++
++	i915_devmem_unbind_addr(migrate, true);
++	i915_devmem_unbind_addr(migrate, false);
++
++	dma_unmap_page(i915->drm.dev, migrate->host_dma[0],
++		       PAGE_SIZE, PCI_DMA_FROMDEVICE);
+ }
+ 
+ static inline struct i915_devmem *page_to_devmem(struct page *page)
+@@ -400,6 +639,7 @@ static vm_fault_t i915_devmem_migrate_to_ram(struct vm_fault *vmf)
+ 	struct drm_i915_private *i915 = devmem->i915;
+ 	struct i915_devmem_migrate migrate = {0};
+ 	unsigned long src = 0, dst = 0;
++	dma_addr_t dma_addr = 0;
+ 	vm_fault_t ret;
+ 	struct migrate_vma args = {
+ 		.vma		= vmf->vma,
+@@ -413,6 +653,7 @@ static vm_fault_t i915_devmem_migrate_to_ram(struct vm_fault *vmf)
+ 	DRM_DEBUG_DRIVER("addr 0x%lx\n", args.start);
+ 	migrate.i915 = i915;
+ 	migrate.args = &args;
++	migrate.host_dma = &dma_addr;
+ 	migrate.src_id = INTEL_REGION_LMEM;
+ 	migrate.dst_id = INTEL_REGION_SMEM;
+ 	if (migrate_vma_setup(&args) < 0)
+-- 
+2.21.0.rc0.32.g243a4c7e27
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
