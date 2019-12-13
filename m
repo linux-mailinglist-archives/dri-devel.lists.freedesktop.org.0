@@ -2,68 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD68E11DF6A
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 09:27:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 355F811E02A
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 10:05:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A8326E2D3;
-	Fri, 13 Dec 2019 08:27:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94BAB89690;
+	Fri, 13 Dec 2019 09:05:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10B096E2D3
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 08:27:46 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id p9so5329784wmc.2
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 00:27:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=JwuoHfqD4FyIs4KF1Ipmu8G5TBEwPS2a5x2rk/31xck=;
- b=RZu/Wv0m4HqQgb7kZHHwyZiV72yCDHClDTjqRYig6G327C22KOVE23Gl4QlWIk4J9g
- /mTwG/EcWHHf9sYXXpPtTpllj8NvhWZ9k5SsV4jgWzE2uqeHWssPggXoaT2gjyI8wre+
- VqxL2RAU5YTssHRWil1Gz4l8a8O18PLMhlz0Fd0EfGvTrga/wRtXo8/VzsNwEzcaJc2o
- kCgWLQL7844S7BROBTksqLxNyH5Y12iS0O9bHQi+v4QV3BqAKqGVjvm8V1yufjNHj3vI
- SyFI8XHa40wO7C8ZTiULcUMVsX8duH9Oq530Z+8L5UrJXOxugLt6sFTO3yrlOsl2a4f/
- pvOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=JwuoHfqD4FyIs4KF1Ipmu8G5TBEwPS2a5x2rk/31xck=;
- b=OMDKTFVzIW6yzu29fIQG+dj3tRfIrFNyEtGjJ+yL5GAilyoWir10JtE22UPKqsqfS9
- VjkEX3bNwZML2rUAg1xPtT9jPJWzGKilAdQbb7xBYQDDbwdbJfXEDSYSBq2rlSJ6nH3O
- UAguKlKVwAQG5CcMET6QUgu7UtdoPnby/MNq9i8nG/aJ+JTYBJZ3pi6uNzplzQcT6p+T
- 986Zs6vFugwzBBHZXBj7SiVmzmHDaKulQ/ZvLDH/7O+mfh5i/3j6FeENNAjDooaCpudi
- yYvp6u9xUMJgQmU7lIB1wVcVRULjMQUg20f15kNWLp1GUWyrmQLqRClhcDn6tCXPOmMg
- 762Q==
-X-Gm-Message-State: APjAAAXZlEAwH2VHZTaTOi2JUr+0yT2GSY1h8CADAdG4B1Zc922rwatI
- 2gI+/O0BFscjrQsLqIvaVxKbYQ==
-X-Google-Smtp-Source: APXvYqw9NFR6SJCU7qpurkLNw/ZkJfL008Kue/7hzmCvNYuR/i+XEHjDwK63wFSkZZdj2Cmg0QgOSw==
-X-Received: by 2002:a1c:7918:: with SMTP id l24mr12505169wme.125.1576225664505; 
- Fri, 13 Dec 2019 00:27:44 -0800 (PST)
-Received: from dell ([95.149.164.71])
- by smtp.gmail.com with ESMTPSA id a133sm225770wme.29.2019.12.13.00.27.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Dec 2019 00:27:43 -0800 (PST)
-Date: Fri, 13 Dec 2019 08:27:34 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH 2/3] mfd: intel_soc_pmic: Rename pwm_backlight pwm-lookup
- to pwm_pmic_backlight
-Message-ID: <20191213082734.GE3468@dell>
-References: <20191119151818.67531-1-hdegoede@redhat.com>
- <20191119151818.67531-3-hdegoede@redhat.com>
- <20191210085111.GQ3468@dell>
- <a05e5a2b-568e-2b0d-0293-aa937c590a74@redhat.com>
- <20191212084546.GA3468@dell>
- <d22e9a04-da09-0f41-a78e-ac17a947650a@redhat.com>
- <20191212155209.GC3468@dell>
- <4d07445d-98b1-f23c-0aac-07709b45df78@redhat.com>
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 912B789690
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 09:05:00 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBD94rXb125790;
+ Fri, 13 Dec 2019 03:04:53 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1576227893;
+ bh=ttQBV4pScAqE9Q5W14IqurKxACH8gfNRqEPYyi+rNEo=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=f4MB4TnPWPnpLQ4kG0V5lVEQjA8+KbznrtwRTAk5SJTtyRAq5CEKVjxQDDBpnoj7d
+ swyatbD+yFAtvV2Xtiq5hpGJV5SU2qUh4UXQF0QigOohzu0uuZSbFDWaFwRnm3SZj6
+ KlLLemoLZCGUpWZWEOuzfqTyPPO6Xu3B3I0v/MmU=
+Received: from DFLE101.ent.ti.com (dfle101.ent.ti.com [10.64.6.22])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xBD94rQt112007
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 13 Dec 2019 03:04:53 -0600
+Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE101.ent.ti.com
+ (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Fri, 13
+ Dec 2019 03:04:52 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Fri, 13 Dec 2019 03:04:52 -0600
+Received: from [10.1.3.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBD94oGE102633;
+ Fri, 13 Dec 2019 03:04:50 -0600
+Subject: Re: [PATCH v2 2/3] dt-bindings: display: Add obsolete note to
+ "ti,tilcdc,panel" binding
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <cover.1575901747.git.jsarha@ti.com>
+ <459ed943fe0725200062171755bcfe5f73713d50.1575901747.git.jsarha@ti.com>
+ <20191209145024.GB12841@pendragon.ideasonboard.com>
+From: Jyri Sarha <jsarha@ti.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=jsarha@ti.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <5f585e0b-be58-b474-f27b-875e254426a8@ti.com>
+Date: Fri, 13 Dec 2019 11:04:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <4d07445d-98b1-f23c-0aac-07709b45df78@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191209145024.GB12841@pendragon.ideasonboard.com>
+Content-Language: en-GB
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,106 +107,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- "Rafael J . Wysocki" <rjw@rjwysocki.net>, linux-kernel@vger.kernel.org,
- linux-acpi@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Len Brown <lenb@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org, tony@atomide.com, tomi.valkeinen@ti.com,
+ dri-devel@lists.freedesktop.org, peter.ujfalusi@ti.com, robh+dt@kernel.org,
+ linux-omap@vger.kernel.org, sam@ravnborg.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAxMiBEZWMgMjAxOSwgSGFucyBkZSBHb2VkZSB3cm90ZToKCj4gSGksCj4gCj4gT24g
-MTItMTItMjAxOSAxNjo1MiwgTGVlIEpvbmVzIHdyb3RlOgo+ID4gT24gVGh1LCAxMiBEZWMgMjAx
-OSwgSGFucyBkZSBHb2VkZSB3cm90ZToKPiA+IAo+ID4gPiBIaSwKPiA+ID4gCj4gPiA+IE9uIDEy
-LTEyLTIwMTkgMDk6NDUsIExlZSBKb25lcyB3cm90ZToKPiA+ID4gPiBPbiBXZWQsIDExIERlYyAy
-MDE5LCBIYW5zIGRlIEdvZWRlIHdyb3RlOgo+ID4gPiA+IAo+ID4gPiA+ID4gSGkgTGVlLAo+ID4g
-PiA+ID4gCj4gPiA+ID4gPiBPbiAxMC0xMi0yMDE5IDA5OjUxLCBMZWUgSm9uZXMgd3JvdGU6Cj4g
-PiA+ID4gPiA+IE9uIFR1ZSwgMTkgTm92IDIwMTksIEhhbnMgZGUgR29lZGUgd3JvdGU6Cj4gPiA+
-ID4gPiA+IAo+ID4gPiA+ID4gPiA+IEF0IGxlYXN0IEJheSBUcmFpbCAoQllUKSBhbmQgQ2hlcnJ5
-IFRyYWlsIChDSFQpIGRldmljZXMgY2FuIHVzZSAxIG9mIDIKPiA+ID4gPiA+ID4gPiBkaWZmZXJl
-bnQgUFdNIGNvbnRyb2xsZXJzIGZvciBjb250cm9sbGluZyB0aGUgTENEJ3MgYmFja2xpZ2h0IGJy
-aWdodG5lc3MuCj4gPiA+ID4gPiA+ID4gCj4gPiA+ID4gPiA+ID4gRWl0aGVyIHRoZSBvbmUgaW50
-ZWdyYXRlZCBpbnRvIHRoZSBQTUlDIG9yIHRoZSBvbmUgaW50ZWdyYXRlZCBpbnRvIHRoZQo+ID4g
-PiA+ID4gPiA+IFNvQyAodGhlIDFzdCBMUFNTIFBXTSBjb250cm9sbGVyKS4KPiA+ID4gPiA+ID4g
-PiAKPiA+ID4gPiA+ID4gPiBTbyBmYXIgaW4gdGhlIExQU1MgY29kZSBvbiBCWVQgd2UgaGF2ZSBz
-a2lwcGVkIHJlZ2lzdGVyaW5nIHRoZSBMUFNTIFBXTQo+ID4gPiA+ID4gPiA+IGNvbnRyb2xsZXIg
-InB3bV9iYWNrbGlnaHQiIGxvb2t1cCBlbnRyeSB3aGVuIGEgQ3J5c3RhbCBDb3ZlIFBNSUMgaXMK
-PiA+ID4gPiA+ID4gPiBwcmVzZW50LCBhc3N1bWluZyB0aGF0IGluIHRoaXMgY2FzZSB0aGUgUE1J
-QyBQV00gY29udHJvbGxlciB3aWxsIGJlIHVzZWQuCj4gPiA+ID4gPiA+ID4gCj4gPiA+ID4gPiA+
-ID4gT24gQ0hUIHdlIGhhdmUgYmVlbiByZWx5aW5nIG9uIG9ubHkgMSBvZiB0aGUgMiBQV00gY29u
-dHJvbGxlcnMgYmVpbmcKPiA+ID4gPiA+ID4gPiBlbmFibGVkIGluIHRoZSBEU0RUIGF0IHRoZSBz
-YW1lIHRpbWU7IGFuZCBhbHdheXMgcmVnaXN0ZXJlZCB0aGUgbG9va3VwLgo+ID4gPiA+ID4gPiA+
-IAo+ID4gPiA+ID4gPiA+IFNvIGZhciB0aGlzIGhhcyBiZWVuIHdvcmtpbmcsIGJ1dCB0aGUgY29y
-cmVjdCB3YXkgdG8gZGV0ZXJtaW5lIHdoaWNoIFBXTQo+ID4gPiA+ID4gPiA+IGNvbnRyb2xsZXIg
-bmVlZHMgdG8gYmUgdXNlZCBpcyBieSBjaGVja2luZyBhIGJpdCBpbiB0aGUgVkJUIHRhYmxlIGFu
-ZAo+ID4gPiA+ID4gPiA+IHJlY2VudGx5IEkndmUgbGVhcm5lZCBhYm91dCAyIGRpZmZlcmVudCBC
-WVQgZGV2aWNlczoKPiA+ID4gPiA+ID4gPiBQb2ludCBvZiBWaWV3IE1PQklJIFRBQi1QODAwVwo+
-ID4gPiA+ID4gPiA+IEFjZXIgU3dpdGNoIDEwIFNXNS0wMTIKPiA+ID4gPiA+ID4gPiAKPiA+ID4g
-PiA+ID4gPiBXaGljaCB1c2UgYSBDcnlzdGFsIENvdmUgUE1JQywgeWV0IHRoZSBMQ0QgaXMgY29u
-bmVjdGVkIHRvIHRoZSBTb0MvTFBTUwo+ID4gPiA+ID4gPiA+IFBXTSBjb250cm9sbGVyIChhbmQg
-dGhlIFZCVCBjb3JyZWN0bHkgaW5kaWNhdGVzIHRoaXMpLCBzbyBoZXJlIG91ciBvbGQKPiA+ID4g
-PiA+ID4gPiBoZXVyaXN0aWNzIGZhaWwuCj4gPiA+ID4gPiA+ID4gCj4gPiA+ID4gPiA+ID4gU2lu
-Y2Ugb25seSB0aGUgaTkxNSBkcml2ZXIgaGFzIGFjY2VzcyB0byB0aGUgVkJULCB0aGlzIGNvbW1p
-dCByZW5hbWVzCj4gPiA+ID4gPiA+ID4gdGhlICJwd21fYmFja2xpZ2h0IiBsb29rdXAgZW50cmll
-cyBmb3IgdGhlIENyeXN0YWwgQ292ZSBQTUlDJ3MgUFdNCj4gPiA+ID4gPiA+ID4gY29udHJvbGxl
-ciB0byAicHdtX3BtaWNfYmFja2xpZ2h0IiBzbyB0aGF0IHRoZSBpOTE1IGRyaXZlciBjYW4gZG8g
-YQo+ID4gPiA+ID4gPiA+IHB3bV9nZXQoKSBmb3IgdGhlIHJpZ2h0IGNvbnRyb2xsZXIgZGVwZW5k
-aW5nIG9uIHRoZSBWQlQgYml0LCBpbnN0ZWFkIG9mCj4gPiA+ID4gPiA+ID4gdGhlIGk5MTUgZHJp
-dmVyIHJlbHlpbmcgb24gYSAicHdtX2JhY2tsaWdodCIgbG9va3VwIGdldHRpbmcgcmVnaXN0ZXJl
-ZAo+ID4gPiA+ID4gPiA+IHdoaWNoIG1hZ2ljYWxseSBwb2ludHMgdG8gdGhlIHJpZ2h0IGNvbnRy
-b2xsZXIuCj4gPiA+ID4gPiA+ID4gCj4gPiA+ID4gPiA+ID4gU2lnbmVkLW9mZi1ieTogSGFucyBk
-ZSBHb2VkZSA8aGRlZ29lZGVAcmVkaGF0LmNvbT4KPiA+ID4gPiA+ID4gPiAtLS0KPiA+ID4gPiA+
-ID4gPiAgICAgZHJpdmVycy9tZmQvaW50ZWxfc29jX3BtaWNfY29yZS5jIHwgMiArLQo+ID4gPiA+
-ID4gPiA+ICAgICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
-PiA+ID4gPiA+ID4gCj4gPiA+ID4gPiA+IEZvciBteSBvd24gcmVmZXJlbmNlOgo+ID4gPiA+ID4g
-PiAgICAgIEFja2VkLWZvci1NRkQtYnk6IExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+
-Cj4gPiA+ID4gPiAKPiA+ID4gPiA+IEFzIG1lbnRpb25lZCBpbiB0aGUgY292ZXItbGV0dGVyLCB0
-byBhdm9pZCBicmVha2luZyBiaS1zZWN0YWJpbGl0eQo+ID4gPiA+ID4gYXMgd2VsbCBhcyB0byBh
-dm9pZCBicmVha2luZyB0aGUgaW50ZWwtZ2Z4IENJIHdlIG5lZWQgdG8gbWVyZ2UgdGhpcyBzZXJp
-ZXMKPiA+ID4gPiA+IGluIG9uZSBnbyB0aHJvdWdoIG9uZSB0cmVlLiBTcGVjaWZpY2FsbHkgdGhy
-b3VnaCB0aGUgZHJtLWludGVsIHRyZWUuCj4gPiA+ID4gPiBJcyB0aGF0IG9rIHdpdGggeW91ID8K
-PiA+ID4gPiA+IAo+ID4gPiA+ID4gSWYgdGhpcyBpcyBvayB3aXRoIHlvdSwgdGhlbiB5b3UgZG8g
-bm90IGhhdmUgdG8gZG8gYW55dGhpbmcsIEkgd2lsbCBqdXN0IHB1c2gKPiA+ID4gPiA+IHRoZSBl
-bnRpcmUgc2VyaWVzIHRvIGRybS1pbnRlbC4gZHJpdmVycy9tZmQvaW50ZWxfc29jX3BtaWNfY29y
-ZS5jCj4gPiA+ID4gPiBkb2VzIG5vdCBzZWUgbXVjaCBjaGFuZ2VzIHNvIEkgZG8gbm90IGV4cGVj
-dCB0aGlzIHRvIGxlYWQgdG8gYW55IGNvbmZsaWN0cy4KPiA+ID4gPiAKPiA+ID4gPiBJdCdzIGZp
-bmUsIHNvIGxvbmcgYXMgYSBtaW5pbWFsIGltbXV0YWJsZSBwdWxsLXJlcXVlc3QgaXMgcHJvdmlk
-ZWQuCj4gPiA+ID4gV2hldGhlciBpdCdzIHB1bGxlZCBvciBub3Qgd2lsbCBkZXBlbmQgb24gYSBu
-dW1iZXIgb2YgZmFjdG9ycywgYnV0IGl0Cj4gPiA+ID4gbmVlZHMgdG8gYmUgYW4gb3B0aW9uLgo+
-ID4gPiAKPiA+ID4gVGhlIHdheSB0aGUgZHJtIHN1YnN5cyB3b3JrcyB0aGF0IGlzIG5vdCByZWFs
-bHkgYSByZWFkaWx5IGF2YWlsYWJsZQo+ID4gPiBvcHRpb24uIFRoZSBzdHJ1Y3QgZGVmaW5pdGlv
-biB3aGljaCB0aGlzIHBhdGNoIGNoYW5nZXMgYSBzaW5nbGUgbGluZSBpbgo+ID4gPiBoYXMgbm90
-IGJlZW4gdG91Y2hlZCBzaW5jZSAyMDE1LTA2LTI2IHNvIEkgcmVhbGx5IGRvdWJ0IHdlIHdpbGwg
-Z2V0IGEKPiA+ID4gY29uZmxpY3QgZnJvbSB0aGlzLgo+ID4gCj4gPiBBbHdheXMgd2l0aCB0aGUg
-ZXhjZXB0aW9ucyAuLi4KPiA+IAo+ID4gT09JLCB3aHkgZG9lcyB0aGlzICpoYXZlKiB0byBnbyB0
-aHJvdWdoIHRoZSBEUk0gdHJlZT8KPiAKPiBUaGlzIHBhdGNoIHJlbmFtZXMgdGhlIG5hbWUgdXNl
-ZCB0byBsb29rdXAgdGhlIHB3bSBjb250cm9sbGVyIGZyb20KPiAicHdtX2JhY2tsaWdodCIgdG8g
-InB3bV9wbWljX2JhY2tsaWdodCIgYmVjYXVzZSB0aGVyZSBhcmUgMiBwb3NzaWJsZQo+IHB3bSBj
-b250cm9sbGVycyB3aGljaCBtYXkgYmUgdXNlZCwgb25lIGluIHRoZSBTb0MgaXRzZWxmIGFuZCBv
-bmUKPiBpbiB0aGUgUE1JQy4gV2hpY2ggY29udHJvbGxlciBzaG91bGQgYmUgdXNlZCBpcyBkZXNj
-cmliZWQgaW4gYSB0YWJsZQo+IGluIHRoZSBWaWRlbyBCSU9TLCBzbyBhbm90aGVyIHBhcnQgb2Yg
-dGhpcyBzZXJpZXMgYWRkcyB0aGlzIGNvZGUgdG8KPiB0aGUgaTkxNSBkcml2ZXI6Cj4gCj4gLQlw
-YW5lbC0+YmFja2xpZ2h0LnB3bSA9IHB3bV9nZXQoZGV2LT5kZXYsICJwd21fYmFja2xpZ2h0Iik7
-Cj4gKwkvKiBHZXQgdGhlIHJpZ2h0IFBXTSBjaGlwIGZvciBEU0kgYmFja2xpZ2h0IGFjY29yZGlu
-ZyB0byBWQlQgKi8KPiArCWlmIChkZXZfcHJpdi0+dmJ0LmRzaS5jb25maWctPnB3bV9ibGMgPT0g
-UFBTX0JMQ19QTUlDKSB7Cj4gKwkJcGFuZWwtPmJhY2tsaWdodC5wd20gPSBwd21fZ2V0KGRldi0+
-ZGV2LCAicHdtX3BtaWNfYmFja2xpZ2h0Iik7Cj4gKwkJZGVzYyA9ICJQTUlDIjsKPiArCX0gZWxz
-ZSB7Cj4gKwkJcGFuZWwtPmJhY2tsaWdodC5wd20gPSBwd21fZ2V0KGRldi0+ZGV2LCAicHdtX3Nv
-Y19iYWNrbGlnaHQiKTsKPiArCQlkZXNjID0gIlNvQyI7Cj4gKwl9Cj4gCj4gU28gYm90aCBub3Qg
-dG8gYnJlYWsgYmlzZWN0YWJpbGl0eSwgYnV0IGFsc28gc28gYXMgdG8gbm90IGJyZWFrIHRoZSBl
-eHRlbnNpdmUKPiBDSSBzeXN0ZW0gd2hpY2ggaXMgdXNlZCB0byB0ZXN0IHRoZSBpOTE1IGRyaXZl
-ciB3ZSBuZWVkIHRoZSBNRkQgY2hhbmdlIGRvaW5nCj4gdGhlIHJlbmFtZSB0byBnbyB1cHN0cnJl
-YW0gdGhyb3VnaCB0aGUgc2FtZSB0cmVlIGFzIHRoZSBpOTE1IGNoYW5nZS4KPiAKPiBJIGhhdmUg
-ZXZlbiBjb25zaWRlcmVkIGp1c3Qgc3F1YXNoaW5nIHRoZSAyIGNvbW1pdHMgdG9nZXRoZXIgYXMg
-aGF2aW5nIG9ubHkgMQo+IHByZXNlbnQsIGJ1dCBub3QgdGhlIG90aGVyIGJyZWFrcyBzdHVmZiBs
-ZWZ0IGFuZCByaWdodC4KClRoYXQgZG9lc24ndCBhbnN3ZXIgdGhlIHF1ZXN0aW9uLgoKV2h5IGRv
-IHRoZXkgYWxsICpoYXZlKiB0byBnbyBpbiB2aWEgdGhlIERSTSB0cmVlIHNwZWNpZmljYWxseT8K
-Ci0tIApMZWUgSm9uZXMgW+adjueQvOaWr10KTGluYXJvIFNlcnZpY2VzIFRlY2huaWNhbCBMZWFk
-CkxpbmFyby5vcmcg4pSCIE9wZW4gc291cmNlIHNvZnR3YXJlIGZvciBBUk0gU29DcwpGb2xsb3cg
-TGluYXJvOiBGYWNlYm9vayB8IFR3aXR0ZXIgfCBCbG9nCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On 09/12/2019 16:50, Laurent Pinchart wrote:
+> Hi Jyri,
+> 
+> Thank you for the patch.
+> 
+> On Mon, Dec 09, 2019 at 04:42:15PM +0200, Jyri Sarha wrote:
+>> The "ti,tilcdc,panel" binding should not be used anymore, since tilcdc
+>> is fully capable of using generic drm panels like panel-simple and
+>> panel-common binding. However, the obsolete binding is still widely
+>> used in many mainline supported platforms that I do not have access to
+>> and who knows how many custom platforms. So I am afraid we have to
+>> keep the old bundled tilcdc panel driver around.
+> 
+> But can't we drop the bindings instead of marking them as obsolete, even
+> if we keep the driver around for some time ?
+> 
+
+I guess that would be alright too.
+
+> Also, would it make sense to set a date for the removal of the driver,
+> and add it to the WARN() message in patch 3/3 ?
+> 
+
+Not sure about a date. I would feel quite uncomfortable of removing the
+driver, while there is still mainline DTSes using "ti,tilcdc,panel". I
+guess the next step would be putting the legacy panel driver behind a
+default = N config option. Then I would probably hear something if there
+are people actively using those DTSes. Maybe the date could be about
+that too.
+
+BR,
+Jyri
+
+>> Signed-off-by: Jyri Sarha <jsarha@ti.com>
+>> ---
+>>  Documentation/devicetree/bindings/display/tilcdc/panel.txt | 6 ++++++
+>>  1 file changed, 6 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/tilcdc/panel.txt b/Documentation/devicetree/bindings/display/tilcdc/panel.txt
+>> index 808216310ea2..54963f9173cc 100644
+>> --- a/Documentation/devicetree/bindings/display/tilcdc/panel.txt
+>> +++ b/Documentation/devicetree/bindings/display/tilcdc/panel.txt
+>> @@ -1,5 +1,11 @@
+>>  Device-Tree bindings for tilcdc DRM generic panel output driver
+>>  
+>> +NOTE: This binding (and the related driver) is obsolete and should not
+>> +      be used anymore. Please refer to drm panel-common binding (and
+>> +      to a generic drm panel driver like panel-simple).
+>> +      Documentation/devicetree/bindings/display/panel/panel-common.yaml
+>> +      (drivers/gpu/drm/panel/panel-simple.c)
+>> +
+>>  Required properties:
+>>   - compatible: value should be "ti,tilcdc,panel".
+>>   - panel-info: configuration info to configure LCDC correctly for the panel
+> 
+
+
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
