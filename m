@@ -2,59 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AC6911E945
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 18:33:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0DC211E955
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 18:43:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 648CF6EB79;
-	Fri, 13 Dec 2019 17:33:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EE7B6EB8D;
+	Fri, 13 Dec 2019 17:43:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AD5A6EB79
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 17:33:54 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id d5so423968wmb.4
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 09:33:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=F3/RX5pz9qAXeL/5DUblSLPQEe7d0L4mzOA7bkof7+M=;
- b=DoWN+4rUDaes49FWEO01I6QZQBXvLGlnQhCfyxypkbFKOKAyzZYZmY7ue2cDGiaoL7
- ONg4ycH+OnfRffekvxonkA7lqNn59TKgal+q3GvfQX0988A1XVdvu0eBllAo0kHi7pvK
- CS7Gq2cgBsgPa+MVg87nYNxXc2SGzmqi14VmU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=F3/RX5pz9qAXeL/5DUblSLPQEe7d0L4mzOA7bkof7+M=;
- b=ku7cG1eATRcdSdmSqbC8aPZIlTDGLvyeZbC49iPYOiJRYQm/ah8mKcO1SwgwjxKtVX
- vtiB4CXxNM8shiXVxqPY71qEq4xbi+e3qMjY2tvNG/NYeiUQ0DblUC+T1hF7pcFzj2eu
- DP1EQ2uCMJzPt8XQEb4pI7Imtd8My7AhteOVllwIRu9xDTmP7rXshl6648AmsnRq+uc2
- 1i8AhuY26iLSXsACd7xuwqDAt3bUL8SYoqEeewKKXF0lC8WHrROjHxdhnktCiG680La9
- 1QLOMeQ96Sd1Gv0PM6UjwgroqyjMGXpclLLW5+r/pWOfESq1A0xlLWE6P3OjYLQXnlNB
- UZAA==
-X-Gm-Message-State: APjAAAUe7DqfhENNBczBGv5FYVr+MTRTAhmmD6s/kVTZYhXp8TzfIYqY
- oTI6jWB3INqDQMWxzAy66m7tgA==
-X-Google-Smtp-Source: APXvYqyHDXY2mh6ELXw3SZaxk9FD3WJ6fytZc5ftzi3N/NfPmv6IgMjAR7zwPTe6BVA+FN0qxslYkw==
-X-Received: by 2002:a1c:964f:: with SMTP id y76mr14581079wmd.62.1576258433003; 
- Fri, 13 Dec 2019 09:33:53 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:564b:0:7567:bb67:3d7f:f863])
- by smtp.gmail.com with ESMTPSA id o7sm10912370wmc.41.2019.12.13.09.33.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Dec 2019 09:33:52 -0800 (PST)
-Date: Fri, 13 Dec 2019 18:33:50 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Subject: Re: [PATCHv4 06/36] drm/gem-fb-helper: Add method to allocate struct
- drm_framebuffer
-Message-ID: <20191213173350.GJ624164@phenom.ffwll.local>
-References: <20191213155907.16581-1-andrzej.p@collabora.com>
- <20191213155907.16581-7-andrzej.p@collabora.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3C476EB7C;
+ Fri, 13 Dec 2019 17:43:52 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 13 Dec 2019 09:43:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,309,1571727600"; d="scan'208";a="220958168"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by fmsmga001.fm.intel.com with SMTP; 13 Dec 2019 09:43:49 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 13 Dec 2019 19:43:48 +0200
+From: Ville Syrjala <ville.syrjala@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v4 0/4] drm/edid: Add new modes from CTA-861-G
+Date: Fri, 13 Dec 2019 19:43:44 +0200
+Message-Id: <20191213174348.27261-1-ville.syrjala@linux.intel.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191213155907.16581-7-andrzej.p@collabora.com>
-X-Operating-System: Linux phenom 5.3.0-2-amd64 
-User-Agent: Mutt/1.12.2 (2019-09-21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,120 +42,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ayan Halder <Ayan.Halder@arm.com>, kernel@collabora.com,
- David Airlie <airlied@linux.ie>, Liviu Dudau <liviu.dudau@arm.com>,
- Sandy Huang <hjc@rock-chips.com>, James Wang <james.qian.wang@arm.com>,
- dri-devel@lists.freedesktop.org, Mihail Atanassov <mihail.atanassov@arm.com>,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Hans Verkuil <hansverk@cisco.com>,
+ Manasi Navare <manasi.d.navare@intel.com>, intel-gfx@lists.freedesktop.org,
+ Thomas Anderson <thomasanderson@google.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 13, 2019 at 04:58:37PM +0100, Andrzej Pietrasiewicz wrote:
-> Some drivers might want to use the modifier_info field of struct
-> drm_framebuffer to hold struct drm_afbc. The memory for the latter must
-> be managed by the driver. To eliminate the need to modify existing
-> invocations of kfree(fb), add a function to allocate struct drm_framebuffer
-> and its associated struct drm_afbc in one chunk.
-> 
-> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-> ---
->  drivers/gpu/drm/drm_gem_framebuffer_helper.c | 32 ++++++++++++++++++++
->  include/drm/drm_gem_framebuffer_helper.h     |  1 +
->  2 files changed, 33 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-> index e20f4d00b0a5..0338f303f988 100644
-> --- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-> @@ -21,6 +21,13 @@
->  #include <drm/drm_modeset_helper.h>
->  #include <drm/drm_simple_kms_helper.h>
->  
-> +#define DRM_ALIGN_MASK(type) \
-> +	(__alignof__(type) - 1)
-> +#define DRM_INFO_OFFSET(type1, type2)	\
-> +	((sizeof(type1) + DRM_ALIGN_MASK(type2)) & ~DRM_ALIGN_MASK(type2))
-> +#define DRM_COMPOUND_SIZE(type1, type2) \
-> +	(DRM_INFO_OFFSET(type1, type2) + sizeof(type2))
-> +
->  #define AFBC_HEADER_SIZE		16
->  #define AFBC_TH_LAYOUT_ALIGNMENT	8
->  #define AFBC_SUPERBLOCK_PIXELS		256
-> @@ -59,6 +66,31 @@ struct drm_gem_object *drm_gem_fb_get_obj(struct drm_framebuffer *fb,
->  }
->  EXPORT_SYMBOL_GPL(drm_gem_fb_get_obj);
->  
-> +/**
-> + * drm_gem_fb_alloc_with_afbc() - Allocate struct drm_framebuffer together
-> + *				  with a struct drm_afbc for easier freeing
-> + *				  and assign drm_framebuffer's modifier_info
-> + *
-> + * Returns:
-> + * Pointer to drm_framebuffer on success or NULL
-> + */
-> +struct drm_framebuffer *drm_gem_fb_alloc_with_afbc(void)
-> +{
-> +	struct drm_framebuffer *fb;
-> +
-> +	/* alloc in one chunk to ease freeing */
-> +	fb = kzalloc(DRM_COMPOUND_SIZE(struct drm_framebuffer, struct drm_afbc),
-> +		     GFP_KERNEL);
-> +	if (!fb)
-> +		return NULL;
-> +
-> +	fb->modifier_info =
-> +		fb + DRM_INFO_OFFSET(struct drm_framebuffer, struct drm_afbc);
-
-That's not how we do subclassing in general ... (so also no on patch 1).
-What I mean here is:
-
-struct drm_afbc {
-	struct drm_framebuffer base;
-	/* additional afbc information goes here, _not_ into struct
-	 * drm_framebuffer */
-}
-
-#define drm_framebuffer_to_afbc(fb) container_of(fb, struct drm_afbc, base)
-
-Both probably best stuffed into drm_plane.h
-
-Aside from that style issue I think the core/helper work of this patch
-series is getting there. But I didn't read the details (and probably wont
-get to that before the new year because stuff and vacations).
-
-Cheers, Daniel
-
-> +
-> +	return fb;
-> +}
-> +EXPORT_SYMBOL_GPL(drm_gem_fb_alloc_with_afbc);
-> +
->  int drm_gem_fb_init_with_funcs(struct drm_framebuffer *fb,
->  			       struct drm_device *dev,
->  			       const struct drm_mode_fb_cmd2 *mode_cmd,
-> diff --git a/include/drm/drm_gem_framebuffer_helper.h b/include/drm/drm_gem_framebuffer_helper.h
-> index 3d6015194b3c..4e7b1e2c765b 100644
-> --- a/include/drm/drm_gem_framebuffer_helper.h
-> +++ b/include/drm/drm_gem_framebuffer_helper.h
-> @@ -42,6 +42,7 @@ struct drm_afbc {
->  
->  struct drm_gem_object *drm_gem_fb_get_obj(struct drm_framebuffer *fb,
->  					  unsigned int plane);
-> +struct drm_framebuffer *drm_gem_fb_alloc_with_afbc(void);
->  int drm_gem_fb_init_with_funcs(struct drm_framebuffer *fb,
->  			       struct drm_device *dev,
->  			       const struct drm_mode_fb_cmd2 *mode_cmd,
-> -- 
-> 2.17.1
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KClJl
+dmlldyBmZWVkYmFjayBhZGRyZXNzZWQuIEkgY29uc2lkZXJlZCBjaGFuZ2luZyB0aGUgYXBwcm9h
+Y2gKYmFzZWQgb24gVG9tJ3MgY29tbWVudHMgYnV0IGluIHRoZSBlbmQgZGVjaWRlZCB0aGF0IHBy
+b2JhYmx5CmJldHRlciB0byBnbyB3aXRoIHRoaXMgZm9yIG5vdy4gV2UgY2FuIG1hc3NhZ2UgaXQg
+bGF0ZXIgaWYKcmVxdWlyZWQuCgpDYzogSGFucyBWZXJrdWlsIDxoYW5zdmVya0BjaXNjby5jb20+
+CkNjOiBNYW5hc2kgTmF2YXJlIDxtYW5hc2kuZC5uYXZhcmVAaW50ZWwuY29tPgpDYzogVGhvbWFz
+IEFuZGVyc29uIDx0aG9tYXNhbmRlcnNvbkBnb29nbGUuY29tPgoKVmlsbGUgU3lyasOkbMOkICg0
+KToKICBkcm0vZWRpZDogQWJzdHJhY3QgYXdheSBjZWFfZWRpZF9tb2Rlc1tdCiAgZHJtL2VkaWQ6
+IEFkZCBDVEEtODYxLUcgbW9kZXMgd2l0aCBWSUMgPj0gMTkzCiAgZHJtL2VkaWQ6IFRocm93IGF3
+YXkgdGhlIGR1bW15IFZJQyAwIGNlYSBtb2RlCiAgZHJtL2VkaWQ6IE1ha2Ugc3VyZSB0aGUgQ0VB
+IG1vZGUgYXJyYXlzIGhhdmUgdGhlIGNvcnJlY3QgYW1vdW50IG9mCiAgICBtb2RlcwoKIGRyaXZl
+cnMvZ3B1L2RybS9kcm1fZWRpZC5jIHwgMjE3ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKy0tLS0KIDEgZmlsZSBjaGFuZ2VkLCAxOTMgaW5zZXJ0aW9ucygrKSwgMjQgZGVsZXRpb25z
+KC0pCgotLSAKMi4yMy4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
+ZGV2ZWwK
