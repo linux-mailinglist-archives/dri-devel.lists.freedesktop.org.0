@@ -1,55 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B6DE11E3A6
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 13:37:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB1FB11E3CE
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 13:47:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C80F6E53E;
-	Fri, 13 Dec 2019 12:37:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D23706E7D2;
+	Fri, 13 Dec 2019 12:47:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52C7F6E53E
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 12:37:16 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBDCatZK063138;
- Fri, 13 Dec 2019 06:36:55 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1576240615;
- bh=NeiiM4xZ/0N3jI/I7BaOGTbQEeH7LTybGv0Y3rfkgmc=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=pVt/LDAzXzRx9weTRpz11GrL5PBx5k6VIMdCtLfTx8NmMfoUDqrplKjazExneA/pa
- xOWJq3xmv8sx+JAADF6+oV2I3FytLV46PwtPRJjoPRxRvKO43N5JY8RkpLNEtyGKMk
- sfkGu6xqBoTUnL58nv2v5pA+vdgZubNhhtglteQA=
-Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xBDCatV7044241
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 13 Dec 2019 06:36:55 -0600
-Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Fri, 13
- Dec 2019 06:36:52 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Fri, 13 Dec 2019 06:36:52 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBDCaobp077581;
- Fri, 13 Dec 2019 06:36:51 -0600
-Subject: Re: [PATCH 1/4] ARM: dts: am437x-gp-evm: add HDMI support
-To: Tony Lindgren <tony@atomide.com>
-References: <20191125131100.9839-1-tomi.valkeinen@ti.com>
- <20191212172104.GY35479@atomide.com> <20191212173110.GA35479@atomide.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <7ef4e361-88c3-d8d5-a6fa-6082465eeb83@ti.com>
-Date: Fri, 13 Dec 2019 14:36:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.1
+X-Greylist: delayed 442 seconds by postgrey-1.36 at gabe;
+ Fri, 13 Dec 2019 12:47:23 UTC
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCDAC6E7D2
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 12:47:23 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: ezequiel) with ESMTPSA id 0915E292C87
+From: Ezequiel Garcia <ezequiel@collabora.com>
+To: Rob Herring <robh@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/panfrost: Prefix interrupt handlers' names
+Date: Fri, 13 Dec 2019 09:39:42 -0300
+Message-Id: <20191213123942.22891-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-In-Reply-To: <20191212173110.GA35479@atomide.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,30 +37,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
- linux-omap@vger.kernel.org
+Cc: kernel@collabora.com, Ezequiel Garcia <ezequiel@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Steven Price <steven.price@arm.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/12/2019 19:31, Tony Lindgren wrote:
+Currently, the interrupt lines requested by Panfrost
+use ambiguous names, which adds some obscurity
+to interrupt introspection (i.e. any tool based
+on procfs' interrupts file).
 
-> Anyways, I'm applying the changes to dra76-evm am57xx-idk-common
-> into omap-for-v5.6/dt as they have no GPIO pin limitation.
+In order to improve this, prefix each requested
+interrupt with either the module name or the device
+name, where possible.
 
-Thanks!
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+---
+ drivers/gpu/drm/panfrost/panfrost_gpu.c | 2 +-
+ drivers/gpu/drm/panfrost/panfrost_job.c | 2 +-
+ drivers/gpu/drm/panfrost/panfrost_mmu.c | 6 ++++--
+ 3 files changed, 6 insertions(+), 4 deletions(-)
 
-> I'd like to hear comments from folks on the first two though.
-
-Just to summarize the discussion, let's drop the first two patches (am4).
-
-  Tomi
-
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+index f67ed925c0ef..0355c4a78eaa 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+@@ -348,7 +348,7 @@ int panfrost_gpu_init(struct panfrost_device *pfdev)
+ 		return -ENODEV;
+ 
+ 	err = devm_request_irq(pfdev->dev, irq, panfrost_gpu_irq_handler,
+-			       IRQF_SHARED, "gpu", pfdev);
++			       IRQF_SHARED, dev_name(pfdev->dev), pfdev);
+ 	if (err) {
+ 		dev_err(pfdev->dev, "failed to request gpu irq");
+ 		return err;
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+index 05c85f45a0de..3bd79ebb6c40 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.c
++++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+@@ -480,7 +480,7 @@ int panfrost_job_init(struct panfrost_device *pfdev)
+ 		return -ENODEV;
+ 
+ 	ret = devm_request_irq(pfdev->dev, irq, panfrost_job_irq_handler,
+-			       IRQF_SHARED, "job", pfdev);
++			       IRQF_SHARED, KBUILD_MODNAME "-job", pfdev);
+ 	if (ret) {
+ 		dev_err(pfdev->dev, "failed to request job irq");
+ 		return ret;
+diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+index 842bdd7cf6be..806958434726 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+@@ -612,9 +612,11 @@ int panfrost_mmu_init(struct panfrost_device *pfdev)
+ 	if (irq <= 0)
+ 		return -ENODEV;
+ 
+-	err = devm_request_threaded_irq(pfdev->dev, irq, panfrost_mmu_irq_handler,
++	err = devm_request_threaded_irq(pfdev->dev, irq,
++					panfrost_mmu_irq_handler,
+ 					panfrost_mmu_irq_handler_thread,
+-					IRQF_SHARED, "mmu", pfdev);
++					IRQF_SHARED, KBUILD_MODNAME "-mmu",
++					pfdev);
+ 
+ 	if (err) {
+ 		dev_err(pfdev->dev, "failed to request mmu irq");
 -- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+2.22.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
