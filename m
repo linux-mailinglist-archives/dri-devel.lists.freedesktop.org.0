@@ -2,38 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AF3511ECF4
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 22:36:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90D9E11ED02
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 22:40:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22C126EDD6;
-	Fri, 13 Dec 2019 21:36:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCE3C6E084;
+	Fri, 13 Dec 2019 21:40:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BD096EDD5;
- Fri, 13 Dec 2019 21:36:07 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2019 13:36:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,311,1571727600"; d="scan'208";a="220998946"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga001.fm.intel.com with SMTP; 13 Dec 2019 13:36:03 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 13 Dec 2019 23:36:03 +0200
-Date: Fri, 13 Dec 2019 23:36:03 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Juston Li <juston.li@intel.com>
-Subject: Re: [RESEND PATCH v2] drm: Add getfb2 ioctl
-Message-ID: <20191213213603.GK1208@intel.com>
-References: <20191003183125.4520-1-juston.li@intel.com>
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABD746E084
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 21:40:17 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id r19so259152ljg.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 13:40:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anholt-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BFwDG2MYVSxwjtoxPSh4lpuO+A2kFnUi1WWJsTtLfl4=;
+ b=XPtRvT4HoRCyXWna51SLY/F2wFwiSQss2qJ0pbwKfSwNupS/SOWIIATssih9T/YXCl
+ 4IXYxnZ6s/c30SbSiYJuYkykTZwdnghcbt74Y2FSToizbomZnAufrQwDs3rQJlzv2ABa
+ SvTqCB2WdohyrjqXCd82DU6UiupKwPthMAwAPQU7g+lF9nVRUNhnjqHBtTCUjRbYTYzI
+ dYg4V5pmcW4XROGCxm5dTGOlHEqbpcEnNjJiv6+cVmrPE48gXXTK4ABIHEow9FLHKbkB
+ LpktECzva4mou2fRds1VU6M8F4rBfOtkFkK9WLWVhcC4s9YxO6Wh3pPXfSSJ91mJCxZ/
+ JPuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BFwDG2MYVSxwjtoxPSh4lpuO+A2kFnUi1WWJsTtLfl4=;
+ b=gbpOqWLyF4zBDI8TBkuL1+/TFjjEvAaXbRz0xcW/2IxQm4r1kWTrT6+VEgf5tGNUNt
+ 4zdXuiDgX0u811FFw8u9o489T6uR1OzYDbpK7N6qh8/NKDzW4/+uVLk5siHXpIWmMpRY
+ 1H+ND34T7+sVBAlaX+P3GyHRx4z5Sw4Ge+4fREv33bhN7/UuTkRv36A+HIoT24N4ySwF
+ vPGRzOm9NBRue3+jxTAUAtu42ZzsUMNUIDa72sKseGSfarCX1blH+pl2ZTPr7e+ZHPsL
+ VYzLbl3q8W3d+U+n74OmLgLcRE7PxEr8M38MeD8AAAKk7Jz5FDZ7+P/Rc0FUnk9fGKQ2
+ djHg==
+X-Gm-Message-State: APjAAAXQeUiF0Lr0pkqLm/MFxNpIOqdqljeXjc1xMJonQS9bDe5LVPEs
+ Jiw7nu8fTDoIeq3+zwF7OLRXtNWZtRB4Z7bC6SKYc3qgoR0E8g==
+X-Google-Smtp-Source: APXvYqyFJ1cg7nunhp8NhBIUmsFrQJKeTzNK7xDyjUp3CnRoSGUe88NfOdkb6dyH2jBAnSpTF4ofo7qM6ioa4PtH08c=
+X-Received: by 2002:a2e:9e16:: with SMTP id e22mr10535184ljk.220.1576273216096; 
+ Fri, 13 Dec 2019 13:40:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191003183125.4520-1-juston.li@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20191125094356.161941-1-daniel.vetter@ffwll.ch>
+ <20191125094356.161941-5-daniel.vetter@ffwll.ch>
+ <20191213201013.GM624164@phenom.ffwll.local>
+In-Reply-To: <20191213201013.GM624164@phenom.ffwll.local>
+From: Eric Anholt <eric@anholt.net>
+Date: Fri, 13 Dec 2019 13:40:24 -0800
+Message-ID: <CADaigPW509VU1QrU0j53D6Re9cC-2j2P3iaj8OiaXR_3da7c2g@mail.gmail.com>
+Subject: Re: [PATCH 4/4] drm/vc4: Use dma_resv locking wrappers
+To: Daniel Vetter <daniel@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,231 +63,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Daniel Stone <daniels@collabora.com>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 03, 2019 at 11:31:25AM -0700, Juston Li wrote:
-> From: Daniel Stone <daniels@collabora.com>
-> =
+On Fri, Dec 13, 2019 at 12:10 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Mon, Nov 25, 2019 at 10:43:56AM +0100, Daniel Vetter wrote:
+> > I'll add more fancy logic to them soon, so everyone really has to use
+> > them. Plus they already provide some nice additional debug
+> > infrastructure on top of direct ww_mutex usage for the fences tracked
+> > by dma_resv.
+> >
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+>
+> Ping for some review/acks.
+>
+> Thanks, Daniel
+>
+> > ---
+> >  drivers/gpu/drm/vc4/vc4_gem.c | 11 +++++------
+> >  1 file changed, 5 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
+> > index 7a06cb6e31c5..e1cfc3ccd05a 100644
+> > --- a/drivers/gpu/drm/vc4/vc4_gem.c
+> > +++ b/drivers/gpu/drm/vc4/vc4_gem.c
+> > @@ -568,7 +568,7 @@ vc4_unlock_bo_reservations(struct drm_device *dev,
+> >       for (i = 0; i < exec->bo_count; i++) {
+> >               struct drm_gem_object *bo = &exec->bo[i]->base;
+> >
+> > -             ww_mutex_unlock(&bo->resv->lock);
+> > +             dma_resv_unlock(bo->resv);
+> >       }
+> >
+> >       ww_acquire_fini(acquire_ctx);
+> > @@ -595,8 +595,7 @@ vc4_lock_bo_reservations(struct drm_device *dev,
+> >  retry:
+> >       if (contended_lock != -1) {
+> >               bo = &exec->bo[contended_lock]->base;
+> > -             ret = ww_mutex_lock_slow_interruptible(&bo->resv->lock,
+> > -                                                    acquire_ctx);
+> > +             ret = dma_resv_lock_slow_interruptible(bo->resv, acquire_ctx);
+> >               if (ret) {
+> >                       ww_acquire_done(acquire_ctx);
+> >                       return ret;
+> > @@ -609,19 +608,19 @@ vc4_lock_bo_reservations(struct drm_device *dev,
+> >
+> >               bo = &exec->bo[i]->base;
+> >
+> > -             ret = ww_mutex_lock_interruptible(&bo->resv->lock, acquire_ctx);
+> > +             ret = dma_resv_lock_interruptible(bo->resv, acquire_ctx);
+> >               if (ret) {
+> >                       int j;
+> >
+> >                       for (j = 0; j < i; j++) {
+> >                               bo = &exec->bo[j]->base;
+> > -                             ww_mutex_unlock(&bo->resv->lock);
+> > +                             dma_resv_unlock(bo->resv);
+> >                       }
+> >
+> >                       if (contended_lock != -1 && contended_lock >= i) {
+> >                               bo = &exec->bo[contended_lock]->base;
+> >
+> > -                             ww_mutex_unlock(&bo->resv->lock);
+> > +                             dma_resv_unlock(bo->resv);
+> >                       }
+> >
+> >                       if (ret == -EDEADLK) {
+> > --
+> > 2.24.0
+> >
 
-> getfb2 allows us to pass multiple planes and modifiers, just like addfb2
-> over addfb.
-> =
+Assuming they're supposed to be exactly equivalent currently,
 
-> Changes since v1:
->  - unused modifiers set to 0 instead of DRM_FORMAT_MOD_INVALID
->  - update ioctl number
-> =
+Acked-by: Eric Anholt <eric@anholt.net>
 
-> Signed-off-by: Daniel Stone <daniels@collabora.com>
-> Signed-off-by: Juston Li <juston.li@intel.com>
-> ---
->  drivers/gpu/drm/drm_crtc_internal.h |   2 +
->  drivers/gpu/drm/drm_framebuffer.c   | 110 ++++++++++++++++++++++++++++
->  drivers/gpu/drm/drm_ioctl.c         |   1 +
->  include/uapi/drm/drm.h              |   2 +
->  4 files changed, 115 insertions(+)
-> =
-
-> diff --git a/drivers/gpu/drm/drm_crtc_internal.h b/drivers/gpu/drm/drm_cr=
-tc_internal.h
-> index c7d5e4c21423..16f2413403aa 100644
-> --- a/drivers/gpu/drm/drm_crtc_internal.h
-> +++ b/drivers/gpu/drm/drm_crtc_internal.h
-> @@ -216,6 +216,8 @@ int drm_mode_rmfb_ioctl(struct drm_device *dev,
->  			void *data, struct drm_file *file_priv);
->  int drm_mode_getfb(struct drm_device *dev,
->  		   void *data, struct drm_file *file_priv);
-> +int drm_mode_getfb2_ioctl(struct drm_device *dev,
-> +			  void *data, struct drm_file *file_priv);
->  int drm_mode_dirtyfb_ioctl(struct drm_device *dev,
->  			   void *data, struct drm_file *file_priv);
->  =
-
-> diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_fram=
-ebuffer.c
-> index 57564318ceea..6db54f177443 100644
-> --- a/drivers/gpu/drm/drm_framebuffer.c
-> +++ b/drivers/gpu/drm/drm_framebuffer.c
-> @@ -31,6 +31,7 @@
->  #include <drm/drm_file.h>
->  #include <drm/drm_fourcc.h>
->  #include <drm/drm_framebuffer.h>
-> +#include <drm/drm_gem.h>
->  #include <drm/drm_print.h>
->  #include <drm/drm_util.h>
->  =
-
-> @@ -548,7 +549,116 @@ int drm_mode_getfb(struct drm_device *dev,
->  =
-
->  out:
->  	drm_framebuffer_put(fb);
-> +	return ret;
-> +}
-> +
-> +/**
-> + * drm_mode_getfb2 - get extended FB info
-> + * @dev: drm device for the ioctl
-> + * @data: data pointer for the ioctl
-> + * @file_priv: drm file for the ioctl call
-> + *
-> + * Lookup the FB given its ID and return info about it.
-> + *
-> + * Called by the user via ioctl.
-> + *
-> + * Returns:
-> + * Zero on success, negative errno on failure.
-> + */
-> +int drm_mode_getfb2_ioctl(struct drm_device *dev,
-> +			  void *data, struct drm_file *file_priv)
-> +{
-> +	struct drm_mode_fb_cmd2 *r =3D data;
-> +	struct drm_framebuffer *fb;
-> +	unsigned int i;
-> +	int ret;
-> +
-> +	if (!drm_core_check_feature(dev, DRIVER_MODESET))
-> +		return -EINVAL;
-> +
-> +	fb =3D drm_framebuffer_lookup(dev, file_priv, r->fb_id);
-> +	if (!fb)
-> +		return -ENOENT;
-> +
-> +	/* For multi-plane framebuffers, we require the driver to place the
-> +	 * GEM objects directly in the drm_framebuffer. For single-plane
-> +	 * framebuffers, we can fall back to create_handle.
-> +	 */
-> +	if (!fb->obj[0] &&
-> +	    (fb->format->num_planes > 1 || !fb->funcs->create_handle)) {
-> +		ret =3D -ENODEV;
-> +		goto out;
-> +	}
-> +
-> +	r->height =3D fb->height;
-> +	r->width =3D fb->width;
-> +	r->pixel_format =3D fb->format->format;
-> +
-> +	r->flags =3D 0;
-> +	if (dev->mode_config.allow_fb_modifiers)
-> +		r->flags |=3D DRM_MODE_FB_MODIFIERS;
-> +
-> +	for (i =3D 0; i < ARRAY_SIZE(r->handles); i++) {
-> +		r->handles[i] =3D 0;
-> +		r->pitches[i] =3D 0;
-> +		r->offsets[i] =3D 0;
-> +		r->modifier[i] =3D 0;
-> +	}
->  =
-
-> +	for (i =3D 0; i < fb->format->num_planes; i++) {
-> +		int j;
-> +
-> +		r->pitches[i] =3D fb->pitches[i];
-> +		r->offsets[i] =3D fb->offsets[i];
-> +		if (dev->mode_config.allow_fb_modifiers)
-> +			r->modifier[i] =3D fb->modifier;
-> +
-> +		/* If we reuse the same object for multiple planes, also
-> +		 * return the same handle.
-> +		 */
-> +		for (j =3D 0; j < i; j++) {
-> +			if (fb->obj[i] =3D=3D fb->obj[j]) {
-> +				r->handles[i] =3D r->handles[j];
-> +				break;
-> +			}
-> +		}
-> +
-> +		if (r->handles[i])
-> +			continue;
-> +
-> +		if (fb->obj[i]) {
-> +			ret =3D drm_gem_handle_create(file_priv, fb->obj[i],
-> +						    &r->handles[i]);
-> +		} else {
-> +			WARN_ON(i > 0);
-> +			ret =3D fb->funcs->create_handle(fb, file_priv,
-> +						       &r->handles[i]);
-> +		}
-
-getfb1 doesn't allow non-master/root to see the handles. Here we don't
-seem to have that same protection?
-
-> +
-> +		if (ret !=3D 0)
-> +			goto out;
-
-Could be just 'break;' and then we wouldn't even need the label.
-
-Rest lgtm.
-
-> +	}
-> +
-> +out:
-> +	if (ret !=3D 0) {
-> +		/* Delete any previously-created handles on failure. */
-> +		for (i =3D 0; i < ARRAY_SIZE(r->handles); i++) {
-> +			int j;
-> +
-> +			if (r->handles[i])
-> +				drm_gem_handle_delete(file_priv, r->handles[i]);
-> +
-> +			/* Zero out any handles identical to the one we just
-> +			 * deleted.
-> +			 */
-> +			for (j =3D i + 1; j < ARRAY_SIZE(r->handles); j++) {
-> +				if (r->handles[j] =3D=3D r->handles[i])
-> +					r->handles[j] =3D 0;
-> +			}
-> +		}
-> +	}
-> +
-> +	drm_framebuffer_put(fb);
->  	return ret;
->  }
->  =
-
-> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-> index fcd728d7cf72..b1fafce3ad8c 100644
-> --- a/drivers/gpu/drm/drm_ioctl.c
-> +++ b/drivers/gpu/drm/drm_ioctl.c
-> @@ -671,6 +671,7 @@ static const struct drm_ioctl_desc drm_ioctls[] =3D {
->  	DRM_IOCTL_DEF(DRM_IOCTL_MODE_SETPROPERTY, drm_connector_property_set_io=
-ctl, DRM_MASTER),
->  	DRM_IOCTL_DEF(DRM_IOCTL_MODE_GETPROPBLOB, drm_mode_getblob_ioctl, 0),
->  	DRM_IOCTL_DEF(DRM_IOCTL_MODE_GETFB, drm_mode_getfb, 0),
-> +	DRM_IOCTL_DEF(DRM_IOCTL_MODE_GETFB2, drm_mode_getfb2_ioctl, 0),
->  	DRM_IOCTL_DEF(DRM_IOCTL_MODE_ADDFB, drm_mode_addfb_ioctl, 0),
->  	DRM_IOCTL_DEF(DRM_IOCTL_MODE_ADDFB2, drm_mode_addfb2_ioctl, 0),
->  	DRM_IOCTL_DEF(DRM_IOCTL_MODE_RMFB, drm_mode_rmfb_ioctl, 0),
-> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-> index 8a5b2f8f8eb9..021f33675ba2 100644
-> --- a/include/uapi/drm/drm.h
-> +++ b/include/uapi/drm/drm.h
-> @@ -947,6 +947,8 @@ extern "C" {
->  #define DRM_IOCTL_SYNCOBJ_TRANSFER	DRM_IOWR(0xCC, struct drm_syncobj_tra=
-nsfer)
->  #define DRM_IOCTL_SYNCOBJ_TIMELINE_SIGNAL	DRM_IOWR(0xCD, struct drm_sync=
-obj_timeline_array)
->  =
-
-> +#define DRM_IOCTL_MODE_GETFB2		DRM_IOWR(0xCE, struct drm_mode_fb_cmd2)
-> +
->  /**
->   * Device specific ioctls should only be in their respective headers
->   * The device specific ioctl range is from 0x40 to 0x9f.
-> -- =
-
-> 2.21.0
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
+but we should really just be using drm_gem_lock_reservations()
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
