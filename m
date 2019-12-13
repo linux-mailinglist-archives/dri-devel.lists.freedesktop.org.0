@@ -2,32 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 997C111E7CD
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 17:10:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB5FA11E869
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 17:34:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 837A46EB02;
-	Fri, 13 Dec 2019 16:10:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63E946E090;
+	Fri, 13 Dec 2019 16:34:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98AA46EB02;
- Fri, 13 Dec 2019 16:10:30 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: andrzej.p) with ESMTPSA id 3FFAC292DE9
-Subject: Re: [PATCH] drm/i915: Provide ddc symlink in hdmi connector sysfs
- directory
-From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-To: dri-devel@lists.freedesktop.org
-References: <878so0m7dd.fsf@intel.com>
- <20191128150130.26266-1-andrzej.p@collabora.com>
-Message-ID: <48e69dff-84c2-8bb9-5568-6acc32110ff0@collabora.com>
-Date: Fri, 13 Dec 2019 17:10:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+X-Greylist: delayed 419 seconds by postgrey-1.36 at gabe;
+ Fri, 13 Dec 2019 16:34:23 UTC
+Received: from smtprelay.hostedemail.com (smtprelay0063.hostedemail.com
+ [216.40.44.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEB6E6E090
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 16:34:23 +0000 (UTC)
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
+ [10.5.19.251])
+ by smtpgrave02.hostedemail.com (Postfix) with ESMTP id 909321802EC88
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 16:27:24 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay08.hostedemail.com (Postfix) with ESMTP id 669ED182CF669;
+ Fri, 13 Dec 2019 16:27:22 +0000 (UTC)
+X-Session-Marker: 6E657665747340676F6F646D69732E6F7267
+X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, rostedt@goodmis.org,
+ :::::::::::::::::::::::::::::,
+ RULES_HIT:41:355:379:541:599:800:960:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1538:1567:1593:1594:1711:1714:1730:1747:1777:1792:2393:2553:2559:2562:2901:3138:3139:3140:3141:3142:3622:3865:3866:3867:3868:3871:3873:5007:6120:6261:6742:7514:7875:7901:10004:10400:10848:10967:11232:11658:11914:12043:12297:12740:12760:12895:13069:13311:13357:13439:14181:14659:14721:21080:21433:21627:30054:30090:30091,
+ 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
+ DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
+ LFtime:2, LUA_SUMMARY:none
+X-HE-Tag: price69_4021a926f8638
+X-Filterd-Recvd-Size: 1814
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com
+ [66.24.58.225]) (Authenticated sender: nevets@goodmis.org)
+ by omf18.hostedemail.com (Postfix) with ESMTPA;
+ Fri, 13 Dec 2019 16:27:20 +0000 (UTC)
+Date: Fri, 13 Dec 2019 09:55:14 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Subject: Re: [PATCH v3] drm: Funnel drm logs to tracepoints
+Message-ID: <20191213095459.5e520ae5@gandalf.local.home>
+In-Reply-To: <20191213133446.392c9045@eldfell.localdomain>
+References: <20191212203301.142437-1-sean@poorly.run>
+ <20191213133446.392c9045@eldfell.localdomain>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20191128150130.26266-1-andrzej.p@collabora.com>
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,51 +58,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, kernel@collabora.com,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>,
+ dri-devel@lists.freedesktop.org, Ingo Molnar <mingo@redhat.com>,
+ Sean Paul <seanpaul@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VyBkbml1IDI4LjExLjIwMTkgb8KgMTY6MDEsIEFuZHJ6ZWogUGlldHJhc2lld2ljeiBwaXN6ZToK
-PiBVc2UgdGhlIGRkYyBwb2ludGVyIHByb3ZpZGVkIGJ5IHRoZSBnZW5lcmljIGNvbm5lY3Rvci4K
-PiAKCkEgZ2VudGxlIHBpbmcuCgpBbmRyemVqCgo+IFNpZ25lZC1vZmYtYnk6IEFuZHJ6ZWogUGll
-dHJhc2lld2ljeiA8YW5kcnplai5wQGNvbGxhYm9yYS5jb20+Cj4gQWNrZWQtYnk6IFNhbSBSYXZu
-Ym9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KPiBSZXZpZXdlZC1ieTogRW1pbCBWZWxpa292IDxlbWls
-LnZlbGlrb3ZAY29sbGFib3JhLmNvbT4KPiAtLS0KPiBSZWJhc2VkIG9udG8gZHJtLWludGVsLW5l
-eHQtcXVldWVkLgo+IAo+ICAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9oZG1p
-LmMgfCAxMiArKysrKysrKy0tLS0KPiAgIDEgZmlsZSBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKyks
-IDQgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rp
-c3BsYXkvaW50ZWxfaGRtaS5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9o
-ZG1pLmMKPiBpbmRleCAyOWExNzRhZjUzMTQuLjZlYzhkMTRiY2NkNyAxMDA2NDQKPiAtLS0gYS9k
-cml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2hkbWkuYwo+ICsrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfaGRtaS5jCj4gQEAgLTMxMzQsNiArMzEzNCw3IEBA
-IHZvaWQgaW50ZWxfaGRtaV9pbml0X2Nvbm5lY3RvcihzdHJ1Y3QgaW50ZWxfZGlnaXRhbF9wb3J0
-ICppbnRlbF9kaWdfcG9ydCwKPiAgIAlzdHJ1Y3QgaW50ZWxfZW5jb2RlciAqaW50ZWxfZW5jb2Rl
-ciA9ICZpbnRlbF9kaWdfcG9ydC0+YmFzZTsKPiAgIAlzdHJ1Y3QgZHJtX2RldmljZSAqZGV2ID0g
-aW50ZWxfZW5jb2Rlci0+YmFzZS5kZXY7Cj4gICAJc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmRl
-dl9wcml2ID0gdG9faTkxNShkZXYpOwo+ICsJc3RydWN0IGkyY19hZGFwdGVyICpkZGM7Cj4gICAJ
-ZW51bSBwb3J0IHBvcnQgPSBpbnRlbF9lbmNvZGVyLT5wb3J0Owo+ICAgCXN0cnVjdCBjZWNfY29u
-bmVjdG9yX2luZm8gY29ubl9pbmZvOwo+ICAgCj4gQEAgLTMxNDksOCArMzE1MCwxMyBAQCB2b2lk
-IGludGVsX2hkbWlfaW5pdF9jb25uZWN0b3Ioc3RydWN0IGludGVsX2RpZ2l0YWxfcG9ydCAqaW50
-ZWxfZGlnX3BvcnQsCj4gICAJCSBpbnRlbF9lbmNvZGVyLT5iYXNlLm5hbWUpKQo+ICAgCQlyZXR1
-cm47Cj4gICAKPiAtCWRybV9jb25uZWN0b3JfaW5pdChkZXYsIGNvbm5lY3RvciwgJmludGVsX2hk
-bWlfY29ubmVjdG9yX2Z1bmNzLAo+IC0JCQkgICBEUk1fTU9ERV9DT05ORUNUT1JfSERNSUEpOwo+
-ICsJaW50ZWxfaGRtaS0+ZGRjX2J1cyA9IGludGVsX2hkbWlfZGRjX3BpbihkZXZfcHJpdiwgcG9y
-dCk7Cj4gKwlkZGMgPSBpbnRlbF9nbWJ1c19nZXRfYWRhcHRlcihkZXZfcHJpdiwgaW50ZWxfaGRt
-aS0+ZGRjX2J1cyk7Cj4gKwo+ICsJZHJtX2Nvbm5lY3Rvcl9pbml0X3dpdGhfZGRjKGRldiwgY29u
-bmVjdG9yLAo+ICsJCQkJICAgICZpbnRlbF9oZG1pX2Nvbm5lY3Rvcl9mdW5jcywKPiArCQkJCSAg
-ICBEUk1fTU9ERV9DT05ORUNUT1JfSERNSUEsCj4gKwkJCQkgICAgZGRjKTsKPiAgIAlkcm1fY29u
-bmVjdG9yX2hlbHBlcl9hZGQoY29ubmVjdG9yLCAmaW50ZWxfaGRtaV9jb25uZWN0b3JfaGVscGVy
-X2Z1bmNzKTsKPiAgIAo+ICAgCWNvbm5lY3Rvci0+aW50ZXJsYWNlX2FsbG93ZWQgPSAxOwo+IEBA
-IC0zMTYwLDggKzMxNjYsNiBAQCB2b2lkIGludGVsX2hkbWlfaW5pdF9jb25uZWN0b3Ioc3RydWN0
-IGludGVsX2RpZ2l0YWxfcG9ydCAqaW50ZWxfZGlnX3BvcnQsCj4gICAJaWYgKElOVEVMX0dFTihk
-ZXZfcHJpdikgPj0gMTAgfHwgSVNfR0VNSU5JTEFLRShkZXZfcHJpdikpCj4gICAJCWNvbm5lY3Rv
-ci0+eWNiY3JfNDIwX2FsbG93ZWQgPSB0cnVlOwo+ICAgCj4gLQlpbnRlbF9oZG1pLT5kZGNfYnVz
-ID0gaW50ZWxfaGRtaV9kZGNfcGluKGRldl9wcml2LCBwb3J0KTsKPiAtCj4gICAJaW50ZWxfZW5j
-b2Rlci0+aHBkX3BpbiA9IGludGVsX2hwZF9waW5fZGVmYXVsdChkZXZfcHJpdiwgcG9ydCk7Cj4g
-ICAKPiAgIAlpZiAoSEFTX0RESShkZXZfcHJpdikpCj4gCgpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Fri, 13 Dec 2019 13:34:46 +0200
+Pekka Paalanen <ppaalanen@gmail.com> wrote:
+
+> Is there a way to pull out messages
+> from /sys/kernel/debug/tracing/trace and filter them on reading instead
+> of on writing?
+
+FYI, you can mount the tracing directory without having to mount the
+debug directory.
+
+ mount -t tracefs nodev /sys/kernel/tracing
+
+This way you don't need to mount everyone's debugging features just to
+access tracing.
+
+-- Steve
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
