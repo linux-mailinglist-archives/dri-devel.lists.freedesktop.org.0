@@ -1,49 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3801F11EE04
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 23:52:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F8911EE15
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 23:58:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD34E6EE05;
-	Fri, 13 Dec 2019 22:52:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C02F96E0DF;
+	Fri, 13 Dec 2019 22:58:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7D296EE04;
- Fri, 13 Dec 2019 22:52:04 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2019 14:52:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,311,1571727600"; d="scan'208";a="221010019"
-Received: from orsmsx109.amr.corp.intel.com ([10.22.240.7])
- by fmsmga001.fm.intel.com with ESMTP; 13 Dec 2019 14:52:04 -0800
-Received: from orsmsx163.amr.corp.intel.com (10.22.240.88) by
- ORSMSX109.amr.corp.intel.com (10.22.240.7) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Fri, 13 Dec 2019 14:52:04 -0800
-Received: from orsmsx114.amr.corp.intel.com ([169.254.8.106]) by
- ORSMSX163.amr.corp.intel.com ([169.254.9.4]) with mapi id 14.03.0439.000;
- Fri, 13 Dec 2019 14:52:04 -0800
-From: "Li, Juston" <juston.li@intel.com>
-To: "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>
-Subject: Re: [RESEND PATCH v2] drm: Add getfb2 ioctl
-Thread-Topic: [RESEND PATCH v2] drm: Add getfb2 ioctl
-Thread-Index: AQHVsf1VpJTeCXa740K8tbGbjKRPbqe5Mf8A
-Date: Fri, 13 Dec 2019 22:52:03 +0000
-Message-ID: <aa2c2e05adc88b77b4a571cfb85517d7377afaa3.camel@intel.com>
-References: <20191003183125.4520-1-juston.li@intel.com>
- <20191213213603.GK1208@intel.com>
-In-Reply-To: <20191213213603.GK1208@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.241.226.197]
-Content-ID: <C853E688D910E6499A9BD5818CBEF917@intel.com>
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
+ [209.85.210.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACEBA6E0DF;
+ Fri, 13 Dec 2019 22:58:02 +0000 (UTC)
+Received: by mail-ot1-f67.google.com with SMTP id k14so987606otn.4;
+ Fri, 13 Dec 2019 14:58:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=qiHxkm6KtZo6Tc2gJFAGw7nvz1X4DY5P/hEZQp6y9Gg=;
+ b=scGQM7BYDswf732jXS9V3R6o+hKxptvWNzIDjdViPkE9gfI04xXm5PZ9XOL9xIgRji
+ juIGqVr6QJjevnrCT3Jxye0jgr8nlRegriI+Nv7neD73Vp4Z/GiAhz5Y0kRkmPPH6hJL
+ OjZBzQu+M2uFMj+WkXgwu9oGLEisPutaaqzF17nlx2ZKQnqc3Lb1xMd29JB/DatuOtfM
+ Ct3Oq3a8hxSaCS1YavA2nyHkq77TiyolEj1CUGxYotUZFMQgqjy4cEgkZiH83Ei0+hYa
+ iFGXKoT9eS3km1tTxTPKxBTA+dqEhi0rsWGPA0hcKTigILxJIsvOgeraxPV/oMyI7r/8
+ FQ8w==
+X-Gm-Message-State: APjAAAV9J8VHSsEvj7oOGg1ElvfPeumzhKNllPSbLC7XAPVMQgEEa2KV
+ sz9LhrhIKPAopA1Qkj+tsg==
+X-Google-Smtp-Source: APXvYqwmrBRTx8NiFcOlSM6Mbs/9f80Gl2thmPUknxOfQb4wS9RiU8VvOkxdByU3XcH1WHnRoBqqNw==
+X-Received: by 2002:a9d:7094:: with SMTP id l20mr17643097otj.190.1576277881707; 
+ Fri, 13 Dec 2019 14:58:01 -0800 (PST)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id a17sm3796931otq.49.2019.12.13.14.58.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Dec 2019 14:58:00 -0800 (PST)
+Date: Fri, 13 Dec 2019 16:58:00 -0600
+From: Rob Herring <robh@kernel.org>
+To: Chandan Uddaraju <chandanu@codeaurora.org>
+Subject: Re: [DPU PATCH v3 1/5] dt-bindings: msm/dp: add bindings of
+ DP/DP-PLL driver for Snapdragon 845
+Message-ID: <20191213225800.GA21739@bogus>
+References: <1575294437-6129-1-git-send-email-chandanu@codeaurora.org>
+ <0101016ec6ddf4fc-cbe2c43a-6b6c-4035-846a-038fac788c62-000000@us-west-2.amazonses.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <0101016ec6ddf4fc-cbe2c43a-6b6c-4035-846a-038fac788c62-000000@us-west-2.amazonses.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,102 +60,391 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "daniels@collabora.com" <daniels@collabora.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ abhinavk@codeaurora.org, seanpaul@chromium.org,
+ dri-devel@lists.freedesktop.org, hoegsberg@google.com,
+ freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAyMDE5LTEyLTEzIGF0IDIzOjM2ICswMjAwLCBWaWxsZSBTeXJqw6Rsw6Qgd3JvdGU6
-DQo+IE9uIFRodSwgT2N0IDAzLCAyMDE5IGF0IDExOjMxOjI1QU0gLTA3MDAsIEp1c3RvbiBMaSB3
-cm90ZToNCj4gPiBGcm9tOiBEYW5pZWwgU3RvbmUgPGRhbmllbHNAY29sbGFib3JhLmNvbT4NCj4g
-PiANCj4gPiBnZXRmYjIgYWxsb3dzIHVzIHRvIHBhc3MgbXVsdGlwbGUgcGxhbmVzIGFuZCBtb2Rp
-ZmllcnMsIGp1c3QgbGlrZQ0KPiA+IGFkZGZiMg0KPiA+IG92ZXIgYWRkZmIuDQo+ID4gDQo+ID4g
-Q2hhbmdlcyBzaW5jZSB2MToNCj4gPiAgLSB1bnVzZWQgbW9kaWZpZXJzIHNldCB0byAwIGluc3Rl
-YWQgb2YgRFJNX0ZPUk1BVF9NT0RfSU5WQUxJRA0KPiA+ICAtIHVwZGF0ZSBpb2N0bCBudW1iZXIN
-Cj4gPiANCj4gPiBTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgU3RvbmUgPGRhbmllbHNAY29sbGFib3Jh
-LmNvbT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBKdXN0b24gTGkgPGp1c3Rvbi5saUBpbnRlbC5jb20+
-DQo+ID4gLS0tDQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fY3J0Y19pbnRlcm5hbC5oIHwgICAy
-ICsNCj4gPiAgZHJpdmVycy9ncHUvZHJtL2RybV9mcmFtZWJ1ZmZlci5jICAgfCAxMTANCj4gPiAr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrDQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9kcm1faW9j
-dGwuYyAgICAgICAgIHwgICAxICsNCj4gPiAgaW5jbHVkZS91YXBpL2RybS9kcm0uaCAgICAgICAg
-ICAgICAgfCAgIDIgKw0KPiA+ICA0IGZpbGVzIGNoYW5nZWQsIDExNSBpbnNlcnRpb25zKCspDQo+
-ID4gDQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fY3J0Y19pbnRlcm5hbC5o
-DQo+ID4gYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2NydGNfaW50ZXJuYWwuaA0KPiA+IGluZGV4IGM3
-ZDVlNGMyMTQyMy4uMTZmMjQxMzQwM2FhIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9kcm1fY3J0Y19pbnRlcm5hbC5oDQo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9jcnRj
-X2ludGVybmFsLmgNCj4gPiBAQCAtMjE2LDYgKzIxNiw4IEBAIGludCBkcm1fbW9kZV9ybWZiX2lv
-Y3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsDQo+ID4gIAkJCXZvaWQgKmRhdGEsIHN0cnVjdCBk
-cm1fZmlsZSAqZmlsZV9wcml2KTsNCj4gPiAgaW50IGRybV9tb2RlX2dldGZiKHN0cnVjdCBkcm1f
-ZGV2aWNlICpkZXYsDQo+ID4gIAkJICAgdm9pZCAqZGF0YSwgc3RydWN0IGRybV9maWxlICpmaWxl
-X3ByaXYpOw0KPiA+ICtpbnQgZHJtX21vZGVfZ2V0ZmIyX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNl
-ICpkZXYsDQo+ID4gKwkJCSAgdm9pZCAqZGF0YSwgc3RydWN0IGRybV9maWxlICpmaWxlX3ByaXYp
-Ow0KPiA+ICBpbnQgZHJtX21vZGVfZGlydHlmYl9pb2N0bChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2
-LA0KPiA+ICAJCQkgICB2b2lkICpkYXRhLCBzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGVfcHJpdik7DQo+
-ID4gIA0KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZyYW1lYnVmZmVyLmMN
-Cj4gPiBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZnJhbWVidWZmZXIuYw0KPiA+IGluZGV4IDU3NTY0
-MzE4Y2VlYS4uNmRiNTRmMTc3NDQzIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9k
-cm1fZnJhbWVidWZmZXIuYw0KPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZnJhbWVidWZm
-ZXIuYw0KPiA+IEBAIC0zMSw2ICszMSw3IEBADQo+ID4gICNpbmNsdWRlIDxkcm0vZHJtX2ZpbGUu
-aD4NCj4gPiAgI2luY2x1ZGUgPGRybS9kcm1fZm91cmNjLmg+DQo+ID4gICNpbmNsdWRlIDxkcm0v
-ZHJtX2ZyYW1lYnVmZmVyLmg+DQo+ID4gKyNpbmNsdWRlIDxkcm0vZHJtX2dlbS5oPg0KPiA+ICAj
-aW5jbHVkZSA8ZHJtL2RybV9wcmludC5oPg0KPiA+ICAjaW5jbHVkZSA8ZHJtL2RybV91dGlsLmg+
-DQo+ID4gIA0KPiA+IEBAIC01NDgsNyArNTQ5LDExNiBAQCBpbnQgZHJtX21vZGVfZ2V0ZmIoc3Ry
-dWN0IGRybV9kZXZpY2UgKmRldiwNCj4gPiAgDQo+ID4gIG91dDoNCj4gPiAgCWRybV9mcmFtZWJ1
-ZmZlcl9wdXQoZmIpOw0KPiA+ICsJcmV0dXJuIHJldDsNCj4gPiArfQ0KPiA+ICsNCj4gPiArLyoq
-DQo+ID4gKyAqIGRybV9tb2RlX2dldGZiMiAtIGdldCBleHRlbmRlZCBGQiBpbmZvDQo+ID4gKyAq
-IEBkZXY6IGRybSBkZXZpY2UgZm9yIHRoZSBpb2N0bA0KPiA+ICsgKiBAZGF0YTogZGF0YSBwb2lu
-dGVyIGZvciB0aGUgaW9jdGwNCj4gPiArICogQGZpbGVfcHJpdjogZHJtIGZpbGUgZm9yIHRoZSBp
-b2N0bCBjYWxsDQo+ID4gKyAqDQo+ID4gKyAqIExvb2t1cCB0aGUgRkIgZ2l2ZW4gaXRzIElEIGFu
-ZCByZXR1cm4gaW5mbyBhYm91dCBpdC4NCj4gPiArICoNCj4gPiArICogQ2FsbGVkIGJ5IHRoZSB1
-c2VyIHZpYSBpb2N0bC4NCj4gPiArICoNCj4gPiArICogUmV0dXJuczoNCj4gPiArICogWmVybyBv
-biBzdWNjZXNzLCBuZWdhdGl2ZSBlcnJubyBvbiBmYWlsdXJlLg0KPiA+ICsgKi8NCj4gPiAraW50
-IGRybV9tb2RlX2dldGZiMl9pb2N0bChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LA0KPiA+ICsJCQkg
-IHZvaWQgKmRhdGEsIHN0cnVjdCBkcm1fZmlsZSAqZmlsZV9wcml2KQ0KPiA+ICt7DQo+ID4gKwlz
-dHJ1Y3QgZHJtX21vZGVfZmJfY21kMiAqciA9IGRhdGE7DQo+ID4gKwlzdHJ1Y3QgZHJtX2ZyYW1l
-YnVmZmVyICpmYjsNCj4gPiArCXVuc2lnbmVkIGludCBpOw0KPiA+ICsJaW50IHJldDsNCj4gPiAr
-DQo+ID4gKwlpZiAoIWRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2LCBEUklWRVJfTU9ERVNFVCkp
-DQo+ID4gKwkJcmV0dXJuIC1FSU5WQUw7DQo+ID4gKw0KPiA+ICsJZmIgPSBkcm1fZnJhbWVidWZm
-ZXJfbG9va3VwKGRldiwgZmlsZV9wcml2LCByLT5mYl9pZCk7DQo+ID4gKwlpZiAoIWZiKQ0KPiA+
-ICsJCXJldHVybiAtRU5PRU5UOw0KPiA+ICsNCj4gPiArCS8qIEZvciBtdWx0aS1wbGFuZSBmcmFt
-ZWJ1ZmZlcnMsIHdlIHJlcXVpcmUgdGhlIGRyaXZlciB0byBwbGFjZQ0KPiA+IHRoZQ0KPiA+ICsJ
-ICogR0VNIG9iamVjdHMgZGlyZWN0bHkgaW4gdGhlIGRybV9mcmFtZWJ1ZmZlci4gRm9yIHNpbmds
-ZS0NCj4gPiBwbGFuZQ0KPiA+ICsJICogZnJhbWVidWZmZXJzLCB3ZSBjYW4gZmFsbCBiYWNrIHRv
-IGNyZWF0ZV9oYW5kbGUuDQo+ID4gKwkgKi8NCj4gPiArCWlmICghZmItPm9ialswXSAmJg0KPiA+
-ICsJICAgIChmYi0+Zm9ybWF0LT5udW1fcGxhbmVzID4gMSB8fCAhZmItPmZ1bmNzLT5jcmVhdGVf
-aGFuZGxlKSkNCj4gPiB7DQo+ID4gKwkJcmV0ID0gLUVOT0RFVjsNCj4gPiArCQlnb3RvIG91dDsN
-Cj4gPiArCX0NCj4gPiArDQo+ID4gKwlyLT5oZWlnaHQgPSBmYi0+aGVpZ2h0Ow0KPiA+ICsJci0+
-d2lkdGggPSBmYi0+d2lkdGg7DQo+ID4gKwlyLT5waXhlbF9mb3JtYXQgPSBmYi0+Zm9ybWF0LT5m
-b3JtYXQ7DQo+ID4gKw0KPiA+ICsJci0+ZmxhZ3MgPSAwOw0KPiA+ICsJaWYgKGRldi0+bW9kZV9j
-b25maWcuYWxsb3dfZmJfbW9kaWZpZXJzKQ0KPiA+ICsJCXItPmZsYWdzIHw9IERSTV9NT0RFX0ZC
-X01PRElGSUVSUzsNCj4gPiArDQo+ID4gKwlmb3IgKGkgPSAwOyBpIDwgQVJSQVlfU0laRShyLT5o
-YW5kbGVzKTsgaSsrKSB7DQo+ID4gKwkJci0+aGFuZGxlc1tpXSA9IDA7DQo+ID4gKwkJci0+cGl0
-Y2hlc1tpXSA9IDA7DQo+ID4gKwkJci0+b2Zmc2V0c1tpXSA9IDA7DQo+ID4gKwkJci0+bW9kaWZp
-ZXJbaV0gPSAwOw0KPiA+ICsJfQ0KPiA+ICANCj4gPiArCWZvciAoaSA9IDA7IGkgPCBmYi0+Zm9y
-bWF0LT5udW1fcGxhbmVzOyBpKyspIHsNCj4gPiArCQlpbnQgajsNCj4gPiArDQo+ID4gKwkJci0+
-cGl0Y2hlc1tpXSA9IGZiLT5waXRjaGVzW2ldOw0KPiA+ICsJCXItPm9mZnNldHNbaV0gPSBmYi0+
-b2Zmc2V0c1tpXTsNCj4gPiArCQlpZiAoZGV2LT5tb2RlX2NvbmZpZy5hbGxvd19mYl9tb2RpZmll
-cnMpDQo+ID4gKwkJCXItPm1vZGlmaWVyW2ldID0gZmItPm1vZGlmaWVyOw0KPiA+ICsNCj4gPiAr
-CQkvKiBJZiB3ZSByZXVzZSB0aGUgc2FtZSBvYmplY3QgZm9yIG11bHRpcGxlIHBsYW5lcywNCj4g
-PiBhbHNvDQo+ID4gKwkJICogcmV0dXJuIHRoZSBzYW1lIGhhbmRsZS4NCj4gPiArCQkgKi8NCj4g
-PiArCQlmb3IgKGogPSAwOyBqIDwgaTsgaisrKSB7DQo+ID4gKwkJCWlmIChmYi0+b2JqW2ldID09
-IGZiLT5vYmpbal0pIHsNCj4gPiArCQkJCXItPmhhbmRsZXNbaV0gPSByLT5oYW5kbGVzW2pdOw0K
-PiA+ICsJCQkJYnJlYWs7DQo+ID4gKwkJCX0NCj4gPiArCQl9DQo+ID4gKw0KPiA+ICsJCWlmIChy
-LT5oYW5kbGVzW2ldKQ0KPiA+ICsJCQljb250aW51ZTsNCj4gPiArDQo+ID4gKwkJaWYgKGZiLT5v
-YmpbaV0pIHsNCj4gPiArCQkJcmV0ID0gZHJtX2dlbV9oYW5kbGVfY3JlYXRlKGZpbGVfcHJpdiwg
-ZmItDQo+ID4gPm9ialtpXSwNCj4gPiArCQkJCQkJICAgICZyLT5oYW5kbGVzW2ldKTsNCj4gPiAr
-CQl9IGVsc2Ugew0KPiA+ICsJCQlXQVJOX09OKGkgPiAwKTsNCj4gPiArCQkJcmV0ID0gZmItPmZ1
-bmNzLT5jcmVhdGVfaGFuZGxlKGZiLCBmaWxlX3ByaXYsDQo+ID4gKwkJCQkJCSAgICAgICAmci0+
-aGFuZGxlc1tpXSk7DQo+ID4gKwkJfQ0KPiANCj4gZ2V0ZmIxIGRvZXNuJ3QgYWxsb3cgbm9uLW1h
-c3Rlci9yb290IHRvIHNlZSB0aGUgaGFuZGxlcy4gSGVyZSB3ZQ0KPiBkb24ndA0KPiBzZWVtIHRv
-IGhhdmUgdGhhdCBzYW1lIHByb3RlY3Rpb24/DQoNCkhtbSB5ZWFoIHNvcnJ5IEkgbWlzc2VkIHRo
-ZSBwcm90ZWN0aW9ucyBoYW5kbGluZy4NCkkgdGhpbmsgd2UgY2FuIGp1c3Qgc2V0IHRoZSBnZXRm
-YjIgaW9jdGwgZmxhZ3MgYXMNCkRSTV9NQVNURVJ8RFJNX1JPT1RfT05MWQ0KDQo+ID4gKw0KPiA+
-ICsJCWlmIChyZXQgIT0gMCkNCj4gPiArCQkJZ290byBvdXQ7DQo+IA0KPiBDb3VsZCBiZSBqdXN0
-ICdicmVhazsnIGFuZCB0aGVuIHdlIHdvdWxkbid0IGV2ZW4gbmVlZCB0aGUgbGFiZWwuDQoNCldp
-bGwgZG8uDQoNCj4gDQo+IFJlc3QgbGd0bS4NCj4gDQoNCk11Y2ggYXBwcmVjaWF0ZWQNCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Mon, Dec 02, 2019 at 01:47:45PM +0000, Chandan Uddaraju wrote:
+> Add bindings for Snapdragon 845 DisplayPort and
+> display-port PLL driver.
+
+Is it just me, but I keep getting 2 copies of codeaurora emails?
+
+> 
+> Changes in V2:
+> Provide details about sel-gpio
+
+This is V3, what changed in V3?
+
+> 
+> Signed-off-by: Chandan Uddaraju <chandanu@codeaurora.org>
+> ---
+>  .../devicetree/bindings/display/msm/dp.txt         | 249 +++++++++++++++++++++
+>  .../devicetree/bindings/display/msm/dpu.txt        |  16 +-
+>  2 files changed, 261 insertions(+), 4 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/msm/dp.txt
+
+New bindings should be in DT schema format.
+
+> diff --git a/Documentation/devicetree/bindings/display/msm/dp.txt b/Documentation/devicetree/bindings/display/msm/dp.txt
+> new file mode 100644
+> index 0000000..38be36d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/msm/dp.txt
+> @@ -0,0 +1,249 @@
+> +Qualcomm Technologies, Inc.
+> +DP is the master Display Port device which supports DP host controllers that are compatible with VESA Display Port interface specification.
+> +DP Controller: Required properties:
+> +- compatible:           Should be "qcom,dp-display".
+
+Needs to be more specific like including the SoC name.
+
+> +- reg:                  Base address and length of DP hardware's memory mapped regions.
+> +- cell-index:           Specifies the controller instance.
+
+FDT doesn't use cell-index.
+
+> +- reg-names:            A list of strings that name the list of regs.
+> +			"dp_ahb" - DP controller memory region.
+> +			"dp_aux" - DP AUX memory region.
+> +			"dp_link" - DP link layer memory region.
+> +			"dp_p0" - DP pixel clock domain memory region.
+> +			"dp_phy" - DP PHY memory region.
+> +			"dp_ln_tx0" - USB3 DP PHY combo TX-0 lane memory region.
+> +			"dp_ln_tx1" - USB3 DP PHY combo TX-1 lane memory region.
+> +			"dp_mmss_cc" - Display Clock Control memory region.
+
+Sounds like a separate clock controller node...
+
+> +			"qfprom_physical" - QFPROM Phys memory region.
+> +			"dp_pll" - USB3 DP combo PLL memory region.
+> +			"usb3_dp_com" - USB3 DP PHY combo memory region.
+
+Should be a separate phy node?
+
+> +			"hdcp_physical" - DP HDCP memory region.
+
+The 'dp_' part is redundant.
+
+What does 'physical' mean? Addresses in DT are always physical.
+
+> +- interrupt-parent	phandle to the interrupt parent device node.
+
+Don't document interrupt-parent. It's not required either because it 
+could be in a parent node.
+
+> +- interrupts:		The interrupt signal from the DP block.
+> +- clocks:               Clocks required for Display Port operation. See [1] for details on clock bindings.
+> +- clock-names:          Names of the clocks corresponding to handles. Following clocks are required:
+> +			"core_aux_clk", "core_usb_ref_clk_src","core_usb_ref_clk", "core_usb_cfg_ahb_clk",
+> +			"core_usb_pipe_clk", "ctrl_link_clk", "ctrl_link_iface_clk", "ctrl_crypto_clk",
+> +			"ctrl_pixel_clk", "pixel_clk_rcg", "pixel_parent".
+
+Clocks should be actual clock inputs to the module. If 'pixel_parent' is 
+just some parent clock you want to assign, then use assigned-clocks.
+
+> +- pll-node:		phandle to DP PLL node.
+
+But you have a DP PLL reg region defined. Is this something else?
+
+Needs a 'qcom' prefix if it stays.
+
+> +- vdda-1p2-supply:		phandle to vdda 1.2V regulator node.
+> +- vdda-0p9-supply:		phandle to vdda 0.9V regulator node.
+> +- qcom,aux-cfg0-settings:		Specifies the DP AUX configuration 0 settings. The first
+> +					entry in this array corresponds to the register offset
+> +					within DP AUX, while the remaining entries indicate the
+> +					programmable values.
+
+Needs more details on what these are and why they must be in DT. We 
+generally don't just stuff DT with raw values to initial registers with.
+
+Line lengths should be <80 char.
+
+> +- qcom,aux-cfg1-settings:		Specifies the DP AUX configuration 1 settings. The first
+> +					entry in this array corresponds to the register offset
+> +					within DP AUX, while the remaining entries indicate the
+> +					programmable values.
+> +- qcom,aux-cfg2-settings:		Specifies the DP AUX configuration 2 settings. The first
+> +					entry in this array corresponds to the register offset
+> +					within DP AUX, while the remaining entries indicate the
+> +					programmable values.
+> +- qcom,aux-cfg3-settings:		Specifies the DP AUX configuration 3 settings. The first
+> +					entry in this array corresponds to the register offset
+> +					within DP AUX, while the remaining entries indicate the
+> +					programmable values.
+> +- qcom,aux-cfg4-settings:		Specifies the DP AUX configuration 4 settings. The first
+> +					entry in this array corresponds to the register offset
+> +					within DP AUX, while the remaining entries indicate the
+> +					programmable values.
+> +- qcom,aux-cfg5-settings:		Specifies the DP AUX configuration 5 settings. The first
+> +					entry in this array corresponds to the register offset
+> +					within DP AUX, while the remaining entries indicate the
+> +					programmable values.
+> +- qcom,aux-cfg6-settings:		Specifies the DP AUX configuration 6 settings. The first
+> +					entry in this array corresponds to the register offset
+> +					within DP AUX, while the remaining entries indicate the
+> +					programmable values.
+> +- qcom,aux-cfg7-settings:		Specifies the DP AUX configuration 7 settings. The first
+> +					entry in this array corresponds to the register offset
+> +					within DP AUX, while the remaining entries indicate the
+> +					programmable values.
+> +- qcom,aux-cfg8-settings:		Specifies the DP AUX configuration 8 settings. The first
+> +					entry in this array corresponds to the register offset
+> +					within DP AUX, while the remaining entries indicate the
+> +					programmable values.
+> +- qcom,aux-cfg9-settings:		Specifies the DP AUX configuration 9 settings. The first
+> +					entry in this array corresponds to the register offset
+> +					within DP AUX, while the remaining entries indicate the
+> +					programmable values.
+> +- qcom,max-pclk-frequency-khz:	An integer specifying the maximum. pixel clock in KHz supported by Display Port.
+
+Wrap your lines.
+
+> +- extcon:				Phandle for the external connector class interface.
+
+Don't use extcon. Either dp-connector or usb-connector binding instead.
+
+> +- qcom,<type>-supply-entries:		A node that lists the elements of the supply used by the a particular "type" of DP module. The module "types"
+> +					can be "core", "ctrl", and "phy". Within the same type,
+> +					there can be more than one instance of this binding,
+> +					in which case the entry would be appended with the
+> +					supply entry index.
+> +					e.g. qcom,ctrl-supply-entry@0
+> +					-- qcom,supply-name: name of the supply (vdd/vdda/vddio)
+> +					-- qcom,supply-min-voltage: minimum voltage level (uV)
+> +					-- qcom,supply-max-voltage: maximum voltage level (uV)
+> +					-- qcom,supply-enable-load: load drawn (uA) from enabled supply
+> +					-- qcom,supply-disable-load: load drawn (uA) from disabled supply
+> +					-- qcom,supply-pre-on-sleep: time to sleep (ms) before turning on
+> +					-- qcom,supply-post-on-sleep: time to sleep (ms) after turning on
+> +					-- qcom,supply-pre-off-sleep: time to sleep (ms) before turning off
+> +					-- qcom,supply-post-off-sleep: time to sleep (ms) after turning off
+
+Not sure what you're trying to do here, but looks like the regulator 
+binding should be used.
+
+> +- pinctrl-names:	List of names to assign mdss pin states defined in pinctrl device node
+> +					Refer to pinctrl-bindings.txt
+> +- pinctrl-<0..n>:	Lists phandles each pointing to the pin configuration node within a pin
+> +					controller. These pin configurations are installed in the pinctrl
+> +					device node. Refer to pinctrl-bindings.txt
+> +DP Endpoint properties:
+> +  - remote-endpoint: For port@0, set to phandle of the connected panel/bridge's
+> +    input endpoint. For port@1, set to the DPU interface output. See [2] for
+> +    device graph info.
+> +
+> +Optional properties:
+> +- qcom,aux-en-gpio:		Specifies the aux-channel enable gpio.
+> +- qcom,aux-sel-gpio:		Specifies the mux-selection that might be needed for aux interface.
+
+-gpios is the preferred form.
+
+> +
+> +
+> +DP PLL: Required properties:
+
+Should be a separate doc.
+
+> +- compatible:           Should be "qcom,dp-pll-10nm".
+> +- reg:                  Base address and length of DP hardware's memory mapped regions.
+> +- cell-index:           Specifies the PLL instance.
+> +- reg-names:            A list of strings that name the list of regs.
+> +			"pll_base" - DP PLL memory region.
+> +			"phy_base" - DP PHY memory region.
+> +			"ln_tx0_base" - USB3 DP PHY combo TX-0 lane memory region.
+> +			"ln_tx1_base" - USB3 DP PHY combo TX-1 lane memory region.
+> +			"gdsc_base" - gdsc memory region.
+> +- interrupt-parent	phandle to the interrupt parent device node.
+> +- interrupts:		The interrupt signal from the DP block.
+> +- clocks:               Clocks required for Display Port operation. See [1] for details on clock bindings.
+> +- clock-names:          Names of the clocks corresponding to handles. Following clocks are required:
+> +			"iface_clk", "ref_clk", cfg_ahb_clk", "pipe_clk".
+> +- clock-rate:           Initial clock rate to be configured. For the shared clocks, the default value			     is set to zero so that minimum clock value is configured. Non-zero clock
+> +			value can be used to configure DP pixel clock.
+> +
+> +
+> +[1] Documentation/devicetree/bindings/clock/clock-bindings.txt
+> +[2] Documentation/devicetree/bindings/graph.txt
+> +
+> +Example:
+> +	msm_dp: dp_display@ae90000{
+> +		cell-index = <0>;
+> +		compatible = "qcom,dp-display";
+> +
+> +		reg =   <0 0x90000 0x0dc>,
+> +			<0 0x90200 0x0c0>,
+> +			<0 0x90400 0x508>,
+> +			<0 0x90a00 0x094>,
+> +			<1 0xeaa00 0x200>,
+> +			<1 0xea200 0x200>,
+> +			<1 0xea600 0x200>,
+> +			<2 0x02000 0x1a0>,
+> +			<3 0x00000 0x621c>,
+> +			<1 0xea000 0x180>,
+> +			<1 0xe8000 0x20>,
+> +			<4 0xe1000 0x034>;
+> +		reg-names = "dp_ahb", "dp_aux", "dp_link",
+> +			"dp_p0", "dp_phy", "dp_ln_tx0", "dp_ln_tx1",
+> +			"dp_mmss_cc", "qfprom_physical", "dp_pll",
+> +			"usb3_dp_com", "hdcp_physical";
+> +
+> +		interrupt-parent = <&mdss>;
+> +		interrupts = <12 0>;
+> +
+> +		extcon = <&usb_1_ssphy>;
+> +		clocks =  <&dispcc DISP_CC_MDSS_DP_AUX_CLK>,
+> +			<&rpmhcc RPMH_CXO_CLK>,
+> +			<&gcc GCC_USB3_PRIM_CLKREF_CLK>,
+> +			<&gcc GCC_USB_PHY_CFG_AHB2PHY_CLK>,
+> +			<&gcc GCC_USB3_PRIM_PHY_PIPE_CLK>,
+> +			<&dispcc DISP_CC_MDSS_DP_LINK_CLK>,
+> +			<&dispcc DISP_CC_MDSS_DP_LINK_INTF_CLK>,
+> +			<&dispcc DISP_CC_MDSS_DP_PIXEL_CLK>,
+> +			<&dispcc DISP_CC_MDSS_DP_CRYPTO_CLK>,
+> +			<&dispcc DISP_CC_MDSS_DP_PIXEL_CLK_SRC>;
+> +		clock-names = "core_aux_clk", "core_ref_clk_src",
+> +			"core_usb_ref_clk", "core_usb_cfg_ahb_clk",
+> +			"core_usb_pipe_clk", "ctrl_link_clk",
+> +			"ctrl_link_iface_clk", "ctrl_pixel_clk",
+> +			"crypto_clk", "pixel_clk_rcg";
+> +
+> +		pll-node = <&dp_pll>;
+> +		qcom,aux-cfg0-settings = [20 00];
+> +		qcom,aux-cfg1-settings = [24 13 23 1d];
+> +		qcom,aux-cfg2-settings = [28 24];
+> +		qcom,aux-cfg3-settings = [2c 00];
+> +		qcom,aux-cfg4-settings = [30 0a];
+> +		qcom,aux-cfg5-settings = [34 26];
+> +		qcom,aux-cfg6-settings = [38 0a];
+> +		qcom,aux-cfg7-settings = [3c 03];
+> +		qcom,aux-cfg8-settings = [40 bb];
+> +		qcom,aux-cfg9-settings = [44 03];
+> +
+> +		qcom,max-pclk-frequency-khz = <675000>;
+> +
+> +		qcom,ctrl-supply-entries {
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +
+> +			qcom,ctrl-supply-entry@0 {
+> +				reg = <0>;
+> +				qcom,supply-name = "vdda-1p2";
+> +				qcom,supply-min-voltage = <1200000>;
+> +				qcom,supply-max-voltage = <1200000>;
+> +				qcom,supply-enable-load = <21800>;
+> +				qcom,supply-disable-load = <4>;
+> +			};
+> +		};
+> +
+> +		qcom,phy-supply-entries {
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +
+> +			qcom,phy-supply-entry@0 {
+> +				reg = <0>;
+> +				qcom,supply-name = "vdda-0p9";
+> +				qcom,supply-min-voltage = <880000>;
+> +				qcom,supply-max-voltage = <880000>;
+> +				qcom,supply-enable-load = <36000>;
+> +				qcom,supply-disable-load = <32>;
+> +			};
+> +		};
+> +
+> +		ports {
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +
+> +			port@0 {
+> +				reg = <0>;
+> +				dp_in: endpoint {
+> +					remote-endpoint = <&dpu_intf0_out>;
+> +				};
+> +			};
+> +
+> +			port@1 {
+> +				reg = <1>;
+> +				dp_out: endpoint {
+> +				};
+> +			};
+> +		};
+> +	};
+> +
+> +	dp_pll: dp-pll@c011000 {
+> +		compatible = "qcom,dp-pll-10nm";
+> +		label = "DP PLL";
+> +		cell-index = <0>;
+> +		#clock-cells = <1>;
+> +
+> +		reg = <1 0xea000 0x200>,
+> +		      <1 0xeaa00 0x200>,
+> +		      <1 0xea200 0x200>,
+> +		      <1 0xea600 0x200>,
+> +		      <2 0x03000 0x8>;
+> +		reg-names = "pll_base", "phy_base", "ln_tx0_base",
+> +			"ln_tx1_base", "gdsc_base";
+> +
+> +		clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
+> +			 <&gcc GCC_USB3_PRIM_CLKREF_CLK>,
+> +			 <&gcc GCC_USB_PHY_CFG_AHB2PHY_CLK>,
+> +			 <&gcc GCC_USB3_PRIM_PHY_PIPE_CLK>;
+> +		clock-names = "iface_clk", "ref_clk",
+> +			"cfg_ahb_clk", "pipe_clk";
+> +		clock-rate = <0>;
+> +
+> +	};
+> diff --git a/Documentation/devicetree/bindings/display/msm/dpu.txt b/Documentation/devicetree/bindings/display/msm/dpu.txt
+> index a61dd40..eac6e1c 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dpu.txt
+> +++ b/Documentation/devicetree/bindings/display/msm/dpu.txt
+> @@ -63,8 +63,9 @@ Required properties:
+>  	Documentation/devicetree/bindings/graph.txt
+>  	Documentation/devicetree/bindings/media/video-interfaces.txt
+>  
+> -	Port 0 -> DPU_INTF1 (DSI1)
+> -	Port 1 -> DPU_INTF2 (DSI2)
+> +	Port 0 -> DPU_INTF0 (DP)
+> +	Port 1 -> DPU_INTF1 (DSI1)
+> +	Port 2 -> DPU_INTF2 (DSI2)
+
+No, you can't redefine existing binding.
+
+>  
+>  Optional properties:
+>  - assigned-clocks: list of clock specifiers for clocks needing rate assignment
+> @@ -125,13 +126,20 @@ Example:
+>  
+>  				port@0 {
+>  					reg = <0>;
+> -					dpu_intf1_out: endpoint {
+> -						remote-endpoint = <&dsi0_in>;
+> +					dpu_intf0_out: endpoint {
+> +						remote-endpoint = <&dp_in>;
+>  					};
+>  				};
+>  
+>  				port@1 {
+>  					reg = <1>;
+> +					dpu_intf1_out: endpoint {
+> +						remote-endpoint = <&dsi0_in>;
+> +					};
+> +				};
+> +
+> +				port@2 {
+> +					reg = <2>;
+>  					dpu_intf2_out: endpoint {
+>  						remote-endpoint = <&dsi1_in>;
+>  					};
+> -- 
+> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+> a Linux Foundation Collaborative Project
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
