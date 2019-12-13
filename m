@@ -1,35 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C73E11F24E
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 15:44:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D19F11F244
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 15:44:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C65496E3D3;
-	Sat, 14 Dec 2019 14:43:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1E5B6E3F4;
+	Sat, 14 Dec 2019 14:43:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp.smtpout.orange.fr (smtp08.smtpout.orange.fr
  [80.12.242.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84A238982A
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 17:24:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 063A089CE1
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 17:30:11 +0000 (UTC)
 Received: from belgarion ([90.55.212.38]) by mwinf5d31 with ME
- id dVQv210090qFw6q03VQvYz; Fri, 13 Dec 2019 18:24:57 +0100
+ id dVW52100L0qFw6q03VW5BQ; Fri, 13 Dec 2019 18:30:10 +0100
 X-ME-Helo: belgarion
 X-ME-Auth: amFyem1pay5yb2JlcnRAb3JhbmdlLmZy
-X-ME-Date: Fri, 13 Dec 2019 18:24:57 +0100
+X-ME-Date: Fri, 13 Dec 2019 18:30:10 +0100
 X-ME-IP: 90.55.212.38
 From: Robert Jarzmik <robert.jarzmik@free.fr>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH] backlight: corgi: Convert to use GPIO descriptors
-References: <20191203123143.118487-1-linus.walleij@linaro.org>
- <87sgluy43j.fsf@belgarion.home>
- <CACRpkdZS0umWreCuXXkdmwLoSVyAtwMrN21EMyqnn4LR8zkFkw@mail.gmail.com>
+To: Daniel Thompson <daniel.thompson@linaro.org>
+Subject: Re: [PATCH] backlight: pwm_bl: Switch to full GPIO descriptor
+References: <20191205081116.5254-1-linus.walleij@linaro.org>
+ <20191205131525.tf4n3kfnkrf6eksl@holly.lan>
 X-URL: http://belgarath.falguerolles.org/
-Date: Fri, 13 Dec 2019 18:24:55 +0100
-In-Reply-To: <CACRpkdZS0umWreCuXXkdmwLoSVyAtwMrN21EMyqnn4LR8zkFkw@mail.gmail.com>
- (Linus Walleij's message of "Wed, 11 Dec 2019 00:20:34 +0100")
-Message-ID: <87mubwxhnc.fsf@belgarion.home>
+Date: Fri, 13 Dec 2019 18:30:05 +0100
+In-Reply-To: <20191205131525.tf4n3kfnkrf6eksl@holly.lan> (Daniel Thompson's
+ message of "Thu, 5 Dec 2019 13:15:25 +0000")
+Message-ID: <87immkxheq.fsf@belgarion.home>
 User-Agent: Gnus/5.130008 (Ma Gnus v0.8) Emacs/26 (gnu/linux)
 MIME-Version: 1.0
 X-Mailman-Approved-At: Sat, 14 Dec 2019 14:42:54 +0000
@@ -45,57 +44,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrea Adami <andrea.adami@gmail.com>, Jingoo Han <jingoohan1@gmail.com>,
- Daniel Thompson <daniel.thompson@linaro.org>, Lee Jones <lee.jones@linaro.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>
+Cc: Jingoo Han <jingoohan1@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>,
+ Guan Xuetao <gxt@pku.edu.cn>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Linus Walleij <linus.walleij@linaro.org> writes:
+Daniel Thompson <daniel.thompson@linaro.org> writes:
 
-> On Sun, Dec 8, 2019 at 9:06 PM Robert Jarzmik <robert.jarzmik@free.fr> wrote:
 >
->> Linus Walleij <linus.walleij@linaro.org> writes:
->> > @@ -525,13 +525,33 @@ static void spitz_bl_kick_battery(void)
->> >       }
->> >  }
->> >
->> > +static struct gpiod_lookup_table spitz_lcdcon_gpio_table = {
->> > +     .dev_id = "spi0.1",
->> How do you know the correct device name is "spi0.1" ?
->
-> With SPI devices it is always hard to know without access to the
-> actual hardware, so every patch is a request for testing...
->
-> I looked at arch/arm/mach-pxa/spitz.c and
-> it registers just one spi bus (AFAICT) with 3 chip
-> selects so that will be "spi0", and then
-> spi_register_board_info() is called with an array of 3
-> devices (spitz_spi_devices[]). Those are in order of
-> chip select so chip select 0, 1, 2. This is the second
-> device so chip select 1.
->
-> The code in drivers/spi/spi.c names the devices
-> using spi_dev_set_name() like this:
-> dev_set_name(&spi->dev, "%s.%u", dev_name(&spi->controller->dev),
->                      spi->chip_select);
->
-> So it will theoretically "spi0.1"
->
-> Beware about bugs in the above interpreter because it is
-> just my brain.
-Well, if nobody complains because of testing, why not, your explanation seems as
-good as it could be.
+> ... I worry that palmtc.c is no longer compilable for some configs.
+I you're right, there is a very simple way to test it :
+make pxa_defconfig && make -j
 
-Moreover my boards are actually packed for a house move, so I hope for the best
-with all the patches for gpiod conversion, as I won't be able to test much for a
-month.
-
-If you would be so kind as to carry these changes through your tree instead of
-the PXA one, please have my :
-Acked-by: Robert Jarzmik <robert.jarzmik@free.fr>
+It should scream if the compilation is broken, and the kernel CI should
+certainly protect us.
 
 Cheers.
 
