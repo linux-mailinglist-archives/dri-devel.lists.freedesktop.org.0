@@ -1,26 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A13511E739
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 16:59:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75DE811E73C
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 16:59:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E875B6E9B9;
-	Fri, 13 Dec 2019 15:59:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67FF96EA37;
+	Fri, 13 Dec 2019 15:59:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A85346E915
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 15:59:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31D426EA30
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 15:59:22 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: andrzej.p) with ESMTPSA id 16C70292C8C
+ (Authenticated sender: andrzej.p) with ESMTPSA id 5AB4F292C76
 From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCHv4 04/36] drm/gem-fb-helper: Add special version of
- drm_gem_fb_size_check
-Date: Fri, 13 Dec 2019 16:58:35 +0100
-Message-Id: <20191213155907.16581-5-andrzej.p@collabora.com>
+Subject: [PATCHv4 06/36] drm/gem-fb-helper: Add method to allocate struct
+ drm_framebuffer
+Date: Fri, 13 Dec 2019 16:58:37 +0100
+Message-Id: <20191213155907.16581-7-andrzej.p@collabora.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191213155907.16581-1-andrzej.p@collabora.com>
 References: <20191213155907.16581-1-andrzej.p@collabora.com>
@@ -48,129 +48,80 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The new version accepts a struct describing deviations from standard way of
-doing the size checks. The caller must provide the respective values.
+Some drivers might want to use the modifier_info field of struct
+drm_framebuffer to hold struct drm_afbc. The memory for the latter must
+be managed by the driver. To eliminate the need to modify existing
+invocations of kfree(fb), add a function to allocate struct drm_framebuffer
+and its associated struct drm_afbc in one chunk.
 
 Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 ---
- drivers/gpu/drm/drm_gem_framebuffer_helper.c | 47 ++++++++++++++++----
- include/drm/drm_gem_framebuffer_helper.h     | 16 +++++++
- 2 files changed, 55 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c | 32 ++++++++++++++++++++
+ include/drm/drm_gem_framebuffer_helper.h     |  1 +
+ 2 files changed, 33 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-index 787edb9a916b..4201dc1f32a5 100644
+index e20f4d00b0a5..0338f303f988 100644
 --- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
 +++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-@@ -201,8 +201,9 @@ int drm_gem_fb_lookup(struct drm_device *dev,
- EXPORT_SYMBOL_GPL(drm_gem_fb_lookup);
+@@ -21,6 +21,13 @@
+ #include <drm/drm_modeset_helper.h>
+ #include <drm/drm_simple_kms_helper.h>
  
- /**
-- * drm_gem_fb_size_check() - Helper function for use in
-- *			     &drm_mode_config_funcs.fb_create implementations
-+ * drm_gem_fb_size_check_special() - Helper function for use in
-+ *				     &drm_mode_config_funcs.fb_create
-+ *				     implementations
-  * @dev: DRM device
-  * @mode_cmd: Metadata from the userspace framebuffer creation request
-  *
-@@ -212,9 +213,10 @@ EXPORT_SYMBOL_GPL(drm_gem_fb_lookup);
-  * Returns:
-  * Zero on success or a negative error code on failure.
-  */
--int drm_gem_fb_size_check(struct drm_device *dev,
--			  const struct drm_mode_fb_cmd2 *mode_cmd,
--			  struct drm_gem_object **objs)
-+int drm_gem_fb_size_check_special(struct drm_device *dev,
-+				  const struct drm_mode_fb_cmd2 *mode_cmd,
-+				  const struct drm_size_check *check,
-+				  struct drm_gem_object **objs)
- {
- 	const struct drm_format_info *info;
- 	int i;
-@@ -227,10 +229,19 @@ int drm_gem_fb_size_check(struct drm_device *dev,
- 		unsigned int width = mode_cmd->width / (i ? info->hsub : 1);
- 		unsigned int height = mode_cmd->height / (i ? info->vsub : 1);
- 		unsigned int min_size;
-+		u32 pitch = mode_cmd->pitches[i];
++#define DRM_ALIGN_MASK(type) \
++	(__alignof__(type) - 1)
++#define DRM_INFO_OFFSET(type1, type2)	\
++	((sizeof(type1) + DRM_ALIGN_MASK(type2)) & ~DRM_ALIGN_MASK(type2))
++#define DRM_COMPOUND_SIZE(type1, type2) \
++	(DRM_INFO_OFFSET(type1, type2) + sizeof(type2))
 +
-+		if (check && check->use_pitch_multiplier)
-+			if ((pitch * check->pitch_multiplier[i]) %
-+			    check->pitch_modulo)
-+				return -EINVAL;
- 
--		min_size = (height - 1) * mode_cmd->pitches[i]
--			 + drm_format_info_min_pitch(info, i, width)
--			 + mode_cmd->offsets[i];
-+		if (check && check->use_min_size)
-+			min_size = check->min_size[i];
-+		else
-+			min_size = (height - 1) * pitch
-+				 + drm_format_info_min_pitch(info, i, width)
-+				 + mode_cmd->offsets[i];
- 
- 		if (objs[i]->size < min_size)
- 			return -EINVAL;
-@@ -239,6 +250,26 @@ int drm_gem_fb_size_check(struct drm_device *dev,
- 	return 0;
- 
+ #define AFBC_HEADER_SIZE		16
+ #define AFBC_TH_LAYOUT_ALIGNMENT	8
+ #define AFBC_SUPERBLOCK_PIXELS		256
+@@ -59,6 +66,31 @@ struct drm_gem_object *drm_gem_fb_get_obj(struct drm_framebuffer *fb,
  }
-+EXPORT_SYMBOL_GPL(drm_gem_fb_size_check_special);
-+
+ EXPORT_SYMBOL_GPL(drm_gem_fb_get_obj);
+ 
 +/**
-+ * drm_gem_fb_size_check() - Helper function for use in
-+ *			     &drm_mode_config_funcs.fb_create implementations
-+ * @dev: DRM device
-+ * @mode_cmd: Metadata from the userspace framebuffer creation request
-+ *
-+ * This function can be used to verify buffer sizes for all planes.
-+ * It is caller's responsibility to put the objects on failure.
++ * drm_gem_fb_alloc_with_afbc() - Allocate struct drm_framebuffer together
++ *				  with a struct drm_afbc for easier freeing
++ *				  and assign drm_framebuffer's modifier_info
 + *
 + * Returns:
-+ * Zero on success or a negative error code on failure.
++ * Pointer to drm_framebuffer on success or NULL
 + */
-+int drm_gem_fb_size_check(struct drm_device *dev,
-+			  const struct drm_mode_fb_cmd2 *mode_cmd,
-+			  struct drm_gem_object **objs)
++struct drm_framebuffer *drm_gem_fb_alloc_with_afbc(void)
 +{
-+	return drm_gem_fb_size_check_special(dev, mode_cmd, NULL, objs);
++	struct drm_framebuffer *fb;
++
++	/* alloc in one chunk to ease freeing */
++	fb = kzalloc(DRM_COMPOUND_SIZE(struct drm_framebuffer, struct drm_afbc),
++		     GFP_KERNEL);
++	if (!fb)
++		return NULL;
++
++	fb->modifier_info =
++		fb + DRM_INFO_OFFSET(struct drm_framebuffer, struct drm_afbc);
++
++	return fb;
 +}
- EXPORT_SYMBOL_GPL(drm_gem_fb_size_check);
- 
- /**
++EXPORT_SYMBOL_GPL(drm_gem_fb_alloc_with_afbc);
++
+ int drm_gem_fb_init_with_funcs(struct drm_framebuffer *fb,
+ 			       struct drm_device *dev,
+ 			       const struct drm_mode_fb_cmd2 *mode_cmd,
 diff --git a/include/drm/drm_gem_framebuffer_helper.h b/include/drm/drm_gem_framebuffer_helper.h
-index c85d4b152e91..74304a268694 100644
+index 3d6015194b3c..4e7b1e2c765b 100644
 --- a/include/drm/drm_gem_framebuffer_helper.h
 +++ b/include/drm/drm_gem_framebuffer_helper.h
-@@ -11,6 +11,18 @@ struct drm_mode_fb_cmd2;
- struct drm_plane;
- struct drm_plane_state;
- struct drm_simple_display_pipe;
-+struct drm_size_check;
-+
-+/**
-+ * struct drm_size_check - Description of special requirements for size checks.
-+ */
-+struct drm_size_check {
-+	unsigned int min_size[4];
-+	bool use_min_size;
-+	u32 pitch_multiplier[4];
-+	u32 pitch_modulo;
-+	bool use_pitch_multiplier;
-+};
+@@ -42,6 +42,7 @@ struct drm_afbc {
  
  struct drm_gem_object *drm_gem_fb_get_obj(struct drm_framebuffer *fb,
  					  unsigned int plane);
-@@ -32,6 +44,10 @@ int drm_gem_fb_lookup(struct drm_device *dev,
- 		      struct drm_file *file,
- 		      const struct drm_mode_fb_cmd2 *mode_cmd,
- 		      struct drm_gem_object **objs);
-+int drm_gem_fb_size_check_special(struct drm_device *dev,
-+				  const struct drm_mode_fb_cmd2 *mode_cmd,
-+				  const struct drm_size_check *check,
-+				  struct drm_gem_object **objs);
- int drm_gem_fb_size_check(struct drm_device *dev,
- 			  const struct drm_mode_fb_cmd2 *mode_cmd,
- 			  struct drm_gem_object **objs);
++struct drm_framebuffer *drm_gem_fb_alloc_with_afbc(void);
+ int drm_gem_fb_init_with_funcs(struct drm_framebuffer *fb,
+ 			       struct drm_device *dev,
+ 			       const struct drm_mode_fb_cmd2 *mode_cmd,
 -- 
 2.17.1
 
