@@ -1,194 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6421D11F219
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 15:43:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81BC011F246
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 15:44:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 556AB6E365;
-	Sat, 14 Dec 2019 14:42:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8324E6E392;
+	Sat, 14 Dec 2019 14:43:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 546 seconds by postgrey-1.36 at gabe;
- Fri, 13 Dec 2019 10:34:02 UTC
-Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com
- [149.117.73.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 694506E402
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 10:34:02 +0000 (UTC)
-Received: from mailhost.synopsys.com (badc-mailhost1.synopsys.com
- [10.192.0.17])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 3FEBB40642;
- Fri, 13 Dec 2019 10:24:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1576232696; bh=1juyYDE27FdfoIb/DEhKcgmb6drzd2HlSJwfzoeGI9w=;
- h=From:To:CC:Subject:Date:References:In-Reply-To:From;
- b=NDcmHCL0rxAG7qKp++Iit4PiXTCPC6vVFuH9VLNu7svqtUIervy9gw+H/HBzbvywD
- Rhc6qaYhWirM74ru8b7Ai0Rjwt8qRpPot0AHWIm+r1VwakIPelesvmj5D97rJLDyXC
- g/z7ziLKE/44mbHMhCwfRdz7qVye1FDpXl0gK8gkb9yEt+MQ9k6iYnJUcQQ5IqPogr
- TM5NIPf2iwpRqFHHS6zCFmwdVS5zgqG5wijS7aoUYH2bUvfD0mmW+yKpPivzN5F2eK
- 55ObL/zDupqNO/cb8SkxmNgTFDlZfyy/S5nl57mtUSlbzHyhPg0MXcFa8lMpTNgImU
- Zh3n6irkhN+4g==
-Received: from US01WEHTC3.internal.synopsys.com
- (us01wehtc3.internal.synopsys.com [10.15.84.232])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mailhost.synopsys.com (Postfix) with ESMTPS id CC830A0085;
- Fri, 13 Dec 2019 10:24:51 +0000 (UTC)
-Received: from us01hybrid1.internal.synopsys.com (10.13.188.44) by
- US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Fri, 13 Dec 2019 02:24:44 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (10.202.3.67) by
- mrs.synopsys.com (10.13.188.44) with Microsoft SMTP Server (TLS) id
- 14.3.408.0; Fri, 13 Dec 2019 02:24:43 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iLPBoI2USYLMVOO04CuMn8ajZL2HKtx267KRO40Ced2dPBqx4dMR9BNGq43CVW7L+0uOJckPzy6CRrIKYiDVsh8f62QtjQBjvO5U/DrvPgMY//YmP+ZJIWAV6P/1sbyJyyxzBuqSSV08PCANqcQf49YQxeW2c1Vqp5xWaPazjKzlaG+GVY7AtUt2fC1c10Etk2Z/KSnv9lJ/XgDb15htEFFR516klSFWlMIZqSvoTmWCOUmVjUwfmHKpHNvGok3t8W9BKEdS3xB7L5buG8HI2W3VDG1RQcdvlRzLGALQEC1zxhJVN9ji+XLrekSQIBAiSu+WILP6u8ERsq0IVWtc+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1juyYDE27FdfoIb/DEhKcgmb6drzd2HlSJwfzoeGI9w=;
- b=ieayrC1eg9JyoIXCl6eltHIsql7uNueY5sKAJ+8CobOefp+9WXhrb/14zAx05UELciNe/sd9Vm5wOnFOBED0pInOLkBgbhkgt/BmHag4TfenzsXDanRAjtszIaNVAVdNAcuoIVIIPy9x8kh0RevvQFc0suuBS+yluOeCpl2OC5x8sVPKZOUvXnNyqpJ9hwELxNzsNTqx01C9hYIhoooTAi/F5qJigvJ+1sLQ6pQh40U7jX8VSPDmZyiCB/XcouBPydATAvXe192YLeyuurH7pibEpFzHKRV4dQgY6FrDSQWAQ3rpwqm1IXw9nCVTcMrI2zZy1i/2nQsuzyjKRGz3JQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=synopsys.onmicrosoft.com; s=selector2-synopsys-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1juyYDE27FdfoIb/DEhKcgmb6drzd2HlSJwfzoeGI9w=;
- b=a3BZp9zXUkK8z1neqfcX5jf8dvcF29+31UtmVaneBwwFsAN+rmjIEqFJ5FFBRddxPbjHO79SMOUGnExq5aHGgg5z+M35hAz1xQI45GAxwAotttClr3hey+Hp0k9kBfrdkrq9o93Tam3/vszasE5Z6oPYNZ5eFw2CSHzzhh4p2yo=
-Received: from CY4PR1201MB0120.namprd12.prod.outlook.com (10.172.78.14) by
- CY4PR1201MB2486.namprd12.prod.outlook.com (10.172.119.21) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2538.15; Fri, 13 Dec 2019 10:24:42 +0000
-Received: from CY4PR1201MB0120.namprd12.prod.outlook.com
- ([fe80::3977:e2ba:ce57:f79a]) by CY4PR1201MB0120.namprd12.prod.outlook.com
- ([fe80::3977:e2ba:ce57:f79a%5]) with mapi id 15.20.2516.018; Fri, 13 Dec 2019
- 10:24:42 +0000
-From: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: RE: [GIT PULL] drm/arc: Yet another set of minor fixes
-Thread-Topic: [GIT PULL] drm/arc: Yet another set of minor fixes
-Thread-Index: AdWk9uGIdHrNqX0yQ6SZMMOjZA+q3QAE3eIAAAaVHaAAAceXAAMcvqxgAAAbGIAAAAoXkA==
-Date: Fri, 13 Dec 2019 10:24:42 +0000
-Message-ID: <CY4PR1201MB01206B89011211BB25EF82ADA1540@CY4PR1201MB0120.namprd12.prod.outlook.com>
-References: <CY4PR1201MB012062AAE1D2223BEF3AB204A1440@CY4PR1201MB0120.namprd12.prod.outlook.com>
- <20191127100634.GE29965@phenom.ffwll.local>
- <CY4PR1201MB01201760E81B40589D182E08A1440@CY4PR1201MB0120.namprd12.prod.outlook.com>
- <CAKMK7uHSm6oKUUDxQxPkOJMj4Ut6+B1dFdZGoauNjrT_o841sA@mail.gmail.com>
- <CY4PR1201MB0120529194B092E2C2ACD77EA1540@CY4PR1201MB0120.namprd12.prod.outlook.com>
- <20191213102219.GE624164@phenom.ffwll.local>
-In-Reply-To: <20191213102219.GE624164@phenom.ffwll.local>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: =?us-ascii?Q?PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcYWJyb2RraW5c?=
- =?us-ascii?Q?YXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRi?=
- =?us-ascii?Q?YTI5ZTM1Ylxtc2dzXG1zZy1jNGZjNTZlYy0xZDkyLTExZWEtYmZmMi04OGIx?=
- =?us-ascii?Q?MTFjZGUyMTdcYW1lLXRlc3RcYzRmYzU2ZWUtMWQ5Mi0xMWVhLWJmZjItODhi?=
- =?us-ascii?Q?MTExY2RlMjE3Ym9keS50eHQiIHN6PSI4ODciIHQ9IjEzMjIwNzA2MjgwNTY0?=
- =?us-ascii?Q?NDY1OCIgaD0iWFA0UXJJbi8wbm51U3JOTVZWL0wxczFET0dvPSIgaWQ9IiIg?=
- =?us-ascii?Q?Ymw9IjAiIGJvPSIxIiBjaT0iY0FBQUFFUkhVMVJTUlVGTkNnVUFBQlFKQUFC?=
- =?us-ascii?Q?eUJWU0huN0hWQWFZNUNTcExrdGI3cGprSktrdVMxdnNPQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUhBQUFBQ2tDQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUVBQVFBQkFBQUFSWDJrMUFBQUFBQUFBQUFBQUFBQUFKNEFBQUJtQUdrQWJn?=
- =?us-ascii?Q?QmhBRzRBWXdCbEFGOEFjQUJzQUdFQWJnQnVBR2tBYmdCbkFGOEFkd0JoQUhR?=
- =?us-ascii?Q?QVpRQnlBRzBBWVFCeUFHc0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?RUFBQUFBQUFBQUFnQUFBQUFBbmdBQUFHWUFid0IxQUc0QVpBQnlBSGtBWHdC?=
- =?us-ascii?Q?d0FHRUFjZ0IwQUc0QVpRQnlBSE1BWHdCbkFHWUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQVFBQUFBQUFBQUFDQUFB?=
- =?us-ascii?Q?QUFBQ2VBQUFBWmdCdkFIVUFiZ0JrQUhJQWVRQmZBSEFBWVFCeUFIUUFiZ0Js?=
- =?us-ascii?Q?QUhJQWN3QmZBSE1BWVFCdEFITUFkUUJ1QUdjQVh3QmpBRzhBYmdCbUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUJBQUFBQUFBQUFBSUFBQUFBQUo0QUFBQm1BRzhB?=
- =?us-ascii?Q?ZFFCdUFHUUFjZ0I1QUY4QWNBQmhBSElBZEFCdUFHVUFjZ0J6QUY4QWN3QmhB?=
- =?us-ascii?Q?RzBBY3dCMUFHNEFad0JmQUhJQVpRQnpBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFFQUFBQUFBQUFBQWdBQUFBQUFuZ0FBQUdZQWJ3QjFBRzRBWkFCeUFIa0FY?=
- =?us-ascii?Q?d0J3QUdFQWNnQjBBRzRBWlFCeUFITUFYd0J6QUcwQWFRQmpBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBUUFBQUFBQUFBQUNB?=
- =?us-ascii?Q?QUFBQUFDZUFBQUFaZ0J2QUhVQWJnQmtBSElBZVFCZkFIQUFZUUJ5QUhRQWJn?=
- =?us-ascii?Q?QmxBSElBY3dCZkFITUFkQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQkFBQUFBQUFBQUFJQUFBQUFBSjRBQUFCbUFH?=
- =?us-ascii?Q?OEFkUUJ1QUdRQWNnQjVBRjhBY0FCaEFISUFkQUJ1QUdVQWNnQnpBRjhBZEFC?=
- =?us-ascii?Q?ekFHMEFZd0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUVBQUFBQUFBQUFBZ0FBQUFBQW5nQUFBR1lBYndCMUFHNEFaQUJ5QUhr?=
- =?us-ascii?Q?QVh3QndBR0VBY2dCMEFHNEFaUUJ5QUhNQVh3QjFBRzBBWXdBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFRQUFBQUFBQUFB?=
- =?us-ascii?Q?Q0FBQUFBQUNlQUFBQVp3QjBBSE1BWHdCd0FISUFid0JrQUhVQVl3QjBBRjhB?=
- =?us-ascii?Q?ZEFCeUFHRUFhUUJ1QUdrQWJnQm5BQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFCQUFBQUFBQUFBQUlBQUFBQUFKNEFBQUJ6?=
- =?us-ascii?Q?QUdFQWJBQmxBSE1BWHdCaEFHTUFZd0J2QUhVQWJnQjBBRjhBY0FCc0FHRUFi?=
- =?us-ascii?Q?Z0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBRUFBQUFBQUFBQUFnQUFBQUFBbmdBQUFITUFZUUJzQUdVQWN3QmZB?=
- =?us-ascii?Q?SEVBZFFCdkFIUUFaUUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQVFBQUFBQUFB?=
- =?us-ascii?Q?QUFDQUFBQUFBQ2VBQUFBY3dCdUFIQUFjd0JmQUd3QWFRQmpBR1VBYmdCekFH?=
- =?us-ascii?Q?VUFYd0IwQUdVQWNnQnRBRjhBTVFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUJBQUFBQUFBQUFBSUFBQUFBQUo0QUFB?=
- =?us-ascii?Q?QnpBRzRBY0FCekFGOEFiQUJwQUdNQVpRQnVBSE1BWlFCZkFIUUFaUUJ5QUcw?=
- =?us-ascii?Q?QVh3QnpBSFFBZFFCa0FHVUFiZ0IwQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFFQUFBQUFBQUFBQWdBQUFBQUFuZ0FBQUhZQVp3QmZBR3NBWlFC?=
- =?us-ascii?Q?NUFIY0Fid0J5QUdRQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBUUFBQUFB?=
- =?us-ascii?Q?QUFBQUNBQUFBQUFBPSIvPjwvbWV0YT4=3D?=
-x-dg-rorf: true
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=abrodkin@synopsys.com; 
-x-originating-ip: [188.243.7.154]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c811d63a-8747-4314-36f1-08d77fb6aaed
-x-ms-traffictypediagnostic: CY4PR1201MB2486:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <CY4PR1201MB24863B212CEBFAFFEA2C9165A1540@CY4PR1201MB2486.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 0250B840C1
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(396003)(346002)(376002)(366004)(39860400002)(136003)(13464003)(189003)(199004)(5660300002)(316002)(4326008)(52536014)(478600001)(54906003)(4744005)(8676002)(66946007)(7696005)(86362001)(66476007)(66446008)(2906002)(33656002)(66556008)(64756008)(8936002)(6506007)(76116006)(26005)(53546011)(6916009)(9686003)(81156014)(81166006)(71200400001)(186003)(55016002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:CY4PR1201MB2486;
- H:CY4PR1201MB0120.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: synopsys.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: XnjrkrBzaDxPWKAsDposPzb3Wjzvs9poU9ULz0/0FrDokR+RUivCtlWQb3gMTFUVpLGvcCHtIbvHbC1H8tHoX0XxvMECU5CeSMa7PVxaH1c2Ml3xODjc/F/vHlV3mhBah6OR5YhF9TedQTjZaW7Z8pac7/4RxoO52nUnlQY84C+bcVvGh/aIzCCjw7D3cB415miR0tQNW6aEElixTFQlfzRS+KguBsFbbM9hXWcnralifFerA8MH7BqWBxOG7W82XB9iHkyfWAXfTr5F+JFu2JnyRSjBIBsGK/J3haeYL8YGALlMfKCEDd+PGKTutE+gLu4/l0nz382sZVtH8iJY3mEPjKNjTojCzPDksNetWicv31un7MYmww0tuUJPwVHBLRdbialnM7evFwq4ivApBQt0tSexpyiQyuw0LOtgTLLKACb3hhl3fuFEMeKU69RXGEvccea2XV/xY3k3MSsuaaHv34YsLE6r4ctSyNByoqAJYZILvcG3wfTZ1B8Up1gR
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0885C6E44A
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 10:42:27 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 75F6E5DBA;
+ Fri, 13 Dec 2019 05:42:25 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Fri, 13 Dec 2019 05:42:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=vgk7FL9HE/DhoT+VdhEoE7vu/ra
+ uoTEyo8weCVOH8SA=; b=RpFkaa9J+pcmp6q042NfBbI+t4NPy44WfK7eZAubKAs
+ ZKmfz+/gQwdfw1VGjcCP+TdJtLpuWqWnNnhhbKHE2CH3XRisIvVteygfQ57kgJIh
+ 5Z41vC5AaG/c0m6i2kvDEKdKH2AryU2VlZDn9Tp5wgzGHu0/qYBnWgaS8JPryXju
+ UbWLNXvcYi6Oj6GdPr61Q1gpdYMHe7o4Zht6oWpo+zpjLNAkBCvV6QaIpL2Snz91
+ XN2ZptryfOMVfuOpgtbXYoIbXMihPb0jGhEaCB7x9IwFt0evCzXkhg+0DFjubWe7
+ dR0EGJUd0AHegkEHACR6ir4Ti5qUmRoK0mDxFMzIxSA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=vgk7FL
+ 9HE/DhoT+VdhEoE7vu/rauoTEyo8weCVOH8SA=; b=QbEiOiTNPE4vD8e/j0D6Xz
+ hHkAJO9PuQOnrlRvK0TlELR1Obr+MrBiuuswLxi7Q3mS8oN/vNVAYtWU9Oq7h3Yv
+ Yjmxk4cvIjlZugr4tv0TeRqVxbeR+eUdshIWKLJq6B3l0b/epJTZLEnnCbNo8jQv
+ +r5b4Qzh0yb4K4c07DS2cYxLqx1TXi7LDs8CxvBcbJ64NNYHJGlKXMOAnIOpp+YJ
+ hrjk+lSxeylKsjso+5EAs515iBCaOCERQHOhBd8/hYgpwkhL+4qZVmaIjv72/UKa
+ 5wqVWweRSSQ+vIS/1xKtttFZXsgccfp2L/Gdf9mngF7wEDEoIwERndy7ZMbjTxLg
+ ==
+X-ME-Sender: <xms:EGvzXaWsPeAoZSrolyzvTW9LlB-g28VteYOcfsoU5i36WZ1vL3LUpw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudelledgudelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuffhomhgrih
+ hnpeguvghvihgtvghtrhgvvgdrohhrghenucfkphepledtrdekledrieekrdejieenucfr
+ rghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthhenucevlh
+ hushhtvghrufhiiigvpedt
+X-ME-Proxy: <xmx:EGvzXZLVgHDuGQlZli344liZwYvtfwgs-eiRQu2IdBbpEuf_EENilw>
+ <xmx:EGvzXVjism9prFcsHIdmqepdKm3Dnqcevmf2NqkpaIDFrKsDkm4DNA>
+ <xmx:EGvzXZk1lj4Xasztv1_-P3ol-owH8fF-NI_OA7SHt3KUCpt2hVa85w>
+ <xmx:EWvzXZiSmSwJzI-7t7-Mit9M7DaCXnPWb3Vi_3NGoSes6QqBt6GP0A>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 98B163060158;
+ Fri, 13 Dec 2019 05:42:24 -0500 (EST)
+Date: Fri, 13 Dec 2019 11:42:23 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jyri Sarha <jsarha@ti.com>
+Subject: Re: [PATCH v3 1/5] dt-bindings: display: ti, k2g-dss: Add dt-schema
+ yaml binding
+Message-ID: <20191213104223.u55zlm2zwpgarvil@gilmour.lan>
+References: <cover.1576158368.git.jsarha@ti.com>
+ <7c2e386d48cf0c8b932804f24e3f6ea81fe3d3a3.1576158368.git.jsarha@ti.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: c811d63a-8747-4314-36f1-08d77fb6aaed
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Dec 2019 10:24:42.2893 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: DawKsE2V5TdePvF/wcMnf1vniAZ9RPo50MvMMNIPqwXoJIzXBKg+cz/4aKhUKKWVuy39eqMMqYz1auu/MYSxbg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB2486
-X-OriginatorOrg: synopsys.com
+In-Reply-To: <7c2e386d48cf0c8b932804f24e3f6ea81fe3d3a3.1576158368.git.jsarha@ti.com>
 X-Mailman-Approved-At: Sat, 14 Dec 2019 14:42:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -202,39 +78,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, arcml <linux-snps-arc@lists.infradead.org>,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devicetree@vger.kernel.org, yamonkar@cadence.com, praneeth@ti.com,
+ tomi.valkeinen@ti.com, subhajit_paul@ti.com, dri-devel@lists.freedesktop.org,
+ peter.ujfalusi@ti.com, robh+dt@kernel.org, laurent.pinchart@ideasonboard.com,
+ sjakhade@cadence.com, sam@ravnborg.org
+Content-Type: multipart/mixed; boundary="===============1052170838=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
 
-> -----Original Message-----
-> From: Daniel Vetter <daniel@ffwll.ch>
-> Sent: Friday, December 13, 2019 1:22 PM
-> To: Alexey Brodkin <abrodkin@synopsys.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>; David Airlie <airlied@linux.ie>; arcml <linux-snps-
-> arc@lists.infradead.org>; Eugeniy Paltsev <paltsev@synopsys.com>; dri-devel@lists.freedesktop.org
-> Subject: Re: [GIT PULL] drm/arc: Yet another set of minor fixes
-> 
+--===============1052170838==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="h7rjevoyojpmg3m3"
+Content-Disposition: inline
 
-[snip]
 
-> > Not sure if you noticed re-spin of my pull-request in the previous message.
-> > Do you want me to send it in a separate email?
-> 
-> Yeah I guess this got lost again.
+--h7rjevoyojpmg3m3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-So should I re-send it in another email or you will pick it up
-from existing thread?
+Hi,
 
-If I'm going to re-send it do I need to re-base it on today's drm/drm-next?
+On Thu, Dec 12, 2019 at 03:51:57PM +0200, Jyri Sarha wrote:
+> Add dt-schema yaml bindig for K2G DSS, an ultra-light version of TI
+> Keystone Display SubSystem.
+>
+> Version history:
+>
+> v2: no change
+>
+> v3: - Add ports node
+>     - Add includes to dts example
+>     - reindent dts example
+>
+> Signed-off-by: Jyri Sarha <jsarha@ti.com>
+> ---
+>  .../bindings/display/ti/ti,k2g-dss.yaml       | 118 ++++++++++++++++++
+>  1 file changed, 118 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
+> new file mode 100644
+> index 000000000000..90158e8b6aad
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
+> @@ -0,0 +1,118 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +# Copyright 2019 Texas Instruments Incorporated
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/display/ti/ti,k2g-dss.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +
+> +title: Texas Instruments K2G Display Subsystem
+> +
+> +maintainers:
+> +  - Jyri Sarha <jsarha@ti.com>
+> +  - Tomi Valkeinen <tomi.valkeinen@ti.com>
+> +
+> +description: |
+> +  The K2G DSS is an ultra-light version of TI Keystone Display
+> +  SubSystem. It has only one output port and video plane. The
+> +  output is DPI.
+> +
+> +properties:
+> +  compatible:
+> +    const: ti,k2g-dss
+> +
+> +  reg:
+> +    maxItems: 5
+> +    minItems: 5
 
--Alexey
+When they are equal, you need only one of the two, the tools will add
+the other.
+
+Also, adding a description of what those registers are supposed to be
+would be great.
+
+> +
+> +  reg-names:
+> +    items:
+> +      - const: cfg
+> +      - const: common
+> +      - const: vid1
+> +      - const: ovr1
+> +      - const: vp1
+> +
+> +  clocks:
+> +    maxItems: 2
+> +    minItems: 2
+
+Ditto
+
+> +
+> +  clock-names:
+> +    items:
+> +      - const: fck
+> +      - const: vp1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +    description: phandle to the associated power domain
+> +
+> +  ports:
+> +    type: object
+> +    description:
+> +      Ports as described in Documentation/devictree/bindings/graph.txt
+> +    properties:
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +      port@0:
+> +        type: object
+> +        description:
+> +          The DSS DPI output port node
+
+If there's only one port, why do you need ports in the first place?
+
+Thanks!
+Maxime
+
+--h7rjevoyojpmg3m3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXfNrDwAKCRDj7w1vZxhR
+xXoAAP4+hx3XYi8AsAWRYJersbx7MZ2tEkHeK0WLriGTWXJ5fwEAyV7WaqLUhkzn
+qbrivmLoR+AKdYiDgIO+USQn229uMwE=
+=vNap
+-----END PGP SIGNATURE-----
+
+--h7rjevoyojpmg3m3--
+
+--===============1052170838==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1052170838==--
