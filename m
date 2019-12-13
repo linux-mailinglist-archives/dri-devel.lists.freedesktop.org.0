@@ -2,25 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21F6711E749
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 16:59:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9EB411E74D
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 17:00:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75B3F6EA81;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C6276EA7C;
 	Fri, 13 Dec 2019 15:59:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBF2F6E9B9
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 15:59:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 712AE6E9B9
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 15:59:24 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: andrzej.p) with ESMTPSA id BA5FD292D0C
+ (Authenticated sender: andrzej.p) with ESMTPSA id 5EA5F292C80
 From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCHv4 08/36] drm/komeda: Move checking src coordinates to
- komeda_fb_create
-Date: Fri, 13 Dec 2019 16:58:39 +0100
-Message-Id: <20191213155907.16581-9-andrzej.p@collabora.com>
+Subject: [PATCHv4 09/36] drm/komeda: Use the already available local variable
+Date: Fri, 13 Dec 2019 16:58:40 +0100
+Message-Id: <20191213155907.16581-10-andrzej.p@collabora.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191213155907.16581-1-andrzej.p@collabora.com>
 References: <20191213155907.16581-1-andrzej.p@collabora.com>
@@ -48,47 +47,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Next step towards unifying afbc and non-afbc cases as much as possible.
+There is a local "info" variable which is exactly fb->format, so use it.
 
 Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 ---
- .../drm/arm/display/komeda/komeda_framebuffer.c    | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c b/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
-index 7487c6cf6636..aa477d1dddc3 100644
+index aa477d1dddc3..bb1b43a64685 100644
 --- a/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
 +++ b/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
-@@ -107,9 +107,6 @@ komeda_fb_none_afbc_size_check(struct komeda_dev *mdev, struct komeda_fb *kfb,
- 	u32 i, block_h;
- 	u64 min_size;
+@@ -131,7 +131,7 @@ komeda_fb_none_afbc_size_check(struct komeda_dev *mdev, struct komeda_fb *kfb,
+ 		}
+ 	}
  
--	if (komeda_fb_check_src_coords(kfb, 0, 0, fb->width, fb->height))
--		return -EINVAL;
--
- 	for (i = 0; i < info->num_planes; i++) {
- 		obj = drm_gem_object_lookup(file, mode_cmd->handles[i]);
- 		if (!obj) {
-@@ -168,10 +165,17 @@ komeda_fb_create(struct drm_device *dev, struct drm_file *file,
- 
- 	drm_helper_mode_fill_fb_struct(dev, &kfb->base, mode_cmd);
- 
--	if (kfb->base.modifier)
-+	if (kfb->base.modifier) {
- 		ret = komeda_fb_afbc_size_check(kfb, file, mode_cmd);
--	else
-+	} else {
-+		if (komeda_fb_check_src_coords(kfb, 0, 0, kfb->base.width,
-+					       kfb->base.height)) {
-+			kfree(kfb);
-+			return ERR_PTR(-EINVAL);
-+		}
-+
- 		ret = komeda_fb_none_afbc_size_check(mdev, kfb, file, mode_cmd);
-+	}
- 	if (ret < 0)
- 		goto err_cleanup;
- 
+-	if (fb->format->num_planes == 3) {
++	if (info->num_planes == 3) {
+ 		if (fb->pitches[1] != fb->pitches[2]) {
+ 			DRM_DEBUG_KMS("The pitch[1] and [2] are not same\n");
+ 			return -EINVAL;
 -- 
 2.17.1
 
