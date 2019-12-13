@@ -1,31 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72E0811ED72
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 23:07:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1B7211ED78
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 23:08:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCF1D6EDED;
-	Fri, 13 Dec 2019 22:07:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 438806EDF3;
+	Fri, 13 Dec 2019 22:07:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 938E06EDE7;
- Fri, 13 Dec 2019 22:07:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AC2E6EDE7;
+ Fri, 13 Dec 2019 22:07:30 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2019 14:07:29 -0800
+ 13 Dec 2019 14:07:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,311,1571727600"; d="scan'208";a="216558874"
+X-IronPort-AV: E=Sophos;i="5.69,311,1571727600"; d="scan'208";a="216558880"
 Received: from nvishwa1-desk.sc.intel.com ([10.3.160.185])
- by orsmga006.jf.intel.com with ESMTP; 13 Dec 2019 14:07:28 -0800
+ by orsmga006.jf.intel.com with ESMTP; 13 Dec 2019 14:07:29 -0800
 From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [RFC v2 03/12] drm/i915/svm: Implicitly migrate BOs upon CPU access
-Date: Fri, 13 Dec 2019 13:56:05 -0800
-Message-Id: <20191213215614.24558-4-niranjana.vishwanathapura@intel.com>
+Subject: [RFC v2 04/12] drm/i915/svm: Page table update support for SVM
+Date: Fri, 13 Dec 2019 13:56:06 -0800
+Message-Id: <20191213215614.24558-5-niranjana.vishwanathapura@intel.com>
 X-Mailer: git-send-email 2.21.0.rc0.32.g243a4c7e27
 In-Reply-To: <20191213215614.24558-1-niranjana.vishwanathapura@intel.com>
 References: <20191213215614.24558-1-niranjana.vishwanathapura@intel.com>
@@ -52,163 +52,135 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
-
-As PCIe is non-coherent link, do not allow direct access to buffer
-objects across the PCIe link for SVM case. Upon CPU accesses (mmap, pread),
-migrate buffer object to host memory.
+For Shared Virtual Memory (SVM) system (SYS) allocator, there is no
+backing buffer object (BO). Add support to bind a VA to PA mapping
+in the device page table.
 
 Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
 Cc: Jon Bloomfield <jon.bloomfield@intel.com>
 Cc: Daniel Vetter <daniel.vetter@intel.com>
 Cc: Sudeep Dutt <sudeep.dutt@intel.com>
-Cc: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-Signed-off-by: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
+Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_mman.c   | 10 ++++++++
- drivers/gpu/drm/i915/gem/i915_gem_object.c | 29 +++++++++++++++++-----
- drivers/gpu/drm/i915/gem/i915_gem_object.h |  3 +++
- drivers/gpu/drm/i915/intel_memory_region.c |  4 ---
- drivers/gpu/drm/i915/intel_memory_region.h |  4 +++
- 5 files changed, 40 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/i915/i915_gem_gtt.c | 60 ++++++++++++++++++++++++++++-
+ drivers/gpu/drm/i915/i915_gem_gtt.h | 10 +++++
+ 2 files changed, 68 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-index 879fff8adc48..fc1a11f0bec9 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-@@ -14,6 +14,7 @@
- #include "i915_drv.h"
- #include "i915_gem_gtt.h"
- #include "i915_gem_ioctls.h"
-+#include "i915_gem_lmem.h"
- #include "i915_gem_object.h"
- #include "i915_gem_mman.h"
- #include "i915_trace.h"
-@@ -295,6 +296,15 @@ static vm_fault_t vm_fault_gtt(struct vm_fault *vmf)
- 	if (i915_gem_object_is_readonly(obj) && write)
- 		return VM_FAULT_SIGBUS;
- 
-+	/* Implicitly migrate BO to SMEM if it is SVM mapped */
-+	if (i915_gem_object_svm_mapped(obj) && i915_gem_object_is_lmem(obj)) {
-+		u32 regions[] = { REGION_MAP(INTEL_MEMORY_SYSTEM, 0) };
-+
-+		ret = i915_gem_object_migrate_region(obj, regions, 1);
-+		if (ret)
-+			goto err;
-+	}
-+
- 	/* We don't use vmf->pgoff since that has the fake offset */
- 	page_offset = (vmf->address - area->vm_start) >> PAGE_SHIFT;
- 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-index 025c26266801..003d81c171d2 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-@@ -517,12 +517,17 @@ __region_id(u32 region)
- 	return INTEL_REGION_UNKNOWN;
+diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.c b/drivers/gpu/drm/i915/i915_gem_gtt.c
+index 7d4f5fa84b02..6657ff41dc3f 100644
+--- a/drivers/gpu/drm/i915/i915_gem_gtt.c
++++ b/drivers/gpu/drm/i915/i915_gem_gtt.c
+@@ -195,6 +195,50 @@ static void ppgtt_unbind_vma(struct i915_vma *vma)
+ 		vma->vm->clear_range(vma->vm, vma->node.start, vma->size);
  }
  
-+bool
-+i915_gem_object_svm_mapped(struct drm_i915_gem_object *obj)
++int svm_bind_addr_prepare(struct i915_address_space *vm, u64 start, u64 size)
 +{
-+	return false;
++	return vm->allocate_va_range(vm, start, size);
 +}
 +
- static int i915_gem_object_region_select(struct drm_i915_private *dev_priv,
- 					 struct drm_i915_gem_object_param *args,
- 					 struct drm_file *file,
- 					 struct drm_i915_gem_object *obj)
++int svm_bind_addr_commit(struct i915_address_space *vm, u64 start, u64 size,
++			 u64 flags, struct sg_table *st, u32 sg_page_sizes)
++{
++	struct i915_vma vma = {0};
++	u32 pte_flags = 0;
++
++	/* use a vma wrapper */
++	vma.page_sizes.sg = sg_page_sizes;
++	vma.node.start = start;
++	vma.node.size = size;
++	vma.pages = st;
++	vma.vm = vm;
++
++	/* Applicable to VLV, and gen8+ */
++	if (flags & I915_GTT_SVM_READONLY)
++		pte_flags |= PTE_READ_ONLY;
++
++	vm->insert_entries(vm, &vma, 0, pte_flags);
++	return 0;
++}
++
++int svm_bind_addr(struct i915_address_space *vm, u64 start, u64 size,
++		  u64 flags, struct sg_table *st, u32 sg_page_sizes)
++{
++	int ret;
++
++	ret = svm_bind_addr_prepare(vm, start, size);
++	if (ret)
++		return ret;
++
++	return svm_bind_addr_commit(vm, start, size, flags, st, sg_page_sizes);
++}
++
++void svm_unbind_addr(struct i915_address_space *vm,
++		     u64 start, u64 size)
++{
++	vm->clear_range(vm, start, size);
++}
++
+ static int ppgtt_set_pages(struct i915_vma *vma)
  {
--	struct intel_context *ce = dev_priv->engine[BCS0]->kernel_context;
- 	u32 __user *uregions = u64_to_user_ptr(args->data);
- 	u32 uregions_copy[INTEL_REGION_UNKNOWN];
- 	int i, ret;
-@@ -542,16 +547,28 @@ static int i915_gem_object_region_select(struct drm_i915_private *dev_priv,
- 		++uregions;
- 	}
+ 	GEM_BUG_ON(vma->pages);
+@@ -985,11 +1029,21 @@ static u64 __gen8_ppgtt_clear(struct i915_address_space * const vm,
+ 	DBG("%s(%p):{ lvl:%d, start:%llx, end:%llx, idx:%d, len:%d, used:%d }\n",
+ 	    __func__, vm, lvl + 1, start, end,
+ 	    idx, len, atomic_read(px_used(pd)));
+-	GEM_BUG_ON(!len || len >= atomic_read(px_used(pd)));
++	/*
++	 * FIXME: In SVM case, during mmu invalidation, we need to clear ppgtt,
++	 * but we don't know if the entry exist or not. So, we can't assume
++	 * that it is called only when the entry exist. revisit.
++	 * Also need to add the ebility to properly handle partial invalidations
++	 * by downgrading the large mappings.
++	 */
++	GEM_BUG_ON(!len);
  
-+	ret = i915_gem_object_migrate_region(obj, uregions_copy,
-+					     args->size);
+ 	do {
+ 		struct i915_page_table *pt = pd->entry[idx];
+ 
++		if (!pt)
++			continue;
 +
-+	return ret;
-+}
+ 		if (atomic_fetch_inc(&pt->used) >> gen8_pd_shift(1) &&
+ 		    gen8_pd_contains(start, end, lvl)) {
+ 			DBG("%s(%p):{ lvl:%d, idx:%d, start:%llx, end:%llx } removing pd\n",
+@@ -1012,7 +1066,9 @@ static u64 __gen8_ppgtt_clear(struct i915_address_space * const vm,
+ 			    __func__, vm, lvl, start, end,
+ 			    gen8_pd_index(start, 0), count,
+ 			    atomic_read(&pt->used));
+-			GEM_BUG_ON(!count || count >= atomic_read(&pt->used));
++			GEM_BUG_ON(!count);
++			if (count > atomic_read(&pt->used))
++				count = atomic_read(&pt->used);
+ 
+ 			vaddr = kmap_atomic_px(pt);
+ 			memset64(vaddr + gen8_pd_index(start, 0),
+diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.h b/drivers/gpu/drm/i915/i915_gem_gtt.h
+index 7c1b54c9677d..8a8a314e1295 100644
+--- a/drivers/gpu/drm/i915/i915_gem_gtt.h
++++ b/drivers/gpu/drm/i915/i915_gem_gtt.h
+@@ -39,6 +39,7 @@
+ #include <linux/mm.h>
+ #include <linux/pagevec.h>
+ #include <linux/workqueue.h>
++#include <linux/scatterlist.h>
+ 
+ #include <drm/drm_mm.h>
+ 
+@@ -679,4 +680,13 @@ int i915_gem_gtt_insert(struct i915_address_space *vm,
+ 
+ #define PIN_OFFSET_MASK		(-I915_GTT_PAGE_SIZE)
+ 
++/* SVM UAPI */
++#define I915_GTT_SVM_READONLY  BIT(0)
 +
-+int i915_gem_object_migrate_region(struct drm_i915_gem_object *obj,
-+				   u32 *regions, int size)
-+{
-+	struct drm_i915_private *dev_priv = to_i915(obj->base.dev);
-+	struct intel_context *ce = dev_priv->engine[BCS0]->kernel_context;
-+	int i, ret;
-+
- 	mutex_lock(&dev_priv->drm.struct_mutex);
- 	ret = i915_gem_object_prepare_move(obj);
- 	if (ret) {
- 		DRM_ERROR("Cannot set memory region, object in use\n");
--	        goto err;
-+		goto err;
- 	}
- 
--	for (i = 0; i < args->size; i++) {
--		u32 region = uregions_copy[i];
--		enum intel_region_id id = __region_id(region);
-+	for (i = 0; i < size; i++) {
-+		enum intel_region_id id = __region_id(regions[i]);
- 
- 		if (id == INTEL_REGION_UNKNOWN) {
- 			ret = -EINVAL;
-@@ -561,7 +578,7 @@ static int i915_gem_object_region_select(struct drm_i915_private *dev_priv,
- 		ret = i915_gem_object_migrate(obj, ce, id);
- 		if (!ret) {
- 			if (!i915_gem_object_has_pages(obj) &&
--			    MEMORY_TYPE_FROM_REGION(region) ==
-+			    MEMORY_TYPE_FROM_REGION(regions[i]) ==
- 			    INTEL_MEMORY_LOCAL) {
- 				/*
- 				 * TODO: this should be part of get_pages(),
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-index 87e6b6f18d91..6d8ca3f0ccf7 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-@@ -47,6 +47,9 @@ int i915_gem_object_prepare_move(struct drm_i915_gem_object *obj);
- int i915_gem_object_migrate(struct drm_i915_gem_object *obj,
- 			    struct intel_context *ce,
- 			    enum intel_region_id id);
-+bool i915_gem_object_svm_mapped(struct drm_i915_gem_object *obj);
-+int i915_gem_object_migrate_region(struct drm_i915_gem_object *obj,
-+				   u32 *uregions, int size);
- 
- void i915_gem_flush_free_objects(struct drm_i915_private *i915);
- 
-diff --git a/drivers/gpu/drm/i915/intel_memory_region.c b/drivers/gpu/drm/i915/intel_memory_region.c
-index baaeaecc64af..049a1b482d9d 100644
---- a/drivers/gpu/drm/i915/intel_memory_region.c
-+++ b/drivers/gpu/drm/i915/intel_memory_region.c
-@@ -6,10 +6,6 @@
- #include "intel_memory_region.h"
- #include "i915_drv.h"
- 
--/* XXX: Hysterical raisins. BIT(inst) needs to just be (inst) at some point. */
--#define REGION_MAP(type, inst) \
--	BIT((type) + INTEL_MEMORY_TYPE_SHIFT) | BIT(inst)
--
- const u32 intel_region_map[] = {
- 	[INTEL_REGION_SMEM] = REGION_MAP(INTEL_MEMORY_SYSTEM, 0),
- 	[INTEL_REGION_LMEM] = REGION_MAP(INTEL_MEMORY_LOCAL, 0),
-diff --git a/drivers/gpu/drm/i915/intel_memory_region.h b/drivers/gpu/drm/i915/intel_memory_region.h
-index 238722009677..e3e8ab946d78 100644
---- a/drivers/gpu/drm/i915/intel_memory_region.h
-+++ b/drivers/gpu/drm/i915/intel_memory_region.h
-@@ -44,6 +44,10 @@ enum intel_region_id {
- #define MEMORY_TYPE_FROM_REGION(r) (ilog2((r) >> INTEL_MEMORY_TYPE_SHIFT))
- #define MEMORY_INSTANCE_FROM_REGION(r) (ilog2((r) & 0xffff))
- 
-+/* XXX: Hysterical raisins. BIT(inst) needs to just be (inst) at some point. */
-+#define REGION_MAP(type, inst) \
-+	BIT((type) + INTEL_MEMORY_TYPE_SHIFT) | BIT(inst)
-+
- #define I915_ALLOC_MIN_PAGE_SIZE  BIT(0)
- #define I915_ALLOC_CONTIGUOUS     BIT(1)
- 
++int svm_bind_addr_prepare(struct i915_address_space *vm, u64 start, u64 size);
++int svm_bind_addr_commit(struct i915_address_space *vm, u64 start, u64 size,
++			 u64 flags, struct sg_table *st, u32 sg_page_sizes);
++int svm_bind_addr(struct i915_address_space *vm, u64 start, u64 size,
++		  u64 flags, struct sg_table *st, u32 sg_page_sizes);
++void svm_unbind_addr(struct i915_address_space *vm, u64 start, u64 size);
+ #endif
 -- 
 2.21.0.rc0.32.g243a4c7e27
 
