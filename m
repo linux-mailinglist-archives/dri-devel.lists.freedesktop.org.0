@@ -1,47 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A54D411DF35
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 09:14:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD68E11DF6A
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 09:27:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC62E6E290;
-	Fri, 13 Dec 2019 08:13:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A8326E2D3;
+	Fri, 13 Dec 2019 08:27:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
- by gabe.freedesktop.org (Postfix) with ESMTP id B94846E290
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 08:13:56 +0000 (UTC)
-X-UUID: 2d17162fb233434ba16c276246a03eed-20191213
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=LKlRPsYr83+ujg6UwhEQuIikV5eckKYqRZ9RkNy+3eM=; 
- b=GDsBZv7/6qFvzrW3WUu9xAChtBpKJ9MQJ/4ufzII6V659QvgSeHwzDgZGW4ZCWqE2Z5L9kt/lBYxED+YBdr4gPD/88RR/mMHN4H7ajK/h8buh1goEyBf105D1mHFmAd4W5H/EsyN0eQJb4C9laZfRRzeqPglzFGhf36zAPg2//k=;
-X-UUID: 2d17162fb233434ba16c276246a03eed-20191213
-Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 530104139; Fri, 13 Dec 2019 16:13:52 +0800
-Received: from mtkcas09.mediatek.inc (172.21.101.178) by
- MTKMBS31N1.mediatek.inc (172.27.4.69) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Fri, 13 Dec 2019 16:13:39 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas09.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Fri, 13 Dec 2019 16:13:51 +0800
-Message-ID: <1576224832.13335.3.camel@mtksdaap41>
-Subject: Re: [PATCH v2, 2/2] drm/mediatek: Add ctm property support
-From: CK Hu <ck.hu@mediatek.com>
-To: Yongqiang Niu <yongqiang.niu@mediatek.com>
-Date: Fri, 13 Dec 2019 16:13:52 +0800
-In-Reply-To: <1576224672.31822.6.camel@mhfsdcap03>
-References: <1576222132-31586-1-git-send-email-yongqiang.niu@mediatek.com>
- <1576222132-31586-3-git-send-email-yongqiang.niu@mediatek.com>
- <1576223825.9817.6.camel@mtksdaap41> <1576224672.31822.6.camel@mhfsdcap03>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10B096E2D3
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 08:27:46 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id p9so5329784wmc.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 00:27:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=JwuoHfqD4FyIs4KF1Ipmu8G5TBEwPS2a5x2rk/31xck=;
+ b=RZu/Wv0m4HqQgb7kZHHwyZiV72yCDHClDTjqRYig6G327C22KOVE23Gl4QlWIk4J9g
+ /mTwG/EcWHHf9sYXXpPtTpllj8NvhWZ9k5SsV4jgWzE2uqeHWssPggXoaT2gjyI8wre+
+ VqxL2RAU5YTssHRWil1Gz4l8a8O18PLMhlz0Fd0EfGvTrga/wRtXo8/VzsNwEzcaJc2o
+ kCgWLQL7844S7BROBTksqLxNyH5Y12iS0O9bHQi+v4QV3BqAKqGVjvm8V1yufjNHj3vI
+ SyFI8XHa40wO7C8ZTiULcUMVsX8duH9Oq530Z+8L5UrJXOxugLt6sFTO3yrlOsl2a4f/
+ pvOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=JwuoHfqD4FyIs4KF1Ipmu8G5TBEwPS2a5x2rk/31xck=;
+ b=OMDKTFVzIW6yzu29fIQG+dj3tRfIrFNyEtGjJ+yL5GAilyoWir10JtE22UPKqsqfS9
+ VjkEX3bNwZML2rUAg1xPtT9jPJWzGKilAdQbb7xBYQDDbwdbJfXEDSYSBq2rlSJ6nH3O
+ UAguKlKVwAQG5CcMET6QUgu7UtdoPnby/MNq9i8nG/aJ+JTYBJZ3pi6uNzplzQcT6p+T
+ 986Zs6vFugwzBBHZXBj7SiVmzmHDaKulQ/ZvLDH/7O+mfh5i/3j6FeENNAjDooaCpudi
+ yYvp6u9xUMJgQmU7lIB1wVcVRULjMQUg20f15kNWLp1GUWyrmQLqRClhcDn6tCXPOmMg
+ 762Q==
+X-Gm-Message-State: APjAAAXZlEAwH2VHZTaTOi2JUr+0yT2GSY1h8CADAdG4B1Zc922rwatI
+ 2gI+/O0BFscjrQsLqIvaVxKbYQ==
+X-Google-Smtp-Source: APXvYqw9NFR6SJCU7qpurkLNw/ZkJfL008Kue/7hzmCvNYuR/i+XEHjDwK63wFSkZZdj2Cmg0QgOSw==
+X-Received: by 2002:a1c:7918:: with SMTP id l24mr12505169wme.125.1576225664505; 
+ Fri, 13 Dec 2019 00:27:44 -0800 (PST)
+Received: from dell ([95.149.164.71])
+ by smtp.gmail.com with ESMTPSA id a133sm225770wme.29.2019.12.13.00.27.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Dec 2019 00:27:43 -0800 (PST)
+Date: Fri, 13 Dec 2019 08:27:34 +0000
+From: Lee Jones <lee.jones@linaro.org>
+To: Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH 2/3] mfd: intel_soc_pmic: Rename pwm_backlight pwm-lookup
+ to pwm_pmic_backlight
+Message-ID: <20191213082734.GE3468@dell>
+References: <20191119151818.67531-1-hdegoede@redhat.com>
+ <20191119151818.67531-3-hdegoede@redhat.com>
+ <20191210085111.GQ3468@dell>
+ <a05e5a2b-568e-2b0d-0293-aa937c590a74@redhat.com>
+ <20191212084546.GA3468@dell>
+ <d22e9a04-da09-0f41-a78e-ac17a947650a@redhat.com>
+ <20191212155209.GC3468@dell>
+ <4d07445d-98b1-f23c-0aac-07709b45df78@redhat.com>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: A851129E21DABD1DF0F98566625FD9BC66612988083901A582F8626C60B05ED22000:8
-X-MTK: N
+Content-Disposition: inline
+In-Reply-To: <4d07445d-98b1-f23c-0aac-07709b45df78@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,217 +76,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ "Rafael J . Wysocki" <rjw@rjwysocki.net>, linux-kernel@vger.kernel.org,
+ linux-acpi@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Len Brown <lenb@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Yongqiang:
-
-On Fri, 2019-12-13 at 16:11 +0800, Yongqiang Niu wrote:
-> On Fri, 2019-12-13 at 15:57 +0800, CK Hu wrote:
-> > On Fri, 2019-12-13 at 15:28 +0800, Yongqiang Niu wrote:
-> > > Add ctm property support
-> > > 
-> > > Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> > > ---
-> > >  drivers/gpu/drm/mediatek/mtk_drm_crtc.c     | 10 ++++-
-> > >  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 62 ++++++++++++++++++++++++++++-
-> > >  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  9 +++++
-> > >  3 files changed, 78 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> > > index 9a8e1d4..db3031e 100644
-> > > --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> > > +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> > > @@ -614,8 +614,10 @@ static void mtk_drm_crtc_atomic_flush(struct drm_crtc *crtc,
-> > >  	if (mtk_crtc->event)
-> > >  		mtk_crtc->pending_needs_vblank = true;
-> > >  	if (crtc->state->color_mgmt_changed)
-> > > -		for (i = 0; i < mtk_crtc->ddp_comp_nr; i++)
-> > > +		for (i = 0; i < mtk_crtc->ddp_comp_nr; i++) {
-> > >  			mtk_ddp_gamma_set(mtk_crtc->ddp_comp[i], crtc->state);
-> > > +			mtk_ddp_ctm_set(mtk_crtc->ddp_comp[i], crtc->state);
-> > > +		}
-> > >  	mtk_drm_crtc_hw_config(mtk_crtc);
-> > >  }
-> > >  
-> > > @@ -734,6 +736,7 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
-> > >  	int pipe = priv->num_pipes;
-> > >  	int ret;
-> > >  	int i;
-> > > +	bool has_ctm = false;
-> > >  	uint gamma_lut_size = 0;
-> > >  
-> > >  	if (!path)
-> > > @@ -787,6 +790,9 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
-> > >  
-> > >  		mtk_crtc->ddp_comp[i] = comp;
-> > >  
-> > > +		if (comp->funcs->ctm_set)
-> > > +			has_ctm = true;
-> > > +
-> > >  		if (comp->funcs->gamma_set)
-> > >  			gamma_lut_size = MTK_LUT_SIZE;
-> > >  	}
-> > > @@ -812,7 +818,7 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
-> > >  
-> > >  	if (gamma_lut_size)
-> > >  		drm_mode_crtc_set_gamma_size(&mtk_crtc->base, gamma_lut_size);
-> > > -	drm_crtc_enable_color_mgmt(&mtk_crtc->base, 0, false, gamma_lut_size);
-> > > +	drm_crtc_enable_color_mgmt(&mtk_crtc->base, 0, has_ctm, gamma_lut_size);
-> > 
-> > May enable color management when has gamma or ctm.
-> > 
-> > Regards,
-> > CK
-> > 
-> drm_crtc_enable_color_mgmt will check the parameter validation.
-> if has_ctm is false, will not attach ctm property.
-> if gamma_lut_size is zero, will not attach gamma property.
-
-You're right. So
-
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
-
-> 
-> 
-> > >  	priv->num_pipes++;
-> > >  	mutex_init(&mtk_crtc->hw_lock);
-> > >  
-> > > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> > > index cb3296f..182990a 100644
-> > > --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> > > +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> > > @@ -37,7 +37,15 @@
-> > >  #define CCORR_EN				BIT(0)
-> > >  #define DISP_CCORR_CFG				0x0020
-> > >  #define CCORR_RELAY_MODE			BIT(0)
-> > > +#define CCORR_ENGINE_EN				BIT(1)
-> > > +#define CCORR_GAMMA_OFF				BIT(2)
-> > > +#define CCORR_WGAMUT_SRC_CLIP			BIT(3)
-> > >  #define DISP_CCORR_SIZE				0x0030
-> > > +#define DISP_CCORR_COEF_0			0x0080
-> > > +#define DISP_CCORR_COEF_1			0x0084
-> > > +#define DISP_CCORR_COEF_2			0x0088
-> > > +#define DISP_CCORR_COEF_3			0x008C
-> > > +#define DISP_CCORR_COEF_4			0x0090
-> > >  
-> > >  #define DISP_DITHER_EN				0x0000
-> > >  #define DITHER_EN				BIT(0)
-> > > @@ -188,7 +196,7 @@ static void mtk_ccorr_config(struct mtk_ddp_comp *comp, unsigned int w,
-> > >  			     unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
-> > >  {
-> > >  	mtk_ddp_write(cmdq_pkt, h << 16 | w, comp, DISP_CCORR_SIZE);
-> > > -	mtk_ddp_write(cmdq_pkt, CCORR_RELAY_MODE, comp, DISP_CCORR_CFG);
-> > > +	mtk_ddp_write(cmdq_pkt, CCORR_ENGINE_EN, comp, DISP_CCORR_CFG);
-> > >  }
-> > >  
-> > >  static void mtk_ccorr_start(struct mtk_ddp_comp *comp)
-> > > @@ -201,6 +209,57 @@ static void mtk_ccorr_stop(struct mtk_ddp_comp *comp)
-> > >  	writel_relaxed(0x0, comp->regs + DISP_CCORR_EN);
-> > >  }
-> > >  
-> > > +/* Converts a DRM S31.32 value to the HW S1.10 format. */
-> > > +static u16 mtk_ctm_s31_32_to_s1_10(u64 in)
-> > > +{
-> > > +	u16 r;
-> > > +
-> > > +	/* Sign bit. */
-> > > +	r = in & BIT_ULL(63) ? BIT(11) : 0;
-> > > +
-> > > +	if ((in & GENMASK_ULL(62, 33)) > 0) {
-> > > +		/* identity value 0x100000000 -> 0x400, */
-> > > +		/* if bigger this, set it to max 0x7ff. */
-> > > +		r |= GENMASK(10, 0);
-> > > +	} else {
-> > > +		/* take the 11 most important bits. */
-> > > +		r |= (in >> 22) & GENMASK(10, 0);
-> > > +	}
-> > > +
-> > > +	return r;
-> > > +}
-> > > +
-> > > +static void mtk_ccorr_ctm_set(struct mtk_ddp_comp *comp,
-> > > +			      struct drm_crtc_state *state)
-> > > +{
-> > > +	struct drm_property_blob *blob = state->ctm;
-> > > +	struct drm_color_ctm *ctm;
-> > > +	const u64 *input;
-> > > +	uint16_t coeffs[9] = { 0 };
-> > > +	int i;
-> > > +	struct cmdq_pkt *cmdq_pkt = NULL;
-> > > +
-> > > +	if (!blob)
-> > > +		return;
-> > > +
-> > > +	ctm = (struct drm_color_ctm *)blob->data;
-> > > +	input = ctm->matrix;
-> > > +
-> > > +	for (i = 0; i < ARRAY_SIZE(coeffs); i++)
-> > > +		coeffs[i] = mtk_ctm_s31_32_to_s1_10(input[i]);
-> > > +
-> > > +	mtk_ddp_write(cmdq_pkt, coeffs[0] << 16 | coeffs[1],
-> > > +		      comp, DISP_CCORR_COEF_0);
-> > > +	mtk_ddp_write(cmdq_pkt, coeffs[2] << 16 | coeffs[3],
-> > > +		      comp, DISP_CCORR_COEF_1);
-> > > +	mtk_ddp_write(cmdq_pkt, coeffs[4] << 16 | coeffs[5],
-> > > +		      comp, DISP_CCORR_COEF_2);
-> > > +	mtk_ddp_write(cmdq_pkt, coeffs[6] << 16 | coeffs[7],
-> > > +		      comp, DISP_CCORR_COEF_3);
-> > > +	mtk_ddp_write(cmdq_pkt, coeffs[8] << 16,
-> > > +		      comp, DISP_CCORR_COEF_4);
-> > > +}
-> > > +
-> > >  static void mtk_dither_config(struct mtk_ddp_comp *comp, unsigned int w,
-> > >  			      unsigned int h, unsigned int vrefresh,
-> > >  			      unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
-> > > @@ -271,6 +330,7 @@ static void mtk_gamma_set(struct mtk_ddp_comp *comp,
-> > >  	.config = mtk_ccorr_config,
-> > >  	.start = mtk_ccorr_start,
-> > >  	.stop = mtk_ccorr_stop,
-> > > +	.ctm_set = mtk_ccorr_ctm_set,
-> > >  };
-> > >  
-> > >  static const struct mtk_ddp_comp_funcs ddp_dither = {
-> > > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> > > index 384abae..20fe55d 100644
-> > > --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> > > +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> > > @@ -92,6 +92,8 @@ struct mtk_ddp_comp_funcs {
-> > >  			  struct drm_crtc_state *state);
-> > >  	void (*bgclr_in_on)(struct mtk_ddp_comp *comp);
-> > >  	void (*bgclr_in_off)(struct mtk_ddp_comp *comp);
-> > > +	void (*ctm_set)(struct mtk_ddp_comp *comp,
-> > > +			struct drm_crtc_state *state);
-> > >  };
-> > >  
-> > >  struct mtk_ddp_comp {
-> > > @@ -205,6 +207,13 @@ static inline void mtk_ddp_comp_bgclr_in_off(struct mtk_ddp_comp *comp)
-> > >  		comp->funcs->bgclr_in_off(comp);
-> > >  }
-> > >  
-> > > +static inline void mtk_ddp_ctm_set(struct mtk_ddp_comp *comp,
-> > > +				   struct drm_crtc_state *state)
-> > > +{
-> > > +	if (comp->funcs && comp->funcs->ctm_set)
-> > > +		comp->funcs->ctm_set(comp, state);
-> > > +}
-> > > +
-> > >  int mtk_ddp_comp_get_id(struct device_node *node,
-> > >  			enum mtk_ddp_comp_type comp_type);
-> > >  int mtk_ddp_comp_init(struct device *dev, struct device_node *comp_node,
-> > 
-> > 
-> 
-> 
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCAxMiBEZWMgMjAxOSwgSGFucyBkZSBHb2VkZSB3cm90ZToKCj4gSGksCj4gCj4gT24g
+MTItMTItMjAxOSAxNjo1MiwgTGVlIEpvbmVzIHdyb3RlOgo+ID4gT24gVGh1LCAxMiBEZWMgMjAx
+OSwgSGFucyBkZSBHb2VkZSB3cm90ZToKPiA+IAo+ID4gPiBIaSwKPiA+ID4gCj4gPiA+IE9uIDEy
+LTEyLTIwMTkgMDk6NDUsIExlZSBKb25lcyB3cm90ZToKPiA+ID4gPiBPbiBXZWQsIDExIERlYyAy
+MDE5LCBIYW5zIGRlIEdvZWRlIHdyb3RlOgo+ID4gPiA+IAo+ID4gPiA+ID4gSGkgTGVlLAo+ID4g
+PiA+ID4gCj4gPiA+ID4gPiBPbiAxMC0xMi0yMDE5IDA5OjUxLCBMZWUgSm9uZXMgd3JvdGU6Cj4g
+PiA+ID4gPiA+IE9uIFR1ZSwgMTkgTm92IDIwMTksIEhhbnMgZGUgR29lZGUgd3JvdGU6Cj4gPiA+
+ID4gPiA+IAo+ID4gPiA+ID4gPiA+IEF0IGxlYXN0IEJheSBUcmFpbCAoQllUKSBhbmQgQ2hlcnJ5
+IFRyYWlsIChDSFQpIGRldmljZXMgY2FuIHVzZSAxIG9mIDIKPiA+ID4gPiA+ID4gPiBkaWZmZXJl
+bnQgUFdNIGNvbnRyb2xsZXJzIGZvciBjb250cm9sbGluZyB0aGUgTENEJ3MgYmFja2xpZ2h0IGJy
+aWdodG5lc3MuCj4gPiA+ID4gPiA+ID4gCj4gPiA+ID4gPiA+ID4gRWl0aGVyIHRoZSBvbmUgaW50
+ZWdyYXRlZCBpbnRvIHRoZSBQTUlDIG9yIHRoZSBvbmUgaW50ZWdyYXRlZCBpbnRvIHRoZQo+ID4g
+PiA+ID4gPiA+IFNvQyAodGhlIDFzdCBMUFNTIFBXTSBjb250cm9sbGVyKS4KPiA+ID4gPiA+ID4g
+PiAKPiA+ID4gPiA+ID4gPiBTbyBmYXIgaW4gdGhlIExQU1MgY29kZSBvbiBCWVQgd2UgaGF2ZSBz
+a2lwcGVkIHJlZ2lzdGVyaW5nIHRoZSBMUFNTIFBXTQo+ID4gPiA+ID4gPiA+IGNvbnRyb2xsZXIg
+InB3bV9iYWNrbGlnaHQiIGxvb2t1cCBlbnRyeSB3aGVuIGEgQ3J5c3RhbCBDb3ZlIFBNSUMgaXMK
+PiA+ID4gPiA+ID4gPiBwcmVzZW50LCBhc3N1bWluZyB0aGF0IGluIHRoaXMgY2FzZSB0aGUgUE1J
+QyBQV00gY29udHJvbGxlciB3aWxsIGJlIHVzZWQuCj4gPiA+ID4gPiA+ID4gCj4gPiA+ID4gPiA+
+ID4gT24gQ0hUIHdlIGhhdmUgYmVlbiByZWx5aW5nIG9uIG9ubHkgMSBvZiB0aGUgMiBQV00gY29u
+dHJvbGxlcnMgYmVpbmcKPiA+ID4gPiA+ID4gPiBlbmFibGVkIGluIHRoZSBEU0RUIGF0IHRoZSBz
+YW1lIHRpbWU7IGFuZCBhbHdheXMgcmVnaXN0ZXJlZCB0aGUgbG9va3VwLgo+ID4gPiA+ID4gPiA+
+IAo+ID4gPiA+ID4gPiA+IFNvIGZhciB0aGlzIGhhcyBiZWVuIHdvcmtpbmcsIGJ1dCB0aGUgY29y
+cmVjdCB3YXkgdG8gZGV0ZXJtaW5lIHdoaWNoIFBXTQo+ID4gPiA+ID4gPiA+IGNvbnRyb2xsZXIg
+bmVlZHMgdG8gYmUgdXNlZCBpcyBieSBjaGVja2luZyBhIGJpdCBpbiB0aGUgVkJUIHRhYmxlIGFu
+ZAo+ID4gPiA+ID4gPiA+IHJlY2VudGx5IEkndmUgbGVhcm5lZCBhYm91dCAyIGRpZmZlcmVudCBC
+WVQgZGV2aWNlczoKPiA+ID4gPiA+ID4gPiBQb2ludCBvZiBWaWV3IE1PQklJIFRBQi1QODAwVwo+
+ID4gPiA+ID4gPiA+IEFjZXIgU3dpdGNoIDEwIFNXNS0wMTIKPiA+ID4gPiA+ID4gPiAKPiA+ID4g
+PiA+ID4gPiBXaGljaCB1c2UgYSBDcnlzdGFsIENvdmUgUE1JQywgeWV0IHRoZSBMQ0QgaXMgY29u
+bmVjdGVkIHRvIHRoZSBTb0MvTFBTUwo+ID4gPiA+ID4gPiA+IFBXTSBjb250cm9sbGVyIChhbmQg
+dGhlIFZCVCBjb3JyZWN0bHkgaW5kaWNhdGVzIHRoaXMpLCBzbyBoZXJlIG91ciBvbGQKPiA+ID4g
+PiA+ID4gPiBoZXVyaXN0aWNzIGZhaWwuCj4gPiA+ID4gPiA+ID4gCj4gPiA+ID4gPiA+ID4gU2lu
+Y2Ugb25seSB0aGUgaTkxNSBkcml2ZXIgaGFzIGFjY2VzcyB0byB0aGUgVkJULCB0aGlzIGNvbW1p
+dCByZW5hbWVzCj4gPiA+ID4gPiA+ID4gdGhlICJwd21fYmFja2xpZ2h0IiBsb29rdXAgZW50cmll
+cyBmb3IgdGhlIENyeXN0YWwgQ292ZSBQTUlDJ3MgUFdNCj4gPiA+ID4gPiA+ID4gY29udHJvbGxl
+ciB0byAicHdtX3BtaWNfYmFja2xpZ2h0IiBzbyB0aGF0IHRoZSBpOTE1IGRyaXZlciBjYW4gZG8g
+YQo+ID4gPiA+ID4gPiA+IHB3bV9nZXQoKSBmb3IgdGhlIHJpZ2h0IGNvbnRyb2xsZXIgZGVwZW5k
+aW5nIG9uIHRoZSBWQlQgYml0LCBpbnN0ZWFkIG9mCj4gPiA+ID4gPiA+ID4gdGhlIGk5MTUgZHJp
+dmVyIHJlbHlpbmcgb24gYSAicHdtX2JhY2tsaWdodCIgbG9va3VwIGdldHRpbmcgcmVnaXN0ZXJl
+ZAo+ID4gPiA+ID4gPiA+IHdoaWNoIG1hZ2ljYWxseSBwb2ludHMgdG8gdGhlIHJpZ2h0IGNvbnRy
+b2xsZXIuCj4gPiA+ID4gPiA+ID4gCj4gPiA+ID4gPiA+ID4gU2lnbmVkLW9mZi1ieTogSGFucyBk
+ZSBHb2VkZSA8aGRlZ29lZGVAcmVkaGF0LmNvbT4KPiA+ID4gPiA+ID4gPiAtLS0KPiA+ID4gPiA+
+ID4gPiAgICAgZHJpdmVycy9tZmQvaW50ZWxfc29jX3BtaWNfY29yZS5jIHwgMiArLQo+ID4gPiA+
+ID4gPiA+ICAgICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
+PiA+ID4gPiA+ID4gCj4gPiA+ID4gPiA+IEZvciBteSBvd24gcmVmZXJlbmNlOgo+ID4gPiA+ID4g
+PiAgICAgIEFja2VkLWZvci1NRkQtYnk6IExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+
+Cj4gPiA+ID4gPiAKPiA+ID4gPiA+IEFzIG1lbnRpb25lZCBpbiB0aGUgY292ZXItbGV0dGVyLCB0
+byBhdm9pZCBicmVha2luZyBiaS1zZWN0YWJpbGl0eQo+ID4gPiA+ID4gYXMgd2VsbCBhcyB0byBh
+dm9pZCBicmVha2luZyB0aGUgaW50ZWwtZ2Z4IENJIHdlIG5lZWQgdG8gbWVyZ2UgdGhpcyBzZXJp
+ZXMKPiA+ID4gPiA+IGluIG9uZSBnbyB0aHJvdWdoIG9uZSB0cmVlLiBTcGVjaWZpY2FsbHkgdGhy
+b3VnaCB0aGUgZHJtLWludGVsIHRyZWUuCj4gPiA+ID4gPiBJcyB0aGF0IG9rIHdpdGggeW91ID8K
+PiA+ID4gPiA+IAo+ID4gPiA+ID4gSWYgdGhpcyBpcyBvayB3aXRoIHlvdSwgdGhlbiB5b3UgZG8g
+bm90IGhhdmUgdG8gZG8gYW55dGhpbmcsIEkgd2lsbCBqdXN0IHB1c2gKPiA+ID4gPiA+IHRoZSBl
+bnRpcmUgc2VyaWVzIHRvIGRybS1pbnRlbC4gZHJpdmVycy9tZmQvaW50ZWxfc29jX3BtaWNfY29y
+ZS5jCj4gPiA+ID4gPiBkb2VzIG5vdCBzZWUgbXVjaCBjaGFuZ2VzIHNvIEkgZG8gbm90IGV4cGVj
+dCB0aGlzIHRvIGxlYWQgdG8gYW55IGNvbmZsaWN0cy4KPiA+ID4gPiAKPiA+ID4gPiBJdCdzIGZp
+bmUsIHNvIGxvbmcgYXMgYSBtaW5pbWFsIGltbXV0YWJsZSBwdWxsLXJlcXVlc3QgaXMgcHJvdmlk
+ZWQuCj4gPiA+ID4gV2hldGhlciBpdCdzIHB1bGxlZCBvciBub3Qgd2lsbCBkZXBlbmQgb24gYSBu
+dW1iZXIgb2YgZmFjdG9ycywgYnV0IGl0Cj4gPiA+ID4gbmVlZHMgdG8gYmUgYW4gb3B0aW9uLgo+
+ID4gPiAKPiA+ID4gVGhlIHdheSB0aGUgZHJtIHN1YnN5cyB3b3JrcyB0aGF0IGlzIG5vdCByZWFs
+bHkgYSByZWFkaWx5IGF2YWlsYWJsZQo+ID4gPiBvcHRpb24uIFRoZSBzdHJ1Y3QgZGVmaW5pdGlv
+biB3aGljaCB0aGlzIHBhdGNoIGNoYW5nZXMgYSBzaW5nbGUgbGluZSBpbgo+ID4gPiBoYXMgbm90
+IGJlZW4gdG91Y2hlZCBzaW5jZSAyMDE1LTA2LTI2IHNvIEkgcmVhbGx5IGRvdWJ0IHdlIHdpbGwg
+Z2V0IGEKPiA+ID4gY29uZmxpY3QgZnJvbSB0aGlzLgo+ID4gCj4gPiBBbHdheXMgd2l0aCB0aGUg
+ZXhjZXB0aW9ucyAuLi4KPiA+IAo+ID4gT09JLCB3aHkgZG9lcyB0aGlzICpoYXZlKiB0byBnbyB0
+aHJvdWdoIHRoZSBEUk0gdHJlZT8KPiAKPiBUaGlzIHBhdGNoIHJlbmFtZXMgdGhlIG5hbWUgdXNl
+ZCB0byBsb29rdXAgdGhlIHB3bSBjb250cm9sbGVyIGZyb20KPiAicHdtX2JhY2tsaWdodCIgdG8g
+InB3bV9wbWljX2JhY2tsaWdodCIgYmVjYXVzZSB0aGVyZSBhcmUgMiBwb3NzaWJsZQo+IHB3bSBj
+b250cm9sbGVycyB3aGljaCBtYXkgYmUgdXNlZCwgb25lIGluIHRoZSBTb0MgaXRzZWxmIGFuZCBv
+bmUKPiBpbiB0aGUgUE1JQy4gV2hpY2ggY29udHJvbGxlciBzaG91bGQgYmUgdXNlZCBpcyBkZXNj
+cmliZWQgaW4gYSB0YWJsZQo+IGluIHRoZSBWaWRlbyBCSU9TLCBzbyBhbm90aGVyIHBhcnQgb2Yg
+dGhpcyBzZXJpZXMgYWRkcyB0aGlzIGNvZGUgdG8KPiB0aGUgaTkxNSBkcml2ZXI6Cj4gCj4gLQlw
+YW5lbC0+YmFja2xpZ2h0LnB3bSA9IHB3bV9nZXQoZGV2LT5kZXYsICJwd21fYmFja2xpZ2h0Iik7
+Cj4gKwkvKiBHZXQgdGhlIHJpZ2h0IFBXTSBjaGlwIGZvciBEU0kgYmFja2xpZ2h0IGFjY29yZGlu
+ZyB0byBWQlQgKi8KPiArCWlmIChkZXZfcHJpdi0+dmJ0LmRzaS5jb25maWctPnB3bV9ibGMgPT0g
+UFBTX0JMQ19QTUlDKSB7Cj4gKwkJcGFuZWwtPmJhY2tsaWdodC5wd20gPSBwd21fZ2V0KGRldi0+
+ZGV2LCAicHdtX3BtaWNfYmFja2xpZ2h0Iik7Cj4gKwkJZGVzYyA9ICJQTUlDIjsKPiArCX0gZWxz
+ZSB7Cj4gKwkJcGFuZWwtPmJhY2tsaWdodC5wd20gPSBwd21fZ2V0KGRldi0+ZGV2LCAicHdtX3Nv
+Y19iYWNrbGlnaHQiKTsKPiArCQlkZXNjID0gIlNvQyI7Cj4gKwl9Cj4gCj4gU28gYm90aCBub3Qg
+dG8gYnJlYWsgYmlzZWN0YWJpbGl0eSwgYnV0IGFsc28gc28gYXMgdG8gbm90IGJyZWFrIHRoZSBl
+eHRlbnNpdmUKPiBDSSBzeXN0ZW0gd2hpY2ggaXMgdXNlZCB0byB0ZXN0IHRoZSBpOTE1IGRyaXZl
+ciB3ZSBuZWVkIHRoZSBNRkQgY2hhbmdlIGRvaW5nCj4gdGhlIHJlbmFtZSB0byBnbyB1cHN0cnJl
+YW0gdGhyb3VnaCB0aGUgc2FtZSB0cmVlIGFzIHRoZSBpOTE1IGNoYW5nZS4KPiAKPiBJIGhhdmUg
+ZXZlbiBjb25zaWRlcmVkIGp1c3Qgc3F1YXNoaW5nIHRoZSAyIGNvbW1pdHMgdG9nZXRoZXIgYXMg
+aGF2aW5nIG9ubHkgMQo+IHByZXNlbnQsIGJ1dCBub3QgdGhlIG90aGVyIGJyZWFrcyBzdHVmZiBs
+ZWZ0IGFuZCByaWdodC4KClRoYXQgZG9lc24ndCBhbnN3ZXIgdGhlIHF1ZXN0aW9uLgoKV2h5IGRv
+IHRoZXkgYWxsICpoYXZlKiB0byBnbyBpbiB2aWEgdGhlIERSTSB0cmVlIHNwZWNpZmljYWxseT8K
+Ci0tIApMZWUgSm9uZXMgW+adjueQvOaWr10KTGluYXJvIFNlcnZpY2VzIFRlY2huaWNhbCBMZWFk
+CkxpbmFyby5vcmcg4pSCIE9wZW4gc291cmNlIHNvZnR3YXJlIGZvciBBUk0gU29DcwpGb2xsb3cg
+TGluYXJvOiBGYWNlYm9vayB8IFR3aXR0ZXIgfCBCbG9nCl9fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
+QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
