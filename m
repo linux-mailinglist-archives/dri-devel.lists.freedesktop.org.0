@@ -1,16 +1,16 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECE2A11ED74
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 23:07:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7839411ED76
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 23:07:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 685516EDE9;
-	Fri, 13 Dec 2019 22:07:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB4A66EDF8;
+	Fri, 13 Dec 2019 22:07:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51CB56EDE9;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 049BD6EDE6;
  Fri, 13 Dec 2019 22:07:32 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
@@ -18,14 +18,14 @@ Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
  13 Dec 2019 14:07:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,311,1571727600"; d="scan'208";a="216558909"
+X-IronPort-AV: E=Sophos;i="5.69,311,1571727600"; d="scan'208";a="216558915"
 Received: from nvishwa1-desk.sc.intel.com ([10.3.160.185])
- by orsmga006.jf.intel.com with ESMTP; 13 Dec 2019 14:07:31 -0800
+ by orsmga006.jf.intel.com with ESMTP; 13 Dec 2019 14:07:32 -0800
 From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [RFC v2 07/12] drm/i915/svm: Implicitly migrate pages upon CPU fault
-Date: Fri, 13 Dec 2019 13:56:09 -0800
-Message-Id: <20191213215614.24558-8-niranjana.vishwanathapura@intel.com>
+Subject: [RFC v2 08/12] drm/i915/svm: Page copy support during migration
+Date: Fri, 13 Dec 2019 13:56:10 -0800
+Message-Id: <20191213215614.24558-9-niranjana.vishwanathapura@intel.com>
 X-Mailer: git-send-email 2.21.0.rc0.32.g243a4c7e27
 In-Reply-To: <20191213215614.24558-1-niranjana.vishwanathapura@intel.com>
 References: <20191213215614.24558-1-niranjana.vishwanathapura@intel.com>
@@ -52,8 +52,7 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As PCIe is non-coherent link, do not allow direct memory access across
-PCIe link. Handle CPU fault by migrating pages back to host memory.
+Copy the pages duing SVM migration using memcpy().
 
 Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
 Cc: Jon Bloomfield <jon.bloomfield@intel.com>
@@ -61,92 +60,113 @@ Cc: Daniel Vetter <daniel.vetter@intel.com>
 Cc: Sudeep Dutt <sudeep.dutt@intel.com>
 Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 ---
- drivers/gpu/drm/i915/i915_svm_devmem.c | 70 +++++++++++++++++++++++++-
- 1 file changed, 69 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/i915/i915_svm_devmem.c | 72 ++++++++++++++++++++++++++
+ 1 file changed, 72 insertions(+)
 
 diff --git a/drivers/gpu/drm/i915/i915_svm_devmem.c b/drivers/gpu/drm/i915/i915_svm_devmem.c
-index 0a1f1394f196..98ab27879041 100644
+index 98ab27879041..2b0c7f4c51b8 100644
 --- a/drivers/gpu/drm/i915/i915_svm_devmem.c
 +++ b/drivers/gpu/drm/i915/i915_svm_devmem.c
-@@ -286,9 +286,77 @@ int i915_devmem_migrate_vma(struct intel_memory_region *mem,
- 	return ret;
+@@ -148,6 +148,69 @@ i915_devmem_page_free_locked(struct drm_i915_private *dev_priv,
+ 	put_page(page);
  }
  
-+static vm_fault_t
-+i915_devmem_fault_alloc_and_copy(struct i915_devmem_migrate *migrate)
++static int i915_migrate_cpu_copy(struct i915_devmem_migrate *migrate)
 +{
-+	struct device *dev = migrate->i915->drm.dev;
-+	struct migrate_vma *args = migrate->args;
-+	struct page *dpage, *spage;
++	const unsigned long *src = migrate->args->src;
++	unsigned long *dst = migrate->args->dst;
++	struct drm_i915_private *i915 = migrate->i915;
++	struct intel_memory_region *mem;
++	void *src_vaddr, *dst_vaddr;
++	u64 src_addr, dst_addr;
++	struct page *page;
++	int i, ret = 0;
 +
-+	DRM_DEBUG_DRIVER("start 0x%lx\n", args->start);
-+	/* Allocate host page */
-+	spage = migrate_pfn_to_page(args->src[0]);
-+	if (unlikely(!spage || !(args->src[0] & MIGRATE_PFN_MIGRATE)))
-+		return 0;
++	/* XXX: Copy multiple pages at a time */
++	for (i = 0; !ret && i < migrate->npages; i++) {
++		if (!dst[i])
++			continue;
 +
-+	dpage = alloc_page_vma(GFP_HIGHUSER, args->vma, args->start);
-+	if (unlikely(!dpage))
-+		return VM_FAULT_SIGBUS;
-+	lock_page(dpage);
++		page = migrate_pfn_to_page(dst[i]);
++		mem = i915->mm.regions[migrate->dst_id];
++		dst_addr = page_to_pfn(page);
++		if (migrate->dst_id != INTEL_REGION_SMEM)
++			dst_addr -= mem->devmem->pfn_first;
++		dst_addr <<= PAGE_SHIFT;
 +
-+	args->dst[0] = migrate_pfn(page_to_pfn(dpage)) | MIGRATE_PFN_LOCKED;
++		if (migrate->dst_id == INTEL_REGION_SMEM)
++			dst_vaddr = phys_to_virt(dst_addr);
++		else
++			dst_vaddr = io_mapping_map_atomic_wc(&mem->iomap,
++							     dst_addr);
++		if (unlikely(!dst_vaddr))
++			return -ENOMEM;
 +
-+	/* Copy the pages */
-+	migrate->npages = 1;
++		page = migrate_pfn_to_page(src[i]);
++		mem = i915->mm.regions[migrate->src_id];
++		src_addr = page_to_pfn(page);
++		if (migrate->src_id != INTEL_REGION_SMEM)
++			src_addr -= mem->devmem->pfn_first;
++		src_addr <<= PAGE_SHIFT;
 +
-+	return 0;
-+}
++		if (migrate->src_id == INTEL_REGION_SMEM)
++			src_vaddr = phys_to_virt(src_addr);
++		else
++			src_vaddr = io_mapping_map_atomic_wc(&mem->iomap,
++							     src_addr);
 +
-+void i915_devmem_fault_finalize_and_map(struct i915_devmem_migrate *migrate)
-+{
-+	DRM_DEBUG_DRIVER("\n");
-+}
++		if (likely(src_vaddr))
++			memcpy(dst_vaddr, src_vaddr, PAGE_SIZE);
++		else
++			ret = -ENOMEM;
 +
-+static inline struct i915_devmem *page_to_devmem(struct page *page)
-+{
-+	return container_of(page->pgmap, struct i915_devmem, pagemap);
-+}
++		if (migrate->dst_id != INTEL_REGION_SMEM)
++			io_mapping_unmap_atomic(dst_vaddr);
 +
- static vm_fault_t i915_devmem_migrate_to_ram(struct vm_fault *vmf)
- {
--	return VM_FAULT_SIGBUS;
-+	struct i915_devmem *devmem = page_to_devmem(vmf->page);
-+	struct drm_i915_private *i915 = devmem->i915;
-+	struct i915_devmem_migrate migrate = {0};
-+	unsigned long src = 0, dst = 0;
-+	vm_fault_t ret;
-+	struct migrate_vma args = {
-+		.vma		= vmf->vma,
-+		.start		= vmf->address,
-+		.end		= vmf->address + PAGE_SIZE,
-+		.src		= &src,
-+		.dst		= &dst,
-+	};
++		if (migrate->src_id != INTEL_REGION_SMEM && src_vaddr)
++			io_mapping_unmap_atomic(src_vaddr);
 +
-+	/* XXX: Opportunistically migrate more pages? */
-+	DRM_DEBUG_DRIVER("addr 0x%lx\n", args.start);
-+	migrate.i915 = i915;
-+	migrate.args = &args;
-+	migrate.src_id = INTEL_REGION_LMEM;
-+	migrate.dst_id = INTEL_REGION_SMEM;
-+	if (migrate_vma_setup(&args) < 0)
-+		return VM_FAULT_SIGBUS;
-+	if (!args.cpages)
-+		return 0;
++		DRM_DEBUG_DRIVER("src [%d] 0x%llx, dst [%d] 0x%llx\n",
++				 migrate->src_id, src_addr,
++				 migrate->dst_id, dst_addr);
++	}
 +
-+	ret = i915_devmem_fault_alloc_and_copy(&migrate);
-+	if (ret || dst == 0)
-+		goto done;
-+
-+	migrate_vma_pages(&args);
-+	i915_devmem_fault_finalize_and_map(&migrate);
-+done:
-+	migrate_vma_finalize(&args);
 +	return ret;
- }
++}
++
+ static int
+ i915_devmem_migrate_alloc_and_copy(struct i915_devmem_migrate *migrate)
+ {
+@@ -207,6 +270,8 @@ i915_devmem_migrate_alloc_and_copy(struct i915_devmem_migrate *migrate)
  
- static void i915_devmem_page_free(struct page *page)
+ 	/* Copy the pages */
+ 	migrate->npages = npages;
++	/* XXX: Flush the caches? */
++	ret = i915_migrate_cpu_copy(migrate);
+ migrate_out:
+ 	if (unlikely(ret)) {
+ 		for (i = 0; i < npages; i++) {
+@@ -292,6 +357,7 @@ i915_devmem_fault_alloc_and_copy(struct i915_devmem_migrate *migrate)
+ 	struct device *dev = migrate->i915->drm.dev;
+ 	struct migrate_vma *args = migrate->args;
+ 	struct page *dpage, *spage;
++	int err;
+ 
+ 	DRM_DEBUG_DRIVER("start 0x%lx\n", args->start);
+ 	/* Allocate host page */
+@@ -308,6 +374,12 @@ i915_devmem_fault_alloc_and_copy(struct i915_devmem_migrate *migrate)
+ 
+ 	/* Copy the pages */
+ 	migrate->npages = 1;
++	err = i915_migrate_cpu_copy(migrate);
++	if (unlikely(err)) {
++		__free_page(dpage);
++		args->dst[0] = 0;
++		return VM_FAULT_SIGBUS;
++	}
+ 
+ 	return 0;
+ }
 -- 
 2.21.0.rc0.32.g243a4c7e27
 
