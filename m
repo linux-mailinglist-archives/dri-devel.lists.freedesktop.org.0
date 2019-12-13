@@ -1,41 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CBDA11EDF1
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 23:38:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3801F11EE04
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 23:52:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB8E56EE01;
-	Fri, 13 Dec 2019 22:38:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD34E6EE05;
+	Fri, 13 Dec 2019 22:52:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19FF86EE01
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 22:38:27 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 09B119D6;
- Fri, 13 Dec 2019 23:38:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1576276706;
- bh=cIsowKdPJVy94nZ4lShtlxeLckbMS92Jb70sTXUXaoU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BTdqc75XYO2Pf0QZf1ofGCz6vcXqc8hbAzJuCIuSUuaRSygRjLFXAe/EKsTyR5+WS
- 95Mz7wlNqDq/myAPZLn1hGQV5bIU6jjn7oCVsKQqNYh67hJJ84FkMQ1QhjGUiDRO2w
- Ed/WTGS6RSXnmpkiR4g9H22mUA6dI6ynGL5UEQFQ=
-Date: Sat, 14 Dec 2019 00:38:16 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hsin-Yi Wang <hsinyi@chromium.org>
-Subject: Re: [PATCH RESEND 2/4] drm: bridge: anx7688: Add anx7688 bridge
- driver support.
-Message-ID: <20191213223816.GS4860@pendragon.ideasonboard.com>
-References: <20191211061911.238393-1-hsinyi@chromium.org>
- <20191211061911.238393-3-hsinyi@chromium.org>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7D296EE04;
+ Fri, 13 Dec 2019 22:52:04 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 13 Dec 2019 14:52:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,311,1571727600"; d="scan'208";a="221010019"
+Received: from orsmsx109.amr.corp.intel.com ([10.22.240.7])
+ by fmsmga001.fm.intel.com with ESMTP; 13 Dec 2019 14:52:04 -0800
+Received: from orsmsx163.amr.corp.intel.com (10.22.240.88) by
+ ORSMSX109.amr.corp.intel.com (10.22.240.7) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Fri, 13 Dec 2019 14:52:04 -0800
+Received: from orsmsx114.amr.corp.intel.com ([169.254.8.106]) by
+ ORSMSX163.amr.corp.intel.com ([169.254.9.4]) with mapi id 14.03.0439.000;
+ Fri, 13 Dec 2019 14:52:04 -0800
+From: "Li, Juston" <juston.li@intel.com>
+To: "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>
+Subject: Re: [RESEND PATCH v2] drm: Add getfb2 ioctl
+Thread-Topic: [RESEND PATCH v2] drm: Add getfb2 ioctl
+Thread-Index: AQHVsf1VpJTeCXa740K8tbGbjKRPbqe5Mf8A
+Date: Fri, 13 Dec 2019 22:52:03 +0000
+Message-ID: <aa2c2e05adc88b77b4a571cfb85517d7377afaa3.camel@intel.com>
+References: <20191003183125.4520-1-juston.li@intel.com>
+ <20191213213603.GK1208@intel.com>
+In-Reply-To: <20191213213603.GK1208@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.241.226.197]
+Content-ID: <C853E688D910E6499A9BD5818CBEF917@intel.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191211061911.238393-3-hsinyi@chromium.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,295 +56,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Nicolas Boichat <drinkcat@chromium.org>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Matthias Brugger <mbrugger@suse.com>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Russell King <rmk+kernel@arm.linux.org.uk>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "daniels@collabora.com" <daniels@collabora.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hsin-Yi and Nicolas,
-
-Thank you for the patch.
-
-On Wed, Dec 11, 2019 at 02:19:09PM +0800, Hsin-Yi Wang wrote:
-> From: Nicolas Boichat <drinkcat@chromium.org>
-> 
-> ANX7688 is a HDMI to DP converter (as well as USB-C port controller),
-> that has an internal microcontroller.
-> 
-> The only reason a Linux kernel driver is necessary is to reject
-> resolutions that require more bandwidth than what is available on
-> the DP side. DP bandwidth and lane count are reported by the bridge
-> via 2 registers on I2C.
-
-How about power, doesn't this chip have power supplies that potentially
-need to be controlled ?
-
-> Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> ---
->  drivers/gpu/drm/bridge/Kconfig            |   9 +
->  drivers/gpu/drm/bridge/Makefile           |   1 +
->  drivers/gpu/drm/bridge/analogix-anx7688.c | 202 ++++++++++++++++++++++
->  3 files changed, 212 insertions(+)
->  create mode 100644 drivers/gpu/drm/bridge/analogix-anx7688.c
-> 
-> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-> index 34362976cd6f..1f3fc6bec842 100644
-> --- a/drivers/gpu/drm/bridge/Kconfig
-> +++ b/drivers/gpu/drm/bridge/Kconfig
-> @@ -16,6 +16,15 @@ config DRM_PANEL_BRIDGE
->  menu "Display Interface Bridges"
->  	depends on DRM && DRM_BRIDGE
->  
-> +config DRM_ANALOGIX_ANX7688
-> +	tristate "Analogix ANX7688 bridge"
-> +	select DRM_KMS_HELPER
-> +	select REGMAP_I2C
-> +	---help---
-> +	  ANX7688 is a transmitter to support DisplayPort over USB-C for
-> +	  smartphone and tablets.
-> +	  This driver only supports the HDMI to DP component of the chip.
-> +
->  config DRM_ANALOGIX_ANX78XX
->  	tristate "Analogix ANX78XX bridge"
->  	select DRM_KMS_HELPER
-> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-> index 4934fcf5a6f8..7a1e0ec032e6 100644
-> --- a/drivers/gpu/drm/bridge/Makefile
-> +++ b/drivers/gpu/drm/bridge/Makefile
-> @@ -1,4 +1,5 @@
->  # SPDX-License-Identifier: GPL-2.0
-> +obj-$(CONFIG_DRM_ANALOGIX_ANX7688) += analogix-anx7688.o
->  obj-$(CONFIG_DRM_ANALOGIX_ANX78XX) += analogix-anx78xx.o
->  obj-$(CONFIG_DRM_CDNS_DSI) += cdns-dsi.o
->  obj-$(CONFIG_DRM_DUMB_VGA_DAC) += dumb-vga-dac.o
-> diff --git a/drivers/gpu/drm/bridge/analogix-anx7688.c b/drivers/gpu/drm/bridge/analogix-anx7688.c
-> new file mode 100644
-> index 000000000000..baaed48d6201
-> --- /dev/null
-> +++ b/drivers/gpu/drm/bridge/analogix-anx7688.c
-> @@ -0,0 +1,202 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * ANX7688 HDMI->DP bridge driver
-> + *
-> + * Copyright 2016 Google LLC
-> + */
-> +
-> +#include <linux/i2c.h>
-> +#include <linux/module.h>
-> +#include <linux/regmap.h>
-> +#include <drm/drm_bridge.h>
-> +
-> +/* Register addresses */
-> +#define VENDOR_ID_REG 0x00
-> +#define DEVICE_ID_REG 0x02
-> +
-> +#define FW_VERSION_REG 0x80
-> +
-> +#define DP_BANDWIDTH_REG 0x85
-> +#define DP_LANE_COUNT_REG 0x86
-
-Are these registers defined by the ANX7688 hardware, or by the firmware
-running on the chip (and, I assume, developed by Google) ?
-
-> +
-> +#define VENDOR_ID 0x1f29
-> +#define DEVICE_ID 0x7688
-> +
-> +/* First supported firmware version (0.85) */
-> +#define MINIMUM_FW_VERSION 0x0085
-> +
-> +struct anx7688 {
-> +	struct drm_bridge bridge;
-> +	struct i2c_client *client;
-> +	struct regmap *regmap;
-> +
-> +	bool filter;
-> +};
-> +
-> +static inline struct anx7688 *bridge_to_anx7688(struct drm_bridge *bridge)
-> +{
-> +	return container_of(bridge, struct anx7688, bridge);
-> +}
-> +
-> +static bool anx7688_bridge_mode_fixup(struct drm_bridge *bridge,
-> +				      const struct drm_display_mode *mode,
-> +				      struct drm_display_mode *adjusted_mode)
-> +{
-> +	struct anx7688 *anx7688 = bridge_to_anx7688(bridge);
-> +	u8 regs[2];
-> +	u8 dpbw, lanecount;
-> +	int totalbw, requiredbw;
-> +	int ret;
-> +
-> +	if (!anx7688->filter)
-> +		return true;
-> +
-> +	/* Read both regs 0x85 (bandwidth) and 0x86 (lane count). */
-> +	ret = regmap_bulk_read(anx7688->regmap, DP_BANDWIDTH_REG, regs, 2);
-> +	if (ret < 0) {
-> +		dev_err(&anx7688->client->dev,
-> +			"Failed to read bandwidth/lane count\n");
-> +		return false;
-> +	}
-> +	dpbw = regs[0];
-> +	lanecount = regs[1];
-> +
-> +	/* Maximum 0x19 bandwidth (6.75 Gbps Turbo mode), 2 lanes */
-> +	if (dpbw > 0x19 || lanecount > 2) {
-> +		dev_err(&anx7688->client->dev,
-> +			"Invalid bandwidth/lane count (%02x/%d)\n",
-> +			dpbw, lanecount);
-> +		return false;
-> +	}
-> +
-> +	/* Compute available bandwidth (kHz) */
-> +	totalbw = dpbw * lanecount * 270000 * 8 / 10;
-> +
-> +	/* Required bandwidth (8 bpc, kHz) */
-> +	requiredbw = mode->clock * 8 * 3;
-> +
-> +	dev_dbg(&anx7688->client->dev,
-> +		"DP bandwidth: %d kHz (%02x/%d); mode requires %d Khz\n",
-> +		totalbw, dpbw, lanecount, requiredbw);
-> +
-> +	if (totalbw == 0) {
-> +		dev_warn(&anx7688->client->dev,
-> +			 "Bandwidth/lane count are 0, not rejecting modes\n");
-> +		return true;
-> +	}
-> +
-> +	return totalbw >= requiredbw;
-> +}
-> +
-> +static const struct drm_bridge_funcs anx7688_bridge_funcs = {
-> +	.mode_fixup	= anx7688_bridge_mode_fixup,
-> +};
-> +
-> +static const struct regmap_config anx7688_regmap_config = {
-> +	.reg_bits = 8,
-> +	.val_bits = 8,
-> +};
-> +
-> +static int anx7688_i2c_probe(struct i2c_client *client,
-> +			     const struct i2c_device_id *id)
-> +{
-> +	struct anx7688 *anx7688;
-> +	struct device *dev = &client->dev;
-> +	int ret;
-> +	u8 buffer[4];
-> +	u16 vendor, device, fwversion;
-> +
-> +	anx7688 = devm_kzalloc(dev, sizeof(*anx7688), GFP_KERNEL);
-> +	if (!anx7688)
-> +		return -ENOMEM;
-> +
-> +#if IS_ENABLED(CONFIG_OF)
-> +	anx7688->bridge.of_node = client->dev.of_node;
-> +#endif
-> +
-> +	anx7688->client = client;
-> +	i2c_set_clientdata(client, anx7688);
-> +
-> +	anx7688->regmap =
-> +		devm_regmap_init_i2c(client, &anx7688_regmap_config);
-> +
-> +	/* Read both vendor and device id (4 bytes). */
-> +	ret = regmap_bulk_read(anx7688->regmap, VENDOR_ID_REG, buffer, 4);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to read chip vendor/device id\n");
-> +		return ret;
-> +	}
-> +
-> +	vendor = (u16)buffer[1] << 8 | buffer[0];
-> +	device = (u16)buffer[3] << 8 | buffer[2];
-> +	if (vendor != VENDOR_ID || device != DEVICE_ID) {
-> +		dev_err(dev, "Invalid vendor/device id %04x/%04x\n",
-> +			vendor, device);
-> +		return -ENODEV;
-> +	}
-> +
-> +	ret = regmap_bulk_read(anx7688->regmap, FW_VERSION_REG, buffer, 2);
-> +	if (ret) {
-> +		dev_err(&client->dev, "Failed to read firmware version\n");
-> +		return ret;
-> +	}
-> +
-> +	fwversion = (u16)buffer[0] << 8 | buffer[1];
-> +	dev_info(dev, "ANX7688 firwmare version %02x.%02x\n",
-> +		 buffer[0], buffer[1]);
-> +
-> +	/* FW version >= 0.85 supports bandwidth/lane count registers */
-> +	if (fwversion >= MINIMUM_FW_VERSION) {
-> +		anx7688->filter = true;
-> +	} else {
-> +		/* Warn, but not fail, for backwards compatibility. */
-> +		dev_warn(dev,
-> +			 "Old ANX7688 FW version (%02x.%02x), not filtering\n",
-> +			 buffer[0], buffer[1]);
-> +	}
-> +
-> +	anx7688->bridge.funcs = &anx7688_bridge_funcs;
-> +	drm_bridge_add(&anx7688->bridge);
-> +
-> +	return 0;
-> +}
-> +
-> +static int anx7688_i2c_remove(struct i2c_client *client)
-> +{
-> +	struct anx7688 *anx7688 = i2c_get_clientdata(client);
-> +
-> +	drm_bridge_remove(&anx7688->bridge);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct i2c_device_id anx7688_id[] = {
-> +	{ "anx7688", 0 },
-> +	{ /* sentinel */ }
-> +};
-> +
-> +MODULE_DEVICE_TABLE(i2c, anx7688_id);
-> +
-> +#if IS_ENABLED(CONFIG_OF)
-> +static const struct of_device_id anx7688_match_table[] = {
-> +	{ .compatible = "analogix,anx7688", },
-> +	{ /* sentinel */ },
-> +};
-> +MODULE_DEVICE_TABLE(of, anx7688_match_table);
-> +#endif
-> +
-> +static struct i2c_driver anx7688_driver = {
-> +	.driver = {
-> +		   .name = "anx7688",
-> +		   .of_match_table = of_match_ptr(anx7688_match_table),
-> +		  },
-> +	.probe = anx7688_i2c_probe,
-> +	.remove = anx7688_i2c_remove,
-> +	.id_table = anx7688_id,
-> +};
-> +
-> +module_i2c_driver(anx7688_driver);
-> +
-> +MODULE_DESCRIPTION("ANX7688 SlimPort Transmitter driver");
-> +MODULE_AUTHOR("Nicolas Boichat <drinkcat@chromium.org>");
-> +MODULE_LICENSE("GPL v2");
-
--- 
-Regards,
-
-Laurent Pinchart
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCAyMDE5LTEyLTEzIGF0IDIzOjM2ICswMjAwLCBWaWxsZSBTeXJqw6Rsw6Qgd3JvdGU6
+DQo+IE9uIFRodSwgT2N0IDAzLCAyMDE5IGF0IDExOjMxOjI1QU0gLTA3MDAsIEp1c3RvbiBMaSB3
+cm90ZToNCj4gPiBGcm9tOiBEYW5pZWwgU3RvbmUgPGRhbmllbHNAY29sbGFib3JhLmNvbT4NCj4g
+PiANCj4gPiBnZXRmYjIgYWxsb3dzIHVzIHRvIHBhc3MgbXVsdGlwbGUgcGxhbmVzIGFuZCBtb2Rp
+ZmllcnMsIGp1c3QgbGlrZQ0KPiA+IGFkZGZiMg0KPiA+IG92ZXIgYWRkZmIuDQo+ID4gDQo+ID4g
+Q2hhbmdlcyBzaW5jZSB2MToNCj4gPiAgLSB1bnVzZWQgbW9kaWZpZXJzIHNldCB0byAwIGluc3Rl
+YWQgb2YgRFJNX0ZPUk1BVF9NT0RfSU5WQUxJRA0KPiA+ICAtIHVwZGF0ZSBpb2N0bCBudW1iZXIN
+Cj4gPiANCj4gPiBTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgU3RvbmUgPGRhbmllbHNAY29sbGFib3Jh
+LmNvbT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBKdXN0b24gTGkgPGp1c3Rvbi5saUBpbnRlbC5jb20+
+DQo+ID4gLS0tDQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fY3J0Y19pbnRlcm5hbC5oIHwgICAy
+ICsNCj4gPiAgZHJpdmVycy9ncHUvZHJtL2RybV9mcmFtZWJ1ZmZlci5jICAgfCAxMTANCj4gPiAr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrDQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9kcm1faW9j
+dGwuYyAgICAgICAgIHwgICAxICsNCj4gPiAgaW5jbHVkZS91YXBpL2RybS9kcm0uaCAgICAgICAg
+ICAgICAgfCAgIDIgKw0KPiA+ICA0IGZpbGVzIGNoYW5nZWQsIDExNSBpbnNlcnRpb25zKCspDQo+
+ID4gDQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fY3J0Y19pbnRlcm5hbC5o
+DQo+ID4gYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2NydGNfaW50ZXJuYWwuaA0KPiA+IGluZGV4IGM3
+ZDVlNGMyMTQyMy4uMTZmMjQxMzQwM2FhIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS9kcm1fY3J0Y19pbnRlcm5hbC5oDQo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9jcnRj
+X2ludGVybmFsLmgNCj4gPiBAQCAtMjE2LDYgKzIxNiw4IEBAIGludCBkcm1fbW9kZV9ybWZiX2lv
+Y3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsDQo+ID4gIAkJCXZvaWQgKmRhdGEsIHN0cnVjdCBk
+cm1fZmlsZSAqZmlsZV9wcml2KTsNCj4gPiAgaW50IGRybV9tb2RlX2dldGZiKHN0cnVjdCBkcm1f
+ZGV2aWNlICpkZXYsDQo+ID4gIAkJICAgdm9pZCAqZGF0YSwgc3RydWN0IGRybV9maWxlICpmaWxl
+X3ByaXYpOw0KPiA+ICtpbnQgZHJtX21vZGVfZ2V0ZmIyX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNl
+ICpkZXYsDQo+ID4gKwkJCSAgdm9pZCAqZGF0YSwgc3RydWN0IGRybV9maWxlICpmaWxlX3ByaXYp
+Ow0KPiA+ICBpbnQgZHJtX21vZGVfZGlydHlmYl9pb2N0bChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2
+LA0KPiA+ICAJCQkgICB2b2lkICpkYXRhLCBzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGVfcHJpdik7DQo+
+ID4gIA0KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZyYW1lYnVmZmVyLmMN
+Cj4gPiBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZnJhbWVidWZmZXIuYw0KPiA+IGluZGV4IDU3NTY0
+MzE4Y2VlYS4uNmRiNTRmMTc3NDQzIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9k
+cm1fZnJhbWVidWZmZXIuYw0KPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZnJhbWVidWZm
+ZXIuYw0KPiA+IEBAIC0zMSw2ICszMSw3IEBADQo+ID4gICNpbmNsdWRlIDxkcm0vZHJtX2ZpbGUu
+aD4NCj4gPiAgI2luY2x1ZGUgPGRybS9kcm1fZm91cmNjLmg+DQo+ID4gICNpbmNsdWRlIDxkcm0v
+ZHJtX2ZyYW1lYnVmZmVyLmg+DQo+ID4gKyNpbmNsdWRlIDxkcm0vZHJtX2dlbS5oPg0KPiA+ICAj
+aW5jbHVkZSA8ZHJtL2RybV9wcmludC5oPg0KPiA+ICAjaW5jbHVkZSA8ZHJtL2RybV91dGlsLmg+
+DQo+ID4gIA0KPiA+IEBAIC01NDgsNyArNTQ5LDExNiBAQCBpbnQgZHJtX21vZGVfZ2V0ZmIoc3Ry
+dWN0IGRybV9kZXZpY2UgKmRldiwNCj4gPiAgDQo+ID4gIG91dDoNCj4gPiAgCWRybV9mcmFtZWJ1
+ZmZlcl9wdXQoZmIpOw0KPiA+ICsJcmV0dXJuIHJldDsNCj4gPiArfQ0KPiA+ICsNCj4gPiArLyoq
+DQo+ID4gKyAqIGRybV9tb2RlX2dldGZiMiAtIGdldCBleHRlbmRlZCBGQiBpbmZvDQo+ID4gKyAq
+IEBkZXY6IGRybSBkZXZpY2UgZm9yIHRoZSBpb2N0bA0KPiA+ICsgKiBAZGF0YTogZGF0YSBwb2lu
+dGVyIGZvciB0aGUgaW9jdGwNCj4gPiArICogQGZpbGVfcHJpdjogZHJtIGZpbGUgZm9yIHRoZSBp
+b2N0bCBjYWxsDQo+ID4gKyAqDQo+ID4gKyAqIExvb2t1cCB0aGUgRkIgZ2l2ZW4gaXRzIElEIGFu
+ZCByZXR1cm4gaW5mbyBhYm91dCBpdC4NCj4gPiArICoNCj4gPiArICogQ2FsbGVkIGJ5IHRoZSB1
+c2VyIHZpYSBpb2N0bC4NCj4gPiArICoNCj4gPiArICogUmV0dXJuczoNCj4gPiArICogWmVybyBv
+biBzdWNjZXNzLCBuZWdhdGl2ZSBlcnJubyBvbiBmYWlsdXJlLg0KPiA+ICsgKi8NCj4gPiAraW50
+IGRybV9tb2RlX2dldGZiMl9pb2N0bChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LA0KPiA+ICsJCQkg
+IHZvaWQgKmRhdGEsIHN0cnVjdCBkcm1fZmlsZSAqZmlsZV9wcml2KQ0KPiA+ICt7DQo+ID4gKwlz
+dHJ1Y3QgZHJtX21vZGVfZmJfY21kMiAqciA9IGRhdGE7DQo+ID4gKwlzdHJ1Y3QgZHJtX2ZyYW1l
+YnVmZmVyICpmYjsNCj4gPiArCXVuc2lnbmVkIGludCBpOw0KPiA+ICsJaW50IHJldDsNCj4gPiAr
+DQo+ID4gKwlpZiAoIWRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2LCBEUklWRVJfTU9ERVNFVCkp
+DQo+ID4gKwkJcmV0dXJuIC1FSU5WQUw7DQo+ID4gKw0KPiA+ICsJZmIgPSBkcm1fZnJhbWVidWZm
+ZXJfbG9va3VwKGRldiwgZmlsZV9wcml2LCByLT5mYl9pZCk7DQo+ID4gKwlpZiAoIWZiKQ0KPiA+
+ICsJCXJldHVybiAtRU5PRU5UOw0KPiA+ICsNCj4gPiArCS8qIEZvciBtdWx0aS1wbGFuZSBmcmFt
+ZWJ1ZmZlcnMsIHdlIHJlcXVpcmUgdGhlIGRyaXZlciB0byBwbGFjZQ0KPiA+IHRoZQ0KPiA+ICsJ
+ICogR0VNIG9iamVjdHMgZGlyZWN0bHkgaW4gdGhlIGRybV9mcmFtZWJ1ZmZlci4gRm9yIHNpbmds
+ZS0NCj4gPiBwbGFuZQ0KPiA+ICsJICogZnJhbWVidWZmZXJzLCB3ZSBjYW4gZmFsbCBiYWNrIHRv
+IGNyZWF0ZV9oYW5kbGUuDQo+ID4gKwkgKi8NCj4gPiArCWlmICghZmItPm9ialswXSAmJg0KPiA+
+ICsJICAgIChmYi0+Zm9ybWF0LT5udW1fcGxhbmVzID4gMSB8fCAhZmItPmZ1bmNzLT5jcmVhdGVf
+aGFuZGxlKSkNCj4gPiB7DQo+ID4gKwkJcmV0ID0gLUVOT0RFVjsNCj4gPiArCQlnb3RvIG91dDsN
+Cj4gPiArCX0NCj4gPiArDQo+ID4gKwlyLT5oZWlnaHQgPSBmYi0+aGVpZ2h0Ow0KPiA+ICsJci0+
+d2lkdGggPSBmYi0+d2lkdGg7DQo+ID4gKwlyLT5waXhlbF9mb3JtYXQgPSBmYi0+Zm9ybWF0LT5m
+b3JtYXQ7DQo+ID4gKw0KPiA+ICsJci0+ZmxhZ3MgPSAwOw0KPiA+ICsJaWYgKGRldi0+bW9kZV9j
+b25maWcuYWxsb3dfZmJfbW9kaWZpZXJzKQ0KPiA+ICsJCXItPmZsYWdzIHw9IERSTV9NT0RFX0ZC
+X01PRElGSUVSUzsNCj4gPiArDQo+ID4gKwlmb3IgKGkgPSAwOyBpIDwgQVJSQVlfU0laRShyLT5o
+YW5kbGVzKTsgaSsrKSB7DQo+ID4gKwkJci0+aGFuZGxlc1tpXSA9IDA7DQo+ID4gKwkJci0+cGl0
+Y2hlc1tpXSA9IDA7DQo+ID4gKwkJci0+b2Zmc2V0c1tpXSA9IDA7DQo+ID4gKwkJci0+bW9kaWZp
+ZXJbaV0gPSAwOw0KPiA+ICsJfQ0KPiA+ICANCj4gPiArCWZvciAoaSA9IDA7IGkgPCBmYi0+Zm9y
+bWF0LT5udW1fcGxhbmVzOyBpKyspIHsNCj4gPiArCQlpbnQgajsNCj4gPiArDQo+ID4gKwkJci0+
+cGl0Y2hlc1tpXSA9IGZiLT5waXRjaGVzW2ldOw0KPiA+ICsJCXItPm9mZnNldHNbaV0gPSBmYi0+
+b2Zmc2V0c1tpXTsNCj4gPiArCQlpZiAoZGV2LT5tb2RlX2NvbmZpZy5hbGxvd19mYl9tb2RpZmll
+cnMpDQo+ID4gKwkJCXItPm1vZGlmaWVyW2ldID0gZmItPm1vZGlmaWVyOw0KPiA+ICsNCj4gPiAr
+CQkvKiBJZiB3ZSByZXVzZSB0aGUgc2FtZSBvYmplY3QgZm9yIG11bHRpcGxlIHBsYW5lcywNCj4g
+PiBhbHNvDQo+ID4gKwkJICogcmV0dXJuIHRoZSBzYW1lIGhhbmRsZS4NCj4gPiArCQkgKi8NCj4g
+PiArCQlmb3IgKGogPSAwOyBqIDwgaTsgaisrKSB7DQo+ID4gKwkJCWlmIChmYi0+b2JqW2ldID09
+IGZiLT5vYmpbal0pIHsNCj4gPiArCQkJCXItPmhhbmRsZXNbaV0gPSByLT5oYW5kbGVzW2pdOw0K
+PiA+ICsJCQkJYnJlYWs7DQo+ID4gKwkJCX0NCj4gPiArCQl9DQo+ID4gKw0KPiA+ICsJCWlmIChy
+LT5oYW5kbGVzW2ldKQ0KPiA+ICsJCQljb250aW51ZTsNCj4gPiArDQo+ID4gKwkJaWYgKGZiLT5v
+YmpbaV0pIHsNCj4gPiArCQkJcmV0ID0gZHJtX2dlbV9oYW5kbGVfY3JlYXRlKGZpbGVfcHJpdiwg
+ZmItDQo+ID4gPm9ialtpXSwNCj4gPiArCQkJCQkJICAgICZyLT5oYW5kbGVzW2ldKTsNCj4gPiAr
+CQl9IGVsc2Ugew0KPiA+ICsJCQlXQVJOX09OKGkgPiAwKTsNCj4gPiArCQkJcmV0ID0gZmItPmZ1
+bmNzLT5jcmVhdGVfaGFuZGxlKGZiLCBmaWxlX3ByaXYsDQo+ID4gKwkJCQkJCSAgICAgICAmci0+
+aGFuZGxlc1tpXSk7DQo+ID4gKwkJfQ0KPiANCj4gZ2V0ZmIxIGRvZXNuJ3QgYWxsb3cgbm9uLW1h
+c3Rlci9yb290IHRvIHNlZSB0aGUgaGFuZGxlcy4gSGVyZSB3ZQ0KPiBkb24ndA0KPiBzZWVtIHRv
+IGhhdmUgdGhhdCBzYW1lIHByb3RlY3Rpb24/DQoNCkhtbSB5ZWFoIHNvcnJ5IEkgbWlzc2VkIHRo
+ZSBwcm90ZWN0aW9ucyBoYW5kbGluZy4NCkkgdGhpbmsgd2UgY2FuIGp1c3Qgc2V0IHRoZSBnZXRm
+YjIgaW9jdGwgZmxhZ3MgYXMNCkRSTV9NQVNURVJ8RFJNX1JPT1RfT05MWQ0KDQo+ID4gKw0KPiA+
+ICsJCWlmIChyZXQgIT0gMCkNCj4gPiArCQkJZ290byBvdXQ7DQo+IA0KPiBDb3VsZCBiZSBqdXN0
+ICdicmVhazsnIGFuZCB0aGVuIHdlIHdvdWxkbid0IGV2ZW4gbmVlZCB0aGUgbGFiZWwuDQoNCldp
+bGwgZG8uDQoNCj4gDQo+IFJlc3QgbGd0bS4NCj4gDQoNCk11Y2ggYXBwcmVjaWF0ZWQNCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
