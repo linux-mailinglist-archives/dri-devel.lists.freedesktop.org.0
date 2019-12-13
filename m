@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FABA11E738
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 16:59:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8B0811E736
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 16:59:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05C7F6EA2D;
-	Fri, 13 Dec 2019 15:59:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4622B6E915;
+	Fri, 13 Dec 2019 15:59:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F33A6E915
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEF5A6E929
  for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 15:59:19 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: andrzej.p) with ESMTPSA id 46B0C292C56
+ (Authenticated sender: andrzej.p) with ESMTPSA id D7F66292C5A
 From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCHv4 01/36] drm/framebuffer: Add optional modifier info
-Date: Fri, 13 Dec 2019 16:58:32 +0100
-Message-Id: <20191213155907.16581-2-andrzej.p@collabora.com>
+Subject: [PATCHv4 02/36] drm/core: Add afbc helper functions
+Date: Fri, 13 Dec 2019 16:58:33 +0100
+Message-Id: <20191213155907.16581-3-andrzej.p@collabora.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191213155907.16581-1-andrzej.p@collabora.com>
 References: <20191213155907.16581-1-andrzej.p@collabora.com>
@@ -47,49 +47,95 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-modifier_info is a pointer to an optional modifier-related information.
-Managing the memory needed for that information is the responsibility
-of drivers.
+Add checking if a modifier is afbc and getting afbc block size.
 
 Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 ---
- include/drm/drm_framebuffer.h | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ drivers/gpu/drm/drm_fourcc.c | 53 ++++++++++++++++++++++++++++++++++++
+ include/drm/drm_fourcc.h     |  4 +++
+ 2 files changed, 57 insertions(+)
 
-diff --git a/include/drm/drm_framebuffer.h b/include/drm/drm_framebuffer.h
-index c0e0256e3e98..2b3341b526d7 100644
---- a/include/drm/drm_framebuffer.h
-+++ b/include/drm/drm_framebuffer.h
+diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
+index b234bfaeda06..d14dd7c86020 100644
+--- a/drivers/gpu/drm/drm_fourcc.c
++++ b/drivers/gpu/drm/drm_fourcc.c
 @@ -29,6 +29,7 @@
  
- #include <drm/drm_mode_object.h>
+ #include <drm/drm_device.h>
+ #include <drm/drm_fourcc.h>
++#include <drm/drm_print.h>
  
-+struct drm_afbc;
- struct drm_clip_rect;
- struct drm_device;
- struct drm_file;
-@@ -139,6 +140,21 @@ struct drm_framebuffer {
- 	 * @format: framebuffer format information
- 	 */
- 	const struct drm_format_info *format;
+ static char printable_char(int c)
+ {
+@@ -393,3 +394,55 @@ uint64_t drm_format_info_min_pitch(const struct drm_format_info *info,
+ 			    drm_format_info_block_height(info, plane));
+ }
+ EXPORT_SYMBOL(drm_format_info_min_pitch);
 +
-+	union {
-+		/**
-+		 * @modifier_info: pointer to an optional modifier-related
-+		 * information. Managing the memory holding that information
-+		 * is driver's responsibility.
-+		 */
-+		void *modifier_info;
++/**
++ * drm_is_afbc - test if the modifier describes an afbc buffer
++ * @modifier - modifier to be tested
++ *
++ * Returns: true if the modifier describes an afbc buffer
++ */
++bool drm_is_afbc(u64 modifier)
++{
++	/* is it ARM AFBC? */
++	if ((modifier & DRM_FORMAT_MOD_ARM_AFBC(0)) == 0)
++		return false;
 +
-+		/**
-+		 * @afbc_info: afbc-specific pointer
-+		 */
-+		struct drm_afbc *afbc_info;
-+	};
++	/* Block size must be known */
++	if ((modifier & AFBC_FORMAT_MOD_BLOCK_SIZE_MASK) == 0)
++		return false;
 +
- 	/**
- 	 * @funcs: framebuffer vfunc table
- 	 */
++	return true;
++}
++EXPORT_SYMBOL_GPL(drm_is_afbc);
++
++/**
++ * drm_afbc_get_superblock_wh - extract afbc block width/height from modifier
++ * @modifier: the modifier to be looked at
++ * @w: address of a place to store the block width
++ * @h: address of a place to store the block height
++ *
++ * Returns: true if the modifier describes a supported block size
++ */
++bool drm_afbc_get_superblock_wh(u64 modifier, u32 *w, u32 *h)
++{
++	switch (modifier & AFBC_FORMAT_MOD_BLOCK_SIZE_MASK) {
++	case AFBC_FORMAT_MOD_BLOCK_SIZE_16x16:
++		*w = 16;
++		*h = 16;
++		break;
++	case AFBC_FORMAT_MOD_BLOCK_SIZE_32x8:
++		*w = 32;
++		*h = 8;
++		break;
++	case AFBC_FORMAT_MOD_BLOCK_SIZE_64x4:
++		/* fall through */
++	case AFBC_FORMAT_MOD_BLOCK_SIZE_32x8_64x4:
++		/* fall through */
++	default:
++		DRM_DEBUG_KMS("Invalid AFBC_FORMAT_MOD_BLOCK_SIZE: %lld.\n",
++			      modifier & AFBC_FORMAT_MOD_BLOCK_SIZE_MASK);
++		return false;
++	}
++	return true;
++}
++EXPORT_SYMBOL_GPL(drm_afbc_get_superblock_wh);
+diff --git a/include/drm/drm_fourcc.h b/include/drm/drm_fourcc.h
+index 306d1efeb5e0..7eb23062bf45 100644
+--- a/include/drm/drm_fourcc.h
++++ b/include/drm/drm_fourcc.h
+@@ -320,4 +320,8 @@ uint64_t drm_format_info_min_pitch(const struct drm_format_info *info,
+ 				   int plane, unsigned int buffer_width);
+ const char *drm_get_format_name(uint32_t format, struct drm_format_name_buf *buf);
+ 
++bool drm_is_afbc(u64 modifier);
++
++bool drm_afbc_get_superblock_wh(u64 modifier, u32 *w, u32 *h);
++
+ #endif /* __DRM_FOURCC_H__ */
 -- 
 2.17.1
 
