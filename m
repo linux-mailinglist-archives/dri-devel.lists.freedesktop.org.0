@@ -1,41 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A678511E2BD
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 12:25:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DF1611E2D9
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 12:35:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C2F4898C8;
-	Fri, 13 Dec 2019 11:25:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFB456E4FB;
+	Fri, 13 Dec 2019 11:35:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2554889872;
- Fri, 13 Dec 2019 11:25:08 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2019 03:25:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,309,1571727600"; d="scan'208";a="226258655"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga002.jf.intel.com with SMTP; 13 Dec 2019 03:25:03 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 13 Dec 2019 13:25:02 +0200
-Date: Fri, 13 Dec 2019 13:25:02 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1942A6E4F9
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 11:34:59 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id r19so2284236ljg.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 03:34:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=WogMzTkghm09DpbDrdprz0J+jLbOGZD7ka9HR9tpZTM=;
+ b=S+s1+bj8K/GF9H1kfq9SdXNfF3tV+tPJ73B4AupSUqSTQfp4oyDwMG3d9KT9qeSwVw
+ CYQ8Mq7S1dAIfz4IfWEoCEw3TWNgyRE4rLSmIwd6lvJZDx6Pe73++nkfsn9OaCCprWMK
+ g/R+NlSBoi1Fi7Db/pdaqbw4edRljX66OstnppV19WOr+hn2UgiPQVusELYNuopYfZJs
+ J8pzLnJEjBRxgoHaAyWdTlnRefLWA+C0CRlxW4UQ7DuhJa9NVtwT/6vNIbARrG8ZRtMO
+ LRT/G65I0quihezreJAkg8x7h8UjcfH08RZRBu8ZYBEnnSeBRWXwm3sefyjVYL1bOrEl
+ GINg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=WogMzTkghm09DpbDrdprz0J+jLbOGZD7ka9HR9tpZTM=;
+ b=tIbSX3l43ea/VMIzbEGC3OEkWuQ/zJBVWlNM/vnh1K6VELE9Uh78DEw0Lu9QB2OiDu
+ f82Ovvbxgw6QC+9BWESCJieTFOaTPkuIfN8J84FZP6usDoob7pbg6ruX9jkhdwgSXcGw
+ R919Lh7cXR7ZaKPF/nVqSgah5JT4rRnqUej75z5lj3nybnyCLjquWuaxHVyOupcYSUDE
+ YYlwAuBbrTS5CnwPmwgLKP+kBaWCii5U7nCYx+gCejpgsaGw31xMWmVDeUYH3LTTPx9s
+ pRNBdJFVW54+KchjYebLwrzmxkrPKLArEy7+Cr7takIC2pHyKX110J4sRToEe9tLmXB7
+ HAsw==
+X-Gm-Message-State: APjAAAXkWsj/pXUjElinOfb5pUeKygcDdUc09MKTTm582s4peb/CEA28
+ kr6AFHQh6JDTDwfikvA/AXE=
+X-Google-Smtp-Source: APXvYqx0S9LMd/azYXm+z5Gcvk4CWgCxwhIxL6ud+2R4LEY36MVvouhfAiLbmSxpMhmDk09K/DD1cg==
+X-Received: by 2002:a2e:a402:: with SMTP id p2mr9479233ljn.143.1576236897413; 
+ Fri, 13 Dec 2019 03:34:57 -0800 (PST)
+Received: from eldfell.localdomain ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id m15sm4731371ljg.4.2019.12.13.03.34.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Dec 2019 03:34:57 -0800 (PST)
+Date: Fri, 13 Dec 2019 13:34:46 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
 To: Sean Paul <sean@poorly.run>
-Subject: Re: [PATCH v2 11/12] drm/i915: Expose HDCP shim functions from dp
- for use by dp_mst
-Message-ID: <20191213112502.GX1208@intel.com>
-References: <20191212190230.188505-1-sean@poorly.run>
- <20191212190230.188505-12-sean@poorly.run>
+Subject: Re: [PATCH v3] drm: Funnel drm logs to tracepoints
+Message-ID: <20191213133446.392c9045@eldfell.localdomain>
+In-Reply-To: <20191212203301.142437-1-sean@poorly.run>
+References: <20191212203301.142437-1-sean@poorly.run>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191212190230.188505-12-sean@poorly.run>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,218 +65,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, daniel.vetter@ffwll.ch,
- Sean Paul <seanpaul@chromium.org>, dri-devel@lists.freedesktop.org,
- rodrigo.vivi@intel.com
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, Ingo Molnar <mingo@redhat.com>,
+ Sean Paul <seanpaul@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Steven Rostedt <rostedt@goodmis.org>
+Content-Type: multipart/mixed; boundary="===============1611054155=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 12, 2019 at 02:02:29PM -0500, Sean Paul wrote:
+--===============1611054155==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/vlxu4XzO8S1m1lOH5Cs/V=f"; protocol="application/pgp-signature"
+
+--Sig_/vlxu4XzO8S1m1lOH5Cs/V=f
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, 12 Dec 2019 15:32:35 -0500
+Sean Paul <sean@poorly.run> wrote:
+
 > From: Sean Paul <seanpaul@chromium.org>
-> =
-
-> These functions are all the same for dp and dp_mst, so expose them for
-> use by the dp_mst hdcp implementation.
-> =
-
+>=20
+> For a long while now, we (ChromeOS) have been struggling getting any
+> value out of user feedback reports of display failures (notably external
+> displays not working). The problem is that all logging, even fatal
+> errors (well, fatal in the sense that a display won't light up) are
+> logged at DEBUG log level. So in order to extract these logs, users need
+> to be able to turn on logging, and reproduce the issue with debug
+> enabled. Unfortunately, this isn't really something we can ask CrOS users
+> to do. I spoke with airlied about this and RHEL has similar issues. After
+> a few more people piped up on previous versions of this patch, it is a
+> Real Issue.
+>=20
+> So why don't we just enable DRM_UT_BLAH? Here are the reasons in
+> ascending order of severity:
+>  1- People aren't consistent with their categories, so we'd have to
+>     enable a bunch to get proper coverage
+>  2- We don't want to overwhelm syslog with drm spam, others have to use
+>     it too
+>  3- Console logging is slow
+>=20
+> So what we really want is a ringbuffer of the most recent logs
+> (filtered by categories we're interested in) exposed via debugfs so the
+> logs can be extracted when users file feedback.
+>=20
+> It just so happens that there is something which does _exactly_ this!
+> This patch dumps drm logs into tracepoints, which allows us to turn traci=
+ng
+> on and off depending on which category is useful, and pull them from
+> tracefs on demand.
+>=20
+> What about trace_printk()? It doesn't give us the control we get from usi=
+ng
+> tracepoints and it's not meant to be left sprinkled around in code.
+>=20
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Rob Clark <robdclark@gmail.com>
+> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 > Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> Link: https://patchwork.freedesktop.org/patch/msgid/20191203173638.94919-=
-11-sean@poorly.run #v1
-> =
-
+> Link: https://patchwork.freedesktop.org/patch/msgid/20191010204823.195540=
+-1-sean@poorly.run #v1
+>=20
 > Changes in v2:
-> -none
+> - Went with a completely different approach: https://lists.freedesktop.or=
+g/archives/dri-devel/2019-November/243230.html
+>=20
+> Changes in v3:
+> - Changed commit message to be a bit less RFC-y
+> - Make class_drm_category_log an actual trace class
 > ---
->  .../drm/i915/display/intel_display_types.h    | 22 +++++++++++++++++++
->  drivers/gpu/drm/i915/display/intel_dp.c       | 14 ++----------
->  2 files changed, 24 insertions(+), 12 deletions(-)
-> =
+>=20
+> Even though we don't want it to be, this is UAPI. So here's some userspace
+> code which uses it:
+> https://chromium-review.googlesource.com/c/chromiumos/platform2/+/1965562
+>=20
+>=20
+>  drivers/gpu/drm/drm_print.c      | 143 ++++++++++++++++++++++++++-----
+>  include/trace/events/drm_print.h | 116 +++++++++++++++++++++++++
+>  2 files changed, 239 insertions(+), 20 deletions(-)
+>  create mode 100644 include/trace/events/drm_print.h
 
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers=
-/gpu/drm/i915/display/intel_display_types.h
-> index ac5af925e403..b9e1f4638ff2 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+Hi,
 
-Don't we have have intel_dp.h these days?
+reading the userspace patch is very enlightening, thanks.
 
-In fact might be nice to lift all the DP hdcp stuff into its own file.
-But not sure if that's doable or not.
+It uses debugfs, and it uses the generic tracing UAPI. When all
+distributions will enable this debug logging like you do in your
+userspace patch (I really want that to be the end result, since
+otherwise we are back to asking people to manually enable debug and then
+reproduce the failure), does that scale?
 
-> @@ -1636,4 +1636,26 @@ static inline u32 intel_plane_ggtt_offset(const st=
-ruct intel_plane_state *state)
->  	return i915_ggtt_offset(state->vma);
->  }
->  =
+What if V4L2 is the next one deciding they need a similar logging
+framework to debug camera issues? If the trace log is already flooded
+with DRM messages, it will be useless for them?
 
-> +int intel_dp_hdcp_write_an_aksv(struct intel_digital_port *intel_dig_por=
-t,
-> +				u8 *an);
-> +int intel_dp_hdcp_read_bksv(struct intel_digital_port *intel_dig_port,
-> +			    u8 *bksv);
-> +int intel_dp_hdcp_read_bstatus(struct intel_digital_port *intel_dig_port,
-> +				      u8 *bstatus);
-> +int intel_dp_hdcp_read_bcaps(struct intel_digital_port *intel_dig_port,
-> +			     u8 *bcaps);
-> +int intel_dp_hdcp_repeater_present(struct intel_digital_port *intel_dig_=
-port,
-> +				   bool *repeater_present);
-> +int intel_dp_hdcp_read_ri_prime(struct intel_digital_port *intel_dig_por=
-t,
-> +				u8 *ri_prime);
-> +int intel_dp_hdcp_read_ksv_ready(struct intel_digital_port *intel_dig_po=
-rt,
-> +				 bool *ksv_ready);
-> +int intel_dp_hdcp_read_ksv_fifo(struct intel_digital_port *intel_dig_por=
-t,
-> +				int num_downstream, u8 *ksv_fifo);
-> +int intel_dp_hdcp_read_v_prime_part(struct intel_digital_port *intel_dig=
-_port,
-> +				    int i, u32 *part);
-> +bool intel_dp_hdcp_check_link(struct intel_digital_port *intel_dig_port);
-> +int intel_dp_hdcp_capable(struct intel_digital_port *intel_dig_port,
-> +			  bool *hdcp_capable);
-> +
->  #endif /*  __INTEL_DISPLAY_TYPES_H__ */
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i9=
-15/display/intel_dp.c
-> index 155067657e23..3d62b1b7224e 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -5915,7 +5915,6 @@ static void intel_dp_hdcp_wait_for_cp_irq(struct in=
-tel_hdcp *hdcp, int timeout)
->  		DRM_DEBUG_KMS("Timedout at waiting for CP_IRQ\n");
->  }
->  =
+Or maybe someone else wants their piece and flood it even more
+aggressively than DRM, making the DRM messages disappear before they
+can be saved?
 
-> -static
->  int intel_dp_hdcp_write_an_aksv(struct intel_digital_port *intel_dig_por=
-t,
->  				u8 *an)
->  {
-> @@ -5947,8 +5946,7 @@ int intel_dp_hdcp_write_an_aksv(struct intel_digita=
-l_port *intel_dig_port,
->  	return 0;
->  }
->  =
+Is there a way to pull out messages
+from /sys/kernel/debug/tracing/trace and filter them on reading instead
+of on writing?
 
-> -static int intel_dp_hdcp_read_bksv(struct intel_digital_port *intel_dig_=
-port,
-> -				   u8 *bksv)
-> +int intel_dp_hdcp_read_bksv(struct intel_digital_port *intel_dig_port, u=
-8 *bksv)
->  {
->  	ssize_t ret;
->  	ret =3D drm_dp_dpcd_read(&intel_dig_port->dp.aux, DP_AUX_HDCP_BKSV, bks=
-v,
-> @@ -5960,7 +5958,7 @@ static int intel_dp_hdcp_read_bksv(struct intel_dig=
-ital_port *intel_dig_port,
->  	return 0;
->  }
->  =
 
-> -static int intel_dp_hdcp_read_bstatus(struct intel_digital_port *intel_d=
-ig_port,
-> +int intel_dp_hdcp_read_bstatus(struct intel_digital_port *intel_dig_port,
->  				      u8 *bstatus)
->  {
->  	ssize_t ret;
-> @@ -5978,7 +5976,6 @@ static int intel_dp_hdcp_read_bstatus(struct intel_=
-digital_port *intel_dig_port,
->  	return 0;
->  }
->  =
+Thanks,
+pq
 
-> -static
->  int intel_dp_hdcp_read_bcaps(struct intel_digital_port *intel_dig_port,
->  			     u8 *bcaps)
->  {
-> @@ -5994,7 +5991,6 @@ int intel_dp_hdcp_read_bcaps(struct intel_digital_p=
-ort *intel_dig_port,
->  	return 0;
->  }
->  =
+--Sig_/vlxu4XzO8S1m1lOH5Cs/V=f
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-> -static
->  int intel_dp_hdcp_repeater_present(struct intel_digital_port *intel_dig_=
-port,
->  				   bool *repeater_present)
->  {
-> @@ -6009,7 +6005,6 @@ int intel_dp_hdcp_repeater_present(struct intel_dig=
-ital_port *intel_dig_port,
->  	return 0;
->  }
->  =
+-----BEGIN PGP SIGNATURE-----
 
-> -static
->  int intel_dp_hdcp_read_ri_prime(struct intel_digital_port *intel_dig_por=
-t,
->  				u8 *ri_prime)
->  {
-> @@ -6023,7 +6018,6 @@ int intel_dp_hdcp_read_ri_prime(struct intel_digita=
-l_port *intel_dig_port,
->  	return 0;
->  }
->  =
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl3zd1YACgkQI1/ltBGq
+qqe+fA//dhrmHYCO5afLPPkNlA7MbFAfI6F1SxqM7/e+aS8Qq0ySNCikHR7VEsb5
+qna/KRNcBRSH+FKuBdB4QddvqWL0/1gsp6M2VPhcmzXKKyT+fSK71yt6P4atOunJ
+d1vDSYtV5o/2hZBg9sZ3uPCX+lPBacX/Y+NH1r5SwbytpYmxFDuSMInhQkfGN3iJ
+ijzBnWlUEFOydANQ+mOxgQK5RRQtiBg4w52+R11pltuc6QXYIEwNoxVVYGnk3kXQ
+zXhqNTjE3bke4IgcjIlL40jFgYecXbhn3kaDWITRiwaGP65T6umCs3/J/stL0NYw
+i0da4gbmPOmAY6iPMc08lgsVpdphaKzcO2VHBo1jTZ0NtiCw/Cgic5wgmAVpMQ0F
+JX42nGTESAvdkxKav0LWOMOtbNgr2ZOGDvWd89mHxVNt/T573axN52uNTSD/qhdU
+M+8TIqu3VuZPDbYnygy1rWdjdVODmyDDQcIAKR2oe1rIJOJl5s9WX1WJuw7KIgrB
+2wbtuuDZWzbeCdGRVk9I+TlJkugArXu8aU0YnRrbroFJAPvfOSuXYpUCoXW8NQsd
+kEhNiKnbbJmnazwerIaWPYBNOiU1K+n9Br/pN2jNU96ISmoGRRu0tZ7FYRsORWpT
+t02tOKXtrtnJoHW+nDAihCJS95dI5d7sDSwok+cKC3GGo8EaZyU=
+=5wgt
+-----END PGP SIGNATURE-----
 
-> -static
->  int intel_dp_hdcp_read_ksv_ready(struct intel_digital_port *intel_dig_po=
-rt,
->  				 bool *ksv_ready)
->  {
-> @@ -6039,7 +6033,6 @@ int intel_dp_hdcp_read_ksv_ready(struct intel_digit=
-al_port *intel_dig_port,
->  	return 0;
->  }
->  =
+--Sig_/vlxu4XzO8S1m1lOH5Cs/V=f--
 
-> -static
->  int intel_dp_hdcp_read_ksv_fifo(struct intel_digital_port *intel_dig_por=
-t,
->  				int num_downstream, u8 *ksv_fifo)
->  {
-> @@ -6062,7 +6055,6 @@ int intel_dp_hdcp_read_ksv_fifo(struct intel_digita=
-l_port *intel_dig_port,
->  	return 0;
->  }
->  =
+--===============1611054155==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-> -static
->  int intel_dp_hdcp_read_v_prime_part(struct intel_digital_port *intel_dig=
-_port,
->  				    int i, u32 *part)
->  {
-> @@ -6090,7 +6082,6 @@ int intel_dp_hdcp_toggle_signalling(struct intel_di=
-gital_port *intel_dig_port,
->  	return 0;
->  }
->  =
-
-> -static
->  bool intel_dp_hdcp_check_link(struct intel_digital_port *intel_dig_port)
->  {
->  	ssize_t ret;
-> @@ -6106,7 +6097,6 @@ bool intel_dp_hdcp_check_link(struct intel_digital_=
-port *intel_dig_port)
->  	return !(bstatus & (DP_BSTATUS_LINK_FAILURE | DP_BSTATUS_REAUTH_REQ));
->  }
->  =
-
-> -static
->  int intel_dp_hdcp_capable(struct intel_digital_port *intel_dig_port,
->  			  bool *hdcp_capable)
->  {
-> -- =
-
-> Sean Paul, Software Engineer, Google / Chromium OS
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1611054155==--
