@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC0F711EEB4
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 00:46:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC6F111EEB1
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 00:46:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A60236EE1F;
-	Fri, 13 Dec 2019 23:46:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1DFF6EE1B;
+	Fri, 13 Dec 2019 23:46:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
- [IPv6:2607:f8b0:4864:20::1043])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 960C86EE1C
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 23:46:11 +0000 (UTC)
-Received: by mail-pj1-x1043.google.com with SMTP id ca19so376512pjb.8
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 15:46:11 -0800 (PST)
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A0CE6EE1D
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 23:46:12 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id a33so245790pgm.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 15:46:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=B6LIeoTVZ0mSbD6IzEagXEecwbraqAgXImg4I6o6rHs=;
- b=Lp92qpj8fKawZZY2uN6T5piVEduUDjdzcCNQTjlLrHnzFSGrfbxAAfg7FieIRuqAFr
- uJ/fw8Hn4w+UrCrVZjMvHmVpyoxQ5MZhtFoIkJeyS7BzT2TXjjoY+tYcF0KrJoU7+/NZ
- vstBHEBCmCgKW7xCX1QkUikRPTkxntOPMGEaE=
+ bh=cA4UDUHuCTqvlIh454k1CuQ9LBQaRg6FJ8cZd003K1c=;
+ b=F6arw4C77gsnO3MMZuHtdQgaIV/tPDc/9xs0Znpn4zcamJF2EiYYwM5SXXX2RsSfuE
+ e9ArJWGHwqypnETr+1RR9JJD+hpKmoraaTH7+w7y7h9RaBPlrMwoSUhLrOWJq43A75T1
+ YxoGhGHLaC29Halx1mNtG/A8Ea3eSPKLP/0CI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=B6LIeoTVZ0mSbD6IzEagXEecwbraqAgXImg4I6o6rHs=;
- b=KH06meI5NaK/pBenVeC6LKH1Q4limTPnFYN3imvM1kOvANuKs/icmW77BEaswXNZfL
- eJVRX397KAJcrBPHb6zu+kuaP4OarKyWYcVUO9/tjdJDNVo/ZAwzP/inOPz3f9TUnTWl
- Um7fggBGlm6gfOT4LiMIs23YouAkNfTvSjDq+0P9HUiNwIss/6POs3oTtQdeUuGE/qaW
- AvHUNdViOKsmrhs1Z+4+/k69E2Mu5ybQ7sFvXY8mQBo4ijesfTPWZ+SIGfMu8KuRzstV
- KoEB06XRkqutfxw0DEkBDPFg00XJn/H4re4u2R7taoOYnXaqhT8Gnsz3pqDGm+XyaR+r
- hsHA==
-X-Gm-Message-State: APjAAAXtjIAsycVbCSY0N6wqeIKr+6VhxYzCbanF+7k6suljE3FS23ZM
- kCfDlIlWBqvlj3j/jj1hkDNedg==
-X-Google-Smtp-Source: APXvYqxOJks8ZZgxLNYKvJKGtY58eWEkqLn6dZCZr5NmJLSRyIAXQFmyMNn3YHwby5HYWehJbWYFtw==
-X-Received: by 2002:a17:90b:8d6:: with SMTP id
- ds22mr2489968pjb.100.1576280770985; 
- Fri, 13 Dec 2019 15:46:10 -0800 (PST)
+ bh=cA4UDUHuCTqvlIh454k1CuQ9LBQaRg6FJ8cZd003K1c=;
+ b=N5flsKJ4Wfmg7iODHpFfe3Ibn/NU8kD625OgVrNFn9Zcxw1sniJC3z07Zc10pnuaGK
+ LYsh2jxlq8CIyxWRLpRkzD24emmTH5h9qW34mTCYIYt+D2xNzy+00sGBUTu6xkkQ2IEY
+ RuBiprOWIAxnFWD5sA6dame14Rbkez6O7+y4DXj19pUZoOGgmVuDBl6Vh3XPN7ZppaLh
+ CWNn3/YI5JSN1LogkS1+1WNVfrtUDN+cktuNzar3z6jvlXs3H+t8YloogWnfx69yriSc
+ hracwlQPpVLRHptJgNDKYkixQfmZ1BJJtZNp4klNIYOTgh3piXT40X6dWIkJunzGgjbf
+ lX/w==
+X-Gm-Message-State: APjAAAV103VO9L2qF6kjETJq9pfY9gWa8wzbhcYx4nvCTVSSUz3xLEOu
+ qHLF5+NiXKwEa1uuGukCT8yUbw==
+X-Google-Smtp-Source: APXvYqyWbcMVX6RrILQqSb7dvBaskEzzs7sYm+xMlYD7IHgX8YdOLFiBpC076Ti6YOU5glF8ziBxIQ==
+X-Received: by 2002:a63:5407:: with SMTP id i7mr2453004pgb.330.1576280772173; 
+ Fri, 13 Dec 2019 15:46:12 -0800 (PST)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:202:1:24fa:e766:52c9:e3b2])
- by smtp.gmail.com with ESMTPSA id z19sm12282905pfn.49.2019.12.13.15.46.09
+ by smtp.gmail.com with ESMTPSA id z19sm12282905pfn.49.2019.12.13.15.46.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Dec 2019 15:46:10 -0800 (PST)
+ Fri, 13 Dec 2019 15:46:11 -0800 (PST)
 From: Douglas Anderson <dianders@chromium.org>
 To: Andrzej Hajda <a.hajda@samsung.com>,
  Neil Armstrong <narmstrong@baylibre.com>
-Subject: [PATCH 6/9] drm/bridge: ti-sn65dsi86: Use 18-bit DP if we can
-Date: Fri, 13 Dec 2019 15:45:27 -0800
-Message-Id: <20191213154448.6.Iaf8d698f4e5253d658ae283d2fd07268076a7c27@changeid>
+Subject: [PATCH 7/9] drm/bridge: ti-sn65dsi86: Group DP link training bits in
+ a function
+Date: Fri, 13 Dec 2019 15:45:28 -0800
+Message-Id: <20191213154448.7.I1fc75ad11db9048ef08cfe1ab7322753d9a219c7@changeid>
 X-Mailer: git-send-email 2.24.1.735.g03f4e72817-goog
 In-Reply-To: <20191213234530.145963-1-dianders@chromium.org>
 References: <20191213234530.145963-1-dianders@chromium.org>
@@ -77,89 +77,133 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current bridge driver always forced us to use 24 bits per pixel
-over the DP link.  This is a waste if you are hooked up to a panel
-that only supports 6 bits per color or fewer, since in that case you
-ran run at 18 bits per pixel and thus end up at a lower DP clock rate.
-
-Let's support this.
-
-While at it, let's clean up the math in the function to avoid rounding
-errors (and round in the correct direction when we have to round).
-Numbers are sufficiently small (because mode->clock is in kHz) that we
-don't need to worry about integer overflow.
+We'll re-organize the ti_sn_bridge_enable() function a bit to group
+together all the parts relating to link training and split them into a
+sub-function.  This is not intended to have any functional change and
+is in preparation for trying link training several times at different
+rates.  One small side effect here is that if link training fails
+we'll now leave the DP PLL disabled, but that seems like a sane thing
+to do.
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
 
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 27 ++++++++++++++++++---------
- 1 file changed, 18 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 86 ++++++++++++++++-----------
+ 1 file changed, 52 insertions(+), 34 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 0fc9e97b2d98..d5990a0947b9 100644
+index d5990a0947b9..48fb4dc72e1c 100644
 --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -51,6 +51,7 @@
- #define SN_ENH_FRAME_REG			0x5A
- #define  VSTREAM_ENABLE				BIT(3)
- #define SN_DATA_FORMAT_REG			0x5B
-+#define  BPP_18_RGB				BIT(0)
- #define SN_HPD_DISABLE_REG			0x5C
- #define  HPD_DISABLE				BIT(0)
- #define SN_AUX_WDATA_REG(x)			(0x64 + (x))
-@@ -436,6 +437,14 @@ static void ti_sn_bridge_set_dsi_rate(struct ti_sn_bridge *pdata)
- 	regmap_write(pdata->regmap, SN_DSIA_CLK_FREQ_REG, val);
+@@ -530,6 +530,46 @@ static unsigned int ti_sn_get_max_lanes(struct ti_sn_bridge *pdata)
+ 	return data & DP_LANE_COUNT_MASK;
  }
  
-+static unsigned int ti_sn_bridge_get_bpp(struct ti_sn_bridge *pdata)
++static int ti_sn_link_training(struct ti_sn_bridge *pdata)
 +{
-+	if (pdata->connector.display_info.bpc <= 6)
-+		return 18;
-+	else
-+		return 24;
++	unsigned int val;
++	int ret;
++
++	/* set dp clk frequency value */
++	ti_sn_bridge_set_dp_rate(pdata);
++
++	/* enable DP PLL */
++	regmap_write(pdata->regmap, SN_PLL_ENABLE_REG, 1);
++
++	ret = regmap_read_poll_timeout(pdata->regmap, SN_DPPLL_SRC_REG, val,
++				       val & DPPLL_SRC_DP_PLL_LOCK, 1000,
++				       50 * 1000);
++	if (ret) {
++		DRM_ERROR("DP_PLL_LOCK polling failed (%d)\n", ret);
++		goto exit;
++	}
++
++	/* Semi auto link training mode */
++	regmap_write(pdata->regmap, SN_ML_TX_MODE_REG, 0x0A);
++	ret = regmap_read_poll_timeout(pdata->regmap, SN_ML_TX_MODE_REG, val,
++				       val == ML_TX_MAIN_LINK_OFF ||
++				       val == ML_TX_NORMAL_MODE, 1000,
++				       500 * 1000);
++	if (ret) {
++		DRM_ERROR("Training complete polling failed (%d)\n", ret);
++	} else if (val == ML_TX_MAIN_LINK_OFF) {
++		DRM_ERROR("Link training failed, link is off\n");
++		ret = -EIO;
++	}
++
++exit:
++	/* Disable the PLL if we failed */
++	if (ret)
++		regmap_write(pdata->regmap, SN_PLL_ENABLE_REG, 0);
++
++	return ret;
 +}
 +
- /**
-  * LUT index corresponds to register value and
-  * LUT values corresponds to dp data rate supported
-@@ -447,21 +456,17 @@ static const unsigned int ti_sn_bridge_dp_rate_lut[] = {
- 
- static void ti_sn_bridge_set_dp_rate(struct ti_sn_bridge *pdata)
+ static void ti_sn_bridge_enable(struct drm_bridge *bridge)
  {
--	unsigned int bit_rate_mhz, dp_rate_mhz;
-+	unsigned int bit_rate_khz, dp_rate_mhz;
- 	unsigned int i;
- 	struct drm_display_mode *mode =
- 		&pdata->bridge.encoder->crtc->state->adjusted_mode;
- 
--	/*
--	 * Calculate minimum bit rate based on our pixel clock.  At
--	 * the moment this driver never sets the DP_18BPP_EN bit in
--	 * register 0x5b so we hardcode 24bpp.
--	 */
--	bit_rate_mhz = (mode->clock / 1000) * 24;
-+	/* Calculate minimum bit rate based on our pixel clock. */
-+	bit_rate_khz = mode->clock * ti_sn_bridge_get_bpp(pdata);
- 
- 	/* Calculate minimum DP data rate, taking 80% as per DP spec */
--	dp_rate_mhz = ((bit_rate_mhz / pdata->dp_lanes) * DP_CLK_FUDGE_NUM) /
--							DP_CLK_FUDGE_DEN;
-+	dp_rate_mhz = DIV_ROUND_UP(bit_rate_khz * DP_CLK_FUDGE_NUM,
-+				   1000 * pdata->dp_lanes * DP_CLK_FUDGE_DEN);
- 
- 	for (i = 1; i < ARRAY_SIZE(ti_sn_bridge_dp_rate_lut) - 1; i++)
- 		if (ti_sn_bridge_dp_rate_lut[i] > dp_rate_mhz)
-@@ -550,6 +555,10 @@ static void ti_sn_bridge_enable(struct drm_bridge *bridge)
+ 	struct ti_sn_bridge *pdata = bridge_to_ti_sn_bridge(bridge);
+@@ -555,29 +595,8 @@ static void ti_sn_bridge_enable(struct drm_bridge *bridge)
  	regmap_update_bits(pdata->regmap, SN_DSI_LANES_REG,
  			   CHA_DSI_LANES_MASK, val);
  
+-	/* Set the DP output format (18 bpp or 24 bpp) */
+-	val = (ti_sn_bridge_get_bpp(pdata) == 18) ? BPP_18_RGB : 0;
+-	regmap_update_bits(pdata->regmap, SN_DATA_FORMAT_REG, BPP_18_RGB, val);
+-
+-	/* DP lane config */
+-	val = DP_NUM_LANES(min(pdata->dp_lanes, 3));
+-	regmap_update_bits(pdata->regmap, SN_SSC_CONFIG_REG, DP_NUM_LANES_MASK,
+-			   val);
+-
+-	/* set dsi/dp clk frequency value */
++	/* set dsi clk frequency value */
+ 	ti_sn_bridge_set_dsi_rate(pdata);
+-	ti_sn_bridge_set_dp_rate(pdata);
+-
+-	/* enable DP PLL */
+-	regmap_write(pdata->regmap, SN_PLL_ENABLE_REG, 1);
+-
+-	ret = regmap_read_poll_timeout(pdata->regmap, SN_DPPLL_SRC_REG, val,
+-				       val & DPPLL_SRC_DP_PLL_LOCK, 1000,
+-				       50 * 1000);
+-	if (ret) {
+-		DRM_ERROR("DP_PLL_LOCK polling failed (%d)\n", ret);
+-		return;
+-	}
+ 
+ 	/**
+ 	 * The SN65DSI86 only supports ASSR Display Authentication method and
+@@ -588,19 +607,18 @@ static void ti_sn_bridge_enable(struct drm_bridge *bridge)
+ 	drm_dp_dpcd_writeb(&pdata->aux, DP_EDP_CONFIGURATION_SET,
+ 			   DP_ALTERNATE_SCRAMBLER_RESET_ENABLE);
+ 
+-	/* Semi auto link training mode */
+-	regmap_write(pdata->regmap, SN_ML_TX_MODE_REG, 0x0A);
+-	ret = regmap_read_poll_timeout(pdata->regmap, SN_ML_TX_MODE_REG, val,
+-				       val == ML_TX_MAIN_LINK_OFF ||
+-				       val == ML_TX_NORMAL_MODE, 1000,
+-				       500 * 1000);
+-	if (ret) {
+-		DRM_ERROR("Training complete polling failed (%d)\n", ret);
+-		return;
+-	} else if (val == ML_TX_MAIN_LINK_OFF) {
+-		DRM_ERROR("Link training failed, link is off\n");
 +	/* Set the DP output format (18 bpp or 24 bpp) */
 +	val = (ti_sn_bridge_get_bpp(pdata) == 18) ? BPP_18_RGB : 0;
 +	regmap_update_bits(pdata->regmap, SN_DATA_FORMAT_REG, BPP_18_RGB, val);
 +
- 	/* DP lane config */
- 	val = DP_NUM_LANES(min(pdata->dp_lanes, 3));
- 	regmap_update_bits(pdata->regmap, SN_SSC_CONFIG_REG, DP_NUM_LANES_MASK,
++	/* DP lane config */
++	val = DP_NUM_LANES(min(pdata->dp_lanes, 3));
++	regmap_update_bits(pdata->regmap, SN_SSC_CONFIG_REG, DP_NUM_LANES_MASK,
++			   val);
++
++	ret = ti_sn_link_training(pdata);
++	if (ret)
+ 		return;
+-	}
+ 
+ 	/* config video parameters */
+ 	ti_sn_bridge_set_video_timings(pdata);
 -- 
 2.24.1.735.g03f4e72817-goog
 
