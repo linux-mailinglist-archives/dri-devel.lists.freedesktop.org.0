@@ -2,55 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5FDC11E2A5
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 12:18:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A678511E2BD
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 12:25:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF7816E4BA;
-	Fri, 13 Dec 2019 11:18:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C2F4898C8;
+	Fri, 13 Dec 2019 11:25:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 226BB6E4BA
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 11:18:24 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBDBI4Pa039556;
- Fri, 13 Dec 2019 05:18:04 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1576235884;
- bh=H7BPSf+Mb4Osfrs3oWk3vvPWNcaDr0hYs41wVOdU79s=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=Wp+akN+CcgXl8k0vHjR4dwjBGuDVeh4X3WAB5FRsyF5hfMhTYPXdKjHbmY2w7CR1J
- xi2vOPEjg2DE7dk2MQLvcTfiZixyTkLnNsKsbGC6NJM6Kgm998BeeoUYZcXCOYJKF/
- AAfAYPJLnphSdiiCC3fhJsOLqPu8Dac4P3SsteuY=
-Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xBDBI3MO062693
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 13 Dec 2019 05:18:03 -0600
-Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Fri, 13
- Dec 2019 05:18:03 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Fri, 13 Dec 2019 05:18:03 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBDBI0au096481;
- Fri, 13 Dec 2019 05:18:00 -0600
-Subject: Re: [PATCH v3 5/5] MAINTAINERS: add entry for tidss
-To: Daniel Vetter <daniel@ffwll.ch>, Jyri Sarha <jsarha@ti.com>
-References: <cover.1576158368.git.jsarha@ti.com>
- <09da3a37ca59bb45bef62f2335a191985363d393.1576158368.git.jsarha@ti.com>
- <20191213103024.GH624164@phenom.ffwll.local>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <0acedebf-25d9-6ae2-1307-8f764af449af@ti.com>
-Date: Fri, 13 Dec 2019 13:17:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.1
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2554889872;
+ Fri, 13 Dec 2019 11:25:08 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 13 Dec 2019 03:25:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,309,1571727600"; d="scan'208";a="226258655"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga002.jf.intel.com with SMTP; 13 Dec 2019 03:25:03 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 13 Dec 2019 13:25:02 +0200
+Date: Fri, 13 Dec 2019 13:25:02 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Sean Paul <sean@poorly.run>
+Subject: Re: [PATCH v2 11/12] drm/i915: Expose HDCP shim functions from dp
+ for use by dp_mst
+Message-ID: <20191213112502.GX1208@intel.com>
+References: <20191212190230.188505-1-sean@poorly.run>
+ <20191212190230.188505-12-sean@poorly.run>
 MIME-Version: 1.0
-In-Reply-To: <20191213103024.GH624164@phenom.ffwll.local>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Disposition: inline
+In-Reply-To: <20191212190230.188505-12-sean@poorly.run>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,67 +48,217 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, yamonkar@cadence.com, praneeth@ti.com,
- subhajit_paul@ti.com, dri-devel@lists.freedesktop.org, peter.ujfalusi@ti.com,
- robh+dt@kernel.org, laurent.pinchart@ideasonboard.com, sjakhade@cadence.com,
- sam@ravnborg.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: intel-gfx@lists.freedesktop.org, daniel.vetter@ffwll.ch,
+ Sean Paul <seanpaul@chromium.org>, dri-devel@lists.freedesktop.org,
+ rodrigo.vivi@intel.com
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+On Thu, Dec 12, 2019 at 02:02:29PM -0500, Sean Paul wrote:
+> From: Sean Paul <seanpaul@chromium.org>
+> =
 
-On 13/12/2019 12:30, Daniel Vetter wrote:
+> These functions are all the same for dp and dp_mst, so expose them for
+> use by the dp_mst hdcp implementation.
+> =
 
->> +DRM DRIVERS FOR TI KEYSTONE
->> +M:	Jyri Sarha <jsarha@ti.com>
->> +M:	Tomi Valkeinen <tomi.valkeinen@ti.com>
->> +L:	dri-devel@lists.freedesktop.org
->> +S:	Maintained
->> +F:	drivers/gpu/drm/tidss/
->> +F:	Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
->> +F:	Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
->> +F:	Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
->> +T:	git git://anongit.freedesktop.org/drm/drm-misc
-> 
-> Is the plan to also move other TI drivers over (like tilcdc) or just an
-> experiment to see what happens? Asking since if eventually omapdrm moves
-> that might be a bit much (or at least needs a discussion first).
+> Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> Link: https://patchwork.freedesktop.org/patch/msgid/20191203173638.94919-=
+11-sean@poorly.run #v1
+> =
 
-Hmm, yes, I think we should have a plan for these.
+> Changes in v2:
+> -none
+> ---
+>  .../drm/i915/display/intel_display_types.h    | 22 +++++++++++++++++++
+>  drivers/gpu/drm/i915/display/intel_dp.c       | 14 ++----------
+>  2 files changed, 24 insertions(+), 12 deletions(-)
+> =
 
-tilcdc: small, old driver, and I don't see much changes for it. The HW is very different from the 
-ones supported by omapdrm and tidss (the two of which have many commonalities). I think drm-misc is 
-fine for tilcdc.
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers=
+/gpu/drm/i915/display/intel_display_types.h
+> index ac5af925e403..b9e1f4638ff2 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
 
-omapdrm: big changes going on for now, but after the rewrite to get rid of omapdrm specific drivers 
-is done, I expect the patch count to drop, as the HW is "legacy".
+Don't we have have intel_dp.h these days?
 
-tidss: the "new" driver, which should get most attention in the future (after omapdrm rewrite).
+In fact might be nice to lift all the DP hdcp stuff into its own file.
+But not sure if that's doable or not.
 
-All in all, sometimes there have been very few patches for many months, and then sometimes there's a 
-big series.
+> @@ -1636,4 +1636,26 @@ static inline u32 intel_plane_ggtt_offset(const st=
+ruct intel_plane_state *state)
+>  	return i915_ggtt_offset(state->vma);
+>  }
+>  =
 
-I haven't seen a need to have a maintained branch for omapdrm, as multiple people working on 
-conflicting items has been very rare (there aren't that many people working on omapdrm). So I've 
-picked patches to my private branch, which I have rebased as needed. And then I've either pushed via 
-drm-misc if there's just a few patches, or sent a pull request if there's a lot.
+> +int intel_dp_hdcp_write_an_aksv(struct intel_digital_port *intel_dig_por=
+t,
+> +				u8 *an);
+> +int intel_dp_hdcp_read_bksv(struct intel_digital_port *intel_dig_port,
+> +			    u8 *bksv);
+> +int intel_dp_hdcp_read_bstatus(struct intel_digital_port *intel_dig_port,
+> +				      u8 *bstatus);
+> +int intel_dp_hdcp_read_bcaps(struct intel_digital_port *intel_dig_port,
+> +			     u8 *bcaps);
+> +int intel_dp_hdcp_repeater_present(struct intel_digital_port *intel_dig_=
+port,
+> +				   bool *repeater_present);
+> +int intel_dp_hdcp_read_ri_prime(struct intel_digital_port *intel_dig_por=
+t,
+> +				u8 *ri_prime);
+> +int intel_dp_hdcp_read_ksv_ready(struct intel_digital_port *intel_dig_po=
+rt,
+> +				 bool *ksv_ready);
+> +int intel_dp_hdcp_read_ksv_fifo(struct intel_digital_port *intel_dig_por=
+t,
+> +				int num_downstream, u8 *ksv_fifo);
+> +int intel_dp_hdcp_read_v_prime_part(struct intel_digital_port *intel_dig=
+_port,
+> +				    int i, u32 *part);
+> +bool intel_dp_hdcp_check_link(struct intel_digital_port *intel_dig_port);
+> +int intel_dp_hdcp_capable(struct intel_digital_port *intel_dig_port,
+> +			  bool *hdcp_capable);
+> +
+>  #endif /*  __INTEL_DISPLAY_TYPES_H__ */
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i9=
+15/display/intel_dp.c
+> index 155067657e23..3d62b1b7224e 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -5915,7 +5915,6 @@ static void intel_dp_hdcp_wait_for_cp_irq(struct in=
+tel_hdcp *hdcp, int timeout)
+>  		DRM_DEBUG_KMS("Timedout at waiting for CP_IRQ\n");
+>  }
+>  =
 
-Is such a mixed model ok?
+> -static
+>  int intel_dp_hdcp_write_an_aksv(struct intel_digital_port *intel_dig_por=
+t,
+>  				u8 *an)
+>  {
+> @@ -5947,8 +5946,7 @@ int intel_dp_hdcp_write_an_aksv(struct intel_digita=
+l_port *intel_dig_port,
+>  	return 0;
+>  }
+>  =
 
-I'm not sure how much is too much for drm-misc, but probably omapdrm and tidss combined (if pushing 
-everything always via drm-misc) is a bit too much. So perhaps a maintained TI tree would be an 
-option too, and pushing everything for omapdrm and tidss via that tree.
+> -static int intel_dp_hdcp_read_bksv(struct intel_digital_port *intel_dig_=
+port,
+> -				   u8 *bksv)
+> +int intel_dp_hdcp_read_bksv(struct intel_digital_port *intel_dig_port, u=
+8 *bksv)
+>  {
+>  	ssize_t ret;
+>  	ret =3D drm_dp_dpcd_read(&intel_dig_port->dp.aux, DP_AUX_HDCP_BKSV, bks=
+v,
+> @@ -5960,7 +5958,7 @@ static int intel_dp_hdcp_read_bksv(struct intel_dig=
+ital_port *intel_dig_port,
+>  	return 0;
+>  }
+>  =
 
-I'm fine with all options, so I think we can go with whatever is most acceptable from DRM maintainer 
-point of view.
+> -static int intel_dp_hdcp_read_bstatus(struct intel_digital_port *intel_d=
+ig_port,
+> +int intel_dp_hdcp_read_bstatus(struct intel_digital_port *intel_dig_port,
+>  				      u8 *bstatus)
+>  {
+>  	ssize_t ret;
+> @@ -5978,7 +5976,6 @@ static int intel_dp_hdcp_read_bstatus(struct intel_=
+digital_port *intel_dig_port,
+>  	return 0;
+>  }
+>  =
 
-  Tomi
+> -static
+>  int intel_dp_hdcp_read_bcaps(struct intel_digital_port *intel_dig_port,
+>  			     u8 *bcaps)
+>  {
+> @@ -5994,7 +5991,6 @@ int intel_dp_hdcp_read_bcaps(struct intel_digital_p=
+ort *intel_dig_port,
+>  	return 0;
+>  }
+>  =
 
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+> -static
+>  int intel_dp_hdcp_repeater_present(struct intel_digital_port *intel_dig_=
+port,
+>  				   bool *repeater_present)
+>  {
+> @@ -6009,7 +6005,6 @@ int intel_dp_hdcp_repeater_present(struct intel_dig=
+ital_port *intel_dig_port,
+>  	return 0;
+>  }
+>  =
+
+> -static
+>  int intel_dp_hdcp_read_ri_prime(struct intel_digital_port *intel_dig_por=
+t,
+>  				u8 *ri_prime)
+>  {
+> @@ -6023,7 +6018,6 @@ int intel_dp_hdcp_read_ri_prime(struct intel_digita=
+l_port *intel_dig_port,
+>  	return 0;
+>  }
+>  =
+
+> -static
+>  int intel_dp_hdcp_read_ksv_ready(struct intel_digital_port *intel_dig_po=
+rt,
+>  				 bool *ksv_ready)
+>  {
+> @@ -6039,7 +6033,6 @@ int intel_dp_hdcp_read_ksv_ready(struct intel_digit=
+al_port *intel_dig_port,
+>  	return 0;
+>  }
+>  =
+
+> -static
+>  int intel_dp_hdcp_read_ksv_fifo(struct intel_digital_port *intel_dig_por=
+t,
+>  				int num_downstream, u8 *ksv_fifo)
+>  {
+> @@ -6062,7 +6055,6 @@ int intel_dp_hdcp_read_ksv_fifo(struct intel_digita=
+l_port *intel_dig_port,
+>  	return 0;
+>  }
+>  =
+
+> -static
+>  int intel_dp_hdcp_read_v_prime_part(struct intel_digital_port *intel_dig=
+_port,
+>  				    int i, u32 *part)
+>  {
+> @@ -6090,7 +6082,6 @@ int intel_dp_hdcp_toggle_signalling(struct intel_di=
+gital_port *intel_dig_port,
+>  	return 0;
+>  }
+>  =
+
+> -static
+>  bool intel_dp_hdcp_check_link(struct intel_digital_port *intel_dig_port)
+>  {
+>  	ssize_t ret;
+> @@ -6106,7 +6097,6 @@ bool intel_dp_hdcp_check_link(struct intel_digital_=
+port *intel_dig_port)
+>  	return !(bstatus & (DP_BSTATUS_LINK_FAILURE | DP_BSTATUS_REAUTH_REQ));
+>  }
+>  =
+
+> -static
+>  int intel_dp_hdcp_capable(struct intel_digital_port *intel_dig_port,
+>  			  bool *hdcp_capable)
+>  {
+> -- =
+
+> Sean Paul, Software Engineer, Google / Chromium OS
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
