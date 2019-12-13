@@ -1,47 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8B4D11EC57
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 21:58:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25D1611EC18
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 21:52:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5F136EDC3;
-	Fri, 13 Dec 2019 20:58:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC5746ED0C;
+	Fri, 13 Dec 2019 20:52:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7BCC6EDC3;
- Fri, 13 Dec 2019 20:58:08 +0000 (UTC)
-Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
- (mreue109 [212.227.15.145]) with ESMTPA (Nemesis) id
- 1MvbO4-1hpQC52QtS-00scVY; Fri, 13 Dec 2019 21:50:19 +0100
-From: Arnd Bergmann <arnd@arndb.de>
-To: y2038@lists.linaro.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 00/24] drivers, fs: y2038 updates
-Date: Fri, 13 Dec 2019 21:49:09 +0100
-Message-Id: <20191213204936.3643476-1-arnd@arndb.de>
-X-Mailer: git-send-email 2.20.0
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 329376ECFA;
+ Fri, 13 Dec 2019 20:52:23 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 13 Dec 2019 12:52:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,311,1571727600"; d="scan'208";a="211479210"
+Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
+ by fmsmga007.fm.intel.com with ESMTP; 13 Dec 2019 12:52:22 -0800
+Received: from fmsmsx151.amr.corp.intel.com (10.18.125.4) by
+ FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Fri, 13 Dec 2019 12:52:22 -0800
+Received: from fmsmsx107.amr.corp.intel.com ([169.254.6.96]) by
+ FMSMSX151.amr.corp.intel.com ([169.254.7.125]) with mapi id 14.03.0439.000;
+ Fri, 13 Dec 2019 12:52:22 -0800
+From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>, DRI Development
+ <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH 1/4] drm/etnaviv: Use dma_resv locking wrappers
+Thread-Topic: [PATCH 1/4] drm/etnaviv: Use dma_resv locking wrappers
+Thread-Index: AQHVsfEe00DUW/MMX0uVJDAmNAcPPKe4ilCA
+Date: Fri, 13 Dec 2019 20:52:21 +0000
+Message-ID: <14063C7AD467DE4B82DEDB5C278E8663EE150D92@fmsmsx107.amr.corp.intel.com>
+References: <20191125094356.161941-1-daniel.vetter@ffwll.ch>
+ <20191125094356.161941-2-daniel.vetter@ffwll.ch>
+ <20191213200826.GK624164@phenom.ffwll.local>
+In-Reply-To: <20191213200826.GK624164@phenom.ffwll.local>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiN2UwOWUyNGYtODQyZS00OTJiLWI1ZDItZWJiODk4ZDA0NjEzIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiNlBHdjJadWY4VkU2dWsyKzlwYWV0eHpORHpFTGh3VVFib21abnZqU3pRS3hZTWdvMUxVdHphSmEzZFFyN1JneiJ9
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.1.200.107]
 MIME-Version: 1.0
-X-Provags-ID: V03:K1:uP+kiANpOGJCAXUng4IDyXrHx7+oq5wNuUSCR2Raiw5aTIDdJGg
- 5j4AA9RZwtRFpSlQJZR8HotU54Xfp+erI4gckXGaucpRhzYx4dcdDnO9RE7chr7C+S6QsS1
- hz8jSvfht0kOIuwI+U39is0hUz6MZ6pZnETpaFRYUgmMegCz9cluYoQw5GzMKND6Vlt+MoP
- vuRLets3Xp1M/VHl6bYkg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:CHmV4re1oa0=:arr7HZ8qwuhxUQTfo55WC1
- 21huvAvS9vC87CEJ4RTPFknUpQ9TEt7e0fDsnqBsPpqRJL8/jv09tf8emus0j0ljEZWzLLyrc
- WJjrFlQ7YZDgIKd/dB51abgaJyHgpMRqaPj7DEUgRpSn/fqvlXxTVLPRaq8f6+pGVsima7fDz
- X2MqOowew+d40Rk/XWRuVloBW2zcKUuImSNQNiQrxq1Ww/90CrNSjHVBxJ4R5cqpXu4nPyunR
- WibT2FIwPtIzTxPWmmWK5qYnta5EuK34fkdT44BRRIfIk6M9FN3ZOXDOUB70a8JHHg81Z/LIu
- r9PRQ57pu7mPtrM0p1A4SzQVk0/ipWyJtBAN7Rus5EHslqJpw5DGnL7SW5dqHWpDpcZStU/jj
- 6LRH0m//lI/o+I4nN+CiT3NQ/89BSfZh/Ry8sZcJHuo6yOt/zhxdGJA52l3KJ9c2AyJbiFWyz
- cRtbhdbz6qY19Mdi00/NhoiI1Iz3WgCqpBM4ED2vNwvMpp/DuZIDJJSGL90mICkQYPf35bRGW
- MWaQh17dsVhZpHjfWspX1qE0ZrEhnMVRxhmD3t9tyzpBXeC9gwxFsM6stVSiQtNqarc6BB2bW
- LcGsToWcHymmZhhi2CzKavLZBdpxCOOjy5WvutSPFfujOD6iQ7GQyTeKj+T8x3bGOIKhnBqFw
- yTznXv5mrzgAw0sLW+2EDzsNbJda6t4T4YIhBst1EXBtHA+/TuIzk05RFhVeX4j0gGh8CkXsP
- 17lDMrWK5Eu1rCRRFPBAiliNvVKiDahhWqHQYLW4jxBLuVRR61JFZ1VKJ8xH6e1VoQ4pjtFAM
- eqYWDXNUA4e/HmQvCSC1uM8enKsXg4KVh0FxNTPQYqnG7MYd6+rnYAsg6XYEfnBaaQCYmzUkx
- 1O4TQfOJn7mFGxZ1kaBg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,180 +62,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, jcmvbkbc@gmail.com,
- netdev@vger.kernel.org, sparclinux@vger.kernel.org,
- linux1394-devel@lists.sourceforge.net, devel@driverdev.osuosl.org,
- darrick.wong@oracle.com, richard@nod.at, cluster-devel@redhat.com,
- ccaulfie@redhat.com, linux+etnaviv@armlinux.org.uk,
- Arnd Bergmann <arnd@arndb.de>, linux-arm-msm@vger.kernel.org,
- jdike@addtoit.com, linux-um@lists.infradead.org, etnaviv@lists.freedesktop.org,
- teigland@redhat.com, viro@zeniv.linux.org.uk, tglx@linutronix.de,
- sean@poorly.run, trond.myklebust@hammerspace.com, hirofumi@mail.parknet.co.jp,
- linux-nfs@vger.kernel.org, valdis.kletnieks@vt.edu, rfontana@redhat.com,
- gregkh@linuxfoundation.org, fw@strlen.de, anna.schumaker@netapp.com,
- linux-xfs@vger.kernel.org, stefanr@s5r6.in-berlin.de, jack@suse.com,
- linux-fsdevel@vger.kernel.org, freedreno@lists.freedesktop.org,
- davem@davemloft.net
+Cc: "Vetter, Daniel" <daniel.vetter@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These are updates to devidce drivers and file systems that for some
-reason or another were not included in the kernel in the previous
-y2038 series.
+>-----Original Message-----
+>From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
+>Daniel Vetter
+>Sent: Friday, December 13, 2019 3:08 PM
+>To: DRI Development <dri-devel@lists.freedesktop.org>
+>Cc: Daniel Vetter <daniel.vetter@ffwll.ch>; Intel Graphics Development
+><intel-gfx@lists.freedesktop.org>; etnaviv@lists.freedesktop.org; Russell
+>King <linux+etnaviv@armlinux.org.uk>; Vetter, Daniel
+><daniel.vetter@intel.com>
+>Subject: Re: [PATCH 1/4] drm/etnaviv: Use dma_resv locking wrappers
+>
+>On Mon, Nov 25, 2019 at 10:43:53AM +0100, Daniel Vetter wrote:
+>> I'll add more fancy logic to them soon, so everyone really has to use
+>> them. Plus they already provide some nice additional debug
+>> infrastructure on top of direct ww_mutex usage for the fences tracked
+>> by dma_resv.
+>>
+>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+>> Cc: Lucas Stach <l.stach@pengutronix.de>
+>> Cc: Russell King <linux+etnaviv@armlinux.org.uk>
+>> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+>> Cc: etnaviv@lists.freedesktop.org
+>
+>Ping for some review/acks.
+>
+>Thanks, Daniel
+>
+>> ---
+>>  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 8 +++-----
+>>  1 file changed, 3 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+>b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+>> index aa3e4c3b063a..947b21868e72 100644
+>> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+>> @@ -113,7 +113,7 @@ static void submit_unlock_object(struct
+>etnaviv_gem_submit *submit, int i)
+>>  	if (submit->bos[i].flags & BO_LOCKED) {
+>>  		struct drm_gem_object *obj = &submit->bos[i].obj->base;
+>>
+>> -		ww_mutex_unlock(&obj->resv->lock);
+>> +		dma_resv_unlock(obj->resv);
+>>  		submit->bos[i].flags &= ~BO_LOCKED;
+>>  	}
+>>  }
+>> @@ -133,8 +133,7 @@ static int submit_lock_objects(struct
+>etnaviv_gem_submit *submit,
+>>  		contended = i;
+>>
+>>  		if (!(submit->bos[i].flags & BO_LOCKED)) {
+>> -			ret = ww_mutex_lock_interruptible(&obj->resv-
+>>lock,
+>> -							  ticket);
+>> +			ret = dma_resv_lock(obj->resv, ticket);
 
-I've gone through all users of time_t again to make sure the
-kernel is in a long-term maintainable state.
+Should this be dma_resv_lock_interruptible()?
 
-Posting these as a series for better organization, but each change
-here is applicable standalone.
+Mike
 
-Please merge, review, ack/nack etc as you see fit. I will
-add these to my y2038 branch [1] for linux-next, but can keep
-rebasing for feedback and to remove any patches that get
-picked up by a maintainer.
-
-Changes since v1 [2]:
-
-- Add Acks I received
-- Rebase to v5.5-rc1, droping patches that got merged already
-- Add NFS, XFS and the final three patches from another series
-- Rewrite etnaviv patches
-
-      Arnd
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git/log/?h=y2038
-[2] https://lore.kernel.org/lkml/20191108213257.3097633-1-arnd@arndb.de/
-
-Arnd Bergmann (24):
-  Input: input_event: fix struct padding on sparc64
-  fat: use prandom_u32() for i_generation
-  dlm: use SO_SNDTIMEO_NEW instead of SO_SNDTIMEO_OLD
-  xtensa: ISS: avoid struct timeval
-  um: ubd: use 64-bit time_t where possible
-  acct: stop using get_seconds()
-  tsacct: add 64-bit btime field
-  packet: clarify timestamp overflow
-  quota: avoid time_t in v1_disk_dqblk definition
-  hostfs: pass 64-bit timestamps to/from user space
-  hfs/hfsplus: use 64-bit inode timestamps
-  drm/msm: avoid using 'timespec'
-  drm/etnaviv: reject timeouts with tv_nsec >= NSEC_PER_SEC
-  drm/etnaviv: avoid deprecated timespec
-  sunrpc: convert to time64_t for expiry
-  nfs: use time64_t internally
-  nfs: fix timstamp debug prints
-  nfs: fscache: use timespec64 in inode auxdata
-  xfs: rename compat_time_t to old_time32_t
-  xfs: disallow broken ioctls without compat-32-bit-time
-  xfs: quota: move to time64_t interfaces
-  y2038: remove obsolete jiffies conversion functions
-  y2038: rename itimerval to __kernel_old_itimerval
-  y2038: sparc: remove use of struct timex
-
- arch/sparc/kernel/sys_sparc_64.c              | 29 +++++-----
- arch/um/drivers/cow.h                         |  2 +-
- arch/um/drivers/cow_user.c                    |  7 ++-
- arch/um/drivers/ubd_kern.c                    | 10 ++--
- arch/um/include/shared/os.h                   |  2 +-
- arch/um/os-Linux/file.c                       |  2 +-
- .../platforms/iss/include/platform/simcall.h  |  4 +-
- drivers/gpu/drm/etnaviv/etnaviv_drv.c         | 20 ++++---
- drivers/gpu/drm/etnaviv/etnaviv_drv.h         | 11 ++--
- drivers/gpu/drm/etnaviv/etnaviv_gem.c         |  4 +-
- drivers/gpu/drm/etnaviv/etnaviv_gem.h         |  2 +-
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c         |  5 +-
- drivers/gpu/drm/etnaviv/etnaviv_gpu.h         |  5 +-
- drivers/gpu/drm/msm/msm_drv.h                 |  3 +-
- drivers/input/evdev.c                         | 14 ++---
- drivers/input/misc/uinput.c                   | 14 +++--
- fs/dlm/lowcomms.c                             |  6 +-
- fs/fat/inode.c                                |  3 +-
- fs/hfs/hfs_fs.h                               | 28 +++++++--
- fs/hfs/inode.c                                |  4 +-
- fs/hfsplus/hfsplus_fs.h                       | 28 +++++++--
- fs/hfsplus/inode.c                            | 12 ++--
- fs/hostfs/hostfs.h                            | 22 ++++---
- fs/hostfs/hostfs_kern.c                       | 15 +++--
- fs/nfs/fscache-index.c                        |  6 +-
- fs/nfs/fscache.c                              | 18 ++++--
- fs/nfs/fscache.h                              |  8 ++-
- fs/nfs/nfs4xdr.c                              | 10 ++--
- fs/quota/quotaio_v1.h                         |  6 +-
- fs/xfs/xfs_dquot.c                            |  6 +-
- fs/xfs/xfs_ioctl.c                            | 26 +++++++++
- fs/xfs/xfs_ioctl32.c                          |  2 +-
- fs/xfs/xfs_ioctl32.h                          |  2 +-
- fs/xfs/xfs_qm.h                               |  6 +-
- fs/xfs/xfs_quotaops.c                         |  6 +-
- fs/xfs/xfs_trans_dquot.c                      |  8 ++-
- include/linux/jiffies.h                       | 20 -------
- include/linux/sunrpc/cache.h                  | 42 ++++++++------
- include/linux/sunrpc/gss_api.h                |  4 +-
- include/linux/sunrpc/gss_krb5.h               |  2 +-
- include/linux/syscalls.h                      |  9 ++-
- include/uapi/linux/acct.h                     |  2 +
- include/uapi/linux/input.h                    |  1 +
- include/uapi/linux/taskstats.h                |  6 +-
- include/uapi/linux/time_types.h               |  5 ++
- include/uapi/linux/timex.h                    |  2 +
- kernel/acct.c                                 |  4 +-
- kernel/time/itimer.c                          | 18 +++---
- kernel/time/time.c                            | 58 ++-----------------
- kernel/tsacct.c                               |  9 ++-
- net/packet/af_packet.c                        | 27 +++++----
- net/sunrpc/auth_gss/gss_krb5_mech.c           | 12 +++-
- net/sunrpc/auth_gss/gss_krb5_seal.c           |  8 +--
- net/sunrpc/auth_gss/gss_krb5_unseal.c         |  6 +-
- net/sunrpc/auth_gss/gss_krb5_wrap.c           | 16 ++---
- net/sunrpc/auth_gss/gss_mech_switch.c         |  2 +-
- net/sunrpc/auth_gss/svcauth_gss.c             |  6 +-
- net/sunrpc/cache.c                            | 16 ++---
- net/sunrpc/svcauth_unix.c                     | 10 ++--
- 59 files changed, 351 insertions(+), 290 deletions(-)
-
--- 
-2.20.0
-
-Cc: jdike@addtoit.com
-Cc: richard@nod.at
-Cc: jcmvbkbc@gmail.com
-Cc: stefanr@s5r6.in-berlin.de
-Cc: l.stach@pengutronix.de
-Cc: linux+etnaviv@armlinux.org.uk
-Cc: christian.gmeiner@gmail.com
-Cc: airlied@linux.ie
-Cc: daniel@ffwll.ch
-Cc: robdclark@gmail.com
-Cc: sean@poorly.run
-Cc: valdis.kletnieks@vt.edu
-Cc: gregkh@linuxfoundation.org
-Cc: ccaulfie@redhat.com
-Cc: teigland@redhat.com
-Cc: hirofumi@mail.parknet.co.jp
-Cc: jack@suse.com
-Cc: davem@davemloft.net
-Cc: fw@strlen.de
-Cc: viro@zeniv.linux.org.uk
-Cc: rfontana@redhat.com
-Cc: tglx@linutronix.de
-Cc: linux-um@lists.infradead.org
-Cc: linux1394-devel@lists.sourceforge.net
-Cc: etnaviv@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-arm-msm@vger.kernel.org
-Cc: freedreno@lists.freedesktop.org
-Cc: devel@driverdev.osuosl.org
-Cc: cluster-devel@redhat.com
-Cc: linux-fsdevel@vger.kernel.org
-Cc: netdev@vger.kernel.org
-Cc: trond.myklebust@hammerspace.com
-Cc: anna.schumaker@netapp.com
-Cc: linux-nfs@vger.kernel.org
-Cc: linux-xfs@vger.kernel.org
-Cc: darrick.wong@oracle.com
-Cc: sparclinux@vger.kernel.org
+>>  			if (ret == -EALREADY)
+>>  				DRM_ERROR("BO at index %u already on
+>submit list\n",
+>>  					  i);
+>> @@ -161,8 +160,7 @@ static int submit_lock_objects(struct
+>etnaviv_gem_submit *submit,
+>>  		obj = &submit->bos[contended].obj->base;
+>>
+>>  		/* we lost out in a seqno race, lock and retry.. */
+>> -		ret = ww_mutex_lock_slow_interruptible(&obj->resv->lock,
+>> -						       ticket);
+>> +		ret = dma_resv_lock_slow_interruptible(obj->resv, ticket);
+>>  		if (!ret) {
+>>  			submit->bos[contended].flags |= BO_LOCKED;
+>>  			slow_locked = contended;
+>> --
+>> 2.24.0
+>>
+>
+>--
+>Daniel Vetter
+>Software Engineer, Intel Corporation
+>http://blog.ffwll.ch
+>_______________________________________________
+>dri-devel mailing list
+>dri-devel@lists.freedesktop.org
+>https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
