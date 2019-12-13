@@ -2,41 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4981311F0CC
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 08:54:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4B2811F223
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 15:43:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 405A96E31C;
-	Sat, 14 Dec 2019 07:54:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C4106E379;
+	Sat, 14 Dec 2019 14:43:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C9046E31C
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Dec 2019 07:54:15 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 495CB804FD;
- Sat, 14 Dec 2019 08:54:13 +0100 (CET)
-Date: Sat, 14 Dec 2019 08:54:12 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Heiko Stuebner <heiko@sntech.de>
-Subject: Re: [PATCH 2/3] dt-bindings: display: panel: Add binding document
- for Xinpeng XPP055C272
-Message-ID: <20191214075412.GB22818@ravnborg.org>
-References: <20191209144208.4863-1-heiko@sntech.de>
- <20191209144208.4863-2-heiko@sntech.de>
+Received: from mailgw02.mediatek.com (mailgw02.mediatek.com [216.200.240.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B3D86E2E5
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 08:22:48 +0000 (UTC)
+X-UUID: 02c8eb1eb31443d59c20f316aad7c71e-20191213
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:Reply-To:From:Subject:Message-ID;
+ bh=3iGzWvQ973vDVy2jTOS5BARL9ANWb/8ieSVfodrTkr4=; 
+ b=E0OJZXP7CFIIiOND7EZdxZ/6RSDw+BPQGnB2xYPTcp27ez2h0wA5iduHuekmT7ygbheSIjLwb1mXEZXyyf4Wd4ODg1++1KNEoiA7HLxuJJWNo4AqjNU7s4UDqjE2epMKL3nWHQBgnPrHlW7zJMAPge2J2RdTVbHEoeNlDYvTXlc=;
+X-UUID: 02c8eb1eb31443d59c20f316aad7c71e-20191213
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw02.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
+ (musrelay.mediatek.com ESMTP with TLS)
+ with ESMTP id 1009231870; Fri, 13 Dec 2019 00:22:45 -0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by mtkmbs05n2.mediatek.inc
+ (172.21.101.140) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+ Fri, 13 Dec 2019 16:02:52 +0800
+Received: from [10.17.3.153] (172.27.4.253) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Fri, 13 Dec 2019 16:03:11 +0800
+Message-ID: <1576224191.31822.2.camel@mhfsdcap03>
+Subject: Re: [PATCH v2, 1/2] drm/mediatek: Fix gamma correction issue
+From: Yongqiang Niu <yongqiang.niu@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>
+Date: Fri, 13 Dec 2019 16:03:11 +0800
+In-Reply-To: <1576223336.9817.3.camel@mtksdaap41>
+References: <1576222132-31586-1-git-send-email-yongqiang.niu@mediatek.com>
+ <1576222132-31586-2-git-send-email-yongqiang.niu@mediatek.com>
+ <1576223336.9817.3.camel@mtksdaap41>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191209144208.4863-2-heiko@sntech.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=NXpJzYs8AAAA:8
- a=gEfo2CItAAAA:8 a=7gkXJVJtAAAA:8 a=kqpNkawWe9FrIPx1R8MA:9
- a=CjuIK1q_8ugA:10 a=cwV61pgf2j4Cq8VD9hE_:22 a=sptkURWiP4Gy88Gu7hUp:22
- a=E9Po1WZjFZOl8hwRPBS3:22 a=pHzHmUro8NiASowvMSCR:22
- a=6VlIyEUom7LUIeUMNQJH:22
+X-MTK: N
+X-Mailman-Approved-At: Sat, 14 Dec 2019 14:42:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,89 +54,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- robh+dt@kernel.org, thierry.reding@gmail.com,
- christoph.muellner@theobroma-systems.com
+Reply-To: Yongqiang Niu <yongqiang.niu@mediatek.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Heiko.
-
-
-On Mon, Dec 09, 2019 at 03:42:07PM +0100, Heiko Stuebner wrote:
-> From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+On Fri, 2019-12-13 at 15:48 +0800, CK Hu wrote:
+> Hi, Yongqiang:
 > 
-> The XPP055C272 is a 5.5" 720x1280 DSI display.
-Can we get the size info included in the title in the binding?
-Then all relavant info is in the binding, and no git digging is needed.
-
+> The title is too rough. Any bug of gamma would be this title. I would
+> like the title show explicitly what it does.
 > 
-> Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-> ---
->  .../display/panel/xinpeng,xpp055c272.yaml     | 45 +++++++++++++++++++
->  1 file changed, 45 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml
+> On Fri, 2019-12-13 at 15:28 +0800, Yongqiang Niu wrote:
+> > if there is no gamma function in the crtc
+> > display path, don't add gamma property
+> > for crtc
+> > 
+> > Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+> > ---
+> >  drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 10 ++++++++--
+> >  1 file changed, 8 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> > index ca4fc47..9a8e1d4 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> > @@ -734,6 +734,7 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+> >  	int pipe = priv->num_pipes;
+> >  	int ret;
+> >  	int i;
+> > +	uint gamma_lut_size = 0;
+> >  
+> >  	if (!path)
+> >  		return 0;
+> > @@ -785,6 +786,9 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+> >  		}
+> >  
+> >  		mtk_crtc->ddp_comp[i] = comp;
+> > +
+> > +		if (comp->funcs->gamma_set)
+> > +			gamma_lut_size = MTK_LUT_SIZE;
+> >  	}
+> >  
+> >  	for (i = 0; i < mtk_crtc->ddp_comp_nr; i++)
+> > @@ -805,8 +809,10 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+> >  				NULL, pipe);
+> >  	if (ret < 0)
+> >  		return ret;
+> > -	drm_mode_crtc_set_gamma_size(&mtk_crtc->base, MTK_LUT_SIZE);
+> > -	drm_crtc_enable_color_mgmt(&mtk_crtc->base, 0, false, MTK_LUT_SIZE);
+> > +
+> > +	if (gamma_lut_size)
+> > +		drm_mode_crtc_set_gamma_size(&mtk_crtc->base, gamma_lut_size);
+> > +	drm_crtc_enable_color_mgmt(&mtk_crtc->base, 0, false, gamma_lut_size);
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml b/Documentation/devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml
-> new file mode 100644
-> index 000000000000..4515d44d189b
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml
-> @@ -0,0 +1,45 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/sony,acx424akp.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Xinpeng XPP055C272 720x1280 DSI panel
-> +
-> +maintainers:
-> +  - Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-> +
-> +allOf:
-> +  - $ref: panel-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: xinpeng,xpp055c272
-> +  reg: true
-> +  backlight: true
-> +  port: true
-> +  reset-gpios: true
-> +  iovcc-supply:
-> +     description: regulator that supplies the iovcc voltage
-> +  vci-supply:
-> +     description: regulator that supplies the vci voltage
-> +
-> +required:
-> +  - compatible
-> +  - reg
-One would assume the display also required power to operate.
+> If there is no gamma, shall we enable color management?
+> 
+> Regards,
+> CK
 
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    dsi@ff450000 {
-> +        panel@0 {
-> +            compatible = "xinpeng,xpp055c272";
-> +            reg = <0>;
-> +            backlight = <&backlight>;
-> +            iovcc-supply = <&vcc_1v8>;
-> +            vci-supply = <&vcc3v3_lcd>;
-> +        };
-> +    };
-> +
-> +...
+drm_crtc_enable_color_mgmt will check the gamma_lut_size parameter,
+if no gamma, gamma_lut_size will be 0, and gamma_lut_size will not attch
+gamma property for the crtc
+> 
+> >  	priv->num_pipes++;
+> >  	mutex_init(&mtk_crtc->hw_lock);
+> >  
+> 
+> 
 
-With the few things mentioned above fixed:
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
