@@ -1,70 +1,111 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81BC011F246
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 15:44:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79C3811F216
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 15:43:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8324E6E392;
-	Sat, 14 Dec 2019 14:43:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92CB36E34B;
+	Sat, 14 Dec 2019 14:42:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0885C6E44A
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 10:42:27 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 75F6E5DBA;
- Fri, 13 Dec 2019 05:42:25 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Fri, 13 Dec 2019 05:42:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=vgk7FL9HE/DhoT+VdhEoE7vu/ra
- uoTEyo8weCVOH8SA=; b=RpFkaa9J+pcmp6q042NfBbI+t4NPy44WfK7eZAubKAs
- ZKmfz+/gQwdfw1VGjcCP+TdJtLpuWqWnNnhhbKHE2CH3XRisIvVteygfQ57kgJIh
- 5Z41vC5AaG/c0m6i2kvDEKdKH2AryU2VlZDn9Tp5wgzGHu0/qYBnWgaS8JPryXju
- UbWLNXvcYi6Oj6GdPr61Q1gpdYMHe7o4Zht6oWpo+zpjLNAkBCvV6QaIpL2Snz91
- XN2ZptryfOMVfuOpgtbXYoIbXMihPb0jGhEaCB7x9IwFt0evCzXkhg+0DFjubWe7
- dR0EGJUd0AHegkEHACR6ir4Ti5qUmRoK0mDxFMzIxSA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=vgk7FL
- 9HE/DhoT+VdhEoE7vu/rauoTEyo8weCVOH8SA=; b=QbEiOiTNPE4vD8e/j0D6Xz
- hHkAJO9PuQOnrlRvK0TlELR1Obr+MrBiuuswLxi7Q3mS8oN/vNVAYtWU9Oq7h3Yv
- Yjmxk4cvIjlZugr4tv0TeRqVxbeR+eUdshIWKLJq6B3l0b/epJTZLEnnCbNo8jQv
- +r5b4Qzh0yb4K4c07DS2cYxLqx1TXi7LDs8CxvBcbJ64NNYHJGlKXMOAnIOpp+YJ
- hrjk+lSxeylKsjso+5EAs515iBCaOCERQHOhBd8/hYgpwkhL+4qZVmaIjv72/UKa
- 5wqVWweRSSQ+vIS/1xKtttFZXsgccfp2L/Gdf9mngF7wEDEoIwERndy7ZMbjTxLg
- ==
-X-ME-Sender: <xms:EGvzXaWsPeAoZSrolyzvTW9LlB-g28VteYOcfsoU5i36WZ1vL3LUpw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudelledgudelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuffhomhgrih
- hnpeguvghvihgtvghtrhgvvgdrohhrghenucfkphepledtrdekledrieekrdejieenucfr
- rghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthhenucevlh
- hushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:EGvzXZLVgHDuGQlZli344liZwYvtfwgs-eiRQu2IdBbpEuf_EENilw>
- <xmx:EGvzXVjism9prFcsHIdmqepdKm3Dnqcevmf2NqkpaIDFrKsDkm4DNA>
- <xmx:EGvzXZk1lj4Xasztv1_-P3ol-owH8fF-NI_OA7SHt3KUCpt2hVa85w>
- <xmx:EWvzXZiSmSwJzI-7t7-Mit9M7DaCXnPWb3Vi_3NGoSes6QqBt6GP0A>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 98B163060158;
- Fri, 13 Dec 2019 05:42:24 -0500 (EST)
-Date: Fri, 13 Dec 2019 11:42:23 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jyri Sarha <jsarha@ti.com>
-Subject: Re: [PATCH v3 1/5] dt-bindings: display: ti, k2g-dss: Add dt-schema
- yaml binding
-Message-ID: <20191213104223.u55zlm2zwpgarvil@gilmour.lan>
-References: <cover.1576158368.git.jsarha@ti.com>
- <7c2e386d48cf0c8b932804f24e3f6ea81fe3d3a3.1576158368.git.jsarha@ti.com>
+Received: from mx0a-0014ca01.pphosted.com (mx0a-0014ca01.pphosted.com
+ [208.84.65.235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DD226E45F
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 11:06:06 +0000 (UTC)
+Received: from pps.filterd (m0042385.ppops.net [127.0.0.1])
+ by mx0a-0014ca01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xBDB1wg6000540; Fri, 13 Dec 2019 03:06:00 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=proofpoint;
+ bh=/23mMUow4WBN3sMWudMMwQWgBTK0aGNmUDgN1LHNIIM=;
+ b=KhyCLQQbZnSNx/NVe5mrXrE+nRxWJ2uzSHfY7rvyE55QmhB9K4gqvrOhSw6iEJaMi0wJ
+ Bqd9PSrYsz9oFVv+gE3Jml+1UH5Zs/jM0SPzTwrqGYzgDmAZLQph141Dwf/u9i1ozmNd
+ 06xT5zcHw3POhm27FUBwz4NGPpAJWCyDxIBnM+ce0+GvyOWCCMlbgQjYbbKUj5O4cyZH
+ dnLA96YpHdaA/73e8gsImV/SEmIchaA5hamVcihz8gg7XCq7hh4r3c4WXwVIq0goRm/P
+ WgTgLgw9FncASRCuHwRa6oV/H7go+TKRc6pe6/bqDi8lG/Zp0sBqqQF/WfqMn4aJFtmA hw== 
+Received: from nam02-bl2-obe.outbound.protection.outlook.com
+ (mail-bl2nam02lp2056.outbound.protection.outlook.com [104.47.38.56])
+ by mx0a-0014ca01.pphosted.com with ESMTP id 2wra70p4a4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 13 Dec 2019 03:06:00 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZSHFr0jqlI4yYDEq1zjbhDEtFBNlgeN5u+l6FVXIkrd9V/t4fPS8lYeBiqjzz7tGebGJeZDBUeIdM1UomPYn3D3Wu+DJm5KWLGFIZdnYupfVWOB7tuWYldQ9APoUIXnleyJTnSnpO2qWLAaePfCnflKkR1Bf6KsFGTIig+iFMKKz1bOtNGZ54GEgMc3CDinxTrYkBQbRzbPhhDLGGWWLu0hGQB2KxH3agowXxCs3ZcUNV5K5RmwxaE/2XUbbxCK902QCt/WlJwjcbM6iiSHc11ZuJCLaIURWW4F9Qkf3jHPeFd8zA7f+whd+6dup4Bgv84BQTk3f8d8Fz3iVOsC3Gw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/23mMUow4WBN3sMWudMMwQWgBTK0aGNmUDgN1LHNIIM=;
+ b=Dgkr7G++SIr/VsL52PeEdwb7jjli1EhGW6eaaTiiBIbLMMfTWuwp6bySSy2hhLWpDLmBTCsFbAFkPFGF4KyRvysagUB/GCB10RDuwELZUX2sp3aneI2Pba3qZZDZKsALnkJSwvbsYfGXzl3guuLH+1uM3Q3QMVWP+01rOW3nxX4rLpdwUPZhUV4/Kwm9z8RLrZt0JRI9BTQaWiylLVR8VAXGuIf6BidX8Zh9TTJxpp4PHXQKauUMXRRscCFGYX5/CElBsJMgFOAskgtN7eGKDcPkuk/YRINlsOmqzwIsUGfHqrPoIIx57AvtLWc0lT373Wv1U5q1d3Vny12LVj33cg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cadence.com; dmarc=pass action=none header.from=cadence.com;
+ dkim=pass header.d=cadence.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/23mMUow4WBN3sMWudMMwQWgBTK0aGNmUDgN1LHNIIM=;
+ b=jbq2v41tu4E00pXvEC6hSbvVXD4hHuwYhwsYnov/XFM98D/PyOe4mtErIDOtocWDrCAQJe573DfuG/i5tCOK9TQgUshb0m37NehKbxgLv9WLuuJp1CqTTLbUdFE6rvX2kJt8HlIoCk+RzOp5dBszQtNL2x/BhYgWnRtDXxnBi1E=
+Received: from BYAPR07MB5110.namprd07.prod.outlook.com (20.176.255.14) by
+ BYAPR07MB4759.namprd07.prod.outlook.com (52.135.204.25) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2538.18; Fri, 13 Dec 2019 11:05:56 +0000
+Received: from BYAPR07MB5110.namprd07.prod.outlook.com
+ ([fe80::e4c9:23b3:78c1:acdd]) by BYAPR07MB5110.namprd07.prod.outlook.com
+ ([fe80::e4c9:23b3:78c1:acdd%6]) with mapi id 15.20.2516.018; Fri, 13 Dec 2019
+ 11:05:56 +0000
+From: Yuti Suresh Amonkar <yamonkar@cadence.com>
+To: "maxime@cerno.tech" <maxime@cerno.tech>
+Subject: RE: [PATCH v1 03/15] phy: cadence-dp: Rename to phy-cadence-torrent
+Thread-Topic: [PATCH v1 03/15] phy: cadence-dp: Rename to phy-cadence-torrent
+Thread-Index: AQHVqcJsdDBbWbqY5UGr0XLz42J8I6e348qAgAANiSA=
+Date: Fri, 13 Dec 2019 11:05:56 +0000
+Message-ID: <BYAPR07MB51104C210170FF41BF1098C4D2540@BYAPR07MB5110.namprd07.prod.outlook.com>
+References: <1575368005-29797-1-git-send-email-yamonkar@cadence.com>
+ <1575368005-29797-4-git-send-email-yamonkar@cadence.com>
+ <20191213095657.cia5cmcjopcxjyqo@gilmour.lan>
+In-Reply-To: <20191213095657.cia5cmcjopcxjyqo@gilmour.lan>
+Accept-Language: en-IN, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNceWFtb25rYXJcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy04NTk4NTJhZC0xZDk4LTExZWEtYWU3MS0xNGFiYzUzOWE4NjNcYW1lLXRlc3RcODU5ODUyYWUtMWQ5OC0xMWVhLWFlNzEtMTRhYmM1MzlhODYzYm9keS50eHQiIHN6PSIxMjUwIiB0PSIxMzIyMDcwODc1MTIzMjg3NDYiIGg9ImtHSjNyUGgzUExOdjhuK2hlZXdYWHFtOUUxRT0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
+x-dg-rorf: true
+x-originating-ip: [14.143.9.161]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: db919ad8-655e-4431-b3e4-08d77fbc6dc7
+x-ms-traffictypediagnostic: BYAPR07MB4759:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR07MB4759BE82420437A3E29FB05ED2540@BYAPR07MB4759.namprd07.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-forefront-prvs: 0250B840C1
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(4636009)(39860400002)(396003)(366004)(136003)(376002)(346002)(199004)(189003)(13464003)(36092001)(478600001)(7696005)(316002)(107886003)(4326008)(6506007)(53546011)(55236004)(186003)(4744005)(5660300002)(52536014)(8936002)(26005)(54906003)(86362001)(8676002)(81156014)(81166006)(76116006)(66946007)(71200400001)(6916009)(64756008)(66556008)(66476007)(66446008)(33656002)(55016002)(9686003)(2906002);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR07MB4759;
+ H:BYAPR07MB5110.namprd07.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: cadence.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 2fC5nnrfwnVeDa/daSVUqe/YW57Ohycw2JZmcSVB7voUnnHfJLkWSa7/50ZbTZI+miODmqPEKaRNHAzdvwKrKlcn+CYIb/R0rw6g9n/5JAVe/8yQL1xK4nYRNzPzPH1uOdVZZGtSqFCs5Vv2zW5MYfY9tG/49mA1LbEXVQ89B9H0sp2yIl4qfk1W5zTEZ1ZW8Sv6YasNAAA/SVo5+0YLR9tEn58o0m7pFOp9kBa+awouuG+nPgjJIyhMn3U8KhleE94b+Smd/Jof3saHC84IdX8xCyb22d+6wZaGOlPaARsFdYsys7FU2R1uRWwu8yh+n1rqDx7wp8Mvo+l0wRkIVXA5Y0EpPiD6sAru9TZCDttRD1H2P8wAt1/0kdRnuzFMg9G+t48NFS3MspDe9TKCQth60D2FRxVHKcNe3WtRDTQaK3YWswt2YKmycpkvdP89IiECTIrE0xesOkp1sR9kaZz9QKmu48ipprulzsgvmyY1cgJdG2hYMRSsP4SyMOS5IglkiFcyZt+5SmDNLeDBVw==
 MIME-Version: 1.0
-In-Reply-To: <7c2e386d48cf0c8b932804f24e3f6ea81fe3d3a3.1576158368.git.jsarha@ti.com>
+X-OriginatorOrg: cadence.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: db919ad8-655e-4431-b3e4-08d77fbc6dc7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Dec 2019 11:05:56.7218 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: OdS25nPryskdtu8hgge6UrJBlP0QKBt2wtBruoEbcEo1AMRG60l1AaWcV0VbKWNyd7oC7rXvsFU5VjMFZXuTrOqkql2jZuMbKEXP2BWcEPs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR07MB4759
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-12-13_03:2019-12-13,2019-12-13 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check
+ score=0 mlxlogscore=836
+ suspectscore=0 malwarescore=0 phishscore=0 lowpriorityscore=0
+ impostorscore=0 mlxscore=0 bulkscore=0 priorityscore=1501 adultscore=0
+ clxscore=1011 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1912130089
 X-Mailman-Approved-At: Sat, 14 Dec 2019 14:42:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,154 +119,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, yamonkar@cadence.com, praneeth@ti.com,
- tomi.valkeinen@ti.com, subhajit_paul@ti.com, dri-devel@lists.freedesktop.org,
- peter.ujfalusi@ti.com, robh+dt@kernel.org, laurent.pinchart@ideasonboard.com,
- sjakhade@cadence.com, sam@ravnborg.org
-Content-Type: multipart/mixed; boundary="===============1052170838=="
+Cc: Milind Parab <mparab@cadence.com>, "praneeth@ti.com" <praneeth@ti.com>,
+ Dhananjay Vilasrao Kangude <dkangude@cadence.com>,
+ "jsarha@ti.com" <jsarha@ti.com>, "kishon@ti.com" <kishon@ti.com>,
+ "tomi.valkeinen@ti.com" <tomi.valkeinen@ti.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Swapnil Kashinath Jakhade <sjakhade@cadence.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1052170838==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="h7rjevoyojpmg3m3"
-Content-Disposition: inline
-
-
---h7rjevoyojpmg3m3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
 Hi,
 
-On Thu, Dec 12, 2019 at 03:51:57PM +0200, Jyri Sarha wrote:
-> Add dt-schema yaml bindig for K2G DSS, an ultra-light version of TI
-> Keystone Display SubSystem.
->
-> Version history:
->
-> v2: no change
->
-> v3: - Add ports node
->     - Add includes to dts example
->     - reindent dts example
->
-> Signed-off-by: Jyri Sarha <jsarha@ti.com>
-> ---
->  .../bindings/display/ti/ti,k2g-dss.yaml       | 118 ++++++++++++++++++
->  1 file changed, 118 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
->
-> diff --git a/Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
-> new file mode 100644
-> index 000000000000..90158e8b6aad
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
-> @@ -0,0 +1,118 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +# Copyright 2019 Texas Instruments Incorporated
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/display/ti/ti,k2g-dss.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +
-> +title: Texas Instruments K2G Display Subsystem
-> +
-> +maintainers:
-> +  - Jyri Sarha <jsarha@ti.com>
-> +  - Tomi Valkeinen <tomi.valkeinen@ti.com>
-> +
-> +description: |
-> +  The K2G DSS is an ultra-light version of TI Keystone Display
-> +  SubSystem. It has only one output port and video plane. The
-> +  output is DPI.
-> +
-> +properties:
-> +  compatible:
-> +    const: ti,k2g-dss
-> +
-> +  reg:
-> +    maxItems: 5
-> +    minItems: 5
+> -----Original Message-----
+> From: Maxime Ripard <maxime@cerno.tech>
+> Sent: Friday, December 13, 2019 15:27
+> To: Yuti Suresh Amonkar <yamonkar@cadence.com>
+> Cc: dri-devel@lists.freedesktop.org; Milind Parab <mparab@cadence.com>;
+> praneeth@ti.com; Dhananjay Vilasrao Kangude <dkangude@cadence.com>;
+> jsarha@ti.com; kishon@ti.com; tomi.valkeinen@ti.com; Swapnil Kashinath
+> Jakhade <sjakhade@cadence.com>
+> Subject: Re: [PATCH v1 03/15] phy: cadence-dp: Rename to phy-cadence-
+> torrent
+> 
+> EXTERNAL MAIL
+> 
+> 
+> Hi,
+> 
+> On Tue, Dec 03, 2019 at 11:13:13AM +0100, Yuti Amonkar wrote:
+> > Rename Cadence DP PHY driver from phy-cadence-dp to
+> > phy-cadence-torrent to make it more generic for future use. Modifiy
+> > Makefile and Kconfig accordingly. Also, change driver compatible from
+> > "cdns,dp-phy" to "cdns,torrent-phy".
+> 
+> You can't really do that though, this breaks any DT using the old compatible.
+> 
 
-When they are equal, you need only one of the two, the tools will add
-the other.
+This driver has never been functional, and there do not exist any active use case, and hence the compatible string has never been in any of the dt file.
 
-Also, adding a description of what those registers are supposed to be
-would be great.
+> Maxime
 
-> +
-> +  reg-names:
-> +    items:
-> +      - const: cfg
-> +      - const: common
-> +      - const: vid1
-> +      - const: ovr1
-> +      - const: vp1
-> +
-> +  clocks:
-> +    maxItems: 2
-> +    minItems: 2
-
-Ditto
-
-> +
-> +  clock-names:
-> +    items:
-> +      - const: fck
-> +      - const: vp1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +    description: phandle to the associated power domain
-> +
-> +  ports:
-> +    type: object
-> +    description:
-> +      Ports as described in Documentation/devictree/bindings/graph.txt
-> +    properties:
-> +      "#address-cells":
-> +        const: 1
-> +
-> +      "#size-cells":
-> +        const: 0
-> +
-> +      port@0:
-> +        type: object
-> +        description:
-> +          The DSS DPI output port node
-
-If there's only one port, why do you need ports in the first place?
-
-Thanks!
-Maxime
-
---h7rjevoyojpmg3m3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXfNrDwAKCRDj7w1vZxhR
-xXoAAP4+hx3XYi8AsAWRYJersbx7MZ2tEkHeK0WLriGTWXJ5fwEAyV7WaqLUhkzn
-qbrivmLoR+AKdYiDgIO+USQn229uMwE=
-=vNap
------END PGP SIGNATURE-----
-
---h7rjevoyojpmg3m3--
-
---===============1052170838==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Thanks & Regards,
+Yuti Amonkar
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1052170838==--
