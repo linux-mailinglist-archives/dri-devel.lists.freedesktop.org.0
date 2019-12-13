@@ -2,64 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B82B811F221
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 15:43:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B59A11F235
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 15:44:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 798566E391;
-	Sat, 14 Dec 2019 14:43:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B45D6E39E;
+	Sat, 14 Dec 2019 14:43:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 928476E904
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 15:35:25 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id y1so2262238lfb.6
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 07:35:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=P748Vsp09cCRTRcxy70hlgcdkJz7E0UTUbE5zxl6voc=;
- b=VD6f5w97NY3gcooN97XbqvnT/Br1DI5DCw9FYJLBtQFsBThPlz9IBIhNH6oxgpxQeL
- dRD8cGFDUh6JMp7ZBzCxo4K8arT7Mesy41KOmPNW7e1YnJmTnJovUMdTTcEBooYsXfdv
- Y4gHujAkyKh1Z2JfWp068Brc7+uDS6YigBFtqjnnEGMPXU+XkdJoFleN0XaBTYhLFokO
- 1CBa6xCMcieD4WrKHV8qUbOqWL6iEixm1w6f/JXbDqecPP/wEcJyYFO+vFJ62GJNlvfr
- agVKwsa0A2cx5WG7ufyshCeVAz1BUYM+FFmUXlYW++RuMcgX32ISjWHni2pjgUYtmQsd
- CLyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=P748Vsp09cCRTRcxy70hlgcdkJz7E0UTUbE5zxl6voc=;
- b=FZ+2hhun76K2Vtpz6UjeelKpEnqVFtO0cONILY2vpe45Ow1AfYhjh9922018I2g9Rf
- ZkQ9DSl1/uB7HIRgxqWUE41p8/0tKowTy5/oM406HkY152tb+6Ot+oJbzTkLyKKkVv72
- XI7ra6FHNtOV7IpJkTbBMs34okVfRmowVSsUPZLH2C1/H8Pn98CfzmCbTgin2WTTaHu0
- /5ezoGz9X1oGQu8mozW1vds54qG4ARU7Shu1k/fLWYr8g4fMdlritlsKtFXMz2dJu7ec
- IIwIZxHWzVue2AOrfeTmGSWcR6h1+Gtjd/LSv91LLaUQpwicdTp0DhiZVAZhU9bIPTDm
- SBNw==
-X-Gm-Message-State: APjAAAWXtPibQZNOMQj8ZvyAf474BLjc0+kAhUB/048pE1W+fBVlkxTF
- cjMRyKi0cDMYfhDtWtBTOOgp2JGZ
-X-Google-Smtp-Source: APXvYqxKzjmZ4Yx0JOzoVg23GJOQquInIo6XIAoRuSVfBy5812lcbMiIrxHtnQtwhPEeX0pF9HuC/Q==
-X-Received: by 2002:a19:7604:: with SMTP id c4mr9629825lff.101.1576251323734; 
- Fri, 13 Dec 2019 07:35:23 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru.
- [79.139.233.37])
- by smtp.googlemail.com with ESMTPSA id n5sm4975554ljh.86.2019.12.13.07.35.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Dec 2019 07:35:23 -0800 (PST)
-Subject: Re: [Regression 5.5-rc1] Extremely low GPU performance on NVIDIA
- Tegra20/30
-To: Thierry Reding <thierry.reding@gmail.com>
-References: <a2c9eb65-c600-bf49-2c32-bddf7b44f784@gmail.com>
- <20191213151045.GB222809@ulmo>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <d03876b8-b0d1-850b-7ae8-a61302e23843@gmail.com>
-Date: Fri, 13 Dec 2019 18:35:22 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
+ [64.147.123.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E6706E904
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 15:45:10 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id F1FA5AB1;
+ Fri, 13 Dec 2019 10:45:07 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Fri, 13 Dec 2019 10:45:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=5JAgDtWDkIDmthg8go42Q5MuWRt
+ 6MKcHPtWZtAAcJHQ=; b=PN7VXzaGZLBHEKxf45e750Dl2CMz0pcRwodc/hlppS+
+ gQbxrwF2BpFqwlUKEgmR47mR7mpq1+JaWcBtg+DdclkL3Np4nst5mkn5pvXvaYWX
+ 62p2Z2kql4Vc1ljsfDimuA6E6kRc7hKAY/hPTMI61vezEaRKr6MlLCp/U2dIwODs
+ q/ESW59YiN2vXoUDuN15Ck/oCI6BkENWQO47kN0jCSUCyxoNUZLZRNU41m30L9oy
+ J7hgDWMHd4SIEfEsIHmvZoYCxEqEO/q0tfDn0KIM9PS1+gtrn69UTUk14SBlMCgd
+ GoNJaVs+qe6BHPKxnDBJ8QMnvlMb8tQNJnNCecKegBw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=5JAgDt
+ WDkIDmthg8go42Q5MuWRt6MKcHPtWZtAAcJHQ=; b=NRBnoPL32IFe/ppdXPbHyD
+ JlCmAmXUXBWDjcxOv7djZyq4N/frn9os8u9s3P7OeOYmUiKZvsBLiU8HQm74ajin
+ 56ceU4+nboZcow0s4m4dKUPt5xtkh1JPjI5uBm/YCTvRz4ENmCwZSo13Z37VeT+n
+ tNdokzdUWZkWDV+VOUnc3yZJg03vzwMCYHkr3KWY5cG7iPkgKluNjtrtz912QvjW
+ lFS6kdvAGS0/x2+9KRbk8NpjEsOctI00XoMlwLjGrNbfFku7rNsM/gycf4R1M/1d
+ jM0bYwqdnX3/trN6IyZhPcZxfP8BY4o6Xvir6/AHMQPLRS4Mh6GEbpRKb1C4nErQ
+ ==
+X-ME-Sender: <xms:A7LzXRIpGdWXgs-RCzvqvY_O3sWAQKdnges0xjiqonywx3NyVAR9JQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudelledgkedtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpedfmhgrgihi
+ mhgvsegtvghrnhhordhtvggthhdfuceomhgrgihimhgvsegtvghrnhhordhtvggthheqne
+ cukfhppeeltddrkeelrdeikedrjeeinecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgig
+ ihhmvgestggvrhhnohdrthgvtghhnecuvehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:A7LzXRaeWXB6ahcz5QcuJwrKngDG_ehWxa6oeBHyCLOxUTWpoltvsQ>
+ <xmx:A7LzXUsAI-zbFiG7dKW_-rq-Q1XnlM70Z8XEvuSEE7OHG7H9FroyXg>
+ <xmx:A7LzXWuLTVs-NbjSSa3UVWoq_MZdSA4EYjZofJlFZCnd5RSwu2MKkw>
+ <xmx:A7LzXZzOZ73RJ5K2xaFScnjfHaZU-PIpZdhLbUu4oN8ncTFhV7IAVQ>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 9D01B8006A;
+ Fri, 13 Dec 2019 10:45:06 -0500 (EST)
+Date: Fri, 13 Dec 2019 16:45:04 +0100
+From: "maxime@cerno.tech" <maxime@cerno.tech>
+To: Yuti Suresh Amonkar <yamonkar@cadence.com>
+Subject: Re: [PATCH v1 03/15] phy: cadence-dp: Rename to phy-cadence-torrent
+Message-ID: <20191213154504.2qvvh4z5gin3ymnd@gilmour.lan>
+References: <1575368005-29797-1-git-send-email-yamonkar@cadence.com>
+ <1575368005-29797-4-git-send-email-yamonkar@cadence.com>
+ <20191213095657.cia5cmcjopcxjyqo@gilmour.lan>
+ <BYAPR07MB51104C210170FF41BF1098C4D2540@BYAPR07MB5110.namprd07.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <20191213151045.GB222809@ulmo>
-Content-Language: en-US
+In-Reply-To: <BYAPR07MB51104C210170FF41BF1098C4D2540@BYAPR07MB5110.namprd07.prod.outlook.com>
 X-Mailman-Approved-At: Sat, 14 Dec 2019 14:42:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,65 +78,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Milind Parab <mparab@cadence.com>, "praneeth@ti.com" <praneeth@ti.com>,
+ Dhananjay Vilasrao Kangude <dkangude@cadence.com>,
+ "jsarha@ti.com" <jsarha@ti.com>, "kishon@ti.com" <kishon@ti.com>,
+ "tomi.valkeinen@ti.com" <tomi.valkeinen@ti.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Swapnil Kashinath Jakhade <sjakhade@cadence.com>
+Content-Type: multipart/mixed; boundary="===============0818879934=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MTMuMTIuMjAxOSAxODoxMCwgVGhpZXJyeSBSZWRpbmcg0L/QuNGI0LXRgjoKPiBPbiBGcmksIERl
-YyAxMywgMjAxOSBhdCAxMjoyNTozM0FNICswMzAwLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4+
-IEhlbGxvIFRoaWVycnksCj4+Cj4+IENvbW1pdCBbMV0gaW50cm9kdWNlZCBhIHNldmVyZSBHUFUg
-cGVyZm9ybWFuY2UgcmVncmVzc2lvbiBvbiBUZWdyYTIwIGFuZAo+PiBUZWdyYTMwIHVzaW5nLgo+
-Pgo+PiBbMV0KPj4gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9n
-aXQvdG9ydmFsZHMvbGludXguZ2l0L2NvbW1pdC8/aD12NS41LXJjMSZpZD1mYTY2NjFiN2FhMGI1
-MjA3MzY4MWIwZDI2NzQyNjUwYzhjYmQzMGYzCj4+Cj4+IEludGVyZXN0aW5nbHkgdGhlIHBlcmZv
-cm1hbmNlIGlzIG9rYXkgb24gVGVncmEzMCBpZgo+PiBDT05GSUdfVEVHUkFfSE9TVDFYX0ZJUkVX
-QUxMPW4sIGJ1dCB0aGF0IGRvZXNuJ3QgbWFrZSBkaWZmZXJlbmNlIGZvcgo+PiBUZWdyYTIwLgo+
-Pgo+PiBJIHdhcyB0ZWxsaW5nIHlvdSBhYm91dCB0aGlzIHByb2JsZW0gb24gdGhlICN0ZWdyYSBJ
-UkMgc29tZXRpbWUgYWdvIGFuZAo+PiB5b3UgYXNrZWQgdG8gcmVwb3J0IGl0IGluIGEgdHJhY2th
-YmxlIGZvcm0sIHNvIGZpbmFsbHkgaGVyZSBpdCBpcy4KPj4KPj4gWW91IGNvdWxkIHJlcHJvZHVj
-ZSB0aGUgcHJvYmxlbSBieSBydW5uaW5nIFsyXSBsaWtlIHRoaXMKPj4gYGdyYXRlL3RleHR1cmUt
-ZmlsdGVyIC1mIC1zYCB3aGljaCBzaG91bGQgcHJvZHVjZSBvdmVyIDEwMCBGUFMgZm9yIDcyMHAK
-Pj4gZGlzcGxheSByZXNvbHV0aW9uIGFuZCBjdXJyZW50bHkgaXQncyB+MTEgRlBTLgo+Pgo+PiBb
-Ml0KPj4gaHR0cHM6Ly9naXRodWIuY29tL2dyYXRlLWRyaXZlci9ncmF0ZS9ibG9iL21hc3Rlci90
-ZXN0cy9ncmF0ZS90ZXh0dXJlLWZpbHRlci5jCj4+Cj4+IFByZXZpb3VzbHkgSSB3YXMgc2VlaW5n
-IHNvbWUgbWVtb3J5IGVycm9ycyBjb21pbmcgZnJvbSBIb3N0MXggRE1BLCBidXQKPj4gZG9uJ3Qg
-c2VlIGFueSBlcnJvcnMgYXQgYWxsIHJpZ2h0IG5vdy4KPj4KPj4gSSBkb24ndCBzZWUgYW55dGhp
-bmcgZG9uZSBob3JyaWJseSB3cm9uZyBpbiB0aGUgb2ZmZW5kaW5nIGNvbW1pdC4KPj4KPj4gVW5m
-b3J0dW5hdGVseSBJIGNvdWxkbid0IGRlZGljYXRlIGVub3VnaCB0aW1lIHRvIHNpdCBkb3duIGFu
-ZCBkZWJ1ZyB0aGUKPj4gcHJvYmxlbSB0aG9yb3VnaGx5IHlldC4gUGxlYXNlIGxldCBtZSBrbm93
-IGlmIHlvdSdsbCBmaW5kIGEgc29sdXRpb24sCj4+IEknbGwgYmUgaGFwcHkgdG8gdGVzdCBpdC4g
-VGhhbmtzIGluIGFkdmFuY2UhCj4gCj4gSSBzdXNwZWN0IHRoYXQgdGhlIHByb2JsZW0gaGVyZSBp
-cyB0aGF0IHdlJ3JlIG5vdyB1c2luZyB0aGUgRE1BIEFQSSwKPiB3aGljaCBjYXVzZXMgdGhlIDMy
-LWJpdCBBUk0gRE1BL0lPTU1VIGdsdWUgdG8gYmUgdXNlZC4gSSB2YWd1ZWx5IHJlY2FsbAo+IHRo
-YXQgdGhhdCBjb2RlIGRvZXNuJ3QgY29hbGVzY2UgZW50cmllcyBpbiB0aGUgU0cgdGFibGUsIHNv
-IHdlIG1heSBlbmQKPiB1cCBjYWxsaW5nIGlvbW11X21hcCgpIGEgbG90IG9mIHRpbWVzLCBhbmQg
-bWlzcyBvdXQgb24gbXVjaCBvZiB0aGUKPiBhZHZhbnRhZ2VzIHRoYXQgdGhlIC0+aW90bGJfc3lu
-Y19tYXAoKSBnaXZlcyB1cyBvbiBUZWdyYTIwLgo+IAo+IEF0IHRoZSBzYW1lIHRpbWUgZG1hX21h
-cF9zZygpIHdpbGwgZmx1c2ggY2FjaGVzLCB3aGljaCB3ZSBkaWRuJ3QgZG8KPiBiZWZvcmUuIFRo
-aXMgd2Ugc2hvdWxkIGJlIGFibGUgdG8gaW1wcm92ZSBieSBwYXNzaW5nIHRoZSBhdHRyaWJ1dGUK
-PiBETUFfQVRUUl9TS0lQX0NQVV9TWU5DIHRvIGRtYV9tYXBfc2coKSB3aGVuIHdlIGtub3cgdGhh
-dCB0aGUgY2FjaGUKPiBtYWludGVuYW5jZSBpc24ndCBuZWVkZWQuCj4gCj4gQW5kIHdoaWxlIHRo
-aW5raW5nIGFib3V0IGl0LCBvbmUgb3RoZXIgZGlmZmVyZW5jZSBpcyB0aGF0IHdpdGggdGhlIERN
-QQo+IEFQSSB3ZSBhY3R1YWxseSBtYXAvdW5tYXAgdGhlIGJ1ZmZlcnMgZm9yIGV2ZXJ5IHN1Ym1p
-c3Npb24uIFRoaXMgaXMKPiBiZWNhdXNlIHRoZSBETUEgQVBJIHNlbWFudGljcyByZXF1aXJlIHRo
-YXQgYnVmZmVycyBiZSBtYXBwZWQvdW5tYXBwZWQKPiBldmVyeSB0aW1lIHlvdSB1c2UgdGhlbS4g
-UHJldmlvdXNseSB3ZSB3b3VsZCBiYXNpY2FsbHkgb25seSBtYXAgZWFjaAo+IGJ1ZmZlciBvbmNl
-IChhdCBhbGxvY2F0aW9uIHRpbWUpIGFuZCBvbmx5IGhhdmUgdG8gZGVhbCB3aXRoIGNhY2hlCj4g
-bWFpbnRlbmFuY2UsIHNvIHRoZSBvdmVyaGVhZCBwZXIgc3VibWlzc2lvbiB3YXMgZHJhc3RpY2Fs
-bHkgbG93ZXIuCj4gCj4gSWYgRE1BX0FUVFJfU0tJUF9DUFVfU1lOQyBkb2Vzbid0IGdpdmUgdXMg
-ZW5vdWdoIG9mIGFuIGltcHJvdmVtZW50LCB3ZQo+IG1heSB3YW50IHRvIHJlc3RvcmUgZXhwbGlj
-aXQgSU9NTVUgdXNhZ2UsIGF0IGxlYXN0IG9uIGFueXRoaW5nIHByaW9yIHRvCj4gVGVncmExMjQg
-d2hlcmUgd2UncmUgdW5saWtlbHkgdG8gZXZlciB1c2UgZGlmZmVyZW50IElPTU1VIGRvbWFpbnMg
-YW55d2F5Cj4gKGJlY2F1c2UgdGhleSBhcmUgc3VjaCBhIHNjYXJjZSByZXNvdXJjZSkuCgpUZWdy
-YTIwIGRvZXNuJ3QgdXNlIElPTU1VIGluIGEgdmFuaWxsYSB1cHN0cmVhbSBrZXJuZWwgKHlldCks
-IHNvIEkgZG9uJ3QKdGhpbmsgdGhhdCBpdCdzIHRoZSByb290IG9mIHRoZSBwcm9ibGVtLiBEaXNh
-YmxpbmcgSU9NTVUgZm9yIFRlZ3JhMzAKYWxzbyBkaWRuJ3QgaGVscCAoSUlSQykuCgpUaGUgb2Zm
-ZW5kaW5nIHBhdGNoIHNob3VsZG4ndCBjaGFuZ2UgYW55dGhpbmcgaW4gcmVnYXJkcyB0byB0aGUg
-RE1BIEFQSSwKaWYgSSdtIG5vdCBtaXNzaW5nIHNvbWV0aGluZy4gU3RyYW5nZS4uCgpQbGVhc2Ug
-a2VlcCBtZSB1cC10by1kYXRlIQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWwK
+
+--===============0818879934==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="watnj2ztuq7jcc6l"
+Content-Disposition: inline
+
+
+--watnj2ztuq7jcc6l
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Fri, Dec 13, 2019 at 11:05:56AM +0000, Yuti Suresh Amonkar wrote:
+> Hi,
+>
+> > -----Original Message-----
+> > From: Maxime Ripard <maxime@cerno.tech>
+> > Sent: Friday, December 13, 2019 15:27
+> > To: Yuti Suresh Amonkar <yamonkar@cadence.com>
+> > Cc: dri-devel@lists.freedesktop.org; Milind Parab <mparab@cadence.com>;
+> > praneeth@ti.com; Dhananjay Vilasrao Kangude <dkangude@cadence.com>;
+> > jsarha@ti.com; kishon@ti.com; tomi.valkeinen@ti.com; Swapnil Kashinath
+> > Jakhade <sjakhade@cadence.com>
+> > Subject: Re: [PATCH v1 03/15] phy: cadence-dp: Rename to phy-cadence-
+> > torrent
+> >
+> > EXTERNAL MAIL
+> >
+> >
+> > Hi,
+> >
+> > On Tue, Dec 03, 2019 at 11:13:13AM +0100, Yuti Amonkar wrote:
+> > > Rename Cadence DP PHY driver from phy-cadence-dp to
+> > > phy-cadence-torrent to make it more generic for future use. Modifiy
+> > > Makefile and Kconfig accordingly. Also, change driver compatible from
+> > > "cdns,dp-phy" to "cdns,torrent-phy".
+> >
+> > You can't really do that though, this breaks any DT using the old compatible.
+> >
+>
+> This driver has never been functional, and there do not exist any
+> active use case, and hence the compatible string has never been in
+> any of the dt file.
+
+Ok, I guess that should be made clearer in the commit log then.
+
+Thanks!
+Maxime
+
+--watnj2ztuq7jcc6l
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXfOyAAAKCRDj7w1vZxhR
+xch8AP9GpLTVXRF+HhRsGLZ+Xgz2KNZkQ+GetkM4LLdfn7O8vAD/dx1+jY2x/aJZ
+3Ftq1QrcNaV8WyHUCdFwpcfYoYJy2QE=
+=/oii
+-----END PGP SIGNATURE-----
+
+--watnj2ztuq7jcc6l--
+
+--===============0818879934==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0818879934==--
