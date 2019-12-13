@@ -2,53 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 412C011DF51
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 09:22:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14CA911DF48
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 09:22:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A66926E2A3;
-	Fri, 13 Dec 2019 08:22:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B68246E29A;
+	Fri, 13 Dec 2019 08:22:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33A8F6E227
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 22:47:55 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id p17so4440145wma.1
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2019 14:47:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5IJJRTBUjrokx6n8I8OPKUPzWJ7qg8DNRBW3t4GV4Hs=;
- b=kX4Os0/lmxUm0ai4YVXeTrYk3/ranF6amw6hCIl/ou5WqeGFakXwQU+loVIIgfi4xc
- oglwyJSaXF6gkgkPBV2wqaCrkUBE4toVvQqRGyHHhNPJ/huzNw/cXU8CARArhIFV/+w0
- 248c/615FpGIQfyc1bJwr17+CPu01hMLuo4bI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5IJJRTBUjrokx6n8I8OPKUPzWJ7qg8DNRBW3t4GV4Hs=;
- b=KU5+S4kR7AhoTMyumYm1NIbRl7AWhV0v47SSeeboKAemBajkEwDWJGOuNOc15YLii7
- I81F27j4M475MZ2JPq1mPUzCk9EXt0eTcMv/ovhDGqVBlDGdmTXy2mDRAAubtbt8UdnF
- w5uLGVDFU+B5WgsiEYLqFmWXsmGi/kd4oG8dmmpY6UWzhet2T29C2OdJgJtYuo2Qz/aX
- /w26NxoLGXuQCRggpEBkhZlKYvgk1BFibFsx6ZYmmOdpktINnznzwxdgAyY1ALs6mP1p
- x2ZhaMZe3xyfjWFB66Qfqae78rO7PU0c5DHBfmNjCGg8rkaVeZGLphkOxqdLfiDQJOgp
- v1+Q==
-X-Gm-Message-State: APjAAAXaKUtZWxra8sq6/nD4XaNFy3c9Hbyv82P7Nf1naCbhDt3EY4Hv
- ZQ6NxXq/CyKtCGIq4J9bUnlmFzbpk3VLSnmc0RQRsA==
-X-Google-Smtp-Source: APXvYqzLUhVmZ2ENiiGNDu1FtI/To6o6PiCFobC/bnZ0WlUCNbChjfxbsuSViZE3KiuSeSBxKkwz8oYHc7ZR/7aSsEs=
-X-Received: by 2002:a1c:4e03:: with SMTP id g3mr9700769wmh.22.1576190873745;
- Thu, 12 Dec 2019 14:47:53 -0800 (PST)
+Received: from onstation.org (onstation.org [52.200.56.107])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85FA56E129;
+ Fri, 13 Dec 2019 02:40:08 +0000 (UTC)
+Received: from localhost (c-98-239-145-235.hsd1.wv.comcast.net
+ [98.239.145.235])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: masneyb)
+ by onstation.org (Postfix) with ESMTPSA id 9AFC43E95E;
+ Fri, 13 Dec 2019 02:40:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=onstation.org;
+ s=default; t=1576204807;
+ bh=sQr9GFcK/nXtEu1pTSwoNpOzLvi72nuH1eZFD30g5xY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Efh644ubspToVFQDygdNpLLalZ9nLPWRZy+7F4VX3puMxXr/PAEgXpq3DChGFb3/0
+ 4k90xVBx3FlLBRb9k8z25jFhhTsn+ymuFeym5VYMb2hCt0Qu9F6YJk2fMPEyDpHcmt
+ buLBa+s6cOzZQ6nONtHjXCi5mutK0LUjJk/gcpD0=
+Date: Thu, 12 Dec 2019 21:40:07 -0500
+From: Brian Masney <masneyb@onstation.org>
+To: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
+Subject: Re: [PATCH] drm/msm/mdp5: enable autocommit
+Message-ID: <20191213024007.GA23636@onstation.org>
+References: <20191112104854.20850-1-masneyb@onstation.org>
+ <CAOCk7NosRhRp3vZxg2Nx8106PQ0ryo5b68cUv605XUzCm6gYPA@mail.gmail.com>
+ <20191113112334.GA18702@onstation.org>
+ <20191203014006.GA7756@onstation.org>
+ <CAOCk7NpHE7kPX5tc=qUJo9qM-7Qzg2E+zmmmhBdnnVwJ+i5XLg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20190919065806.111016-1-jitao.shi@mediatek.com>
- <20190919065806.111016-8-jitao.shi@mediatek.com>
- <1569487880.9612.2.camel@mtksdaap41>
- <CAFqH_52oPHH-9GGCgsYVK5K6ys9OrdkMad59+Mm5CzSdbcx7rw@mail.gmail.com>
-In-Reply-To: <CAFqH_52oPHH-9GGCgsYVK5K6ys9OrdkMad59+Mm5CzSdbcx7rw@mail.gmail.com>
-From: Ryan Case <ryandcase@chromium.org>
-Date: Thu, 12 Dec 2019 14:47:42 -0800
-Message-ID: <CACjz--kPY4DwJjMu+8EWanMWu6oD-OGm-wku3HGFvXea7F-yYw@mail.gmail.com>
-Subject: Re: [PATCH v7 7/9] drm/mediatek: change the dsi phytiming calculate
- method
-To: Enric Balletbo Serra <eballetbo@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <CAOCk7NpHE7kPX5tc=qUJo9qM-7Qzg2E+zmmmhBdnnVwJ+i5XLg@mail.gmail.com>
 X-Mailman-Approved-At: Fri, 13 Dec 2019 08:22:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,262 +51,189 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Boichat <drinkcat@chromium.org>, Jitao Shi <jitao.shi@mediatek.com>,
- srv_heupstream <srv_heupstream@mediatek.com>, David Airlie <airlied@linux.ie>,
- stonea168@163.com, cawa cheng <cawa.cheng@mediatek.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, sj.huang@mediatek.com,
- Hsinyu Chao <hychao@chromium.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Yingjoe Chen <yingjoe.chen@mediatek.com>,
- =?UTF-8?B?RWRkaWUgSHVhbmcgKOm7g+aZuuWCkSk=?= <eddie.huang@mediatek.com>
+Cc: Rob Clark <robdclark@chromium.org>, MSM <linux-arm-msm@vger.kernel.org>,
+ lkml <linux-kernel@vger.kernel.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Sean Paul <sean@poorly.run>, freedreno <freedreno@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Enric,
+Hi Jeffrey,
 
-On Thu, Dec 12, 2019 at 5:53 AM Enric Balletbo Serra
-<eballetbo@gmail.com> wrote:
->
-> Hi,
->
-> Missatge de CK Hu <ck.hu@mediatek.com> del dia dj., 26 de set. 2019 a les 10:51:
+On Tue, Dec 03, 2019 at 07:18:31AM -0700, Jeffrey Hugo wrote:
+> On Mon, Dec 2, 2019 at 6:40 PM Brian Masney <masneyb@onstation.org> wrote:
+> > On Wed, Nov 13, 2019 at 06:23:34AM -0500, Brian Masney wrote:
+> > > On Tue, Nov 12, 2019 at 08:38:27AM -0700, Jeffrey Hugo wrote:
+> > > > On Tue, Nov 12, 2019 at 3:49 AM Brian Masney <masneyb@onstation.org> wrote:
+> > > > >
+> > > > > Since the introduction of commit 2d99ced787e3 ("drm/msm: async commit
+> > > > > support"), command-mode panels began throwing the following errors:
+> > > > >
+> > > > >     msm fd900000.mdss: pp done time out, lm=0
+> > > > >
+> > > > > Let's fix this by enabling the autorefresh feature that's available in
+> > > > > the MDP starting at version 1.0. This will cause the MDP to
+> > > > > automatically send a frame to the panel every time the panel invokes
+> > > > > the TE signal, which will trigger the PP_DONE IRQ. This requires not
+> > > > > sending a START signal for command-mode panels.
+> > > > >
+> > > > > This fixes the error and gives us a counter for command-mode panels that
+> > > > > we can use to implement async commit support for the MDP5 in a follow up
+> > > > > patch.
+> > > > >
+> > > > > Signed-off-by: Brian Masney <masneyb@onstation.org>
+> > > > > Suggested-by: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
+> > > > > ---
+> > > > >  drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c | 15 ++++++++++++++-
+> > > > >  drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c  |  9 +--------
+> > > > >  2 files changed, 15 insertions(+), 9 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+> > > > > index 05cc04f729d6..539348cb6331 100644
+> > > > > --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+> > > > > +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+> > > > > @@ -456,6 +456,7 @@ static void mdp5_crtc_atomic_enable(struct drm_crtc *crtc,
+> > > > >  {
+> > > > >         struct mdp5_crtc *mdp5_crtc = to_mdp5_crtc(crtc);
+> > > > >         struct mdp5_crtc_state *mdp5_cstate = to_mdp5_crtc_state(crtc->state);
+> > > > > +       struct mdp5_pipeline *pipeline = &mdp5_cstate->pipeline;
+> > > > >         struct mdp5_kms *mdp5_kms = get_kms(crtc);
+> > > > >         struct device *dev = &mdp5_kms->pdev->dev;
+> > > > >
+> > > > > @@ -493,9 +494,21 @@ static void mdp5_crtc_atomic_enable(struct drm_crtc *crtc,
+> > > > >
+> > > > >         mdp_irq_register(&mdp5_kms->base, &mdp5_crtc->err);
+> > > > >
+> > > > > -       if (mdp5_cstate->cmd_mode)
+> > > > > +       if (mdp5_cstate->cmd_mode) {
+> > > > >                 mdp_irq_register(&mdp5_kms->base, &mdp5_crtc->pp_done);
+> > > > >
+> > > > > +               /*
+> > > > > +                * Enable autorefresh so we get regular ping/pong IRQs.
+> > > > > +                * - Bit 31 is the enable bit
+> > > > > +                * - Bits 0-15 represent the frame count, specifically how many
+> > > > > +                *   TE events before the MDP sends a frame.
+> > > > > +                */
+> > > > > +               mdp5_write(mdp5_kms,
+> > > > > +                          REG_MDP5_PP_AUTOREFRESH_CONFIG(pipeline->mixer->pp),
+> > > > > +                          BIT(31) | BIT(0));
+> > > > > +               crtc_flush_all(crtc);
+> > > > > +       }
+> > > > > +
+> > > > >         mdp5_crtc->enabled = true;
+> > > > >  }
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c
+> > > > > index 030279d7b64b..aee295abada3 100644
+> > > > > --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c
+> > > > > +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c
+> > > > > @@ -187,14 +187,7 @@ static bool start_signal_needed(struct mdp5_ctl *ctl,
+> > > > >         if (!ctl->encoder_enabled)
+> > > > >                 return false;
+> > > > >
+> > > > > -       switch (intf->type) {
+> > > > > -       case INTF_WB:
+> > > > > -               return true;
+> > > > > -       case INTF_DSI:
+> > > > > -               return intf->mode == MDP5_INTF_DSI_MODE_COMMAND;
+> > > > > -       default:
+> > > > > -               return false;
+> > > > > -       }
+> > > > > +       return intf->type == INTF_WB;
+> > > > >  }
+> > > >
+> > > > I don't think this fully works.
+> > > >
+> > > > The whole "flush" thing exists because the configuration is double
+> > > > buffered.  You write to the flush register to tell the hardware to
+> > > > pickup the new configuration, but it doesn't do that automatically.
+> > > > It only picks up the new config on the next "vsync".  When you have a
+> > > > video mode panel, you have the timing engine running, which drives
+> > > > that.  With a command mode panel, you have either the start signal, or
+> > > > the auto refresh to do the same, but you have a bit of a chicken and
+> > > > egg situation where if you are programming the hardware from scratch,
+> > > > autorefresh isn't already enabled to then pickup the config to enable
+> > > > autorefresh. In this case, you'll need a single start to kick
+> > > > everything off.  However, if say the bootloader already configured
+> > > > things and has autorefresh running, then you need to not do that start
+> > > > because you'll overload the DSI like you saw.
+> > >
+> > > As part of my testing for this work, I added a log statement to
+> > > mdp5_crtc_pp_done_irq() and it shows that a PP_IRQ comes in consistently
+> > > every ~0.0166 seconds, which is about 60 HZ. Without this change, plus
+> > > the 3 commits I mentioned in an earlier email related to the async
+> > > commit support, the PP IRQs come in at a variety of times: between every
+> > > ~0.0140 and ~0.2224 seconds. That's why I assumed that this was working.
+> > >
+> > > If I call send_start_signal() inside mdp5_crtc_atomic_enable(), then the
+> > > display does not work properly.
 > >
-> > Hi, Jitao:
+> > I'd like to get the 'pp done time out' errors that are now occurring
+> > upstream for command-mode panels fixed. As I mentioned above, this patch
+> > fixes the problem on the Nexus 5 and the pp done interrupts are
+> > delivered at approximately 60 HZ. I don't have any other command-mode
+> > panels to test.
 > >
-> > On Thu, 2019-09-19 at 14:58 +0800, Jitao Shi wrote:
-> > > Change the method of frame rate calc which can get more accurate
-> > > frame rate.
-> > >
-> > > data rate = pixel_clock * bit_per_pixel / lanes
-> > > Adjust hfp_wc to adapt the additional phy_data
-> > >
-> > > if MIPI_DSI_MODE_VIDEO_BURST
-> > >       hfp_wc = hfp * bpp - data_phy_cycles * lanes - 12 - 6;
-> > > else
-> > >       hfp_wc = hfp * bpp - data_phy_cycles * lanes - 12;
-> > >
-> > > Note:
-> > > //(2: 1 for sync, 1 for phy idle)
-> > > data_phy_cycles = T_hs_exit + T_lpx + T_hs_prepare + T_hs_zero + 2;
-> > >
-> > > bpp: bit per pixel
-> >
-> > Reviewed-by: CK Hu <ck.hu@mediatek.com>
-> >
-> > >
-> > > Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-> > > Tested-by: Ryan Case <ryandcase@chromium.org>
-> > > ---
-> > >  drivers/gpu/drm/mediatek/mtk_dsi.c | 118 ++++++++++++++++++++---------
->
-> I didn't look in detail yet because looks like there is a lot of maths
-> involved, but this patch introduces a regression for MT8173 or my
-> board (Acer Chromebook R 13 - ELM). I need to revert this patch in
-> order to make the display working, basically, I don't see any error
-> but I only get a black screen. Reverting this patch fixes the issue
-> for me. If anyone knows what could be the problem I'd appreciate.
+> > I'm not sure how to proceed here since sending the start command breaks
+> > the display. I'm likely putting that command in the wrong spot.
+> 
+> Sorry, I didn't realize you were waiting on me,
+> 
+> I'm traveling currently, so this is more off the top of my head than
+> looking at the code/docs.  What I'm thinking is that we want to get
+> autorefresh enabled, which would be simple except that the bootloader
+> may have already enabled it for us.  Perhaps we have a state flag that
+> indicates if autorefresh is enabled, and if so, it skips the start
+> command (where the start command is normally in the code).  When we
+> boot up, we check the hardware and set the flag if its already enabled
+> (note I just realized the flag is per ping pong, so we need multiple
+> flags I guess).  If the flag is not enabled when we go to use the
+> start command, we issue the start, then set the flag.  The only catch
+> is I don't know recall the exact sequence of when we configure the
+> ping pong in the entire initialization sequence.  We may configure a
+> bunch of stuff, but not the ping pong, flush the config (which issues
+> a start) and then get stuck because we didn't set the autorefresh.
 
-I won't pretend to be aware of current status but an in progress patch
-with updated timings that have been tested on elm can be found here:
-https://crrev.com/c/1915442
+I finally had a chance look into this tonight. This makes sense to me:
+the double buffering of the configuration, the start signal, and a
+separate flag for each of the 4 ping pongs on the MDP5.
 
-- ryan
+The part that I'm still unsure about is querying the initial state from
+the boot loader to see if autorefresh is already enabled and whether or
+not a single START command is needed. Here's a slightly modified snippet
+from mdp5_crtc_atomic_enable() in my patch above:
 
->
-> Thanks,
->  Enric
->
-> > >  1 file changed, 81 insertions(+), 37 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> > > index b3676426aeb5..b02373b04848 100644
-> > > --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> > > +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> > > @@ -136,12 +136,6 @@
-> > >  #define DATA_0                               (0xff << 16)
-> > >  #define DATA_1                               (0xff << 24)
-> > >
-> > > -#define T_LPX                5
-> > > -#define T_HS_PREP    6
-> > > -#define T_HS_TRAIL   8
-> > > -#define T_HS_EXIT    7
-> > > -#define T_HS_ZERO    10
-> > > -
-> > >  #define NS_TO_CYCLE(n, c)    ((n) / (c) + (((n) % (c)) ? 1 : 0))
-> > >
-> > >  #define MTK_DSI_HOST_IS_READ(type) \
-> > > @@ -150,6 +144,25 @@
-> > >       (type == MIPI_DSI_GENERIC_READ_REQUEST_2_PARAM) || \
-> > >       (type == MIPI_DSI_DCS_READ))
-> > >
-> > > +struct mtk_phy_timing {
-> > > +     u32 lpx;
-> > > +     u32 da_hs_prepare;
-> > > +     u32 da_hs_zero;
-> > > +     u32 da_hs_trail;
-> > > +
-> > > +     u32 ta_go;
-> > > +     u32 ta_sure;
-> > > +     u32 ta_get;
-> > > +     u32 da_hs_exit;
-> > > +
-> > > +     u32 clk_hs_zero;
-> > > +     u32 clk_hs_trail;
-> > > +
-> > > +     u32 clk_hs_prepare;
-> > > +     u32 clk_hs_post;
-> > > +     u32 clk_hs_exit;
-> > > +};
-> > > +
-> > >  struct phy;
-> > >
-> > >  struct mtk_dsi_driver_data {
-> > > @@ -180,6 +193,7 @@ struct mtk_dsi {
-> > >       enum mipi_dsi_pixel_format format;
-> > >       unsigned int lanes;
-> > >       struct videomode vm;
-> > > +     struct mtk_phy_timing phy_timing;
-> > >       int refcount;
-> > >       bool enabled;
-> > >       u32 irq_data;
-> > > @@ -213,17 +227,36 @@ static void mtk_dsi_phy_timconfig(struct mtk_dsi *dsi)
-> > >  {
-> > >       u32 timcon0, timcon1, timcon2, timcon3;
-> > >       u32 ui, cycle_time;
-> > > +     struct mtk_phy_timing *timing = &dsi->phy_timing;
-> > > +
-> > > +     ui = DIV_ROUND_UP(1000000000, dsi->data_rate);
-> > > +     cycle_time = div_u64(8000000000ULL, dsi->data_rate);
-> > > +
-> > > +     timing->lpx = NS_TO_CYCLE(60, cycle_time);
-> > > +     timing->da_hs_prepare = NS_TO_CYCLE(50 + 5 * ui, cycle_time);
-> > > +     timing->da_hs_zero = NS_TO_CYCLE(110 + 6 * ui, cycle_time);
-> > > +     timing->da_hs_trail = NS_TO_CYCLE(77 + 4 * ui, cycle_time);
-> > >
-> > > -     ui = 1000 / dsi->data_rate + 0x01;
-> > > -     cycle_time = 8000 / dsi->data_rate + 0x01;
-> > > +     timing->ta_go = 4 * timing->lpx;
-> > > +     timing->ta_sure = 3 * timing->lpx / 2;
-> > > +     timing->ta_get = 5 * timing->lpx;
-> > > +     timing->da_hs_exit = 2 * timing->lpx;
-> > >
-> > > -     timcon0 = T_LPX | T_HS_PREP << 8 | T_HS_ZERO << 16 | T_HS_TRAIL << 24;
-> > > -     timcon1 = 4 * T_LPX | (3 * T_LPX / 2) << 8 | 5 * T_LPX << 16 |
-> > > -               T_HS_EXIT << 24;
-> > > -     timcon2 = ((NS_TO_CYCLE(0x64, cycle_time) + 0xa) << 24) |
-> > > -               (NS_TO_CYCLE(0x150, cycle_time) << 16);
-> > > -     timcon3 = NS_TO_CYCLE(0x40, cycle_time) | (2 * T_LPX) << 16 |
-> > > -               NS_TO_CYCLE(80 + 52 * ui, cycle_time) << 8;
-> > > +     timing->clk_hs_zero = NS_TO_CYCLE(336, cycle_time);
-> > > +     timing->clk_hs_trail = NS_TO_CYCLE(100, cycle_time) + 10;
-> > > +
-> > > +     timing->clk_hs_prepare = NS_TO_CYCLE(64, cycle_time);
-> > > +     timing->clk_hs_post = NS_TO_CYCLE(80 + 52 * ui, cycle_time);
-> > > +     timing->clk_hs_exit = 2 * timing->lpx;
-> > > +
-> > > +     timcon0 = timing->lpx | timing->da_hs_prepare << 8 |
-> > > +               timing->da_hs_zero << 16 | timing->da_hs_trail << 24;
-> > > +     timcon1 = timing->ta_go | timing->ta_sure << 8 |
-> > > +               timing->ta_get << 16 | timing->da_hs_exit << 24;
-> > > +     timcon2 = 1 << 8 | timing->clk_hs_zero << 16 |
-> > > +               timing->clk_hs_trail << 24;
-> > > +     timcon3 = timing->clk_hs_prepare | timing->clk_hs_post << 8 |
-> > > +               timing->clk_hs_exit << 16;
-> > >
-> > >       writel(timcon0, dsi->regs + DSI_PHY_TIMECON0);
-> > >       writel(timcon1, dsi->regs + DSI_PHY_TIMECON1);
-> > > @@ -410,7 +443,8 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
-> > >       u32 horizontal_sync_active_byte;
-> > >       u32 horizontal_backporch_byte;
-> > >       u32 horizontal_frontporch_byte;
-> > > -     u32 dsi_tmp_buf_bpp;
-> > > +     u32 dsi_tmp_buf_bpp, data_phy_cycles;
-> > > +     struct mtk_phy_timing *timing = &dsi->phy_timing;
-> > >
-> > >       struct videomode *vm = &dsi->vm;
-> > >
-> > > @@ -437,7 +471,34 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
-> > >               horizontal_backporch_byte = ((vm->hback_porch + vm->hsync_len) *
-> > >                       dsi_tmp_buf_bpp - 10);
-> > >
-> > > -     horizontal_frontporch_byte = (vm->hfront_porch * dsi_tmp_buf_bpp - 12);
-> > > +     data_phy_cycles = timing->lpx + timing->da_hs_prepare +
-> > > +                               timing->da_hs_zero + timing->da_hs_exit + 2;
-> > > +
-> > > +     if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST) {
-> > > +             if (vm->hfront_porch * dsi_tmp_buf_bpp >
-> > > +                 data_phy_cycles * dsi->lanes + 18) {
-> > > +                     horizontal_frontporch_byte = vm->hfront_porch *
-> > > +                                                  dsi_tmp_buf_bpp -
-> > > +                                                  data_phy_cycles *
-> > > +                                                  dsi->lanes - 18;
-> > > +             } else {
-> > > +                     DRM_WARN("HFP less than d-phy, FPS will under 60Hz\n");
-> > > +                     horizontal_frontporch_byte = vm->hfront_porch *
-> > > +                                                  dsi_tmp_buf_bpp;
-> > > +             }
-> > > +     } else {
-> > > +             if (vm->hfront_porch * dsi_tmp_buf_bpp >
-> > > +                 data_phy_cycles * dsi->lanes + 12) {
-> > > +                     horizontal_frontporch_byte = vm->hfront_porch *
-> > > +                                                  dsi_tmp_buf_bpp -
-> > > +                                                  data_phy_cycles *
-> > > +                                                  dsi->lanes - 12;
-> > > +             } else {
-> > > +                     DRM_WARN("HFP less than d-phy, FPS will under 60Hz\n");
-> > > +                     horizontal_frontporch_byte = vm->hfront_porch *
-> > > +                                                  dsi_tmp_buf_bpp;
-> > > +             }
-> > > +     }
-> > >
-> > >       writel(horizontal_sync_active_byte, dsi->regs + DSI_HSA_WC);
-> > >       writel(horizontal_backporch_byte, dsi->regs + DSI_HBP_WC);
-> > > @@ -537,8 +598,7 @@ static int mtk_dsi_poweron(struct mtk_dsi *dsi)
-> > >  {
-> > >       struct device *dev = dsi->host.dev;
-> > >       int ret;
-> > > -     u64 pixel_clock, total_bits;
-> > > -     u32 htotal, htotal_bits, bit_per_pixel, overhead_cycles, overhead_bits;
-> > > +     u32 bit_per_pixel;
-> > >
-> > >       if (++dsi->refcount != 1)
-> > >               return 0;
-> > > @@ -557,24 +617,8 @@ static int mtk_dsi_poweron(struct mtk_dsi *dsi)
-> > >               break;
-> > >       }
-> > >
-> > > -     /**
-> > > -      * htotal_time = htotal * byte_per_pixel / num_lanes
-> > > -      * overhead_time = lpx + hs_prepare + hs_zero + hs_trail + hs_exit
-> > > -      * mipi_ratio = (htotal_time + overhead_time) / htotal_time
-> > > -      * data_rate = pixel_clock * bit_per_pixel * mipi_ratio / num_lanes;
-> > > -      */
-> > > -     pixel_clock = dsi->vm.pixelclock;
-> > > -     htotal = dsi->vm.hactive + dsi->vm.hback_porch + dsi->vm.hfront_porch +
-> > > -                     dsi->vm.hsync_len;
-> > > -     htotal_bits = htotal * bit_per_pixel;
-> > > -
-> > > -     overhead_cycles = T_LPX + T_HS_PREP + T_HS_ZERO + T_HS_TRAIL +
-> > > -                     T_HS_EXIT;
-> > > -     overhead_bits = overhead_cycles * dsi->lanes * 8;
-> > > -     total_bits = htotal_bits + overhead_bits;
-> > > -
-> > > -     dsi->data_rate = DIV_ROUND_UP_ULL(pixel_clock * total_bits,
-> > > -                                       htotal * dsi->lanes);
-> > > +     dsi->data_rate = DIV_ROUND_UP_ULL(dsi->vm.pixelclock * bit_per_pixel,
-> > > +                                       dsi->lanes);
-> > >
-> > >       ret = clk_set_rate(dsi->hs_clk, dsi->data_rate);
-> > >       if (ret < 0) {
-> >
-> >
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+  if (mdp5_cstate->cmd_mode) {
+     /* mdp5_read() returns 0 */
+     val = mdp5_read(mdp5_kms,
+                     REG_MDP5_PP_AUTOREFRESH_CONFIG(pipeline->mixer->pp));
+
+     mdp5_write(mdp5_kms,
+                REG_MDP5_PP_AUTOREFRESH_CONFIG(pipeline->mixer->pp),
+                BIT(31) | BIT(0));
+
+     crtc_flush_all(crtc);
+
+     /* mdp5_read() now returns 0x80000001 */
+     val = mdp5_read(mdp5_kms,
+                     REG_MDP5_PP_AUTOREFRESH_CONFIG(pipeline->mixer->pp));
+  }
+
+So I assume that the boot loader is not enabling autorefresh on this
+board since the value from the first read is zero? Or more likely, that
+since this is double buffered that the first mdp5_read() is reading from
+the configuration buffer that's not active yet and it defaults to 0? Is
+there a way to query the other configuration buffer that's currently
+active?
+
+Why do I see the ping pong IRQs delivered consistently around 60 HZ once
+I enable autorefresh with the patch that started this thread?
+
+Sorry if I'm being dense here.
+
+Brian
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
