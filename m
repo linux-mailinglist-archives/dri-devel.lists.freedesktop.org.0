@@ -2,55 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90D9E11ED02
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 22:40:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B3A911ED04
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 22:41:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCE3C6E084;
-	Fri, 13 Dec 2019 21:40:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 070BA6EDD1;
+	Fri, 13 Dec 2019 21:41:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABD746E084
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 21:40:17 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id r19so259152ljg.3
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 13:40:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anholt-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BFwDG2MYVSxwjtoxPSh4lpuO+A2kFnUi1WWJsTtLfl4=;
- b=XPtRvT4HoRCyXWna51SLY/F2wFwiSQss2qJ0pbwKfSwNupS/SOWIIATssih9T/YXCl
- 4IXYxnZ6s/c30SbSiYJuYkykTZwdnghcbt74Y2FSToizbomZnAufrQwDs3rQJlzv2ABa
- SvTqCB2WdohyrjqXCd82DU6UiupKwPthMAwAPQU7g+lF9nVRUNhnjqHBtTCUjRbYTYzI
- dYg4V5pmcW4XROGCxm5dTGOlHEqbpcEnNjJiv6+cVmrPE48gXXTK4ABIHEow9FLHKbkB
- LpktECzva4mou2fRds1VU6M8F4rBfOtkFkK9WLWVhcC4s9YxO6Wh3pPXfSSJ91mJCxZ/
- JPuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BFwDG2MYVSxwjtoxPSh4lpuO+A2kFnUi1WWJsTtLfl4=;
- b=gbpOqWLyF4zBDI8TBkuL1+/TFjjEvAaXbRz0xcW/2IxQm4r1kWTrT6+VEgf5tGNUNt
- 4zdXuiDgX0u811FFw8u9o489T6uR1OzYDbpK7N6qh8/NKDzW4/+uVLk5siHXpIWmMpRY
- 1H+ND34T7+sVBAlaX+P3GyHRx4z5Sw4Ge+4fREv33bhN7/UuTkRv36A+HIoT24N4ySwF
- vPGRzOm9NBRue3+jxTAUAtu42ZzsUMNUIDa72sKseGSfarCX1blH+pl2ZTPr7e+ZHPsL
- VYzLbl3q8W3d+U+n74OmLgLcRE7PxEr8M38MeD8AAAKk7Jz5FDZ7+P/Rc0FUnk9fGKQ2
- djHg==
-X-Gm-Message-State: APjAAAXQeUiF0Lr0pkqLm/MFxNpIOqdqljeXjc1xMJonQS9bDe5LVPEs
- Jiw7nu8fTDoIeq3+zwF7OLRXtNWZtRB4Z7bC6SKYc3qgoR0E8g==
-X-Google-Smtp-Source: APXvYqyFJ1cg7nunhp8NhBIUmsFrQJKeTzNK7xDyjUp3CnRoSGUe88NfOdkb6dyH2jBAnSpTF4ofo7qM6ioa4PtH08c=
-X-Received: by 2002:a2e:9e16:: with SMTP id e22mr10535184ljk.220.1576273216096; 
- Fri, 13 Dec 2019 13:40:16 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 349B36EDD1
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 21:41:02 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 357CF9D6;
+ Fri, 13 Dec 2019 22:41:00 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1576273260;
+ bh=z5cuRSsVYBdOcHuDiKFbQTVMWj1FIRTYtWAonwxthZQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Pv24HIjQ2fRSxvc0HvOWsI0eKpzXsnYbVqX37Rkxb6uo/adnGVkDgJlfycTTLMHyK
+ a6ODSCvXw957jMARZQ/dmxbk75GBiJizKyttEVad9xR8oQnuLA+Thm75YpHRb2cIeM
+ FxMXJMC7etzLv5ndBRoXZamrI+ilm2JLLpMzlhBA=
+Date: Fri, 13 Dec 2019 23:40:51 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Subject: Re: [PATCH v4 4/7] drm: rcar-du: lvds: Allow for even and odd pixels
+ swap
+Message-ID: <20191213214050.GO4860@pendragon.ideasonboard.com>
+References: <1575649974-31472-1-git-send-email-fabrizio.castro@bp.renesas.com>
+ <1575649974-31472-5-git-send-email-fabrizio.castro@bp.renesas.com>
 MIME-Version: 1.0
-References: <20191125094356.161941-1-daniel.vetter@ffwll.ch>
- <20191125094356.161941-5-daniel.vetter@ffwll.ch>
- <20191213201013.GM624164@phenom.ffwll.local>
-In-Reply-To: <20191213201013.GM624164@phenom.ffwll.local>
-From: Eric Anholt <eric@anholt.net>
-Date: Fri, 13 Dec 2019 13:40:24 -0800
-Message-ID: <CADaigPW509VU1QrU0j53D6Re9cC-2j2P3iaj8OiaXR_3da7c2g@mail.gmail.com>
-Subject: Re: [PATCH 4/4] drm/vc4: Use dma_resv locking wrappers
-To: Daniel Vetter <daniel@ffwll.ch>
+Content-Disposition: inline
+In-Reply-To: <1575649974-31472-5-git-send-email-fabrizio.castro@bp.renesas.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,88 +48,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Magnus Damm <magnus.damm@gmail.com>,
+ ebiharaml@si-linux.co.jp, devicetree@vger.kernel.org,
+ Chris Paterson <Chris.Paterson2@renesas.com>,
+ Biju Das <biju.das@bp.renesas.com>, Simon Horman <horms@verge.net.au>,
+ dri-devel@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 13, 2019 at 12:10 PM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Mon, Nov 25, 2019 at 10:43:56AM +0100, Daniel Vetter wrote:
-> > I'll add more fancy logic to them soon, so everyone really has to use
-> > them. Plus they already provide some nice additional debug
-> > infrastructure on top of direct ww_mutex usage for the fences tracked
-> > by dma_resv.
-> >
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
->
-> Ping for some review/acks.
->
-> Thanks, Daniel
->
-> > ---
-> >  drivers/gpu/drm/vc4/vc4_gem.c | 11 +++++------
-> >  1 file changed, 5 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
-> > index 7a06cb6e31c5..e1cfc3ccd05a 100644
-> > --- a/drivers/gpu/drm/vc4/vc4_gem.c
-> > +++ b/drivers/gpu/drm/vc4/vc4_gem.c
-> > @@ -568,7 +568,7 @@ vc4_unlock_bo_reservations(struct drm_device *dev,
-> >       for (i = 0; i < exec->bo_count; i++) {
-> >               struct drm_gem_object *bo = &exec->bo[i]->base;
-> >
-> > -             ww_mutex_unlock(&bo->resv->lock);
-> > +             dma_resv_unlock(bo->resv);
-> >       }
-> >
-> >       ww_acquire_fini(acquire_ctx);
-> > @@ -595,8 +595,7 @@ vc4_lock_bo_reservations(struct drm_device *dev,
-> >  retry:
-> >       if (contended_lock != -1) {
-> >               bo = &exec->bo[contended_lock]->base;
-> > -             ret = ww_mutex_lock_slow_interruptible(&bo->resv->lock,
-> > -                                                    acquire_ctx);
-> > +             ret = dma_resv_lock_slow_interruptible(bo->resv, acquire_ctx);
-> >               if (ret) {
-> >                       ww_acquire_done(acquire_ctx);
-> >                       return ret;
-> > @@ -609,19 +608,19 @@ vc4_lock_bo_reservations(struct drm_device *dev,
-> >
-> >               bo = &exec->bo[i]->base;
-> >
-> > -             ret = ww_mutex_lock_interruptible(&bo->resv->lock, acquire_ctx);
-> > +             ret = dma_resv_lock_interruptible(bo->resv, acquire_ctx);
-> >               if (ret) {
-> >                       int j;
-> >
-> >                       for (j = 0; j < i; j++) {
-> >                               bo = &exec->bo[j]->base;
-> > -                             ww_mutex_unlock(&bo->resv->lock);
-> > +                             dma_resv_unlock(bo->resv);
-> >                       }
-> >
-> >                       if (contended_lock != -1 && contended_lock >= i) {
-> >                               bo = &exec->bo[contended_lock]->base;
-> >
-> > -                             ww_mutex_unlock(&bo->resv->lock);
-> > +                             dma_resv_unlock(bo->resv);
-> >                       }
-> >
-> >                       if (ret == -EDEADLK) {
-> > --
-> > 2.24.0
-> >
+Hi Fabrizio,
 
-Assuming they're supposed to be exactly equivalent currently,
+Thank you for the patch.
 
-Acked-by: Eric Anholt <eric@anholt.net>
+On Fri, Dec 06, 2019 at 04:32:51PM +0000, Fabrizio Castro wrote:
+> DT properties dual-lvds-even-pixels and dual-lvds-odd-pixels
+> can be used to work out if the driver needs to swap even
+> and odd pixels around.
+> 
+> This patch makes use of the return value from function
+> drm_of_lvds_get_dual_link_pixel_order to determine if we
+> need to swap odd and even pixels around for things to work
+> properly.
+> 
+> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+> 
+> ---
+> v3->v4:
+> * New patch extracted from patch:
+>   "drm: rcar-du: lvds: Add dual-LVDS panels support"
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_lvds.c | 46 +++++++++++++++++++++++++++++--------
+>  1 file changed, 37 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> index 6c1f171..cb2147c 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> @@ -71,6 +71,7 @@ struct rcar_lvds {
+>  
+>  	struct drm_bridge *companion;
+>  	bool dual_link;
+> +	bool stripe_swap_data;
 
-but we should really just be using drm_gem_lock_reservations()
+Should we merge those two fields in an int dual_link that would be set
+to DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS,
+DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS or a negative value (or maybe we the
+value of enum drm_lvds_dual_link_pixels could be modified so that 0
+could mean single link) ?
+
+>  };
+>  
+>  #define bridge_to_rcar_lvds(b) \
+> @@ -441,12 +442,20 @@ static void rcar_lvds_enable(struct drm_bridge *bridge)
+>  	rcar_lvds_write(lvds, LVDCHCR, lvdhcr);
+>  
+>  	if (lvds->info->quirks & RCAR_LVDS_QUIRK_DUAL_LINK) {
+> -		/*
+> -		 * Configure vertical stripe based on the mode of operation of
+> -		 * the connected device.
+> -		 */
+> -		rcar_lvds_write(lvds, LVDSTRIPE,
+> -				lvds->dual_link ? LVDSTRIPE_ST_ON : 0);
+> +		u32 lvdstripe = 0;
+> +
+> +		if (lvds->dual_link)
+> +			/*
+> +			 * Configure vertical stripe based on the mode of
+> +			 * operation of the connected device.
+> +			 *
+> +			 * ST_SWAP from LVD1STRIPE is reserved, do not set
+> +			 * in the companion LVDS
+
+Maybe "ST_SWAP is reserved for the companion encoder, only set it in the
+primary encoder." ?
+
+> +			 */
+> +			lvdstripe = LVDSTRIPE_ST_ON |
+> +				(lvds->companion && lvds->stripe_swap_data ?
+> +				 LVDSTRIPE_ST_SWAP : 0);
+
+To match the coding style of the rest of the driver,
+
+			lvdstripe = LVDSTRIPE_ST_ON
+				  | (lvds->companion && lvds->stripe_swap_data ?
+				     LVDSTRIPE_ST_SWAP : 0);
+
+Even though not strictly required, could you surround this statement
+with { } as it spans quite a few lines with the comment ?
+
+> +		rcar_lvds_write(lvds, LVDSTRIPE, lvdstripe);
+>  	}
+>  
+>  	/*
+> @@ -702,17 +711,33 @@ static int rcar_lvds_parse_dt_companion(struct rcar_lvds *lvds)
+>  	dual_link = drm_of_lvds_get_dual_link_pixel_order(p0, p1);
+>  	of_node_put(p0);
+>  	of_node_put(p1);
+> -	if (dual_link >= DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS) {
+> +
+> +	switch (dual_link) {
+> +	case DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS:
+> +		/*
+> +		 * By default we generate even pixels from this encoder and odd
+> +		 * pixels from the companion encoder, but since p0 is connected
+> +		 * to the port expecting ood pixels, and p1 is connected to the
+> +		 * port expecting even pixels, we need to swap even and odd
+> +		 * pixels around.
+> +		 */
+> +		lvds->stripe_swap_data = true;
+> +		lvds->dual_link = true;
+> +		break;
+> +	case DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS:
+>  		lvds->dual_link = true;
+> -	} else if (lvds->next_bridge && lvds->next_bridge->timings) {
+> +		break;
+> +	default:
+>  		/*
+>  		 * Early dual-link bridge specific implementations populate the
+>  		 * timings field of drm_bridge, read the dual_link flag off the
+>  		 * bridge directly for backward compatibility.
+>  		 */
+> -		lvds->dual_link = lvds->next_bridge->timings->dual_link;
+> +		if (lvds->next_bridge && lvds->next_bridge->timings)
+> +			lvds->dual_link = lvds->next_bridge->timings->dual_link;
+>  	}
+>  
+> +
+
+A single blank line is enough.
+
+>  	if (!lvds->dual_link) {
+>  		dev_dbg(dev, "Single-link configuration detected\n");
+>  		goto done;
+> @@ -728,6 +753,9 @@ static int rcar_lvds_parse_dt_companion(struct rcar_lvds *lvds)
+>  		"Dual-link configuration detected (companion encoder %pOF)\n",
+>  		companion);
+>  
+> +	if (lvds->stripe_swap_data)
+> +		dev_dbg(dev, "Data swapping required\n");
+> +
+>  	companion_lvds = bridge_to_rcar_lvds(lvds->companion);
+>  
+>  	/*
+
+-- 
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
