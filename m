@@ -1,32 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9804611EA4A
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 19:28:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D6A811EA61
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 19:33:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B56296EBFF;
-	Fri, 13 Dec 2019 18:28:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F9116EC0C;
+	Fri, 13 Dec 2019 18:33:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC7276EBFF
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 18:28:41 +0000 (UTC)
-Received: from ip5f5a6266.dynamic.kabel-deutschland.de ([95.90.98.102]
- helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.89) (envelope-from <heiko@sntech.de>)
- id 1ifpfq-0003GI-A5; Fri, 13 Dec 2019 19:28:22 +0100
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH 10/12] arm64: dts: rockchip: Add PX30 CRTCs graph LVDS
- endpoints
-Date: Fri, 13 Dec 2019 19:28:21 +0100
-Message-ID: <1933192.L6hp5CucIl@diego>
-In-Reply-To: <20191213181051.25983-11-miquel.raynal@bootlin.com>
-References: <20191213181051.25983-1-miquel.raynal@bootlin.com>
- <20191213181051.25983-11-miquel.raynal@bootlin.com>
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E7B06EC0C
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 18:33:07 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 58BD280680;
+ Fri, 13 Dec 2019 19:33:02 +0100 (CET)
+Date: Fri, 13 Dec 2019 19:33:01 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Jerry Han <jerry.han.hq@gmail.com>
+Subject: Re: [PATCH] drm/panel: Add Boe Himax8279d MIPI-DSI LCD panel
+Message-ID: <20191213183301.GB32650@ravnborg.org>
+References: <20191212115208.3878-1-jerry.han.hq@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20191212115208.3878-1-jerry.han.hq@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=pGLkceISAAAA:8
+ a=7gkXJVJtAAAA:8 a=cm27Pg_UAAAA:8 a=QyXUC8HyAAAA:8 a=mpaa-ttXAAAA:8
+ a=pyRKsyEBAAAA:8 a=b987VOgPowsUEI_15y4A:9 a=LmTNRY90VA9jqp7P:21
+ a=VT3gn1uFOzzm1lSP:21 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+ a=xmb-EsYY8bH0VWELuYED:22 a=6heAxKwa5pAsJatQ0mat:22
+ a=jmCdmrpiGMLo1jCbbjXX:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,95 +48,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- David Airlie <airlied@linux.ie>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org,
- Maxime Chevallier <maxime.chevallier@bootlin.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- linux-rockchip@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: Jitao Shi <jitao.shi@mediatek.com>, Rock wang <rock_wang@himax.com.cn>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Miquel,
+Hi Jerry.
 
-Am Freitag, 13. Dezember 2019, 19:10:49 CET schrieb Miquel Raynal:
-> Add the display subsystem routes with the two available CRTCs: vopb
-> and vopl (big and little). For each CRTC, add the LVDS endpoints. MIPI
-> DSI endpoints will come later.
+Thanks!
+
+On Thu, Dec 12, 2019 at 07:52:08PM +0800, Jerry Han wrote:
+> Support Boe Himax8279d 8.0" 1200x1920 TFT LCD panel, it is a MIPI DSI
+> panel.
 > 
-> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> V11:
+> - Use the backlight support in drm_panel to simplify the driver (Sam)
+...
+
+> - Support Boe Himax8279d 8.0" 1200x1920 TFT LCD panel, it is a MIPI DSI
+>     panel.
+> 
+> Signed-off-by: Jerry Han <jerry.han.hq@gmail.com>
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> Reviewed-by: Derek Basehore <dbasehore@chromium.org>
+> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+> Reported-by: kbuild test robot <lkp@intel.com>
+> Cc: Jitao Shi <jitao.shi@mediatek.com>
+> Cc: Rock wang <rock_wang@himax.com.cn>
 > ---
->  arch/arm64/boot/dts/rockchip/px30.dtsi | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/rockchip/px30.dtsi b/arch/arm64/boot/dts/rockchip/px30.dtsi
-> index b2af0f02ecbe..1c96ba556daf 100644
-> --- a/arch/arm64/boot/dts/rockchip/px30.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/px30.dtsi
-> @@ -190,6 +190,16 @@
->  		compatible = "rockchip,display-subsystem";
->  		ports = <&vopb_out>, <&vopl_out>;
->  		status = "disabled";
-> +
-> +		route {
-> +			route_vopb_lvds: route-vopb-lvds {
-> +				connect = <&vopb_out_lvds>;
-> +			};
-> +
-> +			route_vopl_lvds: route-vopl-lvds {
-> +				connect = <&vopl_out_lvds>;
-> +			};
-> +		};
 
-where does this route-stuff come from?
-The vendor tree? Because so far I've not seen this in mainline-drm
-in general nor the Rockchip drm driver itself.
+Applied to drm-misc-next with the following changes:
+- fix build in boe_panel_get_modes()
+- fix backlight - drm_panel_of_backlight() must be called after
+  drm_panel_init()
 
+	Sam
 
->  	};
->  
->  	gmac_clkin: external-gmac-clock {
-> @@ -976,6 +986,11 @@
->  		vopb_out: port {
->  			#address-cells = <1>;
->  			#size-cells = <0>;
-> +
-> +			vopb_out_lvds: endpoint@0 {
-> +				reg = <0>;
-> +				remote-endpoint = <&lvds_vopb_in>;
-> +			};
-
-This (and the one below) would create dangling phandle references
-and compile errors, because the referenced phandles only get introduced
-in patch12. So ideally merge this into the last patch.
-
-
-Heiko
-
->  		};
->  	};
->  
-> @@ -1008,6 +1023,11 @@
->  		vopl_out: port {
->  			#address-cells = <1>;
->  			#size-cells = <0>;
-> +
-> +			vopl_out_lvds: endpoint@0 {
-> +				reg = <0>;
-> +				remote-endpoint = <&lvds_vopl_in>;
-> +			};
->  		};
->  	};
->  
-> 
-
-
-
-
+diff --git a/drivers/gpu/drm/panel/panel-boe-himax8279d.c b/drivers/gpu/drm/panel/panel-boe-himax8279d.c
+index 3a6ee2069158..74d58ee7d04c 100644
+--- a/drivers/gpu/drm/panel/panel-boe-himax8279d.c
++++ b/drivers/gpu/drm/panel/panel-boe-himax8279d.c
+@@ -219,26 +219,27 @@ static int boe_panel_enable(struct drm_panel *panel)
+ 	return 0;
+ }
+ 
+-static int boe_panel_get_modes(struct drm_panel *panel)
++static int boe_panel_get_modes(struct drm_panel *panel,
++			       struct drm_connector *connector)
+ {
+ 	struct panel_info *pinfo = to_panel_info(panel);
+ 	const struct drm_display_mode *m = pinfo->desc->display_mode;
+ 	struct drm_display_mode *mode;
+ 
+-	mode = drm_mode_duplicate(panel->drm, m);
++	mode = drm_mode_duplicate(connector->dev, m);
+ 	if (!mode) {
+-		DRM_DEV_ERROR(panel->drm->dev, "failed to add mode %ux%u@%u\n",
++		DRM_DEV_ERROR(pinfo->base.dev, "failed to add mode %ux%u@%u\n",
+ 			      m->hdisplay, m->vdisplay, m->vrefresh);
+ 		return -ENOMEM;
+ 	}
+ 
+ 	drm_mode_set_name(mode);
+ 
+-	drm_mode_probed_add(panel->connector, mode);
++	drm_mode_probed_add(connector, mode);
+ 
+-	panel->connector->display_info.width_mm = pinfo->desc->width_mm;
+-	panel->connector->display_info.height_mm = pinfo->desc->height_mm;
+-	panel->connector->display_info.bpc = pinfo->desc->bpc;
++	connector->display_info.width_mm = pinfo->desc->width_mm;
++	connector->display_info.height_mm = pinfo->desc->height_mm;
++	connector->display_info.bpc = pinfo->desc->bpc;
+ 
+ 	return 1;
+ }
+@@ -888,13 +889,13 @@ static int panel_add(struct panel_info *pinfo)
+ 		return ret;
+ 	}
+ 
++	drm_panel_init(&pinfo->base, dev, &panel_funcs,
++		       DRM_MODE_CONNECTOR_DSI);
++
+ 	ret = drm_panel_of_backlight(&pinfo->base);
+ 	if (ret)
+ 		return ret;
+ 
+-	drm_panel_init(&pinfo->base, dev, &panel_funcs,
+-		       DRM_MODE_CONNECTOR_DSI);
+-
+ 	return drm_panel_add(&pinfo->base);
+ }
+ 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
