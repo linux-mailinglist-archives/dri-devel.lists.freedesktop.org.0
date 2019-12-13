@@ -1,70 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D099711F248
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 15:44:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B82B811F221
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 15:43:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A86366E3AC;
-	Sat, 14 Dec 2019 14:43:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 798566E391;
+	Sat, 14 Dec 2019 14:43:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa3.microchip.iphmx.com (esa3.microchip.iphmx.com
- [68.232.153.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 155B96E8E4
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 15:05:36 +0000 (UTC)
-Received-SPF: Pass (esa3.microchip.iphmx.com: domain of
- Claudiu.Beznea@microchip.com designates 198.175.253.82 as
- permitted sender) identity=mailfrom;
- client-ip=198.175.253.82; receiver=esa3.microchip.iphmx.com;
- envelope-from="Claudiu.Beznea@microchip.com";
- x-sender="Claudiu.Beznea@microchip.com";
- x-conformance=spf_only; x-record-type="v=spf1";
- x-record-text="v=spf1 mx a:ushub1.microchip.com
- a:smtpout.microchip.com -exists:%{i}.spf.microchip.iphmx.com
- include:servers.mcsv.net include:mktomail.com
- include:spf.protection.outlook.com ~all"
-Received-SPF: None (esa3.microchip.iphmx.com: no sender
- authenticity information available from domain of
- postmaster@email.microchip.com) identity=helo;
- client-ip=198.175.253.82; receiver=esa3.microchip.iphmx.com;
- envelope-from="Claudiu.Beznea@microchip.com";
- x-sender="postmaster@email.microchip.com"; x-conformance=spf_only
-Authentication-Results: esa3.microchip.iphmx.com;
- dkim=none (message not signed) header.i=none;
- spf=Pass smtp.mailfrom=Claudiu.Beznea@microchip.com;
- spf=None smtp.helo=postmaster@email.microchip.com;
- dmarc=pass (p=none dis=none) d=microchip.com
-IronPort-SDR: oGwtiwfYvjjZREwj4sUA+zqOCDJsiGr6mTMDgf/guLFS7iQtfF1E8lv4yQo+jj9CZzN/rt1VQG
- sN2jYAElRxkItkzsoYd9LugIWwQlBjQVuxELGVGCxcGrJErh3HnPmvLjDrFuYP2uZnOInzSv3a
- 7kr5IrYd5P+qtG9q6nFKcRfAetEpIVphd8S8TE582layuQi2RTgxpPhL7m/6fYalfd1y7w0urK
- ukHNG8SP2vk3uRNzV3S9hyZRt8XlpiFrfyIQnh6saJrjqOE1vlk1zuKdLAMTdxqLL8kHDguN40
- aLI=
-X-IronPort-AV: E=Sophos;i="5.69,309,1571727600"; d="scan'208";a="60293567"
-Received: from smtpout.microchip.com (HELO email.microchip.com)
- ([198.175.253.82])
- by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256;
- 13 Dec 2019 08:05:35 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Fri, 13 Dec 2019 08:05:34 -0700
-Received: from m18063-ThinkPad-T460p.microchip.com (10.10.85.251) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.1713.5 via Frontend Transport; Fri, 13 Dec 2019 08:05:30 -0700
-From: Claudiu Beznea <claudiu.beznea@microchip.com>
-To: <sam@ravnborg.org>, <bbrezillon@kernel.org>, <airlied@linux.ie>,
- <daniel@ffwll.ch>, <nicolas.ferre@microchip.com>,
- <alexandre.belloni@bootlin.com>, <ludovic.desroches@microchip.com>,
- <lee.jones@linaro.org>
-Subject: [PATCH v2 6/6] Revert "drm: atmel-hlcdc: enable sys_clk during
- initalization."
-Date: Fri, 13 Dec 2019 17:04:56 +0200
-Message-ID: <1576249496-4849-7-git-send-email-claudiu.beznea@microchip.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1576249496-4849-1-git-send-email-claudiu.beznea@microchip.com>
-References: <1576249496-4849-1-git-send-email-claudiu.beznea@microchip.com>
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
+ [IPv6:2a00:1450:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 928476E904
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 15:35:25 +0000 (UTC)
+Received: by mail-lf1-x143.google.com with SMTP id y1so2262238lfb.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 07:35:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=P748Vsp09cCRTRcxy70hlgcdkJz7E0UTUbE5zxl6voc=;
+ b=VD6f5w97NY3gcooN97XbqvnT/Br1DI5DCw9FYJLBtQFsBThPlz9IBIhNH6oxgpxQeL
+ dRD8cGFDUh6JMp7ZBzCxo4K8arT7Mesy41KOmPNW7e1YnJmTnJovUMdTTcEBooYsXfdv
+ Y4gHujAkyKh1Z2JfWp068Brc7+uDS6YigBFtqjnnEGMPXU+XkdJoFleN0XaBTYhLFokO
+ 1CBa6xCMcieD4WrKHV8qUbOqWL6iEixm1w6f/JXbDqecPP/wEcJyYFO+vFJ62GJNlvfr
+ agVKwsa0A2cx5WG7ufyshCeVAz1BUYM+FFmUXlYW++RuMcgX32ISjWHni2pjgUYtmQsd
+ CLyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=P748Vsp09cCRTRcxy70hlgcdkJz7E0UTUbE5zxl6voc=;
+ b=FZ+2hhun76K2Vtpz6UjeelKpEnqVFtO0cONILY2vpe45Ow1AfYhjh9922018I2g9Rf
+ ZkQ9DSl1/uB7HIRgxqWUE41p8/0tKowTy5/oM406HkY152tb+6Ot+oJbzTkLyKKkVv72
+ XI7ra6FHNtOV7IpJkTbBMs34okVfRmowVSsUPZLH2C1/H8Pn98CfzmCbTgin2WTTaHu0
+ /5ezoGz9X1oGQu8mozW1vds54qG4ARU7Shu1k/fLWYr8g4fMdlritlsKtFXMz2dJu7ec
+ IIwIZxHWzVue2AOrfeTmGSWcR6h1+Gtjd/LSv91LLaUQpwicdTp0DhiZVAZhU9bIPTDm
+ SBNw==
+X-Gm-Message-State: APjAAAWXtPibQZNOMQj8ZvyAf474BLjc0+kAhUB/048pE1W+fBVlkxTF
+ cjMRyKi0cDMYfhDtWtBTOOgp2JGZ
+X-Google-Smtp-Source: APXvYqxKzjmZ4Yx0JOzoVg23GJOQquInIo6XIAoRuSVfBy5812lcbMiIrxHtnQtwhPEeX0pF9HuC/Q==
+X-Received: by 2002:a19:7604:: with SMTP id c4mr9629825lff.101.1576251323734; 
+ Fri, 13 Dec 2019 07:35:23 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru.
+ [79.139.233.37])
+ by smtp.googlemail.com with ESMTPSA id n5sm4975554ljh.86.2019.12.13.07.35.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Dec 2019 07:35:23 -0800 (PST)
+Subject: Re: [Regression 5.5-rc1] Extremely low GPU performance on NVIDIA
+ Tegra20/30
+To: Thierry Reding <thierry.reding@gmail.com>
+References: <a2c9eb65-c600-bf49-2c32-bddf7b44f784@gmail.com>
+ <20191213151045.GB222809@ulmo>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <d03876b8-b0d1-850b-7ae8-a61302e23843@gmail.com>
+Date: Fri, 13 Dec 2019 18:35:22 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
+In-Reply-To: <20191213151045.GB222809@ulmo>
+Content-Language: en-US
 X-Mailman-Approved-At: Sat, 14 Dec 2019 14:42:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,103 +73,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sandeep Sheriker Mallikarjun <sandeepsheriker.mallikarjun@microchip.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit d2c755e66617620b729041c625a6396c81d1231c
-("drm: atmel-hlcdc: enable sys_clk during initalization."). With
-commit "drm: atmel-hlcdc: enable clock before configuring timing engine"
-there is no need for this patch. Code is also simpler.
-
-Cc: Sandeep Sheriker Mallikarjun <sandeepsheriker.mallikarjun@microchip.com>
-Signed-off-by: Claudiu Beznea <claudiu.beznea@microchip.com>
----
-
-Hi Sam,
-
-I still kept this as a patch as I didn't got any answer from you at my
-last email up to this moment.
-
-If you think it is better to squash this one with patch 2/6 in this seris
-let me know.
-
-Thank you,
-Claudiu Beznea
-
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 19 +------------------
- 1 file changed, 1 insertion(+), 18 deletions(-)
-
-diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-index 8dc917a1270b..112aa5066cee 100644
---- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-+++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-@@ -721,18 +721,10 @@ static int atmel_hlcdc_dc_load(struct drm_device *dev)
- 	dc->hlcdc = dev_get_drvdata(dev->dev->parent);
- 	dev->dev_private = dc;
- 
--	if (dc->desc->fixed_clksrc) {
--		ret = clk_prepare_enable(dc->hlcdc->sys_clk);
--		if (ret) {
--			dev_err(dev->dev, "failed to enable sys_clk\n");
--			goto err_destroy_wq;
--		}
--	}
--
- 	ret = clk_prepare_enable(dc->hlcdc->periph_clk);
- 	if (ret) {
- 		dev_err(dev->dev, "failed to enable periph_clk\n");
--		goto err_sys_clk_disable;
-+		goto err_destroy_wq;
- 	}
- 
- 	pm_runtime_enable(dev->dev);
-@@ -768,9 +760,6 @@ static int atmel_hlcdc_dc_load(struct drm_device *dev)
- err_periph_clk_disable:
- 	pm_runtime_disable(dev->dev);
- 	clk_disable_unprepare(dc->hlcdc->periph_clk);
--err_sys_clk_disable:
--	if (dc->desc->fixed_clksrc)
--		clk_disable_unprepare(dc->hlcdc->sys_clk);
- 
- err_destroy_wq:
- 	destroy_workqueue(dc->wq);
-@@ -795,8 +784,6 @@ static void atmel_hlcdc_dc_unload(struct drm_device *dev)
- 
- 	pm_runtime_disable(dev->dev);
- 	clk_disable_unprepare(dc->hlcdc->periph_clk);
--	if (dc->desc->fixed_clksrc)
--		clk_disable_unprepare(dc->hlcdc->sys_clk);
- 	destroy_workqueue(dc->wq);
- }
- 
-@@ -910,8 +897,6 @@ static int atmel_hlcdc_dc_drm_suspend(struct device *dev)
- 	regmap_read(regmap, ATMEL_HLCDC_IMR, &dc->suspend.imr);
- 	regmap_write(regmap, ATMEL_HLCDC_IDR, dc->suspend.imr);
- 	clk_disable_unprepare(dc->hlcdc->periph_clk);
--	if (dc->desc->fixed_clksrc)
--		clk_disable_unprepare(dc->hlcdc->sys_clk);
- 
- 	return 0;
- }
-@@ -921,8 +906,6 @@ static int atmel_hlcdc_dc_drm_resume(struct device *dev)
- 	struct drm_device *drm_dev = dev_get_drvdata(dev);
- 	struct atmel_hlcdc_dc *dc = drm_dev->dev_private;
- 
--	if (dc->desc->fixed_clksrc)
--		clk_prepare_enable(dc->hlcdc->sys_clk);
- 	clk_prepare_enable(dc->hlcdc->periph_clk);
- 	regmap_write(dc->hlcdc->regmap, ATMEL_HLCDC_IER, dc->suspend.imr);
- 
--- 
-2.7.4
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MTMuMTIuMjAxOSAxODoxMCwgVGhpZXJyeSBSZWRpbmcg0L/QuNGI0LXRgjoKPiBPbiBGcmksIERl
+YyAxMywgMjAxOSBhdCAxMjoyNTozM0FNICswMzAwLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4+
+IEhlbGxvIFRoaWVycnksCj4+Cj4+IENvbW1pdCBbMV0gaW50cm9kdWNlZCBhIHNldmVyZSBHUFUg
+cGVyZm9ybWFuY2UgcmVncmVzc2lvbiBvbiBUZWdyYTIwIGFuZAo+PiBUZWdyYTMwIHVzaW5nLgo+
+Pgo+PiBbMV0KPj4gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9n
+aXQvdG9ydmFsZHMvbGludXguZ2l0L2NvbW1pdC8/aD12NS41LXJjMSZpZD1mYTY2NjFiN2FhMGI1
+MjA3MzY4MWIwZDI2NzQyNjUwYzhjYmQzMGYzCj4+Cj4+IEludGVyZXN0aW5nbHkgdGhlIHBlcmZv
+cm1hbmNlIGlzIG9rYXkgb24gVGVncmEzMCBpZgo+PiBDT05GSUdfVEVHUkFfSE9TVDFYX0ZJUkVX
+QUxMPW4sIGJ1dCB0aGF0IGRvZXNuJ3QgbWFrZSBkaWZmZXJlbmNlIGZvcgo+PiBUZWdyYTIwLgo+
+Pgo+PiBJIHdhcyB0ZWxsaW5nIHlvdSBhYm91dCB0aGlzIHByb2JsZW0gb24gdGhlICN0ZWdyYSBJ
+UkMgc29tZXRpbWUgYWdvIGFuZAo+PiB5b3UgYXNrZWQgdG8gcmVwb3J0IGl0IGluIGEgdHJhY2th
+YmxlIGZvcm0sIHNvIGZpbmFsbHkgaGVyZSBpdCBpcy4KPj4KPj4gWW91IGNvdWxkIHJlcHJvZHVj
+ZSB0aGUgcHJvYmxlbSBieSBydW5uaW5nIFsyXSBsaWtlIHRoaXMKPj4gYGdyYXRlL3RleHR1cmUt
+ZmlsdGVyIC1mIC1zYCB3aGljaCBzaG91bGQgcHJvZHVjZSBvdmVyIDEwMCBGUFMgZm9yIDcyMHAK
+Pj4gZGlzcGxheSByZXNvbHV0aW9uIGFuZCBjdXJyZW50bHkgaXQncyB+MTEgRlBTLgo+Pgo+PiBb
+Ml0KPj4gaHR0cHM6Ly9naXRodWIuY29tL2dyYXRlLWRyaXZlci9ncmF0ZS9ibG9iL21hc3Rlci90
+ZXN0cy9ncmF0ZS90ZXh0dXJlLWZpbHRlci5jCj4+Cj4+IFByZXZpb3VzbHkgSSB3YXMgc2VlaW5n
+IHNvbWUgbWVtb3J5IGVycm9ycyBjb21pbmcgZnJvbSBIb3N0MXggRE1BLCBidXQKPj4gZG9uJ3Qg
+c2VlIGFueSBlcnJvcnMgYXQgYWxsIHJpZ2h0IG5vdy4KPj4KPj4gSSBkb24ndCBzZWUgYW55dGhp
+bmcgZG9uZSBob3JyaWJseSB3cm9uZyBpbiB0aGUgb2ZmZW5kaW5nIGNvbW1pdC4KPj4KPj4gVW5m
+b3J0dW5hdGVseSBJIGNvdWxkbid0IGRlZGljYXRlIGVub3VnaCB0aW1lIHRvIHNpdCBkb3duIGFu
+ZCBkZWJ1ZyB0aGUKPj4gcHJvYmxlbSB0aG9yb3VnaGx5IHlldC4gUGxlYXNlIGxldCBtZSBrbm93
+IGlmIHlvdSdsbCBmaW5kIGEgc29sdXRpb24sCj4+IEknbGwgYmUgaGFwcHkgdG8gdGVzdCBpdC4g
+VGhhbmtzIGluIGFkdmFuY2UhCj4gCj4gSSBzdXNwZWN0IHRoYXQgdGhlIHByb2JsZW0gaGVyZSBp
+cyB0aGF0IHdlJ3JlIG5vdyB1c2luZyB0aGUgRE1BIEFQSSwKPiB3aGljaCBjYXVzZXMgdGhlIDMy
+LWJpdCBBUk0gRE1BL0lPTU1VIGdsdWUgdG8gYmUgdXNlZC4gSSB2YWd1ZWx5IHJlY2FsbAo+IHRo
+YXQgdGhhdCBjb2RlIGRvZXNuJ3QgY29hbGVzY2UgZW50cmllcyBpbiB0aGUgU0cgdGFibGUsIHNv
+IHdlIG1heSBlbmQKPiB1cCBjYWxsaW5nIGlvbW11X21hcCgpIGEgbG90IG9mIHRpbWVzLCBhbmQg
+bWlzcyBvdXQgb24gbXVjaCBvZiB0aGUKPiBhZHZhbnRhZ2VzIHRoYXQgdGhlIC0+aW90bGJfc3lu
+Y19tYXAoKSBnaXZlcyB1cyBvbiBUZWdyYTIwLgo+IAo+IEF0IHRoZSBzYW1lIHRpbWUgZG1hX21h
+cF9zZygpIHdpbGwgZmx1c2ggY2FjaGVzLCB3aGljaCB3ZSBkaWRuJ3QgZG8KPiBiZWZvcmUuIFRo
+aXMgd2Ugc2hvdWxkIGJlIGFibGUgdG8gaW1wcm92ZSBieSBwYXNzaW5nIHRoZSBhdHRyaWJ1dGUK
+PiBETUFfQVRUUl9TS0lQX0NQVV9TWU5DIHRvIGRtYV9tYXBfc2coKSB3aGVuIHdlIGtub3cgdGhh
+dCB0aGUgY2FjaGUKPiBtYWludGVuYW5jZSBpc24ndCBuZWVkZWQuCj4gCj4gQW5kIHdoaWxlIHRo
+aW5raW5nIGFib3V0IGl0LCBvbmUgb3RoZXIgZGlmZmVyZW5jZSBpcyB0aGF0IHdpdGggdGhlIERN
+QQo+IEFQSSB3ZSBhY3R1YWxseSBtYXAvdW5tYXAgdGhlIGJ1ZmZlcnMgZm9yIGV2ZXJ5IHN1Ym1p
+c3Npb24uIFRoaXMgaXMKPiBiZWNhdXNlIHRoZSBETUEgQVBJIHNlbWFudGljcyByZXF1aXJlIHRo
+YXQgYnVmZmVycyBiZSBtYXBwZWQvdW5tYXBwZWQKPiBldmVyeSB0aW1lIHlvdSB1c2UgdGhlbS4g
+UHJldmlvdXNseSB3ZSB3b3VsZCBiYXNpY2FsbHkgb25seSBtYXAgZWFjaAo+IGJ1ZmZlciBvbmNl
+IChhdCBhbGxvY2F0aW9uIHRpbWUpIGFuZCBvbmx5IGhhdmUgdG8gZGVhbCB3aXRoIGNhY2hlCj4g
+bWFpbnRlbmFuY2UsIHNvIHRoZSBvdmVyaGVhZCBwZXIgc3VibWlzc2lvbiB3YXMgZHJhc3RpY2Fs
+bHkgbG93ZXIuCj4gCj4gSWYgRE1BX0FUVFJfU0tJUF9DUFVfU1lOQyBkb2Vzbid0IGdpdmUgdXMg
+ZW5vdWdoIG9mIGFuIGltcHJvdmVtZW50LCB3ZQo+IG1heSB3YW50IHRvIHJlc3RvcmUgZXhwbGlj
+aXQgSU9NTVUgdXNhZ2UsIGF0IGxlYXN0IG9uIGFueXRoaW5nIHByaW9yIHRvCj4gVGVncmExMjQg
+d2hlcmUgd2UncmUgdW5saWtlbHkgdG8gZXZlciB1c2UgZGlmZmVyZW50IElPTU1VIGRvbWFpbnMg
+YW55d2F5Cj4gKGJlY2F1c2UgdGhleSBhcmUgc3VjaCBhIHNjYXJjZSByZXNvdXJjZSkuCgpUZWdy
+YTIwIGRvZXNuJ3QgdXNlIElPTU1VIGluIGEgdmFuaWxsYSB1cHN0cmVhbSBrZXJuZWwgKHlldCks
+IHNvIEkgZG9uJ3QKdGhpbmsgdGhhdCBpdCdzIHRoZSByb290IG9mIHRoZSBwcm9ibGVtLiBEaXNh
+YmxpbmcgSU9NTVUgZm9yIFRlZ3JhMzAKYWxzbyBkaWRuJ3QgaGVscCAoSUlSQykuCgpUaGUgb2Zm
+ZW5kaW5nIHBhdGNoIHNob3VsZG4ndCBjaGFuZ2UgYW55dGhpbmcgaW4gcmVnYXJkcyB0byB0aGUg
+RE1BIEFQSSwKaWYgSSdtIG5vdCBtaXNzaW5nIHNvbWV0aGluZy4gU3RyYW5nZS4uCgpQbGVhc2Ug
+a2VlcCBtZSB1cC10by1kYXRlIQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWwK
