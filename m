@@ -2,51 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D814811ED25
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 22:47:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE71E11ED6B
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 23:07:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 753516EDDD;
-	Fri, 13 Dec 2019 21:47:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D2736EDE5;
+	Fri, 13 Dec 2019 22:07:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
- [209.85.167.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D2E96EDDD;
- Fri, 13 Dec 2019 21:47:22 +0000 (UTC)
-Received: by mail-oi1-f193.google.com with SMTP id v140so1995742oie.0;
- Fri, 13 Dec 2019 13:47:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=w5xdh98E7mr6+86lSxAaIdccaOQtAOZWUmlaUNXldZU=;
- b=deFL1iVI2o9gCOxSo8Vphfa3h+jBdmtScYiRqglSuJahDQeyfAfWmD4MxPJvOnn/sd
- zraCsuN6ZxSwC1c94LJh8XQ79bSY7+3zcpK4EiAaKaGiSxP34/GMbVIETaEqkgUzQaDp
- 84830/weRDbyYOx7YaHA3Mwx7V0GpxuzrXSfpQWF29AdrZ5I/bL9HCGBaAh+DpcWRpYi
- zqGwhPw20sPtwUsdIVNtiwfZ40JhuR32ObqzVyXnIh/+Mtzpv3T1bMEJ6++I9OpIQwvD
- rZa481cSWcn9YtP5LOnSh8c4IUvQ5wFrrr+K6qHCyFI36uE3QMKqTWBodP8FGbZHmy93
- MGRw==
-X-Gm-Message-State: APjAAAU4ZkyIyj3U6WEdoDPKKQoIojek19jc5K81/NTLa7PWvyaaO9+O
- RP+nUb3aDADcFdc8RrNbTeIEmvY=
-X-Google-Smtp-Source: APXvYqzm62Y9qN5g4QrstJ8YOMO5rKtfDZ1qoaPCIsVdFH1v/4Bxp+t6KiBbsCr+3sooAIymdRKrSg==
-X-Received: by 2002:aca:4a41:: with SMTP id x62mr7648394oia.148.1576273641167; 
- Fri, 13 Dec 2019 13:47:21 -0800 (PST)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id p83sm1913240oia.51.2019.12.13.13.47.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Dec 2019 13:47:20 -0800 (PST)
-Date: Fri, 13 Dec 2019 15:47:19 -0600
-From: Rob Herring <robh@kernel.org>
-To: Harigovindan P <harigovi@codeaurora.org>
-Subject: Re: [PATCH v1 1/2] dt-bindings: display: add sc7180 panel variant
-Message-ID: <20191213214719.GA11149@bogus>
-References: <1575010545-25971-1-git-send-email-harigovi@codeaurora.org>
- <1575010545-25971-2-git-send-email-harigovi@codeaurora.org>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05D206EDD0;
+ Fri, 13 Dec 2019 22:07:27 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 13 Dec 2019 14:07:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,311,1571727600"; d="scan'208";a="216558850"
+Received: from nvishwa1-desk.sc.intel.com ([10.3.160.185])
+ by orsmga006.jf.intel.com with ESMTP; 13 Dec 2019 14:07:26 -0800
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [RFC v2 00/12] drm/i915/svm: Add SVM support
+Date: Fri, 13 Dec 2019 13:56:02 -0800
+Message-Id: <20191213215614.24558-1-niranjana.vishwanathapura@intel.com>
+X-Mailer: git-send-email 2.21.0.rc0.32.g243a4c7e27
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1575010545-25971-2-git-send-email-harigovi@codeaurora.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,116 +40,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- seanpaul@chromium.org, abhinavk@codeaurora.org, hoegsberg@chromium.org,
- freedreno@lists.freedesktop.org, chandanu@codeaurora.org
+Cc: kenneth.w.graunke@intel.com, sanjay.k.kumar@intel.com,
+ sudeep.dutt@intel.com, dri-devel@lists.freedesktop.org,
+ jason.ekstrand@intel.com, dave.hansen@intel.com, jglisse@redhat.com,
+ jon.bloomfield@intel.com, daniel.vetter@intel.com, dan.j.williams@intel.com,
+ ira.weiny@intel.com, jgg@mellanox.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 29, 2019 at 12:25:44PM +0530, Harigovindan P wrote:
-> Add a compatible string to support sc7180 panel version.
-> 
-> Signed-off-by: Harigovindan P <harigovi@codeaurora.org>
-> ---
->  .../bindings/display/visionox,rm69299.txt          | 68 ++++++++++++++++++++++
->  1 file changed, 68 insertions(+)
->  create mode 100755 Documentation/devicetree/bindings/display/visionox,rm69299.txt
+Shared Virtual Memory (SVM) allows the programmer to use a single virtual
+address space which will be shared between threads executing on CPUs and GPUs.
+It abstracts away from the user the location of the backing memory, and hence
+simplifies the user programming model.
+SVM supports two types of virtual memory allocation methods.
+Runtime allocator requires the driver to provide memory allocation and
+management interface, like buffer object (BO) interface.
+Whereas system allocator makes use of default OS memory allocation and
+management support like malloc().
 
-Source files should not have execute permission.
+This patch series adds both SVM system and runtime allocator support
+to i915 driver.
 
-New bindings should be in DT schema format.
+The patch series includes
+ - SVM support for both system and runtime allocation.
+ - Plugin in device memory with the Linux kernel.
+ - User API advertising SVM capability and configuration by user on per
+   vm basis.
+ - User API to bind an address range or a BO with a device page table.
+ - User API to prefetch an address range to device memory.
+ - Implicit migration by moving pages or BOs back from device to host
+   memory upon CPU access.
+ - CPU copy and blitter copy support for migrating the pages/BOs.
+ - Large page mapping support
+ - Page table dump support.
 
-checkpatch.pl will tell you both of these things.
+References:
+https://www.kernel.org/doc/Documentation/vm/hmm.rst
+The HMM use cases in the Linux kernel.
+Test RFC series
+   "[RFC i-g-t 0/7] tests/i915/svm: Shared Virtual Memory (SVM) test"
 
-> 
-> diff --git a/Documentation/devicetree/bindings/display/visionox,rm69299.txt b/Documentation/devicetree/bindings/display/visionox,rm69299.txt
-> new file mode 100755
-> index 0000000..4622191
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/visionox,rm69299.txt
-> @@ -0,0 +1,68 @@
-> +Visionox model RM69299 DSI display driver
-> +
-> +The Visionox RM69299 is a generic display driver, currently only configured
-> +for use in the 1080p display on the Qualcomm SC7180 MTP board.
-> +
-> +Required properties:
-> +- compatible: should be "visionox,rm69299-1080p-display"
+v2:
+- Use updated HMM API
+- HMM usage changes as per review feedback
+- UAPI name change as per review feedback
+- Reformat RFC series
+- Some minor fixes
 
-RM69299 may be generic, but 1080p sounds like a specific panel.
+Niranjana Vishwanathapura (11):
+  drm/i915/svm: Add SVM documentation
+  drm/i915/svm: Runtime (RT) allocator support
+  drm/i915/svm: Page table update support for SVM
+  drm/i915/svm: Page table mirroring support
+  drm/i915/svm: Device memory support
+  drm/i915/svm: Implicitly migrate pages upon CPU fault
+  drm/i915/svm: Page copy support during migration
+  drm/i915/svm: Add functions to blitter copy SVM buffers
+  drm/i915/svm: Use blitter copy for migration
+  drm/i915/svm: Add support to en/disable SVM
+  drm/i915/svm: Add page table dump support
 
-Is there anything besides a 'display'? If not, '-display' is redundant.
+Venkata Sandeep Dhanalakota (1):
+  drm/i915/svm: Implicitly migrate BOs upon CPU access
 
-> +- vdda-supply: phandle of the regulator that provides the supply voltage
-> +  Power IC supply
-> +- vdd3p3-supply: phandle of the regulator that provides the supply voltage
-> +  Power IC supply
-> +- reset-gpios: phandle of gpio for reset line
-> +  This should be 8mA, gpio can be configured using mux, pinctrl, pinctrl-names
-> +  (active low)
-> +- mode-gpios: phandle of the gpio for choosing the mode of the display
-> +  for single DSI
+ Documentation/gpu/i915.rst                    |  29 +
+ drivers/gpu/drm/i915/Kconfig                  |  23 +
+ drivers/gpu/drm/i915/Kconfig.debug            |  14 +
+ drivers/gpu/drm/i915/Makefile                 |   6 +
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |  95 ++-
+ drivers/gpu/drm/i915/gem/i915_gem_context.h   |   2 +
+ .../gpu/drm/i915/gem/i915_gem_context_types.h |   1 +
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  65 +-
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  10 +
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |  43 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |   6 +
+ drivers/gpu/drm/i915/gem/i915_gem_svm.c       |  60 ++
+ drivers/gpu/drm/i915/gem/i915_gem_svm.h       |  22 +
+ drivers/gpu/drm/i915/gem/i915_gem_wait.c      |   2 +-
+ drivers/gpu/drm/i915/i915_buddy.h             |  12 +
+ drivers/gpu/drm/i915/i915_drv.c               |  31 +-
+ drivers/gpu/drm/i915/i915_drv.h               |  32 +
+ drivers/gpu/drm/i915/i915_gem_gtt.c           | 158 +++-
+ drivers/gpu/drm/i915/i915_gem_gtt.h           |  41 +
+ drivers/gpu/drm/i915/i915_getparam.c          |   3 +
+ drivers/gpu/drm/i915/i915_svm.c               | 330 ++++++++
+ drivers/gpu/drm/i915/i915_svm.h               |  71 ++
+ drivers/gpu/drm/i915/i915_svm_copy.c          | 172 ++++
+ drivers/gpu/drm/i915/i915_svm_devmem.c        | 781 ++++++++++++++++++
+ drivers/gpu/drm/i915/intel_memory_region.c    |   4 -
+ drivers/gpu/drm/i915/intel_memory_region.h    |  18 +
+ drivers/gpu/drm/i915/intel_region_lmem.c      |  10 +
+ include/uapi/drm/i915_drm.h                   |  73 ++
+ 28 files changed, 2078 insertions(+), 36 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_svm.c
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_svm.h
+ create mode 100644 drivers/gpu/drm/i915/i915_svm.c
+ create mode 100644 drivers/gpu/drm/i915/i915_svm.h
+ create mode 100644 drivers/gpu/drm/i915/i915_svm_copy.c
+ create mode 100644 drivers/gpu/drm/i915/i915_svm_devmem.c
 
-The modes are what?
+-- 
+2.21.0.rc0.32.g243a4c7e27
 
-> +- ports: This device has one video port driven by one DSI. Their connections
-> +  are modeled using the OF graph bindings specified in
-> +  Documentation/devicetree/bindings/graph.txt.
-> +  - port@0: DSI input port driven by master DSI
-> +
-> +Example:
-> +
-> +	dsi@ae94000 {
-> +		panel@0 {
-> +			compatible = "visionox,rm69299-1080p-display";
-> +			reg = <0>;
-> +
-> +			vdda-supply = <&src_pp1800_l8c>;
-> +			vdd3p3-supply = <&src_pp2800_l18a>;
-> +
-> +			pinctrl-names = "default", "suspend";
-> +			pinctrl-0 = <&disp_pins_default>;
-> +			pinctrl-1 = <&disp_pins_default>;
-> +
-> +			reset-gpios = <&pm6150l_gpios 3 0>;
-> +
-> +			display-timings {
-> +				timing0: timing-0 {
-> +					/* originally
-> +					 * 268316160 Mhz,
-> +					 * but value below fits
-> +					 * better w/ downstream
-> +					 */
-> +					clock-frequency = <158695680>;
-> +					hactive = <1080>;
-> +					vactive = <2248>;
-> +					hfront-porch = <26>;
-> +					hback-porch = <36>;
-> +					hsync-len = <2>;
-> +					vfront-porch = <56>;
-> +					vback-porch = <4>;
-> +					vsync-len = <4>;
-> +				};
-> +			};
-> +
-> +			ports {
-> +				#address-cells = <1>;
-> +				#size-cells = <0>;
-> +				port@0 {
-> +					reg = <0>;
-> +					panel0_in: endpoint {
-> +						remote-endpoint = <&dsi0_out>;
-> +					};
-> +				};
-> +			};
-> +		};
-> +	};
-> -- 
-> 2.7.4
-> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
