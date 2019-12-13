@@ -1,39 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F7C411E6EC
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 16:48:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87CC411E735
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 16:59:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A694B6E90A;
-	Fri, 13 Dec 2019 15:48:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05D3C6E929;
+	Fri, 13 Dec 2019 15:59:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 746E96E915
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 15:48:22 +0000 (UTC)
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2019 07:48:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,309,1571727600"; d="scan'208";a="265564643"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by FMSMGA003.fm.intel.com with SMTP; 13 Dec 2019 07:48:18 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 13 Dec 2019 17:48:18 +0200
-Date: Fri, 13 Dec 2019 17:48:18 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH v3] drm: Funnel drm logs to tracepoints
-Message-ID: <20191213154818.GZ1208@intel.com>
-References: <20191212203301.142437-1-sean@poorly.run>
- <87mubw1bpa.fsf@intel.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <87mubw1bpa.fsf@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DB5E6E915
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 15:59:18 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: andrzej.p) with ESMTPSA id 48C84292C4F
+From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCHv4 00/36] AFBC support for Rockchip
+Date: Fri, 13 Dec 2019 16:58:31 +0100
+Message-Id: <20191213155907.16581-1-andrzej.p@collabora.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,263 +33,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Ingo Molnar <mingo@redhat.com>,
- Sean Paul <seanpaul@chromium.org>, Steven Rostedt <rostedt@goodmis.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Ayan Halder <Ayan.Halder@arm.com>, kernel@collabora.com,
+ David Airlie <airlied@linux.ie>, Liviu Dudau <liviu.dudau@arm.com>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ James Wang <james.qian.wang@arm.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>, Sean Paul <sean@poorly.run>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 13, 2019 at 05:34:25PM +0200, Jani Nikula wrote:
-> On Thu, 12 Dec 2019, Sean Paul <sean@poorly.run> wrote:
-> > From: Sean Paul <seanpaul@chromium.org>
-> >
-> > For a long while now, we (ChromeOS) have been struggling getting any
-> > value out of user feedback reports of display failures (notably external
-> > displays not working). The problem is that all logging, even fatal
-> > errors (well, fatal in the sense that a display won't light up) are
-> > logged at DEBUG log level. So in order to extract these logs, users need
-> > to be able to turn on logging, and reproduce the issue with debug
-> > enabled. Unfortunately, this isn't really something we can ask CrOS use=
-rs
-> > to do. I spoke with airlied about this and RHEL has similar issues. Aft=
-er
-> > a few more people piped up on previous versions of this patch, it is a
-> > Real Issue.
-> >
-> > So why don't we just enable DRM_UT_BLAH? Here are the reasons in
-> > ascending order of severity:
-> >  1- People aren't consistent with their categories, so we'd have to
-> >     enable a bunch to get proper coverage
-> >  2- We don't want to overwhelm syslog with drm spam, others have to use
-> >     it too
-> >  3- Console logging is slow
-> >
-> > So what we really want is a ringbuffer of the most recent logs
-> > (filtered by categories we're interested in) exposed via debugfs so the
-> > logs can be extracted when users file feedback.
-> >
-> > It just so happens that there is something which does _exactly_ this!
-> > This patch dumps drm logs into tracepoints, which allows us to turn tra=
-cing
-> > on and off depending on which category is useful, and pull them from
-> > tracefs on demand.
-> >
-> > What about trace_printk()? It doesn't give us the control we get from u=
-sing
-> > tracepoints and it's not meant to be left sprinkled around in code.
-> >
-> > Cc: David Airlie <airlied@gmail.com>
-> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: Rob Clark <robdclark@gmail.com>
-> > Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> > Link: https://patchwork.freedesktop.org/patch/msgid/20191010204823.1955=
-40-1-sean@poorly.run #v1
-> >
-> > Changes in v2:
-> > - Went with a completely different approach: https://lists.freedesktop.=
-org/archives/dri-devel/2019-November/243230.html
-> >
-> > Changes in v3:
-> > - Changed commit message to be a bit less RFC-y
-> > - Make class_drm_category_log an actual trace class
-> > ---
-> >
-> > Even though we don't want it to be, this is UAPI. So here's some usersp=
-ace
-> > code which uses it:
-> > https://chromium-review.googlesource.com/c/chromiumos/platform2/+/19655=
-62
-> >
-> >
-> >  drivers/gpu/drm/drm_print.c      | 143 ++++++++++++++++++++++++++-----
-> >  include/trace/events/drm_print.h | 116 +++++++++++++++++++++++++
-> >  2 files changed, 239 insertions(+), 20 deletions(-)
-> >  create mode 100644 include/trace/events/drm_print.h
-> >
-> > diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
-> > index 9a25d73c155c..f591292811aa 100644
-> > --- a/drivers/gpu/drm/drm_print.c
-> > +++ b/drivers/gpu/drm/drm_print.c
-> > @@ -27,11 +27,15 @@
-> >  =
+This series adds AFBC support for Rockchip. It is inspired by:
 
-> >  #include <stdarg.h>
-> >  =
+https://chromium.googlesource.com/chromiumos/third_party/kernel/+/refs/heads/factory-gru-9017.B-chromeos-4.4/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
 
-> > +#include <linux/bitops.h>
-> >  #include <linux/io.h>
-> >  #include <linux/moduleparam.h>
-> >  #include <linux/seq_file.h>
-> >  #include <linux/slab.h>
-> >  =
+This is the fourth iteration of the afbc series. This time a lot of rework
+has been done, the main goal of which is to move all afbc-related checks
+to helpers, so that core does not deal with it.
 
-> > +#define CREATE_TRACE_POINTS
-> > +#include <trace/events/drm_print.h>
-> > +
-> >  #include <drm/drm.h>
-> >  #include <drm/drm_drv.h>
-> >  #include <drm/drm_print.h>
-> > @@ -241,10 +245,10 @@ void drm_dev_printk(const struct device *dev, con=
-st char *level,
-> >  	struct va_format vaf;
-> >  	va_list args;
-> >  =
+Struct drm_framebuffer gains a new "modifier_info" pointer (overlaid in an
+union). That member can be used to store driver-specific data, which, for
+afbc, will be a struct drm_afbc. Because of that, in drivers that wish to
+use this feature, the struct drm_framebuffer must be allocated directly in
+the driver code rather than inside helpers, so the first portion of the
+patchset does the necessary refactoring.
 
-> > -	va_start(args, format);
-> >  	vaf.fmt =3D format;
-> >  	vaf.va =3D &args;
-> >  =
+Then, there are 3 users of afbc: komeda, malidp and, finally, rockchip,
+the latter being the ultimate purpose of this work and the 3 subsequent
+portions of the patchset move komeda and malidp to generic helpers and add
+afbc support to rockchip.
 
-> > +	va_start(args, format);
-> >  	if (dev)
-> >  		dev_printk(level, dev, "[" DRM_NAME ":%ps] %pV",
-> >  			   __builtin_return_address(0), &vaf);
-> > @@ -253,49 +257,145 @@ void drm_dev_printk(const struct device *dev, co=
-nst char *level,
-> >  		       level, __builtin_return_address(0), &vaf);
-> >  =
+The idea is to make all afbc users follow a similar pattern. In fb_create()
+they allocate struct drm_framebuffer with struct drm_afbc in one chunk of
+memory (to ease freeing later), do their specific checks which can be done
+before object lookups, do object lookups and a special version of a size
+check, which understands struct drm_afbc, followed by any other
+driver-specific checks and initializing the gem object. The helpers for
+the common parts are factored out so that drivers can use them.
 
-> >  	va_end(args);
-> > +
-> > +	va_start(args, format);
-> > +	trace_drm_log(level, dev, &vaf);
-> > +	va_end(args);
-> >  }
-> >  EXPORT_SYMBOL(drm_dev_printk);
-> >  =
+The komeda driver has been the farthest away from such a pattern, so it
+required most changes. However, due to the fact that I don't have any
+komeda hardware I did the changes to komeda in an incremental fashion with
+a series of (usually) very small, easy to understand steps. malidp was
+pretty straightforward, and rockchip's afbc checks follow the pattern.
 
-> > +static unsigned int drm_trace_enabled(unsigned int category)
-> > +{
-> > +	unsigned int bit;
-> > +
-> > +	for_each_set_bit(bit, (unsigned long*)&category, sizeof(category) * 8=
-) {
-> =
+I kindly ask for reviewing the series. I need to mention that my ultimate
+goal is merging afbc for rockchip and I don't have other hardware, so some
+help from malidp and komeda developers/maintainers would be appreciated.
 
-> You'll want to use BITS_PER_TYPE().
-> =
+Rebased onto drm-misc-next.
 
-> But wait, I've switched category to an enum upstream, and there should
-> only ever be one bit set anyway?
-> =
+v3..v4:
 
-> > +		switch (BIT(bit)) {
-> > +		case DRM_UT_NONE:
-> > +			return trace_drm_dbg_none_enabled();
-> > +		case DRM_UT_CORE:
-> > +			return trace_drm_dbg_core_enabled();
-> > +		case DRM_UT_DRIVER:
-> > +			return trace_drm_dbg_driver_enabled();
-> > +		case DRM_UT_KMS:
-> > +			return trace_drm_dbg_kms_enabled();
-> > +		case DRM_UT_PRIME:
-> > +			return trace_drm_dbg_prime_enabled();
-> > +		case DRM_UT_ATOMIC:
-> > +			return trace_drm_dbg_atomic_enabled();
-> > +		case DRM_UT_VBL:
-> > +			return trace_drm_dbg_vbl_enabled();
-> > +		case DRM_UT_STATE:
-> > +			return trace_drm_dbg_state_enabled();
-> > +		case DRM_UT_LEASE:
-> > +			return trace_drm_dbg_lease_enabled();
-> > +		case DRM_UT_DP:
-> > +			return trace_drm_dbg_dp_enabled();
-> > +		default:
-> > +			return trace_drm_dbg_unknown_enabled();
-> > +		}
-> > +	}
-> > +	return false;
-> > +}
-> > +
-> > +static void drm_do_trace(const struct device *dev, unsigned int catego=
-ry,
-> > +			 struct va_format *vaf)
-> > +{
-> > +	WARN_ON(hweight32(category) > 1);
-> > +
-> > +	switch (category) {
-> > +	case DRM_UT_NONE:
-> > +		trace_drm_dbg_none(dev, vaf);
-> > +		break;
-> > +	case DRM_UT_CORE:
-> > +		trace_drm_dbg_core(dev, vaf);
-> > +		break;
-> > +	case DRM_UT_DRIVER:
-> > +		trace_drm_dbg_driver(dev, vaf);
-> > +		break;
-> > +	case DRM_UT_KMS:
-> > +		trace_drm_dbg_kms(dev, vaf);
-> > +		break;
-> > +	case DRM_UT_PRIME:
-> > +		trace_drm_dbg_prime(dev, vaf);
-> > +		break;
-> > +	case DRM_UT_ATOMIC:
-> > +		trace_drm_dbg_atomic(dev, vaf);
-> > +		break;
-> > +	case DRM_UT_VBL:
-> > +		trace_drm_dbg_vbl(dev, vaf);
-> > +		break;
-> > +	case DRM_UT_STATE:
-> > +		trace_drm_dbg_state(dev, vaf);
-> > +		break;
-> > +	case DRM_UT_LEASE:
-> > +		trace_drm_dbg_lease(dev, vaf);
-> > +		break;
-> > +	case DRM_UT_DP:
-> > +		trace_drm_dbg_dp(dev, vaf);
-> > +		break;
-> > +	default:
-> > +		trace_drm_dbg_unknown(dev, vaf);
-> > +		break;
-> > +	}
-> > +}
-> > +
-> >  void drm_dev_dbg(const struct device *dev, unsigned int category,
-> >  		 const char *format, ...)
-> >  {
-> >  	struct va_format vaf;
-> > +	unsigned int bit;
-> >  	va_list args;
-> >  =
+- addressed (some) comments from Daniel Stone, Ezequiel Garcia, Daniel
+Vetter and James Qian Wang - thank you for input
+- refactored helpers to ease accommodating drivers with afbc needs
+- moved afbc checks to helpers
+- converted komeda, malidp and (the newly added) rockchip to use the afbc
+helpers
+- eliminated a separate, dedicated source code file
 
-> > -	if (!drm_debug_enabled(category))
-> > -		return;
-> > -
-> > -	va_start(args, format);
-> >  	vaf.fmt =3D format;
-> >  	vaf.va =3D &args;
-> >  =
+v2..v3:
 
-> > -	if (dev)
-> > -		dev_printk(KERN_DEBUG, dev, "[" DRM_NAME ":%ps] %pV",
-> > -			   __builtin_return_address(0), &vaf);
-> > -	else
-> > -		printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
-> > -		       __builtin_return_address(0), &vaf);
-> > +	if (drm_debug_enabled(category)) {
-> =
+- addressed (some) comments from Daniel Stone, Liviu Dudau, Daniel Vetter
+and Brian Starkey - thank you all
 
-> Ville wants to move this check outside of the functions in the macro
-> level in the header file. Apparently it's pretty bad for performance on
-> some (older Atom) machines to do the call for nothing.
+In this iteration some rework has been done. The checking logic is now moved
+to framebuffer_check() so it is common to all drivers. But the common part
+is not good for komeda, so this series is not good for merging yet.
+I kindly ask for feedback whether the changes are in the right direction.
+I also kindly ask for input on how to accommodate komeda.
 
-I've been meaning to measure if this actually matters. But haven't
-managed to motivate myself enough. Could be a good project for
-some random person to write a test that just does tons of different
-kinds of atomic TEST_ONLY commits to measure how badly we suck.
+The CONFIG_DRM_AFBC option has been eliminated in favour of adding
+drm_afbc.c to drm_kms_helper.
 
--- =
+v1..v2:
 
-Ville Syrj=E4l=E4
-Intel
+- addressed comments from Daniel Stone, Ayan Halder, Mihail Atanassov
+- coding style fixes
+
+Andrzej Pietrasiewicz (36):
+  drm/framebuffer: Add optional modifier info
+  drm/core: Add afbc helper functions
+  drm/gem-fb-helper: Allow drivers to allocate struct drm_framebuffer on
+    their own
+  drm/gem-fb-helper: Add special version of drm_gem_fb_size_check
+  drm/gem-fb-helper: Add generic afbc size checks
+  drm/gem-fb-helper: Add method to allocate struct drm_framebuffer
+  drm/komeda: Use afbc helper
+  drm/komeda: Move checking src coordinates to komeda_fb_create
+  drm/komeda: Use the already available local variable
+  drm/komeda: Retrieve drm_format_info once
+  drm/komeda: Explicitly require 1 plane for AFBC
+  drm/komeda: Move pitches comparison to komeda_fb_create
+  drm/komeda: Provide and use komeda_fb_get_pixel_addr variant not
+    requiring a fb
+  drm/komeda: Factor out object lookups for non-afbc case
+  drm/komeda: Make komeda_fb_none_size_check independent from
+    framebuffer
+  drm/komeda: Factor out object lookups for afbc case
+  drm/komeda: Free komeda_fb_afbc_size_check from framebuffer dependency
+  drm/komeda: Simplify error handling
+  drm/komeda: Move object lookup before size checks
+  drm/komeda: Move object assignments to framebuffer to after size
+    checks
+  drm/komeda: Make the size checks independent from framebuffer
+    structure
+  drm/komeda: Move helper invocation to after size checks
+  drm/komeda: Use helper for common tasks
+  drm/komeda: Use return value of drm_gem_fb_lookup
+  drm/komeda: Use special helper for non-afbc size checks
+  drm/komeda: Factor in the invocation of special helper
+  drm/komeda: Use special helper for afbc case size check
+  drm/komeda: Factor in the invocation of special helper, afbc case
+  drm/komeda: Move special helper invocation outside if-else
+  drm/komeda: Move to helper checking afbc buffer size
+  drm/arm/malidp: Make verify funcitons invocations independent
+  drm/arm/malidp: Integrate verify functions
+  drm/arm/malidp: Factor in afbc framebuffer verification
+  drm/arm/malidp: Use generic helpers for afbc checks
+  drm/rockchip: Use helper for common task
+  drm/rockchip: Add support for afbc
+
+ .../arm/display/komeda/d71/d71_component.c    |   7 +-
+ .../arm/display/komeda/komeda_framebuffer.c   | 285 ++++++++---------
+ .../arm/display/komeda/komeda_framebuffer.h   |  15 +-
+ .../display/komeda/komeda_pipeline_state.c    |  11 +-
+ drivers/gpu/drm/arm/malidp_drv.c              | 155 ++++-----
+ drivers/gpu/drm/drm_fourcc.c                  |  63 +++-
+ drivers/gpu/drm/drm_framebuffer.c             |   3 +
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c  | 301 +++++++++++++++---
+ drivers/gpu/drm/rockchip/rockchip_drm_fb.c    | 109 ++++++-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c   | 141 +++++++-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.h   |  12 +
+ drivers/gpu/drm/rockchip/rockchip_vop_reg.c   |  84 ++++-
+ include/drm/drm_fourcc.h                      |   4 +
+ include/drm/drm_framebuffer.h                 |  16 +
+ include/drm/drm_gem_framebuffer_helper.h      |  50 +++
+ 15 files changed, 933 insertions(+), 323 deletions(-)
+
+-- 
+2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
