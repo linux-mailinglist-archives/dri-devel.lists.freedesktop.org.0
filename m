@@ -1,26 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B079611E740
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 16:59:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4051311E74B
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 17:00:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB9276EA6E;
-	Fri, 13 Dec 2019 15:59:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52AC06EA77;
+	Fri, 13 Dec 2019 15:59:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED5CC6E9B2
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 15:59:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A70836E9B2
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 15:59:26 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: andrzej.p) with ESMTPSA id 028AD292C92
+ (Authenticated sender: andrzej.p) with ESMTPSA id DCEC2292C82
 From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCHv4 13/36] drm/komeda: Provide and use komeda_fb_get_pixel_addr
- variant not requiring a fb
-Date: Fri, 13 Dec 2019 16:58:44 +0100
-Message-Id: <20191213155907.16581-14-andrzej.p@collabora.com>
+Subject: [PATCHv4 14/36] drm/komeda: Factor out object lookups for non-afbc
+ case
+Date: Fri, 13 Dec 2019 16:58:45 +0100
+Message-Id: <20191213155907.16581-15-andrzej.p@collabora.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191213155907.16581-1-andrzej.p@collabora.com>
 References: <20191213155907.16581-1-andrzej.p@collabora.com>
@@ -48,132 +48,66 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a variant of the function which doesn't need neither
-struct drm_framebuffer nor container_of it. Maintain current interface
-for existing users.
+Ultimately we want lookups happening only once in komeda's fb_create
+implementation.
 
 Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 ---
- .../arm/display/komeda/komeda_framebuffer.c   | 68 +++++++++++++++----
- .../arm/display/komeda/komeda_framebuffer.h   |  7 ++
- 2 files changed, 61 insertions(+), 14 deletions(-)
+ .../arm/display/komeda/komeda_framebuffer.c   | 21 ++++++++++++-------
+ 1 file changed, 13 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c b/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
-index 4fa01b2e3f1c..00860a66ebf1 100644
+index 00860a66ebf1..d4e0df00180e 100644
 --- a/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
 +++ b/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
-@@ -124,7 +124,12 @@ komeda_fb_none_afbc_size_check(struct komeda_dev *mdev,
- 			return -EINVAL;
- 		}
- 
--		min_size = komeda_fb_get_pixel_addr(kfb, 0, fb->height, i)
-+		min_size = komeda_fb_get_pixel_addr_nofb(info,
-+							 mode_cmd->modifier[0],
-+							 mode_cmd->pitches,
-+							 mode_cmd->offsets,
-+							 obj,
-+							 0, mode_cmd->height, i)
- 			 - to_drm_gem_cma_obj(obj)->paddr;
- 		if (obj->size < min_size) {
- 			DRM_DEBUG_KMS("The fb->obj[%d] size: 0x%zx lower than the minimum requirement: 0x%llx.\n",
-@@ -238,12 +243,56 @@ int komeda_fb_check_src_coords(const struct komeda_fb *kfb,
- 	return 0;
- }
- 
-+dma_addr_t
-+komeda_fb_get_pixel_addr_impl(const struct drm_format_info *format,
-+			      u64 modifier,
-+			      const unsigned int *pitches,
-+			      const unsigned int *offsets,
-+			      const struct drm_gem_cma_object *obj,
-+			      int x, int y, int plane)
-+{
-+	u32 offset, plane_x, plane_y, block_w, block_sz;
-+
-+	offset = offsets[plane];
-+	if (modifier) {
-+		block_w = drm_format_info_block_width(format, plane);
-+		block_sz = format->char_per_block[plane];
-+		plane_x = x / (plane ? format->hsub : 1);
-+		plane_y = y / (plane ? format->vsub : 1);
-+
-+		offset += (plane_x / block_w) * block_sz
-+			+ plane_y * pitches[plane];
-+	}
-+
-+	return obj->paddr + offset;
-+}
-+
-+dma_addr_t
-+komeda_fb_get_pixel_addr_nofb(const struct drm_format_info *format,
-+			      u64 modifier,
-+			      const unsigned int *pitches,
-+			      const unsigned int *offsets,
-+			      struct drm_gem_object *obj,
-+			      int x, int y, int plane)
-+{
-+	const struct drm_gem_cma_object *cma_obj;
-+
-+	if (plane >= format->num_planes) {
-+		DRM_DEBUG_KMS("Out of max plane num.\n");
-+		return -EINVAL;
-+	}
-+
-+	cma_obj = to_drm_gem_cma_obj(obj);
-+
-+	return komeda_fb_get_pixel_addr_impl(format, modifier, pitches, offsets,
-+					     cma_obj, x, y, plane);
-+}
-+
- dma_addr_t
- komeda_fb_get_pixel_addr(struct komeda_fb *kfb, int x, int y, int plane)
+@@ -101,6 +101,7 @@ static int
+ komeda_fb_none_afbc_size_check(struct komeda_dev *mdev,
+ 			       struct komeda_fb *kfb,
+ 			       const struct drm_format_info *info,
++			       struct drm_gem_object **objs,
+ 			       struct drm_file *file,
+ 			       const struct drm_mode_fb_cmd2 *mode_cmd)
  {
- 	struct drm_framebuffer *fb = &kfb->base;
- 	const struct drm_gem_cma_object *obj;
--	u32 offset, plane_x, plane_y, block_w, block_sz;
+@@ -110,12 +111,7 @@ komeda_fb_none_afbc_size_check(struct komeda_dev *mdev,
+ 	u64 min_size;
  
- 	if (plane >= fb->format->num_planes) {
- 		DRM_DEBUG_KMS("Out of max plane num.\n");
-@@ -252,18 +301,9 @@ komeda_fb_get_pixel_addr(struct komeda_fb *kfb, int x, int y, int plane)
+ 	for (i = 0; i < info->num_planes; i++) {
+-		obj = drm_gem_object_lookup(file, mode_cmd->handles[i]);
+-		if (!obj) {
+-			DRM_DEBUG_KMS("Failed to lookup GEM object\n");
+-			return -ENOENT;
+-		}
+-		fb->obj[i] = obj;
++		obj = objs[i];
  
- 	obj = drm_fb_cma_get_gem_obj(fb, plane);
+ 		block_h = drm_format_info_block_height(info, i);
+ 		if ((fb->pitches[i] * block_h) % mdev->chip.bus_width) {
+@@ -175,14 +171,23 @@ komeda_fb_create(struct drm_device *dev, struct drm_file *file,
+ 		}
+ 		ret = komeda_fb_afbc_size_check(kfb, info, file, mode_cmd);
+ 	} else {
++		struct drm_gem_object *objs[4];
++
+ 		if (komeda_fb_check_src_coords(kfb, 0, 0, kfb->base.width,
+ 					       kfb->base.height)) {
+ 			kfree(kfb);
+ 			return ERR_PTR(-EINVAL);
+ 		}
++		ret = drm_gem_fb_lookup(dev, file, mode_cmd, objs);
++		if (ret < 0) {
++			kfree(kfb);
++			return ERR_PTR(ret);
++		}
  
--	offset = fb->offsets[plane];
--	if (!fb->modifier) {
--		block_w = drm_format_info_block_width(fb->format, plane);
--		block_sz = fb->format->char_per_block[plane];
--		plane_x = x / (plane ? fb->format->hsub : 1);
--		plane_y = y / (plane ? fb->format->vsub : 1);
--
--		offset += (plane_x / block_w) * block_sz
--			+ plane_y * fb->pitches[plane];
--	}
--
--	return obj->paddr + offset;
-+	return komeda_fb_get_pixel_addr_impl(fb->format, fb->modifier,
-+					     fb->pitches, fb->offsets,
-+					     obj, x, y, plane);
- }
- 
- /* if the fb can be supported by a specific layer */
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.h b/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.h
-index c61ca98a3a63..2f1f421d3e7f 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.h
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.h
-@@ -42,6 +42,13 @@ int komeda_fb_check_src_coords(const struct komeda_fb *kfb,
- 			       u32 src_x, u32 src_y, u32 src_w, u32 src_h);
- dma_addr_t
- komeda_fb_get_pixel_addr(struct komeda_fb *kfb, int x, int y, int plane);
-+dma_addr_t
-+komeda_fb_get_pixel_addr_nofb(const struct drm_format_info *format,
-+			      u64 modifier,
-+			      const unsigned int *pitches,
-+			      const unsigned int *offsets,
-+			      struct drm_gem_object *obj,
-+			      int x, int y, int plane);
- bool komeda_fb_is_layer_supported(struct komeda_fb *kfb, u32 layer_type,
- 		u32 rot);
- 
+-		ret = komeda_fb_none_afbc_size_check(mdev, kfb, info, file,
+-						     mode_cmd);
++		ret = komeda_fb_none_afbc_size_check(mdev, kfb, info, objs,
++						     file, mode_cmd);
++		for (i = 0; i < info->num_planes; ++i)
++			kfb->base.obj[i] = objs[i];
+ 	}
+ 	if (ret < 0)
+ 		goto err_cleanup;
 -- 
 2.17.1
 
