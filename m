@@ -1,53 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13D2D11EE85
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 00:29:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4594011EE89
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 00:31:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 241E188784;
-	Fri, 13 Dec 2019 23:29:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33EE26E043;
+	Fri, 13 Dec 2019 23:31:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
- [209.85.167.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E846E88784
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 23:29:13 +0000 (UTC)
-Received: by mail-oi1-f194.google.com with SMTP id a124so2044229oii.13
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 15:29:13 -0800 (PST)
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B3A56E043
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 23:31:16 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id r14so480280lfm.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 15:31:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UYB1xRgKosy6jfSGB7BE9SX+cfHWNMutSJcZ7f7EJmk=;
+ b=OhSaij6MbhBbT8BBEWl6AiLb17aiPM6aeW2vJrFDCJMU5/+R1bdFWrZ8rs2ky9KnTD
+ LJxnJmMNZasFyc/BVCC16vVo9cjushwmw2n0o65zr2Xdju3HZTBVrh1z69gI4178ynnG
+ xfOAogfqWlQ5hi88OwmCe7Xt3TQgZkuMKOgmezdRxcv7jIf4GZX9yCs3N2OeQUDrB1xf
+ GEuDOfQylB1JoSMxRIHYIc/QtvVpbDpjJFqEj8UCm5og8xBjeG7IE8q4bZRiuNXh96/6
+ 1atEeaXFG6WRTrxzvCzBE7CbxChsJuR5RJF8X3MAXxFvWiKtHtAg2SmH1uCJhU/3q2oA
+ p1xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=DXJwQPhSwM1+cucOFg3CYds/NSYGmXNcRDzsn2xt8Tc=;
- b=Z3ThwuHrYWFMKHbCrLYJW9cuXyS9xnxv460r3FXnJexYd0aghgd7OaWREIFTSErlrG
- g7FuRkFFwCwMX6zwQL4ZQq9+z2zwAUNHnEKG4Q4GQ80SP+xVKhq4yh4eMwxn4lN30rgB
- HP+SG01XU8KnGE1vCrdRxDIYwSC9OATkwS0hhTRHBuRe173H2paTuqMAWKMmqELS5Fah
- uD+ZZErWBHS1R0DRZXBFkagbcLbZ/jbVBuydaJoC0aB3C8gz1e27ITZqFpI3l9cNBbJm
- WV/pPduIWFsdJOdA7XVwA0HFPi9Fjs/HGl4C5NuBlcclBJEch+aarF/z+g3Jg5MVIlWG
- LXgA==
-X-Gm-Message-State: APjAAAUI0IAb6vS9EI3ywNC7paeBewA+CVt2Gdj2iGVa5fdYzwlAnd81
- lzGo9z3L9au9I+PCLENp7g==
-X-Google-Smtp-Source: APXvYqyFi7kee8lkyjSw4gkTsHA5YEMwIJOCDy42tK/sBpC3CtzjbDjua0Z+vcUr1fu145eAoBD+/A==
-X-Received: by 2002:aca:5ad4:: with SMTP id o203mr8130704oib.73.1576279753143; 
- Fri, 13 Dec 2019 15:29:13 -0800 (PST)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id y139sm3906864oie.18.2019.12.13.15.29.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Dec 2019 15:29:12 -0800 (PST)
-Date: Fri, 13 Dec 2019 17:29:11 -0600
-From: Rob Herring <robh@kernel.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v2 2/3] dt-bindings: panel: Document Frida FRD350H54004
- LCD panel
-Message-ID: <20191213232911.GA24142@bogus>
-References: <20191202154123.64139-1-paul@crapouillou.net>
- <20191202154123.64139-2-paul@crapouillou.net>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UYB1xRgKosy6jfSGB7BE9SX+cfHWNMutSJcZ7f7EJmk=;
+ b=YaBLpMM/L0O6LYdl50SiXYYY6Qy6aG9PepzBgbiV+YF9AJB4plOTUOLuGzNlEOn/aH
+ IE/p8h5Rw+oKaHFN06fcPy0hYXDidtAUZL4qzXEE4HVmw04dIWBxS801mZvFAWef5KO0
+ L0YGgZremY5XNlUuKvKhD601w6iuEEJbwFsevTI9i1SMHUTW/2Hkp1n4qPT79xLugwMr
+ O2/gKABU6/Cl0wtgxbWQT4k6QpkXDp4nA9T1lGfIo1XuEtRtDcrN4rZIpVlXtobrVNU+
+ Z4/f3Fyx61D32DJPiEXg0SHopU80mCd8A8ZATPsMc4mJWi0ebxjRQdveOgicsywETp+o
+ WxRw==
+X-Gm-Message-State: APjAAAUdm3PE6+GuxfWqvsZa/yGDtleghEOi2EG3b8qgqm70icmbSA4s
+ DwB0koLjnbgJsXtAYtwK7ccvNRtKovYufF1rhcYT2A==
+X-Google-Smtp-Source: APXvYqzqccxo0XRZZSDEaS63orz0snyBz0NtEY/CocbBhD+cdUyq3IegjWldrMgLnoaVvROFwgZD1ngkhWvShUDYbVU=
+X-Received: by 2002:ac2:4945:: with SMTP id o5mr10104458lfi.93.1576279874570; 
+ Fri, 13 Dec 2019 15:31:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191202154123.64139-2-paul@crapouillou.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20191203123143.118487-1-linus.walleij@linaro.org>
+ <87sgluy43j.fsf@belgarion.home>
+ <CACRpkdZS0umWreCuXXkdmwLoSVyAtwMrN21EMyqnn4LR8zkFkw@mail.gmail.com>
+ <87mubwxhnc.fsf@belgarion.home>
+In-Reply-To: <87mubwxhnc.fsf@belgarion.home>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Sat, 14 Dec 2019 00:31:03 +0100
+Message-ID: <CACRpkdYJT+givuOP8SA9nuyDWr7yRW+X13okTVjVNP81Kdb__g@mail.gmail.com>
+Subject: Re: [PATCH] backlight: corgi: Convert to use GPIO descriptors
+To: Robert Jarzmik <robert.jarzmik@free.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,75 +63,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org, od@zcrc.me,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Andrea Adami <andrea.adami@gmail.com>, Jingoo Han <jingoohan1@gmail.com>,
+ Daniel Thompson <daniel.thompson@linaro.org>, Lee Jones <lee.jones@linaro.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 02, 2019 at 04:41:22PM +0100, Paul Cercueil wrote:
-> Add bindings documentation for the Frida 3.5" (320x240 pixels) 24-bit
-> TFT LCD panel.
-> 
-> v2: Switch documentation from plain text to YAML
-> 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> ---
->  .../display/panel/frida,frd350h54004.yaml     | 31 +++++++++++++++++++
->  1 file changed, 31 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/frida,frd350h54004.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/frida,frd350h54004.yaml b/Documentation/devicetree/bindings/display/panel/frida,frd350h54004.yaml
-> new file mode 100644
-> index 000000000000..a29c3daf0c78
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/frida,frd350h54004.yaml
-> @@ -0,0 +1,31 @@
-> +# SPDX-License-Identifier: GPL-2.0
+On Fri, Dec 13, 2019 at 6:24 PM Robert Jarzmik <robert.jarzmik@free.fr> wrote:
+> Linus Walleij <linus.walleij@linaro.org> writes:
+> > On Sun, Dec 8, 2019 at 9:06 PM Robert Jarzmik <robert.jarzmik@free.fr> wrote:
+> >> Linus Walleij <linus.walleij@linaro.org> writes:
 
-Dual license new bindings please:
+> > So it will theoretically "spi0.1"
+> >
+> > Beware about bugs in the above interpreter because it is
+> > just my brain.
+>
+> Well, if nobody complains because of testing, why not, your explanation seems as
+> good as it could be.
 
-(GPL-2.0-only OR BSD-2-Clause)
+:D
 
-With that,
+> If you would be so kind as to carry these changes through your tree instead of
+> the PXA one, please have my :
+> Acked-by: Robert Jarzmik <robert.jarzmik@free.fr>
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+I was hoping the backlight people would pick it up to the backlight tree.
 
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/frida,frd350h54004.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Frida 3.5" (320x240 pixels) 24-bit TFT LCD panel
-> +
-> +maintainers:
-> +  - Paul Cercueil <paul@crapouillou.net>
-> +  - Thierry Reding <thierry.reding@gmail.com>
-> +
-> +allOf:
-> +  - $ref: panel-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: frida,frd350h54004
-> +
-> +  power-supply: true
-> +  backlight: true
-> +  enable-gpios: true
-> +  port: true
-> +
-> +additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - power-supply
-> +
-> +...
-> -- 
-> 2.24.0
-> 
+Yours,
+Linus Walleij
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
