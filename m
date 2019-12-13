@@ -1,53 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9F8911EE15
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 23:58:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17CD911EE17
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 23:59:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C02F96E0DF;
-	Fri, 13 Dec 2019 22:58:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96A0F6EE0C;
+	Fri, 13 Dec 2019 22:58:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
- [209.85.210.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACEBA6E0DF;
- Fri, 13 Dec 2019 22:58:02 +0000 (UTC)
-Received: by mail-ot1-f67.google.com with SMTP id k14so987606otn.4;
- Fri, 13 Dec 2019 14:58:02 -0800 (PST)
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
+ [IPv6:2a00:1450:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 145C56EE15
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 22:58:55 +0000 (UTC)
+Received: by mail-ed1-x541.google.com with SMTP id i6so441870edr.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 14:58:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PX0L7R2xmOyFl79vE2cdal/0PMCVirGsmSQK8ghPXgk=;
+ b=BbSw0iqkPS5K6zAmK/JL04SNtXbaxIgZ0OTFi2wehAgmdBJBT+GjUWCuh/LqTZ+OQ7
+ A/AY6NTmZPf8MnQccrC5VnREALQonHkzqou7r8qwUk9MVMa+la5HzI4Dy+hsZP/CYwSK
+ rPBomhHCgemE7ufsmmQwZ+TfC08O/anVS2iSclyQlgchGNMSQ1rAXYL93HbiAE/regDH
+ vbyMrWVhHAZyvqw7rbXkANbkmB8sw1Vf3hAeXo2KoQoCTPyeDsglMyw4G/0Ue91syKBx
+ 5T+OQiyrnYxb5sFRiyhHDLW9SPOUrAHOEHqe7y2Dm+AI68okEARlA65b3j099w/egmEE
+ y2gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=qiHxkm6KtZo6Tc2gJFAGw7nvz1X4DY5P/hEZQp6y9Gg=;
- b=scGQM7BYDswf732jXS9V3R6o+hKxptvWNzIDjdViPkE9gfI04xXm5PZ9XOL9xIgRji
- juIGqVr6QJjevnrCT3Jxye0jgr8nlRegriI+Nv7neD73Vp4Z/GiAhz5Y0kRkmPPH6hJL
- OjZBzQu+M2uFMj+WkXgwu9oGLEisPutaaqzF17nlx2ZKQnqc3Lb1xMd29JB/DatuOtfM
- Ct3Oq3a8hxSaCS1YavA2nyHkq77TiyolEj1CUGxYotUZFMQgqjy4cEgkZiH83Ei0+hYa
- iFGXKoT9eS3km1tTxTPKxBTA+dqEhi0rsWGPA0hcKTigILxJIsvOgeraxPV/oMyI7r/8
- FQ8w==
-X-Gm-Message-State: APjAAAV9J8VHSsEvj7oOGg1ElvfPeumzhKNllPSbLC7XAPVMQgEEa2KV
- sz9LhrhIKPAopA1Qkj+tsg==
-X-Google-Smtp-Source: APXvYqwmrBRTx8NiFcOlSM6Mbs/9f80Gl2thmPUknxOfQb4wS9RiU8VvOkxdByU3XcH1WHnRoBqqNw==
-X-Received: by 2002:a9d:7094:: with SMTP id l20mr17643097otj.190.1576277881707; 
- Fri, 13 Dec 2019 14:58:01 -0800 (PST)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id a17sm3796931otq.49.2019.12.13.14.58.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Dec 2019 14:58:00 -0800 (PST)
-Date: Fri, 13 Dec 2019 16:58:00 -0600
-From: Rob Herring <robh@kernel.org>
-To: Chandan Uddaraju <chandanu@codeaurora.org>
-Subject: Re: [DPU PATCH v3 1/5] dt-bindings: msm/dp: add bindings of
- DP/DP-PLL driver for Snapdragon 845
-Message-ID: <20191213225800.GA21739@bogus>
-References: <1575294437-6129-1-git-send-email-chandanu@codeaurora.org>
- <0101016ec6ddf4fc-cbe2c43a-6b6c-4035-846a-038fac788c62-000000@us-west-2.amazonses.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PX0L7R2xmOyFl79vE2cdal/0PMCVirGsmSQK8ghPXgk=;
+ b=jJRd9teBy+vTPTkNRKXDKo5WEN6AEroTX3cOw5CQZnn1IgnpEW3cuYrDnmN2slqqfP
+ pMo/B0skxjIxZTLUvjjo7HlsUsbozpyrpzPws7EqbTJIBrm15QOcLA0lcYx4Cjd2o/Tf
+ QDqPqjTm5o6xv3B1kA9t9pX+G+mJyMrejCXqEUMVkD/UA8RvlpW2zYMe34KVw1z5UPUd
+ +tWZv23fIIMu+OeuJo3gQ/pKIsYcPata9jXV0j+m7rh6m9ZuAwFNZfORBCiQw5Gk9YSd
+ Ni0sRgwDilTCbb4HEylPF+xbVZRQtSfOg3TrZu4kRjvNN5UiHZMH+3b6JfjxwCkNREAO
+ 3JrA==
+X-Gm-Message-State: APjAAAUH3ucv0DcScLqbseMnmYU2Pwu/MoporijxJcSzsAjjQPKx1Y7h
+ NiYXUdlYidmsxhMkJmZB8xP4bW6a3JumNIjyz9S5yA==
+X-Google-Smtp-Source: APXvYqzHpjYGE1ZZdKAZ2NWjQ5+10mnBjXvHBQdhRQuZFgXrgUKa2HRkFmrG5vz/zdYSqDEXVRB4kmzxmNmJoZS8R0w=
+X-Received: by 2002:a17:906:d4a:: with SMTP id r10mr57273ejh.125.1576277933527; 
+ Fri, 13 Dec 2019 14:58:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <0101016ec6ddf4fc-cbe2c43a-6b6c-4035-846a-038fac788c62-000000@us-west-2.amazonses.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20191213215614.24558-1-niranjana.vishwanathapura@intel.com>
+ <20191213215614.24558-3-niranjana.vishwanathapura@intel.com>
+In-Reply-To: <20191213215614.24558-3-niranjana.vishwanathapura@intel.com>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Fri, 13 Dec 2019 16:58:42 -0600
+Message-ID: <CAOFGe95rC8A4SuwWtd1tbikw8HGm-TU52_O8iBSJKpDyY0gWNw@mail.gmail.com>
+Subject: Re: [Intel-gfx] [RFC v2 02/12] drm/i915/svm: Runtime (RT) allocator
+ support
+To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,391 +63,1176 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- abhinavk@codeaurora.org, seanpaul@chromium.org,
- dri-devel@lists.freedesktop.org, hoegsberg@google.com,
- freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "Graunke, Kenneth W" <kenneth.w.graunke@intel.com>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>, sanjay.k.kumar@intel.com,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Jason Ekstrand <jason.ekstrand@intel.com>, dave.hansen@intel.com,
+ jglisse@redhat.com, jgg@mellanox.com, Daniel Vetter <daniel.vetter@intel.com>,
+ dan.j.williams@intel.com, ira.weiny@intel.com
+Content-Type: multipart/mixed; boundary="===============1797878423=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 02, 2019 at 01:47:45PM +0000, Chandan Uddaraju wrote:
-> Add bindings for Snapdragon 845 DisplayPort and
-> display-port PLL driver.
+--===============1797878423==
+Content-Type: multipart/alternative; boundary="0000000000004ba94405999dced8"
 
-Is it just me, but I keep getting 2 copies of codeaurora emails?
+--0000000000004ba94405999dced8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> Changes in V2:
-> Provide details about sel-gpio
+On Fri, Dec 13, 2019 at 4:07 PM Niranjana Vishwanathapura <
+niranjana.vishwanathapura@intel.com> wrote:
 
-This is V3, what changed in V3?
-
-> 
-> Signed-off-by: Chandan Uddaraju <chandanu@codeaurora.org>
+> Shared Virtual Memory (SVM) runtime allocator support allows
+> binding a shared virtual address to a buffer object (BO) in the
+> device page table through an ioctl call.
+>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
+> Cc: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Sudeep Dutt <sudeep.dutt@intel.com>
+> Signed-off-by: Niranjana Vishwanathapura <
+> niranjana.vishwanathapura@intel.com>
 > ---
->  .../devicetree/bindings/display/msm/dp.txt         | 249 +++++++++++++++++++++
->  .../devicetree/bindings/display/msm/dpu.txt        |  16 +-
->  2 files changed, 261 insertions(+), 4 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/msm/dp.txt
-
-New bindings should be in DT schema format.
-
-> diff --git a/Documentation/devicetree/bindings/display/msm/dp.txt b/Documentation/devicetree/bindings/display/msm/dp.txt
+>  drivers/gpu/drm/i915/Kconfig                  | 11 ++++
+>  drivers/gpu/drm/i915/Makefile                 |  3 +
+>  .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 58 ++++++++++++++----
+>  drivers/gpu/drm/i915/gem/i915_gem_svm.c       | 60 +++++++++++++++++++
+>  drivers/gpu/drm/i915/gem/i915_gem_svm.h       | 22 +++++++
+>  drivers/gpu/drm/i915/i915_drv.c               | 21 +++++++
+>  drivers/gpu/drm/i915/i915_drv.h               | 22 +++++++
+>  drivers/gpu/drm/i915/i915_gem_gtt.c           |  1 +
+>  drivers/gpu/drm/i915/i915_gem_gtt.h           | 13 ++++
+>  include/uapi/drm/i915_drm.h                   | 27 +++++++++
+>  10 files changed, 227 insertions(+), 11 deletions(-)
+>  create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_svm.c
+>  create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_svm.h
+>
+> diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
+> index ba9595960bbe..c2e48710eec8 100644
+> --- a/drivers/gpu/drm/i915/Kconfig
+> +++ b/drivers/gpu/drm/i915/Kconfig
+> @@ -137,6 +137,16 @@ config DRM_I915_GVT_KVMGT
+>           Choose this option if you want to enable KVMGT support for
+>           Intel GVT-g.
+>
+> +config DRM_I915_SVM
+> +       bool "Enable Shared Virtual Memory support in i915"
+> +       depends on STAGING
+> +       depends on DRM_I915
+> +       default n
+> +       help
+> +         Choose this option if you want Shared Virtual Memory (SVM)
+> +         support in i915. With SVM support, one can share the virtual
+> +         address space between a process and the GPU.
+> +
+>  menu "drm/i915 Debugging"
+>  depends on DRM_I915
+>  depends on EXPERT
+> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefil=
+e
+> index e0fd10c0cfb8..75fe45633779 100644
+> --- a/drivers/gpu/drm/i915/Makefile
+> +++ b/drivers/gpu/drm/i915/Makefile
+> @@ -153,6 +153,9 @@ i915-y +=3D \
+>           intel_region_lmem.o \
+>           intel_wopcm.o
+>
+> +# SVM code
+> +i915-$(CONFIG_DRM_I915_SVM) +=3D gem/i915_gem_svm.o
+> +
+>  # general-purpose microcontroller (GuC) support
+>  obj-y +=3D gt/uc/
+>  i915-y +=3D gt/uc/intel_uc.o \
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> index 5003e616a1ad..af360238a392 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> @@ -2836,10 +2836,14 @@ int
+>  i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
+>                            struct drm_file *file)
+>  {
+> +       struct drm_i915_gem_exec_object2 *exec2_list, *exec2_list_user;
+>         struct drm_i915_gem_execbuffer2 *args =3D data;
+> -       struct drm_i915_gem_exec_object2 *exec2_list;
+> -       struct drm_syncobj **fences =3D NULL;
+>         const size_t count =3D args->buffer_count;
+> +       struct drm_syncobj **fences =3D NULL;
+> +       unsigned int i =3D 0, svm_count =3D 0;
+> +       struct i915_address_space *vm;
+> +       struct i915_gem_context *ctx;
+> +       struct i915_svm_obj *svm_obj;
+>         int err;
+>
+>         if (!check_buffer_count(count)) {
+> @@ -2851,15 +2855,46 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev=
+,
+> void *data,
+>         if (err)
+>                 return err;
+>
+> +       ctx =3D i915_gem_context_lookup(file->driver_priv, args->rsvd1);
+> +       if (!ctx || !rcu_access_pointer(ctx->vm))
+> +               return -ENOENT;
+> +
+> +       rcu_read_lock();
+> +       vm =3D i915_vm_get(ctx->vm);
+> +       rcu_read_unlock();
+> +
+> +alloc_again:
+> +       svm_count =3D vm->svm_count;
+>         /* Allocate an extra slot for use by the command parser */
+> -       exec2_list =3D kvmalloc_array(count + 1, eb_element_size(),
+> +       exec2_list =3D kvmalloc_array(count + svm_count + 1,
+> eb_element_size(),
+>                                     __GFP_NOWARN | GFP_KERNEL);
+>         if (exec2_list =3D=3D NULL) {
+>                 DRM_DEBUG("Failed to allocate exec list for %zd buffers\n=
+",
+> -                         count);
+> +                         count + svm_count);
+>                 return -ENOMEM;
+>         }
+> -       if (copy_from_user(exec2_list,
+> +       mutex_lock(&vm->mutex);
+> +       if (svm_count !=3D vm->svm_count) {
+> +               mutex_unlock(&vm->mutex);
+> +               kvfree(exec2_list);
+> +               goto alloc_again;
+> +       }
+> +
+> +       list_for_each_entry(svm_obj, &vm->svm_list, link) {
+> +               memset(&exec2_list[i], 0, sizeof(*exec2_list));
+> +               exec2_list[i].handle =3D svm_obj->handle;
+> +               exec2_list[i].offset =3D svm_obj->offset;
+> +               exec2_list[i].flags =3D EXEC_OBJECT_PINNED |
+> +                                     EXEC_OBJECT_SUPPORTS_48B_ADDRESS;
+> +               i++;
+> +       }
+> +       exec2_list_user =3D &exec2_list[i];
+> +       args->buffer_count +=3D svm_count;
+> +       mutex_unlock(&vm->mutex);
+> +       i915_vm_put(vm);
+> +       i915_gem_context_put(ctx);
+> +
+> +       if (copy_from_user(exec2_list_user,
+>                            u64_to_user_ptr(args->buffers_ptr),
+>                            sizeof(*exec2_list) * count)) {
+>                 DRM_DEBUG("copy %zd exec entries failed\n", count);
+> @@ -2876,6 +2911,7 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev,
+> void *data,
+>         }
+>
+>         err =3D i915_gem_do_execbuffer(dev, file, args, exec2_list, fence=
+s);
+> +       args->buffer_count -=3D svm_count;
+>
+>         /*
+>          * Now that we have begun execution of the batchbuffer, we ignore
+> @@ -2886,7 +2922,6 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev,
+> void *data,
+>         if (args->flags & __EXEC_HAS_RELOC) {
+>                 struct drm_i915_gem_exec_object2 __user *user_exec_list =
+=3D
+>                         u64_to_user_ptr(args->buffers_ptr);
+> -               unsigned int i;
+>
+>                 /* Copy the new buffer offsets back to the user's exec
+> list. */
+>                 /*
+> @@ -2900,13 +2935,14 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev=
+,
+> void *data,
+>                         goto end;
+>
+>                 for (i =3D 0; i < args->buffer_count; i++) {
+> -                       if (!(exec2_list[i].offset & UPDATE))
+> +                       u64 *offset =3D &exec2_list_user[i].offset;
+> +
+> +                       if (!(*offset & UPDATE))
+>                                 continue;
+>
+> -                       exec2_list[i].offset =3D
+> -                               gen8_canonical_addr(exec2_list[i].offset =
+&
+> PIN_OFFSET_MASK);
+> -                       unsafe_put_user(exec2_list[i].offset,
+> -                                       &user_exec_list[i].offset,
+> +                       *offset =3D gen8_canonical_addr(*offset &
+> +                                                     PIN_OFFSET_MASK);
+> +                       unsafe_put_user(*offset, &user_exec_list[i].offse=
+t,
+>                                         end_user);
+>                 }
+>  end_user:
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_svm.c
+> b/drivers/gpu/drm/i915/gem/i915_gem_svm.c
 > new file mode 100644
-> index 0000000..38be36d
+> index 000000000000..882fe56138e2
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/msm/dp.txt
-> @@ -0,0 +1,249 @@
-> +Qualcomm Technologies, Inc.
-> +DP is the master Display Port device which supports DP host controllers that are compatible with VESA Display Port interface specification.
-> +DP Controller: Required properties:
-> +- compatible:           Should be "qcom,dp-display".
-
-Needs to be more specific like including the SoC name.
-
-> +- reg:                  Base address and length of DP hardware's memory mapped regions.
-> +- cell-index:           Specifies the controller instance.
-
-FDT doesn't use cell-index.
-
-> +- reg-names:            A list of strings that name the list of regs.
-> +			"dp_ahb" - DP controller memory region.
-> +			"dp_aux" - DP AUX memory region.
-> +			"dp_link" - DP link layer memory region.
-> +			"dp_p0" - DP pixel clock domain memory region.
-> +			"dp_phy" - DP PHY memory region.
-> +			"dp_ln_tx0" - USB3 DP PHY combo TX-0 lane memory region.
-> +			"dp_ln_tx1" - USB3 DP PHY combo TX-1 lane memory region.
-> +			"dp_mmss_cc" - Display Clock Control memory region.
-
-Sounds like a separate clock controller node...
-
-> +			"qfprom_physical" - QFPROM Phys memory region.
-> +			"dp_pll" - USB3 DP combo PLL memory region.
-> +			"usb3_dp_com" - USB3 DP PHY combo memory region.
-
-Should be a separate phy node?
-
-> +			"hdcp_physical" - DP HDCP memory region.
-
-The 'dp_' part is redundant.
-
-What does 'physical' mean? Addresses in DT are always physical.
-
-> +- interrupt-parent	phandle to the interrupt parent device node.
-
-Don't document interrupt-parent. It's not required either because it 
-could be in a parent node.
-
-> +- interrupts:		The interrupt signal from the DP block.
-> +- clocks:               Clocks required for Display Port operation. See [1] for details on clock bindings.
-> +- clock-names:          Names of the clocks corresponding to handles. Following clocks are required:
-> +			"core_aux_clk", "core_usb_ref_clk_src","core_usb_ref_clk", "core_usb_cfg_ahb_clk",
-> +			"core_usb_pipe_clk", "ctrl_link_clk", "ctrl_link_iface_clk", "ctrl_crypto_clk",
-> +			"ctrl_pixel_clk", "pixel_clk_rcg", "pixel_parent".
-
-Clocks should be actual clock inputs to the module. If 'pixel_parent' is 
-just some parent clock you want to assign, then use assigned-clocks.
-
-> +- pll-node:		phandle to DP PLL node.
-
-But you have a DP PLL reg region defined. Is this something else?
-
-Needs a 'qcom' prefix if it stays.
-
-> +- vdda-1p2-supply:		phandle to vdda 1.2V regulator node.
-> +- vdda-0p9-supply:		phandle to vdda 0.9V regulator node.
-> +- qcom,aux-cfg0-settings:		Specifies the DP AUX configuration 0 settings. The first
-> +					entry in this array corresponds to the register offset
-> +					within DP AUX, while the remaining entries indicate the
-> +					programmable values.
-
-Needs more details on what these are and why they must be in DT. We 
-generally don't just stuff DT with raw values to initial registers with.
-
-Line lengths should be <80 char.
-
-> +- qcom,aux-cfg1-settings:		Specifies the DP AUX configuration 1 settings. The first
-> +					entry in this array corresponds to the register offset
-> +					within DP AUX, while the remaining entries indicate the
-> +					programmable values.
-> +- qcom,aux-cfg2-settings:		Specifies the DP AUX configuration 2 settings. The first
-> +					entry in this array corresponds to the register offset
-> +					within DP AUX, while the remaining entries indicate the
-> +					programmable values.
-> +- qcom,aux-cfg3-settings:		Specifies the DP AUX configuration 3 settings. The first
-> +					entry in this array corresponds to the register offset
-> +					within DP AUX, while the remaining entries indicate the
-> +					programmable values.
-> +- qcom,aux-cfg4-settings:		Specifies the DP AUX configuration 4 settings. The first
-> +					entry in this array corresponds to the register offset
-> +					within DP AUX, while the remaining entries indicate the
-> +					programmable values.
-> +- qcom,aux-cfg5-settings:		Specifies the DP AUX configuration 5 settings. The first
-> +					entry in this array corresponds to the register offset
-> +					within DP AUX, while the remaining entries indicate the
-> +					programmable values.
-> +- qcom,aux-cfg6-settings:		Specifies the DP AUX configuration 6 settings. The first
-> +					entry in this array corresponds to the register offset
-> +					within DP AUX, while the remaining entries indicate the
-> +					programmable values.
-> +- qcom,aux-cfg7-settings:		Specifies the DP AUX configuration 7 settings. The first
-> +					entry in this array corresponds to the register offset
-> +					within DP AUX, while the remaining entries indicate the
-> +					programmable values.
-> +- qcom,aux-cfg8-settings:		Specifies the DP AUX configuration 8 settings. The first
-> +					entry in this array corresponds to the register offset
-> +					within DP AUX, while the remaining entries indicate the
-> +					programmable values.
-> +- qcom,aux-cfg9-settings:		Specifies the DP AUX configuration 9 settings. The first
-> +					entry in this array corresponds to the register offset
-> +					within DP AUX, while the remaining entries indicate the
-> +					programmable values.
-> +- qcom,max-pclk-frequency-khz:	An integer specifying the maximum. pixel clock in KHz supported by Display Port.
-
-Wrap your lines.
-
-> +- extcon:				Phandle for the external connector class interface.
-
-Don't use extcon. Either dp-connector or usb-connector binding instead.
-
-> +- qcom,<type>-supply-entries:		A node that lists the elements of the supply used by the a particular "type" of DP module. The module "types"
-> +					can be "core", "ctrl", and "phy". Within the same type,
-> +					there can be more than one instance of this binding,
-> +					in which case the entry would be appended with the
-> +					supply entry index.
-> +					e.g. qcom,ctrl-supply-entry@0
-> +					-- qcom,supply-name: name of the supply (vdd/vdda/vddio)
-> +					-- qcom,supply-min-voltage: minimum voltage level (uV)
-> +					-- qcom,supply-max-voltage: maximum voltage level (uV)
-> +					-- qcom,supply-enable-load: load drawn (uA) from enabled supply
-> +					-- qcom,supply-disable-load: load drawn (uA) from disabled supply
-> +					-- qcom,supply-pre-on-sleep: time to sleep (ms) before turning on
-> +					-- qcom,supply-post-on-sleep: time to sleep (ms) after turning on
-> +					-- qcom,supply-pre-off-sleep: time to sleep (ms) before turning off
-> +					-- qcom,supply-post-off-sleep: time to sleep (ms) after turning off
-
-Not sure what you're trying to do here, but looks like the regulator 
-binding should be used.
-
-> +- pinctrl-names:	List of names to assign mdss pin states defined in pinctrl device node
-> +					Refer to pinctrl-bindings.txt
-> +- pinctrl-<0..n>:	Lists phandles each pointing to the pin configuration node within a pin
-> +					controller. These pin configurations are installed in the pinctrl
-> +					device node. Refer to pinctrl-bindings.txt
-> +DP Endpoint properties:
-> +  - remote-endpoint: For port@0, set to phandle of the connected panel/bridge's
-> +    input endpoint. For port@1, set to the DPU interface output. See [2] for
-> +    device graph info.
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_svm.c
+> @@ -0,0 +1,60 @@
+> +// SPDX-License-Identifier: MIT
+> +/*
+> + * Copyright =C2=A9 2019 Intel Corporation
+> + */
 > +
-> +Optional properties:
-> +- qcom,aux-en-gpio:		Specifies the aux-channel enable gpio.
-> +- qcom,aux-sel-gpio:		Specifies the mux-selection that might be needed for aux interface.
+> +#include "i915_drv.h"
+> +#include "i915_gem_gtt.h"
+> +#include "i915_gem_lmem.h"
+> +
+> +int i915_gem_vm_bind_svm_obj(struct i915_address_space *vm,
+> +                            struct drm_i915_gem_vm_bind *args,
+> +                            struct drm_file *file)
+> +{
+> +       struct i915_svm_obj *svm_obj, *tmp;
+> +       struct drm_i915_gem_object *obj;
+> +       int ret =3D 0;
+> +
+> +       obj =3D i915_gem_object_lookup(file, args->handle);
+> +       if (!obj)
+> +               return -ENOENT;
+> +
+> +       /* For dgfx, ensure the obj is in device local memory only */
+> +       if (IS_DGFX(vm->i915) && !i915_gem_object_is_lmem(obj))
+> +               return -EINVAL;
+> +
+> +       /* FIXME: Need to handle case with unending batch buffers */
+> +       if (!(args->flags & I915_GEM_VM_BIND_UNBIND)) {
+> +               svm_obj =3D kmalloc(sizeof(*svm_obj), GFP_KERNEL);
+> +               if (!svm_obj) {
+> +                       ret =3D -ENOMEM;
+> +                       goto put_obj;
+> +               }
+> +               svm_obj->handle =3D args->handle;
+> +               svm_obj->offset =3D args->start;
+> +       }
+> +
+> +       mutex_lock(&vm->mutex);
+> +       if (!(args->flags & I915_GEM_VM_BIND_UNBIND)) {
+> +               list_add(&svm_obj->link, &vm->svm_list);
+> +               vm->svm_count++;
+> +       } else {
+> +               /*
+> +                * FIXME: Need to handle case where object is
+> migrated/closed
+> +                * without unbinding first.
+> +                */
+> +               list_for_each_entry_safe(svm_obj, tmp, &vm->svm_list,
+> link) {
+> +                       if (svm_obj->handle !=3D args->handle)
+> +                               continue;
+> +
+> +                       list_del_init(&svm_obj->link);
+> +                       vm->svm_count--;
+> +                       kfree(svm_obj);
+> +                       break;
+> +               }
+> +       }
+> +       mutex_unlock(&vm->mutex);
+> +put_obj:
+> +       i915_gem_object_put(obj);
+> +       return ret;
+> +}
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_svm.h
+> b/drivers/gpu/drm/i915/gem/i915_gem_svm.h
+> new file mode 100644
+> index 000000000000..d60b35c7d21a
+> --- /dev/null
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_svm.h
+> @@ -0,0 +1,22 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Copyright =C2=A9 2019 Intel Corporation
+> + */
+> +
+> +#ifndef __I915_GEM_SVM_H
+> +#define __I915_GEM_SVM_H
+> +
+> +#include "i915_drv.h"
+> +
+> +#if defined(CONFIG_DRM_I915_SVM)
+> +int i915_gem_vm_bind_svm_obj(struct i915_address_space *vm,
+> +                            struct drm_i915_gem_vm_bind *args,
+> +                            struct drm_file *file);
+> +#else
+> +static inline int i915_gem_vm_bind_svm_obj(struct i915_address_space *vm=
+,
+> +                                          struct drm_i915_gem_vm_bind
+> *args,
+> +                                          struct drm_file *file)
+> +{ return -ENOTSUPP; }
+> +#endif
+> +
+> +#endif /* __I915_GEM_SVM_H */
+> diff --git a/drivers/gpu/drm/i915/i915_drv.c
+> b/drivers/gpu/drm/i915/i915_drv.c
+> index 2a11f60c4fd2..d452ea8e40b3 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.c
+> +++ b/drivers/gpu/drm/i915/i915_drv.c
+> @@ -2680,6 +2680,26 @@ i915_gem_reject_pin_ioctl(struct drm_device *dev,
+> void *data,
+>         return -ENODEV;
+>  }
+>
+> +static int i915_gem_vm_bind_ioctl(struct drm_device *dev, void *data,
+> +                                 struct drm_file *file)
+> +{
+> +       struct drm_i915_gem_vm_bind *args =3D data;
+> +       struct i915_address_space *vm;
+> +       int ret =3D -EINVAL;
+> +
+> +       vm =3D i915_gem_address_space_lookup(file->driver_priv, args->vm_=
+id);
+> +       if (unlikely(!vm))
+> +               return -ENOENT;
+> +
+> +       switch (args->type) {
+> +       case I915_GEM_VM_BIND_SVM_OBJ:
+> +               ret =3D i915_gem_vm_bind_svm_obj(vm, args, file);
+> +       }
+> +
+> +       i915_vm_put(vm);
+> +       return ret;
+> +}
+> +
+>  static const struct drm_ioctl_desc i915_ioctls[] =3D {
+>         DRM_IOCTL_DEF_DRV(I915_INIT, drm_noop,
+> DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
+>         DRM_IOCTL_DEF_DRV(I915_FLUSH, drm_noop, DRM_AUTH),
+> @@ -2739,6 +2759,7 @@ static const struct drm_ioctl_desc i915_ioctls[] =
+=3D {
+>         DRM_IOCTL_DEF_DRV(I915_QUERY, i915_query_ioctl, DRM_RENDER_ALLOW)=
+,
+>         DRM_IOCTL_DEF_DRV(I915_GEM_VM_CREATE, i915_gem_vm_create_ioctl,
+> DRM_RENDER_ALLOW),
+>         DRM_IOCTL_DEF_DRV(I915_GEM_VM_DESTROY, i915_gem_vm_destroy_ioctl,
+> DRM_RENDER_ALLOW),
+> +       DRM_IOCTL_DEF_DRV(I915_GEM_VM_BIND, i915_gem_vm_bind_ioctl,
+> DRM_RENDER_ALLOW),
+>  };
+>
+>  static struct drm_driver driver =3D {
+> diff --git a/drivers/gpu/drm/i915/i915_drv.h
+> b/drivers/gpu/drm/i915/i915_drv.h
+> index ce130e1f1e47..2d0a7cd2dc44 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.h
+> +++ b/drivers/gpu/drm/i915/i915_drv.h
+> @@ -1909,6 +1909,28 @@ i915_gem_context_lookup(struct
+> drm_i915_file_private *file_priv, u32 id)
+>         return ctx;
+>  }
+>
+> +static inline struct i915_address_space *
+> +__i915_gem_address_space_lookup_rcu(struct drm_i915_file_private
+> *file_priv,
+> +                                   u32 id)
+> +{
+> +       return idr_find(&file_priv->vm_idr, id);
+> +}
+> +
+> +static inline struct i915_address_space *
+> +i915_gem_address_space_lookup(struct drm_i915_file_private *file_priv,
+> +                             u32 id)
+> +{
+> +       struct i915_address_space *vm;
+> +
+> +       rcu_read_lock();
+> +       vm =3D __i915_gem_address_space_lookup_rcu(file_priv, id);
+> +       if (vm)
+> +               vm =3D i915_vm_get(vm);
+> +       rcu_read_unlock();
+> +
+> +       return vm;
+> +}
+> +
+>  /* i915_gem_evict.c */
+>  int __must_check i915_gem_evict_something(struct i915_address_space *vm,
+>                                           u64 min_size, u64 alignment,
+> diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.c
+> b/drivers/gpu/drm/i915/i915_gem_gtt.c
+> index be36719e7987..7d4f5fa84b02 100644
+> --- a/drivers/gpu/drm/i915/i915_gem_gtt.c
+> +++ b/drivers/gpu/drm/i915/i915_gem_gtt.c
+> @@ -586,6 +586,7 @@ static void i915_address_space_init(struct
+> i915_address_space *vm, int subclass)
+>         stash_init(&vm->free_pages);
+>
+>         INIT_LIST_HEAD(&vm->bound_list);
+> +       INIT_LIST_HEAD(&vm->svm_list);
+>  }
+>
+>  static int __setup_page_dma(struct i915_address_space *vm,
+> diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.h
+> b/drivers/gpu/drm/i915/i915_gem_gtt.h
+> index 31a4a96ddd0d..7c1b54c9677d 100644
+> --- a/drivers/gpu/drm/i915/i915_gem_gtt.h
+> +++ b/drivers/gpu/drm/i915/i915_gem_gtt.h
+> @@ -285,6 +285,13 @@ struct pagestash {
+>         struct pagevec pvec;
+>  };
+>
+> +struct i915_svm_obj {
+> +       /** This obj's place in the SVM object list */
+> +       struct list_head link;
+> +       u32 handle;
+> +       u64 offset;
+> +};
+> +
+>  struct i915_address_space {
+>         struct kref ref;
+>         struct rcu_work rcu;
+> @@ -329,6 +336,12 @@ struct i915_address_space {
+>          */
+>         struct list_head bound_list;
+>
+> +       /**
+> +        * List of SVM bind objects.
+> +        */
+> +       struct list_head svm_list;
+> +       unsigned int svm_count;
+> +
+>         struct pagestash free_pages;
+>
+>         /* Global GTT */
+> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> index 20314eea632a..e10d7bf2cf9f 100644
+> --- a/include/uapi/drm/i915_drm.h
+> +++ b/include/uapi/drm/i915_drm.h
+> @@ -360,6 +360,7 @@ typedef struct _drm_i915_sarea {
+>  #define DRM_I915_GEM_VM_CREATE         0x3a
+>  #define DRM_I915_GEM_VM_DESTROY                0x3b
+>  #define DRM_I915_GEM_OBJECT_SETPARAM   DRM_I915_GEM_CONTEXT_SETPARAM
+> +#define DRM_I915_GEM_VM_BIND           0x3c
+>  /* Must be kept compact -- no holes */
+>
+>  #define DRM_IOCTL_I915_INIT            DRM_IOW( DRM_COMMAND_BASE +
+> DRM_I915_INIT, drm_i915_init_t)
+> @@ -424,6 +425,7 @@ typedef struct _drm_i915_sarea {
+>  #define DRM_IOCTL_I915_GEM_VM_CREATE   DRM_IOWR(DRM_COMMAND_BASE +
+> DRM_I915_GEM_VM_CREATE, struct drm_i915_gem_vm_control)
+>  #define DRM_IOCTL_I915_GEM_VM_DESTROY  DRM_IOW (DRM_COMMAND_BASE +
+> DRM_I915_GEM_VM_DESTROY, struct drm_i915_gem_vm_control)
+>  #define DRM_IOCTL_I915_GEM_OBJECT_SETPARAM     DRM_IOWR(DRM_COMMAND_BASE
+> + DRM_I915_GEM_OBJECT_SETPARAM, struct drm_i915_gem_object_param)
+> +#define DRM_IOCTL_I915_GEM_VM_BIND             DRM_IOWR(DRM_COMMAND_BASE
+> + DRM_I915_GEM_VM_BIND, struct drm_i915_gem_vm_bind)
+>
+>  /* Allow drivers to submit batchbuffers directly to hardware, relying
+>   * on the security mechanisms provided by hardware.
+> @@ -2300,6 +2302,31 @@ struct drm_i915_query_perf_config {
+>         __u8 data[];
+>  };
+>
+> +/**
+> + * struct drm_i915_gem_vm_bind
+> + *
+> + * Bind an object in a vm's page table.
+>
 
--gpios is the preferred form.
+First off, this is something I've wanted for a while for Vulkan, it's just
+never made its way high enough up the priority list.  However, it's going
+to have to come one way or another soon.  I'm glad to see kernel API for
+this being proposed.
 
-> +
-> +
-> +DP PLL: Required properties:
+I do, however, have a few high-level comments/questions about the API:
 
-Should be a separate doc.
+ 1. In order to be useful for sparse memory support, the API has to go the
+other way around so that it binds a VA range to a range within the BO.  It
+also needs to be able to handle overlapping where two different VA ranges
+may map to the same underlying bytes in the BO.  This likely means that
+unbind needs to also take a VA range and only unbind that range.
 
-> +- compatible:           Should be "qcom,dp-pll-10nm".
-> +- reg:                  Base address and length of DP hardware's memory mapped regions.
-> +- cell-index:           Specifies the PLL instance.
-> +- reg-names:            A list of strings that name the list of regs.
-> +			"pll_base" - DP PLL memory region.
-> +			"phy_base" - DP PHY memory region.
-> +			"ln_tx0_base" - USB3 DP PHY combo TX-0 lane memory region.
-> +			"ln_tx1_base" - USB3 DP PHY combo TX-1 lane memory region.
-> +			"gdsc_base" - gdsc memory region.
-> +- interrupt-parent	phandle to the interrupt parent device node.
-> +- interrupts:		The interrupt signal from the DP block.
-> +- clocks:               Clocks required for Display Port operation. See [1] for details on clock bindings.
-> +- clock-names:          Names of the clocks corresponding to handles. Following clocks are required:
-> +			"iface_clk", "ref_clk", cfg_ahb_clk", "pipe_clk".
-> +- clock-rate:           Initial clock rate to be configured. For the shared clocks, the default value			     is set to zero so that minimum clock value is configured. Non-zero clock
-> +			value can be used to configure DP pixel clock.
-> +
-> +
-> +[1] Documentation/devicetree/bindings/clock/clock-bindings.txt
-> +[2] Documentation/devicetree/bindings/graph.txt
-> +
-> +Example:
-> +	msm_dp: dp_display@ae90000{
-> +		cell-index = <0>;
-> +		compatible = "qcom,dp-display";
-> +
-> +		reg =   <0 0x90000 0x0dc>,
-> +			<0 0x90200 0x0c0>,
-> +			<0 0x90400 0x508>,
-> +			<0 0x90a00 0x094>,
-> +			<1 0xeaa00 0x200>,
-> +			<1 0xea200 0x200>,
-> +			<1 0xea600 0x200>,
-> +			<2 0x02000 0x1a0>,
-> +			<3 0x00000 0x621c>,
-> +			<1 0xea000 0x180>,
-> +			<1 0xe8000 0x20>,
-> +			<4 0xe1000 0x034>;
-> +		reg-names = "dp_ahb", "dp_aux", "dp_link",
-> +			"dp_p0", "dp_phy", "dp_ln_tx0", "dp_ln_tx1",
-> +			"dp_mmss_cc", "qfprom_physical", "dp_pll",
-> +			"usb3_dp_com", "hdcp_physical";
-> +
-> +		interrupt-parent = <&mdss>;
-> +		interrupts = <12 0>;
-> +
-> +		extcon = <&usb_1_ssphy>;
-> +		clocks =  <&dispcc DISP_CC_MDSS_DP_AUX_CLK>,
-> +			<&rpmhcc RPMH_CXO_CLK>,
-> +			<&gcc GCC_USB3_PRIM_CLKREF_CLK>,
-> +			<&gcc GCC_USB_PHY_CFG_AHB2PHY_CLK>,
-> +			<&gcc GCC_USB3_PRIM_PHY_PIPE_CLK>,
-> +			<&dispcc DISP_CC_MDSS_DP_LINK_CLK>,
-> +			<&dispcc DISP_CC_MDSS_DP_LINK_INTF_CLK>,
-> +			<&dispcc DISP_CC_MDSS_DP_PIXEL_CLK>,
-> +			<&dispcc DISP_CC_MDSS_DP_CRYPTO_CLK>,
-> +			<&dispcc DISP_CC_MDSS_DP_PIXEL_CLK_SRC>;
-> +		clock-names = "core_aux_clk", "core_ref_clk_src",
-> +			"core_usb_ref_clk", "core_usb_cfg_ahb_clk",
-> +			"core_usb_pipe_clk", "ctrl_link_clk",
-> +			"ctrl_link_iface_clk", "ctrl_pixel_clk",
-> +			"crypto_clk", "pixel_clk_rcg";
-> +
-> +		pll-node = <&dp_pll>;
-> +		qcom,aux-cfg0-settings = [20 00];
-> +		qcom,aux-cfg1-settings = [24 13 23 1d];
-> +		qcom,aux-cfg2-settings = [28 24];
-> +		qcom,aux-cfg3-settings = [2c 00];
-> +		qcom,aux-cfg4-settings = [30 0a];
-> +		qcom,aux-cfg5-settings = [34 26];
-> +		qcom,aux-cfg6-settings = [38 0a];
-> +		qcom,aux-cfg7-settings = [3c 03];
-> +		qcom,aux-cfg8-settings = [40 bb];
-> +		qcom,aux-cfg9-settings = [44 03];
-> +
-> +		qcom,max-pclk-frequency-khz = <675000>;
-> +
-> +		qcom,ctrl-supply-entries {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +
-> +			qcom,ctrl-supply-entry@0 {
-> +				reg = <0>;
-> +				qcom,supply-name = "vdda-1p2";
-> +				qcom,supply-min-voltage = <1200000>;
-> +				qcom,supply-max-voltage = <1200000>;
-> +				qcom,supply-enable-load = <21800>;
-> +				qcom,supply-disable-load = <4>;
-> +			};
-> +		};
-> +
-> +		qcom,phy-supply-entries {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +
-> +			qcom,phy-supply-entry@0 {
-> +				reg = <0>;
-> +				qcom,supply-name = "vdda-0p9";
-> +				qcom,supply-min-voltage = <880000>;
-> +				qcom,supply-max-voltage = <880000>;
-> +				qcom,supply-enable-load = <36000>;
-> +				qcom,supply-disable-load = <32>;
-> +			};
-> +		};
-> +
-> +		ports {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +
-> +			port@0 {
-> +				reg = <0>;
-> +				dp_in: endpoint {
-> +					remote-endpoint = <&dpu_intf0_out>;
-> +				};
-> +			};
-> +
-> +			port@1 {
-> +				reg = <1>;
-> +				dp_out: endpoint {
-> +				};
-> +			};
-> +		};
-> +	};
-> +
-> +	dp_pll: dp-pll@c011000 {
-> +		compatible = "qcom,dp-pll-10nm";
-> +		label = "DP PLL";
-> +		cell-index = <0>;
-> +		#clock-cells = <1>;
-> +
-> +		reg = <1 0xea000 0x200>,
-> +		      <1 0xeaa00 0x200>,
-> +		      <1 0xea200 0x200>,
-> +		      <1 0xea600 0x200>,
-> +		      <2 0x03000 0x8>;
-> +		reg-names = "pll_base", "phy_base", "ln_tx0_base",
-> +			"ln_tx1_base", "gdsc_base";
-> +
-> +		clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-> +			 <&gcc GCC_USB3_PRIM_CLKREF_CLK>,
-> +			 <&gcc GCC_USB_PHY_CFG_AHB2PHY_CLK>,
-> +			 <&gcc GCC_USB3_PRIM_PHY_PIPE_CLK>;
-> +		clock-names = "iface_clk", "ref_clk",
-> +			"cfg_ahb_clk", "pipe_clk";
-> +		clock-rate = <0>;
-> +
-> +	};
-> diff --git a/Documentation/devicetree/bindings/display/msm/dpu.txt b/Documentation/devicetree/bindings/display/msm/dpu.txt
-> index a61dd40..eac6e1c 100644
-> --- a/Documentation/devicetree/bindings/display/msm/dpu.txt
-> +++ b/Documentation/devicetree/bindings/display/msm/dpu.txt
-> @@ -63,8 +63,9 @@ Required properties:
->  	Documentation/devicetree/bindings/graph.txt
->  	Documentation/devicetree/bindings/media/video-interfaces.txt
->  
-> -	Port 0 -> DPU_INTF1 (DSI1)
-> -	Port 1 -> DPU_INTF2 (DSI2)
-> +	Port 0 -> DPU_INTF0 (DP)
-> +	Port 1 -> DPU_INTF1 (DSI1)
-> +	Port 2 -> DPU_INTF2 (DSI2)
+ 2. If this is going to be useful for managing GL's address space where we
+have lots of BOs, we probably want it to take a list of ranges so we aren't
+making one ioctl for each thing we want to bind.
 
-No, you can't redefine existing binding.
+ 3. Why are there no ways to synchronize this with anything?  For binding,
+this probably isn't really needed as long as the VA range you're binding is
+empty.  However, if you want to move bindings around or unbind something,
+the only option is to block in userspace and then call bind/unbind.  This
+can be done but it means even more threads in the UMD which is unpleasant.
+One could argue that that's more or less what the kernel is going to have
+to do so we may as well do it in userspace.  However, I'm not 100%
+convinced that's true.
 
->  
->  Optional properties:
->  - assigned-clocks: list of clock specifiers for clocks needing rate assignment
-> @@ -125,13 +126,20 @@ Example:
->  
->  				port@0 {
->  					reg = <0>;
-> -					dpu_intf1_out: endpoint {
-> -						remote-endpoint = <&dsi0_in>;
-> +					dpu_intf0_out: endpoint {
-> +						remote-endpoint = <&dp_in>;
->  					};
->  				};
->  
->  				port@1 {
->  					reg = <1>;
-> +					dpu_intf1_out: endpoint {
-> +						remote-endpoint = <&dsi0_in>;
-> +					};
-> +				};
+--Jason
+
+
+
+> + */
+> +struct drm_i915_gem_vm_bind {
+> +       /** VA start to bind **/
+> +       __u64 start;
 > +
-> +				port@2 {
-> +					reg = <2>;
->  					dpu_intf2_out: endpoint {
->  						remote-endpoint = <&dsi1_in>;
->  					};
-> -- 
-> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-> a Linux Foundation Collaborative Project
-> 
+> +       /** Type of memory to [un]bind **/
+> +       __u32 type;
+> +#define I915_GEM_VM_BIND_SVM_OBJ      0
+> +
+> +       /** Object handle to [un]bind for I915_GEM_VM_BIND_SVM_OBJ type *=
+*/
+> +       __u32 handle;
+> +
+> +       /** vm to [un]bind **/
+> +       __u32 vm_id;
+> +
+> +       /** Flags **/
+> +       __u32 flags;
+> +#define I915_GEM_VM_BIND_UNBIND      (1 << 0)
+> +#define I915_GEM_VM_BIND_READONLY    (1 << 1)
+> +};
+> +
+>  #if defined(__cplusplus)
+>  }
+>  #endif
+> --
+> 2.21.0.rc0.32.g243a4c7e27
+>
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+>
+
+--0000000000004ba94405999dced8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Dec 13, 2019 at 4:07 PM Niran=
+jana Vishwanathapura &lt;<a href=3D"mailto:niranjana.vishwanathapura@intel.=
+com">niranjana.vishwanathapura@intel.com</a>&gt; wrote:<br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex">Shared Virtual Memory (SVM) runtime=
+ allocator support allows<br>
+binding a shared virtual address to a buffer object (BO) in the<br>
+device page table through an ioctl call.<br>
+<br>
+Cc: Joonas Lahtinen &lt;<a href=3D"mailto:joonas.lahtinen@linux.intel.com" =
+target=3D"_blank">joonas.lahtinen@linux.intel.com</a>&gt;<br>
+Cc: Jon Bloomfield &lt;<a href=3D"mailto:jon.bloomfield@intel.com" target=
+=3D"_blank">jon.bloomfield@intel.com</a>&gt;<br>
+Cc: Daniel Vetter &lt;<a href=3D"mailto:daniel.vetter@intel.com" target=3D"=
+_blank">daniel.vetter@intel.com</a>&gt;<br>
+Cc: Sudeep Dutt &lt;<a href=3D"mailto:sudeep.dutt@intel.com" target=3D"_bla=
+nk">sudeep.dutt@intel.com</a>&gt;<br>
+Signed-off-by: Niranjana Vishwanathapura &lt;<a href=3D"mailto:niranjana.vi=
+shwanathapura@intel.com" target=3D"_blank">niranjana.vishwanathapura@intel.=
+com</a>&gt;<br>
+---<br>
+=C2=A0drivers/gpu/drm/i915/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 | 11 ++++<br>
+=C2=A0drivers/gpu/drm/i915/Makefile=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 3 +<br>
+=C2=A0.../gpu/drm/i915/gem/i915_gem_execbuffer.c=C2=A0 =C2=A0 | 58 ++++++++=
+++++++----<br>
+=C2=A0drivers/gpu/drm/i915/gem/i915_gem_svm.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 6=
+0 +++++++++++++++++++<br>
+=C2=A0drivers/gpu/drm/i915/gem/i915_gem_svm.h=C2=A0 =C2=A0 =C2=A0 =C2=A0| 2=
+2 +++++++<br>
+=C2=A0drivers/gpu/drm/i915/i915_drv.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0| 21 +++++++<br>
+=C2=A0drivers/gpu/drm/i915/i915_drv.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0| 22 +++++++<br>
+=C2=A0drivers/gpu/drm/i915/i915_gem_gtt.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0|=C2=A0 1 +<br>
+=C2=A0drivers/gpu/drm/i915/i915_gem_gtt.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0| 13 ++++<br>
+=C2=A0include/uapi/drm/i915_drm.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0| 27 +++++++++<br>
+=C2=A010 files changed, 227 insertions(+), 11 deletions(-)<br>
+=C2=A0create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_svm.c<br>
+=C2=A0create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_svm.h<br>
+<br>
+diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig<br=
+>
+index ba9595960bbe..c2e48710eec8 100644<br>
+--- a/drivers/gpu/drm/i915/Kconfig<br>
++++ b/drivers/gpu/drm/i915/Kconfig<br>
+@@ -137,6 +137,16 @@ config DRM_I915_GVT_KVMGT<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Choose this option if you want to enable=
+ KVMGT support for<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Intel GVT-g.<br>
+<br>
++config DRM_I915_SVM<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0bool &quot;Enable Shared Virtual Memory support=
+ in i915&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0depends on STAGING<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0depends on DRM_I915<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0default n<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0help<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Choose this option if you want Shared Vi=
+rtual Memory (SVM)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0support in i915. With SVM support, one c=
+an share the virtual<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0address space between a process and the =
+GPU.<br>
++<br>
+=C2=A0menu &quot;drm/i915 Debugging&quot;<br>
+=C2=A0depends on DRM_I915<br>
+=C2=A0depends on EXPERT<br>
+diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile<=
+br>
+index e0fd10c0cfb8..75fe45633779 100644<br>
+--- a/drivers/gpu/drm/i915/Makefile<br>
++++ b/drivers/gpu/drm/i915/Makefile<br>
+@@ -153,6 +153,9 @@ i915-y +=3D \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 intel_region_lmem.o \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 intel_wopcm.o<br>
+<br>
++# SVM code<br>
++i915-$(CONFIG_DRM_I915_SVM) +=3D gem/i915_gem_svm.o<br>
++<br>
+=C2=A0# general-purpose microcontroller (GuC) support<br>
+=C2=A0obj-y +=3D gt/uc/<br>
+=C2=A0i915-y +=3D gt/uc/intel_uc.o \<br>
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/d=
+rm/i915/gem/i915_gem_execbuffer.c<br>
+index 5003e616a1ad..af360238a392 100644<br>
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c<br>
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c<br>
+@@ -2836,10 +2836,14 @@ int<br>
+=C2=A0i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0struct drm_file *file)<br>
+=C2=A0{<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_i915_gem_exec_object2 *exec2_list, *=
+exec2_list_user;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_i915_gem_execbuffer2 *args =3D data;=
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_i915_gem_exec_object2 *exec2_list;<b=
+r>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_syncobj **fences =3D NULL;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 const size_t count =3D args-&gt;buffer_count;<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_syncobj **fences =3D NULL;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int i =3D 0, svm_count =3D 0;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct i915_address_space *vm;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct i915_gem_context *ctx;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct i915_svm_obj *svm_obj;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 int err;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!check_buffer_count(count)) {<br>
+@@ -2851,15 +2855,46 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev, =
+void *data,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (err)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return err;<br>
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx =3D i915_gem_context_lookup(file-&gt;driver=
+_priv, args-&gt;rsvd1);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!ctx || !rcu_access_pointer(ctx-&gt;vm))<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -ENOENT;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0rcu_read_lock();<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0vm =3D i915_vm_get(ctx-&gt;vm);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0rcu_read_unlock();<br>
++<br>
++alloc_again:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0svm_count =3D vm-&gt;svm_count;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Allocate an extra slot for use by the comman=
+d parser */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0exec2_list =3D kvmalloc_array(count + 1, eb_ele=
+ment_size(),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0exec2_list =3D kvmalloc_array(count + svm_count=
+ + 1, eb_element_size(),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 __GFP_NOWARN | GFP_KER=
+NEL);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (exec2_list =3D=3D NULL) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 DRM_DEBUG(&quot;Fai=
+led to allocate exec list for %zd buffers\n&quot;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0count);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0count + svm_count);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -ENOMEM;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0if (copy_from_user(exec2_list,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0mutex_lock(&amp;vm-&gt;mutex);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (svm_count !=3D vm-&gt;svm_count) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mutex_unlock(&amp;v=
+m-&gt;mutex);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kvfree(exec2_list);=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto alloc_again;<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0list_for_each_entry(svm_obj, &amp;vm-&gt;svm_li=
+st, link) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0memset(&amp;exec2_l=
+ist[i], 0, sizeof(*exec2_list));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exec2_list[i].handl=
+e =3D svm_obj-&gt;handle;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exec2_list[i].offse=
+t =3D svm_obj-&gt;offset;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exec2_list[i].flags=
+ =3D EXEC_OBJECT_PINNED |<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0EXEC_OBJECT_SUPP=
+ORTS_48B_ADDRESS;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0i++;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0exec2_list_user =3D &amp;exec2_list[i];<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0args-&gt;buffer_count +=3D svm_count;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0mutex_unlock(&amp;vm-&gt;mutex);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0i915_vm_put(vm);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0i915_gem_context_put(ctx);<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (copy_from_user(exec2_list_user,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0u64_to_user_ptr(args-&gt;buffers_ptr),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0sizeof(*exec2_list) * count)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 DRM_DEBUG(&quot;cop=
+y %zd exec entries failed\n&quot;, count);<br>
+@@ -2876,6 +2911,7 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev, vo=
+id *data,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 err =3D i915_gem_do_execbuffer(dev, file, args,=
+ exec2_list, fences);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0args-&gt;buffer_count -=3D svm_count;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Now that we have begun execution of the=
+ batchbuffer, we ignore<br>
+@@ -2886,7 +2922,6 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev, vo=
+id *data,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (args-&gt;flags &amp; __EXEC_HAS_RELOC) {<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_i915_gem=
+_exec_object2 __user *user_exec_list =3D<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 u64_to_user_ptr(args-&gt;buffers_ptr);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int i;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Copy the new buf=
+fer offsets back to the user&#39;s exec list. */<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
+@@ -2900,13 +2935,14 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev, =
+void *data,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 goto end;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (i =3D 0; i &lt=
+; args-&gt;buffer_count; i++) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0if (!(exec2_list[i].offset &amp; UPDATE))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0u64 *offset =3D &amp;exec2_list_user[i].offset;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0if (!(*offset &amp; UPDATE))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0exec2_list[i].offset =3D<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gen8_canonical_addr(exec2_list[i].off=
+set &amp; PIN_OFFSET_MASK);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0unsafe_put_user(exec2_list[i].offset,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;user=
+_exec_list[i].offset,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0*offset =3D gen8_canonical_addr(*offset &amp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0PIN_OFFSET_MASK);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0unsafe_put_user(*offset, &amp;user_exec_list[i].offset,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 end_user=
+);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+=C2=A0end_user:<br>
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_svm.c b/drivers/gpu/drm/i915=
+/gem/i915_gem_svm.c<br>
+new file mode 100644<br>
+index 000000000000..882fe56138e2<br>
+--- /dev/null<br>
++++ b/drivers/gpu/drm/i915/gem/i915_gem_svm.c<br>
+@@ -0,0 +1,60 @@<br>
++// SPDX-License-Identifier: MIT<br>
++/*<br>
++ * Copyright =C2=A9 2019 Intel Corporation<br>
++ */<br>
++<br>
++#include &quot;i915_drv.h&quot;<br>
++#include &quot;i915_gem_gtt.h&quot;<br>
++#include &quot;i915_gem_lmem.h&quot;<br>
++<br>
++int i915_gem_vm_bind_svm_obj(struct i915_address_space *vm,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_i915_gem_vm_bind *args,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_file *file)<br>
++{<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct i915_svm_obj *svm_obj, *tmp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_i915_gem_object *obj;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0int ret =3D 0;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0obj =3D i915_gem_object_lookup(file, args-&gt;h=
+andle);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!obj)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -ENOENT;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/* For dgfx, ensure the obj is in device local =
+memory only */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (IS_DGFX(vm-&gt;i915) &amp;&amp; !i915_gem_o=
+bject_is_lmem(obj))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -EINVAL;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/* FIXME: Need to handle case with unending bat=
+ch buffers */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!(args-&gt;flags &amp; I915_GEM_VM_BIND_UNB=
+IND)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0svm_obj =3D kmalloc=
+(sizeof(*svm_obj), GFP_KERNEL);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!svm_obj) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0ret =3D -ENOMEM;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0goto put_obj;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0svm_obj-&gt;handle =
+=3D args-&gt;handle;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0svm_obj-&gt;offset =
+=3D args-&gt;start;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0mutex_lock(&amp;vm-&gt;mutex);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!(args-&gt;flags &amp; I915_GEM_VM_BIND_UNB=
+IND)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0list_add(&amp;svm_o=
+bj-&gt;link, &amp;vm-&gt;svm_list);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vm-&gt;svm_count++;=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0} else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * FIXME: Need to h=
+andle case where object is migrated/closed<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * without unbindin=
+g first.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0list_for_each_entry=
+_safe(svm_obj, tmp, &amp;vm-&gt;svm_list, link) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0if (svm_obj-&gt;handle !=3D args-&gt;handle)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0continue;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0list_del_init(&amp;svm_obj-&gt;link);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0vm-&gt;svm_count--;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0kfree(svm_obj);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0mutex_unlock(&amp;vm-&gt;mutex);<br>
++put_obj:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0i915_gem_object_put(obj);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;<br>
++}<br>
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_svm.h b/drivers/gpu/drm/i915=
+/gem/i915_gem_svm.h<br>
+new file mode 100644<br>
+index 000000000000..d60b35c7d21a<br>
+--- /dev/null<br>
++++ b/drivers/gpu/drm/i915/gem/i915_gem_svm.h<br>
+@@ -0,0 +1,22 @@<br>
++/* SPDX-License-Identifier: MIT */<br>
++/*<br>
++ * Copyright =C2=A9 2019 Intel Corporation<br>
++ */<br>
++<br>
++#ifndef __I915_GEM_SVM_H<br>
++#define __I915_GEM_SVM_H<br>
++<br>
++#include &quot;i915_drv.h&quot;<br>
++<br>
++#if defined(CONFIG_DRM_I915_SVM)<br>
++int i915_gem_vm_bind_svm_obj(struct i915_address_space *vm,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_i915_gem_vm_bind *args,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_file *file);<br>
++#else<br>
++static inline int i915_gem_vm_bind_svm_obj(struct i915_address_space *vm,<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s=
+truct drm_i915_gem_vm_bind *args,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s=
+truct drm_file *file)<br>
++{ return -ENOTSUPP; }<br>
++#endif<br>
++<br>
++#endif /* __I915_GEM_SVM_H */<br>
+diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_dr=
+v.c<br>
+index 2a11f60c4fd2..d452ea8e40b3 100644<br>
+--- a/drivers/gpu/drm/i915/i915_drv.c<br>
++++ b/drivers/gpu/drm/i915/i915_drv.c<br>
+@@ -2680,6 +2680,26 @@ i915_gem_reject_pin_ioctl(struct drm_device *dev, vo=
+id *data,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -ENODEV;<br>
+=C2=A0}<br>
+<br>
++static int i915_gem_vm_bind_ioctl(struct drm_device *dev, void *data,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_file *file)<br>
++{<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_i915_gem_vm_bind *args =3D data;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct i915_address_space *vm;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0int ret =3D -EINVAL;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0vm =3D i915_gem_address_space_lookup(file-&gt;d=
+river_priv, args-&gt;vm_id);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (unlikely(!vm))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -ENOENT;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0switch (args-&gt;type) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0case I915_GEM_VM_BIND_SVM_OBJ:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D i915_gem_vm=
+_bind_svm_obj(vm, args, file);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0i915_vm_put(vm);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;<br>
++}<br>
++<br>
+=C2=A0static const struct drm_ioctl_desc i915_ioctls[] =3D {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 DRM_IOCTL_DEF_DRV(I915_INIT, drm_noop, DRM_AUTH=
+|DRM_MASTER|DRM_ROOT_ONLY),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 DRM_IOCTL_DEF_DRV(I915_FLUSH, drm_noop, DRM_AUT=
+H),<br>
+@@ -2739,6 +2759,7 @@ static const struct drm_ioctl_desc i915_ioctls[] =3D =
+{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 DRM_IOCTL_DEF_DRV(I915_QUERY, i915_query_ioctl,=
+ DRM_RENDER_ALLOW),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 DRM_IOCTL_DEF_DRV(I915_GEM_VM_CREATE, i915_gem_=
+vm_create_ioctl, DRM_RENDER_ALLOW),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 DRM_IOCTL_DEF_DRV(I915_GEM_VM_DESTROY, i915_gem=
+_vm_destroy_ioctl, DRM_RENDER_ALLOW),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0DRM_IOCTL_DEF_DRV(I915_GEM_VM_BIND, i915_gem_vm=
+_bind_ioctl, DRM_RENDER_ALLOW),<br>
+=C2=A0};<br>
+<br>
+=C2=A0static struct drm_driver driver =3D {<br>
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_dr=
+v.h<br>
+index ce130e1f1e47..2d0a7cd2dc44 100644<br>
+--- a/drivers/gpu/drm/i915/i915_drv.h<br>
++++ b/drivers/gpu/drm/i915/i915_drv.h<br>
+@@ -1909,6 +1909,28 @@ i915_gem_context_lookup(struct drm_i915_file_private=
+ *file_priv, u32 id)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ctx;<br>
+=C2=A0}<br>
+<br>
++static inline struct i915_address_space *<br>
++__i915_gem_address_space_lookup_rcu(struct drm_i915_file_private *file_pri=
+v,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 id)<br>
++{<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0return idr_find(&amp;file_priv-&gt;vm_idr, id);=
+<br>
++}<br>
++<br>
++static inline struct i915_address_space *<br>
++i915_gem_address_space_lookup(struct drm_i915_file_private *file_priv,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u32 id)<br>
++{<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct i915_address_space *vm;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0rcu_read_lock();<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0vm =3D __i915_gem_address_space_lookup_rcu(file=
+_priv, id);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (vm)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vm =3D i915_vm_get(=
+vm);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0rcu_read_unlock();<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0return vm;<br>
++}<br>
++<br>
+=C2=A0/* i915_gem_evict.c */<br>
+=C2=A0int __must_check i915_gem_evict_something(struct i915_address_space *=
+vm,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 u=
+64 min_size, u64 alignment,<br>
+diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.c b/drivers/gpu/drm/i915/i91=
+5_gem_gtt.c<br>
+index be36719e7987..7d4f5fa84b02 100644<br>
+--- a/drivers/gpu/drm/i915/i915_gem_gtt.c<br>
++++ b/drivers/gpu/drm/i915/i915_gem_gtt.c<br>
+@@ -586,6 +586,7 @@ static void i915_address_space_init(struct i915_address=
+_space *vm, int subclass)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 stash_init(&amp;vm-&gt;free_pages);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 INIT_LIST_HEAD(&amp;vm-&gt;bound_list);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0INIT_LIST_HEAD(&amp;vm-&gt;svm_list);<br>
+=C2=A0}<br>
+<br>
+=C2=A0static int __setup_page_dma(struct i915_address_space *vm,<br>
+diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.h b/drivers/gpu/drm/i915/i91=
+5_gem_gtt.h<br>
+index 31a4a96ddd0d..7c1b54c9677d 100644<br>
+--- a/drivers/gpu/drm/i915/i915_gem_gtt.h<br>
++++ b/drivers/gpu/drm/i915/i915_gem_gtt.h<br>
+@@ -285,6 +285,13 @@ struct pagestash {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct pagevec pvec;<br>
+=C2=A0};<br>
+<br>
++struct i915_svm_obj {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/** This obj&#39;s place in the SVM object list=
+ */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct list_head link;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0u32 handle;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0u64 offset;<br>
++};<br>
++<br>
+=C2=A0struct i915_address_space {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct kref ref;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct rcu_work rcu;<br>
+@@ -329,6 +336,12 @@ struct i915_address_space {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct list_head bound_list;<br>
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/**<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 * List of SVM bind objects.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct list_head svm_list;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int svm_count;<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct pagestash free_pages;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Global GTT */<br>
+diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h<br>
+index 20314eea632a..e10d7bf2cf9f 100644<br>
+--- a/include/uapi/drm/i915_drm.h<br>
++++ b/include/uapi/drm/i915_drm.h<br>
+@@ -360,6 +360,7 @@ typedef struct _drm_i915_sarea {<br>
+=C2=A0#define DRM_I915_GEM_VM_CREATE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x3a<=
+br>
+=C2=A0#define DRM_I915_GEM_VM_DESTROY=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 0x3b<br>
+=C2=A0#define DRM_I915_GEM_OBJECT_SETPARAM=C2=A0 =C2=A0DRM_I915_GEM_CONTEXT=
+_SETPARAM<br>
++#define DRM_I915_GEM_VM_BIND=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x3c<=
+br>
+=C2=A0/* Must be kept compact -- no holes */<br>
+<br>
+=C2=A0#define DRM_IOCTL_I915_INIT=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+DRM_IOW( DRM_COMMAND_BASE + DRM_I915_INIT, drm_i915_init_t)<br>
+@@ -424,6 +425,7 @@ typedef struct _drm_i915_sarea {<br>
+=C2=A0#define DRM_IOCTL_I915_GEM_VM_CREATE=C2=A0 =C2=A0DRM_IOWR(DRM_COMMAND=
+_BASE + DRM_I915_GEM_VM_CREATE, struct drm_i915_gem_vm_control)<br>
+=C2=A0#define DRM_IOCTL_I915_GEM_VM_DESTROY=C2=A0 DRM_IOW (DRM_COMMAND_BASE=
+ + DRM_I915_GEM_VM_DESTROY, struct drm_i915_gem_vm_control)<br>
+=C2=A0#define DRM_IOCTL_I915_GEM_OBJECT_SETPARAM=C2=A0 =C2=A0 =C2=A0DRM_IOW=
+R(DRM_COMMAND_BASE + DRM_I915_GEM_OBJECT_SETPARAM, struct drm_i915_gem_obje=
+ct_param)<br>
++#define DRM_IOCTL_I915_GEM_VM_BIND=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_VM_BIND, struct drm_i915=
+_gem_vm_bind)<br>
+<br>
+=C2=A0/* Allow drivers to submit batchbuffers directly to hardware, relying=
+<br>
+=C2=A0 * on the security mechanisms provided by hardware.<br>
+@@ -2300,6 +2302,31 @@ struct drm_i915_query_perf_config {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 __u8 data[];<br>
+=C2=A0};<br>
+<br>
++/**<br>
++ * struct drm_i915_gem_vm_bind<br>
++ *<br>
++ * Bind an object in a vm&#39;s page table.<br></blockquote><div><br></div=
+><div>First off, this is something I&#39;ve wanted for a while for Vulkan, =
+it&#39;s just never made its way high enough up the priority list.=C2=A0 Ho=
+wever, it&#39;s going to have to come one way or another soon.=C2=A0 I&#39;=
+m glad to see kernel API for this being proposed.</div><div><br></div><div>=
+I do, however, have a few high-level comments/questions about the API:</div=
+><div><br></div><div>=C2=A01. In order to be useful for sparse memory suppo=
+rt, the API has to go the other way around so that it binds a VA range to a=
+ range within the BO.=C2=A0 It also needs to be able to handle overlapping =
+where two different VA ranges may map to the same underlying bytes in the B=
+O.=C2=A0 This likely means that unbind needs to also take a VA range and on=
+ly unbind that range.</div><div><br></div><div>=C2=A02. If this is going to=
+ be useful for managing GL&#39;s address space where we have lots of BOs, w=
+e probably want it to take a list of ranges so we aren&#39;t making one ioc=
+tl for each thing we want to bind.<br></div><div><br></div><div>=C2=A03. Wh=
+y are there no ways to synchronize this with anything?=C2=A0 For binding, t=
+his probably isn&#39;t really needed as long as the VA range you&#39;re bin=
+ding is empty.=C2=A0 However, if you want to move bindings around or unbind=
+ something, the only option is to block in userspace and then call bind/unb=
+ind.=C2=A0 This can be done but it means even more threads in the UMD which=
+ is unpleasant.=C2=A0 One could argue that that&#39;s more or less what the=
+ kernel is going to have to do so we may as well do it in userspace.=C2=A0 =
+However, I&#39;m not 100% convinced that&#39;s true.</div><div><br></div><d=
+iv>--Jason</div><div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex">
++ */<br>
++struct drm_i915_gem_vm_bind {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/** VA start to bind **/<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0__u64 start;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/** Type of memory to [un]bind **/<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0__u32 type;<br>
++#define I915_GEM_VM_BIND_SVM_OBJ=C2=A0 =C2=A0 =C2=A0 0<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/** Object handle to [un]bind for I915_GEM_VM_B=
+IND_SVM_OBJ type **/<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0__u32 handle;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/** vm to [un]bind **/<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0__u32 vm_id;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/** Flags **/<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0__u32 flags;<br>
++#define I915_GEM_VM_BIND_UNBIND=C2=A0 =C2=A0 =C2=A0 (1 &lt;&lt; 0)<br>
++#define I915_GEM_VM_BIND_READONLY=C2=A0 =C2=A0 (1 &lt;&lt; 1)<br>
++};<br>
++<br>
+=C2=A0#if defined(__cplusplus)<br>
+=C2=A0}<br>
+=C2=A0#endif<br>
+-- <br>
+2.21.0.rc0.32.g243a4c7e27<br>
+<br>
+_______________________________________________<br>
+Intel-gfx mailing list<br>
+<a href=3D"mailto:Intel-gfx@lists.freedesktop.org" target=3D"_blank">Intel-=
+gfx@lists.freedesktop.org</a><br>
+<a href=3D"https://lists.freedesktop.org/mailman/listinfo/intel-gfx" rel=3D=
+"noreferrer" target=3D"_blank">https://lists.freedesktop.org/mailman/listin=
+fo/intel-gfx</a><br>
+</blockquote></div></div>
+
+--0000000000004ba94405999dced8--
+
+--===============1797878423==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1797878423==--
