@@ -1,53 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E87411E921
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 18:26:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0226911E922
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 18:26:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C38256E823;
-	Fri, 13 Dec 2019 17:26:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 016356EB62;
+	Fri, 13 Dec 2019 17:26:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA3CD6E823
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 17:26:19 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id d16so235969wre.10
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 09:26:19 -0800 (PST)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A7976EB62
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 17:26:21 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id w8so423024wmd.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 09:26:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=nGbXcqHerJGBeBzW1jOtcyX0eHMlFdu8ptwtjM6IAGs=;
- b=cTqGuMWf3lcXJE3yyfN1xzAVUxEAqMUALHS8265gtqOrAHneylVktnsDn3fCGXvvH8
- quPYHWh7eChpHSg5CePqbwnCjBaPfj35YvykuolmaxK/EL7URUmPHMv3b9sSjm9UShC3
- gs5RXerv0sB6byEH0E3f/Uim6dUPPzdW7S32c=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=kPYaV0ooGhLXYbcX5Z9t9TmPcXtkLBtZ/r66PMo7XPA=;
+ b=Om1tn+8L0RfQlHrat4IbVdRSxZ2dE7SQsUtqx1U+g+eI7sYfS9rv9MSTI7l3abwwev
+ 50FCbIsJsepQB/hGqwHZHCMmox1OaxrU5AKtYkuDDwDVFcw4UusocMYZZZjKl9hs0smd
+ WGI/jdk1QQ8MDeQUWkmNTKj09UZ/J9LgFch0s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=nGbXcqHerJGBeBzW1jOtcyX0eHMlFdu8ptwtjM6IAGs=;
- b=itHJqtL1vXcbVqGYUVDLMVKQXvWSsPSwsRhicWa9BM7SzYiIV93IYxXuNJGAtlWPlN
- thU8DJdxrj5F1ZxIZk9tE1yOZn4VQbsWnNMeXhXMEWWMEljNEl4+LQNYaUDZeYm0jrbd
- /vY3IAfzAOhV3rcCuquP9RMuLvTofOZ0p+gttQKGVrujjSDtOG8emRBg+F4TuC/J+nJR
- MHArP5LwTERwvAgrKDDqTRSaFJmZkCsXZzSPl2B4vvUsv+f1kMzk4jCGlg8qBPPvFD4N
- BeblA+M9Jjq6teZjah6sBodjMsneovlXxGcn1zWTF6Yo0xkelmLRx1xO1rOweap2Z+q8
- RDsA==
-X-Gm-Message-State: APjAAAVJskls4gfyjZf+i5aEJ2yWrXI6ZTVBL3sxciksG7zyWf09ZOo0
- N6PI/BPV6XzO67lKcS+OSwW2HJz7Sys=
-X-Google-Smtp-Source: APXvYqx9y5Ex+KchS9HHfZNCLtRuFR8Lg7zSLNI3N6LTLXS7SFOtp5AZKNdobiJ13vR4HHMQZ1vA4A==
-X-Received: by 2002:adf:ef4e:: with SMTP id c14mr14293375wrp.142.1576257978051; 
- Fri, 13 Dec 2019 09:26:18 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=kPYaV0ooGhLXYbcX5Z9t9TmPcXtkLBtZ/r66PMo7XPA=;
+ b=ingRzLh+QuL3BPHTko9CYRfsfCuRmhSmHcompZG9N0meO6Cnb2KRUv7cHapn4f7Uv3
+ yMWvI7yow8ClL9YV50Fi/vvgOtkrhgvcfNtp1wsKguG1Lcffg+l6vPMpKuDDu8Cd1yRU
+ NAmY45fgOWw5y04BQX57x6NmJT3Rnv6ti9vLaTFBSURRucJSUYZIhNyUfxrfNyR2BoLr
+ ceY8GeP1qVE1ulzWGhgy1Qha8kUdfYSee8YyUx8wYBIZFfSPuNI5lRqnxK3e72WfTscj
+ ZbG9pRkmkR69IZnSR1uqnuqCkHCIfLTCKj9T6G6KFaTZsT3rcCbM1ArZFrKm81WGCgij
+ AvTA==
+X-Gm-Message-State: APjAAAVlqdqu4wl58Fs1BUkooOtcja5PyAkEvhHOIK/hTggxtvDHWQ82
+ 1sAvehPKrVlm26Cmkgur20sby9yntr4=
+X-Google-Smtp-Source: APXvYqxv60zDfzUkmwc6e9UmmH10SwWQvmsPSI+9izrpz9s7CjsZEMyKM3luhCIW69BOduFA2LhCdQ==
+X-Received: by 2002:a1c:ed09:: with SMTP id l9mr15746072wmh.101.1576257979443; 
+ Fri, 13 Dec 2019 09:26:19 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:564b:0:7567:bb67:3d7f:f863])
- by smtp.gmail.com with ESMTPSA id q15sm10689669wrr.11.2019.12.13.09.26.17
+ by smtp.gmail.com with ESMTPSA id q15sm10689669wrr.11.2019.12.13.09.26.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Dec 2019 09:26:17 -0800 (PST)
+ Fri, 13 Dec 2019 09:26:18 -0800 (PST)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 01/10] drm/todo: Add item for the plane->atomic_check confusion
-Date: Fri, 13 Dec 2019 18:26:03 +0100
-Message-Id: <20191213172612.1514842-1-daniel.vetter@ffwll.ch>
+Subject: [PATCH 02/10] drm/malidp: plane_state->fb iff plane_state->crtc
+Date: Fri, 13 Dec 2019 18:26:04 +0100
+Message-Id: <20191213172612.1514842-2-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20191213172612.1514842-1-daniel.vetter@ffwll.ch>
+References: <20191213172612.1514842-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,42 +63,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Liviu Dudau <liviu.dudau@arm.com>,
  Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SXQncyBmcmFua2x5IGEgbWVzcywgYW5kIHRoZSBjb25mdXNpb24gYXJvdW5kIHBsYW5lX3N0YXRl
-LT5jcnRjL2ZiCnRoYXQgSSBmaXhlZCB1cCBpbiB0aGlzIHNlcmllcyBpcyB0aGUgbGVhc3Qgb2Yg
-dGhlIHByb2JsZW1zLiBBZGQgYQp0b2RvIGFzIGEgZnV0dXJlIG5vdGUgb2YgaG93IHRoaXMgY291
-bGQgYmUgZG9uZSBhIGxvdCBiZXR0ZXIsIGFuZCB3aXRoCmEgbG90IGxlc3MgZHJpdmVyIGNvbmZ1
-c2lvbi4KClNpZ25lZC1vZmYtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwu
-Y29tPgotLS0KIERvY3VtZW50YXRpb24vZ3B1L3RvZG8ucnN0IHwgMjIgKysrKysrKysrKysrKysr
-KysrKysrKwogMSBmaWxlIGNoYW5nZWQsIDIyIGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9E
-b2N1bWVudGF0aW9uL2dwdS90b2RvLnJzdCBiL0RvY3VtZW50YXRpb24vZ3B1L3RvZG8ucnN0Cmlu
-ZGV4IDJkODVmMzcyODRhMS4uNjNiNjU3ZWNjOWNlIDEwMDY0NAotLS0gYS9Eb2N1bWVudGF0aW9u
-L2dwdS90b2RvLnJzdAorKysgYi9Eb2N1bWVudGF0aW9uL2dwdS90b2RvLnJzdApAQCAtNzIsNiAr
-NzIsMjggQEAgQ29udGFjdDogVmlsbGUgU3lyasOkbMOkLCBEYW5pZWwgVmV0dGVyLCBkcml2ZXIg
-bWFpbnRhaW5lcnMKIAogTGV2ZWw6IEFkdmFuY2VkCiAKK0ltcHJvdmUgcGxhbmUgYXRvbWljX2No
-ZWNrIGhlbHBlcnMKKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KKworQXNpZGUg
-ZnJvbSB0aGUgY2xpcHBlZCBjb29yZGluYXRlcyByaWdodCBhYm92ZSB0aGVyZSdzIGEgZmV3IHN1
-Ym9wdGltYWwgdGhpbmdzCit3aXRoIHRoZSBjdXJyZW50IGhlbHBlcnM6CisKKy0gZHJtX3BsYW5l
-X2hlbHBlcl9mdW5jcy0+YXRvbWljX2NoZWNrIGdldHMgY2FsbGVkIGZvciBlbmFibGVkIG9yIGRp
-c2FibGVkCisgIHBsYW5lcy4gQXQgYmVzdCB0aGlzIHNlZW1zIHRvIGNvbmZ1c2UgZHJpdmVycywg
-d29yc3QgaXQgbWVhbnMgdGhleSBibG93IHVwCisgIHdoZW4gdGhlIHBsYW5lIGlzIGRpc2FibGVk
-IHdpdGhvdXQgdGhlIENSVEMuIFRoZSBvbmx5IHNwZWNpYWwgaGFuZGxpbmcgaXMKKyAgcmVzZXR0
-aW5nIHZhbHVlcyBpbiB0aGUgcGxhbmUgc3RhdGUgc3RydWN0dXJlcywgd2hpY2ggaW5zdGVhZCBz
-aG91bGQgYmUgbW92ZWQKKyAgaW50byB0aGUgZHJtX3BsYW5lX2Z1bmNzLT5hdG9taWNfZHVwbGlj
-YXRlX3N0YXRlIGZ1bmN0aW9ucy4KKworLSBPbmNlIHRoYXQncyBkb25lLCBoZWxwZXJzIGNvdWxk
-IHN0b3AgY2FsbGluZyAtPmF0b21pY19jaGVjayBmb3IgZGlzYWJsZWQKKyAgcGxhbmVzLgorCist
-IFRoZW4gd2UgY291bGQgZ28gdGhyb3VnaCBhbGwgdGhlIGRyaXZlcnMgYW5kIHJlbW92ZSB0aGUg
-bW9yZS1vci1sZXNzIGNvbmZ1c2VkCisgIGNoZWNrcyBmb3IgcGxhbmVfc3RhdGUtPmZiIGFuZCBw
-bGFuZV9zdGF0ZS0+Y3J0Yy4KKworQ29udGFjdDogRGFuaWVsIFZldHRlcgorCitMZXZlbDogQWR2
-YW5jZWQKKwogQ29udmVydCBlYXJseSBhdG9taWMgZHJpdmVycyB0byBhc3luYyBjb21taXQgaGVs
-cGVycwogLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LQogCi0tIAoyLjI0LjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbAo=
+Checking both is one too much, so wrap a WARN_ON around it to stope
+the copypasta.
+
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>
+Cc: Brian Starkey <brian.starkey@arm.com>
+Cc:
+---
+ drivers/gpu/drm/arm/malidp_planes.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/arm/malidp_planes.c b/drivers/gpu/drm/arm/malidp_planes.c
+index 3c70a53813bf..37715cc6064e 100644
+--- a/drivers/gpu/drm/arm/malidp_planes.c
++++ b/drivers/gpu/drm/arm/malidp_planes.c
+@@ -512,7 +512,7 @@ static int malidp_de_plane_check(struct drm_plane *plane,
+ 	int i, ret;
+ 	unsigned int block_w, block_h;
+ 
+-	if (!state->crtc || !state->fb)
++	if (!state->crtc || WARN_ON(!state->fb))
+ 		return 0;
+ 
+ 	fb = state->fb;
+-- 
+2.24.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
