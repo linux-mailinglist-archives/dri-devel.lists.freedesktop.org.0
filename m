@@ -2,60 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52C3211EBBE
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 21:15:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8B4D11EC57
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 21:58:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A90936EDAC;
-	Fri, 13 Dec 2019 20:15:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5F136EDC3;
+	Fri, 13 Dec 2019 20:58:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29A1B6EDAC
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 20:15:51 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id p9so81644wmc.2
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 12:15:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=OSjOeT8G41sJUMcGNxAsisj1FiAyZ8f/rHyI40o7EdQ=;
- b=F/Uy17ysVsCxX3vbmQdR9X3Li0fixrsi063fSRObadKL2Wtyc6qZSMbdWVZFW4rd7C
- 8dsTaWvnCrnAoEiK+2U8PpopCRm/vseai0riI2WN0irMYcSt/EE8cfY+2lhPb38ceG5n
- s7XddZQDv1gaN5YJmmD822xxN+g2JYoGg5vrQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=OSjOeT8G41sJUMcGNxAsisj1FiAyZ8f/rHyI40o7EdQ=;
- b=HDHJXCTKvi9iF+tRwM/Kric35d1cubKcBEFWCh2FaOk0EdFKKcKsYJsVK75kWYu81v
- bLjQN6596g4GN/+5AbWn43M7vdRNpLKaI2/YQTII3VMUvQVJCLRuDnC+2moxJP4uLlsr
- b/PFfcFBcHBQQJ69b6OM11TN5BoxzPQEfO947F8e42rbzwz+G8766K6H1Wp/gBRmd2AR
- VB37O4YzAQ2kydseQKhutQBk0BKMfXBX0pJPjIALrBE6OCRdQjhBxiBEKIcAGONuQS3A
- MOXwf4Q6ppoXLMMczDVKLIQ8zoADtlyLOTbHl3oWWuz6TbA+u5W39xE/eIUiH3WudA1t
- 464A==
-X-Gm-Message-State: APjAAAUCgWqtsr3kooXihVTAWT8ubda4HWTJZpKLHLY65FtAFxq5RQLY
- KiPXTZOR3uAgVV2TIdfj/EcrtA==
-X-Google-Smtp-Source: APXvYqzooDTqgGz622+5KcyFt/wyDCN5P5HVJHqSheKFCzLYHUXc3Sh2LPhnXpgOLnBce4bDVKNR1Q==
-X-Received: by 2002:a1c:ed0e:: with SMTP id l14mr14848010wmh.74.1576268149794; 
- Fri, 13 Dec 2019 12:15:49 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:564b:0:7567:bb67:3d7f:f863])
- by smtp.gmail.com with ESMTPSA id i8sm11349337wro.47.2019.12.13.12.15.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Dec 2019 12:15:48 -0800 (PST)
-Date: Fri, 13 Dec 2019 21:15:46 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v3 5/5] MAINTAINERS: add entry for tidss
-Message-ID: <20191213201546.GN624164@phenom.ffwll.local>
-References: <cover.1576158368.git.jsarha@ti.com>
- <09da3a37ca59bb45bef62f2335a191985363d393.1576158368.git.jsarha@ti.com>
- <20191213103024.GH624164@phenom.ffwll.local>
- <0acedebf-25d9-6ae2-1307-8f764af449af@ti.com>
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7BCC6EDC3;
+ Fri, 13 Dec 2019 20:58:08 +0000 (UTC)
+Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
+ (mreue109 [212.227.15.145]) with ESMTPA (Nemesis) id
+ 1MvbO4-1hpQC52QtS-00scVY; Fri, 13 Dec 2019 21:50:19 +0100
+From: Arnd Bergmann <arnd@arndb.de>
+To: y2038@lists.linaro.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 00/24] drivers, fs: y2038 updates
+Date: Fri, 13 Dec 2019 21:49:09 +0100
+Message-Id: <20191213204936.3643476-1-arnd@arndb.de>
+X-Mailer: git-send-email 2.20.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <0acedebf-25d9-6ae2-1307-8f764af449af@ti.com>
-X-Operating-System: Linux phenom 5.3.0-2-amd64 
-User-Agent: Mutt/1.12.2 (2019-09-21)
+X-Provags-ID: V03:K1:uP+kiANpOGJCAXUng4IDyXrHx7+oq5wNuUSCR2Raiw5aTIDdJGg
+ 5j4AA9RZwtRFpSlQJZR8HotU54Xfp+erI4gckXGaucpRhzYx4dcdDnO9RE7chr7C+S6QsS1
+ hz8jSvfht0kOIuwI+U39is0hUz6MZ6pZnETpaFRYUgmMegCz9cluYoQw5GzMKND6Vlt+MoP
+ vuRLets3Xp1M/VHl6bYkg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:CHmV4re1oa0=:arr7HZ8qwuhxUQTfo55WC1
+ 21huvAvS9vC87CEJ4RTPFknUpQ9TEt7e0fDsnqBsPpqRJL8/jv09tf8emus0j0ljEZWzLLyrc
+ WJjrFlQ7YZDgIKd/dB51abgaJyHgpMRqaPj7DEUgRpSn/fqvlXxTVLPRaq8f6+pGVsima7fDz
+ X2MqOowew+d40Rk/XWRuVloBW2zcKUuImSNQNiQrxq1Ww/90CrNSjHVBxJ4R5cqpXu4nPyunR
+ WibT2FIwPtIzTxPWmmWK5qYnta5EuK34fkdT44BRRIfIk6M9FN3ZOXDOUB70a8JHHg81Z/LIu
+ r9PRQ57pu7mPtrM0p1A4SzQVk0/ipWyJtBAN7Rus5EHslqJpw5DGnL7SW5dqHWpDpcZStU/jj
+ 6LRH0m//lI/o+I4nN+CiT3NQ/89BSfZh/Ry8sZcJHuo6yOt/zhxdGJA52l3KJ9c2AyJbiFWyz
+ cRtbhdbz6qY19Mdi00/NhoiI1Iz3WgCqpBM4ED2vNwvMpp/DuZIDJJSGL90mICkQYPf35bRGW
+ MWaQh17dsVhZpHjfWspX1qE0ZrEhnMVRxhmD3t9tyzpBXeC9gwxFsM6stVSiQtNqarc6BB2bW
+ LcGsToWcHymmZhhi2CzKavLZBdpxCOOjy5WvutSPFfujOD6iQ7GQyTeKj+T8x3bGOIKhnBqFw
+ yTznXv5mrzgAw0sLW+2EDzsNbJda6t4T4YIhBst1EXBtHA+/TuIzk05RFhVeX4j0gGh8CkXsP
+ 17lDMrWK5Eu1rCRRFPBAiliNvVKiDahhWqHQYLW4jxBLuVRR61JFZ1VKJ8xH6e1VoQ4pjtFAM
+ eqYWDXNUA4e/HmQvCSC1uM8enKsXg4KVh0FxNTPQYqnG7MYd6+rnYAsg6XYEfnBaaQCYmzUkx
+ 1O4TQfOJn7mFGxZ1kaBg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,84 +54,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, yamonkar@cadence.com, praneeth@ti.com,
- subhajit_paul@ti.com, dri-devel@lists.freedesktop.org, peter.ujfalusi@ti.com,
- robh+dt@kernel.org, Jyri Sarha <jsarha@ti.com>, sjakhade@cadence.com,
- sam@ravnborg.org, laurent.pinchart@ideasonboard.com
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, jcmvbkbc@gmail.com,
+ netdev@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux1394-devel@lists.sourceforge.net, devel@driverdev.osuosl.org,
+ darrick.wong@oracle.com, richard@nod.at, cluster-devel@redhat.com,
+ ccaulfie@redhat.com, linux+etnaviv@armlinux.org.uk,
+ Arnd Bergmann <arnd@arndb.de>, linux-arm-msm@vger.kernel.org,
+ jdike@addtoit.com, linux-um@lists.infradead.org, etnaviv@lists.freedesktop.org,
+ teigland@redhat.com, viro@zeniv.linux.org.uk, tglx@linutronix.de,
+ sean@poorly.run, trond.myklebust@hammerspace.com, hirofumi@mail.parknet.co.jp,
+ linux-nfs@vger.kernel.org, valdis.kletnieks@vt.edu, rfontana@redhat.com,
+ gregkh@linuxfoundation.org, fw@strlen.de, anna.schumaker@netapp.com,
+ linux-xfs@vger.kernel.org, stefanr@s5r6.in-berlin.de, jack@suse.com,
+ linux-fsdevel@vger.kernel.org, freedreno@lists.freedesktop.org,
+ davem@davemloft.net
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 13, 2019 at 01:17:59PM +0200, Tomi Valkeinen wrote:
-> Hi Daniel,
-> 
-> On 13/12/2019 12:30, Daniel Vetter wrote:
-> 
-> > > +DRM DRIVERS FOR TI KEYSTONE
-> > > +M:	Jyri Sarha <jsarha@ti.com>
-> > > +M:	Tomi Valkeinen <tomi.valkeinen@ti.com>
-> > > +L:	dri-devel@lists.freedesktop.org
-> > > +S:	Maintained
-> > > +F:	drivers/gpu/drm/tidss/
-> > > +F:	Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
-> > > +F:	Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> > > +F:	Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
-> > > +T:	git git://anongit.freedesktop.org/drm/drm-misc
-> > 
-> > Is the plan to also move other TI drivers over (like tilcdc) or just an
-> > experiment to see what happens? Asking since if eventually omapdrm moves
-> > that might be a bit much (or at least needs a discussion first).
-> 
-> Hmm, yes, I think we should have a plan for these.
-> 
-> tilcdc: small, old driver, and I don't see much changes for it. The HW is
-> very different from the ones supported by omapdrm and tidss (the two of
-> which have many commonalities). I think drm-misc is fine for tilcdc.
-> 
-> omapdrm: big changes going on for now, but after the rewrite to get rid of
-> omapdrm specific drivers is done, I expect the patch count to drop, as the
-> HW is "legacy".
-> 
-> tidss: the "new" driver, which should get most attention in the future (after omapdrm rewrite).
-> 
-> All in all, sometimes there have been very few patches for many months, and
-> then sometimes there's a big series.
+These are updates to devidce drivers and file systems that for some
+reason or another were not included in the kernel in the previous
+y2038 series.
 
-Yeah occasionally big series is totally fine for -misc. We're pulling in
-pretty big amounts of refactoring all the time, so really doesn't make a
-difference.
+I've gone through all users of time_t again to make sure the
+kernel is in a long-term maintainable state.
 
-> I haven't seen a need to have a maintained branch for omapdrm, as multiple
-> people working on conflicting items has been very rare (there aren't that
-> many people working on omapdrm). So I've picked patches to my private
-> branch, which I have rebased as needed. And then I've either pushed via
-> drm-misc if there's just a few patches, or sent a pull request if there's a
-> lot.
-> 
-> Is such a mixed model ok?
-> 
-> I'm not sure how much is too much for drm-misc, but probably omapdrm and
-> tidss combined (if pushing everything always via drm-misc) is a bit too
-> much. So perhaps a maintained TI tree would be an option too, and pushing
-> everything for omapdrm and tidss via that tree.
+Posting these as a series for better organization, but each change
+here is applicable standalone.
 
-tbh I dunno either when too much is too much for -misc. I think tilcdc and
-omapdrm should both easily fit (maybe after the big rewrite). If the shiny
-new one here becomes too big we can always reconsider.
+Please merge, review, ack/nack etc as you see fit. I will
+add these to my y2038 branch [1] for linux-next, but can keep
+rebasing for feedback and to remove any patches that get
+picked up by a maintainer.
 
-I think the really big drivers like amdgpu or intel don't belong in -misc,
-that one is clear. In between I guess we'll see.
+Changes since v1 [2]:
 
-> I'm fine with all options, so I think we can go with whatever is most
-> acceptable from DRM maintainer point of view.
+- Add Acks I received
+- Rebase to v5.5-rc1, droping patches that got merged already
+- Add NFS, XFS and the final three patches from another series
+- Rewrite etnaviv patches
 
-Whatever floats the boat, with a preference for not having tiny trees
-(simply because those pull request tend to get lost in the noise).
+      Arnd
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git/log/?h=y2038
+[2] https://lore.kernel.org/lkml/20191108213257.3097633-1-arnd@arndb.de/
+
+Arnd Bergmann (24):
+  Input: input_event: fix struct padding on sparc64
+  fat: use prandom_u32() for i_generation
+  dlm: use SO_SNDTIMEO_NEW instead of SO_SNDTIMEO_OLD
+  xtensa: ISS: avoid struct timeval
+  um: ubd: use 64-bit time_t where possible
+  acct: stop using get_seconds()
+  tsacct: add 64-bit btime field
+  packet: clarify timestamp overflow
+  quota: avoid time_t in v1_disk_dqblk definition
+  hostfs: pass 64-bit timestamps to/from user space
+  hfs/hfsplus: use 64-bit inode timestamps
+  drm/msm: avoid using 'timespec'
+  drm/etnaviv: reject timeouts with tv_nsec >= NSEC_PER_SEC
+  drm/etnaviv: avoid deprecated timespec
+  sunrpc: convert to time64_t for expiry
+  nfs: use time64_t internally
+  nfs: fix timstamp debug prints
+  nfs: fscache: use timespec64 in inode auxdata
+  xfs: rename compat_time_t to old_time32_t
+  xfs: disallow broken ioctls without compat-32-bit-time
+  xfs: quota: move to time64_t interfaces
+  y2038: remove obsolete jiffies conversion functions
+  y2038: rename itimerval to __kernel_old_itimerval
+  y2038: sparc: remove use of struct timex
+
+ arch/sparc/kernel/sys_sparc_64.c              | 29 +++++-----
+ arch/um/drivers/cow.h                         |  2 +-
+ arch/um/drivers/cow_user.c                    |  7 ++-
+ arch/um/drivers/ubd_kern.c                    | 10 ++--
+ arch/um/include/shared/os.h                   |  2 +-
+ arch/um/os-Linux/file.c                       |  2 +-
+ .../platforms/iss/include/platform/simcall.h  |  4 +-
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c         | 20 ++++---
+ drivers/gpu/drm/etnaviv/etnaviv_drv.h         | 11 ++--
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c         |  4 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gem.h         |  2 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c         |  5 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h         |  5 +-
+ drivers/gpu/drm/msm/msm_drv.h                 |  3 +-
+ drivers/input/evdev.c                         | 14 ++---
+ drivers/input/misc/uinput.c                   | 14 +++--
+ fs/dlm/lowcomms.c                             |  6 +-
+ fs/fat/inode.c                                |  3 +-
+ fs/hfs/hfs_fs.h                               | 28 +++++++--
+ fs/hfs/inode.c                                |  4 +-
+ fs/hfsplus/hfsplus_fs.h                       | 28 +++++++--
+ fs/hfsplus/inode.c                            | 12 ++--
+ fs/hostfs/hostfs.h                            | 22 ++++---
+ fs/hostfs/hostfs_kern.c                       | 15 +++--
+ fs/nfs/fscache-index.c                        |  6 +-
+ fs/nfs/fscache.c                              | 18 ++++--
+ fs/nfs/fscache.h                              |  8 ++-
+ fs/nfs/nfs4xdr.c                              | 10 ++--
+ fs/quota/quotaio_v1.h                         |  6 +-
+ fs/xfs/xfs_dquot.c                            |  6 +-
+ fs/xfs/xfs_ioctl.c                            | 26 +++++++++
+ fs/xfs/xfs_ioctl32.c                          |  2 +-
+ fs/xfs/xfs_ioctl32.h                          |  2 +-
+ fs/xfs/xfs_qm.h                               |  6 +-
+ fs/xfs/xfs_quotaops.c                         |  6 +-
+ fs/xfs/xfs_trans_dquot.c                      |  8 ++-
+ include/linux/jiffies.h                       | 20 -------
+ include/linux/sunrpc/cache.h                  | 42 ++++++++------
+ include/linux/sunrpc/gss_api.h                |  4 +-
+ include/linux/sunrpc/gss_krb5.h               |  2 +-
+ include/linux/syscalls.h                      |  9 ++-
+ include/uapi/linux/acct.h                     |  2 +
+ include/uapi/linux/input.h                    |  1 +
+ include/uapi/linux/taskstats.h                |  6 +-
+ include/uapi/linux/time_types.h               |  5 ++
+ include/uapi/linux/timex.h                    |  2 +
+ kernel/acct.c                                 |  4 +-
+ kernel/time/itimer.c                          | 18 +++---
+ kernel/time/time.c                            | 58 ++-----------------
+ kernel/tsacct.c                               |  9 ++-
+ net/packet/af_packet.c                        | 27 +++++----
+ net/sunrpc/auth_gss/gss_krb5_mech.c           | 12 +++-
+ net/sunrpc/auth_gss/gss_krb5_seal.c           |  8 +--
+ net/sunrpc/auth_gss/gss_krb5_unseal.c         |  6 +-
+ net/sunrpc/auth_gss/gss_krb5_wrap.c           | 16 ++---
+ net/sunrpc/auth_gss/gss_mech_switch.c         |  2 +-
+ net/sunrpc/auth_gss/svcauth_gss.c             |  6 +-
+ net/sunrpc/cache.c                            | 16 ++---
+ net/sunrpc/svcauth_unix.c                     | 10 ++--
+ 59 files changed, 351 insertions(+), 290 deletions(-)
+
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.20.0
+
+Cc: jdike@addtoit.com
+Cc: richard@nod.at
+Cc: jcmvbkbc@gmail.com
+Cc: stefanr@s5r6.in-berlin.de
+Cc: l.stach@pengutronix.de
+Cc: linux+etnaviv@armlinux.org.uk
+Cc: christian.gmeiner@gmail.com
+Cc: airlied@linux.ie
+Cc: daniel@ffwll.ch
+Cc: robdclark@gmail.com
+Cc: sean@poorly.run
+Cc: valdis.kletnieks@vt.edu
+Cc: gregkh@linuxfoundation.org
+Cc: ccaulfie@redhat.com
+Cc: teigland@redhat.com
+Cc: hirofumi@mail.parknet.co.jp
+Cc: jack@suse.com
+Cc: davem@davemloft.net
+Cc: fw@strlen.de
+Cc: viro@zeniv.linux.org.uk
+Cc: rfontana@redhat.com
+Cc: tglx@linutronix.de
+Cc: linux-um@lists.infradead.org
+Cc: linux1394-devel@lists.sourceforge.net
+Cc: etnaviv@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org
+Cc: devel@driverdev.osuosl.org
+Cc: cluster-devel@redhat.com
+Cc: linux-fsdevel@vger.kernel.org
+Cc: netdev@vger.kernel.org
+Cc: trond.myklebust@hammerspace.com
+Cc: anna.schumaker@netapp.com
+Cc: linux-nfs@vger.kernel.org
+Cc: linux-xfs@vger.kernel.org
+Cc: darrick.wong@oracle.com
+Cc: sparclinux@vger.kernel.org
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
