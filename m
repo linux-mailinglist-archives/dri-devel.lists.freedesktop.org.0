@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCBAB11ED9B
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 23:16:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42E7511EDE6
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 23:33:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CDC16EDFA;
-	Fri, 13 Dec 2019 22:16:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06FEA6ECAD;
+	Fri, 13 Dec 2019 22:33:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8011F6EDFA
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 22:16:21 +0000 (UTC)
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A04A6ECA9
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 22:33:53 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 38ACE9D6;
- Fri, 13 Dec 2019 23:16:19 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1B2B59D6;
+ Fri, 13 Dec 2019 23:33:51 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1576275379;
- bh=8v3Vl0tRhEDBVMWaZdlqz6AcZcOhfQ9YhCMTb9iBmwU=;
+ s=mail; t=1576276431;
+ bh=czNOW9739h29vKn5sougjit15O1utvZNsaTdbcxa5Mc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=oQWxXcWE90vCVxgDF+U72Gqq2+42SshQcvP3fFEf5WDeZJJi8naumeXS49K0B6DW0
- 1bvCFOLfCNk0lziXFIYvkIUkm2Df+Ogk51OWQVRS3jUJA01UKePXQ+i83OoKQctPF0
- lJ02QwifFj4P9lvpAA9zvdZuEBUt1HUeCiRLQNbA=
-Date: Sat, 14 Dec 2019 00:16:09 +0200
+ b=VhqAh0Kj3zS6qMhfiNXYKo+DF9GNAYgA/BNm8BY2piWvZhjxRpo+0M1qfQ+nSjXGu
+ Yr950Q4fFGFwXFeoTZvFqObDAjnxUnAw4TA+J/0AKR0WqfZlCfmypjuhHiawd+VDff
+ 2F9UdbLQtXamDVEJxRKnoakZhon/RyRh9XKHYYm8=
+Date: Sat, 14 Dec 2019 00:33:41 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Subject: Re: [PATCH v4 6/7] dt-bindings: display: Add idk-2121wr binding
-Message-ID: <20191213221609.GQ4860@pendragon.ideasonboard.com>
-References: <1575649974-31472-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1575649974-31472-7-git-send-email-fabrizio.castro@bp.renesas.com>
+To: Hsin-Yi Wang <hsinyi@chromium.org>
+Subject: Re: [PATCH RESEND 4/4] drm: bridge: Generic GPIO mux driver
+Message-ID: <20191213223341.GR4860@pendragon.ideasonboard.com>
+References: <20191211061911.238393-1-hsinyi@chromium.org>
+ <20191211061911.238393-5-hsinyi@chromium.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1575649974-31472-7-git-send-email-fabrizio.castro@bp.renesas.com>
+In-Reply-To: <20191211061911.238393-5-hsinyi@chromium.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,183 +47,434 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, Magnus Damm <magnus.damm@gmail.com>,
- ebiharaml@si-linux.co.jp, devicetree@vger.kernel.org,
- Chris Paterson <Chris.Paterson2@renesas.com>,
- Biju Das <biju.das@bp.renesas.com>, Simon Horman <horms@verge.net.au>,
- dri-devel@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Nicolas Boichat <drinkcat@chromium.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Matthias Brugger <mbrugger@suse.com>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Russell King <rmk+kernel@arm.linux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Fabrizio,
+Hi Hsin-Yi and Nicolas,
 
 Thank you for the patch.
 
-On Fri, Dec 06, 2019 at 04:32:53PM +0000, Fabrizio Castro wrote:
-> Add binding for the idk-2121wr LVDS panel from Advantech.
+On Wed, Dec 11, 2019 at 02:19:11PM +0800, Hsin-Yi Wang wrote:
+> From: Nicolas Boichat <drinkcat@chromium.org>
 > 
-> Some panel-specific documentation can be found here:
-> https://buy.advantech.eu/Displays/Embedded-LCD-Kits-High-Brightness/model-IDK-2121WR-K2FHA2E.htm
+> This driver supports single input, 2 output display mux (e.g.
+> HDMI mux), that provide its status via a GPIO.
 > 
-> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
+> Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
 > ---
-> v3->v4:
-> * Absorbed patch "dt-bindings: display: Add bindings for LVDS
->   bus-timings"
-> * Big restructuring after Rob's and Laurent's comments
+>  drivers/gpu/drm/bridge/Kconfig            |  10 +
+>  drivers/gpu/drm/bridge/Makefile           |   1 +
+>  drivers/gpu/drm/bridge/generic-gpio-mux.c | 306 ++++++++++++++++++++++
+>  3 files changed, 317 insertions(+)
+>  create mode 100644 drivers/gpu/drm/bridge/generic-gpio-mux.c
 > 
-> v2->v3:
-> * new patch
-> ---
->  .../display/panel/advantech,idk-2121wr.yaml        | 128 +++++++++++++++++++++
->  1 file changed, 128 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml b/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
+> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+> index 1f3fc6bec842..4734f6993858 100644
+> --- a/drivers/gpu/drm/bridge/Kconfig
+> +++ b/drivers/gpu/drm/bridge/Kconfig
+> @@ -54,6 +54,16 @@ config DRM_DUMB_VGA_DAC
+>  	  Support for non-programmable RGB to VGA DAC bridges, such as ADI
+>  	  ADV7123, TI THS8134 and THS8135 or passive resistor ladder DACs.
+>  
+> +config DRM_GENERIC_GPIO_MUX
+> +	tristate "Generic GPIO-controlled mux"
+> +	depends on OF
+> +	select DRM_KMS_HELPER
+> +	---help---
+> +	  This bridge driver models a GPIO-controlled display mux with one
+> +	  input, 2 outputs (e.g. an HDMI mux). The hardware decides which output
+> +	  is active, reports it as a GPIO, and the driver redirects calls to the
+> +	  appropriate downstream bridge (if any).
+
+My understanding of the issue was that the mux was controllable by a
+GPIO, not that the GPIO would report its status. This changes a few
+things. How is the mux controlled then ?
+
+>  config DRM_LVDS_ENCODER
+>  	tristate "Transparent parallel to LVDS encoder support"
+>  	depends on OF
+> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
+> index 7a1e0ec032e6..1c0c92667ac4 100644
+> --- a/drivers/gpu/drm/bridge/Makefile
+> +++ b/drivers/gpu/drm/bridge/Makefile
+> @@ -3,6 +3,7 @@ obj-$(CONFIG_DRM_ANALOGIX_ANX7688) += analogix-anx7688.o
+>  obj-$(CONFIG_DRM_ANALOGIX_ANX78XX) += analogix-anx78xx.o
+>  obj-$(CONFIG_DRM_CDNS_DSI) += cdns-dsi.o
+>  obj-$(CONFIG_DRM_DUMB_VGA_DAC) += dumb-vga-dac.o
+> +obj-$(CONFIG_DRM_GENERIC_GPIO_MUX) += generic-gpio-mux.o
+>  obj-$(CONFIG_DRM_LVDS_ENCODER) += lvds-encoder.o
+>  obj-$(CONFIG_DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW) += megachips-stdpxxxx-ge-b850v3-fw.o
+>  obj-$(CONFIG_DRM_NXP_PTN3460) += nxp-ptn3460.o
+> diff --git a/drivers/gpu/drm/bridge/generic-gpio-mux.c b/drivers/gpu/drm/bridge/generic-gpio-mux.c
 > new file mode 100644
-> index 0000000..24cd38b
+> index 000000000000..ba08321dcc17
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
-> @@ -0,0 +1,128 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/advantech,idk-2121wr.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +++ b/drivers/gpu/drm/bridge/generic-gpio-mux.c
+> @@ -0,0 +1,306 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Generic gpio mux bridge driver
+> + *
+> + * Copyright 2016 Google LLC
+> + */
 > +
-> +title: Advantech IDK-2121WR 21.5" Full-HD dual-LVDS panel
 > +
-> +maintainers:
-> +  - Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> +  - Thierry Reding <thierry.reding@gmail.com>
+
+One blank line is enough.
+
+> +#include <linux/gpio.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/of_gpio.h>
+> +#include <linux/of_graph.h>
+
+Could you please sort these headers alphabetically ?
+
+> +#include <drm/drm_bridge.h>
+> +#include <drm/drm_crtc_helper.h>
+> +#include <drm/drm_probe_helper.h>
 > +
-> +description: |
-> +  The IDK-2121WR from Advantech is a Full-HD dual-LVDS panel.
-> +  A dual-LVDS interface is a dual-link connection with even pixels traveling
-> +  on one link, and with odd pixels traveling on the other link.
+> +struct gpio_display_mux {
+> +	struct device *dev;
 > +
-> +  The panel expects odd pixels on the first port, and even pixels on the
-> +  second port, therefore the ports must be marked accordingly (with either
-> +  dual-lvds-odd-pixels or dual-lvds-even-pixels).
+> +	struct gpio_desc *gpiod_detect;
+> +	int detect_irq;
 > +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - const: advantech,idk-2121wr
-> +      - {} # panel-lvds, but not listed here to avoid false select
+> +	struct drm_bridge bridge;
 > +
-> +  width-mm:
-> +    const: 476
+> +	struct drm_bridge *next[2];
+> +};
 > +
-> +  height-mm:
-> +    const: 268
+> +static inline struct gpio_display_mux *bridge_to_gpio_display_mux(
+> +		struct drm_bridge *bridge)
+> +{
+> +	return container_of(bridge, struct gpio_display_mux, bridge);
+> +}
 > +
-> +  data-mapping:
-> +    const: vesa-24
+> +static irqreturn_t gpio_display_mux_det_threaded_handler(int unused, void *data)
+> +{
+> +	struct gpio_display_mux *gpio_display_mux = data;
+
+gpio_display_mux is a long variable name. You can shorten it to mux here
+and below.
+
+> +	int active = gpiod_get_value(gpio_display_mux->gpiod_detect);
 > +
-> +  ports:
-> +    type: object
-> +    properties:
-> +      "#address-cells":
-> +        const: 1
+> +	dev_dbg(gpio_display_mux->dev, "Interrupt %d!\n", active);
 > +
-> +      "#size-cells":
-> +        const: 0
+> +	if (gpio_display_mux->bridge.dev)
+> +		drm_kms_helper_hotplug_event(gpio_display_mux->bridge.dev);
 > +
-> +      port@0:
-> +        type: object
-> +        description: The sink for odd pixels.
-> +        properties:
-> +          reg:
-> +            const: 0
+> +	return IRQ_HANDLED;
+> +}
 > +
-> +          dual-lvds-odd-pixels: true
+> +static int gpio_display_mux_attach(struct drm_bridge *bridge)
+> +{
+> +	struct gpio_display_mux *gpio_display_mux =
+> +			bridge_to_gpio_display_mux(bridge);
+> +	struct drm_bridge *next;
+> +	int i;
+
+i never takes negative values, you can make it an unsigned int.
+
 > +
-> +        required:
-> +          - reg
-> +          - dual-lvds-odd-pixels
+> +	for (i = 0; i < ARRAY_SIZE(gpio_display_mux->next); i++) {
+> +		next = gpio_display_mux->next[i];
+> +		if (next)
+> +			next->encoder = bridge->encoder;
+> +	}
 > +
-> +      port@1:
-> +        type: object
-> +        description: The sink for even pixels.
-> +        properties:
-> +          reg:
-> +            const: 1
+> +	return 0;
+> +}
 > +
-> +          dual-lvds-even-pixels: true
+> +static bool gpio_display_mux_mode_fixup(struct drm_bridge *bridge,
+> +				const struct drm_display_mode *mode,
+> +				struct drm_display_mode *adjusted_mode)
+> +{
+> +	struct gpio_display_mux *gpio_display_mux =
+> +		bridge_to_gpio_display_mux(bridge);
+> +	int active;
+> +	struct drm_bridge *next;
 > +
-> +        required:
-> +          - reg
-> +          - dual-lvds-even-pixels
+> +	active = gpiod_get_value(gpio_display_mux->gpiod_detect);
+
+What if the value of the GPIO changes between, let's say, this operation
+and gpio_display_mux_mode_set() ? This doesn't seem very stable to me.
+DRM/KMS hasn't been designed to have the output routing configured
+externally without any control from the drivers.
+
+> +	next = gpio_display_mux->next[active];
+
+This will crash if gpiod_get_value() returns an error. Same for the
+other functions below.
+
 > +
-> +  panel-timing: true
+> +	if (next && next->funcs->mode_fixup)
+> +		return next->funcs->mode_fixup(next, mode, adjusted_mode);
+> +	else
+> +		return true;
+> +}
 > +
-> +additionalProperties: false
+> +static void gpio_display_mux_mode_set(struct drm_bridge *bridge,
+> +				struct drm_display_mode *mode,
+> +				struct drm_display_mode *adjusted_mode)
+> +{
+> +	struct gpio_display_mux *gpio_display_mux =
+> +		bridge_to_gpio_display_mux(bridge);
+> +	int active;
+> +	struct drm_bridge *next;
 > +
-> +required:
-> +  - compatible
-> +  - width-mm
-> +  - height-mm
-> +  - data-mapping
-> +  - panel-timing
-> +  - ports
+> +	active = gpiod_get_value(gpio_display_mux->gpiod_detect);
+> +	next = gpio_display_mux->next[active];
 > +
-> +examples:
-> +  - |+
-> +    panel-lvds {
-> +      compatible = "advantech,idk-2121wr", "panel-lvds";
+> +	if (next && next->funcs->mode_set)
+> +		next->funcs->mode_set(next, mode, adjusted_mode);
+> +}
 > +
-> +      width-mm = <476>;
-> +      height-mm = <268>;
+> +/**
+
+This isn't kerneldoc, the comment should start with /*. Same comment
+below.
+
+> + * Since this driver _reacts_ to mux changes, we need to make sure all
+> + * downstream bridges are pre-enabled.
+
+I'm afraid the problem scope seems bigger than I initially anticipated
+:-( We're in the hack territory here, and I think we need to search for
+a proper solution. We need to start with a detailed description of the
+hardware and the use cases.
+
+> + */
+> +static void gpio_display_mux_pre_enable(struct drm_bridge *bridge)
+> +{
+> +	struct gpio_display_mux *gpio_display_mux =
+> +		bridge_to_gpio_display_mux(bridge);
+> +	struct drm_bridge *next;
+> +	int i;
 > +
-> +      data-mapping = "vesa-24";
+> +	for (i = 0; i < ARRAY_SIZE(gpio_display_mux->next); i++) {
+> +		next = gpio_display_mux->next[i];
+> +		if (next && next->funcs->pre_enable)
+> +			next->funcs->pre_enable(next);
+> +	}
+> +}
 > +
-> +      panel-timing {
-> +        clock-frequency = <148500000>;
-> +        hactive = <1920>;
-> +        vactive = <1080>;
-> +        hsync-len = <44>;
-> +        hfront-porch = <88>;
-> +        hback-porch = <148>;
-> +        vfront-porch = <4>;
-> +        vback-porch = <36>;
-> +        vsync-len = <5>;
-> +      };
+> +static void gpio_display_mux_post_disable(struct drm_bridge *bridge)
+> +{
+> +	struct gpio_display_mux *gpio_display_mux =
+> +		bridge_to_gpio_display_mux(bridge);
+> +	struct drm_bridge *next;
+> +	int i;
 > +
-> +      ports {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
+> +	for (i = 0; i < ARRAY_SIZE(gpio_display_mux->next); i++) {
+> +		next = gpio_display_mux->next[i];
+> +		if (next && next->funcs->post_disable)
+> +			next->funcs->post_disable(next);
+> +	}
+> +}
 > +
-> +        port@0 {
-> +          reg = <0>;
-> +          dual-lvds-odd-pixels;
-> +          panel_in0: endpoint {
-> +            remote-endpoint = <&lvds0_out>;
-> +          };
-> +        };
+> +/**
+> + * In an ideal mux driver, only the currently selected bridge should be enabled.
+> + * For the sake of simplicity, we just just enable/disable all downstream
+> + * bridges at the same time.
+> + */
+> +static void gpio_display_mux_enable(struct drm_bridge *bridge)
+> +{
+> +	struct gpio_display_mux *gpio_display_mux =
+> +		bridge_to_gpio_display_mux(bridge);
+> +	struct drm_bridge *next;
+> +	int i;
 > +
-> +        port@1 {
-> +          reg = <1>;
-> +          dual-lvds-even-pixels;
-> +          panel_in1: endpoint {
-> +            remote-endpoint = <&lvds1_out>;
-> +          };
-> +        };
-> +      };
-> +    };
+> +	for (i = 0; i < ARRAY_SIZE(gpio_display_mux->next); i++) {
+> +		next = gpio_display_mux->next[i];
+> +		if (next && next->funcs->enable)
+> +			next->funcs->enable(next);
+> +	}
+> +}
 > +
-> +...
+> +static void gpio_display_mux_disable(struct drm_bridge *bridge)
+> +{
+> +	struct gpio_display_mux *gpio_display_mux =
+> +		bridge_to_gpio_display_mux(bridge);
+> +	struct drm_bridge *next;
+> +	int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(gpio_display_mux->next); i++) {
+> +		next = gpio_display_mux->next[i];
+> +		if (next && next->funcs->disable)
+> +			next->funcs->disable(next);
+> +	}
+> +}
+> +
+> +static const struct drm_bridge_funcs gpio_display_mux_bridge_funcs = {
+> +	.attach = gpio_display_mux_attach,
+> +	.mode_fixup = gpio_display_mux_mode_fixup,
+> +	.disable = gpio_display_mux_disable,
+> +	.post_disable = gpio_display_mux_post_disable,
+> +	.mode_set = gpio_display_mux_mode_set,
+> +	.pre_enable = gpio_display_mux_pre_enable,
+> +	.enable = gpio_display_mux_enable,
+> +};
+> +
+> +static int gpio_display_mux_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct gpio_display_mux *gpio_display_mux;
+> +	struct device_node *port, *ep, *remote;
+> +	int ret;
+> +	u32 reg;
+> +
+> +	gpio_display_mux = devm_kzalloc(dev, sizeof(*gpio_display_mux),
+> +					GFP_KERNEL);
+> +	if (!gpio_display_mux)
+> +		return -ENOMEM;
+> +
+> +	platform_set_drvdata(pdev, gpio_display_mux);
+> +	gpio_display_mux->dev = &pdev->dev;
+> +
+> +	gpio_display_mux->bridge.of_node = dev->of_node;
+> +
+> +	gpio_display_mux->gpiod_detect =
+> +		devm_gpiod_get(dev, "detect", GPIOD_IN);
+> +	if (IS_ERR(gpio_display_mux->gpiod_detect))
+> +		return PTR_ERR(gpio_display_mux->gpiod_detect);
+> +
+> +	gpio_display_mux->detect_irq =
+> +		gpiod_to_irq(gpio_display_mux->gpiod_detect);
+> +	if (gpio_display_mux->detect_irq < 0) {
+> +		dev_err(dev, "Failed to get output irq %d\n",
+> +			gpio_display_mux->detect_irq);
+> +		return -ENODEV;
+> +	}
+> +
+> +	port = of_graph_get_port_by_id(dev->of_node, 1);
+> +	if (!port) {
+> +		dev_err(dev, "Missing output port node\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	for_each_child_of_node(port, ep) {
+> +		if (!ep->name || (of_node_cmp(ep->name, "endpoint") != 0)) {
+> +			of_node_put(ep);
+> +			continue;
+> +		}
+> +
+> +		if (of_property_read_u32(ep, "reg", &reg) < 0 ||
+> +				reg >= ARRAY_SIZE(gpio_display_mux->next)) {
+> +			dev_err(dev,
+> +			    "Missing/invalid reg property for endpoint %s\n",
+> +				ep->full_name);
+> +			of_node_put(ep);
+> +			of_node_put(port);
+> +			return -EINVAL;
+> +		}
+> +
+> +		remote = of_graph_get_remote_port_parent(ep);
+> +		if (!remote) {
+> +			dev_err(dev,
+> +			    "Missing connector/bridge node for endpoint %s\n",
+> +				ep->full_name);
+> +			of_node_put(ep);
+> +			of_node_put(port);
+> +			return -EINVAL;
+> +		}
+> +		of_node_put(ep);
+> +
+> +		if (of_device_is_compatible(remote, "hdmi-connector")) {
+> +			of_node_put(remote);
+> +			continue;
+> +		}
+
+This special case makes me think that something is wrong. I believe the
+connector driver from
+https://patchwork.freedesktop.org/patch/344477/?series=63328&rev=59
+could help.
+
+> +
+> +		gpio_display_mux->next[reg] = of_drm_find_bridge(remote);
+
+What if the connected device is a panel and not a bridge ?
+
+> +		if (!gpio_display_mux->next[reg]) {
+> +			dev_err(dev, "Waiting for external bridge %s\n",
+> +				remote->name);
+> +			of_node_put(remote);
+> +			of_node_put(port);
+> +			return -EPROBE_DEFER;
+> +		}
+> +
+> +		of_node_put(remote);
+> +	}
+> +	of_node_put(port);
+> +
+> +	gpio_display_mux->bridge.funcs = &gpio_display_mux_bridge_funcs;
+> +	drm_bridge_add(&gpio_display_mux->bridge);
+> +
+> +	ret = devm_request_threaded_irq(dev, gpio_display_mux->detect_irq,
+> +				NULL,
+> +				gpio_display_mux_det_threaded_handler,
+> +				IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING |
+> +					IRQF_ONESHOT,
+> +				"gpio-display-mux-det", gpio_display_mux);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to request MUX_DET threaded irq\n");
+> +		goto err_bridge_remove;
+> +	}
+> +
+> +	return 0;
+> +
+> +err_bridge_remove:
+> +	drm_bridge_remove(&gpio_display_mux->bridge);
+> +
+> +	return ret;
+> +}
+> +
+> +static int gpio_display_mux_remove(struct platform_device *pdev)
+> +{
+> +	struct gpio_display_mux *gpio_display_mux = platform_get_drvdata(pdev);
+> +
+> +	drm_bridge_remove(&gpio_display_mux->bridge);
+
+If the GPIO IRQ is triggered here you'll have trouble. You need to
+disable the IRQ, or free it, before removing the bridge.
+
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id gpio_display_mux_match[] = {
+> +	{ .compatible = "gpio-display-mux", },
+> +	{},
+> +};
+> +
+> +struct platform_driver gpio_display_mux_driver = {
+> +	.probe = gpio_display_mux_probe,
+> +	.remove = gpio_display_mux_remove,
+> +	.driver = {
+> +		.name = "gpio-display-mux",
+> +		.of_match_table = gpio_display_mux_match,
+> +	},
+> +};
+> +
+> +module_platform_driver(gpio_display_mux_driver);
+> +
+> +MODULE_DESCRIPTION("GPIO-controlled display mux");
+> +MODULE_AUTHOR("Nicolas Boichat <drinkcat@chromium.org>");
+> +MODULE_LICENSE("GPL v2");
 
 -- 
 Regards,
