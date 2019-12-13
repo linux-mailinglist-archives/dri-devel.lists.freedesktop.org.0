@@ -1,35 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD3DA11F22B
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 15:43:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6B3C11F215
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 15:43:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3A706E39B;
-	Sat, 14 Dec 2019 14:43:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A1BC6E357;
+	Sat, 14 Dec 2019 14:42:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mslow2.mail.gandi.net (mslow2.mail.gandi.net [217.70.178.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EEC689F92
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 18:20:42 +0000 (UTC)
-Received: from relay12.mail.gandi.net (unknown [217.70.178.232])
- by mslow2.mail.gandi.net (Postfix) with ESMTP id 81D003B3FD8
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 18:11:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E4B36EC04
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 18:20:43 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (unknown [217.70.183.200])
+ by mslow2.mail.gandi.net (Postfix) with ESMTP id AC9633ADCB0
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 18:13:52 +0000 (UTC)
+X-Originating-IP: 91.224.148.103
 Received: from localhost.localdomain (unknown [91.224.148.103])
  (Authenticated sender: miquel.raynal@bootlin.com)
- by relay12.mail.gandi.net (Postfix) with ESMTPSA id 37ADF200010;
- Fri, 13 Dec 2019 18:11:16 +0000 (UTC)
+ by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id A9E9920003;
+ Fri, 13 Dec 2019 18:13:27 +0000 (UTC)
 From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- <devicetree@vger.kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- <linux-rockchip@lists.infradead.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, Sandy Huang <hjc@rock-chips.com>
-Subject: [PATCH 12/12] arm64: dts: rockchip: Add PX30 LVDS
-Date: Fri, 13 Dec 2019 19:10:51 +0100
-Message-Id: <20191213181051.25983-13-miquel.raynal@bootlin.com>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/panel: simple: Support reset GPIOs
+Date: Fri, 13 Dec 2019 19:13:25 +0100
+Message-Id: <20191213181325.26228-1-miquel.raynal@bootlin.com>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191213181051.25983-1-miquel.raynal@bootlin.com>
-References: <20191213181051.25983-1-miquel.raynal@bootlin.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Sat, 14 Dec 2019 14:42:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -44,62 +41,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Maxime Chevallier <maxime.chevallier@bootlin.com>,
  Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
  Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- linux-arm-kernel@lists.infradead.org
+ Miquel Raynal <miquel.raynal@bootlin.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Also create to port endpoints to link with the CRTCs.
+The panel common bindings provide a gpios-reset property which is
+active low by default. Let's support it in the simple driver.
+
+De-asserting the reset pin implies a physical high, which in turns is
+a logic low.
 
 Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 ---
- arch/arm64/boot/dts/rockchip/px30.dtsi | 27 ++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ drivers/gpu/drm/panel/panel-simple.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/rockchip/px30.dtsi b/arch/arm64/boot/dts/rockchip/px30.dtsi
-index 337306281c07..347432fba865 100644
---- a/arch/arm64/boot/dts/rockchip/px30.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/px30.dtsi
-@@ -449,6 +449,33 @@
- 			compatible = "rockchip,px30-io-voltage-domain";
- 			status = "disabled";
- 		};
-+
-+		lvds: lvds {
-+			compatible = "rockchip,px30-lvds";
-+			rockchip,grf = <&grf>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			phys = <&dsi_dphy>;
-+			phy-names = "dphy";
-+			rockchip,output = "lvds";
-+			status = "disabled";
-+
-+			port@0 {
-+				reg = <0>;
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				lvds_vopb_in: endpoint@0 {
-+					reg = <0>;
-+					remote-endpoint = <&vopb_out_lvds>;
-+				};
-+
-+				lvds_vopl_in: endpoint@1 {
-+					reg = <1>;
-+					remote-endpoint = <&vopl_out_lvds>;
-+				};
-+			};
-+		};
- 	};
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 5d487686d25c..15dd495c347d 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -110,6 +110,7 @@ struct panel_simple {
+ 	struct i2c_adapter *ddc;
  
- 	uart1: serial@ff158000 {
+ 	struct gpio_desc *enable_gpio;
++	struct gpio_desc *reset_gpio;
+ 
+ 	struct drm_display_mode override_mode;
+ };
+@@ -433,12 +434,21 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+ 	if (IS_ERR(panel->supply))
+ 		return PTR_ERR(panel->supply);
+ 
++	panel->reset_gpio = devm_gpiod_get_optional(dev, "reset",
++						    GPIOD_OUT_LOW);
++	if (IS_ERR(panel->reset_gpio)) {
++		err = PTR_ERR(panel->reset_gpio);
++		if (err != -EPROBE_DEFER)
++			dev_err(dev, "failed to request reset pin: %d\n", err);
++		return err;
++	}
++
+ 	panel->enable_gpio = devm_gpiod_get_optional(dev, "enable",
+ 						     GPIOD_OUT_LOW);
+ 	if (IS_ERR(panel->enable_gpio)) {
+ 		err = PTR_ERR(panel->enable_gpio);
+ 		if (err != -EPROBE_DEFER)
+-			dev_err(dev, "failed to request GPIO: %d\n", err);
++			dev_err(dev, "failed to request enable pin: %d\n", err);
+ 		return err;
+ 	}
+ 
 -- 
 2.20.1
 
