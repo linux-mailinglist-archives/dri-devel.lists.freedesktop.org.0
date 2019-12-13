@@ -1,26 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BA9311E75F
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 17:00:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBA7D11E762
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 17:00:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20A0A6EAE1;
-	Fri, 13 Dec 2019 16:00:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE7A66EA9E;
+	Fri, 13 Dec 2019 16:00:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E9D26EA73
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 15:59:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CDBF6EA77
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 15:59:40 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: andrzej.p) with ESMTPSA id 47762292D97
+ (Authenticated sender: andrzej.p) with ESMTPSA id 6B956292DA7
 From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCHv4 28/36] drm/komeda: Factor in the invocation of special
- helper, afbc case
-Date: Fri, 13 Dec 2019 16:58:59 +0100
-Message-Id: <20191213155907.16581-29-andrzej.p@collabora.com>
+Subject: [PATCHv4 31/36] drm/arm/malidp: Make verify funcitons invocations
+ independent
+Date: Fri, 13 Dec 2019 16:59:02 +0100
+Message-Id: <20191213155907.16581-32-andrzej.p@collabora.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191213155907.16581-1-andrzej.p@collabora.com>
 References: <20191213155907.16581-1-andrzej.p@collabora.com>
@@ -48,127 +48,31 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prepare for unification with non-afbc case.
+This will make it easier to transition to generic afbc-aware helpers.
 
 Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 ---
- .../arm/display/komeda/komeda_framebuffer.c   | 90 +++++++++----------
- 1 file changed, 42 insertions(+), 48 deletions(-)
+ drivers/gpu/drm/arm/malidp_drv.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c b/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
-index e55ab6130e15..ac7e099435c9 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
-@@ -36,52 +36,6 @@ static const struct drm_framebuffer_funcs komeda_fb_funcs = {
- 	.create_handle	= komeda_fb_create_handle,
- };
+diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
+index 37d92a06318e..961e5a3f5b08 100644
+--- a/drivers/gpu/drm/arm/malidp_drv.c
++++ b/drivers/gpu/drm/arm/malidp_drv.c
+@@ -362,10 +362,10 @@ static bool
+ malidp_verify_afbc_framebuffer(struct drm_device *dev, struct drm_file *file,
+ 			       const struct drm_mode_fb_cmd2 *mode_cmd)
+ {
+-	if (malidp_verify_afbc_framebuffer_caps(dev, mode_cmd))
+-		return malidp_verify_afbc_framebuffer_size(dev, file, mode_cmd);
++	if (!malidp_verify_afbc_framebuffer_caps(dev, mode_cmd))
++		return false;
  
--static int
--komeda_fb_afbc_size_check(struct drm_device *dev,
--			  struct komeda_fb *kfb,
--			  const struct drm_format_info *info,
--			  struct drm_gem_object **objs,
--			  struct drm_file *file,
--			  const struct drm_mode_fb_cmd2 *mode_cmd)
--{
--	struct drm_size_check check = { 0 };
--	u32 alignment_w = 0, alignment_h = 0, alignment_header, n_blocks, bpp;
--
--	if (!drm_afbc_get_superblock_wh(mode_cmd->modifier[0],
--					&alignment_w, &alignment_h))
--		return -EINVAL;
--
--	/* tiled header afbc */
--	if (mode_cmd->modifier[0] & AFBC_FORMAT_MOD_TILED) {
--		alignment_w *= AFBC_TH_LAYOUT_ALIGNMENT;
--		alignment_h *= AFBC_TH_LAYOUT_ALIGNMENT;
--		alignment_header = AFBC_TH_BODY_START_ALIGNMENT;
--	} else {
--		alignment_header = AFBC_BODY_START_ALIGNMENT;
--	}
--
--	kfb->aligned_w = ALIGN(mode_cmd->width, alignment_w);
--	kfb->aligned_h = ALIGN(mode_cmd->height, alignment_h);
--
--	if (mode_cmd->offsets[0] % alignment_header) {
--		DRM_DEBUG_KMS("afbc offset alignment check failed.\n");
--		return -EINVAL;
--	}
--
--	n_blocks = (kfb->aligned_w * kfb->aligned_h) / AFBC_SUPERBLK_PIXELS;
--	kfb->offset_payload = ALIGN(n_blocks * AFBC_HEADER_SIZE,
--				    alignment_header);
--
--	bpp = komeda_get_afbc_format_bpp(info, mode_cmd->modifier[0]);
--	kfb->afbc_size = kfb->offset_payload + n_blocks *
--			 ALIGN(bpp * AFBC_SUPERBLK_PIXELS / 8,
--			       AFBC_SUPERBLK_ALIGNMENT);
--	check.min_size[0] = kfb->afbc_size + mode_cmd->offsets[0];
--	check.use_min_size = true;
--
--	return drm_gem_fb_size_check_special(dev, mode_cmd, &check, objs);
--}
--
- struct drm_framebuffer *
- komeda_fb_create(struct drm_device *dev, struct drm_file *file,
- 		 const struct drm_mode_fb_cmd2 *mode_cmd)
-@@ -114,14 +68,54 @@ komeda_fb_create(struct drm_device *dev, struct drm_file *file,
- 	info = drm_get_format_info(dev, mode_cmd);
+-	return false;
++	return malidp_verify_afbc_framebuffer_size(dev, file, mode_cmd);
+ }
  
- 	if (mode_cmd->modifier[0]) {
-+		struct drm_size_check check = { 0 };
-+		u32 alignment_w = 0, alignment_h = 0;
-+		u32 alignment_header, n_blocks, bpp;
-+
- 		if (num_planes != 1) {
- 			DRM_DEBUG_KMS("AFBC requires exactly 1 plane.\n");
- 			ret = -EINVAL;
- 			goto err_cleanup;
- 		}
- 
--		ret = komeda_fb_afbc_size_check(dev, kfb, info, objs,
--						file, mode_cmd);
-+		if (!drm_afbc_get_superblock_wh(mode_cmd->modifier[0],
-+						&alignment_w, &alignment_h)) {
-+			ret = -EINVAL;
-+			goto err_cleanup;
-+		}
-+
-+		/* tiled header afbc */
-+		if (mode_cmd->modifier[0] & AFBC_FORMAT_MOD_TILED) {
-+			alignment_w *= AFBC_TH_LAYOUT_ALIGNMENT;
-+			alignment_h *= AFBC_TH_LAYOUT_ALIGNMENT;
-+			alignment_header = AFBC_TH_BODY_START_ALIGNMENT;
-+		} else {
-+			alignment_header = AFBC_BODY_START_ALIGNMENT;
-+		}
-+
-+		kfb->aligned_w = ALIGN(mode_cmd->width, alignment_w);
-+		kfb->aligned_h = ALIGN(mode_cmd->height, alignment_h);
-+
-+		if (mode_cmd->offsets[0] % alignment_header) {
-+			DRM_DEBUG_KMS("afbc offset alignment check failed.\n");
-+			ret = -EINVAL;
-+			goto err_cleanup;
-+		}
-+
-+		n_blocks = (kfb->aligned_w * kfb->aligned_h)
-+			 / AFBC_SUPERBLK_PIXELS;
-+		kfb->offset_payload = ALIGN(n_blocks * AFBC_HEADER_SIZE,
-+					    alignment_header);
-+
-+		bpp = komeda_get_afbc_format_bpp(info, mode_cmd->modifier[0]);
-+		kfb->afbc_size = kfb->offset_payload + n_blocks *
-+				 ALIGN(bpp * AFBC_SUPERBLK_PIXELS / 8,
-+				       AFBC_SUPERBLK_ALIGNMENT);
-+		check.min_size[0] = kfb->afbc_size + mode_cmd->offsets[0];
-+		check.use_min_size = true;
-+
-+		ret = drm_gem_fb_size_check_special(dev, mode_cmd, &check,
-+						    objs);
- 	} else {
- 		struct drm_size_check check = { 0 };
- 
+ static struct drm_framebuffer *
 -- 
 2.17.1
 
