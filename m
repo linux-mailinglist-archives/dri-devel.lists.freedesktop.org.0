@@ -1,55 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25D1611EC18
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 21:52:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F10A11EC3A
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 21:55:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC5746ED0C;
-	Fri, 13 Dec 2019 20:52:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A10976EDBC;
+	Fri, 13 Dec 2019 20:55:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 329376ECFA;
- Fri, 13 Dec 2019 20:52:23 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2019 12:52:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,311,1571727600"; d="scan'208";a="211479210"
-Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
- by fmsmga007.fm.intel.com with ESMTP; 13 Dec 2019 12:52:22 -0800
-Received: from fmsmsx151.amr.corp.intel.com (10.18.125.4) by
- FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Fri, 13 Dec 2019 12:52:22 -0800
-Received: from fmsmsx107.amr.corp.intel.com ([169.254.6.96]) by
- FMSMSX151.amr.corp.intel.com ([169.254.7.125]) with mapi id 14.03.0439.000;
- Fri, 13 Dec 2019 12:52:22 -0800
-From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>, DRI Development
- <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH 1/4] drm/etnaviv: Use dma_resv locking wrappers
-Thread-Topic: [PATCH 1/4] drm/etnaviv: Use dma_resv locking wrappers
-Thread-Index: AQHVsfEe00DUW/MMX0uVJDAmNAcPPKe4ilCA
-Date: Fri, 13 Dec 2019 20:52:21 +0000
-Message-ID: <14063C7AD467DE4B82DEDB5C278E8663EE150D92@fmsmsx107.amr.corp.intel.com>
-References: <20191125094356.161941-1-daniel.vetter@ffwll.ch>
- <20191125094356.161941-2-daniel.vetter@ffwll.ch>
- <20191213200826.GK624164@phenom.ffwll.local>
-In-Reply-To: <20191213200826.GK624164@phenom.ffwll.local>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiN2UwOWUyNGYtODQyZS00OTJiLWI1ZDItZWJiODk4ZDA0NjEzIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiNlBHdjJadWY4VkU2dWsyKzlwYWV0eHpORHpFTGh3VVFib21abnZqU3pRS3hZTWdvMUxVdHphSmEzZFFyN1JneiJ9
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.107]
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B6D76EDBC;
+ Fri, 13 Dec 2019 20:55:13 +0000 (UTC)
+Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
+ (mreue010 [212.227.15.129]) with ESMTPA (Nemesis) id
+ 1MGQWr-1iVdkq2Ao9-00GmsB; Fri, 13 Dec 2019 21:54:57 +0100
+From: Arnd Bergmann <arnd@arndb.de>
+To: y2038@lists.linaro.org, linux-kernel@vger.kernel.org,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v2 12/24] drm/msm: avoid using 'timespec'
+Date: Fri, 13 Dec 2019 21:53:40 +0100
+Message-Id: <20191213205417.3871055-3-arnd@arndb.de>
+X-Mailer: git-send-email 2.20.0
+In-Reply-To: <20191213204936.3643476-1-arnd@arndb.de>
+References: <20191213204936.3643476-1-arnd@arndb.de>
 MIME-Version: 1.0
+X-Provags-ID: V03:K1:SMQNgPIVRwQmcTY5DRfiQVqW9b6fdavzYJig6CP6LZtweyjRbiD
+ 6mCGxP1rZR5pga+x9KqlX9c6PXDBBgTUGKDJ0BZKNHZin6AxQJIq0jYcnvNfnUsFc79qM/e
+ q8qmecpfokP3hq7bAPt5LDfnxYTuvoKmrPS0nS2HU9pnuvh+0wbVT234k8D5E087sBGJcmP
+ i4yEHD4KCli0umxh9A3ww==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:DbQaztQtI+A=:gxrodGEeRggtiphssUm9Us
+ Jq/wlDutot4qEvgTcu7kfZQQQ3iQeN6l/jwOUlHw1Ybnq3VPgMPcTl9strNMqMIzw9JBvSljD
+ C2jPPtCwvmIl6PByLxcmzD+QyHErVxvkZOmoIegYpuQhUqJIzfhj3Kg6RZVgHW4bz1CqibKR6
+ Ft+KVdpngmtt8UlvfyoTGNfYmprA9eW5mMVLEvqNmCPx0H24nj3frUkSFibwdnsTjWZZz63di
+ tZABpibKZpy0u8d75dZczso0jUzTi7eQxK68axCwzreJDWLNLzMYomhhBrRb0z+C4Bh7wMREh
+ IqmDvEY1RvYXwj0XALqnYz7FFUInslWTRCWa2S3qkZcg0DSj7/GN6q0MEx3pG4szda+yfMRmK
+ J+8eQam1TInOwvydZdgspJK76t8NiIyLnWBR73tNZXBFkwWoljvI7oQwLHLMzuf7IjJQfvbod
+ 6/+GSDtKOqO9r1irukoe/vUnyVZuxagYtaHgrd/VK2u1ToWu05PY1fGxC+WOCC9dmpwvf4Smo
+ Vje6psV+nHPjQ2LbyeSJYMu8+Vyrfb59oJPpTsfY/ssvaM4JnnlPfgIUn4jSfRDwYrToDgzQJ
+ eNDAO7A/aC8WX3IrDLKrEb4NpEi6wEZO59Ax1mICG/9qQMRhieTT0sii3o27R8skBPFa0BThe
+ S3nKTK699n9ObLvefDUa/onIL6mlTOLQ4MG/dwG5bPq1dlUl/NohuJ6Snj3AKNhp0g10qPDEV
+ RQLRhD98PZpi9F6xvPJMoiLcmvHmOz8gK8ZSNJ7ApEvDJzQ6poZfwqLwx8qK+dGt8k0lrFdqS
+ HZ9OGCvIK91CYt69M0Soyrm7cJpKtZhVe4DJdxYaOiRvfLeff/cHHaLOcnwvnj2Q9MNLlsCJS
+ hyaeD68zOSQ+8Ex8yWDw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,103 +57,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Vetter, Daniel" <daniel.vetter@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: freedreno@lists.freedesktop.org, Arnd Bergmann <arnd@arndb.de>,
+ linux-arm-msm@vger.kernel.org, "Kristian H. Kristensen" <hoegsberg@gmail.com>,
+ dri-devel@lists.freedesktop.org, Joe Perches <joe@perches.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Thomas Gleixner <tglx@linutronix.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->-----Original Message-----
->From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
->Daniel Vetter
->Sent: Friday, December 13, 2019 3:08 PM
->To: DRI Development <dri-devel@lists.freedesktop.org>
->Cc: Daniel Vetter <daniel.vetter@ffwll.ch>; Intel Graphics Development
-><intel-gfx@lists.freedesktop.org>; etnaviv@lists.freedesktop.org; Russell
->King <linux+etnaviv@armlinux.org.uk>; Vetter, Daniel
-><daniel.vetter@intel.com>
->Subject: Re: [PATCH 1/4] drm/etnaviv: Use dma_resv locking wrappers
->
->On Mon, Nov 25, 2019 at 10:43:53AM +0100, Daniel Vetter wrote:
->> I'll add more fancy logic to them soon, so everyone really has to use
->> them. Plus they already provide some nice additional debug
->> infrastructure on top of direct ww_mutex usage for the fences tracked
->> by dma_resv.
->>
->> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
->> Cc: Lucas Stach <l.stach@pengutronix.de>
->> Cc: Russell King <linux+etnaviv@armlinux.org.uk>
->> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
->> Cc: etnaviv@lists.freedesktop.org
->
->Ping for some review/acks.
->
->Thanks, Daniel
->
->> ---
->>  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 8 +++-----
->>  1 file changed, 3 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
->b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
->> index aa3e4c3b063a..947b21868e72 100644
->> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
->> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
->> @@ -113,7 +113,7 @@ static void submit_unlock_object(struct
->etnaviv_gem_submit *submit, int i)
->>  	if (submit->bos[i].flags & BO_LOCKED) {
->>  		struct drm_gem_object *obj = &submit->bos[i].obj->base;
->>
->> -		ww_mutex_unlock(&obj->resv->lock);
->> +		dma_resv_unlock(obj->resv);
->>  		submit->bos[i].flags &= ~BO_LOCKED;
->>  	}
->>  }
->> @@ -133,8 +133,7 @@ static int submit_lock_objects(struct
->etnaviv_gem_submit *submit,
->>  		contended = i;
->>
->>  		if (!(submit->bos[i].flags & BO_LOCKED)) {
->> -			ret = ww_mutex_lock_interruptible(&obj->resv-
->>lock,
->> -							  ticket);
->> +			ret = dma_resv_lock(obj->resv, ticket);
+The timespec structure and associated interfaces are deprecated and will
+be removed in the future because of the y2038 overflow.
 
-Should this be dma_resv_lock_interruptible()?
+The use of ktime_to_timespec() in timeout_to_jiffies() does not
+suffer from that overflow, but is easy to avoid by just converting
+the ktime_t into jiffies directly.
 
-Mike
+Reviewed-by: Jordan Crouse <jcrouse@codeaurora.org>
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/gpu/drm/msm/msm_drv.h | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
->>  			if (ret == -EALREADY)
->>  				DRM_ERROR("BO at index %u already on
->submit list\n",
->>  					  i);
->> @@ -161,8 +160,7 @@ static int submit_lock_objects(struct
->etnaviv_gem_submit *submit,
->>  		obj = &submit->bos[contended].obj->base;
->>
->>  		/* we lost out in a seqno race, lock and retry.. */
->> -		ret = ww_mutex_lock_slow_interruptible(&obj->resv->lock,
->> -						       ticket);
->> +		ret = dma_resv_lock_slow_interruptible(obj->resv, ticket);
->>  		if (!ret) {
->>  			submit->bos[contended].flags |= BO_LOCKED;
->>  			slow_locked = contended;
->> --
->> 2.24.0
->>
->
->--
->Daniel Vetter
->Software Engineer, Intel Corporation
->http://blog.ffwll.ch
->_______________________________________________
->dri-devel mailing list
->dri-devel@lists.freedesktop.org
->https://lists.freedesktop.org/mailman/listinfo/dri-devel
+diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+index 71547e756e29..740bf7c70d8f 100644
+--- a/drivers/gpu/drm/msm/msm_drv.h
++++ b/drivers/gpu/drm/msm/msm_drv.h
+@@ -454,8 +454,7 @@ static inline unsigned long timeout_to_jiffies(const ktime_t *timeout)
+ 		remaining_jiffies = 0;
+ 	} else {
+ 		ktime_t rem = ktime_sub(*timeout, now);
+-		struct timespec ts = ktime_to_timespec(rem);
+-		remaining_jiffies = timespec_to_jiffies(&ts);
++		remaining_jiffies = ktime_divns(rem, NSEC_PER_SEC / HZ);
+ 	}
+ 
+ 	return remaining_jiffies;
+-- 
+2.20.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
