@@ -2,42 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AB0111EB50
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 20:53:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A5CE11EB8A
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 21:08:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 562B06EC5A;
-	Fri, 13 Dec 2019 19:53:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78FEB6ECED;
+	Fri, 13 Dec 2019 20:08:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 138736EC5A
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 19:53:37 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 7F2802001F;
- Fri, 13 Dec 2019 20:53:31 +0100 (CET)
-Date: Fri, 13 Dec 2019 20:53:30 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH 03/10] drm/atmel: plane_state->fb iff plane_state->crtc
-Message-ID: <20191213195330.GA28111@ravnborg.org>
-References: <20191213172612.1514842-1-daniel.vetter@ffwll.ch>
- <20191213172612.1514842-3-daniel.vetter@ffwll.ch>
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66C396ECEE
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 20:08:31 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id j42so13569wrj.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 12:08:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=s0hmHEcvCC0qbSC/De866WAvWdTYGdzpFwLiouqM3/8=;
+ b=AD+itFb7W/67DJ3guxnxujbhlSqpK2mXyfTsoHLo+9mMka7qtiXe7Z/9b51ulGmp05
+ FJMRmPpqc2IW/DYXz1aymPEIfNLmbrn7xJdelUUJNxQUdOQFlplzBrli0sSphxsT+Iq+
+ YirfloHSpCwLWnJn88Amk4syJUwn2fnj7TjUA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=s0hmHEcvCC0qbSC/De866WAvWdTYGdzpFwLiouqM3/8=;
+ b=NvI4NWgUjpthE8sZIVZAlmwPLSMcWi5rSiqnwp84y4xYNOiyAJnOIf2CPN9TTddqFb
+ jAQHZ4IV95OEAfQQw3pgO+ND3Z5mA2PlLXr35Fri6az1KM4Kju3rWbzi3BhnoHO4fVHI
+ cG0fX5NKlpNDmCAYsHG7UTcm7WaZP3feyEE0kYhQfMrcu6ItmteO0G7pgXSoM/aAkEpI
+ OU8SpXmN7SajN2fG2VwAdJrbX0Hb9eKu3F67cOyzOXX9ubWSWP5eFGF5fPHCkygtUORf
+ 6mucw4Eq53D+fyaMPbDXDe871voNlSOAECCj7qYaT+BY2D1ccLrRQfhCzHJvIaifIBm5
+ tGKA==
+X-Gm-Message-State: APjAAAV4u8Ks8TQAJvSVqcflS24LF/wWrktaUVXletc/GNAOutfs6JCe
+ St7kmAZKOCY9vihsa4p57A8aZQCR87I=
+X-Google-Smtp-Source: APXvYqzvIiH858jendvGHuzJsone3U5RVzvk+l+K36SXi8Vi3S6teGKauM2zP38jKomfUVBIohq7aQ==
+X-Received: by 2002:a5d:50ce:: with SMTP id f14mr14553651wrt.254.1576267709713; 
+ Fri, 13 Dec 2019 12:08:29 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:564b:0:7567:bb67:3d7f:f863])
+ by smtp.gmail.com with ESMTPSA id j12sm11721163wrw.54.2019.12.13.12.08.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Dec 2019 12:08:28 -0800 (PST)
+Date: Fri, 13 Dec 2019 21:08:26 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH 1/4] drm/etnaviv: Use dma_resv locking wrappers
+Message-ID: <20191213200826.GK624164@phenom.ffwll.local>
+References: <20191125094356.161941-1-daniel.vetter@ffwll.ch>
+ <20191125094356.161941-2-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191213172612.1514842-3-daniel.vetter@ffwll.ch>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=QyXUC8HyAAAA:8
- a=7gkXJVJtAAAA:8 a=VwQbUJbxAAAA:8 a=XYAwZIGsAAAA:8 a=P-IC7800AAAA:8
- a=JfrnYn6hAAAA:8 a=vjiWdJjHSV5tq3Ch1l8A:9 a=CjuIK1q_8ugA:10
- a=E9Po1WZjFZOl8hwRPBS3:22 a=AjGcO6oz07-iQ99wixmX:22
- a=E8ToXWR_bxluHZ7gmE-Z:22 a=d3PnA9EDa4IxuAV0gXij:22
- a=1CNFftbPRP8L7MoqJWF3:22 a=pHzHmUro8NiASowvMSCR:22
- a=Ew2E2A-JSTLzCXPT_086:22
+In-Reply-To: <20191125094356.161941-2-daniel.vetter@ffwll.ch>
+X-Operating-System: Linux phenom 5.3.0-2-amd64 
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,34 +66,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Boris Brezillon <bbrezillon@kernel.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Ludovic Desroches <ludovic.desroches@microchip.com>,
- Daniel Vetter <daniel.vetter@intel.com>, linux-arm-kernel@lists.infradead.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ etnaviv@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel.
-
-On Fri, Dec 13, 2019 at 06:26:05PM +0100, Daniel Vetter wrote:
-> Checking both is one too much, so wrap a WARN_ON around it to stope
-> the copypasta.
+On Mon, Nov 25, 2019 at 10:43:53AM +0100, Daniel Vetter wrote:
+> I'll add more fancy logic to them soon, so everyone really has to use
+> them. Plus they already provide some nice additional debug
+> infrastructure on top of direct ww_mutex usage for the fences tracked
+> by dma_resv.
 > 
 > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Boris Brezillon <bbrezillon@kernel.org>
-> Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
-> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
-> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Russell King <linux+etnaviv@armlinux.org.uk>
+> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+> Cc: etnaviv@lists.freedesktop.org
 
-Applied to drm-misc-next.
-Looked through the whole series:
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Ping for some review/acks.
+
+Thanks, Daniel
+
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> index aa3e4c3b063a..947b21868e72 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> @@ -113,7 +113,7 @@ static void submit_unlock_object(struct etnaviv_gem_submit *submit, int i)
+>  	if (submit->bos[i].flags & BO_LOCKED) {
+>  		struct drm_gem_object *obj = &submit->bos[i].obj->base;
+>  
+> -		ww_mutex_unlock(&obj->resv->lock);
+> +		dma_resv_unlock(obj->resv);
+>  		submit->bos[i].flags &= ~BO_LOCKED;
+>  	}
+>  }
+> @@ -133,8 +133,7 @@ static int submit_lock_objects(struct etnaviv_gem_submit *submit,
+>  		contended = i;
+>  
+>  		if (!(submit->bos[i].flags & BO_LOCKED)) {
+> -			ret = ww_mutex_lock_interruptible(&obj->resv->lock,
+> -							  ticket);
+> +			ret = dma_resv_lock(obj->resv, ticket);
+>  			if (ret == -EALREADY)
+>  				DRM_ERROR("BO at index %u already on submit list\n",
+>  					  i);
+> @@ -161,8 +160,7 @@ static int submit_lock_objects(struct etnaviv_gem_submit *submit,
+>  		obj = &submit->bos[contended].obj->base;
+>  
+>  		/* we lost out in a seqno race, lock and retry.. */
+> -		ret = ww_mutex_lock_slow_interruptible(&obj->resv->lock,
+> -						       ticket);
+> +		ret = dma_resv_lock_slow_interruptible(obj->resv, ticket);
+>  		if (!ret) {
+>  			submit->bos[contended].flags |= BO_LOCKED;
+>  			slow_locked = contended;
+> -- 
+> 2.24.0
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
