@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBA7D11E762
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 17:00:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAC1111E75E
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 17:00:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE7A66EA9E;
-	Fri, 13 Dec 2019 16:00:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0B9B6EAE2;
+	Fri, 13 Dec 2019 16:00:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CDBF6EA77
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7606A6EA82
  for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 15:59:40 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: andrzej.p) with ESMTPSA id 6B956292DA7
+ (Authenticated sender: andrzej.p) with ESMTPSA id D7F50292DB2
 From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCHv4 31/36] drm/arm/malidp: Make verify funcitons invocations
- independent
-Date: Fri, 13 Dec 2019 16:59:02 +0100
-Message-Id: <20191213155907.16581-32-andrzej.p@collabora.com>
+Subject: [PATCHv4 33/36] drm/arm/malidp: Factor in afbc framebuffer
+ verification
+Date: Fri, 13 Dec 2019 16:59:04 +0100
+Message-Id: <20191213155907.16581-34-andrzej.p@collabora.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191213155907.16581-1-andrzej.p@collabora.com>
 References: <20191213155907.16581-1-andrzej.p@collabora.com>
@@ -48,31 +48,180 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This will make it easier to transition to generic afbc-aware helpers.
+Prepare for using generic afbc-aware helpers.
 
 Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 ---
- drivers/gpu/drm/arm/malidp_drv.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/arm/malidp_drv.c | 142 +++++++++++++++----------------
+ 1 file changed, 68 insertions(+), 74 deletions(-)
 
 diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
-index 37d92a06318e..961e5a3f5b08 100644
+index e1502666bce0..b53fc01baf2b 100644
 --- a/drivers/gpu/drm/arm/malidp_drv.c
 +++ b/drivers/gpu/drm/arm/malidp_drv.c
-@@ -362,10 +362,10 @@ static bool
- malidp_verify_afbc_framebuffer(struct drm_device *dev, struct drm_file *file,
- 			       const struct drm_mode_fb_cmd2 *mode_cmd)
+@@ -269,94 +269,88 @@ static const struct drm_mode_config_helper_funcs malidp_mode_config_helpers = {
+ 	.atomic_commit_tail = malidp_atomic_commit_tail,
+ };
+ 
+-static bool
+-malidp_verify_afbc_framebuffer(struct drm_device *dev, struct drm_file *file,
+-			       const struct drm_mode_fb_cmd2 *mode_cmd)
++static struct drm_framebuffer *
++malidp_fb_create(struct drm_device *dev, struct drm_file *file,
++		 const struct drm_mode_fb_cmd2 *mode_cmd)
  {
--	if (malidp_verify_afbc_framebuffer_caps(dev, mode_cmd))
--		return malidp_verify_afbc_framebuffer_size(dev, file, mode_cmd);
-+	if (!malidp_verify_afbc_framebuffer_caps(dev, mode_cmd))
-+		return false;
+-	int n_superblocks = 0;
+-	const struct drm_format_info *info;
+-	struct drm_gem_object *objs = NULL;
+-	u32 afbc_superblock_size = 0, afbc_superblock_height = 0;
+-	u32 afbc_superblock_width = 0, afbc_size = 0;
+-	int bpp = 0;
+-
+-	if (malidp_format_mod_supported(dev, mode_cmd->pixel_format,
+-					mode_cmd->modifier[0]) == false)
+-		return false;
+-
+-	if (mode_cmd->offsets[0] != 0) {
+-		DRM_DEBUG_KMS("AFBC buffers' plane offset should be 0\n");
+-		return false;
+-	}
++	if (mode_cmd->modifier[0]) {
++		int n_superblocks = 0;
++		const struct drm_format_info *info;
++		struct drm_gem_object *objs = NULL;
++		u32 afbc_superblock_size = 0, afbc_superblock_height = 0;
++		u32 afbc_superblock_width = 0, afbc_size = 0;
++		int bpp = 0;
++
++		if (malidp_format_mod_supported(dev, mode_cmd->pixel_format,
++						mode_cmd->modifier[0]) == false)
++			return ERR_PTR(-EINVAL);
  
--	return false;
-+	return malidp_verify_afbc_framebuffer_size(dev, file, mode_cmd);
- }
+-	switch (mode_cmd->modifier[0] & AFBC_SIZE_MASK) {
+-	case AFBC_SIZE_16X16:
+-		if ((mode_cmd->width % 16) || (mode_cmd->height % 16)) {
+-			DRM_DEBUG_KMS("AFBC buffers must be aligned to 16 pixels\n");
+-			return false;
++		if (mode_cmd->offsets[0] != 0) {
++			DRM_DEBUG_KMS("AFBC buffers' plane offset should be 0\n");
++			return ERR_PTR(-EINVAL);
+ 		}
+-		break;
+-	default:
+-		DRM_DEBUG_KMS("Unsupported AFBC block size\n");
+-		return false;
+-	}
  
- static struct drm_framebuffer *
+-	switch (mode_cmd->modifier[0] & AFBC_SIZE_MASK) {
+-	case AFBC_SIZE_16X16:
+-		afbc_superblock_height = 16;
+-		afbc_superblock_width = 16;
+-		break;
+-	default:
+-		DRM_DEBUG_KMS("AFBC superblock size is not supported\n");
+-		return false;
+-	}
++		switch (mode_cmd->modifier[0] & AFBC_SIZE_MASK) {
++		case AFBC_SIZE_16X16:
++			if ((mode_cmd->width % 16) || (mode_cmd->height % 16)) {
++				DRM_DEBUG_KMS("AFBC buffers must be aligned to 16 pixels\n");
++				return ERR_PTR(-EINVAL);
++			}
++			break;
++		default:
++			DRM_DEBUG_KMS("Unsupported AFBC block size\n");
++			return ERR_PTR(-EINVAL);
++		}
+ 
+-	info = drm_get_format_info(dev, mode_cmd);
++		switch (mode_cmd->modifier[0] & AFBC_SIZE_MASK) {
++		case AFBC_SIZE_16X16:
++			afbc_superblock_height = 16;
++			afbc_superblock_width = 16;
++			break;
++		default:
++			DRM_DEBUG_KMS("AFBC superblock size is not supported\n");
++			return ERR_PTR(-EINVAL);
++		}
+ 
+-	n_superblocks = (mode_cmd->width / afbc_superblock_width) *
+-		(mode_cmd->height / afbc_superblock_height);
++		info = drm_get_format_info(dev, mode_cmd);
+ 
+-	bpp = malidp_format_get_bpp(info->format);
++		n_superblocks = (mode_cmd->width / afbc_superblock_width) *
++			(mode_cmd->height / afbc_superblock_height);
+ 
+-	afbc_superblock_size = (bpp * afbc_superblock_width * afbc_superblock_height)
+-				/ BITS_PER_BYTE;
++		bpp = malidp_format_get_bpp(info->format);
+ 
+-	afbc_size = ALIGN(n_superblocks * AFBC_HEADER_SIZE, AFBC_SUPERBLK_ALIGNMENT);
+-	afbc_size += n_superblocks * ALIGN(afbc_superblock_size, AFBC_SUPERBLK_ALIGNMENT);
++		afbc_superblock_size =
++			(bpp * afbc_superblock_width * afbc_superblock_height)
++			/ BITS_PER_BYTE;
+ 
+-	if ((mode_cmd->width * bpp) != (mode_cmd->pitches[0] * BITS_PER_BYTE)) {
+-		DRM_DEBUG_KMS("Invalid value of (pitch * BITS_PER_BYTE) (=%u) "
+-			      "should be same as width (=%u) * bpp (=%u)\n",
+-			      (mode_cmd->pitches[0] * BITS_PER_BYTE),
+-			      mode_cmd->width, bpp);
+-		return false;
+-	}
++		afbc_size = ALIGN(n_superblocks * AFBC_HEADER_SIZE,
++				  AFBC_SUPERBLK_ALIGNMENT);
++		afbc_size += n_superblocks
++			* ALIGN(afbc_superblock_size, AFBC_SUPERBLK_ALIGNMENT);
+ 
+-	objs = drm_gem_object_lookup(file, mode_cmd->handles[0]);
+-	if (!objs) {
+-		DRM_DEBUG_KMS("Failed to lookup GEM object\n");
+-		return false;
+-	}
+-
+-	if (objs->size < afbc_size) {
+-		DRM_DEBUG_KMS("buffer size (%zu) too small for AFBC buffer size = %u\n",
+-			      objs->size, afbc_size);
+-		drm_gem_object_put_unlocked(objs);
+-		return false;
+-	}
+-
+-	drm_gem_object_put_unlocked(objs);
++		if ((mode_cmd->width * bpp) !=
++			(mode_cmd->pitches[0] * BITS_PER_BYTE)) {
++			DRM_DEBUG_KMS("Invalid value of (pitch * BITS_PER_BYTE) (=%u) "
++				      "should be same as width (=%u) * bpp (=%u)\n",
++				      (mode_cmd->pitches[0] * BITS_PER_BYTE),
++				      mode_cmd->width, bpp);
++			return ERR_PTR(-EINVAL);
++		}
+ 
+-	return true;
+-}
++		objs = drm_gem_object_lookup(file, mode_cmd->handles[0]);
++		if (!objs) {
++			DRM_DEBUG_KMS("Failed to lookup GEM object\n");
++			return ERR_PTR(-EINVAL);
++		}
+ 
+-static struct drm_framebuffer *
+-malidp_fb_create(struct drm_device *dev, struct drm_file *file,
+-		 const struct drm_mode_fb_cmd2 *mode_cmd)
+-{
+-	if (mode_cmd->modifier[0]) {
+-		if (!malidp_verify_afbc_framebuffer(dev, file, mode_cmd))
++		if (objs->size < afbc_size) {
++			DRM_DEBUG_KMS("buffer size (%zu) too small for AFBC buffer size = %u\n",
++				      objs->size, afbc_size);
++			drm_gem_object_put_unlocked(objs);
+ 			return ERR_PTR(-EINVAL);
++		}
++
++		drm_gem_object_put_unlocked(objs);
+ 	}
+ 
+ 	return drm_gem_fb_create(dev, file, mode_cmd);
 -- 
 2.17.1
 
