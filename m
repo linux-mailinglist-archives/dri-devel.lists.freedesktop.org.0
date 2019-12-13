@@ -2,37 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F5F211DE6F
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 08:11:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3615B11DEDE
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 08:49:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA8C46E27F;
-	Fri, 13 Dec 2019 07:11:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E17AD6E284;
+	Fri, 13 Dec 2019 07:49:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0031E6E27F;
- Fri, 13 Dec 2019 07:11:01 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2019 23:11:01 -0800
-X-IronPort-AV: E=Sophos;i="5.69,308,1571727600"; d="scan'208";a="204240351"
-Received: from peterhae-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.49.100])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2019 23:10:56 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>,
- Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH] drm/i915/bios: fix off by one in parse_generic_dtd()
-In-Reply-To: <20191212172707.GF85422@mdroper-desk1.amr.corp.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20191212091130.zf2g53njf5u24wk6@kili.mountain>
- <20191212172707.GF85422@mdroper-desk1.amr.corp.intel.com>
-Date: Fri, 13 Dec 2019 09:10:58 +0200
-Message-ID: <87r2181z0d.fsf@intel.com>
+Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2F8F16E284
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 07:49:02 +0000 (UTC)
+X-UUID: 02007113592242d1a16f3286fb5986ac-20191213
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=BtXET+1NElrPbMJwRKiAbYUNzkYHcN515L3qrDyBFRk=; 
+ b=pXz5FsZsYlJz8svVObFaMi64OE1cx8Rnw1TMrx2oaYO4tfHCeHkuFuKT92R4c8anxQ9QgbTYOcWfiXROrlsyKDVLB45tJfAFVaIGaBddIJw8CDBRjjD7RmiROjnRDf9XK+2BO2JA47xzH8v7LRAmEFIeC55E+rAbNftWJhlGDGo=;
+X-UUID: 02007113592242d1a16f3286fb5986ac-20191213
+Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (mailgw01.mediatek.com ESMTP with TLS)
+ with ESMTP id 561960265; Fri, 13 Dec 2019 15:48:57 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ MTKMBS31DR.mediatek.inc (172.27.6.102) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Fri, 13 Dec 2019 15:48:39 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Fri, 13 Dec 2019 15:48:46 +0800
+Message-ID: <1576223336.9817.3.camel@mtksdaap41>
+Subject: Re: [PATCH v2, 1/2] drm/mediatek: Fix gamma correction issue
+From: CK Hu <ck.hu@mediatek.com>
+To: Yongqiang Niu <yongqiang.niu@mediatek.com>
+Date: Fri, 13 Dec 2019 15:48:56 +0800
+In-Reply-To: <1576222132-31586-2-git-send-email-yongqiang.niu@mediatek.com>
+References: <1576222132-31586-1-git-send-email-yongqiang.niu@mediatek.com>
+ <1576222132-31586-2-git-send-email-yongqiang.niu@mediatek.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
+X-TM-SNTS-SMTP: B2D976F46AAC6B6E1746EF1ECE6AC29281FF83D79D292527E390BA3DF3F8755E2000:8
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,56 +53,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?utf-8?Q?Jos=C3=A9?= Roberto de Souza <jose.souza@intel.com>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 12 Dec 2019, Matt Roper <matthew.d.roper@intel.com> wrote:
-> On Thu, Dec 12, 2019 at 12:11:30PM +0300, Dan Carpenter wrote:
->> The "num_dtd" variable is the number of elements in the
->> generic_dtd->dtd[] array so the > needs to be >= to prevent reading one
->> element beyond the end of the array.
->> 
->> Fixes: 33ef6d4fd8df ("drm/i915/vbt: Handle generic DTD block")
->> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
->
-> Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+Hi, Yongqiang:
 
-Pushed to drm-intel-next-queued, thanks for the patch and review.
+The title is too rough. Any bug of gamma would be this title. I would
+like the title show explicitly what it does.
 
-BR,
-Jani.
+On Fri, 2019-12-13 at 15:28 +0800, Yongqiang Niu wrote:
+> if there is no gamma function in the crtc
+> display path, don't add gamma property
+> for crtc
+> 
+> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> index ca4fc47..9a8e1d4 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> @@ -734,6 +734,7 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+>  	int pipe = priv->num_pipes;
+>  	int ret;
+>  	int i;
+> +	uint gamma_lut_size = 0;
+>  
+>  	if (!path)
+>  		return 0;
+> @@ -785,6 +786,9 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+>  		}
+>  
+>  		mtk_crtc->ddp_comp[i] = comp;
+> +
+> +		if (comp->funcs->gamma_set)
+> +			gamma_lut_size = MTK_LUT_SIZE;
+>  	}
+>  
+>  	for (i = 0; i < mtk_crtc->ddp_comp_nr; i++)
+> @@ -805,8 +809,10 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+>  				NULL, pipe);
+>  	if (ret < 0)
+>  		return ret;
+> -	drm_mode_crtc_set_gamma_size(&mtk_crtc->base, MTK_LUT_SIZE);
+> -	drm_crtc_enable_color_mgmt(&mtk_crtc->base, 0, false, MTK_LUT_SIZE);
+> +
+> +	if (gamma_lut_size)
+> +		drm_mode_crtc_set_gamma_size(&mtk_crtc->base, gamma_lut_size);
+> +	drm_crtc_enable_color_mgmt(&mtk_crtc->base, 0, false, gamma_lut_size);
 
->
->> ---
->>  drivers/gpu/drm/i915/display/intel_bios.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->> 
->> diff --git a/drivers/gpu/drm/i915/display/intel_bios.c b/drivers/gpu/drm/i915/display/intel_bios.c
->> index 1aeecdd02293..d1e27ee86e53 100644
->> --- a/drivers/gpu/drm/i915/display/intel_bios.c
->> +++ b/drivers/gpu/drm/i915/display/intel_bios.c
->> @@ -338,7 +338,7 @@ parse_generic_dtd(struct drm_i915_private *dev_priv,
->>  
->>  	num_dtd = (get_blocksize(generic_dtd) -
->>  		   sizeof(struct bdb_generic_dtd)) / generic_dtd->gdtd_size;
->> -	if (dev_priv->vbt.panel_type > num_dtd) {
->> +	if (dev_priv->vbt.panel_type >= num_dtd) {
->>  		DRM_ERROR("Panel type %d not found in table of %d DTD's\n",
->>  			  dev_priv->vbt.panel_type, num_dtd);
->>  		return;
->> -- 
->> 2.11.0
->> 
+If there is no gamma, shall we enable color management?
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Regards,
+CK
+
+>  	priv->num_pipes++;
+>  	mutex_init(&mtk_crtc->hw_lock);
+>  
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
