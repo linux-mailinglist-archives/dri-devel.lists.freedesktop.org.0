@@ -1,38 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5F6911E1D4
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 11:20:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 472BE11E1DB
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2019 11:22:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9A626E313;
-	Fri, 13 Dec 2019 10:20:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D1D36E314;
+	Fri, 13 Dec 2019 10:22:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3C6A6E313;
- Fri, 13 Dec 2019 10:20:52 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2019 02:20:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,309,1571727600"; d="scan'208";a="208419276"
-Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.99.66.154])
- by orsmga008.jf.intel.com with ESMTP; 13 Dec 2019 02:20:48 -0800
-Date: Fri, 13 Dec 2019 15:50:01 +0530
-From: Ramalingam C <ramalingam.c@intel.com>
-To: Sean Paul <sean@poorly.run>
-Subject: Re: [PATCH v2 01/12] drm/i915: Fix sha_text population code
-Message-ID: <20191213101959.GA3829@intel.com>
-References: <20191212190230.188505-1-sean@poorly.run>
- <20191212190230.188505-2-sean@poorly.run>
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EF7E6E314
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 10:22:23 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id p17so5968149wmb.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 02:22:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=QY3NvhBzfNLuo8ft1+5cod4Pq4jbW4pl0EICF70IjAY=;
+ b=QqURz+p6OpfSht0UEiMFNp1Wvl5pvnnJfmrnrvcjDYoxzJkBADQ3DpjCZ5cMJbjo79
+ Yr9RP8Fc3OfzTYQvoAMAbxW66g8tEBlxyAsrCIarB4/TbjVDkUJP8xUAbs11MbLlUtlN
+ FCdCBOHgnF4XHvA5rltRbVp85iqjCOEcck760=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=QY3NvhBzfNLuo8ft1+5cod4Pq4jbW4pl0EICF70IjAY=;
+ b=MiG/sUAUJTUG8xdE8z0g2t+OfkeVjPCXwlD3dpjqHLIyrJfACEAqwlmdEzH8nz1C+e
+ ozvRySRO0xnvD4GvcwYaoZ0zbvmXTLCFdWFDcoNMZzytzEL0t0ct1GOSiyFVRhdt5+xc
+ VjOfYXLOrVh1bCqCktfaRizsCSVXwxV45cLgy7tW8JlQ3OSWVVOWNlX6qGnf6KJcq3Tl
+ L7ealXTdK6Wd8qdOPJ5KukwNB7TD09GspUDJqeKwLKqJ+zmVDsAuLjxmNOnNu3iGS6uS
+ dv9I76rYILe1nADiJOWazrgWF4vIpawAL6dXaAEisMP9cCHr2Wq9gXqJ6NBzKtPCDfKu
+ Pmyg==
+X-Gm-Message-State: APjAAAWcfE5pWK/m/wmOolYsw/9gyMTxTI41MXAysJf/6lgvGPZRkMyA
+ Ji83NnhvfuYUCBulMeLWdw5ymQ==
+X-Google-Smtp-Source: APXvYqzBq7k83Laq7gm+anpzvKyH4RR4LWTb0RsNVZZezRVdWRlgoqKhOJ9hmJPnNxebBV64GRpehA==
+X-Received: by 2002:a1c:3d07:: with SMTP id k7mr4235810wma.79.1576232541864;
+ Fri, 13 Dec 2019 02:22:21 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:564b:0:7567:bb67:3d7f:f863])
+ by smtp.gmail.com with ESMTPSA id x18sm9523281wrr.75.2019.12.13.02.22.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Dec 2019 02:22:21 -0800 (PST)
+Date: Fri, 13 Dec 2019 11:22:19 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
+Subject: Re: [GIT PULL] drm/arc: Yet another set of minor fixes
+Message-ID: <20191213102219.GE624164@phenom.ffwll.local>
+References: <CY4PR1201MB012062AAE1D2223BEF3AB204A1440@CY4PR1201MB0120.namprd12.prod.outlook.com>
+ <20191127100634.GE29965@phenom.ffwll.local>
+ <CY4PR1201MB01201760E81B40589D182E08A1440@CY4PR1201MB0120.namprd12.prod.outlook.com>
+ <CAKMK7uHSm6oKUUDxQxPkOJMj4Ut6+B1dFdZGoauNjrT_o841sA@mail.gmail.com>
+ <CY4PR1201MB0120529194B092E2C2ACD77EA1540@CY4PR1201MB0120.namprd12.prod.outlook.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191212190230.188505-2-sean@poorly.run>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CY4PR1201MB0120529194B092E2C2ACD77EA1540@CY4PR1201MB0120.namprd12.prod.outlook.com>
+X-Operating-System: Linux phenom 5.3.0-2-amd64 
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,141 +69,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, intel-gfx@lists.freedesktop.org,
- Sean Paul <seanpaul@chromium.org>, dri-devel@lists.freedesktop.org,
- rodrigo.vivi@intel.com, stable@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, arcml <linux-snps-arc@lists.infradead.org>,
+ Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2019-12-12 at 14:02:19 -0500, Sean Paul wrote:
-> From: Sean Paul <seanpaul@chromium.org>
+On Fri, Dec 13, 2019 at 10:20:39AM +0000, Alexey Brodkin wrote:
+> Hi Daniel,
 > 
-> This patch fixes a few bugs:
+> [snip]
 > 
-> 1- We weren't taking into account sha_leftovers when adding multiple
->    ksvs to sha_text. As such, we were or'ing the end of ksv[j - 1] with
->    the beginning of ksv[j]
+> > > Thanks for the pointers
+> > >
+> > > > Or respin this one, but these small pulls have a habit of occasionally
+> > > > getting lost :-/
+> > >
+> > > Well I'd better re-spin this, see below.
+> > >
+> > > The following changes since commit acc61b8929365e63a3e8c8c8913177795aa45594:
+> > >
+> > >   Merge tag 'drm-next-5.5-2019-11-22' of git://people.freedesktop.org/~agd5f/linux into drm-next
+> > (2019-11-26 08:40:23 +1000)
+> > >
+> > > are available in the Git repository at:
+> > >
+> > >   git@github.com:abrodkin/linux.git tags/arcpgu-updates-2019.11.27
+> > >
+> > > for you to fetch changes up to 9c2acc26c899aa12ad009dff10a5573ef769a7fd:
+> > >
+> > >   DRM: ARC: PGU: add ARGB8888 format to supported format list (2019-11-27 16:43:39 +0300)
+> > >
+> > > ----------------------------------------------------------------
+> > > Clean-up and fixes for FourCC handling in ARC PGU.
+> > >
+> > > ----------------------------------------------------------------
+> > > Eugeniy Paltsev (4):
+> > >       DRM: ARC: PGU: fix framebuffer format switching
+> > >       DRM: ARC: PGU: cleanup supported format list code
+> > >       DRM: ARC: PGU: replace unsupported by HW RGB888 format by XRGB888
+> > >       DRM: ARC: PGU: add ARGB8888 format to supported format list
+> > >
+> > >  drivers/gpu/drm/arc/arcpgu_crtc.c | 36 ++++++++++++++++++------------------
+> > >  drivers/gpu/drm/arc/arcpgu_regs.h |  2 +-
+> > >  2 files changed, 19 insertions(+), 19 deletions(-)
 > 
-> 2- In the sha_leftovers == 2 and sha_leftovers == 3 case, bstatus was
->    being placed on the wrong half of sha_text, overlapping the leftover
->    ksv value
-> 
-> 3- In the sha_leftovers == 2 case, we need to manually terminate the
->    byte stream with 0x80 since the hardware doesn't have enough room to
->    add it after writing M0
-> 
-> The upside is that all of the "HDCP supported" HDMI repeaters I could
-> find on Amazon just strip HDCP anyways, so it turns out to be _really_
-> hard to hit any of these cases without an MST hub, which is not (yet)
-> supported. Oh, and the sha_leftovers == 1 case works perfectly!
+> Not sure if you noticed re-spin of my pull-request in the previous message.
+> Do you want me to send it in a separate email?
 
-Yes. The repeaters tested at our side too with sha_leftovers = 1 with
-mostly ksv count of 1. non availability of the repeaters is killer here.
-> 
-> Fixes: ee5e5e7a5e0f ("drm/i915: Add HDCP framework + base implementation")
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Ramalingam C <ramalingam.c@intel.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Sean Paul <seanpaul@chromium.org>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: intel-gfx@lists.freedesktop.org
-> Cc: <stable@vger.kernel.org> # v4.17+
-> Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> Link: https://patchwork.freedesktop.org/patch/msgid/20191203173638.94919-2-sean@poorly.run #v1
-> 
-> Changes in v2:
-> -None
-> ---
->  drivers/gpu/drm/i915/display/intel_hdcp.c | 25 +++++++++++++++++------
->  include/drm/drm_hdcp.h                    |  3 +++
->  2 files changed, 22 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> index 0fdbd39f6641..eaab9008feef 100644
-> --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> @@ -335,8 +335,10 @@ int intel_hdcp_validate_v_prime(struct intel_connector *connector,
->  
->  		/* Fill up the empty slots in sha_text and write it out */
->  		sha_empty = sizeof(sha_text) - sha_leftovers;
-> -		for (j = 0; j < sha_empty; j++)
-> -			sha_text |= ksv[j] << ((sizeof(sha_text) - j - 1) * 8);
-> +		for (j = 0; j < sha_empty; j++) {
-> +			u8 off = ((sizeof(sha_text) - j - 1 - sha_leftovers) * 8);
-Didn't hit this as ksv count was 1 mostly with sha_leftovers = 1.
-Thanks for fixing it.
-> +			sha_text |= ksv[j] << off;
-> +		}
->  
->  		ret = intel_write_sha_text(dev_priv, sha_text);
->  		if (ret < 0)
-> @@ -426,7 +428,7 @@ int intel_hdcp_validate_v_prime(struct intel_connector *connector,
->  	} else if (sha_leftovers == 2) {
->  		/* Write 32 bits of text */
->  		I915_WRITE(HDCP_REP_CTL, rep_ctl | HDCP_SHA1_TEXT_32);
-> -		sha_text |= bstatus[0] << 24 | bstatus[1] << 16;
-> +		sha_text |= bstatus[0] << 8 | bstatus[1];
->  		ret = intel_write_sha_text(dev_priv, sha_text);
->  		if (ret < 0)
->  			return ret;
-> @@ -440,16 +442,27 @@ int intel_hdcp_validate_v_prime(struct intel_connector *connector,
->  				return ret;
->  			sha_idx += sizeof(sha_text);
->  		}
-> +
-> +		/*
-> +		 * Terminate the SHA-1 stream by hand. For the other leftover
-> +		 * cases this is appended by the hardware.
-> +		 */
-> +		I915_WRITE(HDCP_REP_CTL, rep_ctl | HDCP_SHA1_TEXT_32);
-> +		sha_text = DRM_HDCP_SHA1_TERMINATOR << 24;
-> +		ret = intel_write_sha_text(dev_priv, sha_text);
-> +		if (ret < 0)
-> +			return ret;
-> +		sha_idx += sizeof(sha_text);
->  	} else if (sha_leftovers == 3) {
-> -		/* Write 32 bits of text */
-> +		/* Write 32 bits of text (filled from LSB) */
->  		I915_WRITE(HDCP_REP_CTL, rep_ctl | HDCP_SHA1_TEXT_32);
-> -		sha_text |= bstatus[0] << 24;
-> +		sha_text |= bstatus[0];
-
-Looks good to me though this path never been exercised. Hopefully MST
-will do it.
-
-Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
-
->  		ret = intel_write_sha_text(dev_priv, sha_text);
->  		if (ret < 0)
->  			return ret;
->  		sha_idx += sizeof(sha_text);
->  
-> -		/* Write 8 bits of text, 24 bits of M0 */
-> +		/* Write 8 bits of text (filled from LSB), 24 bits of M0 */
->  		I915_WRITE(HDCP_REP_CTL, rep_ctl | HDCP_SHA1_TEXT_8);
->  		ret = intel_write_sha_text(dev_priv, bstatus[1]);
->  		if (ret < 0)
-> diff --git a/include/drm/drm_hdcp.h b/include/drm/drm_hdcp.h
-> index 06a11202a097..20498c822204 100644
-> --- a/include/drm/drm_hdcp.h
-> +++ b/include/drm/drm_hdcp.h
-> @@ -29,6 +29,9 @@
->  /* Slave address for the HDCP registers in the receiver */
->  #define DRM_HDCP_DDC_ADDR			0x3A
->  
-> +/* Value to use at the end of the SHA-1 bytestream used for repeaters */
-> +#define DRM_HDCP_SHA1_TERMINATOR		0x80
-> +
->  /* HDCP register offsets for HDMI/DVI devices */
->  #define DRM_HDCP_DDC_BKSV			0x00
->  #define DRM_HDCP_DDC_RI_PRIME			0x08
-> -- 
-> Sean Paul, Software Engineer, Google / Chromium OS
-> 
+Yeah I guess this got lost again.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
