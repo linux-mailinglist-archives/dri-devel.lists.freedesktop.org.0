@@ -1,38 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D39C811F2EF
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 18:48:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D00911F502
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Dec 2019 00:08:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68F706E0CC;
-	Sat, 14 Dec 2019 17:48:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83BF56E3FB;
+	Sat, 14 Dec 2019 23:08:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BE7F6E0CC
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Dec 2019 17:48:31 +0000 (UTC)
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 688DE206B7;
- Sat, 14 Dec 2019 17:48:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576345709;
- bh=j0cVVduqPZlIJCt7KdsAChcBm98KlrgSj7LuGXfADtQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nRlUD67SsC3no5wZ2NmSP4n5VDMdh1W4oz9RpVBJ6Trchp7SF2sLUqgfZ75O+aP5g
- NSIqc9z359ro1N0EEVIQTRZUTyYGWl19SKWNpSeJ2RXsJV9anNpZSoLhD7gGvFmtHH
- qznE+LN5YjFEKs7o+211O29uI1CXRjcXTyrra02E=
-Date: Sat, 14 Dec 2019 18:48:27 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: zhengbin <zhengbin13@huawei.com>
-Subject: Re: [PATCH 0/2] drm/sun4i: Remove unneeded semicolon
-Message-ID: <20191214174827.2ua36bdyd4cruany@gilmour.lan>
-References: <1576317091-24968-1-git-send-email-zhengbin13@huawei.com>
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F0696E3FB
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Dec 2019 23:07:59 +0000 (UTC)
+Received: from ip5f5a6266.dynamic.kabel-deutschland.de ([95.90.98.102]
+ helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.89) (envelope-from <heiko@sntech.de>)
+ id 1igGVq-00005i-Hi; Sun, 15 Dec 2019 00:07:50 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH 3/3] drm/panel: add panel driver for Xinpeng XPP055C272
+ panels
+Date: Sun, 15 Dec 2019 00:07:49 +0100
+Message-ID: <2272108.TFxdGdtKl4@diego>
+In-Reply-To: <20191214081730.GC22818@ravnborg.org>
+References: <20191209144208.4863-1-heiko@sntech.de>
+ <20191209144208.4863-3-heiko@sntech.de> <20191214081730.GC22818@ravnborg.org>
 MIME-Version: 1.0
-In-Reply-To: <1576317091-24968-1-git-send-email-zhengbin13@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,53 +39,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jernej.skrabec@siol.net, airlied@linux.ie, dri-devel@lists.freedesktop.org,
- wens@csie.org, linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1370132724=="
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
+ Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ robh+dt@kernel.org, thierry.reding@gmail.com,
+ christoph.muellner@theobroma-systems.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Sam,
 
---===============1370132724==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="wq4asypllxoogmjg"
-Content-Disposition: inline
+thanks for the thorough review :-)
+
+Am Samstag, 14. Dezember 2019, 09:17:30 CET schrieb Sam Ravnborg:
+> > +#define dsi_generic_write_seq(dsi, cmd, seq...) do {			\
+> > +		static const u8 d[] = { seq };				\
+> > +		int ret;						\
+> > +		ret = mipi_dsi_dcs_write(dsi, cmd, d, ARRAY_SIZE(d));	\
+> > +		if (ret < 0)						\
+> > +			return ret;					\
+> > +	} while (0)
+> This macro return an error code if a write fails.
+> 
+> > +
+> > +static int xpp055c272_init_sequence(struct xpp055c272 *ctx)
+> > +{
+> > +	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+> > +	struct device *dev = ctx->dev;
+> > +	int ret;
+> > +
+> > +	/*
+> > +	 * Init sequence was supplied by the panel vendor without much
+> > +	 * documentation.
+> > +	 */
+> > +	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETEXTC, 0xf1, 0x12, 0x83);
+> But all uses of the macro here ignore the error.
+
+hmm, am I way off track here?
+
+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETEXTC, 0xf1, 0x12, 0x83);
+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETMIPI,
+			      0x33, 0x81, 0x05, 0xf9, 0x0e, 0x0e, 0x00, 0x00,
+			      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x44, 0x25,
+			      0x00, 0x91, 0x0a, 0x00, 0x00, 0x02, 0x4f, 0x01,
+			      0x00, 0x00, 0x37);
+	...
+
+should just expand to
+
+do {
+		static const u8 d[] = { 0xf1, 0x12, 0x83 };
+		int ret;
+		ret = mipi_dsi_dcs_write(dsi, XPP055C272_CMD_SETEXTC, d, ARRAY_SIZE(d));
+		if (ret < 0)
+			return ret;
+} while (0)
+do {
+		static const u8 d[] = { 0x33, 0x81, 0x05, 0xf9, 0x0e, 0x0e, 0x00, 0x00,
+			      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x44, 0x25,
+			      0x00, 0x91, 0x0a, 0x00, 0x00, 0x02, 0x4f, 0x01,
+			      0x00, 0x00, 0x37 };
+		int ret;
+		ret = mipi_dsi_dcs_write(dsi, XPP055C272_CMD_SETMIPI, d, ARRAY_SIZE(d));
+		if (ret < 0)
+			return ret;
+} while (0)
+...
+
+so every write instance will actually return an error if it happens and not
+continue on with the next init item.
+
+Or I'm not thinking correctly at 0:07 ;-)
 
 
---wq4asypllxoogmjg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Heiko
 
-On Sat, Dec 14, 2019 at 05:51:29PM +0800, zhengbin wrote:
-> zhengbin (2):
->   drm/sun4i: Remove unneeded semicolon in sun8i_mixer.c
->   drm/sun4i: Remove unneeded semicolon in sun4i_layer.c
-
-Applied both, thanks
-Maxime
-
---wq4asypllxoogmjg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXfUgawAKCRDj7w1vZxhR
-xX5gAP4xFduplod+4goMNhuN53JJWcWKrNm3JMooYCbn+X57lwD/RxUI2b++7rwH
-wFMmW+jkpz3dH1UwM163irZWST9Y7wc=
-=NZ1P
------END PGP SIGNATURE-----
-
---wq4asypllxoogmjg--
-
---===============1370132724==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1370132724==--
