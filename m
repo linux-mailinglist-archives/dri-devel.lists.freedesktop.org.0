@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A80C11F099
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 07:56:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07F0711F09B
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 07:58:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63AFC6E0E8;
-	Sat, 14 Dec 2019 06:56:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B4EF6E2EC;
+	Sat, 14 Dec 2019 06:58:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF0CA6E0E8
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Dec 2019 06:56:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E26F76E2EC
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Dec 2019 06:58:24 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 205853] amdgpu kernel bug: kernel null pointer dereference
-Date: Sat, 14 Dec 2019 06:56:50 +0000
+Date: Sat, 14 Dec 2019 06:58:24 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,7 +33,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-205853-2300-aoWP8Y2tpR@https.bugzilla.kernel.org/>
+Message-ID: <bug-205853-2300-UNqVUpI6cd@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-205853-2300@https.bugzilla.kernel.org/>
 References: <bug-205853-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,10 +58,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=205853
 
---- Comment #1 from Janpieter Sollie (janpieter.sollie@dommel.be) ---
-Created attachment 286279
-  --> https://bugzilla.kernel.org/attachment.cgi?id=286279&action=edit
-lspci -v output
+--- Comment #2 from Janpieter Sollie (janpieter.sollie@dommel.be) ---
+Created attachment 286281
+  --> https://bugzilla.kernel.org/attachment.cgi?id=286281&action=edit
+kernel config file
 
 -- 
 You are receiving this mail because:
