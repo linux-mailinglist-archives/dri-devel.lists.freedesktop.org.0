@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A1C911F224
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 15:43:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8217A11F21A
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 15:43:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D52016E362;
-	Sat, 14 Dec 2019 14:43:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36BAB6E364;
+	Sat, 14 Dec 2019 14:42:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED5AD6E09C
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 010136E32C
  for <dri-devel@lists.freedesktop.org>; Sat, 14 Dec 2019 09:24:41 +0000 (UTC)
 Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 55998364D7F943D7BED8;
+ by Forcepoint Email with ESMTP id 5AD92315D4C939EBE912;
  Sat, 14 Dec 2019 17:24:40 +0800 (CST)
 Received: from huawei.com (10.90.53.225) by DGGEMS408-HUB.china.huawei.com
  (10.3.19.208) with Microsoft SMTP Server id 14.3.439.0; Sat, 14 Dec 2019
- 17:24:29 +0800
+ 17:24:30 +0800
 From: zhengbin <zhengbin13@huawei.com>
 To: <robdclark@gmail.com>, <sean@poorly.run>, <airlied@linux.ie>,
  <daniel@ffwll.ch>, <linux-arm-msm@vger.kernel.org>,
  <freedreno@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 3/4] drm/msm/dpu: Remove unneeded semicolon in dpu_plane.c
-Date: Sat, 14 Dec 2019 17:31:49 +0800
-Message-ID: <1576315910-124558-4-git-send-email-zhengbin13@huawei.com>
+Subject: [PATCH 4/4] drm/msm/dpu: Remove unneeded semicolon in dpu_encoder.c
+Date: Sat, 14 Dec 2019 17:31:50 +0800
+Message-ID: <1576315910-124558-5-git-send-email-zhengbin13@huawei.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1576315910-124558-1-git-send-email-zhengbin13@huawei.com>
 References: <1576315910-124558-1-git-send-email-zhengbin13@huawei.com>
@@ -52,27 +52,27 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes coccicheck warning:
 
-drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c:741:2-3: Unneeded semicolon
+drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:2260:3-4: Unneeded semicolon
 
 Reported-by: Hulk Robot <hulkci@huawei.com>
 Signed-off-by: zhengbin <zhengbin13@huawei.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index 58d5acb..8d4fdc3 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -738,7 +738,7 @@ int dpu_plane_validate_multirect_v2(struct dpu_multirect_plane_states *plane)
- 	} else {
- 		pstate[R0]->multirect_index = DPU_SSPP_RECT_0;
- 		pstate[R1]->multirect_index = DPU_SSPP_RECT_1;
--	};
-+	}
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index f96e142..0974aa8 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -2257,7 +2257,7 @@ int dpu_encoder_wait_for_event(struct drm_encoder *drm_enc,
+ 			DPU_ERROR_ENC(dpu_enc, "unknown wait event %d\n",
+ 					event);
+ 			return -EINVAL;
+-		};
++		}
 
- 	DPU_DEBUG_PLANE(dpu_plane[R0], "R0: %d - %d\n",
- 		pstate[R0]->multirect_mode, pstate[R0]->multirect_index);
+ 		if (fn_wait) {
+ 			DPU_ATRACE_BEGIN("wait_for_completion_event");
 --
 2.7.4
 
