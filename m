@@ -1,41 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6AD511F171
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 11:54:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 060B911F176
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 11:57:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4ACE66E32C;
-	Sat, 14 Dec 2019 10:54:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C81C6E32D;
+	Sat, 14 Dec 2019 10:57:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D2E36E32C
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Dec 2019 10:54:22 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id E184B804CE;
- Sat, 14 Dec 2019 11:54:19 +0100 (CET)
-Date: Sat, 14 Dec 2019 11:54:18 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v2 1/6] dt-bindings: display/ingenic: Add compatible
- string for JZ4770
-Message-ID: <20191214105418.GA5687@ravnborg.org>
-References: <20191210144142.33143-1-paul@crapouillou.net>
+Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BF9E6E32D;
+ Sat, 14 Dec 2019 10:57:17 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from localhost (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 19577184-1500050 for multiple; Sat, 14 Dec 2019 10:56:56 +0000
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191210144142.33143-1-paul@crapouillou.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=ER_8r6IbAAAA:8
- a=VwQbUJbxAAAA:8 a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8 a=nZJdUF_zLBciypfbcfYA:9
- a=CjuIK1q_8ugA:10 a=9LHmKk7ezEChjTCyhBa9:22 a=AjGcO6oz07-iQ99wixmX:22
- a=E9Po1WZjFZOl8hwRPBS3:22 a=Vxmtnl_E_bksehYqCbjh:22
- a=pHzHmUro8NiASowvMSCR:22 a=n87TN5wuljxrRezIQYnT:22
+To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ intel-gfx@lists.freedesktop.org
+From: Chris Wilson <chris@chris-wilson.co.uk>
+In-Reply-To: <20191213215614.24558-3-niranjana.vishwanathapura@intel.com>
+References: <20191213215614.24558-1-niranjana.vishwanathapura@intel.com>
+ <20191213215614.24558-3-niranjana.vishwanathapura@intel.com>
+Message-ID: <157632101451.7535.15356831606040204033@skylake-alporthouse-com>
+User-Agent: alot/0.6
+Subject: Re: [Intel-gfx] [RFC v2 02/12] drm/i915/svm: Runtime (RT) allocator
+ support
+Date: Sat, 14 Dec 2019 10:56:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,49 +41,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: kenneth.w.graunke@intel.com, sanjay.k.kumar@intel.com,
+ dri-devel@lists.freedesktop.org, jason.ekstrand@intel.com,
+ dave.hansen@intel.com, jglisse@redhat.com, jgg@mellanox.com,
+ daniel.vetter@intel.com, dan.j.williams@intel.com, ira.weiny@intel.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paul.
-
-On Tue, Dec 10, 2019 at 03:41:37PM +0100, Paul Cercueil wrote:
-> Add a compatible string for the LCD controller found in the JZ4770 SoC.
+Quoting Niranjana Vishwanathapura (2019-12-13 21:56:04)
+> Shared Virtual Memory (SVM) runtime allocator support allows
+> binding a shared virtual address to a buffer object (BO) in the
+> device page table through an ioctl call.
 > 
-> v2: No change
-> 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> Acked-by: Rob Herring <robh@kernel.org>
-
-Whole series looks good.
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
+> Cc: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Sudeep Dutt <sudeep.dutt@intel.com>
+> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 > ---
->  Documentation/devicetree/bindings/display/ingenic,lcd.txt | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/gpu/drm/i915/Kconfig                  | 11 ++++
+>  drivers/gpu/drm/i915/Makefile                 |  3 +
+>  .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 58 ++++++++++++++----
+>  drivers/gpu/drm/i915/gem/i915_gem_svm.c       | 60 +++++++++++++++++++
+>  drivers/gpu/drm/i915/gem/i915_gem_svm.h       | 22 +++++++
+>  drivers/gpu/drm/i915/i915_drv.c               | 21 +++++++
+>  drivers/gpu/drm/i915/i915_drv.h               | 22 +++++++
+>  drivers/gpu/drm/i915/i915_gem_gtt.c           |  1 +
+>  drivers/gpu/drm/i915/i915_gem_gtt.h           | 13 ++++
+>  include/uapi/drm/i915_drm.h                   | 27 +++++++++
+>  10 files changed, 227 insertions(+), 11 deletions(-)
+>  create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_svm.c
+>  create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_svm.h
 > 
-> diff --git a/Documentation/devicetree/bindings/display/ingenic,lcd.txt b/Documentation/devicetree/bindings/display/ingenic,lcd.txt
-> index 7b536c8c6dde..01e3261defb6 100644
-> --- a/Documentation/devicetree/bindings/display/ingenic,lcd.txt
-> +++ b/Documentation/devicetree/bindings/display/ingenic,lcd.txt
-> @@ -4,6 +4,7 @@ Required properties:
->  - compatible: one of:
->    * ingenic,jz4740-lcd
->    * ingenic,jz4725b-lcd
-> +  * ingenic,jz4770-lcd
->  - reg: LCD registers location and length
->  - clocks: LCD pixclock and device clock specifiers.
->  	   The device clock is only required on the JZ4740.
-> -- 
-> 2.24.0
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
+> index ba9595960bbe..c2e48710eec8 100644
+> --- a/drivers/gpu/drm/i915/Kconfig
+> +++ b/drivers/gpu/drm/i915/Kconfig
+> @@ -137,6 +137,16 @@ config DRM_I915_GVT_KVMGT
+>           Choose this option if you want to enable KVMGT support for
+>           Intel GVT-g.
+>  
+> +config DRM_I915_SVM
+> +       bool "Enable Shared Virtual Memory support in i915"
+> +       depends on STAGING
+> +       depends on DRM_I915
+> +       default n
+> +       help
+> +         Choose this option if you want Shared Virtual Memory (SVM)
+> +         support in i915. With SVM support, one can share the virtual
+> +         address space between a process and the GPU.
+> +
+>  menu "drm/i915 Debugging"
+>  depends on DRM_I915
+>  depends on EXPERT
+> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+> index e0fd10c0cfb8..75fe45633779 100644
+> --- a/drivers/gpu/drm/i915/Makefile
+> +++ b/drivers/gpu/drm/i915/Makefile
+> @@ -153,6 +153,9 @@ i915-y += \
+>           intel_region_lmem.o \
+>           intel_wopcm.o
+>  
+> +# SVM code
+> +i915-$(CONFIG_DRM_I915_SVM) += gem/i915_gem_svm.o
+> +
+>  # general-purpose microcontroller (GuC) support
+>  obj-y += gt/uc/
+>  i915-y += gt/uc/intel_uc.o \
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> index 5003e616a1ad..af360238a392 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> @@ -2836,10 +2836,14 @@ int
+>  i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
+>                            struct drm_file *file)
+>  {
+> +       struct drm_i915_gem_exec_object2 *exec2_list, *exec2_list_user;
+>         struct drm_i915_gem_execbuffer2 *args = data;
+> -       struct drm_i915_gem_exec_object2 *exec2_list;
+> -       struct drm_syncobj **fences = NULL;
+>         const size_t count = args->buffer_count;
+> +       struct drm_syncobj **fences = NULL;
+> +       unsigned int i = 0, svm_count = 0;
+> +       struct i915_address_space *vm;
+> +       struct i915_gem_context *ctx;
+> +       struct i915_svm_obj *svm_obj;
+>         int err;
+>  
+>         if (!check_buffer_count(count)) {
+> @@ -2851,15 +2855,46 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
+>         if (err)
+>                 return err;
+>  
+> +       ctx = i915_gem_context_lookup(file->driver_priv, args->rsvd1);
+> +       if (!ctx || !rcu_access_pointer(ctx->vm))
+> +               return -ENOENT;
+
+This is just hopelessly wrong.
+
+For persistence, the _ce_->vm will have a list of must-be-present
+vma, with a flag for whether they need prefaulting (!svm everything must
+be prefaulted obviously). Then during reservation we ensure that all those
+persistent vma are in place (so we probably use an eviction list to keep
+track of those we need to instantiate on this execbuf). We don't even
+want to individually track activity on those vma, preferring to assume
+they are used by every request and so on change they need serialising
+[for explicit uAPI unbind, where possible we strive to do it async for
+endless, or at least sync against iova semaphore] against the last request
+in the vm (so we need a vm->active). However, we do need an EXT_EXTENSION
+to mark writes for implicit fencing (e.g.  exported dmabuf) to replace
+the information lost from execobject[]
+
+> +struct drm_i915_gem_vm_bind {
+> +       /** VA start to bind **/
+> +       __u64 start;
+
+iova;
+offset; /* into handle */
+length; /* from offset */
+
+> +
+> +       /** Type of memory to [un]bind **/
+> +       __u32 type;
+> +#define I915_GEM_VM_BIND_SVM_OBJ      0
+> +
+> +       /** Object handle to [un]bind for I915_GEM_VM_BIND_SVM_OBJ type **/
+> +       __u32 handle;
+> +
+> +       /** vm to [un]bind **/
+> +       __u32 vm_id;
+> +
+> +       /** Flags **/
+> +       __u32 flags;
+> +#define I915_GEM_VM_BIND_UNBIND      (1 << 0)
+> +#define I915_GEM_VM_BIND_READONLY    (1 << 1)
+
+And don't forget extensions so that we can define the synchronisation
+controls.
+-Chris
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
