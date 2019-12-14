@@ -1,60 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 835A711EEF4
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 01:01:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A33C11EF01
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 01:07:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07FB96EE22;
-	Sat, 14 Dec 2019 00:01:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 732AB6EE23;
+	Sat, 14 Dec 2019 00:07:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1C3E6EE22
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Dec 2019 00:01:29 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id b19so558473wmj.4
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 16:01:29 -0800 (PST)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C91B6EE23
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Dec 2019 00:07:43 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id y11so561797wrt.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 16:07:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=mHgw1ZcDJF/uaOqo2Uf1yZFWVybb4SNnH1sWk6TnMB8=;
- b=duSN7bv0xdjWWPVVjGHWqgLC5xNVjNgzGjEEa0x1K+K0tEijNPJ/XsbRBXVFTSgu3H
- UkesZV1Hf0le6aIcYbdEKVH4HxdU6BN7VXlRH6tqhRPYT9FbTOkCBr1CaFbX9+2tfWqI
- YbARyjCbxpAKUPlYQ60b/GJYkDjaX5/DL/Ko0=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=geIx/nWQ0BpqVGVQsVk8KzxkfCCv3NpUyxjodfVFmZc=;
+ b=FE+LH7VGWD2YVnwVryc8AR/nUGMxZvoq5poiP1yIRfG/jwEEV8Lu4LmBbRXf7o8H2U
+ RkoXCnPbo7CxnwZUca1iBsJGPp999jHsgOVDhAuQr+gcH/xf6a4QyTBvCsx6VZ2lb+Oo
+ dlfw7jlyAuMoQfz0wzDD/M+5nZeE/AN2w7yQg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to:user-agent;
- bh=mHgw1ZcDJF/uaOqo2Uf1yZFWVybb4SNnH1sWk6TnMB8=;
- b=qXnS+7SfrMhQ53r13SiW6mpaRGcszsv74URR9FlccwXiU9Sv5GSXraOZXERClp3lk4
- f6knURj6+L/kfCMUtc99vP1s0/lwG1mxyU6NTtAwV7OAt2gez4jCS3drv9+1bE4GtuOA
- a2knn0wjYY0I6FjtD51+zp2OQP85UWhswvkzqP7XggJyMr9Mf90h1esyqDA3ofHrsU+b
- dPxv9/AA3fuy8HZCWQx3sQsr7j3wpWuOaoXSxRT67jAZkpAnQJQdF7xqgDJhP4B9TET5
- L71HAL/TSwxyQWTxN2u7YnenAG1LvOhIPACGWxcmc3MXXdSZQr4R1QGxvCbIOTQwn3wi
- JEnw==
-X-Gm-Message-State: APjAAAWU66UYM8l4GIhwyLG1gktqMJpVierGUdiOSi/NiX5FPHvLF3Z5
- ntoWSlYBWk8cWG7c+k1OEpX1lKzw7Bo=
-X-Google-Smtp-Source: APXvYqwxHgFPLNfIZfJCyVFQUmkD7ynYr66fpU740/fS6zvb23m/rPBq14YLU/ZSNDmbXPp7IWgr6Q==
-X-Received: by 2002:a05:600c:108a:: with SMTP id
- e10mr15521769wmd.38.1576281688335; 
- Fri, 13 Dec 2019 16:01:28 -0800 (PST)
+ bh=geIx/nWQ0BpqVGVQsVk8KzxkfCCv3NpUyxjodfVFmZc=;
+ b=PbLVp30jIeDzs3VHeC36QBd9v0U0QZbWQuubRMgNrmLPmClPPv7ryVejOAsK2hGCTF
+ DCHiwszcCDeR/q4xC63KeJlfOklC+Fy/Q+zIF2XLkMo42KshisKRtkZGEyNs+JCt9+nY
+ 36lZA8x5hkW2Q3O3qWW8Rc1VHl6Sd2WkWlZzwuME5X1zybq12SDwfVfkxCrlPw5N1buD
+ 1/lTOuzY0Mp0uu8fdzCKlkggyvoJ76kfizxuagNEXlorgMWgWxNtiRim5RBxDvY3QNH/
+ Bqd0437BpDZ7FQSIgyHP73CdiG39Xvw+6rrj9h+eA8bpTq4D9SG+bn4bnl6LSyH+aOXO
+ tKMw==
+X-Gm-Message-State: APjAAAVC0kYMovMeGEFSexTPp7P7Tr9p2p/UM4l1PRIQS/UQmXBuw1eP
+ jNNbHn8A37YnumcYFbrAYr/P0g==
+X-Google-Smtp-Source: APXvYqwxYCWfJRRSj199aMaUgb0YJevPf0BbXzzQoVl+o2Z1ZWFUB4UHGK3BMt+ufjNs8HxlASLylw==
+X-Received: by 2002:a5d:5403:: with SMTP id g3mr15468210wrv.302.1576282061890; 
+ Fri, 13 Dec 2019 16:07:41 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:564b:0:7567:bb67:3d7f:f863])
- by smtp.gmail.com with ESMTPSA id d6sm11910773wmb.6.2019.12.13.16.01.27
+ by smtp.gmail.com with ESMTPSA id s10sm11760046wrw.12.2019.12.13.16.07.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Dec 2019 16:01:27 -0800 (PST)
-Date: Sat, 14 Dec 2019 01:01:25 +0100
+ Fri, 13 Dec 2019 16:07:41 -0800 (PST)
+Date: Sat, 14 Dec 2019 01:07:38 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: "Li, Juston" <juston.li@intel.com>
-Subject: Re: [Intel-gfx] [RESEND PATCH v2] drm: Add getfb2 ioctl
-Message-ID: <20191214000125.GO624164@phenom.ffwll.local>
-References: <20191003183125.4520-1-juston.li@intel.com>
- <20191213213603.GK1208@intel.com>
- <aa2c2e05adc88b77b4a571cfb85517d7377afaa3.camel@intel.com>
+To: Douglas Anderson <dianders@chromium.org>
+Subject: Re: [PATCH 9/9] drm/bridge: ti-sn65dsi86: Skip non-standard DP rates
+Message-ID: <20191214000738.GP624164@phenom.ffwll.local>
+Mail-Followup-To: Douglas Anderson <dianders@chromium.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, robdclark@chromium.org,
+ linux-arm-msm@vger.kernel.org, seanpaul@chromium.org,
+ bjorn.andersson@linaro.org, Jonas Karlman <jonas@kwiboo.se>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+References: <20191213234530.145963-1-dianders@chromium.org>
+ <20191213154448.9.I1791f91dd22894da04f86699a7507d101d4385bc@changeid>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <aa2c2e05adc88b77b4a571cfb85517d7377afaa3.camel@intel.com>
+In-Reply-To: <20191213154448.9.I1791f91dd22894da04f86699a7507d101d4385bc@changeid>
 X-Operating-System: Linux phenom 5.3.0-2-amd64 
 User-Agent: Mutt/1.12.2 (2019-09-21)
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,212 +76,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "daniels@collabora.com" <daniels@collabora.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: robdclark@chromium.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ bjorn.andersson@linaro.org, seanpaul@chromium.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 13, 2019 at 10:52:03PM +0000, Li, Juston wrote:
-> On Fri, 2019-12-13 at 23:36 +0200, Ville Syrj=E4l=E4 wrote:
-> > On Thu, Oct 03, 2019 at 11:31:25AM -0700, Juston Li wrote:
-> > > From: Daniel Stone <daniels@collabora.com>
-> > > =
+On Fri, Dec 13, 2019 at 03:45:30PM -0800, Douglas Anderson wrote:
+> The bridge chip supports these DP rates according to TI's spec:
+> * 1.62 Gbps (RBR)
+> * 2.16 Gbps
+> * 2.43 Gbps
+> * 2.7 Gbps (HBR)
+> * 3.24 Gbps
+> * 4.32 Gbps
+> * 5.4 Gbps (HBR2)
+> 
+> As far as I can tell, only RBR, HBR, and HBR2 are part of the DP spec.
+> If other rates work then I believe it's because the sink has allowed
+> bending the spec a little bit.
 
-> > > getfb2 allows us to pass multiple planes and modifiers, just like
-> > > addfb2
-> > > over addfb.
-> > > =
-
-> > > Changes since v1:
-> > >  - unused modifiers set to 0 instead of DRM_FORMAT_MOD_INVALID
-> > >  - update ioctl number
-> > > =
-
-> > > Signed-off-by: Daniel Stone <daniels@collabora.com>
-> > > Signed-off-by: Juston Li <juston.li@intel.com>
-> > > ---
-> > >  drivers/gpu/drm/drm_crtc_internal.h |   2 +
-> > >  drivers/gpu/drm/drm_framebuffer.c   | 110
-> > > ++++++++++++++++++++++++++++
-> > >  drivers/gpu/drm/drm_ioctl.c         |   1 +
-> > >  include/uapi/drm/drm.h              |   2 +
-> > >  4 files changed, 115 insertions(+)
-> > > =
-
-> > > diff --git a/drivers/gpu/drm/drm_crtc_internal.h
-> > > b/drivers/gpu/drm/drm_crtc_internal.h
-> > > index c7d5e4c21423..16f2413403aa 100644
-> > > --- a/drivers/gpu/drm/drm_crtc_internal.h
-> > > +++ b/drivers/gpu/drm/drm_crtc_internal.h
-> > > @@ -216,6 +216,8 @@ int drm_mode_rmfb_ioctl(struct drm_device *dev,
-> > >  			void *data, struct drm_file *file_priv);
-> > >  int drm_mode_getfb(struct drm_device *dev,
-> > >  		   void *data, struct drm_file *file_priv);
-> > > +int drm_mode_getfb2_ioctl(struct drm_device *dev,
-> > > +			  void *data, struct drm_file *file_priv);
-> > >  int drm_mode_dirtyfb_ioctl(struct drm_device *dev,
-> > >  			   void *data, struct drm_file *file_priv);
-> > >  =
-
-> > > diff --git a/drivers/gpu/drm/drm_framebuffer.c
-> > > b/drivers/gpu/drm/drm_framebuffer.c
-> > > index 57564318ceea..6db54f177443 100644
-> > > --- a/drivers/gpu/drm/drm_framebuffer.c
-> > > +++ b/drivers/gpu/drm/drm_framebuffer.c
-> > > @@ -31,6 +31,7 @@
-> > >  #include <drm/drm_file.h>
-> > >  #include <drm/drm_fourcc.h>
-> > >  #include <drm/drm_framebuffer.h>
-> > > +#include <drm/drm_gem.h>
-> > >  #include <drm/drm_print.h>
-> > >  #include <drm/drm_util.h>
-> > >  =
-
-> > > @@ -548,7 +549,116 @@ int drm_mode_getfb(struct drm_device *dev,
-> > >  =
-
-> > >  out:
-> > >  	drm_framebuffer_put(fb);
-> > > +	return ret;
-> > > +}
-> > > +
-> > > +/**
-> > > + * drm_mode_getfb2 - get extended FB info
-> > > + * @dev: drm device for the ioctl
-> > > + * @data: data pointer for the ioctl
-> > > + * @file_priv: drm file for the ioctl call
-> > > + *
-> > > + * Lookup the FB given its ID and return info about it.
-> > > + *
-> > > + * Called by the user via ioctl.
-> > > + *
-> > > + * Returns:
-> > > + * Zero on success, negative errno on failure.
-> > > + */
-> > > +int drm_mode_getfb2_ioctl(struct drm_device *dev,
-> > > +			  void *data, struct drm_file *file_priv)
-> > > +{
-> > > +	struct drm_mode_fb_cmd2 *r =3D data;
-> > > +	struct drm_framebuffer *fb;
-> > > +	unsigned int i;
-> > > +	int ret;
-> > > +
-> > > +	if (!drm_core_check_feature(dev, DRIVER_MODESET))
-> > > +		return -EINVAL;
-> > > +
-> > > +	fb =3D drm_framebuffer_lookup(dev, file_priv, r->fb_id);
-> > > +	if (!fb)
-> > > +		return -ENOENT;
-> > > +
-> > > +	/* For multi-plane framebuffers, we require the driver to place
-> > > the
-> > > +	 * GEM objects directly in the drm_framebuffer. For single-
-> > > plane
-> > > +	 * framebuffers, we can fall back to create_handle.
-> > > +	 */
-> > > +	if (!fb->obj[0] &&
-> > > +	    (fb->format->num_planes > 1 || !fb->funcs->create_handle))
-> > > {
-> > > +		ret =3D -ENODEV;
-> > > +		goto out;
-> > > +	}
-> > > +
-> > > +	r->height =3D fb->height;
-> > > +	r->width =3D fb->width;
-> > > +	r->pixel_format =3D fb->format->format;
-> > > +
-> > > +	r->flags =3D 0;
-> > > +	if (dev->mode_config.allow_fb_modifiers)
-> > > +		r->flags |=3D DRM_MODE_FB_MODIFIERS;
-> > > +
-> > > +	for (i =3D 0; i < ARRAY_SIZE(r->handles); i++) {
-> > > +		r->handles[i] =3D 0;
-> > > +		r->pitches[i] =3D 0;
-> > > +		r->offsets[i] =3D 0;
-> > > +		r->modifier[i] =3D 0;
-> > > +	}
-> > >  =
-
-> > > +	for (i =3D 0; i < fb->format->num_planes; i++) {
-> > > +		int j;
-> > > +
-> > > +		r->pitches[i] =3D fb->pitches[i];
-> > > +		r->offsets[i] =3D fb->offsets[i];
-> > > +		if (dev->mode_config.allow_fb_modifiers)
-> > > +			r->modifier[i] =3D fb->modifier;
-> > > +
-> > > +		/* If we reuse the same object for multiple planes,
-> > > also
-> > > +		 * return the same handle.
-> > > +		 */
-> > > +		for (j =3D 0; j < i; j++) {
-> > > +			if (fb->obj[i] =3D=3D fb->obj[j]) {
-> > > +				r->handles[i] =3D r->handles[j];
-> > > +				break;
-> > > +			}
-> > > +		}
-> > > +
-> > > +		if (r->handles[i])
-> > > +			continue;
-> > > +
-> > > +		if (fb->obj[i]) {
-> > > +			ret =3D drm_gem_handle_create(file_priv, fb-
-> > > >obj[i],
-> > > +						    &r->handles[i]);
-> > > +		} else {
-> > > +			WARN_ON(i > 0);
-> > > +			ret =3D fb->funcs->create_handle(fb, file_priv,
-> > > +						       &r->handles[i]);
-> > > +		}
-> > =
-
-> > getfb1 doesn't allow non-master/root to see the handles. Here we
-> > don't
-> > seem to have that same protection?
-> =
-
-> Hmm yeah sorry I missed the protections handling.
-> I think we can just set the getfb2 ioctl flags as
-> DRM_MASTER|DRM_ROOT_ONLY
-
-Since this was missed, can you pls extend the igt to test for this? Iirc
-the getfb igt makes sure non-root doesn't get this ...
-
-Also for consistency I think doing the same as getfb would be good. Fewer
-surprises.
+I think you need to look at the eDP spec. And filter this stuff correctly
+(there's more fields there for these somewhat irky edp timings). Simply
+not using them works, but it's defeating the point of having these
+intermediate clocks for edp panels.
 -Daniel
 
-> =
+> 
+> I hoped that we could tell which rates would work and which rates
+> didn't work based on whether link training passed or not.
+> Unfortunately this wasn't so good on at least one panel hooked up to
+> the bridge (AUO B116XAK01).  On that panel with 24 bpp configured:
+> * 1.62: too small for 69500 kHz at 24 bpp
+> * 2.16: link training failed
+> * 2.43: link training passed, but garbage on screen
+> * 2.7:  joy and happiness
+> 
+> Let's bypass all non-standard rates, which makes this panel happy
+> working.  I'll still keep the code organized in such a way where it
+> _could_ try the other rates, though, on the assumption that eventually
+> someone will find a way to make use of them.
+> 
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+> 
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> index cc8bef172f69..cb774ee536cd 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> @@ -454,6 +454,15 @@ static const unsigned int ti_sn_bridge_dp_rate_lut[] = {
+>  	0, 1620, 2160, 2430, 2700, 3240, 4320, 5400
+>  };
+>  
+> +/**
+> + * A table indicating which of the rates in ti_sn_bridge_dp_rate_lut
+> + * is as per the DP spec (AKA a standard) as opposed to an intermediate
+> + * rate.
+> + */
+> +static const bool ti_sn_bridge_dp_rate_standard[] = {
+> +	false, true, false, false, true, false, false, true
+> +};
+> +
+>  static int ti_sn_bridge_calc_min_dp_rate_idx(struct ti_sn_bridge *pdata)
+>  {
+>  	unsigned int bit_rate_khz, dp_rate_mhz;
+> @@ -660,6 +669,18 @@ static void ti_sn_bridge_enable(struct drm_bridge *bridge)
+>  	for (dp_rate_idx = ti_sn_bridge_calc_min_dp_rate_idx(pdata);
+>  	     dp_rate_idx <= max_dp_rate_idx;
+>  	     dp_rate_idx++) {
+> +		/*
+> +		 * To be on the safe side, we'll skip all non-standard
+> +		 * rates and move up to the next standard one.  This is
+> +		 * because some panels will pass link training with a non-
+> +		 * standard rate but just show garbage.  If the non-standard
+> +		 * rates are useful we should figure out how to enable them
+> +		 * through querying the panel, having a per-panel whitelist,
+> +		 * or adding a DT property.
+> +		 */
+> +		if (!ti_sn_bridge_dp_rate_standard[dp_rate_idx])
+> +			continue;
+> +
+>  		ret = ti_sn_link_training(pdata, dp_rate_idx, &last_err_str);
+>  		if (!ret)
+>  			break;
+> -- 
+> 2.24.1.735.g03f4e72817-goog
+> 
 
-> > > +
-> > > +		if (ret !=3D 0)
-> > > +			goto out;
-> > =
-
-> > Could be just 'break;' and then we wouldn't even need the label.
-> =
-
-> Will do.
-> =
-
-> > =
-
-> > Rest lgtm.
-> > =
-
-> =
-
-> Much appreciated
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
-
--- =
-
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
