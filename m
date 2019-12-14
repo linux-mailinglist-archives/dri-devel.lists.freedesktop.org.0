@@ -1,56 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A7A311F21F
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 15:43:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DF2311F0E0
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 09:17:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54C236E375;
-	Sat, 14 Dec 2019 14:43:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 079B36E23B;
+	Sat, 14 Dec 2019 08:17:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x144.google.com (mail-il1-x144.google.com
- [IPv6:2607:f8b0:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94F5889CCE;
- Fri, 13 Dec 2019 23:05:04 +0000 (UTC)
-Received: by mail-il1-x144.google.com with SMTP id w13so816810ilo.1;
- Fri, 13 Dec 2019 15:05:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bGD0mmzMfKNOvEQ4IDoy1yl8/ILu0y8HqmNpbdQ9Qnk=;
- b=sNcrUV3ydK790VoR0Mb4TKJ6ftXUOXSiR+doUbB8lXW0A8G8Yh3r42wdlCi2HjqA2Z
- XozWwZlK5grz98Q90fZR8rUTCSQ55yPt3slJOO08pmCzEHJGOeUqZYN5olwzrvPeM/7O
- ldLL7uAq5w+hWtfmUl0wK4zPbbXakohQbcRtb3D9e3WuvJgkwLh6OHZTBzMN5M1TWOKM
- 7viZVnYyZbNk84ALAQzz+9Z35SMZiDGwpZlmoKb22fqT7ZCJ8JVRBt+24UP+L+6+XM+t
- yAjoendesYZjpeVoLdK6/kQX0QbmM0oUParBxq1fuOZFBT5GidywBEfQI0/0adHIR0Vr
- hUPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bGD0mmzMfKNOvEQ4IDoy1yl8/ILu0y8HqmNpbdQ9Qnk=;
- b=qr9uTIpD5k18LKMGrtjvFixM628cl+DEG2KcY/ibmv7nQWLzfmN3AM/hzqKXg3uWA1
- qknFsp+vulZQsu+0XJMgfw9V8rtJ/LZmonUUC1ZknAyF5OjjzT88FafD1bVTt0SamB9A
- v4HnJqy8Tld+DgNeFyspzKjxwA75ag9URNdsdlfAr2yrXBO6jfnBUlidCN5dj9PFcflG
- c/6VILBrRy1zRiHHkjTePfQ53maz0VykRId9VrJxwOMXwszGkmmnXDQqnKpo0EG/2YTq
- v7A9dsiGYGPI+D/KSEry4M/Nx8zFA7P0pZnBa6pATD8Es2s6W7Tre/ba1LyLRo2onFFr
- ZpgA==
-X-Gm-Message-State: APjAAAXG5Y5Ezt5VuuLBC+GzCezbUdC+bUYSz8grJHOsvraDYiG0Yq7t
- 0pd+PAnwFXkr5r66TgygIbiDL3kfmLiQGtCO85E=
-X-Google-Smtp-Source: APXvYqxq1zIWlzyN5P++0V80P+Gf19P78MLeOUrK26Dfn/m++64P4F/LPx9LmdQraUiiiuAHKdIUPx8yiLvT7cZrmyQ=
-X-Received: by 2002:a92:2904:: with SMTP id l4mr1856366ilg.166.1576278303657; 
- Fri, 13 Dec 2019 15:05:03 -0800 (PST)
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A06566E23B
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Dec 2019 08:17:34 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 235EC803D7;
+ Sat, 14 Dec 2019 09:17:32 +0100 (CET)
+Date: Sat, 14 Dec 2019 09:17:30 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Heiko Stuebner <heiko@sntech.de>
+Subject: Re: [PATCH 3/3] drm/panel: add panel driver for Xinpeng XPP055C272
+ panels
+Message-ID: <20191214081730.GC22818@ravnborg.org>
+References: <20191209144208.4863-1-heiko@sntech.de>
+ <20191209144208.4863-3-heiko@sntech.de>
 MIME-Version: 1.0
-References: <1575294437-6129-1-git-send-email-chandanu@codeaurora.org>
- <0101016ec6ddf4fc-cbe2c43a-6b6c-4035-846a-038fac788c62-000000@us-west-2.amazonses.com>
-In-Reply-To: <0101016ec6ddf4fc-cbe2c43a-6b6c-4035-846a-038fac788c62-000000@us-west-2.amazonses.com>
-From: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
-Date: Fri, 13 Dec 2019 16:04:52 -0700
-Message-ID: <CAOCk7Nr+W8psZb5V_Ttacv9xKTTY6Zz+BuLYMCqCteJpP06t-A@mail.gmail.com>
-Subject: Re: [DPU PATCH v3 1/5] dt-bindings: msm/dp: add bindings of DP/DP-PLL
- driver for Snapdragon 845
-To: Chandan Uddaraju <chandanu@codeaurora.org>
-X-Mailman-Approved-At: Sat, 14 Dec 2019 14:42:54 +0000
+Content-Disposition: inline
+In-Reply-To: <20191209144208.4863-3-heiko@sntech.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=NXpJzYs8AAAA:8
+ a=SCIKxuGIuBpIoaJeLnkA:9 a=CjuIK1q_8ugA:10 a=cwV61pgf2j4Cq8VD9hE_:22
+ a=pHzHmUro8NiASowvMSCR:22 a=6VlIyEUom7LUIeUMNQJH:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,331 +47,504 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DTML <devicetree@vger.kernel.org>, MSM <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>, Sean Paul <seanpaul@chromium.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- hoegsberg@google.com, freedreno <freedreno@lists.freedesktop.org>
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
+ Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ robh+dt@kernel.org, thierry.reding@gmail.com,
+ christoph.muellner@theobroma-systems.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 2, 2019 at 6:48 AM Chandan Uddaraju <chandanu@codeaurora.org> wrote:
->
-> Add bindings for Snapdragon 845 DisplayPort and
-> display-port PLL driver.
->
-> Changes in V2:
-> Provide details about sel-gpio
->
-> Signed-off-by: Chandan Uddaraju <chandanu@codeaurora.org>
-> ---
->  .../devicetree/bindings/display/msm/dp.txt         | 249 +++++++++++++++++++++
->  .../devicetree/bindings/display/msm/dpu.txt        |  16 +-
->  2 files changed, 261 insertions(+), 4 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/msm/dp.txt
->
-> diff --git a/Documentation/devicetree/bindings/display/msm/dp.txt b/Documentation/devicetree/bindings/display/msm/dp.txt
-> new file mode 100644
-> index 0000000..38be36d
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/msm/dp.txt
-> @@ -0,0 +1,249 @@
-> +Qualcomm Technologies, Inc.
-> +DP is the master Display Port device which supports DP host controllers that are compatible with VESA Display Port interface specification.
-> +DP Controller: Required properties:
-> +- compatible:           Should be "qcom,dp-display".
-> +- reg:                  Base address and length of DP hardware's memory mapped regions.
-> +- cell-index:           Specifies the controller instance.
-> +- reg-names:            A list of strings that name the list of regs.
-> +                       "dp_ahb" - DP controller memory region.
-> +                       "dp_aux" - DP AUX memory region.
-> +                       "dp_link" - DP link layer memory region.
-> +                       "dp_p0" - DP pixel clock domain memory region.
-> +                       "dp_phy" - DP PHY memory region.
-> +                       "dp_ln_tx0" - USB3 DP PHY combo TX-0 lane memory region.
-> +                       "dp_ln_tx1" - USB3 DP PHY combo TX-1 lane memory region.
-> +                       "dp_mmss_cc" - Display Clock Control memory region.
-> +                       "qfprom_physical" - QFPROM Phys memory region.
-> +                       "dp_pll" - USB3 DP combo PLL memory region.
-> +                       "usb3_dp_com" - USB3 DP PHY combo memory region.
-> +                       "hdcp_physical" - DP HDCP memory region.
-> +- interrupt-parent     phandle to the interrupt parent device node.
-> +- interrupts:          The interrupt signal from the DP block.
-> +- clocks:               Clocks required for Display Port operation. See [1] for details on clock bindings.
-> +- clock-names:          Names of the clocks corresponding to handles. Following clocks are required:
-> +                       "core_aux_clk", "core_usb_ref_clk_src","core_usb_ref_clk", "core_usb_cfg_ahb_clk",
-> +                       "core_usb_pipe_clk", "ctrl_link_clk", "ctrl_link_iface_clk", "ctrl_crypto_clk",
-> +                       "ctrl_pixel_clk", "pixel_clk_rcg", "pixel_parent".
-> +- pll-node:            phandle to DP PLL node.
-> +- vdda-1p2-supply:             phandle to vdda 1.2V regulator node.
-> +- vdda-0p9-supply:             phandle to vdda 0.9V regulator node.
-> +- qcom,aux-cfg0-settings:              Specifies the DP AUX configuration 0 settings. The first
-> +                                       entry in this array corresponds to the register offset
-> +                                       within DP AUX, while the remaining entries indicate the
-> +                                       programmable values.
-> +- qcom,aux-cfg1-settings:              Specifies the DP AUX configuration 1 settings. The first
-> +                                       entry in this array corresponds to the register offset
-> +                                       within DP AUX, while the remaining entries indicate the
-> +                                       programmable values.
-> +- qcom,aux-cfg2-settings:              Specifies the DP AUX configuration 2 settings. The first
-> +                                       entry in this array corresponds to the register offset
-> +                                       within DP AUX, while the remaining entries indicate the
-> +                                       programmable values.
-> +- qcom,aux-cfg3-settings:              Specifies the DP AUX configuration 3 settings. The first
-> +                                       entry in this array corresponds to the register offset
-> +                                       within DP AUX, while the remaining entries indicate the
-> +                                       programmable values.
-> +- qcom,aux-cfg4-settings:              Specifies the DP AUX configuration 4 settings. The first
-> +                                       entry in this array corresponds to the register offset
-> +                                       within DP AUX, while the remaining entries indicate the
-> +                                       programmable values.
-> +- qcom,aux-cfg5-settings:              Specifies the DP AUX configuration 5 settings. The first
-> +                                       entry in this array corresponds to the register offset
-> +                                       within DP AUX, while the remaining entries indicate the
-> +                                       programmable values.
-> +- qcom,aux-cfg6-settings:              Specifies the DP AUX configuration 6 settings. The first
-> +                                       entry in this array corresponds to the register offset
-> +                                       within DP AUX, while the remaining entries indicate the
-> +                                       programmable values.
-> +- qcom,aux-cfg7-settings:              Specifies the DP AUX configuration 7 settings. The first
-> +                                       entry in this array corresponds to the register offset
-> +                                       within DP AUX, while the remaining entries indicate the
-> +                                       programmable values.
-> +- qcom,aux-cfg8-settings:              Specifies the DP AUX configuration 8 settings. The first
-> +                                       entry in this array corresponds to the register offset
-> +                                       within DP AUX, while the remaining entries indicate the
-> +                                       programmable values.
-> +- qcom,aux-cfg9-settings:              Specifies the DP AUX configuration 9 settings. The first
-> +                                       entry in this array corresponds to the register offset
-> +                                       within DP AUX, while the remaining entries indicate the
-> +                                       programmable values.
-> +- qcom,max-pclk-frequency-khz: An integer specifying the maximum. pixel clock in KHz supported by Display Port.
-> +- extcon:                              Phandle for the external connector class interface.
-> +- qcom,<type>-supply-entries:          A node that lists the elements of the supply used by the a particular "type" of DP module. The module "types"
-> +                                       can be "core", "ctrl", and "phy". Within the same type,
-> +                                       there can be more than one instance of this binding,
-> +                                       in which case the entry would be appended with the
-> +                                       supply entry index.
-> +                                       e.g. qcom,ctrl-supply-entry@0
-> +                                       -- qcom,supply-name: name of the supply (vdd/vdda/vddio)
-> +                                       -- qcom,supply-min-voltage: minimum voltage level (uV)
-> +                                       -- qcom,supply-max-voltage: maximum voltage level (uV)
-> +                                       -- qcom,supply-enable-load: load drawn (uA) from enabled supply
-> +                                       -- qcom,supply-disable-load: load drawn (uA) from disabled supply
-> +                                       -- qcom,supply-pre-on-sleep: time to sleep (ms) before turning on
-> +                                       -- qcom,supply-post-on-sleep: time to sleep (ms) after turning on
-> +                                       -- qcom,supply-pre-off-sleep: time to sleep (ms) before turning off
-> +                                       -- qcom,supply-post-off-sleep: time to sleep (ms) after turning off
-> +- pinctrl-names:       List of names to assign mdss pin states defined in pinctrl device node
-> +                                       Refer to pinctrl-bindings.txt
-> +- pinctrl-<0..n>:      Lists phandles each pointing to the pin configuration node within a pin
-> +                                       controller. These pin configurations are installed in the pinctrl
-> +                                       device node. Refer to pinctrl-bindings.txt
-> +DP Endpoint properties:
-> +  - remote-endpoint: For port@0, set to phandle of the connected panel/bridge's
-> +    input endpoint. For port@1, set to the DPU interface output. See [2] for
-> +    device graph info.
-> +
-> +Optional properties:
-> +- qcom,aux-en-gpio:            Specifies the aux-channel enable gpio.
-> +- qcom,aux-sel-gpio:           Specifies the mux-selection that might be needed for aux interface.
-> +
-> +
-> +DP PLL: Required properties:
-> +- compatible:           Should be "qcom,dp-pll-10nm".
-> +- reg:                  Base address and length of DP hardware's memory mapped regions.
-> +- cell-index:           Specifies the PLL instance.
-> +- reg-names:            A list of strings that name the list of regs.
-> +                       "pll_base" - DP PLL memory region.
-> +                       "phy_base" - DP PHY memory region.
-> +                       "ln_tx0_base" - USB3 DP PHY combo TX-0 lane memory region.
-> +                       "ln_tx1_base" - USB3 DP PHY combo TX-1 lane memory region.
-> +                       "gdsc_base" - gdsc memory region.
-> +- interrupt-parent     phandle to the interrupt parent device node.
-> +- interrupts:          The interrupt signal from the DP block.
-> +- clocks:               Clocks required for Display Port operation. See [1] for details on clock bindings.
-> +- clock-names:          Names of the clocks corresponding to handles. Following clocks are required:
-> +                       "iface_clk", "ref_clk", cfg_ahb_clk", "pipe_clk".
-> +- clock-rate:           Initial clock rate to be configured. For the shared clocks, the default value                       is set to zero so that minimum clock value is configured. Non-zero clock
-> +                       value can be used to configure DP pixel clock.
+Hi Heiko.
 
-This should be a clock provider, no?
+Thanks for another nice panel driver patch.
+There are some changes in drm-misc-next so the patch
+applies but it no longer builds.
+Please fix.
+
+drm_panel now includes support for backlight - see other drivers.
+Please look into the possibility to use the drm_panel supported
+backlight for this driver.
+
+On top of this a few comments below.
 
 > +
+> +#include <drm/drm_mipi_dsi.h>
+> +#include <drm/drm_modes.h>
+> +#include <drm/drm_panel.h>
+> +#include <drm/drm_print.h>
+> +#include <linux/backlight.h>
+> +#include <linux/debugfs.h>
+> +#include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/media-bus-format.h>
+> +#include <linux/module.h>
+> +#include <linux/regulator/consumer.h>
+> +#include <video/display_timing.h>
+> +#include <video/mipi_display.h>
+
+Please split the include files in blocks like this.
+
+#include <linux/*>
+
+#include <video/*>
+
+#include <drm/*>
+
+Keep the empty lines between the blocks.
+And each block must be sorted alphabetically.
+
+
 > +
-> +[1] Documentation/devicetree/bindings/clock/clock-bindings.txt
-> +[2] Documentation/devicetree/bindings/graph.txt
+> +#define DRV_NAME "panel-xinpeng-xpp055c272"
+It is only used once - just spell it out where you use it.
+
 > +
-> +Example:
-> +       msm_dp: dp_display@ae90000{
-> +               cell-index = <0>;
-> +               compatible = "qcom,dp-display";
+> +/* Manufacturer specific Commands send via DSI */
+> +#define XPP055C272_CMD_ALL_PIXEL_OFF	0x22
+> +#define XPP055C272_CMD_ALL_PIXEL_ON		0x23
+> +#define XPP055C272_CMD_SETDISP		0xb2
+> +#define XPP055C272_CMD_SETRGBIF		0xb3
+> +#define XPP055C272_CMD_SETCYC		0xb4
+> +#define XPP055C272_CMD_SETBGP		0xb5
+> +#define XPP055C272_CMD_SETVCOM		0xb6
+> +#define XPP055C272_CMD_SETOTP		0xb7
+> +#define XPP055C272_CMD_SETPOWER_EXT		0xb8
+> +#define XPP055C272_CMD_SETEXTC		0xb9
+> +#define XPP055C272_CMD_SETMIPI		0xbA
+> +#define XPP055C272_CMD_SETVDC		0xbc
+> +#define XPP055C272_CMD_SETPCR		0xbf
+> +#define XPP055C272_CMD_SETSCR		0xc0
+> +#define XPP055C272_CMD_SETPOWER		0xc1
+> +#define XPP055C272_CMD_SETECO		0xc6
+> +#define XPP055C272_CMD_SETPANEL		0xcc
+> +#define XPP055C272_CMD_SETGAMMA		0xe0
+> +#define XPP055C272_CMD_SETEQ		0xe3
+> +#define XPP055C272_CMD_SETGIP1		0xe9
+> +#define XPP055C272_CMD_SETGIP2		0xea
 > +
-> +               reg =   <0 0x90000 0x0dc>,
-> +                       <0 0x90200 0x0c0>,
-> +                       <0 0x90400 0x508>,
-> +                       <0 0x90a00 0x094>,
-> +                       <1 0xeaa00 0x200>,
-> +                       <1 0xea200 0x200>,
-> +                       <1 0xea600 0x200>,
-> +                       <2 0x02000 0x1a0>,
-> +                       <3 0x00000 0x621c>,
-> +                       <1 0xea000 0x180>,
-> +                       <1 0xe8000 0x20>,
-> +                       <4 0xe1000 0x034>;
-> +               reg-names = "dp_ahb", "dp_aux", "dp_link",
-> +                       "dp_p0", "dp_phy", "dp_ln_tx0", "dp_ln_tx1",
-> +                       "dp_mmss_cc", "qfprom_physical", "dp_pll",
-> +                       "usb3_dp_com", "hdcp_physical";
+> +struct xpp055c272 {
+> +	struct device *dev;
+> +	struct drm_panel panel;
+> +	struct gpio_desc *reset_gpio;
+> +	struct backlight_device *backlight;
+> +	struct regulator *vci;
+> +	struct regulator *iovcc;
+> +	bool prepared;
+> +	bool enabled;
+> +};
 > +
-> +               interrupt-parent = <&mdss>;
-> +               interrupts = <12 0>;
+> +static inline struct xpp055c272 *panel_to_xpp055c272(struct drm_panel *panel)
+> +{
+> +	return container_of(panel, struct xpp055c272, panel);
+> +}
 > +
-> +               extcon = <&usb_1_ssphy>;
-> +               clocks =  <&dispcc DISP_CC_MDSS_DP_AUX_CLK>,
-> +                       <&rpmhcc RPMH_CXO_CLK>,
-> +                       <&gcc GCC_USB3_PRIM_CLKREF_CLK>,
-> +                       <&gcc GCC_USB_PHY_CFG_AHB2PHY_CLK>,
-> +                       <&gcc GCC_USB3_PRIM_PHY_PIPE_CLK>,
-> +                       <&dispcc DISP_CC_MDSS_DP_LINK_CLK>,
-> +                       <&dispcc DISP_CC_MDSS_DP_LINK_INTF_CLK>,
-> +                       <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK>,
-> +                       <&dispcc DISP_CC_MDSS_DP_CRYPTO_CLK>,
-> +                       <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK_SRC>;
-> +               clock-names = "core_aux_clk", "core_ref_clk_src",
-> +                       "core_usb_ref_clk", "core_usb_cfg_ahb_clk",
-> +                       "core_usb_pipe_clk", "ctrl_link_clk",
-> +                       "ctrl_link_iface_clk", "ctrl_pixel_clk",
-> +                       "crypto_clk", "pixel_clk_rcg";
+> +#define dsi_generic_write_seq(dsi, cmd, seq...) do {			\
+> +		static const u8 d[] = { seq };				\
+> +		int ret;						\
+> +		ret = mipi_dsi_dcs_write(dsi, cmd, d, ARRAY_SIZE(d));	\
+> +		if (ret < 0)						\
+> +			return ret;					\
+> +	} while (0)
+This macro return an error code if a write fails.
+
 > +
-> +               pll-node = <&dp_pll>;
-> +               qcom,aux-cfg0-settings = [20 00];
-> +               qcom,aux-cfg1-settings = [24 13 23 1d];
-> +               qcom,aux-cfg2-settings = [28 24];
-> +               qcom,aux-cfg3-settings = [2c 00];
-> +               qcom,aux-cfg4-settings = [30 0a];
-> +               qcom,aux-cfg5-settings = [34 26];
-> +               qcom,aux-cfg6-settings = [38 0a];
-> +               qcom,aux-cfg7-settings = [3c 03];
-> +               qcom,aux-cfg8-settings = [40 bb];
-> +               qcom,aux-cfg9-settings = [44 03];
+> +static int xpp055c272_init_sequence(struct xpp055c272 *ctx)
+> +{
+> +	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+> +	struct device *dev = ctx->dev;
+> +	int ret;
 > +
-> +               qcom,max-pclk-frequency-khz = <675000>;
+> +	/*
+> +	 * Init sequence was supplied by the panel vendor without much
+> +	 * documentation.
+> +	 */
+> +	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETEXTC, 0xf1, 0x12, 0x83);
+But all uses of the macro here ignore the error.
+
+Consider the following solution - to keep the code simple.
+
+#define dsi_generic_write_seq(dsi, cmd, seq...) do {                    \
+		static const u8 d[] = { seq };                          \
+		if (ret != 0)                                            \
+			return ret;					\
+		ret = mipi_dsi_dcs_write(dsi, cmd, d, ARRAY_SIZE(d));   \
+     } while (0)
+
+Notice that the macro uses an alredy defined "ret" variable.
+ret must be init to 0 - and must be checked after the last use of the
+macro.
+
+With the above mipi_dsi_dcs_write() is skipped if ret indicate an error.
+And you can check ret after performing all the write calls.
+
+You loose the exact point where ret failed but then the code does not
+blindly continue ignoring the error.
+
+> +	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETMIPI,
+> +			      0x33, 0x81, 0x05, 0xf9, 0x0e, 0x0e, 0x00, 0x00,
+> +			      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x44, 0x25,
+> +			      0x00, 0x91, 0x0a, 0x00, 0x00, 0x02, 0x4f, 0x01,
+> +			      0x00, 0x00, 0x37);
+> +	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETPOWER_EXT, 0x25);
+> +	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETPCR, 0x02, 0x11, 0x00);
+> +	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETRGBIF,
+> +			      0x0c, 0x10, 0x0a, 0x50, 0x03, 0xff, 0x00, 0x00,
+> +			      0x00, 0x00);
+> +	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETSCR,
+> +			      0x73, 0x73, 0x50, 0x50, 0x00, 0x00, 0x08, 0x70,
+> +			      0x00);
+> +	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETVDC, 0x46);
+> +	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETPANEL, 0x0b);
+> +	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETCYC, 0x80);
+> +	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETDISP, 0xc8, 0x12, 0x30);
+> +	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETEQ,
+> +			      0x07, 0x07, 0x0B, 0x0B, 0x03, 0x0B, 0x00, 0x00,
+> +			      0x00, 0x00, 0xFF, 0x00, 0xC0, 0x10);
+> +	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETPOWER,
+> +			      0x53, 0x00, 0x1e, 0x1e, 0x77, 0xe1, 0xcc, 0xdd,
+> +			      0x67, 0x77, 0x33, 0x33);
+> +	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETECO, 0x00, 0x00, 0xff,
+> +			      0xff, 0x01, 0xff);
+> +	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETBGP, 0x09, 0x09);
+> +	msleep(20);
 > +
-> +               qcom,ctrl-supply-entries {
-> +                       #address-cells = <1>;
-> +                       #size-cells = <0>;
+> +	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETVCOM, 0x87, 0x95);
+> +	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETGIP1,
+> +			      0xc2, 0x10, 0x05, 0x05, 0x10, 0x05, 0xa0, 0x12,
+> +			      0x31, 0x23, 0x3f, 0x81, 0x0a, 0xa0, 0x37, 0x18,
+> +			      0x00, 0x80, 0x01, 0x00, 0x00, 0x00, 0x00, 0x80,
+> +			      0x01, 0x00, 0x00, 0x00, 0x48, 0xf8, 0x86, 0x42,
+> +			      0x08, 0x88, 0x88, 0x80, 0x88, 0x88, 0x88, 0x58,
+> +			      0xf8, 0x87, 0x53, 0x18, 0x88, 0x88, 0x81, 0x88,
+> +			      0x88, 0x88, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00,
+> +			      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+> +	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETGIP2,
+> +			      0x00, 0x1a, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00,
+> +			      0x00, 0x00, 0x00, 0x00, 0x1f, 0x88, 0x81, 0x35,
+> +			      0x78, 0x88, 0x88, 0x85, 0x88, 0x88, 0x88, 0x0f,
+> +			      0x88, 0x80, 0x24, 0x68, 0x88, 0x88, 0x84, 0x88,
+> +			      0x88, 0x88, 0x23, 0x10, 0x00, 0x00, 0x1c, 0x00,
+> +			      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +			      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x30, 0x05,
+> +			      0xa0, 0x00, 0x00, 0x00, 0x00);
+> +	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETGAMMA,
+> +			      0x00, 0x06, 0x08, 0x2a, 0x31, 0x3f, 0x38, 0x36,
+> +			      0x07, 0x0c, 0x0d, 0x11, 0x13, 0x12, 0x13, 0x11,
+> +			      0x18, 0x00, 0x06, 0x08, 0x2a, 0x31, 0x3f, 0x38,
+> +			      0x36, 0x07, 0x0c, 0x0d, 0x11, 0x13, 0x12, 0x13,
+> +			      0x11, 0x18);
 > +
-> +                       qcom,ctrl-supply-entry@0 {
-> +                               reg = <0>;
-> +                               qcom,supply-name = "vdda-1p2";
-> +                               qcom,supply-min-voltage = <1200000>;
-> +                               qcom,supply-max-voltage = <1200000>;
-> +                               qcom,supply-enable-load = <21800>;
-> +                               qcom,supply-disable-load = <4>;
-> +                       };
-> +               };
+> +	msleep(60);
 > +
-> +               qcom,phy-supply-entries {
-> +                       #address-cells = <1>;
-> +                       #size-cells = <0>;
+
+
+> +	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+> +	if (ret < 0) {
+> +		DRM_DEV_ERROR(dev, "Failed to exit sleep mode: %d\n", ret);
+> +		return ret;
+> +	}
 > +
-> +                       qcom,phy-supply-entry@0 {
-> +                               reg = <0>;
-> +                               qcom,supply-name = "vdda-0p9";
-> +                               qcom,supply-min-voltage = <880000>;
-> +                               qcom,supply-max-voltage = <880000>;
-> +                               qcom,supply-enable-load = <36000>;
-> +                               qcom,supply-disable-load = <32>;
-> +                       };
-> +               };
+> +	/* T9: 120ms */
+> +	msleep(120);
 > +
-> +               ports {
-> +                       #address-cells = <1>;
-> +                       #size-cells = <0>;
+> +	ret = mipi_dsi_dcs_set_display_on(dsi);
+> +	if (ret)
+> +		return ret;
+These two mipi calls should maybe be in xpp055c272_prepare()
+In this way you keep the code symmtric.
+
+xpp055c272_unprepare() turns off the display and enter sleep mode.
+xpp055c272_prepare() does the opposite.
+
+Bikeshedding - but I looked for the symmetric variant.
+
 > +
-> +                       port@0 {
-> +                               reg = <0>;
-> +                               dp_in: endpoint {
-> +                                       remote-endpoint = <&dpu_intf0_out>;
-> +                               };
-> +                       };
+> +	msleep(50);
 > +
-> +                       port@1 {
-> +                               reg = <1>;
-> +                               dp_out: endpoint {
-> +                               };
-> +                       };
-> +               };
-> +       };
+> +	DRM_DEV_DEBUG_DRIVER(dev, "Panel init sequence done\n");
+> +	return 0;
+> +}
 > +
-> +       dp_pll: dp-pll@c011000 {
-> +               compatible = "qcom,dp-pll-10nm";
-> +               label = "DP PLL";
-> +               cell-index = <0>;
-> +               #clock-cells = <1>;
+> +static int xpp055c272_unprepare(struct drm_panel *panel)
+> +{
+> +	struct xpp055c272 *ctx = panel_to_xpp055c272(panel);
+> +	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+> +	int ret;
 > +
-> +               reg = <1 0xea000 0x200>,
-> +                     <1 0xeaa00 0x200>,
-> +                     <1 0xea200 0x200>,
-> +                     <1 0xea600 0x200>,
-> +                     <2 0x03000 0x8>;
-> +               reg-names = "pll_base", "phy_base", "ln_tx0_base",
-> +                       "ln_tx1_base", "gdsc_base";
+> +	if (!ctx->prepared)
+> +		return 0;
 > +
-> +               clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-> +                        <&gcc GCC_USB3_PRIM_CLKREF_CLK>,
-> +                        <&gcc GCC_USB_PHY_CFG_AHB2PHY_CLK>,
-> +                        <&gcc GCC_USB3_PRIM_PHY_PIPE_CLK>;
-> +               clock-names = "iface_clk", "ref_clk",
-> +                       "cfg_ahb_clk", "pipe_clk";
-> +               clock-rate = <0>;
+> +	ret = mipi_dsi_dcs_set_display_off(dsi);
+> +	if (ret < 0)
+> +		DRM_DEV_ERROR(ctx->dev, "failed to set display off: %d\n",
+> +			      ret);
 > +
-> +       };
-> diff --git a/Documentation/devicetree/bindings/display/msm/dpu.txt b/Documentation/devicetree/bindings/display/msm/dpu.txt
-> index a61dd40..eac6e1c 100644
-> --- a/Documentation/devicetree/bindings/display/msm/dpu.txt
-> +++ b/Documentation/devicetree/bindings/display/msm/dpu.txt
-> @@ -63,8 +63,9 @@ Required properties:
->         Documentation/devicetree/bindings/graph.txt
->         Documentation/devicetree/bindings/media/video-interfaces.txt
->
-> -       Port 0 -> DPU_INTF1 (DSI1)
-> -       Port 1 -> DPU_INTF2 (DSI2)
-> +       Port 0 -> DPU_INTF0 (DP)
-> +       Port 1 -> DPU_INTF1 (DSI1)
-> +       Port 2 -> DPU_INTF2 (DSI2)
->
->  Optional properties:
->  - assigned-clocks: list of clock specifiers for clocks needing rate assignment
-> @@ -125,13 +126,20 @@ Example:
->
->                                 port@0 {
->                                         reg = <0>;
-> -                                       dpu_intf1_out: endpoint {
-> -                                               remote-endpoint = <&dsi0_in>;
-> +                                       dpu_intf0_out: endpoint {
-> +                                               remote-endpoint = <&dp_in>;
->                                         };
->                                 };
->
->                                 port@1 {
->                                         reg = <1>;
-> +                                       dpu_intf1_out: endpoint {
-> +                                               remote-endpoint = <&dsi0_in>;
-> +                                       };
-> +                               };
+> +	mipi_dsi_dcs_enter_sleep_mode(dsi);
+> +	if (ret < 0) {
+> +		DRM_DEV_ERROR(ctx->dev, "failed to enter sleep mode: %d\n",
+> +			      ret);
+> +		return ret;
+> +	}
 > +
-> +                               port@2 {
-> +                                       reg = <2>;
->                                         dpu_intf2_out: endpoint {
->                                                 remote-endpoint = <&dsi1_in>;
->                                         };
-> --
-> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-> a Linux Foundation Collaborative Project
->
+> +	regulator_disable(ctx->iovcc);
+> +	regulator_disable(ctx->vci);
+> +
+> +	ctx->prepared = false;
+> +
+> +	return 0;
+> +}
+> +
+> +static int xpp055c272_prepare(struct drm_panel *panel)
+> +{
+> +	struct xpp055c272 *ctx = panel_to_xpp055c272(panel);
+> +	int ret;
+> +
+> +	if (ctx->prepared)
+> +		return 0;
+> +
+> +	DRM_DEV_DEBUG_DRIVER(ctx->dev, "Resetting the panel\n");
+> +	ret = regulator_enable(ctx->vci);
+> +	if (ret < 0) {
+> +		DRM_DEV_ERROR(ctx->dev,
+> +			      "Failed to enable vci supply: %d\n", ret);
+> +		return ret;
+> +	}
+> +	ret = regulator_enable(ctx->iovcc);
+> +	if (ret < 0) {
+> +		DRM_DEV_ERROR(ctx->dev,
+> +			      "Failed to enable iovcc supply: %d\n", ret);
+> +		goto disable_vci;
+> +	}
+> +
+> +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+> +	/* T6: 10us */
+> +	usleep_range(10, 20);
+> +	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
+> +
+> +	/* T8: 20ms */
+> +	msleep(20);
+> +
+> +	ret = xpp055c272_init_sequence(ctx);
+> +	if (ret < 0) {
+> +		DRM_DEV_ERROR(ctx->dev, "Panel init sequence failed: %d\n",
+> +			      ret);
+> +		goto disable_iovcc;
+> +	}
+> +
+> +	ctx->prepared = true;
+> +
+> +	return 0;
+> +
+> +disable_iovcc:
+> +	regulator_disable(ctx->iovcc);
+> +disable_vci:
+> +	regulator_disable(ctx->vci);
+> +	return ret;
+> +}
+> +
+> +static int xpp055c272_enable(struct drm_panel *panel)
+> +{
+> +	struct xpp055c272 *ctx = panel_to_xpp055c272(panel);
+> +	int ret;
+> +
+> +	if (ctx->enabled)
+> +		return 0;
+> +
+> +	ret = backlight_enable(ctx->backlight);
+> +	if (ret) {
+> +		DRM_DEV_ERROR(ctx->dev,
+> +			      "Failed to enable backlight %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	ctx->enabled = true;
+> +
+> +	return 0;
+> +}
+> +
+> +static int xpp055c272_disable(struct drm_panel *panel)
+> +{
+> +	struct xpp055c272 *ctx = panel_to_xpp055c272(panel);
+> +
+> +	if (!ctx->enabled)
+> +		return 0;
+> +
+> +	backlight_disable(ctx->backlight);
+> +
+> +	ctx->enabled = false;
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct drm_display_mode default_mode = {
+> +	.hdisplay    = 720,
+> +	.hsync_start = 720 + 40,
+> +	.hsync_end   = 720 + 40 + 10,
+> +	.htotal	     = 720 + 40 + 10 + 40,
+> +	.vdisplay    = 1280,
+> +	.vsync_start = 1280 + 22,
+> +	.vsync_end   = 1280 + 22 + 4,
+> +	.vtotal	     = 1280 + 22 + 4 + 11,
+> +	.vrefresh    = 60,
+> +	.clock	     = 64000,
+> +	.flags	     = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
+> +	.width_mm    = 68,
+> +	.height_mm   = 121,
+> +};
+> +
+> +static int xpp055c272_get_modes(struct drm_panel *panel)
+> +{
+> +	struct xpp055c272 *ctx = panel_to_xpp055c272(panel);
+> +	struct drm_display_mode *mode;
+> +
+> +	mode = drm_mode_duplicate(panel->drm, &default_mode);
+> +	if (!mode) {
+> +		DRM_DEV_ERROR(ctx->dev, "Failed to add mode %ux%u@%u\n",
+> +			      default_mode.hdisplay, default_mode.vdisplay,
+> +			      default_mode.vrefresh);
+> +		return -ENOMEM;
+> +	}
+> +
+> +	drm_mode_set_name(mode);
+> +
+> +	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+> +	panel->connector->display_info.width_mm = mode->width_mm;
+> +	panel->connector->display_info.height_mm = mode->height_mm;
+> +	drm_mode_probed_add(panel->connector, mode);
+> +
+> +	return 1;
+> +}
+> +
+> +static const struct drm_panel_funcs xpp055c272_funcs = {
+> +	.disable   = xpp055c272_disable,
+> +	.unprepare = xpp055c272_unprepare,
+> +	.prepare   = xpp055c272_prepare,
+> +	.enable	   = xpp055c272_enable,
+> +	.get_modes = xpp055c272_get_modes,
+> +};
+> +
+> +static int xpp055c272_probe(struct mipi_dsi_device *dsi)
+> +{
+> +	struct device *dev = &dsi->dev;
+> +	struct xpp055c272 *ctx;
+> +	int ret;
+> +
+> +	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+> +	if (!ctx)
+> +		return -ENOMEM;
+> +
+> +	ctx->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
+> +	if (IS_ERR(ctx->reset_gpio)) {
+> +		DRM_DEV_ERROR(dev, "cannot get reset gpio\n");
+> +		return PTR_ERR(ctx->reset_gpio);
+> +	}
+> +
+> +	mipi_dsi_set_drvdata(dsi, ctx);
+> +
+> +	ctx->dev = dev;
+> +
+> +	dsi->lanes = 4;
+> +	dsi->format = MIPI_DSI_FMT_RGB888;
+> +	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+> +			  MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_EOT_PACKET;
+> +
+> +	ctx->backlight = devm_of_find_backlight(dev);
+> +	if (IS_ERR(ctx->backlight))
+> +		return PTR_ERR(ctx->backlight);
+> +
+> +	ctx->vci = devm_regulator_get(dev, "vci");
+> +	if (IS_ERR(ctx->vci)) {
+> +		ret = PTR_ERR(ctx->vci);
+> +		if (ret != -EPROBE_DEFER)
+> +			DRM_DEV_ERROR(dev,
+> +				      "Failed to request vci regulator: %d\n",
+> +				      ret);
+> +		return ret;
+> +	}
+> +	ctx->iovcc = devm_regulator_get(dev, "iovcc");
+> +	if (IS_ERR(ctx->iovcc)) {
+> +		ret = PTR_ERR(ctx->iovcc);
+> +		if (ret != -EPROBE_DEFER)
+> +			DRM_DEV_ERROR(dev,
+> +				      "Failed to request iovcc regulator: %d\n",
+> +				      ret);
+> +		return ret;
+> +	}
+> +
+> +	drm_panel_init(&ctx->panel, &dsi->dev, &xpp055c272_funcs,
+> +		       DRM_MODE_CONNECTOR_DSI);
+> +	drm_panel_add(&ctx->panel);
+> +
+> +	ret = mipi_dsi_attach(dsi);
+> +	if (ret < 0) {
+> +		DRM_DEV_ERROR(dev, "mipi_dsi_attach failed: %d\n", ret);
+> +		drm_panel_remove(&ctx->panel);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void xpp055c272_shutdown(struct mipi_dsi_device *dsi)
+> +{
+> +	struct xpp055c272 *ctx = mipi_dsi_get_drvdata(dsi);
+> +	int ret;
+> +
+> +	ret = drm_panel_unprepare(&ctx->panel);
+> +	if (ret < 0)
+> +		DRM_DEV_ERROR(&dsi->dev, "Failed to unprepare panel: %d\n",
+> +			      ret);
+> +
+> +	ret = drm_panel_disable(&ctx->panel);
+> +	if (ret < 0)
+> +		DRM_DEV_ERROR(&dsi->dev, "Failed to disable panel: %d\n",
+> +			      ret);
+> +}
+> +
+> +static int xpp055c272_remove(struct mipi_dsi_device *dsi)
+> +{
+> +	struct xpp055c272 *ctx = mipi_dsi_get_drvdata(dsi);
+> +	int ret;
+> +
+> +	xpp055c272_shutdown(dsi);
+> +
+> +	ret = mipi_dsi_detach(dsi);
+> +	if (ret < 0)
+> +		DRM_DEV_ERROR(&dsi->dev, "Failed to detach from DSI host: %d\n",
+> +			      ret);
+> +
+> +	drm_panel_remove(&ctx->panel);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id xpp055c272_of_match[] = {
+> +	{ .compatible = "xinpeng,xpp055c272" },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, xpp055c272_of_match);
+> +
+> +static struct mipi_dsi_driver xpp055c272_driver = {
+> +	.probe	= xpp055c272_probe,
+> +	.remove = xpp055c272_remove,
+> +	.shutdown = xpp055c272_shutdown,
+> +	.driver = {
+> +		.name = DRV_NAME,
+> +		.of_match_table = xpp055c272_of_match,
+> +	},
+> +};
+> +module_mipi_dsi_driver(xpp055c272_driver);
+> +
+> +MODULE_AUTHOR("Heiko Stuebner <heiko.stuebner@theobroma-systems.com>");
+> +MODULE_DESCRIPTION("DRM driver for Xinpeng xpp055c272 MIPI DSI panel");
+> +MODULE_LICENSE("GPL v2");
+
+Looks forward to see v2 of the driver.
+
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
