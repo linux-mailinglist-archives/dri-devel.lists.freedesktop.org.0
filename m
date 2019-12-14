@@ -1,57 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 476CB11EF03
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 01:09:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 417CB11EF05
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2019 01:10:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 123C26EE25;
-	Sat, 14 Dec 2019 00:09:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34EE56EE2A;
+	Sat, 14 Dec 2019 00:10:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB71E6EE25
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Dec 2019 00:09:34 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id q6so547078wro.9
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 16:09:34 -0800 (PST)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 912406E03C
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Dec 2019 00:10:22 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id t2so590852wrr.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2019 16:10:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Ye/hWE82q7CtVjcCPN/tZ9yDb/tbbka1un83bKTcWH4=;
- b=jR+bhPwHkiZC1nrJpcA9fZdtqIFcJ/O61t/kV50tTDEX3gfyMF/HAZd/KF8E4/K/+e
- YvsY9kIxZsR8XhuPUDwRq7s3nK+tdyvL0I2xW9EnOXrQ0WER9S0TckCKHRvKKrXhHate
- 8s6R1c9DMxnvHC5ikULbXiMGAq8V5khp3xwxc=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=8QA93E86Fd5/SNtUhg6z1385N12mNPAjE27/8RO9foM=;
+ b=e1XYtXuQpPL89ZNtvJHcKGgrThSfgD2qpHTmKZYLXBeispsj2kY5zqMaPcQ4K4u1VG
+ tLEvovjlvn3cfgbuT/LBP0QxBVdQzBcoBfGPgCLZsv9otURmGgod74oe1pK8mYqbfsvO
+ MI+RhyU9FFSgWtu56PBoy9XmOBnoCIRAyo/Qo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Ye/hWE82q7CtVjcCPN/tZ9yDb/tbbka1un83bKTcWH4=;
- b=VWnkE3l+XCVDvUtORf/l2drBGE3tY8ZI9oPlLKVAxasJwarcgGzBcSrqjXfMJWwfAd
- I5hUdrhS7pDHUihL9MkZBTa3HWn7olLzadoH/BI0Y5hNGO389W8fmHzUyNMZtwz0FWt6
- vvV+gMiZmmEJ1uyjNoCGDWl70UTw+Hzpbzeq6HeGrQgNdmQdnVcLt34Ay2mOmJ2agb+V
- mjO0cWYwXMlH80uj4tiMjDdQo/6WEbrgDO7Uc/+wGbhr3GmzxFF68MqhQWi9rHPLnJVz
- Gcu4ZjRBFwqsmebxK6womJadxSNTS5fniK0S2KaZeMO2LPRUXkHuH8QNkiC+zbBVCsps
- usng==
-X-Gm-Message-State: APjAAAXsUMza2NDId/st7bErWMw9z2N3IzFpvKP6bE7POl4uxxzXckBI
- gmHEMAH8jjKVzJjM3AzxvTV8tST7bMk=
-X-Google-Smtp-Source: APXvYqxCPpP+VvorugNz4F+j3t0xo3UB8O7m2+X0ACwF9J9VmT7MGex/x1iCdvw0CngNj7IYoISpfg==
-X-Received: by 2002:a05:6000:160d:: with SMTP id
- u13mr16025907wrb.22.1576282173242; 
- Fri, 13 Dec 2019 16:09:33 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=8QA93E86Fd5/SNtUhg6z1385N12mNPAjE27/8RO9foM=;
+ b=nzPL1i/Of6MNoKtaDsNZyqzWBW6d7hJeBaOHJbggGwuGOEm4foC1QAHXgB9Ui3sTmg
+ Lkhj9WleMeU5c0tTCiO2r3Um1VAMgk+1vp6gA7hN/A1p2050Lui+PRS2i09RNUZnyqYt
+ PaPWwzyBgloF4Yi97jHkmkRjPeMSJW8iBOJfwWshe4S6a9vKIOjcbsl0wDxqgE089mHs
+ IPwa0VwBGAfdL2QAc89rKPZxhaHV/37s/+7q7iL4RqrFTNDyNNw2Ft2oxXo8x0ByDrsn
+ QwyaFQybpy2GjcamP+5mUjWCZt5bn6UocThry4/cdcmyXlJQntXah8oKEPhQdX4v+SYv
+ q9EQ==
+X-Gm-Message-State: APjAAAWcCXMPmyVzF+KbYBmr/pMg33NhnomGYt+BVjV4VwlHOLHHNJQL
+ Q5MkeN2MmLpxPYreKPM32XiMTgzIQew=
+X-Google-Smtp-Source: APXvYqzkJilEP+k/UY4kR35AcCnEdzAYcGQziJNIqAEI/smOrJplTFVLC66GhXwZSH6633of3GMl4Q==
+X-Received: by 2002:adf:dc06:: with SMTP id t6mr15884562wri.378.1576282220803; 
+ Fri, 13 Dec 2019 16:10:20 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:564b:0:7567:bb67:3d7f:f863])
- by smtp.gmail.com with ESMTPSA id l2sm11741735wmi.5.2019.12.13.16.09.32
+ by smtp.gmail.com with ESMTPSA id k16sm12343423wru.0.2019.12.13.16.10.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Dec 2019 16:09:32 -0800 (PST)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
+ Fri, 13 Dec 2019 16:10:20 -0800 (PST)
+Date: Sat, 14 Dec 2019 01:10:18 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/etnaviv: Use dma_resv locking wrappers
-Date: Sat, 14 Dec 2019 01:09:27 +0100
-Message-Id: <20191214000927.1616384-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191125094356.161941-2-daniel.vetter@ffwll.ch>
-References: <20191125094356.161941-2-daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH 2/4] drm/i915: Use dma_resv locking wrappers
+Message-ID: <20191214001018.GQ624164@phenom.ffwll.local>
+References: <20191125094356.161941-1-daniel.vetter@ffwll.ch>
+ <20191125094356.161941-3-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20191125094356.161941-3-daniel.vetter@ffwll.ch>
+X-Operating-System: Linux phenom 5.3.0-2-amd64 
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,68 +66,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, etnaviv@lists.freedesktop.org,
- "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Matthew Auld <matthew.auld@intel.com>, Daniel Vetter <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I'll add more fancy logic to them soon, so everyone really has to use
-them. Plus they already provide some nice additional debug
-infrastructure on top of direct ww_mutex usage for the fences tracked
-by dma_resv.
+On Mon, Nov 25, 2019 at 10:43:54AM +0100, Daniel Vetter wrote:
+> I'll add more fancy logic to them soon, so everyone really has to use
+> them. Plus they already provide some nice additional debug
+> infrastructure on top of direct ww_mutex usage for the fences tracked
+> by dma_resv.
+> 
+> Aside: We might want to create wrappers for i915_vma locking of the
+> ->resv like we have for the i915_gem_bo itself already.
+> 
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Cc: Matthew Auld <matthew.auld@intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> ---
 
-v2: Fix the lost _interruptible (Michael)
+Maarten/Chris, should I drop this one or keep? I guess this will all
+change anyway rsn ...
+-Daniel
 
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Lucas Stach <l.stach@pengutronix.de>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: etnaviv@lists.freedesktop.org
-Cc: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
----
- drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+>  drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> index 7a87e8270460..7b8f4ebd9986 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> @@ -1848,7 +1848,7 @@ static int eb_move_to_gpu(struct i915_execbuffer *eb)
+>  	for (i = 0; i < count; i++) {
+>  		struct i915_vma *vma = eb->vma[i];
+>  
+> -		err = ww_mutex_lock_interruptible(&vma->resv->lock, &acquire);
+> +		err = dma_resv_lock_interruptible(vma->resv, &acquire);
+>  		if (!err)
+>  			continue;
+>  
+> @@ -1859,7 +1859,7 @@ static int eb_move_to_gpu(struct i915_execbuffer *eb)
+>  			do {
+>  				int j = i - 1;
+>  
+> -				ww_mutex_unlock(&eb->vma[j]->resv->lock);
+> +				dma_resv_unlock(eb->vma[j]->resv);
+>  
+>  				swap(eb->flags[i], eb->flags[j]);
+>  				swap(eb->vma[i],  eb->vma[j]);
+> @@ -1868,7 +1868,7 @@ static int eb_move_to_gpu(struct i915_execbuffer *eb)
+>  			GEM_BUG_ON(vma != eb->vma[0]);
+>  			vma->exec_flags = &eb->flags[0];
+>  
+> -			err = ww_mutex_lock_slow_interruptible(&vma->resv->lock,
+> +			err = dma_resv_lock_slow_interruptible(vma->resv,
+>  							       &acquire);
+>  		}
+>  		if (err)
+> -- 
+> 2.24.0
+> 
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-index aa3e4c3b063a..3b0afa156d92 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-@@ -113,7 +113,7 @@ static void submit_unlock_object(struct etnaviv_gem_submit *submit, int i)
- 	if (submit->bos[i].flags & BO_LOCKED) {
- 		struct drm_gem_object *obj = &submit->bos[i].obj->base;
- 
--		ww_mutex_unlock(&obj->resv->lock);
-+		dma_resv_unlock(obj->resv);
- 		submit->bos[i].flags &= ~BO_LOCKED;
- 	}
- }
-@@ -133,8 +133,7 @@ static int submit_lock_objects(struct etnaviv_gem_submit *submit,
- 		contended = i;
- 
- 		if (!(submit->bos[i].flags & BO_LOCKED)) {
--			ret = ww_mutex_lock_interruptible(&obj->resv->lock,
--							  ticket);
-+			ret = dma_resv_lock_interruptible(obj->resv, ticket);
- 			if (ret == -EALREADY)
- 				DRM_ERROR("BO at index %u already on submit list\n",
- 					  i);
-@@ -161,8 +160,7 @@ static int submit_lock_objects(struct etnaviv_gem_submit *submit,
- 		obj = &submit->bos[contended].obj->base;
- 
- 		/* we lost out in a seqno race, lock and retry.. */
--		ret = ww_mutex_lock_slow_interruptible(&obj->resv->lock,
--						       ticket);
-+		ret = dma_resv_lock_slow_interruptible(obj->resv, ticket);
- 		if (!ret) {
- 			submit->bos[contended].flags |= BO_LOCKED;
- 			slow_locked = contended;
 -- 
-2.24.0
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
