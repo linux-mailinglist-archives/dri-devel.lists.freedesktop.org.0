@@ -1,61 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20B1211FAF4
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Dec 2019 21:06:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9EB711FFC3
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 09:31:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EB8A6E140;
-	Sun, 15 Dec 2019 20:06:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC8C96E43B;
+	Mon, 16 Dec 2019 08:30:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
- [IPv6:2607:f8b0:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19B976E140
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Dec 2019 20:06:34 +0000 (UTC)
-Received: by mail-pg1-x543.google.com with SMTP id k25so2427817pgt.7
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Dec 2019 12:06:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=olA02RGJ4z+GQuBAoSMwgqWAuMGZ9U+U5K9YnozTaYU=;
- b=NoSvc9LyNA6ksrJeUp7FB7vkKf1dy8iN5L/6J33qDLMS48EKyfcMwFOo4vAihGWHq3
- ajgxWM90HehvQKUpelwLATIPKx9GU+S2ysA9V72PjJz/GeAvoDfYzptauittAyAHSz4d
- R6E71A3Nb+TQDPpR/RAlpUIllwmLrvt+cLKy6XaX4deBhNZT7YgPuArygUF7vdmVZVRV
- qi73VWZpOFXAaR21napSi/Mf68/d2FEpPdtGus2IKGGuUd9V7MnLT9fPD1FdNtyYRg3e
- aemPBsITUNmstQjweFgFX3okr2QhWJ0IUlby6qU6sutU1wx84QlgnSSCAIK/VkSPpoHw
- TwWw==
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
+ [209.85.166.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA2DA89CF9
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Dec 2019 20:35:10 +0000 (UTC)
+Received: by mail-io1-f69.google.com with SMTP id e15so4325233ioh.15
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Dec 2019 12:35:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=olA02RGJ4z+GQuBAoSMwgqWAuMGZ9U+U5K9YnozTaYU=;
- b=iRIn0hJaGYQuB5B1YyRuke9OUkm6g39/OCz3Jktu0X5g0WXTvJuJmYC31Tsy6f+4Kw
- 7nzoPn5ubysU5+pm975MFqjPqfE34xpTmTdbN9FiF/K7Jg23WNnDvJY1/AiBzuFsQObs
- nYX9DBb+NIXg3/KH9wDg6XQxeG+QTbMgx6D58ZKL0SWeCJKgLJCFyowLhy2EjiktbQKL
- 2D5f6ZoRmnAmfTtT0gYK2Oj6Yst+q9df49y/6nFQTUVtUwZoJhHSX+hnYk+Xb0BFZd/Z
- bVMuyUTIXYu9V2IZ8TtRWcsuAdes7ZEx/g/fV5Qfgk7waqJpGfEuU8tLV+/FIvZoo5r4
- OWUg==
-X-Gm-Message-State: APjAAAU+cSLoVaxySzxEkUkSGTZW7sYQTjzTpeTvUs5oDOj9fnTE+dP6
- ohk3fu1M10d2cy2ctkWHIn0=
-X-Google-Smtp-Source: APXvYqxe5x94xy2/MvtT893jlm05f9npIWyWZBI3QysNVvpVvCVSB7MKtaVzP6zm2GYjpCyme8qK2w==
-X-Received: by 2002:a63:4664:: with SMTP id v36mr13653993pgk.147.1576440393629; 
- Sun, 15 Dec 2019 12:06:33 -0800 (PST)
-Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
- by smtp.gmail.com with ESMTPSA id
- l66sm18645744pga.30.2019.12.15.12.06.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Dec 2019 12:06:33 -0800 (PST)
-From: Rob Clark <robdclark@gmail.com>
-To: Douglas Anderson <dianders@chromium.org>
-Subject: [PATCH 2/2] fixup! drm/bridge: ti-sn65dsi86: Skip non-standard DP
- rates
-Date: Sun, 15 Dec 2019 12:06:32 -0800
-Message-Id: <20191215200632.1019065-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191213154448.9.I1791f91dd22894da04f86699a7507d101d4385bc@changeid>
-References: <20191213154448.9.I1791f91dd22894da04f86699a7507d101d4385bc@changeid>
+ h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+ bh=vCeIGudgCVzVtDClTVtamE+2MjDf0OYRK93EKlgnM94=;
+ b=FtwQsm/2P0z7Ux0MuBrF6rcSWAFZGyzGZ5lVwekikhEqNiHLRWYYy8FIorDj/4sTYy
+ GqPeOD3Gba2XfRlrN4MypO/BTCSA25yc2Rnxbsid+3rMCl5ipoFVNgsNAiJa3NaJdFz2
+ Nq1CGr2hDAHDMhPeatGYAPrG8ryIW7cuzOLbLU4JgyeqZunoDrdZ4VYOO4gGsk8C+cwC
+ ZPvgRqEXKOyWEOKrkpt9iKbzf07oRFt6ObZG20zctvEG7FGJPkQ68b2Yde4MGoCo330k
+ Msiruw3QLtnbMIZQy/OqskTp+vSWjOWd065WZmJ55a7RTlT9sEBCrHeIg0WwtfC+9TxA
+ bPSA==
+X-Gm-Message-State: APjAAAWI9+ED2B4+cmdmDFqreKoNwIVAqSu3fd+TRi/1cBZLNz2EDV7g
+ OTJCwoM1QYuTwC97KcNfHgN6IilZJaqRWYzOnBWOOGKtAZs3
+X-Google-Smtp-Source: APXvYqw1jqxCI+YeO8FJYnKqamQPTdtR1NMgf7Skx87R1i9IkpSLJ9b9vSY6iYXyhKSP3smM0FNtnXdQfOExQ/IE9SyJYl1upS+r
 MIME-Version: 1.0
+X-Received: by 2002:a5d:8498:: with SMTP id t24mr15986136iom.164.1576442109907; 
+ Sun, 15 Dec 2019 12:35:09 -0800 (PST)
+Date: Sun, 15 Dec 2019 12:35:09 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000f85c120599c407e4@google.com>
+Subject: KASAN: use-after-free Read in fbcon_cursor
+From: syzbot <syzbot+9116ecc1978ca3a12f43@syzkaller.appspotmail.com>
+To: b.zolnierkie@samsung.com, daniel.vetter@ffwll.ch, 
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com, 
+ sam@ravnborg.org, syzkaller-bugs@googlegroups.com
+X-Mailman-Approved-At: Mon, 16 Dec 2019 08:30:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,186 +54,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Sean Paul <seanpaul@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"; DelSp="yes"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+Hello,
+
+syzbot found the following crash on:
+
+HEAD commit:    07c4b9e9 Merge tag 'scsi-fixes' of git://git.kernel.org/pu..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=14b61f41e00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=79f79de2a27d3e3d
+dashboard link: https://syzkaller.appspot.com/bug?extid=9116ecc1978ca3a12f43
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=119fa6b6e00000
+
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+9116ecc1978ca3a12f43@syzkaller.appspotmail.com
+
+==================================================================
+BUG: KASAN: use-after-free in fbcon_cursor+0x4ef/0x660  
+drivers/video/fbdev/core/fbcon.c:1380
+Read of size 2 at addr ffff8880959ff0cc by task syz-executor.0/10203
+
+CPU: 1 PID: 10203 Comm: syz-executor.0 Not tainted 5.5.0-rc1-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0x197/0x210 lib/dump_stack.c:118
+  print_address_description.constprop.0.cold+0xd4/0x30b mm/kasan/report.c:374
+  __kasan_report.cold+0x1b/0x41 mm/kasan/report.c:506
+  kasan_report+0x12/0x20 mm/kasan/common.c:639
+  __asan_report_load2_noabort+0x14/0x20 mm/kasan/generic_report.c:133
+  fbcon_cursor+0x4ef/0x660 drivers/video/fbdev/core/fbcon.c:1380
+  fbcon_scrolldelta+0x679/0x1220 drivers/video/fbdev/core/fbcon.c:2877
+  fbcon_set_origin+0x43/0x50 drivers/video/fbdev/core/fbcon.c:2928
+  set_origin+0xf3/0x400 drivers/tty/vt/vt.c:919
+  vc_do_resize+0xacc/0x1460 drivers/tty/vt/vt.c:1264
+  vc_resize+0x4d/0x60 drivers/tty/vt/vt.c:1304
+  vt_ioctl+0x14bb/0x26d0 drivers/tty/vt/vt_ioctl.c:840
+  tty_ioctl+0xa37/0x14f0 drivers/tty/tty_io.c:2660
+  vfs_ioctl fs/ioctl.c:47 [inline]
+  file_ioctl fs/ioctl.c:545 [inline]
+  do_vfs_ioctl+0x977/0x14e0 fs/ioctl.c:732
+  ksys_ioctl+0xab/0xd0 fs/ioctl.c:749
+  __do_sys_ioctl fs/ioctl.c:756 [inline]
+  __se_sys_ioctl fs/ioctl.c:754 [inline]
+  __x64_sys_ioctl+0x73/0xb0 fs/ioctl.c:754
+  do_syscall_64+0xfa/0x790 arch/x86/entry/common.c:294
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+RIP: 0033:0x45a909
+Code: ad b6 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7  
+48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff  
+ff 0f 83 7b b6 fb ff c3 66 2e 0f 1f 84 00 00 00 00
+RSP: 002b:00007f1a84ca0c78 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 000000000045a909
+RDX: 0000000020000000 RSI: 0000000000005609 RDI: 0000000000000003
+RBP: 000000000075bf20 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007f1a84ca16d4
+R13: 00000000004c7009 R14: 00000000004dd670 R15: 00000000ffffffff
+
+Allocated by task 9734:
+  save_stack+0x23/0x90 mm/kasan/common.c:72
+  set_track mm/kasan/common.c:80 [inline]
+  __kasan_kmalloc mm/kasan/common.c:513 [inline]
+  __kasan_kmalloc.constprop.0+0xcf/0xe0 mm/kasan/common.c:486
+  kasan_kmalloc+0x9/0x10 mm/kasan/common.c:527
+  __do_kmalloc mm/slab.c:3656 [inline]
+  __kmalloc+0x163/0x770 mm/slab.c:3665
+  kmalloc include/linux/slab.h:561 [inline]
+  kzalloc include/linux/slab.h:670 [inline]
+  vc_do_resize+0x262/0x1460 drivers/tty/vt/vt.c:1187
+  vc_resize+0x4d/0x60 drivers/tty/vt/vt.c:1304
+  vt_ioctl+0x14bb/0x26d0 drivers/tty/vt/vt_ioctl.c:840
+  tty_ioctl+0xa37/0x14f0 drivers/tty/tty_io.c:2660
+  vfs_ioctl fs/ioctl.c:47 [inline]
+  file_ioctl fs/ioctl.c:545 [inline]
+  do_vfs_ioctl+0x977/0x14e0 fs/ioctl.c:732
+  ksys_ioctl+0xab/0xd0 fs/ioctl.c:749
+  __do_sys_ioctl fs/ioctl.c:756 [inline]
+  __se_sys_ioctl fs/ioctl.c:754 [inline]
+  __x64_sys_ioctl+0x73/0xb0 fs/ioctl.c:754
+  do_syscall_64+0xfa/0x790 arch/x86/entry/common.c:294
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+
+Freed by task 10203:
+  save_stack+0x23/0x90 mm/kasan/common.c:72
+  set_track mm/kasan/common.c:80 [inline]
+  kasan_set_free_info mm/kasan/common.c:335 [inline]
+  __kasan_slab_free+0x102/0x150 mm/kasan/common.c:474
+  kasan_slab_free+0xe/0x10 mm/kasan/common.c:483
+  __cache_free mm/slab.c:3426 [inline]
+  kfree+0x10a/0x2c0 mm/slab.c:3757
+  vc_do_resize+0xa69/0x1460 drivers/tty/vt/vt.c:1261
+  vc_resize+0x4d/0x60 drivers/tty/vt/vt.c:1304
+  vt_ioctl+0x14bb/0x26d0 drivers/tty/vt/vt_ioctl.c:840
+  tty_ioctl+0xa37/0x14f0 drivers/tty/tty_io.c:2660
+  vfs_ioctl fs/ioctl.c:47 [inline]
+  file_ioctl fs/ioctl.c:545 [inline]
+  do_vfs_ioctl+0x977/0x14e0 fs/ioctl.c:732
+  ksys_ioctl+0xab/0xd0 fs/ioctl.c:749
+  __do_sys_ioctl fs/ioctl.c:756 [inline]
+  __se_sys_ioctl fs/ioctl.c:754 [inline]
+  __x64_sys_ioctl+0x73/0xb0 fs/ioctl.c:754
+  do_syscall_64+0xfa/0x790 arch/x86/entry/common.c:294
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+
+The buggy address belongs to the object at ffff8880959ff0c0
+  which belongs to the cache kmalloc-32 of size 32
+The buggy address is located 12 bytes inside of
+  32-byte region [ffff8880959ff0c0, ffff8880959ff0e0)
+The buggy address belongs to the page:
+page:ffffea0002567fc0 refcount:1 mapcount:0 mapping:ffff8880aa4001c0  
+index:0xffff8880959fffc1
+raw: 00fffe0000000200 ffffea00027c7748 ffffea000276ee08 ffff8880aa4001c0
+raw: ffff8880959fffc1 ffff8880959ff000 000000010000003f 0000000000000000
+page dumped because: kasan: bad access detected
+
+Memory state around the buggy address:
+  ffff8880959fef80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+  ffff8880959ff000: fb fb fb fb fc fc fc fc fb fb fb fb fc fc fc fc
+> ffff8880959ff080: fb fb fb fb fc fc fc fc fb fb fb fb fc fc fc fc
+                                               ^
+  ffff8880959ff100: 00 01 fc fc fc fc fc fc fb fb fb fb fc fc fc fc
+  ffff8880959ff180: fb fb fb fb fc fc fc fc fb fb fb fb fc fc fc fc
+==================================================================
+
 
 ---
-Note however, the panel I have on the yoga c630 is not eDP 1.4+, so I
-cannot test that path.  But I think it looks correct.
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 110 +++++++++++++++++++++-----
- 1 file changed, 89 insertions(+), 21 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 976f98991b3d..1cb53be7c9e9 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -102,6 +102,9 @@ struct ti_sn_bridge {
- 	struct gpio_desc		*enable_gpio;
- 	struct regulator_bulk_data	supplies[SN_REGULATOR_SUPPLY_NUM];
- 	int				dp_lanes;
-+	u8				edp_dpcd[EDP_DISPLAY_CTL_CAP_SIZE];
-+	int				num_sink_rates;
-+	int				sink_rate_idxs[DP_MAX_SUPPORTED_RATES];
- };
- 
- static const struct regmap_range ti_sn_bridge_volatile_ranges[] = {
-@@ -454,15 +457,6 @@ static const unsigned int ti_sn_bridge_dp_rate_lut[] = {
- 	0, 1620, 2160, 2430, 2700, 3240, 4320, 5400
- };
- 
--/**
-- * A table indicating which of the rates in ti_sn_bridge_dp_rate_lut
-- * is as per the DP spec (AKA a standard) as opposed to an intermediate
-- * rate.
-- */
--static const bool ti_sn_bridge_dp_rate_standard[] = {
--	false, true, false, false, true, false, false, true
--};
--
- static int ti_sn_bridge_calc_min_dp_rate_idx(struct ti_sn_bridge *pdata)
- {
- 	unsigned int bit_rate_khz, dp_rate_mhz;
-@@ -573,11 +567,95 @@ static unsigned int ti_sn_get_max_lanes(struct ti_sn_bridge *pdata)
- 	return data & DP_LANE_COUNT_MASK;
- }
- 
-+/* TODO possibly fold ti_sn_get_max_lanes() into this? */
-+static void ti_sn_read_sink_config(struct ti_sn_bridge *pdata)
-+{
-+	memset(pdata->edp_dpcd, 0, sizeof(pdata->edp_dpcd));
-+
-+	/*
-+	 * Read the eDP display control registers.
-+	 *
-+	 * Do this independent of DP_DPCD_DISPLAY_CONTROL_CAPABLE bit in
-+	 * DP_EDP_CONFIGURATION_CAP, because some buggy displays do not have it
-+	 * set, but require eDP 1.4+ detection (e.g. for supported link rates
-+	 * method). The display control registers should read zero if they're
-+	 * not supported anyway.
-+	 */
-+	if (drm_dp_dpcd_read(&pdata->aux, DP_EDP_DPCD_REV,
-+			     pdata->edp_dpcd, sizeof(pdata->edp_dpcd)) ==
-+			     sizeof(pdata->edp_dpcd))
-+		DRM_DEBUG_KMS("eDP DPCD: %*ph\n", (int) sizeof(pdata->edp_dpcd),
-+			      pdata->edp_dpcd);
-+
-+	/* Read the eDP 1.4+ supported link rates. */
-+	if (pdata->edp_dpcd[0] >= DP_EDP_14) {
-+		__le16 sink_rates[DP_MAX_SUPPORTED_RATES];
-+		int i, j;
-+
-+		drm_dp_dpcd_read(&pdata->aux, DP_SUPPORTED_LINK_RATES,
-+				sink_rates, sizeof(sink_rates));
-+
-+		for (i = 0; i < ARRAY_SIZE(sink_rates); i++) {
-+			int val = le16_to_cpu(sink_rates[i]);
-+			int rate_mhz;
-+
-+			if (val == 0)
-+				break;
-+
-+			/* Value read multiplied by 200kHz gives the per-lane
-+			 * link rate in kHz. The source rates are, however,
-+			 * stored in MHz
-+			 */
-+			rate_mhz = DIV_ROUND_UP(val * 200, 1000);
-+
-+			/* If the rate is also supported by the bridge, add it
-+			 * to the table of supported rates:
-+			 */
-+			for (j = 1; j < ARRAY_SIZE(ti_sn_bridge_dp_rate_lut); j++) {
-+				if (rate_mhz == ti_sn_bridge_dp_rate_lut[j]) {
-+					pdata->sink_rate_idxs[pdata->num_sink_rates++] = j;
-+					break;
-+				}
-+			}
-+		}
-+		pdata->num_sink_rates = i;
-+	} else {
-+		int i;
-+
-+		/**
-+		 * A table indicating which of the rates in ti_sn_bridge_dp_rate_lut
-+		 * is as per the DP spec (AKA a standard) as opposed to an intermediate
-+		 * rate.
-+		 */
-+		static const bool ti_sn_bridge_dp_rate_standard[] = {
-+			false, true, false, false, true, false, false, true
-+		};
-+
-+		/* if prior to eDP 1.4, then just use the supported standard rates: */
-+		for (i = 1; i < ARRAY_SIZE(ti_sn_bridge_dp_rate_lut); i++) {
-+			if (!ti_sn_bridge_dp_rate_standard[i])
-+				continue;
-+			pdata->sink_rate_idxs[pdata->num_sink_rates++] = i;
-+		}
-+	}
-+}
-+
- static int ti_sn_link_training(struct ti_sn_bridge *pdata, int dp_rate_idx,
- 			       const char **last_err_str)
- {
- 	unsigned int val;
- 	int ret;
-+	int i;
-+
-+	/* check for supported rate: */
-+	for (i = 0; i < pdata->num_sink_rates; i++)
-+		if (pdata->sink_rate_idxs[i] == dp_rate_idx)
-+			break;
-+
-+	if (i == pdata->num_sink_rates) {
-+		*last_err_str = "Unsupported rate";
-+		return -EINVAL;
-+	}
- 
- 	/* set dp clk frequency value */
- 	regmap_update_bits(pdata->regmap, SN_DATARATE_CONFIG_REG,
-@@ -624,6 +702,8 @@ static void ti_sn_bridge_enable(struct drm_bridge *bridge)
- 	unsigned int val;
- 	int ret = -EINVAL;
- 
-+	ti_sn_read_sink_config(pdata);
-+
- 	/*
- 	 * Run with the maximum number of lanes that the DP sink supports.
- 	 *
-@@ -669,18 +749,6 @@ static void ti_sn_bridge_enable(struct drm_bridge *bridge)
- 	for (dp_rate_idx = ti_sn_bridge_calc_min_dp_rate_idx(pdata);
- 	     dp_rate_idx <= max_dp_rate_idx;
- 	     dp_rate_idx++) {
--		/*
--		 * To be on the safe side, we'll skip all non-standard
--		 * rates and move up to the next standard one.  This is
--		 * because some panels will pass link training with a non-
--		 * standard rate but just show garbage.  If the non-standard
--		 * rates are useful we should figure out how to enable them
--		 * through querying the panel, having a per-panel whitelist,
--		 * or adding a DT property.
--		 */
--		if (!ti_sn_bridge_dp_rate_standard[dp_rate_idx])
--			continue;
--
- 		ret = ti_sn_link_training(pdata, dp_rate_idx, &last_err_str);
- 		if (!ret)
- 			break;
--- 
-2.23.0
-
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
