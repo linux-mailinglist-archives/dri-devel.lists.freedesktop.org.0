@@ -1,54 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FB4B11FAF1
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Dec 2019 21:02:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB1AE11FAF3
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Dec 2019 21:05:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E22B6E142;
-	Sun, 15 Dec 2019 20:02:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A86389DC2;
+	Sun, 15 Dec 2019 20:05:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18E736E140
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Dec 2019 20:02:17 +0000 (UTC)
-Received: by mail-ed1-x544.google.com with SMTP id f8so3332214edv.2
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Dec 2019 12:02:16 -0800 (PST)
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CD9189DC2
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Dec 2019 20:05:03 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id s64so2422078pgb.9
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Dec 2019 12:05:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0Eb9PaeS91fFId6JoOrDL2h8mYp/pNovUb3BQNtXEkY=;
- b=l39CyODrigrJr//o2nlMDiXSW3PPVc3PNwlifzyBK9+ZaFT4yW+61K18suZPiJhZ4y
- 9P3RWsUKzrow2krjPjWnJ02+xHox/C9gDf14LyZW1OFgJI+HljebzeklvQer9KNO1zN7
- BcjQA+gomciH5LFjv8vu03ZwAVOc5ZmY2Z3zFOrGLMC5DFAd+chfQIPFEl0IH2t3Sh9T
- r/HLEqDrH3pPwBIFHlDmFMtNYiRSkT7qxSe6qZXZ8j7KDSP+vqedTca2cqLQBSu3a/zm
- UIF6u2zSeOoCxqxCVF9/8OMen+aV2r3X1AMH6CBA6CXNWKUMiMU7TQXatxoBG1aLR0qd
- D5aA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=xIgln2CTeNUTcohT4yCRcrSFMvesnt3sC8dwNxQQtUM=;
+ b=o2wysAteIijZ8tWGZKG3kD7OLB1HVQ98F+1acPL7apqrId+6bkSJZp4bfeQPcLTcCD
+ W5zJdE9b8FfrrxIQq6rg5wWqgxa1Slp9K5vgMHjhOYD3g/FiPj97CRVs4giFDnmA5GRG
+ nBEw8JDPILEc6VehgT3fCDIidNQYVDmkTwwKIVhcVWY7GfxqNhk7VtPAsAqJDk5GjSU7
+ nHvQB+momWt3yrCoLOHZ1qraHWRt5BDUr3d6ZW5R2GvkYBczxl6ZuBY5Yat4RqDPCm+3
+ VbSoSGG2PgXYDLxJj38VD3pwr/8x8Wx1sjMpswhQCx3Dhr0L6y3Y0xiyXOOTOC+fYNSu
+ 91dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0Eb9PaeS91fFId6JoOrDL2h8mYp/pNovUb3BQNtXEkY=;
- b=UhEnTiD+u86XPRb5EOlKuXdsppI1ymhdD9g2flARVus7TrUFHtV0j6NJRuWDIZX3gO
- qowbpQENUYri8SUaCrK5V+P5zYeMxgA+A9HXDHfF1iE5JCr1nHlEC7KyOElOZ0qK+mV2
- tODwfPvoNXo7Iuk6Lq91OP6891yTaaIsdNjOTAti0Tx7bXqsHT3PjqjXc4YdB9TqSovy
- WNkLXgNU6366ObzDeKaj4EkX27zLNconwPqufUtCjS6SsWyi2+6KZilG4vMU0ovzDwvU
- msEXjTt5af45EG/uerAFxHdSS0uC6djOrPwdHTzZQL3xcQcZ49GrsjCNmW1TKrlHN5iL
- rmgg==
-X-Gm-Message-State: APjAAAU8hs936oAPX7YK+3xdVbNqI8uqxae8KUcxG8tthrCAuWsEdK+N
- bmCZQEmv0/cWG56MPtkN9gsnki0cT2NqMxvm72g=
-X-Google-Smtp-Source: APXvYqwXWuftMyTU+v9pDTeFceCDJh7oOC80IPG6kupreczCdmilrRrpGU30V0yDNxarQZ4IwUA5DCbL3g36OxTBcSw=
-X-Received: by 2002:aa7:d80c:: with SMTP id v12mr16528373edq.302.1576440135503; 
- Sun, 15 Dec 2019 12:02:15 -0800 (PST)
-MIME-Version: 1.0
-References: <20191213234530.145963-1-dianders@chromium.org>
-In-Reply-To: <20191213234530.145963-1-dianders@chromium.org>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=xIgln2CTeNUTcohT4yCRcrSFMvesnt3sC8dwNxQQtUM=;
+ b=d78RSKq32j8G5EhaZbFT87VYDKBKa6fb04n2jDKgf2rXlDhlcf/Q363qWlaawRRuSs
+ crODvFgtzWm2TNdnDJC0FW3RODsV9JA23D9tqg9ZV0qmAhINcRROKzzAhX8Ii0HcHDUK
+ O9OemnJ+GWIbWyGr7OHovVSLftkWqupa14QMUjuE+G0aYMTbeSmEwGK2xOadRUBVHmW5
+ KhXi/BDFGwID+zi1fvk2Ken7zECquzuWB8xnoyv/9a+Kxpv50O94oln3i/g7BD5oQGBj
+ 7XobsO/hYed1Vmx274tM8Z7fkKHGCqYbSZn/TaDvGh/rnFlonbgxcLdZktbVK3bMZI3/
+ rr9Q==
+X-Gm-Message-State: APjAAAXM2Tt2/ax6w/meRZQskodoxjc9o+TGvIhMG1Xsmwl2BCnAZKhL
+ Ok+3P/cc2kLR+ube9dnm6JY=
+X-Google-Smtp-Source: APXvYqwhMYzq9LVfNRlgXR0Z/3qbGzkkpOo79arI9v4XBwf4PSol4vSxiffMt0IkLYIKZtwLVmBK6g==
+X-Received: by 2002:a63:4f64:: with SMTP id p36mr14378616pgl.271.1576440302589; 
+ Sun, 15 Dec 2019 12:05:02 -0800 (PST)
+Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
+ by smtp.gmail.com with ESMTPSA id
+ c8sm18881075pfj.106.2019.12.15.12.05.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 15 Dec 2019 12:05:01 -0800 (PST)
 From: Rob Clark <robdclark@gmail.com>
-Date: Sun, 15 Dec 2019 12:02:07 -0800
-Message-ID: <CAF6AEGusg19F-=m7k5JDQDdr4xAT1By--5FicM_iuKcFRCfMdA@mail.gmail.com>
-Subject: Re: [PATCH 0/9] drm/bridge: ti-sn65dsi86: Improve support for AUO
- B116XAK01 + other low res DP
 To: Douglas Anderson <dianders@chromium.org>
+Subject: [PATCH 1/2] fixup! drm/bridge: ti-sn65dsi86: Train at faster rates if
+ slower ones fail
+Date: Sun, 15 Dec 2019 12:04:59 -0800
+Message-Id: <20191215200459.1018893-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191213154448.8.I251add713bc5c97225200894ab110ea9183434fd@changeid>
+References: <20191213154448.8.I251add713bc5c97225200894ab110ea9183434fd@changeid>
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,97 +77,43 @@ Cc: Rob Clark <robdclark@chromium.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
  Sean Paul <seanpaul@chromium.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 13, 2019 at 3:46 PM Douglas Anderson <dianders@chromium.org> wrote:
->
-> This series contains a pile of patches that was created to support
-> hooking up the AUO B116XAK01 panel to the eDP side of the bridge.  In
-> general it should be useful for hooking up a wider variety of DP
-> panels to the bridge, especially those with lower resolution and lower
-> bits per pixel.
->
-> The overall result of this series:
-> * Allows panels with fewer than 4 DP lanes hooked up to work.
-> * Optimizes the link rate for panels with 6 bpp.
-> * Supports trying more than one link rate when training if the main
->   link rate didn't work.
->
-> It's not expected that this series will break any existing users, but
-> it is possible that the patch to skip non-standard DP rates could mean
-> that a panel that used to use one of these non-standard link rates
-> will now run at a higher rate than it used to.  If this happens, the
-> patch could be reverted or someone could figure out how to decide when
-> it's OK to use the non-standard rates.
->
-> To support the AUO B116XAK01, we could actually stop at the ("Use
-> 18-bit DP if we can") patch since that causes the panel to run at a
-> link rate of 1.62 which works.  The patches to try more than one link
-> rate were all developed prior to realizing that I could just use
-> 18-bit mode and were validated with that patch reverted.
->
-> The patch to try more than one rate was validated by forcing the code
-> to try 2.16 GHz (but still skip 2.43 GHz, which trains but shows
-> garbage on AUO B116XAK01) and seeing that we'd try 2.16 GHz (and fail)
-> and then eventually pass at 2.7 GHz and show a pretty screen.
->
-> These patches were tested on sdm845-cheza atop mainline as of
-> 2019-12-13 and also on another board (the one with AUO B116XAK01) atop
-> a downstream kernel tree.
->
-> This patch series doesn't do anything to optimize the MIPI link and
-> only focuses on the DP link.  For instance, it's left as an exercise
-> to the reader to see if we can use the 666-packed mode on the MIPI
-> link and save some power (because we could lower the clock rate).
->
-> I am nowhere near a display expert and my knowledge of DP and MIPI is
-> pretty much zero.  If something about this patch series smells wrong,
-> it probably is.  Please let know and I'll try to fix it.
->
->
-> Douglas Anderson (9):
->   drm/bridge: ti-sn65dsi86: Split the setting of the dp and dsi rates
->   drm/bridge: ti-sn65dsi86: zero is never greater than an unsigned int
->   drm/bridge: ti-sn65dsi86: Don't use MIPI variables for DP link
->   drm/bridge: ti-sn65dsi86: Config number of DP lanes Mo' Betta
->   drm/bridge: ti-sn65dsi86: Read num lanes from the DP sink
->   drm/bridge: ti-sn65dsi86: Use 18-bit DP if we can
->   drm/bridge: ti-sn65dsi86: Group DP link training bits in a function
->   drm/bridge: ti-sn65dsi86: Train at faster rates if slower ones fail
->   drm/bridge: ti-sn65dsi86: Skip non-standard DP rates
->
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 230 +++++++++++++++++++++-----
->  1 file changed, 187 insertions(+), 43 deletions(-)
-
-I've given these a spin on my yoga c630, which uses the same bridge, so:
-
-Tested-by: Rob Clark <robdclark@gmail.com>
-
-I've got one small fixup for a compiler warning for the 2nd to last,
-and with that, the first 8 are:
-
-Reviewed-by: Rob Clark <robdclark@gmail.com>
-
-I've also got a fixup for the last one which reads
-SUPPORTED_LINK_RATES.  However the panel I have is pre eDP 1.4, so the
-interesting codepath there is untested.  Not sure offhand if the
-panels you have are eDP 1.4+ or not?
-
-BR,
--R
-
->
-> --
-> 2.24.1.735.g03f4e72817-goog
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogUm9iIENsYXJrIDxyb2JkY2xhcmtAY2hyb21pdW0ub3JnPgoKRml4ZXM6CgpJbiBmaWxl
+IGluY2x1ZGVkIGZyb20gLi4vZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90aS1zbjY1ZHNpODYuYzoy
+NToKLi4vZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90aS1zbjY1ZHNpODYuYzogSW4gZnVuY3Rpb24g
+4oCYdGlfc25fYnJpZGdlX2VuYWJsZeKAmToKLi4vaW5jbHVkZS9kcm0vZHJtX3ByaW50Lmg6MzM5
+OjI6IHdhcm5pbmc6IOKAmGxhc3RfZXJyX3N0cuKAmSBtYXkgYmUgdXNlZCB1bmluaXRpYWxpemVk
+IGluIHRoaXMgZnVuY3Rpb24gWy1XbWF5YmUtdW5pbml0aWFsaXplZF0KICAzMzkgfCAgZHJtX2Rl
+dl9wcmludGsoZGV2LCBLRVJOX0VSUiwgIipFUlJPUiogIiBmbXQsICMjX19WQV9BUkdTX18pCiAg
+ICAgIHwgIF5+fn5+fn5+fn5+fn5+Ci4uL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGktc242NWRz
+aTg2LmM6NjUwOjE0OiBub3RlOiDigJhsYXN0X2Vycl9zdHLigJkgd2FzIGRlY2xhcmVkIGhlcmUK
+ICA2NTAgfCAgY29uc3QgY2hhciAqbGFzdF9lcnJfc3RyOwogICAgICB8ICAgICAgICAgICAgICBe
+fn5+fn5+fn5+fn4KSW4gZmlsZSBpbmNsdWRlZCBmcm9tIC4uL2RyaXZlcnMvZ3B1L2RybS9icmlk
+Z2UvdGktc242NWRzaTg2LmM6MjU6Ci4uL2luY2x1ZGUvZHJtL2RybV9wcmludC5oOjMzOToyOiB3
+YXJuaW5nOiDigJhyZXTigJkgbWF5IGJlIHVzZWQgdW5pbml0aWFsaXplZCBpbiB0aGlzIGZ1bmN0
+aW9uIFstV21heWJlLXVuaW5pdGlhbGl6ZWRdCiAgMzM5IHwgIGRybV9kZXZfcHJpbnRrKGRldiwg
+S0VSTl9FUlIsICIqRVJST1IqICIgZm10LCAjI19fVkFfQVJHU19fKQogICAgICB8ICBefn5+fn5+
+fn5+fn5+fgouLi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RpLXNuNjVkc2k4Ni5jOjY1NDo2OiBu
+b3RlOiDigJhyZXTigJkgd2FzIGRlY2xhcmVkIGhlcmUKICA2NTQgfCAgaW50IHJldDsKICAgICAg
+fCAgICAgIF5+fgogIEJ1aWxkaW5nIG1vZHVsZXMsIHN0YWdlIDIuCi0tLQogZHJpdmVycy9ncHUv
+ZHJtL2JyaWRnZS90aS1zbjY1ZHNpODYuYyB8IDQgKystLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5z
+ZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
+YnJpZGdlL3RpLXNuNjVkc2k4Ni5jIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90aS1zbjY1ZHNp
+ODYuYwppbmRleCBjYjc3NGVlNTM2Y2QuLjk3NmY5ODk5MWIzZCAxMDA2NDQKLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL2JyaWRnZS90aS1zbjY1ZHNpODYuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vYnJp
+ZGdlL3RpLXNuNjVkc2k4Ni5jCkBAIC02MTgsMTEgKzYxOCwxMSBAQCBzdGF0aWMgaW50IHRpX3Nu
+X2xpbmtfdHJhaW5pbmcoc3RydWN0IHRpX3NuX2JyaWRnZSAqcGRhdGEsIGludCBkcF9yYXRlX2lk
+eCwKIHN0YXRpYyB2b2lkIHRpX3NuX2JyaWRnZV9lbmFibGUoc3RydWN0IGRybV9icmlkZ2UgKmJy
+aWRnZSkKIHsKIAlzdHJ1Y3QgdGlfc25fYnJpZGdlICpwZGF0YSA9IGJyaWRnZV90b190aV9zbl9i
+cmlkZ2UoYnJpZGdlKTsKLQljb25zdCBjaGFyICpsYXN0X2Vycl9zdHI7CisJY29uc3QgY2hhciAq
+bGFzdF9lcnJfc3RyID0gIk5vIHN1cHBvcnRlZCBEUCByYXRlIjsKIAlpbnQgZHBfcmF0ZV9pZHg7
+CiAJaW50IG1heF9kcF9yYXRlX2lkeDsKIAl1bnNpZ25lZCBpbnQgdmFsOwotCWludCByZXQ7CisJ
+aW50IHJldCA9IC1FSU5WQUw7CiAKIAkvKgogCSAqIFJ1biB3aXRoIHRoZSBtYXhpbXVtIG51bWJl
+ciBvZiBsYW5lcyB0aGF0IHRoZSBEUCBzaW5rIHN1cHBvcnRzLgotLSAKMi4yMy4wCgpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
+ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
