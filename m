@@ -1,56 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1E4C11F919
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Dec 2019 17:38:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B152711FA7F
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Dec 2019 19:43:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7E0B6E116;
-	Sun, 15 Dec 2019 16:38:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8A0489C94;
+	Sun, 15 Dec 2019 18:42:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A59B66E11C
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Dec 2019 16:38:31 +0000 (UTC)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56F3F89C94
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Dec 2019 18:42:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576427910;
+ s=mimecast20190719; t=1576435375;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5+TqmbLQzQ/VhWvgbcbh43ilbcLxJUlh83NZxjX7V3s=;
- b=EEFAU2zA1leboDailNX4nm1ylLvv+gVPQR3MGMe4dp3+rNEUCsvE+c29PtGVl0TxfCItZ0
- nFr8q+8m0shDbBRhYy6GP2iTRmhnQN9ZglZtaJaMcBPZFp0YbxIXFkIwgVTjY+KC9vNPk4
- 7m8n1kUg9CIHUNmVHm22Y237veX0zFA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-blklPJ6EOpycc36DK-BbdA-1; Sun, 15 Dec 2019 11:38:27 -0500
-X-MC-Unique: blklPJ6EOpycc36DK-BbdA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9BA1E477;
- Sun, 15 Dec 2019 16:38:25 +0000 (UTC)
-Received: from shalem.localdomain.com (ovpn-116-49.ams2.redhat.com
- [10.36.116.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9A6EB5D9C9;
- Sun, 15 Dec 2019 16:38:23 +0000 (UTC)
+ bh=l8HsV4GKyEPd70JM3+HYhy9kTpLbFcibXW5ANrQJD/w=;
+ b=hVaxLSc7Ej47WKEuDRnVrGYcPgOlhKyyL7R2xKue0v6ulIOyEBUXuOy/9fozf/9y2z6wSO
+ qlXKJ7jr7L72QZCqxelztfoh5vNq6bzLoqVhoRG9jj49TZOQdhSL8GJjmNtUt9hXjzKFKT
+ MEz3QTZ1+orilHAKa49bMAwfspoVeNk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-197-tpJHsVPQM2KaDVV6zR7Wfg-1; Sun, 15 Dec 2019 13:42:49 -0500
+Received: by mail-wr1-f69.google.com with SMTP id z10so2486813wrt.21
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Dec 2019 10:42:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=I0xEsxYj9YvawI0sr1Y7Fza0Bf52ptk+dtx/qvDusGs=;
+ b=SzXXb5T6BnHqSLQYHchkSuTP1NI55ykcMjZts+n0YG1KRTtabHJP8JkrgJMdykZdb0
+ fkpf3rFB8A3R5qKet/SoYN81tww2mw1CMRJYxoxFopYw9l5gE2GmaBIZvF9M6DysIIWP
+ xud1Dh+dRfKylG6AVHanhLliVIjR3xgGwrwFNafwTX/7QEdj+ZRa9/blSQB+YuTAO0ED
+ EtsYaS5rWoYUCGLKNMxHE9E2KUl3AQPCe7yBExpxNCRGFB3t7/I7vIeLuWEhkI1VQfTH
+ TKxw2ASpN0DgoIeBQPmyC094JfEfZzE60pe+OoZykYTtMT2+PLhdgZRfxmbAoRJnU3Oe
+ hfIg==
+X-Gm-Message-State: APjAAAXpf2LZg2iSbKeSmawIvltgM6ewCDojB2jLOIqs48pCBTn1sfwL
+ 9UGXk3USIdhG3evjM7l+NYvkVR3hXFJjdTYqTZu0IdAggax/NTpVDo32rjUOtPCukIUKz0ECUit
+ yHe5AqnQetZWs//rCYBWJTJQdEk4J
+X-Received: by 2002:a5d:4d06:: with SMTP id z6mr18183944wrt.339.1576435368191; 
+ Sun, 15 Dec 2019 10:42:48 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxY9jkSQ+Xq3ZDBHHZ1SuggcMrDd1fPAFLlibU19EDYlWFfnX3qDdunQNOAU2H36kGbmQ27sg==
+X-Received: by 2002:a5d:4d06:: with SMTP id z6mr18183934wrt.339.1576435368013; 
+ Sun, 15 Dec 2019 10:42:48 -0800 (PST)
+Received: from shalem.localdomain
+ (2001-1c00-0c0c-fe00-7e79-4dac-39d0-9c14.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c0c:fe00:7e79:4dac:39d0:9c14])
+ by smtp.gmail.com with ESMTPSA id p7sm2342340wmp.31.2019.12.15.10.42.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 15 Dec 2019 10:42:47 -0800 (PST)
+Subject: Re: [PATCH] drm: panel-orientation-quirks: Add quirk for Teclast X89
+ tablet
 From: Hans de Goede <hdegoede@redhat.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- Lee Jones <lee.jones@linaro.org>, Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH 5/5] drm/i915/dsi: Control panel and backlight enable GPIOs on
- BYT
-Date: Sun, 15 Dec 2019 17:38:10 +0100
-Message-Id: <20191215163810.52356-6-hdegoede@redhat.com>
-In-Reply-To: <20191215163810.52356-1-hdegoede@redhat.com>
-References: <20191215163810.52356-1-hdegoede@redhat.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Sean Paul <seanpaul@chromium.org>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
+References: <20191202105055.13201-1-hdegoede@redhat.com>
+ <66b14589-aba8-1cf2-21e5-7fd1c205e8da@redhat.com>
+Message-ID: <754863a0-38e2-5d5c-fc42-12597e5e48ee@redhat.com>
+Date: Sun, 15 Dec 2019 19:42:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <66b14589-aba8-1cf2-21e5-7fd1c205e8da@redhat.com>
+Content-Language: en-US
+X-MC-Unique: tpJHsVPQM2KaDVV6zR7Wfg-1
+X-Mimecast-Spam-Score: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,194 +83,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Bay Trail devices the MIPI power on/off sequences for DSI LCD panels
-do not control the LCD panel- and backlight-enable GPIOs. So far, when
-the VBT indicates we should use the SoC for backlight control, we have
-been relying on these GPIOs being configured as output and driven high by
-the Video BIOS (GOP) when it initializes the panel.
-
-This does not work when the device is booted with a HDMI monitor connected
-as then the GOP will initialize the HDMI instead of the panel, leaving the
-panel black, even though the i915 driver tries to output an image to it.
-
-Likewise on some device-models when the GOP does not initialize the DSI
-panel it also leaves the mux of the PWM0 pin in generic GPIO mode instead
-of muxing it to the PWM controller.
-
-This commit makes the DSI code control the SoC GPIOs for panel- and
-backlight-enable on BYT, when the VBT indicates the SoC should be used
-
-for backlight control. It also ensures that the PWM0 pin is muxed to the
-PWM controller in this case.
-
-This fixes the LCD panel not lighting up on various devices when booted
-with a HDMI monitor connected. This has been tested to fix this on the
-following devices:
-
-Peaq C1010
-Point of View MOBII TAB-P800W
-Point of View MOBII TAB-P1005W
-Terra Pad 1061
-Yours Y8W81
-
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/gpu/drm/i915/display/intel_dsi.h     |  3 +-
- drivers/gpu/drm/i915/display/intel_dsi_vbt.c | 63 ++++++++++++++++++++
- 2 files changed, 65 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_dsi.h b/drivers/gpu/drm/i915/display/intel_dsi.h
-index 675771ea91aa..7481a5aa3084 100644
---- a/drivers/gpu/drm/i915/display/intel_dsi.h
-+++ b/drivers/gpu/drm/i915/display/intel_dsi.h
-@@ -45,8 +45,9 @@ struct intel_dsi {
- 	struct intel_dsi_host *dsi_hosts[I915_MAX_PORTS];
- 	intel_wakeref_t io_wakeref[I915_MAX_PORTS];
- 
--	/* GPIO Desc for CRC based Panel control */
-+	/* GPIO Desc for panel and backlight control */
- 	struct gpio_desc *gpio_panel;
-+	struct gpio_desc *gpio_backlight;
- 
- 	struct intel_connector *attached_connector;
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_dsi_vbt.c b/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
-index 847f04eec2a1..bd007d4f86e2 100644
---- a/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
-+++ b/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
-@@ -27,6 +27,8 @@
- #include <linux/gpio/consumer.h>
- #include <linux/gpio/machine.h>
- #include <linux/mfd/intel_soc_pmic.h>
-+#include <linux/pinctrl/consumer.h>
-+#include <linux/pinctrl/machine.h>
- #include <linux/slab.h>
- 
- #include <asm/intel-mid.h>
-@@ -525,11 +527,15 @@ void intel_dsi_vbt_exec_sequence(struct intel_dsi *intel_dsi,
- {
- 	if (seq_id == MIPI_SEQ_POWER_ON && intel_dsi->gpio_panel)
- 		gpiod_set_value_cansleep(intel_dsi->gpio_panel, 1);
-+	if (seq_id == MIPI_SEQ_BACKLIGHT_ON && intel_dsi->gpio_backlight)
-+		gpiod_set_value_cansleep(intel_dsi->gpio_backlight, 1);
- 
- 	intel_dsi_vbt_exec(intel_dsi, seq_id);
- 
- 	if (seq_id == MIPI_SEQ_POWER_OFF && intel_dsi->gpio_panel)
- 		gpiod_set_value_cansleep(intel_dsi->gpio_panel, 0);
-+	if (seq_id == MIPI_SEQ_BACKLIGHT_OFF && intel_dsi->gpio_backlight)
-+		gpiod_set_value_cansleep(intel_dsi->gpio_backlight, 0);
- }
- 
- void intel_dsi_msleep(struct intel_dsi *intel_dsi, int msec)
-@@ -688,6 +694,8 @@ bool intel_dsi_vbt_init(struct intel_dsi *intel_dsi, u16 panel_id)
- /*
-  * On some BYT/CHT devs some sequences are incomplete and we need to manually
-  * control some GPIOs. We need to add a GPIO lookup table before we get these.
-+ * If the GOP did not initialize the panel (HDMI inserted) we may need to also
-+ * change the pinmux for the SoC's PWM0 pin from GPIO to PWM.
-  */
- static struct gpiod_lookup_table pmic_panel_gpio_table = {
- 	/* Intel GFX is consumer */
-@@ -699,23 +707,68 @@ static struct gpiod_lookup_table pmic_panel_gpio_table = {
- 	},
- };
- 
-+static struct gpiod_lookup_table soc_panel_gpio_table = {
-+	.dev_id = "0000:00:02.0",
-+	.table = {
-+	  GPIO_LOOKUP("INT33FC:01", 10, "backlight", GPIO_ACTIVE_HIGH),
-+	  GPIO_LOOKUP("INT33FC:01", 11, "panel", GPIO_ACTIVE_HIGH),
-+	  { },
-+	},
-+};
-+
-+static const struct pinctrl_map soc_pwm_pinctrl_map[] = {
-+	PIN_MAP_MUX_GROUP("0000:00:02.0", "soc_pwm0", "INT33FC:00",
-+			  "pwm0_grp", "pwm"),
-+};
-+
- void intel_dsi_vbt_gpio_init(struct intel_dsi *intel_dsi, bool panel_is_on)
- {
- 	struct drm_device *dev = intel_dsi->base.base.dev;
- 	struct drm_i915_private *dev_priv = to_i915(dev);
- 	struct mipi_config *mipi_config = dev_priv->vbt.dsi.config;
- 	enum gpiod_flags flags = panel_is_on ? GPIOD_OUT_HIGH : GPIOD_OUT_LOW;
-+	bool want_backlight_gpio = false;
-+	bool want_panel_gpio = false;
-+	struct pinctrl *pinctrl;
-+	int ret;
- 
- 	if ((IS_VALLEYVIEW(dev_priv) || IS_CHERRYVIEW(dev_priv)) &&
- 	    (mipi_config->pwm_blc == PPS_BLC_PMIC)) {
- 		gpiod_add_lookup_table(&pmic_panel_gpio_table);
-+		want_panel_gpio = true;
-+	}
-+
-+	if (IS_VALLEYVIEW(dev_priv) && mipi_config->pwm_blc == PPS_BLC_SOC) {
-+		gpiod_add_lookup_table(&soc_panel_gpio_table);
-+		want_panel_gpio = true;
-+		want_backlight_gpio = true;
- 
-+		/* Ensure PWM0 pin is muxed as PWM instead of GPIO */
-+		ret = pinctrl_register_mappings(soc_pwm_pinctrl_map, 1);
-+		if (ret)
-+			DRM_ERROR("Failed to register pwm0 pinmux mapping\n");
-+
-+		pinctrl = devm_pinctrl_get_select(dev->dev, "soc_pwm0");
-+		if (IS_ERR(pinctrl))
-+			DRM_ERROR("Failed to set pinmux to PWM\n");
-+	}
-+
-+	if (want_panel_gpio) {
- 		intel_dsi->gpio_panel = gpiod_get(dev->dev, "panel", flags);
- 		if (IS_ERR(intel_dsi->gpio_panel)) {
- 			DRM_ERROR("Failed to own gpio for panel control\n");
- 			intel_dsi->gpio_panel = NULL;
- 		}
- 	}
-+
-+	if (want_backlight_gpio) {
-+		intel_dsi->gpio_backlight =
-+			gpiod_get(dev->dev, "backlight", flags);
-+		if (IS_ERR(intel_dsi->gpio_backlight)) {
-+			DRM_ERROR("Failed to own gpio for backlight control\n");
-+			intel_dsi->gpio_backlight = NULL;
-+		}
-+	}
- }
- 
- void intel_dsi_vbt_gpio_cleanup(struct intel_dsi *intel_dsi)
-@@ -729,7 +782,17 @@ void intel_dsi_vbt_gpio_cleanup(struct intel_dsi *intel_dsi)
- 		intel_dsi->gpio_panel = NULL;
- 	}
- 
-+	if (intel_dsi->gpio_backlight) {
-+		gpiod_put(intel_dsi->gpio_backlight);
-+		intel_dsi->gpio_backlight = NULL;
-+	}
-+
- 	if ((IS_VALLEYVIEW(dev_priv) || IS_CHERRYVIEW(dev_priv)) &&
- 	    (mipi_config->pwm_blc == PPS_BLC_PMIC))
- 		gpiod_remove_lookup_table(&pmic_panel_gpio_table);
-+
-+	if (IS_VALLEYVIEW(dev_priv) && mipi_config->pwm_blc == PPS_BLC_SOC) {
-+		pinctrl_unregister_mappings(soc_pwm_pinctrl_map);
-+		gpiod_remove_lookup_table(&soc_panel_gpio_table);
-+	}
- }
--- 
-2.23.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksCgpPbiAxMS0xMi0yMDE5IDE4OjM4LCBIYW5zIGRlIEdvZWRlIHdyb3RlOgo+IEhpLAo+IAo+
+IEkga25vdyB0aGVzZSBraW5kYSBwYXRjaGVzIGFyZSBzb3J0YSB0cml2aWFsLCBzdGlsbCBJIHBy
+ZWZlciB0byBnZXQgYW4KPiBBY2tlZC1ieSBiZWZvcmUgcHVzaGluZyB0aGlzIHRvIGRybS1taXNj
+LW5leHQuIENhbiBzb21lb25lIHJldmlldyB0aGlzIHBsZWFzZT8KPiAKPiBBbHRlcm5hdGl2ZSBJ
+IGd1ZXNzIHdlIGNvdWxkIGFncmVlIHRoYXQgcHVzaGluZyBwYXRjaGVzIHdoaWNoIGp1c3QgYWRk
+IGEgZG1pCj4gcXVpcmsgdG8gZHJtX3BhbmVsX29yaWVudGF0aW9uX3F1aXJrcy5jIGlzIG9rIHdo
+ZW4gdGhlIHBhdGNoIGhhcyBzYXQgb24gdGhlCj4gbGlzdCB3aXRob3V0IGFueSByZXNwb25zZSBm
+b3IgYSB3ZWVrID8KCk5ldmVybWluZCwgZm9yIGRldmljZXMgd2l0aCBhbiB1cHNpZGUtZG93biBw
+YW5lbCB0aGUgaW5mbyBpcyBpbiB0aGUgVkJUIGFuZAp3ZSBzaG91bGQgdXNlIHRoYXQgaW5zdGVh
+ZCBvZiBkb2luZyBhIHF1aXJrLCBzZWxmLW5hY2suCgpSZWdhcmRzLAoKSGFucwoKCgo+IE9uIDAy
+LTEyLTIwMTkgMTE6NTAsIEhhbnMgZGUgR29lZGUgd3JvdGU6Cj4+IFRoZSBUZWNsYXN0IFg4OSB1
+c2VzIGFuIHVwc2lkZS1kb3duIG1vdW50ZWQgZURQIHBhbmVsLCBhZGQgYQo+PiBwYW5lbC1vcmll
+bnRhdGlvbiBxdWlyayBmb3IgdGhpcy4KPj4KPj4gU2lnbmVkLW9mZi1ieTogSGFucyBkZSBHb2Vk
+ZSA8aGRlZ29lZGVAcmVkaGF0LmNvbT4KPj4gLS0tCj4+IMKgIGRyaXZlcnMvZ3B1L2RybS9kcm1f
+cGFuZWxfb3JpZW50YXRpb25fcXVpcmtzLmMgfCAxMyArKysrKysrKysrKysrCj4+IMKgIDEgZmls
+ZSBjaGFuZ2VkLCAxMyBpbnNlcnRpb25zKCspCj4+Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vZHJtX3BhbmVsX29yaWVudGF0aW9uX3F1aXJrcy5jIGIvZHJpdmVycy9ncHUvZHJtL2Ry
+bV9wYW5lbF9vcmllbnRhdGlvbl9xdWlya3MuYwo+PiBpbmRleCBmZmQ5NWJmZWFhOTQuLjlmMmQx
+MmYyOGE3MyAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9wYW5lbF9vcmllbnRh
+dGlvbl9xdWlya3MuYwo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX3BhbmVsX29yaWVudGF0
+aW9uX3F1aXJrcy5jCj4+IEBAIC0xMDgsNiArMTA4LDEzIEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3Qg
+ZHJtX2RtaV9wYW5lbF9vcmllbnRhdGlvbl9kYXRhIGxjZDEyMDB4MTkyMF9yaWdodHNpZGVfdXAg
+PSB7Cj4+IMKgwqDCoMKgwqAgLm9yaWVudGF0aW9uID0gRFJNX01PREVfUEFORUxfT1JJRU5UQVRJ
+T05fUklHSFRfVVAsCj4+IMKgIH07Cj4+ICtzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9kbWlfcGFu
+ZWxfb3JpZW50YXRpb25fZGF0YSB0ZWNsYXN0X3g4OSA9IHsKPj4gK8KgwqDCoCAud2lkdGggPSAx
+NTM2LAo+PiArwqDCoMKgIC5oZWlnaHQgPSAyMDQ4LAo+PiArwqDCoMKgIC5iaW9zX2RhdGVzID0g
+KGNvbnN0IGNoYXIgKiBjb25zdCBbXSl7ICIxMi8xOS8yMDE0IiwgTlVMTCB9LAo+PiArwqDCoMKg
+IC5vcmllbnRhdGlvbiA9IERSTV9NT0RFX1BBTkVMX09SSUVOVEFUSU9OX0JPVFRPTV9VUCwKPj4g
+K307Cj4+ICsKPj4gwqAgc3RhdGljIGNvbnN0IHN0cnVjdCBkbWlfc3lzdGVtX2lkIG9yaWVudGF0
+aW9uX2RhdGFbXSA9IHsKPj4gwqDCoMKgwqDCoCB7wqDCoMKgIC8qIEFjZXIgT25lIDEwIChTMTAw
+MykgKi8KPj4gwqDCoMKgwqDCoMKgwqDCoMKgIC5tYXRjaGVzID0gewo+PiBAQCAtMjA1LDYgKzIx
+MiwxMiBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRtaV9zeXN0ZW1faWQgb3JpZW50YXRpb25fZGF0
+YVtdID0gewo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIERNSV9FWEFDVF9NQVRDSChETUlfUFJP
+RFVDVF9WRVJTSU9OLCAiTGVub3ZvIGlkZWFwYWQgRDMzMC0xMElHTSIpLAo+PiDCoMKgwqDCoMKg
+wqDCoMKgwqAgfSwKPj4gwqDCoMKgwqDCoMKgwqDCoMKgIC5kcml2ZXJfZGF0YSA9ICh2b2lkICop
+JmxjZDEyMDB4MTkyMF9yaWdodHNpZGVfdXAsCj4+ICvCoMKgwqAgfSwge8KgwqDCoCAvKiBUZWNs
+YXN0IFg4OSAodFBBRCBpcyB0b28gZ2VuZXJpYywgYWxzbyBtYXRjaCBvbiBiaW9zIGRhdGUpICov
+Cj4+ICvCoMKgwqDCoMKgwqDCoCAubWF0Y2hlcyA9IHsKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoCBE
+TUlfRVhBQ1RfTUFUQ0goRE1JX0JPQVJEX1ZFTkRPUiwgIlRFQ0xBU1QiKSwKPj4gK8KgwqDCoMKg
+wqDCoMKgwqDCoCBETUlfRVhBQ1RfTUFUQ0goRE1JX0JPQVJEX05BTUUsICJ0UEFEIiksCj4+ICvC
+oMKgwqDCoMKgwqDCoCB9LAo+PiArwqDCoMKgwqDCoMKgwqAgLmRyaXZlcl9kYXRhID0gKHZvaWQg
+KikmdGVjbGFzdF94ODksCj4+IMKgwqDCoMKgwqAgfSwge8KgwqDCoCAvKiBWSU9TIExUSDE3ICov
+Cj4+IMKgwqDCoMKgwqDCoMKgwqDCoCAubWF0Y2hlcyA9IHsKPj4gwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCBETUlfRVhBQ1RfTUFUQ0goRE1JX1NZU19WRU5ET1IsICJWSU9TIiksCj4+CgpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
+ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
