@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89C461204F1
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 13:07:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 871C6120535
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 13:16:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AC8C6E4E6;
-	Mon, 16 Dec 2019 12:07:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70D026E141;
+	Mon, 16 Dec 2019 12:16:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B09956E4E3
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 12:07:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576498064;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fQ46nvUqunNbgCF9mSFvcSSkOg8dmX0iy8J423hZNsI=;
- b=POw0rd2xNEPtfngD6rQwIDSy2l9h2iaUfawl880+T4KRH9c1suwoRiNYAKYHiOSRatW9ww
- KLock0eLuu6s/xZSoE5HadLRI1xuZq0YBaW+6bv1nKGRQAt8VW70kXjXxWJtQIkldjpXM3
- 2VRyUTVHwDpWZXLDqvDFpdK95gTHqKY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-71-3ahovy91MrqEk-n33ywftw-1; Mon, 16 Dec 2019 07:07:43 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6F491005502;
- Mon, 16 Dec 2019 12:07:41 +0000 (UTC)
-Received: from shalem.localdomain.com (ovpn-116-96.ams2.redhat.com
- [10.36.116.96])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 21A581000328;
- Mon, 16 Dec 2019 12:07:39 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 2/2] drm/i915: Add invert-brightness quirk for Thundersoft
- TST178 tablet
-Date: Mon, 16 Dec 2019 13:07:35 +0100
-Message-Id: <20191216120735.1091873-3-hdegoede@redhat.com>
-In-Reply-To: <20191216120735.1091873-1-hdegoede@redhat.com>
-References: <20191216120735.1091873-1-hdegoede@redhat.com>
+Received: from mail-ua1-x941.google.com (mail-ua1-x941.google.com
+ [IPv6:2607:f8b0:4864:20::941])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 925776E141
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 12:16:32 +0000 (UTC)
+Received: by mail-ua1-x941.google.com with SMTP id f7so1976728uaa.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 04:16:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=g6hMK4zvmiSQXDEVIro/DLpNW8Dnq2eeAYZqmv+C7n4=;
+ b=ACbNbFswU1bSLXpKw7frBiJCD6yT6A648nS5mwhOnzZ/oCoWad3p+XghmD1WWzlVJm
+ txMzHtwXkBDWokJ/qZ+h2NJNPo9VbjuBgNeD2ooLabCNucUnCK0laHcbbaDut7vIo027
+ DGIbWg5yK8l48N2llclSO2ZAL85UBWtMaooZlHhG8lnHmOvHVcS+QEgB/B532FqJdWQh
+ Ud6qSt1MTC7AD4yTbOkjMO5VSHEg7XmLrE6VGezhugDqk9s7SNpN9mJC+dL9rWjyTL+v
+ ag2YGxtfHBMl2JzSpFfkRk+npQR6zGCl2dRnuhF+/nv3CFHdQT4l5R3tgcRsFnEci7bQ
+ ONyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=g6hMK4zvmiSQXDEVIro/DLpNW8Dnq2eeAYZqmv+C7n4=;
+ b=mzNRST9wL+2+gxADJwOJt0iAXeqMUv5Rd+RApAAXnpULlj+CQiKZN9n4zMQxyvUh9q
+ JhTx1lYRy9wAmgtxGy3Si0EmMslq9pH/OkNKWvaFkD2x7OwW2moz876veVSK1rCbtSZQ
+ XZKAb6Qb5FHaIqbBHONY9auAQnnKlokURxC+Asg5Vi/kZeLGFWU8u6aE45V8mE7GA7dy
+ UzmOuK2Rxrv8d45LG4KM8KjEg3YyTxQ/kpOtKWBI6W0jIpTMZiQa1pV1AOdqegOL+QOt
+ JmY+aTSs+Cvo2Lh2CeOXpKN4HL7bOyuDaqcEX1vsWG577/wb1Yxs+aoQNnC/Qj9IX2HO
+ 0uvA==
+X-Gm-Message-State: APjAAAUev4gSbqevkr+2j2hjDTA2wToqixRQ8MWWCTjMJnagqFHpwme7
+ 39kg3QzeMytKJOj5HCLmHIFTMDsINMqfk/HFMXdHyA==
+X-Google-Smtp-Source: APXvYqxgrIn4al26ZnFpKqCL0TxyFBEwhX8AWXeCD4bBS7Ttf4sGA8fJ1Pg64Ke5L5GoUz3YDXkMxfaBaYcspaOS/YE=
+X-Received: by 2002:ab0:1c0a:: with SMTP id a10mr22825812uaj.140.1576498591580; 
+ Mon, 16 Dec 2019 04:16:31 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: 3ahovy91MrqEk-n33ywftw-1
-X-Mimecast-Spam-Score: 0
+References: <20191215163810.52356-1-hdegoede@redhat.com>
+ <CACRpkdarJ5chDfgc5F=ntzG1pw7kchtzp0Upp+OH9CH6WLnvXw@mail.gmail.com>
+ <1474a983-3e22-d59b-255a-edd3a41f0967@redhat.com>
+In-Reply-To: <1474a983-3e22-d59b-255a-edd3a41f0967@redhat.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 16 Dec 2019 13:16:20 +0100
+Message-ID: <CACRpkdaYgpY=Anem00tPS=HPCD5XUrfWmWjvPkszggnHCpgK2Q@mail.gmail.com>
+Subject: Re: [PATCH 0/5] drm/i915/dsi: Control panel and backlight enable
+ GPIOs from VBT
+To: Hans de Goede <hdegoede@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,54 +63,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel@lists.freedesktop.org
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Lee Jones <lee.jones@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Thundersoft TST178 tablet uses a DSI panel with an external PWM
-controller (as all DSI panels do). But unlike other DSI panels a duty-cycle
-of 100% turns the backlight off and 0% sets it to maximum brightness.
+On Mon, Dec 16, 2019 at 12:11 PM Hans de Goede <hdegoede@redhat.com> wrote:
 
-I've checked the VBT and there is a BDB_LVDS_BACKLIGHT section, but
-it does not set the active_low_pwm flag. This tablet re-uses the main
-PCI vendor and product ids for the subsystem ids, so I see no other option
-then to add a DMI based quirk to fix this.
+> Ugh, taking one last look at the "pinctrl: Export pinctrl_unregister_mappings"
+> patch it is no good, sorry.
 
-Note that the PWM backlight code in intel_panel.c currently does not honor
-the vbt.active_low_pwm flag, but that does not matter in this case.
+Ooops!
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/gpu/drm/i915/display/intel_quirks.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+> Linus, can you please drop this from your -next ?
 
-diff --git a/drivers/gpu/drm/i915/display/intel_quirks.c b/drivers/gpu/drm/i915/display/intel_quirks.c
-index 399b1542509f..54dba152ead8 100644
---- a/drivers/gpu/drm/i915/display/intel_quirks.c
-+++ b/drivers/gpu/drm/i915/display/intel_quirks.c
-@@ -82,6 +82,16 @@ static const struct intel_dmi_quirk intel_dmi_quirks[] = {
- 					    DMI_MATCH(DMI_PRODUCT_NAME, ""),
- 				},
- 			},
-+			{
-+				.callback = intel_dmi_reverse_brightness,
-+				.ident = "Thundersoft TST178 tablet",
-+				/* DMI strings are too generic, also match on BIOS date */
-+				.matches = {DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "AMI Corporation"),
-+					    DMI_EXACT_MATCH(DMI_BOARD_NAME, "Aptio CRB"),
-+					    DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "To be filled by O.E.M."),
-+					    DMI_EXACT_MATCH(DMI_BIOS_DATE, "04/15/2014"),
-+				},
-+			},
- 			{ }  /* terminating entry */
- 		},
- 		.hook = quirk_invert_brightness,
--- 
-2.23.0
+Sure, done.
 
+> So I see 2 options:
+> 1) Add an orig_map member to maps_node and use that in the comparison,
+> this is IMHO somewhat ugly
+>
+> 2) Add a new pinctrl_register_mappings_no_dup helper and document in
+> pinctrl_unregister_mappings kdoc that it can only be used together
+> with the no_dup variant.
+>
+> I believe that 2 is by far the best option. Linus do you agree or
+> do you have any other suggestions?
+
+What about (3) look for all calls to pinctrl_register_mappings()
+in the kernel.
+
+Hey it is 2 places in total:
+arch/arm/mach-u300/core.c:      pinctrl_register_mappings(u300_pinmux_map,
+drivers/pinctrl/cirrus/pinctrl-madera-core.c:           ret =
+pinctrl_register_mappings(pdata->gpio_configs,
+
+Delete  __initdata from the u300 table, the other one seems
+safe. Fold this into your patch.
+
+Go with the original idea.
+
+Yours,
+Linus Walleij
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
