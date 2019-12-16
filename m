@@ -1,44 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03A6B12115C
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 18:11:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63DAF12115B
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 18:11:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7E4E6E83D;
-	Mon, 16 Dec 2019 17:11:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 030C76E83C;
+	Mon, 16 Dec 2019 17:11:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo6-p00-ob.smtp.rzone.de (mo6-p00-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5300::7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 426B56E83E
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 17:11:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1576516272;
- s=strato-dkim-0002; d=gerhold.net;
- h=Message-Id:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
- Subject:Sender;
- bh=6afJ/ajVIJ5TlVFS2srTzT3GQgZn62D7gfGJJ/yBQYU=;
- b=LAi+bhVAl1fcaxGP3hVQBaWPm0rYi/68fuMOYgD95/mfD1hOBEmvpQrkATli40TI7N
- EYIRbo0vkKbvAkL5tqHJa7XRrSa/kZbYABaFH86gcqHO9ShtI/uROpa3GebLvkvqtQiH
- YbOasE4x7mfl3Nev203REjx8oxuiN9alYsRXAdLEmnRJ41rNpigwhfo2mi02rJf1KFlF
- 6cBQiBlRofIY+GrLiiMxpqWRQv15RTBUA6hCFKMRLppubtBEKmma5w1plF9HZICAiO1V
- HeZaW+2oaEvbSyLQ/v2mM03CLI1+0lZ0FX5/CNu3KsLZvqhi7wlEqV1tD9tQOF4/ojjz
- VdPQ==
-X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVORvLd4SsytBXQrEOHTIXsMv1qxJQXi4="
-X-RZG-CLASS-ID: mo00
-Received: from localhost.localdomain by smtp.strato.de (RZmta 46.0.7 AUTH)
- with ESMTPSA id N0b206vBGHBAOnz
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Mon, 16 Dec 2019 18:11:10 +0100 (CET)
-From: Stephan Gerhold <stephan@gerhold.net>
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: [PATCH v2] drm/modes: Apply video parameters with only reflect option
-Date: Mon, 16 Dec 2019 18:10:17 +0100
-Message-Id: <20191216171017.173326-1-stephan@gerhold.net>
-X-Mailer: git-send-email 2.24.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EFAA16E83C
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 17:11:05 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B12AF1FB;
+ Mon, 16 Dec 2019 09:11:05 -0800 (PST)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 785383F718;
+ Mon, 16 Dec 2019 09:11:05 -0800 (PST)
+Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
+ id 37269682AC5; Mon, 16 Dec 2019 17:11:04 +0000 (GMT)
+Date: Mon, 16 Dec 2019 17:11:04 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Subject: Re: [PATCHv4 04/36] drm/gem-fb-helper: Add special version of
+ drm_gem_fb_size_check
+Message-ID: <20191216171104.e4exwfpiv4uxxdrk@e110455-lin.cambridge.arm.com>
+References: <20191213155907.16581-1-andrzej.p@collabora.com>
+ <20191213155907.16581-5-andrzej.p@collabora.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20191213155907.16581-5-andrzej.p@collabora.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,116 +45,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Stephan Gerhold <stephan@gerhold.net>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Ayan Halder <Ayan.Halder@arm.com>, kernel@collabora.com,
+ David Airlie <airlied@linux.ie>, Sandy Huang <hjc@rock-chips.com>,
+ James Wang <james.qian.wang@arm.com>, dri-devel@lists.freedesktop.org,
+ Mihail Atanassov <mihail.atanassov@arm.com>, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-At the moment, video mode parameters like video=540x960,reflect_x,
-(without rotation set) are not taken into account when applying the
-mode in drm_client_modeset.c.
-
-One of the reasons for this is that the calculation that
-combines the panel_orientation with cmdline->rotation_reflection
-does not handle the case when cmdline->rotation_reflection does
-not have any rotation set.
-(i.e. cmdline->rotation_reflection & DRM_MODE_ROTATE_MASK == 0)
-
-Example:
-  *rotation = DRM_MODE_ROTATE_0 (no panel_orientation)
-  cmdline->rotation_reflection = DRM_MODE_REFLECT_X (video=MODE,reflect_x)
-
-The current code does:
-  panel_rot = ilog2(*rotation & DRM_MODE_ROTATE_MASK);
-  cmdline_rot = ilog2(cmdline->rotation_reflection & DRM_MODE_ROTATE_MASK);
-  sum_rot = (panel_rot + cmdline_rot) % 4;
-
-and therefore:
-  panel_rot = ilog2(DRM_MODE_ROTATE_0) = ilog2(1) = 0
-  cmdline_rot = ilog2(0) = -1
-  sum_rot = (0 + -1) % 4 = -1 % 4 = 3
-   ...
-  *rotation = DRM_MODE_ROTATE_270 | DRM_MODE_REFLECT_X
-
-So we incorrectly generate DRM_MODE_ROTATE_270 in this case.
-To prevent cmdline_rot from becoming -1, we need to treat
-the rotation as DRM_MODE_ROTATE_0.
-
-On the other hand, there is no need to go through that calculation
-at all if no rotation is set in rotation_reflection.
-A simple XOR is enough to combine the reflections.
-
-Finally, also allow DRM_MODE_ROTATE_0 in the if statement below.
-DRM_MODE_ROTATE_0 means "no rotation" and should therefore not
-require any special handling (e.g. specific tiling format).
-
-This makes video parameters with only reflect option work correctly.
-
-Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
----
-v1: https://lists.freedesktop.org/archives/dri-devel/2019-December/248145.html
-
-Changes in v2:
-  - Clarified commit message - parameters are parsed correctly,
-    but not taken into account when applying the mode.
----
- drivers/gpu/drm/drm_client_modeset.c | 27 ++++++++++++++++-----------
- 1 file changed, 16 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-index 895b73f23079..cfebce4f19a5 100644
---- a/drivers/gpu/drm/drm_client_modeset.c
-+++ b/drivers/gpu/drm/drm_client_modeset.c
-@@ -859,19 +859,23 @@ bool drm_client_rotation(struct drm_mode_set *modeset, unsigned int *rotation)
- 	 */
- 	cmdline = &connector->cmdline_mode;
- 	if (cmdline->specified && cmdline->rotation_reflection) {
--		unsigned int cmdline_rest, panel_rest;
--		unsigned int cmdline_rot, panel_rot;
--		unsigned int sum_rot, sum_rest;
-+		if (cmdline->rotation_reflection & DRM_MODE_ROTATE_MASK) {
-+			unsigned int cmdline_rest, panel_rest;
-+			unsigned int cmdline_rot, panel_rot;
-+			unsigned int sum_rot, sum_rest;
- 
--		panel_rot = ilog2(*rotation & DRM_MODE_ROTATE_MASK);
--		cmdline_rot = ilog2(cmdline->rotation_reflection & DRM_MODE_ROTATE_MASK);
--		sum_rot = (panel_rot + cmdline_rot) % 4;
-+			panel_rot = ilog2(*rotation & DRM_MODE_ROTATE_MASK);
-+			cmdline_rot = ilog2(cmdline->rotation_reflection & DRM_MODE_ROTATE_MASK);
-+			sum_rot = (panel_rot + cmdline_rot) % 4;
- 
--		panel_rest = *rotation & ~DRM_MODE_ROTATE_MASK;
--		cmdline_rest = cmdline->rotation_reflection & ~DRM_MODE_ROTATE_MASK;
--		sum_rest = panel_rest ^ cmdline_rest;
-+			panel_rest = *rotation & ~DRM_MODE_ROTATE_MASK;
-+			cmdline_rest = cmdline->rotation_reflection & ~DRM_MODE_ROTATE_MASK;
-+			sum_rest = panel_rest ^ cmdline_rest;
- 
--		*rotation = (1 << sum_rot) | sum_rest;
-+			*rotation = (1 << sum_rot) | sum_rest;
-+		} else {
-+			*rotation ^= cmdline->rotation_reflection;
-+		}
- 	}
- 
- 	/*
-@@ -879,7 +883,8 @@ bool drm_client_rotation(struct drm_mode_set *modeset, unsigned int *rotation)
- 	 * depending on the hardware this may require the framebuffer
- 	 * to be in a specific tiling format.
- 	 */
--	if ((*rotation & DRM_MODE_ROTATE_MASK) != DRM_MODE_ROTATE_180 ||
-+	if (((*rotation & DRM_MODE_ROTATE_MASK) != DRM_MODE_ROTATE_0 &&
-+	     (*rotation & DRM_MODE_ROTATE_MASK) != DRM_MODE_ROTATE_180) ||
- 	    !plane->rotation_property)
- 		return false;
- 
--- 
-2.24.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCBEZWMgMTMsIDIwMTkgYXQgMDQ6NTg6MzVQTSArMDEwMCwgQW5kcnplaiBQaWV0cmFz
+aWV3aWN6IHdyb3RlOgo+IFRoZSBuZXcgdmVyc2lvbiBhY2NlcHRzIGEgc3RydWN0IGRlc2NyaWJp
+bmcgZGV2aWF0aW9ucyBmcm9tIHN0YW5kYXJkIHdheSBvZgo+IGRvaW5nIHRoZSBzaXplIGNoZWNr
+cy4gVGhlIGNhbGxlciBtdXN0IHByb3ZpZGUgdGhlIHJlc3BlY3RpdmUgdmFsdWVzLgo+IAo+IFNp
+Z25lZC1vZmYtYnk6IEFuZHJ6ZWogUGlldHJhc2lld2ljeiA8YW5kcnplai5wQGNvbGxhYm9yYS5j
+b20+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX2ZyYW1lYnVmZmVyX2hlbHBlci5j
+IHwgNDcgKysrKysrKysrKysrKysrKy0tLS0KPiAgaW5jbHVkZS9kcm0vZHJtX2dlbV9mcmFtZWJ1
+ZmZlcl9oZWxwZXIuaCAgICAgfCAxNiArKysrKysrCj4gIDIgZmlsZXMgY2hhbmdlZCwgNTUgaW5z
+ZXJ0aW9ucygrKSwgOCBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL2RybV9nZW1fZnJhbWVidWZmZXJfaGVscGVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2dl
+bV9mcmFtZWJ1ZmZlcl9oZWxwZXIuYwo+IGluZGV4IDc4N2VkYjlhOTE2Yi4uNDIwMWRjMWYzMmE1
+IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX2ZyYW1lYnVmZmVyX2hlbHBl
+ci5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fZnJhbWVidWZmZXJfaGVscGVyLmMK
+PiBAQCAtMjAxLDggKzIwMSw5IEBAIGludCBkcm1fZ2VtX2ZiX2xvb2t1cChzdHJ1Y3QgZHJtX2Rl
+dmljZSAqZGV2LAo+ICBFWFBPUlRfU1lNQk9MX0dQTChkcm1fZ2VtX2ZiX2xvb2t1cCk7Cj4gIAo+
+ICAvKioKPiAtICogZHJtX2dlbV9mYl9zaXplX2NoZWNrKCkgLSBIZWxwZXIgZnVuY3Rpb24gZm9y
+IHVzZSBpbgo+IC0gKgkJCSAgICAgJmRybV9tb2RlX2NvbmZpZ19mdW5jcy5mYl9jcmVhdGUgaW1w
+bGVtZW50YXRpb25zCj4gKyAqIGRybV9nZW1fZmJfc2l6ZV9jaGVja19zcGVjaWFsKCkgLSBIZWxw
+ZXIgZnVuY3Rpb24gZm9yIHVzZSBpbgo+ICsgKgkJCQkgICAgICZkcm1fbW9kZV9jb25maWdfZnVu
+Y3MuZmJfY3JlYXRlCj4gKyAqCQkJCSAgICAgaW1wbGVtZW50YXRpb25zCj4gICAqIEBkZXY6IERS
+TSBkZXZpY2UKPiAgICogQG1vZGVfY21kOiBNZXRhZGF0YSBmcm9tIHRoZSB1c2Vyc3BhY2UgZnJh
+bWVidWZmZXIgY3JlYXRpb24gcmVxdWVzdAo+ICAgKgo+IEBAIC0yMTIsOSArMjEzLDEwIEBAIEVY
+UE9SVF9TWU1CT0xfR1BMKGRybV9nZW1fZmJfbG9va3VwKTsKPiAgICogUmV0dXJuczoKPiAgICog
+WmVybyBvbiBzdWNjZXNzIG9yIGEgbmVnYXRpdmUgZXJyb3IgY29kZSBvbiBmYWlsdXJlLgo+ICAg
+Ki8KPiAtaW50IGRybV9nZW1fZmJfc2l6ZV9jaGVjayhzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+
+IC0JCQkgIGNvbnN0IHN0cnVjdCBkcm1fbW9kZV9mYl9jbWQyICptb2RlX2NtZCwKPiAtCQkJICBz
+dHJ1Y3QgZHJtX2dlbV9vYmplY3QgKipvYmpzKQo+ICtpbnQgZHJtX2dlbV9mYl9zaXplX2NoZWNr
+X3NwZWNpYWwoc3RydWN0IGRybV9kZXZpY2UgKmRldiwKPiArCQkJCSAgY29uc3Qgc3RydWN0IGRy
+bV9tb2RlX2ZiX2NtZDIgKm1vZGVfY21kLAo+ICsJCQkJICBjb25zdCBzdHJ1Y3QgZHJtX3NpemVf
+Y2hlY2sgKmNoZWNrLAo+ICsJCQkJICBzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKipvYmpzKQo+ICB7
+Cj4gIAljb25zdCBzdHJ1Y3QgZHJtX2Zvcm1hdF9pbmZvICppbmZvOwo+ICAJaW50IGk7Cj4gQEAg
+LTIyNywxMCArMjI5LDE5IEBAIGludCBkcm1fZ2VtX2ZiX3NpemVfY2hlY2soc3RydWN0IGRybV9k
+ZXZpY2UgKmRldiwKPiAgCQl1bnNpZ25lZCBpbnQgd2lkdGggPSBtb2RlX2NtZC0+d2lkdGggLyAo
+aSA/IGluZm8tPmhzdWIgOiAxKTsKPiAgCQl1bnNpZ25lZCBpbnQgaGVpZ2h0ID0gbW9kZV9jbWQt
+PmhlaWdodCAvIChpID8gaW5mby0+dnN1YiA6IDEpOwo+ICAJCXVuc2lnbmVkIGludCBtaW5fc2l6
+ZTsKPiArCQl1MzIgcGl0Y2ggPSBtb2RlX2NtZC0+cGl0Y2hlc1tpXTsKPiArCj4gKwkJaWYgKGNo
+ZWNrICYmIGNoZWNrLT51c2VfcGl0Y2hfbXVsdGlwbGllcikKPiArCQkJaWYgKChwaXRjaCAqIGNo
+ZWNrLT5waXRjaF9tdWx0aXBsaWVyW2ldKSAlCj4gKwkJCSAgICBjaGVjay0+cGl0Y2hfbW9kdWxv
+KQo+ICsJCQkJcmV0dXJuIC1FSU5WQUw7Cj4gIAo+IC0JCW1pbl9zaXplID0gKGhlaWdodCAtIDEp
+ICogbW9kZV9jbWQtPnBpdGNoZXNbaV0KPiAtCQkJICsgZHJtX2Zvcm1hdF9pbmZvX21pbl9waXRj
+aChpbmZvLCBpLCB3aWR0aCkKPiAtCQkJICsgbW9kZV9jbWQtPm9mZnNldHNbaV07Cj4gKwkJaWYg
+KGNoZWNrICYmIGNoZWNrLT51c2VfbWluX3NpemUpCj4gKwkJCW1pbl9zaXplID0gY2hlY2stPm1p
+bl9zaXplW2ldOwo+ICsJCWVsc2UKPiArCQkJbWluX3NpemUgPSAoaGVpZ2h0IC0gMSkgKiBwaXRj
+aAo+ICsJCQkJICsgZHJtX2Zvcm1hdF9pbmZvX21pbl9waXRjaChpbmZvLCBpLCB3aWR0aCkKPiAr
+CQkJCSArIG1vZGVfY21kLT5vZmZzZXRzW2ldOwo+ICAKPiAgCQlpZiAob2Jqc1tpXS0+c2l6ZSA8
+IG1pbl9zaXplKQo+ICAJCQlyZXR1cm4gLUVJTlZBTDsKPiBAQCAtMjM5LDYgKzI1MCwyNiBAQCBp
+bnQgZHJtX2dlbV9mYl9zaXplX2NoZWNrKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4gIAlyZXR1
+cm4gMDsKPiAgCj4gIH0KPiArRVhQT1JUX1NZTUJPTF9HUEwoZHJtX2dlbV9mYl9zaXplX2NoZWNr
+X3NwZWNpYWwpOwoKSG1tLCBub3QgYSBiaWcgZmFuIG9mIGV4cG9ydGluZyBzb21ldGhpbmcgY2Fs
+bGVkIGZvb19zcGVjaWFsLiBXaGF0IGFib3V0IGZvbGxvd2luZwp0aGUgdHJhZGl0aW9uIG9mIGNh
+bGxpbmcgaXQgZHJtX2dlbV9mYl9zaXplX2NoZWNrMigpID8KCkJlc3QgcmVnYXJkcywKTGl2aXUK
+Cj4gKwo+ICsvKioKPiArICogZHJtX2dlbV9mYl9zaXplX2NoZWNrKCkgLSBIZWxwZXIgZnVuY3Rp
+b24gZm9yIHVzZSBpbgo+ICsgKgkJCSAgICAgJmRybV9tb2RlX2NvbmZpZ19mdW5jcy5mYl9jcmVh
+dGUgaW1wbGVtZW50YXRpb25zCj4gKyAqIEBkZXY6IERSTSBkZXZpY2UKPiArICogQG1vZGVfY21k
+OiBNZXRhZGF0YSBmcm9tIHRoZSB1c2Vyc3BhY2UgZnJhbWVidWZmZXIgY3JlYXRpb24gcmVxdWVz
+dAo+ICsgKgo+ICsgKiBUaGlzIGZ1bmN0aW9uIGNhbiBiZSB1c2VkIHRvIHZlcmlmeSBidWZmZXIg
+c2l6ZXMgZm9yIGFsbCBwbGFuZXMuCj4gKyAqIEl0IGlzIGNhbGxlcidzIHJlc3BvbnNpYmlsaXR5
+IHRvIHB1dCB0aGUgb2JqZWN0cyBvbiBmYWlsdXJlLgo+ICsgKgo+ICsgKiBSZXR1cm5zOgo+ICsg
+KiBaZXJvIG9uIHN1Y2Nlc3Mgb3IgYSBuZWdhdGl2ZSBlcnJvciBjb2RlIG9uIGZhaWx1cmUuCj4g
+KyAqLwo+ICtpbnQgZHJtX2dlbV9mYl9zaXplX2NoZWNrKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYs
+Cj4gKwkJCSAgY29uc3Qgc3RydWN0IGRybV9tb2RlX2ZiX2NtZDIgKm1vZGVfY21kLAo+ICsJCQkg
+IHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqKm9ianMpCj4gK3sKPiArCXJldHVybiBkcm1fZ2VtX2Zi
+X3NpemVfY2hlY2tfc3BlY2lhbChkZXYsIG1vZGVfY21kLCBOVUxMLCBvYmpzKTsKPiArfQo+ICBF
+WFBPUlRfU1lNQk9MX0dQTChkcm1fZ2VtX2ZiX3NpemVfY2hlY2spOwo+ICAKPiAgLyoqCj4gZGlm
+ZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9nZW1fZnJhbWVidWZmZXJfaGVscGVyLmggYi9pbmNs
+dWRlL2RybS9kcm1fZ2VtX2ZyYW1lYnVmZmVyX2hlbHBlci5oCj4gaW5kZXggYzg1ZDRiMTUyZTkx
+Li43NDMwNGEyNjg2OTQgMTAwNjQ0Cj4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX2dlbV9mcmFtZWJ1
+ZmZlcl9oZWxwZXIuaAo+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9nZW1fZnJhbWVidWZmZXJfaGVs
+cGVyLmgKPiBAQCAtMTEsNiArMTEsMTggQEAgc3RydWN0IGRybV9tb2RlX2ZiX2NtZDI7Cj4gIHN0
+cnVjdCBkcm1fcGxhbmU7Cj4gIHN0cnVjdCBkcm1fcGxhbmVfc3RhdGU7Cj4gIHN0cnVjdCBkcm1f
+c2ltcGxlX2Rpc3BsYXlfcGlwZTsKPiArc3RydWN0IGRybV9zaXplX2NoZWNrOwo+ICsKPiArLyoq
+Cj4gKyAqIHN0cnVjdCBkcm1fc2l6ZV9jaGVjayAtIERlc2NyaXB0aW9uIG9mIHNwZWNpYWwgcmVx
+dWlyZW1lbnRzIGZvciBzaXplIGNoZWNrcy4KPiArICovCj4gK3N0cnVjdCBkcm1fc2l6ZV9jaGVj
+ayB7Cj4gKwl1bnNpZ25lZCBpbnQgbWluX3NpemVbNF07Cj4gKwlib29sIHVzZV9taW5fc2l6ZTsK
+PiArCXUzMiBwaXRjaF9tdWx0aXBsaWVyWzRdOwo+ICsJdTMyIHBpdGNoX21vZHVsbzsKPiArCWJv
+b2wgdXNlX3BpdGNoX211bHRpcGxpZXI7Cj4gK307Cj4gIAo+ICBzdHJ1Y3QgZHJtX2dlbV9vYmpl
+Y3QgKmRybV9nZW1fZmJfZ2V0X29iaihzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYiwKPiAgCQkJ
+CQkgIHVuc2lnbmVkIGludCBwbGFuZSk7Cj4gQEAgLTMyLDYgKzQ0LDEwIEBAIGludCBkcm1fZ2Vt
+X2ZiX2xvb2t1cChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+ICAJCSAgICAgIHN0cnVjdCBkcm1f
+ZmlsZSAqZmlsZSwKPiAgCQkgICAgICBjb25zdCBzdHJ1Y3QgZHJtX21vZGVfZmJfY21kMiAqbW9k
+ZV9jbWQsCj4gIAkJICAgICAgc3RydWN0IGRybV9nZW1fb2JqZWN0ICoqb2Jqcyk7Cj4gK2ludCBk
+cm1fZ2VtX2ZiX3NpemVfY2hlY2tfc3BlY2lhbChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+ICsJ
+CQkJICBjb25zdCBzdHJ1Y3QgZHJtX21vZGVfZmJfY21kMiAqbW9kZV9jbWQsCj4gKwkJCQkgIGNv
+bnN0IHN0cnVjdCBkcm1fc2l6ZV9jaGVjayAqY2hlY2ssCj4gKwkJCQkgIHN0cnVjdCBkcm1fZ2Vt
+X29iamVjdCAqKm9ianMpOwo+ICBpbnQgZHJtX2dlbV9mYl9zaXplX2NoZWNrKHN0cnVjdCBkcm1f
+ZGV2aWNlICpkZXYsCj4gIAkJCSAgY29uc3Qgc3RydWN0IGRybV9tb2RlX2ZiX2NtZDIgKm1vZGVf
+Y21kLAo+ICAJCQkgIHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqKm9ianMpOwo+IC0tIAo+IDIuMTcu
+MQo+IAoKLS0gCj09PT09PT09PT09PT09PT09PT09CnwgSSB3b3VsZCBsaWtlIHRvIHwKfCBmaXgg
+dGhlIHdvcmxkLCAgfAp8IGJ1dCB0aGV5J3JlIG5vdCB8CnwgZ2l2aW5nIG1lIHRoZSAgIHwKIFwg
+c291cmNlIGNvZGUhICAvCiAgLS0tLS0tLS0tLS0tLS0tCiAgICDCr1xfKOODhClfL8KvCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
