@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 108221228E4
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 11:32:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0809E1228D6
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 11:32:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40BDA6E9B4;
-	Tue, 17 Dec 2019 10:32:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25A7B6E97D;
+	Tue, 17 Dec 2019 10:31:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from JPN01-OS2-obe.outbound.protection.outlook.com
- (mail-eopbgr1410105.outbound.protection.outlook.com [40.107.141.105])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25573897E4
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 18:00:13 +0000 (UTC)
+Received: from JPN01-TY1-obe.outbound.protection.outlook.com
+ (mail-eopbgr1400137.outbound.protection.outlook.com [40.107.140.137])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 927736E85E
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 18:10:59 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OLXRFkhocYv6z3pL3Mcg475ctdT5TZQViBuG6AB6eygUVrxS4vy0kFcqS+i9DZADjNAT+EE3voOvPAfQvoacLeodXTfusnwZtW6GSRS12L4slfgwwO9hNj71ROxCepK5+auxq7zCZ/2OMEekqMJxfYTtaKQG9RiXZVhA2mYScwwZPJlj3+eQOS3834CrWjypmSN6cq3NnPJgy6ZL5OTeyXnT09LeYtT8t2MbOypr6RzQ/iH/tG1/HFOtRoAAMVZi/sFwFC3KAgwuBuT+Ld05h91xz54V9nQgCYr1m5dNYfXstz1HZdZPo+pBE0ERWBjxCcxzNfYy3i/DUy8JiQ+H8Q==
+ b=IegOPDQcYLmH9Uh2nbBHfpIEWlWlikm3+POvidVscwRCseawwrzWq26STfWSk/Vi0wzXowBXGjJJqBCIOQktg89KzW1TCOHqIDJnMnUkOEyw0QgUr0fyJ7cPjKE9w7/oXZ7/7cpAaChTITgQp6P/xrLmhfEN6TYSD4aaTyKzCqgfK7m2enLx8yxt7rO6TJv4xRREXKvI1ABpKiz60iNl7fD9qhecjnxe/fh8zlyg40pEb/zZUGdsnpquozwAceZ3xQKCyhm7eswSAmyVJV2UvDtpIBgCxCrAFgHsn/KWwV0Bkdcku1+5m5oBFev+ELnUrBv3N9dO4fOGpshEhcv/GQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Glkd+9TVukY0BcoEF+tknKFlTwQkAurn+op8ZhCIuNw=;
- b=XAw5q8mkl7frbCZjbLS3ZTvCBJIV3aKxL9jmXNAEu3M+HkuPGq3/J2YPkbvcQALJjTsTO5p9oqJjWUPM9dTsbukuEg1H6qg2fmIBkTkKkCsO9pBSuGjR7IWE3poza1VLKA/fKoPZRNM2HDanwnqpg7XkhBsMeogJnqbAYIxJlxuw9uAeZZ08dQdfS7lB0qxDS8qlHTGl4sAmcQz04sIkamg8BpzBmNzdBTBcJsDZ3Lx6X2sbSY00tk+fvungwq8wmfEelO+/fcc5KFcRv6C5FVyK6Mg4Vc9CG+baxFkPGJzmMdmHbDWNHKinDZZ1AfOoCpTeA6lihRuMACIKTTCiTQ==
+ bh=WEwvxJpXarH/Lhpan8twx7oGY1ccDblgB8aNOgqPyu8=;
+ b=YToPLxXxzbKF4aId82HRGTjb9inZtlk6kCUJ+yKPyHZw1mGnhwUu/X6k3Kxi/3nauCmY3AKJYH+pF3NZLlRIbMxQpdx3DjQuDrRUgfGc6lw+N+546U1lSUxt0UwPlpI3fxevp/IYbii8PBiY7BtbDURSTZzjdonYIurGA5d8DC/ZrfEnYOtYFXTfbRLF+vdWgShRQcSelB7QuzAqJlpK8BJajIky/X7BIyIJlMPdMvHJEjaAE16ngV47HM72LTHUk6kv1J2N/+RZQ9JhLy/Aa2bQMFAAlLUMVGPPgJHR/WYwMV7EDUAZHdMOw2u4BF+d0xW8IReFK9MrBGQuQkaE8Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
  header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Glkd+9TVukY0BcoEF+tknKFlTwQkAurn+op8ZhCIuNw=;
- b=k4M+HqyA8QCIGBpbGBQH6e4rtu/PHBNIF0A6T/upi9aKwmC08bLzx7C8oDhDNY3K5O/i+j4YUeM7gE+PxCrhuLyI3xPKrrwmnEIY9PyPZ9LwDRx2Wv/yDA8OghVhuDVGJQc3sHKVtDBG2pb7EP6wxAdvySrH0xl5rmG+rTrMJKw=
+ bh=WEwvxJpXarH/Lhpan8twx7oGY1ccDblgB8aNOgqPyu8=;
+ b=LowUI15/HMKqtpQQAuuSTW9QPV38aghKHfaq97vu2irPabSezgQo5ptGKiOGvZ40ig7IibtHGUFLJSm7ub/bdD8OJL3aPtoOoCYMDvK99Trij+8+vsSdm0K0Le/dTm62Mk4lOfGU6IWMs+Yg3es3CZ4Q3N9i6FjWsdbkbIYZqYw=
 Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com (52.133.163.13) by
- TY1PR01MB1497.jpnprd01.prod.outlook.com (52.133.162.149) with Microsoft SMTP
+ TY1PR01MB1596.jpnprd01.prod.outlook.com (52.133.162.142) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2538.15; Mon, 16 Dec 2019 18:00:09 +0000
+ 15.20.2538.18; Mon, 16 Dec 2019 18:10:56 +0000
 Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com
  ([fe80::5166:5e51:90f5:3ee1]) by TY1PR01MB1770.jpnprd01.prod.outlook.com
  ([fe80::5166:5e51:90f5:3ee1%7]) with mapi id 15.20.2538.019; Mon, 16 Dec 2019
- 18:00:09 +0000
+ 18:10:56 +0000
 From: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: RE: [PATCH v4 2/7] drm: rcar-du: lvds: Improve identification of
- panels
-Thread-Topic: [PATCH v4 2/7] drm: rcar-du: lvds: Improve identification of
- panels
-Thread-Index: AQHVrFLdhiNZZ/6mLk+E8oj0P8Dcc6e4nfKAgAR+fuA=
-Date: Mon, 16 Dec 2019 18:00:09 +0000
-Message-ID: <TY1PR01MB177010675ADC18D97DADADE8C0510@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+Subject: RE: [PATCH v4 3/7] drm: rcar-du: lvds: Get dual link configuration
+ from DT
+Thread-Topic: [PATCH v4 3/7] drm: rcar-du: lvds: Get dual link configuration
+ from DT
+Thread-Index: AQHVrFLgNLi4JqNqqE+gKHtXbAdbBqe4oFgAgAR975A=
+Date: Mon, 16 Dec 2019 18:10:56 +0000
+Message-ID: <TY1PR01MB17700938B2C48F684E910BA4C0510@TY1PR01MB1770.jpnprd01.prod.outlook.com>
 References: <1575649974-31472-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1575649974-31472-3-git-send-email-fabrizio.castro@bp.renesas.com>
- <20191213212135.GM4860@pendragon.ideasonboard.com>
-In-Reply-To: <20191213212135.GM4860@pendragon.ideasonboard.com>
+ <1575649974-31472-4-git-send-email-fabrizio.castro@bp.renesas.com>
+ <20191213213010.GN4860@pendragon.ideasonboard.com>
+In-Reply-To: <20191213213010.GN4860@pendragon.ideasonboard.com>
 Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -58,31 +58,31 @@ authentication-results: spf=none (sender IP is )
 x-originating-ip: [193.141.220.21]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 32a3e3b4-74e3-41b6-938e-08d78251ca7d
-x-ms-traffictypediagnostic: TY1PR01MB1497:|TY1PR01MB1497:
+x-ms-office365-filtering-correlation-id: 1a24a863-fab8-41d3-374a-08d782534c0f
+x-ms-traffictypediagnostic: TY1PR01MB1596:|TY1PR01MB1596:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TY1PR01MB1497C22A1E513B2397B3CC16C0510@TY1PR01MB1497.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3826;
+x-microsoft-antispam-prvs: <TY1PR01MB1596D54E87D281DF3035CAA0C0510@TY1PR01MB1596.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
 x-forefront-prvs: 02530BD3AA
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(39860400002)(366004)(376002)(346002)(136003)(396003)(199004)(189003)(71200400001)(4326008)(86362001)(6916009)(7416002)(5660300002)(9686003)(44832011)(7696005)(76116006)(2906002)(26005)(478600001)(81166006)(81156014)(8676002)(8936002)(6506007)(53546011)(55016002)(66556008)(54906003)(66476007)(186003)(316002)(66946007)(66446008)(33656002)(52536014)(64756008);
- DIR:OUT; SFP:1102; SCL:1; SRVR:TY1PR01MB1497;
+ SFS:(10019020)(4636009)(39860400002)(136003)(346002)(366004)(376002)(396003)(189003)(199004)(6916009)(186003)(8676002)(55016002)(54906003)(44832011)(53546011)(52536014)(7696005)(2906002)(478600001)(33656002)(86362001)(76116006)(66446008)(66946007)(66476007)(7416002)(66556008)(64756008)(6506007)(9686003)(26005)(81156014)(81166006)(5660300002)(8936002)(316002)(4326008)(71200400001);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:TY1PR01MB1596;
  H:TY1PR01MB1770.jpnprd01.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:0; MX:1; 
+ PTR:InfoNoRecords; MX:1; A:0; 
 received-spf: None (protection.outlook.com: bp.renesas.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: bXC6Gl6BLGROAiC1mRll/k1fgGdRqVo46DK74zLUBoRJzY0MCe6iMpWlPtLtJIPvTgDMZj9pzlx5LerJqxpgxHXuW0lD8ZjtmqeuE6bp7G8nbSC05g0wfgKKYDsEJWr+kV3mTCk3Sa6mZRgs6iwD3o6+IqnMT8wkC5wqjJq20rz0mfOHf4zH4rS6rJFJsLIBvm44QEqzZh5+4Qj9b38QEKvsk21bWHqozqjvAOKMHzEpJCa+8JFXD+eLrzc0FwvBj36UUyIA4m0HpJGO9/es7MfpHhpsmKrjK6Zaes2E3Xe8CAEGbKoFfu4jX4wf7m5UDuycrYbEwQFPGtEa4msGS1DdbUhtQUXHRdPqeBM8N8pQ0rHMrjR1a9KdBu+83c9WdTB6v6Uc4amK4lpqxE0qJIfvbScE5GZQdGlRRxpuzXc/qFshkynYgWakfCzUAM0R
+x-microsoft-antispam-message-info: LCiX6qECK4pf4bfsUsjkcWkDF/NvnsibKK5VOQ4Ns1A0wONSisw79qUn6PSasseSqMDqbTX7eqB/+tJghJC7AEkg27iXeB/ODpc4GOLjSqllsm6DVJjWEVdV2VT6Hk0lAtkUMuPhORSLIxUulyIsy9/I+EfMDytdr+++/QjBp7VVlAUkZT+RiVs7dB3VNgUiFtjGWEm7s6TNFYagMTB0e7B9CDrBqHRf/tpRRsC9kmF1HorHxFw656zDVUgd2H/oUwCPk6akOeOr5dy48IZcuUVnfIC/uKLvw2BVQdJ4Tyub+yJst+BOx1Z3AJPRk0j/cMLgntjU7Res5w9WZAa/0T7hwgcnx4nMXkv4WVYmbV96O+/7buMBqV26gbz+4YEkOVD/TlparqjJG4AMuLEdiN1THjD3wX/5ZmQIW4IZAOjAOPb7Qn5f6oR4PsRK4OQe
 MIME-Version: 1.0
 X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 32a3e3b4-74e3-41b6-938e-08d78251ca7d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Dec 2019 18:00:09.5365 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a24a863-fab8-41d3-374a-08d782534c0f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Dec 2019 18:10:56.4247 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: pnqr6ida4DaWEo+jLwjfxdDDG+5V30DOKXJ9favPSYmhe3DxN1Y0j89UCE+0TZYh6G32/RYLYVway+JXVATsIBBMeuDQzchAj9//CvPXD6c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1497
+X-MS-Exchange-CrossTenant-userprincipalname: Lbs9gpcMQiV2bbELTA4do/qIlCADCyIePlbSYkoC1nBT9a3VsdpV8pYcPLAFTq4bZ44hBIRX9ClrjpcRGyiyrr8NdXBkfs50bkG2Ye+3yXg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1596
 X-Mailman-Approved-At: Tue, 17 Dec 2019 10:31:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -120,17 +120,22 @@ Hi Laurent,
 Thank you for your feedback!
 
 > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Sent: 13 December 2019 21:22
-> Subject: Re: [PATCH v4 2/7] drm: rcar-du: lvds: Improve identification of panels
+> Sent: 13 December 2019 21:30
+> Subject: Re: [PATCH v4 3/7] drm: rcar-du: lvds: Get dual link configuration from DT
 > 
 > Hi Fabrizio,
 > 
 > Thank you for the patch.
 > 
-> On Fri, Dec 06, 2019 at 04:32:49PM +0000, Fabrizio Castro wrote:
-> > Dual-LVDS panels are mistakenly identified as bridges, this
-> > commit replaces the current logic with a call to
-> > drm_of_find_panel_or_bridge to sort that out.
+> On Fri, Dec 06, 2019 at 04:32:50PM +0000, Fabrizio Castro wrote:
+> > For dual-LVDS configurations, it is now possible to mark the
+> > DT port nodes for the sink with boolean properties (like
+> > dual-lvds-even-pixels and dual-lvds-odd-pixels) to let drivers
+> > know the encoders need to be configured in dual-LVDS mode.
+> >
+> > Rework the implementation of rcar_lvds_parse_dt_companion
+> > to make use of the DT markers while keeping backward
+> > compatibility.
 > >
 > > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 > >
@@ -139,100 +144,117 @@ Thank you for your feedback!
 > > * New patch extracted from patch:
 > >   "drm: rcar-du: lvds: Add dual-LVDS panels support"
 > > ---
-> >  drivers/gpu/drm/rcar-du/rcar_lvds.c | 45 +++++++++----------------------------
-> >  1 file changed, 10 insertions(+), 35 deletions(-)
+> >  drivers/gpu/drm/rcar-du/rcar_lvds.c | 56 +++++++++++++++++++++++++++++++------
+> >  1 file changed, 47 insertions(+), 9 deletions(-)
 > >
 > > diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> > index 8c6c172..3cb0a83 100644
+> > index 3cb0a83..6c1f171 100644
 > > --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
 > > +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> > @@ -21,6 +21,7 @@
-> >  #include <drm/drm_atomic.h>
-> >  #include <drm/drm_atomic_helper.h>
-> >  #include <drm/drm_bridge.h>
-> > +#include <drm/drm_of.h>
-> >  #include <drm/drm_panel.h>
-> >  #include <drm/drm_probe_helper.h>
-> >
-> > @@ -705,10 +706,7 @@ static int rcar_lvds_parse_dt_companion(struct rcar_lvds *lvds)
-> >  static int rcar_lvds_parse_dt(struct rcar_lvds *lvds)
+> > @@ -669,8 +669,10 @@ EXPORT_SYMBOL_GPL(rcar_lvds_dual_link);
+> >  static int rcar_lvds_parse_dt_companion(struct rcar_lvds *lvds)
 > >  {
-> >  	struct device_node *local_output = NULL;
-> > -	struct device_node *remote_input = NULL;
-> >  	struct device_node *remote = NULL;
-> > -	struct device_node *node;
-> > -	bool is_bridge = false;
+> >  	const struct of_device_id *match;
+> > -	struct device_node *companion;
+> > +	struct device_node *companion, *p0, *p1;
+> 
+> Could you rename p0 and p1 to port0 and port1, and spit them to a
+> separate line of variable declaration ?
+
+sure
+
+> 
+> > +	struct rcar_lvds *companion_lvds;
+> >  	struct device *dev = lvds->dev;
+> > +	int dual_link;
 > >  	int ret = 0;
 > >
-> >  	local_output = of_graph_get_endpoint_by_regs(lvds->dev->of_node, 1, 0);
-> > @@ -736,45 +734,22 @@ static int rcar_lvds_parse_dt(struct rcar_lvds *lvds)
+> >  	/* Locate the companion LVDS encoder for dual-link operation, if any. */
+> > @@ -689,13 +691,55 @@ static int rcar_lvds_parse_dt_companion(struct rcar_lvds *lvds)
 > >  		goto done;
 > >  	}
+> >
+> > +	/*
+> > +	 * We need to work out if the sink is expecting us to function in
+> > +	 * dual-link mode. We do this by looking at the DT port nodes we are
+> > +	 * connected to, if they are marked as expecting even pixels and
+> > +	 * odd pixels than we need to enable vertical stripe output.
+> > +	 */
+> > +	p0 = of_graph_get_port_by_id(dev->of_node, 1);
+> > +	p1 = of_graph_get_port_by_id(companion, 1);
+> > +	dual_link = drm_of_lvds_get_dual_link_pixel_order(p0, p1);
+> > +	of_node_put(p0);
+> > +	of_node_put(p1);
+> > +	if (dual_link >= DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS) {
+> > +		lvds->dual_link = true;
+> > +	} else if (lvds->next_bridge && lvds->next_bridge->timings) {
+> > +		/*
+> > +		 * Early dual-link bridge specific implementations populate the
+> > +		 * timings field of drm_bridge, read the dual_link flag off the
+> > +		 * bridge directly for backward compatibility.
+> > +		 */
+> > +		lvds->dual_link = lvds->next_bridge->timings->dual_link;
+> > +	}
+> > +
+> > +	if (!lvds->dual_link) {
+> > +		dev_dbg(dev, "Single-link configuration detected\n");
+> > +		goto done;
+> > +	}
+> > +
+> >  	lvds->companion = of_drm_find_bridge(companion);
+> >  	if (!lvds->companion) {
+> >  		ret = -EPROBE_DEFER;
+> >  		goto done;
+> >  	}
+> >
+> > -	dev_dbg(dev, "Found companion encoder %pOF\n", companion);
+> > +	dev_dbg(dev,
+> > +		"Dual-link configuration detected (companion encoder %pOF)\n",
+> > +		companion);
+> > +
+> > +	companion_lvds = bridge_to_rcar_lvds(lvds->companion);
 > 
-> I think you can remove the calls above this too.
-> drm_of_find_panel_or_bridge() calls of_graph_get_remote_node(), which in
-> turn calls of_graph_get_endpoint_by_regs(),
-> of_graph_get_remote_port_parent() and checks the status of the remote
-> with of_device_is_available().
+> Could you move this line after the FIXME comment ?
 
-Will take those out in v5
+Will do
 
 Thanks,
 Fab
 
 > 
+> With these small issues fixed,
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> > +
+> > +	/*
+> > +	 * FIXME: We should not be messing with the companion encoder private
+> > +	 * data from the primary encoder, we should rather let the companion
+> > +	 * encoder work things out on its own. However, the companion encoder
+> > +	 * doesn't hold a reference to the primary encoder, and
+> > +	 * drm_of_lvds_get_dual_link_pixel_order needs to be given references
+> > +	 * to the output ports of both encoders, therefore leave it like this
+> > +	 * for the time being.
+> > +	 */
+> > +	companion_lvds->dual_link = true;
 > >
-> > -	remote_input = of_graph_get_remote_endpoint(local_output);
+> >  done:
+> >  	of_node_put(companion);
+> > @@ -739,13 +783,7 @@ static int rcar_lvds_parse_dt(struct rcar_lvds *lvds)
+> >  	if (ret)
+> >  		goto done;
+> >
+> > -	if ((lvds->info->quirks & RCAR_LVDS_QUIRK_DUAL_LINK) &&
+> > -	    lvds->next_bridge)
+> > -		lvds->dual_link = lvds->next_bridge->timings
+> > -				? lvds->next_bridge->timings->dual_link
+> > -				: false;
 > > -
-> > -	for_each_endpoint_of_node(remote, node) {
-> > -		if (node != remote_input) {
-> > -			/*
-> > -			 * We've found one endpoint other than the input, this
-> > -			 * must be a bridge.
-> > -			 */
-> > -			is_bridge = true;
-> > -			of_node_put(node);
-> > -			break;
-> > -		}
-> > -	}
-> > -
-> > -	if (is_bridge) {
-> > -		lvds->next_bridge = of_drm_find_bridge(remote);
-> > -		if (!lvds->next_bridge) {
-> > -			ret = -EPROBE_DEFER;
-> > -			goto done;
-> > -		}
-> > +	ret = drm_of_find_panel_or_bridge(lvds->dev->of_node, 1, 0,
-> > +					  &lvds->panel, &lvds->next_bridge);
-> > +	if (ret)
-> > +		goto done;
-> >
-> > -		if (lvds->info->quirks & RCAR_LVDS_QUIRK_DUAL_LINK)
-> > -			lvds->dual_link = lvds->next_bridge->timings
-> > -					? lvds->next_bridge->timings->dual_link
-> > -					: false;
-> > -	} else {
-> > -		lvds->panel = of_drm_find_panel(remote);
-> > -		if (IS_ERR(lvds->panel)) {
-> > -			ret = PTR_ERR(lvds->panel);
-> > -			goto done;
-> > -		}
-> > -	}
-> > +	if ((lvds->info->quirks & RCAR_LVDS_QUIRK_DUAL_LINK) &&
-> > +	    lvds->next_bridge)
-> > +		lvds->dual_link = lvds->next_bridge->timings
-> > +				? lvds->next_bridge->timings->dual_link
-> > +				: false;
-> >
-> >  	if (lvds->dual_link)
+> > -	if (lvds->dual_link)
+> > +	if (lvds->info->quirks & RCAR_LVDS_QUIRK_DUAL_LINK)
 > >  		ret = rcar_lvds_parse_dt_companion(lvds);
 > >
 > >  done:
-> >  	of_node_put(local_output);
-> > -	of_node_put(remote_input);
-> >  	of_node_put(remote);
-> >
-> >  	/*
 > 
 > --
 > Regards,
