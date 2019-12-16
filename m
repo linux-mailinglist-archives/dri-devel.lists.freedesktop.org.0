@@ -2,33 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36F2D1228DA
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 11:32:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D5591228D0
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 11:32:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A52276E9A3;
-	Tue, 17 Dec 2019 10:32:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8050B6E977;
+	Tue, 17 Dec 2019 10:31:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 606 seconds by postgrey-1.36 at gabe;
- Mon, 16 Dec 2019 14:54:18 UTC
-Received: from olimex.com (olimex.com [184.105.72.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0542F6E5BB
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 14:54:17 +0000 (UTC)
-Received: from localhost.localdomain ([94.155.250.134])
- by olimex.com with ESMTPSA
- (ECDHE-RSA-AES128-GCM-SHA256:TLSv1.2:Kx=ECDH:Au=RSA:Enc=AESGCM(128):Mac=AEAD)
- (SMTP-AUTH username stefan@olimex.com, mechanism PLAIN)
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 06:44:00 -0800
-From: Stefan Mavrodiev <stefan@olimex.com>
-To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org (open list:DRM DRIVERS FOR ALLWINNER A10),
- linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC
- support), linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH 1/1] drm/sun4i: hdmi: Check for null pointer before cleanup
-Date: Mon, 16 Dec 2019 16:43:48 +0200
-Message-Id: <20191216144348.7540-1-stefan@olimex.com>
-X-Mailer: git-send-email 2.17.1
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 766D56E02D
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 15:23:00 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: alyssa) with ESMTPSA id 1061528EE93
+Date: Mon, 16 Dec 2019 10:22:54 -0500
+From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+To: ezequiel@collabora.com
+Subject: Re: [PATCH v2] drm/panfrost: Prefix interrupt handlers' names
+Message-ID: <20191216152033.GA2862@kevin>
+References: <20191214045952.9452-1-ezequiel@collabora.com>
+MIME-Version: 1.0
+In-Reply-To: <20191214045952.9452-1-ezequiel@collabora.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-Mailman-Approved-At: Tue, 17 Dec 2019 10:31:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,45 +36,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-sunxi@googlegroups.com, Stefan Mavrodiev <stefan@olimex.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, dri-devel@lists.freedesktop.org,
+ Steven Price <steven.price@arm.com>, kernel@collabora.com,
+ Ezequiel Garcia <ezequiel@collabora.com>
+Content-Type: multipart/mixed; boundary="===============0559695813=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's possible hdmi->connector and hdmi->encoder divices to be NULL.
-This can happen when building as kernel module and you try to remove
-the module.
 
-This patch make simple null check, before calling the cleanup functions.
+--===============0559695813==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ZmUaFz6apKcXQszQ"
+Content-Disposition: inline
 
-Signed-off-by: Stefan Mavrodiev <stefan@olimex.com>
----
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-index a7c4654445c7..b61e00f2ecb8 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-@@ -685,8 +685,10 @@ static void sun4i_hdmi_unbind(struct device *dev, struct device *master,
- 	struct sun4i_hdmi *hdmi = dev_get_drvdata(dev);
- 
- 	cec_unregister_adapter(hdmi->cec_adap);
--	drm_connector_cleanup(&hdmi->connector);
--	drm_encoder_cleanup(&hdmi->encoder);
-+	if (hdmi->connector.dev)
-+		drm_connector_cleanup(&hdmi->connector);
-+	if (hdmi->encoder.dev)
-+		drm_encoder_cleanup(&hdmi->encoder);
- 	i2c_del_adapter(hdmi->i2c);
- 	i2c_put_adapter(hdmi->ddc_i2c);
- 	clk_disable_unprepare(hdmi->mod_clk);
--- 
-2.17.1
+--ZmUaFz6apKcXQszQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Reviewed-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+
+--ZmUaFz6apKcXQszQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEQ17gm7CvANAdqvY4/v5QWgr1WA0FAl33oU0ACgkQ/v5QWgr1
+WA1f5w/+J/jUcxx/ZqOEBdPIG6Ml87WZSYDQ0/OYKkw7oWhdM6b2VivR7VaU6JDd
+kCXZL8rGTR45Vxt8gOSJA3op2DakIkj5AcajrLT+Zo9ANZ7OaO0prn1hwmJljB3g
+gGDdGr9CT3SyJ5qcd1GVF4hkI+7nsVpTllYs6cPgsUTpit+9D5ZaJ+7Q+MgjGz5G
+kBgMpLzA4/Mf7aCU/5ldZWnFoahJgKpuvdKn2VdLvDknbpprAQaHX9jjkvR4tBBh
+5Nec7g9fv2s8rkdIx3Tkzbr9eAv7HKx1l8vA6DbHxtKbFydLAIw8tE5zG1LcARL/
+g6NQcqAZJG8/qxvAE+xIC2aSMTbZhvgLDM30S+uUyYspNLFEp90XCbfMkoNeTa++
+MHZI0Clgn7oJuAL48yt9PHMgVALD7t9njcc4v3qM4XY7W4M6H0LZk6MoJA1sJIyk
+4bCV4tguVhYWw1NQbPeVdfeR8QitaQ5rLFaoz9I8ZKq1UjeFk+PVjl5FsMiLCajX
+pi+cWaViSjIKb+QUxLFTCjW4PdhejtQm9ulwkTbyhkO44m3Jr1iNtqssq3WWzswD
+XJa7XBejkd+SknX5HKhqVsHRP6YFYu9yCR7sybVPziI7hTvaYa7iKaYSnWWpAow3
+PA5ZNP84V8jIcoGGn19OrYSqWI0izFKV6q23Vh2fU27G/dlmsp8=
+=AiY1
+-----END PGP SIGNATURE-----
+
+--ZmUaFz6apKcXQszQ--
+
+--===============0559695813==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0559695813==--
