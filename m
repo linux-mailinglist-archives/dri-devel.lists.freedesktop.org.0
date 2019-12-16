@@ -1,34 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41D88120655
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 13:54:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 400E212069B
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 14:06:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D2CD6E50D;
-	Mon, 16 Dec 2019 12:53:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 224206E50E;
+	Mon, 16 Dec 2019 13:06:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D8286E50D
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 12:53:57 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 29D62AFAF;
- Mon, 16 Dec 2019 12:53:55 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
- id 69B531E0B2E; Mon, 16 Dec 2019 13:53:53 +0100 (CET)
-Date: Mon, 16 Dec 2019 13:53:53 +0100
-From: Jan Kara <jack@suse.cz>
-To: John Hubbard <jhubbard@nvidia.com>
-Subject: Re: [PATCH v11 23/25] mm/gup: track FOLL_PIN pages
-Message-ID: <20191216125353.GF22157@quack2.suse.cz>
-References: <20191212101741.GD10065@quack2.suse.cz>
- <20191214032617.1670759-1-jhubbard@nvidia.com>
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72D6D6E50E
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 13:06:25 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBGD6F4t037453;
+ Mon, 16 Dec 2019 07:06:15 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1576501575;
+ bh=iVKT7pFoJGDyTbH7uUEVDjCaHAWnHERRw7jemQjrYVU=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=HVqhDJViB9ak+sIqbXSN20I/PE/kHXO9kLYk9SHyAWRkNxZM+Rebqz5UmJ1dLrYKO
+ HvkOUApm+eauAychu44lu5J2ma9z1IdIJHMmIOK3ERGsdmXq/bnYnbZQfbpJ/agK8E
+ cnAoJaUeKM+WGz2kqje8U5m1X5IWvfj4Ns0jz3rQ=
+Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xBGD6F8B105319
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 16 Dec 2019 07:06:15 -0600
+Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Mon, 16
+ Dec 2019 07:06:13 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Mon, 16 Dec 2019 07:06:13 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBGD6BH1124070;
+ Mon, 16 Dec 2019 07:06:11 -0600
+Subject: Re: [PATCH v3 12/50] drm/bridge: Add driver for the TI TPD12S015 HDMI
+ level shifter
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ <dri-devel@lists.freedesktop.org>
+References: <20191210225750.15709-1-laurent.pinchart@ideasonboard.com>
+ <20191210225750.15709-13-laurent.pinchart@ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <588bab07-7dad-b2b5-6778-46fc90117bf3@ti.com>
+Date: Mon, 16 Dec 2019 15:06:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191214032617.1670759-1-jhubbard@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191210225750.15709-13-laurent.pinchart@ideasonboard.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,104 +64,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
- linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
- linux-kselftest@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
- Michael Ellerman <mpe@ellerman.id.au>, Christoph Hellwig <hch@infradead.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@suse.cz>,
- =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
- linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- linux-block@vger.kernel.org,
- =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
- Al Viro <viro@zeniv.linux.org.uk>, Dan Williams <dan.j.williams@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, bpf@vger.kernel.org,
- Magnus Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
- netdev@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- Mike Kravetz <mike.kravetz@oracle.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Sam Ravnborg <sam@ravnborg.org>, Sean Paul <sean@poorly.run>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Boris Brezillon <bbrezillon@kernel.org>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri 13-12-19 19:26:17, John Hubbard wrote:
-> Add tracking of pages that were pinned via FOLL_PIN.
-> =
-
-> As mentioned in the FOLL_PIN documentation, callers who effectively set
-> FOLL_PIN are required to ultimately free such pages via unpin_user_page().
-> The effect is similar to FOLL_GET, and may be thought of as "FOLL_GET
-> for DIO and/or RDMA use".
-> =
-
-> Pages that have been pinned via FOLL_PIN are identifiable via a
-> new function call:
-> =
-
->    bool page_dma_pinned(struct page *page);
-> =
-
-> What to do in response to encountering such a page, is left to later
-> patchsets. There is discussion about this in [1], [2], and [3].
-> =
-
-> This also changes a BUG_ON(), to a WARN_ON(), in follow_page_mask().
-> =
-
-> [1] Some slow progress on get_user_pages() (Apr 2, 2019):
->     https://lwn.net/Articles/784574/
-> [2] DMA and get_user_pages() (LPC: Dec 12, 2018):
->     https://lwn.net/Articles/774411/
-> [3] The trouble with get_user_pages() (Apr 30, 2018):
->     https://lwn.net/Articles/753027/
-> =
-
-> Suggested-by: Jan Kara <jack@suse.cz>
-> Suggested-by: J=E9r=F4me Glisse <jglisse@redhat.com>
-> Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+On 11/12/2019 00:57, Laurent Pinchart wrote:
+> The TI TPD12S015 is an HDMI level shifter and ESD protector controlled
+> through GPIOs. Add a DRM bridge driver for the device.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
-> =
+> Changes since v2:
+> 
+> - Control CT_CP_HPD GPIO from .hpd_enable() and .hpd_disable()
+> - Remove unneeded hpd_gpio zero check
+> - Update copyright notice
+> 
+> Changes since v1:
+> 
+> - Remove empty .hpd_enable() and .hpd_disable() operations
+> ---
+>   drivers/gpu/drm/bridge/Kconfig        |   8 +
+>   drivers/gpu/drm/bridge/Makefile       |   1 +
+>   drivers/gpu/drm/bridge/ti-tpd12s015.c | 211 ++++++++++++++++++++++++++
+>   3 files changed, 220 insertions(+)
+>   create mode 100644 drivers/gpu/drm/bridge/ti-tpd12s015.c
+> 
 
-> Hi Jan,
-> =
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 
-> This should address all of your comments for patch 23!
+  Tomi
 
-Thanks. One comment below:
-
-> @@ -1486,6 +1500,10 @@ struct page *follow_trans_huge_pmd(struct vm_area_=
-struct *vma,
->  	VM_BUG_ON_PAGE(!PageHead(page) && !is_zone_device_page(page), page);
->  	if (flags & FOLL_TOUCH)
->  		touch_pmd(vma, addr, pmd, flags);
-> +
-> +	if (!try_grab_page(page, flags))
-> +		return ERR_PTR(-ENOMEM);
-> +
->  	if ((flags & FOLL_MLOCK) && (vma->vm_flags & VM_LOCKED)) {
->  		/*
->  		 * We don't mlock() pte-mapped THPs. This way we can avoid
-
-I'd move this still a bit higher - just after VM_BUG_ON_PAGE() and before
-if (flags & FOLL_TOUCH) test. Because touch_pmd() can update page tables
-and we don't won't that if we're going to fail the fault.
-
-With this fixed, the patch looks good to me so you can then add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
--- =
-
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
