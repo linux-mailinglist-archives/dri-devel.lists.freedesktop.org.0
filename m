@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B4A31202C5
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 11:39:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 604F21202C8
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 11:40:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73F4A6E4B1;
-	Mon, 16 Dec 2019 10:39:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B7E86E4B5;
+	Mon, 16 Dec 2019 10:40:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABB2A6E4B1
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 10:39:46 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id w15so6626852wru.4
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 02:39:46 -0800 (PST)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D5D46E4B3
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 10:40:03 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id b19so6153716wmj.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 02:40:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=subject:to:cc:references:from:openpgp:autocrypt:organization
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=ii06wxcb9L021v3GgtcqEZ9AgzJ8e/NMKTcA4UTvOEY=;
- b=uFI9httlI4FlbYf3pq+TtooCL62GDwlyjemmEDfVia8KyutxATi+dhuUXCXWIB2JSB
- aRmhPcJdb37Kz2FUUa/+aYJVivDdu+l8aAwpTFLxLOzPzuqSS5Y0gkceb4fmooFcZdbk
- RWfD06QSJ/HYJUZRNRxB57N9mavB+Zncfqh8E7b8ZxHsbvC2pXudNdHP+RrUJcxzihPz
- NBoGZxawdSOiEPwmO5SAhFZIE57Vk0vxa+CpSXSkOBQwrcZ9g9ImxMCHvowidHKvO5YX
- 0vx1oLrINJuUskf1MD5Td+w4E9hYV9VFFpmOPkEeOb2B94YLmhFntXMCfZf9U7TKpcwr
- hzrA==
+ bh=7PTuzJelOJRB+7PSGLaS3CVxqQUxash9p56aA9gua7Y=;
+ b=z+6ptBDS1IwpharQmuiMSme2zoIOMNKuV40UPEGQQ6V+urgPVReQo8pVxyN1B++6L9
+ zzTGd+XTkGbL6FOdBNFvkQ0xIIgD5KNZWbt70GaJCM66ah5VrsTbbRPOGvLJI0DqRrmQ
+ ZJgwJWjAyS9lrDvDlUP5WHwH4iBGqmwUtB3TFUDxZBT9jNE07+mO1meSfxF9QVgMH/FH
+ CLADbGwAcIrvy+JoPowKLE+auZaBA6sC01cDzW+LHFiq0o9cBq82i6MENsRQY1rSwTpx
+ 8dT7fPc2KKvsq9ZkN0NJOfDpZ4cBdmErx+OrCuLiRotI1Ub/GPliHhqAVSL8ips9U0gW
+ 11pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=ii06wxcb9L021v3GgtcqEZ9AgzJ8e/NMKTcA4UTvOEY=;
- b=IXfiXqMs1Z58UjY4bRNurVIBei1jMT7o13TaCPvfeFA4vMa1DQ9LV2XY4cJItGG+E9
- nZAEsQ1NElm6aLfqGfYqEwCrFn9OiGKR8GojjCx+Vd8WJsoNuAI3gvk0Ax/RQqfstF/R
- WyKSbxP4e59Pp4DN9xMvSUvLYiEFjIPjBpGKQc0k2xeXzgwkuJBudMQXG7QmJDlqcvQP
- O578Y2WACW45vtxQRVEU6vl6SG95Q3HEQ7GQLujF1VO56WRjk+x55qT8F2xiz9maeZhS
- ghNF3HUNIxBRJ2wLjaYUAAfzDhv3LkZEKu5DJwxCw9MdlMexuj5IWqJfs55YcSWhvI0m
- +d5g==
-X-Gm-Message-State: APjAAAVMM3CnSP9u+5Yp2BJYyF9MY3I+KJl7frWTfRc80HsyAOEruo2e
- eupoBm5n88MxUQmNsL2+DcOTnA==
-X-Google-Smtp-Source: APXvYqxVGQvgWvVnRxy9bC1AGO790BmKTAc01FS7CV0llqhz8LkqEFIJgHcJfzxc8yn5yPgOOPLiuQ==
-X-Received: by 2002:adf:e3d0:: with SMTP id k16mr30082646wrm.241.1576492785196; 
- Mon, 16 Dec 2019 02:39:45 -0800 (PST)
+ bh=7PTuzJelOJRB+7PSGLaS3CVxqQUxash9p56aA9gua7Y=;
+ b=Mi+XsDFnZGz1bWrft+K9yGRPxknfa+2wVNcFXfGDDDT/pLEmX4Trkkcj0Ec/ds16Zb
+ l6qlr1cbtnK/RtAGpGxnGRWKOPucFoGQaiClV1OgpVyTdQTxko8NeYrvaUC9D5FX3a3A
+ rtXP+ueRkbUUaz6HZp/g3rFK7QMK4NZYY13ptJQjzMjxmSkYa6AB43MADHtlgnbFJ9N9
+ WJDbmc8gngZZdWye7YRHUrpfuO4ppMPVDJiYnnLmC5qgGycpi/YFVhJpo9sirbjJNO97
+ CNMCRdwvACIk+/VibG9vmyVBjUpI6ez90D8dtFkxRy8KDu7IPl4CwN2HKEQlSQNUX5Kw
+ ChSA==
+X-Gm-Message-State: APjAAAUKnbpHEbr70y3ocPdyX6jhWCP/6hZqI34bX9jJ+eRAaKOsCUoy
+ fuvL/seAtt5h+eM116/Cxwbfvw==
+X-Google-Smtp-Source: APXvYqz/Ya4Q0+9C4oe7VM7a//tlck/psjtb+fafAvCFpUAVGtQEBACvwMoZSuZaPpP1GmXtICCtPQ==
+X-Received: by 2002:a1c:ddc5:: with SMTP id u188mr16162733wmg.83.1576492801797; 
+ Mon, 16 Dec 2019 02:40:01 -0800 (PST)
 Received: from [10.2.4.230] (lfbn-nic-1-505-157.w90-116.abo.wanadoo.fr.
  [90.116.92.157])
- by smtp.gmail.com with ESMTPSA id k13sm20958632wrx.59.2019.12.16.02.39.44
+ by smtp.gmail.com with ESMTPSA id j2sm20722998wmk.23.2019.12.16.02.40.00
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 16 Dec 2019 02:39:44 -0800 (PST)
-Subject: Re: [PATCH v5 6/6] drm/rockchip: dsi: add px30 support
+ Mon, 16 Dec 2019 02:40:01 -0800 (PST)
+Subject: Re: [PATCH v5 0/6] drm/rockchip: px30 dsi support
 To: Heiko Stuebner <heiko@sntech.de>, a.hajda@samsung.com
 References: <20191209143130.4553-1-heiko@sntech.de>
- <20191209143130.4553-7-heiko@sntech.de>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
@@ -105,12 +104,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  VsbXrP9BZ6snXyHfebPnno/te5XRqZTL9aJOytB/1iUna+1MAwBxGFPvqeEUUyT+gx1l3Acl
  ZaTUOEkgIor5losDrePdPgE=
 Organization: Baylibre
-Message-ID: <99e4a800-fa12-9d64-3ceb-99b961a9f3d3@baylibre.com>
-Date: Mon, 16 Dec 2019 11:39:43 +0100
+Message-ID: <8a071340-6452-4de3-10c9-393bce815ad7@baylibre.com>
+Date: Mon, 16 Dec 2019 11:40:00 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191209143130.4553-7-heiko@sntech.de>
+In-Reply-To: <20191209143130.4553-1-heiko@sntech.de>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -137,75 +136,44 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
+
 On 09/12/2019 15:31, Heiko Stuebner wrote:
 > From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
 > 
-> Add the compatible and GRF definitions for the PX30 soc.
+> This series addes support for the px30 Rockchip soc to the dsi driver.
+> This includes support for external dsi-phys like used on the px30.
 > 
-> changes in v5:
-> - rebased on top of 5.5-rc1
-> - merged with dsi timing change to prevent ordering conflicts
+> What happened between v1 and v5? The then separate dsi hs2lp timing
+> patch happened ;-) . As both it and this series touch similar areas
+> in the dsi driver ordering becomes an issue and so combining them to
+> make ordering explicit is helpful. v2-v4 where then iterations of the
+> timing patch.
 > 
-> Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-> ---
->  .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   | 27 +++++++++++++++++++
->  1 file changed, 27 insertions(+)
+> So this v5 is mainly rebased on 5.5-rc1 and rechecked against drm-misc.
 > 
-> diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> index f16bd1e9b633..f04b5064974d 100644
-> --- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> +++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> @@ -140,6 +140,12 @@
->  #define DW_MIPI_NEEDS_PHY_CFG_CLK	BIT(0)
->  #define DW_MIPI_NEEDS_GRF_CLK		BIT(1)
->  
-> +#define PX30_GRF_PD_VO_CON1		0x0438
-> +#define PX30_DSI_FORCETXSTOPMODE	(0xf << 7)
-> +#define PX30_DSI_FORCERXMODE		BIT(6)
-> +#define PX30_DSI_TURNDISABLE		BIT(5)
-> +#define PX30_DSI_LCDC_SEL		BIT(0)
-> +
->  #define RK3288_GRF_SOC_CON6		0x025c
->  #define RK3288_DSI0_LCDC_SEL		BIT(6)
->  #define RK3288_DSI1_LCDC_SEL		BIT(9)
-> @@ -1127,6 +1133,24 @@ static int dw_mipi_dsi_rockchip_remove(struct platform_device *pdev)
->  	return 0;
->  }
->  
-> +static const struct rockchip_dw_dsi_chip_data px30_chip_data[] = {
-> +	{
-> +		.reg = 0xff450000,
-> +		.lcdsel_grf_reg = PX30_GRF_PD_VO_CON1,
-> +		.lcdsel_big = HIWORD_UPDATE(0, PX30_DSI_LCDC_SEL),
-> +		.lcdsel_lit = HIWORD_UPDATE(PX30_DSI_LCDC_SEL,
-> +					    PX30_DSI_LCDC_SEL),
-> +
-> +		.lanecfg1_grf_reg = PX30_GRF_PD_VO_CON1,
-> +		.lanecfg1 = HIWORD_UPDATE(0, PX30_DSI_TURNDISABLE |
-> +					     PX30_DSI_FORCERXMODE |
-> +					     PX30_DSI_FORCETXSTOPMODE),
-> +
-> +		.max_data_lanes = 4,
-> +	},
-> +	{ /* sentinel */ }
-> +};
-> +
->  static const struct rockchip_dw_dsi_chip_data rk3288_chip_data[] = {
->  	{
->  		.reg = 0xff960000,
-> @@ -1195,6 +1219,9 @@ static const struct rockchip_dw_dsi_chip_data rk3399_chip_data[] = {
->  
->  static const struct of_device_id dw_mipi_dsi_rockchip_dt_ids[] = {
->  	{
-> +	 .compatible = "rockchip,px30-mipi-dsi",
-> +	 .data = &px30_chip_data,
-> +	}, {
->  	 .compatible = "rockchip,rk3288-mipi-dsi",
->  	 .data = &rk3288_chip_data,
->  	}, {
+> Heiko Stuebner (6):
+>   drm/bridge/synopsys: dsi: driver-specific configuration of phy timings
+>   drm/bridge/synopsys: dsi: move phy_ops callbacks around panel
+>     enablement
+>   dt-bindings: display: rockchip-dsi: document external phys
+>   drm/rockchip: add ability to handle external dphys in mipi-dsi
+>   dt-bindings: display: rockchip-dsi: add px30 compatible
+>   drm/rockchip: dsi: add px30 support
+> 
+>  .../display/rockchip/dw_mipi_dsi_rockchip.txt |  13 +-
+>  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c |  40 ++--
+>  drivers/gpu/drm/rockchip/Kconfig              |   1 +
+>  .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   | 173 +++++++++++++++++-
+>  drivers/gpu/drm/stm/dw_mipi_dsi-stm.c         |  13 ++
+>  include/drm/bridge/dw_mipi_dsi.h              |   9 +
+>  6 files changed, 227 insertions(+), 22 deletions(-)
 > 
 
-Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+You can go ahead and merge the whole serie with bridge stuff into drm-misc-next if you want,
+or I can do it.
+
+Neil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
