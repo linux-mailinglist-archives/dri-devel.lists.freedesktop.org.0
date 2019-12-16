@@ -1,59 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3859121CD6
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 23:26:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFE2A121CD7
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 23:26:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B24EE6E8D0;
-	Mon, 16 Dec 2019 22:25:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8C096E8C8;
+	Mon, 16 Dec 2019 22:25:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
  [216.228.121.143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E6E16E8DC
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 22:25:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DB186E8C0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 22:25:42 +0000 (UTC)
 Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
  hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5df8044a0003>; Mon, 16 Dec 2019 14:25:14 -0800
+ id <B5df8044a0001>; Mon, 16 Dec 2019 14:25:14 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
  by hqpgpgate101.nvidia.com (PGP Universal service);
  Mon, 16 Dec 2019 14:25:41 -0800
 X-PGP-Universal: processed;
  by hqpgpgate101.nvidia.com on Mon, 16 Dec 2019 14:25:41 -0800
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL105.nvidia.com
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL105.nvidia.com
  (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 16 Dec
- 2019 22:25:41 +0000
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 16 Dec
- 2019 22:25:41 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 16 Dec 2019 22:25:40 +0000
+ 2019 22:25:40 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Mon, 16 Dec 2019 22:25:41 +0000
 Received: from blueforge.nvidia.com (Not Verified[10.110.48.28]) by
  hqnvemgw03.nvidia.com with Trustwave SEG (v7, 5, 8, 10121)
- id <B5df804640007>; Mon, 16 Dec 2019 14:25:40 -0800
+ id <B5df804640008>; Mon, 16 Dec 2019 14:25:40 -0800
 From: John Hubbard <jhubbard@nvidia.com>
 To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v11 15/25] fs/io_uring: set FOLL_PIN via pin_user_pages()
-Date: Mon, 16 Dec 2019 14:25:27 -0800
-Message-ID: <20191216222537.491123-16-jhubbard@nvidia.com>
+Subject: [PATCH v11 16/25] net/xdp: set FOLL_PIN via pin_user_pages()
+Date: Mon, 16 Dec 2019 14:25:28 -0800
+Message-ID: <20191216222537.491123-17-jhubbard@nvidia.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20191216222537.491123-1-jhubbard@nvidia.com>
 References: <20191216222537.491123-1-jhubbard@nvidia.com>
 MIME-Version: 1.0
 X-NVConfidentiality: public
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1576535114; bh=gTDLTVT0A6XlIAfgDJiHTl8RRiFGnfYAxVs0rFfx1CI=;
+ t=1576535114; bh=ZT0qQeDGzOfjOR8r+Vh655vAE0xyyVSAGHaZ2J8yjZ0=;
  h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
  In-Reply-To:References:MIME-Version:X-NVConfidentiality:
- Content-Transfer-Encoding:Content-Type;
- b=Zq3puLhWOP7ZGaQQ++aAuCUjDSCdn6grpXOW9SOvmsA6kcQDpQWuNcIIWuLF2+ecO
- MidetD6w9KD7++TOAe+qD326EoEAkiaaCsvwb/gxPYp2aavq7eoYh6nnd34C+dAFM2
- iYJJyC3bLJN6vLYYqFcwcjjA1Qp20s19a/RcCv7UbigaJkLCjnINI7kNaaEv0QyQxE
- Xp4fuANP59fDXPXbjZlgvo1OCYETCZuGUaho6IXcFTYcY/tjQASUu7sdfa4wCjQrTs
- SBtFuqSRmcbmaunLfF6FWoteeFy3ou6t5TUoV2irt852ExQOdUDMqtRYXkieFMzfCK
- uMZS8Q3SS54ig==
+ Content-Type:Content-Transfer-Encoding;
+ b=EqnrC3DEqb3cJgugHP1h+j2CVEZj/84D4gjjsdfyJ89yUT1T1GNBMIRnuAymMVCWe
+ pj84oOb8MBCD7YHcaxud4XLUdd/w1ZN+AGdUCbxqJXuVDtbRdZ5ewpA61YdGsXCo6E
+ 3H6s3+/tcbn404Vl84lcW/36kl+THdO7f6H2pTALQmZX5v3e4XhpNDIeciJVa5HY2t
+ bPSBgJ7s/XjhVnlk6/nYMdW9G9Zj0U1s550Od1xfKFjsN+KDkp7Prs9D9dSA7cw506
+ xHyi4SZr+M3m61aCz6GzUHK4tMVcbbSMurqXdBQlnI8jsulD1hb6WNnjkpmf6ts+h7
+ Ma2l5Pq1oNnNA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,12 +67,11 @@ Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
  kvm@vger.kernel.org, linux-doc@vger.kernel.org,
  David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
  dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
- linux-mm@kvack.org, Paul
- Mackerras <paulus@samba.org>, linux-kselftest@vger.kernel.org,
- Ira Weiny <ira.weiny@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-rdma@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
- Christoph Hellwig <hch@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- Vlastimil Babka <vbabka@suse.cz>,
+ linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
+ linux-kselftest@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
+ Michael Ellerman <mpe@ellerman.id.au>, Christoph Hellwig <hch@infradead.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@suse.cz>,
  =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn.topel@intel.com>,
  linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
  John Hubbard <jhubbard@nvidia.com>, linux-block@vger.kernel.org,
@@ -87,46 +83,31 @@ Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
  linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org,
  linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>,
  Mike Kravetz <mike.kravetz@oracle.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert fs/io_uring to use the new pin_user_pages() call, which sets
-FOLL_PIN. Setting FOLL_PIN is now required for code that requires
-tracking of pinned pages, and therefore for any code that calls
-put_user_page().
-
-In partial anticipation of this work, the io_uring code was already
-calling put_user_page() instead of put_page(). Therefore, in order to
-convert from the get_user_pages()/put_page() model, to the
-pin_user_pages()/put_user_page() model, the only change required
-here is to change get_user_pages() to pin_user_pages().
-
-Reviewed-by: Jens Axboe <axboe@kernel.dk>
-Reviewed-by: Jan Kara <jack@suse.cz>
-Signed-off-by: John Hubbard <jhubbard@nvidia.com>
----
- fs/io_uring.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/fs/io_uring.c b/fs/io_uring.c
-index 9b1833fedc5c..c6ff9cc7fe71 100644
---- a/fs/io_uring.c
-+++ b/fs/io_uring.c
-@@ -4539,7 +4539,7 @@ static int io_sqe_buffer_register(struct io_ring_ctx *ctx, void __user *arg,
- 
- 		ret = 0;
- 		down_read(&current->mm->mmap_sem);
--		pret = get_user_pages(ubuf, nr_pages,
-+		pret = pin_user_pages(ubuf, nr_pages,
- 				      FOLL_WRITE | FOLL_LONGTERM,
- 				      pages, vmas);
- 		if (pret == nr_pages) {
--- 
-2.24.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Q29udmVydCBuZXQveGRwIHRvIHVzZSB0aGUgbmV3IHBpbl9sb25ndGVybV9wYWdlcygpIGNhbGws
+IHdoaWNoIHNldHMKRk9MTF9QSU4uIFNldHRpbmcgRk9MTF9QSU4gaXMgbm93IHJlcXVpcmVkIGZv
+ciBjb2RlIHRoYXQgcmVxdWlyZXMKdHJhY2tpbmcgb2YgcGlubmVkIHBhZ2VzLgoKSW4gcGFydGlh
+bCBhbnRpY2lwYXRpb24gb2YgdGhpcyB3b3JrLCB0aGUgbmV0L3hkcCBjb2RlIHdhcyBhbHJlYWR5
+CmNhbGxpbmcgcHV0X3VzZXJfcGFnZSgpIGluc3RlYWQgb2YgcHV0X3BhZ2UoKS4gVGhlcmVmb3Jl
+LCBpbiBvcmRlciB0bwpjb252ZXJ0IGZyb20gdGhlIGdldF91c2VyX3BhZ2VzKCkvcHV0X3BhZ2Uo
+KSBtb2RlbCwgdG8gdGhlCnBpbl91c2VyX3BhZ2VzKCkvcHV0X3VzZXJfcGFnZSgpIG1vZGVsLCB0
+aGUgb25seSBjaGFuZ2UgcmVxdWlyZWQKaGVyZSBpcyB0byBjaGFuZ2UgZ2V0X3VzZXJfcGFnZXMo
+KSB0byBwaW5fdXNlcl9wYWdlcygpLgoKQWNrZWQtYnk6IEJqw7ZybiBUw7ZwZWwgPGJqb3JuLnRv
+cGVsQGludGVsLmNvbT4KU2lnbmVkLW9mZi1ieTogSm9obiBIdWJiYXJkIDxqaHViYmFyZEBudmlk
+aWEuY29tPgotLS0KIG5ldC94ZHAveGRwX3VtZW0uYyB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAx
+IGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL25ldC94ZHAveGRwX3Vt
+ZW0uYyBiL25ldC94ZHAveGRwX3VtZW0uYwppbmRleCAzMDQ5YWYyNjlmYmYuLmQwNzEwMDNiNWU3
+NiAxMDA2NDQKLS0tIGEvbmV0L3hkcC94ZHBfdW1lbS5jCisrKyBiL25ldC94ZHAveGRwX3VtZW0u
+YwpAQCAtMjkxLDcgKzI5MSw3IEBAIHN0YXRpYyBpbnQgeGRwX3VtZW1fcGluX3BhZ2VzKHN0cnVj
+dCB4ZHBfdW1lbSAqdW1lbSkKIAkJcmV0dXJuIC1FTk9NRU07CiAKIAlkb3duX3JlYWQoJmN1cnJl
+bnQtPm1tLT5tbWFwX3NlbSk7Ci0JbnBncyA9IGdldF91c2VyX3BhZ2VzKHVtZW0tPmFkZHJlc3Ms
+IHVtZW0tPm5wZ3MsCisJbnBncyA9IHBpbl91c2VyX3BhZ2VzKHVtZW0tPmFkZHJlc3MsIHVtZW0t
+Pm5wZ3MsCiAJCQkgICAgICBndXBfZmxhZ3MgfCBGT0xMX0xPTkdURVJNLCAmdW1lbS0+cGdzWzBd
+LCBOVUxMKTsKIAl1cF9yZWFkKCZjdXJyZW50LT5tbS0+bW1hcF9zZW0pOwogCi0tIAoyLjI0LjEK
+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
+bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
+c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
