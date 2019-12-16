@@ -1,35 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15B8A1228E8
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 11:32:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 545121228F8
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 11:33:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2672C6E98C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B02B36E992;
 	Tue, 17 Dec 2019 10:32:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
- [217.70.183.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BD646E560
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 13:48:15 +0000 (UTC)
-X-Originating-IP: 91.224.148.103
-Received: from xps13 (unknown [91.224.148.103])
- (Authenticated sender: miquel.raynal@bootlin.com)
- by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 351A2C0003;
- Mon, 16 Dec 2019 13:48:11 +0000 (UTC)
-Date: Mon, 16 Dec 2019 14:48:10 +0100
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH] drm/panel: simple: Support reset GPIOs
-Message-ID: <20191216144810.18710ed3@xps13>
-In-Reply-To: <20191216132732.mmqivmpnq4mio6oo@gilmour.lan>
-References: <20191213181325.26228-1-miquel.raynal@bootlin.com>
- <20191216130615.qs6ub7bwqofwvhr7@gilmour.lan>
- <20191216141036.24c22899@xps13>
- <20191216132732.mmqivmpnq4mio6oo@gilmour.lan>
-Organization: Bootlin
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FA4E6E584
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 13:58:47 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: eballetbo) with ESMTPSA id AC99B291972
+From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v21 0/2] drm/bridge: PS8640 MIPI-to-eDP bridge
+Date: Mon, 16 Dec 2019 14:58:32 +0100
+Message-Id: <20191216135834.27775-1-enric.balletbo@collabora.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 17 Dec 2019 10:31:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -44,68 +35,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Maxime Chevallier <maxime.chevallier@bootlin.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@siol.net>, drinkcat@chromium.org,
+ Jitao Shi <jitao.shi@mediatek.com>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
+ dri-devel@lists.freedesktop.org, Ulrich Hecht <uli@fpond.eu>,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, hsinyi@chromium.org,
+ matthias.bgg@gmail.com, Collabora Kernel ML <kernel@collabora.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgU2FtLAoKTWF4aW1lIFJpcGFyZCA8bWF4aW1lQGNlcm5vLnRlY2g+IHdyb3RlIG9uIE1vbiwg
-MTYgRGVjIDIwMTkgMTQ6Mjc6MzIKKzAxMDA6Cgo+IE9uIE1vbiwgRGVjIDE2LCAyMDE5IGF0IDAy
-OjEwOjM2UE0gKzAxMDAsIE1pcXVlbCBSYXluYWwgd3JvdGU6Cj4gPiA+ID4gIGRyaXZlcnMvZ3B1
-L2RybS9wYW5lbC9wYW5lbC1zaW1wbGUuYyB8IDEyICsrKysrKysrKysrLQo+ID4gPiA+ICAxIGZp
-bGUgY2hhbmdlZCwgMTEgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQo+ID4gPiA+Cj4gPiA+
-ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1zaW1wbGUuYyBiL2Ry
-aXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1zaW1wbGUuYwo+ID4gPiA+IGluZGV4IDVkNDg3Njg2
-ZDI1Yy4uMTVkZDQ5NWMzNDdkIDEwMDY0NAo+ID4gPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9w
-YW5lbC9wYW5lbC1zaW1wbGUuYwo+ID4gPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9w
-YW5lbC1zaW1wbGUuYwo+ID4gPiA+IEBAIC0xMTAsNiArMTEwLDcgQEAgc3RydWN0IHBhbmVsX3Np
-bXBsZSB7Cj4gPiA+ID4gIAlzdHJ1Y3QgaTJjX2FkYXB0ZXIgKmRkYzsKPiA+ID4gPgo+ID4gPiA+
-ICAJc3RydWN0IGdwaW9fZGVzYyAqZW5hYmxlX2dwaW87Cj4gPiA+ID4gKwlzdHJ1Y3QgZ3Bpb19k
-ZXNjICpyZXNldF9ncGlvOwo+ID4gPiA+Cj4gPiA+ID4gIAlzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9k
-ZSBvdmVycmlkZV9tb2RlOwo+ID4gPiA+ICB9Owo+ID4gPiA+IEBAIC00MzMsMTIgKzQzNCwyMSBA
-QCBzdGF0aWMgaW50IHBhbmVsX3NpbXBsZV9wcm9iZShzdHJ1Y3QgZGV2aWNlICpkZXYsIGNvbnN0
-IHN0cnVjdCBwYW5lbF9kZXNjICpkZXNjKQo+ID4gPiA+ICAJaWYgKElTX0VSUihwYW5lbC0+c3Vw
-cGx5KSkKPiA+ID4gPiAgCQlyZXR1cm4gUFRSX0VSUihwYW5lbC0+c3VwcGx5KTsKPiA+ID4gPgo+
-ID4gPiA+ICsJcGFuZWwtPnJlc2V0X2dwaW8gPSBkZXZtX2dwaW9kX2dldF9vcHRpb25hbChkZXYs
-ICJyZXNldCIsCj4gPiA+ID4gKwkJCQkJCSAgICBHUElPRF9PVVRfTE9XKTsKPiA+ID4gPiArCWlm
-IChJU19FUlIocGFuZWwtPnJlc2V0X2dwaW8pKSB7Cj4gPiA+ID4gKwkJZXJyID0gUFRSX0VSUihw
-YW5lbC0+cmVzZXRfZ3Bpbyk7Cj4gPiA+ID4gKwkJaWYgKGVyciAhPSAtRVBST0JFX0RFRkVSKQo+
-ID4gPiA+ICsJCQlkZXZfZXJyKGRldiwgImZhaWxlZCB0byByZXF1ZXN0IHJlc2V0IHBpbjogJWRc
-biIsIGVycik7Cj4gPiA+ID4gKwkJcmV0dXJuIGVycjsKPiA+ID4gPiArCX0KPiA+ID4gPiArICAK
-PiA+ID4KPiA+ID4gSG93ZXZlciwgSSdtIHdvbmRlcmluZyBpZiBpdCB3b3VsZG4ndCBiZSBiZXR0
-ZXIgdG8ganVzdCBoYXZlIHRoZQo+ID4gPiBkZXZpY2UgbWFpbnRhaW5lZCBpbiByZXNldCBhdCBw
-cm9iZSAoc28gT1VUX0hJR0gpIGFuZCBtb3ZlZCBvdXQgb2YKPiA+ID4gcmVzZXQgZHVyaW5nIGVp
-dGhlciB0aGUgcHJlcGFyZSBvciBlbmFibGUgY2FsbGJhY2tzLgo+ID4gPgo+ID4gPiBUaGlzIGlz
-IHByZXR0eSBtdWNoIHdoYXQgaXMgaGFwcGVuaW5nIHdpdGggdGhlIGVuYWJsZS1ncGlvcyBhbHJl
-YWR5Lgo+ID4gPgo+ID4gPiBBbHNvLCBwYW5lbHMgdXN1YWxseSBuZWVkIHRvIHdhaXQgZm9yIGEg
-bWluaW11bSB0aW1lIGFmdGVyIHlvdQo+ID4gPiBkZWFzc2VydCB0aGUgcmVzZXQgbGluZS4gSG93
-IGlzIHRoYXQgZGVhbHQgd2l0aD8KPiA+ID4KPiA+ID4gSSBndWVzcyBhIGdvb2Qgd2F5IHRvIGRv
-IHRoYXQgd291bGQgYmUgdG8gYWRkIHRoYXQgZHVyYXRpb24gdG8gdGhlCj4gPiA+IHBhbmVsIGRl
-c2NyaXB0aW9uLCBzaW5jZSB0aGlzIGlzIHByZXR0eSBtdWNoIGRldmljZSBzcGVjaWZpYy4gIAo+
-ID4KPiA+IFdoYXQgYWJvdXQgdGhlIGNhc2Ugd2VyZSB5b3VyIEJvb3Rsb2FkZXIgZGlzcGxheXMg
-c29tZXRoaW5nIGFuZCB5b3UKPiA+IGRvbid0IHdhbnQgdGhlIHBhbmVsIHRvIGJsaW5rID8gIAo+
-IAo+IFRoZSBCb290bG9hZGVyIHRvIExpbnV4IHRyYW5zaXRpb24gd2lsbCBtYWtlIHRoZSBwYW5l
-bCBibGluayBhbHJlYWR5LAo+IHNpbmNlIHRoZSBkaXNwbGF5IGVuZ2luZSBpcyBnb2luZyB0byBi
-ZSByZXNldCAvIHJlY29uZmlndXJlZCBkdXJpbmcKPiB0aGUgdHJhbnNpdGlvbi4KPiAKPiBUaGUg
-b25seSB3YXkgdG8gaW1wbGVtZW50IHRoaXMgd291bGQgYmUgdG8gaW1wbGVtZW50IHByb3Blcmx5
-IHRoZQo+IHJlc2V0IGNhbGxiYWNrcyBpbiBhbGwgeW91IGRpc3BsYXkgZHJpdmVycyB0byByZWNy
-ZWF0ZSB0aGUgRFJNIHN0YXRlCj4gZnJvbSB0aGUgaGFyZHdhcmUgc3RhdGUsIGFuZCB0aGVuIHlv
-dSdsbCBiZSBhYmxlIHRvIGp1c3Qgc3dpdGNoIHRvIHRoZQo+IG5ldyBidWZmZXIuCj4gCj4gT25s
-eSBJbnRlbCBkb2VzIHRoaXMgYXQgdGhlIHRpbWUgdGhvdWdoLCBhbmQgdGhhdCdzIHdheSBvdXRz
-aWRlIG9mIHRoZQo+IHNjb3BlIG9mIHRoaXMgcGF0Y2guLi4KPiAKPiA+IFJpZ2h0IG5vdyBJIGFt
-IGp1c3QgZm9yY2luZyB0aGUgcmVzZXQgdG8gYmUgZGVhc3NlcnRlZC4gIAo+IAo+IC4uLiBFc3Bl
-Y2lhbGx5IHNpbmNlIHRoZSB2ZXJ5IG5leHQgbGluZSBhZnRlciB5b3VyIHBhdGNoIGZvcmNlcyB0
-aGUKPiBwYW5lbCB0byBiZSBkaXNhYmxlZC4KPiAKCklzIHRoZSBhZGRpdGlvbiBvZiB0aGUgcmVz
-ZXQgc3VwcG9ydCAoYXMgcHJvcG9zZWQgYnkgTWF4aW1lKQppbnRlcmVzdGluZyBmcm9tIHlvdXIg
-cG9pbnQgb2Ygdmlldz8gQXMgeW91IGFuc3dlcmVkIHRoYXQgeW91IHdlcmUgbm90CnVuZGVyc3Rh
-bmRpbmcgdGhlIG5lZWRzIGZvciBzdWNoIGEgY2hhbmdlLCBJIHByZWZlciB0byBhc2sgYmVmb3Jl
-CnNwZW5kaW5nIG1vcmUgdGltZSBvbiBpdC4KCgpUaGFua3MsCk1pcXXDqGwKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
-dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi all,
+
+This driver seems to continue failing to reach upstream. The latest
+version send by Ulrich [1] one month ago, seems to fix all the issues
+that prevented the driver to get merged, but, recent changes ended with
+this driver not building in current mainline. This new version is like a
+RESEND with these build errors fixed, and also a couple of few changes more
+to use device managed resources when available.
+
+This bridge is required to have the embedded display working on an Acer
+Chromebook R13 ("Elm"). Hopefully we are a bit more close to have this
+driver merged. If more changes are required, please let me know and I
+will work on it.
+
+Note: Along these around 20 revisions of this driver I was unable to
+reconstruct the full changelog history, so I'm skipping this. Sorry
+about that, I promise I'll maintain the changelog for future revisions.
+
+Thanks,
+ Enric
+
+[1] https://patchwork.kernel.org/cover/11176929/
+
+Changes in v21:
+ - Use devm_i2c_new_dummy_device and fix build issue using deprecated i2c_new_dummy
+ - Fix build issue due missing drm_bridge.h
+ - Do not remove in ps8640_remove device managed resources
+
+Changes in v19:
+ - fixed return value of ps8640_probe() when no panel is found
+
+Changes in v18:
+ - followed DRM API changes
+ - use DEVICE_ATTR_RO()
+ - remove firmware update code
+ - add SPDX identifier
+
+Changes in v17:
+ - remove some unused head files.
+ - add macros for ps8640 pages.
+ - remove ddc_i2c client
+ - add mipi_dsi_device_register_full
+ - remove the manufacturer from the name and i2c_device_id
+
+Changes in v16:
+ - Disable ps8640 DSI MCS Function.
+ - Rename gpios name more clearly.
+ - Tune the ps8640 power on sequence.
+
+Changes in v15:
+ - Drop drm_connector_(un)register calls from parade ps8640.
+   The main DRM driver mtk_drm_drv now calls
+   drm_connector_register_all() after drm_dev_register() in the
+   mtk_drm_bind() function. That function should iterate over all
+   connectors and call drm_connector_register() for each of them.
+   So, remove drm_connector_(un)register calls from parade ps8640.
+
+Changes in v14:
+ - update copyright info.
+ - change bridge_to_ps8640 and connector_to_ps8640 to inline function.
+ - fix some coding style.
+ - use sizeof as array counter.
+ - use drm_get_edid when read edid.
+ - add mutex when firmware updating.
+
+Changes in v13:
+ - add const on data, ps8640_write_bytes(struct i2c_client *client, const u8 *data, u16 data_len)
+ - fix PAGE2_SW_REST tyro.
+ - move the buf[3] init to entrance of the function.
+
+Changes in v12:
+ - fix hw_chip_id build warning
+
+Changes in v11:
+ - Remove depends on I2C, add DRM depends
+ - Reuse ps8640_write_bytes() in ps8640_write_byte()
+ - Use timer check for polling like the routines in <linux/iopoll.h>
+ - Fix no drm_connector_unregister/drm_connector_cleanup when ps8640_bridge_attach fail
+ - Check the ps8640 hardware id in ps8640_validate_firmware
+ - Remove fw_version check
+ - Move ps8640_validate_firmware before ps8640_enter_bl
+ - Add ddc_i2c unregister when probe fail and ps8640_remove
+
+Jitao Shi (2):
+  Documentation: bridge: Add documentation for ps8640 DT properties
+  drm/bridge: Add I2C based driver for ps8640 bridge
+
+ .../bindings/display/bridge/ps8640.txt        |  44 ++
+ drivers/gpu/drm/bridge/Kconfig                |  11 +
+ drivers/gpu/drm/bridge/Makefile               |   1 +
+ drivers/gpu/drm/bridge/parade-ps8640.c        | 655 ++++++++++++++++++
+ 4 files changed, 711 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/ps8640.txt
+ create mode 100644 drivers/gpu/drm/bridge/parade-ps8640.c
+
+-- 
+2.20.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
