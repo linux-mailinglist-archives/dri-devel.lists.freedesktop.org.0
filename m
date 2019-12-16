@@ -1,42 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 049261203A1
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 12:20:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 765C9120431
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 12:42:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 737216E4CA;
-	Mon, 16 Dec 2019 11:20:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E09CE6E4CF;
+	Mon, 16 Dec 2019 11:42:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 278376E4CA
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 11:20:47 +0000 (UTC)
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D69D6E4CF
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 11:42:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576496536;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tF3J5o1PPfUY0ZGM4Xzpt7UUZf+Ytex+QZplyE4Anlk=;
+ b=Mhd571EKujE5I44yyFsZ6vWpUkDQuO60dqXXSVlWSxXIhIWbY8AkquG8VKCeUn3V34l+Za
+ X9MW0tfcp0jJwqn5nVMeIQnPO5Yi1u9qVJ6qpwqGQ3HiotZfXioebSM8wMUX0lpoig24VO
+ wTSsvDHzOFyBL2GDGonemvQu/a4FQxs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-75--M36LcxoPQOk_zwHzvDNdA-1; Mon, 16 Dec 2019 06:42:09 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 77993206CB;
- Mon, 16 Dec 2019 11:20:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576495247;
- bh=Mpc6KplCorpdPPjd389Z2K1v+WF0Ie2Wk28APYU3EIs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UGMeVmTnoijpaXf0URFSEnCAv2QMv1w4vRp1RBYhvOjr4CWEskkLNUgDf2fd+/91T
- u9eHV45b6wdXZsbDBv6MufHf+l5akQjQKX51yICGrGeVg8jgDQZilSbp6BAom+IqcC
- Y7wsZm3BFQcwZ8XuLl9OoumuAFnRAITIuNShN1oI=
-Date: Mon, 16 Dec 2019 12:20:42 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Subject: Re: [PATCH v12 1/7] dt-bindings: sun6i-dsi: Document A64 MIPI-DSI
- controller
-Message-ID: <20191216112042.f4xvlgnbm4dk6wkq@gilmour.lan>
-References: <20191203134816.5319-1-jagan@amarulasolutions.com>
- <20191203134816.5319-2-jagan@amarulasolutions.com>
- <20191204133600.gnv6dnhk6upe7xod@gilmour.lan>
- <CAMty3ZDU57Hj3ZSBC6sSMFWN9-HQadA03hmXUNUVS1W0UQQ3DA@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8C291800D7B;
+ Mon, 16 Dec 2019 11:42:08 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-117-39.ams2.redhat.com
+ [10.36.117.39])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 61D616700B;
+ Mon, 16 Dec 2019 11:42:08 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 5D04D9DA5; Mon, 16 Dec 2019 12:42:07 +0100 (CET)
+Date: Mon, 16 Dec 2019 12:42:07 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Gurchetan Singh <gurchetansingh@chromium.org>
+Subject: Re: [PATCH] udmabuf: fix dma-buf cpu access
+Message-ID: <20191216114207.g7afikcr4fssgx72@sirius.home.kraxel.org>
+References: <20191213193359.1603-1-gurchetansingh@chromium.org>
 MIME-Version: 1.0
-In-Reply-To: <CAMty3ZDU57Hj3ZSBC6sSMFWN9-HQadA03hmXUNUVS1W0UQQ3DA@mail.gmail.com>
+In-Reply-To: <20191213193359.1603-1-gurchetansingh@chromium.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: -M36LcxoPQOk_zwHzvDNdA-1
+X-Mimecast-Spam-Score: 0
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,150 +62,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- linux-sunxi <linux-sunxi@googlegroups.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Rob Herring <robh+dt@kernel.org>,
- Michael Trimarchi <michael@amarulasolutions.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Icenowy Zheng <icenowy@aosc.io>
-Content-Type: multipart/mixed; boundary="===============1609406784=="
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Dec 13, 2019 at 11:33:59AM -0800, Gurchetan Singh wrote:
+> I'm just going to put Chia's review comment here since it sums
+> the issue rather nicely:
+> 
+> "(1) Semantically, a dma-buf is in DMA domain.  CPU access from the
+> importer must be surrounded by {begin,end}_cpu_access.  This gives the
+> exporter a chance to move the buffer to the CPU domain temporarily.
+> 
+> (2) When the exporter itself has other means to do CPU access, it is
+> only reasonable for the exporter to move the buffer to the CPU domain
+> before access, and to the DMA domain after access.  The exporter can
+> potentially reuse {begin,end}_cpu_access for that purpose.
+> 
+> Because of (1), udmabuf does need to implement the
+> {begin,end}_cpu_access hooks.  But "begin" should mean
+> dma_sync_sg_for_cpu and "end" should mean dma_sync_sg_for_device.
+> 
+> Because of (2), if userspace wants to continuing accessing through the
+> memfd mapping, it should call udmabuf's {begin,end}_cpu_access to
+> avoid cache issues."
+> 
+> Reported-by: Chia-I Wu <olvaffe@gmail.com>
+> Suggested-by: Chia-I Wu <olvaffe@gmail.com>
+> Fixes: 284562e1f34 ("udmabuf: implement begin_cpu_access/end_cpu_access hooks")
 
---===============1609406784==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="j7bmzwiznwnaw3ax"
-Content-Disposition: inline
+Needs 12 hash digits.
 
+Also your signed-off is missing ...
 
---j7bmzwiznwnaw3ax
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Mon, Dec 16, 2019 at 04:37:20PM +0530, Jagan Teki wrote:
-> On Wed, Dec 4, 2019 at 7:06 PM Maxime Ripard <mripard@kernel.org> wrote:
-> >
-> > On Tue, Dec 03, 2019 at 07:18:10PM +0530, Jagan Teki wrote:
-> > > The MIPI DSI controller in Allwinner A64 is similar to A33.
-> > >
-> > > But unlike A33, A64 doesn't have DSI_SCLK gating so it is valid
-> > > to have separate compatible for A64 on the same driver.
-> > >
-> > > DSI_SCLK uses mod clock-names on dt-bindings, so the same
-> > > is not required for A64.
-> > >
-> > > On that note
-> > > - A64 require minimum of 1 clock like the bus clock
-> > > - A33 require minimum of 2 clocks like both bus, mod clocks
-> > >
-> > > So, update dt-bindings so-that it can document both A33,
-> > > A64 bindings requirements.
-> > >
-> > > Reviewed-by: Rob Herring <robh@kernel.org>
-> > > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> > > ---
-> > > Changes for v12:
-> > > - Use 'enum' instead of oneOf+const
-> > >
-> > >  .../display/allwinner,sun6i-a31-mipi-dsi.yaml | 20 +++++++++++++++++--
-> > >  1 file changed, 18 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml b/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
-> > > index dafc0980c4fa..b91446475f35 100644
-> > > --- a/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
-> > > +++ b/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
-> > > @@ -15,7 +15,9 @@ properties:
-> > >    "#size-cells": true
-> > >
-> > >    compatible:
-> > > -    const: allwinner,sun6i-a31-mipi-dsi
-> > > +    enum:
-> > > +      - allwinner,sun6i-a31-mipi-dsi
-> > > +      - allwinner,sun50i-a64-mipi-dsi
-> > >
-> > >    reg:
-> > >      maxItems: 1
-> > > @@ -24,6 +26,8 @@ properties:
-> > >      maxItems: 1
-> > >
-> > >    clocks:
-> > > +    minItems: 1
-> > > +    maxItems: 2
-> > >      items:
-> > >        - description: Bus Clock
-> > >        - description: Module Clock
-> > > @@ -63,13 +67,25 @@ required:
-> > >    - reg
-> > >    - interrupts
-> > >    - clocks
-> > > -  - clock-names
-> > >    - phys
-> > >    - phy-names
-> > >    - resets
-> > >    - vcc-dsi-supply
-> > >    - port
-> > >
-> > > +allOf:
-> > > +  - if:
-> > > +      properties:
-> > > +         compatible:
-> > > +           contains:
-> > > +             const: allwinner,sun6i-a31-mipi-dsi
-> > > +      then:
-> > > +        properties:
-> > > +          clocks:
-> > > +            minItems: 2
-> > > +        required:
-> > > +          - clock-names
-> > > +
-> >
-> > Your else condition should check that the number of clocks items is 1
-> > on the A64
->
-> But the minItems mentioned as 1 in clocks, which is unchanged number
-> by default. doesn't it sufficient?
-
-In the main schema, it's said that the clocks property can have one or
-two elements (to cover the A31 case that has one, and the A64 case
-that has 2).
-
-This is fine.
-
-Later on, you enforce that the A64 has two elements, and this is fine
-too.
-
-However, you never check that on the A31 you only have one clock, and
-you could very well have two and no one would notice.
-
-Maxime
-
---j7bmzwiznwnaw3ax
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXfdoigAKCRDj7w1vZxhR
-xeS/AP9UV7Xns9t5VOhLEF+tbuQ+jcstzHVAz1d0xXveWqK7uAEAqK1mC/scTm09
-qaYD48OkBiF38cUHEBrXBJdLGSE9gQI=
-=7xiu
------END PGP SIGNATURE-----
-
---j7bmzwiznwnaw3ax--
-
---===============1609406784==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+cheers,
+  Gerd
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1609406784==--
