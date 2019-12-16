@@ -2,33 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 705991228D2
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 11:32:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B1451228EB
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 11:33:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 973066E990;
-	Tue, 17 Dec 2019 10:32:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 233D96E99F;
+	Tue, 17 Dec 2019 10:32:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
- [217.70.183.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E9F96E519
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 13:10:43 +0000 (UTC)
-X-Originating-IP: 91.224.148.103
-Received: from xps13 (unknown [91.224.148.103])
- (Authenticated sender: miquel.raynal@bootlin.com)
- by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 1ADC860011;
- Mon, 16 Dec 2019 13:10:37 +0000 (UTC)
-Date: Mon, 16 Dec 2019 14:10:36 +0100
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH] drm/panel: simple: Support reset GPIOs
-Message-ID: <20191216141036.24c22899@xps13>
-In-Reply-To: <20191216130615.qs6ub7bwqofwvhr7@gilmour.lan>
-References: <20191213181325.26228-1-miquel.raynal@bootlin.com>
- <20191216130615.qs6ub7bwqofwvhr7@gilmour.lan>
-Organization: Bootlin
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE2366E519
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 13:11:27 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id k8so6742159ljh.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 05:11:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=TAiI2BLb7pg9ooKEGjkHuJASfBqFSr/9eTqBaRR+Q5s=;
+ b=PH0wGXKoxTI1BJDicekstqKBJ4bUQMNjt5WFLwFeBFjDEh9y5g8UwguA9xkD8yaXiv
+ c7k11mDPDSUg94LtuFZlCmyjmF8MebpdBATDduGD0Y6wRdKFNpU4xwTm8ba2xWcf1ZyU
+ fy5iOnXALduWsM2HUAHDqo9gHZrbujiRXpyhluUvLz9ZdEumIDdRD6ZPi9KSbWQUR7Eg
+ Ei4OTHNf+9he5dyj3hgkHpFmiTiZSDzs0j9y26AhuPeHuXLDfoZRuLZZZnHSZUE+pK7r
+ 4JDl4oGg1cyCZcXADYc3F7ZC4T8lWFWZz+LD2PqB4lynHIjQfAJbnzx7qKDGCoxEkIOa
+ TMtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=TAiI2BLb7pg9ooKEGjkHuJASfBqFSr/9eTqBaRR+Q5s=;
+ b=QvGlffhoWsqVdqT0WTWgKFlJElyFS4r+D2boYgVi8WaGzMrXw3pDAfoL9otbSBbtxh
+ NqI4/piKWUMwcLbF9gXG4ME4JJL8uL5gHLPBW9p4YoLsrnxWwKWaBdKnoOnC3WavitVT
+ /WOSiOAv0dDYsye8NczqWMz6tmnKiazVyqgFD51NuvP8s5wxzB+QepkVY1jwVKWyarDn
+ B+MLoCj0F5A+wPcegDgJ2XA/nO2kUkw0XntR6Wl8T9nQoMb5Hw5f2QD3vKL2C66csr0O
+ vn+Jj9/voctrux5GqELko88FZ80gNVuGAUELvL7ZDf7BanoB4uXq2ZKBc6Q5AI3d6GZ6
+ vwSQ==
+X-Gm-Message-State: APjAAAWP+hQ7FgSwnFQWRldkI4g6/bYeGihYrTsxQ0NGfYKxHZGmT+fz
+ Y61ML45Qro9lqXVDZbAAv0Q=
+X-Google-Smtp-Source: APXvYqwdw8OQRUE6Eja3yiNQfI7EwoJnMViFtOVOcm6zH9PR00CiPZ6kA+IbXoy2RpCQX6x3Aam5qg==
+X-Received: by 2002:a2e:83cc:: with SMTP id s12mr16392876ljh.11.1576501885998; 
+ Mon, 16 Dec 2019 05:11:25 -0800 (PST)
+Received: from [192.168.1.111] (91-152-83-50.elisa-laajakaista.fi.
+ [91.152.83.50])
+ by smtp.gmail.com with ESMTPSA id q25sm10648226lji.7.2019.12.16.05.11.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Dec 2019 05:11:25 -0800 (PST)
+Subject: Re: [PATCH v3 11/50] drm/bridge: Add bridge driver for display
+ connectors
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+References: <20191210225750.15709-1-laurent.pinchart@ideasonboard.com>
+ <20191210225750.15709-12-laurent.pinchart@ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@iki.fi>
+Message-ID: <61bdedd0-6d88-7e1a-8229-18790439ed9d@iki.fi>
+Date: Mon, 16 Dec 2019 15:11:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
+In-Reply-To: <20191210225750.15709-12-laurent.pinchart@ideasonboard.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Tue, 17 Dec 2019 10:31:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,60 +74,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Maxime Chevallier <maxime.chevallier@bootlin.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sam Ravnborg <sam@ravnborg.org>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Sean Paul <sean@poorly.run>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Boris Brezillon <bbrezillon@kernel.org>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTWF4aW1lLAoKTWF4aW1lIFJpcGFyZCA8bWF4aW1lQGNlcm5vLnRlY2g+IHdyb3RlIG9uIE1v
-biwgMTYgRGVjIDIwMTkgMTQ6MDY6MTUKKzAxMDA6Cgo+IEhpLAo+IAo+IE9uIEZyaSwgRGVjIDEz
-LCAyMDE5IGF0IDA3OjEzOjI1UE0gKzAxMDAsIE1pcXVlbCBSYXluYWwgd3JvdGU6Cj4gPiBUaGUg
-cGFuZWwgY29tbW9uIGJpbmRpbmdzIHByb3ZpZGUgYSBncGlvcy1yZXNldCBwcm9wZXJ0eSB3aGlj
-aCBpcwo+ID4gYWN0aXZlIGxvdyBieSBkZWZhdWx0LiBMZXQncyBzdXBwb3J0IGl0IGluIHRoZSBz
-aW1wbGUgZHJpdmVyLgo+ID4KPiA+IERlLWFzc2VydGluZyB0aGUgcmVzZXQgcGluIGltcGxpZXMg
-YSBwaHlzaWNhbCBoaWdoLCB3aGljaCBpbiB0dXJucyBpcwo+ID4gYSBsb2dpYyBsb3cuCj4gPgo+
-ID4gU2lnbmVkLW9mZi1ieTogTWlxdWVsIFJheW5hbCA8bWlxdWVsLnJheW5hbEBib290bGluLmNv
-bT4gIAo+IAo+IFRoZSBHUElPZCBBUEkgYXNrcyBmb3IgYSBsb2dpY2FsIHN0YXRlLCBzbyBpdCBk
-b2Vzbid0IHJlYWxseSBtYXR0ZXIKPiB3aGF0IHRoZSBwb2xhcml0eSBvZiB0aGUgR1BJTywgT1VU
-X0xPVyB3aWxsIGFsd2F5cyBtZWFuIHRoYXQgdGhlIHJlc2V0Cj4gaXMgZGVhc3NlcnRlZCAoYW5k
-IHRodXMsIGl0IHdpbGwgd29yayBldmVuIGlmIHRoZSByZXNldCBwaW4gaXMgYWN0aXZlCj4gaGln
-aCkuCj4gCj4gPiAtLS0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc2ltcGxlLmMg
-fCAxMiArKysrKysrKysrKy0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgMTEgaW5zZXJ0aW9ucygrKSwg
-MSBkZWxldGlvbigtKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcGFuZWwv
-cGFuZWwtc2ltcGxlLmMgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc2ltcGxlLmMKPiA+
-IGluZGV4IDVkNDg3Njg2ZDI1Yy4uMTVkZDQ5NWMzNDdkIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNpbXBsZS5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
-cGFuZWwvcGFuZWwtc2ltcGxlLmMKPiA+IEBAIC0xMTAsNiArMTEwLDcgQEAgc3RydWN0IHBhbmVs
-X3NpbXBsZSB7Cj4gPiAgCXN0cnVjdCBpMmNfYWRhcHRlciAqZGRjOwo+ID4KPiA+ICAJc3RydWN0
-IGdwaW9fZGVzYyAqZW5hYmxlX2dwaW87Cj4gPiArCXN0cnVjdCBncGlvX2Rlc2MgKnJlc2V0X2dw
-aW87Cj4gPgo+ID4gIAlzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSBvdmVycmlkZV9tb2RlOwo+ID4g
-IH07Cj4gPiBAQCAtNDMzLDEyICs0MzQsMjEgQEAgc3RhdGljIGludCBwYW5lbF9zaW1wbGVfcHJv
-YmUoc3RydWN0IGRldmljZSAqZGV2LCBjb25zdCBzdHJ1Y3QgcGFuZWxfZGVzYyAqZGVzYykKPiA+
-ICAJaWYgKElTX0VSUihwYW5lbC0+c3VwcGx5KSkKPiA+ICAJCXJldHVybiBQVFJfRVJSKHBhbmVs
-LT5zdXBwbHkpOwo+ID4KPiA+ICsJcGFuZWwtPnJlc2V0X2dwaW8gPSBkZXZtX2dwaW9kX2dldF9v
-cHRpb25hbChkZXYsICJyZXNldCIsCj4gPiArCQkJCQkJICAgIEdQSU9EX09VVF9MT1cpOwo+ID4g
-KwlpZiAoSVNfRVJSKHBhbmVsLT5yZXNldF9ncGlvKSkgewo+ID4gKwkJZXJyID0gUFRSX0VSUihw
-YW5lbC0+cmVzZXRfZ3Bpbyk7Cj4gPiArCQlpZiAoZXJyICE9IC1FUFJPQkVfREVGRVIpCj4gPiAr
-CQkJZGV2X2VycihkZXYsICJmYWlsZWQgdG8gcmVxdWVzdCByZXNldCBwaW46ICVkXG4iLCBlcnIp
-Owo+ID4gKwkJcmV0dXJuIGVycjsKPiA+ICsJfQo+ID4gKyAgCj4gCj4gSG93ZXZlciwgSSdtIHdv
-bmRlcmluZyBpZiBpdCB3b3VsZG4ndCBiZSBiZXR0ZXIgdG8ganVzdCBoYXZlIHRoZQo+IGRldmlj
-ZSBtYWludGFpbmVkIGluIHJlc2V0IGF0IHByb2JlIChzbyBPVVRfSElHSCkgYW5kIG1vdmVkIG91
-dCBvZgo+IHJlc2V0IGR1cmluZyBlaXRoZXIgdGhlIHByZXBhcmUgb3IgZW5hYmxlIGNhbGxiYWNr
-cy4KPiAKPiBUaGlzIGlzIHByZXR0eSBtdWNoIHdoYXQgaXMgaGFwcGVuaW5nIHdpdGggdGhlIGVu
-YWJsZS1ncGlvcyBhbHJlYWR5Lgo+IAo+IEFsc28sIHBhbmVscyB1c3VhbGx5IG5lZWQgdG8gd2Fp
-dCBmb3IgYSBtaW5pbXVtIHRpbWUgYWZ0ZXIgeW91Cj4gZGVhc3NlcnQgdGhlIHJlc2V0IGxpbmUu
-IEhvdyBpcyB0aGF0IGRlYWx0IHdpdGg/Cj4gCj4gSSBndWVzcyBhIGdvb2Qgd2F5IHRvIGRvIHRo
-YXQgd291bGQgYmUgdG8gYWRkIHRoYXQgZHVyYXRpb24gdG8gdGhlCj4gcGFuZWwgZGVzY3JpcHRp
-b24sIHNpbmNlIHRoaXMgaXMgcHJldHR5IG11Y2ggZGV2aWNlIHNwZWNpZmljLgoKV2hhdCBhYm91
-dCB0aGUgY2FzZSB3ZXJlIHlvdXIgQm9vdGxvYWRlciBkaXNwbGF5cyBzb21ldGhpbmcgYW5kIHlv
-dQpkb24ndCB3YW50IHRoZSBwYW5lbCB0byBibGluayA/CgpSaWdodCBub3cgSSBhbSBqdXN0IGZv
-cmNpbmcgdGhlIHJlc2V0IHRvIGJlIGRlYXNzZXJ0ZWQuCgpUaGFua3MsCk1pcXXDqGwKX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On 11/12/2019 00:57, Laurent Pinchart wrote:
+> Display connectors are modelled in DT as a device node, but have so far
+> been handled manually in several bridge drivers. This resulted in
+> duplicate code in several bridge drivers, with slightly different (and
+> thus confusing) logics.
+> 
+> In order to fix this, implement a bridge driver for display connectors.
+> The driver centralises logic for the DVI, HDMI, VGAn composite and
+> S-video connectors and exposes corresponding bridge operations.
+> 
+> This driver in itself doesn't solve the issue completely, changes in
+> bridge and display controller drivers are needed to make use of the new
+> connector driver.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Maxime Ripard <mripard@kernel.org>
+> ---
+> Changes since v2:
+> 
+> - Fall back to polling if the GPIO IRQ chip doesn't support
+>    edge-triggered interrupts
+> 
+> Changes since v1:
+> 
+> - Use drm_get_connector_type_name() instead of open-coding
+>    display_connector_type_name()
+> - Remove empty .hpd_enable() and .hpd_disable() operations
+> - Set bridge.ddc
+> ---
+>   drivers/gpu/drm/bridge/Kconfig             |  11 +
+>   drivers/gpu/drm/bridge/Makefile            |   1 +
+>   drivers/gpu/drm/bridge/display-connector.c | 292 +++++++++++++++++++++
+>   3 files changed, 304 insertions(+)
+>   create mode 100644 drivers/gpu/drm/bridge/display-connector.c
+
+<snip>
+
+> +	dev_info(&pdev->dev,
+> +		 "Found %s display connector '%s' %s DDC bus and %s HPD GPIO (ops 0x%x)\n",
+> +		 drm_get_connector_type_name(conn->bridge.type),
+> +		 conn->label ? conn->label : "<unlabelled>",
+> +		 conn->bridge.ddc ? "with" : "without",
+> +		 conn->hpd_gpio ? "with" : "without",
+> +		 conn->bridge.ops);
+
+On AM5 EVM, we have HDMI output with DDC and HPD, but I get a kernel print:
+
+display-connector connector: Found HDMI-A display connector 'hdmi' without DDC bus and without HPD 
+GPIO (ops 0x0)
+
+I think that print may be quite confusing for someone who doesn't know the details of the drivers 
+involved.
+
+  Tomi
+
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
