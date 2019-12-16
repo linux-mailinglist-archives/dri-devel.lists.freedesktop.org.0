@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11871121B38
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 21:51:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AC8D121B3B
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 21:51:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFD4F6E895;
-	Mon, 16 Dec 2019 20:51:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6898E6E899;
+	Mon, 16 Dec 2019 20:51:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C43E86E898
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 20:51:39 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 997256E894
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 20:51:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576529498;
+ s=mimecast20190719; t=1576529500;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Nf5K03KkuXPEHEhVIchHz0lOrKqVZQY9RCcAlJ35S0Y=;
- b=MdQYcmH7Z9UtMYzmEPrPo91aXD/u0mubBMj766Z/RyUvT8UgxK+Ue0/1+p4TV4i/x4ivsK
- G25iUuPL4U8YWoyUx44+MBUQEUVaIdvrWWChe4BQR9eXh6R9z2VuEkwvAKgXeR//dlmUAX
- M2F5YLa/t5URp47SxAub+0HuG336w1o=
+ bh=z8T4172WDbHP38/LNRIKQ98QP5O9HGLPqYMQ7D5S2CM=;
+ b=O2b8+60aOtLtF/Rvgexhb85nMI4+ePwbgiZb+HOinR1Ovlvqy9tSVZVY/NFG4dsgDjQrNs
+ /vAGT0EDWGXte4japRma7vKV13DJDvMUukEMD746oQr1a5YbPCuRh9pyLVaDedVdavus17
+ m22Td1tKiCHfV662g7lSE8K1ouWHSy4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-cxGY1L1cPDi4z_kOrQv8gQ-1; Mon, 16 Dec 2019 15:51:36 -0500
-X-MC-Unique: cxGY1L1cPDi4z_kOrQv8gQ-1
+ us-mta-215-oYiYyOFdNYilDOZhmFMUaw-1; Mon, 16 Dec 2019 15:51:39 -0500
+X-MC-Unique: oYiYyOFdNYilDOZhmFMUaw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E73B21005510;
- Mon, 16 Dec 2019 20:51:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C9A5107ACC4;
+ Mon, 16 Dec 2019 20:51:37 +0000 (UTC)
 Received: from shalem.localdomain.com (ovpn-116-96.ams2.redhat.com
  [10.36.116.96])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D78451001B00;
- Mon, 16 Dec 2019 20:51:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 39C791001B00;
+ Mon, 16 Dec 2019 20:51:35 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
@@ -46,10 +46,10 @@ To: Jani Nikula <jani.nikula@linux.intel.com>,
  Lee Jones <lee.jones@linaro.org>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH v2 3/5] drm/i915/dsi: Init panel-enable GPIO to low when the
- LCD is initially off (v2)
-Date: Mon, 16 Dec 2019 21:51:20 +0100
-Message-Id: <20191216205122.1850923-4-hdegoede@redhat.com>
+Subject: [PATCH v2 4/5] drm/i915/dsi: Move Crystal Cove PMIC panel GPIO lookup
+ from mfd to the i915 driver
+Date: Mon, 16 Dec 2019 21:51:21 +0100
+Message-Id: <20191216205122.1850923-5-hdegoede@redhat.com>
 In-Reply-To: <20191216205122.1850923-1-hdegoede@redhat.com>
 References: <20191216205122.1850923-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -66,103 +66,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>, linux-kernel@vger.kernel.org,
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ Andy Shevchenko <andriy.shevchenko@intel.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When the LCD has not been turned on by the firmware/GOP, because e.g. the
-device was booted with an external monitor connected over HDMI, we should
-not turn on the panel-enable GPIO when we request it.
-
-Turning on the panel-enable GPIO when we request it, means we turn it on
-too early in the init-sequence, which causes some panels to not correctly
-light up.
-
-This commits adds a panel_is_on parameter to intel_dsi_vbt_gpio_init()
-and makes intel_dsi_vbt_gpio_init() set the initial GPIO value accordingly.
-
-This fixes the panel not lighting up on a Thundersoft TST168 tablet when
-booted with an external monitor connected over HDMI.
-
-Changes in v2:
-- Call intel_dsi_get_hw_state() to check if the panel is on instead of
-  relying on the current_mode pointer
-
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/gpu/drm/i915/display/intel_dsi.h     | 2 +-
- drivers/gpu/drm/i915/display/intel_dsi_vbt.c | 7 +++----
- drivers/gpu/drm/i915/display/vlv_dsi.c       | 4 +++-
- 3 files changed, 7 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_dsi.h b/drivers/gpu/drm/i915/display/intel_dsi.h
-index de7e51cd3460..675771ea91aa 100644
---- a/drivers/gpu/drm/i915/display/intel_dsi.h
-+++ b/drivers/gpu/drm/i915/display/intel_dsi.h
-@@ -203,7 +203,7 @@ void bxt_dsi_reset_clocks(struct intel_encoder *encoder, enum port port);
- 
- /* intel_dsi_vbt.c */
- bool intel_dsi_vbt_init(struct intel_dsi *intel_dsi, u16 panel_id);
--void intel_dsi_vbt_gpio_init(struct intel_dsi *intel_dsi);
-+void intel_dsi_vbt_gpio_init(struct intel_dsi *intel_dsi, bool panel_is_on);
- void intel_dsi_vbt_gpio_cleanup(struct intel_dsi *intel_dsi);
- void intel_dsi_vbt_exec_sequence(struct intel_dsi *intel_dsi,
- 				 enum mipi_seq seq_id);
-diff --git a/drivers/gpu/drm/i915/display/intel_dsi_vbt.c b/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
-index 8be7d6c507aa..4210f449553e 100644
---- a/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
-+++ b/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
-@@ -688,17 +688,16 @@ bool intel_dsi_vbt_init(struct intel_dsi *intel_dsi, u16 panel_id)
-  * On some BYT/CHT devs some sequences are incomplete and we need to manually
-  * control some GPIOs.
-  */
--void intel_dsi_vbt_gpio_init(struct intel_dsi *intel_dsi)
-+void intel_dsi_vbt_gpio_init(struct intel_dsi *intel_dsi, bool panel_is_on)
- {
- 	struct drm_device *dev = intel_dsi->base.base.dev;
- 	struct drm_i915_private *dev_priv = to_i915(dev);
- 	struct mipi_config *mipi_config = dev_priv->vbt.dsi.config;
-+	enum gpiod_flags flags = panel_is_on ? GPIOD_OUT_HIGH : GPIOD_OUT_LOW;
- 
- 	if ((IS_VALLEYVIEW(dev_priv) || IS_CHERRYVIEW(dev_priv)) &&
- 	    mipi_config->pwm_blc == PPS_BLC_PMIC) {
--		intel_dsi->gpio_panel =
--			gpiod_get(dev->dev, "panel", GPIOD_OUT_HIGH);
--
-+		intel_dsi->gpio_panel = gpiod_get(dev->dev, "panel", flags);
- 		if (IS_ERR(intel_dsi->gpio_panel)) {
- 			DRM_ERROR("Failed to own gpio for panel control\n");
- 			intel_dsi->gpio_panel = NULL;
-diff --git a/drivers/gpu/drm/i915/display/vlv_dsi.c b/drivers/gpu/drm/i915/display/vlv_dsi.c
-index c1edd8857af0..d0efee09c593 100644
---- a/drivers/gpu/drm/i915/display/vlv_dsi.c
-+++ b/drivers/gpu/drm/i915/display/vlv_dsi.c
-@@ -1759,6 +1759,7 @@ void vlv_dsi_init(struct drm_i915_private *dev_priv)
- 	struct drm_connector *connector;
- 	struct drm_display_mode *current_mode, *fixed_mode;
- 	enum port port;
-+	enum pipe pipe;
- 
- 	DRM_DEBUG_KMS("\n");
- 
-@@ -1857,7 +1858,8 @@ void vlv_dsi_init(struct drm_i915_private *dev_priv)
- 
- 	vlv_dphy_param_init(intel_dsi);
- 
--	intel_dsi_vbt_gpio_init(intel_dsi);
-+	intel_dsi_vbt_gpio_init(intel_dsi,
-+				intel_dsi_get_hw_state(intel_encoder, &pipe));
- 
- 	drm_connector_init(dev, connector, &intel_dsi_connector_funcs,
- 			   DRM_MODE_CONNECTOR_DSI);
--- 
-2.23.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+TW92ZSB0aGUgQ3J5c3RhbCBDb3ZlIFBNSUMgcGFuZWwgR1BJTyBsb29rdXAtdGFibGUgZnJvbQpk
+cml2ZXJzL21mZC9pbnRlbF9zb2NfcG1pY19jb3JlLmMgdG8gdGhlIGk5MTUgZHJpdmVyLgoKVGhl
+IG1vdmVkIGxvb2tlZC11cCB0YWJsZSBpcyBhZGRpbmcgYSBHUElPIGxvb2t1cCB0byB0aGUgaTkx
+NSBQQ0kKZGV2aWNlIGFuZCB0aGUgR1BJTyBzdWJzeXMgYWxsb3dzIG9ubHkgb25lIGxvb2t1cCB0
+YWJsZSBwZXIgZGV2aWNlLAoKVGhlIGludGVsX3NvY19wbWljX2NvcmUuYyBjb2RlIG9ubHkgYWRk
+cyBsb29rdXAtdGFibGUgZW50cmllcyBmb3IgdGhlClBNSUMgcGFuZWwgR1BJTyAoYXMgaXQgZGVh
+bHMgb25seSB3aXRoIHRoZSBQTUlDKSwgYnV0IHdlIGFsc28gbmVlZCB0byBiZQphYmxlIHRvIGFj
+Y2VzcyBzb21lIEdQSU9zIG9uIHRoZSBTb0MgaXRzZWxmLCB3aGljaCByZXF1aXJlcyBlbnRyaWVz
+IGZvcgp0aGVzZSBHUElPcyBpbiB0aGUgbG9va3VwLXRhYmxlLgoKU2luY2UgdGhlIGxvb2t1cC10
+YWJsZSBpcyBhdHRhY2hlZCB0byB0aGUgaTkxNSBQQ0kgZGV2aWNlIGl0IHJlYWxseQpzaG91bGQg
+YmUgcGFydCBvZiB0aGUgaTkxNSBkcml2ZXIsIHRoaXMgd2lsbCBhbHNvIGFsbG93IHVzIHRvIGV4
+dGVuZAppdCB3aXRoIEdQSU9zIGZyb20gb3RoZXIgc291cmNlcyB3aGVuIG5lY2Vzc2FyeS4KCkFj
+a2VkLWJ5OiBMaW51cyBXYWxsZWlqIDxsaW51cy53YWxsZWlqQGxpbmFyby5vcmc+ClJldmlld2Vk
+LWJ5OiBBbmR5IFNoZXZjaGVua28gPGFuZHJpeS5zaGV2Y2hlbmtvQGludGVsLmNvbT4KUmV2aWV3
+ZWQtYnk6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+ClNp
+Z25lZC1vZmYtYnk6IEhhbnMgZGUgR29lZGUgPGhkZWdvZWRlQHJlZGhhdC5jb20+Ci0tLQogZHJp
+dmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kc2lfdmJ0LmMgfCAyMyArKysrKysrKysr
+KysrKysrKysrLQogZHJpdmVycy9tZmQvaW50ZWxfc29jX3BtaWNfY29yZS5jICAgICAgICAgICAg
+fCAxOSAtLS0tLS0tLS0tLS0tLS0tCiAyIGZpbGVzIGNoYW5nZWQsIDIyIGluc2VydGlvbnMoKyks
+IDIwIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3Bs
+YXkvaW50ZWxfZHNpX3ZidC5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9k
+c2lfdmJ0LmMKaW5kZXggNDIxMGY0NDk1NTNlLi44OTU1OGNjZjc5YzggMTAwNjQ0Ci0tLSBhL2Ry
+aXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHNpX3ZidC5jCisrKyBiL2RyaXZlcnMv
+Z3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHNpX3ZidC5jCkBAIC0yNSw2ICsyNSw3IEBACiAg
+Ki8KIAogI2luY2x1ZGUgPGxpbnV4L2dwaW8vY29uc3VtZXIuaD4KKyNpbmNsdWRlIDxsaW51eC9n
+cGlvL21hY2hpbmUuaD4KICNpbmNsdWRlIDxsaW51eC9tZmQvaW50ZWxfc29jX3BtaWMuaD4KICNp
+bmNsdWRlIDxsaW51eC9zbGFiLmg+CiAKQEAgLTY4Niw4ICs2ODcsMTggQEAgYm9vbCBpbnRlbF9k
+c2lfdmJ0X2luaXQoc3RydWN0IGludGVsX2RzaSAqaW50ZWxfZHNpLCB1MTYgcGFuZWxfaWQpCiAK
+IC8qCiAgKiBPbiBzb21lIEJZVC9DSFQgZGV2cyBzb21lIHNlcXVlbmNlcyBhcmUgaW5jb21wbGV0
+ZSBhbmQgd2UgbmVlZCB0byBtYW51YWxseQotICogY29udHJvbCBzb21lIEdQSU9zLgorICogY29u
+dHJvbCBzb21lIEdQSU9zLiBXZSBuZWVkIHRvIGFkZCBhIEdQSU8gbG9va3VwIHRhYmxlIGJlZm9y
+ZSB3ZSBnZXQgdGhlc2UuCiAgKi8KK3N0YXRpYyBzdHJ1Y3QgZ3Bpb2RfbG9va3VwX3RhYmxlIHBt
+aWNfcGFuZWxfZ3Bpb190YWJsZSA9IHsKKwkvKiBJbnRlbCBHRlggaXMgY29uc3VtZXIgKi8KKwku
+ZGV2X2lkID0gIjAwMDA6MDA6MDIuMCIsCisJLnRhYmxlID0geworCQkvKiBQYW5lbCBFTi9ESVNB
+QkxFICovCisJCUdQSU9fTE9PS1VQKCJncGlvX2NyeXN0YWxjb3ZlIiwgOTQsICJwYW5lbCIsIEdQ
+SU9fQUNUSVZFX0hJR0gpLAorCQl7IH0KKwl9LAorfTsKKwogdm9pZCBpbnRlbF9kc2lfdmJ0X2dw
+aW9faW5pdChzdHJ1Y3QgaW50ZWxfZHNpICppbnRlbF9kc2ksIGJvb2wgcGFuZWxfaXNfb24pCiB7
+CiAJc3RydWN0IGRybV9kZXZpY2UgKmRldiA9IGludGVsX2RzaS0+YmFzZS5iYXNlLmRldjsKQEAg
+LTY5Nyw2ICs3MDgsOCBAQCB2b2lkIGludGVsX2RzaV92YnRfZ3Bpb19pbml0KHN0cnVjdCBpbnRl
+bF9kc2kgKmludGVsX2RzaSwgYm9vbCBwYW5lbF9pc19vbikKIAogCWlmICgoSVNfVkFMTEVZVklF
+VyhkZXZfcHJpdikgfHwgSVNfQ0hFUlJZVklFVyhkZXZfcHJpdikpICYmCiAJICAgIG1pcGlfY29u
+ZmlnLT5wd21fYmxjID09IFBQU19CTENfUE1JQykgeworCQlncGlvZF9hZGRfbG9va3VwX3RhYmxl
+KCZwbWljX3BhbmVsX2dwaW9fdGFibGUpOworCiAJCWludGVsX2RzaS0+Z3Bpb19wYW5lbCA9IGdw
+aW9kX2dldChkZXYtPmRldiwgInBhbmVsIiwgZmxhZ3MpOwogCQlpZiAoSVNfRVJSKGludGVsX2Rz
+aS0+Z3Bpb19wYW5lbCkpIHsKIAkJCURSTV9FUlJPUigiRmFpbGVkIHRvIG93biBncGlvIGZvciBw
+YW5lbCBjb250cm9sXG4iKTsKQEAgLTcwNyw4ICs3MjAsMTYgQEAgdm9pZCBpbnRlbF9kc2lfdmJ0
+X2dwaW9faW5pdChzdHJ1Y3QgaW50ZWxfZHNpICppbnRlbF9kc2ksIGJvb2wgcGFuZWxfaXNfb24p
+CiAKIHZvaWQgaW50ZWxfZHNpX3ZidF9ncGlvX2NsZWFudXAoc3RydWN0IGludGVsX2RzaSAqaW50
+ZWxfZHNpKQogeworCXN0cnVjdCBkcm1fZGV2aWNlICpkZXYgPSBpbnRlbF9kc2ktPmJhc2UuYmFz
+ZS5kZXY7CisJc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmRldl9wcml2ID0gdG9faTkxNShkZXYp
+OworCXN0cnVjdCBtaXBpX2NvbmZpZyAqbWlwaV9jb25maWcgPSBkZXZfcHJpdi0+dmJ0LmRzaS5j
+b25maWc7CisKIAlpZiAoaW50ZWxfZHNpLT5ncGlvX3BhbmVsKSB7CiAJCWdwaW9kX3B1dChpbnRl
+bF9kc2ktPmdwaW9fcGFuZWwpOwogCQlpbnRlbF9kc2ktPmdwaW9fcGFuZWwgPSBOVUxMOwogCX0K
+KworCWlmICgoSVNfVkFMTEVZVklFVyhkZXZfcHJpdikgfHwgSVNfQ0hFUlJZVklFVyhkZXZfcHJp
+dikpICYmCisJICAgIG1pcGlfY29uZmlnLT5wd21fYmxjID09IFBQU19CTENfUE1JQykKKwkJZ3Bp
+b2RfcmVtb3ZlX2xvb2t1cF90YWJsZSgmcG1pY19wYW5lbF9ncGlvX3RhYmxlKTsKIH0KZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvbWZkL2ludGVsX3NvY19wbWljX2NvcmUuYyBiL2RyaXZlcnMvbWZkL2lu
+dGVsX3NvY19wbWljX2NvcmUuYwppbmRleCA0NzE4OGRmMzA4MGQuLmRkZDY0ZjllMzM0MSAxMDA2
+NDQKLS0tIGEvZHJpdmVycy9tZmQvaW50ZWxfc29jX3BtaWNfY29yZS5jCisrKyBiL2RyaXZlcnMv
+bWZkL2ludGVsX3NvY19wbWljX2NvcmUuYwpAQCAtOSw4ICs5LDYgQEAKICAqLwogCiAjaW5jbHVk
+ZSA8bGludXgvYWNwaS5oPgotI2luY2x1ZGUgPGxpbnV4L2dwaW8vY29uc3VtZXIuaD4KLSNpbmNs
+dWRlIDxsaW51eC9ncGlvL21hY2hpbmUuaD4KICNpbmNsdWRlIDxsaW51eC9pMmMuaD4KICNpbmNs
+dWRlIDxsaW51eC9pbnRlcnJ1cHQuaD4KICNpbmNsdWRlIDxsaW51eC9tb2R1bGUuaD4KQEAgLTI1
+LDE3ICsyMyw2IEBACiAjZGVmaW5lIEJZVF9DUkNfSFJWCQkyCiAjZGVmaW5lIENIVF9DUkNfSFJW
+CQkzCiAKLS8qIExvb2t1cCB0YWJsZSBmb3IgdGhlIFBhbmVsIEVuYWJsZS9EaXNhYmxlIGxpbmUg
+YXMgR1BJTyBzaWduYWxzICovCi1zdGF0aWMgc3RydWN0IGdwaW9kX2xvb2t1cF90YWJsZSBwYW5l
+bF9ncGlvX3RhYmxlID0gewotCS8qIEludGVsIEdGWCBpcyBjb25zdW1lciAqLwotCS5kZXZfaWQg
+PSAiMDAwMDowMDowMi4wIiwKLQkudGFibGUgPSB7Ci0JCS8qIFBhbmVsIEVOL0RJU0FCTEUgKi8K
+LQkJR1BJT19MT09LVVAoImdwaW9fY3J5c3RhbGNvdmUiLCA5NCwgInBhbmVsIiwgR1BJT19BQ1RJ
+VkVfSElHSCksCi0JCXsgfSwKLQl9LAotfTsKLQogLyogUFdNIGNvbnN1bWVkIGJ5IHRoZSBJbnRl
+bCBHRlggKi8KIHN0YXRpYyBzdHJ1Y3QgcHdtX2xvb2t1cCBjcmNfcHdtX2xvb2t1cFtdID0gewog
+CVBXTV9MT09LVVAoImNyeXN0YWxfY292ZV9wd20iLCAwLCAiMDAwMDowMDowMi4wIiwgInB3bV9w
+bWljX2JhY2tsaWdodCIsIDAsIFBXTV9QT0xBUklUWV9OT1JNQUwpLApAQCAtOTYsOSArODMsNiBA
+QCBzdGF0aWMgaW50IGludGVsX3NvY19wbWljX2kyY19wcm9iZShzdHJ1Y3QgaTJjX2NsaWVudCAq
+aTJjLAogCWlmIChyZXQpCiAJCWRldl93YXJuKGRldiwgIkNhbid0IGVuYWJsZSBJUlEgYXMgd2Fr
+ZSBzb3VyY2U6ICVkXG4iLCByZXQpOwogCi0JLyogQWRkIGxvb2t1cCB0YWJsZSBiaW5kaW5nIGZv
+ciBQYW5lbCBDb250cm9sIHRvIHRoZSBHUElPIENoaXAgKi8KLQlncGlvZF9hZGRfbG9va3VwX3Rh
+YmxlKCZwYW5lbF9ncGlvX3RhYmxlKTsKLQogCS8qIEFkZCBsb29rdXAgdGFibGUgZm9yIGNyYy1w
+d20gKi8KIAlwd21fYWRkX3RhYmxlKGNyY19wd21fbG9va3VwLCBBUlJBWV9TSVpFKGNyY19wd21f
+bG9va3VwKSk7CiAKQEAgLTEyMSw5ICsxMDUsNiBAQCBzdGF0aWMgaW50IGludGVsX3NvY19wbWlj
+X2kyY19yZW1vdmUoc3RydWN0IGkyY19jbGllbnQgKmkyYykKIAogCXJlZ21hcF9kZWxfaXJxX2No
+aXAocG1pYy0+aXJxLCBwbWljLT5pcnFfY2hpcF9kYXRhKTsKIAotCS8qIFJlbW92ZSBsb29rdXAg
+dGFibGUgZm9yIFBhbmVsIENvbnRyb2wgZnJvbSB0aGUgR1BJTyBDaGlwICovCi0JZ3Bpb2RfcmVt
+b3ZlX2xvb2t1cF90YWJsZSgmcGFuZWxfZ3Bpb190YWJsZSk7Ci0KIAkvKiByZW1vdmUgY3JjLXB3
+bSBsb29rdXAgdGFibGUgKi8KIAlwd21fcmVtb3ZlX3RhYmxlKGNyY19wd21fbG9va3VwLCBBUlJB
+WV9TSVpFKGNyY19wd21fbG9va3VwKSk7CiAKLS0gCjIuMjMuMAoKX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
+ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
