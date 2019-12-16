@@ -2,58 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62F4C121B3D
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 21:51:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16917121B78
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 22:06:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C49E76E89A;
-	Mon, 16 Dec 2019 20:51:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C16DA6E8A1;
+	Mon, 16 Dec 2019 21:06:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55CFA6E89A
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 20:51:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576529505;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EPtGGtbmK8Ua4ihCISYN9ulc/oNUQiVsk18eHaZb2Ok=;
- b=VgOK8j7ttnXwYUbvSiO0vL4FQx38uhLu11uiQ4qLKBNA3AA4Xcz4lFis6IXiKnlbmlU9U5
- 2iVrKEHX6JSkXO7E0a/s6KL02M3jglDWRLijLrr22kRbVQE4yOfME8FgRc7KSZRlbwPWtS
- ITo2vPDOSaQFVwZIPtBfFOcsbBPJ62Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-239-kAMdGsJIPkyoA21YfKjQVw-1; Mon, 16 Dec 2019 15:51:41 -0500
-X-MC-Unique: kAMdGsJIPkyoA21YfKjQVw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12B67800D5B;
- Mon, 16 Dec 2019 20:51:40 +0000 (UTC)
-Received: from shalem.localdomain.com (ovpn-116-96.ams2.redhat.com
- [10.36.116.96])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D35201001B00;
- Mon, 16 Dec 2019 20:51:37 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Lee Jones <lee.jones@linaro.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH v2 5/5] drm/i915/dsi: Control panel and backlight enable GPIOs
- on BYT
-Date: Mon, 16 Dec 2019 21:51:22 +0100
-Message-Id: <20191216205122.1850923-6-hdegoede@redhat.com>
-In-Reply-To: <20191216205122.1850923-1-hdegoede@redhat.com>
-References: <20191216205122.1850923-1-hdegoede@redhat.com>
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09E006E8A1
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 21:06:54 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id m6so8384832ljc.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 13:06:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6B10PzoQuqYtw4Wcf4T4UCKPAaHvbK4T7GrZfYuHTDU=;
+ b=UZr+KGNB/VbwQQHfyaHADQgn0fRkvZI/bsj8d0sDAo9TrSyFxzxkmv14umMLIR3mHi
+ SWJgNVCqD1Bg0/UIZo543RD0O6Wei4aWhAjEmQBuIqv+XlsJg6YyCMtNd73/15zNOyYd
+ KWo7JOq3tRFjzQXydXqOAAaM8h3JIyDZ4Vxw0u/AxzrZGw9blTxj0OikNOdLF7TQ749m
+ rQsrqQnZ9AZDE/0p0pbUjuHN3HISaTP202zXIbaQEdNfomeR9rCHbM1pQ6uXelpgQhNR
+ a0zJ3jp5UeFg9puLZQTnNvVAp+3OgXZWWcQwgLIJ+LV2wKKeuPEZuPntmuvdTmxanoCp
+ ibCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6B10PzoQuqYtw4Wcf4T4UCKPAaHvbK4T7GrZfYuHTDU=;
+ b=g69sYC8lBvLOI7z0+D6TMzZa8jReuru9KCRD7sx7zEI6uBOb2fZC9dtN3ul1K+7uOG
+ DIX0dqwOgz7reT07piT/+aiQE93YgnJATpjs29rRc1wVSo/4yT2PycqQn/zdTkZPV9rJ
+ 1+5wrhKf1NWYTU46On+t5QrpF2jCJzEwlryNodRGg0m3StbC8bzhjLkzE5kh6V6XqX08
+ lJ07c0PMWNyezlHdw5yt+K33I4K91o5F5PQGs7TA489i6n64MOFnYYaGEQtByJ3FmSg1
+ zN1IpyLmtPXF9Doj2uJvCsu+rrxaYW2q/weRtT4UPPyacLCZHs4PL7eQ0vMwmwszg9u+
+ xGIg==
+X-Gm-Message-State: APjAAAVvBxBHC2ysKfWTgZL4rMwbrbVnxp7qsHkxpBMlKmu42AnghAf9
+ SysB6vdzdzvzJhk/aRF7xCGl37MoG8g8JQ==
+X-Google-Smtp-Source: APXvYqxRRZWJ/aq1sDtAzko0Tp/+WDvNP0bUeAguxDzx0sN3LNej8sgk4spKWGIBSwRv0br4zAv7fQ==
+X-Received: by 2002:a2e:5843:: with SMTP id x3mr779931ljd.64.1576530411814;
+ Mon, 16 Dec 2019 13:06:51 -0800 (PST)
+Received: from localhost.bredbandsbolaget
+ (c-21cd225c.014-348-6c756e10.bbcust.telenor.se. [92.34.205.33])
+ by smtp.gmail.com with ESMTPSA id x23sm9583330lff.24.2019.12.16.13.06.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Dec 2019 13:06:50 -0800 (PST)
+From: Linus Walleij <linus.walleij@linaro.org>
+To: dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Sean Paul <sean@poorly.run>
+Subject: [PATCH v5] drm/mcde: Some fixes to handling video mode
+Date: Mon, 16 Dec 2019 22:06:47 +0100
+Message-Id: <20191216210647.21808-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,130 +67,444 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Stephan Gerhold <stephan@gerhold.net>, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gQmF5IFRyYWlsIGRldmljZXMgdGhlIE1JUEkgcG93ZXIgb24vb2ZmIHNlcXVlbmNlcyBmb3Ig
-RFNJIExDRCBwYW5lbHMKZG8gbm90IGNvbnRyb2wgdGhlIExDRCBwYW5lbC0gYW5kIGJhY2tsaWdo
-dC1lbmFibGUgR1BJT3MuIFNvIGZhciwgd2hlbgp0aGUgVkJUIGluZGljYXRlcyB3ZSBzaG91bGQg
-dXNlIHRoZSBTb0MgZm9yIGJhY2tsaWdodCBjb250cm9sLCB3ZSBoYXZlCmJlZW4gcmVseWluZyBv
-biB0aGVzZSBHUElPcyBiZWluZyBjb25maWd1cmVkIGFzIG91dHB1dCBhbmQgZHJpdmVuIGhpZ2gg
-YnkKdGhlIFZpZGVvIEJJT1MgKEdPUCkgd2hlbiBpdCBpbml0aWFsaXplcyB0aGUgcGFuZWwuCgpU
-aGlzIGRvZXMgbm90IHdvcmsgd2hlbiB0aGUgZGV2aWNlIGlzIGJvb3RlZCB3aXRoIGEgSERNSSBt
-b25pdG9yIGNvbm5lY3RlZAphcyB0aGVuIHRoZSBHT1Agd2lsbCBpbml0aWFsaXplIHRoZSBIRE1J
-IGluc3RlYWQgb2YgdGhlIHBhbmVsLCBsZWF2aW5nIHRoZQpwYW5lbCBibGFjaywgZXZlbiB0aG91
-Z2ggdGhlIGk5MTUgZHJpdmVyIHRyaWVzIHRvIG91dHB1dCBhbiBpbWFnZSB0byBpdC4KCkxpa2V3
-aXNlIG9uIHNvbWUgZGV2aWNlLW1vZGVscyB3aGVuIHRoZSBHT1AgZG9lcyBub3QgaW5pdGlhbGl6
-ZSB0aGUgRFNJCnBhbmVsIGl0IGFsc28gbGVhdmVzIHRoZSBtdXggb2YgdGhlIFBXTTAgcGluIGlu
-IGdlbmVyaWMgR1BJTyBtb2RlIGluc3RlYWQKb2YgbXV4aW5nIGl0IHRvIHRoZSBQV00gY29udHJv
-bGxlci4KClRoaXMgY29tbWl0IG1ha2VzIHRoZSBEU0kgY29kZSBjb250cm9sIHRoZSBTb0MgR1BJ
-T3MgZm9yIHBhbmVsLSBhbmQKYmFja2xpZ2h0LWVuYWJsZSBvbiBCWVQsIHdoZW4gdGhlIFZCVCBp
-bmRpY2F0ZXMgdGhlIFNvQyBzaG91bGQgYmUgdXNlZAoKZm9yIGJhY2tsaWdodCBjb250cm9sLiBJ
-dCBhbHNvIGVuc3VyZXMgdGhhdCB0aGUgUFdNMCBwaW4gaXMgbXV4ZWQgdG8gdGhlClBXTSBjb250
-cm9sbGVyIGluIHRoaXMgY2FzZS4KClRoaXMgZml4ZXMgdGhlIExDRCBwYW5lbCBub3QgbGlnaHRp
-bmcgdXAgb24gdmFyaW91cyBkZXZpY2VzIHdoZW4gYm9vdGVkCndpdGggYSBIRE1JIG1vbml0b3Ig
-Y29ubmVjdGVkLiBUaGlzIGhhcyBiZWVuIHRlc3RlZCB0byBmaXggdGhpcyBvbiB0aGUKZm9sbG93
-aW5nIGRldmljZXM6CgpQZWFxIEMxMDEwClBvaW50IG9mIFZpZXcgTU9CSUkgVEFCLVA4MDBXClBv
-aW50IG9mIFZpZXcgTU9CSUkgVEFCLVAxMDA1VwpUZXJyYSBQYWQgMTA2MQpZb3VycyBZOFc4MQoK
-UmV2aWV3ZWQtYnk6IExpbnVzIFdhbGxlaWogPGxpbnVzLndhbGxlaWpAbGluYXJvLm9yZz4KUmV2
-aWV3ZWQtYnk6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+
-ClNpZ25lZC1vZmYtYnk6IEhhbnMgZGUgR29lZGUgPGhkZWdvZWRlQHJlZGhhdC5jb20+Ci0tLQog
-ZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kc2kuaCAgICAgfCAgMyArLQogZHJp
-dmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kc2lfdmJ0LmMgfCA2NCArKysrKysrKysr
-KysrKysrKysrKwogMiBmaWxlcyBjaGFuZ2VkLCA2NiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9u
-KC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kc2ku
-aCBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHNpLmgKaW5kZXggNjc1Nzcx
-ZWE5MWFhLi43NDgxYTVhYTMwODQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rp
-c3BsYXkvaW50ZWxfZHNpLmgKKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRl
-bF9kc2kuaApAQCAtNDUsOCArNDUsOSBAQCBzdHJ1Y3QgaW50ZWxfZHNpIHsKIAlzdHJ1Y3QgaW50
-ZWxfZHNpX2hvc3QgKmRzaV9ob3N0c1tJOTE1X01BWF9QT1JUU107CiAJaW50ZWxfd2FrZXJlZl90
-IGlvX3dha2VyZWZbSTkxNV9NQVhfUE9SVFNdOwogCi0JLyogR1BJTyBEZXNjIGZvciBDUkMgYmFz
-ZWQgUGFuZWwgY29udHJvbCAqLworCS8qIEdQSU8gRGVzYyBmb3IgcGFuZWwgYW5kIGJhY2tsaWdo
-dCBjb250cm9sICovCiAJc3RydWN0IGdwaW9fZGVzYyAqZ3Bpb19wYW5lbDsKKwlzdHJ1Y3QgZ3Bp
-b19kZXNjICpncGlvX2JhY2tsaWdodDsKIAogCXN0cnVjdCBpbnRlbF9jb25uZWN0b3IgKmF0dGFj
-aGVkX2Nvbm5lY3RvcjsKIApkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxh
-eS9pbnRlbF9kc2lfdmJ0LmMgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rz
-aV92YnQuYwppbmRleCA4OTU1OGNjZjc5YzguLjAwMzIxNjFlMGY3NiAxMDA2NDQKLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kc2lfdmJ0LmMKKysrIGIvZHJpdmVycy9n
-cHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kc2lfdmJ0LmMKQEAgLTI3LDYgKzI3LDggQEAKICNp
-bmNsdWRlIDxsaW51eC9ncGlvL2NvbnN1bWVyLmg+CiAjaW5jbHVkZSA8bGludXgvZ3Bpby9tYWNo
-aW5lLmg+CiAjaW5jbHVkZSA8bGludXgvbWZkL2ludGVsX3NvY19wbWljLmg+CisjaW5jbHVkZSA8
-bGludXgvcGluY3RybC9jb25zdW1lci5oPgorI2luY2x1ZGUgPGxpbnV4L3BpbmN0cmwvbWFjaGlu
-ZS5oPgogI2luY2x1ZGUgPGxpbnV4L3NsYWIuaD4KIAogI2luY2x1ZGUgPGFzbS9pbnRlbC1taWQu
-aD4KQEAgLTUyNSwxMSArNTI3LDE1IEBAIHZvaWQgaW50ZWxfZHNpX3ZidF9leGVjX3NlcXVlbmNl
-KHN0cnVjdCBpbnRlbF9kc2kgKmludGVsX2RzaSwKIHsKIAlpZiAoc2VxX2lkID09IE1JUElfU0VR
-X1BPV0VSX09OICYmIGludGVsX2RzaS0+Z3Bpb19wYW5lbCkKIAkJZ3Bpb2Rfc2V0X3ZhbHVlX2Nh
-bnNsZWVwKGludGVsX2RzaS0+Z3Bpb19wYW5lbCwgMSk7CisJaWYgKHNlcV9pZCA9PSBNSVBJX1NF
-UV9CQUNLTElHSFRfT04gJiYgaW50ZWxfZHNpLT5ncGlvX2JhY2tsaWdodCkKKwkJZ3Bpb2Rfc2V0
-X3ZhbHVlX2NhbnNsZWVwKGludGVsX2RzaS0+Z3Bpb19iYWNrbGlnaHQsIDEpOwogCiAJaW50ZWxf
-ZHNpX3ZidF9leGVjKGludGVsX2RzaSwgc2VxX2lkKTsKIAogCWlmIChzZXFfaWQgPT0gTUlQSV9T
-RVFfUE9XRVJfT0ZGICYmIGludGVsX2RzaS0+Z3Bpb19wYW5lbCkKIAkJZ3Bpb2Rfc2V0X3ZhbHVl
-X2NhbnNsZWVwKGludGVsX2RzaS0+Z3Bpb19wYW5lbCwgMCk7CisJaWYgKHNlcV9pZCA9PSBNSVBJ
-X1NFUV9CQUNLTElHSFRfT0ZGICYmIGludGVsX2RzaS0+Z3Bpb19iYWNrbGlnaHQpCisJCWdwaW9k
-X3NldF92YWx1ZV9jYW5zbGVlcChpbnRlbF9kc2ktPmdwaW9fYmFja2xpZ2h0LCAwKTsKIH0KIAog
-dm9pZCBpbnRlbF9kc2lfbXNsZWVwKHN0cnVjdCBpbnRlbF9kc2kgKmludGVsX2RzaSwgaW50IG1z
-ZWMpCkBAIC02ODgsNiArNjk0LDggQEAgYm9vbCBpbnRlbF9kc2lfdmJ0X2luaXQoc3RydWN0IGlu
-dGVsX2RzaSAqaW50ZWxfZHNpLCB1MTYgcGFuZWxfaWQpCiAvKgogICogT24gc29tZSBCWVQvQ0hU
-IGRldnMgc29tZSBzZXF1ZW5jZXMgYXJlIGluY29tcGxldGUgYW5kIHdlIG5lZWQgdG8gbWFudWFs
-bHkKICAqIGNvbnRyb2wgc29tZSBHUElPcy4gV2UgbmVlZCB0byBhZGQgYSBHUElPIGxvb2t1cCB0
-YWJsZSBiZWZvcmUgd2UgZ2V0IHRoZXNlLgorICogSWYgdGhlIEdPUCBkaWQgbm90IGluaXRpYWxp
-emUgdGhlIHBhbmVsIChIRE1JIGluc2VydGVkKSB3ZSBtYXkgbmVlZCB0byBhbHNvCisgKiBjaGFu
-Z2UgdGhlIHBpbm11eCBmb3IgdGhlIFNvQydzIFBXTTAgcGluIGZyb20gR1BJTyB0byBQV00uCiAg
-Ki8KIHN0YXRpYyBzdHJ1Y3QgZ3Bpb2RfbG9va3VwX3RhYmxlIHBtaWNfcGFuZWxfZ3Bpb190YWJs
-ZSA9IHsKIAkvKiBJbnRlbCBHRlggaXMgY29uc3VtZXIgKi8KQEAgLTY5OSwyMyArNzA3LDY5IEBA
-IHN0YXRpYyBzdHJ1Y3QgZ3Bpb2RfbG9va3VwX3RhYmxlIHBtaWNfcGFuZWxfZ3Bpb190YWJsZSA9
-IHsKIAl9LAogfTsKIAorc3RhdGljIHN0cnVjdCBncGlvZF9sb29rdXBfdGFibGUgc29jX3BhbmVs
-X2dwaW9fdGFibGUgPSB7CisJLmRldl9pZCA9ICIwMDAwOjAwOjAyLjAiLAorCS50YWJsZSA9IHsK
-KwkJR1BJT19MT09LVVAoIklOVDMzRkM6MDEiLCAxMCwgImJhY2tsaWdodCIsIEdQSU9fQUNUSVZF
-X0hJR0gpLAorCQlHUElPX0xPT0tVUCgiSU5UMzNGQzowMSIsIDExLCAicGFuZWwiLCBHUElPX0FD
-VElWRV9ISUdIKSwKKwkJeyB9CisJfSwKK307CisKK3N0YXRpYyBjb25zdCBzdHJ1Y3QgcGluY3Ry
-bF9tYXAgc29jX3B3bV9waW5jdHJsX21hcFtdID0geworCVBJTl9NQVBfTVVYX0dST1VQKCIwMDAw
-OjAwOjAyLjAiLCAic29jX3B3bTAiLCAiSU5UMzNGQzowMCIsCisJCQkgICJwd20wX2dycCIsICJw
-d20iKSwKK307CisKIHZvaWQgaW50ZWxfZHNpX3ZidF9ncGlvX2luaXQoc3RydWN0IGludGVsX2Rz
-aSAqaW50ZWxfZHNpLCBib29sIHBhbmVsX2lzX29uKQogewogCXN0cnVjdCBkcm1fZGV2aWNlICpk
-ZXYgPSBpbnRlbF9kc2ktPmJhc2UuYmFzZS5kZXY7CiAJc3RydWN0IGRybV9pOTE1X3ByaXZhdGUg
-KmRldl9wcml2ID0gdG9faTkxNShkZXYpOwogCXN0cnVjdCBtaXBpX2NvbmZpZyAqbWlwaV9jb25m
-aWcgPSBkZXZfcHJpdi0+dmJ0LmRzaS5jb25maWc7CiAJZW51bSBncGlvZF9mbGFncyBmbGFncyA9
-IHBhbmVsX2lzX29uID8gR1BJT0RfT1VUX0hJR0ggOiBHUElPRF9PVVRfTE9XOworCWJvb2wgd2Fu
-dF9iYWNrbGlnaHRfZ3BpbyA9IGZhbHNlOworCWJvb2wgd2FudF9wYW5lbF9ncGlvID0gZmFsc2U7
-CisJc3RydWN0IHBpbmN0cmwgKnBpbmN0cmw7CisJaW50IHJldDsKIAogCWlmICgoSVNfVkFMTEVZ
-VklFVyhkZXZfcHJpdikgfHwgSVNfQ0hFUlJZVklFVyhkZXZfcHJpdikpICYmCiAJICAgIG1pcGlf
-Y29uZmlnLT5wd21fYmxjID09IFBQU19CTENfUE1JQykgewogCQlncGlvZF9hZGRfbG9va3VwX3Rh
-YmxlKCZwbWljX3BhbmVsX2dwaW9fdGFibGUpOworCQl3YW50X3BhbmVsX2dwaW8gPSB0cnVlOwor
-CX0KKworCWlmIChJU19WQUxMRVlWSUVXKGRldl9wcml2KSAmJiBtaXBpX2NvbmZpZy0+cHdtX2Js
-YyA9PSBQUFNfQkxDX1NPQykgeworCQlncGlvZF9hZGRfbG9va3VwX3RhYmxlKCZzb2NfcGFuZWxf
-Z3Bpb190YWJsZSk7CisJCXdhbnRfcGFuZWxfZ3BpbyA9IHRydWU7CisJCXdhbnRfYmFja2xpZ2h0
-X2dwaW8gPSB0cnVlOwogCisJCS8qIEVuc3VyZSBQV00wIHBpbiBpcyBtdXhlZCBhcyBQV00gaW5z
-dGVhZCBvZiBHUElPICovCisJCXJldCA9IHBpbmN0cmxfcmVnaXN0ZXJfbWFwcGluZ3Moc29jX3B3
-bV9waW5jdHJsX21hcCwKKwkJCQkJICAgICBBUlJBWV9TSVpFKHNvY19wd21fcGluY3RybF9tYXAp
-KTsKKwkJaWYgKHJldCkKKwkJCURSTV9FUlJPUigiRmFpbGVkIHRvIHJlZ2lzdGVyIHB3bTAgcGlu
-bXV4IG1hcHBpbmdcbiIpOworCisJCXBpbmN0cmwgPSBkZXZtX3BpbmN0cmxfZ2V0X3NlbGVjdChk
-ZXYtPmRldiwgInNvY19wd20wIik7CisJCWlmIChJU19FUlIocGluY3RybCkpCisJCQlEUk1fRVJS
-T1IoIkZhaWxlZCB0byBzZXQgcGlubXV4IHRvIFBXTVxuIik7CisJfQorCisJaWYgKHdhbnRfcGFu
-ZWxfZ3BpbykgewogCQlpbnRlbF9kc2ktPmdwaW9fcGFuZWwgPSBncGlvZF9nZXQoZGV2LT5kZXYs
-ICJwYW5lbCIsIGZsYWdzKTsKIAkJaWYgKElTX0VSUihpbnRlbF9kc2ktPmdwaW9fcGFuZWwpKSB7
-CiAJCQlEUk1fRVJST1IoIkZhaWxlZCB0byBvd24gZ3BpbyBmb3IgcGFuZWwgY29udHJvbFxuIik7
-CiAJCQlpbnRlbF9kc2ktPmdwaW9fcGFuZWwgPSBOVUxMOwogCQl9CiAJfQorCisJaWYgKHdhbnRf
-YmFja2xpZ2h0X2dwaW8pIHsKKwkJaW50ZWxfZHNpLT5ncGlvX2JhY2tsaWdodCA9CisJCQlncGlv
-ZF9nZXQoZGV2LT5kZXYsICJiYWNrbGlnaHQiLCBmbGFncyk7CisJCWlmIChJU19FUlIoaW50ZWxf
-ZHNpLT5ncGlvX2JhY2tsaWdodCkpIHsKKwkJCURSTV9FUlJPUigiRmFpbGVkIHRvIG93biBncGlv
-IGZvciBiYWNrbGlnaHQgY29udHJvbFxuIik7CisJCQlpbnRlbF9kc2ktPmdwaW9fYmFja2xpZ2h0
-ID0gTlVMTDsKKwkJfQorCX0KIH0KIAogdm9pZCBpbnRlbF9kc2lfdmJ0X2dwaW9fY2xlYW51cChz
-dHJ1Y3QgaW50ZWxfZHNpICppbnRlbF9kc2kpCkBAIC03MjksNyArNzgzLDE3IEBAIHZvaWQgaW50
-ZWxfZHNpX3ZidF9ncGlvX2NsZWFudXAoc3RydWN0IGludGVsX2RzaSAqaW50ZWxfZHNpKQogCQlp
-bnRlbF9kc2ktPmdwaW9fcGFuZWwgPSBOVUxMOwogCX0KIAorCWlmIChpbnRlbF9kc2ktPmdwaW9f
-YmFja2xpZ2h0KSB7CisJCWdwaW9kX3B1dChpbnRlbF9kc2ktPmdwaW9fYmFja2xpZ2h0KTsKKwkJ
-aW50ZWxfZHNpLT5ncGlvX2JhY2tsaWdodCA9IE5VTEw7CisJfQorCiAJaWYgKChJU19WQUxMRVlW
-SUVXKGRldl9wcml2KSB8fCBJU19DSEVSUllWSUVXKGRldl9wcml2KSkgJiYKIAkgICAgbWlwaV9j
-b25maWctPnB3bV9ibGMgPT0gUFBTX0JMQ19QTUlDKQogCQlncGlvZF9yZW1vdmVfbG9va3VwX3Rh
-YmxlKCZwbWljX3BhbmVsX2dwaW9fdGFibGUpOworCisJaWYgKElTX1ZBTExFWVZJRVcoZGV2X3By
-aXYpICYmIG1pcGlfY29uZmlnLT5wd21fYmxjID09IFBQU19CTENfU09DKSB7CisJCXBpbmN0cmxf
-dW5yZWdpc3Rlcl9tYXBwaW5ncyhzb2NfcHdtX3BpbmN0cmxfbWFwKTsKKwkJZ3Bpb2RfcmVtb3Zl
-X2xvb2t1cF90YWJsZSgmc29jX3BhbmVsX2dwaW9fdGFibGUpOworCX0KIH0KLS0gCjIuMjMuMAoK
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+The video DSI mode had not really been tested. These fixes makes
+it more likely to work on real hardware:
+- Put the active width (x width) in the right bits and the VSA
+  (vertical sync active) in the right bits (those were swapped).
+- Calculate the packet sizes in bytes as in the vendor driver,
+  rather than in bits. Test the calculations agains a
+  spreadsheet and confirmed by debug prints to be reasonable.
+- Also verified the register values with relative confidence
+  to register dumps from the Samsung GT-I8190 boot loader
+  graphics. We are not identical but not off by far either.
+- Error out if the current mode and refresh frequency doesn't
+  work out. (In the future we may simply want to scale down
+  the vrefresh.)
+- Handle negative result in front/back/sync packages and fall
+  back to zero like in the vendor driver.
+- Put in lots of clarifying comments and references to the
+  documentation where the code is hard to understand.
+- Set the DSI_VID_VCA_SETTING2 field
+  DSI_VID_VCA_SETTING2_MAX_LINE_LIMIT to blkline_pck - 6 as in
+  the vendor driver and mask the field properly.
+
+Cc: Stephan Gerhold <stephan@gerhold.net>
+Fixes: 5fc537bfd000 ("drm/mcde: Add new driver for ST-Ericsson MCDE")
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ChangeLog v4->v5:
+- Restore log order, last verstion of the changelog inadvertedly
+  merged v3 and v4 into v3 since I thought I didn't send out v3...
+- Parens in blkeol_pck = bpl - (mode->htotal * cpp) - 6 for
+  explicit priority.
+- Use mask-and-set for DSI_VID_PCK_TIME and DSI_VID_VCA_SETTING1
+- Restore DSI_VID_VCA_SETTING2 field
+  DSI_VID_VCA_SETTING2_MAX_LINE_LIMIT to blkline_pck - 6 as in
+  the vendor driver and mask the field properly.
+ChangeLog v3->v4:
+- Calculate toward actual HS rate of the clock rather than the
+  idealized rate provided by the panel resolution, this is what
+  the vendor driver does.
+- Add much comments and elaborate with references to the manual
+  so the code can be understood as far as possible.
+- Compared register dumps to that on the Samsung GT-I8190 (Golden)
+  boot loader settings. We are now reasonably close to these,
+  it may be that the boot loader driver is using slightly different
+  settings for porches and syncs etc. But all figures makes sense.
+- Duplicated the vendor code in a spread sheet and compared to
+  what this code gives and we have an identical match with one
+  small exception that the vendor code adds a small padding of 2
+  lines to the vertical blanking area. This looks weird and might
+  be some hackishly specified porch.
+ChangeLog v2->v3:
+- Rename the "bpp" variable to "cpp" since it is "chars per pixel"
+  this was confusingly named in the vendor driver and it got
+  carried over.
+- Assign the SETTING2_EXACT_BURST_LIMIT by first shifting
+  then masking.
+- Also mask with the inverse of DSI_VID_BLKSIZE1_BLKEOL_PCK_MASK
+  before writing blkeol into DSI_VID_BLKSIZE1, so we make sure
+  to zero these bits first.
+- Also mask with DSI_VID_BLKSIZE1_BLKLINE_EVENT_PCK_MASK
+  when writing event package length.
+- Comb through the code and compare it to vendor code and try
+  to get closer to doing what the vendor driver is doing.
+ChangeLog v1->v2:
+- Fix some more comments so we understand what is going on.
+- Set up the maximum line limit size in the right register
+  instead of setting it in the burst size register portion.
+- Set some default wakeup time other than zero (still need
+  fixing more).
+---
+ drivers/gpu/drm/mcde/mcde_dsi.c      | 238 +++++++++++++++++++++------
+ drivers/gpu/drm/mcde/mcde_dsi_regs.h |   1 +
+ 2 files changed, 191 insertions(+), 48 deletions(-)
+
+diff --git a/drivers/gpu/drm/mcde/mcde_dsi.c b/drivers/gpu/drm/mcde/mcde_dsi.c
+index 21cee4d9d2fd..948841fc67df 100644
+--- a/drivers/gpu/drm/mcde/mcde_dsi.c
++++ b/drivers/gpu/drm/mcde/mcde_dsi.c
+@@ -379,13 +379,14 @@ void mcde_dsi_te_request(struct mipi_dsi_device *mdsi)
+ static void mcde_dsi_setup_video_mode(struct mcde_dsi *d,
+ 				      const struct drm_display_mode *mode)
+ {
+-	u8 bpp = mipi_dsi_pixel_format_to_bpp(d->mdsi->format);
++	/* cpp, characters per pixel, number of bytes per pixel */
++	u8 cpp = mipi_dsi_pixel_format_to_bpp(d->mdsi->format) / 8;
++	u64 pclk;
+ 	u64 bpl;
+-	u32 hfp;
+-	u32 hbp;
+-	u32 hsa;
++	int hfp;
++	int hbp;
++	int hsa;
+ 	u32 blkline_pck, line_duration;
+-	u32 blkeol_pck, blkeol_duration;
+ 	u32 val;
+ 
+ 	val = 0;
+@@ -422,11 +423,21 @@ static void mcde_dsi_setup_video_mode(struct mcde_dsi *d,
+ 		return;
+ 	}
+ 
+-	/* TODO: TVG could be enabled here */
++	/* TODO: TVG (test video generator) could be enabled here */
+ 
+-	/* Send blanking packet */
++	/*
++	 * During vertical blanking: go to LP mode
++	 * Like with the EOL setting, if this is not set, the EOL area will be
++	 * filled with NULL or blanking packets in the vblank area.
++	 * FIXME: some Samsung phones and display panels such as s6e63m0 use
++	 * DSI_VID_MAIN_CTL_REG_BLKLINE_MODE_BLANKING here instead,
++	 * figure out how to properly configure that from the panel.
++	 */
+ 	val |= DSI_VID_MAIN_CTL_REG_BLKLINE_MODE_LP_0;
+-	/* Send EOL packet */
++	/*
++	 * During EOL: go to LP mode. If this is not set, the EOL area will be
++	 * filled with NULL or blanking packets.
++	 */
+ 	val |= DSI_VID_MAIN_CTL_REG_BLKEOL_MODE_LP_0;
+ 	/* Recovery mode 1 */
+ 	val |= 1 << DSI_VID_MAIN_CTL_RECOVERY_MODE_SHIFT;
+@@ -434,13 +445,13 @@ static void mcde_dsi_setup_video_mode(struct mcde_dsi *d,
+ 	writel(val, d->regs + DSI_VID_MAIN_CTL);
+ 
+ 	/* Vertical frame parameters are pretty straight-forward */
+-	val = mode->vdisplay << DSI_VID_VSIZE_VSA_LENGTH_SHIFT;
++	val = mode->vdisplay << DSI_VID_VSIZE_VACT_LENGTH_SHIFT;
+ 	/* vertical front porch */
+ 	val |= (mode->vsync_start - mode->vdisplay)
+ 		<< DSI_VID_VSIZE_VFP_LENGTH_SHIFT;
+ 	/* vertical sync active */
+ 	val |= (mode->vsync_end - mode->vsync_start)
+-		<< DSI_VID_VSIZE_VACT_LENGTH_SHIFT;
++		<< DSI_VID_VSIZE_VSA_LENGTH_SHIFT;
+ 	/* vertical back porch */
+ 	val |= (mode->vtotal - mode->vsync_end)
+ 		<< DSI_VID_VSIZE_VBP_LENGTH_SHIFT;
+@@ -448,36 +459,54 @@ static void mcde_dsi_setup_video_mode(struct mcde_dsi *d,
+ 
+ 	/*
+ 	 * Horizontal frame parameters:
+-	 * horizontal resolution is given in pixels and must be re-calculated
+-	 * into bytes since this is what the hardware expects.
++	 * horizontal resolution is given in pixels but must be re-calculated
++	 * into bytes since this is what the hardware expects, these registers
++	 * define the payload size of the packet.
++	 *
++	 * hfp = horizontal front porch in bytes
++	 * hbp = horizontal back porch in bytes
++	 * hsa = horizontal sync active in bytes
+ 	 *
+ 	 * 6 + 2 is HFP header + checksum
+ 	 */
+-	hfp = (mode->hsync_start - mode->hdisplay) * bpp - 6 - 2;
++	hfp = (mode->hsync_start - mode->hdisplay) * cpp - 6 - 2;
+ 	if (d->mdsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE) {
+ 		/*
++		 * Use sync pulse for sync: explicit HSA time
+ 		 * 6 is HBP header + checksum
+ 		 * 4 is RGB header + checksum
+ 		 */
+-		hbp = (mode->htotal - mode->hsync_end) * bpp - 4 - 6;
++		hbp = (mode->htotal - mode->hsync_end) * cpp - 4 - 6;
+ 		/*
+ 		 * 6 is HBP header + checksum
+ 		 * 4 is HSW packet bytes
+ 		 * 4 is RGB header + checksum
+ 		 */
+-		hsa = (mode->hsync_end - mode->hsync_start) * bpp - 4 - 4 - 6;
++		hsa = (mode->hsync_end - mode->hsync_start) * cpp - 4 - 4 - 6;
+ 	} else {
+ 		/*
+-		 * HBP includes both back porch and sync
++		 * Use event for sync: HBP includes both back porch and sync
+ 		 * 6 is HBP header + checksum
+ 		 * 4 is HSW packet bytes
+ 		 * 4 is RGB header + checksum
+ 		 */
+-		hbp = (mode->htotal - mode->hsync_start) * bpp - 4 - 4 - 6;
+-		/* HSA is not considered in this mode and set to 0 */
++		hbp = (mode->htotal - mode->hsync_start) * cpp - 4 - 4 - 6;
++		/* HSA is not present in this mode and set to 0 */
++		hsa = 0;
++	}
++	if (hfp < 0) {
++		dev_info(d->dev, "hfp negative, set to 0\n");
++		hfp = 0;
++	}
++	if (hbp < 0) {
++		dev_info(d->dev, "hbp negative, set to 0\n");
++		hbp = 0;
++	}
++	if (hsa < 0) {
++		dev_info(d->dev, "hsa negative, set to 0\n");
+ 		hsa = 0;
+ 	}
+-	dev_dbg(d->dev, "hfp: %u, hbp: %u, hsa: %u\n",
++	dev_dbg(d->dev, "hfp: %u, hbp: %u, hsa: %u bytes\n",
+ 		hfp, hbp, hsa);
+ 
+ 	/* Frame parameters: horizontal sync active */
+@@ -488,71 +517,184 @@ static void mcde_dsi_setup_video_mode(struct mcde_dsi *d,
+ 	val |= hfp << DSI_VID_HSIZE1_HFP_LENGTH_SHIFT;
+ 	writel(val, d->regs + DSI_VID_HSIZE1);
+ 
+-	/* RGB data length (bytes on one scanline) */
+-	val = mode->hdisplay * (bpp / 8);
++	/* RGB data length (visible bytes on one scanline) */
++	val = mode->hdisplay * cpp;
+ 	writel(val, d->regs + DSI_VID_HSIZE2);
++	dev_dbg(d->dev, "RGB length, visible area on a line: %u bytes\n", val);
+ 
+-	/* TODO: further adjustments for TVG mode here */
++	/*
++	 * Calculate the time between two pixels in picoseconds using
++	 * the supplied refresh rate and total resolution including
++	 * porches and sync.
++	 */
++	/* (ps/s) / (pixels/s) = ps/pixels */
++	pclk = DIV_ROUND_UP_ULL(1000000000000,
++				(mode->vrefresh * mode->htotal * mode->vtotal));
++	dev_dbg(d->dev, "picoseconds between two pixels: %llu\n",
++		pclk);
+ 
+ 	/*
+-	 * EOL packet length from bits per line calculations: pixel clock
+-	 * is given in kHz, calculate the time between two pixels in
+-	 * picoseconds.
++	 * How many bytes per line will this update frequency yield?
++	 *
++	 * Calculate the number of picoseconds for one scanline (1), then
++	 * divide by 1000000000000 (2) to get in pixels per second we
++	 * want to output.
++	 *
++	 * Multiply with number of bytes per second at this video display
++	 * frequency (3) to get number of bytes transferred during this
++	 * time. Notice that we use the frequency the display wants,
++	 * not what we actually get from the DSI PLL, which is hs_freq.
++	 *
++	 * These arithmetics are done in a different order to avoid
++	 * overflow.
+ 	 */
+-	bpl = mode->clock * mode->htotal;
+-	bpl *= (d->hs_freq / 8);
+-	do_div(bpl, 1000000); /* microseconds */
+-	do_div(bpl, 1000000); /* seconds */
++	bpl = pclk * mode->htotal; /* (1) picoseconds per line */
++	dev_dbg(d->dev, "picoseconds per line: %llu\n", bpl);
++	/* Multiply with bytes per second (3) */
++	bpl *= (d->mdsi->hs_rate / 8);
++	/* Pixels per second (2) */
++	bpl = DIV_ROUND_DOWN_ULL(bpl, 1000000); /* microseconds */
++	bpl = DIV_ROUND_DOWN_ULL(bpl, 1000000); /* seconds */
++	/* parallel transactions in all lanes */
+ 	bpl *= d->mdsi->lanes;
+-	dev_dbg(d->dev, "calculated bytes per line: %llu\n", bpl);
++	dev_dbg(d->dev,
++		"calculated bytes per line: %llu @ %d Hz with HS %lu Hz\n",
++		bpl, mode->vrefresh, d->mdsi->hs_rate);
++
+ 	/*
+ 	 * 6 is header + checksum, header = 4 bytes, checksum = 2 bytes
+ 	 * 4 is short packet for vsync/hsync
+ 	 */
+ 	if (d->mdsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE) {
+-		/* Fixme: isn't the hsync width in pixels? */
++		/* Set the event packet size to 0 (not used) */
++		writel(0, d->regs + DSI_VID_BLKSIZE1);
++		/*
++		 * FIXME: isn't the hsync width in pixels? The porch and
++		 * sync area size is in pixels here, but this -6
++		 * seems to be for bytes. It looks like this in the vendor
++		 * code though. Is it completely untested?
++		 */
+ 		blkline_pck = bpl - (mode->hsync_end - mode->hsync_start) - 6;
+ 		val = blkline_pck << DSI_VID_BLKSIZE2_BLKLINE_PULSE_PCK_SHIFT;
+ 		writel(val, d->regs + DSI_VID_BLKSIZE2);
+ 	} else {
++		/* Set the sync pulse packet size to 0 (not used) */
++		writel(0, d->regs + DSI_VID_BLKSIZE2);
++		/* Specifying payload size in bytes (-4-6 from manual) */
+ 		blkline_pck = bpl - 4 - 6;
++		if (blkline_pck > 0x1FFF)
++			dev_err(d->dev, "blkline_pck too big %d bytes\n",
++				blkline_pck);
+ 		val = blkline_pck << DSI_VID_BLKSIZE1_BLKLINE_EVENT_PCK_SHIFT;
++		val &= DSI_VID_BLKSIZE1_BLKLINE_EVENT_PCK_MASK;
+ 		writel(val, d->regs + DSI_VID_BLKSIZE1);
+ 	}
+ 
+-	line_duration = (blkline_pck + 6) / d->mdsi->lanes;
+-	dev_dbg(d->dev, "line duration %u\n", line_duration);
++	/*
++	 * The line duration is used to scale back the frequency from
++	 * the max frequency supported by the HS clock to the desired
++	 * update frequency in vrefresh.
++	 */
++	line_duration = blkline_pck + 6;
++	/*
++	 * The datasheet contains this complex condition to decreasing
++	 * the line duration by 1 under very specific circumstances.
++	 * Here we also imply that LP is used during burst EOL.
++	 */
++	if (d->mdsi->lanes == 2 && (hsa & 0x01) && (hfp & 0x01)
++	    && (d->mdsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST))
++		line_duration--;
++	line_duration = DIV_ROUND_CLOSEST(line_duration, d->mdsi->lanes);
++	dev_dbg(d->dev, "line duration %u bytes\n", line_duration);
+ 	val = line_duration << DSI_VID_DPHY_TIME_REG_LINE_DURATION_SHIFT;
+ 	/*
+ 	 * This is the time to perform LP->HS on D-PHY
+ 	 * FIXME: nowhere to get this from: DT property on the DSI?
++	 * The manual says this is "system dependent".
++	 * values like 48 and 72 seen in the vendor code.
+ 	 */
+-	val |= 0 << DSI_VID_DPHY_TIME_REG_WAKEUP_TIME_SHIFT;
++	val |= 48 << DSI_VID_DPHY_TIME_REG_WAKEUP_TIME_SHIFT;
+ 	writel(val, d->regs + DSI_VID_DPHY_TIME);
+ 
+-	/* Calculate block end of line */
+-	blkeol_pck = bpl - mode->hdisplay * bpp - 6;
+-	blkeol_duration = (blkeol_pck + 6) / d->mdsi->lanes;
+-	dev_dbg(d->dev, "blkeol pck: %u, duration: %u\n",
+-		 blkeol_pck, blkeol_duration);
+-
++	/*
++	 * See the manual figure 657 page 2203 for understanding the impact
++	 * of the different burst mode settings.
++	 */
+ 	if (d->mdsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST) {
+-		/* Set up EOL clock for burst mode */
++		int blkeol_pck, blkeol_duration;
++		/*
++		 * Packet size at EOL for burst mode, this is only used
++		 * if DSI_VID_MAIN_CTL_REG_BLKEOL_MODE_LP_0 is NOT set,
++		 * but we instead send NULL or blanking packets at EOL.
++		 * This is given in number of bytes.
++		 *
++		 * See the manual page 2198 for the 13 reg_blkeol_pck bits.
++		 */
++		blkeol_pck = bpl - (mode->htotal * cpp) - 6;
++		if (blkeol_pck < 0) {
++			dev_err(d->dev, "video block does not fit on line!\n");
++			dev_err(d->dev,
++				"calculated bytes per line: %llu @ %d Hz\n",
++				bpl, mode->vrefresh);
++			dev_err(d->dev,
++				"bytes per line (blkline_pck) %u bytes\n",
++				blkline_pck);
++			dev_err(d->dev,
++				"blkeol_pck becomes %d bytes\n", blkeol_pck);
++			return;
++		}
++		dev_dbg(d->dev, "BLKEOL packet: %d bytes\n", blkeol_pck);
++
+ 		val = readl(d->regs + DSI_VID_BLKSIZE1);
++		val &= ~DSI_VID_BLKSIZE1_BLKEOL_PCK_MASK;
+ 		val |= blkeol_pck << DSI_VID_BLKSIZE1_BLKEOL_PCK_SHIFT;
+ 		writel(val, d->regs + DSI_VID_BLKSIZE1);
+-		writel(blkeol_pck, d->regs + DSI_VID_VCA_SETTING2);
+-
+-		writel(blkeol_duration, d->regs + DSI_VID_PCK_TIME);
+-		writel(blkeol_duration - 6, d->regs + DSI_VID_VCA_SETTING1);
++		/* Use the same value for exact burst limit */
++		val = blkeol_pck <<
++			DSI_VID_VCA_SETTING2_EXACT_BURST_LIMIT_SHIFT;
++		val &= DSI_VID_VCA_SETTING2_EXACT_BURST_LIMIT_MASK;
++		writel(val, d->regs + DSI_VID_VCA_SETTING2);
++		/*
++		 * This BLKEOL duration is claimed to be the duration in clock
++		 * cycles of the BLLP end-of-line (EOL) period for each line if
++		 * DSI_VID_MAIN_CTL_REG_BLKEOL_MODE_LP_0 is set.
++		 *
++		 * It is hard to trust the manuals' claim that this is in clock
++		 * cycles as we mimic the behaviour of the vendor code, which
++		 * appears to write a number of bytes that would have been
++		 * transferred on a single lane.
++		 *
++		 * See the manual figure 657 page 2203 and page 2198 for the 13
++		 * reg_blkeol_duration bits.
++		 *
++		 * FIXME: should this also be set up also for non-burst mode
++		 * according to figure 565 page 2202?
++		 */
++		blkeol_duration = DIV_ROUND_CLOSEST(blkeol_pck + 6,
++						    d->mdsi->lanes);
++		dev_dbg(d->dev, "BLKEOL duration: %d clock cycles\n",
++			blkeol_duration);
++
++		val = readl(d->regs + DSI_VID_PCK_TIME);
++		val &= ~DSI_VID_PCK_TIME_BLKEOL_DURATION_MASK;
++		val |= blkeol_duration <<
++			DSI_VID_PCK_TIME_BLKEOL_DURATION_SHIFT;
++		writel(val, d->regs + DSI_VID_PCK_TIME);
++
++		/* Max burst limit, this is given in bytes */
++		val = readl(d->regs + DSI_VID_VCA_SETTING1);
++		val &= ~DSI_VID_VCA_SETTING1_MAX_BURST_LIMIT_MASK;
++		val |= blkeol_duration - 6;
++		writel(val, d->regs + DSI_VID_VCA_SETTING1);
+ 	}
+ 
+ 	/* Maximum line limit */
+ 	val = readl(d->regs + DSI_VID_VCA_SETTING2);
+-	val |= blkline_pck <<
+-		DSI_VID_VCA_SETTING2_EXACT_BURST_LIMIT_SHIFT;
++	val &= ~DSI_VID_VCA_SETTING2_MAX_LINE_LIMIT_MASK;
++	val |= blkline_pck - 6 <<
++		DSI_VID_VCA_SETTING2_MAX_LINE_LIMIT_SHIFT;
+ 	writel(val, d->regs + DSI_VID_VCA_SETTING2);
+-
++	dev_dbg(d->dev, "blkline pck: %d bytes\n", blkline_pck - 6);
+ }
+ 
+ static void mcde_dsi_start(struct mcde_dsi *d)
+diff --git a/drivers/gpu/drm/mcde/mcde_dsi_regs.h b/drivers/gpu/drm/mcde/mcde_dsi_regs.h
+index 8089db805c57..16551af1089e 100644
+--- a/drivers/gpu/drm/mcde/mcde_dsi_regs.h
++++ b/drivers/gpu/drm/mcde/mcde_dsi_regs.h
+@@ -228,6 +228,7 @@
+ 
+ #define DSI_VID_PCK_TIME 0x000000A8
+ #define DSI_VID_PCK_TIME_BLKEOL_DURATION_SHIFT 0
++#define DSI_VID_PCK_TIME_BLKEOL_DURATION_MASK 0x00000FFF
+ 
+ #define DSI_VID_DPHY_TIME 0x000000AC
+ #define DSI_VID_DPHY_TIME_REG_LINE_DURATION_SHIFT 0
+-- 
+2.21.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
