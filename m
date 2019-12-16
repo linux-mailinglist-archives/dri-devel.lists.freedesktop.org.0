@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70DB31202BA
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 11:37:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E19851202C2
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 11:39:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2705B6E4A6;
-	Mon, 16 Dec 2019 10:37:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EA886E4AF;
+	Mon, 16 Dec 2019 10:39:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6905D6E4A1
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 10:37:12 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id t2so6622418wrr.1
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 02:37:12 -0800 (PST)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D84916E4B1
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 10:39:16 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id y11so6599989wrt.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 02:39:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=subject:to:cc:references:from:openpgp:autocrypt:organization
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=tjYQA3HZElG6PqRQ5YSHHtpCu+s1iqmfbZgEcqpHeEU=;
- b=t+ZoPE256zjx73u85XYJwhHukXAlio9XpKi7GPYVBlAQYJc2m1LNTMBjnR2FdCe2Hq
- kyZN7qu2gN0zOG3S4iLYX694HFUwSKNS3JfqnmSA471MZdgXFkG6d+0/xk0VdcynIoZo
- e/K5GHc7VBp6NyeBIEbdg3y4IdjsHvPMiCT5NhjRiVrQHuCCPt0c4JBJq5QqPqCmtBVI
- pAfn47DuFwkshYjy2yeiAVJ/vXWGydxL+zZFdafp272DlJkqA0hjwqdFvPwqawbGAcbE
- fuNqKmwg6kLSIsWigUCxf2c0lQqcecW0ZmOncw80IZUmzCE0lH0gkAcdhHUs12G/K93j
- 6d6Q==
+ bh=iUEj1Sq+gPRazKsZFaCSsJgKA7ZuTEYORKqousBx8Ic=;
+ b=X+Mm74liExH2eRr5JZcJ9Key/NLzp99hzDGz8AdYTGsSJbtMDb3BG9CclOL7N4CYps
+ SYY9sxJR/odN0RMlZoDCsMPRbjjYu69XNg1ahUtd/I95xE/fUojoIwB3u04nGXzh8whp
+ d865IGhvJuzoLn5ygc5bWy31ijZlHHib9hpnC5rop78cXJHkljFyh5YfGlHvPuo+qXSm
+ oOh6Puhn8dDWQJWK2Sx/B/NMuPTbkd4dNOjW3bTBxwB4qeSUERN4TfAKwbvrv0L1Pvvz
+ GZs5hOIwZaDFjZlJbZjHLvoZ1fLNiA/J94MZk/Aiwcu6/ftLloC+eJBpDegjTWOdlMw1
+ kmYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=tjYQA3HZElG6PqRQ5YSHHtpCu+s1iqmfbZgEcqpHeEU=;
- b=JQujJPhH/0RDTVrFWXD4OGzDCIguVLYnD8iLnNfrYgVT1R0ZB8EdLtW7ZbSCqh4m72
- eZ+s2/Ii+vg2b0tHlnln3P7yOvQhKrbGqpYCPb/+v4MoW8UM4Skv57/n3VZgWolIK0Ee
- bePl/TKLmCYaSyZmYhQO6ON1v/sp2tIDRFMSBx0zAurmH/DzP0yl1q+utqi9ptEAQ8b0
- ZSIAjJ8dE7oR0mJ2tdP/7rtc//EKRU8QTUAjmfncxbm0vfN+iO6SIXTeSuH+R9N7c67n
- 8RIvoBvAiRbsWM7i58MdssHivxUL6EwE6LYKhXPPVxX9BrKa+DGoRY75DpAYnXXxdBOQ
- 5eDA==
-X-Gm-Message-State: APjAAAV1QAdH9XMlpDo/sZiw5D9fGfmVK2GOX+8R6esQRnKP3FJc1wbW
- fU7I4ODk8Vtt0Ffwz2Nr3qYv4Q==
-X-Google-Smtp-Source: APXvYqwYMmUk9Ocm8ED4m6bIK5KAme0dUiIbPqgYAlh2jmrBNbojzLeoqIQB42f5wjZt9VsapHbxTQ==
-X-Received: by 2002:a5d:6211:: with SMTP id y17mr29230275wru.344.1576492630739; 
- Mon, 16 Dec 2019 02:37:10 -0800 (PST)
-Received: from [10.2.4.229] (lfbn-nic-1-505-157.w90-116.abo.wanadoo.fr.
+ bh=iUEj1Sq+gPRazKsZFaCSsJgKA7ZuTEYORKqousBx8Ic=;
+ b=YB7uZPLGBpzQZLs/XDsETZtZX7sUEn95SjxdxQirxuvzUXpcw3h8dz6ykTMhtR5zYl
+ t9cTZoXgkCcshMzeTU5rRM3i0XLHiEVxpNLTJWclJ4NPnjZFOnTPV+2o07Pvj/QX+s6E
+ Bb6wZst5wbaJOaBlrmNOPcZ6BRCw6fbVpVSLHo/bQYh4JpmbUodux7j44dcbND3gAoVI
+ zNek/n350mzJWpwMX8aAGovPTqreOgwEmUMoqx4wqywvoPf/czTe/ILE9btg1pcuP7+M
+ KSQtDWNJs5EM4w6KhQX6H8J9/xbZEdILIhrdERVVUxgHpzO4vc9EoVyVzuiEFAw0yod+
+ 6Ejw==
+X-Gm-Message-State: APjAAAUnasVHo4FdEKngBJpXdlMZ8AdpQaUDPHMiEA3F5eH4b0nfj4he
+ hYK8XLtTj7uRZVNvyYTy4TQs6Q==
+X-Google-Smtp-Source: APXvYqzfzYiDgn55zkTvomEaxMD9mGfFM0wVVmu7MRPFRotExPDnBBd+hOxaAFEbe4TeMBs1P5eCjA==
+X-Received: by 2002:adf:fe90:: with SMTP id l16mr31043802wrr.265.1576492755275; 
+ Mon, 16 Dec 2019 02:39:15 -0800 (PST)
+Received: from [10.2.4.230] (lfbn-nic-1-505-157.w90-116.abo.wanadoo.fr.
  [90.116.92.157])
- by smtp.gmail.com with ESMTPSA id s10sm21157475wrw.12.2019.12.16.02.37.09
+ by smtp.gmail.com with ESMTPSA id x18sm20857268wrr.75.2019.12.16.02.39.14
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 16 Dec 2019 02:37:10 -0800 (PST)
-Subject: Re: [PATCH v5 1/6] drm/bridge/synopsys: dsi: driver-specific
- configuration of phy timings
+ Mon, 16 Dec 2019 02:39:14 -0800 (PST)
+Subject: Re: [PATCH v5 4/6] drm/rockchip: add ability to handle external dphys
+ in mipi-dsi
 To: Heiko Stuebner <heiko@sntech.de>, a.hajda@samsung.com
 References: <20191209143130.4553-1-heiko@sntech.de>
- <20191209143130.4553-2-heiko@sntech.de>
+ <20191209143130.4553-5-heiko@sntech.de>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
@@ -106,12 +106,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  VsbXrP9BZ6snXyHfebPnno/te5XRqZTL9aJOytB/1iUna+1MAwBxGFPvqeEUUyT+gx1l3Acl
  ZaTUOEkgIor5losDrePdPgE=
 Organization: Baylibre
-Message-ID: <305fdaba-cd0f-f0b9-686b-b319b0b424a2@baylibre.com>
-Date: Mon, 16 Dec 2019 11:37:09 +0100
+Message-ID: <b53704e5-83eb-3dcf-60d8-f21ef51859ee@baylibre.com>
+Date: Mon, 16 Dec 2019 11:39:13 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191209143130.4553-2-heiko@sntech.de>
+In-Reply-To: <20191209143130.4553-5-heiko@sntech.de>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -141,262 +141,146 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 09/12/2019 15:31, Heiko Stuebner wrote:
 > From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
 > 
-> The timing values for dw-dsi are often dependent on the used display and
-> according to Philippe Cornu will most likely also depend on the used phy
-> technology in the soc-specific implementation.
+> While the common case is that the dsi controller uses an internal dphy,
+> accessed through the phy registers inside the dsi controller, there is
+> also the possibility to use a separate dphy from a different vendor.
 > 
-> To solve this and allow specific implementations to define them as needed
-> add a new get_timing callback to phy_ops and call this from the dphy_timing
-> function to retrieve the necessary values for the specific mode.
-> 
-> Right now this handles the hs2lp + lp2hs where Rockchip SoCs need handling
-> according to the phy speed, while STM seems to be ok with static values.
+> One such case is the Rockchip px30 that uses a Innosilicon Mipi dphy,
+> so add the support for handling such a constellation, including the pll
+> also getting generated inside that external phy.
 > 
 > changes in v5:
-> - rebase on 5.5-rc1
-> - merge into px30 dsi series to prevent ordering conflicts
+> - rebased on top of 5.5-rc1
+> - merged with dsi timing change to prevent ordering conflicts
 > 
-> changes in v4:
-> - rebase to make it directly fit on top of drm-misc-next after all
-> 
-> changes in v3:
-> - check existence of phy_ops->get_timing in __dw_mipi_dsi_probe()
-> - emit actual error when get_timing() call fails
-> - add tags from Philippe and Yannick
-> 
-> changes in v2:
-> - add driver-specific handling, don't force all bridge users to use
->   the same timings, as suggested by Philippe
-> 
-> Suggested-by: Philippe Cornu <philippe.cornu@st.com>
 > Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-> Reviewed-by: Philippe Cornu <philippe.cornu@st.com>
-> Tested-by: Yannick Fertre <yannick.fertre@st.com>
 > ---
->  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 27 +++++--
->  drivers/gpu/drm/rockchip/Kconfig              |  1 +
->  .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   | 78 +++++++++++++++++++
->  drivers/gpu/drm/stm/dw_mipi_dsi-stm.c         | 13 ++++
->  include/drm/bridge/dw_mipi_dsi.h              |  9 +++
->  5 files changed, 121 insertions(+), 7 deletions(-)
+>  .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   | 68 +++++++++++++++++--
+>  1 file changed, 64 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> index b6e793bb653c..bfe0061e54a2 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> @@ -719,7 +719,15 @@ static void dw_mipi_dsi_vertical_timing_config(struct dw_mipi_dsi *dsi,
->  
->  static void dw_mipi_dsi_dphy_timing_config(struct dw_mipi_dsi *dsi)
->  {
-> +	const struct dw_mipi_dsi_phy_ops *phy_ops = dsi->plat_data->phy_ops;
-> +	struct dw_mipi_dsi_dphy_timing timing;
->  	u32 hw_version;
-> +	int ret;
-> +
-> +	ret = phy_ops->get_timing(dsi->plat_data->priv_data,
-> +				  dsi->lane_mbps, &timing);
-> +	if (ret)
-> +		DRM_DEV_ERROR(dsi->dev, "Retrieving phy timings failed\n");
->  
->  	/*
->  	 * TODO dw drv improvements
-> @@ -732,16 +740,20 @@ static void dw_mipi_dsi_dphy_timing_config(struct dw_mipi_dsi *dsi)
->  	hw_version = dsi_read(dsi, DSI_VERSION) & VERSION;
->  
->  	if (hw_version >= HWVER_131) {
-> -		dsi_write(dsi, DSI_PHY_TMR_CFG, PHY_HS2LP_TIME_V131(0x40) |
-> -			  PHY_LP2HS_TIME_V131(0x40));
-> +		dsi_write(dsi, DSI_PHY_TMR_CFG,
-> +			  PHY_HS2LP_TIME_V131(timing.data_hs2lp) |
-> +			  PHY_LP2HS_TIME_V131(timing.data_lp2hs));
->  		dsi_write(dsi, DSI_PHY_TMR_RD_CFG, MAX_RD_TIME_V131(10000));
->  	} else {
-> -		dsi_write(dsi, DSI_PHY_TMR_CFG, PHY_HS2LP_TIME(0x40) |
-> -			  PHY_LP2HS_TIME(0x40) | MAX_RD_TIME(10000));
-> +		dsi_write(dsi, DSI_PHY_TMR_CFG,
-> +			  PHY_HS2LP_TIME(timing.data_hs2lp) |
-> +			  PHY_LP2HS_TIME(timing.data_lp2hs) |
-> +			  MAX_RD_TIME(10000));
->  	}
->  
-> -	dsi_write(dsi, DSI_PHY_TMR_LPCLK_CFG, PHY_CLKHS2LP_TIME(0x40)
-> -		  | PHY_CLKLP2HS_TIME(0x40));
-> +	dsi_write(dsi, DSI_PHY_TMR_LPCLK_CFG,
-> +		  PHY_CLKHS2LP_TIME(timing.clk_hs2lp) |
-> +		  PHY_CLKLP2HS_TIME(timing.clk_lp2hs));
->  }
->  
->  static void dw_mipi_dsi_dphy_interface_config(struct dw_mipi_dsi *dsi)
-> @@ -991,7 +1003,8 @@ __dw_mipi_dsi_probe(struct platform_device *pdev,
->  	dsi->dev = dev;
->  	dsi->plat_data = plat_data;
->  
-> -	if (!plat_data->phy_ops->init || !plat_data->phy_ops->get_lane_mbps) {
-> +	if (!plat_data->phy_ops->init || !plat_data->phy_ops->get_lane_mbps ||
-> +	    !plat_data->phy_ops->get_timing) {
->  		DRM_ERROR("Phy not properly configured\n");
->  		return ERR_PTR(-ENODEV);
->  	}
-> diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
-> index 6f4222f8beeb..4b7a276994ce 100644
-> --- a/drivers/gpu/drm/rockchip/Kconfig
-> +++ b/drivers/gpu/drm/rockchip/Kconfig
-> @@ -46,6 +46,7 @@ config ROCKCHIP_DW_HDMI
->  
->  config ROCKCHIP_DW_MIPI_DSI
->  	bool "Rockchip specific extensions for Synopsys DW MIPI DSI"
-> +	select GENERIC_PHY_MIPI_DPHY
->  	help
->  	  This selects support for Rockchip SoC specific extensions
->  	  for the Synopsys DesignWare HDMI driver. If you want to
 > diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> index bc073ec5c183..9406effe8077 100644
+> index 9406effe8077..f16bd1e9b633 100644
 > --- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
 > +++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> @@ -559,9 +559,87 @@ dw_mipi_dsi_get_lane_mbps(void *priv_data, const struct drm_display_mode *mode,
->  	return 0;
+> @@ -12,6 +12,7 @@
+>  #include <linux/mfd/syscon.h>
+>  #include <linux/module.h>
+>  #include <linux/of_device.h>
+> +#include <linux/phy/phy.h>
+>  #include <linux/pm_runtime.h>
+>  #include <linux/regmap.h>
+>  
+> @@ -223,6 +224,10 @@ struct dw_mipi_dsi_rockchip {
+>  	bool is_slave;
+>  	struct dw_mipi_dsi_rockchip *slave;
+>  
+> +	/* optional external dphy */
+> +	struct phy *phy;
+> +	union phy_configure_opts phy_opts;
+> +
+>  	unsigned int lane_mbps; /* per lane */
+>  	u16 input_div;
+>  	u16 feedback_div;
+> @@ -359,6 +364,9 @@ static int dw_mipi_dsi_phy_init(void *priv_data)
+>  	struct dw_mipi_dsi_rockchip *dsi = priv_data;
+>  	int ret, i, vco;
+>  
+> +	if (dsi->phy)
+> +		return 0;
+> +
+>  	/*
+>  	 * Get vco from frequency(lane_mbps)
+>  	 * vco	frequency table
+> @@ -467,6 +475,28 @@ static int dw_mipi_dsi_phy_init(void *priv_data)
+>  	return ret;
 >  }
 >  
-> +struct hstt {
-> +	unsigned int maxfreq;
-> +	struct dw_mipi_dsi_dphy_timing timing;
-> +};
-> +
-> +#define HSTT(_maxfreq, _c_lp2hs, _c_hs2lp, _d_lp2hs, _d_hs2lp)	\
-> +{					\
-> +	.maxfreq = _maxfreq,		\
-> +	.timing = {			\
-> +		.clk_lp2hs = _c_lp2hs,	\
-> +		.clk_hs2lp = _c_hs2lp,	\
-> +		.data_lp2hs = _d_lp2hs,	\
-> +		.data_hs2lp = _d_hs2lp,	\
-> +	}				\
-> +}
-> +
-> +/* Table A-3 High-Speed Transition Times */
-> +struct hstt hstt_table[] = {
-> +	HSTT(  90,  32, 20,  26, 13),
-> +	HSTT( 100,  35, 23,  28, 14),
-> +	HSTT( 110,  32, 22,  26, 13),
-> +	HSTT( 130,  31, 20,  27, 13),
-> +	HSTT( 140,  33, 22,  26, 14),
-> +	HSTT( 150,  33, 21,  26, 14),
-> +	HSTT( 170,  32, 20,  27, 13),
-> +	HSTT( 180,  36, 23,  30, 15),
-> +	HSTT( 200,  40, 22,  33, 15),
-> +	HSTT( 220,  40, 22,  33, 15),
-> +	HSTT( 240,  44, 24,  36, 16),
-> +	HSTT( 250,  48, 24,  38, 17),
-> +	HSTT( 270,  48, 24,  38, 17),
-> +	HSTT( 300,  50, 27,  41, 18),
-> +	HSTT( 330,  56, 28,  45, 18),
-> +	HSTT( 360,  59, 28,  48, 19),
-> +	HSTT( 400,  61, 30,  50, 20),
-> +	HSTT( 450,  67, 31,  55, 21),
-> +	HSTT( 500,  73, 31,  59, 22),
-> +	HSTT( 550,  79, 36,  63, 24),
-> +	HSTT( 600,  83, 37,  68, 25),
-> +	HSTT( 650,  90, 38,  73, 27),
-> +	HSTT( 700,  95, 40,  77, 28),
-> +	HSTT( 750, 102, 40,  84, 28),
-> +	HSTT( 800, 106, 42,  87, 30),
-> +	HSTT( 850, 113, 44,  93, 31),
-> +	HSTT( 900, 118, 47,  98, 32),
-> +	HSTT( 950, 124, 47, 102, 34),
-> +	HSTT(1000, 130, 49, 107, 35),
-> +	HSTT(1050, 135, 51, 111, 37),
-> +	HSTT(1100, 139, 51, 114, 38),
-> +	HSTT(1150, 146, 54, 120, 40),
-> +	HSTT(1200, 153, 57, 125, 41),
-> +	HSTT(1250, 158, 58, 130, 42),
-> +	HSTT(1300, 163, 58, 135, 44),
-> +	HSTT(1350, 168, 60, 140, 45),
-> +	HSTT(1400, 172, 64, 144, 47),
-> +	HSTT(1450, 176, 65, 148, 48),
-> +	HSTT(1500, 181, 66, 153, 50)
-> +};
-> +
-> +static int
-> +dw_mipi_dsi_phy_get_timing(void *priv_data, unsigned int lane_mbps,
-> +			   struct dw_mipi_dsi_dphy_timing *timing)
+> +static void dw_mipi_dsi_phy_power_on(void *priv_data)
 > +{
-> +	int i;
+> +	struct dw_mipi_dsi_rockchip *dsi = priv_data;
+> +	int ret;
 > +
-> +	for (i = 0; i < ARRAY_SIZE(hstt_table); i++)
-> +		if (lane_mbps < hstt_table[i].maxfreq)
-> +			break;
+> +	ret = phy_set_mode(dsi->phy, PHY_MODE_MIPI_DPHY);
+> +	if (ret) {
+> +		DRM_DEV_ERROR(dsi->dev, "failed to set phy mode: %d\n", ret);
+> +		return;
+> +	}
 > +
-> +	if (i == ARRAY_SIZE(hstt_table))
-> +		i--;
-> +
-> +	*timing = hstt_table[i].timing;
-> +
-> +	return 0;
+> +	phy_configure(dsi->phy, &dsi->phy_opts);
+> +	phy_power_on(dsi->phy);
 > +}
 > +
+> +static void dw_mipi_dsi_phy_power_off(void *priv_data)
+> +{
+> +	struct dw_mipi_dsi_rockchip *dsi = priv_data;
+> +
+> +	phy_power_off(dsi->phy);
+> +}
+> +
+>  static int
+>  dw_mipi_dsi_get_lane_mbps(void *priv_data, const struct drm_display_mode *mode,
+>  			  unsigned long mode_flags, u32 lanes, u32 format,
+> @@ -504,6 +534,17 @@ dw_mipi_dsi_get_lane_mbps(void *priv_data, const struct drm_display_mode *mode,
+>  				      "DPHY clock frequency is out of range\n");
+>  	}
+>  
+> +	/* for external phy only a the mipi_dphy_config is necessary */
+> +	if (dsi->phy) {
+> +		phy_mipi_dphy_get_default_config(mode->clock * 1000 * 10 / 8,
+> +						 bpp, lanes,
+> +						 &dsi->phy_opts.mipi_dphy);
+> +		dsi->lane_mbps = target_mbps;
+> +		*lane_mbps = dsi->lane_mbps;
+> +
+> +		return 0;
+> +	}
+> +
+>  	fin = clk_get_rate(dsi->pllref_clk);
+>  	fout = target_mbps * USEC_PER_SEC;
+>  
+> @@ -638,6 +679,8 @@ dw_mipi_dsi_phy_get_timing(void *priv_data, unsigned int lane_mbps,
+>  
 >  static const struct dw_mipi_dsi_phy_ops dw_mipi_dsi_rockchip_phy_ops = {
 >  	.init = dw_mipi_dsi_phy_init,
+> +	.power_on = dw_mipi_dsi_phy_power_on,
+> +	.power_off = dw_mipi_dsi_phy_power_off,
 >  	.get_lane_mbps = dw_mipi_dsi_get_lane_mbps,
-> +	.get_timing = dw_mipi_dsi_phy_get_timing,
+>  	.get_timing = dw_mipi_dsi_phy_get_timing,
 >  };
+> @@ -998,12 +1041,29 @@ static int dw_mipi_dsi_rockchip_probe(struct platform_device *pdev)
+>  		return -EINVAL;
+>  	}
 >  
->  static void dw_mipi_dsi_rockchip_config(struct dw_mipi_dsi_rockchip *dsi,
-> diff --git a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
-> index 514efefb0016..4b165635b2d4 100644
-> --- a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
-> +++ b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
-> @@ -309,11 +309,24 @@ dw_mipi_dsi_get_lane_mbps(void *priv_data, const struct drm_display_mode *mode,
->  	return 0;
->  }
->  
-> +static int
-> +dw_mipi_dsi_phy_get_timing(void *priv_data, unsigned int lane_mbps,
-> +			   struct dw_mipi_dsi_dphy_timing *timing)
-> +{
-> +	timing->clk_hs2lp = 0x40;
-> +	timing->clk_lp2hs = 0x40;
-> +	timing->data_hs2lp = 0x40;
-> +	timing->data_lp2hs = 0x40;
+> +	/* try to get a possible external dphy */
+> +	dsi->phy = devm_phy_optional_get(dev, "dphy");
+> +	if (IS_ERR(dsi->phy)) {
+> +		ret = PTR_ERR(dsi->phy);
+> +		DRM_DEV_ERROR(dev, "failed to get mipi dphy: %d\n", ret);
+> +		return ret;
+> +	}
 > +
-> +	return 0;
-> +}
-> +
->  static const struct dw_mipi_dsi_phy_ops dw_mipi_dsi_stm_phy_ops = {
->  	.init = dw_mipi_dsi_phy_init,
->  	.power_on = dw_mipi_dsi_phy_power_on,
->  	.power_off = dw_mipi_dsi_phy_power_off,
->  	.get_lane_mbps = dw_mipi_dsi_get_lane_mbps,
-> +	.get_timing = dw_mipi_dsi_phy_get_timing,
->  };
+>  	dsi->pllref_clk = devm_clk_get(dev, "ref");
+>  	if (IS_ERR(dsi->pllref_clk)) {
+> -		ret = PTR_ERR(dsi->pllref_clk);
+> -		DRM_DEV_ERROR(dev,
+> -			      "Unable to get pll reference clock: %d\n", ret);
+> -		return ret;
+> +		if (dsi->phy) {
+> +			/*
+> +			 * if external phy is present, pll will be
+> +			 * generated there.
+> +			 */
+> +			dsi->pllref_clk = NULL;
+> +		} else {
+> +			ret = PTR_ERR(dsi->pllref_clk);
+> +			DRM_DEV_ERROR(dev,
+> +				      "Unable to get pll reference clock: %d\n",
+> +				      ret);
+> +			return ret;
+> +		}
+>  	}
 >  
->  static struct dw_mipi_dsi_plat_data dw_mipi_dsi_stm_plat_data = {
-> diff --git a/include/drm/bridge/dw_mipi_dsi.h b/include/drm/bridge/dw_mipi_dsi.h
-> index 94cc64a342e1..b0e390b3288e 100644
-> --- a/include/drm/bridge/dw_mipi_dsi.h
-> +++ b/include/drm/bridge/dw_mipi_dsi.h
-> @@ -19,6 +19,13 @@ struct dw_mipi_dsi;
->  struct mipi_dsi_device;
->  struct platform_device;
->  
-> +struct dw_mipi_dsi_dphy_timing {
-> +	u16 data_hs2lp;
-> +	u16 data_lp2hs;
-> +	u16 clk_hs2lp;
-> +	u16 clk_lp2hs;
-> +};
-> +
->  struct dw_mipi_dsi_phy_ops {
->  	int (*init)(void *priv_data);
->  	void (*power_on)(void *priv_data);
-> @@ -27,6 +34,8 @@ struct dw_mipi_dsi_phy_ops {
->  			     const struct drm_display_mode *mode,
->  			     unsigned long mode_flags, u32 lanes, u32 format,
->  			     unsigned int *lane_mbps);
-> +	int (*get_timing)(void *priv_data, unsigned int lane_mbps,
-> +			  struct dw_mipi_dsi_dphy_timing *timing);
->  };
->  
->  struct dw_mipi_dsi_host_ops {
+>  	if (dsi->cdata->flags & DW_MIPI_NEEDS_PHY_CFG_CLK) {
 > 
 
 Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
