@@ -1,34 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB80A1228DC
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 11:32:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 728EF1228C9
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 11:32:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B9436E9AB;
-	Tue, 17 Dec 2019 10:32:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82C576E981;
+	Tue, 17 Dec 2019 10:31:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
- [217.70.183.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 303FC6E4BB
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 11:03:17 +0000 (UTC)
-X-Originating-IP: 91.224.148.103
-Received: from xps13 (unknown [91.224.148.103])
- (Authenticated sender: miquel.raynal@bootlin.com)
- by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id DB96C24001C;
- Mon, 16 Dec 2019 11:03:13 +0000 (UTC)
-Date: Mon, 16 Dec 2019 12:03:12 +0100
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH 09/12] drm/rockchip: lvds: Add PX30 support
-Message-ID: <20191216120312.4aa478da@xps13>
-In-Reply-To: <20191216105827.rxkfbwemkqw446jx@gilmour.lan>
-References: <20191213181051.25983-1-miquel.raynal@bootlin.com>
- <20191213181051.25983-10-miquel.raynal@bootlin.com>
- <20191216105827.rxkfbwemkqw446jx@gilmour.lan>
-Organization: Bootlin
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+X-Greylist: delayed 323 seconds by postgrey-1.36 at gabe;
+ Mon, 16 Dec 2019 11:09:36 UTC
+Received: from r3-21.sinamail.sina.com.cn (r3-21.sinamail.sina.com.cn
+ [202.108.3.21])
+ by gabe.freedesktop.org (Postfix) with SMTP id D7D7F6E4C5
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 11:09:36 +0000 (UTC)
+Received: from unknown (HELO localhost.localdomain)([221.219.0.244])
+ by sina.com with ESMTP
+ id 5DF764A60000985D; Mon, 16 Dec 2019 19:04:11 +0800 (CST)
+X-Sender: hdanton@sina.com
+X-Auth-ID: hdanton@sina.com
+X-SMAIL-MID: 334263629893
+From: Hillf Danton <hdanton@sina.com>
+To: syzbot <syzbot+9116ecc1978ca3a12f43@syzkaller.appspotmail.com>
+Subject: Re: KASAN: use-after-free Read in fbcon_cursor
+Date: Mon, 16 Dec 2019 19:03:57 +0800
+Message-Id: <20191216110357.5060-1-hdanton@sina.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 17 Dec 2019 10:31:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -43,54 +40,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- David Airlie <airlied@linux.ie>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org,
- Maxime Chevallier <maxime.chevallier@bootlin.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- linux-rockchip@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com,
+ daniel.vetter@ffwll.ch, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, syzkaller-bugs@googlegroups.com,
+ sam@ravnborg.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTWF4aW1lLAoKTWF4aW1lIFJpcGFyZCA8bWF4aW1lQGNlcm5vLnRlY2g+IHdyb3RlIG9uIE1v
-biwgMTYgRGVjIDIwMTkgMTE6NTg6MjcKKzAxMDA6Cgo+IEhpLAo+IAo+IE9uIEZyaSwgRGVjIDEz
-LCAyMDE5IGF0IDA3OjEwOjQ4UE0gKzAxMDAsIE1pcXVlbCBSYXluYWwgd3JvdGU6Cj4gPiArc3Rh
-dGljIGludCBweDMwX2x2ZHNfZ3JmX2NvbmZpZyhzdHJ1Y3QgZHJtX2VuY29kZXIgKmVuY29kZXIs
-Cj4gPiArCQkJCXN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICptb2RlKQo+ID4gK3sKPiA+ICsJc3Ry
-dWN0IHJvY2tjaGlwX2x2ZHMgKmx2ZHMgPSBlbmNvZGVyX3RvX2x2ZHMoZW5jb2Rlcik7Cj4gPiAr
-CXU4IG5oc3luYyA9ICEobW9kZS0+ZmxhZ3MgJiBEUk1fTU9ERV9GTEFHX1BIU1lOQyk7Cj4gPiAr
-CXU4IG52c3luYyA9ICEobW9kZS0+ZmxhZ3MgJiBEUk1fTU9ERV9GTEFHX1BWU1lOQyk7Cj4gPiAr
-CXU4IG5kY2xrID0gIShtb2RlLT5mbGFncyAmIERSTV9NT0RFX0ZMQUdfUENTWU5DKTsKPiA+ICsJ
-aW50IHJldDsKPiA+ICsKPiA+ICsJaWYgKGx2ZHMtPm91dHB1dCAhPSBESVNQTEFZX09VVFBVVF9M
-VkRTKSB7Cj4gPiArCQlEUk1fREVWX0VSUk9SKGx2ZHMtPmRldiwgIlVuc3VwcG9ydGVkIGRpc3Bs
-YXkgb3V0cHV0ICVkXG4iLAo+ID4gKwkJCSAgICAgIGx2ZHMtPm91dHB1dCk7Cj4gPiArCQlyZXR1
-cm4gLUVJTlZBTDsKPiA+ICsJfQo+ID4gKwo+ID4gKwlpZiAobmhzeW5jIF4gbnZzeW5jKSB7Cj4g
-PiArCQlEUk1fREVWX0VSUk9SKGx2ZHMtPmRldiwgIlVuc3VwcG9ydGVkIEhzeW5jL1ZzeW5jIHBv
-bGFyaXR5XG4iKTsKPiA+ICsJCXJldHVybiAtRUlOVkFMOwo+ID4gKwl9Cj4gPiArCj4gPiArCS8q
-IFNldCBmb3JtYXQgKi8KPiA+ICsJcmV0ID0gcmVnbWFwX3VwZGF0ZV9iaXRzKGx2ZHMtPmdyZiwg
-UFgzMF9MVkRTX0dSRl9QRF9WT19DT04xLAo+ID4gKwkJCQkgUFgzMF9MVkRTX0ZPUk1BVChsdmRz
-LT5mb3JtYXQpLAo+ID4gKwkJCQkgUFgzMF9MVkRTX0ZPUk1BVChsdmRzLT5mb3JtYXQpKTsKPiA+
-ICsJaWYgKHJldCkKPiA+ICsJCXJldHVybiByZXQ7Cj4gPiArCj4gPiArCS8qIENvbnRyb2wgSHN5
-bmMvVnN5bmMgcG9sYXJpdHkgKi8KPiA+ICsJcmV0ID0gcmVnbWFwX3VwZGF0ZV9iaXRzKGx2ZHMt
-PmdyZiwgUFgzMF9MVkRTX0dSRl9QRF9WT19DT04wLAo+ID4gKwkJCQkgUFgzMF9MVkRTX1RJRV9D
-TEtTKDEpLAo+ID4gKwkJCQkgUFgzMF9MVkRTX1RJRV9DTEtTKDEpKTsKPiA+ICsJaWYgKHJldCkK
-PiA+ICsJCXJldHVybiByZXQ7Cj4gPiArCj4gPiArCS8qIFNldCBIc3luYy9Wc3luYyBwb2xhcml0
-eSAqLwo+ID4gKwlyZXQgPSByZWdtYXBfdXBkYXRlX2JpdHMobHZkcy0+Z3JmLCBQWDMwX0xWRFNf
-R1JGX1BEX1ZPX0NPTjAsCj4gPiArCQkJCSBQWDMwX0xWRFNfSU5WRVJUX0NMS1MoMSksCj4gPiAr
-CQkJCSBQWDMwX0xWRFNfSU5WRVJUX0NMS1MobmhzeW5jKSk7Cj4gPiArCWlmIChyZXQpCj4gPiAr
-CQlyZXR1cm4gcmV0OyAgCj4gCj4gSSBkb24ndCBrbm93IHRoZSBoYXJkd2FyZSBidXQgaXQgc2Vl
-bXMgcHJldHR5IHdlaXJkIHRvIG1lLiBoc3luYyBhbmQKPiB2c3luYyBpbiBMVkRTIGFyZSBub3Qg
-Y2xvY2tzIChvciBldmVuIHNpZ25hbHMpLCB0aGV5J3JlIGEgYml0IGluIHRoZQo+IHBheWxvYWQu
-IElzIHRoZXJlIGFueSBleHBsYW5hdGlvbiBpbiB0aGUgZGF0YXNoZWV0IChvciBldmVuIGEKPiBk
-YXRhc2hlZXQgaW4gdGhlIGZpcnN0IHBsYWNlKT8KClRoZXJlIGlzIG5vIGV4cGxhbmF0aW9uIGFi
-b3V0IHRoaXMgaW4gdGhlIFBYMzAgVFJNIHBhcnQgMSAocHVibGljKS4gQnV0CnlvdSBhcmUgcmln
-aHQgdGhlIG5hbWluZyBpcyB3ZWlyZC4gQ291bGQgdGhlICJ0aWUgY2xvY2tzIiB0aGluZyBhYm92
-ZQptZWFuIHNvbWV0aGluZyB0byB5b3UvcGVvcGxlIGtub3dpbmcgdGhlIExWRFMgd29ybGQ/CgpD
-aGVlcnMsCk1pcXXDqGwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVsCg==
+
+On Sun, 15 Dec 2019 12:35:09 -0800
+> Hello,
+> 
+> syzbot found the following crash on:
+> 
+> HEAD commit:    07c4b9e9 Merge tag 'scsi-fixes' of git://git.kernel.org/pu..
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=14b61f41e00000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=79f79de2a27d3e3d
+> dashboard link: https://syzkaller.appspot.com/bug?extid=9116ecc1978ca3a12f43
+> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=119fa6b6e00000
+> 
+> IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> Reported-by: syzbot+9116ecc1978ca3a12f43@syzkaller.appspotmail.com
+> 
+> ==================================================================
+> BUG: KASAN: use-after-free in fbcon_cursor+0x4ef/0x660  
+> drivers/video/fbdev/core/fbcon.c:1380
+> Read of size 2 at addr ffff8880959ff0cc by task syz-executor.0/10203
+> 
+> CPU: 1 PID: 10203 Comm: syz-executor.0 Not tainted 5.5.0-rc1-syzkaller #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+> Google 01/01/2011
+> Call Trace:
+>   __dump_stack lib/dump_stack.c:77 [inline]
+>   dump_stack+0x197/0x210 lib/dump_stack.c:118
+>   print_address_description.constprop.0.cold+0xd4/0x30b mm/kasan/report.c:374
+>   __kasan_report.cold+0x1b/0x41 mm/kasan/report.c:506
+>   kasan_report+0x12/0x20 mm/kasan/common.c:639
+>   __asan_report_load2_noabort+0x14/0x20 mm/kasan/generic_report.c:133
+>   fbcon_cursor+0x4ef/0x660 drivers/video/fbdev/core/fbcon.c:1380
+>   fbcon_scrolldelta+0x679/0x1220 drivers/video/fbdev/core/fbcon.c:2877
+>   fbcon_set_origin+0x43/0x50 drivers/video/fbdev/core/fbcon.c:2928
+>   set_origin+0xf3/0x400 drivers/tty/vt/vt.c:919
+>   vc_do_resize+0xacc/0x1460 drivers/tty/vt/vt.c:1264
+>   vc_resize+0x4d/0x60 drivers/tty/vt/vt.c:1304
+>   vt_ioctl+0x14bb/0x26d0 drivers/tty/vt/vt_ioctl.c:840
+>   tty_ioctl+0xa37/0x14f0 drivers/tty/tty_io.c:2660
+>   vfs_ioctl fs/ioctl.c:47 [inline]
+>   file_ioctl fs/ioctl.c:545 [inline]
+>   do_vfs_ioctl+0x977/0x14e0 fs/ioctl.c:732
+>   ksys_ioctl+0xab/0xd0 fs/ioctl.c:749
+>   __do_sys_ioctl fs/ioctl.c:756 [inline]
+>   __se_sys_ioctl fs/ioctl.c:754 [inline]
+>   __x64_sys_ioctl+0x73/0xb0 fs/ioctl.c:754
+>   do_syscall_64+0xfa/0x790 arch/x86/entry/common.c:294
+>   entry_SYSCALL_64_after_hwframe+0x49/0xbe
+> RIP: 0033:0x45a909
+> Code: ad b6 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7  
+> 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff  
+> ff 0f 83 7b b6 fb ff c3 66 2e 0f 1f 84 00 00 00 00
+> RSP: 002b:00007f1a84ca0c78 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+> RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 000000000045a909
+> RDX: 0000000020000000 RSI: 0000000000005609 RDI: 0000000000000003
+> RBP: 000000000075bf20 R08: 0000000000000000 R09: 0000000000000000
+> R10: 0000000000000000 R11: 0000000000000246 R12: 00007f1a84ca16d4
+> R13: 00000000004c7009 R14: 00000000004dd670 R15: 00000000ffffffff
+> 
+> Allocated by task 9734:
+>   save_stack+0x23/0x90 mm/kasan/common.c:72
+>   set_track mm/kasan/common.c:80 [inline]
+>   __kasan_kmalloc mm/kasan/common.c:513 [inline]
+>   __kasan_kmalloc.constprop.0+0xcf/0xe0 mm/kasan/common.c:486
+>   kasan_kmalloc+0x9/0x10 mm/kasan/common.c:527
+>   __do_kmalloc mm/slab.c:3656 [inline]
+>   __kmalloc+0x163/0x770 mm/slab.c:3665
+>   kmalloc include/linux/slab.h:561 [inline]
+>   kzalloc include/linux/slab.h:670 [inline]
+>   vc_do_resize+0x262/0x1460 drivers/tty/vt/vt.c:1187
+>   vc_resize+0x4d/0x60 drivers/tty/vt/vt.c:1304
+>   vt_ioctl+0x14bb/0x26d0 drivers/tty/vt/vt_ioctl.c:840
+>   tty_ioctl+0xa37/0x14f0 drivers/tty/tty_io.c:2660
+>   vfs_ioctl fs/ioctl.c:47 [inline]
+>   file_ioctl fs/ioctl.c:545 [inline]
+>   do_vfs_ioctl+0x977/0x14e0 fs/ioctl.c:732
+>   ksys_ioctl+0xab/0xd0 fs/ioctl.c:749
+>   __do_sys_ioctl fs/ioctl.c:756 [inline]
+>   __se_sys_ioctl fs/ioctl.c:754 [inline]
+>   __x64_sys_ioctl+0x73/0xb0 fs/ioctl.c:754
+>   do_syscall_64+0xfa/0x790 arch/x86/entry/common.c:294
+>   entry_SYSCALL_64_after_hwframe+0x49/0xbe
+> 
+> Freed by task 10203:
+>   save_stack+0x23/0x90 mm/kasan/common.c:72
+>   set_track mm/kasan/common.c:80 [inline]
+>   kasan_set_free_info mm/kasan/common.c:335 [inline]
+>   __kasan_slab_free+0x102/0x150 mm/kasan/common.c:474
+>   kasan_slab_free+0xe/0x10 mm/kasan/common.c:483
+>   __cache_free mm/slab.c:3426 [inline]
+>   kfree+0x10a/0x2c0 mm/slab.c:3757
+>   vc_do_resize+0xa69/0x1460 drivers/tty/vt/vt.c:1261
+>   vc_resize+0x4d/0x60 drivers/tty/vt/vt.c:1304
+>   vt_ioctl+0x14bb/0x26d0 drivers/tty/vt/vt_ioctl.c:840
+>   tty_ioctl+0xa37/0x14f0 drivers/tty/tty_io.c:2660
+>   vfs_ioctl fs/ioctl.c:47 [inline]
+>   file_ioctl fs/ioctl.c:545 [inline]
+>   do_vfs_ioctl+0x977/0x14e0 fs/ioctl.c:732
+>   ksys_ioctl+0xab/0xd0 fs/ioctl.c:749
+>   __do_sys_ioctl fs/ioctl.c:756 [inline]
+>   __se_sys_ioctl fs/ioctl.c:754 [inline]
+>   __x64_sys_ioctl+0x73/0xb0 fs/ioctl.c:754
+>   do_syscall_64+0xfa/0x790 arch/x86/entry/common.c:294
+>   entry_SYSCALL_64_after_hwframe+0x49/0xbe
+> 
+> The buggy address belongs to the object at ffff8880959ff0c0
+>   which belongs to the cache kmalloc-32 of size 32
+> The buggy address is located 12 bytes inside of
+>   32-byte region [ffff8880959ff0c0, ffff8880959ff0e0)
+> The buggy address belongs to the page:
+> page:ffffea0002567fc0 refcount:1 mapcount:0 mapping:ffff8880aa4001c0  
+> index:0xffff8880959fffc1
+> raw: 00fffe0000000200 ffffea00027c7748 ffffea000276ee08 ffff8880aa4001c0
+> raw: ffff8880959fffc1 ffff8880959ff000 000000010000003f 0000000000000000
+> page dumped because: kasan: bad access detected
+> 
+> Memory state around the buggy address:
+>   ffff8880959fef80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>   ffff8880959ff000: fb fb fb fb fc fc fc fc fb fb fb fb fc fc fc fc
+> > ffff8880959ff080: fb fb fb fb fc fc fc fc fb fb fb fb fc fc fc fc
+>                                                ^
+>   ffff8880959ff100: 00 01 fc fc fc fc fc fc fb fb fb fb fc fc fc fc
+>   ffff8880959ff180: fb fb fb fb fc fc fc fc fb fb fb fb fc fc fc fc
+> ==================================================================
+
+Release old screen buffer after use.
+
+--- a/drivers/tty/vt/vt.c
++++ b/drivers/tty/vt/vt.c
+@@ -1161,6 +1161,7 @@ static int vc_do_resize(struct tty_struc
+ 	unsigned int new_cols, new_rows, new_row_size, new_screen_size;
+ 	unsigned int user;
+ 	unsigned short *newscreen;
++	unsigned short *oldscreen;
+ 	struct uni_screen *new_uniscr = NULL;
+ 
+ 	WARN_CONSOLE_UNLOCKED();
+@@ -1258,10 +1259,11 @@ static int vc_do_resize(struct tty_struc
+ 	if (new_scr_end > new_origin)
+ 		scr_memsetw((void *)new_origin, vc->vc_video_erase_char,
+ 			    new_scr_end - new_origin);
+-	kfree(vc->vc_screenbuf);
++	oldscreen = vc->vc_screenbuf;
+ 	vc->vc_screenbuf = newscreen;
+ 	vc->vc_screenbuf_size = new_screen_size;
+ 	set_origin(vc);
++	kfree(oldscreen);
+ 
+ 	/* do part of a reset_terminal() */
+ 	vc->vc_top = 0;
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
