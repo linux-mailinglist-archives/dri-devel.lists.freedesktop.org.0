@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E19851202C2
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 11:39:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B4A31202C5
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 11:39:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EA886E4AF;
-	Mon, 16 Dec 2019 10:39:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73F4A6E4B1;
+	Mon, 16 Dec 2019 10:39:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D84916E4B1
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 10:39:16 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id y11so6599989wrt.6
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 02:39:16 -0800 (PST)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABB2A6E4B1
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 10:39:46 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id w15so6626852wru.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 02:39:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=subject:to:cc:references:from:openpgp:autocrypt:organization
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=iUEj1Sq+gPRazKsZFaCSsJgKA7ZuTEYORKqousBx8Ic=;
- b=X+Mm74liExH2eRr5JZcJ9Key/NLzp99hzDGz8AdYTGsSJbtMDb3BG9CclOL7N4CYps
- SYY9sxJR/odN0RMlZoDCsMPRbjjYu69XNg1ahUtd/I95xE/fUojoIwB3u04nGXzh8whp
- d865IGhvJuzoLn5ygc5bWy31ijZlHHib9hpnC5rop78cXJHkljFyh5YfGlHvPuo+qXSm
- oOh6Puhn8dDWQJWK2Sx/B/NMuPTbkd4dNOjW3bTBxwB4qeSUERN4TfAKwbvrv0L1Pvvz
- GZs5hOIwZaDFjZlJbZjHLvoZ1fLNiA/J94MZk/Aiwcu6/ftLloC+eJBpDegjTWOdlMw1
- kmYg==
+ bh=ii06wxcb9L021v3GgtcqEZ9AgzJ8e/NMKTcA4UTvOEY=;
+ b=uFI9httlI4FlbYf3pq+TtooCL62GDwlyjemmEDfVia8KyutxATi+dhuUXCXWIB2JSB
+ aRmhPcJdb37Kz2FUUa/+aYJVivDdu+l8aAwpTFLxLOzPzuqSS5Y0gkceb4fmooFcZdbk
+ RWfD06QSJ/HYJUZRNRxB57N9mavB+Zncfqh8E7b8ZxHsbvC2pXudNdHP+RrUJcxzihPz
+ NBoGZxawdSOiEPwmO5SAhFZIE57Vk0vxa+CpSXSkOBQwrcZ9g9ImxMCHvowidHKvO5YX
+ 0vx1oLrINJuUskf1MD5Td+w4E9hYV9VFFpmOPkEeOb2B94YLmhFntXMCfZf9U7TKpcwr
+ hzrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=iUEj1Sq+gPRazKsZFaCSsJgKA7ZuTEYORKqousBx8Ic=;
- b=YB7uZPLGBpzQZLs/XDsETZtZX7sUEn95SjxdxQirxuvzUXpcw3h8dz6ykTMhtR5zYl
- t9cTZoXgkCcshMzeTU5rRM3i0XLHiEVxpNLTJWclJ4NPnjZFOnTPV+2o07Pvj/QX+s6E
- Bb6wZst5wbaJOaBlrmNOPcZ6BRCw6fbVpVSLHo/bQYh4JpmbUodux7j44dcbND3gAoVI
- zNek/n350mzJWpwMX8aAGovPTqreOgwEmUMoqx4wqywvoPf/czTe/ILE9btg1pcuP7+M
- KSQtDWNJs5EM4w6KhQX6H8J9/xbZEdILIhrdERVVUxgHpzO4vc9EoVyVzuiEFAw0yod+
- 6Ejw==
-X-Gm-Message-State: APjAAAUnasVHo4FdEKngBJpXdlMZ8AdpQaUDPHMiEA3F5eH4b0nfj4he
- hYK8XLtTj7uRZVNvyYTy4TQs6Q==
-X-Google-Smtp-Source: APXvYqzfzYiDgn55zkTvomEaxMD9mGfFM0wVVmu7MRPFRotExPDnBBd+hOxaAFEbe4TeMBs1P5eCjA==
-X-Received: by 2002:adf:fe90:: with SMTP id l16mr31043802wrr.265.1576492755275; 
- Mon, 16 Dec 2019 02:39:15 -0800 (PST)
+ bh=ii06wxcb9L021v3GgtcqEZ9AgzJ8e/NMKTcA4UTvOEY=;
+ b=IXfiXqMs1Z58UjY4bRNurVIBei1jMT7o13TaCPvfeFA4vMa1DQ9LV2XY4cJItGG+E9
+ nZAEsQ1NElm6aLfqGfYqEwCrFn9OiGKR8GojjCx+Vd8WJsoNuAI3gvk0Ax/RQqfstF/R
+ WyKSbxP4e59Pp4DN9xMvSUvLYiEFjIPjBpGKQc0k2xeXzgwkuJBudMQXG7QmJDlqcvQP
+ O578Y2WACW45vtxQRVEU6vl6SG95Q3HEQ7GQLujF1VO56WRjk+x55qT8F2xiz9maeZhS
+ ghNF3HUNIxBRJ2wLjaYUAAfzDhv3LkZEKu5DJwxCw9MdlMexuj5IWqJfs55YcSWhvI0m
+ +d5g==
+X-Gm-Message-State: APjAAAVMM3CnSP9u+5Yp2BJYyF9MY3I+KJl7frWTfRc80HsyAOEruo2e
+ eupoBm5n88MxUQmNsL2+DcOTnA==
+X-Google-Smtp-Source: APXvYqxVGQvgWvVnRxy9bC1AGO790BmKTAc01FS7CV0llqhz8LkqEFIJgHcJfzxc8yn5yPgOOPLiuQ==
+X-Received: by 2002:adf:e3d0:: with SMTP id k16mr30082646wrm.241.1576492785196; 
+ Mon, 16 Dec 2019 02:39:45 -0800 (PST)
 Received: from [10.2.4.230] (lfbn-nic-1-505-157.w90-116.abo.wanadoo.fr.
  [90.116.92.157])
- by smtp.gmail.com with ESMTPSA id x18sm20857268wrr.75.2019.12.16.02.39.14
+ by smtp.gmail.com with ESMTPSA id k13sm20958632wrx.59.2019.12.16.02.39.44
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 16 Dec 2019 02:39:14 -0800 (PST)
-Subject: Re: [PATCH v5 4/6] drm/rockchip: add ability to handle external dphys
- in mipi-dsi
+ Mon, 16 Dec 2019 02:39:44 -0800 (PST)
+Subject: Re: [PATCH v5 6/6] drm/rockchip: dsi: add px30 support
 To: Heiko Stuebner <heiko@sntech.de>, a.hajda@samsung.com
 References: <20191209143130.4553-1-heiko@sntech.de>
- <20191209143130.4553-5-heiko@sntech.de>
+ <20191209143130.4553-7-heiko@sntech.de>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
@@ -106,12 +105,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  VsbXrP9BZ6snXyHfebPnno/te5XRqZTL9aJOytB/1iUna+1MAwBxGFPvqeEUUyT+gx1l3Acl
  ZaTUOEkgIor5losDrePdPgE=
 Organization: Baylibre
-Message-ID: <b53704e5-83eb-3dcf-60d8-f21ef51859ee@baylibre.com>
-Date: Mon, 16 Dec 2019 11:39:13 +0100
+Message-ID: <99e4a800-fa12-9d64-3ceb-99b961a9f3d3@baylibre.com>
+Date: Mon, 16 Dec 2019 11:39:43 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191209143130.4553-5-heiko@sntech.de>
+In-Reply-To: <20191209143130.4553-7-heiko@sntech.de>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -141,13 +140,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 09/12/2019 15:31, Heiko Stuebner wrote:
 > From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
 > 
-> While the common case is that the dsi controller uses an internal dphy,
-> accessed through the phy registers inside the dsi controller, there is
-> also the possibility to use a separate dphy from a different vendor.
-> 
-> One such case is the Rockchip px30 that uses a Innosilicon Mipi dphy,
-> so add the support for handling such a constellation, including the pll
-> also getting generated inside that external phy.
+> Add the compatible and GRF definitions for the PX30 soc.
 > 
 > changes in v5:
 > - rebased on top of 5.5-rc1
@@ -155,132 +148,61 @@ On 09/12/2019 15:31, Heiko Stuebner wrote:
 > 
 > Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
 > ---
->  .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   | 68 +++++++++++++++++--
->  1 file changed, 64 insertions(+), 4 deletions(-)
+>  .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   | 27 +++++++++++++++++++
+>  1 file changed, 27 insertions(+)
 > 
 > diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> index 9406effe8077..f16bd1e9b633 100644
+> index f16bd1e9b633..f04b5064974d 100644
 > --- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
 > +++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> @@ -12,6 +12,7 @@
->  #include <linux/mfd/syscon.h>
->  #include <linux/module.h>
->  #include <linux/of_device.h>
-> +#include <linux/phy/phy.h>
->  #include <linux/pm_runtime.h>
->  #include <linux/regmap.h>
+> @@ -140,6 +140,12 @@
+>  #define DW_MIPI_NEEDS_PHY_CFG_CLK	BIT(0)
+>  #define DW_MIPI_NEEDS_GRF_CLK		BIT(1)
 >  
-> @@ -223,6 +224,10 @@ struct dw_mipi_dsi_rockchip {
->  	bool is_slave;
->  	struct dw_mipi_dsi_rockchip *slave;
->  
-> +	/* optional external dphy */
-> +	struct phy *phy;
-> +	union phy_configure_opts phy_opts;
+> +#define PX30_GRF_PD_VO_CON1		0x0438
+> +#define PX30_DSI_FORCETXSTOPMODE	(0xf << 7)
+> +#define PX30_DSI_FORCERXMODE		BIT(6)
+> +#define PX30_DSI_TURNDISABLE		BIT(5)
+> +#define PX30_DSI_LCDC_SEL		BIT(0)
 > +
->  	unsigned int lane_mbps; /* per lane */
->  	u16 input_div;
->  	u16 feedback_div;
-> @@ -359,6 +364,9 @@ static int dw_mipi_dsi_phy_init(void *priv_data)
->  	struct dw_mipi_dsi_rockchip *dsi = priv_data;
->  	int ret, i, vco;
->  
-> +	if (dsi->phy)
-> +		return 0;
-> +
->  	/*
->  	 * Get vco from frequency(lane_mbps)
->  	 * vco	frequency table
-> @@ -467,6 +475,28 @@ static int dw_mipi_dsi_phy_init(void *priv_data)
->  	return ret;
+>  #define RK3288_GRF_SOC_CON6		0x025c
+>  #define RK3288_DSI0_LCDC_SEL		BIT(6)
+>  #define RK3288_DSI1_LCDC_SEL		BIT(9)
+> @@ -1127,6 +1133,24 @@ static int dw_mipi_dsi_rockchip_remove(struct platform_device *pdev)
+>  	return 0;
 >  }
 >  
-> +static void dw_mipi_dsi_phy_power_on(void *priv_data)
-> +{
-> +	struct dw_mipi_dsi_rockchip *dsi = priv_data;
-> +	int ret;
+> +static const struct rockchip_dw_dsi_chip_data px30_chip_data[] = {
+> +	{
+> +		.reg = 0xff450000,
+> +		.lcdsel_grf_reg = PX30_GRF_PD_VO_CON1,
+> +		.lcdsel_big = HIWORD_UPDATE(0, PX30_DSI_LCDC_SEL),
+> +		.lcdsel_lit = HIWORD_UPDATE(PX30_DSI_LCDC_SEL,
+> +					    PX30_DSI_LCDC_SEL),
 > +
-> +	ret = phy_set_mode(dsi->phy, PHY_MODE_MIPI_DPHY);
-> +	if (ret) {
-> +		DRM_DEV_ERROR(dsi->dev, "failed to set phy mode: %d\n", ret);
-> +		return;
-> +	}
+> +		.lanecfg1_grf_reg = PX30_GRF_PD_VO_CON1,
+> +		.lanecfg1 = HIWORD_UPDATE(0, PX30_DSI_TURNDISABLE |
+> +					     PX30_DSI_FORCERXMODE |
+> +					     PX30_DSI_FORCETXSTOPMODE),
 > +
-> +	phy_configure(dsi->phy, &dsi->phy_opts);
-> +	phy_power_on(dsi->phy);
-> +}
+> +		.max_data_lanes = 4,
+> +	},
+> +	{ /* sentinel */ }
+> +};
 > +
-> +static void dw_mipi_dsi_phy_power_off(void *priv_data)
-> +{
-> +	struct dw_mipi_dsi_rockchip *dsi = priv_data;
-> +
-> +	phy_power_off(dsi->phy);
-> +}
-> +
->  static int
->  dw_mipi_dsi_get_lane_mbps(void *priv_data, const struct drm_display_mode *mode,
->  			  unsigned long mode_flags, u32 lanes, u32 format,
-> @@ -504,6 +534,17 @@ dw_mipi_dsi_get_lane_mbps(void *priv_data, const struct drm_display_mode *mode,
->  				      "DPHY clock frequency is out of range\n");
->  	}
+>  static const struct rockchip_dw_dsi_chip_data rk3288_chip_data[] = {
+>  	{
+>  		.reg = 0xff960000,
+> @@ -1195,6 +1219,9 @@ static const struct rockchip_dw_dsi_chip_data rk3399_chip_data[] = {
 >  
-> +	/* for external phy only a the mipi_dphy_config is necessary */
-> +	if (dsi->phy) {
-> +		phy_mipi_dphy_get_default_config(mode->clock * 1000 * 10 / 8,
-> +						 bpp, lanes,
-> +						 &dsi->phy_opts.mipi_dphy);
-> +		dsi->lane_mbps = target_mbps;
-> +		*lane_mbps = dsi->lane_mbps;
-> +
-> +		return 0;
-> +	}
-> +
->  	fin = clk_get_rate(dsi->pllref_clk);
->  	fout = target_mbps * USEC_PER_SEC;
->  
-> @@ -638,6 +679,8 @@ dw_mipi_dsi_phy_get_timing(void *priv_data, unsigned int lane_mbps,
->  
->  static const struct dw_mipi_dsi_phy_ops dw_mipi_dsi_rockchip_phy_ops = {
->  	.init = dw_mipi_dsi_phy_init,
-> +	.power_on = dw_mipi_dsi_phy_power_on,
-> +	.power_off = dw_mipi_dsi_phy_power_off,
->  	.get_lane_mbps = dw_mipi_dsi_get_lane_mbps,
->  	.get_timing = dw_mipi_dsi_phy_get_timing,
->  };
-> @@ -998,12 +1041,29 @@ static int dw_mipi_dsi_rockchip_probe(struct platform_device *pdev)
->  		return -EINVAL;
->  	}
->  
-> +	/* try to get a possible external dphy */
-> +	dsi->phy = devm_phy_optional_get(dev, "dphy");
-> +	if (IS_ERR(dsi->phy)) {
-> +		ret = PTR_ERR(dsi->phy);
-> +		DRM_DEV_ERROR(dev, "failed to get mipi dphy: %d\n", ret);
-> +		return ret;
-> +	}
-> +
->  	dsi->pllref_clk = devm_clk_get(dev, "ref");
->  	if (IS_ERR(dsi->pllref_clk)) {
-> -		ret = PTR_ERR(dsi->pllref_clk);
-> -		DRM_DEV_ERROR(dev,
-> -			      "Unable to get pll reference clock: %d\n", ret);
-> -		return ret;
-> +		if (dsi->phy) {
-> +			/*
-> +			 * if external phy is present, pll will be
-> +			 * generated there.
-> +			 */
-> +			dsi->pllref_clk = NULL;
-> +		} else {
-> +			ret = PTR_ERR(dsi->pllref_clk);
-> +			DRM_DEV_ERROR(dev,
-> +				      "Unable to get pll reference clock: %d\n",
-> +				      ret);
-> +			return ret;
-> +		}
->  	}
->  
->  	if (dsi->cdata->flags & DW_MIPI_NEEDS_PHY_CFG_CLK) {
+>  static const struct of_device_id dw_mipi_dsi_rockchip_dt_ids[] = {
+>  	{
+> +	 .compatible = "rockchip,px30-mipi-dsi",
+> +	 .data = &px30_chip_data,
+> +	}, {
+>  	 .compatible = "rockchip,rk3288-mipi-dsi",
+>  	 .data = &rk3288_chip_data,
+>  	}, {
 > 
 
 Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
