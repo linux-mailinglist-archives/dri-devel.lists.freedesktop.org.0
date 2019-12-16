@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 527F0121B9F
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 22:20:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A67F9121BA0
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 22:21:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 142FC6E0B8;
-	Mon, 16 Dec 2019 21:20:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5F756E8A7;
+	Mon, 16 Dec 2019 21:21:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64DCB6E0B8
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 21:20:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C13FE6E8A7
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 21:21:03 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 205879] amdgpu: blank screen on RX 460
-Date: Mon, 16 Dec 2019 21:20:32 +0000
+Date: Mon, 16 Dec 2019 21:21:03 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -32,8 +32,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-205879-2300-SoSQTG1kwZ@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-205879-2300-DQDnRJRluB@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-205879-2300@https.bugzilla.kernel.org/>
 References: <bug-205879-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,15 +58,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=205879
 
---- Comment #1 from Bjoern Franke (bjo@nord-west.org) ---
-Xorg logs:
-
-    21.247] (WW) AMDGPU(0): No outputs definitely connected, trying again...
-[    21.247] (II) AMDGPU(0): Output DisplayPort-0 disconnected
-[    21.247] (II) AMDGPU(0): Output HDMI-A-0 disconnected
-[    21.247] (II) AMDGPU(0): Output DVI-D-0 disconnected
-[    21.247] (WW) AMDGPU(0): Unable to find connected outputs - setting
-1024x768 initial framebuffer```
+--- Comment #2 from Bjoern Franke (bjo@nord-west.org) ---
+Created attachment 286319
+  --> https://bugzilla.kernel.org/attachment.cgi?id=286319&action=edit
+xorg log
 
 -- 
 You are receiving this mail because:
