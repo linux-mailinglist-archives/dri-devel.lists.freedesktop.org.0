@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C05DB12024C
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 11:26:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62CB0120255
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 11:27:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A95A86E484;
-	Mon, 16 Dec 2019 10:26:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AE236E48B;
+	Mon, 16 Dec 2019 10:27:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
  [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A21F6E484
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 10:26:24 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id j6so6210866lja.2
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 02:26:24 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B20996E48C
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 10:27:51 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id h23so6189161ljc.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 02:27:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OkpVHHKfDIvE++qC7pqWmg/jiaUV0l9IrypFklbrI6o=;
- b=lDL84PL+2Ns4vFAqwLLrdQi1O+3TQ6U/1dl28aR2f5iPN84nonscwhbbksUFjIlS5R
- otbTznmgxLMJaAner5nrpGth72IVvBmT/6uaM4tx+Y+mEEawgORon/elo6UPVH5JvJYb
- Ck2/MV674z0jbmRgEZH0vAlKytoZnH/ItSxaGXx0K213YovI7A4yEtfAGr8qVFC8qILi
- 94ezCXOUyfvLoV8f/yzdmpj1qIfvNUfwHHlA4TO3fmxjmrNVgk41krWYbwyb3SMyU9cr
- Nn8qkvnhE3ahvqrWYa02Vf4Ret+ZHDC4hZD4vr81kUyvgcplB6Y5bMnP2WfkMtddC/uN
- iXIQ==
+ :cc; bh=Kc8cYBIPzK7WSX6Dhpknsv+Az7sG/90zzv4gmeMoX/I=;
+ b=W8eY0lMy6Qgx6i4PCyCCiBvKfrdmAknD/ElHqjjw1MmaCLGGVpfqimMzwD1KrZptEq
+ SmGOOMB6K3EOysXDm1NJibNn3lksuBlHSOBZrz7e9YSXZZ0/0O6PP09e6gPdiqPt3m5B
+ Mzcdx5+SQBHVInfd1/jdFHaDUeTp0P1+OMJdM1fjj5O8gEMcfmVDBZX0mnqwtI0FHoC+
+ +JUpPJrkD3KtCHDJhkPV8xNvd5tGBAAQXPgmTaEpRRoIKPhM13zRhxUl2XeCnablcB1K
+ ZJsSS4yXSWQpyFNu04ukz20OTdBlqcQ4In2zbgGsTFzFdFnwdgDL7N3EYLh7dEwVzQDp
+ aAag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=OkpVHHKfDIvE++qC7pqWmg/jiaUV0l9IrypFklbrI6o=;
- b=LWmdkwMphAI65XGlIkxF3MPsO8L0s8JHDPLUq9rigPorDQ7gLYqzwmO3u4nCRupAsJ
- Ks+3l8GYH1CBg70inpMYtY1ZZIG51pnbYj58eqs/P92fe+4liCXi3nO5sRNBB+q4I5mS
- Eeq5ZkLB4nA9h37pLrOQvPvMkOlALGrjmSwH+SLfIYS1Db2KKJ00p7WE82zKb5eNJfgQ
- 9hoUW4+nz86rBjqlW4Q2OrLBfvt3fJEvL1tcclEL3Tju/r7OpGH7iB5z937HClGYR8hy
- ftpw0qRDcDVEYCD+5AIgIL8o5FaIcX9XTGqT4eF49nf15XJm66k4Ri1YJMElot7pY8Zk
- Z+Ww==
-X-Gm-Message-State: APjAAAUNxG3Dw01m0kbUEeAZzgsxJtsmMa9YUayhurQMS6rgJsuEY80l
- hq2qeExYyYEo4KKG5ITPCdxaYbebVtrRSN1N3icioQ==
-X-Google-Smtp-Source: APXvYqyfCsSztFtNTTzlCe+aXkIxE7g02n2kJDD5isrSGVNYwnEfbfi911iDlZCap4HI8gvXspWAPVC8NvrEdEvcY0s=
-X-Received: by 2002:a05:651c:1049:: with SMTP id
- x9mr18582325ljm.233.1576491982626; 
- Mon, 16 Dec 2019 02:26:22 -0800 (PST)
+ bh=Kc8cYBIPzK7WSX6Dhpknsv+Az7sG/90zzv4gmeMoX/I=;
+ b=KGnBZ8S542sO1RpSzZEifiwKoIskKFhz3DRB1yNYpd4k86BJ+jCtOu20/zKa5H6y3I
+ DL9Av4pGAVojet7DqwxlT13HG+05fWBo5wYjHrEQEZfzmwwwJFTdsH8jlNk/z4MkSC7U
+ wlZHrsPQn45NtbLBxipgPt1JqMqAmRaXlx1ivFqphISCG+szBiq7arRBVQrsZ6ZMj66z
+ 5BpgaOEh5W3WeZZpoaYs1HilCipRqKDRK7Aqd5zVYS8mLPvCcXunouaT2Nloi1wM6Jmu
+ yPzzM0XULEzJoKSHQ35REpC2jdsBiqBsvrA2A99FO7qyfe9hxBGazJOaWhuLAhsi8VmB
+ zESA==
+X-Gm-Message-State: APjAAAXn/T8N3SN7TS9eeCoAQNGwkziOrjDIW3+EDk1KEm0LcG3KqnYJ
+ UW0xguKhg7Soj8O1ZfTPs0tINSOdAG+MRZOJBEC/7g==
+X-Google-Smtp-Source: APXvYqxyqyrkWKlQ1gXsP1WttRxjmUxJOJGIdWOtatnGZNr2dHpk3W2tQ6LrXKWaSo/Xkh46gNIkzci0Gfo9VddG5bc=
+X-Received: by 2002:a2e:8045:: with SMTP id p5mr18792305ljg.251.1576492069993; 
+ Mon, 16 Dec 2019 02:27:49 -0800 (PST)
 MIME-Version: 1.0
 References: <20191215163810.52356-1-hdegoede@redhat.com>
-In-Reply-To: <20191215163810.52356-1-hdegoede@redhat.com>
+ <20191215163810.52356-3-hdegoede@redhat.com>
+In-Reply-To: <20191215163810.52356-3-hdegoede@redhat.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 16 Dec 2019 11:26:10 +0100
-Message-ID: <CACRpkdarJ5chDfgc5F=ntzG1pw7kchtzp0Upp+OH9CH6WLnvXw@mail.gmail.com>
-Subject: Re: [PATCH 0/5] drm/i915/dsi: Control panel and backlight enable
- GPIOs from VBT
+Date: Mon, 16 Dec 2019 11:27:38 +0100
+Message-ID: <CACRpkdYWi5dX8jRBoJmrA3Mrig-JUKw+qq5gth2veY3EyUALqQ@mail.gmail.com>
+Subject: Re: [PATCH 2/5] drm/i915/dsi: Move poking of panel-enable GPIO to
+ intel_dsi_vbt.c
 To: Hans de Goede <hdegoede@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,20 +74,23 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Sun, Dec 15, 2019 at 5:38 PM Hans de Goede <hdegoede@redhat.com> wrote:
 
-> Linus, this series starts with the already discussed pinctrl change to
-> export the function to unregister a pinctrl-map. We can either merge this
-> through drm-intel, or you could pick it up and then provide an immutable
-> branch with it for merging into drm-intel-next. Which option do you prefer?
+> On some older devices (BYT, CHT) which may use v2 VBT MIPI-sequences,
+> we need to manually control the panel enable GPIO as v2 sequences do
+> not do this.
+>
+> So far we have been carrying the code to do this on BYT/CHT devices
+> with a Crystal Cove PMIC in vlv_dsi.c, but as this really is a shortcoming
+> of the VBT MIPI-sequences, intel_dsi_vbt.c is a better place for this,
+> so move it there.
+>
+> This is a preparation patch for adding panel-enable and backlight-enable
+> GPIO support for BYT devices where instead of the PMIC the SoC is used
+> for backlight control.
+>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-I have created an immutable branch with these changes and pulled it
-to my "devel" branch for v5.6:
-https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git/log/?h=ib-pinctrl-unreg-mappings
-
-Please pull this in and put the other patches on top of that.
-
-I had a bit of mess in my subsystems last kernel cycle so I
-want to avoid that by strictly including all larger commits
-in my trees.
+The kernel looks prettier after than before and it seems correct so:
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
 Yours,
 Linus Walleij
