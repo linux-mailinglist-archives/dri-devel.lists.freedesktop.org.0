@@ -1,86 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F2481228FC
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 11:33:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B18A21228CA
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 11:32:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B39E6E9C9;
-	Tue, 17 Dec 2019 10:32:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85E956E978;
+	Tue, 17 Dec 2019 10:31:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from JPN01-TY1-obe.outbound.protection.outlook.com
- (mail-eopbgr1400090.outbound.protection.outlook.com [40.107.140.90])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77B986E860
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 18:43:08 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LxPoGbZnykm56aeaicgDV6oai9DEi1Qh2VjUygq9YVrTJQbSS5d0bYhrBcvL2YqM8VeV5lJiBZTL0DvTJLdRCysCqyAiasFTa7+/CUzJf9P1a2Bojspa5TRWPT3HhumSlrvo7yE+vkHqYtlpyX3ZqDAkSDeQ2zmZMUeByf4B9lUlJJtrq7Jim+Iwt5IpeOUF+1S9+PMZUi2W0bMxgH7wWDeon4CvuT0h0B/OwmamRv80qYhF4l5l21srCC5LaogsJ5SkWNvT7bqYID5Ck632U28k3SgHTWOZBY96BLxPPwwamHTRFjWpXm2vFq994ezCUSfTmDaznug7zV5y3vIxVQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZDRfU7yEKpUGLgOzT4AasND8fG68gxUr7EUUIi2aTIo=;
- b=jTwl1COyRUB58U1S2ZaBPBH0oCpNWeE1dyD89xpK3KMYcX0WWd3xRfd3IMHGxCK1ECAiEA6I/hsC0bN5sv9R/uqE5+xoF0GSn8tOCem+T2IKuh/VpqQCEbpVhcfBu5BxTuPMvtzlWhcA0KuYy9R3Uz6zDsED+yuMUiMfr+8Kv2sehtqO/+SR28Wq/a2nvAH/E9pOkdAf3Q5m3B05JtkdSzr+lDAJopjVLeMqm7q2tGHwHYMNakakbUbB0HhP6N+czVDWcoz+2hy2QULBvkz++6upEYPYeaQXBUGafmpP+Oc59YLMKag+EewW+Hj+5w+IJl537VA5pHxApypMOearvQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZDRfU7yEKpUGLgOzT4AasND8fG68gxUr7EUUIi2aTIo=;
- b=NOxi59jeiigOw83DpwXewWwHZhz0I4k1Z/j78NebfYaGVsgsA8DveRIc2Quimsj1b0TREA/nXHhdzTu3zDE5ecLa2rC+5oONsbvZ8BEicT9i4kpO67DxCj5SBB13A27/49Ky9XZxSaO64f9hwcbvHbFw0lY6PJeiQh5d8uRjhv0=
-Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com (52.133.163.13) by
- TY1PR01MB1786.jpnprd01.prod.outlook.com (52.133.163.22) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2538.20; Mon, 16 Dec 2019 18:43:05 +0000
-Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com
- ([fe80::5166:5e51:90f5:3ee1]) by TY1PR01MB1770.jpnprd01.prod.outlook.com
- ([fe80::5166:5e51:90f5:3ee1%7]) with mapi id 15.20.2538.019; Mon, 16 Dec 2019
- 18:43:05 +0000
-From: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: RE: [PATCH v4 5/7] drm: rcar-du: lvds: Fix mode for companion encoder
-Thread-Topic: [PATCH v4 5/7] drm: rcar-du: lvds: Fix mode for companion encoder
-Thread-Index: AQHVrFLnUCKj2BNq0EOPdrx0L3Dgfae4o5YAgASEiMA=
-Date: Mon, 16 Dec 2019 18:43:04 +0000
-Message-ID: <TY1PR01MB177062A4ED216B58266008D1C0510@TY1PR01MB1770.jpnprd01.prod.outlook.com>
-References: <1575649974-31472-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1575649974-31472-6-git-send-email-fabrizio.castro@bp.renesas.com>
- <20191213214146.GP4860@pendragon.ideasonboard.com>
-In-Reply-To: <20191213214146.GP4860@pendragon.ideasonboard.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=fabrizio.castro@bp.renesas.com; 
-x-originating-ip: [193.141.220.21]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: a7f7935c-3ce3-4831-87a2-08d78257c997
-x-ms-traffictypediagnostic: TY1PR01MB1786:|TY1PR01MB1786:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TY1PR01MB17864616600B0AE85918F8A7C0510@TY1PR01MB1786.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-forefront-prvs: 02530BD3AA
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(396003)(39860400002)(346002)(376002)(136003)(366004)(189003)(199004)(478600001)(7416002)(55016002)(9686003)(6916009)(2906002)(66476007)(5660300002)(44832011)(76116006)(71200400001)(86362001)(33656002)(8936002)(54906003)(66556008)(66446008)(64756008)(186003)(53546011)(316002)(7696005)(66946007)(26005)(52536014)(4326008)(81166006)(8676002)(81156014)(6506007);
- DIR:OUT; SFP:1102; SCL:1; SRVR:TY1PR01MB1786;
- H:TY1PR01MB1770.jpnprd01.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:0; 
-received-spf: None (protection.outlook.com: bp.renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: r1dq84szu1Wum9chAHmM5fva9R6HD4jqpl3ZFfTE81I81mU39TkXU0DQJzFdXgbmL/2Q/E4Omy1OVOwJrTyZBGVcMdR9/8No8kfyd1tfbvH5fA8aYCkx7neMuXjExI32qMJkksl1ndNI3u+WbEcLSyoL7U84Ql3nyLW1n1NhVIOiqaQpuXpdxCglG79HUos0nZGVL031zuoPyZkIcRQ06wIV5ocYlrBGVMyJG9EbjRDvUHiGs2tTJwoimua/yoKEV7W/iJWrNC6Ue1ECsiVPPCrIqSxUgiDsxgG7QWoH7+sXXG8R/VrEjxm99GZT3/ZvQelonZUJOKRMkRiLYnujEjSQk2T0IeABENh4vcEPBSiiqSPijBrzgMtVQ6hxVJY5bbtTH5RR82TBzXR9psA2UWGZadKDUGuxXMt0L+KEceFvgtH9utqQ65hJDneL1pCa
+Received: from mail-il1-x143.google.com (mail-il1-x143.google.com
+ [IPv6:2607:f8b0:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76E906E862;
+ Mon, 16 Dec 2019 18:57:37 +0000 (UTC)
+Received: by mail-il1-x143.google.com with SMTP id f10so6275720ils.8;
+ Mon, 16 Dec 2019 10:57:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fRErO3p6DkzrKjGHgI+x7pKPjZQkWFKWkX/ri5ylyrc=;
+ b=QNe7q2ni/0HbANj4xw7ZJWlzvRh6yVfNlgdg8Zk0iAZRDSdUId4MRtHuF2rxWM8Thv
+ ImFjjwLDpyVRFLfOjpBx42Wfp5TMXew8VfcBzM+AGa2DLiHD9cCyl8BGARXaG4d9w9VE
+ Kfmohs4N2J003JXOBbydKQ8RoeZa5xuR93hSAlU1uctdCxBbTyYrP/X7kQoDAX9Ui+bQ
+ PdNaSZA8AcThzurom2HFulFWHXxlq8TD4D48FE9Hc5+niaa4OArUz7tz+han43KzVyU5
+ qos5U6MeFiKgoPty2zBZRiLFO3f7WoJfxHzq803eT9vPgteiYOyXBUN/Hr7jcpJ0nU/7
+ WdwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fRErO3p6DkzrKjGHgI+x7pKPjZQkWFKWkX/ri5ylyrc=;
+ b=iVQowLNWRF8wLs4STFVpxvd8NlJt5GcSV3+mFnqaG0YWGnDUfQBQ0mAf2c0auFk2ca
+ 2wLaokIEuEAfftNL09TkkTtP/CDig1NJWQAj0tVWHMCocYf7jhLCO2ple9at+19SjaPP
+ yI8nMUAd9xa44K1P3fLc6QcxMvCWscA40zrR/9K5OiE4chn9ZYY6UY1IZo2YvrPkNz/m
+ p75QBiKNL7kz8SkaLM8kbw/M4Yh+KnhH7rMUcX97EGXQHCT76O3Yk19BbHHWjOJmioAg
+ //9gg4fQvPwlEoUjGXfQucneU1ZNzR/zTEGvXD76/u+zgN4LaehJYiyQhtd5hhCPyEQf
+ Q6qA==
+X-Gm-Message-State: APjAAAU2Ie05fVvQCEK76eOSW+Raci2jk9fN7yl+zkanOkQYpUyZ/tyt
+ 2Ch61u4MEQhf9zrXWf9824seJtCDgzQJlYQKIQE=
+X-Google-Smtp-Source: APXvYqxaoCR3QZIQJUHBFbypBRT5pC0Du6V+0URCSBapyjSPUoxEmqYoKvzzx3VBu7ZRAjqM9PGmSPu9pHd1XKFy37s=
+X-Received: by 2002:a92:465c:: with SMTP id t89mr14007894ila.263.1576522656793; 
+ Mon, 16 Dec 2019 10:57:36 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a7f7935c-3ce3-4831-87a2-08d78257c997
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Dec 2019 18:43:04.9992 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: pDiiDaSnJ8WMKLPBuf+mhajkjvrnVK/7EZnmlty/Wci/Uzd24Y9NoyaLUZ5cwfY4V+uflAE4bY/qdfBjYlMu6J3Rk2Zi0J0vth5mrHSP/30=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1786
+References: <20191112104854.20850-1-masneyb@onstation.org>
+ <CAOCk7NosRhRp3vZxg2Nx8106PQ0ryo5b68cUv605XUzCm6gYPA@mail.gmail.com>
+ <20191113112334.GA18702@onstation.org> <20191203014006.GA7756@onstation.org>
+ <CAOCk7NpHE7kPX5tc=qUJo9qM-7Qzg2E+zmmmhBdnnVwJ+i5XLg@mail.gmail.com>
+ <20191213024007.GA23636@onstation.org>
+In-Reply-To: <20191213024007.GA23636@onstation.org>
+From: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
+Date: Mon, 16 Dec 2019 11:57:25 -0700
+Message-ID: <CAOCk7Np7VkuzFTN_CEqwPFwgu9thcPBMpuQpa3=KMdyahfE8uw@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/mdp5: enable autocommit
+To: Brian Masney <masneyb@onstation.org>
 X-Mailman-Approved-At: Tue, 17 Dec 2019 10:31:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -94,96 +65,208 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, Magnus Damm <magnus.damm@gmail.com>,
- "ebiharaml@si-linux.co.jp" <ebiharaml@si-linux.co.jp>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Chris Paterson <Chris.Paterson2@renesas.com>,
- Biju Das <biju.das@bp.renesas.com>, Simon Horman <horms@verge.net.au>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Sean Paul <sean@poorly.run>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc: Rob Clark <robdclark@chromium.org>, MSM <linux-arm-msm@vger.kernel.org>,
+ lkml <linux-kernel@vger.kernel.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Sean Paul <sean@poorly.run>, freedreno <freedreno@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
-
-Thank you for your feedback!
-
-> From: devicetree-owner@vger.kernel.org <devicetree-owner@vger.kernel.org> On Behalf Of Laurent Pinchart
-> Sent: 13 December 2019 21:42
-> Subject: Re: [PATCH v4 5/7] drm: rcar-du: lvds: Fix mode for companion encoder
-> 
-> Hi Fabrizio,
-> 
-> Thank you for the patch.
-> 
-> On Fri, Dec 06, 2019 at 04:32:52PM +0000, Fabrizio Castro wrote:
-> > Primary and companion encoders need to set the same mode for
-> > things to work properly.
+On Thu, Dec 12, 2019 at 7:40 PM Brian Masney <masneyb@onstation.org> wrote:
+>
+> Hi Jeffrey,
+>
+> On Tue, Dec 03, 2019 at 07:18:31AM -0700, Jeffrey Hugo wrote:
+> > On Mon, Dec 2, 2019 at 6:40 PM Brian Masney <masneyb@onstation.org> wrote:
+> > > On Wed, Nov 13, 2019 at 06:23:34AM -0500, Brian Masney wrote:
+> > > > On Tue, Nov 12, 2019 at 08:38:27AM -0700, Jeffrey Hugo wrote:
+> > > > > On Tue, Nov 12, 2019 at 3:49 AM Brian Masney <masneyb@onstation.org> wrote:
+> > > > > >
+> > > > > > Since the introduction of commit 2d99ced787e3 ("drm/msm: async commit
+> > > > > > support"), command-mode panels began throwing the following errors:
+> > > > > >
+> > > > > >     msm fd900000.mdss: pp done time out, lm=0
+> > > > > >
+> > > > > > Let's fix this by enabling the autorefresh feature that's available in
+> > > > > > the MDP starting at version 1.0. This will cause the MDP to
+> > > > > > automatically send a frame to the panel every time the panel invokes
+> > > > > > the TE signal, which will trigger the PP_DONE IRQ. This requires not
+> > > > > > sending a START signal for command-mode panels.
+> > > > > >
+> > > > > > This fixes the error and gives us a counter for command-mode panels that
+> > > > > > we can use to implement async commit support for the MDP5 in a follow up
+> > > > > > patch.
+> > > > > >
+> > > > > > Signed-off-by: Brian Masney <masneyb@onstation.org>
+> > > > > > Suggested-by: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
+> > > > > > ---
+> > > > > >  drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c | 15 ++++++++++++++-
+> > > > > >  drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c  |  9 +--------
+> > > > > >  2 files changed, 15 insertions(+), 9 deletions(-)
+> > > > > >
+> > > > > > diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+> > > > > > index 05cc04f729d6..539348cb6331 100644
+> > > > > > --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+> > > > > > +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+> > > > > > @@ -456,6 +456,7 @@ static void mdp5_crtc_atomic_enable(struct drm_crtc *crtc,
+> > > > > >  {
+> > > > > >         struct mdp5_crtc *mdp5_crtc = to_mdp5_crtc(crtc);
+> > > > > >         struct mdp5_crtc_state *mdp5_cstate = to_mdp5_crtc_state(crtc->state);
+> > > > > > +       struct mdp5_pipeline *pipeline = &mdp5_cstate->pipeline;
+> > > > > >         struct mdp5_kms *mdp5_kms = get_kms(crtc);
+> > > > > >         struct device *dev = &mdp5_kms->pdev->dev;
+> > > > > >
+> > > > > > @@ -493,9 +494,21 @@ static void mdp5_crtc_atomic_enable(struct drm_crtc *crtc,
+> > > > > >
+> > > > > >         mdp_irq_register(&mdp5_kms->base, &mdp5_crtc->err);
+> > > > > >
+> > > > > > -       if (mdp5_cstate->cmd_mode)
+> > > > > > +       if (mdp5_cstate->cmd_mode) {
+> > > > > >                 mdp_irq_register(&mdp5_kms->base, &mdp5_crtc->pp_done);
+> > > > > >
+> > > > > > +               /*
+> > > > > > +                * Enable autorefresh so we get regular ping/pong IRQs.
+> > > > > > +                * - Bit 31 is the enable bit
+> > > > > > +                * - Bits 0-15 represent the frame count, specifically how many
+> > > > > > +                *   TE events before the MDP sends a frame.
+> > > > > > +                */
+> > > > > > +               mdp5_write(mdp5_kms,
+> > > > > > +                          REG_MDP5_PP_AUTOREFRESH_CONFIG(pipeline->mixer->pp),
+> > > > > > +                          BIT(31) | BIT(0));
+> > > > > > +               crtc_flush_all(crtc);
+> > > > > > +       }
+> > > > > > +
+> > > > > >         mdp5_crtc->enabled = true;
+> > > > > >  }
+> > > > > >
+> > > > > > diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c
+> > > > > > index 030279d7b64b..aee295abada3 100644
+> > > > > > --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c
+> > > > > > +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c
+> > > > > > @@ -187,14 +187,7 @@ static bool start_signal_needed(struct mdp5_ctl *ctl,
+> > > > > >         if (!ctl->encoder_enabled)
+> > > > > >                 return false;
+> > > > > >
+> > > > > > -       switch (intf->type) {
+> > > > > > -       case INTF_WB:
+> > > > > > -               return true;
+> > > > > > -       case INTF_DSI:
+> > > > > > -               return intf->mode == MDP5_INTF_DSI_MODE_COMMAND;
+> > > > > > -       default:
+> > > > > > -               return false;
+> > > > > > -       }
+> > > > > > +       return intf->type == INTF_WB;
+> > > > > >  }
+> > > > >
+> > > > > I don't think this fully works.
+> > > > >
+> > > > > The whole "flush" thing exists because the configuration is double
+> > > > > buffered.  You write to the flush register to tell the hardware to
+> > > > > pickup the new configuration, but it doesn't do that automatically.
+> > > > > It only picks up the new config on the next "vsync".  When you have a
+> > > > > video mode panel, you have the timing engine running, which drives
+> > > > > that.  With a command mode panel, you have either the start signal, or
+> > > > > the auto refresh to do the same, but you have a bit of a chicken and
+> > > > > egg situation where if you are programming the hardware from scratch,
+> > > > > autorefresh isn't already enabled to then pickup the config to enable
+> > > > > autorefresh. In this case, you'll need a single start to kick
+> > > > > everything off.  However, if say the bootloader already configured
+> > > > > things and has autorefresh running, then you need to not do that start
+> > > > > because you'll overload the DSI like you saw.
+> > > >
+> > > > As part of my testing for this work, I added a log statement to
+> > > > mdp5_crtc_pp_done_irq() and it shows that a PP_IRQ comes in consistently
+> > > > every ~0.0166 seconds, which is about 60 HZ. Without this change, plus
+> > > > the 3 commits I mentioned in an earlier email related to the async
+> > > > commit support, the PP IRQs come in at a variety of times: between every
+> > > > ~0.0140 and ~0.2224 seconds. That's why I assumed that this was working.
+> > > >
+> > > > If I call send_start_signal() inside mdp5_crtc_atomic_enable(), then the
+> > > > display does not work properly.
+> > >
+> > > I'd like to get the 'pp done time out' errors that are now occurring
+> > > upstream for command-mode panels fixed. As I mentioned above, this patch
+> > > fixes the problem on the Nexus 5 and the pp done interrupts are
+> > > delivered at approximately 60 HZ. I don't have any other command-mode
+> > > panels to test.
+> > >
+> > > I'm not sure how to proceed here since sending the start command breaks
+> > > the display. I'm likely putting that command in the wrong spot.
 > >
-> > rcar_lvds_mode_set gets called into for the primary encoder only,
-> > therefore initialize the companion encoder mode while sorting
-> > the primary encoder mode out.
+> > Sorry, I didn't realize you were waiting on me,
 > >
-> > Fixes: fa440d870358 ("drm: rcar-du: lvds: Add support for dual-link mode")
-> > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> 
-> Would you mind rebasing this on top of "drm: rcar-du: lvds: Get mode
-> from state" ?
+> > I'm traveling currently, so this is more off the top of my head than
+> > looking at the code/docs.  What I'm thinking is that we want to get
+> > autorefresh enabled, which would be simple except that the bootloader
+> > may have already enabled it for us.  Perhaps we have a state flag that
+> > indicates if autorefresh is enabled, and if so, it skips the start
+> > command (where the start command is normally in the code).  When we
+> > boot up, we check the hardware and set the flag if its already enabled
+> > (note I just realized the flag is per ping pong, so we need multiple
+> > flags I guess).  If the flag is not enabled when we go to use the
+> > start command, we issue the start, then set the flag.  The only catch
+> > is I don't know recall the exact sequence of when we configure the
+> > ping pong in the entire initialization sequence.  We may configure a
+> > bunch of stuff, but not the ping pong, flush the config (which issues
+> > a start) and then get stuck because we didn't set the autorefresh.
+>
+> I finally had a chance look into this tonight. This makes sense to me:
+> the double buffering of the configuration, the start signal, and a
+> separate flag for each of the 4 ping pongs on the MDP5.
+>
+> The part that I'm still unsure about is querying the initial state from
+> the boot loader to see if autorefresh is already enabled and whether or
+> not a single START command is needed. Here's a slightly modified snippet
+> from mdp5_crtc_atomic_enable() in my patch above:
+>
+>   if (mdp5_cstate->cmd_mode) {
+>      /* mdp5_read() returns 0 */
+>      val = mdp5_read(mdp5_kms,
+>                      REG_MDP5_PP_AUTOREFRESH_CONFIG(pipeline->mixer->pp));
+>
+>      mdp5_write(mdp5_kms,
+>                 REG_MDP5_PP_AUTOREFRESH_CONFIG(pipeline->mixer->pp),
+>                 BIT(31) | BIT(0));
+>
+>      crtc_flush_all(crtc);
+>
+>      /* mdp5_read() now returns 0x80000001 */
+>      val = mdp5_read(mdp5_kms,
+>                      REG_MDP5_PP_AUTOREFRESH_CONFIG(pipeline->mixer->pp));
+>   }
+>
+> So I assume that the boot loader is not enabling autorefresh on this
+> board since the value from the first read is zero? Or more likely, that
+> since this is double buffered that the first mdp5_read() is reading from
+> the configuration buffer that's not active yet and it defaults to 0? Is
+> there a way to query the other configuration buffer that's currently
+> active?
 
-It looks like dropping this patch and rebasing on top of your v2 for
-"drm: rcar-du: lvds: Get mode from state" does the trick now.
+Sorry, catching up now that I'm back from travel
 
-Will put a dependency to your patch in v5.
+Its not possible to read the "shadow" registers that have the active
+config.  However, if we can trust that the bootloader is doing the
+right thing, then the configuration register you can read should match
+the shadow registers.  The only way the bootloader could screw up is
+if it didn't flush the config, but then we wouldn't have boot splash
+which would be very easy to catch.
 
-Cheers,
-Fab
+In short, if your first read is 0, then bootloader didn't enable autorefresh.
 
-> 
-> > ---
-> > v3->v4:
-> > * New patch extracted from patch:
-> >   "drm: rcar-du: lvds: Add dual-LVDS panels support"
-> > ---
-> >  drivers/gpu/drm/rcar-du/rcar_lvds.c | 12 ++++++++++++
-> >  1 file changed, 12 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> > index cb2147c..eed5611 100644
-> > --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> > @@ -614,6 +614,18 @@ static void rcar_lvds_mode_set(struct drm_bridge *bridge,
-> >  	lvds->display_mode = *adjusted_mode;
-> >
-> >  	rcar_lvds_get_lvds_mode(lvds);
-> > +	if (lvds->companion) {
-> > +		struct rcar_lvds *companion_lvds = bridge_to_rcar_lvds(
-> > +							lvds->companion);
-> > +
-> > +		/*
-> > +		 * FIXME: We should not be messing with the companion encoder
-> > +		 * private data from the primary encoder, but since
-> > +		 * rcar_lvds_mode_set gets called into for the primary encoder
-> > +		 * only, we don't have much of a choice for now.
-> > +		 */
-> > +		companion_lvds->mode = lvds->mode;
-> > +	}
-> >  }
-> >
-> >  static int rcar_lvds_attach(struct drm_bridge *bridge)
-> 
-> --
-> Regards,
-> 
-> Laurent Pinchart
+>
+> Why do I see the ping pong IRQs delivered consistently around 60 HZ once
+> I enable autorefresh with the patch that started this thread?
+
+Hmm.  Good question.  I would expect everything to be fine once
+autorefresh is enabled, but your initial patch leaves questions about
+how that config is taking effect in the first place.
+
+>
+> Sorry if I'm being dense here.
+>
+> Brian
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
