@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EE0C121BA2
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 22:22:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7F38121BB2
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 22:27:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9998C6E8A9;
-	Mon, 16 Dec 2019 21:22:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 040B26E8AA;
+	Mon, 16 Dec 2019 21:26:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE84B6E8A9
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 21:22:22 +0000 (UTC)
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3E646E8AA
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 21:26:57 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id EE6B6A34;
- Mon, 16 Dec 2019 22:22:19 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 02BE3A34;
+ Mon, 16 Dec 2019 22:26:54 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1576531340;
- bh=i/uB6H/CjaAw0feo0Z/rgT5eoamSWrMJVqfUrzcWYZs=;
+ s=mail; t=1576531615;
+ bh=u6AKnb9RxX7LrFz0jDhHWJdyKjpKN1JFXyhyFMwnbzs=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BlookWsAG5UmDE9RJphOSHHcIUkb5/WhcfOte9jJq7WeSkLXTNi8g2kJCx1EVQV2K
- V6bQovyrWNd1UqPeisfwUa9XKH+v4YehVOrGxJqN+2fFxDqTNa4dHNXPBe8g2tlyHJ
- oLvFqhEMgaE7ajFMOe9V/dgaC149oCDrC/6yrfTE=
-Date: Mon, 16 Dec 2019 23:22:10 +0200
+ b=l/2KjOhHMpijQV2NznKXNmeE7DjR0flAO2qMLXY1bHQ4bRD8ALKYXLnIeBCVFq1O4
+ NeOcZLg/tZ7ud0wkW66hYgicJFX3eRIoIOImsKB8xLaY9zVeXMhPoFKp+zJMhgtxhS
+ 8ANr/80jTodVdRe1EQhGLhm2OqhPxUReIA2BKkP0=
+Date: Mon, 16 Dec 2019 23:26:45 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Subject: Re: [PATCH v4 06/13] drm/bridge: lvds-codec: Add "lvds-decoder"
- support
-Message-ID: <20191216212210.GA15826@pendragon.ideasonboard.com>
-References: <1573660292-10629-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1573660292-10629-7-git-send-email-fabrizio.castro@bp.renesas.com>
- <20191213171038.GH4860@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v5 2/6] drm: rcar-du: lvds: Improve identification of
+ panels
+Message-ID: <20191216212645.GG4856@pendragon.ideasonboard.com>
+References: <1576527154-18391-1-git-send-email-fabrizio.castro@bp.renesas.com>
+ <1576527154-18391-3-git-send-email-fabrizio.castro@bp.renesas.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191213171038.GH4860@pendragon.ideasonboard.com>
+In-Reply-To: <1576527154-18391-3-git-send-email-fabrizio.castro@bp.renesas.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,81 +48,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Magnus Damm <magnus.damm@gmail.com>,
+ ebiharaml@si-linux.co.jp, devicetree@vger.kernel.org,
  Chris Paterson <Chris.Paterson2@renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Biju Das <biju.das@bp.renesas.com>, Simon Horman <horms@verge.net.au>,
+ dri-devel@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org,
- Biju Das <biju.das@bp.renesas.com>, linux-renesas-soc@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Simon Horman <horms@verge.net.au>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>, Peter Rosin <peda@axentia.se>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Jacopo Mondi <jacopo+renesas@jmondi.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRmFicml6aW8sCgpQaW5nID8KCk9uIEZyaSwgRGVjIDEzLCAyMDE5IGF0IDA3OjEwOjM4UE0g
-KzAyMDAsIExhdXJlbnQgUGluY2hhcnQgd3JvdGU6Cj4gT24gV2VkLCBOb3YgMTMsIDIwMTkgYXQg
-MDM6NTE6MjVQTSArMDAwMCwgRmFicml6aW8gQ2FzdHJvIHdyb3RlOgo+ID4gQWRkIHN1cHBvcnQg
-Zm9yIHRyYW5zcGFyZW50IExWRFMgZGVjb2RlcnMgYnkgYWRkaW5nIGEgbmV3Cj4gPiBjb21wYXRp
-YmxlIHN0cmluZyAoImx2ZHMtZGVjb2RlciIpIHRvIHRoZSBkcml2ZXIuCj4gPiBUaGlzIHBhdGNo
-IGFsc28gYWRkcyBtZW1iZXIgY29ubmVjdG9yX3R5cGUgdG8gc3RydWN0IGx2ZHNfY29kZWMsCj4g
-PiBhbmQgdGhhdCdzIGJlY2F1c2UgTFZEUyBkZWNvZGVycyBoYXZlIGEgZGlmZmVyZW50IGNvbm5l
-Y3RvciB0eXBlCj4gPiBmcm9tIExWRFMgZW5jb2RlcnMuIFdlIGZpbGwgdGhpcyBuZXcgbWVtYmVy
-IHVwIHdpdGggdGhlIGRhdGEKPiA+IG1hdGNoaW5nIHRoZSBjb21wYXRpYmxlIHN0cmluZy4KPiA+
-IAo+ID4gU2lnbmVkLW9mZi1ieTogRmFicml6aW8gQ2FzdHJvIDxmYWJyaXppby5jYXN0cm9AYnAu
-cmVuZXNhcy5jb20+Cj4gPiAKPiA+IC0tLQo+ID4gdjMtPnY0Ogo+ID4gKiBOZXcgcGF0Y2gKPiA+
-IC0tLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvbHZkcy1jb2RlYy5jIHwgMTkgKysrKysr
-KysrKysrKysrKy0tLQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxNiBpbnNlcnRpb25zKCspLCAzIGRl
-bGV0aW9ucygtKQo+ID4gCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9s
-dmRzLWNvZGVjLmMgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2x2ZHMtY29kZWMuYwo+ID4gaW5k
-ZXggYjU4MDFhMi4uYzMyZTEyNSAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9icmlk
-Z2UvbHZkcy1jb2RlYy5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2x2ZHMtY29k
-ZWMuYwo+ID4gQEAgLTcsNiArNyw3IEBACj4gPiAgI2luY2x1ZGUgPGxpbnV4L2dwaW8vY29uc3Vt
-ZXIuaD4KPiA+ICAjaW5jbHVkZSA8bGludXgvbW9kdWxlLmg+Cj4gPiAgI2luY2x1ZGUgPGxpbnV4
-L29mLmg+Cj4gPiArI2luY2x1ZGUgPGxpbnV4L29mX2RldmljZS5oPgo+ID4gICNpbmNsdWRlIDxs
-aW51eC9vZl9ncmFwaC5oPgo+ID4gICNpbmNsdWRlIDxsaW51eC9wbGF0Zm9ybV9kZXZpY2UuaD4K
-PiA+ICAKPiA+IEBAIC0xNyw2ICsxOCw3IEBAIHN0cnVjdCBsdmRzX2NvZGVjIHsKPiA+ICAJc3Ry
-dWN0IGRybV9icmlkZ2UgYnJpZGdlOwo+ID4gIAlzdHJ1Y3QgZHJtX2JyaWRnZSAqcGFuZWxfYnJp
-ZGdlOwo+ID4gIAlzdHJ1Y3QgZ3Bpb19kZXNjICpwb3dlcmRvd25fZ3BpbzsKPiA+ICsJdTMyIGNv
-bm5lY3Rvcl90eXBlOwo+ID4gIH07Cj4gPiAgCj4gPiAgc3RhdGljIGludCBsdmRzX2NvZGVjX2F0
-dGFjaChzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlKQo+ID4gQEAgLTY1LDYgKzY3LDcgQEAgc3Rh
-dGljIGludCBsdmRzX2NvZGVjX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCj4g
-PiAgCWlmICghbHZkc19jb2RlYykKPiA+ICAJCXJldHVybiAtRU5PTUVNOwo+ID4gIAo+ID4gKwls
-dmRzX2NvZGVjLT5jb25uZWN0b3JfdHlwZSA9ICh1MzIpb2ZfZGV2aWNlX2dldF9tYXRjaF9kYXRh
-KCZwZGV2LT5kZXYpOwo+IAo+IEknbSBub3cgZ2V0dGluZyBhIGNvbXBpbGF0aW9uIGZhaWx1cmUg
-aGVyZToKPiAKPiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2x2ZHMtY29kZWMuYzogSW4gZnVuY3Rp
-b24g4oCYbHZkc19jb2RlY19wcm9iZeKAmToKPiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2x2ZHMt
-Y29kZWMuYzo2ODozMTogZXJyb3I6IGNhc3QgZnJvbSBwb2ludGVyIHRvIGludGVnZXIgb2YgZGlm
-ZmVyZW50IHNpemUgWy1XZXJyb3I9cG9pbnRlci10by1pbnQtY2FzdF0KPiAgIGx2ZHNfY29kZWMt
-PmNvbm5lY3Rvcl90eXBlID0gKHUzMilvZl9kZXZpY2VfZ2V0X21hdGNoX2RhdGEoJnBkZXYtPmRl
-dik7Cj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KPiAKPiBUaGUgZml4IHNob3Vs
-ZCBiZSBzaW1wbGU6Cj4gCj4gCWx2ZHNfY29kZWMtPmNvbm5lY3Rvcl90eXBlID0gKHVpbnRwdHJf
-dClvZl9kZXZpY2VfZ2V0X21hdGNoX2RhdGEoZGV2KTsKPiAKPiBJJ20gYm90aGVyZWQgYnkgdGhl
-IGZhY3QgdGhhdCBJJ3ZlIGNvbXBpbGVkIHRoaXMgYmVmb3JlIHdpdGhvdXQgYW55Cj4gaXNzdWUs
-IHNvIHRoaXMgcmVhbGx5IHB1enpsZXMgbWUuIERvIHlvdSBnZXQgdGhlIHNhbWUgd2FybmluZyA/
-Cj4gCj4gPiAgCWx2ZHNfY29kZWMtPnBvd2VyZG93bl9ncGlvID0gZGV2bV9ncGlvZF9nZXRfb3B0
-aW9uYWwoZGV2LCAicG93ZXJkb3duIiwKPiA+ICAJCQkJCQkJICAgICBHUElPRF9PVVRfSElHSCk7
-Cj4gPiAgCWlmIChJU19FUlIobHZkc19jb2RlYy0+cG93ZXJkb3duX2dwaW8pKSB7Cj4gPiBAQCAt
-MTA1LDcgKzEwOCw3IEBAIHN0YXRpYyBpbnQgbHZkc19jb2RlY19wcm9iZShzdHJ1Y3QgcGxhdGZv
-cm1fZGV2aWNlICpwZGV2KQo+ID4gIAo+ID4gIAlsdmRzX2NvZGVjLT5wYW5lbF9icmlkZ2UgPQo+
-ID4gIAkJZGV2bV9kcm1fcGFuZWxfYnJpZGdlX2FkZF90eXBlZChkZXYsIHBhbmVsLAo+ID4gLQkJ
-CQkJCURSTV9NT0RFX0NPTk5FQ1RPUl9MVkRTKTsKPiA+ICsJCQkJCQlsdmRzX2NvZGVjLT5jb25u
-ZWN0b3JfdHlwZSk7Cj4gPiAgCWlmIChJU19FUlIobHZkc19jb2RlYy0+cGFuZWxfYnJpZGdlKSkK
-PiA+ICAJCXJldHVybiBQVFJfRVJSKGx2ZHNfY29kZWMtPnBhbmVsX2JyaWRnZSk7Cj4gPiAgCj4g
-PiBAQCAtMTMzLDggKzEzNiwxOCBAQCBzdGF0aWMgaW50IGx2ZHNfY29kZWNfcmVtb3ZlKHN0cnVj
-dCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCj4gPiAgfQo+ID4gIAo+ID4gIHN0YXRpYyBjb25zdCBz
-dHJ1Y3Qgb2ZfZGV2aWNlX2lkIGx2ZHNfY29kZWNfbWF0Y2hbXSA9IHsKPiA+IC0JeyAuY29tcGF0
-aWJsZSA9ICJsdmRzLWVuY29kZXIiIH0sCj4gPiAtCXsgLmNvbXBhdGlibGUgPSAidGhpbmUsdGhj
-NjNsdmRtODNkIiB9LAo+ID4gKwl7Cj4gPiArCQkuY29tcGF0aWJsZSA9ICJsdmRzLWRlY29kZXIi
-LAo+ID4gKwkJLmRhdGEgPSAodm9pZCAqKURSTV9NT0RFX0NPTk5FQ1RPUl9EUEksCj4gPiArCX0s
-Cj4gPiArCXsKPiA+ICsJCS5jb21wYXRpYmxlID0gImx2ZHMtZW5jb2RlciIsCj4gPiArCQkuZGF0
-YSA9ICh2b2lkICopRFJNX01PREVfQ09OTkVDVE9SX0xWRFMsCj4gPiArCX0sCj4gPiArCXsKPiA+
-ICsJCS5jb21wYXRpYmxlID0gInRoaW5lLHRoYzYzbHZkbTgzZCIsCj4gPiArCQkuZGF0YSA9ICh2
-b2lkICopRFJNX01PREVfQ09OTkVDVE9SX0xWRFMsCj4gPiArCX0sCj4gPiAgCXt9LAo+ID4gIH07
-Cj4gPiAgTU9EVUxFX0RFVklDRV9UQUJMRShvZiwgbHZkc19jb2RlY19tYXRjaCk7CgotLSAKUmVn
-YXJkcywKCkxhdXJlbnQgUGluY2hhcnQKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVsCg==
+Hi Fabrizio,
+
+Thank you for the patch.
+
+On Mon, Dec 16, 2019 at 08:12:30PM +0000, Fabrizio Castro wrote:
+> Dual-LVDS panels are mistakenly identified as bridges, this
+> commit replaces the current logic with a call to
+> drm_of_find_panel_or_bridge to sort that out.
+> 
+> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+> v4->v5:
+> * Addressed comments from Laurent's review
+> 
+> v3->v4:
+> * New patch extracted from patch:
+>   "drm: rcar-du: lvds: Add dual-LVDS panels support"
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_lvds.c | 75 +++++--------------------------------
+>  1 file changed, 10 insertions(+), 65 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> index b03b7cd..4d038bd 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> @@ -21,6 +21,7 @@
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_bridge.h>
+> +#include <drm/drm_of.h>
+>  #include <drm/drm_panel.h>
+>  #include <drm/drm_probe_helper.h>
+>  
+> @@ -716,79 +717,23 @@ static int rcar_lvds_parse_dt_companion(struct rcar_lvds *lvds)
+>  
+>  static int rcar_lvds_parse_dt(struct rcar_lvds *lvds)
+>  {
+> -	struct device_node *local_output = NULL;
+> -	struct device_node *remote_input = NULL;
+> -	struct device_node *remote = NULL;
+> -	struct device_node *node;
+> -	bool is_bridge = false;
+> -	int ret = 0;
+> -
+> -	local_output = of_graph_get_endpoint_by_regs(lvds->dev->of_node, 1, 0);
+> -	if (!local_output) {
+> -		dev_dbg(lvds->dev, "unconnected port@1\n");
+> -		ret = -ENODEV;
+> -		goto done;
+> -	}
+> -
+> -	/*
+> -	 * Locate the connected entity and infer its type from the number of
+> -	 * endpoints.
+> -	 */
+> -	remote = of_graph_get_remote_port_parent(local_output);
+> -	if (!remote) {
+> -		dev_dbg(lvds->dev, "unconnected endpoint %pOF\n", local_output);
+> -		ret = -ENODEV;
+> -		goto done;
+> -	}
+> +	int ret;
+>  
+> -	if (!of_device_is_available(remote)) {
+> -		dev_dbg(lvds->dev, "connected entity %pOF is disabled\n",
+> -			remote);
+> -		ret = -ENODEV;
+> +	ret = drm_of_find_panel_or_bridge(lvds->dev->of_node, 1, 0,
+> +					  &lvds->panel, &lvds->next_bridge);
+> +	if (ret)
+>  		goto done;
+> -	}
+>  
+> -	remote_input = of_graph_get_remote_endpoint(local_output);
+> -
+> -	for_each_endpoint_of_node(remote, node) {
+> -		if (node != remote_input) {
+> -			/*
+> -			 * We've found one endpoint other than the input, this
+> -			 * must be a bridge.
+> -			 */
+> -			is_bridge = true;
+> -			of_node_put(node);
+> -			break;
+> -		}
+> -	}
+> -
+> -	if (is_bridge) {
+> -		lvds->next_bridge = of_drm_find_bridge(remote);
+> -		if (!lvds->next_bridge) {
+> -			ret = -EPROBE_DEFER;
+> -			goto done;
+> -		}
+> -
+> -		if (lvds->info->quirks & RCAR_LVDS_QUIRK_DUAL_LINK)
+> -			lvds->dual_link = lvds->next_bridge->timings
+> -					? lvds->next_bridge->timings->dual_link
+> -					: false;
+> -	} else {
+> -		lvds->panel = of_drm_find_panel(remote);
+> -		if (IS_ERR(lvds->panel)) {
+> -			ret = PTR_ERR(lvds->panel);
+> -			goto done;
+> -		}
+> -	}
+> +	if ((lvds->info->quirks & RCAR_LVDS_QUIRK_DUAL_LINK) &&
+> +	    lvds->next_bridge)
+> +		lvds->dual_link = lvds->next_bridge->timings
+> +				? lvds->next_bridge->timings->dual_link
+> +				: false;
+>  
+>  	if (lvds->dual_link)
+>  		ret = rcar_lvds_parse_dt_companion(lvds);
+>  
+>  done:
+> -	of_node_put(local_output);
+> -	of_node_put(remote_input);
+> -	of_node_put(remote);
+> -
+>  	/*
+>  	 * On D3/E3 the LVDS encoder provides a clock to the DU, which can be
+>  	 * used for the DPAD output even when the LVDS output is not connected.
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
