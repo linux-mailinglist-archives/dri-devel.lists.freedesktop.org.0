@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F847121B8B
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 22:11:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47861121B90
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 22:11:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A5236E8A4;
-	Mon, 16 Dec 2019 21:11:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68FC66E8A5;
+	Mon, 16 Dec 2019 21:11:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
  [IPv6:2607:f8b0:4864:20::d41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 067F16E8A4
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 21:11:03 +0000 (UTC)
-Received: by mail-io1-xd41.google.com with SMTP id z193so5035337iof.1
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 13:11:02 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37CC86E8A5
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 21:11:39 +0000 (UTC)
+Received: by mail-io1-xd41.google.com with SMTP id x1so8577372iop.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 13:11:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TNWv0aWtHJhxyhToHerV9BCppuZ+axUdKiJdVPw+LRQ=;
- b=celwqhK5NNdLd+EOZ1rmS8gY11hDBhbUukMQgDQedoTXtSg+H84z/+4GV0BB8RbBrQ
- heu7dj9LF8eofCdOTJQmz1YgpxpjQR9kjj7FQVr+AKCm5jkcaZmTNsm941CJlxqcZZZz
- 4X2H2E6VWjM5LetvBt9f5XMWXRbwJcyh2sf7CFf4UNaPfbGiGuz2pRXsbAEVRB8vJ7/A
- PZM2hZ3qRw0OxAcSsB5fIN/4NLkusvQoI15AE2ouxGu14yxY6NM+TQh1jSKoRUqIDLns
- X8R9f+mJb9CGpl5zjyu6Gpa2du8cT3RgJwmybqBNSgdC0eFS+nEoSYqZcjv+ESoh0gjt
- 1tZQ==
+ :cc; bh=SF6lWMGAdZxyhSAthmGAEkgW7nSnXbgJWE4ymLaJd/Q=;
+ b=erKzNcOzpVdrAachQFismVDEfMPajwzCXjoz7oogb4DTOV6blmxt6fdzAeivZFbaYR
+ 9/q9aj0xczdrw/Zxott3MQsgQ+cfiZST0q5hnykUNhZf/bDyd557d4gOOZQrkYoKEBDW
+ 2MtwpNmy7F6OsJqCcQtjAhSmpScx4PZ7s5D/uCWmnQ2Kz60w7D3pxmnOofNGyLRKjbhw
+ pHYUETKkzOuZ2mwztXBLps134cjF7a3n76FYrsV/iGxq6OjCQBBnpAmW2k8bR+J7TxCE
+ JxqqcKqvjWytWKq0eJxzzmNcegrwrrxlypM0JNNFUeRp20oKH9w7VTPj6JvUnquJME2V
+ ztrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=TNWv0aWtHJhxyhToHerV9BCppuZ+axUdKiJdVPw+LRQ=;
- b=NSyiLc9q2ReOn8l++vHo/Xwqa2WG3RLUgGNPMCergq100+HrcgDuoMTPAncjbE3xJS
- 64ajE6elbOFlTlkElAYzOqHk+c80/6J5hdTzwWFOT58S5j74b9ZxryD3e+LYmOdNIoOk
- CiNdfHoNrB8b4tNKO5i+lcRG6vPchmFGDLNvhyjssPX5SOJpRWXBt+oOwVGApAyfSLU2
- HI1ykF2JU+rG1erLM5neMLTVLrUxcPXQJ5z18yI3r68dXukaF+ocg0D/WyaAgWm7dj2f
- Znxj4n4Gt2CmEftei0Sg3QkZc8ah/hRrAScEe80hy0CEshGSgj3dZ0cnMVgZNoOwQW7s
- p1OQ==
-X-Gm-Message-State: APjAAAVDI9JJHrUXE2ozxDBkuz1bvetWyFwjfswYclssGcwdhh5Eaa1Y
- tF6ANQK8YFKqjF3LOgChF0IgulRuZuDrGLl5q3cR6k4pzzQ=
-X-Google-Smtp-Source: APXvYqxZSCccnCtPSIu8gDvzY3ilpk/8xU5jvGthRL5IwTogZ8JcwDNwFmX0RXa5BXv7BHu213PBQ86PBptozujIAmM=
-X-Received: by 2002:a6b:fc0b:: with SMTP id r11mr937859ioh.251.1576530662308; 
- Mon, 16 Dec 2019 13:11:02 -0800 (PST)
+ bh=SF6lWMGAdZxyhSAthmGAEkgW7nSnXbgJWE4ymLaJd/Q=;
+ b=KnLIDfwUPEZOpHmKnxsHyiuT/n0RO4vJybSwKvxDG2z8HZu4juF4QkOz4O64crnVEH
+ mbOORSNCa5yiOhSUCYkYUEEBACJn8XDLK8kaQFa4XZ9ULykv/y4S5djlflvRE+lvE3jS
+ rB/1zReGMH5Nnko9kBz76ofMkTh+C9CIzPuGbVIdXtok8oMy3adt3rgm+B+WGcQEtSHo
+ Uq3KJN/c18hu0Mvp7PWTUbl8n8kIjk7HYtmsHAbta44u2ber17lDRG1E0jpoQIhkaxZH
+ yBUEnSvgmAfs27b0h/T+nQnBqNumsWB6JxdTvsvcANRL7s8O6IGmqKS7eQrsFMpPphbb
+ pjAg==
+X-Gm-Message-State: APjAAAWQG+fHiIWxJi4qinmaIw6HFnTS1fqOvtGh/D5YtOv32kCtscG9
+ Rn6i73XsDaW2Mr2WVGtQTWOyQULHFoGD6cG7KRcT3Q==
+X-Google-Smtp-Source: APXvYqwhB9Q3ppQ8bm7xUSXaRvKv6S2vuZ0Qxo7EosnauRafwaVMYDEQ3WL2vGXIPl9WGtB2G8MEmWsqt0PGNGVFRK4=
+X-Received: by 2002:a02:b38f:: with SMTP id p15mr13729269jan.56.1576530698555; 
+ Mon, 16 Dec 2019 13:11:38 -0800 (PST)
 MIME-Version: 1.0
 References: <20191216133405.1001-1-afd@ti.com>
- <20191216133405.1001-2-afd@ti.com>
-In-Reply-To: <20191216133405.1001-2-afd@ti.com>
+ <20191216133405.1001-3-afd@ti.com>
+In-Reply-To: <20191216133405.1001-3-afd@ti.com>
 From: John Stultz <john.stultz@linaro.org>
-Date: Mon, 16 Dec 2019 13:10:51 -0800
-Message-ID: <CALAqxLXyxEsYMA8swfQZJ2U1FPPSca6XKW_VFUhNkj2Nb3OxMg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dma-buf: heaps: Use _IOCTL_ for userspace IOCTL
- identifier
+Date: Mon, 16 Dec 2019 13:11:27 -0800
+Message-ID: <CALAqxLWUXxGPca9xbZYwoJAVp7aEuUTKNpE3CdunepvEDJysyw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] dma-buf: heaps: Remove redundant heap identifier from
+ system heap name
 To: "Andrew F. Davis" <afd@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,13 +70,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Mon, Dec 16, 2019 at 5:34 AM Andrew F. Davis <afd@ti.com> wrote:
 >
-> This is more consistent with the DMA and DRM frameworks convention. This
-> patch is only a name change, no logic is changed.
+> The heaps are already in a directory of heaps, adding _heap to a heap
+> name is redundant. This patch is only a name change, no logic is changed.
 >
 > Signed-off-by: Andrew F. Davis <afd@ti.com>
 
-Do wish we had caught/made this tweak earlier, but I do agree its a
-more consistent name.
+Again, do wish we had caught/made this tweak earlier, but this seems sane to me.
 Acked-by: John Stultz <john.stultz@linaro.org>
 
 I've also reworked my userland changes to use this name, and will
