@@ -2,31 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD59111FC33
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 01:32:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BBBD11FFC5
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 09:31:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AF896E03B;
-	Mon, 16 Dec 2019 00:32:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC1596E437;
+	Mon, 16 Dec 2019 08:30:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 739CB6E03B
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 00:32:19 +0000 (UTC)
-Received: from ip5f5a5f74.dynamic.kabel-deutschland.de ([95.90.95.116]
- helo=phil.fritz.box)
- by gloria.sntech.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <heiko@sntech.de>)
- id 1igeJ7-0004oF-23; Mon, 16 Dec 2019 01:32:17 +0100
-From: Heiko Stuebner <heiko@sntech.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 3/3] drm/panel: add panel driver for Xinpeng XPP055C272
- panels
-Date: Mon, 16 Dec 2019 01:32:06 +0100
-Message-Id: <20191216003206.6672-3-heiko@sntech.de>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191216003206.6672-1-heiko@sntech.de>
-References: <20191216003206.6672-1-heiko@sntech.de>
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7590D6E185
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 00:38:22 +0000 (UTC)
+Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
+ by mailout4.samsung.com (KnoxPortal) with ESMTP id
+ 20191216003820epoutp04236741f92986525decc02b99f8d37c0c~gswQqqcuJ0904609046epoutp042
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 00:38:20 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
+ 20191216003820epoutp04236741f92986525decc02b99f8d37c0c~gswQqqcuJ0904609046epoutp042
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1576456700;
+ bh=kAbYo1SH4VLzd8YFV0ywGCsP2GIOLdJ6A3u+vQzFZrk=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=C9au0hg+CbGO+dyOkPr35hAewHEXEJNTfxdco8Ip5O0H/89kmX7HqL+fLDB2mB1Xp
+ k0/NV3kvq9pef297vkBGzJo36ag8BsyoAZiWdpzElgG+iZ1RlcQGd5WSlV/UrsQEeq
+ L1EK+kln4jupi4Jtr6tazNaHxY8zJlsIeU+bNfDY=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+ epcas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20191216003819epcas1p2773876204c6909056d0c378ffbd746d0~gswQSrmtD2928429284epcas1p2r;
+ Mon, 16 Dec 2019 00:38:19 +0000 (GMT)
+Received: from epsmges1p1.samsung.com (unknown [182.195.40.158]) by
+ epsnrtp3.localdomain (Postfix) with ESMTP id 47bj6x2SSdzMqYkp; Mon, 16 Dec
+ 2019 00:38:17 +0000 (GMT)
+Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
+ epsmges1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
+ B3.73.57028.5F1D6FD5; Mon, 16 Dec 2019 09:38:13 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+ epcas1p4.samsung.com (KnoxPortal) with ESMTPA id
+ 20191216003813epcas1p4205461d6f6cc2170d4c6b5f141baddae~gswKMrUyi0615706157epcas1p4n;
+ Mon, 16 Dec 2019 00:38:13 +0000 (GMT)
+Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20191216003813epsmtrp217cb6bb1508303e9597f220d4ed51d0d~gswKL2Jvb0872808728epsmtrp2O;
+ Mon, 16 Dec 2019 00:38:13 +0000 (GMT)
+X-AuditID: b6c32a35-50bff7000001dec4-92-5df6d1f54d3e
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ EA.D9.06569.4F1D6FD5; Mon, 16 Dec 2019 09:38:12 +0900 (KST)
+Received: from [10.113.221.102] (unknown [10.113.221.102]) by
+ epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20191216003812epsmtip1b24c79040c9440eecbe4499ce106d86e~gswJ7kmhH0036800368epsmtip19;
+ Mon, 16 Dec 2019 00:38:12 +0000 (GMT)
+Subject: Re: [RFC PATCH v2 09/11] devfreq: exynos-bus: Add interconnect
+ functionality to exynos-bus
+To: =?UTF-8?B?QXJ0dXIgxZp3aWdvxYQ=?= <a.swigon@samsung.com>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, dri-devel@lists.freedesktop.org
+From: Chanwoo Choi <cw00.choi@samsung.com>
+Organization: Samsung Electronics
+Message-ID: <35053bad-3f08-190a-0ffa-9aacd16da272@samsung.com>
+Date: Mon, 16 Dec 2019 09:44:48 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:59.0) Gecko/20100101
+ Thunderbird/59.0
 MIME-Version: 1.0
+In-Reply-To: <20190919142236.4071-10-a.swigon@samsung.com>
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrOJsWRmVeSWpSXmKPExsWy7bCmru7Xi99iDbb3Klrcn9fKaLFxxnpW
+ i/lHzrFaXPn6ns1i+t5NbBaT7k9gsTh/fgO7xYq7H1ktNj2+xmpxedccNovPvUcYLWac38dk
+ sfbIXXaL240r2CxmTH7J5sDvsWlVJ5vHnWt72Dzudx9n8ti8pN5j47sdTB59W1YxenzeJBfA
+ HpVtk5GamJJapJCal5yfkpmXbqvkHRzvHG9qZmCoa2hpYa6kkJeYm2qr5OIToOuWmQN0t5JC
+ WWJOKVAoILG4WEnfzqYov7QkVSEjv7jEVim1ICWnwLJArzgxt7g0L10vOT/XytDAwMgUqDAh
+ O+P3q3/sBf2OFctfTmVvYHxs3MXIySEhYCKx9vxV9i5GLg4hgR2MEjO+nGOBcD4xSrz6t58J
+ wvnGKHGj8Q0zTMvUv9/ZIBJ7GSVOfXsDVfWeUeLtq0VMIFXCAqkSc9ZuZwZJiAj8Z5Q4vWwl
+ K4jDLHCMUWLvnZ8sIFVsAloS+1/cYAOx+QUUJa7+eMzYxcjBwStgJ3HgITdImEVAVWJa52+w
+ 1aICYRInt7Uwgti8AoISJ2c+YQEp5xSwkli21xskzCwgLnHryXwmCFteonnrbLAbJASOsUs8
+ /baWFeIFF4nF3degbGGJV8e3sEPYUhKf3+1lg7CrJVaePMIG0dzBKLFl/wWoBmOJ/UsnM4Es
+ ZhbQlFi/Sx8irCix8/dcRojFfBLvvvawgpRICPBKdLQJQZQoS1x+cJcJwpaUWNzeyTaBUWkW
+ km9mIXlhFpIXZiEsW8DIsopRLLWgODc9tdiwwBA5ujcxghO1lukOxinnfA4xCnAwKvHwOmR/
+ ixViTSwrrsw9xCjBwawkwpuq/TlWiDclsbIqtSg/vqg0J7X4EKMpMLAnMkuJJucDs0heSbyh
+ qZGxsbGFiaGZqaGhkjgvx4+LsUIC6YklqdmpqQWpRTB9TBycUg2Mh6eUBzFt+Ros//jsMYnL
+ Cw5rrI39rF7ktW+tp/TDo6KLG69N7GVlvMjAxvg95Hkx6/kvd04say/pjlG3MHb783+hg1TH
+ jhPfV31JLL53U+5SeUK4a9KnZ2s4Hi+JM3d7/m5JvnxBzAS+6Lqis51LZk449N519xORpekR
+ c2/vDyyc6KI6YbHrAiWW4oxEQy3mouJEAA596pDqAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrIIsWRmVeSWpSXmKPExsWy7bCSnO6Xi99iDRo+2Vjcn9fKaLFxxnpW
+ i/lHzrFaXPn6ns1i+t5NbBaT7k9gsTh/fgO7xYq7H1ktNj2+xmpxedccNovPvUcYLWac38dk
+ sfbIXXaL240r2CxmTH7J5sDvsWlVJ5vHnWt72Dzudx9n8ti8pN5j47sdTB59W1YxenzeJBfA
+ HsVlk5Kak1mWWqRvl8CV8fvVP/aCfseK5S+nsjcwPjbuYuTkkBAwkZj69ztbFyMXh5DAbkaJ
+ jVNWMEIkJCWmXTzK3MXIAWQLSxw+XAxR85ZRYu/UTawgNcICqRJz1m5nBkmICPxnlHjYdowR
+ xGEWOMYo8XHFelaIlj2MEtd3TGcDaWET0JLY/+IGmM0voChx9cdjRpAVvAJ2EgcecoOEWQRU
+ JaZ1/mYGsUUFwiR2LnnMBGLzCghKnJz5hAWknFPASmLZXm+QMLOAusSfeZeYIWxxiVtP5jNB
+ 2PISzVtnM09gFJ6FpHsWkpZZSFpmIWlZwMiyilEytaA4Nz232LDAKC+1XK84Mbe4NC9dLzk/
+ dxMjOGK1tHYwnjgRf4hRgINRiYfXIftbrBBrYllxZe4hRgkOZiUR3lTtz7FCvCmJlVWpRfnx
+ RaU5qcWHGKU5WJTEeeXzj0UKCaQnlqRmp6YWpBbBZJk4OKUaGCXO/yriCJ7nlCQQPi+cyapl
+ k+uTsMSWw33z8uZPrjrdtiZC0+ZbcQHnzcQ6v0nnM3bvTa/bcDeP/e+Xu55vHqo/nlvBwrCv
+ epry3gXshitX/TSdtPlo76GcVztPPbT7LvX06PVceQ7L/YskNW+Y6MziPuYx/WLvHoG2KSzu
+ lsf5J8Wf/M1fxa/EUpyRaKjFXFScCAB/o+6Y1AIAAA==
+X-CMS-MailID: 20191216003813epcas1p4205461d6f6cc2170d4c6b5f141baddae
+X-Msg-Generator: CA
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20190919142329eucas1p2e53992eab9ec6b404f716f955b3c228e
+References: <20190919142236.4071-1-a.swigon@samsung.com>
+ <CGME20190919142329eucas1p2e53992eab9ec6b404f716f955b3c228e@eucas1p2.samsung.com>
+ <20190919142236.4071-10-a.swigon@samsung.com>
+X-Mailman-Approved-At: Mon, 16 Dec 2019 08:30:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,475 +119,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
- linux-kernel@vger.kernel.org, robh+dt@kernel.org, thierry.reding@gmail.com,
- sam@ravnborg.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: b.zolnierkie@samsung.com, sw0312.kim@samsung.com, krzk@kernel.org,
+ myungjoo.ham@samsung.com, leonard.crestez@nxp.com, georgi.djakov@linaro.org,
+ m.szyprowski@samsung.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-
-Base on the somewhat similar Rocktech driver but adapted for
-panel-specific init of the XPP055C272.
-
-changes in v2:
-- move to drm-panel-internal backlight handling (Sam)
-- adapt to changes that happened to drm_panel structs+functions (Sam)
-- sort includes (Sam)
-- drop unnecessary DRV_NAME constant (Sam)
-- do mipi_dsi_dcs_exit_sleep_mode and mipi_dsi_dcs_set_display_on
-  in panel prepare (not init_sequence) to keep symmetric (Sam)
-
-Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
----
- drivers/gpu/drm/panel/Kconfig                 |  10 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- .../gpu/drm/panel/panel-xinpeng-xpp055c272.c  | 401 ++++++++++++++++++
- 3 files changed, 412 insertions(+)
- create mode 100644 drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c
-
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index f152bc4eeb53..fb1ded47677e 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -355,4 +355,14 @@ config DRM_PANEL_TRULY_NT35597_WQXGA
- 	help
- 	  Say Y here if you want to enable support for Truly NT35597 WQXGA Dual DSI
- 	  Video Mode panel
-+
-+config DRM_PANEL_XINPENG_XPP055C272
-+	tristate "Xinpeng XPP055C272 panel driver"
-+	depends on OF
-+	depends on DRM_MIPI_DSI
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	help
-+	  Say Y here if you want to enable support for the Xinpeng
-+	  XPP055C272 controller for 720x1280 LCD panels with MIPI/RGB/SPI
-+	  system interfaces.
- endmenu
-diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-index b6cd39fe0f20..71d7722146a7 100644
---- a/drivers/gpu/drm/panel/Makefile
-+++ b/drivers/gpu/drm/panel/Makefile
-@@ -38,3 +38,4 @@ obj-$(CONFIG_DRM_PANEL_TPO_TD028TTEC1) += panel-tpo-td028ttec1.o
- obj-$(CONFIG_DRM_PANEL_TPO_TD043MTEA1) += panel-tpo-td043mtea1.o
- obj-$(CONFIG_DRM_PANEL_TPO_TPG110) += panel-tpo-tpg110.o
- obj-$(CONFIG_DRM_PANEL_TRULY_NT35597_WQXGA) += panel-truly-nt35597.o
-+obj-$(CONFIG_DRM_PANEL_XINPENG_XPP055C272) += panel-xinpeng-xpp055c272.o
-diff --git a/drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c b/drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c
-new file mode 100644
-index 000000000000..1058886efd5f
---- /dev/null
-+++ b/drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c
-@@ -0,0 +1,401 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Xinpeng xpp055c272 5.5" MIPI-DSI panel driver
-+ * Copyright (C) 2019 Theobroma Systems Design und Consulting GmbH
-+ *
-+ * based on
-+ *
-+ * Rockteck jh057n00900 5.5" MIPI-DSI panel driver
-+ * Copyright (C) Purism SPC 2019
-+ */
-+
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_modes.h>
-+#include <drm/drm_panel.h>
-+#include <drm/drm_print.h>
-+
-+#include <video/display_timing.h>
-+#include <video/mipi_display.h>
-+
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/media-bus-format.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/regulator/consumer.h>
-+
-+/* Manufacturer specific Commands send via DSI */
-+#define XPP055C272_CMD_ALL_PIXEL_OFF	0x22
-+#define XPP055C272_CMD_ALL_PIXEL_ON	0x23
-+#define XPP055C272_CMD_SETDISP		0xb2
-+#define XPP055C272_CMD_SETRGBIF		0xb3
-+#define XPP055C272_CMD_SETCYC		0xb4
-+#define XPP055C272_CMD_SETBGP		0xb5
-+#define XPP055C272_CMD_SETVCOM		0xb6
-+#define XPP055C272_CMD_SETOTP		0xb7
-+#define XPP055C272_CMD_SETPOWER_EXT	0xb8
-+#define XPP055C272_CMD_SETEXTC		0xb9
-+#define XPP055C272_CMD_SETMIPI		0xbA
-+#define XPP055C272_CMD_SETVDC		0xbc
-+#define XPP055C272_CMD_SETPCR		0xbf
-+#define XPP055C272_CMD_SETSCR		0xc0
-+#define XPP055C272_CMD_SETPOWER		0xc1
-+#define XPP055C272_CMD_SETECO		0xc6
-+#define XPP055C272_CMD_SETPANEL		0xcc
-+#define XPP055C272_CMD_SETGAMMA		0xe0
-+#define XPP055C272_CMD_SETEQ		0xe3
-+#define XPP055C272_CMD_SETGIP1		0xe9
-+#define XPP055C272_CMD_SETGIP2		0xea
-+
-+struct xpp055c272 {
-+	struct device *dev;
-+	struct drm_panel panel;
-+	struct gpio_desc *reset_gpio;
-+	struct regulator *vci;
-+	struct regulator *iovcc;
-+	bool prepared;
-+};
-+
-+static inline struct xpp055c272 *panel_to_xpp055c272(struct drm_panel *panel)
-+{
-+	return container_of(panel, struct xpp055c272, panel);
-+}
-+
-+#define dsi_generic_write_seq(dsi, cmd, seq...) do {			\
-+		static const u8 d[] = { seq };				\
-+		int ret;						\
-+		ret = mipi_dsi_dcs_write(dsi, cmd, d, ARRAY_SIZE(d));	\
-+		if (ret < 0)						\
-+			return ret;					\
-+	} while (0)
-+
-+static int xpp055c272_init_sequence(struct xpp055c272 *ctx)
-+{
-+	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
-+	struct device *dev = ctx->dev;
-+
-+	/*
-+	 * Init sequence was supplied by the panel vendor without much
-+	 * documentation.
-+	 */
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETEXTC, 0xf1, 0x12, 0x83);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETMIPI,
-+			      0x33, 0x81, 0x05, 0xf9, 0x0e, 0x0e, 0x00, 0x00,
-+			      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x44, 0x25,
-+			      0x00, 0x91, 0x0a, 0x00, 0x00, 0x02, 0x4f, 0x01,
-+			      0x00, 0x00, 0x37);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETPOWER_EXT, 0x25);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETPCR, 0x02, 0x11, 0x00);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETRGBIF,
-+			      0x0c, 0x10, 0x0a, 0x50, 0x03, 0xff, 0x00, 0x00,
-+			      0x00, 0x00);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETSCR,
-+			      0x73, 0x73, 0x50, 0x50, 0x00, 0x00, 0x08, 0x70,
-+			      0x00);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETVDC, 0x46);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETPANEL, 0x0b);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETCYC, 0x80);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETDISP, 0xc8, 0x12, 0x30);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETEQ,
-+			      0x07, 0x07, 0x0B, 0x0B, 0x03, 0x0B, 0x00, 0x00,
-+			      0x00, 0x00, 0xFF, 0x00, 0xC0, 0x10);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETPOWER,
-+			      0x53, 0x00, 0x1e, 0x1e, 0x77, 0xe1, 0xcc, 0xdd,
-+			      0x67, 0x77, 0x33, 0x33);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETECO, 0x00, 0x00, 0xff,
-+			      0xff, 0x01, 0xff);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETBGP, 0x09, 0x09);
-+	msleep(20);
-+
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETVCOM, 0x87, 0x95);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETGIP1,
-+			      0xc2, 0x10, 0x05, 0x05, 0x10, 0x05, 0xa0, 0x12,
-+			      0x31, 0x23, 0x3f, 0x81, 0x0a, 0xa0, 0x37, 0x18,
-+			      0x00, 0x80, 0x01, 0x00, 0x00, 0x00, 0x00, 0x80,
-+			      0x01, 0x00, 0x00, 0x00, 0x48, 0xf8, 0x86, 0x42,
-+			      0x08, 0x88, 0x88, 0x80, 0x88, 0x88, 0x88, 0x58,
-+			      0xf8, 0x87, 0x53, 0x18, 0x88, 0x88, 0x81, 0x88,
-+			      0x88, 0x88, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00,
-+			      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETGIP2,
-+			      0x00, 0x1a, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00,
-+			      0x00, 0x00, 0x00, 0x00, 0x1f, 0x88, 0x81, 0x35,
-+			      0x78, 0x88, 0x88, 0x85, 0x88, 0x88, 0x88, 0x0f,
-+			      0x88, 0x80, 0x24, 0x68, 0x88, 0x88, 0x84, 0x88,
-+			      0x88, 0x88, 0x23, 0x10, 0x00, 0x00, 0x1c, 0x00,
-+			      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x30, 0x05,
-+			      0xa0, 0x00, 0x00, 0x00, 0x00);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETGAMMA,
-+			      0x00, 0x06, 0x08, 0x2a, 0x31, 0x3f, 0x38, 0x36,
-+			      0x07, 0x0c, 0x0d, 0x11, 0x13, 0x12, 0x13, 0x11,
-+			      0x18, 0x00, 0x06, 0x08, 0x2a, 0x31, 0x3f, 0x38,
-+			      0x36, 0x07, 0x0c, 0x0d, 0x11, 0x13, 0x12, 0x13,
-+			      0x11, 0x18);
-+
-+	msleep(60);
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "Panel init sequence done\n");
-+	return 0;
-+}
-+
-+static int xpp055c272_unprepare(struct drm_panel *panel)
-+{
-+	struct xpp055c272 *ctx = panel_to_xpp055c272(panel);
-+	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
-+	int ret;
-+
-+	if (!ctx->prepared)
-+		return 0;
-+
-+	ret = mipi_dsi_dcs_set_display_off(dsi);
-+	if (ret < 0)
-+		DRM_DEV_ERROR(ctx->dev, "failed to set display off: %d\n",
-+			      ret);
-+
-+	mipi_dsi_dcs_enter_sleep_mode(dsi);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(ctx->dev, "failed to enter sleep mode: %d\n",
-+			      ret);
-+		return ret;
-+	}
-+
-+	regulator_disable(ctx->iovcc);
-+	regulator_disable(ctx->vci);
-+
-+	ctx->prepared = false;
-+
-+	return 0;
-+}
-+
-+static int xpp055c272_prepare(struct drm_panel *panel)
-+{
-+	struct xpp055c272 *ctx = panel_to_xpp055c272(panel);
-+	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
-+	int ret;
-+
-+	if (ctx->prepared)
-+		return 0;
-+
-+	DRM_DEV_DEBUG_DRIVER(ctx->dev, "Resetting the panel\n");
-+	ret = regulator_enable(ctx->vci);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(ctx->dev,
-+			      "Failed to enable vci supply: %d\n", ret);
-+		return ret;
-+	}
-+	ret = regulator_enable(ctx->iovcc);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(ctx->dev,
-+			      "Failed to enable iovcc supply: %d\n", ret);
-+		goto disable_vci;
-+	}
-+
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+	/* T6: 10us */
-+	usleep_range(10, 20);
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-+
-+	/* T8: 20ms */
-+	msleep(20);
-+
-+	ret = xpp055c272_init_sequence(ctx);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(ctx->dev, "Panel init sequence failed: %d\n",
-+			      ret);
-+		goto disable_iovcc;
-+	}
-+
-+	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(ctx->dev, "Failed to exit sleep mode: %d\n", ret);
-+		goto disable_iovcc;
-+	}
-+
-+	/* T9: 120ms */
-+	msleep(120);
-+
-+	ret = mipi_dsi_dcs_set_display_on(dsi);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(ctx->dev, "Failed to set display on: %d\n", ret);
-+		goto disable_iovcc;
-+	}
-+
-+	msleep(50);
-+
-+	ctx->prepared = true;
-+
-+	return 0;
-+
-+disable_iovcc:
-+	regulator_disable(ctx->iovcc);
-+disable_vci:
-+	regulator_disable(ctx->vci);
-+	return ret;
-+}
-+
-+static const struct drm_display_mode default_mode = {
-+	.hdisplay	= 720,
-+	.hsync_start	= 720 + 40,
-+	.hsync_end	= 720 + 40 + 10,
-+	.htotal		= 720 + 40 + 10 + 40,
-+	.vdisplay	= 1280,
-+	.vsync_start	= 1280 + 22,
-+	.vsync_end	= 1280 + 22 + 4,
-+	.vtotal		= 1280 + 22 + 4 + 11,
-+	.vrefresh	= 60,
-+	.clock		= 64000,
-+	.flags		= DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-+	.width_mm	= 68,
-+	.height_mm	= 121,
-+};
-+
-+static int xpp055c272_get_modes(struct drm_panel *panel,
-+				struct drm_connector *connector)
-+{
-+	struct xpp055c272 *ctx = panel_to_xpp055c272(panel);
-+	struct drm_display_mode *mode;
-+
-+	mode = drm_mode_duplicate(connector->dev, &default_mode);
-+	if (!mode) {
-+		DRM_DEV_ERROR(ctx->dev, "Failed to add mode %ux%u@%u\n",
-+			      default_mode.hdisplay, default_mode.vdisplay,
-+			      default_mode.vrefresh);
-+		return -ENOMEM;
-+	}
-+
-+	drm_mode_set_name(mode);
-+
-+	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-+	connector->display_info.width_mm = mode->width_mm;
-+	connector->display_info.height_mm = mode->height_mm;
-+	drm_mode_probed_add(connector, mode);
-+
-+	return 1;
-+}
-+
-+static const struct drm_panel_funcs xpp055c272_funcs = {
-+	.unprepare	= xpp055c272_unprepare,
-+	.prepare	= xpp055c272_prepare,
-+	.get_modes	= xpp055c272_get_modes,
-+};
-+
-+static int xpp055c272_probe(struct mipi_dsi_device *dsi)
-+{
-+	struct device *dev = &dsi->dev;
-+	struct xpp055c272 *ctx;
-+	int ret;
-+
-+	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-+	if (!ctx)
-+		return -ENOMEM;
-+
-+	ctx->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
-+	if (IS_ERR(ctx->reset_gpio)) {
-+		DRM_DEV_ERROR(dev, "cannot get reset gpio\n");
-+		return PTR_ERR(ctx->reset_gpio);
-+	}
-+
-+	ctx->vci = devm_regulator_get(dev, "vci");
-+	if (IS_ERR(ctx->vci)) {
-+		ret = PTR_ERR(ctx->vci);
-+		if (ret != -EPROBE_DEFER)
-+			DRM_DEV_ERROR(dev,
-+				      "Failed to request vci regulator: %d\n",
-+				      ret);
-+		return ret;
-+	}
-+
-+	ctx->iovcc = devm_regulator_get(dev, "iovcc");
-+	if (IS_ERR(ctx->iovcc)) {
-+		ret = PTR_ERR(ctx->iovcc);
-+		if (ret != -EPROBE_DEFER)
-+			DRM_DEV_ERROR(dev,
-+				      "Failed to request iovcc regulator: %d\n",
-+				      ret);
-+		return ret;
-+	}
-+
-+	mipi_dsi_set_drvdata(dsi, ctx);
-+
-+	ctx->dev = dev;
-+
-+	dsi->lanes = 4;
-+	dsi->format = MIPI_DSI_FMT_RGB888;
-+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-+			  MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_EOT_PACKET;
-+
-+	drm_panel_init(&ctx->panel, &dsi->dev, &xpp055c272_funcs,
-+		       DRM_MODE_CONNECTOR_DSI);
-+
-+	ret = drm_panel_of_backlight(&ctx->panel);
-+	if (ret) {
-+		DRM_DEV_ERROR(dev, "Failed to find backlight: %d\n", ret);
-+		return ret;
-+	}
-+
-+	drm_panel_add(&ctx->panel);
-+
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(dev, "mipi_dsi_attach failed: %d\n", ret);
-+		drm_panel_remove(&ctx->panel);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static void xpp055c272_shutdown(struct mipi_dsi_device *dsi)
-+{
-+	struct xpp055c272 *ctx = mipi_dsi_get_drvdata(dsi);
-+	int ret;
-+
-+	ret = drm_panel_unprepare(&ctx->panel);
-+	if (ret < 0)
-+		DRM_DEV_ERROR(&dsi->dev, "Failed to unprepare panel: %d\n",
-+			      ret);
-+
-+	ret = drm_panel_disable(&ctx->panel);
-+	if (ret < 0)
-+		DRM_DEV_ERROR(&dsi->dev, "Failed to disable panel: %d\n",
-+			      ret);
-+}
-+
-+static int xpp055c272_remove(struct mipi_dsi_device *dsi)
-+{
-+	struct xpp055c272 *ctx = mipi_dsi_get_drvdata(dsi);
-+	int ret;
-+
-+	xpp055c272_shutdown(dsi);
-+
-+	ret = mipi_dsi_detach(dsi);
-+	if (ret < 0)
-+		DRM_DEV_ERROR(&dsi->dev, "Failed to detach from DSI host: %d\n",
-+			      ret);
-+
-+	drm_panel_remove(&ctx->panel);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id xpp055c272_of_match[] = {
-+	{ .compatible = "xinpeng,xpp055c272" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, xpp055c272_of_match);
-+
-+static struct mipi_dsi_driver xpp055c272_driver = {
-+	.driver = {
-+		.name = "panel-xinpeng-xpp055c272",
-+		.of_match_table = xpp055c272_of_match,
-+	},
-+	.probe	= xpp055c272_probe,
-+	.remove = xpp055c272_remove,
-+	.shutdown = xpp055c272_shutdown,
-+};
-+module_mipi_dsi_driver(xpp055c272_driver);
-+
-+MODULE_AUTHOR("Heiko Stuebner <heiko.stuebner@theobroma-systems.com>");
-+MODULE_DESCRIPTION("DRM driver for Xinpeng xpp055c272 MIPI DSI panel");
-+MODULE_LICENSE("GPL v2");
--- 
-2.24.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksCgpPbiA5LzE5LzE5IDExOjIyIFBNLCBBcnR1ciDFmndpZ2/FhCB3cm90ZToKPiBGcm9tOiBB
+cnR1ciDFmndpZ2/FhCA8YS5zd2lnb25AcGFydG5lci5zYW1zdW5nLmNvbT4KPiAKPiBUaGlzIHBh
+dGNoIGFkZHMgaW50ZXJjb25uZWN0IGZ1bmN0aW9uYWxpdHkgdG8gdGhlIGV4eW5vcy1idXMgZGV2
+ZnJlcQo+IGRyaXZlci4KPiAKPiBUaGUgU29DIHRvcG9sb2d5IGlzIGEgZ3JhcGggKG9yLCBtb3Jl
+IHNwZWNpZmljYWxseSwgYSB0cmVlKSBhbmQgbW9zdCBvZgo+IGl0cyBlZGdlcyBhcmUgdGFrZW4g
+ZnJvbSB0aGUgZGV2ZnJlcSBwYXJlbnQtY2hpbGQgaGllcmFyY2h5IChjZi4KPiBEb2N1bWVudGF0
+aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGV2ZnJlcS9leHlub3MtYnVzLnR4dCkuIER1ZSB0bwo+
+IHVuc3BlY2lmaWVkIHJlbGF0aXZlIHByb2Jpbmcgb3JkZXIsIC1FUFJPQkVfREVGRVIgbWF5IGJl
+IHByb3BhZ2F0ZWQgdG8KPiBndWFyYW50ZWUgdGhhdCBhIGNoaWxkIGlzIHByb2JlZCBiZWZvcmUg
+aXRzIHBhcmVudC4KPiAKPiBFYWNoIGJ1cyBpcyBub3cgYW4gaW50ZXJjb25uZWN0IHByb3ZpZGVy
+IGFuZCBhbiBpbnRlcmNvbm5lY3Qgbm9kZSBhcyB3ZWxsCj4gKGNmLiBEb2N1bWVudGF0aW9uL2lu
+dGVyY29ubmVjdC9pbnRlcmNvbm5lY3QucnN0KSwgaS5lLiBldmVyeSBidXMgcmVnaXN0ZXJzCj4g
+aXRzZWxmIGFzIGEgbm9kZS4gTm9kZSBJRHMgYXJlIG5vdCBoYXJkY29kZWQgYnV0IHJhdGhlciBh
+c3NpZ25lZCBhdAo+IHJ1bnRpbWUsIGluIHByb2Jpbmcgb3JkZXIgKHN1YmplY3QgdG8gdGhlIGFi
+b3ZlLW1lbnRpb25lZCBleGNlcHRpb24KPiByZWdhcmRpbmcgcmVsYXRpdmUgb3JkZXIpLiBUaGlz
+IGFwcHJvYWNoIGFsbG93cyBmb3IgdXNpbmcgdGhpcyBkcml2ZXIgd2l0aAo+IHZhcmlvdXMgRXh5
+bm9zIFNvQ3MuCj4gCj4gRnJlcXVlbmNpZXMgcmVxdWVzdGVkIHZpYSB0aGUgaW50ZXJjb25uZWN0
+IEFQSSBmb3IgYSBnaXZlbiBub2RlIGFyZQo+IHByb3BhZ2F0ZWQgdG8gZGV2ZnJlcSB1c2luZyBk
+ZXZfcG1fcW9zX3VwZGF0ZV9yZXF1ZXN0KCkuIFBsZWFzZSBub3RlIHRoYXQKPiBpdCBpcyBub3Qg
+YW4gZXJyb3Igd2hlbiBDT05GSUdfSU5URVJDT05ORUNUIGlzICduJywgaW4gd2hpY2ggY2FzZSBh
+bGwKPiBpbnRlcmNvbm5lY3QgQVBJIGZ1bmN0aW9ucyBhcmUgbm8tb3AuCj4gCj4gU2lnbmVkLW9m
+Zi1ieTogQXJ0dXIgxZp3aWdvxYQgPGEuc3dpZ29uQHBhcnRuZXIuc2Ftc3VuZy5jb20+Cj4gLS0t
+Cj4gIGRyaXZlcnMvZGV2ZnJlcS9leHlub3MtYnVzLmMgfCAxNTMgKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysKPiAgMSBmaWxlIGNoYW5nZWQsIDE1MyBpbnNlcnRpb25zKCspCj4g
+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZGV2ZnJlcS9leHlub3MtYnVzLmMgYi9kcml2ZXJzL2Rl
+dmZyZXEvZXh5bm9zLWJ1cy5jCj4gaW5kZXggOGQ0NDgxMGNhYzY5Li5lMDIzMjIwMjcyMGQgMTAw
+NjQ0Cj4gLS0tIGEvZHJpdmVycy9kZXZmcmVxL2V4eW5vcy1idXMuYwo+ICsrKyBiL2RyaXZlcnMv
+ZGV2ZnJlcS9leHlub3MtYnVzLmMKPiBAQCAtMTQsMTQgKzE0LDE5IEBACj4gICNpbmNsdWRlIDxs
+aW51eC9kZXZmcmVxLWV2ZW50Lmg+Cj4gICNpbmNsdWRlIDxsaW51eC9kZXZpY2UuaD4KPiAgI2lu
+Y2x1ZGUgPGxpbnV4L2V4cG9ydC5oPgo+ICsjaW5jbHVkZSA8bGludXgvaWRyLmg+Cj4gKyNpbmNs
+dWRlIDxsaW51eC9pbnRlcmNvbm5lY3QtcHJvdmlkZXIuaD4KPiAgI2luY2x1ZGUgPGxpbnV4L21v
+ZHVsZS5oPgo+ICAjaW5jbHVkZSA8bGludXgvb2YuaD4KPiAgI2luY2x1ZGUgPGxpbnV4L3BtX29w
+cC5oPgo+ICsjaW5jbHVkZSA8bGludXgvcG1fcW9zLmg+Cj4gICNpbmNsdWRlIDxsaW51eC9wbGF0
+Zm9ybV9kZXZpY2UuaD4KPiAgI2luY2x1ZGUgPGxpbnV4L3JlZ3VsYXRvci9jb25zdW1lci5oPgo+
+ICAKPiAgI2RlZmluZSBERUZBVUxUX1NBVFVSQVRJT05fUkFUSU8JNDAKPiAgCj4gKyNkZWZpbmUg
+aWNjX3VuaXRzX3RvX2toeih4KSAoKHgpIC8gOCkKCmljY191bml0c190b19raHooKSAtPiBrcGJz
+X3RvX2toeigpCgo+ICsKPiAgc3RydWN0IGV4eW5vc19idXMgewo+ICAJc3RydWN0IGRldmljZSAq
+ZGV2Owo+ICAKPiBAQCAtMzUsNiArNDAsMTIgQEAgc3RydWN0IGV4eW5vc19idXMgewo+ICAJc3Ry
+dWN0IG9wcF90YWJsZSAqb3BwX3RhYmxlOwo+ICAJc3RydWN0IGNsayAqY2xrOwo+ICAJdW5zaWdu
+ZWQgaW50IHJhdGlvOwo+ICsKPiArCS8qIE9uZSBwcm92aWRlciBwZXIgYnVzLCBvbmUgbm9kZSBw
+ZXIgcHJvdmlkZXIgKi8KPiArCXN0cnVjdCBpY2NfcHJvdmlkZXIgcHJvdmlkZXI7Cj4gKwlzdHJ1
+Y3QgaWNjX25vZGUgKm5vZGU7Cj4gKwo+ICsJc3RydWN0IGRldl9wbV9xb3NfcmVxdWVzdCBxb3Nf
+cmVxOwo+ICB9Owo+ICAKPiAgLyoKPiBAQCAtNTksNiArNzAsMTMgQEAgZXh5bm9zX2J1c19vcHNf
+ZWRldihlbmFibGVfZWRldik7Cj4gIGV4eW5vc19idXNfb3BzX2VkZXYoZGlzYWJsZV9lZGV2KTsK
+PiAgZXh5bm9zX2J1c19vcHNfZWRldihzZXRfZXZlbnQpOwo+ICAKPiArc3RhdGljIGludCBleHlu
+b3NfYnVzX25leHRfaWQodm9pZCkKPiArewo+ICsJc3RhdGljIERFRklORV9JREEoZXh5bm9zX2J1
+c19pY2NfaWRhKTsKPiArCj4gKwlyZXR1cm4gaWRhX2FsbG9jKCZleHlub3NfYnVzX2ljY19pZGEs
+IEdGUF9LRVJORUwpOwo+ICt9Cj4gKwo+ICBzdGF0aWMgaW50IGV4eW5vc19idXNfZ2V0X2V2ZW50
+KHN0cnVjdCBleHlub3NfYnVzICpidXMsCj4gIAkJCQlzdHJ1Y3QgZGV2ZnJlcV9ldmVudF9kYXRh
+ICplZGF0YSkKPiAgewo+IEBAIC0xNzEsNiArMTg5LDM4IEBAIHN0YXRpYyB2b2lkIGV4eW5vc19i
+dXNfcGFzc2l2ZV9leGl0KHN0cnVjdCBkZXZpY2UgKmRldikKPiAgCWNsa19kaXNhYmxlX3VucHJl
+cGFyZShidXMtPmNsayk7Cj4gIH0KPiAgCj4gK3N0YXRpYyBpbnQgZXh5bm9zX2J1c19pY2Nfc2V0
+KHN0cnVjdCBpY2Nfbm9kZSAqc3JjLCBzdHJ1Y3QgaWNjX25vZGUgKmRzdCkKPiArewo+ICsJc3Ry
+dWN0IGV4eW5vc19idXMgKnNyY19idXMgPSBzcmMtPmRhdGEsICpkc3RfYnVzID0gZHN0LT5kYXRh
+Owo+ICsJczMyIHNyY19mcmVxID0gaWNjX3VuaXRzX3RvX2toeihzcmMtPmF2Z19idyk7Cj4gKwlz
+MzIgZHN0X2ZyZXEgPSBpY2NfdW5pdHNfdG9fa2h6KGRzdC0+YXZnX2J3KTsKPiArCj4gKwlkZXZf
+cG1fcW9zX3VwZGF0ZV9yZXF1ZXN0KCZzcmNfYnVzLT5xb3NfcmVxLCBzcmNfZnJlcSk7CgpIYXZl
+IHRvIGNoZWNrIHRoZSByZXR1cm4gdmFsdWUuCklmIHJldHVybiBlcnJvciwgc2hvdyB0aGUgd2Fy
+aW5nIHdpdGggZGV2X3dhcm4uCgo+ICsJZGV2X3BtX3Fvc191cGRhdGVfcmVxdWVzdCgmZHN0X2J1
+cy0+cW9zX3JlcSwgZHN0X2ZyZXEpOwoKZGl0dG8uCgo+ICsKPiArCXJldHVybiAwOwo+ICt9Cj4g
+Kwo+ICtzdGF0aWMgaW50IGV4eW5vc19idXNfaWNjX2FnZ3JlZ2F0ZShzdHJ1Y3QgaWNjX25vZGUg
+Km5vZGUsIHUzMiB0YWcsIHUzMiBhdmdfYncsCj4gKwkJCQkgICAgdTMyIHBlYWtfYncsIHUzMiAq
+YWdnX2F2ZywgdTMyICphZ2dfcGVhaykKPiArewo+ICsJKmFnZ19hdmcgKz0gYXZnX2J3Owo+ICsJ
+KmFnZ19wZWFrID0gbWF4KCphZ2dfcGVhaywgcGVha19idyk7Cj4gKwo+ICsJcmV0dXJuIDA7Cj4g
+K30KPiArCj4gK3N0YXRpYyBzdHJ1Y3QgaWNjX25vZGUgKmV4eW5vc19idXNfaWNjX3hsYXRlKHN0
+cnVjdCBvZl9waGFuZGxlX2FyZ3MgKnNwZWMsCj4gKwkJCQkJICAgICB2b2lkICpkYXRhKQo+ICt7
+Cj4gKwlzdHJ1Y3QgZXh5bm9zX2J1cyAqYnVzID0gZGF0YTsKPiArCj4gKwlpZiAoc3BlYy0+bnAg
+IT0gYnVzLT5kZXYtPm9mX25vZGUpCj4gKwkJcmV0dXJuIEVSUl9QVFIoLUVJTlZBTCk7Cj4gKwo+
+ICsJcmV0dXJuIGJ1cy0+bm9kZTsKPiArfQo+ICsKPiAgc3RhdGljIGludCBleHlub3NfYnVzX3Bh
+cmVudF9wYXJzZV9vZihzdHJ1Y3QgZGV2aWNlX25vZGUgKm5wLAo+ICAJCQkJCXN0cnVjdCBleHlu
+b3NfYnVzICpidXMpCj4gIHsKPiBAQCAtMzY2LDYgKzQxNiwxMDEgQEAgc3RhdGljIGludCBleHlu
+b3NfYnVzX3Byb2ZpbGVfaW5pdF9wYXNzaXZlKHN0cnVjdCBleHlub3NfYnVzICpidXMsCj4gIAly
+ZXR1cm4gMDsKPiAgfQo+ICAKPiArc3RhdGljIGludCBleHlub3NfYnVzX2ljY19jb25uZWN0KHN0
+cnVjdCBleHlub3NfYnVzICpidXMpCj4gK3sKPiArCXN0cnVjdCBkZXZpY2Vfbm9kZSAqbnAgPSBi
+dXMtPmRldi0+b2Zfbm9kZTsKPiArCXN0cnVjdCBkZXZmcmVxICpwYXJlbnRfZGV2ZnJlcTsKPiAr
+CXN0cnVjdCBpY2Nfbm9kZSAqcGFyZW50X25vZGUgPSBOVUxMOwo+ICsJc3RydWN0IG9mX3BoYW5k
+bGVfYXJncyBhcmdzOwo+ICsJaW50IHJldCA9IDA7Cj4gKwo+ICsJcGFyZW50X2RldmZyZXEgPSBk
+ZXZmcmVxX2dldF9kZXZmcmVxX2J5X3BoYW5kbGUoYnVzLT5kZXYsIDApOwo+ICsJaWYgKCFJU19F
+UlIocGFyZW50X2RldmZyZXEpKSB7Cj4gKwkJc3RydWN0IGV4eW5vc19idXMgKnBhcmVudF9idXM7
+Cj4gKwo+ICsJCXBhcmVudF9idXMgPSBkZXZfZ2V0X2RydmRhdGEocGFyZW50X2RldmZyZXEtPmRl
+di5wYXJlbnQpOwo+ICsJCXBhcmVudF9ub2RlID0gcGFyZW50X2J1cy0+bm9kZTsKPiArCX0gZWxz
+ZSB7Cj4gKwkJLyogTG9vayBmb3IgcGFyZW50IGluIERUICovCj4gKwkJaW50IG51bSA9IG9mX2Nv
+dW50X3BoYW5kbGVfd2l0aF9hcmdzKG5wLCAicGFyZW50IiwKPiArCQkJCQkJICAgICAiI2ludGVy
+Y29ubmVjdC1jZWxscyIpOwo+ICsJCWlmIChudW0gIT0gMSkKPiArCQkJZ290byBvdXQ7IC8qICdw
+YXJlbnQnIGlzIG9wdGlvbmFsICovCj4gKwo+ICsJCXJldCA9IG9mX3BhcnNlX3BoYW5kbGVfd2l0
+aF9hcmdzKG5wLCAicGFyZW50IiwKPiArCQkJCQkJICIjaW50ZXJjb25uZWN0LWNlbGxzIiwKPiAr
+CQkJCQkJIDAsICZhcmdzKTsKCgpBY3R1YWxseSwgSSBhZ3JlZSB5b3VyIGFwcHJvYWNoLiBJIHRo
+aW5rIHRoYXQgaXQgaXMgdmVyeSB1c2VmdWwKYW5kIG5lY2Vzc2FyeSB0byBndWFyYW50ZWUgdGhl
+IFBNIFFvUyByZXF1aXJlbWVudHMgYmV0d2VlbiBkZXZpY2VzLgoKQnV0LApBcyBJIGFscmVhZHkg
+Y29tbWVudGVkLCBJJ20gbm90IHN1cmUgdGhhdCB0aGUgInBhcmVudCIgcHJvcGVydHkgCmlzIHBy
+b3BlciBmb3Igb25seSB0aGlzIGRyaXZlci4gSWYgcG9zc2libGUsIHlvdSBiZXR0ZXIgdG8gZ2V0
+CnRoZSBwYXJlbnQgcGhhbmRsZSB0aHJvdWdoIG90aGVyIHdheSBsaWtlIE9GIGdyYXBoLgoKSWYg
+eW91IHN1Z2dlc3QgdGhlIHN0YW5kYXJkIHdheSB0byBtYWtlIHRoZSB0cmVlIGJldHdlZW4KdGhl
+IGV4eW5vcy1idXMsIEknbGwgYWdyZWUuCgpBbHNvLCBmb3IgaW50ZXJjb25uZWN0IHBhdGgsIHlv
+dSBoYXZlIHRvIGFkZCB0aGUgY29ubmVjdGlvbgpiZXR3ZWVuICdidXNfZGlzcGxheScgYW5kICdi
+dXNfbGVmdGJ1cycgcmVnYXJkbGVzcwpvZiB0aGUgZXhpc3RpbmcgJ2RldmZyZXEnIHByb3BlcnR5
+LgotIGJ1c19kaXNwbGF5IC0gYnVzX2xlZnRidXMgLSBidXNfZG1jCgo+ICsJCWlmIChyZXQgPCAw
+KQo+ICsJCQlnb3RvIG91dDsKPiArCj4gKwkJb2Zfbm9kZV9wdXQoYXJncy5ucCk7Cj4gKwo+ICsJ
+CXBhcmVudF9ub2RlID0gb2ZfaWNjX2dldF9mcm9tX3Byb3ZpZGVyKCZhcmdzKTsKPiArCQlpZiAo
+SVNfRVJSKHBhcmVudF9ub2RlKSkgewo+ICsJCQkvKiBNYXkgYmUgLUVQUk9CRV9ERUZFUiAqLwo+
+ICsJCQlyZXQgPSBQVFJfRVJSKHBhcmVudF9ub2RlKTsKPiArCQkJZ290byBvdXQ7Cj4gKwkJfQo+
+ICsJfQo+ICsKPiArCXJldCA9IGljY19saW5rX2NyZWF0ZShidXMtPm5vZGUsIHBhcmVudF9ub2Rl
+LT5pZCk7Cj4gKwo+ICtvdXQ6Cj4gKwlyZXR1cm4gcmV0Owo+ICt9Cj4gKwo+ICtzdGF0aWMgaW50
+IGV4eW5vc19idXNfaWNjX2luaXQoc3RydWN0IGV4eW5vc19idXMgKmJ1cykKPiArewo+ICsJc3Ry
+dWN0IGRldmljZSAqZGV2ID0gYnVzLT5kZXY7Cj4gKwlzdHJ1Y3QgaWNjX3Byb3ZpZGVyICpwcm92
+aWRlciA9ICZidXMtPnByb3ZpZGVyOwo+ICsJc3RydWN0IGljY19ub2RlICpub2RlOwo+ICsJaW50
+IGlkLCByZXQ7Cj4gKwo+ICsJLyogSW5pdGlhbGl6ZSB0aGUgaW50ZXJjb25uZWN0IHByb3ZpZGVy
+ICovCj4gKwlwcm92aWRlci0+c2V0ID0gZXh5bm9zX2J1c19pY2Nfc2V0Owo+ICsJcHJvdmlkZXIt
+PmFnZ3JlZ2F0ZSA9IGV4eW5vc19idXNfaWNjX2FnZ3JlZ2F0ZTsKPiArCXByb3ZpZGVyLT54bGF0
+ZSA9IGV4eW5vc19idXNfaWNjX3hsYXRlOwo+ICsJcHJvdmlkZXItPmRldiA9IGRldjsKPiArCXBy
+b3ZpZGVyLT5kYXRhID0gYnVzOwo+ICsKPiArCXJldCA9IGljY19wcm92aWRlcl9hZGQocHJvdmlk
+ZXIpOwo+ICsJaWYgKHJldCA8IDApCj4gKwkJZ290byBvdXQ7CgpSZXR1cm4gZXJyb3Igd2l0aG91
+dCBnb3RvIGJlY2F1c2UgdGhlcmUgaXMgbm8gYW55IHJlcXVpcmVtZW50CnRvIGZyZWUgdGhlIHJl
+c291cmNlIGJlZm9yZS4KCj4gKwo+ICsJcmV0ID0gaWQgPSBleHlub3NfYnVzX25leHRfaWQoKTsK
+PiArCWlmIChyZXQgPCAwKQo+ICsJCWdvdG8gZXJyX25vZGU7Cj4gKwo+ICsJbm9kZSA9IGljY19u
+b2RlX2NyZWF0ZShpZCk7Cj4gKwlpZiAoSVNfRVJSKG5vZGUpKSB7Cj4gKwkJcmV0ID0gUFRSX0VS
+Uihub2RlKTsKPiArCQlnb3RvIGVycl9ub2RlOwo+ICsJfQo+ICsKPiArCWJ1cy0+bm9kZSA9IG5v
+ZGU7Cj4gKwlub2RlLT5uYW1lID0gZGV2LT5vZl9ub2RlLT5uYW1lOwo+ICsJbm9kZS0+ZGF0YSA9
+IGJ1czsKPiArCWljY19ub2RlX2FkZChub2RlLCBwcm92aWRlcik7Cj4gKwo+ICsJcmV0ID0gZXh5
+bm9zX2J1c19pY2NfY29ubmVjdChidXMpOwo+ICsJaWYgKHJldCA8IDApCj4gKwkJZ290byBlcnJf
+Y29ubmVjdDsKPiArCj4gKwlyZXQgPSBkZXZfcG1fcW9zX2FkZF9yZXF1ZXN0KGJ1cy0+ZGV2ZnJl
+cS0+ZGV2LnBhcmVudCwgJmJ1cy0+cW9zX3JlcSwKCkNoZWNrIHdoZXRoZXIgdGhpcyBsaW5lIGlz
+IG92ZXIgODAgY2hhci4KCj4gKwkJCQkgICAgIERFVl9QTV9RT1NfTUlOX0ZSRVFVRU5DWSwgMCk7
+CgoJQ2hlY2sgdGhlIHJldHVybiB2YWx1ZS4KCj4gKwo+ICtvdXQ6CgpSZW1vdmUgdGhpcyBnb3Rv
+IGR1ZSB0byBub3QgbmVjZXNzYXJ5LgoKPiArCXJldHVybiByZXQ7CgoJcmV0dXJuIDA7Cgo+ICsK
+PiArZXJyX2Nvbm5lY3Q6Cj4gKwlpY2Nfbm9kZV9kZWwobm9kZSk7Cj4gKwlpY2Nfbm9kZV9kZXN0
+cm95KGlkKTsKPiArZXJyX25vZGU6Cj4gKwlpY2NfcHJvdmlkZXJfZGVsKHByb3ZpZGVyKTsKPiAr
+Cj4gKwlyZXR1cm4gcmV0Owo+ICt9Cj4gKwo+ICBzdGF0aWMgaW50IGV4eW5vc19idXNfcHJvYmUo
+c3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikKPiAgewo+ICAJc3RydWN0IGRldmljZSAqZGV2
+ID0gJnBkZXYtPmRldjsKPiBAQCAtNDE1LDYgKzU2MCwxNCBAQCBzdGF0aWMgaW50IGV4eW5vc19i
+dXNfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikKPiAgCWlmIChyZXQgPCAwKQo+
+ICAJCWdvdG8gZXJyOwo+ICAKPiArCS8qCj4gKwkgKiBJbml0aWFsaXplIGludGVyY29ubmVjdCBw
+cm92aWRlci4gQSByZXR1cm4gdmFsdWUgb2YgLUVOT1RTVVBQIG1lYW5zCj4gKwkgKiB0aGF0IENP
+TkZJR19JTlRFUkNPTk5FQ1QgaXMgZGlzYWJsZWQuCj4gKwkgKi8KPiArCXJldCA9IGV4eW5vc19i
+dXNfaWNjX2luaXQoYnVzKTsKPiArCWlmIChyZXQgPCAwICYmIHJldCAhPSAtRU5PVFNVUFApCj4g
+KwkJZ290byBlcnI7CgpQcmludCBlcnJvciBtZXNzYWdlLgoJZGV2X2VycihkZXYsICJmYWlsZWQg
+dG8gaW5pdGlhbGl6ZSB0aGUgaW50ZXJjb25uZWN0IHByb3ZpZGVyIik7Cgo+ICsKPiAgCW1heF9z
+dGF0ZSA9IGJ1cy0+ZGV2ZnJlcS0+cHJvZmlsZS0+bWF4X3N0YXRlOwo+ICAJbWluX2ZyZXEgPSAo
+YnVzLT5kZXZmcmVxLT5wcm9maWxlLT5mcmVxX3RhYmxlWzBdIC8gMTAwMCk7Cj4gIAltYXhfZnJl
+cSA9IChidXMtPmRldmZyZXEtPnByb2ZpbGUtPmZyZXFfdGFibGVbbWF4X3N0YXRlIC0gMV0gLyAx
+MDAwKTsKPiAKCgotLSAKQmVzdCBSZWdhcmRzLApDaGFud29vIENob2kKU2Ftc3VuZyBFbGVjdHJv
+bmljcwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
