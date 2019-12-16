@@ -1,27 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D5591228D0
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 11:32:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80E171228E6
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 11:32:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8050B6E977;
-	Tue, 17 Dec 2019 10:31:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACAF36E991;
+	Tue, 17 Dec 2019 10:32:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 766D56E02D
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 15:23:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62B596E5CA;
+ Mon, 16 Dec 2019 15:48:14 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: alyssa) with ESMTPSA id 1061528EE93
-Date: Mon, 16 Dec 2019 10:22:54 -0500
+ (Authenticated sender: alyssa) with ESMTPSA id 6F214260667
+Date: Mon, 16 Dec 2019 10:48:03 -0500
 From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-To: ezequiel@collabora.com
-Subject: Re: [PATCH v2] drm/panfrost: Prefix interrupt handlers' names
-Message-ID: <20191216152033.GA2862@kevin>
-References: <20191214045952.9452-1-ezequiel@collabora.com>
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Subject: Re: [RFC v1 0/1] drm: lima: devfreq and cooling device support
+Message-ID: <20191216154803.GA3921@kevin>
+References: <20191215211223.1451499-1-martin.blumenstingl@googlemail.com>
 MIME-Version: 1.0
-In-Reply-To: <20191214045952.9452-1-ezequiel@collabora.com>
+In-Reply-To: <20191215211223.1451499-1-martin.blumenstingl@googlemail.com>
 User-Agent: Mutt/1.12.2 (2019-09-21)
 X-Mailman-Approved-At: Tue, 17 Dec 2019 10:31:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -36,49 +36,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, dri-devel@lists.freedesktop.org,
- Steven Price <steven.price@arm.com>, kernel@collabora.com,
- Ezequiel Garcia <ezequiel@collabora.com>
-Content-Type: multipart/mixed; boundary="===============0559695813=="
+Cc: tomeu.vizoso@collabora.com, lima@lists.freedesktop.org, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ steven.price@arm.com, linux-rockchip@lists.infradead.org, wens@csie.org,
+ yuq825@gmail.com, linux-amlogic@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============1055439141=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0559695813==
+--===============1055439141==
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ZmUaFz6apKcXQszQ"
+	protocol="application/pgp-signature"; boundary="CE+1k2dSO48ffgeK"
 Content-Disposition: inline
 
 
---ZmUaFz6apKcXQszQ
+--CE+1k2dSO48ffgeK
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+If so much code is being duplicated over, I'm wondering if it makes
+sense for us to move some of the common devfreq code to core DRM
+helpers?
 
---ZmUaFz6apKcXQszQ
+On Sun, Dec 15, 2019 at 10:12:22PM +0100, Martin Blumenstingl wrote:
+> This is my attempt at adding devfreq (and cooling device) support to
+> the lima driver.
+> I didn't have much time to do in-depth testing. However, I'm sending
+> this out early because there are many SoCs with Mali-400/450 GPU so
+> I want to avoid duplicating the work with somebody else.
+>=20
+> The code is derived from panfrost_devfreq.c which is why I kept the
+> Collabora copyright in lima_devfreq.c. Please let me know if I should
+> drop this or how I can make it more clear that I "borrowed" the code
+> from panfrost.
+>=20
+> I am seeking comments in two general areas:
+> - regarding the integration into the existing lima code
+> - for the actual devfreq code (I had to adapt the panfrost code
+>   slightly, because lima uses a bus and a GPU/core clock)
+>=20
+> My own TODO list includes "more" testing on various Amlogic SoCs.
+> So far I have tested this on Meson8b and Meson8m2 (which both have a
+> GPU OPP table defined). However, I still need to test this on a GXL
+> board (which is currently missing the GPU OPP table).
+>=20
+>=20
+> Martin Blumenstingl (1):
+>   drm/lima: Add optional devfreq support
+>=20
+>  drivers/gpu/drm/lima/Kconfig        |   1 +
+>  drivers/gpu/drm/lima/Makefile       |   3 +-
+>  drivers/gpu/drm/lima/lima_devfreq.c | 162 ++++++++++++++++++++++++++++
+>  drivers/gpu/drm/lima/lima_devfreq.h |  15 +++
+>  drivers/gpu/drm/lima/lima_device.c  |   4 +
+>  drivers/gpu/drm/lima/lima_device.h  |  11 ++
+>  drivers/gpu/drm/lima/lima_drv.c     |  14 ++-
+>  drivers/gpu/drm/lima/lima_sched.c   |   7 ++
+>  drivers/gpu/drm/lima/lima_sched.h   |   3 +
+>  9 files changed, 217 insertions(+), 3 deletions(-)
+>  create mode 100644 drivers/gpu/drm/lima/lima_devfreq.c
+>  create mode 100644 drivers/gpu/drm/lima/lima_devfreq.h
+>=20
+> --=20
+> 2.24.1
+>=20
+
+--CE+1k2dSO48ffgeK
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEQ17gm7CvANAdqvY4/v5QWgr1WA0FAl33oU0ACgkQ/v5QWgr1
-WA1f5w/+J/jUcxx/ZqOEBdPIG6Ml87WZSYDQ0/OYKkw7oWhdM6b2VivR7VaU6JDd
-kCXZL8rGTR45Vxt8gOSJA3op2DakIkj5AcajrLT+Zo9ANZ7OaO0prn1hwmJljB3g
-gGDdGr9CT3SyJ5qcd1GVF4hkI+7nsVpTllYs6cPgsUTpit+9D5ZaJ+7Q+MgjGz5G
-kBgMpLzA4/Mf7aCU/5ldZWnFoahJgKpuvdKn2VdLvDknbpprAQaHX9jjkvR4tBBh
-5Nec7g9fv2s8rkdIx3Tkzbr9eAv7HKx1l8vA6DbHxtKbFydLAIw8tE5zG1LcARL/
-g6NQcqAZJG8/qxvAE+xIC2aSMTbZhvgLDM30S+uUyYspNLFEp90XCbfMkoNeTa++
-MHZI0Clgn7oJuAL48yt9PHMgVALD7t9njcc4v3qM4XY7W4M6H0LZk6MoJA1sJIyk
-4bCV4tguVhYWw1NQbPeVdfeR8QitaQ5rLFaoz9I8ZKq1UjeFk+PVjl5FsMiLCajX
-pi+cWaViSjIKb+QUxLFTCjW4PdhejtQm9ulwkTbyhkO44m3Jr1iNtqssq3WWzswD
-XJa7XBejkd+SknX5HKhqVsHRP6YFYu9yCR7sybVPziI7hTvaYa7iKaYSnWWpAow3
-PA5ZNP84V8jIcoGGn19OrYSqWI0izFKV6q23Vh2fU27G/dlmsp8=
-=AiY1
+iQIzBAABCgAdFiEEQ17gm7CvANAdqvY4/v5QWgr1WA0FAl33py4ACgkQ/v5QWgr1
+WA0Caw/8DBkpxsfWejzUF5wK7xq5rkmaLL+RmwJzt9xgNwWgsJ8p2XWt+hgzJSAr
+hNy9KVAEE62SXJHfpziY9CEkQycM+b7cQASYGf2q8/C2XNYfZHv80N8SZv1Gaqmh
+NzCfRSsfgc1BvPjbiKu0E1gdsX4RxlB3TXQV0dmSYbOSQ6yyHaYHgrEImW8HVblc
+/xkW7pOSkBs9ZdQKMFETaKJlQ6iQvkvUUlaywl2rBO4PvidyCVp5TXgRIYUQzXY/
+ls7vy/jU8eWchvp9hlztfssMGtE20BcQeASrHjkKfRUWsaSKt0g9Wh17jbIMf/fj
+BfGKqV+KwkKuMDUubvp7EBaJkwxAG8pTr1jv7+QdxOdm/KVnKMu1NSl2DJmTl8Fa
+o9mIdlNQCoMJo+TG6i92JuHMZ5VL11NBm6uazi1iJIH8KEYg8UPnePbQttHnDnZq
+DqTpy9w0r+T3zu9AH5pQjZCXCcKK+oV4qCTBK5zGe3UtcPigssiTVo912VsGEbb/
+Y8LPtySaWSjCI/hfgz4M9ENfrmNX4yqvIewZnAMMPj6vv5sslfRBBGKBCoCtqcQx
+T9Iy3c57pp9B/Prrc1llotEuqyd2Mi7mws7gSPfGZXaTC/TPNKCikvph39wdRPdp
+WP+lq3rH1n5kMcc3D09p62TZGuaO0uiHmUgxshzPQa3FxXsHqZo=
+=QSX1
 -----END PGP SIGNATURE-----
 
---ZmUaFz6apKcXQszQ--
+--CE+1k2dSO48ffgeK--
 
---===============0559695813==
+--===============1055439141==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -89,4 +136,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0559695813==--
+--===============1055439141==--
