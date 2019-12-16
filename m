@@ -1,67 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5947B1228D7
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 11:32:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 705991228D2
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 11:32:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A21B6E9AE;
-	Tue, 17 Dec 2019 10:32:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 973066E990;
+	Tue, 17 Dec 2019 10:32:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91F5D6E50E
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 13:06:23 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 6A61222095;
- Mon, 16 Dec 2019 08:06:18 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Mon, 16 Dec 2019 08:06:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=NMZStGRZCjWyP0MeSjpsZhM7eSL
- tD64n+DEF5CJ+3aw=; b=dPpfLEEGwA17HQY8X+c9n83+gnAbLdMCvWpM08ltrzz
- 85QV53+G8MkSKdj+UyjeJLLdlBDhXWgBdnxfYmI5L0gPsZhvJVAG91ZoDAbpToHU
- Bx+tSfE4Rs0F+rsyEgG2HcowkSYIC1T00r8yqD6lEEEDcuc9/R5s25oeF4luMFqq
- qBWuSZsMoGYt46JwmUFseOR2djDu45G9Zq+lWsZ4UGKL5kz7kqls16fdaCDAPa1Y
- /xqF+KTOhKYPgNGrf7x3crrjv7OCUPFsI+2MfjDMd8MnpIjuwA9/fPYasuWAYv6C
- kiVaDjiGk2O/nJ5Wp077yrrCCvTLa+6J0f2Ra0i9tkw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=NMZStG
- RZCjWyP0MeSjpsZhM7eSLtD64n+DEF5CJ+3aw=; b=rd57ec0gOjvMgdT5C4B7zT
- 62TtKAGgb1ycHMlVwr2m7u6yyYPo5P7JLAAdwS/EiNG0LxnijtVUvzPqi3s/Eob0
- o3r+dS9ayL+V1hoz1a98BmlR7ab38o9mNR64Ck3V5Cq/fDV8zvT52PfDZUvBO+91
- ypyVCoHwzNlomSSyoCiVeQcyTy1HtVbNG6nFmCAzLth/mWRBqije8dsnwjdt+qG2
- LE/YVNZZy+ekWtlwux0/Quir8iTLp8k1IVcsd4bHe/HwI5iv7V+VV/QF0ZmUQTRQ
- r0nuN44X7ashISQeRVpbtCw1t1Qiyc3sxrGb4H6jd7s/8yFhD+9VI+w6TNdxWhcg
- ==
-X-ME-Sender: <xms:SYH3XZrs_iVzqQJrZlD4Pha_NOgaychwvHZ0bNK6UTS9IHDgdvc6WA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvddthedggeekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecukfhppeeltd
- drkeelrdeikedrjeeinecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggv
- rhhnohdrthgvtghhnecuvehluhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:SYH3XaxUoKh7Lc9S1rjZOcf7MtTGjRzA6cOvEjP7ye19g19ZYRP0_g>
- <xmx:SYH3XbOnZAnGSnEnKTA1GgOTR5YABwHAY4fha0N5Ne6S6AwnKhUBVg>
- <xmx:SYH3XUdMjtu5h0URY60q-mrV5ngfIJ1tXDPxp4-qK-JRJFSu7zb51w>
- <xmx:SoH3XXX-3nbVZErRu8qcs-qIJOTFh_My3nclPWKa-HdHsBgHL6Futw>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 9205480064;
- Mon, 16 Dec 2019 08:06:16 -0500 (EST)
-Date: Mon, 16 Dec 2019 14:06:15 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Miquel Raynal <miquel.raynal@bootlin.com>
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E9F96E519
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 13:10:43 +0000 (UTC)
+X-Originating-IP: 91.224.148.103
+Received: from xps13 (unknown [91.224.148.103])
+ (Authenticated sender: miquel.raynal@bootlin.com)
+ by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 1ADC860011;
+ Mon, 16 Dec 2019 13:10:37 +0000 (UTC)
+Date: Mon, 16 Dec 2019 14:10:36 +0100
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Maxime Ripard <maxime@cerno.tech>
 Subject: Re: [PATCH] drm/panel: simple: Support reset GPIOs
-Message-ID: <20191216130615.qs6ub7bwqofwvhr7@gilmour.lan>
+Message-ID: <20191216141036.24c22899@xps13>
+In-Reply-To: <20191216130615.qs6ub7bwqofwvhr7@gilmour.lan>
 References: <20191213181325.26228-1-miquel.raynal@bootlin.com>
+ <20191216130615.qs6ub7bwqofwvhr7@gilmour.lan>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20191213181325.26228-1-miquel.raynal@bootlin.com>
 X-Mailman-Approved-At: Tue, 17 Dec 2019 10:31:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,104 +48,54 @@ Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
  Maxime Chevallier <maxime.chevallier@bootlin.com>,
  Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
  Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: multipart/mixed; boundary="===============1697397715=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1697397715==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ldeuyceeyd3l6v6w"
-Content-Disposition: inline
-
-
---ldeuyceeyd3l6v6w
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi,
-
-On Fri, Dec 13, 2019 at 07:13:25PM +0100, Miquel Raynal wrote:
-> The panel common bindings provide a gpios-reset property which is
-> active low by default. Let's support it in the simple driver.
->
-> De-asserting the reset pin implies a physical high, which in turns is
-> a logic low.
->
-> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-
-The GPIOd API asks for a logical state, so it doesn't really matter
-what the polarity of the GPIO, OUT_LOW will always mean that the reset
-is deasserted (and thus, it will work even if the reset pin is active
-high).
-
-> ---
->  drivers/gpu/drm/panel/panel-simple.c | 12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 5d487686d25c..15dd495c347d 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -110,6 +110,7 @@ struct panel_simple {
->  	struct i2c_adapter *ddc;
->
->  	struct gpio_desc *enable_gpio;
-> +	struct gpio_desc *reset_gpio;
->
->  	struct drm_display_mode override_mode;
->  };
-> @@ -433,12 +434,21 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
->  	if (IS_ERR(panel->supply))
->  		return PTR_ERR(panel->supply);
->
-> +	panel->reset_gpio = devm_gpiod_get_optional(dev, "reset",
-> +						    GPIOD_OUT_LOW);
-> +	if (IS_ERR(panel->reset_gpio)) {
-> +		err = PTR_ERR(panel->reset_gpio);
-> +		if (err != -EPROBE_DEFER)
-> +			dev_err(dev, "failed to request reset pin: %d\n", err);
-> +		return err;
-> +	}
-> +
-
-However, I'm wondering if it wouldn't be better to just have the
-device maintained in reset at probe (so OUT_HIGH) and moved out of
-reset during either the prepare or enable callbacks.
-
-This is pretty much what is happening with the enable-gpios already.
-
-Also, panels usually need to wait for a minimum time after you
-deassert the reset line. How is that dealt with?
-
-I guess a good way to do that would be to add that duration to the
-panel description, since this is pretty much device specific.
-
-Thanks!
-Maxime
-
---ldeuyceeyd3l6v6w
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXfeBRwAKCRDj7w1vZxhR
-xUyrAQCxDBISeuwG0Hd9mE8A6cHdq7RlzWA4XYPeebic7OuEsAD9FPpgs1cdb8Sj
-vpa5jfHamjvrKF2+oxkeD52MZj+4CAk=
-=Risq
------END PGP SIGNATURE-----
-
---ldeuyceeyd3l6v6w--
-
---===============1697397715==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1697397715==--
+SGkgTWF4aW1lLAoKTWF4aW1lIFJpcGFyZCA8bWF4aW1lQGNlcm5vLnRlY2g+IHdyb3RlIG9uIE1v
+biwgMTYgRGVjIDIwMTkgMTQ6MDY6MTUKKzAxMDA6Cgo+IEhpLAo+IAo+IE9uIEZyaSwgRGVjIDEz
+LCAyMDE5IGF0IDA3OjEzOjI1UE0gKzAxMDAsIE1pcXVlbCBSYXluYWwgd3JvdGU6Cj4gPiBUaGUg
+cGFuZWwgY29tbW9uIGJpbmRpbmdzIHByb3ZpZGUgYSBncGlvcy1yZXNldCBwcm9wZXJ0eSB3aGlj
+aCBpcwo+ID4gYWN0aXZlIGxvdyBieSBkZWZhdWx0LiBMZXQncyBzdXBwb3J0IGl0IGluIHRoZSBz
+aW1wbGUgZHJpdmVyLgo+ID4KPiA+IERlLWFzc2VydGluZyB0aGUgcmVzZXQgcGluIGltcGxpZXMg
+YSBwaHlzaWNhbCBoaWdoLCB3aGljaCBpbiB0dXJucyBpcwo+ID4gYSBsb2dpYyBsb3cuCj4gPgo+
+ID4gU2lnbmVkLW9mZi1ieTogTWlxdWVsIFJheW5hbCA8bWlxdWVsLnJheW5hbEBib290bGluLmNv
+bT4gIAo+IAo+IFRoZSBHUElPZCBBUEkgYXNrcyBmb3IgYSBsb2dpY2FsIHN0YXRlLCBzbyBpdCBk
+b2Vzbid0IHJlYWxseSBtYXR0ZXIKPiB3aGF0IHRoZSBwb2xhcml0eSBvZiB0aGUgR1BJTywgT1VU
+X0xPVyB3aWxsIGFsd2F5cyBtZWFuIHRoYXQgdGhlIHJlc2V0Cj4gaXMgZGVhc3NlcnRlZCAoYW5k
+IHRodXMsIGl0IHdpbGwgd29yayBldmVuIGlmIHRoZSByZXNldCBwaW4gaXMgYWN0aXZlCj4gaGln
+aCkuCj4gCj4gPiAtLS0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc2ltcGxlLmMg
+fCAxMiArKysrKysrKysrKy0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgMTEgaW5zZXJ0aW9ucygrKSwg
+MSBkZWxldGlvbigtKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcGFuZWwv
+cGFuZWwtc2ltcGxlLmMgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc2ltcGxlLmMKPiA+
+IGluZGV4IDVkNDg3Njg2ZDI1Yy4uMTVkZDQ5NWMzNDdkIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNpbXBsZS5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
+cGFuZWwvcGFuZWwtc2ltcGxlLmMKPiA+IEBAIC0xMTAsNiArMTEwLDcgQEAgc3RydWN0IHBhbmVs
+X3NpbXBsZSB7Cj4gPiAgCXN0cnVjdCBpMmNfYWRhcHRlciAqZGRjOwo+ID4KPiA+ICAJc3RydWN0
+IGdwaW9fZGVzYyAqZW5hYmxlX2dwaW87Cj4gPiArCXN0cnVjdCBncGlvX2Rlc2MgKnJlc2V0X2dw
+aW87Cj4gPgo+ID4gIAlzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSBvdmVycmlkZV9tb2RlOwo+ID4g
+IH07Cj4gPiBAQCAtNDMzLDEyICs0MzQsMjEgQEAgc3RhdGljIGludCBwYW5lbF9zaW1wbGVfcHJv
+YmUoc3RydWN0IGRldmljZSAqZGV2LCBjb25zdCBzdHJ1Y3QgcGFuZWxfZGVzYyAqZGVzYykKPiA+
+ICAJaWYgKElTX0VSUihwYW5lbC0+c3VwcGx5KSkKPiA+ICAJCXJldHVybiBQVFJfRVJSKHBhbmVs
+LT5zdXBwbHkpOwo+ID4KPiA+ICsJcGFuZWwtPnJlc2V0X2dwaW8gPSBkZXZtX2dwaW9kX2dldF9v
+cHRpb25hbChkZXYsICJyZXNldCIsCj4gPiArCQkJCQkJICAgIEdQSU9EX09VVF9MT1cpOwo+ID4g
+KwlpZiAoSVNfRVJSKHBhbmVsLT5yZXNldF9ncGlvKSkgewo+ID4gKwkJZXJyID0gUFRSX0VSUihw
+YW5lbC0+cmVzZXRfZ3Bpbyk7Cj4gPiArCQlpZiAoZXJyICE9IC1FUFJPQkVfREVGRVIpCj4gPiAr
+CQkJZGV2X2VycihkZXYsICJmYWlsZWQgdG8gcmVxdWVzdCByZXNldCBwaW46ICVkXG4iLCBlcnIp
+Owo+ID4gKwkJcmV0dXJuIGVycjsKPiA+ICsJfQo+ID4gKyAgCj4gCj4gSG93ZXZlciwgSSdtIHdv
+bmRlcmluZyBpZiBpdCB3b3VsZG4ndCBiZSBiZXR0ZXIgdG8ganVzdCBoYXZlIHRoZQo+IGRldmlj
+ZSBtYWludGFpbmVkIGluIHJlc2V0IGF0IHByb2JlIChzbyBPVVRfSElHSCkgYW5kIG1vdmVkIG91
+dCBvZgo+IHJlc2V0IGR1cmluZyBlaXRoZXIgdGhlIHByZXBhcmUgb3IgZW5hYmxlIGNhbGxiYWNr
+cy4KPiAKPiBUaGlzIGlzIHByZXR0eSBtdWNoIHdoYXQgaXMgaGFwcGVuaW5nIHdpdGggdGhlIGVu
+YWJsZS1ncGlvcyBhbHJlYWR5Lgo+IAo+IEFsc28sIHBhbmVscyB1c3VhbGx5IG5lZWQgdG8gd2Fp
+dCBmb3IgYSBtaW5pbXVtIHRpbWUgYWZ0ZXIgeW91Cj4gZGVhc3NlcnQgdGhlIHJlc2V0IGxpbmUu
+IEhvdyBpcyB0aGF0IGRlYWx0IHdpdGg/Cj4gCj4gSSBndWVzcyBhIGdvb2Qgd2F5IHRvIGRvIHRo
+YXQgd291bGQgYmUgdG8gYWRkIHRoYXQgZHVyYXRpb24gdG8gdGhlCj4gcGFuZWwgZGVzY3JpcHRp
+b24sIHNpbmNlIHRoaXMgaXMgcHJldHR5IG11Y2ggZGV2aWNlIHNwZWNpZmljLgoKV2hhdCBhYm91
+dCB0aGUgY2FzZSB3ZXJlIHlvdXIgQm9vdGxvYWRlciBkaXNwbGF5cyBzb21ldGhpbmcgYW5kIHlv
+dQpkb24ndCB3YW50IHRoZSBwYW5lbCB0byBibGluayA/CgpSaWdodCBub3cgSSBhbSBqdXN0IGZv
+cmNpbmcgdGhlIHJlc2V0IHRvIGJlIGRlYXNzZXJ0ZWQuCgpUaGFua3MsCk1pcXXDqGwKX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
+bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
