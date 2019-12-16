@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 751B4120289
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 11:30:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3842312028B
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 11:30:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C599C6E497;
-	Mon, 16 Dec 2019 10:30:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C0F96E499;
+	Mon, 16 Dec 2019 10:30:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F7146E497
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 10:30:07 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id m30so3810920lfp.8
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 02:30:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com
+ [IPv6:2607:f8b0:4864:20::f43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0875C6E499
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 10:30:19 +0000 (UTC)
+Received: by mail-qv1-xf43.google.com with SMTP id d17so2514190qvs.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 02:30:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zAZ66aTL4botjOAzyywFJUSCyL81NlmcXv7uzteZ4R8=;
- b=MNDQAaFQhnjUWeVovtaucXzv5IniCaNpgTqcGXFx4jLe9x12jIYadC1PDnKMkPQDMK
- l2ehosXgsMnxhudijyOvnJ+2vzbUWEIeHPFUriZ0paYwJfnoOn54P2B+sQklEVWVQcw4
- 1T13ARTxSHB4SWDKf+zLThCGQ1iXcfpXnb6ACQsNk7u2HJXgpABr6a2qReZ5vfuS007z
- NjpK9Bhvzu5DQHSzVNXdv0/U8izrlloNKK1hMI5lpzL6sQzLwNTL1SIjwhP6Zna7Ivxv
- ewXg9sokgFFnzWqgeMrYd7orbCOiTcx9is4y2ZlEFFndxObGz4NfhSy7ItC3L8XppQCW
- Mw0w==
+ :cc; bh=cN9P/BG2n4fcm/c0k1+snwpKHQ7N7T0aPKvvgLtAhis=;
+ b=Xl1BOaEVQnzWV9uNsZideZioGq+xYE5SBa6N051vdtEL+5gUndFQSj8rnNn8EwGyk5
+ FsXetpn7+FazhrzlflKmIkol7p7Y3kL+FkC0rppFLYmDptwQytz4ZavTf9g/RQIf/ytH
+ f5rqQXe4iVUBMn8deEBMuPKHDYomsCko+sga0mEIcrpvKdOjZKvi5aPJFkVW1ytNv7iG
+ VQhutYCAAF4/0ZXd8N9It7vlFVNM8+W2c6qQks5rsqCoLnxQ5Lxvicn7BRI197wTNTDy
+ Ow4q2LBuxD6NzpJnF+IrHNKqLeoTZF5Rxq4Ar7l3RfkQ7ZSusbwFP76fIpnuAuNE/m9X
+ /r+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=zAZ66aTL4botjOAzyywFJUSCyL81NlmcXv7uzteZ4R8=;
- b=t3unfeW0rA+HvxYvckoBU6MM9yZxGmdDR0jZ6pkChAa07Dd/yopBVQIFqJwSuqZ3Md
- SzwrAsz1PPq18+Ffcx+1zD+MLFGC6upsBwQ2cUqA5FAgPlYH8YFTHRANZjfOWipK8FEJ
- fC/UgQ8yRvS7l9gMH0Ah73uNS41MlVEgN98f8gHIcBP1YLbJzgh/DFErCrlPlJKyFcDU
- nQb6EoCMQKqpM3oRHfcUw6a7704NKkICmvgwdz99UKoodtkm0p+Ln8iWAHNhcqG6YvvU
- zfyp+XMNDwFH1ms4rPZwMWyUHo+aEcK51xEiYv6lFWLohw9rD9CXo1MZ/tsmrWKo2TIQ
- ch0A==
-X-Gm-Message-State: APjAAAXvs1FbKlxw3CawuRyGMHPNSAinbBO0x6jExqAq//pahNW6UPou
- Mp1Hh/J8sAvi1XN+zUpBtLv/UE+1enuuAJ4w5alrDw==
-X-Google-Smtp-Source: APXvYqxlD1vfPmZyf5Z5diCSQWuPAUZ5VXeaBxCzjkY1MrbIYOP/373nkrVwCGdhAD+O1kDqu2EG46B1jbTPzJyZdoo=
-X-Received: by 2002:ac2:4945:: with SMTP id o5mr15738312lfi.93.1576492205964; 
- Mon, 16 Dec 2019 02:30:05 -0800 (PST)
+ bh=cN9P/BG2n4fcm/c0k1+snwpKHQ7N7T0aPKvvgLtAhis=;
+ b=s4bKKM6WepwR5lNHD6C5xPSDqGEX9EI/Lmcc0jpZ9Z5Atc59jvK9RjbCtCWUf+I9dH
+ k5iVukW4Jhps2cB8ZqwGu727LnzFGOno2Y00P/z0hZQYmS8ny+83WipPPtLiDXcwVOP2
+ nxEFu3MmT67xeaeUutc4cUiwWrrVK58L2ms3OUY7D6X1p/HKZieleBm8hqcNTl8OJbfv
+ SrUmNHW0htYmyobXeySbY47XTvRbO/frn3xuLqHzNd7MMvJUWLr5CyCrSroUb2g+b98H
+ brb5O3o0Y0jI2qANSNM1L9RnROPm7v4p7RyHnNC4Ha9vCWccWopyVHhxuweaWBCjOdLZ
+ lXlA==
+X-Gm-Message-State: APjAAAX6Jq3AFC/ulEINntbmqJ0+f0T7GnaOtIstZOkkiDYpRYeyULH4
+ PdqSV7GJ5d0FYodR9vpq50ghlSKbQpHyg7ycYyg=
+X-Google-Smtp-Source: APXvYqx/dlytxqrLzbst7Hqk/D1zbEebOmGJKkioZFuGnnZ+zEpu4pRIb7CWgM6duHC0DYQ/wRStwgD3vFlt7l4uOTI=
+X-Received: by 2002:a0c:c24f:: with SMTP id w15mr26533823qvh.66.1576492218033; 
+ Mon, 16 Dec 2019 02:30:18 -0800 (PST)
 MIME-Version: 1.0
-References: <20191215163810.52356-1-hdegoede@redhat.com>
- <20191215163810.52356-6-hdegoede@redhat.com>
-In-Reply-To: <20191215163810.52356-6-hdegoede@redhat.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 16 Dec 2019 11:29:54 +0100
-Message-ID: <CACRpkdZCehawbGz+dELgjte6pTz0oEFQ3mo-2FuM4CQwm58tHQ@mail.gmail.com>
-Subject: Re: [PATCH 5/5] drm/i915/dsi: Control panel and backlight enable
- GPIOs on BYT
-To: Hans de Goede <hdegoede@redhat.com>
+References: <20191213095215.17068-1-jitao.shi@mediatek.com>
+ <CAJMQK-iZq0SRR7Q1cyh033xDXwD+MY-utO05+KqFR=ZRuaVUDg@mail.gmail.com>
+In-Reply-To: <CAJMQK-iZq0SRR7Q1cyh033xDXwD+MY-utO05+KqFR=ZRuaVUDg@mail.gmail.com>
+From: Enric Balletbo Serra <eballetbo@gmail.com>
+Date: Mon, 16 Dec 2019 11:30:06 +0100
+Message-ID: <CAFqH_5209EaEzoPBHGM=GiS+v7znZR-XzvQ5L_ThQhhuGc1bXg@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek: reduce the hbp and hfp for phy timing
+To: Hsin-Yi Wang <hsinyi@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,55 +61,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Lee Jones <lee.jones@linaro.org>
+Cc: Jitao Shi <jitao.shi@mediatek.com>,
+ srv_heupstream <srv_heupstream@mediatek.com>, David Airlie <airlied@linux.ie>,
+ stonea168@163.com, cawa cheng <cawa.cheng@mediatek.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, sj.huang@mediatek.com,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Yingjoe Chen <yingjoe.chen@mediatek.com>,
+ =?UTF-8?B?RWRkaWUgSHVhbmcgKOm7g+aZuuWCkSk=?= <eddie.huang@mediatek.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Dec 15, 2019 at 5:38 PM Hans de Goede <hdegoede@redhat.com> wrote:
+Hi all,
 
-> On Bay Trail devices the MIPI power on/off sequences for DSI LCD panels
-> do not control the LCD panel- and backlight-enable GPIOs. So far, when
-> the VBT indicates we should use the SoC for backlight control, we have
-> been relying on these GPIOs being configured as output and driven high by
-> the Video BIOS (GOP) when it initializes the panel.
+Missatge de Hsin-Yi Wang <hsinyi@chromium.org> del dia dl., 16 de des.
+2019 a les 3:42:
 >
-> This does not work when the device is booted with a HDMI monitor connected
-> as then the GOP will initialize the HDMI instead of the panel, leaving the
-> panel black, even though the i915 driver tries to output an image to it.
->
-> Likewise on some device-models when the GOP does not initialize the DSI
-> panel it also leaves the mux of the PWM0 pin in generic GPIO mode instead
-> of muxing it to the PWM controller.
->
-> This commit makes the DSI code control the SoC GPIOs for panel- and
-> backlight-enable on BYT, when the VBT indicates the SoC should be used
->
-> for backlight control. It also ensures that the PWM0 pin is muxed to the
-> PWM controller in this case.
->
-> This fixes the LCD panel not lighting up on various devices when booted
-> with a HDMI monitor connected. This has been tested to fix this on the
-> following devices:
->
-> Peaq C1010
-> Point of View MOBII TAB-P800W
-> Point of View MOBII TAB-P1005W
-> Terra Pad 1061
-> Yours Y8W81
->
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> On Fri, Dec 13, 2019 at 9:52 AM Jitao Shi <jitao.shi@mediatek.com> wrote:
+> >
+> > There are some extra data transfer in dsi.
+> > ex. LPX, hs_prepare, hs_zero, hs_exit and the sof/eof of dsi packet.
+> > This signal will enlarge the line time. So the real frame on dsi bus
+> > will be lower than calc by video timing.
+> >
+> > So dsi driver reduces the hbp and hfp to keep the line time.
+> >
 
-Looks good to me:
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+This patch not only reduces the hbp and hfp for phy timing, it also
+fixes an actual issue for MT8173 boards (i.e. Acer Chromebook R 13)
+which is that the display is not working anymore (black screen) after
+7a5bc4e22ecfd74dc3662342beaa909770a3b786 "drm/mediatek: change the dsi
+phytiming calculate method". So the patch is probably missing a:
 
-Yours,
-Linus Walleij
+Fixes: 7a5bc4e22ecf ("drm/mediatek: change the dsi phytiming calculate method")
+
+And would be nice to have this patch applied for 5.5
+
+> > Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+> Tested-by: Hsin-Yi Wang <hsinyi@chromium.org>
+
+If it helps, you can also add my
+
+Tested-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+
+Thanks,
+ Enric
+
+> > ---
+>
+> Tested on mt8183 and mt8173
+>
+> _______________________________________________
+> Linux-mediatek mailing list
+> Linux-mediatek@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-mediatek
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
