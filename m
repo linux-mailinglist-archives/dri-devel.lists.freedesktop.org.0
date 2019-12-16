@@ -2,44 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58C011228A7
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 11:27:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9A481228D8
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 11:32:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05F656E976;
-	Tue, 17 Dec 2019 10:27:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 583AB6E97E;
+	Tue, 17 Dec 2019 10:31:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo6-p00-ob.smtp.rzone.de (mo6-p00-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5300::8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BB2B6E973
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 10:27:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1576578457;
- s=strato-dkim-0002; d=gerhold.net;
- h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=lOdHQO4pP9t2rpdry6AIVHJHSOgEVlawoV8qbfCmzBY=;
- b=KT/u3VTBdaPNNXfaA/lNqnZp5uJeUYGLrw4NeitaGKn72h4QCaLkucRlib0KempSEA
- sfPuTugiSehHb0lTzVzdrY/k6c3CmF5kLNmqBMwN7Gd1m6/+fmBiEwH6+GPqOzlO0Cw5
- Ch2znrI7Q5hn/wiMLSN71lB7cq9/Kzmm2I9SYbdwAzLaYtgtk3RnbGxFdjwiwTRJ9Fjq
- lyhfCARcVeHrj6sveNryhHu5GRnaQDrRnL+P5VF+ZhDkqI+mRFnY7bhIhjqFCGO37jQk
- z4HUGV290Uc82WWqPVFDFLhcrZF8q+/7KHuMMuierbaGsvzRxZYDLiP6DFKksebKjRKx
- M+Jg==
-X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVOQ/OcYgojyw4j34+u266EZF6ORJDdfbYtbb1Kg=="
-X-RZG-CLASS-ID: mo00
-Received: from gerhold.net by smtp.strato.de (RZmta 46.0.7 AUTH)
- with ESMTPSA id N0b206vBHARKS1q
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Tue, 17 Dec 2019 11:27:20 +0100 (CET)
-Date: Tue, 17 Dec 2019 11:27:12 +0100
-From: Stephan Gerhold <stephan@gerhold.net>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v5] drm/mcde: Some fixes to handling video mode
-Message-ID: <20191217102712.GA879@gerhold.net>
-References: <20191216210647.21808-1-linus.walleij@linaro.org>
+Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com
+ [IPv6:2607:f8b0:4864:20::d42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BBC86E466
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 08:44:50 +0000 (UTC)
+Received: by mail-io1-xd42.google.com with SMTP id z8so4208024ioh.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 00:44:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=zyt9AGP8R9qNwT464SMtM661TFsq7X2MjwNSpjhezDo=;
+ b=f3El6H1u8ne1vZps79V7/JuDry5rAc6C6emgreIw501hMB1c27cRvOBc634SM4Y14o
+ T5xqJYJwDuJKQmlfamd2CUJDbDC/ssEQrTw0RnbNNtlfXbv/gCiCg8HArTVcWsY4mAAC
+ yQR5iasWbqcSFmfimDY9+u1WZE2zst35xnoQw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zyt9AGP8R9qNwT464SMtM661TFsq7X2MjwNSpjhezDo=;
+ b=IZAiGsAoQPqxn39eJWf6XnFmWIfItezfPqvSy0jwBLhOrmZuXV2Wjn/usveg991XNe
+ /aBKd6UwSApdiVxHZvsYA4cKQObIADz3KP9+CGt7UKXaMhpjRe1YDs4iiVDbd4sPZ/be
+ gDQmYi9A+gvAVj36Pj3nnv2Y9DJz/88rCYwuAsGFd2GvfaAwrrWSuPxREkZUTUjFF39T
+ fikQUJ8jPAR0grOq7FjQYyXvr+kGDcwdN58gvstyf+KkhSSn/zSletakJisedYxP/gCJ
+ DnAs21gQoJwL66ATGjPD3OVS1U4PlJ17PcEgZYZSow9MRj0cb8UlR55/2HFrx6AHM+ia
+ lq1g==
+X-Gm-Message-State: APjAAAXj0owACsOh8ahJ9Q7rCrAZExT7o19qxY3moYmg+Knrd1Q/cJN5
+ RBZYEOW2FLbBvK2TBqTlHFhUe4Bsn60LQ8XdUL+8gQ==
+X-Google-Smtp-Source: APXvYqzoTvSszt6gxvUcc5nlM0TwsLAqXrLojwKuPq/AdoQRZ88qEaTeqjvFbrn1COtyPfKjrqqg2cfxF4lG6QsCxWA=
+X-Received: by 2002:a5d:9c10:: with SMTP id 16mr16757226ioe.150.1576485889482; 
+ Mon, 16 Dec 2019 00:44:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191216210647.21808-1-linus.walleij@linaro.org>
+References: <20191211061911.238393-1-hsinyi@chromium.org>
+ <20191211061911.238393-5-hsinyi@chromium.org>
+ <20191213223341.GR4860@pendragon.ideasonboard.com>
+In-Reply-To: <20191213223341.GR4860@pendragon.ideasonboard.com>
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+Date: Mon, 16 Dec 2019 16:44:23 +0800
+Message-ID: <CAJMQK-igdVBk-wg87K9Bn4D9RtSZCHKP4EKMoU+UK6xTycCM8g@mail.gmail.com>
+Subject: Re: [PATCH RESEND 4/4] drm: bridge: Generic GPIO mux driver
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+X-Mailman-Approved-At: Tue, 17 Dec 2019 10:31:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,461 +60,458 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, Sean Paul <sean@poorly.run>,
- dri-devel@lists.freedesktop.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Devicetree List <devicetree@vger.kernel.org>,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Nicolas Boichat <drinkcat@chromium.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Jonas Karlman <jonas@kwiboo.se>, lkml <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Matthias Brugger <mbrugger@suse.com>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Russell King <rmk+kernel@arm.linux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
-
-I feel kind of bad to keep requesting changes for this patch,
-but I found one last difference with the vendor kernel:
-
-On Mon, Dec 16, 2019 at 10:06:47PM +0100, Linus Walleij wrote:
-> The video DSI mode had not really been tested. These fixes makes
-> it more likely to work on real hardware:
-> - Put the active width (x width) in the right bits and the VSA
->   (vertical sync active) in the right bits (those were swapped).
-> - Calculate the packet sizes in bytes as in the vendor driver,
->   rather than in bits. Test the calculations agains a
->   spreadsheet and confirmed by debug prints to be reasonable.
-> - Also verified the register values with relative confidence
->   to register dumps from the Samsung GT-I8190 boot loader
->   graphics. We are not identical but not off by far either.
-> - Error out if the current mode and refresh frequency doesn't
->   work out. (In the future we may simply want to scale down
->   the vrefresh.)
-> - Handle negative result in front/back/sync packages and fall
->   back to zero like in the vendor driver.
-> - Put in lots of clarifying comments and references to the
->   documentation where the code is hard to understand.
-> - Set the DSI_VID_VCA_SETTING2 field
->   DSI_VID_VCA_SETTING2_MAX_LINE_LIMIT to blkline_pck - 6 as in
->   the vendor driver and mask the field properly.
-> 
-> Cc: Stephan Gerhold <stephan@gerhold.net>
-> Fixes: 5fc537bfd000 ("drm/mcde: Add new driver for ST-Ericsson MCDE")
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
-> ChangeLog v4->v5:
-> - Restore log order, last verstion of the changelog inadvertedly
->   merged v3 and v4 into v3 since I thought I didn't send out v3...
-> - Parens in blkeol_pck = bpl - (mode->htotal * cpp) - 6 for
->   explicit priority.
-> - Use mask-and-set for DSI_VID_PCK_TIME and DSI_VID_VCA_SETTING1
-> - Restore DSI_VID_VCA_SETTING2 field
->   DSI_VID_VCA_SETTING2_MAX_LINE_LIMIT to blkline_pck - 6 as in
->   the vendor driver and mask the field properly.
-> ChangeLog v3->v4:
-> - Calculate toward actual HS rate of the clock rather than the
->   idealized rate provided by the panel resolution, this is what
->   the vendor driver does.
-> - Add much comments and elaborate with references to the manual
->   so the code can be understood as far as possible.
-> - Compared register dumps to that on the Samsung GT-I8190 (Golden)
->   boot loader settings. We are now reasonably close to these,
->   it may be that the boot loader driver is using slightly different
->   settings for porches and syncs etc. But all figures makes sense.
-> - Duplicated the vendor code in a spread sheet and compared to
->   what this code gives and we have an identical match with one
->   small exception that the vendor code adds a small padding of 2
->   lines to the vertical blanking area. This looks weird and might
->   be some hackishly specified porch.
-> ChangeLog v2->v3:
-> - Rename the "bpp" variable to "cpp" since it is "chars per pixel"
->   this was confusingly named in the vendor driver and it got
->   carried over.
-> - Assign the SETTING2_EXACT_BURST_LIMIT by first shifting
->   then masking.
-> - Also mask with the inverse of DSI_VID_BLKSIZE1_BLKEOL_PCK_MASK
->   before writing blkeol into DSI_VID_BLKSIZE1, so we make sure
->   to zero these bits first.
-> - Also mask with DSI_VID_BLKSIZE1_BLKLINE_EVENT_PCK_MASK
->   when writing event package length.
-> - Comb through the code and compare it to vendor code and try
->   to get closer to doing what the vendor driver is doing.
-> ChangeLog v1->v2:
-> - Fix some more comments so we understand what is going on.
-> - Set up the maximum line limit size in the right register
->   instead of setting it in the burst size register portion.
-> - Set some default wakeup time other than zero (still need
->   fixing more).
-> ---
->  drivers/gpu/drm/mcde/mcde_dsi.c      | 238 +++++++++++++++++++++------
->  drivers/gpu/drm/mcde/mcde_dsi_regs.h |   1 +
->  2 files changed, 191 insertions(+), 48 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mcde/mcde_dsi.c b/drivers/gpu/drm/mcde/mcde_dsi.c
-> index 21cee4d9d2fd..948841fc67df 100644
-> --- a/drivers/gpu/drm/mcde/mcde_dsi.c
-> +++ b/drivers/gpu/drm/mcde/mcde_dsi.c
-> @@ -379,13 +379,14 @@ void mcde_dsi_te_request(struct mipi_dsi_device *mdsi)
->  static void mcde_dsi_setup_video_mode(struct mcde_dsi *d,
->  				      const struct drm_display_mode *mode)
->  {
-> -	u8 bpp = mipi_dsi_pixel_format_to_bpp(d->mdsi->format);
-> +	/* cpp, characters per pixel, number of bytes per pixel */
-> +	u8 cpp = mipi_dsi_pixel_format_to_bpp(d->mdsi->format) / 8;
-> +	u64 pclk;
->  	u64 bpl;
-> -	u32 hfp;
-> -	u32 hbp;
-> -	u32 hsa;
-> +	int hfp;
-> +	int hbp;
-> +	int hsa;
->  	u32 blkline_pck, line_duration;
-> -	u32 blkeol_pck, blkeol_duration;
->  	u32 val;
->  
->  	val = 0;
-> @@ -422,11 +423,21 @@ static void mcde_dsi_setup_video_mode(struct mcde_dsi *d,
->  		return;
->  	}
->  
-> -	/* TODO: TVG could be enabled here */
-> +	/* TODO: TVG (test video generator) could be enabled here */
->  
-> -	/* Send blanking packet */
-> +	/*
-> +	 * During vertical blanking: go to LP mode
-> +	 * Like with the EOL setting, if this is not set, the EOL area will be
-> +	 * filled with NULL or blanking packets in the vblank area.
-> +	 * FIXME: some Samsung phones and display panels such as s6e63m0 use
-> +	 * DSI_VID_MAIN_CTL_REG_BLKLINE_MODE_BLANKING here instead,
-> +	 * figure out how to properly configure that from the panel.
-> +	 */
->  	val |= DSI_VID_MAIN_CTL_REG_BLKLINE_MODE_LP_0;
-> -	/* Send EOL packet */
-> +	/*
-> +	 * During EOL: go to LP mode. If this is not set, the EOL area will be
-> +	 * filled with NULL or blanking packets.
-> +	 */
->  	val |= DSI_VID_MAIN_CTL_REG_BLKEOL_MODE_LP_0;
->  	/* Recovery mode 1 */
->  	val |= 1 << DSI_VID_MAIN_CTL_RECOVERY_MODE_SHIFT;
-> @@ -434,13 +445,13 @@ static void mcde_dsi_setup_video_mode(struct mcde_dsi *d,
->  	writel(val, d->regs + DSI_VID_MAIN_CTL);
->  
->  	/* Vertical frame parameters are pretty straight-forward */
-> -	val = mode->vdisplay << DSI_VID_VSIZE_VSA_LENGTH_SHIFT;
-> +	val = mode->vdisplay << DSI_VID_VSIZE_VACT_LENGTH_SHIFT;
->  	/* vertical front porch */
->  	val |= (mode->vsync_start - mode->vdisplay)
->  		<< DSI_VID_VSIZE_VFP_LENGTH_SHIFT;
->  	/* vertical sync active */
->  	val |= (mode->vsync_end - mode->vsync_start)
-> -		<< DSI_VID_VSIZE_VACT_LENGTH_SHIFT;
-> +		<< DSI_VID_VSIZE_VSA_LENGTH_SHIFT;
->  	/* vertical back porch */
->  	val |= (mode->vtotal - mode->vsync_end)
->  		<< DSI_VID_VSIZE_VBP_LENGTH_SHIFT;
-> @@ -448,36 +459,54 @@ static void mcde_dsi_setup_video_mode(struct mcde_dsi *d,
->  
->  	/*
->  	 * Horizontal frame parameters:
-> -	 * horizontal resolution is given in pixels and must be re-calculated
-> -	 * into bytes since this is what the hardware expects.
-> +	 * horizontal resolution is given in pixels but must be re-calculated
-> +	 * into bytes since this is what the hardware expects, these registers
-> +	 * define the payload size of the packet.
-> +	 *
-> +	 * hfp = horizontal front porch in bytes
-> +	 * hbp = horizontal back porch in bytes
-> +	 * hsa = horizontal sync active in bytes
->  	 *
->  	 * 6 + 2 is HFP header + checksum
->  	 */
-> -	hfp = (mode->hsync_start - mode->hdisplay) * bpp - 6 - 2;
-> +	hfp = (mode->hsync_start - mode->hdisplay) * cpp - 6 - 2;
->  	if (d->mdsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE) {
->  		/*
-> +		 * Use sync pulse for sync: explicit HSA time
->  		 * 6 is HBP header + checksum
->  		 * 4 is RGB header + checksum
->  		 */
-> -		hbp = (mode->htotal - mode->hsync_end) * bpp - 4 - 6;
-> +		hbp = (mode->htotal - mode->hsync_end) * cpp - 4 - 6;
->  		/*
->  		 * 6 is HBP header + checksum
->  		 * 4 is HSW packet bytes
->  		 * 4 is RGB header + checksum
->  		 */
-> -		hsa = (mode->hsync_end - mode->hsync_start) * bpp - 4 - 4 - 6;
-> +		hsa = (mode->hsync_end - mode->hsync_start) * cpp - 4 - 4 - 6;
->  	} else {
->  		/*
-> -		 * HBP includes both back porch and sync
-> +		 * Use event for sync: HBP includes both back porch and sync
->  		 * 6 is HBP header + checksum
->  		 * 4 is HSW packet bytes
->  		 * 4 is RGB header + checksum
->  		 */
-> -		hbp = (mode->htotal - mode->hsync_start) * bpp - 4 - 4 - 6;
-> -		/* HSA is not considered in this mode and set to 0 */
-> +		hbp = (mode->htotal - mode->hsync_start) * cpp - 4 - 4 - 6;
-> +		/* HSA is not present in this mode and set to 0 */
-> +		hsa = 0;
-> +	}
-> +	if (hfp < 0) {
-> +		dev_info(d->dev, "hfp negative, set to 0\n");
-> +		hfp = 0;
-> +	}
-> +	if (hbp < 0) {
-> +		dev_info(d->dev, "hbp negative, set to 0\n");
-> +		hbp = 0;
-> +	}
-> +	if (hsa < 0) {
-> +		dev_info(d->dev, "hsa negative, set to 0\n");
->  		hsa = 0;
->  	}
-> -	dev_dbg(d->dev, "hfp: %u, hbp: %u, hsa: %u\n",
-> +	dev_dbg(d->dev, "hfp: %u, hbp: %u, hsa: %u bytes\n",
->  		hfp, hbp, hsa);
->  
->  	/* Frame parameters: horizontal sync active */
-> @@ -488,71 +517,184 @@ static void mcde_dsi_setup_video_mode(struct mcde_dsi *d,
->  	val |= hfp << DSI_VID_HSIZE1_HFP_LENGTH_SHIFT;
->  	writel(val, d->regs + DSI_VID_HSIZE1);
->  
-> -	/* RGB data length (bytes on one scanline) */
-> -	val = mode->hdisplay * (bpp / 8);
-> +	/* RGB data length (visible bytes on one scanline) */
-> +	val = mode->hdisplay * cpp;
->  	writel(val, d->regs + DSI_VID_HSIZE2);
-> +	dev_dbg(d->dev, "RGB length, visible area on a line: %u bytes\n", val);
->  
-> -	/* TODO: further adjustments for TVG mode here */
-> +	/*
-> +	 * Calculate the time between two pixels in picoseconds using
-> +	 * the supplied refresh rate and total resolution including
-> +	 * porches and sync.
-> +	 */
-> +	/* (ps/s) / (pixels/s) = ps/pixels */
-> +	pclk = DIV_ROUND_UP_ULL(1000000000000,
-> +				(mode->vrefresh * mode->htotal * mode->vtotal));
-> +	dev_dbg(d->dev, "picoseconds between two pixels: %llu\n",
-> +		pclk);
->  
->  	/*
-> -	 * EOL packet length from bits per line calculations: pixel clock
-> -	 * is given in kHz, calculate the time between two pixels in
-> -	 * picoseconds.
-> +	 * How many bytes per line will this update frequency yield?
-> +	 *
-> +	 * Calculate the number of picoseconds for one scanline (1), then
-> +	 * divide by 1000000000000 (2) to get in pixels per second we
-> +	 * want to output.
-> +	 *
-> +	 * Multiply with number of bytes per second at this video display
-> +	 * frequency (3) to get number of bytes transferred during this
-> +	 * time. Notice that we use the frequency the display wants,
-> +	 * not what we actually get from the DSI PLL, which is hs_freq.
-> +	 *
-> +	 * These arithmetics are done in a different order to avoid
-> +	 * overflow.
->  	 */
-> -	bpl = mode->clock * mode->htotal;
-> -	bpl *= (d->hs_freq / 8);
-> -	do_div(bpl, 1000000); /* microseconds */
-> -	do_div(bpl, 1000000); /* seconds */
-> +	bpl = pclk * mode->htotal; /* (1) picoseconds per line */
-> +	dev_dbg(d->dev, "picoseconds per line: %llu\n", bpl);
-> +	/* Multiply with bytes per second (3) */
-> +	bpl *= (d->mdsi->hs_rate / 8);
-> +	/* Pixels per second (2) */
-> +	bpl = DIV_ROUND_DOWN_ULL(bpl, 1000000); /* microseconds */
-> +	bpl = DIV_ROUND_DOWN_ULL(bpl, 1000000); /* seconds */
-> +	/* parallel transactions in all lanes */
->  	bpl *= d->mdsi->lanes;
-> -	dev_dbg(d->dev, "calculated bytes per line: %llu\n", bpl);
-> +	dev_dbg(d->dev,
-> +		"calculated bytes per line: %llu @ %d Hz with HS %lu Hz\n",
-> +		bpl, mode->vrefresh, d->mdsi->hs_rate);
-> +
->  	/*
->  	 * 6 is header + checksum, header = 4 bytes, checksum = 2 bytes
->  	 * 4 is short packet for vsync/hsync
->  	 */
->  	if (d->mdsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE) {
-> -		/* Fixme: isn't the hsync width in pixels? */
-> +		/* Set the event packet size to 0 (not used) */
-> +		writel(0, d->regs + DSI_VID_BLKSIZE1);
-> +		/*
-> +		 * FIXME: isn't the hsync width in pixels? The porch and
-> +		 * sync area size is in pixels here, but this -6
-> +		 * seems to be for bytes. It looks like this in the vendor
-> +		 * code though. Is it completely untested?
-> +		 */
->  		blkline_pck = bpl - (mode->hsync_end - mode->hsync_start) - 6;
->  		val = blkline_pck << DSI_VID_BLKSIZE2_BLKLINE_PULSE_PCK_SHIFT;
->  		writel(val, d->regs + DSI_VID_BLKSIZE2);
->  	} else {
-> +		/* Set the sync pulse packet size to 0 (not used) */
-> +		writel(0, d->regs + DSI_VID_BLKSIZE2);
-> +		/* Specifying payload size in bytes (-4-6 from manual) */
->  		blkline_pck = bpl - 4 - 6;
-> +		if (blkline_pck > 0x1FFF)
-> +			dev_err(d->dev, "blkline_pck too big %d bytes\n",
-> +				blkline_pck);
->  		val = blkline_pck << DSI_VID_BLKSIZE1_BLKLINE_EVENT_PCK_SHIFT;
-> +		val &= DSI_VID_BLKSIZE1_BLKLINE_EVENT_PCK_MASK;
->  		writel(val, d->regs + DSI_VID_BLKSIZE1);
->  	}
->  
-> -	line_duration = (blkline_pck + 6) / d->mdsi->lanes;
-> -	dev_dbg(d->dev, "line duration %u\n", line_duration);
-> +	/*
-> +	 * The line duration is used to scale back the frequency from
-> +	 * the max frequency supported by the HS clock to the desired
-> +	 * update frequency in vrefresh.
-> +	 */
-> +	line_duration = blkline_pck + 6;
-> +	/*
-> +	 * The datasheet contains this complex condition to decreasing
-> +	 * the line duration by 1 under very specific circumstances.
-> +	 * Here we also imply that LP is used during burst EOL.
-> +	 */
-> +	if (d->mdsi->lanes == 2 && (hsa & 0x01) && (hfp & 0x01)
-> +	    && (d->mdsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST))
-> +		line_duration--;
-> +	line_duration = DIV_ROUND_CLOSEST(line_duration, d->mdsi->lanes);
-> +	dev_dbg(d->dev, "line duration %u bytes\n", line_duration);
->  	val = line_duration << DSI_VID_DPHY_TIME_REG_LINE_DURATION_SHIFT;
->  	/*
->  	 * This is the time to perform LP->HS on D-PHY
->  	 * FIXME: nowhere to get this from: DT property on the DSI?
-> +	 * The manual says this is "system dependent".
-> +	 * values like 48 and 72 seen in the vendor code.
->  	 */
-> -	val |= 0 << DSI_VID_DPHY_TIME_REG_WAKEUP_TIME_SHIFT;
-> +	val |= 48 << DSI_VID_DPHY_TIME_REG_WAKEUP_TIME_SHIFT;
->  	writel(val, d->regs + DSI_VID_DPHY_TIME);
->  
-> -	/* Calculate block end of line */
-> -	blkeol_pck = bpl - mode->hdisplay * bpp - 6;
-> -	blkeol_duration = (blkeol_pck + 6) / d->mdsi->lanes;
-> -	dev_dbg(d->dev, "blkeol pck: %u, duration: %u\n",
-> -		 blkeol_pck, blkeol_duration);
-> -
-> +	/*
-> +	 * See the manual figure 657 page 2203 for understanding the impact
-> +	 * of the different burst mode settings.
-> +	 */
->  	if (d->mdsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST) {
-> -		/* Set up EOL clock for burst mode */
-> +		int blkeol_pck, blkeol_duration;
-> +		/*
-> +		 * Packet size at EOL for burst mode, this is only used
-> +		 * if DSI_VID_MAIN_CTL_REG_BLKEOL_MODE_LP_0 is NOT set,
-> +		 * but we instead send NULL or blanking packets at EOL.
-> +		 * This is given in number of bytes.
-> +		 *
-> +		 * See the manual page 2198 for the 13 reg_blkeol_pck bits.
-> +		 */
-> +		blkeol_pck = bpl - (mode->htotal * cpp) - 6;
-> +		if (blkeol_pck < 0) {
-> +			dev_err(d->dev, "video block does not fit on line!\n");
-> +			dev_err(d->dev,
-> +				"calculated bytes per line: %llu @ %d Hz\n",
-> +				bpl, mode->vrefresh);
-> +			dev_err(d->dev,
-> +				"bytes per line (blkline_pck) %u bytes\n",
-> +				blkline_pck);
-> +			dev_err(d->dev,
-> +				"blkeol_pck becomes %d bytes\n", blkeol_pck);
-> +			return;
-> +		}
-> +		dev_dbg(d->dev, "BLKEOL packet: %d bytes\n", blkeol_pck);
-> +
->  		val = readl(d->regs + DSI_VID_BLKSIZE1);
-> +		val &= ~DSI_VID_BLKSIZE1_BLKEOL_PCK_MASK;
->  		val |= blkeol_pck << DSI_VID_BLKSIZE1_BLKEOL_PCK_SHIFT;
->  		writel(val, d->regs + DSI_VID_BLKSIZE1);
-> -		writel(blkeol_pck, d->regs + DSI_VID_VCA_SETTING2);
-> -
-> -		writel(blkeol_duration, d->regs + DSI_VID_PCK_TIME);
-> -		writel(blkeol_duration - 6, d->regs + DSI_VID_VCA_SETTING1);
-> +		/* Use the same value for exact burst limit */
-> +		val = blkeol_pck <<
-> +			DSI_VID_VCA_SETTING2_EXACT_BURST_LIMIT_SHIFT;
-> +		val &= DSI_VID_VCA_SETTING2_EXACT_BURST_LIMIT_MASK;
-> +		writel(val, d->regs + DSI_VID_VCA_SETTING2);
-> +		/*
-> +		 * This BLKEOL duration is claimed to be the duration in clock
-> +		 * cycles of the BLLP end-of-line (EOL) period for each line if
-> +		 * DSI_VID_MAIN_CTL_REG_BLKEOL_MODE_LP_0 is set.
-> +		 *
-> +		 * It is hard to trust the manuals' claim that this is in clock
-> +		 * cycles as we mimic the behaviour of the vendor code, which
-> +		 * appears to write a number of bytes that would have been
-> +		 * transferred on a single lane.
-> +		 *
-> +		 * See the manual figure 657 page 2203 and page 2198 for the 13
-> +		 * reg_blkeol_duration bits.
-> +		 *
-> +		 * FIXME: should this also be set up also for non-burst mode
-> +		 * according to figure 565 page 2202?
-> +		 */
-> +		blkeol_duration = DIV_ROUND_CLOSEST(blkeol_pck + 6,
-> +						    d->mdsi->lanes);
-> +		dev_dbg(d->dev, "BLKEOL duration: %d clock cycles\n",
-> +			blkeol_duration);
-> +
-> +		val = readl(d->regs + DSI_VID_PCK_TIME);
-> +		val &= ~DSI_VID_PCK_TIME_BLKEOL_DURATION_MASK;
-> +		val |= blkeol_duration <<
-> +			DSI_VID_PCK_TIME_BLKEOL_DURATION_SHIFT;
-> +		writel(val, d->regs + DSI_VID_PCK_TIME);
-> +
-> +		/* Max burst limit, this is given in bytes */
-> +		val = readl(d->regs + DSI_VID_VCA_SETTING1);
-> +		val &= ~DSI_VID_VCA_SETTING1_MAX_BURST_LIMIT_MASK;
-> +		val |= blkeol_duration - 6;
-
-The vendor kernel writes blkeol_pck - 6 (instead of blkeol_duration) here:
-
-dsi_wfld(io, DSI_VID_VCA_SETTING1, MAX_BURST_LIMIT, vid_regs->blkeol_pck - 6);
-
-Also: It does not make a functional difference here but for clarity we
-should shift the value by DSI_VID_VCA_SETTING1_MAX_BURST_LIMIT_SHIFT (= 0),
-i.e.
-
-val |= blkeol_pck - 6 << DSI_VID_VCA_SETTING1_MAX_BURST_LIMIT_SHIFT;
-
-> +		writel(val, d->regs + DSI_VID_VCA_SETTING1);
->  	}
->  
->  	/* Maximum line limit */
->  	val = readl(d->regs + DSI_VID_VCA_SETTING2);
-> -	val |= blkline_pck <<
-> -		DSI_VID_VCA_SETTING2_EXACT_BURST_LIMIT_SHIFT;
-> +	val &= ~DSI_VID_VCA_SETTING2_MAX_LINE_LIMIT_MASK;
-> +	val |= blkline_pck - 6 <<
-> +		DSI_VID_VCA_SETTING2_MAX_LINE_LIMIT_SHIFT;
->  	writel(val, d->regs + DSI_VID_VCA_SETTING2);
-> -
-> +	dev_dbg(d->dev, "blkline pck: %d bytes\n", blkline_pck - 6);
->  }
->  
->  static void mcde_dsi_start(struct mcde_dsi *d)
-> diff --git a/drivers/gpu/drm/mcde/mcde_dsi_regs.h b/drivers/gpu/drm/mcde/mcde_dsi_regs.h
-> index 8089db805c57..16551af1089e 100644
-> --- a/drivers/gpu/drm/mcde/mcde_dsi_regs.h
-> +++ b/drivers/gpu/drm/mcde/mcde_dsi_regs.h
-> @@ -228,6 +228,7 @@
->  
->  #define DSI_VID_PCK_TIME 0x000000A8
->  #define DSI_VID_PCK_TIME_BLKEOL_DURATION_SHIFT 0
-> +#define DSI_VID_PCK_TIME_BLKEOL_DURATION_MASK 0x00000FFF
->  
->  #define DSI_VID_DPHY_TIME 0x000000AC
->  #define DSI_VID_DPHY_TIME_REG_LINE_DURATION_SHIFT 0
-> -- 
-> 2.21.0
-> 
+On Sat, Dec 14, 2019 at 6:33 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Hsin-Yi and Nicolas,
+>
+> Thank you for the patch.
+>
+> On Wed, Dec 11, 2019 at 02:19:11PM +0800, Hsin-Yi Wang wrote:
+> > From: Nicolas Boichat <drinkcat@chromium.org>
+> >
+> > This driver supports single input, 2 output display mux (e.g.
+> > HDMI mux), that provide its status via a GPIO.
+> >
+> > Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
+> > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> > ---
+> >  drivers/gpu/drm/bridge/Kconfig            |  10 +
+> >  drivers/gpu/drm/bridge/Makefile           |   1 +
+> >  drivers/gpu/drm/bridge/generic-gpio-mux.c | 306 ++++++++++++++++++++++
+> >  3 files changed, 317 insertions(+)
+> >  create mode 100644 drivers/gpu/drm/bridge/generic-gpio-mux.c
+> >
+> > diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+> > index 1f3fc6bec842..4734f6993858 100644
+> > --- a/drivers/gpu/drm/bridge/Kconfig
+> > +++ b/drivers/gpu/drm/bridge/Kconfig
+> > @@ -54,6 +54,16 @@ config DRM_DUMB_VGA_DAC
+> >         Support for non-programmable RGB to VGA DAC bridges, such as ADI
+> >         ADV7123, TI THS8134 and THS8135 or passive resistor ladder DACs.
+> >
+> > +config DRM_GENERIC_GPIO_MUX
+> > +     tristate "Generic GPIO-controlled mux"
+> > +     depends on OF
+> > +     select DRM_KMS_HELPER
+> > +     ---help---
+> > +       This bridge driver models a GPIO-controlled display mux with one
+> > +       input, 2 outputs (e.g. an HDMI mux). The hardware decides which output
+> > +       is active, reports it as a GPIO, and the driver redirects calls to the
+> > +       appropriate downstream bridge (if any).
+>
+> My understanding of the issue was that the mux was controllable by a
+> GPIO, not that the GPIO would report its status. This changes a few
+> things. How is the mux controlled then ?
+>
+There's a hardware that would control the gpio to active if HDMI is
+plugged. The mux driver registered a irq for this gpio, and handle
+cases depending on gpio status.
+> >  config DRM_LVDS_ENCODER
+> >       tristate "Transparent parallel to LVDS encoder support"
+> >       depends on OF
+> > diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
+> > index 7a1e0ec032e6..1c0c92667ac4 100644
+> > --- a/drivers/gpu/drm/bridge/Makefile
+> > +++ b/drivers/gpu/drm/bridge/Makefile
+> > @@ -3,6 +3,7 @@ obj-$(CONFIG_DRM_ANALOGIX_ANX7688) += analogix-anx7688.o
+> >  obj-$(CONFIG_DRM_ANALOGIX_ANX78XX) += analogix-anx78xx.o
+> >  obj-$(CONFIG_DRM_CDNS_DSI) += cdns-dsi.o
+> >  obj-$(CONFIG_DRM_DUMB_VGA_DAC) += dumb-vga-dac.o
+> > +obj-$(CONFIG_DRM_GENERIC_GPIO_MUX) += generic-gpio-mux.o
+> >  obj-$(CONFIG_DRM_LVDS_ENCODER) += lvds-encoder.o
+> >  obj-$(CONFIG_DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW) += megachips-stdpxxxx-ge-b850v3-fw.o
+> >  obj-$(CONFIG_DRM_NXP_PTN3460) += nxp-ptn3460.o
+> > diff --git a/drivers/gpu/drm/bridge/generic-gpio-mux.c b/drivers/gpu/drm/bridge/generic-gpio-mux.c
+> > new file mode 100644
+> > index 000000000000..ba08321dcc17
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/bridge/generic-gpio-mux.c
+> > @@ -0,0 +1,306 @@
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +/*
+> > + * Generic gpio mux bridge driver
+> > + *
+> > + * Copyright 2016 Google LLC
+> > + */
+> > +
+> > +
+>
+> One blank line is enough.
+>
+> > +#include <linux/gpio.h>
+> > +#include <linux/interrupt.h>
+> > +#include <linux/platform_device.h>
+> > +#include <linux/module.h>
+> > +#include <linux/of.h>
+> > +#include <linux/of_gpio.h>
+> > +#include <linux/of_graph.h>
+>
+> Could you please sort these headers alphabetically ?
+>
+> > +#include <drm/drm_bridge.h>
+> > +#include <drm/drm_crtc_helper.h>
+> > +#include <drm/drm_probe_helper.h>
+> > +
+> > +struct gpio_display_mux {
+> > +     struct device *dev;
+> > +
+> > +     struct gpio_desc *gpiod_detect;
+> > +     int detect_irq;
+> > +
+> > +     struct drm_bridge bridge;
+> > +
+> > +     struct drm_bridge *next[2];
+> > +};
+> > +
+> > +static inline struct gpio_display_mux *bridge_to_gpio_display_mux(
+> > +             struct drm_bridge *bridge)
+> > +{
+> > +     return container_of(bridge, struct gpio_display_mux, bridge);
+> > +}
+> > +
+> > +static irqreturn_t gpio_display_mux_det_threaded_handler(int unused, void *data)
+> > +{
+> > +     struct gpio_display_mux *gpio_display_mux = data;
+>
+> gpio_display_mux is a long variable name. You can shorten it to mux here
+> and below.
+>
+> > +     int active = gpiod_get_value(gpio_display_mux->gpiod_detect);
+> > +
+> > +     dev_dbg(gpio_display_mux->dev, "Interrupt %d!\n", active);
+> > +
+> > +     if (gpio_display_mux->bridge.dev)
+> > +             drm_kms_helper_hotplug_event(gpio_display_mux->bridge.dev);
+> > +
+> > +     return IRQ_HANDLED;
+> > +}
+> > +
+> > +static int gpio_display_mux_attach(struct drm_bridge *bridge)
+> > +{
+> > +     struct gpio_display_mux *gpio_display_mux =
+> > +                     bridge_to_gpio_display_mux(bridge);
+> > +     struct drm_bridge *next;
+> > +     int i;
+>
+> i never takes negative values, you can make it an unsigned int.
+>
+> > +
+> > +     for (i = 0; i < ARRAY_SIZE(gpio_display_mux->next); i++) {
+> > +             next = gpio_display_mux->next[i];
+> > +             if (next)
+> > +                     next->encoder = bridge->encoder;
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static bool gpio_display_mux_mode_fixup(struct drm_bridge *bridge,
+> > +                             const struct drm_display_mode *mode,
+> > +                             struct drm_display_mode *adjusted_mode)
+> > +{
+> > +     struct gpio_display_mux *gpio_display_mux =
+> > +             bridge_to_gpio_display_mux(bridge);
+> > +     int active;
+> > +     struct drm_bridge *next;
+> > +
+> > +     active = gpiod_get_value(gpio_display_mux->gpiod_detect);
+>
+> What if the value of the GPIO changes between, let's say, this operation
+> and gpio_display_mux_mode_set() ? This doesn't seem very stable to me.
+> DRM/KMS hasn't been designed to have the output routing configured
+> externally without any control from the drivers.
+>
+We will fix it to store the gpio status in struct instead of reading
+in each bridge functions. Only in irq handler function the gpio status
+will be updated.
+> > +     next = gpio_display_mux->next[active];
+>
+> This will crash if gpiod_get_value() returns an error. Same for the
+> other functions below.
+>
+Will add check for this in irq handler function.
+> > +
+> > +     if (next && next->funcs->mode_fixup)
+> > +             return next->funcs->mode_fixup(next, mode, adjusted_mode);
+> > +     else
+> > +             return true;
+> > +}
+> > +
+> > +static void gpio_display_mux_mode_set(struct drm_bridge *bridge,
+> > +                             struct drm_display_mode *mode,
+> > +                             struct drm_display_mode *adjusted_mode)
+> > +{
+> > +     struct gpio_display_mux *gpio_display_mux =
+> > +             bridge_to_gpio_display_mux(bridge);
+> > +     int active;
+> > +     struct drm_bridge *next;
+> > +
+> > +     active = gpiod_get_value(gpio_display_mux->gpiod_detect);
+> > +     next = gpio_display_mux->next[active];
+> > +
+> > +     if (next && next->funcs->mode_set)
+> > +             next->funcs->mode_set(next, mode, adjusted_mode);
+> > +}
+> > +
+> > +/**
+>
+> This isn't kerneldoc, the comment should start with /*. Same comment
+> below.
+>
+> > + * Since this driver _reacts_ to mux changes, we need to make sure all
+> > + * downstream bridges are pre-enabled.
+>
+> I'm afraid the problem scope seems bigger than I initially anticipated
+> :-( We're in the hack territory here, and I think we need to search for
+> a proper solution. We need to start with a detailed description of the
+> hardware and the use cases.
+>
+We are considering making this mux driver mt8173 oak board specific,
+since it seems that only this board have such design and we only have
+this board for testing. If so, we also only need mode_fixup bridge
+function. And the endpoint is anx7688 and hdmi connector. What do you
+think?
+> > + */
+> > +static void gpio_display_mux_pre_enable(struct drm_bridge *bridge)
+> > +{
+> > +     struct gpio_display_mux *gpio_display_mux =
+> > +             bridge_to_gpio_display_mux(bridge);
+> > +     struct drm_bridge *next;
+> > +     int i;
+> > +
+> > +     for (i = 0; i < ARRAY_SIZE(gpio_display_mux->next); i++) {
+> > +             next = gpio_display_mux->next[i];
+> > +             if (next && next->funcs->pre_enable)
+> > +                     next->funcs->pre_enable(next);
+> > +     }
+> > +}
+> > +
+> > +static void gpio_display_mux_post_disable(struct drm_bridge *bridge)
+> > +{
+> > +     struct gpio_display_mux *gpio_display_mux =
+> > +             bridge_to_gpio_display_mux(bridge);
+> > +     struct drm_bridge *next;
+> > +     int i;
+> > +
+> > +     for (i = 0; i < ARRAY_SIZE(gpio_display_mux->next); i++) {
+> > +             next = gpio_display_mux->next[i];
+> > +             if (next && next->funcs->post_disable)
+> > +                     next->funcs->post_disable(next);
+> > +     }
+> > +}
+> > +
+> > +/**
+> > + * In an ideal mux driver, only the currently selected bridge should be enabled.
+> > + * For the sake of simplicity, we just just enable/disable all downstream
+> > + * bridges at the same time.
+> > + */
+> > +static void gpio_display_mux_enable(struct drm_bridge *bridge)
+> > +{
+> > +     struct gpio_display_mux *gpio_display_mux =
+> > +             bridge_to_gpio_display_mux(bridge);
+> > +     struct drm_bridge *next;
+> > +     int i;
+> > +
+> > +     for (i = 0; i < ARRAY_SIZE(gpio_display_mux->next); i++) {
+> > +             next = gpio_display_mux->next[i];
+> > +             if (next && next->funcs->enable)
+> > +                     next->funcs->enable(next);
+> > +     }
+> > +}
+> > +
+> > +static void gpio_display_mux_disable(struct drm_bridge *bridge)
+> > +{
+> > +     struct gpio_display_mux *gpio_display_mux =
+> > +             bridge_to_gpio_display_mux(bridge);
+> > +     struct drm_bridge *next;
+> > +     int i;
+> > +
+> > +     for (i = 0; i < ARRAY_SIZE(gpio_display_mux->next); i++) {
+> > +             next = gpio_display_mux->next[i];
+> > +             if (next && next->funcs->disable)
+> > +                     next->funcs->disable(next);
+> > +     }
+> > +}
+> > +
+> > +static const struct drm_bridge_funcs gpio_display_mux_bridge_funcs = {
+> > +     .attach = gpio_display_mux_attach,
+> > +     .mode_fixup = gpio_display_mux_mode_fixup,
+> > +     .disable = gpio_display_mux_disable,
+> > +     .post_disable = gpio_display_mux_post_disable,
+> > +     .mode_set = gpio_display_mux_mode_set,
+> > +     .pre_enable = gpio_display_mux_pre_enable,
+> > +     .enable = gpio_display_mux_enable,
+> > +};
+> > +
+> > +static int gpio_display_mux_probe(struct platform_device *pdev)
+> > +{
+> > +     struct device *dev = &pdev->dev;
+> > +     struct gpio_display_mux *gpio_display_mux;
+> > +     struct device_node *port, *ep, *remote;
+> > +     int ret;
+> > +     u32 reg;
+> > +
+> > +     gpio_display_mux = devm_kzalloc(dev, sizeof(*gpio_display_mux),
+> > +                                     GFP_KERNEL);
+> > +     if (!gpio_display_mux)
+> > +             return -ENOMEM;
+> > +
+> > +     platform_set_drvdata(pdev, gpio_display_mux);
+> > +     gpio_display_mux->dev = &pdev->dev;
+> > +
+> > +     gpio_display_mux->bridge.of_node = dev->of_node;
+> > +
+> > +     gpio_display_mux->gpiod_detect =
+> > +             devm_gpiod_get(dev, "detect", GPIOD_IN);
+> > +     if (IS_ERR(gpio_display_mux->gpiod_detect))
+> > +             return PTR_ERR(gpio_display_mux->gpiod_detect);
+> > +
+> > +     gpio_display_mux->detect_irq =
+> > +             gpiod_to_irq(gpio_display_mux->gpiod_detect);
+> > +     if (gpio_display_mux->detect_irq < 0) {
+> > +             dev_err(dev, "Failed to get output irq %d\n",
+> > +                     gpio_display_mux->detect_irq);
+> > +             return -ENODEV;
+> > +     }
+> > +
+> > +     port = of_graph_get_port_by_id(dev->of_node, 1);
+> > +     if (!port) {
+> > +             dev_err(dev, "Missing output port node\n");
+> > +             return -EINVAL;
+> > +     }
+> > +
+> > +     for_each_child_of_node(port, ep) {
+> > +             if (!ep->name || (of_node_cmp(ep->name, "endpoint") != 0)) {
+> > +                     of_node_put(ep);
+> > +                     continue;
+> > +             }
+> > +
+> > +             if (of_property_read_u32(ep, "reg", &reg) < 0 ||
+> > +                             reg >= ARRAY_SIZE(gpio_display_mux->next)) {
+> > +                     dev_err(dev,
+> > +                         "Missing/invalid reg property for endpoint %s\n",
+> > +                             ep->full_name);
+> > +                     of_node_put(ep);
+> > +                     of_node_put(port);
+> > +                     return -EINVAL;
+> > +             }
+> > +
+> > +             remote = of_graph_get_remote_port_parent(ep);
+> > +             if (!remote) {
+> > +                     dev_err(dev,
+> > +                         "Missing connector/bridge node for endpoint %s\n",
+> > +                             ep->full_name);
+> > +                     of_node_put(ep);
+> > +                     of_node_put(port);
+> > +                     return -EINVAL;
+> > +             }
+> > +             of_node_put(ep);
+> > +
+> > +             if (of_device_is_compatible(remote, "hdmi-connector")) {
+> > +                     of_node_put(remote);
+> > +                     continue;
+> > +             }
+>
+> This special case makes me think that something is wrong. I believe the
+> connector driver from
+> https://patchwork.freedesktop.org/patch/344477/?series=63328&rev=59
+> could help.
+>
+Thanks for pointing this, we can remove the special case (hdmi) handling here.
+> > +
+> > +             gpio_display_mux->next[reg] = of_drm_find_bridge(remote);
+>
+> What if the connected device is a panel and not a bridge ?
+>
+If this is oak specific, then we don't need to handle panel case.
+> > +             if (!gpio_display_mux->next[reg]) {
+> > +                     dev_err(dev, "Waiting for external bridge %s\n",
+> > +                             remote->name);
+> > +                     of_node_put(remote);
+> > +                     of_node_put(port);
+> > +                     return -EPROBE_DEFER;
+> > +             }
+> > +
+> > +             of_node_put(remote);
+> > +     }
+> > +     of_node_put(port);
+> > +
+> > +     gpio_display_mux->bridge.funcs = &gpio_display_mux_bridge_funcs;
+> > +     drm_bridge_add(&gpio_display_mux->bridge);
+> > +
+> > +     ret = devm_request_threaded_irq(dev, gpio_display_mux->detect_irq,
+> > +                             NULL,
+> > +                             gpio_display_mux_det_threaded_handler,
+> > +                             IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING |
+> > +                                     IRQF_ONESHOT,
+> > +                             "gpio-display-mux-det", gpio_display_mux);
+> > +     if (ret) {
+> > +             dev_err(dev, "Failed to request MUX_DET threaded irq\n");
+> > +             goto err_bridge_remove;
+> > +     }
+> > +
+> > +     return 0;
+> > +
+> > +err_bridge_remove:
+> > +     drm_bridge_remove(&gpio_display_mux->bridge);
+> > +
+> > +     return ret;
+> > +}
+> > +
+> > +static int gpio_display_mux_remove(struct platform_device *pdev)
+> > +{
+> > +     struct gpio_display_mux *gpio_display_mux = platform_get_drvdata(pdev);
+> > +
+> > +     drm_bridge_remove(&gpio_display_mux->bridge);
+>
+> If the GPIO IRQ is triggered here you'll have trouble. You need to
+> disable the IRQ, or free it, before removing the bridge.
+>
+Will fix this. Thanks
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static const struct of_device_id gpio_display_mux_match[] = {
+> > +     { .compatible = "gpio-display-mux", },
+> > +     {},
+> > +};
+> > +
+> > +struct platform_driver gpio_display_mux_driver = {
+> > +     .probe = gpio_display_mux_probe,
+> > +     .remove = gpio_display_mux_remove,
+> > +     .driver = {
+> > +             .name = "gpio-display-mux",
+> > +             .of_match_table = gpio_display_mux_match,
+> > +     },
+> > +};
+> > +
+> > +module_platform_driver(gpio_display_mux_driver);
+> > +
+> > +MODULE_DESCRIPTION("GPIO-controlled display mux");
+> > +MODULE_AUTHOR("Nicolas Boichat <drinkcat@chromium.org>");
+> > +MODULE_LICENSE("GPL v2");
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
