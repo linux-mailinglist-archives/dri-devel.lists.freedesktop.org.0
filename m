@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B08E12021F
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 11:19:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C05DB12024C
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 11:26:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8773C6E480;
-	Mon, 16 Dec 2019 10:19:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A95A86E484;
+	Mon, 16 Dec 2019 10:26:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
- [IPv6:2607:f8b0:4864:20::841])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B599E6E480
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 10:19:36 +0000 (UTC)
-Received: by mail-qt1-x841.google.com with SMTP id q20so671802qtp.3
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 02:19:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A21F6E484
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 10:26:24 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id j6so6210866lja.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 02:26:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ui1c9Y6dD99W6Khx+UM3GayAgwiTKG7dGHroyFCHCFw=;
- b=BcLYAjEWWxr47Go39e8DSJQ3tIYRI2cNBvmCkh9X4sWOyUqsqa2mo7nzIna/soPCh8
- lnjE48cuNzRNXrL9jt9gpYyRcI5WS5YIYi+8dZMY8wKfMiM127tpW8Zf9TU5uB8GMR25
- ojWUui8VTY0woxk5GQN6dPAWN9cWg2L2b0DQE=
+ :cc; bh=OkpVHHKfDIvE++qC7pqWmg/jiaUV0l9IrypFklbrI6o=;
+ b=lDL84PL+2Ns4vFAqwLLrdQi1O+3TQ6U/1dl28aR2f5iPN84nonscwhbbksUFjIlS5R
+ otbTznmgxLMJaAner5nrpGth72IVvBmT/6uaM4tx+Y+mEEawgORon/elo6UPVH5JvJYb
+ Ck2/MV674z0jbmRgEZH0vAlKytoZnH/ItSxaGXx0K213YovI7A4yEtfAGr8qVFC8qILi
+ 94ezCXOUyfvLoV8f/yzdmpj1qIfvNUfwHHlA4TO3fmxjmrNVgk41krWYbwyb3SMyU9cr
+ Nn8qkvnhE3ahvqrWYa02Vf4Ret+ZHDC4hZD4vr81kUyvgcplB6Y5bMnP2WfkMtddC/uN
+ iXIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ui1c9Y6dD99W6Khx+UM3GayAgwiTKG7dGHroyFCHCFw=;
- b=P+v6YXhrqBaN0PPbKGU59dx1gW5LQ1qdLeCY6XBdIIBGqEZjqhO6iy0aPnlwPke5BM
- +Es+ubQSdigatrP6uqYlJRe0RzcZuVXlCHdIDIDpqT1UnDL6SycQw2be1mHs8oZcUTDf
- THsIrSgwDNuIajtGoJOM3cBwKgZVKiLmayFmyJ+FMa7ImTeWzLyTm2OoApn3YTJb8nAg
- EWf/o5tJfgYqyTT/bCcX3ingT+ndzK4UU6PjzzvlbWa3hzDRIR/kTM+LpVomFdAKKsGM
- SPAxSNrpBNjFj3XyG2NoYrgzFq8RDLbKIJ6Ntm9FPMHdjp5FXlC+9MzPqwk96j1Q3aJo
- CTSg==
-X-Gm-Message-State: APjAAAUQWlRq5rp88eRqHz/J4RfVzZGYO8qgvrttM2GvlRW+5T2RnHu2
- XVXN1KE4GijiJDI77iJqLG4qL8eokzRAkwPjTa0kpg==
-X-Google-Smtp-Source: APXvYqx3C2Qa4BrgHElceO35w40MEmAWZKPrgPEQfSGXCQpXZ7aO22lSc8cg3VhqBHMiWjpy6gwDXUi+zTZaeV5kHjk=
-X-Received: by 2002:ac8:4446:: with SMTP id m6mr9731503qtn.159.1576491575693; 
- Mon, 16 Dec 2019 02:19:35 -0800 (PST)
+ bh=OkpVHHKfDIvE++qC7pqWmg/jiaUV0l9IrypFklbrI6o=;
+ b=LWmdkwMphAI65XGlIkxF3MPsO8L0s8JHDPLUq9rigPorDQ7gLYqzwmO3u4nCRupAsJ
+ Ks+3l8GYH1CBg70inpMYtY1ZZIG51pnbYj58eqs/P92fe+4liCXi3nO5sRNBB+q4I5mS
+ Eeq5ZkLB4nA9h37pLrOQvPvMkOlALGrjmSwH+SLfIYS1Db2KKJ00p7WE82zKb5eNJfgQ
+ 9hoUW4+nz86rBjqlW4Q2OrLBfvt3fJEvL1tcclEL3Tju/r7OpGH7iB5z937HClGYR8hy
+ ftpw0qRDcDVEYCD+5AIgIL8o5FaIcX9XTGqT4eF49nf15XJm66k4Ri1YJMElot7pY8Zk
+ Z+Ww==
+X-Gm-Message-State: APjAAAUNxG3Dw01m0kbUEeAZzgsxJtsmMa9YUayhurQMS6rgJsuEY80l
+ hq2qeExYyYEo4KKG5ITPCdxaYbebVtrRSN1N3icioQ==
+X-Google-Smtp-Source: APXvYqyfCsSztFtNTTzlCe+aXkIxE7g02n2kJDD5isrSGVNYwnEfbfi911iDlZCap4HI8gvXspWAPVC8NvrEdEvcY0s=
+X-Received: by 2002:a05:651c:1049:: with SMTP id
+ x9mr18582325ljm.233.1576491982626; 
+ Mon, 16 Dec 2019 02:26:22 -0800 (PST)
 MIME-Version: 1.0
-References: <20191211061911.238393-1-hsinyi@chromium.org>
- <20191211061911.238393-3-hsinyi@chromium.org>
- <20191213223816.GS4860@pendragon.ideasonboard.com>
- <CAJMQK-gFn8WeokxGfAZ-akNvdEbQhPj_3Ax2sD7Ti6JcSvjF4g@mail.gmail.com>
-In-Reply-To: <CAJMQK-gFn8WeokxGfAZ-akNvdEbQhPj_3Ax2sD7Ti6JcSvjF4g@mail.gmail.com>
-From: Nicolas Boichat <drinkcat@chromium.org>
-Date: Mon, 16 Dec 2019 18:19:24 +0800
-Message-ID: <CANMq1KDh=ehp0RDFRLQ5OCTibrK=Uzp2UFVLM+7AhwpVp-X=yQ@mail.gmail.com>
-Subject: Re: [PATCH RESEND 2/4] drm: bridge: anx7688: Add anx7688 bridge
- driver support.
-To: Hsin-Yi Wang <hsinyi@chromium.org>
+References: <20191215163810.52356-1-hdegoede@redhat.com>
+In-Reply-To: <20191215163810.52356-1-hdegoede@redhat.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 16 Dec 2019 11:26:10 +0100
+Message-ID: <CACRpkdarJ5chDfgc5F=ntzG1pw7kchtzp0Upp+OH9CH6WLnvXw@mail.gmail.com>
+Subject: Re: [PATCH 0/5] drm/i915/dsi: Control panel and backlight enable
+ GPIOs from VBT
+To: Hans de Goede <hdegoede@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,138 +62,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Devicetree List <devicetree@vger.kernel.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>, Matthias Brugger <mbrugger@suse.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Jonas Karlman <jonas@kwiboo.se>, lkml <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Russell King <rmk+kernel@arm.linux.org.uk>
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Lee Jones <lee.jones@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 16, 2019 at 4:46 PM Hsin-Yi Wang <hsinyi@chromium.org> wrote:
->
-> On Sat, Dec 14, 2019 at 6:38 AM Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
-> >
-> > Hi Hsin-Yi and Nicolas,
-> >
-> > Thank you for the patch.
-> >
-> > On Wed, Dec 11, 2019 at 02:19:09PM +0800, Hsin-Yi Wang wrote:
-> > > From: Nicolas Boichat <drinkcat@chromium.org>
-> > >
-> > > ANX7688 is a HDMI to DP converter (as well as USB-C port controller),
-> > > that has an internal microcontroller.
-> > >
-> > > The only reason a Linux kernel driver is necessary is to reject
-> > > resolutions that require more bandwidth than what is available on
-> > > the DP side. DP bandwidth and lane count are reported by the bridge
-> > > via 2 registers on I2C.
-> >
-> > How about power, doesn't this chip have power supplies that potentially
-> > need to be controlled ?
-> >
-> Ideally we should add power supplies as well, but the power is
-> supplied by ec in mt8173 oak board. And we only have this board can
-> test this driver. If we add power supplies in driver we can't test it.
+On Sun, Dec 15, 2019 at 5:38 PM Hans de Goede <hdegoede@redhat.com> wrote:
 
-To clarify a bit more, this is because this chip is actually a
-TCPC+mux+HDMI=>DP converter
-(https://www.analogix.com/en/products/convertersbridges/anx7688). In
-Chromebook architecture, TCPC+mux is controlled by the EC (including
-power and other control pins), and the only reason we need a driver
-for the HDMI=>DP converter is to get the number of lanes on the DP
-side and filter out resolutions. Also, the converter is on a different
-I2C address and it could almost be considered as a separate device.
+> Linus, this series starts with the already discussed pinctrl change to
+> export the function to unregister a pinctrl-map. We can either merge this
+> through drm-intel, or you could pick it up and then provide an immutable
+> branch with it for merging into drm-intel-next. Which option do you prefer?
 
-(of course we could write a kernel driver for the TCPC+mux but we'll
-leave that to others if there's ever a board that is built with the
-TCPC part connected to the AP)
+I have created an immutable branch with these changes and pulled it
+to my "devel" branch for v5.6:
+https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git/log/?h=ib-pinctrl-unreg-mappings
 
-> > > Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
-> > > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> > > ---
-> > >  drivers/gpu/drm/bridge/Kconfig            |   9 +
-> > >  drivers/gpu/drm/bridge/Makefile           |   1 +
-> > >  drivers/gpu/drm/bridge/analogix-anx7688.c | 202 ++++++++++++++++++++++
-> > >  3 files changed, 212 insertions(+)
-> > >  create mode 100644 drivers/gpu/drm/bridge/analogix-anx7688.c
-> > >
-> > > diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-> > > index 34362976cd6f..1f3fc6bec842 100644
-> > > --- a/drivers/gpu/drm/bridge/Kconfig
-> > > +++ b/drivers/gpu/drm/bridge/Kconfig
-> > > @@ -16,6 +16,15 @@ config DRM_PANEL_BRIDGE
-> > >  menu "Display Interface Bridges"
-> > >       depends on DRM && DRM_BRIDGE
-> > >
-> > > +config DRM_ANALOGIX_ANX7688
-> > > +     tristate "Analogix ANX7688 bridge"
-> > > +     select DRM_KMS_HELPER
-> > > +     select REGMAP_I2C
-> > > +     ---help---
-> > > +       ANX7688 is a transmitter to support DisplayPort over USB-C for
-> > > +       smartphone and tablets.
-> > > +       This driver only supports the HDMI to DP component of the chip.
-> > > +
-> > >  config DRM_ANALOGIX_ANX78XX
-> > >       tristate "Analogix ANX78XX bridge"
-> > >       select DRM_KMS_HELPER
-> > > diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-> > > index 4934fcf5a6f8..7a1e0ec032e6 100644
-> > > --- a/drivers/gpu/drm/bridge/Makefile
-> > > +++ b/drivers/gpu/drm/bridge/Makefile
-> > > @@ -1,4 +1,5 @@
-> > >  # SPDX-License-Identifier: GPL-2.0
-> > > +obj-$(CONFIG_DRM_ANALOGIX_ANX7688) += analogix-anx7688.o
-> > >  obj-$(CONFIG_DRM_ANALOGIX_ANX78XX) += analogix-anx78xx.o
-> > >  obj-$(CONFIG_DRM_CDNS_DSI) += cdns-dsi.o
-> > >  obj-$(CONFIG_DRM_DUMB_VGA_DAC) += dumb-vga-dac.o
-> > > diff --git a/drivers/gpu/drm/bridge/analogix-anx7688.c b/drivers/gpu/drm/bridge/analogix-anx7688.c
-> > > new file mode 100644
-> > > index 000000000000..baaed48d6201
-> > > --- /dev/null
-> > > +++ b/drivers/gpu/drm/bridge/analogix-anx7688.c
-> > > @@ -0,0 +1,202 @@
-> > > +// SPDX-License-Identifier: GPL-2.0-only
-> > > +/*
-> > > + * ANX7688 HDMI->DP bridge driver
-> > > + *
-> > > + * Copyright 2016 Google LLC
-> > > + */
-> > > +
-> > > +#include <linux/i2c.h>
-> > > +#include <linux/module.h>
-> > > +#include <linux/regmap.h>
-> > > +#include <drm/drm_bridge.h>
-> > > +
-> > > +/* Register addresses */
-> > > +#define VENDOR_ID_REG 0x00
-> > > +#define DEVICE_ID_REG 0x02
-> > > +
-> > > +#define FW_VERSION_REG 0x80
-> > > +
-> > > +#define DP_BANDWIDTH_REG 0x85
-> > > +#define DP_LANE_COUNT_REG 0x86
-> >
-> > Are these registers defined by the ANX7688 hardware, or by the firmware
-> > running on the chip (and, I assume, developed by Google) ?
-> >
-> By firmware developed by ANX provided to Google.
+Please pull this in and put the other patches on top of that.
 
-We asked for these registers to be added to ANX FW, and this is the FW
-that is used by all elm/hana Chromebooks (I have no idea about other
-ANX customers...). We have facilities to update the ANX FW from
-coreboot/depthcharge on Chromebooks, but that does not really matter:
-the factory FW of all MP Chromebooks does provide these registers.
+I had a bit of mess in my subsystems last kernel cycle so I
+want to avoid that by strictly including all larger commits
+in my trees.
 
-Thanks.
+Yours,
+Linus Walleij
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
