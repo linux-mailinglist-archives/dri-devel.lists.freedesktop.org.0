@@ -2,22 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C64BB121C18
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 22:42:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E0CE121C1D
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 22:43:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 720A389C46;
-	Mon, 16 Dec 2019 21:41:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D66A6E8AF;
+	Mon, 16 Dec 2019 21:43:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DEE189C46
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 21:41:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 892DA6E8AF
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 21:43:14 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 205879] amdgpu: blank screen on RX 460
-Date: Mon, 16 Dec 2019 21:41:58 +0000
+Subject: [Bug 200695] Blank screen on RX 580 with amdgpu.dc=1 enabled (no
+ displays detected)
+Date: Mon, 16 Dec 2019 21:43:14 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -32,10 +33,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-205879-2300-d98HxMm0Fs@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-205879-2300@https.bugzilla.kernel.org/>
-References: <bug-205879-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-200695-2300-G87kuGRBOf@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-200695-2300@https.bugzilla.kernel.org/>
+References: <bug-200695-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -56,26 +57,11 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=205879
+https://bugzilla.kernel.org/show_bug.cgi?id=200695
 
---- Comment #3 from Bjoern Franke (bjo@nord-west.org) ---
-Created attachment 286321
-  --> https://bugzilla.kernel.org/attachment.cgi?id=286321&action=edit
-dmesg with amdgpu.dc_log=1
-
-Enabling dc_log=1 shows similarities to #200695, but only with one monitor
-connected via HDMI.
-
-[   19.548801] [drm:drm_client_modeset_probe [drm]] No connectors reported
-connected with modes
-[   19.548809] [drm:drm_client_modeset_probe [drm]] connector 56 enabled? no
-[   19.548816] [drm:drm_client_modeset_probe [drm]] connector 60 enabled? no
-[   19.548823] [drm:drm_client_modeset_probe [drm]] connector 64 enabled? no
-[   19.548831] [drm:drm_client_modeset_probe [drm]] Not using firmware
-configuration
-[   19.548838] [drm:drm_client_modeset_probe [drm]] picking CRTCs for
-16384x16384 config
-[   19.548841] [drm] Cannot find any crtc or sizes
+--- Comment #34 from Bjoern Franke (bjo@nord-west.org) ---
+I'm getting this issue with only one monitor via HDMI connected. It was gone
+some kernel versions before and came back with 5.4.x it seems.
 
 -- 
 You are receiving this mail because:
