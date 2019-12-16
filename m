@@ -1,45 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9D121228FA
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 11:33:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16E0E1228E2
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 11:32:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 644576E9AC;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 316E66E9A8;
 	Tue, 17 Dec 2019 10:32:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 937 seconds by postgrey-1.36 at gabe;
- Mon, 16 Dec 2019 17:38:52 UTC
-Received: from huawei.com (lhrrgout.huawei.com [185.176.76.210])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 794996E850
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 17:38:52 +0000 (UTC)
-Received: from lhreml703-cah.china.huawei.com (unknown [172.18.7.107])
- by Forcepoint Email with ESMTP id EEF2E54E8228FDBE8727;
- Mon, 16 Dec 2019 17:23:10 +0000 (GMT)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- lhreml703-cah.china.huawei.com (10.201.108.44) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Mon, 16 Dec 2019 17:23:10 +0000
-Received: from [127.0.0.1] (10.202.226.46) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Mon, 16 Dec
- 2019 17:23:10 +0000
-To: xinliang <z.liuxinliang@hisilicon.com>, "kongxinwei (A)"
- <kong.kongxinwei@hisilicon.com>, "kongxinwei (A)"
- <kong.kongxinwei@hisilicon.com>, "Chenfeng (puck)" <puck.chen@hisilicon.com>, 
- "airlied@linux.ie" <airlied@linux.ie>, <daniel@ffwll.ch>
-From: John Garry <john.garry@huawei.com>
-Subject: Warnings in DRM code when removing/unbinding a driver
-Message-ID: <07899bd5-e9a5-cff0-395f-b4fb3f0f7f6c@huawei.com>
-Date: Mon, 16 Dec 2019 17:23:09 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.2
-MIME-Version: 1.0
+Received: from JPN01-OS2-obe.outbound.protection.outlook.com
+ (mail-eopbgr1410122.outbound.protection.outlook.com [40.107.141.122])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 798AE89993
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 17:39:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RnoHhTXeUbxK2NcxWOjKHsFYBGJJPdZktdxk96UmLYvbcyNQwWvurm7di04bJUityodr3bL1rpTa03z6a0Ms7ZKPXALNpZ+qPFiFPIxEk3SUfS97iTrB+EXbc4MUtW7ozN30KTvvdjEK4RHMATTRWmTj2Rv7Mv1ag0eWzAPOgluSOcOUZQPL/gZjnGHbVzP4GVIBatmAuLzuDPDwyhRRp7DmhJIntxJwbFTzD/IjoUMwhxFiVsK48zfu0IJZuY9pNDOwccwYighW662nPjonFWlKuq8+iilq3/6brTGvD1xAQBVbn/pXrkenEY9X1YMzr6v6+0XGZqQ6Mx4LYU9r9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XAqBReP6zvOwiS491+E5NbwZaBGcd1EPtd7r3min2Yc=;
+ b=RD2U257dKJFg2Dy6PFJCJVuHCye+k/bPlepohZU2P08ZhEg490R8VkfBD060kJAmFzVvFB9GcXT2DZfksvR45sGgelRuAvAylDhF+bT+gAZy3UG/1yfaAMz1/6ydI6Za3MFIlet25kY+528rMdMMl4UYWe8lkpJ0BETssU3sT87f6xDTU8cR64irXZPJL30c2qw6EhjFPb9jUhch/2G3K2K6WJO9s0Dir/sK4WQ/CzDs8YfWvxwaQLmHteEesjhKZkTaqVEwc0ovGAOjjTX20WdVhq/JzmU+CIBGkjVcak33TRz/gS9wvvvcVtjPoX6x6NxN4KQDcbdtE06eaPNSqA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XAqBReP6zvOwiS491+E5NbwZaBGcd1EPtd7r3min2Yc=;
+ b=IAPPbKFaM72dGmkvxCFhuN4A4FlgjimU8ELl3jP2fQkOUZIzjHrUJfhmiCmB4/9qD1/vSxfBMqr5AiMTl542lui/ZOLX31ex7XdSCQ1wJ6qF6CUsSBnJVD9iWugxvrjizzoQhPRHBPRjUkkvgjfaF2W+xW372Hr2mc+3VOa7eN0=
+Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com (52.133.163.13) by
+ TY1PR01MB1834.jpnprd01.prod.outlook.com (52.133.164.19) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2538.16; Mon, 16 Dec 2019 17:39:55 +0000
+Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com
+ ([fe80::5166:5e51:90f5:3ee1]) by TY1PR01MB1770.jpnprd01.prod.outlook.com
+ ([fe80::5166:5e51:90f5:3ee1%7]) with mapi id 15.20.2538.019; Mon, 16 Dec 2019
+ 17:39:55 +0000
+From: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH v2] drm: rcar-du: lvds: Get mode from state
+Thread-Topic: [PATCH v2] drm: rcar-du: lvds: Get mode from state
+Thread-Index: AQHVseMQmXx5CMUza0qj5zlF2goIXKe8/k/w
+Date: Mon, 16 Dec 2019 17:39:55 +0000
+Message-ID: <TY1PR01MB1770A0A708F35405E76869E6C0510@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+References: <20191213182742.24348-1-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20191213182742.24348-1-laurent.pinchart+renesas@ideasonboard.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-X-Originating-IP: [10.202.226.46]
-X-ClientProxiedBy: lhreml728-chm.china.huawei.com (10.201.108.79) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=fabrizio.castro@bp.renesas.com; 
+x-originating-ip: [193.141.220.21]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: aec030e3-6a05-4007-5142-08d7824ef6ca
+x-ms-traffictypediagnostic: TY1PR01MB1834:
+x-microsoft-antispam-prvs: <TY1PR01MB183477A5F5BD84C27B8212D9C0510@TY1PR01MB1834.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1303;
+x-forefront-prvs: 02530BD3AA
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(4636009)(346002)(396003)(366004)(376002)(136003)(39860400002)(199004)(189003)(2906002)(44832011)(478600001)(966005)(33656002)(110136005)(54906003)(8936002)(8676002)(52536014)(81156014)(81166006)(53546011)(6506007)(5660300002)(186003)(26005)(4326008)(64756008)(66556008)(66446008)(66946007)(66476007)(76116006)(9686003)(55016002)(86362001)(71200400001)(7696005)(316002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:TY1PR01MB1834;
+ H:TY1PR01MB1770.jpnprd01.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:0; MX:1; 
+received-spf: None (protection.outlook.com: bp.renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: OzUepkYEIrv4T/LyVN3+KFKq3xNDyDFm9uvmScDU5ep2YFhs+9XQUTgYswBEuBlwn2zYIID4xfc2klaqvcvYjMJFandm2kzqAjA6KR0XW8kMGQPsqFBWyeCpD38j9CM4h4sYmocWCa8jW3oBYIDA3qr+9SsdFErSPvG+5wb7iiUI84we7nV1MDDjEx2AAkV9e7T0wpSd3xWUbK3B4uBQ1YaHhG/VWB9/EsEkkyOHew3lAVXHb8JUH/9/jAI7vvxGqsk/TDJEG2u6uhzvUbRuTMq+YVYNE4UnpU9X36S43WCk0kvFpvi39fSVMGQvon32C8IP7OEAPoD+fXwFZ3qY+NqaCkgoFItc4KOD4JE77aQKHDqpMHMgdAzidO3X5nRxmD5iFoZUNvVLknlLuuQEgLFk8Uya3Y9g/IKh0LqeWFmOWPmWcwvnQOYIJ8+JU9UvMDCAuknvTH72+/PINPFPvNRjOwfo+5bmyfmnCAcK0W4=
+x-ms-exchange-transport-forked: True
+MIME-Version: 1.0
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: aec030e3-6a05-4007-5142-08d7824ef6ca
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Dec 2019 17:39:55.4039 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: +cUB0gDhSLhHOlVw7GCrhVGNiVOFaDfIBPTmt0FuTuaSZdlOwnnKVQWmewDFqa5mzqAgSQgPxwAZNo4Z/xSibxEKjkOua45XRUEdqDuWyyY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1834
 X-Mailman-Approved-At: Tue, 17 Dec 2019 10:31:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,155 +93,338 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+Hi Laurent,
 
-Enabling CONFIG_DEBUG_TEST_DRIVER_REMOVE causes many warns on a system 
-with the HIBMC hw:
+Thank you for your patch!
 
-[   27.788806] WARNING: CPU: 24 PID: 1 at 
-drivers/gpu/drm/drm_gem_vram_helper.c:564 bo_driver_move_notify+0x8c/0x98
-[   27.798969] Modules linked in:
-[   27.802018] CPU: 24 PID: 1 Comm: swapper/0 Tainted: G    B 
-  5.5.0-rc1-dirty #565
-[   27.810358] Hardware name: Huawei D06 /D06, BIOS Hisilicon D06 UEFI 
-RC0 - V1.16.01 03/15/2019
-[   27.818872] pstate: 20c00009 (nzCv daif +PAN +UAO)
-[   27.823654] pc : bo_driver_move_notify+0x8c/0x98
-[   27.828262] lr : bo_driver_move_notify+0x40/0x98
-[   27.832868] sp : ffff00236f0677e0
-[   27.836173] x29: ffff00236f0677e0 x28: ffffa0001454e5e0
-[   27.841476] x27: ffff002366e52128 x26: ffffa000149e67b0
-[   27.846779] x25: ffff002366e523e0 x24: ffff002336936120
-[   27.852082] x23: ffff0023346f4010 x22: ffff002336936128
-[   27.857385] x21: ffffa000149c15c0 x20: ffff0023369361f8
-[   27.862687] x19: ffff002336936000 x18: 0000000000001258
-[   27.867989] x17: 0000000000001190 x16: 00000000000011d0
-[   27.873292] x15: 0000000000001348 x14: ffffa00012d68190
-[   27.878595] x13: 0000000000000006 x12: 1ffff40003241f91
-[   27.883897] x11: ffff940003241f91 x10: dfffa00000000000
-[   27.889200] x9 : ffff940003241f92 x8 : 0000000000000001
-[   27.894502] x7 : ffffa0001920fc88 x6 : ffff940003241f92
-[   27.899804] x5 : ffff940003241f92 x4 : ffff0023369363a0
-[   27.905107] x3 : ffffa00010c104b8 x2 : dfffa00000000000
-[   27.910409] x1 : 0000000000000003 x0 : 0000000000000001
-[   27.915712] Call trace:
-[   27.918151]  bo_driver_move_notify+0x8c/0x98
-[   27.922412]  ttm_bo_cleanup_memtype_use+0x54/0x100
-[   27.927194]  ttm_bo_put+0x3a0/0x5d0
-[   27.930673]  drm_gem_vram_object_free+0xc/0x18
-[   27.935109]  drm_gem_object_free+0x34/0xd0
-[   27.939196]  drm_gem_object_put_unlocked+0xc8/0xf0
-[   27.943978]  hibmc_user_framebuffer_destroy+0x20/0x40
-[   27.949020]  drm_framebuffer_free+0x48/0x58
-[   27.953194]  drm_mode_object_put.part.1+0x90/0xe8
-[   27.957889]  drm_mode_object_put+0x28/0x38
-[   27.961976]  hibmc_fbdev_fini+0x54/0x78
-[   27.965802]  hibmc_unload+0x2c/0xd0
-[   27.969281]  hibmc_pci_remove+0x2c/0x40
-[   27.973109]  pci_device_remove+0x6c/0x140
-[   27.977110]  really_probe+0x174/0x548
-[   27.980763]  driver_probe_device+0x7c/0x148
-[   27.984936]  device_driver_attach+0x94/0xa0
-[   27.989109]  __driver_attach+0xa8/0x110
-[   27.992935]  bus_for_each_dev+0xe8/0x158
-[   27.996849]  driver_attach+0x30/0x40
-[   28.000415]  bus_add_driver+0x234/0x2f0
-[   28.004241]  driver_register+0xbc/0x1d0
-[   28.008067]  __pci_register_driver+0xbc/0xd0
-[   28.012329]  hibmc_pci_driver_init+0x20/0x28
-[   28.016590]  do_one_initcall+0xb4/0x254
-[   28.020417]  kernel_init_freeable+0x27c/0x328
-[   28.024765]  kernel_init+0x10/0x118
-[   28.028245]  ret_from_fork+0x10/0x18
-[   28.031813] ---[ end trace 35a83b71b657878d ]---
-[   28.036503] ------------[ cut here ]------------
-[   28.041115] WARNING: CPU: 24 PID: 1 at 
-drivers/gpu/drm/drm_gem_vram_helper.c:40 ttm_buffer_object_destroy+0x4c/0x80
-[   28.051537] Modules linked in:
-[   28.054585] CPU: 24 PID: 1 Comm: swapper/0 Tainted: G    B   W 
-  5.5.0-rc1-dirty #565
-[   28.062924] Hardware name: Huawei D06 /D06, BIOS Hisilicon D06 UEFI 
-RC0 - V1.16.01 03/15/2019
+> From: linux-renesas-soc-owner@vger.kernel.org <linux-renesas-soc-owner@vger.kernel.org> On Behalf Of Laurent Pinchart
+> Sent: 13 December 2019 18:28
+> Subject: [PATCH v2] drm: rcar-du: lvds: Get mode from state
+> 
+> The R-Car LVDS encoder driver implements the bridge .mode_set()
+> operation for the sole purpose of storing the mode in the LVDS private
+> data, to be used later when enabling the encoder.
+> 
+> Switch to the bridge .atomic_enable() and .atomic_disable() operations
+> in order to access the global atomic state, and get the mode from the
+> state instead. Remove both the unneeded .mode_set() operation and the
+> display_mode and mode fields storing state data from the rcar_lvds
+> private structure.
+> 
+> As a side effect we get the CRTC from the state, replace the CRTC
+> pointer retrieved through the bridge's encoder that shouldn't be used by
+> atomic drivers.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+> Changes since v1:
+> 
+> - Call .atomic_enable() on the companion
+> - Set companion->encoder in .attach()
+> 
+> The patch has been tested on the Draak board with the HDMI output in
+> LVDS dual-link mode, and on the Salvator-XS board with the HDMI, VGA and
+> LVDS outputs in single-link mode.
+> 
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_lvds.c | 158 +++++++++++++++-------------
+>  1 file changed, 85 insertions(+), 73 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> index 8c6c172bbf2e..c550bfd59e71 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> @@ -65,9 +65,6 @@ struct rcar_lvds {
+>  		struct clk *dotclkin[2];	/* External DU clocks */
+>  	} clocks;
+> 
+> -	struct drm_display_mode display_mode;
+> -	enum rcar_lvds_mode mode;
+> -
+>  	struct drm_bridge *companion;
+>  	bool dual_link;
+>  };
+> @@ -402,10 +399,51 @@ EXPORT_SYMBOL_GPL(rcar_lvds_clk_disable);
+>   * Bridge
+>   */
+> 
+> -static void rcar_lvds_enable(struct drm_bridge *bridge)
+> +static enum rcar_lvds_mode rcar_lvds_get_lvds_mode(struct rcar_lvds *lvds,
+> +					const struct drm_connector *connector)
+> +{
+> +	const struct drm_display_info *info;
+> +	enum rcar_lvds_mode mode;
+> +
+> +	/*
+> +	 * There is no API yet to retrieve LVDS mode from a bridge, only panels
+> +	 * are supported.
+> +	 */
+> +	if (!lvds->panel)
+> +		return RCAR_LVDS_MODE_JEIDA;
+> +
+> +	info = &connector->display_info;
+> +	if (!info->num_bus_formats || !info->bus_formats) {
+> +		dev_err(lvds->dev, "no LVDS bus format reported\n");
 
-[snip]
+dev_warn perhaps?
 
-Indeed, simply unbinding the device from the driver causes the same sort 
-of issue:
+Also, how about:
+s/no LVDS bus format reported/no LVDS bus format reported, using JEIDA/
+or something along those lines?
 
-root@(none)$ cd ./bus/pci/drivers/hibmc-drm/
-root@(none)$ ls
-0000:05:00.0  bind          new_id        remove_id     uevent        unbind
-root@(none)$ echo 0000\:05\:00.0 > unbind
-[  116.074352] ------------[ cut here ]------------
-[  116.078978] WARNING: CPU: 17 PID: 1178 at 
-drivers/gpu/drm/drm_gem_vram_helper.c:40 ttm_buffer_object_destroy+0x4c/0x80
-[  116.089661] Modules linked in:
-[  116.092711] CPU: 17 PID: 1178 Comm: sh Tainted: G    B   W 
-5.5.0-rc1-dirty #565
-[  116.100704] Hardware name: Huawei D06 /D06, BIOS Hisilicon D06 UEFI 
-RC0 - V1.16.01 03/15/2019
-[  116.109218] pstate: 20400009 (nzCv daif +PAN -UAO)
-[  116.114001] pc : ttm_buffer_object_destroy+0x4c/0x80
-[  116.118956] lr : ttm_buffer_object_destroy+0x18/0x80
-[  116.123910] sp : ffff0022e6cef8e0
-[  116.127215] x29: ffff0022e6cef8e0 x28: ffff00231b1fb000
-[  116.132519] x27: 0000000000000000 x26: ffff00231b1fb000
-[  116.137821] x25: ffff0022e6cefdc0 x24: 0000000000002480
-[  116.143124] x23: ffff0023682b6ab0 x22: ffff0023682b6800
-[  116.148427] x21: ffff0023682b6800 x20: 0000000000000000
-[  116.153730] x19: ffff0023682b6800 x18: 0000000000000000
-[  116.159032] x17: 000000000000000000000000001
-[  116.185545] x7 : ffff0023682b6b07 x6 : ffff80046d056d61
-[  116.190848] x5 : ffff80046d056d61 x4 : ffff0023682b6ba0
-[  116.196151] x3 : ffffa00010197338 x2 : dfffa00000000000
-[  116.201453] x1 : 0000000000000003 x0 : 0000000000000001
-[  116.206756] Call trace:
-[  116.209195]  ttm_buffer_object_destroy+0x4c/0x80
-[  116.213803]  ttm_bo_release_list+0x184/0x220
-[  116.218064]  ttm_bo_put+0x410/0x5d0
-[  116.221544]  drm_gem_vram_object_free+0xc/0x18
-[  116.225979]  drm_gem_object_free+0x34/0xd0
-[  116.230066]  drm_gem_object_put_unlocked+0xc8/0xf0
-[  116.234848]  hibmc_user_framebuffer_destroy+0x20/0x40
-[  116.239890]  drm_framebuffer_free+0x48/0x58
-[  116.244064]  drm_mode_object_put.part.1+0x90/0xe8
-[  116.248759]  drm_mode_object_put+0x28/0x38
-[  116.252846]  hibmc_fbdev_fini+0x54/0x78
-[  116.256672]  hibmc_unload+0x2c/0xd0
-[  116.260151]  hibmc_pci_remove+0x2c/0x40
-[  116.263979]  pci_device_remove+0x6c/0x140
-[  116.267980]  device_release_driver_internal+0x134/0x250
-[  116.273196]  device_driver_detach+0x28/0x38
-[  116.277369]  unbind_store+0xfc/0x150
-[  116.280934]  drv_attr_store+0x48/0x60
-[  116.284589]  sysfs_kf_write+0x80/0xb0
-[  116.288241]  kernfs_fop_write+0x1d4/0x320
-[  116.292243]  __vfs_write+0x54/0x98
-[  116.295635]  vfs_write+0xe8/0x270
-[  116.298940]  ksys_write+0xc8/0x180
-[  116.302333]  __arm64_sys_write+0x40/0x50
-[  116.306248]  el0_svc_common.constprop.0+0xa4/0x1f8
-[  116.311029]  el0_svc_handler+0x34/0xb0
-[  116.314770]  el0_sync_handler+0x10c/0x1c8
-[  116.318769]  el0_sync+0x140/0x180
-[  116.322074] ---[ end trace e60e43d0e316b5c8 ]---
-[  116.326868] ------------[ cut here ]------------
+> +		return RCAR_LVDS_MODE_JEIDA;
+> +	}
+> +
+> +	switch (info->bus_formats[0]) {
+> +	case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
 
+Shall we take the below into account here?
+https://lwn.net/Articles/794944/
 
-dmesg and .config is here:
-https://pastebin.com/4P5yaZBS
+> +	case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
+> +		mode = RCAR_LVDS_MODE_JEIDA;
+> +		break;
+> +	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
+> +		mode = RCAR_LVDS_MODE_VESA;
+> +		break;
+> +	default:
+> +		dev_err(lvds->dev, "unsupported LVDS bus format 0x%04x\n",
+> +			info->bus_formats[0]);
 
-I'm not sure if this is a HIBMC driver issue or issue with the framework.
+dev_warn perhaps?
 
-john
+Also, how about:
+s/unsupported LVDS bus format 0x%04x/unsupported LVDS bus format 0x%04x, using JEIDA/
+or something along those lines?
 
+> +		return RCAR_LVDS_MODE_JEIDA;
+> +	}
+> +
+> +	if (info->bus_flags & DRM_BUS_FLAG_DATA_LSB_TO_MSB)
+> +		mode |= RCAR_LVDS_MODE_MIRROR;
+> +
+> +	return mode;
+> +}
+> +
+> +static void rcar_lvds_atomic_enable(struct drm_bridge *bridge,
+> +				    struct drm_atomic_state *state)
+>  {
+>  	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
+> -	const struct drm_display_mode *mode = &lvds->display_mode;
+> +	struct drm_connector *connector;
+> +	struct drm_crtc *crtc;
+>  	u32 lvdhcr;
+>  	u32 lvdcr0;
+>  	int ret;
+> @@ -414,9 +452,14 @@ static void rcar_lvds_enable(struct drm_bridge *bridge)
+>  	if (ret < 0)
+>  		return;
+> 
+> +	/* Retrieve the connector and CRTC through the atomic state. */
+> +	connector = drm_atomic_get_new_connector_for_encoder(state,
+> +							     bridge->encoder);
+> +	crtc = drm_atomic_get_new_connector_state(state, connector)->crtc;
+> +
+>  	/* Enable the companion LVDS encoder in dual-link mode. */
+>  	if (lvds->dual_link && lvds->companion)
+> -		lvds->companion->funcs->enable(lvds->companion);
+> +		lvds->companion->funcs->atomic_enable(lvds->companion, state);
+> 
+>  	/*
+>  	 * Hardcode the channels and control signals routing for now.
+> @@ -452,18 +495,20 @@ static void rcar_lvds_enable(struct drm_bridge *bridge)
+>  	 * PLL clock configuration on all instances but the companion in
+>  	 * dual-link mode.
+>  	 */
+> -	if (!lvds->dual_link || lvds->companion)
+> +	if (!lvds->dual_link || lvds->companion) {
+> +		const struct drm_crtc_state *crtc_state =
+> +			drm_atomic_get_new_crtc_state(state, crtc);
+> +		const struct drm_display_mode *mode =
+> +			&crtc_state->adjusted_mode;
+> +
+>  		lvds->info->pll_setup(lvds, mode->clock * 1000);
+> +	}
+> 
+>  	/* Set the LVDS mode and select the input. */
+> -	lvdcr0 = lvds->mode << LVDCR0_LVMD_SHIFT;
+> +	lvdcr0 = rcar_lvds_get_lvds_mode(lvds, connector) << LVDCR0_LVMD_SHIFT;
+> 
+>  	if (lvds->bridge.encoder) {
+> -		/*
+> -		 * FIXME: We should really retrieve the CRTC through the state,
+> -		 * but how do we get a state pointer?
+> -		 */
+> -		if (drm_crtc_index(lvds->bridge.encoder->crtc) == 2)
+> +		if (drm_crtc_index(crtc) == 2)
+>  			lvdcr0 |= LVDCR0_DUSEL;
+>  	}
+> 
+> @@ -520,7 +565,8 @@ static void rcar_lvds_enable(struct drm_bridge *bridge)
+>  	}
+>  }
+> 
+> -static void rcar_lvds_disable(struct drm_bridge *bridge)
+> +static void rcar_lvds_atomic_disable(struct drm_bridge *bridge,
+> +				     struct drm_atomic_state *state)
+>  {
+>  	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
+> 
+> @@ -558,54 +604,6 @@ static bool rcar_lvds_mode_fixup(struct drm_bridge *bridge,
+>  	return true;
+>  }
+> 
+> -static void rcar_lvds_get_lvds_mode(struct rcar_lvds *lvds)
+> -{
+> -	struct drm_display_info *info = &lvds->connector.display_info;
+> -	enum rcar_lvds_mode mode;
+> -
+> -	/*
+> -	 * There is no API yet to retrieve LVDS mode from a bridge, only panels
+> -	 * are supported.
+> -	 */
+> -	if (!lvds->panel)
+> -		return;
+> -
+> -	if (!info->num_bus_formats || !info->bus_formats) {
+> -		dev_err(lvds->dev, "no LVDS bus format reported\n");
+> -		return;
+> -	}
+> -
+> -	switch (info->bus_formats[0]) {
+> -	case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
+> -	case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
+> -		mode = RCAR_LVDS_MODE_JEIDA;
+> -		break;
+> -	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
+> -		mode = RCAR_LVDS_MODE_VESA;
+> -		break;
+> -	default:
+> -		dev_err(lvds->dev, "unsupported LVDS bus format 0x%04x\n",
+> -			info->bus_formats[0]);
+> -		return;
+> -	}
+> -
+> -	if (info->bus_flags & DRM_BUS_FLAG_DATA_LSB_TO_MSB)
+> -		mode |= RCAR_LVDS_MODE_MIRROR;
+> -
+> -	lvds->mode = mode;
+> -}
+> -
+> -static void rcar_lvds_mode_set(struct drm_bridge *bridge,
+> -			       const struct drm_display_mode *mode,
+> -			       const struct drm_display_mode *adjusted_mode)
+> -{
+> -	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
+> -
+> -	lvds->display_mode = *adjusted_mode;
+> -
+> -	rcar_lvds_get_lvds_mode(lvds);
+> -}
+> -
+>  static int rcar_lvds_attach(struct drm_bridge *bridge)
+>  {
+>  	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
+> @@ -614,32 +612,47 @@ static int rcar_lvds_attach(struct drm_bridge *bridge)
+>  	int ret;
+> 
+>  	/* If we have a next bridge just attach it. */
+> -	if (lvds->next_bridge)
+> -		return drm_bridge_attach(bridge->encoder, lvds->next_bridge,
+> -					 bridge);
+> +	if (lvds->next_bridge) {
+> +		ret = drm_bridge_attach(bridge->encoder, lvds->next_bridge,
+> +					bridge);
+> +		goto done;
+> +	}
+> 
+>  	/* Otherwise if we have a panel, create a connector. */
+
+It doesn't look like this comment is in the right place. We should probably move this
+comment below and add a new comment here. What do you think?
+
+> -	if (!lvds->panel)
+> -		return 0;
+> +	if (!lvds->panel) {
+> +		ret = 0;
+> +		goto done;
+> +	}
+> 
+>  	ret = drm_connector_init(bridge->dev, connector, &rcar_lvds_conn_funcs,
+>  				 DRM_MODE_CONNECTOR_LVDS);
+>  	if (ret < 0)
+> -		return ret;
+> +		goto done;
+> 
+>  	drm_connector_helper_add(connector, &rcar_lvds_conn_helper_funcs);
+> 
+>  	ret = drm_connector_attach_encoder(connector, encoder);
+>  	if (ret < 0)
+> -		return ret;
+> +		goto done;
+> +
+> +	ret = drm_panel_attach(lvds->panel, connector);
+> 
+> -	return drm_panel_attach(lvds->panel, connector);
+> +done:
+> +	if (!ret) {
+> +		if (lvds->companion)
+> +			lvds->companion->encoder = encoder;
+> +	}
+
+How about replacing the above with:
+        if (!ret && lvds->companion)
+                lvds->companion->encoder = encoder;
+
+Also, I am not a DRM expert, so this comment might have no real value,
+but I do wonder if tampering with the drm_bridge structure for the companion
+encoder is safe to do here?
+
+> +
+> +	return 0;
+>  }
+> 
+>  static void rcar_lvds_detach(struct drm_bridge *bridge)
+>  {
+>  	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
+> 
+> +	if (lvds->companion)
+> +		lvds->companion->encoder = NULL;
+> +
+>  	if (lvds->panel)
+>  		drm_panel_detach(lvds->panel);
+>  }
+> @@ -647,10 +660,9 @@ static void rcar_lvds_detach(struct drm_bridge *bridge)
+>  static const struct drm_bridge_funcs rcar_lvds_bridge_ops = {
+>  	.attach = rcar_lvds_attach,
+>  	.detach = rcar_lvds_detach,
+> -	.enable = rcar_lvds_enable,
+> -	.disable = rcar_lvds_disable,
+> +	.atomic_enable = rcar_lvds_atomic_enable,
+> +	.atomic_disable = rcar_lvds_atomic_disable,
+>  	.mode_fixup = rcar_lvds_mode_fixup,
+> -	.mode_set = rcar_lvds_mode_set,
+>  };
+> 
+>  bool rcar_lvds_dual_link(struct drm_bridge *bridge)
+
+I did test this patch on the RZ/G2E with dual-link support and it seems to be working
+just fine.
+
+Cheers,
+Fab
+
+> --
+> Regards,
+> 
+> Laurent Pinchart
 
 _______________________________________________
 dri-devel mailing list
