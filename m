@@ -2,30 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E76191210EA
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 18:07:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FC0912110E
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 18:08:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86DBC6E836;
-	Mon, 16 Dec 2019 17:07:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EF816E838;
+	Mon, 16 Dec 2019 17:08:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05B3A6E836
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 17:07:18 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: ezequiel) with ESMTPSA id 62C98291731
-Message-ID: <bb97505cfadae364afa14605793affe4a7d69ffa.camel@collabora.com>
-Subject: Re: [PATCH v21 2/2] drm/bridge: Add I2C based driver for ps8640 bridge
-From: Ezequiel Garcia <ezequiel@collabora.com>
-To: Enric Balletbo i Serra <enric.balletbo@collabora.com>, 
- linux-kernel@vger.kernel.org, Wolfram Sang <wsa@the-dreams.de>
-Date: Mon, 16 Dec 2019 14:07:05 -0300
-In-Reply-To: <20191216135834.27775-3-enric.balletbo@collabora.com>
-References: <20191216135834.27775-1-enric.balletbo@collabora.com>
- <20191216135834.27775-3-enric.balletbo@collabora.com>
-Organization: Collabora
-User-Agent: Evolution 3.34.1-2 
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3ED9E6E838
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 17:08:31 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CD8741FB;
+ Mon, 16 Dec 2019 09:08:30 -0800 (PST)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 915B73F718;
+ Mon, 16 Dec 2019 09:08:30 -0800 (PST)
+Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
+ id 59527682AC5; Mon, 16 Dec 2019 17:08:29 +0000 (GMT)
+Date: Mon, 16 Dec 2019 17:08:29 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Subject: Re: [PATCHv4 03/36] drm/gem-fb-helper: Allow drivers to allocate
+ struct drm_framebuffer on their own
+Message-ID: <20191216170829.bemqww5g5yngltio@e110455-lin.cambridge.arm.com>
+References: <20191213155907.16581-1-andrzej.p@collabora.com>
+ <20191213155907.16581-4-andrzej.p@collabora.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20191213155907.16581-4-andrzej.p@collabora.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,432 +45,218 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulrich Hecht <uli@fpond.eu>, Jernej Skrabec <jernej.skrabec@siol.net>,
- drinkcat@chromium.org, Jitao Shi <jitao.shi@mediatek.com>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Neil Armstrong <narmstrong@baylibre.com>, linux-mediatek@lists.infradead.org,
- dri-devel@lists.freedesktop.org, hsinyi@chromium.org, matthias.bgg@gmail.com,
- Collabora Kernel ML <kernel@collabora.com>,
- linux-arm-kernel@lists.infradead.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Ayan Halder <Ayan.Halder@arm.com>, kernel@collabora.com,
+ David Airlie <airlied@linux.ie>, Sandy Huang <hjc@rock-chips.com>,
+ James Wang <james.qian.wang@arm.com>, dri-devel@lists.freedesktop.org,
+ Mihail Atanassov <mihail.atanassov@arm.com>, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2019-12-16 at 14:58 +0100, Enric Balletbo i Serra wrote:
-> From: Jitao Shi <jitao.shi@mediatek.com>
-> 
-> This patch adds drm_bridge driver for parade DSI to eDP bridge chip.
-> 
-> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-> Reviewed-by: Daniel Kurtz <djkurtz@chromium.org>
-> Reviewed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> [uli: followed API changes, removed FW update feature]
-> Signed-off-by: Ulrich Hecht <uli@fpond.eu>
-> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> ---
-> 
-> Changes in v21:
->  - Use devm_i2c_new_dummy_device and fix build issue using deprecated i2c_new_dummy
->  - Fix build issue due missing drm_bridge.h
->  - Do not remove in ps8640_remove device managed resources
-> 
-> Changes in v19:
->  - fixed return value of ps8640_probe() when no panel is found
-> 
-> Changes in v18:
->  - followed DRM API changes
->  - use DEVICE_ATTR_RO()
->  - remove firmware update code
->  - add SPDX identifier
-> 
-> Changes in v17:
->  - remove some unused head files.
->  - add macros for ps8640 pages.
->  - remove ddc_i2c client
->  - add mipi_dsi_device_register_full
->  - remove the manufacturer from the name and i2c_device_id
-> 
-> Changes in v16:
->  - Disable ps8640 DSI MCS Function.
->  - Rename gpios name more clearly.
->  - Tune the ps8640 power on sequence.
-> 
-> Changes in v15:
->  - Drop drm_connector_(un)register calls from parade ps8640.
->    The main DRM driver mtk_drm_drv now calls
->    drm_connector_register_all() after drm_dev_register() in the
->    mtk_drm_bind() function. That function should iterate over all
->    connectors and call drm_connector_register() for each of them.
->    So, remove drm_connector_(un)register calls from parade ps8640.
-> 
-> Changes in v14:
->  - update copyright info.
->  - change bridge_to_ps8640 and connector_to_ps8640 to inline function.
->  - fix some coding style.
->  - use sizeof as array counter.
->  - use drm_get_edid when read edid.
->  - add mutex when firmware updating.
-> 
-> Changes in v13:
->  - add const on data, ps8640_write_bytes(struct i2c_client *client, const u8 *data, u16 data_len)
->  - fix PAGE2_SW_REST tyro.
->  - move the buf[3] init to entrance of the function.
-> 
-> Changes in v12:
->  - fix hw_chip_id build warning
-> 
-> Changes in v11:
->  - Remove depends on I2C, add DRM depends
->  - Reuse ps8640_write_bytes() in ps8640_write_byte()
->  - Use timer check for polling like the routines in <linux/iopoll.h>
->  - Fix no drm_connector_unregister/drm_connector_cleanup when ps8640_bridge_attach fail
->  - Check the ps8640 hardware id in ps8640_validate_firmware
->  - Remove fw_version check
->  - Move ps8640_validate_firmware before ps8640_enter_bl
->  - Add ddc_i2c unregister when probe fail and ps8640_remove
-> 
->  drivers/gpu/drm/bridge/Kconfig         |  11 +
->  drivers/gpu/drm/bridge/Makefile        |   1 +
->  drivers/gpu/drm/bridge/parade-ps8640.c | 655 +++++++++++++++++++++++++
->  3 files changed, 667 insertions(+)
->  create mode 100644 drivers/gpu/drm/bridge/parade-ps8640.c
-> 
-> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-> index 4734f6993858..3e0a63011723 100644
-> --- a/drivers/gpu/drm/bridge/Kconfig
-> +++ b/drivers/gpu/drm/bridge/Kconfig
-> @@ -101,6 +101,17 @@ config DRM_PARADE_PS8622
->  	---help---
->  	  Parade eDP-LVDS bridge chip driver.
->  
-> +config DRM_PARADE_PS8640
-> +	tristate "Parade PS8640 MIPI DSI to eDP Converter"
-> +	depends on OF
-> +	select DRM_KMS_HELPER
-> +	select DRM_MIPI_DSI
-> +	select DRM_PANEL
-> +	help
-> +	  Choose this option if you have PS8640 for display
-> +	  The PS8640 is a high-performance and low-power
-> +	  MIPI DSI to eDP converter
-> +
->  config DRM_SIL_SII8620
->  	tristate "Silicon Image SII8620 HDMI/MHL bridge"
->  	depends on OF
-> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-> index 1c0c92667ac4..91490c595b38 100644
-> --- a/drivers/gpu/drm/bridge/Makefile
-> +++ b/drivers/gpu/drm/bridge/Makefile
-> @@ -8,6 +8,7 @@ obj-$(CONFIG_DRM_LVDS_ENCODER) += lvds-encoder.o
->  obj-$(CONFIG_DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW) += megachips-stdpxxxx-ge-b850v3-fw.o
->  obj-$(CONFIG_DRM_NXP_PTN3460) += nxp-ptn3460.o
->  obj-$(CONFIG_DRM_PARADE_PS8622) += parade-ps8622.o
-> +obj-$(CONFIG_DRM_PARADE_PS8640) += parade-ps8640.o
->  obj-$(CONFIG_DRM_SIL_SII8620) += sil-sii8620.o
->  obj-$(CONFIG_DRM_SII902X) += sii902x.o
->  obj-$(CONFIG_DRM_SII9234) += sii9234.o
-> diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-> new file mode 100644
-> index 000000000000..ab896ceb1a42
-> --- /dev/null
-> +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-> @@ -0,0 +1,655 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2016 MediaTek Inc.
-> + */
-> +
-> +#include <linux/delay.h>
-> +#include <linux/err.h>
-> +//#include <linux/firmware.h>
-
-Commented stuff should gone.
-
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/i2c.h>
-> +#include <linux/module.h>
-> +#include <linux/of_graph.h>
-> +#include <linux/regulator/consumer.h>
-> +//#include <asm/unaligned.h>
-
-Ditto.
-
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_bridge.h>
-> +#include <drm/drm_crtc_helper.h>
-> +#include <drm/drm_edid.h>
-> +#include <drm/drm_mipi_dsi.h>
-> +#include <drm/drm_panel.h>
-> +#include <drm/drm_print.h>
-> +#include <drm/drm_probe_helper.h>
-> +
-> +#define PAGE1_VSTART		0x6b
-> +#define PAGE2_SPI_CFG3		0x82
-> +#define I2C_TO_SPI_RESET	0x20
-> +#define PAGE2_ROMADD_BYTE1	0x8e
-> +#define PAGE2_ROMADD_BYTE2	0x8f
-> +#define PAGE2_SWSPI_WDATA	0x90
-> +#define PAGE2_SWSPI_RDATA	0x91
-> +#define PAGE2_SWSPI_LEN		0x92
-> +#define PAGE2_SWSPI_CTL		0x93
-> +#define TRIGGER_NO_READBACK	0x05
-> +#define TRIGGER_READBACK	0x01
-> +#define PAGE2_SPI_STATUS	0x9e
-> +#define SPI_READY		0x0c
-> +#define PAGE2_GPIO_L		0xa6
-> +#define PAGE2_GPIO_H		0xa7
-> +#define PS_GPIO9		BIT(1)
-> +#define PAGE2_IROM_CTRL		0xb0
-> +#define IROM_ENABLE		0xc0
-> +#define IROM_DISABLE		0x80
-> +#define PAGE2_SW_RESET		0xbc
-> +#define SPI_SW_RESET		BIT(7)
-> +#define MPU_SW_RESET		BIT(6)
-> +#define PAGE2_ENCTLSPI_WR	0xda
-> +#define PAGE2_I2C_BYPASS	0xea
-> +#define I2C_BYPASS_EN		0xd0
-> +#define PAGE2_MCS_EN		0xf3
-> +#define MCS_EN			BIT(0)
-> +#define PAGE3_SET_ADD		0xfe
-> +#define PAGE3_SET_VAL		0xff
-> +#define VDO_CTL_ADD		0x13
-> +#define VDO_DIS			0x18
-> +#define VDO_EN			0x1c
-> +#define PAGE4_REV_L		0xf0
-> +#define PAGE4_REV_H		0xf1
-> +#define PAGE4_CHIP_L		0xf2
-> +#define PAGE4_CHIP_H		0xf3
-> +
-> +#define PAGE0_DP_CNTL		0
-
-Unused macro.
-
-> +#define PAGE1_VDO_BDG		1
-> +#define PAGE2_TOP_CNTL		2
-> +#define PAGE3_DSI_CNTL1		3
-> +#define PAGE4_MIPI_PHY		4
-
-Ditto... maybe others as well?
-
-> +#define PAGE5_VPLL		5
-> +#define PAGE6_DSI_CNTL2		6
-> +#define PAGE7_SPI_CNTL		7
-> +#define MAX_DEVS		0x8
-> +
-> +struct ps8640_info {
-> +	u8 family_id;
-> +	u8 variant_id;
-> +	u16 version;
-> +};
-> +
-> +struct ps8640 {
-> +	struct drm_connector connector;
-> +	struct drm_bridge bridge;
-> +	struct edid *edid;
-> +	struct mipi_dsi_device *dsi;
-> +	struct i2c_client *page[MAX_DEVS];
-> +	struct regulator_bulk_data supplies[2];
-> +	struct drm_panel *panel;
-> +	struct gpio_desc *gpio_reset;
-> +	struct gpio_desc *gpio_power_down;
-> +	struct gpio_desc *gpio_mode_sel;
-> +	bool enabled;
-> +
-> +	/* firmware file info */
-> +	struct ps8640_info info;
-> +	bool in_fw_update;
-> +	/* for firmware update protect */
-> +	struct mutex fw_mutex;
-> +};
-> +
-> +static const u8 enc_ctrl_code[6] = { 0xaa, 0x55, 0x50, 0x41, 0x52, 0x44 };
-> +static const u8 hw_chip_id[4] = { 0x00, 0x0a, 0x00, 0x30 };
-> +
-
-More unused stuff. Left-overs?
-
-> +static inline struct ps8640 *bridge_to_ps8640(struct drm_bridge *e)
-> +{
-> +	return container_of(e, struct ps8640, bridge);
-> +}
-> +
-> +static inline struct ps8640 *connector_to_ps8640(struct drm_connector *e)
-> +{
-> +	return container_of(e, struct ps8640, connector);
-> +}
-> +
-> +static int ps8640_read(struct i2c_client *client, u8 reg, u8 *data,
-> +		       u16 data_len)
-> +{
-> +	int ret;
-> +	struct i2c_msg msgs[] = {
-> +		{
-> +		 .addr = client->addr,
-> +		 .flags = 0,
-> +		 .len = 1,
-> +		 .buf = &reg,
-> +		},
-> +		{
-> +		 .addr = client->addr,
-> +		 .flags = I2C_M_RD,
-> +		 .len = data_len,
-> +		 .buf = data,
-> +		}
-> +	};
-> +
-> +	ret = i2c_transfer(client->adapter, msgs, 2);
-> +
-> +	if (ret == 2)
-> +		return 0;
-> +	if (ret < 0)
-> +		return ret;
-> +	else
-> +		return -EIO;
-> +}
-> +
-> +static int ps8640_write_bytes(struct i2c_client *client, const u8 *data,
-> +			      u16 data_len)
-> +{
-> +	int ret;
-> +	struct i2c_msg msg;
-> +
-> +	msg.addr = client->addr;
-> +	msg.flags = 0;
-> +	msg.len = data_len;
-> +	msg.buf = (u8 *)data;
-> +
-> +	ret = i2c_transfer(client->adapter, &msg, 1);
-> +	if (ret == 1)
-> +		return 0;
-> +	if (ret < 0)
-> +		return ret;
-> +	else
-> +		return -EIO;
-> +}
-> +
-> +static int ps8640_write_byte(struct i2c_client *client, u8 reg, u8 data)
-> +{
-> +	u8 buf[] = { reg, data };
-> +
-
-I was gonna say you should avoid transmitting data
-in the stack, but then I noticed the I2C core doesn't
-complaint about it (doesn't use object_is_on_stack).
-
-Wolfram, does the I2C accept stacked (possibly non-DMA-able) objects?
-
-> +	return ps8640_write_bytes(client, buf, sizeof(buf));
-> +}
-> +
-> +static void ps8640_get_mcu_fw_version(struct ps8640 *ps_bridge)
-> +{
-> +	struct i2c_client *client = ps_bridge->page[PAGE5_VPLL];
-> +	u8 fw_ver[2];
-> +
-> +	ps8640_read(client, 0x4, fw_ver, sizeof(fw_ver));
-> +	ps_bridge->info.version = (fw_ver[0] << 8) | fw_ver[1];
-> +
-> +	DRM_INFO_ONCE("ps8640 rom fw version %d.%d\n", fw_ver[0], fw_ver[1]);
-
-Hm, isn't this too verbose?
-
-> +}
-> +
-> +static int ps8640_bridge_unmute(struct ps8640 *ps_bridge)
-> +{
-> +	struct i2c_client *client = ps_bridge->page[PAGE3_DSI_CNTL1];
-> +	u8 vdo_ctrl_buf[3] = { PAGE3_SET_ADD, VDO_CTL_ADD, VDO_EN };
-> +
-> +	return ps8640_write_bytes(client, vdo_ctrl_buf, sizeof(vdo_ctrl_buf));
-> +}
-> +
-> +static int ps8640_bridge_mute(struct ps8640 *ps_bridge)
-> +{
-> +	struct i2c_client *client = ps_bridge->page[PAGE3_DSI_CNTL1];
-> +	u8 vdo_ctrl_buf[3] = { PAGE3_SET_ADD, VDO_CTL_ADD, VDO_DIS };
-> +
-> +	return ps8640_write_bytes(client, vdo_ctrl_buf, sizeof(vdo_ctrl_buf));
-> +}
-> +
-> +static void ps8640_pre_enable(struct drm_bridge *bridge)
-> +{
-> +	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
-> +	struct i2c_client *client = ps_bridge->page[PAGE2_TOP_CNTL];
-> +	struct i2c_client *page1 = ps_bridge->page[PAGE1_VDO_BDG];
-> +	int err;
-> +	u8 set_vdo_done, mcs_en, vstart;
-> +	ktime_t timeout;
-> +
-> +	if (ps_bridge->in_fw_update)
-> +		return;
-> +
-> +	if (ps_bridge->enabled)
-> +		return;
-> +
-> +	err = drm_panel_prepare(ps_bridge->panel);
-> +	if (err < 0) {
-> +		DRM_ERROR("failed to prepare panel: %d\n", err);
-> +		return;
-> +	}
-> +
-> +	err = regulator_bulk_enable(ARRAY_SIZE(ps_bridge->supplies),
-> +				    ps_bridge->supplies);
-> +	if (err < 0) {
-> +		DRM_ERROR("cannot enable regulators %d\n", err);
-> +		goto err_panel_unprepare;
-> +	}
-> +
-> +	gpiod_set_value(ps_bridge->gpio_power_down, 1);
-> +	gpiod_set_value(ps_bridge->gpio_reset, 0);
-> +	usleep_range(2000, 2500);
-> +	gpiod_set_value(ps_bridge->gpio_reset, 1);
-> +
-> +	/*
-> +	 * Wait for the ps8640 embed mcu ready
-> +	 * First wait 200ms and then check the mcu ready flag every 20ms
-> +	 */
-> +	msleep(200);
-> +
-> +	timeout = ktime_add_ms(ktime_get(), 200);
-> +	for (;;) {
-> +		err = ps8640_read(client, PAGE2_GPIO_H, &set_vdo_done, 1);
-> +		if (err < 0) {
-> +			DRM_ERROR("failed read PAGE2_GPIO_H: %d\n", err);
-> +			goto err_regulators_disable;
-> +		}
-> +		if ((set_vdo_done & PS_GPIO9) == PS_GPIO9)
-> +			break;
-> +		if (ktime_compare(ktime_get(), timeout) > 0)
-> +			break;
-> +		msleep(20);
-> +	}
-
-I believe it's cleaner to use this idiom:
-
-        unsigned long timeout = jiffies + msecs_to_jiffies(YOUR_DRIVER_TIMEOUT);
-        
-        while (time_is_after_jiffies(timeout)) {
-                ....
-        }
-
-> +
-> +	msleep(50);
-> +
-> +	ps8640_read(page1, PAGE1_VSTART, &vstart, 1);
-> +	DRM_INFO("PS8640 PAGE1.0x6B = 0x%x\n", vstart);
-> +
-
-Ditto, isn't this too verbose?
-
-I stopped reviewing at this point. It sounds like this driver
-could use some love. (Not sure how this driver stood twenty reviews :-))
-
-Thanks,
-Ezequiel
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgQW5kcnplaiwKCk9uIEZyaSwgRGVjIDEzLCAyMDE5IGF0IDA0OjU4OjM0UE0gKzAxMDAsIEFu
+ZHJ6ZWogUGlldHJhc2lld2ljeiB3cm90ZToKPiBQcmVwYXJlIHRvb2xzIGZvciBkcml2ZXJzIHdo
+aWNoIG5lZWQgdG8gYWxsb2NhdGUgYSBzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyCj4gKG9yIGEgY29u
+dGFpbmVyIG9mIHN0cnVjdCBkcm1fZnJhbWVidWZmZXIpIGV4cGxpY2l0bHksIGJlZm9yZSBjYWxs
+aW5nCj4gaGVscGVycy4gSW4gc3VjaCBhIGNhc2Ugd2UgbmVlZCBuZXcgaGVscGVycyB3aGljaCBv
+bWl0IGFsbG9jYXRpbmcgdGhlCj4gc3RydWN0IGRybV9mcmFtZWJ1ZmZlciBhbmQgdGhpcyBwYXRj
+aCBwcm92aWRlcyB0aGVtLiBDb25zZXF1ZW50bHksIHRoZXkKPiBhcmUgdXNlZCBhbHNvIGluc2lk
+ZSB0aGUgaGVscGVycyB0aGVtc2VsdmVzLgo+IAo+IFRoZSBpbnRlcmVzdGVkIGRyaXZlcnMgd2ls
+bCBsaWtlbHkgbmVlZCB0byBiZSBhYmxlIHRvIHBlcmZvcm0gb2JqZWN0Cj4gbG9va3VwcyBhbmQg
+c2l6ZSBjaGVja3MgaW4gc2VwYXJhdGUgaW52b2NhdGlvbnMgYW5kIHRoaXMgcGF0Y2ggcHJvdmlk
+ZXMKPiB0aGF0IGFzIHdlbGwuIEhlbHBlcnMgdGhlbXNlbHZlcyBhcmUgdXBkYXRlZCwgdG9vLgo+
+IAo+IFNpZ25lZC1vZmYtYnk6IEFuZHJ6ZWogUGlldHJhc2lld2ljeiA8YW5kcnplai5wQGNvbGxh
+Ym9yYS5jb20+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX2ZyYW1lYnVmZmVyX2hl
+bHBlci5jIHwgMTg0ICsrKysrKysrKysrKysrLS0tLS0KPiAgaW5jbHVkZS9kcm0vZHJtX2dlbV9m
+cmFtZWJ1ZmZlcl9oZWxwZXIuaCAgICAgfCAgMTcgKysKPiAgMiBmaWxlcyBjaGFuZ2VkLCAxNTMg
+aW5zZXJ0aW9ucygrKSwgNDggZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS9kcm1fZ2VtX2ZyYW1lYnVmZmVyX2hlbHBlci5jIGIvZHJpdmVycy9ncHUvZHJtL2Ry
+bV9nZW1fZnJhbWVidWZmZXJfaGVscGVyLmMKPiBpbmRleCBiOWJjZDMxMGNhMmQuLjc4N2VkYjlh
+OTE2YiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9mcmFtZWJ1ZmZlcl9o
+ZWxwZXIuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX2ZyYW1lYnVmZmVyX2hlbHBl
+ci5jCj4gQEAgLTU0LDYgKzU0LDQ0IEBAIHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqZHJtX2dlbV9m
+Yl9nZXRfb2JqKHN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZiLAo+ICB9Cj4gIEVYUE9SVF9TWU1C
+T0xfR1BMKGRybV9nZW1fZmJfZ2V0X29iaik7Cj4gIAo+ICtpbnQgZHJtX2dlbV9mYl9pbml0X3dp
+dGhfZnVuY3Moc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmIsCj4gKwkJCSAgICAgICBzdHJ1Y3Qg
+ZHJtX2RldmljZSAqZGV2LAo+ICsJCQkgICAgICAgY29uc3Qgc3RydWN0IGRybV9tb2RlX2ZiX2Nt
+ZDIgKm1vZGVfY21kLAo+ICsJCQkgICAgICAgc3RydWN0IGRybV9nZW1fb2JqZWN0ICoqb2JqLAo+
+ICsJCQkgICAgICAgdW5zaWduZWQgaW50IG51bV9wbGFuZXMsCj4gKwkJCSAgICAgICBjb25zdCBz
+dHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyX2Z1bmNzICpmdW5jcykKPiArewo+ICsJaW50IHJldCwgaTsK
+PiArCj4gKwlkcm1faGVscGVyX21vZGVfZmlsbF9mYl9zdHJ1Y3QoZGV2LCBmYiwgbW9kZV9jbWQp
+Owo+ICsKPiArCWZvciAoaSA9IDA7IGkgPCBudW1fcGxhbmVzOyBpKyspCj4gKwkJZmItPm9ialtp
+XSA9IG9ialtpXTsKPiArCj4gKwlyZXQgPSBkcm1fZnJhbWVidWZmZXJfaW5pdChkZXYsIGZiLCBm
+dW5jcyk7Cj4gKwlpZiAocmV0KQo+ICsJCURSTV9ERVZfRVJST1IoZGV2LT5kZXYsICJGYWlsZWQg
+dG8gaW5pdCBmcmFtZWJ1ZmZlcjogJWRcbiIsCj4gKwkJCSAgICAgIHJldCk7Cj4gKwo+ICsJcmV0
+dXJuIHJldDsKPiArfQo+ICtFWFBPUlRfU1lNQk9MX0dQTChkcm1fZ2VtX2ZiX2luaXRfd2l0aF9m
+dW5jcyk7Cj4gKwo+ICtzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9mcmFtZWJ1ZmZlcl9mdW5jcyBk
+cm1fZ2VtX2ZiX2Z1bmNzID0gewo+ICsJLmRlc3Ryb3kJPSBkcm1fZ2VtX2ZiX2Rlc3Ryb3ksCj4g
+KwkuY3JlYXRlX2hhbmRsZQk9IGRybV9nZW1fZmJfY3JlYXRlX2hhbmRsZSwKPiArfTsKPiArCj4g
+K2ludCBkcm1fZ2VtX2ZiX2luaXQoc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmIsCj4gKwkJICAg
+IHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4gKwkJICAgIGNvbnN0IHN0cnVjdCBkcm1fbW9kZV9m
+Yl9jbWQyICptb2RlX2NtZCwKPiArCQkgICAgc3RydWN0IGRybV9nZW1fb2JqZWN0ICoqb2JqLCB1
+bnNpZ25lZCBpbnQgbnVtX3BsYW5lcykKPiArewo+ICsJcmV0dXJuIGRybV9nZW1fZmJfaW5pdF93
+aXRoX2Z1bmNzKGZiLCBkZXYsIG1vZGVfY21kLCBvYmosIG51bV9wbGFuZXMsCj4gKwkJCQkJICAm
+ZHJtX2dlbV9mYl9mdW5jcyk7Cj4gK30KPiArRVhQT1JUX1NZTUJPTF9HUEwoZHJtX2dlbV9mYl9p
+bml0KTsKCklmIHlvdSBleHBvcnQgdGhlc2UgdHdvIGZ1bmN0aW9uIHRoZXkgc2hvdWxkIGJldHRl
+ciBoYXZlIGRvY3VtZW50YXRpb24gYXNzb2NpYXRlZCB3aXRoIHRoZW0uCgo+ICsKPiAgc3RhdGlj
+IHN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKgo+ICBkcm1fZ2VtX2ZiX2FsbG9jKHN0cnVjdCBkcm1f
+ZGV2aWNlICpkZXYsCj4gIAkJIGNvbnN0IHN0cnVjdCBkcm1fbW9kZV9mYl9jbWQyICptb2RlX2Nt
+ZCwKPiBAQCAtNjEsMjEgKzk5LDE1IEBAIGRybV9nZW1fZmJfYWxsb2Moc3RydWN0IGRybV9kZXZp
+Y2UgKmRldiwKPiAgCQkgY29uc3Qgc3RydWN0IGRybV9mcmFtZWJ1ZmZlcl9mdW5jcyAqZnVuY3Mp
+Cj4gIHsKPiAgCXN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZiOwo+IC0JaW50IHJldCwgaTsKPiAr
+CWludCByZXQ7Cj4gIAo+ICAJZmIgPSBremFsbG9jKHNpemVvZigqZmIpLCBHRlBfS0VSTkVMKTsK
+PiAgCWlmICghZmIpCj4gIAkJcmV0dXJuIEVSUl9QVFIoLUVOT01FTSk7Cj4gIAo+IC0JZHJtX2hl
+bHBlcl9tb2RlX2ZpbGxfZmJfc3RydWN0KGRldiwgZmIsIG1vZGVfY21kKTsKPiAtCj4gLQlmb3Ig
+KGkgPSAwOyBpIDwgbnVtX3BsYW5lczsgaSsrKQo+IC0JCWZiLT5vYmpbaV0gPSBvYmpbaV07Cj4g
+LQo+IC0JcmV0ID0gZHJtX2ZyYW1lYnVmZmVyX2luaXQoZGV2LCBmYiwgZnVuY3MpOwo+ICsJcmV0
+ID0gZHJtX2dlbV9mYl9pbml0X3dpdGhfZnVuY3MoZmIsIGRldiwgbW9kZV9jbWQsIG9iaiwgbnVt
+X3BsYW5lcywKPiArCQkJCQkgZnVuY3MpOwo+ICAJaWYgKHJldCkgewo+IC0JCURSTV9ERVZfRVJS
+T1IoZGV2LT5kZXYsICJGYWlsZWQgdG8gaW5pdCBmcmFtZWJ1ZmZlcjogJWRcbiIsCj4gLQkJCSAg
+ICAgIHJldCk7Cj4gIAkJa2ZyZWUoZmIpOwo+ICAJCXJldHVybiBFUlJfUFRSKHJldCk7Cj4gIAl9
+Cj4gQEAgLTEyNCw3OSArMTU2LDEzNSBAQCBpbnQgZHJtX2dlbV9mYl9jcmVhdGVfaGFuZGxlKHN0
+cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZiLCBzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGUsCj4gIEVYUE9S
+VF9TWU1CT0woZHJtX2dlbV9mYl9jcmVhdGVfaGFuZGxlKTsKPiAgCj4gIC8qKgo+IC0gKiBkcm1f
+Z2VtX2ZiX2NyZWF0ZV93aXRoX2Z1bmNzKCkgLSBIZWxwZXIgZnVuY3Rpb24gZm9yIHRoZQo+IC0g
+KiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAmZHJtX21vZGVfY29uZmlnX2Z1bmNz
+LmZiX2NyZWF0ZQo+IC0gKiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjYWxsYmFj
+awo+ICsgKiBkcm1fZ2VtX2ZiX2xvb2t1cCgpIC0gSGVscGVyIGZ1bmN0aW9uIGZvciB1c2UgaW4K
+PiArICoJCQkgJmRybV9tb2RlX2NvbmZpZ19mdW5jcy5mYl9jcmVhdGUgaW1wbGVtZW50YXRpb25z
+Cj4gICAqIEBkZXY6IERSTSBkZXZpY2UKPiAgICogQGZpbGU6IERSTSBmaWxlIHRoYXQgaG9sZHMg
+dGhlIEdFTSBoYW5kbGUocykgYmFja2luZyB0aGUgZnJhbWVidWZmZXIKPiAgICogQG1vZGVfY21k
+OiBNZXRhZGF0YSBmcm9tIHRoZSB1c2Vyc3BhY2UgZnJhbWVidWZmZXIgY3JlYXRpb24gcmVxdWVz
+dAo+IC0gKiBAZnVuY3M6IHZ0YWJsZSB0byBiZSB1c2VkIGZvciB0aGUgbmV3IGZyYW1lYnVmZmVy
+IG9iamVjdAo+ICAgKgo+IC0gKiBUaGlzIGZ1bmN0aW9uIGNhbiBiZSB1c2VkIHRvIHNldCAmZHJt
+X2ZyYW1lYnVmZmVyX2Z1bmNzIGZvciBkcml2ZXJzIHRoYXQgbmVlZAo+IC0gKiBjdXN0b20gZnJh
+bWVidWZmZXIgY2FsbGJhY2tzLiBVc2UgZHJtX2dlbV9mYl9jcmVhdGUoKSBpZiB5b3UgZG9uJ3Qg
+bmVlZCB0bwo+IC0gKiBjaGFuZ2UgJmRybV9mcmFtZWJ1ZmZlcl9mdW5jcy4gVGhlIGZ1bmN0aW9u
+IGRvZXMgYnVmZmVyIHNpemUgdmFsaWRhdGlvbi4KPiArICogVGhpcyBmdW5jdGlvbiBjYW4gYmUg
+dXNlZCB0byBsb29rIHVwIHRoZSBvYmplY3RzIGZvciBhbGwgcGxhbmVzLgo+ICsgKiBJbiBjYXNl
+IGFuIGVycm9yIGlzIHJldHVybmVkIGFsbCB0aGUgb2JqZWN0cyBhcmUgcHV0IGJ5IHRoZQo+ICsg
+KiBmdW5jdGlvbiBiZWZvcmUgcmV0dXJuaW5nLgo+ICAgKgo+ICAgKiBSZXR1cm5zOgo+IC0gKiBQ
+b2ludGVyIHRvIGEgJmRybV9mcmFtZWJ1ZmZlciBvbiBzdWNjZXNzIG9yIGFuIGVycm9yIHBvaW50
+ZXIgb24gZmFpbHVyZS4KPiArICogTnVtYmVyIG9mIHBsYW5lcyBvbiBzdWNjZXNzIG9yIGEgbmVn
+YXRpdmUgZXJyb3IgY29kZSBvbiBmYWlsdXJlLgo+ICAgKi8KPiAtc3RydWN0IGRybV9mcmFtZWJ1
+ZmZlciAqCj4gLWRybV9nZW1fZmJfY3JlYXRlX3dpdGhfZnVuY3Moc3RydWN0IGRybV9kZXZpY2Ug
+KmRldiwgc3RydWN0IGRybV9maWxlICpmaWxlLAo+IC0JCQkgICAgIGNvbnN0IHN0cnVjdCBkcm1f
+bW9kZV9mYl9jbWQyICptb2RlX2NtZCwKPiAtCQkJICAgICBjb25zdCBzdHJ1Y3QgZHJtX2ZyYW1l
+YnVmZmVyX2Z1bmNzICpmdW5jcykKPiAraW50IGRybV9nZW1fZmJfbG9va3VwKHN0cnVjdCBkcm1f
+ZGV2aWNlICpkZXYsCj4gKwkJICAgICAgc3RydWN0IGRybV9maWxlICpmaWxlLAo+ICsJCSAgICAg
+IGNvbnN0IHN0cnVjdCBkcm1fbW9kZV9mYl9jbWQyICptb2RlX2NtZCwKPiArCQkgICAgICBzdHJ1
+Y3QgZHJtX2dlbV9vYmplY3QgKipvYmpzKQo+ICB7Cj4gIAljb25zdCBzdHJ1Y3QgZHJtX2Zvcm1h
+dF9pbmZvICppbmZvOwo+IC0Jc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmpzWzRdOwo+IC0Jc3Ry
+dWN0IGRybV9mcmFtZWJ1ZmZlciAqZmI7Cj4gIAlpbnQgcmV0LCBpOwo+ICAKPiAgCWluZm8gPSBk
+cm1fZ2V0X2Zvcm1hdF9pbmZvKGRldiwgbW9kZV9jbWQpOwo+ICAJaWYgKCFpbmZvKQo+IC0JCXJl
+dHVybiBFUlJfUFRSKC1FSU5WQUwpOwo+ICsJCXJldHVybiAtRUlOVkFMOwo+ICAKPiAgCWZvciAo
+aSA9IDA7IGkgPCBpbmZvLT5udW1fcGxhbmVzOyBpKyspIHsKPiAtCQl1bnNpZ25lZCBpbnQgd2lk
+dGggPSBtb2RlX2NtZC0+d2lkdGggLyAoaSA/IGluZm8tPmhzdWIgOiAxKTsKPiAtCQl1bnNpZ25l
+ZCBpbnQgaGVpZ2h0ID0gbW9kZV9jbWQtPmhlaWdodCAvIChpID8gaW5mby0+dnN1YiA6IDEpOwo+
+IC0JCXVuc2lnbmVkIGludCBtaW5fc2l6ZTsKPiAtCj4gIAkJb2Jqc1tpXSA9IGRybV9nZW1fb2Jq
+ZWN0X2xvb2t1cChmaWxlLCBtb2RlX2NtZC0+aGFuZGxlc1tpXSk7Cj4gIAkJaWYgKCFvYmpzW2ld
+KSB7Cj4gIAkJCURSTV9ERUJVR19LTVMoIkZhaWxlZCB0byBsb29rdXAgR0VNIG9iamVjdFxuIik7
+Cj4gIAkJCXJldCA9IC1FTk9FTlQ7Cj4gIAkJCWdvdG8gZXJyX2dlbV9vYmplY3RfcHV0Owo+ICAJ
+CX0KPiArCX0KPiArCj4gKwlyZXR1cm4gaTsKPiArCj4gK2Vycl9nZW1fb2JqZWN0X3B1dDoKPiAr
+CWZvciAoaS0tOyBpID49IDA7IGktLSkKPiArCQlkcm1fZ2VtX29iamVjdF9wdXRfdW5sb2NrZWQo
+b2Jqc1tpXSk7Cj4gKwo+ICsJcmV0dXJuIHJldDsKPiArfQo+ICtFWFBPUlRfU1lNQk9MX0dQTChk
+cm1fZ2VtX2ZiX2xvb2t1cCk7CgpJJ20gc3VycHJpc2VkIGdpdCBnZW5lcmF0ZWQgdGhpcyBtZXNz
+IG9mIGEgZGlmZi4gR2l2ZW4gdGhhdCB5b3Ugc3RpbGwgaGF2ZQpkcm1fZ2VtX2ZiX2NyZWF0ZV93
+aXRoX2Z1bmNzKCkgZnVydGhlciBkb3duLCBtYXliZSB5b3UgY2FuIHJlLW9yZGVyIHRoZSBmdW5j
+dGlvbnMgc28KdGhhdCBHaXQgY3JlYXRlcyBhIG1vcmUgc2FuZSBkaWZmPwoKPiArCj4gKy8qKgo+
+ICsgKiBkcm1fZ2VtX2ZiX3NpemVfY2hlY2soKSAtIEhlbHBlciBmdW5jdGlvbiBmb3IgdXNlIGlu
+Cj4gKyAqCQkJICAgICAmZHJtX21vZGVfY29uZmlnX2Z1bmNzLmZiX2NyZWF0ZSBpbXBsZW1lbnRh
+dGlvbnMKPiArICogQGRldjogRFJNIGRldmljZQo+ICsgKiBAbW9kZV9jbWQ6IE1ldGFkYXRhIGZy
+b20gdGhlIHVzZXJzcGFjZSBmcmFtZWJ1ZmZlciBjcmVhdGlvbiByZXF1ZXN0Cj4gKyAqCj4gKyAq
+IFRoaXMgZnVuY3Rpb24gY2FuIGJlIHVzZWQgdG8gdmVyaWZ5IGJ1ZmZlciBzaXplcyBmb3IgYWxs
+IHBsYW5lcy4KPiArICogSXQgaXMgY2FsbGVyJ3MgcmVzcG9uc2liaWxpdHkgdG8gcHV0IHRoZSBv
+YmplY3RzIG9uIGZhaWx1cmUuCj4gKyAqCj4gKyAqIFJldHVybnM6Cj4gKyAqIFplcm8gb24gc3Vj
+Y2VzcyBvciBhIG5lZ2F0aXZlIGVycm9yIGNvZGUgb24gZmFpbHVyZS4KPiArICovCj4gK2ludCBk
+cm1fZ2VtX2ZiX3NpemVfY2hlY2soc3RydWN0IGRybV9kZXZpY2UgKmRldiwKPiArCQkJICBjb25z
+dCBzdHJ1Y3QgZHJtX21vZGVfZmJfY21kMiAqbW9kZV9jbWQsCj4gKwkJCSAgc3RydWN0IGRybV9n
+ZW1fb2JqZWN0ICoqb2JqcykKPiArewo+ICsJY29uc3Qgc3RydWN0IGRybV9mb3JtYXRfaW5mbyAq
+aW5mbzsKPiArCWludCBpOwo+ICsKPiArCWluZm8gPSBkcm1fZ2V0X2Zvcm1hdF9pbmZvKGRldiwg
+bW9kZV9jbWQpOwo+ICsJaWYgKCFpbmZvKQo+ICsJCXJldHVybiAtRUlOVkFMOwo+ICsKPiArCWZv
+ciAoaSA9IDA7IGkgPCBpbmZvLT5udW1fcGxhbmVzOyBpKyspIHsKPiArCQl1bnNpZ25lZCBpbnQg
+d2lkdGggPSBtb2RlX2NtZC0+d2lkdGggLyAoaSA/IGluZm8tPmhzdWIgOiAxKTsKPiArCQl1bnNp
+Z25lZCBpbnQgaGVpZ2h0ID0gbW9kZV9jbWQtPmhlaWdodCAvIChpID8gaW5mby0+dnN1YiA6IDEp
+Owo+ICsJCXVuc2lnbmVkIGludCBtaW5fc2l6ZTsKPiAgCj4gIAkJbWluX3NpemUgPSAoaGVpZ2h0
+IC0gMSkgKiBtb2RlX2NtZC0+cGl0Y2hlc1tpXQo+ICAJCQkgKyBkcm1fZm9ybWF0X2luZm9fbWlu
+X3BpdGNoKGluZm8sIGksIHdpZHRoKQo+ICAJCQkgKyBtb2RlX2NtZC0+b2Zmc2V0c1tpXTsKPiAg
+Cj4gLQkJaWYgKG9ianNbaV0tPnNpemUgPCBtaW5fc2l6ZSkgewo+IC0JCQlkcm1fZ2VtX29iamVj
+dF9wdXRfdW5sb2NrZWQob2Jqc1tpXSk7Cj4gLQkJCXJldCA9IC1FSU5WQUw7Cj4gLQkJCWdvdG8g
+ZXJyX2dlbV9vYmplY3RfcHV0Owo+IC0JCX0KPiArCQlpZiAob2Jqc1tpXS0+c2l6ZSA8IG1pbl9z
+aXplKQo+ICsJCQlyZXR1cm4gLUVJTlZBTDsKPiAgCX0KPiAgCj4gLQlmYiA9IGRybV9nZW1fZmJf
+YWxsb2MoZGV2LCBtb2RlX2NtZCwgb2JqcywgaSwgZnVuY3MpOwo+IC0JaWYgKElTX0VSUihmYikp
+IHsKPiAtCQlyZXQgPSBQVFJfRVJSKGZiKTsKPiAtCQlnb3RvIGVycl9nZW1fb2JqZWN0X3B1dDsK
+PiAtCX0KPiArCXJldHVybiAwOwo+ICAKPiAtCXJldHVybiBmYjsKPiArfQo+ICtFWFBPUlRfU1lN
+Qk9MX0dQTChkcm1fZ2VtX2ZiX3NpemVfY2hlY2spOwo+ICAKPiAtZXJyX2dlbV9vYmplY3RfcHV0
+Ogo+IC0JZm9yIChpLS07IGkgPj0gMDsgaS0tKQo+IC0JCWRybV9nZW1fb2JqZWN0X3B1dF91bmxv
+Y2tlZChvYmpzW2ldKTsKPiArLyoqCj4gKyAqIGRybV9nZW1fZmJfY3JlYXRlX3dpdGhfZnVuY3Mo
+KSAtIEhlbHBlciBmdW5jdGlvbiBmb3IgdGhlCj4gKyAqICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICZkcm1fbW9kZV9jb25maWdfZnVuY3MuZmJfY3JlYXRlCj4gKyAqICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIGNhbGxiYWNrCj4gKyAqIEBkZXY6IERSTSBkZXZpY2UK
+PiArICogQGZpbGU6IERSTSBmaWxlIHRoYXQgaG9sZHMgdGhlIEdFTSBoYW5kbGUocykgYmFja2lu
+ZyB0aGUgZnJhbWVidWZmZXIKPiArICogQG1vZGVfY21kOiBNZXRhZGF0YSBmcm9tIHRoZSB1c2Vy
+c3BhY2UgZnJhbWVidWZmZXIgY3JlYXRpb24gcmVxdWVzdAo+ICsgKiBAZnVuY3M6IHZ0YWJsZSB0
+byBiZSB1c2VkIGZvciB0aGUgbmV3IGZyYW1lYnVmZmVyIG9iamVjdAo+ICsgKgo+ICsgKiBUaGlz
+IGZ1bmN0aW9uIGNhbiBiZSB1c2VkIHRvIHNldCAmZHJtX2ZyYW1lYnVmZmVyX2Z1bmNzIGZvciBk
+cml2ZXJzIHRoYXQgbmVlZAo+ICsgKiBjdXN0b20gZnJhbWVidWZmZXIgY2FsbGJhY2tzLiBVc2Ug
+ZHJtX2dlbV9mYl9jcmVhdGUoKSBpZiB5b3UgZG9uJ3QgbmVlZCB0bwo+ICsgKiBjaGFuZ2UgJmRy
+bV9mcmFtZWJ1ZmZlcl9mdW5jcy4gVGhlIGZ1bmN0aW9uIGRvZXMgYnVmZmVyIHNpemUgdmFsaWRh
+dGlvbi4KPiArICoKPiArICogUmV0dXJuczoKPiArICogUG9pbnRlciB0byBhICZkcm1fZnJhbWVi
+dWZmZXIgb24gc3VjY2VzcyBvciBhbiBlcnJvciBwb2ludGVyIG9uIGZhaWx1cmUuCj4gKyAqLwo+
+ICtzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICoKPiArZHJtX2dlbV9mYl9jcmVhdGVfd2l0aF9mdW5j
+cyhzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCBzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGUsCj4gKwkJCSAg
+ICAgY29uc3Qgc3RydWN0IGRybV9tb2RlX2ZiX2NtZDIgKm1vZGVfY21kLAo+ICsJCQkgICAgIGNv
+bnN0IHN0cnVjdCBkcm1fZnJhbWVidWZmZXJfZnVuY3MgKmZ1bmNzKQo+ICt7Cj4gKwlzdHJ1Y3Qg
+ZHJtX2dlbV9vYmplY3QgKm9ianNbNF07Cj4gKwlzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYjsK
+PiArCWludCByZXQsIG51bV9wbGFuZXM7Cj4gKwo+ICsJcmV0ID0gZHJtX2dlbV9mYl9sb29rdXAo
+ZGV2LCBmaWxlLCBtb2RlX2NtZCwgb2Jqcyk7Cj4gKwlpZiAocmV0IDwgMCkKPiArCQlyZXR1cm4g
+RVJSX1BUUihyZXQpOwo+ICsJbnVtX3BsYW5lcyA9IHJldDsKPiArCj4gKwlyZXQgPSBkcm1fZ2Vt
+X2ZiX3NpemVfY2hlY2soZGV2LCBtb2RlX2NtZCwgb2Jqcyk7CgppZiBkcm1fZ2VtX2ZiX3NpemVf
+Y2hlY2soKSByZXR1cm5zIGFuIGVycm9yLCB0aGVuIC4uLgoKPiArCWlmIChyZXQpCj4gKwkJZmIg
+PSBFUlJfUFRSKHJldCk7Cj4gKwllbHNlCj4gKwkJZmIgPSBkcm1fZ2VtX2ZiX2FsbG9jKGRldiwg
+bW9kZV9jbWQsIG9ianMsIG51bV9wbGFuZXMsIGZ1bmNzKTsKCi4uLi4gdGhlIGVsc2UgcGFydCBp
+cyBub3QgdGFrZW4sIGJ1dCAuLi4KCj4gIAo+IC0JcmV0dXJuIEVSUl9QVFIocmV0KTsKPiArCWlm
+IChJU19FUlIoZmIpKQo+ICsJCWZvciAobnVtX3BsYW5lcy0tOyBudW1fcGxhbmVzID49IDA7IG51
+bV9wbGFuZXMtLSkKPiArCQkJZHJtX2dlbV9vYmplY3RfcHV0X3VubG9ja2VkKG9ianNbbnVtX3Bs
+YW5lc10pOwoKLi4uIGhlcmUgeW91J2xsIGF0dGVtcHQgdG8gZGVyZWZlcmVuY2UgdGhlIG9ianMu
+IEkgZG9uJ3QgdGhpbmsgdGhhdCBpcyBjb3JyZWN0LgoKPiArCj4gKwlyZXR1cm4gZmI7Cj4gIH0K
+PiAgRVhQT1JUX1NZTUJPTF9HUEwoZHJtX2dlbV9mYl9jcmVhdGVfd2l0aF9mdW5jcyk7Cj4gIAo+
+IC1zdGF0aWMgY29uc3Qgc3RydWN0IGRybV9mcmFtZWJ1ZmZlcl9mdW5jcyBkcm1fZ2VtX2ZiX2Z1
+bmNzID0gewo+IC0JLmRlc3Ryb3kJPSBkcm1fZ2VtX2ZiX2Rlc3Ryb3ksCj4gLQkuY3JlYXRlX2hh
+bmRsZQk9IGRybV9nZW1fZmJfY3JlYXRlX2hhbmRsZSwKPiAtfTsKPiAtCj4gIC8qKgo+ICAgKiBk
+cm1fZ2VtX2ZiX2NyZWF0ZSgpIC0gSGVscGVyIGZ1bmN0aW9uIGZvciB0aGUKPiAgICogICAgICAg
+ICAgICAgICAgICAgICAgICZkcm1fbW9kZV9jb25maWdfZnVuY3MuZmJfY3JlYXRlIGNhbGxiYWNr
+Cj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9nZW1fZnJhbWVidWZmZXJfaGVscGVyLmgg
+Yi9pbmNsdWRlL2RybS9kcm1fZ2VtX2ZyYW1lYnVmZmVyX2hlbHBlci5oCj4gaW5kZXggZDlmMTNm
+ZDI1YjBhLi5jODVkNGIxNTJlOTEgMTAwNjQ0Cj4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX2dlbV9m
+cmFtZWJ1ZmZlcl9oZWxwZXIuaAo+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9nZW1fZnJhbWVidWZm
+ZXJfaGVscGVyLmgKPiBAQCAtMTQsMTAgKzE0LDI3IEBAIHN0cnVjdCBkcm1fc2ltcGxlX2Rpc3Bs
+YXlfcGlwZTsKPiAgCj4gIHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqZHJtX2dlbV9mYl9nZXRfb2Jq
+KHN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZiLAo+ICAJCQkJCSAgdW5zaWduZWQgaW50IHBsYW5l
+KTsKPiAraW50IGRybV9nZW1fZmJfaW5pdF93aXRoX2Z1bmNzKHN0cnVjdCBkcm1fZnJhbWVidWZm
+ZXIgKmZiLAo+ICsJCQkgICAgICAgc3RydWN0IGRybV9kZXZpY2UgKmRldiwKPiArCQkJICAgICAg
+IGNvbnN0IHN0cnVjdCBkcm1fbW9kZV9mYl9jbWQyICptb2RlX2NtZCwKPiArCQkJICAgICAgIHN0
+cnVjdCBkcm1fZ2VtX29iamVjdCAqKm9iaiwKPiArCQkJICAgICAgIHVuc2lnbmVkIGludCBudW1f
+cGxhbmVzLAo+ICsJCQkgICAgICAgY29uc3Qgc3RydWN0IGRybV9mcmFtZWJ1ZmZlcl9mdW5jcyAq
+ZnVuY3MpOwo+ICtpbnQgZHJtX2dlbV9mYl9pbml0KHN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZi
+LAo+ICsJCSAgICBzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+ICsJCSAgICBjb25zdCBzdHJ1Y3Qg
+ZHJtX21vZGVfZmJfY21kMiAqbW9kZV9jbWQsCj4gKwkJICAgIHN0cnVjdCBkcm1fZ2VtX29iamVj
+dCAqKm9iaiwgdW5zaWduZWQgaW50IG51bV9wbGFuZXMpOwo+ICB2b2lkIGRybV9nZW1fZmJfZGVz
+dHJveShzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYik7Cj4gIGludCBkcm1fZ2VtX2ZiX2NyZWF0
+ZV9oYW5kbGUoc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmIsIHN0cnVjdCBkcm1fZmlsZSAqZmls
+ZSwKPiAgCQkJICAgICB1bnNpZ25lZCBpbnQgKmhhbmRsZSk7Cj4gIAo+ICtpbnQgZHJtX2dlbV9m
+Yl9sb29rdXAoc3RydWN0IGRybV9kZXZpY2UgKmRldiwKPiArCQkgICAgICBzdHJ1Y3QgZHJtX2Zp
+bGUgKmZpbGUsCj4gKwkJICAgICAgY29uc3Qgc3RydWN0IGRybV9tb2RlX2ZiX2NtZDIgKm1vZGVf
+Y21kLAo+ICsJCSAgICAgIHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqKm9ianMpOwo+ICtpbnQgZHJt
+X2dlbV9mYl9zaXplX2NoZWNrKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4gKwkJCSAgY29uc3Qg
+c3RydWN0IGRybV9tb2RlX2ZiX2NtZDIgKm1vZGVfY21kLAo+ICsJCQkgIHN0cnVjdCBkcm1fZ2Vt
+X29iamVjdCAqKm9ianMpOwo+ICBzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICoKPiAgZHJtX2dlbV9m
+Yl9jcmVhdGVfd2l0aF9mdW5jcyhzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCBzdHJ1Y3QgZHJtX2Zp
+bGUgKmZpbGUsCj4gIAkJCSAgICAgY29uc3Qgc3RydWN0IGRybV9tb2RlX2ZiX2NtZDIgKm1vZGVf
+Y21kLAo+IC0tIAo+IDIuMTcuMQo+IAoKCkJlc3QgcmVnYXJkcywKTGl2aXUKCi0tIAo9PT09PT09
+PT09PT09PT09PT09PQp8IEkgd291bGQgbGlrZSB0byB8CnwgZml4IHRoZSB3b3JsZCwgIHwKfCBi
+dXQgdGhleSdyZSBub3QgfAp8IGdpdmluZyBtZSB0aGUgICB8CiBcIHNvdXJjZSBjb2RlISAgLwog
+IC0tLS0tLS0tLS0tLS0tLQogICAgwq9cXyjjg4QpXy/CrwpfX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
+bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
