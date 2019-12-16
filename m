@@ -1,44 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A91D120FB3
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 17:39:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D0C2120FF0
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 17:46:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 372706E822;
-	Mon, 16 Dec 2019 16:39:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34D766E817;
+	Mon, 16 Dec 2019 16:46:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70A6F6E822
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 16:39:22 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4EFC2A34;
- Mon, 16 Dec 2019 17:39:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1576514360;
- bh=Gnx12BjJXhbXX5HrSBbFBqjMFkU9sPW4RrpG1GIMN+0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EXno0pQ68bVFiOgAIXAK1myg6N8BGl9PF35Kq4Ug5fgsc8/TQgIK7kxGrLsUm0DVw
- l2+8MfK/d/8qtgyf9gyHADQB+mGmEzu73gcSHfH3gmw2b6FmdUO0Lj3CO1jwYh/bJh
- tdUebmZGL8fS819AmI99Y+ZipYtLy3xiE11E5kiM=
-Date: Mon, 16 Dec 2019 18:39:10 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Nicolas Boichat <drinkcat@chromium.org>
-Subject: Re: [PATCH RESEND 2/4] drm: bridge: anx7688: Add anx7688 bridge
- driver support.
-Message-ID: <20191216163910.GC14502@pendragon.ideasonboard.com>
-References: <20191211061911.238393-1-hsinyi@chromium.org>
- <20191211061911.238393-3-hsinyi@chromium.org>
- <20191213223816.GS4860@pendragon.ideasonboard.com>
- <CAJMQK-gFn8WeokxGfAZ-akNvdEbQhPj_3Ax2sD7Ti6JcSvjF4g@mail.gmail.com>
- <CANMq1KDh=ehp0RDFRLQ5OCTibrK=Uzp2UFVLM+7AhwpVp-X=yQ@mail.gmail.com>
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2051.outbound.protection.outlook.com [40.107.236.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAA356E817;
+ Mon, 16 Dec 2019 16:46:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dvGx0t2KyoEi2TsBDI/SbFtTs+9KxvBK6H8DopJr67nWYEsa1pHa67CzoNrw4am/cRiDrZJoFi+xEkSTcTa0x3M7YG1GcI9pOHihNA9Nc8rHn2JFAixCueIo1v3nr58CZnGvaPOt24oOj6x+RF6aPwZheWsYO8vp3NsrLtXTa6Ql8jkr9nbcKIw2jBq4dsWaazZSemJeLPriNjDcUuUBMon/WJvX9lLG9atdnQRnF9Vgt+mxWJ0svtF1lWXLCrJcHzAh8zmvWBqpStUZ5b7fo34MkVAUb+6sZvIQgDnMRadSFlbE/t41p9B/0cHG5oYMHSVUSloenfcN9NFONXyWMA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UREFxuIX+w3DnbbkH1Q9Hdr5zobVCS+h4Eyx2AbWBh0=;
+ b=f+v5OysjcQ6HXU4bj/eAPhjYSIa6+IApX8SAqphBKJf2PoNMr5kcO5hmKcWKMbrrzJDiEHB0KkC3Ftv7U3kXMdoHV81PlK2xikwznvErpnlZoOdaA4nfV53hzxfIs2fPEXTdIgdljhEYuAK20hjz4dYgTuCaJkWxNk8mHTxb5ioQubg5G9Hc20V6oseiRYmLzLeUJjhwk/Pk+Qv+lX2MwtvTGcOpmkDrdDpN33C/t4ef7+8hZectlofFA4zIfjx1NjB1J13l/w7PXuAQTEE/hDpm66M0Z+J+DbKQecqiguZMs9Wvuni4eVNOImlkUE6txP1904ZHdubuVD7vdpeoNw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UREFxuIX+w3DnbbkH1Q9Hdr5zobVCS+h4Eyx2AbWBh0=;
+ b=KnwkRaY04DAgUSPJcC5HX+NVxaV+lktlYT5ZPQfnXc7jGoR3vfv+U4q8bBi1MOYoE29e++1OoU4oZRjCBWEGqjv8RWbMvu+4kO16i48NxcWpPMKLmxyHFYi4AhjDcyJJDmnOcFVjIIa7VMxCwteYCG7nnXS360jS1HfVvXs+0FY=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Andrey.Grodzovsky@amd.com; 
+Received: from MWHPR12MB1453.namprd12.prod.outlook.com (10.172.55.22) by
+ MWHPR12MB1710.namprd12.prod.outlook.com (10.175.56.16) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2538.18; Mon, 16 Dec 2019 16:46:27 +0000
+Received: from MWHPR12MB1453.namprd12.prod.outlook.com
+ ([fe80::514b:dbf8:d19f:a80]) by MWHPR12MB1453.namprd12.prod.outlook.com
+ ([fe80::514b:dbf8:d19f:a80%12]) with mapi id 15.20.2538.019; Mon, 16 Dec 2019
+ 16:46:27 +0000
+Subject: Re: [PATCH v2 1/5] drm/amdgpu: reverts commit
+ b01245ff54db66073b104ac9d9fbefb7b264b36d.
+To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <1576256049-12838-1-git-send-email-andrey.grodzovsky@amd.com>
+From: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>
+Message-ID: <095500b9-4f08-88a6-4196-8072edec63bd@amd.com>
+Date: Mon, 16 Dec 2019 11:46:23 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
+In-Reply-To: <1576256049-12838-1-git-send-email-andrey.grodzovsky@amd.com>
+Content-Language: en-US
+X-ClientProxiedBy: BN6PR14CA0016.namprd14.prod.outlook.com
+ (2603:10b6:404:79::26) To MWHPR12MB1453.namprd12.prod.outlook.com
+ (2603:10b6:301:e::22)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CANMq1KDh=ehp0RDFRLQ5OCTibrK=Uzp2UFVLM+7AhwpVp-X=yQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Originating-IP: [2607:fea8:3edf:e127:4035:a5ef:5789:4fd2]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 28cb12e6-a79b-4c08-0ba4-08d782477e2c
+X-MS-TrafficTypeDiagnostic: MWHPR12MB1710:|MWHPR12MB1710:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MWHPR12MB1710AEFFC00678908EF6BB7AEA510@MWHPR12MB1710.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:231;
+X-Forefront-PRVS: 02530BD3AA
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10009020)(4636009)(136003)(396003)(366004)(39860400002)(346002)(376002)(199004)(189003)(450100002)(53546011)(2616005)(6506007)(52116002)(6666004)(478600001)(8676002)(86362001)(36756003)(81156014)(31686004)(2906002)(6512007)(8936002)(81166006)(4326008)(186003)(6486002)(31696002)(66946007)(66556008)(66476007)(316002)(5660300002);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:MWHPR12MB1710;
+ H:MWHPR12MB1453.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: b586+8iPS7nFOldGsfqC1wPi6J891qgFizpaFPASDSp/P/JLBQfDAqjk4NUaDEbtKwEsdcMf6Ebo1BrsU6oRUuFL6w8c4JTPaLY91bZ9rgWwvNS++BZfvMlbPwCkw7+++R/ewKc7EMTgHNVKuFCy8G1LVsVCenSuqQbXueUgq9I9e4bvc7DWJvQMGd14wacwhAr65l2YpDfxgo/5tGeHIucPXHegFBOq7ywq7yUiklTuVRbj/fwaxdzAEqQhcoCx9Xm6JUhEAfVs3SiO6+hS6CfLeeZSQtwV98O/bu7w7FHrRjgTsC9fXlf1ZukJwwUNMYmv1YJQCTPtBx+pce7jxcFU7RI7oiQCTy5j1HDihRyogGh0XgqsCpdI5Emmgn2gQaUqAzxRPlsAl+7/GQa6LD8ncIIsenHdPK4pw+i0LzQSBjlFrzcu9U60Aw7Zj2zP
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 28cb12e6-a79b-4c08-0ba4-08d782477e2c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2019 16:46:27.1047 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Y/OtBBb4Mdn3e076IQtmDhyWVazhT13EJR/9Ay5dSj4huk5JUDFn4nkjibsGydkoUbScgIIC9gyGqZzcTRrE6A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1710
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,148 +92,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Devicetree List <devicetree@vger.kernel.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>, Matthias Brugger <mbrugger@suse.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Jonas Karlman <jonas@kwiboo.se>, lkml <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Russell King <rmk+kernel@arm.linux.org.uk>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Alexander.Deucher@amd.com, Le.Ma@amd.com, Evan.Quan@amd.com,
+ hawking.zhang@amd.com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Nicolas and Hsin-Yi,
-
-On Mon, Dec 16, 2019 at 06:19:24PM +0800, Nicolas Boichat wrote:
-> On Mon, Dec 16, 2019 at 4:46 PM Hsin-Yi Wang wrote:
-> > On Sat, Dec 14, 2019 at 6:38 AM Laurent Pinchart wrote:
-> > > On Wed, Dec 11, 2019 at 02:19:09PM +0800, Hsin-Yi Wang wrote:
-> > > > From: Nicolas Boichat <drinkcat@chromium.org>
-> > > >
-> > > > ANX7688 is a HDMI to DP converter (as well as USB-C port controller),
-> > > > that has an internal microcontroller.
-> > > >
-> > > > The only reason a Linux kernel driver is necessary is to reject
-> > > > resolutions that require more bandwidth than what is available on
-> > > > the DP side. DP bandwidth and lane count are reported by the bridge
-> > > > via 2 registers on I2C.
-> > >
-> > > How about power, doesn't this chip have power supplies that potentially
-> > > need to be controlled ?
-> > >
-> > Ideally we should add power supplies as well, but the power is
-> > supplied by ec in mt8173 oak board. And we only have this board can
-> > test this driver. If we add power supplies in driver we can't test it.
-> 
-> To clarify a bit more, this is because this chip is actually a
-> TCPC+mux+HDMI=>DP converter
-> (https://www.analogix.com/en/products/convertersbridges/anx7688). In
-> Chromebook architecture, TCPC+mux is controlled by the EC (including
-> power and other control pins), and the only reason we need a driver
-> for the HDMI=>DP converter is to get the number of lanes on the DP
-> side and filter out resolutions. Also, the converter is on a different
-> I2C address and it could almost be considered as a separate device.
-> 
-> (of course we could write a kernel driver for the TCPC+mux but we'll
-> leave that to others if there's ever a board that is built with the
-> TCPC part connected to the AP)
-
-Is the mux the one that is handled through a gpio-mux driver in this
-series, or a different mux ? It would really, really help if you could
-show a block diagram of the related hardware (including the EC), as this
-is quite confusing. With every e-mail exchanged there's a bit more
-information that change my understanding of the issue, I can't really
-provide guidance without a full overview.
-
-> > > > Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
-> > > > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> > > > ---
-> > > >  drivers/gpu/drm/bridge/Kconfig            |   9 +
-> > > >  drivers/gpu/drm/bridge/Makefile           |   1 +
-> > > >  drivers/gpu/drm/bridge/analogix-anx7688.c | 202 ++++++++++++++++++++++
-> > > >  3 files changed, 212 insertions(+)
-> > > >  create mode 100644 drivers/gpu/drm/bridge/analogix-anx7688.c
-> > > >
-> > > > diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-> > > > index 34362976cd6f..1f3fc6bec842 100644
-> > > > --- a/drivers/gpu/drm/bridge/Kconfig
-> > > > +++ b/drivers/gpu/drm/bridge/Kconfig
-> > > > @@ -16,6 +16,15 @@ config DRM_PANEL_BRIDGE
-> > > >  menu "Display Interface Bridges"
-> > > >       depends on DRM && DRM_BRIDGE
-> > > >
-> > > > +config DRM_ANALOGIX_ANX7688
-> > > > +     tristate "Analogix ANX7688 bridge"
-> > > > +     select DRM_KMS_HELPER
-> > > > +     select REGMAP_I2C
-> > > > +     ---help---
-> > > > +       ANX7688 is a transmitter to support DisplayPort over USB-C for
-> > > > +       smartphone and tablets.
-> > > > +       This driver only supports the HDMI to DP component of the chip.
-> > > > +
-> > > >  config DRM_ANALOGIX_ANX78XX
-> > > >       tristate "Analogix ANX78XX bridge"
-> > > >       select DRM_KMS_HELPER
-> > > > diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-> > > > index 4934fcf5a6f8..7a1e0ec032e6 100644
-> > > > --- a/drivers/gpu/drm/bridge/Makefile
-> > > > +++ b/drivers/gpu/drm/bridge/Makefile
-> > > > @@ -1,4 +1,5 @@
-> > > >  # SPDX-License-Identifier: GPL-2.0
-> > > > +obj-$(CONFIG_DRM_ANALOGIX_ANX7688) += analogix-anx7688.o
-> > > >  obj-$(CONFIG_DRM_ANALOGIX_ANX78XX) += analogix-anx78xx.o
-> > > >  obj-$(CONFIG_DRM_CDNS_DSI) += cdns-dsi.o
-> > > >  obj-$(CONFIG_DRM_DUMB_VGA_DAC) += dumb-vga-dac.o
-> > > > diff --git a/drivers/gpu/drm/bridge/analogix-anx7688.c b/drivers/gpu/drm/bridge/analogix-anx7688.c
-> > > > new file mode 100644
-> > > > index 000000000000..baaed48d6201
-> > > > --- /dev/null
-> > > > +++ b/drivers/gpu/drm/bridge/analogix-anx7688.c
-> > > > @@ -0,0 +1,202 @@
-> > > > +// SPDX-License-Identifier: GPL-2.0-only
-> > > > +/*
-> > > > + * ANX7688 HDMI->DP bridge driver
-> > > > + *
-> > > > + * Copyright 2016 Google LLC
-> > > > + */
-> > > > +
-> > > > +#include <linux/i2c.h>
-> > > > +#include <linux/module.h>
-> > > > +#include <linux/regmap.h>
-> > > > +#include <drm/drm_bridge.h>
-> > > > +
-> > > > +/* Register addresses */
-> > > > +#define VENDOR_ID_REG 0x00
-> > > > +#define DEVICE_ID_REG 0x02
-> > > > +
-> > > > +#define FW_VERSION_REG 0x80
-> > > > +
-> > > > +#define DP_BANDWIDTH_REG 0x85
-> > > > +#define DP_LANE_COUNT_REG 0x86
-> > >
-> > > Are these registers defined by the ANX7688 hardware, or by the firmware
-> > > running on the chip (and, I assume, developed by Google) ?
-> > >
-> > By firmware developed by ANX provided to Google.
-> 
-> We asked for these registers to be added to ANX FW, and this is the FW
-> that is used by all elm/hana Chromebooks (I have no idea about other
-> ANX customers...). We have facilities to update the ANX FW from
-> coreboot/depthcharge on Chromebooks, but that does not really matter:
-> the factory FW of all MP Chromebooks does provide these registers.
-
-So the driver is specific to Chromebooks, it doesn't support all
-ANX7688. Sweet :-(
-
--- 
-Regards,
-
-Laurent Pinchart
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+UGluZyBvbiB1bnJldmlld2VkwqAgVjJzLi4uCgpBbmRyZXkKCk9uIDEyLzEzLzE5IDExOjU0IEFN
+LCBBbmRyZXkgR3JvZHpvdnNreSB3cm90ZToKPiBJbiBwcmVwYXJhdGlvbiBmb3IgZG9pbmcgWEdN
+SSByZXNldCBzeW5jaHJvbml6YXRpb24gdXNpbmcgdGFzayBiYXJyaWVyLgo+Cj4gU2lnbmVkLW9m
+Zi1ieTogQW5kcmV5IEdyb2R6b3Zza3kgPGFuZHJleS5ncm9kem92c2t5QGFtZC5jb20+Cj4gUmV2
+aWV3ZWQtYnk6IExlIE1hIDxMZS5NYUBhbWQuY29tPgo+IC0tLQo+ICAgZHJpdmVycy9ncHUvZHJt
+L2FtZC9hbWRncHUvYW1kZ3B1LmggICAgICAgIHwgIDIgLQo+ICAgZHJpdmVycy9ncHUvZHJtL2Ft
+ZC9hbWRncHUvYW1kZ3B1X2RldmljZS5jIHwgNzYgKysrKystLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tCj4gICAyIGZpbGVzIGNoYW5nZWQsIDEyIGluc2VydGlvbnMoKyksIDY2IGRlbGV0aW9ucygt
+KQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdS5oIGIv
+ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1LmgKPiBpbmRleCBhNzhhMzYzLi41MGJh
+YjMzIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdS5oCj4g
+KysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1LmgKPiBAQCAtMTAwMSw4ICsx
+MDAxLDYgQEAgc3RydWN0IGFtZGdwdV9kZXZpY2Ugewo+ICAgCj4gICAJYm9vbCAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICBwbV9zeXNmc19lbjsKPiAgIAlib29sICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIHVjb2RlX3N5c2ZzX2VuOwo+IC0KPiAtCWJvb2wJCQkJaW5fYmFjbzsKPiAgIH07
+Cj4gICAKPiAgIHN0YXRpYyBpbmxpbmUgc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFtZGdwdV90dG1f
+YWRldihzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldikKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
+cHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2RldmljZS5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9h
+bWRncHUvYW1kZ3B1X2RldmljZS5jCj4gaW5kZXggNzMyNGE1Zi4uMWQxOWVkZmEgMTAwNjQ0Cj4g
+LS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2RldmljZS5jCj4gKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2RldmljZS5jCj4gQEAgLTI2NjcsNyAr
+MjY2Nyw3IEBAIHN0YXRpYyB2b2lkIGFtZGdwdV9kZXZpY2VfeGdtaV9yZXNldF9mdW5jKHN0cnVj
+dCB3b3JrX3N0cnVjdCAqX193b3JrKQo+ICAgCWlmIChhbWRncHVfYXNpY19yZXNldF9tZXRob2Qo
+YWRldikgPT0gQU1EX1JFU0VUX01FVEhPRF9CQUNPKQo+ICAgCQlhZGV2LT5hc2ljX3Jlc2V0X3Jl
+cyA9IChhZGV2LT5pbl9iYWNvID09IGZhbHNlKSA/Cj4gICAJCQkJYW1kZ3B1X2RldmljZV9iYWNv
+X2VudGVyKGFkZXYtPmRkZXYpIDoKPiAtCQkJCWFtZGdwdV9kZXZpY2VfYmFjb19leGl0KGFkZXYt
+PmRkZXYpOwo+ICsJCQkJcWFtZGdwdV9kZXZpY2VfYmFjb19leGl0KGFkZXYtPmRkZXYpOwo+ICAg
+CWVsc2UKPiAgIAkJYWRldi0+YXNpY19yZXNldF9yZXMgPSBhbWRncHVfYXNpY19yZXNldChhZGV2
+KTsKPiAgIAo+IEBAIC0zNzk2LDE4ICszNzk2LDEzIEBAIHN0YXRpYyBpbnQgYW1kZ3B1X2Rldmlj
+ZV9wcmVfYXNpY19yZXNldChzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldiwKPiAgIAlyZXR1cm4g
+cjsKPiAgIH0KPiAgIAo+IC1zdGF0aWMgaW50IGFtZGdwdV9kb19hc2ljX3Jlc2V0KHN0cnVjdCBh
+bWRncHVfZGV2aWNlICphZGV2LAo+IC0JCQkgICAgICAgc3RydWN0IGFtZGdwdV9oaXZlX2luZm8g
+KmhpdmUsCj4gK3N0YXRpYyBpbnQgYW1kZ3B1X2RvX2FzaWNfcmVzZXQoc3RydWN0IGFtZGdwdV9o
+aXZlX2luZm8gKmhpdmUsCj4gICAJCQkgICAgICAgc3RydWN0IGxpc3RfaGVhZCAqZGV2aWNlX2xp
+c3RfaGFuZGxlLAo+ICAgCQkJICAgICAgIGJvb2wgKm5lZWRfZnVsbF9yZXNldF9hcmcpCj4gICB7
+Cj4gICAJc3RydWN0IGFtZGdwdV9kZXZpY2UgKnRtcF9hZGV2ID0gTlVMTDsKPiAgIAlib29sIG5l
+ZWRfZnVsbF9yZXNldCA9ICpuZWVkX2Z1bGxfcmVzZXRfYXJnLCB2cmFtX2xvc3QgPSBmYWxzZTsK
+PiAgIAlpbnQgciA9IDA7Cj4gLQlpbnQgY3B1ID0gc21wX3Byb2Nlc3Nvcl9pZCgpOwo+IC0JYm9v
+bCB1c2VfYmFjbyA9Cj4gLQkJKGFtZGdwdV9hc2ljX3Jlc2V0X21ldGhvZChhZGV2KSA9PSBBTURf
+UkVTRVRfTUVUSE9EX0JBQ08pID8KPiAtCQl0cnVlIDogZmFsc2U7Cj4gICAKPiAgIAkvKgo+ICAg
+CSAqIEFTSUMgcmVzZXQgaGFzIHRvIGJlIGRvbmUgb24gYWxsIEhHTUkgaGl2ZSBub2RlcyBBU0FQ
+Cj4gQEAgLTM4MTUsNjIgKzM4MTAsMjIgQEAgc3RhdGljIGludCBhbWRncHVfZG9fYXNpY19yZXNl
+dChzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldiwKPiAgIAkgKi8KPiAgIAlpZiAobmVlZF9mdWxs
+X3Jlc2V0KSB7Cj4gICAJCWxpc3RfZm9yX2VhY2hfZW50cnkodG1wX2FkZXYsIGRldmljZV9saXN0
+X2hhbmRsZSwgZ21jLnhnbWkuaGVhZCkgewo+IC0JCQkvKgo+IC0JCQkgKiBGb3IgWEdNSSBydW4g
+YWxsIHJlc2V0cyBpbiBwYXJhbGxlbCB0byBzcGVlZCB1cCB0aGUKPiAtCQkJICogcHJvY2VzcyBi
+eSBzY2hlZHVsaW5nIHRoZSBoaWdocHJpIHdxIG9uIGRpZmZlcmVudAo+IC0JCQkgKiBjcHVzLiBG
+b3IgWEdNSSB3aXRoIGJhY28gcmVzZXQsIGFsbCBub2RlcyBtdXN0IGVudGVyCj4gLQkJCSAqIGJh
+Y28gd2l0aGluIGNsb3NlIHByb3hpbWl0eSBiZWZvcmUgYW55b25lIGV4aXQuCj4gLQkJCSAqLwo+
+ICsJCQkvKiBGb3IgWEdNSSBydW4gYWxsIHJlc2V0cyBpbiBwYXJhbGxlbCB0byBzcGVlZCB1cCB0
+aGUgcHJvY2VzcyAqLwo+ICAgCQkJaWYgKHRtcF9hZGV2LT5nbWMueGdtaS5udW1fcGh5c2ljYWxf
+bm9kZXMgPiAxKSB7Cj4gLQkJCQlpZiAoIXF1ZXVlX3dvcmtfb24oY3B1LCBzeXN0ZW1faGlnaHBy
+aV93cSwKPiAtCQkJCQkJICAgJnRtcF9hZGV2LT54Z21pX3Jlc2V0X3dvcmspKQo+ICsJCQkJaWYg
+KCFxdWV1ZV93b3JrKHN5c3RlbV9oaWdocHJpX3dxLCAmdG1wX2FkZXYtPnhnbWlfcmVzZXRfd29y
+aykpCj4gICAJCQkJCXIgPSAtRUFMUkVBRFk7Cj4gLQkJCQljcHUgPSBjcHVtYXNrX25leHQoY3B1
+LCBjcHVfb25saW5lX21hc2spOwo+ICAgCQkJfSBlbHNlCj4gICAJCQkJciA9IGFtZGdwdV9hc2lj
+X3Jlc2V0KHRtcF9hZGV2KTsKPiAtCQkJaWYgKHIpCj4gLQkJCQlicmVhazsKPiAtCQl9Cj4gLQo+
+IC0JCS8qIEZvciBYR01JIHdhaXQgZm9yIGFsbCB3b3JrIHRvIGNvbXBsZXRlIGJlZm9yZSBwcm9j
+ZWVkICovCj4gLQkJaWYgKCFyKSB7Cj4gLQkJCWxpc3RfZm9yX2VhY2hfZW50cnkodG1wX2FkZXYs
+IGRldmljZV9saXN0X2hhbmRsZSwKPiAtCQkJCQkgICAgZ21jLnhnbWkuaGVhZCkgewo+IC0JCQkJ
+aWYgKHRtcF9hZGV2LT5nbWMueGdtaS5udW1fcGh5c2ljYWxfbm9kZXMgPiAxKSB7Cj4gLQkJCQkJ
+Zmx1c2hfd29yaygmdG1wX2FkZXYtPnhnbWlfcmVzZXRfd29yayk7Cj4gLQkJCQkJciA9IHRtcF9h
+ZGV2LT5hc2ljX3Jlc2V0X3JlczsKPiAtCQkJCQlpZiAocikKPiAtCQkJCQkJYnJlYWs7Cj4gLQkJ
+CQkJaWYgKHVzZV9iYWNvKQo+IC0JCQkJCQl0bXBfYWRldi0+aW5fYmFjbyA9IHRydWU7Cj4gLQkJ
+CQl9Cj4gLQkJCX0KPiAtCQl9Cj4gICAKPiAtCQkvKgo+IC0JCSAqIEZvciBYR01JIHdpdGggYmFj
+byByZXNldCwgbmVlZCBleGl0IGJhY28gcGhhc2UgYnkgc2NoZWR1bGluZwo+IC0JCSAqIHhnbWlf
+cmVzZXRfd29yayBvbmUgbW9yZSB0aW1lLiBQU1AgcmVzZXQgYW5kIHNHUFUgc2tpcHMgdGhpcwo+
+IC0JCSAqIHBoYXNlLiBOb3QgYXNzdW1lIHRoZSBzaXR1YXRpb24gdGhhdCBQU1AgcmVzZXQgYW5k
+IGJhY28gcmVzZXQKPiAtCQkgKiBjb2V4aXN0IHdpdGhpbiBhbiBYR01JIGhpdmUuCj4gLQkJICov
+Cj4gLQo+IC0JCWlmICghciAmJiB1c2VfYmFjbykgewo+IC0JCQljcHUgPSBzbXBfcHJvY2Vzc29y
+X2lkKCk7Cj4gLQkJCWxpc3RfZm9yX2VhY2hfZW50cnkodG1wX2FkZXYsIGRldmljZV9saXN0X2hh
+bmRsZSwKPiAtCQkJCQkgICAgZ21jLnhnbWkuaGVhZCkgewo+IC0JCQkJaWYgKHRtcF9hZGV2LT5n
+bWMueGdtaS5udW1fcGh5c2ljYWxfbm9kZXMgPiAxKSB7Cj4gLQkJCQkJaWYgKCFxdWV1ZV93b3Jr
+X29uKGNwdSwKPiAtCQkJCQkJc3lzdGVtX2hpZ2hwcmlfd3EsCj4gLQkJCQkJCSZ0bXBfYWRldi0+
+eGdtaV9yZXNldF93b3JrKSkKPiAtCQkJCQkJciA9IC1FQUxSRUFEWTsKPiAtCQkJCQlpZiAocikK
+PiAtCQkJCQkJYnJlYWs7Cj4gLQkJCQkJY3B1ID0gY3B1bWFza19uZXh0KGNwdSwgY3B1X29ubGlu
+ZV9tYXNrKTsKPiAtCQkJCX0KPiArCQkJaWYgKHIpIHsKPiArCQkJCURSTV9FUlJPUigiQVNJQyBy
+ZXNldCBmYWlsZWQgd2l0aCBlcnJvciwgJWQgZm9yIGRybSBkZXYsICVzIiwKPiArCQkJCQkgciwg
+dG1wX2FkZXYtPmRkZXYtPnVuaXF1ZSk7Cj4gKwkJCQlicmVhazsKPiAgIAkJCX0KPiAgIAkJfQo+
+ICAgCj4gLQkJaWYgKCFyICYmIHVzZV9iYWNvKSB7Cj4gKwkJLyogRm9yIFhHTUkgd2FpdCBmb3Ig
+YWxsIFBTUCByZXNldHMgdG8gY29tcGxldGUgYmVmb3JlIHByb2NlZWQgKi8KPiArCQlpZiAoIXIp
+IHsKPiAgIAkJCWxpc3RfZm9yX2VhY2hfZW50cnkodG1wX2FkZXYsIGRldmljZV9saXN0X2hhbmRs
+ZSwKPiAgIAkJCQkJICAgIGdtYy54Z21pLmhlYWQpIHsKPiAgIAkJCQlpZiAodG1wX2FkZXYtPmdt
+Yy54Z21pLm51bV9waHlzaWNhbF9ub2RlcyA+IDEpIHsKPiBAQCAtMzg3OCwyMSArMzgzMywxNSBA
+QCBzdGF0aWMgaW50IGFtZGdwdV9kb19hc2ljX3Jlc2V0KHN0cnVjdCBhbWRncHVfZGV2aWNlICph
+ZGV2LAo+ICAgCQkJCQlyID0gdG1wX2FkZXYtPmFzaWNfcmVzZXRfcmVzOwo+ICAgCQkJCQlpZiAo
+cikKPiAgIAkJCQkJCWJyZWFrOwo+IC0JCQkJCXRtcF9hZGV2LT5pbl9iYWNvID0gZmFsc2U7Cj4g
+ICAJCQkJfQo+ICAgCQkJfQo+ICAgCQl9Cj4gLQo+IC0JCWlmIChyKSB7Cj4gLQkJCURSTV9FUlJP
+UigiQVNJQyByZXNldCBmYWlsZWQgd2l0aCBlcnJvciwgJWQgZm9yIGRybSBkZXYsICVzIiwKPiAt
+CQkJCSByLCB0bXBfYWRldi0+ZGRldi0+dW5pcXVlKTsKPiAtCQkJZ290byBlbmQ7Cj4gLQkJfQo+
+ICAgCX0KPiAgIAo+ICAgCWlmICghciAmJiBhbWRncHVfcmFzX2ludHJfdHJpZ2dlcmVkKCkpCj4g
+ICAJCWFtZGdwdV9yYXNfaW50cl9jbGVhcmVkKCk7Cj4gICAKPiArCj4gICAJbGlzdF9mb3JfZWFj
+aF9lbnRyeSh0bXBfYWRldiwgZGV2aWNlX2xpc3RfaGFuZGxlLCBnbWMueGdtaS5oZWFkKSB7Cj4g
+ICAJCWlmIChuZWVkX2Z1bGxfcmVzZXQpIHsKPiAgIAkJCS8qIHBvc3QgY2FyZCAqLwo+IEBAIC00
+MTgxLDggKzQxMzAsNyBAQCBpbnQgYW1kZ3B1X2RldmljZV9ncHVfcmVjb3ZlcihzdHJ1Y3QgYW1k
+Z3B1X2RldmljZSAqYWRldiwKPiAgIAkJaWYgKHIpCj4gICAJCQlhZGV2LT5hc2ljX3Jlc2V0X3Jl
+cyA9IHI7Cj4gICAJfSBlbHNlIHsKPiAtCQlyICA9IGFtZGdwdV9kb19hc2ljX3Jlc2V0KGFkZXYs
+IGhpdmUsIGRldmljZV9saXN0X2hhbmRsZSwKPiAtCQkJCQkgICZuZWVkX2Z1bGxfcmVzZXQpOwo+
+ICsJCXIgID0gYW1kZ3B1X2RvX2FzaWNfcmVzZXQoaGl2ZSwgZGV2aWNlX2xpc3RfaGFuZGxlLCAm
+bmVlZF9mdWxsX3Jlc2V0KTsKPiAgIAkJaWYgKHIgJiYgciA9PSAtRUFHQUlOKQo+ICAgCQkJZ290
+byByZXRyeTsKPiAgIAl9Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbAo=
