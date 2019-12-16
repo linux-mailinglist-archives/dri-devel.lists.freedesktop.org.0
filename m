@@ -1,57 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D635120EC1
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 17:04:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D40E120E6C
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2019 16:53:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D43146E5CE;
-	Mon, 16 Dec 2019 16:04:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D5B96E5C6;
+	Mon, 16 Dec 2019 15:53:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 481136E5CE
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 16:04:30 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBGDYJce071612;
- Mon, 16 Dec 2019 07:34:19 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1576503259;
- bh=+/oGZ+/f9SPMMplYl/8mVzzpf0nexWVjfKIgWDByfHA=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=c5wBY5o390mSG8bdfaxNl3tO3vnXjEV7v6hw4eKT4ysFie17OWAym3v+jR9G2AAmz
- DrzKHrWrdfnWVhufuTioUjcgJ4Kz38DXsC+dQb4ePl+F8FUE66maIwZTp2L5d4DsxG
- Ylzhcbt10UFBBX+5yQdBQX/AesMzxIRQ8MAC2Y7s=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xBGDYJ8h015426
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 16 Dec 2019 07:34:19 -0600
-Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Mon, 16
- Dec 2019 07:34:18 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Mon, 16 Dec 2019 07:34:18 -0600
-Received: from legion.dal.design.ti.com (legion.dal.design.ti.com
- [128.247.22.53])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBGDYILP089514;
- Mon, 16 Dec 2019 07:34:18 -0600
-Received: from localhost ([10.250.79.55])
- by legion.dal.design.ti.com (8.11.7p1+Sun/8.11.7) with ESMTP id xBGDYHu29103; 
- Mon, 16 Dec 2019 07:34:17 -0600 (CST)
-From: "Andrew F. Davis" <afd@ti.com>
-To: Sumit Semwal <sumit.semwal@linaro.org>, John Stultz
- <john.stultz@linaro.org>
-Subject: [PATCH 1/2] dma-buf: heaps: Use _IOCTL_ for userspace IOCTL identifier
-Date: Mon, 16 Dec 2019 08:34:04 -0500
-Message-ID: <20191216133405.1001-2-afd@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191216133405.1001-1-afd@ti.com>
-References: <20191216133405.1001-1-afd@ti.com>
+X-Greylist: delayed 303 seconds by postgrey-1.36 at gabe;
+ Mon, 16 Dec 2019 15:53:24 UTC
+Received: from mail25.static.mailgun.info (mail25.static.mailgun.info
+ [104.130.122.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 714066E5C6
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 15:53:24 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1576511604; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: Cc: To: From: Date: Sender;
+ bh=n54eqblQTHDDflnsxcPYmGbSY9QcdN3+yNE+E4qTHkk=;
+ b=KEH/dir5uxTtKrl3aRikdELNNgoZMXw8D4l1tYYL/mBhzwF2K0mloLz+ZIZETjD9ePES4AJ4
+ qZGgBLiRGKyu3MaA6BUtJcIzCv1TsrKPR/LLE/r05n30Q8fttWr5vfv/vIoEcQrhanuzA1XN
+ 1m/S/pp8wMvMwgJf3m0x5MV3Ne8=
+X-Mailgun-Sending-Ip: 104.130.122.25
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5df7a73e.7efd6094e4c8-smtp-out-n03;
+ Mon, 16 Dec 2019 15:48:14 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 6AA50C43383; Mon, 16 Dec 2019 15:48:12 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: jcrouse)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id BBCBBC43383;
+ Mon, 16 Dec 2019 15:48:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org BBCBBC43383
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=jcrouse@codeaurora.org
+Date: Mon, 16 Dec 2019 08:48:08 -0700
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: zhengbin <zhengbin13@huawei.com>
+Subject: Re: [PATCH 1/4] drm/msm/hdmi: Remove unneeded semicolon
+Message-ID: <20191216154808.GA487@jcrouse1-lnx.qualcomm.com>
+Mail-Followup-To: zhengbin <zhengbin13@huawei.com>, robdclark@gmail.com,
+ sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <1576315910-124558-1-git-send-email-zhengbin13@huawei.com>
+ <1576315910-124558-2-git-send-email-zhengbin13@huawei.com>
 MIME-Version: 1.0
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Disposition: inline
+In-Reply-To: <1576315910-124558-2-git-send-email-zhengbin13@huawei.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,79 +74,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, "Andrew F . Davis" <afd@ti.com>
+Cc: sean@poorly.run, airlied@linux.ie, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is more consistent with the DMA and DRM frameworks convention. This
-patch is only a name change, no logic is changed.
+On Sat, Dec 14, 2019 at 05:31:47PM +0800, zhengbin wrote:
+> Fixes coccicheck warning:
+> 
+> drivers/gpu/drm/msm/hdmi/hdmi_connector.c:104:3-4: Unneeded semicolon
 
-Signed-off-by: Andrew F. Davis <afd@ti.com>
----
- drivers/dma-buf/dma-heap.c                         | 4 ++--
- include/uapi/linux/dma-heap.h                      | 4 ++--
- tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c | 2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
+Reviewed-by: Jordan Crouse <jcrouse@codeaurora.org>
 
-diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-index 4f04d104ae61..a24721496114 100644
---- a/drivers/dma-buf/dma-heap.c
-+++ b/drivers/dma-buf/dma-heap.c
-@@ -107,7 +107,7 @@ static long dma_heap_ioctl_allocate(struct file *file, void *data)
- }
- 
- unsigned int dma_heap_ioctl_cmds[] = {
--	DMA_HEAP_IOC_ALLOC,
-+	DMA_HEAP_IOCTL_ALLOC,
- };
- 
- static long dma_heap_ioctl(struct file *file, unsigned int ucmd,
-@@ -153,7 +153,7 @@ static long dma_heap_ioctl(struct file *file, unsigned int ucmd,
- 		memset(kdata + in_size, 0, ksize - in_size);
- 
- 	switch (kcmd) {
--	case DMA_HEAP_IOC_ALLOC:
-+	case DMA_HEAP_IOCTL_ALLOC:
- 		ret = dma_heap_ioctl_allocate(file, kdata);
- 		break;
- 	default:
-diff --git a/include/uapi/linux/dma-heap.h b/include/uapi/linux/dma-heap.h
-index 73e7f66c1cae..6f84fa08e074 100644
---- a/include/uapi/linux/dma-heap.h
-+++ b/include/uapi/linux/dma-heap.h
-@@ -42,12 +42,12 @@ struct dma_heap_allocation_data {
- #define DMA_HEAP_IOC_MAGIC		'H'
- 
- /**
-- * DOC: DMA_HEAP_IOC_ALLOC - allocate memory from pool
-+ * DOC: DMA_HEAP_IOCTL_ALLOC - allocate memory from pool
-  *
-  * Takes a dma_heap_allocation_data struct and returns it with the fd field
-  * populated with the dmabuf handle of the allocation.
-  */
--#define DMA_HEAP_IOC_ALLOC	_IOWR(DMA_HEAP_IOC_MAGIC, 0x0,\
-+#define DMA_HEAP_IOCTL_ALLOC	_IOWR(DMA_HEAP_IOC_MAGIC, 0x0,\
- 				      struct dma_heap_allocation_data)
- 
- #endif /* _UAPI_LINUX_DMABUF_POOL_H */
-diff --git a/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c b/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
-index 3e53ad331bdc..cd5e1f602ac9 100644
---- a/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
-+++ b/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
-@@ -116,7 +116,7 @@ static int dmabuf_heap_alloc_fdflags(int fd, size_t len, unsigned int fd_flags,
- 	if (!dmabuf_fd)
- 		return -EINVAL;
- 
--	ret = ioctl(fd, DMA_HEAP_IOC_ALLOC, &data);
-+	ret = ioctl(fd, DMA_HEAP_IOCTL_ALLOC, &data);
- 	if (ret < 0)
- 		return ret;
- 	*dmabuf_fd = (int)data.fd;
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: zhengbin <zhengbin13@huawei.com>
+> ---
+>  drivers/gpu/drm/msm/hdmi/hdmi_connector.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_connector.c b/drivers/gpu/drm/msm/hdmi/hdmi_connector.c
+> index 839822d..2ccb55a 100644
+> --- a/drivers/gpu/drm/msm/hdmi/hdmi_connector.c
+> +++ b/drivers/gpu/drm/msm/hdmi/hdmi_connector.c
+> @@ -101,7 +101,7 @@ static int gpio_config(struct hdmi *hdmi, bool on)
+> 
+>  				gpiod_set_value_cansleep(gpio.gpiod, value);
+>  			}
+> -		};
+> +		}
+> 
+>  		DBG("gpio off");
+>  	}
+> --
+> 2.7.4
+> 
+
 -- 
-2.17.1
-
+The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
