@@ -1,33 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E672F1225A1
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 08:39:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFC2B1225CD
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 08:49:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C36CC6E94D;
-	Tue, 17 Dec 2019 07:39:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 364AD6E94F;
+	Tue, 17 Dec 2019 07:49:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C17B6E94D
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 07:39:54 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id CC5EBADB3;
- Tue, 17 Dec 2019 07:39:52 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
- id 937DF1E0B35; Tue, 17 Dec 2019 08:39:51 +0100 (CET)
-Date: Tue, 17 Dec 2019 08:39:51 +0100
-From: Jan Kara <jack@suse.cz>
-To: John Hubbard <jhubbard@nvidia.com>
-Subject: Re: [PATCH v11 00/25] mm/gup: track dma-pinned pages: FOLL_PIN
-Message-ID: <20191217073951.GC16051@quack2.suse.cz>
-References: <20191216222537.491123-1-jhubbard@nvidia.com>
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 014D76E94F
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 07:49:32 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBH7nQmU049397;
+ Tue, 17 Dec 2019 01:49:26 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1576568966;
+ bh=VIbMKqALW2FgYYfezuUE/6nFaelKNTIShrcJdkyZbfs=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=yYNAwxMPzELtkIhf/t7gFtliuE6Z4enoYtsnFvyx+oMOpyLTJQ+V6XlP93lZA31Qq
+ +TDQLSqf1xnnMBWyvP7qUYEb5SnAITsoo/jDPAvNr2RTrqnsD5xE8VD1d819UEpYfD
+ H4+pGaRIPgUQkk/rn/uBaKzNIOlCk9UmFr0NFH9s=
+Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xBH7nQ9L082356
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 17 Dec 2019 01:49:26 -0600
+Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 17
+ Dec 2019 01:49:25 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Tue, 17 Dec 2019 01:49:25 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBH7nN5e110954;
+ Tue, 17 Dec 2019 01:49:24 -0600
+Subject: Re: [PATCH v3 18/50] drm/omap: dss: Cleanup DSS ports on
+ initialisation failure
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ <dri-devel@lists.freedesktop.org>
+References: <20191210225750.15709-1-laurent.pinchart@ideasonboard.com>
+ <20191210225750.15709-19-laurent.pinchart@ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <efdb3b2b-9f24-650a-2485-821783659c59@ti.com>
+Date: Tue, 17 Dec 2019 09:49:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191216222537.491123-1-jhubbard@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191210225750.15709-19-laurent.pinchart@ideasonboard.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,51 +64,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
- linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
- linux-kselftest@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
- Michael Ellerman <mpe@ellerman.id.au>, Christoph Hellwig <hch@infradead.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@suse.cz>,
- =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
- linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- linux-block@vger.kernel.org,
- =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
- Al Viro <viro@zeniv.linux.org.uk>, Dan Williams <dan.j.williams@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, bpf@vger.kernel.org,
- Magnus Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
- netdev@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>,
- Mike Kravetz <mike.kravetz@oracle.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Sam Ravnborg <sam@ravnborg.org>, Sean Paul <sean@poorly.run>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Boris Brezillon <bbrezillon@kernel.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi!
-
-On Mon 16-12-19 14:25:12, John Hubbard wrote:
-> Hi,
+On 11/12/2019 00:57, Laurent Pinchart wrote:
+> When the DSS initialises its output DPI and SDI ports, failures don't
+> clean up previous successfully initialised ports. This can lead to
+> resource leak or memory corruption. Fix it.
 > 
-> This implements an API naming change (put_user_page*() -->
-> unpin_user_page*()), and also implements tracking of FOLL_PIN pages. It
-> extends that tracking to a few select subsystems. More subsystems will
-> be added in follow up work.
+> Reported-by: Hans Verkuil <hverkuil@xs4all.nl>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>   drivers/gpu/drm/omapdrm/dss/dss.c | 43 +++++++++++++++++++------------
+>   1 file changed, 26 insertions(+), 17 deletions(-)
 
-Just a note for Andrew and others watching this series: At this point I'm fine
-with the series so if someone still has some review feedback or wants to
-check the series, now is the right time. Otherwise I think Andrew can push
-the series to MM tree so that it will get wider testing exposure and is
-prepared for the next merge window.
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 
-								Honza
+  Tomi
+
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
