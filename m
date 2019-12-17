@@ -2,53 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06DD1122F8F
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 16:02:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DBCB122FBD
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 16:08:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3ABA6E0F6;
-	Tue, 17 Dec 2019 15:02:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F07A6EA2A;
+	Tue, 17 Dec 2019 15:08:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 512E96E0F6
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 15:02:26 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id n12so7204888lfe.3
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 07:02:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=O0Rb66CNDickRJ7Bq/qbZCX6pe18JWnwUGYQoSabjlo=;
- b=nc1kFGIJ2X3MLSwFsYgwekE3eU2ELET6ZDdDVyEmz8SzrcdMWQWzkYwBWnGwSdgtZo
- kh2P7GoGLqi7c3CK7uU6RYf02CgECXUagaEj8fTdohW6lijFhA/hVlviikpqrx8uc9FO
- 6CUosdIm6B5iLGdwJSyaKdosfBdk2I3gv3Sy0rwQzKlfieMyu1I87feqxZq0uKI8vfwe
- 00SZau+pluocODLrt9/0YkwjJafAsJBuJK5EJnlypuotcXqOwOU1AOTxsGg3jdGXimwg
- maj97Cf5R15V1SPJomwo057ptoU4RgxgvkhJgpDIs1kxReOSUdD+PWs8plH4fI37lFVy
- e1Kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=O0Rb66CNDickRJ7Bq/qbZCX6pe18JWnwUGYQoSabjlo=;
- b=YphHHgNcH0r5ZEo2dIbOZyH0NJpCyg9owrEebmtAcch4QB7fq4sDY5kBRXlib32cyQ
- K1vG2fxzkh6OYKWULsqXDZva+3/wGDPAo55i2gDgS6F0i9uPFbd74be/L6HGtA5UIinG
- lY0GSrI6TVOxBKdjl97Vul9nVU7VGDJIYmYuqUd0vH/L9Erv8F7NGI/E+tBMjNBZURT8
- OYS1CN7JnFNCNk6DtqwUrW5AzOCYyyvwIKHq1v6SEcW7ZgkKx9xDBXm13KezDvtoRzvV
- sFhwEi//s3i0juxr3QNiG7GwDyAzcL+Zz3yRzcLpQdc4BxbWp5opux8LpCBgMdtw5HUl
- X1Ug==
-X-Gm-Message-State: APjAAAVdTQDypBQ0NfhUizNMgw7X0XoEDMQVhNvqfaPrTZ959xMI/TAx
- 3SnlDuL/YO4v/O1oIjcRk4WP4KCZiSUKpMex4s6CZPHJYM4=
-X-Google-Smtp-Source: APXvYqziHWni3JFUJ+TuCWQlnrnZGScQfZ10zwQWd1xsjMdSwrSbKbX+lnqf9d2eTrU3sACzVPGsxGpql0eJY5wMDhg=
-X-Received: by 2002:ac2:4945:: with SMTP id o5mr2920893lfi.93.1576594944680;
- Tue, 17 Dec 2019 07:02:24 -0800 (PST)
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1A766EA2A
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 15:08:53 +0000 (UTC)
+Received: from ip5f5a5f74.dynamic.kabel-deutschland.de ([95.90.95.116]
+ helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.89) (envelope-from <heiko@sntech.de>)
+ id 1ihESw-0007uN-KC; Tue, 17 Dec 2019 16:08:50 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH v3 2/3] dt-bindings: display: panel: Add binding document
+ for Xinpeng XPP055C272
+Date: Tue, 17 Dec 2019 16:08:49 +0100
+Message-ID: <1823876.MjdJyG0ANN@diego>
+In-Reply-To: <20191217142446.yexcmh5ox4336qmd@gilmour.lan>
+References: <20191217140703.23867-1-heiko@sntech.de>
+ <20191217140703.23867-2-heiko@sntech.de>
+ <20191217142446.yexcmh5ox4336qmd@gilmour.lan>
 MIME-Version: 1.0
-References: <20191216210647.21808-1-linus.walleij@linaro.org>
- <20191217102712.GA879@gerhold.net>
-In-Reply-To: <20191217102712.GA879@gerhold.net>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 17 Dec 2019 16:02:13 +0100
-Message-ID: <CACRpkdb6WPuCktr16uOJigNkHbO8EbY0_EonWp07MzEi9xzCSA@mail.gmail.com>
-Subject: Re: [PATCH v5] drm/mcde: Some fixes to handling video mode
-To: Stephan Gerhold <stephan@gerhold.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,50 +40,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Sean Paul <sean@poorly.run>, Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
+ Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ robh+dt@kernel.org, thierry.reding@gmail.com, sam@ravnborg.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 17, 2019 at 11:27 AM Stephan Gerhold <stephan@gerhold.net> wrote:
+Am Dienstag, 17. Dezember 2019, 15:24:46 CET schrieb Maxime Ripard:
+> Hi,
+> 
+> On Tue, Dec 17, 2019 at 03:07:02PM +0100, Heiko Stuebner wrote:
+> > From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+> >
+> > The XPP055C272 is a 5.5" 720x1280 DSI display.
+> >
+> > changes in v2:
+> > - add size info into binding title (Sam)
+> > - add more required properties (Sam)
+> >
+> > Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+> > Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> > ---
+> >  .../display/panel/xinpeng,xpp055c272.yaml     | 48 +++++++++++++++++++
+> >  1 file changed, 48 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml b/Documentation/devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml
+> > new file mode 100644
+> > index 000000000000..2d0fc97d735c
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml
+> > @@ -0,0 +1,48 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/panel/sony,acx424akp.yaml#
+> 
+> The ID doesn't match the file name.
+> 
+> Did you run dt_bindings_check?
 
-> I feel kind of bad to keep requesting changes for this patch,
+Thanks for that pointer ... I did run dtbs_check on the binding and was
+sooo happy to not find any panel errors in the pages of other dt errors
+but till now didn't realize that there's also a dtbinding_check.
 
-Don't feel like that. It is complex hardware and complex code,
-so it leads to complex development.
+Will keep that in mind for future bindings  - and of course fix things
+in the next version.
 
-Also I am making way too many stupid mistakes :/
 
-> > +             val = readl(d->regs + DSI_VID_PCK_TIME);
-> > +             val &= ~DSI_VID_PCK_TIME_BLKEOL_DURATION_MASK;
-> > +             val |= blkeol_duration <<
-> > +                     DSI_VID_PCK_TIME_BLKEOL_DURATION_SHIFT;
-> > +             writel(val, d->regs + DSI_VID_PCK_TIME);
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > > +
-> > +             /* Max burst limit, this is given in bytes */
-> > +             val = readl(d->regs + DSI_VID_VCA_SETTING1);
-> > +             val &= ~DSI_VID_VCA_SETTING1_MAX_BURST_LIMIT_MASK;
-> > +             val |= blkeol_duration - 6;
->
-> The vendor kernel writes blkeol_pck - 6 (instead of blkeol_duration) here:
->
-> dsi_wfld(io, DSI_VID_VCA_SETTING1, MAX_BURST_LIMIT, vid_regs->blkeol_pck - 6);
+> > +title: Xinpeng XPP055C272 5.5in 720x1280 DSI panel
+> > +
+> > +maintainers:
+> > +  - Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+> > +
+> > +allOf:
+> > +  - $ref: panel-common.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: xinpeng,xpp055c272
+> > +  reg: true
+> > +  backlight: true
+> > +  port: true
+> 
+> What is the port supposed to be doing?
 
-You're right, and still I read the code over and over...
-It's good we have 2 pairs of eyes.
+Hooking the display up to the dsi controller. But you're right,
+works without port as well with these single-dsi displays.
 
-> Also: It does not make a functional difference here but for clarity we
-> should shift the value by DSI_VID_VCA_SETTING1_MAX_BURST_LIMIT_SHIFT (= 0),
-> i.e.
->
-> val |= blkeol_pck - 6 << DSI_VID_VCA_SETTING1_MAX_BURST_LIMIT_SHIFT;
+I just remember needing one for the Gru-Scarlet display that needed
+to connect to two dsi controllers.
 
-OK I fix!
+So I'll drop the port node here and from my board devicetree.
 
-Yours,
-Linus Walleij
+Thanks for the review
+Heiko
+
+
+> 
+> > +  reset-gpios: true
+> > +  iovcc-supply:
+> > +     description: regulator that supplies the iovcc voltage
+> > +  vci-supply:
+> > +     description: regulator that supplies the vci voltage
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - backlight
+> > +  - iovcc-supply
+> > +  - vci-supply
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    dsi@ff450000 {
+> > +        panel@0 {
+> > +            compatible = "xinpeng,xpp055c272";
+> > +            reg = <0>;
+> > +            backlight = <&backlight>;
+> > +            iovcc-supply = <&vcc_1v8>;
+> > +            vci-supply = <&vcc3v3_lcd>;
+> > +        };
+> > +    };
+> > +
+> > +...
+> 
+> Thanks!
+> Maxime
+> 
+
+
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
