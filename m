@@ -2,31 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DBA812413D
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 09:13:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FDF9124157
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 09:14:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCEB86E239;
-	Wed, 18 Dec 2019 08:13:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72BCE6EA32;
+	Wed, 18 Dec 2019 08:13:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from olimex.com (olimex.com [184.105.72.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 066B96E9D3
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 12:46:51 +0000 (UTC)
-Received: from localhost.localdomain ([94.155.250.134])
- by olimex.com with ESMTPSA
- (ECDHE-RSA-AES128-GCM-SHA256:TLSv1.2:Kx=ECDH:Au=RSA:Enc=AESGCM(128):Mac=AEAD)
- (SMTP-AUTH username stefan@olimex.com, mechanism PLAIN)
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 04:46:45 -0800
-From: Stefan Mavrodiev <stefan@olimex.com>
-To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
+ [210.160.252.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 420B86E108
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 13:46:10 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.69,325,1571670000"; d="scan'208";a="34441850"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+ by relmlie6.idc.renesas.com with ESMTP; 17 Dec 2019 22:46:09 +0900
+Received: from fabrizio-dev.ree.adwin.renesas.com (unknown [10.226.36.196])
+ by relmlir6.idc.renesas.com (Postfix) with ESMTP id 01A824841A48;
+ Tue, 17 Dec 2019 22:46:03 +0900 (JST)
+From: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+To: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org (open list:DRM DRIVERS FOR ALLWINNER A10),
- linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC
- support), linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH 1/1] drm/sun4i: hdmi: Remove duplicate cleanup calls
-Date: Tue, 17 Dec 2019 14:46:32 +0200
-Message-Id: <20191217124632.20820-1-stefan@olimex.com>
-X-Mailer: git-send-email 2.17.1
+ Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Sean Paul <sean@poorly.run>,
+ Andrzej Hajda <a.hajda@samsung.com>
+Subject: [PATCH v6 0/6] Add dual-LVDS panel support to EK874
+Date: Tue, 17 Dec 2019 13:45:55 +0000
+Message-Id: <1576590361-28244-1-git-send-email-fabrizio.castro@bp.renesas.com>
+X-Mailer: git-send-email 2.7.4
 X-Mailman-Approved-At: Wed, 18 Dec 2019 08:13:02 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -40,40 +45,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-sunxi@googlegroups.com, Stefan Mavrodiev <stefan@olimex.com>
+Cc: Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+ devicetree@vger.kernel.org, Chris Paterson <Chris.Paterson2@renesas.com>,
+ ebiharaml@si-linux.co.jp,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Biju Das <biju.das@bp.renesas.com>,
+ linux-renesas-soc@vger.kernel.org, Simon Horman <horms@verge.net.au>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When the HDMI unbinds drm_connector_cleanup() and drm_encoder_cleanup()
-are called. This also happens when the connector and the encoder are
-destroyed. This double call triggers a NULL pointer exception.
+Dear All,
 
-The patch fixes this by removing the cleanup calls in the unbind
-function.
+this series adds support for dual-LVDS panel IDK-2121WR
+from Advantech:
+https://buy.advantech.eu/Displays/Embedded-LCD-Kits-High-Brightness/model-IDK-2121WR-K2FHA2E.htm
 
-Signed-off-by: Stefan Mavrodiev <stefan@olimex.com>
----
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 2 --
- 1 file changed, 2 deletions(-)
+V6 reworks patch "drm: rcar-du: lvds: Allow for even and odd pixels swap",
+and rebases the series on top of patch:
+https://patchwork.kernel.org/patch/11295991/
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-index a7c4654445c7..68d4644ac2dc 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-@@ -685,8 +685,6 @@ static void sun4i_hdmi_unbind(struct device *dev, struct device *master,
- 	struct sun4i_hdmi *hdmi = dev_get_drvdata(dev);
- 
- 	cec_unregister_adapter(hdmi->cec_adap);
--	drm_connector_cleanup(&hdmi->connector);
--	drm_encoder_cleanup(&hdmi->encoder);
- 	i2c_del_adapter(hdmi->i2c);
- 	i2c_put_adapter(hdmi->ddc_i2c);
- 	clk_disable_unprepare(hdmi->mod_clk);
+Thanks,
+Fab
+
+Fabrizio Castro (6):
+  drm: of: Add drm_of_lvds_get_dual_link_pixel_order
+  drm: rcar-du: lvds: Improve identification of panels
+  drm: rcar-du: lvds: Get dual link configuration from DT
+  drm: rcar-du: lvds: Allow for even and odd pixels swap
+  dt-bindings: display: Add idk-2121wr binding
+  arm64: dts: renesas: Add EK874 board with idk-2121wr display support
+
+ .../display/panel/advantech,idk-2121wr.yaml        | 128 +++++++++++++++
+ arch/arm64/boot/dts/renesas/Makefile               |   3 +-
+ .../boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dts | 116 +++++++++++++
+ drivers/gpu/drm/drm_of.c                           | 116 +++++++++++++
+ drivers/gpu/drm/rcar-du/rcar_lvds.c                | 180 ++++++++++++---------
+ include/drm/drm_of.h                               |  20 +++
+ 6 files changed, 483 insertions(+), 80 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dts
+
 -- 
-2.17.1
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
