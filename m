@@ -1,57 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74BD6122C92
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 14:11:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3DC3122CA1
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 14:13:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F11E6E118;
-	Tue, 17 Dec 2019 13:11:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A2E06E9D9;
+	Tue, 17 Dec 2019 13:13:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 653EB6E118
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 13:11:22 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id p17so3115127wma.1
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 05:11:22 -0800 (PST)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6D8C6E9D9
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 13:13:42 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id q10so11227630wrm.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 05:13:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=EZSohn1ysZnbfO+3Bztlv6MzaXMOulcwi+iBjK/JuWw=;
- b=fc2Vim7oz1vcI4NLmDgMW1dhc0j8fgTDpLRrcaLg5cY39SRL+RXduKEm6XXtNlKeLx
- TOCFDNEAPs7T3Xb5xCtFVMzYDjMqGCEDtkbFKQbQPooDyqWVWTGqXlpgT/wwI7tV5Liz
- ggTVdpkqzR2EAt8HHECw0hyjZQI018s5nVgdI=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=UiukVznUb6RbaIEpjFFv8iLF7eFYnMmkDknHSlpOQhc=;
+ b=PlsYyESZ7nq7NH2yQgpIg73rAVA/3twGoT+E2NgINMQNBJj9SII/0t0E3mNu+DlLjK
+ xPgazXwMdXB5f6rBGo9Dpykj917jG9QlTUR7XCydqHYMBKHEZFcd+IuZE9kR2W45V78z
+ 5EP/LWRnFSNYjCs43rvicFPIjboFM3Elx0SyM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=EZSohn1ysZnbfO+3Bztlv6MzaXMOulcwi+iBjK/JuWw=;
- b=q/dBe8+LtFVBMGsCTnva8fzYHN8iA9VDavpBgSVo8HVZdOWzuBA02d0zFHCkZfQ/S1
- nG4P6RG6QLUqAtu1QAoFhYDRfv9c/VHqzbsJavvwQETEXY6nQ3ZaZeD948xp0sLbSMZv
- x7B0eqWhimhOL+HO05SCAkpCRjUXeUB8CcZx4zaautoL7KO6f3CqmG4jNnob1KXN8fDV
- SfQ8hNBIThhrNeVq9Mj3qecoVsRHAS19V7pkn+FOoOrB7X93OG1/PeFzozSN+AXaYnDk
- HJHllYQArz+Tll+G5Ajxy5vZAxV0P1OjcR0kovPqJt/TVaF2AdG2RDdsBpR1eD9x2KwI
- cfXw==
-X-Gm-Message-State: APjAAAUws8Omgy5gZ5YzebEwIXDxX8rY2dlPLnAR2s/98vOaDm71KOE4
- PuS5WMiBuozDx81JaezQEgRppBASJOE=
-X-Google-Smtp-Source: APXvYqwnmrkbC3b8LKKLFJqsp0qQ0RvZn9NSTyd4VwnWz/FmEMNPXPPr1xwYT+qU4vMGwbEpGinYzw==
-X-Received: by 2002:a1c:1f51:: with SMTP id f78mr5256447wmf.60.1576588280808; 
- Tue, 17 Dec 2019 05:11:20 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to:user-agent;
+ bh=UiukVznUb6RbaIEpjFFv8iLF7eFYnMmkDknHSlpOQhc=;
+ b=g4IczcLiF9dQX20Vk3OZQWsneGl7Iw6CX9+a8Za0vm52A1P91gtCAv6TZ3feWARfCG
+ HxhjCB3cWvDEi4V20Ct8QEf5AmzcvauwDGSIDz2VOk2ILI6hWkWk51zgUXa1eNydhhwL
+ 1KakWqRD/u9L8J1+qicBQNHXMMwI0XfHNNT+fqRjTjpJkS3hSKQfw3wYvs9XIImfwFay
+ eOdYojvFhs3dC2ehlqP+SW25a08j53GVx4KNOSs+WLBb9XmCUxuxs5+VpaQcTs9fvnhF
+ +2emmDk0zQVb55LVZxaneioLzkzqhhs6I2RxfrRyulOoZ77+m9aZE+mnnE6WVTD9ancA
+ L15A==
+X-Gm-Message-State: APjAAAWcnSiXoEFt77CMTRLU0KKunVM8T+FySjxpEWbyLs6Ju/m6zlUQ
+ ti6/9IwFE7Q7FfBbvamuwcc7vA==
+X-Google-Smtp-Source: APXvYqxPRzCnT2gvRTsWttk3WXMlk8T7TgZ6vhGyRieUqp/P2hbZfco1H9nFMdnqRHYZ6d+Dbu/kbg==
+X-Received: by 2002:a5d:640d:: with SMTP id z13mr37251617wru.181.1576588421585; 
+ Tue, 17 Dec 2019 05:13:41 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:564b:0:7567:bb67:3d7f:f863])
- by smtp.gmail.com with ESMTPSA id k4sm3028383wmk.26.2019.12.17.05.11.19
+ by smtp.gmail.com with ESMTPSA id x26sm2925754wmc.30.2019.12.17.05.13.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Dec 2019 05:11:19 -0800 (PST)
-Date: Tue, 17 Dec 2019 14:11:18 +0100
+ Tue, 17 Dec 2019 05:13:40 -0800 (PST)
+Date: Tue, 17 Dec 2019 14:13:38 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH 04/10] drm/malidp: plane_state->fb iff plane_state->crtc
-Message-ID: <20191217131118.GX624164@phenom.ffwll.local>
-References: <20191213172612.1514842-1-daniel.vetter@ffwll.ch>
- <20191213172612.1514842-4-daniel.vetter@ffwll.ch>
+To: Aditya Pakki <pakki001@umn.edu>
+Subject: Re: [PATCH] drm: remove duplicate check on parent and avoid BUG_ON
+Message-ID: <20191217131338.GY624164@phenom.ffwll.local>
+Mail-Followup-To: Aditya Pakki <pakki001@umn.edu>, kjlu@umn.edu,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20191215194345.4679-1-pakki001@umn.edu>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191213172612.1514842-4-daniel.vetter@ffwll.ch>
+In-Reply-To: <20191215194345.4679-1-pakki001@umn.edu>
 X-Operating-System: Linux phenom 5.3.0-2-amd64 
 User-Agent: Mutt/1.12.2 (2019-09-21)
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,51 +71,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Sascha Hauer <s.hauer@pengutronix.de>, NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Shawn Guo <shawnguo@kernel.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: David Airlie <airlied@linux.ie>, kjlu@umn.edu, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 13, 2019 at 06:26:06PM +0100, Daniel Vetter wrote:
-> Checking both is one too much, so wrap a WARN_ON around it to stope
-> the copypasta.
+On Sun, Dec 15, 2019 at 01:43:44PM -0600, Aditya Pakki wrote:
+> In drm_dev_init, parent is checked for NULL via assert after
+> checked in devm_drm_dev_init(). The patch removes the duplicate
+> check and replaces the assertion with WARN_ON. Further, it returns
+> -EINVAL consistent with the usage in devm_drm_dev_init.
 > 
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: Shawn Guo <shawnguo@kernel.org>
-> Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> Cc: Fabio Estevam <festevam@gmail.com>
-> Cc: NXP Linux Team <linux-imx@nxp.com>
-> Cc: linux-arm-kernel@lists.infradead.org
+> Signed-off-by: Aditya Pakki <pakki001@umn.edu>
 
-Oops, subect should be drm/imx: ofc here.
--Daniel
+Makes sense, patch applied to drm-misc-next.
+
+Thanks, Daniel
 
 > ---
->  drivers/gpu/drm/imx/ipuv3-plane.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/drm_drv.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/imx/ipuv3-plane.c b/drivers/gpu/drm/imx/ipuv3-plane.c
-> index 28826c0aa24a..6776ebb3246d 100644
-> --- a/drivers/gpu/drm/imx/ipuv3-plane.c
-> +++ b/drivers/gpu/drm/imx/ipuv3-plane.c
-> @@ -359,7 +359,7 @@ static int ipu_plane_atomic_check(struct drm_plane *plane,
->  	if (!fb)
->  		return 0;
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index 1b9b40a1c7c9..7c18a980cd4b 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -622,7 +622,8 @@ int drm_dev_init(struct drm_device *dev,
+>  		return -ENODEV;
+>  	}
 >  
-> -	if (!state->crtc)
-> +	if (WARN_ON(!state->crtc))
+> -	BUG_ON(!parent);
+> +	if (WARN_ON(!parent))
+> +		return -EINVAL;
+>  
+>  	kref_init(&dev->ref);
+>  	dev->dev = get_device(parent);
+> @@ -725,7 +726,7 @@ int devm_drm_dev_init(struct device *parent,
+>  {
+>  	int ret;
+>  
+> -	if (WARN_ON(!parent || !driver->release))
+> +	if (WARN_ON(!driver->release))
 >  		return -EINVAL;
 >  
->  	crtc_state =
+>  	ret = drm_dev_init(dev, driver, parent);
 > -- 
-> 2.24.0
+> 2.20.1
 > 
 
 -- 
