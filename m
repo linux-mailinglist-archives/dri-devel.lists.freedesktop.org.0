@@ -2,24 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6C3C122F66
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 15:53:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9E93122F64
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 15:53:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D619C6EA1F;
-	Tue, 17 Dec 2019 14:53:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 066A76EA1D;
+	Tue, 17 Dec 2019 14:53:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87D906EA1D
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 14:52:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B93136EA12
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 14:52:58 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: andrzej.p) with ESMTPSA id 508EA2928BD
+ (Authenticated sender: andrzej.p) with ESMTPSA id 93A502928C6
 From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCHv5 29/34] drm/arm/malidp: Make verify funcitons invocations
- independent
-Date: Tue, 17 Dec 2019 15:50:15 +0100
-Message-Id: <20191217145020.14645-30-andrzej.p@collabora.com>
+Subject: [PATCHv5 30/34] drm/arm/malidp: Integrate verify functions
+Date: Tue, 17 Dec 2019 15:50:16 +0100
+Message-Id: <20191217145020.14645-31-andrzej.p@collabora.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191217145020.14645-1-andrzej.p@collabora.com>
 References: <20191213173350.GJ624164@phenom.ffwll.local>
@@ -48,31 +47,75 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This will make it easier to transition to generic afbc-aware helpers.
+The next step towards using generic afbc-aware helpers.
 
 Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 ---
- drivers/gpu/drm/arm/malidp_drv.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/arm/malidp_drv.c | 36 ++++++++------------------------
+ 1 file changed, 9 insertions(+), 27 deletions(-)
 
 diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
-index 37d92a06318e..961e5a3f5b08 100644
+index 961e5a3f5b08..e1502666bce0 100644
 --- a/drivers/gpu/drm/arm/malidp_drv.c
 +++ b/drivers/gpu/drm/arm/malidp_drv.c
-@@ -362,10 +362,10 @@ static bool
- malidp_verify_afbc_framebuffer(struct drm_device *dev, struct drm_file *file,
- 			       const struct drm_mode_fb_cmd2 *mode_cmd)
- {
--	if (malidp_verify_afbc_framebuffer_caps(dev, mode_cmd))
--		return malidp_verify_afbc_framebuffer_size(dev, file, mode_cmd);
-+	if (!malidp_verify_afbc_framebuffer_caps(dev, mode_cmd))
-+		return false;
+@@ -270,9 +270,16 @@ static const struct drm_mode_config_helper_funcs malidp_mode_config_helpers = {
+ };
  
--	return false;
-+	return malidp_verify_afbc_framebuffer_size(dev, file, mode_cmd);
+ static bool
+-malidp_verify_afbc_framebuffer_caps(struct drm_device *dev,
+-				    const struct drm_mode_fb_cmd2 *mode_cmd)
++malidp_verify_afbc_framebuffer(struct drm_device *dev, struct drm_file *file,
++			       const struct drm_mode_fb_cmd2 *mode_cmd)
+ {
++	int n_superblocks = 0;
++	const struct drm_format_info *info;
++	struct drm_gem_object *objs = NULL;
++	u32 afbc_superblock_size = 0, afbc_superblock_height = 0;
++	u32 afbc_superblock_width = 0, afbc_size = 0;
++	int bpp = 0;
++
+ 	if (malidp_format_mod_supported(dev, mode_cmd->pixel_format,
+ 					mode_cmd->modifier[0]) == false)
+ 		return false;
+@@ -294,21 +301,6 @@ malidp_verify_afbc_framebuffer_caps(struct drm_device *dev,
+ 		return false;
+ 	}
+ 
+-	return true;
+-}
+-
+-static bool
+-malidp_verify_afbc_framebuffer_size(struct drm_device *dev,
+-				    struct drm_file *file,
+-				    const struct drm_mode_fb_cmd2 *mode_cmd)
+-{
+-	int n_superblocks = 0;
+-	const struct drm_format_info *info;
+-	struct drm_gem_object *objs = NULL;
+-	u32 afbc_superblock_size = 0, afbc_superblock_height = 0;
+-	u32 afbc_superblock_width = 0, afbc_size = 0;
+-	int bpp = 0;
+-
+ 	switch (mode_cmd->modifier[0] & AFBC_SIZE_MASK) {
+ 	case AFBC_SIZE_16X16:
+ 		afbc_superblock_height = 16;
+@@ -358,16 +350,6 @@ malidp_verify_afbc_framebuffer_size(struct drm_device *dev,
+ 	return true;
  }
  
+-static bool
+-malidp_verify_afbc_framebuffer(struct drm_device *dev, struct drm_file *file,
+-			       const struct drm_mode_fb_cmd2 *mode_cmd)
+-{
+-	if (!malidp_verify_afbc_framebuffer_caps(dev, mode_cmd))
+-		return false;
+-
+-	return malidp_verify_afbc_framebuffer_size(dev, file, mode_cmd);
+-}
+-
  static struct drm_framebuffer *
+ malidp_fb_create(struct drm_device *dev, struct drm_file *file,
+ 		 const struct drm_mode_fb_cmd2 *mode_cmd)
 -- 
 2.17.1
 
