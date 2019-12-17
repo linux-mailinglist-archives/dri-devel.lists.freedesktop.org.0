@@ -2,117 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E153E122CC7
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 14:24:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D2E0122CCA
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 14:25:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A953E6E9DB;
-	Tue, 17 Dec 2019 13:24:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89F9C89BBD;
+	Tue, 17 Dec 2019 13:25:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5299F6E9DB
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 13:24:00 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id p17so3162527wmb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 05:24:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:openpgp:autocrypt:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=PQlX1CippGd67ZwxHkuay5EF78Hj1hgtVRyyvUvbgwA=;
- b=NbsupXoXkoUxdXWJ5I+nDlbNjjBFRbGnW++u7+wMaRoowpooaJa9NZ8a8kHxnJ2wPY
- yjrV4LeS0AmQaqOCi6s3b/oVrIYcvTb+jtQj2l8ND691H3mb8+I+vm0UgQXq8pKEHQuc
- 1PJSW67lMqQ22/KiEc1BFcySzglw3JXcgMVjPUTSbcrMhsixbqDUiFzuJvSzXB6sQ0Jm
- x4yHFI70eKABcMmbZSR4TC6Om49u2kxu8eX/WzpYs7eBdvnSFntGr7hj2lHfp84FGQVD
- 2MbQQme7Rt5Qifg6ORTnIZ6R1og5SK1LafVUIkLIxNo/7PZScyX1RSYVIVNpGEUG7bzO
- hOSQ==
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D7C089BBD
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 13:25:00 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id y11so11278041wrt.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 05:25:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=rCYYeF5GDXokZn0Gy5i/HzCHIhTqsDQM6kprBIsqwK8=;
+ b=CwGRBguSR7o4PAZK3w11pKw52a8ux5kTPmhjNsU2Uw8U+2GztngqFb/rxOO8as/CgT
+ 7mXwrLQzWeoW7EFt9x4a1A/rGLQQs6Rpgf6G0mMAPQ8Dple50+2Iqa8AygMn4Z/A9GMw
+ N4BAqvJQ3xYb3cxwxO7S8Dzcrr18gvFseb23U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
- :organization:message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=PQlX1CippGd67ZwxHkuay5EF78Hj1hgtVRyyvUvbgwA=;
- b=MfywO2yxlfKlLP2vD0FmsNz+OR5Yp1kYb35y0JE5PwmcEeEir6GRTCqnX/PNGDreLV
- t0DF5u/91TQTbheBCtFTTHOomP7tymZheQqW52jdAXuzhB+EEJ1FjR8y5UY08xkDKhzE
- bjx3sfF2B/n/qXOgI18s0WphBNdRwlP/HWg7oWcsqwZkL0A6dg2qSQ3+40DhsMaZs6Gu
- e0XH3opea6OpsHjfNPcmFwbe5Uf6wXexU8povumx41zzSLuMO60cwmOnJn8+iQfGeFZr
- cgDkm2G8SBIumxh1C2n88VUJtqh/rRBvE7BCwHuhbC0+cJkyS0t/5syN1jQm3b746twz
- 6SoA==
-X-Gm-Message-State: APjAAAUfD6sqe9i6MIrJxkieMwECt2w+EMMbzcTYBd0WR7k/OWYZ3sZa
- YcjG4HZd86ubRYK7iVJdq+dnje9ISl2qaQ==
-X-Google-Smtp-Source: APXvYqxFFKuODBfddylGkAaPFHaOyvlkKl+G2xUkKBxpD1UN8cL+aNqlAfmrTRKAAzKFgA/cxT8KUA==
-X-Received: by 2002:a7b:c30b:: with SMTP id k11mr5555495wmj.36.1576589038461; 
- Tue, 17 Dec 2019 05:23:58 -0800 (PST)
-Received: from [10.2.4.229] (lfbn-nic-1-505-157.w90-116.abo.wanadoo.fr.
- [90.116.92.157])
- by smtp.gmail.com with ESMTPSA id o66sm3109390wmo.20.2019.12.17.05.23.57
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 17 Dec 2019 05:23:57 -0800 (PST)
-Subject: Re: [GIT PULL FOR v5.6] R-Car DU & LVDS decoder
-To: Daniel Vetter <daniel@ffwll.ch>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20191128024524.GC13942@pendragon.ideasonboard.com>
- <20191217124344.GS624164@phenom.ffwll.local>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- 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
- ZaTUOEkgIor5losDrePdPgE=
-Organization: Baylibre
-Message-ID: <476b05bc-af6f-7156-bbb4-a882fae70c9d@baylibre.com>
-Date: Tue, 17 Dec 2019 14:23:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to:user-agent;
+ bh=rCYYeF5GDXokZn0Gy5i/HzCHIhTqsDQM6kprBIsqwK8=;
+ b=mYzaSejw8cZ7Icceog12xisWDO/V4LNeQxgFAt+6wMDg7eeU1npd89Rp66SJ7VrpXF
+ r0eZM4RqrI7EwRGmpTqPoqSPdrvzTQiyBPnJYsa3P5i/2ExUkPTIKHJU8G/yx++dbzkN
+ 3dW3sIjZSVclp6V6wsqYcEuqagd3MmYD1Dn+/7aUfUG9r+mcUSxfSmgFxEuvL/N11zHA
+ wkg58vW2OjQjouVAcs6rxv7sVJFeQTZU0yfgGwBcqvgKKN9yZo+SghkP5cwiI3RszPH8
+ hu9lhYP3AmpzWCwv54LeyVeenHf4JU66T9rWxqmErv0DksoFdFGLtuE3RSBkgSqsAYf3
+ Y+oQ==
+X-Gm-Message-State: APjAAAXeiFtCtihHDKLFuebH++PMCR8SdzDoYaNv6AWvG/r4Vz6ynAcq
+ mnfECPuHz5XGcCUw8a2430WSeQ==
+X-Google-Smtp-Source: APXvYqyx24m9AQSwKCpQ4TLcbcuG8OOKifkNK3FFx1oM/JOCE+eVV/ysks87N6QJFIPkfu0bRC3FLQ==
+X-Received: by 2002:adf:cd0a:: with SMTP id w10mr36106052wrm.107.1576589098937; 
+ Tue, 17 Dec 2019 05:24:58 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:564b:0:7567:bb67:3d7f:f863])
+ by smtp.gmail.com with ESMTPSA id y20sm2858685wmi.25.2019.12.17.05.24.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Dec 2019 05:24:58 -0800 (PST)
+Date: Tue, 17 Dec 2019 14:24:56 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: John Garry <john.garry@huawei.com>
+Subject: Re: Warnings in DRM code when removing/unbinding a driver
+Message-ID: <20191217132456.GA624164@phenom.ffwll.local>
+Mail-Followup-To: John Garry <john.garry@huawei.com>,
+ "zourongrong@gmail.com" <zourongrong@gmail.com>,
+ "kongxinwei (A)" <kong.kongxinwei@hisilicon.com>,
+ "Chenfeng (puck)" <puck.chen@hisilicon.com>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Linuxarm <linuxarm@huawei.com>, "xuwei (O)" <xuwei5@hisilicon.com>
+References: <07899bd5-e9a5-cff0-395f-b4fb3f0f7f6c@huawei.com>
+ <d222115b-8fe7-75d9-ec88-c67bdaa2f0bf@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20191217124344.GS624164@phenom.ffwll.local>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <d222115b-8fe7-75d9-ec88-c67bdaa2f0bf@huawei.com>
+X-Operating-System: Linux phenom 5.3.0-2-amd64 
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,124 +76,219 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "airlied@linux.ie" <airlied@linux.ie>,
+ "Chenfeng \(puck\)" <puck.chen@hisilicon.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Linuxarm <linuxarm@huawei.com>,
+ "kongxinwei \(A\)" <kong.kongxinwei@hisilicon.com>,
+ "xuwei \(O\)" <xuwei5@hisilicon.com>,
+ "zourongrong@gmail.com" <zourongrong@gmail.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Tue, Dec 17, 2019 at 09:20:43AM +0000, John Garry wrote:
+> On 16/12/2019 17:23, John Garry wrote:
+> =
 
-On 17/12/2019 13:43, Daniel Vetter wrote:
-> On Thu, Nov 28, 2019 at 04:45:24AM +0200, Laurent Pinchart wrote:
->> Hi Dave,
->>
->> The following changes since commit acc61b8929365e63a3e8c8c8913177795aa45594:
->>
->>   Merge tag 'drm-next-5.5-2019-11-22' of git://people.freedesktop.org/~agd5f/linux into drm-next (2019-11-26 08:40:23 +1000)
->>
->> are available in the Git repository at:
->>
->>   git://linuxtv.org/pinchartl/media.git tags/du-next-20191128
->>
->> for you to fetch changes up to c43bcd64c7c703ff7196f74cb6bfc67e35b562d9:
->>
->>   dt-bindings: display: bridge: lvds-codec: Document ti,ds90cf384a (2019-11-28 03:55:56 +0200)
->>
->> ----------------------------------------------------------------
->> - R-Car DU Color Management Module support
->> - LVDS decoder support
->>
->> ----------------------------------------------------------------
->> Fabrizio Castro (9):
->>       dt-bindings: display: bridge: Convert lvds-transmitter binding to json-schema
->>       dt-bindings: display: bridge: lvds-transmitter: Document powerdown-gpios
->>       dt-bindings: display: bridge: lvds-transmitter: Absorb ti,ds90c185.txt
->>       dt-bindings: display: bridge: lvds-transmitter: Document "ti,sn75lvds83"
->>       drm/bridge: Repurpose lvds-encoder.c
->>       drm/bridge: lvds-codec: Add "lvds-decoder" support
->>       drm/bridge: lvds-codec: Simplify panel DT node localisation
->>       dt-bindings: display: bridge: Repurpose lvds-encoder
->>       dt-bindings: display: bridge: lvds-codec: Document ti,ds90cf384a
-> 
-> Why bridge stuff not in drm-misc?
-> 
-> Also, and the reason I've not pulled this:
-> 
-> dim: c43bcd64c7c7 ("dt-bindings: display: bridge: lvds-codec: Document ti,ds90cf384a"): committer Signed-off-by missing.
-> dim: bb29b64ac196 ("dt-bindings: display: bridge: Repurpose lvds-encoder"): committer Signed-off-by missing.
-> dim: 5db8ae664da4 ("drm/bridge: lvds-codec: Simplify panel DT node localisation"): committer Signed-off-by missing.
-> dim: e94bb2bf88e2 ("drm/bridge: lvds-codec: Add "lvds-decoder" support"): committer Signed-off-by missing.
-> dim: b6fafff0c335 ("drm/bridge: Repurpose lvds-encoder.c"): committer Signed-off-by missing.
-> dim: 1c060450177f ("dt-bindings: display: bridge: lvds-transmitter: Document "ti,sn75lvds83""): committer Signed-off-by missing.
-> dim: d2f2a148ba7c ("dt-bindings: display: bridge: lvds-transmitter: Absorb ti,ds90c185.txt"): committer Signed-off-by missing.
-> dim: 07e5c8731999 ("dt-bindings: display: bridge: lvds-transmitter: Document powerdown-gpios"): committer Signed-off-by missing.
-> dim: 0fa9d2323ed3 ("dt-bindings: display: bridge: Convert lvds-transmitter binding to json-schema"): committer Signed-off-by missing.
-> dim: ERROR: issues in commits detected, aborting
+> +, -
+> =
 
-Laurent, I can push them into drm-misc if needed, so it will unlock boris.
+> > Hi all,
+> =
 
-Neil
+> xinliang <z.liuxinliang@hisilicon.com> is bouncing. We need to get his new
+> mail address.
+> =
+
+> John
+> =
+
+> > =
+
+> > Enabling CONFIG_DEBUG_TEST_DRIVER_REMOVE causes many warns on a system
+> > with the HIBMC hw:
+> > =
+
+> > [=A0=A0 27.788806] WARNING: CPU: 24 PID: 1 at
+> > drivers/gpu/drm/drm_gem_vram_helper.c:564
+> > bo_driver_move_notify+0x8c/0x98
+> > [=A0=A0 27.798969] Modules linked in:
+> > [=A0=A0 27.802018] CPU: 24 PID: 1 Comm: swapper/0 Tainted: G=A0=A0=A0 B
+> > =A05.5.0-rc1-dirty #565
+> > [=A0=A0 27.810358] Hardware name: Huawei D06 /D06, BIOS Hisilicon D06 U=
+EFI
+> > RC0 - V1.16.01 03/15/2019
+> > [=A0=A0 27.818872] pstate: 20c00009 (nzCv daif +PAN +UAO)
+> > [=A0=A0 27.823654] pc : bo_driver_move_notify+0x8c/0x98
+> > [=A0=A0 27.828262] lr : bo_driver_move_notify+0x40/0x98
+> > [=A0=A0 27.832868] sp : ffff00236f0677e0
+> > [=A0=A0 27.836173] x29: ffff00236f0677e0 x28: ffffa0001454e5e0
+> > [=A0=A0 27.841476] x27: ffff002366e52128 x26: ffffa000149e67b0
+> > [=A0=A0 27.846779] x25: ffff002366e523e0 x24: ffff002336936120
+> > [=A0=A0 27.852082] x23: ffff0023346f4010 x22: ffff002336936128
+> > [=A0=A0 27.857385] x21: ffffa000149c15c0 x20: ffff0023369361f8
+> > [=A0=A0 27.862687] x19: ffff002336936000 x18: 0000000000001258
+> > [=A0=A0 27.867989] x17: 0000000000001190 x16: 00000000000011d0
+> > [=A0=A0 27.873292] x15: 0000000000001348 x14: ffffa00012d68190
+> > [=A0=A0 27.878595] x13: 0000000000000006 x12: 1ffff40003241f91
+> > [=A0=A0 27.883897] x11: ffff940003241f91 x10: dfffa00000000000
+> > [=A0=A0 27.889200] x9 : ffff940003241f92 x8 : 0000000000000001
+> > [=A0=A0 27.894502] x7 : ffffa0001920fc88 x6 : ffff940003241f92
+> > [=A0=A0 27.899804] x5 : ffff940003241f92 x4 : ffff0023369363a0
+> > [=A0=A0 27.905107] x3 : ffffa00010c104b8 x2 : dfffa00000000000
+> > [=A0=A0 27.910409] x1 : 0000000000000003 x0 : 0000000000000001
+> > [=A0=A0 27.915712] Call trace:
+> > [=A0=A0 27.918151]=A0 bo_driver_move_notify+0x8c/0x98
+> > [=A0=A0 27.922412]=A0 ttm_bo_cleanup_memtype_use+0x54/0x100
+> > [=A0=A0 27.927194]=A0 ttm_bo_put+0x3a0/0x5d0
+> > [=A0=A0 27.930673]=A0 drm_gem_vram_object_free+0xc/0x18
+> > [=A0=A0 27.935109]=A0 drm_gem_object_free+0x34/0xd0
+> > [=A0=A0 27.939196]=A0 drm_gem_object_put_unlocked+0xc8/0xf0
+> > [=A0=A0 27.943978]=A0 hibmc_user_framebuffer_destroy+0x20/0x40
+> > [=A0=A0 27.949020]=A0 drm_framebuffer_free+0x48/0x58
+> > [=A0=A0 27.953194]=A0 drm_mode_object_put.part.1+0x90/0xe8
+> > [=A0=A0 27.957889]=A0 drm_mode_object_put+0x28/0x38
+> > [=A0=A0 27.961976]=A0 hibmc_fbdev_fini+0x54/0x78
+> > [=A0=A0 27.965802]=A0 hibmc_unload+0x2c/0xd0
+> > [=A0=A0 27.969281]=A0 hibmc_pci_remove+0x2c/0x40
+> > [=A0=A0 27.973109]=A0 pci_device_remove+0x6c/0x140
+> > [=A0=A0 27.977110]=A0 really_probe+0x174/0x548
+> > [=A0=A0 27.980763]=A0 driver_probe_device+0x7c/0x148
+> > [=A0=A0 27.984936]=A0 device_driver_attach+0x94/0xa0
+> > [=A0=A0 27.989109]=A0 __driver_attach+0xa8/0x110
+> > [=A0=A0 27.992935]=A0 bus_for_each_dev+0xe8/0x158
+> > [=A0=A0 27.996849]=A0 driver_attach+0x30/0x40
+> > [=A0=A0 28.000415]=A0 bus_add_driver+0x234/0x2f0
+> > [=A0=A0 28.004241]=A0 driver_register+0xbc/0x1d0
+> > [=A0=A0 28.008067]=A0 __pci_register_driver+0xbc/0xd0
+> > [=A0=A0 28.012329]=A0 hibmc_pci_driver_init+0x20/0x28
+> > [=A0=A0 28.016590]=A0 do_one_initcall+0xb4/0x254
+> > [=A0=A0 28.020417]=A0 kernel_init_freeable+0x27c/0x328
+> > [=A0=A0 28.024765]=A0 kernel_init+0x10/0x118
+> > [=A0=A0 28.028245]=A0 ret_from_fork+0x10/0x18
+> > [=A0=A0 28.031813] ---[ end trace 35a83b71b657878d ]---
+> > [=A0=A0 28.036503] ------------[ cut here ]------------
+> > [=A0=A0 28.041115] WARNING: CPU: 24 PID: 1 at
+> > drivers/gpu/drm/drm_gem_vram_helper.c:40
+> > ttm_buffer_object_destroy+0x4c/0x80
+> > [=A0=A0 28.051537] Modules linked in:
+> > [=A0=A0 28.054585] CPU: 24 PID: 1 Comm: swapper/0 Tainted: G=A0=A0=A0 B=
+=A0=A0 W
+> > =A05.5.0-rc1-dirty #565
+> > [=A0=A0 28.062924] Hardware name: Huawei D06 /D06, BIOS Hisilicon D06 U=
+EFI
+> > RC0 - V1.16.01 03/15/2019
+> > =
+
+> > [snip]
+> > =
+
+> > Indeed, simply unbinding the device from the driver causes the same sort
+> > of issue:
+> > =
+
+> > root@(none)$ cd ./bus/pci/drivers/hibmc-drm/
+> > root@(none)$ ls
+> > 0000:05:00.0=A0 bind=A0=A0=A0=A0=A0=A0=A0=A0=A0 new_id=A0=A0=A0=A0=A0=
+=A0=A0 remove_id=A0=A0=A0=A0 uevent
+> > unbind
+> > root@(none)$ echo 0000\:05\:00.0 > unbind
+> > [=A0 116.074352] ------------[ cut here ]------------
+> > [=A0 116.078978] WARNING: CPU: 17 PID: 1178 at
+> > drivers/gpu/drm/drm_gem_vram_helper.c:40
+> > ttm_buffer_object_destroy+0x4c/0x80
+> > [=A0 116.089661] Modules linked in:
+> > [=A0 116.092711] CPU: 17 PID: 1178 Comm: sh Tainted: G=A0=A0=A0 B=A0=A0=
+ W
+> > 5.5.0-rc1-dirty #565
+> > [=A0 116.100704] Hardware name: Huawei D06 /D06, BIOS Hisilicon D06 UEFI
+> > RC0 - V1.16.01 03/15/2019
+> > [=A0 116.109218] pstate: 20400009 (nzCv daif +PAN -UAO)
+> > [=A0 116.114001] pc : ttm_buffer_object_destroy+0x4c/0x80
+> > [=A0 116.118956] lr : ttm_buffer_object_destroy+0x18/0x80
+> > [=A0 116.123910] sp : ffff0022e6cef8e0
+> > [=A0 116.127215] x29: ffff0022e6cef8e0 x28: ffff00231b1fb000
+> > [=A0 116.132519] x27: 0000000000000000 x26: ffff00231b1fb000
+> > [=A0 116.137821] x25: ffff0022e6cefdc0 x24: 0000000000002480
+> > [=A0 116.143124] x23: ffff0023682b6ab0 x22: ffff0023682b6800
+> > [=A0 116.148427] x21: ffff0023682b6800 x20: 0000000000000000
+> > [=A0 116.153730] x19: ffff0023682b6800 x18: 0000000000000000
+> > [=A0 116.159032] x17: 000000000000000000000000001
+> > [=A0 116.185545] x7 : ffff0023682b6b07 x6 : ffff80046d056d61
+> > [=A0 116.190848] x5 : ffff80046d056d61 x4 : ffff0023682b6ba0
+> > [=A0 116.196151] x3 : ffffa00010197338 x2 : dfffa00000000000
+> > [=A0 116.201453] x1 : 0000000000000003 x0 : 0000000000000001
+> > [=A0 116.206756] Call trace:
+> > [=A0 116.209195]=A0 ttm_buffer_object_destroy+0x4c/0x80
+> > [=A0 116.213803]=A0 ttm_bo_release_list+0x184/0x220
+> > [=A0 116.218064]=A0 ttm_bo_put+0x410/0x5d0
+> > [=A0 116.221544]=A0 drm_gem_vram_object_free+0xc/0x18
+> > [=A0 116.225979]=A0 drm_gem_object_free+0x34/0xd0
+> > [=A0 116.230066]=A0 drm_gem_object_put_unlocked+0xc8/0xf0
+> > [=A0 116.234848]=A0 hibmc_user_framebuffer_destroy+0x20/0x40
+> > [=A0 116.239890]=A0 drm_framebuffer_free+0x48/0x58
+> > [=A0 116.244064]=A0 drm_mode_object_put.part.1+0x90/0xe8
+> > [=A0 116.248759]=A0 drm_mode_object_put+0x28/0x38
+> > [=A0 116.252846]=A0 hibmc_fbdev_fini+0x54/0x78
+> > [=A0 116.256672]=A0 hibmc_unload+0x2c/0xd0
+> > [=A0 116.260151]=A0 hibmc_pci_remove+0x2c/0x40
+> > [=A0 116.263979]=A0 pci_device_remove+0x6c/0x140
+> > [=A0 116.267980]=A0 device_release_driver_internal+0x134/0x250
+> > [=A0 116.273196]=A0 device_driver_detach+0x28/0x38
+> > [=A0 116.277369]=A0 unbind_store+0xfc/0x150
+> > [=A0 116.280934]=A0 drv_attr_store+0x48/0x60
+> > [=A0 116.284589]=A0 sysfs_kf_write+0x80/0xb0
+> > [=A0 116.288241]=A0 kernfs_fop_write+0x1d4/0x320
+> > [=A0 116.292243]=A0 __vfs_write+0x54/0x98
+> > [=A0 116.295635]=A0 vfs_write+0xe8/0x270
+> > [=A0 116.298940]=A0 ksys_write+0xc8/0x180
+> > [=A0 116.302333]=A0 __arm64_sys_write+0x40/0x50
+> > [=A0 116.306248]=A0 el0_svc_common.constprop.0+0xa4/0x1f8
+> > [=A0 116.311029]=A0 el0_svc_handler+0x34/0xb0
+> > [=A0 116.314770]=A0 el0_sync_handler+0x10c/0x1c8
+> > [=A0 116.318769]=A0 el0_sync+0x140/0x180
+> > [=A0 116.322074] ---[ end trace e60e43d0e316b5c8 ]---
+> > [=A0 116.326868] ------------[ cut here ]------------
+> > =
+
+> > =
+
+> > dmesg and .config is here:
+> > https://pastebin.com/4P5yaZBS
+> > =
+
+> > I'm not sure if this is a HIBMC driver issue or issue with the framewor=
+k.
+
+Display-only drivers shouldn't go boom like this, the drm framework is
+fixed for those. Unfortunately there's still many drivers that get their
+unload sequence and resource refcounting totally wrong. For a start see
+devm_drm_dev_init() and related documentation for recommendations for
+current best practices:
+
+https://dri.freedesktop.org/docs/drm/gpu/drm-internals.html#display-driver-=
+example
+
+Cheers, Daniel
+
+> > =
+
+> > john
+> > =
+
+> > =
+
+> =
 
 
-> 
-> *insert small sermon about if you do your own maintainer, pls do it right ...
-> 
-> Cheers, Daniel
-> 
->>
->> Geert Uytterhoeven (2):
->>       dt-bindings: display: renesas: du: Add vendor prefix to vsps property
->>       drm: rcar-du: Recognize "renesas,vsps" in addition to "vsps"
->>
->> Jacopo Mondi (6):
->>       dt-bindings: display: renesas,cmm: Add R-Car CMM documentation
->>       dt-bindings: display: renesas,du: Document cmms property
->>       drm: rcar-du: Add support for CMM
->>       drm: rcar-du: kms: Initialize CMM instances
->>       drm: rcar-du: crtc: Control CMM operations
->>       drm: rcar-du: crtc: Register GAMMA_LUT properties
->>
->>  .../bindings/display/bridge/lvds-codec.yaml        | 132 +++++++++++++
->>  .../bindings/display/bridge/lvds-transmitter.txt   |  66 -------
->>  .../bindings/display/bridge/ti,ds90c185.txt        |  55 ------
->>  .../devicetree/bindings/display/renesas,cmm.yaml   |  67 +++++++
->>  .../devicetree/bindings/display/renesas,du.txt     |  15 +-
->>  drivers/gpu/drm/bridge/Kconfig                     |   8 +-
->>  drivers/gpu/drm/bridge/Makefile                    |   2 +-
->>  drivers/gpu/drm/bridge/lvds-codec.c                | 151 ++++++++++++++
->>  drivers/gpu/drm/bridge/lvds-encoder.c              | 155 ---------------
->>  drivers/gpu/drm/rcar-du/Kconfig                    |   8 +
->>  drivers/gpu/drm/rcar-du/Makefile                   |   1 +
->>  drivers/gpu/drm/rcar-du/rcar_cmm.c                 | 217 +++++++++++++++++++++
->>  drivers/gpu/drm/rcar-du/rcar_cmm.h                 |  58 ++++++
->>  drivers/gpu/drm/rcar-du/rcar_du_crtc.c             |  71 +++++++
->>  drivers/gpu/drm/rcar-du/rcar_du_crtc.h             |   2 +
->>  drivers/gpu/drm/rcar-du/rcar_du_drv.h              |   2 +
->>  drivers/gpu/drm/rcar-du/rcar_du_group.c            |  10 +
->>  drivers/gpu/drm/rcar-du/rcar_du_group.h            |   2 +
->>  drivers/gpu/drm/rcar-du/rcar_du_kms.c              |  93 ++++++++-
->>  drivers/gpu/drm/rcar-du/rcar_du_regs.h             |   5 +
->>  20 files changed, 829 insertions(+), 291 deletions(-)
->>  create mode 100644 Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
->>  delete mode 100644 Documentation/devicetree/bindings/display/bridge/lvds-transmitter.txt
->>  delete mode 100644 Documentation/devicetree/bindings/display/bridge/ti,ds90c185.txt
->>  create mode 100644 Documentation/devicetree/bindings/display/renesas,cmm.yaml
->>  create mode 100644 drivers/gpu/drm/bridge/lvds-codec.c
->>  delete mode 100644 drivers/gpu/drm/bridge/lvds-encoder.c
->>  create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.c
->>  create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.h
->>
->> -- 
->> Regards,
->>
->> Laurent Pinchart
->> _______________________________________________
->> dri-devel mailing list
->> dri-devel@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> 
+-- =
 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
