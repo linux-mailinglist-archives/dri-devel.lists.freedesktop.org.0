@@ -2,52 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09F17122C85
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 14:09:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AE20122C7B
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 14:04:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 421096E9DA;
-	Tue, 17 Dec 2019 13:09:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 806FE6E9D3;
+	Tue, 17 Dec 2019 13:03:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 10455 seconds by postgrey-1.36 at gabe;
- Tue, 17 Dec 2019 13:09:20 UTC
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D2AC6E9DA
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 13:09:20 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBHAEtIk044796;
- Tue, 17 Dec 2019 04:14:55 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1576577695;
- bh=2QUGTYgZ96oe/K1GDPMSjyUVLllRvww4faZITebRAmY=;
- h=From:To:CC:Subject:Date;
- b=u2nK1G05tJD0nmcLRsprCWm/zdzeygjICZZlsxP0WdqtnK06K9bRVzU2YlRMeuSc7
- KjYQV9/xa5TDiem5+6XsL+E/J0Y+Xv4gUTkTUnhtOrzrYJwr6+wTj4cSQ+AV51CrMn
- KfTaW3zG4v5Kp6ukXMM0uKr9tOBrheX6IdgaYHeQ=
-Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xBHAEt7w042307
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 17 Dec 2019 04:14:55 -0600
-Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 17
- Dec 2019 04:14:54 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Tue, 17 Dec 2019 04:14:54 -0600
-Received: from feketebors.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBHAEp6M086932;
- Tue, 17 Dec 2019 04:14:51 -0600
-From: Peter Ujfalusi <peter.ujfalusi@ti.com>
-To: <airlied@linux.ie>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
- <mark.rutland@arm.com>, <a.hajda@samsung.com>, <narmstrong@baylibre.com>
-Subject: [PATCH 0/2] drm/bridge: Support for Toshiba tc358768 RGB to DSI bridge
-Date: Tue, 17 Dec 2019 12:15:04 +0200
-Message-ID: <20191217101506.18910-1-peter.ujfalusi@ti.com>
-X-Mailer: git-send-email 2.24.0
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E61386E9D3
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 13:03:57 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id j42so7017541wrj.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 05:03:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=IHnJrf0xr4GkiU9EG7qAISx/xlW1Z6IKARMSAFJUrRY=;
+ b=c4bmJsPBhVaHWowhDxkqGljmbRgrA0c7j7l9GHbCqtJcUWM2ebvS0m2BVaJiwUPNEd
+ TO9bNOkzYdY6hQ1AMUWWdPl23ZA10VLcGTUhX25WWogZru3HrETQVvBuI6vjFI5De3TL
+ +ucEkMFFGERo31L7ZE83xSMgEdFSUiqBQ5+xU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=IHnJrf0xr4GkiU9EG7qAISx/xlW1Z6IKARMSAFJUrRY=;
+ b=X78KTdaEnv0JQBMN2TSF83d2igJLK/5C+MM/CJb1uQL9mKLTicdKnXo0ubHDUQUYHs
+ 3RZO1udnZ2lngi75uCnkANoEddxJq+EnVUmH5MN89Mixg5AvtzLZllfa58ZOLJ7htlf6
+ A4wXEe/8YAv+3qXLeKTsZ8lIbYAU52mhl8NzubxBs0JD3j5MzTpz6HMWpTfw7aqlRXnX
+ 784AO1CHXelgoYUSolCGRTQtVhslLqjIVcnrf4MNLEPYSTHdQp2YCpcHG2z+K14gS/yf
+ gmz2dsA+LkadUH4qBr2qIQ6SRdW22/jW/9PFNifLpYYYQ2It0D682+FIeFjDuifXmD0S
+ FLPg==
+X-Gm-Message-State: APjAAAUIvoffhrowgOw2hloOwj9sH6GR7MQD48K8jzrScMdWPc3Ucm5h
+ AgNnTdh5SwvA5tWFoCBKqa3liA==
+X-Google-Smtp-Source: APXvYqxU7mUWVdsCXbM+7MtCe6/C54613B4kG6HyrQf8kBYGUDMftSeVuWWjhXm5MkVZ7LmyazVpvw==
+X-Received: by 2002:adf:9c8a:: with SMTP id d10mr36427315wre.156.1576587836476; 
+ Tue, 17 Dec 2019 05:03:56 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:564b:0:7567:bb67:3d7f:f863])
+ by smtp.gmail.com with ESMTPSA id a1sm25334146wrr.80.2019.12.17.05.03.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Dec 2019 05:03:55 -0800 (PST)
+Date: Tue, 17 Dec 2019 14:03:53 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Lucas Stach <l.stach@pengutronix.de>
+Subject: Re: [PATCH] drm/etnaviv: Use dma_resv locking wrappers
+Message-ID: <20191217130353.GW624164@phenom.ffwll.local>
+References: <20191125094356.161941-2-daniel.vetter@ffwll.ch>
+ <20191214000927.1616384-1-daniel.vetter@ffwll.ch>
+ <9c16bae9e83c0878215586595b5ca16b3d5e8810.camel@pengutronix.de>
 MIME-Version: 1.0
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Disposition: inline
+In-Reply-To: <9c16bae9e83c0878215586595b5ca16b3d5e8810.camel@pengutronix.de>
+X-Operating-System: Linux phenom 5.3.0-2-amd64 
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,43 +67,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net, jonas@kwiboo.se,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- tomi.valkeinen@ti.com, Laurent.pinchart@ideasonboard.com
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, etnaviv@lists.freedesktop.org,
+ DRI Development <dri-devel@lists.freedesktop.org>, "Ruhl,
+ Michael J" <michael.j.ruhl@intel.com>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Mon, Dec 16, 2019 at 04:14:34PM +0100, Lucas Stach wrote:
+> On Sa, 2019-12-14 at 01:09 +0100, Daniel Vetter wrote:
+> > I'll add more fancy logic to them soon, so everyone really has to use
+> > them. Plus they already provide some nice additional debug
+> > infrastructure on top of direct ww_mutex usage for the fences tracked
+> > by dma_resv.
+> > 
+> > v2: Fix the lost _interruptible (Michael)
+> > 
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Lucas Stach <l.stach@pengutronix.de>
+> > Cc: Russell King <linux+etnaviv@armlinux.org.uk>
+> > Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+> > Cc: etnaviv@lists.freedesktop.org
+> > Cc: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
+> 
+> Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
+> 
+> If you want to stack other stuff on top of this before the next merge
+> window feel free to take it through drm-misc. Otherwise I'm going to
+> pick it up with the next sweep.
 
-TC358768 is a parallel RGB to MIPI DSI bridge.
+I expect a fair amount of stacking in the dma-buf area in the near future
+, so applied all (except the i915 one, that's already superseeded with
+i915 specific work) to drm-misc-next.
 
-The initial driver supports MIPI_DSI_MODE_VIDEO, MIPI_DSI_FMT_RGB888 and
-only write is implemented for mipi_dsi_host_ops.transfer due to lack of hardware
-where other modes can be tested.
+Thanks for review.
+-Daniel
 
-Regards,
-Peter
----
-Peter Ujfalusi (2):
-  dt-bindings: display: bridge: Add documentation for Toshiba tc358768
-  drm/bridge: Add tc358768 driver
-
- .../display/bridge/toshiba,tc358768.yaml      | 158 +++
- drivers/gpu/drm/bridge/Kconfig                |  10 +
- drivers/gpu/drm/bridge/Makefile               |   1 +
- drivers/gpu/drm/bridge/tc358768.c             | 963 ++++++++++++++++++
- 4 files changed, 1132 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
- create mode 100644 drivers/gpu/drm/bridge/tc358768.c
+> 
+> Regards,
+> Lucas
+> 
+> > ---
+> >  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 8 +++-----
+> >  1 file changed, 3 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> > index aa3e4c3b063a..3b0afa156d92 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> > @@ -113,7 +113,7 @@ static void submit_unlock_object(struct etnaviv_gem_submit *submit, int i)
+> >  	if (submit->bos[i].flags & BO_LOCKED) {
+> >  		struct drm_gem_object *obj = &submit->bos[i].obj->base;
+> >  
+> > -		ww_mutex_unlock(&obj->resv->lock);
+> > +		dma_resv_unlock(obj->resv);
+> >  		submit->bos[i].flags &= ~BO_LOCKED;
+> >  	}
+> >  }
+> > @@ -133,8 +133,7 @@ static int submit_lock_objects(struct etnaviv_gem_submit *submit,
+> >  		contended = i;
+> >  
+> >  		if (!(submit->bos[i].flags & BO_LOCKED)) {
+> > -			ret = ww_mutex_lock_interruptible(&obj->resv->lock,
+> > -							  ticket);
+> > +			ret = dma_resv_lock_interruptible(obj->resv, ticket);
+> >  			if (ret == -EALREADY)
+> >  				DRM_ERROR("BO at index %u already on submit list\n",
+> >  					  i);
+> > @@ -161,8 +160,7 @@ static int submit_lock_objects(struct etnaviv_gem_submit *submit,
+> >  		obj = &submit->bos[contended].obj->base;
+> >  
+> >  		/* we lost out in a seqno race, lock and retry.. */
+> > -		ret = ww_mutex_lock_slow_interruptible(&obj->resv->lock,
+> > -						       ticket);
+> > +		ret = dma_resv_lock_slow_interruptible(obj->resv, ticket);
+> >  		if (!ret) {
+> >  			submit->bos[contended].flags |= BO_LOCKED;
+> >  			slow_locked = contended;
+> 
 
 -- 
-Peter
-
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
