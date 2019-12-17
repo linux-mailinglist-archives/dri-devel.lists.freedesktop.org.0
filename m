@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31791122F5C
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 15:53:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEAA8122F55
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 15:52:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77D936EA13;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13E916EA0F;
 	Tue, 17 Dec 2019 14:52:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 018706EA05
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 14:52:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5903E6EA0B
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 14:52:41 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: andrzej.p) with ESMTPSA id DE489292850
+ (Authenticated sender: andrzej.p) with ESMTPSA id 00C042927E3
 From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCHv5 19/34] drm/komeda: Make the size checks independent from
- framebuffer structure
-Date: Tue, 17 Dec 2019 15:50:05 +0100
-Message-Id: <20191217145020.14645-20-andrzej.p@collabora.com>
+Subject: [PATCHv5 20/34] drm/komeda: Move helper invocation to after size
+ checks
+Date: Tue, 17 Dec 2019 15:50:06 +0100
+Message-Id: <20191217145020.14645-21-andrzej.p@collabora.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191217145020.14645-1-andrzej.p@collabora.com>
 References: <20191213173350.GJ624164@phenom.ffwll.local>
@@ -48,49 +48,45 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The same data is available in mode_cmd.
+Between the old and new place nothing depends on data retrieved with the
+helper, so it is safe to move its invocation.
+The err_cleanup case is changed accordingly.
 
 Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 ---
- .../gpu/drm/arm/display/komeda/komeda_framebuffer.c    | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c b/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
-index d52278ca27fb..42ccd4647919 100644
+index 42ccd4647919..c2b29d4e6fbb 100644
 --- a/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
 +++ b/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
-@@ -155,9 +155,9 @@ komeda_fb_create(struct drm_device *dev, struct drm_file *file,
+@@ -154,7 +154,6 @@ komeda_fb_create(struct drm_device *dev, struct drm_file *file,
+ 	if (ret < 0)
  		goto err_free;
  
- 	drm_helper_mode_fill_fb_struct(dev, &kfb->base, mode_cmd);
--	info = kfb->base.format;
-+	info = drm_get_format_info(dev, mode_cmd);
+-	drm_helper_mode_fill_fb_struct(dev, &kfb->base, mode_cmd);
+ 	info = drm_get_format_info(dev, mode_cmd);
  
--	if (kfb->base.modifier) {
-+	if (mode_cmd->modifier[0]) {
- 		if (info->num_planes != 1) {
- 			DRM_DEBUG_KMS("AFBC requires exactly 1 plane.\n");
- 			ret = -EINVAL;
-@@ -167,8 +167,8 @@ komeda_fb_create(struct drm_device *dev, struct drm_file *file,
- 		ret = komeda_fb_afbc_size_check(kfb, info, objs, file,
- 						mode_cmd);
- 	} else {
--		ret = komeda_fb_check_src_coords(kfb, 0, 0, kfb->base.width,
--						 kfb->base.height);
-+		ret = komeda_fb_check_src_coords(kfb, 0, 0, mode_cmd->width,
-+						 mode_cmd->height);
- 		if (ret)
+ 	if (mode_cmd->modifier[0]) {
+@@ -185,6 +184,8 @@ komeda_fb_create(struct drm_device *dev, struct drm_file *file,
  			goto err_cleanup;
+ 		}
  
-@@ -179,7 +179,7 @@ komeda_fb_create(struct drm_device *dev, struct drm_file *file,
- 		goto err_cleanup;
++	drm_helper_mode_fill_fb_struct(dev, &kfb->base, mode_cmd);
++
+ 	for (i = 0; i < info->num_planes; ++i)
+ 		kfb->base.obj[i] = objs[i];
  
- 	if (info->num_planes == 3)
--		if (kfb->base.pitches[1] != kfb->base.pitches[2]) {
-+		if (mode_cmd->pitches[1] != mode_cmd->pitches[2]) {
- 			DRM_DEBUG_KMS("The pitch[1] and [2] are not same\n");
- 			ret = -EINVAL;
- 			goto err_cleanup;
+@@ -200,7 +201,7 @@ komeda_fb_create(struct drm_device *dev, struct drm_file *file,
+ 	return &kfb->base;
+ 
+ err_cleanup:
+-	for (i = 0; i < kfb->base.format->num_planes; i++)
++	for (i = 0; i < info->num_planes; i++)
+ 		drm_gem_object_put_unlocked(objs[i]);
+ err_free:
+ 	kfree(kfb);
 -- 
 2.17.1
 
