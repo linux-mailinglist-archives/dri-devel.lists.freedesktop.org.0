@@ -2,70 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05E8C122657
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 09:11:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 719C31226EA
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 09:47:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 140C76E95B;
-	Tue, 17 Dec 2019 08:11:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 430046E961;
+	Tue, 17 Dec 2019 08:46:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8322F6E95A
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 08:11:29 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id j42so6021763wrj.12
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 00:11:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=19dNxyewZB4bW5EpbtiZDPOC9w8YFBemE/6BfNexMJ0=;
- b=VJSF7QL+BcPWBFi5TTVf4GyWri6KWZKSJ0pcqDeRFj+QPYczAvOVz7S693VcdasDGx
- tc8bjYleSN+8Bl5XBywxzbrV27JkQHbuv5ayw/jbK2qxK+1o3p52RTdpG7x5rM08UFsh
- mtcIxOmnbfEmL48XL7/azzvRVlcwX7GSVx1EGUzlAUeTylIeZpUj/VZ7Ywrf4wR0ORwW
- uU2Av/njCfZ644n7dyAytFVJmNj+EuLBGgcvkV2s0La8frLSm0ze3ra9mLzWTdeCbsli
- Ce9aOcNzsprDNZswFtdu/qi+SqeWrQxMymod02lhGseic4Iah4SpHAIu4eLY4Yibei8q
- 80iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=19dNxyewZB4bW5EpbtiZDPOC9w8YFBemE/6BfNexMJ0=;
- b=oBHbsYCa8oEjgsMwqUZnDbV4hGM3Q4JnOQBHEoM9QEEgMzdHWDvb4/WbOX7uPQGyMD
- I5FnM8LgGJNtU10UJoMYwLQHFG+apvVCes7/9ngVcdb/Iem1/uOR9I/csgE8lptG0s/V
- kMyuaUT6zze4c7OyHQXUZzcmWqxBDK1ZXk1hmkEhQ6cK9OWmUIrLMrdETdJiqYeCpR9a
- 7ngBCrcEI+w9Qu2ppoA86kLFhXpSwn9v7RXXzMLpCTogpfjpLer9/EozqqK/2WnhNJhP
- kdDCQRI/WSk0sgvFN+Xkm4VdqrUNVbV7EhsUHmJhNYsZkYk0ZVtK6irBHYj4hB6NBZf0
- H/6A==
-X-Gm-Message-State: APjAAAWWghKK5QvDiz3nh6ufZxvDMAbTTq2LyAM301JjZS2zmfA7eD98
- vE3PeUWTXICUoRzi3vW/ktUWPw==
-X-Google-Smtp-Source: APXvYqwsEgFgq+4gwcQu8MwsxsRlS9smqiXdgF8o6OW6OU+GyBfno1a/1gxtpoebGTfkhJmcAFDCkg==
-X-Received: by 2002:a5d:6708:: with SMTP id o8mr35810316wru.296.1576570288028; 
- Tue, 17 Dec 2019 00:11:28 -0800 (PST)
-Received: from dell (h185-20-99-142.host.redstation.co.uk. [185.20.99.142])
- by smtp.gmail.com with ESMTPSA id n16sm24673119wro.88.2019.12.17.00.11.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Dec 2019 00:11:27 -0800 (PST)
-Date: Tue, 17 Dec 2019 08:11:27 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH 2/3] mfd: intel_soc_pmic: Rename pwm_backlight pwm-lookup
- to pwm_pmic_backlight
-Message-ID: <20191217081127.GI18955@dell>
-References: <20191210085111.GQ3468@dell>
- <a05e5a2b-568e-2b0d-0293-aa937c590a74@redhat.com>
- <20191212084546.GA3468@dell>
- <d22e9a04-da09-0f41-a78e-ac17a947650a@redhat.com>
- <20191212155209.GC3468@dell>
- <4d07445d-98b1-f23c-0aac-07709b45df78@redhat.com>
- <20191213082734.GE3468@dell>
- <d648794d-4c76-cfa1-dcbd-16c34d409c51@redhat.com>
- <20191216093016.GE3648@dell>
- <fc3c29da-528d-a6b6-d13b-92e6469eadea@redhat.com>
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2056.outbound.protection.outlook.com [40.107.93.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAAC46E960;
+ Tue, 17 Dec 2019 08:46:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OMhM0iVvERCHn3tHByX/5ja38oXv3Z7Sa4RAQEmhVvUC3bmDQEF7HaIYY+aSJPuZ0dWlFRdodRBJm4NACyPH15wntqxPBvMSDdXNP361OORILuPTY29rWqiteHoFkMdGeNUumaluXgc3ajJ4kmuFHUiRwpGMBBbGU6p4WYRyao4Lb5I+W/NG+56VWu+G3wvxsqVKeDa2zFkkgCm7+aG6oQYdCv2M231XfzLx3z0fOxVMGPFNEsdjUeyXQS6tptW2dWh1kC2DogYucGTA1eF/a4j5bDLVlxcLUS793JpNu7UmY9ymOQdLNfJvWjJ3DNzL9qhU1HlJ7MmSEHRPIQhoag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kwLiYAxhSMLUgbpsEsdkp7LtFlq2t7zqgC19bb5vO7A=;
+ b=QNZPDRJQ2nVKK9NxhUKkXLHBkmJhprWB/GC0/yZMgRSa/RNisorvFyDkD3ll6LhQdJFWFop+6zkBndb4FzlmhZrNhOB23ydd9+mPLSth3E+XvtQR/W79pHj7b0DWytORkSy5flF5D4+/3w5ye5LnrrTzGQ6DYErTLz58E5RsNyGy5cUMd13CPo6pedkX02g4L8dqt5T0TJfspyhgGya107auzShdWsp9AAKU2ACXWVT0UGKCeic8K9A5BQQNRZH0a7coiPDOsxbnYcroXdCRRzJZiVHRlOc9FrkzaSxpuPJ6v5lEnW9TVryyMRdyeffAXauRI8q7Cyr067qXgDvVWw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kwLiYAxhSMLUgbpsEsdkp7LtFlq2t7zqgC19bb5vO7A=;
+ b=veC+GBs6l6gnr2AJOPv4qXdcNlyMaJJowA7NvBUndkBdfILu6Y1IIUiCfZ+lJ4+2eB6tPfGYvaqeve3WzKX5Ie/21IXBwifvv/x9/PfXiCwdEQ1a4vbdS9ZegdnwhSBQVavtz3TkGDXBtsJPLgp30pdcBDHWP5CcjU99arU2DmQ=
+Received: from MN2PR12MB4285.namprd12.prod.outlook.com (52.135.49.140) by
+ MN2PR12MB3856.namprd12.prod.outlook.com (10.255.237.221) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2538.18; Tue, 17 Dec 2019 08:46:51 +0000
+Received: from MN2PR12MB4285.namprd12.prod.outlook.com
+ ([fe80::dc02:3d41:a510:98f6]) by MN2PR12MB4285.namprd12.prod.outlook.com
+ ([fe80::dc02:3d41:a510:98f6%6]) with mapi id 15.20.2538.019; Tue, 17 Dec 2019
+ 08:46:51 +0000
+From: "Ma, Le" <Le.Ma@amd.com>
+To: "Grodzovsky, Andrey" <Andrey.Grodzovsky@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
+Subject: RE: [PATCH v2 1/5] drm/amdgpu: reverts commit
+ b01245ff54db66073b104ac9d9fbefb7b264b36d.
+Thread-Topic: [PATCH v2 1/5] drm/amdgpu: reverts commit
+ b01245ff54db66073b104ac9d9fbefb7b264b36d.
+Thread-Index: AQHVsdX4LT8PRc4WOUSPpNIYENC8AKe+BxQQ
+Date: Tue, 17 Dec 2019 08:46:51 +0000
+Message-ID: <MN2PR12MB4285B3145BA49D7C35889C32F6500@MN2PR12MB4285.namprd12.prod.outlook.com>
+References: <1576256049-12838-1-git-send-email-andrey.grodzovsky@amd.com>
+In-Reply-To: <1576256049-12838-1-git-send-email-andrey.grodzovsky@amd.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Enabled=true;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SetDate=2019-12-17T08:46:47Z; 
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Method=Standard;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Name=Internal Use Only -
+ Unrestricted;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ActionId=03136bcc-1bd2-4a83-b7b8-0000811417ed;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ContentBits=1
+msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_enabled: true
+msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_setdate: 2019-12-17T08:46:47Z
+msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_method: Standard
+msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_name: Internal Use Only -
+ Unrestricted
+msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_siteid: 3dd8961f-e488-4e60-8e11-a82d994e183d
+msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_actionid: 970ed1e4-8463-4b78-b883-000080e21b97
+msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_contentbits: 0
+authentication-results: spf=none (sender IP is ) smtp.mailfrom=Le.Ma@amd.com; 
+x-originating-ip: [180.167.199.189]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: ef58ddca-af7a-4d31-e197-08d782cda91c
+x-ms-traffictypediagnostic: MN2PR12MB3856:|MN2PR12MB3856:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MN2PR12MB38560A0E9F964A199804748FF6500@MN2PR12MB3856.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:67;
+x-forefront-prvs: 02543CD7CD
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(4636009)(39860400002)(136003)(346002)(366004)(376002)(396003)(13464003)(199004)(189003)(71200400001)(186003)(8676002)(54906003)(110136005)(53546011)(52536014)(7696005)(2906002)(450100002)(478600001)(33656002)(86362001)(55016002)(64756008)(66476007)(8936002)(9686003)(316002)(81156014)(26005)(5660300002)(81166006)(66946007)(76116006)(4326008)(66556008)(66446008)(6506007)(579004);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:MN2PR12MB3856;
+ H:MN2PR12MB4285.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: XG1YZSGPAR65OsizbQzLpGqVQh+OvZIdtI9WsbMvRp14b0pTsWzqRo2MUv8rKwuVG4raUJ9ZtZk8nQz6R3V6H9OCCOUIL5VVRSfsI91t7bXci99WRI5CQGV3wk1VgwGcp9nc/fJXcs7IthsZ536DiVvO4qpebp9ZIgtuXhREySR8kig4mueo1Hd2O/KoYR1ygJX4WqTlfDijcHkZ2mTHaRA2HlvxJc1HtGKqezFYMj/+eAOxVBUqN6FGakTv3JAt07di29mJK2qOQrY9kbtr52VmUOxlZnr3nNE/zr/wKSDnUeqMSHMg/2/hs8mPSM2n3zqDLBCBGMZCZ6yxWyKF43vGK5dguSzhhVlEEykT0OqtgzznDnDUz+9uJU7TAu5Vf6Invx9oOax5LOh43CUMSu9BA7Wm5QMI8z8WT06WoFF3FLB3lEkMABXt6QEkBQrbCNctPs8uzyDHqR69qKETQgDMUheY7v7QQvE+KRsNZVYIIbAJQMtv09YoUoOT3t8E
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <fc3c29da-528d-a6b6-d13b-92e6469eadea@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ef58ddca-af7a-4d31-e197-08d782cda91c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Dec 2019 08:46:51.1999 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: +XDka6NM18zYtIVthJLRwLBQHPu5u1BB3wnfBKV92N8QXK7sy2SAQ3kPk82q+4xc
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3856
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,170 +110,1148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- "Rafael J . Wysocki" <rjw@rjwysocki.net>, linux-kernel@vger.kernel.org,
- linux-acpi@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Len Brown <lenb@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>, "Quan,
+ Evan" <Evan.Quan@amd.com>, "Zhang, Hawking" <Hawking.Zhang@amd.com>
+Content-Type: multipart/mixed; boundary="===============0102236995=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCAxNiBEZWMgMjAxOSwgSGFucyBkZSBHb2VkZSB3cm90ZToKCj4gSGksCj4gCj4gT24g
-MTYtMTItMjAxOSAxMDozMCwgTGVlIEpvbmVzIHdyb3RlOgo+ID4gWy4uLl0KPiA+IAo+ID4gPiA+
-ID4gPiA+ID4gPiA+ID4gV2hpY2ggdXNlIGEgQ3J5c3RhbCBDb3ZlIFBNSUMsIHlldCB0aGUgTENE
-IGlzIGNvbm5lY3RlZCB0byB0aGUgU29DL0xQU1MKPiA+ID4gPiA+ID4gPiA+ID4gPiA+IFBXTSBj
-b250cm9sbGVyIChhbmQgdGhlIFZCVCBjb3JyZWN0bHkgaW5kaWNhdGVzIHRoaXMpLCBzbyBoZXJl
-IG91ciBvbGQKPiA+ID4gPiA+ID4gPiA+ID4gPiA+IGhldXJpc3RpY3MgZmFpbC4KPiA+ID4gPiA+
-ID4gPiA+ID4gPiA+IAo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gU2luY2Ugb25seSB0aGUgaTkxNSBk
-cml2ZXIgaGFzIGFjY2VzcyB0byB0aGUgVkJULCB0aGlzIGNvbW1pdCByZW5hbWVzCj4gPiA+ID4g
-PiA+ID4gPiA+ID4gPiB0aGUgInB3bV9iYWNrbGlnaHQiIGxvb2t1cCBlbnRyaWVzIGZvciB0aGUg
-Q3J5c3RhbCBDb3ZlIFBNSUMncyBQV00KPiA+ID4gPiA+ID4gPiA+ID4gPiA+IGNvbnRyb2xsZXIg
-dG8gInB3bV9wbWljX2JhY2tsaWdodCIgc28gdGhhdCB0aGUgaTkxNSBkcml2ZXIgY2FuIGRvIGEK
-PiA+ID4gPiA+ID4gPiA+ID4gPiA+IHB3bV9nZXQoKSBmb3IgdGhlIHJpZ2h0IGNvbnRyb2xsZXIg
-ZGVwZW5kaW5nIG9uIHRoZSBWQlQgYml0LCBpbnN0ZWFkIG9mCj4gPiA+ID4gPiA+ID4gPiA+ID4g
-PiB0aGUgaTkxNSBkcml2ZXIgcmVseWluZyBvbiBhICJwd21fYmFja2xpZ2h0IiBsb29rdXAgZ2V0
-dGluZyByZWdpc3RlcmVkCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiB3aGljaCBtYWdpY2FsbHkgcG9p
-bnRzIHRvIHRoZSByaWdodCBjb250cm9sbGVyLgo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gCj4gPiA+
-ID4gPiA+ID4gPiA+ID4gPiBTaWduZWQtb2ZmLWJ5OiBIYW5zIGRlIEdvZWRlIDxoZGVnb2VkZUBy
-ZWRoYXQuY29tPgo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gLS0tCj4gPiA+ID4gPiA+ID4gPiA+ID4g
-PiAgICAgICBkcml2ZXJzL21mZC9pbnRlbF9zb2NfcG1pY19jb3JlLmMgfCAyICstCj4gPiA+ID4g
-PiA+ID4gPiA+ID4gPiAgICAgICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVs
-ZXRpb24oLSkKPiA+ID4gPiA+ID4gPiA+ID4gPiAKPiA+ID4gPiA+ID4gPiA+ID4gPiBGb3IgbXkg
-b3duIHJlZmVyZW5jZToKPiA+ID4gPiA+ID4gPiA+ID4gPiAgICAgICAgQWNrZWQtZm9yLU1GRC1i
-eTogTGVlIEpvbmVzIDxsZWUuam9uZXNAbGluYXJvLm9yZz4KPiA+ID4gPiA+ID4gPiA+ID4gCj4g
-PiA+ID4gPiA+ID4gPiA+IEFzIG1lbnRpb25lZCBpbiB0aGUgY292ZXItbGV0dGVyLCB0byBhdm9p
-ZCBicmVha2luZyBiaS1zZWN0YWJpbGl0eQo+ID4gPiA+ID4gPiA+ID4gPiBhcyB3ZWxsIGFzIHRv
-IGF2b2lkIGJyZWFraW5nIHRoZSBpbnRlbC1nZnggQ0kgd2UgbmVlZCB0byBtZXJnZSB0aGlzIHNl
-cmllcwo+ID4gPiA+ID4gPiA+ID4gPiBpbiBvbmUgZ28gdGhyb3VnaCBvbmUgdHJlZS4gU3BlY2lm
-aWNhbGx5IHRocm91Z2ggdGhlIGRybS1pbnRlbCB0cmVlLgo+ID4gPiA+ID4gPiA+ID4gPiBJcyB0
-aGF0IG9rIHdpdGggeW91ID8KPiA+ID4gPiA+ID4gPiA+ID4gCj4gPiA+ID4gPiA+ID4gPiA+IElm
-IHRoaXMgaXMgb2sgd2l0aCB5b3UsIHRoZW4geW91IGRvIG5vdCBoYXZlIHRvIGRvIGFueXRoaW5n
-LCBJIHdpbGwganVzdCBwdXNoCj4gPiA+ID4gPiA+ID4gPiA+IHRoZSBlbnRpcmUgc2VyaWVzIHRv
-IGRybS1pbnRlbC4gZHJpdmVycy9tZmQvaW50ZWxfc29jX3BtaWNfY29yZS5jCj4gPiA+ID4gPiA+
-ID4gPiA+IGRvZXMgbm90IHNlZSBtdWNoIGNoYW5nZXMgc28gSSBkbyBub3QgZXhwZWN0IHRoaXMg
-dG8gbGVhZCB0byBhbnkgY29uZmxpY3RzLgo+ID4gPiA+ID4gPiA+ID4gCj4gPiA+ID4gPiA+ID4g
-PiBJdCdzIGZpbmUsIHNvIGxvbmcgYXMgYSBtaW5pbWFsIGltbXV0YWJsZSBwdWxsLXJlcXVlc3Qg
-aXMgcHJvdmlkZWQuCj4gPiA+ID4gPiA+ID4gPiBXaGV0aGVyIGl0J3MgcHVsbGVkIG9yIG5vdCB3
-aWxsIGRlcGVuZCBvbiBhIG51bWJlciBvZiBmYWN0b3JzLCBidXQgaXQKPiA+ID4gPiA+ID4gPiA+
-IG5lZWRzIHRvIGJlIGFuIG9wdGlvbi4KPiA+ID4gPiA+ID4gPiAKPiA+ID4gPiA+ID4gPiBUaGUg
-d2F5IHRoZSBkcm0gc3Vic3lzIHdvcmtzIHRoYXQgaXMgbm90IHJlYWxseSBhIHJlYWRpbHkgYXZh
-aWxhYmxlCj4gPiA+ID4gPiA+ID4gb3B0aW9uLiBUaGUgc3RydWN0IGRlZmluaXRpb24gd2hpY2gg
-dGhpcyBwYXRjaCBjaGFuZ2VzIGEgc2luZ2xlIGxpbmUgaW4KPiA+ID4gPiA+ID4gPiBoYXMgbm90
-IGJlZW4gdG91Y2hlZCBzaW5jZSAyMDE1LTA2LTI2IHNvIEkgcmVhbGx5IGRvdWJ0IHdlIHdpbGwg
-Z2V0IGEKPiA+ID4gPiA+ID4gPiBjb25mbGljdCBmcm9tIHRoaXMuCj4gPiA+ID4gPiA+IAo+ID4g
-PiA+ID4gPiBBbHdheXMgd2l0aCB0aGUgZXhjZXB0aW9ucyAuLi4KPiA+ID4gPiA+ID4gCj4gPiA+
-ID4gPiA+IE9PSSwgd2h5IGRvZXMgdGhpcyAqaGF2ZSogdG8gZ28gdGhyb3VnaCB0aGUgRFJNIHRy
-ZWU/Cj4gPiA+ID4gPiAKPiA+ID4gPiA+IFRoaXMgcGF0Y2ggcmVuYW1lcyB0aGUgbmFtZSB1c2Vk
-IHRvIGxvb2t1cCB0aGUgcHdtIGNvbnRyb2xsZXIgZnJvbQo+ID4gPiA+ID4gInB3bV9iYWNrbGln
-aHQiIHRvICJwd21fcG1pY19iYWNrbGlnaHQiIGJlY2F1c2UgdGhlcmUgYXJlIDIgcG9zc2libGUK
-PiA+ID4gPiA+IHB3bSBjb250cm9sbGVycyB3aGljaCBtYXkgYmUgdXNlZCwgb25lIGluIHRoZSBT
-b0MgaXRzZWxmIGFuZCBvbmUKPiA+ID4gPiA+IGluIHRoZSBQTUlDLiBXaGljaCBjb250cm9sbGVy
-IHNob3VsZCBiZSB1c2VkIGlzIGRlc2NyaWJlZCBpbiBhIHRhYmxlCj4gPiA+ID4gPiBpbiB0aGUg
-VmlkZW8gQklPUywgc28gYW5vdGhlciBwYXJ0IG9mIHRoaXMgc2VyaWVzIGFkZHMgdGhpcyBjb2Rl
-IHRvCj4gPiA+ID4gPiB0aGUgaTkxNSBkcml2ZXI6Cj4gPiA+ID4gPiAKPiA+ID4gPiA+IC0JcGFu
-ZWwtPmJhY2tsaWdodC5wd20gPSBwd21fZ2V0KGRldi0+ZGV2LCAicHdtX2JhY2tsaWdodCIpOwo+
-ID4gPiA+ID4gKwkvKiBHZXQgdGhlIHJpZ2h0IFBXTSBjaGlwIGZvciBEU0kgYmFja2xpZ2h0IGFj
-Y29yZGluZyB0byBWQlQgKi8KPiA+ID4gPiA+ICsJaWYgKGRldl9wcml2LT52YnQuZHNpLmNvbmZp
-Zy0+cHdtX2JsYyA9PSBQUFNfQkxDX1BNSUMpIHsKPiA+ID4gPiA+ICsJCXBhbmVsLT5iYWNrbGln
-aHQucHdtID0gcHdtX2dldChkZXYtPmRldiwgInB3bV9wbWljX2JhY2tsaWdodCIpOwo+ID4gPiA+
-ID4gKwkJZGVzYyA9ICJQTUlDIjsKPiA+ID4gPiA+ICsJfSBlbHNlIHsKPiA+ID4gPiA+ICsJCXBh
-bmVsLT5iYWNrbGlnaHQucHdtID0gcHdtX2dldChkZXYtPmRldiwgInB3bV9zb2NfYmFja2xpZ2h0
-Iik7Cj4gPiA+ID4gPiArCQlkZXNjID0gIlNvQyI7Cj4gPiA+ID4gPiArCX0KPiA+ID4gPiA+IAo+
-ID4gPiA+ID4gU28gYm90aCBub3QgdG8gYnJlYWsgYmlzZWN0YWJpbGl0eSwgYnV0IGFsc28gc28g
-YXMgdG8gbm90IGJyZWFrIHRoZSBleHRlbnNpdmUKPiA+ID4gPiA+IENJIHN5c3RlbSB3aGljaCBp
-cyB1c2VkIHRvIHRlc3QgdGhlIGk5MTUgZHJpdmVyIHdlIG5lZWQgdGhlIE1GRCBjaGFuZ2UgZG9p
-bmcKPiA+ID4gPiA+IHRoZSByZW5hbWUgdG8gZ28gdXBzdHJyZWFtIHRocm91Z2ggdGhlIHNhbWUg
-dHJlZSBhcyB0aGUgaTkxNSBjaGFuZ2UuCj4gPiA+ID4gPiAKPiA+ID4gPiA+IEkgaGF2ZSBldmVu
-IGNvbnNpZGVyZWQganVzdCBzcXVhc2hpbmcgdGhlIDIgY29tbWl0cyB0b2dldGhlciBhcyBoYXZp
-bmcgb25seSAxCj4gPiA+ID4gPiBwcmVzZW50LCBidXQgbm90IHRoZSBvdGhlciBicmVha3Mgc3R1
-ZmYgbGVmdCBhbmQgcmlnaHQuCj4gPiA+ID4gCj4gPiA+ID4gVGhhdCBkb2Vzbid0IGFuc3dlciB0
-aGUgcXVlc3Rpb24uCj4gPiA+ID4gCj4gPiA+ID4gV2h5IGRvIHRoZXkgYWxsICpoYXZlKiB0byBn
-byBpbiB2aWEgdGhlIERSTSB0cmVlIHNwZWNpZmljYWxseT8KPiA+ID4gCj4gPiA+IDEuIEFzIGV4
-cGxhaW5lZCB0aGVzZSBjaGFuZWdzIG5lZWQgdG8gc3RheSB0b2dldGhlcgo+ID4gPiAyLiBUaGlz
-IGNoYW5nZSBpcyBwcmltYXJpbHkgYSBkcm0vaTkxNSBjaGFuZ2UuIEFsc28gdGhlIGk5MTUgY29k
-ZSBzZWVzIGxvdHMKPiA+ID4gb2YgY2hhbmdlcyBldmVyeSBjeWNsZSwgd2hlcmUgYXMgdGhlIGNo
-YW5nZSB0byB0aGUgbWZkIGNvZGUgdG91Y2hlcyBhIGJsb2NrCj4gPiA+IG9mIGNvZGUgd2hpY2gg
-aGFzIG5vdCBiZWVuIHRvdWNoZWQgc2luY2UgMjAxNS0wNi0yNiwgc28gdGhlIGNoYW5jZSBvZiBj
-b25mbGljdHMKPiA+ID4gaXMgbXVjaCBiaWdnZXIgaWYgdGhpcyBnb2VzIG9uIHRocm91Z2ggYW5v
-dGhlciB0cmVlLgo+ID4gPiAKPiA+ID4gSSBob25lc3RseSBkbyBub3Qgc2VlIHRoZSBwcm9ibGVt
-IGhlcmU/IExldCBtZSByZXZlcnNlIHRoZSBxdWVzdGlvbiB3aHkgc2hvdWxkIHRoaXMKPiA+ID4g
-Tk9UIGdvIGluIHRocm91Z2ggdGhlIGRybSB0cmVlPwo+ID4gCj4gPiBUaGVyZSBpc24ndCBhIHBy
-b2JsZW0gd2l0aCAqdGhpcyogcGF0Y2guICBJIGNvdWxkIHNheSwgInN1cmUsIHRha2UgaXQiCj4g
-PiBhbmQgdGhlIGNoYW5jZXMgYXJlIGV2ZXJ5dGhpbmcgY291bGQgYmUgZmluZSBmcm9tIGEgdGVj
-aG5pY2FsCj4gPiBwZXJzcGVjdGl2ZS4KPiA+IAo+ID4gSG93ZXZlciwgSSdtIHRha2luZyBleGNl
-cHRpb24gdG8gdGhlIGZhY3QgeW91IHRoaW5rIHRoaXMgc2VyaWVzIGlzCj4gPiAqc3BlY2lhbCog
-ZW5vdWdoIHRvIHdhcnJhbnQgY2lyY3VtdmVudGluZyB0aGUgdXN1YWwgd2F5IGluIHdoaWNoIHdl
-Cj4gPiB1c3VhbGx5IHdvcmsgd2hlbiBkZWFsaW5nIHdpdGggY3Jvc3Mtc3Vic3lzdGVtIHBhdGNo
-LXNldHMuICBTb21ldGhpbmcKPiA+IEkgcGVyc29uYWxseSBkZWFsIHdpdGggYSBsb3QgZHVlIHRv
-IHRoZSBpbmhlcmVudCBoaWVyYXJjaGljYWwgbmF0dXJlCj4gPiBvZiBNdWx0aS1GdW5jdGlvbmFs
-IERldmljZXMuCj4gPiAKPiA+IEknbSBvbiB0aGUgZmVuY2Ugb24gdGhpcyBvbmUuICBEdWUgdG8g
-dGhlIGNpcmN1bXN0YW5jZXMgc3Vycm91bmRpbmcKPiA+ICp0aGlzKiBwYXRjaCBhbG9uZSwgaXQg
-d291bGQgYmUgc28gbXVjaCBlYXNpZXIgKGZvciBib3RoIG9mIHVzISkgdG8KPiA+IGp1c3QgQWNr
-IHRoZSBwYXRjaCBhbmQgaG9wZSBubyBmdXJ0aGVyIGNoYW5nZXMgb2NjdXIgd2hpY2ggY291bGQK
-PiA+IHBvdGVudGlhbGx5IGNhdXNlIHNvbWVvbmUgZWxzZSAoeW91LCBtZSwgTGludXMpIG1vcmUg
-d29yayBsYXRlciBvbi4KPiA+IEhvd2V2ZXIsIEknbSB2ZXJ5IGtlZW4gdG8gcHJldmVudCBzZXR0
-aW5nIGEgcHJlY2VkZW50IGZvciB0aGlzIGtpbmQgb2YKPiA+IGFjdGlvbiwgYXMgaXQncyBjbGVh
-cmx5IG5vdCB0aGUgcmlnaHQgcGF0aCB0byB0YWtlIGluIGEgdmFzdCBtYWpvcml0eQo+ID4gb2Yg
-Y2FzZXMuCj4gPiAKPiA+ID4gMS4gQXMgZXhwbGFpbmVkIHRoZXNlIGNoYW5lZ3MgbmVlZCB0byBz
-dGF5IHRvZ2V0aGVyCj4gPiAKPiA+IFRoZSBwYXRjaC1zZXQgd291bGQgc3RheSB0b2dldGhlciBy
-ZWdhcmRsZXNzLiAgVGhhdCdzIHRoZSBwb2ludCBvZiBhbgo+ID4gaW1tdXRhYmxlIGJyYW5jaCwg
-aXQgY2FuIGJlIHRha2VuIGluIGJ5IGFsbCByZWxldmFudCBwYXJ0aWVzIGFuZCBHaXQKPiA+IHdp
-bGwganVzdCBkby10aGUtcmlnaHQtdGhpbmcuCj4gPiAKPiA+ID4gMi4gVGhpcyBjaGFuZ2UgaXMg
-cHJpbWFyaWx5IGEgZHJtL2k5MTUgY2hhbmdlLiBBbHNvIHRoZSBpOTE1IGNvZGUgc2VlcyBsb3Rz
-Cj4gPiA+IG9mIGNoYW5nZXMgZXZlcnkgY3ljbGUsIHdoZXJlIGFzIHRoZSBjaGFuZ2UgdG8gdGhl
-IG1mZCBjb2RlIHRvdWNoZXMgYSBibG9jawo+ID4gPiBvZiBjb2RlIHdoaWNoIGhhcyBub3QgYmVl
-biB0b3VjaGVkIHNpbmNlIDIwMTUtMDYtMjYsIHNvIHRoZSBjaGFuY2Ugb2YgY29uZmxpY3RzCj4g
-PiA+IGlzIG11Y2ggYmlnZ2VyIGlmIHRoaXMgZ29lcyBvbiB0aHJvdWdoIGFub3RoZXIgdHJlZS4K
-PiA+IAo+ID4gVGhpcyB0b28gaXMgaXJyZWxldmFudCwgc2luY2UgdGhlIHBhdGNoLXNldCBjb3Vs
-ZC93b3VsZCBnbyB0aG91Z2gKPiA+IGJvdGgvYWxsIHRyZWVzIHNpbXVsdGFuZW91c2x5LiAgVGhl
-IHdheSBpbiB3aGljaCB3ZSBub3JtYWxseSB3b3JrIHdpdGgKPiA+IG90aGVyIHN1YnN5c3RlbXMg
-ZG9lc24ndCBpbnZvbHZlIGEgZ2FtYmxlIG92ZXIgd2hpY2ggc3Vic3lzdGVtIGlzIG1vc3QKPiA+
-IGxpa2VseSBnb2luZyB0byBiZSBhZmZlY3RlZCBieSBhIG1lcmdlIGNvbmZsaWN0IGFzIHlvdSBz
-dWdnZXN0LCBpdAo+ID4gZXJhZGljYXRlcyBjb25mbGljdHMgZm9yIGFsbC4KPiAKPiBJJ20gd2Vs
-bCBhd2FyZSBvZiB1c2luZyBpbW11dGFibGUgYnJhbmNoZXMgYW5kIHRoYXQgdGhvc2UgYXJlCj4g
-b2Z0ZW4gdXNlZCBmb3IgcGF0Y2gtc2V0J3Mgd2hpY2ggdG91Y2ggbXVsdGlwbGUgc3Vic3lzdGVt
-cy4gQnV0Cj4gYWx0aG91Z2ggaW1tdXRhYmxlIGJyYW5jaGVzIGFyZSB1c2VkIG9mdGVuIHRoZXkg
-YXJlIGFib3V0IGFzIG9mdGVuCj4gbm90IHVzZWQgZm9yIHZhcmlvdXMgcmVhc29ucywgd2l0aCBw
-ZW9wbGUgY2hvb3NpbmcgdG8ganVzdCBtZXJnZQo+IHRocm91Z2ggYSBzaW5nbGUgdHJlZS4KPiA+
-IEknbSBub3Qgc2F5aW5nICJubyIgYnkgdGhlIHdheS4gIEkganVzdCB3YW50IHRvIGZpbmQgb3V0
-IHlvdXIKPiA+IHJlYXNvbnMvbW90aXZhdGlvbiBhcyB0byB3aHkgeW91J3JlIGluc2lzdGluZyB0
-aGlzIG5lZWRzIGdvIHRocm91Z2gKPiA+IGEpIGEgc3BlY2lmaWMgdHJlZSBhbmQgYikganVzdCBv
-bmUgdHJlZS4gIFF1ZXN0aW9ucyB3aGljaCBJIGFtIHlldCB0bwo+ID4gc2VlIGEgY29tcGVsbGlu
-ZyBhbnN3ZXIuCj4gCj4gRG9pbmcgaW1tdXRhYmxlIGJyYW5jaGVzIGFzc3VtZXMgdGhhdCB0aGVy
-ZSBpcyBhIGJhc2UgcG9pbnQsCj4gZS5nLiA1LjUtcmMxIHdoZXJlIHRoZSBpbW11dGFibGUgYnJh
-bmNoIGNhbiB0aGVuIGJlIGJhc2VkIG9uIGFuZAo+IHRoYXQgdGhlIGJyYW5jaCBjYW4gdGhlbiBi
-ZSBtZXJnZWQgd2l0aG91dCBpc3N1ZXMgaW50byBib3RoIHN1YnN5c3RlbXMuCj4gCj4gZHJtIGlz
-IGNvbnN0YW50bHkgZXZvbHZpbmcgdG8gZGVhbCB3aXRoIGFuZCBtb3N0bHkgY2F0Y2ggdXAgd2l0
-aCBuZXcKPiBoYXJkd2FyZSBhcyBib3RoIEdQVXMgYW5kIGRpc3BsYXktcGlwZWxpbmVzIGFyZSBl
-dm9sdmluZyBxdWl0ZSByYXBpZGx5Cj4gYXRtIGRybS1pbnRlbC1uZXh0IGhhcyBhYm91dCA0MDAg
-Y29tbWl0cyBvbiB0b3Agb2YgNS41LXJjMSBzbyBmb3IgYW4KPiBpbW11dGFibGUgYnJhbmNoIEkg
-Y2FuIGVpdGhlciBiYXNlIGl0IG9uIGRybS1pbnRlbC1uZXh0IHdoaWNoCj4gdmlvbGF0ZXMgeW91
-ciByZXF1ZXN0IGZvciBhIGNsZWFuIG1pbmltYWwgYnJhbmNoIHRvIG1lcmdlOyBvciBJIGNhbgo+
-IGJhc2UgaXQgb24gNS41LXJjMSB3aGljaCBsZWFkcyB0byBhIGJpZyBjaGFuY2Ugb2YgcHJvYmxl
-bXMgd2hlbgo+IG1lcmdpbmcgaXQgZ2l2ZW4gdG8gbGFyZ2UgYW1vdW50IG9mIGNodXJuIGluIGRy
-bS1pbnRlbC1uZXh0LgoKVGhpcyBpcyBhICpzbGlnaHRseSogbW9yZSBjb21wZWxsaW5nIHJlYXNv
-biB0aGFuIHRoZSBvbmVzIHlvdSd2ZQpwcmV2aW91c2x5IHByb3ZpZGVkLgoKPiBTbyBpbnN0ZWFk
-IG9mIHRoZSBub3JtYWwgY2FzZSBvZiAyIHN1YnN5c3RlbXMgc2VlaW5nIHNvbWUgY2hhbmdlcwo+
-IG9uIGJvdGggc2lkZSB0aGUgY2FzZSB3ZSBoYXZlIGhlcmUgaXMgYSBwYXJ0IG9mIGEgZmlsZSB3
-aGljaCBoYXMKPiBub3QgY2hhbmdlZCBzaW5jZSAyMDE1LTA2LTI2IGluIG9uZSBzdWJzeXMgKGFu
-ZCBjaGFuZ2luZyBvbmx5Cj4gYSBzaW5nbGUgbGluZSB0aGVyZSEpIGFuZCBPVE9IIHdlIGhhdmUg
-YmlnZ2VyIGNoYW5nZXMgdG8gYSBzdWJzeXMKPiB3aGljaCBzZWUgNDAwIHBhdGNoZXMgbGFuZCBp
-biB0aGUgZmlyc3Qgd2VlayBzaW5jZSByYzEgLgoKVGhpcyBpcyBub3QuCgo+IEkgaG9wZSB0aGF0
-IHlvdSBhZ3JlZSB0aGF0IGluIHRoaXMgY2FzZSBnaXZlbiB0aGUgbGFyZ2UgYW1vdW50IG9mCj4g
-Y2h1cm4gaW4gZHJtLWludGVsLW5leHQgaXQgbWFrZXMgc2luY2UgdG8ganVzdCBzdHJhaWdodCBm
-b3J3YXJkCj4gYXBwbHkgdGhlc2UgcGF0Y2hlcyBvbiB0b3Agb2YgZHJtLWludGVsLW5leHQuCgpJ
-IGhhdmUgQWNrZWQgdGhpcyBwYXRjaCwgYnV0IHJlbWVtYmVyICp0aGlzKiBpcyB0aGUgZXhjZXB0
-aW9uIHJhdGhlcgp0aGFuIHRoZSBydWxlLiAgSWYvd2hlbiB3ZSBoYXZlIGEgY2FzZSB3aGVyZSBh
-IGNvbnRyaWJ1dG9yIHdvcmtzCmNyb3NzLXN1YnN5c3RlbSB3aXRoIERSTSBhbmQgdGhlIGNvZGUv
-ZmlsZSBhZGFwdGVkIGlzIGxpdmUgKG1vcmUKbGlrZWx5IHRvIGNoYW5nZSksIEkgd2lsbCBoYXZl
-IHRvIGluc2lzdCBvbiBhbiBpbW11dGFibGUgYnJhbmNoCnN0cmF0ZWd5LiAgRFJNIHdpbGwgaGF2
-ZSB0byBkZWFsIHdpdGggdGhhdCBhcHByb3ByaWF0ZWx5LgoKLS0gCkxlZSBKb25lcyBb5p2O55C8
-5pavXQpMaW5hcm8gU2VydmljZXMgVGVjaG5pY2FsIExlYWQKTGluYXJvLm9yZyDilIIgT3BlbiBz
-b3VyY2Ugc29mdHdhcmUgZm9yIEFSTSBTb0NzCkZvbGxvdyBMaW5hcm86IEZhY2Vib29rIHwgVHdp
-dHRlciB8IEJsb2cKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-Cg==
+--===============0102236995==
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_MN2PR12MB4285B3145BA49D7C35889C32F6500MN2PR12MB4285namp_"
+
+--_000_MN2PR12MB4285B3145BA49D7C35889C32F6500MN2PR12MB4285namp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+[AMD Official Use Only - Internal Distribution Only]
+
+
+Hi Andry
+
+
+
+Please check the 3 minor comments in this patch. With that addressed, the V=
+2s series is Reviewed-by: Le Ma <Le.Ma@amd.com<mailto:Le.Ma@amd.com>>
+
+
+
+Regards,
+
+Ma Le
+
+
+
+-----Original Message-----
+From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+Sent: Saturday, December 14, 2019 12:54 AM
+To: dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org
+Cc: Deucher, Alexander <Alexander.Deucher@amd.com>; Ma, Le <Le.Ma@amd.com>;=
+ Zhang, Hawking <Hawking.Zhang@amd.com>; Quan, Evan <Evan.Quan@amd.com>; Gr=
+odzovsky, Andrey <Andrey.Grodzovsky@amd.com>
+Subject: [PATCH v2 1/5] drm/amdgpu: reverts commit b01245ff54db66073b104ac9=
+d9fbefb7b264b36d.
+
+
+
+In preparation for doing XGMI reset synchronization using task barrier.
+
+
+
+Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com<mailto:andrey.g=
+rodzovsky@amd.com>>
+
+Reviewed-by: Le Ma <Le.Ma@amd.com<mailto:Le.Ma@amd.com>>
+
+---
+
+drivers/gpu/drm/amd/amdgpu/amdgpu.h        |  2 -
+
+drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 76 +++++----------------------=
+---
+
+2 files changed, 12 insertions(+), 66 deletions(-)
+
+
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdg=
+pu/amdgpu.h
+
+index a78a363..50bab33 100644
+
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+
+@@ -1001,8 +1001,6 @@ struct amdgpu_device {
+
+
+
+            bool                            pm_sysfs_en;
+
+           bool                            ucode_sysfs_en;
+
+-
+
+-           bool                                        in_baco;
+
+};
+
+
+
+ static inline struct amdgpu_device *amdgpu_ttm_adev(struct ttm_bo_device *=
+bdev) diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu=
+/drm/amd/amdgpu/amdgpu_device.c
+
+index 7324a5f..1d19edfa 100644
+
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+
+@@ -2667,7 +2667,7 @@ static void amdgpu_device_xgmi_reset_func(struct work=
+_struct *__work)
+
+           if (amdgpu_asic_reset_method(adev) =3D=3D AMD_RESET_METHOD_BACO)
+
+                       adev->asic_reset_res =3D (adev->in_baco =3D=3D false=
+) ?
+
+                                               amdgpu_device_baco_enter(ade=
+v->ddev) :
+
+-                                               amdgpu_device_baco_exit(ade=
+v->ddev);
+
++                                              qamdgpu_device_baco_exit(ade=
+v->ddev);
+
+[Le] 1/3: Still unnecessary typo here, although it will be removed in patch=
+ #4.
+
+           else
+
+                       adev->asic_reset_res =3D amdgpu_asic_reset(adev);
+
+
+
+@@ -3796,18 +3796,13 @@ static int amdgpu_device_pre_asic_reset(struct amdg=
+pu_device *adev,
+
+           return r;
+
+}
+
+
+
+-static int amdgpu_do_asic_reset(struct amdgpu_device *adev,
+
+-                                          struct amdgpu_hive_info *hive,
+
++static int amdgpu_do_asic_reset(struct amdgpu_hive_info *hive,
+
+                                          struct list_head *device_list_han=
+dle,
+
+                                          bool *need_full_reset_arg)
+
+{
+
+           struct amdgpu_device *tmp_adev =3D NULL;
+
+           bool need_full_reset =3D *need_full_reset_arg, vram_lost =3D fal=
+se;
+
+           int r =3D 0;
+
+-           int cpu =3D smp_processor_id();
+
+-           bool use_baco =3D
+
+-                       (amdgpu_asic_reset_method(adev) =3D=3D AMD_RESET_ME=
+THOD_BACO) ?
+
+-                       true : false;
+
+
+
+            /*
+
+            * ASIC reset has to be done on all HGMI hive nodes ASAP @@ -381=
+5,62 +3810,22 @@ static int amdgpu_do_asic_reset(struct amdgpu_device *adev=
+,
+
+            */
+
+           if (need_full_reset) {
+
+                       list_for_each_entry(tmp_adev, device_list_handle, gm=
+c.xgmi.head) {
+
+-                                   /*
+
+-                                   * For XGMI run all resets in parallel t=
+o speed up the
+
+-                                   * process by scheduling the highpri wq =
+on different
+
+-                                   * cpus. For XGMI with baco reset, all n=
+odes must enter
+
+-                                   * baco within close proximity before an=
+yone exit.
+
+-                                   */
+
++                                  /* For XGMI run all resets in parallel t=
+o speed up the process */
+
+                                   if (tmp_adev->gmc.xgmi.num_physical_node=
+s > 1) {
+
+-                                               if (!queue_work_on(cpu, sys=
+tem_highpri_wq,
+
+-                                                                          =
+&tmp_adev->xgmi_reset_work))
+
++                                              if (!queue_work(system_highp=
+ri_wq, &tmp_adev->xgmi_reset_work))
+
+                                                           r =3D -EALREADY;
+
+-                                               cpu =3D cpumask_next(cpu, c=
+pu_online_mask);
+
+                                   } else
+
+                                               r =3D amdgpu_asic_reset(tmp_=
+adev);
+
+-                                   if (r)
+
+-                                               break;
+
+-                       }
+
+-
+
+-                       /* For XGMI wait for all work to complete before pr=
+oceed */
+
+-                       if (!r) {
+
+-                                   list_for_each_entry(tmp_adev, device_li=
+st_handle,
+
+-                                                               gmc.xgmi.he=
+ad) {
+
+-                                               if (tmp_adev->gmc.xgmi.num_=
+physical_nodes > 1) {
+
+-                                                           flush_work(&tmp=
+_adev->xgmi_reset_work);
+
+-                                                           r =3D tmp_adev-=
+>asic_reset_res;
+
+-                                                           if (r)
+
+-                                                                       bre=
+ak;
+
+-                                                           if (use_baco)
+
+-                                                                       tmp=
+_adev->in_baco =3D true;
+
+-                                               }
+
+-                                   }
+
+-                       }
+
+
+
+-                       /*
+
+-                       * For XGMI with baco reset, need exit baco phase by=
+ scheduling
+
+-                       * xgmi_reset_work one more time. PSP reset and sGPU=
+ skips this
+
+-                       * phase. Not assume the situation that PSP reset an=
+d baco reset
+
+-                       * coexist within an XGMI hive.
+
+-                       */
+
+-
+
+-                       if (!r && use_baco) {
+
+-                                   cpu =3D smp_processor_id();
+
+-                                   list_for_each_entry(tmp_adev, device_li=
+st_handle,
+
+-                                                               gmc.xgmi.he=
+ad) {
+
+-                                               if (tmp_adev->gmc.xgmi.num_=
+physical_nodes > 1) {
+
+-                                                           if (!queue_work=
+_on(cpu,
+
+-                                                                       sys=
+tem_highpri_wq,
+
+-                                                                       &tm=
+p_adev->xgmi_reset_work))
+
+-                                                                       r =
+=3D -EALREADY;
+
+-                                                           if (r)
+
+-                                                                       bre=
+ak;
+
+-                                                           cpu =3D cpumask=
+_next(cpu, cpu_online_mask);
+
+-                                               }
+
++                                  if (r) {
+
++                                              DRM_ERROR("ASIC reset failed=
+ with error, %d for drm dev, %s",
+
++                                                          r, tmp_adev->dde=
+v->unique);
+
++                                              break;
+
+                                   }
+
+                       }
+
+
+
+-                       if (!r && use_baco) {
+
++                      /* For XGMI wait for all PSP resets to complete befo=
+re proceed */
+
+[Le] 2/3: We can drop PSP string in this comment.
+
++                      if (!r) {
+
+                                   list_for_each_entry(tmp_adev, device_lis=
+t_handle,
+
+                                                               gmc.xgmi.hea=
+d) {
+
+                                               if (tmp_adev->gmc.xgmi.num_p=
+hysical_nodes > 1) { @@ -3878,21 +3833,15 @@ static int amdgpu_do_asic_rese=
+t(struct amdgpu_device *adev,
+
+                                                           r =3D tmp_adev->=
+asic_reset_res;
+
+                                                           if (r)
+
+                                                                       brea=
+k;
+
+-                                                           tmp_adev->in_ba=
+co =3D false;
+
+                                               }
+
+                                   }
+
+                       }
+
+-
+
+-                       if (r) {
+
+-                                   DRM_ERROR("ASIC reset failed with error=
+, %d for drm dev, %s",
+
+-                                               r, tmp_adev->ddev->unique);
+
+-                                   goto end;
+
+-                       }
+
+           }
+
+
+
+            if (!r && amdgpu_ras_intr_triggered())
+
+                       amdgpu_ras_intr_cleared();
+
+
+
++
+
+[Le] 3/3: Redundant white line.
+
+            list_for_each_entry(tmp_adev, device_list_handle, gmc.xgmi.head=
+) {
+
+                       if (need_full_reset) {
+
+                                   /* post card */
+
+@@ -4181,8 +4130,7 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *a=
+dev,
+
+                       if (r)
+
+                                   adev->asic_reset_res =3D r;
+
+           } else {
+
+-                       r  =3D amdgpu_do_asic_reset(adev, hive, device_list=
+_handle,
+
+-                                                             &need_full_re=
+set);
+
++                      r  =3D amdgpu_do_asic_reset(hive, device_list_handle=
+,
+
++&need_full_reset);
+
+                       if (r && r =3D=3D -EAGAIN)
+
+                                   goto retry;
+
+           }
+
+--
+
+2.7.4
+
+
+
+--_000_MN2PR12MB4285B3145BA49D7C35889C32F6500MN2PR12MB4285namp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:DengXian;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"\@DengXian";
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
+	{mso-style-priority:99;
+	mso-style-link:"Plain Text Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:14.0pt;
+	font-family:"Calibri",sans-serif;}
+p.msonormal0, li.msonormal0, div.msonormal0
+	{mso-style-name:msonormal;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.PlainTextChar
+	{mso-style-name:"Plain Text Char";
+	mso-style-priority:99;
+	mso-style-link:"Plain Text";
+	font-family:"Calibri",sans-serif;}
+p.msipheadera92e061b, li.msipheadera92e061b, div.msipheadera92e061b
+	{mso-style-name:msipheadera92e061b;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle21
+	{mso-style-type:personal-compose;
+	font-family:"Arial",sans-serif;
+	color:#0078D7;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"msipheadera92e061b" style=3D"margin:0in;margin-bottom:.0001pt">=
+<span style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;co=
+lor:#0078D7">[AMD Official Use Only - Internal Distribution Only]</span><o:=
+p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">Hi Andry<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">Please check the 3 minor comments in this patch. =
+With that addressed, the V2s series is Reviewed-by: Le Ma &lt;<a href=3D"ma=
+ilto:Le.Ma@amd.com">Le.Ma@amd.com</a>&gt;<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">Regards,<o:p></o:p></p>
+<p class=3D"MsoPlainText">Ma Le<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">-----Original Message-----<br>
+From: Andrey Grodzovsky &lt;andrey.grodzovsky@amd.com&gt; <br>
+Sent: Saturday, December 14, 2019 12:54 AM<br>
+To: dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org<br>
+Cc: Deucher, Alexander &lt;Alexander.Deucher@amd.com&gt;; Ma, Le &lt;Le.Ma@=
+amd.com&gt;; Zhang, Hawking &lt;Hawking.Zhang@amd.com&gt;; Quan, Evan &lt;E=
+van.Quan@amd.com&gt;; Grodzovsky, Andrey &lt;Andrey.Grodzovsky@amd.com&gt;<=
+br>
+Subject: [PATCH v2 1/5] drm/amdgpu: reverts commit b01245ff54db66073b104ac9=
+d9fbefb7b264b36d.<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">In preparation for doing XGMI reset synchronizati=
+on using task barrier.<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">Signed-off-by: Andrey Grodzovsky &lt;<a href=3D"m=
+ailto:andrey.grodzovsky@amd.com"><span style=3D"color:windowtext;text-decor=
+ation:none">andrey.grodzovsky@amd.com</span></a>&gt;<o:p></o:p></p>
+<p class=3D"MsoPlainText">Reviewed-by: Le Ma &lt;<a href=3D"mailto:Le.Ma@am=
+d.com"><span style=3D"color:windowtext;text-decoration:none">Le.Ma@amd.com<=
+/span></a>&gt;<o:p></o:p></p>
+<p class=3D"MsoPlainText">---<o:p></o:p></p>
+<p class=3D"MsoPlainText">drivers/gpu/drm/amd/amdgpu/amdgpu.h&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 2 -<o:p></o:p></p>
+<p class=3D"MsoPlainText">drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 76 &=
+#43;&#43;&#43;&#43;&#43;-------------------------<o:p></o:p></p>
+<p class=3D"MsoPlainText">2 files changed, 12 insertions(&#43;), 66 deletio=
+ns(-)<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h =
+b/drivers/gpu/drm/amd/amdgpu/amdgpu.h<o:p></o:p></p>
+<p class=3D"MsoPlainText">index a78a363..50bab33 100644<o:p></o:p></p>
+<p class=3D"MsoPlainText">--- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h<o:p></o=
+:p></p>
+<p class=3D"MsoPlainText">&#43;&#43;&#43; b/drivers/gpu/drm/amd/amdgpu/amdg=
+pu.h<o:p></o:p></p>
+<p class=3D"MsoPlainText">@@ -1001,8 &#43;1001,6 @@ struct amdgpu_device {<=
+o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pm_sysfs_en;<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp; bool&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp; &nbsp;ucode_sysfs_en;<o:p></o:p></p>
+<p class=3D"MsoPlainText">-<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp; bool&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp; in_baco;<o:p></o:p></p>
+<p class=3D"MsoPlainText">};<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">&nbsp;static inline struct amdgpu_device *amdgpu_=
+ttm_adev(struct ttm_bo_device *bdev) diff --git a/drivers/gpu/drm/amd/amdgp=
+u/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c<o:p></o:p></=
+p>
+<p class=3D"MsoPlainText">index 7324a5f..1d19edfa 100644<o:p></o:p></p>
+<p class=3D"MsoPlainText">--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c<=
+o:p></o:p></p>
+<p class=3D"MsoPlainText">&#43;&#43;&#43; b/drivers/gpu/drm/amd/amdgpu/amdg=
+pu_device.c<o:p></o:p></p>
+<p class=3D"MsoPlainText">@@ -2667,7 &#43;2667,7 @@ static void amdgpu_devi=
+ce_xgmi_reset_func(struct work_struct *__work)<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp; if (amdgpu_asic_reset_method(adev) =3D=3D AMD_RESET_METHOD_BACO=
+)<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; adev-&gt;asic_reset_res =3D (adev-&gt;in_baco =3D=3D false) ?<o:p></o:p=
+></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p; amdgpu_device_baco_enter(adev-&gt;ddev) :<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; amdgpu_device_baco_exit(adev-&gt;ddev);<o:p></o:p></p>
+<p class=3D"MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+; qamdgpu_device_baco_exit(adev-&gt;ddev);<o:p></o:p></p>
+<p class=3D"MsoPlainText"><span style=3D"color:#203864">[Le] 1/3: Still unn=
+ecessary typo here, although it will be removed in patch #4.<o:p></o:p></sp=
+an></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp; else<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp; adev-&gt;asic_reset_res =3D amdgpu_asic_reset(adev);<o:p></o:p></p=
+>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">@@ -3796,18 &#43;3796,13 @@ static int amdgpu_dev=
+ice_pre_asic_reset(struct amdgpu_device *adev,<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp; return r;<o:p></o:p></p>
+<p class=3D"MsoPlainText">}<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">-static int amdgpu_do_asic_reset(struct amdgpu_de=
+vice *adev,<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct amdgpu_hive_info *hive,<=
+o:p></o:p></p>
+<p class=3D"MsoPlainText">&#43;static int amdgpu_do_asic_reset(struct amdgp=
+u_hive_info *hive,<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;struct list_head *device_li=
+st_handle,<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool *need_full_reset_arg)<=
+o:p></o:p></p>
+<p class=3D"MsoPlainText">{<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp; struct amdgpu_device *tmp_adev =3D NULL;<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp; bool need_full_reset =3D *need_full_reset_arg, vram_lost =3D fa=
+lse;<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp; int r =3D 0;<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp; int cpu =3D smp_processor_id();<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp; bool use_baco =3D<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp; (amdgpu_asic_reset_method(adev) =3D=3D AMD_RESET_METHOD_BACO) ?<o=
+:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp; true : false;<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; /*<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp; &nbsp;* ASIC reset has to be done on all HGMI hive nodes ASAP @=
+@ -3815,62 &#43;3810,22 @@ static int amdgpu_do_asic_reset(struct amdgpu_de=
+vice *adev,<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp; &nbsp;*/<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp; if (need_full_reset) {<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp; list_for_each_entry(tmp_adev, device_list_handle, gmc.xgmi.head) {=
+<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; /*<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; * For XGMI run all resets in parallel to speed up the<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; * process by scheduling the highpri wq on different<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; * cpus. For XGMI with baco reset, all nodes must enter<o:p></o:p></p=
+>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; * baco within close proximity before anyone exit.<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; */<o:p></o:p></p>
+<p class=3D"MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp; /* For XGMI run all resets in parallel to speed up the process */<o:p>=
+</o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; if (tmp_adev-&gt;gmc.xgmi.num_physical_nodes &gt; 1) {<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; if (!queue_work_on(cpu, system_highpri_wq,<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &n=
+bsp;&nbsp; &amp;tmp_adev-&gt;xgmi_reset_work))<o:p></o:p></p>
+<p class=3D"MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+; if (!queue_work(system_highpri_wq, &amp;tmp_adev-&gt;xgmi_reset_work))<o:=
+p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+r =3D -EALREADY;<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; cpu =3D cpumask_next(cpu, cpu_online_mask);<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; } else<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p; r =3D amdgpu_asic_reset(tmp_adev);<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; if (r)<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; break;<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp; }<o:p></o:p></p>
+<p class=3D"MsoPlainText">-<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp; /* For XGMI wait for all work to complete before proceed */<o:p><=
+/o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp; if (!r) {<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; list_for_each_entry(tmp_adev, device_list_handle,<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+ &nbsp;&nbsp;&nbsp; gmc.xgmi.head) {<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; if (tmp_adev-&gt;gmc.xgmi.num_physical_nodes &gt; 1) {<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+ flush_work(&amp;tmp_adev-&gt;xgmi_reset_work);<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+ r =3D tmp_adev-&gt;asic_reset_res;<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+ if (r)<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; br=
+eak;<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+ if (use_baco)<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tm=
+p_adev-&gt;in_baco =3D true;<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; }<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; }<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp; }<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp; /*<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp; * For XGMI with baco reset, need exit baco phase by scheduling<o:=
+p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp; * xgmi_reset_work one more time. PSP reset and sGPU skips this<o:=
+p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp; * phase. Not assume the situation that PSP reset and baco reset<o=
+:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp; * coexist within an XGMI hive.<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp; */<o:p></o:p></p>
+<p class=3D"MsoPlainText">-<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp; if (!r &amp;&amp; use_baco) {<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; cpu =3D smp_processor_id();<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; list_for_each_entry(tmp_adev, device_list_handle,<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+ &nbsp;&nbsp;&nbsp; gmc.xgmi.head) {<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; if (tmp_adev-&gt;gmc.xgmi.num_physical_nodes &gt; 1) {<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+ if (!queue_work_on(cpu,<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sy=
+stem_highpri_wq,<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &a=
+mp;tmp_adev-&gt;xgmi_reset_work))<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; r =
+=3D -EALREADY;<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+ if (r)<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; br=
+eak;<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+ cpu =3D cpumask_next(cpu, cpu_online_mask);<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; }<o:p></o:p></p>
+<p class=3D"MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp; if (r) {<o:p></o:p></p>
+<p class=3D"MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+; DRM_ERROR(&quot;ASIC reset failed with error, %d for drm dev, %s&quot;,<o=
+:p></o:p></p>
+<p class=3D"MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; r=
+, tmp_adev-&gt;ddev-&gt;unique);<o:p></o:p></p>
+<p class=3D"MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+; break;<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; }<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp; }<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp; if (!r &amp;&amp; use_baco) {<o:p></o:p></p>
+<p class=3D"MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; /* For XGMI wait for all PSP resets to complete before proceed */<o=
+:p></o:p></p>
+<p class=3D"MsoPlainText"><span style=3D"color:#203864">[Le] 2/3: We can dr=
+op PSP string in this comment.
+<o:p></o:p></span></p>
+<p class=3D"MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; if (!r) {<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; list_for_each_entry(tmp_adev, device_list_handle,<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+&nbsp;&nbsp;&nbsp;&nbsp;gmc.xgmi.head) {<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p; if (tmp_adev-&gt;gmc.xgmi.num_physical_nodes &gt; 1) { @@ -3878,21 &#43;=
+3833,15 @@ static int amdgpu_do_asic_reset(struct amdgpu_device *adev,<o:p>=
+</o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+r =3D tmp_adev-&gt;asic_reset_res;<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+if (r)<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bre=
+ak;<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+ tmp_adev-&gt;in_baco =3D false;<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p; }<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; }<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp; }<o:p></o:p></p>
+<p class=3D"MsoPlainText">-<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp; if (r) {<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; DRM_ERROR(&quot;ASIC reset failed with error, %d for drm dev, %s&quo=
+t;,<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; r, tmp_adev-&gt;ddev-&gt;unique);<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; goto end;<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp; }<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp; }<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; if (!r &amp;&amp; amdgpu_ras_intr_triggered())<o:p></o:p>=
+</p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp; amdgpu_ras_intr_cleared();<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">&#43;<o:p></o:p></p>
+<p class=3D"MsoPlainText"><span style=3D"color:#203864">[Le] 3/3: Redundant=
+ white line.
+<o:p></o:p></span></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; list_for_each_entry(tmp_adev, device_list_handle, gmc.xgm=
+i.head) {<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp; if (need_full_reset) {<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; /* post card */<o:p></o:p></p>
+<p class=3D"MsoPlainText">@@ -4181,8 &#43;4130,7 @@ int amdgpu_device_gpu_r=
+ecover(struct amdgpu_device *adev,<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp; if (r)<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; adev-&gt;asic_reset_res =3D r;<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp; } else {<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp; r&nbsp; =3D amdgpu_do_asic_reset(adev, hive, device_list_handle,<=
+o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+ &nbsp; &amp;need_full_reset);<o:p></o:p></p>
+<p class=3D"MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; r&nbsp; =3D amdgpu_do_asic_reset(hive, device_list_handle,
+<o:p></o:p></p>
+<p class=3D"MsoPlainText">&#43;&amp;need_full_reset);<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp; if (r &amp;&amp; r =3D=3D -EAGAIN)<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; goto retry;<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp; }<o:p></o:p></p>
+<p class=3D"MsoPlainText">--<o:p></o:p></p>
+<p class=3D"MsoPlainText">2.7.4<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_MN2PR12MB4285B3145BA49D7C35889C32F6500MN2PR12MB4285namp_--
+
+--===============0102236995==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0102236995==--
