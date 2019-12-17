@@ -1,46 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08032122D8A
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 14:54:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E051122DCC
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 14:59:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AEA86E9E7;
-	Tue, 17 Dec 2019 13:54:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0389B6E9E8;
+	Tue, 17 Dec 2019 13:59:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89E1B6E9E7
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 13:54:29 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (85-76-114-113-nat.elisa-mobile.fi
- [85.76.114.113])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 77CCC9C5;
- Tue, 17 Dec 2019 14:54:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1576590867;
- bh=a9Znys4PI/NrVQPB6/m8UFFVFKRqUcrKabr7FFz1U2I=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MCr/BIYD7JtXnJygA8jtzeEOMAh1Af/VCqhl/qOlcyOdTddo1xKlIjK1P5ic8BwXp
- hGKwm4Hhp7GHmXVV2ojkoRtdoC7mlqULCe4b0ZkW8ENzcievuDi1L4CD90upFUxy02
- UvhdbxA8DYpBn0lAKHVTn6Sf+MknFL2hO3jc7QCc=
-Date: Tue, 17 Dec 2019 15:54:14 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v4 06/13] drm/bridge: lvds-codec: Add "lvds-decoder"
- support
-Message-ID: <20191217135414.GA4741@pendragon.ideasonboard.com>
-References: <1573660292-10629-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1573660292-10629-7-git-send-email-fabrizio.castro@bp.renesas.com>
- <20191213171038.GH4860@pendragon.ideasonboard.com>
- <TY1PR01MB1770DEDFA6050EA77AA218F8C0500@TY1PR01MB1770.jpnprd01.prod.outlook.com>
- <CAMuHMdUE0O9_8g02f2ABiV8SSMXNJB9S9e89p0OJKnTvx8MO9g@mail.gmail.com>
- <TY1PR01MB17705FC08F72875484DF2208C0500@TY1PR01MB1770.jpnprd01.prod.outlook.com>
- <CAMuHMdVqHekyeOaHwpFyG5buNZp-XmvGizqZ=Gbg40_=NL+s2A@mail.gmail.com>
+Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
+ [216.228.121.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D82A86E9E8
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 13:59:49 +0000 (UTC)
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5df8df4b0000>; Tue, 17 Dec 2019 05:59:40 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Tue, 17 Dec 2019 05:59:49 -0800
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Tue, 17 Dec 2019 05:59:49 -0800
+Received: from [10.2.165.11] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 17 Dec
+ 2019 13:59:48 +0000
+Subject: Re: [RFC PATCH] mm/gup: try_pin_compound_head() can be static
+To: kbuild test robot <lkp@intel.com>
+References: <20191211025318.457113-24-jhubbard@nvidia.com>
+ <20191217080358.q3k57ta62txvip5h@4978f4969bb8>
+From: John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <7828a101-e422-8e2a-ef9b-9c0285065ed5@nvidia.com>
+Date: Tue, 17 Dec 2019 05:56:56 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVqHekyeOaHwpFyG5buNZp-XmvGizqZ=Gbg40_=NL+s2A@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191217080358.q3k57ta62txvip5h@4978f4969bb8>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1576591180; bh=+kY6WrbKA7lSfaR6JiJsMhpW0kY3DW4edAlAk5Ve1Ws=;
+ h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=GbGZzaEh7giluV7bpN/IIAOj3Mc18AXcjLeuEGsTgM8/schRNFGUqCq00YAc4ARRK
+ 0PVe1s7+qdvFmh1Ttru614AJtLodM6wJzZ2UNnA1jIm2+JCvQssDVh7rwrwji91hSp
+ Dmomrx8a2mkRdKDi+zuehTjS+cK+ceZUGuV2qS+Q00TgS6unnj2J/spZ+jPwNEGl3X
+ xJTAKof+O0alRzDH3cC7VTlXjNJwIWhcBZya8mbb62MvfcrAHYE78VekfobHefcZXx
+ ueLyg5p/jxUNWHBbbcLlFxuQBAi3TiHxhM/GsO23RipjSLUTZwruxA+61/WfeUhUby
+ xcvllM2I0K27A==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,85 +64,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
- Mark Rutland <mark.rutland@arm.com>,
- Chris Paterson <Chris.Paterson2@renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Simon Horman <horms@verge.net.au>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Magnus Damm <magnus.damm@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Biju Das <biju.das@bp.renesas.com>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Peter Rosin <peda@axentia.se>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
+ kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
+ dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
+ linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
+ linux-kselftest@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
+ Michael Ellerman <mpe@ellerman.id.au>, Christoph Hellwig <hch@infradead.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@suse.cz>,
+ =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+ linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ linux-block@vger.kernel.org,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Al Viro <viro@zeniv.linux.org.uk>, Dan Williams <dan.j.williams@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, bpf@vger.kernel.org,
+ Magnus Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
+ kbuild-all@lists.01.org, netdev@vger.kernel.org,
+ Alex Williamson <alex.williamson@redhat.com>, linux-fsdevel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
+ "David S . Miller" <davem@davemloft.net>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ Mike Kravetz <mike.kravetz@oracle.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGVsbG8sCgpPbiBUdWUsIERlYyAxNywgMjAxOSBhdCAwMTozODo1MVBNICswMTAwLCBHZWVydCBV
-eXR0ZXJob2V2ZW4gd3JvdGU6Cj4gT24gVHVlLCBEZWMgMTcsIDIwMTkgYXQgMTozMSBQTSBGYWJy
-aXppbyBDYXN0cm8gd3JvdGU6Cj4gPiBPbiAxNyBEZWNlbWJlciAyMDE5IDEyOjIxLCBHZWVydCBV
-eXR0ZXJob2V2ZW4gd3JvdGU6Cj4gPj4gT24gVHVlLCBEZWMgMTcsIDIwMTkgYXQgMTI6MDMgUE0g
-RmFicml6aW8gQ2FzdHJvIHdyb3RlOgo+ID4+PiBPbiAxMyBEZWNlbWJlciAyMDE5IDE3OjExLCBM
-YXVyZW50IFBpbmNoYXJ0IHdyb3RlOgo+ID4+Pj4gT24gV2VkLCBOb3YgMTMsIDIwMTkgYXQgMDM6
-NTE6MjVQTSArMDAwMCwgRmFicml6aW8gQ2FzdHJvIHdyb3RlOgo+ID4+Pj4+IEFkZCBzdXBwb3J0
-IGZvciB0cmFuc3BhcmVudCBMVkRTIGRlY29kZXJzIGJ5IGFkZGluZyBhIG5ldwo+ID4+Pj4+IGNv
-bXBhdGlibGUgc3RyaW5nICgibHZkcy1kZWNvZGVyIikgdG8gdGhlIGRyaXZlci4KPiA+Pj4+PiBU
-aGlzIHBhdGNoIGFsc28gYWRkcyBtZW1iZXIgY29ubmVjdG9yX3R5cGUgdG8gc3RydWN0IGx2ZHNf
-Y29kZWMsCj4gPj4+Pj4gYW5kIHRoYXQncyBiZWNhdXNlIExWRFMgZGVjb2RlcnMgaGF2ZSBhIGRp
-ZmZlcmVudCBjb25uZWN0b3IgdHlwZQo+ID4+Pj4+IGZyb20gTFZEUyBlbmNvZGVycy4gV2UgZmls
-bCB0aGlzIG5ldyBtZW1iZXIgdXAgd2l0aCB0aGUgZGF0YQo+ID4+Pj4+IG1hdGNoaW5nIHRoZSBj
-b21wYXRpYmxlIHN0cmluZy4KPiA+Pj4+Pgo+ID4+Pj4+IFNpZ25lZC1vZmYtYnk6IEZhYnJpemlv
-IENhc3RybyA8ZmFicml6aW8uY2FzdHJvQGJwLnJlbmVzYXMuY29tPgo+ID4+Pj4+Cj4gPj4+Pj4g
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9sdmRzLWNvZGVjLmMKPiA+Pj4+PiArKysgYi9k
-cml2ZXJzL2dwdS9kcm0vYnJpZGdlL2x2ZHMtY29kZWMuYwo+ID4+Pj4+Cj4gPj4+Pj4gQEAgLTY1
-LDYgKzY3LDcgQEAgc3RhdGljIGludCBsdmRzX2NvZGVjX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9k
-ZXZpY2UgKnBkZXYpCj4gPj4+Pj4gICAgIGlmICghbHZkc19jb2RlYykKPiA+Pj4+PiAgICAgICAg
-ICAgICByZXR1cm4gLUVOT01FTTsKPiA+Pj4+Pgo+ID4+Pj4+ICsgICBsdmRzX2NvZGVjLT5jb25u
-ZWN0b3JfdHlwZSA9ICh1MzIpb2ZfZGV2aWNlX2dldF9tYXRjaF9kYXRhKCZwZGV2LT5kZXYpOwo+
-ID4+Pj4KPiA+Pj4+IEknbSBub3cgZ2V0dGluZyBhIGNvbXBpbGF0aW9uIGZhaWx1cmUgaGVyZToK
-PiA+Pj4+Cj4gPj4+PiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2x2ZHMtY29kZWMuYzogSW4gZnVu
-Y3Rpb24g4oCYbHZkc19jb2RlY19wcm9iZeKAmToKPiA+Pj4+IGRyaXZlcnMvZ3B1L2RybS9icmlk
-Z2UvbHZkcy1jb2RlYy5jOjY4OjMxOiBlcnJvcjogY2FzdCBmcm9tIHBvaW50ZXIgdG8gaW50ZWdl
-ciBvZiBkaWZmZXJlbnQgc2l6ZSBbLVdlcnJvcj1wb2ludGVyLXRvLWludC1jYXN0XQo+ID4+Pj4g
-ICBsdmRzX2NvZGVjLT5jb25uZWN0b3JfdHlwZSA9ICh1MzIpb2ZfZGV2aWNlX2dldF9tYXRjaF9k
-YXRhKCZwZGV2LT5kZXYpOwo+ID4+Pj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4K
-PiA+Pj4+Cj4gPj4+PiBUaGUgZml4IHNob3VsZCBiZSBzaW1wbGU6Cj4gPj4+Pgo+ID4+Pj4gICAg
-ICAgbHZkc19jb2RlYy0+Y29ubmVjdG9yX3R5cGUgPSAodWludHB0cl90KW9mX2RldmljZV9nZXRf
-bWF0Y2hfZGF0YShkZXYpOwo+ID4+Pj4KPiA+Pj4+IEknbSBib3RoZXJlZCBieSB0aGUgZmFjdCB0
-aGF0IEkndmUgY29tcGlsZWQgdGhpcyBiZWZvcmUgd2l0aG91dCBhbnkKPiA+Pj4+IGlzc3VlLCBz
-byB0aGlzIHJlYWxseSBwdXp6bGVzIG1lLiBEbyB5b3UgZ2V0IHRoZSBzYW1lIHdhcm5pbmcgPwo+
-ID4+Pgo+ID4+PiBUaGUgd2FybmluZyBhcHBlYXJzIHdoZW4gY29tcGlsaW5nIGZvciBhcm02NCwg
-dW5kZXJzdGFuZGFibHkgc28uCj4gPj4+IFdlIG11c3QgaGF2ZSBjb21waWxlZCB0aGlzIGZvciBh
-cm0gb25seSB0aGUgZmlyc3QgdGltZSBhcm91bmQuCj4gPj4+Cj4gPj4+IEkgdGhpbmsgdGhlIHJp
-Z2h0IHdheSB0byBzb2x2ZSB0aGlzIGlzIHRvIGVpdGhlciBjYXN0IHRvICh1MzIpKHVpbnRwdHJf
-dCkgb3IgKHUzMikodW5zaWduZWQgbG9uZykuCj4gPj4KPiA+PiBKdXN0IGNhc3RpbmcgdG8gdWlu
-dHB0cl90IHNob3VsZCBiZSBzdWZmaWNpZW50Lgo+ID4KPiA+IEl0IHNob3VsZCBiZSBzdWZmaWNp
-ZW50IGZvciB0aGUgY29tcGlsZXIsIGJ1dCBJIGhhdmUgc2VlbiBleGFtcGxlcyB3aGVyZSBwZW9w
-bGUKPiA+IHByZWZlcnJlZCB0byBiZSBleHBsaWNpdCwgbGlrZSBpbjoKPiA+IGRyaXZlcnMvbWFp
-bGJveC9tdGstY21kcS1tYWlsYm94LmMKPiA+IGRyaXZlcnMvbGVkcy9sZWRzLXBtODA1OC5jCj4g
-Pgo+ID4gU2luY2UgdGhlIGtlcm5lbCBpcyBpbmNyZWFzaW5nIGl0cyB0aWdodG5lc3Mgd2l0aCBy
-ZXNwZWN0IHRvIHdhcm5pbmdzLCBJIHBlcnNvbmFsbHkgcHJlZmVyCj4gPiAodTMyKSh1aW50cHRy
-X3QpLCBldmVuIHRob3VnaCBub3Qgc3RyaWN0bHkgbmVjZXNzYXJ5LCBidXQgSSBhbSBmaW5lIHdp
-dGggKHVpbnRwdHJfdCkgaWYgeW91Cj4gPiBkb24ndCBsaWtlICh1MzIpKHVpbnRwdHJfdCkuCj4g
-Cj4gSXQgZGVwZW5kcy4gSSB0cnkgdG8gaGF2ZSBhcyBmZXcgY2FzdHMgYXMgcG9zc2libGUgKCJj
-YXN0cyBhcmUgZXZpbCIpLgo+IAo+IFdoaWxlIGFkZGluZyB0aGUgZXh0cmEgKHUzMikgY2FzdCBt
-YWtlcyBpdCBjbGVhcmVyIHRoYXQgdGhlIGludGVuZGVkCj4gcmVzdWx0IGlzIGEgdTMyIChmb3Ig
-bm93KSwgaXQgd2lsbCBjYXVzZSBzaWxlbnQgdHJ1bmNhdGlvbiBvbiA2NC1iaXQgaWYKPiBjb25u
-ZWN0b3JfdHlwZSBpcyBldmVyIGVubGFyZ2VkIHRvIHVuc2lnbmVkIGxvbmcsIGFuZCBsYXJnZXIg
-dmFsdWVzIGFyZQo+IHVzZWQuCj4gCj4gSW4gdGhpcyBwYXJ0aWN1bGFyIGNhc2UgdGhpcyBpcyB1
-bmxpa2VseSwgdGhvdWdoLCBhcyB1bnNpZ25lZCBsb25nIHdvdWxkCj4gc3RpbGwgYmUgMzItYml0
-IG9uIDMyLWJpdCBwbGF0Zm9ybXMsIHNvIHRoZSBsYXJnZXIgdmFsdWVzIGNhbm5vdCBiZQo+IHVz
-ZWQuCgpJIGFsc28gdHJ5IHRvIGFkZCBhcyBmZXcgY2FzdHMgYXMgcG9zc2libGUsIHNvICh1aW50
-cHRyX3QpIHdvdWxkIGJlIG15CnByZWZlcmVuY2UuCgpGYWJyaXppbywgY291bGQgeW91IHN1Ym1p
-dCBhIG5ldyB2ZXJzaW9uIG9mIHRoaXMgcGF0Y2ggd2l0aCB0aGUgcHJvYmxlbQpmaXhlZCAoYW5k
-IHdpdGggdGhlIGNhc3RzIHlvdSBkZWNpZGUgdG8gdXNlLCBidXQgdXNpbmcgdWludHB0cl90IGlu
-c3RlYWQKb2YgdW5zaWduZWQgbG9uZyBpbiBhbnkgY2FzZSkgPwoKLS0gClJlZ2FyZHMsCgpMYXVy
-ZW50IFBpbmNoYXJ0Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bAo=
+On 12/17/19 12:03 AM, kbuild test robot wrote:
+> 
+> Fixes: 8086d1c61970 ("mm/gup: track FOLL_PIN pages")
+> Signed-off-by: kbuild test robot <lkp@intel.com>
+> ---
+>   gup.c |    2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/mm/gup.c b/mm/gup.c
+> index 038b71165a761..849a6f55938e6 100644
+> --- a/mm/gup.c
+> +++ b/mm/gup.c
+> @@ -75,7 +75,7 @@ static inline struct page *try_get_compound_head(struct page *page, int refs)
+>    * @Return:	the compound head page, with ref appropriately incremented,
+>    * or NULL upon failure.
+>    */
+> -__must_check struct page *try_pin_compound_head(struct page *page, int refs)
+> +static __must_check struct page *try_pin_compound_head(struct page *page, int refs)
+>   {
+>   	struct page *head = try_get_compound_head(page,
+>   						  GUP_PIN_COUNTING_BIAS * refs);
+> 
+
+Yes, it should have been declared static. And this also applies to the latest version
+(v11). The preferred fix would stay within 80 columns, like this:
+
+diff --git a/mm/gup.c b/mm/gup.c
+index c2793a86450e..39b2f683bd2e 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -75,7 +75,8 @@ static inline struct page *try_get_compound_head(struct page *page, int refs)
+   * @Return:    the compound head page, with ref appropriately incremented,
+   * or NULL upon failure.
+   */
+-__must_check struct page *try_pin_compound_head(struct page *page, int refs)
++static __must_check struct page *try_pin_compound_head(struct page *page,
++                                                      int refs)
+  {
+         struct page *head = try_get_compound_head(page,
+                                                   GUP_PIN_COUNTING_BIAS * refs);
+
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
