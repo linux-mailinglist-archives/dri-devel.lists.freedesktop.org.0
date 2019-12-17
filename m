@@ -2,42 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F0D81225B8
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 08:42:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E672F1225A1
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 08:39:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D39C06E94E;
-	Tue, 17 Dec 2019 07:42:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C36CC6E94D;
+	Tue, 17 Dec 2019 07:39:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 938 seconds by postgrey-1.36 at gabe;
- Tue, 17 Dec 2019 07:42:11 UTC
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4E056E94E
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 07:42:11 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1ih7FU-00039L-Ep; Tue, 17 Dec 2019 08:26:28 +0100
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.89)
- (envelope-from <ukl@pengutronix.de>)
- id 1ih7FR-0001zP-Ly; Tue, 17 Dec 2019 08:26:25 +0100
-Date: Tue, 17 Dec 2019 08:26:25 +0100
-From: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-To: Stefan Mavrodiev <stefan@olimex.com>
-Subject: Re: [PATCH 1/1] drm/sun4i: hdmi: Check for null pointer before cleanup
-Message-ID: <20191217072625.rqzl2udojrxcxqd4@pengutronix.de>
-References: <20191216144348.7540-1-stefan@olimex.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C17B6E94D
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 07:39:54 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id CC5EBADB3;
+ Tue, 17 Dec 2019 07:39:52 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+ id 937DF1E0B35; Tue, 17 Dec 2019 08:39:51 +0100 (CET)
+Date: Tue, 17 Dec 2019 08:39:51 +0100
+From: Jan Kara <jack@suse.cz>
+To: John Hubbard <jhubbard@nvidia.com>
+Subject: Re: [PATCH v11 00/25] mm/gup: track dma-pinned pages: FOLL_PIN
+Message-ID: <20191217073951.GC16051@quack2.suse.cz>
+References: <20191216222537.491123-1-jhubbard@nvidia.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191216144348.7540-1-stefan@olimex.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+In-Reply-To: <20191216222537.491123-1-jhubbard@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,44 +40,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-sunxi@googlegroups.com,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
- Chen-Yu Tsai <wens@csie.org>,
- "moderated list:ARM/Allwinner sunXi SoC support"
- <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
+ kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
+ dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
+ linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
+ linux-kselftest@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
+ Michael Ellerman <mpe@ellerman.id.au>, Christoph Hellwig <hch@infradead.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@suse.cz>,
+ =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
+ linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ linux-block@vger.kernel.org,
+ =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+ Al Viro <viro@zeniv.linux.org.uk>, Dan Williams <dan.j.williams@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, bpf@vger.kernel.org,
+ Magnus Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
+ netdev@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>,
+ Mike Kravetz <mike.kravetz@oracle.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 16, 2019 at 04:43:48PM +0200, Stefan Mavrodiev wrote:
-> It's possible hdmi->connector and hdmi->encoder divices to be NULL.
+Hi!
 
-The wording is broken and s/divices/devices/. I'd write:
+On Mon 16-12-19 14:25:12, John Hubbard wrote:
+> Hi,
+> 
+> This implements an API naming change (put_user_page*() -->
+> unpin_user_page*()), and also implements tracking of FOLL_PIN pages. It
+> extends that tracking to a few select subsystems. More subsystems will
+> be added in follow up work.
 
-	It's possible that the parent devices of the connector and/or
-	encoder are NULL. This makes drm_connector_cleanup and
-	drm_encoder_cleanup respectively trigger a NULL pointer
-	exeception:
+Just a note for Andrew and others watching this series: At this point I'm fine
+with the series so if someone still has some review feedback or wants to
+check the series, now is the right time. Otherwise I think Andrew can push
+the series to MM tree so that it will get wider testing exposure and is
+prepared for the next merge window.
 
-		<...log here...>
-
-	This is reproducible by
-
-		<...receipt here...>
-
-	So add a check for NULL before calling these functions.
-
-Of course this doesn't address the reservations by Maxime.
-
-Best regards
-Uwe
-
--- =
-
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
