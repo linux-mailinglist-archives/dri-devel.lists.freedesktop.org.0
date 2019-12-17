@@ -2,56 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59375121F5B
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 01:20:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2349121FF9
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 01:47:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FB0D89166;
-	Tue, 17 Dec 2019 00:20:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 907866E912;
+	Tue, 17 Dec 2019 00:47:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
- [IPv6:2607:f8b0:4864:20::741])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EF5C89166
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 00:20:53 +0000 (UTC)
-Received: by mail-qk1-x741.google.com with SMTP id z76so3856410qka.2
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 16:20:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rcYYKKReUBGWXboa3Z4PDSMxQ6wy4qq00yPn8VnaL78=;
- b=kGD+FtXdPF7QRzcW2IP44zpgI2q7QaRgxUPXiyCLiuv64Y/hkDwru4JYYvrkztcv9Y
- tdsztdkovO2wkp7Y7cQhrVAa9Tp2bp0dnQBc2jB5YOIOT3tuiIFYv8C6Wot5IgE842Tz
- h/4pyvv6ChAwWtmHxO6Z8ct/Wz4vtUu+AYXDQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rcYYKKReUBGWXboa3Z4PDSMxQ6wy4qq00yPn8VnaL78=;
- b=lAGuusv6+TSMJTc3Y2xVS/XSVaIadylKCACIYfBUMgKTMwpks9J3iXBFOPlP/VpmcR
- 0dr0kmbDl3XpqbbJVp9gODGRRiYYzucC8AdVZ5UYUT1z15svJuHxoRCSor25/RJ0UUYY
- gtWnq4Kkk6cnAp6JLR+dPis4HGFCRdpqYM/7VzYmLederGaeSpNDs3KGXBPkZyJjxdqD
- RkPK7uuc5KWN0AoD3V6Hwa0VIi9auJI2lIuOnzqNzQZcspICdQFdJ65Vk/FxO7CQmhlX
- B6aDD+P8ZEP5YHTz5Zqhxlf7kircEQVC+vu6bzRTok0H19IFwhs9DM2VUusPU173jXq+
- W37A==
-X-Gm-Message-State: APjAAAWUBYLrIx+MaR8/5lgk4btzHsKS9lbpQ1mj4axHEZ995xXLh9Nf
- 4OOXmpTQcoVO0ZMqFnQVMDnizoZQXabaQ7we0nLpkQ==
-X-Google-Smtp-Source: APXvYqyP5uRGDWxRzTHJYRZv0g5YA40ZLZyjzpB+invEA05QeaZ3PxSeg+5HXDzapVTOIOHGRyDs1T4M33+Y4pRvirA=
-X-Received: by 2002:a05:620a:6d7:: with SMTP id
- 23mr2207995qky.299.1576542052213; 
- Mon, 16 Dec 2019 16:20:52 -0800 (PST)
+Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
+ [216.228.121.143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC54A6E90D;
+ Tue, 17 Dec 2019 00:47:23 +0000 (UTC)
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5df825800000>; Mon, 16 Dec 2019 16:46:56 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Mon, 16 Dec 2019 16:47:23 -0800
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Mon, 16 Dec 2019 16:47:23 -0800
+Received: from [10.2.168.121] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 17 Dec
+ 2019 00:47:22 +0000
+Subject: Re: [Nouveau] [PATCH 3/3] drm/nouveau: Support NVIDIA format modifiers
+From: James Jones <jajones@nvidia.com>
+To: Ilia Mirkin <imirkin@alum.mit.edu>
+References: <20191211205922.7096-1-jajones@nvidia.com>
+ <20191211205922.7096-4-jajones@nvidia.com>
+ <CAKb7Uvg-_dPPoJvBx0OXtjQEg1fBFbdBXRqZez3VJMhxD-xQEA@mail.gmail.com>
+ <a8b251ed-209c-dd11-b2e1-80077152f4ab@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <6a91907d-a5ec-4b73-4941-7d5ff12fafdb@nvidia.com>
+Date: Mon, 16 Dec 2019 16:27:53 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20191211061911.238393-1-hsinyi@chromium.org>
- <20191211061911.238393-3-hsinyi@chromium.org>
- <20191213223816.GS4860@pendragon.ideasonboard.com>
- <CAJMQK-gFn8WeokxGfAZ-akNvdEbQhPj_3Ax2sD7Ti6JcSvjF4g@mail.gmail.com>
- <CANMq1KDh=ehp0RDFRLQ5OCTibrK=Uzp2UFVLM+7AhwpVp-X=yQ@mail.gmail.com>
- <20191216163910.GC14502@pendragon.ideasonboard.com>
-In-Reply-To: <20191216163910.GC14502@pendragon.ideasonboard.com>
-From: Nicolas Boichat <drinkcat@chromium.org>
-Date: Tue, 17 Dec 2019 08:20:41 +0800
-Message-ID: <CANMq1KA1OMMzwLVMhFeb-zLuPLJsXrvVMji=u0RZ_kWnQprvoA@mail.gmail.com>
-Subject: Re: [PATCH RESEND 2/4] drm: bridge: anx7688: Add anx7688 bridge
- driver support.
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+In-Reply-To: <a8b251ed-209c-dd11-b2e1-80077152f4ab@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1576543616; bh=dnPTU531DiIyClY5GOPbr003EuqJ6klECyHC2A/bHQ0=;
+ h=X-PGP-Universal:Subject:From:To:CC:References:X-Nvconfidentiality:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=HA0sVAQwyXCf8y8Sx2PL+lgbQ1wkb6Luy/s1fzZ4UbES0cNP03VAFGgGcbq/LUSoR
+ lDlXOQCkfPYSBOS2iNmzA4Kz304Ha1DOJEWObWAtpBuv5UmeHAvGQjPz5lsUYQe9pC
+ 6E2huu3/C8GWC8MFoYOcmJ/0FhXaZfyJdol+Ft0NySz15AWR7eORX5N3ilbbH+CKpN
+ JASB2KtVC3TBQxy/TE4q2h3vKjggwZ3EwBfuWW2hF8fXrvBz+g7xzD1EqqwG27kxF7
+ fGEsz5bLlesV8rTnv81odqzas2qdIKsJ+0UTwhWfqnf/xk4wfZpAUTJYb4pGZuSvzP
+ 9Kn9yj6FcqhFw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,362 +66,197 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Devicetree List <devicetree@vger.kernel.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>, Matthias Brugger <mbrugger@suse.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Jonas Karlman <jonas@kwiboo.se>, lkml <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Russell King <rmk+kernel@arm.linux.org.uk>
-Content-Type: multipart/mixed; boundary="===============0300286281=="
+Cc: nouveau <nouveau@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0300286281==
-Content-Type: multipart/alternative; boundary="000000000000fef3aa0599db4c85"
-
---000000000000fef3aa0599db4c85
-Content-Type: text/plain; charset="UTF-8"
-
-Hi Laurent,
-
-On Tue, Dec 17, 2019 at 12:39 AM Laurent Pinchart <
-laurent.pinchart@ideasonboard.com> wrote:
->
-> Hello Nicolas and Hsin-Yi,
->
-> On Mon, Dec 16, 2019 at 06:19:24PM +0800, Nicolas Boichat wrote:
-> > On Mon, Dec 16, 2019 at 4:46 PM Hsin-Yi Wang wrote:
-> > > On Sat, Dec 14, 2019 at 6:38 AM Laurent Pinchart wrote:
-> > > > On Wed, Dec 11, 2019 at 02:19:09PM +0800, Hsin-Yi Wang wrote:
-> > > > > From: Nicolas Boichat <drinkcat@chromium.org>
-> > > > >
-> > > > > ANX7688 is a HDMI to DP converter (as well as USB-C port
-controller),
-> > > > > that has an internal microcontroller.
-> > > > >
-> > > > > The only reason a Linux kernel driver is necessary is to reject
-> > > > > resolutions that require more bandwidth than what is available on
-> > > > > the DP side. DP bandwidth and lane count are reported by the
-bridge
-> > > > > via 2 registers on I2C.
-> > > >
-> > > > How about power, doesn't this chip have power supplies that
-potentially
-> > > > need to be controlled ?
-> > > >
-> > > Ideally we should add power supplies as well, but the power is
-> > > supplied by ec in mt8173 oak board. And we only have this board can
-> > > test this driver. If we add power supplies in driver we can't test it.
-> >
-> > To clarify a bit more, this is because this chip is actually a
-> > TCPC+mux+HDMI=>DP converter
-> > (https://www.analogix.com/en/products/convertersbridges/anx7688). In
-> > Chromebook architecture, TCPC+mux is controlled by the EC (including
-> > power and other control pins), and the only reason we need a driver
-> > for the HDMI=>DP converter is to get the number of lanes on the DP
-> > side and filter out resolutions. Also, the converter is on a different
-> > I2C address and it could almost be considered as a separate device.
-> >
-> > (of course we could write a kernel driver for the TCPC+mux but we'll
-> > leave that to others if there's ever a board that is built with the
-> > TCPC part connected to the AP)
->
-> Is the mux the one that is handled through a gpio-mux driver in this
-> series, or a different mux ?
-
-It's a different mux: it's the usual USB-C mux that takes in USB 3.0 and DP
-(internally converted from HDMI), and decides which 2 lanes to use for
-each, and flip if necessary. This is all controlled by the EC (like on most
-other Chromebook), so this is transparent to the kernel, at least on
-Chromebooks.
-
-> It would really, really help if you could
-> show a block diagram of the related hardware (including the EC), as this
-> is quite confusing. With every e-mail exchanged there's a bit more
-> information that change my understanding of the issue, I can't really
-> provide guidance without a full overview.
-
-https://lkml.org/lkml/2019/12/9/548 that you drew is accurate for the
-display part of the problem.
-
-You can just add a USB3 connection to the above (there's also I2C interface
-to the EC of course to control the TCPC/mux aspect of it, but that's on
-different I2C addresses).
-
-                                     +-----------+
-+---------+         +------+    /--> | HDMI      |
-| MT8173  |  HDMI   |   -->| --/     | Connector |
-|  HDMI   | ------> |--/   |         +-----------+
-| Encoder |         |    ->| --\     +-----------+      +-----------+
-+---------+         +------+    \--> | ANX7688   | ---> | USB-C     |
-                                     | Bridge    |      | Connector |
-                             USB3--> | + mux     |      |           |
-				     +-----------+      +-----------+
-                                         ^
-
-The ANX7688 brige could _almost_ work driverless (and it does already), the
-_only_ thing that the driver is doing is filtering out impossible
-resolution based on DP (over USB-C) number of lanes and bandwidth.
-
-> > > > > Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
-> > > > > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> > > > > ---
-> > > > >  drivers/gpu/drm/bridge/Kconfig            |   9 +
-> > > > >  drivers/gpu/drm/bridge/Makefile           |   1 +
-> > > > >  drivers/gpu/drm/bridge/analogix-anx7688.c | 202
-++++++++++++++++++++++
-> > > > >  3 files changed, 212 insertions(+)
-> > > > >  create mode 100644 drivers/gpu/drm/bridge/analogix-anx7688.c
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/bridge/Kconfig
-b/drivers/gpu/drm/bridge/Kconfig
-> > > > > index 34362976cd6f..1f3fc6bec842 100644
-> > > > > --- a/drivers/gpu/drm/bridge/Kconfig
-> > > > > +++ b/drivers/gpu/drm/bridge/Kconfig
-> > > > > @@ -16,6 +16,15 @@ config DRM_PANEL_BRIDGE
-> > > > >  menu "Display Interface Bridges"
-> > > > >       depends on DRM && DRM_BRIDGE
-> > > > >
-> > > > > +config DRM_ANALOGIX_ANX7688
-> > > > > +     tristate "Analogix ANX7688 bridge"
-> > > > > +     select DRM_KMS_HELPER
-> > > > > +     select REGMAP_I2C
-> > > > > +     ---help---
-> > > > > +       ANX7688 is a transmitter to support DisplayPort over
-USB-C for
-> > > > > +       smartphone and tablets.
-> > > > > +       This driver only supports the HDMI to DP component of the
-chip.
-> > > > > +
-> > > > >  config DRM_ANALOGIX_ANX78XX
-> > > > >       tristate "Analogix ANX78XX bridge"
-> > > > >       select DRM_KMS_HELPER
-> > > > > diff --git a/drivers/gpu/drm/bridge/Makefile
-b/drivers/gpu/drm/bridge/Makefile
-> > > > > index 4934fcf5a6f8..7a1e0ec032e6 100644
-> > > > > --- a/drivers/gpu/drm/bridge/Makefile
-> > > > > +++ b/drivers/gpu/drm/bridge/Makefile
-> > > > > @@ -1,4 +1,5 @@
-> > > > >  # SPDX-License-Identifier: GPL-2.0
-> > > > > +obj-$(CONFIG_DRM_ANALOGIX_ANX7688) += analogix-anx7688.o
-> > > > >  obj-$(CONFIG_DRM_ANALOGIX_ANX78XX) += analogix-anx78xx.o
-> > > > >  obj-$(CONFIG_DRM_CDNS_DSI) += cdns-dsi.o
-> > > > >  obj-$(CONFIG_DRM_DUMB_VGA_DAC) += dumb-vga-dac.o
-> > > > > diff --git a/drivers/gpu/drm/bridge/analogix-anx7688.c
-b/drivers/gpu/drm/bridge/analogix-anx7688.c
-> > > > > new file mode 100644
-> > > > > index 000000000000..baaed48d6201
-> > > > > --- /dev/null
-> > > > > +++ b/drivers/gpu/drm/bridge/analogix-anx7688.c
-> > > > > @@ -0,0 +1,202 @@
-> > > > > +// SPDX-License-Identifier: GPL-2.0-only
-> > > > > +/*
-> > > > > + * ANX7688 HDMI->DP bridge driver
-> > > > > + *
-> > > > > + * Copyright 2016 Google LLC
-> > > > > + */
-> > > > > +
-> > > > > +#include <linux/i2c.h>
-> > > > > +#include <linux/module.h>
-> > > > > +#include <linux/regmap.h>
-> > > > > +#include <drm/drm_bridge.h>
-> > > > > +
-> > > > > +/* Register addresses */
-> > > > > +#define VENDOR_ID_REG 0x00
-> > > > > +#define DEVICE_ID_REG 0x02
-> > > > > +
-> > > > > +#define FW_VERSION_REG 0x80
-> > > > > +
-> > > > > +#define DP_BANDWIDTH_REG 0x85
-> > > > > +#define DP_LANE_COUNT_REG 0x86
-> > > >
-> > > > Are these registers defined by the ANX7688 hardware, or by the
-firmware
-> > > > running on the chip (and, I assume, developed by Google) ?
-> > > >
-> > > By firmware developed by ANX provided to Google.
-> >
-> > We asked for these registers to be added to ANX FW, and this is the FW
-> > that is used by all elm/hana Chromebooks (I have no idea about other
-> > ANX customers...). We have facilities to update the ANX FW from
-> > coreboot/depthcharge on Chromebooks, but that does not really matter:
-> > the factory FW of all MP Chromebooks does provide these registers.
->
-> So the driver is specific to Chromebooks, it doesn't support all
-> ANX7688. Sweet :-(
-
-FWIW, this is a 3+ year old part, so it appears that nobody else cares
-anyway?
-
-Also, this driver is only required to implement the mode filtering, which,
-possibly, is only supported by the Google version of the FW (I have no idea
-what other customers ANX has for this part).
-
-> --
-> Regards,
->
-> Laurent Pinchart
-
---000000000000fef3aa0599db4c85
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><font face=3D"monospace">Hi Laurent,<br><br>On Tue, Dec 17=
-, 2019 at 12:39 AM Laurent Pinchart &lt;<a href=3D"mailto:laurent.pinchart@=
-ideasonboard.com" target=3D"_blank">laurent.pinchart@ideasonboard.com</a>&g=
-t; wrote:<br>&gt;<br>&gt; Hello Nicolas and Hsin-Yi,<br>&gt;<br>&gt; On Mon=
-, Dec 16, 2019 at 06:19:24PM +0800, Nicolas Boichat wrote:<br>&gt; &gt; On =
-Mon, Dec 16, 2019 at 4:46 PM Hsin-Yi Wang wrote:<br>&gt; &gt; &gt; On Sat, =
-Dec 14, 2019 at 6:38 AM Laurent Pinchart wrote:<br>&gt; &gt; &gt; &gt; On W=
-ed, Dec 11, 2019 at 02:19:09PM +0800, Hsin-Yi Wang wrote:<br>&gt; &gt; &gt;=
- &gt; &gt; From: Nicolas Boichat &lt;<a href=3D"mailto:drinkcat@chromium.or=
-g" target=3D"_blank">drinkcat@chromium.org</a>&gt;<br>&gt; &gt; &gt; &gt; &=
-gt;<br>&gt; &gt; &gt; &gt; &gt; ANX7688 is a HDMI to DP converter (as well =
-as USB-C port controller),<br>&gt; &gt; &gt; &gt; &gt; that has an internal=
- microcontroller.<br>&gt; &gt; &gt; &gt; &gt;<br>&gt; &gt; &gt; &gt; &gt; T=
-he only reason a Linux kernel driver is necessary is to reject<br>&gt; &gt;=
- &gt; &gt; &gt; resolutions that require more bandwidth than what is availa=
-ble on<br>&gt; &gt; &gt; &gt; &gt; the DP side. DP bandwidth and lane count=
- are reported by the bridge<br>&gt; &gt; &gt; &gt; &gt; via 2 registers on =
-I2C.<br>&gt; &gt; &gt; &gt;<br>&gt; &gt; &gt; &gt; How about power, doesn&#=
-39;t this chip have power supplies that potentially<br>&gt; &gt; &gt; &gt; =
-need to be controlled ?<br>&gt; &gt; &gt; &gt;<br>&gt; &gt; &gt; Ideally we=
- should add power supplies as well, but the power is<br>&gt; &gt; &gt; supp=
-lied by ec in mt8173 oak board. And we only have this board can<br>&gt; &gt=
-; &gt; test this driver. If we add power supplies in driver we can&#39;t te=
-st it.<br>&gt; &gt;<br>&gt; &gt; To clarify a bit more, this is because thi=
-s chip is actually a<br>&gt; &gt; TCPC+mux+HDMI=3D&gt;DP converter<br>&gt; =
-&gt; (<a href=3D"https://www.analogix.com/en/products/convertersbridges/anx=
-7688" target=3D"_blank">https://www.analogix.com/en/products/convertersbrid=
-ges/anx7688</a>). In<br>&gt; &gt; Chromebook architecture, TCPC+mux is cont=
-rolled by the EC (including<br>&gt; &gt; power and other control pins), and=
- the only reason we need a driver<br>&gt; &gt; for the HDMI=3D&gt;DP conver=
-ter is to get the number of lanes on the DP<br>&gt; &gt; side and filter ou=
-t resolutions. Also, the converter is on a different<br>&gt; &gt; I2C addre=
-ss and it could almost be considered as a separate device.<br>&gt; &gt;<br>=
-&gt; &gt; (of course we could write a kernel driver for the TCPC+mux but we=
-&#39;ll<br>&gt; &gt; leave that to others if there&#39;s ever a board that =
-is built with the<br>&gt; &gt; TCPC part connected to the AP)<br>&gt;<br>&g=
-t; Is the mux the one that is handled through a gpio-mux driver in this<br>=
-&gt; series, or a different mux ?<br><br>It&#39;s a different mux: it&#39;s=
- the usual USB-C mux that takes in USB 3.0 and DP (internally converted fro=
-m HDMI), and decides which 2 lanes to use for each, and flip if necessary. =
-This is all controlled by the EC (like on most other Chromebook), so this i=
-s transparent to the kernel, at least on Chromebooks.<br><br>&gt; It would =
-really, really help if you could<br>&gt; show a block diagram of the relate=
-d hardware (including the EC), as this<br>&gt; is quite confusing. With eve=
-ry e-mail exchanged there&#39;s a bit more<br>&gt; information that change =
-my understanding of the issue, I can&#39;t really<br>&gt; provide guidance =
-without a full overview.<br><br><a href=3D"https://lkml.org/lkml/2019/12/9/=
-548" target=3D"_blank">https://lkml.org/lkml/2019/12/9/548</a> that you dre=
-w is accurate for the display part of the problem.<br><br>You can just add =
-a USB3 connection to the above (there&#39;s also I2C interface to the EC of=
- course to control the TCPC/mux aspect of it, but that&#39;s on different I=
-2C addresses).<br></font><pre style=3D"white-space:pre-wrap;color:rgb(0,0,0=
-)">                                     +-----------+<br>+---------+       =
-  +------+    /--&gt; | HDMI      |<br>| MT8173  |  HDMI   |   --&gt;| --/ =
-    | Connector |<br>|  HDMI   | ------&gt; |--/   |         +-----------+<=
-br>| Encoder |         |    -&gt;| --\     +-----------+      +-----------+=
-<br>+---------+         +------+    \--&gt; | ANX7688   | ---&gt; | USB-C  =
-   |<br>                                     | Bridge    |      | Connector=
- |<br>                             USB3--&gt; | + mux     |      |         =
-  |<br>				     +-----------+      +-----------+
-                                         ^</pre><font face=3D"monospace"><d=
-iv>The ANX7688 brige could _almost_ work driverless (and it does already), =
-the _only_ thing that the driver is doing is filtering out impossible resol=
-ution based on DP (over USB-C) number of lanes and bandwidth.</div><div><br=
-></div>&gt; &gt; &gt; &gt; &gt; Signed-off-by: Nicolas Boichat &lt;<a href=
-=3D"mailto:drinkcat@chromium.org" target=3D"_blank">drinkcat@chromium.org</=
-a>&gt;<br>&gt; &gt; &gt; &gt; &gt; Signed-off-by: Hsin-Yi Wang &lt;<a href=
-=3D"mailto:hsinyi@chromium.org" target=3D"_blank">hsinyi@chromium.org</a>&g=
-t;<br>&gt; &gt; &gt; &gt; &gt; ---<br>&gt; &gt; &gt; &gt; &gt; =C2=A0driver=
-s/gpu/drm/bridge/Kconfig =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 =
-9 +<br>&gt; &gt; &gt; &gt; &gt; =C2=A0drivers/gpu/drm/bridge/Makefile =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 1 +<br>&gt; &gt; &gt; &gt; &gt; =
-=C2=A0drivers/gpu/drm/bridge/analogix-anx7688.c | 202 +++++++++++++++++++++=
-+<br>&gt; &gt; &gt; &gt; &gt; =C2=A03 files changed, 212 insertions(+)<br>&=
-gt; &gt; &gt; &gt; &gt; =C2=A0create mode 100644 drivers/gpu/drm/bridge/ana=
-logix-anx7688.c<br>&gt; &gt; &gt; &gt; &gt;<br>&gt; &gt; &gt; &gt; &gt; dif=
-f --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig<b=
-r>&gt; &gt; &gt; &gt; &gt; index 34362976cd6f..1f3fc6bec842 100644<br>&gt; =
-&gt; &gt; &gt; &gt; --- a/drivers/gpu/drm/bridge/Kconfig<br>&gt; &gt; &gt; =
-&gt; &gt; +++ b/drivers/gpu/drm/bridge/Kconfig<br>&gt; &gt; &gt; &gt; &gt; =
-@@ -16,6 +16,15 @@ config DRM_PANEL_BRIDGE<br>&gt; &gt; &gt; &gt; &gt; =C2=
-=A0menu &quot;Display Interface Bridges&quot;<br>&gt; &gt; &gt; &gt; &gt; =
-=C2=A0 =C2=A0 =C2=A0 depends on DRM &amp;&amp; DRM_BRIDGE<br>&gt; &gt; &gt;=
- &gt; &gt;<br>&gt; &gt; &gt; &gt; &gt; +config DRM_ANALOGIX_ANX7688<br>&gt;=
- &gt; &gt; &gt; &gt; + =C2=A0 =C2=A0 tristate &quot;Analogix ANX7688 bridge=
-&quot;<br>&gt; &gt; &gt; &gt; &gt; + =C2=A0 =C2=A0 select DRM_KMS_HELPER<br=
->&gt; &gt; &gt; &gt; &gt; + =C2=A0 =C2=A0 select REGMAP_I2C<br>&gt; &gt; &g=
-t; &gt; &gt; + =C2=A0 =C2=A0 ---help---<br>&gt; &gt; &gt; &gt; &gt; + =C2=
-=A0 =C2=A0 =C2=A0 ANX7688 is a transmitter to support DisplayPort over USB-=
-C for<br>&gt; &gt; &gt; &gt; &gt; + =C2=A0 =C2=A0 =C2=A0 smartphone and tab=
-lets.<br>&gt; &gt; &gt; &gt; &gt; + =C2=A0 =C2=A0 =C2=A0 This driver only s=
-upports the HDMI to DP component of the chip.<br>&gt; &gt; &gt; &gt; &gt; +=
-<br>&gt; &gt; &gt; &gt; &gt; =C2=A0config DRM_ANALOGIX_ANX78XX<br>&gt; &gt;=
- &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 tristate &quot;Analogix ANX78XX bridge=
-&quot;<br>&gt; &gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 select DRM_KMS_HELP=
-ER<br>&gt; &gt; &gt; &gt; &gt; diff --git a/drivers/gpu/drm/bridge/Makefile=
- b/drivers/gpu/drm/bridge/Makefile<br>&gt; &gt; &gt; &gt; &gt; index 4934fc=
-f5a6f8..7a1e0ec032e6 100644<br>&gt; &gt; &gt; &gt; &gt; --- a/drivers/gpu/d=
-rm/bridge/Makefile<br>&gt; &gt; &gt; &gt; &gt; +++ b/drivers/gpu/drm/bridge=
-/Makefile<br>&gt; &gt; &gt; &gt; &gt; @@ -1,4 +1,5 @@<br>&gt; &gt; &gt; &gt=
-; &gt; =C2=A0# SPDX-License-Identifier: GPL-2.0<br>&gt; &gt; &gt; &gt; &gt;=
- +obj-$(CONFIG_DRM_ANALOGIX_ANX7688) +=3D analogix-anx7688.o<br>&gt; &gt; &=
-gt; &gt; &gt; =C2=A0obj-$(CONFIG_DRM_ANALOGIX_ANX78XX) +=3D analogix-anx78x=
-x.o<br>&gt; &gt; &gt; &gt; &gt; =C2=A0obj-$(CONFIG_DRM_CDNS_DSI) +=3D cdns-=
-dsi.o<br>&gt; &gt; &gt; &gt; &gt; =C2=A0obj-$(CONFIG_DRM_DUMB_VGA_DAC) +=3D=
- dumb-vga-dac.o<br>&gt; &gt; &gt; &gt; &gt; diff --git a/drivers/gpu/drm/br=
-idge/analogix-anx7688.c b/drivers/gpu/drm/bridge/analogix-anx7688.c<br>&gt;=
- &gt; &gt; &gt; &gt; new file mode 100644<br>&gt; &gt; &gt; &gt; &gt; index=
- 000000000000..baaed48d6201<br>&gt; &gt; &gt; &gt; &gt; --- /dev/null<br>&g=
-t; &gt; &gt; &gt; &gt; +++ b/drivers/gpu/drm/bridge/analogix-anx7688.c<br>&=
-gt; &gt; &gt; &gt; &gt; @@ -0,0 +1,202 @@<br>&gt; &gt; &gt; &gt; &gt; +// S=
-PDX-License-Identifier: GPL-2.0-only<br>&gt; &gt; &gt; &gt; &gt; +/*<br>&gt=
-; &gt; &gt; &gt; &gt; + * ANX7688 HDMI-&gt;DP bridge driver<br>&gt; &gt; &g=
-t; &gt; &gt; + *<br>&gt; &gt; &gt; &gt; &gt; + * Copyright 2016 Google LLC<=
-br>&gt; &gt; &gt; &gt; &gt; + */<br>&gt; &gt; &gt; &gt; &gt; +<br>&gt; &gt;=
- &gt; &gt; &gt; +#include &lt;linux/i2c.h&gt;<br>&gt; &gt; &gt; &gt; &gt; +=
-#include &lt;linux/module.h&gt;<br>&gt; &gt; &gt; &gt; &gt; +#include &lt;l=
-inux/regmap.h&gt;<br>&gt; &gt; &gt; &gt; &gt; +#include &lt;drm/drm_bridge.=
-h&gt;<br>&gt; &gt; &gt; &gt; &gt; +<br>&gt; &gt; &gt; &gt; &gt; +/* Registe=
-r addresses */<br>&gt; &gt; &gt; &gt; &gt; +#define VENDOR_ID_REG 0x00<br>&=
-gt; &gt; &gt; &gt; &gt; +#define DEVICE_ID_REG 0x02<br>&gt; &gt; &gt; &gt; =
-&gt; +<br>&gt; &gt; &gt; &gt; &gt; +#define FW_VERSION_REG 0x80<br>&gt; &gt=
-; &gt; &gt; &gt; +<br>&gt; &gt; &gt; &gt; &gt; +#define DP_BANDWIDTH_REG 0x=
-85<br>&gt; &gt; &gt; &gt; &gt; +#define DP_LANE_COUNT_REG 0x86<br>&gt; &gt;=
- &gt; &gt;<br>&gt; &gt; &gt; &gt; Are these registers defined by the ANX768=
-8 hardware, or by the firmware<br>&gt; &gt; &gt; &gt; running on the chip (=
-and, I assume, developed by Google) ?<br>&gt; &gt; &gt; &gt;<br>&gt; &gt; &=
-gt; By firmware developed by ANX provided to Google.<br>&gt; &gt;<br>&gt; &=
-gt; We asked for these registers to be added to ANX FW, and this is the FW<=
-br>&gt; &gt; that is used by all elm/hana Chromebooks (I have no idea about=
- other<br>&gt; &gt; ANX customers...). We have facilities to update the ANX=
- FW from<br>&gt; &gt; coreboot/depthcharge on Chromebooks, but that does no=
-t really matter:<br>&gt; &gt; the factory FW of all MP Chromebooks does pro=
-vide these registers.<br>&gt;<br>&gt; So the driver is specific to Chromebo=
-oks, it doesn&#39;t support all<br>&gt; ANX7688. Sweet :-(<br><br>FWIW, thi=
-s is a 3+ year old part, so it appears that nobody else cares anyway?</font=
-><div><font face=3D"monospace"><br></font></div><div><font face=3D"monospac=
-e">Also, this driver is only required to implement the mode filtering, whic=
-h, possibly, is only supported by the Google version of the FW (I have no i=
-dea what other customers ANX has for this part).<br><br>&gt; --<br>&gt; Reg=
-ards,<br>&gt;<br>&gt; Laurent Pinchart</font></div></div>
-
---000000000000fef3aa0599db4c85--
-
---===============0300286281==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0300286281==--
+T24gMTIvMTIvMTkgNjo1MSBQTSwgSmFtZXMgSm9uZXMgd3JvdGU6Cj4gT24gMTIvMTEvMTkgMTox
+MyBQTSwgSWxpYSBNaXJraW4gd3JvdGU6Cj4+IE9uIFdlZCwgRGVjIDExLCAyMDE5IGF0IDQ6MDQg
+UE0gSmFtZXMgSm9uZXMgPGpham9uZXNAbnZpZGlhLmNvbT4gd3JvdGU6Cj4+Pgo+Pj4gQWxsb3cg
+c2V0dGluZyB0aGUgYmxvY2sgbGF5b3V0IG9mIGEgbm91dmVhdSBGQgo+Pj4gb2JqZWN0IHVzaW5n
+IERSTSBmb3JtYXQgbW9kaWZpZXJzLsKgIFdoZW4KPj4+IHNwZWNpZmllZCwgdGhlIGZvcm1hdCBt
+b2RpZmllciBibG9jayBsYXlvdXQgYW5kCj4+PiBraW5kIG92ZXJyaWRlcyB0aGUgR0VNIGJ1ZmZl
+cidzIGltcGxpY2l0IGxheW91dAo+Pj4gYW5kIGtpbmQuwqAgVGhlIHNwZWNpZmllZCBmb3JtYXQg
+bW9kaWZpZXIgaXMKPj4+IHZhbGlkYXRlZCBhZ2FpbnN0IGhlIGxpc3Qgb2YgbW9kaWZpZXJzIHN1
+cHBvcnRlZAo+Pj4gYnkgdGhlIHRhcmdldCBkaXNwbGF5IGhhcmR3YXJlLgo+Pj4KPj4+IFNpZ25l
+ZC1vZmYtYnk6IEphbWVzIEpvbmVzIDxqYWpvbmVzQG52aWRpYS5jb20+Cj4+PiAtLS0KPj4+IMKg
+IGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL3duZHcuY8KgwqAgfMKgIDggKy0tCj4+
+PiDCoCBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2Rpc3BsYXkuYyB8IDY1ICsrKysr
+KysrKysrKysrKysrKysrKystCj4+PiDCoCBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1
+X2Rpc3BsYXkuaCB8wqAgMiArCj4+PiDCoCAzIGZpbGVzIGNoYW5nZWQsIDY5IGluc2VydGlvbnMo
+KyksIDYgZGVsZXRpb25zKC0pCj4+Pgo+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9u
+b3V2ZWF1L2Rpc3BudjUwL3duZHcuYyAKPj4+IGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlz
+cG52NTAvd25kdy5jCj4+PiBpbmRleCA3MGFkNjRjYjJkMzQuLjA2YzFiMTg0NzljMSAxMDA2NDQK
+Pj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL3duZHcuYwo+Pj4gKysr
+IGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvd25kdy5jCj4+PiBAQCAtNDMsNyAr
+NDMsNyBAQCBudjUwX3duZHdfY3R4ZG1hX25ldyhzdHJ1Y3QgbnY1MF93bmR3ICp3bmR3LCBzdHJ1
+Y3QgCj4+PiBub3V2ZWF1X2ZyYW1lYnVmZmVyICpmYikKPj4+IMKgIHsKPj4+IMKgwqDCoMKgwqDC
+oMKgwqAgc3RydWN0IG5vdXZlYXVfZHJtICpkcm0gPSBub3V2ZWF1X2RybShmYi0+YmFzZS5kZXYp
+Owo+Pj4gwqDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgbnY1MF93bmR3X2N0eGRtYSAqY3R4ZG1hOwo+
+Pj4gLcKgwqDCoMKgwqDCoCBjb25zdCB1OMKgwqDCoCBraW5kID0gZmItPm52Ym8tPmtpbmQ7Cj4+
+PiArwqDCoMKgwqDCoMKgIGNvbnN0IHU4wqDCoMKgIGtpbmQgPSBmYi0+a2luZDsKPj4+IMKgwqDC
+oMKgwqDCoMKgwqAgY29uc3QgdTMyIGhhbmRsZSA9IDB4ZmIwMDAwMDAgfCBraW5kOwo+Pj4gwqDC
+oMKgwqDCoMKgwqDCoCBzdHJ1Y3Qgewo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgc3RydWN0IG52X2RtYV92MCBiYXNlOwo+Pj4gQEAgLTI0Myw3ICsyNDMsNyBAQCBudjUwX3du
+ZHdfYXRvbWljX2NoZWNrX2FjcXVpcmUoc3RydWN0IG52NTBfd25kdyAKPj4+ICp3bmR3LCBib29s
+IG1vZGVzZXQsCj4+PiDCoMKgwqDCoMKgwqDCoMKgIGlmIChhc3l3LT5zdGF0ZS5mYiAhPSBhcm13
+LT5zdGF0ZS5mYiB8fCAhYXJtdy0+dmlzaWJsZSB8fCAKPj4+IG1vZGVzZXQpIHsKPj4+IMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGFzeXctPmltYWdlLncgPSBmYi0+YmFzZS53aWR0
+aDsKPj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGFzeXctPmltYWdlLmggPSBm
+Yi0+YmFzZS5oZWlnaHQ7Cj4+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBhc3l3LT5p
+bWFnZS5raW5kID0gZmItPm52Ym8tPmtpbmQ7Cj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCBhc3l3LT5pbWFnZS5raW5kID0gZmItPmtpbmQ7Cj4+Pgo+Pj4gwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgcmV0ID0gbnY1MF93bmR3X2F0b21pY19jaGVja19hY3F1aXJlX3Jn
+Yihhc3l3KTsKPj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIChyZXQpIHsK
+Pj4+IEBAIC0yNTUsOSArMjU1LDkgQEAgbnY1MF93bmR3X2F0b21pY19jaGVja19hY3F1aXJlKHN0
+cnVjdCBudjUwX3duZHcgCj4+PiAqd25kdywgYm9vbCBtb2Rlc2V0LAo+Pj4gwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKGFzeXctPmltYWdlLmtpbmQpIHsKPj4+IMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBhc3l3LT5pbWFnZS5sYXlv
+dXQgPSAwOwo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgIGlmIChkcm0tPmNsaWVudC5kZXZpY2UuaW5mby5jaGlwc2V0ID49IDB4YzApCj4+PiAtwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IGFzeXctPmltYWdlLmJsb2NraCA9IGZiLT5udmJvLT5tb2RlIAo+Pj4gPj4gNDsKPj4+ICvCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+YXN5dy0+aW1hZ2UuYmxvY2toID0gZmItPnRpbGVfbW9kZSA+PiA0Owo+Pj4gwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGVsc2UKPj4+IC3CoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYXN5dy0+
+aW1hZ2UuYmxvY2toID0gZmItPm52Ym8tPm1vZGU7Cj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGFzeXctPmltYWdlLmJsb2Nr
+aCA9IGZiLT50aWxlX21vZGU7Cj4+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgYXN5dy0+aW1hZ2UuYmxvY2tzWzBdID0gZmItPmJhc2UucGl0Y2hlc1sw
+XSAKPj4+IC8gNjQ7Cj4+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgYXN5dy0+aW1hZ2UucGl0Y2hbMF0gPSAwOwo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgfSBlbHNlIHsKPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
+bm91dmVhdS9ub3V2ZWF1X2Rpc3BsYXkuYyAKPj4+IGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUv
+bm91dmVhdV9kaXNwbGF5LmMKPj4+IGluZGV4IGYxNTA5MzkyZDdiNy4uMzUxYjU4NDEwZTFhIDEw
+MDY0NAo+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9kaXNwbGF5LmMK
+Pj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZGlzcGxheS5jCj4+PiBA
+QCAtMjI0LDYgKzIyNCw1MCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9mcmFtZWJ1ZmZlcl9m
+dW5jcyAKPj4+IG5vdXZlYXVfZnJhbWVidWZmZXJfZnVuY3MgPSB7Cj4+PiDCoMKgwqDCoMKgwqDC
+oMKgIC5jcmVhdGVfaGFuZGxlID0gbm91dmVhdV91c2VyX2ZyYW1lYnVmZmVyX2NyZWF0ZV9oYW5k
+bGUsCj4+PiDCoCB9Owo+Pj4KPj4+ICtzdGF0aWMgaW50Cj4+PiArbm91dmVhdV9kZWNvZGVfbW9k
+KHN0cnVjdCBub3V2ZWF1X2RybSAqZHJtLAo+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgdWludDY0X3QgbW9kaWZpZXIsCj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCB1aW50MzJfdCAqdGlsZV9tb2RlLAo+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgdWludDhfdCAqa2luZCkKPj4+ICt7Cj4+PiArwqDCoMKgwqDCoMKgIHN0
+cnVjdCBub3V2ZWF1X2Rpc3BsYXkgKmRpc3AgPSBub3V2ZWF1X2Rpc3BsYXkoZHJtLT5kZXYpOwo+
+Pj4gK8KgwqDCoMKgwqDCoCBpbnQgbW9kOwo+Pj4gKwo+Pj4gK8KgwqDCoMKgwqDCoCBCVUdfT04o
+IXRpbGVfbW9kZSB8fCAha2luZCk7Cj4+PiArCj4+PiArwqDCoMKgwqDCoMKgIGlmIChkcm0tPmNs
+aWVudC5kZXZpY2UuaW5mby5jaGlwc2V0IDwgMHg1MCkgewo+Pgo+PiBOb3QgYSBmdWxsIHJldmll
+dywgYnV0IHlvdSB3YW50IHRvIGdvIG9mZiB0aGUgZmFtaWx5IChjaGlwX2NsYXNzIGlpcmM/Cj4+
+IHNvbWV0aGluZyBsaWtlIHRoYXQsIHNob3VsZCBiZSBvYnZpb3VzKS4gU2FkbHkgMHg2Ny8weDY4
+IGFyZSBoaWdoZXIKPj4gdGhhbiAweDUwIG51bWVyaWNhbGx5LCBidXQgYXJlIGxvZ2ljYWxseSBw
+YXJ0IG9mIHRoZSBudjR4IGdlbmVyYXRpb24uCj4gCj4gR29vZCBjYXRjaC7CoCBJJ2xsIGdldCB0
+aGlzIGZpeGVkIGFuZCBzZW5kIG91dCBhbiB1cGRhdGVkIHBhdGNoc2V0LgoKSSBmaXhlZCB0aGlz
+IG9uZSBpbnN0YW5jZSBpbiB0aGUgdjIgc2VyaWVzLCBhbmQgSSBkaWRuJ3Qgc2VlIGFueSBvdGhl
+ciAKcG90ZW50aWFsbHkgZGFuZ2Vyb3VzIHVzZXMgb2YgY2hpcHNldCwgc28gSSBsZWZ0IHRoZSBv
+dGhlcnMgYXMtaXMsIGFzIAp0aGV5IHNlZW1lZCB0byBiZXR0ZXIgbWF0Y2ggc3Vycm91bmRpbmcg
+Y29kZSBvciBleGlzdGluZyBjaGVja3MgdXNlZCBmb3IgCmEgZ2l2ZW4gYml0IG9mIGZ1bmN0aW9u
+YWxpdHkuCgo+IFRoYW5rcywKPiAtSmFtZXMKPiAKPj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIHJldHVybiAtRUlOVkFMOwo+Pj4gK8KgwqDCoMKgwqDCoCB9Cj4+PiArCj4+PiArwqDC
+oMKgwqDCoMKgIEJVR19PTighZGlzcC0+Zm9ybWF0X21vZGlmaWVycyk7Cj4+PiArCj4+PiArwqDC
+oMKgwqDCoMKgIGZvciAobW9kID0gMDsKPj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIChkaXNw
+LT5mb3JtYXRfbW9kaWZpZXJzW21vZF0gIT0gRFJNX0ZPUk1BVF9NT0RfSU5WQUxJRCkgJiYKPj4+
+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIChkaXNwLT5mb3JtYXRfbW9kaWZpZXJzW21vZF0gIT0g
+bW9kaWZpZXIpOwo+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgbW9kKyspOwo+Pj4gKwo+Pj4g
+K8KgwqDCoMKgwqDCoCBpZiAoZGlzcC0+Zm9ybWF0X21vZGlmaWVyc1ttb2RdID09IERSTV9GT1JN
+QVRfTU9EX0lOVkFMSUQpCj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4g
+LUVJTlZBTDsKPj4+ICsKPj4+ICvCoMKgwqDCoMKgwqAgaWYgKG1vZGlmaWVyID09IERSTV9GT1JN
+QVRfTU9EX0xJTkVBUikgewo+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLyogdGls
+ZV9tb2RlIHdpbGwgbm90IGJlIHVzZWQgaW4gdGhpcyBjYXNlICovCj4+PiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCAqdGlsZV9tb2RlID0gMDsKPj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgICpraW5kID0gMDsKPj4+ICvCoMKgwqDCoMKgwqAgfSBlbHNlIHsKPj4+ICvCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC8qCj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgICogRXh0cmFjdCB0aGUgYmxvY2sgaGVpZ2h0IGFuZCBraW5kIGZyb20gdGhlIAo+Pj4g
+Y29ycmVzcG9uZGluZwo+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqIG1vZGlm
+aWVyIGZpZWxkcy7CoCBTZWUgZHJtX2ZvdXJjYy5oIGZvciBkZXRhaWxzLgo+Pj4gK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqLwo+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgKnRpbGVfbW9kZSA9ICh1aW50MzJfdCkobW9kaWZpZXIgJiAweEYpOwo+Pj4gK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgKmtpbmQgPSAodWludDhfdCkoKG1vZGlmaWVyID4+IDEyKSAm
+IDB4RkYpOwo+Pj4gKwo+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKGRybS0+
+Y2xpZW50LmRldmljZS5pbmZvLmNoaXBzZXQgPj0gMHhjMCkKPj4+ICvCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqdGlsZV9tb2RlIDw8PSA0Owo+Pj4gK8KgwqDC
+oMKgwqDCoCB9Cj4+PiArCj4+PiArwqDCoMKgwqDCoMKgIHJldHVybiAwOwo+Pj4gK30KPj4+ICsK
+Pj4+IMKgIHN0YXRpYyBpbmxpbmUgdWludDMyX3QKPj4+IMKgIG5vdXZlYXVfZ2V0X3dpZHRoX2lu
+X2Jsb2Nrcyh1aW50MzJfdCBzdHJpZGUpCj4+PiDCoCB7Cj4+PiBAQCAtMzAwLDYgKzM0NCw4IEBA
+IG5vdXZlYXVfZnJhbWVidWZmZXJfbmV3KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4+PiDCoMKg
+wqDCoMKgwqDCoMKgIHN0cnVjdCBub3V2ZWF1X2ZyYW1lYnVmZmVyICpmYjsKPj4+IMKgwqDCoMKg
+wqDCoMKgwqAgY29uc3Qgc3RydWN0IGRybV9mb3JtYXRfaW5mbyAqaW5mbzsKPj4+IMKgwqDCoMKg
+wqDCoMKgwqAgdW5zaWduZWQgaW50IHdpZHRoLCBoZWlnaHQsIGk7Cj4+PiArwqDCoMKgwqDCoMKg
+IHVpbnQzMl90IHRpbGVfbW9kZTsKPj4+ICvCoMKgwqDCoMKgwqAgdWludDhfdCBraW5kOwo+Pj4g
+wqDCoMKgwqDCoMKgwqDCoCBpbnQgcmV0Owo+Pj4KPj4+IMKgwqDCoMKgwqDCoMKgwqDCoCAvKiBZ
+VVYgb3ZlcmxheXMgaGF2ZSBzcGVjaWFsIHJlcXVpcmVtZW50cyBwcmUtTlY1MCAqLwo+Pj4gQEAg
+LTMyMiw2ICszNjgsMTggQEAgbm91dmVhdV9mcmFtZWJ1ZmZlcl9uZXcoc3RydWN0IGRybV9kZXZp
+Y2UgKmRldiwKPj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiAtRUlO
+VkFMOwo+Pj4gwqDCoMKgwqDCoMKgwqDCoCB9Cj4+Pgo+Pj4gK8KgwqDCoMKgwqDCoCBpZiAobW9k
+ZV9jbWQtPmZsYWdzICYgRFJNX01PREVfRkJfTU9ESUZJRVJTKSB7Cj4+PiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCBpZiAobm91dmVhdV9kZWNvZGVfbW9kKGRybSwgbW9kZV9jbWQtPm1v
+ZGlmaWVyWzBdLCAKPj4+ICZ0aWxlX21vZGUsCj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJmtpbmQp
+KSB7Cj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgRFJN
+X0RFQlVHX0tNUygiVW5zdXBwb3J0ZWQgbW9kaWZpZXI6IDB4JWxseFxuIiwKPj4+ICvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgbW9kZV9jbWQtPm1vZGlmaWVyWzBdKTsKPj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gLUVJTlZBTDsKPj4+ICvCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgIH0KPj4+ICvCoMKgwqDCoMKgwqAgfSBlbHNlIHsKPj4+ICvCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHRpbGVfbW9kZSA9IG52Ym8tPm1vZGU7Cj4+PiArwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBraW5kID0gbnZiby0+a2luZDsKPj4+ICvCoMKgwqDC
+oMKgwqAgfQo+Pj4gKwo+Pj4gwqDCoMKgwqDCoMKgwqDCoCBpbmZvID0gZHJtX2dldF9mb3JtYXRf
+aW5mbyhkZXYsIG1vZGVfY21kKTsKPj4+Cj4+PiDCoMKgwqDCoMKgwqDCoMKgIGZvciAoaSA9IDA7
+IGkgPCBpbmZvLT5udW1fcGxhbmVzOyBpKyspIHsKPj4+IEBAIC0zMzIsMTEgKzM5MCwxMSBAQCBu
+b3V2ZWF1X2ZyYW1lYnVmZmVyX25ldyhzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+Pj4gwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG1vZGVfY21kLT5o
+ZWlnaHQsCj4+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgaSk7Cj4+Pgo+Pj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKG52Ym8t
+PmtpbmQpIHsKPj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIChraW5kKSB7Cj4+
+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0ID0g
+bm91dmVhdV9jaGVja19ibF9zaXplKGRybSwgbnZibywKPj4+ICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCj4+PiBtb2RlX2NtZC0+b2Zmc2V0c1tp
+XSwKPj4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgCj4+PiBtb2RlX2NtZC0+cGl0Y2hlc1tpXSwKPj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIGhlaWdodCwgbnZiby0+bW9kZSk7Cj4+PiArwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBoZWlnaHQsIHRpbGVfbW9kZSk7Cj4+
+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKHJl
+dCkKPj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgcmV0dXJuIHJldDsKPj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIH0gZWxzZSB7Cj4+PiBAQCAtMzUyLDYgKzQxMCw4IEBAIG5vdXZlYXVfZnJhbWVidWZm
+ZXJfbmV3KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4+Pgo+Pj4gwqDCoMKgwqDCoMKgwqDCoCBk
+cm1faGVscGVyX21vZGVfZmlsbF9mYl9zdHJ1Y3QoZGV2LCAmZmItPmJhc2UsIG1vZGVfY21kKTsK
+Pj4+IMKgwqDCoMKgwqDCoMKgwqAgZmItPm52Ym8gPSBudmJvOwo+Pj4gK8KgwqDCoMKgwqDCoCBm
+Yi0+dGlsZV9tb2RlID0gdGlsZV9tb2RlOwo+Pj4gK8KgwqDCoMKgwqDCoCBmYi0+a2luZCA9IGtp
+bmQ7Cj4+Pgo+Pj4gwqDCoMKgwqDCoMKgwqDCoCByZXQgPSBkcm1fZnJhbWVidWZmZXJfaW5pdChk
+ZXYsICZmYi0+YmFzZSwgCj4+PiAmbm91dmVhdV9mcmFtZWJ1ZmZlcl9mdW5jcyk7Cj4+PiDCoMKg
+wqDCoMKgwqDCoMKgIGlmIChyZXQpCj4+PiBAQCAtNjI1LDYgKzY4NSw3IEBAIG5vdXZlYXVfZGlz
+cGxheV9jcmVhdGUoc3RydWN0IGRybV9kZXZpY2UgKmRldikKPj4+Cj4+PiDCoMKgwqDCoMKgwqDC
+oMKgIGRldi0+bW9kZV9jb25maWcucHJlZmVycmVkX2RlcHRoID0gMjQ7Cj4+PiDCoMKgwqDCoMKg
+wqDCoMKgIGRldi0+bW9kZV9jb25maWcucHJlZmVyX3NoYWRvdyA9IDE7Cj4+PiArwqDCoMKgwqDC
+oMKgIGRldi0+bW9kZV9jb25maWcuYWxsb3dfZmJfbW9kaWZpZXJzID0gdHJ1ZTsKPj4+Cj4+PiDC
+oMKgwqDCoMKgwqDCoMKgIGlmIChkcm0tPmNsaWVudC5kZXZpY2UuaW5mby5jaGlwc2V0IDwgMHgx
+MSkKPj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGRldi0+bW9kZV9jb25maWcu
+YXN5bmNfcGFnZV9mbGlwID0gZmFsc2U7Cj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L25vdXZlYXUvbm91dmVhdV9kaXNwbGF5LmggCj4+PiBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1
+L25vdXZlYXVfZGlzcGxheS5oCj4+PiBpbmRleCBjNTQ2ODJmMDBiMDEuLjBkYWQ1N2IyMTk4MyAx
+MDA2NDQKPj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZGlzcGxheS5o
+Cj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2Rpc3BsYXkuaAo+Pj4g
+QEAgLTE1LDYgKzE1LDggQEAgc3RydWN0IG5vdXZlYXVfZnJhbWVidWZmZXIgewo+Pj4gwqDCoMKg
+wqDCoMKgwqDCoCB1MzIgcl9oYW5kbGU7Cj4+PiDCoMKgwqDCoMKgwqDCoMKgIHUzMiByX2Zvcm1h
+dDsKPj4+IMKgwqDCoMKgwqDCoMKgwqAgdTMyIHJfcGl0Y2g7Cj4+PiArwqDCoMKgwqDCoMKgIHUz
+MiB0aWxlX21vZGU7Cj4+PiArwqDCoMKgwqDCoMKgIHU4IGtpbmQ7Cj4+PiDCoMKgwqDCoMKgwqDC
+oMKgIHN0cnVjdCBudmlmX29iamVjdCBoX2Jhc2VbNF07Cj4+PiDCoMKgwqDCoMKgwqDCoMKgIHN0
+cnVjdCBudmlmX29iamVjdCBoX2NvcmU7Cj4+PiDCoCB9Owo+Pj4gLS0gCj4+PiAyLjE3LjEKPj4+
+Cj4+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+Pj4g
+Tm91dmVhdSBtYWlsaW5nIGxpc3QKPj4+IE5vdXZlYXVAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4+
+PiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL25vdXZlYXUK
+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IE5vdXZl
+YXUgbWFpbGluZyBsaXN0Cj4gTm91dmVhdUBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczov
+L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL25vdXZlYXUKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
