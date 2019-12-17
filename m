@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEAA8122F55
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 15:52:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EED28122F62
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 15:53:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13E916EA0F;
-	Tue, 17 Dec 2019 14:52:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF5036EA24;
+	Tue, 17 Dec 2019 14:52:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5903E6EA0B
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 14:52:41 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89EEC6EA05
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 14:52:42 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: andrzej.p) with ESMTPSA id 00C042927E3
+ (Authenticated sender: andrzej.p) with ESMTPSA id 78001292871
 From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCHv5 20/34] drm/komeda: Move helper invocation to after size
- checks
-Date: Tue, 17 Dec 2019 15:50:06 +0100
-Message-Id: <20191217145020.14645-21-andrzej.p@collabora.com>
+Subject: [PATCHv5 21/34] drm/komeda: Use helper for common tasks
+Date: Tue, 17 Dec 2019 15:50:07 +0100
+Message-Id: <20191217145020.14645-22-andrzej.p@collabora.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191217145020.14645-1-andrzej.p@collabora.com>
 References: <20191213173350.GJ624164@phenom.ffwll.local>
@@ -48,45 +48,38 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Between the old and new place nothing depends on data retrieved with the
-helper, so it is safe to move its invocation.
-The err_cleanup case is changed accordingly.
+The replaced fragment is 1:1 with the helper code.
 
 Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 ---
- drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ .../gpu/drm/arm/display/komeda/komeda_framebuffer.c | 13 +++----------
+ 1 file changed, 3 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c b/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
-index 42ccd4647919..c2b29d4e6fbb 100644
+index c2b29d4e6fbb..26d1a3cfb587 100644
 --- a/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
 +++ b/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
-@@ -154,7 +154,6 @@ komeda_fb_create(struct drm_device *dev, struct drm_file *file,
- 	if (ret < 0)
- 		goto err_free;
- 
--	drm_helper_mode_fill_fb_struct(dev, &kfb->base, mode_cmd);
- 	info = drm_get_format_info(dev, mode_cmd);
- 
- 	if (mode_cmd->modifier[0]) {
-@@ -185,6 +184,8 @@ komeda_fb_create(struct drm_device *dev, struct drm_file *file,
+@@ -184,17 +184,10 @@ komeda_fb_create(struct drm_device *dev, struct drm_file *file,
  			goto err_cleanup;
  		}
  
-+	drm_helper_mode_fill_fb_struct(dev, &kfb->base, mode_cmd);
-+
- 	for (i = 0; i < info->num_planes; ++i)
- 		kfb->base.obj[i] = objs[i];
+-	drm_helper_mode_fill_fb_struct(dev, &kfb->base, mode_cmd);
+-
+-	for (i = 0; i < info->num_planes; ++i)
+-		kfb->base.obj[i] = objs[i];
+-
+-	ret = drm_framebuffer_init(dev, &kfb->base, &komeda_fb_funcs);
+-	if (ret < 0) {
+-		DRM_DEBUG_KMS("failed to initialize fb\n");
+-
++	ret = drm_gem_fb_init_with_funcs(&kfb->base, dev, mode_cmd, objs,
++					 info->num_planes, &komeda_fb_funcs);
++	if (ret < 0)
+ 		goto err_cleanup;
+-	}
  
-@@ -200,7 +201,7 @@ komeda_fb_create(struct drm_device *dev, struct drm_file *file,
- 	return &kfb->base;
+ 	kfb->is_va = mdev->iommu ? true : false;
  
- err_cleanup:
--	for (i = 0; i < kfb->base.format->num_planes; i++)
-+	for (i = 0; i < info->num_planes; i++)
- 		drm_gem_object_put_unlocked(objs[i]);
- err_free:
- 	kfree(kfb);
 -- 
 2.17.1
 
