@@ -1,34 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90B341235BA
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 20:31:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C567D1235D5
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 20:39:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B896D89D86;
-	Tue, 17 Dec 2019 19:31:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E0836E0F8;
+	Tue, 17 Dec 2019 19:39:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C04F89D86
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 19:31:49 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D6176E0EA;
+ Tue, 17 Dec 2019 19:39:17 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 17 Dec 2019 11:31:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,326,1571727600"; d="scan'208";a="415575616"
-Received: from scpatton-mobl2.amr.corp.intel.com (HELO
- josouza-MOBL.amr.corp.intel.com) ([10.252.135.96])
- by fmsmga005.fm.intel.com with ESMTP; 17 Dec 2019 11:31:47 -0800
-From: =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 libdrm] intel: sync i915_pciids.h with kernel
-Date: Tue, 17 Dec 2019 11:31:40 -0800
-Message-Id: <20191217193140.188012-1-jose.souza@intel.com>
-X-Mailer: git-send-email 2.24.1
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 17 Dec 2019 11:39:16 -0800
+X-IronPort-AV: E=Sophos;i="5.69,326,1571727600"; d="scan'208";a="227608577"
+Received: from ldmartin-desk1.jf.intel.com ([10.7.200.159])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 17 Dec 2019 11:39:16 -0800
+Date: Tue, 17 Dec 2019 11:39:05 -0800
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/display: cleanup intel_bw_state on
+ i915 module removal
+Message-ID: <20191217193905.6vyypeiwkt3omhvr@ldmartin-desk1.jf.intel.com>
+X-Patchwork-Hint: ignore
+References: <20191209143921.9240-1-pankaj.laxminarayan.bharadiya@intel.com>
+ <20191211055739.uxe46chnhkc2byul@ldmartin-desk1>
+ <20191211064041.GA3339@plaxmina-desktop.iind.intel.com>
+ <20191212002250.357dhphi3clst7qy@ldmartin-desk1>
+ <20191212173717.GG85422@mdroper-desk1.amr.corp.intel.com>
+ <20191212203449.e5ztqbkk7ljj2qqa@ldmartin-desk1>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20191212203449.e5ztqbkk7ljj2qqa@ldmartin-desk1>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,62 +50,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- James Ausmus <james.ausmus@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
+ David Airlie <airlied@linux.ie>, "Bharadiya,
+ Pankaj" <pankaj.laxminarayan.bharadiya@intel.com>,
+ Stuart Summers <stuart.summers@intel.com>, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Q2hhbmdlczoKNjUxY2M4MzVkNWY2ICgiZHJtL2k5MTU6IEFkZCBuZXcgRUhML0pTTCBQQ0kgaWRz
-IikKYjZhODc4MWE0NDdjICgiZHJtL2k5MTUvY21sOiBSZW1vdmUgdW5zdXBwb3J0IFBDSSBJRCIp
-Cjg3MTdjNmI3NDE0ZiAoImRybS9pOTE1L2NtbDogU2VwYXJhdGUgVSBzZXJpZXMgcGNpIGlkIGZy
-b20gb3JpZ2lhbmwgbGlzdC4iKQoKdjI6IGFkZGVkIHRoZSBsYXRlc3QgQ01MIGNoYW5nZXMKCkNj
-OiBKYW1lcyBBdXNtdXMgPGphbWVzLmF1c211c0BpbnRlbC5jb20+CkNjOiBNYXR0IFJvcGVyIDxt
-YXR0aGV3LmQucm9wZXJAaW50ZWwuY29tPgpDYzogTHVjYXMgRGUgTWFyY2hpIDxsdWNhcy5kZW1h
-cmNoaUBpbnRlbC5jb20+ClJldmlld2VkLWJ5OiBNYXR0IFJvcGVyIDxtYXR0aGV3LmQucm9wZXJA
-aW50ZWwuY29tPiAodjEgRUhML0pTTCBjaGFuZ2VzKQpTaWduZWQtb2ZmLWJ5OiBKb3PDqSBSb2Jl
-cnRvIGRlIFNvdXphIDxqb3NlLnNvdXphQGludGVsLmNvbT4KLS0tCiBpbnRlbC9pOTE1X3BjaWlk
-cy5oIHwgMzEgKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLQogMSBmaWxlIGNoYW5nZWQs
-IDE4IGluc2VydGlvbnMoKyksIDEzIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2ludGVsL2k5
-MTVfcGNpaWRzLmggYi9pbnRlbC9pOTE1X3BjaWlkcy5oCmluZGV4IGIxZjY2YjExLi4xZDJjMTIy
-MSAxMDA2NDQKLS0tIGEvaW50ZWwvaTkxNV9wY2lpZHMuaAorKysgYi9pbnRlbC9pOTE1X3BjaWlk
-cy5oCkBAIC00NDYsMjMgKzQ0NiwxOCBAQAogCiAvKiBDTUwgR1QxICovCiAjZGVmaW5lIElOVEVM
-X0NNTF9HVDFfSURTKGluZm8pCVwKLQlJTlRFTF9WR0FfREVWSUNFKDB4OUIyMSwgaW5mbyksIFwK
-LQlJTlRFTF9WR0FfREVWSUNFKDB4OUJBQSwgaW5mbyksIFwKLQlJTlRFTF9WR0FfREVWSUNFKDB4
-OUJBQiwgaW5mbyksIFwKLQlJTlRFTF9WR0FfREVWSUNFKDB4OUJBQywgaW5mbyksIFwKLQlJTlRF
-TF9WR0FfREVWSUNFKDB4OUJBMCwgaW5mbyksIFwKIAlJTlRFTF9WR0FfREVWSUNFKDB4OUJBNSwg
-aW5mbyksIFwKIAlJTlRFTF9WR0FfREVWSUNFKDB4OUJBOCwgaW5mbyksIFwKIAlJTlRFTF9WR0Ff
-REVWSUNFKDB4OUJBNCwgaW5mbyksIFwKIAlJTlRFTF9WR0FfREVWSUNFKDB4OUJBMiwgaW5mbykK
-IAorI2RlZmluZSBJTlRFTF9DTUxfVV9HVDFfSURTKGluZm8pIFwKKwlJTlRFTF9WR0FfREVWSUNF
-KDB4OUIyMSwgaW5mbyksIFwKKwlJTlRFTF9WR0FfREVWSUNFKDB4OUJBQSwgaW5mbyksIFwKKwlJ
-TlRFTF9WR0FfREVWSUNFKDB4OUJBQywgaW5mbykKKwogLyogQ01MIEdUMiAqLwogI2RlZmluZSBJ
-TlRFTF9DTUxfR1QyX0lEUyhpbmZvKQlcCi0JSU5URUxfVkdBX0RFVklDRSgweDlCNDEsIGluZm8p
-LCBcCi0JSU5URUxfVkdBX0RFVklDRSgweDlCQ0EsIGluZm8pLCBcCi0JSU5URUxfVkdBX0RFVklD
-RSgweDlCQ0IsIGluZm8pLCBcCi0JSU5URUxfVkdBX0RFVklDRSgweDlCQ0MsIGluZm8pLCBcCi0J
-SU5URUxfVkdBX0RFVklDRSgweDlCQzAsIGluZm8pLCBcCiAJSU5URUxfVkdBX0RFVklDRSgweDlC
-QzUsIGluZm8pLCBcCiAJSU5URUxfVkdBX0RFVklDRSgweDlCQzgsIGluZm8pLCBcCiAJSU5URUxf
-VkdBX0RFVklDRSgweDlCQzQsIGluZm8pLCBcCkBAIC00NzEsNiArNDY2LDExIEBACiAJSU5URUxf
-VkdBX0RFVklDRSgweDlCRTYsIGluZm8pLCBcCiAJSU5URUxfVkdBX0RFVklDRSgweDlCRjYsIGlu
-Zm8pCiAKKyNkZWZpbmUgSU5URUxfQ01MX1VfR1QyX0lEUyhpbmZvKSBcCisJSU5URUxfVkdBX0RF
-VklDRSgweDlCNDEsIGluZm8pLCBcCisJSU5URUxfVkdBX0RFVklDRSgweDlCQ0EsIGluZm8pLCBc
-CisJSU5URUxfVkdBX0RFVklDRSgweDlCQ0MsIGluZm8pCisKICNkZWZpbmUgSU5URUxfS0JMX0lE
-UyhpbmZvKSBcCiAJSU5URUxfS0JMX0dUMV9JRFMoaW5mbyksIFwKIAlJTlRFTF9LQkxfR1QyX0lE
-UyhpbmZvKSwgXApAQCAtNTM2LDcgKzUzNiw5IEBACiAJSU5URUxfV0hMX1VfR1QzX0lEUyhpbmZv
-KSwgXAogCUlOVEVMX0FNTF9DRkxfR1QyX0lEUyhpbmZvKSwgXAogCUlOVEVMX0NNTF9HVDFfSURT
-KGluZm8pLCBcCi0JSU5URUxfQ01MX0dUMl9JRFMoaW5mbykKKwlJTlRFTF9DTUxfR1QyX0lEUyhp
-bmZvKSwgXAorCUlOVEVMX0NNTF9VX0dUMV9JRFMoaW5mbyksIFwKKwlJTlRFTF9DTUxfVV9HVDJf
-SURTKGluZm8pCiAKIC8qIENOTCAqLwogI2RlZmluZSBJTlRFTF9DTkxfUE9SVF9GX0lEUyhpbmZv
-KSBcCkBAIC01NzksMTIgKzU4MSwxNSBAQAogCUlOVEVMX1ZHQV9ERVZJQ0UoMHg4QTUxLCBpbmZv
-KSwgXAogCUlOVEVMX1ZHQV9ERVZJQ0UoMHg4QTVELCBpbmZvKQogCi0vKiBFSEwgKi8KKy8qIEVI
-TC9KU0wgKi8KICNkZWZpbmUgSU5URUxfRUhMX0lEUyhpbmZvKSBcCiAJSU5URUxfVkdBX0RFVklD
-RSgweDQ1MDAsIGluZm8pLAlcCiAJSU5URUxfVkdBX0RFVklDRSgweDQ1NzEsIGluZm8pLCBcCiAJ
-SU5URUxfVkdBX0RFVklDRSgweDQ1NTEsIGluZm8pLCBcCi0JSU5URUxfVkdBX0RFVklDRSgweDQ1
-NDEsIGluZm8pCisJSU5URUxfVkdBX0RFVklDRSgweDQ1NDEsIGluZm8pLCBcCisJSU5URUxfVkdB
-X0RFVklDRSgweDRFNzEsIGluZm8pLCBcCisJSU5URUxfVkdBX0RFVklDRSgweDRFNjEsIGluZm8p
-LCBcCisJSU5URUxfVkdBX0RFVklDRSgweDRFNTEsIGluZm8pCiAKIC8qIFRHTCAqLwogI2RlZmlu
-ZSBJTlRFTF9UR0xfMTJfSURTKGluZm8pIFwKLS0gCjIuMjQuMQoKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Thu, Dec 12, 2019 at 12:34:49PM -0800, Lucas De Marchi wrote:
+>On Thu, Dec 12, 2019 at 09:37:17AM -0800, Matt Roper wrote:
+>>On Wed, Dec 11, 2019 at 04:22:50PM -0800, Lucas De Marchi wrote:
+>>>On Wed, Dec 11, 2019 at 12:10:41PM +0530, Bharadiya,Pankaj wrote:
+>>>> On Tue, Dec 10, 2019 at 09:57:39PM -0800, Lucas De Marchi wrote:
+>>>> > On Mon, Dec 09, 2019 at 08:09:02PM +0530, Pankaj Bharadiya wrote:
+>>>> > >intel_bw_state allocated memory is not getting freed even after
+>>>> > >module removal.
+>>>> > >
+>>>> > >kmemleak reported backtrace:
+>>>> > >
+>>>> > >   [<0000000079019739>] kmemdup+0x17/0x40
+>>>> > >   [<00000000d58c1b9d>] intel_bw_duplicate_state+0x1b/0x40 [i915]
+>>>> > >   [<000000007423ed0c>] drm_atomic_get_private_obj_state+0xca/0x140
+>>>> > >   [<00000000100e3533>] intel_bw_atomic_check+0x133/0x350 [i915]
+>>>> > >   [<00000000126d0e0c>] intel_atomic_check+0x1ab7/0x20d0 [i915]
+>>>> > >   [<00000000d5dfc004>] drm_atomic_check_only+0x563/0x810
+>>>> > >   [<00000000c9379611>] drm_atomic_commit+0xe/0x50
+>>>> > >   [<00000000ec82b765>] drm_atomic_helper_disable_all+0x133/0x160
+>>>> > >   [<000000003c44760c>] drm_atomic_helper_shutdown+0x65/0xc0
+>>>> > >   [<00000000414e3e5c>] i915_driver_remove+0xcb/0x130 [i915]
+>>>> > >   [<00000000f8544c2a>] i915_pci_remove+0x19/0x40 [i915]
+>>>> > >   [<000000002dcbd148>] pci_device_remove+0x36/0xb0
+>>>> > >   [<000000003c8c6b0a>] device_release_driver_internal+0xe0/0x1c0
+>>>> > >   [<00000000580e9566>] unbind_store+0xc3/0x120
+>>>> > >   [<00000000869d0df5>] kernfs_fop_write+0x104/0x190
+>>>> > >   [<000000004dc1a355>] vfs_write+0xb9/0x1d0
+>>>> >
+>>>> > what I find strange in this is that the last state was allocated by the
+>>>> > "driver remove" code path.
+>>>> >
+>>>> > >
+>>>> > >Call the drm_atomic_private_obj_fini(), which inturn calls the
+>>>> > >intel_bw_destroy_state() to make sure the intel_bw_state memory is
+>>>> > >freed properly.
+>>>> > >
+>>>> > >Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
+>>>> > >---
+>>>> > >drivers/gpu/drm/i915/display/intel_bw.c      | 5 +++++
+>>>> > >drivers/gpu/drm/i915/display/intel_bw.h      | 1 +
+>>>> > >drivers/gpu/drm/i915/display/intel_display.c | 2 ++
+>>>> > >3 files changed, 8 insertions(+)
+>>>> > >
+>>>> > >diff --git a/drivers/gpu/drm/i915/display/intel_bw.c b/drivers/gpu/drm/i915/display/intel_bw.c
+>>>> > >index dcb66a33be9b..b228671d5a5d 100644
+>>>> > >--- a/drivers/gpu/drm/i915/display/intel_bw.c
+>>>> > >+++ b/drivers/gpu/drm/i915/display/intel_bw.c
+>>>> > >@@ -486,3 +486,8 @@ int intel_bw_init(struct drm_i915_private *dev_priv)
+>>>> > >
+>>>> > >	return 0;
+>>>> > >}
+>>>> > >+
+>>>> > >+void intel_bw_cleanup(struct drm_i915_private *dev_priv)
+>>>> > >+{
+>>>> > >+	drm_atomic_private_obj_fini(&dev_priv->bw_obj);
+>>>> > >+}
+>>>> > >diff --git a/drivers/gpu/drm/i915/display/intel_bw.h b/drivers/gpu/drm/i915/display/intel_bw.h
+>>>> > >index 9db10af012f4..20b9ad241802 100644
+>>>> > >--- a/drivers/gpu/drm/i915/display/intel_bw.h
+>>>> > >+++ b/drivers/gpu/drm/i915/display/intel_bw.h
+>>>> > >@@ -25,6 +25,7 @@ struct intel_bw_state {
+>>>> > >
+>>>> > >void intel_bw_init_hw(struct drm_i915_private *dev_priv);
+>>>> > >int intel_bw_init(struct drm_i915_private *dev_priv);
+>>>> > >+void intel_bw_cleanup(struct drm_i915_private *dev_priv);
+>>>> > >int intel_bw_atomic_check(struct intel_atomic_state *state);
+>>>> > >void intel_bw_crtc_update(struct intel_bw_state *bw_state,
+>>>> > >			  const struct intel_crtc_state *crtc_state);
+>>>> > >diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+>>>> > >index 3190aa27ffdc..756eb90b1bb1 100644
+>>>> > >--- a/drivers/gpu/drm/i915/display/intel_display.c
+>>>> > >+++ b/drivers/gpu/drm/i915/display/intel_display.c
+>>>> > >@@ -17912,6 +17912,8 @@ void intel_modeset_driver_remove(struct drm_i915_private *i915)
+>>>> > >
+>>>> > >	intel_gmbus_teardown(i915);
+>>>> > >
+>>>> > >+	intel_bw_cleanup(i915);
+>>>> >
+>>>> > This doesn't seem to match the (reverse) order of
+>>>> > intel_modeset_init()... but it's actually the gmbus_teardown() that is
+>>>> > out of place. Did you check if it's not a wrong shutdown ordering?
+>>>> >
+>>>>
+>>>> In intel_modeset_init(), intel_gmbus_setup() happens after
+>>>> intel_bw_init().
+>>>> I think the patch follows the reverse ordering properly.
+>>>> Am I missing anything?
+>>>
+>>>I said it seems that it's the gmbus_teardown() that is out of place.
+>>>Have you seen my comment above? Why are we duplicating the bw_state on
+>>>the module-remove code path?
+>>
+>>I think that part is legitimate.  Part of the module remove sequence
+>>does an atomic commit to turn everything off.  During atomic
+>>transactions, we create duplicates of all modesetting state objects can
+>>be modified; if/when the transaction succeeds, those duplicates are
+>>swapped into the actual driver state and the old objects are destroyed.
+>>Thus in cases like this where we forget to destroy a private object
+>>state, that leaked state structure will be the one allocated during the
+>>very last atomic transaction that happened (i.e., on the driver teardown
+>>codepath).
+>
+>humn, that makes sense. The new duplicate state will replace the
+>previous one and hence why we see it in the backtrace, rather than one
+>allocated previously.
+>
+>thanks
+>Lucas De Marchi
+
+and...
+
+
+Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+
+Lucas De Marchi
+
+>
+>>
+>>
+>>Matt
+>>
+>>>
+>>>Lucas De Marchi
+>>>
+>>>>
+>>>> Thanks,
+>>>> Pankaj
+>>>>
+>>>> > thanks
+>>>> > Lucas De Marchi
+>>>> >
+>>>> > >+
+>>>> > >	destroy_workqueue(i915->flip_wq);
+>>>> > >	destroy_workqueue(i915->modeset_wq);
+>>>> > >
+>>>> > >--
+>>>> > >2.23.0
+>>>> > >
+>>>> > >_______________________________________________
+>>>> > >Intel-gfx mailing list
+>>>> > >Intel-gfx@lists.freedesktop.org
+>>>> > >https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+>>
+>>-- 
+>>Matt Roper
+>>Graphics Software Engineer
+>>VTT-OSGC Platform Enablement
+>>Intel Corporation
+>>(916) 356-2795
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
