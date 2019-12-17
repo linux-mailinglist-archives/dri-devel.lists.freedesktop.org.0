@@ -2,25 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33CB3122F58
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 15:53:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC208122F5E
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 15:53:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C1E16EA0D;
-	Tue, 17 Dec 2019 14:52:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92B106EA14;
+	Tue, 17 Dec 2019 14:52:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 853FB6EA05
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 14:52:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 997276EA05
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 14:52:46 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: andrzej.p) with ESMTPSA id 41F9B292884
+ (Authenticated sender: andrzej.p) with ESMTPSA id 91A2E292890
 From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCHv5 23/34] drm/komeda: Use special helper for non-afbc size
- checks
-Date: Tue, 17 Dec 2019 15:50:09 +0100
-Message-Id: <20191217145020.14645-24-andrzej.p@collabora.com>
+Subject: [PATCHv5 24/34] drm/komeda: Factor in the invocation of special helper
+Date: Tue, 17 Dec 2019 15:50:10 +0100
+Message-Id: <20191217145020.14645-25-andrzej.p@collabora.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191217145020.14645-1-andrzej.p@collabora.com>
 References: <20191213173350.GJ624164@phenom.ffwll.local>
@@ -49,89 +48,95 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the generic helper code.
+Don't use a separate function to call the helper. The ultimate goal is
+to unify non-afbc and afbc cases as much as possible and then moving the
+helper invocation outside the if-else clause.
 
 Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 ---
- .../arm/display/komeda/komeda_framebuffer.c   | 46 +++++++++----------
- 1 file changed, 21 insertions(+), 25 deletions(-)
+ .../arm/display/komeda/komeda_framebuffer.c   | 57 +++++++------------
+ 1 file changed, 20 insertions(+), 37 deletions(-)
 
 diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c b/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
-index 9139fe5619be..d75176e24f24 100644
+index d75176e24f24..766b6944c53c 100644
 --- a/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
 +++ b/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
-@@ -88,42 +88,38 @@ komeda_fb_afbc_size_check(struct komeda_fb *kfb,
+@@ -87,41 +87,6 @@ komeda_fb_afbc_size_check(struct komeda_fb *kfb,
+ 	return 0;
  }
  
- static int
--komeda_fb_none_afbc_size_check(struct komeda_dev *mdev,
-+komeda_fb_none_afbc_size_check(struct drm_device *dev,
- 			       const struct drm_format_info *info,
- 			       struct drm_gem_object **objs,
- 			       struct drm_file *file,
- 			       const struct drm_mode_fb_cmd2 *mode_cmd)
- {
-+	struct komeda_dev *mdev = dev->dev_private;
-+	struct drm_size_check check = { 0 };
- 	struct drm_gem_object *obj;
--	u32 i, block_h;
--	u64 min_size;
-+	u32 i;
- 
- 	for (i = 0; i < info->num_planes; i++) {
- 		obj = objs[i];
- 
--		block_h = drm_format_info_block_height(info, i);
--		if ((mode_cmd->pitches[i] * block_h) % mdev->chip.bus_width) {
--			DRM_DEBUG_KMS("Pitch[%d]: 0x%x doesn't align to 0x%x\n",
--				      i, mode_cmd->pitches[i],
--				      mdev->chip.bus_width);
--			return -EINVAL;
--		}
+-static int
+-komeda_fb_none_afbc_size_check(struct drm_device *dev,
+-			       const struct drm_format_info *info,
+-			       struct drm_gem_object **objs,
+-			       struct drm_file *file,
+-			       const struct drm_mode_fb_cmd2 *mode_cmd)
+-{
+-	struct komeda_dev *mdev = dev->dev_private;
+-	struct drm_size_check check = { 0 };
+-	struct drm_gem_object *obj;
+-	u32 i;
 -
--		min_size = komeda_fb_get_pixel_addr_nofb(info,
--							 mode_cmd->modifier[0],
--							 mode_cmd->pitches,
--							 mode_cmd->offsets,
--							 obj,
--							 0, mode_cmd->height, i)
--			 - to_drm_gem_cma_obj(obj)->paddr;
--		if (obj->size < min_size) {
--			DRM_DEBUG_KMS("The fb->obj[%d] size: 0x%zx lower than the minimum requirement: 0x%llx.\n",
--				      i, obj->size, min_size);
--			return -EINVAL;
--		}
-+		check.pitch_multiplier[i] =
-+			drm_format_info_block_height(info, i);
-+
-+		check.min_size[i] =
-+			komeda_fb_get_pixel_addr_nofb(info,
-+						      mode_cmd->modifier[0],
-+						      mode_cmd->pitches,
-+						      mode_cmd->offsets,
-+						      obj,
-+						      0, mode_cmd->height, i)
-+			- to_drm_gem_cma_obj(obj)->paddr;
- 	}
- 
--	return 0;
-+	check.pitch_modulo = mdev->chip.bus_width;
-+	check.use_pitch_multiplier = true;
-+	check.use_min_size = true;
-+
-+	return drm_gem_fb_size_check2(dev, mode_cmd, &check, objs);
- }
- 
+-	for (i = 0; i < info->num_planes; i++) {
+-		obj = objs[i];
+-
+-		check.pitch_multiplier[i] =
+-			drm_format_info_block_height(info, i);
+-
+-		check.min_size[i] =
+-			komeda_fb_get_pixel_addr_nofb(info,
+-						      mode_cmd->modifier[0],
+-						      mode_cmd->pitches,
+-						      mode_cmd->offsets,
+-						      obj,
+-						      0, mode_cmd->height, i)
+-			- to_drm_gem_cma_obj(obj)->paddr;
+-	}
+-
+-	check.pitch_modulo = mdev->chip.bus_width;
+-	check.use_pitch_multiplier = true;
+-	check.use_min_size = true;
+-
+-	return drm_gem_fb_size_check2(dev, mode_cmd, &check, objs);
+-}
+-
  struct drm_framebuffer *
-@@ -172,7 +168,7 @@ komeda_fb_create(struct drm_device *dev, struct drm_file *file,
+ komeda_fb_create(struct drm_device *dev, struct drm_file *file,
+ 		 const struct drm_mode_fb_cmd2 *mode_cmd)
+@@ -163,13 +128,31 @@ komeda_fb_create(struct drm_device *dev, struct drm_file *file,
+ 		ret = komeda_fb_afbc_size_check(kfb, info, objs, file,
+ 						mode_cmd);
+ 	} else {
++		struct drm_size_check check = { 0 };
++
+ 		ret = komeda_fb_check_src_coords(kfb, 0, 0, mode_cmd->width,
+ 						 mode_cmd->height);
  		if (ret)
  			goto err_cleanup;
  
--		ret = komeda_fb_none_afbc_size_check(mdev, info, objs,
-+		ret = komeda_fb_none_afbc_size_check(dev, info, objs,
- 						     file, mode_cmd);
+-		ret = komeda_fb_none_afbc_size_check(dev, info, objs,
+-						     file, mode_cmd);
++		for (i = 0; i < num_planes; i++) {
++			check.pitch_multiplier[i] =
++				drm_format_info_block_height(info, i);
++
++			check.min_size[i] =
++				komeda_fb_get_pixel_addr_nofb(info,
++					mode_cmd->modifier[0],
++					mode_cmd->pitches,
++					mode_cmd->offsets, objs[i],
++					0, mode_cmd->height, i)
++				- to_drm_gem_cma_obj(objs[i])->paddr;
++		}
++
++		check.pitch_modulo = mdev->chip.bus_width;
++		check.use_pitch_multiplier = true;
++		check.use_min_size = true;
++
++		ret = drm_gem_fb_size_check2(dev, mode_cmd, &check, objs);
  	}
  	if (ret < 0)
+ 		goto err_cleanup;
 -- 
 2.17.1
 
