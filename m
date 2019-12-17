@@ -1,47 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB728122200
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 03:36:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AB941222B3
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 04:47:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A59DD6E92E;
-	Tue, 17 Dec 2019 02:36:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E64A6E930;
+	Tue, 17 Dec 2019 03:47:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8FF7D6E92E
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 02:36:11 +0000 (UTC)
-X-UUID: e13cdd72e4de492892361dde16a04669-20191217
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=QUrWbAhGkXEzK49AtRA3Hajj8h7XjHkta9yKbDxW5+M=; 
- b=owkCJ402T21tIn4nypVdUaUe9lYIX4U1Zgebi2n9YHLfUyLHS1RWxx1YRByXry4mqXVrNj2/KDi/NKO+fkMeJnaHO2AfC68JIxtTfnXAEgxr5uV3Wg5wQyx9mqKoaa0nzo7ICK0FkROKHUhwfBZsyqbW15YjGQhYeJ7GdD/6F5Y=;
-X-UUID: e13cdd72e4de492892361dde16a04669-20191217
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 2142914757; Tue, 17 Dec 2019 10:36:06 +0800
-Received: from mtkcas09.mediatek.inc (172.21.101.178) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Tue, 17 Dec 2019 10:35:49 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas09.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Tue, 17 Dec 2019 10:36:07 +0800
-Message-ID: <1576550165.20788.1.camel@mtksdaap41>
-Subject: Re: [PATCH] drm/mediatek: reduce the hbp and hfp for phy timing
-From: CK Hu <ck.hu@mediatek.com>
-To: Enric Balletbo Serra <eballetbo@gmail.com>, Hsin-Yi Wang
- <hsinyi@chromium.org>, Jitao Shi <jitao.shi@mediatek.com>
-Date: Tue, 17 Dec 2019 10:36:05 +0800
-In-Reply-To: <CAFqH_5209EaEzoPBHGM=GiS+v7znZR-XzvQ5L_ThQhhuGc1bXg@mail.gmail.com>
-References: <20191213095215.17068-1-jitao.shi@mediatek.com>
- <CAJMQK-iZq0SRR7Q1cyh033xDXwD+MY-utO05+KqFR=ZRuaVUDg@mail.gmail.com>
- <CAFqH_5209EaEzoPBHGM=GiS+v7znZR-XzvQ5L_ThQhhuGc1bXg@mail.gmail.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B66F6E930;
+ Tue, 17 Dec 2019 03:47:15 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 16 Dec 2019 19:47:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,324,1571727600"; d="scan'208";a="209549750"
+Received: from jhli-desk1.jf.intel.com ([10.7.198.163])
+ by orsmga008.jf.intel.com with ESMTP; 16 Dec 2019 19:47:15 -0800
+From: Juston Li <juston.li@intel.com>
+To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ ville.syrjala@linux.intel.com, daniel@ffwll.ch
+Subject: [PATCH v3] drm: Add getfb2 ioctl
+Date: Mon, 16 Dec 2019 19:46:43 -0800
+Message-Id: <20191217034642.3814-1-juston.li@intel.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,74 +41,218 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: srv_heupstream <srv_heupstream@mediatek.com>,
- David Airlie <airlied@linux.ie>, stonea168@163.com,
- cawa cheng <cawa.cheng@mediatek.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, sj.huang@mediatek.com,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Yingjoe Chen <yingjoe.chen@mediatek.com>, Eddie Huang
- =?UTF-8?Q?=28=E9=BB=83=E6=99=BA=E5=82=91=29?= <eddie.huang@mediatek.com>
+Cc: Daniel Stone <daniels@collabora.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, tutankhamen@google.com,
+ dcastagna@google.com, Juston Li <juston.li@intel.com>, markyacoub@google.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Daniel Stone <daniels@collabora.com>
 
-On Mon, 2019-12-16 at 11:30 +0100, Enric Balletbo Serra wrote:
-> Hi all,
-> 
-> Missatge de Hsin-Yi Wang <hsinyi@chromium.org> del dia dl., 16 de des.
-> 2019 a les 3:42:
-> >
-> > On Fri, Dec 13, 2019 at 9:52 AM Jitao Shi <jitao.shi@mediatek.com> wrote:
-> > >
-> > > There are some extra data transfer in dsi.
-> > > ex. LPX, hs_prepare, hs_zero, hs_exit and the sof/eof of dsi packet.
-> > > This signal will enlarge the line time. So the real frame on dsi bus
-> > > will be lower than calc by video timing.
-> > >
-> > > So dsi driver reduces the hbp and hfp to keep the line time.
-> > >
-> 
-> This patch not only reduces the hbp and hfp for phy timing, it also
-> fixes an actual issue for MT8173 boards (i.e. Acer Chromebook R 13)
-> which is that the display is not working anymore (black screen) after
-> 7a5bc4e22ecfd74dc3662342beaa909770a3b786 "drm/mediatek: change the dsi
-> phytiming calculate method". So the patch is probably missing a:
-> 
-> Fixes: 7a5bc4e22ecf ("drm/mediatek: change the dsi phytiming calculate method")
-> 
-> And would be nice to have this patch applied for 5.5
-> 
-> > > Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-> > Tested-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> 
-> If it helps, you can also add my
-> 
-> Tested-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> 
-> Thanks,
->  Enric
+getfb2 allows us to pass multiple planes and modifiers, just like addfb2
+over addfb.
 
-Applied to mediatek-drm-fixes-5.5 [1], thank you all.
+Changes since v2:
+ - add privilege checks from getfb1 since handles should only be
+   returned to master/root
 
-[1]
-https://github.com/ckhu-mediatek/linux.git-tags/commits/mediatek-drm-fixes-5.5
+Changes since v1:
+ - unused modifiers set to 0 instead of DRM_FORMAT_MOD_INVALID
+ - update ioctl number
 
-Regards,
-CK
+Signed-off-by: Daniel Stone <daniels@collabora.com>
+Signed-off-by: Juston Li <juston.li@intel.com>
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+---
+ drivers/gpu/drm/drm_crtc_internal.h |   2 +
+ drivers/gpu/drm/drm_framebuffer.c   | 122 ++++++++++++++++++++++++++++
+ drivers/gpu/drm/drm_ioctl.c         |   1 +
+ include/uapi/drm/drm.h              |   2 +
+ 4 files changed, 127 insertions(+)
 
-> 
-> > > ---
-> >
-> > Tested on mt8183 and mt8173
-> >
-> > _______________________________________________
-> > Linux-mediatek mailing list
-> > Linux-mediatek@lists.infradead.org
-> > http://lists.infradead.org/mailman/listinfo/linux-mediatek
+diff --git a/drivers/gpu/drm/drm_crtc_internal.h b/drivers/gpu/drm/drm_crtc_internal.h
+index c7d5e4c21423..16f2413403aa 100644
+--- a/drivers/gpu/drm/drm_crtc_internal.h
++++ b/drivers/gpu/drm/drm_crtc_internal.h
+@@ -216,6 +216,8 @@ int drm_mode_rmfb_ioctl(struct drm_device *dev,
+ 			void *data, struct drm_file *file_priv);
+ int drm_mode_getfb(struct drm_device *dev,
+ 		   void *data, struct drm_file *file_priv);
++int drm_mode_getfb2_ioctl(struct drm_device *dev,
++			  void *data, struct drm_file *file_priv);
+ int drm_mode_dirtyfb_ioctl(struct drm_device *dev,
+ 			   void *data, struct drm_file *file_priv);
+ 
+diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
+index 57564318ceea..57ac94ce9b9e 100644
+--- a/drivers/gpu/drm/drm_framebuffer.c
++++ b/drivers/gpu/drm/drm_framebuffer.c
+@@ -31,6 +31,7 @@
+ #include <drm/drm_file.h>
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_framebuffer.h>
++#include <drm/drm_gem.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_util.h>
+ 
+@@ -548,7 +549,128 @@ int drm_mode_getfb(struct drm_device *dev,
+ 
+ out:
+ 	drm_framebuffer_put(fb);
++	return ret;
++}
++
++/**
++ * drm_mode_getfb2 - get extended FB info
++ * @dev: drm device for the ioctl
++ * @data: data pointer for the ioctl
++ * @file_priv: drm file for the ioctl call
++ *
++ * Lookup the FB given its ID and return info about it.
++ *
++ * Called by the user via ioctl.
++ *
++ * Returns:
++ * Zero on success, negative errno on failure.
++ */
++int drm_mode_getfb2_ioctl(struct drm_device *dev,
++			  void *data, struct drm_file *file_priv)
++{
++	struct drm_mode_fb_cmd2 *r = data;
++	struct drm_framebuffer *fb;
++	unsigned int i;
++	int ret;
++
++	if (!drm_core_check_feature(dev, DRIVER_MODESET))
++		return -EINVAL;
++
++	fb = drm_framebuffer_lookup(dev, file_priv, r->fb_id);
++	if (!fb)
++		return -ENOENT;
++
++	/* For multi-plane framebuffers, we require the driver to place the
++	 * GEM objects directly in the drm_framebuffer. For single-plane
++	 * framebuffers, we can fall back to create_handle.
++	 */
++	if (!fb->obj[0] &&
++	    (fb->format->num_planes > 1 || !fb->funcs->create_handle)) {
++		ret = -ENODEV;
++		goto out;
++	}
++
++	r->height = fb->height;
++	r->width = fb->width;
++	r->pixel_format = fb->format->format;
++
++	r->flags = 0;
++	if (dev->mode_config.allow_fb_modifiers)
++		r->flags |= DRM_MODE_FB_MODIFIERS;
++
++	for (i = 0; i < ARRAY_SIZE(r->handles); i++) {
++		r->handles[i] = 0;
++		r->pitches[i] = 0;
++		r->offsets[i] = 0;
++		r->modifier[i] = 0;
++	}
++
++	for (i = 0; i < fb->format->num_planes; i++) {
++		r->pitches[i] = fb->pitches[i];
++		r->offsets[i] = fb->offsets[i];
++		if (dev->mode_config.allow_fb_modifiers)
++			r->modifier[i] = fb->modifier;
++	}
++
++	/* GET_FB2() is an unprivileged ioctl so we must not return a
++	 * buffer-handle to non master/root processes! To match GET_FB()
++	 * just return invalid handles (0) for non masters/root
++	 * rather than making GET_FB2() privileged.
++	 */
++	if (!drm_is_current_master(file_priv) && !capable(CAP_SYS_ADMIN)) {
++		ret = 0;
++		goto out;
++	}
+ 
++	for (i = 0; i < fb->format->num_planes; i++) {
++		int j;
++
++		/* If we reuse the same object for multiple planes, also
++		 * return the same handle.
++		 */
++		for (j = 0; j < i; j++) {
++			if (fb->obj[i] == fb->obj[j]) {
++				r->handles[i] = r->handles[j];
++				break;
++			}
++		}
++
++		if (r->handles[i])
++			continue;
++
++		if (fb->obj[i]) {
++			ret = drm_gem_handle_create(file_priv, fb->obj[i],
++						    &r->handles[i]);
++		} else {
++			WARN_ON(i > 0);
++			ret = fb->funcs->create_handle(fb, file_priv,
++						       &r->handles[i]);
++		}
++
++		if (ret != 0)
++			goto out;
++	}
++
++out:
++	if (ret != 0) {
++		/* Delete any previously-created handles on failure. */
++		for (i = 0; i < ARRAY_SIZE(r->handles); i++) {
++			int j;
++
++			if (r->handles[i])
++				drm_gem_handle_delete(file_priv, r->handles[i]);
++
++			/* Zero out any handles identical to the one we just
++			 * deleted.
++			 */
++			for (j = i + 1; j < ARRAY_SIZE(r->handles); j++) {
++				if (r->handles[j] == r->handles[i])
++					r->handles[j] = 0;
++			}
++		}
++	}
++
++	drm_framebuffer_put(fb);
+ 	return ret;
+ }
+ 
+diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+index 5afb39688b55..9e41972c4bbc 100644
+--- a/drivers/gpu/drm/drm_ioctl.c
++++ b/drivers/gpu/drm/drm_ioctl.c
+@@ -671,6 +671,7 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
+ 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_SETPROPERTY, drm_connector_property_set_ioctl, DRM_MASTER),
+ 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_GETPROPBLOB, drm_mode_getblob_ioctl, 0),
+ 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_GETFB, drm_mode_getfb, 0),
++	DRM_IOCTL_DEF(DRM_IOCTL_MODE_GETFB2, drm_mode_getfb2_ioctl, 0),
+ 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_ADDFB, drm_mode_addfb_ioctl, 0),
+ 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_ADDFB2, drm_mode_addfb2_ioctl, 0),
+ 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_RMFB, drm_mode_rmfb_ioctl, 0),
+diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+index 868bf7996c0f..808b48a93330 100644
+--- a/include/uapi/drm/drm.h
++++ b/include/uapi/drm/drm.h
+@@ -948,6 +948,8 @@ extern "C" {
+ #define DRM_IOCTL_SYNCOBJ_TRANSFER	DRM_IOWR(0xCC, struct drm_syncobj_transfer)
+ #define DRM_IOCTL_SYNCOBJ_TIMELINE_SIGNAL	DRM_IOWR(0xCD, struct drm_syncobj_timeline_array)
+ 
++#define DRM_IOCTL_MODE_GETFB2		DRM_IOWR(0xCE, struct drm_mode_fb_cmd2)
++
+ /**
+  * Device specific ioctls should only be in their respective headers
+  * The device specific ioctl range is from 0x40 to 0x9f.
+-- 
+2.21.0
 
 _______________________________________________
 dri-devel mailing list
