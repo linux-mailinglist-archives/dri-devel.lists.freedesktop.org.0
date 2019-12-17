@@ -1,36 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD5EB122F19
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 15:45:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 373A8122F48
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 15:52:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA78089ABE;
-	Tue, 17 Dec 2019 14:45:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1D9D6E9FE;
+	Tue, 17 Dec 2019 14:52:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 630DB89ABE;
- Tue, 17 Dec 2019 14:45:07 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 17 Dec 2019 06:45:06 -0800
-X-IronPort-AV: E=Sophos;i="5.69,325,1571727600"; d="scan'208";a="209723973"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 17 Dec 2019 06:45:03 -0800
-From: Jani Nikula <jani.nikula@intel.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 383596E9FE
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 14:52:20 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: andrzej.p) with ESMTPSA id E152B2926EE
+From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/8] drm/print: introduce new struct drm_device based
- logging macros
-In-Reply-To: <20191210123050.8799-1-jani.nikula@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20191210123050.8799-1-jani.nikula@intel.com>
-Date: Tue, 17 Dec 2019 16:45:01 +0200
-Message-ID: <87fthjypsi.fsf@intel.com>
-MIME-Version: 1.0
+Subject: [PATCHv5 00/34] Add AFBC support for Rockchip
+Date: Tue, 17 Dec 2019 15:49:46 +0100
+Message-Id: <20191217145020.14645-1-andrzej.p@collabora.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20191213173350.GJ624164@phenom.ffwll.local>
+References: <20191213173350.GJ624164@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,106 +34,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, intel-gfx@lists.freedesktop.org,
- Sam Ravnborg <sam@ravnborg.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Ayan Halder <Ayan.Halder@arm.com>, kernel@collabora.com,
+ David Airlie <airlied@linux.ie>, Liviu Dudau <liviu.dudau@arm.com>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ James Wang <james.qian.wang@arm.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>, Sean Paul <sean@poorly.run>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAxMCBEZWMgMjAxOSwgSmFuaSBOaWt1bGEgPGphbmkubmlrdWxhQGludGVsLmNvbT4g
-d3JvdGU6Cj4gQWRkIG5ldyBzdHJ1Y3QgZHJtX2RldmljZSBiYXNlZCBsb2dnaW5nIG1hY3JvcyBt
-b2RlbGVkIGFmdGVyIHRoZSBjb3JlCj4ga2VybmVsIGRldmljZSBiYXNlZCBsb2dnaW5nIG1hY3Jv
-cy4gVGhlc2Ugd291bGQgYmUgcHJlZmVycmVkIG92ZXIgdGhlCj4gZHJtIHByaW50ayBhbmQgc3Ry
-dWN0IGRldmljZSBiYXNlZCBtYWNyb3MgaW4gZHJtIGNvZGUsIHdoZXJlIHBvc3NpYmxlLgo+Cj4g
-V2UgaGF2ZSBleGlzdGluZyBkcm0gc3BlY2lmaWMgc3RydWN0IGRldmljZSBiYXNlZCBsb2dnaW5n
-IGZ1bmN0aW9ucywgYnV0Cj4gdGhleSBhcmUgdG9vIHZlcmJvc2UgdG8gdXNlIGZvciB0d28gbWFp
-biByZWFzb25zOgo+Cj4gICogVGhlIG5hbWVzIGFyZSB1bm5lY2Vzc2FyaWx5IGxvbmcsIGZvciBl
-eGFtcGxlIERSTV9ERVZfREVCVUdfS01TKCkuCj4KPiAgKiBUaGUgdXNlIG9mIHN0cnVjdCBkZXZp
-Y2Ugb3ZlciBzdHJ1Y3QgZHJtX2RldmljZSBpcyB0b28gZ2VuZXJpYyBmb3IKPiAgICBtb3N0IHVz
-ZXJzLCBsZWFkaW5nIHRvIGFuIGV4dHJhIGRlcmVmZXJlbmNlLgo+Cj4gRm9yIGV4YW1wbGU6Cj4K
-PiAJRFJNX0RFVl9ERUJVR19LTVMoZHJtLT5kZXYsICJIZWxsbywgd29ybGRcbiIpOwo+Cj4gdnMu
-Cj4KPiAJZHJtX2RiZ19rbXMoZHJtLCAiSGVsbG8sIHdvcmxkXG4iKTsKPgo+IEl0J3MgYSBtYXR0
-ZXIgb2YgdGFzdGUsIGJ1dCB0aGUgU0hPVVRJTkcgVVBQRVJDQVNFIGhhcyBiZWVuIGFyZ3VlZCB0
-byBiZQo+IGxlc3MgcmVhZGFibGUgdGhhbiBsb3dlcmNhc2UuCj4KPiBTb21lIG5hbWVzIGFyZSBj
-aGFuZ2VkIGZyb20gb2xkIERSTSBuYW1lcyB0byBiZSBiYXNlZCBvbiB0aGUgY29yZSBrZXJuZWwK
-PiBsb2dnaW5nIGZ1bmN0aW9ucy4gRm9yIGV4YW1wbGUsIE5PVEUgLT4gbm90aWNlLCBFUlJPUiAt
-PiBlcnIsIERFQlVHIC0+Cj4gZGJnLgo+Cj4gRHVlIHRvIHRoZSBjb25mbGF0aW9uIG9mIERSTV9E
-RUJVRyBhbmQgRFJNX0RFQlVHX0RSSVZFUiBtYWNybyB1c2UKPiAoRFJNX0RFQlVHIGlzIHVzZWQg
-d2lkZWx5IGluIGRyaXZlcnMgdGhvdWdoIGl0J3Mgc3VwcG9zZWQgdG8gYmUgYSBjb3JlCj4gZGVi
-dWdnaW5nIGNhdGVnb3J5KSwgdGhleSBhcmUgbmFtZWQgYXMgZHJtX2RiZ19jb3JlIGFuZCBkcm1f
-ZGJnLAo+IHJlc3BlY3RpdmVseS4KPgo+IFRoZSBkcm1fZXJyIGFuZCBfb25jZS9fcmF0ZWxpbWl0
-ZWQgdmFyaWFudHMgbm8gbG9uZ2VyIGluY2x1ZGUgdGhlCj4gZnVuY3Rpb24gbmFtZSBpbiBvcmRl
-ciB0byBiZSBhYmxlIHRvIHVzZSB0aGUgY29yZSBkZXZpY2UgYmFzZWQgbG9nZ2luZwo+IG1hY3Jv
-cy4gQXJndWFibHkgdGhpcyBpcyBub3QgYSBzaWduaWZpY2FudCBjaGFuZ2U7IGVycm9yIG1lc3Nh
-Z2VzIHNob3VsZAo+IG5vdCBiZSBzbyBjb21tb24gdG8gYmUgb25seSBkaXN0aW5ndWlzaGFibGUg
-YnkgdGhlIGZ1bmN0aW9uIG5hbWUuCj4KPiBSYXRlbGltaXRlZCBkZWJ1ZyBsb2dnaW5nIG1hY3Jv
-cyBhcmUgdG8gYmUgYWRkZWQgbGF0ZXIuCj4KPiBDYzogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJv
-cmcub3JnPgo+IEFja2VkLWJ5OiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXgu
-aW50ZWwuY29tPgo+IFJldmlld2VkLWJ5OiBSb2RyaWdvIFZpdmkgPHJvZHJpZ28udml2aUBpbnRl
-bC5jb20+Cj4gQWNrZWQtYnk6IFNlYW4gUGF1bCA8c2VhbkBwb29ybHkucnVuPgo+IFNpZ25lZC1v
-ZmYtYnk6IEphbmkgTmlrdWxhIDxqYW5pLm5pa3VsYUBpbnRlbC5jb20+CgpQdXNoZWQgdGhpcyBv
-bmUgcGF0Y2gsIHRoYW5rcyBmb3IgdGhlIHJldmlld3MgYW5kIGFja3MuIFRoZSByZXN0IGNvdWxk
-CnN0aWxsIHVzZSByZXZpZXcuIDspCgpCUiwKSmFuaS4KCgo+Cj4gLS0tCj4KPiBXaXRoIHNvbWV0
-aGluZyBsaWtlIHRoaXMsIEkgdGhpbmsgaTkxNSBjb3VsZCBzdGFydCBtaWdyYXRpbmcgdG8KPiBk
-cm1fZGV2aWNlIGJhc2VkIGxvZ2dpbmcuIEkgaGF2ZSBhIGhhcmQgdGltZSBjb252aW5jaW5nIG15
-c2VsZiBvciBhbnlvbmUKPiBhYm91dCBtaWdyYXRpbmcgdG8gdGhlIERSTV9ERVZfKiB2YXJpYW50
-cy4KPiAtLS0KPiAgaW5jbHVkZS9kcm0vZHJtX3ByaW50LmggfCA2NSArKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKwo+ICAxIGZpbGUgY2hhbmdlZCwgNjUgaW5zZXJ0aW9u
-cygrKQo+Cj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9wcmludC5oIGIvaW5jbHVkZS9k
-cm0vZHJtX3ByaW50LmgKPiBpbmRleCAwODVhOTY4NTI3MGMuLjhmOTlkMzg5NzkyZCAxMDA2NDQK
-PiAtLS0gYS9pbmNsdWRlL2RybS9kcm1fcHJpbnQuaAo+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9w
-cmludC5oCj4gQEAgLTMyMiw2ICszMjIsOCBAQCBzdGF0aWMgaW5saW5lIGJvb2wgZHJtX2RlYnVn
-X2VuYWJsZWQoZW51bSBkcm1fZGVidWdfY2F0ZWdvcnkgY2F0ZWdvcnkpCj4gIAo+ICAvKgo+ICAg
-KiBzdHJ1Y3QgZGV2aWNlIGJhc2VkIGxvZ2dpbmcKPiArICoKPiArICogUHJlZmVyIGRybV9kZXZp
-Y2UgYmFzZWQgbG9nZ2luZyBvdmVyIGRldmljZSBvciBwcmluayBiYXNlZCBsb2dnaW5nLgo+ICAg
-Ki8KPiAgCj4gIF9fcHJpbnRmKDMsIDQpCj4gQEAgLTQxNyw4ICs0MTksNzEgQEAgdm9pZCBkcm1f
-ZGV2X2RiZyhjb25zdCBzdHJ1Y3QgZGV2aWNlICpkZXYsIGVudW0gZHJtX2RlYnVnX2NhdGVnb3J5
-IGNhdGVnb3J5LAo+ICAJX0RSTV9ERVZfREVGSU5FX0RFQlVHX1JBVEVMSU1JVEVEKGRldiwgRFJN
-X1VUX1BSSU1FLAkJXAo+ICAJCQkJCSAgZm10LCAjI19fVkFfQVJHU19fKQo+ICAKPiArLyoKPiAr
-ICogc3RydWN0IGRybV9kZXZpY2UgYmFzZWQgbG9nZ2luZwo+ICsgKgo+ICsgKiBQcmVmZXIgZHJt
-X2RldmljZSBiYXNlZCBsb2dnaW5nIG92ZXIgZGV2aWNlIG9yIHByaW5rIGJhc2VkIGxvZ2dpbmcu
-Cj4gKyAqLwo+ICsKPiArLyogSGVscGVyIGZvciBzdHJ1Y3QgZHJtX2RldmljZSBiYXNlZCBsb2dn
-aW5nLiAqLwo+ICsjZGVmaW5lIF9fZHJtX3ByaW50ayhkcm0sIGxldmVsLCB0eXBlLCBmbXQsIC4u
-LikJCQlcCj4gKwlkZXZfIyNsZXZlbCMjdHlwZSgoZHJtKS0+ZGV2LCAiW2RybV0gIiBmbXQsICMj
-X19WQV9BUkdTX18pCj4gKwo+ICsKPiArI2RlZmluZSBkcm1faW5mbyhkcm0sIGZtdCwgLi4uKQkJ
-CQkJXAo+ICsJX19kcm1fcHJpbnRrKChkcm0pLCBpbmZvLCwgZm10LCAjI19fVkFfQVJHU19fKQo+
-ICsKPiArI2RlZmluZSBkcm1fbm90aWNlKGRybSwgZm10LCAuLi4pCQkJCVwKPiArCV9fZHJtX3By
-aW50aygoZHJtKSwgbm90aWNlLCwgZm10LCAjI19fVkFfQVJHU19fKQo+ICsKPiArI2RlZmluZSBk
-cm1fd2Fybihkcm0sIGZtdCwgLi4uKQkJCQkJXAo+ICsJX19kcm1fcHJpbnRrKChkcm0pLCB3YXJu
-LCwgZm10LCAjI19fVkFfQVJHU19fKQo+ICsKPiArI2RlZmluZSBkcm1fZXJyKGRybSwgZm10LCAu
-Li4pCQkJCQlcCj4gKwlfX2RybV9wcmludGsoKGRybSksIGVyciwsICIqRVJST1IqICIgZm10LCAj
-I19fVkFfQVJHU19fKQo+ICsKPiArCj4gKyNkZWZpbmUgZHJtX2luZm9fb25jZShkcm0sIGZtdCwg
-Li4uKQkJCQlcCj4gKwlfX2RybV9wcmludGsoKGRybSksIGluZm8sIF9vbmNlLCBmbXQsICMjX19W
-QV9BUkdTX18pCj4gKwo+ICsjZGVmaW5lIGRybV9ub3RpY2Vfb25jZShkcm0sIGZtdCwgLi4uKQkJ
-CQlcCj4gKwlfX2RybV9wcmludGsoKGRybSksIG5vdGljZSwgX29uY2UsIGZtdCwgIyNfX1ZBX0FS
-R1NfXykKPiArCj4gKyNkZWZpbmUgZHJtX3dhcm5fb25jZShkcm0sIGZtdCwgLi4uKQkJCQlcCj4g
-KwlfX2RybV9wcmludGsoKGRybSksIHdhcm4sIF9vbmNlLCBmbXQsICMjX19WQV9BUkdTX18pCj4g
-Kwo+ICsjZGVmaW5lIGRybV9lcnJfb25jZShkcm0sIGZtdCwgLi4uKQkJCQlcCj4gKwlfX2RybV9w
-cmludGsoKGRybSksIGVyciwgX29uY2UsICIqRVJST1IqICIgZm10LCAjI19fVkFfQVJHU19fKQo+
-ICsKPiArCj4gKyNkZWZpbmUgZHJtX2Vycl9yYXRlbGltaXRlZChkcm0sIGZtdCwgLi4uKQkJCQlc
-Cj4gKwlfX2RybV9wcmludGsoKGRybSksIGVyciwgX3JhdGVsaW1pdGVkLCAiKkVSUk9SKiAiIGZt
-dCwgIyNfX1ZBX0FSR1NfXykKPiArCj4gKwo+ICsjZGVmaW5lIGRybV9kYmdfY29yZShkcm0sIGZt
-dCwgLi4uKQkJCQkJXAo+ICsJZHJtX2Rldl9kYmcoKGRybSktPmRldiwgRFJNX1VUX0NPUkUsIGZt
-dCwgIyNfX1ZBX0FSR1NfXykKPiArI2RlZmluZSBkcm1fZGJnKGRybSwgZm10LCAuLi4pCQkJCQkJ
-XAo+ICsJZHJtX2Rldl9kYmcoKGRybSktPmRldiwgRFJNX1VUX0RSSVZFUiwgZm10LCAjI19fVkFf
-QVJHU19fKQo+ICsjZGVmaW5lIGRybV9kYmdfa21zKGRybSwgZm10LCAuLi4pCQkJCQlcCj4gKwlk
-cm1fZGV2X2RiZygoZHJtKS0+ZGV2LCBEUk1fVVRfS01TLCBmbXQsICMjX19WQV9BUkdTX18pCj4g
-KyNkZWZpbmUgZHJtX2RiZ19wcmltZShkcm0sIGZtdCwgLi4uKQkJCQkJXAo+ICsJZHJtX2Rldl9k
-YmcoKGRybSktPmRldiwgRFJNX1VUX1BSSU1FLCBmbXQsICMjX19WQV9BUkdTX18pCj4gKyNkZWZp
-bmUgZHJtX2RiZ19hdG9taWMoZHJtLCBmbXQsIC4uLikJCQkJCVwKPiArCWRybV9kZXZfZGJnKChk
-cm0pLT5kZXYsIERSTV9VVF9BVE9NSUMsIGZtdCwgIyNfX1ZBX0FSR1NfXykKPiArI2RlZmluZSBk
-cm1fZGJnX3ZibChkcm0sIGZtdCwgLi4uKQkJCQkJXAo+ICsJZHJtX2Rldl9kYmcoKGRybSktPmRl
-diwgRFJNX1VUX1ZCTCwgZm10LCAjI19fVkFfQVJHU19fKQo+ICsjZGVmaW5lIGRybV9kYmdfc3Rh
-dGUoZHJtLCBmbXQsIC4uLikJCQkJCVwKPiArCWRybV9kZXZfZGJnKChkcm0pLT5kZXYsIERSTV9V
-VF9TVEFURSwgZm10LCAjI19fVkFfQVJHU19fKQo+ICsjZGVmaW5lIGRybV9kYmdfbGVhc2UoZHJt
-LCBmbXQsIC4uLikJCQkJCVwKPiArCWRybV9kZXZfZGJnKChkcm0pLT5kZXYsIERSTV9VVF9MRUFT
-RSwgZm10LCAjI19fVkFfQVJHU19fKQo+ICsjZGVmaW5lIGRybV9kYmdfZHAoZHJtLCBmbXQsIC4u
-LikJCQkJCVwKPiArCWRybV9kZXZfZGJnKChkcm0pLT5kZXYsIERSTV9VVF9EUCwgZm10LCAjI19f
-VkFfQVJHU19fKQo+ICsKPiArCj4gIC8qCj4gICAqIHByaW50ayBiYXNlZCBsb2dnaW5nCj4gKyAq
-Cj4gKyAqIFByZWZlciBkcm1fZGV2aWNlIGJhc2VkIGxvZ2dpbmcgb3ZlciBkZXZpY2Ugb3IgcHJp
-bmsgYmFzZWQgbG9nZ2luZy4KPiAgICovCj4gIAo+ICBfX3ByaW50ZigyLCAzKQoKLS0gCkphbmkg
-TmlrdWxhLCBJbnRlbCBPcGVuIFNvdXJjZSBHcmFwaGljcyBDZW50ZXIKX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
-cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+This series adds AFBC support for Rockchip. It is inspired by:
+
+https://chromium.googlesource.com/chromiumos/third_party/kernel/+/refs/heads/factory-gru-9017.B-chromeos-4.4/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+
+This is the fifth iteration of the afbc series. Between v3 and v4 a lot of
+rework has been done, the main goal of which was to move all afbc-related
+checks to helpers, so that core does not deal with it.
+
+A new struct drm_afbc_framebuffer is added, which stores afbc-related
+driver-specific data. Because of that, in drivers that wish to
+use this feature, the struct must be allocated directly in the driver
+code rather than inside helpers, so the first portion of the patchset
+does the necessary refactoring.
+
+Then, there are 3 users of afbc: komeda, malidp and, finally, rockchip,
+the latter being the ultimate purpose of this work and the 3 subsequent
+portions of the patchset move komeda and malidp to generic helpers and add
+afbc support to rockchip.
+
+The idea is to make all afbc users follow a similar pattern. In fb_create()
+they allocate struct drm_afbc_framebuffer, do their specific checks which
+can be done before object lookups, do object lookups and a special version
+of a size check, which understands struct drm_afbc_framebuffer, followed
+by any other driver-specific checks and initializing the gem object.
+The helpers for the common parts are factored out so that drivers
+can use them.
+
+The komeda driver has been the farthest away from such a pattern, so it
+required most changes. However, due to the fact that I don't have any
+komeda hardware I did the changes to komeda in an incremental fashion with
+a series of (usually) very small, easy to understand steps. malidp was
+pretty straightforward, and rockchip's afbc checks follow the pattern.
+
+I kindly ask for reviewing the series. I need to mention that my ultimate
+goal is merging afbc for rockchip and I don't have other hardware, so some
+help from malidp and komeda developers/maintainers would be appreciated.
+
+@Liviu, @James, @Mihail, @Brian: a kind request to you to have a look and
+test the patchset, as I don't have appropriate hardware.
+
+Rebased onto drm-misc-next.
+
+v4..v5:
+- used proper way of subclassing drm_framebuffer (Daniel Vetter)
+- added documentation to exported functions (Liviu Dudau)
+- reordered new functions in drm_gem_framebuffer_helper.c to make a saner
+diff (Liviu Dudau)
+- used "2" suffix instead of "_special" for the special version of size
+checks (Liviu Dudau)
+- dropped unnecessarily added condition in drm_get_format_info() (Liviu
+Dudau)
+- dropped "block_size = 0;" trick in framebuffer_check() (Daniel Vetter)
+- relaxed sticking to 80 characters per line rule in some cases
+
+v3..v4:
+
+- addressed (some) comments from Daniel Stone, Ezequiel Garcia, Daniel
+Vetter and James Qian Wang - thank you for input
+- refactored helpers to ease accommodating drivers with afbc needs
+- moved afbc checks to helpers
+- converted komeda, malidp and (the newly added) rockchip to use the afbc
+helpers
+- eliminated a separate, dedicated source code file
+
+v2..v3:
+
+- addressed (some) comments from Daniel Stone, Liviu Dudau, Daniel Vetter
+and Brian Starkey - thank you all
+
+In this iteration some rework has been done. The checking logic is now moved
+to framebuffer_check() so it is common to all drivers. But the common part
+is not good for komeda, so this series is not good for merging yet.
+I kindly ask for feedback whether the changes are in the right direction.
+I also kindly ask for input on how to accommodate komeda.
+
+The CONFIG_DRM_AFBC option has been eliminated in favour of adding
+drm_afbc.c to drm_kms_helper.
+
+v1..v2:
+
+- addressed comments from Daniel Stone, Ayan Halder, Mihail Atanassov
+- coding style fixes** BLURB HERE ***
+
+
+Andrzej Pietrasiewicz (34):
+  drm/core: Add afbc helper functions
+  drm/gem-fb-helper: Allow drivers to allocate struct drm_framebuffer on
+    their own
+  drm/gem-fb-helper: Add special version of drm_gem_fb_size_check
+  drm/gem-fb-helper: Add generic afbc size checks
+  drm/komeda: Use afbc helper
+  drm/komeda: Move checking src coordinates to komeda_fb_create
+  drm/komeda: Use the already available local variable
+  drm/komeda: Retrieve drm_format_info once
+  drm/komeda: Explicitly require 1 plane for AFBC
+  drm/komeda: Move pitches comparison to komeda_fb_create
+  drm/komeda: Provide and use komeda_fb_get_pixel_addr variant not
+    requiring a fb
+  drm/komeda: Factor out object lookups for non-afbc case
+  drm/komeda: Make komeda_fb_none_size_check independent from
+    framebuffer
+  drm/komeda: Factor out object lookups for afbc case
+  drm/komeda: Free komeda_fb_afbc_size_check from framebuffer dependency
+  drm/komeda: Simplify error handling
+  drm/komeda: Move object lookup before size checks
+  drm/komeda: Move object assignments to framebuffer to after size
+    checks
+  drm/komeda: Make the size checks independent from framebuffer
+    structure
+  drm/komeda: Move helper invocation to after size checks
+  drm/komeda: Use helper for common tasks
+  drm/komeda: Use return value of drm_gem_fb_lookup
+  drm/komeda: Use special helper for non-afbc size checks
+  drm/komeda: Factor in the invocation of special helper
+  drm/komeda: Use special helper for afbc case size check
+  drm/komeda: Factor in the invocation of special helper, afbc case
+  drm/komeda: Move special helper invocation outside if-else
+  drm/komeda: Move to helper checking afbc buffer size
+  drm/arm/malidp: Make verify funcitons invocations independent
+  drm/arm/malidp: Integrate verify functions
+  drm/arm/malidp: Factor in afbc framebuffer verification
+  drm/arm/malidp: Use generic helpers for afbc checks
+  drm/rockchip: Use helper for common task
+  drm/rockchip: Add support for afbc
+
+ .../arm/display/komeda/d71/d71_component.c    |   6 +-
+ .../arm/display/komeda/komeda_framebuffer.c   | 273 ++++++++---------
+ .../arm/display/komeda/komeda_framebuffer.h   |  21 +-
+ .../display/komeda/komeda_pipeline_state.c    |  14 +-
+ drivers/gpu/drm/arm/malidp_drv.c              | 155 ++++------
+ drivers/gpu/drm/drm_fourcc.c                  |  53 ++++
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c  | 287 ++++++++++++++----
+ drivers/gpu/drm/rockchip/rockchip_drm_fb.c    | 111 ++++++-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c   | 147 ++++++++-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.h   |  12 +
+ drivers/gpu/drm/rockchip/rockchip_vop_reg.c   |  83 ++++-
+ include/drm/drm_fourcc.h                      |   4 +
+ include/drm/drm_framebuffer.h                 |  50 +++
+ include/drm/drm_gem_framebuffer_helper.h      |  34 +++
+ 14 files changed, 907 insertions(+), 343 deletions(-)
+
+-- 
+2.17.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
