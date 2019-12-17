@@ -2,61 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3DC3122CA1
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 14:13:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAA85122CC4
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 14:19:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A2E06E9D9;
-	Tue, 17 Dec 2019 13:13:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAF3E89A0E;
+	Tue, 17 Dec 2019 13:19:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6D8C6E9D9
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 13:13:42 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id q10so11227630wrm.11
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 05:13:42 -0800 (PST)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0D6B89A0E
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 13:19:41 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id b19so2896726wmj.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 05:19:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:mail-followup-to:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=UiukVznUb6RbaIEpjFFv8iLF7eFYnMmkDknHSlpOQhc=;
- b=PlsYyESZ7nq7NH2yQgpIg73rAVA/3twGoT+E2NgINMQNBJj9SII/0t0E3mNu+DlLjK
- xPgazXwMdXB5f6rBGo9Dpykj917jG9QlTUR7XCydqHYMBKHEZFcd+IuZE9kR2W45V78z
- 5EP/LWRnFSNYjCs43rvicFPIjboFM3Elx0SyM=
+ bh=H37dVUR9kItBvLUhcmZ+2qSu16q4UES9ihUAcWiQsd4=;
+ b=lWK6Tmlb4CiC9XzLfvUIj8N5I8DLeA+H1Y7mjuOk755VqB9iDzMMLxdGwdLFY85lVw
+ 4sqlcrnt3Az8PoDhFaiD36oyNuhg5c54qQM3qcCNlFI3OkXedhTO/ufNX/oRgkPlyvFo
+ PqZBPbGE42+XNecHMEWm3VvJY/RrrIL0uLgko=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id
  :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to:user-agent;
- bh=UiukVznUb6RbaIEpjFFv8iLF7eFYnMmkDknHSlpOQhc=;
- b=g4IczcLiF9dQX20Vk3OZQWsneGl7Iw6CX9+a8Za0vm52A1P91gtCAv6TZ3feWARfCG
- HxhjCB3cWvDEi4V20Ct8QEf5AmzcvauwDGSIDz2VOk2ILI6hWkWk51zgUXa1eNydhhwL
- 1KakWqRD/u9L8J1+qicBQNHXMMwI0XfHNNT+fqRjTjpJkS3hSKQfw3wYvs9XIImfwFay
- eOdYojvFhs3dC2ehlqP+SW25a08j53GVx4KNOSs+WLBb9XmCUxuxs5+VpaQcTs9fvnhF
- +2emmDk0zQVb55LVZxaneioLzkzqhhs6I2RxfrRyulOoZ77+m9aZE+mnnE6WVTD9ancA
- L15A==
-X-Gm-Message-State: APjAAAWcnSiXoEFt77CMTRLU0KKunVM8T+FySjxpEWbyLs6Ju/m6zlUQ
- ti6/9IwFE7Q7FfBbvamuwcc7vA==
-X-Google-Smtp-Source: APXvYqxPRzCnT2gvRTsWttk3WXMlk8T7TgZ6vhGyRieUqp/P2hbZfco1H9nFMdnqRHYZ6d+Dbu/kbg==
-X-Received: by 2002:a5d:640d:: with SMTP id z13mr37251617wru.181.1576588421585; 
- Tue, 17 Dec 2019 05:13:41 -0800 (PST)
+ bh=H37dVUR9kItBvLUhcmZ+2qSu16q4UES9ihUAcWiQsd4=;
+ b=cIeE6vWP9DXOFFXaqiY19piQQupO9emUDDMgtmM+tcc/sd3mJkUWZxKTptJURAUH04
+ DvAEjlfIATMmBs5LYOkhph35LfpiLiJDnKTuHyZjuadg/EiGlgRlquzJsN6Re06fIZPu
+ 7VWlxxytHcFvuYzhOp1tOp5ECogDe1kCUjKrba3rgl2c6SvfHMqefQ7ASzeJm/45F5tp
+ NvM7bWZlEKSqg+xeKyjb86dNtHtxCBieLEA7xcyo/w2IhEzux5spUf1KCjSlE3ofZet8
+ I87ODAYkE7WQyz/Lmgg4om6lQzH7q9MR7pLZ19f0cvlgd3L1Yh5CpLD8DdUC6+0lawor
+ BacQ==
+X-Gm-Message-State: APjAAAUAFjhxQ8NaE+p0MmBDc1iTZoUOq7F04DZbYEvtkIPI5Bhq0JP9
+ aioZ2KGk2cpkMf/QZG0PdoPUiJhoTHs=
+X-Google-Smtp-Source: APXvYqzliw8g7eRzBJ1o76RhQOcEfDchV4RUR+NMlKni9Ot6SqnYzUe0jGJN/na2F7kQol/nHxfaqw==
+X-Received: by 2002:a7b:c934:: with SMTP id h20mr5421444wml.103.1576588780369; 
+ Tue, 17 Dec 2019 05:19:40 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:564b:0:7567:bb67:3d7f:f863])
- by smtp.gmail.com with ESMTPSA id x26sm2925754wmc.30.2019.12.17.05.13.40
+ by smtp.gmail.com with ESMTPSA id f1sm25264661wru.6.2019.12.17.05.19.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Dec 2019 05:13:40 -0800 (PST)
-Date: Tue, 17 Dec 2019 14:13:38 +0100
+ Tue, 17 Dec 2019 05:19:39 -0800 (PST)
+Date: Tue, 17 Dec 2019 14:19:37 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Aditya Pakki <pakki001@umn.edu>
-Subject: Re: [PATCH] drm: remove duplicate check on parent and avoid BUG_ON
-Message-ID: <20191217131338.GY624164@phenom.ffwll.local>
-Mail-Followup-To: Aditya Pakki <pakki001@umn.edu>, kjlu@umn.edu,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20191215194345.4679-1-pakki001@umn.edu>
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <20191217131937.GZ624164@phenom.ffwll.local>
+Mail-Followup-To: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Icenowy Zheng <icenowy@aosc.io>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Wolfram Sang <wsa@the-dreams.de>
+References: <20191216122331.43c766f1@canb.auug.org.au>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191215194345.4679-1-pakki001@umn.edu>
+In-Reply-To: <20191216122331.43c766f1@canb.auug.org.au>
 X-Operating-System: Linux phenom 5.3.0-2-amd64 
 User-Agent: Mutt/1.12.2 (2019-09-21)
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,55 +74,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, kjlu@umn.edu, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+Cc: Wolfram Sang <wsa@the-dreams.de>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Icenowy Zheng <icenowy@aosc.io>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Dec 15, 2019 at 01:43:44PM -0600, Aditya Pakki wrote:
-> In drm_dev_init, parent is checked for NULL via assert after
-> checked in devm_drm_dev_init(). The patch removes the duplicate
-> check and replaces the assertion with WARN_ON. Further, it returns
-> -EINVAL consistent with the usage in devm_drm_dev_init.
+On Mon, Dec 16, 2019 at 12:23:31PM +1100, Stephen Rothwell wrote:
+> Hi all,
 > 
-> Signed-off-by: Aditya Pakki <pakki001@umn.edu>
+> After merging the drm-misc tree, today's linux-next build (x86_64
+> allmodconfig) failed like this:
+> 
+> drivers/gpu/drm/bridge/analogix/analogix-anx6345.c: In function 'anx6345_i2c_probe':
+> drivers/gpu/drm/bridge/analogix/analogix-anx6345.c:738:30: error: implicit declaration of function 'i2c_new_dummy' [-Werror=implicit-function-declaration]
+>   738 |    anx6345->i2c_clients[i] = i2c_new_dummy(client->adapter,
+>       |                              ^~~~~~~~~~~~~
+> drivers/gpu/drm/bridge/analogix/analogix-anx6345.c:738:28: warning: assignment to 'struct i2c_client *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>   738 |    anx6345->i2c_clients[i] = i2c_new_dummy(client->adapter,
+>       |                            ^
+> 
+> Caused by commit
+> 
+>   6aa192698089 ("drm/bridge: Add Analogix anx6345 support")
+> 
+> interacting with commit
+> 
+>   2c2f00ab1641 ("i2c: remove i2c_new_dummy() API")
+> 
+> From Linus' tree.
+> 
+> I have applied the following fix up patch for today:
+> 
+> From: Stephen Rothwell <sfr@canb.auug.org.au>
+> Date: Mon, 16 Dec 2019 12:11:19 +1100
+> Subject: [PATCH] drm/bridge: fix up for removal of i2c_new_dummy()
+> 
+> Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
 
-Makes sense, patch applied to drm-misc-next.
-
-Thanks, Daniel
+Thanks pulled into drm-next since I just processed the first drm-misc-next
+pull.
+-Daniel
 
 > ---
->  drivers/gpu/drm/drm_drv.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/bridge/analogix/analogix-anx6345.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index 1b9b40a1c7c9..7c18a980cd4b 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -622,7 +622,8 @@ int drm_dev_init(struct drm_device *dev,
->  		return -ENODEV;
->  	}
+> diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
+> index 9917ce0d86a0..56f55c53abfd 100644
+> --- a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
+> +++ b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
+> @@ -735,13 +735,13 @@ static int anx6345_i2c_probe(struct i2c_client *client,
+>  	/* Map slave addresses of ANX6345 */
+>  	for (i = 0; i < I2C_NUM_ADDRESSES; i++) {
+>  		if (anx6345_i2c_addresses[i] >> 1 != client->addr)
+> -			anx6345->i2c_clients[i] = i2c_new_dummy(client->adapter,
+> +			anx6345->i2c_clients[i] = i2c_new_dummy_device(client->adapter,
+>  						anx6345_i2c_addresses[i] >> 1);
+>  		else
+>  			anx6345->i2c_clients[i] = client;
 >  
-> -	BUG_ON(!parent);
-> +	if (WARN_ON(!parent))
-> +		return -EINVAL;
->  
->  	kref_init(&dev->ref);
->  	dev->dev = get_device(parent);
-> @@ -725,7 +726,7 @@ int devm_drm_dev_init(struct device *parent,
->  {
->  	int ret;
->  
-> -	if (WARN_ON(!parent || !driver->release))
-> +	if (WARN_ON(!driver->release))
->  		return -EINVAL;
->  
->  	ret = drm_dev_init(dev, driver, parent);
+> -		if (!anx6345->i2c_clients[i]) {
+> -			err = -ENOMEM;
+> +		if (IS_ERR(anx6345->i2c_clients[i])) {
+> +			err = PTR_ERR(anx6345->i2c_clients[i]);
+>  			DRM_ERROR("Failed to reserve I2C bus %02x\n",
+>  				  anx6345_i2c_addresses[i]);
+>  			goto err_unregister_i2c;
 > -- 
-> 2.20.1
+> 2.24.0
 > 
+> -- 
+> Cheers,
+> Stephen Rothwell
+
+
 
 -- 
 Daniel Vetter
