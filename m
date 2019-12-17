@@ -2,58 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F00E122477
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 07:04:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A63512256C
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 08:29:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C30126E942;
-	Tue, 17 Dec 2019 06:04:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75CEF6E94B;
+	Tue, 17 Dec 2019 07:28:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf41.google.com (mail-qv1-xf41.google.com
- [IPv6:2607:f8b0:4864:20::f41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF1046E942
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 06:04:14 +0000 (UTC)
-Received: by mail-qv1-xf41.google.com with SMTP id o18so3753440qvf.1
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2019 22:04:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zm53ylP0p2qT9FgYhSZkybHEn/98akjmEu/E1W0fUBk=;
- b=nelL45CNZYQldQYvjqK9KImSG39R8/LuJQGlrcuRzqZzZ0dnBybngEBUs/uC3uI+dT
- pWkH83y/6iMV0k5ZoM1iFE3ZKadECKrmVQPF267uT2uUF4NULWRX/CoVMs5v3YkaorQN
- slb6q3qUkkZZF0WXxN+4GpvBR/USYs+2W7z0c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zm53ylP0p2qT9FgYhSZkybHEn/98akjmEu/E1W0fUBk=;
- b=ajrDmJW14WGy/gkMoHJ3RIUfuAJhvXOxplQFpEjzQi/Eo4YYI/ufRA2R8HrRN/K8W8
- 62kZn290Kw/AeJNQsuBG48ubUiGZ1H87CSnRd3P2ODXAYJmSSZ0S3NlwWpMU+83QCdgZ
- jux1wQ1NpjokxrLKnp7HaSI140Oxe7etVXSXyYpAHrHgLp5PR5zw61DyHncuY8MEjkln
- 1fudP1318K5ZJMu6u1Zx5uAtuBApGGrS18r+8L8da3hB28AhAld2IAiNNrE/cpsdCQQ+
- KoaeOEiFDv+Lab9GucNOu6lW6dVUInF8MoE/LwUH4aeA/qO07IbE7Df76czuGYDT9MBB
- DS/w==
-X-Gm-Message-State: APjAAAU/ZZfs6UX56cykF5UBDaWVfmcctbRBmkaLYg2j/TqbWvWiwQi0
- 2O/QauciVfjttp2/9gV5bLHhAgX7hOD3Y010n3cESw==
-X-Google-Smtp-Source: APXvYqwDj8Xp/NtDVmLRrvy4l/nWgIQcpd0QEKmntAabZWclUxugBY7dVtpriVXG4KNjM2OeI1YmA2sRddbPo+Hl/ds=
-X-Received: by 2002:ad4:4182:: with SMTP id e2mr3068056qvp.187.1576562653270; 
- Mon, 16 Dec 2019 22:04:13 -0800 (PST)
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EB136E94B
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 07:28:57 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBH7SfHh109266;
+ Tue, 17 Dec 2019 01:28:41 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1576567721;
+ bh=/dI/BmG+1iVXAM1kqSYl6RaiT/bZVmxp0D/kfNG5uUY=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=oC9k/r4y1lcaFWz1QGHX+8OO3kD+NGDyA/cTQGCsD7ReQMw1Z/9w4y4BpR6WKX6jU
+ +prlUwTUDYngtfpS8AzvNEpR/U36k+IOC8tFFCmKrgspB6zFG/lc0MX0lRIFDx1Y+a
+ /oFRv82PerV5fUpGRkAAO/ddkebdg0TKUBHTLsgs=
+Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xBH7SfQY097222
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 17 Dec 2019 01:28:41 -0600
+Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE106.ent.ti.com
+ (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 17
+ Dec 2019 01:28:39 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Tue, 17 Dec 2019 01:28:39 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBH7SbpR072236;
+ Tue, 17 Dec 2019 01:28:37 -0600
+Subject: Re: [PATCH v3 17/50] drm/omap: Fix possible object reference leak
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ <dri-devel@lists.freedesktop.org>
+References: <20191210225750.15709-1-laurent.pinchart@ideasonboard.com>
+ <20191210225750.15709-18-laurent.pinchart@ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <c346b48b-deef-0c19-9f00-e83e90f28f5a@ti.com>
+Date: Tue, 17 Dec 2019 09:28:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <20191211061911.238393-1-hsinyi@chromium.org>
- <20191211061911.238393-3-hsinyi@chromium.org>
- <20191213223816.GS4860@pendragon.ideasonboard.com>
- <CAJMQK-gFn8WeokxGfAZ-akNvdEbQhPj_3Ax2sD7Ti6JcSvjF4g@mail.gmail.com>
- <CANMq1KDh=ehp0RDFRLQ5OCTibrK=Uzp2UFVLM+7AhwpVp-X=yQ@mail.gmail.com>
- <20191216163910.GC14502@pendragon.ideasonboard.com>
- <CANMq1KA1OMMzwLVMhFeb-zLuPLJsXrvVMji=u0RZ_kWnQprvoA@mail.gmail.com>
- <CANMq1KABX4RwNHDYaXHTpJXOQdO1HdnNy8=aAfaZTVPJaSfpfQ@mail.gmail.com>
- <20191217005209.GL4856@pendragon.ideasonboard.com>
-In-Reply-To: <20191217005209.GL4856@pendragon.ideasonboard.com>
-From: Nicolas Boichat <drinkcat@chromium.org>
-Date: Tue, 17 Dec 2019 14:04:02 +0800
-Message-ID: <CANMq1KDDEzPWhByEtn-EjNcg+ofVT2MW-hOXANGooYFOYJ35VA@mail.gmail.com>
-Subject: Re: [PATCH RESEND 2/4] drm: bridge: anx7688: Add anx7688 bridge
- driver support.
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20191210225750.15709-18-laurent.pinchart@ideasonboard.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,245 +63,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Devicetree List <devicetree@vger.kernel.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>, Matthias Brugger <mbrugger@suse.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Jonas Karlman <jonas@kwiboo.se>, lkml <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Russell King <rmk+kernel@arm.linux.org.uk>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Sam Ravnborg <sam@ravnborg.org>, Sean Paul <sean@poorly.run>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Boris Brezillon <bbrezillon@kernel.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 11/12/2019 00:57, Laurent Pinchart wrote:
+> From: Wen Yang <wen.yang99@zte.com.cn>
+> 
+> The call to of_find_matching_node returns a node pointer with refcount
+> incremented thus it must be explicitly decremented after the last
+> usage.
+> 
+> Detected by coccinelle with the following warnings:
+> drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c:212:2-8: ERROR: missing of_node_put; acquired a node pointer with refcount incremented on line 209, but without a corresponding object release within this function.
+> drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c:237:1-7: ERROR: missing of_node_put; acquired a node pointer with refcount incremented on line 209, but without a corresponding object release within this function.
+> 
+> Signed-off-by: Wen Yang <wen.yang99@zte.com.cn>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Mukesh Ojha <mojha@codeaurora.org>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>   drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 
-On Tue, Dec 17, 2019 at 8:52 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Nicolas,
->
-> On Tue, Dec 17, 2019 at 08:40:51AM +0800, Nicolas Boichat wrote:
-> > (Brilliant, I managed to accidentally send the email below, and send
-> > it as HTML, sorry about that... ASCII art in gmail is hard ,-(
->
-> No worries. I have been told it's indeed painful.
->
-> > Take 2:)
-> >
-> > Hi Laurent,
-> >
-> > > On Tue, Dec 17, 2019 at 12:39 AM Laurent Pinchart wrote:
-> > > > On Mon, Dec 16, 2019 at 06:19:24PM +0800, Nicolas Boichat wrote:
-> > > > > On Mon, Dec 16, 2019 at 4:46 PM Hsin-Yi Wang wrote:
-> > > > > > On Sat, Dec 14, 2019 at 6:38 AM Laurent Pinchart wrote:
-> > > > > > > On Wed, Dec 11, 2019 at 02:19:09PM +0800, Hsin-Yi Wang wrote:
-> > > > > > > > From: Nicolas Boichat <drinkcat@chromium.org>
-> > > > > > > >
-> > > > > > > > ANX7688 is a HDMI to DP converter (as well as USB-C port controller),
-> > > > > > > > that has an internal microcontroller.
-> > > > > > > >
-> > > > > > > > The only reason a Linux kernel driver is necessary is to reject
-> > > > > > > > resolutions that require more bandwidth than what is available on
-> > > > > > > > the DP side. DP bandwidth and lane count are reported by the bridge
-> > > > > > > > via 2 registers on I2C.
-> > > > > > >
-> > > > > > > How about power, doesn't this chip have power supplies that potentially
-> > > > > > > need to be controlled ?
-> > > > > > >
-> > > > > > Ideally we should add power supplies as well, but the power is
-> > > > > > supplied by ec in mt8173 oak board. And we only have this board can
-> > > > > > test this driver. If we add power supplies in driver we can't test it.
-> > > > >
-> > > > > To clarify a bit more, this is because this chip is actually a
-> > > > > TCPC+mux+HDMI=>DP converter
-> > > > > (https://www.analogix.com/en/products/convertersbridges/anx7688). In
-> > > > > Chromebook architecture, TCPC+mux is controlled by the EC (including
-> > > > > power and other control pins), and the only reason we need a driver
-> > > > > for the HDMI=>DP converter is to get the number of lanes on the DP
-> > > > > side and filter out resolutions. Also, the converter is on a different
-> > > > > I2C address and it could almost be considered as a separate device.
-> > > > >
-> > > > > (of course we could write a kernel driver for the TCPC+mux but we'll
-> > > > > leave that to others if there's ever a board that is built with the
-> > > > > TCPC part connected to the AP)
-> > > >
-> > > > Is the mux the one that is handled through a gpio-mux driver in this
-> > > > series, or a different mux ?
-> > >
-> >
-> > It's a different mux: it's the usual USB-C mux that takes in USB 3.0
-> > and DP (internally converted from HDMI), and decides which 2 lanes to
-> > use for each (4 lanes in total, but DP can only take 2 with this
-> > converter), and flip if necessary. This is all controlled by the EC
-> > (like on most other Chromebooks), so this is transparent to the kernel
-> > on this hardware.
-> >
-> > > > It would really, really help if you could
-> > > > show a block diagram of the related hardware (including the EC), as this
-> > > > is quite confusing. With every e-mail exchanged there's a bit more
-> > > > information that change my understanding of the issue, I can't really
-> > > > provide guidance without a full overview.
-> >
-> > https://lkml.org/lkml/2019/12/9/548 that you drew is accurate for the
-> > display part of the problem.
-> >
-> > You can just add a USB3 connection to the above (there's also I2C
-> > interface to the EC of course to control the TCPC/mux aspect of it,
-> > but that's on different I2C addresses). Something like this:
-> >
-> >                                       +-----------+
-> >  +---------+         +------+    /--> | HDMI      |
-> >  | MT8173  |  HDMI   |   -->| --/     | Connector |
-> >  |  HDMI   | ------> |--/   |         +-----------+
-> >  | Encoder |         |    ->| --\     +-----------+      +-----------+
-> >  +---------+         +------+    \--> | ANX7688   | ---> | USB-C     |
-> >                                       | Bridge    |      | Connector |
-> >                               USB3--> | + mux     |      |           |
-> >                                       +-----------+      +-----------+
-> >                                          ^     ^
-> >                                    (I2C) |     | (I2C)
-> >    MT8173 (DP lane count/bw readback) -- +     + -- EC (TCPC+mux control)
-> >
-> > Power is also fully controlled by the EC.
->
-> Could I ask you to also explain how the HDMI mux is controlled,
+  Tomi
 
-Priority to HDMI. If the HDMI is connected (looking at its HPD
-signal), then the HDMI signals are routed to HDMI connector. Else HDMI
-is routed to ANX7688/USB-C.
-
-> and
-> where the HPD-related signals for the HDMI connector and USB-C connector
-> are routed to ?
-
-HPD is also muxed by the mux, between the 2 inputs.
-(http://www.ti.com/lit/ds/symlink/ts3dv642.pdf, if you are curious,
-9.2.3 is basically how things are wired, with one of the HPD_A/B
-connected to SEL2)
-
-My memory is fading away now, but I think at some point we considered
-having hardware send an HPD pulse when the input changes, but decided
-against it (for cost/complexity reasons). So that means that if both
-HDMI and USB-C monitors are plugged, and you unplug HDMI, the mux
-would switch but you would not get an HPD pulse. That's one of the
-reason we need to react to edges on the mux SEL signal to ask the
-kernel to re-read the EDID (that's in the other driver that Hsin-Yi is
-trying (again) to upstream in this series).
-
-(IIRC, that's also why HDMI HPD pulse work if both connectors are
-plugged, we get the edge on the SEL signal an re-read the EDID).
-
-Thanks.
-
-
-> > (the product brief has a good diagram of the internals of the ANX7688:
-> > https://www.analogix.com/en/system/files/AA-002281-PB-6-ANX7688_Product_Brief.pdf)
-> >
-> > The ANX7688 bridge could _almost_ work driverless (and it does
-> > already), the _only_ thing that the driver is doing is filtering out
-> > impossible resolution based on DP (over USB-C) number of lanes and
-> > bandwidth. This is required to support, for example, old monitors that
-> > may only do RBR over DP (so we can't drive the full resolution over 2
-> > DP lanes, we'd need 4 lanes, and we need to filter out the higher
-> > resolution modes).
-> >
-> > > > > > > > Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
-> > > > > > > > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> > > > > > > > ---
-> > > > > > > >  drivers/gpu/drm/bridge/Kconfig            |   9 +
-> > > > > > > >  drivers/gpu/drm/bridge/Makefile           |   1 +
-> > > > > > > >  drivers/gpu/drm/bridge/analogix-anx7688.c | 202 ++++++++++++++++++++++
-> > > > > > > >  3 files changed, 212 insertions(+)
-> > > > > > > >  create mode 100644 drivers/gpu/drm/bridge/analogix-anx7688.c
-> > > > > > > >
-> > > > > > > > diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-> > > > > > > > index 34362976cd6f..1f3fc6bec842 100644
-> > > > > > > > --- a/drivers/gpu/drm/bridge/Kconfig
-> > > > > > > > +++ b/drivers/gpu/drm/bridge/Kconfig
-> > > > > > > > @@ -16,6 +16,15 @@ config DRM_PANEL_BRIDGE
-> > > > > > > >  menu "Display Interface Bridges"
-> > > > > > > >       depends on DRM && DRM_BRIDGE
-> > > > > > > >
-> > > > > > > > +config DRM_ANALOGIX_ANX7688
-> > > > > > > > +     tristate "Analogix ANX7688 bridge"
-> > > > > > > > +     select DRM_KMS_HELPER
-> > > > > > > > +     select REGMAP_I2C
-> > > > > > > > +     ---help---
-> > > > > > > > +       ANX7688 is a transmitter to support DisplayPort over USB-C for
-> > > > > > > > +       smartphone and tablets.
-> > > > > > > > +       This driver only supports the HDMI to DP component of the chip.
-> > > > > > > > +
-> > > > > > > >  config DRM_ANALOGIX_ANX78XX
-> > > > > > > >       tristate "Analogix ANX78XX bridge"
-> > > > > > > >       select DRM_KMS_HELPER
-> > > > > > > > diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-> > > > > > > > index 4934fcf5a6f8..7a1e0ec032e6 100644
-> > > > > > > > --- a/drivers/gpu/drm/bridge/Makefile
-> > > > > > > > +++ b/drivers/gpu/drm/bridge/Makefile
-> > > > > > > > @@ -1,4 +1,5 @@
-> > > > > > > >  # SPDX-License-Identifier: GPL-2.0
-> > > > > > > > +obj-$(CONFIG_DRM_ANALOGIX_ANX7688) += analogix-anx7688.o
-> > > > > > > >  obj-$(CONFIG_DRM_ANALOGIX_ANX78XX) += analogix-anx78xx.o
-> > > > > > > >  obj-$(CONFIG_DRM_CDNS_DSI) += cdns-dsi.o
-> > > > > > > >  obj-$(CONFIG_DRM_DUMB_VGA_DAC) += dumb-vga-dac.o
-> > > > > > > > diff --git a/drivers/gpu/drm/bridge/analogix-anx7688.c b/drivers/gpu/drm/bridge/analogix-anx7688.c
-> > > > > > > > new file mode 100644
-> > > > > > > > index 000000000000..baaed48d6201
-> > > > > > > > --- /dev/null
-> > > > > > > > +++ b/drivers/gpu/drm/bridge/analogix-anx7688.c
-> > > > > > > > @@ -0,0 +1,202 @@
-> > > > > > > > +// SPDX-License-Identifier: GPL-2.0-only
-> > > > > > > > +/*
-> > > > > > > > + * ANX7688 HDMI->DP bridge driver
-> > > > > > > > + *
-> > > > > > > > + * Copyright 2016 Google LLC
-> > > > > > > > + */
-> > > > > > > > +
-> > > > > > > > +#include <linux/i2c.h>
-> > > > > > > > +#include <linux/module.h>
-> > > > > > > > +#include <linux/regmap.h>
-> > > > > > > > +#include <drm/drm_bridge.h>
-> > > > > > > > +
-> > > > > > > > +/* Register addresses */
-> > > > > > > > +#define VENDOR_ID_REG 0x00
-> > > > > > > > +#define DEVICE_ID_REG 0x02
-> > > > > > > > +
-> > > > > > > > +#define FW_VERSION_REG 0x80
-> > > > > > > > +
-> > > > > > > > +#define DP_BANDWIDTH_REG 0x85
-> > > > > > > > +#define DP_LANE_COUNT_REG 0x86
-> > > > > > >
-> > > > > > > Are these registers defined by the ANX7688 hardware, or by the firmware
-> > > > > > > running on the chip (and, I assume, developed by Google) ?
-> > > > > > >
-> > > > > > By firmware developed by ANX provided to Google.
-> > > > >
-> > > > > We asked for these registers to be added to ANX FW, and this is the FW
-> > > > > that is used by all elm/hana Chromebooks (I have no idea about other
-> > > > > ANX customers...). We have facilities to update the ANX FW from
-> > > > > coreboot/depthcharge on Chromebooks, but that does not really matter:
-> > > > > the factory FW of all MP Chromebooks does provide these registers.
-> > > >
-> > > > So the driver is specific to Chromebooks, it doesn't support all
-> > > > ANX7688. Sweet :-(
-> >
-> > FWIW, this is a 3+ year old part, so it appears that nobody else cares anyway?
->
-> That's good news :-)
->
-> > Also, this driver is only required to implement the mode filtering,
-> > which, possibly, is only supported by the Google version of the FW (I
-> > have no idea what other customers ANX has for this part, if they care
-> > about this problem, and if so, how they solve it).
->
-> --
-> Regards,
->
-> Laurent Pinchart
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
