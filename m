@@ -1,28 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F134B123A18
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 23:34:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 820D2123A27
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 23:42:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 059556E176;
-	Tue, 17 Dec 2019 22:34:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDC406E183;
+	Tue, 17 Dec 2019 22:42:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 264366E176
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 22:34:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFDE06E183
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 22:42:11 +0000 (UTC)
 Received: from ip5f5a5f74.dynamic.kabel-deutschland.de ([95.90.95.116]
  helo=phil.sntech)
  by gloria.sntech.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.89) (envelope-from <heiko@sntech.de>)
- id 1ihLQE-0001Km-8k; Tue, 17 Dec 2019 23:34:30 +0100
+ id 1ihLXS-0001N7-EX; Tue, 17 Dec 2019 23:41:58 +0100
 From: Heiko Stuebner <heiko@sntech.de>
 To: a.hajda@samsung.com
 Subject: [PATCH] drm/bridge/synopsys: dsi: use mipi_dsi_device to find panel
  or bridge
-Date: Tue, 17 Dec 2019 23:34:21 +0100
-Message-Id: <20191217223421.20106-1-heiko@sntech.de>
+Date: Tue, 17 Dec 2019 23:41:50 +0100
+Message-Id: <20191217224150.20540-1-heiko@sntech.de>
 X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -52,17 +52,21 @@ Right now the dsi driver uses drm_of_find_panel_or_bridge() to find a
 connected panel or bridge. But this requires an of-graph connection
 between the dsi-host and dsi-device, where normal bindings for regular
 panels just expect the dsi device to be a subnode of the actual dsi host
-not requiring port connections.
+not requiring ports.
 
-drm_of_find_panel_or_bridge used to find the actual device-node of the
-dsi device, but as this happens in the dsi_host_attach callback we already
-have the dsi-device and its device-node available already, so can just
-call the relevant panel+bridge functions ourself, making it work as well
-in setups without port-connections.
+drm_of_find_panel_or_bridge is used to find panel/bridge under the actual
+device-node of the dsi device, but as this happens in the dsi_host_attach
+callback we already have the dsi-device and its device-node available and
+therefore can just call the relevant panel+bridge functions ourself,
+making it work as well in setups without port-connections.
 
 Tested on a Rockchip px30 single-dsi with panels form Leadtek and Xinpeng
-as well on Gru-Scarlet (rk3399) with dual-dsi (and therefore ports)
-connected to the Innotek display variant.
+as well on Gru-Scarlet (rk3399) with dual-dsi (and thus port-connections
+to both dsi controllers) connected to the Innotek display variant.
+
+changes in v2:
+- rework commit message, rereading what I had written was just too
+  cringe-worthy ;-)
 
 Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
 ---
