@@ -2,23 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF53122F4F
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 15:52:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F276A122F54
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2019 15:52:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BD3C6EA02;
-	Tue, 17 Dec 2019 14:52:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 887696EA05;
+	Tue, 17 Dec 2019 14:52:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3F436EA07
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 14:52:28 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3B5F6EA02
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 14:52:29 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: andrzej.p) with ESMTPSA id C4548292765
+ (Authenticated sender: andrzej.p) with ESMTPSA id DB7B6292777
 From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCHv5 09/34] drm/komeda: Explicitly require 1 plane for AFBC
-Date: Tue, 17 Dec 2019 15:49:55 +0100
-Message-Id: <20191217145020.14645-10-andrzej.p@collabora.com>
+Subject: [PATCHv5 10/34] drm/komeda: Move pitches comparison to
+ komeda_fb_create
+Date: Tue, 17 Dec 2019 15:49:56 +0100
+Message-Id: <20191217145020.14645-11-andrzej.p@collabora.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191217145020.14645-1-andrzej.p@collabora.com>
 References: <20191213173350.GJ624164@phenom.ffwll.local>
@@ -47,30 +49,45 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Apparently komeda silently assumes that there is only 1 plane in an AFBC
-buffer. Make this assumption explicit.
+For AFBC case num_planes equals 1 so the check will not affect it.
 
 Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 ---
- drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../drm/arm/display/komeda/komeda_framebuffer.c    | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c b/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
-index 7004c3c8f8de..c0bc499a9c29 100644
+index c0bc499a9c29..5d035f6a76a6 100644
 --- a/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
 +++ b/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
-@@ -169,6 +169,11 @@ komeda_fb_create(struct drm_device *dev, struct drm_file *file,
- 	info = kfb->base.format;
+@@ -132,13 +132,6 @@ komeda_fb_none_afbc_size_check(struct komeda_dev *mdev,
+ 		}
+ 	}
  
- 	if (kfb->base.modifier) {
-+		if (info->num_planes != 1) {
-+			DRM_DEBUG_KMS("AFBC requires exactly 1 plane.\n");
-+			kfree(kfb);
-+			return ERR_PTR(-EINVAL);
+-	if (info->num_planes == 3) {
+-		if (fb->pitches[1] != fb->pitches[2]) {
+-			DRM_DEBUG_KMS("The pitch[1] and [2] are not same\n");
+-			return -EINVAL;
+-		}
+-	}
+-
+ 	return 0;
+ }
+ 
+@@ -188,6 +181,13 @@ komeda_fb_create(struct drm_device *dev, struct drm_file *file,
+ 	if (ret < 0)
+ 		goto err_cleanup;
+ 
++	if (info->num_planes == 3)
++		if (kfb->base.pitches[1] != kfb->base.pitches[2]) {
++			DRM_DEBUG_KMS("The pitch[1] and [2] are not same\n");
++			ret = -EINVAL;
++			goto err_cleanup;
 +		}
- 		ret = komeda_fb_afbc_size_check(kfb, info, file, mode_cmd);
- 	} else {
- 		if (komeda_fb_check_src_coords(kfb, 0, 0, kfb->base.width,
++
+ 	ret = drm_framebuffer_init(dev, &kfb->base, &komeda_fb_funcs);
+ 	if (ret < 0) {
+ 		DRM_DEBUG_KMS("failed to initialize fb\n");
 -- 
 2.17.1
 
