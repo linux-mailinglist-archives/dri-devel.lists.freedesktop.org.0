@@ -1,50 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE863125C65
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 09:11:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00352125C6E
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 09:11:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4442A6EABB;
-	Thu, 19 Dec 2019 08:11:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 688906EAC9;
+	Thu, 19 Dec 2019 08:11:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com
- [IPv6:2607:f8b0:4864:20::74a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69ABA6EA65
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 19:58:29 +0000 (UTC)
-Received: by mail-qk1-x74a.google.com with SMTP id f22so2080783qka.10
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 11:58:29 -0800 (PST)
+Received: from mail-pl1-x649.google.com (mail-pl1-x649.google.com
+ [IPv6:2607:f8b0:4864:20::649])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D762F6EA68
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 19:58:31 +0000 (UTC)
+Received: by mail-pl1-x649.google.com with SMTP id x10so1714467plo.19
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 11:58:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:message-id:mime-version:subject:from:to:cc;
- bh=pRw2SFM5926Ycakiwb4R0k3JFy1gd7g8sCeOA7lbhgc=;
- b=ZP64ADvo98U6O5TPtR8NmtvMkJ1HrHC8oi4zoUVS7jI6N9icGUagZWiQiNg5DCijxy
- CvvHb1/c6zBxc/WeX79aJKEsk7b2fjVP12iDTKIyeDFuxyKkGE4Oss+ktP/+I3NDYX2l
- zju2x+Wh1AyKU/qQUTOgQ+IQKvKpN9cn1JPi/0WHODaEjBZlJxPdNFlFpslfAMw9QTd+
- sI8kSAuzigzdadqGa9v+ul4NmXh2RyUMtVK4JBXQZUtsGptMdR3vCxRfp5cU+zbYfZN2
- amGLvbJ8gVq6d/OQva1ikFvZwnK/HhErl1OIiJ+HPzl2lr7tBZopVSEuC3AlOdLjtNMe
- 8K1g==
+ h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+ :cc; bh=/Qw4GD/L/BHUnMfNxnXbv2iuA578RGnnJhQc59pGIoc=;
+ b=ddCvbB9ZGAvpACocdkZ/7ONc5qdfBsD4O+wbN3KLPM15G90OLljd9GzKQSdNlRW93I
+ ZIUYQMaPTwQ3g5IuxHEZscLsdmS+aUftqKw4PABX882q/ey2xlwtDrLmrnoXciIbpdbU
+ reCKS7YwaNi/DYhc41JRByoqIGGuG9kUNUTBEHCyZpEifwwSK3b9wHxZf7lFQ92Ux2+z
+ cnpjB2b4j0QqP3Yrdds767r17Zl/r5tfIJsgKb6iGnsGb1aQHU8PbjaJEfDxHN7EN3SF
+ 3Xl7SLa6vPqfbzv9L+OPjUnZdO/Wa2z/uHdYTnmu01C2UxMPkDFw8vs492Lv3LO/XCpP
+ M1Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
- bh=pRw2SFM5926Ycakiwb4R0k3JFy1gd7g8sCeOA7lbhgc=;
- b=NBvtQPz7/GdktA4DWmgthU3tG0xe0rD6A9QC4YNhBpqg4plGTm+Av2vS3ve/Lr19G/
- mvwywK2Js0AHkKBdDB7EImfsvWrXvvCIfMjseJfkalrytETqRUOrgHNdV67xO2oM2LKt
- t5PURqzE0uzGIDNpFAns0dnvR9tTDnaj8n2LbmSqsUw5aASD/dH5E7TqCE/Ww6VsMxbk
- Y7WFC25gjDAfAAhNJRF9hDLIwLNPgyTYpUZ6v/pDzHp7RGimlxgVBme1T97JnZj+it1f
- bg+iHKELzksYcTGQjGu3ZQrWc4hp+HtICQ71dreDOnGYGkFXkwdOpakMXoJl/ylCsNVe
- kxlQ==
-X-Gm-Message-State: APjAAAVhzvaE9giVibm0fTwR7lbjXUDqeV8YyKbZyueD497tcQQcoBya
- zFlgpmEWatJNhOyS9Gu1HxsntO9mxaQR
-X-Google-Smtp-Source: APXvYqwkAXVKqBhtf/hRgoEfEuuxDJRKW23nRXmECehZMvJIyl8PDCg2nsPE9LrBdr6C6VwHlJAV56YHWqiU
-X-Received: by 2002:a0c:fa43:: with SMTP id k3mr4013507qvo.229.1576699108183; 
- Wed, 18 Dec 2019 11:58:28 -0800 (PST)
-Date: Wed, 18 Dec 2019 11:58:21 -0800
-Message-Id: <20191218195823.130560-1-rajatja@google.com>
+ h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+ :references:subject:from:to:cc;
+ bh=/Qw4GD/L/BHUnMfNxnXbv2iuA578RGnnJhQc59pGIoc=;
+ b=PMnjhjuwQlgxYLeu8suyOWblHaB4YcYVif48c9tAjn17F2NAZ8TlqT+Kb2Tmqh4e93
+ r5y6IMg1seCiDEp/4kN8kEUR6wpmVAdmpnpJZcqZ8bSekIoo6jWkaY/Ne2G0uT5Xq1Pm
+ JTkLsRW8p0bJMobWrg6Mn8pS4HGPPvEXzkeM2ql+pr0YbBQejGZkHW3lvHLXDUpdAfsY
+ a+ZVy6TjrDzr28fq9lkkQe53sjARge//+tK5wWDo1C8JJPzH/4e+/YnFjwBeb6nCV+mc
+ eF92V+CVf2TPUazp5tB8+oMJLcGKvukl1NiEB9NokAiRLfS4HjXsrGdRwslDtKgS1riL
+ h6tg==
+X-Gm-Message-State: APjAAAWsJbQBv+7AcNi3OB68zzOWAfELq86cVuctEYKz66hcsN/zD9QP
+ xOm7qC9afjXRoWdZ5+MaR5wtSt2Eq9Z9
+X-Google-Smtp-Source: APXvYqzUyyP4APG9uzsV2Q/NFTw0R3/qXgwqn6Wj8H11eOfXSe3GHt7u0nsI9lpLtXUaZ/adWCPKBJ40H652
+X-Received: by 2002:a63:de03:: with SMTP id f3mr5060605pgg.141.1576699111317; 
+ Wed, 18 Dec 2019 11:58:31 -0800 (PST)
+Date: Wed, 18 Dec 2019 11:58:22 -0800
+In-Reply-To: <20191218195823.130560-1-rajatja@google.com>
+Message-Id: <20191218195823.130560-2-rajatja@google.com>
 Mime-Version: 1.0
+References: <20191218195823.130560-1-rajatja@google.com>
 X-Mailer: git-send-email 2.24.1.735.g03f4e72817-goog
-Subject: [PATCH RESEND v4 1/3] drm/i915: Move the code to populate ACPI device
- ID into intel_acpi
+Subject: [PATCH RESEND v4 2/3] drm/i915: Lookup and attach ACPI device node
+ for connectors
 From: Rajat Jain <rajatja@google.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
@@ -82,271 +85,109 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move the code that populates the ACPI device ID for devices, into
-more appripriate intel_acpi.c. This is done in preparation for more
-users of this code (in next patch).
+Lookup and attach ACPI nodes for intel connectors. The lookup is done
+in compliance with ACPI Spec 6.3
+https://uefi.org/sites/default/files/resources/ACPI_6_3_final_Jan30.pdf
+(Ref: Pages 1119 - 1123).
+
+This can be useful for any connector specific platform properties. (This
+will be used for privacy screen in next patch).
 
 Signed-off-by: Rajat Jain <rajatja@google.com>
 ---
 v4: Same as v3
-v3: * Renamed the function to intel_acpi_*
-    * Used forward declaration for structure instead of header file inclusion.
-    * Fix a typo
-v2: v1 doesn't exist. Found existing code in i915 driver to assign the ACPI ID
-    which is what I plan to re-use.
+v3: fold the code into existing acpi_device_id_update() function
+v2: formed by splitting the original patch into ACPI lookup, and privacy
+    screen property. Also move it into i915 now that I found existing code
+    in i915 that can be re-used.
 
- drivers/gpu/drm/i915/display/intel_acpi.c     | 89 +++++++++++++++++++
- drivers/gpu/drm/i915/display/intel_acpi.h     |  5 ++
- drivers/gpu/drm/i915/display/intel_opregion.c | 80 +----------------
- 3 files changed, 98 insertions(+), 76 deletions(-)
+ drivers/gpu/drm/i915/display/intel_acpi.c     | 24 +++++++++++++++++++
+ .../drm/i915/display/intel_display_types.h    |  3 +++
+ drivers/gpu/drm/i915/display/intel_dp.c       |  3 +++
+ 3 files changed, 30 insertions(+)
 
 diff --git a/drivers/gpu/drm/i915/display/intel_acpi.c b/drivers/gpu/drm/i915/display/intel_acpi.c
-index 3456d33feb46..e21fb14d5e07 100644
+index e21fb14d5e07..101a56c08996 100644
 --- a/drivers/gpu/drm/i915/display/intel_acpi.c
 +++ b/drivers/gpu/drm/i915/display/intel_acpi.c
-@@ -10,6 +10,7 @@
- 
- #include "i915_drv.h"
- #include "intel_acpi.h"
-+#include "intel_display_types.h"
- 
- #define INTEL_DSM_REVISION_ID 1 /* For Calpella anyway... */
- #define INTEL_DSM_FN_PLATFORM_MUX_INFO 1 /* No args */
-@@ -156,3 +157,91 @@ void intel_register_dsm_handler(void)
- void intel_unregister_dsm_handler(void)
- {
+@@ -222,11 +222,23 @@ static u32 acpi_display_type(struct intel_connector *connector)
+ 	return display_type;
  }
-+
+ 
 +/*
-+ * ACPI Specification, Revision 5.0, Appendix B.3.2 _DOD (Enumerate All Devices
-+ * Attached to the Display Adapter).
++ * Ref: ACPI Spec 6.3
++ * https://uefi.org/sites/default/files/resources/ACPI_6_3_final_Jan30.pdf
++ * Pages 1119 - 1123 describe, what I believe, a standard way of
++ * identifying / addressing "display panels" in the ACPI. It provides
++ * a way for the ACPI to define devices for the display panels attached
++ * to the system. It thus provides a way for the BIOS to export any panel
++ * specific properties to the system via ACPI (like device trees).
 + */
-+#define ACPI_DISPLAY_INDEX_SHIFT		0
-+#define ACPI_DISPLAY_INDEX_MASK			(0xf << 0)
-+#define ACPI_DISPLAY_PORT_ATTACHMENT_SHIFT	4
-+#define ACPI_DISPLAY_PORT_ATTACHMENT_MASK	(0xf << 4)
-+#define ACPI_DISPLAY_TYPE_SHIFT			8
-+#define ACPI_DISPLAY_TYPE_MASK			(0xf << 8)
-+#define ACPI_DISPLAY_TYPE_OTHER			(0 << 8)
-+#define ACPI_DISPLAY_TYPE_VGA			(1 << 8)
-+#define ACPI_DISPLAY_TYPE_TV			(2 << 8)
-+#define ACPI_DISPLAY_TYPE_EXTERNAL_DIGITAL	(3 << 8)
-+#define ACPI_DISPLAY_TYPE_INTERNAL_DIGITAL	(4 << 8)
-+#define ACPI_VENDOR_SPECIFIC_SHIFT		12
-+#define ACPI_VENDOR_SPECIFIC_MASK		(0xf << 12)
-+#define ACPI_BIOS_CAN_DETECT			(1 << 16)
-+#define ACPI_DEPENDS_ON_VGA			(1 << 17)
-+#define ACPI_PIPE_ID_SHIFT			18
-+#define ACPI_PIPE_ID_MASK			(7 << 18)
-+#define ACPI_DEVICE_ID_SCHEME			(1ULL << 31)
-+
-+static u32 acpi_display_type(struct intel_connector *connector)
-+{
-+	u32 display_type;
-+
-+	switch (connector->base.connector_type) {
-+	case DRM_MODE_CONNECTOR_VGA:
-+	case DRM_MODE_CONNECTOR_DVIA:
-+		display_type = ACPI_DISPLAY_TYPE_VGA;
-+		break;
-+	case DRM_MODE_CONNECTOR_Composite:
-+	case DRM_MODE_CONNECTOR_SVIDEO:
-+	case DRM_MODE_CONNECTOR_Component:
-+	case DRM_MODE_CONNECTOR_9PinDIN:
-+	case DRM_MODE_CONNECTOR_TV:
-+		display_type = ACPI_DISPLAY_TYPE_TV;
-+		break;
-+	case DRM_MODE_CONNECTOR_DVII:
-+	case DRM_MODE_CONNECTOR_DVID:
-+	case DRM_MODE_CONNECTOR_DisplayPort:
-+	case DRM_MODE_CONNECTOR_HDMIA:
-+	case DRM_MODE_CONNECTOR_HDMIB:
-+		display_type = ACPI_DISPLAY_TYPE_EXTERNAL_DIGITAL;
-+		break;
-+	case DRM_MODE_CONNECTOR_LVDS:
-+	case DRM_MODE_CONNECTOR_eDP:
-+	case DRM_MODE_CONNECTOR_DSI:
-+		display_type = ACPI_DISPLAY_TYPE_INTERNAL_DIGITAL;
-+		break;
-+	case DRM_MODE_CONNECTOR_Unknown:
-+	case DRM_MODE_CONNECTOR_VIRTUAL:
-+		display_type = ACPI_DISPLAY_TYPE_OTHER;
-+		break;
-+	default:
-+		MISSING_CASE(connector->base.connector_type);
-+		display_type = ACPI_DISPLAY_TYPE_OTHER;
-+		break;
-+	}
-+
-+	return display_type;
-+}
-+
-+void intel_acpi_device_id_update(struct drm_i915_private *dev_priv)
-+{
-+	struct drm_device *drm_dev = &dev_priv->drm;
-+	struct intel_connector *connector;
-+	struct drm_connector_list_iter conn_iter;
-+	u8 display_index[16] = {};
-+
-+	/* Populate the ACPI IDs for all connectors for a given drm_device */
-+	drm_connector_list_iter_begin(drm_dev, &conn_iter);
-+	for_each_intel_connector_iter(connector, &conn_iter) {
-+		u32 device_id, type;
-+
-+		device_id = acpi_display_type(connector);
-+
-+		/* Use display type specific display index. */
-+		type = (device_id & ACPI_DISPLAY_TYPE_MASK)
-+			>> ACPI_DISPLAY_TYPE_SHIFT;
-+		device_id |= display_index[type]++ << ACPI_DISPLAY_INDEX_SHIFT;
-+
-+		connector->acpi_device_id = device_id;
-+	}
-+	drm_connector_list_iter_end(&conn_iter);
-+}
-diff --git a/drivers/gpu/drm/i915/display/intel_acpi.h b/drivers/gpu/drm/i915/display/intel_acpi.h
-index 1c576b3fb712..e8b068661d22 100644
---- a/drivers/gpu/drm/i915/display/intel_acpi.h
-+++ b/drivers/gpu/drm/i915/display/intel_acpi.h
-@@ -6,12 +6,17 @@
- #ifndef __INTEL_ACPI_H__
- #define __INTEL_ACPI_H__
- 
-+struct drm_i915_private;
-+
- #ifdef CONFIG_ACPI
- void intel_register_dsm_handler(void);
- void intel_unregister_dsm_handler(void);
-+void intel_acpi_device_id_update(struct drm_i915_private *i915);
- #else
- static inline void intel_register_dsm_handler(void) { return; }
- static inline void intel_unregister_dsm_handler(void) { return; }
-+static inline
-+void intel_acpi_device_id_update(struct drm_i915_private *i915) { return; }
- #endif /* CONFIG_ACPI */
- 
- #endif /* __INTEL_ACPI_H__ */
-diff --git a/drivers/gpu/drm/i915/display/intel_opregion.c b/drivers/gpu/drm/i915/display/intel_opregion.c
-index 969ade623691..6422384f199e 100644
---- a/drivers/gpu/drm/i915/display/intel_opregion.c
-+++ b/drivers/gpu/drm/i915/display/intel_opregion.c
-@@ -35,6 +35,7 @@
- #include "display/intel_panel.h"
- 
- #include "i915_drv.h"
-+#include "intel_acpi.h"
- #include "intel_display_types.h"
- #include "intel_opregion.h"
- 
-@@ -242,29 +243,6 @@ struct opregion_asle_ext {
- #define SWSCI_SBCB_POST_VBE_PM		SWSCI_FUNCTION_CODE(SWSCI_SBCB, 19)
- #define SWSCI_SBCB_ENABLE_DISABLE_AUDIO	SWSCI_FUNCTION_CODE(SWSCI_SBCB, 21)
- 
--/*
-- * ACPI Specification, Revision 5.0, Appendix B.3.2 _DOD (Enumerate All Devices
-- * Attached to the Display Adapter).
-- */
--#define ACPI_DISPLAY_INDEX_SHIFT		0
--#define ACPI_DISPLAY_INDEX_MASK			(0xf << 0)
--#define ACPI_DISPLAY_PORT_ATTACHMENT_SHIFT	4
--#define ACPI_DISPLAY_PORT_ATTACHMENT_MASK	(0xf << 4)
--#define ACPI_DISPLAY_TYPE_SHIFT			8
--#define ACPI_DISPLAY_TYPE_MASK			(0xf << 8)
--#define ACPI_DISPLAY_TYPE_OTHER			(0 << 8)
--#define ACPI_DISPLAY_TYPE_VGA			(1 << 8)
--#define ACPI_DISPLAY_TYPE_TV			(2 << 8)
--#define ACPI_DISPLAY_TYPE_EXTERNAL_DIGITAL	(3 << 8)
--#define ACPI_DISPLAY_TYPE_INTERNAL_DIGITAL	(4 << 8)
--#define ACPI_VENDOR_SPECIFIC_SHIFT		12
--#define ACPI_VENDOR_SPECIFIC_MASK		(0xf << 12)
--#define ACPI_BIOS_CAN_DETECT			(1 << 16)
--#define ACPI_DEPENDS_ON_VGA			(1 << 17)
--#define ACPI_PIPE_ID_SHIFT			18
--#define ACPI_PIPE_ID_MASK			(7 << 18)
--#define ACPI_DEVICE_ID_SCHEME			(1 << 31)
--
- #define MAX_DSLP	1500
- 
- static int swsci(struct drm_i915_private *dev_priv,
-@@ -662,54 +640,12 @@ static void set_did(struct intel_opregion *opregion, int i, u32 val)
- 	}
- }
- 
--static u32 acpi_display_type(struct intel_connector *connector)
--{
--	u32 display_type;
--
--	switch (connector->base.connector_type) {
--	case DRM_MODE_CONNECTOR_VGA:
--	case DRM_MODE_CONNECTOR_DVIA:
--		display_type = ACPI_DISPLAY_TYPE_VGA;
--		break;
--	case DRM_MODE_CONNECTOR_Composite:
--	case DRM_MODE_CONNECTOR_SVIDEO:
--	case DRM_MODE_CONNECTOR_Component:
--	case DRM_MODE_CONNECTOR_9PinDIN:
--	case DRM_MODE_CONNECTOR_TV:
--		display_type = ACPI_DISPLAY_TYPE_TV;
--		break;
--	case DRM_MODE_CONNECTOR_DVII:
--	case DRM_MODE_CONNECTOR_DVID:
--	case DRM_MODE_CONNECTOR_DisplayPort:
--	case DRM_MODE_CONNECTOR_HDMIA:
--	case DRM_MODE_CONNECTOR_HDMIB:
--		display_type = ACPI_DISPLAY_TYPE_EXTERNAL_DIGITAL;
--		break;
--	case DRM_MODE_CONNECTOR_LVDS:
--	case DRM_MODE_CONNECTOR_eDP:
--	case DRM_MODE_CONNECTOR_DSI:
--		display_type = ACPI_DISPLAY_TYPE_INTERNAL_DIGITAL;
--		break;
--	case DRM_MODE_CONNECTOR_Unknown:
--	case DRM_MODE_CONNECTOR_VIRTUAL:
--		display_type = ACPI_DISPLAY_TYPE_OTHER;
--		break;
--	default:
--		MISSING_CASE(connector->base.connector_type);
--		display_type = ACPI_DISPLAY_TYPE_OTHER;
--		break;
--	}
--
--	return display_type;
--}
--
- static void intel_didl_outputs(struct drm_i915_private *dev_priv)
+ void intel_acpi_device_id_update(struct drm_i915_private *dev_priv)
  {
- 	struct intel_opregion *opregion = &dev_priv->opregion;
+ 	struct drm_device *drm_dev = &dev_priv->drm;
  	struct intel_connector *connector;
  	struct drm_connector_list_iter conn_iter;
- 	int i = 0, max_outputs;
--	int display_index[16] = {};
++	struct device *dev = &drm_dev->pdev->dev;
++	struct acpi_device *conn_dev;
++	u64 conn_addr;
+ 	u8 display_index[16] = {};
  
- 	/*
- 	 * In theory, did2, the extended didl, gets added at opregion version
-@@ -721,20 +657,12 @@ static void intel_didl_outputs(struct drm_i915_private *dev_priv)
- 	max_outputs = ARRAY_SIZE(opregion->acpi->didl) +
- 		ARRAY_SIZE(opregion->acpi->did2);
+ 	/* Populate the ACPI IDs for all connectors for a given drm_device */
+@@ -242,6 +254,18 @@ void intel_acpi_device_id_update(struct drm_i915_private *dev_priv)
+ 		device_id |= display_index[type]++ << ACPI_DISPLAY_INDEX_SHIFT;
  
-+	intel_acpi_device_id_update(dev_priv);
+ 		connector->acpi_device_id = device_id;
 +
- 	drm_connector_list_iter_begin(&dev_priv->drm, &conn_iter);
- 	for_each_intel_connector_iter(connector, &conn_iter) {
--		u32 device_id, type;
--
--		device_id = acpi_display_type(connector);
--
--		/* Use display type specific display index. */
--		type = (device_id & ACPI_DISPLAY_TYPE_MASK)
--			>> ACPI_DISPLAY_TYPE_SHIFT;
--		device_id |= display_index[type]++ << ACPI_DISPLAY_INDEX_SHIFT;
--
--		connector->acpi_device_id = device_id;
- 		if (i < max_outputs)
--			set_did(opregion, i, device_id);
-+			set_did(opregion, i, connector->acpi_device_id);
- 		i++;
++		/* Build the _ADR to look for */
++		conn_addr = device_id | ACPI_DEVICE_ID_SCHEME |
++				ACPI_BIOS_CAN_DETECT;
++
++		DRM_DEV_INFO(dev, "Checking connector ACPI node at _ADR=%llX\n",
++			     conn_addr);
++
++		/* Look up the connector device, under the PCI device */
++		conn_dev = acpi_find_child_device(ACPI_COMPANION(dev),
++						  conn_addr, false);
++		connector->acpi_handle = conn_dev ? conn_dev->handle : NULL;
  	}
  	drm_connector_list_iter_end(&conn_iter);
+ }
+diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+index 1a7334dbe802..0a4a04116091 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_types.h
++++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+@@ -407,6 +407,9 @@ struct intel_connector {
+ 	/* ACPI device id for ACPI and driver cooperation */
+ 	u32 acpi_device_id;
+ 
++	/* ACPI handle corresponding to this connector display, if found */
++	void *acpi_handle;
++
+ 	/* Reads out the current hw, returning true if the connector is enabled
+ 	 * and active (i.e. dpms ON state). */
+ 	bool (*get_hw_state)(struct intel_connector *);
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index b05b2191b919..93cece8e2516 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -45,6 +45,7 @@
+ #include "i915_debugfs.h"
+ #include "i915_drv.h"
+ #include "i915_trace.h"
++#include "intel_acpi.h"
+ #include "intel_atomic.h"
+ #include "intel_audio.h"
+ #include "intel_connector.h"
+@@ -6623,6 +6624,8 @@ intel_dp_add_properties(struct intel_dp *intel_dp, struct drm_connector *connect
+ 
+ 		connector->state->scaling_mode = DRM_MODE_SCALE_ASPECT;
+ 
++		/* Lookup the ACPI node corresponding to the connector */
++		intel_acpi_device_id_update(dev_priv);
+ 	}
+ }
+ 
 -- 
 2.24.1.735.g03f4e72817-goog
 
