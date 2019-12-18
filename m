@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85DC1123C25
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 02:00:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34229123C26
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 02:00:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 758376E1F4;
-	Wed, 18 Dec 2019 01:00:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F92F6E202;
+	Wed, 18 Dec 2019 01:00:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 559016E202
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 00:59:59 +0000 (UTC)
-Received: by mail-pf1-x441.google.com with SMTP id h14so206830pfe.10
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 16:59:59 -0800 (PST)
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
+ [IPv6:2607:f8b0:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51CCE6E204
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 01:00:01 +0000 (UTC)
+Received: by mail-pg1-x544.google.com with SMTP id b9so253950pgk.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 17:00:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yyyHW+YsY1PWq9tcDK5vwtSS9rTi8+t7ITEZCepACZA=;
- b=fQQYKOluVr3D7Hici4YaNYgM45AU851Z6qn0GoH4GAfT+yE1ZM7uEVRBDAMVsuGIB8
- 85Yq3ZMuuE9196lq2Bq1WehFqsSLprO1O6XDHhvbqSg1laQTAlt2THryEB4cM1sR8eJQ
- HFpkeqKLSC4aLU6xQWQDsW2AyjMRGqkcc3IfQ=
+ bh=V7MMnTK7WdH1cHIRULp8Rnd1QWMIByP2H3zvTLcqfB8=;
+ b=SrpMYNWUCu8D6TFPTSl5VuzRKcZ0LUOrObIBpIslwlpZfeXXebfB/DceDmrAxV9o75
+ 4bVGNUfbb+5AieYR45FYPq35+CJOFJqspphwkF9ok60nx1vCpVvpwY3ues6j6BVuBC0P
+ 7FEIHWpfCFXl5BmKIjmxjLuQXYg/4wp/0Tz0s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yyyHW+YsY1PWq9tcDK5vwtSS9rTi8+t7ITEZCepACZA=;
- b=FQ22gxY1EKyk+o79erIDRVbL/oIPFHDvl4al+IHPSzTtUQyAY0nmTE803pl891lxhC
- UKd5PPbozCZY4rIG7JspJEs95fSn5xre6KzWOqfASuV6Xbg7xm40cdaUn4ELVUSY8G1P
- YX9EWWcZIXULo/FIVRRWs1ShSEM8Ww4cs05JzjXWe/BJ8PCwRU5aIcYDrURu+KDAG8Ki
- UC0MosnHNIPO7IuPz3H5BkzbpaeI3B8PBxwluPPSCKraJmehhycGPOzW9L8so5WGDO2Z
- 0YiVDYb/XMjY7lmENaYm7B9bnbFmaP4f8IdaIX9Q7wsrTXFmrQylNK4PP5nI5FB11GK6
- H+xQ==
-X-Gm-Message-State: APjAAAWwtHj8qPvIPsKAFLmfhR6DJOjjA2zrksN3JSAZ6IpxbzCPkHRN
- RP0xaBN2SIr5W/BD9pkIYPels3b96hQ=
-X-Google-Smtp-Source: APXvYqxmOdwSb9P2sFmqJ1hUzt2dtqEc+xQsWTPwGWeSvRmA53hKlOAmDc7McfAQgjT9nmcHhQtbOQ==
-X-Received: by 2002:a65:58c7:: with SMTP id e7mr330526pgu.390.1576630798607;
- Tue, 17 Dec 2019 16:59:58 -0800 (PST)
+ bh=V7MMnTK7WdH1cHIRULp8Rnd1QWMIByP2H3zvTLcqfB8=;
+ b=ORpLyj4wK9pwNFpMA+lUYbT9kFdMrDo9i8Gxl225kvkSZRfMdaKYW6XJGgvj++5+kB
+ 4/XvZmgpKR05dFbwIYDXTZ+Op5MX49XO2YjMiFT3PXecEP+49sBe4UCIW0AGvMSSzlSf
+ Qs6hPo1sq60vgqhFNx/X+O5EHF/UQJi6BlnJ/xF8hPuWPQ+wu22QKz+2sppbii003WrE
+ sRu33x2zoZvz/2y5Auxsw0STvK671J7goZJwNME6jiYEcuvpGK1/1P224xmpe5vDo1s+
+ ncy/0Fe12Ag9s3UNEXlu1rc532Oh1p89uz3rS/rvyShfatgRvtlP10XkGq2EL5/82nAM
+ +yOA==
+X-Gm-Message-State: APjAAAU3YS9hYbfFjqGCLLuqcX6rFIJP4wEpPXK1XJBaGg1BJKLkwogZ
+ 7zAN0NMbM2lENcsrWMOBQfamTKxIZSk=
+X-Google-Smtp-Source: APXvYqxMXTStAMNaWIvYCJnp9oJm+iqRG0vAToyXtYgXHD0OxprRGB2fiKSALjtqSOLi96fR7S5TmQ==
+X-Received: by 2002:a63:d041:: with SMTP id s1mr306587pgi.363.1576630800717;
+ Tue, 17 Dec 2019 17:00:00 -0800 (PST)
 Received: from gurchetansingh0.mtv.corp.google.com
  ([2620:15c:202:201:bc97:5740:52a7:6875])
- by smtp.gmail.com with ESMTPSA id r1sm240802pgp.15.2019.12.17.16.59.57
+ by smtp.gmail.com with ESMTPSA id r1sm240802pgp.15.2019.12.17.16.59.59
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Tue, 17 Dec 2019 16:59:58 -0800 (PST)
+ Tue, 17 Dec 2019 17:00:00 -0800 (PST)
 From: Gurchetan Singh <gurchetansingh@chromium.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 5/9] drm/virtio: remove virtgpu_gem_prime_import_sg_table
-Date: Tue, 17 Dec 2019 16:59:25 -0800
-Message-Id: <20191218005929.6709-6-gurchetansingh@chromium.org>
+Subject: [PATCH 6/9] drm/virtio: move to_virtio_fence inside virtgpu_fence
+Date: Tue, 17 Dec 2019 16:59:26 -0800
+Message-Id: <20191218005929.6709-7-gurchetansingh@chromium.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191218005929.6709-1-gurchetansingh@chromium.org>
 References: <20191218005929.6709-1-gurchetansingh@chromium.org>
@@ -70,106 +70,41 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sharing memory between virtio devices is ill-defined, so until
-we have something let's get rid of this.
-
-drm_gem_prime_import_dev returns an error if the callback is NULL.
+That's the only file that uses it.
 
 Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
 ---
- drivers/gpu/drm/virtio/Makefile        |  2 +-
- drivers/gpu/drm/virtio/virtgpu_drv.c   |  3 +-
- drivers/gpu/drm/virtio/virtgpu_drv.h   |  5 ----
- drivers/gpu/drm/virtio/virtgpu_prime.c | 38 --------------------------
- 4 files changed, 2 insertions(+), 46 deletions(-)
- delete mode 100644 drivers/gpu/drm/virtio/virtgpu_prime.c
+ drivers/gpu/drm/virtio/virtgpu_drv.h   | 2 --
+ drivers/gpu/drm/virtio/virtgpu_fence.c | 3 +++
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/virtio/Makefile b/drivers/gpu/drm/virtio/Makefile
-index 92aa2b3d349d..36d8cf8e0cec 100644
---- a/drivers/gpu/drm/virtio/Makefile
-+++ b/drivers/gpu/drm/virtio/Makefile
-@@ -6,6 +6,6 @@
- virtio-gpu-y := virtgpu_drv.o virtgpu_kms.o virtgpu_gem.o \
- 	virtgpu_display.o virtgpu_vq.o \
- 	virtgpu_fence.o virtgpu_object.o virtgpu_debugfs.o virtgpu_plane.o \
--	virtgpu_ioctl.o virtgpu_prime.o virtgpu_trace_points.o
-+	virtgpu_ioctl.o virtgpu_trace_points.o
- 
- obj-$(CONFIG_DRM_VIRTIO_GPU) += virtio-gpu.o
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
-index 8cf27af3ad53..e942465e4fb1 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-@@ -200,8 +200,7 @@ static struct drm_driver driver = {
- 	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
- 	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
- 	.gem_prime_mmap = drm_gem_prime_mmap,
--	.gem_prime_import_sg_table = virtgpu_gem_prime_import_sg_table,
--
-+	.gem_prime_import_sg_table = NULL,
- 	.gem_create_object = virtio_gpu_create_object,
- 	.fops = &virtio_gpu_driver_fops,
- 
 diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 8dfb39f98552..77f446608ca9 100644
+index 77f446608ca9..4ec80563d1ca 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
 +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -359,11 +359,6 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
- 			     struct virtio_gpu_object_params *params,
- 			     struct virtio_gpu_object **bo_ptr,
- 			     struct virtio_gpu_fence *fence);
--/* virtgpu_prime.c */
--struct drm_gem_object *virtgpu_gem_prime_import_sg_table(
--	struct drm_device *dev, struct dma_buf_attachment *attach,
--	struct sg_table *sgt);
--
- /* virgl debugfs */
- int virtio_gpu_debugfs_init(struct drm_minor *minor);
+@@ -103,8 +103,6 @@ struct virtio_gpu_fence {
+ 	struct virtio_gpu_fence_driver *drv;
+ 	struct list_head node;
+ };
+-#define to_virtio_fence(x) \
+-	container_of(x, struct virtio_gpu_fence, f)
  
-diff --git a/drivers/gpu/drm/virtio/virtgpu_prime.c b/drivers/gpu/drm/virtio/virtgpu_prime.c
-deleted file mode 100644
-index 050d24c39a8f..000000000000
---- a/drivers/gpu/drm/virtio/virtgpu_prime.c
-+++ /dev/null
-@@ -1,38 +0,0 @@
--/*
-- * Copyright 2014 Canonical
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a
-- * copy of this software and associated documentation files (the "Software"),
-- * to deal in the Software without restriction, including without limitation
-- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-- * and/or sell copies of the Software, and to permit persons to whom the
-- * Software is furnished to do so, subject to the following conditions:
-- *
-- * The above copyright notice and this permission notice shall be included in
-- * all copies or substantial portions of the Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-- * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
-- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-- * OTHER DEALINGS IN THE SOFTWARE.
-- *
-- * Authors: Andreas Pokorny
-- */
--
--#include <drm/drm_prime.h>
--
--#include "virtgpu_drv.h"
--
--/* Empty Implementations as there should not be any other driver for a virtual
-- * device that might share buffers with virtgpu
-- */
--
--struct drm_gem_object *virtgpu_gem_prime_import_sg_table(
--	struct drm_device *dev, struct dma_buf_attachment *attach,
--	struct sg_table *table)
--{
--	return ERR_PTR(-ENODEV);
--}
+ struct virtio_gpu_vbuffer {
+ 	char *buf;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_fence.c b/drivers/gpu/drm/virtio/virtgpu_fence.c
+index 5466aab7d39a..5b2a4146c5bd 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_fence.c
++++ b/drivers/gpu/drm/virtio/virtgpu_fence.c
+@@ -27,6 +27,9 @@
+ 
+ #include "virtgpu_drv.h"
+ 
++#define to_virtio_fence(x) \
++	container_of(x, struct virtio_gpu_fence, f)
++
+ static const char *virtio_get_driver_name(struct dma_fence *f)
+ {
+ 	return "virtio_gpu";
 -- 
 2.24.1.735.g03f4e72817-goog
 
