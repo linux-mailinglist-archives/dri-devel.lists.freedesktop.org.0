@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C986E123C27
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 02:00:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 551EE123C29
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 02:00:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 068A96E204;
-	Wed, 18 Dec 2019 01:00:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41F126E20B;
+	Wed, 18 Dec 2019 01:00:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50B656E204
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 01:00:06 +0000 (UTC)
-Received: by mail-pf1-x441.google.com with SMTP id q8so214756pfh.7
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 17:00:06 -0800 (PST)
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
+ [IPv6:2607:f8b0:4864:20::1041])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FD306E207
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 01:00:08 +0000 (UTC)
+Received: by mail-pj1-x1041.google.com with SMTP id s7so60722pjc.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 17:00:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Sd1JRyd8keyIeKY2RfmaLJZxmSQ9jCuT9vMWsX8wfHY=;
- b=DZAchr1QVMXzlMddIhhmRRlL1/KJeapO+Smsc4is+fRUmsaK/Jsvv7hwzLLrNzibsC
- tUoSvGjUVqxZUKOpICt20jcQQTHw5Gsp0VBgf5/GiiZ96IqZZsVZ3T6CTfnYuv7U8Pe9
- tlfvUF9vEnDEmbVbBynpOvtJ6lpZkEHzRjIXw=
+ bh=xBz2QvCyQdAN8PKqjEK90M9isdrg6itoRexVBnrC8C0=;
+ b=YLnCSZmw1VCTKp01SZcMmP4A568+mKmvpfuOKS5NVS6zqftaolXlejIySKALMq4NNz
+ hCTtaeP3e6PKIgk7IstuGG5vhGj2lzIIF0ZMRvTWd7VE55RJW8VI61AkuWEkfW1xKkYm
+ zzAxX6DNnxP97m4K/mxoomyYw6V2flWlCPqJY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Sd1JRyd8keyIeKY2RfmaLJZxmSQ9jCuT9vMWsX8wfHY=;
- b=fNuFUT0uDYcDEai3/44XWUmXSYaxiB2N9uy1dz5pxg3wHaoWdHjv+baCIdaaPLBzsz
- IgPMi/hfHmIUm4douaIxp9NOTGzBFEhuYj8HyBJtVTn2xdRZ21fy5BKsH391TQzka3cp
- mGVtW+9b3mdujaqUKYvedqk34KR9dlnOYACgLBarAICBM/Fa8zfS3e06KFkU+PRi0d3G
- pL2Po2RGuJkV4X7P9C3CZZg5+VAnoFIf4fcjJc6JlPF8BQJ0WwXeOCrcRn2obkA/eYWn
- hbbb5bPtk0Rbskn644dQVOG4EBYZi6u47U+Rgqhxb4WJWoZIYSXQr/AvpLzUoNMcjq4u
- EQHw==
-X-Gm-Message-State: APjAAAUhzDWhLAytOrBEzILMbCEgdnEWPykZcz9pzyz7Q8j7hyH28RnG
- W0nM/mHJv2bfW2usgggElRWeSUHrKS8=
-X-Google-Smtp-Source: APXvYqyK0rKKwV+N+RHFT3N37hWfAULYC8uBwbm/HGJjk8FKPJRnueY+jf1dmseR6aozJ3AJaYjdew==
-X-Received: by 2002:a63:4d4c:: with SMTP id n12mr936184pgl.212.1576630805434; 
- Tue, 17 Dec 2019 17:00:05 -0800 (PST)
+ bh=xBz2QvCyQdAN8PKqjEK90M9isdrg6itoRexVBnrC8C0=;
+ b=CIuvzWCY8RPj48an8JKpoWgPyjXSk9NuQZwa6FoptYqrIEgvWpdeGVp3wtfFM4Dmr0
+ LIEioUtbLuMwZZbelBT0ghlLzns1J+hzI4ItdsHhNZm1ZzzL5Cz8qqVmle/dhwcI3s8i
+ EdHDp8loTSPL/0V8nvtuHUGccbu6PxbCQluPPbk0v8c3ygt08ojLPOLpvSPJgYkZkOty
+ vInTPgNatg3WbSIffM5Ap196bqH6GIZFHJ4xKy6qVA8bWnpud3+vaWCJTgFgnlYHHRVg
+ zOVHnhB/U9T0Ns4kIvbMwm++/GW63kFpGphixVNqi+wjl0aRzIvRG8mdr/Qt+m0wdqcw
+ HtZg==
+X-Gm-Message-State: APjAAAVFX3ejps3h4gn/XNqL5RzkYvnIs2nkzpVeNSqnJrzPUWlFiZF2
+ 6ywPqT+NAWEoEkSPiyWZMfZUeh2WFx4=
+X-Google-Smtp-Source: APXvYqw1gS6LQVs2Z1qoIBMrQLDNsUWJNceJXR1Kw0D8j1rRH5YvtHR6TZ8Uut/ZSeHYhrdHbGhTFA==
+X-Received: by 2002:a17:90a:e98a:: with SMTP id
+ v10mr228817pjy.67.1576630807755; 
+ Tue, 17 Dec 2019 17:00:07 -0800 (PST)
 Received: from gurchetansingh0.mtv.corp.google.com
  ([2620:15c:202:201:bc97:5740:52a7:6875])
- by smtp.gmail.com with ESMTPSA id r1sm240802pgp.15.2019.12.17.17.00.04
+ by smtp.gmail.com with ESMTPSA id r1sm240802pgp.15.2019.12.17.17.00.06
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Tue, 17 Dec 2019 17:00:04 -0800 (PST)
+ Tue, 17 Dec 2019 17:00:07 -0800 (PST)
 From: Gurchetan Singh <gurchetansingh@chromium.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 8/9] drm/virtio: split out vq functions from virtgpu_drv.h
-Date: Tue, 17 Dec 2019 16:59:28 -0800
-Message-Id: <20191218005929.6709-9-gurchetansingh@chromium.org>
+Subject: [PATCH 9/9] drm/virtio: split out gem functions from virtgpu_drv.h
+Date: Tue, 17 Dec 2019 16:59:29 -0800
+Message-Id: <20191218005929.6709-10-gurchetansingh@chromium.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191218005929.6709-1-gurchetansingh@chromium.org>
 References: <20191218005929.6709-1-gurchetansingh@chromium.org>
@@ -71,302 +72,209 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 virtgpu_drv.h is getting very big, let's try to split it into
-smaller header files.  Start with virtgpu_vq.
+smaller header files.  This time, GEM functions.
 
 Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
 ---
- drivers/gpu/drm/virtio/virtgpu_display.c |   1 +
- drivers/gpu/drm/virtio/virtgpu_drv.h     |  79 ------------------
- drivers/gpu/drm/virtio/virtgpu_gem.c     |   1 +
- drivers/gpu/drm/virtio/virtgpu_ioctl.c   |   1 +
- drivers/gpu/drm/virtio/virtgpu_kms.c     |   1 +
- drivers/gpu/drm/virtio/virtgpu_object.c  |   1 +
- drivers/gpu/drm/virtio/virtgpu_plane.c   |   1 +
- drivers/gpu/drm/virtio/virtgpu_vq.c      |   1 +
- drivers/gpu/drm/virtio/virtgpu_vq.h      | 100 +++++++++++++++++++++++
- 9 files changed, 107 insertions(+), 79 deletions(-)
- create mode 100644 drivers/gpu/drm/virtio/virtgpu_vq.h
+ drivers/gpu/drm/virtio/virtgpu_drv.c    |  1 +
+ drivers/gpu/drm/virtio/virtgpu_drv.h    | 34 ----------------
+ drivers/gpu/drm/virtio/virtgpu_gem.c    |  1 +
+ drivers/gpu/drm/virtio/virtgpu_gem.h    | 52 +++++++++++++++++++++++++
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c  |  1 +
+ drivers/gpu/drm/virtio/virtgpu_kms.c    |  1 +
+ drivers/gpu/drm/virtio/virtgpu_object.c |  1 +
+ drivers/gpu/drm/virtio/virtgpu_plane.c  |  1 +
+ drivers/gpu/drm/virtio/virtgpu_vq.c     |  1 +
+ 9 files changed, 59 insertions(+), 34 deletions(-)
+ create mode 100644 drivers/gpu/drm/virtio/virtgpu_gem.h
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
-index 0966208ec30d..03cd5e40bfa1 100644
---- a/drivers/gpu/drm/virtio/virtgpu_display.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_display.c
-@@ -33,6 +33,7 @@
- #include <drm/drm_vblank.h>
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
+index e942465e4fb1..7bd46e915761 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.c
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
+@@ -35,6 +35,7 @@
+ #include <drm/drm_file.h>
  
  #include "virtgpu_drv.h"
-+#include "virtgpu_vq.h"
++#include "virtgpu_gem.h"
  
- #define XRES_MIN    32
- #define YRES_MIN    32
+ static struct drm_driver driver;
+ 
 diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 7e447784e493..cd98df412cda 100644
+index cd98df412cda..fa921f07c331 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
 +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -250,85 +250,6 @@ void virtio_gpu_array_put_free_delayed(struct virtio_gpu_device *vgdev,
- 				       struct virtio_gpu_object_array *objs);
- void virtio_gpu_array_put_free_work(struct work_struct *work);
+@@ -216,40 +216,6 @@ void virtio_gpu_deinit(struct drm_device *dev);
+ int virtio_gpu_driver_open(struct drm_device *dev, struct drm_file *file);
+ void virtio_gpu_driver_postclose(struct drm_device *dev, struct drm_file *file);
  
--/* virtio vg */
--int virtio_gpu_alloc_vbufs(struct virtio_gpu_device *vgdev);
--void virtio_gpu_free_vbufs(struct virtio_gpu_device *vgdev);
--void virtio_gpu_cmd_create_resource(struct virtio_gpu_device *vgdev,
--				    struct virtio_gpu_object *bo,
--				    struct virtio_gpu_object_params *params,
--				    struct virtio_gpu_object_array *objs,
--				    struct virtio_gpu_fence *fence);
--void virtio_gpu_cmd_unref_resource(struct virtio_gpu_device *vgdev,
--				   uint32_t resource_id);
--void virtio_gpu_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
--					uint64_t offset,
--					uint32_t width, uint32_t height,
--					uint32_t x, uint32_t y,
--					struct virtio_gpu_object_array *objs,
--					struct virtio_gpu_fence *fence);
--void virtio_gpu_cmd_resource_flush(struct virtio_gpu_device *vgdev,
--				   uint32_t resource_id,
--				   uint32_t x, uint32_t y,
--				   uint32_t width, uint32_t height);
--void virtio_gpu_cmd_set_scanout(struct virtio_gpu_device *vgdev,
--				uint32_t scanout_id, uint32_t resource_id,
--				uint32_t width, uint32_t height,
--				uint32_t x, uint32_t y);
--int virtio_gpu_object_attach(struct virtio_gpu_device *vgdev,
--			     struct virtio_gpu_object *obj,
--			     struct virtio_gpu_fence *fence);
--void virtio_gpu_object_detach(struct virtio_gpu_device *vgdev,
--			      struct virtio_gpu_object *obj);
--int virtio_gpu_attach_status_page(struct virtio_gpu_device *vgdev);
--int virtio_gpu_detach_status_page(struct virtio_gpu_device *vgdev);
--void virtio_gpu_cursor_ping(struct virtio_gpu_device *vgdev,
--			    struct virtio_gpu_output *output);
--int virtio_gpu_cmd_get_display_info(struct virtio_gpu_device *vgdev);
--int virtio_gpu_cmd_get_capset_info(struct virtio_gpu_device *vgdev, int idx);
--int virtio_gpu_cmd_get_capset(struct virtio_gpu_device *vgdev,
--			      int idx, int version,
--			      struct virtio_gpu_drv_cap_cache **cache_p);
--int virtio_gpu_cmd_get_edids(struct virtio_gpu_device *vgdev);
--void virtio_gpu_cmd_context_create(struct virtio_gpu_device *vgdev, uint32_t id,
--				   uint32_t nlen, const char *name);
--void virtio_gpu_cmd_context_destroy(struct virtio_gpu_device *vgdev,
--				    uint32_t id);
--void virtio_gpu_cmd_context_attach_resource(struct virtio_gpu_device *vgdev,
--					    uint32_t ctx_id,
--					    struct virtio_gpu_object_array *objs);
--void virtio_gpu_cmd_context_detach_resource(struct virtio_gpu_device *vgdev,
--					    uint32_t ctx_id,
--					    struct virtio_gpu_object_array *objs);
--void virtio_gpu_cmd_submit(struct virtio_gpu_device *vgdev,
--			   void *data, uint32_t data_size,
--			   uint32_t ctx_id,
--			   struct virtio_gpu_object_array *objs,
--			   struct virtio_gpu_fence *fence);
--void virtio_gpu_cmd_transfer_from_host_3d(struct virtio_gpu_device *vgdev,
--					  uint32_t ctx_id,
--					  uint64_t offset, uint32_t level,
--					  struct drm_virtgpu_3d_box *box,
--					  struct virtio_gpu_object_array *objs,
--					  struct virtio_gpu_fence *fence);
--void virtio_gpu_cmd_transfer_to_host_3d(struct virtio_gpu_device *vgdev,
--					uint32_t ctx_id,
--					uint64_t offset, uint32_t level,
--					struct drm_virtgpu_3d_box *box,
--					struct virtio_gpu_object_array *objs,
--					struct virtio_gpu_fence *fence);
--void
--virtio_gpu_cmd_resource_create_3d(struct virtio_gpu_device *vgdev,
--				  struct virtio_gpu_object *bo,
--				  struct virtio_gpu_object_params *params,
--				  struct virtio_gpu_object_array *objs,
--				  struct virtio_gpu_fence *fence);
--void virtio_gpu_ctrl_ack(struct virtqueue *vq);
--void virtio_gpu_cursor_ack(struct virtqueue *vq);
--void virtio_gpu_fence_ack(struct virtqueue *vq);
--void virtio_gpu_dequeue_ctrl_func(struct work_struct *work);
--void virtio_gpu_dequeue_cursor_func(struct work_struct *work);
--void virtio_gpu_dequeue_fence_func(struct work_struct *work);
+-/* virtio_gem.c */
+-void virtio_gpu_gem_free_object(struct drm_gem_object *gem_obj);
+-int virtio_gpu_gem_init(struct virtio_gpu_device *vgdev);
+-void virtio_gpu_gem_fini(struct virtio_gpu_device *vgdev);
+-int virtio_gpu_gem_create(struct drm_file *file,
+-			  struct drm_device *dev,
+-			  struct virtio_gpu_object_params *params,
+-			  struct drm_gem_object **obj_p,
+-			  uint32_t *handle_p);
+-int virtio_gpu_gem_object_open(struct drm_gem_object *obj,
+-			       struct drm_file *file);
+-void virtio_gpu_gem_object_close(struct drm_gem_object *obj,
+-				 struct drm_file *file);
+-int virtio_gpu_mode_dumb_create(struct drm_file *file_priv,
+-				struct drm_device *dev,
+-				struct drm_mode_create_dumb *args);
+-int virtio_gpu_mode_dumb_mmap(struct drm_file *file_priv,
+-			      struct drm_device *dev,
+-			      uint32_t handle, uint64_t *offset_p);
+-
+-struct virtio_gpu_object_array *virtio_gpu_array_alloc(u32 nents);
+-struct virtio_gpu_object_array*
+-virtio_gpu_array_from_handles(struct drm_file *drm_file, u32 *handles, u32 nents);
+-void virtio_gpu_array_add_obj(struct virtio_gpu_object_array *objs,
+-			      struct drm_gem_object *obj);
+-int virtio_gpu_array_lock_resv(struct virtio_gpu_object_array *objs);
+-void virtio_gpu_array_unlock_resv(struct virtio_gpu_object_array *objs);
+-void virtio_gpu_array_add_fence(struct virtio_gpu_object_array *objs,
+-				struct dma_fence *fence);
+-void virtio_gpu_array_put_free(struct virtio_gpu_object_array *objs);
+-void virtio_gpu_array_put_free_delayed(struct virtio_gpu_device *vgdev,
+-				       struct virtio_gpu_object_array *objs);
+-void virtio_gpu_array_put_free_work(struct work_struct *work);
 -
  /* virtio_gpu_display.c */
  void virtio_gpu_modeset_init(struct virtio_gpu_device *vgdev);
  void virtio_gpu_modeset_fini(struct virtio_gpu_device *vgdev);
 diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/virtgpu_gem.c
-index 0a2b62279647..409dd3863c7b 100644
+index 409dd3863c7b..61cfc9e11f75 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_gem.c
 +++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
 @@ -27,6 +27,7 @@
  #include <drm/drm_fourcc.h>
  
  #include "virtgpu_drv.h"
-+#include "virtgpu_vq.h"
++#include "virtgpu_gem.h"
+ #include "virtgpu_vq.h"
  
  int virtio_gpu_gem_create(struct drm_file *file,
- 			  struct drm_device *dev,
+diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.h b/drivers/gpu/drm/virtio/virtgpu_gem.h
+new file mode 100644
+index 000000000000..2ee81980e384
+--- /dev/null
++++ b/drivers/gpu/drm/virtio/virtgpu_gem.h
+@@ -0,0 +1,52 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef VIRTIO_GEM_H
++#define VIRTIO_GEM_H
++
++#include <linux/types.h>
++
++struct dma_fence;
++struct drm_device;
++struct drm_file;
++struct drm_gem_object;
++
++struct virtio_gpu_device;
++struct virtio_gpu_object_array;
++struct virtio_gpu_object_params;
++
++struct work_struct;
++
++void virtio_gpu_gem_free_object(struct drm_gem_object *gem_obj);
++int virtio_gpu_gem_init(struct virtio_gpu_device *vgdev);
++void virtio_gpu_gem_fini(struct virtio_gpu_device *vgdev);
++int virtio_gpu_gem_create(struct drm_file *file,
++			  struct drm_device *dev,
++			  struct virtio_gpu_object_params *params,
++			  struct drm_gem_object **obj_p,
++			  uint32_t *handle_p);
++int virtio_gpu_gem_object_open(struct drm_gem_object *obj,
++			       struct drm_file *file);
++void virtio_gpu_gem_object_close(struct drm_gem_object *obj,
++				 struct drm_file *file);
++int virtio_gpu_mode_dumb_create(struct drm_file *file_priv,
++				struct drm_device *dev,
++				struct drm_mode_create_dumb *args);
++int virtio_gpu_mode_dumb_mmap(struct drm_file *file_priv,
++			      struct drm_device *dev,
++			      uint32_t handle, uint64_t *offset_p);
++
++struct virtio_gpu_object_array *virtio_gpu_array_alloc(u32 nents);
++struct virtio_gpu_object_array*
++virtio_gpu_array_from_handles(struct drm_file *drm_file, u32 *handles,
++			      u32 nents);
++void virtio_gpu_array_add_obj(struct virtio_gpu_object_array *objs,
++			      struct drm_gem_object *obj);
++int virtio_gpu_array_lock_resv(struct virtio_gpu_object_array *objs);
++void virtio_gpu_array_unlock_resv(struct virtio_gpu_object_array *objs);
++void virtio_gpu_array_add_fence(struct virtio_gpu_object_array *objs,
++				struct dma_fence *fence);
++void virtio_gpu_array_put_free(struct virtio_gpu_object_array *objs);
++void virtio_gpu_array_put_free_delayed(struct virtio_gpu_device *vgdev,
++				       struct virtio_gpu_object_array *objs);
++void virtio_gpu_array_put_free_work(struct work_struct *work);
++
++#endif /* VIRTGPU_GEM_H */
 diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-index 205ec4abae2b..0108945b5cae 100644
+index 0108945b5cae..2dc394170566 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
 +++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
 @@ -32,6 +32,7 @@
  #include <drm/virtgpu_drm.h>
  
  #include "virtgpu_drv.h"
-+#include "virtgpu_vq.h"
++#include "virtgpu_gem.h"
+ #include "virtgpu_vq.h"
  
  static int virtio_gpu_map_ioctl(struct drm_device *dev, void *data,
- 				struct drm_file *file_priv)
 diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index 2f5773e43557..2013002d3c2f 100644
+index 2013002d3c2f..a8aaff30d021 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_kms.c
 +++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
 @@ -29,6 +29,7 @@
  #include <drm/drm_file.h>
  
  #include "virtgpu_drv.h"
-+#include "virtgpu_vq.h"
++#include "virtgpu_gem.h"
+ #include "virtgpu_vq.h"
  
  static void virtio_gpu_config_changed_work_func(struct work_struct *work)
- {
 diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-index 017a9e0fc3bb..8df93f40d282 100644
+index 8df93f40d282..2060662e3f46 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_object.c
 +++ b/drivers/gpu/drm/virtio/virtgpu_object.c
 @@ -26,6 +26,7 @@
  #include <linux/moduleparam.h>
  
  #include "virtgpu_drv.h"
-+#include "virtgpu_vq.h"
++#include "virtgpu_gem.h"
+ #include "virtgpu_vq.h"
  
  static int virtio_gpu_virglrenderer_workaround = 1;
- module_param_named(virglhack, virtio_gpu_virglrenderer_workaround, int, 0400);
 diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
-index bc4bc4475a8c..384796db9373 100644
+index 384796db9373..84156147d549 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_plane.c
 +++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
 @@ -28,6 +28,7 @@
  #include <drm/drm_plane_helper.h>
  
  #include "virtgpu_drv.h"
-+#include "virtgpu_vq.h"
++#include "virtgpu_gem.h"
+ #include "virtgpu_vq.h"
  
  static const uint32_t virtio_gpu_formats[] = {
- 	DRM_FORMAT_HOST_XRGB8888,
 diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-index 9274c4063c70..4d1c357ada07 100644
+index 4d1c357ada07..00f17a40671d 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_vq.c
 +++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-@@ -33,6 +33,7 @@
+@@ -32,6 +32,7 @@
+ #include <linux/virtio_ring.h>
  
  #include "virtgpu_drv.h"
++#include "virtgpu_gem.h"
  #include "virtgpu_trace.h"
-+#include "virtgpu_vq.h"
+ #include "virtgpu_vq.h"
  
- #define MAX_INLINE_CMD_SIZE   96
- #define MAX_INLINE_RESP_SIZE  24
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.h b/drivers/gpu/drm/virtio/virtgpu_vq.h
-new file mode 100644
-index 000000000000..06af7ef7f062
---- /dev/null
-+++ b/drivers/gpu/drm/virtio/virtgpu_vq.h
-@@ -0,0 +1,100 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef VIRTIO_VQ_H
-+#define VIRTIO_VQ_H
-+
-+struct drm_virtgpu_3d_box;
-+
-+struct virtio_gpu_device;
-+struct virtio_gpu_drv_cap_cache;
-+
-+struct virtio_gpu_fence;
-+struct virtio_gpu_framebuffer;
-+
-+struct virtio_gpu_object;
-+struct virtio_gpu_object_params;
-+struct virtio_gpu_object_array;
-+struct virtio_gpu_output;
-+
-+struct virtqueue;
-+
-+int virtio_gpu_alloc_vbufs(struct virtio_gpu_device *vgdev);
-+void virtio_gpu_free_vbufs(struct virtio_gpu_device *vgdev);
-+void virtio_gpu_cmd_create_resource(struct virtio_gpu_device *vgdev,
-+				    struct virtio_gpu_object *bo,
-+				    struct virtio_gpu_object_params *params,
-+				    struct virtio_gpu_object_array *objs,
-+				    struct virtio_gpu_fence *fence);
-+void virtio_gpu_cmd_unref_resource(struct virtio_gpu_device *vgdev,
-+				   uint32_t resource_id);
-+void virtio_gpu_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
-+					uint64_t offset,
-+					uint32_t width, uint32_t height,
-+					uint32_t x, uint32_t y,
-+					struct virtio_gpu_object_array *objs,
-+					struct virtio_gpu_fence *fence);
-+void virtio_gpu_cmd_resource_flush(struct virtio_gpu_device *vgdev,
-+				   uint32_t resource_id,
-+				   uint32_t x, uint32_t y,
-+				   uint32_t width, uint32_t height);
-+void virtio_gpu_cmd_set_scanout(struct virtio_gpu_device *vgdev,
-+				uint32_t scanout_id, uint32_t resource_id,
-+				uint32_t width, uint32_t height,
-+				uint32_t x, uint32_t y);
-+int virtio_gpu_object_attach(struct virtio_gpu_device *vgdev,
-+			     struct virtio_gpu_object *obj,
-+			     struct virtio_gpu_fence *fence);
-+void virtio_gpu_object_detach(struct virtio_gpu_device *vgdev,
-+			      struct virtio_gpu_object *obj);
-+int virtio_gpu_attach_status_page(struct virtio_gpu_device *vgdev);
-+int virtio_gpu_detach_status_page(struct virtio_gpu_device *vgdev);
-+void virtio_gpu_cursor_ping(struct virtio_gpu_device *vgdev,
-+			    struct virtio_gpu_output *output);
-+int virtio_gpu_cmd_get_display_info(struct virtio_gpu_device *vgdev);
-+int virtio_gpu_cmd_get_capset_info(struct virtio_gpu_device *vgdev, int idx);
-+int virtio_gpu_cmd_get_capset(struct virtio_gpu_device *vgdev,
-+			      int idx, int version,
-+			      struct virtio_gpu_drv_cap_cache **cache_p);
-+int virtio_gpu_cmd_get_edids(struct virtio_gpu_device *vgdev);
-+void virtio_gpu_cmd_context_create(struct virtio_gpu_device *vgdev, uint32_t id,
-+				   uint32_t nlen, const char *name);
-+void virtio_gpu_cmd_context_destroy(struct virtio_gpu_device *vgdev,
-+				    uint32_t id);
-+void
-+virtio_gpu_cmd_context_attach_resource(struct virtio_gpu_device *vgdev,
-+				       uint32_t ctx_id,
-+				       struct virtio_gpu_object_array *objs);
-+void
-+virtio_gpu_cmd_context_detach_resource(struct virtio_gpu_device *vgdev,
-+				       uint32_t ctx_id,
-+				       struct virtio_gpu_object_array *objs);
-+void virtio_gpu_cmd_submit(struct virtio_gpu_device *vgdev,
-+			   void *data, uint32_t data_size,
-+			   uint32_t ctx_id,
-+			   struct virtio_gpu_object_array *objs,
-+			   struct virtio_gpu_fence *fence);
-+void virtio_gpu_cmd_transfer_from_host_3d(struct virtio_gpu_device *vgdev,
-+					  uint32_t ctx_id,
-+					  uint64_t offset, uint32_t level,
-+					  struct drm_virtgpu_3d_box *box,
-+					  struct virtio_gpu_object_array *objs,
-+					  struct virtio_gpu_fence *fence);
-+void virtio_gpu_cmd_transfer_to_host_3d(struct virtio_gpu_device *vgdev,
-+					uint32_t ctx_id,
-+					uint64_t offset, uint32_t level,
-+					struct drm_virtgpu_3d_box *box,
-+					struct virtio_gpu_object_array *objs,
-+					struct virtio_gpu_fence *fence);
-+void
-+virtio_gpu_cmd_resource_create_3d(struct virtio_gpu_device *vgdev,
-+				  struct virtio_gpu_object *bo,
-+				  struct virtio_gpu_object_params *params,
-+				  struct virtio_gpu_object_array *objs,
-+				  struct virtio_gpu_fence *fence);
-+void virtio_gpu_ctrl_ack(struct virtqueue *vq);
-+void virtio_gpu_cursor_ack(struct virtqueue *vq);
-+void virtio_gpu_fence_ack(struct virtqueue *vq);
-+void virtio_gpu_dequeue_ctrl_func(struct work_struct *work);
-+void virtio_gpu_dequeue_cursor_func(struct work_struct *work);
-+void virtio_gpu_dequeue_fence_func(struct work_struct *work);
-+
-+#endif /* VIRTIO_GPU_VQ_H */
 -- 
 2.24.1.735.g03f4e72817-goog
 
