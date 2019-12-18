@@ -1,33 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 452F5125C5F
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 09:11:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B24DB125C6B
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 09:11:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D05D46E2ED;
-	Thu, 19 Dec 2019 08:11:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3CC86EAC7;
+	Thu, 19 Dec 2019 08:11:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABE346E0EC
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 15:22:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C09D6E504
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 15:24:26 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: eballetbo) with ESMTPSA id D5AE529298D
-Subject: Re: [PATCH v21 2/2] drm/bridge: Add I2C based driver for ps8640 bridge
-To: Ezequiel Garcia <ezequiel@collabora.com>, linux-kernel@vger.kernel.org,
- Wolfram Sang <wsa@the-dreams.de>
+ (Authenticated sender: eballetbo) with ESMTPSA id E696C291739
+Subject: Re: [PATCH v21 1/2] Documentation: bridge: Add documentation for
+ ps8640 DT properties
+To: Maxime Ripard <maxime@cerno.tech>
 References: <20191216135834.27775-1-enric.balletbo@collabora.com>
- <20191216135834.27775-3-enric.balletbo@collabora.com>
- <bb97505cfadae364afa14605793affe4a7d69ffa.camel@collabora.com>
+ <20191216135834.27775-2-enric.balletbo@collabora.com>
+ <20191217142821.xitumpvfg52heb4t@gilmour.lan>
 From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Message-ID: <9e38774d-0028-6988-1be1-2e726c5ed4ab@collabora.com>
-Date: Wed, 18 Dec 2019 16:21:54 +0100
+Message-ID: <da1f3c1b-30b5-7708-9527-7f210e817a31@collabora.com>
+Date: Wed, 18 Dec 2019 16:24:21 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <bb97505cfadae364afa14605793affe4a7d69ffa.camel@collabora.com>
+In-Reply-To: <20191217142821.xitumpvfg52heb4t@gilmour.lan>
 Content-Language: en-US
 X-Mailman-Approved-At: Thu, 19 Dec 2019 08:11:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -42,456 +42,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulrich Hecht <uli@fpond.eu>, Jernej Skrabec <jernej.skrabec@siol.net>,
+Cc: Mark Rutland <mark.rutland@arm.com>, Ulrich Hecht <uli@fpond.eu>,
  drinkcat@chromium.org, Jitao Shi <jitao.shi@mediatek.com>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Neil Armstrong <narmstrong@baylibre.com>, linux-mediatek@lists.infradead.org,
- dri-devel@lists.freedesktop.org, hsinyi@chromium.org, matthias.bgg@gmail.com,
+ devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ hsinyi@chromium.org, matthias.bgg@gmail.com,
  Collabora Kernel ML <kernel@collabora.com>,
- linux-arm-kernel@lists.infradead.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ezequiel,
+Hi Maxime,
 
-Many thanks for the review, I am just preparing the next version to send.
+Thanks for your comment, just preparing another version.
 
-On 16/12/19 18:07, Ezequiel Garcia wrote:
-> On Mon, 2019-12-16 at 14:58 +0100, Enric Balletbo i Serra wrote:
+On 17/12/19 15:28, Maxime Ripard wrote:
+> On Mon, Dec 16, 2019 at 02:58:33PM +0100, Enric Balletbo i Serra wrote:
 >> From: Jitao Shi <jitao.shi@mediatek.com>
 >>
->> This patch adds drm_bridge driver for parade DSI to eDP bridge chip.
+>> Add documentation for DT properties supported by
+>> ps8640 DSI-eDP converter.
 >>
 >> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
->> Reviewed-by: Daniel Kurtz <djkurtz@chromium.org>
->> Reviewed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
->> [uli: followed API changes, removed FW update feature]
+>> Acked-by: Rob Herring <robh@kernel.org>
+>> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 >> Signed-off-by: Ulrich Hecht <uli@fpond.eu>
 >> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
 >> ---
 >>
->> Changes in v21:
->>  - Use devm_i2c_new_dummy_device and fix build issue using deprecated i2c_new_dummy
->>  - Fix build issue due missing drm_bridge.h
->>  - Do not remove in ps8640_remove device managed resources
+>> Changes in v21: None
+>> Changes in v19: None
+>> Changes in v18: None
+>> Changes in v17: None
+>> Changes in v16: None
+>> Changes in v15: None
+>> Changes in v14: None
+>> Changes in v13: None
+>> Changes in v12: None
+>> Changes in v11: None
 >>
->> Changes in v19:
->>  - fixed return value of ps8640_probe() when no panel is found
+>>  .../bindings/display/bridge/ps8640.txt        | 44 +++++++++++++++++++
+>>  1 file changed, 44 insertions(+)
+>>  create mode 100644 Documentation/devicetree/bindings/display/bridge/ps8640.txt
 >>
->> Changes in v18:
->>  - followed DRM API changes
->>  - use DEVICE_ATTR_RO()
->>  - remove firmware update code
->>  - add SPDX identifier
->>
->> Changes in v17:
->>  - remove some unused head files.
->>  - add macros for ps8640 pages.
->>  - remove ddc_i2c client
->>  - add mipi_dsi_device_register_full
->>  - remove the manufacturer from the name and i2c_device_id
->>
->> Changes in v16:
->>  - Disable ps8640 DSI MCS Function.
->>  - Rename gpios name more clearly.
->>  - Tune the ps8640 power on sequence.
->>
->> Changes in v15:
->>  - Drop drm_connector_(un)register calls from parade ps8640.
->>    The main DRM driver mtk_drm_drv now calls
->>    drm_connector_register_all() after drm_dev_register() in the
->>    mtk_drm_bind() function. That function should iterate over all
->>    connectors and call drm_connector_register() for each of them.
->>    So, remove drm_connector_(un)register calls from parade ps8640.
->>
->> Changes in v14:
->>  - update copyright info.
->>  - change bridge_to_ps8640 and connector_to_ps8640 to inline function.
->>  - fix some coding style.
->>  - use sizeof as array counter.
->>  - use drm_get_edid when read edid.
->>  - add mutex when firmware updating.
->>
->> Changes in v13:
->>  - add const on data, ps8640_write_bytes(struct i2c_client *client, const u8 *data, u16 data_len)
->>  - fix PAGE2_SW_REST tyro.
->>  - move the buf[3] init to entrance of the function.
->>
->> Changes in v12:
->>  - fix hw_chip_id build warning
->>
->> Changes in v11:
->>  - Remove depends on I2C, add DRM depends
->>  - Reuse ps8640_write_bytes() in ps8640_write_byte()
->>  - Use timer check for polling like the routines in <linux/iopoll.h>
->>  - Fix no drm_connector_unregister/drm_connector_cleanup when ps8640_bridge_attach fail
->>  - Check the ps8640 hardware id in ps8640_validate_firmware
->>  - Remove fw_version check
->>  - Move ps8640_validate_firmware before ps8640_enter_bl
->>  - Add ddc_i2c unregister when probe fail and ps8640_remove
->>
->>  drivers/gpu/drm/bridge/Kconfig         |  11 +
->>  drivers/gpu/drm/bridge/Makefile        |   1 +
->>  drivers/gpu/drm/bridge/parade-ps8640.c | 655 +++++++++++++++++++++++++
->>  3 files changed, 667 insertions(+)
->>  create mode 100644 drivers/gpu/drm/bridge/parade-ps8640.c
->>
->> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
->> index 4734f6993858..3e0a63011723 100644
->> --- a/drivers/gpu/drm/bridge/Kconfig
->> +++ b/drivers/gpu/drm/bridge/Kconfig
->> @@ -101,6 +101,17 @@ config DRM_PARADE_PS8622
->>  	---help---
->>  	  Parade eDP-LVDS bridge chip driver.
->>  
->> +config DRM_PARADE_PS8640
->> +	tristate "Parade PS8640 MIPI DSI to eDP Converter"
->> +	depends on OF
->> +	select DRM_KMS_HELPER
->> +	select DRM_MIPI_DSI
->> +	select DRM_PANEL
->> +	help
->> +	  Choose this option if you have PS8640 for display
->> +	  The PS8640 is a high-performance and low-power
->> +	  MIPI DSI to eDP converter
->> +
->>  config DRM_SIL_SII8620
->>  	tristate "Silicon Image SII8620 HDMI/MHL bridge"
->>  	depends on OF
->> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
->> index 1c0c92667ac4..91490c595b38 100644
->> --- a/drivers/gpu/drm/bridge/Makefile
->> +++ b/drivers/gpu/drm/bridge/Makefile
->> @@ -8,6 +8,7 @@ obj-$(CONFIG_DRM_LVDS_ENCODER) += lvds-encoder.o
->>  obj-$(CONFIG_DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW) += megachips-stdpxxxx-ge-b850v3-fw.o
->>  obj-$(CONFIG_DRM_NXP_PTN3460) += nxp-ptn3460.o
->>  obj-$(CONFIG_DRM_PARADE_PS8622) += parade-ps8622.o
->> +obj-$(CONFIG_DRM_PARADE_PS8640) += parade-ps8640.o
->>  obj-$(CONFIG_DRM_SIL_SII8620) += sil-sii8620.o
->>  obj-$(CONFIG_DRM_SII902X) += sii902x.o
->>  obj-$(CONFIG_DRM_SII9234) += sii9234.o
->> diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
+>> diff --git a/Documentation/devicetree/bindings/display/bridge/ps8640.txt b/Documentation/devicetree/bindings/display/bridge/ps8640.txt
 >> new file mode 100644
->> index 000000000000..ab896ceb1a42
+>> index 000000000000..7b13f92f7359
 >> --- /dev/null
->> +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
->> @@ -0,0 +1,655 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +/*
->> + * Copyright (c) 2016 MediaTek Inc.
->> + */
+>> +++ b/Documentation/devicetree/bindings/display/bridge/ps8640.txt
+>> @@ -0,0 +1,44 @@
+>> +ps8640-bridge bindings
 >> +
->> +#include <linux/delay.h>
->> +#include <linux/err.h>
->> +//#include <linux/firmware.h>
-> 
-> Commented stuff should gone.
-> 
-
-Ack
-
->> +#include <linux/gpio/consumer.h>
->> +#include <linux/i2c.h>
->> +#include <linux/module.h>
->> +#include <linux/of_graph.h>
->> +#include <linux/regulator/consumer.h>
->> +//#include <asm/unaligned.h>
-> 
-> Ditto.
-> 
-
-Ack
-
->> +#include <drm/drm_atomic_helper.h>
->> +#include <drm/drm_bridge.h>
->> +#include <drm/drm_crtc_helper.h>
->> +#include <drm/drm_edid.h>
->> +#include <drm/drm_mipi_dsi.h>
->> +#include <drm/drm_panel.h>
->> +#include <drm/drm_print.h>
->> +#include <drm/drm_probe_helper.h>
+>> +Required properties:
+>> +	- compatible: "parade,ps8640"
+>> +	- reg: first page address of the bridge.
+>> +	- sleep-gpios: OF device-tree gpio specification for PD pin.
+>> +	- reset-gpios: OF device-tree gpio specification for reset pin.
+>> +	- vdd12-supply: OF device-tree regulator specification for 1.2V power.
+>> +	- vdd33-supply: OF device-tree regulator specification for 3.3V power.
+>> +	- ports: The device node can contain video interface port nodes per
+>> +		 the video-interfaces bind[1]. For port@0,set the reg = <0> as
+>> +		 ps8640 dsi in and port@1,set the reg = <1> as ps8640 eDP out.
 >> +
->> +#define PAGE1_VSTART		0x6b
->> +#define PAGE2_SPI_CFG3		0x82
->> +#define I2C_TO_SPI_RESET	0x20
->> +#define PAGE2_ROMADD_BYTE1	0x8e
->> +#define PAGE2_ROMADD_BYTE2	0x8f
->> +#define PAGE2_SWSPI_WDATA	0x90
->> +#define PAGE2_SWSPI_RDATA	0x91
->> +#define PAGE2_SWSPI_LEN		0x92
->> +#define PAGE2_SWSPI_CTL		0x93
->> +#define TRIGGER_NO_READBACK	0x05
->> +#define TRIGGER_READBACK	0x01
->> +#define PAGE2_SPI_STATUS	0x9e
->> +#define SPI_READY		0x0c
->> +#define PAGE2_GPIO_L		0xa6
->> +#define PAGE2_GPIO_H		0xa7
->> +#define PS_GPIO9		BIT(1)
->> +#define PAGE2_IROM_CTRL		0xb0
->> +#define IROM_ENABLE		0xc0
->> +#define IROM_DISABLE		0x80
->> +#define PAGE2_SW_RESET		0xbc
->> +#define SPI_SW_RESET		BIT(7)
->> +#define MPU_SW_RESET		BIT(6)
->> +#define PAGE2_ENCTLSPI_WR	0xda
->> +#define PAGE2_I2C_BYPASS	0xea
->> +#define I2C_BYPASS_EN		0xd0
->> +#define PAGE2_MCS_EN		0xf3
->> +#define MCS_EN			BIT(0)
->> +#define PAGE3_SET_ADD		0xfe
->> +#define PAGE3_SET_VAL		0xff
->> +#define VDO_CTL_ADD		0x13
->> +#define VDO_DIS			0x18
->> +#define VDO_EN			0x1c
->> +#define PAGE4_REV_L		0xf0
->> +#define PAGE4_REV_H		0xf1
->> +#define PAGE4_CHIP_L		0xf2
->> +#define PAGE4_CHIP_H		0xf3
+>> +Optional properties:
+>> +	- mode-sel-gpios: OF device-tree gpio specification for mode-sel pin.
+>> +[1]: Documentation/devicetree/bindings/media/video-interfaces.txt
 >> +
->> +#define PAGE0_DP_CNTL		0
-> 
-> Unused macro.
-> 
->> +#define PAGE1_VDO_BDG		1
->> +#define PAGE2_TOP_CNTL		2
->> +#define PAGE3_DSI_CNTL1		3
->> +#define PAGE4_MIPI_PHY		4
-> 
-> Ditto... maybe others as well?
-> 
-
-I removed all the unused macros.
-
->> +#define PAGE5_VPLL		5
->> +#define PAGE6_DSI_CNTL2		6
->> +#define PAGE7_SPI_CNTL		7
->> +#define MAX_DEVS		0x8
+>> +Example:
+>> +	edp-bridge@18 {
+>> +		compatible = "parade,ps8640";
+>> +		reg = <0x18>;
+>> +		sleep-gpios = <&pio 116 GPIO_ACTIVE_LOW>;
+>> +		reset-gpios = <&pio 115 GPIO_ACTIVE_LOW>;
+>> +		mode-sel-gpios = <&pio 92 GPIO_ACTIVE_HIGH>;
+>> +		vdd12-supply = <&ps8640_fixed_1v2>;
+>> +		vdd33-supply = <&mt6397_vgp2_reg>;
 >> +
->> +struct ps8640_info {
->> +	u8 family_id;
->> +	u8 variant_id;
->> +	u16 version;
->> +};
->> +
->> +struct ps8640 {
->> +	struct drm_connector connector;
->> +	struct drm_bridge bridge;
->> +	struct edid *edid;
->> +	struct mipi_dsi_device *dsi;
->> +	struct i2c_client *page[MAX_DEVS];
->> +	struct regulator_bulk_data supplies[2];
->> +	struct drm_panel *panel;
->> +	struct gpio_desc *gpio_reset;
->> +	struct gpio_desc *gpio_power_down;
->> +	struct gpio_desc *gpio_mode_sel;
->> +	bool enabled;
->> +
->> +	/* firmware file info */
->> +	struct ps8640_info info;
->> +	bool in_fw_update;
->> +	/* for firmware update protect */
->> +	struct mutex fw_mutex;
->> +};
->> +
->> +static const u8 enc_ctrl_code[6] = { 0xaa, 0x55, 0x50, 0x41, 0x52, 0x44 };
->> +static const u8 hw_chip_id[4] = { 0x00, 0x0a, 0x00, 0x30 };
->> +
-> 
-> More unused stuff. Left-overs?
-> 
-
-Ack
-
->> +static inline struct ps8640 *bridge_to_ps8640(struct drm_bridge *e)
->> +{
->> +	return container_of(e, struct ps8640, bridge);
->> +}
->> +
->> +static inline struct ps8640 *connector_to_ps8640(struct drm_connector *e)
->> +{
->> +	return container_of(e, struct ps8640, connector);
->> +}
->> +
->> +static int ps8640_read(struct i2c_client *client, u8 reg, u8 *data,
->> +		       u16 data_len)
->> +{
->> +	int ret;
->> +	struct i2c_msg msgs[] = {
->> +		{
->> +		 .addr = client->addr,
->> +		 .flags = 0,
->> +		 .len = 1,
->> +		 .buf = &reg,
->> +		},
->> +		{
->> +		 .addr = client->addr,
->> +		 .flags = I2C_M_RD,
->> +		 .len = data_len,
->> +		 .buf = data,
->> +		}
+>> +		ports {
+>> +			#address-cells = <1>;
+>> +			#size-cells = <0>;
+>> +			port@0 {
+>> +				reg = <0>;
+>> +				ps8640_in: endpoint {
+>> +					remote-endpoint = <&dsi0_out>;
+>> +				};
+>> +			};
+>> +			port@1 {
+>> +				reg = <1>;
+>> +				ps8640_out: endpoint {
+>> +					remote-endpoint = <&panel_in>;
+>> +				};
+>> +			};
+>> +		};
 >> +	};
->> +
->> +	ret = i2c_transfer(client->adapter, msgs, 2);
->> +
->> +	if (ret == 2)
->> +		return 0;
->> +	if (ret < 0)
->> +		return ret;
->> +	else
->> +		return -EIO;
->> +}
->> +
->> +static int ps8640_write_bytes(struct i2c_client *client, const u8 *data,
->> +			      u16 data_len)
->> +{
->> +	int ret;
->> +	struct i2c_msg msg;
->> +
->> +	msg.addr = client->addr;
->> +	msg.flags = 0;
->> +	msg.len = data_len;
->> +	msg.buf = (u8 *)data;
->> +
->> +	ret = i2c_transfer(client->adapter, &msg, 1);
->> +	if (ret == 1)
->> +		return 0;
->> +	if (ret < 0)
->> +		return ret;
->> +	else
->> +		return -EIO;
->> +}
->> +
->> +static int ps8640_write_byte(struct i2c_client *client, u8 reg, u8 data)
->> +{
->> +	u8 buf[] = { reg, data };
->> +
 > 
-> I was gonna say you should avoid transmitting data
-> in the stack, but then I noticed the I2C core doesn't
-> complaint about it (doesn't use object_is_on_stack).
+> It's not really fair to ask this after the rough history of this
+> patchset apparently, but bindings should be submitted in the YAML
+> format now.
 > 
-> Wolfram, does the I2C accept stacked (possibly non-DMA-able) objects?
-> 
->> +	return ps8640_write_bytes(client, buf, sizeof(buf));
->> +}
->> +
->> +static void ps8640_get_mcu_fw_version(struct ps8640 *ps_bridge)
->> +{
->> +	struct i2c_client *client = ps_bridge->page[PAGE5_VPLL];
->> +	u8 fw_ver[2];
->> +
->> +	ps8640_read(client, 0x4, fw_ver, sizeof(fw_ver));
->> +	ps_bridge->info.version = (fw_ver[0] << 8) | fw_ver[1];
->> +
->> +	DRM_INFO_ONCE("ps8640 rom fw version %d.%d\n", fw_ver[0], fw_ver[1]);
-> 
-> Hm, isn't this too verbose?
+> This wouldn't be nice to stop it from going in just because of this,
+> so can you send a subsequent patch fixing this?
 > 
 
-I think I can just remove this print as this info will be available in sysfs
+I don't mind to use YAML format for next version, in fact, I think is the best.
 
->> +}
->> +
->> +static int ps8640_bridge_unmute(struct ps8640 *ps_bridge)
->> +{
->> +	struct i2c_client *client = ps_bridge->page[PAGE3_DSI_CNTL1];
->> +	u8 vdo_ctrl_buf[3] = { PAGE3_SET_ADD, VDO_CTL_ADD, VDO_EN };
->> +
->> +	return ps8640_write_bytes(client, vdo_ctrl_buf, sizeof(vdo_ctrl_buf));
->> +}
->> +
->> +static int ps8640_bridge_mute(struct ps8640 *ps_bridge)
->> +{
->> +	struct i2c_client *client = ps_bridge->page[PAGE3_DSI_CNTL1];
->> +	u8 vdo_ctrl_buf[3] = { PAGE3_SET_ADD, VDO_CTL_ADD, VDO_DIS };
->> +
->> +	return ps8640_write_bytes(client, vdo_ctrl_buf, sizeof(vdo_ctrl_buf));
->> +}
->> +
->> +static void ps8640_pre_enable(struct drm_bridge *bridge)
->> +{
->> +	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
->> +	struct i2c_client *client = ps_bridge->page[PAGE2_TOP_CNTL];
->> +	struct i2c_client *page1 = ps_bridge->page[PAGE1_VDO_BDG];
->> +	int err;
->> +	u8 set_vdo_done, mcs_en, vstart;
->> +	ktime_t timeout;
->> +
->> +	if (ps_bridge->in_fw_update)
->> +		return;
->> +
->> +	if (ps_bridge->enabled)
->> +		return;
->> +
->> +	err = drm_panel_prepare(ps_bridge->panel);
->> +	if (err < 0) {
->> +		DRM_ERROR("failed to prepare panel: %d\n", err);
->> +		return;
->> +	}
->> +
->> +	err = regulator_bulk_enable(ARRAY_SIZE(ps_bridge->supplies),
->> +				    ps_bridge->supplies);
->> +	if (err < 0) {
->> +		DRM_ERROR("cannot enable regulators %d\n", err);
->> +		goto err_panel_unprepare;
->> +	}
->> +
->> +	gpiod_set_value(ps_bridge->gpio_power_down, 1);
->> +	gpiod_set_value(ps_bridge->gpio_reset, 0);
->> +	usleep_range(2000, 2500);
->> +	gpiod_set_value(ps_bridge->gpio_reset, 1);
->> +
->> +	/*
->> +	 * Wait for the ps8640 embed mcu ready
->> +	 * First wait 200ms and then check the mcu ready flag every 20ms
->> +	 */
->> +	msleep(200);
->> +
->> +	timeout = ktime_add_ms(ktime_get(), 200);
->> +	for (;;) {
->> +		err = ps8640_read(client, PAGE2_GPIO_H, &set_vdo_done, 1);
->> +		if (err < 0) {
->> +			DRM_ERROR("failed read PAGE2_GPIO_H: %d\n", err);
->> +			goto err_regulators_disable;
->> +		}
->> +		if ((set_vdo_done & PS_GPIO9) == PS_GPIO9)
->> +			break;
->> +		if (ktime_compare(ktime_get(), timeout) > 0)
->> +			break;
->> +		msleep(20);
->> +	}
-> 
-> I believe it's cleaner to use this idiom:
-> 
->         unsigned long timeout = jiffies + msecs_to_jiffies(YOUR_DRIVER_TIMEOUT);
->         
->         while (time_is_after_jiffies(timeout)) {
->                 ....
->         }
-> 
+Thanks,
+ Enric
 
-Agree, is more readable, so I changed it.
 
->> +
->> +	msleep(50);
->> +
->> +	ps8640_read(page1, PAGE1_VSTART, &vstart, 1);
->> +	DRM_INFO("PS8640 PAGE1.0x6B = 0x%x\n", vstart);
->> +
-> 
-> Ditto, isn't this too verbose?
-> 
-
-Ack, also is not really needed so I just removed it.
-
-> I stopped reviewing at this point. It sounds like this driver
-> could use some love. (Not sure how this driver stood twenty reviews :-))
-> 
-> Thanks,
-> Ezequiel
+> Thanks!
+> Maxime
 > 
 _______________________________________________
 dri-devel mailing list
