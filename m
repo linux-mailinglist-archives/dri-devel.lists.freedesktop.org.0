@@ -1,47 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81F5F125C68
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 09:11:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE863125C65
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 09:11:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8BAB6EABF;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4442A6EABB;
 	Thu, 19 Dec 2019 08:11:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 899916E2F0
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 19:21:10 +0000 (UTC)
-Received: by mail-il1-f199.google.com with SMTP id s85so2589544ild.13
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 11:21:10 -0800 (PST)
+Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com
+ [IPv6:2607:f8b0:4864:20::74a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69ABA6EA65
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 19:58:29 +0000 (UTC)
+Received: by mail-qk1-x74a.google.com with SMTP id f22so2080783qka.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 11:58:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=pRw2SFM5926Ycakiwb4R0k3JFy1gd7g8sCeOA7lbhgc=;
+ b=ZP64ADvo98U6O5TPtR8NmtvMkJ1HrHC8oi4zoUVS7jI6N9icGUagZWiQiNg5DCijxy
+ CvvHb1/c6zBxc/WeX79aJKEsk7b2fjVP12iDTKIyeDFuxyKkGE4Oss+ktP/+I3NDYX2l
+ zju2x+Wh1AyKU/qQUTOgQ+IQKvKpN9cn1JPi/0WHODaEjBZlJxPdNFlFpslfAMw9QTd+
+ sI8kSAuzigzdadqGa9v+ul4NmXh2RyUMtVK4JBXQZUtsGptMdR3vCxRfp5cU+zbYfZN2
+ amGLvbJ8gVq6d/OQva1ikFvZwnK/HhErl1OIiJ+HPzl2lr7tBZopVSEuC3AlOdLjtNMe
+ 8K1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
- :from:to;
- bh=n2kmFkrO2Fl4Mt9INtammdTbVZKbvsHZ8UEpxG9JSV0=;
- b=R5tsDa855WJy9l22G2etvkIiH7UmZwyQVWepa4GoUb3A0lGYcPyB9ZseafLsEZqEj2
- ZVZmawBE+DD0CsVdb3hDF9xsKGbdRXHxlKtYd1Jjpdhli461/WlAYxzGnze6gdEf5WLU
- UsUr6C4+gUS2ggfVf/BcXQGn3ETj+EW3jDugH/lf+U3ZOGJDvbif3MObMNf6Pb1+ZO4M
- Soa5c5Cjq8ZLqfku3suDgy2dihdaWXOo5Ij41i/P7FQHVEz+aIQOSajm+RDkwop5XbNM
- XBk4UuPMJrq7ptkKGuB7aH+bZE0Q3rW6CEZBQQpF3YTSAElS7KDGeL9t8+BjjSACx/WR
- 7Wrw==
-X-Gm-Message-State: APjAAAUPDrzh4Hwb5VUTtHGg9PWDHzqBBtVDhYgMNG5pcsVyuGya7gu0
- qJ0gyIGuUc/5NqgbX3BOHstrIgBASUbYFSnKAeTpkm2JSZ97
-X-Google-Smtp-Source: APXvYqwv37kieSEY1XpJzRAVlB2SXGA7ZNj/oy/PIK34ClIBHpiiyf2GGtVUZWeEjNO1B0eIs1ZlFyfOv/kY6kr48JiZAQYQiX7r
-MIME-Version: 1.0
-X-Received: by 2002:a02:13c2:: with SMTP id 185mr3876431jaz.0.1576696869784;
- Wed, 18 Dec 2019 11:21:09 -0800 (PST)
-Date: Wed, 18 Dec 2019 11:21:09 -0800
-In-Reply-To: <0000000000007b17010598f7aa1f@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000d794080599ff586a@google.com>
-Subject: Re: KASAN: global-out-of-bounds Read in bit_putcs
-From: syzbot <syzbot+38a3699c7eaf165b97a6@syzkaller.appspotmail.com>
-To: b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org, 
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- syzkaller-bugs@googlegroups.com
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=pRw2SFM5926Ycakiwb4R0k3JFy1gd7g8sCeOA7lbhgc=;
+ b=NBvtQPz7/GdktA4DWmgthU3tG0xe0rD6A9QC4YNhBpqg4plGTm+Av2vS3ve/Lr19G/
+ mvwywK2Js0AHkKBdDB7EImfsvWrXvvCIfMjseJfkalrytETqRUOrgHNdV67xO2oM2LKt
+ t5PURqzE0uzGIDNpFAns0dnvR9tTDnaj8n2LbmSqsUw5aASD/dH5E7TqCE/Ww6VsMxbk
+ Y7WFC25gjDAfAAhNJRF9hDLIwLNPgyTYpUZ6v/pDzHp7RGimlxgVBme1T97JnZj+it1f
+ bg+iHKELzksYcTGQjGu3ZQrWc4hp+HtICQ71dreDOnGYGkFXkwdOpakMXoJl/ylCsNVe
+ kxlQ==
+X-Gm-Message-State: APjAAAVhzvaE9giVibm0fTwR7lbjXUDqeV8YyKbZyueD497tcQQcoBya
+ zFlgpmEWatJNhOyS9Gu1HxsntO9mxaQR
+X-Google-Smtp-Source: APXvYqwkAXVKqBhtf/hRgoEfEuuxDJRKW23nRXmECehZMvJIyl8PDCg2nsPE9LrBdr6C6VwHlJAV56YHWqiU
+X-Received: by 2002:a0c:fa43:: with SMTP id k3mr4013507qvo.229.1576699108183; 
+ Wed, 18 Dec 2019 11:58:28 -0800 (PST)
+Date: Wed, 18 Dec 2019 11:58:21 -0800
+Message-Id: <20191218195823.130560-1-rajatja@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.24.1.735.g03f4e72817-goog
+Subject: [PATCH RESEND v4 1/3] drm/i915: Move the code to populate ACPI device
+ ID into intel_acpi
+From: Rajat Jain <rajatja@google.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ "=?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?=" <ville.syrjala@linux.intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>, Imre Deak <imre.deak@intel.com>, 
+ "=?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?=" <jose.souza@intel.com>,
+ linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ gregkh@linuxfoundation.org, mathewk@google.com, 
+ Daniel Thompson <daniel.thompson@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+ Pavel Machek <pavel@denx.de>, seanpaul@google.com,
+ Duncan Laurie <dlaurie@google.com>, 
+ jsbarnes@google.com, Thierry Reding <thierry.reding@gmail.com>
 X-Mailman-Approved-At: Thu, 19 Dec 2019 08:11:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,94 +76,279 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Rajat Jain <rajatja@google.com>, rajatxjain@gmail.com
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"; DelSp="yes"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-syzbot has found a reproducer for the following crash on:
+Move the code that populates the ACPI device ID for devices, into
+more appripriate intel_acpi.c. This is done in preparation for more
+users of this code (in next patch).
 
-HEAD commit:    b9c5ef25 Add linux-next specific files for 20191218
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=17d57b46e00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=2eb13492323f151f
-dashboard link: https://syzkaller.appspot.com/bug?extid=38a3699c7eaf165b97a6
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13ce1f2ee00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=125727dee00000
+Signed-off-by: Rajat Jain <rajatja@google.com>
+---
+v4: Same as v3
+v3: * Renamed the function to intel_acpi_*
+    * Used forward declaration for structure instead of header file inclusion.
+    * Fix a typo
+v2: v1 doesn't exist. Found existing code in i915 driver to assign the ACPI ID
+    which is what I plan to re-use.
 
-Bisection is inconclusive: the bug happens on the oldest tested release.
+ drivers/gpu/drm/i915/display/intel_acpi.c     | 89 +++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_acpi.h     |  5 ++
+ drivers/gpu/drm/i915/display/intel_opregion.c | 80 +----------------
+ 3 files changed, 98 insertions(+), 76 deletions(-)
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12caa5b6e00000
-final crash:    https://syzkaller.appspot.com/x/report.txt?x=11caa5b6e00000
-console output: https://syzkaller.appspot.com/x/log.txt?x=16caa5b6e00000
-
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+38a3699c7eaf165b97a6@syzkaller.appspotmail.com
-
-==================================================================
-BUG: KASAN: global-out-of-bounds in __fb_pad_aligned_buffer  
-include/linux/fb.h:654 [inline]
-BUG: KASAN: global-out-of-bounds in bit_putcs_aligned  
-drivers/video/fbdev/core/bitblit.c:96 [inline]
-BUG: KASAN: global-out-of-bounds in bit_putcs+0xd5d/0xf10  
-drivers/video/fbdev/core/bitblit.c:185
-Read of size 1 at addr ffffffff8872bb44 by task syz-executor093/14101
-
-CPU: 1 PID: 14101 Comm: syz-executor093 Not tainted  
-5.5.0-rc2-next-20191218-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0x197/0x210 lib/dump_stack.c:118
-  print_address_description.constprop.0.cold+0x5/0x30b mm/kasan/report.c:374
-  __kasan_report.cold+0x1b/0x41 mm/kasan/report.c:506
-  kasan_report+0x12/0x20 mm/kasan/common.c:639
-  __asan_report_load1_noabort+0x14/0x20 mm/kasan/generic_report.c:132
-  __fb_pad_aligned_buffer include/linux/fb.h:654 [inline]
-  bit_putcs_aligned drivers/video/fbdev/core/bitblit.c:96 [inline]
-  bit_putcs+0xd5d/0xf10 drivers/video/fbdev/core/bitblit.c:185
-  fbcon_putcs+0x33c/0x3e0 drivers/video/fbdev/core/fbcon.c:1353
-  do_update_region+0x42b/0x6f0 drivers/tty/vt/vt.c:677
-  redraw_screen+0x676/0x7d0 drivers/tty/vt/vt.c:1011
-  fbcon_do_set_font+0x829/0x960 drivers/video/fbdev/core/fbcon.c:2605
-  fbcon_copy_font+0x12c/0x190 drivers/video/fbdev/core/fbcon.c:2620
-  con_font_copy drivers/tty/vt/vt.c:4594 [inline]
-  con_font_op+0x6b2/0x1270 drivers/tty/vt/vt.c:4609
-  vt_ioctl+0x181a/0x26d0 drivers/tty/vt/vt_ioctl.c:965
-  tty_ioctl+0xa37/0x14f0 drivers/tty/tty_io.c:2660
-  vfs_ioctl fs/ioctl.c:47 [inline]
-  file_ioctl fs/ioctl.c:545 [inline]
-  do_vfs_ioctl+0x977/0x14e0 fs/ioctl.c:732
-  ksys_ioctl+0xab/0xd0 fs/ioctl.c:749
-  __do_sys_ioctl fs/ioctl.c:756 [inline]
-  __se_sys_ioctl fs/ioctl.c:754 [inline]
-  __x64_sys_ioctl+0x73/0xb0 fs/ioctl.c:754
-  do_syscall_64+0xfa/0x790 arch/x86/entry/common.c:294
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-RIP: 0033:0x449c49
-Code: e8 7c e6 ff ff 48 83 c4 18 c3 0f 1f 80 00 00 00 00 48 89 f8 48 89 f7  
-48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff  
-ff 0f 83 1b 05 fc ff c3 66 2e 0f 1f 84 00 00 00 00
-RSP: 002b:00007fa99f42ace8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00000000006e6a38 RCX: 0000000000449c49
-RDX: 0000000020000000 RSI: 0000000000004b72 RDI: 0000000000000004
-RBP: 00000000006e6a30 R08: 00007fa99f42b700 R09: 0000000000000000
-R10: 00007fa99f42b700 R11: 0000000000000246 R12: 00000000006e6a3c
-R13: 00007ffe46ffe5df R14: 00007fa99f42b9c0 R15: 20c49ba5e353f7cf
-
-The buggy address belongs to the variable:
-  __func__.44397+0x104/0x1c0
-
-Memory state around the buggy address:
-  ffffffff8872ba00: 00 00 00 00 fa fa fa fa 00 03 fa fa fa fa fa fa
-  ffffffff8872ba80: 00 01 fa fa fa fa fa fa 04 fa fa fa fa fa fa fa
-> ffffffff8872bb00: 04 fa fa fa fa fa fa fa 04 fa fa fa fa fa fa fa
-                                            ^
-  ffffffff8872bb80: 04 fa fa fa fa fa fa fa 07 fa fa fa fa fa fa fa
-  ffffffff8872bc00: 04 fa fa fa fa fa fa fa 00 00 01 fa fa fa fa fa
-==================================================================
+diff --git a/drivers/gpu/drm/i915/display/intel_acpi.c b/drivers/gpu/drm/i915/display/intel_acpi.c
+index 3456d33feb46..e21fb14d5e07 100644
+--- a/drivers/gpu/drm/i915/display/intel_acpi.c
++++ b/drivers/gpu/drm/i915/display/intel_acpi.c
+@@ -10,6 +10,7 @@
+ 
+ #include "i915_drv.h"
+ #include "intel_acpi.h"
++#include "intel_display_types.h"
+ 
+ #define INTEL_DSM_REVISION_ID 1 /* For Calpella anyway... */
+ #define INTEL_DSM_FN_PLATFORM_MUX_INFO 1 /* No args */
+@@ -156,3 +157,91 @@ void intel_register_dsm_handler(void)
+ void intel_unregister_dsm_handler(void)
+ {
+ }
++
++/*
++ * ACPI Specification, Revision 5.0, Appendix B.3.2 _DOD (Enumerate All Devices
++ * Attached to the Display Adapter).
++ */
++#define ACPI_DISPLAY_INDEX_SHIFT		0
++#define ACPI_DISPLAY_INDEX_MASK			(0xf << 0)
++#define ACPI_DISPLAY_PORT_ATTACHMENT_SHIFT	4
++#define ACPI_DISPLAY_PORT_ATTACHMENT_MASK	(0xf << 4)
++#define ACPI_DISPLAY_TYPE_SHIFT			8
++#define ACPI_DISPLAY_TYPE_MASK			(0xf << 8)
++#define ACPI_DISPLAY_TYPE_OTHER			(0 << 8)
++#define ACPI_DISPLAY_TYPE_VGA			(1 << 8)
++#define ACPI_DISPLAY_TYPE_TV			(2 << 8)
++#define ACPI_DISPLAY_TYPE_EXTERNAL_DIGITAL	(3 << 8)
++#define ACPI_DISPLAY_TYPE_INTERNAL_DIGITAL	(4 << 8)
++#define ACPI_VENDOR_SPECIFIC_SHIFT		12
++#define ACPI_VENDOR_SPECIFIC_MASK		(0xf << 12)
++#define ACPI_BIOS_CAN_DETECT			(1 << 16)
++#define ACPI_DEPENDS_ON_VGA			(1 << 17)
++#define ACPI_PIPE_ID_SHIFT			18
++#define ACPI_PIPE_ID_MASK			(7 << 18)
++#define ACPI_DEVICE_ID_SCHEME			(1ULL << 31)
++
++static u32 acpi_display_type(struct intel_connector *connector)
++{
++	u32 display_type;
++
++	switch (connector->base.connector_type) {
++	case DRM_MODE_CONNECTOR_VGA:
++	case DRM_MODE_CONNECTOR_DVIA:
++		display_type = ACPI_DISPLAY_TYPE_VGA;
++		break;
++	case DRM_MODE_CONNECTOR_Composite:
++	case DRM_MODE_CONNECTOR_SVIDEO:
++	case DRM_MODE_CONNECTOR_Component:
++	case DRM_MODE_CONNECTOR_9PinDIN:
++	case DRM_MODE_CONNECTOR_TV:
++		display_type = ACPI_DISPLAY_TYPE_TV;
++		break;
++	case DRM_MODE_CONNECTOR_DVII:
++	case DRM_MODE_CONNECTOR_DVID:
++	case DRM_MODE_CONNECTOR_DisplayPort:
++	case DRM_MODE_CONNECTOR_HDMIA:
++	case DRM_MODE_CONNECTOR_HDMIB:
++		display_type = ACPI_DISPLAY_TYPE_EXTERNAL_DIGITAL;
++		break;
++	case DRM_MODE_CONNECTOR_LVDS:
++	case DRM_MODE_CONNECTOR_eDP:
++	case DRM_MODE_CONNECTOR_DSI:
++		display_type = ACPI_DISPLAY_TYPE_INTERNAL_DIGITAL;
++		break;
++	case DRM_MODE_CONNECTOR_Unknown:
++	case DRM_MODE_CONNECTOR_VIRTUAL:
++		display_type = ACPI_DISPLAY_TYPE_OTHER;
++		break;
++	default:
++		MISSING_CASE(connector->base.connector_type);
++		display_type = ACPI_DISPLAY_TYPE_OTHER;
++		break;
++	}
++
++	return display_type;
++}
++
++void intel_acpi_device_id_update(struct drm_i915_private *dev_priv)
++{
++	struct drm_device *drm_dev = &dev_priv->drm;
++	struct intel_connector *connector;
++	struct drm_connector_list_iter conn_iter;
++	u8 display_index[16] = {};
++
++	/* Populate the ACPI IDs for all connectors for a given drm_device */
++	drm_connector_list_iter_begin(drm_dev, &conn_iter);
++	for_each_intel_connector_iter(connector, &conn_iter) {
++		u32 device_id, type;
++
++		device_id = acpi_display_type(connector);
++
++		/* Use display type specific display index. */
++		type = (device_id & ACPI_DISPLAY_TYPE_MASK)
++			>> ACPI_DISPLAY_TYPE_SHIFT;
++		device_id |= display_index[type]++ << ACPI_DISPLAY_INDEX_SHIFT;
++
++		connector->acpi_device_id = device_id;
++	}
++	drm_connector_list_iter_end(&conn_iter);
++}
+diff --git a/drivers/gpu/drm/i915/display/intel_acpi.h b/drivers/gpu/drm/i915/display/intel_acpi.h
+index 1c576b3fb712..e8b068661d22 100644
+--- a/drivers/gpu/drm/i915/display/intel_acpi.h
++++ b/drivers/gpu/drm/i915/display/intel_acpi.h
+@@ -6,12 +6,17 @@
+ #ifndef __INTEL_ACPI_H__
+ #define __INTEL_ACPI_H__
+ 
++struct drm_i915_private;
++
+ #ifdef CONFIG_ACPI
+ void intel_register_dsm_handler(void);
+ void intel_unregister_dsm_handler(void);
++void intel_acpi_device_id_update(struct drm_i915_private *i915);
+ #else
+ static inline void intel_register_dsm_handler(void) { return; }
+ static inline void intel_unregister_dsm_handler(void) { return; }
++static inline
++void intel_acpi_device_id_update(struct drm_i915_private *i915) { return; }
+ #endif /* CONFIG_ACPI */
+ 
+ #endif /* __INTEL_ACPI_H__ */
+diff --git a/drivers/gpu/drm/i915/display/intel_opregion.c b/drivers/gpu/drm/i915/display/intel_opregion.c
+index 969ade623691..6422384f199e 100644
+--- a/drivers/gpu/drm/i915/display/intel_opregion.c
++++ b/drivers/gpu/drm/i915/display/intel_opregion.c
+@@ -35,6 +35,7 @@
+ #include "display/intel_panel.h"
+ 
+ #include "i915_drv.h"
++#include "intel_acpi.h"
+ #include "intel_display_types.h"
+ #include "intel_opregion.h"
+ 
+@@ -242,29 +243,6 @@ struct opregion_asle_ext {
+ #define SWSCI_SBCB_POST_VBE_PM		SWSCI_FUNCTION_CODE(SWSCI_SBCB, 19)
+ #define SWSCI_SBCB_ENABLE_DISABLE_AUDIO	SWSCI_FUNCTION_CODE(SWSCI_SBCB, 21)
+ 
+-/*
+- * ACPI Specification, Revision 5.0, Appendix B.3.2 _DOD (Enumerate All Devices
+- * Attached to the Display Adapter).
+- */
+-#define ACPI_DISPLAY_INDEX_SHIFT		0
+-#define ACPI_DISPLAY_INDEX_MASK			(0xf << 0)
+-#define ACPI_DISPLAY_PORT_ATTACHMENT_SHIFT	4
+-#define ACPI_DISPLAY_PORT_ATTACHMENT_MASK	(0xf << 4)
+-#define ACPI_DISPLAY_TYPE_SHIFT			8
+-#define ACPI_DISPLAY_TYPE_MASK			(0xf << 8)
+-#define ACPI_DISPLAY_TYPE_OTHER			(0 << 8)
+-#define ACPI_DISPLAY_TYPE_VGA			(1 << 8)
+-#define ACPI_DISPLAY_TYPE_TV			(2 << 8)
+-#define ACPI_DISPLAY_TYPE_EXTERNAL_DIGITAL	(3 << 8)
+-#define ACPI_DISPLAY_TYPE_INTERNAL_DIGITAL	(4 << 8)
+-#define ACPI_VENDOR_SPECIFIC_SHIFT		12
+-#define ACPI_VENDOR_SPECIFIC_MASK		(0xf << 12)
+-#define ACPI_BIOS_CAN_DETECT			(1 << 16)
+-#define ACPI_DEPENDS_ON_VGA			(1 << 17)
+-#define ACPI_PIPE_ID_SHIFT			18
+-#define ACPI_PIPE_ID_MASK			(7 << 18)
+-#define ACPI_DEVICE_ID_SCHEME			(1 << 31)
+-
+ #define MAX_DSLP	1500
+ 
+ static int swsci(struct drm_i915_private *dev_priv,
+@@ -662,54 +640,12 @@ static void set_did(struct intel_opregion *opregion, int i, u32 val)
+ 	}
+ }
+ 
+-static u32 acpi_display_type(struct intel_connector *connector)
+-{
+-	u32 display_type;
+-
+-	switch (connector->base.connector_type) {
+-	case DRM_MODE_CONNECTOR_VGA:
+-	case DRM_MODE_CONNECTOR_DVIA:
+-		display_type = ACPI_DISPLAY_TYPE_VGA;
+-		break;
+-	case DRM_MODE_CONNECTOR_Composite:
+-	case DRM_MODE_CONNECTOR_SVIDEO:
+-	case DRM_MODE_CONNECTOR_Component:
+-	case DRM_MODE_CONNECTOR_9PinDIN:
+-	case DRM_MODE_CONNECTOR_TV:
+-		display_type = ACPI_DISPLAY_TYPE_TV;
+-		break;
+-	case DRM_MODE_CONNECTOR_DVII:
+-	case DRM_MODE_CONNECTOR_DVID:
+-	case DRM_MODE_CONNECTOR_DisplayPort:
+-	case DRM_MODE_CONNECTOR_HDMIA:
+-	case DRM_MODE_CONNECTOR_HDMIB:
+-		display_type = ACPI_DISPLAY_TYPE_EXTERNAL_DIGITAL;
+-		break;
+-	case DRM_MODE_CONNECTOR_LVDS:
+-	case DRM_MODE_CONNECTOR_eDP:
+-	case DRM_MODE_CONNECTOR_DSI:
+-		display_type = ACPI_DISPLAY_TYPE_INTERNAL_DIGITAL;
+-		break;
+-	case DRM_MODE_CONNECTOR_Unknown:
+-	case DRM_MODE_CONNECTOR_VIRTUAL:
+-		display_type = ACPI_DISPLAY_TYPE_OTHER;
+-		break;
+-	default:
+-		MISSING_CASE(connector->base.connector_type);
+-		display_type = ACPI_DISPLAY_TYPE_OTHER;
+-		break;
+-	}
+-
+-	return display_type;
+-}
+-
+ static void intel_didl_outputs(struct drm_i915_private *dev_priv)
+ {
+ 	struct intel_opregion *opregion = &dev_priv->opregion;
+ 	struct intel_connector *connector;
+ 	struct drm_connector_list_iter conn_iter;
+ 	int i = 0, max_outputs;
+-	int display_index[16] = {};
+ 
+ 	/*
+ 	 * In theory, did2, the extended didl, gets added at opregion version
+@@ -721,20 +657,12 @@ static void intel_didl_outputs(struct drm_i915_private *dev_priv)
+ 	max_outputs = ARRAY_SIZE(opregion->acpi->didl) +
+ 		ARRAY_SIZE(opregion->acpi->did2);
+ 
++	intel_acpi_device_id_update(dev_priv);
++
+ 	drm_connector_list_iter_begin(&dev_priv->drm, &conn_iter);
+ 	for_each_intel_connector_iter(connector, &conn_iter) {
+-		u32 device_id, type;
+-
+-		device_id = acpi_display_type(connector);
+-
+-		/* Use display type specific display index. */
+-		type = (device_id & ACPI_DISPLAY_TYPE_MASK)
+-			>> ACPI_DISPLAY_TYPE_SHIFT;
+-		device_id |= display_index[type]++ << ACPI_DISPLAY_INDEX_SHIFT;
+-
+-		connector->acpi_device_id = device_id;
+ 		if (i < max_outputs)
+-			set_did(opregion, i, device_id);
++			set_did(opregion, i, connector->acpi_device_id);
+ 		i++;
+ 	}
+ 	drm_connector_list_iter_end(&conn_iter);
+-- 
+2.24.1.735.g03f4e72817-goog
 
 _______________________________________________
 dri-devel mailing list
