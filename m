@@ -2,32 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CDFA124B92
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 16:25:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30471124B94
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 16:25:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A1536E52A;
-	Wed, 18 Dec 2019 15:25:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 049FD6E52D;
+	Wed, 18 Dec 2019 15:25:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08898898AF;
- Wed, 18 Dec 2019 15:24:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EABD56E524;
+ Wed, 18 Dec 2019 15:25:03 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 18 Dec 2019 07:24:59 -0800
+ 18 Dec 2019 07:25:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,330,1571727600"; d="scan'208";a="205873161"
+X-IronPort-AV: E=Sophos;i="5.69,330,1571727600"; d="scan'208";a="205873191"
 Received: from unknown (HELO amanna.iind.intel.com) ([10.223.74.53])
- by orsmga007.jf.intel.com with ESMTP; 18 Dec 2019 07:24:56 -0800
+ by orsmga007.jf.intel.com with ESMTP; 18 Dec 2019 07:25:00 -0800
 From: Animesh Manna <animesh.manna@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 4/9] drm/i915/dp: Preparation for DP phy compliance auto
- test
-Date: Wed, 18 Dec 2019 20:43:45 +0530
-Message-Id: <20191218151350.19579-5-animesh.manna@intel.com>
+Subject: [PATCH v2 5/9] drm/i915/dsb: Send uevent to testapp.
+Date: Wed, 18 Dec 2019 20:43:46 +0530
+Message-Id: <20191218151350.19579-6-animesh.manna@intel.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20191218151350.19579-1-animesh.manna@intel.com>
 References: <20191218151350.19579-1-animesh.manna@intel.com>
@@ -52,67 +51,43 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-During DP phy compliance auto test mode, sink will request
-combination of different test pattern with differnt level of
-vswing, pre-emphasis. Function added to prepare for it.
+Send uevent to testapp and set test_active flag. To align with link
+compliance design existing intel_dp_compliance tool will be used to
+get the phy request in userspace through uevent.
 
-Reviewed-by: Manasi Navare <manasi.d.navare@intel.com>
 Signed-off-by: Animesh Manna <animesh.manna@intel.com>
 ---
- .../drm/i915/display/intel_display_types.h    |  1 +
- drivers/gpu/drm/i915/display/intel_dp.c       | 24 +++++++++++++++++++
- 2 files changed, 25 insertions(+)
+ drivers/gpu/drm/i915/display/intel_dp.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-index 83ea04149b77..c17866f126c9 100644
---- a/drivers/gpu/drm/i915/display/intel_display_types.h
-+++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-@@ -1205,6 +1205,7 @@ struct intel_dp_compliance_data {
- 	u8 video_pattern;
- 	u16 hdisplay, vdisplay;
- 	u8 bpc;
-+	struct drm_dp_phy_test_params phytest;
- };
- 
- struct intel_dp_compliance {
 diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index ca82835b6dcf..a871834b90d9 100644
+index a871834b90d9..81eeb9bbb050 100644
 --- a/drivers/gpu/drm/i915/display/intel_dp.c
 +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -4984,9 +4984,33 @@ static u8 intel_dp_autotest_edid(struct intel_dp *intel_dp)
- 	return test_result;
- }
+@@ -5011,6 +5011,9 @@ static u8 intel_dp_autotest_phy_pattern(struct intel_dp *intel_dp)
+ 	if (test_result != DP_TEST_ACK)
+ 		DRM_ERROR("Phy test preparation failed\n");
  
-+static u8 intel_dp_prepare_phytest(struct intel_dp *intel_dp)
-+{
-+	struct drm_dp_phy_test_params *data =
-+		&intel_dp->compliance.test_data.phytest;
-+
-+	if (drm_dp_get_phy_test_pattern(&intel_dp->aux, data)) {
-+		DRM_DEBUG_KMS("DP Phy Test pattern AUX read failure\n");
-+		return DP_TEST_NAK;
-+	}
-+
-+	/*
-+	 * link_mst is set to false to avoid executing mst related code
-+	 * during compliance testing.
-+	 */
-+	intel_dp->link_mst = false;
-+
-+	return DP_TEST_ACK;
-+}
-+
- static u8 intel_dp_autotest_phy_pattern(struct intel_dp *intel_dp)
- {
- 	u8 test_result = DP_TEST_NAK;
-+
-+	test_result = intel_dp_prepare_phytest(intel_dp);
-+	if (test_result != DP_TEST_ACK)
-+		DRM_ERROR("Phy test preparation failed\n");
++	/* Set test active flag here so userspace doesn't interrupt things */
++	intel_dp->compliance.test_active = 1;
 +
  	return test_result;
  }
  
+@@ -5336,8 +5339,11 @@ intel_dp_short_pulse(struct intel_dp *intel_dp)
+ 
+ 	intel_psr_short_pulse(intel_dp);
+ 
+-	if (intel_dp->compliance.test_type == DP_TEST_LINK_TRAINING) {
+-		DRM_DEBUG_KMS("Link Training Compliance Test requested\n");
++	if (intel_dp->compliance.test_type == DP_TEST_LINK_TRAINING ||
++	    intel_dp->compliance.test_type ==
++	    DP_TEST_LINK_PHY_TEST_PATTERN) {
++		DRM_DEBUG_KMS("Compliance Test requested, test-type = 0x%lx\n",
++			      intel_dp->compliance.test_type);
+ 		/* Send a Hotplug Uevent to userspace to start modeset */
+ 		drm_kms_helper_hotplug_event(&dev_priv->drm);
+ 	}
 -- 
 2.24.0
 
