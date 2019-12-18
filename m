@@ -2,52 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3909124EA2
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 18:02:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD062124F03
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 18:22:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B56B6E915;
-	Wed, 18 Dec 2019 17:02:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1050B6E92A;
+	Wed, 18 Dec 2019 17:22:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
- [209.85.210.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AD4C6E915
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 17:02:18 +0000 (UTC)
-Received: by mail-ot1-f65.google.com with SMTP id b18so3315609otp.0
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 09:02:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=JaI7AY/5dEsE+PzKKfws1NegVl++uA5oApSBgLNQCls=;
- b=ZCw9aDeLIeSoET+5dXSucbiThiyzLSnqRS521IrPe0Qe/JYIb3iOThSkk7T+NchBxl
- S9vRrUDM5zSQxuURfD0uWuJwg11bJlupq12eCh7aZZ0oY9JFJ2Ydv2cgcH5fpkUA0jdi
- c0eEUE+RfjG4wq/RP6f7avM8dh/FkuaQThluZUCbx97/NTsxX5hWsafsnkjTOokIiZ9t
- tqf0pv68mXKcin04mU03V5dnjZbZFC8MFl2Fz1e4i+XJKeCvEdalUV5hVF/9dn3oXLxQ
- GtMc6IConVx07Lg8BlVE6tn4h3BMP5Dd3sYAw1XH7aUF9K6JHNbDKJ4aiNecsJS4R4JY
- Wr5g==
-X-Gm-Message-State: APjAAAVGORZOBkb8HsZYyvh9yCzUUSlVyaERi3sxhSLCZLCGaehWaXV9
- 1IhJhmTo2k3feZzd11/JdQ==
-X-Google-Smtp-Source: APXvYqzOiFGi11lFLhBbyJQ2UV01N4xUjbtoI1m67WTwLSZq6goK5Ks+0SR2sX/w079C4Hu9mqDTmw==
-X-Received: by 2002:a9d:7c8f:: with SMTP id q15mr3730626otn.341.1576688537723; 
- Wed, 18 Dec 2019 09:02:17 -0800 (PST)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id r13sm963542oic.52.2019.12.18.09.02.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Dec 2019 09:02:17 -0800 (PST)
-Date: Wed, 18 Dec 2019 11:02:16 -0600
-From: Rob Herring <robh@kernel.org>
-To: matthias.bgg@kernel.org
-Subject: Re: [resend PATCH v6 02/12] dt-bindings: mediatek: Add compatible
- for mt7623
-Message-ID: <20191218170216.GA18152@bogus>
-References: <20191207224740.24536-1-matthias.bgg@kernel.org>
- <20191207224740.24536-3-matthias.bgg@kernel.org>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A731C6E92A
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 17:22:12 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: ezequiel) with ESMTPSA id 7A82628B855
+Message-ID: <980c181ad15153ee0af4ea20ac2a7265cd2b56f1.camel@collabora.com>
+Subject: Re: [PATCH v21 2/2] drm/bridge: Add I2C based driver for ps8640 bridge
+From: Ezequiel Garcia <ezequiel@collabora.com>
+To: Enric Balletbo i Serra <enric.balletbo@collabora.com>, 
+ linux-kernel@vger.kernel.org, Wolfram Sang <wsa@the-dreams.de>
+Date: Wed, 18 Dec 2019 14:22:00 -0300
+In-Reply-To: <9e38774d-0028-6988-1be1-2e726c5ed4ab@collabora.com>
+References: <20191216135834.27775-1-enric.balletbo@collabora.com>
+ <20191216135834.27775-3-enric.balletbo@collabora.com>
+ <bb97505cfadae364afa14605793affe4a7d69ffa.camel@collabora.com>
+ <9e38774d-0028-6988-1be1-2e726c5ed4ab@collabora.com>
+Organization: Collabora
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191207224740.24536-3-matthias.bgg@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,34 +40,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, rdunlap@infradead.org, airlied@linux.ie,
- mturquette@baylibre.com, dri-devel@lists.freedesktop.org,
- laurent.pinchart@ideasonboard.com, ulrich.hecht+renesas@gmail.com,
- linux-clk@vger.kernel.org, drinkcat@chromium.org, wens@csie.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- frank-w@public-files.de, sean.wang@mediatek.com, robh+dt@kernel.org,
- linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
- linux-arm-kernel@lists.infradead.org, mbrugger@suse.com, sboyd@kernel.org,
- sean.wang@kernel.org, linux-kernel@vger.kernel.org, matthias.bgg@kernel.org,
- enric.balletbo@collabora.com
+Cc: Ulrich Hecht <uli@fpond.eu>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ drinkcat@chromium.org, Jitao Shi <jitao.shi@mediatek.com>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-mediatek@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, hsinyi@chromium.org, matthias.bgg@gmail.com,
+ Collabora Kernel ML <kernel@collabora.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat,  7 Dec 2019 23:47:30 +0100, matthias.bgg@kernel.org wrote:
-> From: Matthias Brugger <mbrugger@suse.com>
+On Wed, 2019-12-18 at 16:21 +0100, Enric Balletbo i Serra wrote:
+> Hi Ezequiel,
 > 
-> MediaTek mt7623 uses the mt2701 binings as fallback.
-> Document this in the binding description.
+> Many thanks for the review, I am just preparing the next version to send.
 > 
-> Signed-off-by: Matthias Brugger <mbrugger@suse.com>
-> ---
->  .../devicetree/bindings/display/mediatek/mediatek,disp.txt      | 2 ++
->  1 file changed, 2 insertions(+)
+[..]
+> > > +
+> > > +#define PAGE1_VSTART		0x6b
+> > > +#define PAGE2_SPI_CFG3		0x82
+> > > +#define I2C_TO_SPI_RESET	0x20
+> > > +#define PAGE2_ROMADD_BYTE1	0x8e
+> > > +#define PAGE2_ROMADD_BYTE2	0x8f
+> > > +#define PAGE2_SWSPI_WDATA	0x90
+> > > +#define PAGE2_SWSPI_RDATA	0x91
+> > > +#define PAGE2_SWSPI_LEN		0x92
+> > > +#define PAGE2_SWSPI_CTL		0x93
+> > > +#define TRIGGER_NO_READBACK	0x05
+> > > +#define TRIGGER_READBACK	0x01
+> > > +#define PAGE2_SPI_STATUS	0x9e
+> > > +#define SPI_READY		0x0c
+> > > +#define PAGE2_GPIO_L		0xa6
+> > > +#define PAGE2_GPIO_H		0xa7
+> > > +#define PS_GPIO9		BIT(1)
+> > > +#define PAGE2_IROM_CTRL		0xb0
+> > > +#define IROM_ENABLE		0xc0
+> > > +#define IROM_DISABLE		0x80
+> > > +#define PAGE2_SW_RESET		0xbc
+> > > +#define SPI_SW_RESET		BIT(7)
+> > > +#define MPU_SW_RESET		BIT(6)
+> > > +#define PAGE2_ENCTLSPI_WR	0xda
+> > > +#define PAGE2_I2C_BYPASS	0xea
+> > > +#define I2C_BYPASS_EN		0xd0
+> > > +#define PAGE2_MCS_EN		0xf3
+> > > +#define MCS_EN			BIT(0)
+> > > +#define PAGE3_SET_ADD		0xfe
+> > > +#define PAGE3_SET_VAL		0xff
+> > > +#define VDO_CTL_ADD		0x13
+> > > +#define VDO_DIS			0x18
+> > > +#define VDO_EN			0x1c
+> > > +#define PAGE4_REV_L		0xf0
+> > > +#define PAGE4_REV_H		0xf1
+> > > +#define PAGE4_CHIP_L		0xf2
+> > > +#define PAGE4_CHIP_H		0xf3
+> > > +
+> > > +#define PAGE0_DP_CNTL		0
+> > 
+> > Unused macro.
+> > 
+> > > +#define PAGE1_VDO_BDG		1
+> > > +#define PAGE2_TOP_CNTL		2
+> > > +#define PAGE3_DSI_CNTL1		3
+> > > +#define PAGE4_MIPI_PHY		4
+> > 
+> > Ditto... maybe others as well?
+> > 
+> 
+> I removed all the unused macros.
 > 
 
-Acked-by: Rob Herring <robh@kernel.org>
+In this case, given these PAGEX_XXX refer
+to the I2C ancillaries, maybe you can leave them.
+
+Moreover, I'd put them in an enum, to emphasize
+their relationship.
+
+Regards,
+Ezequiel
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
