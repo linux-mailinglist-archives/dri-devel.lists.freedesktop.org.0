@@ -1,102 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE250125C6C
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 09:11:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 452F5125C5F
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 09:11:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 937196EACA;
-	Thu, 19 Dec 2019 08:11:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D05D46E2ED;
+	Thu, 19 Dec 2019 08:11:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR03-VE1-obe.outbound.protection.outlook.com
- (mail-eopbgr50087.outbound.protection.outlook.com [40.107.5.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37D5C6E4E8;
- Wed, 18 Dec 2019 14:59:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aBhz6Xt/VwnL3LaV6C4ftnUv/Lo76F8bWxzl7vVKs3iNNEhOrMiBeiZVfaJTJwVamySrSxdyOVgvgMwaTeI/tuy13chTRWq7ZuAXqIaYqY4J414NlekkA6pNsrMP1uF4DXX97t1XXUoQB4XNOCy6LzyhdXhanekjv9C1vyn5eIXORn6ODwj6p/p2/Rxc34YPw0lTKZLnxOi5fIkhawyef7hLGTCCtdUeaNZqvQfefFpoMXkrwHj2kXx56vq4xGPrNIbDnNi1pe/0683/wTsjLzDH265o4d4OeZ87KoB2J9KyiHccH1yQyivt4UumoQa1GJFp54n2ZspyOTQnIvLMcQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9nQM+trVujHI3Qoc/dgMx+kQgATSWF4kZScyp+AAMWU=;
- b=OHqBzZ+mrohdkVNKDkHYLn07QcauNAfXhjIyx4wTRHEI7IfNW2oZQHRrWitOF+KNy6+U3tg06F1+OvfkgLk+t/q4GJiSA4DLoso0XxpcTv4GJLkbqEm/g3R71RF7EoyNAv3JOat5CXZc8zueRvOgeIfMqsd3iO8Pl7ZYGTs6U5AJT8tsGwPNu03d49gl91B1yleVbzdtJ/wBUHXlQszoHTwcrrj4MGAGo1Psx4/pnS7zFg5VXWJtP2eaHuJFo0hevgpNemwswHAkGge6nQDtoeoFir8rZuFmy1/ejqBUUq9eNib7n1KYgx35k3bQ2QAIe7DrOUgCkq86Fj67hOEzTg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
- dkim=pass header.d=mellanox.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9nQM+trVujHI3Qoc/dgMx+kQgATSWF4kZScyp+AAMWU=;
- b=fmlMWkkh5G4KHjVttSNopPJ00jsiNUkfJin3ufl+05LQgdc07Oq0p6DXq+MWMwUirGg9oq1h+prj8WvTzIoJp17lZ31If8dc/FujCXOWmF2/A5mzvwiczj/E2vozfkUOeEBiuewOIcRYMvpIDiI+nhEWsZPaR2sNho8tc7ItOEk=
-Received: from VI1PR05MB4141.eurprd05.prod.outlook.com (52.133.14.15) by
- VI1PR05MB3471.eurprd05.prod.outlook.com (10.170.239.25) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2538.19; Wed, 18 Dec 2019 14:59:16 +0000
-Received: from VI1PR05MB4141.eurprd05.prod.outlook.com
- ([fe80::18df:a0fe:18eb:a96b]) by VI1PR05MB4141.eurprd05.prod.outlook.com
- ([fe80::18df:a0fe:18eb:a96b%6]) with mapi id 15.20.2559.012; Wed, 18 Dec 2019
- 14:59:16 +0000
-From: Jason Gunthorpe <jgg@mellanox.com>
-To: Jerome Glisse <jglisse@redhat.com>, Ralph Campbell <rcampbell@nvidia.com>, 
- David Airlie <airlied@linux.ie>, "Kuehling, Felix" <Felix.Kuehling@amd.com>,
- Dan Williams <dan.j.williams@intel.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, Andrew Morton
- <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>,
- Christoph Hellwig <hch@lst.de>, "linux-rdma@vger.kernel.org"
- <linux-rdma@vger.kernel.org>
-Subject: Re: [GIT PULL] Please pull hmm changes
-Thread-Topic: [GIT PULL] Please pull hmm changes
-Thread-Index: AQHVo9Dog/MtwM8aJU6I/7345tJKuKekCWkAgAAFfoCAA6/3AIAEBIsAgAnhkICAAlDwAIAIKeCA
-Date: Wed, 18 Dec 2019 14:59:16 +0000
-Message-ID: <20191218145913.GO16762@mellanox.com>
-References: <20191125204248.GA2485@ziepe.ca>
- <CAHk-=wiqguF5NakpL4L9XCmmYr4wY0wk__+6+wHVReF2sVVZhA@mail.gmail.com>
- <CAHk-=wiQtTsZfgTwLYgfV8Gr_0JJiboZOzVUTAgJ2xTdf5bMiw@mail.gmail.com>
- <20191203024206.GC5795@mellanox.com> <20191205160324.GB5819@redhat.com>
- <20191211225703.GE3434@mellanox.com>
- <20191213101916.GD624164@phenom.ffwll.local>
-In-Reply-To: <20191213101916.GD624164@phenom.ffwll.local>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: MN2PR07CA0026.namprd07.prod.outlook.com
- (2603:10b6:208:1a0::36) To VI1PR05MB4141.eurprd05.prod.outlook.com
- (2603:10a6:803:44::15)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=jgg@mellanox.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [142.68.57.212]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 1a27aaff-284f-43c2-60f4-08d783cada23
-x-ms-traffictypediagnostic: VI1PR05MB3471:
-x-microsoft-antispam-prvs: <VI1PR05MB34718FC1BC216A7489BA16F0CF530@VI1PR05MB3471.eurprd05.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-forefront-prvs: 0255DF69B9
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(39860400002)(346002)(376002)(366004)(136003)(396003)(199004)(189003)(1076003)(7416002)(81166006)(186003)(5660300002)(36756003)(8936002)(26005)(6506007)(2906002)(8676002)(6486002)(52116002)(33656002)(81156014)(86362001)(64756008)(66446008)(66556008)(110136005)(66946007)(66476007)(316002)(2616005)(6512007)(71200400001)(478600001)(921003)(1121003);
- DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR05MB3471;
- H:VI1PR05MB4141.eurprd05.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: mellanox.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: YFsKJi3o+DFtc1adYty2n8ozGQozHR6/e2CYa3A3ET4WBHrq3ofdX2qWppElBG9I5VEWG+nM4nsk+Shtap+lkqvdOm4mlXNv9fcty5qFV4abEiuxriIoDF+HVoXWR43obPelf3GLBbigEHh4BQv9czHO9DxNT1pDiD20kLCt4k85Q9ZQGYxQ6EoHBPJ9GTXJ5aT2UBkpih5yPEat3yaVk4eLCYPtUbnHBmG3GdnCCQmoxJMm2gZRCCAJSycJB+X5HDC72ps7PcMSMYD/H6zmC9m6VeJvBUXo/Ah0O49Vrr2AGinYTA7tkLAO8I264wkz4/SoFNzNUKLsHwYINbEJAWAstBJRFUGhP0vNt2E88l2izg4il0m8rSPLt8qrST2atrUPjNifCODyXWqirHkN3T/jva8GWotiF6Bh9KSvHRp2181+CS8VGjryCDCh0FSljjCBwldRhsKUetiUYQsVN/oh0vDZeisnYWsD5tcHC680BnFmVnC6HNQdnRDqsMQi
-x-ms-exchange-transport-forked: True
-Content-ID: <992CF74742407543825A7104C3898395@eurprd05.prod.outlook.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABE346E0EC
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 15:22:00 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: eballetbo) with ESMTPSA id D5AE529298D
+Subject: Re: [PATCH v21 2/2] drm/bridge: Add I2C based driver for ps8640 bridge
+To: Ezequiel Garcia <ezequiel@collabora.com>, linux-kernel@vger.kernel.org,
+ Wolfram Sang <wsa@the-dreams.de>
+References: <20191216135834.27775-1-enric.balletbo@collabora.com>
+ <20191216135834.27775-3-enric.balletbo@collabora.com>
+ <bb97505cfadae364afa14605793affe4a7d69ffa.camel@collabora.com>
+From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Message-ID: <9e38774d-0028-6988-1be1-2e726c5ed4ab@collabora.com>
+Date: Wed, 18 Dec 2019 16:21:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-X-OriginatorOrg: Mellanox.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1a27aaff-284f-43c2-60f4-08d783cada23
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Dec 2019 14:59:16.8325 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a652971c-7d2e-4d9b-a6a4-d149256f461b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ujlj0Eul7WyBl6CVrl1kbsMBy6FDBXGRJFsC4dqgK6rD7TyFTQWnMpVYLAq8EIdqtcVEvx8g3SbHFT5VHqXbQg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR05MB3471
+In-Reply-To: <bb97505cfadae364afa14605793affe4a7d69ffa.camel@collabora.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Thu, 19 Dec 2019 08:11:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -110,55 +42,457 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Ulrich Hecht <uli@fpond.eu>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ drinkcat@chromium.org, Jitao Shi <jitao.shi@mediatek.com>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-mediatek@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, hsinyi@chromium.org, matthias.bgg@gmail.com,
+ Collabora Kernel ML <kernel@collabora.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 13, 2019 at 11:19:16AM +0100, Daniel Vetter wrote:
-> On Wed, Dec 11, 2019 at 10:57:13PM +0000, Jason Gunthorpe wrote:
-> > On Thu, Dec 05, 2019 at 11:03:24AM -0500, Jerome Glisse wrote:
-> > 
-> > > > struct mmu_notifier_mm (ie the mm->mmu_notifier_mm)
-> > > >    -> mmn_mm
-> > > > struct mm_struct 
-> > > >    -> mm
-> > > > struct mmu_notifier (ie the user subscription to the mm_struct)
-> > > >    -> mn
-> > > > struct mmu_interval_notifier (the other kind of user subscription)
-> > > >    -> mni
-> > > 
-> > > What about "interval" the context should already tell people
-> > > it is related to mmu notifier and thus a notifier. I would
-> > > just remove the notifier suffix, this would match the below
-> > > range.
-> > 
-> > Interval could be a good replacement for mni in the mm/mmu_notififer
-> > file if we don't do the wholesale rename
-> > 
-> > > > I think it would be overall nicer with better names for the original
-> > > > structs. Perhaps:
-> > > > 
-> > > >  mmn_* - MMU notifier prefix
-> > > >  mmn_state <- struct mmu_notifier_mm
-> > > >  mmn_subscription (mmn_sub) <- struct mmu_notifier
-> > > >  mmn_range_subscription (mmn_range_sub) <- struct mmu_interval_notifier
-> > > >  mmn_invalidate_desc <- struct mmu_notifier_range
-> > > 
-> > > This looks good.
-> > 
-> > Well, lets just bite the bullet then and switch it. Do you like
-> > 'state'? I thought that was the weakest one
+Hi Ezequiel,
+
+Many thanks for the review, I am just preparing the next version to send.
+
+On 16/12/19 18:07, Ezequiel Garcia wrote:
+> On Mon, 2019-12-16 at 14:58 +0100, Enric Balletbo i Serra wrote:
+>> From: Jitao Shi <jitao.shi@mediatek.com>
+>>
+>> This patch adds drm_bridge driver for parade DSI to eDP bridge chip.
+>>
+>> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+>> Reviewed-by: Daniel Kurtz <djkurtz@chromium.org>
+>> Reviewed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+>> [uli: followed API changes, removed FW update feature]
+>> Signed-off-by: Ulrich Hecht <uli@fpond.eu>
+>> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+>> ---
+>>
+>> Changes in v21:
+>>  - Use devm_i2c_new_dummy_device and fix build issue using deprecated i2c_new_dummy
+>>  - Fix build issue due missing drm_bridge.h
+>>  - Do not remove in ps8640_remove device managed resources
+>>
+>> Changes in v19:
+>>  - fixed return value of ps8640_probe() when no panel is found
+>>
+>> Changes in v18:
+>>  - followed DRM API changes
+>>  - use DEVICE_ATTR_RO()
+>>  - remove firmware update code
+>>  - add SPDX identifier
+>>
+>> Changes in v17:
+>>  - remove some unused head files.
+>>  - add macros for ps8640 pages.
+>>  - remove ddc_i2c client
+>>  - add mipi_dsi_device_register_full
+>>  - remove the manufacturer from the name and i2c_device_id
+>>
+>> Changes in v16:
+>>  - Disable ps8640 DSI MCS Function.
+>>  - Rename gpios name more clearly.
+>>  - Tune the ps8640 power on sequence.
+>>
+>> Changes in v15:
+>>  - Drop drm_connector_(un)register calls from parade ps8640.
+>>    The main DRM driver mtk_drm_drv now calls
+>>    drm_connector_register_all() after drm_dev_register() in the
+>>    mtk_drm_bind() function. That function should iterate over all
+>>    connectors and call drm_connector_register() for each of them.
+>>    So, remove drm_connector_(un)register calls from parade ps8640.
+>>
+>> Changes in v14:
+>>  - update copyright info.
+>>  - change bridge_to_ps8640 and connector_to_ps8640 to inline function.
+>>  - fix some coding style.
+>>  - use sizeof as array counter.
+>>  - use drm_get_edid when read edid.
+>>  - add mutex when firmware updating.
+>>
+>> Changes in v13:
+>>  - add const on data, ps8640_write_bytes(struct i2c_client *client, const u8 *data, u16 data_len)
+>>  - fix PAGE2_SW_REST tyro.
+>>  - move the buf[3] init to entrance of the function.
+>>
+>> Changes in v12:
+>>  - fix hw_chip_id build warning
+>>
+>> Changes in v11:
+>>  - Remove depends on I2C, add DRM depends
+>>  - Reuse ps8640_write_bytes() in ps8640_write_byte()
+>>  - Use timer check for polling like the routines in <linux/iopoll.h>
+>>  - Fix no drm_connector_unregister/drm_connector_cleanup when ps8640_bridge_attach fail
+>>  - Check the ps8640 hardware id in ps8640_validate_firmware
+>>  - Remove fw_version check
+>>  - Move ps8640_validate_firmware before ps8640_enter_bl
+>>  - Add ddc_i2c unregister when probe fail and ps8640_remove
+>>
+>>  drivers/gpu/drm/bridge/Kconfig         |  11 +
+>>  drivers/gpu/drm/bridge/Makefile        |   1 +
+>>  drivers/gpu/drm/bridge/parade-ps8640.c | 655 +++++++++++++++++++++++++
+>>  3 files changed, 667 insertions(+)
+>>  create mode 100644 drivers/gpu/drm/bridge/parade-ps8640.c
+>>
+>> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+>> index 4734f6993858..3e0a63011723 100644
+>> --- a/drivers/gpu/drm/bridge/Kconfig
+>> +++ b/drivers/gpu/drm/bridge/Kconfig
+>> @@ -101,6 +101,17 @@ config DRM_PARADE_PS8622
+>>  	---help---
+>>  	  Parade eDP-LVDS bridge chip driver.
+>>  
+>> +config DRM_PARADE_PS8640
+>> +	tristate "Parade PS8640 MIPI DSI to eDP Converter"
+>> +	depends on OF
+>> +	select DRM_KMS_HELPER
+>> +	select DRM_MIPI_DSI
+>> +	select DRM_PANEL
+>> +	help
+>> +	  Choose this option if you have PS8640 for display
+>> +	  The PS8640 is a high-performance and low-power
+>> +	  MIPI DSI to eDP converter
+>> +
+>>  config DRM_SIL_SII8620
+>>  	tristate "Silicon Image SII8620 HDMI/MHL bridge"
+>>  	depends on OF
+>> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
+>> index 1c0c92667ac4..91490c595b38 100644
+>> --- a/drivers/gpu/drm/bridge/Makefile
+>> +++ b/drivers/gpu/drm/bridge/Makefile
+>> @@ -8,6 +8,7 @@ obj-$(CONFIG_DRM_LVDS_ENCODER) += lvds-encoder.o
+>>  obj-$(CONFIG_DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW) += megachips-stdpxxxx-ge-b850v3-fw.o
+>>  obj-$(CONFIG_DRM_NXP_PTN3460) += nxp-ptn3460.o
+>>  obj-$(CONFIG_DRM_PARADE_PS8622) += parade-ps8622.o
+>> +obj-$(CONFIG_DRM_PARADE_PS8640) += parade-ps8640.o
+>>  obj-$(CONFIG_DRM_SIL_SII8620) += sil-sii8620.o
+>>  obj-$(CONFIG_DRM_SII902X) += sii902x.o
+>>  obj-$(CONFIG_DRM_SII9234) += sii9234.o
+>> diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
+>> new file mode 100644
+>> index 000000000000..ab896ceb1a42
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+>> @@ -0,0 +1,655 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +/*
+>> + * Copyright (c) 2016 MediaTek Inc.
+>> + */
+>> +
+>> +#include <linux/delay.h>
+>> +#include <linux/err.h>
+>> +//#include <linux/firmware.h>
 > 
-> Since you're asking, here's my bikeshed. I kinda agree _state looks a bit
-> strange for this, what about a _link suffix in the spirit of
+> Commented stuff should gone.
+> 
 
-Do you think calling it 'mmn_subscriptions' is clear?
+Ack
 
-Ie a struct mmn_subscriptions holds the lists of struct
-mmn_subscription and struct mmn_range_subscription?
+>> +#include <linux/gpio/consumer.h>
+>> +#include <linux/i2c.h>
+>> +#include <linux/module.h>
+>> +#include <linux/of_graph.h>
+>> +#include <linux/regulator/consumer.h>
+>> +//#include <asm/unaligned.h>
+> 
+> Ditto.
+> 
 
-Jason
+Ack
+
+>> +#include <drm/drm_atomic_helper.h>
+>> +#include <drm/drm_bridge.h>
+>> +#include <drm/drm_crtc_helper.h>
+>> +#include <drm/drm_edid.h>
+>> +#include <drm/drm_mipi_dsi.h>
+>> +#include <drm/drm_panel.h>
+>> +#include <drm/drm_print.h>
+>> +#include <drm/drm_probe_helper.h>
+>> +
+>> +#define PAGE1_VSTART		0x6b
+>> +#define PAGE2_SPI_CFG3		0x82
+>> +#define I2C_TO_SPI_RESET	0x20
+>> +#define PAGE2_ROMADD_BYTE1	0x8e
+>> +#define PAGE2_ROMADD_BYTE2	0x8f
+>> +#define PAGE2_SWSPI_WDATA	0x90
+>> +#define PAGE2_SWSPI_RDATA	0x91
+>> +#define PAGE2_SWSPI_LEN		0x92
+>> +#define PAGE2_SWSPI_CTL		0x93
+>> +#define TRIGGER_NO_READBACK	0x05
+>> +#define TRIGGER_READBACK	0x01
+>> +#define PAGE2_SPI_STATUS	0x9e
+>> +#define SPI_READY		0x0c
+>> +#define PAGE2_GPIO_L		0xa6
+>> +#define PAGE2_GPIO_H		0xa7
+>> +#define PS_GPIO9		BIT(1)
+>> +#define PAGE2_IROM_CTRL		0xb0
+>> +#define IROM_ENABLE		0xc0
+>> +#define IROM_DISABLE		0x80
+>> +#define PAGE2_SW_RESET		0xbc
+>> +#define SPI_SW_RESET		BIT(7)
+>> +#define MPU_SW_RESET		BIT(6)
+>> +#define PAGE2_ENCTLSPI_WR	0xda
+>> +#define PAGE2_I2C_BYPASS	0xea
+>> +#define I2C_BYPASS_EN		0xd0
+>> +#define PAGE2_MCS_EN		0xf3
+>> +#define MCS_EN			BIT(0)
+>> +#define PAGE3_SET_ADD		0xfe
+>> +#define PAGE3_SET_VAL		0xff
+>> +#define VDO_CTL_ADD		0x13
+>> +#define VDO_DIS			0x18
+>> +#define VDO_EN			0x1c
+>> +#define PAGE4_REV_L		0xf0
+>> +#define PAGE4_REV_H		0xf1
+>> +#define PAGE4_CHIP_L		0xf2
+>> +#define PAGE4_CHIP_H		0xf3
+>> +
+>> +#define PAGE0_DP_CNTL		0
+> 
+> Unused macro.
+> 
+>> +#define PAGE1_VDO_BDG		1
+>> +#define PAGE2_TOP_CNTL		2
+>> +#define PAGE3_DSI_CNTL1		3
+>> +#define PAGE4_MIPI_PHY		4
+> 
+> Ditto... maybe others as well?
+> 
+
+I removed all the unused macros.
+
+>> +#define PAGE5_VPLL		5
+>> +#define PAGE6_DSI_CNTL2		6
+>> +#define PAGE7_SPI_CNTL		7
+>> +#define MAX_DEVS		0x8
+>> +
+>> +struct ps8640_info {
+>> +	u8 family_id;
+>> +	u8 variant_id;
+>> +	u16 version;
+>> +};
+>> +
+>> +struct ps8640 {
+>> +	struct drm_connector connector;
+>> +	struct drm_bridge bridge;
+>> +	struct edid *edid;
+>> +	struct mipi_dsi_device *dsi;
+>> +	struct i2c_client *page[MAX_DEVS];
+>> +	struct regulator_bulk_data supplies[2];
+>> +	struct drm_panel *panel;
+>> +	struct gpio_desc *gpio_reset;
+>> +	struct gpio_desc *gpio_power_down;
+>> +	struct gpio_desc *gpio_mode_sel;
+>> +	bool enabled;
+>> +
+>> +	/* firmware file info */
+>> +	struct ps8640_info info;
+>> +	bool in_fw_update;
+>> +	/* for firmware update protect */
+>> +	struct mutex fw_mutex;
+>> +};
+>> +
+>> +static const u8 enc_ctrl_code[6] = { 0xaa, 0x55, 0x50, 0x41, 0x52, 0x44 };
+>> +static const u8 hw_chip_id[4] = { 0x00, 0x0a, 0x00, 0x30 };
+>> +
+> 
+> More unused stuff. Left-overs?
+> 
+
+Ack
+
+>> +static inline struct ps8640 *bridge_to_ps8640(struct drm_bridge *e)
+>> +{
+>> +	return container_of(e, struct ps8640, bridge);
+>> +}
+>> +
+>> +static inline struct ps8640 *connector_to_ps8640(struct drm_connector *e)
+>> +{
+>> +	return container_of(e, struct ps8640, connector);
+>> +}
+>> +
+>> +static int ps8640_read(struct i2c_client *client, u8 reg, u8 *data,
+>> +		       u16 data_len)
+>> +{
+>> +	int ret;
+>> +	struct i2c_msg msgs[] = {
+>> +		{
+>> +		 .addr = client->addr,
+>> +		 .flags = 0,
+>> +		 .len = 1,
+>> +		 .buf = &reg,
+>> +		},
+>> +		{
+>> +		 .addr = client->addr,
+>> +		 .flags = I2C_M_RD,
+>> +		 .len = data_len,
+>> +		 .buf = data,
+>> +		}
+>> +	};
+>> +
+>> +	ret = i2c_transfer(client->adapter, msgs, 2);
+>> +
+>> +	if (ret == 2)
+>> +		return 0;
+>> +	if (ret < 0)
+>> +		return ret;
+>> +	else
+>> +		return -EIO;
+>> +}
+>> +
+>> +static int ps8640_write_bytes(struct i2c_client *client, const u8 *data,
+>> +			      u16 data_len)
+>> +{
+>> +	int ret;
+>> +	struct i2c_msg msg;
+>> +
+>> +	msg.addr = client->addr;
+>> +	msg.flags = 0;
+>> +	msg.len = data_len;
+>> +	msg.buf = (u8 *)data;
+>> +
+>> +	ret = i2c_transfer(client->adapter, &msg, 1);
+>> +	if (ret == 1)
+>> +		return 0;
+>> +	if (ret < 0)
+>> +		return ret;
+>> +	else
+>> +		return -EIO;
+>> +}
+>> +
+>> +static int ps8640_write_byte(struct i2c_client *client, u8 reg, u8 data)
+>> +{
+>> +	u8 buf[] = { reg, data };
+>> +
+> 
+> I was gonna say you should avoid transmitting data
+> in the stack, but then I noticed the I2C core doesn't
+> complaint about it (doesn't use object_is_on_stack).
+> 
+> Wolfram, does the I2C accept stacked (possibly non-DMA-able) objects?
+> 
+>> +	return ps8640_write_bytes(client, buf, sizeof(buf));
+>> +}
+>> +
+>> +static void ps8640_get_mcu_fw_version(struct ps8640 *ps_bridge)
+>> +{
+>> +	struct i2c_client *client = ps_bridge->page[PAGE5_VPLL];
+>> +	u8 fw_ver[2];
+>> +
+>> +	ps8640_read(client, 0x4, fw_ver, sizeof(fw_ver));
+>> +	ps_bridge->info.version = (fw_ver[0] << 8) | fw_ver[1];
+>> +
+>> +	DRM_INFO_ONCE("ps8640 rom fw version %d.%d\n", fw_ver[0], fw_ver[1]);
+> 
+> Hm, isn't this too verbose?
+> 
+
+I think I can just remove this print as this info will be available in sysfs
+
+>> +}
+>> +
+>> +static int ps8640_bridge_unmute(struct ps8640 *ps_bridge)
+>> +{
+>> +	struct i2c_client *client = ps_bridge->page[PAGE3_DSI_CNTL1];
+>> +	u8 vdo_ctrl_buf[3] = { PAGE3_SET_ADD, VDO_CTL_ADD, VDO_EN };
+>> +
+>> +	return ps8640_write_bytes(client, vdo_ctrl_buf, sizeof(vdo_ctrl_buf));
+>> +}
+>> +
+>> +static int ps8640_bridge_mute(struct ps8640 *ps_bridge)
+>> +{
+>> +	struct i2c_client *client = ps_bridge->page[PAGE3_DSI_CNTL1];
+>> +	u8 vdo_ctrl_buf[3] = { PAGE3_SET_ADD, VDO_CTL_ADD, VDO_DIS };
+>> +
+>> +	return ps8640_write_bytes(client, vdo_ctrl_buf, sizeof(vdo_ctrl_buf));
+>> +}
+>> +
+>> +static void ps8640_pre_enable(struct drm_bridge *bridge)
+>> +{
+>> +	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+>> +	struct i2c_client *client = ps_bridge->page[PAGE2_TOP_CNTL];
+>> +	struct i2c_client *page1 = ps_bridge->page[PAGE1_VDO_BDG];
+>> +	int err;
+>> +	u8 set_vdo_done, mcs_en, vstart;
+>> +	ktime_t timeout;
+>> +
+>> +	if (ps_bridge->in_fw_update)
+>> +		return;
+>> +
+>> +	if (ps_bridge->enabled)
+>> +		return;
+>> +
+>> +	err = drm_panel_prepare(ps_bridge->panel);
+>> +	if (err < 0) {
+>> +		DRM_ERROR("failed to prepare panel: %d\n", err);
+>> +		return;
+>> +	}
+>> +
+>> +	err = regulator_bulk_enable(ARRAY_SIZE(ps_bridge->supplies),
+>> +				    ps_bridge->supplies);
+>> +	if (err < 0) {
+>> +		DRM_ERROR("cannot enable regulators %d\n", err);
+>> +		goto err_panel_unprepare;
+>> +	}
+>> +
+>> +	gpiod_set_value(ps_bridge->gpio_power_down, 1);
+>> +	gpiod_set_value(ps_bridge->gpio_reset, 0);
+>> +	usleep_range(2000, 2500);
+>> +	gpiod_set_value(ps_bridge->gpio_reset, 1);
+>> +
+>> +	/*
+>> +	 * Wait for the ps8640 embed mcu ready
+>> +	 * First wait 200ms and then check the mcu ready flag every 20ms
+>> +	 */
+>> +	msleep(200);
+>> +
+>> +	timeout = ktime_add_ms(ktime_get(), 200);
+>> +	for (;;) {
+>> +		err = ps8640_read(client, PAGE2_GPIO_H, &set_vdo_done, 1);
+>> +		if (err < 0) {
+>> +			DRM_ERROR("failed read PAGE2_GPIO_H: %d\n", err);
+>> +			goto err_regulators_disable;
+>> +		}
+>> +		if ((set_vdo_done & PS_GPIO9) == PS_GPIO9)
+>> +			break;
+>> +		if (ktime_compare(ktime_get(), timeout) > 0)
+>> +			break;
+>> +		msleep(20);
+>> +	}
+> 
+> I believe it's cleaner to use this idiom:
+> 
+>         unsigned long timeout = jiffies + msecs_to_jiffies(YOUR_DRIVER_TIMEOUT);
+>         
+>         while (time_is_after_jiffies(timeout)) {
+>                 ....
+>         }
+> 
+
+Agree, is more readable, so I changed it.
+
+>> +
+>> +	msleep(50);
+>> +
+>> +	ps8640_read(page1, PAGE1_VSTART, &vstart, 1);
+>> +	DRM_INFO("PS8640 PAGE1.0x6B = 0x%x\n", vstart);
+>> +
+> 
+> Ditto, isn't this too verbose?
+> 
+
+Ack, also is not really needed so I just removed it.
+
+> I stopped reviewing at this point. It sounds like this driver
+> could use some love. (Not sure how this driver stood twenty reviews :-))
+> 
+> Thanks,
+> Ezequiel
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
