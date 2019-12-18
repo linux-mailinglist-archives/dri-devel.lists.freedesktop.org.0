@@ -2,34 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99207125C62
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 09:11:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE250125C6C
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 09:11:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BD626EAB9;
-	Thu, 19 Dec 2019 08:11:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 937196EACA;
+	Thu, 19 Dec 2019 08:11:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 874 seconds by postgrey-1.36 at gabe;
- Wed, 18 Dec 2019 14:53:49 UTC
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEBF86E4E8
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 14:53:49 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 55C4EB3E2;
- Wed, 18 Dec 2019 14:39:13 +0000 (UTC)
-Message-ID: <78a1badd7c08ca39e7f62c6b66addeb2bf485a1e.camel@suse.de>
-Subject: Re: [PATCH] gpu/drm/v3d: Add ARCH_BCM2835 to DRM_V3D Kconfig
-From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To: Peter Robinson <pbrobinson@gmail.com>, Eric Anholt <eric@anholt.net>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Florian Fainelli <f.fainelli@gmail.com>,
- linux-arm-kernel@lists.infradead.org
-Date: Wed, 18 Dec 2019 15:39:02 +0100
-In-Reply-To: <20191218084320.312561-1-pbrobinson@gmail.com>
-References: <20191218084320.312561-1-pbrobinson@gmail.com>
-User-Agent: Evolution 3.34.2 
+Received: from EUR03-VE1-obe.outbound.protection.outlook.com
+ (mail-eopbgr50087.outbound.protection.outlook.com [40.107.5.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37D5C6E4E8;
+ Wed, 18 Dec 2019 14:59:19 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aBhz6Xt/VwnL3LaV6C4ftnUv/Lo76F8bWxzl7vVKs3iNNEhOrMiBeiZVfaJTJwVamySrSxdyOVgvgMwaTeI/tuy13chTRWq7ZuAXqIaYqY4J414NlekkA6pNsrMP1uF4DXX97t1XXUoQB4XNOCy6LzyhdXhanekjv9C1vyn5eIXORn6ODwj6p/p2/Rxc34YPw0lTKZLnxOi5fIkhawyef7hLGTCCtdUeaNZqvQfefFpoMXkrwHj2kXx56vq4xGPrNIbDnNi1pe/0683/wTsjLzDH265o4d4OeZ87KoB2J9KyiHccH1yQyivt4UumoQa1GJFp54n2ZspyOTQnIvLMcQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9nQM+trVujHI3Qoc/dgMx+kQgATSWF4kZScyp+AAMWU=;
+ b=OHqBzZ+mrohdkVNKDkHYLn07QcauNAfXhjIyx4wTRHEI7IfNW2oZQHRrWitOF+KNy6+U3tg06F1+OvfkgLk+t/q4GJiSA4DLoso0XxpcTv4GJLkbqEm/g3R71RF7EoyNAv3JOat5CXZc8zueRvOgeIfMqsd3iO8Pl7ZYGTs6U5AJT8tsGwPNu03d49gl91B1yleVbzdtJ/wBUHXlQszoHTwcrrj4MGAGo1Psx4/pnS7zFg5VXWJtP2eaHuJFo0hevgpNemwswHAkGge6nQDtoeoFir8rZuFmy1/ejqBUUq9eNib7n1KYgx35k3bQ2QAIe7DrOUgCkq86Fj67hOEzTg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
+ dkim=pass header.d=mellanox.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9nQM+trVujHI3Qoc/dgMx+kQgATSWF4kZScyp+AAMWU=;
+ b=fmlMWkkh5G4KHjVttSNopPJ00jsiNUkfJin3ufl+05LQgdc07Oq0p6DXq+MWMwUirGg9oq1h+prj8WvTzIoJp17lZ31If8dc/FujCXOWmF2/A5mzvwiczj/E2vozfkUOeEBiuewOIcRYMvpIDiI+nhEWsZPaR2sNho8tc7ItOEk=
+Received: from VI1PR05MB4141.eurprd05.prod.outlook.com (52.133.14.15) by
+ VI1PR05MB3471.eurprd05.prod.outlook.com (10.170.239.25) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2538.19; Wed, 18 Dec 2019 14:59:16 +0000
+Received: from VI1PR05MB4141.eurprd05.prod.outlook.com
+ ([fe80::18df:a0fe:18eb:a96b]) by VI1PR05MB4141.eurprd05.prod.outlook.com
+ ([fe80::18df:a0fe:18eb:a96b%6]) with mapi id 15.20.2559.012; Wed, 18 Dec 2019
+ 14:59:16 +0000
+From: Jason Gunthorpe <jgg@mellanox.com>
+To: Jerome Glisse <jglisse@redhat.com>, Ralph Campbell <rcampbell@nvidia.com>, 
+ David Airlie <airlied@linux.ie>, "Kuehling, Felix" <Felix.Kuehling@amd.com>,
+ Dan Williams <dan.j.williams@intel.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>,
+ Christoph Hellwig <hch@lst.de>, "linux-rdma@vger.kernel.org"
+ <linux-rdma@vger.kernel.org>
+Subject: Re: [GIT PULL] Please pull hmm changes
+Thread-Topic: [GIT PULL] Please pull hmm changes
+Thread-Index: AQHVo9Dog/MtwM8aJU6I/7345tJKuKekCWkAgAAFfoCAA6/3AIAEBIsAgAnhkICAAlDwAIAIKeCA
+Date: Wed, 18 Dec 2019 14:59:16 +0000
+Message-ID: <20191218145913.GO16762@mellanox.com>
+References: <20191125204248.GA2485@ziepe.ca>
+ <CAHk-=wiqguF5NakpL4L9XCmmYr4wY0wk__+6+wHVReF2sVVZhA@mail.gmail.com>
+ <CAHk-=wiQtTsZfgTwLYgfV8Gr_0JJiboZOzVUTAgJ2xTdf5bMiw@mail.gmail.com>
+ <20191203024206.GC5795@mellanox.com> <20191205160324.GB5819@redhat.com>
+ <20191211225703.GE3434@mellanox.com>
+ <20191213101916.GD624164@phenom.ffwll.local>
+In-Reply-To: <20191213101916.GD624164@phenom.ffwll.local>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: MN2PR07CA0026.namprd07.prod.outlook.com
+ (2603:10b6:208:1a0::36) To VI1PR05MB4141.eurprd05.prod.outlook.com
+ (2603:10a6:803:44::15)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=jgg@mellanox.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [142.68.57.212]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 1a27aaff-284f-43c2-60f4-08d783cada23
+x-ms-traffictypediagnostic: VI1PR05MB3471:
+x-microsoft-antispam-prvs: <VI1PR05MB34718FC1BC216A7489BA16F0CF530@VI1PR05MB3471.eurprd05.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-forefront-prvs: 0255DF69B9
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(4636009)(39860400002)(346002)(376002)(366004)(136003)(396003)(199004)(189003)(1076003)(7416002)(81166006)(186003)(5660300002)(36756003)(8936002)(26005)(6506007)(2906002)(8676002)(6486002)(52116002)(33656002)(81156014)(86362001)(64756008)(66446008)(66556008)(110136005)(66946007)(66476007)(316002)(2616005)(6512007)(71200400001)(478600001)(921003)(1121003);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR05MB3471;
+ H:VI1PR05MB4141.eurprd05.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: mellanox.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: YFsKJi3o+DFtc1adYty2n8ozGQozHR6/e2CYa3A3ET4WBHrq3ofdX2qWppElBG9I5VEWG+nM4nsk+Shtap+lkqvdOm4mlXNv9fcty5qFV4abEiuxriIoDF+HVoXWR43obPelf3GLBbigEHh4BQv9czHO9DxNT1pDiD20kLCt4k85Q9ZQGYxQ6EoHBPJ9GTXJ5aT2UBkpih5yPEat3yaVk4eLCYPtUbnHBmG3GdnCCQmoxJMm2gZRCCAJSycJB+X5HDC72ps7PcMSMYD/H6zmC9m6VeJvBUXo/Ah0O49Vrr2AGinYTA7tkLAO8I264wkz4/SoFNzNUKLsHwYINbEJAWAstBJRFUGhP0vNt2E88l2izg4il0m8rSPLt8qrST2atrUPjNifCODyXWqirHkN3T/jva8GWotiF6Bh9KSvHRp2181+CS8VGjryCDCh0FSljjCBwldRhsKUetiUYQsVN/oh0vDZeisnYWsD5tcHC680BnFmVnC6HNQdnRDqsMQi
+x-ms-exchange-transport-forked: True
+Content-ID: <992CF74742407543825A7104C3898395@eurprd05.prod.outlook.com>
 MIME-Version: 1.0
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a27aaff-284f-43c2-60f4-08d783cada23
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Dec 2019 14:59:16.8325 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ujlj0Eul7WyBl6CVrl1kbsMBy6FDBXGRJFsC4dqgK6rD7TyFTQWnMpVYLAq8EIdqtcVEvx8g3SbHFT5VHqXbQg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR05MB3471
 X-Mailman-Approved-At: Thu, 19 Dec 2019 08:11:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,90 +110,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1727108766=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Dec 13, 2019 at 11:19:16AM +0100, Daniel Vetter wrote:
+> On Wed, Dec 11, 2019 at 10:57:13PM +0000, Jason Gunthorpe wrote:
+> > On Thu, Dec 05, 2019 at 11:03:24AM -0500, Jerome Glisse wrote:
+> > 
+> > > > struct mmu_notifier_mm (ie the mm->mmu_notifier_mm)
+> > > >    -> mmn_mm
+> > > > struct mm_struct 
+> > > >    -> mm
+> > > > struct mmu_notifier (ie the user subscription to the mm_struct)
+> > > >    -> mn
+> > > > struct mmu_interval_notifier (the other kind of user subscription)
+> > > >    -> mni
+> > > 
+> > > What about "interval" the context should already tell people
+> > > it is related to mmu notifier and thus a notifier. I would
+> > > just remove the notifier suffix, this would match the below
+> > > range.
+> > 
+> > Interval could be a good replacement for mni in the mm/mmu_notififer
+> > file if we don't do the wholesale rename
+> > 
+> > > > I think it would be overall nicer with better names for the original
+> > > > structs. Perhaps:
+> > > > 
+> > > >  mmn_* - MMU notifier prefix
+> > > >  mmn_state <- struct mmu_notifier_mm
+> > > >  mmn_subscription (mmn_sub) <- struct mmu_notifier
+> > > >  mmn_range_subscription (mmn_range_sub) <- struct mmu_interval_notifier
+> > > >  mmn_invalidate_desc <- struct mmu_notifier_range
+> > > 
+> > > This looks good.
+> > 
+> > Well, lets just bite the bullet then and switch it. Do you like
+> > 'state'? I thought that was the weakest one
+> 
+> Since you're asking, here's my bikeshed. I kinda agree _state looks a bit
+> strange for this, what about a _link suffix in the spirit of
 
---===============1727108766==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-dQNxoxTSFb/E0Lltjh2W"
+Do you think calling it 'mmn_subscriptions' is clear?
 
+Ie a struct mmn_subscriptions holds the lists of struct
+mmn_subscription and struct mmn_range_subscription?
 
---=-dQNxoxTSFb/E0Lltjh2W
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Peter,
-
-On Wed, 2019-12-18 at 08:43 +0000, Peter Robinson wrote:
-> On arm64 the config ARCH_BCM doesn't exist so to be able to
-> build for platforms such as the Raspberry Pi 4 we need to add
-> ARCH_BCM2835 similar to what has been done on vc4.
->=20
-> Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
-> ---
-
-v3d's upstream implementation doesn't support RPi4 for now. So I don't see =
-how
-we could benefit from this.
-
-That said you're more than welcome to have a go at adding support for RPi4.=
- It
-seems to me that the divergence betweeen us and Raspberry Pi foundation's
-kernel isn't that big. Maybe Eric can share some extra light on this.
-
-Regards,
-Nicolas
-
->  drivers/gpu/drm/v3d/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/v3d/Kconfig b/drivers/gpu/drm/v3d/Kconfig
-> index 9a5c44606337..b0e048697964 100644
-> --- a/drivers/gpu/drm/v3d/Kconfig
-> +++ b/drivers/gpu/drm/v3d/Kconfig
-> @@ -1,7 +1,7 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  config DRM_V3D
->  	tristate "Broadcom V3D 3.x and newer"
-> -	depends on ARCH_BCM || ARCH_BCMSTB || COMPILE_TEST
-> +	depends on ARCH_BCM || ARCH_BCMSTB || ARCH_BCM2835 || COMPILE_TEST
->  	depends on DRM
->  	depends on COMMON_CLK
->  	depends on MMU
-
-
---=-dQNxoxTSFb/E0Lltjh2W
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl36OgYACgkQlfZmHno8
-x/53VAf+OP1RkfSy/jgroNYtSQKCf77Xv18wNpP9BAd/32YNu65bmnM25QYvqVza
-s/HrSqBvmae80LkVRUnj3danXmHmHx+c9gx/6VEGi2+BZ0EF6hotsCthvlkABi4o
-dT3w/0S0uYzejyne1f1v/MnuvBgPcvVl6Xl193SHT9Bt8a6Y2GwCrrkzq+Vy1tGw
-ddK3BVyOWTsyVstI0pYQ7UE51k4Xn0Ka/yiB1FZuIU+5mT0EvYZhBd2ivtX9I9AY
-a+zcIJ42OzGQVMIr+9ve0r+7QuveM9GHIwjqxRnP5EsPlO/PN209IwVePNyiWiLw
-AOQOihepJh3qInBRU2Ppn+na2ZooUQ==
-=bMtf
------END PGP SIGNATURE-----
-
---=-dQNxoxTSFb/E0Lltjh2W--
-
-
---===============1727108766==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1727108766==--
-
