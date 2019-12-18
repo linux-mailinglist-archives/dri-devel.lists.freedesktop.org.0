@@ -1,41 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2E25123BBB
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 01:45:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB2D3123BC2
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 01:48:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12BDC8911B;
-	Wed, 18 Dec 2019 00:45:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 669A96E0FB;
+	Wed, 18 Dec 2019 00:48:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3FC888610
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 00:44:58 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3D78830E;
- Wed, 18 Dec 2019 01:44:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1576629896;
- bh=6dYmUu3hwtAo8V+gXg8Pv/B4TGt86DxYecgockCwnDQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=S1EQFehGTXt9PrgRCRYqVgdl40C8tHen64MwIXu2nYiK+jWvg5je/YCyN5pIpm53V
- vySApmLIaxKQTtu90bqpd+N1njYKata1PTFmckUF/sOmdyl+5UeoptwEVMvK1BE7B8
- nn4I9bkBuFIQX0xST00SEodYZzuaUAfVYMmqpZBo=
-Date: Wed, 18 Dec 2019 02:44:45 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Neil Armstrong <narmstrong@baylibre.com>
-Subject: Re: [GIT PULL FOR v5.6] R-Car DU & LVDS decoder
-Message-ID: <20191218004445.GH4874@pendragon.ideasonboard.com>
-References: <20191128024524.GC13942@pendragon.ideasonboard.com>
- <20191217124344.GS624164@phenom.ffwll.local>
- <476b05bc-af6f-7156-bbb4-a882fae70c9d@baylibre.com>
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
+ [IPv6:2607:f8b0:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F5946E0FB
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 00:48:25 +0000 (UTC)
+Received: by mail-pg1-x542.google.com with SMTP id k25so252799pgt.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 16:48:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DrIzy5/3+qkJlfpz8zly2ElwPJDQSn8JS7CVJj6CmpA=;
+ b=JWFEQFsiP9BZC5HbLcv7+tioUvurGoS6OgIQC2MaUnDA64JkWBCBk610oHn+V0vr8N
+ PDRCLaQ5jYucZEkmdQLB91uGNP2fgXlrhrrsH84luz+qRJkTfaIKf6FXAH4FlWAMk3bZ
+ cNm7bnuAgLqnn5XJzzPEJa8R+iBtoIcKkD+NM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DrIzy5/3+qkJlfpz8zly2ElwPJDQSn8JS7CVJj6CmpA=;
+ b=t4Vi+JjDzKMi/3w1l8mIodIyrC1bbhmS947mB5ZHVmo4CVuyhTIwLuXwlkOKQ2tAmv
+ bbzHi7LEbgpQweVPXyKFZhG+H6JTXepd5+lzxAn4F7ly1+gjIVeF8zbAJe54jCrmDsbQ
+ x/BjNd/CLrHhkgvJKlsKX4gsPpaaOvqGhUSXxbylaADLI0YriPD2aRPBOt1fgYLga1pg
+ QZZ+FjS39jfg6O/dPigk5LxLBfpOB282/RDYPVcOjI/lC5psZFTrzXhnCWmrDXUgTiWQ
+ I9jCE5q3YwabHryTag6zgHSQiOFTjHBhlvoishvB5x+DdjPecf2p0hxixrJOnJcT3/HY
+ 37ug==
+X-Gm-Message-State: APjAAAVkeqCBqZ/AjS/k9lI2uXHGOb1i8OuTAaXo8G8Mdn9VAZoyG/I6
+ hgTQDVhKUQqWUXtZY2fppOEShQ==
+X-Google-Smtp-Source: APXvYqxgKMKNXSTeOoH7rDK5JVWi87oIv+P52BpWmaSqjQua5pSstDNqLp+GxjHfJWeE4vbc2mC6dg==
+X-Received: by 2002:a63:bc01:: with SMTP id q1mr300743pge.442.1576630105100;
+ Tue, 17 Dec 2019 16:48:25 -0800 (PST)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:202:1:24fa:e766:52c9:e3b2])
+ by smtp.gmail.com with ESMTPSA id v72sm139885pjb.25.2019.12.17.16.48.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Dec 2019 16:48:24 -0800 (PST)
+From: Douglas Anderson <dianders@chromium.org>
+To: Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>
+Subject: [PATCH v2 0/9] drm/bridge: ti-sn65dsi86: Improve support for AUO
+ B116XAK01 + other DP
+Date: Tue, 17 Dec 2019 16:47:32 -0800
+Message-Id: <20191218004741.102067-1-dianders@chromium.org>
+X-Mailer: git-send-email 2.24.1.735.g03f4e72817-goog
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <476b05bc-af6f-7156-bbb4-a882fae70c9d@baylibre.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,168 +64,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: robdclark@chromium.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ bjorn.andersson@linaro.org, seanpaul@chromium.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Neil,
+This series contains a pile of patches that was created to support
+hooking up the AUO B116XAK01 panel to the eDP side of the bridge.  In
+general it should be useful for hooking up a wider variety of DP
+panels to the bridge, especially those with lower resolution and lower
+bits per pixel.
 
-On Tue, Dec 17, 2019 at 02:23:57PM +0100, Neil Armstrong wrote:
-> On 17/12/2019 13:43, Daniel Vetter wrote:
-> > On Thu, Nov 28, 2019 at 04:45:24AM +0200, Laurent Pinchart wrote:
-> >> Hi Dave,
-> >>
-> >> The following changes since commit acc61b8929365e63a3e8c8c8913177795aa45594:
-> >>
-> >>   Merge tag 'drm-next-5.5-2019-11-22' of git://people.freedesktop.org/~agd5f/linux into drm-next (2019-11-26 08:40:23 +1000)
-> >>
-> >> are available in the Git repository at:
-> >>
-> >>   git://linuxtv.org/pinchartl/media.git tags/du-next-20191128
-> >>
-> >> for you to fetch changes up to c43bcd64c7c703ff7196f74cb6bfc67e35b562d9:
-> >>
-> >>   dt-bindings: display: bridge: lvds-codec: Document ti,ds90cf384a (2019-11-28 03:55:56 +0200)
-> >>
-> >> ----------------------------------------------------------------
-> >> - R-Car DU Color Management Module support
-> >> - LVDS decoder support
-> >>
-> >> ----------------------------------------------------------------
-> >> Fabrizio Castro (9):
-> >>       dt-bindings: display: bridge: Convert lvds-transmitter binding to json-schema
-> >>       dt-bindings: display: bridge: lvds-transmitter: Document powerdown-gpios
-> >>       dt-bindings: display: bridge: lvds-transmitter: Absorb ti,ds90c185.txt
-> >>       dt-bindings: display: bridge: lvds-transmitter: Document "ti,sn75lvds83"
-> >>       drm/bridge: Repurpose lvds-encoder.c
-> >>       drm/bridge: lvds-codec: Add "lvds-decoder" support
-> >>       drm/bridge: lvds-codec: Simplify panel DT node localisation
-> >>       dt-bindings: display: bridge: Repurpose lvds-encoder
-> >>       dt-bindings: display: bridge: lvds-codec: Document ti,ds90cf384a
-> > 
-> > Why bridge stuff not in drm-misc?
-> > 
-> > Also, and the reason I've not pulled this:
-> > 
-> > dim: c43bcd64c7c7 ("dt-bindings: display: bridge: lvds-codec: Document ti,ds90cf384a"): committer Signed-off-by missing.
-> > dim: bb29b64ac196 ("dt-bindings: display: bridge: Repurpose lvds-encoder"): committer Signed-off-by missing.
-> > dim: 5db8ae664da4 ("drm/bridge: lvds-codec: Simplify panel DT node localisation"): committer Signed-off-by missing.
-> > dim: e94bb2bf88e2 ("drm/bridge: lvds-codec: Add "lvds-decoder" support"): committer Signed-off-by missing.
-> > dim: b6fafff0c335 ("drm/bridge: Repurpose lvds-encoder.c"): committer Signed-off-by missing.
-> > dim: 1c060450177f ("dt-bindings: display: bridge: lvds-transmitter: Document "ti,sn75lvds83""): committer Signed-off-by missing.
-> > dim: d2f2a148ba7c ("dt-bindings: display: bridge: lvds-transmitter: Absorb ti,ds90c185.txt"): committer Signed-off-by missing.
-> > dim: 07e5c8731999 ("dt-bindings: display: bridge: lvds-transmitter: Document powerdown-gpios"): committer Signed-off-by missing.
-> > dim: 0fa9d2323ed3 ("dt-bindings: display: bridge: Convert lvds-transmitter binding to json-schema"): committer Signed-off-by missing.
-> > dim: ERROR: issues in commits detected, aborting
-> 
-> Laurent, I can push them into drm-misc if needed, so it will unlock boris.
+The overall result of this series:
+* Allows panels with fewer than 4 DP lanes hooked up to work.
+* Optimizes the link rate for panels with 6 bpp.
+* Supports trying more than one link rate when training if the main
+  link rate didn't work.
+* Avoids invalid link rates.
 
-Thanks for the offer. I've gathered all the bridge patches that are not
-specific to Renesas in
+It's not expected that this series will break any existing users but
+testing is always good.
 
-The following changes since commit d1eef1c619749b2a57e514a3fa67d9a516ffa919:
+To support the AUO B116XAK01, we could actually stop at the ("Use
+18-bit DP if we can") patch since that causes the panel to run at a
+link rate of 1.62 which works.  The patches to try more than one link
+rate were all developed prior to realizing that I could just use
+18-bit mode and were validated with that patch reverted.
 
-  Linux 5.5-rc2 (2019-12-15 15:16:08 -0800)
+These patches were tested on sdm845-cheza atop mainline as of
+2019-12-13 and also on another board (the one with AUO B116XAK01) atop
+a downstream kernel tree.
 
-are available in the Git repository at:
+This patch series doesn't do anything to optimize the MIPI link and
+only focuses on the DP link.  For instance, it's left as an exercise
+to the reader to see if we can use the 666-packed mode on the MIPI
+link and save some power (because we could lower the clock rate).
 
-  git://linuxtv.org/pinchartl/media.git drm/bridge/next
+I am nowhere near a display expert and my knowledge of DP and MIPI is
+pretty much zero.  If something about this patch series smells wrong,
+it probably is.  Please let know and I'll try to fix it.
 
-for you to fetch changes up to efe52545bccf56d62c1fd1704937a971fa2d24f8:
+Changes in v2:
+- Squash in maybe-uninitialized fix from Rob Clark.
+- Patch ("Avoid invalid rates") replaces ("Skip non-standard DP rates")
 
-  dt-bindings: display: bridge: lvds-codec: Absorb thine,thc63lvdm83d.txt (2019-12-18 02:37:47 +0200)
+Douglas Anderson (9):
+  drm/bridge: ti-sn65dsi86: Split the setting of the dp and dsi rates
+  drm/bridge: ti-sn65dsi86: zero is never greater than an unsigned int
+  drm/bridge: ti-sn65dsi86: Don't use MIPI variables for DP link
+  drm/bridge: ti-sn65dsi86: Config number of DP lanes Mo' Betta
+  drm/bridge: ti-sn65dsi86: Read num lanes from the DP sink
+  drm/bridge: ti-sn65dsi86: Use 18-bit DP if we can
+  drm/bridge: ti-sn65dsi86: Group DP link training bits in a function
+  drm/bridge: ti-sn65dsi86: Train at faster rates if slower ones fail
+  drm/bridge: ti-sn65dsi86: Avoid invalid rates
 
-----------------------------------------------------------------
-Fabrizio Castro (10):
-      dt-bindings: display: bridge: Convert lvds-transmitter binding to json-schema
-      dt-bindings: display: bridge: lvds-transmitter: Document powerdown-gpios
-      dt-bindings: display: bridge: lvds-transmitter: Absorb ti,ds90c185.txt
-      dt-bindings: display: bridge: lvds-transmitter: Document "ti,sn75lvds83"
-      drm/bridge: Repurpose lvds-encoder.c
-      drm/bridge: lvds-codec: Add "lvds-decoder" support
-      drm/bridge: lvds-codec: Simplify panel DT node localisation
-      dt-bindings: display: bridge: Repurpose lvds-encoder
-      dt-bindings: display: bridge: lvds-codec: Document ti,ds90cf384a
-      dt-bindings: display: bridge: lvds-codec: Absorb thine,thc63lvdm83d.txt
-
- .../bindings/display/bridge/lvds-codec.yaml        | 131 +++++++++++++++++
- .../bindings/display/bridge/lvds-transmitter.txt   |  66 ---------
- .../bindings/display/bridge/thine,thc63lvdm83d.txt |  50 -------
- .../bindings/display/bridge/ti,ds90c185.txt        |  55 --------
- drivers/gpu/drm/bridge/Kconfig                     |   8 +-
- drivers/gpu/drm/bridge/Makefile                    |   2 +-
- drivers/gpu/drm/bridge/lvds-codec.c                | 151 ++++++++++++++++++++
- drivers/gpu/drm/bridge/lvds-encoder.c              | 155 ---------------------
- 8 files changed, 287 insertions(+), 331 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
- delete mode 100644 Documentation/devicetree/bindings/display/bridge/lvds-transmitter.txt
- delete mode 100644 Documentation/devicetree/bindings/display/bridge/thine,thc63lvdm83d.txt
- delete mode 100644 Documentation/devicetree/bindings/display/bridge/ti,ds90c185.txt
- create mode 100644 drivers/gpu/drm/bridge/lvds-codec.c
- delete mode 100644 drivers/gpu/drm/bridge/lvds-encoder.c
-
-(with proper SoB tags this time).
-
-Merging them through drm-misc makes sense, if you want to push them that
-would be appreciated (although I suppose that would require applying
-them from patchwork with dim ?).
-
-Otherwise I can include them in my next pull request for Renesas, which
-I plan to submit tomorrow.
-
-> > *insert small sermon about if you do your own maintainer, pls do it right ...
-> > 
-> > Cheers, Daniel
-> > 
-> >>
-> >> Geert Uytterhoeven (2):
-> >>       dt-bindings: display: renesas: du: Add vendor prefix to vsps property
-> >>       drm: rcar-du: Recognize "renesas,vsps" in addition to "vsps"
-> >>
-> >> Jacopo Mondi (6):
-> >>       dt-bindings: display: renesas,cmm: Add R-Car CMM documentation
-> >>       dt-bindings: display: renesas,du: Document cmms property
-> >>       drm: rcar-du: Add support for CMM
-> >>       drm: rcar-du: kms: Initialize CMM instances
-> >>       drm: rcar-du: crtc: Control CMM operations
-> >>       drm: rcar-du: crtc: Register GAMMA_LUT properties
-> >>
-> >>  .../bindings/display/bridge/lvds-codec.yaml        | 132 +++++++++++++
-> >>  .../bindings/display/bridge/lvds-transmitter.txt   |  66 -------
-> >>  .../bindings/display/bridge/ti,ds90c185.txt        |  55 ------
-> >>  .../devicetree/bindings/display/renesas,cmm.yaml   |  67 +++++++
-> >>  .../devicetree/bindings/display/renesas,du.txt     |  15 +-
-> >>  drivers/gpu/drm/bridge/Kconfig                     |   8 +-
-> >>  drivers/gpu/drm/bridge/Makefile                    |   2 +-
-> >>  drivers/gpu/drm/bridge/lvds-codec.c                | 151 ++++++++++++++
-> >>  drivers/gpu/drm/bridge/lvds-encoder.c              | 155 ---------------
-> >>  drivers/gpu/drm/rcar-du/Kconfig                    |   8 +
-> >>  drivers/gpu/drm/rcar-du/Makefile                   |   1 +
-> >>  drivers/gpu/drm/rcar-du/rcar_cmm.c                 | 217 +++++++++++++++++++++
-> >>  drivers/gpu/drm/rcar-du/rcar_cmm.h                 |  58 ++++++
-> >>  drivers/gpu/drm/rcar-du/rcar_du_crtc.c             |  71 +++++++
-> >>  drivers/gpu/drm/rcar-du/rcar_du_crtc.h             |   2 +
-> >>  drivers/gpu/drm/rcar-du/rcar_du_drv.h              |   2 +
-> >>  drivers/gpu/drm/rcar-du/rcar_du_group.c            |  10 +
-> >>  drivers/gpu/drm/rcar-du/rcar_du_group.h            |   2 +
-> >>  drivers/gpu/drm/rcar-du/rcar_du_kms.c              |  93 ++++++++-
-> >>  drivers/gpu/drm/rcar-du/rcar_du_regs.h             |   5 +
-> >>  20 files changed, 829 insertions(+), 291 deletions(-)
-> >>  create mode 100644 Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> >>  delete mode 100644 Documentation/devicetree/bindings/display/bridge/lvds-transmitter.txt
-> >>  delete mode 100644 Documentation/devicetree/bindings/display/bridge/ti,ds90c185.txt
-> >>  create mode 100644 Documentation/devicetree/bindings/display/renesas,cmm.yaml
-> >>  create mode 100644 drivers/gpu/drm/bridge/lvds-codec.c
-> >>  delete mode 100644 drivers/gpu/drm/bridge/lvds-encoder.c
-> >>  create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.c
-> >>  create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.h
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 277 ++++++++++++++++++++++----
+ 1 file changed, 234 insertions(+), 43 deletions(-)
 
 -- 
-Regards,
+2.24.1.735.g03f4e72817-goog
 
-Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
