@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFDC912563A
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 23:05:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F8C1256A3
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 23:26:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B9296E084;
-	Wed, 18 Dec 2019 22:05:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 327CF6EA88;
+	Wed, 18 Dec 2019 22:26:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D1236E084
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 22:05:39 +0000 (UTC)
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5566C2146E;
- Wed, 18 Dec 2019 22:05:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576706738;
- bh=ldIzJgBmbf09kDl0vrUqWSLyL7mzcltk5SFmZPKF54E=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=eOnk/XK8zgnLRfjYtOHmhQ/VwAVQIkke9ZdYJLxpJxkKL79BUX6niRpkwxPbPm0sp
- 18Zc9XZckw3Xd3IRAuxzrleh//uw6VnVMWod/iNv75MYZU9CbqjjMLZGsHINh/ZuF7
- Zc+uVEpSp15eckLnUnrn0VV5AtNqFWCS5vGaMQOo=
-Date: Wed, 18 Dec 2019 23:05:36 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Subject: Re: [PATCH v13 4/7] drm/sun4i: dsi: Handle bus clock via
- regmap_mmio_attach_clk
-Message-ID: <20191218220536.vwww45yctm5ye3vg@gilmour.lan>
-References: <20191218191017.2895-1-jagan@amarulasolutions.com>
- <20191218191017.2895-5-jagan@amarulasolutions.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BF666EA88;
+ Wed, 18 Dec 2019 22:26:36 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 18 Dec 2019 14:26:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,330,1571727600"; d="scan'208";a="248048747"
+Received: from nvishwa1-desk.sc.intel.com ([10.3.160.185])
+ by fmsmga002.fm.intel.com with ESMTP; 18 Dec 2019 14:26:35 -0800
+Date: Wed, 18 Dec 2019 14:15:26 -0800
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: Jason Gunthorpe <jgg@mellanox.com>
+Subject: Re: [RFC v2 06/12] drm/i915/svm: Device memory support
+Message-ID: <20191218221526.GA17413@nvishwa1-DESK.sc.intel.com>
+References: <20191213215614.24558-1-niranjana.vishwanathapura@intel.com>
+ <20191213215614.24558-7-niranjana.vishwanathapura@intel.com>
+ <20191217203543.GH16762@mellanox.com>
 MIME-Version: 1.0
-In-Reply-To: <20191218191017.2895-5-jagan@amarulasolutions.com>
+Content-Disposition: inline
+In-Reply-To: <20191217203543.GH16762@mellanox.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,178 +46,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-sunxi <linux-sunxi@googlegroups.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
- michael@amarulasolutions.com, linux-amarula@amarulasolutions.com,
- linux-arm-kernel@lists.infradead.org, Icenowy Zheng <icenowy@aosc.io>
-Content-Type: multipart/mixed; boundary="===============1155371927=="
+Cc: "kenneth.w.graunke@intel.com" <kenneth.w.graunke@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "sanjay.k.kumar@intel.com" <sanjay.k.kumar@intel.com>,
+ "sudeep.dutt@intel.com" <sudeep.dutt@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "jason.ekstrand@intel.com" <jason.ekstrand@intel.com>,
+ "dave.hansen@intel.com" <dave.hansen@intel.com>,
+ "jglisse@redhat.com" <jglisse@redhat.com>,
+ "jon.bloomfield@intel.com" <jon.bloomfield@intel.com>,
+ "daniel.vetter@intel.com" <daniel.vetter@intel.com>,
+ "dan.j.williams@intel.com" <dan.j.williams@intel.com>,
+ "ira.weiny@intel.com" <ira.weiny@intel.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1155371927==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ofkqbekjy7qwdomr"
-Content-Disposition: inline
-
-
---ofkqbekjy7qwdomr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Thu, Dec 19, 2019 at 12:40:14AM +0530, Jagan Teki wrote:
-> regmap has special API to enable the controller bus clock while
-> initializing register space, and current driver is using
-> devm_regmap_init_mmio_clk which require to specify bus
-> clk_id argument as "bus"
+On Tue, Dec 17, 2019 at 08:35:47PM +0000, Jason Gunthorpe wrote:
+>On Fri, Dec 13, 2019 at 01:56:08PM -0800, Niranjana Vishwanathapura wrote:
+>> @@ -169,6 +170,11 @@ static int i915_range_fault(struct svm_notifier *sn,
+>>  			return ret;
+>>  		}
+>>
+>> +		/* For dgfx, ensure the range is in device local memory only */
+>> +		regions = i915_dmem_convert_pfn(vm->i915, &range);
+>> +		if (!regions || (IS_DGFX(vm->i915) && (regions & REGION_SMEM)))
+>> +			return -EINVAL;
+>> +
 >
-> But, the usage of clocks are varies between different Allwinner
-> DSI controllers. Clocking in A33 would need bus and mod clocks
-> where as A64 would need only bus clock.
+>This is not OK, as I said before, the driver cannot de-reference pfns
+>before doing the retry check, under lock.
 >
-> Since A64 support only single bus clock, it is optional to
-> specify the clock-names on the controller device tree node.
-> So using NULL on clk_id would get the attached clock.
+
+Thanks.
+Ok, will push it down and do it after validating the range.
+
+>> +
+>> +int i915_dmem_convert_pfn(struct drm_i915_private *dev_priv,
+>> +			  struct hmm_range *range)
+>> +{
+>> +	unsigned long i, npages;
+>> +	int regions = 0;
+>> +
+>> +	npages = (range->end - range->start) >> PAGE_SHIFT;
+>> +	for (i = 0; i < npages; ++i) {
+>> +		struct i915_buddy_block *block;
+>> +		struct intel_memory_region *mem;
+>> +		struct page *page;
+>> +		u64 addr;
+>> +
+>> +		page = hmm_device_entry_to_page(range, range->pfns[i]);
+>                        ^^^^^^^^^^^^^^^^^^^^^^
 >
-> To support clk_id as "bus" and "NULL" during clock enablement
-> between controllers, this patch add generic code to handle
-> the bus clock using regmap_mmio_attach_clk with associated
-> regmap APIs.
+>For instance, that cannot be done on a speculatively loaded page.
 >
-> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> ---
-> Changes for v13:
-> - update the changes since has_mod_clk is dropped in previous patch
+>This also looks like it suffers from the same bug as
 >
->  drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 45 +++++++++++++++++++++-----
->  1 file changed, 37 insertions(+), 8 deletions(-)
+
+Ok.
+
+>> +		if (!page)
+>> +			continue;
+>> +
+>> +		if (!(range->pfns[i] & range->flags[HMM_PFN_DEVICE_PRIVATE])) {
+>> +			regions |= REGION_SMEM;
+>> +			continue;
+>> +		}
+>> +
+>> +		if (!i915_dmem_page(dev_priv, page)) {
+>> +			WARN(1, "Some unknown device memory !\n");
 >
-> diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-> index 68b88a3dc4c5..de8955fbeb00 100644
-> --- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-> +++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-> @@ -1081,6 +1081,7 @@ static const struct component_ops sun6i_dsi_ops = {
->  static int sun6i_dsi_probe(struct platform_device *pdev)
->  {
->  	struct device *dev = &pdev->dev;
-> +	const char *bus_clk_name = NULL;
->  	struct sun6i_dsi *dsi;
->  	struct resource *res;
->  	void __iomem *base;
-> @@ -1094,6 +1095,10 @@ static int sun6i_dsi_probe(struct platform_device *pdev)
->  	dsi->host.ops = &sun6i_dsi_host_ops;
->  	dsi->host.dev = dev;
+>Why is that a WARN? The user could put other device memory in the
+>address space. You need to 'segfault' the GPU execution if this happens.
 >
-> +	if (of_device_is_compatible(dev->of_node,
-> +				    "allwinner,sun6i-a31-mipi-dsi"))
-> +		bus_clk_name = "bus";
-> +
->  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
->  	base = devm_ioremap_resource(dev, res);
->  	if (IS_ERR(base)) {
-> @@ -1107,25 +1112,36 @@ static int sun6i_dsi_probe(struct platform_device *pdev)
->  		return PTR_ERR(dsi->regulator);
->  	}
+
+OK, will return an error here if user is trying to bind here.
+I agree, we need to segfault the GPU if it is GPU fault handling.
+
+>> +			range->pfns[i] = 0;
+>> +			continue;
+>> +		}
+>> +
+>> +		regions |= REGION_LMEM;
+>> +		block = page->zone_device_data;
+>> +		mem = block->private;
+>> +		addr = mem->region.start +
+>> +		       i915_buddy_block_offset(block);
+>> +		addr += (page_to_pfn(page) - block->pfn_first) << PAGE_SHIFT;
+>> +
+>> +		range->pfns[i] &= ~range->flags[HMM_PFN_DEVICE_PRIVATE];
+>> +		range->pfns[i] &= ((1UL << range->pfn_shift) - 1);
+>> +		range->pfns[i] |= (addr >> PAGE_SHIFT) << range->pfn_shift;
 >
-> -	dsi->regs = devm_regmap_init_mmio_clk(dev, "bus", base,
-> -					      &sun6i_dsi_regmap_config);
-> -	if (IS_ERR(dsi->regs)) {
-> -		dev_err(dev, "Couldn't create the DSI encoder regmap\n");
-> -		return PTR_ERR(dsi->regs);
-> -	}
-> -
->  	dsi->reset = devm_reset_control_get_shared(dev, NULL);
->  	if (IS_ERR(dsi->reset)) {
->  		dev_err(dev, "Couldn't get our reset line\n");
->  		return PTR_ERR(dsi->reset);
->  	}
+>This makes more sense as a direct manipulation of the sgl, not sure
+>why this routine is split out from the sgl builder?
 >
-> +	dsi->regs = devm_regmap_init_mmio(dev, base, &sun6i_dsi_regmap_config);
-> +	if (IS_ERR(dsi->regs)) {
-> +		dev_err(dev, "Couldn't init regmap\n");
-> +		return PTR_ERR(dsi->regs);
-> +	}
-> +
-> +	dsi->bus_clk = devm_clk_get(dev, bus_clk_name);
-> +	if (IS_ERR(dsi->bus_clk)) {
-> +		dev_err(dev, "Couldn't get the DSI bus clock\n");
-> +		ret = PTR_ERR(dsi->bus_clk);
-> +		goto err_regmap;
-> +	} else {
-> +		ret = regmap_mmio_attach_clk(dsi->regs, dsi->bus_clk);
-> +		if (ret)
-> +			goto err_bus_clk;
-> +	}
-> +
->  	if (of_device_is_compatible(dev->of_node,
->  				    "allwinner,sun6i-a31-mipi-dsi")) {
->  		dsi->mod_clk = devm_clk_get(dev, "mod");
->  		if (IS_ERR(dsi->mod_clk)) {
->  			dev_err(dev, "Couldn't get the DSI mod clock\n");
-> -			return PTR_ERR(dsi->mod_clk);
-> +			ret = PTR_ERR(dsi->mod_clk);
-> +			goto err_attach_clk;
->  		}
->  	}
->
-> @@ -1164,6 +1180,14 @@ static int sun6i_dsi_probe(struct platform_device *pdev)
->  	pm_runtime_disable(dev);
->  err_unprotect_clk:
->  	clk_rate_exclusive_put(dsi->mod_clk);
-> +err_attach_clk:
-> +	if (!IS_ERR(dsi->bus_clk))
-> +		regmap_mmio_detach_clk(dsi->regs);
-> +err_bus_clk:
-> +	if (!IS_ERR(dsi->bus_clk))
-> +		clk_put(dsi->bus_clk);
 
-You still have an unbalanced clk_get / clk_put here
+Ok, yah, let me merge it with sgl building.
 
-> +err_regmap:
-> +	regmap_exit(dsi->regs);
+Thanks,
+Niranjana
 
-That's not needed.
-
->  	return ret;
->  }
->
-> @@ -1177,6 +1201,11 @@ static int sun6i_dsi_remove(struct platform_device *pdev)
->  	pm_runtime_disable(dev);
->  	clk_rate_exclusive_put(dsi->mod_clk);
->
-> +	if (!IS_ERR(dsi->bus_clk))
-> +		regmap_mmio_detach_clk(dsi->regs);
-> +
-> +	regmap_exit(dsi->regs);
-
-Same thing here.
-
-Maxime
-
---ofkqbekjy7qwdomr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXfqisAAKCRDj7w1vZxhR
-xSXxAQCpUpNnByJdW1d0yIMljpB+8oLISPdwuzQZMmFL+tHsgAD/UXHCqx+a6257
-dO+MJ8jT2PYpOkhHNmnh8i7BPwe2tAE=
-=454c
------END PGP SIGNATURE-----
-
---ofkqbekjy7qwdomr--
-
---===============1155371927==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+>Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1155371927==--
