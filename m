@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D108D125377
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 21:29:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44104125471
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 22:16:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B986E6EA7C;
-	Wed, 18 Dec 2019 20:29:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A8CB6EA7D;
+	Wed, 18 Dec 2019 21:16:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
- [209.85.210.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39A416EA7C
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 20:29:48 +0000 (UTC)
-Received: by mail-ot1-f65.google.com with SMTP id h20so4023202otn.5
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 12:29:48 -0800 (PST)
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+ [209.85.210.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF94B6EA7D
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 21:16:03 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id r27so4161122otc.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 13:16:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=zo7AMxlW3R7HGZ97qstWf9ACCoDZ26xr089DNiXllwk=;
- b=PClMadCd9Ss6EKE01MB5j7axc7TVE5oVrfz0AFeNKpTShm0C3e/fEwaisFSIBShQGE
- qlpEwKM37pgwPleY+U6uxW2uk6EqMOXXA0TgfoUWe98TVgO6ekSoeViUaxPsUOBSS9zL
- OR4S9PbuzMr0uCwWoZky7iN8wvOUCo42YavStfQnAJpjpqaHrcBugX/ppGPAwWFp3SJX
- oc8D7HKvfoDhy3zjfx0rZNuE5klp1px2r/Qn4Bz1SZbgDLS53o0LeP/haNpQGz23dvX1
- Vpf4TY+e8qCOAcCNEw0EgZt8Wzi48c2Vz8EN0dLLl4Px+PRkynFnSHsi7C2myGCCizM1
- G/OQ==
-X-Gm-Message-State: APjAAAUuyJe6JE3HUkGATznWcPXn1E3zc9TTjm0LXgXkuJw6cVNlYplX
- 87XexDxaUBcmWZMw8hTe+Q==
-X-Google-Smtp-Source: APXvYqxlkDU6tHNTqvARly1HRqbjrV6DtccxT24N3+hW9tk6GPsRekHX9EabS1Ww9O3fu490Ffl3Zw==
-X-Received: by 2002:a9d:6a8f:: with SMTP id l15mr4490805otq.59.1576700987466; 
- Wed, 18 Dec 2019 12:29:47 -0800 (PST)
+ bh=VfRpHq+kS/2gCphHVcGTyf5xHe3uvLTiFdpuwlwHK/I=;
+ b=d8ro3kzhK/EXpEVWS9hxGpC7TpUFCaWsR7/9SxihYlAbSbqfH7oob7SbQohUyMpUex
+ D5CrkKbzkOolsGLghJTrd/nMcTWP2PnsyMM9NjJfg+4rppb4T6UeAWivppBou/MZMOce
+ BWzxNEv/8iEF8oRlj5vQOiiISRYzHMt+9INR0vvlBH/p9I6Wym0ghPEs4qn08bERRqIV
+ Md5szbd8E1TSq9/Rpj31hqrAMZV8Ng9ycyG/b9/D+fRCXwEwuSTtPX1JJkKT9+dmzOz5
+ Tsg1UqO/jheuRCBoA6L/dgwpYqf4ZLI16IMN8QD+K4mubnjNSF+TndZO28SfprA45P73
+ Tfew==
+X-Gm-Message-State: APjAAAWdoNE2IMZPJcDZcj+O+Ox3Pe4qv4WVBvixlQF3nRHDnbJm1T4B
+ IYGv8CQizD6V5J75651oew==
+X-Google-Smtp-Source: APXvYqxbO7jTCnsX1zsL+WZp6+wZtSheMGnt7JACGcjSdKYJsIBRWBi5EqsXahLBqZf8vvk48VBQaA==
+X-Received: by 2002:a9d:784b:: with SMTP id c11mr4658325otm.246.1576703762925; 
+ Wed, 18 Dec 2019 13:16:02 -0800 (PST)
 Received: from localhost (24-155-109-49.dyn.grandenetworks.net.
  [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id k5sm1187910otp.33.2019.12.18.12.29.46
+ by smtp.gmail.com with ESMTPSA id q5sm1216343oia.21.2019.12.18.13.16.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Dec 2019 12:29:46 -0800 (PST)
-Date: Wed, 18 Dec 2019 14:29:46 -0600
+ Wed, 18 Dec 2019 13:16:02 -0800 (PST)
+Date: Wed, 18 Dec 2019 15:16:01 -0600
 From: Rob Herring <robh@kernel.org>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v5 3/4] dt-bindings: Add binding for IT6505.
-Message-ID: <20191218202946.GA27564@bogus>
-References: <1575957299-12977-1-git-send-email-allen.chen@ite.com.tw>
- <1575957299-12977-4-git-send-email-allen.chen@ite.com.tw>
- <20191214082145.GD22818@ravnborg.org>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Subject: Re: [PATCH v4 1/8] dt-bindings: add img,pvrsgx.yaml for Imagination
+ GPUs
+Message-ID: <20191218211601.GA11411@bogus>
+References: <cover.1576605726.git.hns@goldelico.com>
+ <aedc895985d966cf709d153d5b0bed07f59bdcfd.1576605726.git.hns@goldelico.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191214082145.GD22818@ravnborg.org>
+In-Reply-To: <aedc895985d966cf709d153d5b0bed07f59bdcfd.1576605726.git.hns@goldelico.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,162 +60,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>,
- David Airlie <airlied@linux.ie>, allen <allen.chen@ite.com.tw>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Pi-Hsun Shih <pihsun@chromium.org>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ letux-kernel@openphoenux.org, Paul Burton <paulburton@kernel.org>,
+ David Airlie <airlied@linux.ie>, James Hogan <jhogan@kernel.org>,
+ openpvrsgx-devgroup@letux.org, linux-kernel@vger.kernel.org,
+ Ralf Baechle <ralf@linux-mips.org>, linux-mips@vger.kernel.org,
+ Paul Cercueil <paul@crapouillou.net>, Tony Lindgren <tony@atomide.com>,
+ dri-devel@lists.freedesktop.org,
+ =?iso-8859-1?Q?Beno=EEt?= Cousson <bcousson@baylibre.com>,
+ kernel@pyra-handheld.com, linux-omap@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Dec 14, 2019 at 09:21:45AM +0100, Sam Ravnborg wrote:
-> Hi Allen.
+On Tue, Dec 17, 2019 at 07:01:59PM +0100, H. Nikolaus Schaller wrote:
+> The Imagination PVR/SGX GPU is part of several SoC from
+> multiple vendors, e.g. TI OMAP, Ingenic JZ4780, Intel Poulsbo
+> and others.
 > 
-> On Tue, Dec 10, 2019 at 01:53:41PM +0800, allen wrote:
-> > Add a DT binding documentation for IT6505.
-> > 
-> > Signed-off-by: Allen Chen <allen.chen@ite.com.tw>
-> > Signed-off-by: Pi-Hsun Shih <pihsun@chromium.org>
-> > ---
-> >  .../bindings/display/bridge/ite,it6505.yaml        | 99 ++++++++++++++++++++++
-> >  1 file changed, 99 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> > new file mode 100644
-> > index 00000000..23a106a
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> > @@ -0,0 +1,99 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> Please dual license new bindings like this:
+> With this binding, we describe how the SGX processor is
+> interfaced to the SoC (registers, interrupt etc.).
 > 
-> (GPL-2.0-only OR BSD-2-Clause)
+> In most cases, Clock, Reset and power management is handled
+> by a parent node or elsewhere.
 > 
+> Tested by make dt_binding_check dtbs_check
+
+I'm surprised that worked... (Not for long if it did).
+
 > 
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/ite,it6505.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: ITE it6505 Device Tree Bindings
-> > +
-> > +maintainers:
-> > +  - Allen Chen <allen.chen@ite.com.tw>
-> > +
-> > +description: |
-> > +  The IT6505 is a high-performance DisplayPort 1.1a transmitter,
-> > +fully compliant with DisplayPort 1.1a, HDCP 1.3 specifications.
-> > +The IT6505 supports color depth of up to 36 bits (12 bits/color)
-> > +and ensures robust transmission of high-quality uncompressed video
-> > +content, along with uncompressed and compressed digital audio content.
-> Can we get consistent indent of the text here.
-
-Pretty sure that's not even valid YAML.
-
-> With this fixed:
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+> ---
+>  .../devicetree/bindings/gpu/img,pvrsgx.yaml   | 80 +++++++++++++++++++
+>  1 file changed, 80 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml
 > 
-> > +
-> > +  Aside from the various video output formats supported, the IT6505
-> > +also encodes and transmits up to 8 channels of I2S digital audio,
-> > +with sampling rate up to 192kHz and sample size up to 24 bits.
-> > +In addition, an S/PDIF input port takes in compressed audio of up to
-> > +192kHz frame rate.
-> > +
-> > +  Each IT6505 chip comes preprogrammed with an unique HDCP key,
-> > +in compliance with the HDCP 1.3 standard so as to provide secure
-> > +transmission of high-definition content. Users of the IT6505 need not
-> > +purchase any HDCP keys or ROMs.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: ite,it6505
-> > +
-> > +  reg:
-> > +    - maxItems: 1
-> > +    - description: i2c address of the bridge
+> diff --git a/Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml b/Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml
+> new file mode 100644
+> index 000000000000..44799774e34d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/gpu/img,pvrsgx.yaml
+> @@ -0,0 +1,80 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/gpu/img,pvrsgx.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Imagination PVR/SGX GPU
+> +
+> +maintainers:
+> +  - H. Nikolaus Schaller <hns@goldelico.com>
+> +
+> +description: |+
+> +  This binding describes the Imagination SGX5 series of 3D accelerators which
+> +  are found in several different SoC like TI OMAP, Sitara, Ingenic JZ4780,
+> +  Allwinner A83, and Intel Poulsbo and CedarView and more.
+> +
+> +  For an almost complete list see: https://en.wikipedia.org/wiki/PowerVR#Implementations
+> +  
+> +  Only the Imagination SGX530, SGX540 and SGX544 GPUs are currently covered by
+> +  this binding but the extension of the pattern is straightforward.
+> +  
+> +  The SGX node is usually a child node of some DT node belonging to the SoC
+> +  which handles clocks, reset and general address space mapping of the SGX
+> +  register area.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +    # Example: BeagleBoard A/B/C, OpenPandora 600MHz
+> +      - ti,omap3-sgx530-121, img,sgx530-121, img,sgx530
 
-And this is not valid json-schema. The '-' means list and properties 
-aren't lists.
+Didn't I comment before this is not valid. You are defining the 
+compatible string is: 'ti,omap3-sgx530-121, img,sgx530-121, img,sgx530'
 
-Run 'make dt_binding_check' and fix all the errors. See 
-Documentation/devicetree/bindings/writing-schema.rst.
+You need:
 
-> > +
-> > +  ovdd-supply:
-> > +    - maxItems: 1
-> > +    - description: I/O voltage
-> > +
-> > +  pwr18-supply:
-> > +    - maxItems: 1
-> > +    - description: core voltage
-> > +
-> > +  interrupts:
-> > +    - maxItems: 1
-> > +    - description: interrupt specifier of INT pin
-> > +
-> > +  reset-gpios:
-> > +    - maxItems: 1
-> > +    - description: gpio specifier of RESET pin
-> > +
-> > +  hpd-gpios:
+compatible:
+  oneOf:
+    - description: BeagleBoard A/B/C, OpenPandora 600MHz
+      items:
+        - const: ti,omap3-sgx530-121
+        - const: img,sgx530-121
+        - const: img,sgx530
 
-Is HPD attached to the DP bridge or the DP connector. For the latter, 
-then this property goes in a connector node.
+And so on for each of the rest.
 
-> > +    - maxItems: 1
-> > +    - description:
-> > +        - Hotplug detect GPIO
-> > +        - Indicates which GPIO should be used for hotplug detection
-> > +
-> > +  extcon:
+> +    # Example: BeagleBoard XM, GTA04, OpenPandora 1GHz
+> +      - ti,omap3-sgx530-125, img,sgx530-125, img,sgx530
+> +    # Example: BeagleBone Black
+> +      - ti,am3352-sgx530-125, img,sgx530-125, img,sgx530
 
-Don't use extcon. Deprecated.
+These 2 could be combined using 'enum' for the first item. Basically, 
+you can group ones where the last 2 strings are the same.
 
-> > +    - maxItems: 1
-> > +    - description: extcon specifier for the Power Delivery
-> > +
-> > +  port:
-> > +    - type: object
-> > +    - description: A port node pointing to DPI host port node
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - ovdd-supply
-> > +  - pwr18-supply
-> > +  - interrupts
-> > +  - reset-gpios
-> > +  - hpd-gpios
-> > +  - extcon
-> > +
-> > +examples:
-> > +  - |
-> > +    dp-bridge@5c {
-> > +        compatible = "ite,it6505";
-> > +        interrupts = <152 IRQ_TYPE_EDGE_RISING 152 0>;
-> > +        reg = <0x5c>;
-> > +        pinctrl-names = "default";
-> > +        pinctrl-0 = <&it6505_pins>;
-> > +        ovdd-supply = <&mt6358_vsim1_reg>;
-> > +        pwr18-supply = <&it6505_pp18_reg>;
-> > +        reset-gpios = <&pio 179 1>;
-> > +        hpd-gpios = <&pio 9 0>;
-> > +        extcon = <&usbc_extcon>;
-> > +
-> > +        port {
-> > +            it6505_in: endpoint {
-> > +                remote-endpoint = <&dpi_out>;
-> > +            };
-> > +        };
-> > +    };
-> > +
-> > +---
+> +    # Example: Pandaboard, Pandaboard ES
+> +      - ti,omap4-sgx540-120, img,sgx540-120, img,sgx540
+> +      - ti,omap4-sgx544-112, img,sgx544-112, img,sgx544
+> +    # Example: OMAP5 UEVM, Pyra Handheld
+> +      - ti,omap5-sgx544-116, img,sgx544-116, img,sgx544
+> +      - ti,dra7-sgx544-116, img,sgx544-116, img,sgx544
+> +    # Example: CI20
+> +      - ingenic,jz4780-sgx540-120, img,sgx540-120, img,sgx540
+> +    # the following entries are not validated with real hardware
+
+What am I supposed to do with that? You're just defining some strings. 
+If you're not sure they are okay, then don't define them.
+
+> +    # more TI SoC
+> +      - ti,am3517-sgx530-125, img,sgx530-125, img,sgx530
+> +      - ti,am4-sgx530-125, img,sgx530-125, img,sgx530
+> +      - ti,ti81xx-sgx530-125, img,sgx530-125, img,sgx530
+> +    # Example: Banana-Pi-M3 (Allwinner A83T)
+> +      - allwinner,sun8i-a83t-sgx544-116, img,sgx544-116, img,sgx544
+> +    # Example: Atom Z5xx
+> +      - intel,poulsbo-gma500-sgx535, img,sgx535-116, img,sgx535
+> +    # Example: Atom Z24xx
+> +      - intel,medfield-gma-sgx540, img,sgx540-116, img,sgx540
+> +    # Example: Atom N2600, D2500
+> +      - intel,cedarview-gma3600-sgx545, img,sgx545-116, img,sgx545
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |+
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    gpu@fe00 {
+> +      compatible = "ti,omap-omap5-sgx544-116", "img,sgx544-116", "img,sgx544", "img,sgx5";
+
+Doesn't match the schema.
+
+> +      reg = <0xfe00 0x200>;
+> +      interrupts = <GIC_SPI 21 IRQ_TYPE_LEVEL_HIGH>;
+> +    };
+> +
+> +...
+> -- 
+> 2.23.0
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
