@@ -2,60 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8830125C0F
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 08:36:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 037A2125C6A
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 09:11:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A72E6E0E8;
-	Thu, 19 Dec 2019 07:36:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95CC76EAC0;
+	Thu, 19 Dec 2019 08:11:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
- [216.228.121.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CF486E0E8
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 07:36:29 +0000 (UTC)
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5dfb28710000>; Wed, 18 Dec 2019 23:36:17 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Wed, 18 Dec 2019 23:36:27 -0800
-X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Wed, 18 Dec 2019 23:36:27 -0800
-Received: from [10.2.165.11] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 19 Dec
- 2019 07:36:25 +0000
-Subject: Re: [PATCH v11 04/25] mm: devmap: refactor 1-based refcounting for
- ZONE_DEVICE pages
-To: Dan Williams <dan.j.williams@intel.com>
-References: <20191216222537.491123-1-jhubbard@nvidia.com>
- <20191216222537.491123-5-jhubbard@nvidia.com>
- <CAPcyv4hQBMxYMurxG=Vwh0=FKWoT3z-Kf=dqES1-icRV5bLwKg@mail.gmail.com>
- <d0a99e75-0175-0f31-f176-8c37c18a4108@nvidia.com>
- <CAPcyv4j+Zgom17UZ-6Njkij1R0UQ=vUQdnaEZj9qDezEUJSZGg@mail.gmail.com>
-From: John Hubbard <jhubbard@nvidia.com>
-X-Nvconfidentiality: public
-Message-ID: <a9782048-0c6a-b906-2bd6-3800269f4b01@nvidia.com>
-Date: Wed, 18 Dec 2019 23:33:36 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
-MIME-Version: 1.0
-In-Reply-To: <CAPcyv4j+Zgom17UZ-6Njkij1R0UQ=vUQdnaEZj9qDezEUJSZGg@mail.gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
+Received: from JPN01-TY1-obe.outbound.protection.outlook.com
+ (mail-eopbgr1400107.outbound.protection.outlook.com [40.107.140.107])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFCD36E2DA
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 14:05:45 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gOrUKZt9W8gbgT90boOi9WG1XH5nCbHnMt0uZddN1pCTOD+WLjwMRh8EjnkANcPtkHERqFkhHjNdhOPfmkEtNUso620L8ZtEMBKlYXwFu6YVszAT4yN5imyQu2pC2n9cqnQro9NHt6Bdu3y5Np+3u8ceKPtHELKfr1yU60JwZeC9Nanp/HyelNGg4yJLQ/V2Em3CcnGyoUY/VcQmks7h2DaXSg3DZKCExL1DS9/CDF9e3KkAdyBLcbNx+4oTZNeAJdOmRKe/5OUv35y8Q9dl0bTEOUy1c/0Kh9NsOdvtOVFTb8oLRd2ULtVODgtgOL3L2nFNpygbJLG4A25XzayA2Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IiEieY7Ft9mKYf0jzEXpRDaIzRRubLziMmCw/Ov5sIE=;
+ b=SnHusWg4B71miToAngucAxbpVK8ymwKb7VcONUmbWjThEzAUkQUuQQgu2x9cIS+oMafVeEPt8BrLAJ3P9rkHcnwn91IvEA4v0ZHLnvrtkCnHHtaxs2qRevx+oDWD4rYO8AraQ+fPfIcDFxYHQwRuVSp9muihWGGKtg6uMNJAI+ZMHug8LVFWo6pJtzU53usQliGGtg/NF+4l9JgPaLlzRCnaNU9V9ih7ZSIWFiOCi0IhfjNdPsG08M5A1BVY8KLrucJ6878yo+C+GCQQqcnT3TkRGM+Z/ly4qGd0sy8iRlXV/pRjcxXIK0S8bobMVGietfmbPoOQG0wz0Qex5KtUEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IiEieY7Ft9mKYf0jzEXpRDaIzRRubLziMmCw/Ov5sIE=;
+ b=q6D2oZ6NBpije2kA90NSUDhFZ2huGY2A/B38DjU01AogizrE/mxpVqGdvK7MybBwwaCCzI8a6XQpXpg6UXit1/C3jUpKLguYIBXcqJqE9ZhjTdQDBvANml8ndIIsBqHkKq2yE3hT0Prz6V6bj9qPucV6iV4kC1wYhzCDQU1JVfs=
+Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com (52.133.163.13) by
+ TY1PR01MB1820.jpnprd01.prod.outlook.com (52.133.164.17) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2538.20; Wed, 18 Dec 2019 14:05:42 +0000
+Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com
+ ([fe80::5166:5e51:90f5:3ee1]) by TY1PR01MB1770.jpnprd01.prod.outlook.com
+ ([fe80::5166:5e51:90f5:3ee1%7]) with mapi id 15.20.2559.012; Wed, 18 Dec 2019
+ 14:05:42 +0000
+From: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+To: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>, 
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Mark
+ Rutland <mark.rutland@arm.com>, Andrzej Hajda <a.hajda@samsung.com>
+Subject: RE: [PATCH v4 00/13] Add LCD panel support to iwg20d
+Thread-Topic: [PATCH v4 00/13] Add LCD panel support to iwg20d
+Thread-Index: AQHVmjo/M6ipYgFTGkKGMRHUnVLV3Ke//tUAgAAlB0A=
+Date: Wed, 18 Dec 2019 14:05:42 +0000
+Message-ID: <TY1PR01MB177012F63EC99A0B209B89F8C0530@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+References: <1573660292-10629-1-git-send-email-fabrizio.castro@bp.renesas.com>
+ <41b59b13-1c8d-a407-8fd8-f2d8cfadd43d@baylibre.com>
+In-Reply-To: <41b59b13-1c8d-a407-8fd8-f2d8cfadd43d@baylibre.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1576740978; bh=AwGIHszd33R/kLZlUt1Z4JwwlD2NSoQAiltNw2UIah0=;
- h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
- Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
- X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
- Content-Transfer-Encoding;
- b=rn2yGjgwQ9+/2v2mcxWjrZFxdrk3/eEgjxRU1LJiuOVyjVOa62J0tvoTcmLOK6fXS
- xTiiEKdaSrRaYvKoHJFISdC+5xDr9wuGKGy6eL+p8mnXTv3WmxTBQ5uSD1vNUHW7Zv
- FL1u5zml1dT0aGOGbVIB8FGZRe/vZmwx0E0SfZqPp5XPLjqF6k+D7FwuHs+yKnEljh
- 6K2DgflrDdhvNm7j657NcorkWkt+15POYkE/QPPC6A7qk9vcVVLh/jftFFqBiaLSef
- +CbFHF0Oi6KJR9YDOdsjceXX460BQcgisIE59hm4mMu6iV3pT5dz1gvUWjcugiRrZC
- tT/WLbmWB9r/w==
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=fabrizio.castro@bp.renesas.com; 
+x-originating-ip: [193.141.220.21]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: d47e64b1-c6dd-4744-6375-08d783c35ea1
+x-ms-traffictypediagnostic: TY1PR01MB1820:|TY1PR01MB1820:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <TY1PR01MB182087980D482AED828FAB6DC0530@TY1PR01MB1820.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 0255DF69B9
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(4636009)(376002)(346002)(136003)(366004)(396003)(39860400002)(189003)(199004)(54906003)(110136005)(2906002)(26005)(33656002)(316002)(66476007)(4326008)(44832011)(86362001)(66556008)(19627235002)(71200400001)(186003)(52536014)(7416002)(9686003)(81166006)(8676002)(8936002)(66946007)(53546011)(66446008)(6506007)(7696005)(76116006)(55016002)(478600001)(64756008)(5660300002)(81156014);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:TY1PR01MB1820;
+ H:TY1PR01MB1770.jpnprd01.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:0; 
+received-spf: None (protection.outlook.com: bp.renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 6Nsq3Tgi2MlFTZMQZ+54NLKzv9LBLijkwWhexXfsFdWmq7F7oD5ZgdCQnicYOntKtwFIWqTwswIkZQukVQVefrllDWZWh5uaQvvtFAYqHKw/1vzcXpAa2FIWb7I7xq7A4Ye9SU66exq0nucclxWcxb6XVqO0f79PMZs+HYFWDmqp61BLmu0HZjRPLY22Dv/yHJthSzJEkxfqDINYi9s2aXgFOJvyxd4FK84nhqZ6ExJ5untqsEssaD1b+h0Zh2eim0eGlZoAzosoixBNSud8DKm6BvWW3oUYwAssg6wHvhDjIKDxJ9n+dUnM5/8xM6V+3X1/q7nj43R4Y3Khr0hC4ObPNAMtYj8jiyx+EX/Sk46PyZw6AjuvdtJR+vxNNP7rz5eQDhB2Cguu//D2cvEJXiv/ND5oMAq3OELhsOUj8LWeSMTpzmT0Vnj2iEAHDOo5
+MIME-Version: 1.0
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d47e64b1-c6dd-4744-6375-08d783c35ea1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Dec 2019 14:05:42.4561 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: KjboJNMPyY30Dm0ESsxl3TjHbwTLc0bucbNxXp54BgpPAEaZq9CoOqqrlpB9afwh69uRrav97J6jKRLQEERNNoFwvUVENGfwxhJX002N1i0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1820
+X-Mailman-Approved-At: Thu, 19 Dec 2019 08:11:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,89 +95,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
- KVM list <kvm@vger.kernel.org>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
- Paul Mackerras <paulus@samba.org>, linux-kselftest@vger.kernel.org,
- Ira Weiny <ira.weiny@intel.com>, Christoph Hellwig <hch@lst.de>,
- Jonathan Corbet <corbet@lwn.net>, linux-rdma <linux-rdma@vger.kernel.org>,
- Michael Ellerman <mpe@ellerman.id.au>, Christoph Hellwig <hch@infradead.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@suse.cz>,
- =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
- "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- Shuah Khan <shuah@kernel.org>, linux-block@vger.kernel.org,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Al Viro <viro@zeniv.linux.org.uk>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- bpf@vger.kernel.org, Magnus Karlsson <magnus.karlsson@intel.com>,
- Jens Axboe <axboe@kernel.dk>, Netdev <netdev@vger.kernel.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- "David S . Miller" <davem@davemloft.net>,
- Mike Kravetz <mike.kravetz@oracle.com>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Chris Paterson <Chris.Paterson2@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Biju Das <biju.das@bp.renesas.com>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Simon Horman <horms@verge.net.au>, Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Peter Rosin <peda@axentia.se>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/18/19 10:52 PM, Dan Williams wrote:
-> On Wed, Dec 18, 2019 at 9:51 PM John Hubbard <jhubbard@nvidia.com> wrote:
->>
->> On 12/18/19 9:27 PM, Dan Williams wrote:
->> ...
->>>> @@ -461,5 +449,5 @@ void __put_devmap_managed_page(struct page *page)
->>>>           page->mapping = NULL;
->>>>           page->pgmap->ops->page_free(page);
->>>>    }
->>>> -EXPORT_SYMBOL(__put_devmap_managed_page);
->>>> +EXPORT_SYMBOL(free_devmap_managed_page);
->>>
->>> This patch does not have a module consumer for
->>> free_devmap_managed_page(), so the export should move to the patch
->>> that needs the new export.
->>
->> Hi Dan,
->>
->> OK, I know that's a policy--although it seems quite pointless here given
->> that this is definitely going to need an EXPORT.
->>
->> At the moment, the series doesn't use it in any module at all, so I'll just
->> delete the EXPORT for now.
->>
->>>
->>> Also the only reason that put_devmap_managed_page() is EXPORT_SYMBOL
->>> instead of EXPORT_SYMBOL_GPL is that there was no practical way to
->>> hide the devmap details from evey module in the kernel that did
->>> put_page(). I would expect free_devmap_managed_page() to
->>> EXPORT_SYMBOL_GPL if it is not inlined into an existing exported
->>> static inline api.
->>>
->>
->> Sure, I'll change it to EXPORT_SYMBOL_GPL when the time comes. We do have
->> to be careful that we don't shut out normal put_page() types of callers,
->> but...glancing through the current callers, that doesn't look to be a problem.
->> Good. So it should be OK to do EXPORT_SYMBOL_GPL here.
->>
->> Are you *sure* you don't want to just pre-emptively EXPORT now, and save
->> looking at it again?
+Hi Neil,
+
+
+> From: Neil Armstrong <narmstrong@baylibre.com>
+> Sent: 18 December 2019 11:53
+> Subject: Re: [PATCH v4 00/13] Add LCD panel support to iwg20d
 > 
-> I'm positive. There is enough history for "trust me the consumer is
-> coming" turning out not to be true to justify the hassle in my mind. I
-> do trust you, but things happen.
+> Hi,
 > 
+> On 13/11/2019 16:51, Fabrizio Castro wrote:
+> > The iW-RainboW-G20D-Qseven RZ/G1M,G1N Qseven Development Platform
+> > comes with a 7" capacitive display kit from Emerging Display
+> > Technologies Corporation (EDT). This series adds all that's
+> > necessary for supporting it.
+> >
+> > Thanks,
+> > Fab
+> >
+> > v3->v4:
+> > * Reworked according to Laurent's and Jacopo's comments
+> > v2->v3:
+> > * Split the dt-schema patch in two patches as per Rob's comment
+> > * Made fixes to the dt-schema according to Rob's comment
+> > * Made fixes to the lvds-codec driver according to Jacopo's comments
+> > * Added two new patches:
+> >   * drm: Define DRM_MODE_CONNECTOR_PARALLEL
+> >   * drm/panel: panel-simple: Add connector type for etm0700g0dh6
+> > v1->v2:
+> > * Convert dt-bindings to dt-schema
+> >
+> > Fabrizio Castro (13):
+> >   dt-bindings: display: bridge: Convert lvds-transmitter binding to
+> >     json-schema
+> >   dt-bindings: display: bridge: lvds-transmitter: Document
+> >     powerdown-gpios
+> >   dt-bindings: display: bridge: lvds-transmitter: Absorb ti,ds90c185.txt
+> >   dt-bindings: display: bridge: lvds-transmitter: Document
+> >     "ti,sn75lvds83"
+> >   drm/bridge: Repurpose lvds-encoder.c
+> >   drm/bridge: lvds-codec: Add "lvds-decoder" support
+> >   drm/bridge: lvds-codec: Simplify panel DT node localisation
+> >   dt-bindings: display: bridge: Repurpose lvds-encoder
+> >   dt-bindings: display: bridge: lvds-codec: Document ti,ds90cf384a
+> >   ARM: dts: iwg20d-q7-common: Add LCD support
+> >   ARM: shmobile_defconfig: Enable support for panels from EDT
+> >   [HACK] drm/bridge: lvds-codec: Enforce device specific compatible
+> >     strings
+> >   [HACK] dt-bindings: display: bridge: lvds-codec: Absorb
+> >     thine,thc63lvdm83d.txt
+> >
+> >  .../bindings/display/bridge/lvds-codec.yaml        | 131 +++++++++++++++
+> >  .../bindings/display/bridge/lvds-transmitter.txt   |  66 --------
+> >  .../bindings/display/bridge/thine,thc63lvdm83d.txt |  50 ------
+> >  .../bindings/display/bridge/ti,ds90c185.txt        |  55 -------
+> >  arch/arm/boot/dts/iwg20d-q7-common.dtsi            |  85 ++++++++++
+> >  arch/arm/boot/dts/iwg20d-q7-dbcm-ca.dtsi           |   1 -
+> >  arch/arm/configs/shmobile_defconfig                |   3 +
+> >  drivers/gpu/drm/bridge/Kconfig                     |   8 +-
+> >  drivers/gpu/drm/bridge/Makefile                    |   2 +-
+> >  .../drm/bridge/{lvds-encoder.c => lvds-codec.c}    | 179 +++++++++++++--------
+> >  10 files changed, 333 insertions(+), 247 deletions(-)
+> >  create mode 100644 Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> >  delete mode 100644 Documentation/devicetree/bindings/display/bridge/lvds-transmitter.txt
+> >  delete mode 100644 Documentation/devicetree/bindings/display/bridge/thine,thc63lvdm83d.txt
+> >  delete mode 100644 Documentation/devicetree/bindings/display/bridge/ti,ds90c185.txt
+> >  rename drivers/gpu/drm/bridge/{lvds-encoder.c => lvds-codec.c} (25%)
+> >
+> 
+> Applying patches 1->9 and 13 to drm-misc-next with correct SoB.
+> 
+> Also applied change on patch 8 while applying.
+> 
+> And checked the diff is the same as laurent's PR.
 
-OK, it's deleted locally. Thanks for looking at the patch. I'll post a v12 series
-that includes the change, once it looks like reviews are slowing down.
+Thank you.
 
+Fab
 
-thanks,
--- 
-John Hubbard
-NVIDIA
+> 
+> Neil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
