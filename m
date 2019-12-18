@@ -2,62 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15470123BFC
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 01:52:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0470B123C04
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 01:55:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AA7E6E1F7;
-	Wed, 18 Dec 2019 00:52:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F9308800B;
+	Wed, 18 Dec 2019 00:54:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x143.google.com (mail-il1-x143.google.com
- [IPv6:2607:f8b0:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E00EE6E1F7
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 00:52:35 +0000 (UTC)
-Received: by mail-il1-x143.google.com with SMTP id x5so186122ila.6
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 16:52:35 -0800 (PST)
+Received: from mail-il1-x141.google.com (mail-il1-x141.google.com
+ [IPv6:2607:f8b0:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7C7B6E1F8
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 00:54:56 +0000 (UTC)
+Received: by mail-il1-x141.google.com with SMTP id c4so185947ilo.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 16:54:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=AYVMcfsYQ7/My9/CMSR2wcI0dgtFvQ4q3wHm6ZJbP7A=;
- b=FofQNljNG3XnDs6PJ7xFcBeDlHTzYOtvZ01PQExhZPG6io6qRbCyfSDgrfJus9w+RY
- EUKujDmdEuxs/2PL/yBZHnD0GDVJoKMAHnu8p4swz9hLkIom6X/4WAiA38KgIBg9eSPm
- LuXAOqwZ0wpbfJx4OFtWnU3nUhr2MWfrpndIc=
+ :cc; bh=4cKjTtuJ6Cl3BPkbORmbBVCSJ2Mx93CiWQ5Web+aZoo=;
+ b=Ehbk3QqUh5bTHL9JWhwrStjM1T3/LkM1Kqv+zwWwwk6M/oBy9gNn8PJ2yhBeubKtqw
+ eA4bTbmTus7J2LmfuinU86pawGesMIrNtGwKCU1jkvSXjjAkSBccuRyP6ktvcVlBET3y
+ RsGdJaHIJjTrGFAjMBY6t7gqFXFQbI1WCoBrY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=AYVMcfsYQ7/My9/CMSR2wcI0dgtFvQ4q3wHm6ZJbP7A=;
- b=Vjt4DcMmy+o4q/9L7zCBWssgF8EwwbK0MncRwfpyehrLrZmeQphx6Z0YWYlMG5caWn
- 6ovvTgeaYhc5BANoZrb3QgNcys0IEd1T3quhLo39epbyei+hcbLpncUPDswe4iscDMR6
- wywijAdfAreccp/A1XR04gf7BOl1ff9lBpEi1S1gTfpJCV+/8ykXb3OycUAlXIqXU5f2
- +fcvLTutl5Vjn2gMq1ijZyyFtQoLNb/VN83b+aTBTg8mW+cVXxVqRv2zQzmYAJFpYXwn
- NQyfPLJyGvlR+3n03nXgM3vHhbVNGDOoIFf6vCdcrh2m7U0941kIdz/g9lpLBUXk/UM6
- iXdw==
-X-Gm-Message-State: APjAAAWfQZFxiBdZndQkrkdGaQCqL+8Q0mfvPc2cMZ+Cmv9SdBkdku0E
- qXhQe7Jk3YGu6qwUTAKR97OV6U15Gzo=
-X-Google-Smtp-Source: APXvYqxZMsl1Y+PPtE8nFORUBRyCcRLbuOEPMURhuOsZZdoKoGmckhonII0RMXEQF13cnoX8p7AIdQ==
-X-Received: by 2002:a92:9e99:: with SMTP id s25mr652060ilk.80.1576630354873;
- Tue, 17 Dec 2019 16:52:34 -0800 (PST)
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com.
- [209.85.166.43])
- by smtp.gmail.com with ESMTPSA id o70sm135834ilb.8.2019.12.17.16.52.33
+ :message-id:subject:to:cc;
+ bh=4cKjTtuJ6Cl3BPkbORmbBVCSJ2Mx93CiWQ5Web+aZoo=;
+ b=GUDta6o9gAVeRZ5q38821ROrxvyoiPq9vh75v8MZu5Km/qmtVzrS7HLORusR8B9Mdd
+ kpnMZQ9TctLDQIKMwh7v9ZR7CXlm/bCBSbu05dbg3NZvDpLJx0UxE0cavUhHiyKaZkb6
+ PH6yUmTxSuuu4Z5Q1XbW2ZYzBd7F3LxNTEhCq2OGySV7B8Fu8sxtTIMp8GHSXBiHjmrz
+ V1FRoZ39/cUBcudwxCfbYx0baNPlWoWYS6pNp0sz5qorl0Q7tyqWk1232JSVG4fX8uSI
+ JOxFuenEiu0VS2kjIiaQiOmrHT3lbXVAM0SBTeLLVIkuzNQ3mDeFpxiPza0A4js9TPPn
+ jbUw==
+X-Gm-Message-State: APjAAAXNgO+BC8EG5GkvinmtZ5V9WfFZC1FylF/qjkPBZ43f9Zeezqfc
+ 1zuUrA4ls3JDppS//kABirNYG6LXxxw=
+X-Google-Smtp-Source: APXvYqwxVoRkXZjXdMHJlZZCI4rtPsVqor06ILr3wySsctuqBUtXOWRU3mYyEIp/KFmJCTNYKFGF0A==
+X-Received: by 2002:a92:1f16:: with SMTP id i22mr263754ile.206.1576630496049; 
+ Tue, 17 Dec 2019 16:54:56 -0800 (PST)
+Received: from mail-il1-f181.google.com (mail-il1-f181.google.com.
+ [209.85.166.181])
+ by smtp.gmail.com with ESMTPSA id 69sm132945ilc.23.2019.12.17.16.54.55
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Dec 2019 16:52:34 -0800 (PST)
-Received: by mail-io1-f43.google.com with SMTP id s2so136023iog.10
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 16:52:33 -0800 (PST)
-X-Received: by 2002:a6b:be84:: with SMTP id o126mr546930iof.269.1576630353286; 
- Tue, 17 Dec 2019 16:52:33 -0800 (PST)
+ Tue, 17 Dec 2019 16:54:55 -0800 (PST)
+Received: by mail-il1-f181.google.com with SMTP id b15so201852iln.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2019 16:54:55 -0800 (PST)
+X-Received: by 2002:a92:cc90:: with SMTP id x16mr224285ilo.269.1576630494768; 
+ Tue, 17 Dec 2019 16:54:54 -0800 (PST)
 MIME-Version: 1.0
-References: <20191213154448.8.I251add713bc5c97225200894ab110ea9183434fd@changeid>
- <20191215200459.1018893-1-robdclark@gmail.com>
-In-Reply-To: <20191215200459.1018893-1-robdclark@gmail.com>
+References: <20191213154448.9.I1791f91dd22894da04f86699a7507d101d4385bc@changeid>
+ <20191215200632.1019065-1-robdclark@gmail.com>
+In-Reply-To: <20191215200632.1019065-1-robdclark@gmail.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 17 Dec 2019 16:52:21 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=U_trS6U4wTRMnW0_7xCjxqdTkTV5vmhyMC=vGbNAhQdw@mail.gmail.com>
-Message-ID: <CAD=FV=U_trS6U4wTRMnW0_7xCjxqdTkTV5vmhyMC=vGbNAhQdw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] fixup! drm/bridge: ti-sn65dsi86: Train at faster
- rates if slower ones fail
+Date: Tue, 17 Dec 2019 16:54:42 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=U7PXe7n3Q+k6ZWvkUeCRA8Esdyc6C39078=N_7D+BCXA@mail.gmail.com>
+Message-ID: <CAD=FV=U7PXe7n3Q+k6ZWvkUeCRA8Esdyc6C39078=N_7D+BCXA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] fixup! drm/bridge: ti-sn65dsi86: Skip non-standard DP
+ rates
 To: Rob Clark <robdclark@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,34 +79,31 @@ Cc: Rob Clark <robdclark@chromium.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
  Sean Paul <seanpaul@chromium.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCgpPbiBTdW4sIERlYyAxNSwgMjAxOSBhdCAxMjowNSBQTSBSb2IgQ2xhcmsgPHJvYmRjbGFy
-a0BnbWFpbC5jb20+IHdyb3RlOgo+Cj4gRnJvbTogUm9iIENsYXJrIDxyb2JkY2xhcmtAY2hyb21p
-dW0ub3JnPgo+Cj4gRml4ZXM6Cj4KPiBJbiBmaWxlIGluY2x1ZGVkIGZyb20gLi4vZHJpdmVycy9n
-cHUvZHJtL2JyaWRnZS90aS1zbjY1ZHNpODYuYzoyNToKPiAuLi9kcml2ZXJzL2dwdS9kcm0vYnJp
-ZGdlL3RpLXNuNjVkc2k4Ni5jOiBJbiBmdW5jdGlvbiDigJh0aV9zbl9icmlkZ2VfZW5hYmxl4oCZ
-Ogo+IC4uL2luY2x1ZGUvZHJtL2RybV9wcmludC5oOjMzOToyOiB3YXJuaW5nOiDigJhsYXN0X2Vy
-cl9zdHLigJkgbWF5IGJlIHVzZWQgdW5pbml0aWFsaXplZCBpbiB0aGlzIGZ1bmN0aW9uIFstV21h
-eWJlLXVuaW5pdGlhbGl6ZWRdCj4gICAzMzkgfCAgZHJtX2Rldl9wcmludGsoZGV2LCBLRVJOX0VS
-UiwgIipFUlJPUiogIiBmbXQsICMjX19WQV9BUkdTX18pCj4gICAgICAgfCAgXn5+fn5+fn5+fn5+
-fn4KPiAuLi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RpLXNuNjVkc2k4Ni5jOjY1MDoxNDogbm90
-ZTog4oCYbGFzdF9lcnJfc3Ry4oCZIHdhcyBkZWNsYXJlZCBoZXJlCj4gICA2NTAgfCAgY29uc3Qg
-Y2hhciAqbGFzdF9lcnJfc3RyOwo+ICAgICAgIHwgICAgICAgICAgICAgIF5+fn5+fn5+fn5+fgo+
-IEluIGZpbGUgaW5jbHVkZWQgZnJvbSAuLi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RpLXNuNjVk
-c2k4Ni5jOjI1Ogo+IC4uL2luY2x1ZGUvZHJtL2RybV9wcmludC5oOjMzOToyOiB3YXJuaW5nOiDi
-gJhyZXTigJkgbWF5IGJlIHVzZWQgdW5pbml0aWFsaXplZCBpbiB0aGlzIGZ1bmN0aW9uIFstV21h
-eWJlLXVuaW5pdGlhbGl6ZWRdCj4gICAzMzkgfCAgZHJtX2Rldl9wcmludGsoZGV2LCBLRVJOX0VS
-UiwgIipFUlJPUiogIiBmbXQsICMjX19WQV9BUkdTX18pCj4gICAgICAgfCAgXn5+fn5+fn5+fn5+
-fn4KPiAuLi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RpLXNuNjVkc2k4Ni5jOjY1NDo2OiBub3Rl
-OiDigJhyZXTigJkgd2FzIGRlY2xhcmVkIGhlcmUKPiAgIDY1NCB8ICBpbnQgcmV0Owo+ICAgICAg
-IHwgICAgICBefn4KPiAgIEJ1aWxkaW5nIG1vZHVsZXMsIHN0YWdlIDIuCj4gLS0tCj4gIGRyaXZl
-cnMvZ3B1L2RybS9icmlkZ2UvdGktc242NWRzaTg2LmMgfCA0ICsrLS0KPiAgMSBmaWxlIGNoYW5n
-ZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKClRoYW5rcyEgIEkgaGF2ZSByb2xs
-ZWQgdGhpcyBpbnRvIG15IHYyLgoKLURvdWcKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVsCg==
+Hi,
+
+On Sun, Dec 15, 2019 at 12:06 PM Rob Clark <robdclark@gmail.com> wrote:
+>
+> From: Rob Clark <robdclark@chromium.org>
+>
+> ---
+> Note however, the panel I have on the yoga c630 is not eDP 1.4+, so I
+> cannot test that path.  But I think it looks correct.
+>
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 110 +++++++++++++++++++++-----
+>  1 file changed, 89 insertions(+), 21 deletions(-)
+
+I ended up basing patch #9 in my v2 series slightly more on Jeffrey's
+patch.  Hopefully it looks OK.
+
+I don't have any eDP 1.4 panels either, so hopefully it's all good there...
+
+-Doug
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
