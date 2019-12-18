@@ -2,46 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22C72123F33
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 06:41:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C77B123FDD
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 07:57:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A333D6E22B;
-	Wed, 18 Dec 2019 05:41:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EF766E02E;
+	Wed, 18 Dec 2019 06:57:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id 188346E226
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 05:41:39 +0000 (UTC)
-X-UUID: 10f94fa4800b4bf3982b3b0e977d1c0a-20191218
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=kekEdDqgpJakyxhI05Eo5niVp+Cj3bY7GT/GLsY78ko=; 
- b=twhGNb1sxlKvoEm59N9ojZB5ckhYNTdiM14CQJ3u2WENm8P0yzrVLnt3nc9KLCqDzOmGBOSqIESHIJ1qpsnpKzi3+jgIu3ShWDYUUssmwuTwMfJq6E7uuNB364uAhKqwmv688LLvIUjEOHDbWFYzxiNG4aMzE+2D15dvZAt2NSY=;
-X-UUID: 10f94fa4800b4bf3982b3b0e977d1c0a-20191218
-Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 1470846705; Wed, 18 Dec 2019 13:41:35 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs01n2.mediatek.inc (172.21.101.79) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Wed, 18 Dec 2019 13:41:00 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Wed, 18 Dec 2019 13:40:39 +0800
-Message-ID: <1576647693.15003.11.camel@mtksdaap41>
-Subject: Re: [PATCH 1/4] dt-binds: display: mediatek: add property to
- control mipi tx drive current
-From: CK Hu <ck.hu@mediatek.com>
-To: Jitao Shi <jitao.shi@mediatek.com>
-Date: Wed, 18 Dec 2019 13:41:33 +0800
-In-Reply-To: <20191216082937.119164-2-jitao.shi@mediatek.com>
-References: <20191216082937.119164-1-jitao.shi@mediatek.com>
- <20191216082937.119164-2-jitao.shi@mediatek.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49BA36E02E
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 06:57:13 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBI6v5dH064634;
+ Wed, 18 Dec 2019 00:57:05 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1576652225;
+ bh=G9290ViBa+lHQNbKvsn8Qfc7Y/Tm7Bo+wSmsxMnE7Mk=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=ed/sBkIelj8sak/OuIc2qGI9L42ZhCl81fJXZTWgWqa35oEb/iCMpv1BXBZ5J+hI4
+ t6+EFkqJxWnwKVZEuS0YJYBFmNGSijvtKd6cCXROiDQINGqO90FZcNgC0FRl2SmfR0
+ iR7OJlqZq0YETz6m/PYIMT0jwRaH3m6iJu9sFO+Y=
+Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xBI6v5ts047827
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 18 Dec 2019 00:57:05 -0600
+Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE106.ent.ti.com
+ (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Wed, 18
+ Dec 2019 00:57:05 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Wed, 18 Dec 2019 00:57:05 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBI6v3Od096567;
+ Wed, 18 Dec 2019 00:57:03 -0600
+Subject: Re: [PATCH v3 11/50] drm/bridge: Add bridge driver for display
+ connectors
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20191210225750.15709-1-laurent.pinchart@ideasonboard.com>
+ <20191210225750.15709-12-laurent.pinchart@ideasonboard.com>
+ <61bdedd0-6d88-7e1a-8229-18790439ed9d@iki.fi>
+ <20191218014545.GK4874@pendragon.ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <50556a5e-47e7-1659-2dab-bbff238bb8e4@ti.com>
+Date: Wed, 18 Dec 2019 08:57:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 1DA0C317F4B4323403052D3798DC4C90F37261A92771694E211F6DEDF72998F82000:8
-X-MTK: N
+In-Reply-To: <20191218014545.GK4874@pendragon.ideasonboard.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,67 +65,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: srv_heupstream@mediatek.com, David Airlie <airlied@linux.ie>,
- stonea168@163.com, cawa.cheng@mediatek.com, dri-devel@lists.freedesktop.org,
- sj.huang@mediatek.com, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, yingjoe.chen@mediatek.com,
- eddie.huang@mediatek.com
-Content-Type: text/plain; charset="us-ascii"
+Cc: Sam Ravnborg <sam@ravnborg.org>, Sean Paul <sean@poorly.run>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ dri-devel@lists.freedesktop.org, Boris Brezillon <bbrezillon@kernel.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Jitao:
+On 18/12/2019 03:45, Laurent Pinchart wrote:
 
-On Mon, 2019-12-16 at 16:29 +0800, Jitao Shi wrote:
-> Add a property to control mipi tx drive current:
-> "mipitx-current-drive"
+>>> +	dev_info(&pdev->dev,
+>>> +		 "Found %s display connector '%s' %s DDC bus and %s HPD GPIO (ops 0x%x)\n",
+>>> +		 drm_get_connector_type_name(conn->bridge.type),
+>>> +		 conn->label ? conn->label : "<unlabelled>",
+>>> +		 conn->bridge.ddc ? "with" : "without",
+>>> +		 conn->hpd_gpio ? "with" : "without",
+>>> +		 conn->bridge.ops);
+>>
+>> On AM5 EVM, we have HDMI output with DDC and HPD, but I get a kernel print:
+>>
+>> display-connector connector: Found HDMI-A display connector 'hdmi' without DDC bus and without HPD
+>> GPIO (ops 0x0)
+>>
+>> I think that print may be quite confusing for someone who doesn't know the details of the drivers
+>> involved.
 > 
-> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-> ---
->  .../devicetree/bindings/display/mediatek/mediatek,dsi.txt     | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
-> index a19a6cc375ed..780201ddcd5c 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
-> @@ -33,6 +33,9 @@ Required properties:
->  - #clock-cells: must be <0>;
->  - #phy-cells: must be <0>.
->  
-> +Optional properties:
-> +- mipitx-current-drive: adjust driving current, should be 1 ~ 0xF
-> +
+> I agree, but the information could be useful for developers. Do you
+> think it should be dropped ? Or do you have an alternative wording to
+> propose ?
 
-In "[PATCH 3/4] drm/mediatek: add the mipitx driving control" [1], I see
-that you actually control a register its name is MIPITX_VOLTAGE_SEL, so
-I guess this control the voltage. If mipi_tx has the ability to control
-the voltage, could we just treat mipi_tx as a regulator? For a
-regulator, regulator-min-microvolt and regulator-max-microvolt would
-limit the volt range and you could get it by
-of_get_regulator_init_data(). If it actually control the current,
-regulator-min-microamp and regulator-max-microamp could be used. I'm not
-expert on this, so please give me more information on this.
+I would just go with dev_dbg. I personally don't like to use dev_info unless it's really something a 
+normal user needs to see. Otherwise it's just spam for most of the people. If everything is fine, I 
+think the driver should be quiet.
 
-[1]
-http://lists.infradead.org/pipermail/linux-mediatek/2019-December/025638.html
+Did we discuss this already earlier? =)
 
-Regards,
-CK
+That said, even as a dev_dbg it's somewhat confusing. But I can't come up with alternate working... 
+Somehow it should indicate that this piece of the display pipeline doesn't handle DDC/HPD, without 
+implying that there are no such features.
 
->  Example:
->  
->  mipi_tx0: mipi-dphy@10215000 {
-> @@ -42,6 +45,7 @@ mipi_tx0: mipi-dphy@10215000 {
->  	clock-output-names = "mipi_tx0_pll";
->  	#clock-cells = <0>;
->  	#phy-cells = <0>;
-> +	mipitx-current-drive = <0x8>;
->  };
->  
->  dsi0: dsi@1401b000 {
+"unassigned DDC"? I don't know... I'm fine with the print as dev_dbg.
 
+  Tomi
+
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
