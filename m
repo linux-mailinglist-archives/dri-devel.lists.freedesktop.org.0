@@ -1,18 +1,18 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B542E12470B
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 13:39:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92A5112470C
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 13:39:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E8726E32A;
-	Wed, 18 Dec 2019 12:39:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4A4D6E317;
+	Wed, 18 Dec 2019 12:39:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from esa1.microchip.iphmx.com (esa1.microchip.iphmx.com
  [68.232.147.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05A586E2F8
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 12:28:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C83F6E2F8
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 12:28:48 +0000 (UTC)
 Received-SPF: Pass (esa1.microchip.iphmx.com: domain of
  Claudiu.Beznea@microchip.com designates 198.175.253.82 as
  permitted sender) identity=mailfrom;
@@ -35,31 +35,30 @@ Authentication-Results: esa1.microchip.iphmx.com;
  spf=Pass smtp.mailfrom=Claudiu.Beznea@microchip.com;
  spf=None smtp.helo=postmaster@email.microchip.com;
  dmarc=pass (p=none dis=none) d=microchip.com
-IronPort-SDR: pYkUasD8xQa4jYl5/A4AC1B0RcMipD5T6P7Ws6rULLLzunqgBX0cHB401B/mZCeEu/1GTzoOAb
- fq8xeZVqOIlOURGaIbSapCpARCzMFiJJ8eCHWPs3iaVDyG/xwYijTcJe+F7GOUsRte/+ZobAiP
- G5kl9/3Yc7+WPBRjESW3+eX+CYHhiRtANiyUqxBSTCQdoFLKvxRYWuptZOenLh/aD63JV9l05k
- 1DTopQdcYIMPyfb2R2mLL9J9oh5niSB8C/0KSHIelJywW3najGjEsZswg3kPGwc+yD/ioLqpI6
- z/g=
-X-IronPort-AV: E=Sophos;i="5.69,329,1571727600"; d="scan'208";a="62156186"
+IronPort-SDR: 3T3KoRmV9Py30sZPTGEDgjAKtwTDSgm7SAz7UQP8GZQSxk3GxrpdcrK/C+j1je6uuhMUdz6OKG
+ 1ICPttIlHldLWudaJYckOz2hzh0NnH150DzQ5KQbUwF1chd97jIO5y5aCZPaVjqMB8Apf7uxoS
+ 32YDP/FHy9keakW+bZsYb9YGLhQnZsWb6gcTtSj0UkQxlhVeXHuVzOjCRuQdKQ1OcUo3XwdOWc
+ 2KbrzomS+hhbeMSQxSfaWmVsnGHHq6pZKaFWckjM0I5r2w6FkT6nIvt2cDIujswuIJfSH/qw3J
+ mwA=
+X-IronPort-AV: E=Sophos;i="5.69,329,1571727600"; d="scan'208";a="62156189"
 Received: from smtpout.microchip.com (HELO email.microchip.com)
  ([198.175.253.82])
  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256;
- 18 Dec 2019 05:28:44 -0700
+ 18 Dec 2019 05:28:47 -0700
 Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
  chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Wed, 18 Dec 2019 05:28:42 -0700
+ 15.1.1713.5; Wed, 18 Dec 2019 05:28:46 -0700
 Received: from m18063-ThinkPad-T460p.mchp-main.com (10.10.85.251) by
  chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.1713.5 via Frontend Transport; Wed, 18 Dec 2019 05:28:41 -0700
+ 15.1.1713.5 via Frontend Transport; Wed, 18 Dec 2019 05:28:44 -0700
 From: Claudiu Beznea <claudiu.beznea@microchip.com>
 To: <boris.brezillon@bootlin.com>, <airlied@linux.ie>,
  <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
  <lee.jones@linaro.org>, <sam@ravnborg.org>
-Subject: [PATCH v3 3/6] mfd: atmel-hlcdc: add struct device member to struct
- atmel_hlcdc_regmap
-Date: Wed, 18 Dec 2019 14:28:26 +0200
-Message-ID: <1576672109-22707-4-git-send-email-claudiu.beznea@microchip.com>
+Subject: [PATCH v3 4/6] mfd: atmel-hlcdc: return in case of error
+Date: Wed, 18 Dec 2019 14:28:27 +0200
+Message-ID: <1576672109-22707-5-git-send-email-claudiu.beznea@microchip.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1576672109-22707-1-git-send-email-claudiu.beznea@microchip.com>
 References: <1576672109-22707-1-git-send-email-claudiu.beznea@microchip.com>
@@ -85,36 +84,43 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add struct device member to struct atmel_hlcdc_regmap to be
-able to use dev_*() specific logging functions.
+For HLCDC timing engine configurations bit ATMEL_HLCDC_SIP of
+ATMEL_HLCDC_SR needs to be polled before applying new config. In case of
+timeout there is no indicator about this, so, return in case of timeout
+and also print a message about this.
 
 Signed-off-by: Claudiu Beznea <claudiu.beznea@microchip.com>
 Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/mfd/atmel-hlcdc.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/mfd/atmel-hlcdc.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/mfd/atmel-hlcdc.c b/drivers/mfd/atmel-hlcdc.c
-index 64013c57a920..92bfcaa62ace 100644
+index 92bfcaa62ace..a1e46c87b956 100644
 --- a/drivers/mfd/atmel-hlcdc.c
 +++ b/drivers/mfd/atmel-hlcdc.c
-@@ -19,6 +19,7 @@
+@@ -40,10 +40,17 @@ static int regmap_atmel_hlcdc_reg_write(void *context, unsigned int reg,
  
- struct atmel_hlcdc_regmap {
- 	void __iomem *regs;
-+	struct device *dev;
- };
- 
- static const struct mfd_cell atmel_hlcdc_cells[] = {
-@@ -90,6 +91,8 @@ static int atmel_hlcdc_probe(struct platform_device *pdev)
- 	if (IS_ERR(hregmap->regs))
- 		return PTR_ERR(hregmap->regs);
- 
-+	hregmap->dev = &pdev->dev;
+ 	if (reg <= ATMEL_HLCDC_DIS) {
+ 		u32 status;
+-
+-		readl_poll_timeout_atomic(hregmap->regs + ATMEL_HLCDC_SR,
+-					  status, !(status & ATMEL_HLCDC_SIP),
+-					  1, 100);
++		int ret;
 +
- 	hlcdc->irq = platform_get_irq(pdev, 0);
- 	if (hlcdc->irq < 0)
- 		return hlcdc->irq;
++		ret = readl_poll_timeout_atomic(hregmap->regs + ATMEL_HLCDC_SR,
++						status,
++						!(status & ATMEL_HLCDC_SIP),
++						1, 100);
++		if (ret) {
++			dev_err(hregmap->dev,
++				"Timeout! Clock domain synchronization is in progress!\n");
++			return ret;
++		}
+ 	}
+ 
+ 	writel(val, hregmap->regs + reg);
 -- 
 2.7.4
 
