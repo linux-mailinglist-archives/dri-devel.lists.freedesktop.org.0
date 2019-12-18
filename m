@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D44F21256DE
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 23:36:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACC7A1256E0
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 23:36:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4E2A6EA8F;
-	Wed, 18 Dec 2019 22:36:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7E796EA91;
+	Wed, 18 Dec 2019 22:36:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
  [IPv6:2607:f8b0:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A901B6EA8F
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 22:35:59 +0000 (UTC)
-Received: by mail-pg1-x544.google.com with SMTP id s64so2021637pgb.9
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 14:35:59 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D5686EA8F
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 22:36:00 +0000 (UTC)
+Received: by mail-pg1-x544.google.com with SMTP id b9so2006587pgk.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 14:36:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+oRMrQvnKv8sUjeUK0UWacEw5OuTlAMvQh07s4c6q20=;
- b=db+TBlr64EdEwBEdMs7w/Pv0H3tuG2jAw41a3OXASqoAZL0EYUaWZ8HDZIfe49qvZA
- pFTHJMOSZ1DUHo6yp0wOMGWXQci8BN/9/nnoGHSnTOEwQ8aHsf+528NQ2yhrN+P9x6GK
- XVrBd6FxIvat+vm+Zie433PrCuTb46Gkq0JC0=
+ bh=bs+0Z3ZAq0GUCLQ+n50Ot+tqfKigg1gtSIr+d12Ntvk=;
+ b=OZ/SeBNzOTFV3iidD+L+EgqMHqkaR4aikrerDs76ymG1SN7nhEpyOC+UFiuamQUjd9
+ ZD6SI1x5UKTrlQf2/09RPG1BGfMDxmxEPOhAcd7nfVhLEiBlV9oh1FI2bQ68S9BVPFlH
+ m6nFcGb2TR8Wubr07fHZ0mnErVPI/Mjx5sEms=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+oRMrQvnKv8sUjeUK0UWacEw5OuTlAMvQh07s4c6q20=;
- b=pJRpbWH/7QAd8b99/9uGlhknWIcZ8h/DgzGAR6DaeZPzhiZ263iwVN5pnsWeQU9n74
- QFSQPhWt51xJcAuRIyVWi2Vk91qPmOIwj0TzIOh2J89stobvxuY3saFdzh0q/1nEjGXM
- x3WSaQsQaWZeIu+dUY2xb09cBsi3hbfD1tiYqsOrg74ab3iJchbwjOFjtPvHRNLZGrOb
- BBLQQDs5ODiVWr3IsuFlT4dygwQmaRuMboIdpsYA4n9wFh95aV1+T+toepYDYKUsyyiS
- Ik6FzHjvbt+3Oi0jYAjdm1kiwLfEr2F7vvIIB/8Zx2eFL0FTOrja+uJ4qFPQ5YhwZSzV
- 9gPA==
-X-Gm-Message-State: APjAAAUf+ZindRnDfcES7mkFJ8wKBbp5Gt1Iq7bGhQjOkowx7fx3evgU
- tCH2j4tTKBWqulBta545j9O0+A==
-X-Google-Smtp-Source: APXvYqyxaHyGUjuepnVu3CFb1Nbl4hMcUXmhJvEcO3i8W028D3on1sqc1halTkAOiHuxndTpK4WDwA==
-X-Received: by 2002:aa7:85d3:: with SMTP id z19mr5797968pfn.62.1576708559241; 
- Wed, 18 Dec 2019 14:35:59 -0800 (PST)
+ bh=bs+0Z3ZAq0GUCLQ+n50Ot+tqfKigg1gtSIr+d12Ntvk=;
+ b=IiMAG032oxhdKt8ykTbfSFTZlLHL14z7omBjOkmGOllc/QZfC1HEpi8r2dTz+bS1Xu
+ w3/7K7sws9t1aXtpAa6Xu9aQpgcXECmnq9XUGc3zqFOULjtbIpIMcin5oIDLISmwFOhg
+ 5VOXF3yLQhv5cEsW9rrQUZeYh35+nDcb1P/4ZI1XDA6YGgK4bczXpwgylGHZkq4TPBSV
+ 4gAeznAWV+zhG0uCwfgk43GUaAJdX+lWsLZ6jzu/KSmn58znXdkREMZn4wSs2Yqq82Vd
+ iiS33jPfvyZ7ev0Jvt7VBSyCDoG/BSN5P++cu70GURz83AJVHmMRV6r8pKNTd7Qx7xoI
+ z1/w==
+X-Gm-Message-State: APjAAAVYcwrNOL0nr3FsyedNm703mY4PwsIMeyb5Uv+BENS+aPy8c8Rb
+ 6u5H7vE+d3VAlivn3cHpV0PhEQ==
+X-Google-Smtp-Source: APXvYqxHbtd+gTe6cUJkLw0xl7+3zIZbnWasbDkDhnj6z7TE+24OJXXlyEG+S4g65cIiX359hal6dA==
+X-Received: by 2002:a62:5290:: with SMTP id g138mr5847412pfb.54.1576708560228; 
+ Wed, 18 Dec 2019 14:36:00 -0800 (PST)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:202:1:24fa:e766:52c9:e3b2])
- by smtp.gmail.com with ESMTPSA id i9sm4709919pfk.24.2019.12.18.14.35.58
+ by smtp.gmail.com with ESMTPSA id i9sm4709919pfk.24.2019.12.18.14.35.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Dec 2019 14:35:58 -0800 (PST)
+ Wed, 18 Dec 2019 14:35:59 -0800 (PST)
 From: Douglas Anderson <dianders@chromium.org>
 To: Andrzej Hajda <a.hajda@samsung.com>,
  Neil Armstrong <narmstrong@baylibre.com>
-Subject: [PATCH v3 1/9] drm/bridge: ti-sn65dsi86: Split the setting of the dp
- and dsi rates
-Date: Wed, 18 Dec 2019 14:35:22 -0800
-Message-Id: <20191218143416.v3.1.Icb765d5799e9651e5249c0c27627ba33a9e411cf@changeid>
+Subject: [PATCH v3 2/9] drm/bridge: ti-sn65dsi86: zero is never greater than
+ an unsigned int
+Date: Wed, 18 Dec 2019 14:35:23 -0800
+Message-Id: <20191218143416.v3.2.Id445d0057bedcb0a190009e0706e9254c2fd48eb@changeid>
 X-Mailer: git-send-email 2.24.1.735.g03f4e72817-goog
 In-Reply-To: <20191218223530.253106-1-dianders@chromium.org>
 References: <20191218223530.253106-1-dianders@chromium.org>
@@ -78,12 +78,11 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These two things were in one function.  Split into two.  This looks
-like it's duplicating some code, but don't worry.  This is is just in
-preparation for future changes.
+When we iterate over ti_sn_bridge_dp_rate_lut, there's no reason to
+start at index 0 which always contains the value 0.  0 is not a valid
+link rate.
 
-This is intended to have zero functional change and will just make
-future patches easier to understand.
+This change should have no real effect but is a small cleanup.
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 Tested-by: Rob Clark <robdclark@gmail.com>
@@ -93,74 +92,22 @@ Reviewed-by: Rob Clark <robdclark@gmail.com>
 Changes in v3: None
 Changes in v2: None
 
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 33 +++++++++++++++++++--------
- 1 file changed, 23 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 43abf01ebd4c..2fb9370a76e6 100644
+index 2fb9370a76e6..7b596af265e4 100644
 --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -417,6 +417,24 @@ static void ti_sn_bridge_set_refclk_freq(struct ti_sn_bridge *pdata)
- 			   REFCLK_FREQ(i));
- }
- 
-+static void ti_sn_bridge_set_dsi_rate(struct ti_sn_bridge *pdata)
-+{
-+	unsigned int bit_rate_mhz, clk_freq_mhz;
-+	unsigned int val;
-+	struct drm_display_mode *mode =
-+		&pdata->bridge.encoder->crtc->state->adjusted_mode;
-+
-+	/* set DSIA clk frequency */
-+	bit_rate_mhz = (mode->clock / 1000) *
-+			mipi_dsi_pixel_format_to_bpp(pdata->dsi->format);
-+	clk_freq_mhz = bit_rate_mhz / (pdata->dsi->lanes * 2);
-+
-+	/* for each increment in val, frequency increases by 5MHz */
-+	val = (MIN_DSI_CLK_FREQ_MHZ / 5) +
-+		(((clk_freq_mhz - MIN_DSI_CLK_FREQ_MHZ) / 5) & 0xFF);
-+	regmap_write(pdata->regmap, SN_DSIA_CLK_FREQ_REG, val);
-+}
-+
- /**
-  * LUT index corresponds to register value and
-  * LUT values corresponds to dp data rate supported
-@@ -426,22 +444,16 @@ static const unsigned int ti_sn_bridge_dp_rate_lut[] = {
- 	0, 1620, 2160, 2430, 2700, 3240, 4320, 5400
- };
- 
--static void ti_sn_bridge_set_dsi_dp_rate(struct ti_sn_bridge *pdata)
-+static void ti_sn_bridge_set_dp_rate(struct ti_sn_bridge *pdata)
- {
--	unsigned int bit_rate_mhz, clk_freq_mhz, dp_rate_mhz;
--	unsigned int val, i;
-+	unsigned int bit_rate_mhz, dp_rate_mhz;
-+	unsigned int i;
- 	struct drm_display_mode *mode =
- 		&pdata->bridge.encoder->crtc->state->adjusted_mode;
- 
- 	/* set DSIA clk frequency */
- 	bit_rate_mhz = (mode->clock / 1000) *
- 			mipi_dsi_pixel_format_to_bpp(pdata->dsi->format);
--	clk_freq_mhz = bit_rate_mhz / (pdata->dsi->lanes * 2);
--
--	/* for each increment in val, frequency increases by 5MHz */
--	val = (MIN_DSI_CLK_FREQ_MHZ / 5) +
--		(((clk_freq_mhz - MIN_DSI_CLK_FREQ_MHZ) / 5) & 0xFF);
--	regmap_write(pdata->regmap, SN_DSIA_CLK_FREQ_REG, val);
- 
+@@ -458,7 +458,7 @@ static void ti_sn_bridge_set_dp_rate(struct ti_sn_bridge *pdata)
  	/* set DP data rate */
  	dp_rate_mhz = ((bit_rate_mhz / pdata->dsi->lanes) * DP_CLK_FUDGE_NUM) /
-@@ -510,7 +522,8 @@ static void ti_sn_bridge_enable(struct drm_bridge *bridge)
- 			   val);
+ 							DP_CLK_FUDGE_DEN;
+-	for (i = 0; i < ARRAY_SIZE(ti_sn_bridge_dp_rate_lut) - 1; i++)
++	for (i = 1; i < ARRAY_SIZE(ti_sn_bridge_dp_rate_lut) - 1; i++)
+ 		if (ti_sn_bridge_dp_rate_lut[i] > dp_rate_mhz)
+ 			break;
  
- 	/* set dsi/dp clk frequency value */
--	ti_sn_bridge_set_dsi_dp_rate(pdata);
-+	ti_sn_bridge_set_dsi_rate(pdata);
-+	ti_sn_bridge_set_dp_rate(pdata);
- 
- 	/* enable DP PLL */
- 	regmap_write(pdata->regmap, SN_PLL_ENABLE_REG, 1);
 -- 
 2.24.1.735.g03f4e72817-goog
 
