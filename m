@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 112BD123CBB
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 02:56:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20D61123CD6
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 03:03:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DF0C6E0FA;
-	Wed, 18 Dec 2019 01:56:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAEA56E21D;
+	Wed, 18 Dec 2019 02:03:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8C966E0FA
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 01:56:31 +0000 (UTC)
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7735D6E21D
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 02:03:48 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2D1D833B;
- Wed, 18 Dec 2019 02:56:30 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id CCDBF559;
+ Wed, 18 Dec 2019 03:03:46 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1576634190;
- bh=mkmRncRS+H/ryYP4Tp8+TMi0WhwTaloTzwkyNGdF8h0=;
+ s=mail; t=1576634627;
+ bh=+0EG4pBssUNvJ3b5CD6Qq7QDvYqceeyQnvK8so3P0XY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WAkUZsBRIGH7RPargR71cIZIvqXg8+bzc8CxlJaM/FTtdW9eTdaM7eVuTyDWo42jW
- LUW6K6BsvwutnozZ32/3bbO89hdvCb5cZU+ruJAxxmMsh4yBlY+lgpFkYD7V8WRHou
- U8J5L4jVSnOZuXZRxqul+eGeVUZMEgL/CpRhl1OI=
-Date: Wed, 18 Dec 2019 03:56:19 +0200
+ b=CIQp+boLHKz+1iv/GNVkDWM55XO9J3WCIXrSHCQkGm60E4xQax+REGDHni7EKhPMs
+ 5Wv+NH+NgVIuTqVb9gmKBY7DsYdMJKGB0NDnLaIYz7zrC0nc/kRuTuOU3GDKtrZkA6
+ h9bjX8JZZ7AzMV9L8GY4z23N59J20LrA0sKgwnMM=
+Date: Wed, 18 Dec 2019 04:03:36 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v3 35/50] drm/omap: Create connector for bridges
-Message-ID: <20191218015619.GM4874@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v3 00/50] drm/omap: Replace custom display drivers with
+ drm_bridge and drm_panel
+Message-ID: <20191218020336.GN4874@pendragon.ideasonboard.com>
 References: <20191210225750.15709-1-laurent.pinchart@ideasonboard.com>
- <20191210225750.15709-36-laurent.pinchart@ideasonboard.com>
- <20191215100018.GB27552@ravnborg.org>
+ <20191215122728.GA32124@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191215100018.GB27552@ravnborg.org>
+In-Reply-To: <20191215122728.GA32124@ravnborg.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,93 +58,35 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Sam,
 
-Thank you for the review.
+On Sun, Dec 15, 2019 at 01:27:28PM +0100, Sam Ravnborg wrote:
+> Hi Laurent.
+> 
+> I have now been through this impressive series of patches.
+> It is a nice series properly split into small readable chunks.
+> A few nits in a few patches - already sent by separate mails.
+> 
+> Patch 2,4,13 (with nits addressed):
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> 
+> Patch 1-20 (except the ones with r-b):
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> 
+> I have browsed the remaining omap related patches.
+> Everything looked good but as I am not familiar with the code
+> so I can have missed something obvious.
 
-On Sun, Dec 15, 2019 at 11:00:18AM +0100, Sam Ravnborg wrote:
-> On Wed, Dec 11, 2019 at 12:57:35AM +0200, Laurent Pinchart wrote:
-> > Use the drm_bridge_connector helper to create a connector for pipelines
-> > that use drm_bridge. This allows splitting connector operations across
-> > multiple bridges when necessary, instead of having the last bridge in
-> > the chain creating the connector and handling all connector operations
-> > internally.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> > Changes since v1:
-> > 
-> > - Squash with patch "drm/omap: Detach from panels at remove time"
-> > ---
-> >  drivers/gpu/drm/omapdrm/omap_drv.c | 79 +++++++++++++++++++++++++-----
-> >  1 file changed, 67 insertions(+), 12 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
-> > index 1df509342b5d..097fbbaa5df0 100644
-> > --- a/drivers/gpu/drm/omapdrm/omap_drv.c
-> > +++ b/drivers/gpu/drm/omapdrm/omap_drv.c
-> > @@ -12,10 +12,12 @@
-> >  #include <drm/drm_atomic.h>
-> >  #include <drm/drm_atomic_helper.h>
-> >  #include <drm/drm_bridge.h>
-> > +#include <drm/drm_bridge_connector.h>
-> >  #include <drm/drm_drv.h>
-> >  #include <drm/drm_fb_helper.h>
-> >  #include <drm/drm_file.h>
-> >  #include <drm/drm_ioctl.h>
-> > +#include <drm/drm_panel.h>
-> >  #include <drm/drm_prime.h>
-> >  #include <drm/drm_probe_helper.h>
-> >  #include <drm/drm_vblank.h>
-> > @@ -291,9 +293,14 @@ static int omap_modeset_init(struct drm_device *dev)
-> >  
-> >  		if (pipe->output->bridge) {
-> >  			ret = drm_bridge_attach(pipe->encoder,
-> > -						pipe->output->bridge, NULL, 0);
-> > -			if (ret < 0)
-> > +						pipe->output->bridge, NULL,
-> > +						DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-> > +			if (ret < 0) {
-> > +				dev_err(priv->dev,
-> > +					"unable to attach bridge %pOF\n",
-> > +					pipe->output->bridge->of_node);
-> >  				return ret;
-> > +			}
-> >  		}
-> >  
-> >  		id = omap_display_id(pipe->output);
-> > @@ -329,8 +336,28 @@ static int omap_modeset_init(struct drm_device *dev)
-> >  							      encoder);
-> >  			if (!pipe->connector)
-> >  				return -ENOMEM;
-> > +		} else {
-> > +			pipe->connector = drm_bridge_connector_init(dev, encoder);
-> > +			if (IS_ERR(pipe->connector)) {
-> > +				dev_err(priv->dev,
-> > +					"unable to create bridge connector for %s\n",
-> > +					pipe->output->name);
-> > +				return PTR_ERR(pipe->connector);
-> > +			}
-> > +		}
-> >  
-> > -			drm_connector_attach_encoder(pipe->connector, encoder);
-> > +		drm_connector_attach_encoder(pipe->connector, encoder);
-> > +
-> > +		/*
-> > +		 * FIXME: drm_panel should not store the drm_connector pointer
-> > +		 * internally but should receive it in its .get_modes()
-> > +		 * operation.
-> > +		 */
->
-> This FIXME is not fully up-to-date.
-> drm_panel_attach ignores the connector argumant, and we could also pass
-> NULL here.
+Thank you very much.
 
-You're right, I'll remove the comment.
+> Hopefully we can soon have this series landed so we can start
+> working on top of the new bridge/connector handling.
+> 
+> I assume it will be applied direct to drm-misc-next, so we do not
+> have to wait extra time to get it.
 
-> I am not convinced we need the drm_panel_(attach|detach) anymore, but
-> this is not the thread to take that discussion.
-
-Indeed :-) I think we should replace all direct panel usage with the DRM
-panel bridge, then we'll be able to refactor the panel API freely.
+Tomi, how would you like to proceed ? The core patches are ready in my
+opinion. I can post a v4 without the omapdrm patches, which could be
+merged to drm-misc already while you finish reviewing patches 30/50
+onwards.
 
 -- 
 Regards,
