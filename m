@@ -2,32 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9B53124B86
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 16:24:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC461124B89
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 16:24:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1BC36E4E8;
-	Wed, 18 Dec 2019 15:24:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDADE6E507;
+	Wed, 18 Dec 2019 15:24:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D6CB6E2DE;
- Wed, 18 Dec 2019 15:24:15 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A13756E507;
+ Wed, 18 Dec 2019 15:24:30 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 18 Dec 2019 07:24:14 -0800
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 18 Dec 2019 07:24:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,330,1571727600"; d="scan'208";a="205872951"
+X-IronPort-AV: E=Sophos;i="5.69,330,1571727600"; d="scan'208";a="205872987"
 Received: from unknown (HELO amanna.iind.intel.com) ([10.223.74.53])
- by orsmga007.jf.intel.com with ESMTP; 18 Dec 2019 07:24:11 -0800
+ by orsmga007.jf.intel.com with ESMTP; 18 Dec 2019 07:24:26 -0800
 From: Animesh Manna <animesh.manna@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 0/9] DP Phy compliance auto test
-Date: Wed, 18 Dec 2019 20:43:41 +0530
-Message-Id: <20191218151350.19579-1-animesh.manna@intel.com>
+Subject: [PATCH v2 1/9] drm/dp: get/set phy compliance pattern
+Date: Wed, 18 Dec 2019 20:43:42 +0530
+Message-Id: <20191218151350.19579-2-animesh.manna@intel.com>
 X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20191218151350.19579-1-animesh.manna@intel.com>
+References: <20191218151350.19579-1-animesh.manna@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,73 +51,171 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Driver changes mainly to process the request coming from Test equipment
-as short pulse hpd interrupt to change link-pattern/v-swing/pre-emphasis
-Complete auto test suite takes much lesser time than manual run.
+During phy compliance auto test mode source need to read
+requested test pattern from sink through DPCD. After processing
+the request source need to set the pattern. So set/get method
+added in drm layer as it is DP protocol.
 
-Overall design:
---------------
-Automate test request will come to source device as HDP short pulse
-interrupt from test scope.
-Read DPCD 0x201, Check for bit 1 for automated test request.
-If set continue and read DPCD 0x218.
-Check for bit 3 for phy test pattern, If set continue.
-Get the requested test pattern through DPCD 0x248.
-Compute requested voltage swing level and pre-emphasis level
-from DPCD 0x206 and 0x207
-Set signal level through vswing programming sequence.
-Write DDI_COMP_CTL and DDI_COMP_PATx as per requested pattern.
-Configure the link and write the new test pattern through DPCD.
+v2: As per review feedback from Manasi on RFC version,
+- added dp revision as function argument in set_phy_pattern api.
+- used int for link_rate and u8 for lane_count to align with existing code.
 
-High level patch description.
------------------------------
-patch 1: drm level api added to get/set test pattern as per vesa
-DP spec. This maybe useful for other driver so added in drm layer.
-patch 2: Fix for a compilation issue.
-patch 3: vswing/preemphasis adjustment calculation is needed during
-phy compliance request processing along with existing link training
-process, so moved the same function in intel_dp.c.
-patch 4: Parse the test scope request regarding  rquested test pattern,
-vswing level, preemphasis level.
-patch 5: Notify testapp through uevent.
-patch 6: Added debugfs entry for phy compliance.
-patch 7: Register difnition of DP compliance register added.
-patch 8: Function added to update the pattern in source side.
-patch 9: This patch os mainly processing the request.
+Signed-off-by: Animesh Manna <animesh.manna@intel.com>
+---
+ drivers/gpu/drm/drm_dp_helper.c | 93 +++++++++++++++++++++++++++++++++
+ include/drm/drm_dp_helper.h     | 33 +++++++++++-
+ 2 files changed, 125 insertions(+), 1 deletion(-)
 
-Currently through prototyping patch able to run DP compliance where
-vswing, preemphasis and test pattern is changing fine but complete
-test is under process. As per feedback redesigned the code. Could not test
-due to unavailability of test scope, so sending as RFC again to get design
-feedback.
-
-v1: Redesigned the code as per review feedback from Manasi on RFC.
-v2: Addressed review comments from Manasi.
-
-Animesh Manna (9):
-  drm/dp: get/set phy compliance pattern
-  drm/amd/display: Fix compilation issue.
-  drm/i915/dp: Move vswing/pre-emphasis adjustment calculation
-  drm/i915/dp: Preparation for DP phy compliance auto test
-  drm/i915/dsb: Send uevent to testapp.
-  drm/i915/dp: Add debugfs entry for DP phy compliance.
-  drm/i915/dp: Register definition for DP compliance register
-  drm/i915/dp: Update the pattern as per request
-  drm/i915/dp: [FIXME] Program vswing, pre-emphasis, test-pattern
-
- .../gpu/drm/amd/display/dc/core/dc_link_dp.c  |   2 +-
- drivers/gpu/drm/drm_dp_helper.c               |  93 +++++++++
- drivers/gpu/drm/i915/display/intel_display.c  |  24 ++-
- .../drm/i915/display/intel_display_types.h    |   1 +
- drivers/gpu/drm/i915/display/intel_dp.c       | 195 +++++++++++++++++-
- drivers/gpu/drm/i915/display/intel_dp.h       |   5 +
- .../drm/i915/display/intel_dp_link_training.c |  32 ---
- drivers/gpu/drm/i915/i915_debugfs.c           |  12 +-
- drivers/gpu/drm/i915/i915_drv.h               |   2 +
- drivers/gpu/drm/i915/i915_reg.h               |  20 ++
- include/drm/drm_dp_helper.h                   |  33 ++-
- 11 files changed, 381 insertions(+), 38 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+index 2c7870aef469..91c80973aa83 100644
+--- a/drivers/gpu/drm/drm_dp_helper.c
++++ b/drivers/gpu/drm/drm_dp_helper.c
+@@ -1371,3 +1371,96 @@ int drm_dp_dsc_sink_supported_input_bpcs(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_S
+ 	return num_bpc;
+ }
+ EXPORT_SYMBOL(drm_dp_dsc_sink_supported_input_bpcs);
++
++/**
++ * drm_dp_get_phy_test_pattern() - get the requested pattern from the sink.
++ * @aux: DisplayPort AUX channel
++ * @data: DP phy compliance test parameters.
++ *
++ * Returns 0 on success or a negative error code on failure.
++ */
++int drm_dp_get_phy_test_pattern(struct drm_dp_aux *aux,
++				struct drm_dp_phy_test_params *data)
++{
++	int err;
++	u8 rate, lanes;
++
++	err = drm_dp_dpcd_readb(aux, DP_TEST_LINK_RATE, &rate);
++	if (err < 0)
++		return err;
++	data->link_rate = drm_dp_bw_code_to_link_rate(rate);
++
++	err = drm_dp_dpcd_readb(aux, DP_TEST_LANE_COUNT, &lanes);
++	if (err < 0)
++		return err;
++	data->num_lanes = lanes & DP_MAX_LANE_COUNT_MASK;
++
++	if (lanes & DP_ENHANCED_FRAME_CAP)
++		data->enahanced_frame_cap = true;
++
++	err = drm_dp_dpcd_readb(aux, DP_PHY_TEST_PATTERN, &data->phy_pattern);
++	if (err < 0)
++		return err;
++
++	switch (data->phy_pattern) {
++	case DP_PHY_TEST_PATTERN_80BIT_CUSTOM:
++		err = drm_dp_dpcd_read(aux, DP_TEST_80BIT_CUSTOM_PATTERN_7_0,
++				       &data->custom80, 10);
++		if (err < 0)
++			return err;
++
++		break;
++	case DP_PHY_TEST_PATTERN_CP2520:
++		err = drm_dp_dpcd_read(aux, DP_TEST_HBR2_SCRAMBLER_RESET,
++				       &data->hbr2_reset, 2);
++		if (err < 0)
++			return err;
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_dp_get_phy_test_pattern);
++
++/**
++ * drm_dp_set_phy_test_pattern() - set the pattern to the sink.
++ * @aux: DisplayPort AUX channel
++ * @data: DP phy compliance test parameters.
++ *
++ * Returns 0 on success or a negative error code on failure.
++ */
++int drm_dp_set_phy_test_pattern(struct drm_dp_aux *aux,
++				struct drm_dp_phy_test_params *data, u8 dp_rev)
++{
++	int err, i;
++	u8 link_config[2];
++	u8 test_pattern;
++
++	link_config[0] = drm_dp_link_rate_to_bw_code(data->link_rate);
++	link_config[1] = data->num_lanes;
++	if (data->enahanced_frame_cap)
++		link_config[1] |= DP_LANE_COUNT_ENHANCED_FRAME_EN;
++	err = drm_dp_dpcd_write(aux, DP_LINK_BW_SET, link_config, 2);
++	if (err < 0)
++		return err;
++
++	test_pattern = data->phy_pattern;
++	if (dp_rev < 0x12) {
++		test_pattern = (test_pattern << 2) &
++			       DP_LINK_QUAL_PATTERN_11_MASK;
++		err = drm_dp_dpcd_writeb(aux, DP_TRAINING_PATTERN_SET,
++					 test_pattern);
++		if (err < 0)
++			return err;
++	} else {
++		for (i = 0; i < data->num_lanes; i++) {
++			err = drm_dp_dpcd_writeb(aux,
++						 DP_LINK_QUAL_LANE0_SET + i,
++						 test_pattern);
++			if (err < 0)
++				return err;
++		}
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_dp_set_phy_test_pattern);
+diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
+index 8f8f3632e697..42a364748308 100644
+--- a/include/drm/drm_dp_helper.h
++++ b/include/drm/drm_dp_helper.h
+@@ -699,7 +699,16 @@
+ # define DP_TEST_CRC_SUPPORTED		    (1 << 5)
+ # define DP_TEST_COUNT_MASK		    0xf
+ 
+-#define DP_TEST_PHY_PATTERN                 0x248
++#define DP_PHY_TEST_PATTERN                 0x248
++# define DP_PHY_TEST_PATTERN_SEL_MASK       0x7
++# define DP_PHY_TEST_PATTERN_NONE           0x0
++# define DP_PHY_TEST_PATTERN_D10_2          0x1
++# define DP_PHY_TEST_PATTERN_ERROR_COUNT    0x2
++# define DP_PHY_TEST_PATTERN_PRBS7          0x3
++# define DP_PHY_TEST_PATTERN_80BIT_CUSTOM   0x4
++# define DP_PHY_TEST_PATTERN_CP2520         0x5
++
++#define DP_TEST_HBR2_SCRAMBLER_RESET        0x24A
+ #define DP_TEST_80BIT_CUSTOM_PATTERN_7_0    0x250
+ #define	DP_TEST_80BIT_CUSTOM_PATTERN_15_8   0x251
+ #define	DP_TEST_80BIT_CUSTOM_PATTERN_23_16  0x252
+@@ -1570,4 +1579,26 @@ static inline void drm_dp_cec_unset_edid(struct drm_dp_aux *aux)
+ 
+ #endif
+ 
++/**
++ * struct drm_dp_phy_test_params - DP Phy Compliance parameters
++ * @link: Link information.
++ * @phy_pattern: DP Phy test pattern from DPCD 0x248 (sink)
++ * @hb2_reset: DP HBR2_COMPLIANCE_SCRAMBLER_RESET from DCPD
++ *            0x24A and 0x24B (sink)
++ * @custom80: DP Test_80BIT_CUSTOM_PATTERN from DPCDs 0x250
++ *               through 0x259.
++ */
++struct drm_dp_phy_test_params {
++	int link_rate;
++	u8 num_lanes;
++	u8 phy_pattern;
++	u8 hbr2_reset[2];
++	u8 custom80[10];
++	bool enahanced_frame_cap;
++};
++
++int drm_dp_get_phy_test_pattern(struct drm_dp_aux *aux,
++				struct drm_dp_phy_test_params *data);
++int drm_dp_set_phy_test_pattern(struct drm_dp_aux *aux,
++				struct drm_dp_phy_test_params *data, u8 dp_rev);
+ #endif /* _DRM_DP_HELPER_H_ */
 -- 
 2.24.0
 
