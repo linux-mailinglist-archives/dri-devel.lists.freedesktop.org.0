@@ -2,40 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 124B7124A5F
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 15:53:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9B53124B86
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2019 16:24:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83C0B6E4F9;
-	Wed, 18 Dec 2019 14:53:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1BC36E4E8;
+	Wed, 18 Dec 2019 15:24:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61D706E4BA;
- Wed, 18 Dec 2019 14:53:09 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D6CB6E2DE;
+ Wed, 18 Dec 2019 15:24:15 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 18 Dec 2019 06:53:08 -0800
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 18 Dec 2019 07:24:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,329,1571727600"; d="scan'208";a="222026579"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga001.fm.intel.com with SMTP; 18 Dec 2019 06:53:05 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 18 Dec 2019 16:53:05 +0200
-Date: Wed, 18 Dec 2019 16:53:05 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 1/5] drm: Add
- __drm_atomic_helper_crtc_state_reset() & co.
-Message-ID: <20191218145305.GJ1208@intel.com>
-References: <20191107142417.11107-1-ville.syrjala@linux.intel.com>
- <20191213233853.eefala2yj2sibvx2@ldmartin-desk1>
+X-IronPort-AV: E=Sophos;i="5.69,330,1571727600"; d="scan'208";a="205872951"
+Received: from unknown (HELO amanna.iind.intel.com) ([10.223.74.53])
+ by orsmga007.jf.intel.com with ESMTP; 18 Dec 2019 07:24:11 -0800
+From: Animesh Manna <animesh.manna@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 0/9] DP Phy compliance auto test
+Date: Wed, 18 Dec 2019 20:43:41 +0530
+Message-Id: <20191218151350.19579-1-animesh.manna@intel.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191213233853.eefala2yj2sibvx2@ldmartin-desk1>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,151 +41,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: jani.nikula@intel.com, nidhi1.gupta@intel.com,
+ Animesh Manna <animesh.manna@intel.com>, manasi.d.navare@intel.com,
+ uma.shankar@intel.com, anshuman.gupta@intel.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 13, 2019 at 03:38:53PM -0800, Lucas De Marchi wrote:
-> On Thu, Nov 07, 2019 at 04:24:13PM +0200, Ville Syrj=E4l=E4 wrote:
-> >From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> >
-> >Annoyingly __drm_atomic_helper_crtc_reset() does two
-> >totally separate things:
-> >a) reset the state to defaults values
-> >b) assign the crtc->state pointer
-> >
-> >I just want a) without the b) so let's split out part
-> >a) into __drm_atomic_helper_crtc_state_reset(). And
-> >of course we'll do the same thing for planes and connectors.
-> >
-> >Signed-off-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> >---
-> > drivers/gpu/drm/drm_atomic_state_helper.c | 70 ++++++++++++++++++++---
-> > include/drm/drm_atomic_state_helper.h     |  6 ++
-> > 2 files changed, 67 insertions(+), 9 deletions(-)
-> >
-> >diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm=
-/drm_atomic_state_helper.c
-> >index d0a937fb0c56..a972068d58cf 100644
-> >--- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> >+++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> >@@ -57,6 +57,22 @@
-> >  * for these functions.
-> >  */
-> >
-> >+/**
-> >+ * __drm_atomic_helper_crtc_state_reset - reset the CRTC state
-> >+ * @crtc_state: atomic CRTC state, must not be NULL
-> >+ * @crtc: CRTC object, must not be NULL
-> >+ *
-> >+ * Initializes the newly allocated @crtc_state with default
-> >+ * values. This is useful for drivers that subclass the CRTC state.
-> >+ */
-> >+void
-> >+__drm_atomic_helper_crtc_state_reset(struct drm_crtc_state *crtc_state,
-> >+				     struct drm_crtc *crtc)
-> >+{
-> >+	crtc_state->crtc =3D crtc;
-> >+}
-> >+EXPORT_SYMBOL(__drm_atomic_helper_crtc_state_reset);
-> >+
-> > /**
-> >  * __drm_atomic_helper_crtc_reset - reset state on CRTC
-> >  * @crtc: drm CRTC
-> >@@ -74,7 +90,7 @@ __drm_atomic_helper_crtc_reset(struct drm_crtc *crtc,
-> > 			       struct drm_crtc_state *crtc_state)
-> > {
-> > 	if (crtc_state)
-> >-		crtc_state->crtc =3D crtc;
-> >+		__drm_atomic_helper_crtc_state_reset(crtc_state, crtc);
-> >
-> > 	crtc->state =3D crtc_state;
-> > }
-> >@@ -212,23 +228,43 @@ void drm_atomic_helper_crtc_destroy_state(struct d=
-rm_crtc *crtc,
-> > EXPORT_SYMBOL(drm_atomic_helper_crtc_destroy_state);
-> >
-> > /**
-> >- * __drm_atomic_helper_plane_reset - resets planes state to default val=
-ues
-> >+ * __drm_atomic_helper_plane_state_reset - resets plane state to defaul=
-t values
-> >+ * @plane_state: atomic plane state, must not be NULL
-> >  * @plane: plane object, must not be NULL
-> >- * @state: atomic plane state, must not be NULL
-> >  *
-> >- * Initializes plane state to default. This is useful for drivers that =
-subclass
-> >- * the plane state.
-> >+ * Initializes the newly allocated @plane_state with default
-> >+ * values. This is useful for drivers that subclass the CRTC state.
-> >  */
-> >-void __drm_atomic_helper_plane_reset(struct drm_plane *plane,
-> >-				     struct drm_plane_state *state)
-> >+void __drm_atomic_helper_plane_state_reset(struct drm_plane_state *stat=
-e,
-> >+					   struct drm_plane *plane)
-> > {
-> > 	state->plane =3D plane;
-> > 	state->rotation =3D DRM_MODE_ROTATE_0;
-> >
-> > 	state->alpha =3D DRM_BLEND_ALPHA_OPAQUE;
-> > 	state->pixel_blend_mode =3D DRM_MODE_BLEND_PREMULTI;
-> >+}
-> >+EXPORT_SYMBOL(__drm_atomic_helper_plane_state_reset);
-> >
-> >-	plane->state =3D state;
-> >+/**
-> >+ * __drm_atomic_helper_plane_reset - reset state on plane
-> >+ * @plane: drm plane
-> >+ * @plane_state: plane state to assign
-> >+ *
-> >+ * Initializes the newly allocated @plane_state and assigns it to
-> >+ * the &drm_crtc->state pointer of @plane, usually required when
-> >+ * initializing the drivers or when called from the &drm_plane_funcs.re=
-set
-> >+ * hook.
-> >+ *
-> >+ * This is useful for drivers that subclass the plane state.
-> >+ */
-> >+void __drm_atomic_helper_plane_reset(struct drm_plane *plane,
-> >+				     struct drm_plane_state *plane_state)
-> >+{
-> >+	if (plane_state)
-> >+		__drm_atomic_helper_plane_state_reset(plane_state, plane);
-> >+
-> >+	plane->state =3D plane_state;
-> > }
-> > EXPORT_SYMBOL(__drm_atomic_helper_plane_reset);
-> >
-> >@@ -335,6 +371,22 @@ void drm_atomic_helper_plane_destroy_state(struct d=
-rm_plane *plane,
-> > }
-> > EXPORT_SYMBOL(drm_atomic_helper_plane_destroy_state);
-> >
-> >+/**
-> >+ * __drm_atomic_helper_connector_state_reset - reset the connector state
-> >+ * @conn__state: atomic connector state, must not be NULL
-> =
+Driver changes mainly to process the request coming from Test equipment
+as short pulse hpd interrupt to change link-pattern/v-swing/pre-emphasis
+Complete auto test suite takes much lesser time than manual run.
 
-> typo here, otherwise
+Overall design:
+--------------
+Automate test request will come to source device as HDP short pulse
+interrupt from test scope.
+Read DPCD 0x201, Check for bit 1 for automated test request.
+If set continue and read DPCD 0x218.
+Check for bit 3 for phy test pattern, If set continue.
+Get the requested test pattern through DPCD 0x248.
+Compute requested voltage swing level and pre-emphasis level
+from DPCD 0x206 and 0x207
+Set signal level through vswing programming sequence.
+Write DDI_COMP_CTL and DDI_COMP_PATx as per requested pattern.
+Configure the link and write the new test pattern through DPCD.
 
-Thanks for catching that. Made me run a doc build that found a mismatch
-between kerneldoc vs. code for the plane function, so I fixed that up
-while pushing.
+High level patch description.
+-----------------------------
+patch 1: drm level api added to get/set test pattern as per vesa
+DP spec. This maybe useful for other driver so added in drm layer.
+patch 2: Fix for a compilation issue.
+patch 3: vswing/preemphasis adjustment calculation is needed during
+phy compliance request processing along with existing link training
+process, so moved the same function in intel_dp.c.
+patch 4: Parse the test scope request regarding  rquested test pattern,
+vswing level, preemphasis level.
+patch 5: Notify testapp through uevent.
+patch 6: Added debugfs entry for phy compliance.
+patch 7: Register difnition of DP compliance register added.
+patch 8: Function added to update the pattern in source side.
+patch 9: This patch os mainly processing the request.
 
-Entire series pushed to dinq with Daniel's ack for the first patch.
-Though in hindsight I could have just pushed that one to drm-misc eons
-ago. Oh well.
+Currently through prototyping patch able to run DP compliance where
+vswing, preemphasis and test pattern is changing fine but complete
+test is under process. As per feedback redesigned the code. Could not test
+due to unavailability of test scope, so sending as RFC again to get design
+feedback.
 
-Thanks for the reviews.
+v1: Redesigned the code as per review feedback from Manasi on RFC.
+v2: Addressed review comments from Manasi.
 
--- =
+Animesh Manna (9):
+  drm/dp: get/set phy compliance pattern
+  drm/amd/display: Fix compilation issue.
+  drm/i915/dp: Move vswing/pre-emphasis adjustment calculation
+  drm/i915/dp: Preparation for DP phy compliance auto test
+  drm/i915/dsb: Send uevent to testapp.
+  drm/i915/dp: Add debugfs entry for DP phy compliance.
+  drm/i915/dp: Register definition for DP compliance register
+  drm/i915/dp: Update the pattern as per request
+  drm/i915/dp: [FIXME] Program vswing, pre-emphasis, test-pattern
 
-Ville Syrj=E4l=E4
-Intel
+ .../gpu/drm/amd/display/dc/core/dc_link_dp.c  |   2 +-
+ drivers/gpu/drm/drm_dp_helper.c               |  93 +++++++++
+ drivers/gpu/drm/i915/display/intel_display.c  |  24 ++-
+ .../drm/i915/display/intel_display_types.h    |   1 +
+ drivers/gpu/drm/i915/display/intel_dp.c       | 195 +++++++++++++++++-
+ drivers/gpu/drm/i915/display/intel_dp.h       |   5 +
+ .../drm/i915/display/intel_dp_link_training.c |  32 ---
+ drivers/gpu/drm/i915/i915_debugfs.c           |  12 +-
+ drivers/gpu/drm/i915/i915_drv.h               |   2 +
+ drivers/gpu/drm/i915/i915_reg.h               |  20 ++
+ include/drm/drm_dp_helper.h                   |  33 ++-
+ 11 files changed, 381 insertions(+), 38 deletions(-)
+
+-- 
+2.24.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
