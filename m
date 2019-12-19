@@ -1,69 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 209101292C5
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2019 09:12:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ADBF1292A9
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2019 09:11:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D6CA6E20A;
-	Mon, 23 Dec 2019 08:10:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3F206E1A7;
+	Mon, 23 Dec 2019 08:10:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
- [64.147.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0412389D44
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 09:20:07 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 1AB3157C;
- Thu, 19 Dec 2019 04:20:06 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 19 Dec 2019 04:20:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=0JK0EuublysGZ
- bEspavE45wCCCf/99Cvmu9cf7JQTGE=; b=YNpPcXxNM+l2iWDjcCqPK8HirVycQ
- CQoFlDDgfUtO7p3Kimf7KBv/HUX8dQoLJVPGL3vmvBcaFGQ37hTcu1MzpIl5NM8K
- qn7Gwn/W78Ul66VrdFzqm6rcXFTOG01RGFkeSltaVurOtjmwfD0fuZGd30H1BXHF
- 8qtIOmtzatUOxGZapLyHY8X3i6dea6Es2dqwX3ukbjPO/c2Dn59ZxYCH80rArVVY
- mLqiK8FkrBwYF8N/Uel1liPUedyHyWa9hUnuV9MTTfnQ2CfwPCyDB+U23QttR4wo
- vbLPXTXE4ZeG7ILcX7YDBd0lreVCbR3FefFIiz8u3q3Dgi2fT/hfsYvgg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=0JK0EuublysGZbEspavE45wCCCf/99Cvmu9cf7JQTGE=; b=uBMPvzOC
- YN5dvSwj9tyEDivEa4lMzuSsx/jrqErvJiqMBoXYybJz0ACuYx51/3mKiK7Q8VRT
- 3kTMZovXKDMyrv5lXrQRj43MLLzAs7o9XU+gRZ2tYS14i1Ar+H6ysJRZyW8fLJx7
- WyWsiLs2J4qjQdT4R9pnmdemddvfo01HDazrsvqaeMGqHB6MLeucH6GAY/SN3MrC
- o8JM3acWB4u858Hhddk47puUNXPNALPQyCRXcsHcZNxg5p9F0Q0B86dvwANB3kc+
- shMxBW5nXWrqjRQK1Zgg4fztfjlQy9GfIyhhFBFPB/vrsTVa+9yS1CnEahFRpbNE
- VOfigGItqXyQAg==
-X-ME-Sender: <xms:xUD7XX-SgdNtCjTKLIwDRCCsDKCaEieWG9kYS-o9hIQYXae16v_Deg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvdduuddgtddvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecukfhppeeltd
- drkeelrdeikedrjeeinecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggv
- rhhnohdrthgvtghhnecuvehluhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:xUD7XRmAsh8lgdF2JvgcdZFUNcNlRhObk22-5-7QDQlNUBfO4QE1lg>
- <xmx:xUD7XeF0-E5-xigjNXnfRK5uNEyDuJM_yBGMNdz_wGlLxHFuL7tr_Q>
- <xmx:xUD7XUtHSlHqHPk5-P1LN_-9vBQttEFsfki7RLoOYo1DJU8jE3iPpg>
- <xmx:xUD7XeWCxEZ3IDxRqNNeA23-vs_lM0N0ChBmdcscVpKHzvGX0fk1Ew>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 2C7528005A;
- Thu, 19 Dec 2019 04:20:05 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Chen-Yu Tsai <wens@csie.org>,
-	Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH 2/2] drm/sun4i: drc: Make sure we enforce the clock rate
-Date: Thu, 19 Dec 2019 10:20:00 +0100
-Message-Id: <20191219092000.949052-2-maxime@cerno.tech>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191219092000.949052-1-maxime@cerno.tech>
-References: <20191219092000.949052-1-maxime@cerno.tech>
+Received: from huawei.com (lhrrgout.huawei.com [185.176.76.210])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 754486EAFA
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 10:03:38 +0000 (UTC)
+Received: from lhreml709-cah.china.huawei.com (unknown [172.18.7.108])
+ by Forcepoint Email with ESMTP id 966C17D17AC8464734A9;
+ Thu, 19 Dec 2019 10:03:34 +0000 (GMT)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ lhreml709-cah.china.huawei.com (10.201.108.32) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Thu, 19 Dec 2019 10:03:33 +0000
+Received: from [127.0.0.1] (10.202.226.46) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Thu, 19 Dec
+ 2019 10:03:33 +0000
+Subject: Re: Warnings in DRM code when removing/unbinding a driver
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <07899bd5-e9a5-cff0-395f-b4fb3f0f7f6c@huawei.com>
+ <f867543cf5d0fc3fdd0534749326411bcfc5e363.camel@collabora.com>
+ <c2e5f5a5-5839-42a9-2140-903e99e166db@huawei.com>
+ <fde72f73-d678-2b77-3950-d465f0afe904@huawei.com>
+ <CAKMK7uFr03euoB6rY8z9zmRyznP41vwfdaKApZ_0HfYZT4Hq_w@mail.gmail.com>
+From: John Garry <john.garry@huawei.com>
+Message-ID: <fcca5732-c7dc-6e1d-dcbe-bfd914a4295b@huawei.com>
+Date: Thu, 19 Dec 2019 10:03:33 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.2
 MIME-Version: 1.0
+In-Reply-To: <CAKMK7uFr03euoB6rY8z9zmRyznP41vwfdaKApZ_0HfYZT4Hq_w@mail.gmail.com>
+Content-Language: en-US
+X-Originating-IP: [10.202.226.46]
+X-ClientProxiedBy: lhreml712-chm.china.huawei.com (10.201.108.63) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Mon, 23 Dec 2019 08:10:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,50 +54,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="us-ascii"
+Cc: dbueso@suse.de, "airlied@linux.ie" <airlied@linux.ie>,
+ "Chenfeng \(puck\)" <puck.chen@hisilicon.com>, Linuxarm <linuxarm@huawei.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "kongxinwei \(A\)" <kong.kongxinwei@hisilicon.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Ezequiel Garcia <ezequiel@collabora.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DRC needs to run at 300MHz to be functional. This was done so far
-using assigned-clocks in the device tree, but that is easy to forget, and
-dosen't provide any other guarantee than the rate is going to be roughly
-the one requested at probe time.
+On 19/12/2019 09:54, Daniel Vetter wrote:
+> On Wed, Dec 18, 2019 at 7:08 PM John Garry <john.garry@huawei.com> wrote:
+>>
+>> +
+>>
+>> So the v5.4 kernel does not have this issue.
+>>
+>> I have bisected the initial occurrence to:
+>>
+>> commit 37a48adfba6cf6e87df9ba8b75ab85d514ed86d8
+>> Author: Thomas Zimmermann <tzimmermann@suse.de>
+>> Date:   Fri Sep 6 14:20:53 2019 +0200
+>>
+>>       drm/vram: Add kmap ref-counting to GEM VRAM objects
+>>
+>>       The kmap and kunmap operations of GEM VRAM buffers can now be called
+>>       in interleaving pairs. The first call to drm_gem_vram_kmap() maps the
+>>       buffer's memory to kernel address space and the final call to
+>>       drm_gem_vram_kunmap() unmaps the memory. Intermediate calls to these
+>>       functions increment or decrement a reference counter.
+>>
+>> So this either exposes or creates the issue.
+> 
+> Yeah that's just shooting the messenger.
 
-Therefore it's pretty fragile, so let's just use the exclusive clock API to
-enforce it.
+OK, so it exposes it.
 
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/sun4i/sun6i_drc.c | 2 ++
- 1 file changed, 2 insertions(+)
+  Like I said, for most drivers
+> you can pretty much assume that their unload sequence has been broken
+> since forever. It's not often tested, and especially the hotunbind
+> from a device (as opposed to driver unload) stuff wasn't even possible
+> to get right until just recently.
 
-diff --git a/drivers/gpu/drm/sun4i/sun6i_drc.c b/drivers/gpu/drm/sun4i/sun6i_drc.c
-index f7ab72244796..ddb52da90103 100644
---- a/drivers/gpu/drm/sun4i/sun6i_drc.c
-+++ b/drivers/gpu/drm/sun4i/sun6i_drc.c
-@@ -57,6 +57,7 @@ static int sun6i_drc_bind(struct device *dev, struct device *master,
- 		goto err_disable_bus_clk;
- 	}
- 	clk_prepare_enable(drc->mod_clk);
-+	clk_set_rate_exclusive(drc->mod_clk, 300000000);
- 
- 	return 0;
- 
-@@ -72,6 +73,7 @@ static void sun6i_drc_unbind(struct device *dev, struct device *master,
- {
- 	struct sun6i_drc *drc = dev_get_drvdata(dev);
- 
-+	clk_rate_exclusive_put(drc->mod_clk);
- 	clk_disable_unprepare(drc->mod_clk);
- 	clk_disable_unprepare(drc->bus_clk);
- 	reset_control_assert(drc->reset);
--- 
-2.23.0
+Do you think it's worth trying to fix this for 5.5 and earlier, or just 
+switch to the device-managed interface for 5.6 and forget about 5.5 and 
+earlier?
 
+Thanks,
+John
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
