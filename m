@@ -1,66 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D82B4126DE6
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 20:23:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64D0B126DEB
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 20:25:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A03DB6E3C1;
-	Thu, 19 Dec 2019 19:23:25 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-Received: from mail25.static.mailgun.info (mail25.static.mailgun.info
- [104.130.122.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F9BC6E3C1
- for <dri-devel@freedesktop.org>; Thu, 19 Dec 2019 19:23:23 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1576783404; h=In-Reply-To: Content-Type: MIME-Version:
- References: Message-ID: Subject: Cc: To: From: Date: Sender;
- bh=QTWlYrQbxcO9fYiza5POtDwRYp37YaPpFMXhRPSU1wo=;
- b=EtRKLIZZNHWwQiZZAp/ti3uUXDabYh5aMC0wigPm65mj+Vy7fn0rbXILRBnRlxdI5RYvkcBK
- ESqcIr4+1zwohqyvgVzm7ow6SxQmJWwqjLGg+YC2ntrHtgxrdHv90IfU7aR9cMjmbvXpojBH
- Rjf/qMW81blV3le6MhgnJ6F+XS0=
-X-Mailgun-Sending-Ip: 104.130.122.25
-X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5dfbce28.7f342550ed88-smtp-out-n02;
- Thu, 19 Dec 2019 19:23:20 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id D7A47C433A2; Thu, 19 Dec 2019 19:23:20 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id F3C49C43383;
- Thu, 19 Dec 2019 19:23:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org F3C49C43383
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=jcrouse@codeaurora.org
-Date: Thu, 19 Dec 2019 12:23:16 -0700
-From: Jordan Crouse <jcrouse@codeaurora.org>
-To: Sharat Masetty <smasetty@codeaurora.org>
-Subject: Re: [PATCH 4/5] drm/msm: Pass mmu features to generic layers
-Message-ID: <20191219192314.GA25355@jcrouse1-lnx.qualcomm.com>
-Mail-Followup-To: Sharat Masetty <smasetty@codeaurora.org>,
- freedreno@lists.freedesktop.org, dri-devel@freedesktop.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- will@kernel.org, robin.murphy@arm.com, joro@8bytes.org,
- iommu@lists.linux-foundation.org, saiprakash.ranjan@codeaurora.org
-References: <1576761286-20451-1-git-send-email-smasetty@codeaurora.org>
- <1576761286-20451-5-git-send-email-smasetty@codeaurora.org>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5524C6E3CB;
+	Thu, 19 Dec 2019 19:25:48 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B359E6E3CB
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 19:25:46 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8FF64FDF;
+ Thu, 19 Dec 2019 20:25:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1576783544;
+ bh=f2XaZ7DmifiWGXP5rLpw6uIZtODCd5IqeK6xNp8OEyo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=RVBtFiVpcNpO+pUrJBIZxBl2gm/ve0uLpHcehc//MmQbv/JCi1Bbj5FBalXaAUcbv
+ ASsBLqd7o60O9gEetGUV6yRAwOGyJHNULLNjvrYQtKUjSX9qlfr66xBtf+CHPhz2Mc
+ 2+N8zvlVHE85G0RIrqCYBq7jQ4pKy4rLGO4+paOU=
+Date: Thu, 19 Dec 2019 21:25:32 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH v4 34/51] drm/omap: venc: Register a drm_bridge
+Message-ID: <20191219192532.GH4885@pendragon.ideasonboard.com>
+References: <20191219104522.9379-1-laurent.pinchart@ideasonboard.com>
+ <20191219104522.9379-35-laurent.pinchart@ideasonboard.com>
+ <c7372ffc-d6f6-8696-6eab-9cfe16d75005@ti.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1576761286-20451-5-git-send-email-smasetty@codeaurora.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <c7372ffc-d6f6-8696-6eab-9cfe16d75005@ti.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,230 +48,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, saiprakash.ranjan@codeaurora.org,
- will@kernel.org, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, dri-devel@freedesktop.org,
- robin.murphy@arm.com
+Cc: Sam Ravnborg <sam@ravnborg.org>, Sean Paul <sean@poorly.run>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ dri-devel@lists.freedesktop.org, Boris Brezillon <bbrezillon@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 19, 2019 at 06:44:45PM +0530, Sharat Masetty wrote:
-> Allow different Adreno targets the ability to pass
-> specific mmu features to the generic layers. This will
-> help conditionally configure certain iommu features for
-> certain Adreno targets.
+Hi Tomi,
+
+On Thu, Dec 19, 2019 at 01:41:47PM +0200, Tomi Valkeinen wrote:
+> On 19/12/2019 12:45, Laurent Pinchart wrote:
+> > In order to integrate with a chain of drm_bridge, the internal VENC
+> > encoder has to expose the mode valid, fixup and set, the enable and
+> > disable and the get modes operations through the drm_bridge API.
+> > Register a bridge at initialisation time to do so.
+> > 
+> > Most of those operations are removed from the omap_dss_device as they
+> > are now called through the drm_bridge API by the DRM atomic helpers. The
+> > only exception is the .get_modes() operation that is still invoked
+> > through the omap_dss_device-based pipeline.
+> > 
+> > For the time being make the next bridge in the chain optional as the
+> > VENC output is still based on omap_dss_device. The create_connector
+> > argument to the bridge attach function is also ignored for the same
+> > reason. This will be changed later when removing the related
+> > omapdrm-specific display drivers.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> > ---
 > 
-> Also Add a few simple support functions to support a bitmask of
-> features that a specific MMU implementation supports.
-
-This whole change could benefit from [1] which makes the address space
-creation target specific.
-
-That would get rid of most of the blobs. Further more, if you took part of [2]
-that set up the mmu inside of the target specific code (skipping over the
-SPLIT_PAGETABLE stuff for now) you could set mmu->features directly and not need
-a helper function to do it.
-
-[1] https://patchwork.freedesktop.org/patch/342170/
-[2] https://patchwork.freedesktop.org/patch/342173/
-
-Jordan
-
-> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
-> ---
->  drivers/gpu/drm/msm/adreno/a2xx_gpu.c   |  2 +-
->  drivers/gpu/drm/msm/adreno/a3xx_gpu.c   |  2 +-
->  drivers/gpu/drm/msm/adreno/a4xx_gpu.c   |  2 +-
->  drivers/gpu/drm/msm/adreno/a5xx_gpu.c   |  2 +-
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c   |  2 +-
->  drivers/gpu/drm/msm/adreno/adreno_gpu.c |  4 +++-
->  drivers/gpu/drm/msm/adreno/adreno_gpu.h |  2 +-
->  drivers/gpu/drm/msm/msm_gpu.c           |  6 ++++--
->  drivers/gpu/drm/msm/msm_gpu.h           |  1 +
->  drivers/gpu/drm/msm/msm_mmu.h           | 11 +++++++++++
->  10 files changed, 25 insertions(+), 9 deletions(-)
+> Something with venc is different than without your series.
 > 
-> diff --git a/drivers/gpu/drm/msm/adreno/a2xx_gpu.c b/drivers/gpu/drm/msm/adreno/a2xx_gpu.c
-> index 1f83bc1..bbac43c 100644
-> --- a/drivers/gpu/drm/msm/adreno/a2xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a2xx_gpu.c
-> @@ -472,7 +472,7 @@ struct msm_gpu *a2xx_gpu_init(struct drm_device *dev)
->  
->  	adreno_gpu->reg_offsets = a2xx_register_offsets;
->  
-> -	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 1);
-> +	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 1, 0);
->  	if (ret)
->  		goto fail;
->  
-> diff --git a/drivers/gpu/drm/msm/adreno/a3xx_gpu.c b/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
-> index 5f7e980..63448fb 100644
-> --- a/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
-> @@ -488,7 +488,7 @@ struct msm_gpu *a3xx_gpu_init(struct drm_device *dev)
->  	adreno_gpu->registers = a3xx_registers;
->  	adreno_gpu->reg_offsets = a3xx_register_offsets;
->  
-> -	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 1);
-> +	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 1, 0);
->  	if (ret)
->  		goto fail;
->  
-> diff --git a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
-> index ab2b752..90ae26d 100644
-> --- a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
-> @@ -572,7 +572,7 @@ struct msm_gpu *a4xx_gpu_init(struct drm_device *dev)
->  	adreno_gpu->registers = a4xx_registers;
->  	adreno_gpu->reg_offsets = a4xx_register_offsets;
->  
-> -	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 1);
-> +	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 1, 0);
->  	if (ret)
->  		goto fail;
->  
-> diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-> index 99cd6e6..a51ed2e 100644
-> --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-> @@ -1445,7 +1445,7 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
->  
->  	check_speed_bin(&pdev->dev);
->  
-> -	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 4);
-> +	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 4, 0);
->  	if (ret) {
->  		a5xx_destroy(&(a5xx_gpu->base.base));
->  		return ERR_PTR(ret);
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> index daf0780..faff6ff 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -924,7 +924,7 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
->  	adreno_gpu->registers = NULL;
->  	adreno_gpu->reg_offsets = a6xx_register_offsets;
->  
-> -	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 1);
-> +	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 1, 0);
->  	if (ret) {
->  		a6xx_destroy(&(a6xx_gpu->base.base));
->  		return ERR_PTR(ret);
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> index 048c8be..7dade16 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> @@ -895,7 +895,8 @@ static int adreno_get_pwrlevels(struct device *dev,
->  
->  int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
->  		struct adreno_gpu *adreno_gpu,
-> -		const struct adreno_gpu_funcs *funcs, int nr_rings)
-> +		const struct adreno_gpu_funcs *funcs, int nr_rings,
-> +		u32 mmu_features)
->  {
->  	struct adreno_platform_config *config = pdev->dev.platform_data;
->  	struct msm_gpu_config adreno_gpu_config  = { 0 };
-> @@ -916,6 +917,7 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
->  		adreno_gpu_config.va_end = SZ_16M + 0xfff * SZ_64K;
->  
->  	adreno_gpu_config.nr_rings = nr_rings;
-> +	adreno_gpu_config.mmu_features = mmu_features;
->  
->  	adreno_get_pwrlevels(&pdev->dev, gpu);
->  
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> index e12d5a9..27716f6 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> @@ -248,7 +248,7 @@ void adreno_show(struct msm_gpu *gpu, struct msm_gpu_state *state,
->  
->  int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
->  		struct adreno_gpu *gpu, const struct adreno_gpu_funcs *funcs,
-> -		int nr_rings);
-> +		int nr_rings, u32 mmu_features);
->  void adreno_gpu_cleanup(struct adreno_gpu *gpu);
->  int adreno_load_fw(struct adreno_gpu *adreno_gpu);
->  
-> diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-> index a052364..8bba01e 100644
-> --- a/drivers/gpu/drm/msm/msm_gpu.c
-> +++ b/drivers/gpu/drm/msm/msm_gpu.c
-> @@ -804,7 +804,7 @@ static int get_clocks(struct platform_device *pdev, struct msm_gpu *gpu)
->  
->  static struct msm_gem_address_space *
->  msm_gpu_create_address_space(struct msm_gpu *gpu, struct platform_device *pdev,
-> -		uint64_t va_start, uint64_t va_end)
-> +		uint64_t va_start, uint64_t va_end, u32 mmu_features)
->  {
->  	struct msm_gem_address_space *aspace;
->  	int ret;
-> @@ -838,6 +838,8 @@ static int get_clocks(struct platform_device *pdev, struct msm_gpu *gpu)
->  		return ERR_CAST(aspace);
->  	}
->  
-> +	msm_mmu_set_feature(aspace->mmu, mmu_features);
-> +
->  	ret = aspace->mmu->funcs->attach(aspace->mmu, NULL, 0);
->  	if (ret) {
->  		msm_gem_address_space_put(aspace);
-> @@ -920,7 +922,7 @@ int msm_gpu_init(struct drm_device *drm, struct platform_device *pdev,
->  	msm_devfreq_init(gpu);
->  
->  	gpu->aspace = msm_gpu_create_address_space(gpu, pdev,
-> -		config->va_start, config->va_end);
-> +		config->va_start, config->va_end, config->mmu_features);
-
-
->  
->  	if (gpu->aspace == NULL)
->  		DRM_DEV_INFO(drm->dev, "%s: no IOMMU, fallback to VRAM carveout!\n", name);
-> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-> index a58ef16..fcdbab6 100644
-> --- a/drivers/gpu/drm/msm/msm_gpu.h
-> +++ b/drivers/gpu/drm/msm/msm_gpu.h
-> @@ -24,6 +24,7 @@ struct msm_gpu_config {
->  	uint64_t va_start;
->  	uint64_t va_end;
->  	unsigned int nr_rings;
-> +	u32 mmu_features;
->  };
->  
->  /* So far, with hardware that I've seen to date, we can have:
-> diff --git a/drivers/gpu/drm/msm/msm_mmu.h b/drivers/gpu/drm/msm/msm_mmu.h
-> index 871d563..1e4ac36d 100644
-> --- a/drivers/gpu/drm/msm/msm_mmu.h
-> +++ b/drivers/gpu/drm/msm/msm_mmu.h
-> @@ -23,6 +23,7 @@ struct msm_mmu {
->  	struct device *dev;
->  	int (*handler)(void *arg, unsigned long iova, int flags);
->  	void *arg;
-> +	u32 features;
->  };
->  
->  static inline void msm_mmu_init(struct msm_mmu *mmu, struct device *dev,
-> @@ -45,4 +46,14 @@ static inline void msm_mmu_set_fault_handler(struct msm_mmu *mmu, void *arg,
->  void msm_gpummu_params(struct msm_mmu *mmu, dma_addr_t *pt_base,
->  		dma_addr_t *tran_error);
->  
-> +static inline void msm_mmu_set_feature(struct msm_mmu *mmu, u32 feature)
-> +{
-> +	mmu->features |= feature;
-> +}
-> +
-> +static inline bool msm_mmu_has_feature(struct msm_mmu *mmu, u32 feature)
-> +{
-> +	return (mmu->features & feature) ? true : false;
-> +}
-> +
->  #endif /* __MSM_MMU_H__ */
-> -- 
-> 1.9.1
+> I have beagleboard xm, with both DVI and s-video connected. With and without your series, kmsprint shows:
 > 
+> Connector 0 (45) DVI-D-1 (connected)
+>   Encoder 0 (44) TMDS
+>     Crtc 0 (47) 1920x1200 154.000 1920/48/32/80 1200/3/6/26 60 (59.95)
+>       Plane 0 (32) fb-id: 51 (crtcs: 0 1) 0,0 1920x1200 -> 0,0 1920x1200 (RX12 AR12 RG16 XR24 RG24 AR24 RA24 RX24)
+>         FB 51 1920x1200
+> Connector 1 (48) S-Video-1 (unknown)
+>   Encoder 1 (46) TMDS
+> 
+> Without your series:
+> 
+> # ./kmstest -c s-video
+> Connector 1/@48: S-Video-1
+>   Crtc 1/@49: 720x574i@50.00 13.500 720/12/64/68/- 574/5/5/41/- 50 (50.00) 0x1a 0x48
+>   Plane 0/@32: 0,0-720x574
+>     Fb 53 720x574-XR24
+> press enter to exit
+> 
+> and I have a picture on the display.
+> 
+> With your series:
+> 
+> # ./kmstest -c s-video
+> terminate called after throwing an instance of 'std::invalid_argument'
+>   what():  no modes available
+
+:-S Do you plan to bisect this, or should I give it a go ?
+
+> To be honest, I'm not quite sure how an unknown-connection output
+> should work (maybe kmstest doesn't handle it right), but the behavior
+> is different.
 
 -- 
-The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
