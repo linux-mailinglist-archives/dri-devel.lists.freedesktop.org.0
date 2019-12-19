@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14EC5125FBC
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 11:46:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6A87125FBF
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 11:47:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D376A6EB2D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4C5A6EB2B;
 	Thu, 19 Dec 2019 10:46:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20CC96EB11
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 10:46:15 +0000 (UTC)
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D1996EB11
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 10:46:16 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 93BFF1817;
- Thu, 19 Dec 2019 11:46:12 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 25EA71847;
+ Thu, 19 Dec 2019 11:46:13 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1576752372;
- bh=idsSFeevrx6ema++z30n773keqgemqouO6gTJQOrC4w=;
+ s=mail; t=1576752373;
+ bh=1xJ2A/SX3GXMgBPIGfK/uvgqiPa4qkC8lGCKhikZZTM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SnSx0gH+1HavUZv/0EAQWHrt6Bq8mm6x1nctaiD1zAKXGEm0laCowwu//b8vqPkRC
- 1YHpo2bJ9ojsbsSV0ar0GUTQ9xPtJOHcj/4ZZ0vZlu3UeNOvb/S4U1yyeBS4jCQTTl
- 0AeGYP/hZ/E/z2TRhvfG0B3SJAGGBXr1FLRiKCMk=
+ b=XBhkjcgvDg5MGO9nsIHHleB3AWjzyOESHZAIURNeR3uR1Zmm9/TfTUwZs4z2oWAub
+ yE8AwUYxFCXysCmZStcGnEZLvINEVtaS9D0e4ZSkNZFx/WFdiZaEWeUa2C1zq/PRlH
+ 13TYhsr96aCQlAeHj/g87MvK/NDEABKapkbLaEHo=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 42/51] drm/omap: dpi: Sort includes alphabetically
-Date: Thu, 19 Dec 2019 12:45:13 +0200
-Message-Id: <20191219104522.9379-43-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v4 43/51] drm/omap: dpi: Reorder functions in sections
+Date: Thu, 19 Dec 2019 12:45:14 +0200
+Message-Id: <20191219104522.9379-44-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20191219104522.9379-1-laurent.pinchart@ideasonboard.com>
 References: <20191219104522.9379-1-laurent.pinchart@ideasonboard.com>
@@ -54,44 +54,218 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This makes it easier to quickly locate duplicate includes.
+Group functions based on their purpose and split them in sections to
+make the source code easier to navigate.
+
+No functional change is included.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 ---
- drivers/gpu/drm/omapdrm/dss/dpi.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/omapdrm/dss/dpi.c | 146 ++++++++++++++++--------------
+ 1 file changed, 79 insertions(+), 67 deletions(-)
 
 diff --git a/drivers/gpu/drm/omapdrm/dss/dpi.c b/drivers/gpu/drm/omapdrm/dss/dpi.c
-index 2d0eb5fcbb5b..f8354271ce6f 100644
+index f8354271ce6f..dccf81e4ce64 100644
 --- a/drivers/gpu/drm/omapdrm/dss/dpi.c
 +++ b/drivers/gpu/drm/omapdrm/dss/dpi.c
-@@ -9,20 +9,20 @@
+@@ -48,6 +48,10 @@ static struct dpi_data *dpi_get_data_from_dssdev(struct omap_dss_device *dssdev)
+ 	return container_of(dssdev, struct dpi_data, output);
+ }
  
- #define DSS_SUBSYS_NAME "DPI"
++/* -----------------------------------------------------------------------------
++ * Clock Handling and PLL
++ */
++
+ static enum dss_clk_source dpi_get_clk_src_dra7xx(struct dpi_data *dpi,
+ 						  enum omap_channel channel)
+ {
+@@ -366,6 +370,62 @@ static void dpi_config_lcd_manager(struct dpi_data *dpi)
+ 	dss_mgr_set_lcd_config(&dpi->output, &dpi->mgr_config);
+ }
  
--#include <linux/kernel.h>
-+#include <linux/clk.h>
- #include <linux/delay.h>
--#include <linux/export.h>
- #include <linux/err.h>
- #include <linux/errno.h>
-+#include <linux/export.h>
-+#include <linux/kernel.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/regulator/consumer.h>
- #include <linux/string.h>
--#include <linux/of.h>
--#include <linux/clk.h>
- #include <linux/sys_soc.h>
++static int dpi_verify_pll(struct dss_pll *pll)
++{
++	int r;
++
++	/* do initial setup with the PLL to see if it is operational */
++
++	r = dss_pll_enable(pll);
++	if (r)
++		return r;
++
++	dss_pll_disable(pll);
++
++	return 0;
++}
++
++static void dpi_init_pll(struct dpi_data *dpi)
++{
++	struct dss_pll *pll;
++
++	if (dpi->pll)
++		return;
++
++	dpi->clk_src = dpi_get_clk_src(dpi);
++
++	pll = dss_pll_find_by_src(dpi->dss, dpi->clk_src);
++	if (!pll)
++		return;
++
++	if (dpi_verify_pll(pll)) {
++		DSSWARN("PLL not operational\n");
++		return;
++	}
++
++	dpi->pll = pll;
++}
++
++/* -----------------------------------------------------------------------------
++ * omap_dss_device Operations
++ */
++
++static int dpi_connect(struct omap_dss_device *src,
++		       struct omap_dss_device *dst)
++{
++	struct dpi_data *dpi = dpi_get_data_from_dssdev(dst);
++
++	dpi_init_pll(dpi);
++
++	return omapdss_device_connect(dst->dss, dst, dst->next);
++}
++
++static void dpi_disconnect(struct omap_dss_device *src,
++			   struct omap_dss_device *dst)
++{
++	omapdss_device_disconnect(dst, dst->next);
++}
++
+ static void dpi_display_enable(struct omap_dss_device *dssdev)
+ {
+ 	struct dpi_data *dpi = dpi_get_data_from_dssdev(dssdev);
+@@ -446,20 +506,6 @@ static void dpi_display_disable(struct omap_dss_device *dssdev)
+ 	mutex_unlock(&dpi->lock);
+ }
  
--#include "omapdss.h"
- #include "dss.h"
-+#include "omapdss.h"
+-static void dpi_set_timings(struct omap_dss_device *dssdev,
+-			    const struct drm_display_mode *mode)
+-{
+-	struct dpi_data *dpi = dpi_get_data_from_dssdev(dssdev);
+-
+-	DSSDBG("dpi_set_timings\n");
+-
+-	mutex_lock(&dpi->lock);
+-
+-	dpi->pixelclock = mode->clock * 1000;
+-
+-	mutex_unlock(&dpi->lock);
+-}
+-
+ static int dpi_check_timings(struct omap_dss_device *dssdev,
+ 			     struct drm_display_mode *mode)
+ {
+@@ -500,41 +546,30 @@ static int dpi_check_timings(struct omap_dss_device *dssdev,
+ 	return 0;
+ }
  
- struct dpi_data {
- 	struct platform_device *pdev;
+-static int dpi_verify_pll(struct dss_pll *pll)
++static void dpi_set_timings(struct omap_dss_device *dssdev,
++			    const struct drm_display_mode *mode)
+ {
+-	int r;
++	struct dpi_data *dpi = dpi_get_data_from_dssdev(dssdev);
+ 
+-	/* do initial setup with the PLL to see if it is operational */
++	DSSDBG("dpi_set_timings\n");
+ 
+-	r = dss_pll_enable(pll);
+-	if (r)
+-		return r;
++	mutex_lock(&dpi->lock);
+ 
+-	dss_pll_disable(pll);
++	dpi->pixelclock = mode->clock * 1000;
+ 
+-	return 0;
++	mutex_unlock(&dpi->lock);
+ }
+ 
+-static void dpi_init_pll(struct dpi_data *dpi)
+-{
+-	struct dss_pll *pll;
+-
+-	if (dpi->pll)
+-		return;
+-
+-	dpi->clk_src = dpi_get_clk_src(dpi);
+-
+-	pll = dss_pll_find_by_src(dpi->dss, dpi->clk_src);
+-	if (!pll)
+-		return;
++static const struct omap_dss_device_ops dpi_ops = {
++	.connect = dpi_connect,
++	.disconnect = dpi_disconnect,
+ 
+-	if (dpi_verify_pll(pll)) {
+-		DSSWARN("PLL not operational\n");
+-		return;
+-	}
++	.enable = dpi_display_enable,
++	.disable = dpi_display_disable,
+ 
+-	dpi->pll = pll;
+-}
++	.check_timings = dpi_check_timings,
++	.set_timings = dpi_set_timings,
++};
+ 
+ /*
+  * Return a hardcoded channel for the DPI output. This should work for
+@@ -572,33 +607,6 @@ static enum omap_channel dpi_get_channel(struct dpi_data *dpi)
+ 	}
+ }
+ 
+-static int dpi_connect(struct omap_dss_device *src,
+-		       struct omap_dss_device *dst)
+-{
+-	struct dpi_data *dpi = dpi_get_data_from_dssdev(dst);
+-
+-	dpi_init_pll(dpi);
+-
+-	return omapdss_device_connect(dst->dss, dst, dst->next);
+-}
+-
+-static void dpi_disconnect(struct omap_dss_device *src,
+-			   struct omap_dss_device *dst)
+-{
+-	omapdss_device_disconnect(dst, dst->next);
+-}
+-
+-static const struct omap_dss_device_ops dpi_ops = {
+-	.connect = dpi_connect,
+-	.disconnect = dpi_disconnect,
+-
+-	.enable = dpi_display_enable,
+-	.disable = dpi_display_disable,
+-
+-	.check_timings = dpi_check_timings,
+-	.set_timings = dpi_set_timings,
+-};
+-
+ static int dpi_init_output_port(struct dpi_data *dpi, struct device_node *port)
+ {
+ 	struct omap_dss_device *out = &dpi->output;
+@@ -647,6 +655,10 @@ static void dpi_uninit_output_port(struct device_node *port)
+ 	omapdss_device_cleanup_output(out);
+ }
+ 
++/* -----------------------------------------------------------------------------
++ * Initialisation and Cleanup
++ */
++
+ static const struct soc_device_attribute dpi_soc_devices[] = {
+ 	{ .machine = "OMAP3[456]*" },
+ 	{ .machine = "[AD]M37*" },
 -- 
 Regards,
 
