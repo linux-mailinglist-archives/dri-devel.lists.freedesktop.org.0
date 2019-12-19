@@ -1,98 +1,112 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8EFD12642B
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 15:02:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50F1F126469
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 15:17:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73DB96EB7E;
-	Thu, 19 Dec 2019 14:02:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 542BB6EB82;
+	Thu, 19 Dec 2019 14:17:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B13F6EB7E
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 14:02:47 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBJE2d7x006319;
- Thu, 19 Dec 2019 08:02:39 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1576764159;
- bh=Z/4zy0bcGlzZwPsLdqMD3dCPHP5/S3bwFza9AnZkYRc=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=OqT+X7vBi7HBzPbV1doQXHCO4o6151/DytKPJ9///IgvYua5oJvj/8OWhWyP0GEQZ
- 6FuSrlpEZ18zrRcfVynuWvtHkiDi2dQ0+Cpmg6t3Bxo+5plpVya651WwObe9dP0kuk
- 6IlW6JFA58jPNV8UpKtseCpZ4/zb9vxEPUv/ghk0=
-Received: from DLEE111.ent.ti.com (dlee111.ent.ti.com [157.170.170.22])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xBJE2daH065521
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 19 Dec 2019 08:02:39 -0600
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Thu, 19
- Dec 2019 08:02:34 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Thu, 19 Dec 2019 08:02:34 -0600
-Received: from [10.1.3.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBJE2V2F054819;
- Thu, 19 Dec 2019 08:02:32 -0600
-Subject: Re: [PATCH v4 3/5] dt-bindings: display: ti, j721e-dss: Add dt-schema
- yaml binding
-To: Maxime Ripard <maxime@cerno.tech>
-References: <cover.1576704528.git.jsarha@ti.com>
- <89db418c91689beb6e63e0c3c99b39655948b429.1576704528.git.jsarha@ti.com>
- <20191219083839.lmuhxynbbqy4d4hp@gilmour.lan>
-From: Jyri Sarha <jsarha@ti.com>
-Autocrypt: addr=jsarha@ti.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <2acd648f-6532-c7d8-c9d0-f4c5229c7923@ti.com>
-Date: Thu, 19 Dec 2019 16:01:58 +0200
+Received: from NAM04-CO1-obe.outbound.protection.outlook.com
+ (mail-eopbgr690055.outbound.protection.outlook.com [40.107.69.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F4D76EB82
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 14:17:23 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kqUIc7u/9vYarhKOjbAQISmMFQGtX9pGQUKq/YHyk+FK2sBg+25jiL4+PNFBzm9O7clNKBsyt3S9H4+2YYxynYqZu23LjJdQADL6vP39Q7SNmGw+2i8a5fm0fzvfUqonI+7LPFe/cowlEiIgzCByjFWlQa3c3HstZR4qrBvrwBB+GO/6YUxdptY67OL1ky2aufdSdblQ87duD7HTFiyp5+eDRlRr4OqjkmU2rehdLRslVdWj8EuDasvJSOFS7w/eNw8tKoqm+fxyZ2u6YhAtIBN8Y3a4Hg0XRcJRxvUxvtU9j4cei0XvjhoYrzGD567rfFtjdU3MqprJueWC7HM29Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rVd928QsRRQHp9MK/TD1iyFvIEsIK5ye0fOfeMcAgSA=;
+ b=dsxnAQVcPZch9GfCMN9gtIGu8ahZ/Uv5qpHL1EkhjTh4HOeQOp9SgjT5aIf3R/qnDXY2yobWFr2IvafUKa3sdewq/LQp7vIFJO7VfpzyyBMPERAd5ZmrphT8xheD+NcMRtjeYaKKYVVGigxYcRHfzNTgNALG9xrQGrQRLSQ3iyXdg8XVhQzJoPeJhGf10qUS+NEwQ7tMgAschLtVxSzd/WoyzzEwLMdm4+DPJcJDHCnahRKBE9pjFoMhCyl28Iyx9NITEZCXNsLxRORonDoD9zC+SS5wKrvvtPm+16u0VmVzdAUfm1g5Rq1FgRBQgo4w+K4UV7VuphcsstPQO9bPHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rVd928QsRRQHp9MK/TD1iyFvIEsIK5ye0fOfeMcAgSA=;
+ b=FwveSpNnV0BvdCSBlETztV+D1ZWHMvOSzVWrtBZdI9ouObImtCN3ulR6DEG7ja7hlOg7MgLshZWj3Gq4L4AZMLbb1O22rx6tCOxAm1nKRjVjbxo5wMBV+6J6iToYaYJ0I9gZ/hStS7jLEq13SjQCkbQv/k4DA+hY36FEw8SURLY=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Harry.Wentland@amd.com; 
+Received: from CY4PR1201MB0230.namprd12.prod.outlook.com (10.172.79.7) by
+ CY4PR1201MB0024.namprd12.prod.outlook.com (10.172.77.135) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2559.14; Thu, 19 Dec 2019 14:17:21 +0000
+Received: from CY4PR1201MB0230.namprd12.prod.outlook.com
+ ([fe80::301e:b0c8:7af:d77d]) by CY4PR1201MB0230.namprd12.prod.outlook.com
+ ([fe80::301e:b0c8:7af:d77d%11]) with mapi id 15.20.2559.012; Thu, 19 Dec 2019
+ 14:17:20 +0000
+Subject: Re: [PATCH next] drm/amd/display: make non-global functions static
+To: Chen Zhou <chenzhou10@huawei.com>, harry.wentland@amd.com,
+ sunpeng.li@amd.com, alexander.deucher@amd.com
+References: <20191219115500.2047-1-chenzhou10@huawei.com>
+From: Harry Wentland <hwentlan@amd.com>
+Autocrypt: addr=hwentlan@amd.com; keydata=
+ mQENBFhb4C8BCADhHHUNoBQ7K7LupCP0FsUb443Vuqq+dH0uo4A3lnPkMF6FJmGcJ9Sbx1C6
+ cd4PbVAaTFZUEmjqfpm+wCRBe11eF55hW3GJ273wvfH69Q/zmAxwO8yk+i5ZWWl8Hns5h69K
+ D9QURHLpXxrcwnfHFah0DwV23TrD1KGB7vowCZyJOw93U/GzAlXKESy0FM7ZOYIJH83X7qhh
+ Q9KX94iTEYTeH86Wy8hwHtqM6ySviwEz0g+UegpG8ebbz0w3b5QmdKCAg+eZTmBekP5o77YE
+ BKqR+Miiwo9+tzm2N5GiF9HDeI2pVe/egOLa5UcmsgdF4Y5FKoMnBbAHNaA6Fev8PHlNABEB
+ AAG0J0hhcnJ5IFdlbnRsYW5kIDxoYXJyeS53ZW50bGFuZEBhbWQuY29tPokBNwQTAQgAIQUC
+ WFvgLwIbAwULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgAAKCRAtWBXJjBS24xUlCAC9MqAlIbZO
+ /a37s41h+MQ+D20C6/hVErWO+RA06nA+jFDPUWrDJKYdn6EDQWdLY3ATeAq3X8GIeOTXGrPD
+ b2OXD6kOViW/RNvlXdrIsnIDacdr39aoAlY1b+bhTzZVz4pto4l+K1PZb5jlMgTk/ks9HesL
+ RfYVq5wOy3qIpocdjdlXnSUKn0WOkGBBd8Nv3o0OI18tiJ1S/QwLBBfZoVvfGinoB2p4j/wO
+ kJxpi3F9TaOtLGcdrgfghg31Fb48DP+6kodZ4ircerp4hyAp0U2iKtsrQ/sVWR4mbe3eTfcn
+ YjBxGd2JOVdNQZa2VTNf9GshIDMD8IIQK6jN0LfY8Py2uQENBFhb4C8BCAC/0KWY3pIbU2cy
+ i7GMj3gqB6h0jGqRuMpMRoSNDoAUIuSh17w+bawuOF6XZPdK3D4lC9cOXMwP3aP9tTJOori2
+ 8vMH8KW9jp9lAYnGWYhSqLdjzIACquMqi96EBtawJDct1e9pVgp+d4JXHlgIrl11ITJo8rCP
+ dEqjro2bCBWxijsIncdCzMjf57+nR7u86SBtGSFcXKapS7YJeWcvM6MzFYgIkxHxxBDvBBvm
+ U2/mAXiL72kwmlV1BNrabQxX2UnIb3xt3UovYJehrnDUMdYjxJgSPRBx27wQ/D05xAlhkmmL
+ FJ01ZYc412CRCC6gjgFPfUi2y7YJTrQHS79WSyANABEBAAGJAR8EGAEIAAkFAlhb4C8CGwwA
+ CgkQLVgVyYwUtuM72Qf+J6JOQ/27pWf5Ulde9GS0BigA1kV9CNfIq396TgvQzeyixHMvgPdq
+ Z36x89zZi0otjMZv6ypIdEg5co1Bvz0wFaKbCiNbTjpnA1VAbQVLSFjCZLQiu0vc+BZ1yKDV
+ T5ASJ97G4XvQNO+XXGY55MrmhoNqMaeIa/3Jas54fPVd5olcnUAyDty29/VWXNllUq38iBCX
+ /0tTF7oav1lzPGfeW2c6B700FFZMTR4YBVSGE8jPIzu2Fj0E8EkDmsgS+nibqSvWXfo1v231
+ 410h35CjbYDlYQO7Z1YD7asqbaOnF0As+rckyRMweQ9CxZn5+YBijtPJA3x5ldbCfQ9rWiTu XQ==
+Message-ID: <2535f4bd-298f-60aa-728b-facfb2baef07@amd.com>
+Date: Thu, 19 Dec 2019 09:17:18 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ Thunderbird/68.3.0
+In-Reply-To: <20191219115500.2047-1-chenzhou10@huawei.com>
+Content-Language: en-US
+X-ClientProxiedBy: YTBPR01CA0017.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:14::30) To CY4PR1201MB0230.namprd12.prod.outlook.com
+ (2603:10b6:910:1e::7)
 MIME-Version: 1.0
-In-Reply-To: <20191219083839.lmuhxynbbqy4d4hp@gilmour.lan>
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Received: from [10.4.33.74] (165.204.55.251) by
+ YTBPR01CA0017.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:14::30) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=) via Frontend Transport;
+ Thu, 19 Dec 2019 14:17:19 +0000
+X-Originating-IP: [165.204.55.251]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 2d3d8aca-84d3-416f-b373-08d7848e28d8
+X-MS-TrafficTypeDiagnostic: CY4PR1201MB0024:|CY4PR1201MB0024:|CY4PR1201MB0024:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <CY4PR1201MB0024E6DB6CF0B48FCBEAF8FF8C520@CY4PR1201MB0024.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:170;
+X-Forefront-PRVS: 0256C18696
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10009020)(4636009)(366004)(396003)(39850400004)(136003)(346002)(376002)(199004)(189003)(478600001)(66556008)(31686004)(66476007)(16526019)(52116002)(66946007)(186003)(4326008)(26005)(2906002)(6486002)(53546011)(8936002)(316002)(36756003)(5660300002)(8676002)(31696002)(2616005)(81156014)(6636002)(956004)(4001150100001)(16576012)(81166006);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR1201MB0024;
+ H:CY4PR1201MB0230.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: jBPWbD36QUjqkc056sdKCsRCouKe+TEAkz3I1ui8Gh4UDpBavf0OGcbxYZPpdGee8fG2Jy0up2kBKWIJS1dwtJexWeGjou06y8RK9qNGK1wh+D/00OJ777wZhrxPKBho0eUaEEiL+NaPU43JwqQXWbHR6hTj1VrFiIBOadNrO+fii4U5Lo+dSg+kX+rK9vLPRiBzv9O9+4ZQhdmmcBDPxtqtsU/tS9TpVrbCble0N5Yq5d59hsrqlm2TRDeMGb30/lorMlee889Q74BvAIrZDEvcmkJAOr0wQyH2eBgWDiWyW6hhDit13xGEn4OvcvCPnKpA8XC1GJ2PV3RkbQuyFG8y+e8GbAnEto87WhpvvAo/DIC6pTh5eFracE5RT98geRTXMa3HW4qVJxD/Z2cuK6KdfZDjkMA6bqyaVR+AYH/vBmDhEVi0eDIv0OWnMbXO
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2d3d8aca-84d3-416f-b373-08d7848e28d8
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2019 14:17:20.6455 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DMnQSllyPp1rCgVEDqpaaL2R7ozYrq8F0HGOyn95N8pgDVeK8mtGQrOAVSM+LmA1hW+tN7FtrPYydtAnGrc2aw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB0024
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,248 +119,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, yamonkar@cadence.com, praneeth@ti.com,
- sjakhade@cadence.com, dri-devel@lists.freedesktop.org, peter.ujfalusi@ti.com,
- robh+dt@kernel.org, tomi.valkeinen@ti.com, laurent.pinchart@ideasonboard.com,
- subhajit_paul@ti.com, sam@ravnborg.org
-Content-Type: multipart/mixed; boundary="===============0410972296=="
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0410972296==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature";
-	boundary="lvnmzd5MQJeWgjpGHrk5fUt4U9udObU1W"
+On 2019-12-19 6:55 a.m., Chen Zhou wrote:
+> Fix sparse warning:
+> 
+> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:964:5:
+> 	warning: symbol 'shift_border_left_to_dst' was not declared. Should it be static?
+> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:975:6:
+> 	warning: symbol 'restore_border_left_from_dst' was not declared. Should it be static?
+> 
+> Fixes: 89d07b662f5e (drm/amd/display: fix 270 degree rotation for mixed-SLS mode)
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
 
---lvnmzd5MQJeWgjpGHrk5fUt4U9udObU1W
-Content-Type: multipart/mixed; boundary="5pmhAxlWnc8hbbeJiFxw5k5ShGwaMHvg1"
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 
---5pmhAxlWnc8hbbeJiFxw5k5ShGwaMHvg1
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-GB
-Content-Transfer-Encoding: quoted-printable
+Harry
 
-On 19/12/2019 10:38, Maxime Ripard wrote:
-> Hi,
->=20
-> On Thu, Dec 19, 2019 at 10:23:17AM +0200, Jyri Sarha wrote:
->> Add dt-schema yaml bindig for J721E DSS, J721E version TI Keystone
->> Display SubSystem.
->>
->> Version history:
->>
->> v2: no change
->>
->> v3: - reg-names: "wp" -> "wb"
->>     - Add ports node
->>     - Add includes to dts example
->>     - reindent dts example
->>
->> v4: - Add descriptions to reg, clocks, and interrups properties
->>     - Remove minItems when its value is the same as maxItems value
->>
->> Signed-off-by: Jyri Sarha <jsarha@ti.com>
->> ---
->>  .../bindings/display/ti/ti,j721e-dss.yaml     | 209 +++++++++++++++++=
-+
->>  1 file changed, 209 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/display/ti/ti,j7=
-21e-dss.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/display/ti/ti,j721e-dss=
-=2Eyaml b/Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
->> new file mode 100644
->> index 000000000000..cd68c4294f9a
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
->> @@ -0,0 +1,209 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +# Copyright 2019 Texas Instruments Incorporated
->> +%YAML 1.2
->> +---
->> +$id: "http://devicetree.org/schemas/display/ti/ti,j721e-dss.yaml#"
->> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
->> +
->> +title: Texas Instruments J721E Display Subsystem
->> +
->> +maintainers:
->> +  - Jyri Sarha <jsarha@ti.com>
->> +  - Tomi Valkeinen <tomi.valkeinen@ti.com>
->> +
->> +description: |
->> +  The J721E TI Keystone Display SubSystem with four output ports and
->> +  four video planes. There is two full video planes and two "lite
->> +  planes" without scaling support. The video ports can be connected t=
-o
->> +  the SoC's DPI pins or to integrated display bridges on the SoC.
->> +
->> +properties:
->> +  compatible:
->> +    const: ti,j721e-dss
->> +
->> +  reg:
->> +    maxItems: 17
->> +    description: |
->> +      Addresses to each DSS memory region described in the SoC's TRM.=
-
->> +      The reg-names refer to memory regions as follows:
->> +      reg-names: Region Name in TRM:     Description:
->> +      common_m   DSS0_DISPC_0_COMMON_M   DSS Master common register a=
-rea
->> +      common_s0  DSS0_DISPC_0_COMMON_SO  DSS Shared common register a=
-rea 0
->> +      common_s1  DSS0_DISPC_0_COMMON_S1  DSS Shared common register a=
-rea 1
->> +      common_s2  DSS0_DISPC_0_COMMON_S2  DSS Shared common register a=
-rea 2
->> +      vidl1      DSS0_VIDL1              VIDL1 light video plane 1
->> +      vidl2      DSS0_VIDL2              VIDL2 light video plane 2
->> +      vid1       DSS0_VID1               VID1 video plane 1
->> +      vid2       DSS0_VID2               VID1 video plane 2
->> +      ovr1       DSS0_OVR1               OVR1 overlay manager for vp1=
-
->> +      ovr2       DSS0_OVR2               OVR2 overlay manager for vp2=
-
->> +      ovr3       DSS0_OVR3               OVR1 overlay manager for vp3=
-
->> +      ovr4       DSS0_OVR4               OVR2 overlay manager for vp4=
-
->> +      vp1        DSS0_VP1                VP1 video port 1
->> +      vp2        DSS0_VP2                VP1 video port 2
->> +      vp3        DSS0_VP3                VP1 video port 3
->> +      vp4        DSS0_VP4                VP1 video port 4
->> +      wp         DSS0_WB                 Write Back registers
->=20
-> I guess it applies to all your schemas in that patch series, but you
-> could just do something like
->=20
-> reg:
->   items:
->     - description: DSS Master common register area
->     - description: DSS Shared common register area 0
->     - description: DSS Shared common register area 1
->=20
-
-Ok, thanks. I was not sure if you can do that (still a newbie with
-yaml). What do you think about Peter Ujfalusi's suggestion of putting
-the descriptions to reg-names (and clock-names and  interrupt-names)?
-e.g. something like this:
-
-  reg-names:
-    items:
-      - const: common_m
-      - description: DSS Master common register area
-      - const: common_s0
-      - description: DSS Master common register area
-=2E..
-
-Or is that even allowed?
-
-
-> ...
->=20
-> That way, you wouldn't have to worry about the maxItems, and you end
-> up doing pretty much that already in the description
->=20
->> +  reg-names:
->> +    items:
->> +      - const: common_m
->> +      - const: common_s0
->> +      - const: common_s1
->> +      - const: common_s2
->> +      - const: vidl1
->> +      - const: vidl2
->> +      - const: vid1
->> +      - const: vid2
->> +      - const: ovr1
->> +      - const: ovr2
->> +      - const: ovr3
->> +      - const: ovr4
->> +      - const: vp1
->> +      - const: vp2
->> +      - const: vp3
->> +      - const: vp4
->> +      - const: wb
->> +
->> +  clocks:
->> +    maxItems: 5
->> +    description:
->> +      phandles to clock nodes for DSS functional clock (fck) and vide=
-o
->> +      port 1, 2, 3 and 4 pixel clocks (vp1, vp2, vp3, vp4).
->> +
->> +  clock-names:
->> +    items:
->> +      - const: fck
->> +      - const: vp1
->> +      - const: vp2
->> +      - const: vp3
->> +      - const: vp4
->> +
->> +  interrupts:
->> +    maxItems: 4
->> +    description:
->> +      Interrupt descriptions for common irq registers in common_m,
->> +      common_m0, common_m1, and common_m2, sections.
->=20
-> Same story here, but the names don't match interrupt-names. I guess
-> describing what those interrupts actually are would be great: you just
-> define how the driver calls them, but not what they are actually doing
-> or representing.
->=20
-> I'm guessing that would end up in something like that:
->=20
-> interrupts:
->   items:
->     - description: DSS Master interrupt
->     - description: DSS Shared 0 interrupt
->     - description: DSS Shared 1 interrupt
->     - description: DSS Shared 2 interrupt
->=20
-> Maxime
->=20
-
-
---=20
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-
-
---5pmhAxlWnc8hbbeJiFxw5k5ShGwaMHvg1--
-
---lvnmzd5MQJeWgjpGHrk5fUt4U9udObU1W
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEMuwitgUoIEsi53ohkDazUNfWGUEFAl37gvYACgkQkDazUNfW
-GUHD7hAA4F+jUC0zMFknujFq9bdfIDsncuO1m6FxZ3B4momsVeafI6VjXeoWjiNa
-W9IodFTCqvbQP8h0HMY6E0Hv+cZWlhk+IMMF7r+I301uX+qEFeEgU2sI/EYfCYC+
-BQcDtwjgU6nGbRzW36XDjQ4WO5YFV/ePP0ZSkDqmV4l+kKfso7bXPmIqWd6X8r+E
-R5Z+KhKnkdyEaA+Ha8QRumnnKIku0jndR6AsbGNzOcEIZ/FMm7jlc3CAOmGL8R2p
-y8iHp5sXpbF3Ewfxwj+imNf9VoCCsuvzlL8cugqJnhLa4A6EsY0JnGM2Su3IdrER
-9krrROjJCDL69zW4Px463gO0T2suan9/t11ynH+z4Jj2B280ppGaqlGwMPbw5MAq
-cyrTzsgNZwZj+xqWjdQO+GbSdduNCO4MmyTlmxfjbMGjRSCT0FSSo8AFpgXJ3gkt
-/TL6n8qdUo5Pw13OI9t1Jg87/XeoipFTOMfJ2b64RMiSRG+Pc4DHZkTUyWUCIxQ2
-oXTMEapnVljsM1Dzi5nGfgzVMtLLnfLBzNsvgLqhIxV9H3SzxoLM/KPEaZUqPlah
-t3hbT+zl59DHZRrJtEhujgAX+Q4s3HK/65Wi97jedKd7cnwYW5gIDfS2BxPMtLdV
-GpA1RlF+iC215KhV9rc5cURvSMoVRHj34KwkKzHhI02MuqzcfHE=
-=s4ax
------END PGP SIGNATURE-----
-
---lvnmzd5MQJeWgjpGHrk5fUt4U9udObU1W--
-
---===============0410972296==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+> ---
+>  drivers/gpu/drm/amd/display/dc/core/dc_resource.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+> index 64a0e08f..5843c16 100644
+> --- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+> @@ -961,7 +961,7 @@ static void calculate_inits_and_adj_vp(struct pipe_ctx *pipe_ctx)
+>   * We also need to make sure pipe_ctx->plane_res.scl_data.h_active uses the
+>   * original h_border_left value in its calculation.
+>   */
+> -int shift_border_left_to_dst(struct pipe_ctx *pipe_ctx)
+> +static int shift_border_left_to_dst(struct pipe_ctx *pipe_ctx)
+>  {
+>  	int store_h_border_left = pipe_ctx->stream->timing.h_border_left;
+>  
+> @@ -972,7 +972,7 @@ int shift_border_left_to_dst(struct pipe_ctx *pipe_ctx)
+>  	return store_h_border_left;
+>  }
+>  
+> -void restore_border_left_from_dst(struct pipe_ctx *pipe_ctx,
+> +static void restore_border_left_from_dst(struct pipe_ctx *pipe_ctx,
+>                                    int store_h_border_left)
+>  {
+>  	pipe_ctx->stream->dst.x -= store_h_border_left;
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0410972296==--
