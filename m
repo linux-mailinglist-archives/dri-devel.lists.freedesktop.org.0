@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FF90125FB7
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 11:46:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2900E125FBB
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 11:46:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E25896EB31;
-	Thu, 19 Dec 2019 10:46:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A65F66EB1D;
+	Thu, 19 Dec 2019 10:46:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1657D6EB11
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3DD76EB11
  for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 10:46:02 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 36FB9FDF;
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id BCD4A10D6;
  Thu, 19 Dec 2019 11:45:58 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1576752358;
- bh=NMWjdLx/GAAw+/S+KO8WDZKUdQvP+Yse5b4OeU/YV7w=;
+ s=mail; t=1576752359;
+ bh=HXeEPngBC4fjd9ffSmxP6GZItXr4Uwcn2Zw2FAvvFCU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Nq/KbK7ydYCV1UsJ/k1/03saVfUqFZ/enUUVly3EoRbmpPQVstPrusL9pSaGNFZG/
- VxB+MsY8Zcnftwi/deAu6eblwoWp0hg/HR80xgSMIMDKI0aqI4N/ocI7Dl54OvVkK+
- 4eP7d862XI5cY2CQ6eKE1BdMl70w4EcdhDY6Tq4c=
+ b=oD5H6KzKg4eM7+CnIklx4kbxBmSrdC+ZPAeW4MPkjyN7FmgZd1AspS68uGFM4IA8D
+ Za+EC7u5fmqEy/WcrQmUWvs+3QTZacNj47LxmYwK3pjYPO10G/2rtdbvyGfVcYQWY3
+ ej0jpAhXchshvUEHJ6ndlDHwWGT6HxaIB3oqrclQ=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 26/51] drm/omap: hdmi4: Rework EDID read to isolate data
+Subject: [PATCH v4 27/51] drm/omap: hdmi5: Rework EDID read to isolate data
  read
-Date: Thu, 19 Dec 2019 12:44:57 +0200
-Message-Id: <20191219104522.9379-27-laurent.pinchart@ideasonboard.com>
+Date: Thu, 19 Dec 2019 12:44:58 +0200
+Message-Id: <20191219104522.9379-28-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20191219104522.9379-1-laurent.pinchart@ideasonboard.com>
 References: <20191219104522.9379-1-laurent.pinchart@ideasonboard.com>
@@ -55,17 +55,17 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In preparation of adding DRM bridge support to the hdmi4 encoder code,
+In preparation of adding DRM bridge support to the hdmi5 encoder code,
 rework the EDID read to isolate data read.
 
 The hdmi_read_edid() function is the main entry point. It performs all
 initialisation steps required prior to reading the EDID (such as
 ensuring the device is powered on), as well as corresponding cleanup
 steps afterwards. EDID read itself is handled by hdmi_read_edid_data()
-that calls the hdmi4_core_ddc_read() function to read individual blocks.
+that calls the hdmi5_core_ddc_read() function to read individual blocks.
 
 This new code architecture will allow reusing hdmi_read_edid() and
-hdmi4_core_ddc_read() for the drm_bridge EDID read implementation, while
+hdmi5_core_ddc_read() for the drm_bridge EDID read implementation, while
 swapping out hdmi_read_edid_data() for the DRM drm_do_get_edid()
 function.
 
@@ -76,29 +76,36 @@ Changes since v2:
 
 - Expand commit message
 ---
- drivers/gpu/drm/omapdrm/dss/hdmi4.c      | 94 +++++++++++++++---------
- drivers/gpu/drm/omapdrm/dss/hdmi4_core.c | 59 +++------------
- drivers/gpu/drm/omapdrm/dss/hdmi4_core.h |  4 +-
- 3 files changed, 73 insertions(+), 84 deletions(-)
+ drivers/gpu/drm/omapdrm/dss/hdmi5.c      | 89 ++++++++++++++----------
+ drivers/gpu/drm/omapdrm/dss/hdmi5_core.c | 48 +++----------
+ drivers/gpu/drm/omapdrm/dss/hdmi5_core.h |  5 +-
+ 3 files changed, 65 insertions(+), 77 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4.c b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-index e15fa3862922..37536b9f3114 100644
---- a/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-+++ b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-@@ -272,23 +272,6 @@ static int hdmi_dump_regs(struct seq_file *s, void *p)
+diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5.c b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
+index 99720dfc5769..2b02b0a11696 100644
+--- a/drivers/gpu/drm/omapdrm/dss/hdmi5.c
++++ b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
+@@ -271,30 +271,6 @@ static int hdmi_dump_regs(struct seq_file *s, void *p)
  	return 0;
  }
  
 -static int read_edid(struct omap_hdmi *hdmi, u8 *buf, int len)
 -{
 -	int r;
+-	int idlemode;
 -
 -	mutex_lock(&hdmi->lock);
 -
 -	r = hdmi_runtime_get(hdmi);
 -	BUG_ON(r);
 -
--	r = hdmi4_read_edid(&hdmi->core,  buf, len);
+-	idlemode = REG_GET(hdmi->wp.base, HDMI_WP_SYSCONFIG, 3, 2);
+-	/* No-idle mode */
+-	REG_FLD_MOD(hdmi->wp.base, HDMI_WP_SYSCONFIG, 1, 3, 2);
+-
+-	r = hdmi5_read_edid(&hdmi->core,  buf, len);
+-
+-	REG_FLD_MOD(hdmi->wp.base, HDMI_WP_SYSCONFIG, idlemode, 3, 2);
 -
 -	hdmi_runtime_put(hdmi);
 -	mutex_unlock(&hdmi->lock);
@@ -108,43 +115,39 @@ index e15fa3862922..37536b9f3114 100644
 -
  static void hdmi_start_audio_stream(struct omap_hdmi *hd)
  {
- 	hdmi_wp_audio_enable(&hd->wp, true);
-@@ -407,10 +390,8 @@ static void hdmi_disconnect(struct omap_dss_device *src,
+ 	REG_FLD_MOD(hd->wp.base, HDMI_WP_SYSCONFIG, 1, 3, 2);
+@@ -412,32 +388,73 @@ static void hdmi_disconnect(struct omap_dss_device *src,
  
  #define MAX_EDID	512
  
 -static struct edid *hdmi_read_edid(struct omap_dss_device *dssdev)
-+static struct edid *hdmi_read_edid_data(struct omap_hdmi *hdmi)
++static struct edid *hdmi_read_edid_data(struct hdmi_core_data *core)
  {
 -	struct omap_hdmi *hdmi = dssdev_to_hdmi(dssdev);
 -	bool need_enable;
++	int max_ext_blocks = 3;
++	int r, n, i;
  	u8 *edid;
- 	int r;
+-	int r;
  
-@@ -418,32 +399,79 @@ static struct edid *hdmi_read_edid(struct omap_dss_device *dssdev)
+ 	edid = kzalloc(MAX_EDID, GFP_KERNEL);
  	if (!edid)
  		return NULL;
  
-+	r = hdmi4_core_ddc_read(&hdmi->core, edid, 0, EDID_LENGTH);
++	r = hdmi5_core_ddc_read(core, edid, 0, EDID_LENGTH);
 +	if (r)
 +		goto error;
 +
-+	if (edid[0x7e] > 0) {
-+		char checksum = 0;
-+		unsigned int i;
++	n = edid[0x7e];
 +
-+		r = hdmi4_core_ddc_read(&hdmi->core, edid + EDID_LENGTH, 1,
++	if (n > max_ext_blocks)
++		n = max_ext_blocks;
++
++	for (i = 1; i <= n; i++) {
++		r = hdmi5_core_ddc_read(core, edid + i * EDID_LENGTH, i,
 +					EDID_LENGTH);
 +		if (r)
 +			goto error;
-+
-+		for (i = 0; i < EDID_LENGTH; ++i)
-+			checksum += edid[EDID_LENGTH + i];
-+
-+		if (checksum != 0) {
-+			DSSERR("E-EDID checksum failed!!\n");
-+			goto error;
-+		}
 +	}
 +
 +	return (struct edid *)edid;
@@ -157,15 +160,15 @@ index e15fa3862922..37536b9f3114 100644
 +static struct edid *hdmi_read_edid(struct omap_dss_device *dssdev)
 +{
 +	struct omap_hdmi *hdmi = dssdev_to_hdmi(dssdev);
-+	struct edid *edid = NULL;
-+	unsigned int cec_addr;
++	struct edid *edid;
 +	bool need_enable;
++	int idlemode;
 +	int r;
 +
  	need_enable = hdmi->core_enabled == false;
  
  	if (need_enable) {
- 		r = hdmi4_core_enable(&hdmi->core);
+ 		r = hdmi_core_enable(hdmi);
 -		if (r) {
 -			kfree(edid);
 +		if (r)
@@ -177,175 +180,141 @@ index e15fa3862922..37536b9f3114 100644
 -	if (r < 0) {
 -		kfree(edid);
 -		edid = NULL;
--	} else {
--		unsigned int cec_addr;
+-	}
 +	mutex_lock(&hdmi->lock);
 +	r = hdmi_runtime_get(hdmi);
 +	BUG_ON(r);
 +
-+	r = hdmi4_core_ddc_init(&hdmi->core);
-+	if (r)
-+		goto done;
- 
--		cec_addr = r >= 256 ? cec_get_edid_phys_addr(edid, r, NULL)
--			 : CEC_PHYS_ADDR_INVALID;
--		hdmi4_cec_set_phys_addr(&hdmi->core, cec_addr);
-+	edid = hdmi_read_edid_data(hdmi);
++	idlemode = REG_GET(hdmi->wp.base, HDMI_WP_SYSCONFIG, 3, 2);
++	/* No-idle mode */
++	REG_FLD_MOD(hdmi->wp.base, HDMI_WP_SYSCONFIG, 1, 3, 2);
 +
-+done:
++	hdmi5_core_ddc_init(&hdmi->core);
++
++	edid = hdmi_read_edid_data(&hdmi->core);
++
++	hdmi5_core_ddc_uninit(&hdmi->core);
++
++	REG_FLD_MOD(hdmi->wp.base, HDMI_WP_SYSCONFIG, idlemode, 3, 2);
++
 +	hdmi_runtime_put(hdmi);
 +	mutex_unlock(&hdmi->lock);
-+
-+	if (edid && edid->extensions) {
-+		unsigned int len = (edid->extensions + 1) * EDID_LENGTH;
-+
-+		cec_addr = cec_get_edid_phys_addr((u8 *)edid, len, NULL);
-+	} else {
-+		cec_addr = CEC_PHYS_ADDR_INVALID;
- 	}
  
-+	hdmi4_cec_set_phys_addr(&hdmi->core, cec_addr);
-+
  	if (need_enable)
- 		hdmi4_core_disable(&hdmi->core);
+ 		hdmi_core_disable(hdmi);
+diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c b/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c
+index ff4d35c8771f..7dd587035160 100644
+--- a/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c
++++ b/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c
+@@ -23,7 +23,7 @@
  
--	return (struct edid *)edid;
-+	return edid;
+ #include "hdmi5_core.h"
+ 
+-static void hdmi_core_ddc_init(struct hdmi_core_data *core)
++void hdmi5_core_ddc_init(struct hdmi_core_data *core)
+ {
+ 	void __iomem *base = core->base;
+ 	const unsigned long long iclk = 266000000;	/* DSS L3 ICLK */
+@@ -102,7 +102,7 @@ static void hdmi_core_ddc_init(struct hdmi_core_data *core)
+ 	REG_FLD_MOD(base, HDMI_CORE_I2CM_INT, 0x0, 2, 2);
  }
  
- static void hdmi_lost_hotplug(struct omap_dss_device *dssdev)
-diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4_core.c b/drivers/gpu/drm/omapdrm/dss/hdmi4_core.c
-index ea5d5c228534..751985a2679a 100644
---- a/drivers/gpu/drm/omapdrm/dss/hdmi4_core.c
-+++ b/drivers/gpu/drm/omapdrm/dss/hdmi4_core.c
-@@ -32,7 +32,7 @@ static inline void __iomem *hdmi_av_base(struct hdmi_core_data *core)
- 	return core->base + HDMI_CORE_AV;
- }
- 
--static int hdmi_core_ddc_init(struct hdmi_core_data *core)
-+int hdmi4_core_ddc_init(struct hdmi_core_data *core)
+-static void hdmi_core_ddc_uninit(struct hdmi_core_data *core)
++void hdmi5_core_ddc_uninit(struct hdmi_core_data *core)
  {
  	void __iomem *base = core->base;
  
-@@ -74,13 +74,11 @@ static int hdmi_core_ddc_init(struct hdmi_core_data *core)
- 	return 0;
+@@ -112,14 +112,14 @@ static void hdmi_core_ddc_uninit(struct hdmi_core_data *core)
+ 	REG_FLD_MOD(base, HDMI_CORE_I2CM_INT, 0x1, 2, 2);
  }
  
--static int hdmi_core_ddc_edid(struct hdmi_core_data *core,
--		u8 *pedid, int ext)
-+int hdmi4_core_ddc_read(void *data, u8 *buf, unsigned int block, size_t len)
+-static int hdmi_core_ddc_edid(struct hdmi_core_data *core, u8 *pedid, u8 ext)
++int hdmi5_core_ddc_read(void *data, u8 *buf, unsigned int block, size_t len)
  {
 +	struct hdmi_core_data *core = data;
  	void __iomem *base = core->base;
- 	u32 i;
--	char checksum;
--	u32 offset = 0;
+ 	u8 cur_addr;
+-	char checksum = 0;
+ 	const int retries = 1000;
+-	u8 seg_ptr = ext / 2;
+-	u8 edidbase = ((ext % 2) * 0x80);
++	u8 seg_ptr = block / 2;
++	u8 edidbase = ((block % 2) * EDID_LENGTH);
  
- 	/* HDMI_CORE_DDC_STATUS_IN_PROG */
- 	if (hdmi_wait_for_bit_change(base, HDMI_CORE_DDC_STATUS,
-@@ -89,24 +87,21 @@ static int hdmi_core_ddc_edid(struct hdmi_core_data *core,
- 		return -ETIMEDOUT;
- 	}
+ 	REG_FLD_MOD(base, HDMI_CORE_I2CM_SEGPTR, seg_ptr, 7, 0);
  
--	if (ext % 2 != 0)
--		offset = 0x80;
--
- 	/* Load Segment Address Register */
--	REG_FLD_MOD(base, HDMI_CORE_DDC_SEGM, ext / 2, 7, 0);
-+	REG_FLD_MOD(base, HDMI_CORE_DDC_SEGM, block / 2, 7, 0);
+@@ -127,7 +127,7 @@ static int hdmi_core_ddc_edid(struct hdmi_core_data *core, u8 *pedid, u8 ext)
+ 	 * TODO: We use polling here, although we probably should use proper
+ 	 * interrupts.
+ 	 */
+-	for (cur_addr = 0; cur_addr < 128; ++cur_addr) {
++	for (cur_addr = 0; cur_addr < len; ++cur_addr) {
+ 		int i;
  
- 	/* Load Slave Address Register */
- 	REG_FLD_MOD(base, HDMI_CORE_DDC_ADDR, 0xA0 >> 1, 7, 1);
- 
- 	/* Load Offset Address Register */
--	REG_FLD_MOD(base, HDMI_CORE_DDC_OFFSET, offset, 7, 0);
-+	REG_FLD_MOD(base, HDMI_CORE_DDC_OFFSET, block % 2 ? 0x80 : 0, 7, 0);
- 
- 	/* Load Byte Count */
--	REG_FLD_MOD(base, HDMI_CORE_DDC_COUNT1, 0x80, 7, 0);
-+	REG_FLD_MOD(base, HDMI_CORE_DDC_COUNT1, len, 7, 0);
- 	REG_FLD_MOD(base, HDMI_CORE_DDC_COUNT2, 0x0, 1, 0);
- 
- 	/* Set DDC_CMD */
--	if (ext)
-+	if (block)
- 		REG_FLD_MOD(base, HDMI_CORE_DDC_CMD, 0x4, 3, 0);
- 	else
- 		REG_FLD_MOD(base, HDMI_CORE_DDC_CMD, 0x2, 3, 0);
-@@ -122,7 +117,7 @@ static int hdmi_core_ddc_edid(struct hdmi_core_data *core,
- 		return -EIO;
- 	}
- 
--	for (i = 0; i < 0x80; ++i) {
-+	for (i = 0; i < len; ++i) {
- 		int t;
- 
- 		/* IN_PROG */
-@@ -141,48 +136,12 @@ static int hdmi_core_ddc_edid(struct hdmi_core_data *core,
- 			udelay(1);
+ 		/* clear ERROR and DONE */
+@@ -164,45 +164,13 @@ static int hdmi_core_ddc_edid(struct hdmi_core_data *core, u8 *pedid, u8 ext)
+ 			return -EIO;
  		}
  
--		pedid[i] = REG_GET(base, HDMI_CORE_DDC_DATA, 7, 0);
--	}
--
--	checksum = 0;
--	for (i = 0; i < 0x80; ++i)
--		checksum += pedid[i];
--
--	if (checksum != 0) {
--		DSSERR("E-EDID checksum failed!!\n");
--		return -EIO;
-+		buf[i] = REG_GET(base, HDMI_CORE_DDC_DATA, 7, 0);
+-		pedid[cur_addr] = REG_GET(base, HDMI_CORE_I2CM_DATAI, 7, 0);
+-		checksum += pedid[cur_addr];
++		buf[cur_addr] = REG_GET(base, HDMI_CORE_I2CM_DATAI, 7, 0);
  	}
  
  	return 0;
+ 
  }
  
--int hdmi4_read_edid(struct hdmi_core_data *core, u8 *edid, int len)
+-int hdmi5_read_edid(struct hdmi_core_data *core, u8 *edid, int len)
 -{
--	int r, l;
+-	int r, n, i;
+-	int max_ext_blocks = (len / 128) - 1;
 -
 -	if (len < 128)
 -		return -EINVAL;
 -
--	r = hdmi_core_ddc_init(core);
--	if (r)
--		return r;
+-	hdmi_core_ddc_init(core);
 -
 -	r = hdmi_core_ddc_edid(core, edid, 0);
 -	if (r)
--		return r;
+-		goto out;
 -
--	l = 128;
+-	n = edid[0x7e];
 -
--	if (len >= 128 * 2 && edid[0x7e] > 0) {
--		r = hdmi_core_ddc_edid(core, edid + 0x80, 1);
+-	if (n > max_ext_blocks)
+-		n = max_ext_blocks;
+-
+-	for (i = 1; i <= n; i++) {
+-		r = hdmi_core_ddc_edid(core, edid + i * EDID_LENGTH, i);
 -		if (r)
--			return r;
--		l += 128;
+-			goto out;
 -	}
 -
--	return l;
+-out:
+-	hdmi_core_ddc_uninit(core);
+-
+-	return r ? r : len;
 -}
 -
- static void hdmi_core_init(struct hdmi_core_video_config *video_cfg)
+ void hdmi5_core_dump(struct hdmi_core_data *core, struct seq_file *s)
  {
- 	DSSDBG("Enter hdmi_core_init\n");
-diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4_core.h b/drivers/gpu/drm/omapdrm/dss/hdmi4_core.h
-index 11c4b7ba1eee..dc64ae2aa300 100644
---- a/drivers/gpu/drm/omapdrm/dss/hdmi4_core.h
-+++ b/drivers/gpu/drm/omapdrm/dss/hdmi4_core.h
-@@ -249,7 +249,9 @@ struct hdmi_core_packet_enable_repeat {
- 	u32	generic_pkt_repeat;
+ 
+diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5_core.h b/drivers/gpu/drm/omapdrm/dss/hdmi5_core.h
+index f10b8a283011..65eadefdb3f9 100644
+--- a/drivers/gpu/drm/omapdrm/dss/hdmi5_core.h
++++ b/drivers/gpu/drm/omapdrm/dss/hdmi5_core.h
+@@ -281,7 +281,10 @@ struct csc_table {
+ 	u16 c1, c2, c3, c4;
  };
  
--int hdmi4_read_edid(struct hdmi_core_data *core, u8 *edid, int len);
-+int hdmi4_core_ddc_init(struct hdmi_core_data *core);
-+int hdmi4_core_ddc_read(void *data, u8 *buf, unsigned int block, size_t len);
+-int hdmi5_read_edid(struct hdmi_core_data *core, u8 *edid, int len);
++void hdmi5_core_ddc_init(struct hdmi_core_data *core);
++int hdmi5_core_ddc_read(void *data, u8 *buf, unsigned int block, size_t len);
++void hdmi5_core_ddc_uninit(struct hdmi_core_data *core);
 +
- void hdmi4_configure(struct hdmi_core_data *core, struct hdmi_wp_data *wp,
- 		struct hdmi_config *cfg);
- void hdmi4_core_dump(struct hdmi_core_data *core, struct seq_file *s);
+ void hdmi5_core_dump(struct hdmi_core_data *core, struct seq_file *s);
+ int hdmi5_core_handle_irqs(struct hdmi_core_data *core);
+ void hdmi5_configure(struct hdmi_core_data *core, struct hdmi_wp_data *wp,
 -- 
 Regards,
 
