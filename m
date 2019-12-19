@@ -1,34 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C8F9125FC1
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 11:47:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 508DC125FAC
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 11:46:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD06C6EB39;
-	Thu, 19 Dec 2019 10:46:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6731F6EB16;
+	Thu, 19 Dec 2019 10:46:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86DED6EB11
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 10:46:00 +0000 (UTC)
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 178606EB15
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 10:46:01 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 023C81414;
- Thu, 19 Dec 2019 11:45:56 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id A4632144A;
+ Thu, 19 Dec 2019 11:45:57 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1576752357;
- bh=92J9Oc4uH/VdOAOw2XXJVaaQ3T7ysqiulCkND5Wza6s=;
+ s=mail; t=1576752358;
+ bh=kAVHkju+JOdb5H8lOEzpikT0Rc2Aq1332/5bg+KklDo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=oUtgOGhRLyZjblDpBnCUDNSlhB54Kl8sIri6t+x/2FbDY4uutgAJth2/tnhbz7RVL
- yqWueZ6xfaXzj6hzJzCxZ7DOLNcyZaj7MFSx92F9XvCaey0V31X3xZ4UMCZsWOLt+S
- gJrKwMfOFmn9/CBK+4vUNFmti0xH01lhWJSNngYw=
+ b=uAd6Fq4hP3H4xFwk+WrQL7P4Fsv/EbJRimePVlUG+pM8jpm+ksXAw9aiiYYTNpbVf
+ 0OnNBSxUHyo3w4amZjNY8MfYLiWNwTrZwM8/0ge/rs3ZBJ23F6djlGSTy4P5c0jLyk
+ jJPYAlqpjn7BNSaW6U7NbFrR6nLiat11LC8wLIWc=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 24/51] drm/omap: dss: Make omap_dss_device_ops optional
-Date: Thu, 19 Dec 2019 12:44:55 +0200
-Message-Id: <20191219104522.9379-25-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v4 25/51] drm/omap: hdmi: Allocate EDID in the .read_edid()
+ operation
+Date: Thu, 19 Dec 2019 12:44:56 +0200
+Message-Id: <20191219104522.9379-26-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20191219104522.9379-1-laurent.pinchart@ideasonboard.com>
 References: <20191219104522.9379-1-laurent.pinchart@ideasonboard.com>
@@ -54,159 +55,179 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As part of the move to drm_bridge ops, the dssdev ops will become empty
-for some of the internal encoders. Make them optional in the driver to
-allow them to be removed completely, easing the transition.
+Bring the omapdss-specific .read_edid() operation in sync with the
+drm_bridge .get_edid() operation to ease code reuse.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 ---
- drivers/gpu/drm/omapdrm/dss/base.c       | 21 ++++++++++++---------
- drivers/gpu/drm/omapdrm/dss/dss.c        |  3 ++-
- drivers/gpu/drm/omapdrm/omap_connector.c |  2 +-
- drivers/gpu/drm/omapdrm/omap_encoder.c   | 12 +++++++-----
- 4 files changed, 22 insertions(+), 16 deletions(-)
+Changes since v1:
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/base.c b/drivers/gpu/drm/omapdrm/dss/base.c
-index 80d48936d177..2db3bd2f19db 100644
---- a/drivers/gpu/drm/omapdrm/dss/base.c
-+++ b/drivers/gpu/drm/omapdrm/dss/base.c
-@@ -195,10 +195,12 @@ int omapdss_device_connect(struct dss_device *dss,
+- Keep MAX_EDID macro
+---
+ drivers/gpu/drm/omapdrm/dss/hdmi4.c      | 36 ++++++++++++++++--------
+ drivers/gpu/drm/omapdrm/dss/hdmi5.c      | 24 ++++++++++++----
+ drivers/gpu/drm/omapdrm/dss/omapdss.h    |  2 +-
+ drivers/gpu/drm/omapdrm/omap_connector.c | 12 ++------
+ 4 files changed, 47 insertions(+), 27 deletions(-)
+
+diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4.c b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
+index dd4a14fe7e59..e15fa3862922 100644
+--- a/drivers/gpu/drm/omapdrm/dss/hdmi4.c
++++ b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
+@@ -405,31 +405,45 @@ static void hdmi_disconnect(struct omap_dss_device *src,
+ 	omapdss_device_disconnect(dst, dst->next);
+ }
  
- 	dst->dss = dss;
+-static int hdmi_read_edid(struct omap_dss_device *dssdev,
+-		u8 *edid, int len)
++#define MAX_EDID	512
++
++static struct edid *hdmi_read_edid(struct omap_dss_device *dssdev)
+ {
+ 	struct omap_hdmi *hdmi = dssdev_to_hdmi(dssdev);
+ 	bool need_enable;
++	u8 *edid;
+ 	int r;
  
--	ret = dst->ops->connect(src, dst);
--	if (ret < 0) {
--		dst->dss = NULL;
--		return ret;
-+	if (dst->ops && dst->ops->connect) {
-+		ret = dst->ops->connect(src, dst);
-+		if (ret < 0) {
-+			dst->dss = NULL;
-+			return ret;
++	edid = kzalloc(MAX_EDID, GFP_KERNEL);
++	if (!edid)
++		return NULL;
++
+ 	need_enable = hdmi->core_enabled == false;
+ 
+ 	if (need_enable) {
+ 		r = hdmi4_core_enable(&hdmi->core);
+-		if (r)
+-			return r;
++		if (r) {
++			kfree(edid);
++			return NULL;
++		}
++	}
++
++	r = read_edid(hdmi, edid, MAX_EDID);
++	if (r < 0) {
++		kfree(edid);
++		edid = NULL;
++	} else {
++		unsigned int cec_addr;
++
++		cec_addr = r >= 256 ? cec_get_edid_phys_addr(edid, r, NULL)
++			 : CEC_PHYS_ADDR_INVALID;
++		hdmi4_cec_set_phys_addr(&hdmi->core, cec_addr);
+ 	}
+ 
+-	r = read_edid(hdmi, edid, len);
+-	if (r >= 256)
+-		hdmi4_cec_set_phys_addr(&hdmi->core,
+-					cec_get_edid_phys_addr(edid, r, NULL));
+-	else
+-		hdmi4_cec_set_phys_addr(&hdmi->core, CEC_PHYS_ADDR_INVALID);
+ 	if (need_enable)
+ 		hdmi4_core_disable(&hdmi->core);
+ 
+-	return r;
++	return (struct edid *)edid;
+ }
+ 
+ static void hdmi_lost_hotplug(struct omap_dss_device *dssdev)
+diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5.c b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
+index 8e3790dd8b98..99720dfc5769 100644
+--- a/drivers/gpu/drm/omapdrm/dss/hdmi5.c
++++ b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
+@@ -410,27 +410,39 @@ static void hdmi_disconnect(struct omap_dss_device *src,
+ 	omapdss_device_disconnect(dst, dst->next);
+ }
+ 
+-static int hdmi_read_edid(struct omap_dss_device *dssdev,
+-		u8 *edid, int len)
++#define MAX_EDID	512
++
++static struct edid *hdmi_read_edid(struct omap_dss_device *dssdev)
+ {
+ 	struct omap_hdmi *hdmi = dssdev_to_hdmi(dssdev);
+ 	bool need_enable;
++	u8 *edid;
+ 	int r;
+ 
++	edid = kzalloc(MAX_EDID, GFP_KERNEL);
++	if (!edid)
++		return NULL;
++
+ 	need_enable = hdmi->core_enabled == false;
+ 
+ 	if (need_enable) {
+ 		r = hdmi_core_enable(hdmi);
+-		if (r)
+-			return r;
++		if (r) {
++			kfree(edid);
++			return NULL;
 +		}
  	}
  
- 	return 0;
-@@ -226,7 +228,8 @@ void omapdss_device_disconnect(struct omap_dss_device *src,
+-	r = read_edid(hdmi, edid, len);
++	r = read_edid(hdmi, edid, MAX_EDID);
++	if (r < 0) {
++		kfree(edid);
++		edid = NULL;
++	}
  
- 	WARN_ON(dst->state != OMAP_DSS_DISPLAY_DISABLED);
+ 	if (need_enable)
+ 		hdmi_core_disable(hdmi);
  
--	dst->ops->disconnect(src, dst);
-+	if (dst->ops && dst->ops->disconnect)
-+		dst->ops->disconnect(src, dst);
- 	dst->dss = NULL;
+-	return r;
++	return (struct edid *)edid;
  }
- EXPORT_SYMBOL_GPL(omapdss_device_disconnect);
-@@ -238,7 +241,7 @@ void omapdss_device_pre_enable(struct omap_dss_device *dssdev)
  
- 	omapdss_device_pre_enable(dssdev->next);
+ static int hdmi_set_infoframe(struct omap_dss_device *dssdev,
+diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+index 82e9bfa5530a..269e143d57be 100644
+--- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
++++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+@@ -367,7 +367,7 @@ struct omap_dss_device_ops {
+ 				void *cb_data);
+ 	void (*unregister_hpd_cb)(struct omap_dss_device *dssdev);
  
--	if (dssdev->ops->pre_enable)
-+	if (dssdev->ops && dssdev->ops->pre_enable)
- 		dssdev->ops->pre_enable(dssdev);
- }
- EXPORT_SYMBOL_GPL(omapdss_device_pre_enable);
-@@ -248,7 +251,7 @@ void omapdss_device_enable(struct omap_dss_device *dssdev)
- 	if (!dssdev)
- 		return;
+-	int (*read_edid)(struct omap_dss_device *dssdev, u8 *buf, int len);
++	struct edid *(*read_edid)(struct omap_dss_device *dssdev);
  
--	if (dssdev->ops->enable)
-+	if (dssdev->ops && dssdev->ops->enable)
- 		dssdev->ops->enable(dssdev);
- 
- 	omapdss_device_enable(dssdev->next);
-@@ -264,7 +267,7 @@ void omapdss_device_disable(struct omap_dss_device *dssdev)
- 
- 	omapdss_device_disable(dssdev->next);
- 
--	if (dssdev->ops->disable)
-+	if (dssdev->ops && dssdev->ops->disable)
- 		dssdev->ops->disable(dssdev);
- }
- EXPORT_SYMBOL_GPL(omapdss_device_disable);
-@@ -274,7 +277,7 @@ void omapdss_device_post_disable(struct omap_dss_device *dssdev)
- 	if (!dssdev)
- 		return;
- 
--	if (dssdev->ops->post_disable)
-+	if (dssdev->ops && dssdev->ops->post_disable)
- 		dssdev->ops->post_disable(dssdev);
- 
- 	omapdss_device_post_disable(dssdev->next);
-diff --git a/drivers/gpu/drm/omapdrm/dss/dss.c b/drivers/gpu/drm/omapdrm/dss/dss.c
-index 67b92b5d8dd7..b76fc2b56227 100644
---- a/drivers/gpu/drm/omapdrm/dss/dss.c
-+++ b/drivers/gpu/drm/omapdrm/dss/dss.c
-@@ -1552,7 +1552,8 @@ static void dss_shutdown(struct platform_device *pdev)
- 	DSSDBG("shutdown\n");
- 
- 	for_each_dss_output(dssdev) {
--		if (dssdev->state == OMAP_DSS_DISPLAY_ACTIVE)
-+		if (dssdev->state == OMAP_DSS_DISPLAY_ACTIVE &&
-+		    dssdev->ops && dssdev->ops->disable)
- 			dssdev->ops->disable(dssdev);
- 	}
- }
+ 	int (*get_modes)(struct omap_dss_device *dssdev,
+ 			 struct drm_connector *connector);
 diff --git a/drivers/gpu/drm/omapdrm/omap_connector.c b/drivers/gpu/drm/omapdrm/omap_connector.c
-index b0cb2ecb30ab..a24cec4b0bb9 100644
+index a24cec4b0bb9..c636ae228130 100644
 --- a/drivers/gpu/drm/omapdrm/omap_connector.c
 +++ b/drivers/gpu/drm/omapdrm/omap_connector.c
-@@ -228,7 +228,7 @@ enum drm_mode_status omap_connector_mode_fixup(struct omap_dss_device *dssdev,
- 	drm_mode_copy(adjusted_mode, mode);
+@@ -153,25 +153,19 @@ static void omap_connector_destroy(struct drm_connector *connector)
+ 	kfree(omap_connector);
+ }
  
- 	for (; dssdev; dssdev = dssdev->next) {
--		if (!dssdev->ops->check_timings)
-+		if (!dssdev->ops || !dssdev->ops->check_timings)
- 			continue;
+-#define MAX_EDID  512
+-
+ static int omap_connector_get_modes_edid(struct drm_connector *connector,
+ 					 struct omap_dss_device *dssdev)
+ {
+ 	enum drm_connector_status status;
+-	void *edid;
++	struct edid *edid;
+ 	int n;
  
- 		ret = dssdev->ops->check_timings(dssdev, adjusted_mode);
-diff --git a/drivers/gpu/drm/omapdrm/omap_encoder.c b/drivers/gpu/drm/omapdrm/omap_encoder.c
-index a270173a2411..b232acd3bc3d 100644
---- a/drivers/gpu/drm/omapdrm/omap_encoder.c
-+++ b/drivers/gpu/drm/omapdrm/omap_encoder.c
-@@ -77,10 +77,10 @@ static void omap_encoder_hdmi_mode_set(struct drm_connector *connector,
- 	struct omap_dss_device *dssdev = omap_encoder->output;
- 	bool hdmi_mode = connector->display_info.is_hdmi;
+ 	status = omap_connector_detect(connector, false);
+ 	if (status != connector_status_connected)
+ 		goto no_edid;
  
--	if (dssdev->ops->hdmi.set_hdmi_mode)
-+	if (dssdev->ops && dssdev->ops->hdmi.set_hdmi_mode)
- 		dssdev->ops->hdmi.set_hdmi_mode(dssdev, hdmi_mode);
- 
--	if (hdmi_mode && dssdev->ops->hdmi.set_infoframe) {
-+	if (hdmi_mode && dssdev->ops && dssdev->ops->hdmi.set_infoframe) {
- 		struct hdmi_avi_infoframe avi;
- 		int r;
- 
-@@ -139,7 +139,7 @@ static void omap_encoder_mode_set(struct drm_encoder *encoder,
- 	dss_mgr_set_timings(output, &vm);
- 
- 	for (dssdev = output; dssdev; dssdev = dssdev->next) {
--		if (dssdev->ops->set_timings)
-+		if (dssdev->ops && dssdev->ops->set_timings)
- 			dssdev->ops->set_timings(dssdev, adjusted_mode);
+-	edid = kzalloc(MAX_EDID, GFP_KERNEL);
+-	if (!edid)
+-		goto no_edid;
+-
+-	if (dssdev->ops->read_edid(dssdev, edid, MAX_EDID) <= 0 ||
+-	    !drm_edid_is_valid(edid)) {
++	edid = dssdev->ops->read_edid(dssdev);
++	if (!edid || !drm_edid_is_valid(edid)) {
+ 		kfree(edid);
+ 		goto no_edid;
  	}
- 
-@@ -168,7 +168,8 @@ static void omap_encoder_disable(struct drm_encoder *encoder)
- 	 * flow where the pipeline output controls the encoder.
- 	 */
- 	if (dssdev->type != OMAP_DISPLAY_TYPE_DSI) {
--		dssdev->ops->disable(dssdev);
-+		if (dssdev->ops && dssdev->ops->disable)
-+			dssdev->ops->disable(dssdev);
- 		dssdev->state = OMAP_DSS_DISPLAY_DISABLED;
- 	}
- 
-@@ -196,7 +197,8 @@ static void omap_encoder_enable(struct drm_encoder *encoder)
- 	 * flow where the pipeline output controls the encoder.
- 	 */
- 	if (dssdev->type != OMAP_DISPLAY_TYPE_DSI) {
--		dssdev->ops->enable(dssdev);
-+		if (dssdev->ops && dssdev->ops->enable)
-+			dssdev->ops->enable(dssdev);
- 		dssdev->state = OMAP_DSS_DISPLAY_ACTIVE;
- 	}
- 
 -- 
 Regards,
 
