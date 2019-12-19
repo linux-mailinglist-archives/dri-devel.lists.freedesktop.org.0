@@ -1,40 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 065DB126105
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 12:40:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 920E1126108
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 12:40:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AC7889FD4;
-	Thu, 19 Dec 2019 11:40:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65E116EB5C;
+	Thu, 19 Dec 2019 11:40:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 088AD89FD4
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 11:40:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85A886EB58
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 11:40:27 +0000 (UTC)
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
  [83.86.89.107])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 46A4324650;
- Thu, 19 Dec 2019 11:40:12 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id EC3ED2467F;
+ Thu, 19 Dec 2019 11:40:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576755612;
- bh=utqe9imvi8op5IQ0YfZAWBSecd1QKIZm9SzAS02hoHY=;
+ s=default; t=1576755627;
+ bh=NHYTD6fiNezUGiykRJouCtmRF+WZB1ruGni5ELUkry0=;
  h=Subject:To:Cc:From:Date:From;
- b=PgrlPfVw/HQYv9q/xRDtyQCmjhfj58IhlzUJbzQG1F76Qew1WLooldGyppdsU1YxG
- Ezfl8U1luZD0+8CmNkLnJAU7O+Z1d4tM9bvXvwy+kNWLV1njTfxfglP3/YIKv8bSkp
- ZgSYAX+d3Qm33QJc3LbTnCCQy/VSX2FHYozKDa4Q=
-Subject: Patch "drm/dp_mst: Correct the bug in drm_dp_update_payload_part1()"
- has been added to the 5.4-stable tree
-To: 20191203042423.5961-1-Wayne.Lin@amd.com, Wayne.Lin@amd.com,
- airlied@linux.ie, daniel.vetter@ffwll.ch, daniel@ffwll.ch,
+ b=kQAqCJ5MVUR1EAt30pSRpOmnnCAdrLMd1ISkkalqaoV6LPkHAIBNQ5D/cjjUuWXjq
+ 0xDBII9IBNwuF+TuRMgNzJuVueW5Bo5f3ty4TzKAyNiAQ31ibmRKP/gddDb7rakguN
+ 4YPUXmqw8iitR7rHsyr7c3LBBgOY/vlcc2Ze32Vk=
+Subject: Patch "drm/mgag200: Flag all G200 SE A machines as broken wrt
+ <startadd>" has been added to the 5.4-stable tree
+To: 20191206081901.9938-1-tzimmermann@suse.de, airlied@linux.ie,
+ airlied@redhat.com, alexander.deucher@amd.com, allison@lohutok.net,
+ andrzej.p@collabora.com, daniel.vetter@ffwll.ch,
  dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
- juston.li@intel.com, lyude@redhat.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, sean@poorly.run
+ john.p.donnelly@oracle.com, jose.souza@intel.com, kraxel@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, narmstrong@baylibre.com,
+ noralf@tronnes.org, sam@ravnborg.org, tglx@linutronix.de, tzimmermann@suse.de,
+ yc_chen@aspeedtech.com
 From: <gregkh@linuxfoundation.org>
 Date: Thu, 19 Dec 2019 12:37:31 +0100
-Message-ID: <157675545110354@kroah.com>
+Message-ID: <157675545116151@kroah.com>
 MIME-Version: 1.0
 X-stable: commit
 X-Patchwork-Hint: ignore 
@@ -51,93 +54,76 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: stable-commits@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-This is a note to let you know that I've just added the patch titled
-
-    drm/dp_mst: Correct the bug in drm_dp_update_payload_part1()
-
-to the 5.4-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
-
-The filename of the patch is:
-     drm-dp_mst-correct-the-bug-in-drm_dp_update_payload_part1.patch
-and it can be found in the queue-5.4 subdirectory.
-
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From e5a6ca27eb72c67533ddfc11c06df84beaa167fa Mon Sep 17 00:00:00 2001
-From: Wayne Lin <Wayne.Lin@amd.com>
-Date: Tue, 3 Dec 2019 12:24:23 +0800
-Subject: drm/dp_mst: Correct the bug in drm_dp_update_payload_part1()
-
-From: Wayne Lin <Wayne.Lin@amd.com>
-
-commit e5a6ca27eb72c67533ddfc11c06df84beaa167fa upstream.
-
-[Why]
-If the payload_state is DP_PAYLOAD_DELETE_LOCAL in series, current
-code doesn't delete the payload at current index and just move the
-index to next one after shuffling payloads.
-
-[How]
-Drop the i++ increasing part in for loop head and decide whether
-to increase the index or not according to payload_state of current
-payload.
-
-Changes since v1:
-* Refine the code to have it easy reading
-* Amend the commit message to meet the way code is modified now.
-
-Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
-Reviewed-by: Lyude Paul <lyude@redhat.com>
-Fixes: 706246c761dd ("drm/dp_mst: Refactor drm_dp_update_payload_part1()")
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Juston Li <juston.li@intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Sean Paul <sean@poorly.run>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v5.1+
-[Added cc for stable]
-Signed-off-by: Lyude Paul <lyude@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20191203042423.5961-1-Wayne.Lin@amd.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
----
- drivers/gpu/drm/drm_dp_mst_topology.c |    6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
---- a/drivers/gpu/drm/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -2465,9 +2465,11 @@ int drm_dp_update_payload_part1(struct d
- 			drm_dp_mst_topology_put_port(port);
- 	}
- 
--	for (i = 0; i < mgr->max_payloads; i++) {
--		if (mgr->payloads[i].payload_state != DP_PAYLOAD_DELETE_LOCAL)
-+	for (i = 0; i < mgr->max_payloads; /* do nothing */) {
-+		if (mgr->payloads[i].payload_state != DP_PAYLOAD_DELETE_LOCAL) {
-+			i++;
- 			continue;
-+		}
- 
- 		DRM_DEBUG_KMS("removing payload %d\n", i);
- 		for (j = i; j < mgr->max_payloads - 1; j++) {
-
-
-Patches currently in stable-queue which might be from Wayne.Lin@amd.com are
-
-queue-5.4/drm-dp_mst-correct-the-bug-in-drm_dp_update_payload_part1.patch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+ClRoaXMgaXMgYSBub3RlIHRvIGxldCB5b3Uga25vdyB0aGF0IEkndmUganVzdCBhZGRlZCB0aGUg
+cGF0Y2ggdGl0bGVkCgogICAgZHJtL21nYWcyMDA6IEZsYWcgYWxsIEcyMDAgU0UgQSBtYWNoaW5l
+cyBhcyBicm9rZW4gd3J0IDxzdGFydGFkZD4KCnRvIHRoZSA1LjQtc3RhYmxlIHRyZWUgd2hpY2gg
+Y2FuIGJlIGZvdW5kIGF0OgogICAgaHR0cDovL3d3dy5rZXJuZWwub3JnL2dpdC8/cD1saW51eC9r
+ZXJuZWwvZ2l0L3N0YWJsZS9zdGFibGUtcXVldWUuZ2l0O2E9c3VtbWFyeQoKVGhlIGZpbGVuYW1l
+IG9mIHRoZSBwYXRjaCBpczoKICAgICBkcm0tbWdhZzIwMC1mbGFnLWFsbC1nMjAwLXNlLWEtbWFj
+aGluZXMtYXMtYnJva2VuLXdydC1zdGFydGFkZC5wYXRjaAphbmQgaXQgY2FuIGJlIGZvdW5kIGlu
+IHRoZSBxdWV1ZS01LjQgc3ViZGlyZWN0b3J5LgoKSWYgeW91LCBvciBhbnlvbmUgZWxzZSwgZmVl
+bHMgaXQgc2hvdWxkIG5vdCBiZSBhZGRlZCB0byB0aGUgc3RhYmxlIHRyZWUsCnBsZWFzZSBsZXQg
+PHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmc+IGtub3cgYWJvdXQgaXQuCgoKRnJvbSA0YWRmMGI0OWVl
+YTkyNmE1NWZkOTU2ZWY3ZDg2NzUwZjc3MTQzNWZmIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQpG
+cm9tOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KRGF0ZTogRnJpLCA2
+IERlYyAyMDE5IDA5OjE5OjAxICswMTAwClN1YmplY3Q6IGRybS9tZ2FnMjAwOiBGbGFnIGFsbCBH
+MjAwIFNFIEEgbWFjaGluZXMgYXMgYnJva2VuIHdydCA8c3RhcnRhZGQ+Ck1JTUUtVmVyc2lvbjog
+MS4wCkNvbnRlbnQtVHlwZTogdGV4dC9wbGFpbjsgY2hhcnNldD1VVEYtOApDb250ZW50LVRyYW5z
+ZmVyLUVuY29kaW5nOiA4Yml0CgpGcm9tOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5A
+c3VzZS5kZT4KCmNvbW1pdCA0YWRmMGI0OWVlYTkyNmE1NWZkOTU2ZWY3ZDg2NzUwZjc3MTQzNWZm
+IHVwc3RyZWFtLgoKU2V2ZXJhbCBNR0EgRzIwMCBTRSBtYWNoaW5lcyBkb24ndCByZXNwZWN0IHRo
+ZSB2YWx1ZSBvZiB0aGUgc3RhcnRhZGQKcmVnaXN0ZXIgZmllbGQuIEFmdGVyIG1vcmUgZmVlZGJh
+Y2sgb24gYWZmZWN0ZWQgbWFjaGluZXMsIG5laXRoZXIgUENJCnN1YnZlbmRvciBJRCBub3IgdGhl
+IGludGVybmFsIElEIHNlZW0gdG8gaGludCB0b3dhcmRzIHRoZSBidWcuIEFsbAphZmZlY3RlZCBt
+YWNoaW5lcyBoYXZlIGEgUENJIElEIG9mIDB4MDUyMiAoaS5lLiwgRzIwMCBTRSBBKS4gSXQgd2Fz
+CmRlY2lkZWQgdG8gZmxhZyBhbGwgRzIwMCBTRSBBIG1hY2hpbmVzIGFzIGJyb2tlbi4KClNpZ25l
+ZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgpBY2tlZC1i
+eTogR2VyZCBIb2ZmbWFubiA8a3JheGVsQHJlZGhhdC5jb20+CkZpeGVzOiAxNTkxZmFkZjg1N2Mg
+KCJkcm0vbWdhZzIwMDogQWRkIHdvcmthcm91bmQgZm9yIEhXIHRoYXQgZG9lcyBub3Qgc3VwcG9y
+dCAnc3RhcnRhZGQnIikKQ2M6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRl
+PgpDYzogSm9obiBEb25uZWxseSA8am9obi5wLmRvbm5lbGx5QG9yYWNsZS5jb20+CkNjOiBEYW5p
+ZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgpDYzogR2VyZCBIb2ZmbWFubiA8a3Jh
+eGVsQHJlZGhhdC5jb20+CkNjOiBEYXZlIEFpcmxpZSA8YWlybGllZEByZWRoYXQuY29tPgpDYzog
+TWFhcnRlbiBMYW5raG9yc3QgPG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT4KQ2M6
+IE1heGltZSBSaXBhcmQgPG1yaXBhcmRAa2VybmVsLm9yZz4KQ2M6IERhdmlkIEFpcmxpZSA8YWly
+bGllZEBsaW51eC5pZT4KQ2M6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KQ2M6ICJZ
+LkMuIENoZW4iIDx5Y19jaGVuQGFzcGVlZHRlY2guY29tPgpDYzogTmVpbCBBcm1zdHJvbmcgPG5h
+cm1zdHJvbmdAYmF5bGlicmUuY29tPgpDYzogVGhvbWFzIEdsZWl4bmVyIDx0Z2x4QGxpbnV0cm9u
+aXguZGU+CkNjOiAiSm9zw6kgUm9iZXJ0byBkZSBTb3V6YSIgPGpvc2Uuc291emFAaW50ZWwuY29t
+PgpDYzogQW5kcnplaiBQaWV0cmFzaWV3aWN6IDxhbmRyemVqLnBAY29sbGFib3JhLmNvbT4KQ2M6
+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwu
+b3JnPiAjIHY1LjMrCkNjOiBHcmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdraEBsaW51eGZvdW5kYXRp
+b24ub3JnPgpDYzogQWxsaXNvbiBSYW5kYWwgPGFsbGlzb25AbG9odXRvay5uZXQ+CkNjOiBBbGV4
+IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+CkNjOiAiTm9yYWxmIFRyw7hubmVz
+IiA8bm9yYWxmQHRyb25uZXMub3JnPgpMaW5rOiBodHRwczovL3BhdGNod29yay5mcmVlZGVza3Rv
+cC5vcmcvcGF0Y2gvbXNnaWQvMjAxOTEyMDYwODE5MDEuOTkzOC0xLXR6aW1tZXJtYW5uQHN1c2Uu
+ZGUKU2lnbmVkLW9mZi1ieTogR3JlZyBLcm9haC1IYXJ0bWFuIDxncmVna2hAbGludXhmb3VuZGF0
+aW9uLm9yZz4KCi0tLQogZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9kcnYuYyB8ICAg
+IDMgKy0tCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDIgZGVsZXRpb25zKC0pCgot
+LS0gYS9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2Rydi5jCisrKyBiL2RyaXZlcnMv
+Z3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfZHJ2LmMKQEAgLTMwLDkgKzMwLDggQEAgbW9kdWxlX3Bh
+cmFtX25hbWVkKG1vZGVzZXQsIG1nYWcyMDBfbW9kZQogc3RhdGljIHN0cnVjdCBkcm1fZHJpdmVy
+IGRyaXZlcjsKIAogc3RhdGljIGNvbnN0IHN0cnVjdCBwY2lfZGV2aWNlX2lkIHBjaWlkbGlzdFtd
+ID0gewotCXsgUENJX1ZFTkRPUl9JRF9NQVRST1gsIDB4NTIyLCBQQ0lfVkVORE9SX0lEX1NVTiwg
+MHg0ODUyLCAwLCAwLAorCXsgUENJX1ZFTkRPUl9JRF9NQVRST1gsIDB4NTIyLCBQQ0lfQU5ZX0lE
+LCBQQ0lfQU5ZX0lELCAwLCAwLAogCQlHMjAwX1NFX0EgfCBNR0FHMjAwX0ZMQUdfSFdfQlVHX05P
+X1NUQVJUQUREfSwKLQl7IFBDSV9WRU5ET1JfSURfTUFUUk9YLCAweDUyMiwgUENJX0FOWV9JRCwg
+UENJX0FOWV9JRCwgMCwgMCwgRzIwMF9TRV9BIH0sCiAJeyBQQ0lfVkVORE9SX0lEX01BVFJPWCwg
+MHg1MjQsIFBDSV9BTllfSUQsIFBDSV9BTllfSUQsIDAsIDAsIEcyMDBfU0VfQiB9LAogCXsgUENJ
+X1ZFTkRPUl9JRF9NQVRST1gsIDB4NTMwLCBQQ0lfQU5ZX0lELCBQQ0lfQU5ZX0lELCAwLCAwLCBH
+MjAwX0VWIH0sCiAJeyBQQ0lfVkVORE9SX0lEX01BVFJPWCwgMHg1MzIsIFBDSV9BTllfSUQsIFBD
+SV9BTllfSUQsIDAsIDAsIEcyMDBfV0IgfSwKCgpQYXRjaGVzIGN1cnJlbnRseSBpbiBzdGFibGUt
+cXVldWUgd2hpY2ggbWlnaHQgYmUgZnJvbSB0emltbWVybWFubkBzdXNlLmRlIGFyZQoKcXVldWUt
+NS40L2RybS1tZ2FnMjAwLWZsYWctYWxsLWcyMDAtc2UtYS1tYWNoaW5lcy1hcy1icm9rZW4td3J0
+LXN0YXJ0YWRkLnBhdGNoCnF1ZXVlLTUuNC9kcm0tbWdhZzIwMC1zdG9yZS1mbGFncy1mcm9tLXBj
+aS1kcml2ZXItZGF0YS1pbi1kZXZpY2Utc3RydWN0dXJlLnBhdGNoCnF1ZXVlLTUuNC9kcm0tbWdh
+ZzIwMC1hZGQtd29ya2Fyb3VuZC1mb3ItaHctdGhhdC1kb2VzLW5vdC1zdXBwb3J0LXN0YXJ0YWRk
+LnBhdGNoCnF1ZXVlLTUuNC9kcm0tbWdhZzIwMC1leHRyYWN0LWRldmljZS10eXBlLWZyb20tZmxh
+Z3MucGF0Y2gKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
