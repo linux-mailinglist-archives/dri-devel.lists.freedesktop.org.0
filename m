@@ -2,42 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AB7C125E74
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 11:03:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F2E9125E95
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 11:10:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E1F96EAF4;
-	Thu, 19 Dec 2019 10:03:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE40A89B8F;
+	Thu, 19 Dec 2019 10:10:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F9086EAF4
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 10:03:47 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 671EBE3B;
- Thu, 19 Dec 2019 11:03:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1576749826;
- bh=ApbKPu6VSzePVame5Mt3wlW5rKA31/FJ8dOPMFuX0k0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jalzSUrkI3OEZuRezjs8/7vdtBcW7f8H1r85U8N+42lr5eJ4HlEWo2IZmU969PfcO
- ybuuBBhnPaWX1Oavz+rmLI0KtPlsKFoGAMB4YdT6/HN+YRAWbu36FxOoP0GcyVncRD
- YcZ7cchfslEEDrU7o0jwHgUQ71IKzKauTPf+nwe4=
-Date: Thu, 19 Dec 2019 12:03:32 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v3 45/50] drm/omap: dpi: Register a drm_bridge
-Message-ID: <20191219100332.GB15002@pendragon.ideasonboard.com>
-References: <20191210225750.15709-1-laurent.pinchart@ideasonboard.com>
- <20191210225750.15709-46-laurent.pinchart@ideasonboard.com>
- <8f7e454b-4d63-37cf-ef83-77e23e90e07d@ti.com>
- <20191219094013.GA15002@pendragon.ideasonboard.com>
- <6727b9aa-37de-68f8-d2e1-eb4cc2c471ad@ti.com>
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
+ [IPv6:2607:f8b0:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8603789B8F
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 10:10:49 +0000 (UTC)
+Received: by mail-oi1-x242.google.com with SMTP id l136so2444365oig.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 02:10:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8Cr4KDsrSrUXnbU/Gr6Foj6VfqdF5VwH1MBdetl2SOg=;
+ b=DAdi4AJAgSRWd7DNciQSFAP3HrKk34OYvC989VkKAT5AYDSuaR2HvJQIl7PfwTtmAa
+ aRU/cySx3nfaeflRJijnSNuJRonpNKlwMQvd/U0NQ5MDbIwDVdNDLuDFEUDLuEIxYdk7
+ Ur6BC0beoIjLF9tjm7iELb/AGfJD783mQajF0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8Cr4KDsrSrUXnbU/Gr6Foj6VfqdF5VwH1MBdetl2SOg=;
+ b=pcRPiTsmNSCmzr6Yh2B9C8zsMFyQqh26qiigHuTMOF8dRhfvInzUZql9SpQT3lQokX
+ 33lInFGr6lj+BEAEAEgrehelGsZ32Mk6kvdWq1+LjaNstN9mZoAk10F49Vq+8zjA3jnq
+ Oa0cM14dv04B4kVMAZ+3WEbHDvALLpeotgwfFupKIrCTGG3Bp7CP1IfGPRH0ltX4uIQt
+ mKXscUsLAlGZGjfkEKyx5+NlhoHX/FFtfuO7Bs+oMqVVDSnIUwaex+ng7yzo8U4qf5V1
+ svuzXtybOZeI75Fv+JlDNbcbUqWoThVT4cnMVjFK9BX7w1v3Rn4VtoVnHWBpaXni6muC
+ MNwg==
+X-Gm-Message-State: APjAAAWsUduKQgVBZ30ezVNcHMXA21o4ueV/WCbaBzKKLjBSGe02FTb+
+ 58CIntnE3KKXp9mqLSDpzi22Cl7L5UBxQ9AZwfibkA==
+X-Google-Smtp-Source: APXvYqw88arFrE2W1gR829kbJEMlM/aJQNJRHg62vPZaoFm7Qq8s5R4EHDI2vmTd/t7qDH93C3EIOQuCRgYi85tiruM=
+X-Received: by 2002:aca:d985:: with SMTP id q127mr1737283oig.132.1576750248829; 
+ Thu, 19 Dec 2019 02:10:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <6727b9aa-37de-68f8-d2e1-eb4cc2c471ad@ti.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <07899bd5-e9a5-cff0-395f-b4fb3f0f7f6c@huawei.com>
+ <f867543cf5d0fc3fdd0534749326411bcfc5e363.camel@collabora.com>
+ <c2e5f5a5-5839-42a9-2140-903e99e166db@huawei.com>
+ <fde72f73-d678-2b77-3950-d465f0afe904@huawei.com>
+ <CAKMK7uFr03euoB6rY8z9zmRyznP41vwfdaKApZ_0HfYZT4Hq_w@mail.gmail.com>
+ <fcca5732-c7dc-6e1d-dcbe-bfd914a4295b@huawei.com>
+In-Reply-To: <fcca5732-c7dc-6e1d-dcbe-bfd914a4295b@huawei.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 19 Dec 2019 11:10:37 +0100
+Message-ID: <CAKMK7uE+nfR2hv1ybfv1ZApZbGnnX7ZHfjFCv5K72ZaAmdtfug@mail.gmail.com>
+Subject: Re: Warnings in DRM code when removing/unbinding a driver
+To: John Garry <john.garry@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,43 +62,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Boris Brezillon <bbrezillon@kernel.org>, Sean Paul <sean@poorly.run>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- dri-devel@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>
+Cc: dbueso@suse.de, "airlied@linux.ie" <airlied@linux.ie>,
+ "Chenfeng \(puck\)" <puck.chen@hisilicon.com>, Linuxarm <linuxarm@huawei.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "kongxinwei \(A\)" <kong.kongxinwei@hisilicon.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Ezequiel Garcia <ezequiel@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 19, 2019 at 12:01:34PM +0200, Tomi Valkeinen wrote:
-> On 19/12/2019 11:40, Laurent Pinchart wrote:
-> >> Do we ever get drm_bridge_funcs calls from multiple threads at the
-> >> same time? Is there a difference between having a single DPI output,
-> >> or multiple DPI outputs (i.e. can two different DPI outputs get calls
-> >> simultaneously?).
-> > 
-> > I'll drop the lock, it's not needed. The core should serialize calls to
-> > the bridge, at least per output. For different outputs, there's a
-> > possibility I believe of atomic commits being handled concurrently if
-> > they don't share any resource.
-> 
-> I don't think we do much locking with resource handling. E.g. we have single registers with mux 
-> settings for multiple outputs. If DPI (or any other dss output) gets called concurrently for 
-> different outputs, we might get a race.
-> 
-> I wonder if that concurrency is opt-in...
+On Thu, Dec 19, 2019 at 11:03 AM John Garry <john.garry@huawei.com> wrote:
+>
+> On 19/12/2019 09:54, Daniel Vetter wrote:
+> > On Wed, Dec 18, 2019 at 7:08 PM John Garry <john.garry@huawei.com> wrote:
+> >>
+> >> +
+> >>
+> >> So the v5.4 kernel does not have this issue.
+> >>
+> >> I have bisected the initial occurrence to:
+> >>
+> >> commit 37a48adfba6cf6e87df9ba8b75ab85d514ed86d8
+> >> Author: Thomas Zimmermann <tzimmermann@suse.de>
+> >> Date:   Fri Sep 6 14:20:53 2019 +0200
+> >>
+> >>       drm/vram: Add kmap ref-counting to GEM VRAM objects
+> >>
+> >>       The kmap and kunmap operations of GEM VRAM buffers can now be called
+> >>       in interleaving pairs. The first call to drm_gem_vram_kmap() maps the
+> >>       buffer's memory to kernel address space and the final call to
+> >>       drm_gem_vram_kunmap() unmaps the memory. Intermediate calls to these
+> >>       functions increment or decrement a reference counter.
+> >>
+> >> So this either exposes or creates the issue.
+> >
+> > Yeah that's just shooting the messenger.
+>
+> OK, so it exposes it.
+>
+>   Like I said, for most drivers
+> > you can pretty much assume that their unload sequence has been broken
+> > since forever. It's not often tested, and especially the hotunbind
+> > from a device (as opposed to driver unload) stuff wasn't even possible
+> > to get right until just recently.
+>
+> Do you think it's worth trying to fix this for 5.5 and earlier, or just
+> switch to the device-managed interface for 5.6 and forget about 5.5 and
+> earlier?
 
-It's at least opt-out in the sense that we can acquire all resources in
-our top-level .atomic_check() implementation if we want to. Of course
-the best option would be to handle locking correcly in the core :-) With
-this rework done, I want to focus on Sebastian's DSI move to drm_bridge,
-and then remove lots of dead code. I think a cleanup pass in the DISPC
-would be useful after that.
+I suspect it's going to be quite some trickery to fix this properly
+and everywhere, even for just one driver. Lots of drm drivers
+unfortunately use anti-patterns with wrong lifetimes (e.g. you can't
+use devm_kmalloc for anything that hangs of a drm_device, like
+plane/crtc/connector). Except when it's for a real hotunpluggable
+device (usb) we've never bothered backporting these fixes. Too much
+broken stuff unfortunately.
+-Daniel
+
+>
+> Thanks,
+> John
+
+
 
 -- 
-Regards,
-
-Laurent Pinchart
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
