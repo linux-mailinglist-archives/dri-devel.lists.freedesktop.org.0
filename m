@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDA31125D11
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 09:56:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A302125D2C
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 10:01:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD8F16EADF;
-	Thu, 19 Dec 2019 08:56:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87E0B6EAE0;
+	Thu, 19 Dec 2019 09:01:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BE3F6EADF
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 08:56:48 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBJ8uhbK098406;
- Thu, 19 Dec 2019 02:56:43 -0600
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92D016EAE0
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 09:01:51 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBJ91lHu100476;
+ Thu, 19 Dec 2019 03:01:47 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1576745803;
- bh=ghOO+D7CGEQ5OkDKAqY4aaftMe58YRkp6swMkcap3KM=;
+ s=ti-com-17Q1; t=1576746107;
+ bh=2WHGi1n0+u/vbNw6/gHNKvoU0E8V/mK9jSwhniNl1vE=;
  h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=K1z1z17SBVLXkPm+uOeZaaks752RcBffF/V1hlB/4ydI80Xpk0UO5w7rjZCV7agzQ
- z7UBNU9Gj1jf+df6K2nDBzpIcbTU94ezZ2PA7xUZseuPNdz7ilbh+Zz55vhGLfnzOm
- O5YVBTpa/YzfD/yQ6lk3uO9omp3Xm76ymxBnHtA4=
-Received: from DLEE111.ent.ti.com (dlee111.ent.ti.com [157.170.170.22])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xBJ8uhhE101181
+ b=u/ZIuaqNAsFcUyo7VCw3jFmjLZvz5G0l4fSLD54ewNVqj/htOh+b7wJaC3gKn2V2L
+ nH36J5OQW3oGykUjKnbKWkEwDVARBZV15lrYI/9NAvrB8Mt9DPw6blB+CV9A8lObeZ
+ pS65gNIVskt27+AjxItoc8+fquBoi3kTPyOAIxu4=
+Received: from DFLE101.ent.ti.com (dfle101.ent.ti.com [10.64.6.22])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xBJ91lVT014050
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 19 Dec 2019 02:56:43 -0600
-Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
+ Thu, 19 Dec 2019 03:01:47 -0600
+Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE101.ent.ti.com
+ (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Thu, 19
- Dec 2019 02:56:42 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ Dec 2019 03:01:46 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Thu, 19 Dec 2019 02:56:41 -0600
+ Frontend Transport; Thu, 19 Dec 2019 03:01:46 -0600
 Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBJ8ueJh036010;
- Thu, 19 Dec 2019 02:56:40 -0600
-Subject: Re: [PATCH v3 43/50] drm/omap: dpi: Reorder functions in sections
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBJ91iNN033769;
+ Thu, 19 Dec 2019 03:01:45 -0600
+Subject: Re: [PATCH v3 44/50] drm/omap: dpi: Simplify clock setting API
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  <dri-devel@lists.freedesktop.org>
 References: <20191210225750.15709-1-laurent.pinchart@ideasonboard.com>
- <20191210225750.15709-44-laurent.pinchart@ideasonboard.com>
+ <20191210225750.15709-45-laurent.pinchart@ideasonboard.com>
 From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <7ce792fb-db0e-3c6b-560f-ee5a599abb60@ti.com>
-Date: Thu, 19 Dec 2019 10:56:39 +0200
+Message-ID: <6bc41a81-3aed-42cd-81eb-7cc900c84fed@ti.com>
+Date: Thu, 19 Dec 2019 11:01:44 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191210225750.15709-44-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20191210225750.15709-45-laurent.pinchart@ideasonboard.com>
 Content-Language: en-US
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,15 +72,14 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 11/12/2019 00:57, Laurent Pinchart wrote:
-> Group functions based on their purpose and split them in sections to
-> make the source code easier to navigate.
-> 
-> No functional change is included.
+> The dpi_set_pll_clk() and dpi_set_dispc_clk() return various information
+> through pointer arguments that are never used by the callers. Remove
+> them to simplify the clock setting API.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
->   drivers/gpu/drm/omapdrm/dss/dpi.c | 146 ++++++++++++++++--------------
->   1 file changed, 79 insertions(+), 67 deletions(-)
+>   drivers/gpu/drm/omapdrm/dss/dpi.c | 32 ++++++++-----------------------
+>   1 file changed, 8 insertions(+), 24 deletions(-)
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 
