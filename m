@@ -1,59 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CFC9127110
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2019 00:01:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98F431271C7
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2019 00:47:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A11D6EBA7;
-	Thu, 19 Dec 2019 23:01:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29B1F6EBA8;
+	Thu, 19 Dec 2019 23:47:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
- [216.228.121.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5586F6EBA7
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 23:01:37 +0000 (UTC)
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5dfc01460000>; Thu, 19 Dec 2019 15:01:26 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Thu, 19 Dec 2019 15:01:36 -0800
-X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Thu, 19 Dec 2019 15:01:36 -0800
-Received: from [10.2.165.11] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 19 Dec
- 2019 23:01:32 +0000
-Subject: Re: [PATCH v11 00/25] mm/gup: track dma-pinned pages: FOLL_PIN
-To: Jason Gunthorpe <jgg@ziepe.ca>
-References: <20191216222537.491123-1-jhubbard@nvidia.com>
- <20191219132607.GA410823@unreal>
- <a4849322-8e17-119e-a664-80d9f95d850b@nvidia.com>
- <20191219210743.GN17227@ziepe.ca>
-From: John Hubbard <jhubbard@nvidia.com>
-X-Nvconfidentiality: public
-Message-ID: <f10b2a18-a109-d87d-f156-2e5941cbf4a0@nvidia.com>
-Date: Thu, 19 Dec 2019 14:58:43 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+ [209.85.210.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73C2E6EBA8
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 23:47:51 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id h9so6787363otj.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 15:47:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=18UcAb5rbPMss22Ho10Y3g3P3ch3yNs8mlHDvPuR4oU=;
+ b=oDmz2PgS9xTJ1Dw9we73XkfQS6KJUH99BvUborzo6QJRUXqR0YHW93aMGViok77qLs
+ /1970frPCfNIq0AFpz/8pw1RKlHSDwa9vHv8uFyceKSmNzFlzIE8vKbA1k3vEZwAu/0R
+ o9u9Ct35vragWlu4ijQkJ6nHQPh5JiYe4lY5W3P0uGBwKhTkVKYq0D+5wGHwkRESVFYs
+ 8xu0f6DUiGpL06Bz40A9zTBryL5/Fr/QrgASqsu4/MsvcbnBo+qANGIuQUJIieL37R3P
+ suubtDUPTx7Or830eHCvSPnz02dMLCJ9Qb3OzWg72H7Fi3xTMrdymSgxtdFQwMviEPKj
+ /tTA==
+X-Gm-Message-State: APjAAAWdEPtZM/MkSVulxOSrU8yGPmnHYEkvn1piY/fqextPhUNMKgmi
+ sCKoxlKjF1Lx+YjxTalg8A==
+X-Google-Smtp-Source: APXvYqwn2zt/hEoslzgFitK7qNptvvyashP6FwXW1JD5npPwJGdehqnhGdzJkgQ1XfMc2/ZX5+wl9Q==
+X-Received: by 2002:a9d:6b17:: with SMTP id g23mr11137126otp.265.1576799270756; 
+ Thu, 19 Dec 2019 15:47:50 -0800 (PST)
+Received: from localhost (ip-184-205-174-147.ftwttx.spcsdns.net.
+ [184.205.174.147])
+ by smtp.gmail.com with ESMTPSA id n22sm2712400otj.36.2019.12.19.15.47.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Dec 2019 15:47:50 -0800 (PST)
+Date: Thu, 19 Dec 2019 17:47:47 -0600
+From: Rob Herring <robh@kernel.org>
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: Re: [PATCH 01/12] dt-bindings: display: rockchip-lvds: Declare PX30
+ compatible
+Message-ID: <20191219234747.GA30229@bogus>
+References: <20191213181051.25983-1-miquel.raynal@bootlin.com>
+ <20191213181051.25983-2-miquel.raynal@bootlin.com>
 MIME-Version: 1.0
-In-Reply-To: <20191219210743.GN17227@ziepe.ca>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1576796487; bh=tiz2hjGylLUwQicEfM7bbVznNfOI7NYEds0c0vA1QMM=;
- h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
- Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
- X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
- Content-Transfer-Encoding;
- b=b9nfbLbOU3yxpVqIIaBOiQ473nBIz922apZxE1IrupUUh8SNEOhVo6IVdG2r43vLJ
- 4jKe3WF/hSHMqYGRTzshyIl6NdNPonsIgBdktYwLBx4gddxBCo6ylu/2K8X3U0Zlog
- s57RUZCPBj+vzcghUMvS13hst+czC/a1fnFScF/KpET6JOLGjE4UK2D0iFWxOJzqkB
- G3QA+09obkRe07yz4xxns/Z0GGpHhMWWYvdr9+O1DDSUF6ihcslcGnDOC4rVyITRdZ
- pbuJA43a0rZtoOiujbH30Dp2QIS/cmGf9orhL7sRcQsUzQHAJA8tzeDnMi0Ub/wBYk
- 1yzeZpK4w4FUw==
+Content-Disposition: inline
+In-Reply-To: <20191213181051.25983-2-miquel.raynal@bootlin.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,148 +60,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
- linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
- linux-kselftest@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
- Maor Gottlieb <maorg@mellanox.com>, Leon Romanovsky <leon@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
- Michael Ellerman <mpe@ellerman.id.au>, Christoph Hellwig <hch@infradead.org>,
- Vlastimil Babka <vbabka@suse.cz>,
- =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
- linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- linux-block@vger.kernel.org,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Al Viro <viro@zeniv.linux.org.uk>, Dan Williams <dan.j.williams@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, bpf@vger.kernel.org,
- Magnus Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
- netdev@vger.kernel.org, Alex
- Williamson <alex.williamson@redhat.com>, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- "David S . Miller" <davem@davemloft.net>,
- Mike Kravetz <mike.kravetz@oracle.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ David Airlie <airlied@linux.ie>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ linux-rockchip@lists.infradead.org, Miquel Raynal <miquel.raynal@bootlin.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/19/19 1:07 PM, Jason Gunthorpe wrote:
-...
->> 3. It would be nice if I could reproduce this. I have a two-node mlx5 Infiniband
->> test setup, but I have done only the tiniest bit of user space IB coding, so
->> if you have any test programs that aren't too hard to deal with that could
->> possibly hit this, or be tweaked to hit it, I'd be grateful. Keeping in mind
->> that I'm not an advanced IB programmer. At all. :)
+On Fri, 13 Dec 2019 19:10:40 +0100, Miquel Raynal wrote:
+> Document the PX30 LVDS compatible.
 > 
-> Clone this:
-> 
-> https://github.com/linux-rdma/rdma-core.git
-> 
-> Install all the required deps to build it (notably cython), see the README.md
-> 
-> $ ./build.sh
-> $ build/bin/run_tests.py
-> 
-> If you get things that far I think Leon can get a reproduction for you
+> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> ---
+>  .../devicetree/bindings/display/rockchip/rockchip-lvds.txt       | 1 +
+>  1 file changed, 1 insertion(+)
 > 
 
-Cool, it's up and running (1 failure, 3 skipped, out of 67 tests).
-
-This is a great test suite to have running, I'll add it to my scripts. Here's the
-full output in case the failure or skip cases are a problem:
-
-$ sudo ./build/bin/run_tests.py --verbose
-
-test_create_ah (tests.test_addr.AHTest) ... ok
-test_create_ah_roce (tests.test_addr.AHTest) ... skipped "Can't run RoCE tests on IB link layer"
-test_destroy_ah (tests.test_addr.AHTest) ... ok
-test_create_comp_channel (tests.test_cq.CCTest) ... ok
-test_destroy_comp_channel (tests.test_cq.CCTest) ... ok
-test_create_cq_ex (tests.test_cq.CQEXTest) ... ok
-test_create_cq_ex_bad_flow (tests.test_cq.CQEXTest) ... ok
-test_destroy_cq_ex (tests.test_cq.CQEXTest) ... ok
-test_create_cq (tests.test_cq.CQTest) ... ok
-test_create_cq_bad_flow (tests.test_cq.CQTest) ... ok
-test_destroy_cq (tests.test_cq.CQTest) ... ok
-test_rc_traffic_cq_ex (tests.test_cqex.CqExTestCase) ... ok
-test_ud_traffic_cq_ex (tests.test_cqex.CqExTestCase) ... ok
-test_xrc_traffic_cq_ex (tests.test_cqex.CqExTestCase) ... ok
-test_create_dm (tests.test_device.DMTest) ... ok
-test_create_dm_bad_flow (tests.test_device.DMTest) ... ok
-test_destroy_dm (tests.test_device.DMTest) ... ok
-test_destroy_dm_bad_flow (tests.test_device.DMTest) ... ok
-test_dm_read (tests.test_device.DMTest) ... ok
-test_dm_write (tests.test_device.DMTest) ... ok
-test_dm_write_bad_flow (tests.test_device.DMTest) ... ok
-test_dev_list (tests.test_device.DeviceTest) ... ok
-test_open_dev (tests.test_device.DeviceTest) ... ok
-test_query_device (tests.test_device.DeviceTest) ... ok
-test_query_device_ex (tests.test_device.DeviceTest) ... ok
-test_query_gid (tests.test_device.DeviceTest) ... ok
-test_query_port (tests.test_device.DeviceTest) ... FAIL
-test_query_port_bad_flow (tests.test_device.DeviceTest) ... ok
-test_create_dm_mr (tests.test_mr.DMMRTest) ... ok
-test_destroy_dm_mr (tests.test_mr.DMMRTest) ... ok
-test_buffer (tests.test_mr.MRTest) ... ok
-test_dereg_mr (tests.test_mr.MRTest) ... ok
-test_dereg_mr_twice (tests.test_mr.MRTest) ... ok
-test_lkey (tests.test_mr.MRTest) ... ok
-test_read (tests.test_mr.MRTest) ... ok
-test_reg_mr (tests.test_mr.MRTest) ... ok
-test_reg_mr_bad_flags (tests.test_mr.MRTest) ... ok
-test_reg_mr_bad_flow (tests.test_mr.MRTest) ... ok
-test_rkey (tests.test_mr.MRTest) ... ok
-test_write (tests.test_mr.MRTest) ... ok
-test_dereg_mw_type1 (tests.test_mr.MWTest) ... ok
-test_dereg_mw_type2 (tests.test_mr.MWTest) ... ok
-test_reg_mw_type1 (tests.test_mr.MWTest) ... ok
-test_reg_mw_type2 (tests.test_mr.MWTest) ... ok
-test_reg_mw_wrong_type (tests.test_mr.MWTest) ... ok
-test_odp_rc_traffic (tests.test_odp.OdpTestCase) ... ok
-test_odp_ud_traffic (tests.test_odp.OdpTestCase) ... skipped 'ODP is not supported - ODP recv not supported'
-test_odp_xrc_traffic (tests.test_odp.OdpTestCase) ... ok
-test_default_allocators (tests.test_parent_domain.ParentDomainTestCase) ... ok
-test_mem_align_allocators (tests.test_parent_domain.ParentDomainTestCase) ... ok
-test_without_allocators (tests.test_parent_domain.ParentDomainTestCase) ... ok
-test_alloc_pd (tests.test_pd.PDTest) ... ok
-test_create_pd_none_ctx (tests.test_pd.PDTest) ... ok
-test_dealloc_pd (tests.test_pd.PDTest) ... ok
-test_destroy_pd_twice (tests.test_pd.PDTest) ... ok
-test_multiple_pd_creation (tests.test_pd.PDTest) ... ok
-test_create_qp_ex_no_attr (tests.test_qp.QPTest) ... ok
-test_create_qp_ex_no_attr_connected (tests.test_qp.QPTest) ... ok
-test_create_qp_ex_with_attr (tests.test_qp.QPTest) ... ok
-test_create_qp_ex_with_attr_connected (tests.test_qp.QPTest) ... ok
-test_create_qp_no_attr (tests.test_qp.QPTest) ... ok
-test_create_qp_no_attr_connected (tests.test_qp.QPTest) ... ok
-test_create_qp_with_attr (tests.test_qp.QPTest) ... ok
-test_create_qp_with_attr_connected (tests.test_qp.QPTest) ... ok
-test_modify_qp (tests.test_qp.QPTest) ... ok
-test_query_qp (tests.test_qp.QPTest) ... ok
-test_rdmacm_sync_traffic (tests.test_rdmacm.CMTestCase) ... skipped 'No devices with net interface'
-
-======================================================================
-FAIL: test_query_port (tests.test_device.DeviceTest)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-   File "/kernel_work/rdma-core/tests/test_device.py", line 129, in test_query_port
-     self.verify_port_attr(port_attr)
-   File "/kernel_work/rdma-core/tests/test_device.py", line 113, in verify_port_attr
-     assert 'Invalid' not in d.speed_to_str(attr.active_speed)
-AssertionError
-
-----------------------------------------------------------------------
-Ran 67 tests in 10.058s
-
-FAILED (failures=1, skipped=3)
-
-
-thanks,
--- 
-John Hubbard
-NVIDIA
+Acked-by: Rob Herring <robh@kernel.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
