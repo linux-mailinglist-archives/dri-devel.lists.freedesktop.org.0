@@ -2,57 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45575125AC0
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 06:28:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4380C125AFC
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 06:51:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76CF66E113;
-	Thu, 19 Dec 2019 05:27:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F00D6E188;
+	Thu, 19 Dec 2019 05:51:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
- [IPv6:2607:f8b0:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E8066E113
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 05:27:54 +0000 (UTC)
-Received: by mail-ot1-x342.google.com with SMTP id 59so5591377otp.12
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 21:27:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=intel-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=YiNT2OwN1PC5xiClJXvmIxtU8FKdWcajydHQPOKowMQ=;
- b=dqorifJ4f+v2Gylbu8oAiFDcKa1F8skIpz6V3IgWOqRB33n7U59EJyePbqvuTj6Vy4
- uOPeG7Kob1GhJUtITzia2N5iO6b+FgQt0PfBLv1SShdXtnPTkzPXC4wv8NlfHewxSVCr
- BWaS5xgO+C3htMgxe5c7ubvEmgYEe4TsZt+Zn5XRlxBQhxFahwlW/Mo0S+TgOXqQ/47k
- mtfOMZwImte59GAX6ig1VEn2mK8lUBxmhPPLTpVmIFFbH4EVvah9nw+1Oh0aFp9cBJiW
- sz8ohgGLCmoNne0NYqks6igeYI3pnrq7++p4oBryH4HFQcsawtXKY12nyEVckq37Q8q+
- 63BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=YiNT2OwN1PC5xiClJXvmIxtU8FKdWcajydHQPOKowMQ=;
- b=cbSijgEU62YO21NoUqV/Iw4lL5eelGskQ+hN1OH6BhUG/OBI9tWm/74+sKSq0u9SvE
- ci2+VR3Jv2SaFeHpNvgkyJrLNlQKNP1oqh4t/pkh99aagRiealvDiky6825CnCaRXO/I
- Snk/esKfXuTo3DRq+z1swxkriHJv+2/wBVeG7/f6dy9zT13No+kSwzlumNL/sPGRIirU
- n13lPOLo4oOwqCYuUZ6Y09QFtT61U+8d5PDuzrEMX9P2qSN201AS42bWYb+1xn55fte9
- oU9d3zTsAdpkT5pcbXPH729IBjkqD4JhfT/74A6S+NFiAf0xq/axGZOyn+e9BmIyP5qs
- Q19Q==
-X-Gm-Message-State: APjAAAWeJ47Scm6f2NAvBz0/qhcqTXwXzmSsOT/7z+YcXwNwsRNnecvD
- pu1IyFnA4k4xz3wNYtYRLDHSmWQcaqlSBlMQDldc6A==
-X-Google-Smtp-Source: APXvYqzIho60C4tgIgH4FPSEG3bP2Gra7VUCaG88r8S6eX3efYPsOK7esN+4WGhr8L+TiHfEgJwBcHps0ms7QGyGe6Y=
-X-Received: by 2002:a05:6830:1744:: with SMTP id
- 4mr6583360otz.71.1576733274234; 
- Wed, 18 Dec 2019 21:27:54 -0800 (PST)
-MIME-Version: 1.0
-References: <20191216222537.491123-1-jhubbard@nvidia.com>
- <20191216222537.491123-5-jhubbard@nvidia.com>
-In-Reply-To: <20191216222537.491123-5-jhubbard@nvidia.com>
-From: Dan Williams <dan.j.williams@intel.com>
-Date: Wed, 18 Dec 2019 21:27:43 -0800
-Message-ID: <CAPcyv4hQBMxYMurxG=Vwh0=FKWoT3z-Kf=dqES1-icRV5bLwKg@mail.gmail.com>
+Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
+ [216.228.121.143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB0146E188
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 05:51:48 +0000 (UTC)
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5dfb0fd60001>; Wed, 18 Dec 2019 21:51:18 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate102.nvidia.com (PGP Universal service);
+ Wed, 18 Dec 2019 21:51:48 -0800
+X-PGP-Universal: processed;
+ by hqpgpgate102.nvidia.com on Wed, 18 Dec 2019 21:51:48 -0800
+Received: from [10.2.165.11] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 19 Dec
+ 2019 05:51:47 +0000
 Subject: Re: [PATCH v11 04/25] mm: devmap: refactor 1-based refcounting for
  ZONE_DEVICE pages
-To: John Hubbard <jhubbard@nvidia.com>
+To: Dan Williams <dan.j.williams@intel.com>
+References: <20191216222537.491123-1-jhubbard@nvidia.com>
+ <20191216222537.491123-5-jhubbard@nvidia.com>
+ <CAPcyv4hQBMxYMurxG=Vwh0=FKWoT3z-Kf=dqES1-icRV5bLwKg@mail.gmail.com>
+From: John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <d0a99e75-0175-0f31-f176-8c37c18a4108@nvidia.com>
+Date: Wed, 18 Dec 2019 21:48:57 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
+MIME-Version: 1.0
+In-Reply-To: <CAPcyv4hQBMxYMurxG=Vwh0=FKWoT3z-Kf=dqES1-icRV5bLwKg@mail.gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1576734679; bh=sCXlmkq8dxoo2tHizwzufCVV/oUf7NWxJHJ14roWTmw=;
+ h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=GK/0OEzMPk1mXpB/B4W5MjyKB4KjAD7QACyt/PluTqMpD63escvQAFpT8GgKashz/
+ zjYVekQ9+jMFWBNLeBd0fSneuL/0IcIp4C+grDhfKeP4gGgfiF1yVdsXHIqTikTNBn
+ TjGaizVxBY5MAKFT0ZuOTKaGbWetrkck9KS2raRunh97qgKrmKFpIg4PPwbiRz76za
+ exoRNucmh5b5u8c4Keiv+48zYJosbfMH0xFWea2gmmlHUZQmtMFnoE6IBRYKWSfpwI
+ AlXqgbv15vIdEK38umLQ7xsD0bruDuQcBNHLMX9Mt0huC0EASH9bq+0C+xF+Z7vdfg
+ E3ondtFacFVjg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,96 +90,54 @@ Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
  linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
  "David S . Miller" <davem@davemloft.net>,
  Mike Kravetz <mike.kravetz@oracle.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBEZWMgMTYsIDIwMTkgYXQgMjoyNiBQTSBKb2huIEh1YmJhcmQgPGpodWJiYXJkQG52
-aWRpYS5jb20+IHdyb3RlOgo+Cj4gQW4gdXBjb21pbmcgcGF0Y2ggY2hhbmdlcyBhbmQgY29tcGxp
-Y2F0ZXMgdGhlIHJlZmNvdW50aW5nIGFuZAo+IGVzcGVjaWFsbHkgdGhlICJwdXQgcGFnZSIgYXNw
-ZWN0cyBvZiBpdC4gSW4gb3JkZXIgdG8ga2VlcAo+IGV2ZXJ5dGhpbmcgY2xlYW4sIHJlZmFjdG9y
-IHRoZSBkZXZtYXAgcGFnZSByZWxlYXNlIHJvdXRpbmVzOgo+Cj4gKiBSZW5hbWUgcHV0X2Rldm1h
-cF9tYW5hZ2VkX3BhZ2UoKSB0byBwYWdlX2lzX2Rldm1hcF9tYW5hZ2VkKCksCj4gICBhbmQgbGlt
-aXQgdGhlIGZ1bmN0aW9uYWxpdHkgdG8gInJlYWQgb25seSI6IHJldHVybiBhIGJvb2wsCj4gICB3
-aXRoIG5vIHNpZGUgZWZmZWN0cy4KPgo+ICogQWRkIGEgbmV3IHJvdXRpbmUsIHB1dF9kZXZtYXBf
-bWFuYWdlZF9wYWdlKCksIHRvIGhhbmRsZSBjaGVja2luZwo+ICAgd2hhdCBraW5kIG9mIHBhZ2Ug
-aXQgaXMsIGFuZCB3aGF0IGtpbmQgb2YgcmVmY291bnQgaGFuZGxpbmcgaXQKPiAgIHJlcXVpcmVz
-Lgo+Cj4gKiBSZW5hbWUgX19wdXRfZGV2bWFwX21hbmFnZWRfcGFnZSgpIHRvIGZyZWVfZGV2bWFw
-X21hbmFnZWRfcGFnZSgpLAo+ICAgYW5kIGxpbWl0IHRoZSBmdW5jdGlvbmFsaXR5IHRvIHVuY29u
-ZGl0aW9uYWxseSBmcmVlaW5nIGEgZGV2bWFwCj4gICBwYWdlLgo+Cj4gVGhpcyBpcyBvcmlnaW5h
-bGx5IGJhc2VkIG9uIGEgc2VwYXJhdGUgcGF0Y2ggYnkgSXJhIFdlaW55LCB3aGljaAo+IGFwcGxp
-ZWQgdG8gYW4gZWFybHkgdmVyc2lvbiBvZiB0aGUgcHV0X3VzZXJfcGFnZSgpIGV4cGVyaW1lbnRz
-Lgo+IFNpbmNlIHRoZW4sIErDqXLDtG1lIEdsaXNzZSBzdWdnZXN0ZWQgdGhlIHJlZmFjdG9yaW5n
-IGRlc2NyaWJlZCBhYm92ZS4KPgo+IENjOiBDaHJpc3RvcGggSGVsbHdpZyA8aGNoQGxzdC5kZT4K
-PiBTdWdnZXN0ZWQtYnk6IErDqXLDtG1lIEdsaXNzZSA8amdsaXNzZUByZWRoYXQuY29tPgo+IFJl
-dmlld2VkLWJ5OiBEYW4gV2lsbGlhbXMgPGRhbi5qLndpbGxpYW1zQGludGVsLmNvbT4KPiBSZXZp
-ZXdlZC1ieTogSmFuIEthcmEgPGphY2tAc3VzZS5jej4KPiBTaWduZWQtb2ZmLWJ5OiBJcmEgV2Vp
-bnkgPGlyYS53ZWlueUBpbnRlbC5jb20+Cj4gU2lnbmVkLW9mZi1ieTogSm9obiBIdWJiYXJkIDxq
-aHViYmFyZEBudmlkaWEuY29tPgo+IC0tLQo+ICBpbmNsdWRlL2xpbnV4L21tLmggfCAxNyArKysr
-KysrKysrKysrLS0tLQo+ICBtbS9tZW1yZW1hcC5jICAgICAgfCAxNiArKy0tLS0tLS0tLS0tLS0t
-Cj4gIG1tL3N3YXAuYyAgICAgICAgICB8IDI0ICsrKysrKysrKysrKysrKysrKysrKysrKwo+ICAz
-IGZpbGVzIGNoYW5nZWQsIDM5IGluc2VydGlvbnMoKyksIDE4IGRlbGV0aW9ucygtKQo+Cj4gZGlm
-ZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvbW0uaCBiL2luY2x1ZGUvbGludXgvbW0uaAo+IGluZGV4
-IGM5N2VhM2I2OTRlNi4uNzdhNGRmMDZjOGE3IDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUvbGludXgv
-bW0uaAo+ICsrKyBiL2luY2x1ZGUvbGludXgvbW0uaAo+IEBAIC05NTIsOSArOTUyLDEwIEBAIHN0
-YXRpYyBpbmxpbmUgYm9vbCBpc196b25lX2RldmljZV9wYWdlKGNvbnN0IHN0cnVjdCBwYWdlICpw
-YWdlKQo+ICAjZW5kaWYKPgo+ICAjaWZkZWYgQ09ORklHX0RFVl9QQUdFTUFQX09QUwo+IC12b2lk
-IF9fcHV0X2Rldm1hcF9tYW5hZ2VkX3BhZ2Uoc3RydWN0IHBhZ2UgKnBhZ2UpOwo+ICt2b2lkIGZy
-ZWVfZGV2bWFwX21hbmFnZWRfcGFnZShzdHJ1Y3QgcGFnZSAqcGFnZSk7Cj4gIERFQ0xBUkVfU1RB
-VElDX0tFWV9GQUxTRShkZXZtYXBfbWFuYWdlZF9rZXkpOwo+IC1zdGF0aWMgaW5saW5lIGJvb2wg
-cHV0X2Rldm1hcF9tYW5hZ2VkX3BhZ2Uoc3RydWN0IHBhZ2UgKnBhZ2UpCj4gKwo+ICtzdGF0aWMg
-aW5saW5lIGJvb2wgcGFnZV9pc19kZXZtYXBfbWFuYWdlZChzdHJ1Y3QgcGFnZSAqcGFnZSkKPiAg
-ewo+ICAgICAgICAgaWYgKCFzdGF0aWNfYnJhbmNoX3VubGlrZWx5KCZkZXZtYXBfbWFuYWdlZF9r
-ZXkpKQo+ICAgICAgICAgICAgICAgICByZXR1cm4gZmFsc2U7Cj4gQEAgLTk2Myw3ICs5NjQsNiBA
-QCBzdGF0aWMgaW5saW5lIGJvb2wgcHV0X2Rldm1hcF9tYW5hZ2VkX3BhZ2Uoc3RydWN0IHBhZ2Ug
-KnBhZ2UpCj4gICAgICAgICBzd2l0Y2ggKHBhZ2UtPnBnbWFwLT50eXBlKSB7Cj4gICAgICAgICBj
-YXNlIE1FTU9SWV9ERVZJQ0VfUFJJVkFURToKPiAgICAgICAgIGNhc2UgTUVNT1JZX0RFVklDRV9G
-U19EQVg6Cj4gLSAgICAgICAgICAgICAgIF9fcHV0X2Rldm1hcF9tYW5hZ2VkX3BhZ2UocGFnZSk7
-Cj4gICAgICAgICAgICAgICAgIHJldHVybiB0cnVlOwo+ICAgICAgICAgZGVmYXVsdDoKPiAgICAg
-ICAgICAgICAgICAgYnJlYWs7Cj4gQEAgLTk3MSw3ICs5NzEsMTQgQEAgc3RhdGljIGlubGluZSBi
-b29sIHB1dF9kZXZtYXBfbWFuYWdlZF9wYWdlKHN0cnVjdCBwYWdlICpwYWdlKQo+ICAgICAgICAg
-cmV0dXJuIGZhbHNlOwo+ICB9Cj4KPiArYm9vbCBwdXRfZGV2bWFwX21hbmFnZWRfcGFnZShzdHJ1
-Y3QgcGFnZSAqcGFnZSk7Cj4gKwo+ICAjZWxzZSAvKiBDT05GSUdfREVWX1BBR0VNQVBfT1BTICov
-Cj4gK3N0YXRpYyBpbmxpbmUgYm9vbCBwYWdlX2lzX2Rldm1hcF9tYW5hZ2VkKHN0cnVjdCBwYWdl
-ICpwYWdlKQo+ICt7Cj4gKyAgICAgICByZXR1cm4gZmFsc2U7Cj4gK30KPiArCj4gIHN0YXRpYyBp
-bmxpbmUgYm9vbCBwdXRfZGV2bWFwX21hbmFnZWRfcGFnZShzdHJ1Y3QgcGFnZSAqcGFnZSkKPiAg
-ewo+ICAgICAgICAgcmV0dXJuIGZhbHNlOwo+IEBAIC0xMDI4LDggKzEwMzUsMTAgQEAgc3RhdGlj
-IGlubGluZSB2b2lkIHB1dF9wYWdlKHN0cnVjdCBwYWdlICpwYWdlKQo+ICAgICAgICAgICogbmVl
-ZCB0byBpbmZvcm0gdGhlIGRldmljZSBkcml2ZXIgdGhyb3VnaCBjYWxsYmFjay4gU2VlCj4gICAg
-ICAgICAgKiBpbmNsdWRlL2xpbnV4L21lbXJlbWFwLmggYW5kIEhNTSBmb3IgZGV0YWlscy4KPiAg
-ICAgICAgICAqLwo+IC0gICAgICAgaWYgKHB1dF9kZXZtYXBfbWFuYWdlZF9wYWdlKHBhZ2UpKQo+
-ICsgICAgICAgaWYgKHBhZ2VfaXNfZGV2bWFwX21hbmFnZWQocGFnZSkpIHsKPiArICAgICAgICAg
-ICAgICAgcHV0X2Rldm1hcF9tYW5hZ2VkX3BhZ2UocGFnZSk7Cj4gICAgICAgICAgICAgICAgIHJl
-dHVybjsKPiArICAgICAgIH0KPgo+ICAgICAgICAgaWYgKHB1dF9wYWdlX3Rlc3R6ZXJvKHBhZ2Up
-KQo+ICAgICAgICAgICAgICAgICBfX3B1dF9wYWdlKHBhZ2UpOwo+IGRpZmYgLS1naXQgYS9tbS9t
-ZW1yZW1hcC5jIGIvbW0vbWVtcmVtYXAuYwo+IGluZGV4IGU4OTlmYTg3NmE2Mi4uMmJhNzczODU5
-MDMxIDEwMDY0NAo+IC0tLSBhL21tL21lbXJlbWFwLmMKPiArKysgYi9tbS9tZW1yZW1hcC5jCj4g
-QEAgLTQxMSwyMCArNDExLDggQEAgc3RydWN0IGRldl9wYWdlbWFwICpnZXRfZGV2X3BhZ2VtYXAo
-dW5zaWduZWQgbG9uZyBwZm4sCj4gIEVYUE9SVF9TWU1CT0xfR1BMKGdldF9kZXZfcGFnZW1hcCk7
-Cj4KPiAgI2lmZGVmIENPTkZJR19ERVZfUEFHRU1BUF9PUFMKPiAtdm9pZCBfX3B1dF9kZXZtYXBf
-bWFuYWdlZF9wYWdlKHN0cnVjdCBwYWdlICpwYWdlKQo+ICt2b2lkIGZyZWVfZGV2bWFwX21hbmFn
-ZWRfcGFnZShzdHJ1Y3QgcGFnZSAqcGFnZSkKPiAgewo+IC0gICAgICAgaW50IGNvdW50ID0gcGFn
-ZV9yZWZfZGVjX3JldHVybihwYWdlKTsKPiAtCj4gLSAgICAgICAvKiBzdGlsbCBidXN5ICovCj4g
-LSAgICAgICBpZiAoY291bnQgPiAxKQo+IC0gICAgICAgICAgICAgICByZXR1cm47Cj4gLQo+IC0g
-ICAgICAgLyogb25seSB0cmlnZ2VyZWQgYnkgdGhlIGRldl9wYWdlbWFwIHNodXRkb3duIHBhdGgg
-Ki8KPiAtICAgICAgIGlmIChjb3VudCA9PSAwKSB7Cj4gLSAgICAgICAgICAgICAgIF9fcHV0X3Bh
-Z2UocGFnZSk7Cj4gLSAgICAgICAgICAgICAgIHJldHVybjsKPiAtICAgICAgIH0KPiAtCj4gICAg
-ICAgICAvKiBub3RpZnkgcGFnZSBpZGxlIGZvciBkYXggKi8KPiAgICAgICAgIGlmICghaXNfZGV2
-aWNlX3ByaXZhdGVfcGFnZShwYWdlKSkgewo+ICAgICAgICAgICAgICAgICB3YWtlX3VwX3Zhcigm
-cGFnZS0+X3JlZmNvdW50KTsKPiBAQCAtNDYxLDUgKzQ0OSw1IEBAIHZvaWQgX19wdXRfZGV2bWFw
-X21hbmFnZWRfcGFnZShzdHJ1Y3QgcGFnZSAqcGFnZSkKPiAgICAgICAgIHBhZ2UtPm1hcHBpbmcg
-PSBOVUxMOwo+ICAgICAgICAgcGFnZS0+cGdtYXAtPm9wcy0+cGFnZV9mcmVlKHBhZ2UpOwo+ICB9
-Cj4gLUVYUE9SVF9TWU1CT0woX19wdXRfZGV2bWFwX21hbmFnZWRfcGFnZSk7Cj4gK0VYUE9SVF9T
-WU1CT0woZnJlZV9kZXZtYXBfbWFuYWdlZF9wYWdlKTsKClRoaXMgcGF0Y2ggZG9lcyBub3QgaGF2
-ZSBhIG1vZHVsZSBjb25zdW1lciBmb3IKZnJlZV9kZXZtYXBfbWFuYWdlZF9wYWdlKCksIHNvIHRo
-ZSBleHBvcnQgc2hvdWxkIG1vdmUgdG8gdGhlIHBhdGNoCnRoYXQgbmVlZHMgdGhlIG5ldyBleHBv
-cnQuCgpBbHNvIHRoZSBvbmx5IHJlYXNvbiB0aGF0IHB1dF9kZXZtYXBfbWFuYWdlZF9wYWdlKCkg
-aXMgRVhQT1JUX1NZTUJPTAppbnN0ZWFkIG9mIEVYUE9SVF9TWU1CT0xfR1BMIGlzIHRoYXQgdGhl
-cmUgd2FzIG5vIHByYWN0aWNhbCB3YXkgdG8KaGlkZSB0aGUgZGV2bWFwIGRldGFpbHMgZnJvbSBl
-dmV5IG1vZHVsZSBpbiB0aGUga2VybmVsIHRoYXQgZGlkCnB1dF9wYWdlKCkuIEkgd291bGQgZXhw
-ZWN0IGZyZWVfZGV2bWFwX21hbmFnZWRfcGFnZSgpIHRvCkVYUE9SVF9TWU1CT0xfR1BMIGlmIGl0
-IGlzIG5vdCBpbmxpbmVkIGludG8gYW4gZXhpc3RpbmcgZXhwb3J0ZWQKc3RhdGljIGlubGluZSBh
-cGkuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On 12/18/19 9:27 PM, Dan Williams wrote:
+...
+>> @@ -461,5 +449,5 @@ void __put_devmap_managed_page(struct page *page)
+>>          page->mapping = NULL;
+>>          page->pgmap->ops->page_free(page);
+>>   }
+>> -EXPORT_SYMBOL(__put_devmap_managed_page);
+>> +EXPORT_SYMBOL(free_devmap_managed_page);
+> 
+> This patch does not have a module consumer for
+> free_devmap_managed_page(), so the export should move to the patch
+> that needs the new export.
+
+Hi Dan,
+
+OK, I know that's a policy--although it seems quite pointless here given
+that this is definitely going to need an EXPORT.
+
+At the moment, the series doesn't use it in any module at all, so I'll just
+delete the EXPORT for now.
+
+> 
+> Also the only reason that put_devmap_managed_page() is EXPORT_SYMBOL
+> instead of EXPORT_SYMBOL_GPL is that there was no practical way to
+> hide the devmap details from evey module in the kernel that did
+> put_page(). I would expect free_devmap_managed_page() to
+> EXPORT_SYMBOL_GPL if it is not inlined into an existing exported
+> static inline api.
+> 
+
+Sure, I'll change it to EXPORT_SYMBOL_GPL when the time comes. We do have
+to be careful that we don't shut out normal put_page() types of callers,
+but...glancing through the current callers, that doesn't look to be a problem.
+Good. So it should be OK to do EXPORT_SYMBOL_GPL here.
+
+Are you *sure* you don't want to just pre-emptively EXPORT now, and save
+looking at it again?
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
