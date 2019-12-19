@@ -1,38 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C25EF125C6D
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 09:11:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2480F125C84
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 09:24:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EA956EAC8;
-	Thu, 19 Dec 2019 08:11:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63E786EAD1;
+	Thu, 19 Dec 2019 08:23:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F31D6E072;
- Thu, 19 Dec 2019 03:39:01 +0000 (UTC)
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 86F6FE7A4898DE8BFA25;
- Thu, 19 Dec 2019 11:38:58 +0800 (CST)
-Received: from huawei.com (10.175.127.16) by DGGEMS411-HUB.china.huawei.com
- (10.3.19.211) with Microsoft SMTP Server id 14.3.439.0; Thu, 19 Dec 2019
- 11:38:50 +0800
-From: Pan Zhang <zhangpan26@huawei.com>
-To: <christian.koenig@amd.com>, <michel@daenzer.net>,
- <alexander.deucher@amd.com>, <David1.Zhou@amd.com>, <airlied@linux.ie>,
- <daniel@ffwll.ch>, <ray.huang@amd.com>, <irmoy.das@amd.com>,
- <sam@ravnborg.org>, <zhangpan26@huawei.com>, <hushiyuan@huawei.com>
-Subject: Re: Re: [PATCH 2/3] gpu: drm: dead code elimination
-Date: Thu, 19 Dec 2019 11:38:31 +0800
-Message-ID: <1576726711-14394-1-git-send-email-zhangpan26@huawei.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <484b831b-671a-12f4-8259-1cb6b75e93e3@daenzer.net>
-References: <484b831b-671a-12f4-8259-1cb6b75e93e3@daenzer.net>
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 787B16E321
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 08:23:51 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBJ8NN3o085897;
+ Thu, 19 Dec 2019 02:23:23 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1576743803;
+ bh=8ULQWT/8Gqwbv84v/vrRnQfeBXWOo7ObBc+GlFgPtqE=;
+ h=From:To:CC:Subject:Date;
+ b=cW9CMjupoG9/a1e8aY/PcDYNpsc/0fyY7dTqLngJg2DIzB/PU+MVl9VBVyaa7XUmX
+ jgbpMtxvyCR57dA9OJebZdJTbaYPleSVeC/j9KHLwD3zuOT/ol6V8fYL7btIGE1aq2
+ pdrGV+FYrbOQFSOjqEXG/TB+fdyGxheL1K7wiRCk=
+Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBJ8NNne052864;
+ Thu, 19 Dec 2019 02:23:23 -0600
+Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Thu, 19
+ Dec 2019 02:23:22 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Thu, 19 Dec 2019 02:23:22 -0600
+Received: from jadmar.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBJ8NJI4095098;
+ Thu, 19 Dec 2019 02:23:20 -0600
+From: Jyri Sarha <jsarha@ti.com>
+To: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>
+Subject: [PATCH v4 0/5] drm/tidss: New driver for TI Keystone platform Display
+ SubSystem
+Date: Thu, 19 Dec 2019 10:23:14 +0200
+Message-ID: <cover.1576704528.git.jsarha@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-Originating-IP: [10.175.127.16]
-X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Thu, 19 Dec 2019 08:11:13 +0000
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,41 +57,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: yamonkar@cadence.com, praneeth@ti.com, sjakhade@cadence.com,
+ robh+dt@kernel.org, peter.ujfalusi@ti.com, tomi.valkeinen@ti.com,
+ laurent.pinchart@ideasonboard.com, subhajit_paul@ti.com, sam@ravnborg.org,
+ maxime@cerno.tech
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAxOS0xMi0xOCA1OjUyIHAubS4sIE1pY2hlbCBEw6RuemVyIDxtaWNoZWxAZGFlbnplci5u
-ZXQ+IHdyb3RlOgoKPj4gdGhpcyBzZXQgYWRkcyBzdXBwb3J0IGZvciByZW1vdmFsIG9mIGdwdSBk
-cm0gZGVhZCBjb2RlLgo+PiAKPj4gcGF0Y2gyOgo+PiBgbnVtX2VudHJpZXNgIGlzIGEgZGF0YSBv
-ZiB1bnNpZ25lZCB0eXBlKGNvbXBpbGVycyBhbHdheXMgdHJlYXQgYXMgCj4+IHVuc2lnbmVkIGlu
-dCkgYW5kIFNJWkVfTUFYID09IH4wLAo+PiAKPj4gc28gdGhlcmUgaXMgYSBpbXBvc3NpYmxlIGNv
-bmRpdGlvbjoKPj4gJyhudW1fZW50cmllcyA+ICgofjApIC0gNTYpIC8gNzIpID0+IChtYXgoMC11
-MzIpID4gMjU2MjA0Nzc4ODAxNTIxNTQ5KScuCgo+V2hpbGUgdGhpcyBsb29rcyBjb3JyZWN0IGZv
-ciA2NC1iaXQsIHdoZXJlIHNpemVfdCBpcyB1bnNpZ25lZCBsb25nLCBvbiAzMi1iaXQgaXQncyB1
-bnNpZ25lZCBpbnQsIGluIHdoaWNoIGNhc2UgdGhpcyBpc24ndCBkZWFkIGNvZGUuCgphbmQKCk9u
-IDIwMTktMTItMTggNTo1MiBwLm0uLCBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmln
-QHh4eHh4eHg+IHdyb3RlOgoKPk5BSywgdGhhdCBjYWxjdWxhdGlvbiBpcyBub3QgY29ycmVjdCBv
-biAzMi1iaXQgc3lzdGVtcy4KCj5DaHJpc3RpYW4uCgpZZXMsIHlvdSBhcmUgcmlnaHQuIEkganVz
-dCBmaWd1cmVkIHRoaXMgb3V0IChiZWNhdXNlIG91ciBTZXJ2ZXIgdXN1YWxseSB1c2VzIDY0IGJp
-dHMpLgoKdGhhbmtzLgoKCj4+U2lnbmVkLW9mZi1ieTogUGFuIFpoYW5nIDx6aGFuZ3BhbjI2QHh4
-eHh4eHh4eHg+Cj4+LS0tCj4+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfYm9f
-bGlzdC5jIHwgNCAtLS0tCj4+ICAxIGZpbGUgY2hhbmdlZCwgNCBkZWxldGlvbnMoLSkKPj5kaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2JvX2xpc3QuYyBiL2Ry
-aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9ib19saXN0LmMKPj5pbmRleCA4NWIwNTE1
-Li4xMGE3ZjMwIDEwMDY0NAo+Pi0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdw
-dV9ib19saXN0LmMKPj4rKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfYm9f
-bGlzdC5jCj4+QEAgLTcxLDEwICs3MSw2IEBAIGludCBhbWRncHVfYm9fbGlzdF9jcmVhdGUoc3Ry
-dWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYsIHN0cnVjdCBkcm1fZmlsZSAqZmlscCwKPj4gCXVuc2ln
-bmVkIGk7Cj4+IAlpbnQgcjsKPj4gCj4+LQlpZiAobnVtX2VudHJpZXMgPiAoU0laRV9NQVggLSBz
-aXplb2Yoc3RydWN0IGFtZGdwdV9ib19saXN0KSkKPj4tCQkJCS8gc2l6ZW9mKHN0cnVjdCBhbWRn
-cHVfYm9fbGlzdF9lbnRyeSkpCj4+LQkJcmV0dXJuIC1FSU5WQUw7Cj4+LQo+PiAJc2l6ZSA9IHNp
-emVvZihzdHJ1Y3QgYW1kZ3B1X2JvX2xpc3QpOwo+PiAJc2l6ZSArPSBudW1fZW50cmllcyAqIHNp
-emVvZihzdHJ1Y3QgYW1kZ3B1X2JvX2xpc3RfZW50cnkpOwo+PiAJbGlzdCA9IGt2bWFsbG9jKHNp
-emUsIEdGUF9LRVJORUwpOwo+PgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWwK
+Changes sice v3:
+- Add descriptions some yaml binding properites
+- Remove redundant minItems directives from yaml bindings
+- Remove ports node from ti,k2g-dss yaml binding
+- no change to MAINTAINERS or to the driver code
+
+Changes since v2:
+- Add version history to commit messages
+- Fix yaml bindings now that got dt_binding_check dtbs_check working propery
+- Move tidss entry in MAINTAINERS after omapdrm and add "T: git
+  git://anongit.freedesktop.org/drm/drm-misc"
+- no change to driver code
+
+Changes since the first version of the patch series [2]:
+- "drm/tidss: New driver for TI Keystone platform Display SubSystem"
+ - rebased on top of drm-next-2019-11-27
+ - sort all include lines in all files
+ - remove all include <drm/drmP.h>
+ - remove select "select VIDEOMODE_HELPERS"
+ - call dispc_vp_setup() later in tidss_crtc_atomic_flush() (there is no
+   to call it in new modeset case as it is also called in vp_enable())
+ - change probe sequence and drm_device allocation (follow example in drm_drv.c)
+ - use __maybe_unused instead of #ifdef for pm functions
+ - remove "struct drm_fbdev_cma *fbdev;" from driver data
+ - check panel connector type before connecting it
+- No change to binding or MAINTAINERS patches
+
+There was couple of attempts upstream an earlier version of this
+driver about a year ago [1]. Back then I needed to stop my efforts to
+implement support for next Keystone DSS version, so now the driver
+supports three different Keystone DSS version on three different SoCs.
+
+I am starting the patch series versioning from the beginning because it
+has been over a year since the previous patch set and the structure of
+the driver has evolved quite a bit. However, all the earlier comments
+should be addressed in this series.
+
+[1] https://patchwork.freedesktop.org/series/44947/
+[2] https://lists.freedesktop.org/archives/dri-devel/2019-November/246542.html
+
+Jyri Sarha (5):
+  dt-bindings: display: ti,k2g-dss: Add dt-schema yaml binding
+  dt-bindings: display: ti,am65x-dss: Add dt-schema yaml binding
+  dt-bindings: display: ti,j721e-dss: Add dt-schema yaml binding
+  drm/tidss: New driver for TI Keystone platform Display SubSystem
+  MAINTAINERS: add entry for tidss
+
+ .../bindings/display/ti/ti,am65x-dss.yaml     |  154 +
+ .../bindings/display/ti/ti,j721e-dss.yaml     |  209 ++
+ .../bindings/display/ti/ti,k2g-dss.yaml       |  114 +
+ MAINTAINERS                                   |   11 +
+ drivers/gpu/drm/Kconfig                       |    2 +
+ drivers/gpu/drm/Makefile                      |    1 +
+ drivers/gpu/drm/tidss/Kconfig                 |   14 +
+ drivers/gpu/drm/tidss/Makefile                |   12 +
+ drivers/gpu/drm/tidss/tidss_crtc.c            |  376 +++
+ drivers/gpu/drm/tidss/tidss_crtc.h            |   46 +
+ drivers/gpu/drm/tidss/tidss_dispc.c           | 2643 +++++++++++++++++
+ drivers/gpu/drm/tidss/tidss_dispc.h           |  132 +
+ drivers/gpu/drm/tidss/tidss_dispc_regs.h      |  243 ++
+ drivers/gpu/drm/tidss/tidss_drv.c             |  285 ++
+ drivers/gpu/drm/tidss/tidss_drv.h             |   40 +
+ drivers/gpu/drm/tidss/tidss_encoder.c         |   88 +
+ drivers/gpu/drm/tidss/tidss_encoder.h         |   17 +
+ drivers/gpu/drm/tidss/tidss_irq.c             |  185 ++
+ drivers/gpu/drm/tidss/tidss_irq.h             |   72 +
+ drivers/gpu/drm/tidss/tidss_kms.c             |  248 ++
+ drivers/gpu/drm/tidss/tidss_kms.h             |   15 +
+ drivers/gpu/drm/tidss/tidss_plane.c           |  217 ++
+ drivers/gpu/drm/tidss/tidss_plane.h           |   25 +
+ drivers/gpu/drm/tidss/tidss_scale_coefs.c     |  202 ++
+ drivers/gpu/drm/tidss/tidss_scale_coefs.h     |   22 +
+ 25 files changed, 5373 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
+ create mode 100644 drivers/gpu/drm/tidss/Kconfig
+ create mode 100644 drivers/gpu/drm/tidss/Makefile
+ create mode 100644 drivers/gpu/drm/tidss/tidss_crtc.c
+ create mode 100644 drivers/gpu/drm/tidss/tidss_crtc.h
+ create mode 100644 drivers/gpu/drm/tidss/tidss_dispc.c
+ create mode 100644 drivers/gpu/drm/tidss/tidss_dispc.h
+ create mode 100644 drivers/gpu/drm/tidss/tidss_dispc_regs.h
+ create mode 100644 drivers/gpu/drm/tidss/tidss_drv.c
+ create mode 100644 drivers/gpu/drm/tidss/tidss_drv.h
+ create mode 100644 drivers/gpu/drm/tidss/tidss_encoder.c
+ create mode 100644 drivers/gpu/drm/tidss/tidss_encoder.h
+ create mode 100644 drivers/gpu/drm/tidss/tidss_irq.c
+ create mode 100644 drivers/gpu/drm/tidss/tidss_irq.h
+ create mode 100644 drivers/gpu/drm/tidss/tidss_kms.c
+ create mode 100644 drivers/gpu/drm/tidss/tidss_kms.h
+ create mode 100644 drivers/gpu/drm/tidss/tidss_plane.c
+ create mode 100644 drivers/gpu/drm/tidss/tidss_plane.h
+ create mode 100644 drivers/gpu/drm/tidss/tidss_scale_coefs.c
+ create mode 100644 drivers/gpu/drm/tidss/tidss_scale_coefs.h
+
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki. Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
