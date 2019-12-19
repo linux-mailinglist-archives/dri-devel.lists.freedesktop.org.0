@@ -2,36 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B63E125FDD
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 11:51:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FB7B1260D5
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 12:30:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8FE26EB42;
-	Thu, 19 Dec 2019 10:51:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78E016EB4F;
+	Thu, 19 Dec 2019 11:30:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BB176EB3C;
- Thu, 19 Dec 2019 10:51:22 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2019 02:51:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,331,1571727600"; d="scan'208";a="222261450"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
- by fmsmga001.fm.intel.com with ESMTP; 19 Dec 2019 02:51:18 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Animesh Manna <animesh.manna@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 3/9] drm/i915/dp: Move vswing/pre-emphasis adjustment
- calculation
-In-Reply-To: <20191218151350.19579-4-animesh.manna@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20191218151350.19579-1-animesh.manna@intel.com>
- <20191218151350.19579-4-animesh.manna@intel.com>
-Date: Thu, 19 Dec 2019 12:51:18 +0200
-Message-ID: <878sn8y4ex.fsf@intel.com>
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8F3A6EB4C;
+ Thu, 19 Dec 2019 11:30:35 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 47dqS80dMlz9sPJ;
+ Thu, 19 Dec 2019 22:30:31 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1576755033;
+ bh=6lBsCkHyaN0GoUoK5YulVgcI4GDTGjPtr5Z7BZ10PVA=;
+ h=Date:From:To:Cc:Subject:From;
+ b=TS12gv9GC0kxPJAMxsqZrOVOVNgj39/e/bSIOmXMqC+lDLVUK/qR91R/n7P+9r1T8
+ Bj9OZvyeEVAnWGaKYGCVIabn4YsK7nCJ1GBwZ2kEq41hQaiP5AKw3gT7QR6NFE4wa6
+ sdUZx8An50ewUOpOFjmtsfglzGdwv6yU60QlCno2OdPFT9zyTAwTdkCb2gqzxMU/jQ
+ lWtvLnPiz06dph5B6g09oJJrgoXLb2g+ijzBGZFybpFRSZvnK/tAqiTuCYVRcxqjbx
+ ulXDUgvtVaA95aOVpld9JqtT7vUv5fMGOh6m8Hg+2hJ/LpMZyAby8MCiapzx8i2zgC
+ 0PUlgcTVC3j8w==
+Date: Thu, 19 Dec 2019 22:30:30 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
+ <dri-devel@lists.freedesktop.org>
+Subject: linux-next: Signed-off-by missing for commits in the
+ drm-intel-fixes tree
+Message-ID: <20191219223030.1747f04b@canb.auug.org.au>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,138 +51,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: anshuman.gupta@intel.com, Animesh Manna <animesh.manna@intel.com>,
- manasi.d.navare@intel.com, uma.shankar@intel.com, nidhi1.gupta@intel.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============1375305256=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 18 Dec 2019, Animesh Manna <animesh.manna@intel.com> wrote:
-> vswing/pre-emphasis adjustment calculation is needed in processing
-> of auto phy compliance request other than link training, so moved
-> the same function in intel_dp.c.
->
-> No functional change.
->
-> Signed-off-by: Animesh Manna <animesh.manna@intel.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_dp.c       | 32 +++++++++++++++++++
->  drivers/gpu/drm/i915/display/intel_dp.h       |  3 ++
->  .../drm/i915/display/intel_dp_link_training.c | 32 -------------------
->  3 files changed, 35 insertions(+), 32 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-> index 2f31d226c6eb..ca82835b6dcf 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -4110,6 +4110,38 @@ ivb_cpu_edp_signal_levels(u8 train_set)
->  	}
->  }
->  
-> +void
-> +intel_get_adjust_train(struct intel_dp *intel_dp,
+--===============1375305256==
+Content-Type: multipart/signed; boundary="Sig_/PVy.JeA=7gTRi=texyQFMjh";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-Please follow the naming convention of prefixing non-static functions in
-foo.c with foo_. I.e. intel_dp_ here.
+--Sig_/PVy.JeA=7gTRi=texyQFMjh
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-BR,
-Jani.
+Hi all,
 
-> +		       const u8 *link_status)
-> +{
-> +	u8 v = 0;
-> +	u8 p = 0;
-> +	int lane;
-> +	u8 voltage_max;
-> +	u8 preemph_max;
-> +
-> +	for (lane = 0; lane < intel_dp->lane_count; lane++) {
-> +		u8 this_v = drm_dp_get_adjust_request_voltage(link_status, lane);
-> +		u8 this_p = drm_dp_get_adjust_request_pre_emphasis(link_status, lane);
-> +
-> +		if (this_v > v)
-> +			v = this_v;
-> +		if (this_p > p)
-> +			p = this_p;
-> +	}
-> +
-> +	voltage_max = intel_dp_voltage_max(intel_dp);
-> +	if (v >= voltage_max)
-> +		v = voltage_max | DP_TRAIN_MAX_SWING_REACHED;
-> +
-> +	preemph_max = intel_dp_pre_emphasis_max(intel_dp, v);
-> +	if (p >= preemph_max)
-> +		p = preemph_max | DP_TRAIN_MAX_PRE_EMPHASIS_REACHED;
-> +
-> +	for (lane = 0; lane < 4; lane++)
-> +		intel_dp->train_set[lane] = v | p;
-> +}
-> +
->  void
->  intel_dp_set_signal_levels(struct intel_dp *intel_dp)
->  {
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i915/display/intel_dp.h
-> index 3da166054788..0d0cb692f701 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.h
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.h
-> @@ -91,6 +91,9 @@ void
->  intel_dp_program_link_training_pattern(struct intel_dp *intel_dp,
->  				       u8 dp_train_pat);
->  void
-> +intel_get_adjust_train(struct intel_dp *intel_dp,
-> +		       const u8 *link_status);
-> +void
->  intel_dp_set_signal_levels(struct intel_dp *intel_dp);
->  void intel_dp_set_idle_link_train(struct intel_dp *intel_dp);
->  u8
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-> index 2a1130dd1ad0..1e38584e7d56 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-> @@ -34,38 +34,6 @@ intel_dp_dump_link_status(const u8 link_status[DP_LINK_STATUS_SIZE])
->  		      link_status[3], link_status[4], link_status[5]);
->  }
->  
-> -static void
-> -intel_get_adjust_train(struct intel_dp *intel_dp,
-> -		       const u8 link_status[DP_LINK_STATUS_SIZE])
-> -{
-> -	u8 v = 0;
-> -	u8 p = 0;
-> -	int lane;
-> -	u8 voltage_max;
-> -	u8 preemph_max;
-> -
-> -	for (lane = 0; lane < intel_dp->lane_count; lane++) {
-> -		u8 this_v = drm_dp_get_adjust_request_voltage(link_status, lane);
-> -		u8 this_p = drm_dp_get_adjust_request_pre_emphasis(link_status, lane);
-> -
-> -		if (this_v > v)
-> -			v = this_v;
-> -		if (this_p > p)
-> -			p = this_p;
-> -	}
-> -
-> -	voltage_max = intel_dp_voltage_max(intel_dp);
-> -	if (v >= voltage_max)
-> -		v = voltage_max | DP_TRAIN_MAX_SWING_REACHED;
-> -
-> -	preemph_max = intel_dp_pre_emphasis_max(intel_dp, v);
-> -	if (p >= preemph_max)
-> -		p = preemph_max | DP_TRAIN_MAX_PRE_EMPHASIS_REACHED;
-> -
-> -	for (lane = 0; lane < 4; lane++)
-> -		intel_dp->train_set[lane] = v | p;
-> -}
-> -
->  static bool
->  intel_dp_set_link_train(struct intel_dp *intel_dp,
->  			u8 dp_train_pat)
+Commits
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+  987e379d7500 ("Revert "devtmpfs: use do_mount() instead of ksys_mount()"")
+  9bd5ba4fe25a ("Revert "initrd: use do_mount() instead of ksys_mount()"")
+  fa31001c96ad ("Revert "init: use do_mount() instead of ksys_mount()"")
+
+are missing a Signed-off-by from their author and committer.
+
+Reverts are commits too and should have reasonable commit messages.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/PVy.JeA=7gTRi=texyQFMjh
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl37X1YACgkQAVBC80lX
+0GxWlgf/bAhMqppXRsR38Gc3y9hw0JI708FL964r+7yrzRrkj7VqrGPnXQDnUyZY
+jCWlrmN1n/FFcQ5WLN56Ly0ZRIx7naaVYKNN2Yg9fAP4fcPX36WnvYOd/lF+XORZ
+yF5LwD72vMISD07Vq4s8C+oqryZQESJzQPjb4hwS0Bd6/vzv+lnis8ECPO/pSMrE
+5x58r4NcN/YcB83+NxxdakBI1Q1hxRX9b2vRwXFmHWzuD4OtxfcnFb0AiFV903G9
+dCRVEAAy0Mx14hQq7cOEB9yzJka0YJYoLUwld/u9WIB1t6wWGRgkinz90OOrWL2e
+iRUhZtFzNOBNJdbe9XJDxIfYlBY5XA==
+=96zL
+-----END PGP SIGNATURE-----
+
+--Sig_/PVy.JeA=7gTRi=texyQFMjh--
+
+--===============1375305256==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1375305256==--
