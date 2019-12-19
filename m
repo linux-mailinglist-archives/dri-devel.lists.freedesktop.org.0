@@ -2,52 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 625B9125E56
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 10:54:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3485125E6B
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 11:01:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56B676EAF3;
-	Thu, 19 Dec 2019 09:54:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79CD56EAF6;
+	Thu, 19 Dec 2019 10:01:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
- [IPv6:2607:f8b0:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 604E16EAF3
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 09:54:43 +0000 (UTC)
-Received: by mail-ot1-x341.google.com with SMTP id 66so6527644otd.9
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 01:54:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0WmVu4IgtlTUPIDTr6BuAgCj4OJ6/8JQ0XMLcherZ8w=;
- b=dLEl3UPj/egc82qia3GmcXdXUheNN1g7oyA70vrPbp7ndmfYzCQB+6RYiMKjTjJsSV
- GqXFiVh2m+XYYojPGs1qdmjVzRUHgW5KWKlUl0oMoSeazNFIJ7XhjFS2v5iBGMxD0Avl
- wiAF16AyHND/6ugwQCXiI8izcVbAOGUNF8EC4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0WmVu4IgtlTUPIDTr6BuAgCj4OJ6/8JQ0XMLcherZ8w=;
- b=LIRGzO8MO6h6Vgu8ugc8joA68kkZnVmITnsWcBXD46tjpSv9koy3hzQgC77tdhzwzp
- 9MNxHd4Y3Nb9IbMY0fCQEuNaDSzZaCvkFIWYsnyqc7qGFxW95HnmpCULzccvah/4ozKb
- Ie2F9syMeuzF4eQ9V8HNKolfh0H2RJaGsVlcmWdzFpGOya9Hb+0quJZSDvUsD2gVeN5r
- YPuAudzQVyhtmfT5a6ga3/qnUzMggzvImW9UrnFB1rMGvOGP7obeLG1VDn/F9Rf3CU5s
- oJqiKXQdLsMwUpwNBzVVKlJiHIA3rlY0tqbByP24L/eH0U2znikt503jNDXK49wM1HIz
- PEPA==
-X-Gm-Message-State: APjAAAXdFPMwjRIWuonqWH6qtchyHcCViikaUXvDxJz2PVczRWMWUW1R
- RJKGY218nr4gURO/ARj2HQgDcreqNi6zNNrjPFtKUA==
-X-Google-Smtp-Source: APXvYqwpF+JmqQuuWIu5qxZwkxKhECtZxRuDFYOTuRUJ1SYwpacyQ6Erxna5CodtXbxTmADy1SSXmN2K02DmVNgj5ko=
-X-Received: by 2002:a9d:7510:: with SMTP id r16mr7791826otk.303.1576749282374; 
- Thu, 19 Dec 2019 01:54:42 -0800 (PST)
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 117DA6EAF5
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 10:01:43 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBJA1as2071874;
+ Thu, 19 Dec 2019 04:01:36 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1576749696;
+ bh=kbcL5CQIAPy8fIpetsCo5bruTuCq9ndEvy/yDUsihxE=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=H666eOeBbZtt0HKfL24pP0mZDIo1ubQbJnklWIsCOuGwXmn1hpr3E9EzbVywfOELl
+ zv1xZO4uMjHFjGf/zD112jVq61Mq1W2yR5Zj7Ftkt7yW3AJuSUF3LFX56VmJACPLv8
+ jyKdhJus27SAWolCKgjvQdFf8WI+DjkIgoPSxWe4=
+Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBJA1af5086642;
+ Thu, 19 Dec 2019 04:01:36 -0600
+Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Thu, 19
+ Dec 2019 04:01:36 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Thu, 19 Dec 2019 04:01:36 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBJA1YtK102583;
+ Thu, 19 Dec 2019 04:01:34 -0600
+Subject: Re: [PATCH v3 45/50] drm/omap: dpi: Register a drm_bridge
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20191210225750.15709-1-laurent.pinchart@ideasonboard.com>
+ <20191210225750.15709-46-laurent.pinchart@ideasonboard.com>
+ <8f7e454b-4d63-37cf-ef83-77e23e90e07d@ti.com>
+ <20191219094013.GA15002@pendragon.ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <6727b9aa-37de-68f8-d2e1-eb4cc2c471ad@ti.com>
+Date: Thu, 19 Dec 2019 12:01:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <07899bd5-e9a5-cff0-395f-b4fb3f0f7f6c@huawei.com>
- <f867543cf5d0fc3fdd0534749326411bcfc5e363.camel@collabora.com>
- <c2e5f5a5-5839-42a9-2140-903e99e166db@huawei.com>
- <fde72f73-d678-2b77-3950-d465f0afe904@huawei.com>
-In-Reply-To: <fde72f73-d678-2b77-3950-d465f0afe904@huawei.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 19 Dec 2019 10:54:31 +0100
-Message-ID: <CAKMK7uFr03euoB6rY8z9zmRyznP41vwfdaKApZ_0HfYZT4Hq_w@mail.gmail.com>
-Subject: Re: Warnings in DRM code when removing/unbinding a driver
-To: John Garry <john.garry@huawei.com>
+In-Reply-To: <20191219094013.GA15002@pendragon.ideasonboard.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,252 +63,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dbueso@suse.de, "airlied@linux.ie" <airlied@linux.ie>,
- "Chenfeng \(puck\)" <puck.chen@hisilicon.com>, Linuxarm <linuxarm@huawei.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "kongxinwei \(A\)" <kong.kongxinwei@hisilicon.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Ezequiel Garcia <ezequiel@collabora.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Boris Brezillon <bbrezillon@kernel.org>, Sean Paul <sean@poorly.run>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ dri-devel@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 18, 2019 at 7:08 PM John Garry <john.garry@huawei.com> wrote:
->
-> +
->
-> So the v5.4 kernel does not have this issue.
->
-> I have bisected the initial occurrence to:
->
-> commit 37a48adfba6cf6e87df9ba8b75ab85d514ed86d8
-> Author: Thomas Zimmermann <tzimmermann@suse.de>
-> Date:   Fri Sep 6 14:20:53 2019 +0200
->
->      drm/vram: Add kmap ref-counting to GEM VRAM objects
->
->      The kmap and kunmap operations of GEM VRAM buffers can now be called
->      in interleaving pairs. The first call to drm_gem_vram_kmap() maps the
->      buffer's memory to kernel address space and the final call to
->      drm_gem_vram_kunmap() unmaps the memory. Intermediate calls to these
->      functions increment or decrement a reference counter.
->
-> So this either exposes or creates the issue.
+On 19/12/2019 11:40, Laurent Pinchart wrote:
 
-Yeah that's just shooting the messenger. Like I said, for most drivers
-you can pretty much assume that their unload sequence has been broken
-since forever. It's not often tested, and especially the hotunbind
-from a device (as opposed to driver unload) stuff wasn't even possible
-to get right until just recently.
--Daniel
+>> Do we ever get drm_bridge_funcs calls from multiple threads at the
+>> same time? Is there a difference between having a single DPI output,
+>> or multiple DPI outputs (i.e. can two different DPI outputs get calls
+>> simultaneously?).
+> 
+> I'll drop the lock, it's not needed. The core should serialize calls to
+> the bridge, at least per output. For different outputs, there's a
+> possibility I believe of atomic commits being handled concurrently if
+> they don't share any resource.
 
->
-> John
->
-> >> On Mon, 2019-12-16 at 17:23 +0000, John Garry wrote:
-> >>> Hi all,
-> >>>
-> >>> Enabling CONFIG_DEBUG_TEST_DRIVER_REMOVE causes many warns on a system
-> >>> with the HIBMC hw:
-> >>>
-> >>> [   27.788806] WARNING: CPU: 24 PID: 1 at
-> >>> drivers/gpu/drm/drm_gem_vram_helper.c:564
-> >>> bo_driver_move_notify+0x8c/0x98
-> >>
-> >> A total shot in the dark. This might make no sense,
-> >> but it's worth a try:
-> >
-> > Thanks for the suggestion, but still the same splat.
-> >
-> > I haven't had a chance to analyze the problem myself. But perhaps we
-> > should just change over the device-managed interface, as Daniel mentioned.
-> >
-> >>
-> >> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> >> b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> >> index 2fd4ca91a62d..69bb0e29da88 100644
-> >> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> >> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> >> @@ -247,9 +247,8 @@ static int hibmc_unload(struct drm_device *dev)
-> >>   {
-> >>          struct hibmc_drm_private *priv = dev->dev_private;
-> >> -       hibmc_fbdev_fini(priv);
-> >> -
-> >>          drm_atomic_helper_shutdown(dev);
-> >> +       hibmc_fbdev_fini(priv);
-> >>          if (dev->irq_enabled)
-> >>                  drm_irq_uninstall(dev);
-> >>
-> >> Hope it helps,
-> >> Ezequiel
-> >>
-> >
-> > Thanks,
-> > John
-> >
-> > [EOM]
-> >
-> >>> [   27.798969] Modules linked in:
-> >>> [   27.802018] CPU: 24 PID: 1 Comm: swapper/0 Tainted: G    B
-> >>>    5.5.0-rc1-dirty #565
-> >>> [   27.810358] Hardware name: Huawei D06 /D06, BIOS Hisilicon D06 UEFI
-> >>> RC0 - V1.16.01 03/15/2019
-> >>> [   27.818872] pstate: 20c00009 (nzCv daif +PAN +UAO)
-> >>> [   27.823654] pc : bo_driver_move_notify+0x8c/0x98
-> >>> [   27.828262] lr : bo_driver_move_notify+0x40/0x98
-> >>> [   27.832868] sp : ffff00236f0677e0
-> >>> [   27.836173] x29: ffff00236f0677e0 x28: ffffa0001454e5e0
-> >>> [   27.841476] x27: ffff002366e52128 x26: ffffa000149e67b0
-> >>> [   27.846779] x25: ffff002366e523e0 x24: ffff002336936120
-> >>> [   27.852082] x23: ffff0023346f4010 x22: ffff002336936128
-> >>> [   27.857385] x21: ffffa000149c15c0 x20: ffff0023369361f8
-> >>> [   27.862687] x19: ffff002336936000 x18: 0000000000001258
-> >>> [   27.867989] x17: 0000000000001190 x16: 00000000000011d0
-> >>> [   27.873292] x15: 0000000000001348 x14: ffffa00012d68190
-> >>> [   27.878595] x13: 0000000000000006 x12: 1ffff40003241f91
-> >>> [   27.883897] x11: ffff940003241f91 x10: dfffa00000000000
-> >>> [   27.889200] x9 : ffff940003241f92 x8 : 0000000000000001
-> >>> [   27.894502] x7 : ffffa0001920fc88 x6 : ffff940003241f92
-> >>> [   27.899804] x5 : ffff940003241f92 x4 : ffff0023369363a0
-> >>> [   27.905107] x3 : ffffa00010c104b8 x2 : dfffa00000000000
-> >>> [   27.910409] x1 : 0000000000000003 x0 : 0000000000000001
-> >>> [   27.915712] Call trace:
-> >>> [   27.918151]  bo_driver_move_notify+0x8c/0x98
-> >>> [   27.922412]  ttm_bo_cleanup_memtype_use+0x54/0x100
-> >>> [   27.927194]  ttm_bo_put+0x3a0/0x5d0
-> >>> [   27.930673]  drm_gem_vram_object_free+0xc/0x18
-> >>> [   27.935109]  drm_gem_object_free+0x34/0xd0
-> >>> [   27.939196]  drm_gem_object_put_unlocked+0xc8/0xf0
-> >>> [   27.943978]  hibmc_user_framebuffer_destroy+0x20/0x40
-> >>> [   27.949020]  drm_framebuffer_free+0x48/0x58
-> >>> [   27.953194]  drm_mode_object_put.part.1+0x90/0xe8
-> >>> [   27.957889]  drm_mode_object_put+0x28/0x38
-> >>> [   27.961976]  hibmc_fbdev_fini+0x54/0x78
-> >>> [   27.965802]  hibmc_unload+0x2c/0xd0
-> >>> [   27.969281]  hibmc_pci_remove+0x2c/0x40
-> >>> [   27.973109]  pci_device_remove+0x6c/0x140
-> >>> [   27.977110]  really_probe+0x174/0x548
-> >>> [   27.980763]  driver_probe_device+0x7c/0x148
-> >>> [   27.984936]  device_driver_attach+0x94/0xa0
-> >>> [   27.989109]  __driver_attach+0xa8/0x110
-> >>> [   27.992935]  bus_for_each_dev+0xe8/0x158
-> >>> [   27.996849]  driver_attach+0x30/0x40
-> >>> [   28.000415]  bus_add_driver+0x234/0x2f0
-> >>> [   28.004241]  driver_register+0xbc/0x1d0
-> >>> [   28.008067]  __pci_register_driver+0xbc/0xd0
-> >>> [   28.012329]  hibmc_pci_driver_init+0x20/0x28
-> >>> [   28.016590]  do_one_initcall+0xb4/0x254
-> >>> [   28.020417]  kernel_init_freeable+0x27c/0x328
-> >>> [   28.024765]  kernel_init+0x10/0x118
-> >>> [   28.028245]  ret_from_fork+0x10/0x18
-> >>> [   28.031813] ---[ end trace 35a83b71b657878d ]---
-> >>> [   28.036503] ------------[ cut here ]------------
-> >>> [   28.041115] WARNING: CPU: 24 PID: 1 at
-> >>> drivers/gpu/drm/drm_gem_vram_helper.c:40
-> >>> ttm_buffer_object_destroy+0x4c/0x80
-> >>> [   28.051537] Modules linked in:
-> >>> [   28.054585] CPU: 24 PID: 1 Comm: swapper/0 Tainted: G    B   W
-> >>>    5.5.0-rc1-dirty #565
-> >>> [   28.062924] Hardware name: Huawei D06 /D06, BIOS Hisilicon D06 UEFI
-> >>> RC0 - V1.16.01 03/15/2019
-> >>>
-> >>> [snip]
-> >>>
-> >>> Indeed, simply unbinding the device from the driver causes the same sort
-> >>> of issue:
-> >>>
-> >>> root@(none)$ cd ./bus/pci/drivers/hibmc-drm/
-> >>> root@(none)$ ls
-> >>> 0000:05:00.0  bind          new_id        remove_id     uevent
-> >>> unbind
-> >>> root@(none)$ echo 0000\:05\:00.0 > unbind
-> >>> [  116.074352] ------------[ cut here ]------------
-> >>> [  116.078978] WARNING: CPU: 17 PID: 1178 at
-> >>> drivers/gpu/drm/drm_gem_vram_helper.c:40
-> >>> ttm_buffer_object_destroy+0x4c/0x80
-> >>> [  116.089661] Modules linked in:
-> >>> [  116.092711] CPU: 17 PID: 1178 Comm: sh Tainted: G    B   W
-> >>> 5.5.0-rc1-dirty #565
-> >>> [  116.100704] Hardware name: Huawei D06 /D06, BIOS Hisilicon D06 UEFI
-> >>> RC0 - V1.16.01 03/15/2019
-> >>> [  116.109218] pstate: 20400009 (nzCv daif +PAN -UAO)
-> >>> [  116.114001] pc : ttm_buffer_object_destroy+0x4c/0x80
-> >>> [  116.118956] lr : ttm_buffer_object_destroy+0x18/0x80
-> >>> [  116.123910] sp : ffff0022e6cef8e0
-> >>> [  116.127215] x29: ffff0022e6cef8e0 x28: ffff00231b1fb000
-> >>> [  116.132519] x27: 0000000000000000 x26: ffff00231b1fb000
-> >>> [  116.137821] x25: ffff0022e6cefdc0 x24: 0000000000002480
-> >>> [  116.143124] x23: ffff0023682b6ab0 x22: ffff0023682b6800
-> >>> [  116.148427] x21: ffff0023682b6800 x20: 0000000000000000
-> >>> [  116.153730] x19: ffff0023682b6800 x18: 0000000000000000
-> >>> [  116.159032] x17: 000000000000000000000000001
-> >>> [  116.185545] x7 : ffff0023682b6b07 x6 : ffff80046d056d61
-> >>> [  116.190848] x5 : ffff80046d056d61 x4 : ffff0023682b6ba0
-> >>> [  116.196151] x3 : ffffa00010197338 x2 : dfffa00000000000
-> >>> [  116.201453] x1 : 0000000000000003 x0 : 0000000000000001
-> >>> [  116.206756] Call trace:
-> >>> [  116.209195]  ttm_buffer_object_destroy+0x4c/0x80
-> >>> [  116.213803]  ttm_bo_release_list+0x184/0x220
-> >>> [  116.218064]  ttm_bo_put+0x410/0x5d0
-> >>> [  116.221544]  drm_gem_vram_object_free+0xc/0x18
-> >>> [  116.225979]  drm_gem_object_free+0x34/0xd0
-> >>> [  116.230066]  drm_gem_object_put_unlocked+0xc8/0xf0
-> >>> [  116.234848]  hibmc_user_framebuffer_destroy+0x20/0x40
-> >>> [  116.239890]  drm_framebuffer_free+0x48/0x58
-> >>> [  116.244064]  drm_mode_object_put.part.1+0x90/0xe8
-> >>> [  116.248759]  drm_mode_object_put+0x28/0x38
-> >>> [  116.252846]  hibmc_fbdev_fini+0x54/0x78
-> >>> [  116.256672]  hibmc_unload+0x2c/0xd0
-> >>> [  116.260151]  hibmc_pci_remove+0x2c/0x40
-> >>> [  116.263979]  pci_device_remove+0x6c/0x140
-> >>> [  116.267980]  device_release_driver_internal+0x134/0x250
-> >>> [  116.273196]  device_driver_detach+0x28/0x38
-> >>> [  116.277369]  unbind_store+0xfc/0x150
-> >>> [  116.280934]  drv_attr_store+0x48/0x60
-> >>> [  116.284589]  sysfs_kf_write+0x80/0xb0
-> >>> [  116.288241]  kernfs_fop_write+0x1d4/0x320
-> >>> [  116.292243]  __vfs_write+0x54/0x98
-> >>> [  116.295635]  vfs_write+0xe8/0x270
-> >>> [  116.298940]  ksys_write+0xc8/0x180
-> >>> [  116.302333]  __arm64_sys_write+0x40/0x50
-> >>> [  116.306248]  el0_svc_common.constprop.0+0xa4/0x1f8
-> >>> [  116.311029]  el0_svc_handler+0x34/0xb0
-> >>> [  116.314770]  el0_sync_handler+0x10c/0x1c8
-> >>> [  116.318769]  el0_sync+0x140/0x180
-> >>> [  116.322074] ---[ end trace e60e43d0e316b5c8 ]---
-> >>> [  116.326868] ------------[ cut here ]------------
-> >>>
-> >>>
-> >>> dmesg and .config is here:
-> >>> https://pastebin.com/4P5yaZBS
-> >>>
-> >>> I'm not sure if this is a HIBMC driver issue or issue with the
-> >>> framework.
-> >>>
-> >>> john
-> >>>
-> >>>
-> >>> _______________________________________________
-> >>> dri-devel mailing list
-> >>> dri-devel@lists.freedesktop.org
-> >>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> >>
-> >>
-> >
-> > _______________________________________________
-> > Linuxarm mailing list
-> > Linuxarm@huawei.com
-> > http://hulk.huawei.com/mailman/listinfo/linuxarm
-> > .
->
+I don't think we do much locking with resource handling. E.g. we have single registers with mux 
+settings for multiple outputs. If DPI (or any other dss output) gets called concurrently for 
+different outputs, we might get a race.
 
+I wonder if that concurrency is opt-in...
+
+  Tomi
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
