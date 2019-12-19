@@ -1,59 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A4671260DC
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 12:32:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 065DB126105
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 12:40:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B7836EB50;
-	Thu, 19 Dec 2019 11:32:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AC7889FD4;
+	Thu, 19 Dec 2019 11:40:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BE0C6EB50
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 11:32:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576755128;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KQVy1060cIcwdmA+aV3D7jzIs8ekG/8Yaj3TYu2HIws=;
- b=eeVhEDPfbk7YMhqxUDgi4yMtzYg7eQ3bYY9Hq1je21RrAG//+efOEZVmCCprUD61JQ3YYl
- 7gc9jgm1c/W38tOAUB+TpBQ0DAC6RBH0xlEd2aWNAOF2VK9jnldpGXu9qxGdNL9WJWsTsq
- zmS7jBdb5TcNg4GRSCUfbe6PEM5gs+8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-177-1dfDxRcXPu6wUynMAn751g-1; Thu, 19 Dec 2019 06:32:02 -0500
-X-MC-Unique: 1dfDxRcXPu6wUynMAn751g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 088AD89FD4
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 11:40:12 +0000 (UTC)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34B2D803A4C;
- Thu, 19 Dec 2019 11:31:56 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-98.ams2.redhat.com
- [10.36.116.98])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3D99963B89;
- Thu, 19 Dec 2019 11:31:53 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C695311AAA; Thu, 19 Dec 2019 12:31:51 +0100 (CET)
-Date: Thu, 19 Dec 2019 12:31:51 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: Warnings in DRM code when removing/unbinding a driver
-Message-ID: <20191219113151.sytkoi3m7rrxzps2@sirius.home.kraxel.org>
-References: <07899bd5-e9a5-cff0-395f-b4fb3f0f7f6c@huawei.com>
- <f867543cf5d0fc3fdd0534749326411bcfc5e363.camel@collabora.com>
- <c2e5f5a5-5839-42a9-2140-903e99e166db@huawei.com>
- <fde72f73-d678-2b77-3950-d465f0afe904@huawei.com>
- <CAKMK7uFr03euoB6rY8z9zmRyznP41vwfdaKApZ_0HfYZT4Hq_w@mail.gmail.com>
- <fcca5732-c7dc-6e1d-dcbe-bfd914a4295b@huawei.com>
- <CAKMK7uE+nfR2hv1ybfv1ZApZbGnnX7ZHfjFCv5K72ZaAmdtfug@mail.gmail.com>
+ by mail.kernel.org (Postfix) with ESMTPSA id 46A4324650;
+ Thu, 19 Dec 2019 11:40:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1576755612;
+ bh=utqe9imvi8op5IQ0YfZAWBSecd1QKIZm9SzAS02hoHY=;
+ h=Subject:To:Cc:From:Date:From;
+ b=PgrlPfVw/HQYv9q/xRDtyQCmjhfj58IhlzUJbzQG1F76Qew1WLooldGyppdsU1YxG
+ Ezfl8U1luZD0+8CmNkLnJAU7O+Z1d4tM9bvXvwy+kNWLV1njTfxfglP3/YIKv8bSkp
+ ZgSYAX+d3Qm33QJc3LbTnCCQy/VSX2FHYozKDa4Q=
+Subject: Patch "drm/dp_mst: Correct the bug in drm_dp_update_payload_part1()"
+ has been added to the 5.4-stable tree
+To: 20191203042423.5961-1-Wayne.Lin@amd.com, Wayne.Lin@amd.com,
+ airlied@linux.ie, daniel.vetter@ffwll.ch, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
+ juston.li@intel.com, lyude@redhat.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, sean@poorly.run
+From: <gregkh@linuxfoundation.org>
+Date: Thu, 19 Dec 2019 12:37:31 +0100
+Message-ID: <157675545110354@kroah.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uE+nfR2hv1ybfv1ZApZbGnnX7ZHfjFCv5K72ZaAmdtfug@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,46 +50,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dbueso@suse.de, "airlied@linux.ie" <airlied@linux.ie>,
- "Chenfeng \(puck\)" <puck.chen@hisilicon.com>,
- John Garry <john.garry@huawei.com>, Linuxarm <linuxarm@huawei.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "kongxinwei \(A\)" <kong.kongxinwei@hisilicon.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Ezequiel Garcia <ezequiel@collabora.com>
+Cc: stable-commits@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  Hi,
 
-> >   Like I said, for most drivers
-> > > you can pretty much assume that their unload sequence has been broken
-> > > since forever. It's not often tested, and especially the hotunbind
-> > > from a device (as opposed to driver unload) stuff wasn't even possible
-> > > to get right until just recently.
-> >
-> > Do you think it's worth trying to fix this for 5.5 and earlier, or just
-> > switch to the device-managed interface for 5.6 and forget about 5.5 and
-> > earlier?
-> 
-> I suspect it's going to be quite some trickery to fix this properly
-> and everywhere, even for just one driver. Lots of drm drivers
-> unfortunately use anti-patterns with wrong lifetimes (e.g. you can't
-> use devm_kmalloc for anything that hangs of a drm_device, like
-> plane/crtc/connector). Except when it's for a real hotunpluggable
-> device (usb) we've never bothered backporting these fixes. Too much
-> broken stuff unfortunately.
+This is a note to let you know that I've just added the patch titled
 
-While being at it:  How would a driver cleanup properly cleanup gem
-objects created by userspace on hotunbind?  Specifically a gem object
-pinned to vram?
+    drm/dp_mst: Correct the bug in drm_dp_update_payload_part1()
 
-cheers,
-  Gerd
+to the 5.4-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
+The filename of the patch is:
+     drm-dp_mst-correct-the-bug-in-drm_dp_update_payload_part1.patch
+and it can be found in the queue-5.4 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
+
+
+From e5a6ca27eb72c67533ddfc11c06df84beaa167fa Mon Sep 17 00:00:00 2001
+From: Wayne Lin <Wayne.Lin@amd.com>
+Date: Tue, 3 Dec 2019 12:24:23 +0800
+Subject: drm/dp_mst: Correct the bug in drm_dp_update_payload_part1()
+
+From: Wayne Lin <Wayne.Lin@amd.com>
+
+commit e5a6ca27eb72c67533ddfc11c06df84beaa167fa upstream.
+
+[Why]
+If the payload_state is DP_PAYLOAD_DELETE_LOCAL in series, current
+code doesn't delete the payload at current index and just move the
+index to next one after shuffling payloads.
+
+[How]
+Drop the i++ increasing part in for loop head and decide whether
+to increase the index or not according to payload_state of current
+payload.
+
+Changes since v1:
+* Refine the code to have it easy reading
+* Amend the commit message to meet the way code is modified now.
+
+Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+Fixes: 706246c761dd ("drm/dp_mst: Refactor drm_dp_update_payload_part1()")
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Juston Li <juston.li@intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Sean Paul <sean@poorly.run>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v5.1+
+[Added cc for stable]
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20191203042423.5961-1-Wayne.Lin@amd.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+---
+ drivers/gpu/drm/drm_dp_mst_topology.c |    6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+--- a/drivers/gpu/drm/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+@@ -2465,9 +2465,11 @@ int drm_dp_update_payload_part1(struct d
+ 			drm_dp_mst_topology_put_port(port);
+ 	}
+ 
+-	for (i = 0; i < mgr->max_payloads; i++) {
+-		if (mgr->payloads[i].payload_state != DP_PAYLOAD_DELETE_LOCAL)
++	for (i = 0; i < mgr->max_payloads; /* do nothing */) {
++		if (mgr->payloads[i].payload_state != DP_PAYLOAD_DELETE_LOCAL) {
++			i++;
+ 			continue;
++		}
+ 
+ 		DRM_DEBUG_KMS("removing payload %d\n", i);
+ 		for (j = i; j < mgr->max_payloads - 1; j++) {
+
+
+Patches currently in stable-queue which might be from Wayne.Lin@amd.com are
+
+queue-5.4/drm-dp_mst-correct-the-bug-in-drm_dp_update_payload_part1.patch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
