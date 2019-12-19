@@ -1,57 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEEE21258AE
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 01:40:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 498DD1258F1
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 01:57:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3814C6EAAB;
-	Thu, 19 Dec 2019 00:40:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C15EF6EAAC;
+	Thu, 19 Dec 2019 00:57:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
- [216.228.121.143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABE9C6EAAB
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 00:40:41 +0000 (UTC)
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5dfac6eb0000>; Wed, 18 Dec 2019 16:40:11 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Wed, 18 Dec 2019 16:40:40 -0800
-X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Wed, 18 Dec 2019 16:40:40 -0800
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 19 Dec
- 2019 00:40:40 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via
- Frontend Transport; Thu, 19 Dec 2019 00:40:39 +0000
-Received: from blueforge.nvidia.com (Not Verified[10.110.48.28]) by
- rnnvemgw01.nvidia.com with Trustwave SEG (v7, 5, 8, 10121)
- id <B5dfac7070000>; Wed, 18 Dec 2019 16:40:39 -0800
-From: John Hubbard <jhubbard@nvidia.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v12] mm: devmap: refactor 1-based refcounting for ZONE_DEVICE
- pages
-Date: Wed, 18 Dec 2019 16:40:37 -0800
-Message-ID: <20191219004037.1198078-1-jhubbard@nvidia.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20191218160420.gyt4c45e6zsnxqv6@box>
-References: <20191218160420.gyt4c45e6zsnxqv6@box>
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
+ [IPv6:2607:f8b0:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD9036EAAC
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 00:57:41 +0000 (UTC)
+Received: by mail-pf1-x429.google.com with SMTP id p14so2183754pfn.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 16:57:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=d/0Dzr7PF0Px4YDySXnEaL6pzzJBHGGWbHw/Hy/gm5g=;
+ b=GrmauL5TW0SHH02xERA94xKLmxVOKSMPCkdS3p2vjwbbHxKumGjANYT0xdpBy5WKNS
+ 9S40lWuNKhDtUqBMgAzhHXMWH+0/vbLD9FmRMpVsCLVMINI3u4kd+RIvf7vED/nQJNzt
+ D10HW1OJ0gPltwJ0VXjC48f7iW2zuzprer4hM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=d/0Dzr7PF0Px4YDySXnEaL6pzzJBHGGWbHw/Hy/gm5g=;
+ b=BbTC3bqrjxPdWax2uOjKqS4FbqDHIkUBLttpH8GYYAWEjK6z8di8WAerBf+SOLxqFz
+ aUNXXM+SYRJ0REk3HsFWJNOf+oZca7BiV9cUxXM/uhpENcgS50ji9FF9exvhFFIEBO3s
+ xN7jK02MxMZ/EAGurFEy/GHSRABPCEaivD7xe5JsI/uM2YgvH/lulqeA4NvlzpxGVksD
+ xY/9jB8NRwjIRN496J0KSlHs6ttgI4YMl++bcvnnnzPMMjVWKN74XVebt8BznYsJs8MG
+ Sk5qOlsT2K3fVeU3fjxYMYGtQf094J2EKpZeJYnda4MOMRiGefX9tViYrDXtBIkYKPxb
+ fIRQ==
+X-Gm-Message-State: APjAAAVQQ9+6NL9MSwajtq9aCWdq6e4WRdNckPWRGx/BGQrdJhTREEHc
+ 9XXVQVQEfhRMBnXdguA+AMalKYlaPys=
+X-Google-Smtp-Source: APXvYqxJO0zmUFI5UcCcQ4ZnhxPv7WFmQkLqu5lNBrNT5cYAFgDk78I0fKxRED1UeXtlfTfoKZNqVg==
+X-Received: by 2002:a63:950c:: with SMTP id p12mr6233792pgd.85.1576717061084; 
+ Wed, 18 Dec 2019 16:57:41 -0800 (PST)
+Received: from gurchetansingh0.mtv.corp.google.com
+ ([2620:15c:202:201:bc97:5740:52a7:6875])
+ by smtp.gmail.com with ESMTPSA id f23sm4651553pgj.76.2019.12.18.16.57.40
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+ Wed, 18 Dec 2019 16:57:40 -0800 (PST)
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/6] drm/virtio: static-ify virtio_fence_signaled
+Date: Wed, 18 Dec 2019 16:57:28 -0800
+Message-Id: <20191219005733.18960-1-gurchetansingh@chromium.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-X-NVConfidentiality: public
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1576716012; bh=meY7XSFZGFTm0ReBYolvDdqRBgCh/HSlArb5Zg3NFvk=;
- h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
- In-Reply-To:References:MIME-Version:X-NVConfidentiality:
- Content-Type:Content-Transfer-Encoding;
- b=qjIOKqdCUd7FwtXps/EX5rcy2jzX7ECH7d3gscZlvPWK+USZzY1q0dAG+H1A1e4bW
- xIdpfAI5t4vavi9qpNMvGtiweIkR1awxL4TYXPZwaeONkFcFN1zXQbpW/68snevPNj
- 5QIP3HFe/KnwTQJ5t/CB3h4eLlluOox9FBIYdqA3HpeElohSY3KZjP+6dBkbINRhFa
- ZYRgTzuq1d6+3U/JsKziS6j7uhAZMlje1/Nk/EI1s0RtNW9Xt5H7STM2pMGvX9z96O
- 6weRpZ4IdcHq5gWYu+R05VYD+Ro8D3XakiiYQK6azXLHolwxZWIhC6GYnIMG6nSLyM
- S6aDYq/kU5kxg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,128 +62,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
- linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
- linux-kselftest@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
- Christoph Hellwig <hch@lst.de>, Jonathan Corbet <corbet@lwn.net>,
- linux-rdma@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
- Christoph Hellwig <hch@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- Vlastimil Babka <vbabka@suse.cz>,
- =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn.topel@intel.com>,
- linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- John Hubbard <jhubbard@nvidia.com>, linux-block@vger.kernel.org,
- =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
- Al Viro <viro@zeniv.linux.org.uk>,
- "Kirill A . Shutemov" <kirill@shutemov.name>,
- Dan Williams <dan.j.williams@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Magnus Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
- netdev@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
- linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>,
- Mike Kravetz <mike.kravetz@oracle.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: kraxel@redhat.com, Gurchetan Singh <gurchetansingh@chromium.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW4gdXBjb21pbmcgcGF0Y2ggY2hhbmdlcyBhbmQgY29tcGxpY2F0ZXMgdGhlIHJlZmNvdW50aW5n
-IGFuZAplc3BlY2lhbGx5IHRoZSAicHV0IHBhZ2UiIGFzcGVjdHMgb2YgaXQuIEluIG9yZGVyIHRv
-IGtlZXAKZXZlcnl0aGluZyBjbGVhbiwgcmVmYWN0b3IgdGhlIGRldm1hcCBwYWdlIHJlbGVhc2Ug
-cm91dGluZXM6CgoqIFJlbmFtZSBwdXRfZGV2bWFwX21hbmFnZWRfcGFnZSgpIHRvIHBhZ2VfaXNf
-ZGV2bWFwX21hbmFnZWQoKSwKICBhbmQgbGltaXQgdGhlIGZ1bmN0aW9uYWxpdHkgdG8gInJlYWQg
-b25seSI6IHJldHVybiBhIGJvb2wsCiAgd2l0aCBubyBzaWRlIGVmZmVjdHMuCgoqIEFkZCBhIG5l
-dyByb3V0aW5lLCBwdXRfZGV2bWFwX21hbmFnZWRfcGFnZSgpLCB0byBoYW5kbGUKICBkZWNyZW1l
-bnRpbmcgdGhlIHJlZmNvdW50IGZvciBaT05FX0RFVklDRSBwYWdlcy4KCiogQ2hhbmdlIGNhbGxl
-cnMgKGp1c3QgcmVsZWFzZV9wYWdlcygpIGFuZCBwdXRfcGFnZSgpKSB0byBjaGVjawogIHBhZ2Vf
-aXNfZGV2bWFwX21hbmFnZWQoKSBiZWZvcmUgY2FsbGluZyB0aGUgbmV3CiAgcHV0X2Rldm1hcF9t
-YW5hZ2VkX3BhZ2UoKSByb3V0aW5lLiBUaGlzIGlzIGEgcGVyZm9ybWFuY2UKICBwb2ludDogcHV0
-X3BhZ2UoKSBpcyBhIGhvdCBwYXRoLCBzbyB3ZSBuZWVkIHRvIGF2b2lkIG5vbi0KICBpbmxpbmUg
-ZnVuY3Rpb24gY2FsbHMgd2hlcmUgcG9zc2libGUuCgoqIFJlbmFtZSBfX3B1dF9kZXZtYXBfbWFu
-YWdlZF9wYWdlKCkgdG8gZnJlZV9kZXZtYXBfbWFuYWdlZF9wYWdlKCksCiAgYW5kIGxpbWl0IHRo
-ZSBmdW5jdGlvbmFsaXR5IHRvIHVuY29uZGl0aW9uYWxseSBmcmVlaW5nIGEgZGV2bWFwCiAgcGFn
-ZS4KClRoaXMgaXMgb3JpZ2luYWxseSBiYXNlZCBvbiBhIHNlcGFyYXRlIHBhdGNoIGJ5IElyYSBX
-ZWlueSwgd2hpY2gKYXBwbGllZCB0byBhbiBlYXJseSB2ZXJzaW9uIG9mIHRoZSBwdXRfdXNlcl9w
-YWdlKCkgZXhwZXJpbWVudHMuClNpbmNlIHRoZW4sIErDqXLDtG1lIEdsaXNzZSBzdWdnZXN0ZWQg
-dGhlIHJlZmFjdG9yaW5nIGRlc2NyaWJlZCBhYm92ZS4KCkNjOiBDaHJpc3RvcGggSGVsbHdpZyA8
-aGNoQGxzdC5kZT4KU3VnZ2VzdGVkLWJ5OiBKw6lyw7RtZSBHbGlzc2UgPGpnbGlzc2VAcmVkaGF0
-LmNvbT4KUmV2aWV3ZWQtYnk6IERhbiBXaWxsaWFtcyA8ZGFuLmoud2lsbGlhbXNAaW50ZWwuY29t
-PgpSZXZpZXdlZC1ieTogSmFuIEthcmEgPGphY2tAc3VzZS5jej4KU2lnbmVkLW9mZi1ieTogSXJh
-IFdlaW55IDxpcmEud2VpbnlAaW50ZWwuY29tPgpTaWduZWQtb2ZmLWJ5OiBKb2huIEh1YmJhcmQg
-PGpodWJiYXJkQG52aWRpYS5jb20+Ci0tLQogaW5jbHVkZS9saW51eC9tbS5oIHwgMTggKysrKysr
-KysrKysrKy0tLS0tCiBtbS9tZW1yZW1hcC5jICAgICAgfCAxNiArKy0tLS0tLS0tLS0tLS0tCiBt
-bS9zd2FwLmMgICAgICAgICAgfCAyNyArKysrKysrKysrKysrKysrKysrKysrKysrKy0KIDMgZmls
-ZXMgY2hhbmdlZCwgNDEgaW5zZXJ0aW9ucygrKSwgMjAgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0
-IGEvaW5jbHVkZS9saW51eC9tbS5oIGIvaW5jbHVkZS9saW51eC9tbS5oCmluZGV4IGM5N2VhM2I2
-OTRlNi4uODdiNTQxMjZlNDZkIDEwMDY0NAotLS0gYS9pbmNsdWRlL2xpbnV4L21tLmgKKysrIGIv
-aW5jbHVkZS9saW51eC9tbS5oCkBAIC05NTIsOSArOTUyLDEwIEBAIHN0YXRpYyBpbmxpbmUgYm9v
-bCBpc196b25lX2RldmljZV9wYWdlKGNvbnN0IHN0cnVjdCBwYWdlICpwYWdlKQogI2VuZGlmCiAK
-ICNpZmRlZiBDT05GSUdfREVWX1BBR0VNQVBfT1BTCi12b2lkIF9fcHV0X2Rldm1hcF9tYW5hZ2Vk
-X3BhZ2Uoc3RydWN0IHBhZ2UgKnBhZ2UpOwordm9pZCBmcmVlX2Rldm1hcF9tYW5hZ2VkX3BhZ2Uo
-c3RydWN0IHBhZ2UgKnBhZ2UpOwogREVDTEFSRV9TVEFUSUNfS0VZX0ZBTFNFKGRldm1hcF9tYW5h
-Z2VkX2tleSk7Ci1zdGF0aWMgaW5saW5lIGJvb2wgcHV0X2Rldm1hcF9tYW5hZ2VkX3BhZ2Uoc3Ry
-dWN0IHBhZ2UgKnBhZ2UpCisKK3N0YXRpYyBpbmxpbmUgYm9vbCBwYWdlX2lzX2Rldm1hcF9tYW5h
-Z2VkKHN0cnVjdCBwYWdlICpwYWdlKQogewogCWlmICghc3RhdGljX2JyYW5jaF91bmxpa2VseSgm
-ZGV2bWFwX21hbmFnZWRfa2V5KSkKIAkJcmV0dXJuIGZhbHNlOwpAQCAtOTYzLDcgKzk2NCw2IEBA
-IHN0YXRpYyBpbmxpbmUgYm9vbCBwdXRfZGV2bWFwX21hbmFnZWRfcGFnZShzdHJ1Y3QgcGFnZSAq
-cGFnZSkKIAlzd2l0Y2ggKHBhZ2UtPnBnbWFwLT50eXBlKSB7CiAJY2FzZSBNRU1PUllfREVWSUNF
-X1BSSVZBVEU6CiAJY2FzZSBNRU1PUllfREVWSUNFX0ZTX0RBWDoKLQkJX19wdXRfZGV2bWFwX21h
-bmFnZWRfcGFnZShwYWdlKTsKIAkJcmV0dXJuIHRydWU7CiAJZGVmYXVsdDoKIAkJYnJlYWs7CkBA
-IC05NzEsMTEgKzk3MSwxNyBAQCBzdGF0aWMgaW5saW5lIGJvb2wgcHV0X2Rldm1hcF9tYW5hZ2Vk
-X3BhZ2Uoc3RydWN0IHBhZ2UgKnBhZ2UpCiAJcmV0dXJuIGZhbHNlOwogfQogCit2b2lkIHB1dF9k
-ZXZtYXBfbWFuYWdlZF9wYWdlKHN0cnVjdCBwYWdlICpwYWdlKTsKKwogI2Vsc2UgLyogQ09ORklH
-X0RFVl9QQUdFTUFQX09QUyAqLwotc3RhdGljIGlubGluZSBib29sIHB1dF9kZXZtYXBfbWFuYWdl
-ZF9wYWdlKHN0cnVjdCBwYWdlICpwYWdlKQorc3RhdGljIGlubGluZSBib29sIHBhZ2VfaXNfZGV2
-bWFwX21hbmFnZWQoc3RydWN0IHBhZ2UgKnBhZ2UpCiB7CiAJcmV0dXJuIGZhbHNlOwogfQorCitz
-dGF0aWMgaW5saW5lIHZvaWQgcHV0X2Rldm1hcF9tYW5hZ2VkX3BhZ2Uoc3RydWN0IHBhZ2UgKnBh
-Z2UpCit7Cit9CiAjZW5kaWYgLyogQ09ORklHX0RFVl9QQUdFTUFQX09QUyAqLwogCiBzdGF0aWMg
-aW5saW5lIGJvb2wgaXNfZGV2aWNlX3ByaXZhdGVfcGFnZShjb25zdCBzdHJ1Y3QgcGFnZSAqcGFn
-ZSkKQEAgLTEwMjgsOCArMTAzNCwxMCBAQCBzdGF0aWMgaW5saW5lIHZvaWQgcHV0X3BhZ2Uoc3Ry
-dWN0IHBhZ2UgKnBhZ2UpCiAJICogbmVlZCB0byBpbmZvcm0gdGhlIGRldmljZSBkcml2ZXIgdGhy
-b3VnaCBjYWxsYmFjay4gU2VlCiAJICogaW5jbHVkZS9saW51eC9tZW1yZW1hcC5oIGFuZCBITU0g
-Zm9yIGRldGFpbHMuCiAJICovCi0JaWYgKHB1dF9kZXZtYXBfbWFuYWdlZF9wYWdlKHBhZ2UpKQor
-CWlmIChwYWdlX2lzX2Rldm1hcF9tYW5hZ2VkKHBhZ2UpKSB7CisJCXB1dF9kZXZtYXBfbWFuYWdl
-ZF9wYWdlKHBhZ2UpOwogCQlyZXR1cm47CisJfQogCiAJaWYgKHB1dF9wYWdlX3Rlc3R6ZXJvKHBh
-Z2UpKQogCQlfX3B1dF9wYWdlKHBhZ2UpOwpkaWZmIC0tZ2l0IGEvbW0vbWVtcmVtYXAuYyBiL21t
-L21lbXJlbWFwLmMKaW5kZXggZTg5OWZhODc2YTYyLi4yYmE3NzM4NTkwMzEgMTAwNjQ0Ci0tLSBh
-L21tL21lbXJlbWFwLmMKKysrIGIvbW0vbWVtcmVtYXAuYwpAQCAtNDExLDIwICs0MTEsOCBAQCBz
-dHJ1Y3QgZGV2X3BhZ2VtYXAgKmdldF9kZXZfcGFnZW1hcCh1bnNpZ25lZCBsb25nIHBmbiwKIEVY
-UE9SVF9TWU1CT0xfR1BMKGdldF9kZXZfcGFnZW1hcCk7CiAKICNpZmRlZiBDT05GSUdfREVWX1BB
-R0VNQVBfT1BTCi12b2lkIF9fcHV0X2Rldm1hcF9tYW5hZ2VkX3BhZ2Uoc3RydWN0IHBhZ2UgKnBh
-Z2UpCit2b2lkIGZyZWVfZGV2bWFwX21hbmFnZWRfcGFnZShzdHJ1Y3QgcGFnZSAqcGFnZSkKIHsK
-LQlpbnQgY291bnQgPSBwYWdlX3JlZl9kZWNfcmV0dXJuKHBhZ2UpOwotCi0JLyogc3RpbGwgYnVz
-eSAqLwotCWlmIChjb3VudCA+IDEpCi0JCXJldHVybjsKLQotCS8qIG9ubHkgdHJpZ2dlcmVkIGJ5
-IHRoZSBkZXZfcGFnZW1hcCBzaHV0ZG93biBwYXRoICovCi0JaWYgKGNvdW50ID09IDApIHsKLQkJ
-X19wdXRfcGFnZShwYWdlKTsKLQkJcmV0dXJuOwotCX0KLQogCS8qIG5vdGlmeSBwYWdlIGlkbGUg
-Zm9yIGRheCAqLwogCWlmICghaXNfZGV2aWNlX3ByaXZhdGVfcGFnZShwYWdlKSkgewogCQl3YWtl
-X3VwX3ZhcigmcGFnZS0+X3JlZmNvdW50KTsKQEAgLTQ2MSw1ICs0NDksNSBAQCB2b2lkIF9fcHV0
-X2Rldm1hcF9tYW5hZ2VkX3BhZ2Uoc3RydWN0IHBhZ2UgKnBhZ2UpCiAJcGFnZS0+bWFwcGluZyA9
-IE5VTEw7CiAJcGFnZS0+cGdtYXAtPm9wcy0+cGFnZV9mcmVlKHBhZ2UpOwogfQotRVhQT1JUX1NZ
-TUJPTChfX3B1dF9kZXZtYXBfbWFuYWdlZF9wYWdlKTsKK0VYUE9SVF9TWU1CT0woZnJlZV9kZXZt
-YXBfbWFuYWdlZF9wYWdlKTsKICNlbmRpZiAvKiBDT05GSUdfREVWX1BBR0VNQVBfT1BTICovCmRp
-ZmYgLS1naXQgYS9tbS9zd2FwLmMgYi9tbS9zd2FwLmMKaW5kZXggNTM0MWFlOTM4NjFmLi5jZjM5
-ZDI0YWRhMmEgMTAwNjQ0Ci0tLSBhL21tL3N3YXAuYworKysgYi9tbS9zd2FwLmMKQEAgLTgxMyw4
-ICs4MTMsMTAgQEAgdm9pZCByZWxlYXNlX3BhZ2VzKHN0cnVjdCBwYWdlICoqcGFnZXMsIGludCBu
-cikKIAkJCSAqIHByb2Nlc3NpbmcsIGFuZCBpbnN0ZWFkLCBleHBlY3QgYSBjYWxsIHRvCiAJCQkg
-KiBwdXRfcGFnZV90ZXN0emVybygpLgogCQkJICovCi0JCQlpZiAocHV0X2Rldm1hcF9tYW5hZ2Vk
-X3BhZ2UocGFnZSkpCisJCQlpZiAocGFnZV9pc19kZXZtYXBfbWFuYWdlZChwYWdlKSkgeworCQkJ
-CXB1dF9kZXZtYXBfbWFuYWdlZF9wYWdlKHBhZ2UpOwogCQkJCWNvbnRpbnVlOworCQkJfQogCQl9
-CiAKIAkJcGFnZSA9IGNvbXBvdW5kX2hlYWQocGFnZSk7CkBAIC0xMTAyLDMgKzExMDQsMjYgQEAg
-dm9pZCBfX2luaXQgc3dhcF9zZXR1cCh2b2lkKQogCSAqIF9yZWFsbHlfIGRvbid0IHdhbnQgdG8g
-Y2x1c3RlciBtdWNoIG1vcmUKIAkgKi8KIH0KKworI2lmZGVmIENPTkZJR19ERVZfUEFHRU1BUF9P
-UFMKK3ZvaWQgcHV0X2Rldm1hcF9tYW5hZ2VkX3BhZ2Uoc3RydWN0IHBhZ2UgKnBhZ2UpCit7CisJ
-aW50IGNvdW50OworCisJaWYgKFdBUk5fT05fT05DRSghcGFnZV9pc19kZXZtYXBfbWFuYWdlZChw
-YWdlKSkpCisJCXJldHVybjsKKworCWNvdW50ID0gcGFnZV9yZWZfZGVjX3JldHVybihwYWdlKTsK
-KworCS8qCisJICogZGV2bWFwIHBhZ2UgcmVmY291bnRzIGFyZSAxLWJhc2VkLCByYXRoZXIgdGhh
-biAwLWJhc2VkOiBpZgorCSAqIHJlZmNvdW50IGlzIDEsIHRoZW4gdGhlIHBhZ2UgaXMgZnJlZSBh
-bmQgdGhlIHJlZmNvdW50IGlzCisJICogc3RhYmxlIGJlY2F1c2Ugbm9ib2R5IGhvbGRzIGEgcmVm
-ZXJlbmNlIG9uIHRoZSBwYWdlLgorCSAqLworCWlmIChjb3VudCA9PSAxKQorCQlmcmVlX2Rldm1h
-cF9tYW5hZ2VkX3BhZ2UocGFnZSk7CisJZWxzZSBpZiAoIWNvdW50KQorCQlfX3B1dF9wYWdlKHBh
-Z2UpOworfQorRVhQT1JUX1NZTUJPTChwdXRfZGV2bWFwX21hbmFnZWRfcGFnZSk7CisjZW5kaWYK
-LS0gCjIuMjQuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-Cg==
+Not used anywhere else.
+
+Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
+---
+ drivers/gpu/drm/virtio/virtgpu_drv.h   | 1 -
+ drivers/gpu/drm/virtio/virtgpu_fence.c | 2 +-
+ 2 files changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+index 29cf005ed6b9..349c1dea61c7 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.h
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+@@ -356,7 +356,6 @@ struct drm_plane *virtio_gpu_plane_init(struct virtio_gpu_device *vgdev,
+ 					int index);
+ 
+ /* virtio_gpu_fence.c */
+-bool virtio_fence_signaled(struct dma_fence *f);
+ struct virtio_gpu_fence *virtio_gpu_fence_alloc(
+ 	struct virtio_gpu_device *vgdev);
+ void virtio_gpu_fence_emit(struct virtio_gpu_device *vgdev,
+diff --git a/drivers/gpu/drm/virtio/virtgpu_fence.c b/drivers/gpu/drm/virtio/virtgpu_fence.c
+index a4b9881ca1d3..5466aab7d39a 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_fence.c
++++ b/drivers/gpu/drm/virtio/virtgpu_fence.c
+@@ -37,7 +37,7 @@ static const char *virtio_get_timeline_name(struct dma_fence *f)
+ 	return "controlq";
+ }
+ 
+-bool virtio_fence_signaled(struct dma_fence *f)
++static bool virtio_fence_signaled(struct dma_fence *f)
+ {
+ 	struct virtio_gpu_fence *fence = to_virtio_fence(f);
+ 
+-- 
+2.24.1.735.g03f4e72817-goog
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
