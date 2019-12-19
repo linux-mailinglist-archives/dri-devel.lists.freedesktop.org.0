@@ -2,53 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 498DD1258F1
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 01:57:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 900621258F2
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 01:57:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C15EF6EAAC;
-	Thu, 19 Dec 2019 00:57:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFDA86EAAE;
+	Thu, 19 Dec 2019 00:57:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
- [IPv6:2607:f8b0:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD9036EAAC
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 00:57:41 +0000 (UTC)
-Received: by mail-pf1-x429.google.com with SMTP id p14so2183754pfn.4
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 16:57:41 -0800 (PST)
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
+ [IPv6:2607:f8b0:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AAB06EAAE
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 00:57:44 +0000 (UTC)
+Received: by mail-pg1-x542.google.com with SMTP id a33so2190776pgm.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2019 16:57:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=d/0Dzr7PF0Px4YDySXnEaL6pzzJBHGGWbHw/Hy/gm5g=;
- b=GrmauL5TW0SHH02xERA94xKLmxVOKSMPCkdS3p2vjwbbHxKumGjANYT0xdpBy5WKNS
- 9S40lWuNKhDtUqBMgAzhHXMWH+0/vbLD9FmRMpVsCLVMINI3u4kd+RIvf7vED/nQJNzt
- D10HW1OJ0gPltwJ0VXjC48f7iW2zuzprer4hM=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ei8xOVvBixG0rPjLYnrpJihmHBppCFxJAv0s6xjhaRg=;
+ b=EBehqQL+rLLkKNPYqnqyrY4qenst51roeMN2RTR5+PlrAYknlZ6nAZk1yvScbuH/lO
+ xNuiA2qrKWDGPOGCDTWKmw/4CWpLuLKdL2BHP535SuI/lSSF8O7lZNrIkvKFx+b3VQMA
+ GY6mm6BujXR+UoT0hwmJ+ehTTRmXvlKbQ10mE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=d/0Dzr7PF0Px4YDySXnEaL6pzzJBHGGWbHw/Hy/gm5g=;
- b=BbTC3bqrjxPdWax2uOjKqS4FbqDHIkUBLttpH8GYYAWEjK6z8di8WAerBf+SOLxqFz
- aUNXXM+SYRJ0REk3HsFWJNOf+oZca7BiV9cUxXM/uhpENcgS50ji9FF9exvhFFIEBO3s
- xN7jK02MxMZ/EAGurFEy/GHSRABPCEaivD7xe5JsI/uM2YgvH/lulqeA4NvlzpxGVksD
- xY/9jB8NRwjIRN496J0KSlHs6ttgI4YMl++bcvnnnzPMMjVWKN74XVebt8BznYsJs8MG
- Sk5qOlsT2K3fVeU3fjxYMYGtQf094J2EKpZeJYnda4MOMRiGefX9tViYrDXtBIkYKPxb
- fIRQ==
-X-Gm-Message-State: APjAAAVQQ9+6NL9MSwajtq9aCWdq6e4WRdNckPWRGx/BGQrdJhTREEHc
- 9XXVQVQEfhRMBnXdguA+AMalKYlaPys=
-X-Google-Smtp-Source: APXvYqxJO0zmUFI5UcCcQ4ZnhxPv7WFmQkLqu5lNBrNT5cYAFgDk78I0fKxRED1UeXtlfTfoKZNqVg==
-X-Received: by 2002:a63:950c:: with SMTP id p12mr6233792pgd.85.1576717061084; 
- Wed, 18 Dec 2019 16:57:41 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ei8xOVvBixG0rPjLYnrpJihmHBppCFxJAv0s6xjhaRg=;
+ b=oWKVvLj6DDvSQl4wf3sHRgEVdtu2r2Ixf9Dg3gvt1lkURVjtVhGUxVfFVD8MafOHQT
+ IZ+MoYwkfx1wOUDYW1/6AilDeI6VODCOcvJYr6E+9XZpGJvDA/ngkHRu+cvFphZo+31i
+ DIqUuaKjSc923Pb5o7uX/M6OyLv+8MuSSeSc3FJodxbaAZMEzxgrOd74mE7+3xF8xDAv
+ qqZdD5lnm/8ErU4Eqv2ChWd38BdatE+LxPflofPWBttd+sUQzM6YmW6PRne3v8QIzFFa
+ O7bTqBe5l0eG8iDJ3Z/m3lAYHoKTEF7uiSekSgQ6ty0Prutn2kBJ2/tzagkBBmG6pMS3
+ S43g==
+X-Gm-Message-State: APjAAAV9YJFj6XjNiR+0izKXc9IYwt0/m+KmMcjEyEBLgf7V5yCtWftV
+ 52wOGD18eecWSVwWZwCiX+envWHZgxc=
+X-Google-Smtp-Source: APXvYqwJyDaSZfKe8efKEcJFgv5a2S+wds06O1Cl5IOu2sPUJCiPnwO8zvX+wVGTy8iavKJaAzrPkw==
+X-Received: by 2002:aa7:90c4:: with SMTP id k4mr6472491pfk.216.1576717064422; 
+ Wed, 18 Dec 2019 16:57:44 -0800 (PST)
 Received: from gurchetansingh0.mtv.corp.google.com
  ([2620:15c:202:201:bc97:5740:52a7:6875])
- by smtp.gmail.com with ESMTPSA id f23sm4651553pgj.76.2019.12.18.16.57.40
+ by smtp.gmail.com with ESMTPSA id f23sm4651553pgj.76.2019.12.18.16.57.43
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Wed, 18 Dec 2019 16:57:40 -0800 (PST)
+ Wed, 18 Dec 2019 16:57:43 -0800 (PST)
 From: Gurchetan Singh <gurchetansingh@chromium.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/6] drm/virtio: static-ify virtio_fence_signaled
-Date: Wed, 18 Dec 2019 16:57:28 -0800
-Message-Id: <20191219005733.18960-1-gurchetansingh@chromium.org>
+Subject: [PATCH 2/6] drm/virtio: static-ify virtio_gpu_framebuffer_init
+Date: Wed, 18 Dec 2019 16:57:29 -0800
+Message-Id: <20191219005733.18960-2-gurchetansingh@chromium.org>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191219005733.18960-1-gurchetansingh@chromium.org>
+References: <20191219005733.18960-1-gurchetansingh@chromium.org>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,34 +74,37 @@ Not used anywhere else.
 
 Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
 ---
- drivers/gpu/drm/virtio/virtgpu_drv.h   | 1 -
- drivers/gpu/drm/virtio/virtgpu_fence.c | 2 +-
- 2 files changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_display.c | 2 +-
+ drivers/gpu/drm/virtio/virtgpu_drv.h     | 4 ----
+ 2 files changed, 1 insertion(+), 5 deletions(-)
 
+diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
+index e622485ae826..c76d69fecfeb 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_display.c
++++ b/drivers/gpu/drm/virtio/virtgpu_display.c
+@@ -59,7 +59,7 @@ static const struct drm_framebuffer_funcs virtio_gpu_fb_funcs = {
+ 	.dirty = drm_atomic_helper_dirtyfb,
+ };
+ 
+-int
++static int
+ virtio_gpu_framebuffer_init(struct drm_device *dev,
+ 			    struct virtio_gpu_framebuffer *vgfb,
+ 			    const struct drm_mode_fb_cmd2 *mode_cmd,
 diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 29cf005ed6b9..349c1dea61c7 100644
+index 349c1dea61c7..cf09e4af2fc5 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
 +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -356,7 +356,6 @@ struct drm_plane *virtio_gpu_plane_init(struct virtio_gpu_device *vgdev,
- 					int index);
+@@ -342,10 +342,6 @@ void virtio_gpu_disable_notify(struct virtio_gpu_device *vgdev);
+ void virtio_gpu_enable_notify(struct virtio_gpu_device *vgdev);
  
- /* virtio_gpu_fence.c */
--bool virtio_fence_signaled(struct dma_fence *f);
- struct virtio_gpu_fence *virtio_gpu_fence_alloc(
- 	struct virtio_gpu_device *vgdev);
- void virtio_gpu_fence_emit(struct virtio_gpu_device *vgdev,
-diff --git a/drivers/gpu/drm/virtio/virtgpu_fence.c b/drivers/gpu/drm/virtio/virtgpu_fence.c
-index a4b9881ca1d3..5466aab7d39a 100644
---- a/drivers/gpu/drm/virtio/virtgpu_fence.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_fence.c
-@@ -37,7 +37,7 @@ static const char *virtio_get_timeline_name(struct dma_fence *f)
- 	return "controlq";
- }
- 
--bool virtio_fence_signaled(struct dma_fence *f)
-+static bool virtio_fence_signaled(struct dma_fence *f)
- {
- 	struct virtio_gpu_fence *fence = to_virtio_fence(f);
+ /* virtio_gpu_display.c */
+-int virtio_gpu_framebuffer_init(struct drm_device *dev,
+-				struct virtio_gpu_framebuffer *vgfb,
+-				const struct drm_mode_fb_cmd2 *mode_cmd,
+-				struct drm_gem_object *obj);
+ void virtio_gpu_modeset_init(struct virtio_gpu_device *vgdev);
+ void virtio_gpu_modeset_fini(struct virtio_gpu_device *vgdev);
  
 -- 
 2.24.1.735.g03f4e72817-goog
