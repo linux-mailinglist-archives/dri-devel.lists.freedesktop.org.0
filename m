@@ -2,44 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CBB0126106
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 12:40:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12587126116
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 12:41:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E09D6EB5B;
-	Thu, 19 Dec 2019 11:40:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10D456EB51;
+	Thu, 19 Dec 2019 11:41:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF9346EB58
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 11:40:22 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 24B662467B;
- Thu, 19 Dec 2019 11:40:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576755622;
- bh=ybzmHO2wWmpyDRImQ7tLNArUAfwKMd2FeDQcinOFjf4=;
- h=Subject:To:Cc:From:Date:From;
- b=E7uAjTPuZUPm1KgMRxRtcrWkAmU/NgJYyyPLdyIaJRKnnVRlrPd4iRGLhx4rHYR6h
- dodI+YTafqnvLh1M3regoVumpHOKTBcbpQa0QK3g34CiavXxPyHipR5vjJo91QjrmX
- gvabOQ1FMMg6TLSB0n5HdngsfYUk5t5c9bNYSWKA=
-Subject: Patch "drm/mgag200: Add workaround for HW that does not support
- 'startadd'" has been added to the 5.4-stable tree
-To: 20191126101529.20356-4-tzimmermann@suse.de, airlied@linux.ie,
- airlied@redhat.com, andrzej.p@collabora.com, daniel.vetter@ffwll.ch,
- dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
- john.p.donnelly@oracle.com, jose.souza@intel.com, kraxel@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, narmstrong@baylibre.com,
- sam@ravnborg.org, tglx@linutronix.de, tzimmermann@suse.de,
- yc_chen@aspeedtech.com
-From: <gregkh@linuxfoundation.org>
-Date: Thu, 19 Dec 2019 12:37:31 +0100
-Message-ID: <157675545110055@kroah.com>
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 461EE6EB51
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 11:41:56 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBJBfoLU104245;
+ Thu, 19 Dec 2019 05:41:50 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1576755710;
+ bh=wuP0ZWesLf5o8dVcHM9/GIf8LrZvjfCnulppjJekFR4=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=zRwVTLJsCkKOOT5UORuMp/1UHJrfdagOeEG4dOuBfNNEhEnAL28XslWiyfs2m8I8I
+ WouwXF8gKGwjyYqKNmUuBUqA1DJZi4yB4WoBttqsDqH2vXeDNPtVUpCuoVh5KTXxSq
+ ZX27mupfLpPsAeIszh3NEGqecXvfZbrsLQmcknRE=
+Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBJBfoe5112875;
+ Thu, 19 Dec 2019 05:41:50 -0600
+Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Thu, 19
+ Dec 2019 05:41:49 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Thu, 19 Dec 2019 05:41:49 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBJBfliP071667;
+ Thu, 19 Dec 2019 05:41:48 -0600
+Subject: Re: [PATCH v4 34/51] drm/omap: venc: Register a drm_bridge
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ <dri-devel@lists.freedesktop.org>
+References: <20191219104522.9379-1-laurent.pinchart@ideasonboard.com>
+ <20191219104522.9379-35-laurent.pinchart@ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <c7372ffc-d6f6-8696-6eab-9cfe16d75005@ti.com>
+Date: Thu, 19 Dec 2019 13:41:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-X-stable: commit
-X-Patchwork-Hint: ignore 
+In-Reply-To: <20191219104522.9379-35-laurent.pinchart@ideasonboard.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,103 +62,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable-commits@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sam Ravnborg <sam@ravnborg.org>, Sean Paul <sean@poorly.run>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Boris Brezillon <bbrezillon@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ClRoaXMgaXMgYSBub3RlIHRvIGxldCB5b3Uga25vdyB0aGF0IEkndmUganVzdCBhZGRlZCB0aGUg
-cGF0Y2ggdGl0bGVkCgogICAgZHJtL21nYWcyMDA6IEFkZCB3b3JrYXJvdW5kIGZvciBIVyB0aGF0
-IGRvZXMgbm90IHN1cHBvcnQgJ3N0YXJ0YWRkJwoKdG8gdGhlIDUuNC1zdGFibGUgdHJlZSB3aGlj
-aCBjYW4gYmUgZm91bmQgYXQ6CiAgICBodHRwOi8vd3d3Lmtlcm5lbC5vcmcvZ2l0Lz9wPWxpbnV4
-L2tlcm5lbC9naXQvc3RhYmxlL3N0YWJsZS1xdWV1ZS5naXQ7YT1zdW1tYXJ5CgpUaGUgZmlsZW5h
-bWUgb2YgdGhlIHBhdGNoIGlzOgogICAgIGRybS1tZ2FnMjAwLWFkZC13b3JrYXJvdW5kLWZvci1o
-dy10aGF0LWRvZXMtbm90LXN1cHBvcnQtc3RhcnRhZGQucGF0Y2gKYW5kIGl0IGNhbiBiZSBmb3Vu
-ZCBpbiB0aGUgcXVldWUtNS40IHN1YmRpcmVjdG9yeS4KCklmIHlvdSwgb3IgYW55b25lIGVsc2Us
-IGZlZWxzIGl0IHNob3VsZCBub3QgYmUgYWRkZWQgdG8gdGhlIHN0YWJsZSB0cmVlLApwbGVhc2Ug
-bGV0IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPiBrbm93IGFib3V0IGl0LgoKCkZyb20gMTU5MWZh
-ZGY4NTdjZGJhZjJiYWE1NWU0MjFhZjk5YTYxMzU0NzEzYyBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
-MDEKRnJvbTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+CkRhdGU6IFR1
-ZSwgMjYgTm92IDIwMTkgMTE6MTU6MjkgKzAxMDAKU3ViamVjdDogZHJtL21nYWcyMDA6IEFkZCB3
-b3JrYXJvdW5kIGZvciBIVyB0aGF0IGRvZXMgbm90IHN1cHBvcnQgJ3N0YXJ0YWRkJwpNSU1FLVZl
-cnNpb246IDEuMApDb250ZW50LVR5cGU6IHRleHQvcGxhaW47IGNoYXJzZXQ9VVRGLTgKQ29udGVu
-dC1UcmFuc2Zlci1FbmNvZGluZzogOGJpdAoKRnJvbTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1t
-ZXJtYW5uQHN1c2UuZGU+Cgpjb21taXQgMTU5MWZhZGY4NTdjZGJhZjJiYWE1NWU0MjFhZjk5YTYx
-MzU0NzEzYyB1cHN0cmVhbS4KClRoZXJlJ3MgYXQgbGVhc3Qgb25lIHN5c3RlbSB0aGF0IGRvZXMg
-bm90IGludGVycHJldCB0aGUgdmFsdWUgb2YKdGhlIGRldmljZSdzICdzdGFydGFkZCcgZmllbGQg
-Y29ycmVjdGx5LCB3aGljaCBsZWFkcyB0byBpbmNvcnJlY3RseQpkaXNwbGF5ZWQgc2Nhbm91dCBi
-dWZmZXJzLiBBbHdheXMgcGxhY2luZyB0aGUgYWN0aXZlIHNjYW5vdXQgYnVmZmVyCmF0IG9mZnNl
-dCAwIHdvcmtzIGFyb3VuZCB0aGUgcHJvYmxlbS4KClNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1t
-ZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgpSZXBvcnRlZC1ieTogSm9obiBEb25uZWxseSA8
-am9obi5wLmRvbm5lbGx5QG9yYWNsZS5jb20+ClRlc3RlZC1ieTogSm9obiBEb25uZWxseSA8am9o
-bi5wLmRvbm5lbGx5QG9yYWNsZS5jb20+ClJldmlld2VkLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5p
-ZWwudmV0dGVyQGZmd2xsLmNoPgpGaXhlczogODFkYTg3ZjYzYTFlICgiZHJtOiBSZXBsYWNlIGRy
-bV9nZW1fdnJhbV9wdXNoX3RvX3N5c3RlbSgpIHdpdGgga3VubWFwICsgdW5waW4iKQpDYzogR2Vy
-ZCBIb2ZmbWFubiA8a3JheGVsQHJlZGhhdC5jb20+CkNjOiBEYXZlIEFpcmxpZSA8YWlybGllZEBy
-ZWRoYXQuY29tPgpDYzogTWFhcnRlbiBMYW5raG9yc3QgPG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4
-LmludGVsLmNvbT4KQ2M6IE1heGltZSBSaXBhcmQgPG1yaXBhcmRAa2VybmVsLm9yZz4KQ2M6IERh
-dmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KQ2M6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5i
-b3JnLm9yZz4KQ2M6ICJZLkMuIENoZW4iIDx5Y19jaGVuQGFzcGVlZHRlY2guY29tPgpDYzogTmVp
-bCBBcm1zdHJvbmcgPG5hcm1zdHJvbmdAYmF5bGlicmUuY29tPgpDYzogVGhvbWFzIEdsZWl4bmVy
-IDx0Z2x4QGxpbnV0cm9uaXguZGU+CkNjOiAiSm9zw6kgUm9iZXJ0byBkZSBTb3V6YSIgPGpvc2Uu
-c291emFAaW50ZWwuY29tPgpDYzogQW5kcnplaiBQaWV0cmFzaWV3aWN6IDxhbmRyemVqLnBAY29s
-bGFib3JhLmNvbT4KQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKQ2M6IDxzdGFi
-bGVAdmdlci5rZXJuZWwub3JnPiAjIHY1LjMrCkxpbms6IGh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNr
-dG9wLm9yZy9kcm0vbWlzYy9pc3N1ZXMvNwpMaW5rOiBodHRwczovL3BhdGNod29yay5mcmVlZGVz
-a3RvcC5vcmcvcGF0Y2gvbXNnaWQvMjAxOTExMjYxMDE1MjkuMjAzNTYtNC10emltbWVybWFubkBz
-dXNlLmRlCltkcm9wIGRlYnVnZnNfaW5pdCBjYWxsYmFjayAtIGdyZWdraF0KU2lnbmVkLW9mZi1i
-eTogR3JlZyBLcm9haC1IYXJ0bWFuIDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz4KCi0tLQog
-ZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9kcnYuYyB8ICAgMzUgKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrLQogZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9k
-cnYuaCB8ICAgIDMgKysKIDIgZmlsZXMgY2hhbmdlZCwgMzcgaW5zZXJ0aW9ucygrKSwgMSBkZWxl
-dGlvbigtKQoKLS0tIGEvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9kcnYuYworKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2Rydi5jCkBAIC0zMCw2ICszMCw4IEBA
-IG1vZHVsZV9wYXJhbV9uYW1lZChtb2Rlc2V0LCBtZ2FnMjAwX21vZGUKIHN0YXRpYyBzdHJ1Y3Qg
-ZHJtX2RyaXZlciBkcml2ZXI7CiAKIHN0YXRpYyBjb25zdCBzdHJ1Y3QgcGNpX2RldmljZV9pZCBw
-Y2lpZGxpc3RbXSA9IHsKKwl7IFBDSV9WRU5ET1JfSURfTUFUUk9YLCAweDUyMiwgUENJX1ZFTkRP
-Ul9JRF9TVU4sIDB4NDg1MiwgMCwgMCwKKwkJRzIwMF9TRV9BIHwgTUdBRzIwMF9GTEFHX0hXX0JV
-R19OT19TVEFSVEFERH0sCiAJeyBQQ0lfVkVORE9SX0lEX01BVFJPWCwgMHg1MjIsIFBDSV9BTllf
-SUQsIFBDSV9BTllfSUQsIDAsIDAsIEcyMDBfU0VfQSB9LAogCXsgUENJX1ZFTkRPUl9JRF9NQVRS
-T1gsIDB4NTI0LCBQQ0lfQU5ZX0lELCBQQ0lfQU5ZX0lELCAwLCAwLCBHMjAwX1NFX0IgfSwKIAl7
-IFBDSV9WRU5ET1JfSURfTUFUUk9YLCAweDUzMCwgUENJX0FOWV9JRCwgUENJX0FOWV9JRCwgMCwg
-MCwgRzIwMF9FViB9LApAQCAtNjMsNiArNjUsMzUgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBmaWxl
-X29wZXJhdGlvbnMgbWdhZwogCURSTV9WUkFNX01NX0ZJTEVfT1BFUkFUSU9OUwogfTsKIAorc3Rh
-dGljIGJvb2wgbWdhZzIwMF9waW5fYm9fYXRfMChjb25zdCBzdHJ1Y3QgbWdhX2RldmljZSAqbWRl
-dikKK3sKKwlyZXR1cm4gbWRldi0+ZmxhZ3MgJiBNR0FHMjAwX0ZMQUdfSFdfQlVHX05PX1NUQVJU
-QUREOworfQorCitpbnQgbWdhZzIwMF9kcml2ZXJfZHVtYl9jcmVhdGUoc3RydWN0IGRybV9maWxl
-ICpmaWxlLAorCQkJICAgICAgIHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCisJCQkgICAgICAgc3Ry
-dWN0IGRybV9tb2RlX2NyZWF0ZV9kdW1iICphcmdzKQoreworCXN0cnVjdCBtZ2FfZGV2aWNlICpt
-ZGV2ID0gZGV2LT5kZXZfcHJpdmF0ZTsKKwl1bnNpZ25lZCBsb25nIHBnX2FsaWduOworCisJaWYg
-KFdBUk5fT05DRSghZGV2LT52cmFtX21tLCAiVlJBTSBNTSBub3QgaW5pdGlhbGl6ZWQiKSkKKwkJ
-cmV0dXJuIC1FSU5WQUw7CisKKwlwZ19hbGlnbiA9IDB1bDsKKworCS8qCisJICogQWxpZ25pbmcg
-c2Nhbm91dCBidWZmZXJzIHRvIHRoZSBzaXplIG9mIHRoZSB2aWRlbyByYW0gZm9yY2VzCisJICog
-cGxhY2VtZW50IGF0IG9mZnNldCAwLiBXb3JrcyBhcm91bmQgYSBidWcgd2hlcmUgSFcgZG9lcyBu
-b3QKKwkgKiByZXNwZWN0ICdzdGFydGFkZCcgZmllbGQuCisJICovCisJaWYgKG1nYWcyMDBfcGlu
-X2JvX2F0XzAobWRldikpCisJCXBnX2FsaWduID0gUEZOX1VQKG1kZXYtPm1jLnZyYW1fc2l6ZSk7
-CisKKwlyZXR1cm4gZHJtX2dlbV92cmFtX2ZpbGxfY3JlYXRlX2R1bWIoZmlsZSwgZGV2LCAmZGV2
-LT52cmFtX21tLT5iZGV2LAorCQkJCQkgICAgIHBnX2FsaWduLCBmYWxzZSwgYXJncyk7Cit9CisK
-IHN0YXRpYyBzdHJ1Y3QgZHJtX2RyaXZlciBkcml2ZXIgPSB7CiAJLmRyaXZlcl9mZWF0dXJlcyA9
-IERSSVZFUl9HRU0gfCBEUklWRVJfTU9ERVNFVCwKIAkubG9hZCA9IG1nYWcyMDBfZHJpdmVyX2xv
-YWQsCkBAIC03NCw3ICsxMDUsOSBAQCBzdGF0aWMgc3RydWN0IGRybV9kcml2ZXIgZHJpdmVyID0g
-ewogCS5tYWpvciA9IERSSVZFUl9NQUpPUiwKIAkubWlub3IgPSBEUklWRVJfTUlOT1IsCiAJLnBh
-dGNobGV2ZWwgPSBEUklWRVJfUEFUQ0hMRVZFTCwKLQlEUk1fR0VNX1ZSQU1fRFJJVkVSCisJLmR1
-bWJfY3JlYXRlID0gbWdhZzIwMF9kcml2ZXJfZHVtYl9jcmVhdGUsCisJLmR1bWJfbWFwX29mZnNl
-dCA9IGRybV9nZW1fdnJhbV9kcml2ZXJfZHVtYl9tbWFwX29mZnNldCwKKwkuZ2VtX3ByaW1lX21t
-YXAgPSBkcm1fZ2VtX3ByaW1lX21tYXAsCiB9OwogCiBzdGF0aWMgc3RydWN0IHBjaV9kcml2ZXIg
-bWdhZzIwMF9wY2lfZHJpdmVyID0gewotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2Fn
-MjAwX2Rydi5oCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfZHJ2LmgKQEAg
-LTE1OSw2ICsxNTksOSBAQCBlbnVtIG1nYV90eXBlIHsKIAlHMjAwX0VXMywKIH07CiAKKy8qIEhX
-IGRvZXMgbm90IGhhbmRsZSAnc3RhcnRhZGQnIGZpZWxkIGNvcnJlY3QuICovCisjZGVmaW5lIE1H
-QUcyMDBfRkxBR19IV19CVUdfTk9fU1RBUlRBREQJKDF1bCA8PCA4KQorCiAjZGVmaW5lIE1HQUcy
-MDBfVFlQRV9NQVNLCSgweDAwMDAwMGZmKQogI2RlZmluZSBNR0FHMjAwX0ZMQUdfTUFTSwkoMHgw
-MGZmZmYwMCkKIAoKClBhdGNoZXMgY3VycmVudGx5IGluIHN0YWJsZS1xdWV1ZSB3aGljaCBtaWdo
-dCBiZSBmcm9tIHR6aW1tZXJtYW5uQHN1c2UuZGUgYXJlCgpxdWV1ZS01LjQvZHJtLW1nYWcyMDAt
-ZmxhZy1hbGwtZzIwMC1zZS1hLW1hY2hpbmVzLWFzLWJyb2tlbi13cnQtc3RhcnRhZGQucGF0Y2gK
-cXVldWUtNS40L2RybS1tZ2FnMjAwLXN0b3JlLWZsYWdzLWZyb20tcGNpLWRyaXZlci1kYXRhLWlu
-LWRldmljZS1zdHJ1Y3R1cmUucGF0Y2gKcXVldWUtNS40L2RybS1tZ2FnMjAwLWFkZC13b3JrYXJv
-dW5kLWZvci1ody10aGF0LWRvZXMtbm90LXN1cHBvcnQtc3RhcnRhZGQucGF0Y2gKcXVldWUtNS40
-L2RybS1tZ2FnMjAwLWV4dHJhY3QtZGV2aWNlLXR5cGUtZnJvbS1mbGFncy5wYXRjaApfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
-ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
-ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Hi Laurent,
+
+On 19/12/2019 12:45, Laurent Pinchart wrote:
+> In order to integrate with a chain of drm_bridge, the internal VENC
+> encoder has to expose the mode valid, fixup and set, the enable and
+> disable and the get modes operations through the drm_bridge API.
+> Register a bridge at initialisation time to do so.
+> 
+> Most of those operations are removed from the omap_dss_device as they
+> are now called through the drm_bridge API by the DRM atomic helpers. The
+> only exception is the .get_modes() operation that is still invoked
+> through the omap_dss_device-based pipeline.
+> 
+> For the time being make the next bridge in the chain optional as the
+> VENC output is still based on omap_dss_device. The create_connector
+> argument to the bridge attach function is also ignored for the same
+> reason. This will be changed later when removing the related
+> omapdrm-specific display drivers.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> ---
+
+Something with venc is different than without your series.
+
+I have beagleboard xm, with both DVI and s-video connected. With and without your series, kmsprint shows:
+
+Connector 0 (45) DVI-D-1 (connected)
+  Encoder 0 (44) TMDS
+    Crtc 0 (47) 1920x1200 154.000 1920/48/32/80 1200/3/6/26 60 (59.95)
+      Plane 0 (32) fb-id: 51 (crtcs: 0 1) 0,0 1920x1200 -> 0,0 1920x1200 (RX12 AR12 RG16 XR24 RG24 AR24 RA24 RX24)
+        FB 51 1920x1200
+Connector 1 (48) S-Video-1 (unknown)
+  Encoder 1 (46) TMDS
+
+Without your series:
+
+# ./kmstest -c s-video
+Connector 1/@48: S-Video-1
+  Crtc 1/@49: 720x574i@50.00 13.500 720/12/64/68/- 574/5/5/41/- 50 (50.00) 0x1a 0x48
+  Plane 0/@32: 0,0-720x574
+    Fb 53 720x574-XR24
+press enter to exit
+
+and I have a picture on the display.
+
+With your series:
+
+# ./kmstest -c s-video
+terminate called after throwing an instance of 'std::invalid_argument'
+  what():  no modes available
+
+To be honest, I'm not quite sure how an unknown-connection output should work (maybe kmstest doesn't handle it right), but the behavior is different.
+
+ Tomi
+
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
