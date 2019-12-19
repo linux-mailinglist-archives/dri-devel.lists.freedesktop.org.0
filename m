@@ -1,94 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19A94125832
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 01:03:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FED912588A
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 01:35:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3146E6EAA9;
-	Thu, 19 Dec 2019 00:03:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1FBE6E03C;
+	Thu, 19 Dec 2019 00:35:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCECD6EAA9
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 00:03:32 +0000 (UTC)
-Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
- by mailout1.samsung.com (KnoxPortal) with ESMTP id
- 20191219000330epoutp0162ec2833958064e52a8826b1041227ab~hnNtLgHBT0288402884epoutp01O
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 00:03:30 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
- 20191219000330epoutp0162ec2833958064e52a8826b1041227ab~hnNtLgHBT0288402884epoutp01O
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1576713810;
- bh=8fBB6QGYPy5ReA5RF7QCokohjlPLmZAX7X63ZJd8vl4=;
- h=From:To:Cc:Subject:Date:References:From;
- b=JvWh/Ykajyc8G2pXdlYkyWfFJ4viioaR/yNC7UYPeZmFhojebeDWmyl3066Tc895k
- 6Hpo/abwn2nWoqkmXgqWlS5b7LQ65F+mBrMbd4UYapk1AvEHkwzaQbX8Jz1gmZxMLA
- REqXVi6HDD7VnTrvXpCVaXVBuYEyc8mFMzlgjJN4=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
- epcas1p4.samsung.com (KnoxPortal) with ESMTP id
- 20191219000329epcas1p4c46feb601ebbde135308116d56ef86f3~hnNs8Y-pJ0419304193epcas1p4q;
- Thu, 19 Dec 2019 00:03:29 +0000 (GMT)
-Received: from epsmges1p3.samsung.com (unknown [182.195.40.153]) by
- epsnrtp4.localdomain (Postfix) with ESMTP id 47dXCM2QhZzMqYkV; Thu, 19 Dec
- 2019 00:03:27 +0000 (GMT)
-Received: from epcas1p3.samsung.com ( [182.195.41.47]) by
- epsmges1p3.samsung.com (Symantec Messaging Gateway) with SMTP id
- 94.B9.52419.B4EBAFD5; Thu, 19 Dec 2019 09:03:23 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas1p4.samsung.com (KnoxPortal) with ESMTPA id
- 20191219000323epcas1p4e611fadbe0280766b75ac01af5c68587~hnNmslCs-0417204172epcas1p4d;
- Thu, 19 Dec 2019 00:03:23 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20191219000323epsmtrp1b6e57ff6af3fccff90f693a83bbccbec~hnNmsCHI61786117861epsmtrp1v;
- Thu, 19 Dec 2019 00:03:23 +0000 (GMT)
-X-AuditID: b6c32a37-59fff7000001ccc3-ea-5dfabe4bbc8c
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
- epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
- CE.32.06569.B4EBAFD5; Thu, 19 Dec 2019 09:03:23 +0900 (KST)
-Received: from localhost.localdomain (unknown [10.113.221.211]) by
- epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20191219000323epsmtip292808a3f730e320754c48f51706e5cd4~hnNmj3ZZb3112031120epsmtip2x;
- Thu, 19 Dec 2019 00:03:23 +0000 (GMT)
-From: Inki Dae <inki.dae@samsung.com>
-To: airlied@linux.ie
-Subject: [GIT PULL] exynos-drm-fixes
-Date: Thu, 19 Dec 2019 09:06:53 +0900
-Message-Id: <1576714013-3788-1-git-send-email-inki.dae@samsung.com>
-X-Mailer: git-send-email 2.7.4
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrFKsWRmVeSWpSXmKPExsWy7bCmvq73vl+xBl9eqVj0njvJZHHl63s2
- ixnn9zE5MHts//aA1eN+93Emj8+b5AKYo7JtMlITU1KLFFLzkvNTMvPSbZW8g+Od403NDAx1
- DS0tzJUU8hJzU22VXHwCdN0yc4AWKSmUJeaUAoUCEouLlfTtbIryS0tSFTLyi0tslVILUnIK
- LAv0ihNzi0vz0vWS83OtDA0MjEyBChOyM9bf385S8I29YsaDy8wNjCfZuhg5OSQETCTW7F7K
- 2MXIxSEksINRYkvPP2YI5xOjxNT2fhYI5xujRNO6o0AZDrCWru++EPG9jBKzL/yCav/CKPHm
- wnpGkLlsAqoSE1fcB9shIiAicXzZXzCbWcBN4s/Ssywgg4QFVCQOTOQDCbMAlT99v5MJxOYV
- cJZ4vuotO8R5chI3z3UyQ9g3WSX+7+WGsF0kJm45zAphC0u8Or4Fql5K4mV/G5RdLvHs3TMW
- iJtrJL7NrYAwjSUurkgBMZkFNCXW79KHKFaU2Pl7LiPEjXwS7772sEJU80p0tAlBlChJHLt4
- gxHClpC4sGQiNAg9JO5Pvg0WFxKIlXh24SzLBEbZWQgLFjAyrmIUSy0ozk1PLTYsMEaOoE2M
- 4HSjZb6DccM5n0OMAhyMSjy8P1x/xQqxJpYVV+YeYpTgYFYS4b3d8TNWiDclsbIqtSg/vqg0
- J7X4EKMpMOQmMkuJJucDU2FeSbyhqZGxsbGFiaGZqaGhkjgvx4+LsUIC6YklqdmpqQWpRTB9
- TBycUg2MyY5s+v8je13jrY6XTw87culo/myb7fdcT7xLPMKbE1r9avOFb0d3/K9iOi1eUt/0
- 3GTP5gX5Bx+LpU042Hhr+cUj+e6XGWUK55rNnPj0WFLY45qQ82HXo6632on+iPovvb7v7Der
- igD5lrOm9RGlqlOvJwdzqP497PPuwdvzTuVfX8REz44TU2Ipzkg01GIuKk4EAIvhA/9NAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrJJMWRmVeSWpSXmKPExsWy7bCSvK73vl+xBvcm8Fv0njvJZHHl63s2
- ixnn9zE5MHts//aA1eN+93Emj8+b5AKYo7hsUlJzMstSi/TtErgy1t/fzlLwjb1ixoPLzA2M
- J9m6GDk4JARMJLq++3YxcnIICexmlHj9zgUiLCGxZSsHhCkscfhwcRcjF1DFJ0aJOSueM4GU
- swmoSkxccZ8NxBYREJE4vuwvmM0s4CHxfs9qdpBeYQEViQMT+UDCLEDlT9/vBGvlFXCWeL7q
- LTuILSEgJ3HzXCfzBEaeBYwMqxglUwuKc9Nziw0LjPJSy/WKE3OLS/PS9ZLzczcxggNAS2sH
- 44kT8YcYBTgYlXh4f7j+ihViTSwrrsw9xCjBwawkwnu742esEG9KYmVValF+fFFpTmrxIUZp
- DhYlcV75/GORQgLpiSWp2ampBalFMFkmDk6pBkaNvZ0GK2Vdqvan2nLMy2f+ft7pye3TvFzz
- 5izNcZC7YmG3ew2j8qutSdrSi31MNu9nvTBzKqftppUKgmet7Dq32Hj1FlZKLJPmD5oZ6maa
- EV3m8JrR9nzEWg411tdXdTbO+6yyz/TQ7OfW863W7ynMLDvJ9vam3ibJrR+kEjm+/GvJNpAx
- nqXEUpyRaKjFXFScCAAUZ/ki/AEAAA==
-X-CMS-MailID: 20191219000323epcas1p4e611fadbe0280766b75ac01af5c68587
-X-Msg-Generator: CA
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20191219000323epcas1p4e611fadbe0280766b75ac01af5c68587
-References: <CGME20191219000323epcas1p4e611fadbe0280766b75ac01af5c68587@epcas1p4.samsung.com>
+Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
+ [216.228.121.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DC526E03C
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 00:35:21 +0000 (UTC)
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5dfac5be0002>; Wed, 18 Dec 2019 16:35:11 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Wed, 18 Dec 2019 16:35:20 -0800
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Wed, 18 Dec 2019 16:35:20 -0800
+Received: from [10.2.165.11] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 19 Dec
+ 2019 00:35:19 +0000
+Subject: Re: [PATCH v11 04/25] mm: devmap: refactor 1-based refcounting for
+ ZONE_DEVICE pages
+To: "Kirill A. Shutemov" <kirill@shutemov.name>
+References: <20191216222537.491123-1-jhubbard@nvidia.com>
+ <20191216222537.491123-5-jhubbard@nvidia.com>
+ <20191218160420.gyt4c45e6zsnxqv6@box>
+From: John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <ddd08105-f48a-dbe1-7de1-f2fa2c5772a9@nvidia.com>
+Date: Wed, 18 Dec 2019 16:32:28 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
+MIME-Version: 1.0
+In-Reply-To: <20191218160420.gyt4c45e6zsnxqv6@box>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1576715711; bh=lLxcLcvWuEdaa9mbUu8pEb7NikbQGA+3x199V+Yf2Go=;
+ h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=cYi9HYXpThVPsCQ2FAhPpBmvg9pzZEnocfVab3p1rbztjUsDI5b7umJJYuIEvZ0PR
+ vx+h2sHA10T2/Q1X4aDK6z59gq6N+0cBNEv1SBLGL1VNlncyvmlNdNaO1iWAyTGswr
+ udKbzxqm/wjq006CK108fXCeD0IesoZvzh/gx+LNePAFcn6r9jhacWQ3SpCYW8xspg
+ AWQc+0t7+YICrLyj0yQoqsCoU6687MNUgeKhf8m6yAmv/OIxmxbjV85i5eQJrONL9B
+ rit0zRnR4Y3ZhStASBSUCGicK22P7QWUhCF8hgj/JAlQLXg8wWjGsZLK//Xu0ERwbe
+ cFLl9sQIYjnfg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,45 +66,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
+ kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
+ dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
+ linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
+ linux-kselftest@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
+ Christoph Hellwig <hch@lst.de>, Jonathan Corbet <corbet@lwn.net>,
+ linux-rdma@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
+ Christoph Hellwig <hch@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Vlastimil Babka <vbabka@suse.cz>,
+ =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+ linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ linux-block@vger.kernel.org,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Al Viro <viro@zeniv.linux.org.uk>, Dan Williams <dan.j.williams@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, bpf@vger.kernel.org,
+ Magnus Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
+ netdev@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
-   Just one bug fixup which makes sure to unregister a component
-   for Exynos gscaler driver.
+On 12/18/19 8:04 AM, Kirill A. Shutemov wrote:
+> On Mon, Dec 16, 2019 at 02:25:16PM -0800, John Hubbard wrote:
+>> An upcoming patch changes and complicates the refcounting and
+>> especially the "put page" aspects of it. In order to keep
+>> everything clean, refactor the devmap page release routines:
+>>
+>> * Rename put_devmap_managed_page() to page_is_devmap_managed(),
+>>    and limit the functionality to "read only": return a bool,
+>>    with no side effects.
+>>
+>> * Add a new routine, put_devmap_managed_page(), to handle checking
+>>    what kind of page it is, and what kind of refcount handling it
+>>    requires.
+>>
+>> * Rename __put_devmap_managed_page() to free_devmap_managed_page(),
+>>    and limit the functionality to unconditionally freeing a devmap
+>>    page.
+> 
+> What the reason to separate put_devmap_managed_page() from
+> free_devmap_managed_page() if free_devmap_managed_page() has exacly one
+> caller? Is it preparation for the next patches?
 
-   Please kindly let me know if there is any problem.
 
-Thanks,
-Inki Dae
+Yes. A later patch, #23, adds another caller: __unpin_devmap_managed_user_page().
 
-The following changes since commit d1eef1c619749b2a57e514a3fa67d9a516ffa919:
+...
+>> @@ -971,7 +971,14 @@ static inline bool put_devmap_managed_page(struct page *page)
+>>   	return false;
+>>   }
+>>   
+>> +bool put_devmap_managed_page(struct page *page);
+>> +
+>>   #else /* CONFIG_DEV_PAGEMAP_OPS */
+>> +static inline bool page_is_devmap_managed(struct page *page)
+>> +{
+>> +	return false;
+>> +}
+>> +
+>>   static inline bool put_devmap_managed_page(struct page *page)
+>>   {
+>>   	return false;
+>> @@ -1028,8 +1035,10 @@ static inline void put_page(struct page *page)
+>>   	 * need to inform the device driver through callback. See
+>>   	 * include/linux/memremap.h and HMM for details.
+>>   	 */
+>> -	if (put_devmap_managed_page(page))
+>> +	if (page_is_devmap_managed(page)) {
+>> +		put_devmap_managed_page(page);
+> 
+> put_devmap_managed_page() has yet another page_is_devmap_managed() check
+> inside. It looks strange.
+> 
 
-  Linux 5.5-rc2 (2019-12-15 15:16:08 -0800)
+Good point, it's an extra unnecessary check. So to clean it up, I'll note
+that the "if" check is required here in put_page(), in order to stay out of
+non-inlined function calls in the hot path (put_page()). So I'll do the
+following:
 
-are available in the git repository at:
+* Leave the above code as it is here
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos tags/exynos-drm-fixes-for-v5.5-rc3
+* Simplify put_devmap_managed_page(), it was trying to do two separate things,
+   and those two things have different requirements. So change it to a void
+   function, with a WARN_ON_ONCE to assert that page_is_devmap_managed() is true,
 
-for you to fetch changes up to 84c92365b20a44c363b95390ea00dfbdd786f031:
+* And change the other caller (release_pages()) to do that check.
 
-  drm/exynos: gsc: add missed component_del (2019-12-19 08:52:42 +0900)
+...
+>> @@ -1102,3 +1102,27 @@ void __init swap_setup(void)
+>>   	 * _really_ don't want to cluster much more
+>>   	 */
+>>   }
+>> +
+>> +#ifdef CONFIG_DEV_PAGEMAP_OPS
+>> +bool put_devmap_managed_page(struct page *page)
+>> +{
+>> +	bool is_devmap = page_is_devmap_managed(page);
+>> +
+>> +	if (is_devmap) {
+> 
+> Reversing the condition would save you an indentation level.
 
-----------------------------------------------------------------
-Just one bug fixup
-. Make sure to unregister a component for Exynos gscaler driver
-  when the driver is removed.
+Yes. Done.
 
-----------------------------------------------------------------
-Chuhong Yuan (1):
-      drm/exynos: gsc: add missed component_del
+I'll also git-reply with an updated patch so you can see what it looks like.
 
- drivers/gpu/drm/exynos/exynos_drm_gsc.c | 1 +
- 1 file changed, 1 insertion(+)
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
