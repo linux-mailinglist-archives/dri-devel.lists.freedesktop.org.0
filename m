@@ -2,43 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FB7B1260D5
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 12:30:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A4671260DC
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 12:32:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78E016EB4F;
-	Thu, 19 Dec 2019 11:30:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B7836EB50;
+	Thu, 19 Dec 2019 11:32:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8F3A6EB4C;
- Thu, 19 Dec 2019 11:30:35 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 47dqS80dMlz9sPJ;
- Thu, 19 Dec 2019 22:30:31 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1576755033;
- bh=6lBsCkHyaN0GoUoK5YulVgcI4GDTGjPtr5Z7BZ10PVA=;
- h=Date:From:To:Cc:Subject:From;
- b=TS12gv9GC0kxPJAMxsqZrOVOVNgj39/e/bSIOmXMqC+lDLVUK/qR91R/n7P+9r1T8
- Bj9OZvyeEVAnWGaKYGCVIabn4YsK7nCJ1GBwZ2kEq41hQaiP5AKw3gT7QR6NFE4wa6
- sdUZx8An50ewUOpOFjmtsfglzGdwv6yU60QlCno2OdPFT9zyTAwTdkCb2gqzxMU/jQ
- lWtvLnPiz06dph5B6g09oJJrgoXLb2g+ijzBGZFybpFRSZvnK/tAqiTuCYVRcxqjbx
- ulXDUgvtVaA95aOVpld9JqtT7vUv5fMGOh6m8Hg+2hJ/LpMZyAby8MCiapzx8i2zgC
- 0PUlgcTVC3j8w==
-Date: Thu, 19 Dec 2019 22:30:30 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
- <dri-devel@lists.freedesktop.org>
-Subject: linux-next: Signed-off-by missing for commits in the
- drm-intel-fixes tree
-Message-ID: <20191219223030.1747f04b@canb.auug.org.au>
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BE0C6EB50
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 11:32:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576755128;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=KQVy1060cIcwdmA+aV3D7jzIs8ekG/8Yaj3TYu2HIws=;
+ b=eeVhEDPfbk7YMhqxUDgi4yMtzYg7eQ3bYY9Hq1je21RrAG//+efOEZVmCCprUD61JQ3YYl
+ 7gc9jgm1c/W38tOAUB+TpBQ0DAC6RBH0xlEd2aWNAOF2VK9jnldpGXu9qxGdNL9WJWsTsq
+ zmS7jBdb5TcNg4GRSCUfbe6PEM5gs+8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-177-1dfDxRcXPu6wUynMAn751g-1; Thu, 19 Dec 2019 06:32:02 -0500
+X-MC-Unique: 1dfDxRcXPu6wUynMAn751g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34B2D803A4C;
+ Thu, 19 Dec 2019 11:31:56 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-98.ams2.redhat.com
+ [10.36.116.98])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3D99963B89;
+ Thu, 19 Dec 2019 11:31:53 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id C695311AAA; Thu, 19 Dec 2019 12:31:51 +0100 (CET)
+Date: Thu, 19 Dec 2019 12:31:51 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: Warnings in DRM code when removing/unbinding a driver
+Message-ID: <20191219113151.sytkoi3m7rrxzps2@sirius.home.kraxel.org>
+References: <07899bd5-e9a5-cff0-395f-b4fb3f0f7f6c@huawei.com>
+ <f867543cf5d0fc3fdd0534749326411bcfc5e363.camel@collabora.com>
+ <c2e5f5a5-5839-42a9-2140-903e99e166db@huawei.com>
+ <fde72f73-d678-2b77-3950-d465f0afe904@huawei.com>
+ <CAKMK7uFr03euoB6rY8z9zmRyznP41vwfdaKApZ_0HfYZT4Hq_w@mail.gmail.com>
+ <fcca5732-c7dc-6e1d-dcbe-bfd914a4295b@huawei.com>
+ <CAKMK7uE+nfR2hv1ybfv1ZApZbGnnX7ZHfjFCv5K72ZaAmdtfug@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uE+nfR2hv1ybfv1ZApZbGnnX7ZHfjFCv5K72ZaAmdtfug@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,63 +66,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="===============1375305256=="
+Cc: dbueso@suse.de, "airlied@linux.ie" <airlied@linux.ie>,
+ "Chenfeng \(puck\)" <puck.chen@hisilicon.com>,
+ John Garry <john.garry@huawei.com>, Linuxarm <linuxarm@huawei.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "kongxinwei \(A\)" <kong.kongxinwei@hisilicon.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Ezequiel Garcia <ezequiel@collabora.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1375305256==
-Content-Type: multipart/signed; boundary="Sig_/PVy.JeA=7gTRi=texyQFMjh";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+  Hi,
 
---Sig_/PVy.JeA=7gTRi=texyQFMjh
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+> >   Like I said, for most drivers
+> > > you can pretty much assume that their unload sequence has been broken
+> > > since forever. It's not often tested, and especially the hotunbind
+> > > from a device (as opposed to driver unload) stuff wasn't even possible
+> > > to get right until just recently.
+> >
+> > Do you think it's worth trying to fix this for 5.5 and earlier, or just
+> > switch to the device-managed interface for 5.6 and forget about 5.5 and
+> > earlier?
+> 
+> I suspect it's going to be quite some trickery to fix this properly
+> and everywhere, even for just one driver. Lots of drm drivers
+> unfortunately use anti-patterns with wrong lifetimes (e.g. you can't
+> use devm_kmalloc for anything that hangs of a drm_device, like
+> plane/crtc/connector). Except when it's for a real hotunpluggable
+> device (usb) we've never bothered backporting these fixes. Too much
+> broken stuff unfortunately.
 
-Hi all,
+While being at it:  How would a driver cleanup properly cleanup gem
+objects created by userspace on hotunbind?  Specifically a gem object
+pinned to vram?
 
-Commits
-
-  987e379d7500 ("Revert "devtmpfs: use do_mount() instead of ksys_mount()"")
-  9bd5ba4fe25a ("Revert "initrd: use do_mount() instead of ksys_mount()"")
-  fa31001c96ad ("Revert "init: use do_mount() instead of ksys_mount()"")
-
-are missing a Signed-off-by from their author and committer.
-
-Reverts are commits too and should have reasonable commit messages.
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/PVy.JeA=7gTRi=texyQFMjh
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl37X1YACgkQAVBC80lX
-0GxWlgf/bAhMqppXRsR38Gc3y9hw0JI708FL964r+7yrzRrkj7VqrGPnXQDnUyZY
-jCWlrmN1n/FFcQ5WLN56Ly0ZRIx7naaVYKNN2Yg9fAP4fcPX36WnvYOd/lF+XORZ
-yF5LwD72vMISD07Vq4s8C+oqryZQESJzQPjb4hwS0Bd6/vzv+lnis8ECPO/pSMrE
-5x58r4NcN/YcB83+NxxdakBI1Q1hxRX9b2vRwXFmHWzuD4OtxfcnFb0AiFV903G9
-dCRVEAAy0Mx14hQq7cOEB9yzJka0YJYoLUwld/u9WIB1t6wWGRgkinz90OOrWL2e
-iRUhZtFzNOBNJdbe9XJDxIfYlBY5XA==
-=96zL
------END PGP SIGNATURE-----
-
---Sig_/PVy.JeA=7gTRi=texyQFMjh--
-
---===============1375305256==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+cheers,
+  Gerd
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1375305256==--
