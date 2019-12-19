@@ -1,57 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F732126273
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 13:42:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F33C312627F
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 13:46:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 694F96EB5E;
-	Thu, 19 Dec 2019 12:42:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE1A26EB63;
+	Thu, 19 Dec 2019 12:46:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
- [IPv6:2607:f8b0:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D83DB6EB5E
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 12:42:45 +0000 (UTC)
-Received: by mail-ot1-x343.google.com with SMTP id k16so2518102otb.2
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 04:42:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bYF5D8OyCxsifRan1VNFDw31YCOJxCs5X35xN2Xsu9c=;
- b=OG0zKHFbfaEQmlUoP8o3p3ZUiQjwQ5QzZJmv79u1eQfazk7ZeVXvgqICOzW9MLuciY
- 7ERjSOGUHu7XqWG87h9vXirzpuudaFMsQXZS7pMry7t/niao9X0WXqiUtlKOI46MVHRu
- Dg/qVGrRrHeT/AXCXrwWDqgD9VtuvVkPSYiHs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bYF5D8OyCxsifRan1VNFDw31YCOJxCs5X35xN2Xsu9c=;
- b=YCX9K7bdOqVhCLxi+t+fzXsYDvWvGuqJkSoJR2r481f//CEIuy/2JbhMgEBPfoDcK8
- KMOcj9WpsE/kf90e3I7NGaggmp/cwsLuOVYSTwtyFVVMvdjMyZGQzRqIqh+Htctnd+h8
- poqOnjAblsmMxpexF69oj7zFRoVi5vR9ipWbZViV98cuDckIml/Syk0EDz7tz4TE8xKR
- tQOoHrI6LDyYCNxYJWkZ7cYnY5/idvFiQyXDHAR/p4q7x+QNfVuOPqGXxHYjBw86zJ/V
- cmySdSmuZsmgGArwlaHzNmz2AC4IWtjd6BqRT74YhOs87HI1Q/u7L9oV4XibSgdGUrLD
- RgIw==
-X-Gm-Message-State: APjAAAWOC2P74k/BYlMmfL7Dgcu3epY2aMgUEq/QQ7ipzi4R0sOKYBeb
- pVf1os4i0EFioV3wD/FOZ5c5WzQ3P2bbghlKncaX5Q==
-X-Google-Smtp-Source: APXvYqwC4oTQJQT47ypqRnpTBZmyJTlKmHL17s0WvbC6jXR6ef19PMFuIxeZsGL9iHIGpAikF+RiJyv/heqQGtxVkBo=
-X-Received: by 2002:a9d:7f11:: with SMTP id j17mr8979147otq.281.1576759365177; 
- Thu, 19 Dec 2019 04:42:45 -0800 (PST)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79C346EB62;
+ Thu, 19 Dec 2019 12:46:42 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 19 Dec 2019 04:46:41 -0800
+X-IronPort-AV: E=Sophos;i="5.69,331,1571727600"; d="scan'208";a="210450887"
+Received: from jlahtine-desk.ger.corp.intel.com (HELO localhost)
+ ([10.252.11.180])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 19 Dec 2019 04:46:38 -0800
+Date: Thu, 19 Dec 2019 14:46:35 +0200
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-fixes
+Message-ID: <20191219124635.GA16068@jlahtine-desk.ger.corp.intel.com>
 MIME-Version: 1.0
-References: <07899bd5-e9a5-cff0-395f-b4fb3f0f7f6c@huawei.com>
- <f867543cf5d0fc3fdd0534749326411bcfc5e363.camel@collabora.com>
- <c2e5f5a5-5839-42a9-2140-903e99e166db@huawei.com>
- <fde72f73-d678-2b77-3950-d465f0afe904@huawei.com>
- <CAKMK7uFr03euoB6rY8z9zmRyznP41vwfdaKApZ_0HfYZT4Hq_w@mail.gmail.com>
- <fcca5732-c7dc-6e1d-dcbe-bfd914a4295b@huawei.com>
- <CAKMK7uE+nfR2hv1ybfv1ZApZbGnnX7ZHfjFCv5K72ZaAmdtfug@mail.gmail.com>
- <20191219113151.sytkoi3m7rrxzps2@sirius.home.kraxel.org>
-In-Reply-To: <20191219113151.sytkoi3m7rrxzps2@sirius.home.kraxel.org>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 19 Dec 2019 13:42:33 +0100
-Message-ID: <CAKMK7uHEL3WzSHDM3XdLwOBtQUtygK6x-md8W1MVsAryDDgFog@mail.gmail.com>
-Subject: Re: Warnings in DRM code when removing/unbinding a driver
-To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,60 +42,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dbueso@suse.de, "airlied@linux.ie" <airlied@linux.ie>,
- "Chenfeng \(puck\)" <puck.chen@hisilicon.com>,
- John Garry <john.garry@huawei.com>, Linuxarm <linuxarm@huawei.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "kongxinwei \(A\)" <kong.kongxinwei@hisilicon.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Ezequiel Garcia <ezequiel@collabora.com>
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 19, 2019 at 12:32 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
->
->   Hi,
->
-> > >   Like I said, for most drivers
-> > > > you can pretty much assume that their unload sequence has been broken
-> > > > since forever. It's not often tested, and especially the hotunbind
-> > > > from a device (as opposed to driver unload) stuff wasn't even possible
-> > > > to get right until just recently.
-> > >
-> > > Do you think it's worth trying to fix this for 5.5 and earlier, or just
-> > > switch to the device-managed interface for 5.6 and forget about 5.5 and
-> > > earlier?
-> >
-> > I suspect it's going to be quite some trickery to fix this properly
-> > and everywhere, even for just one driver. Lots of drm drivers
-> > unfortunately use anti-patterns with wrong lifetimes (e.g. you can't
-> > use devm_kmalloc for anything that hangs of a drm_device, like
-> > plane/crtc/connector). Except when it's for a real hotunpluggable
-> > device (usb) we've never bothered backporting these fixes. Too much
-> > broken stuff unfortunately.
->
-> While being at it:  How would a driver cleanup properly cleanup gem
-> objects created by userspace on hotunbind?  Specifically a gem object
-> pinned to vram?
+Hi Dave & Daniel,
 
-Two things:
-- the mmap needs to be torn down and replaced by something which will
-sigbus. Probably should have that as a helper (plus vram fault code
-should use drm_dev_enter/exit to plug races).
-- otherwise all datastructures need to be properly refcounted.
-drm_device now is (if your driver isn't broken), but any dma_fence or
-dma_buf we create and export has an independent lifetime, and
-currently the refcounting for is still wobbly I think.
+Another -rc, another CI fire due to regressions elsewhere.
 
-So some work to do, both in helpers/core code and in drivers to get updated.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
+Our CI needed the following patches to get machines boot with -rc2:
+
+	Revert "devtmpfs: use do_mount() instead of ksys_mount()"
+	(commit 5e787dbf659fe77d56215be74044f85e01b3920f)
+
+	Revert "initrd: use do_mount() instead of ksys_mount()"
+	(commit d4440aac83d12f87df9bcc51e992b9c28c7f4fa5)
+
+	Revert "init: use do_mount() instead of ksys_mount()"
+	(commit cccaa5e33525fc07f4a2ce0518e50b9ddf435e47)
+
+I have queued CI_DIF_433 with this PR contents + reverts to get any
+CI results:
+
+https://intel-gfx-ci.01.org/tree/drm-intel-fixes/CI_DIF_433/git-log.txt
+
+Nothing appears in the UI for the failed-to-boot runs, so don't be
+confused. CI_DIF_433 is equal to this PR + 3 reverts needed to mitigate
+the -rc2 regressions.
+
+Due to the CI fires, it may take a while to get the full results. Due to
+my holidays, I'll defer to Chris to let you know if the results are good
+or not. There have been some GEM bugs tackled in drm-tip, so have to make
+sure they are under control.
+
+Now on to the actual content of the PR:
+
+Removal of a unused and harmful display W/A for Tigerlake, corrections
+to powerwells of EHL compared to ICL, and MMIO offset fix for DSB. There
+is a fix for uninitialized ops in dma_fence tracing and then fixes
+for CI corner cases from CI.
+
+Also includes GVT fixes: "fix for vGPU display dmabuf, one guest reset
+warning and one locking issue."
+
+Jani/Rodrigo promised to handle -fixes for next two weeks if there is
+something urgent appearing.
+
+Happy Holidays!
+
+Regards, Joonas
+
+***
+
+drm-intel-fixes-2019-12-19:
+
+- Fix to drop an unused and harmful display W/A
+- Fix to define EHL power wells independent of ICL
+- Fix for priority inversion on bonded requests
+- Fix in mmio offset calculation of DSB instance
+- Fix memory leak from get_task_pid when banning clients
+- Fixes to avoid dereference of uninitialized ops in dma_fence tracing
+  and keep reference to execbuf object until submitted.
+
+- Includes gvt-fixes-2019-12-18
+
+The following changes since commit d1eef1c619749b2a57e514a3fa67d9a516ffa919:
+
+  Linux 5.5-rc2 (2019-12-15 15:16:08 -0800)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2019-12-19
+
+for you to fetch changes up to 78d75f5739c457ff37cfe5adab1c01bc1f3375e2:
+
+  Merge tag 'gvt-fixes-2019-12-18' of https://github.com/intel/gvt-linux into drm-intel-fixes (2019-12-18 11:01:41 +0200)
+
+----------------------------------------------------------------
+- Fix to drop an unused and harmful display W/A
+- Fix to define EHL power wells independent of ICL
+- Fix for priority inversion on bonded requests
+- Fix in mmio offset calculation of DSB instance
+- Fix memory leak from get_task_pid when banning clients
+- Fixes to avoid dereference of uninitialized ops in dma_fence tracing
+  and keep reference to execbuf object until submitted.
+
+- Includes gvt-fixes-2019-12-18
+
+----------------------------------------------------------------
+Animesh Manna (1):
+      drm/i915/dsb: Fix in mmio offset calculation of DSB instance
+
+Chris Wilson (3):
+      drm/i915: Copy across scheduler behaviour flags across submit fences
+      drm/i915: Set fence_work.ops before dma_fence_init
+      drm/i915/gem: Keep request alive while attaching fences
+
+Gao Fred (1):
+      drm/i915/gvt: Fix guest boot warning
+
+Joonas Lahtinen (1):
+      Merge tag 'gvt-fixes-2019-12-18' of https://github.com/intel/gvt-linux into drm-intel-fixes
+
+Matt Roper (2):
+      drm/i915/ehl: Define EHL powerwells independently of ICL
+      drm/i915/tgl: Drop Wa#1178
+
+Tina Zhang (1):
+      drm/i915/gvt: Pin vgpu dma address before using
+
+Tvrtko Ursulin (1):
+      drm/i915: Fix pid leak with banned clients
+
+Vandita Kulkarni (1):
+      drm/i915: Fix WARN_ON condition for cursor plane ddb allocation
+
+Zhenyu Wang (2):
+      drm/i915/gvt: use vgpu lock for active state setting
+      drm/i915/gvt: set guest display buffer as readonly
+
+ drivers/gpu/drm/i915/display/intel_display_power.c | 153 ++++++++++++++++++++-
+ drivers/gpu/drm/i915/gem/i915_gem_context.c        |   3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c     |   2 +
+ drivers/gpu/drm/i915/gvt/dmabuf.c                  |  64 ++++++++-
+ drivers/gpu/drm/i915/gvt/handlers.c                |  16 +++
+ drivers/gpu/drm/i915/gvt/hypercall.h               |   2 +
+ drivers/gpu/drm/i915/gvt/kvmgt.c                   |  23 ++++
+ drivers/gpu/drm/i915/gvt/mpt.h                     |  15 ++
+ drivers/gpu/drm/i915/gvt/vgpu.c                    |   4 +-
+ drivers/gpu/drm/i915/i915_reg.h                    |   6 +-
+ drivers/gpu/drm/i915/i915_request.c                | 114 +++++++++++----
+ drivers/gpu/drm/i915/i915_scheduler.c              |   1 -
+ drivers/gpu/drm/i915/i915_sw_fence_work.c          |   3 +-
+ drivers/gpu/drm/i915/intel_pm.c                    |   4 +-
+ 14 files changed, 365 insertions(+), 45 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
