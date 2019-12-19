@@ -1,100 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CA6F126E26
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 20:46:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7589A126E4D
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 20:58:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F3166E3DA;
-	Thu, 19 Dec 2019 19:46:04 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAA686E3DA
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 19:46:03 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBJJjtw7056819;
- Thu, 19 Dec 2019 13:45:55 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1576784755;
- bh=bnJkCwgI6662K+w9YFRtMnsZJZSvXNL/+eXAs9HJUa0=;
- h=Subject:From:To:CC:References:Date:In-Reply-To;
- b=p8+1HDAv2O1s3sSfnsAnZkMWEEGH5Rm2tWS01GdPP0RuZ2mgWq4MjOeop1flBhhyP
- wgjAYocIsFtjkFr2HemGw8zP8ysLbxwQ5/CfNW/xfWzn4Y4mD9kuvrsz1P0v4cJZqu
- EhOsmEQpUyuXyw11QJ/qiJWOlpjy0GOm0ooAxklk=
-Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xBJJjtIL022832
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 19 Dec 2019 13:45:55 -0600
-Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Thu, 19
- Dec 2019 13:45:54 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Thu, 19 Dec 2019 13:45:54 -0600
-Received: from [10.1.3.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBJJjpiN108774;
- Thu, 19 Dec 2019 13:45:51 -0600
-Subject: Re: [PATCH v4 3/5] dt-bindings: display: ti, j721e-dss: Add dt-schema
- yaml binding
-From: Jyri Sarha <jsarha@ti.com>
-To: Maxime Ripard <maxime@cerno.tech>
-References: <cover.1576704528.git.jsarha@ti.com>
- <89db418c91689beb6e63e0c3c99b39655948b429.1576704528.git.jsarha@ti.com>
- <20191219083839.lmuhxynbbqy4d4hp@gilmour.lan>
- <2acd648f-6532-c7d8-c9d0-f4c5229c7923@ti.com>
-Autocrypt: addr=jsarha@ti.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <866bff4e-3a24-626a-729d-35a9647a407b@ti.com>
-Date: Thu, 19 Dec 2019 21:45:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6FC96E3E7;
+	Thu, 19 Dec 2019 19:58:24 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
+ [104.130.122.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6209A6E3EC
+ for <dri-devel@freedesktop.org>; Thu, 19 Dec 2019 19:58:22 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1576785503; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: Cc: To: From: Date: Sender;
+ bh=HVUFIbAIDCPCepSjlXNzD26xJKksoXLIoJtbTqGFGfc=;
+ b=oVWcQm2SXjQdzpHezHyDKnqrC8nzV1JqWUIX+7y8Hlqj31YgG4MhtlR6cyi+PBXx5s86XyyW
+ 7fW/0NGaRSdojDjRo4AHGLet4gcQyc0DVxEOEnkp5efDLwHvr8Lp9kjbX++a4+HRNPbsJ4Y9
+ TAWyhNWUqWN2HFPkwhWRpC/L51g=
+X-Mailgun-Sending-Ip: 104.130.122.26
+X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5dfbd65b.7f63bc3707a0-smtp-out-n03;
+ Thu, 19 Dec 2019 19:58:19 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 4D0D2C447A0; Thu, 19 Dec 2019 19:58:19 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: jcrouse)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id E0887C43383;
+ Thu, 19 Dec 2019 19:58:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org E0887C43383
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=jcrouse@codeaurora.org
+Date: Thu, 19 Dec 2019 12:58:15 -0700
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: Sharat Masetty <smasetty@codeaurora.org>
+Subject: Re: [PATCH 5/5] drm/msm/a6xx: Add support for using system cache(LLC)
+Message-ID: <20191219195814.GA23673@jcrouse1-lnx.qualcomm.com>
+Mail-Followup-To: Sharat Masetty <smasetty@codeaurora.org>,
+ freedreno@lists.freedesktop.org, dri-devel@freedesktop.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ will@kernel.org, robin.murphy@arm.com, joro@8bytes.org,
+ iommu@lists.linux-foundation.org, saiprakash.ranjan@codeaurora.org
+References: <1576761286-20451-1-git-send-email-smasetty@codeaurora.org>
+ <1576761286-20451-6-git-send-email-smasetty@codeaurora.org>
 MIME-Version: 1.0
-In-Reply-To: <2acd648f-6532-c7d8-c9d0-f4c5229c7923@ti.com>
-Content-Language: en-GB
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Disposition: inline
+In-Reply-To: <1576761286-20451-6-git-send-email-smasetty@codeaurora.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,127 +73,357 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, yamonkar@cadence.com, praneeth@ti.com,
- sjakhade@cadence.com, dri-devel@lists.freedesktop.org, peter.ujfalusi@ti.com,
- robh+dt@kernel.org, tomi.valkeinen@ti.com, laurent.pinchart@ideasonboard.com,
- subhajit_paul@ti.com, sam@ravnborg.org
+Cc: freedreno@lists.freedesktop.org, saiprakash.ranjan@codeaurora.org,
+ will@kernel.org, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, dri-devel@freedesktop.org,
+ robin.murphy@arm.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/12/2019 16:01, Jyri Sarha wrote:
-> On 19/12/2019 10:38, Maxime Ripard wrote:
->> Hi,
->>
->> On Thu, Dec 19, 2019 at 10:23:17AM +0200, Jyri Sarha wrote:
->>> Add dt-schema yaml bindig for J721E DSS, J721E version TI Keystone
->>> Display SubSystem.
->>>
->>> Version history:
->>>
->>> v2: no change
->>>
->>> v3: - reg-names: "wp" -> "wb"
->>>     - Add ports node
->>>     - Add includes to dts example
->>>     - reindent dts example
->>>
->>> v4: - Add descriptions to reg, clocks, and interrups properties
->>>     - Remove minItems when its value is the same as maxItems value
->>>
->>> Signed-off-by: Jyri Sarha <jsarha@ti.com>
->>> ---
->>>  .../bindings/display/ti/ti,j721e-dss.yaml     | 209 ++++++++++++++++++
->>>  1 file changed, 209 insertions(+)
->>>  create mode 100644 Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
->>>
->>> diff --git a/Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
->>> new file mode 100644
->>> index 000000000000..cd68c4294f9a
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
->>> @@ -0,0 +1,209 @@
->>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->>> +# Copyright 2019 Texas Instruments Incorporated
->>> +%YAML 1.2
->>> +---
->>> +$id: "http://devicetree.org/schemas/display/ti/ti,j721e-dss.yaml#"
->>> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
->>> +
->>> +title: Texas Instruments J721E Display Subsystem
->>> +
->>> +maintainers:
->>> +  - Jyri Sarha <jsarha@ti.com>
->>> +  - Tomi Valkeinen <tomi.valkeinen@ti.com>
->>> +
->>> +description: |
->>> +  The J721E TI Keystone Display SubSystem with four output ports and
->>> +  four video planes. There is two full video planes and two "lite
->>> +  planes" without scaling support. The video ports can be connected to
->>> +  the SoC's DPI pins or to integrated display bridges on the SoC.
->>> +
->>> +properties:
->>> +  compatible:
->>> +    const: ti,j721e-dss
->>> +
->>> +  reg:
->>> +    maxItems: 17
->>> +    description: |
->>> +      Addresses to each DSS memory region described in the SoC's TRM.
->>> +      The reg-names refer to memory regions as follows:
->>> +      reg-names: Region Name in TRM:     Description:
->>> +      common_m   DSS0_DISPC_0_COMMON_M   DSS Master common register area
->>> +      common_s0  DSS0_DISPC_0_COMMON_SO  DSS Shared common register area 0
->>> +      common_s1  DSS0_DISPC_0_COMMON_S1  DSS Shared common register area 1
->>> +      common_s2  DSS0_DISPC_0_COMMON_S2  DSS Shared common register area 2
->>> +      vidl1      DSS0_VIDL1              VIDL1 light video plane 1
->>> +      vidl2      DSS0_VIDL2              VIDL2 light video plane 2
->>> +      vid1       DSS0_VID1               VID1 video plane 1
->>> +      vid2       DSS0_VID2               VID1 video plane 2
->>> +      ovr1       DSS0_OVR1               OVR1 overlay manager for vp1
->>> +      ovr2       DSS0_OVR2               OVR2 overlay manager for vp2
->>> +      ovr3       DSS0_OVR3               OVR1 overlay manager for vp3
->>> +      ovr4       DSS0_OVR4               OVR2 overlay manager for vp4
->>> +      vp1        DSS0_VP1                VP1 video port 1
->>> +      vp2        DSS0_VP2                VP1 video port 2
->>> +      vp3        DSS0_VP3                VP1 video port 3
->>> +      vp4        DSS0_VP4                VP1 video port 4
->>> +      wp         DSS0_WB                 Write Back registers
->> I guess it applies to all your schemas in that patch series, but you
->> could just do something like
->>
->> reg:
->>   items:
->>     - description: DSS Master common register area
->>     - description: DSS Shared common register area 0
->>     - description: DSS Shared common register area 1
->>
-> Ok, thanks. I was not sure if you can do that (still a newbie with
-> yaml). What do you think about Peter Ujfalusi's suggestion of putting
-> the descriptions to reg-names (and clock-names and  interrupt-names)?
-> e.g. something like this:
+On Thu, Dec 19, 2019 at 06:44:46PM +0530, Sharat Masetty wrote:
+> The last level system cache can be partitioned to 32 different slices
+> of which GPU has two slices preallocated. One slice is used for caching GPU
+> buffers and the other slice is used for caching the GPU SMMU pagetables.
+> This patch talks to the core system cache driver to acquire the slice handles,
+> configure the SCID's to those slices and activates and deactivates the slices
+> upon GPU power collapse and restore.
 > 
->   reg-names:
->     items:
->       - const: common_m
->       - description: DSS Master common register area
->       - const: common_s0
->       - description: DSS Master common register area
-> ...
+> Some support from the IOMMU driver is also needed to make use of the
+> system cache. IOMMU_QCOM_SYS_CACHE is a buffer protection flag which enables
+> caching GPU data buffers in the system cache with memory attributes such
+> as outer cacheable, read-allocate, write-allocate for buffers. The GPU
+> then has the ability to override a few cacheability parameters which it
+> does to override write-allocate to write-no-allocate as the GPU hardware
+> does not benefit much from it.
 > 
-> Or is that even allowed?
+> Similarly DOMAIN_ATTR_QCOM_SYS_CACHE is another domain level attribute
+> used by the IOMMU driver to set the right attributes to cache the hardware
+> pagetables into the system cache.
 > 
+> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 122 +++++++++++++++++++++++++++++++++-
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.h |   9 +++
+>  drivers/gpu/drm/msm/msm_iommu.c       |  13 ++++
+>  drivers/gpu/drm/msm/msm_mmu.h         |   3 +
+>  4 files changed, 146 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index faff6ff..0c7fdee 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -9,6 +9,7 @@
+>  #include "a6xx_gmu.xml.h"
+> 
+>  #include <linux/devfreq.h>
+> +#include <linux/soc/qcom/llcc-qcom.h>
+> 
+>  #define GPU_PAS_ID 13
+> 
+> @@ -781,6 +782,117 @@ static void a6xx_bus_clear_pending_transactions(struct adreno_gpu *adreno_gpu)
+>  	gpu_write(gpu, REG_A6XX_GBIF_HALT, 0x0);
+>  }
+> 
+> +#define A6XX_LLC_NUM_GPU_SCIDS		5
+> +#define A6XX_GPU_LLC_SCID_NUM_BITS	5
 
-Hmmm, it looks like make dt_binding_check does not like that. I guess I
-go with your suggestion, but with reg-name reference in the description.
+As I mention below, I'm not sure if we need these 
 
-Best regards,
-Jyri
+> +#define A6XX_GPU_LLC_SCID_MASK \
+> +	((1 << (A6XX_LLC_NUM_GPU_SCIDS * A6XX_GPU_LLC_SCID_NUM_BITS)) - 1)
+> +
+> +#define A6XX_GPUHTW_LLC_SCID_SHIFT	25
+> +#define A6XX_GPUHTW_LLC_SCID_MASK \
+> +	(((1 << A6XX_GPU_LLC_SCID_NUM_BITS) - 1) << A6XX_GPUHTW_LLC_SCID_SHIFT)
+> +
+
+Normally these go into the envytools regmap but if we're going to do these guys
+lets use the power of <linux/bitfield.h> for good.
+
+#define A6XX_GPU_LLC_SCID GENMASK(24, 0)
+#define A6XX_GPUHTW_LLC_SCID GENMASK(29, 25)
+
+> +static inline void a6xx_gpu_cx_rmw(struct a6xx_llc *llc,
+
+Don't mark C functions as inline - let the compiler figure it out for you.
+
+> +	u32 reg, u32 mask, u32 or)
+> +{
+> +	msm_rmw(llc->mmio + (reg << 2), mask, or);
+> +}
+> +
+> +static void a6xx_llc_deactivate(struct a6xx_llc *llc)
+> +{
+> +	llcc_slice_deactivate(llc->gpu_llc_slice);
+> +	llcc_slice_deactivate(llc->gpuhtw_llc_slice);
+> +}
+> +
+> +static void a6xx_llc_activate(struct a6xx_llc *llc)
+> +{
+> +	if (!llc->mmio)
+> +		return;
+> +
+> +	/* Program the sub-cache ID for all GPU blocks */
+> +	if (!llcc_slice_activate(llc->gpu_llc_slice))
+> +		a6xx_gpu_cx_rmw(llc,
+> +				REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_1,
+> +				A6XX_GPU_LLC_SCID_MASK,
+> +				(llc->cntl1_regval &
+> +				 A6XX_GPU_LLC_SCID_MASK));
+
+This is out of order with the comments below, but if we store the slice id then
+you could calculate regval here and not have to store it.
+
+> +
+> +	/* Program the sub-cache ID for the GPU pagetables */
+> +	if (!llcc_slice_activate(llc->gpuhtw_llc_slice))
+
+val |= FIELD_SET(A6XX_GPUHTW_LLC_SCID, htw_llc_sliceid);
+
+> +		a6xx_gpu_cx_rmw(llc,
+> +				REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_1,
+> +				A6XX_GPUHTW_LLC_SCID_MASK,
+> +				(llc->cntl1_regval &
+> +				 A6XX_GPUHTW_LLC_SCID_MASK));
+
+And this could be FIELD_SET(A6XX_GPUHTW_LLC_SCID, sliceid);
+
+In theory you could just calculate the u32 and write it directly without a rmw.
+In fact, that might be preferable - if the slice activate failed, you don't want
+to run the risk that the scid for htw is still populated.
+
+> +
+> +	/* Program cacheability overrides */
+> +	a6xx_gpu_cx_rmw(llc, REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_0, 0xF,
+> +		llc->cntl0_regval);
+
+As below, this could easily be a constant.
+
+> +}
+> +
+> +static void a6xx_llc_slices_destroy(struct a6xx_llc *llc)
+> +{
+> +	if (llc->mmio)
+> +		iounmap(llc->mmio);
+
+msm_ioremap returns a devm_ managed resource, so do not use iounmap() to free
+it. Bets to just leave it and let the gpu device handle it when it goes boom.
+
+> +
+> +	llcc_slice_putd(llc->gpu_llc_slice);
+> +	llcc_slice_putd(llc->gpuhtw_llc_slice);
+> +}
+> +
+> +static int a6xx_llc_slices_init(struct platform_device *pdev,
+T
+This can be void, I don't think we care if it passes or fails.
+
+> +		struct a6xx_llc *llc)
+> +{
+> +	llc->mmio = msm_ioremap(pdev, "cx_mem", "gpu_cx");
+> +	if (IS_ERR_OR_NULL(llc->mmio))
+
+msm_ioremap can not return NULL.
+
+> +		return -ENODEV;
+> +
+> +	llc->gpu_llc_slice = llcc_slice_getd(LLCC_GPU);
+> +	llc->gpuhtw_llc_slice = llcc_slice_getd(LLCC_GPUHTW);
+> +	if (IS_ERR(llc->gpu_llc_slice) && IS_ERR(llc->gpuhtw_llc_slice))
+> +		return -ENODEV;
+> +
+> +	/*
+> +	 * CNTL0 provides options to override the settings for the
+> +	 * read and write allocation policies for the LLC. These
+> +	 * overrides are global for all memory transactions from
+> +	 * the GPU.
+> +	 *
+> +	 * 0x3: read-no-alloc-overridden = 0
+> +	 *      read-no-alloc = 0 - Allocate lines on read miss
+> +	 *      write-no-alloc-overridden = 1
+> +	 *      write-no-alloc = 1 - Do not allocates lines on write miss
+> +	 */
+> +	llc->cntl0_regval = 0x03;
+
+This is a fixed value isn't it?  We should be able to get away with writing a
+constant.
+
+> +
+> +	/*
+> +	 * CNTL1 is used to specify SCID for (CP, TP, VFD, CCU and UBWC
+> +	 * FLAG cache) GPU blocks. This value will be passed along with
+> +	 * the address for any memory transaction from GPU to identify
+> +	 * the sub-cache for that transaction.
+> +	 */
+> +	if (!IS_ERR(llc->gpu_llc_slice)) {
+> +		u32 gpu_scid = llcc_get_slice_id(llc->gpu_llc_slice);
+> +		int i;
+> +
+> +		for (i = 0; i < A6XX_LLC_NUM_GPU_SCIDS; i++)
+> +			llc->cntl1_regval |=
+> +				gpu_scid << (A6XX_GPU_LLC_SCID_NUM_BITS * i);
+
+As above, i'm not sure a loop is better than just:
+
+gpu_scid &= 0x1f;
+
+llc->cntl1_regval = (gpu_scid << 0) || (gpu_scid << 5) | (gpu_scid << 10)
+ | (gpu_scid << 15) | (gpu_scid << 20);
+
+And I'm not even sure we need do this math here in the first place.
+
+> +	}
+> +
+> +	/*
+> +	 * Set SCID for GPU IOMMU. This will be used to access
+> +	 * page tables that are cached in LLC.
+> +	 */
+> +	if (!IS_ERR(llc->gpuhtw_llc_slice)) {
+> +		u32 gpuhtw_scid = llcc_get_slice_id(llc->gpuhtw_llc_slice);
+> +
+> +		llc->cntl1_regval |=
+> +			gpuhtw_scid << A6XX_GPUHTW_LLC_SCID_SHIFT;
+> +	}
+
+As above, I think storing the slice id could be more beneficial than calculating
+a value, but if we do calculate a value, use FIELD_SET(A6XX_GPUHTW_LLC_SCID, )
+
+> +
+> +	return 0;
+> +}
+> +
+>  static int a6xx_pm_resume(struct msm_gpu *gpu)
+>  {
+>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+> @@ -795,6 +907,8 @@ static int a6xx_pm_resume(struct msm_gpu *gpu)
+> 
+>  	msm_gpu_resume_devfreq(gpu);
+> 
+> +	a6xx_llc_activate(&a6xx_gpu->llc);
+> +
+>  	return 0;
+>  }
+> 
+> @@ -803,6 +917,8 @@ static int a6xx_pm_suspend(struct msm_gpu *gpu)
+>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>  	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+> 
+> +	a6xx_llc_deactivate(&a6xx_gpu->llc);
+> +
+>  	devfreq_suspend_device(gpu->devfreq.devfreq);
+> 
+>  	/*
+> @@ -851,6 +967,7 @@ static void a6xx_destroy(struct msm_gpu *gpu)
+>  		drm_gem_object_put_unlocked(a6xx_gpu->sqe_bo);
+>  	}
+> 
+> +	a6xx_llc_slices_destroy(&a6xx_gpu->llc);
+>  	a6xx_gmu_remove(a6xx_gpu);
+> 
+>  	adreno_gpu_cleanup(adreno_gpu);
+> @@ -924,7 +1041,10 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+>  	adreno_gpu->registers = NULL;
+>  	adreno_gpu->reg_offsets = a6xx_register_offsets;
+> 
+> -	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 1, 0);
+> +	ret = a6xx_llc_slices_init(pdev, &a6xx_gpu->llc);
+> +
+
+Confirming we don't care if a6xx_llc_slices_init passes or fails.
+
+> +	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 1,
+> +			ret ? 0 : MMU_FEATURE_USE_SYSTEM_CACHE);
+>  	if (ret) {
+>  		a6xx_destroy(&(a6xx_gpu->base.base));
+>  		return ERR_PTR(ret);
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> index 7239b8b..09b9ad0 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> @@ -12,6 +12,14 @@
+> 
+>  extern bool hang_debug;
+> 
+> +struct a6xx_llc {
+> +	void __iomem *mmio;
+> +	void *gpu_llc_slice;
+> +	void *gpuhtw_llc_slice;
+> +	u32 cntl0_regval;
+
+As above, I'm not sure if cntl0 is needed.  Heck, I'm not even sure cntl1 is
+needed - since we could store or query the ids at activate time.
+
+> +	u32 cntl1_regval;
+> +};
+> +
+>  struct a6xx_gpu {
+>  	struct adreno_gpu base;
+> 
+> @@ -21,6 +29,7 @@ struct a6xx_gpu {
+>  	struct msm_ringbuffer *cur_ring;
+> 
+>  	struct a6xx_gmu gmu;
+> +	struct a6xx_llc llc;
+>  };
+> 
+>  #define to_a6xx_gpu(x) container_of(x, struct a6xx_gpu, base)
+> diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
+> index 8c95c31..4699367 100644
+> --- a/drivers/gpu/drm/msm/msm_iommu.c
+> +++ b/drivers/gpu/drm/msm/msm_iommu.c
+> @@ -27,6 +27,16 @@ static int msm_iommu_attach(struct msm_mmu *mmu, const char * const *names,
+>  			    int cnt)
+>  {
+>  	struct msm_iommu *iommu = to_msm_iommu(mmu);
+> +	int gpu_htw_llc = 1;
+> +
+> +	/*
+> +	 * This allows GPU to set the bus attributes required
+> +	 * to use system cache on behalf of the iommu page table
+> +	 * walker.
+> +	 */
+> +	if (msm_mmu_has_feature(mmu, MMU_FEATURE_USE_SYSTEM_CACHE))
+> +		iommu_domain_set_attr(iommu->domain,
+> +				DOMAIN_ATTR_QCOM_SYS_CACHE, &gpu_htw_llc);
+
+We're all okay if this fails?  No harm no foul?
+
+> 
+>  	return iommu_attach_device(iommu->domain, mmu->dev);
+>  }
+> @@ -45,6 +55,9 @@ static int msm_iommu_map(struct msm_mmu *mmu, uint64_t iova,
+>  	struct msm_iommu *iommu = to_msm_iommu(mmu);
+>  	size_t ret;
+> 
+> +	if (msm_mmu_has_feature(mmu, MMU_FEATURE_USE_SYSTEM_CACHE))
+> +		prot |= IOMMU_QCOM_SYS_CACHE;
+> +
+>  	ret = iommu_map_sg(iommu->domain, iova, sgt->sgl, sgt->nents, prot);
+>  	WARN_ON(!ret);
+> 
+> diff --git a/drivers/gpu/drm/msm/msm_mmu.h b/drivers/gpu/drm/msm/msm_mmu.h
+> index 1e4ac36d..3e6bdad 100644
+> --- a/drivers/gpu/drm/msm/msm_mmu.h
+> +++ b/drivers/gpu/drm/msm/msm_mmu.h
+> @@ -18,6 +18,9 @@ struct msm_mmu_funcs {
+>  	void (*destroy)(struct msm_mmu *mmu);
+>  };
+> 
+> +/* MMU features */
+> +#define MMU_FEATURE_USE_SYSTEM_CACHE (1 << 0)
+> +
+>  struct msm_mmu {
+>  	const struct msm_mmu_funcs *funcs;
+>  	struct device *dev;
+> --
+> 1.9.1
+> 
 
 -- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
