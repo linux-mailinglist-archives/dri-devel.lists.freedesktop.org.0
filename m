@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19918125FB2
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 11:46:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2506125FB4
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 11:46:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A10EE6EB27;
-	Thu, 19 Dec 2019 10:46:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04BC86EB23;
+	Thu, 19 Dec 2019 10:46:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D9AF6EB1D
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7BE06EB11
  for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 10:46:12 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5B29912E5;
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id E36E317D0;
  Thu, 19 Dec 2019 11:46:10 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1576752370;
- bh=kF4ySMfd7Q/uQ5PK8rQ1GBfHCyW7TNumabJp+lX/E0U=;
+ s=mail; t=1576752371;
+ bh=cIJTgd8KUwmmmBX0h7IUSnJrH9UxeULoFnY9w4LhO9I=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kFkwKiuOW8VxZkyGAVcVkOzPdYkgzjhwVMjxVrJnZOEAORfa2lw6zwK1to0EqkYgE
- g8/LMlvqFfvYBG10vulsvmFBA8YiNwlx23xe3ANKoWR9sRayzB1cXWJtRb1oOJp5Ln
- yb9sHWB2DqMW3n0SXV3W7rOl0mttEKMZ/KyU8hOs=
+ b=G1NP8AHexZuZrnCY9x5O6ypJMNNhlt3aEXVIx2Wa16N4csJOujTQlv6HPF6K6cXjq
+ liB4ezP8ZEzMXgMqZtzy9wXwTD8MqaIP4vpLITqQH1Gz4p7H+mKSX2oV0KVwn646LS
+ OihmtA/af/T+raqjS0T3YzUT+1CQ/QgeAkVYSHOo=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 38/51] drm/omap: hdmi: Remove omap_dss_device operations
-Date: Thu, 19 Dec 2019 12:45:09 +0200
-Message-Id: <20191219104522.9379-39-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v4 39/51] drm/omap: venc: Remove omap_dss_device operations
+Date: Thu, 19 Dec 2019 12:45:10 +0200
+Message-Id: <20191219104522.9379-40-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20191219104522.9379-1-laurent.pinchart@ideasonboard.com>
 References: <20191219104522.9379-1-laurent.pinchart@ideasonboard.com>
@@ -54,115 +54,92 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that the HDMI outputs are driven fully through the drm_bridge API
-their omap_dss_device operations are not used anymore. Remove them.
+Now that the VENC output is driven fully through the drm_bridge API its
+omap_dss_device operations are not used anymore. Remove them.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 ---
- drivers/gpu/drm/omapdrm/dss/hdmi.h  |  1 -
- drivers/gpu/drm/omapdrm/dss/hdmi4.c | 18 ------------------
- drivers/gpu/drm/omapdrm/dss/hdmi5.c | 18 ------------------
- 3 files changed, 37 deletions(-)
+ drivers/gpu/drm/omapdrm/dss/venc.c | 45 ------------------------------
+ 1 file changed, 45 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi.h b/drivers/gpu/drm/omapdrm/dss/hdmi.h
-index bd43f6abf27b..3a40833d3368 100644
---- a/drivers/gpu/drm/omapdrm/dss/hdmi.h
-+++ b/drivers/gpu/drm/omapdrm/dss/hdmi.h
-@@ -380,7 +380,6 @@ struct omap_hdmi {
- 	bool display_enabled;
+diff --git a/drivers/gpu/drm/omapdrm/dss/venc.c b/drivers/gpu/drm/omapdrm/dss/venc.c
+index 2d7a03f52c0d..fe3330e31710 100644
+--- a/drivers/gpu/drm/omapdrm/dss/venc.c
++++ b/drivers/gpu/drm/omapdrm/dss/venc.c
+@@ -306,7 +306,6 @@ struct venc_device {
+ 	struct drm_bridge bridge;
  };
  
--#define dssdev_to_hdmi(dssdev) container_of(dssdev, struct omap_hdmi, output)
- #define drm_bridge_to_hdmi(b) container_of(b, struct omap_hdmi, bridge)
+-#define dssdev_to_venc(dssdev) container_of(dssdev, struct venc_device, output)
+ #define drm_bridge_to_venc(b) container_of(b, struct venc_device, bridge)
  
- #endif
-diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4.c b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-index 7d411f5c4193..34db86ba6193 100644
---- a/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-+++ b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-@@ -308,18 +308,6 @@ void hdmi4_core_disable(struct hdmi_core_data *core)
- 	mutex_unlock(&hdmi->lock);
+ static inline void venc_write_reg(struct venc_device *venc, int idx, u32 val)
+@@ -479,30 +478,6 @@ static void venc_power_off(struct venc_device *venc)
+ 	venc_runtime_put(venc);
  }
  
--static int hdmi_connect(struct omap_dss_device *src,
+-static int venc_get_modes(struct omap_dss_device *dssdev,
+-			  struct drm_connector *connector)
+-{
+-	static const struct drm_display_mode *modes[] = {
+-		&omap_dss_pal_mode,
+-		&omap_dss_ntsc_mode,
+-	};
+-	unsigned int i;
+-
+-	for (i = 0; i < ARRAY_SIZE(modes); ++i) {
+-		struct drm_display_mode *mode;
+-
+-		mode = drm_mode_duplicate(connector->dev, modes[i]);
+-		if (!mode)
+-			return i;
+-
+-		mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+-		drm_mode_set_name(mode);
+-		drm_mode_probed_add(connector, mode);
+-	}
+-
+-	return ARRAY_SIZE(modes);
+-}
+-
+ static enum venc_videomode venc_get_videomode(const struct drm_display_mode *mode)
+ {
+ 	if (!(mode->flags & DRM_MODE_FLAG_INTERLACE))
+@@ -598,25 +573,6 @@ static int venc_get_clocks(struct venc_device *venc)
+ 	return 0;
+ }
+ 
+-static int venc_connect(struct omap_dss_device *src,
 -			struct omap_dss_device *dst)
 -{
 -	return omapdss_device_connect(dst->dss, dst, dst->next);
 -}
 -
--static void hdmi_disconnect(struct omap_dss_device *src,
+-static void venc_disconnect(struct omap_dss_device *src,
 -			    struct omap_dss_device *dst)
 -{
 -	omapdss_device_disconnect(dst, dst->next);
 -}
 -
- static struct edid *
- hdmi_do_read_edid(struct omap_hdmi *hdmi,
- 		  struct edid *(*read)(struct omap_hdmi *hdmi,
-@@ -369,11 +357,6 @@ hdmi_do_read_edid(struct omap_hdmi *hdmi,
- 	return edid;
- }
- 
--static const struct omap_dss_device_ops hdmi_ops = {
--	.connect		= hdmi_connect,
--	.disconnect		= hdmi_disconnect,
+-static const struct omap_dss_device_ops venc_ops = {
+-	.connect = venc_connect,
+-	.disconnect = venc_disconnect,
+-
+-	.get_modes = venc_get_modes,
 -};
 -
  /* -----------------------------------------------------------------------------
   * DRM Bridge Operations
   */
-@@ -736,7 +719,6 @@ static int hdmi4_init_output(struct omap_hdmi *hdmi)
- 	out->type = OMAP_DISPLAY_TYPE_HDMI;
- 	out->name = "hdmi.0";
+@@ -817,7 +773,6 @@ static int venc_init_output(struct venc_device *venc)
+ 	out->type = OMAP_DISPLAY_TYPE_VENC;
+ 	out->name = "venc.0";
  	out->dispc_channel = OMAP_DSS_CHANNEL_DIGIT;
--	out->ops = &hdmi_ops;
+-	out->ops = &venc_ops;
  	out->owner = THIS_MODULE;
  	out->of_port = 0;
- 
-diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5.c b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
-index 0490393101fd..69b0d0cc7593 100644
---- a/drivers/gpu/drm/omapdrm/dss/hdmi5.c
-+++ b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
-@@ -306,18 +306,6 @@ static void hdmi_core_disable(struct omap_hdmi *hdmi)
- 	mutex_unlock(&hdmi->lock);
- }
- 
--static int hdmi_connect(struct omap_dss_device *src,
--			struct omap_dss_device *dst)
--{
--	return omapdss_device_connect(dst->dss, dst, dst->next);
--}
--
--static void hdmi_disconnect(struct omap_dss_device *src,
--			    struct omap_dss_device *dst)
--{
--	omapdss_device_disconnect(dst, dst->next);
--}
--
- static struct edid *
- hdmi_do_read_edid(struct omap_hdmi *hdmi,
- 		  struct edid *(*read)(struct omap_hdmi *hdmi,
-@@ -362,11 +350,6 @@ hdmi_do_read_edid(struct omap_hdmi *hdmi,
- 	return (struct edid *)edid;
- }
- 
--static const struct omap_dss_device_ops hdmi_ops = {
--	.connect		= hdmi_connect,
--	.disconnect		= hdmi_disconnect,
--};
--
- /* -----------------------------------------------------------------------------
-  * DRM Bridge Operations
-  */
-@@ -710,7 +693,6 @@ static int hdmi5_init_output(struct omap_hdmi *hdmi)
- 	out->type = OMAP_DISPLAY_TYPE_HDMI;
- 	out->name = "hdmi.0";
- 	out->dispc_channel = OMAP_DSS_CHANNEL_DIGIT;
--	out->ops = &hdmi_ops;
- 	out->owner = THIS_MODULE;
- 	out->of_port = 0;
- 
+ 	out->ops_flags = OMAP_DSS_DEVICE_OP_MODES;
 -- 
 Regards,
 
