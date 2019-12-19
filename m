@@ -1,38 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55EDF12676B
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 17:53:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 528E1126B2A
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 19:55:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 285A06E075;
-	Thu, 19 Dec 2019 16:53:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E51EA8996F;
+	Thu, 19 Dec 2019 18:55:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B163D6E075
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 16:53:07 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 713418996F
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 18:55:02 +0000 (UTC)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 1CA0D20026;
- Thu, 19 Dec 2019 17:53:02 +0100 (CET)
-Date: Thu, 19 Dec 2019 17:53:01 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] drm/todo: Updating logging todo
-Message-ID: <20191219165301.GA17514@ravnborg.org>
-References: <20191219161722.2779994-1-daniel.vetter@ffwll.ch>
+ by mail.kernel.org (Postfix) with ESMTPSA id BC2B1222C2;
+ Thu, 19 Dec 2019 18:55:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1576781702;
+ bh=lxiLAwc3bq7yRsFDpS8Y/vXlzk3A1s79z7n/XxmpgZU=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=M04HltVi8w1WzySTFYCLneYGnfUjHaeOgfGU4jXb075J3ZmGFIkKipVVZuMFlMeqS
+ Shpd4BYLSo5gvTwCaJ1xSE008COi+3g+5EUt9+1KojMB0RTCADeWWJyr+YgLuzkRlv
+ BpEX40ap6iWS1dfdblQ4NdEdxvqHHpI7YjVhc6GA=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 5.4 46/80] drm/mgag200: Extract device type from flags
+Date: Thu, 19 Dec 2019 19:34:38 +0100
+Message-Id: <20191219183113.297293802@linuxfoundation.org>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20191219183031.278083125@linuxfoundation.org>
+References: <20191219183031.278083125@linuxfoundation.org>
+User-Agent: quilt/0.66
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191219161722.2779994-1-daniel.vetter@ffwll.ch>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=QyXUC8HyAAAA:8
- a=pGLkceISAAAA:8 a=7gkXJVJtAAAA:8 a=PueDHSs-hDy7qKLiRj4A:9
- a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,66 +47,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Sean Paul <sean@poorly.run>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Wambui Karuga <wambui.karugax@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: John Donnelly <john.p.donnelly@oracle.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
+ Dave Airlie <airlied@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Emil Velikov <emil.velikov@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel.
-
-On Thu, Dec 19, 2019 at 05:17:22PM +0100, Daniel Vetter wrote:
-> Jani has merged a new set of logging functions, which we hope to be
-> the One True solution now, pinky promises:
-> 
-> commit fb6c7ab8718eb2543695d77ad8302ff81e8e1e32
-> Author: Jani Nikula <jani.nikula@intel.com>
-> Date:   Tue Dec 10 14:30:43 2019 +0200
-> 
->     drm/print: introduce new struct drm_device based logging macros
-> 
-> Update the todo entry to match the new preference.
-> 
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: Wambui Karuga <wambui.karugax@gmail.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> ---
->  Documentation/gpu/todo.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index 2d85f37284a1..017f3090f8a1 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -142,13 +142,13 @@ Contact: Daniel Vetter, respective driver maintainers
->  
->  Level: Advanced
->  
-> -Convert instances of dev_info/dev_err/dev_warn to their DRM_DEV_* equivalent
-> -----------------------------------------------------------------------------
-> +Convert logging to drm_* functions with drm_device paramater
-> +------------------------------------------------------------
->  
->  For drivers which could have multiple instances, it is necessary to
->  differentiate between which is which in the logs. Since DRM_INFO/WARN/ERROR
->  don't do this, drivers used dev_info/warn/err to make this differentiation. We
-> -now have DRM_DEV_* variants of the drm print macros, so we can start to convert
-> +now have drm_* variants of the drm print functions, so we can start to convert
->  those drivers back to using drm-formwatted specific log messages.
-s/drm-formwatted/drm-formatted/?
-
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-
-drm_print.h could use a rework so it is obvious what is legacy and what
-is the right way to do things.
-I will add that to my personal todo list for now.
-
-	Sam
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+Cgpjb21taXQgM2E4
+YTVhYmExNDJhNDRlYWViYTBjYjBlYzFiNGE4ZjE3N2I1ZTU5YSB1cHN0cmVhbS4KCkFkZHMgYSBj
+b252ZXJzaW9uIGZ1bmN0aW9uIHRoYXQgZXh0cmFjdHMgdGhlIGRldmljZSB0eXBlIGZyb20gdGhl
+ClBDSSBpZC10YWJsZSBmbGFncy4gQWxsb3dzIGZvciBzdG9yaW5nIGFkZGl0aW9uYWwgaW5mb3Jt
+YXRpb24gaW4gdGhlCm90aGVyIGZsYWcgYml0cy4KClNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1t
+ZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgpGaXhlczogODFkYTg3ZjYzYTFlICgiZHJtOiBS
+ZXBsYWNlIGRybV9nZW1fdnJhbV9wdXNoX3RvX3N5c3RlbSgpIHdpdGgga3VubWFwICsgdW5waW4i
+KQpSZXZpZXdlZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KQ2M6
+IEpvaG4gRG9ubmVsbHkgPGpvaG4ucC5kb25uZWxseUBvcmFjbGUuY29tPgpDYzogR2VyZCBIb2Zm
+bWFubiA8a3JheGVsQHJlZGhhdC5jb20+CkNjOiBEYXZlIEFpcmxpZSA8YWlybGllZEByZWRoYXQu
+Y29tPgpDYzogTWFhcnRlbiBMYW5raG9yc3QgPG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVs
+LmNvbT4KQ2M6IE1heGltZSBSaXBhcmQgPG1yaXBhcmRAa2VybmVsLm9yZz4KQ2M6IERhdmlkIEFp
+cmxpZSA8YWlybGllZEBsaW51eC5pZT4KQ2M6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9y
+Zz4KQ2M6IEVtaWwgVmVsaWtvdiA8ZW1pbC52ZWxpa292QGNvbGxhYm9yYS5jb20+CkNjOiAiWS5D
+LiBDaGVuIiA8eWNfY2hlbkBhc3BlZWR0ZWNoLmNvbT4KQ2M6IExhdXJlbnQgUGluY2hhcnQgPGxh
+dXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbT4KQ2M6ICJKb3PDqSBSb2JlcnRvIGRlIFNv
+dXphIiA8am9zZS5zb3V6YUBpbnRlbC5jb20+CkNjOiBBbmRyemVqIFBpZXRyYXNpZXdpY3ogPGFu
+ZHJ6ZWoucEBjb2xsYWJvcmEuY29tPgpDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpDYzogPHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmc+ICMgdjUuMysKTGluazogaHR0cHM6Ly9wYXRj
+aHdvcmsuZnJlZWRlc2t0b3Aub3JnL3BhdGNoL21zZ2lkLzIwMTkxMTI2MTAxNTI5LjIwMzU2LTIt
+dHppbW1lcm1hbm5Ac3VzZS5kZQpTaWduZWQtb2ZmLWJ5OiBHcmVnIEtyb2FoLUhhcnRtYW4gPGdy
+ZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPgoKLS0tCiBkcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9t
+Z2FnMjAwX2Rydi5oICB8ICAgIDcgKysrKysrKwogZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdh
+ZzIwMF9tYWluLmMgfCAgICAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwg
+MSBkZWxldGlvbigtKQoKLS0tIGEvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9kcnYu
+aAorKysgYi9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2Rydi5oCkBAIC0xNTksNiAr
+MTU5LDggQEAgZW51bSBtZ2FfdHlwZSB7CiAJRzIwMF9FVzMsCiB9OwogCisjZGVmaW5lIE1HQUcy
+MDBfVFlQRV9NQVNLCSgweDAwMDAwMGZmKQorCiAjZGVmaW5lIElTX0cyMDBfU0UobWRldikgKG1k
+ZXYtPnR5cGUgPT0gRzIwMF9TRV9BIHx8IG1kZXYtPnR5cGUgPT0gRzIwMF9TRV9CKQogCiBzdHJ1
+Y3QgbWdhX2RldmljZSB7CkBAIC0xODgsNiArMTkwLDExIEBAIHN0cnVjdCBtZ2FfZGV2aWNlIHsK
+IAl1MzIgdW5pcXVlX3Jldl9pZDsKIH07CiAKK3N0YXRpYyBpbmxpbmUgZW51bSBtZ2FfdHlwZQor
+bWdhZzIwMF90eXBlX2Zyb21fZHJpdmVyX2RhdGEoa2VybmVsX3Vsb25nX3QgZHJpdmVyX2RhdGEp
+Cit7CisJcmV0dXJuIChlbnVtIG1nYV90eXBlKShkcml2ZXJfZGF0YSAmIE1HQUcyMDBfVFlQRV9N
+QVNLKTsKK30KIAkJCQkvKiBtZ2FnMjAwX21vZGUuYyAqLwogaW50IG1nYWcyMDBfbW9kZXNldF9p
+bml0KHN0cnVjdCBtZ2FfZGV2aWNlICptZGV2KTsKIHZvaWQgbWdhZzIwMF9tb2Rlc2V0X2Zpbmko
+c3RydWN0IG1nYV9kZXZpY2UgKm1kZXYpOwotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9t
+Z2FnMjAwX21haW4uYworKysgYi9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX21haW4u
+YwpAQCAtOTQsNyArOTQsNyBAQCBzdGF0aWMgaW50IG1nYWcyMDBfZGV2aWNlX2luaXQoc3RydWN0
+IGRyCiAJc3RydWN0IG1nYV9kZXZpY2UgKm1kZXYgPSBkZXYtPmRldl9wcml2YXRlOwogCWludCBy
+ZXQsIG9wdGlvbjsKIAotCW1kZXYtPnR5cGUgPSBmbGFnczsKKwltZGV2LT50eXBlID0gbWdhZzIw
+MF90eXBlX2Zyb21fZHJpdmVyX2RhdGEoZmxhZ3MpOwogCiAJLyogSGFyZGNvZGUgdGhlIG51bWJl
+ciBvZiBDUlRDcyB0byAxICovCiAJbWRldi0+bnVtX2NydGMgPSAxOwoKCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
