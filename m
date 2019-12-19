@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0167C125D81
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 10:21:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2998D125DA3
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2019 10:27:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 253FA6EAE4;
-	Thu, 19 Dec 2019 09:21:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72F4F6EAE5;
+	Thu, 19 Dec 2019 09:27:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 402FE6EAE5
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 09:21:11 +0000 (UTC)
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D560A6EAE5
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 09:27:29 +0000 (UTC)
 Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBJ9L65O013213;
- Thu, 19 Dec 2019 03:21:06 -0600
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBJ9ROe3046023;
+ Thu, 19 Dec 2019 03:27:24 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1576747266;
- bh=pKinLKdsXOgfv0VviIgvjbL67ZVF2HiAzR7LqJOOAjE=;
+ s=ti-com-17Q1; t=1576747644;
+ bh=+k3wgg0v4z2kOxEjs5q43J+q/0wR8nGXEDMYNPy39cI=;
  h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=X33KEBMV7JBDFHSM1/EZ5pJNRwLJ8SQoZgpv4hjJFnXRwdQKk8T2vb4tfJAnNJSZy
- 02/gHq6MFbaQZ6E5+oqJN2/xv94YcyWrKelSLpxkFKrF4XZIVTqsSVW+spAN6xbQPW
- cbAif3BDNSrcFQnmIU5wXlDnKVEBLnCUE8CucZxY=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xBJ9L5j7077255
+ b=fKl4BufAJoofvIE9xWG+3NstcHBjj/xFFqmSEsP7v1B6EgsOYdBEsePWQfaHT70fu
+ 1E7Omkk00ZxPFdUzh7NAzSAKiCQpB2QZehajY/uWp6LfDYVBt+n5TGJxkuKfbRBCtD
+ r9VaO+0JNRE8TRNTnxdwzhC63meDUDqNv5bHN1AU=
+Received: from DFLE107.ent.ti.com (dfle107.ent.ti.com [10.64.6.28])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xBJ9RO9H087240
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 19 Dec 2019 03:21:06 -0600
-Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ Thu, 19 Dec 2019 03:27:24 -0600
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Thu, 19
- Dec 2019 03:21:05 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ Dec 2019 03:27:23 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Thu, 19 Dec 2019 03:21:05 -0600
+ Frontend Transport; Thu, 19 Dec 2019 03:27:23 -0600
 Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBJ9L3dq072093;
- Thu, 19 Dec 2019 03:21:04 -0600
-Subject: Re: [PATCH v3 45/50] drm/omap: dpi: Register a drm_bridge
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBJ9RLCj083745;
+ Thu, 19 Dec 2019 03:27:21 -0600
+Subject: Re: [PATCH v3 47/50] drm/omap: sdi: Register a drm_bridge
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  <dri-devel@lists.freedesktop.org>
 References: <20191210225750.15709-1-laurent.pinchart@ideasonboard.com>
- <20191210225750.15709-46-laurent.pinchart@ideasonboard.com>
+ <20191210225750.15709-48-laurent.pinchart@ideasonboard.com>
 From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <8f7e454b-4d63-37cf-ef83-77e23e90e07d@ti.com>
-Date: Thu, 19 Dec 2019 11:21:03 +0200
+Message-ID: <7c748db2-ea49-3acf-34c6-c534c9f22772@ti.com>
+Date: Thu, 19 Dec 2019 11:27:21 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191210225750.15709-46-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20191210225750.15709-48-laurent.pinchart@ideasonboard.com>
 Content-Language: en-US
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,7 +72,7 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 11/12/2019 00:57, Laurent Pinchart wrote:
-> In order to integrate with a chain of drm_bridge, the internal DPI
+> In order to integrate with a chain of drm_bridge, the internal SDI
 > output has to expose its operations through the drm_bridge API.
 > Register a bridge at initialisation time to do so and remove the
 > omap_dss_device operations that are now unused.
@@ -81,30 +81,32 @@ On 11/12/2019 00:57, Laurent Pinchart wrote:
 > ---
 > Changes since v2:
 > 
+> - Remove unused omapdss_device_connector_type() function
 > - Unregister bridge if port initialisation fails
 > ---
->   drivers/gpu/drm/omapdrm/dss/dpi.c | 197 ++++++++++++++++++------------
->   1 file changed, 119 insertions(+), 78 deletions(-)
+>   drivers/gpu/drm/omapdrm/dss/base.c       |  23 ----
+>   drivers/gpu/drm/omapdrm/dss/omapdss.h    |   1 -
+>   drivers/gpu/drm/omapdrm/dss/sdi.c        | 168 +++++++++++++++--------
+>   drivers/gpu/drm/omapdrm/omap_connector.c |  31 +----
+>   4 files changed, 111 insertions(+), 112 deletions(-)
 
-I don't think DPI is really a bridge, as it's really just direct output from the DISPC (level 
-shifted). But that probably doesn't matter, and bridge is a good way to manage the DPI output.
+Do you have removal of the code in other files than sdi.c here in purpose? Can they be a separate 
+patch after this?
 
-> +static void dpi_bridge_mode_set(struct drm_bridge *bridge,
-> +				 const struct drm_display_mode *mode,
-> +				 const struct drm_display_mode *adjusted_mode)
-> +{
-> +	struct dpi_data *dpi = drm_bridge_to_dpi(bridge);
-> +
-> +	mutex_lock(&dpi->lock);
-> +	dpi->pixelclock = adjusted_mode->clock * 1000;
-> +	mutex_unlock(&dpi->lock);
-> +}
+Single comment below, but other than that (with the code together if needed, or in separate patches):
 
-What's the lock protecting? Why do we lock here, but not e.g. in mode_fixup?
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 
-Do we ever get drm_bridge_funcs calls from multiple threads at the same time? Is there a difference 
-between having a single DPI output, or multiple DPI outputs (i.e. can two different DPI outputs get 
-calls simultaneously?).
+
+> @@ -171,7 +144,7 @@ struct drm_connector *omap_connector_init(struct drm_device *dev,
+>   	connector->doublescan_allowed = 0;
+>   
+>   	drm_connector_init(dev, connector, &omap_connector_funcs,
+> -			   omap_connector_get_type(output));
+> +			   DRM_MODE_CONNECTOR_DSI);
+
+This is because DSI is the only legacy output left, and thus all omap_connectors are DSI connectors? 
+Maybe a comment here to clarify.
 
   Tomi
 
