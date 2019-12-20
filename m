@@ -1,52 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B93A1128020
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2019 16:55:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B27C8128116
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2019 18:06:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 745086EC6A;
-	Fri, 20 Dec 2019 15:55:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A2B06E0FE;
+	Fri, 20 Dec 2019 17:06:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 390036EC6A
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2019 15:55:37 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBKFtUPZ086829;
- Fri, 20 Dec 2019 09:55:30 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1576857330;
- bh=no16hSO/KNGmGLrTag6Cuu5LpiUzZxugT3va5H2fxIE=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=eLM7W/si/YGP8xBccPzvU+teuIZk1X+si9sDM+7FiJJtevlWY6MQlMcm7hDHGX944
- rSZs+HM9llNTMD/KHEh2+ns4t2JxtBEFooy4V345I789wp9L534S4k0BvjUB2pEFnL
- cxn2avMu5LTTzEw7GVWI41oVMnU76MCBltfB9SWc=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xBKFtU09072521
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 20 Dec 2019 09:55:30 -0600
-Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Fri, 20
- Dec 2019 09:55:30 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Fri, 20 Dec 2019 09:55:30 -0600
-Received: from jadmar.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBKFtEE4005603;
- Fri, 20 Dec 2019 09:55:28 -0600
-From: Jyri Sarha <jsarha@ti.com>
-To: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>
-Subject: [PATCH v5 5/5] MAINTAINERS: add entry for tidss
-Date: Fri, 20 Dec 2019 17:55:13 +0200
-Message-ID: <fdb8bc85150c39e039869974b4160a36c71ec9b5.1576857145.git.jsarha@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1576857145.git.jsarha@ti.com>
-References: <cover.1576857145.git.jsarha@ti.com>
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9271A6E0FE
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2019 17:06:12 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id a5so9660794wmb.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2019 09:06:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=ZYGkEsWZa4CqfafTQfNo+lumsR9hQExUaseHAWajZa8=;
+ b=iYAzW60lCm4RDzkRqt+FKWZzJrRxchgbGZ60MzOtxh+nBWEg7raiEQJJ0wKve1AmD8
+ 6rCTExhMGV7b5tIf9TEKA+dZmgTdi6zdKXq18udnkblCy2rFuS6+2MVwmk1snF20dSbX
+ 1OrHx9aa+3tXy+8WjdrD4tq+oWarhZmAomCwjGWkS3Eg76ubqlqerWhJ2RYl/RpoyhP0
+ 0xiM/2K+EZM7B+76TdpcNOGI6VrgRzVaTDs6IUwgK0LEMO1Rjn0c46mQOl4I0VajHPqF
+ P0peFAE5w3+X9JTYH7AJ6U8bvXUBEnnnDSNlQgFw03Wz6nyh58+MX9rB2xddT4wEcUHx
+ 2vfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=ZYGkEsWZa4CqfafTQfNo+lumsR9hQExUaseHAWajZa8=;
+ b=lT2dM9PRJPhAU/kI3o8mkx1HKz3TQYJIcPHKPmGVsyMrRC6BiOjIuKyGKmiCi/JKB5
+ MnZTN2pnFlyhlME4yi3fNNe8Q1dw3tQCqsomn4CADbzgf8+gB6KOzOfK0yblRswSd4j4
+ NNzs72XXbZJziSA06UMcHJJrehHkGh2gKWAVkSbOIZ0JICCIvdXR9qXz0kbD4N08hCbV
+ r+0YGY/hXxZ0mO92YX2Kj0bMl4ve5tt71XmZxWpFTQf8QcifGPfdvVqr7NIODLqfuTd1
+ kWt8JvUoZyiVCj77653iXv0y+b5kREctj6HqBk5bjKPjFoXDhjQJPLupO/xXYtWfwMyX
+ hqLg==
+X-Gm-Message-State: APjAAAXwsVphgmJnxn+sqIqh+KYKcARbkLGwU/XJP5bW8UwIijs76BPM
+ NrDFg8OWEpDvz3BHUI2n1xhJ2IJxmvrwcLczl7UiueYb
+X-Google-Smtp-Source: APXvYqz9lDU4s3KnDdGQhKOG1+bQ4cbOua3u7W4pB2gN+D0YT4T8zfG0aWHOvD9b9dSHz/yesYwbENguGY800RshWgU=
+X-Received: by 2002:a05:600c:2048:: with SMTP id
+ p8mr17779134wmg.157.1576861570702; 
+ Fri, 20 Dec 2019 09:06:10 -0800 (PST)
 MIME-Version: 1.0
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+From: TAEHO NAM <kl0ud3v@gmail.com>
+Date: Sat, 21 Dec 2019 02:05:59 +0900
+Message-ID: <CACcQa5=1vdWTUGfmN+oEY5rARTX5p6SvDbzQt+bzYHmZ=2hBgg@mail.gmail.com>
+Subject: Why eglGetDisplay(EGL_DEFAULT_DISPLAY) returns EGL_NO_DISPLAY?
+To: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,59 +58,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: yamonkar@cadence.com, praneeth@ti.com, robh+dt@kernel.org,
- peter.ujfalusi@ti.com, tomi.valkeinen@ti.com,
- laurent.pinchart@ideasonboard.com, sjakhade@cadence.com, sam@ravnborg.org,
- maxime@cerno.tech
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============1966267922=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add entry for tidss DRM driver.
+--===============1966267922==
+Content-Type: multipart/alternative; boundary="000000000000c82318059a25b169"
 
-Version history:
+--000000000000c82318059a25b169
+Content-Type: text/plain; charset="UTF-8"
 
-v2: no change
+Hi, I'm new to dri-devel and sorry if this question doesn't fit here.
+In my code, the case 1 of getting eglDisplay using EGL_DEFAULT_DISPLAY
+failed, but, the case 2 succeeded.
 
-v3: - Move tidss entry after omapdrm
-    - Add "T:     git git://anongit.freedesktop.org/drm/drm-misc"
+// Case 1
+egl_.display = eglGetDisplay (EGL_DEFAULT_DISPLAY);
 
-v4: no change
+// Case 2
+struct gbm_device * gbm_device_;
+gbm_device_ = gbm_create_device (drm _-> GetFD ());
+egl_.display = eglGetDisplay ((EGLNativeDisplayType) gbm_device_);
 
-v5: no change
+I don't know if EGL_DEFAULT_DISPLAY is missing or it's a problem with my
+machine.
+The output of lspci is :
 
-Signed-off-by: Jyri Sarha <jsarha@ti.com>
----
- MAINTAINERS | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+VGA compatible controller: Intel Corporation Device 5906 (rev 02)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 741e3f433f6e..e89fbfb1ce06 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5559,6 +5559,17 @@ S:	Maintained
- F:	drivers/gpu/drm/omapdrm/
- F:	Documentation/devicetree/bindings/display/ti/
- 
-+DRM DRIVERS FOR TI KEYSTONE
-+M:	Jyri Sarha <jsarha@ti.com>
-+M:	Tomi Valkeinen <tomi.valkeinen@ti.com>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Maintained
-+F:	drivers/gpu/drm/tidss/
-+F:	Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
-+F:	Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-+F:	Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
-+T:	git git://anongit.freedesktop.org/drm/drm-misc
-+
- DRM DRIVERS FOR V3D
- M:	Eric Anholt <eric@anholt.net>
- S:	Supported
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki. Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+Thank you for any comments or links to related documents.
+
+--000000000000c82318059a25b169
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi, I&#39;m new to dri-devel and sorry if this questi=
+on doesn&#39;t fit here.<br>In my code, the case 1 of getting eglDisplay us=
+ing EGL_DEFAULT_DISPLAY failed, but, the case 2 succeeded.</div><div><br></=
+div><div>// Case 1</div><div>egl_.display =3D eglGetDisplay (EGL_DEFAULT_DI=
+SPLAY);<br><br></div><div>// Case 2</div><div>struct gbm_device * gbm_devic=
+e_;<br>gbm_device_ =3D gbm_create_device (drm _-&gt; GetFD ());<br>egl_.dis=
+play =3D eglGetDisplay ((EGLNativeDisplayType) gbm_device_);<br></div><div>=
+<br></div><div>I don&#39;t know if EGL_DEFAULT_DISPLAY is missing or it&#39=
+;s a problem with my machine.<br>The output of lspci is :<br></div><div><br=
+></div><div>VGA compatible controller: Intel Corporation Device 5906 (rev 0=
+2)<br></div><div><br></div><div>Thank you for any comments or links to rela=
+ted documents.</div></div>
+
+--000000000000c82318059a25b169--
+
+--===============1966267922==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1966267922==--
