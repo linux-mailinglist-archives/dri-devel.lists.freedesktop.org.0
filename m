@@ -1,32 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06DD5128449
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2019 23:08:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5C00128480
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2019 23:17:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 707CE6ECB9;
-	Fri, 20 Dec 2019 22:08:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D869D6ECC7;
+	Fri, 20 Dec 2019 22:17:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E53376ECB9
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2019 22:07:58 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 19651679-1500050 for multiple; Fri, 20 Dec 2019 22:07:50 +0000
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 183B86E172
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2019 22:17:07 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 204241] amdgpu fails to resume from suspend
+Date: Fri, 20 Dec 2019 22:17:06 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: ulf@winkelvos.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-204241-2300-5kIW4lHVCP@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-204241-2300@https.bugzilla.kernel.org/>
+References: <bug-204241-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
-From: Chris Wilson <chris@chris-wilson.co.uk>
-In-Reply-To: <20191219103703.8547-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20191219103703.8547-1-laurent.pinchart+renesas@ideasonboard.com>
-Message-ID: <157687966834.18690.4423456530980783984@skylake-alporthouse-com>
-User-Agent: alot/0.6
-Subject: Re: [PATCH] drm: of: Fix linking when CONFIG_OF is not set
-Date: Fri, 20 Dec 2019 22:07:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,24 +51,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Laurent Pinchart (2019-12-19 10:37:03)
-> The new helper drm_of_lvds_get_dual_link_pixel_order() introduced in
-> commit 6529007522de has a fallback stub when CONFIG_OF is not set, but
-> the stub is declared in drm_of.h without a static inline. This causes
-> multiple definitions of the function to be linked when the CONFIG_OF
-> option isn't set. Fix it by making the stub static inline.
-> 
-> Fixes: 6529007522de ("drm: of: Add drm_of_lvds_get_dual_link_pixel_order")
-> Reported-by: kbuild test robot <lkp@intel.com>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk>
--Chris
+https://bugzilla.kernel.org/show_bug.cgi?id=204241
+
+--- Comment #50 from Ulf Winkelvos (ulf@winkelvos.de) ---
+I tried to bisect this issue in the past days, but it is almost impossible to
+track it down, as it is so hard to reproduce it reliably. It seems that 5.2 is
+"better", the close the commits go to 5.3 it gets "worse". Now all of a sudden
+5.4.3-arch1-1 is completely stable so far... I am going to create a new bug,
+whenever this comes back.
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
