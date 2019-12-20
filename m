@@ -2,45 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2B17127384
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2019 03:31:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17D1B1273CD
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2019 04:23:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3DE46EBC0;
-	Fri, 20 Dec 2019 02:31:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C00F6EBC7;
+	Fri, 20 Dec 2019 03:22:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by gabe.freedesktop.org (Postfix) with ESMTP id C58296EBC1
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2019 02:31:34 +0000 (UTC)
-X-UUID: f5834c6bd09d40488397a6f23fb5c96a-20191220
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=tEcYWZijm0bFlilOapxtQzBH1rfZ6D9Bauhv1QIh7Vg=; 
- b=clAgRfNyFTyTFk79VIddsNZ7aJKg/p7C5f3zJYXo4rIXg6Igl33jXmhZO+Xyw2MYWUBSwQtmXc8NKulEn4EXPKWwY9hweN3mblAK0JCVvvITO9T68j4cQe1jaPTTNwCtOwt5KIthf2o2DGKqDi3W6wG5rPh2LRwSm3alOwK30KU=;
-X-UUID: f5834c6bd09d40488397a6f23fb5c96a-20191220
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 1690303834; Fri, 20 Dec 2019 10:31:31 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Fri, 20 Dec 2019 10:31:11 +0800
-Received: from [172.21.77.4] (172.21.77.4) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Fri, 20 Dec 2019 10:30:36 +0800
-Message-ID: <1576809089.26847.10.camel@mtksdaap41>
-Subject: Re: [PATCH 4/4] drm/mediatek: config mipitx impedance with
- calibration data
-From: CK Hu <ck.hu@mediatek.com>
-To: Jitao Shi <jitao.shi@mediatek.com>
-Date: Fri, 20 Dec 2019 10:31:29 +0800
-In-Reply-To: <20191216082937.119164-5-jitao.shi@mediatek.com>
-References: <20191216082937.119164-1-jitao.shi@mediatek.com>
- <20191216082937.119164-5-jitao.shi@mediatek.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C7B46EBC7
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2019 03:22:53 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3794E97D;
+ Fri, 20 Dec 2019 04:22:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1576812171;
+ bh=GbjWOXoHbTc7o/70pzRDyb6harPQRgq/1uJqetbyvEk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=eiD5P2Vs/QXwTU749YgX3ffncRsvHu/csSN90zm5CA5+AlOF58zlIMNsA70unsJOI
+ eTeBk6rzNvZ3sY8nTxruTgXtU/2o65/rPpx0hz333tRbfP07RPFYLk3YE47zhV77oV
+ Maus3i0cm/+PvRN9WVjB48J3KzFdIMLu27tzAQBE=
+Date: Fri, 20 Dec 2019 05:22:38 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hsin-Yi Wang <hsinyi@chromium.org>
+Subject: Re: [PATCH RESEND 1/4] dt-bindings: drm/bridge: analogix-anx7688:
+ Add ANX7688 transmitter binding
+Message-ID: <20191220032238.GA5342@pendragon.ideasonboard.com>
+References: <20191211061911.238393-1-hsinyi@chromium.org>
+ <20191211061911.238393-2-hsinyi@chromium.org>
+ <20191219204524.GA7841@bogus>
+ <CAJMQK-gYFJ-F9_rkPsxXS+qc40OwU-di2tdLLbL7x=smbRNujw@mail.gmail.com>
 MIME-Version: 1.0
-X-MTK: N
+Content-Disposition: inline
+In-Reply-To: <CAJMQK-gYFJ-F9_rkPsxXS+qc40OwU-di2tdLLbL7x=smbRNujw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,167 +50,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: srv_heupstream@mediatek.com, David Airlie <airlied@linux.ie>,
- stonea168@163.com, cawa.cheng@mediatek.com, dri-devel@lists.freedesktop.org,
- sj.huang@mediatek.com, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, yingjoe.chen@mediatek.com,
- eddie.huang@mediatek.com
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Nicolas Boichat <drinkcat@chromium.org>,
+ Devicetree List <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ Neil Armstrong <narmstrong@baylibre.com>, lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Matthias Brugger <mbrugger@suse.com>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Russell King <rmk+kernel@arm.linux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Jitao:
+Hi Hsin-Yi,
 
-On Mon, 2019-12-16 at 16:29 +0800, Jitao Shi wrote:
-> Read calibration data from nvmem, and config mipitx impedance with
-> calibration data to make sure their impedance are 100ohm.
-> 
-> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_mipi_tx.h        |  1 +
->  drivers/gpu/drm/mediatek/mtk_mt8183_mipi_tx.c | 63 +++++++++++++++++++
->  2 files changed, 64 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_mipi_tx.h b/drivers/gpu/drm/mediatek/mtk_mipi_tx.h
-> index eea44327fe9f..a1b6292145de 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_mipi_tx.h
-> +++ b/drivers/gpu/drm/mediatek/mtk_mipi_tx.h
-> @@ -28,6 +28,7 @@ struct mtk_mipi_tx {
->  	void __iomem *regs;
->  	u32 data_rate;
->  	u32 mipitx_drive;
-> +	u32 rt_code[5];
->  	const struct mtk_mipitx_data *driver_data;
->  	struct clk_hw pll_hw;
->  	struct clk *pll;
-> diff --git a/drivers/gpu/drm/mediatek/mtk_mt8183_mipi_tx.c b/drivers/gpu/drm/mediatek/mtk_mt8183_mipi_tx.c
-> index 124fdf95f1e5..f624516944bb 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_mt8183_mipi_tx.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_mt8183_mipi_tx.c
-> @@ -5,6 +5,8 @@
->   */
->  
->  #include "mtk_mipi_tx.h"
-> +#include <linux/nvmem-consumer.h>
-> +#include <linux/slab.h>
->  
->  #define MIPITX_LANE_CON		0x000c
->  #define RG_DSI_CPHY_T1DRV_EN		BIT(0)
-> @@ -28,6 +30,7 @@
->  #define MIPITX_PLL_CON4		0x003c
->  #define RG_DSI_PLL_IBIAS		(3 << 10)
->  
-> +#define MIPITX_D2P_RTCODE	0x0100
->  #define MIPITX_D2_SW_CTL_EN	0x0144
->  #define MIPITX_D0_SW_CTL_EN	0x0244
->  #define MIPITX_CK_CKMODE_EN	0x0328
-> @@ -108,6 +111,64 @@ static const struct clk_ops mtk_mipi_tx_pll_ops = {
->  	.recalc_rate = mtk_mipi_tx_pll_recalc_rate,
->  };
->  
-> +static int mtk_mipi_tx_config_calibration_data(struct mtk_mipi_tx *mipi_tx)
-> +{
-> +	u32 *buf = NULL;
+On Fri, Dec 20, 2019 at 11:20:13AM +0800, Hsin-Yi Wang wrote:
+> On Fri, Dec 20, 2019 at 4:45 AM Rob Herring wrote:
+> > On Wed, Dec 11, 2019 at 02:19:08PM +0800, Hsin-Yi Wang wrote:
+> > > From: Nicolas Boichat <drinkcat@chromium.org>
+> > >
+> > > Add support for analogix,anx7688
+> > >
+> > > Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
+> > > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> > > ---
+> > > Change from RFC to v1:
+> > > - txt to yaml
+> > > ---
+> > >  .../bindings/display/bridge/anx7688.yaml      | 60 +++++++++++++++++++
+> > >  1 file changed, 60 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/display/bridge/anx7688.yaml
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/display/bridge/anx7688.yaml b/Documentation/devicetree/bindings/display/bridge/anx7688.yaml
+> > > new file mode 100644
+> > > index 000000000000..cf79f7cf8fdf
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/display/bridge/anx7688.yaml
+> > > @@ -0,0 +1,60 @@
+> > > +# SPDX-License-Identifier: GPL-2.0
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/display/bridge/anx7688.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Analogix ANX7688 SlimPort (Single-Chip Transmitter for DP over USB-C)
+> > > +
+> > > +maintainers:
+> > > +  - Nicolas Boichat <drinkcat@chromium.org>
+> > > +
+> > > +description: |
+> > > +  The ANX7688 is a single-chip mobile transmitter to support 4K 60 frames per
+> > > +  second (4096x2160p60) or FHD 120 frames per second (1920x1080p120) video
+> > > +  resolution from a smartphone or tablet with full function USB-C.
+> > > +
+> > > +  This binding only describes the HDMI to DP display bridge.
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    const: analogix,anx7688
+> > > +
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +    description: I2C address of the device
+> > > +
+> > > +  ports:
+> > > +    type: object
+> > > +
+> > > +    properties:
+> > > +      port@0:
+> > > +        type: object
+> > > +        description: |
+> > > +          Video port for HDMI input
+> > > +
+> > > +      port@1:
+> > > +        type: object
+> > > +        description: |
+> > > +          Video port for eDP output
+> > > +
+> > > +    required:
+> > > +      - port@0
+> >
+> > Sometimes you have no output?
+>
+> Yes, only input is required.
 
-Need not to assign NULL to buf, it would be assigned some value later.
+But what happens in that case ? What's the use of a bridge with a
+non-connected output ? :-)
 
-> +	int i, j;
-> +	struct nvmem_cell *cell;
-> +	struct device *dev = mipi_tx->dev;
-> +	size_t len;
-> +
-> +	cell = nvmem_cell_get(dev, "calibration-data");
-> +	if (IS_ERR(cell)) {
-> +		dev_warn(dev, "nvmem_cell_get fail\n");
+> > > +
+> > > +required:
+> > > +  - compatible
+> > > +  - reg
+> > > +  - ports
+> >
+> > The example will have errors because it is missing 'ports'. Run 'make
+> > dt_binding_check'.
+> >
+> > Add:
+> >
+> > additionalProperties: false
+> >
+>
+> Ack, will fix this. Thanks
+>
+> > > +
+> > > +examples:
+> > > +  - |
+> > > +    anx7688: anx7688@2c {
+> > > +      compatible = "analogix,anx7688";
+> > > +      reg = <0x2c>;
+> > > +
+> > > +      port {
+> > > +        anx7688_in: endpoint {
+> > > +          remote-endpoint = <&hdmi0_out>;
+> > > +        };
+> > > +      };
+> > > +    };
 
-In [1], nvmem is optional property, so I think you should use dev_dbg()
-or dev_info().
-
-[1]
-http://lists.infradead.org/pipermail/linux-mediatek/2019-December/025640.html
-
-> +		return -EINVAL;
-
-The caller does not process return value, so I think you don't need to
-return value.
-
-> +	}
-> +
-> +	buf = (u32 *)nvmem_cell_read(cell, &len);
-> +
-> +	nvmem_cell_put(cell);
-> +
-> +	if (IS_ERR(buf)) {
-> +		dev_warn(dev, "can't get data\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (len < 3 * sizeof(u32)) {
-> +		dev_warn(dev, "invalid calibration data\n");
-> +		kfree(buf);
-> +		return -EINVAL;
-> +	}
-> +
-> +	mipi_tx->rt_code[0] = ((buf[0] >> 6 & 0x1F) << 5) |
-
-You don't access rt_code[] out of this function, so I think this could
-be local variable.
-
-> +			      (buf[0] >> 11 & 0x1F);
-
-Lower case 0x1f.
-
-> +	mipi_tx->rt_code[1] = ((buf[1] >> 27 & 0x1F) << 5) |
-> +			      (buf[0] >> 1 & 0x1F);
-> +	mipi_tx->rt_code[2] = ((buf[1] >> 17 & 0x1F) << 5) |
-> +			      (buf[1] >> 22 & 0x1F);
-> +	mipi_tx->rt_code[3] = ((buf[1] >> 7 & 0x1F) << 5) |
-> +			      (buf[1] >> 12 & 0x1F);
-> +	mipi_tx->rt_code[4] = ((buf[2] >> 27 & 0x1F) << 5) |
-> +			      (buf[1] >> 2 & 0x1F);
-
-Why not just save rt_code in nvmem and you don't need to translate here?
-If you need to do so, please add description for this.
-
-> +
-> +	for (i = 0; i < 5; i++) {
-> +		if ((mipi_tx->rt_code[i] & 0x1F) == 0)
-> +			mipi_tx->rt_code[i] |= 0x10;
-> +
-> +		if ((mipi_tx->rt_code[i] >> 5 & 0x1F) == 0)
-> +			mipi_tx->rt_code[i] |= 0x10 << 5;
-> +
-> +		for (j = 0; j < 10; j++) {
-> +			mtk_mipi_tx_update_bits(mipi_tx,
-> +				MIPITX_D2P_RTCODE * (i + 1) + j * 4,
-> +				1, mipi_tx->rt_code[i] >> j & 1);
-> +		}
-
-There is only one statement in for-loop, so you could get rid of {}.
-
+-- 
 Regards,
-CK
 
-> +	}
-> +
-> +	kfree(buf);
-> +	return 0;
-> +}
-> +
->  static void mtk_mipi_tx_power_on_signal(struct phy *phy)
->  {
->  	struct mtk_mipi_tx *mipi_tx = phy_get_drvdata(phy);
-> @@ -130,6 +191,8 @@ static void mtk_mipi_tx_power_on_signal(struct phy *phy)
->  				RG_DSI_HSTX_LDO_REF_SEL,
->  				mipi_tx->mipitx_drive << 6);
->  
-> +	mtk_mipi_tx_config_calibration_data(mipi_tx);
-> +
->  	mtk_mipi_tx_set_bits(mipi_tx, MIPITX_CK_CKMODE_EN, DSI_CK_CKMODE_EN);
->  }
->  
-
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
