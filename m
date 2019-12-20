@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 151AA127C8F
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2019 15:30:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04E01127C93
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2019 15:30:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36D11898CC;
-	Fri, 20 Dec 2019 14:30:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F91589B9A;
+	Fri, 20 Dec 2019 14:30:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0986A897F3;
- Fri, 20 Dec 2019 14:30:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EBD68993B;
+ Fri, 20 Dec 2019 14:30:02 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 1023B222C2;
- Fri, 20 Dec 2019 14:29:59 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 791ED206CB;
+ Fri, 20 Dec 2019 14:30:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576852200;
- bh=3CFxgb1XYfVRl4xlSUpQXa/2v8fVOtiV7dJcNuwG3bE=;
+ s=default; t=1576852202;
+ bh=/I6+Hsqr6v9xI0xByVoqUjWM2QPpF2hzrFHfe/Pa7ms=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OyeQAaiGbJnTIpqiC3/FDOIUZX5W5bar7SIHnHB8M5CPeRqS0muMwfu0otystF90G
- L2f+RpOfkCXMORDbRhX6Q4IDuP2cXjIgQHhkeUSBmH7oSYVnvCw9yk4Ohcc1LNq5ht
- vQP7S0o8SLBTmCf7woNMTDZI71BKhT/1RpJt7Pmo=
+ b=zaNIOimS40/0b8fBRbFZibo7n0Lc+K5zrmRf6JieodJVpatnnb6QOkYBUmwl3se/l
+ /zxtQmPcFArVEYFOUfD+cC2fDle1F3dLVAYKxV/JSn6Hl9et92H3OBg6nUH40M9MaF
+ AGEqiC8ZP3syb4pz31RnFcvyULDvk/9vAFy7tFD0=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 04/52] drm/amdgpu: add check before
- enabling/disabling broadcast mode
-Date: Fri, 20 Dec 2019 09:29:06 -0500
-Message-Id: <20191220142954.9500-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 05/52] drm/amdgpu: add header line for power
+ profile on Arcturus
+Date: Fri, 20 Dec 2019 09:29:07 -0500
+Message-Id: <20191220142954.9500-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191220142954.9500-1-sashal@kernel.org>
 References: <20191220142954.9500-1-sashal@kernel.org>
@@ -50,81 +50,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Guchun Chen <guchun.chen@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ Evan Quan <evan.quan@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Guchun Chen <guchun.chen@amd.com>
+From: Alex Deucher <alexander.deucher@amd.com>
 
-[ Upstream commit 6e807535dae5dbbd53bcc5e81047a20bf5eb08ea ]
+[ Upstream commit 14891c316ca7e15d81dba78f30fb630e3f9ee2c9 ]
 
-When security violation from new vbios happens, data fabric is
-risky to stop working. So prevent the direct access to DF
-mmFabricConfigAccessControl from the new vbios and onwards.
+So the output is consistent with other asics.
 
-Signed-off-by: Guchun Chen <guchun.chen@amd.com>
-Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
+Reviewed-by: Evan Quan <evan.quan@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/df_v3_6.c | 38 ++++++++++++++++------------
- 1 file changed, 22 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/amd/powerplay/arcturus_ppt.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/df_v3_6.c b/drivers/gpu/drm/amd/amdgpu/df_v3_6.c
-index 5850c8e34caac..97d11d7923514 100644
---- a/drivers/gpu/drm/amd/amdgpu/df_v3_6.c
-+++ b/drivers/gpu/drm/amd/amdgpu/df_v3_6.c
-@@ -261,23 +261,29 @@ static void df_v3_6_update_medium_grain_clock_gating(struct amdgpu_device *adev,
- {
- 	u32 tmp;
+diff --git a/drivers/gpu/drm/amd/powerplay/arcturus_ppt.c b/drivers/gpu/drm/amd/powerplay/arcturus_ppt.c
+index d493a3f8c07a6..b68bf8dcfa783 100644
+--- a/drivers/gpu/drm/amd/powerplay/arcturus_ppt.c
++++ b/drivers/gpu/drm/amd/powerplay/arcturus_ppt.c
+@@ -1388,12 +1388,17 @@ static int arcturus_get_power_profile_mode(struct smu_context *smu,
+ 					"VR",
+ 					"COMPUTE",
+ 					"CUSTOM"};
++	static const char *title[] = {
++			"PROFILE_INDEX(NAME)"};
+ 	uint32_t i, size = 0;
+ 	int16_t workload_type = 0;
  
--	/* Put DF on broadcast mode */
--	adev->df_funcs->enable_broadcast_mode(adev, true);
--
--	if (enable && (adev->cg_flags & AMD_CG_SUPPORT_DF_MGCG)) {
--		tmp = RREG32_SOC15(DF, 0, mmDF_PIE_AON0_DfGlobalClkGater);
--		tmp &= ~DF_PIE_AON0_DfGlobalClkGater__MGCGMode_MASK;
--		tmp |= DF_V3_6_MGCG_ENABLE_15_CYCLE_DELAY;
--		WREG32_SOC15(DF, 0, mmDF_PIE_AON0_DfGlobalClkGater, tmp);
--	} else {
--		tmp = RREG32_SOC15(DF, 0, mmDF_PIE_AON0_DfGlobalClkGater);
--		tmp &= ~DF_PIE_AON0_DfGlobalClkGater__MGCGMode_MASK;
--		tmp |= DF_V3_6_MGCG_DISABLE;
--		WREG32_SOC15(DF, 0, mmDF_PIE_AON0_DfGlobalClkGater, tmp);
--	}
-+	if (adev->cg_flags & AMD_CG_SUPPORT_DF_MGCG) {
-+		/* Put DF on broadcast mode */
-+		adev->df_funcs->enable_broadcast_mode(adev, true);
+ 	if (!smu->pm_enabled || !buf)
+ 		return -EINVAL;
+ 
++	size += sprintf(buf + size, "%16s\n",
++			title[0]);
 +
-+		if (enable) {
-+			tmp = RREG32_SOC15(DF, 0,
-+					mmDF_PIE_AON0_DfGlobalClkGater);
-+			tmp &= ~DF_PIE_AON0_DfGlobalClkGater__MGCGMode_MASK;
-+			tmp |= DF_V3_6_MGCG_ENABLE_15_CYCLE_DELAY;
-+			WREG32_SOC15(DF, 0,
-+					mmDF_PIE_AON0_DfGlobalClkGater, tmp);
-+		} else {
-+			tmp = RREG32_SOC15(DF, 0,
-+					mmDF_PIE_AON0_DfGlobalClkGater);
-+			tmp &= ~DF_PIE_AON0_DfGlobalClkGater__MGCGMode_MASK;
-+			tmp |= DF_V3_6_MGCG_DISABLE;
-+			WREG32_SOC15(DF, 0,
-+					mmDF_PIE_AON0_DfGlobalClkGater, tmp);
-+		}
- 
--	/* Exit broadcast mode */
--	adev->df_funcs->enable_broadcast_mode(adev, false);
-+		/* Exit broadcast mode */
-+		adev->df_funcs->enable_broadcast_mode(adev, false);
-+	}
- }
- 
- static void df_v3_6_get_clockgating_state(struct amdgpu_device *adev,
+ 	for (i = 0; i <= PP_SMC_POWER_PROFILE_CUSTOM; i++) {
+ 		/*
+ 		 * Conv PP_SMC_POWER_PROFILE* to WORKLOAD_PPLIB_*_BIT
 -- 
 2.20.1
 
