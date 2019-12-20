@@ -1,56 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 294D41292C7
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2019 09:12:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 214831292E2
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2019 09:12:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECFD46E1F7;
-	Mon, 23 Dec 2019 08:10:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 064106E218;
+	Mon, 23 Dec 2019 08:10:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
- [IPv6:2607:f8b0:4864:20::d41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35C386EBCA
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2019 03:58:02 +0000 (UTC)
-Received: by mail-io1-xd41.google.com with SMTP id v3so8054253ioj.5
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 19:58:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=B4nCCF+EzJiIuxfjV2kTWNg3Z7MNbVOSCn8Lx8XGK8U=;
- b=Uu68m5g3z0N7oHxNK4TYLIAyQL54Y8wxUcLjSl2I3K3wgHJKJBUiAS1hKJHut9+Ozy
- KR3IK3MjEt3a+jdjt6m9JLZsgNfAcwdmW1QDt2LzrCQ8Pzb8W8/l0+9PjOwOuxx0WzFR
- vQLEf+/JQOavUARm496IWPyNLtwK7QcXRZ3n0=
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
+ [209.85.166.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B161F6EBCA
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2019 04:41:10 +0000 (UTC)
+Received: by mail-io1-f69.google.com with SMTP id b25so5279711ioh.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2019 20:41:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=B4nCCF+EzJiIuxfjV2kTWNg3Z7MNbVOSCn8Lx8XGK8U=;
- b=Jm7BJcRvxFg2tRs/wEW613yz+19q5lVnX1frRGocc7ureSp/1UoVX1rfe8rjYm4vDq
- YkAMRCfhLEvo4K6+INYMwFLJ40RP2Hb889OgN5R68PtXPa84sPlEo9i52lXATHUAm1fx
- KYjNxHOZRGJ7K1btzbXBvod/FdDiBtd4WMa25dWLPQOJT9agNdPjbd9IONDDkOQXlAiD
- w1g/+tAdoA8KVf4ba/l7Ctyu3PVRyAJqVEISE13+eAW6SqgcBV5HhuhXkt841I40Iuas
- b/UflFs0bz5zcRAaJreUzC2opBklfTB2MfaXIepir+yKTcDwIjkN2Mvo9JjlVoltDEAK
- yY1g==
-X-Gm-Message-State: APjAAAWCDZbMMOESuwMF8orzzp+GFawduw0uBztvC7Ws1s2NsqszkSbV
- n3tm2WE0sR8n/URKuldkfiVRSjCTLLT22mcfj4TLjQ==
-X-Google-Smtp-Source: APXvYqze2GCzHNzigs0wrMKV1f5dOTa2IoCFv0kR1FK9X5FibE53e4kl8NAd0VW+nLWtv2oN+HBirF/XchUbVIFRZMw=
-X-Received: by 2002:a05:6638:10e:: with SMTP id
- x14mr10484146jao.4.1576814281622; 
- Thu, 19 Dec 2019 19:58:01 -0800 (PST)
+ h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+ bh=4uPXf7+5cmKfc17p96HCeqIMddSPnfeSwGfxcNcV1vs=;
+ b=HEZFqVAqMqT8xOrI/vNS/hgkHZ2ix9SdeoyQH07XzpV+ntVEU8lvW/g5M/XiFx/55W
+ dRbvpb5QkYW+0pPfByPa2qNwYPlrGAl0MYd5yvWdHZwygMMUEG6ge0mFyR17iS9NS7fj
+ y5DjdlG164S5LsqEZK/0Wm4qyey76vp6QW+HmPICiXXvGRKSvqYkYCFvyeVA2NBNNBzC
+ SZWRB5UN/XJ4bO8//ZZqLAm4JfxzsMbUzU/HtzgzVxeaQ+TACL2EB87MuB2GusGz7DTv
+ LDDTyHHVcuRyQxSbHfiGCR/3wdn8PZtx6/4eDCYfap2GGwLPv/bx4LIq2R9j7SA/BZKJ
+ LE5A==
+X-Gm-Message-State: APjAAAWxY6+J987Hj0qbd3VjJU31lKyIfddQCUnFis0qr8A/DIqCcMWj
+ x28dG8IxG2ZaUJB0DReartS9XqTKIC1swZCfbI7Gz+lmY6Q/
+X-Google-Smtp-Source: APXvYqwGL1EOWqCo952R7Tl2YpRQuyx8C7wZ/6pdyILMGCFvseoNbsMAmysSfaivn8KYDekccEYeUYcwi0tfdA7kCi4JZS+4yKIo
 MIME-Version: 1.0
-References: <20191211061911.238393-1-hsinyi@chromium.org>
- <20191211061911.238393-4-hsinyi@chromium.org>
- <CAL_Jsq+jkgDj6-SH1FrnjB1CQmf33=XUwN3N_fw_aJsQm3Fq9A@mail.gmail.com>
- <CAJMQK-iwF78=2PDMxp=cvS3sotNi7kjj1ZoVO9q_axejUPdLYA@mail.gmail.com>
- <20191219204827.GA13740@bogus>
-In-Reply-To: <20191219204827.GA13740@bogus>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Fri, 20 Dec 2019 11:57:35 +0800
-Message-ID: <CAJMQK-jGw8kJFNjoHjeZUL+3NCiOS2hgGERnAnMwNsL_cm_J=Q@mail.gmail.com>
-Subject: Re: [PATCH RESEND 3/4] dt-bindings: drm/bridge: Add GPIO display mux
- binding
-To: Rob Herring <robh@kernel.org>
+X-Received: by 2002:a6b:a0a:: with SMTP id z10mr8157848ioi.190.1576816869932; 
+ Thu, 19 Dec 2019 20:41:09 -0800 (PST)
+Date: Thu, 19 Dec 2019 20:41:09 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000688674059a1b4925@google.com>
+Subject: KASAN: vmalloc-out-of-bounds Read in drm_fb_helper_dirty_work
+From: syzbot <syzbot+5d11928e253121e6c196@syzkaller.appspotmail.com>
+To: airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, sean@poorly.run, syzkaller-bugs@googlegroups.com
 X-Mailman-Approved-At: Mon, 23 Dec 2019 08:10:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,80 +53,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Devicetree List <devicetree@vger.kernel.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Nicolas Boichat <drinkcat@chromium.org>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Jonas Karlman <jonas@kwiboo.se>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Matthias Brugger <mbrugger@suse.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Russell King <rmk+kernel@arm.linux.org.uk>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"; DelSp="yes"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 20, 2019 at 4:48 AM Rob Herring <robh@kernel.org> wrote:
->
-> On Mon, Dec 16, 2019 at 03:16:23PM +0800, Hsin-Yi Wang wrote:
-> > On Sat, Dec 14, 2019 at 5:29 AM Rob Herring <robh+dt@kernel.org> wrote:
-> > >
-> > > On Wed, Dec 11, 2019 at 12:19 AM Hsin-Yi Wang <hsinyi@chromium.org> wrote:
-> > > >
-> > > > From: Nicolas Boichat <drinkcat@chromium.org>
-> > > >
-> > > > Add bindings for Generic GPIO mux driver.
-> > > >
-> > > > Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
-> > > > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> > > > ---
-> > > > Change from RFC to v1:
-> > > > - txt to yaml
-> > > > ---
-> > > >  .../bindings/display/bridge/gpio-mux.yaml     | 89 +++++++++++++++++++
-> > > >  1 file changed, 89 insertions(+)
-> > > >  create mode 100644 Documentation/devicetree/bindings/display/bridge/gpio-mux.yaml
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/display/bridge/gpio-mux.yaml b/Documentation/devicetree/bindings/display/bridge/gpio-mux.yaml
-> > > > new file mode 100644
-> > > > index 000000000000..cef098749066
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/display/bridge/gpio-mux.yaml
-> > > > @@ -0,0 +1,89 @@
-> > > > +# SPDX-License-Identifier: GPL-2.0
-> > > > +%YAML 1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/display/bridge/gpio-mux.yaml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > +
-> > > > +title: Generic display mux (1 input, 2 outputs)
-> > >
-> > > What makes it generic? Doesn't the mux chip have power supply,
-> > > possibly a reset line or not, etc.? What about a mux where the GPIO
-> > > controls the mux?
-> > >
-> > > Generally, we avoid 'generic' bindings because h/w is rarely generic.
-> > > You can have a generic driver which works on multiple devices.
-> > >
-> > Then how about making it mt8173-oak-gpio-mux? Since this is currently
-> > only used in this board.
->
-> Isn't there an underlying part# you can use? Or if you can point me to
-> multiple chips implementing the same thing, then maybe a generic binding
-> is fine.
-There are some similar chips, for example:
-https://www.paradetech.com/zh-hant/%E7%94%A2%E5%93%81%E4%BB%8B%E7%B4%B9/ps8223-3-0gbps-hdmi-12-demultiplexer/
-and http://www.ti.com/lit/ds/symlink/ts3dv642.pdf
-If they are used in a similar way
-(https://lore.kernel.org/lkml/CANMq1KDDEzPWhByEtn-EjNcg+ofVT2MW-hOXANGooYFOYJ35VA@mail.gmail.com/),
-they would need such driver. But currently we only know that mt8173
-oak board have this use case.
->
-> Rob
+Hello,
+
+syzbot found the following crash on:
+
+HEAD commit:    7e0165b2 Merge branch 'akpm' (patches from Andrew)
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=1619eb1ee00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=1b59a3066828ac4c
+dashboard link: https://syzkaller.appspot.com/bug?extid=5d11928e253121e6c196
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+userspace arch: i386
+
+Unfortunately, I don't have any reproducer for this crash yet.
+
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+5d11928e253121e6c196@syzkaller.appspotmail.com
+
+BUG: KASAN: vmalloc-out-of-bounds in memcpy include/linux/string.h:380  
+[inline]
+BUG: KASAN: vmalloc-out-of-bounds in drm_fb_helper_dirty_blit_real  
+drivers/gpu/drm/drm_fb_helper.c:399 [inline]
+BUG: KASAN: vmalloc-out-of-bounds in drm_fb_helper_dirty_work+0x44c/0x780  
+drivers/gpu/drm/drm_fb_helper.c:428
+Read of size 4096 at addr ffffc90008bc1000 by task kworker/1:3/17225
+
+CPU: 1 PID: 17225 Comm: kworker/1:3 Not tainted 5.5.0-rc2-syzkaller #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS  
+rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org 04/01/2014
+Workqueue: events drm_fb_helper_dirty_work
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0x197/0x210 lib/dump_stack.c:118
+  print_address_description.constprop.0.cold+0x5/0x30b mm/kasan/report.c:374
+  __kasan_report.cold+0x1b/0x41 mm/kasan/report.c:506
+  kasan_report+0x12/0x20 mm/kasan/common.c:639
+  check_memory_region_inline mm/kasan/generic.c:185 [inline]
+  check_memory_region+0x134/0x1a0 mm/kasan/generic.c:192
+  memcpy+0x24/0x50 mm/kasan/common.c:125
+  memcpy include/linux/string.h:380 [inline]
+  drm_fb_helper_dirty_blit_real drivers/gpu/drm/drm_fb_helper.c:399 [inline]
+  drm_fb_helper_dirty_work+0x44c/0x780 drivers/gpu/drm/drm_fb_helper.c:428
+  process_one_work+0x9af/0x1740 kernel/workqueue.c:2264
+  worker_thread+0x98/0xe40 kernel/workqueue.c:2410
+  kthread+0x361/0x430 kernel/kthread.c:255
+  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+
+
+Memory state around the buggy address:
+  ffffc90008bc0f00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  ffffc90008bc0f80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> ffffc90008bc1000: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+                    ^
+  ffffc90008bc1080: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+  ffffc90008bc1100: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+==================================================================
+
+
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
