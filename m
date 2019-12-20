@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 582CF127A6C
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2019 12:59:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82E69127A6D
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2019 12:59:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A73B6EC18;
-	Fri, 20 Dec 2019 11:59:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B644B6EC15;
+	Fri, 20 Dec 2019 11:59:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
  [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1CD16EC13
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2019 11:59:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5EFE6EC15
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2019 11:59:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576843183;
+ s=mimecast20190719; t=1576843186;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:in-reply-to:in-reply-to:references:references;
- bh=D5T5J2QDp0MajJleAAG6hZD/7a4+D+/uzfFvnFYb4i8=;
- b=WW9Lkst9WkGnnRNMRWujEiZSkwwvkKaFAoU2KLBZReu/HPeilTz+uMkUFcv0QqP8b9ASvP
- k4ZXz0MeRjyogbX6/QvD4uRBJ37ul6yTrlCpDocCzdQRootrJkRJUae/2JcyxNb2IbZG4x
- XJ8uC4GnU4w6prMBNGdfay8xogJM5y8=
+ bh=HPolVK3TlmNTaweClvM7JUT5pDu7rY7SbMpa8C96AzI=;
+ b=SPfCFJfDfHu/knBHrZZiIvlRehk7fa2j/pQV0oSpu9+bQgg0FvPq6XsUS65ZzwQGbSCb+v
+ EYQUb9FuPMWjJelc/ECNG5WTfV9ytKiXAb+z18pwodBlpL0fPn34u7aQ0ATaCip0LyOmqi
+ oJH/EVPJeEQ0uS5mmZFWcR+H7bg45iY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-396-eCweR4JBNFW6n5qATd_Tug-1; Fri, 20 Dec 2019 06:59:40 -0500
-X-MC-Unique: eCweR4JBNFW6n5qATd_Tug-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-274-Q0IPQFIwPF6epFmzkN29FQ-1; Fri, 20 Dec 2019 06:59:40 -0500
+X-MC-Unique: Q0IPQFIwPF6epFmzkN29FQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28670801E66;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E5942275;
  Fri, 20 Dec 2019 11:59:39 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-98.ams2.redhat.com
  [10.36.116.98])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7D16D63BAC;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A796F6B566;
  Fri, 20 Dec 2019 11:59:36 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C20FA3F13F; Fri, 20 Dec 2019 12:59:35 +0100 (CET)
+ id E25BA40060; Fri, 20 Dec 2019 12:59:35 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/4] drm/virtio: add drm_driver.release callback.
-Date: Fri, 20 Dec 2019 12:59:34 +0100
-Message-Id: <20191220115935.15152-4-kraxel@redhat.com>
+Subject: [PATCH 4/4] drm/qxl: add drm_driver.release callback.
+Date: Fri, 20 Dec 2019 12:59:35 +0100
+Message-Id: <20191220115935.15152-5-kraxel@redhat.com>
 In-Reply-To: <20191220115935.15152-1-kraxel@redhat.com>
 References: <20191220115935.15152-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,108 +58,104 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
+ <virtualization@lists.linux-foundation.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>,
+ Dave Airlie <airlied@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Split virtio_gpu_deinit(), move the drm shutdown and release to
-virtio_gpu_release().  Also free vbufs in case we can't queue them.
+Move final cleanups to qxl_drm_release() callback.
+Add drm_atomic_helper_shutdown() call to qxl_pci_remove().
+
+Reorder calls in qxl_device_fini().  Cleaning up gem & ttm
+might trigger qxl commands, so we should do that before
+releaseing command rings.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- drivers/gpu/drm/virtio/virtgpu_drv.h | 1 +
- drivers/gpu/drm/virtio/virtgpu_drv.c | 4 ++++
- drivers/gpu/drm/virtio/virtgpu_kms.c | 5 +++++
- drivers/gpu/drm/virtio/virtgpu_vq.c  | 8 ++++++--
- 4 files changed, 16 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/qxl/qxl_drv.c | 21 ++++++++++++++-------
+ drivers/gpu/drm/qxl/qxl_kms.c |  8 ++++----
+ 2 files changed, 18 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 7e69c06e168e..227f7c07e61c 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -216,6 +216,7 @@ extern struct drm_ioctl_desc virtio_gpu_ioctls[DRM_VIRTIO_NUM_IOCTLS];
- /* virtio_kms.c */
- int virtio_gpu_init(struct drm_device *dev);
- void virtio_gpu_deinit(struct drm_device *dev);
-+void virtio_gpu_release(struct drm_device *dev);
- int virtio_gpu_driver_open(struct drm_device *dev, struct drm_file *file);
- void virtio_gpu_driver_postclose(struct drm_device *dev, struct drm_file *file);
- 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
-index 8cf27af3ad53..664a741a3b0b 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-@@ -31,6 +31,7 @@
+diff --git a/drivers/gpu/drm/qxl/qxl_drv.c b/drivers/gpu/drm/qxl/qxl_drv.c
+index 1d601f57a6ba..8044363ba0f2 100644
+--- a/drivers/gpu/drm/qxl/qxl_drv.c
++++ b/drivers/gpu/drm/qxl/qxl_drv.c
+@@ -34,6 +34,7 @@
  #include <linux/pci.h>
  
  #include <drm/drm.h>
 +#include <drm/drm_atomic_helper.h>
  #include <drm/drm_drv.h>
  #include <drm/drm_file.h>
- 
-@@ -136,6 +137,7 @@ static void virtio_gpu_remove(struct virtio_device *vdev)
- 	struct drm_device *dev = vdev->priv;
- 
- 	drm_dev_unregister(dev);
-+	drm_atomic_helper_shutdown(dev);
- 	virtio_gpu_deinit(dev);
- 	drm_dev_put(dev);
+ #include <drm/drm_modeset_helper.h>
+@@ -132,21 +133,25 @@ qxl_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	return ret;
  }
-@@ -214,4 +216,6 @@ static struct drm_driver driver = {
- 	.major = DRIVER_MAJOR,
- 	.minor = DRIVER_MINOR,
- 	.patchlevel = DRIVER_PATCHLEVEL,
+ 
++static void qxl_drm_release(struct drm_device *dev)
++{
++	struct qxl_device *qdev = dev->dev_private;
 +
-+	.release = virtio_gpu_release,
- };
-diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index 2f5773e43557..387f05a9cc18 100644
---- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -237,6 +237,11 @@ void virtio_gpu_deinit(struct drm_device *dev)
- 	flush_work(&vgdev->config_changed_work);
- 	vgdev->vdev->config->reset(vgdev->vdev);
- 	vgdev->vdev->config->del_vqs(vgdev->vdev);
++	qxl_modeset_fini(qdev);
++	qxl_device_fini(qdev);
++	dev->dev_private = NULL;
++	kfree(qdev);
 +}
 +
-+void virtio_gpu_release(struct drm_device *dev)
-+{
-+	struct virtio_gpu_device *vgdev = dev->dev_private;
+ static void
+ qxl_pci_remove(struct pci_dev *pdev)
+ {
+ 	struct drm_device *dev = pci_get_drvdata(pdev);
+-	struct qxl_device *qdev = dev->dev_private;
  
- 	virtio_gpu_modeset_fini(vgdev);
- 	virtio_gpu_free_vbufs(vgdev);
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-index 5914e79d3429..619c6108d07e 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vq.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-@@ -319,8 +319,10 @@ static bool virtio_gpu_queue_ctrl_buffer_locked(struct virtio_gpu_device *vgdev,
- 	bool notify = false;
- 	int ret;
+ 	drm_dev_unregister(dev);
+-
+-	qxl_modeset_fini(qdev);
+-	qxl_device_fini(qdev);
++	drm_atomic_helper_shutdown(dev);
+ 	if (is_vga(pdev))
+ 		vga_put(pdev, VGA_RSRC_LEGACY_IO);
+-
+-	dev->dev_private = NULL;
+-	kfree(qdev);
+ 	drm_dev_put(dev);
+ }
  
--	if (!vgdev->vqs_ready)
-+	if (!vgdev->vqs_ready) {
-+		free_vbuf(vgdev, vbuf);
- 		return notify;
-+	}
+@@ -279,6 +284,8 @@ static struct drm_driver qxl_driver = {
+ 	.major = 0,
+ 	.minor = 1,
+ 	.patchlevel = 0,
++
++	.release = qxl_drm_release,
+ };
  
- 	sg_init_one(&vcmd, vbuf->buf, vbuf->size);
- 	sgs[outcnt + incnt] = &vcmd;
-@@ -447,8 +449,10 @@ static void virtio_gpu_queue_cursor(struct virtio_gpu_device *vgdev,
- 	int ret;
- 	int outcnt;
- 
--	if (!vgdev->vqs_ready)
-+	if (!vgdev->vqs_ready) {
-+		free_vbuf(vgdev, vbuf);
- 		return;
-+	}
- 
- 	sg_init_one(&ccmd, vbuf->buf, vbuf->size);
- 	sgs[0] = &ccmd;
+ static int __init qxl_init(void)
+diff --git a/drivers/gpu/drm/qxl/qxl_kms.c b/drivers/gpu/drm/qxl/qxl_kms.c
+index bfc1631093e9..70b20ee4741a 100644
+--- a/drivers/gpu/drm/qxl/qxl_kms.c
++++ b/drivers/gpu/drm/qxl/qxl_kms.c
+@@ -299,12 +299,12 @@ void qxl_device_fini(struct qxl_device *qdev)
+ {
+ 	qxl_bo_unref(&qdev->current_release_bo[0]);
+ 	qxl_bo_unref(&qdev->current_release_bo[1]);
+-	flush_work(&qdev->gc_work);
+-	qxl_ring_free(qdev->command_ring);
+-	qxl_ring_free(qdev->cursor_ring);
+-	qxl_ring_free(qdev->release_ring);
+ 	qxl_gem_fini(qdev);
+ 	qxl_bo_fini(qdev);
++	flush_work(&qdev->gc_work);
++	qxl_ring_free(qdev->command_ring);
++	qxl_ring_free(qdev->cursor_ring);
++	qxl_ring_free(qdev->release_ring);
+ 	io_mapping_free(qdev->surface_mapping);
+ 	io_mapping_free(qdev->vram_mapping);
+ 	iounmap(qdev->ram_header);
 -- 
 2.18.1
 
