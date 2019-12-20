@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81FA9127D29
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2019 15:35:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05A06127D9B
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2019 15:38:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 866C76EC4B;
-	Fri, 20 Dec 2019 14:35:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E1246EC50;
+	Fri, 20 Dec 2019 14:37:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E4C86EC4B;
- Fri, 20 Dec 2019 14:35:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 536646EC4F;
+ Fri, 20 Dec 2019 14:37:55 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3ED1824684;
- Fri, 20 Dec 2019 14:35:03 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 5F25B24680;
+ Fri, 20 Dec 2019 14:37:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576852504;
+ s=default; t=1576852675;
  bh=xM2oklz4FFAtArOB5pqVPEnxLppXiEvGloY3AoOlOlk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=U5/RHiFcWilLMVTzrgYr5nYt8vE8/EouGZ13o/yAdfvje8XqL+ivNuJs+qcX9ylVk
- +12bSL5U4OOH4MZ7+U3HkLRbCV3nsi3rrC7YD4LmdNzOyxeWYiLvoqwu+rVhjMIzFu
- ga5N9ZJTo4Y8O5GT72+WxOF9BG/1DkQ25zj4Bwns=
+ b=CNMw1DZ2YsC+U7S9tZQMktGWuLTcs5qLnrlbfqS9oUVTt5iDjS+TCsXPsdrOqOrrl
+ GzNcRSImbTubCdJKthoNS6Uk8lDWF37tJUlyFbrFBrnmEfK6YwqFvHngT82VHht2k7
+ Bft+FoSc4G8KmqRP7vdRE+XewrQWz0AhOKBvK/mc=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 23/34] drm/nouveau: Move the declaration of
+Subject: [PATCH AUTOSEL 4.14 10/19] drm/nouveau: Move the declaration of
  struct nouveau_conn_atom up a bit
-Date: Fri, 20 Dec 2019 09:34:22 -0500
-Message-Id: <20191220143433.9922-23-sashal@kernel.org>
+Date: Fri, 20 Dec 2019 09:37:31 -0500
+Message-Id: <20191220143741.10220-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191220143433.9922-1-sashal@kernel.org>
-References: <20191220143433.9922-1-sashal@kernel.org>
+In-Reply-To: <20191220143741.10220-1-sashal@kernel.org>
+References: <20191220143741.10220-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
