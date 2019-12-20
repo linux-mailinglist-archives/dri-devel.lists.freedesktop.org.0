@@ -1,35 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 708531292DD
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2019 09:12:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69B881292DA
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2019 09:12:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B91486E216;
-	Mon, 23 Dec 2019 08:10:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77DCD6E1C4;
+	Mon, 23 Dec 2019 08:10:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 926 seconds by postgrey-1.36 at gabe;
- Fri, 20 Dec 2019 06:58:55 UTC
-Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AE0F6EBDA;
- Fri, 20 Dec 2019 06:58:55 +0000 (UTC)
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 3CFA743E4384F83CC730;
- Fri, 20 Dec 2019 14:43:25 +0800 (CST)
-Received: from linux-lmwb.huawei.com (10.175.103.112) by
- DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
- 14.3.439.0; Fri, 20 Dec 2019 14:43:23 +0800
-From: Ma Feng <mafeng.ma@huawei.com>
-To: Alex Deucher <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
- <David1.Zhou@amd.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>
-Subject: [PATCH] drm/amdgpu: Remove unneeded variable 'ret' in amdgpu_device.c
-Date: Fri, 20 Dec 2019 14:44:13 +0800
-Message-ID: <1576824253-47863-1-git-send-email-mafeng.ma@huawei.com>
-X-Mailer: git-send-email 2.6.2
+Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C83BF6EBDA
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2019 06:59:26 +0000 (UTC)
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id BD535BB4347BE60FDE57;
+ Fri, 20 Dec 2019 14:59:22 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
+ 14.3.439.0; Fri, 20 Dec 2019 14:59:13 +0800
+From: Chen Zhou <chenzhou10@huawei.com>
+To: <harry.wentland@amd.com>, <sunpeng.li@amd.com>, <alexander.deucher@amd.com>
+Subject: [PATCH next] drm/amd/display: make some symbols static
+Date: Fri, 20 Dec 2019 14:55:57 +0800
+Message-ID: <20191220065557.151393-1-chenzhou10@huawei.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Originating-IP: [10.175.103.112]
+X-Originating-IP: [10.175.113.25]
 X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Mon, 23 Dec 2019 08:10:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -44,47 +40,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: chenzhou10@huawei.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fixes coccicheck warning:
+Make some structs and functions static to fix build warnings, parts of
+warnings are as follows:
 
-drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:1036:5-8: Unneeded variable: "ret". Return "0" on line 1079
+drivers/gpu/drm/amd/amdgpu/../display/dc/dce110/dce110_resource.c:744:21:
+	warning: symbol 'dce110_clock_source_create' was not declared. Should it be static?
+drivers/gpu/drm/amd/amdgpu/../display/dc/dce110/dce110_resource.c:768:6:
+	warning: symbol 'dce110_clock_source_destroy' was not declared. Should it be static?
 
 Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Ma Feng <mafeng.ma@huawei.com>
+Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 080ec18..6a4b142 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -1033,8 +1033,6 @@ static void amdgpu_device_check_smu_prv_buffer_size(struct amdgpu_device *adev)
-  */
- static int amdgpu_device_check_arguments(struct amdgpu_device *adev)
- {
--	int ret = 0;
--
- 	if (amdgpu_sched_jobs < 4) {
- 		dev_warn(adev->dev, "sched jobs (%d) must be at least 4\n",
- 			 amdgpu_sched_jobs);
-@@ -1076,7 +1074,7 @@ static int amdgpu_device_check_arguments(struct amdgpu_device *adev)
-
- 	adev->tmz.enabled = amdgpu_is_tmz(adev);
-
--	return ret;
-+	return 0;
+diff --git a/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c b/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c
+index bf14e9a..87227db 100644
+--- a/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c
+@@ -741,7 +741,7 @@ struct dce_i2c_hw *dce110_i2c_hw_create(
+ 
+ 	return dce_i2c_hw;
  }
-
- /**
---
-2.6.2
+-struct clock_source *dce110_clock_source_create(
++static struct clock_source *dce110_clock_source_create(
+ 	struct dc_context *ctx,
+ 	struct dc_bios *bios,
+ 	enum clock_source_id id,
+@@ -765,7 +765,7 @@ struct clock_source *dce110_clock_source_create(
+ 	return NULL;
+ }
+ 
+-void dce110_clock_source_destroy(struct clock_source **clk_src)
++static void dce110_clock_source_destroy(struct clock_source **clk_src)
+ {
+ 	struct dce110_clk_src *dce110_clk_src;
+ 
+@@ -1007,7 +1007,7 @@ static bool dce110_validate_bandwidth(
+ 	return result;
+ }
+ 
+-enum dc_status dce110_validate_plane(const struct dc_plane_state *plane_state,
++static enum dc_status dce110_validate_plane(const struct dc_plane_state *plane_state,
+ 				     struct dc_caps *caps)
+ {
+ 	if (((plane_state->dst_rect.width * 2) < plane_state->src_rect.width) ||
+@@ -1062,7 +1062,7 @@ static bool dce110_validate_surface_sets(
+ 	return true;
+ }
+ 
+-enum dc_status dce110_validate_global(
++static enum dc_status dce110_validate_global(
+ 		struct dc *dc,
+ 		struct dc_state *context)
+ {
+@@ -1305,7 +1305,7 @@ static void bw_calcs_data_update_from_pplib(struct dc *dc)
+ 		1000);
+ }
+ 
+-const struct resource_caps *dce110_resource_cap(
++static const struct resource_caps *dce110_resource_cap(
+ 	struct hw_asic_id *asic_id)
+ {
+ 	if (ASIC_REV_IS_STONEY(asic_id->hw_internal_rev))
+-- 
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
