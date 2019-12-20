@@ -2,35 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79DD81279A1
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2019 11:50:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 751A3127A66
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2019 12:59:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0A5F89E23;
-	Fri, 20 Dec 2019 10:50:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA6916EC14;
+	Fri, 20 Dec 2019 11:59:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C7DF89D9A;
- Fri, 20 Dec 2019 10:50:12 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 20 Dec 2019 02:50:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,335,1571727600"; d="scan'208";a="218778115"
-Received: from ideak-desk.fi.intel.com ([10.237.72.183])
- by orsmga003.jf.intel.com with ESMTP; 20 Dec 2019 02:50:09 -0800
-From: Imre Deak <imre.deak@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 14/15] drm/framebuffer: Format modifier for Intel Gen 12
- render compression with Clear Color
-Date: Fri, 20 Dec 2019 12:49:31 +0200
-Message-Id: <20191220104931.12135-7-imre.deak@intel.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20191218161105.30638-15-imre.deak@intel.com>
-References: <20191218161105.30638-15-imre.deak@intel.com>
-MIME-Version: 1.0
+Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59F656EC13
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2019 11:59:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576843182;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=on7M6DYkL3LN7Af9v033QH5Z3XPAJIZt0Dy7GNDlSpI=;
+ b=Cdx0k5ZSsOCJARs/jWuMTg9CQz9ttpRIAhuu7henpmBrm5HqsfftFD6FNEfN1EP4lCmP+k
+ Kg6EJA3TJUlHgodpJe9aeNhU5zjuZochBUWEGJzH8vHiboglrF0beLaD54WRsfNlnu6Qmu
+ hIL+moV/BjVfHJ0Xpub9PaEun81VapE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-13-2DSfQ71QPcyrye-h0oHKYg-1; Fri, 20 Dec 2019 06:59:39 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D29A7107ACC5
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2019 11:59:38 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-98.ams2.redhat.com
+ [10.36.116.98])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3730C60BEC;
+ Fri, 20 Dec 2019 11:59:36 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 617993F13C; Fri, 20 Dec 2019 12:59:35 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/4] drm: add release callbacks to qemu drivers.
+Date: Fri, 20 Dec 2019 12:59:31 +0100
+Message-Id: <20191220115935.15152-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: 2DSfQ71QPcyrye-h0oHKYg-1
+X-Mimecast-Spam-Score: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,75 +56,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nanley Chery <nanley.g.chery@intel.com>,
- Radhakrishna Sripada <radhakrishna.sripada@intel.com>,
- dri-devel@lists.freedesktop.org,
- Dhinakaran Pandiyan <dhinakaran.pandiyan@intel.com>,
- Mika Kahola <mika.kahola@intel.com>,
- Kalyan Kondapally <kalyan.kondapally@intel.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
 
-Gen12 display can decompress surfaces compressed by render engine with
-Clear Color, add a new modifier as the driver needs to know the surface
-was compressed by render engine.
 
-V2: Description changes as suggested by Rafael.
-V3: Mention the Clear Color size of 64 bits in the comments(DK)
-v4: Fix trailing whitespaces
-v5: Explain Clear Color in the documentation.
-v6: Documentation Nitpicks(Nanley)
+Gerd Hoffmann (3):
+  drm/cirrus: add drm_driver.release callback.
+  drm/virtio: add drm_driver.release callback.
+  drm/qxl: add drm_driver.release callback.
 
-Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
-Cc: Dhinakaran Pandiyan <dhinakaran.pandiyan@intel.com>
-Cc: Kalyan Kondapally <kalyan.kondapally@intel.com>
-Cc: Rafael Antognolli <rafael.antognolli@intel.com>
-Cc: Nanley Chery <nanley.g.chery@intel.com>
-Cc: Mika Kahola <mika.kahola@intel.com>
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
-Signed-off-by: Imre Deak <imre.deak@intel.com>
-Reviewed-by: Mika Kahola <mika.kahola@intel.com>
----
- include/uapi/drm/drm_fourcc.h | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+Gurchetan Singh (1):
+  drm/bochs: add drm_driver.release callback.
 
-diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-index 8bc0b31597d8..1c9c3991cab6 100644
---- a/include/uapi/drm/drm_fourcc.h
-+++ b/include/uapi/drm/drm_fourcc.h
-@@ -434,6 +434,25 @@ extern "C" {
-  */
- #define I915_FORMAT_MOD_Y_TILED_GEN12_MC_CCS fourcc_mod_code(INTEL, 7)
- 
-+/*
-+ * Intel Color Control Surface with Clear Color (CCS) for Gen-12 render
-+ * compression.
-+ *
-+ * The main surface is Y-tiled and is at plane index 0 whereas CCS is linear
-+ * and at index 1. The clear color is stored at index 2, and the pitch should
-+ * be ignored. The clear color structure is 256 bits. The first 128 bits
-+ * represents Raw Clear Color Red, Green, Blue and Alpha color each represented
-+ * by 32 bits. The raw clear color is consumed by the 3d engine and generates
-+ * the converted clear color of size 64 bits. The first 32 bits store the Lower
-+ * Converted Clear Color value and the next 32 bits store the Higher Converted
-+ * Clear Color value when applicable. The Converted Clear Color values are
-+ * consumed by the DE. The last 64 bits are used to store Color Discard Enable
-+ * and Depth Clear Value Valid which are ignored by the DE. A CCS cache line
-+ * corresponds to an area of 4x1 tiles in the main surface. The main surface
-+ * pitch is required to be a multiple of 4 tile widths.
-+ */
-+#define I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS_CC fourcc_mod_code(INTEL, 8)
-+
- /*
-  * Tiled, NV12MT, grouped in 64 (pixels) x 32 (lines) -sized macroblocks
-  *
+ drivers/gpu/drm/virtio/virtgpu_drv.h |  1 +
+ drivers/gpu/drm/bochs/bochs_drv.c    |  9 +++++++--
+ drivers/gpu/drm/cirrus/cirrus.c      | 17 ++++++++++++-----
+ drivers/gpu/drm/qxl/qxl_drv.c        | 21 ++++++++++++++-------
+ drivers/gpu/drm/qxl/qxl_kms.c        |  8 ++++----
+ drivers/gpu/drm/virtio/virtgpu_drv.c |  4 ++++
+ drivers/gpu/drm/virtio/virtgpu_kms.c |  5 +++++
+ drivers/gpu/drm/virtio/virtgpu_vq.c  |  8 ++++++--
+ 8 files changed, 53 insertions(+), 20 deletions(-)
+
 -- 
-2.22.0
+2.18.1
 
 _______________________________________________
 dri-devel mailing list
