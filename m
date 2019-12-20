@@ -1,69 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FB351292BA
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2019 09:11:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECBF51292AA
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2019 09:11:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41DAB6E1F3;
-	Mon, 23 Dec 2019 08:10:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 086216E1B8;
+	Mon, 23 Dec 2019 08:10:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com
- [IPv6:2607:f8b0:4864:20::f44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C4FB6E05D
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2019 13:34:26 +0000 (UTC)
-Received: by mail-qv1-xf44.google.com with SMTP id t6so3612381qvs.5
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2019 05:34:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=5r9Zi+Au/gtKbsFaE0fKhn5Z9mh4Uiv+qjM4b27ESt8=;
- b=gS91bsS4NjRyWzEDV454oc5qOgomjYBCltRmKzH7Nu9vdI8tQd65a6Yp2TVGSlgA1T
- 37v5Lb1zFtvOvSi94i0Yt83/4AqEpVzmzRwSkFPiESUgqKx4PUFqFCjV/s3xXBOVi9U4
- w+ZUvVeXy6xbZ8B7zSi+DLnr0w1yjX7v6UIJiebq6UOkRZYcGvU4/THsXU/G/ZDo26P9
- Xc2y8nF265eAeIX5xgl66hBVWEixNbJ1XzQjNRNan6ViT+Wn6RFHm+C8bWOAWNCFyUU3
- D0D+BCr//3+mjkgiCcFfBfObTFOz8gI7nHowmgBdF1XYr9LIFcBR6SXbWA6e0W7l8hfH
- tNRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=5r9Zi+Au/gtKbsFaE0fKhn5Z9mh4Uiv+qjM4b27ESt8=;
- b=VaDo2kNZySFrDIyn2gXOWl1Ut1T1odbPb7sbg0hfO/yUUIXt2q/B9Hh9UpD2C2p3T1
- J/Ee9YbuFAWiNnTqPj4P/bMpEhnW7ZPVK8XW/Ys3qzLC7buSKSQHBtxtAa75fnCtT3L/
- ++qDEd+xMDOLGiMBav0l5cjcexvzOv2MYAF8WnnxrIvGg9fFyieZXgd0vc+w5G7FwCVO
- ca6YApCMy+LeIRnYhtFJRPR+5fh7vCiDqC2GERkSIz0TZu66Fkl8ii2hmcEnwA8jCQwe
- yVx/RJz1OtouypBieku3ItTqds9ao58i6xb80jTWy6tyzCptMQ3cYThy6/NIljn2pPIx
- 1SMQ==
-X-Gm-Message-State: APjAAAXJSqvA9NknNUWJ5mWZPjqQI59ap937rOiGccwB3pCpRmuhJ+cd
- uEwmJxKouy+4GbwQ8lnDW+dHPQ==
-X-Google-Smtp-Source: APXvYqz9az5JjtCMEl1OLVSzBMZYIFm7RbLMGJ3PjpAUx1pKMUVrf5ynor78RCoLoFWtbwHwcCO7NQ==
-X-Received: by 2002:a0c:893d:: with SMTP id 58mr4949386qvp.4.1576848864984;
- Fri, 20 Dec 2019 05:34:24 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.68.57.212])
- by smtp.gmail.com with ESMTPSA id q73sm2786969qka.56.2019.12.20.05.34.23
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Fri, 20 Dec 2019 05:34:24 -0800 (PST)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
- (envelope-from <jgg@ziepe.ca>)
- id 1iiIQB-0003cq-Co; Fri, 20 Dec 2019 09:34:23 -0400
-Date: Fri, 20 Dec 2019 09:34:23 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: John Hubbard <jhubbard@nvidia.com>
-Subject: Re: [PATCH v11 00/25] mm/gup: track dma-pinned pages: FOLL_PIN
-Message-ID: <20191220133423.GA13506@ziepe.ca>
-References: <20191216222537.491123-1-jhubbard@nvidia.com>
- <20191219132607.GA410823@unreal>
- <a4849322-8e17-119e-a664-80d9f95d850b@nvidia.com>
- <20191219210743.GN17227@ziepe.ca>
- <42a3e5c1-6301-db0b-5d09-212edf5ecf2a@nvidia.com>
+Received: from EUR03-VE1-obe.outbound.protection.outlook.com
+ (mail-eopbgr50051.outbound.protection.outlook.com [40.107.5.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 923066E061;
+ Fri, 20 Dec 2019 13:45:36 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GUflxqZUiD9xyXj63/lAzz9Nt8E9uicRnIqyEJZ9VCJ8sI6mITQ539u/KIlJauS+Zz65u+JNi5mJR0I1w4W+YvM6HMSheVGv1SVaAKsukjFIeI56YgceGGKRvlt+42EYB23fWS62n0DQmsTwGNuvTR3Tkl4iCsu95FELu+mrUVhYgRphHsuESWVYdcMX56HLFqLaGAKPxY3X+kNdMI2l/TVrTdoCceZ3GsfAnld7Ch5jJsCwz0UgWTg+d1LXRvnVCaD/0u1iqu22sIUw6BXLh4SlrTWEadqwuTFsDjpR/ojzwV30VTRsQB09IudiUm9KEl8eYeqrfh3UTiG4+z2bIg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NlU172fXnhIILXI5qa5xCkkFFSaMSnId4T0nVx/nBkg=;
+ b=QG8Rl7uPKsNJo5A5ktODGvV40H3gk8buBgCjP8gJgIwFIbnLdfY/fwBWLLsoofJzHmt1tANHSr8VW430pStkH7iLBAjOLETdGHpaIqPgPvAwanCbMkK64bjDGTArE5jrh6Pk/vNEotHKAe49Eb21iXI7nfM+AEA8cMGJJg4XmZ452DkMOjinIB0AhPkFItqdXGxE47jfF4FXGg/4W1DNnZz5ek/OB8dtTXhouHmMUZZPuoZhrQGKxxnIip1SNQJbgZWls4IqreQ+GWeFCujsANL6+8/p3xtCvCJSJrWqVq+GEQoAxfNi6L2BxGg3rxRPvmrrtwjFRFFf9lz9880r6A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
+ dkim=pass header.d=mellanox.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NlU172fXnhIILXI5qa5xCkkFFSaMSnId4T0nVx/nBkg=;
+ b=oRskD7rufY7V/whYRqbUlnv06HYjhAi0A3BZPaFTHoUKP5NCG5enAIJIh6UblQZaa1U4Qd1TgyHqdzqyhmAm/4pOkC5oYJUi+WZ5t63lgGzfkUg8GlueLm91VKEW1n+sI7679/7M14k662uH7TBkw4TsJuw6uy6UhMC70atvI50=
+Received: from VI1PR05MB4141.eurprd05.prod.outlook.com (52.133.14.15) by
+ VI1PR05MB6256.eurprd05.prod.outlook.com (20.178.204.84) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2559.14; Fri, 20 Dec 2019 13:45:33 +0000
+Received: from VI1PR05MB4141.eurprd05.prod.outlook.com
+ ([fe80::18df:a0fe:18eb:a96b]) by VI1PR05MB4141.eurprd05.prod.outlook.com
+ ([fe80::18df:a0fe:18eb:a96b%6]) with mapi id 15.20.2559.012; Fri, 20 Dec 2019
+ 13:45:33 +0000
+From: Jason Gunthorpe <jgg@mellanox.com>
+To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+Subject: Re: [RFC v2 05/12] drm/i915/svm: Page table mirroring support
+Thread-Topic: [RFC v2 05/12] drm/i915/svm: Page table mirroring support
+Thread-Index: AQHVsgG/1g0JQ+cEg0CVcAhvy37lc6e+zcmAgAG23ICAAo7SgA==
+Date: Fri, 20 Dec 2019 13:45:33 +0000
+Message-ID: <20191220134529.GW16762@mellanox.com>
+References: <20191213215614.24558-1-niranjana.vishwanathapura@intel.com>
+ <20191213215614.24558-6-niranjana.vishwanathapura@intel.com>
+ <20191217203103.GG16762@mellanox.com>
+ <20191218224147.GB17413@nvishwa1-DESK.sc.intel.com>
+In-Reply-To: <20191218224147.GB17413@nvishwa1-DESK.sc.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: MN2PR13CA0013.namprd13.prod.outlook.com
+ (2603:10b6:208:160::26) To VI1PR05MB4141.eurprd05.prod.outlook.com
+ (2603:10a6:803:44::15)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=jgg@mellanox.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [142.68.57.212]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 31a0451c-deda-41aa-7970-08d78552e2aa
+x-ms-traffictypediagnostic: VI1PR05MB6256:
+x-microsoft-antispam-prvs: <VI1PR05MB6256F23CA6D3A23391680D39CF2D0@VI1PR05MB6256.eurprd05.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 025796F161
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(4636009)(136003)(396003)(366004)(39860400002)(376002)(346002)(199004)(189003)(66556008)(66476007)(2616005)(26005)(5660300002)(81166006)(66446008)(186003)(1076003)(66946007)(64756008)(6916009)(52116002)(6486002)(71200400001)(8936002)(2906002)(7416002)(478600001)(54906003)(33656002)(4326008)(86362001)(6512007)(36756003)(8676002)(6506007)(81156014)(316002)(21314003);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR05MB6256;
+ H:VI1PR05MB4141.eurprd05.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: mellanox.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ZEN1gy9zfyUUCXS1xaeg25viukm2lp3JZfzj8NsTkZqvm2xg/PML08WfilKnz4wp37dnF1eoN5CC2Dc4Ss4HWhRmnzPbi8AN896JFPOg71OHgr4FKcxHePXyadXSowaRkpalte/oINgYd7e4brXUh7bpnuvaTYrEzSWuhrX7dH+FbrSrkDhamYYxbL55a+3ozBvX2OjjronLvWEnip5YmOIb54ihNQAX7THyoduSh1+HwVpfbDEIC7EB9XJjjfg/ffsGcUO1ENmhlYkGMwoEkKGjeVVO11n3Ot5j1ryOgjw6QdqCNpG5xRnmIcO4iQ9Yh44qtunP0r5UI/eECh5cA/JFPaBPA2/GqcHA1ZP+OM3553O5Re0clJ4XauaUsN+KcrXENwptJPMOfT2Ew5Gc/sATE9EmKPB3e6gquGRQpAuERLbp4/WyxBTimD02JVqfdp3uqbIoimJmlQSBjmUzDxexsUImvaLODgNiaJBc19OH+qdpA8n83LLT/7cUXwHE
+x-ms-exchange-transport-forked: True
+Content-ID: <D04A178D2FE0F244AA59E0BA5FD62278@eurprd05.prod.outlook.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <42a3e5c1-6301-db0b-5d09-212edf5ecf2a@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 31a0451c-deda-41aa-7970-08d78552e2aa
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Dec 2019 13:45:33.5038 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0zGW78S7s/pOv/eqG16fTz9M4fJaAa+jr062vJLNV0JCJN3LwYP9yaoM78Rj6i8uSHfQI981iWQ3RysTMWQxYQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR05MB6256
 X-Mailman-Approved-At: Mon, 23 Dec 2019 08:10:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,92 +100,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
- linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
- linux-kselftest@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
- Maor Gottlieb <maorg@mellanox.com>, Leon Romanovsky <leon@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
- Michael Ellerman <mpe@ellerman.id.au>, Christoph Hellwig <hch@infradead.org>,
- Vlastimil Babka <vbabka@suse.cz>,
- =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
- linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- linux-block@vger.kernel.org,
- =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
- Al Viro <viro@zeniv.linux.org.uk>, Dan Williams <dan.j.williams@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, bpf@vger.kernel.org,
- Magnus Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
- netdev@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>,
- Mike Kravetz <mike.kravetz@oracle.com>
+Cc: "kenneth.w.graunke@intel.com" <kenneth.w.graunke@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "sanjay.k.kumar@intel.com" <sanjay.k.kumar@intel.com>,
+ "sudeep.dutt@intel.com" <sudeep.dutt@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "jason.ekstrand@intel.com" <jason.ekstrand@intel.com>,
+ "dave.hansen@intel.com" <dave.hansen@intel.com>,
+ "jglisse@redhat.com" <jglisse@redhat.com>,
+ "jon.bloomfield@intel.com" <jon.bloomfield@intel.com>,
+ "daniel.vetter@intel.com" <daniel.vetter@intel.com>,
+ "dan.j.williams@intel.com" <dan.j.williams@intel.com>,
+ "ira.weiny@intel.com" <ira.weiny@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 19, 2019 at 01:13:54PM -0800, John Hubbard wrote:
-> On 12/19/19 1:07 PM, Jason Gunthorpe wrote:
-> > On Thu, Dec 19, 2019 at 12:30:31PM -0800, John Hubbard wrote:
-> > > On 12/19/19 5:26 AM, Leon Romanovsky wrote:
-> > > > On Mon, Dec 16, 2019 at 02:25:12PM -0800, John Hubbard wrote:
-> > > > > Hi,
-> > > > > 
-> > > > > This implements an API naming change (put_user_page*() -->
-> > > > > unpin_user_page*()), and also implements tracking of FOLL_PIN pages. It
-> > > > > extends that tracking to a few select subsystems. More subsystems will
-> > > > > be added in follow up work.
-> > > > 
-> > > > Hi John,
-> > > > 
-> > > > The patchset generates kernel panics in our IB testing. In our tests, we
-> > > > allocated single memory block and registered multiple MRs using the single
-> > > > block.
-> > > > 
-> > > > The possible bad flow is:
-> > > >    ib_umem_geti() ->
-> > > >     pin_user_pages_fast(FOLL_WRITE) ->
-> > > >      internal_get_user_pages_fast(FOLL_WRITE) ->
-> > > >       gup_pgd_range() ->
-> > > >        gup_huge_pd() ->
-> > > >         gup_hugepte() ->
-> > > >          try_grab_compound_head() ->
-> > > 
-> > > Hi Leon,
-> > > 
-> > > Thanks very much for the detailed report! So we're overflowing...
-> > > 
-> > > At first look, this seems likely to be hitting a weak point in the
-> > > GUP_PIN_COUNTING_BIAS-based design, one that I believed could be deferred
-> > > (there's a writeup in Documentation/core-api/pin_user_page.rst, lines
-> > > 99-121). Basically it's pretty easy to overflow the page->_refcount
-> > > with huge pages if the pages have a *lot* of subpages.
-> > > 
-> > > We can only do about 7 pins on 1GB huge pages that use 4KB subpages.
+On Wed, Dec 18, 2019 at 02:41:47PM -0800, Niranjana Vishwanathapura wrote:
+> > > +static u32 i915_svm_build_sg(struct i915_address_space *vm,
+> > > +			     struct hmm_range *range,
+> > > +			     struct sg_table *st)
+> > > +{
+> > > +	struct scatterlist *sg;
+> > > +	u32 sg_page_sizes = 0;
+> > > +	u64 i, npages;
+> > > +
+> > > +	sg = NULL;
+> > > +	st->nents = 0;
+> > > +	npages = (range->end - range->start) / PAGE_SIZE;
+> > > +
+> > > +	/*
+> > > +	 * No need to dma map the host pages and later unmap it, as
+> > > +	 * GPU is not allowed to access it with SVM.
+> > > +	 * XXX: Need to dma map host pages for integrated graphics while
+> > > +	 * extending SVM support there.
+> > > +	 */
+> > > +	for (i = 0; i < npages; i++) {
+> > > +		u64 addr = range->pfns[i] & ~((1UL << range->pfn_shift) - 1);
+> > > +
+> > > +		if (sg && (addr == (sg_dma_address(sg) + sg->length))) {
+> > > +			sg->length += PAGE_SIZE;
+> > > +			sg_dma_len(sg) += PAGE_SIZE;
+> > > +			continue;
+> > > +		}
+> > > +
+> > > +		if (sg)
+> > > +			sg_page_sizes |= sg->length;
+> > > +
+> > > +		sg =  sg ? __sg_next(sg) : st->sgl;
+> > > +		sg_dma_address(sg) = addr;
+> > > +		sg_dma_len(sg) = PAGE_SIZE;
 > > 
-> > Considering that establishing these pins is entirely under user
-> > control, we can't have a limit here.
+> > This still can't be like this - assigning pfn to 'dma_address' is
+> > fundamentally wrong.
+> > 
+> > Whatever explanation you had, this needs to be fixed up first before we get
+> > to this patch.
+> > 
 > 
-> There's already a limit, it's just a much larger one. :) What does "no limit"
-> really mean, numerically, to you in this case?
+> The pfn is converted into a device address which goes into sg_dma_address.
+> Ok, let me think about what else we can do here.
 
-I guess I mean 'hidden limit' - hitting the limit and failing would
-be managable.
+If you combine this with the other function and make it so only
+DEVICE_PRIVATE pages get converted toa dma_address with out dma_map,
+then that would make sense.
 
-I think 7 is probably too low though, but we are not using 1GB huge
-pages, only 2M..
-
-> > If the number of allowed pins are exhausted then the
-> > pin_user_pages_fast() must fail back to the user.
+> > > +static int
+> > > +i915_svm_invalidate_range_start(struct mmu_notifier *mn,
+> > > +				const struct mmu_notifier_range *update)
+> > > +{
+> > > +	struct i915_svm *svm = container_of(mn, struct i915_svm, notifier);
+> > > +	unsigned long length = update->end - update->start;
+> > > +
+> > > +	DRM_DEBUG_DRIVER("start 0x%lx length 0x%lx\n", update->start, length);
+> > > +	if (!mmu_notifier_range_blockable(update))
+> > > +		return -EAGAIN;
+> > > +
+> > > +	i915_gem_vm_unbind_svm_buffer(svm->vm, update->start, length);
+> > > +	return 0;
+> > > +}
+> > 
+> > I still think you should strive for a better design than putting a
+> > notifier across the entire address space..
+> > 
 > 
-> I'll poke around the IB call stack and see how much of that return
-> path is in place, if any. Because it's the same situation for
-> get_user_pages_fast().  This code just added a warning on overflow
-> so we could spot it early.
+> Yah, thought it could be later optimization.
+> If I think about it, it has be be a new user API to set the range,
+> or an intermediate data structure for tracking the bound ranges.
+> Will look into it.
 
-All GUP callers must be prepared for failure, IB should be fine...
+Well, there are lots of options. Like I said, implicit ODP uses a
+level of the device page table to attach the notifier.
+
+There are many performance trade offs here, it depends what works best
+for your work load I suppose. But usually the fault path is the fast
+thing, so I would think to avoid registering mmu_intervals on it and
+accept the higher probability of collisions.
 
 Jason
 _______________________________________________
