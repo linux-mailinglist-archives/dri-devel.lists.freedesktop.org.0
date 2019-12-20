@@ -1,60 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C48B5127AB5
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2019 13:09:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C65D6127B1A
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2019 13:34:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 339A56EC1C;
-	Fri, 20 Dec 2019 12:09:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28DBC6EC21;
+	Fri, 20 Dec 2019 12:34:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22CDF6EC1C
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2019 12:09:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576843767;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ggNgN4kZ9i+MoUaiQjXmngHKUSv2F7J0XkcDe5Qaau8=;
- b=gyFXLGRYh43EtZNZsYXoGz4vS5i2t5fqYtPl3SFPX2vUlv0ETIkvd8nxm+Qq5M8wsHOE91
- 1llo4GzRVlYc46bN1kzY+tL6kG1UDKWp6E4I3sEfeiXine03+NFUIDDcp+ViOtNC7kcgZK
- dG/Z8Jr9ati7m2HaAIX8pov7ofLWp28=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-192-zoztgdUnNKGDy1rqZuF0bA-1; Fri, 20 Dec 2019 07:09:23 -0500
-X-MC-Unique: zoztgdUnNKGDy1rqZuF0bA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70EB1800D4E;
- Fri, 20 Dec 2019 12:09:22 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com
- (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 57AC260BEC;
- Fri, 20 Dec 2019 12:09:22 +0000 (UTC)
-Received: from zmail25.collab.prod.int.phx2.redhat.com
- (zmail25.collab.prod.int.phx2.redhat.com [10.5.83.31])
- by colo-mx.corp.redhat.com (Postfix) with ESMTP id 3072B18089C8;
- Fri, 20 Dec 2019 12:09:22 +0000 (UTC)
-Date: Fri, 20 Dec 2019 07:09:20 -0500 (EST)
-From: Frediano Ziglio <fziglio@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Message-ID: <57755373.16738363.1576843760950.JavaMail.zimbra@redhat.com>
-In-Reply-To: <20191220115935.15152-5-kraxel@redhat.com>
-References: <20191220115935.15152-1-kraxel@redhat.com>
- <20191220115935.15152-5-kraxel@redhat.com>
-Subject: Re: [Spice-devel] [PATCH 4/4] drm/qxl: add drm_driver.release
- callback.
+Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com
+ [IPv6:2607:f8b0:4864:20::f42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D923A6E41D
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2019 12:34:10 +0000 (UTC)
+Received: by mail-qv1-xf42.google.com with SMTP id x1so3528309qvr.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2019 04:34:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=OM+8DC58J3a1Ql31mcDf8DJoUej0i6n4zpuo/9t+noM=;
+ b=Teeb0IyvGBgEsXC2FUlY9Jj8vaOWfLiTgSTFn2BvkRD5ZneA6TfW521uY8dyShqNmq
+ kOrZnE+CrofE8hYE9gtEigmbo/3NSu3GYRTZNnzSoUB9+/tSxfmdSEHJxy3dI/yV3r+w
+ vxzYMowRH3yiGAp0vJIs36MzTdgudugCMcS6nHxqNdW1vUuBSFmqQPHDx4cSYSwBiKUL
+ qD+p6esS0BXk8YMffgOC9OfbCjl/Jxzhy3qS8oI9xO14xBxICze1vSxaMMqSiNQrdVBo
+ GW3Y7L6dPSEg+7bQrFzoPg11otBGNXUy7zqWY991NzHmvUPAPRmmXS/JV4BqMFBM6ueF
+ 8itg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=OM+8DC58J3a1Ql31mcDf8DJoUej0i6n4zpuo/9t+noM=;
+ b=KD+N2rGiO4PG5x6vGVmdHOS1x/4DwMOjxJjo/V6VsqqedjnVuW/kjOfi2W0sPQKlho
+ t/idV0+byBDtaTzVoUy9ZbkHzavUQFYCBTlwllFdOYraayO+L3Gj+ZzdDGizJqgwhUMU
+ Q35Lo9//AuFRYeXkJWBvMLpq7QJ485biIma65zttUzf+/s2/I4bxa5A+08eS00kmAWw4
+ nOF6UHVdf6ESi8+18hYcTaVYHpxEZtV0PGcKX+3Rxe5CvO4yR3DpB3eu6shNOPLDQZR1
+ c94UdjoAvQPJhdqigPX72y4STsQJ4kZO4oQJCtsHi6aXvRMkMbdwiCE3XPXDddRB/Du3
+ bXhA==
+X-Gm-Message-State: APjAAAXGhftkNGr4RT8Elu8Ia73Tz+IFtQOkzTWnFkxOMDcck1+T2cte
+ aPVOo1B7/TV5lk1zzwBkMK4KozR1QeMTijtLmMSSTNaP
+X-Google-Smtp-Source: APXvYqyKI5y4pA6tV7V4WabZMrtDehFiaFukF68PpW0zRcn+eFsKt3hAK4ZqwXgE6QO/xNOP1AtOUW3XIb6X2q62uSg=
+X-Received: by 2002:a0c:ead1:: with SMTP id y17mr11501073qvp.210.1576845250032; 
+ Fri, 20 Dec 2019 04:34:10 -0800 (PST)
 MIME-Version: 1.0
-X-Originating-IP: [10.33.32.30, 10.4.195.8]
-Thread-Topic: drm/qxl: add drm_driver.release callback.
-Thread-Index: qFYuv/xSK8+PQDglvsHlqfFXX34xLQ==
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+References: <1574850218-13257-1-git-send-email-yannick.fertre@st.com>
+ <90e15f5b-0b65-1de7-229d-c8e0470071b5@st.com>
+In-Reply-To: <90e15f5b-0b65-1de7-229d-c8e0470071b5@st.com>
+From: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+Date: Fri, 20 Dec 2019 13:33:59 +0100
+Message-ID: <CA+M3ks663uFr-fpTXoKXd--yKi6q4o525H-eYM9ZsO4dpFS6yg@mail.gmail.com>
+Subject: Re: [PATCH] drm/stm: ltdc: move pinctrl to encoder mode set
+To: Philippe CORNU <philippe.cornu@st.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,123 +62,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <virtualization@lists.linux-foundation.org>, Dave Airlie <airlied@redhat.com>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre TORGUE <alexandre.torgue@st.com>, David Airlie <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Yannick FERTRE <yannick.fertre@st.com>,
+ "linux-stm32@st-md-mailman.stormreply.com"
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ Benjamin GAIGNARD <benjamin.gaignard@st.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> 
-> Move final cleanups to qxl_drm_release() callback.
-
-Can you explain in the commit why this is better or preferable?
-
-> Add drm_atomic_helper_shutdown() call to qxl_pci_remove().
-
-I suppose this is to replace the former manual cleanup calls,
-which were moved to qxl_drm_release, I think this could be
-added in the commit message ("why"), I don't see much value
-in describing "how" this was done.
-
-> 
-> Reorder calls in qxl_device_fini().  Cleaning up gem & ttm
-> might trigger qxl commands, so we should do that before
-> releaseing command rings.
-
-Typo: releaseing -> releasing
-Why not putting this in a separate commit? Was this behaviour
-changed? It does not seem so to me.
-
-> 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  drivers/gpu/drm/qxl/qxl_drv.c | 21 ++++++++++++++-------
->  drivers/gpu/drm/qxl/qxl_kms.c |  8 ++++----
->  2 files changed, 18 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/qxl/qxl_drv.c b/drivers/gpu/drm/qxl/qxl_drv.c
-> index 1d601f57a6ba..8044363ba0f2 100644
-> --- a/drivers/gpu/drm/qxl/qxl_drv.c
-> +++ b/drivers/gpu/drm/qxl/qxl_drv.c
-> @@ -34,6 +34,7 @@
->  #include <linux/pci.h>
->  
->  #include <drm/drm.h>
-> +#include <drm/drm_atomic_helper.h>
->  #include <drm/drm_drv.h>
->  #include <drm/drm_file.h>
->  #include <drm/drm_modeset_helper.h>
-> @@ -132,21 +133,25 @@ qxl_pci_probe(struct pci_dev *pdev, const struct
-> pci_device_id *ent)
->  	return ret;
->  }
->  
-> +static void qxl_drm_release(struct drm_device *dev)
-> +{
-> +	struct qxl_device *qdev = dev->dev_private;
-> +
-> +	qxl_modeset_fini(qdev);
-> +	qxl_device_fini(qdev);
-> +	dev->dev_private = NULL;
-> +	kfree(qdev);
-> +}
-> +
->  static void
->  qxl_pci_remove(struct pci_dev *pdev)
->  {
->  	struct drm_device *dev = pci_get_drvdata(pdev);
-> -	struct qxl_device *qdev = dev->dev_private;
->  
->  	drm_dev_unregister(dev);
-> -
-> -	qxl_modeset_fini(qdev);
-> -	qxl_device_fini(qdev);
-> +	drm_atomic_helper_shutdown(dev);
->  	if (is_vga(pdev))
->  		vga_put(pdev, VGA_RSRC_LEGACY_IO);
-> -
-> -	dev->dev_private = NULL;
-> -	kfree(qdev);
->  	drm_dev_put(dev);
->  }
->  
-> @@ -279,6 +284,8 @@ static struct drm_driver qxl_driver = {
->  	.major = 0,
->  	.minor = 1,
->  	.patchlevel = 0,
-> +
-> +	.release = qxl_drm_release,
->  };
->  
->  static int __init qxl_init(void)
-> diff --git a/drivers/gpu/drm/qxl/qxl_kms.c b/drivers/gpu/drm/qxl/qxl_kms.c
-> index bfc1631093e9..70b20ee4741a 100644
-> --- a/drivers/gpu/drm/qxl/qxl_kms.c
-> +++ b/drivers/gpu/drm/qxl/qxl_kms.c
-> @@ -299,12 +299,12 @@ void qxl_device_fini(struct qxl_device *qdev)
->  {
->  	qxl_bo_unref(&qdev->current_release_bo[0]);
->  	qxl_bo_unref(&qdev->current_release_bo[1]);
-> -	flush_work(&qdev->gc_work);
-> -	qxl_ring_free(qdev->command_ring);
-> -	qxl_ring_free(qdev->cursor_ring);
-> -	qxl_ring_free(qdev->release_ring);
->  	qxl_gem_fini(qdev);
->  	qxl_bo_fini(qdev);
-> +	flush_work(&qdev->gc_work);
-> +	qxl_ring_free(qdev->command_ring);
-> +	qxl_ring_free(qdev->cursor_ring);
-> +	qxl_ring_free(qdev->release_ring);
->  	io_mapping_free(qdev->surface_mapping);
->  	io_mapping_free(qdev->vram_mapping);
->  	iounmap(qdev->ram_header);
-
-Frediano
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+TGUgbHVuLiAyIGTDqWMuIDIwMTkgw6AgMTg6MTksIFBoaWxpcHBlIENPUk5VIDxwaGlsaXBwZS5j
+b3JudUBzdC5jb20+IGEgw6ljcml0IDoKPgo+IERlYXIgWWFubmljaywKPiBUaGFuayB5b3UgZm9y
+IHlvdXIgcGF0Y2gsCj4KPiBBY2tlZC1ieTogUGhpbGlwcGUgQ29ybnUgPHBoaWxpcHBlLmNvcm51
+QHN0LmNvbT4KPgoKQXBwbGllZCBvbiBkcm0tbWlzYy1uZXh0LAoKVGhhbmtzLApCZW5qYW1pbgoK
+PiBQaGlsaXBwZSA6LSkKPgo+IE9uIDExLzI3LzE5IDExOjIzIEFNLCBZYW5uaWNrIEZlcnRyZSB3
+cm90ZToKPiA+IEZyb206IFlhbm5pY2sgRmVydHLDqSA8eWFubmljay5mZXJ0cmVAc3QuY29tPgo+
+ID4KPiA+IFRoZSBwaW4gY29udHJvbCBtdXN0IGJlIHNldCB0byBkZWZhdWx0IGFzIHNvb24gYXMg
+cG9zc2libGUgdG8KPiA+IGVzdGFibGlzaCBhIGdvb2QgdmlkZW8gbGluayBiZXR3ZWVuIHR2ICYg
+YnJpZGdlIGhkbWkKPiA+IChlbmNvZGVyIG1vZGUgc2V0IGlzIGNhbGwgYmVmb3JlIGVuY29kZXIg
+ZW5hYmxlKS4KPiA+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBZYW5uaWNrIEZlcnRyZSA8eWFubmljay5m
+ZXJ0cmVAc3QuY29tPgo+ID4gLS0tCj4gPiAgIGRyaXZlcnMvZ3B1L2RybS9zdG0vbHRkYy5jIHwg
+MjQgKysrKysrKysrKysrKysrKysrLS0tLS0tCj4gPiAgIDEgZmlsZSBjaGFuZ2VkLCAxOCBpbnNl
+cnRpb25zKCspLCA2IGRlbGV0aW9ucygtKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vc3RtL2x0ZGMuYyBiL2RyaXZlcnMvZ3B1L2RybS9zdG0vbHRkYy5jCj4gPiBpbmRleCA0
+OWVmNDA2Li5kYmE4ZTdmIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3N0bS9sdGRj
+LmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9zdG0vbHRkYy5jCj4gPiBAQCAtNDM1LDkgKzQz
+NSw2IEBAIHN0YXRpYyB2b2lkIGx0ZGNfY3J0Y19hdG9taWNfZW5hYmxlKHN0cnVjdCBkcm1fY3J0
+YyAqY3J0YywKPiA+ICAgICAgIC8qIENvbW1pdCBzaGFkb3cgcmVnaXN0ZXJzID0gdXBkYXRlIHBs
+YW5lcyBhdCBuZXh0IHZibGFuayAqLwo+ID4gICAgICAgcmVnX3NldChsZGV2LT5yZWdzLCBMVERD
+X1NSQ1IsIFNSQ1JfVkJSKTsKPiA+Cj4gPiAtICAgICAvKiBFbmFibGUgTFREQyAqLwo+ID4gLSAg
+ICAgcmVnX3NldChsZGV2LT5yZWdzLCBMVERDX0dDUiwgR0NSX0xURENFTik7Cj4gPiAtCj4gPiAg
+ICAgICBkcm1fY3J0Y192Ymxhbmtfb24oY3J0Yyk7Cj4gPiAgIH0KPiA+Cj4gPiBAQCAtNDUxLDkg
+KzQ0OCw2IEBAIHN0YXRpYyB2b2lkIGx0ZGNfY3J0Y19hdG9taWNfZGlzYWJsZShzdHJ1Y3QgZHJt
+X2NydGMgKmNydGMsCj4gPgo+ID4gICAgICAgZHJtX2NydGNfdmJsYW5rX29mZihjcnRjKTsKPiA+
+Cj4gPiAtICAgICAvKiBkaXNhYmxlIExUREMgKi8KPiA+IC0gICAgIHJlZ19jbGVhcihsZGV2LT5y
+ZWdzLCBMVERDX0dDUiwgR0NSX0xURENFTik7Cj4gPiAtCj4gPiAgICAgICAvKiBkaXNhYmxlIElS
+USAqLwo+ID4gICAgICAgcmVnX2NsZWFyKGxkZXYtPnJlZ3MsIExURENfSUVSLCBJRVJfUlJJRSB8
+IElFUl9GVUlFIHwgSUVSX1RFUlJJRSk7Cj4gPgo+ID4gQEAgLTEwNDIsOSArMTAzNiwxMyBAQCBz
+dGF0aWMgY29uc3Qgc3RydWN0IGRybV9lbmNvZGVyX2Z1bmNzIGx0ZGNfZW5jb2Rlcl9mdW5jcyA9
+IHsKPiA+ICAgc3RhdGljIHZvaWQgbHRkY19lbmNvZGVyX2Rpc2FibGUoc3RydWN0IGRybV9lbmNv
+ZGVyICplbmNvZGVyKQo+ID4gICB7Cj4gPiAgICAgICBzdHJ1Y3QgZHJtX2RldmljZSAqZGRldiA9
+IGVuY29kZXItPmRldjsKPiA+ICsgICAgIHN0cnVjdCBsdGRjX2RldmljZSAqbGRldiA9IGRkZXYt
+PmRldl9wcml2YXRlOwo+ID4KPiA+ICAgICAgIERSTV9ERUJVR19EUklWRVIoIlxuIik7Cj4gPgo+
+ID4gKyAgICAgLyogRGlzYWJsZSBMVERDICovCj4gPiArICAgICByZWdfY2xlYXIobGRldi0+cmVn
+cywgTFREQ19HQ1IsIEdDUl9MVERDRU4pOwo+ID4gKwo+ID4gICAgICAgLyogU2V0IHRvIHNsZWVw
+IHN0YXRlIHRoZSBwaW5jdHJsIHdoYXRldmVyIHR5cGUgb2YgZW5jb2RlciAqLwo+ID4gICAgICAg
+cGluY3RybF9wbV9zZWxlY3Rfc2xlZXBfc3RhdGUoZGRldi0+ZGV2KTsKPiA+ICAgfQo+ID4gQEAg
+LTEwNTIsNiArMTA1MCwxOSBAQCBzdGF0aWMgdm9pZCBsdGRjX2VuY29kZXJfZGlzYWJsZShzdHJ1
+Y3QgZHJtX2VuY29kZXIgKmVuY29kZXIpCj4gPiAgIHN0YXRpYyB2b2lkIGx0ZGNfZW5jb2Rlcl9l
+bmFibGUoc3RydWN0IGRybV9lbmNvZGVyICplbmNvZGVyKQo+ID4gICB7Cj4gPiAgICAgICBzdHJ1
+Y3QgZHJtX2RldmljZSAqZGRldiA9IGVuY29kZXItPmRldjsKPiA+ICsgICAgIHN0cnVjdCBsdGRj
+X2RldmljZSAqbGRldiA9IGRkZXYtPmRldl9wcml2YXRlOwo+ID4gKwo+ID4gKyAgICAgRFJNX0RF
+QlVHX0RSSVZFUigiXG4iKTsKPiA+ICsKPiA+ICsgICAgIC8qIEVuYWJsZSBMVERDICovCj4gPiAr
+ICAgICByZWdfc2V0KGxkZXYtPnJlZ3MsIExURENfR0NSLCBHQ1JfTFREQ0VOKTsKPiA+ICt9Cj4g
+PiArCj4gPiArc3RhdGljIHZvaWQgbHRkY19lbmNvZGVyX21vZGVfc2V0KHN0cnVjdCBkcm1fZW5j
+b2RlciAqZW5jb2RlciwKPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3RydWN0
+IGRybV9kaXNwbGF5X21vZGUgKm1vZGUsCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICphZGp1c3RlZF9tb2RlKQo+ID4gK3sKPiA+ICsg
+ICAgIHN0cnVjdCBkcm1fZGV2aWNlICpkZGV2ID0gZW5jb2Rlci0+ZGV2Owo+ID4KPiA+ICAgICAg
+IERSTV9ERUJVR19EUklWRVIoIlxuIik7Cj4gPgo+ID4gQEAgLTEwNjcsNiArMTA3OCw3IEBAIHN0
+YXRpYyB2b2lkIGx0ZGNfZW5jb2Rlcl9lbmFibGUoc3RydWN0IGRybV9lbmNvZGVyICplbmNvZGVy
+KQo+ID4gICBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9lbmNvZGVyX2hlbHBlcl9mdW5jcyBsdGRj
+X2VuY29kZXJfaGVscGVyX2Z1bmNzID0gewo+ID4gICAgICAgLmRpc2FibGUgPSBsdGRjX2VuY29k
+ZXJfZGlzYWJsZSwKPiA+ICAgICAgIC5lbmFibGUgPSBsdGRjX2VuY29kZXJfZW5hYmxlLAo+ID4g
+KyAgICAgLm1vZGVfc2V0ID0gbHRkY19lbmNvZGVyX21vZGVfc2V0LAo+ID4gICB9Owo+ID4KPiA+
+ICAgc3RhdGljIGludCBsdGRjX2VuY29kZXJfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZGRldiwg
+c3RydWN0IGRybV9icmlkZ2UgKmJyaWRnZSkKPiA+Cj4gX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbAo=
