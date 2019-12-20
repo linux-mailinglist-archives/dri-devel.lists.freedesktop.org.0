@@ -1,31 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D530212739A
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2019 03:45:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35A7012739F
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2019 03:47:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2948A6EBC2;
-	Fri, 20 Dec 2019 02:45:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1861B6EBC1;
+	Fri, 20 Dec 2019 02:47:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 925 seconds by postgrey-1.36 at gabe;
- Fri, 20 Dec 2019 02:45:46 UTC
-Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AE9B6EBC2
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2019 02:45:45 +0000 (UTC)
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 509A5CCE8BDE5E122AD5;
- Fri, 20 Dec 2019 10:30:19 +0800 (CST)
-Received: from localhost (10.45.92.44) by DGGEMS405-HUB.china.huawei.com
- (10.3.19.205) with Microsoft SMTP Server id 14.3.439.0; Fri, 20 Dec 2019
- 10:30:10 +0800
+Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9CC06EBC1
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2019 02:47:46 +0000 (UTC)
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 8110E4344E29D7646A5C;
+ Fri, 20 Dec 2019 10:31:24 +0800 (CST)
+Received: from localhost (10.45.92.44) by DGGEMS410-HUB.china.huawei.com
+ (10.3.19.210) with Microsoft SMTP Server id 14.3.439.0; Fri, 20 Dec 2019
+ 10:31:17 +0800
 From: Zhihui Chen <chenzhihui4@huawei.com>
 To: <chenzhihui244@msn.com>, <xinliang.liu@linaro.org>,
  <zourongrong@gmail.com>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/hisilicon/hibmc: fix 'xset dpms force off' fail
-Date: Fri, 20 Dec 2019 10:30:04 +0800
-Message-ID: <20191220023004.2658-1-chenzhihui4@huawei.com>
+Subject: [PATCH] drm/hisilicon/hibmc: add DPMS on/off function
+Date: Fri, 20 Dec 2019 10:31:12 +0800
+Message-ID: <20191220023112.2728-1-chenzhihui4@huawei.com>
 X-Mailer: git-send-email 2.24.1.windows.2
 MIME-Version: 1.0
 X-Originating-IP: [10.45.92.44]
@@ -49,29 +47,72 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-both crtc_state->adjusted_mode.hdisplay and
-crtc_state->adjusted_mode.vdisplay are 0 when switch dpms off,
-return -EINVAL cause switch dpms off fail.
+add DPMS function to turn on/off signal of monitor
 
 Signed-off-by: Zhihui Chen <chenzhihui4@huawei.com>
 ---
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c   | 16 ++++++++++++++++
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_regs.h |  6 ++++++
+ 2 files changed, 22 insertions(+)
 
 diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
-index 6527a97f68a3..722e369f30d4 100644
+index 722e369f30d4..24de937c1cb1 100644
 --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
 +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
-@@ -80,6 +80,9 @@ static int hibmc_plane_atomic_check(struct drm_plane *plane,
- 		return -EINVAL;
- 	}
+@@ -189,6 +189,20 @@ static struct drm_plane *hibmc_plane_init(struct hibmc_drm_private *priv)
+ 	return plane;
+ }
  
-+	if (!crtc_state->enable)
-+		return 0;
++static void hibmc_crtc_dpms(struct drm_crtc *crtc, int dpms)
++{
++	struct hibmc_drm_private *priv = crtc->dev->dev_private;
++	unsigned int reg;
 +
- 	if (state->crtc_x + state->crtc_w >
- 	    crtc_state->adjusted_mode.hdisplay ||
- 	    state->crtc_y + state->crtc_h >
++	reg = readl(priv->mmio + HIBMC_CRT_DISP_CTL);
++	reg &= ~HIBMC_CRT_DISP_CTL_DPMS_MASK;
++	reg |= HIBMC_FIELD(HIBMC_CRT_DISP_CTL_DPMS, dpms);
++	reg &= ~HIBMC_CRT_DISP_CTL_TIMING_MASK;
++	if (dpms == HIBMC_CRT_DPMS_ON)
++		reg |= HIBMC_CRT_DISP_CTL_TIMING(1);
++	writel(reg, priv->mmio + HIBMC_CRT_DISP_CTL);
++}
++
+ static void hibmc_crtc_atomic_enable(struct drm_crtc *crtc,
+ 				     struct drm_crtc_state *old_state)
+ {
+@@ -205,6 +219,7 @@ static void hibmc_crtc_atomic_enable(struct drm_crtc *crtc,
+ 	reg |= HIBMC_CURR_GATE_DISPLAY(1);
+ 	hibmc_set_current_gate(priv, reg);
+ 	drm_crtc_vblank_on(crtc);
++	hibmc_crtc_dpms(crtc, HIBMC_CRT_DPMS_ON);
+ }
+ 
+ static void hibmc_crtc_atomic_disable(struct drm_crtc *crtc,
+@@ -213,6 +228,7 @@ static void hibmc_crtc_atomic_disable(struct drm_crtc *crtc,
+ 	unsigned int reg;
+ 	struct hibmc_drm_private *priv = crtc->dev->dev_private;
+ 
++	hibmc_crtc_dpms(crtc, HIBMC_CRT_DPMS_OFF);
+ 	drm_crtc_vblank_off(crtc);
+ 
+ 	hibmc_set_power_mode(priv, HIBMC_PW_MODE_CTL_MODE_SLEEP);
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_regs.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_regs.h
+index b63a1ee15ceb..b9e20cfcfb5a 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_regs.h
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_regs.h
+@@ -68,6 +68,12 @@
+ 
+ #define HIBMC_CRT_DISP_CTL			0x80200
+ 
++#define HIBMC_CRT_DISP_CTL_DPMS(x)		((x) << 30)
++#define HIBMC_CRT_DISP_CTL_DPMS_MASK		0xc0000000
++
++#define HIBMC_CRT_DPMS_ON			0
++#define HIBMC_CRT_DPMS_OFF			3
++
+ #define HIBMC_CRT_DISP_CTL_CRTSELECT(x)		((x) << 25)
+ #define HIBMC_CRT_DISP_CTL_CRTSELECT_MASK	0x2000000
+ 
 -- 
 2.20.1
 
