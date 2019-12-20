@@ -1,86 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEBCA128536
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2019 23:50:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3AD0128566
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Dec 2019 00:14:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C99ED6ECCC;
-	Fri, 20 Dec 2019 22:50:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E923C6ECCE;
+	Fri, 20 Dec 2019 23:14:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-eopbgr770088.outbound.protection.outlook.com [40.107.77.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00FFB6ECCC;
- Fri, 20 Dec 2019 22:50:08 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ToiLmMU9KMIgLp3idZdnQN1sIAP9luk5a7pxIM6pL7Nd7UOwOnPZuNfQOt9fFgYl60fe7SwIKKmU1ZFQNGPwMildjxGc2xUPgQpIymL6zUQbJvHYBvI87nSsqGN2m3yBhYIhPk0qSlD0AuiWud26N4gSt4bpjN71H+fVy8Zh16TvFpnbE7s9vE/7hHJWlv3a1MJEL83nnCiyNEB7IT+9B4IF4ZmdS0ZfAjiiDi/S9aGduekrI6FtlG8UaGs7fBYSAuYwWnQ4zBaFjKtVmeudOyNi7TRBiRmiVBqYiC2MCIjuwY9saezJVB9k4s0L7hQG60skmmLSb/VvxZQEGNFlOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uNA3MJoKqBYhozZTzpQyQ7So0bf++f2EzguGOTWzOPI=;
- b=Yx3jINMzhHdhorbAaaEvOcR/Z0Ektcbo8s4L8a9d/3jxEnInsgDhNjyr2oqYldt4gTf+xVXT/BNLbD8DQ/Utb3CHLGO5JyqLQ3j57Wmsq3nhetNsRFBkn04qIWJYrjS2kfvOGvl/ncymptS/o1BNudEVaOC8dMfCfeX/1UU2XLu/t5vdi6rK9xht6uj4Hr95uicpwZ4ye36RQZ1RCR7Gh3yCwuvN3uQQ0TO9+8qFLVKKHFEaP+TqxPDIZyj/eV89f0E4DKYGlyjHUgoDfD3+BhtG67WYb+E33YVqrpeX5lZOH9fw/+NZBxKsbXHSxN+/bGP/HE6e/kp2GG3aXX5TlA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uNA3MJoKqBYhozZTzpQyQ7So0bf++f2EzguGOTWzOPI=;
- b=LB4OLGM13NRdevKmr5bz21hX6MsvdMpLOiguZ8hxDcB4RLsVJKbuGhvUSByhkNRQM9m6DgIBvDFqas/PmIx8AcW9mBcYVXGjyFWiL0x16gRYrYCUeH4PFhRFWw7HSFMUK393HKq9ut3zRU1AOaEhoyPPeS3shKcRn2rWcV549Do=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Sunpeng.Li@amd.com; 
-Received: from BN7PR12MB2593.namprd12.prod.outlook.com (20.176.27.87) by
- BN7PR12MB2659.namprd12.prod.outlook.com (20.176.27.203) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2559.15; Fri, 20 Dec 2019 22:50:07 +0000
-Received: from BN7PR12MB2593.namprd12.prod.outlook.com
- ([fe80::a0b1:68d3:6053:b419]) by BN7PR12MB2593.namprd12.prod.outlook.com
- ([fe80::a0b1:68d3:6053:b419%5]) with mapi id 15.20.2538.022; Fri, 20 Dec 2019
- 22:50:06 +0000
-Subject: Re: [PATCH v9 14/18] drm/amd/display: Add PBN per slot calculation
- for DSC
-To: mikita.lipski@amd.com, amd-gfx@lists.freedesktop.org
-References: <20191213200854.31545-1-mikita.lipski@amd.com>
- <20191213200854.31545-15-mikita.lipski@amd.com>
-From: Leo <sunpeng.li@amd.com>
-Message-ID: <ab4f81d3-c277-3067-ddfc-b5868cd94bd9@amd.com>
-Date: Fri, 20 Dec 2019 17:50:05 -0500
+Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
+ [216.228.121.143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0DF96ECCE
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2019 23:14:00 +0000 (UTC)
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5dfd55980001>; Fri, 20 Dec 2019 15:13:29 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Fri, 20 Dec 2019 15:14:00 -0800
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Fri, 20 Dec 2019 15:14:00 -0800
+Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 20 Dec
+ 2019 23:13:58 +0000
+Subject: Re: [PATCH v11 00/25] mm/gup: track dma-pinned pages: FOLL_PIN
+To: Leon Romanovsky <leon@kernel.org>
+References: <20191216222537.491123-1-jhubbard@nvidia.com>
+ <20191219132607.GA410823@unreal>
+ <a4849322-8e17-119e-a664-80d9f95d850b@nvidia.com>
+ <20191219210743.GN17227@ziepe.ca>
+ <f10b2a18-a109-d87d-f156-2e5941cbf4a0@nvidia.com>
+ <20191220184821.GB10944@unreal>
+From: John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <b70ac328-2dc0-efe3-05c2-3e040b662256@nvidia.com>
+Date: Fri, 20 Dec 2019 15:13:57 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.1
-In-Reply-To: <20191213200854.31545-15-mikita.lipski@amd.com>
-Content-Language: en-US
-X-ClientProxiedBy: YTOPR0101CA0019.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b00:15::32) To BN7PR12MB2593.namprd12.prod.outlook.com
- (2603:10b6:408:25::23)
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-X-Originating-IP: [165.204.55.250]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 1495a8ef-b1e6-40e8-719a-08d7859ef57b
-X-MS-TrafficTypeDiagnostic: BN7PR12MB2659:|BN7PR12MB2659:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BN7PR12MB265926710AD85E6905AFE75C822D0@BN7PR12MB2659.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-Forefront-PRVS: 025796F161
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10009020)(4636009)(136003)(396003)(366004)(376002)(39860400002)(346002)(199004)(189003)(8676002)(36756003)(478600001)(66476007)(66946007)(81156014)(8936002)(52116002)(81166006)(316002)(2906002)(450100002)(31696002)(2616005)(6512007)(4326008)(5660300002)(53546011)(66556008)(6486002)(186003)(4001150100001)(6506007)(31686004)(86362001)(26005);
- DIR:OUT; SFP:1101; SCL:1; SRVR:BN7PR12MB2659;
- H:BN7PR12MB2593.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dqTYSrPIjr78FrRh1LLv4PGpll1PgqUFfoT9Y6RnuRdUsn3s4wDZfzymxl0PMBcJEGPbQkq4ivqoJr2EK/fxQqLfFcuoPfv6qIBv8d4717B7PZSClWBi88SbzOII4/NI4Zk2iNHeri9QzqQm4sF2VNeTouPM3fIPeVQPZ3WF3lnagjkevgfZfzZywxeohEGjQKmYQ3lGrqMeaHo3KWG/n2Pf7lp/ciu/7ATRgNg+j/qHSo9V5vVbJP6sWMTh819Tyna/qn/DFbmpqrCXv4AsORX78g32IoiGLBRUFi6TRbFamw6qG/xyM5ReplE82lUh5gR2oaDNAaKmRI8fiIqD3HXgjYRACPv5kzvnhN9DOSzfUiTSZwDbknIfUSsL8XJqBpAXlikI286SNMDfzJtKo2wrj8vVVDL65Ua6bRU8b86Ff7hPkPhau4QUoXLobbij
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1495a8ef-b1e6-40e8-719a-08d7859ef57b
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Dec 2019 22:50:06.9157 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SarQiyR2QZBjt7IvE1Z7RFV8b8ttMaIo4QIGV5wZNoHSrZni0vHkX4VEoYnM3528
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR12MB2659
+In-Reply-To: <20191220184821.GB10944@unreal>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1576883609; bh=YyPKn1pTUo9maui0Cl8wPUC9pCaG4pozfEeSM/q2Xuw=;
+ h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=BbpbjMRADbiieG0wZwg7/MNcvb0htkXoIVaUqVfL2cVFSq6P/VSfqRlwCWpnneJfD
+ xftzXoBcLiTWuqMXsQ7t6AWCT71WLO1xkGZrhrOn0tcyM5yAfm54j70C7fBwcgnofn
+ b/9H8aCfEVq0LawCERbdcQV3VCGhVN60vVxhAFwFbbDtIhnnLa+AeJbbNjJrpU3Dje
+ 2yRq6wb9M/4s8MWJ9EJb7rqgBCMp3VCFwcIApBLsdFacXnYn6jAEGhJxMH7ZmKJPOr
+ 2JhGFatda38gjZx3YL2suxRK7cjyk0lHKZiEYew9WUnhSKJKmAtAm3lHA3ArKec7HY
+ TMeZ1MUC9Bnkw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,68 +68,167 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
+ kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
+ dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
+ linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
+ linux-kselftest@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
+ Maor Gottlieb <maorg@mellanox.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-rdma@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
+ Christoph Hellwig <hch@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Vlastimil Babka <vbabka@suse.cz>,
+ =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+ linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ linux-block@vger.kernel.org,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Al Viro <viro@zeniv.linux.org.uk>, Dan Williams <dan.j.williams@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, bpf@vger.kernel.org,
+ Magnus Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
+ netdev@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 2019-12-13 3:08 p.m., mikita.lipski@amd.com wrote:
-> From: Mikita Lipski <mikita.lipski@amd.com>
+On 12/20/19 10:48 AM, Leon Romanovsky wrote:
+...
+>> test_query_qp (tests.test_qp.QPTest) ... ok
+>> test_rdmacm_sync_traffic (tests.test_rdmacm.CMTestCase) ... skipped 'No devices with net interface'
+>>
+>> ======================================================================
+>> FAIL: test_query_port (tests.test_device.DeviceTest)
+>> ----------------------------------------------------------------------
+>> Traceback (most recent call last):
+>>   File "/kernel_work/rdma-core/tests/test_device.py", line 129, in test_query_port
+>>     self.verify_port_attr(port_attr)
+>>   File "/kernel_work/rdma-core/tests/test_device.py", line 113, in verify_port_attr
+>>     assert 'Invalid' not in d.speed_to_str(attr.active_speed)
+>> AssertionError
 > 
-> [why]
-> Need to calculate VCPI slots differently for DSC
-> to take in account current link rate, link count
-> and FEC.
-> [how]
-> Add helper to get pbn_div from dc_link
+> I'm very curious how did you get this assert "d.speed_to_str" covers all
+> known speeds according to the IBTA.
 > 
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Lyude Paul <lyude@redhat.com>
-> Signed-off-by: Mikita Lipski <mikita.lipski@amd.com>
-> ---
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c   | 8 ++++++++
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.h   | 2 ++
->  2 files changed, 10 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> index 7557edee7db0..c376c8ccd391 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> @@ -491,3 +491,11 @@ void amdgpu_dm_initialize_dp_connector(struct amdgpu_display_manager *dm,
->  		aconnector->connector_id);
->  }
->  
-> +int dm_mst_get_pbn_divider(struct dc_link *link)
-> +{
-> +	if (!link)
-> +		return 0;
-> +
-> +	return dc_link_bandwidth_kbps(link,
-> +			dc_link_get_link_cap(link)) / (8 * 1000 * 54);
 
-Had to take a look at the DP spec to understand this conversion here, section 2.6.4.1.
-LGTM,
+Hi Leon,
 
-Reviewed-by: Leo Li <sunpeng.li@amd.com>
+Short answer: I can make that one pass, with a small fix the the rdma-core test
+suite:
 
-> +}
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.h
-> index 2da851b40042..a553ea046185 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.h
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.h
-> @@ -29,6 +29,8 @@
->  struct amdgpu_display_manager;
->  struct amdgpu_dm_connector;
->  
-> +int dm_mst_get_pbn_divider(struct dc_link *link);
-> +
->  void amdgpu_dm_initialize_dp_connector(struct amdgpu_display_manager *dm,
->  				       struct amdgpu_dm_connector *aconnector);
->  
-> 
+commit a1b9fb0846e1b2356d7a16f4fbdd1960cf8dcbe5 (HEAD -> fix_speed_to_str)
+Author: John Hubbard <jhubbard@nvidia.com>
+Date:   Fri Dec 20 15:07:47 2019 -0800
+
+    device: fix speed_to_str(), to handle disabled links
+    
+    For disabled links, the raw speed token is 0. However,
+    speed_to_str() doesn't have that in the list. This leads
+    to an assertion when running tests (test_query_port) when
+    one link is down and other link(s) are up.
+    
+    Fix this by returning '(Disabled/down)' for the zero speed
+    case.
+
+diff --git a/pyverbs/device.pyx b/pyverbs/device.pyx
+index 33d133fd..f8b7826b 100755
+--- a/pyverbs/device.pyx
++++ b/pyverbs/device.pyx
+@@ -923,8 +923,8 @@ def width_to_str(width):
+ 
+ 
+ def speed_to_str(speed):
+-    l = {1: '2.5 Gbps', 2: '5.0 Gbps', 4: '5.0 Gbps', 8: '10.0 Gbps',
+-         16: '14.0 Gbps', 32: '25.0 Gbps', 64: '50.0 Gbps'}
++    l = {0: '(Disabled/down)', 1: '2.5 Gbps', 2: '5.0 Gbps', 4: '5.0 Gbps',
++         8: '10.0 Gbps', 16: '14.0 Gbps', 32: '25.0 Gbps', 64: '50.0 Gbps'}
+     try:
+         return '{s} ({n})'.format(s=l[speed], n=speed)
+     except KeyError:
+
+
+Longer answer:
+==============
+
+It looks like this test suite assumes that every link is connected! (Probably
+in most test systems, they are.) But in my setup, the ConnectX cards each have
+two slots, and I only have (and only need) one cable. So one link is up, and
+the other is disabled. 
+
+This leads to the other problem, which is that if a link is disabled, the
+test suite finds a "0" token for attr.active_speed. That token is not in the
+approved list, and so d.speed_to_str() asserts.
+
+With some diagnostics added, I can see it checking each link: one passes, and
+the other asserts:
+
+diff --git a/tests/test_device.py b/tests/test_device.py
+index 524e0e89..7b33d7db 100644
+--- a/tests/test_device.py
++++ b/tests/test_device.py
+@@ -110,6 +110,12 @@ class DeviceTest(unittest.TestCase):
+         assert 'Invalid' not in d.translate_mtu(attr.max_mtu)
+         assert 'Invalid' not in d.translate_mtu(attr.active_mtu)
+         assert 'Invalid' not in d.width_to_str(attr.active_width)
++        print("")
++        print('Diagnostics ===========================================')
++        print('phys_state:    ', d.phys_state_to_str(attr.phys_state))
++        print('active_width): ', d.width_to_str(attr.active_width))
++        print('active_speed:  ',   d.speed_to_str(attr.active_speed))
++        print('END of Diagnostics ====================================')
+         assert 'Invalid' not in d.speed_to_str(attr.active_speed)
+         assert 'Invalid' not in d.translate_link_layer(attr.link_layer)
+         assert attr.max_msg_sz > 0x1000
+
+         assert attr.max_msg_sz > 0x1000
+
+...and the test run from that is:
+
+# ./build/bin/run_tests.py --verbose tests.test_device.DeviceTest
+test_dev_list (tests.test_device.DeviceTest) ... ok
+test_open_dev (tests.test_device.DeviceTest) ... ok
+test_query_device (tests.test_device.DeviceTest) ... ok
+test_query_device_ex (tests.test_device.DeviceTest) ... ok
+test_query_gid (tests.test_device.DeviceTest) ... ok
+test_query_port (tests.test_device.DeviceTest) ... 
+Diagnostics ===========================================
+phys_state:     Link up (5)
+active_width):  4X (2)
+active_speed:   25.0 Gbps (32)
+END of Diagnostics ====================================
+
+Diagnostics ===========================================
+phys_state:     Disabled (3)
+active_width):  4X (2)
+active_speed:   Invalid speed
+END of Diagnostics ====================================
+FAIL
+test_query_port_bad_flow (tests.test_device.DeviceTest) ... ok
+
+======================================================================
+FAIL: test_query_port (tests.test_device.DeviceTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/kernel_work/rdma-core/tests/test_device.py", line 135, in test_query_port
+    self.verify_port_attr(port_attr)
+  File "/kernel_work/rdma-core/tests/test_device.py", line 119, in verify_port_attr
+    assert 'Invalid' not in d.speed_to_str(attr.active_speed)
+AssertionError
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.055s
+
+FAILED (failures=1)
+
+
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
