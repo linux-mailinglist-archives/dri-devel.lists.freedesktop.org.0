@@ -1,65 +1,112 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9122127EF3
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2019 16:03:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43F4F127F0E
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2019 16:09:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 593926EC36;
-	Fri, 20 Dec 2019 15:03:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AC5B6EC4D;
+	Fri, 20 Dec 2019 15:09:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 489 seconds by postgrey-1.36 at gabe;
- Fri, 20 Dec 2019 15:03:25 UTC
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01FC66E044
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2019 15:03:24 +0000 (UTC)
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
- by mx08-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xBKEqpTP016204; Fri, 20 Dec 2019 15:55:08 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
- h=from : to : subject :
- date : message-id : mime-version : content-type :
- content-transfer-encoding; s=STMicroelectronics;
- bh=sVrTZIezbYnRiKZqMTLj6zzvZboDkSX5bAiYWhg0T7o=;
- b=NcBqpqxrKkxfyeDW+SY0cyO5g6DMetHFtAwa1fm5KWIVBAlUjHDhUvgBz9heMPbwatBJ
- xy0xpppdSlhdbtOPPW4MH9Xbqs9tE5wlg8K5gpQWbfl3La5fIsM5Zwq/a+v3MiNRThwm
- 92PxGh0mHmLtedC62PRLA32GEzvN3acsPlvFzckT7vXGZUqIapKEh0z+x4SCX7is2IZX
- jI2gDRTEA/gRjFRbld+Pkvy4LeYG7TbPuwgxez2PWanoceYfdIDheqTYWS68pFvqFhDc
- Zotrtr+UC/hH76bCS6oEox8txTdYo91Fds55nJyIUgqkmCxJQwrp+IDCLh1wOVbcJM+Z /g== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx08-00178001.pphosted.com with ESMTP id 2wvnreyuer-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 20 Dec 2019 15:55:08 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 3C8F310003D;
- Fri, 20 Dec 2019 15:55:04 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag6node1.st.com [10.75.127.16])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 275E72FF5DF;
- Fri, 20 Dec 2019 15:55:04 +0100 (CET)
-Received: from localhost (10.75.127.45) by SFHDAG6NODE1.st.com (10.75.127.16)
- with Microsoft SMTP Server (TLS) id 15.0.1473.3;
- Fri, 20 Dec 2019 15:55:03 +0100
-From: Yannick Fertre <yannick.fertre@st.com>
-To: Alexandre Torgue <alexandre.torgue@st.com>, Benjamin Gaignard
- <benjamin.gaignard@st.com>, Philippe Cornu <philippe.cornu@st.com>, Thierry
- Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, David
- Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
- <robh+dt@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, <dri-devel@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] dt-bindings: display: Convert orisetech,
- otm8009a panel to DT schema
-Date: Fri, 20 Dec 2019 15:54:48 +0100
-Message-ID: <1576853688-2143-1-git-send-email-yannick.fertre@st.com>
-X-Mailer: git-send-email 2.7.4
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2062.outbound.protection.outlook.com [40.107.92.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7B656EC4D
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2019 15:09:42 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ho4c30wVZUqqkIDKpW3cgYtgkIK8ayQ4cEIYb8lwbcW/qky/WxxgDTfrm5+RVnr2pEKiDr/Ok5kiP6e+FIbhDq0MAua7DfHavDHFRxWDsDg/AwnHeZrnbwGmaVlbCM539KpotrG1XZghIt3BpLGJA4xQRICe9qcjSnq12M4sM3qN8IfA4A34e2lrzQWfKea0wqn/wJ3x3bXL3H0DlI/DsxW425IDRpuwk5kcI1MF4iWnnxsTcCVMFfCDW/ChwD0ktzSMKAAMG1IcrlT2RNj65VI7Bpwccsp1JnNjYgkkXZWOYXK0UgE3cBiG3fWkdlo76Mr7cyV+r8+c9IQ/FBMVXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HUhp2dw0RjeLodXBWKgxpQeP9C7TLbC1w81yKwU8E5k=;
+ b=Z0qte41vxoGEttzoSpuEYYY3d+XfBP2lBxJeEzxtwUVO3Ho0qhksjTf+S6WMvZXYejwDdM/nuHtkCltpdCUfYjJheVBTB6sdDpHxe58B3+/hiuy7OxtuhW6sQowj07Q3T6CXIX+l5/9E2vRw/LOybWrq7BLoDua023zQ4URaa6EwKzW/fNI9PNpb3gbuobSgT+ZsvyJSCmjBCeXkj3chd2UTDNrKZEJjmqnTmbPQ/38AAymmIUCRpAzi+KEUirRlHMcZ6HI62SMgvnDdh8kdEF7i24o6JtN75WU+TCwZHxKUpKZJqArSaqquPbOwp3vku7iHa2FW/waKoqoa4Pk+hg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HUhp2dw0RjeLodXBWKgxpQeP9C7TLbC1w81yKwU8E5k=;
+ b=Fl3FY4I0RyDTQGiyXqb8NICwBRlvZBE5vYeWhGXwSbCXMU8pNW6mCtGAu01A0f0oSyupzDX2GkeTrJVevh8ek6glsR6ByDczv1/m42XNf6YcvNik2Nd9M5+KHBu2mGGvZx6xuC07E1ce6KA48+5CoLDQkzM8BfGJd08PLhumfpY=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Harry.Wentland@amd.com; 
+Received: from CY4PR1201MB0230.namprd12.prod.outlook.com (10.172.79.7) by
+ CY4PR1201MB0135.namprd12.prod.outlook.com (10.172.75.136) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2559.15; Fri, 20 Dec 2019 15:09:41 +0000
+Received: from CY4PR1201MB0230.namprd12.prod.outlook.com
+ ([fe80::301e:b0c8:7af:d77d]) by CY4PR1201MB0230.namprd12.prod.outlook.com
+ ([fe80::301e:b0c8:7af:d77d%11]) with mapi id 15.20.2559.012; Fri, 20 Dec 2019
+ 15:09:40 +0000
+Subject: Re: [PATCH next] drm/amd/display: make some symbols static
+To: Chen Zhou <chenzhou10@huawei.com>, harry.wentland@amd.com,
+ sunpeng.li@amd.com, alexander.deucher@amd.com
+References: <20191220065557.151393-1-chenzhou10@huawei.com>
+From: Harry Wentland <hwentlan@amd.com>
+Autocrypt: addr=hwentlan@amd.com; keydata=
+ mQENBFhb4C8BCADhHHUNoBQ7K7LupCP0FsUb443Vuqq+dH0uo4A3lnPkMF6FJmGcJ9Sbx1C6
+ cd4PbVAaTFZUEmjqfpm+wCRBe11eF55hW3GJ273wvfH69Q/zmAxwO8yk+i5ZWWl8Hns5h69K
+ D9QURHLpXxrcwnfHFah0DwV23TrD1KGB7vowCZyJOw93U/GzAlXKESy0FM7ZOYIJH83X7qhh
+ Q9KX94iTEYTeH86Wy8hwHtqM6ySviwEz0g+UegpG8ebbz0w3b5QmdKCAg+eZTmBekP5o77YE
+ BKqR+Miiwo9+tzm2N5GiF9HDeI2pVe/egOLa5UcmsgdF4Y5FKoMnBbAHNaA6Fev8PHlNABEB
+ AAG0J0hhcnJ5IFdlbnRsYW5kIDxoYXJyeS53ZW50bGFuZEBhbWQuY29tPokBNwQTAQgAIQUC
+ WFvgLwIbAwULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgAAKCRAtWBXJjBS24xUlCAC9MqAlIbZO
+ /a37s41h+MQ+D20C6/hVErWO+RA06nA+jFDPUWrDJKYdn6EDQWdLY3ATeAq3X8GIeOTXGrPD
+ b2OXD6kOViW/RNvlXdrIsnIDacdr39aoAlY1b+bhTzZVz4pto4l+K1PZb5jlMgTk/ks9HesL
+ RfYVq5wOy3qIpocdjdlXnSUKn0WOkGBBd8Nv3o0OI18tiJ1S/QwLBBfZoVvfGinoB2p4j/wO
+ kJxpi3F9TaOtLGcdrgfghg31Fb48DP+6kodZ4ircerp4hyAp0U2iKtsrQ/sVWR4mbe3eTfcn
+ YjBxGd2JOVdNQZa2VTNf9GshIDMD8IIQK6jN0LfY8Py2uQENBFhb4C8BCAC/0KWY3pIbU2cy
+ i7GMj3gqB6h0jGqRuMpMRoSNDoAUIuSh17w+bawuOF6XZPdK3D4lC9cOXMwP3aP9tTJOori2
+ 8vMH8KW9jp9lAYnGWYhSqLdjzIACquMqi96EBtawJDct1e9pVgp+d4JXHlgIrl11ITJo8rCP
+ dEqjro2bCBWxijsIncdCzMjf57+nR7u86SBtGSFcXKapS7YJeWcvM6MzFYgIkxHxxBDvBBvm
+ U2/mAXiL72kwmlV1BNrabQxX2UnIb3xt3UovYJehrnDUMdYjxJgSPRBx27wQ/D05xAlhkmmL
+ FJ01ZYc412CRCC6gjgFPfUi2y7YJTrQHS79WSyANABEBAAGJAR8EGAEIAAkFAlhb4C8CGwwA
+ CgkQLVgVyYwUtuM72Qf+J6JOQ/27pWf5Ulde9GS0BigA1kV9CNfIq396TgvQzeyixHMvgPdq
+ Z36x89zZi0otjMZv6ypIdEg5co1Bvz0wFaKbCiNbTjpnA1VAbQVLSFjCZLQiu0vc+BZ1yKDV
+ T5ASJ97G4XvQNO+XXGY55MrmhoNqMaeIa/3Jas54fPVd5olcnUAyDty29/VWXNllUq38iBCX
+ /0tTF7oav1lzPGfeW2c6B700FFZMTR4YBVSGE8jPIzu2Fj0E8EkDmsgS+nibqSvWXfo1v231
+ 410h35CjbYDlYQO7Z1YD7asqbaOnF0As+rckyRMweQ9CxZn5+YBijtPJA3x5ldbCfQ9rWiTu XQ==
+Message-ID: <3461e773-19db-c7a0-6512-d485da828a1a@amd.com>
+Date: Fri, 20 Dec 2019 10:09:38 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
+In-Reply-To: <20191220065557.151393-1-chenzhou10@huawei.com>
+Content-Language: en-US
+X-ClientProxiedBy: YTOPR0101CA0047.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:14::24) To CY4PR1201MB0230.namprd12.prod.outlook.com
+ (2603:10b6:910:1e::7)
 MIME-Version: 1.0
-X-Originating-IP: [10.75.127.45]
-X-ClientProxiedBy: SFHDAG4NODE2.st.com (10.75.127.11) To SFHDAG6NODE1.st.com
- (10.75.127.16)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-12-20_03:2019-12-17,2019-12-20 signatures=0
+Received: from [10.4.33.74] (165.204.55.251) by
+ YTOPR0101CA0047.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:14::24) with
+ Microsoft SMTP Server (version=TLS1_2, cipher=) via Frontend Transport;
+ Fri, 20 Dec 2019 15:09:39 +0000
+X-Originating-IP: [165.204.55.251]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 67197c2a-11a1-4a3b-3c30-08d7855ea2fd
+X-MS-TrafficTypeDiagnostic: CY4PR1201MB0135:|CY4PR1201MB0135:|CY4PR1201MB0135:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <CY4PR1201MB013520B18E35D7BA770396C78C2D0@CY4PR1201MB0135.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:281;
+X-Forefront-PRVS: 025796F161
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10009020)(4636009)(39860400002)(346002)(376002)(396003)(366004)(136003)(199004)(189003)(6636002)(478600001)(36756003)(956004)(2906002)(6486002)(4326008)(2616005)(16526019)(31686004)(8676002)(186003)(81166006)(81156014)(31696002)(4001150100001)(66946007)(66476007)(316002)(66556008)(8936002)(16576012)(53546011)(52116002)(26005)(5660300002);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR1201MB0135;
+ H:CY4PR1201MB0230.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: PL1M5BDWg0qxgQgtsfAH1WgsJsW/xacIPi4dJrR8b640tGWsHL8d9ka5nNw8VXo2W1vjsRWBV0530WE18lXtNHknBITolb8gduA9UnXr749PbsLydYmraHcJKdjfyM04yFsB4E6Q4YQdQfng7cM0Q1PY09mOM8vrw02FXjc+yWL83LCZtbS106KfU/mUAypQFIrdMMJIOistbrbTcyZbd+QF+SVDCyUr/oa361dHLzXfiP6Gr0xfLXR+caqtvKzBdwOJU4pkzeCR/RDGENx1Rs4sEtbOjOSpxxoWT0bMoo61hMinTkX9F/0cOU+oIEjGLO+XZiQ1UttAY3Rrb7zdTI4zOtrJ/r7jEVN7dTdlK8NobVpE7EXKXRKBaD2xpSCgrHlyjoAvlRr5aMNEeXQ7ebOH4DvxmSuPsJIC0PRtyU4HL+zI/YYnhGLPJX4pEJb+
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 67197c2a-11a1-4a3b-3c30-08d7855ea2fd
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Dec 2019 15:09:40.7258 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cmX/BuC+MWxSkQHrxL4I+rX3V58G8CAjN4jD4EuoULzB5yzgdkKMyenxlpnBthsxLURLq83pjZk8BhdxCN3b7w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB0135
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,66 +119,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogWWFubmljayBGZXJ0csOpIDx5YW5uaWNrLmZlcnRyZUBzdC5jb20+CgpDb252ZXJ0IHRo
-ZSBvcmlzZXRlY2gsb3RtODAwOWEgcGFuZWwgYmluZGluZyB0byBEVCBzY2hlbWEuCgpTaWduZWQt
-b2ZmLWJ5OiBZYW5uaWNrIEZlcnRyZSA8eWFubmljay5mZXJ0cmVAc3QuY29tPgotLS0KIC4uLi9i
-aW5kaW5ncy9kaXNwbGF5L3BhbmVsL29yaXNldGVjaCxvdG04MDA5YS50eHQgIHwgMjMgLS0tLS0t
-LS0KIC4uLi9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL29yaXNldGVjaCxvdG04MDA5YS55YW1sIHwg
-NjIgKysrKysrKysrKysrKysrKysrKysrKwogMiBmaWxlcyBjaGFuZ2VkLCA2MiBpbnNlcnRpb25z
-KCspLCAyMyBkZWxldGlvbnMoLSkKIGRlbGV0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL2Rl
-dmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9vcmlzZXRlY2gsb3RtODAwOWEudHh0CiBj
-cmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3Bs
-YXkvcGFuZWwvb3Jpc2V0ZWNoLG90bTgwMDlhLnlhbWwKCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0
-aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9vcmlzZXRlY2gsb3RtODAwOWEu
-dHh0IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvb3Jp
-c2V0ZWNoLG90bTgwMDlhLnR4dApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMjAzYjAz
-ZS4uMDAwMDAwMAotLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxh
-eS9wYW5lbC9vcmlzZXRlY2gsb3RtODAwOWEudHh0CisrKyAvZGV2L251bGwKQEAgLTEsMjMgKzAs
-MCBAQAotT3Jpc2UgVGVjaCBPVE04MDA5QSAzLjk3IiA0ODB4ODAwIFRGVCBMQ0QgcGFuZWwgKE1J
-UEktRFNJIHZpZGVvIG1vZGUpCi0KLVRoZSBPcmlzZSBUZWNoIE9UTTgwMDlBIGlzIGEgMy45NyIg
-NDgweDgwMCBURlQgTENEIHBhbmVsIGNvbm5lY3RlZCB1c2luZwotYSBNSVBJLURTSSB2aWRlbyBp
-bnRlcmZhY2UuIEl0cyBiYWNrbGlnaHQgaXMgbWFuYWdlZCB0aHJvdWdoIHRoZSBEU0kgbGluay4K
-LQotUmVxdWlyZWQgcHJvcGVydGllczoKLSAgLSBjb21wYXRpYmxlOiAib3Jpc2V0ZWNoLG90bTgw
-MDlhIgotICAtIHJlZzogdGhlIHZpcnR1YWwgY2hhbm5lbCBudW1iZXIgb2YgYSBEU0kgcGVyaXBo
-ZXJhbAotCi1PcHRpb25hbCBwcm9wZXJ0aWVzOgotICAtIHJlc2V0LWdwaW9zOiBhIEdQSU8gc3Bl
-YyBmb3IgdGhlIHJlc2V0IHBpbiAoYWN0aXZlIGxvdykuCi0gIC0gcG93ZXItc3VwcGx5OiBwaGFu
-ZGxlIG9mIHRoZSByZWd1bGF0b3IgdGhhdCBwcm92aWRlcyB0aGUgc3VwcGx5IHZvbHRhZ2UuCi0K
-LUV4YW1wbGU6Ci0mZHNpIHsKLQkuLi4KLQlwYW5lbEAwIHsKLQkJY29tcGF0aWJsZSA9ICJvcmlz
-ZXRlY2gsb3RtODAwOWEiOwotCQlyZWcgPSA8MD47Ci0JCXJlc2V0LWdwaW9zID0gPCZncGlvaCA3
-IEdQSU9fQUNUSVZFX0xPVz47Ci0JCXBvd2VyLXN1cHBseSA9IDwmdjF2OD47Ci0JfTsKLX07CmRp
-ZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5l
-bC9vcmlzZXRlY2gsb3RtODAwOWEueWFtbCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5k
-aW5ncy9kaXNwbGF5L3BhbmVsL29yaXNldGVjaCxvdG04MDA5YS55YW1sCm5ldyBmaWxlIG1vZGUg
-MTAwNjQ0CmluZGV4IDAwMDAwMDAuLjAyYmQ2OWUKLS0tIC9kZXYvbnVsbAorKysgYi9Eb2N1bWVu
-dGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9vcmlzZXRlY2gsb3RtODAw
-OWEueWFtbApAQCAtMCwwICsxLDYyIEBACisjIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiAoR1BM
-LTIuMC1vbmx5IE9SIEJTRC0yLUNsYXVzZSkKKyVZQU1MIDEuMgorLS0tCiskaWQ6IGh0dHA6Ly9k
-ZXZpY2V0cmVlLm9yZy9zY2hlbWFzL2Rpc3BsYXkvcGFuZWwvb3Jpc2V0ZWNoLG90bTgwMDlhLnlh
-bWwjCiskc2NoZW1hOiBodHRwOi8vZGV2aWNldHJlZS5vcmcvbWV0YS1zY2hlbWFzL2NvcmUueWFt
-bCMKKwordGl0bGU6IE9yaXNlIFRlY2ggT1RNODAwOUEgMy45NyIgNDgweDgwMCBwYW5lbAorCitt
-YWludGFpbmVyczoKKyAgLSBZYW5uaWNrIEZlcnRyZSA8eWFubmljay5mZXJ0cmVAc3QuY29tPgor
-CitkZXNjcmlwdGlvbjoKKyAgVGhlIE9yaXNlIFRlY2ggT1RNODAwOUEgaXMgYSAzLjk3IiA0ODB4
-ODAwIFRGVCBMQ0QgcGFuZWwgY29ubmVjdGVkIHVzaW5nCisgIGEgTUlQSS1EU0kgdmlkZW8gaW50
-ZXJmYWNlLiBJdHMgYmFja2xpZ2h0IGlzIG1hbmFnZWQgdGhyb3VnaCB0aGUgRFNJIGxpbmsuCisK
-K3Byb3BlcnRpZXM6CisgIGNvbXBhdGlibGU6CisgICAgY29uc3Q6IG9yaXNldGVjaCxvdG04MDA5
-YQorCisgIHBvd2VyLXN1cHBseToKKyAgICBtYXhJdGVtczogMQorCisgIHJlc2V0LWdwaW9zOgor
-ICAgIG1heEl0ZW1zOiAxCisKKyAgYmFja2xpZ2h0OgorICAgIG1heEl0ZW1zOiAxCisKKyAgcG9y
-dDoKKyAgICBtYXhJdGVtczogMQorCisgIHJlZzoKKyAgICBtYXhJdGVtczogMQorCityZXF1aXJl
-ZDoKKyAgLSBjb21wYXRpYmxlCisgIC0gcmVnCisgIC0gcG9ydAorCithZGRpdGlvbmFsUHJvcGVy
-dGllczogZmFsc2UKKworZXhhbXBsZXM6CisgIC0gfAorICAgICNpbmNsdWRlIDxkdC1iaW5kaW5n
-cy9ncGlvL2dwaW8uaD4KKyAgICBkaXNwbGF5MTogZGlzcGxheSB7CisgICAgICAjYWRkcmVzcy1j
-ZWxscyA9IDwxPjsKKyAgICAgICNzaXplLWNlbGxzID0gPDA+OworICAgICAgcGFuZWwgeworICAg
-ICAgICBjb21wYXRpYmxlID0gIm9yaXNldGVjaCxvdG04MDA5YSI7CisgICAgICAgIHJlZyA9IDww
-PjsKKyAgICAgICAgcmVzZXQtZ3Bpb3MgPSA8JmdwaW9oIDcgR1BJT19BQ1RJVkVfTE9XPjsKKyAg
-ICAgICAgcG93ZXItc3VwcGx5ID0gPCZ2MXY4PjsKKworICAgICAgICBwb3J0IHsKKyAgICAgICAg
-ICBwYW5lbF9pbl9kc2k6IGVuZHBvaW50IHsKKyAgICAgICAgICAgIHJlbW90ZS1lbmRwb2ludCA9
-IDwmY29udHJvbGxlcl9vdXRfZHNpPjsKKyAgICAgICAgICB9OworICAgICAgICB9OworICAgICAg
-fTsKKyAgICB9OworCisuLi4KLS0gCjIuNy40CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9kcmktZGV2ZWwK
+On 2019-12-20 1:55 a.m., Chen Zhou wrote:
+> Make some structs and functions static to fix build warnings, parts of
+> warnings are as follows:
+> 
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dce110/dce110_resource.c:744:21:
+> 	warning: symbol 'dce110_clock_source_create' was not declared. Should it be static?
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dce110/dce110_resource.c:768:6:
+> 	warning: symbol 'dce110_clock_source_destroy' was not declared. Should it be static?
+> 
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+
+Harry
+
+> ---
+>  drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c b/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c
+> index bf14e9a..87227db 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c
+> @@ -741,7 +741,7 @@ struct dce_i2c_hw *dce110_i2c_hw_create(
+>  
+>  	return dce_i2c_hw;
+>  }
+> -struct clock_source *dce110_clock_source_create(
+> +static struct clock_source *dce110_clock_source_create(
+>  	struct dc_context *ctx,
+>  	struct dc_bios *bios,
+>  	enum clock_source_id id,
+> @@ -765,7 +765,7 @@ struct clock_source *dce110_clock_source_create(
+>  	return NULL;
+>  }
+>  
+> -void dce110_clock_source_destroy(struct clock_source **clk_src)
+> +static void dce110_clock_source_destroy(struct clock_source **clk_src)
+>  {
+>  	struct dce110_clk_src *dce110_clk_src;
+>  
+> @@ -1007,7 +1007,7 @@ static bool dce110_validate_bandwidth(
+>  	return result;
+>  }
+>  
+> -enum dc_status dce110_validate_plane(const struct dc_plane_state *plane_state,
+> +static enum dc_status dce110_validate_plane(const struct dc_plane_state *plane_state,
+>  				     struct dc_caps *caps)
+>  {
+>  	if (((plane_state->dst_rect.width * 2) < plane_state->src_rect.width) ||
+> @@ -1062,7 +1062,7 @@ static bool dce110_validate_surface_sets(
+>  	return true;
+>  }
+>  
+> -enum dc_status dce110_validate_global(
+> +static enum dc_status dce110_validate_global(
+>  		struct dc *dc,
+>  		struct dc_state *context)
+>  {
+> @@ -1305,7 +1305,7 @@ static void bw_calcs_data_update_from_pplib(struct dc *dc)
+>  		1000);
+>  }
+>  
+> -const struct resource_caps *dce110_resource_cap(
+> +static const struct resource_caps *dce110_resource_cap(
+>  	struct hw_asic_id *asic_id)
+>  {
+>  	if (ASIC_REV_IS_STONEY(asic_id->hw_internal_rev))
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
