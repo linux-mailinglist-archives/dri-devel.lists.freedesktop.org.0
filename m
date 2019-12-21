@@ -1,51 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2BAF1285C9
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Dec 2019 00:58:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA5CD1285D2
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Dec 2019 01:02:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 585516E15A;
-	Fri, 20 Dec 2019 23:58:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FB3A6E17C;
+	Sat, 21 Dec 2019 00:02:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 964626E17A
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2019 23:58:36 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id b15so8295980lfc.4
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2019 15:58:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=6Z1dh6bnbsEkY8S0dVTC3PpJSu11QwilCxwQ2MjD6mk=;
- b=SkebdDQXc+gBstVUilswXNbofg1XQNAn0rXtYJ2ed1u8h1yCLBxTe5jXSOyiOwgLiK
- C0LA0TsPLotyhsGPJGASiLm1FD//4/enkTO587F9sBhtKdyhiXw3NyNKggxmgMcEuSgu
- pD42ie1ei8Nher4vAt1Bb2+W+6q1UWfMs7ZvPYE71H8FwDTSeYN6G1jjJ++dLPRMfFyl
- cxgYh+n9AE9+Yn7ugEFrW8hmZ5+eTf7MLOPNe4qE9avJ8sV/CRfUiGfzlD8UOyaBLSNN
- dlQSpla7RPKlZ4ojO+sqHqZo1X19uESjJt2GGsmA5wi7K3LUHpxcJ7GTa0uZCehHatu7
- x9nQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=6Z1dh6bnbsEkY8S0dVTC3PpJSu11QwilCxwQ2MjD6mk=;
- b=BD6OBfRerTBD14DkYqbX2OYq8BeBziDSdrtYaJ+HCS2oJVn64VfyuiP0AdwkiZNVQv
- bCG9ec4XsKuG2mOcQzZS/hWAZ+WJ5PVUifWOG8wCyivoISxk//149GnEVEgHFY+kCSKK
- R7MVGQrEPRAmoiLMJpMyzb4d9Erz4dzhbsdKeq+JVReE4D1BV1ZslKrArskg1DK4UIhW
- tMjmTRIsvQqu38Z/JxJXXS7xtG/F/9PD22AgRz2VGcfPHfLGEgmsxI4VRDwYRnroDoRE
- xAswCIOpirg0NH2GDIF35qI5nksBjVjnqfXSrsRf4lnPHndNXRRczkOlXogz+VHOrxQy
- fStw==
-X-Gm-Message-State: APjAAAWore7p47SS2gr3S2SJ4D5dTuVUp6Mqqg53QiolouXYJcUdWwJS
- TNPGRtxhcqficcYptyJfGm66b481VPseep3LlzU=
-X-Google-Smtp-Source: APXvYqxlcZLPNKNnxvXP66UYDBM/BdHTjJkK6wj3qVnsUMKn/2X3pMfH/q2ta5vlC3IeIr+0N62GVz9WKOzCqY1h/Xo=
-X-Received: by 2002:a19:784:: with SMTP id 126mr10353027lfh.191.1576886314876; 
- Fri, 20 Dec 2019 15:58:34 -0800 (PST)
+Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
+ [216.228.121.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EBFB6E181
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Dec 2019 00:02:21 +0000 (UTC)
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5dfd61010000>; Fri, 20 Dec 2019 16:02:10 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Fri, 20 Dec 2019 16:02:20 -0800
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Fri, 20 Dec 2019 16:02:20 -0800
+Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 21 Dec
+ 2019 00:02:16 +0000
+Subject: Re: [PATCH v11 00/25] mm/gup: track dma-pinned pages: FOLL_PIN
+To: Jan Kara <jack@suse.cz>
+References: <20191216222537.491123-1-jhubbard@nvidia.com>
+ <20191219132607.GA410823@unreal>
+ <a4849322-8e17-119e-a664-80d9f95d850b@nvidia.com>
+ <20191220092154.GA10068@quack2.suse.cz>
+X-Nvconfidentiality: public
+From: John Hubbard <jhubbard@nvidia.com>
+Message-ID: <b4b720c6-bb65-4928-f94f-618a39781c17@nvidia.com>
+Date: Fri, 20 Dec 2019 16:02:15 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Sat, 21 Dec 2019 09:58:23 +1000
-Message-ID: <CAPM=9tzUbs3a7_QYgR5X_vsY8uvaMwLExcO_v2s=xDECd2rxWw@mail.gmail.com>
-Subject: [git pull] drm fixes for 5.5-rc3 (resend with cc)
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+In-Reply-To: <20191220092154.GA10068@quack2.suse.cz>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1576886530; bh=lYmRHUKxjje08r87sxcrKTHiQd7mjXE1LoyaAhCgFxg=;
+ h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=f7r38Ma6i3MI9nFSKeDIvPdt5vYrXy+JJsSfP31k7u+2wCxmmNufD1MCidKlHygn3
+ 9DLRItYTVN4NHfhd0m+R/vw4197VAkr47By2QIcXSjvCdK32rmWdX1HB29Za9NhH9u
+ hudNbxuLpZYfSsTqz7cK57z334jwi4I1tLEi9lH/ca1Ff62dT4UIra7e9vrIur0HB5
+ JlY4V/uCEY0LG0MxUfhFQE9legwb8M5VcPujH9NTF0fF15bOxKlnVGzri/2jDISypV
+ Ta+rQMc92Kz26PG64qcQiVvssdWbJbDYbG+1Hm1r44PlB1G6okvsKpTqDlZ87Fs/zI
+ Q76HA4eWaOe1g==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,134 +66,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Michal Hocko <mhocko@suse.com>, kvm@vger.kernel.org,
+ linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Dave Chinner <david@fromorbit.com>, dri-devel@lists.freedesktop.org,
+ LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
+ Paul Mackerras <paulus@samba.org>, linux-kselftest@vger.kernel.org,
+ Ira Weiny <ira.weiny@intel.com>, Maor Gottlieb <maorg@mellanox.com>,
+ Leon Romanovsky <leon@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-rdma@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
+ Christoph Hellwig <hch@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Vlastimil Babka <vbabka@suse.cz>,
+ =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+ linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ linux-block@vger.kernel.org,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Al Viro <viro@zeniv.linux.org.uk>, Dan Williams <dan.j.williams@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, bpf@vger.kernel.org,
+ Magnus Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
+ netdev@vger.kernel.org, Alex
+ Williamson <alex.williamson@redhat.com>, linux-fsdevel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
+ "David S . Miller" <davem@davemloft.net>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Linus,
+On 12/20/19 1:21 AM, Jan Kara wrote:
+...
+>> So, ideas and next steps:
+>>
+>> 1. Assuming that you *are* hitting this, I think I may have to fall back to
+>> implementing the "deferred" part of this design, as part of this series, after
+>> all. That means:
+>>
+>>   For the pin/unpin calls at least, stop treating all pages as if they are
+>>   a cluster of PAGE_SIZE pages; instead, retrieve a huge page as one page.
+>>   That's not how it works now, and the need to hand back a huge array of
+>>   subpages is part of the problem. This affects the callers too, so it's not
+>>   a super quick change to make. (I was really hoping not to have to do this
+>>   yet.)
+> 
+> Does that mean that you would need to make all GUP users huge page aware?
+> Otherwise I don't see how what you suggest would work... And I don't think
+> making all GUP users huge page aware is realistic (effort-wise) or even
+> wanted (maintenance overhead in all those places).
+> 
 
-(Linus pointed out I forgot to cc everyone).
+Well, pretty much yes. It's really just the pin_user_pages*() callers, but
+the internals, follow_page() and such, are so interconnected right now that
+it would probably blow up into a huge effort, as you point out.
 
-Probably the last one before Christmas, I'll see if there is much
-demand over next few weeks for more fixes, I expect it'll be quiet
-enough.
+> I believe there might be also a different solution for this: For
+> transparent huge pages, we could find a space in 'struct page' of the
+> second page in the huge page for proper pin counter and just account pins
+> there so we'd have full width of 32-bits for it.
+> 
+> 								Honza
+> 
 
-This has one exynos fix, and a bunch of i915 core and i915 GVT fixes.
+OK, let me pursue that. Given that I shouldn't need to handle pages
+splitting, it should be not *too* bad.
 
-Dave.
+I am starting to think that I should just post the first 9 or so 
+prerequisite patches (first 9 patches, plus the v4l2 fix that arguably should 
+have been earlier in the sequence I guess), as 5.6 candidates, while I go
+back to the drawing board here. 
 
-drm-fixes-2019-12-21:
-drm fixes for 5.5-rc3
-
-exynos:
-- component delete fix
-
-i915:
-- Fix to drop an unused and harmful display W/A
-- Fix to define EHL power wells independent of ICL
-- Fix for priority inversion on bonded requests
-- Fix in mmio offset calculation of DSB instance
-- Fix memory leak from get_task_pid when banning clients
-- Fixes to avoid dereference of uninitialized ops in dma_fence tracing
-  and keep reference to execbuf object until submitted.
-- vGPU state setting locking fix (Zhenyu)
-- Fix vGPU display dmabuf as read-only (Zhenyu)
-- Properly handle vGPU display dmabuf page pin when rendering (Tina)
-- Fix one guest boot warning to handle guc reset state (Fred)
-The following changes since commit d1eef1c619749b2a57e514a3fa67d9a516ffa919:
-
-  Linux 5.5-rc2 (2019-12-15 15:16:08 -0800)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2019-12-21
-
-for you to fetch changes up to 0c517e6ced039b389bbe2d6be757525e52442f64:
-
-  Merge tag 'drm-intel-fixes-2019-12-19' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes (2019-12-21
-06:08:20 +1000)
-
-----------------------------------------------------------------
-drm fixes for 5.5-rc3
-
-exynos:
-- component delete fix
-
-i915:
-- Fix to drop an unused and harmful display W/A
-- Fix to define EHL power wells independent of ICL
-- Fix for priority inversion on bonded requests
-- Fix in mmio offset calculation of DSB instance
-- Fix memory leak from get_task_pid when banning clients
-- Fixes to avoid dereference of uninitialized ops in dma_fence tracing
-  and keep reference to execbuf object until submitted.
-- vGPU state setting locking fix (Zhenyu)
-- Fix vGPU display dmabuf as read-only (Zhenyu)
-- Properly handle vGPU display dmabuf page pin when rendering (Tina)
-- Fix one guest boot warning to handle guc reset state (Fred)
-
-----------------------------------------------------------------
-Animesh Manna (1):
-      drm/i915/dsb: Fix in mmio offset calculation of DSB instance
-
-Chris Wilson (3):
-      drm/i915: Copy across scheduler behaviour flags across submit fences
-      drm/i915: Set fence_work.ops before dma_fence_init
-      drm/i915/gem: Keep request alive while attaching fences
-
-Chuhong Yuan (1):
-      drm/exynos: gsc: add missed component_del
-
-Dave Airlie (2):
-      Merge tag 'exynos-drm-fixes-for-v5.5-rc3' of
-git://git.kernel.org/.../daeinki/drm-exynos into drm-fixes
-      Merge tag 'drm-intel-fixes-2019-12-19' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
-
-Gao Fred (1):
-      drm/i915/gvt: Fix guest boot warning
-
-Joonas Lahtinen (1):
-      Merge tag 'gvt-fixes-2019-12-18' of
-https://github.com/intel/gvt-linux into drm-intel-fixes
-
-Matt Roper (2):
-      drm/i915/ehl: Define EHL powerwells independently of ICL
-      drm/i915/tgl: Drop Wa#1178
-
-Tina Zhang (1):
-      drm/i915/gvt: Pin vgpu dma address before using
-
-Tvrtko Ursulin (1):
-      drm/i915: Fix pid leak with banned clients
-
-Vandita Kulkarni (1):
-      drm/i915: Fix WARN_ON condition for cursor plane ddb allocation
-
-Zhenyu Wang (2):
-      drm/i915/gvt: use vgpu lock for active state setting
-      drm/i915/gvt: set guest display buffer as readonly
-
- drivers/gpu/drm/exynos/exynos_drm_gsc.c            |   1 +
- drivers/gpu/drm/i915/display/intel_display_power.c | 153 ++++++++++++++++++++-
- drivers/gpu/drm/i915/gem/i915_gem_context.c        |   3 +-
- drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c     |   2 +
- drivers/gpu/drm/i915/gvt/dmabuf.c                  |  64 ++++++++-
- drivers/gpu/drm/i915/gvt/handlers.c                |  16 +++
- drivers/gpu/drm/i915/gvt/hypercall.h               |   2 +
- drivers/gpu/drm/i915/gvt/kvmgt.c                   |  23 ++++
- drivers/gpu/drm/i915/gvt/mpt.h                     |  15 ++
- drivers/gpu/drm/i915/gvt/vgpu.c                    |   4 +-
- drivers/gpu/drm/i915/i915_reg.h                    |   6 +-
- drivers/gpu/drm/i915/i915_request.c                | 114 +++++++++++----
- drivers/gpu/drm/i915/i915_scheduler.c              |   1 -
- drivers/gpu/drm/i915/i915_sw_fence_work.c          |   3 +-
- drivers/gpu/drm/i915/intel_pm.c                    |   4 +-
- 15 files changed, 366 insertions(+), 45 deletions(-)
+thanks,
+-- 
+John Hubbard
+NVIDIA
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
