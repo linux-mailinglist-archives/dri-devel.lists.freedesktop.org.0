@@ -2,71 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC4AF1285E4
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Dec 2019 01:11:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFCB31285FE
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Dec 2019 01:32:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFB8F6ECD7;
-	Sat, 21 Dec 2019 00:11:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A22576ECD2;
+	Sat, 21 Dec 2019 00:32:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C61BE6ECD2
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Dec 2019 00:11:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576887112;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UpvjyHddomTBVlnRy5D6G8OJ5mZnjYRh6mZ8SNVnyW4=;
- b=bYddrydPknaQIsbkxy7H0+SbRkiJXGjDYvRsEtm1HdMbFR/ODT27bCu76DLzGLO+EXPxE9
- RvUxa+bqO19DWPw0OohIILP0ZVcQY8xhCkiPfdlTMMyRYL6+viVgTc8xooDRx7YY5lRWIV
- VNiSqI6kA3A/j31fX5FBZiTwC/4OdVk=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-249-z9SV8-a7P7CfqFrIsiqGYg-1; Fri, 20 Dec 2019 19:11:50 -0500
-Received: by mail-qk1-f198.google.com with SMTP id a6so4348586qkl.7
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2019 16:11:50 -0800 (PST)
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
+ [IPv6:2607:f8b0:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88AEA6ECD2
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Dec 2019 00:32:25 +0000 (UTC)
+Received: by mail-ot1-x343.google.com with SMTP id 66so14016600otd.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2019 16:32:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=intel-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=x7w4UD7OpHop1e3Pz2ddMBPnhs3gOWoGc1gZLtDq0vk=;
+ b=vxEhprSqaQNYHFQ4H7dcX/E/mSO1yt4IUVMZ4sAhLDFH4ZGUKPILIYVqnfnOi8vncn
+ TkMivZIMeBGXnc2DZxbo8rhaadDmZ0J8YlsyjunZpHnqoJnITQdI9o+0sVlYw4wIwgNg
+ hVrkgdMe4LV+bJ1UOTvAeTPb7daNE36o1jVBQU5BvO3ZoVIoBadMJDXjLnRiZsHYGooC
+ TNPa9bH1kbJLrQnHkt24kZfMiD+6hcL+ePqBCPpBSGancvjEQx8QdtGwVjyhNWrmhcl4
+ X37OrtjEVw+33y61x0Kg++5hk4Jka/RWupbXhqGSK3ZcyRVBMCG0sfPDxatqX5Z1NvKS
+ I51A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=UpvjyHddomTBVlnRy5D6G8OJ5mZnjYRh6mZ8SNVnyW4=;
- b=nC+UnfJdFv4xpSEEwY2OL1nooAPabRFAbq5T0Xi54CXjrl5RtE0Hrd81crklO/1ML3
- 6PwnCbukT6L4uckBVEnFwMOfVLOQQQs+a/RrkSgbNhoM4VKhNnYhTCwyWHFnsB7puywJ
- Grh2DyNhYraaXQTkVhR2EktFJNSnuAjfmeRSBe8etBC4ObIaGBNfSAiCDExOQop0yWhv
- 5t/m0NHGZYGr7uZdLhq6zFqsU1ZNAKseSqFl6QOjGeSupegDzUpI89ko9KwXr69En8+y
- bR5ljXfLE8fJlZ+OGmr2AQlz5UgPX+c5YklNPt2KJEbVZCtmGP8twiq7DyZXG/h0OhgA
- Hw0w==
-X-Gm-Message-State: APjAAAW8mLbdu0c2GN/GDOcBc7O+73OBH8xix78Rh8oxaUjFVEsrC4up
- OPyagZVQ026zL2+kUYDYM86PDvCiVvR6CBZSBS5a3C8Imt1Io4rs7blDoC2g7xj9rjxqwsDdVj5
- fTcgtqYpULUaqgCUtZuxi3wELwKdf
-X-Received: by 2002:a05:620a:133a:: with SMTP id
- p26mr15607863qkj.233.1576887110300; 
- Fri, 20 Dec 2019 16:11:50 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwJw7kWbDwJzTxH+r2C3U8rbRcclU7cd3GFT2xwOnuXlYRM/9NpWWAyP0v0yC9CMPL8x0a/Cg==
-X-Received: by 2002:a05:620a:133a:: with SMTP id
- p26mr15607830qkj.233.1576887109935; 
- Fri, 20 Dec 2019 16:11:49 -0800 (PST)
-Received: from dhcp-10-20-1-90.bss.redhat.com ([144.121.20.162])
- by smtp.gmail.com with ESMTPSA id d143sm3364778qke.123.2019.12.20.16.11.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Dec 2019 16:11:49 -0800 (PST)
-Message-ID: <589e939efca5209af318645fa6799c423897eea6.camel@redhat.com>
-Subject: Re: [PATCH] drm/dp_mst: clear time slots for ports invalid
-From: Lyude Paul <lyude@redhat.com>
-To: Wayne Lin <Wayne.Lin@amd.com>, dri-devel@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org
-Date: Fri, 20 Dec 2019 19:11:48 -0500
-In-Reply-To: <20191206083937.9411-1-Wayne.Lin@amd.com>
-References: <20191206083937.9411-1-Wayne.Lin@amd.com>
-Organization: Red Hat
-User-Agent: Evolution 3.34.2 (3.34.2-1.fc31)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=x7w4UD7OpHop1e3Pz2ddMBPnhs3gOWoGc1gZLtDq0vk=;
+ b=snFpxb1m01xY0ypw3YiZD8/lMSyKm691o3fOng1RNMVYTeRuz5+zhreGkhwVq9H0im
+ Cp7oyANrLhyU+38RhxBovWtAKIT/mdpGRJtdOOBkOSSpBgn/dXcpmwPv9KZt9LlwNKO+
+ gGlXQkDW+bhbee0x2cGeHcPOtpFnq5YbFQs3OMZ/FKaR6aqRBDzMqDXVB2TXQO/QVvwC
+ T8fGAeot94e61UvkGer3ZWvKV7FeRuiCrALavJ85ddtMsNU0993vnPFDt8amHAxNxYmM
+ jSS/jFMf4EjBWAEciSO20bpqUBvjSH9oYhNC3V/zs6yc7TtFSJsK8YL7teuz1FByrKJm
+ eFQQ==
+X-Gm-Message-State: APjAAAU8O39ydR8G2MODfRueJkYJC+wfUuPgZ0YPd5qGk/mA/8At49Be
+ 7bgf5z8dQXLjq9FhfPZSdryt/4JrwjyCzil9+ZuqCA==
+X-Google-Smtp-Source: APXvYqz/XCcCPtPTpD6diyokGu99CSTPorQgAyb2cALnDUt6lAGgGTah0l7Kj7pZCHJSAA7gXN8KcX+bngnSk0tk1h8=
+X-Received: by 2002:a9d:7852:: with SMTP id c18mr12814325otm.247.1576888344708; 
+ Fri, 20 Dec 2019 16:32:24 -0800 (PST)
 MIME-Version: 1.0
-X-MC-Unique: z9SV8-a7P7CfqFrIsiqGYg-1
-X-Mimecast-Spam-Score: 0
+References: <20191216222537.491123-1-jhubbard@nvidia.com>
+ <20191219132607.GA410823@unreal>
+ <a4849322-8e17-119e-a664-80d9f95d850b@nvidia.com>
+ <20191219210743.GN17227@ziepe.ca>
+ <42a3e5c1-6301-db0b-5d09-212edf5ecf2a@nvidia.com>
+ <20191220133423.GA13506@ziepe.ca>
+In-Reply-To: <20191220133423.GA13506@ziepe.ca>
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Fri, 20 Dec 2019 16:32:13 -0800
+Message-ID: <CAPcyv4hX9TsTMjsv2hnbEM-TpkC9abtWGSVskr9nPwpR8c5E1Q@mail.gmail.com>
+Subject: Re: [PATCH v11 00/25] mm/gup: track dma-pinned pages: FOLL_PIN
+To: Jason Gunthorpe <jgg@ziepe.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,127 +66,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jerry.zuo@amd.com, Nicholas.Kazlauskas@amd.com, stable@vger.kernel.org
+Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
+ KVM list <kvm@vger.kernel.org>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
+ Paul Mackerras <paulus@samba.org>, linux-kselftest@vger.kernel.org,
+ Ira Weiny <ira.weiny@intel.com>, Maor Gottlieb <maorg@mellanox.com>,
+ Leon Romanovsky <leon@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-rdma <linux-rdma@vger.kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ Christoph Hellwig <hch@infradead.org>, Vlastimil Babka <vbabka@suse.cz>,
+ =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+ "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ Shuah Khan <shuah@kernel.org>, John Hubbard <jhubbard@nvidia.com>,
+ linux-block@vger.kernel.org,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Al Viro <viro@zeniv.linux.org.uk>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ bpf@vger.kernel.org, Magnus Karlsson <magnus.karlsson@intel.com>,
+ Jens Axboe <axboe@kernel.dk>, Netdev <netdev@vger.kernel.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ "David S . Miller" <davem@davemloft.net>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mhh-I think I understand the problem you're trying to solve here but I think
-this solution might be a bit overkill. When I did the rework of topology
-references for ports, I made it so that we can guarantee memory access to a
-port without it needing to be a valid part of the topology. As well, all
-parents of the port are guaranteed to be accessible for as long as the child
-is. Take a look at:
+On Fri, Dec 20, 2019 at 5:34 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+>
+> On Thu, Dec 19, 2019 at 01:13:54PM -0800, John Hubbard wrote:
+> > On 12/19/19 1:07 PM, Jason Gunthorpe wrote:
+> > > On Thu, Dec 19, 2019 at 12:30:31PM -0800, John Hubbard wrote:
+> > > > On 12/19/19 5:26 AM, Leon Romanovsky wrote:
+> > > > > On Mon, Dec 16, 2019 at 02:25:12PM -0800, John Hubbard wrote:
+> > > > > > Hi,
+> > > > > >
+> > > > > > This implements an API naming change (put_user_page*() -->
+> > > > > > unpin_user_page*()), and also implements tracking of FOLL_PIN pages. It
+> > > > > > extends that tracking to a few select subsystems. More subsystems will
+> > > > > > be added in follow up work.
+> > > > >
+> > > > > Hi John,
+> > > > >
+> > > > > The patchset generates kernel panics in our IB testing. In our tests, we
+> > > > > allocated single memory block and registered multiple MRs using the single
+> > > > > block.
+> > > > >
+> > > > > The possible bad flow is:
+> > > > >    ib_umem_geti() ->
+> > > > >     pin_user_pages_fast(FOLL_WRITE) ->
+> > > > >      internal_get_user_pages_fast(FOLL_WRITE) ->
+> > > > >       gup_pgd_range() ->
+> > > > >        gup_huge_pd() ->
+> > > > >         gup_hugepte() ->
+> > > > >          try_grab_compound_head() ->
+> > > >
+> > > > Hi Leon,
+> > > >
+> > > > Thanks very much for the detailed report! So we're overflowing...
+> > > >
+> > > > At first look, this seems likely to be hitting a weak point in the
+> > > > GUP_PIN_COUNTING_BIAS-based design, one that I believed could be deferred
+> > > > (there's a writeup in Documentation/core-api/pin_user_page.rst, lines
+> > > > 99-121). Basically it's pretty easy to overflow the page->_refcount
+> > > > with huge pages if the pages have a *lot* of subpages.
+> > > >
+> > > > We can only do about 7 pins on 1GB huge pages that use 4KB subpages.
+> > >
+> > > Considering that establishing these pins is entirely under user
+> > > control, we can't have a limit here.
+> >
+> > There's already a limit, it's just a much larger one. :) What does "no limit"
+> > really mean, numerically, to you in this case?
+>
+> I guess I mean 'hidden limit' - hitting the limit and failing would
+> be managable.
+>
+> I think 7 is probably too low though, but we are not using 1GB huge
+> pages, only 2M..
 
-https://01.org/linuxgraphics/gfx-docs/drm/gpu/drm-kms-helpers.html#refcount-relationships-in-a-topology
-
-It's also worth noting that because of this there's a lot of
-get_port_validated()/put_port_validated() calls in the MST helpers that are
-now bogus and need to be removed once I get a chance. For new code we should
-limit the use of topology references to sections of code where we need a
-guarantee that resources on the port/branch (such as a drm connector, dp aux
-port, etc.) won't go away for as long as we need to use them.
-
-Do you think we could change this patch so instead of removing it from the
-proposed payloads on the CONNECTION_STATUS_NOTIFY, we keep the port's memory
-allocation around until it's been removed from the proposed payloads table and
-clean it up there on the next payload update?
-
-On Fri, 2019-12-06 at 16:39 +0800, Wayne Lin wrote:
-> [Why]
-> When change the connection status in a MST topology, mst device
-> which detect the event will send out CONNECTION_STATUS_NOTIFY messgae.
-> 
-> e.g. src-mst-mst-sst => src-mst (unplug) mst-sst
-> 
-> Currently, under the above case of unplugging device, ports which have
-> been allocated payloads and are no longer in the topology still occupy
-> time slots and recorded in proposed_vcpi[] of topology manager.
-> 
-> If we don't clean up the proposed_vcpi[], when code flow goes to try to
-> update payload table by calling drm_dp_update_payload_part1(), we will
-> fail at checking port validation due to there are ports with proposed
-> time slots but no longer in the mst topology. As the result of that, we
-> will also stop updating the DPCD payload table of down stream port.
-> 
-> [How]
-> While handling the CONNECTION_STATUS_NOTIFY message, add a detection to
-> see if the event indicates that a device is unplugged to an output port.
-> If the detection is true, then iterrate over all proposed_vcpi[] to
-> see whether a port of the proposed_vcpi[] is still in the topology or
-> not. If the port is invalid, set its num_slots to 0.
-> 
-> Thereafter, when try to update payload table by calling
-> drm_dp_update_payload_part1(), we can successfully update the DPCD
-> payload table of down stream port and clear the proposed_vcpi[] to NULL.
-> 
-> Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
-> Cc: stable@vger.kernel.org
-> ---
->  drivers/gpu/drm/drm_dp_mst_topology.c | 24 +++++++++++++++++++++++-
->  1 file changed, 23 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c
-> b/drivers/gpu/drm/drm_dp_mst_topology.c
-> index 5306c47dc820..2e236b6275c4 100644
-> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-> @@ -2318,7 +2318,7 @@ drm_dp_mst_handle_conn_stat(struct drm_dp_mst_branch
-> *mstb,
->  {
->  	struct drm_dp_mst_topology_mgr *mgr = mstb->mgr;
->  	struct drm_dp_mst_port *port;
-> -	int old_ddps, ret;
-> +	int old_ddps, old_input, ret, i;
->  	u8 new_pdt;
->  	bool dowork = false, create_connector = false;
->  
-> @@ -2349,6 +2349,7 @@ drm_dp_mst_handle_conn_stat(struct drm_dp_mst_branch
-> *mstb,
->  	}
->  
->  	old_ddps = port->ddps;
-> +	old_input = port->input;
->  	port->input = conn_stat->input_port;
->  	port->mcs = conn_stat->message_capability_status;
->  	port->ldps = conn_stat->legacy_device_plug_status;
-> @@ -2373,6 +2374,27 @@ drm_dp_mst_handle_conn_stat(struct drm_dp_mst_branch
-> *mstb,
->  		dowork = false;
->  	}
->  
-> +	if (!old_input && old_ddps != port->ddps && !port->ddps) {
-> +		for (i = 0; i < mgr->max_payloads; i++) {
-> +			struct drm_dp_vcpi *vcpi = mgr->proposed_vcpis[i];
-> +			struct drm_dp_mst_port *port_validated;
-> +
-> +			if (vcpi) {
-> +				port_validated =
-> +					container_of(vcpi, struct
-> drm_dp_mst_port, vcpi);
-> +				port_validated =
-> +					drm_dp_mst_topology_get_port_validated
-> (mgr, port_validated);
-> +				if (!port_validated) {
-> +					mutex_lock(&mgr->payload_lock);
-> +					vcpi->num_slots = 0;
-> +					mutex_unlock(&mgr->payload_lock);
-> +				} else {
-> +					drm_dp_mst_topology_put_port(port_vali
-> dated);
-> +				}
-> +			}
-> +		}
-> +	}
-> +
->  	if (port->connector)
->  		drm_modeset_unlock(&mgr->base.lock);
->  	else if (create_connector)
--- 
-Cheers,
-	Lyude Paul
-
+What about RDMA to 1GB-hugetlbfs and 1GB-device-dax mappings?
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
