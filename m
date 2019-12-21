@@ -1,42 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 822F3128878
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Dec 2019 11:08:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E9AA1288E0
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Dec 2019 12:41:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 897576E43C;
-	Sat, 21 Dec 2019 10:08:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3526D6E445;
+	Sat, 21 Dec 2019 11:41:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40FE16E43C
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Dec 2019 10:08:48 +0000 (UTC)
-Received: from localhost (unknown [5.29.147.182])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 0A0D0206EC;
- Sat, 21 Dec 2019 10:08:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576922927;
- bh=9acaA/8fKn1399pza9UZM74CCEP9IQOiAcwxAFB8uv0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=C5VL6ejrikwv/fPR/5hW1vC5g7ZxqQArLHZI9V0Acv45zpCoEu7KVSUG363aSOh1d
- 8mWTxU92Mkz/MNea4rOvwk4lPkm3QVmugiAJmAPtyzW4ix2JAMqI4I9mKaT4oTHqTx
- danVQGmjzaX4h7HmaTFOuro/EjXVdeZW+yY0HmyE=
-Date: Sat, 21 Dec 2019 12:08:43 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: John Hubbard <jhubbard@nvidia.com>
-Subject: Re: [PATCH v11 00/25] mm/gup: track dma-pinned pages: FOLL_PIN
-Message-ID: <20191221100843.GB13335@unreal>
-References: <20191216222537.491123-1-jhubbard@nvidia.com>
- <20191219132607.GA410823@unreal>
- <a4849322-8e17-119e-a664-80d9f95d850b@nvidia.com>
- <20191219210743.GN17227@ziepe.ca> <20191220182939.GA10944@unreal>
- <1001a5fc-a71d-9c0f-1090-546c4913d8a2@nvidia.com>
+Received: from mail-il1-x142.google.com (mail-il1-x142.google.com
+ [IPv6:2607:f8b0:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E9026E445
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Dec 2019 11:41:12 +0000 (UTC)
+Received: by mail-il1-x142.google.com with SMTP id t17so10238015ilm.13
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Dec 2019 03:41:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=vNV02+2w/LuSpJZYsMjHcwC8GjFE9t6hiV5LOIUFGBk=;
+ b=A5BO7X5DzlfaSnRuAGZyzntGC11UWR+MMEiO7Sp17mrIFsoqt883gjzd517WrM20vi
+ iJFikLyXXR432ughgioGPECET9WZT2wKTwUVkZ/rYA1we8jb348G6O6Os1PvlK+ulG9H
+ oRAnKFtkPSlkux55lpH2E2TCtgtXcEU1COIUs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vNV02+2w/LuSpJZYsMjHcwC8GjFE9t6hiV5LOIUFGBk=;
+ b=I+xXuWReRz/x+L5zWUGrgDZk4u47BDpRtCoRD4H+kyQYH29Rv0WTlNF4fT+GrmS43Z
+ hDgJ4G0WkmhRFJenmcp1UkV6DDyt/MblLj24+DnHhPjf9QEM0EJODBN/VS6vtx71Pn6Z
+ ae89HzBOCc5BgizaxU0IWEYhnX9WGuCN3fILCHtiyYD/b92/SmeXyAuuP8yjOexjZjD/
+ +eemmedaO5JqvPXDmKpNz0ctJO0j3ViO6lMAhtSgG9xLDxH+Vatbc/YezFEp2kSH2Qzi
+ ZvQ4OtRkCKWXitY9ijyG22jow39vJlRmHPR7J8GiN/OpKH2dobmKrmjNXdrarOe428ww
+ dV2g==
+X-Gm-Message-State: APjAAAVLOMbhbih4ZISdotSZsEwPywq3bM88H8u7rrxvwrXwerPQYTP+
+ NlVJSxWA/MpUzNGAsZdyQj75VogY0+zMSjqgu5E50Q==
+X-Google-Smtp-Source: APXvYqz/R+VCq8E6MRf5DMa4CwxrLZijUguwUXScwgRA6YKgobbJy4dCRHwi8tMTCUrh4OCP94WsaQhcEvFaUtFg2Pk=
+X-Received: by 2002:a92:7706:: with SMTP id s6mr16088743ilc.61.1576928471817; 
+ Sat, 21 Dec 2019 03:41:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1001a5fc-a71d-9c0f-1090-546c4913d8a2@nvidia.com>
+References: <20191218191017.2895-1-jagan@amarulasolutions.com>
+ <20191218191017.2895-5-jagan@amarulasolutions.com>
+ <20191218220536.vwww45yctm5ye3vg@gilmour.lan>
+In-Reply-To: <20191218220536.vwww45yctm5ye3vg@gilmour.lan>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Sat, 21 Dec 2019 17:11:00 +0530
+Message-ID: <CAMty3ZDgnn0LyGVYmzQhTtg7JdiqH_cW_dZ=o2SA1NSF=i2ufg@mail.gmail.com>
+Subject: Re: [PATCH v13 4/7] drm/sun4i: dsi: Handle bus clock via
+ regmap_mmio_attach_clk
+To: Maxime Ripard <mripard@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,88 +61,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
- linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
- linux-kselftest@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
- Maor Gottlieb <maorg@mellanox.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-rdma@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
- Christoph Hellwig <hch@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- Vlastimil Babka <vbabka@suse.cz>,
- =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
- linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- linux-block@vger.kernel.org,
- =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
- Al Viro <viro@zeniv.linux.org.uk>, Dan Williams <dan.j.williams@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, bpf@vger.kernel.org,
- Magnus Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
- netdev@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>,
- Mike Kravetz <mike.kravetz@oracle.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ linux-sunxi <linux-sunxi@googlegroups.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Michael Trimarchi <michael@amarulasolutions.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ Icenowy Zheng <icenowy@aosc.io>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 20, 2019 at 03:54:55PM -0800, John Hubbard wrote:
-> On 12/20/19 10:29 AM, Leon Romanovsky wrote:
-> ...
-> >> $ ./build.sh
-> >> $ build/bin/run_tests.py
-> >>
-> >> If you get things that far I think Leon can get a reproduction for you
+On Thu, Dec 19, 2019 at 3:35 AM Maxime Ripard <mripard@kernel.org> wrote:
+>
+> On Thu, Dec 19, 2019 at 12:40:14AM +0530, Jagan Teki wrote:
+> > regmap has special API to enable the controller bus clock while
+> > initializing register space, and current driver is using
+> > devm_regmap_init_mmio_clk which require to specify bus
+> > clk_id argument as "bus"
 > >
-> > I'm not so optimistic about that.
+> > But, the usage of clocks are varies between different Allwinner
+> > DSI controllers. Clocking in A33 would need bus and mod clocks
+> > where as A64 would need only bus clock.
 > >
+> > Since A64 support only single bus clock, it is optional to
+> > specify the clock-names on the controller device tree node.
+> > So using NULL on clk_id would get the attached clock.
+> >
+> > To support clk_id as "bus" and "NULL" during clock enablement
+> > between controllers, this patch add generic code to handle
+> > the bus clock using regmap_mmio_attach_clk with associated
+> > regmap APIs.
+> >
+> > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> > ---
+> > Changes for v13:
+> > - update the changes since has_mod_clk is dropped in previous patch
+> >
+> >  drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 45 +++++++++++++++++++++-----
+> >  1 file changed, 37 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+> > index 68b88a3dc4c5..de8955fbeb00 100644
+> > --- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+> > +++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+> > @@ -1081,6 +1081,7 @@ static const struct component_ops sun6i_dsi_ops = {
+> >  static int sun6i_dsi_probe(struct platform_device *pdev)
+> >  {
+> >       struct device *dev = &pdev->dev;
+> > +     const char *bus_clk_name = NULL;
+> >       struct sun6i_dsi *dsi;
+> >       struct resource *res;
+> >       void __iomem *base;
+> > @@ -1094,6 +1095,10 @@ static int sun6i_dsi_probe(struct platform_device *pdev)
+> >       dsi->host.ops = &sun6i_dsi_host_ops;
+> >       dsi->host.dev = dev;
+> >
+> > +     if (of_device_is_compatible(dev->of_node,
+> > +                                 "allwinner,sun6i-a31-mipi-dsi"))
+> > +             bus_clk_name = "bus";
+> > +
+> >       res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> >       base = devm_ioremap_resource(dev, res);
+> >       if (IS_ERR(base)) {
+> > @@ -1107,25 +1112,36 @@ static int sun6i_dsi_probe(struct platform_device *pdev)
+> >               return PTR_ERR(dsi->regulator);
+> >       }
+> >
+> > -     dsi->regs = devm_regmap_init_mmio_clk(dev, "bus", base,
+> > -                                           &sun6i_dsi_regmap_config);
+> > -     if (IS_ERR(dsi->regs)) {
+> > -             dev_err(dev, "Couldn't create the DSI encoder regmap\n");
+> > -             return PTR_ERR(dsi->regs);
+> > -     }
+> > -
+> >       dsi->reset = devm_reset_control_get_shared(dev, NULL);
+> >       if (IS_ERR(dsi->reset)) {
+> >               dev_err(dev, "Couldn't get our reset line\n");
+> >               return PTR_ERR(dsi->reset);
+> >       }
+> >
+> > +     dsi->regs = devm_regmap_init_mmio(dev, base, &sun6i_dsi_regmap_config);
+> > +     if (IS_ERR(dsi->regs)) {
+> > +             dev_err(dev, "Couldn't init regmap\n");
+> > +             return PTR_ERR(dsi->regs);
+> > +     }
+> > +
+> > +     dsi->bus_clk = devm_clk_get(dev, bus_clk_name);
+> > +     if (IS_ERR(dsi->bus_clk)) {
+> > +             dev_err(dev, "Couldn't get the DSI bus clock\n");
+> > +             ret = PTR_ERR(dsi->bus_clk);
+> > +             goto err_regmap;
+> > +     } else {
+> > +             ret = regmap_mmio_attach_clk(dsi->regs, dsi->bus_clk);
+> > +             if (ret)
+> > +                     goto err_bus_clk;
+> > +     }
+> > +
+> >       if (of_device_is_compatible(dev->of_node,
+> >                                   "allwinner,sun6i-a31-mipi-dsi")) {
+> >               dsi->mod_clk = devm_clk_get(dev, "mod");
+> >               if (IS_ERR(dsi->mod_clk)) {
+> >                       dev_err(dev, "Couldn't get the DSI mod clock\n");
+> > -                     return PTR_ERR(dsi->mod_clk);
+> > +                     ret = PTR_ERR(dsi->mod_clk);
+> > +                     goto err_attach_clk;
+> >               }
+> >       }
+> >
+> > @@ -1164,6 +1180,14 @@ static int sun6i_dsi_probe(struct platform_device *pdev)
+> >       pm_runtime_disable(dev);
+> >  err_unprotect_clk:
+> >       clk_rate_exclusive_put(dsi->mod_clk);
+> > +err_attach_clk:
+> > +     if (!IS_ERR(dsi->bus_clk))
+> > +             regmap_mmio_detach_clk(dsi->regs);
+> > +err_bus_clk:
+> > +     if (!IS_ERR(dsi->bus_clk))
+> > +             clk_put(dsi->bus_clk);
 >
-> OK, I'm going to proceed for now on the assumption that I've got an overflow
-> problem that happens when huge pages are pinned. If I can get more information,
-> great, otherwise it's probably enough.
->
-> One thing: for your repro, if you know the huge page size, and the system
-> page size for that case, that would really help. Also the number of pins per
-> page, more or less, that you'd expect. Because Jason says that only 2M huge
-> pages are used...
->
-> Because the other possibility is that the refcount really is going negative,
-> likely due to a mismatched pin/unpin somehow.
->
-> If there's not an obvious repro case available, but you do have one (is it easy
-> to repro, though?), then *if* you have the time, I could point you to a github
-> branch that reduces GUP_PIN_COUNTING_BIAS by, say, 4x, by applying this:
+> You still have an unbalanced clk_get / clk_put here
 
-I'll see what I can do this Sunday.
+You mean it is not needed right since devm_clk_get has release call
+via devres_alloc? or the wrong position for clk_put?
 
 >
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index bb44c4d2ada7..8526fd03b978 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -1077,7 +1077,7 @@ static inline void put_page(struct page *page)
->   * get_user_pages and page_mkclean and other calls that race to set up page
->   * table entries.
->   */
-> -#define GUP_PIN_COUNTING_BIAS (1U << 10)
-> +#define GUP_PIN_COUNTING_BIAS (1U << 8)
+> > +err_regmap:
+> > +     regmap_exit(dsi->regs);
 >
->  void unpin_user_page(struct page *page);
->  void unpin_user_pages_dirty_lock(struct page **pages, unsigned long npages,
->
-> If that fails to repro, then we would be zeroing in on the root cause.
->
-> The branch is here (I just tested it and it seems healthy):
->
-> git@github.com:johnhubbard/linux.git  pin_user_pages_tracking_v11_with_diags
->
->
->
-> thanks,
-> --
-> John Hubbard
-> NVIDIA
+> That's not needed.
+
+Yes. look like __devm_regmap_init has release call with regmap_exit.
+
+Thanks for the comments, I will update these and send next version.
+Let me know if you have any more comments?
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
