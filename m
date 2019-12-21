@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33E2C12886D
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Dec 2019 10:56:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBAC512886E
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Dec 2019 10:56:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9E106E43B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6CC66E438;
 	Sat, 21 Dec 2019 09:56:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E00D46E433
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Dec 2019 09:56:15 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id m26so10038578ljc.13
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Dec 2019 01:56:15 -0800 (PST)
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
+ [IPv6:2a00:1450:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 091EA6E438
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Dec 2019 09:56:17 +0000 (UTC)
+Received: by mail-lf1-x143.google.com with SMTP id i23so8891480lfo.7
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Dec 2019 01:56:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GqRix+uR2dI/9Zd4Du8z4kKyTdDG/QeI0JIJQu8vYug=;
- b=NG68w9mcEI4TvejvuPrh98RFuth6Ru5zW3H3+d3cTAsvU1U2j4EZr2rGV2gCiA7HJu
- Wb1YWM03riQt0/oPyPDYhsYr7wX5Dj1X1hqdPz4YvXal+kvfUlVK28nStc5oH9l99jjQ
- XjJiZ+yGygX3IPhXm+x+fZf1kp0Z5ojWxAguxPRkS1buaf3ZI7+466Ps/vx9xB/fITMH
- fojLu2Fk6y8EzUtJrPMnNjGsNrC+2ekaZqbXos12+TlYnp7XpSYng36m1ClEdOKmIbmu
- GXAVvEO6pX9ZhKFwPnKF/opFlv0PRA2YlQg/7b5Zg3Es94rcTnUxWSUFEHHITBWLVSA7
- u/qA==
+ bh=tdWgzBmBhFIY0yV6azzdb6ioleZW2L9QwhOviQaYTGM=;
+ b=Npzi8axXY6xt7zYHFLUy12HZkVqCzENo9BMGhrVekavfWuuwIwpIITU/Bu5TXoF+dH
+ hNQZv3Lm/9wLeFGp23jT6d4dYCdSFVQmOt2+hiBuqblyq+cfkVNx/SJwpZCK975sFH/r
+ M0Ut/7P/2b7maYmMt9T8er0NjY6pQB32pr/sEgZgviuzTxr69NgeplJQAZ2TKTX5UEWu
+ J4MOOE2r58nhaaTD+MTSYXwZJ7bBv3m/6iOlHcKyC/dPlzS/QEyeU/LiuxCBRZb4iLK0
+ nHuupZPcNCi4lOqhwTmtl+m2g51iSFhU5GlJcL0M506VrQ6fp3bbiHyywL2BCsVPWa7Y
+ fZ5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=GqRix+uR2dI/9Zd4Du8z4kKyTdDG/QeI0JIJQu8vYug=;
- b=kJp3LHIdizaGQ6lxcASfEs3Sr9PA0PXNWT+zlk/LR6C5yGd4h+mny0AMfX3tBy1FAE
- CdHM3vJHehVarGCtyogR5tPSXj9ccUX3zMSbFy/bWxJPp6CALuJhOmCFP7FCNfyhKQNo
- ZdUyrCr/G/a97dNFdb6HRd9FWEgN+ZhcakYoKZu3lGeT0jJ6ZhBbdhPgvIOX9jWePOU/
- yN2cMk0tQJSA6zCaL4mfVOQOWuLZ+7W/DySP0YgUVit/IXnCNwa/PVe2C8vjAytDcKLX
- JEHXCy+t35qswZkZxbdQWl7sNirPvyMeLscOPkuVNSFeqdZ7Sszp9x6BfNe8Sr4ay08N
- fHUw==
-X-Gm-Message-State: APjAAAXlH1Zg/8O8QD94OxvNuL70bZNXi2AxRPQeAGhWdCM1ZBA19qw9
- K6c/+wy8LH2vZcknI9lGDA0xk1YpvAA=
-X-Google-Smtp-Source: APXvYqzXuNrfnFAAFMtImWbjFkPtQP69dGrbAkTevPSoCrDa/qsME3Fd8Dd8ncnp/BtUZI1HpKvzQg==
-X-Received: by 2002:a2e:9592:: with SMTP id w18mr12404088ljh.98.1576922174057; 
- Sat, 21 Dec 2019 01:56:14 -0800 (PST)
+ bh=tdWgzBmBhFIY0yV6azzdb6ioleZW2L9QwhOviQaYTGM=;
+ b=HI+VUbwPMVcpjhnC0XFcHa0s8lAVJIkKbNYm/OaGTWKXNLt2Ol8yr659L80H5fXhDX
+ IxlSmagfaz2md2v8Wk1D3i7MzXmGSeYMC8dNcbe/a3UYBFT1gRh7e/K0wog1+IYOIWEF
+ WlJffOlYkGhkfVQC0oCeYwR45ezP/3cSjnNWxRrc2Mfc89gka82GD5mFmptjuMwO3SLu
+ W0uP9nq4W7HEL0Z4lSA00ENBJMno8qi3Hnt26FU6EyJ//B6EzvNKN72wqt1ERUmDwYP9
+ l8/pZZYZTW1vNIOb+I1Wc9+JialNWaKuCY80Y27J3yB5oqCSFqL8VbR+hGTuwt4L6orJ
+ AQSA==
+X-Gm-Message-State: APjAAAUXW8rcPVVC8ExA6PN8vAM5RrKhKGmUm33OpBo6SuqzAknuC+SD
+ my3kpDYefQZcgZm8ekh+AD2lW2D5B3M=
+X-Google-Smtp-Source: APXvYqyo11ktOp3oYKgdfoPZi7W5MGdt3PhroKks+SZp+GRfIpvUdlzAZrWs6HuowKEiXQTACtPQ3Q==
+X-Received: by 2002:a19:ec14:: with SMTP id b20mr12009198lfa.63.1576922175165; 
+ Sat, 21 Dec 2019 01:56:15 -0800 (PST)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
  by smtp.gmail.com with ESMTPSA id
- n23sm5187263lfa.41.2019.12.21.01.56.13
+ n23sm5187263lfa.41.2019.12.21.01.56.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 21 Dec 2019 01:56:13 -0800 (PST)
+ Sat, 21 Dec 2019 01:56:14 -0800 (PST)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@intel.com>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v1 6/8] drm/print: add drm_dev_* logging functions
-Date: Sat, 21 Dec 2019 10:55:51 +0100
-Message-Id: <20191221095553.13332-7-sam@ravnborg.org>
+Subject: [PATCH v1 7/8] drm/print: add drm_pr_ logging
+Date: Sat, 21 Dec 2019 10:55:52 +0100
+Message-Id: <20191221095553.13332-8-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191221095553.13332-1-sam@ravnborg.org>
 References: <20191221095553.13332-1-sam@ravnborg.org>
@@ -75,8 +75,8 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are a lot of cases where we have a device * but no drm_device *.
-Add drm_dev_* variants of the logging functions to cover these cases.
+Add standard logging functions that can be used when
+no struct device *, nor struct drm_device * is available.
 
 Include brief documentation.
 
@@ -85,122 +85,111 @@ Cc: Jani Nikula <jani.nikula@intel.com>
 Cc: Sean Paul <sean@poorly.run>
 Cc: Daniel Vetter <daniel@ffwll.ch>
 ---
- include/drm/drm_print.h | 99 ++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 98 insertions(+), 1 deletion(-)
+ include/drm/drm_print.h | 88 ++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 87 insertions(+), 1 deletion(-)
 
 diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-index 7c0b93e6cb80..b2e5d0209010 100644
+index b2e5d0209010..0b0468340573 100644
 --- a/include/drm/drm_print.h
 +++ b/include/drm/drm_print.h
-@@ -337,7 +337,50 @@ static inline struct drm_printer drm_err_printer(const char *prefix)
+@@ -384,7 +384,46 @@ static inline struct drm_printer drm_err_printer(const char *prefix)
   *
-  * Logging when a &device * is available, but no &drm_device *
-  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  * Logging when no &device * nor &drm_device * is available
+  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 - * TODO
 + *
-+ * Adding a device pointer (if no &drm_device * is available) is always a good
-+ * idea as it add more information in the logging message thus making it easier
-+ * to determine the source of the logging.
++ * When there is neither a struct &drm_device *, nor a struct device * use
++ * the logging variants that does not take a pointer.
++ * It is important to note that the logging core cannot provide much extra
++ * info but as the logging has a fixed *[drm]* prefix then the logging continue
++ * to be easy to spot.
 + *
 + * All logging functions in this block share the same prototype:
 + *
 + * .. code-block:: c
 + *
-+ *   void drm_dev_xxx(struct device *, char * fmt, ...)
++ *   void drm_pr_xxx(char * fmt, ...)
 + *
 + * The following functions are available:
 + *
 + * .. code-block:: none
 + *
 + *   # Plain logging
-+ *   drm_dev_dbg()
-+ *   drm_dev_info()
-+ *   drm_dev_notice()
-+ *   drm_dev_warn()
-+ *   drm_dev_err()
++ *   drm_pr_dbg()
++ *   drm_pr_info()
++ *   drm_pr_notice()
++ *   drm_pr_warn()
++ *   drm_pr_err()
 + *
 + *   # Log only once
-+ *   drm_dev_info_once()
-+ *   drm_dev_notice_once()
-+ *   drm_dev_warn_once()
-+ *   drm_dev_err_once()
-+ *
-+ *   # Ratelimited - do not flood the logs
-+ *   drm_dev_err_ratelimited()
-+ *   drm_dev_dbg_ratelimited()
-+ *   drm_dev_dbg_kms_ratelimited()
++ *   drm_pr_info_once()
++ *   drm_pr_notice_once()
++ *   drm_pr_warn_once()
++ *   drm_pr_err_once()
 + *
 + *   # Logging with a specific category
-+ *   drm_dev_dbg_core()
-+ *   drm_dev_dbg()		# Uses the DRIVER category
-+ *   drm_dev_dbg_kms()
-+ *   drm_dev_dbg_prime()
-+ *   drm_dev_dbg_atomic()
-+ *   drm_dev_dbg_vbl()
-+ *   drm_dev_dbg_state()
-+ *   drm_dev_dbg_lease()
-+ *   drm_dev_dbg_dp()
-+ *
++ *   drm_pr_dbg_core()
++ *   drm_pr_dbg()		# Uses the DRIVER category
++ *   drm_pr_dbg_kms()
++ *   drm_pr_dbg_prime()
++ *   drm_pr_dbg_atomic()
++ *   drm_pr_dbg_vbl()
++ *   drm_pr_dbg_state()
++ *   drm_pr_dbg_lease()
++ *   drm_pr_dbg_dp()
   *
-  * Logging when no &device * nor &drm_device * is available
-  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-@@ -468,6 +511,60 @@ static inline bool drm_debug_enabled(enum drm_debug_category category)
- #define drm_dbg_dp(drm, fmt, ...)					\
- 	__drm_cat_printk((drm), DRM_UT_DP, fmt, ##__VA_ARGS__)
+  * Obsoleted logging functions
+  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@@ -565,6 +604,53 @@ static inline bool drm_debug_enabled(enum drm_debug_category category)
+ #define drm_dev_dbg_dp(dev, fmt, ...)					\
+ 	__drm_dev_cat_printk((dev), DRM_UT_DP,, fmt, ##__VA_ARGS__)
  
-+/* struct device based logging. */
-+#define __drm_dev_printk(dev, level, type, fmt, ...)			\
-+	dev_##level##type(dev, "[drm] " fmt, ##__VA_ARGS__)
++/* logging with no struct device * and no struct drm_device * */
++#define __drm_pr_printk(level, type, fmt, ...)				\
++	pr_##level##type("[drm] " fmt, ##__VA_ARGS__)
 +
-+#define __drm_dev_cat_printk(dev, cat, type, fmt, ...)			\
++#define __drm_pr_cat_printk(cat, type, fmt, ...)			\
 +({									\
 +	if (drm_debug_enabled(cat))					\
-+		dev_dbg##type((dev), "[drm] " fmt, ##__VA_ARGS__);	\
++		pr_debug##type("[drm] " fmt, ##__VA_ARGS__);		\
 +})
 +
-+#define drm_dev_info(dev, fmt, ...)					\
-+	__drm_dev_printk((dev), info,, fmt, ##__VA_ARGS__)
-+#define drm_dev_notice(dev, fmt, ...)					\
-+	__drm_dev_printk((dev), notice,, fmt, ##__VA_ARGS__)
-+#define drm_dev_warn(dev, fmt, ...)					\
-+	__drm_dev_printk((dev), warn,, fmt, ##__VA_ARGS__)
-+#define drm_dev_err(dev, fmt, ...)					\
-+	__drm_dev_printk((dev), err,, "*ERROR* " fmt, ##__VA_ARGS__)
++#define drm_pr_info(fmt, ...)						\
++	__drm_pr_printk(info,, fmt, ##__VA_ARGS__)
++#define drm_pr_notice(fmt, ...)						\
++	__drm_pr_printk(notice,, fmt, ##__VA_ARGS__)
++#define drm_pr_warn(fmt, ...)						\
++	__drm_pr_printk(warn,, fmt, ##__VA_ARGS__)
++#define drm_pr_err(fmt, ...)						\
++	__drm_pr_printk(err,, "*ERROR* " fmt, ##__VA_ARGS__)
 +
-+#define drm_dev_info_once(dev, fmt, ...)				\
-+	__drm_dev_printk((dev), info, _once, fmt, ##__VA_ARGS__)
-+#define drm_dev_notice_once(dev, fmt, ...)				\
-+	__drm_dev_printk((dev), notice, _once, fmt, ##__VA_ARGS__)
-+#define drm_dev_warn_once(dev, fmt, ...)				\
-+	__drm_dev_printk((dev), warn, _once, fmt, ##__VA_ARGS__)
-+#define drm_dev_err_once(dev, fmt, ...)					\
-+	__drm_dev_printk((dev), err, _once, "*ERROR* " fmt, ##__VA_ARGS__)
++#define drm_pr_info_once(fmt, ...)					\
++	__drm_pr_printk(info, _once, fmt, ##__VA_ARGS__)
++#define drm_pr_notice_once(fmt, ...)					\
++	__drm_pr_printk(notice, _once, fmt, ##__VA_ARGS__)
++#define drm_pr_warn_once(fmt, ...)					\
++	__drm_pr_printk(warn, _once, fmt, ##__VA_ARGS__)
++#define drm_pr_err_once(fmt, ...)					\
++	__drm_pr_printk(err, _once, "*ERROR* " fmt, ##__VA_ARGS__)
 +
-+#define drm_dev_err_ratelimited(dev, fmt, ...)				\
-+	__drm_dev_printk((dev), err, _ratelimited, "*ERROR* " fmt, ##__VA_ARGS__)
-+#define drm_dev_dbg_ratelimited(dev, fmt, ...)				\
-+	__drm_dev_cat_printk((dev), DRM_UT_DRIVER,_ratelimited, fmt, ##__VA_ARGS__)
-+#define drm_dev_dbg_kms_ratelimited(dev, fmt, ...)			\
-+	__drm_dev_cat_printk((dev), DRM_UT_KMS,_ratelimited, fmt, ##__VA_ARGS__)
-+
-+#define drm_dev_dbg_core(dev, fmt, ...)					\
-+	__drm_dev_cat_printk((dev), DRM_UT_CORE,, fmt, ##__VA_ARGS__)
-+#define drm_dev_dbg(dev, fmt, ...)					\
-+	__drm_dev_cat_printk((dev), DRM_UT_DRIVER,, fmt, ##__VA_ARGS__)
-+#define drm_dev_dbg_kms(dev, fmt, ...)					\
-+	__drm_dev_cat_printk((dev), DRM_UT_KMS,, fmt, ##__VA_ARGS__)
-+#define drm_dev_dbg_prime(dev, fmt, ...)				\
-+	__drm_dev_cat_printk((dev), DRM_UT_PRIME,, fmt, ##__VA_ARGS__)
-+#define drm_dev_dbg_atomic(dev, fmt, ...)				\
-+	__drm_dev_cat_printk((dev), DRM_UT_ATOMIC,, fmt, ##__VA_ARGS__)
-+#define drm_dev_dbg_vbl(dev, fmt, ...)					\
-+	__drm_dev_cat_printk((dev), DRM_UT_VBL,, fmt, ##__VA_ARGS__)
-+#define drm_dev_dbg_state(dev, fmt, ...)				\
-+	__drm_dev_cat_printk((dev), DRM_UT_STATE,, fmt, ##__VA_ARGS__)
-+#define drm_dev_dbg_lease(dev, fmt, ...)				\
-+	__drm_dev_cat_printk((dev), DRM_UT_LEASE,, fmt, ##__VA_ARGS__)
-+#define drm_dev_dbg_dp(dev, fmt, ...)					\
-+	__drm_dev_cat_printk((dev), DRM_UT_DP,, fmt, ##__VA_ARGS__)
++#define drm_pr_dbg_core(fmt, ...)					\
++	__drm_pr_cat_printk(DRM_UT_CORE,, fmt, ##__VA_ARGS__)
++#define drm_pr_dbg(fmt, ...)						\
++	__drm_pr_cat_printk(DRM_UT_DRIVER,, fmt, ##__VA_ARGS__)
++#define drm_pr_dbg_kms(fmt, ...)					\
++	__drm_pr_cat_printk(DRM_UT_KMS,, fmt, ##__VA_ARGS__)
++#define drm_pr_dbg_prime(fmt, ...)					\
++	__drm_pr_cat_printk(DRM_UT_PRIME,, fmt, ##__VA_ARGS__)
++#define drm_pr_dbg_atomic(fmt, ...)					\
++	__drm_pr_cat_printk(DRM_UT_ATOMIC,, fmt, ##__VA_ARGS__)
++#define drm_pr_dbg_vbl(fmt, ...)					\
++	__drm_pr_cat_printk(DRM_UT_VBL,, fmt, ##__VA_ARGS__)
++#define drm_pr_dbg_state(fmt, ...)					\
++	__drm_pr_cat_printk(DRM_UT_STATE,, fmt, ##__VA_ARGS__)
++#define drm_pr_dbg_lease(fmt, ...)					\
++	__drm_pr_cat_printk(DRM_UT_LEASE,, fmt, ##__VA_ARGS__)
++#define drm_pr_dbg_dp(fmt, ...)						\
++	__drm_pr_cat_printk(DRM_UT_DP,, fmt, ##__VA_ARGS__)
 +
  /*
   * LEGACY logging support - do not use in new code
