@@ -1,42 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3827128E15
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Dec 2019 14:24:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C15E4128F03
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Dec 2019 18:09:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1AAD6E0CD;
-	Sun, 22 Dec 2019 13:24:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DC5B6E148;
+	Sun, 22 Dec 2019 17:09:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 075376E0CD
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Dec 2019 13:24:00 +0000 (UTC)
-Received: from localhost (unknown [193.47.165.251])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02F8D6E148
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Dec 2019 17:09:19 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id EAF2F206D3;
- Sun, 22 Dec 2019 13:23:59 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 610842084D
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Dec 2019 17:09:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1577021040;
- bh=483rbuBN6u8s6eQHgpawXUOLSB7wNwqu6dfS1IVBUTQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=HCcjH9yc8u/Vu1a+J6ffdhdH2EQVw5nD3NYhUbwC2GUSnm6xSh3uwn+/F9m4ilyzx
- lTmfUsU/ZGfq6BBNKcYt9vWVR3mQLngV7t/V1RQWwq/9eKi8XawAM/+XuBwJ0m9BKE
- mbbyx0jewMth0tRdvRaxLLJjjH32G6FGxmP5fBCg=
-Date: Sun, 22 Dec 2019 15:23:57 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: John Hubbard <jhubbard@nvidia.com>
-Subject: Re: [PATCH v11 00/25] mm/gup: track dma-pinned pages: FOLL_PIN
-Message-ID: <20191222132357.GF13335@unreal>
-References: <20191216222537.491123-1-jhubbard@nvidia.com>
- <20191219132607.GA410823@unreal>
- <a4849322-8e17-119e-a664-80d9f95d850b@nvidia.com>
- <20191219210743.GN17227@ziepe.ca> <20191220182939.GA10944@unreal>
- <1001a5fc-a71d-9c0f-1090-546c4913d8a2@nvidia.com>
+ s=default; t=1577034559;
+ bh=geqtjwNhYhPjKOQTr6T9PrwqzqjPWdQ7WW0r3/weydI=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=07BQMQ6Hi57dx/JRXrxf2u1oNEjJQB034YRiconHLdRB0lLKc4Hwfe97RW05Uv/tq
+ AKKDhe6nGpWcF/9npYiw5Fq7zftXQnLc13UPWdC0kF0ifrclA2+d+VZlDC8Ya5r7E8
+ tfwfwll4JDkG/JDZSwUMYCfglmEytTVVBzC+tQJE=
+Received: by mail-lf1-f50.google.com with SMTP id i23so10909632lfo.7
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Dec 2019 09:09:19 -0800 (PST)
+X-Gm-Message-State: APjAAAVNJEy5DpiEjTjQhHyIAzpgnJJxiXDAgCCP1RINVcae3jurT3KE
+ 9/hVoXa79V3FLMcjhK/llbCeIxM1tQn25/hA38E=
+X-Google-Smtp-Source: APXvYqwBbqcf1Pd8XBumubRFDeYehrjcMzLoDXNvGe/zro6dSDNnXlMk5m00bIDMFtqyXV44zbdUED/i0ZPagGGw2/Y=
+X-Received: by 2002:ac2:5444:: with SMTP id d4mr15264932lfn.49.1577034557468; 
+ Sun, 22 Dec 2019 09:09:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1001a5fc-a71d-9c0f-1090-546c4913d8a2@nvidia.com>
+References: <CGME20191220120143eucas1p1c9b01ae8c2e4ecd70423ef9d8001536f@eucas1p1.samsung.com>
+ <20191220115653.6487-1-a.swigon@samsung.com>
+ <20191220115653.6487-4-a.swigon@samsung.com>
+In-Reply-To: <20191220115653.6487-4-a.swigon@samsung.com>
+From: Chanwoo Choi <chanwoo@kernel.org>
+Date: Mon, 23 Dec 2019 02:08:41 +0900
+X-Gmail-Original-Message-ID: <CAGTfZH0zfvPYtTv6v+5nq99Gd2PVtg+O20dwf2nbV2j1U0nxCQ@mail.gmail.com>
+Message-ID: <CAGTfZH0zfvPYtTv6v+5nq99Gd2PVtg+O20dwf2nbV2j1U0nxCQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 3/7] interconnect: Allow inter-provider pairs to be
+ configured
+To: =?UTF-8?B?QXJ0dXIgxZp3aWdvxYQ=?= <a.swigon@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,190 +56,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
- linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
- linux-kselftest@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
- Maor Gottlieb <maorg@mellanox.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-rdma@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
- Christoph Hellwig <hch@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- Vlastimil Babka <vbabka@suse.cz>,
- =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
- linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- Ran Rozenstein <ranro@mellanox.com>, linux-block@vger.kernel.org,
- =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
- Al Viro <viro@zeniv.linux.org.uk>, Dan Williams <dan.j.williams@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, bpf@vger.kernel.org,
- Magnus Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
- netdev@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>,
- Mike Kravetz <mike.kravetz@oracle.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devicetree <devicetree@vger.kernel.org>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ Linux PM list <linux-pm@vger.kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Chanwoo Choi <cw00.choi@samsung.com>, MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Leonard Crestez <leonard.crestez@nxp.com>,
+ Georgi Djakov <georgi.djakov@linaro.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 20, 2019 at 03:54:55PM -0800, John Hubbard wrote:
-> On 12/20/19 10:29 AM, Leon Romanovsky wrote:
-> ...
-> >> $ ./build.sh
-> >> $ build/bin/run_tests.py
-> >>
-> >> If you get things that far I think Leon can get a reproduction for you
-> >
-> > I'm not so optimistic about that.
-> >
->
-> OK, I'm going to proceed for now on the assumption that I've got an overflow
-> problem that happens when huge pages are pinned. If I can get more information,
-> great, otherwise it's probably enough.
->
-> One thing: for your repro, if you know the huge page size, and the system
-> page size for that case, that would really help. Also the number of pins per
-> page, more or less, that you'd expect. Because Jason says that only 2M huge
-> pages are used...
->
-> Because the other possibility is that the refcount really is going negative,
-> likely due to a mismatched pin/unpin somehow.
->
-> If there's not an obvious repro case available, but you do have one (is it easy
-> to repro, though?), then *if* you have the time, I could point you to a github
-> branch that reduces GUP_PIN_COUNTING_BIAS by, say, 4x, by applying this:
->
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index bb44c4d2ada7..8526fd03b978 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -1077,7 +1077,7 @@ static inline void put_page(struct page *page)
->   * get_user_pages and page_mkclean and other calls that race to set up page
->   * table entries.
->   */
-> -#define GUP_PIN_COUNTING_BIAS (1U << 10)
-> +#define GUP_PIN_COUNTING_BIAS (1U << 8)
->
->  void unpin_user_page(struct page *page);
->  void unpin_user_pages_dirty_lock(struct page **pages, unsigned long npages,
->
-> If that fails to repro, then we would be zeroing in on the root cause.
->
-> The branch is here (I just tested it and it seems healthy):
->
-> git@github.com:johnhubbard/linux.git  pin_user_pages_tracking_v11_with_diags
-
-Hi,
-
-We tested the following branch and here comes results:
-[root@server consume_mtts]# (master) $ grep foll_pin /proc/vmstat
-nr_foll_pin_requested 0
-nr_foll_pin_returned 0
-
-[root@serer consume_mtts]# (master) $ dmesg
-[  425.221459] ------------[ cut here ]------------
-[  425.225894] WARNING: CPU: 1 PID: 6738 at mm/gup.c:61 try_grab_compound_head+0x90/0xa0
-[  425.228021] Modules linked in: mlx5_ib mlx5_core mlxfw mlx4_ib mlx4_en ptp pps_core mlx4_core bonding ip6_gre ip6_tunnel tunnel6 ip_gre gre ip_tunnel rdma_rxe ip6_udp_tunnel udp_tunnel rdma_ucm ib_uverbs ib_ipoib ib_umad ib_srp scsi_transport_srp rpcrdma ib_iser libiscsi scsi_transport_iscsi rdma_cm iw_cm ib_cm ib_core [last unloaded: mlxfw]
-[  425.235266] CPU: 1 PID: 6738 Comm: consume_mtts Tainted: G           O      5.5.0-rc2+ #1
-[  425.237480] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1ubuntu1 04/01/2014
-[  425.239738] RIP: 0010:try_grab_compound_head+0x90/0xa0
-[  425.241170] Code: 06 48 8d 4f 34 f0 0f b1 57 34 74 cd 85 c0 74 cf 8d 14 06 f0 0f b1 11 74 c0 eb f1 8d 14 06 f0 0f b1 11 74 b5 85 c0 75 f3 eb b5 <0f> 0b 31 c0 c3 90 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 41
-[  425.245739] RSP: 0018:ffffc900006878a8 EFLAGS: 00010082
-[  425.247124] RAX: 0000000080000001 RBX: 00007f780488a000 RCX: 0000000000000bb0
-[  425.248956] RDX: ffffea000e031087 RSI: 0000000000008a00 RDI: ffffea000dc58000
-[  425.250761] RBP: ffffea000e031080 R08: ffffc90000687974 R09: 000fffffffe00000
-[  425.252661] R10: 0000000000000000 R11: ffff888362560000 R12: 000000000000008a
-[  425.254487] R13: 80000003716000e7 R14: 00007f780488a000 R15: ffffc90000687974
-[  425.256309] FS:  00007f780d9d3740(0000) GS:ffff8883b1c80000(0000) knlGS:0000000000000000
-[  425.258401] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  425.259949] CR2: 0000000002334048 CR3: 000000039c68c001 CR4: 00000000001606a0
-[  425.261884] Call Trace:
-[  425.262735]  gup_pgd_range+0x517/0x5a0
-[  425.263819]  internal_get_user_pages_fast+0x210/0x250
-[  425.265193]  ib_umem_get+0x298/0x550 [ib_uverbs]
-[  425.266476]  mr_umem_get+0xc9/0x260 [mlx5_ib]
-[  425.267699]  mlx5_ib_reg_user_mr+0xcc/0x7e0 [mlx5_ib]
-[  425.269134]  ? xas_load+0x8/0x80
-[  425.270074]  ? xa_load+0x48/0x90
-[  425.271038]  ? lookup_get_idr_uobject.part.10+0x12/0x70 [ib_uverbs]
-[  425.272757]  ib_uverbs_reg_mr+0x127/0x280 [ib_uverbs]
-[  425.274120]  ib_uverbs_handler_UVERBS_METHOD_INVOKE_WRITE+0xc2/0xf0 [ib_uverbs]
-[  425.276058]  ib_uverbs_cmd_verbs.isra.6+0x5be/0xbe0 [ib_uverbs]
-[  425.277657]  ? uverbs_disassociate_api+0xd0/0xd0 [ib_uverbs]
-[  425.279155]  ? __alloc_pages_nodemask+0x148/0x2b0
-[  425.280445]  ib_uverbs_ioctl+0xc0/0x120 [ib_uverbs]
-[  425.281755]  do_vfs_ioctl+0x9d/0x650
-[  425.282766]  ksys_ioctl+0x70/0x80
-[  425.283745]  __x64_sys_ioctl+0x16/0x20
-[  425.284912]  do_syscall_64+0x42/0x130
-[  425.285973]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[  425.287377] RIP: 0033:0x7f780d2df267
-[  425.288449] Code: b3 66 90 48 8b 05 19 3c 2c 00 64 c7 00 26 00 00 00 48 c7 c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d e9 3b 2c 00 f7 d8 64 89 01 48
-[  425.293073] RSP: 002b:00007ffce49a88a8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-[  425.295034] RAX: ffffffffffffffda RBX: 00007ffce49a8938 RCX: 00007f780d2df267
-[  425.296895] RDX: 00007ffce49a8920 RSI: 00000000c0181b01 RDI: 0000000000000003
-[  425.298689] RBP: 00007ffce49a8900 R08: 0000000000000003 R09: 00007f780d9a1010
-[  425.300480] R10: 00000000ffffffff R11: 0000000000000246 R12: 00007f780d9a1150
-[  425.302290] R13: 00007ffce49a8900 R14: 00007ffce49a8ad8 R15: 00007f780468a000
-[  425.304113] ---[ end trace 1ecbefdb403190dd ]---
-[  425.305434] ------------[ cut here ]------------
-[  425.307147] WARNING: CPU: 1 PID: 6738 at mm/gup.c:150 try_grab_page+0x56/0x60
-[  425.309111] Modules linked in: mlx5_ib mlx5_core mlxfw mlx4_ib mlx4_en ptp pps_core mlx4_core bonding ip6_gre ip6_tunnel tunnel6 ip_gre gre ip_tunnel rdma_rxe ip6_udp_tunnel udp_tunnel rdma_ucm ib_uverbs ib_ipoib ib_umad ib_srp scsi_transport_srp rpcrdma ib_iser libiscsi scsi_transport_iscsi rdma_cm iw_cm ib_cm ib_core [last unloaded: mlxfw]
-[  425.316461] CPU: 1 PID: 6738 Comm: consume_mtts Tainted: G        W  O      5.5.0-rc2+ #1
-[  425.318582] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1ubuntu1 04/01/2014
-[  425.320958] RIP: 0010:try_grab_page+0x56/0x60
-[  425.322167] Code: 7e 28 f0 81 47 34 00 01 00 00 c3 48 8b 47 08 48 8d 50 ff a8 01 48 0f 45 fa 8b 47 34 85 c0 7e 0f f0 ff 47 34 b8 01 00 00 00 c3 <0f> 0b 31 c0 c3 0f 0b 31 c0 c3 0f 1f 44 00 00 41 57 41 56 41 55 41
-[  425.326814] RSP: 0018:ffffc90000687830 EFLAGS: 00010282
-[  425.328226] RAX: 0000000000000001 RBX: ffffea000dc58000 RCX: ffffea000e031087
-[  425.330104] RDX: 0000000080000001 RSI: 0000000000040000 RDI: ffffea000dc58000
-[  425.331980] RBP: 00007f7804800000 R08: 000ffffffffff000 R09: 80000003716000e7
-[  425.333898] R10: ffff88834af80120 R11: ffff8883ac16f000 R12: ffff88834af80120
-[  425.335704] R13: ffff88837c0915c0 R14: 0000000000050201 R15: 00007f7804800000
-[  425.337638] FS:  00007f780d9d3740(0000) GS:ffff8883b1c80000(0000) knlGS:0000000000000000
-[  425.339734] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  425.341369] CR2: 0000000002334048 CR3: 000000039c68c001 CR4: 00000000001606a0
-[  425.343160] Call Trace:
-[  425.343967]  follow_trans_huge_pmd+0x16f/0x2e0
-[  425.345263]  follow_p4d_mask+0x51c/0x630
-[  425.346344]  __get_user_pages+0x1a1/0x6c0
-[  425.347463]  internal_get_user_pages_fast+0x17b/0x250
-[  425.348918]  ib_umem_get+0x298/0x550 [ib_uverbs]
-[  425.350174]  mr_umem_get+0xc9/0x260 [mlx5_ib]
-[  425.351383]  mlx5_ib_reg_user_mr+0xcc/0x7e0 [mlx5_ib]
-[  425.352849]  ? xas_load+0x8/0x80
-[  425.353776]  ? xa_load+0x48/0x90
-[  425.354730]  ? lookup_get_idr_uobject.part.10+0x12/0x70 [ib_uverbs]
-[  425.356410]  ib_uverbs_reg_mr+0x127/0x280 [ib_uverbs]
-[  425.357843]  ib_uverbs_handler_UVERBS_METHOD_INVOKE_WRITE+0xc2/0xf0 [ib_uverbs]
-[  425.359749]  ib_uverbs_cmd_verbs.isra.6+0x5be/0xbe0 [ib_uverbs]
-[  425.361405]  ? uverbs_disassociate_api+0xd0/0xd0 [ib_uverbs]
-[  425.362898]  ? __alloc_pages_nodemask+0x148/0x2b0
-[  425.364206]  ib_uverbs_ioctl+0xc0/0x120 [ib_uverbs]
-[  425.365564]  do_vfs_ioctl+0x9d/0x650
-[  425.366567]  ksys_ioctl+0x70/0x80
-[  425.367537]  __x64_sys_ioctl+0x16/0x20
-[  425.368698]  do_syscall_64+0x42/0x130
-[  425.369782]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[  425.371117] RIP: 0033:0x7f780d2df267
-[  425.372159] Code: b3 66 90 48 8b 05 19 3c 2c 00 64 c7 00 26 00 00 00 48 c7 c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d e9 3b 2c 00 f7 d8 64 89 01 48
-[  425.376774] RSP: 002b:00007ffce49a88a8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-[  425.378740] RAX: ffffffffffffffda RBX: 00007ffce49a8938 RCX: 00007f780d2df267
-[  425.380598] RDX: 00007ffce49a8920 RSI: 00000000c0181b01 RDI: 0000000000000003
-[  425.382411] RBP: 00007ffce49a8900 R08: 0000000000000003 R09: 00007f780d9a1010
-[  425.384312] R10: 00000000ffffffff R11: 0000000000000246 R12: 00007f780d9a1150
-[  425.386132] R13: 00007ffce49a8900 R14: 00007ffce49a8ad8 R15: 00007f780468a000
-[  425.387964] ---[ end trace 1ecbefdb403190de ]---
-
-Thanks
-
->
->
->
-> thanks,
-> --
-> John Hubbard
-> NVIDIA
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksCgpPbiBGcmksIERlYyAyMCwgMjAxOSBhdCA5OjAzIFBNIEFydHVyIMWad2lnb8WEIDxhLnN3
+aWdvbkBzYW1zdW5nLmNvbT4gd3JvdGU6Cj4KPiBJbiB0aGUgZXh5bm9zLWJ1cyBkZXZmcmVxIGRy
+aXZlciBldmVyeSBidXMgaXMgcHJvYmVkIHNlcGFyYXRlbHkgYW5kIGlzCgpJTUhPLCB0aGUgcGF0
+Y2ggZGVzY3JpcHRpb24gc2hvdWxkIHNwZWNpZnkgdGhlIG1vcmUgZ2VuZXJhbCBjYXVzZQp3aHkg
+aGF2ZSB0byBiZSBjaGFuZ2VkLiBBY3R1YWxseSwgYWxtb3N0IHBlb3BsZSBtaWdodCBub3Qga25v
+dwp0aGUgJ2V4eW5vcy1idXMnLiBTbywgZmlyc3RseSwgeW91IGhhdmUgdG8gc3BlY2lmeSB0aGUg
+Z2VuZXJhbCBjYXVzZQp3aHkgdGhpcyBwYXRjaCBpcyBuZWNlc3Nhcnkgd2l0aG91dCAnZXh5bm9z
+LWJ1cycgd29yZCBhbmQgdGhlbgphZGQgdGhlIHJlYWwgdXNlLWNhc2Ugd2l0aCAnZXh5bm9zLWJ1
+cycgZXhhbXBsZS4KCj4gYXNzaWduZWQgYSBzZXBhcmF0ZSBpbnRlcmNvbm5lY3QgcHJvdmlkZXIu
+IEhvd2V2ZXIsIHRoZSBpbnRlcmNvbm5lY3QKPiBmcmFtZXdvcmsgZG9lcyBub3QgY2FsbCB0aGUg
+Jy0+c2V0JyBjYWxsYmFjayBmb3IgcGFpcnMgb2Ygbm9kZXMgd2hpY2gKPiBiZWxvbmcgdG8gZGlm
+ZmVyZW50IHByb3ZpZGVycy4KPgo+IFRoaXMgcGF0Y2ggYWRkcyBzdXBwb3J0IGZvciBhIG5ldyBi
+b29sZWFuICdpbnRlcl9zZXQnIGZpZWxkIGluIHN0cnVjdAo+IGljY19wcm92aWRlci4gU2V0dGlu
+ZyBpdCB0byAndHJ1ZScgZW5hYmxlcyBjYWxsaW5nICctPnNldCcgZm9yCj4gaW50ZXItcHJvdmlk
+ZXIgbm9kZSBwYWlycy4gQWxsIGV4aXN0aW5nIHVzZXJzIG9mIHRoZSBpbnRlcmNvbm5lY3QKPiBm
+cmFtZXdvcmsgYWxsb2NhdGUgdGhpcyBzdHJ1Y3R1cmUgd2l0aCBremFsbG9jLCBhbmQgYXJlIHRo
+ZXJlZm9yZQo+IHVuYWZmZWN0ZWQuCj4KPiBTaWduZWQtb2ZmLWJ5OiBBcnR1ciDFmndpZ2/FhCA8
+YS5zd2lnb25Ac2Ftc3VuZy5jb20+Cj4gLS0tCj4gIGRyaXZlcnMvaW50ZXJjb25uZWN0L2NvcmUu
+YyAgICAgICAgICAgfCAxMSArKysrKy0tLS0tLQo+ICBpbmNsdWRlL2xpbnV4L2ludGVyY29ubmVj
+dC1wcm92aWRlci5oIHwgIDIgKysKPiAgMiBmaWxlcyBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKyks
+IDYgZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9pbnRlcmNvbm5lY3QvY29y
+ZS5jIGIvZHJpdmVycy9pbnRlcmNvbm5lY3QvY29yZS5jCj4gaW5kZXggNzRjNjg4OThhMzUwLi5h
+MjhiZDBmOGE0OTcgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9pbnRlcmNvbm5lY3QvY29yZS5jCj4g
+KysrIGIvZHJpdmVycy9pbnRlcmNvbm5lY3QvY29yZS5jCj4gQEAgLTI1OSwyMyArMjU5LDIyIEBA
+IHN0YXRpYyBpbnQgYWdncmVnYXRlX3JlcXVlc3RzKHN0cnVjdCBpY2Nfbm9kZSAqbm9kZSkKPiAg
+c3RhdGljIGludCBhcHBseV9jb25zdHJhaW50cyhzdHJ1Y3QgaWNjX3BhdGggKnBhdGgpCj4gIHsK
+PiAgICAgICAgIHN0cnVjdCBpY2Nfbm9kZSAqbmV4dCwgKnByZXYgPSBOVUxMOwo+ICsgICAgICAg
+c3RydWN0IGljY19wcm92aWRlciAqcDsKPiAgICAgICAgIGludCByZXQgPSAtRUlOVkFMOwo+ICAg
+ICAgICAgaW50IGk7Cj4KPiAgICAgICAgIGZvciAoaSA9IDA7IGkgPCBwYXRoLT5udW1fbm9kZXM7
+IGkrKykgewo+ICAgICAgICAgICAgICAgICBuZXh0ID0gcGF0aC0+cmVxc1tpXS5ub2RlOwo+ICsg
+ICAgICAgICAgICAgICBwID0gbmV4dC0+cHJvdmlkZXI7Cj4KPiAtICAgICAgICAgICAgICAgLyoK
+PiAtICAgICAgICAgICAgICAgICogQm90aCBlbmRwb2ludHMgc2hvdWxkIGJlIHZhbGlkIG1hc3Rl
+ci1zbGF2ZSBwYWlycyBvZiB0aGUKPiAtICAgICAgICAgICAgICAgICogc2FtZSBpbnRlcmNvbm5l
+Y3QgcHJvdmlkZXIgdGhhdCB3aWxsIGJlIGNvbmZpZ3VyZWQuCj4gLSAgICAgICAgICAgICAgICAq
+Lwo+IC0gICAgICAgICAgICAgICBpZiAoIXByZXYgfHwgbmV4dC0+cHJvdmlkZXIgIT0gcHJldi0+
+cHJvdmlkZXIpIHsKPiArICAgICAgICAgICAgICAgLyogYm90aCBlbmRwb2ludHMgc2hvdWxkIGJl
+IHZhbGlkIG1hc3Rlci1zbGF2ZSBwYWlycyAqLwo+ICsgICAgICAgICAgICAgICBpZiAoIXByZXYg
+fHwgKHAgIT0gcHJldi0+cHJvdmlkZXIgJiYgIXAtPmludGVyX3NldCkpIHsKPiAgICAgICAgICAg
+ICAgICAgICAgICAgICBwcmV2ID0gbmV4dDsKPiAgICAgICAgICAgICAgICAgICAgICAgICBjb250
+aW51ZTsKPiAgICAgICAgICAgICAgICAgfQo+Cj4gICAgICAgICAgICAgICAgIC8qIHNldCB0aGUg
+Y29uc3RyYWludHMgKi8KPiAtICAgICAgICAgICAgICAgcmV0ID0gbmV4dC0+cHJvdmlkZXItPnNl
+dChwcmV2LCBuZXh0KTsKPiArICAgICAgICAgICAgICAgcmV0ID0gcC0+c2V0KHByZXYsIG5leHQp
+Owo+ICAgICAgICAgICAgICAgICBpZiAocmV0KQo+ICAgICAgICAgICAgICAgICAgICAgICAgIGdv
+dG8gb3V0Owo+Cj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvaW50ZXJjb25uZWN0LXByb3Zp
+ZGVyLmggYi9pbmNsdWRlL2xpbnV4L2ludGVyY29ubmVjdC1wcm92aWRlci5oCj4gaW5kZXggY2M5
+NjViOGZhYjUzLi5iNmFlMGVlNjg2YzUgMTAwNjQ0Cj4gLS0tIGEvaW5jbHVkZS9saW51eC9pbnRl
+cmNvbm5lY3QtcHJvdmlkZXIuaAo+ICsrKyBiL2luY2x1ZGUvbGludXgvaW50ZXJjb25uZWN0LXBy
+b3ZpZGVyLmgKPiBAQCAtNDEsNiArNDEsNyBAQCBzdHJ1Y3QgaWNjX25vZGUgKm9mX2ljY194bGF0
+ZV9vbmVjZWxsKHN0cnVjdCBvZl9waGFuZGxlX2FyZ3MgKnNwZWMsCj4gICAqIEB4bGF0ZTogcHJv
+dmlkZXItc3BlY2lmaWMgY2FsbGJhY2sgZm9yIG1hcHBpbmcgbm9kZXMgZnJvbSBwaGFuZGxlIGFy
+Z3VtZW50cwo+ICAgKiBAZGV2OiB0aGUgZGV2aWNlIHRoaXMgaW50ZXJjb25uZWN0IHByb3ZpZGVy
+IGJlbG9uZ3MgdG8KPiAgICogQHVzZXJzOiBjb3VudCBvZiBhY3RpdmUgdXNlcnMKPiArICogQGlu
+dGVyX3NldDogd2hldGhlciBpbnRlci1wcm92aWRlciBwYWlycyB3aWxsIGJlIGNvbmZpZ3VyZWQg
+d2l0aCBAc2V0Cj4gICAqIEBkYXRhOiBwb2ludGVyIHRvIHByaXZhdGUgZGF0YQo+ICAgKi8KPiAg
+c3RydWN0IGljY19wcm92aWRlciB7Cj4gQEAgLTUzLDYgKzU0LDcgQEAgc3RydWN0IGljY19wcm92
+aWRlciB7Cj4gICAgICAgICBzdHJ1Y3QgaWNjX25vZGUqICgqeGxhdGUpKHN0cnVjdCBvZl9waGFu
+ZGxlX2FyZ3MgKnNwZWMsIHZvaWQgKmRhdGEpOwo+ICAgICAgICAgc3RydWN0IGRldmljZSAgICAg
+ICAgICAgKmRldjsKPiAgICAgICAgIGludCAgICAgICAgICAgICAgICAgICAgIHVzZXJzOwo+ICsg
+ICAgICAgYm9vbCAgICAgICAgICAgICAgICAgICAgaW50ZXJfc2V0Owo+ICAgICAgICAgdm9pZCAg
+ICAgICAgICAgICAgICAgICAgKmRhdGE7Cj4gIH07Cj4KPiAtLQo+IDIuMTcuMQo+CgoKLS0gCkJl
+c3QgUmVnYXJkcywKQ2hhbndvbyBDaG9pCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2RyaS1kZXZlbAo=
