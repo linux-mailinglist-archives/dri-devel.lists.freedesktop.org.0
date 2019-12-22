@@ -1,56 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EE8D128E30
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Dec 2019 14:29:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3134128E32
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Dec 2019 14:29:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 838DF6E530;
-	Sun, 22 Dec 2019 13:29:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B11176E532;
+	Sun, 22 Dec 2019 13:29:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
- [IPv6:2607:f8b0:4864:20::1044])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABEAD6E530
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Dec 2019 13:29:50 +0000 (UTC)
-Received: by mail-pj1-x1044.google.com with SMTP id u63so5039681pjb.0
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Dec 2019 05:29:50 -0800 (PST)
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
+ [IPv6:2607:f8b0:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92E836E532
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Dec 2019 13:29:55 +0000 (UTC)
+Received: by mail-pf1-x441.google.com with SMTP id y14so7800065pfm.13
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Dec 2019 05:29:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZXOcwXSpTDZpb+/TcTbfTiplV6hYObjzRW1vf2xFZRA=;
- b=I3PQ33U14EAolLLj8jlrmUJ/O9DIkC6SXNrRVAoW9isHRRLbh0z685MsUAAtjr60en
- UzggneMmXWh6Sdorq0YMf2qD+5Zi4RnYC350HCHCRJPy4evKsI1sZcsdE2rXY2dTYvT7
- 1PQ9gScLj5oAiJ/wwt8CJTwOu416Ss5/Im9YE=
+ bh=xq2qov66+ZKQzbRfM2Ia41hD0OqHDHdZrt8IUGMciys=;
+ b=aN/z+SvOEIOG7pKfL3EAs/o2YJxa4fGDyhDurxf9BFee4oUQOYmh5YDzvcR0++/wgO
+ /UTCY/yccmcyFCUrb3G+F+ufbTU4HXVCd7avRL5pQXSUmTfQVhcoU3sY2/gnEzWFBgd2
+ V4V2g8nvEvUnNSKNJoHUWTG97hocXPGtyNhps=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZXOcwXSpTDZpb+/TcTbfTiplV6hYObjzRW1vf2xFZRA=;
- b=rwG9A/YBDhqv8lyEK89tbRJNFRrDjqf6+p+Tt+Ge2qz/i9jnzpQJno22AZkrbSxHwB
- vJPUhAiCVVurRCDMVQrub1vv2GmV9nSecr7rGMTLOcLU0UERhazEVrNi9BjIE8FILoJj
- fi7dV7L1y7ezV7ldlsuIzDo3Fy3va6qeCHzUQYEMQO0iAocb6OqQUcYEY7/5EyGvK7iy
- LgGn2LrDWMhpoHZCZwuY3J/mKeAbVRK6ov4w1jnYJ1Rv04rm1Twyu5TbKSxjLXwmPIVK
- 1Ba/PyFYiwHMrIGrVX0w7EjYhaC6u2k7iOyD/4o0TyN51AK21zuPeXLJUOLO1Je/Tszo
- +dgw==
-X-Gm-Message-State: APjAAAUT2DfMheb8NG1Wc2gwGifxvvPFcpW1ity8Qqo+BWF9RkA35tCT
- Bw30T613aQMMwy7eLLXjiSr4nw==
-X-Google-Smtp-Source: APXvYqyIL1psXc/olK/QSRgQqBxtxjvsmTJrG5PZsaaCso/VKkCbYbl+cm8ubF+spBhD1JmKttrayw==
-X-Received: by 2002:a17:902:48:: with SMTP id
- 66mr25655198pla.182.1577021390160; 
- Sun, 22 Dec 2019 05:29:50 -0800 (PST)
+ bh=xq2qov66+ZKQzbRfM2Ia41hD0OqHDHdZrt8IUGMciys=;
+ b=cuDzMMlE3xf1pgi0Lt6+EeB/vHOCRCTzGf2AYv9drPSfHnzUfV7v1l6P2u/YPqL6UP
+ K1DnzXYuHM8CXbhjjgVoGorGQ5ozwgqNeRJ5eJb1vminHCEB2qeEEKAs2tsShKvYlRdh
+ UzO6m8yvqJh4BKQkXAyNGzyOa0bZAMcRC/YMuE4GT3bXJZWCdvYMjlh+A/tIGmjtzrNu
+ V/8FGJpDtA2Q8VYFcfD4H1nvcJxPEKXo14vpp/I6Eswg6Hr44y6pNhkeeDuShovbc8Rd
+ TMyWEEPLnQKzsyQrQ+QgfmxjXGHxMW54Rhonk/st1EbDp2hu2WS1bNLsUtmqhXyo4jmn
+ OSgw==
+X-Gm-Message-State: APjAAAWr2XThaYqhBD7hoGHWhgWMyXGnj7i7zEA8JSyJIdmvzXzzQvTU
+ 0gfpqJA/Ha6UynZ//h28MtfV3w==
+X-Google-Smtp-Source: APXvYqxHOIWV1QpzQpqIk+oG3B9jfIK2/Lz4J3qY5Xg5MsBrwBHFlLSPubYChCJEMqxNWmsb1jEwpA==
+X-Received: by 2002:a63:e911:: with SMTP id i17mr26186191pgh.42.1577021395126; 
+ Sun, 22 Dec 2019 05:29:55 -0800 (PST)
 Received: from localhost.localdomain ([49.206.202.16])
- by smtp.gmail.com with ESMTPSA id o2sm12073058pjo.26.2019.12.22.05.29.45
+ by smtp.gmail.com with ESMTPSA id o2sm12073058pjo.26.2019.12.22.05.29.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 22 Dec 2019 05:29:49 -0800 (PST)
+ Sun, 22 Dec 2019 05:29:54 -0800 (PST)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>
-Subject: [PATCH v14 5/7] drm/sun4i: dsi: Add Allwinner A64 MIPI DSI support
-Date: Sun, 22 Dec 2019 18:52:27 +0530
-Message-Id: <20191222132229.30276-6-jagan@amarulasolutions.com>
+Subject: [PATCH v14 6/7] arm64: dts: allwinner: a64: Add MIPI DSI pipeline
+Date: Sun, 22 Dec 2019 18:52:28 +0530
+Message-Id: <20191222132229.30276-7-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.18.0.321.gffc6fa0e3
 In-Reply-To: <20191222132229.30276-1-jagan@amarulasolutions.com>
 References: <20191222132229.30276-1-jagan@amarulasolutions.com>
@@ -77,10 +76,13 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The MIPI DSI controller in Allwinner A64 is similar to A33.
+Add MIPI DSI pipeline for Allwinner A64.
 
-But unlike A33, A64 doesn't have DSI_SCLK gating so add compatible
-for Allwinner A64 with uninitialized has_mod_clk driver.
+- dsi node, with A64 compatible since it doesn't support
+  DSI_SCLK gating unlike A33
+- dphy node, with A64 compatible with A33 fallback since
+  DPHY on A64 and A33 is similar
+- finally, attach the dsi_in to tcon0 for complete MIPI DSI
 
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 Tested-by: Merlijn Wajer <merlijn@wizzup.org>
@@ -88,21 +90,64 @@ Tested-by: Merlijn Wajer <merlijn@wizzup.org>
 Changes for v14:
 - none
 
- drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 37 +++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
-diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-index 2577b237d06a..4a024951aa11 100644
---- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-+++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-@@ -1256,6 +1256,7 @@ static const struct dev_pm_ops sun6i_dsi_pm_ops = {
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+index 27e48234f1c2..1db8378f59a4 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+@@ -382,6 +382,12 @@
+ 					#address-cells = <1>;
+ 					#size-cells = <0>;
+ 					reg = <1>;
++
++					tcon0_out_dsi: endpoint@1 {
++						reg = <1>;
++						remote-endpoint = <&dsi_in_tcon0>;
++						allwinner,tcon-channel = <1>;
++					};
+ 				};
+ 			};
+ 		};
+@@ -1014,6 +1020,37 @@
+ 			status = "disabled";
+ 		};
  
- static const struct of_device_id sun6i_dsi_of_table[] = {
- 	{ .compatible = "allwinner,sun6i-a31-mipi-dsi" },
-+	{ .compatible = "allwinner,sun50i-a64-mipi-dsi" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, sun6i_dsi_of_table);
++		dsi: dsi@1ca0000 {
++			compatible = "allwinner,sun50i-a64-mipi-dsi";
++			reg = <0x01ca0000 0x1000>;
++			interrupts = <GIC_SPI 89 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_MIPI_DSI>;
++			resets = <&ccu RST_BUS_MIPI_DSI>;
++			phys = <&dphy>;
++			phy-names = "dphy";
++			status = "disabled";
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port {
++				dsi_in_tcon0: endpoint {
++					remote-endpoint = <&tcon0_out_dsi>;
++				};
++			};
++		};
++
++		dphy: d-phy@1ca1000 {
++			compatible = "allwinner,sun50i-a64-mipi-dphy",
++				     "allwinner,sun6i-a31-mipi-dphy";
++			reg = <0x01ca1000 0x1000>;
++			clocks = <&ccu CLK_BUS_MIPI_DSI>,
++				 <&ccu CLK_DSI_DPHY>;
++			clock-names = "bus", "mod";
++			resets = <&ccu RST_BUS_MIPI_DSI>;
++			status = "disabled";
++			#phy-cells = <0>;
++		};
++
+ 		hdmi: hdmi@1ee0000 {
+ 			compatible = "allwinner,sun50i-a64-dw-hdmi",
+ 				     "allwinner,sun8i-a83t-dw-hdmi";
 -- 
 2.18.0.321.gffc6fa0e3
 
