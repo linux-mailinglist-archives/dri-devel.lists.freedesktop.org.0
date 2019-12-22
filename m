@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3852C128E2B
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Dec 2019 14:29:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EE8D128E30
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Dec 2019 14:29:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 413BC6E52F;
-	Sun, 22 Dec 2019 13:29:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 838DF6E530;
+	Sun, 22 Dec 2019 13:29:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
  [IPv6:2607:f8b0:4864:20::1044])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8DAA6E52F
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Dec 2019 13:29:45 +0000 (UTC)
-Received: by mail-pj1-x1044.google.com with SMTP id n96so6255987pjc.3
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Dec 2019 05:29:45 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABEAD6E530
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Dec 2019 13:29:50 +0000 (UTC)
+Received: by mail-pj1-x1044.google.com with SMTP id u63so5039681pjb.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Dec 2019 05:29:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9EK74rOb2z7EDUkpcZJ+pjm2y3iAMcEo48mh6FOoxhw=;
- b=elp3iMXtldViCwMF3JjT3bZYVczFV91HufAwoMDwVKUlMBQTJzocTtRCPkNBZMIA9g
- 2VG1BztxAum0YPvU8OBwZOSVW5E9wgbKIBqnXdWU8ONLA/+ucglW6TcP3PR9UVYG6GNo
- SfCb4jXdvRDs/0qiGzLsCQH00UaN3uPOVome4=
+ bh=ZXOcwXSpTDZpb+/TcTbfTiplV6hYObjzRW1vf2xFZRA=;
+ b=I3PQ33U14EAolLLj8jlrmUJ/O9DIkC6SXNrRVAoW9isHRRLbh0z685MsUAAtjr60en
+ UzggneMmXWh6Sdorq0YMf2qD+5Zi4RnYC350HCHCRJPy4evKsI1sZcsdE2rXY2dTYvT7
+ 1PQ9gScLj5oAiJ/wwt8CJTwOu416Ss5/Im9YE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9EK74rOb2z7EDUkpcZJ+pjm2y3iAMcEo48mh6FOoxhw=;
- b=dRRfkm8KDzvOdBfBVZcKWGeuaaNBumpLJ0qPpe6Fa8Khp/Nuh9Qin2ueDe3x9MoBaa
- C0roHOSoWWYGDSPaHgdFeXaQ82/Rd9nL+AfMQ2GjeWrsnhA4Hk8qfc8DgIdOKxSIbiNS
- xVtrYAImrhIHd+uMpAGA9qGq1daccQGPQ/6cCWx9HQCZ/Y2btU9+mbD+QBjcVq9vajUg
- 5Vz1sIoh+U9zk8KCIQ4ti8STR46ersi0Y0ShWId5DQWbbtFGu+gbxc1tP8uKL0VN5HpH
- wf0OOsOrZwiQn1f2gc6I4VARY6LXzSkRYYP7EtT823I/d1wf0wjUe5KFzcWHQOOGsVnE
- AUvA==
-X-Gm-Message-State: APjAAAW9ILNrme25WZ2YHqO0jMOsQzGWE0B88ntmWcs/vYlG6Tn8xjh9
- grCtgxKYGsK717nUlxZNwYkV4w==
-X-Google-Smtp-Source: APXvYqwbCvY+32jV+/QgjoePmeG6bzYo9uGs3ZgswBABaoyGH34YZ1Q2hfocbLiZGUbMXhjjrYPS2A==
-X-Received: by 2002:a17:90a:db48:: with SMTP id
- u8mr7360374pjx.54.1577021385351; 
- Sun, 22 Dec 2019 05:29:45 -0800 (PST)
+ bh=ZXOcwXSpTDZpb+/TcTbfTiplV6hYObjzRW1vf2xFZRA=;
+ b=rwG9A/YBDhqv8lyEK89tbRJNFRrDjqf6+p+Tt+Ge2qz/i9jnzpQJno22AZkrbSxHwB
+ vJPUhAiCVVurRCDMVQrub1vv2GmV9nSecr7rGMTLOcLU0UERhazEVrNi9BjIE8FILoJj
+ fi7dV7L1y7ezV7ldlsuIzDo3Fy3va6qeCHzUQYEMQO0iAocb6OqQUcYEY7/5EyGvK7iy
+ LgGn2LrDWMhpoHZCZwuY3J/mKeAbVRK6ov4w1jnYJ1Rv04rm1Twyu5TbKSxjLXwmPIVK
+ 1Ba/PyFYiwHMrIGrVX0w7EjYhaC6u2k7iOyD/4o0TyN51AK21zuPeXLJUOLO1Je/Tszo
+ +dgw==
+X-Gm-Message-State: APjAAAUT2DfMheb8NG1Wc2gwGifxvvPFcpW1ity8Qqo+BWF9RkA35tCT
+ Bw30T613aQMMwy7eLLXjiSr4nw==
+X-Google-Smtp-Source: APXvYqyIL1psXc/olK/QSRgQqBxtxjvsmTJrG5PZsaaCso/VKkCbYbl+cm8ubF+spBhD1JmKttrayw==
+X-Received: by 2002:a17:902:48:: with SMTP id
+ 66mr25655198pla.182.1577021390160; 
+ Sun, 22 Dec 2019 05:29:50 -0800 (PST)
 Received: from localhost.localdomain ([49.206.202.16])
- by smtp.gmail.com with ESMTPSA id o2sm12073058pjo.26.2019.12.22.05.29.40
+ by smtp.gmail.com with ESMTPSA id o2sm12073058pjo.26.2019.12.22.05.29.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 22 Dec 2019 05:29:44 -0800 (PST)
+ Sun, 22 Dec 2019 05:29:49 -0800 (PST)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>
-Subject: [PATCH v14 4/7] drm/sun4i: dsi: Handle bus clock via
- regmap_mmio_attach_clk
-Date: Sun, 22 Dec 2019 18:52:26 +0530
-Message-Id: <20191222132229.30276-5-jagan@amarulasolutions.com>
+Subject: [PATCH v14 5/7] drm/sun4i: dsi: Add Allwinner A64 MIPI DSI support
+Date: Sun, 22 Dec 2019 18:52:27 +0530
+Message-Id: <20191222132229.30276-6-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.18.0.321.gffc6fa0e3
 In-Reply-To: <20191222132229.30276-1-jagan@amarulasolutions.com>
 References: <20191222132229.30276-1-jagan@amarulasolutions.com>
@@ -78,119 +77,32 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-regmap has special API to enable the controller bus clock while
-initializing register space, and current driver is using
-devm_regmap_init_mmio_clk which require to specify bus
-clk_id argument as "bus"
+The MIPI DSI controller in Allwinner A64 is similar to A33.
 
-But, the usage of clocks are varies between different Allwinner
-DSI controllers. Clocking in A33 would need bus and mod clocks
-where as A64 would need only bus clock.
-
-Since A64 support only single bus clock, it is optional to
-specify the clock-names on the controller device tree node.
-So using NULL on clk_id would get the attached clock.
-
-To support clk_id as "bus" and "NULL" during clock enablement
-between controllers, this patch add generic code to handle
-the bus clock using regmap_mmio_attach_clk with associated
-regmap APIs.
+But unlike A33, A64 doesn't have DSI_SCLK gating so add compatible
+for Allwinner A64 with uninitialized has_mod_clk driver.
 
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+Tested-by: Merlijn Wajer <merlijn@wizzup.org>
 ---
 Changes for v14:
-- drop regmap_exit, clk_put
+- none
 
- drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 37 ++++++++++++++++++++------
- 1 file changed, 29 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-index 68b88a3dc4c5..2577b237d06a 100644
+index 2577b237d06a..4a024951aa11 100644
 --- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
 +++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-@@ -1081,6 +1081,7 @@ static const struct component_ops sun6i_dsi_ops = {
- static int sun6i_dsi_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-+	const char *bus_clk_name = NULL;
- 	struct sun6i_dsi *dsi;
- 	struct resource *res;
- 	void __iomem *base;
-@@ -1094,6 +1095,10 @@ static int sun6i_dsi_probe(struct platform_device *pdev)
- 	dsi->host.ops = &sun6i_dsi_host_ops;
- 	dsi->host.dev = dev;
+@@ -1256,6 +1256,7 @@ static const struct dev_pm_ops sun6i_dsi_pm_ops = {
  
-+	if (of_device_is_compatible(dev->of_node,
-+				    "allwinner,sun6i-a31-mipi-dsi"))
-+		bus_clk_name = "bus";
-+
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	base = devm_ioremap_resource(dev, res);
- 	if (IS_ERR(base)) {
-@@ -1107,25 +1112,35 @@ static int sun6i_dsi_probe(struct platform_device *pdev)
- 		return PTR_ERR(dsi->regulator);
- 	}
- 
--	dsi->regs = devm_regmap_init_mmio_clk(dev, "bus", base,
--					      &sun6i_dsi_regmap_config);
--	if (IS_ERR(dsi->regs)) {
--		dev_err(dev, "Couldn't create the DSI encoder regmap\n");
--		return PTR_ERR(dsi->regs);
--	}
--
- 	dsi->reset = devm_reset_control_get_shared(dev, NULL);
- 	if (IS_ERR(dsi->reset)) {
- 		dev_err(dev, "Couldn't get our reset line\n");
- 		return PTR_ERR(dsi->reset);
- 	}
- 
-+	dsi->regs = devm_regmap_init_mmio(dev, base, &sun6i_dsi_regmap_config);
-+	if (IS_ERR(dsi->regs)) {
-+		dev_err(dev, "Couldn't init regmap\n");
-+		return PTR_ERR(dsi->regs);
-+	}
-+
-+	dsi->bus_clk = devm_clk_get(dev, bus_clk_name);
-+	if (IS_ERR(dsi->bus_clk)) {
-+		dev_err(dev, "Couldn't get the DSI bus clock\n");
-+		return PTR_ERR(dsi->bus_clk);
-+	} else {
-+		ret = regmap_mmio_attach_clk(dsi->regs, dsi->bus_clk);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	if (of_device_is_compatible(dev->of_node,
- 				    "allwinner,sun6i-a31-mipi-dsi")) {
- 		dsi->mod_clk = devm_clk_get(dev, "mod");
- 		if (IS_ERR(dsi->mod_clk)) {
- 			dev_err(dev, "Couldn't get the DSI mod clock\n");
--			return PTR_ERR(dsi->mod_clk);
-+			ret = PTR_ERR(dsi->mod_clk);
-+			goto err_attach_clk;
- 		}
- 	}
- 
-@@ -1164,6 +1179,9 @@ static int sun6i_dsi_probe(struct platform_device *pdev)
- 	pm_runtime_disable(dev);
- err_unprotect_clk:
- 	clk_rate_exclusive_put(dsi->mod_clk);
-+err_attach_clk:
-+	if (!IS_ERR(dsi->bus_clk))
-+		regmap_mmio_detach_clk(dsi->regs);
- 	return ret;
- }
- 
-@@ -1177,6 +1195,9 @@ static int sun6i_dsi_remove(struct platform_device *pdev)
- 	pm_runtime_disable(dev);
- 	clk_rate_exclusive_put(dsi->mod_clk);
- 
-+	if (!IS_ERR(dsi->bus_clk))
-+		regmap_mmio_detach_clk(dsi->regs);
-+
- 	return 0;
- }
- 
+ static const struct of_device_id sun6i_dsi_of_table[] = {
+ 	{ .compatible = "allwinner,sun6i-a31-mipi-dsi" },
++	{ .compatible = "allwinner,sun50i-a64-mipi-dsi" },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(of, sun6i_dsi_of_table);
 -- 
 2.18.0.321.gffc6fa0e3
 
