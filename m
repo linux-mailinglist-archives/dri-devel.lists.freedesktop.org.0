@@ -1,126 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A4BF1292A6
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2019 09:11:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D319D1292A8
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2019 09:11:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5355A6E1B4;
-	Mon, 23 Dec 2019 08:10:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D2186E1BD;
+	Mon, 23 Dec 2019 08:10:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0014ca01.pphosted.com (mx0b-0014ca01.pphosted.com
- [208.86.201.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F2AA6E132
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2019 06:54:40 +0000 (UTC)
-Received: from pps.filterd (m0042333.ppops.net [127.0.0.1])
- by mx0b-0014ca01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xBN6s9WW016861; Sun, 22 Dec 2019 22:54:39 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=proofpoint;
- bh=G3ZOysoNj1YzA2w8Gl32kvSKzSx7gT1C/D7qVq9YsJM=;
- b=UfrRnp+MZ+sdeig/AKE0iyTShYIu4MHAyQZELZHNqivF6RWsqOhNXNEdS7wJNzLmB9Jr
- OFiBS/u0WrzTYpTC3ExdcFOTWPKU5IG2I7ekkhNS7Cg+NJ/qhRnlHUexk7LTpXXmJJbI
- f6WDiAOxRrNH8JOEtIQgNLhtj9Yt0VZI6q677RamGwyCkH4vkVTZ0beg0n9d3HTLSyc5
- ig6QiKVF49DMUFQ6kxGSv8RWkLNRwQoAStpySDfRBZJ62Lt8xl1k19tjPL3/4syM7NLb
- cBBbGDjBkTcbqI6b4UsPBmNtNL/SVT5kjRJCj2lbEinORs4wVb27cfrIXquEZejrAWac bg== 
-Received: from nam11-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2174.outbound.protection.outlook.com [104.47.58.174])
- by mx0b-0014ca01.pphosted.com with ESMTP id 2x1fv3mdj1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 22 Dec 2019 22:54:39 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XCP6s/hGc7b53Flff+gMDcnv5RK076JIPGvt8CStSgRH8Fk9DuVY0Rvht+ExpJfWSMuadOxObDQF3cytraSEUSqbqxD0ijGqkaeKuXyreHyAtetxHIXEg9cdRFUZpPvtc1LLEHq7STbbYjZ+UswFmil1notSywPXDKrT4Itx8/3Y8XqVfSvCzJXdEoZxUX4tyzJYx1R5T8qz4P0oSDBEuq2ync1HhuORrNRXD693zRPcq5F/SJahZOOshthm1qrVoL3BYa4xtFWpCHok+0oYi4mQnnPLRdDUtNEouAJNnbcrbHYwmp5U/isPpH9nToWIF2BXgyrd7Nwj8qy4s9z/QA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G3ZOysoNj1YzA2w8Gl32kvSKzSx7gT1C/D7qVq9YsJM=;
- b=nGJmf2e7vb9hqU7LP6lObwrr2XldWhz8507wQf375iHLjXo4efG79GPiLObfh/9f07dURTQyPLMsMqVhnyHEOqGzfT/EM1dGXG78cEU1JFpr2mwGmna25Kp6z5lMsUe2Yc/zd8XRnQbupW5YpVw5g/tRxkpvCldHQ9An2nDv8v+f9jVYtu6d6BSr1wqAqBxS5ar0kg5qTGlfYyk9zfCv22NVPs67vJDhfOgs6eUzxKtcoDhByvCS5i+DJxr6FbPTL6AyzLtojE6jT8uIdwFDwzbTERP52OqlxF2kJthywxGzcr1ntGvBIQ+q0O5R67+qwW/rX5hGNWRXL6N2nCHFqA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 64.207.220.243) smtp.rcpttodomain=ti.com smtp.mailfrom=cadence.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=cadence.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G3ZOysoNj1YzA2w8Gl32kvSKzSx7gT1C/D7qVq9YsJM=;
- b=Oqotrf2XTJybsESqNuRdHhmILuF8pnfBAqAphEXu7KT8GFRnxg9uhlIXgMEDrweE4otNBGNFhVHxyxu65sFpmz1dtbk4IhtAo/PuWFLlAuSMymz05nRph8NY54qiqczSNkRfnl1mJqLkakfuQJ7kpQqE8ralmU3DJujxjT2hRus=
-Received: from DM5PR07CA0088.namprd07.prod.outlook.com (2603:10b6:4:ae::17) by
- BY5PR07MB7203.namprd07.prod.outlook.com (2603:10b6:a03:20e::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2559.16; Mon, 23 Dec
- 2019 06:54:36 +0000
-Received: from BN8NAM12FT059.eop-nam12.prod.protection.outlook.com
- (2a01:111:f400:fe5b::202) by DM5PR07CA0088.outlook.office365.com
- (2603:10b6:4:ae::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2516.14 via Frontend
- Transport; Mon, 23 Dec 2019 06:54:36 +0000
-Received-SPF: Pass (protection.outlook.com: domain of cadence.com designates
- 64.207.220.243 as permitted sender) receiver=protection.outlook.com;
- client-ip=64.207.220.243; helo=wcmailrelayl01.cadence.com;
-Received: from wcmailrelayl01.cadence.com (64.207.220.243) by
- BN8NAM12FT059.mail.protection.outlook.com (10.13.183.55) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2538.16 via Frontend Transport; Mon, 23 Dec 2019 06:54:36 +0000
-Received: from maileu3.global.cadence.com (maileu3.cadence.com [10.160.88.99])
- by wcmailrelayl01.cadence.com (8.14.7/8.14.4) with ESMTP id
- xBN6sWjV067998
- (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=OK);
- Sun, 22 Dec 2019 22:54:34 -0800
-X-CrossPremisesHeadersFilteredBySendConnector: maileu3.global.cadence.com
-Received: from maileu3.global.cadence.com (10.160.88.99) by
- maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
- 15.0.1367.3; Mon, 23 Dec 2019 07:54:32 +0100
-Received: from vleu-orange.cadence.com (10.160.88.83) by
- maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
- 15.0.1367.3 via Frontend Transport; Mon, 23 Dec 2019 07:54:32 +0100
-Received: from vleu-orange.cadence.com (localhost.localdomain [127.0.0.1])
- by vleu-orange.cadence.com (8.14.4/8.14.4) with ESMTP id xBN6sWkB005457;
- Mon, 23 Dec 2019 07:54:32 +0100
-Received: (from yamonkar@localhost)
- by vleu-orange.cadence.com (8.14.4/8.14.4/Submit) id xBN6sVQS005434;
- Mon, 23 Dec 2019 07:54:31 +0100
-From: Yuti Amonkar <yamonkar@cadence.com>
-To: <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <kishon@ti.com>
-Subject: [PATCH v1] phy: Add DisplayPort configuration options
-Date: Mon, 23 Dec 2019 07:54:31 +0100
-Message-ID: <1577084071-5332-1-git-send-email-yamonkar@cadence.com>
-X-Mailer: git-send-email 2.4.5
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8A246E132
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2019 07:10:04 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: eballetbo) with ESMTPSA id 79C76283E20
+Subject: Re: [PATCH v22 2/2] drm/bridge: Add I2C based driver for ps8640 bridge
+To: Nicolas Boichat <drinkcat@chromium.org>
+References: <20191220081738.1895-1-enric.balletbo@collabora.com>
+ <20191220081738.1895-3-enric.balletbo@collabora.com>
+ <CANMq1KBHsc8oqcjWnjLPCpRToyOm16X6EcQqmqPjZf=D7wA2-Q@mail.gmail.com>
+From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Message-ID: <05db638b-02a6-0e3a-43ed-44a0a1458d87@collabora.com>
+Date: Mon, 23 Dec 2019 08:09:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-X-OrganizationHeadersPreserved: maileu3.global.cadence.com
-X-EOPAttributedMessage: 0
-X-Forefront-Antispam-Report: CIP:64.207.220.243; IPV:; CTRY:US; EFV:NLI;
- SFV:NSPM;
- SFS:(10009020)(4636009)(346002)(136003)(376002)(396003)(39860400002)(36092001)(199004)(189003)(36756003)(2906002)(86362001)(2616005)(70586007)(70206006)(478600001)(336012)(426003)(356004)(186003)(316002)(107886003)(54906003)(42186006)(110136005)(36906005)(26005)(4326008)(81166006)(8936002)(8676002)(81156014)(966005)(5660300002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:BY5PR07MB7203; H:wcmailrelayl01.cadence.com;
- FPR:; SPF:Pass; LANG:en; PTR:unused.mynethost.com; A:1; MX:1; 
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 34a66fbb-2670-4421-06a2-08d78774f961
-X-MS-TrafficTypeDiagnostic: BY5PR07MB7203:
-X-Microsoft-Antispam-PRVS: <BY5PR07MB7203A2CCF3B110E42802AFB7D22E0@BY5PR07MB7203.namprd07.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
-X-Forefront-PRVS: 0260457E99
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1oZILF3Fn05+A71NCn4t+pW7uQmXBES1IPl7GiLe6PH46ge8AsdNsRieJB+KFnP16BSQEkwfDJv7RnmO/KjMg7oXpn73aK6q094+lyEVdUOdZiP9f4akiUT2lqK92vFeniBep2pQ0UbJoyweK4QwOr7dZOhRC6YVaQZA1cJv593aqExviwHt/C3ec5kpzS/52iC92Xig0wT1aeU8uSR5axzPMqwonts/dKP9LX4ms4oAyhuCrJggJGZFIVffrMrUd/uKDP3R/JxzOjjrgQwHwCJh6ktXBFBcBUpE4PsPJL2X0eR+b/VVTc1WNDEdSVQRzUDEGOBzUH25pOZCWLc9/OCN8uEbX9qPvdJhlE8bd2qDxUCWOdiGYrQOCjJsc5yLhH+9WOKiWuYvSZt7LsmXvGS+NYMf0Zz9uP/MdtzWYNOuBhWJLN41PZt3mDarngDhO8nAaLlzAYf4MCnTSeN1LN/EXqavCxWp3yrspwZNFKcRshNgt4lnYaUAQlHg2PGgCmj6CXSxna0Eox5QggIZrlr2uhaaZ5GQvssk3AhW2tc=
-X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2019 06:54:36.4535 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 34a66fbb-2670-4421-06a2-08d78774f961
-X-MS-Exchange-CrossTenant-Id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d36035c5-6ce6-4662-a3dc-e762e61ae4c9; Ip=[64.207.220.243];
- Helo=[wcmailrelayl01.cadence.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR07MB7203
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-12-23_03:2019-12-17,2019-12-23 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check
- score=0
- lowpriorityscore=0 malwarescore=0 adultscore=0 mlxlogscore=999 spamscore=0
- clxscore=1015 priorityscore=1501 phishscore=0 bulkscore=0 impostorscore=0
- suspectscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1912230059
+In-Reply-To: <CANMq1KBHsc8oqcjWnjLPCpRToyOm16X6EcQqmqPjZf=D7wA2-Q@mail.gmail.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Mon, 23 Dec 2019 08:10:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -134,171 +40,460 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mparab@cadence.com, yamonkar@cadence.com, praneeth@ti.com, jsarha@ti.com,
- tomi.valkeinen@ti.com, sjakhade@cadence.com
+Cc: Ulrich Hecht <uli@fpond.eu>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Jitao Shi <jitao.shi@mediatek.com>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
+ lkml <linux-kernel@vger.kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ dri-devel@lists.freedesktop.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Collabora Kernel ML <kernel@collabora.com>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Allow DisplayPort PHYs to be configured through the generic
-functions through a custom structure added to the generic union.
-The configuration structure is used for reconfiguration of
-DisplayPort PHYs during link training operation.
+Hi Nicolas,
 
-The parameters added here are the ones defined in the DisplayPort
-spec which include link rate, number of lanes, voltage swing
-and pre-emphasis.
+Many thanks for you review. Just preparing a new version with your comments
+addressed.
 
-This patch was a part of [1] series earlier but we think that it needs
-to have a separate attention of the reviewers. Also as both [1] & [2] are
-dependent on this patch, our sincere request to reviewers to have a
-faster review of this patch.
+On 20/12/19 9:44, Nicolas Boichat wrote:
+> On Fri, Dec 20, 2019 at 4:17 PM Enric Balletbo i Serra
+> <enric.balletbo@collabora.com> wrote:
+>>
+>> From: Jitao Shi <jitao.shi@mediatek.com>
+>>
+>> This patch adds drm_bridge driver for parade DSI to eDP bridge chip.
+>>
+>> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+>> Reviewed-by: Daniel Kurtz <djkurtz@chromium.org>
+>> Reviewed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+>> [uli: followed API changes, removed FW update feature]
+>> Signed-off-by: Ulrich Hecht <uli@fpond.eu>
+>> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+>> ---
+>> [snip]
+>>
+>>  drivers/gpu/drm/bridge/Kconfig         |  11 +
+>>  drivers/gpu/drm/bridge/Makefile        |   1 +
+>>  drivers/gpu/drm/bridge/parade-ps8640.c | 354 +++++++++++++++++++++++++
+> 
+> Half the size! Sounds great.
+> 
+> Mostly nits below.
+> 
+>>  3 files changed, 366 insertions(+)
+>>  create mode 100644 drivers/gpu/drm/bridge/parade-ps8640.c
+>>
+>> diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
+>> new file mode 100644
+>> index 000000000000..aa0045037f44
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+>> @@ -0,0 +1,354 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +/*
+>> + * Copyright (c) 2016 MediaTek Inc.
+>> + */
+>> +
+>> +#include <linux/delay.h>
+>> +#include <linux/err.h>
+>> +#include <linux/gpio/consumer.h>
+>> +#include <linux/i2c.h>
+>> +#include <linux/module.h>
+>> +#include <linux/of_graph.h>
+>> +#include <linux/regulator/consumer.h>
+>> +
+>> +#include <drm/drm_bridge.h>
+>> +#include <drm/drm_mipi_dsi.h>
+>> +#include <drm/drm_of.h>
+>> +#include <drm/drm_panel.h>
+>> +#include <drm/drm_print.h>
+>> +
+>> +#define PAGE2_GPIO_H           0xa7
+>> +#define PS_GPIO9               BIT(1)
+>> +#define PAGE2_I2C_BYPASS       0xea
+>> +#define I2C_BYPASS_EN          0xd0
+>> +#define PAGE2_MCS_EN           0xf3
+>> +#define MCS_EN                 BIT(0)
+>> +#define PAGE3_SET_ADD          0xfe
+>> +#define VDO_CTL_ADD            0x13
+>> +#define VDO_DIS                        0x18
+>> +#define VDO_EN                 0x1c
+>> +
+>> +/*
+>> + * PS8640 uses multiple addresses:
+>> + * page[0]: for DP control
+>> + * page[1]: for VIDEO Bridge
+>> + * page[2]: for control top
+>> + * page[3]: for DSI Link Control1
+>> + * page[4]: for MIPI Phy
+>> + * page[5]: for VPLL
+>> + * page[6]: for DSI Link Control2
+>> + * page[7]: for SPI ROM mapping
+>> + */
+>> +enum page_addr_offset {
+>> +       PAGE0_DP_CNTL = 0,
+>> +       PAGE1_VDO_BDG,
+>> +       PAGE2_TOP_CNTL,
+>> +       PAGE3_DSI_CNTL1,
+>> +       PAGE4_MIPI_PHY,
+>> +       PAGE5_VPLL,
+>> +       PAGE6_DSI_CNTL2,
+>> +       PAGE7_SPI_CNTL,
+>> +       MAX_DEVS
+>> +};
+>> +
+>> +struct ps8640 {
+>> +       struct drm_bridge bridge;
+>> +       struct drm_bridge *panel_bridge;
+>> +       struct mipi_dsi_device *dsi;
+>> +       struct i2c_client *page[MAX_DEVS];
+>> +       struct regulator_bulk_data supplies[2];
+>> +       struct gpio_desc *gpio_reset;
+>> +       struct gpio_desc *gpio_powerdown;
+>> +};
+>> +
+>> +static inline struct ps8640 *bridge_to_ps8640(struct drm_bridge *e)
+>> +{
+>> +       return container_of(e, struct ps8640, bridge);
+>> +}
+>> +
+>> +static int ps8640_bridge_unmute(struct ps8640 *ps_bridge)
+>> +{
+>> +       struct i2c_client *client = ps_bridge->page[PAGE3_DSI_CNTL1];
+>> +       u8 vdo_ctrl_buf[] = { VDO_CTL_ADD, VDO_EN };
+> 
+> nit: const?
+> 
+>> +       int ret;
+>> +
+>> +       ret = i2c_smbus_write_i2c_block_data(client, PAGE3_SET_ADD,
+>> +                                            sizeof(vdo_ctrl_buf),
+>> +                                            vdo_ctrl_buf);
+>> +       if (ret < 0)
+>> +               return ret;
+>> +
+>> +       return 0;
+>> +}
+>> +
+>> +static int ps8640_bridge_mute(struct ps8640 *ps_bridge)
+>> +{
+>> +       struct i2c_client *client = ps_bridge->page[PAGE3_DSI_CNTL1];
+>> +       u8 vdo_ctrl_buf[] = { VDO_CTL_ADD, VDO_DIS };
+> 
+> ditto
+> 
+>> +       int ret;
+>> +
+>> +       ret = i2c_smbus_write_i2c_block_data(client, PAGE3_SET_ADD,
+>> +                                            sizeof(vdo_ctrl_buf),
+>> +                                            vdo_ctrl_buf);
+>> +       if (ret < 0)
+>> +               return ret;
+>> +
+>> +       return 0;
+>> +}
+> 
+> Since the 2 functions are almost the same, you could shrink the driver
+> a bit further by merging them into one with a boolean parameter? (then
+> maybe give up on the const u8 comment).
+> 
 
-[1]
+I decided to merge the two functions and use and enum instead of a boolean
+parameter, so the "bool" value is more understandable.
 
-https://lkml.org/lkml/2019/12/11/455
+>> +
+>> +static void ps8640_pre_enable(struct drm_bridge *bridge)
+>> +{
+>> +       struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+>> +       struct i2c_client *client = ps_bridge->page[PAGE2_TOP_CNTL];
+>> +       unsigned long timeout;
+>> +       int ret, status;
+>> +
+>> +       ret = regulator_bulk_enable(ARRAY_SIZE(ps_bridge->supplies),
+>> +                                   ps_bridge->supplies);
+>> +       if (ret < 0) {
+>> +               DRM_ERROR("cannot enable regulators %d\n", ret);
+>> +               return;
+>> +       }
+>> +
+>> +       gpiod_set_value(ps_bridge->gpio_powerdown, 1);
+>> +       gpiod_set_value(ps_bridge->gpio_reset, 0);
+>> +       usleep_range(2000, 2500);
+>> +       gpiod_set_value(ps_bridge->gpio_reset, 1);
+>> +
+>> +       /*
+>> +        * Wait for the ps8640 embedded MCU to be ready
+>> +        * First wait 200ms and then check the MCU ready flag every 20ms
+>> +        */
+>> +       msleep(200);
+>> +
+>> +       timeout = jiffies + msecs_to_jiffies(200) + 1;
+>> +
+>> +       while (time_is_after_jiffies(timeout)) {
+>> +               status = i2c_smbus_read_byte_data(client, PAGE2_GPIO_H);
+>> +               if (status < 0) {
+>> +                       DRM_ERROR("failed read PAGE2_GPIO_H: %d\n", status);
+>> +                       goto err_regulators_disable;
+>> +               }
+>> +               if ((status & PS_GPIO9) == PS_GPIO9)
+>> +                       break;
+>> +
+>> +               msleep(20);
+>> +       }
+>> +
+>> +       msleep(50);
+>> +
+>> +       /*
+>> +        * The Manufacturer Command Set (MCS) is a device dependent interface
+>> +        * intended for factory programming of the display module default
+>> +        * parameters. Once the display module is configured, the MCS shall be
+>> +        * disabled by the manufacturer. Once disabled, all MCS commands are
+>> +        * ignored by the display interface.
+>> +        */
+>> +       status = i2c_smbus_read_byte_data(client, PAGE2_MCS_EN);
+>> +       if (status < 0) {
+>> +               DRM_ERROR("failed read PAGE2_MCS_EN: %d\n", status);
+>> +               goto err_regulators_disable;
+>> +       }
+>> +
+>> +       ret = i2c_smbus_write_byte_data(client, PAGE2_MCS_EN,
+>> +                                       status & ~MCS_EN);
+>> +       if (ret < 0) {
+>> +               DRM_ERROR("failed write PAGE2_MCS_EN: %d\n", ret);
+>> +               goto err_regulators_disable;
+>> +       }
+>> +
+>> +       ret = ps8640_bridge_unmute(ps_bridge);
+>> +       if (ret)
+>> +               DRM_ERROR("failed to enable unmutevideo: %d\n", ret);
+> 
+> failed to unmute? Or failed to enable?
+> 
 
-[2]
+failed to unmute sound more clear to me.
 
-https://patchwork.kernel.org/cover/11271191/
+>> +
+>> +       /* Switch access edp panel's edid through i2c */
+>> +       ret = i2c_smbus_write_byte_data(client, PAGE2_I2C_BYPASS,
+>> +                                       I2C_BYPASS_EN);
+>> +       if (ret < 0) {
+>> +               DRM_ERROR("failed write PAGE2_I2C_BYPASS: %d\n", ret);
+>> +               goto err_regulators_disable;
+>> +       }
+>> +
+>> +       return;
+>> +
+>> +err_regulators_disable:
+>> +       regulator_bulk_disable(ARRAY_SIZE(ps_bridge->supplies),
+>> +                              ps_bridge->supplies);
+>> +}
+>> +
+>> +static void ps8640_post_disable(struct drm_bridge *bridge)
+>> +{
+>> +       struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+>> +       int ret;
+>> +
+>> +       ret = ps8640_bridge_mute(ps_bridge);
+>> +       if (ret < 0)
+>> +               DRM_ERROR("failed to unmutevideo: %d\n", ret);
+> 
+> ditto
+> 
 
-Signed-off-by: Yuti Amonkar <yamonkar@cadence.com>
----
- include/linux/phy/phy-dp.h | 95 ++++++++++++++++++++++++++++++++++++++++++++++
- include/linux/phy/phy.h    |  4 ++
- 2 files changed, 99 insertions(+)
- create mode 100644 include/linux/phy/phy-dp.h
+Done.
 
-diff --git a/include/linux/phy/phy-dp.h b/include/linux/phy/phy-dp.h
-new file mode 100644
-index 0000000..18cad23
---- /dev/null
-+++ b/include/linux/phy/phy-dp.h
-@@ -0,0 +1,95 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (C) 2019 Cadence Design Systems Inc.
-+ */
-+
-+#ifndef __PHY_DP_H_
-+#define __PHY_DP_H_
-+
-+#include <linux/types.h>
-+
-+/**
-+ * struct phy_configure_opts_dp - DisplayPort PHY configuration set
-+ *
-+ * This structure is used to represent the configuration state of a
-+ * DisplayPort phy.
-+ */
-+struct phy_configure_opts_dp {
-+	/**
-+	 * @link_rate:
-+	 *
-+	 * Link Rate, in Mb/s, of the main link.
-+	 *
-+	 * Allowed values: 1620, 2160, 2430, 2700, 3240, 4320, 5400, 8100 Mb/s
-+	 */
-+	unsigned int link_rate;
-+
-+	/**
-+	 * @lanes:
-+	 *
-+	 * Number of active, consecutive, data lanes, starting from
-+	 * lane 0, used for the transmissions on main link.
-+	 *
-+	 * Allowed values: 1, 2, 4
-+	 */
-+	unsigned int lanes;
-+
-+	/**
-+	 * @voltage:
-+	 *
-+	 * Voltage swing levels, as specified by DisplayPort specification,
-+	 * to be used by particular lanes. One value per lane.
-+	 * voltage[0] is for lane 0, voltage[1] is for lane 1, etc.
-+	 *
-+	 * Maximum value: 3
-+	 */
-+	unsigned int voltage[4];
-+
-+	/**
-+	 * @pre:
-+	 *
-+	 * Pre-emphasis levels, as specified by DisplayPort specification, to be
-+	 * used by particular lanes. One value per lane.
-+	 *
-+	 * Maximum value: 3
-+	 */
-+	unsigned int pre[4];
-+
-+	/**
-+	 * @ssc:
-+	 *
-+	 * Flag indicating, whether or not to enable spread-spectrum clocking.
-+	 *
-+	 */
-+	u8 ssc : 1;
-+
-+	/**
-+	 * @set_rate:
-+	 *
-+	 * Flag indicating, whether or not reconfigure link rate and SSC to
-+	 * requested values.
-+	 *
-+	 */
-+	u8 set_rate : 1;
-+
-+	/**
-+	 * @set_lanes:
-+	 *
-+	 * Flag indicating, whether or not reconfigure lane count to
-+	 * requested value.
-+	 *
-+	 */
-+	u8 set_lanes : 1;
-+
-+	/**
-+	 * @set_voltages:
-+	 *
-+	 * Flag indicating, whether or not reconfigure voltage swing
-+	 * and pre-emphasis to requested values. Only lanes specified
-+	 * by "lanes" parameter will be affected.
-+	 *
-+	 */
-+	u8 set_voltages : 1;
-+};
-+
-+#endif /* __PHY_DP_H_ */
-diff --git a/include/linux/phy/phy.h b/include/linux/phy/phy.h
-index 15032f14..ba0aab5 100644
---- a/include/linux/phy/phy.h
-+++ b/include/linux/phy/phy.h
-@@ -16,6 +16,7 @@
- #include <linux/pm_runtime.h>
- #include <linux/regulator/consumer.h>
- 
-+#include <linux/phy/phy-dp.h>
- #include <linux/phy/phy-mipi-dphy.h>
- 
- struct phy;
-@@ -46,9 +47,12 @@ enum phy_mode {
-  *
-  * @mipi_dphy:	Configuration set applicable for phys supporting
-  *		the MIPI_DPHY phy mode.
-+ * @dp:		Configuration set applicable for phys supporting
-+ *		the DisplayPort protocol.
-  */
- union phy_configure_opts {
- 	struct phy_configure_opts_mipi_dphy	mipi_dphy;
-+	struct phy_configure_opts_dp		dp;
- };
- 
- /**
--- 
-2.7.4
+>> +
+>> +       gpiod_set_value(ps_bridge->gpio_reset, 0);
+>> +       gpiod_set_value(ps_bridge->gpio_powerdown, 0);
+>> +       ret = regulator_bulk_disable(ARRAY_SIZE(ps_bridge->supplies),
+>> +                                    ps_bridge->supplies);
+>> +       if (ret < 0)
+>> +               DRM_ERROR("cannot disable regulators %d\n", ret);
+>> +}
+>> +
+>> +int ps8640_bridge_attach(struct drm_bridge *bridge)
+>> +{
+>> +       struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+>> +       struct device *dev = &ps_bridge->page[0]->dev;
+>> +       struct device_node *in_ep, *dsi_node;
+>> +       struct mipi_dsi_device *dsi;
+>> +       struct mipi_dsi_host *host;
+>> +       int ret;
+>> +       const struct mipi_dsi_device_info info = { .type = "ps8640",
+>> +                                                  .channel = 0,
+>> +                                                  .node = NULL,
+>> +                                                };
+>> +       /* port@0 is ps8640 dsi input port */
+>> +       in_ep = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
+>> +       if (!in_ep)
+>> +               return -ENODEV;
+>> +
+>> +       dsi_node = of_graph_get_remote_port_parent(in_ep);
+>> +       of_node_put(in_ep);
+>> +       if (!dsi_node)
+>> +               return -ENODEV;
+>> +
+>> +       host = of_find_mipi_dsi_host_by_node(dsi_node);
+>> +       of_node_put(dsi_node);
+>> +       if (!host)
+>> +               return -ENODEV;
+>> +
+>> +       dsi = mipi_dsi_device_register_full(host, &info);
+>> +       if (IS_ERR(dsi)) {
+>> +               dev_err(dev, "failed to create dsi device\n");
+>> +               ret = PTR_ERR(dsi);
+>> +               return ret;
+>> +       }
+>> +
+>> +       ps_bridge->dsi = dsi;
+>> +
+>> +       dsi->host = host;
+>> +       dsi->mode_flags = MIPI_DSI_MODE_VIDEO |
+>> +                         MIPI_DSI_MODE_VIDEO_SYNC_PULSE;
+>> +       dsi->format = MIPI_DSI_FMT_RGB888;
+>> +       dsi->lanes = 4;
+>> +       ret = mipi_dsi_attach(dsi);
+>> +       if (ret)
+>> +               goto err_dsi_attach;
+>> +
+>> +       /* Attach the panel-bridge to the dsi bridge */
+>> +       return drm_bridge_attach(bridge->encoder, ps_bridge->panel_bridge,
+>> +                                &ps_bridge->bridge);
+>> +
+>> +err_dsi_attach:
+>> +       mipi_dsi_device_unregister(dsi);
+>> +       return ret;
+>> +}
+>> +
+>> +static const struct drm_bridge_funcs ps8640_bridge_funcs = {
+>> +       .attach = ps8640_bridge_attach,
+>> +       .post_disable = ps8640_post_disable,
+>> +       .pre_enable = ps8640_pre_enable,
+>> +};
+>> +
+>> +static int ps8640_probe(struct i2c_client *client)
+>> +{
+>> +       struct device *dev = &client->dev;
+>> +       struct device_node *np = dev->of_node;
+>> +       struct ps8640 *ps_bridge;
+>> +       struct drm_panel *panel;
+>> +       int ret;
+>> +       u32 i;
+>> +
+>> +       ps_bridge = devm_kzalloc(dev, sizeof(*ps_bridge), GFP_KERNEL);
+>> +       if (!ps_bridge)
+>> +               return -ENOMEM;
+>> +
+>> +       /* port@1 is ps8640 output port */
+>> +       ret = drm_of_find_panel_or_bridge(np, 1, 0, &panel, NULL);
+>> +       if (ret < 0)
+>> +               return ret;
+>> +       if (!panel)
+>> +               return -ENODEV;
+>> +
+>> +       panel->connector_type = DRM_MODE_CONNECTOR_eDP;
+>> +
+>> +       ps_bridge->panel_bridge = devm_drm_panel_bridge_add(dev, panel);
+>> +       if (IS_ERR(ps_bridge->panel_bridge))
+>> +               return PTR_ERR(ps_bridge->panel_bridge);
+>> +
+>> +       ps_bridge->supplies[0].supply = "vdd33";
+>> +       ps_bridge->supplies[1].supply = "vdd12";
+>> +       ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(ps_bridge->supplies),
+>> +                                     ps_bridge->supplies);
+>> +       if (ret)
+>> +               return ret;
+>> +
+>> +       ps_bridge->gpio_powerdown = devm_gpiod_get(&client->dev, "powerdown",
+>> +                                                  GPIOD_OUT_LOW);
+>> +       if (IS_ERR(ps_bridge->gpio_powerdown))
+>> +               return PTR_ERR(ps_bridge->gpio_powerdown);
+>> +
+>> +       /*
+>> +        * Request the reset pin low to avoid the bridge being
+>> +        * initialized prematurely
+>> +        */
+>> +       ps_bridge->gpio_reset = devm_gpiod_get(&client->dev, "reset",
+>> +                                              GPIOD_OUT_LOW);
+>> +       if (IS_ERR(ps_bridge->gpio_reset))
+>> +               return PTR_ERR(ps_bridge->gpio_reset);
+>> +
+>> +       ps_bridge->bridge.funcs = &ps8640_bridge_funcs;
+>> +       ps_bridge->bridge.of_node = dev->of_node;
+>> +
+>> +       ps_bridge->page[PAGE0_DP_CNTL] = client;
+>> +
+>> +       for (i = 1; i < ARRAY_SIZE(ps_bridge->page); i++) {
+>> +               ps_bridge->page[i] = devm_i2c_new_dummy_device(&client->dev,
+>> +                                                            client->adapter,
+>> +                                                            client->addr + i);
+>> +               if (IS_ERR(ps_bridge->page[i])) {
+>> +                       dev_err(dev, "failed i2c dummy device, address%02x\n",
+> 
+> Space after address?
+> 
 
+Ack and done.
+
+>> +                               client->addr + i);
+>> +                       return PTR_ERR(ps_bridge->page[i]);
+>> +               }
+>> +       }
+>> +
+>> +       i2c_set_clientdata(client, ps_bridge);
+>> +
+>> +       drm_bridge_add(&ps_bridge->bridge);
+>> +
+>> +       return 0;
+>> +}
+>> +
+>> +static int ps8640_remove(struct i2c_client *client)
+>> +{
+>> +       struct ps8640 *ps_bridge = i2c_get_clientdata(client);
+>> +
+>> +       drm_bridge_remove(&ps_bridge->bridge);
+>> +
+>> +       return 0;
+>> +}
+>> +
+>> +static const struct of_device_id ps8640_match[] = {
+>> +       { .compatible = "parade,ps8640" },
+>> +       { }
+>> +};
+>> +MODULE_DEVICE_TABLE(of, ps8640_match);
+>> +
+>> +static struct i2c_driver ps8640_driver = {
+>> +       .probe_new = ps8640_probe,
+>> +       .remove = ps8640_remove,
+>> +       .driver = {
+>> +               .name = "ps8640",
+>> +               .of_match_table = ps8640_match,
+>> +       },
+>> +};
+>> +module_i2c_driver(ps8640_driver);
+>> +
+>> +MODULE_AUTHOR("Jitao Shi <jitao.shi@mediatek.com>");
+>> +MODULE_AUTHOR("CK Hu <ck.hu@mediatek.com>");
+> 
+> Since you just did a major refactor, do you want to add your name here?
+> 
+
+Sure.
+
+Thanks,
+ Enric
+
+>> +MODULE_DESCRIPTION("PARADE ps8640 DSI-eDP converter driver");
+>> +MODULE_LICENSE("GPL v2");
+>> --
+>> 2.20.1
+>>
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
