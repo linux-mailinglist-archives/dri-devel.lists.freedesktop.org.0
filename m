@@ -2,32 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0CBC1298F4
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2019 17:55:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB3AC12992B
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2019 18:14:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DAF36E0BE;
-	Mon, 23 Dec 2019 16:55:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74F556E2E1;
+	Mon, 23 Dec 2019 17:14:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E48756E0BE;
- Mon, 23 Dec 2019 16:55:34 +0000 (UTC)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7D056E2D6;
+ Mon, 23 Dec 2019 17:14:04 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 23 Dec 2019 08:55:34 -0800
-X-IronPort-AV: E=Sophos;i="5.69,348,1571727600"; d="scan'208";a="211611474"
-Received: from ggranovs-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.252.51.22])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 23 Dec 2019 08:55:30 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
-Subject: [PULL] drm-intel-fixes
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date: Mon, 23 Dec 2019 18:55:35 +0200
-Message-ID: <87r20vdlrs.fsf@intel.com>
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 23 Dec 2019 09:14:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,348,1571727600"; d="scan'208";a="391638977"
+Received: from unknown (HELO amanna.iind.intel.com) ([10.223.74.53])
+ by orsmga005.jf.intel.com with ESMTP; 23 Dec 2019 09:14:00 -0800
+From: Animesh Manna <animesh.manna@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v3 1/9] drm/amd/display: Align macro name as per DP spec
+Date: Mon, 23 Dec 2019 22:33:49 +0530
+Message-Id: <20191223170350.15531-1-animesh.manna@intel.com>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20191218235324.GI12192@intel.com>
+References: <20191218235324.GI12192@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -41,69 +43,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: , dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
+Cc: jani.nikula@intel.com, nidhi1.gupta@intel.com,
+ Animesh Manna <animesh.manna@intel.com>, manasi.d.navare@intel.com,
+ uma.shankar@intel.com, anshuman.gupta@intel.com,
+ Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+[Why]:
+Aligh with DP spec wanted to follow same naming convention.
 
-Hi Dave & Daniel -
+[How]:
+Changed the macro name of the dpcd address used for getting requested
+test-pattern.
 
-drm-intel-fixes-2019-12-23:
-i915 power and frontbuffer tracking fixes
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Animesh Manna <animesh.manna@intel.com>
+---
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c | 2 +-
+ include/drm/drm_dp_helper.h                      | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-No test results on this yet, but I'll let you know later in the week if
-there are any issues in
-https://intel-gfx-ci.01.org/tree/drm-intel-fixes/index.html
-
-
-BR,
-Jani.
-
-The following changes since commit 46cf053efec6a3a5f343fead837777efe8252a46:
-
-  Linux 5.5-rc3 (2019-12-22 17:02:23 -0800)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2019-12-23
-
-for you to fetch changes up to e85ade1f50aae464ce196672faa7a099fd1721ed:
-
-  drm/i915: Hold reference to intel_frontbuffer as we track activity (2019-12-23 14:27:23 +0200)
-
-----------------------------------------------------------------
-i915 power and frontbuffer tracking fixes
-
-----------------------------------------------------------------
-Chris Wilson (2):
-      drm/i915/gt: Ratelimit display power w/a
-      drm/i915: Hold reference to intel_frontbuffer as we track activity
-
-Tvrtko Ursulin (1):
-      drm/i915/pmu: Ensure monotonic rc6
-
- drivers/gpu/drm/i915/display/intel_display.c     |  2 +-
- drivers/gpu/drm/i915/display/intel_frontbuffer.c | 16 ++----
- drivers/gpu/drm/i915/display/intel_frontbuffer.h | 34 ++++++++++-
- drivers/gpu/drm/i915/display/intel_overlay.c     | 17 ++++--
- drivers/gpu/drm/i915/gem/i915_gem_clflush.c      |  3 +-
- drivers/gpu/drm/i915/gem/i915_gem_domain.c       |  4 +-
- drivers/gpu/drm/i915/gem/i915_gem_object.c       | 26 ++++++++-
- drivers/gpu/drm/i915/gem/i915_gem_object.h       | 23 +++++++-
- drivers/gpu/drm/i915/gem/i915_gem_object_types.h |  2 +-
- drivers/gpu/drm/i915/gt/intel_gt_pm.c            |  3 +-
- drivers/gpu/drm/i915/i915_gem.c                  | 10 ++--
- drivers/gpu/drm/i915/i915_pmu.c                  | 73 +++++++-----------------
- drivers/gpu/drm/i915/i915_pmu.h                  |  2 +-
- drivers/gpu/drm/i915/i915_vma.c                  | 10 +++-
- 14 files changed, 139 insertions(+), 86 deletions(-)
-
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+index 42aa889fd0f5..1a6109be2fce 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+@@ -2491,7 +2491,7 @@ static void dp_test_send_phy_test_pattern(struct dc_link *link)
+ 	/* get phy test pattern and pattern parameters from DP receiver */
+ 	core_link_read_dpcd(
+ 			link,
+-			DP_TEST_PHY_PATTERN,
++			DP_PHY_TEST_PATTERN,
+ 			&dpcd_test_pattern.raw,
+ 			sizeof(dpcd_test_pattern));
+ 	core_link_read_dpcd(
+diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
+index 8f8f3632e697..d6e560870fb1 100644
+--- a/include/drm/drm_dp_helper.h
++++ b/include/drm/drm_dp_helper.h
+@@ -699,7 +699,7 @@
+ # define DP_TEST_CRC_SUPPORTED		    (1 << 5)
+ # define DP_TEST_COUNT_MASK		    0xf
+ 
+-#define DP_TEST_PHY_PATTERN                 0x248
++#define DP_PHY_TEST_PATTERN                 0x248
+ #define DP_TEST_80BIT_CUSTOM_PATTERN_7_0    0x250
+ #define	DP_TEST_80BIT_CUSTOM_PATTERN_15_8   0x251
+ #define	DP_TEST_80BIT_CUSTOM_PATTERN_23_16  0x252
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.24.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
