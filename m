@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BF3B12A22F
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2019 15:30:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6824C12A22B
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2019 15:30:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0ACDE6E33D;
-	Tue, 24 Dec 2019 14:29:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55B6E6E32D;
+	Tue, 24 Dec 2019 14:29:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F0C16E233;
- Mon, 23 Dec 2019 09:18:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 946ED6E233;
+ Mon, 23 Dec 2019 09:18:44 +0000 (UTC)
 Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 87F11F98EC4AA724507B;
+ by Forcepoint Email with ESMTP id 7E0E6180CB81F827B705;
  Mon, 23 Dec 2019 17:18:42 +0800 (CST)
 Received: from huawei.com (10.90.53.225) by DGGEMS410-HUB.china.huawei.com
  (10.3.19.210) with Microsoft SMTP Server id 14.3.439.0; Mon, 23 Dec 2019
- 17:18:31 +0800
+ 17:18:32 +0800
 From: zhengbin <zhengbin13@huawei.com>
 To: <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
  <David1.Zhou@amd.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
  <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 1/7] drm/radeon: use true,false for bool variable in r100.c
-Date: Mon, 23 Dec 2019 17:25:46 +0800
-Message-ID: <1577093152-10855-2-git-send-email-zhengbin13@huawei.com>
+Subject: [PATCH 2/7] drm/radeon: use true,false for bool variable in si.c
+Date: Mon, 23 Dec 2019 17:25:47 +0800
+Message-ID: <1577093152-10855-3-git-send-email-zhengbin13@huawei.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1577093152-10855-1-git-send-email-zhengbin13@huawei.com>
 References: <1577093152-10855-1-git-send-email-zhengbin13@huawei.com>
@@ -52,48 +52,37 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes coccicheck warning:
 
-drivers/gpu/drm/radeon/r100.c:1826:3-31: WARNING: Assignment of 0/1 to bool variable
-drivers/gpu/drm/radeon/r100.c:1828:3-31: WARNING: Assignment of 0/1 to bool variable
-drivers/gpu/drm/radeon/r100.c:2390:2-22: WARNING: Assignment of 0/1 to bool variable
-drivers/gpu/drm/radeon/r100.c:2395:2-22: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/radeon/si.c:6475:2-15: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/radeon/si.c:6542:2-15: WARNING: Assignment of 0/1 to bool variable
 
 Reported-by: Hulk Robot <hulkci@huawei.com>
 Signed-off-by: zhengbin <zhengbin13@huawei.com>
 ---
- drivers/gpu/drm/radeon/r100.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/radeon/si.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/r100.c b/drivers/gpu/drm/radeon/r100.c
-index 29c966f..2c1166d 100644
---- a/drivers/gpu/drm/radeon/r100.c
-+++ b/drivers/gpu/drm/radeon/r100.c
-@@ -1823,9 +1823,9 @@ static int r100_packet0_check(struct radeon_cs_parser *p,
- 	case RADEON_PP_TXFORMAT_2:
- 		i = (reg - RADEON_PP_TXFORMAT_0) / 24;
- 		if (idx_value & RADEON_TXFORMAT_NON_POWER2) {
--			track->textures[i].use_pitch = 1;
-+			track->textures[i].use_pitch = true;
- 		} else {
--			track->textures[i].use_pitch = 0;
-+			track->textures[i].use_pitch = false;
- 			track->textures[i].width = 1 << ((idx_value & RADEON_TXFORMAT_WIDTH_MASK) >> RADEON_TXFORMAT_WIDTH_SHIFT);
- 			track->textures[i].height = 1 << ((idx_value & RADEON_TXFORMAT_HEIGHT_MASK) >> RADEON_TXFORMAT_HEIGHT_SHIFT);
- 		}
-@@ -2387,12 +2387,12 @@ void r100_cs_track_clear(struct radeon_device *rdev, struct r100_cs_track *track
- 		else
- 			track->num_texture = 6;
- 		track->maxy = 2048;
--		track->separate_cube = 1;
-+		track->separate_cube = true;
- 	} else {
- 		track->num_cb = 4;
- 		track->num_texture = 16;
- 		track->maxy = 4096;
--		track->separate_cube = 0;
-+		track->separate_cube = false;
- 		track->aaresolve = false;
- 		track->aa.robj = NULL;
+diff --git a/drivers/gpu/drm/radeon/si.c b/drivers/gpu/drm/radeon/si.c
+index 8788a05..93dcab5 100644
+--- a/drivers/gpu/drm/radeon/si.c
++++ b/drivers/gpu/drm/radeon/si.c
+@@ -6472,7 +6472,7 @@ static void si_uvd_init(struct radeon_device *rdev)
+ 		 * there. So it is pointless to try to go through that code
+ 		 * hence why we disable uvd here.
+ 		 */
+-		rdev->has_uvd = 0;
++		rdev->has_uvd = false;
+ 		return;
  	}
+ 	rdev->ring[R600_RING_TYPE_UVD_INDEX].ring_obj = NULL;
+@@ -6539,7 +6539,7 @@ static void si_vce_init(struct radeon_device *rdev)
+ 		 * there. So it is pointless to try to go through that code
+ 		 * hence why we disable vce here.
+ 		 */
+-		rdev->has_vce = 0;
++		rdev->has_vce = false;
+ 		return;
+ 	}
+ 	rdev->ring[TN_RING_TYPE_VCE1_INDEX].ring_obj = NULL;
 --
 2.7.4
 
