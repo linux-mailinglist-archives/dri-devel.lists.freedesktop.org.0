@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 155E81294FD
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2019 12:29:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BA4E129598
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2019 12:41:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D6B96E03A;
-	Mon, 23 Dec 2019 11:29:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A01396E27A;
+	Mon, 23 Dec 2019 11:41:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 676F06E03A
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2019 11:29:24 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CE156E26C;
+ Mon, 23 Dec 2019 11:41:46 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 23 Dec 2019 03:29:23 -0800
-X-IronPort-AV: E=Sophos;i="5.69,347,1571727600"; d="scan'208";a="211527648"
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 23 Dec 2019 03:41:45 -0800
+X-IronPort-AV: E=Sophos;i="5.69,347,1571727600"; d="scan'208";a="211530914"
 Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 23 Dec 2019 03:29:21 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v1 6/8] drm/print: add drm_dev_* logging functions
-In-Reply-To: <20191221095553.13332-7-sam@ravnborg.org>
+ 23 Dec 2019 03:41:35 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Robin Murphy <robin.murphy@arm.com>, Tom Murphy <murphyt7@tcd.ie>,
+ iommu@lists.linux-foundation.org
+Subject: Re: [PATCH 0/8] Convert the intel iommu driver to the dma-iommu api
+In-Reply-To: <432d306c-fe9f-75b2-f0f7-27698f1467ad@arm.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20191221095553.13332-1-sam@ravnborg.org>
- <20191221095553.13332-7-sam@ravnborg.org>
-Date: Mon, 23 Dec 2019 13:29:19 +0200
-Message-ID: <87r20vuvow.fsf@intel.com>
+References: <20191221150402.13868-1-murphyt7@tcd.ie>
+ <87blrzwcn8.fsf@intel.com> <432d306c-fe9f-75b2-f0f7-27698f1467ad@arm.com>
+Date: Mon, 23 Dec 2019 13:41:33 +0200
+Message-ID: <87o8vzuv4i.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,167 +44,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Joe Perches <joe@perches.com>, Sam Ravnborg <sam@ravnborg.org>,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ linux-tegra@vger.kernel.org, Julien Grall <julien.grall@arm.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Will Deacon <will@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ linux-samsung-soc@vger.kernel.org, Marc Zyngier <maz@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
+ linux-rockchip@lists.infradead.org, Andy Gross <agross@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ linux-mediatek@lists.infradead.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ virtualization@lists.linux-foundation.org,
+ Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>, linux-kernel@vger.kernel.org,
+ Kukjin Kim <kgene@kernel.org>, David Woodhouse <dwmw2@infradead.org>,
+ Lu Baolu <baolu.lu@linux.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 21 Dec 2019, Sam Ravnborg <sam@ravnborg.org> wrote:
-> There are a lot of cases where we have a device * but no drm_device *.
-> Add drm_dev_* variants of the logging functions to cover these cases.
-
-So I know there are some valid cases where we only have struct device *,
-and instead of passing struct drm_device * will need the distinction
-between multiple struct device *.
-
-Not all current uses of DRM_DEV_* meet that criteria, however. I think
-I'd like to have those converted over to the drm_device based logging
-first, and then see what's left. Because I fear adding these will just
-lead to mass conversion from DRM_DEV_* to drm_dev_*, and the ball gets
-dropped there.
-
-I feel a bit similar about the drm_pr_* logging functions. I want to
-promote switching to drm_device based logging, not switching to the same
-old thing with just new names.
-
-BR,
-Jani.
-
-
->
-> Include brief documentation.
->
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> ---
->  include/drm/drm_print.h | 99 ++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 98 insertions(+), 1 deletion(-)
->
-> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-> index 7c0b93e6cb80..b2e5d0209010 100644
-> --- a/include/drm/drm_print.h
-> +++ b/include/drm/drm_print.h
-> @@ -337,7 +337,50 @@ static inline struct drm_printer drm_err_printer(const char *prefix)
->   *
->   * Logging when a &device * is available, but no &drm_device *
->   * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> - * TODO
-> + *
-> + * Adding a device pointer (if no &drm_device * is available) is always a good
-> + * idea as it add more information in the logging message thus making it easier
-> + * to determine the source of the logging.
-> + *
-> + * All logging functions in this block share the same prototype:
-> + *
-> + * .. code-block:: c
-> + *
-> + *   void drm_dev_xxx(struct device *, char * fmt, ...)
-> + *
-> + * The following functions are available:
-> + *
-> + * .. code-block:: none
-> + *
-> + *   # Plain logging
-> + *   drm_dev_dbg()
-> + *   drm_dev_info()
-> + *   drm_dev_notice()
-> + *   drm_dev_warn()
-> + *   drm_dev_err()
-> + *
-> + *   # Log only once
-> + *   drm_dev_info_once()
-> + *   drm_dev_notice_once()
-> + *   drm_dev_warn_once()
-> + *   drm_dev_err_once()
-> + *
-> + *   # Ratelimited - do not flood the logs
-> + *   drm_dev_err_ratelimited()
-> + *   drm_dev_dbg_ratelimited()
-> + *   drm_dev_dbg_kms_ratelimited()
-> + *
-> + *   # Logging with a specific category
-> + *   drm_dev_dbg_core()
-> + *   drm_dev_dbg()		# Uses the DRIVER category
-> + *   drm_dev_dbg_kms()
-> + *   drm_dev_dbg_prime()
-> + *   drm_dev_dbg_atomic()
-> + *   drm_dev_dbg_vbl()
-> + *   drm_dev_dbg_state()
-> + *   drm_dev_dbg_lease()
-> + *   drm_dev_dbg_dp()
-> + *
->   *
->   * Logging when no &device * nor &drm_device * is available
->   * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> @@ -468,6 +511,60 @@ static inline bool drm_debug_enabled(enum drm_debug_category category)
->  #define drm_dbg_dp(drm, fmt, ...)					\
->  	__drm_cat_printk((drm), DRM_UT_DP, fmt, ##__VA_ARGS__)
->  
-> +/* struct device based logging. */
-> +#define __drm_dev_printk(dev, level, type, fmt, ...)			\
-> +	dev_##level##type(dev, "[drm] " fmt, ##__VA_ARGS__)
-> +
-> +#define __drm_dev_cat_printk(dev, cat, type, fmt, ...)			\
-> +({									\
-> +	if (drm_debug_enabled(cat))					\
-> +		dev_dbg##type((dev), "[drm] " fmt, ##__VA_ARGS__);	\
-> +})
-> +
-> +#define drm_dev_info(dev, fmt, ...)					\
-> +	__drm_dev_printk((dev), info,, fmt, ##__VA_ARGS__)
-> +#define drm_dev_notice(dev, fmt, ...)					\
-> +	__drm_dev_printk((dev), notice,, fmt, ##__VA_ARGS__)
-> +#define drm_dev_warn(dev, fmt, ...)					\
-> +	__drm_dev_printk((dev), warn,, fmt, ##__VA_ARGS__)
-> +#define drm_dev_err(dev, fmt, ...)					\
-> +	__drm_dev_printk((dev), err,, "*ERROR* " fmt, ##__VA_ARGS__)
-> +
-> +#define drm_dev_info_once(dev, fmt, ...)				\
-> +	__drm_dev_printk((dev), info, _once, fmt, ##__VA_ARGS__)
-> +#define drm_dev_notice_once(dev, fmt, ...)				\
-> +	__drm_dev_printk((dev), notice, _once, fmt, ##__VA_ARGS__)
-> +#define drm_dev_warn_once(dev, fmt, ...)				\
-> +	__drm_dev_printk((dev), warn, _once, fmt, ##__VA_ARGS__)
-> +#define drm_dev_err_once(dev, fmt, ...)					\
-> +	__drm_dev_printk((dev), err, _once, "*ERROR* " fmt, ##__VA_ARGS__)
-> +
-> +#define drm_dev_err_ratelimited(dev, fmt, ...)				\
-> +	__drm_dev_printk((dev), err, _ratelimited, "*ERROR* " fmt, ##__VA_ARGS__)
-> +#define drm_dev_dbg_ratelimited(dev, fmt, ...)				\
-> +	__drm_dev_cat_printk((dev), DRM_UT_DRIVER,_ratelimited, fmt, ##__VA_ARGS__)
-> +#define drm_dev_dbg_kms_ratelimited(dev, fmt, ...)			\
-> +	__drm_dev_cat_printk((dev), DRM_UT_KMS,_ratelimited, fmt, ##__VA_ARGS__)
-> +
-> +#define drm_dev_dbg_core(dev, fmt, ...)					\
-> +	__drm_dev_cat_printk((dev), DRM_UT_CORE,, fmt, ##__VA_ARGS__)
-> +#define drm_dev_dbg(dev, fmt, ...)					\
-> +	__drm_dev_cat_printk((dev), DRM_UT_DRIVER,, fmt, ##__VA_ARGS__)
-> +#define drm_dev_dbg_kms(dev, fmt, ...)					\
-> +	__drm_dev_cat_printk((dev), DRM_UT_KMS,, fmt, ##__VA_ARGS__)
-> +#define drm_dev_dbg_prime(dev, fmt, ...)				\
-> +	__drm_dev_cat_printk((dev), DRM_UT_PRIME,, fmt, ##__VA_ARGS__)
-> +#define drm_dev_dbg_atomic(dev, fmt, ...)				\
-> +	__drm_dev_cat_printk((dev), DRM_UT_ATOMIC,, fmt, ##__VA_ARGS__)
-> +#define drm_dev_dbg_vbl(dev, fmt, ...)					\
-> +	__drm_dev_cat_printk((dev), DRM_UT_VBL,, fmt, ##__VA_ARGS__)
-> +#define drm_dev_dbg_state(dev, fmt, ...)				\
-> +	__drm_dev_cat_printk((dev), DRM_UT_STATE,, fmt, ##__VA_ARGS__)
-> +#define drm_dev_dbg_lease(dev, fmt, ...)				\
-> +	__drm_dev_cat_printk((dev), DRM_UT_LEASE,, fmt, ##__VA_ARGS__)
-> +#define drm_dev_dbg_dp(dev, fmt, ...)					\
-> +	__drm_dev_cat_printk((dev), DRM_UT_DP,, fmt, ##__VA_ARGS__)
-> +
->  /*
->   * LEGACY logging support - do not use in new code
->   */
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gTW9uLCAyMyBEZWMgMjAxOSwgUm9iaW4gTXVycGh5IDxyb2Jpbi5tdXJwaHlAYXJtLmNvbT4g
+d3JvdGU6Cj4gT24gMjAxOS0xMi0yMyAxMDozNyBhbSwgSmFuaSBOaWt1bGEgd3JvdGU6Cj4+IE9u
+IFNhdCwgMjEgRGVjIDIwMTksIFRvbSBNdXJwaHkgPG11cnBoeXQ3QHRjZC5pZT4gd3JvdGU6Cj4+
+PiBUaGlzIHBhdGNoc2V0IGNvbnZlcnRzIHRoZSBpbnRlbCBpb21tdSBkcml2ZXIgdG8gdGhlIGRt
+YS1pb21tdSBhcGkuCj4+Pgo+Pj4gV2hpbGUgY29udmVydGluZyB0aGUgZHJpdmVyIEkgZXhwb3Nl
+ZCBhIGJ1ZyBpbiB0aGUgaW50ZWwgaTkxNSBkcml2ZXIKPj4+IHdoaWNoIGNhdXNlcyBhIGh1Z2Ug
+YW1vdW50IG9mIGFydGlmYWN0cyBvbiB0aGUgc2NyZWVuIG9mIG15Cj4+PiBsYXB0b3AuIFlvdSBj
+YW4gc2VlIGEgcGljdHVyZSBvZiBpdCBoZXJlOgo+Pj4gaHR0cHM6Ly9naXRodWIuY29tL3BpcHB5
+MzYwL2tlcm5lbFBhdGNoZXMvYmxvYi9tYXN0ZXIvSU1HXzIwMTkxMjE5XzIyNTkyMi5qcGcKPj4+
+Cj4+PiBUaGlzIGlzc3VlIGlzIG1vc3QgbGlrZWx5IGluIHRoZSBpOTE1IGRyaXZlciBhbmQgaXMg
+bW9zdCBsaWtlbHkgY2F1c2VkCj4+PiBieSB0aGUgZHJpdmVyIG5vdCByZXNwZWN0aW5nIHRoZSBy
+ZXR1cm4gdmFsdWUgb2YgdGhlCj4+PiBkbWFfbWFwX29wczo6bWFwX3NnIGZ1bmN0aW9uLiBZb3Ug
+Y2FuIHNlZSB0aGUgZHJpdmVyIGlnbm9yaW5nIHRoZQo+Pj4gcmV0dXJuIHZhbHVlIGhlcmU6Cj4+
+PiBodHRwczovL2dpdGh1Yi5jb20vdG9ydmFsZHMvbGludXgvYmxvYi83ZTAxNjViMmYxYTkxMmEw
+NmUzODFlOTFmMGY0ZTQ5NWY0YWMzNzM2L2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dl
+bV9kbWFidWYuYyNMNTEKPj4+Cj4+PiBQcmV2aW91c2x5IHRoaXMgZGlkbuKAmXQgY2F1c2UgaXNz
+dWVzIGJlY2F1c2UgdGhlIGludGVsIG1hcF9zZyBhbHdheXMKPj4+IHJldHVybmVkIHRoZSBzYW1l
+IG51bWJlciBvZiBlbGVtZW50cyBhcyB0aGUgaW5wdXQgc2NhdHRlciBnYXRoZXIgbGlzdAo+Pj4g
+YnV0IHdpdGggdGhlIGNoYW5nZSB0byB0aGlzIGRtYS1pb21tdSBhcGkgdGhpcyBpcyBubyBsb25n
+ZXIgdGhlCj4+PiBjYXNlLiBJIHdhc27igJl0IGFibGUgdG8gdHJhY2sgdGhlIGJ1ZyBkb3duIHRv
+IGEgc3BlY2lmaWMgbGluZSBvZiBjb2RlCj4+PiB1bmZvcnR1bmF0ZWx5Lgo+Pj4KPj4+IENvdWxk
+IHNvbWVvbmUgZnJvbSB0aGUgaW50ZWwgdGVhbSBsb29rIGF0IHRoaXM/Cj4+IAo+PiBMZXQgbWUg
+Z2V0IHRoaXMgc3RyYWlnaHQuIFRoZXJlIGlzIGN1cnJlbnQgQVBJIHRoYXQgb24gc3VjY2VzcyBh
+bHdheXMKPj4gcmV0dXJucyB0aGUgc2FtZSBudW1iZXIgb2YgZWxlbWVudHMgYXMgdGhlIGlucHV0
+IHNjYXR0ZXIgZ2F0aGVyCj4+IGxpc3QuIFlvdSBwcm9wb3NlIHRvIGNoYW5nZSB0aGUgQVBJIHNv
+IHRoYXQgdGhpcyBpcyBubyBsb25nZXIgdGhlIGNhc2U/Cj4KPiBObywgdGhlIEFQSSBmb3IgZG1h
+X21hcF9zZygpIGhhcyBhbHdheXMgYmVlbiB0aGF0IGl0IG1heSByZXR1cm4gZmV3ZXIgCj4gRE1B
+IHNlZ21lbnRzIHRoYW4gbmVudHMgLSBzZWUgRG9jdW1lbnRhdGlvbi9ETUEtQVBJLnR4dCAoYW5k
+IG90aGVyd2lzZSwgCj4gdGhlIHJldHVybiB2YWx1ZSB3b3VsZCBzdXJlbHkgYmUgYSBzaW1wbGUg
+c3VjY2Vzcy9mYWlsIGNvbmRpdGlvbikuIAo+IFJlbHlpbmcgb24gYSBwYXJ0aWN1bGFyIGltcGxl
+bWVudGF0aW9uIGJlaGF2aW91ciBoYXMgbmV2ZXIgYmVlbiBzdHJpY3RseSAKPiBjb3JyZWN0LCBl
+dmVuIGlmIGl0IGRvZXMgaGFwcGVuIHRvIGJlIGEgdmVyeSBjb21tb24gYmVoYXZpb3VyLgo+Cj4+
+IEEgcXVpY2sgY2hlY2sgb2YgdmFyaW91cyBkbWFfbWFwX3NnKCkgY2FsbHMgaW4gdGhlIGtlcm5l
+bCBzZWVtcyB0bwo+PiBpbmRpY2F0ZSBjaGVja2luZyBmb3IgMCBmb3IgZXJyb3JzIGFuZCB0aGVu
+IGlnbm9yaW5nIHRoZSBub24temVybyByZXR1cm4KPj4gaXMgYSBjb21tb24gcGF0dGVybi4gQXJl
+IHlvdSBzdXJlIGl0J3Mgb2theSB0byBtYWtlIHRoZSBjaGFuZ2UgeW91J3JlCj4+IHByb3Bvc2lu
+Zz8KPgo+IFZhcmlvdXMgY29kZSB1c2VzIHRyaWNrcyBsaWtlIGp1c3QgaXRlcmF0aW5nIHRoZSBt
+YXBwZWQgbGlzdCB1bnRpbCB0aGUgCj4gZmlyc3Qgc2VnbWVudCB3aXRoIHplcm8gc2dfZG1hX2xl
+bigpLiBPdGhlcnMgbWF5IHdlbGwgc2ltcGx5IGhhdmUgYnVncy4KClRoYW5rcyBmb3IgdGhlIGNs
+YXJpZmljYXRpb24uCgpCUiwKSmFuaS4KCj4KPiBSb2Jpbi4KPgo+PiBBbnl3YXksIGR1ZSB0byB0
+aGUgdGltZSBvZiB5ZWFyIGFuZCBhbGwsIEknZCBsaWtlIHRvIGFzayB5b3UgdG8gZmlsZSBhCj4+
+IGJ1ZyBhZ2FpbnN0IGk5MTUgYXQgWzFdIHNvIHRoaXMgaXMgbm90IGZvcmdvdHRlbiwgYW5kIHBs
+ZWFzZSBsZXQncyBub3QKPj4gbWVyZ2UgdGhlIGNoYW5nZXMgYmVmb3JlIHRoaXMgaXMgcmVzb2x2
+ZWQuCj4+IAo+PiAKPj4gVGhhbmtzLAo+PiBKYW5pLgo+PiAKPj4gCj4+IFsxXSBodHRwczovL2dp
+dGxhYi5mcmVlZGVza3RvcC5vcmcvZHJtL2ludGVsL2lzc3Vlcy9uZXcKPj4gCj4+IAoKLS0gCkph
+bmkgTmlrdWxhLCBJbnRlbCBPcGVuIFNvdXJjZSBHcmFwaGljcyBDZW50ZXIKX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
