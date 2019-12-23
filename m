@@ -1,32 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0A671297CB
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2019 16:06:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 327F11298F1
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2019 17:53:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4CEF6E2C0;
-	Mon, 23 Dec 2019 15:06:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 525CA89FA5;
+	Mon, 23 Dec 2019 16:53:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F7A16E2B6;
- Mon, 23 Dec 2019 15:06:33 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 19673184-1500050 for multiple; Mon, 23 Dec 2019 15:06:30 +0000
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31AC089FA5;
+ Mon, 23 Dec 2019 16:53:51 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 23 Dec 2019 08:53:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,348,1571727600"; d="scan'208";a="207323218"
+Received: from unknown (HELO amanna.iind.intel.com) ([10.223.74.53])
+ by orsmga007.jf.intel.com with ESMTP; 23 Dec 2019 08:53:47 -0800
+From: Animesh Manna <animesh.manna@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v3 3/9] drm/i915/dp: Move vswing/pre-emphasis adjustment
+ calculation
+Date: Mon, 23 Dec 2019 22:13:40 +0530
+Message-Id: <20191223164340.15215-1-animesh.manna@intel.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-From: Chris Wilson <chris@chris-wilson.co.uk>
-In-Reply-To: <20191219124635.GA16068@jlahtine-desk.ger.corp.intel.com>
-References: <20191219124635.GA16068@jlahtine-desk.ger.corp.intel.com>
-Message-ID: <157711358834.2689.10289674532634098369@skylake-alporthouse-com>
-User-Agent: alot/0.6
-Subject: Re: [PULL] drm-intel-fixes
-Date: Mon, 23 Dec 2019 15:06:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,46 +42,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
+Cc: jani.nikula@intel.com, nidhi1.gupta@intel.com,
+ Animesh Manna <animesh.manna@intel.com>, manasi.d.navare@intel.com,
+ uma.shankar@intel.com, anshuman.gupta@intel.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Joonas Lahtinen (2019-12-19 12:46:35)
-> Hi Dave & Daniel,
-> 
-> Another -rc, another CI fire due to regressions elsewhere.
-> 
-> Our CI needed the following patches to get machines boot with -rc2:
-> 
->         Revert "devtmpfs: use do_mount() instead of ksys_mount()"
->         (commit 5e787dbf659fe77d56215be74044f85e01b3920f)
-> 
->         Revert "initrd: use do_mount() instead of ksys_mount()"
->         (commit d4440aac83d12f87df9bcc51e992b9c28c7f4fa5)
-> 
->         Revert "init: use do_mount() instead of ksys_mount()"
->         (commit cccaa5e33525fc07f4a2ce0518e50b9ddf435e47)
-> 
-> I have queued CI_DIF_433 with this PR contents + reverts to get any
-> CI results:
-> 
-> https://intel-gfx-ci.01.org/tree/drm-intel-fixes/CI_DIF_433/git-log.txt
-> 
-> Nothing appears in the UI for the failed-to-boot runs, so don't be
-> confused. CI_DIF_433 is equal to this PR + 3 reverts needed to mitigate
-> the -rc2 regressions.
-> 
-> Due to the CI fires, it may take a while to get the full results. Due to
-> my holidays, I'll defer to Chris to let you know if the results are good
-> or not. There have been some GEM bugs tackled in drm-tip, so have to make
-> sure they are under control.
+vswing/pre-emphasis adjustment calculation is needed in processing
+of auto phy compliance request other than link training, so moved
+the same function in intel_dp.c.
 
-Nothing unexpected turned up by CI, i.e. its as good as can be.
--Chris
+No functional change.
+
+v1: initial patch.
+v2:
+- used "intel_dp" prefix in function name. (Jani)
+- used array notation instead pointer for link_status. (Ville)
+
+Signed-off-by: Animesh Manna <animesh.manna@intel.com>
+---
+ drivers/gpu/drm/i915/display/intel_dp.c       | 34 +++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_dp.h       |  4 +++
+ .../drm/i915/display/intel_dp_link_training.c | 32 -----------------
+ 3 files changed, 38 insertions(+), 32 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index 2f31d226c6eb..4703e533feb3 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -4110,6 +4110,40 @@ ivb_cpu_edp_signal_levels(u8 train_set)
+ 	}
+ }
+ 
++void
++intel_dp_get_adjust_train(struct intel_dp *intel_dp,
++			  const u8 link_status[DP_LINK_STATUS_SIZE])
++{
++	u8 v = 0;
++	u8 p = 0;
++	int lane;
++	u8 voltage_max;
++	u8 preemph_max;
++
++	for (lane = 0; lane < intel_dp->lane_count; lane++) {
++		u8 this_v = drm_dp_get_adjust_request_voltage(link_status,
++							      lane);
++		u8 this_p = drm_dp_get_adjust_request_pre_emphasis(link_status,
++								   lane);
++
++		if (this_v > v)
++			v = this_v;
++		if (this_p > p)
++			p = this_p;
++	}
++
++	voltage_max = intel_dp_voltage_max(intel_dp);
++	if (v >= voltage_max)
++		v = voltage_max | DP_TRAIN_MAX_SWING_REACHED;
++
++	preemph_max = intel_dp_pre_emphasis_max(intel_dp, v);
++	if (p >= preemph_max)
++		p = preemph_max | DP_TRAIN_MAX_PRE_EMPHASIS_REACHED;
++
++	for (lane = 0; lane < 4; lane++)
++		intel_dp->train_set[lane] = v | p;
++}
++
+ void
+ intel_dp_set_signal_levels(struct intel_dp *intel_dp)
+ {
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i915/display/intel_dp.h
+index 3da166054788..83eadc87af26 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.h
++++ b/drivers/gpu/drm/i915/display/intel_dp.h
+@@ -9,6 +9,7 @@
+ #include <linux/types.h>
+ 
+ #include <drm/i915_drm.h>
++#include <drm/drm_dp_helper.h>
+ 
+ #include "i915_reg.h"
+ 
+@@ -91,6 +92,9 @@ void
+ intel_dp_program_link_training_pattern(struct intel_dp *intel_dp,
+ 				       u8 dp_train_pat);
+ void
++intel_dp_get_adjust_train(struct intel_dp *intel_dp,
++			  const u8 link_status[DP_LINK_STATUS_SIZE]);
++void
+ intel_dp_set_signal_levels(struct intel_dp *intel_dp);
+ void intel_dp_set_idle_link_train(struct intel_dp *intel_dp);
+ u8
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+index 2a1130dd1ad0..1e38584e7d56 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+@@ -34,38 +34,6 @@ intel_dp_dump_link_status(const u8 link_status[DP_LINK_STATUS_SIZE])
+ 		      link_status[3], link_status[4], link_status[5]);
+ }
+ 
+-static void
+-intel_get_adjust_train(struct intel_dp *intel_dp,
+-		       const u8 link_status[DP_LINK_STATUS_SIZE])
+-{
+-	u8 v = 0;
+-	u8 p = 0;
+-	int lane;
+-	u8 voltage_max;
+-	u8 preemph_max;
+-
+-	for (lane = 0; lane < intel_dp->lane_count; lane++) {
+-		u8 this_v = drm_dp_get_adjust_request_voltage(link_status, lane);
+-		u8 this_p = drm_dp_get_adjust_request_pre_emphasis(link_status, lane);
+-
+-		if (this_v > v)
+-			v = this_v;
+-		if (this_p > p)
+-			p = this_p;
+-	}
+-
+-	voltage_max = intel_dp_voltage_max(intel_dp);
+-	if (v >= voltage_max)
+-		v = voltage_max | DP_TRAIN_MAX_SWING_REACHED;
+-
+-	preemph_max = intel_dp_pre_emphasis_max(intel_dp, v);
+-	if (p >= preemph_max)
+-		p = preemph_max | DP_TRAIN_MAX_PRE_EMPHASIS_REACHED;
+-
+-	for (lane = 0; lane < 4; lane++)
+-		intel_dp->train_set[lane] = v | p;
+-}
+-
+ static bool
+ intel_dp_set_link_train(struct intel_dp *intel_dp,
+ 			u8 dp_train_pat)
+-- 
+2.24.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
