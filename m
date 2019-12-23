@@ -2,53 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89A26129232
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2019 08:20:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43E09129284
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2019 08:50:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FC586E162;
-	Mon, 23 Dec 2019 07:20:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 262DB6E192;
+	Mon, 23 Dec 2019 07:49:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DE206E162
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2019 07:20:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1577085648;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MW6YhL+RcyQYvYpj5YrVwXN8MDvDRWOnMuiAt/nHw6w=;
- b=BKvS60xxrDyGPxcHtlBgjcjNqD9a/6K/bFjDzZxTegfUrLvKN4Tvx8Mn1KYdyDiNMts4+c
- apJnNY9wDigX95BU6Kwoe/V9wYH0g7rOw2TeO9h4/0JJB+XqADkXVZxR7gL0+5ec02hGEq
- R1lLAfOA1TsXVXv3x+cQL9YVRUZ3PY8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-KC-JDB_cOcm-mTCqJAK6MA-1; Mon, 23 Dec 2019 02:20:45 -0500
-X-MC-Unique: KC-JDB_cOcm-mTCqJAK6MA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 63424800D48;
- Mon, 23 Dec 2019 07:20:44 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-12-202.pek2.redhat.com
- [10.72.12.202])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CD95A808F5;
- Mon, 23 Dec 2019 07:20:38 +0000 (UTC)
-Subject: Re: [4/5] drm/i915: Auto detect DPCD backlight support by default
-To: Lyude Paul <lyude@redhat.com>, intel-gfx@lists.freedesktop.org
-References: <20191122231616.2574-5-lyude@redhat.com>
-From: Perr Yuan <pyuan@redhat.com>
-Message-ID: <3ba84125-ab4c-e1a7-cb74-b65638f1c2d5@redhat.com>
-Date: Mon, 23 Dec 2019 02:20:36 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 442DE6E192
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2019 07:49:56 +0000 (UTC)
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 09E131546A1702F4E987;
+ Mon, 23 Dec 2019 15:49:53 +0800 (CST)
+Received: from localhost (10.45.239.209) by DGGEMS410-HUB.china.huawei.com
+ (10.3.19.210) with Microsoft SMTP Server id 14.3.439.0; Mon, 23 Dec 2019
+ 15:49:45 +0800
+From: Zhihui Chen <chenzhihui4@huawei.com>
+To: <xinliang.liu@linaro.org>, <zourongrong@gmail.com>,
+ <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/hisilicon/hibmc: add gamma_set function
+Date: Mon, 23 Dec 2019 15:49:10 +0800
+Message-ID: <20191223074910.1030-1-chenzhihui4@huawei.com>
+X-Mailer: git-send-email 2.24.1.windows.2
 MIME-Version: 1.0
-In-Reply-To: <20191122231616.2574-5-lyude@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Originating-IP: [10.45.239.209]
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,62 +40,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: puck.chen@hisilicon.com, kong.kongxinwei@hisilicon.com, baowenyi@huawei.com,
+ Zhihui Chen <chenzhihui4@huawei.com>, allan.wang@siliconmotion.com
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/22/19 6:16 PM, Lyude Paul wrote:
-> Turns out we actually already have some companies, such as Lenovo,
-> shipping machines with AMOLED screens that don't allow controlling the
-> backlight through the usual PWM interface and only allow controlling it
-> through the standard EDP DPCD interface. One example of one of these
-> laptops is the X1 Extreme 2nd Generation.
-> 
-> Since we've got systems that need this turned on by default now to have
-> backlight controls working out of the box, let's start auto-detecting it
-> for systems by default based on what the VBT tells us. We do this by
-> changing the default value for the enable_dpcd_backlight module param
-> from 0 to -1.
-> 
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-> ---
->   drivers/gpu/drm/i915/i915_params.c | 2 +-
->   drivers/gpu/drm/i915/i915_params.h | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/i915_params.c b/drivers/gpu/drm/i915/i915_params.c
-> index 1dd1f3652795..31eed60c167e 100644
-> --- a/drivers/gpu/drm/i915/i915_params.c
-> +++ b/drivers/gpu/drm/i915/i915_params.c
-> @@ -172,7 +172,7 @@ i915_param_named_unsafe(inject_probe_failure, uint, 0400,
->   
->   i915_param_named(enable_dpcd_backlight, int, 0600,
->   	"Enable support for DPCD backlight control"
-> -	"(-1=use per-VBT LFP backlight type setting, 0=disabled [default], 1=enabled)");
-> +	"(-1=use per-VBT LFP backlight type setting [default], 0=disabled, 1=enabled)");
->   
->   #if IS_ENABLED(CONFIG_DRM_I915_GVT)
->   i915_param_named(enable_gvt, bool, 0400,
-> diff --git a/drivers/gpu/drm/i915/i915_params.h b/drivers/gpu/drm/i915/i915_params.h
-> index 31b88f297fbc..a79d0867f77a 100644
-> --- a/drivers/gpu/drm/i915/i915_params.h
-> +++ b/drivers/gpu/drm/i915/i915_params.h
-> @@ -64,7 +64,7 @@ struct drm_printer;
->   	param(int, reset, 3) \
->   	param(unsigned int, inject_probe_failure, 0) \
->   	param(int, fastboot, -1) \
-> -	param(int, enable_dpcd_backlight, 0) \
-> +	param(int, enable_dpcd_backlight, -1) \
->   	param(char *, force_probe, CONFIG_DRM_I915_FORCE_PROBE) \
->   	param(unsigned long, fake_lmem_start, 0) \
->   	/* leave bools at the end to not create holes */ \
-> 
+add gamma_set function, and we can also use it to adjust the brightness of the
+display.
 
-Tested-by:Perry Yuan <pyuan@redhat.com>
+Signed-off-by: Zhihui Chen <chenzhihui4@huawei.com>
+---
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_de.c    | 37 +++++++++++++++++++
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_regs.h  |  5 +++
+ 2 files changed, 42 insertions(+)
+
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+index 24de937c1cb1..f1ce6cb099d0 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+@@ -456,6 +456,42 @@ static void hibmc_crtc_disable_vblank(struct drm_crtc *crtc)
+ 	       priv->mmio + HIBMC_RAW_INTERRUPT_EN);
+ }
+ 
++static void hibmc_crtc_load_lut(struct drm_crtc *crtc)
++{
++	struct hibmc_drm_private *priv = crtc->dev->dev_private;
++	void __iomem   *mmio = priv->mmio;
++	u16 *r, *g, *b;
++	unsigned int reg;
++	int i;
++
++	r = crtc->gamma_store;
++	g = r + crtc->gamma_size;
++	b = g + crtc->gamma_size;
++
++	for (i = 0; i < crtc->gamma_size; i++) {
++		unsigned int offset = i << 2;
++		u8 red = *r++ >> 8;
++		u8 green = *g++ >> 8;
++		u8 blue = *b++ >> 8;
++		u32 rgb = (red << 16) | (green << 8) | blue;
++
++		writel(rgb, mmio + HIBMC_CRT_PALETTE + offset);
++	}
++
++	reg = readl(priv->mmio + HIBMC_CRT_DISP_CTL);
++	reg |= HIBMC_FIELD(HIBMC_CTL_DISP_CTL_GAMMA, 1);
++	writel(reg, priv->mmio + HIBMC_CRT_DISP_CTL);
++}
++
++static int hibmc_crtc_gamma_set(struct drm_crtc *crtc, u16 *red, u16 *green,
++			      u16 *blue, uint32_t size,
++			      struct drm_modeset_acquire_ctx *ctx)
++{
++	hibmc_crtc_load_lut(crtc);
++
++	return 0;
++}
++
+ static const struct drm_crtc_funcs hibmc_crtc_funcs = {
+ 	.page_flip = drm_atomic_helper_page_flip,
+ 	.set_config = drm_atomic_helper_set_config,
+@@ -465,6 +501,7 @@ static const struct drm_crtc_funcs hibmc_crtc_funcs = {
+ 	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
+ 	.enable_vblank = hibmc_crtc_enable_vblank,
+ 	.disable_vblank = hibmc_crtc_disable_vblank,
++	.gamma_set = hibmc_crtc_gamma_set,
+ };
+ 
+ static const struct drm_crtc_helper_funcs hibmc_crtc_helper_funcs = {
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_regs.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_regs.h
+index b9e20cfcfb5a..9b7e85947113 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_regs.h
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_regs.h
+@@ -91,6 +91,9 @@
+ #define HIBMC_CRT_DISP_CTL_TIMING(x)		((x) << 8)
+ #define HIBMC_CRT_DISP_CTL_TIMING_MASK		0x100
+ 
++#define HIBMC_CTL_DISP_CTL_GAMMA(x)		((x) << 3)
++#define HIBMC_CTL_DISP_CTL_GAMMA_MASK		0x08
++
+ #define HIBMC_CRT_DISP_CTL_PLANE(x)		((x) << 2)
+ #define HIBMC_CRT_DISP_CTL_PLANE_MASK		4
+ 
+@@ -193,5 +196,7 @@
+ #define CRT_PLL2_HS_148MHZ			0xB0CCCCCD
+ #define CRT_PLL2_HS_193MHZ			0xC0872B02
+ 
++#define HIBMC_CRT_PALETTE                       0x80C00
++
+ #define HIBMC_FIELD(field, value) (field(value) & field##_MASK)
+ #endif
+-- 
+2.20.1
+
 
 _______________________________________________
 dri-devel mailing list
