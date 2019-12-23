@@ -1,34 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88D4B12A235
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2019 15:31:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3BF312A231
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2019 15:30:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0C9B6E5C8;
-	Tue, 24 Dec 2019 14:30:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 640C06E7D1;
+	Tue, 24 Dec 2019 14:30:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1104089950
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2019 14:27:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF2186E2B6
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2019 14:35:48 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: eballetbo) with ESMTPSA id 8D11B292129
-Subject: Re: [PATCH v22 2/2] drm/bridge: Add I2C based driver for ps8640 bridge
-To: Nicolas Boichat <drinkcat@chromium.org>
-References: <20191220081738.1895-1-enric.balletbo@collabora.com>
- <20191220081738.1895-3-enric.balletbo@collabora.com>
- <CANMq1KBHsc8oqcjWnjLPCpRToyOm16X6EcQqmqPjZf=D7wA2-Q@mail.gmail.com>
- <05db638b-02a6-0e3a-43ed-44a0a1458d87@collabora.com>
- <CANMq1KA4mp648p1LicOzAyra6tdgN2qdDY=N0XyDYhgt6BP26w@mail.gmail.com>
+ (Authenticated sender: eballetbo) with ESMTPSA id 459872921D8
 From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Message-ID: <1c68fa67-c4c4-ea78-bfe4-6344799bbf46@collabora.com>
-Date: Mon, 23 Dec 2019 15:27:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v22 1/2] Documentation: bridge: Add documentation for ps8640
+ DT properties
+Date: Mon, 23 Dec 2019 15:35:37 +0100
+Message-Id: <20191223143538.20327-2-enric.balletbo@collabora.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191223143538.20327-1-enric.balletbo@collabora.com>
+References: <20191223143538.20327-1-enric.balletbo@collabora.com>
 MIME-Version: 1.0
-In-Reply-To: <CANMq1KA4mp648p1LicOzAyra6tdgN2qdDY=N0XyDYhgt6BP26w@mail.gmail.com>
-Content-Language: en-US
 X-Mailman-Approved-At: Tue, 24 Dec 2019 14:29:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,86 +37,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulrich Hecht <uli@fpond.eu>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Jitao Shi <jitao.shi@mediatek.com>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
- lkml <linux-kernel@vger.kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- dri-devel@lists.freedesktop.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Collabora Kernel ML <kernel@collabora.com>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, drinkcat@chromium.org,
+ Jitao Shi <jitao.shi@mediatek.com>, Ulrich Hecht <uli@fpond.eu>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
+ matthias.bgg@gmail.com, Collabora Kernel ML <kernel@collabora.com>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nicolas,
+From: Jitao Shi <jitao.shi@mediatek.com>
 
-On 23/12/19 10:14, Nicolas Boichat wrote:
-> On Mon, Dec 23, 2019 at 3:10 PM Enric Balletbo i Serra
-> <enric.balletbo@collabora.com> wrote:
->>
->> Hi Nicolas,
->>
->> Many thanks for you review. Just preparing a new version with your comments
->> addressed.
->>
->> On 20/12/19 9:44, Nicolas Boichat wrote:
->>> On Fri, Dec 20, 2019 at 4:17 PM Enric Balletbo i Serra
->>> <enric.balletbo@collabora.com> wrote:
->>>>
->>>> From: Jitao Shi <jitao.shi@mediatek.com>
->>>>
->>>> This patch adds drm_bridge driver for parade DSI to eDP bridge chip.
->>>>
->>>> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
->>>> Reviewed-by: Daniel Kurtz <djkurtz@chromium.org>
->>>> Reviewed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
->>>> [uli: followed API changes, removed FW update feature]
->>>> Signed-off-by: Ulrich Hecht <uli@fpond.eu>
->>>> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
->>>> ---
->> [snip]
->>>> +       ret = i2c_smbus_write_byte_data(client, PAGE2_MCS_EN,
->>>> +                                       status & ~MCS_EN);
->>>> +       if (ret < 0) {
->>>> +               DRM_ERROR("failed write PAGE2_MCS_EN: %d\n", ret);
->>>> +               goto err_regulators_disable;
->>>> +       }
->>>> +
->>>> +       ret = ps8640_bridge_unmute(ps_bridge);
->>>> +       if (ret)
->>>> +               DRM_ERROR("failed to enable unmutevideo: %d\n", ret);
->>>
->>> failed to unmute? Or failed to enable?
->>>
->>
->> failed to unmute sound more clear to me.
-> 
-> I may be wrong, but I have the feeling that the functions
-> "mute/unmute" video/display, actually... And that the function naming
-> is strange...
-> 
+Add documentation for DT properties supported by
+ps8640 DSI-eDP converter.
 
-Yes, that's strange.
+Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+Acked-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+Signed-off-by: Ulrich Hecht <uli@fpond.eu>
+Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+---
+I maintained the ack from Rob Herring and the review from Philipp
+because in essence the only thing I did is migrate to YAML format and
+check that no errors are reported via dtbs_check. Just let me know if
+you're not agree.
 
-> You could just try to remove the calls, as there is no audio on the
-> board you have (elm), so if video still works, maybe this is actually
-> audio ,-)
-> 
+Apart from this note that I removed the mode-sel property because is not
+used and I renamed sleep-gpios to powerdown-gpios.
 
-And without those the display doesn't work. So I suspect that what is wrong and
-confusing is the message, instead of mute/unmute, and based on the register
-names this looks more like an internal regulator that you need to enable and
-disable, so I'll change the error message accordingly.
+Changes in v23: None
+Changes in v22:
+- Migrate to YAML format (Maxime Ripart)
+- Remove mode-sel property.
+- Rename sleep-gpios to powerdown-gpios.
 
-Thanks,
- Enric
+Changes in v21: None
+Changes in v19: None
+Changes in v18: None
+Changes in v17: None
+Changes in v16: None
+Changes in v15: None
+Changes in v14: None
+Changes in v13: None
+Changes in v12: None
+Changes in v11: None
 
-> Thanks,
-> 
+ .../bindings/display/bridge/ps8640.yaml       | 112 ++++++++++++++++++
+ 1 file changed, 112 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/ps8640.yaml
+
+diff --git a/Documentation/devicetree/bindings/display/bridge/ps8640.yaml b/Documentation/devicetree/bindings/display/bridge/ps8640.yaml
+new file mode 100644
+index 000000000000..5dff93641bea
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/ps8640.yaml
+@@ -0,0 +1,112 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/ps8640.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: MIPI DSI to eDP Video Format Converter Device Tree Bindings
++
++maintainers:
++  - Nicolas Boichat <drinkcat@chromium.org>
++  - Enric Balletbo i Serra <enric.balletbo@collabora.com>
++
++description: |
++  The PS8640 is a low power MIPI-to-eDP video format converter supporting
++  mobile devices with embedded panel resolutions up to 2048 x 1536. The
++  device accepts a single channel of MIPI DSI v1.1, with up to four lanes
++  plus clock, at a transmission rate up to 1.5Gbit/sec per lane. The
++  device outputs eDP v1.4, one or two lanes, at a link rate of up to
++  3.24Gbit/sec per lane.
++
++properties:
++  compatible:
++    const: parade,ps8640
++
++  reg:
++    maxItems: 1
++    description: Base I2C address of the device.
++
++  powerdown-gpios:
++    maxItems: 1
++    description: GPIO connected to active low powerdown.
++
++  reset-gpios:
++    maxItems: 1
++    description: GPIO connected to active low reset.
++
++  vdd12-supply:
++    maxItems: 1
++    description: Regulator for 1.2V digital core power.
++
++  vdd33-supply:
++    maxItems: 1
++    description: Regulator for 3.3V digital core power.
++
++  ports:
++    type: object
++    description:
++      A node containing DSI input & output port nodes with endpoint
++      definitions as documented in
++      Documentation/devicetree/bindings/media/video-interfaces.txt
++      Documentation/devicetree/bindings/graph.txt
++    properties:
++      port@0:
++        type: object
++        description: |
++          Video port for DSI input
++
++      port@1:
++        type: object
++        description: |
++          Video port for eDP output (panel or connector).
++
++    required:
++      - port@0
++
++required:
++  - compatible
++  - reg
++  - powerdown-gpios
++  - reset-gpios
++  - vdd12-supply
++  - vdd33-supply
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    i2c0 {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        ps8640: edp-bridge@18 {
++            compatible = "parade,ps8640";
++            reg = <0x18>;
++            powerdown-gpios = <&pio 116 GPIO_ACTIVE_LOW>;
++            reset-gpios = <&pio 115 GPIO_ACTIVE_LOW>;
++            vdd12-supply = <&ps8640_fixed_1v2>;
++            vdd33-supply = <&mt6397_vgp2_reg>;
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@0 {
++                    reg = <0>;
++                    ps8640_in: endpoint {
++                        remote-endpoint = <&dsi0_out>;
++                    };
++                };
++
++                port@1 {
++                    reg = <1>;
++                    ps8640_out: endpoint {
++                        remote-endpoint = <&panel_in>;
++                   };
++                };
++            };
++        };
++    };
++
+-- 
+2.20.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
