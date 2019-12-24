@@ -1,45 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E27312A21A
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2019 15:30:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8E7412A21B
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2019 15:30:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7A026E069;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53F3689FC0;
 	Tue, 24 Dec 2019 14:29:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46B8F6E30C
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2019 17:31:09 +0000 (UTC)
-Received: by mail-il1-f199.google.com with SMTP id h87so14719186ild.11
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2019 09:31:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
- bh=eL67erF5b/D4o9JZa82w4s9J/Ia6904jypmJD84P8Jg=;
- b=MD3GBFsa2lRGHCzVP7kT8zoyVrlirWn7sbUfzyhKby12XOSFDWlqik2RpyPpFNM14y
- JXeDlC7ttAwwHgimy+b0dPu85wxcOTo0Vmbv3NdNi+aZb/V35Z9ya+UdlaF8A5OJIVfn
- I/Jf46gGKxm6l69j1eGyW671ObOlq2B5uJp9jcJ1cMVzcjQSDQWx9IfeAqw5VpKsU/hP
- l0oj8gaMWvz2BclbgSfyjManbDEkKhTXy4mfEdxO9tMWpBmpyXeJJFZLikRu0oHh8E75
- kK9/fuqjk7oKjcJk/Z2dbEG55y2EC5h1oD9FQLuhFn1tbbcXguA7PaivPNIUGHx1KiYo
- m2EQ==
-X-Gm-Message-State: APjAAAXePAZN5Oiry8k4FEw9nfshYk+Pszvere21RIpZpXiWbj4CXqqm
- qK4cCL2PcPb1egnAGFCCMROcrr1piNoshJD/3Dj4mLDge/ce
-X-Google-Smtp-Source: APXvYqyw7HWsVjlNRl3b6jvlwBnjYKNCBnTeC9/e8Rn4SkGEtpYdMlCoAuseRdhyiOaw02WHTHfNhxxp3E3BL7UiWNpZZj/WrlaC
+Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A21696E0DB;
+ Tue, 24 Dec 2019 03:20:33 +0000 (UTC)
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 3E3E65504D56C2D0C355;
+ Tue, 24 Dec 2019 11:20:31 +0800 (CST)
+Received: from huawei.com (10.90.53.225) by DGGEMS412-HUB.china.huawei.com
+ (10.3.19.212) with Microsoft SMTP Server id 14.3.439.0; Tue, 24 Dec 2019
+ 11:20:25 +0800
+From: zhengbin <zhengbin13@huawei.com>
+To: <harry.wentland@amd.com>, <sunpeng.li@amd.com>,
+ <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
+ <David1.Zhou@amd.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 8/8] drm/amd/display: use true,
+ false for bool variable in display_rq_dlg_calc_21.c
+Date: Tue, 24 Dec 2019 11:27:43 +0800
+Message-ID: <1577158063-76188-9-git-send-email-zhengbin13@huawei.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1577158063-76188-1-git-send-email-zhengbin13@huawei.com>
+References: <1577158063-76188-1-git-send-email-zhengbin13@huawei.com>
 MIME-Version: 1.0
-X-Received: by 2002:a92:d18a:: with SMTP id z10mr27277028ilz.48.1577122268478; 
- Mon, 23 Dec 2019 09:31:08 -0800 (PST)
-Date: Mon, 23 Dec 2019 09:31:08 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000009484f4059a6264f6@google.com>
-Subject: KASAN: vmalloc-out-of-bounds Write in drm_fb_helper_dirty_work
-From: syzbot <syzbot+fd418471717e1e1aa783@syzkaller.appspotmail.com>
-To: airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, sean@poorly.run, syzkaller-bugs@googlegroups.com
+X-Originating-IP: [10.90.53.225]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Tue, 24 Dec 2019 14:29:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,76 +46,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: zhengbin13@huawei.com
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"; DelSp="yes"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Fixes coccicheck warning:
 
-syzbot found the following crash on:
+drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c:85:6-13: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c:88:2-9: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c:225:6-14: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c:226:6-14: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c:251:3-11: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c:252:3-11: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c:256:3-11: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c:257:3-11: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c:267:3-11: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c:269:3-11: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c:682:6-14: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c:1013:1-9: WARNING: Assignment of 0/1 to bool variable
 
-HEAD commit:    62104694 Merge branch 'parisc-5.5-2' of git://git.kernel.o..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=1711b6c1e00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=1b59a3066828ac4c
-dashboard link: https://syzkaller.appspot.com/bug?extid=fd418471717e1e1aa783
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-userspace arch: i386
-
-Unfortunately, I don't have any reproducer for this crash yet.
-
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+fd418471717e1e1aa783@syzkaller.appspotmail.com
-
-==================================================================
-BUG: KASAN: vmalloc-out-of-bounds in memcpy include/linux/string.h:380  
-[inline]
-BUG: KASAN: vmalloc-out-of-bounds in drm_fb_helper_dirty_blit_real  
-drivers/gpu/drm/drm_fb_helper.c:399 [inline]
-BUG: KASAN: vmalloc-out-of-bounds in drm_fb_helper_dirty_work+0x44c/0x780  
-drivers/gpu/drm/drm_fb_helper.c:428
-Write of size 4064 at addr ffffc9000adea020 by task kworker/2:2/8685
-
-CPU: 2 PID: 8685 Comm: kworker/2:2 Not tainted 5.5.0-rc2-syzkaller #0
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS  
-rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org 04/01/2014
-Workqueue: events drm_fb_helper_dirty_work
-Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0x197/0x210 lib/dump_stack.c:118
-  print_address_description.constprop.0.cold+0x5/0x30b mm/kasan/report.c:374
-  __kasan_report.cold+0x1b/0x41 mm/kasan/report.c:506
-  kasan_report+0x12/0x20 mm/kasan/common.c:639
-  check_memory_region_inline mm/kasan/generic.c:185 [inline]
-  check_memory_region+0x134/0x1a0 mm/kasan/generic.c:192
-  memcpy+0x38/0x50 mm/kasan/common.c:126
-  memcpy include/linux/string.h:380 [inline]
-  drm_fb_helper_dirty_blit_real drivers/gpu/drm/drm_fb_helper.c:399 [inline]
-  drm_fb_helper_dirty_work+0x44c/0x780 drivers/gpu/drm/drm_fb_helper.c:428
-  process_one_work+0x9af/0x1740 kernel/workqueue.c:2264
-  worker_thread+0x98/0xe40 kernel/workqueue.c:2410
-  kthread+0x361/0x430 kernel/kthread.c:255
-  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
-
-
-Memory state around the buggy address:
-  ffffc9000ade9f00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  ffffc9000ade9f80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> ffffc9000adea000: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
-                                ^
-  ffffc9000adea080: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
-  ffffc9000adea100: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
-==================================================================
-
-
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: zhengbin <zhengbin13@huawei.com>
 ---
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ .../display/dc/dml/dcn21/display_rq_dlg_calc_21.c  | 24 +++++++++++-----------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c b/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c
+index e60af38..a38baa7 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c
+@@ -82,10 +82,10 @@ static unsigned int get_bytes_per_element(enum source_format_class source_format
+
+ static bool is_dual_plane(enum source_format_class source_format)
+ {
+-	bool ret_val = 0;
++	bool ret_val = false;
+
+ 	if ((source_format == dm_420_8) || (source_format == dm_420_10))
+-		ret_val = 1;
++		ret_val = true;
+
+ 	return ret_val;
+ }
+@@ -222,8 +222,8 @@ static void handle_det_buf_split(
+ 	unsigned int swath_bytes_c = 0;
+ 	unsigned int full_swath_bytes_packed_l = 0;
+ 	unsigned int full_swath_bytes_packed_c = 0;
+-	bool req128_l = 0;
+-	bool req128_c = 0;
++	bool req128_l = false;
++	bool req128_c = false;
+ 	bool surf_linear = (pipe_src_param.sw_mode == dm_sw_linear);
+ 	bool surf_vert = (pipe_src_param.source_scan == dm_vert);
+ 	unsigned int log2_swath_height_l = 0;
+@@ -248,13 +248,13 @@ static void handle_det_buf_split(
+ 		total_swath_bytes = 2 * full_swath_bytes_packed_l + 2 * full_swath_bytes_packed_c;
+
+ 		if (total_swath_bytes <= detile_buf_size_in_bytes) { //full 256b request
+-			req128_l = 0;
+-			req128_c = 0;
++			req128_l = false;
++			req128_c = false;
+ 			swath_bytes_l = full_swath_bytes_packed_l;
+ 			swath_bytes_c = full_swath_bytes_packed_c;
+ 		} else { //128b request (for luma only for yuv420 8bpc)
+-			req128_l = 1;
+-			req128_c = 0;
++			req128_l = true;
++			req128_c = false;
+ 			swath_bytes_l = full_swath_bytes_packed_l / 2;
+ 			swath_bytes_c = full_swath_bytes_packed_c;
+ 		}
+@@ -264,9 +264,9 @@ static void handle_det_buf_split(
+ 		total_swath_bytes = 2 * full_swath_bytes_packed_l;
+
+ 		if (total_swath_bytes <= detile_buf_size_in_bytes)
+-			req128_l = 0;
++			req128_l = false;
+ 		else
+-			req128_l = 1;
++			req128_l = true;
+
+ 		swath_bytes_l = total_swath_bytes;
+ 		swath_bytes_c = 0;
+@@ -679,7 +679,7 @@ static void get_surf_rq_param(
+ 		const display_pipe_params_st pipe_param,
+ 		bool is_chroma)
+ {
+-	bool mode_422 = 0;
++	bool mode_422 = false;
+ 	unsigned int vp_width = 0;
+ 	unsigned int vp_height = 0;
+ 	unsigned int data_pitch = 0;
+@@ -1010,7 +1010,7 @@ static void dml_rq_dlg_get_dlg_params(
+ 	// Source
+ 	//             dcc_en              = src.dcc;
+ 	dual_plane = is_dual_plane((enum source_format_class) (src->source_format));
+-	mode_422 = 0; // FIXME
++	mode_422 = false; // FIXME
+ 	access_dir = (src->source_scan == dm_vert); // vp access direction: horizontal or vertical accessed
+ 						    //      bytes_per_element_l = get_bytes_per_element(source_format_class(src.source_format), 0);
+ 						    //      bytes_per_element_c = get_bytes_per_element(source_format_class(src.source_format), 1);
+--
+2.7.4
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
