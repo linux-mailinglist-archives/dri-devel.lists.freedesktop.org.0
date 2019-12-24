@@ -2,39 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D086129B78
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2019 23:34:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E43B7129CA6
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2019 03:18:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B7CA6E084;
-	Mon, 23 Dec 2019 22:34:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42D1589F77;
+	Tue, 24 Dec 2019 02:18:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A49766E084
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2019 22:34:42 +0000 (UTC)
-Received: from X1 (nat-ab2241.sltdut.senawave.net [162.218.216.4])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 0509D206CB;
- Mon, 23 Dec 2019 22:34:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1577140482;
- bh=j8a30uKBFpUoS+kQpAO4xSXpzCOq7JiQ5JV9DxclKWA=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=hr5gCpX42uVTaiblB+Bfoal6gLIaxariS4egoyL+iBb+XHZcr0tzDHaLeCzdlgDOU
- HRI6QaMGoQ7qNf6L6plJkPd3QaplPS1+N4TVRYZEd9LdzXOoqiQ7tFcBJ3u+Es7+0P
- WC/F2V273Qdwx2+20nZXtt2YIiZqq554kkwk5QNg=
-Date: Mon, 23 Dec 2019 14:34:41 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= (VMware) <thomas_os@shipmail.org>
-Subject: Re: Ack to merge through DRM tree? WAS [PATCH v4 0/2] mm, drm/ttm:
- Fix pte insertion with customized protection
-Message-Id: <20191223143441.38bca86132378a801094c0cc@linux-foundation.org>
-In-Reply-To: <cc7e153d-84ff-d1f8-484f-614eafac1864@shipmail.org>
-References: <20191212084741.9251-1-thomas_os@shipmail.org>
- <cc7e153d-84ff-d1f8-484f-614eafac1864@shipmail.org>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
+Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DDDA989F77
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2019 02:18:26 +0000 (UTC)
+X-UUID: 68d03087cf124cfab8760666283b9195-20191224
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=16xFo3KU0nEDG/VMlRzWi955Bc53HVQ+4UJtznpAulY=; 
+ b=ThreE4OMvAalHXCr/SLWnwH7JIHxbD+yUdQULfJNCq6eNae3E6jaSQIKsLnRTCJZxTaryXr+hqTPZysf6juHUE7HOu1GetG49BW8hhnV+0aFnRc4E2zyt4GmTOk/dx3KtHnHZ/KNKipwMgZ0t6CS7xONYKo582eIwfqNYza4jII=;
+X-UUID: 68d03087cf124cfab8760666283b9195-20191224
+Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (mailgw01.mediatek.com ESMTP with TLS)
+ with ESMTP id 1929636635; Tue, 24 Dec 2019 10:18:21 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Tue, 24 Dec 2019 10:17:15 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Tue, 24 Dec 2019 10:17:22 +0800
+Message-ID: <1577153898.15019.0.camel@mtksdaap41>
+Subject: Re: [PATCH v2, 0/2] drm/mediatek: Add ctm property support
+From: CK Hu <ck.hu@mediatek.com>
+To: Yongqiang Niu <yongqiang.niu@mediatek.com>
+Date: Tue, 24 Dec 2019 10:18:18 +0800
+In-Reply-To: <1576222132-31586-1-git-send-email-yongqiang.niu@mediatek.com>
+References: <1576222132-31586-1-git-send-email-yongqiang.niu@mediatek.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+MIME-Version: 1.0
+X-TM-SNTS-SMTP: 038CC378C24033B372078724DE10872FC6D2686BD2692C93E805E6EC8F9A94AA2000:8
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,70 +52,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Hellstrom <thellstrom@vmware.com>, Michal Hocko <mhocko@suse.com>,
- pv-drivers@vmware.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- =?ISO-8859-1?Q?J=E9r=F4me?= Glisse <jglisse@redhat.com>,
- linux-graphics-maintainer@vmware.com,
- "Matthew Wilcox \(Oracle\)" <willy@infradead.org>,
- Ralph Campbell <rcampbell@nvidia.com>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 20 Dec 2019 09:06:08 +0100 Thomas Hellstr=F6m (VMware) <thomas_os@s=
-hipmail.org> wrote:
+Hi, Yongqiang:
 
-> Andrew,
-> =
+On Fri, 2019-12-13 at 15:28 +0800, Yongqiang Niu wrote:
+> Changes since v1:
+> -separate gamma patch
+> -remove cmdq support for ctm setting
+> 
 
-> On 12/12/19 9:47 AM, Thomas Hellstr=F6m (VMware) wrote:
-> > From: Thomas Hellstrom <thellstrom@vmware.com>
-> >
-> > The drm/ttm module is using a modified on-stack copy of the
-> > struct vm_area_struct to be able to set a page protection with customiz=
-ed
-> > caching. Fix that by adding a vmf_insert_mixed_prot() function similar
-> > to the existing vmf_insert_pfn_prot() for use with drm/ttm.
-> >
-> > I'd like to merge this through a drm tree.
-> >
-> > Changes since v1:
-> > *) Formatting fixes in patch 1
-> > *) Updated commit message of patch 2.
-> > Changes since v2:
-> > *) Moved vmf_insert_mixed_prot() export to patch 2 (Michal Hocko)
-> > *) Documented under which conditions it's safe to use a page protection
-> >     different from struct vm_area_struct::vm_page_prot. (Michal Hocko)
-> > Changes since v3:
-> > *) More documentation regarding under which conditions it's safe to use=
- a
-> >     page protection different from struct vm_area_struct::vm_page_prot.=
- This
-> >     time also in core vm. (Michal Hocko)
-> >
-> > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > Cc: Michal Hocko <mhocko@suse.com>
-> > Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-> > Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-> > Cc: Ralph Campbell <rcampbell@nvidia.com>
-> > Cc: "J=E9r=F4me Glisse" <jglisse@redhat.com>
-> > Cc: "Christian K=F6nig" <christian.koenig@amd.com>
-> >
-> Seems all concerns with this series have been addressed. Could I have an =
+For this series, applied to mediatek-drm-next-5.6 [1], thanks.
 
-> ack to merge this through a DRM tree?
-> =
+[1]
+https://github.com/ckhu-mediatek/linux.git-tags/commits/mediatek-drm-next-5.6
 
+Regards,
+CK
 
-Yes, please do that.
+> 
+> Yongqiang Niu (2):
+>   drm/mediatek: Fix gamma correction issue
+>   drm/mediatek: Add ctm property support
+> 
+>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c     | 18 +++++++--
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 62 ++++++++++++++++++++++++++++-
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  9 +++++
+>  3 files changed, 85 insertions(+), 4 deletions(-)
+> 
 
-Acked-by: Andrew Morton <akpm@linux-foundation.org>
-
-for both.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
