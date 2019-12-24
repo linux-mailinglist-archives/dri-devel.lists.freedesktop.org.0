@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1481512A249
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2019 15:31:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2805C12A22E
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2019 15:30:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D6D58999C;
-	Tue, 24 Dec 2019 14:30:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 563786E34D;
+	Tue, 24 Dec 2019 14:29:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3474289EFF;
- Tue, 24 Dec 2019 03:20:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 552CF89EFF;
+ Tue, 24 Dec 2019 03:20:33 +0000 (UTC)
 Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 53C9BAA70C166D1A91CC;
+ by Forcepoint Email with ESMTP id 692CAFD5DD8D4869FCE9;
  Tue, 24 Dec 2019 11:20:31 +0800 (CST)
 Received: from huawei.com (10.90.53.225) by DGGEMS412-HUB.china.huawei.com
  (10.3.19.212) with Microsoft SMTP Server id 14.3.439.0; Tue, 24 Dec 2019
- 11:20:24 +0800
+ 11:20:25 +0800
 From: zhengbin <zhengbin13@huawei.com>
 To: <harry.wentland@amd.com>, <sunpeng.li@amd.com>,
  <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
  <David1.Zhou@amd.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
  <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 6/8] drm/amd/display: use true,
- false for bool variable in display_rq_dlg_calc_20.c
-Date: Tue, 24 Dec 2019 11:27:41 +0800
-Message-ID: <1577158063-76188-7-git-send-email-zhengbin13@huawei.com>
+Subject: [PATCH 7/8] drm/amd/display: use true,
+ false for bool variable in display_rq_dlg_calc_20v2.c
+Date: Tue, 24 Dec 2019 11:27:42 +0800
+Message-ID: <1577158063-76188-8-git-send-email-zhengbin13@huawei.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1577158063-76188-1-git-send-email-zhengbin13@huawei.com>
 References: <1577158063-76188-1-git-send-email-zhengbin13@huawei.com>
@@ -54,29 +54,29 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes coccicheck warning:
 
-drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c:110:6-13: WARNING: Assignment of 0/1 to bool variable
-drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c:113:2-9: WARNING: Assignment of 0/1 to bool variable
-drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c:243:6-14: WARNING: Assignment of 0/1 to bool variable
-drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c:244:6-14: WARNING: Assignment of 0/1 to bool variable
-drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c:267:3-11: WARNING: Assignment of 0/1 to bool variable
-drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c:268:3-11: WARNING: Assignment of 0/1 to bool variable
-drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c:272:3-11: WARNING: Assignment of 0/1 to bool variable
-drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c:273:3-11: WARNING: Assignment of 0/1 to bool variable
-drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c:283:3-11: WARNING: Assignment of 0/1 to bool variable
-drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c:285:3-11: WARNING: Assignment of 0/1 to bool variable
-drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c:673:6-14: WARNING: Assignment of 0/1 to bool variable
-drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c:961:1-9: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c:110:6-13: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c:113:2-9: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c:243:6-14: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c:244:6-14: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c:267:3-11: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c:268:3-11: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c:272:3-11: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c:273:3-11: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c:283:3-11: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c:285:3-11: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c:673:6-14: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c:962:1-9: WARNING: Assignment of 0/1 to bool variable
 
 Reported-by: Hulk Robot <hulkci@huawei.com>
 Signed-off-by: zhengbin <zhengbin13@huawei.com>
 ---
- .../display/dc/dml/dcn20/display_rq_dlg_calc_20.c  | 24 +++++++++++-----------
+ .../dc/dml/dcn20/display_rq_dlg_calc_20v2.c        | 24 +++++++++++-----------
  1 file changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c
-index 9df24ec..ca80784 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c
+index 1e6aeb1..287b7a0 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c
 @@ -107,10 +107,10 @@ static unsigned int get_bytes_per_element(enum source_format_class source_format
 
  static bool is_dual_plane(enum source_format_class source_format)
@@ -140,7 +140,7 @@ index 9df24ec..ca80784 100644
  	unsigned int vp_width = 0;
  	unsigned int vp_height = 0;
  	unsigned int data_pitch = 0;
-@@ -958,7 +958,7 @@ static void dml20_rq_dlg_get_dlg_params(struct display_mode_lib *mode_lib,
+@@ -959,7 +959,7 @@ static void dml20v2_rq_dlg_get_dlg_params(struct display_mode_lib *mode_lib,
  	// Source
  //             dcc_en              = src.dcc;
  	dual_plane = is_dual_plane((enum source_format_class)(src->source_format));
