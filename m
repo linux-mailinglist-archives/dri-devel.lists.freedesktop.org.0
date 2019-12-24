@@ -1,27 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 183FA12A088
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2019 12:29:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40EE112A08B
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2019 12:29:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30FE989C86;
-	Tue, 24 Dec 2019 11:29:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C00089CAF;
+	Tue, 24 Dec 2019 11:29:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 665A389C86
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2019 11:29:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E84889CAF
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2019 11:29:15 +0000 (UTC)
 Received: from [46.183.103.17] (helo=phil.sntech)
  by gloria.sntech.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.89) (envelope-from <heiko@sntech.de>)
- id 1ijiNE-00035A-EU; Tue, 24 Dec 2019 12:29:12 +0100
+ id 1ijiNF-00035A-Q4; Tue, 24 Dec 2019 12:29:13 +0100
 From: Heiko Stuebner <heiko@sntech.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 1/3] dt-bindings: Add vendor prefix for Xinpeng Technology
-Date: Tue, 24 Dec 2019 12:29:05 +0100
-Message-Id: <20191224112907.30758-1-heiko@sntech.de>
+Subject: [PATCH v5 2/3] dt-bindings: display: panel: Add binding document for
+ Xinpeng XPP055C272
+Date: Tue, 24 Dec 2019 12:29:06 +0100
+Message-Id: <20191224112907.30758-2-heiko@sntech.de>
 X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20191224112907.30758-1-heiko@sntech.de>
+References: <20191224112907.30758-1-heiko@sntech.de>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,28 +49,77 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
 
-Shenzhen Xinpeng Technology Co., Ltd produces for example display panels.
+The XPP055C272 is a 5.5" 720x1280 DSI display.
+
+changes in v4:
+- fix id (Maxime)
+- drop port (Maxime)
+changes in v2:
+- add size info into binding title (Sam)
+- add more required properties (Sam)
 
 Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Acked-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+Acked-by: Maxime Ripard <mripard@kernel.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
 ---
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ .../display/panel/xinpeng,xpp055c272.yaml     | 47 +++++++++++++++++++
+ 1 file changed, 47 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index 6046f4555852..85e7c26a05c7 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -1056,6 +1056,8 @@ patternProperties:
-     description: Extreme Engineering Solutions (X-ES)
-   "^xillybus,.*":
-     description: Xillybus Ltd.
-+  "^xinpeng,.*":
-+    description: Shenzhen Xinpeng Technology Co., Ltd
-   "^xlnx,.*":
-     description: Xilinx
-   "^xunlong,.*":
+diff --git a/Documentation/devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml b/Documentation/devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml
+new file mode 100644
+index 000000000000..378cf9e2549d
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml
+@@ -0,0 +1,47 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/xinpeng,xpp055c272.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Xinpeng XPP055C272 5.5in 720x1280 DSI panel
++
++maintainers:
++  - Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    const: xinpeng,xpp055c272
++  reg: true
++  backlight: true
++  reset-gpios: true
++  iovcc-supply:
++     description: regulator that supplies the iovcc voltage
++  vci-supply:
++     description: regulator that supplies the vci voltage
++
++required:
++  - compatible
++  - reg
++  - backlight
++  - iovcc-supply
++  - vci-supply
++
++additionalProperties: false
++
++examples:
++  - |
++    dsi@ff450000 {
++        panel@0 {
++            compatible = "xinpeng,xpp055c272";
++            reg = <0>;
++            backlight = <&backlight>;
++            iovcc-supply = <&vcc_1v8>;
++            vci-supply = <&vcc3v3_lcd>;
++        };
++    };
++
++...
 -- 
 2.24.0
 
