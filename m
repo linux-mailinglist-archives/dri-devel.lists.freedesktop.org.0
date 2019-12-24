@@ -1,31 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6829912A08C
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2019 12:29:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B08C712A097
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2019 12:31:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78CC089CCE;
-	Tue, 24 Dec 2019 11:29:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CEA989BF4;
+	Tue, 24 Dec 2019 11:31:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B289D89CAF
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2019 11:29:16 +0000 (UTC)
-Received: from [46.183.103.17] (helo=phil.sntech)
- by gloria.sntech.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <heiko@sntech.de>)
- id 1ijiNH-00035A-1c; Tue, 24 Dec 2019 12:29:15 +0100
-From: Heiko Stuebner <heiko@sntech.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 3/3] drm/panel: add panel driver for Xinpeng XPP055C272
- panels
-Date: Tue, 24 Dec 2019 12:29:07 +0100
-Message-Id: <20191224112907.30758-3-heiko@sntech.de>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191224112907.30758-1-heiko@sntech.de>
-References: <20191224112907.30758-1-heiko@sntech.de>
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DDD089BF4
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2019 11:31:20 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 4F88F20025;
+ Tue, 24 Dec 2019 12:31:13 +0100 (CET)
+Date: Tue, 24 Dec 2019 12:31:11 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Jitao Shi <jitao.shi@mediatek.com>
+Subject: Re: [PATCH v4 04/11] drm/bridge: Make the bridge chain a
+ double-linked list
+Message-ID: <20191224113111.GB14837@ravnborg.org>
+References: <20191203141515.3597631-1-boris.brezillon@collabora.com>
+ <CGME20191203141542eucas1p23771a9c49ef18144c832fc536bdae61a@eucas1p2.samsung.com>
+ <20191203141515.3597631-5-boris.brezillon@collabora.com>
+ <4e901ab9-07d4-4238-7322-c7c5a3959513@samsung.com>
+ <20191216155551.083dcbaf@collabora.com>
+ <75a06e2a-4587-ee16-0f5d-af75fbe89793@samsung.com>
+ <20191216162542.261c821c@collabora.com>
+ <60f03d50-7c0f-c3d0-920f-0625c08b2171@samsung.com>
+ <1010f5fc-0672-643c-4410-e053a928cb66@samsung.com>
+ <20191224104422.25dbf980@collabora.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20191224104422.25dbf980@collabora.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
+ a=Mk4_XeWDY7XfxF_RUtAA:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,479 +55,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
- linux-kernel@vger.kernel.org, robh+dt@kernel.org, thierry.reding@gmail.com,
- maxime@cerno.tech, sam@ravnborg.org, christoph.muellner@theobroma-systems.com
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
+ devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, dri-devel@lists.freedesktop.org,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, kernel@collabora.com,
+ Chris Healy <cphealy@gmail.com>, Marek Szyprowski <m.szyprowski@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+Hi Boris.
 
-Base on the somewhat similar Rocktech driver but adapted for
-panel-specific init of the XPP055C272.
+> Just a reminder of my 2 proposals:
+> 
+> 1/ implement the bridge_ops->pre_enable/post_disable() hooks so you can
+>    split your enable/disable logic in 2 parts and make sure things are
+>    ready when the panel/next bridge tries to send DSI commands
+> 2/ move everything that's needed to send DSI commands out of the
+>    ->enable() path (maybe in runtime PM resume/suspend hooks) so you
+>    can call that in the DSI transfer path too
+> 
+> As pointed out by Laurent, #1 doesn't work because some panel drivers
+> send DSI commands in their ->prepare() hook, and ->pre_enable() methods
+> are called in reverse order, meaning that the DRM panel bridge driver
+> would try to issue DSI commands before the DSI host controllers is ready
+> to send them. I still thing #2 is a good option.
 
-changes in v5:
-- drop error message when backlight not found, no other panel
-  does that and if needed it should live in drm_panel_of_backlight
-changes in v4:
-  none
-changes in v3:
-- remove wrong negative sync flags from display-mode to fix a display
-  artifact of the output getting move a tiny bit to the right
-changes in v2:
-- move to drm-panel-internal backlight handling (Sam)
-- adapt to changes that happened to drm_panel structs+functions (Sam)
-- sort includes (Sam)
-- drop unnecessary DRV_NAME constant (Sam)
-- do mipi_dsi_dcs_exit_sleep_mode and mipi_dsi_dcs_set_display_on
-  in panel prepare (not init_sequence) to keep symmetric (Sam)
+Jitao Shi suggested to extend panels so we had a sequence of:
 
-Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
----
- drivers/gpu/drm/panel/Kconfig                 |  10 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- .../gpu/drm/panel/panel-xinpeng-xpp055c272.c  | 398 ++++++++++++++++++
- 3 files changed, 409 insertions(+)
- create mode 100644 drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c
+  prepare_power()  <= new callback,
+                   here one should NOT be allowed to send
+                   DSI commands
+  prepare()
+  enable()
 
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index 683ff77a3733..d86d875de783 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -366,4 +366,14 @@ config DRM_PANEL_TRULY_NT35597_WQXGA
- 	help
- 	  Say Y here if you want to enable support for Truly NT35597 WQXGA Dual DSI
- 	  Video Mode panel
-+
-+config DRM_PANEL_XINPENG_XPP055C272
-+	tristate "Xinpeng XPP055C272 panel driver"
-+	depends on OF
-+	depends on DRM_MIPI_DSI
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	help
-+	  Say Y here if you want to enable support for the Xinpeng
-+	  XPP055C272 controller for 720x1280 LCD panels with MIPI/RGB/SPI
-+	  system interfaces.
- endmenu
-diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-index 8783476110a3..f7cf83672fb8 100644
---- a/drivers/gpu/drm/panel/Makefile
-+++ b/drivers/gpu/drm/panel/Makefile
-@@ -39,3 +39,4 @@ obj-$(CONFIG_DRM_PANEL_TPO_TD028TTEC1) += panel-tpo-td028ttec1.o
- obj-$(CONFIG_DRM_PANEL_TPO_TD043MTEA1) += panel-tpo-td043mtea1.o
- obj-$(CONFIG_DRM_PANEL_TPO_TPG110) += panel-tpo-tpg110.o
- obj-$(CONFIG_DRM_PANEL_TRULY_NT35597_WQXGA) += panel-truly-nt35597.o
-+obj-$(CONFIG_DRM_PANEL_XINPENG_XPP055C272) += panel-xinpeng-xpp055c272.o
-diff --git a/drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c b/drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c
-new file mode 100644
-index 000000000000..1645aceab597
---- /dev/null
-+++ b/drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c
-@@ -0,0 +1,398 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Xinpeng xpp055c272 5.5" MIPI-DSI panel driver
-+ * Copyright (C) 2019 Theobroma Systems Design und Consulting GmbH
-+ *
-+ * based on
-+ *
-+ * Rockteck jh057n00900 5.5" MIPI-DSI panel driver
-+ * Copyright (C) Purism SPC 2019
-+ */
-+
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_modes.h>
-+#include <drm/drm_panel.h>
-+#include <drm/drm_print.h>
-+
-+#include <video/display_timing.h>
-+#include <video/mipi_display.h>
-+
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/media-bus-format.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/regulator/consumer.h>
-+
-+/* Manufacturer specific Commands send via DSI */
-+#define XPP055C272_CMD_ALL_PIXEL_OFF	0x22
-+#define XPP055C272_CMD_ALL_PIXEL_ON	0x23
-+#define XPP055C272_CMD_SETDISP		0xb2
-+#define XPP055C272_CMD_SETRGBIF		0xb3
-+#define XPP055C272_CMD_SETCYC		0xb4
-+#define XPP055C272_CMD_SETBGP		0xb5
-+#define XPP055C272_CMD_SETVCOM		0xb6
-+#define XPP055C272_CMD_SETOTP		0xb7
-+#define XPP055C272_CMD_SETPOWER_EXT	0xb8
-+#define XPP055C272_CMD_SETEXTC		0xb9
-+#define XPP055C272_CMD_SETMIPI		0xbA
-+#define XPP055C272_CMD_SETVDC		0xbc
-+#define XPP055C272_CMD_SETPCR		0xbf
-+#define XPP055C272_CMD_SETSCR		0xc0
-+#define XPP055C272_CMD_SETPOWER		0xc1
-+#define XPP055C272_CMD_SETECO		0xc6
-+#define XPP055C272_CMD_SETPANEL		0xcc
-+#define XPP055C272_CMD_SETGAMMA		0xe0
-+#define XPP055C272_CMD_SETEQ		0xe3
-+#define XPP055C272_CMD_SETGIP1		0xe9
-+#define XPP055C272_CMD_SETGIP2		0xea
-+
-+struct xpp055c272 {
-+	struct device *dev;
-+	struct drm_panel panel;
-+	struct gpio_desc *reset_gpio;
-+	struct regulator *vci;
-+	struct regulator *iovcc;
-+	bool prepared;
-+};
-+
-+static inline struct xpp055c272 *panel_to_xpp055c272(struct drm_panel *panel)
-+{
-+	return container_of(panel, struct xpp055c272, panel);
-+}
-+
-+#define dsi_generic_write_seq(dsi, cmd, seq...) do {			\
-+		static const u8 d[] = { seq };				\
-+		int ret;						\
-+		ret = mipi_dsi_dcs_write(dsi, cmd, d, ARRAY_SIZE(d));	\
-+		if (ret < 0)						\
-+			return ret;					\
-+	} while (0)
-+
-+static int xpp055c272_init_sequence(struct xpp055c272 *ctx)
-+{
-+	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
-+	struct device *dev = ctx->dev;
-+
-+	/*
-+	 * Init sequence was supplied by the panel vendor without much
-+	 * documentation.
-+	 */
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETEXTC, 0xf1, 0x12, 0x83);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETMIPI,
-+			      0x33, 0x81, 0x05, 0xf9, 0x0e, 0x0e, 0x00, 0x00,
-+			      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x44, 0x25,
-+			      0x00, 0x91, 0x0a, 0x00, 0x00, 0x02, 0x4f, 0x01,
-+			      0x00, 0x00, 0x37);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETPOWER_EXT, 0x25);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETPCR, 0x02, 0x11, 0x00);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETRGBIF,
-+			      0x0c, 0x10, 0x0a, 0x50, 0x03, 0xff, 0x00, 0x00,
-+			      0x00, 0x00);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETSCR,
-+			      0x73, 0x73, 0x50, 0x50, 0x00, 0x00, 0x08, 0x70,
-+			      0x00);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETVDC, 0x46);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETPANEL, 0x0b);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETCYC, 0x80);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETDISP, 0xc8, 0x12, 0x30);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETEQ,
-+			      0x07, 0x07, 0x0B, 0x0B, 0x03, 0x0B, 0x00, 0x00,
-+			      0x00, 0x00, 0xFF, 0x00, 0xC0, 0x10);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETPOWER,
-+			      0x53, 0x00, 0x1e, 0x1e, 0x77, 0xe1, 0xcc, 0xdd,
-+			      0x67, 0x77, 0x33, 0x33);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETECO, 0x00, 0x00, 0xff,
-+			      0xff, 0x01, 0xff);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETBGP, 0x09, 0x09);
-+	msleep(20);
-+
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETVCOM, 0x87, 0x95);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETGIP1,
-+			      0xc2, 0x10, 0x05, 0x05, 0x10, 0x05, 0xa0, 0x12,
-+			      0x31, 0x23, 0x3f, 0x81, 0x0a, 0xa0, 0x37, 0x18,
-+			      0x00, 0x80, 0x01, 0x00, 0x00, 0x00, 0x00, 0x80,
-+			      0x01, 0x00, 0x00, 0x00, 0x48, 0xf8, 0x86, 0x42,
-+			      0x08, 0x88, 0x88, 0x80, 0x88, 0x88, 0x88, 0x58,
-+			      0xf8, 0x87, 0x53, 0x18, 0x88, 0x88, 0x81, 0x88,
-+			      0x88, 0x88, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00,
-+			      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETGIP2,
-+			      0x00, 0x1a, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00,
-+			      0x00, 0x00, 0x00, 0x00, 0x1f, 0x88, 0x81, 0x35,
-+			      0x78, 0x88, 0x88, 0x85, 0x88, 0x88, 0x88, 0x0f,
-+			      0x88, 0x80, 0x24, 0x68, 0x88, 0x88, 0x84, 0x88,
-+			      0x88, 0x88, 0x23, 0x10, 0x00, 0x00, 0x1c, 0x00,
-+			      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x30, 0x05,
-+			      0xa0, 0x00, 0x00, 0x00, 0x00);
-+	dsi_generic_write_seq(dsi, XPP055C272_CMD_SETGAMMA,
-+			      0x00, 0x06, 0x08, 0x2a, 0x31, 0x3f, 0x38, 0x36,
-+			      0x07, 0x0c, 0x0d, 0x11, 0x13, 0x12, 0x13, 0x11,
-+			      0x18, 0x00, 0x06, 0x08, 0x2a, 0x31, 0x3f, 0x38,
-+			      0x36, 0x07, 0x0c, 0x0d, 0x11, 0x13, 0x12, 0x13,
-+			      0x11, 0x18);
-+
-+	msleep(60);
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "Panel init sequence done\n");
-+	return 0;
-+}
-+
-+static int xpp055c272_unprepare(struct drm_panel *panel)
-+{
-+	struct xpp055c272 *ctx = panel_to_xpp055c272(panel);
-+	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
-+	int ret;
-+
-+	if (!ctx->prepared)
-+		return 0;
-+
-+	ret = mipi_dsi_dcs_set_display_off(dsi);
-+	if (ret < 0)
-+		DRM_DEV_ERROR(ctx->dev, "failed to set display off: %d\n",
-+			      ret);
-+
-+	mipi_dsi_dcs_enter_sleep_mode(dsi);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(ctx->dev, "failed to enter sleep mode: %d\n",
-+			      ret);
-+		return ret;
-+	}
-+
-+	regulator_disable(ctx->iovcc);
-+	regulator_disable(ctx->vci);
-+
-+	ctx->prepared = false;
-+
-+	return 0;
-+}
-+
-+static int xpp055c272_prepare(struct drm_panel *panel)
-+{
-+	struct xpp055c272 *ctx = panel_to_xpp055c272(panel);
-+	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
-+	int ret;
-+
-+	if (ctx->prepared)
-+		return 0;
-+
-+	DRM_DEV_DEBUG_DRIVER(ctx->dev, "Resetting the panel\n");
-+	ret = regulator_enable(ctx->vci);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(ctx->dev,
-+			      "Failed to enable vci supply: %d\n", ret);
-+		return ret;
-+	}
-+	ret = regulator_enable(ctx->iovcc);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(ctx->dev,
-+			      "Failed to enable iovcc supply: %d\n", ret);
-+		goto disable_vci;
-+	}
-+
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+	/* T6: 10us */
-+	usleep_range(10, 20);
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-+
-+	/* T8: 20ms */
-+	msleep(20);
-+
-+	ret = xpp055c272_init_sequence(ctx);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(ctx->dev, "Panel init sequence failed: %d\n",
-+			      ret);
-+		goto disable_iovcc;
-+	}
-+
-+	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(ctx->dev, "Failed to exit sleep mode: %d\n", ret);
-+		goto disable_iovcc;
-+	}
-+
-+	/* T9: 120ms */
-+	msleep(120);
-+
-+	ret = mipi_dsi_dcs_set_display_on(dsi);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(ctx->dev, "Failed to set display on: %d\n", ret);
-+		goto disable_iovcc;
-+	}
-+
-+	msleep(50);
-+
-+	ctx->prepared = true;
-+
-+	return 0;
-+
-+disable_iovcc:
-+	regulator_disable(ctx->iovcc);
-+disable_vci:
-+	regulator_disable(ctx->vci);
-+	return ret;
-+}
-+
-+static const struct drm_display_mode default_mode = {
-+	.hdisplay	= 720,
-+	.hsync_start	= 720 + 40,
-+	.hsync_end	= 720 + 40 + 10,
-+	.htotal		= 720 + 40 + 10 + 40,
-+	.vdisplay	= 1280,
-+	.vsync_start	= 1280 + 22,
-+	.vsync_end	= 1280 + 22 + 4,
-+	.vtotal		= 1280 + 22 + 4 + 11,
-+	.vrefresh	= 60,
-+	.clock		= 64000,
-+	.width_mm	= 68,
-+	.height_mm	= 121,
-+};
-+
-+static int xpp055c272_get_modes(struct drm_panel *panel,
-+				struct drm_connector *connector)
-+{
-+	struct xpp055c272 *ctx = panel_to_xpp055c272(panel);
-+	struct drm_display_mode *mode;
-+
-+	mode = drm_mode_duplicate(connector->dev, &default_mode);
-+	if (!mode) {
-+		DRM_DEV_ERROR(ctx->dev, "Failed to add mode %ux%u@%u\n",
-+			      default_mode.hdisplay, default_mode.vdisplay,
-+			      default_mode.vrefresh);
-+		return -ENOMEM;
-+	}
-+
-+	drm_mode_set_name(mode);
-+
-+	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-+	connector->display_info.width_mm = mode->width_mm;
-+	connector->display_info.height_mm = mode->height_mm;
-+	drm_mode_probed_add(connector, mode);
-+
-+	return 1;
-+}
-+
-+static const struct drm_panel_funcs xpp055c272_funcs = {
-+	.unprepare	= xpp055c272_unprepare,
-+	.prepare	= xpp055c272_prepare,
-+	.get_modes	= xpp055c272_get_modes,
-+};
-+
-+static int xpp055c272_probe(struct mipi_dsi_device *dsi)
-+{
-+	struct device *dev = &dsi->dev;
-+	struct xpp055c272 *ctx;
-+	int ret;
-+
-+	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-+	if (!ctx)
-+		return -ENOMEM;
-+
-+	ctx->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
-+	if (IS_ERR(ctx->reset_gpio)) {
-+		DRM_DEV_ERROR(dev, "cannot get reset gpio\n");
-+		return PTR_ERR(ctx->reset_gpio);
-+	}
-+
-+	ctx->vci = devm_regulator_get(dev, "vci");
-+	if (IS_ERR(ctx->vci)) {
-+		ret = PTR_ERR(ctx->vci);
-+		if (ret != -EPROBE_DEFER)
-+			DRM_DEV_ERROR(dev,
-+				      "Failed to request vci regulator: %d\n",
-+				      ret);
-+		return ret;
-+	}
-+
-+	ctx->iovcc = devm_regulator_get(dev, "iovcc");
-+	if (IS_ERR(ctx->iovcc)) {
-+		ret = PTR_ERR(ctx->iovcc);
-+		if (ret != -EPROBE_DEFER)
-+			DRM_DEV_ERROR(dev,
-+				      "Failed to request iovcc regulator: %d\n",
-+				      ret);
-+		return ret;
-+	}
-+
-+	mipi_dsi_set_drvdata(dsi, ctx);
-+
-+	ctx->dev = dev;
-+
-+	dsi->lanes = 4;
-+	dsi->format = MIPI_DSI_FMT_RGB888;
-+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-+			  MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_EOT_PACKET;
-+
-+	drm_panel_init(&ctx->panel, &dsi->dev, &xpp055c272_funcs,
-+		       DRM_MODE_CONNECTOR_DSI);
-+
-+	ret = drm_panel_of_backlight(&ctx->panel);
-+	if (ret)
-+		return ret;
-+
-+	drm_panel_add(&ctx->panel);
-+
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(dev, "mipi_dsi_attach failed: %d\n", ret);
-+		drm_panel_remove(&ctx->panel);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static void xpp055c272_shutdown(struct mipi_dsi_device *dsi)
-+{
-+	struct xpp055c272 *ctx = mipi_dsi_get_drvdata(dsi);
-+	int ret;
-+
-+	ret = drm_panel_unprepare(&ctx->panel);
-+	if (ret < 0)
-+		DRM_DEV_ERROR(&dsi->dev, "Failed to unprepare panel: %d\n",
-+			      ret);
-+
-+	ret = drm_panel_disable(&ctx->panel);
-+	if (ret < 0)
-+		DRM_DEV_ERROR(&dsi->dev, "Failed to disable panel: %d\n",
-+			      ret);
-+}
-+
-+static int xpp055c272_remove(struct mipi_dsi_device *dsi)
-+{
-+	struct xpp055c272 *ctx = mipi_dsi_get_drvdata(dsi);
-+	int ret;
-+
-+	xpp055c272_shutdown(dsi);
-+
-+	ret = mipi_dsi_detach(dsi);
-+	if (ret < 0)
-+		DRM_DEV_ERROR(&dsi->dev, "Failed to detach from DSI host: %d\n",
-+			      ret);
-+
-+	drm_panel_remove(&ctx->panel);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id xpp055c272_of_match[] = {
-+	{ .compatible = "xinpeng,xpp055c272" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, xpp055c272_of_match);
-+
-+static struct mipi_dsi_driver xpp055c272_driver = {
-+	.driver = {
-+		.name = "panel-xinpeng-xpp055c272",
-+		.of_match_table = xpp055c272_of_match,
-+	},
-+	.probe	= xpp055c272_probe,
-+	.remove = xpp055c272_remove,
-+	.shutdown = xpp055c272_shutdown,
-+};
-+module_mipi_dsi_driver(xpp055c272_driver);
-+
-+MODULE_AUTHOR("Heiko Stuebner <heiko.stuebner@theobroma-systems.com>");
-+MODULE_DESCRIPTION("DRM driver for Xinpeng xpp055c272 MIPI DSI panel");
-+MODULE_LICENSE("GPL v2");
--- 
-2.24.0
+   #
+   # panel is now ready to show your favourite christmas movie
+   #
 
+  disable()
+  unprepare()
+  unprepare_power()  <= new callback
+
+
+Would this help implement what you suggest above?
+Relevant panels would then have to be updated - but this
+is doable.
+
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
