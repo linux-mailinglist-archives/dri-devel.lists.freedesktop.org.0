@@ -2,40 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B73012A6F4
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Dec 2019 10:14:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD1A812A751
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Dec 2019 11:20:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CBFF89EB1;
-	Wed, 25 Dec 2019 09:14:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 994D66E0C1;
+	Wed, 25 Dec 2019 10:20:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB5DC89EB1
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Dec 2019 09:14:37 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 25 Dec 2019 01:14:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,353,1571727600"; d="scan'208";a="212079837"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
- by orsmga008.jf.intel.com with ESMTP; 25 Dec 2019 01:14:34 -0800
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
- (envelope-from <lkp@intel.com>)
- id 1ik2kU-00020J-8e; Wed, 25 Dec 2019 17:14:34 +0800
-Date: Wed, 25 Dec 2019 17:14:15 +0800
-From: kbuild test robot <lkp@intel.com>
-To: Heiko Stuebner <heiko@sntech.de>
-Subject: Re: [PATCH v2 3/3] drm/panel: add panel driver for Leadtek
- LTK500HD1829
-Message-ID: <201912251756.Sa7kvTwW%lkp@intel.com>
-References: <20191217222812.19872-3-heiko@sntech.de>
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
+ [217.70.183.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBBEE89C69
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2019 14:39:05 +0000 (UTC)
+X-Originating-IP: 91.224.148.103
+Received: from localhost.localdomain (unknown [91.224.148.103])
+ (Authenticated sender: miquel.raynal@bootlin.com)
+ by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 80D8FE0003;
+ Tue, 24 Dec 2019 14:39:01 +0000 (UTC)
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Sandy Huang <hjc@rock-chips.com>, Heiko Stuebner <heiko@sntech.de>,
+ <linux-rockchip@lists.infradead.org>
+Subject: [PATCH v2 00/11] Add PX30 LVDS support
+Date: Tue, 24 Dec 2019 15:38:49 +0100
+Message-Id: <20191224143900.23567-1-miquel.raynal@bootlin.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191217222812.19872-3-heiko@sntech.de>
-User-Agent: NeoMutt/20170113 (1.7.2)
+X-Mailman-Approved-At: Wed, 25 Dec 2019 10:19:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,59 +40,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, kbuild-all@lists.01.org,
- Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
- linux-kernel@vger.kernel.org, robh+dt@kernel.org, thierry.reding@gmail.com,
- dri-devel@lists.freedesktop.org, sam@ravnborg.org,
- christoph.muellner@theobroma-systems.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Heiko,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on robh/for-next]
-[cannot apply to drm-exynos/exynos-drm-next drm-intel/for-linux-next tegra-drm/drm/tegra/for-next drm-tip/drm-tip linus/master drm/drm-next v5.5-rc3 next-20191220]
-[if your patch is applied to the wrong git tree, please drop us a note to help
-improve the system. BTW, we also suggest to use '--base' option to specify the
-base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
-
-url:    https://github.com/0day-ci/linux/commits/Heiko-Stuebner/dt-bindings-Add-vendor-prefix-for-Leadtek-Technology/20191221-062606
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.1-129-g341daf20-dirty
-        make ARCH=x86_64 allmodconfig
-        make C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__'
-
-If you fix the issue, kindly add following tag
-Reported-by: kbuild test robot <lkp@intel.com>
-
-
-sparse warnings: (new ones prefixed by >>)
-
->> drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.c:411:22: sparse: sparse: incorrect type in initializer (different argument counts)
->> drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.c:411:22: sparse:    expected int ( *get_modes )( ... )
->> drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.c:411:22: sparse:    got int ( * )( ... )
-   drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.c:463:15: sparse: sparse: undefined identifier 'drm_panel_of_backlight'
-
-vim +411 drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.c
-
-   407	
-   408	static const struct drm_panel_funcs ltk500hd1829_funcs = {
-   409		.unprepare = ltk500hd1829_unprepare,
-   410		.prepare = ltk500hd1829_prepare,
- > 411		.get_modes = ltk500hd1829_get_modes,
-   412	};
-   413	
-
----
-0-DAY kernel test infrastructure                 Open Source Technology Center
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org Intel Corporation
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGVsbG8sCgpUaGlzIHNlcmllcyBhaW1zIGF0IHN1cHBvcnRpbmcgTFZEUyBvbiBQWDMwLgoKQSBm
+aXJzdCBjb3VwbGUgb2YgcGF0Y2hlcyB1cGRhdGUgdGhlIGRvY3VtZW50YXRpb24gd2l0aCB0aGUg
+bmV3CmNvbXBhdGlibGUgYW5kIHRoZSBwcmVzZW5jZSBvZiBhIFBIWS4gVGhlbiwgdGhlIGV4aXN0
+aW5nIFJvY2tjaGlwCmRyaXZlciBpcyBjbGVhbmVkIGFuZCBleHRlbmRlZCB0byBzdXBwb3J0IFBY
+MzAgc3BlY2lmaWNpdGllcy4gRmluYWxseSwKdGhlIFBYMzAgRFRTSSBpcyB1cGRhdGVkIHdpdGgg
+Q1JUQyByb3V0ZXMsIHRoZSBEU0kgRFBIWSBhbmQgdGhlIExWRFMKSVAgaXRzZWxmLgoKQ2hlZXJz
+LApNaXF1w6hsCgpDaGFuZ2VzIHNpbmNlIHYxOgoqIEFkZGVkIFJvYidzIEFjay4KKiBVc2VkICJt
+dXN0IiBpbnN0ZWFkIG9mICJzaG91bGQiIGluIHRoZSBiaW5kaW5ncy4KKiBQcmVjaXNlZCB0aGF0
+IHBoeS1uYW1lcyBpcyBhbiBvcHRpb25hbCBwcm9wZXJ0eSBpbiB0aGUgY2FzZSBvZgogIFBYMzAu
+CiogUmVuYW1lZCB0aGUgV1JJVEVfRU4gbWFjcm8gaW50byBISVdPUkRfVVBEQVRFIHRvIGJlIGFs
+aWduZWQgd2l0aAogIG90aGVyIGZpbGVzLgoqIFJlbW92ZWQgZXh0cmEgY29uZmlndXJhdGlvbiwg
+bm90IG5lZWRlZCBmb3IgZ2VuZXJpYyBwYW5lbHMgKHNlZQogIFNhbmR5IEh1YW5nIGFuc3dlciku
+CiogRHJvcHBlZCB0aGUgZGlzcGxheS1zdWJzeXN0ZW0gcm91dGVzICh1c2VsZXNzKS4KKiBNZXJn
+ZWQgdHdvIHBhdGNoZXMgdG8gYXZvaWQgcGhhbmRsZSBpbnRlcmRlcGVuZGVuY2llcyBpbiBncmFw
+aHMgYW5kCiAgaW50ZXJtZWRpYXRlIGJ1aWxkIGVycm9ycy4KCk1pcXVlbCBSYXluYWwgKDExKToK
+ICBkdC1iaW5kaW5nczogZGlzcGxheTogcm9ja2NoaXAtbHZkczogRGVjbGFyZSBQWDMwIGNvbXBh
+dGlibGUKICBkdC1iaW5kaW5nczogZGlzcGxheTogcm9ja2NoaXAtbHZkczogRG9jdW1lbnQgUFgz
+MCBQSFkKICBkcm0vcm9ja2NoaXA6IGx2ZHM6IEZpeCBpbmRlbnRhdGlvbiBvZiBhICNkZWZpbmUK
+ICBkcm0vcm9ja2NoaXA6IGx2ZHM6IEhhcm1vbml6ZSBmdW5jdGlvbiBuYW1lcwogIGRybS9yb2Nr
+Y2hpcDogbHZkczogQ2hhbmdlIHBsYXRmb3JtIGRhdGEKICBkcm0vcm9ja2NoaXA6IGx2ZHM6IENy
+ZWF0ZSBhbiBSSzMyODggc3BlY2lmaWMgcHJvYmUgZnVuY3Rpb24KICBkcm0vcm9ja2NoaXA6IGx2
+ZHM6IEhlbHBlcnMgc2hvdWxkIHJldHVybiBkZWNlbnQgdmFsdWVzCiAgZHJtL3JvY2tjaGlwOiBs
+dmRzOiBQYWNrIGZ1bmN0aW9ucyB0b2dldGhlcgogIGRybS9yb2NrY2hpcDogbHZkczogQWRkIFBY
+MzAgc3VwcG9ydAogIGFybTY0OiBkdHM6IHJvY2tjaGlwOiBBZGQgUFgzMCBEU0kgRFBIWQogIGFy
+bTY0OiBkdHM6IHJvY2tjaGlwOiBBZGQgUFgzMCBMVkRTCgogLi4uL2Rpc3BsYXkvcm9ja2NoaXAv
+cm9ja2NoaXAtbHZkcy50eHQgICAgICAgIHwgICA0ICsKIGFyY2gvYXJtNjQvYm9vdC9kdHMvcm9j
+a2NoaXAvcHgzMC5kdHNpICAgICAgICB8ICA0OCArKwogZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlw
+L3JvY2tjaGlwX2x2ZHMuYyAgICAgIHwgNDg2ICsrKysrKysrKysrKy0tLS0tLQogZHJpdmVycy9n
+cHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2x2ZHMuaCAgICAgIHwgIDE5ICstCiA0IGZpbGVzIGNo
+YW5nZWQsIDQwMSBpbnNlcnRpb25zKCspLCAxNTYgZGVsZXRpb25zKC0pCgotLSAKMi4yMC4xCgpf
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
+bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
+cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
