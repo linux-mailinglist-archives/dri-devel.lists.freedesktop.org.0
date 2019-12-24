@@ -2,18 +2,18 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52E4912A24C
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2019 15:31:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1481512A249
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2019 15:31:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2D1A89B99;
-	Tue, 24 Dec 2019 14:30:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D6D58999C;
+	Tue, 24 Dec 2019 14:30:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7136F6E0DB;
- Tue, 24 Dec 2019 03:20:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3474289EFF;
+ Tue, 24 Dec 2019 03:20:34 +0000 (UTC)
 Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 84F6334BE736BA1BE3CF;
+ by Forcepoint Email with ESMTP id 53C9BAA70C166D1A91CC;
  Tue, 24 Dec 2019 11:20:31 +0800 (CST)
 Received: from huawei.com (10.90.53.225) by DGGEMS412-HUB.china.huawei.com
  (10.3.19.212) with Microsoft SMTP Server id 14.3.439.0; Tue, 24 Dec 2019
@@ -23,10 +23,10 @@ To: <harry.wentland@amd.com>, <sunpeng.li@amd.com>,
  <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
  <David1.Zhou@amd.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
  <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 5/8] drm/amd/display: use true,
- false for bool variable in dce_calcs.c
-Date: Tue, 24 Dec 2019 11:27:40 +0800
-Message-ID: <1577158063-76188-6-git-send-email-zhengbin13@huawei.com>
+Subject: [PATCH 6/8] drm/amd/display: use true,
+ false for bool variable in display_rq_dlg_calc_20.c
+Date: Tue, 24 Dec 2019 11:27:41 +0800
+Message-ID: <1577158063-76188-7-git-send-email-zhengbin13@huawei.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1577158063-76188-1-git-send-email-zhengbin13@huawei.com>
 References: <1577158063-76188-1-git-send-email-zhengbin13@huawei.com>
@@ -54,71 +54,101 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes coccicheck warning:
 
-drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c:157:46-64: WARNING: Assignment of 0/1 to bool variable
-drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c:159:2-20: WARNING: Assignment of 0/1 to bool variable
-drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c:161:46-64: WARNING: Assignment of 0/1 to bool variable
-drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c:163:2-20: WARNING: Assignment of 0/1 to bool variable
-drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c:289:1-12: WARNING: Assignment of 0/1 to bool variable
-drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c:290:1-12: WARNING: Assignment of 0/1 to bool variable
-drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c:341:3-14: WARNING: Assignment of 0/1 to bool variable
-drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c:343:4-15: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c:110:6-13: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c:113:2-9: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c:243:6-14: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c:244:6-14: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c:267:3-11: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c:268:3-11: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c:272:3-11: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c:273:3-11: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c:283:3-11: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c:285:3-11: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c:673:6-14: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c:961:1-9: WARNING: Assignment of 0/1 to bool variable
 
 Reported-by: Hulk Robot <hulkci@huawei.com>
 Signed-off-by: zhengbin <zhengbin13@huawei.com>
 ---
- drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c | 24 ++++++++++++------------
+ .../display/dc/dml/dcn20/display_rq_dlg_calc_20.c  | 24 +++++++++++-----------
  1 file changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c b/drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c
-index a1d4925..5d081c4 100644
---- a/drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c
-+++ b/drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c
-@@ -154,14 +154,14 @@ static void calculate_bandwidth(
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c
+index 9df24ec..ca80784 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c
+@@ -107,10 +107,10 @@ static unsigned int get_bytes_per_element(enum source_format_class source_format
 
+ static bool is_dual_plane(enum source_format_class source_format)
+ {
+-	bool ret_val = 0;
++	bool ret_val = false;
 
+ 	if ((source_format == dm_420_8) || (source_format == dm_420_10))
+-		ret_val = 1;
++		ret_val = true;
 
--	if (data->d0_underlay_mode == bw_def_none) { d0_underlay_enable = 0; }
--	else {
--		d0_underlay_enable = 1;
--	}
--	if (data->d1_underlay_mode == bw_def_none) { d1_underlay_enable = 0; }
--	else {
--		d1_underlay_enable = 1;
--	}
-+	if (data->d0_underlay_mode == bw_def_none)
-+		d0_underlay_enable = false;
-+	else
-+		d0_underlay_enable = true;
-+	if (data->d1_underlay_mode == bw_def_none)
-+		d1_underlay_enable = false;
-+	else
-+		d1_underlay_enable = true;
- 	data->number_of_underlay_surfaces = d0_underlay_enable + d1_underlay_enable;
- 	switch (data->underlay_surface_type) {
- 	case bw_def_420:
-@@ -286,8 +286,8 @@ static void calculate_bandwidth(
- 	data->cursor_width_pixels[2] = bw_int_to_fixed(0);
- 	data->cursor_width_pixels[3] = bw_int_to_fixed(0);
- 	/* graphics surface parameters from spreadsheet*/
--	fbc_enabled = 0;
--	lpt_enabled = 0;
-+	fbc_enabled = false;
-+	lpt_enabled = false;
- 	for (i = 4; i <= maximum_number_of_surfaces - 3; i++) {
- 		if (i < data->number_of_displays + 4) {
- 			if (i == 4 && data->d0_underlay_mode == bw_def_underlay_only) {
-@@ -338,9 +338,9 @@ static void calculate_bandwidth(
- 			data->access_one_channel_only[i] = 0;
+ 	return ret_val;
+ }
+@@ -240,8 +240,8 @@ static void handle_det_buf_split(struct display_mode_lib *mode_lib,
+ 	unsigned int swath_bytes_c = 0;
+ 	unsigned int full_swath_bytes_packed_l = 0;
+ 	unsigned int full_swath_bytes_packed_c = 0;
+-	bool req128_l = 0;
+-	bool req128_c = 0;
++	bool req128_l = false;
++	bool req128_c = false;
+ 	bool surf_linear = (pipe_src_param.sw_mode == dm_sw_linear);
+ 	bool surf_vert = (pipe_src_param.source_scan == dm_vert);
+ 	unsigned int log2_swath_height_l = 0;
+@@ -264,13 +264,13 @@ static void handle_det_buf_split(struct display_mode_lib *mode_lib,
+ 		total_swath_bytes = 2 * full_swath_bytes_packed_l + 2 * full_swath_bytes_packed_c;
+
+ 		if (total_swath_bytes <= detile_buf_size_in_bytes) { //full 256b request
+-			req128_l = 0;
+-			req128_c = 0;
++			req128_l = false;
++			req128_c = false;
+ 			swath_bytes_l = full_swath_bytes_packed_l;
+ 			swath_bytes_c = full_swath_bytes_packed_c;
+ 		} else { //128b request (for luma only for yuv420 8bpc)
+-			req128_l = 1;
+-			req128_c = 0;
++			req128_l = true;
++			req128_c = false;
+ 			swath_bytes_l = full_swath_bytes_packed_l / 2;
+ 			swath_bytes_c = full_swath_bytes_packed_c;
  		}
- 		if (data->fbc_en[i] == 1) {
--			fbc_enabled = 1;
-+			fbc_enabled = true;
- 			if (data->lpt_en[i] == 1) {
--				lpt_enabled = 1;
-+				lpt_enabled = true;
- 			}
- 		}
- 		data->cursor_width_pixels[i] = bw_int_to_fixed(vbios->cursor_width);
+@@ -280,9 +280,9 @@ static void handle_det_buf_split(struct display_mode_lib *mode_lib,
+ 		total_swath_bytes = 2 * full_swath_bytes_packed_l;
+
+ 		if (total_swath_bytes <= detile_buf_size_in_bytes)
+-			req128_l = 0;
++			req128_l = false;
+ 		else
+-			req128_l = 1;
++			req128_l = true;
+
+ 		swath_bytes_l = total_swath_bytes;
+ 		swath_bytes_c = 0;
+@@ -670,7 +670,7 @@ static void get_surf_rq_param(struct display_mode_lib *mode_lib,
+ 		const display_pipe_source_params_st pipe_src_param,
+ 		bool is_chroma)
+ {
+-	bool mode_422 = 0;
++	bool mode_422 = false;
+ 	unsigned int vp_width = 0;
+ 	unsigned int vp_height = 0;
+ 	unsigned int data_pitch = 0;
+@@ -958,7 +958,7 @@ static void dml20_rq_dlg_get_dlg_params(struct display_mode_lib *mode_lib,
+ 	// Source
+ //             dcc_en              = src.dcc;
+ 	dual_plane = is_dual_plane((enum source_format_class)(src->source_format));
+-	mode_422 = 0; // TODO
++	mode_422 = false; // TODO
+ 	access_dir = (src->source_scan == dm_vert); // vp access direction: horizontal or vertical accessed
+ //      bytes_per_element_l = get_bytes_per_element(source_format_class(src.source_format), 0);
+ //      bytes_per_element_c = get_bytes_per_element(source_format_class(src.source_format), 1);
 --
 2.7.4
 
