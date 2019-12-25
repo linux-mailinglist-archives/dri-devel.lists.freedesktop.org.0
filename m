@@ -2,43 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3450612A628
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Dec 2019 06:26:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ADB712A674
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Dec 2019 07:45:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2668889F47;
-	Wed, 25 Dec 2019 05:26:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 458E489B0C;
+	Wed, 25 Dec 2019 06:45:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E3AA89F47
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Dec 2019 05:26:16 +0000 (UTC)
-Received: from localhost (unknown [5.29.147.182])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 1B55D2071E;
- Wed, 25 Dec 2019 05:26:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1577251576;
- bh=XecFfsaVDZ9xwmzIy/JIRjF1C/8kAWJZBoR2IY+F2RA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bq/liqXfuKDGJm/bGg4q9hFXMmE+Y/AuB7AQqgBxYhO1C6nmQsQelIzCX1v5I5WAy
- wsBPrYaZwpLUi6WCN7S+YTK/tktc66fQ/jur1rAeqVmCtqwwKEWcnC46thxPwqkyMA
- SXjSVJZNN56CsSF4ioskprUfCvid80SsCXRVwzPk=
-Date: Wed, 25 Dec 2019 07:26:12 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: John Hubbard <jhubbard@nvidia.com>
-Subject: Re: [PATCH v11 00/25] mm/gup: track dma-pinned pages: FOLL_PIN
-Message-ID: <20191225052612.GA212002@unreal>
-References: <20191216222537.491123-1-jhubbard@nvidia.com>
- <20191219132607.GA410823@unreal>
- <a4849322-8e17-119e-a664-80d9f95d850b@nvidia.com>
- <20191219210743.GN17227@ziepe.ca> <20191220182939.GA10944@unreal>
- <1001a5fc-a71d-9c0f-1090-546c4913d8a2@nvidia.com>
- <20191222132357.GF13335@unreal>
- <49d57efe-85e1-6910-baf5-c18df1382206@nvidia.com>
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-eopbgr770058.outbound.protection.outlook.com [40.107.77.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 185A689B0C;
+ Wed, 25 Dec 2019 06:45:42 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=U0xSp6YLXU7pskqd2HlbuHVQIH3JHHYTZ4BuGjoUH7gZ1IsW3bmEL6kPe51xgSop4je3/sjw+lPElgcw2Fq9+2AnYyUe3DdjUxyejCuAWP5930SkCjmJk5idqWeLzY89wzBLtLZUnNDLrpkF6tWTyBrx+x0S1PPAdUfsc/+Gmdxp+pgOTjb5LaQWVgmfJVXVpmweq8Jkw6klMLcWffVIs0S1yVGt2d8kqgReY6t4powoMfC0YvwPWYMBTdCE0Ltr8ss8fNGk6A/v0823Y0jFdT5v4IQ+CHyvQfbxLD9W7viRFq22/8WJm1V+H+bHeTp2zRBVnuZzqksxbZ2Fl/Ru9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LVaW8cIhL1fnB43gCgm+xB5XJb/zwOBr+sWiauEHVsU=;
+ b=j5wUVE22jhzW6/JNKScky6GT6OfyZJDcKl36RnKN6XGcklh/ap2EtULNtHVFJaWWVpS9fn1PiGpzRH2Ai8l70/RdZP8JCrvO2yJTxTy60se2VMB6BXlpvg8eNkXmck50GPInLJt2kIE79YFckFkMtOIfdre418o+QOA76xvebKWHw0p1uM8/SrgDANIHPvFCpAfmO6XXZdQIi7LWhS4vAfllgeK7KyCZ7y88q0OxbT8QKLfWLb3UUYQZti6RgRfwcW7+baVi/lqI0JcGIU5M0CpvpDuLjRSmVqCr1+VUKkLbMqMnHUsOYCywAozCCUBm5YQo4c44iFY0p6VsF3XIzQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LVaW8cIhL1fnB43gCgm+xB5XJb/zwOBr+sWiauEHVsU=;
+ b=r3ONp2ydtZ/H8c6nnso5pr44ZHevY1MvOAZWDBRPUCULBz9iXzq8JoOap1zm05Jt0xnwI29Q81vTvpUaiWUYVtlxr8L1H0lUzIlQO6KfCgIUhFrMWYEH9iZwzF18ml5vzNHcjQPMC+oUfr4XsZdVr+utmUfUUfSHFkz3O/3eA/Q=
+Received: from DM6PR12MB4137.namprd12.prod.outlook.com (10.141.186.21) by
+ DM6PR12MB3260.namprd12.prod.outlook.com (20.179.104.208) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2581.11; Wed, 25 Dec 2019 06:45:36 +0000
+Received: from DM6PR12MB4137.namprd12.prod.outlook.com
+ ([fe80::f06d:7ff3:2a22:99d4]) by DM6PR12MB4137.namprd12.prod.outlook.com
+ ([fe80::f06d:7ff3:2a22:99d4%3]) with mapi id 15.20.2559.017; Wed, 25 Dec 2019
+ 06:45:36 +0000
+From: "Lin, Wayne" <Wayne.Lin@amd.com>
+To: Lyude Paul <lyude@redhat.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
+ <amd-gfx@lists.freedesktop.org>
+Subject: RE: [PATCH] drm/dp_mst: clear time slots for ports invalid
+Thread-Topic: [PATCH] drm/dp_mst: clear time slots for ports invalid
+Thread-Index: AQHVrBDEG2oqjDxKoU2lob1fSRqxeKfDzlcAgAaCSLA=
+Date: Wed, 25 Dec 2019 06:45:36 +0000
+Message-ID: <DM6PR12MB41378AEE89F13DA0825F2AD5FC280@DM6PR12MB4137.namprd12.prod.outlook.com>
+References: <20191206083937.9411-1-Wayne.Lin@amd.com>
+ <589e939efca5209af318645fa6799c423897eea6.camel@redhat.com>
+In-Reply-To: <589e939efca5209af318645fa6799c423897eea6.camel@redhat.com>
+Accept-Language: en-US, zh-TW
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Wayne.Lin@amd.com; 
+x-originating-ip: [165.204.68.36]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: d06e5be2-9279-4f6b-d733-08d789060c5d
+x-ms-traffictypediagnostic: DM6PR12MB3260:|DM6PR12MB3260:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM6PR12MB32605F61CF613779A9A4B89FFC280@DM6PR12MB3260.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-forefront-prvs: 02622CEF0A
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(4636009)(39860400002)(376002)(346002)(136003)(396003)(366004)(199004)(189003)(13464003)(54906003)(316002)(8936002)(8676002)(81156014)(81166006)(66476007)(33656002)(9686003)(7696005)(55016002)(71200400001)(110136005)(66946007)(66556008)(64756008)(66446008)(2906002)(186003)(53546011)(6506007)(966005)(76116006)(26005)(4326008)(45080400002)(86362001)(5660300002)(52536014)(478600001);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:DM6PR12MB3260;
+ H:DM6PR12MB4137.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ynqNjzEgLlmbjjKtliNO+fECQU+maoOlzFDQhI3LsV7r+s4ODVaDcGJy6D/irljtHvevzoxhjsinmi1qb3i6zMzwDxqrRWLh/RObDeFzCaEZoUbPDKlzZtQqrqmr4sZRfKjJop45Rlf+4Z8zXUbNHcXDeRczrOKcAyNDq/QCgPFdBf+mTIdIP78/wtz6lc2KuiKP4F3UI0/Zy4g5D6J+Tsr53AhgYSxutpSDX+DJP2AdEjZJH6Gl/C++46Bu2YCKJSdvK4OaEqCPZbzLHlsdCOamkG+l4Q6HY7ZMH78F+UTsovUffaneVolhDxcchvEf86q99zzjXmTTLQe0ME/gkR1JBq0x6S34uhfAe8+EDgmHXmOab8loXPqP3D/y2/HYcXfvJ2gzsnLqbUQAKZMjIbzyFdxmun4MkfKF8U4Th2JYXGIRuywROS00xzfp7C/awo3P71o2LB2CwfZNxeIP871dpNw9rXecPe2kNZlJFQqb5Ct7YydrVWHV0FSOFbch
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <49d57efe-85e1-6910-baf5-c18df1382206@nvidia.com>
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d06e5be2-9279-4f6b-d733-08d789060c5d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Dec 2019 06:45:36.4269 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: mr/4KxgyFggyYh2hj7AFnhKpzBhbFvqKc5WMjIMaeBlETPoykbqKHcDPr7vcUtvyAuOmKAwP8qkr1GJXg3X+xA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3260
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,235 +94,167 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
- linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
- linux-kselftest@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
- Maor Gottlieb <maorg@mellanox.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-rdma@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
- Christoph Hellwig <hch@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- Vlastimil Babka <vbabka@suse.cz>,
- =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
- linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- Ran Rozenstein <ranro@mellanox.com>, linux-block@vger.kernel.org,
- =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
- Al Viro <viro@zeniv.linux.org.uk>, Dan Williams <dan.j.williams@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, bpf@vger.kernel.org,
- Magnus Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
- netdev@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>,
- Mike Kravetz <mike.kravetz@oracle.com>
+Cc: "Zuo, Jerry" <Jerry.Zuo@amd.com>, "Kazlauskas,
+ Nicholas" <Nicholas.Kazlauskas@amd.com>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 24, 2019 at 06:03:50PM -0800, John Hubbard wrote:
-> On 12/22/19 5:23 AM, Leon Romanovsky wrote:
-> > On Fri, Dec 20, 2019 at 03:54:55PM -0800, John Hubbard wrote:
-> > > On 12/20/19 10:29 AM, Leon Romanovsky wrote:
-> > > ...
-> > > > > $ ./build.sh
-> > > > > $ build/bin/run_tests.py
-> > > > >
-> > > > > If you get things that far I think Leon can get a reproduction for you
-> > > >
-> > > > I'm not so optimistic about that.
-> > > >
-> > >
-> > > OK, I'm going to proceed for now on the assumption that I've got an overflow
-> > > problem that happens when huge pages are pinned. If I can get more information,
-> > > great, otherwise it's probably enough.
-> > >
-> > > One thing: for your repro, if you know the huge page size, and the system
-> > > page size for that case, that would really help. Also the number of pins per
-> > > page, more or less, that you'd expect. Because Jason says that only 2M huge
-> > > pages are used...
-> > >
-> > > Because the other possibility is that the refcount really is going negative,
-> > > likely due to a mismatched pin/unpin somehow.
-> > >
-> > > If there's not an obvious repro case available, but you do have one (is it easy
-> > > to repro, though?), then *if* you have the time, I could point you to a github
-> > > branch that reduces GUP_PIN_COUNTING_BIAS by, say, 4x, by applying this:
-> > >
-> > > diff --git a/include/linux/mm.h b/include/linux/mm.h
-> > > index bb44c4d2ada7..8526fd03b978 100644
-> > > --- a/include/linux/mm.h
-> > > +++ b/include/linux/mm.h
-> > > @@ -1077,7 +1077,7 @@ static inline void put_page(struct page *page)
-> > >    * get_user_pages and page_mkclean and other calls that race to set up page
-> > >    * table entries.
-> > >    */
-> > > -#define GUP_PIN_COUNTING_BIAS (1U << 10)
-> > > +#define GUP_PIN_COUNTING_BIAS (1U << 8)
-> > >
-> > >   void unpin_user_page(struct page *page);
-> > >   void unpin_user_pages_dirty_lock(struct page **pages, unsigned long npages,
-> > >
-> > > If that fails to repro, then we would be zeroing in on the root cause.
-> > >
-> > > The branch is here (I just tested it and it seems healthy):
-> > >
-> > > git@github.com:johnhubbard/linux.git  pin_user_pages_tracking_v11_with_diags
+
+
+> -----Original Message-----
+> From: Lyude Paul <lyude@redhat.com>
+> Sent: Saturday, December 21, 2019 8:12 AM
+> To: Lin, Wayne <Wayne.Lin@amd.com>; dri-devel@lists.freedesktop.org;
+> amd-gfx@lists.freedesktop.org
+> Cc: Kazlauskas, Nicholas <Nicholas.Kazlauskas@amd.com>; Wentland, Harry
+> <Harry.Wentland@amd.com>; Zuo, Jerry <Jerry.Zuo@amd.com>;
+> stable@vger.kernel.org
+> Subject: Re: [PATCH] drm/dp_mst: clear time slots for ports invalid
+> 
+> Mhh-I think I understand the problem you're trying to solve here but I think this
+> solution might be a bit overkill. When I did the rework of topology references
+> for ports, I made it so that we can guarantee memory access to a port without
+> it needing to be a valid part of the topology. As well, all parents of the port are
+> guaranteed to be accessible for as long as the child is. Take a look at:
+> 
+> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2F01.org%
+> 2Flinuxgraphics%2Fgfx-docs%2Fdrm%2Fgpu%2Fdrm-kms-helpers.html%23refco
+> unt-relationships-in-a-topology&amp;data=02%7C01%7Cwayne.lin%40amd.co
+> m%7C722655b546c049dc081908d785aa6758%7C3dd8961fe4884e608e11a82d
+> 994e183d%7C0%7C0%7C637124839257213115&amp;sdata=Ctha3ja8kleeFOp
+> PpA7EwDV1is81RAMsjqd1P6463ak%3D&amp;reserved=0
+> 
+> It's also worth noting that because of this there's a lot of
+> get_port_validated()/put_port_validated() calls in the MST helpers that are
+> now bogus and need to be removed once I get a chance. For new code we
+> should limit the use of topology references to sections of code where we need
+> a guarantee that resources on the port/branch (such as a drm connector, dp
+> aux port, etc.) won't go away for as long as we need to use them.
+> 
+> Do you think we could change this patch so instead of removing it from the
+> proposed payloads on the CONNECTION_STATUS_NOTIFY, we keep the port's
+> memory allocation around until it's been removed from the proposed payloads
+> table and clean it up there on the next payload update?
+> 
+Really appreciate for your time and comments in detail.
+
+In this patch, I wanted to just set the proposed_vcpi->num_slots to 0 for those
+ports which are no longer in the topology due to there is no need to allocate time
+slots for these port. And expect those vcpi will be updated during next update of 
+payload ID table by drm_dp_update_payload_part1(). 
+
+I tried to use drm_dp_mst_topology_get_port_validated() as a helper to 
+decide whether a port is in the topology or not. Use this function to iterate over
+all ports that all proposed_vcpi[] drive to. If one port is not in the topology, set the
+num_slots of the proposed_vcpi for this port to 0. With num_slots as 0, these 
+proposed_vcpi will be clean up in next payload table update by 
+drm_dp_update_payload_part1(). If a port is still in the topology, then release
+the reference count which was acquired previously from
+drm_dp_mst_topology_get_port_validated() and do nothing.
+
+I didn't mean to kill invalid ports on receiving CONNECTION_STATUS_NOTIFY.
+Sorry if I misuse or misunderstand something here?
+
+> On Fri, 2019-12-06 at 16:39 +0800, Wayne Lin wrote:
+> > [Why]
+> > When change the connection status in a MST topology, mst device which
+> > detect the event will send out CONNECTION_STATUS_NOTIFY messgae.
 > >
-> > Hi,
+> > e.g. src-mst-mst-sst => src-mst (unplug) mst-sst
 > >
-> > We tested the following branch and here comes results:
->
-> Thanks for this testing run!
->
-> > [root@server consume_mtts]# (master) $ grep foll_pin /proc/vmstat
-> > nr_foll_pin_requested 0
-> > nr_foll_pin_returned 0
+> > Currently, under the above case of unplugging device, ports which have
+> > been allocated payloads and are no longer in the topology still occupy
+> > time slots and recorded in proposed_vcpi[] of topology manager.
 > >
->
-> Zero pinned pages!
-
-Maybe we are missing some CONFIG_* option?
-https://lore.kernel.org/linux-rdma/12a28917-f8c9-5092-2f01-92bb74714cae@nvidia.com/T/#mf900896f5dfc86cdee9246219990c632ed77115f
-
->
-> ...now I'm confused. Somehow FOLL_PIN and pin_user_pages*() calls are
-> not happening. And although the backtraces below show some of my new
-> routines (like try_grab_page), they also confirm the above: there is no
-> pin_user_page*() call in the stack.
->
-> In particular, it looks like ib_umem_get() is calling through to
-> get_user_pages*(), rather than pin_user_pages*(). I don't see how this
-> is possible, because the code on my screen shows ib_umem_get() calling
-> pin_user_pages_fast().
->
-> Any thoughts or ideas are welcome here.
->
-> However, glossing over all of that and assuming that the new
-> GUP_PIN_COUNTING_BIAS of 256 is applied, it's interesting that we still
-> see any overflow. I'm less confident now that this is a true refcount
-> overflow.
-
-Earlier in this email thread, I posted possible function call chain which
-doesn't involve refcount overflow, but for some reason the refcount
-overflow was chosen as a way to explore.
-
->
-> Also, any information that would get me closer to being able to attempt
-> my own reproduction of the problem are *very* welcome. :)
-
-It is ancient verification test (~10y) which is not an easy task to
-make it understandable and standalone :).
-
->
-> thanks,
+> > If we don't clean up the proposed_vcpi[], when code flow goes to try
+> > to update payload table by calling drm_dp_update_payload_part1(), we
+> > will fail at checking port validation due to there are ports with
+> > proposed time slots but no longer in the mst topology. As the result
+> > of that, we will also stop updating the DPCD payload table of down stream
+> port.
+> >
+> > [How]
+> > While handling the CONNECTION_STATUS_NOTIFY message, add a detection
+> > to see if the event indicates that a device is unplugged to an output port.
+> > If the detection is true, then iterrate over all proposed_vcpi[] to
+> > see whether a port of the proposed_vcpi[] is still in the topology or
+> > not. If the port is invalid, set its num_slots to 0.
+> >
+> > Thereafter, when try to update payload table by calling
+> > drm_dp_update_payload_part1(), we can successfully update the DPCD
+> > payload table of down stream port and clear the proposed_vcpi[] to NULL.
+> >
+> > Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
+> > Cc: stable@vger.kernel.org
+> > ---
+> >  drivers/gpu/drm/drm_dp_mst_topology.c | 24
+> +++++++++++++++++++++++-
+> >  1 file changed, 23 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c
+> > b/drivers/gpu/drm/drm_dp_mst_topology.c
+> > index 5306c47dc820..2e236b6275c4 100644
+> > --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> > +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> > @@ -2318,7 +2318,7 @@ drm_dp_mst_handle_conn_stat(struct
+> > drm_dp_mst_branch *mstb,  {
+> >  	struct drm_dp_mst_topology_mgr *mgr = mstb->mgr;
+> >  	struct drm_dp_mst_port *port;
+> > -	int old_ddps, ret;
+> > +	int old_ddps, old_input, ret, i;
+> >  	u8 new_pdt;
+> >  	bool dowork = false, create_connector = false;
+> >
+> > @@ -2349,6 +2349,7 @@ drm_dp_mst_handle_conn_stat(struct
+> > drm_dp_mst_branch *mstb,
+> >  	}
+> >
+> >  	old_ddps = port->ddps;
+> > +	old_input = port->input;
+> >  	port->input = conn_stat->input_port;
+> >  	port->mcs = conn_stat->message_capability_status;
+> >  	port->ldps = conn_stat->legacy_device_plug_status;
+> > @@ -2373,6 +2374,27 @@ drm_dp_mst_handle_conn_stat(struct
+> > drm_dp_mst_branch *mstb,
+> >  		dowork = false;
+> >  	}
+> >
+> > +	if (!old_input && old_ddps != port->ddps && !port->ddps) {
+> > +		for (i = 0; i < mgr->max_payloads; i++) {
+> > +			struct drm_dp_vcpi *vcpi = mgr->proposed_vcpis[i];
+> > +			struct drm_dp_mst_port *port_validated;
+> > +
+> > +			if (vcpi) {
+> > +				port_validated =
+> > +					container_of(vcpi, struct
+> > drm_dp_mst_port, vcpi);
+> > +				port_validated =
+> > +					drm_dp_mst_topology_get_port_validated
+> > (mgr, port_validated);
+> > +				if (!port_validated) {
+> > +					mutex_lock(&mgr->payload_lock);
+> > +					vcpi->num_slots = 0;
+> > +					mutex_unlock(&mgr->payload_lock);
+> > +				} else {
+> > +					drm_dp_mst_topology_put_port(port_vali
+> > dated);
+> > +				}
+> > +			}
+> > +		}
+> > +	}
+> > +
+> >  	if (port->connector)
+> >  		drm_modeset_unlock(&mgr->base.lock);
+> >  	else if (create_connector)
 > --
-> John Hubbard
-> NVIDIA
->
-> > [root@serer consume_mtts]# (master) $ dmesg
-> > [  425.221459] ------------[ cut here ]------------
-> > [  425.225894] WARNING: CPU: 1 PID: 6738 at mm/gup.c:61 try_grab_compound_head+0x90/0xa0
-> > [  425.228021] Modules linked in: mlx5_ib mlx5_core mlxfw mlx4_ib mlx4_en ptp pps_core mlx4_core bonding ip6_gre ip6_tunnel tunnel6 ip_gre gre ip_tunnel rdma_rxe ip6_udp_tunnel udp_tunnel rdma_ucm ib_uverbs ib_ipoib ib_umad ib_srp scsi_transport_srp rpcrdma ib_iser libiscsi scsi_transport_iscsi rdma_cm iw_cm ib_cm ib_core [last unloaded: mlxfw]
-> > [  425.235266] CPU: 1 PID: 6738 Comm: consume_mtts Tainted: G           O      5.5.0-rc2+ #1
-> > [  425.237480] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1ubuntu1 04/01/2014
-> > [  425.239738] RIP: 0010:try_grab_compound_head+0x90/0xa0
-> > [  425.241170] Code: 06 48 8d 4f 34 f0 0f b1 57 34 74 cd 85 c0 74 cf 8d 14 06 f0 0f b1 11 74 c0 eb f1 8d 14 06 f0 0f b1 11 74 b5 85 c0 75 f3 eb b5 <0f> 0b 31 c0 c3 90 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 41
-> > [  425.245739] RSP: 0018:ffffc900006878a8 EFLAGS: 00010082
-> > [  425.247124] RAX: 0000000080000001 RBX: 00007f780488a000 RCX: 0000000000000bb0
-> > [  425.248956] RDX: ffffea000e031087 RSI: 0000000000008a00 RDI: ffffea000dc58000
-> > [  425.250761] RBP: ffffea000e031080 R08: ffffc90000687974 R09: 000fffffffe00000
-> > [  425.252661] R10: 0000000000000000 R11: ffff888362560000 R12: 000000000000008a
-> > [  425.254487] R13: 80000003716000e7 R14: 00007f780488a000 R15: ffffc90000687974
-> > [  425.256309] FS:  00007f780d9d3740(0000) GS:ffff8883b1c80000(0000) knlGS:0000000000000000
-> > [  425.258401] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > [  425.259949] CR2: 0000000002334048 CR3: 000000039c68c001 CR4: 00000000001606a0
-> > [  425.261884] Call Trace:
-> > [  425.262735]  gup_pgd_range+0x517/0x5a0
-> > [  425.263819]  internal_get_user_pages_fast+0x210/0x250
-> > [  425.265193]  ib_umem_get+0x298/0x550 [ib_uverbs]
-> > [  425.266476]  mr_umem_get+0xc9/0x260 [mlx5_ib]
-> > [  425.267699]  mlx5_ib_reg_user_mr+0xcc/0x7e0 [mlx5_ib]
-> > [  425.269134]  ? xas_load+0x8/0x80
-> > [  425.270074]  ? xa_load+0x48/0x90
-> > [  425.271038]  ? lookup_get_idr_uobject.part.10+0x12/0x70 [ib_uverbs]
-> > [  425.272757]  ib_uverbs_reg_mr+0x127/0x280 [ib_uverbs]
-> > [  425.274120]  ib_uverbs_handler_UVERBS_METHOD_INVOKE_WRITE+0xc2/0xf0 [ib_uverbs]
-> > [  425.276058]  ib_uverbs_cmd_verbs.isra.6+0x5be/0xbe0 [ib_uverbs]
-> > [  425.277657]  ? uverbs_disassociate_api+0xd0/0xd0 [ib_uverbs]
-> > [  425.279155]  ? __alloc_pages_nodemask+0x148/0x2b0
-> > [  425.280445]  ib_uverbs_ioctl+0xc0/0x120 [ib_uverbs]
-> > [  425.281755]  do_vfs_ioctl+0x9d/0x650
-> > [  425.282766]  ksys_ioctl+0x70/0x80
-> > [  425.283745]  __x64_sys_ioctl+0x16/0x20
-> > [  425.284912]  do_syscall_64+0x42/0x130
-> > [  425.285973]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> > [  425.287377] RIP: 0033:0x7f780d2df267
-> > [  425.288449] Code: b3 66 90 48 8b 05 19 3c 2c 00 64 c7 00 26 00 00 00 48 c7 c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d e9 3b 2c 00 f7 d8 64 89 01 48
-> > [  425.293073] RSP: 002b:00007ffce49a88a8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-> > [  425.295034] RAX: ffffffffffffffda RBX: 00007ffce49a8938 RCX: 00007f780d2df267
-> > [  425.296895] RDX: 00007ffce49a8920 RSI: 00000000c0181b01 RDI: 0000000000000003
-> > [  425.298689] RBP: 00007ffce49a8900 R08: 0000000000000003 R09: 00007f780d9a1010
-> > [  425.300480] R10: 00000000ffffffff R11: 0000000000000246 R12: 00007f780d9a1150
-> > [  425.302290] R13: 00007ffce49a8900 R14: 00007ffce49a8ad8 R15: 00007f780468a000
-> > [  425.304113] ---[ end trace 1ecbefdb403190dd ]---
-> > [  425.305434] ------------[ cut here ]------------
-> > [  425.307147] WARNING: CPU: 1 PID: 6738 at mm/gup.c:150 try_grab_page+0x56/0x60
-> > [  425.309111] Modules linked in: mlx5_ib mlx5_core mlxfw mlx4_ib mlx4_en ptp pps_core mlx4_core bonding ip6_gre ip6_tunnel tunnel6 ip_gre gre ip_tunnel rdma_rxe ip6_udp_tunnel udp_tunnel rdma_ucm ib_uverbs ib_ipoib ib_umad ib_srp scsi_transport_srp rpcrdma ib_iser libiscsi scsi_transport_iscsi rdma_cm iw_cm ib_cm ib_core [last unloaded: mlxfw]
-> > [  425.316461] CPU: 1 PID: 6738 Comm: consume_mtts Tainted: G        W  O      5.5.0-rc2+ #1
-> > [  425.318582] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1ubuntu1 04/01/2014
-> > [  425.320958] RIP: 0010:try_grab_page+0x56/0x60
-> > [  425.322167] Code: 7e 28 f0 81 47 34 00 01 00 00 c3 48 8b 47 08 48 8d 50 ff a8 01 48 0f 45 fa 8b 47 34 85 c0 7e 0f f0 ff 47 34 b8 01 00 00 00 c3 <0f> 0b 31 c0 c3 0f 0b 31 c0 c3 0f 1f 44 00 00 41 57 41 56 41 55 41
-> > [  425.326814] RSP: 0018:ffffc90000687830 EFLAGS: 00010282
-> > [  425.328226] RAX: 0000000000000001 RBX: ffffea000dc58000 RCX: ffffea000e031087
-> > [  425.330104] RDX: 0000000080000001 RSI: 0000000000040000 RDI: ffffea000dc58000
-> > [  425.331980] RBP: 00007f7804800000 R08: 000ffffffffff000 R09: 80000003716000e7
-> > [  425.333898] R10: ffff88834af80120 R11: ffff8883ac16f000 R12: ffff88834af80120
-> > [  425.335704] R13: ffff88837c0915c0 R14: 0000000000050201 R15: 00007f7804800000
-> > [  425.337638] FS:  00007f780d9d3740(0000) GS:ffff8883b1c80000(0000) knlGS:0000000000000000
-> > [  425.339734] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > [  425.341369] CR2: 0000000002334048 CR3: 000000039c68c001 CR4: 00000000001606a0
-> > [  425.343160] Call Trace:
-> > [  425.343967]  follow_trans_huge_pmd+0x16f/0x2e0
-> > [  425.345263]  follow_p4d_mask+0x51c/0x630
-> > [  425.346344]  __get_user_pages+0x1a1/0x6c0
-> > [  425.347463]  internal_get_user_pages_fast+0x17b/0x250
-> > [  425.348918]  ib_umem_get+0x298/0x550 [ib_uverbs]
-> > [  425.350174]  mr_umem_get+0xc9/0x260 [mlx5_ib]
-> > [  425.351383]  mlx5_ib_reg_user_mr+0xcc/0x7e0 [mlx5_ib]
-> > [  425.352849]  ? xas_load+0x8/0x80
-> > [  425.353776]  ? xa_load+0x48/0x90
-> > [  425.354730]  ? lookup_get_idr_uobject.part.10+0x12/0x70 [ib_uverbs]
-> > [  425.356410]  ib_uverbs_reg_mr+0x127/0x280 [ib_uverbs]
-> > [  425.357843]  ib_uverbs_handler_UVERBS_METHOD_INVOKE_WRITE+0xc2/0xf0 [ib_uverbs]
-> > [  425.359749]  ib_uverbs_cmd_verbs.isra.6+0x5be/0xbe0 [ib_uverbs]
-> > [  425.361405]  ? uverbs_disassociate_api+0xd0/0xd0 [ib_uverbs]
-> > [  425.362898]  ? __alloc_pages_nodemask+0x148/0x2b0
-> > [  425.364206]  ib_uverbs_ioctl+0xc0/0x120 [ib_uverbs]
-> > [  425.365564]  do_vfs_ioctl+0x9d/0x650
-> > [  425.366567]  ksys_ioctl+0x70/0x80
-> > [  425.367537]  __x64_sys_ioctl+0x16/0x20
-> > [  425.368698]  do_syscall_64+0x42/0x130
-> > [  425.369782]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> > [  425.371117] RIP: 0033:0x7f780d2df267
-> > [  425.372159] Code: b3 66 90 48 8b 05 19 3c 2c 00 64 c7 00 26 00 00 00 48 c7 c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d e9 3b 2c 00 f7 d8 64 89 01 48
-> > [  425.376774] RSP: 002b:00007ffce49a88a8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-> > [  425.378740] RAX: ffffffffffffffda RBX: 00007ffce49a8938 RCX: 00007f780d2df267
-> > [  425.380598] RDX: 00007ffce49a8920 RSI: 00000000c0181b01 RDI: 0000000000000003
-> > [  425.382411] RBP: 00007ffce49a8900 R08: 0000000000000003 R09: 00007f780d9a1010
-> > [  425.384312] R10: 00000000ffffffff R11: 0000000000000246 R12: 00007f780d9a1150
-> > [  425.386132] R13: 00007ffce49a8900 R14: 00007ffce49a8ad8 R15: 00007f780468a000
-> > [  425.387964] ---[ end trace 1ecbefdb403190de ]---
-> >
-> > Thanks
-> >
-> > >
-> > >
-> > >
-> > > thanks,
-> > > --
-> > > John Hubbard
-> > > NVIDIA
+> Cheers,
+> 	Lyude Paul
+--
+Best regards,
+Wayne Lin
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
