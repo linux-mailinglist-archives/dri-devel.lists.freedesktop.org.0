@@ -1,32 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31A7212AD00
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Dec 2019 15:27:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2918512AD0C
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Dec 2019 15:33:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41BAE89AD2;
-	Thu, 26 Dec 2019 14:27:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D93D789B96;
+	Thu, 26 Dec 2019 14:33:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4818489AD2
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Dec 2019 14:27:30 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: ezequiel) with ESMTPSA id 177E129203F
-Message-ID: <9fc5e30b8bc7e160ddc54a2056ca6e57eaebbab4.camel@collabora.com>
-Subject: Re: [PATCH v22 1/2] Documentation: bridge: Add documentation for
- ps8640 DT properties
-From: Ezequiel Garcia <ezequiel@collabora.com>
-To: Enric Balletbo i Serra <enric.balletbo@collabora.com>, 
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>
-Date: Thu, 26 Dec 2019 11:27:15 -0300
-In-Reply-To: <20191223143538.20327-2-enric.balletbo@collabora.com>
-References: <20191223143538.20327-1-enric.balletbo@collabora.com>
- <20191223143538.20327-2-enric.balletbo@collabora.com>
-Organization: Collabora
-User-Agent: Evolution 3.34.1-2 
+X-Greylist: delayed 958 seconds by postgrey-1.36 at gabe;
+ Wed, 25 Dec 2019 13:34:01 UTC
+Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D75CD8979E
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Dec 2019 13:34:01 +0000 (UTC)
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id EDE48BDDB5FE14ECFD27;
+ Wed, 25 Dec 2019 21:17:57 +0800 (CST)
+Received: from huawei.com (10.175.124.28) by DGGEMS404-HUB.china.huawei.com
+ (10.3.19.204) with Microsoft SMTP Server id 14.3.439.0; Wed, 25 Dec 2019
+ 21:17:49 +0800
+From: yu kuai <yukuai3@huawei.com>
+To: <eric@anholt.net>, <airlied@linux.ie>, <daniel@ffwll.ch>
+Subject: [PATCH] drm/v3d: remove duplicated kfree in v3d_submit_cl_ioctl
+Date: Wed, 25 Dec 2019 21:17:15 +0800
+Message-ID: <20191225131715.3527-1-yukuai3@huawei.com>
+X-Mailer: git-send-email 2.17.2
 MIME-Version: 1.0
+X-Originating-IP: [10.175.124.28]
+X-CFilter-Loop: Reflected
+X-Mailman-Approved-At: Thu, 26 Dec 2019 14:32:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,113 +42,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, drinkcat@chromium.org,
- Jitao Shi <jitao.shi@mediatek.com>, Ulrich Hecht <uli@fpond.eu>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
- hsinyi@chromium.org, matthias.bgg@gmail.com,
- Collabora Kernel ML <kernel@collabora.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: zhengbin13@huawei.com, yukuai3@huawei.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, yi.zhang@huawei.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Enric, Rob,
+v3d_submit_cl_ioctl call kfree() with variable 'bin' twice.
 
-On Mon, 2019-12-23 at 15:35 +0100, Enric Balletbo i Serra wrote:
-> From: Jitao Shi <jitao.shi@mediatek.com>
-> 
-> Add documentation for DT properties supported by
-> ps8640 DSI-eDP converter.
-> 
-> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-> Acked-by: Rob Herring <robh@kernel.org>
-> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-> Signed-off-by: Ulrich Hecht <uli@fpond.eu>
-> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-[..]
-> +
-> +  ports:
-> +    type: object
-> +    description:
-> +      A node containing DSI input & output port nodes with endpoint
-> +      definitions as documented in
-> +      Documentation/devicetree/bindings/media/video-interfaces.txt
-> +      Documentation/devicetree/bindings/graph.txt
-> +    properties:
-> +      port@0:
-> +        type: object
-> +        description: |
-> +          Video port for DSI input
-> +
-> +      port@1:
-> +        type: object
-> +        description: |
-> +          Video port for eDP output (panel or connector).
-> +
-> +    required:
-> +      - port@0
-> +
+Fix it by removing the latter one.
 
-Is it correct to require port@0 ? This could be called port@1
-or port@2, and IIUC it should bind the same.
+Signed-off-by: yu kuai <yukuai3@huawei.com>
+---
+ drivers/gpu/drm/v3d/v3d_gem.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Thanks,
-Ezequiel 
-
-> +required:
-> +  - compatible
-> +  - reg
-> +  - powerdown-gpios
-> +  - reset-gpios
-> +  - vdd12-supply
-> +  - vdd33-supply
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    i2c0 {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        ps8640: edp-bridge@18 {
-> +            compatible = "parade,ps8640";
-> +            reg = <0x18>;
-> +            powerdown-gpios = <&pio 116 GPIO_ACTIVE_LOW>;
-> +            reset-gpios = <&pio 115 GPIO_ACTIVE_LOW>;
-> +            vdd12-supply = <&ps8640_fixed_1v2>;
-> +            vdd33-supply = <&mt6397_vgp2_reg>;
-> +
-> +            ports {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +
-> +                port@0 {
-> +                    reg = <0>;
-> +                    ps8640_in: endpoint {
-> +                        remote-endpoint = <&dsi0_out>;
-> +                    };
-> +                };
-> +
-> +                port@1 {
-> +                    reg = <1>;
-> +                    ps8640_out: endpoint {
-> +                        remote-endpoint = <&panel_in>;
-> +                   };
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> -- 
-> 2.20.1
-> 
-> 
-
+diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
+index 549dde83408b..37515e47b47e 100644
+--- a/drivers/gpu/drm/v3d/v3d_gem.c
++++ b/drivers/gpu/drm/v3d/v3d_gem.c
+@@ -568,7 +568,6 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
+ 		ret = v3d_job_init(v3d, file_priv, &bin->base,
+ 				   v3d_job_free, args->in_sync_bcl);
+ 		if (ret) {
+-			kfree(bin);
+ 			v3d_job_put(&render->base);
+ 			kfree(bin);
+ 			return ret;
+-- 
+2.17.2
 
 _______________________________________________
 dri-devel mailing list
