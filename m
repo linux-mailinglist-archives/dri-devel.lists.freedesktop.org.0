@@ -1,55 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF96712A735
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Dec 2019 11:19:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CF0B12A742
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Dec 2019 11:20:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3AEB89FA9;
-	Wed, 25 Dec 2019 10:19:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 102B289E0E;
+	Wed, 25 Dec 2019 10:20:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
- [IPv6:2607:f8b0:4864:20::d41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B105689DFE
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Dec 2019 02:43:35 +0000 (UTC)
-Received: by mail-io1-xd41.google.com with SMTP id z193so20489326iof.1
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2019 18:43:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FkHC2/wKSq+9T5DT5vcW7QSWQ50wf/NgZ+c4oz1aKDA=;
- b=e6PvdaMDArS01x+rA/4rEgHHyXQsEFQXUOMD/qzLDQrnSXPSlWFSAdHQsTe0vLl8WF
- e0cTzroSXFXt9qt1oN02/Sc77IBkDZp+CB9BdRmrIly84ZjTXQLLyM9p0IvfvXfoA5Zq
- 9QgYD/O52UanjFitZwCweHULYup2Q6LTFUPffwMtGvIlzgX+rPqcOSwmTC9rvdtHtO01
- GQrXIWc8mx0B/jXqK2GaJdwWvlr2LZCX7dwek0E6qz+diWVFYU6qVTrVgJdSNb2wDBiP
- /8lljXXwr1/WJrUPGSVCBWgg1QFc2CzJzOBww0WpYQix9nshkGv/Je7FMky0G7U3MONI
- jWTQ==
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
+ [209.85.166.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFA3D89DDD
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Dec 2019 08:17:10 +0000 (UTC)
+Received: by mail-io1-f70.google.com with SMTP id d10so14885248iod.19
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Dec 2019 00:17:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FkHC2/wKSq+9T5DT5vcW7QSWQ50wf/NgZ+c4oz1aKDA=;
- b=rDEzH25wODaN+o4DkJ1qJqOX+1daZYVdfPGkH/Kl5rvVPvdqkMqNqVniLkbcHRdzIE
- U2EE4o9Us7/eI9japbhUXPQ5G4nYSlL7FKQnrRE0Drh3MsCs7A+ARHAUs6sez/1Q1+d5
- +w3egDYeRYK/+laINBdEFNHCFTVq1tR8l1L7dLFJYDFOkEPMfIsL+tT6r92vFx0+LT1q
- B2nVM0ItbMF6+9yv5jDVOhEYlorSzXcPQPQ1FstvNcOBegOq0VFtLMhHwAf/taAcQGNt
- 3rWUGTDJVAQAFVtYFpbHDKBu9KUThTZs1KibQopniHsGSwbEL9KO+AgakB9iRr4IvsWF
- dqHQ==
-X-Gm-Message-State: APjAAAW+nU/STGxVUYVLrlXTMuad0NVeDZJ/jifktga3c8Akv8YtEh27
- 5g/lvTMnoWIvkxMXpRWF93HndZ2EbK0YSzqEc/G6kQ==
-X-Google-Smtp-Source: APXvYqz/0WFXNV4ZzBRCqXZrnJBy/QW94PrShVgM6ynZkJrS23cwrC84TmMofRqykXALcWGmbp7pTVRXuLAtiW0t6y0=
-X-Received: by 2002:a02:85e8:: with SMTP id d95mr30755183jai.92.1577241814680; 
- Tue, 24 Dec 2019 18:43:34 -0800 (PST)
+ h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+ :from:to;
+ bh=/9Bw7qmprJ0SOROl3Qu+Xe+XfMs8eXq753PbnDBLuKA=;
+ b=s9VJ2r6Y50P8wzyzA2ots5ujDY5WR6qLv2BfB4XCuHXIo/tm0BDNCxLedWRgAor0vm
+ vKY7X1ZSNu06KBXewt3+41qcWsxgcXT1lx6eZKlqjGolKLtj15vdfGaQvax7+U9aY+xq
+ zAYEzlHpFK6iyf93jkOjhaY0WQysGBwEmPIbzOx+8LHYXLCaPrNBitcl/aTpzReMNBUB
+ kOfLbrp9CHtHZ+QsWJSyQrC6fTzLUHpufNetosvclkEAiZ8F/q9KvOu1TbUvOQQdqzJ+
+ PQYb3pOjE/HMgj5eQGrMmdx/0RVfdTtMQgCq3OXnwunkxSFru9RN3KatXT7wdcUZ2eJo
+ AOLQ==
+X-Gm-Message-State: APjAAAWjYTLx9dY5QJFfh0GN6Ky916PVpOEola0jLkncIM/7NU25r7uH
+ Dtj1lHZQLKzourQj3I5slcF+dLNU6zVJWQxZxb6uLdL4gKvk
+X-Google-Smtp-Source: APXvYqzIB8zOK+zR3revW5PFbqLD6T3fdiBkXdDLTBDlHwquDuD//F3froIF3R3qco/QYwemrlPmy5ZS3xhD60kOjIl3lfFAAag+
 MIME-Version: 1.0
-References: <20191211154901.176256-1-markyacoub@google.com>
- <1577240723.3440.1.camel@mtksdaap41>
-In-Reply-To: <1577240723.3440.1.camel@mtksdaap41>
-From: Mark Yacoub <markyacoub@google.com>
-Date: Tue, 24 Dec 2019 21:43:22 -0500
-Message-ID: <CAC0gqY4RFuvbDBiaGCLxNST0xdzER59s+EdYuJ-pVKz3TEFD6A@mail.gmail.com>
-Subject: Re: [PATCH 1/2] Return from mtk_ovl_layer_config after
- mtk_ovl_layer_off
-To: CK Hu <ck.hu@mediatek.com>
+X-Received: by 2002:a92:d809:: with SMTP id y9mr35425076ilm.261.1577261830210; 
+ Wed, 25 Dec 2019 00:17:10 -0800 (PST)
+Date: Wed, 25 Dec 2019 00:17:10 -0800
+In-Reply-To: <0000000000001b2f4605991a4cc0@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000001b8ab1059a82e37d@google.com>
+Subject: Re: KASAN: use-after-free Read in fb_mode_is_equal
+From: syzbot <syzbot+f11cda116c57db68c227@syzkaller.appspotmail.com>
+To: b.zolnierkie@samsung.com, daniel.vetter@ffwll.ch, 
+ dri-devel@lists.freedesktop.org, hdanton@sina.com, 
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ mojha@codeaurora.org, shile.zhang@linux.alibaba.com, 
+ syzkaller-bugs@googlegroups.com
 X-Mailman-Approved-At: Wed, 25 Dec 2019 10:19:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,196 +57,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniele Castagna <dcastagna@chromium.org>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0304124183=="
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"; DelSp="yes"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0304124183==
-Content-Type: multipart/alternative; boundary="000000000000171bb6059a7e3ae1"
+syzbot has found a reproducer for the following crash on:
 
---000000000000171bb6059a7e3ae1
-Content-Type: text/plain; charset="UTF-8"
+HEAD commit:    46cf053e Linux 5.5-rc3
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=15cf54e1e00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=ed9d672709340e35
+dashboard link: https://syzkaller.appspot.com/bug?extid=f11cda116c57db68c227
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10563ec1e00000
 
-Thanks for the update!
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+f11cda116c57db68c227@syzkaller.appspotmail.com
 
-On Tue, Dec 24, 2019, 9:25 PM CK Hu <ck.hu@mediatek.com> wrote:
+==================================================================
+BUG: KASAN: use-after-free in fb_mode_is_equal+0x297/0x300  
+drivers/video/fbdev/core/modedb.c:924
+Read of size 4 at addr ffff8880946fcf9c by task syz-executor.3/9638
 
-> Hi, Mark:
->
-> On Wed, 2019-12-11 at 10:49 -0500, Mark Yacoub wrote:
-> > drm/mediatek: return if plane pending state is disabled.
-> >
-> > If the plane pending state is disabled, call mtk_ovl_layer_off then
-> > return.
-> > This guarantees that that the state is valid for all operations when the
-> > pending state is enabled.
->
-> For this series, applied to mediatek-drm-next-5.6 [1], thanks.
->
-> [1]
->
-> https://github.com/ckhu-mediatek/linux.git-tags/commits/mediatek-drm-next-5.6
->
-> Regards,
-> CK
->
-> >
-> > Suggested-by: Sean Paul <seanpaul@chromium.org>
-> > To: CK Hu <ck.hu@mediatek.com>
-> > To: dri-devel@lists.freedesktop.org
-> > Cc: Daniele Castagna <dcastagna@chromium.org>
-> > Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> > Cc: David Airlie <airlied@linux.ie>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: Matthias Brugger <matthias.bgg@gmail.com>
-> > Cc: linux-arm-kernel@lists.infradead.org
-> > Cc: linux-mediatek@lists.infradead.org
-> > Signed-off-by: Mark Yacoub <markyacoub@google.com>
-> > ---
-> >  drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 7 ++++---
-> >  1 file changed, 4 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-> b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-> > index 4a55bb6e2213..526b595eeff9 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-> > @@ -260,8 +260,10 @@ static void mtk_ovl_layer_config(struct
-> mtk_ddp_comp *comp, unsigned int idx,
-> >       unsigned int src_size = (pending->height << 16) | pending->width;
-> >       unsigned int con;
-> >
-> > -     if (!pending->enable)
-> > +     if (!pending->enable) {
-> >               mtk_ovl_layer_off(comp, idx);
-> > +             return;
-> > +     }
-> >
-> >       con = ovl_fmt_convert(ovl, fmt);
-> >       if (idx != 0)
-> > @@ -283,8 +285,7 @@ static void mtk_ovl_layer_config(struct mtk_ddp_comp
-> *comp, unsigned int idx,
-> >       writel_relaxed(offset, comp->regs + DISP_REG_OVL_OFFSET(idx));
-> >       writel_relaxed(addr, comp->regs + DISP_REG_OVL_ADDR(ovl, idx));
-> >
-> > -     if (pending->enable)
-> > -             mtk_ovl_layer_on(comp, idx);
-> > +     mtk_ovl_layer_on(comp, idx);
-> >  }
-> >
-> >  static void mtk_ovl_bgclr_in_on(struct mtk_ddp_comp *comp)
->
->
+CPU: 0 PID: 9638 Comm: syz-executor.3 Not tainted 5.5.0-rc3-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0x197/0x210 lib/dump_stack.c:118
+  print_address_description.constprop.0.cold+0xd4/0x30b mm/kasan/report.c:374
+  __kasan_report.cold+0x1b/0x41 mm/kasan/report.c:506
+  kasan_report+0x12/0x20 mm/kasan/common.c:639
+  __asan_report_load4_noabort+0x14/0x20 mm/kasan/generic_report.c:134
+  fb_mode_is_equal+0x297/0x300 drivers/video/fbdev/core/modedb.c:924
+  fbcon_mode_deleted+0x12c/0x190 drivers/video/fbdev/core/fbcon.c:3060
+  fb_set_var+0xab9/0xdd0 drivers/video/fbdev/core/fbmem.c:971
+  do_fb_ioctl+0x390/0x7d0 drivers/video/fbdev/core/fbmem.c:1104
+  fb_ioctl+0xe6/0x130 drivers/video/fbdev/core/fbmem.c:1180
+  vfs_ioctl fs/ioctl.c:47 [inline]
+  file_ioctl fs/ioctl.c:545 [inline]
+  do_vfs_ioctl+0x977/0x14e0 fs/ioctl.c:732
+  ksys_ioctl+0xab/0xd0 fs/ioctl.c:749
+  __do_sys_ioctl fs/ioctl.c:756 [inline]
+  __se_sys_ioctl fs/ioctl.c:754 [inline]
+  __x64_sys_ioctl+0x73/0xb0 fs/ioctl.c:754
+  do_syscall_64+0xfa/0x790 arch/x86/entry/common.c:294
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+RIP: 0033:0x45a919
+Code: ad b6 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7  
+48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff  
+ff 0f 83 7b b6 fb ff c3 66 2e 0f 1f 84 00 00 00 00
+RSP: 002b:00007ff6d156bc78 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 000000000045a919
+RDX: 0000000020000000 RSI: 0000000000004601 RDI: 0000000000000013
+RBP: 000000000075bfc8 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007ff6d156c6d4
+R13: 00000000004c310d R14: 00000000004d8498 R15: 00000000ffffffff
 
---000000000000171bb6059a7e3ae1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Allocated by task 9451:
+  save_stack+0x23/0x90 mm/kasan/common.c:72
+  set_track mm/kasan/common.c:80 [inline]
+  __kasan_kmalloc mm/kasan/common.c:513 [inline]
+  __kasan_kmalloc.constprop.0+0xcf/0xe0 mm/kasan/common.c:486
+  kasan_kmalloc+0x9/0x10 mm/kasan/common.c:527
+  kmem_cache_alloc_trace+0x158/0x790 mm/slab.c:3551
+  kmalloc include/linux/slab.h:556 [inline]
+  fb_add_videomode drivers/video/fbdev/core/modedb.c:1073 [inline]
+  fb_add_videomode+0x2fb/0x610 drivers/video/fbdev/core/modedb.c:1057
+  fb_set_var+0x5ef/0xdd0 drivers/video/fbdev/core/fbmem.c:1041
+  do_fb_ioctl+0x390/0x7d0 drivers/video/fbdev/core/fbmem.c:1104
+  fb_ioctl+0xe6/0x130 drivers/video/fbdev/core/fbmem.c:1180
+  vfs_ioctl fs/ioctl.c:47 [inline]
+  file_ioctl fs/ioctl.c:545 [inline]
+  do_vfs_ioctl+0x977/0x14e0 fs/ioctl.c:732
+  ksys_ioctl+0xab/0xd0 fs/ioctl.c:749
+  __do_sys_ioctl fs/ioctl.c:756 [inline]
+  __se_sys_ioctl fs/ioctl.c:754 [inline]
+  __x64_sys_ioctl+0x73/0xb0 fs/ioctl.c:754
+  do_syscall_64+0xfa/0x790 arch/x86/entry/common.c:294
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
 
-<div dir=3D"auto">Thanks for the update!</div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Dec 24, 2019, 9:25 PM CK Hu=
- &lt;<a href=3D"mailto:ck.hu@mediatek.com">ck.hu@mediatek.com</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex">Hi, Mark:<br>
-<br>
-On Wed, 2019-12-11 at 10:49 -0500, Mark Yacoub wrote:<br>
-&gt; drm/mediatek: return if plane pending state is disabled.<br>
-&gt; <br>
-&gt; If the plane pending state is disabled, call mtk_ovl_layer_off then<br=
->
-&gt; return.<br>
-&gt; This guarantees that that the state is valid for all operations when t=
-he<br>
-&gt; pending state is enabled.<br>
-<br>
-For this series, applied to mediatek-drm-next-5.6 [1], thanks.<br>
-<br>
-[1]<br>
-<a href=3D"https://github.com/ckhu-mediatek/linux.git-tags/commits/mediatek=
--drm-next-5.6" rel=3D"noreferrer noreferrer" target=3D"_blank">https://gith=
-ub.com/ckhu-mediatek/linux.git-tags/commits/mediatek-drm-next-5.6</a><br>
-<br>
-Regards,<br>
-CK<br>
-<br>
-&gt; <br>
-&gt; Suggested-by: Sean Paul &lt;<a href=3D"mailto:seanpaul@chromium.org" t=
-arget=3D"_blank" rel=3D"noreferrer">seanpaul@chromium.org</a>&gt;<br>
-&gt; To: CK Hu &lt;<a href=3D"mailto:ck.hu@mediatek.com" target=3D"_blank" =
-rel=3D"noreferrer">ck.hu@mediatek.com</a>&gt;<br>
-&gt; To: <a href=3D"mailto:dri-devel@lists.freedesktop.org" target=3D"_blan=
-k" rel=3D"noreferrer">dri-devel@lists.freedesktop.org</a><br>
-&gt; Cc: Daniele Castagna &lt;<a href=3D"mailto:dcastagna@chromium.org" tar=
-get=3D"_blank" rel=3D"noreferrer">dcastagna@chromium.org</a>&gt;<br>
-&gt; Cc: Philipp Zabel &lt;<a href=3D"mailto:p.zabel@pengutronix.de" target=
-=3D"_blank" rel=3D"noreferrer">p.zabel@pengutronix.de</a>&gt;<br>
-&gt; Cc: David Airlie &lt;<a href=3D"mailto:airlied@linux.ie" target=3D"_bl=
-ank" rel=3D"noreferrer">airlied@linux.ie</a>&gt;<br>
-&gt; Cc: Daniel Vetter &lt;<a href=3D"mailto:daniel@ffwll.ch" target=3D"_bl=
-ank" rel=3D"noreferrer">daniel@ffwll.ch</a>&gt;<br>
-&gt; Cc: Matthias Brugger &lt;<a href=3D"mailto:matthias.bgg@gmail.com" tar=
-get=3D"_blank" rel=3D"noreferrer">matthias.bgg@gmail.com</a>&gt;<br>
-&gt; Cc: <a href=3D"mailto:linux-arm-kernel@lists.infradead.org" target=3D"=
-_blank" rel=3D"noreferrer">linux-arm-kernel@lists.infradead.org</a><br>
-&gt; Cc: <a href=3D"mailto:linux-mediatek@lists.infradead.org" target=3D"_b=
-lank" rel=3D"noreferrer">linux-mediatek@lists.infradead.org</a><br>
-&gt; Signed-off-by: Mark Yacoub &lt;<a href=3D"mailto:markyacoub@google.com=
-" target=3D"_blank" rel=3D"noreferrer">markyacoub@google.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 7 ++++---<br>
-&gt;=C2=A0 1 file changed, 4 insertions(+), 3 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm=
-/mediatek/mtk_disp_ovl.c<br>
-&gt; index 4a55bb6e2213..526b595eeff9 100644<br>
-&gt; --- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c<br>
-&gt; +++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c<br>
-&gt; @@ -260,8 +260,10 @@ static void mtk_ovl_layer_config(struct mtk_ddp_c=
-omp *comp, unsigned int idx,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int src_size =3D (pending-&gt;heigh=
-t &lt;&lt; 16) | pending-&gt;width;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int con;<br>
-&gt;=C2=A0 <br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if (!pending-&gt;enable)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (!pending-&gt;enable) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mtk_ovl_layer_of=
-f(comp, idx);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0con =3D ovl_fmt_convert(ovl, fmt);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (idx !=3D 0)<br>
-&gt; @@ -283,8 +285,7 @@ static void mtk_ovl_layer_config(struct mtk_ddp_co=
-mp *comp, unsigned int idx,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0writel_relaxed(offset, comp-&gt;regs + DISP_=
-REG_OVL_OFFSET(idx));<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0writel_relaxed(addr, comp-&gt;regs + DISP_RE=
-G_OVL_ADDR(ovl, idx));<br>
-&gt;=C2=A0 <br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if (pending-&gt;enable)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mtk_ovl_layer_on(comp=
-, idx);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0mtk_ovl_layer_on(comp, idx);<br>
-&gt;=C2=A0 }<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 static void mtk_ovl_bgclr_in_on(struct mtk_ddp_comp *comp)<br>
-<br>
-</blockquote></div>
+Freed by task 9620:
+  save_stack+0x23/0x90 mm/kasan/common.c:72
+  set_track mm/kasan/common.c:80 [inline]
+  kasan_set_free_info mm/kasan/common.c:335 [inline]
+  __kasan_slab_free+0x102/0x150 mm/kasan/common.c:474
+  kasan_slab_free+0xe/0x10 mm/kasan/common.c:483
+  __cache_free mm/slab.c:3426 [inline]
+  kfree+0x10a/0x2c0 mm/slab.c:3757
+  fb_delete_videomode+0x3fa/0x540 drivers/video/fbdev/core/modedb.c:1104
+  fb_set_var+0xac8/0xdd0 drivers/video/fbdev/core/fbmem.c:974
+  do_fb_ioctl+0x390/0x7d0 drivers/video/fbdev/core/fbmem.c:1104
+  fb_ioctl+0xe6/0x130 drivers/video/fbdev/core/fbmem.c:1180
+  vfs_ioctl fs/ioctl.c:47 [inline]
+  file_ioctl fs/ioctl.c:545 [inline]
+  do_vfs_ioctl+0x977/0x14e0 fs/ioctl.c:732
+  ksys_ioctl+0xab/0xd0 fs/ioctl.c:749
+  __do_sys_ioctl fs/ioctl.c:756 [inline]
+  __se_sys_ioctl fs/ioctl.c:754 [inline]
+  __x64_sys_ioctl+0x73/0xb0 fs/ioctl.c:754
+  do_syscall_64+0xfa/0x790 arch/x86/entry/common.c:294
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
 
---000000000000171bb6059a7e3ae1--
+The buggy address belongs to the object at ffff8880946fcf80
+  which belongs to the cache kmalloc-96 of size 96
+The buggy address is located 28 bytes inside of
+  96-byte region [ffff8880946fcf80, ffff8880946fcfe0)
+The buggy address belongs to the page:
+page:ffffea000251bf00 refcount:1 mapcount:0 mapping:ffff8880aa400540  
+index:0x0
+raw: 00fffe0000000200 ffffea00023b2ac8 ffffea000203fc08 ffff8880aa400540
+raw: 0000000000000000 ffff8880946fc000 0000000100000020 0000000000000000
+page dumped because: kasan: bad access detected
 
---===============0304124183==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Memory state around the buggy address:
+  ffff8880946fce80: fb fb fb fb fb fb fb fb fb fb fb fb fc fc fc fc
+  ffff8880946fcf00: fb fb fb fb fb fb fb fb fb fb fb fb fc fc fc fc
+> ffff8880946fcf80: fb fb fb fb fb fb fb fb fb fb fb fb fc fc fc fc
+                             ^
+  ffff8880946fd000: fc fc fc fc fc fc fc fc fb fb fb fb fb fb fb fb
+  ffff8880946fd080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0304124183==--
