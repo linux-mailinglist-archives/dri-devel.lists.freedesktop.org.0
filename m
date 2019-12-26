@@ -2,92 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBF8112AD26
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Dec 2019 16:04:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B61A12AD49
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Dec 2019 16:45:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB5CA8997E;
-	Thu, 26 Dec 2019 15:04:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1727189339;
+	Thu, 26 Dec 2019 15:45:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2065.outbound.protection.outlook.com [40.107.237.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BA108997E;
- Thu, 26 Dec 2019 15:04:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=h+8xhrSNqDg3xhvw8rvieRK5LPnLgN/IgiUFvsEEBQrsQWehjmLdB28cTqdIH24qeF2bvBJUFZymGlHmzsOwuU6Eoq0uEjcG4stXEcMGj6XrGHjBTF+IklVndREzsCvaJuUoUJkZk3UvwrPkoAzQDcVG9Jlf4FagnCq4uvX3DdWl/ODOH2SssW5VRb2XMxKsj2iqL5iiaE9zgd4MJK/KtPt77i0Bm9yQMb3j9u66jqDz9y9lqJA/ff65geAHgtT2FcWUs2sdx6LWoLewBDwX5AV1i4llJpGyq8JzUKn66YuTtzDKE3ieHBlEd3ml5GapR0c4DbeehXd1MoVIAJIQ+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d1GAEArwlIIvOMMaDzbf9fB5RJGrRHFMbMwN8tDwrWA=;
- b=YLCXqF1LQlo6MDdYY0SBzxV6Wzrs2cCMPrJv6g/V8WirQU49Sbi4IjMTt0PyYjpkxk7xZdsRzK6xlgUPcJ+W9NSoXMUG+UaDxAii5j31favFzkHXEymrAANfStFjY2V2gOV4NVtmMiagz/LqEV4qrW5t18VLFcCz2Ol2Jo523c9KWZ8woYv9ARA/wOVE2+03sGa295s8UiauZJ5HwnzT7IEhgzpjwxrlHTpvpayPUwY7/QgAsf/Liol9p/lFI2JPTKlsTkIu1W340f8VndmE+gZfWeUtOYQddumBw9efpUpIteApMZ/SevHi5wwWHufr8CoX6QE8znODG2Eef097gQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d1GAEArwlIIvOMMaDzbf9fB5RJGrRHFMbMwN8tDwrWA=;
- b=G2N3DWLcent7Sa020qHj1WKawW+OT+6759HnWVNQHdD0+k9ztx9v5qNKRO4SSmcY9PCG24w7WL0BFqz8Blmq5hcg3j4ybaTX8+2fwRLjSFC1Rk+kMFXu3xCU/9X6wLivn7t8cigHv/5sktyZbYVW7Hj963hOfFeAzO6Ep5LfVxk=
-Received: from BYAPR12MB3013.namprd12.prod.outlook.com (20.178.55.219) by
- BYAPR12MB3606.namprd12.prod.outlook.com (20.178.52.214) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2581.11; Thu, 26 Dec 2019 15:04:18 +0000
-Received: from BYAPR12MB3013.namprd12.prod.outlook.com
- ([fe80::ed87:95bf:7c40:3fa5]) by BYAPR12MB3013.namprd12.prod.outlook.com
- ([fe80::ed87:95bf:7c40:3fa5%7]) with mapi id 15.20.2581.007; Thu, 26 Dec 2019
- 15:04:17 +0000
-From: "Lipski, Mikita" <Mikita.Lipski@amd.com>
-To: "Lin, Wayne" <Wayne.Lin@amd.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
- <amd-gfx@lists.freedesktop.org>
-Subject: Re: [PATCH] drm/dp_mst: Avoid NULL pointer dereference
-Thread-Topic: [PATCH] drm/dp_mst: Avoid NULL pointer dereference
-Thread-Index: AQHVu5TOqUe8yqwXk0mualXCY3AL3KfMg5SZ
-Date: Thu, 26 Dec 2019 15:04:17 +0000
-Message-ID: <BYAPR12MB3013AADBCF71055D3AD3288CE42B0@BYAPR12MB3013.namprd12.prod.outlook.com>
-References: <20191226023151.5448-1-Wayne.Lin@amd.com>
-In-Reply-To: <20191226023151.5448-1-Wayne.Lin@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Enabled=True;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SetDate=2019-12-26T15:04:18.123Z;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Name=Internal
- Distribution
- Only; MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ContentBits=0;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Method=Standard; 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Mikita.Lipski@amd.com; 
-x-originating-ip: [178.125.212.123]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: e89750ad-c45c-40da-c899-08d78a14e14b
-x-ms-traffictypediagnostic: BYAPR12MB3606:|BYAPR12MB3606:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR12MB3606D816B438F74C8B3F6C1DE42B0@BYAPR12MB3606.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-forefront-prvs: 02638D901B
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(136003)(376002)(346002)(366004)(396003)(39860400002)(51914003)(199004)(189003)(7696005)(6506007)(316002)(478600001)(66946007)(5660300002)(64756008)(91956017)(53546011)(54906003)(66446008)(66556008)(66476007)(52536014)(2906002)(110136005)(26005)(76116006)(186003)(9686003)(81156014)(8676002)(55016002)(8936002)(33656002)(81166006)(4326008)(71200400001)(86362001);
- DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR12MB3606;
- H:BYAPR12MB3013.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: C0oQnuKk0q0TTQQt7DPzK5kvlIZmLBDi/fBx8YDS+6A/iggaPNERCRCbiD/3k5vIFtmA9IACVjbwj+eIknVaJ9LZ8zFL8CvJsJiDwXTw5clYMUyR/1O9pgoi88UOngP+tMGz+N+QnKNfZaPUVJQurT6wA1N23oVW/Y3A6ayYeytB2J9Pnr5FlBKZBuE2VWMXPuWZ9HgM9JBylH9o7BVwNgkqSmihcN0H6gTOBCGgtis0KCerlKOf4/QBr/UksJnab5q7NOK2H19sk99EzsyG3l14GFnJ9b7CIJBFzM1Hb6M3VsH8I8SiRL6sSC7mTOKbE6mxdGomcSzYcIbI3jAzJuis9z+9+pFdM1nx0PF5qkjXHgiN73MpOp2yWf+EqJJAcoHaDIVCZwNuK54etG9+IjDchpQdszyIEjyexHGQ0ipnLivrmXgo0Izx8B6bb48Q5QbYOwEXm+dC5CwcdeN1C1i9/8Vik6sv7kbbUv1ChtQduoDVU9hSBA9d3tenr9cO
-MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e89750ad-c45c-40da-c899-08d78a14e14b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Dec 2019 15:04:17.7355 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7Itp0baOmjDN/UtjKXFZH3PA7FucKegIcHpjAc1q25r/r94s6y1YDyDbpYk+sHSE
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3606
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B240F89339
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Dec 2019 15:45:04 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 425ACAFA8;
+ Thu, 26 Dec 2019 15:45:03 +0000 (UTC)
+Date: Thu, 26 Dec 2019 16:45:02 +0100
+Message-ID: <s5htv5n5bwh.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Paul Menzel <pmenzel@molgen.mpg.de>
+Subject: Re: [Regression drm-tip] Internal audio device missing
+In-Reply-To: <91e1ebe8-270e-d62f-844e-2018fe77145e@molgen.mpg.de>
+References: <6aa4e167-abb0-6a2c-c00e-558aa79d94be@molgen.mpg.de>
+ <s5h1rsr769i.wl-tiwai@suse.de>
+ <91e1ebe8-270e-d62f-844e-2018fe77145e@molgen.mpg.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI/1.14.6 (Maruoka)
+ FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 Emacs/25.3
+ (x86_64-suse-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI 1.14.6 - "Maruoka")
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,120 +41,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Zuo, Jerry" <Jerry.Zuo@amd.com>, "Kazlauskas,
- Nicholas" <Nicholas.Kazlauskas@amd.com>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: quoted-printable
+Cc: alsa-devel@alsa-project.org, Takashi Iwai <tiwai@suse.com>,
+ LKML <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Takashi Sakamoto <o-takashi@sakamocchi.jp>, Jaroslav Kysela <perex@perex.cz>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[AMD Official Use Only - Internal Distribution Only]
+On Thu, 26 Dec 2019 15:41:34 +0100,
+Paul Menzel wrote:
+> 
+> Dear Takashi,
+> 
+> 
+> Am 26.12.19 um 11:03 schrieb Takashi Iwai:
+> > On Thu, 26 Dec 2019 10:47:18 +0100, Paul Menzel wrote:
+> 
+> >> With
+> >>
+> >>      $ git describe --tags drm-tip/drm-tip
+> >>      v5.5-rc3-1481-ga20d8cd6901a
+> >>
+> >> the internal audio device is not available, and just a dummy device.
+> >>
+> >> Running `alsa-info.sh` [1], the messages below are shown with the
+> >> problematic Linux kernel.
+> >>
+> >>      alsactl: get_controls:567: snd_ctl_open error: Sound protocol is
+> >> not compatible
+> >>      cat: /tmp/alsa-info.ateDlDjrZX/alsactl.tmp: No such file or directory
+> >
+> > That's an unexpected side-effect of the recent protocol version bump
+> > in sound.git for-next branch.  It seems that we can't change the minor
+> > version unless we really want to break something.
+> >
+> > Below is the fix patch.  Please give it a try.
+> 
+> Thank you for the quick reply and fix.
+> 
+> > -- 8< --
+> > From: Takashi Iwai <tiwai@suse.de>
+> > Subject: [PATCH] ALSA: control: Fix incompatible protocol error
+> >
+> > The recent change to bump the ALSA control API protocol version from
+> > 2.0.7 to 2.1.0 caused a regression on user-space; while the user-space
+> > expects both the major and the minor versions to be identical with the
+> > supported numbers, we changed the minor number from 0 to 1.
+> >
+> > For recovering from the incompatibility, this patch changes the
+> > protocol version again to 2.0.8, which is compatible, but yet higher
+> > than the original number 2.0.7, indicating that the protocol change.
+> >
+> > Fixes: bd3eb4e87eb3 ("ALSA: ctl: bump protocol version up to v2.1.0")
+> > Reported-by: Paul Menzel <pmenzel@molgen.mpg.de>
+> > Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> > ---
+> >   include/uapi/sound/asound.h | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/include/uapi/sound/asound.h b/include/uapi/sound/asound.h
+> > index e36dadaf84ba..30ebb2a42983 100644
+> > --- a/include/uapi/sound/asound.h
+> > +++ b/include/uapi/sound/asound.h
+> > @@ -936,7 +936,7 @@ struct snd_timer_tread {
+> >    *                                                                          *
+> >    ****************************************************************************/
+> >   -#define SNDRV_CTL_VERSION		SNDRV_PROTOCOL_VERSION(2, 1,
+> > 0)
+> > +#define SNDRV_CTL_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 8)
+> >     struct snd_ctl_card_info {
+> >   	int card;			/* card number */
+> >
+> 
+> Tested-by: Paul Menzel <pmenzel@molgen.mpg.de>
+> 
+> Are there CI systems, which should have caught this problem?
+> 
+> Which user-space component should forward this problem to the user
+> (desktop environment displaying a warning)?
 
-Thanks for the catch,
+Unfortunately no -- I'd love to have it, though.
+I usually test and push more carefully, but it was a bit rush before
+the holidays :)
 
-Reviewed-by: Mikita Lipski <Mikita.Lipski@amd.com>
-
-
-
-
-From: Wayne Lin <Wayne.Lin@amd.com>
-
-Sent: Wednesday, December 25, 2019 9:31 PM
-
-To: dri-devel@lists.freedesktop.org <dri-devel@lists.freedesktop.org>; amd-=
-gfx@lists.freedesktop.org <amd-gfx@lists.freedesktop.org>
-
-Cc: lyude@redhat.com <lyude@redhat.com>; Kazlauskas, Nicholas <Nicholas.Kaz=
-lauskas@amd.com>; Wentland, Harry <Harry.Wentland@amd.com>; Lipski, Mikita =
-<Mikita.Lipski@amd.com>; Zuo, Jerry <Jerry.Zuo@amd.com>; stable@vger.kernel=
-.org <stable@vger.kernel.org>;
- Lin, Wayne <Wayne.Lin@amd.com>
-
-Subject: [PATCH] drm/dp_mst: Avoid NULL pointer dereference
-
-
-
-
-[Why]
-
-Found kernel NULL pointer dereference under the below situation:
-
-
-
-        src =97 HDMI_Monitor   src =97 HDMI_Monitor
-
-e.g.:       \            =3D>
-
-             MSTB =97 MSTB     (unplug) MSTB =97 MSTB
-
-
-
-When display 1 HDMI and 2 DP daisy chain monitors, unplugging the dp
-
-cable connected to source causes kernel NULL pointer dereference at
-
-drm_dp_mst_atomic_check_bw_limit(). When calculating pbn_limit, if
-
-branch is null, accessing "&branch->ports" causes the problem.
-
-
-
-[How]
-
-Judge branch is null or not at the beginning. If it is null, return 0.
-
-
-
-Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
-
-Cc: stable@vger.kernel.org
-
----
-
- drivers/gpu/drm/drm_dp_mst_topology.c | 3 +++
-
- 1 file changed, 3 insertions(+)
-
-
-
-diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp=
-_mst_topology.c
-
-index 7d2d31eaf003..a6473e3ab448 100644
-
---- a/drivers/gpu/drm/drm_dp_mst_topology.c
-
-+++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-
-@@ -4707,6 +4707,9 @@ int drm_dp_mst_atomic_check_bw_limit(struct drm_dp_ms=
-t_branch *branch,
-
-         struct drm_dp_vcpi_allocation *vcpi;
-
-         int pbn_limit =3D 0, pbn_used =3D 0;
+Now merged and pushed out.
 
 
+thanks,
 
-+       if (!branch)
-
-+               return 0;
-
-+
-
-         list_for_each_entry(port, &branch->ports, next) {
-
-                 if (port->mstb)
-
-                         if (drm_dp_mst_atomic_check_bw_limit(port->mstb, m=
-st_state))
-
---
-
-2.17.1
-
-
-
+Takashi
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
