@@ -1,51 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E304512AF8C
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Dec 2019 00:11:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57BF512AFBB
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Dec 2019 00:27:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82AA089D7D;
-	Thu, 26 Dec 2019 23:11:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D654289D84;
+	Thu, 26 Dec 2019 23:27:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
- [209.85.166.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 078E089D7D
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Dec 2019 23:11:22 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id z193so24379272iof.1
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Dec 2019 15:11:22 -0800 (PST)
+Received: from mail-il1-f193.google.com (mail-il1-f193.google.com
+ [209.85.166.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6C1789D84
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Dec 2019 23:27:25 +0000 (UTC)
+Received: by mail-il1-f193.google.com with SMTP id f10so21172710ils.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Dec 2019 15:27:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=iYgfCFDWP9Pmlfyghxs7WFYI9NQtivbPrXUsgSAT1Uw=;
- b=HPNXLOZtdqM+jcEEF5Qw3t7K9Q1dNWN89gxOdo0tGnCY20uam/M86CQbNM4DKmRGgm
- vYifYeu1egeGDp83rDhu5G3ihE7243NpWuBhkb9HPWpsrAGa2Modq0me5VB7bVLIhiHI
- xSGSR93b/AENieO9Y6iDBre8JHvTMDsyvCTqJPZqDwav6QfaqIvSojP2IRi3nrUISCAu
- N8/7YI6BVFeHSyJn0mKnFEpa86pLaZxrtQ/nYpSb3tzaQAdmpmVQmRjzS0TVi4ZVCMG6
- zrAude9TfbE9yA4uD4XrhrSScul4ykgZ/+tcY8dAMUfnl62TynEsEp7HARLLGTk3+5nk
- 4Pww==
-X-Gm-Message-State: APjAAAWemi5ivA2PECRXAz+rnvr2rV7eGZ/5AoAPfG1QdhVVzrZsy0JZ
- bB4gUenvTW42el5bzYC4sVGT1GI=
-X-Google-Smtp-Source: APXvYqxbOeaFzx0StvAHdq538fpCIHc4NpKp3GRzDKEyzS40STfSyUmgMsX15xFCYFlJqc3NclJbxg==
-X-Received: by 2002:a6b:6f06:: with SMTP id k6mr33492727ioc.204.1577401882429; 
- Thu, 26 Dec 2019 15:11:22 -0800 (PST)
+ bh=079ePGuH4LFeB4eTg/R3HlprnewzRRTDmlXGUNyMiYE=;
+ b=g9s8jjmLMwLY5wPqCRLoblU3utXLaBWosk25BL87eN3H0qbNHphzSG7FnOEAT3ViX5
+ jk7oGTYwCk6AHbuRZ2ZNTrcD9I7NZEKRbnolBzryQPS8BgQeZzS3Adc4yOmksA3L+MQ4
+ sjmmaL+cG4qaMfWli30vrkjRjPixoWKF3dTCGleM0MjWzQacuIOiIr/9kPtZQkidvkvP
+ K9a8/697LoRGYX9O6XWCvnF7FF/fQ9fiwF6dKQI/t1yfkYPxc4SDK/T3PiaPxd8r/Si6
+ bxgBdr46/sPY7xDgAU2XHPyBtI3tcy0YhDs0EQgWvJrtrJIjhQWQ33iuPteGcXpGbdIt
+ tusA==
+X-Gm-Message-State: APjAAAVFPsP3H4HzRySGSMshipGwlEypPLFDVq046VZlrZoHBYdTXOkE
+ 4Zi9ELbEMggK1YZX/cCr5w==
+X-Google-Smtp-Source: APXvYqy+c0rmXNLffc3Rk6rkLD6TvFeAK3D5lvZQZ6C/dxSMer9A1oMxAvU0bFVT+udEDZaLDenKEw==
+X-Received: by 2002:a92:4717:: with SMTP id u23mr39096860ila.190.1577402845221; 
+ Thu, 26 Dec 2019 15:27:25 -0800 (PST)
 Received: from localhost ([64.188.179.250])
- by smtp.gmail.com with ESMTPSA id u29sm12647753ill.62.2019.12.26.15.11.21
+ by smtp.gmail.com with ESMTPSA id 81sm12626716ilx.40.2019.12.26.15.27.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Dec 2019 15:11:21 -0800 (PST)
-Date: Thu, 26 Dec 2019 16:11:20 -0700
+ Thu, 26 Dec 2019 15:27:24 -0800 (PST)
+Date: Thu, 26 Dec 2019 16:27:23 -0700
 From: Rob Herring <robh@kernel.org>
-To: Jyri Sarha <jsarha@ti.com>
-Subject: Re: [PATCH v5 3/5] dt-bindings: display: ti, j721e-dss: Add dt-schema
- yaml binding
-Message-ID: <20191226231120.GA11462@bogus>
-References: <cover.1576857145.git.jsarha@ti.com>
- <e05570c9c5c0a22f5aaa36dd2503fe918b1f941e.1576857145.git.jsarha@ti.com>
+To: Heiko Stuebner <heiko@sntech.de>
+Subject: Re: [PATCH v4 1/3] dt-bindings: Add vendor prefix for Leadtek
+ Technology
+Message-ID: <20191226232723.GA5257@bogus>
+References: <20191224112641.30647-1-heiko@sntech.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <e05570c9c5c0a22f5aaa36dd2503fe918b1f941e.1576857145.git.jsarha@ti.com>
+In-Reply-To: <20191224112641.30647-1-heiko@sntech.de>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,42 +58,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, yamonkar@cadence.com, praneeth@ti.com,
- dri-devel@lists.freedesktop.org, peter.ujfalusi@ti.com, robh+dt@kernel.org,
- tomi.valkeinen@ti.com, laurent.pinchart@ideasonboard.com, sjakhade@cadence.com,
- sam@ravnborg.org, maxime@cerno.tech
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
+ Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ robh+dt@kernel.org, thierry.reding@gmail.com, maxime@cerno.tech,
+ sam@ravnborg.org, christoph.muellner@theobroma-systems.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 20 Dec 2019 17:55:11 +0200, Jyri Sarha wrote:
-> Add dt-schema yaml bindig for J721E DSS, J721E version TI Keystone
-> Display SubSystem.
+On Tue, 24 Dec 2019 12:26:39 +0100, Heiko Stuebner wrote:
+> From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
 > 
-> Version history:
+> Shenzhen Leadtek Technology Co., Ltd. produces for example display
+> and touch panels.
 > 
-> v2: no change
-> 
-> v3: - reg-names: "wp" -> "wb"
->     - Add ports node
->     - Add includes to dts example
->     - reindent dts example
-> 
-> v4: - Add descriptions to reg, clocks, and interrups properties
->     - Remove minItems when its value is the same as maxItems value
-> 
-> v5: - itemize reg, clocks and interrupts properties' descriptions
->     - there is no "vp" reg-name, only "wb" for write back
-> 
-> Signed-off-by: Jyri Sarha <jsarha@ti.com>
+> Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
 > ---
->  .../bindings/display/ti/ti,j721e-dss.yaml     | 208 ++++++++++++++++++
->  1 file changed, 208 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Acked-by: Rob Herring <robh@kernel.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
