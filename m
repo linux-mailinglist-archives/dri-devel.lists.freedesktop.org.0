@@ -2,115 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BD8112B423
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Dec 2019 12:03:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BFC012B45A
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Dec 2019 12:52:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FE666E433;
-	Fri, 27 Dec 2019 11:03:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D14B86E040;
+	Fri, 27 Dec 2019 11:52:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C3806E433
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Dec 2019 11:03:44 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20191227110342euoutp013cc044024cacd26232132e1bcba8e9e4~kNYbeoOeY0637506375euoutp01F
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Dec 2019 11:03:42 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20191227110342euoutp013cc044024cacd26232132e1bcba8e9e4~kNYbeoOeY0637506375euoutp01F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1577444622;
- bh=7CiodF6lhHlhDpRiOd/eKxBgSk8F/RyuGNECvUfKCw0=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=KAoNsNwOMlXQ0Pzi9lShO69iktQ2sUc9dsB8Rdc/raBB9TLppk8+ctMTWhHNvJ2dF
- pUhj348RJRsAoWNGkEwJseUkiodpP5n5cpz/Cq+4wNtmBworOU9W0HShbDDnCXB5wV
- F3M8IRr3rb/2KrMs8V0S5so6mldIdz2VbL9RICp0=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20191227110342eucas1p28cd23e3b2a98d7177cb1446bf78cef27~kNYbL9yew2930829308eucas1p2Y;
- Fri, 27 Dec 2019 11:03:42 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id 26.D9.61286.E05E50E5; Fri, 27
- Dec 2019 11:03:42 +0000 (GMT)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20191227110341eucas1p29b093c32e47d33e641d6211f447b8d9c~kNYaf0QF50089800898eucas1p2x;
- Fri, 27 Dec 2019 11:03:41 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20191227110341eusmtrp2e4938dd116e6bede0f69e187b2b01795~kNYae_giY1700917009eusmtrp2V;
- Fri, 27 Dec 2019 11:03:41 +0000 (GMT)
-X-AuditID: cbfec7f2-f0bff7000001ef66-c1-5e05e50e82dc
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 2C.E0.08375.D05E50E5; Fri, 27
- Dec 2019 11:03:41 +0000 (GMT)
-Received: from [106.120.51.15] (unknown [106.120.51.15]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20191227110340eusmtip1fcceb1a658a39abae4f90874dfe174b6~kNYZohbVj2252922529eusmtip1G;
- Fri, 27 Dec 2019 11:03:40 +0000 (GMT)
-Subject: Re: [PATCH v4 04/11] drm/bridge: Make the bridge chain a
- double-linked list
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>, Andrzej Hajda
- <a.hajda@samsung.com>
-Message-ID: <ca3b7b5a-3706-22ab-beee-98d892af5511@samsung.com>
-Date: Fri, 27 Dec 2019 12:03:40 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32E596E040
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Dec 2019 11:52:40 +0000 (UTC)
+Received: from localhost (lfbn-lyo-1-633-204.w90-119.abo.wanadoo.fr
+ [90.119.206.204])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 569B5208C4;
+ Fri, 27 Dec 2019 11:52:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1577447560;
+ bh=fpxAuj56PtPkXj1kH4oxVP3nuSYEPKqNh67BNwrzLbU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=K6ladlkbq2xNmkwSxOz0zb1jzq/dpn0LveU9V5KElUbc4eaIQUbAq/Llimn2PcVNS
+ djnkcmEGFB7TEMa/wCCIG1zFTkK8gAFpZl3eII6Yf1Wgntu359GOA07TwDBfZulqjE
+ LxMW1yK+5DLJM/CWGWpogwzCRR19OWLP+0sz/C8o=
+Date: Fri, 27 Dec 2019 12:54:01 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: yu kuai <yukuai3@huawei.com>
+Subject: Re: [PATCH] drm: replace IS_ERR and PTR_ERR with PTR_ERR_OR_ZERO
+Message-ID: <20191227115401.agumkfuiwexl2wmx@hendrix.home>
+References: <20191225132042.5491-1-yukuai3@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <32c4c99a-c943-b1e8-d342-2fd8e8719ff0@samsung.com>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA01SfUxNYRj3nnPuuafmtNfFelbGdof5mD7kj9cQhu1gM8xnSJfO0ure7B75
- iD/Sl0pR6Os2hFtyRybdVsnmxtxu6S6X8jFFw1qURrUW6rr3HtF/v+f3PL/3+f3ePRytOsP6
- cdG6I6Jep4lVs95M9dMR+yKfz4rwoMFuP/K2wq4gyekrSPOzJopY6q0UufrERb0c6mdJ23AP
- TWy9bQy5b89SkJakXiXJyDUqSemr5xRpOLeHfLgbQ1IfPlGS8hEzIoUXe1gyUneFWaUSbl+5
- jYT+16lK4UOekxJqOoxIqDV0KIXi9CKFUGnKYIXGHAclvD9rpQRjfhsrnKsyIeFR9kVGGKic
- uZkP814eKcZGHxX1gaER3ofqazvpwzZy/Hu2iU1EaYGZyIsDvARK7p9n3ViFyxHkpoRmIm8X
- HkSQcq9TIRcDCPIbS5TjCtNgBSM3biIYzemm5KIPQXfXR89bU/EOsP1O9ChYHAyZfZkefhoO
- g89dHR41jYcZKM9+7NrBcTwOhdKWHe4ZBs+B1tHLyI2n433gLDJTbszjKWAr+sS4sRdeCb/M
- vxRuTONZkGwupmXsC28/XfUYAvyIg/eOMUq2vRaqSmoZGU+FL9aqv3FmgLN2XJCMoMt+RykX
- WQheJBUieWoZvLP/ZN1OaTwf7tb9/b3VUFp/2kMD9oHXfVNkEz5wobqAlmke0tNU8vRcMFgr
- /q21tDroHKQ2TIhmmBDHMCGO4f/eEsSYkK8YL2mjRClYJx4LkDRaKV4XFXAwTluJXOfZPGb9
- UYOGHAcaEOaQejIfVMOEqxSao9IJbQMCjlZP43VRinAVH6k5kSDq4/br42NFqQH5c4zalw+5
- 3rNPhaM0R8QYUTws6se7FOfl5zqbmgwoG7C2z5h+qhzniYMxNwKTnKnzlijjsyq2BazbXZb7
- IKmzwHhqXtr2dUH1+e0bZtPa47usD5L3fl2o/t66MTDlGrkUZLa0l91rtG0KW0MvkG45X2m/
- efnUxRUktDwMSRUjHcZJlkkni5duXVnc9Ga9/5Dl65rYnVu6Fkccs/NqRjqkCV5A6yXNHy5/
- doGaAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprFKsWRmVeSWpSXmKPExsVy+t/xu7q8T1njDDrf6VjcWneO1aK5w9bi
- 9JlTTBYH9xxnsph/BCh05et7Nour318yW5x8c5XFYvO5HlaLs01v2C06Jy5ht1h6/SKTxaG+
- aIsH67MtWvceYbdY8XMro8WMyS/ZLH7umsfiIOSxZt4aRo/3N1rZPR5M/c/ksePuEkaPnbPu
- snvM7pjJ6rFpVSebx4kJl5g87ncfZ/JYMu0qm0ffllWMHgd6J7N4fN4kF8AbpWdTlF9akqqQ
- kV9cYqsUbWhhpGdoaaFnZGKpZ2hsHmtlZKqkb2eTkpqTWZZapG+XoJexZ+c95oKTFhUfe1ex
- NTC26XcxcnJICJhIrPqyjqWLkYtDSGApo8Ss9cdZIBIyEienNbBC2MISf651sUEUvWaUuHbo
- CTNIQlggTOLknwZ2EJtNwFCi6y1IESeHiECURPenz8wgDcwCv1kk/j9dzAjRvY5VYmfDSqAV
- HBy8AnYSS8+GgTSwCKhKXPg7lxHEFhWIldi++SHYAl4BQYmTM5+AXcQpYC/xe+tvsIuYBcwk
- 5kHVMAvISzRvnQ1li0vcejKfaQKj0Cwk7bOQtMxC0jILScsCRpZVjCKppcW56bnFhnrFibnF
- pXnpesn5uZsYgeli27Gfm3cwXtoYfIhRgINRiYe3YxdLnBBrYllxZe4hRgkOZiUR3rx01jgh
- 3pTEyqrUovz4otKc1OJDjKZAz01klhJNzgemsrySeENTQ3MLS0NzY3NjMwslcd4OgYMxQgLp
- iSWp2ampBalFMH1MHJxSDYwR9SHtaqafZDgPr35t2WbQfzN8Z/BaxvlC3p+vp+wQzIuecHXN
- yQrxt9x2pRLV4Xrmxpe0Hrz2cdzXeDdSKE/kq1i5y1edy4qta5bcCTj35N7OJr+ju2Z4XfJl
- mb1gcX/lWSbOnk1HD8xa1XA4nbUn6mrS1HKL3i6dfx6TDopv27H5xvcfs3qVWIozEg21mIuK
- EwHKGG7cLQMAAA==
-X-CMS-MailID: 20191227110341eucas1p29b093c32e47d33e641d6211f447b8d9c
-X-Msg-Generator: CA
-X-RootMTR: 20191203141542eucas1p23771a9c49ef18144c832fc536bdae61a
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20191203141542eucas1p23771a9c49ef18144c832fc536bdae61a
-References: <20191203141515.3597631-1-boris.brezillon@collabora.com>
- <CGME20191203141542eucas1p23771a9c49ef18144c832fc536bdae61a@eucas1p2.samsung.com>
- <20191203141515.3597631-5-boris.brezillon@collabora.com>
- <4e901ab9-07d4-4238-7322-c7c5a3959513@samsung.com>
- <20191216155551.083dcbaf@collabora.com>
- <75a06e2a-4587-ee16-0f5d-af75fbe89793@samsung.com>
- <20191216162542.261c821c@collabora.com>
- <60f03d50-7c0f-c3d0-920f-0625c08b2171@samsung.com>
- <1010f5fc-0672-643c-4410-e053a928cb66@samsung.com>
- <20191224104422.25dbf980@collabora.com>
- <20191224104936.6a7c4977@collabora.com>
- <20191224110307.00ca841d@collabora.com>
- <32c4c99a-c943-b1e8-d342-2fd8e8719ff0@samsung.com>
+In-Reply-To: <20191225132042.5491-1-yukuai3@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,147 +45,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Andrey Smirnov <andrew.smirnov@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, dri-devel@lists.freedesktop.org,
- Kyungmin Park <kyungmin.park@samsung.com>, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, kernel@collabora.com,
- Sam Ravnborg <sam@ravnborg.org>, Chris Healy <cphealy@gmail.com>,
- devicetree@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: jernej.skrabec@siol.net, yi.zhang@huawei.com, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ jonathanh@nvidia.com, zhengbin13@huawei.com, wens@csie.org,
+ tomi.valkeinen@ti.com, thierry.reding@gmail.com, linux-tegra@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============0997512797=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgQWxsLAoKT24gMjcuMTIuMjAxOSAxMToyNSwgTWFyZWsgU3p5cHJvd3NraSB3cm90ZToKPiBP
-biAyNC4xMi4yMDE5IDExOjAzLCBCb3JpcyBCcmV6aWxsb24gd3JvdGU6Cj4+IE9uIFR1ZSwgMjQg
-RGVjIDIwMTkgMTA6NDk6MzYgKzAxMDAKPj4gQm9yaXMgQnJlemlsbG9uIDxib3Jpcy5icmV6aWxs
-b25AY29sbGFib3JhLmNvbT4gd3JvdGU6Cj4+PiBPbiBUdWUsIDI0IERlYyAyMDE5IDEwOjQ0OjIy
-ICswMTAwCj4+PiBCb3JpcyBCcmV6aWxsb24gPGJvcmlzLmJyZXppbGxvbkBjb2xsYWJvcmEuY29t
-PiB3cm90ZToKPj4+PiBPbiBUdWUsIDI0IERlYyAyMDE5IDEwOjE2OjQ5ICswMTAwCj4+Pj4gQW5k
-cnplaiBIYWpkYSA8YS5oYWpkYUBzYW1zdW5nLmNvbT4gd3JvdGU6Cj4+Pj4+IE9uIDIzLjEyLjIw
-MTkgMTA6NTUsIE1hcmVrIFN6eXByb3dza2kgd3JvdGU6Cj4+Pj4+PiBPbiAxNi4xMi4yMDE5IDE2
-OjI1LCBCb3JpcyBCcmV6aWxsb24gd3JvdGU6Cj4+Pj4+Pj4gT24gTW9uLCAxNiBEZWMgMjAxOSAx
-NjowMjozNiArMDEwMAo+Pj4+Pj4+IE1hcmVrIFN6eXByb3dza2kgPG0uc3p5cHJvd3NraUBzYW1z
-dW5nLmNvbT4gd3JvdGU6Cj4+Pj4+Pj4+IE9uIDE2LjEyLjIwMTkgMTU6NTUsIEJvcmlzIEJyZXpp
-bGxvbiB3cm90ZToKPj4+Pj4+Pj4+IE9uIE1vbiwgMTYgRGVjIDIwMTkgMTQ6NTQ6MjUgKzAxMDAK
-Pj4+Pj4+Pj4+IE1hcmVrIFN6eXByb3dza2kgPG0uc3p5cHJvd3NraUBzYW1zdW5nLmNvbT4gd3Jv
-dGU6Cj4+Pj4+Pj4+Pj4gT24gMDMuMTIuMjAxOSAxNToxNSwgQm9yaXMgQnJlemlsbG9uIHdyb3Rl
-Ogo+Pj4+Pj4+Pj4+PiBTbyB0aGF0IGVhY2ggZWxlbWVudCBpbiB0aGUgY2hhaW4gY2FuIGVhc2ls
-eSBhY2Nlc3MgaXRzIAo+Pj4+Pj4+Pj4+PiBwcmVkZWNlc3Nvci4KPj4+Pj4+Pj4+Pj4gVGhpcyB3
-aWxsIGJlIG5lZWRlZCB0byBzdXBwb3J0IGJ1cyBmb3JtYXQgbmVnb3RpYXRpb24gCj4+Pj4+Pj4+
-Pj4+IGJldHdlZW4gZWxlbWVudHMKPj4+Pj4+Pj4+Pj4gb2YgdGhlIGJyaWRnZSBjaGFpbi4KPj4+
-Pj4+Pj4+Pj4KPj4+Pj4+Pj4+Pj4gU2lnbmVkLW9mZi1ieTogQm9yaXMgQnJlemlsbG9uIDxib3Jp
-cy5icmV6aWxsb25AY29sbGFib3JhLmNvbT4KPj4+Pj4+Pj4+Pj4gUmV2aWV3ZWQtYnk6IE5laWwg
-QXJtc3Ryb25nIDxuYXJtc3Ryb25nQGJheWxpYnJlLmNvbT4KPj4+Pj4+Pj4+Pj4gUmV2aWV3ZWQt
-Ynk6IExhdXJlbnQgUGluY2hhcnQgCj4+Pj4+Pj4+Pj4+IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFz
-b25ib2FyZC5jb20+Cj4+Pj4+Pj4+Pj4gSSd2ZSBub3RpY2VkIHRoYXQgdGhpcyBwYXRjaCBnb3Qg
-bWVyZ2VkIHRvIGxpbnV4LW5leHQgYXMgY29tbWl0Cj4+Pj4+Pj4+Pj4gMDUxOTNkYzM4MTk3MDIx
-ODk0YjE3MjM5ZmFmYmQyZWIxYWZlNWE0NS4gU2FkbHkgaXQgYnJlYWtzIAo+Pj4+Pj4+Pj4+IGJv
-b3Rpbmcgb2YKPj4+Pj4+Pj4+PiBTYW1zdW5nIEV4eW5vczUyNTAtYmFzZWQgQXJuZGFsZSBib2Fy
-ZC4gQm9vdGluZyBzdG9wcyBhZnRlciAKPj4+Pj4+Pj4+PiBmb2xsb3dpbmcKPj4+Pj4+Pj4+PiBt
-ZXNzYWdlczoKPj4+Pj4+Pj4+Pgo+Pj4+Pj4+Pj4+IFtkcm1dIEV4eW5vcyBEUk06IHVzaW5nIDE0
-NDAwMDAwLmZpbWQgZGV2aWNlIGZvciBETUEgbWFwcGluZyAKPj4+Pj4+Pj4+PiBvcGVyYXRpb25z
-Cj4+Pj4+Pj4+Pj4gZXh5bm9zLWRybSBleHlub3MtZHJtOiBib3VuZCAxNDQwMDAwMC5maW1kIChv
-cHMgCj4+Pj4+Pj4+Pj4gZmltZF9jb21wb25lbnRfb3BzKQo+Pj4+Pj4+Pj4+IGV4eW5vcy1kcm0g
-ZXh5bm9zLWRybTogYm91bmQgMTQ0NTAwMDAubWl4ZXIgKG9wcyAKPj4+Pj4+Pj4+PiBtaXhlcl9j
-b21wb25lbnRfb3BzKQo+Pj4+Pj4+Pj4+IGV4eW5vcy1kcm0gZXh5bm9zLWRybTogYm91bmQgMTQ1
-MDAwMDAuZHNpIChvcHMgCj4+Pj4+Pj4+Pj4gZXh5bm9zX2RzaV9jb21wb25lbnRfb3BzKQo+Pj4+
-Pj4+Pj4+IGV4eW5vcy1kcm0gZXh5bm9zLWRybTogYm91bmQgMTQ1MzAwMDAuaGRtaSAob3BzIAo+
-Pj4+Pj4+Pj4+IGhkbWlfY29tcG9uZW50X29wcykKPj4+Pj4+Pj4+PiBbZHJtXSBTdXBwb3J0cyB2
-YmxhbmsgdGltZXN0YW1wIGNhY2hpbmcgUmV2IDIgKDIxLjEwLjIwMTMpLgo+Pj4+Pj4+Pj4+IFtk
-cm1dIE5vIGRyaXZlciBzdXBwb3J0IGZvciB2YmxhbmsgdGltZXN0YW1wIHF1ZXJ5Lgo+Pj4+Pj4+
-Pj4+IFtkcm1dIENhbm5vdCBmaW5kIGFueSBjcnRjIG9yIHNpemVzCj4+Pj4+Pj4+Pj4gW2RybV0g
-Q2Fubm90IGZpbmQgYW55IGNydGMgb3Igc2l6ZXMKPj4+Pj4+Pj4+PiBbZHJtXSBJbml0aWFsaXpl
-ZCBleHlub3MgMS4xLjAgMjAxODAzMzAgZm9yIGV4eW5vcy1kcm0gb24gCj4+Pj4+Pj4+Pj4gbWlu
-b3IgMAo+Pj4+Pj4+Pj4+Cj4+Pj4+Pj4+Pj4gSSB3aWxsIHRyeSB0byBkZWJ1ZyB0aGlzIGFuZCBw
-cm92aWRlIG1vcmUgaW5mb3JtYXRpb24gc29vbi4KPj4+Pj4+Pj4+IENhbiB5b3UgdHJ5IHdpdGgg
-dGhpcyBkaWZmIGFwcGxpZWQ/Cj4+Pj4+Pj4+IFRoaXMgcGF0Y2ggZG9lc24ndCBjaGFuZ2UgYW55
-dGhpbmcuCj4+Pj4+Pj4gT2theS4gQ2FuIHlvdSBkbyBhIGxpc3RfZm9yX2VhY2hfZW50cnkoKSBv
-biBib3RoIAo+Pj4+Pj4+IGVuY29kZXItPmJyaWRnZV9jaGFpbgo+Pj4+Pj4+IGFuZCBkc2ktPmJy
-aWRnZV9jaGFpbiAoZHVtcCBicmlkZ2UgcG9pbnRlcnMgaW4gYSBwcl9pbmZvKCkpIAo+Pj4+Pj4+
-IGJlZm9yZSBhbmQKPj4+Pj4+PiBhZnRlciB0aGUgbGlzdF9zcGxpY2VfaW5pdCgpIGNhbGw/Cj4+
-Pj4+PiBlbmNvZGVyLT5icmlkZ2VfY2hhaW4gY29udGFpbnMgb25seSBvbmUgZWxlbWVudC4gZHNp
-LT5kcml2ZV9jaGFpbiAKPj4+Pj4+IGlzIGVtcHR5Lgo+Pj4+Pj4KPj4+Pj4+IFJlcGxhY2luZyB0
-aGF0IGxpc3Rfc3BsaWNlKCkgd2l0aCAKPj4+Pj4+IElOSVRfTElTVF9IRUFEKCZlbmNvZGVyLT5i
-cmlkZ2VfY2hhaW4pCj4+Pj4+PiBmaXhlZCB0aGUgYm9vdCBpc3N1ZS4KPj4+PiBJZiBJTklUX0xJ
-U1RfSEVBRCgpIHdvcmtlZCwgSSBkb24ndCB1bmRlcnN0YW5kIHdoeSByZXBsYWNpbmcgdGhlCj4+
-Pj4gbGlzdF9zcGxpY2UoKSBjYWxsIGJ5IGEgbGlzdF9zcGxpY2VfaW5pdCgpICh3aGljaCBkb2lu
-ZyBhIAo+Pj4+IGxpc3Rfc3BsaWNlKCkKPj4+PiArIElOSVRfTElTVF9IRUFEKCkpIGRpZG4ndCBm
-aXggdGhlIHByb2JsZW0uIEFyZSB5b3Ugc3VyZSB0aGUKPj4+PiBsaXN0X3NwbGljZV9pbml0KCkg
-dmVyc2lvbiBkb2Vzbid0IHdvcms/Cj4+Pj4+PiBJdCBsb29rcyB0aGF0IHRoaXMgaXMgcmVsYXRl
-ZCB3aXRoIHRoZSB3YXkgdGhlCj4+Pj4+PiBFeHlub3MgRFNJIGhhbmRsZXMgYnJpZGdlcyAoaW4g
-YnJpZGdlIGFuZCBvdXQgYnJpZ2U/KS4gTWF5YmUgQW5kcnplago+Pj4+Pj4gd2lsbCBnaXZlIGEg
-Yml0IG1vcmUgZGV0YWlsZWQgY29tbWVudCBhbmQgc3ByZWFkIHNvbWUgbGlnaHQgb24gdGhpcy4K
-Pj4+Pj4KPj4+Pj4gSGkgTWFyZWssIEJvcmlzLAo+Pj4+Pgo+Pj4+Pgo+Pj4+PiBJIGhhdmUgbm90
-IGZvbGxvd2VkIGxhdGVzdCBwYXRjaGVzIGR1ZSB0byBoaWdoIHdvcmsgbG9hZCwgbXkgYmFkLiAK
-Pj4+Pj4gTWFyZWsKPj4+Pj4gdGhhbmtzIGZyb20gcG9pbnRpbmcKPj4+Pj4KPj4+Pj4gQWJvdXQg
-RXh5bm9zRFNJIGJyaWRnZSBoYW5kbGluZzoKPj4+Pj4KPj4+Pj4gVGhlIG9yZGVyIG9mIGNhbGxp
-bmcgZW5jb2RlciwgYnJpZGdlIChhbmQgY29uc2VxdWVudGx5IHBhbmVsKSBvcHMKPj4+Pj4gZW5m
-b3JjZWQgYnkgRFJNIGNvcmUgKGJyaWRnZS0+cHJlX2VuYWJsZSwgZW5jb2Rlci0+ZW5hYmxlLAo+
-Pj4+PiBicmlkZ2UtPmVuYWJsZSkgZG9lcyBub3QgZml0IHRvIEV4eW5vc0RTSSBoYXJkd2FyZSBp
-bml0aWFsaXphdGlvbgo+Pj4+PiBzZXF1ZW5jZSwgaWYgSSByZW1lbWJlciBjb3JyZWN0bHkgaXQg
-ZG9lcyBub3QgZml0IHRvIHdob2xlIE1JUEkgRFNJCj4+Pj4+IHN0YW5kYXJkIChJIHRoaW5rIHNp
-bWlsYXIgc2l0dWF0aW9uIGlzIHdpdGggZURQKS4gQXMgYSByZXN1bHQgRFNJCj4+Pj4+IGRyaXZl
-cnMgbXVzdCB1c2Ugc29tZSB1Z2x5IHdvcmthcm91bmRzLCByZWx5IG9uIEhXIHByb3Blcmx5IGNv
-cGluZyAKPj4+Pj4gd2l0aAo+Pj4+PiBpbmNvcnJlY3Qgc2VxdWVuY2VzLCBvciwgYXMgaW4gY2Fz
-ZSBvZiBFeHlub3NEU0kgZHJpdmVyLCBqdXN0IGF2b2lkCj4+Pj4+IHVzaW5nIGVuY29kZXItPmJy
-aWRnZSBjaGFpbmluZyBhbmQgY2FsbCBicmlkZ2Ugb3BzIGJ5IGl0c2VsZiB3aGVuIAo+Pj4+PiBz
-dWl0YWJsZS4KPj4+PiBZZXMsIHRoYXQncyBkZWZpbml0ZWx5IGhhY2staXNoLCBhbmQgSSBwcm9w
-b3NlZCAyIHNvbHV0aW9ucyB0byBhZGRyZXNzCj4+Pj4gdGhhdCBpbiBwcmV2aW91cyB2ZXJzaW9u
-cyBvZiB0aGlzIHBhdGNoc2V0LCB1bmZvcnR1bmF0ZWx5IEkgZGlkbid0IGdldAo+Pj4+IGFueSBm
-ZWVkYmFjayBzbyBJIHdlbnQgZm9yIHRoZSBsZXNzIGludmFzaXZlIG9wdGlvbiAoa2VlcCB0aGUg
-aGFjayBidXQKPj4+PiBhZGFwdCBpdCB0byB0aGUgZG91YmxlLWxpbmtlZCBsaXN0IGNoYW5nZXMp
-LCB3aGljaCBzdGlsbCBsZWFkIHRvCj4+Pj4gcmVncmVzc2lvbnMgOi0vLgo+Pj4+Cj4+Pj4gSnVz
-dCBhIHJlbWluZGVyIG9mIG15IDIgcHJvcG9zYWxzOgo+Pj4+Cj4+Pj4gMS8gaW1wbGVtZW50IHRo
-ZSBicmlkZ2Vfb3BzLT5wcmVfZW5hYmxlL3Bvc3RfZGlzYWJsZSgpIGhvb2tzIHNvIHlvdSAKPj4+
-PiBjYW4KPj4+PiDCoMKgwqAgc3BsaXQgeW91ciBlbmFibGUvZGlzYWJsZSBsb2dpYyBpbiAyIHBh
-cnRzIGFuZCBtYWtlIHN1cmUgdGhpbmdzIAo+Pj4+IGFyZQo+Pj4+IMKgwqDCoCByZWFkeSB3aGVu
-IHRoZSBwYW5lbC9uZXh0IGJyaWRnZSB0cmllcyB0byBzZW5kIERTSSBjb21tYW5kcwo+Pj4+IDIv
-IG1vdmUgZXZlcnl0aGluZyB0aGF0J3MgbmVlZGVkIHRvIHNlbmQgRFNJIGNvbW1hbmRzIG91dCBv
-ZiB0aGUKPj4+PiDCoMKgwqAgLT5lbmFibGUoKSBwYXRoIChtYXliZSBpbiBydW50aW1lIFBNIHJl
-c3VtZS9zdXNwZW5kIGhvb2tzKSBzbyB5b3UKPj4+PiDCoMKgwqAgY2FuIGNhbGwgdGhhdCBpbiB0
-aGUgRFNJIHRyYW5zZmVyIHBhdGggdG9vCj4+Pj4KPj4+PiBBcyBwb2ludGVkIG91dCBieSBMYXVy
-ZW50LCAjMSBkb2Vzbid0IHdvcmsgYmVjYXVzZSBzb21lIHBhbmVsIGRyaXZlcnMKPj4+PiBzZW5k
-IERTSSBjb21tYW5kcyBpbiB0aGVpciAtPnByZXBhcmUoKSBob29rLCBhbmQgLT5wcmVfZW5hYmxl
-KCkgCj4+Pj4gbWV0aG9kcwo+Pj4+IGFyZSBjYWxsZWQgaW4gcmV2ZXJzZSBvcmRlciwgbWVhbmlu
-ZyB0aGF0IHRoZSBEUk0gcGFuZWwgYnJpZGdlIGRyaXZlcgo+Pj4+IHdvdWxkIHRyeSB0byBpc3N1
-ZSBEU0kgY29tbWFuZHMgYmVmb3JlIHRoZSBEU0kgaG9zdCBjb250cm9sbGVycyBpcyAKPj4+PiBy
-ZWFkeQo+Pj4+IHRvIHNlbmQgdGhlbS4gSSBzdGlsbCB0aGluZyAjMiBpcyBhIGdvb2Qgb3B0aW9u
-Lgo+Pj4+PiBTbyBwcm9wZXIgcGF0Y2ggY29udmVydGluZyB0byBkb3VibGUtbGlua2VkIGxpc3Qg
-c2hvdWxkIG5vdCB0cnkgdG8KPj4+Pj4gc3BsaWNlIEV4eW5vc0RTSSBwcml2YXRlIGJyaWRnZSBs
-aXN0IHdpdGggd2l0aCBlbmNvZGVyJ3MsIAo+Pj4+PiBlbmNvZGVyJ3MgbGlzdAo+Pj4+PiBzaG91
-bGQgYmUgYWx3YXlzIGVtcHR5LCBhcyBNYXJlayBzdWdnZXN0ZWQuCj4+Pj4gVGhhdCdzIGV4YWN0
-bHkgd2hhdCBJIHdhbnRlZCB0byBkbzogbWFrZSB0aGUgZW5jb2RlcidzIGxpc3QgZW1wdHkgCj4+
-Pj4gYWZ0ZXIKPj4+PiBhdHRhY2goKSBhbmQgcmVzdG9yZSBpdCB0byBpdHMgaW5pdGlhbCBzdGF0
-ZSBiZWZvcmUgdW5yZWdpc3RlcmluZwo+Pj4+IHRoZSBicmlkZ2UsIGV4Y2VwdCBJIGZvcmdvdCB0
-aGF0IGxpc3Rfc3BsaWNlKCkgZG9lc24ndCBjYWxsCj4+Pj4gSU5JVF9MSVNUX0hFQUQoKS4gSXQn
-cyBzdGlsbCBub3QgY2xlYXIgdG8gbWUgd2h5IHJlcGxhY2luZyB0aGUKPj4+PiBsaXN0X3NwbGlj
-ZSgpIGNhbGwgYnkgYSBsaXN0X3NwbGljZV9pbml0KCkgZGlkbid0IHdvcmsuCj4+PiBPa2F5LCBJ
-IHRoaW5rIEkgZmlndXJlZCBpdCBvdXQ6IGRybV9icmlkZ2VfY2hhaW5feHgoKSBoZWxwZXJzIHVz
-ZQo+Pj4gZW5jb2Rlci0+YnJpZGdlX2NoYWluIGFzIHRoZWlyIGxpc3QgaGVhZCwgYW5kIHlvdSds
-bCBuZXZlciBoaXQgdGhlIAo+Pj4gJ2VsZW0KPj4+IGlzIGxpc3QgaGVhZCcgY29uZGl0aW9uIHNp
-bmNlIHdlIG1vdmVkIGFsbCBlbGVtcyBmcm9tCj4+PiBlbmNvZGVyLT5icmlkZ2VfY2hhaW4gdG8g
-ZXh5bm9zX2RzaS0+YnJpZGdlX2NoYWluLiBUaGUgb25seSB3YXkgdGhpcwo+Pj4gY2FuIHdvcmsg
-aXMgaWYgd2Ugc3RvcCB1c2luZyB0aGUgaGVscGVycyBhbmQgaW1wbGVtZW50IG91ciBvd24gbGlz
-dAo+Pj4gaXRlcmF0b3JzLgo+PiBKdXN0IHRvIG1ha2UgaXQgY2xlYXIsIGNhbGxpbmcgSU5JVF9M
-SVNUX0hFQUQoZW5jb2Rlci0+YnJpZGdlX2NoYWluKQo+PiBkb2Vzbid0IHJlYWxseSBmaXggdGhl
-IGJ1ZywgaXQganVzdCBwcmV2ZW50cyB0aGUgaGFuZyAoaW5maW5pdGUgbG9vcCkKPj4gYW5kIHR1
-cm4gYWxsIGRybV9icmlkZ2VfY2hhaW5feHgoKSBjYWxscyBpbnRvIE5PUHMuCj4KPiBSaWdodCwg
-SSd2ZSBqdXN0IGNoZWNrZWQgaXQgYW5kIGluZGVlZCB0aGUgZGlzcGxheSBjaGFpbiBvdXRwdXRz
-IAo+IG5vdGhpbmcgYWZ0ZXIgc3VjaCAnZml4Jy4gVG8gZ2V0IGl0IGZpbmFsbHkgd29ya2luZyBJ
-J3ZlIHJlcGxhY2VkIAo+IGRybV9icmlkZ2VfY2hhaW5fKigpIG9wZXJhdGlvbnMgZm9yIGV4eW5v
-c19kc2kgJ291dF9icmlkZ2UnIGJ5IGEgCj4gZGlyZWN0IGNhbGxzLiBJIHdpbGwgc3VibWl0IGEg
-cGF0Y2ggaW4gYSBmZXcgbWludXRlcy4gSSBob3BlIHRoYXQgc3VjaCAKPiB3b3JrYXJvdW5kIGNh
-biBiZSB1c2VkIG5vdyB0byBmaXggdGhlIHJlZ3Jlc3Npb24gdW50aWwgYSBiZXR0ZXIgCj4gc29s
-dXRpb24gaXMgYWdyZWVkLgoKSSd2ZSBwb3N0ZWQgYSAncXVpY2sgJiB3b3JraW5nJyBmaXggZm9y
-IEV4eW5vcyBEUk0gRFNJIGRyaXZlcjoKCmh0dHBzOi8vbGttbC5vcmcvbGttbC8yMDE5LzEyLzI3
-LzEyMQoKQmVzdCByZWdhcmRzCi0tIApNYXJlayBTenlwcm93c2tpLCBQaEQKU2Ftc3VuZyBSJkQg
-SW5zdGl0dXRlIFBvbGFuZAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVsCg==
+
+--===============0997512797==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="qekez63uoqkeptq7"
+Content-Disposition: inline
+
+
+--qekez63uoqkeptq7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Wed, Dec 25, 2019 at 09:20:42PM +0800, yu kuai wrote:
+> no functional change, just to make the code simpler
+>
+> Signed-off-by: yu kuai <yukuai3@huawei.com>
+> ---
+>  drivers/gpu/drm/omapdrm/dss/hdmi4.c         | 5 +----
+>  drivers/gpu/drm/omapdrm/dss/hdmi4_core.c    | 6 ++----
+>  drivers/gpu/drm/omapdrm/dss/hdmi5_core.c    | 4 +---
+>  drivers/gpu/drm/omapdrm/dss/hdmi_phy.c      | 4 +---
+>  drivers/gpu/drm/sun4i/sun4i_dotclock.c      | 4 +---
+>  drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c      | 4 +---
+>  drivers/gpu/drm/sun4i/sun4i_hdmi_tmds_clk.c | 4 +---
+>  drivers/gpu/drm/sun4i/sun8i_hdmi_phy_clk.c  | 5 +----
+>  drivers/gpu/drm/tegra/drm.c                 | 4 +---
+>  drivers/gpu/drm/tegra/gem.c                 | 4 +---
+>  10 files changed, 11 insertions(+), 33 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4.c b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
+> index 0f557fad4513..eb71baedf19e 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/hdmi4.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
+> @@ -587,10 +587,7 @@ static int hdmi_audio_register(struct omap_hdmi *hdmi)
+>  		&hdmi->pdev->dev, "omap-hdmi-audio", PLATFORM_DEVID_AUTO,
+>  		&pdata, sizeof(pdata));
+>
+> -	if (IS_ERR(hdmi->audio_pdev))
+> -		return PTR_ERR(hdmi->audio_pdev);
+> -
+> -	return 0;
+> +	return PTR_ERR_OR_ZERO(hdmi->audio_pdev);
+>  }
+>
+>  /* -----------------------------------------------------------------------------
+> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4_core.c b/drivers/gpu/drm/omapdrm/dss/hdmi4_core.c
+> index ea5d5c228534..fdd73fb73653 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/hdmi4_core.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi4_core.c
+> @@ -924,8 +924,6 @@ int hdmi4_core_init(struct platform_device *pdev, struct hdmi_core_data *core)
+>
+>  	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "core");
+>  	core->base = devm_ioremap_resource(&pdev->dev, res);
+> -	if (IS_ERR(core->base))
+> -		return PTR_ERR(core->base);
+> -
+> -	return 0;
+> +
+> +	return PTR_ERR_OR_ZERO(core->base);
+>  }
+> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c b/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c
+> index ff4d35c8771f..30454bc9de78 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c
+> @@ -908,8 +908,6 @@ int hdmi5_core_init(struct platform_device *pdev, struct hdmi_core_data *core)
+>
+>  	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "core");
+>  	core->base = devm_ioremap_resource(&pdev->dev, res);
+> -	if (IS_ERR(core->base))
+> -		return PTR_ERR(core->base);
+>
+> -	return 0;
+> +	return PTR_ERR_OR_ZERO(core->base);
+>  }
+> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi_phy.c b/drivers/gpu/drm/omapdrm/dss/hdmi_phy.c
+> index 00bbf24488c1..bbc02d5aa8fb 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/hdmi_phy.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi_phy.c
+> @@ -191,8 +191,6 @@ int hdmi_phy_init(struct platform_device *pdev, struct hdmi_phy_data *phy,
+>
+>  	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "phy");
+>  	phy->base = devm_ioremap_resource(&pdev->dev, res);
+> -	if (IS_ERR(phy->base))
+> -		return PTR_ERR(phy->base);
+>
+> -	return 0;
+> +	return PTR_ERR_OR_ZERO(phy->base);
+>  }
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_dotclock.c b/drivers/gpu/drm/sun4i/sun4i_dotclock.c
+> index 417ade3d2565..84c04d8192b3 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_dotclock.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_dotclock.c
+> @@ -191,10 +191,8 @@ int sun4i_dclk_create(struct device *dev, struct sun4i_tcon *tcon)
+>  	dclk->hw.init = &init;
+>
+>  	tcon->dclk = clk_register(dev, &dclk->hw);
+> -	if (IS_ERR(tcon->dclk))
+> -		return PTR_ERR(tcon->dclk);
+>
+> -	return 0;
+> +	return PTR_ERR_OR_ZERO(tcon->dclk);
+
+This has been submitted a couple of times already. It's harder to
+maintain and not easier to read.
+
+Please remove sun4i from your patch
+
+Maxime
+
+--qekez63uoqkeptq7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXgXw2QAKCRDj7w1vZxhR
+xcC0AP41YnCplFDuwO92c5iWckNOenpr5t0CgtMx4SUZvRwRfAEAofLF2tx6/nNv
+2u5zEYJchT5oj2oyNfSR2wa6CCYaMQM=
+=9hHy
+-----END PGP SIGNATURE-----
+
+--qekez63uoqkeptq7--
+
+--===============0997512797==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0997512797==--
