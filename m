@@ -1,37 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1D3112B6B0
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Dec 2019 18:44:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74E9712B6BF
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Dec 2019 18:45:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBFCF6E456;
-	Fri, 27 Dec 2019 17:44:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 686A86E1A2;
+	Fri, 27 Dec 2019 17:45:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 715FF6E456
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Dec 2019 17:44:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C99436E1A2
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Dec 2019 17:45:20 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 51CEC21D7E;
- Fri, 27 Dec 2019 17:44:31 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id D990B24653;
+ Fri, 27 Dec 2019 17:45:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1577468672;
- bh=mPn76qigQFXAk42nyDMxZBq97KxsmKqNaE7EZDYfODU=;
+ s=default; t=1577468720;
+ bh=PA4FxnAk4aNpdZ8YIp/EAybWfqD/vW0X7F1oDdtjVRc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IXcV+eisEcVYQr3oLc/7XSR7iUwkh4W7cyJCbiWKb/d0JzJ4PeXh3RQ05hq5DOVjF
- Ju6v4YoG2T0xqgAIc4mYLlXqBIT/S70F8vNWuZuWc2N2amnoB7p5+7Qwm0mAYhBi0+
- Y65PuXZP98Q5fXUjE3jawztuXRykGt3L2HliHIaA=
+ b=PTmrLJS84WQ+YPrO9GRHSju0t2ucBZl0NvJWQbxSGZSGMqoxZLAevGgte7UlIuFV8
+ X9+G3UPw287hXDCQ8R2O53iYwrbVT8SZuqZe0fjgxyvs9m2/zV8W1xxYck4Au2QiYY
+ ALO9PJVde7s2VSIHn9CTVwR7WjL7mfDdhDGEofOU=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 32/84] bnxt_en: Return error if FW returns more
- data than dump length
-Date: Fri, 27 Dec 2019 12:43:00 -0500
-Message-Id: <20191227174352.6264-32-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 74/84] drm/exynos: gsc: add missed component_del
+Date: Fri, 27 Dec 2019 12:43:42 -0500
+Message-Id: <20191227174352.6264-74-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191227174352.6264-1-sashal@kernel.org>
 References: <20191227174352.6264-1-sashal@kernel.org>
@@ -50,159 +49,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Vasundhara Volam <vasundhara-v.volam@broadcom.com>,
- Michael Chan <michael.chan@broadcom.com>,
- "David S . Miller" <davem@davemloft.net>, linux-media@vger.kernel.org
+Cc: Sasha Levin <sashal@kernel.org>, linux-samsung-soc@vger.kernel.org,
+ Chuhong Yuan <hslester96@gmail.com>, dri-devel@lists.freedesktop.org,
+ Inki Dae <inki.dae@samsung.net>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Vasundhara Volam <vasundhara-v.volam@broadcom.com>
+From: Chuhong Yuan <hslester96@gmail.com>
 
-[ Upstream commit c74751f4c39232c31214ec6a3bc1c7e62f5c728b ]
+[ Upstream commit 84c92365b20a44c363b95390ea00dfbdd786f031 ]
 
-If any change happened in the configuration of VF in VM while
-collecting live dump, there could be a race and firmware can return
-more data than allocated dump length. Fix it by keeping track of
-the accumulated core dump length copied so far and abort the copy
-with error code if the next chunk of core dump will exceed the
-original dump length.
+The driver forgets to call component_del in remove to match component_add
+in probe.
+Add the missed call to fix it.
 
-Fixes: 6c5657d085ae ("bnxt_en: Add support for ethtool get dump.")
-Signed-off-by: Vasundhara Volam <vasundhara-v.volam@broadcom.com>
-Signed-off-by: Michael Chan <michael.chan@broadcom.com>
-Signed-off-by: David S. Miller <davem@davemloft.net>
+Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
+Signed-off-by: Inki Dae <inki.dae@samsung.net>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../net/ethernet/broadcom/bnxt/bnxt_ethtool.c | 38 +++++++++++++++----
- .../net/ethernet/broadcom/bnxt/bnxt_ethtool.h |  4 ++
- 2 files changed, 34 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/exynos/exynos_drm_gsc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
-index 2240c23b0a4c..0a409ba4012a 100644
---- a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
-+++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
-@@ -2778,8 +2778,15 @@ static int bnxt_hwrm_dbg_dma_data(struct bnxt *bp, void *msg, int msg_len,
- 			}
- 		}
- 
--		if (info->dest_buf)
--			memcpy(info->dest_buf + off, dma_buf, len);
-+		if (info->dest_buf) {
-+			if ((info->seg_start + off + len) <=
-+			    BNXT_COREDUMP_BUF_LEN(info->buf_len)) {
-+				memcpy(info->dest_buf + off, dma_buf, len);
-+			} else {
-+				rc = -ENOBUFS;
-+				break;
-+			}
-+		}
- 
- 		if (cmn_req->req_type ==
- 				cpu_to_le16(HWRM_DBG_COREDUMP_RETRIEVE))
-@@ -2833,7 +2840,7 @@ static int bnxt_hwrm_dbg_coredump_initiate(struct bnxt *bp, u16 component_id,
- 
- static int bnxt_hwrm_dbg_coredump_retrieve(struct bnxt *bp, u16 component_id,
- 					   u16 segment_id, u32 *seg_len,
--					   void *buf, u32 offset)
-+					   void *buf, u32 buf_len, u32 offset)
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_gsc.c b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
+index 7ba414b52faa..d71188b982cb 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_gsc.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
+@@ -1292,6 +1292,7 @@ static int gsc_remove(struct platform_device *pdev)
  {
- 	struct hwrm_dbg_coredump_retrieve_input req = {0};
- 	struct bnxt_hwrm_dbg_dma_info info = {NULL};
-@@ -2848,8 +2855,11 @@ static int bnxt_hwrm_dbg_coredump_retrieve(struct bnxt *bp, u16 component_id,
- 				seq_no);
- 	info.data_len_off = offsetof(struct hwrm_dbg_coredump_retrieve_output,
- 				     data_len);
--	if (buf)
-+	if (buf) {
- 		info.dest_buf = buf + offset;
-+		info.buf_len = buf_len;
-+		info.seg_start = offset;
-+	}
+ 	struct device *dev = &pdev->dev;
  
- 	rc = bnxt_hwrm_dbg_dma_data(bp, &req, sizeof(req), &info);
- 	if (!rc)
-@@ -2939,14 +2949,17 @@ bnxt_fill_coredump_record(struct bnxt *bp, struct bnxt_coredump_record *record,
- static int bnxt_get_coredump(struct bnxt *bp, void *buf, u32 *dump_len)
- {
- 	u32 ver_get_resp_len = sizeof(struct hwrm_ver_get_output);
-+	u32 offset = 0, seg_hdr_len, seg_record_len, buf_len = 0;
- 	struct coredump_segment_record *seg_record = NULL;
--	u32 offset = 0, seg_hdr_len, seg_record_len;
- 	struct bnxt_coredump_segment_hdr seg_hdr;
- 	struct bnxt_coredump coredump = {NULL};
- 	time64_t start_time;
- 	u16 start_utc;
- 	int rc = 0, i;
++	component_del(dev, &gsc_component_ops);
+ 	pm_runtime_dont_use_autosuspend(dev);
+ 	pm_runtime_disable(dev);
  
-+	if (buf)
-+		buf_len = *dump_len;
-+
- 	start_time = ktime_get_real_seconds();
- 	start_utc = sys_tz.tz_minuteswest * 60;
- 	seg_hdr_len = sizeof(seg_hdr);
-@@ -2979,6 +2992,12 @@ static int bnxt_get_coredump(struct bnxt *bp, void *buf, u32 *dump_len)
- 		u32 duration = 0, seg_len = 0;
- 		unsigned long start, end;
- 
-+		if (buf && ((offset + seg_hdr_len) >
-+			    BNXT_COREDUMP_BUF_LEN(buf_len))) {
-+			rc = -ENOBUFS;
-+			goto err;
-+		}
-+
- 		start = jiffies;
- 
- 		rc = bnxt_hwrm_dbg_coredump_initiate(bp, comp_id, seg_id);
-@@ -2991,9 +3010,11 @@ static int bnxt_get_coredump(struct bnxt *bp, void *buf, u32 *dump_len)
- 
- 		/* Write segment data into the buffer */
- 		rc = bnxt_hwrm_dbg_coredump_retrieve(bp, comp_id, seg_id,
--						     &seg_len, buf,
-+						     &seg_len, buf, buf_len,
- 						     offset + seg_hdr_len);
--		if (rc)
-+		if (rc && rc == -ENOBUFS)
-+			goto err;
-+		else if (rc)
- 			netdev_err(bp->dev,
- 				   "Failed to retrieve coredump for seg = %d\n",
- 				   seg_record->segment_id);
-@@ -3023,7 +3044,8 @@ static int bnxt_get_coredump(struct bnxt *bp, void *buf, u32 *dump_len)
- 					  rc);
- 	kfree(coredump.data);
- 	*dump_len += sizeof(struct bnxt_coredump_record);
--
-+	if (rc == -ENOBUFS)
-+		netdev_err(bp->dev, "Firmware returned large coredump buffer");
- 	return rc;
- }
- 
-diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.h b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.h
-index b5b65b3f8534..3998f6e809a9 100644
---- a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.h
-+++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.h
-@@ -31,6 +31,8 @@ struct bnxt_coredump {
- 	u16		total_segs;
- };
- 
-+#define BNXT_COREDUMP_BUF_LEN(len) ((len) - sizeof(struct bnxt_coredump_record))
-+
- struct bnxt_hwrm_dbg_dma_info {
- 	void *dest_buf;
- 	int dest_buf_size;
-@@ -38,6 +40,8 @@ struct bnxt_hwrm_dbg_dma_info {
- 	u16 seq_off;
- 	u16 data_len_off;
- 	u16 segs;
-+	u32 seg_start;
-+	u32 buf_len;
- };
- 
- struct hwrm_dbg_cmn_input {
 -- 
 2.20.1
 
