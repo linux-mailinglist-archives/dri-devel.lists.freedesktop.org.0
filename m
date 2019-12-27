@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3182B12B661
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Dec 2019 18:42:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1D3112B6B0
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Dec 2019 18:44:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8D046E18E;
-	Fri, 27 Dec 2019 17:42:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBFCF6E456;
+	Fri, 27 Dec 2019 17:44:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F1EB6E18E
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Dec 2019 17:42:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 715FF6E456
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Dec 2019 17:44:32 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D354921927;
- Fri, 27 Dec 2019 17:42:17 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 51CEC21D7E;
+ Fri, 27 Dec 2019 17:44:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1577468538;
- bh=AuZ9tPBib5XjV9HSGCQZWmubqnvSSlrLHWhHcR003Gg=;
+ s=default; t=1577468672;
+ bh=mPn76qigQFXAk42nyDMxZBq97KxsmKqNaE7EZDYfODU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=1Ljanpz76CVckb69aQbXMZ3QTK4y1RTVDXx10MDoW4KK0qip/v6LnFiE3mtGI+dvp
- fh7VyWcznL1KycNUJfy6cedB/tNLzElAK3tPJj7ofWYgwsxn8GT4kyJVWkrAFO1y53
- f/uGuJyoREjKUIY7/aH4Q8Cx8RmHApgO8mAQgzHU=
+ b=IXcV+eisEcVYQr3oLc/7XSR7iUwkh4W7cyJCbiWKb/d0JzJ4PeXh3RQ05hq5DOVjF
+ Ju6v4YoG2T0xqgAIc4mYLlXqBIT/S70F8vNWuZuWc2N2amnoB7p5+7Qwm0mAYhBi0+
+ Y65PuXZP98Q5fXUjE3jawztuXRykGt3L2HliHIaA=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 068/187] bnxt_en: Return error if FW returns more
+Subject: [PATCH AUTOSEL 4.19 32/84] bnxt_en: Return error if FW returns more
  data than dump length
-Date: Fri, 27 Dec 2019 12:38:56 -0500
-Message-Id: <20191227174055.4923-68-sashal@kernel.org>
+Date: Fri, 27 Dec 2019 12:43:00 -0500
+Message-Id: <20191227174352.6264-32-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191227174055.4923-1-sashal@kernel.org>
-References: <20191227174055.4923-1-sashal@kernel.org>
+In-Reply-To: <20191227174352.6264-1-sashal@kernel.org>
+References: <20191227174352.6264-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -82,10 +82,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 34 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
-index 51c140476717..a3dcd11bfd98 100644
+index 2240c23b0a4c..0a409ba4012a 100644
 --- a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
 +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
-@@ -3062,8 +3062,15 @@ static int bnxt_hwrm_dbg_dma_data(struct bnxt *bp, void *msg, int msg_len,
+@@ -2778,8 +2778,15 @@ static int bnxt_hwrm_dbg_dma_data(struct bnxt *bp, void *msg, int msg_len,
  			}
  		}
  
@@ -103,7 +103,7 @@ index 51c140476717..a3dcd11bfd98 100644
  
  		if (cmn_req->req_type ==
  				cpu_to_le16(HWRM_DBG_COREDUMP_RETRIEVE))
-@@ -3117,7 +3124,7 @@ static int bnxt_hwrm_dbg_coredump_initiate(struct bnxt *bp, u16 component_id,
+@@ -2833,7 +2840,7 @@ static int bnxt_hwrm_dbg_coredump_initiate(struct bnxt *bp, u16 component_id,
  
  static int bnxt_hwrm_dbg_coredump_retrieve(struct bnxt *bp, u16 component_id,
  					   u16 segment_id, u32 *seg_len,
@@ -112,7 +112,7 @@ index 51c140476717..a3dcd11bfd98 100644
  {
  	struct hwrm_dbg_coredump_retrieve_input req = {0};
  	struct bnxt_hwrm_dbg_dma_info info = {NULL};
-@@ -3132,8 +3139,11 @@ static int bnxt_hwrm_dbg_coredump_retrieve(struct bnxt *bp, u16 component_id,
+@@ -2848,8 +2855,11 @@ static int bnxt_hwrm_dbg_coredump_retrieve(struct bnxt *bp, u16 component_id,
  				seq_no);
  	info.data_len_off = offsetof(struct hwrm_dbg_coredump_retrieve_output,
  				     data_len);
@@ -125,7 +125,7 @@ index 51c140476717..a3dcd11bfd98 100644
  
  	rc = bnxt_hwrm_dbg_dma_data(bp, &req, sizeof(req), &info);
  	if (!rc)
-@@ -3223,14 +3233,17 @@ bnxt_fill_coredump_record(struct bnxt *bp, struct bnxt_coredump_record *record,
+@@ -2939,14 +2949,17 @@ bnxt_fill_coredump_record(struct bnxt *bp, struct bnxt_coredump_record *record,
  static int bnxt_get_coredump(struct bnxt *bp, void *buf, u32 *dump_len)
  {
  	u32 ver_get_resp_len = sizeof(struct hwrm_ver_get_output);
@@ -144,7 +144,7 @@ index 51c140476717..a3dcd11bfd98 100644
  	start_time = ktime_get_real_seconds();
  	start_utc = sys_tz.tz_minuteswest * 60;
  	seg_hdr_len = sizeof(seg_hdr);
-@@ -3263,6 +3276,12 @@ static int bnxt_get_coredump(struct bnxt *bp, void *buf, u32 *dump_len)
+@@ -2979,6 +2992,12 @@ static int bnxt_get_coredump(struct bnxt *bp, void *buf, u32 *dump_len)
  		u32 duration = 0, seg_len = 0;
  		unsigned long start, end;
  
@@ -157,7 +157,7 @@ index 51c140476717..a3dcd11bfd98 100644
  		start = jiffies;
  
  		rc = bnxt_hwrm_dbg_coredump_initiate(bp, comp_id, seg_id);
-@@ -3275,9 +3294,11 @@ static int bnxt_get_coredump(struct bnxt *bp, void *buf, u32 *dump_len)
+@@ -2991,9 +3010,11 @@ static int bnxt_get_coredump(struct bnxt *bp, void *buf, u32 *dump_len)
  
  		/* Write segment data into the buffer */
  		rc = bnxt_hwrm_dbg_coredump_retrieve(bp, comp_id, seg_id,
@@ -171,7 +171,7 @@ index 51c140476717..a3dcd11bfd98 100644
  			netdev_err(bp->dev,
  				   "Failed to retrieve coredump for seg = %d\n",
  				   seg_record->segment_id);
-@@ -3307,7 +3328,8 @@ static int bnxt_get_coredump(struct bnxt *bp, void *buf, u32 *dump_len)
+@@ -3023,7 +3044,8 @@ static int bnxt_get_coredump(struct bnxt *bp, void *buf, u32 *dump_len)
  					  rc);
  	kfree(coredump.data);
  	*dump_len += sizeof(struct bnxt_coredump_record);
