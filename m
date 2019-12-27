@@ -2,33 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B26112B404
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Dec 2019 11:39:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4F8C12B403
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Dec 2019 11:39:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14E9A6E3EF;
-	Fri, 27 Dec 2019 10:39:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C09E6E3E3;
+	Fri, 27 Dec 2019 10:39:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 836D089C07
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Dec 2019 14:41:37 +0000 (UTC)
-Received: from [192.168.1.6] (x590e15ff.dyn.telefonica.de [89.14.21.255])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: pmenzel)
- by mx.molgen.mpg.de (Postfix) with ESMTPSA id 8BDD5202254E9;
- Thu, 26 Dec 2019 15:41:34 +0100 (CET)
-Subject: Re: [Regression drm-tip] Internal audio device missing
-To: Takashi Iwai <tiwai@suse.de>
-References: <6aa4e167-abb0-6a2c-c00e-558aa79d94be@molgen.mpg.de>
- <s5h1rsr769i.wl-tiwai@suse.de>
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-Message-ID: <91e1ebe8-270e-d62f-844e-2018fe77145e@molgen.mpg.de>
-Date: Thu, 26 Dec 2019 15:41:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
+ [IPv6:2607:f8b0:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2714B899A5
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Dec 2019 06:32:40 +0000 (UTC)
+Received: by mail-pg1-x544.google.com with SMTP id b137so13989176pga.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Dec 2019 22:32:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=2aAZsrFg19vll1emaW6XpIeha1H0m56azXvY0CR3CNI=;
+ b=QVLqmpEAbgO2c42Y8tN7yjEwEflGvvFkcpiVcMD3XIqLRILUAeL2JgE94lP0d2l6Jo
+ 8Olnde1TWqU37CNeGWvivKNnyz2cP4Hwd2dzMYqXlB6DHV56xEmF/XZO0a1Mhp591qHJ
+ mvrM/dnOi92oltV+os0KafIuom1VBvkfu30pivZzaFTDpeM6K1nLYhUN/Sy5EVtqVfSr
+ 7hexdgBSXUopcPY9xUp3khH7XPKs9RJTovJ/mmCKwWcE+7GwuP1GBI2yti1SkprgbHaf
+ iU70Y1IKvUbosCXMhnpvOvCl233EWQzCNc08hlvDR/ahyEG4gHsXFb53b+45hLer3iG/
+ ZBZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=2aAZsrFg19vll1emaW6XpIeha1H0m56azXvY0CR3CNI=;
+ b=fwOLiJ5sqzZweTI91si+E542wrLNt91NKw3J2k1mX1FkAt3s/oIB9fwnpzB4HqlvUJ
+ AAsIDfGBhx6wTiB8FG9F1XByCvWdpmeA8GmQftnpADGbpVokcMQoDpcSOk1m4jboJNtF
+ L1Py6dkHgPyi8wm/NeEVCbPjCvRJYp8p9lIsje9n83SOhQIWwlqhDXLy28EHyHQq1AC2
+ weKBlXUqgunu3rQ0NON8t9DKbhXS0dt48ANoczhZfYEb21mDPhY0l42/q8KSIZMu2C7q
+ l8oiGt5xvw3nuAygj2SCmwwuGTfVY4rV5s/ITXe/kPo16k1Wbux1Cp42LqxxaGjNgBwO
+ 4o/Q==
+X-Gm-Message-State: APjAAAXoU9m8ZTbxW6DJraYZRtjFUiGDpoCDj+ndzvb95aLSebVVV+7o
+ mMiKFpaXcuTNgDbUB0SfVUrAdR26
+X-Google-Smtp-Source: APXvYqzpfH2rh0jD8O3cY2+AVWY6TqBk7XZZSc+kF3cJWPXyqCwoDqf0/S76vRyOMV17qmNwfXnOOw==
+X-Received: by 2002:a63:215f:: with SMTP id s31mr51237960pgm.27.1577428359435; 
+ Thu, 26 Dec 2019 22:32:39 -0800 (PST)
+Received: from tw-172-25-31-76.office.twttr.net ([8.25.197.24])
+ by smtp.gmail.com with ESMTPSA id s18sm34388938pfh.179.2019.12.26.22.32.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 Dec 2019 22:32:38 -0800 (PST)
+From: Cong Wang <xiyou.wangcong@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] dma-buf: free dmabuf->name in dma_buf_release()
+Date: Thu, 26 Dec 2019 22:32:04 -0800
+Message-Id: <20191227063204.5813-1-xiyou.wangcong@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <s5h1rsr769i.wl-tiwai@suse.de>
-Content-Language: en-US
 X-Mailman-Approved-At: Fri, 27 Dec 2019 10:39:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,88 +65,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, Takashi Iwai <tiwai@suse.com>,
- LKML <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Takashi Sakamoto <o-takashi@sakamocchi.jp>, Jaroslav Kysela <perex@perex.cz>
+Cc: Chenbo Feng <fengc@google.com>, linux-kernel@vger.kernel.org,
+ Greg Hackmann <ghackmann@google.com>,
+ syzbot+b2098bc44728a4efb3e9@syzkaller.appspotmail.com,
+ Cong Wang <xiyou.wangcong@gmail.com>, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dear Takashi,
+dma-buff name can be set via DMA_BUF_SET_NAME ioctl, but once set
+it never gets freed.
 
+Free it in dma_buf_release().
 
-Am 26.12.19 um 11:03 schrieb Takashi Iwai:
-> On Thu, 26 Dec 2019 10:47:18 +0100, Paul Menzel wrote:
+Fixes: bb2bb9030425 ("dma-buf: add DMA_BUF_SET_NAME ioctls")
+Reported-by: syzbot+b2098bc44728a4efb3e9@syzkaller.appspotmail.com
+Cc: Greg Hackmann <ghackmann@google.com>
+Cc: Chenbo Feng <fengc@google.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Signed-off-by: Cong Wang <xiyou.wangcong@gmail.com>
+---
+ drivers/dma-buf/dma-buf.c | 1 +
+ 1 file changed, 1 insertion(+)
 
->> With
->>
->>      $ git describe --tags drm-tip/drm-tip
->>      v5.5-rc3-1481-ga20d8cd6901a
->>
->> the internal audio device is not available, and just a dummy device.
->>
->> Running `alsa-info.sh` [1], the messages below are shown with the
->> problematic Linux kernel.
->>
->>      alsactl: get_controls:567: snd_ctl_open error: Sound protocol is
->> not compatible
->>      cat: /tmp/alsa-info.ateDlDjrZX/alsactl.tmp: No such file or directory
-> 
-> That's an unexpected side-effect of the recent protocol version bump
-> in sound.git for-next branch.  It seems that we can't change the minor
-> version unless we really want to break something.
-> 
-> Below is the fix patch.  Please give it a try.
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index ce41cd9b758a..2427398ff22a 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -108,6 +108,7 @@ static int dma_buf_release(struct inode *inode, struct file *file)
+ 		dma_resv_fini(dmabuf->resv);
+ 
+ 	module_put(dmabuf->owner);
++	kfree(dmabuf->name);
+ 	kfree(dmabuf);
+ 	return 0;
+ }
+-- 
+2.21.0
 
-Thank you for the quick reply and fix.
-
-> -- 8< --
-> From: Takashi Iwai <tiwai@suse.de>
-> Subject: [PATCH] ALSA: control: Fix incompatible protocol error
-> 
-> The recent change to bump the ALSA control API protocol version from
-> 2.0.7 to 2.1.0 caused a regression on user-space; while the user-space
-> expects both the major and the minor versions to be identical with the
-> supported numbers, we changed the minor number from 0 to 1.
-> 
-> For recovering from the incompatibility, this patch changes the
-> protocol version again to 2.0.8, which is compatible, but yet higher
-> than the original number 2.0.7, indicating that the protocol change.
-> 
-> Fixes: bd3eb4e87eb3 ("ALSA: ctl: bump protocol version up to v2.1.0")
-> Reported-by: Paul Menzel <pmenzel@molgen.mpg.de>
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> ---
->   include/uapi/sound/asound.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/uapi/sound/asound.h b/include/uapi/sound/asound.h
-> index e36dadaf84ba..30ebb2a42983 100644
-> --- a/include/uapi/sound/asound.h
-> +++ b/include/uapi/sound/asound.h
-> @@ -936,7 +936,7 @@ struct snd_timer_tread {
->    *                                                                          *
->    ****************************************************************************/
->   
-> -#define SNDRV_CTL_VERSION		SNDRV_PROTOCOL_VERSION(2, 1, 0)
-> +#define SNDRV_CTL_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 8)
->   
->   struct snd_ctl_card_info {
->   	int card;			/* card number */
-> 
-
-Tested-by: Paul Menzel <pmenzel@molgen.mpg.de>
-
-Are there CI systems, which should have caught this problem?
-
-Which user-space component should forward this problem to the user 
-(desktop environment displaying a warning)?
-
-
-Kind regards,
-
-Paul
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
