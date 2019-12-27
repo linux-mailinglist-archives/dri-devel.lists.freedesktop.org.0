@@ -1,87 +1,112 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC37412B34C
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Dec 2019 09:45:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8907C12B393
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Dec 2019 10:42:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D970889686;
-	Fri, 27 Dec 2019 08:45:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 011966E11D;
+	Fri, 27 Dec 2019 09:42:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2075.outbound.protection.outlook.com [40.107.94.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D0686E3EC;
- Fri, 27 Dec 2019 08:45:01 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GcWgjYf5BTXh8XILjZEjPIkdyvc7soVvhnl3xkQmMhrR0XBbp5D9bXO7b7LAWMFVPMgDS5nwYJq2xASmYXs+ziUXSntBeYwiyu+GZtGjwtImXwUZgRRskN2rufV0f4pA8Kn8m0AVJ5dk0tiF9l4a22WPBTq+2JUMWUz2q1zFVK4PArTVRnc3PuKf4Oim71DP/O2YMS/lmoxA3lt0nJgXOkE4mHkwk9bf23G7yozvXo8yYzITT8vdmw02UgRO99pAQe2L9ulXZtHP/nbo2/qWD8NL808X5UeWFcgx3keaJxc+DAOLHLRo1hHeYrMaPdH00KQ0RwRNsmTBHrIG8HcjUA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=moxbnkuzm36SKORRIAlEDPOnnoswSx85vIcFD73UJqw=;
- b=ZUOjDhlP99BRGufpIU4ilrRc7YfYe/scfvdhs0AC8HbLDrPiIjw+Of7LdyCZH6eTftUCa1Lmzl9dF4sAN0koItmMMUzRt0O/8CGWoskcJEILJ7o5/9ou7+YNOjEcEPiZTvcZUuYZLUdFKo8LrqQNuTvetaXOf/Dc0h81w2NpnLExtxyb1b4FWVYO5qAevPrIMh01mkCjvR6ErBEG3B6J0Rn6gMh0XeuNSbY1vsh1Sd4J+qVr/jAPN27DERz+wUMwsSLQKaeDmy+vEmvZDasKKN5rF2pY4OrujVdAdATFK7Fjd5JKWUfjeDefY7FHM9wgqbxlaSuJUzU0V/xY6ky6qQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=moxbnkuzm36SKORRIAlEDPOnnoswSx85vIcFD73UJqw=;
- b=aS3i/HmNbOKCeU2cXasCM7pf4oOEmKkPsQdvzJhUOA8RZmzkc4N1nkZBTdq0hOBvZruSvUaz7XkepuMX6RHTLrprKDN8O1XEXUb5xXbz7NINSE9GygsxNXwBLlShBbiEl6STZr4aohDjhJECtltaJbEj+u8O7VWseRDWAtxYfjM=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Ray.Huang@amd.com; 
-Received: from MN2PR12MB3309.namprd12.prod.outlook.com (20.179.83.157) by
- MN2PR12MB3549.namprd12.prod.outlook.com (20.179.83.209) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2559.16; Fri, 27 Dec 2019 08:44:58 +0000
-Received: from MN2PR12MB3309.namprd12.prod.outlook.com
- ([fe80::18c4:9fcb:3813:14f7]) by MN2PR12MB3309.namprd12.prod.outlook.com
- ([fe80::18c4:9fcb:3813:14f7%6]) with mapi id 15.20.2581.007; Fri, 27 Dec 2019
- 08:44:57 +0000
-Date: Fri, 27 Dec 2019 16:44:47 +0800
-From: Huang Rui <ray.huang@amd.com>
-To: yu kuai <yukuai3@huawei.com>
-Subject: Re: [PATCH] drm/radeon: remove three set but not used variable
-Message-ID: <20191227084444.GA3041@jenkins-Celadon-RN>
-References: <20191226120750.15106-1-yukuai3@huawei.com>
-Content-Disposition: inline
-In-Reply-To: <20191226120750.15106-1-yukuai3@huawei.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: HK2PR06CA0024.apcprd06.prod.outlook.com
- (2603:1096:202:2e::36) To MN2PR12MB3309.namprd12.prod.outlook.com
- (2603:10b6:208:106::29)
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1903D6E11D
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Dec 2019 09:42:29 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20191227094228euoutp01d39240d6ad0f93d77af3dedef5f83799~kMRfiaSwW0543005430euoutp01J
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Dec 2019 09:42:28 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20191227094228euoutp01d39240d6ad0f93d77af3dedef5f83799~kMRfiaSwW0543005430euoutp01J
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1577439748;
+ bh=SklRnUS+OJe4r2ijdTXj38B0pPoUDGj1igo4wrti+yY=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=s32fhSsh7iiUivWcgWuCNNm3U4VrN8wGQIudALvjDIsQ4C6h1Gkp6IgfsIbqYwuRL
+ zEnWjibTEP4Fgr7r1lLPZUX2LKyL+RZaAoiJV8bWEaxoBreF6vuGCatI538FUhSWVx
+ MkkPMSqxVyOwx/IBeLWBMDBnudWPR8nGvdUMcFlo=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20191227094227eucas1p14c78c21d24a96baf4c0bdcc55805b864~kMRfJ4hz82119721197eucas1p17;
+ Fri, 27 Dec 2019 09:42:27 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id 59.04.61286.302D50E5; Fri, 27
+ Dec 2019 09:42:27 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20191227094227eucas1p2010ec6c5a928e958497bf40ae4095969~kMReqpuhc1646816468eucas1p2R;
+ Fri, 27 Dec 2019 09:42:27 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20191227094227eusmtrp17559419c3dec1e57b87f90c314a15901~kMRep1QGc1066010660eusmtrp1e;
+ Fri, 27 Dec 2019 09:42:27 +0000 (GMT)
+X-AuditID: cbfec7f2-f0bff7000001ef66-6f-5e05d2032123
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id AF.6B.08375.302D50E5; Fri, 27
+ Dec 2019 09:42:27 +0000 (GMT)
+Received: from [106.120.51.74] (unknown [106.120.51.74]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20191227094226eusmtip225599ca902799af3dcc8465c0a10a79f~kMRdzHaEf0405304053eusmtip2v;
+ Fri, 27 Dec 2019 09:42:26 +0000 (GMT)
+Subject: Re: [PATCH v4 04/11] drm/bridge: Make the bridge chain a
+ double-linked list
+To: Boris Brezillon <boris.brezillon@collabora.com>
+From: Andrzej Hajda <a.hajda@samsung.com>
+Message-ID: <3a30de8e-9cc9-e3ff-a19a-45ea085ed9fc@samsung.com>
+Date: Fri, 27 Dec 2019 10:42:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Received: from jenkins-Celadon-RN (180.167.199.189) by
- HK2PR06CA0024.apcprd06.prod.outlook.com (2603:1096:202:2e::36) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2581.11 via Frontend Transport; Fri, 27 Dec 2019 08:44:54 +0000
-X-Originating-IP: [180.167.199.189]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: cb3287eb-23bb-4df7-1f75-08d78aa90d74
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3549:|MN2PR12MB3549:|MN2PR12MB3549:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3549DFCF0657456D6C6EBA99EC2A0@MN2PR12MB3549.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:341;
-X-Forefront-PRVS: 0264FEA5C3
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10009020)(4636009)(39860400002)(366004)(376002)(396003)(346002)(136003)(189003)(199004)(6666004)(86362001)(81156014)(33656002)(9686003)(26005)(55016002)(66476007)(66556008)(66946007)(45080400002)(966005)(478600001)(6496006)(81166006)(52116002)(66574012)(8936002)(316002)(1076003)(8676002)(4326008)(6862004)(186003)(5660300002)(956004)(2906002)(33716001)(16526019);
- DIR:OUT; SFP:1101; SCL:1; SRVR:MN2PR12MB3549;
- H:MN2PR12MB3309.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tiIjMsqeT3Sx8L/DRchrdt29xAjx9OSSEX6G4zNhVu0E9msG2q5GPUoFcm1e8wDS+xi/wGCXEa8V2J5akR4sGQO7jfiapfuD5+SUWZz16mXkvtFWUMvJwOrjyXIMBdjRfpvc7TqcHyNKWMDTg6tcZ/NCW+WVy6uxqd2RGRfohcA+6TBkjk3zi4pq41ju1dzsYoWf6ArwlZQF97In+NFx4mCcpCcYnPK5y1giLb69Hq1TKIKus0sOIXPbB6/UaGEuev2jZfZjbNUUbBJu51JErKiRlb0SCJLMD5KgiOzE3profh8BYNBDkrMukTzgb/VkomG4nVDwgYurQ3q5DSqJvOCS6Mojoxx3bZCmRWVk3FeqhvjUlIBxp0LCfAOB4fyOmE1qW/ceQMViBcDuR7lr5qnWx+QdeKp4XIC6t3CZvIGpDj5R8Gh8yDmtpXj8vG6KVrPuXYR5gVXwt1qTQx+b+lZcUVb7FWy8r1JnbDvMXy4=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb3287eb-23bb-4df7-1f75-08d78aa90d74
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Dec 2019 08:44:57.8023 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Q0UIVhuJWHOFvPZG1Gvvx31kaKrkJLXFg1NrflQ16Y2uR0JlHHQD0yHx5/SZHjvnEpjY50DpsJySOFBbqSEBEg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3549
+In-Reply-To: <20191224104422.25dbf980@collabora.com>
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0iTYRTGefddHU2+1mWnC10GBhVlYsEbWSzo8hX9UVlRWdqyj2nqtE27
+ QWR28ZKZaaau0rBZYhfLpc0b5DKdeamGVpqiolAzl5KKGJa5fUb+9zvPec57ngMvS8hj6bls
+ sDZS0GnVoUpaShZXjzauIGyU/6qvA0vwxbj1uK7+rQRXltdIcHZVI4Wbhvtp3DxiJ3BtXzOJ
+ TY2JFG6I6WNw/A0jg59UtTM499MHCbYk+eHOghB8uaKKwXmjRQhnpNppPFqaRark/OOsx4jv
+ /3yZ4TvTxiW8ud2I+BJDO8Pfjsuk+ML8eJq3JtskfMfVGglvvNVM80kv8hH/6loqyQ8WLtgp
+ Oyj1OSaEBp8UdJ4bjkiDBnqvkBFDq0//TmsjopFpeQJyY4FbDc86RqgEJGXlXB6Cbz8qGbEY
+ QjCSYSDEYhCBuf8R8W+k1ZZOi42HCGwX3iKxcCDotmdRTtcMbh/UjkUzTp7JecNdU5nrXYLL
+ o+BmbIzLRHNL4bephXayjNsA9sriCWZZkvOA4bFIpzyL2w89Td2UaJkOtZk9pJPdJlIYsy2u
+ RAS3EF467kyyAlp7siXOXcCZWfiWMzQZexNY34m7gJsBvTUvGJHnQ11qIinyeejIu0SIw3EI
+ ip6VTA6vg7bGX65wxEToglJPUd4IueUXXDJw7vDZMV3M4A4pxemEKMsg7opcdC+GjoaiyQcV
+ kPt+mE5GSsOUywxTrjFMucbwf+89ROYjhRClD9MIei+tcGqlXh2mj9JqVgaGhxWiie9Z96fm
+ pxkN245aEMci5TTZKjPpL6fUJ/VnwiwIWEI5U6bVUP5y2TH1mbOCLjxAFxUq6C1oHksqFTLv
+ HPthOadRRwohghAh6P51Jazb3Gjki2TmKlVgYurxlkX30/d0Wcc1ARXnxnxeB1TU930fSOk1
+ dkX5zd4xiLKjHQcOrdm9VzVekFwiVW11zNneqrG3PQ0+dMIjEG1jWr7HjPnWW20ZioPVCY8+
+ Lo1017qXemyZs3ajI/GJtXz5LmrzpeulI9Vlz01+b/q/cH4n2mNVDwaUpD5I7bWM0OnVfwFH
+ yCUUmgMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprJKsWRmVeSWpSXmKPExsVy+t/xe7rMl1jjDBa1sls0d9hanD5zisni
+ 4J7jTBbzj5xjtbjy9T2bxdXvL5ktTr65ymKx+VwPq8XZpjfsFp0Tl7BbrD1yl91i6fWLTBaH
+ +qItHqzPtmjde4TdYsXPrYwWMya/ZLP4uWsei4OQx5p5axg93t9oZfd4MPU/k8eOu0sYPXbO
+ usvuMbtjJqvHplWdbB4nJlxi8rjffZzJY8m0q2wefVtWMXoc6J3M4vF5k1wAb5SeTVF+aUmq
+ QkZ+cYmtUrShhZGeoaWFnpGJpZ6hsXmslZGpkr6dTUpqTmZZapG+XYJexodXbSwFX0wq/k69
+ w9zAuFm7i5GTQ0LAROLWpelsXYxcHEICSxkl5p9awgaREJfYPf8tM4QtLPHnWhdU0WtGiYYZ
+ jxhBEsICYRIn/zSwg9giAsYSczfvBrOZBVaxSvw7oAI1lUXi8b55rCAJNgFNib+bb4Jt4BWw
+ k3h5cBuQzcHBIqAq8fVPCUhYVCBC4u3vm6wQJYISJ2c+YQGxOYEuXTL/EDPEfHWJP/MuQdny
+ EtvfzoGyxSVuPZnPNIFRaBaS9llIWmYhaZmFpGUBI8sqRpHU0uLc9NxiQ73ixNzi0rx0veT8
+ 3E2MwGSx7djPzTsYL20MPsQowMGoxMPbsYslTog1say4MvcQowQHs5IIb146a5wQb0piZVVq
+ UX58UWlOavEhRlOg3yYyS4km5wMTWV5JvKGpobmFpaG5sbmxmYWSOG+HwMEYIYH0xJLU7NTU
+ gtQimD4mDk6pBsYu8eX9O98v57AW+cQ4U1LieL39p5b9a22zMxcGhVZmXt/6fU3mkT8MRWnf
+ eBqMZnz6x3ByUduKykNTJ4vXMrfPtvB4ZJ3P8+O0A7/wNIFH6xsEWObdPKKrd2THj7fLbW9H
+ fymrS4rg2qvz3POM1XXrdXKJPXNKOdt8Hkb/s7gb8WLZlZxlEpJKLMUZiYZazEXFiQBsctkG
+ LAMAAA==
+X-CMS-MailID: 20191227094227eucas1p2010ec6c5a928e958497bf40ae4095969
+X-Msg-Generator: CA
+X-RootMTR: 20191203141542eucas1p23771a9c49ef18144c832fc536bdae61a
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20191203141542eucas1p23771a9c49ef18144c832fc536bdae61a
+References: <20191203141515.3597631-1-boris.brezillon@collabora.com>
+ <CGME20191203141542eucas1p23771a9c49ef18144c832fc536bdae61a@eucas1p2.samsung.com>
+ <20191203141515.3597631-5-boris.brezillon@collabora.com>
+ <4e901ab9-07d4-4238-7322-c7c5a3959513@samsung.com>
+ <20191216155551.083dcbaf@collabora.com>
+ <75a06e2a-4587-ee16-0f5d-af75fbe89793@samsung.com>
+ <20191216162542.261c821c@collabora.com>
+ <60f03d50-7c0f-c3d0-920f-0625c08b2171@samsung.com>
+ <1010f5fc-0672-643c-4410-e053a928cb66@samsung.com>
+ <20191224104422.25dbf980@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,69 +119,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: yi.zhang@huawei.com, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, zhengbin13@huawei.com,
- amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
+ devicetree@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Kyungmin Park <kyungmin.park@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, kernel@collabora.com,
+ Sam Ravnborg <sam@ravnborg.org>, Chris Healy <cphealy@gmail.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBEZWMgMjYsIDIwMTkgYXQgMDg6MDc6NTBQTSArMDgwMCwgeXUga3VhaSB3cm90ZToK
-PiBGaXhlcyBnY2MgJy1XdW51c2VkLWJ1dC1zZXQtdmFyaWFibGUnIHdhcm5pbmc6Cj4gCj4gZHJp
-dmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fYXRvbWJpb3MuYzogSW4gZnVuY3Rpb24KPiChrnJh
-ZGVvbl9nZXRfYXRvbV9jb25uZWN0b3JfaW5mb19mcm9tX29iamVjdF90YWJsZaGvOgo+IGRyaXZl
-cnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2F0b21iaW9zLmM6NjUxOjI2OiB3YXJuaW5nOiB2YXJp
-YWJsZQo+IKGuZ3JwaF9vYmpfbnVtoa8gc2V0IGJ1dCBub3QgdXNlZCBbLVd1bnVzZWQtYnV0LXNl
-dC12YXJpYWJsZV0KPiBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9hdG9tYmlvcy5jOjY1
-MToxMzogd2FybmluZzogdmFyaWFibGUKPiChrmdycGhfb2JqX2lkoa8gc2V0IGJ1dCBub3QgdXNl
-ZCBbLVd1bnVzZWQtYnV0LXNldC12YXJpYWJsZV0KPiBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3Jh
-ZGVvbl9hdG9tYmlvcy5jOjU3MzozNzogd2FybmluZzogdmFyaWFibGUKPiChrmNvbl9vYmpfdHlw
-ZaGvIHNldCBidXQgbm90IHVzZWQgWy1XdW51c2VkLWJ1dC1zZXQtdmFyaWFibGVdCj4gCj4gVGhl
-eSBhcmUgbmV2ZXIgdXNlZCwgYW5kIHNvIGNhbiBiZSByZW1vdmVkLgo+IAo+IFNpZ25lZC1vZmYt
-Ynk6IHl1IGt1YWkgPHl1a3VhaTNAaHVhd2VpLmNvbT4KClRoYW5rcyEKCkFja2VkLWJ5OiBIdWFu
-ZyBSdWkgPHJheS5odWFuZ0BhbWQuY29tPgoKPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL3JhZGVv
-bi9yYWRlb25fYXRvbWJpb3MuYyB8IDE1ICsrLS0tLS0tLS0tLS0tLQo+ICAxIGZpbGUgY2hhbmdl
-ZCwgMiBpbnNlcnRpb25zKCspLCAxMyBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fYXRvbWJpb3MuYyBiL2RyaXZlcnMvZ3B1L2RybS9y
-YWRlb24vcmFkZW9uX2F0b21iaW9zLmMKPiBpbmRleCAwNzJlNmRhZWRmN2EuLjg0OGVmNjhkOTA4
-NiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9hdG9tYmlvcy5j
-Cj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fYXRvbWJpb3MuYwo+IEBAIC01
-NzAsNyArNTcwLDcgQEAgYm9vbCByYWRlb25fZ2V0X2F0b21fY29ubmVjdG9yX2luZm9fZnJvbV9v
-YmplY3RfdGFibGUoc3RydWN0IGRybV9kZXZpY2UgKmRldikKPiAgCQlwYXRoX3NpemUgKz0gbGUx
-Nl90b19jcHUocGF0aC0+dXNTaXplKTsKPiAgCj4gIAkJaWYgKGRldmljZV9zdXBwb3J0ICYgbGUx
-Nl90b19jcHUocGF0aC0+dXNEZXZpY2VUYWcpKSB7Cj4gLQkJCXVpbnQ4X3QgY29uX29ial9pZCwg
-Y29uX29ial9udW0sIGNvbl9vYmpfdHlwZTsKPiArCQkJdWludDhfdCBjb25fb2JqX2lkLCBjb25f
-b2JqX251bTsKPiAgCj4gIAkJCWNvbl9vYmpfaWQgPQo+ICAJCQkgICAgKGxlMTZfdG9fY3B1KHBh
-dGgtPnVzQ29ubk9iamVjdElkKSAmIE9CSkVDVF9JRF9NQVNLKQo+IEBAIC01NzgsOSArNTc4LDYg
-QEAgYm9vbCByYWRlb25fZ2V0X2F0b21fY29ubmVjdG9yX2luZm9fZnJvbV9vYmplY3RfdGFibGUo
-c3RydWN0IGRybV9kZXZpY2UgKmRldikKPiAgCQkJY29uX29ial9udW0gPQo+ICAJCQkgICAgKGxl
-MTZfdG9fY3B1KHBhdGgtPnVzQ29ubk9iamVjdElkKSAmIEVOVU1fSURfTUFTSykKPiAgCQkJICAg
-ID4+IEVOVU1fSURfU0hJRlQ7Cj4gLQkJCWNvbl9vYmpfdHlwZSA9Cj4gLQkJCSAgICAobGUxNl90
-b19jcHUocGF0aC0+dXNDb25uT2JqZWN0SWQpICYKPiAtCQkJICAgICBPQkpFQ1RfVFlQRV9NQVNL
-KSA+PiBPQkpFQ1RfVFlQRV9TSElGVDsKPiAgCj4gIAkJCS8qIFRPRE8gQ1Ygc3VwcG9ydCAqLwo+
-ICAJCQlpZiAobGUxNl90b19jcHUocGF0aC0+dXNEZXZpY2VUYWcpID09Cj4gQEAgLTY0OCwxNSAr
-NjQ1LDcgQEAgYm9vbCByYWRlb25fZ2V0X2F0b21fY29ubmVjdG9yX2luZm9fZnJvbV9vYmplY3Rf
-dGFibGUoc3RydWN0IGRybV9kZXZpY2UgKmRldikKPiAgCQkJcm91dGVyLmRkY192YWxpZCA9IGZh
-bHNlOwo+ICAJCQlyb3V0ZXIuY2RfdmFsaWQgPSBmYWxzZTsKPiAgCQkJZm9yIChqID0gMDsgaiA8
-ICgobGUxNl90b19jcHUocGF0aC0+dXNTaXplKSAtIDgpIC8gMik7IGorKykgewo+IC0JCQkJdWlu
-dDhfdCBncnBoX29ial9pZCwgZ3JwaF9vYmpfbnVtLCBncnBoX29ial90eXBlOwo+IC0KPiAtCQkJ
-CWdycGhfb2JqX2lkID0KPiAtCQkJCSAgICAobGUxNl90b19jcHUocGF0aC0+dXNHcmFwaGljT2Jq
-SWRzW2pdKSAmCj4gLQkJCQkgICAgIE9CSkVDVF9JRF9NQVNLKSA+PiBPQkpFQ1RfSURfU0hJRlQ7
-Cj4gLQkJCQlncnBoX29ial9udW0gPQo+IC0JCQkJICAgIChsZTE2X3RvX2NwdShwYXRoLT51c0dy
-YXBoaWNPYmpJZHNbal0pICYKPiAtCQkJCSAgICAgRU5VTV9JRF9NQVNLKSA+PiBFTlVNX0lEX1NI
-SUZUOwo+IC0JCQkJZ3JwaF9vYmpfdHlwZSA9Cj4gKwkJCQl1aW50OF90IGdycGhfb2JqX3R5cGUg
-PQo+ICAJCQkJICAgIChsZTE2X3RvX2NwdShwYXRoLT51c0dyYXBoaWNPYmpJZHNbal0pICYKPiAg
-CQkJCSAgICAgT0JKRUNUX1RZUEVfTUFTSykgPj4gT0JKRUNUX1RZUEVfU0hJRlQ7Cj4gIAo+IC0t
-IAo+IDIuMTcuMgo+IAo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCj4gYW1kLWdmeCBtYWlsaW5nIGxpc3QKPiBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwo+IGh0dHBzOi8vbmFtMTEuc2FmZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5jb20vP3Vy
-bD1odHRwcyUzQSUyRiUyRmxpc3RzLmZyZWVkZXNrdG9wLm9yZyUyRm1haWxtYW4lMkZsaXN0aW5m
-byUyRmFtZC1nZngmYW1wO2RhdGE9MDIlN0MwMSU3Q3JheS5odWFuZyU0MGFtZC5jb20lN0M4ZDlk
-MTQ2ZWViY2E0NzJlNWU1OTA4ZDc4YTEwOTMzZiU3QzNkZDg5NjFmZTQ4ODRlNjA4ZTExYTgyZDk5
-NGUxODNkJTdDMCU3QzAlN0M2MzcxMjk2NzYxMDM4MTM2NjUmYW1wO3NkYXRhPTB4UmhITzJVT0li
-ZkV6WVY4SFRHdFNUSEZ3JTJGOFI2NlRmeTQ0WXZpS3BtUSUzRCZhbXA7cmVzZXJ2ZWQ9MApfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On 24.12.2019 10:44, Boris Brezillon wrote:
+> On Tue, 24 Dec 2019 10:16:49 +0100
+> Andrzej Hajda <a.hajda@samsung.com> wrote:
+>
+>> On 23.12.2019 10:55, Marek Szyprowski wrote:
+>>> Hi Boris,
+>>>
+>>> On 16.12.2019 16:25, Boris Brezillon wrote:  
+>>>> On Mon, 16 Dec 2019 16:02:36 +0100
+>>>> Marek Szyprowski <m.szyprowski@samsung.com> wrote:  
+>>>>> Hi Boris,
+>>>>>
+>>>>> On 16.12.2019 15:55, Boris Brezillon wrote:  
+>>>>>> On Mon, 16 Dec 2019 14:54:25 +0100
+>>>>>> Marek Szyprowski <m.szyprowski@samsung.com> wrote:  
+>>>>>>> On 03.12.2019 15:15, Boris Brezillon wrote:  
+>>>>>>>> So that each element in the chain can easily access its predecessor.
+>>>>>>>> This will be needed to support bus format negotiation between elements
+>>>>>>>> of the bridge chain.
+>>>>>>>>
+>>>>>>>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+>>>>>>>> Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+>>>>>>>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>  
+>>>>>>> I've noticed that this patch got merged to linux-next as commit
+>>>>>>> 05193dc38197021894b17239fafbd2eb1afe5a45. Sadly it breaks booting of
+>>>>>>> Samsung Exynos5250-based Arndale board. Booting stops after following
+>>>>>>> messages:
+>>>>>>>
+>>>>>>> [drm] Exynos DRM: using 14400000.fimd device for DMA mapping operations
+>>>>>>> exynos-drm exynos-drm: bound 14400000.fimd (ops fimd_component_ops)
+>>>>>>> exynos-drm exynos-drm: bound 14450000.mixer (ops mixer_component_ops)
+>>>>>>> exynos-drm exynos-drm: bound 14500000.dsi (ops exynos_dsi_component_ops)
+>>>>>>> exynos-drm exynos-drm: bound 14530000.hdmi (ops hdmi_component_ops)
+>>>>>>> [drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
+>>>>>>> [drm] No driver support for vblank timestamp query.
+>>>>>>> [drm] Cannot find any crtc or sizes
+>>>>>>> [drm] Cannot find any crtc or sizes
+>>>>>>> [drm] Initialized exynos 1.1.0 20180330 for exynos-drm on minor 0
+>>>>>>>
+>>>>>>> I will try to debug this and provide more information soon.
+>>>>>>>     
+>>>>>> Can you try with this diff applied?  
+>>>>> This patch doesn't change anything.  
+>>>> Okay. Can you do a list_for_each_entry() on both encoder->bridge_chain
+>>>> and dsi->bridge_chain (dump bridge pointers in a pr_info()) before and
+>>>> after the list_splice_init() call?  
+>>> encoder->bridge_chain contains only one element. dsi->drive_chain is empty.
+>>>
+>>> Replacing that list_splice() with INIT_LIST_HEAD(&encoder->bridge_chain) 
+>>> fixed the boot issue.
+> If INIT_LIST_HEAD() worked, I don't understand why replacing the
+> list_splice() call by a list_splice_init() (which doing a list_splice()
+> + INIT_LIST_HEAD()) didn't fix the problem. Are you sure the
+> list_splice_init() version doesn't work?
+>
+>>> It looks that this is related with the way the 
+>>> Exynos DSI handles bridges (in bridge and out brige?). Maybe Andrzej 
+>>> will give a bit more detailed comment and spread some light on this.  
+>>
+>> Hi Marek, Boris,
+>>
+>>
+>> I have not followed latest patches due to high work load, my bad. Marek
+>> thanks from pointing
+>>
+>> About ExynosDSI bridge handling:
+>>
+>> The order of calling encoder, bridge (and consequently panel) ops
+>> enforced by DRM core (bridge->pre_enable, encoder->enable,
+>> bridge->enable) does not fit to ExynosDSI hardware initialization
+>> sequence, if I remember correctly it does not fit to whole MIPI DSI
+>> standard (I think similar situation is with eDP). As a result DSI
+>> drivers must use some ugly workarounds, rely on HW properly coping with
+>> incorrect sequences, or, as in case of ExynosDSI driver, just avoid
+>> using encoder->bridge chaining and call bridge ops by itself when suitable.
+> Yes, that's definitely hack-ish, and I proposed 2 solutions to address
+> that in previous versions of this patchset, unfortunately I didn't get
+> any feedback so I went for the less invasive option (keep the hack but
+> adapt it to the double-linked list changes), which still lead to
+> regressions :-/.
+>
+> Just a reminder of my 2 proposals:
+>
+> 1/ implement the bridge_ops->pre_enable/post_disable() hooks so you can
+>    split your enable/disable logic in 2 parts and make sure things are
+>    ready when the panel/next bridge tries to send DSI commands
+
+
+If it means 'convert exynos_dsi to bridge' I do not think it will help -
+
+- pre_enable op will be still called after pre_enable op of downstream
+bridge - and this is the main reason why exynos_dsi do not use encoder
+bridge chain - it needs to perform some operations BEFORE (pre)enabling
+downstream devices.
+
+
+> 2/ move everything that's needed to send DSI commands out of the
+>    ->enable() path (maybe in runtime PM resume/suspend hooks) so you
+>    can call that in the DSI transfer path too
+
+
+It looks like a solution for DSI protocol, where control bus is shared
+with data bus, but the problem is more general - we have source and sink
+connected with some local bus, which has some negotiation/enable/disable
+protocol/requirements. And drm_core/bridge framework enforces us to fit
+every such protocol to 'drm_bridge protocol' with few opses called in
+fixed order, without clearly defined purpose of each ops. That does not
+sound generic and results in multiple issues:
+
+- different drivers uses different opses to perform the same thing,
+
+- different drivers assumes different things about their sinks/sources
+in their opses,
+
+- more complicated sequences does not fit at all to this model.
+
+All this results in incompatibilities between drivers which become
+visible with devices used in different configurations/platforms.
+
+
+Regards
+
+Andrzej
+
+
+>
+> As pointed out by Laurent, #1 doesn't work because some panel drivers
+> send DSI commands in their ->prepare() hook, and ->pre_enable() methods
+> are called in reverse order, meaning that the DRM panel bridge driver
+> would try to issue DSI commands before the DSI host controllers is ready
+> to send them. I still thing #2 is a good option.
+>
+>> So proper patch converting to double-linked list should not try to
+>> splice ExynosDSI private bridge list with with encoder's, encoder's list
+>> should be always empty, as Marek suggested.
+> That's exactly what I wanted to do: make the encoder's list empty after
+> attach() and restore it to its initial state before unregistering
+> the bridge, except I forgot that list_splice() doesn't call
+> INIT_LIST_HEAD(). It's still not clear to me why replacing the
+> list_splice() call by a list_splice_init() didn't work.
+> Also note that calling INIT_LIST_HEAD() only works if you have one
+> bridge in the chain, so if we go for that option we need a comment
+> explaining the limitations of this approach.
+>
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
