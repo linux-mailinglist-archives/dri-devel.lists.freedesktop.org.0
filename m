@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3288E12BD38
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Dec 2019 11:07:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18F2D12BD39
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Dec 2019 11:07:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06FE36E144;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A32F46E143;
 	Sat, 28 Dec 2019 10:07:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5523589336
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Dec 2019 01:15:11 +0000 (UTC)
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 46379DA1013776CDDABC;
- Sat, 28 Dec 2019 08:59:22 +0800 (CST)
+Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01A7A6E0DA
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Dec 2019 01:18:37 +0000 (UTC)
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 6A5A5C5BDA18D09E142B;
+ Sat, 28 Dec 2019 09:02:38 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.439.0; Sat, 28 Dec 2019 08:59:13 +0800
+ DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
+ 14.3.439.0; Sat, 28 Dec 2019 09:02:20 +0800
 From: Tian Tao <tiantao6@hisilicon.com>
 To: <puck.chen@hisilicon.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
  <tzimmermann@suse.de>, <kraxel@redhat.com>, <alexander.deucher@amd.com>,
  <tglx@linutronix.de>, <dri-devel@lists.freedesktop.org>,
- <xinliang.liu@linaro.org>
+ <xinliang.liu@linaro.org>, <linux-kernel@vger.kernel.org>
 Subject: [PATCH] drm/hisilicon: Checked the resolution is valid before
  connector
-Date: Sat, 28 Dec 2019 08:59:24 +0800
-Message-ID: <1577494764-28381-1-git-send-email-tiantao6@hisilicon.com>
+Date: Sat, 28 Dec 2019 09:02:31 +0800
+Message-ID: <1577494951-28435-1-git-send-email-tiantao6@hisilicon.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 X-Originating-IP: [10.69.192.56]
