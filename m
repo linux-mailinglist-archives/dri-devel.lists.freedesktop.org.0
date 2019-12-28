@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA42212BDFC
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Dec 2019 17:20:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92A0812BDFE
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Dec 2019 17:22:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0CEE895B6;
-	Sat, 28 Dec 2019 16:20:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0660A6E1BE;
+	Sat, 28 Dec 2019 16:21:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00E76895B6
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Dec 2019 16:20:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB1256E1BE
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Dec 2019 16:21:57 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 205649] Daisy Chain (MST) Session Crash after Screen Lock Resume
-Date: Sat, 28 Dec 2019 16:20:04 +0000
+Date: Sat, 28 Dec 2019 16:21:57 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -32,8 +32,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cf_kernel_version
-Message-ID: <bug-205649-2300-L43DdRyGbj@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-205649-2300-AX99jihAJ1@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-205649-2300@https.bugzilla.kernel.org/>
 References: <bug-205649-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,11 +58,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=205649
 
-Michael Rauch (michael@rauch.be) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-     Kernel Version|5.3, 5.4                    |5.3, 5.4, 5.5-rc3
+--- Comment #2 from Michael Rauch (michael@rauch.be) ---
+Same behavior with Kernel 5.5-rc3 and Mesa 19.2.1.
 
 -- 
 You are receiving this mail because:
