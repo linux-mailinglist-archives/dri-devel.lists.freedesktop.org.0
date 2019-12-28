@@ -2,61 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0BAD12C2CF
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Dec 2019 15:44:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A985B12C2CA
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Dec 2019 15:44:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21C2E89E9B;
-	Sun, 29 Dec 2019 14:43:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B44B89E50;
+	Sun, 29 Dec 2019 14:43:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
- [IPv6:2607:f8b0:4864:20::1042])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EF2B89948
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Dec 2019 20:28:52 +0000 (UTC)
-Received: by mail-pj1-x1042.google.com with SMTP id n59so6459286pjb.1
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Dec 2019 12:28:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=globallogic.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=KOo3X0X88vmmzo/eTEi6Meu4cmZqVttPr6kyKScWgTk=;
- b=Av9foxReTwVBkrERfdI7jObfw7XU7uwXaEfaCXIqfLHdVEXqrCSYJ39gOZKjlp2kes
- 0xFAmV9nUD99y/X+MHgPFTebv83wZASZYC7z1eBXvo4wftRBJPOECX12nkf2h0LN/jQc
- QNd7ypLlyARjjLmKnVPpnzk9FUDoq6IRH5r5Pu/+DV35NkLCfa35cq6oEtkARtRKH1pI
- UmMV7yiR6GAqqAnteEQLEErxIMlqV7ysoaokTvMUMgm9/vg1IrI6PKjq/OjkztjUHf8E
- C5ej8G1xJ/lzDUgd63jscyelh8JhuB9rPoHnZGODxNPlZRIo0pSfVW8Iq2QQZ9UJZEEW
- W10w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=KOo3X0X88vmmzo/eTEi6Meu4cmZqVttPr6kyKScWgTk=;
- b=bamIP1IBVOKeQs1C4EubfpwfOA9xTmbNa+kr0nNSvdlMJ6BxSMJa0IAF8s1DDHqDIQ
- yqrBwPJb+xqdr2WJ6IUaQb9SniDeNrrIxaEL2t4urbONfvCE4AbN9IT57wl21SRHBP0a
- HwDM1RRpNsYZTwFl5pidx6kS1F6GOO4T4FCx92sC+t948Lb8vcHhU01zmD0PCr4udVRf
- pKx9XTA6zKvPk50zxtXO1ThPzq3OmXL/D+k4cyjsse6DOGjVh9Tucm4z1lwXgOu0vE+A
- Sl05PmyP7j5NzZIxOq/8UknwVfDA/4U2Q+CGWilp4lyQCIysoYeIvgqUuvVXNEhTNYrr
- Uv9A==
-X-Gm-Message-State: APjAAAVUMUs5qxLMerZ0unlcF1hJotbjjwSnA1TexyOYs3HNrXbrGAyU
- WfDreOYBK4CEGciofKFvw7Y0/Q==
-X-Google-Smtp-Source: APXvYqy26/nSwCXwDQ5FV/Q/JeyaQxDibPHagpFbTwkrpyLRDOjoMJfa0xhhgtqgIqdL3EaJKpEQIQ==
-X-Received: by 2002:a17:90a:b392:: with SMTP id
- e18mr35842386pjr.118.1577564931719; 
- Sat, 28 Dec 2019 12:28:51 -0800 (PST)
-Received: from virtualhost-PowerEdge-R810.synapse.com ([195.238.92.107])
- by smtp.gmail.com with ESMTPSA id i68sm46771169pfe.173.2019.12.28.12.28.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 Dec 2019 12:28:51 -0800 (PST)
-From: roman.stratiienko@globallogic.com
-To: mripard@kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- jernej.skrabec@siol.net
-Subject: [RFC 4/4] drm/sun4i: Update mixer's internal registers after
- initialization
-Date: Sat, 28 Dec 2019 22:28:18 +0200
-Message-Id: <20191228202818.69908-5-roman.stratiienko@globallogic.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191228202818.69908-1-roman.stratiienko@globallogic.com>
-References: <20191228202818.69908-1-roman.stratiienko@globallogic.com>
+X-Greylist: delayed 314 seconds by postgrey-1.36 at gabe;
+ Sat, 28 Dec 2019 20:51:23 UTC
+Received: from mout.web.de (mout.web.de [212.227.17.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B0B76E0AD
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Dec 2019 20:51:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1577566281;
+ bh=oHQaSTGoeH9g17fCUt//b/m5thPO/XUgKQIz9MnXbJs=;
+ h=X-UI-Sender-Class:To:Cc:References:Subject:From:Date:In-Reply-To;
+ b=ElGSK3EQI526RKNg/AElzSdPg66RPmeL1HztMladMqAxBb9LmUU1s8q/2urvLtrjP
+ TTFFSaRMHCd+2rs4u9qAt5Og+H1Ds8rVTRDF8vo4HmC+rs8xxNDjKrwGMqhOauzsDJ
+ kMNReNH+BncyfDEVTnF6ZRFuyTY3Rd83GWuw5kG8=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.2] ([78.48.3.151]) by smtp.web.de (mrweb103
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0M5OUd-1jgfvB1o0V-00zTFH; Sat, 28
+ Dec 2019 21:45:54 +0100
+To: yu kuai <yukuai3@huawei.com>, dri-devel@lists.freedesktop.org
+References: <20191225131715.3527-1-yukuai3@huawei.com>
+Subject: Re: [PATCH] drm/v3d: remove duplicated kfree in v3d_submit_cl_ioctl
+From: Markus Elfring <Markus.Elfring@web.de>
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ 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 FEE=
+Message-ID: <0db93c30-2c87-9824-31be-a15c0d141ab5@web.de>
+Date: Sat, 28 Dec 2019 21:45:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
+MIME-Version: 1.0
+In-Reply-To: <20191225131715.3527-1-yukuai3@huawei.com>
+Content-Language: en-US
+X-Provags-ID: V03:K1:V93mfK/YfZM/BWjKYX3eDbTPdmUzIqmxwkCStPphMhHlROUEMDJ
+ JzNKhmfOyXXC6fuW9BKYXavjnfcKgFkMfeWo8a3c8rfvvYZRwNN8tDka5xgrM1dM+1bH4UJ
+ VDNEI/PSOhH1ZR2skByHnEM3/O9MFU2QpHscjkYMCH64FpOj7Tm0w5qCbJgitP7IHo/EtHT
+ ldDr273rh+6Xj+4eZi1oA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Y4reV7q4CAs=:9LZe+B+CNs6Mv/c9kxUxOe
+ 2Id7jpReviCME/rqtSg6n3NSVbjjM0ZdFQkU3mEuLXrAYZSVxe8MUv4Xhx5R+XzZCeCKsoMHz
+ 5x/EtE0+TVk+ngI0vXPxvzJpHd1yU4PA99cSuKQucV0RP9G7d6D9qIeUnB+W7WZhvWXyTL4Ws
+ 6cI1Qh5mvTO0yyD4muY5z5yQY7WjoS55baAG/f3WQFYLtvuPFw/S3I+ddoVgTmu2+79kTN3h4
+ x40NfhdPxl3TcUobyTR4dRBlXG8iPk1I3my8Sly7JlmUylmsZEL9xYynX7FKF/oaBgTa9UA2i
+ DS6gK05OuPr5i/L4kIiUE32UPcJ7eFu0gec4bhi6SH96xzYdMYNCjgWDkZrF0l6VLMakbbMSX
+ Pk5LXbHE3bI6dR+TlW8EcIYq11u12AytHFfmeQk8vKgh2j55/ifwst1eI6orfjLoQx9NNs6rq
+ V9Ae7dpiYxsnW/eVRpmBmlE/U3RYRm1UDMSGTa7rAG5j00EgURXuH2WXX5xkkTsVGzNw4rIwI
+ ohWeIaOxsHJ+vIOQ0rc5adnKuogJTbhTqpbsp/moAf+3LiBr8YCBv/X9EAqnLgCLOMGifp5ke
+ gUKN3owQRHsRWQSN5r/OZl2ahTyo79hOEVWeQBsxRcPoEHpAqzB7+8CKRK/GghPcR+ElJBeBK
+ BPzO+cMOvTfOlfhO20hdVrScyM7UfmaP5e9XNPk4Duj8QAMdjXWjZbWwMbPljiep4ZB9xQ+Vt
+ A2WuQrdR8pYjgEg3yaN1C7BdOAlBamK57nYdjXGNJyXO6E7K2Rsbx9SiE/lNWM6O/lQMj4mqN
+ j5xIaFU642VGTVf4m5FPDjZ3SaqYrrMBsCM7P2j21fhc+C8I9nCiWaWL1IAGoXtYp2Pjlvd/d
+ jPPm8L0QPqWWD6citDmarP95CyNQo/hzPdFHN3iHoYYDrEpsEs7/7N7BiHoaAP6DQw5dHN4NR
+ 9bK8tZmEuCJPmp6V3zuJWeqky+Ww1iUIaF63vCFQuvT9ecTYfgwXXTJkQWYdymVqfxAYDzXXg
+ LsBZ14c8N0hvwIzE5XCjm7sE2OW1Pu2T218R1ZsHZonLNv1kFrCXdneLXGWkSfXsRt1FyiGjv
+ L+kij1QmVh5KS26uu3+rBpjlO6GbiTQkOlhY024jNJeP/PFdrM4/01AFUgKAvuK1A/5YUZZ+4
+ iSHjEVnxFztfmiO1dYi5NHgv/t8GKyDbl0VR8v5tdyE6ZzkdQOzFnjdnZ6PsUZGV4BzKz5+G8
+ tjpxdKrFZ2v6DY0OW+NyzF1CeV/OvGGti1HzzYGDmEpNWAPh1LfYKP+AWe+U=
 X-Mailman-Approved-At: Sun, 29 Dec 2019 14:43:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,41 +116,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Roman Stratiienko <roman.stratiienko@globallogic.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Yi Zhang <yi.zhang@huawei.com>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, zhengbin <zhengbin13@huawei.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Roman Stratiienko <roman.stratiienko@globallogic.com>
-
-At system start blink of u-boot ghost framebuffer can be observed.
-Fix it.
-
-Signed-off-by: Roman Stratiienko <roman.stratiienko@globallogic.com>
----
- drivers/gpu/drm/sun4i/sun8i_mixer.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index da84fccf7784..b906b8cc464e 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -588,6 +588,9 @@ static int sun8i_mixer_bind(struct device *dev, struct device *master,
- 	regmap_update_bits(mixer->engine.regs, SUN8I_MIXER_BLEND_PIPE_CTL(base),
- 			   SUN8I_MIXER_BLEND_PIPE_CTL_EN_MSK, 0);
- 
-+	regmap_write(mixer->engine.regs, SUN8I_MIXER_GLOBAL_DBUFF,
-+		     SUN8I_MIXER_GLOBAL_DBUFF_ENABLE);
-+
- 	return 0;
- 
- err_disable_bus_clk:
--- 
-2.17.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+PiB2M2Rfc3VibWl0X2NsX2lvY3RsIGNhbGwga2ZyZWUoKSB3aXRoIHZhcmlhYmxlICdiaW4nIHR3
+aWNlLgoKSSB3b3VsZCBwcmVmZXIgYSB3b3JkaW5nIGxpa2Ug4oCca2ZyZWUoKSB3YXMgY2FsbGVk
+IGZvciB0aGUgc2FtZSB2YXJpYWJsZSB0d2ljZQp3aXRoaW4gYW4gaWYgYnJhbmNoLuKAnS4KCgo+
+IEZpeCBpdCBieSByZW1vdmluZyB0aGUgbGF0dGVyIG9uZS4KCkkgZmluZCB0aGUgd29yZGluZyDi
+gJxEZWxldGUgYSBkdXBsaWNhdGUgZnVuY3Rpb24gY2FsbC7igJ0gbW9yZSBhcHByb3ByaWF0ZS4K
+ClBsZWFzZSBhZGQgdGhlIHRhZyDigJxGaXhlc+KAnSB0byB5b3VyIGNoYW5nZSBkZXNjcmlwdGlv
+bi4KClJlZ2FyZHMsCk1hcmt1cwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWwK
