@@ -2,42 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4907812C2CC
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Dec 2019 15:44:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F99612C2D1
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Dec 2019 15:44:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D649D89E32;
-	Sun, 29 Dec 2019 14:43:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4C5689E7C;
+	Sun, 29 Dec 2019 14:43:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.siol.net (mailoutvs48.siol.net [185.57.226.239])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A67889AB3
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Dec 2019 09:40:31 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by mail.siol.net (Postfix) with ESMTP id 5405F521AA5;
- Sun, 29 Dec 2019 10:40:29 +0100 (CET)
-X-Virus-Scanned: amavisd-new at psrvmta11.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
- by localhost (psrvmta11.zcs-production.pri [127.0.0.1]) (amavisd-new,
- port 10032)
- with ESMTP id npAMj_sTePaG; Sun, 29 Dec 2019 10:40:28 +0100 (CET)
-Received: from mail.siol.net (localhost [127.0.0.1])
- by mail.siol.net (Postfix) with ESMTPS id A6CEB521A9B;
- Sun, 29 Dec 2019 10:40:28 +0100 (CET)
-Received: from jernej-laptop.localnet (89-212-178-211.dynamic.t-2.net
- [89.212.178.211]) (Authenticated sender: jernej.skrabec@siol.net)
- by mail.siol.net (Postfix) with ESMTPA id 710FA521A9A;
- Sun, 29 Dec 2019 10:40:28 +0100 (CET)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
-To: mripard@kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- roman.stratiienko@globallogic.com
-Subject: Re: [RFC 3/4] drm/sun4i: Reimplement plane z position setting logic
-Date: Sun, 29 Dec 2019 10:40:28 +0100
-Message-ID: <3994677.ejJDZkT8p0@jernej-laptop>
-In-Reply-To: <20191228202818.69908-4-roman.stratiienko@globallogic.com>
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
+ [IPv6:2a00:1450:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0313189A92
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Dec 2019 12:08:31 +0000 (UTC)
+Received: by mail-ed1-x541.google.com with SMTP id cy15so29744826edb.4
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Dec 2019 04:08:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=globallogic.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=x73WnrIjmFq3ORdQPkVoDGf3tvkED3CW22+XB4slDCs=;
+ b=aGDpI6F42/g5uHQzMz2CfsN6efJwGtQnEZTDFFYbOO5diKbHhsl2gaQfDI7NDVzmsv
+ 5SKersrywzqJJtsrotnLSWNHZTJFPGzUVszh7ryV3aU8/ZMeyjjawwGpdWXeRHrWKQTl
+ Eu9yfRLhOr5kdKIDiUXBOdrVLnXIgIRHNl2mvFGGc1ADpZIw8V0IGq30srCbDG8ymdpP
+ TWUu4sGdtYsSnuGc94KH//4v3P0/dhD0DBi3IbfelgTtDiGAg7ILJmNlPqttERXNBjxs
+ KuEypEE6j4/SOaPSzeq5dmGdWew0zgjXQ/jlHqAaNEVwt5HXYlsvv/AGkH1k93vd3Lz0
+ UxZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=x73WnrIjmFq3ORdQPkVoDGf3tvkED3CW22+XB4slDCs=;
+ b=Hwmvx4vXLMMNoZdYyUorwwCWzrzDEsIhrfpblmZ7p1Z/rAK7lOO39U0OhKPgpZbWc9
+ yZ3ovklvO2OlHfmznWW28fiNfFi1CkJ7ecvAPQCE8i0VUojQPR5ZHsulsIJcSOzOHGR3
+ MzYgReq89obd2irTLr9aAS62pVwsELFTlReJ+sUhwaI9E3NkF1Vipu0+H4lpAQnADttt
+ Mbgnei/LSMz3JBbsBIrgwdqll1EwLCkdsFTfmexJXpYFUv3MdLagY5sWSdDePCUNjc6o
+ d/X3EpFXfqrDkQARi8MnmeruiHRt6BRbnMwgOM3iRvY040TwaWDGgi9RUQNC37q3iMqS
+ 8JFg==
+X-Gm-Message-State: APjAAAUWPNW+LpHH2HOsGqND5dgKDKm9chTlwhoLnfvHRi5zD/54SfNW
+ 4rcg4JARya9vJ0cseeDqYei5SEHK5waVgafLBIJPVg==
+X-Google-Smtp-Source: APXvYqzP5ndhTbaxTdTjP2hOSWpMKgaUvqF3Dfy5nraWcGp1NXtJvEEu7SK9hDs9XfQenDX9vuSlPV0PErfRfvOVekc=
+X-Received: by 2002:a17:906:d0c9:: with SMTP id
+ bq9mr64910359ejb.56.1577621310327; 
+ Sun, 29 Dec 2019 04:08:30 -0800 (PST)
+MIME-Version: 1.0
 References: <20191228202818.69908-1-roman.stratiienko@globallogic.com>
  <20191228202818.69908-4-roman.stratiienko@globallogic.com>
-MIME-Version: 1.0
+ <3994677.ejJDZkT8p0@jernej-laptop>
+In-Reply-To: <3994677.ejJDZkT8p0@jernej-laptop>
+From: Roman Stratiienko <roman.stratiienko@globallogic.com>
+Date: Sun, 29 Dec 2019 14:08:19 +0200
+Message-ID: <CAODwZ7u3zAfsXRE-9XP0x=eoXYL__EzMLeJjE87_aPTe4UzRPg@mail.gmail.com>
+Subject: Re: [RFC 3/4] drm/sun4i: Reimplement plane z position setting logic
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@siol.net>
 X-Mailman-Approved-At: Sun, 29 Dec 2019 14:43:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,346 +66,236 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Roman Stratiienko <roman.stratiienko@globallogic.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi!
-
-Dne sobota, 28. december 2019 ob 21:28:17 CET je 
-roman.stratiienko@globallogic.com napisal(a):
-> From: Roman Stratiienko <roman.stratiienko@globallogic.com>
-> 
-> To set blending channel order register software needs to know state and
-> position of each channel, which impossible at plane commit stage.
-> 
-> Move this procedure to atomic_flush stage, where all necessary information
-> is available.
-> 
-> Signed-off-by: Roman Stratiienko <roman.stratiienko@globallogic.com>
-> ---
->  drivers/gpu/drm/sun4i/sun8i_mixer.c    | 47 +++++++++++++++++++++++++-
->  drivers/gpu/drm/sun4i/sun8i_mixer.h    |  3 ++
->  drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 42 ++++-------------------
->  drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 39 +++------------------
->  4 files changed, 60 insertions(+), 71 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> b/drivers/gpu/drm/sun4i/sun8i_mixer.c index bb9a665fd053..da84fccf7784
-> 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> @@ -307,8 +307,47 @@ static void sun8i_atomic_begin(struct sunxi_engine
-> *engine,
-> 
->  static void sun8i_mixer_commit(struct sunxi_engine *engine)
->  {
-> -	DRM_DEBUG_DRIVER("Committing changes\n");
-> +	struct sun8i_mixer *mixer = engine_to_sun8i_mixer(engine);
-> +	u32 base = sun8i_blender_base(mixer);
-> +	int i, j;
-> +	int channel_by_zpos[4] = {-1, -1, -1, -1};
-> +	u32 route = 0, pipe_ctl = 0;
-> +
-> +	DRM_DEBUG_DRIVER("Update blender routing\n");
-
-Use drm_dbg().
-
-> +	for (i = 0; i < 4; i++)	{
-> +		int zpos = mixer->channel_zpos[i];
-
-channel_zpos can hold 5 elements which is also theoretical maximum for current 
-HW design. Why do you check only 4 elements?
-
-It would be great to introduce a macro like SUN8I_MIXER_MAX_LAYERS so everyone 
-would understand where this number comes from.
-
-> +
-> +		if (zpos >= 0 && zpos < 4)
-> +			channel_by_zpos[zpos] = i;
-> +	}
-> +
-> +	j = 0;
-> +	for (i = 0; i < 4; i++)	{
-> +		int ch = channel_by_zpos[i];
-> +
-> +		if (ch >= 0) {
-> +			pipe_ctl |= SUN8I_MIXER_BLEND_PIPE_CTL_EN(j);
-> +			route |= ch << 
-SUN8I_MIXER_BLEND_ROUTE_PIPE_SHIFT(j);
-> +			j++;
-> +		}
-> +	}
-> +
-> +	for (i = 0; i < 4 && j < 4; i++) {
-> +		int zpos = mixer->channel_zpos[i];
-> 
-> +		if (zpos < 0) {
-> +			route |= i << 
-SUN8I_MIXER_BLEND_ROUTE_PIPE_SHIFT(j);
-> +			j++;
-> +		}
-> +	}
-> +
-> +	regmap_update_bits(mixer->engine.regs, 
-SUN8I_MIXER_BLEND_PIPE_CTL(base),
-> +			   SUN8I_MIXER_BLEND_PIPE_CTL_EN_MSK, 
-pipe_ctl);
-> +
-> +	regmap_write(mixer->engine.regs,
-> +		     SUN8I_MIXER_BLEND_ROUTE(base), route);
-> +
-> +	DRM_DEBUG_DRIVER("Committing changes\n");
-
-Use drm_dbg().
-
->  	regmap_write(engine->regs, SUN8I_MIXER_GLOBAL_DBUFF,
->  		     SUN8I_MIXER_GLOBAL_DBUFF_ENABLE);
->  }
-> @@ -422,6 +461,12 @@ static int sun8i_mixer_bind(struct device *dev, struct
-> device *master, mixer->engine.ops = &sun8i_engine_ops;
->  	mixer->engine.node = dev->of_node;
-> 
-> +	mixer->channel_zpos[0] = -1;
-> +	mixer->channel_zpos[1] = -1;
-> +	mixer->channel_zpos[2] = -1;
-> +	mixer->channel_zpos[3] = -1;
-> +	mixer->channel_zpos[4] = -1;
-> +
-
-for loop would be better, especially using proposed macro.
-
-Best regards,
-Jernej
-
->  	/*
->  	 * While this function can fail, we shouldn't do anything
->  	 * if this happens. Some early DE2 DT entries don't provide
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h
-> b/drivers/gpu/drm/sun4i/sun8i_mixer.h index 915479cc3077..9c2ff87923d8
-> 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
-> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-> @@ -178,6 +178,9 @@ struct sun8i_mixer {
-> 
->  	struct clk			*bus_clk;
->  	struct clk			*mod_clk;
-> +
-> +	/* -1 means that layer is disabled */
-> +	int channel_zpos[5];
->  };
-> 
->  static inline struct sun8i_mixer *
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-> b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c index 893076716070..23c2f4b68c89
-> 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-> @@ -24,12 +24,10 @@
->  #include "sun8i_ui_scaler.h"
-> 
->  static void sun8i_ui_layer_enable(struct sun8i_mixer *mixer, int channel,
-> -				  int overlay, bool enable, 
-unsigned int zpos,
-> -				  unsigned int old_zpos)
-> +				  int overlay, bool enable, 
-unsigned int zpos)
->  {
-> -	u32 val, bld_base, ch_base;
-> +	u32 val, ch_base;
-> 
-> -	bld_base = sun8i_blender_base(mixer);
->  	ch_base = sun8i_channel_base(mixer, channel);
-> 
->  	DRM_DEBUG_DRIVER("%sabling channel %d overlay %d\n",
-> @@ -44,32 +42,7 @@ static void sun8i_ui_layer_enable(struct sun8i_mixer
-> *mixer, int channel, SUN8I_MIXER_CHAN_UI_LAYER_ATTR(ch_base, overlay),
->  			   SUN8I_MIXER_CHAN_UI_LAYER_ATTR_EN, val);
-> 
-> -	if (!enable || zpos != old_zpos) {
-> -		regmap_update_bits(mixer->engine.regs,
-> -				   
-SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
-> -				   
-SUN8I_MIXER_BLEND_PIPE_CTL_EN(old_zpos),
-> -				   0);
-> -
-> -		regmap_update_bits(mixer->engine.regs,
-> -				   
-SUN8I_MIXER_BLEND_ROUTE(bld_base),
-> -				   
-SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(old_zpos),
-> -				   0);
-> -	}
-> -
-> -	if (enable) {
-> -		val = SUN8I_MIXER_BLEND_PIPE_CTL_EN(zpos);
-> -
-> -		regmap_update_bits(mixer->engine.regs,
-> -				   
-SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
-> -				   val, val);
-> -
-> -		val = channel << 
-SUN8I_MIXER_BLEND_ROUTE_PIPE_SHIFT(zpos);
-> -
-> -		regmap_update_bits(mixer->engine.regs,
-> -				   
-SUN8I_MIXER_BLEND_ROUTE(bld_base),
-> -				   
-SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(zpos),
-> -				   val);
-> -	}
-> +	mixer->channel_zpos[channel] = enable ? zpos : -1;
->  }
-> 
->  static int sun8i_ui_layer_update_coord(struct sun8i_mixer *mixer, int
-> channel, @@ -235,11 +208,9 @@ static void
-> sun8i_ui_layer_atomic_disable(struct drm_plane *plane, struct
-> drm_plane_state *old_state)
->  {
->  	struct sun8i_ui_layer *layer = plane_to_sun8i_ui_layer(plane);
-> -	unsigned int old_zpos = old_state->normalized_zpos;
->  	struct sun8i_mixer *mixer = layer->mixer;
-> 
-> -	sun8i_ui_layer_enable(mixer, layer->channel, layer->overlay, 
-false, 0,
-> -			      old_zpos);
-> +	sun8i_ui_layer_enable(mixer, layer->channel, layer->overlay, false, 
-0);
->  }
-> 
->  static void sun8i_ui_layer_atomic_update(struct drm_plane *plane,
-> @@ -247,12 +218,11 @@ static void sun8i_ui_layer_atomic_update(struct
-> drm_plane *plane, {
->  	struct sun8i_ui_layer *layer = plane_to_sun8i_ui_layer(plane);
->  	unsigned int zpos = plane->state->normalized_zpos;
-> -	unsigned int old_zpos = old_state->normalized_zpos;
->  	struct sun8i_mixer *mixer = layer->mixer;
-> 
->  	if (!plane->state->visible) {
->  		sun8i_ui_layer_enable(mixer, layer->channel,
-> -				      layer->overlay, false, 0, 
-old_zpos);
-> +				      layer->overlay, false, 0);
->  		return;
->  	}
-> 
-> @@ -263,7 +233,7 @@ static void sun8i_ui_layer_atomic_update(struct
-> drm_plane *plane, sun8i_ui_layer_update_buffer(mixer, layer->channel,
->  				     layer->overlay, plane);
->  	sun8i_ui_layer_enable(mixer, layer->channel, layer->overlay,
-> -			      true, zpos, old_zpos);
-> +			      true, zpos);
->  }
-> 
->  static struct drm_plane_helper_funcs sun8i_ui_layer_helper_funcs = {
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-> b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c index 42d445d23773..97cbc98bf781
-> 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-> @@ -17,8 +17,7 @@
->  #include "sun8i_vi_scaler.h"
-> 
->  static void sun8i_vi_layer_enable(struct sun8i_mixer *mixer, int channel,
-> -				  int overlay, bool enable, 
-unsigned int zpos,
-> -				  unsigned int old_zpos)
-> +				  int overlay, bool enable, 
-unsigned int zpos)
->  {
->  	u32 val, bld_base, ch_base;
-> 
-> @@ -37,32 +36,7 @@ static void sun8i_vi_layer_enable(struct sun8i_mixer
-> *mixer, int channel, SUN8I_MIXER_CHAN_VI_LAYER_ATTR(ch_base, overlay),
->  			   SUN8I_MIXER_CHAN_VI_LAYER_ATTR_EN, val);
-> 
-> -	if (!enable || zpos != old_zpos) {
-> -		regmap_update_bits(mixer->engine.regs,
-> -				   
-SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
-> -				   
-SUN8I_MIXER_BLEND_PIPE_CTL_EN(old_zpos),
-> -				   0);
-> -
-> -		regmap_update_bits(mixer->engine.regs,
-> -				   
-SUN8I_MIXER_BLEND_ROUTE(bld_base),
-> -				   
-SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(old_zpos),
-> -				   0);
-> -	}
-> -
-> -	if (enable) {
-> -		val = SUN8I_MIXER_BLEND_PIPE_CTL_EN(zpos);
-> -
-> -		regmap_update_bits(mixer->engine.regs,
-> -				   
-SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
-> -				   val, val);
-> -
-> -		val = channel << 
-SUN8I_MIXER_BLEND_ROUTE_PIPE_SHIFT(zpos);
-> -
-> -		regmap_update_bits(mixer->engine.regs,
-> -				   
-SUN8I_MIXER_BLEND_ROUTE(bld_base),
-> -				   
-SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(zpos),
-> -				   val);
-> -	}
-> +	mixer->channel_zpos[channel] = enable ? zpos : -1;
->  }
-> 
->  static int sun8i_vi_layer_update_coord(struct sun8i_mixer *mixer, int
-> channel, @@ -350,11 +324,9 @@ static void
-> sun8i_vi_layer_atomic_disable(struct drm_plane *plane, struct
-> drm_plane_state *old_state)
->  {
->  	struct sun8i_vi_layer *layer = plane_to_sun8i_vi_layer(plane);
-> -	unsigned int old_zpos = old_state->normalized_zpos;
->  	struct sun8i_mixer *mixer = layer->mixer;
-> 
-> -	sun8i_vi_layer_enable(mixer, layer->channel, layer->overlay, 
-false, 0,
-> -			      old_zpos);
-> +	sun8i_vi_layer_enable(mixer, layer->channel, layer->overlay, false, 
-0);
->  }
-> 
->  static void sun8i_vi_layer_atomic_update(struct drm_plane *plane,
-> @@ -362,12 +334,11 @@ static void sun8i_vi_layer_atomic_update(struct
-> drm_plane *plane, {
->  	struct sun8i_vi_layer *layer = plane_to_sun8i_vi_layer(plane);
->  	unsigned int zpos = plane->state->normalized_zpos;
-> -	unsigned int old_zpos = old_state->normalized_zpos;
->  	struct sun8i_mixer *mixer = layer->mixer;
-> 
->  	if (!plane->state->visible) {
->  		sun8i_vi_layer_enable(mixer, layer->channel,
-> -				      layer->overlay, false, 0, 
-old_zpos);
-> +				      layer->overlay, false, 0);
->  		return;
->  	}
-> 
-> @@ -378,7 +349,7 @@ static void sun8i_vi_layer_atomic_update(struct
-> drm_plane *plane, sun8i_vi_layer_update_buffer(mixer, layer->channel,
->  				     layer->overlay, plane);
->  	sun8i_vi_layer_enable(mixer, layer->channel, layer->overlay,
-> -			      true, zpos, old_zpos);
-> +			      true, zpos);
->  }
-> 
->  static struct drm_plane_helper_funcs sun8i_vi_layer_helper_funcs = {
-
-
-
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGVsbG8gSmVybmVqLAoKVGhhbmsgeW91IGZvciByZXZpZXcuCgpPbiBTdW4sIERlYyAyOSwgMjAx
+OSBhdCAxMTo0MCBBTSBKZXJuZWogxaBrcmFiZWMgPGplcm5lai5za3JhYmVjQHNpb2wubmV0PiB3
+cm90ZToKPgo+IEhpIQo+Cj4gRG5lIHNvYm90YSwgMjguIGRlY2VtYmVyIDIwMTkgb2IgMjE6Mjg6
+MTcgQ0VUIGplCj4gcm9tYW4uc3RyYXRpaWVua29AZ2xvYmFsbG9naWMuY29tIG5hcGlzYWwoYSk6
+Cj4gPiBGcm9tOiBSb21hbiBTdHJhdGlpZW5rbyA8cm9tYW4uc3RyYXRpaWVua29AZ2xvYmFsbG9n
+aWMuY29tPgo+ID4KPiA+IFRvIHNldCBibGVuZGluZyBjaGFubmVsIG9yZGVyIHJlZ2lzdGVyIHNv
+ZnR3YXJlIG5lZWRzIHRvIGtub3cgc3RhdGUgYW5kCj4gPiBwb3NpdGlvbiBvZiBlYWNoIGNoYW5u
+ZWwsIHdoaWNoIGltcG9zc2libGUgYXQgcGxhbmUgY29tbWl0IHN0YWdlLgo+ID4KPiA+IE1vdmUg
+dGhpcyBwcm9jZWR1cmUgdG8gYXRvbWljX2ZsdXNoIHN0YWdlLCB3aGVyZSBhbGwgbmVjZXNzYXJ5
+IGluZm9ybWF0aW9uCj4gPiBpcyBhdmFpbGFibGUuCj4gPgo+ID4gU2lnbmVkLW9mZi1ieTogUm9t
+YW4gU3RyYXRpaWVua28gPHJvbWFuLnN0cmF0aWllbmtvQGdsb2JhbGxvZ2ljLmNvbT4KPiA+IC0t
+LQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW44aV9taXhlci5jICAgIHwgNDcgKysrKysr
+KysrKysrKysrKysrKysrKysrKy0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuOGlfbWl4
+ZXIuaCAgICB8ICAzICsrCj4gPiAgZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjhpX3VpX2xheWVy
+LmMgfCA0MiArKysrLS0tLS0tLS0tLS0tLS0tLS0tLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9zdW40
+aS9zdW44aV92aV9sYXllci5jIHwgMzkgKysrLS0tLS0tLS0tLS0tLS0tLS0tCj4gPiAgNCBmaWxl
+cyBjaGFuZ2VkLCA2MCBpbnNlcnRpb25zKCspLCA3MSBkZWxldGlvbnMoLSkKPiA+Cj4gPiBkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjhpX21peGVyLmMKPiA+IGIvZHJpdmVy
+cy9ncHUvZHJtL3N1bjRpL3N1bjhpX21peGVyLmMgaW5kZXggYmI5YTY2NWZkMDUzLi5kYTg0ZmNj
+Zjc3ODQKPiA+IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjhpX21p
+eGVyLmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW44aV9taXhlci5jCj4gPiBA
+QCAtMzA3LDggKzMwNyw0NyBAQCBzdGF0aWMgdm9pZCBzdW44aV9hdG9taWNfYmVnaW4oc3RydWN0
+IHN1bnhpX2VuZ2luZQo+ID4gKmVuZ2luZSwKPiA+Cj4gPiAgc3RhdGljIHZvaWQgc3VuOGlfbWl4
+ZXJfY29tbWl0KHN0cnVjdCBzdW54aV9lbmdpbmUgKmVuZ2luZSkKPiA+ICB7Cj4gPiAtICAgICBE
+Uk1fREVCVUdfRFJJVkVSKCJDb21taXR0aW5nIGNoYW5nZXNcbiIpOwo+ID4gKyAgICAgc3RydWN0
+IHN1bjhpX21peGVyICptaXhlciA9IGVuZ2luZV90b19zdW44aV9taXhlcihlbmdpbmUpOwo+ID4g
+KyAgICAgdTMyIGJhc2UgPSBzdW44aV9ibGVuZGVyX2Jhc2UobWl4ZXIpOwo+ID4gKyAgICAgaW50
+IGksIGo7Cj4gPiArICAgICBpbnQgY2hhbm5lbF9ieV96cG9zWzRdID0gey0xLCAtMSwgLTEsIC0x
+fTsKPiA+ICsgICAgIHUzMiByb3V0ZSA9IDAsIHBpcGVfY3RsID0gMDsKPiA+ICsKPiA+ICsgICAg
+IERSTV9ERUJVR19EUklWRVIoIlVwZGF0ZSBibGVuZGVyIHJvdXRpbmdcbiIpOwo+Cj4gVXNlIGRy
+bV9kYmcoKS4KPgo+ID4gKyAgICAgZm9yIChpID0gMDsgaSA8IDQ7IGkrKykgewo+ID4gKyAgICAg
+ICAgICAgICBpbnQgenBvcyA9IG1peGVyLT5jaGFubmVsX3pwb3NbaV07Cj4KPiBjaGFubmVsX3pw
+b3MgY2FuIGhvbGQgNSBlbGVtZW50cyB3aGljaCBpcyBhbHNvIHRoZW9yZXRpY2FsIG1heGltdW0g
+Zm9yIGN1cnJlbnQKPiBIVyBkZXNpZ24uIFdoeSBkbyB5b3UgY2hlY2sgb25seSA0IGVsZW1lbnRz
+Pwo+CgpJJ2xsIHVzZSBwbGFuZV9jbnQgYXMgaXQgZG9uZSBpbiBtaXhlcl9iaW5kCgo+IEl0IHdv
+dWxkIGJlIGdyZWF0IHRvIGludHJvZHVjZSBhIG1hY3JvIGxpa2UgU1VOOElfTUlYRVJfTUFYX0xB
+WUVSUyBzbyBldmVyeW9uZQo+IHdvdWxkIHVuZGVyc3RhbmQgd2hlcmUgdGhpcyBudW1iZXIgY29t
+ZXMgZnJvbS4KCldpbGwgZG8uCgo+Cj4gPiArCj4gPiArICAgICAgICAgICAgIGlmICh6cG9zID49
+IDAgJiYgenBvcyA8IDQpCj4gPiArICAgICAgICAgICAgICAgICAgICAgY2hhbm5lbF9ieV96cG9z
+W3pwb3NdID0gaTsKPiA+ICsgICAgIH0KPiA+ICsKPiA+ICsgICAgIGogPSAwOwo+ID4gKyAgICAg
+Zm9yIChpID0gMDsgaSA8IDQ7IGkrKykgewo+ID4gKyAgICAgICAgICAgICBpbnQgY2ggPSBjaGFu
+bmVsX2J5X3pwb3NbaV07Cj4gPiArCj4gPiArICAgICAgICAgICAgIGlmIChjaCA+PSAwKSB7Cj4g
+PiArICAgICAgICAgICAgICAgICAgICAgcGlwZV9jdGwgfD0gU1VOOElfTUlYRVJfQkxFTkRfUElQ
+RV9DVExfRU4oaik7Cj4gPiArICAgICAgICAgICAgICAgICAgICAgcm91dGUgfD0gY2ggPDwKPiBT
+VU44SV9NSVhFUl9CTEVORF9ST1VURV9QSVBFX1NISUZUKGopOwo+ID4gKyAgICAgICAgICAgICAg
+ICAgICAgIGorKzsKPiA+ICsgICAgICAgICAgICAgfQo+ID4gKyAgICAgfQo+ID4gKwo+ID4gKyAg
+ICAgZm9yIChpID0gMDsgaSA8IDQgJiYgaiA8IDQ7IGkrKykgewo+ID4gKyAgICAgICAgICAgICBp
+bnQgenBvcyA9IG1peGVyLT5jaGFubmVsX3pwb3NbaV07Cj4gPgo+ID4gKyAgICAgICAgICAgICBp
+ZiAoenBvcyA8IDApIHsKPiA+ICsgICAgICAgICAgICAgICAgICAgICByb3V0ZSB8PSBpIDw8Cj4g
+U1VOOElfTUlYRVJfQkxFTkRfUk9VVEVfUElQRV9TSElGVChqKTsKPiA+ICsgICAgICAgICAgICAg
+ICAgICAgICBqKys7Cj4gPiArICAgICAgICAgICAgIH0KPiA+ICsgICAgIH0KPiA+ICsKPiA+ICsg
+ICAgIHJlZ21hcF91cGRhdGVfYml0cyhtaXhlci0+ZW5naW5lLnJlZ3MsCj4gU1VOOElfTUlYRVJf
+QkxFTkRfUElQRV9DVEwoYmFzZSksCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgU1VOOElf
+TUlYRVJfQkxFTkRfUElQRV9DVExfRU5fTVNLLAo+IHBpcGVfY3RsKTsKPiA+ICsKPiA+ICsgICAg
+IHJlZ21hcF93cml0ZShtaXhlci0+ZW5naW5lLnJlZ3MsCj4gPiArICAgICAgICAgICAgICAgICAg
+U1VOOElfTUlYRVJfQkxFTkRfUk9VVEUoYmFzZSksIHJvdXRlKTsKPiA+ICsKPiA+ICsgICAgIERS
+TV9ERUJVR19EUklWRVIoIkNvbW1pdHRpbmcgY2hhbmdlc1xuIik7Cj4KPiBVc2UgZHJtX2RiZygp
+LgoKQWNjb3JkaW5nIHRvIGh0dHBzOi8vZ2l0aHViLmNvbS90b3J2YWxkcy9saW51eC9jb21taXQv
+OTlhOTU0ODc0ZTdiOWYwYzgwNTg0NzY1NzU1OTNiM2JlYjU3MzFhNSNkaWZmLWIwY2QyZDY4M2M2
+YWZiYWI3YmQ1NDE3M2NmZDNkM2VjUjI4OQosCkRSTV9ERUJVR19EUklWRVIgdXNlcyBkcm1fZGJn
+LgpBbHNvLCB1c2luZyBkcm1fZGJnIHdpdGggY2F0ZWdvcnkgbWFjcm8gd291bGQgcmVxdWlyZSBs
+YXJnZXIgaW5kZW50LAptYWtpbmcgaGFyZGVyIHRvIGZpdCBpbiA4MCBjaGFycyBsaW1pdC4KQXJl
+IHRoZXJlIGFueSBwbGFucyB0byBkZXByZWNhdGUgRFJNX0RFQlVHX0RSSVZFUiBtYWNybz8KCj4K
+PiA+ICAgICAgIHJlZ21hcF93cml0ZShlbmdpbmUtPnJlZ3MsIFNVTjhJX01JWEVSX0dMT0JBTF9E
+QlVGRiwKPiA+ICAgICAgICAgICAgICAgICAgICBTVU44SV9NSVhFUl9HTE9CQUxfREJVRkZfRU5B
+QkxFKTsKPiA+ICB9Cj4gPiBAQCAtNDIyLDYgKzQ2MSwxMiBAQCBzdGF0aWMgaW50IHN1bjhpX21p
+eGVyX2JpbmQoc3RydWN0IGRldmljZSAqZGV2LCBzdHJ1Y3QKPiA+IGRldmljZSAqbWFzdGVyLCBt
+aXhlci0+ZW5naW5lLm9wcyA9ICZzdW44aV9lbmdpbmVfb3BzOwo+ID4gICAgICAgbWl4ZXItPmVu
+Z2luZS5ub2RlID0gZGV2LT5vZl9ub2RlOwo+ID4KPiA+ICsgICAgIG1peGVyLT5jaGFubmVsX3pw
+b3NbMF0gPSAtMTsKPiA+ICsgICAgIG1peGVyLT5jaGFubmVsX3pwb3NbMV0gPSAtMTsKPiA+ICsg
+ICAgIG1peGVyLT5jaGFubmVsX3pwb3NbMl0gPSAtMTsKPiA+ICsgICAgIG1peGVyLT5jaGFubmVs
+X3pwb3NbM10gPSAtMTsKPiA+ICsgICAgIG1peGVyLT5jaGFubmVsX3pwb3NbNF0gPSAtMTsKPiA+
+ICsKPgo+IGZvciBsb29wIHdvdWxkIGJlIGJldHRlciwgZXNwZWNpYWxseSB1c2luZyBwcm9wb3Nl
+ZCBtYWNyby4KCkknbGwgcHV0IGl0IGludG8gYWxyZWFkeSBleGlzdGVudCBmb3ItbG9vcCBiZWxv
+dy4KCj4KPiBCZXN0IHJlZ2FyZHMsCj4gSmVybmVqCj4KPiA+ICAgICAgIC8qCj4gPiAgICAgICAg
+KiBXaGlsZSB0aGlzIGZ1bmN0aW9uIGNhbiBmYWlsLCB3ZSBzaG91bGRuJ3QgZG8gYW55dGhpbmcK
+PiA+ICAgICAgICAqIGlmIHRoaXMgaGFwcGVucy4gU29tZSBlYXJseSBERTIgRFQgZW50cmllcyBk
+b24ndCBwcm92aWRlCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjhp
+X21peGVyLmgKPiA+IGIvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjhpX21peGVyLmggaW5kZXgg
+OTE1NDc5Y2MzMDc3Li45YzJmZjg3OTIzZDgKPiA+IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL3N1bjRpL3N1bjhpX21peGVyLmgKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9zdW40
+aS9zdW44aV9taXhlci5oCj4gPiBAQCAtMTc4LDYgKzE3OCw5IEBAIHN0cnVjdCBzdW44aV9taXhl
+ciB7Cj4gPgo+ID4gICAgICAgc3RydWN0IGNsayAgICAgICAgICAgICAgICAgICAgICAqYnVzX2Ns
+azsKPiA+ICAgICAgIHN0cnVjdCBjbGsgICAgICAgICAgICAgICAgICAgICAgKm1vZF9jbGs7Cj4g
+PiArCj4gPiArICAgICAvKiAtMSBtZWFucyB0aGF0IGxheWVyIGlzIGRpc2FibGVkICovCj4gPiAr
+ICAgICBpbnQgY2hhbm5lbF96cG9zWzVdOwo+ID4gIH07Cj4gPgo+ID4gIHN0YXRpYyBpbmxpbmUg
+c3RydWN0IHN1bjhpX21peGVyICoKPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc3Vu
+NGkvc3VuOGlfdWlfbGF5ZXIuYwo+ID4gYi9kcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuOGlfdWlf
+bGF5ZXIuYyBpbmRleCA4OTMwNzY3MTYwNzAuLjIzYzJmNGI2OGM4OQo+ID4gMTAwNjQ0Cj4gPiAt
+LS0gYS9kcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuOGlfdWlfbGF5ZXIuYwo+ID4gKysrIGIvZHJp
+dmVycy9ncHUvZHJtL3N1bjRpL3N1bjhpX3VpX2xheWVyLmMKPiA+IEBAIC0yNCwxMiArMjQsMTAg
+QEAKPiA+ICAjaW5jbHVkZSAic3VuOGlfdWlfc2NhbGVyLmgiCj4gPgo+ID4gIHN0YXRpYyB2b2lk
+IHN1bjhpX3VpX2xheWVyX2VuYWJsZShzdHJ1Y3Qgc3VuOGlfbWl4ZXIgKm1peGVyLCBpbnQgY2hh
+bm5lbCwKPiA+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgaW50IG92ZXJsYXksIGJv
+b2wgZW5hYmxlLAo+IHVuc2lnbmVkIGludCB6cG9zLAo+ID4gLSAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICB1bnNpZ25lZCBpbnQgb2xkX3pwb3MpCj4gPiArICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIGludCBvdmVybGF5LCBib29sIGVuYWJsZSwKPiB1bnNpZ25lZCBpbnQgenBv
+cykKPiA+ICB7Cj4gPiAtICAgICB1MzIgdmFsLCBibGRfYmFzZSwgY2hfYmFzZTsKPiA+ICsgICAg
+IHUzMiB2YWwsIGNoX2Jhc2U7Cj4gPgo+ID4gLSAgICAgYmxkX2Jhc2UgPSBzdW44aV9ibGVuZGVy
+X2Jhc2UobWl4ZXIpOwo+ID4gICAgICAgY2hfYmFzZSA9IHN1bjhpX2NoYW5uZWxfYmFzZShtaXhl
+ciwgY2hhbm5lbCk7Cj4gPgo+ID4gICAgICAgRFJNX0RFQlVHX0RSSVZFUigiJXNhYmxpbmcgY2hh
+bm5lbCAlZCBvdmVybGF5ICVkXG4iLAo+ID4gQEAgLTQ0LDMyICs0Miw3IEBAIHN0YXRpYyB2b2lk
+IHN1bjhpX3VpX2xheWVyX2VuYWJsZShzdHJ1Y3Qgc3VuOGlfbWl4ZXIKPiA+ICptaXhlciwgaW50
+IGNoYW5uZWwsIFNVTjhJX01JWEVSX0NIQU5fVUlfTEFZRVJfQVRUUihjaF9iYXNlLCBvdmVybGF5
+KSwKPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICBTVU44SV9NSVhFUl9DSEFOX1VJX0xBWUVS
+X0FUVFJfRU4sIHZhbCk7Cj4gPgo+ID4gLSAgICAgaWYgKCFlbmFibGUgfHwgenBvcyAhPSBvbGRf
+enBvcykgewo+ID4gLSAgICAgICAgICAgICByZWdtYXBfdXBkYXRlX2JpdHMobWl4ZXItPmVuZ2lu
+ZS5yZWdzLAo+ID4gLQo+IFNVTjhJX01JWEVSX0JMRU5EX1BJUEVfQ1RMKGJsZF9iYXNlKSwKPiA+
+IC0KPiBTVU44SV9NSVhFUl9CTEVORF9QSVBFX0NUTF9FTihvbGRfenBvcyksCj4gPiAtICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAwKTsKPiA+IC0KPiA+IC0gICAgICAgICAgICAgcmVn
+bWFwX3VwZGF0ZV9iaXRzKG1peGVyLT5lbmdpbmUucmVncywKPiA+IC0KPiBTVU44SV9NSVhFUl9C
+TEVORF9ST1VURShibGRfYmFzZSksCj4gPiAtCj4gU1VOOElfTUlYRVJfQkxFTkRfUk9VVEVfUElQ
+RV9NU0sob2xkX3pwb3MpLAo+ID4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgMCk7
+Cj4gPiAtICAgICB9Cj4gPiAtCj4gPiAtICAgICBpZiAoZW5hYmxlKSB7Cj4gPiAtICAgICAgICAg
+ICAgIHZhbCA9IFNVTjhJX01JWEVSX0JMRU5EX1BJUEVfQ1RMX0VOKHpwb3MpOwo+ID4gLQo+ID4g
+LSAgICAgICAgICAgICByZWdtYXBfdXBkYXRlX2JpdHMobWl4ZXItPmVuZ2luZS5yZWdzLAo+ID4g
+LQo+IFNVTjhJX01JWEVSX0JMRU5EX1BJUEVfQ1RMKGJsZF9iYXNlKSwKPiA+IC0gICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIHZhbCwgdmFsKTsKPiA+IC0KPiA+IC0gICAgICAgICAgICAg
+dmFsID0gY2hhbm5lbCA8PAo+IFNVTjhJX01JWEVSX0JMRU5EX1JPVVRFX1BJUEVfU0hJRlQoenBv
+cyk7Cj4gPiAtCj4gPiAtICAgICAgICAgICAgIHJlZ21hcF91cGRhdGVfYml0cyhtaXhlci0+ZW5n
+aW5lLnJlZ3MsCj4gPiAtCj4gU1VOOElfTUlYRVJfQkxFTkRfUk9VVEUoYmxkX2Jhc2UpLAo+ID4g
+LQo+IFNVTjhJX01JWEVSX0JMRU5EX1JPVVRFX1BJUEVfTVNLKHpwb3MpLAo+ID4gLSAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgdmFsKTsKPiA+IC0gICAgIH0KPiA+ICsgICAgIG1peGVy
+LT5jaGFubmVsX3pwb3NbY2hhbm5lbF0gPSBlbmFibGUgPyB6cG9zIDogLTE7Cj4gPiAgfQo+ID4K
+PiA+ICBzdGF0aWMgaW50IHN1bjhpX3VpX2xheWVyX3VwZGF0ZV9jb29yZChzdHJ1Y3Qgc3VuOGlf
+bWl4ZXIgKm1peGVyLCBpbnQKPiA+IGNoYW5uZWwsIEBAIC0yMzUsMTEgKzIwOCw5IEBAIHN0YXRp
+YyB2b2lkCj4gPiBzdW44aV91aV9sYXllcl9hdG9taWNfZGlzYWJsZShzdHJ1Y3QgZHJtX3BsYW5l
+ICpwbGFuZSwgc3RydWN0Cj4gPiBkcm1fcGxhbmVfc3RhdGUgKm9sZF9zdGF0ZSkKPiA+ICB7Cj4g
+PiAgICAgICBzdHJ1Y3Qgc3VuOGlfdWlfbGF5ZXIgKmxheWVyID0gcGxhbmVfdG9fc3VuOGlfdWlf
+bGF5ZXIocGxhbmUpOwo+ID4gLSAgICAgdW5zaWduZWQgaW50IG9sZF96cG9zID0gb2xkX3N0YXRl
+LT5ub3JtYWxpemVkX3pwb3M7Cj4gPiAgICAgICBzdHJ1Y3Qgc3VuOGlfbWl4ZXIgKm1peGVyID0g
+bGF5ZXItPm1peGVyOwo+ID4KPiA+IC0gICAgIHN1bjhpX3VpX2xheWVyX2VuYWJsZShtaXhlciwg
+bGF5ZXItPmNoYW5uZWwsIGxheWVyLT5vdmVybGF5LAo+IGZhbHNlLCAwLAo+ID4gLSAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIG9sZF96cG9zKTsKPiA+ICsgICAgIHN1bjhpX3VpX2xheWVyX2Vu
+YWJsZShtaXhlciwgbGF5ZXItPmNoYW5uZWwsIGxheWVyLT5vdmVybGF5LCBmYWxzZSwKPiAwKTsK
+PiA+ICB9Cj4gPgo+ID4gIHN0YXRpYyB2b2lkIHN1bjhpX3VpX2xheWVyX2F0b21pY191cGRhdGUo
+c3RydWN0IGRybV9wbGFuZSAqcGxhbmUsCj4gPiBAQCAtMjQ3LDEyICsyMTgsMTEgQEAgc3RhdGlj
+IHZvaWQgc3VuOGlfdWlfbGF5ZXJfYXRvbWljX3VwZGF0ZShzdHJ1Y3QKPiA+IGRybV9wbGFuZSAq
+cGxhbmUsIHsKPiA+ICAgICAgIHN0cnVjdCBzdW44aV91aV9sYXllciAqbGF5ZXIgPSBwbGFuZV90
+b19zdW44aV91aV9sYXllcihwbGFuZSk7Cj4gPiAgICAgICB1bnNpZ25lZCBpbnQgenBvcyA9IHBs
+YW5lLT5zdGF0ZS0+bm9ybWFsaXplZF96cG9zOwo+ID4gLSAgICAgdW5zaWduZWQgaW50IG9sZF96
+cG9zID0gb2xkX3N0YXRlLT5ub3JtYWxpemVkX3pwb3M7Cj4gPiAgICAgICBzdHJ1Y3Qgc3VuOGlf
+bWl4ZXIgKm1peGVyID0gbGF5ZXItPm1peGVyOwo+ID4KPiA+ICAgICAgIGlmICghcGxhbmUtPnN0
+YXRlLT52aXNpYmxlKSB7Cj4gPiAgICAgICAgICAgICAgIHN1bjhpX3VpX2xheWVyX2VuYWJsZSht
+aXhlciwgbGF5ZXItPmNoYW5uZWwsCj4gPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICBsYXllci0+b3ZlcmxheSwgZmFsc2UsIDAsCj4gb2xkX3pwb3MpOwo+ID4gKyAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgbGF5ZXItPm92ZXJsYXksIGZhbHNlLCAwKTsKPiA+
+ICAgICAgICAgICAgICAgcmV0dXJuOwo+ID4gICAgICAgfQo+ID4KPiA+IEBAIC0yNjMsNyArMjMz
+LDcgQEAgc3RhdGljIHZvaWQgc3VuOGlfdWlfbGF5ZXJfYXRvbWljX3VwZGF0ZShzdHJ1Y3QKPiA+
+IGRybV9wbGFuZSAqcGxhbmUsIHN1bjhpX3VpX2xheWVyX3VwZGF0ZV9idWZmZXIobWl4ZXIsIGxh
+eWVyLT5jaGFubmVsLAo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBsYXll
+ci0+b3ZlcmxheSwgcGxhbmUpOwo+ID4gICAgICAgc3VuOGlfdWlfbGF5ZXJfZW5hYmxlKG1peGVy
+LCBsYXllci0+Y2hhbm5lbCwgbGF5ZXItPm92ZXJsYXksCj4gPiAtICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgdHJ1ZSwgenBvcywgb2xkX3pwb3MpOwo+ID4gKyAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIHRydWUsIHpwb3MpOwo+ID4gIH0KPiA+Cj4gPiAgc3RhdGljIHN0cnVjdCBkcm1fcGxh
+bmVfaGVscGVyX2Z1bmNzIHN1bjhpX3VpX2xheWVyX2hlbHBlcl9mdW5jcyA9IHsKPiA+IGRpZmYg
+LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuOGlfdmlfbGF5ZXIuYwo+ID4gYi9kcml2
+ZXJzL2dwdS9kcm0vc3VuNGkvc3VuOGlfdmlfbGF5ZXIuYyBpbmRleCA0MmQ0NDVkMjM3NzMuLjk3
+Y2JjOThiZjc4MQo+ID4gMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3Vu
+OGlfdmlfbGF5ZXIuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjhpX3ZpX2xh
+eWVyLmMKPiA+IEBAIC0xNyw4ICsxNyw3IEBACj4gPiAgI2luY2x1ZGUgInN1bjhpX3ZpX3NjYWxl
+ci5oIgo+ID4KPiA+ICBzdGF0aWMgdm9pZCBzdW44aV92aV9sYXllcl9lbmFibGUoc3RydWN0IHN1
+bjhpX21peGVyICptaXhlciwgaW50IGNoYW5uZWwsCj4gPiAtICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIGludCBvdmVybGF5LCBib29sIGVuYWJsZSwKPiB1bnNpZ25lZCBpbnQgenBvcywK
+PiA+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdW5zaWduZWQgaW50IG9sZF96cG9z
+KQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpbnQgb3ZlcmxheSwgYm9vbCBl
+bmFibGUsCj4gdW5zaWduZWQgaW50IHpwb3MpCj4gPiAgewo+ID4gICAgICAgdTMyIHZhbCwgYmxk
+X2Jhc2UsIGNoX2Jhc2U7Cj4gPgo+ID4gQEAgLTM3LDMyICszNiw3IEBAIHN0YXRpYyB2b2lkIHN1
+bjhpX3ZpX2xheWVyX2VuYWJsZShzdHJ1Y3Qgc3VuOGlfbWl4ZXIKPiA+ICptaXhlciwgaW50IGNo
+YW5uZWwsIFNVTjhJX01JWEVSX0NIQU5fVklfTEFZRVJfQVRUUihjaF9iYXNlLCBvdmVybGF5KSwK
+PiA+ICAgICAgICAgICAgICAgICAgICAgICAgICBTVU44SV9NSVhFUl9DSEFOX1ZJX0xBWUVSX0FU
+VFJfRU4sIHZhbCk7Cj4gPgo+ID4gLSAgICAgaWYgKCFlbmFibGUgfHwgenBvcyAhPSBvbGRfenBv
+cykgewo+ID4gLSAgICAgICAgICAgICByZWdtYXBfdXBkYXRlX2JpdHMobWl4ZXItPmVuZ2luZS5y
+ZWdzLAo+ID4gLQo+IFNVTjhJX01JWEVSX0JMRU5EX1BJUEVfQ1RMKGJsZF9iYXNlKSwKPiA+IC0K
+PiBTVU44SV9NSVhFUl9CTEVORF9QSVBFX0NUTF9FTihvbGRfenBvcyksCj4gPiAtICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAwKTsKPiA+IC0KPiA+IC0gICAgICAgICAgICAgcmVnbWFw
+X3VwZGF0ZV9iaXRzKG1peGVyLT5lbmdpbmUucmVncywKPiA+IC0KPiBTVU44SV9NSVhFUl9CTEVO
+RF9ST1VURShibGRfYmFzZSksCj4gPiAtCj4gU1VOOElfTUlYRVJfQkxFTkRfUk9VVEVfUElQRV9N
+U0sob2xkX3pwb3MpLAo+ID4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgMCk7Cj4g
+PiAtICAgICB9Cj4gPiAtCj4gPiAtICAgICBpZiAoZW5hYmxlKSB7Cj4gPiAtICAgICAgICAgICAg
+IHZhbCA9IFNVTjhJX01JWEVSX0JMRU5EX1BJUEVfQ1RMX0VOKHpwb3MpOwo+ID4gLQo+ID4gLSAg
+ICAgICAgICAgICByZWdtYXBfdXBkYXRlX2JpdHMobWl4ZXItPmVuZ2luZS5yZWdzLAo+ID4gLQo+
+IFNVTjhJX01JWEVSX0JMRU5EX1BJUEVfQ1RMKGJsZF9iYXNlKSwKPiA+IC0gICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIHZhbCwgdmFsKTsKPiA+IC0KPiA+IC0gICAgICAgICAgICAgdmFs
+ID0gY2hhbm5lbCA8PAo+IFNVTjhJX01JWEVSX0JMRU5EX1JPVVRFX1BJUEVfU0hJRlQoenBvcyk7
+Cj4gPiAtCj4gPiAtICAgICAgICAgICAgIHJlZ21hcF91cGRhdGVfYml0cyhtaXhlci0+ZW5naW5l
+LnJlZ3MsCj4gPiAtCj4gU1VOOElfTUlYRVJfQkxFTkRfUk9VVEUoYmxkX2Jhc2UpLAo+ID4gLQo+
+IFNVTjhJX01JWEVSX0JMRU5EX1JPVVRFX1BJUEVfTVNLKHpwb3MpLAo+ID4gLSAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgdmFsKTsKPiA+IC0gICAgIH0KPiA+ICsgICAgIG1peGVyLT5j
+aGFubmVsX3pwb3NbY2hhbm5lbF0gPSBlbmFibGUgPyB6cG9zIDogLTE7Cj4gPiAgfQo+ID4KPiA+
+ICBzdGF0aWMgaW50IHN1bjhpX3ZpX2xheWVyX3VwZGF0ZV9jb29yZChzdHJ1Y3Qgc3VuOGlfbWl4
+ZXIgKm1peGVyLCBpbnQKPiA+IGNoYW5uZWwsIEBAIC0zNTAsMTEgKzMyNCw5IEBAIHN0YXRpYyB2
+b2lkCj4gPiBzdW44aV92aV9sYXllcl9hdG9taWNfZGlzYWJsZShzdHJ1Y3QgZHJtX3BsYW5lICpw
+bGFuZSwgc3RydWN0Cj4gPiBkcm1fcGxhbmVfc3RhdGUgKm9sZF9zdGF0ZSkKPiA+ICB7Cj4gPiAg
+ICAgICBzdHJ1Y3Qgc3VuOGlfdmlfbGF5ZXIgKmxheWVyID0gcGxhbmVfdG9fc3VuOGlfdmlfbGF5
+ZXIocGxhbmUpOwo+ID4gLSAgICAgdW5zaWduZWQgaW50IG9sZF96cG9zID0gb2xkX3N0YXRlLT5u
+b3JtYWxpemVkX3pwb3M7Cj4gPiAgICAgICBzdHJ1Y3Qgc3VuOGlfbWl4ZXIgKm1peGVyID0gbGF5
+ZXItPm1peGVyOwo+ID4KPiA+IC0gICAgIHN1bjhpX3ZpX2xheWVyX2VuYWJsZShtaXhlciwgbGF5
+ZXItPmNoYW5uZWwsIGxheWVyLT5vdmVybGF5LAo+IGZhbHNlLCAwLAo+ID4gLSAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIG9sZF96cG9zKTsKPiA+ICsgICAgIHN1bjhpX3ZpX2xheWVyX2VuYWJs
+ZShtaXhlciwgbGF5ZXItPmNoYW5uZWwsIGxheWVyLT5vdmVybGF5LCBmYWxzZSwKPiAwKTsKPiA+
+ICB9Cj4gPgo+ID4gIHN0YXRpYyB2b2lkIHN1bjhpX3ZpX2xheWVyX2F0b21pY191cGRhdGUoc3Ry
+dWN0IGRybV9wbGFuZSAqcGxhbmUsCj4gPiBAQCAtMzYyLDEyICszMzQsMTEgQEAgc3RhdGljIHZv
+aWQgc3VuOGlfdmlfbGF5ZXJfYXRvbWljX3VwZGF0ZShzdHJ1Y3QKPiA+IGRybV9wbGFuZSAqcGxh
+bmUsIHsKPiA+ICAgICAgIHN0cnVjdCBzdW44aV92aV9sYXllciAqbGF5ZXIgPSBwbGFuZV90b19z
+dW44aV92aV9sYXllcihwbGFuZSk7Cj4gPiAgICAgICB1bnNpZ25lZCBpbnQgenBvcyA9IHBsYW5l
+LT5zdGF0ZS0+bm9ybWFsaXplZF96cG9zOwo+ID4gLSAgICAgdW5zaWduZWQgaW50IG9sZF96cG9z
+ID0gb2xkX3N0YXRlLT5ub3JtYWxpemVkX3pwb3M7Cj4gPiAgICAgICBzdHJ1Y3Qgc3VuOGlfbWl4
+ZXIgKm1peGVyID0gbGF5ZXItPm1peGVyOwo+ID4KPiA+ICAgICAgIGlmICghcGxhbmUtPnN0YXRl
+LT52aXNpYmxlKSB7Cj4gPiAgICAgICAgICAgICAgIHN1bjhpX3ZpX2xheWVyX2VuYWJsZShtaXhl
+ciwgbGF5ZXItPmNoYW5uZWwsCj4gPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICBsYXllci0+b3ZlcmxheSwgZmFsc2UsIDAsCj4gb2xkX3pwb3MpOwo+ID4gKyAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgbGF5ZXItPm92ZXJsYXksIGZhbHNlLCAwKTsKPiA+ICAg
+ICAgICAgICAgICAgcmV0dXJuOwo+ID4gICAgICAgfQo+ID4KPiA+IEBAIC0zNzgsNyArMzQ5LDcg
+QEAgc3RhdGljIHZvaWQgc3VuOGlfdmlfbGF5ZXJfYXRvbWljX3VwZGF0ZShzdHJ1Y3QKPiA+IGRy
+bV9wbGFuZSAqcGxhbmUsIHN1bjhpX3ZpX2xheWVyX3VwZGF0ZV9idWZmZXIobWl4ZXIsIGxheWVy
+LT5jaGFubmVsLAo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBsYXllci0+
+b3ZlcmxheSwgcGxhbmUpOwo+ID4gICAgICAgc3VuOGlfdmlfbGF5ZXJfZW5hYmxlKG1peGVyLCBs
+YXllci0+Y2hhbm5lbCwgbGF5ZXItPm92ZXJsYXksCj4gPiAtICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgdHJ1ZSwgenBvcywgb2xkX3pwb3MpOwo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIHRydWUsIHpwb3MpOwo+ID4gIH0KPiA+Cj4gPiAgc3RhdGljIHN0cnVjdCBkcm1fcGxhbmVf
+aGVscGVyX2Z1bmNzIHN1bjhpX3ZpX2xheWVyX2hlbHBlcl9mdW5jcyA9IHsKPgo+Cj4KPgoKCi0t
+IApCZXN0IHJlZ2FyZHMsClJvbWFuIFN0cmF0aWllbmtvCkdsb2JhbCBMb2dpYyBJbmMuCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
