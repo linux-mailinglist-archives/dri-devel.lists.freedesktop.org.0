@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9322512C399
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Dec 2019 18:21:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FBD412C601
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Dec 2019 18:43:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 919A68934B;
-	Sun, 29 Dec 2019 17:21:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7A5089736;
+	Sun, 29 Dec 2019 17:43:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE8848934B
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Dec 2019 17:21:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89D5989736
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Dec 2019 17:43:09 +0000 (UTC)
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
  [83.86.89.107])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 36FD920722;
- Sun, 29 Dec 2019 17:21:45 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id ECC87206A4;
+ Sun, 29 Dec 2019 17:43:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1577640105;
- bh=/OftrGjIqofA/1Jh5wjoEAE3U7CtCrQxKG3N/DyesZ0=;
+ s=default; t=1577641389;
+ bh=h0FbgVNBxjiATtekjNsyvzCRkqeBWOJlRkvl1qaiKRw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=qUYVSMC4GczfZaGW5/FBVFKSs17tl4IfklWGZ2UYe4kgGNpwveCfnfJ0TZwq3n2HS
- AdrtGQsAgdu98pPNOKFnGdnTdBP5PVTQrEYFPjm7d3KUw8x1hxvIGep9tibOSa9AzW
- r5AAzeQAL1/mGe00FMQhD0Pz0hHHwhO//ER4LOj4=
+ b=cqjXItM8WDNGtnwQceO+33RjVAv/TaA/Kc+X0RG2C8H4tKKKkYf51P69zL8035TLV
+ Qt06Ffv+Ue07ueHBjLn5cwBMu434QAFcvA3E2f8li38M0zrz57aTOMtAatynX0EuG6
+ 5cjRRoDttnR6DxAL4TTgAu0Uw3dWYLT8wNzhLwlQ=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 4.14 020/161] drm: mst: Fix query_payload ack reply struct
-Date: Sun, 29 Dec 2019 18:17:48 +0100
-Message-Id: <20191229162403.009203257@linuxfoundation.org>
+Subject: [PATCH 5.4 045/434] drm: mst: Fix query_payload ack reply struct
+Date: Sun, 29 Dec 2019 18:21:38 +0100
+Message-Id: <20191229172705.006759325@linuxfoundation.org>
 X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20191229162355.500086350@linuxfoundation.org>
-References: <20191229162355.500086350@linuxfoundation.org>
+In-Reply-To: <20191229172702.393141737@linuxfoundation.org>
+References: <20191229172702.393141737@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,10 +85,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst_helper.h
-index d55abb75f29a..eec6cba204ea 100644
+index 2ba6253ea6d3..fc349204a71b 100644
 --- a/include/drm/drm_dp_mst_helper.h
 +++ b/include/drm/drm_dp_mst_helper.h
-@@ -313,7 +313,7 @@ struct drm_dp_resource_status_notify {
+@@ -334,7 +334,7 @@ struct drm_dp_resource_status_notify {
  
  struct drm_dp_query_payload_ack_reply {
  	u8 port_number;
