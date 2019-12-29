@@ -2,35 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A856C12C2C3
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Dec 2019 15:43:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F37CC12C2D5
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Dec 2019 15:44:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D842689DB5;
-	Sun, 29 Dec 2019 14:43:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1F0189FAC;
+	Sun, 29 Dec 2019 14:44:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6A08897F6
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Dec 2019 01:20:07 +0000 (UTC)
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 25958FD4288C79342CE4;
- Sun, 29 Dec 2019 09:20:04 +0800 (CST)
-Received: from [127.0.0.1] (10.173.220.96) by DGGEMS405-HUB.china.huawei.com
- (10.3.19.205) with Microsoft SMTP Server id 14.3.439.0; Sun, 29 Dec 2019
- 09:19:56 +0800
-Subject: Re: [PATCH] drm/v3d: remove duplicated kfree in v3d_submit_cl_ioctl
-To: Markus Elfring <Markus.Elfring@web.de>, <dri-devel@lists.freedesktop.org>
-References: <20191225131715.3527-1-yukuai3@huawei.com>
- <0db93c30-2c87-9824-31be-a15c0d141ab5@web.de>
-From: "yukuai (C)" <yukuai3@huawei.com>
-Message-ID: <23c5fdc5-b5ee-fd61-4c33-5e4442cdf305@huawei.com>
-Date: Sun, 29 Dec 2019 09:19:55 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
+ [IPv6:2607:f8b0:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13C7B89ABA
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Dec 2019 06:07:36 +0000 (UTC)
+Received: by mail-pf1-x442.google.com with SMTP id n9so8940649pff.13
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Dec 2019 22:07:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bh9mEGHD8yEkETedFVdZfcZkqXbQcfH7QQFnd8PatL8=;
+ b=wCYfy+DiqvTPeE4PuVoNL2FU1hG+FM4oPNtihtwX6YnVlimuXh+vhNDxWafNVR9xch
+ eV5t0hy8laPj/2d5R+fh89/y9moyIaXH1t1gOsCiWP0RZS/akCygAFGjdwA3HymzELJW
+ YEpOzjae8vfDX/23c3uj/yiMd+8vN3gbY9+90n1EhHVOZ+u6yEG6o+aM13rqXWofVenT
+ fmjFMbLEHpmM/n0NsTefVDwWWg3c/9qQdjR9ZuqCA84Hwp0v9Z/UyjB8JZ9BZmba9lw3
+ YSOeYrz/THMDq254XzNE1uzTgBBsHb0Q5fQbp/1nZ13a4Tjc85PTz7/93UmnCP61kLep
+ FcvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bh9mEGHD8yEkETedFVdZfcZkqXbQcfH7QQFnd8PatL8=;
+ b=HzoU5KhzdE5kh6lx6dQUlLaowUo2T4SShuQuwmlHnuNbkAoZzkBXYdJLPLP5zlmLF2
+ SZEpS6NFUwzAxYcaHzM5Qd/8bUZZlbkHQlD3JdO2S6CABGywp5nm8WPd+FU28sFa8ZD/
+ p0WypY2dT7NFtOLac7vLizUPQyG/HJmUm2t3BzW6kH6BIkzLGTyhyaioFiXd6QaDIG/d
+ EGIhUUG2OEWRsOdtvsEeP03MNTeg5um8rnmNPuEHD4GB4hgASIS1xqVTKQX311NkSKCq
+ BIyg2wHF/aJPore3qhumBUy8ffFz6qnEQv6CWBXC4f2Qp3Es+FuCPAUSRVtg4p9J5Qu5
+ TQIA==
+X-Gm-Message-State: APjAAAUR4Z7BLEeMiGUAl1CaCR6S7lTTMGF2IMkOzUsiVihyIdl1NAen
+ +oClZUnaAb9Pg9nNvLOE9NXLJQ==
+X-Google-Smtp-Source: APXvYqw7T3nji34vO/btgtEenzlUjOnI1rtxZ6ocaf//g8wgqa3384y+RhDo98oPa4usrISA1a3G8Q==
+X-Received: by 2002:a63:774a:: with SMTP id s71mr64704696pgc.57.1577599655541; 
+ Sat, 28 Dec 2019 22:07:35 -0800 (PST)
+Received: from localhost.localdomain
+ (104-188-17-28.lightspeed.sndgca.sbcglobal.net. [104.188.17.28])
+ by smtp.gmail.com with ESMTPSA id b193sm37899600pfb.57.2019.12.28.22.07.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 28 Dec 2019 22:07:34 -0800 (PST)
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] panel: simple: Add Ivo M133NWF4 R0
+Date: Sat, 28 Dec 2019 22:06:58 -0800
+Message-Id: <20191229060658.746189-1-bjorn.andersson@linaro.org>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-In-Reply-To: <0db93c30-2c87-9824-31be-a15c0d141ab5@web.de>
-X-Originating-IP: [10.173.220.96]
-X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Sun, 29 Dec 2019 14:43:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,89 +67,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yi Zhang <yi.zhang@huawei.com>, David
- Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- zhengbin <zhengbin13@huawei.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpPbiAyMDE5LzEyLzI5IDQ6NDUsIE1hcmt1cyBFbGZyaW5nIHdyb3RlOgo+PiB2M2Rfc3VibWl0
-X2NsX2lvY3RsIGNhbGwga2ZyZWUoKSB3aXRoIHZhcmlhYmxlICdiaW4nIHR3aWNlLgo+IAo+IEkg
-d291bGQgcHJlZmVyIGEgd29yZGluZyBsaWtlIOKAnGtmcmVlKCkgd2FzIGNhbGxlZCBmb3IgdGhl
-IHNhbWUgdmFyaWFibGUgdHdpY2UKPiB3aXRoaW4gYW4gaWYgYnJhbmNoLuKAnS4KPiAKPiAKPj4g
-Rml4IGl0IGJ5IHJlbW92aW5nIHRoZSBsYXR0ZXIgb25lLgo+IAo+IEkgZmluZCB0aGUgd29yZGlu
-ZyDigJxEZWxldGUgYSBkdXBsaWNhdGUgZnVuY3Rpb24gY2FsbC7igJ0gbW9yZSBhcHByb3ByaWF0
-ZS4KPiAKVGhhbmsgeW91IGZvciB5b3VyIGFkdmlzZSwgSSdsbCBtYWtlIGNoYW5nZXMgaW4gVjIg
-cGF0Y2guCgo+IFBsZWFzZSBhZGQgdGhlIHRhZyDigJxGaXhlc+KAnSB0byB5b3VyIGNoYW5nZSBk
-ZXNjcmlwdGlvbi4KCkkgZ290IHRoZSByZXN1bHRzIGZyb20gImdpdCBibGFtZSI6CmdpdCBibGFt
-ZSAtTCA1NzAsNTc1IGRyaXZlcnMvZ3B1L2RybS92M2QvdjNkX2dlbS5jCmE3ODNhMDllZTc2ZDYg
-KEVyaWMgQW5ob2x0ICAgICAgICAyMDE5LTA0LTE2IDE1OjU4OjUzIC0wNzAwIDU3MCkgCiAgICAg
-ICAgaWYgKHJldCkgewowZDM1MmEzYThhMWYyIChJYWdvIFRvcmFsIFF1aXJvZ2EgMjAxOS0wOS0x
-NiAwOToxMToyNSArMDIwMCA1NzEpIAogICAgICAgICAgICAgICAga2ZyZWUoYmluKTsKYTc4M2Ew
-OWVlNzZkNiAoRXJpYyBBbmhvbHQgICAgICAgIDIwMTktMDQtMTYgMTU6NTg6NTMgLTA3MDAgNTcy
-KSAKICAgICAgICAgICAgICAgIHYzZF9qb2JfcHV0KCZyZW5kZXItPmJhc2UpOwoyOWNkMTNjZmQ3
-NjI0IChOYXZpZCBFbWFtZG9vc3QgICAgMjAxOS0xMC0yMSAxMzo1Mjo0OSAtMDUwMCA1NzMpIAog
-ICAgICAgICAgICAgICAga2ZyZWUoYmluKTsKYTc4M2EwOWVlNzZkNiAoRXJpYyBBbmhvbHQgICAg
-ICAgIDIwMTktMDQtMTYgMTU6NTg6NTMgLTA3MDAgNTc0KSAKICAgICAgICAgICAgICAgIHJldHVy
-biByZXQ7CmE3ODNhMDllZTc2ZDYgKEVyaWMgQW5ob2x0ICAgICAgICAyMDE5LTA0LTE2IDE1OjU4
-OjUzIC0wNzAwIDU3NSkgCiAgICAgICAgfQoKVGhlIGZpcnN0IGtmcmVlIGJlbG9uZyB0byB0aGUg
-cGF0Y2ggMGQzNTJhM2E4YTFmMiA6CmNvbW1pdCAwZDM1MmEzYThhMWYyNjE2OGQwOWY3MDczZTYx
-YmI0YjMyOGUzYmI5CkF1dGhvcjogSWFnbyBUb3JhbCBRdWlyb2dhIDxpdG9yYWxAaWdhbGlhLmNv
-bT4KRGF0ZTogICBNb24gU2VwIDE2IDA5OjExOjI1IDIwMTkgKzAyMDAKCiAgICAgZHJtL3YzZDog
-ZG9uJ3QgbGVhayBiaW4gam9iIGlmIHYzZF9qb2JfaW5pdCBmYWlscy4KCiAgICAgSWYgdGhlIGlu
-aXRpYWxpemF0aW9uIG9mIHRoZSBqb2IgZmFpbHMgd2UgbmVlZCB0byBrZnJlZSgpIGl0CiAgICAg
-YmVmb3JlIHJldHVybmluZy4KCiAgICAgU2lnbmVkLW9mZi1ieTogSWFnbyBUb3JhbCBRdWlyb2dh
-IDxpdG9yYWxAaWdhbGlhLmNvbT4KICAgICBTaWduZWQtb2ZmLWJ5OiBFcmljIEFuaG9sdCA8ZXJp
-Y0BhbmhvbHQubmV0PgogICAgIExpbms6IApodHRwczovL3BhdGNod29yay5mcmVlZGVza3RvcC5v
-cmcvcGF0Y2gvbXNnaWQvMjAxOTA5MTYwNzExMjUuNTI1NS0xLWl0b3JhbEBpZ2FsaWEuY29tCiAg
-ICAgRml4ZXM6IGE3ODNhMDllZTc2ZCAoImRybS92M2Q6IFJlZmFjdG9yIGpvYiBtYW5hZ2VtZW50
-LiIpCiAgICAgUmV2aWV3ZWQtYnk6IEVyaWMgQW5ob2x0IDxlcmljQGFuaG9sdC5uZXQ+CgpkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3YzZC92M2RfZ2VtLmMgYi9kcml2ZXJzL2dwdS9kcm0v
-djNkL3YzZF9nZW0uYwppbmRleCA1ZDgwNTA3YjUzOWIuLmZiMzJjZGExOGZmZSAxMDA2NDQKLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL3YzZC92M2RfZ2VtLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3Yz
-ZC92M2RfZ2VtLmMKQEAgLTU2Myw2ICs1NjMsNyBAQCB2M2Rfc3VibWl0X2NsX2lvY3RsKHN0cnVj
-dCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEsCiAgICAgICAgICAgICAgICAgcmV0ID0gdjNk
-X2pvYl9pbml0KHYzZCwgZmlsZV9wcml2LCAmYmluLT5iYXNlLAogICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICB2M2Rfam9iX2ZyZWUsIGFyZ3MtPmluX3N5bmNfYmNsKTsKICAgICAg
-ICAgICAgICAgICBpZiAocmV0KSB7CisgICAgICAgICAgICAgICAgICAgICAgIGtmcmVlKGJpbik7
-CiAgICAgICAgICAgICAgICAgICAgICAgICB2M2Rfam9iX3B1dCgmcmVuZGVyLT5iYXNlKTsKICAg
-ICAgICAgICAgICAgICAgICAgICAgIHJldHVybiByZXQ7CiAgICAgICAgICAgICAgICAgfQoKQW5k
-IHRoZSBzZWNvbmQgYmVsb25nIHRvIDI5Y2QxM2NmZDc2MjQ6CmNvbW1pdCAyOWNkMTNjZmQ3NjI0
-NzI2ZDllNmJlY2JhZTlhYTQxOWVmMzVhZjdmCkF1dGhvcjogTmF2aWQgRW1hbWRvb3N0IDxuYXZp
-ZC5lbWFtZG9vc3RAZ21haWwuY29tPgpEYXRlOiAgIE1vbiBPY3QgMjEgMTM6NTI6NDkgMjAxOSAt
-MDUwMAoKICAgICBkcm0vdjNkOiBGaXggbWVtb3J5IGxlYWsgaW4gdjNkX3N1Ym1pdF9jbF9pb2N0
-bAoKICAgICBJbiB0aGUgaW1wZWxlbWVudGF0aW9uIG9mIHYzZF9zdWJtaXRfY2xfaW9jdGwoKSB0
-aGVyZSBhcmUgdHdvIG1lbW9yeQogICAgIGxlYWtzLiBPbmUgaXMgd2hlbiBhbGxvY2F0aW9uIGZv
-ciBiaW4gZmFpbHMsIGFuZCB0aGUgb3RoZXIgaXMgd2hlbiBiaW4KICAgICBpbml0aWFsaXphdGlv
-biBmYWlscy4gSWYga2NhbGxvYyBmYWlscyB0byBhbGxvY2F0ZSBtZW1vcnkgZm9yIGJpbiB0aGVu
-CiAgICAgcmVuZGVyLT5iYXNlIHNob3VsZCBiZSBwdXQuIEFsc28sIGlmIHYzZF9qb2JfaW5pdCgp
-IGZhaWxzIHRvIGluaXRpYWxpemUKICAgICBiaW4tPmJhc2UgdGhlbiBhbGxvY2F0ZWQgbWVtb3J5
-IGZvciBiaW4gc2hvdWxkIGJlIHJlbGVhc2VkLgoKICAgICBGaXhlczogYTc4M2EwOWVlNzZkICgi
-ZHJtL3YzZDogUmVmYWN0b3Igam9iIG1hbmFnZW1lbnQuIikKICAgICBTaWduZWQtb2ZmLWJ5OiBO
-YXZpZCBFbWFtZG9vc3QgPG5hdmlkLmVtYW1kb29zdEBnbWFpbC5jb20+CiAgICAgUmV2aWV3ZWQt
-Ynk6IEVyaWMgQW5ob2x0IDxlcmljQGFuaG9sdC5uZXQ+CiAgICAgU2lnbmVkLW9mZi1ieTogRGFu
-aWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KICAgICBMaW5rOiAKaHR0cHM6Ly9w
-YXRjaHdvcmsuZnJlZWRlc2t0b3Aub3JnL3BhdGNoL21zZ2lkLzIwMTkxMDIxMTg1MjUwLjI2MTMw
-LTEtbmF2aWQuZW1hbWRvb3N0QGdtYWlsLmNvbQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
-bS92M2QvdjNkX2dlbS5jIGIvZHJpdmVycy9ncHUvZHJtL3YzZC92M2RfZ2VtLmMKaW5kZXggNWQ4
-MDUwN2I1MzliLi4xOWMwOTJkNzUyNjYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS92M2Qv
-djNkX2dlbS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS92M2QvdjNkX2dlbS5jCkBAIC01NTcsMTMg
-KzU1NywxNiBAQCB2M2Rfc3VibWl0X2NsX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZv
-aWQgCipkYXRhLAoKICAgICAgICAgaWYgKGFyZ3MtPmJjbF9zdGFydCAhPSBhcmdzLT5iY2xfZW5k
-KSB7CiAgICAgICAgICAgICAgICAgYmluID0ga2NhbGxvYygxLCBzaXplb2YoKmJpbiksIEdGUF9L
-RVJORUwpOwotICAgICAgICAgICAgICAgaWYgKCFiaW4pCisgICAgICAgICAgICAgICBpZiAoIWJp
-bikgeworICAgICAgICAgICAgICAgICAgICAgICB2M2Rfam9iX3B1dCgmcmVuZGVyLT5iYXNlKTsK
-ICAgICAgICAgICAgICAgICAgICAgICAgIHJldHVybiAtRU5PTUVNOworICAgICAgICAgICAgICAg
-fQoKICAgICAgICAgICAgICAgICByZXQgPSB2M2Rfam9iX2luaXQodjNkLCBmaWxlX3ByaXYsICZi
-aW4tPmJhc2UsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHYzZF9qb2JfZnJl
-ZSwgYXJncy0+aW5fc3luY19iY2wpOwogICAgICAgICAgICAgICAgIGlmIChyZXQpIHsKICAgICAg
-ICAgICAgICAgICAgICAgICAgIHYzZF9qb2JfcHV0KCZyZW5kZXItPmJhc2UpOworICAgICAgICAg
-ICAgICAgICAgICAgICBrZnJlZShiaW4pOwogICAgICAgICAgICAgICAgICAgICAgICAgcmV0dXJu
-IHJldDsKICAgICAgICAgICAgICAgICB9CgpJdCBzZWVtcyB0aGUgdHdvIHBhdGNoZXMgZml4IHRo
-ZSBzYW1lIG1lbW9yeSBsZWFrLCBidXQgSSBoYXZlIG5vIGlkZWEgCmhvdyB0aGV0IGdldCB0b2dl
-dGhlciB3aXRob3V0IGNvbmZsaWN0LgoKVGhhbmtzCll1IEt1YWkKCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+The InfoVision Optoelectronics M133NWF4 R0 panel is a 13.3" 1920x1080
+eDP panel, add support for it in panel-simple.
+
+Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+---
+ drivers/gpu/drm/panel/panel-simple.c | 31 ++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
+
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index ba3f85f36c2f..d7ae0ede2b6e 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -1806,6 +1806,34 @@ static const struct panel_desc innolux_zj070na_01p = {
+ 	},
+ };
+ 
++static const struct drm_display_mode ivo_m133nwf4_r0_mode = {
++	.clock = 138778,
++	.hdisplay = 1920,
++	.hsync_start = 1920 + 24,
++	.hsync_end = 1920 + 24 + 48,
++	.htotal = 1920 + 24 + 48 + 88,
++	.vdisplay = 1080,
++	.vsync_start = 1080 + 3,
++	.vsync_end = 1080 + 3 + 12,
++	.vtotal = 1080 + 3 + 12 + 17,
++	.vrefresh = 60,
++	.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC,
++};
++
++static const struct panel_desc ivo_m133nwf4_r0 = {
++	.modes = &ivo_m133nwf4_r0_mode,
++	.num_modes = 1,
++	.bpc = 8,
++	.size = {
++		.width = 294,
++		.height = 165,
++	},
++	.delay = {
++		.hpd_absent_delay = 200,
++		.unprepare = 500,
++	},
++};
++
+ static const struct display_timing koe_tx14d24vm1bpa_timing = {
+ 	.pixelclock = { 5580000, 5850000, 6200000 },
+ 	.hactive = { 320, 320, 320 },
+@@ -3266,6 +3294,9 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "innolux,zj070na-01p",
+ 		.data = &innolux_zj070na_01p,
++	}, {
++		.compatible = "ivo,m133nwf4-r0",
++		.data = &ivo_m133nwf4_r0,
+ 	}, {
+ 		.compatible = "koe,tx14d24vm1bpa",
+ 		.data = &koe_tx14d24vm1bpa,
+-- 
+2.24.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
