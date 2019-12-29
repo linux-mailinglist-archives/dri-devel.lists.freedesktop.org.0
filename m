@@ -1,59 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93B7F12C2CD
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Dec 2019 15:44:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 092CB12C2D0
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Dec 2019 15:44:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2051489E3F;
-	Sun, 29 Dec 2019 14:43:44 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
- [IPv6:2607:f8b0:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3D0689ABA
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Dec 2019 06:09:00 +0000 (UTC)
-Received: by mail-pg1-x542.google.com with SMTP id l24so16560685pgk.2
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Dec 2019 22:09:00 -0800 (PST)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF47889ED6;
+	Sun, 29 Dec 2019 14:43:45 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
+ [IPv6:2607:f8b0:4864:20::1041])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2846A89E3E
+ for <dri-devel@freedesktop.org>; Sun, 29 Dec 2019 06:33:29 +0000 (UTC)
+Received: by mail-pj1-x1041.google.com with SMTP id r67so6580923pjb.0
+ for <dri-devel@freedesktop.org>; Sat, 28 Dec 2019 22:33:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=PQEq/pXQPWAm+/HQqqVHlxrLAblqW9jzRSmCcXe+hVc=;
- b=vaJlyE8bstbxQxnAUBACLIH9E3AWWNJirhpiyq4G61nllSMb7fqBJhsL9F3KeEOwSG
- GrpZeXpXFWSPSeprwkFVen/PpkmbfPpGCEMIB43ySWQZdVELEtmoqMM6Y8K8m1YR/fk0
- Rh7YqKJjTcIVPTYI/fqj+SqV2qoeE4HlSQkCGuTgqXa5WOjpoc6YDLVPoiuz/XumWGfe
- 8AEMcQmx1SSiV03YR8UidnRFZA6suwkC0MM34oCdketkOXtN8PwfbD9TEkc8iNDm5OjD
- FVulASlJ1fCdn2I2A/S7vlcVg9gDmXRDJUvJrHIHgxk/JU8G/dRwrG6/eJWXXtVD8+0/
- aX5A==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=nqGIhwYTh0DiBSLBMDh1uZ5wGRcp0IHXwUhJAqa821o=;
+ b=USXZNxmckjGT1gFkzviu7A1+ak1urciIU+1xtmdBGP0ny/2qFn4lPJ7F+3P+KjkWz9
+ mypGG4CSY3rUakmiDqZvF0lYdz/8UogjLVzK0d5SGnOcNcwePrBRI7Z791bQXc0ZjUty
+ y+Oa8LZmZW7sWHiej6XI9Yj7NxFkJJhH4/DmZH37fZzH+TH0MVbJaBcwf+UKlBbSDaeu
+ HEEOzeXblFJOTV/smOAttBNrSAHmfbef47opWMEoQl8mvAC1F7cj+KNj0VLhQhXHon5T
+ UWPnhJwG8lS2wST10uBq4bDGhFXdvlZKVQG7v2oFVVnNpTsNd3o09aBt5IR/hl83eBx+
+ ZDPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=PQEq/pXQPWAm+/HQqqVHlxrLAblqW9jzRSmCcXe+hVc=;
- b=q2fL2tcnHVpmpZMk91PbL7r6qP4NW45PiVwRIG+nDfjTvdRYXW0xdiqZQJJqQAMUlL
- NQjrUUqedE4HSZfI/BpuRoVO5lFEgmClpmSn++B2TB9hdhqjL0kYAbALkopGWn0UeDEI
- rgvFnbC2t5Vu2WE7fx7VleGdUuzDvJShBeHTRqOIBrtMkNDIzV2liX8Beg5VteyI7XEF
- ULBdfLGJWMg7VlPSOStlZW1nevx0fOWAL9WofJkYppJ3waLwsCgMrPaNWHPVfqW/xVym
- 9UTX6RZS2ZBukUwEHIgk2+bEUG33eok35Fs6xI0rfFFtuK+MJ1Potak2yaMbAcB05SmH
- r89Q==
-X-Gm-Message-State: APjAAAUxBTC0Od30Yn2NzJPEQPEIMSIL/0UOmWGLdXKaoMu5PO1mxzLa
- J7E35v5Ju4CWc94BSVW40pFT9Q==
-X-Google-Smtp-Source: APXvYqwEIg9C9X4H9fXSdY40cModg6G+r8GR11cJ+V73bUm6nsOiyCNuD5QFmcFq/H7Btsgk2mIxrQ==
-X-Received: by 2002:a62:4e0a:: with SMTP id c10mr54791833pfb.181.1577599740493; 
- Sat, 28 Dec 2019 22:09:00 -0800 (PST)
-Received: from localhost.localdomain
- (104-188-17-28.lightspeed.sndgca.sbcglobal.net. [104.188.17.28])
- by smtp.gmail.com with ESMTPSA id s131sm28316795pfs.135.2019.12.28.22.08.59
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=nqGIhwYTh0DiBSLBMDh1uZ5wGRcp0IHXwUhJAqa821o=;
+ b=hF3z3SOfFfTg1E32lBlI5YEpvJENc0vrWQD4OLHCWKdwXNgPBgbmTZvpMbuqs5dcMs
+ njzfhLMtHOq9AfmaTpJuyXcwICD+9ZGBoGFFd3QE/KC6142dJy4TTfkJ7io9rw5Kw+Zw
+ dVDE/P6QaYQdHsNWau/t+uCYAuslSsH7DbsdUQPPVKMZP21rnAdV8+Jb62MbEqJIjihQ
+ bzBNGzMdUg6VadivL51xIav/ZHcMYBHI2LQjtHqTDngXmUx9Wtpq42egle3M66Bf2pxl
+ zBULpe5H+G/BEXKKlR2pduq6c3Pjye1TQ7nYZZ0I3Fiyf/IdIacRMe3/MKeYqJew9ef3
+ XpPg==
+X-Gm-Message-State: APjAAAWSlJMbZCmYkdQTNKlVwegvrX7ADNETdDHiItu4/8fkKZDS+heV
+ SbH/0tlIL3eP+ztmp/GPJAqshw==
+X-Google-Smtp-Source: APXvYqwxEV0O6vRqHXU4ePHQt8ChvcTTjo2G9Do4DVPv3Y1n/SAqrvUsgBmIZ4Je3/ZERvOyxrHdjA==
+X-Received: by 2002:a17:902:b18e:: with SMTP id
+ s14mr63595046plr.261.1577601208519; 
+ Sat, 28 Dec 2019 22:33:28 -0800 (PST)
+Received: from builder (104-188-17-28.lightspeed.sndgca.sbcglobal.net.
+ [104.188.17.28])
+ by smtp.gmail.com with ESMTPSA id i9sm45974852pfk.24.2019.12.28.22.33.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 Dec 2019 22:08:59 -0800 (PST)
+ Sat, 28 Dec 2019 22:33:27 -0800 (PST)
+Date: Sat, 28 Dec 2019 22:33:25 -0800
 From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] panel: simple: Add BOE NV133FHM-N61
-Date: Sat, 28 Dec 2019 22:08:23 -0800
-Message-Id: <20191229060823.746255-1-bjorn.andersson@linaro.org>
-X-Mailer: git-send-email 2.24.0
+To: Sharat Masetty <smasetty@codeaurora.org>
+Subject: Re: [PATCH] arm: dts: sc7180: Add A618 gpu dt blob
+Message-ID: <20191229063325.GP3755841@builder>
+References: <0101016ecc56c5c5-ab66c0ce-da45-4d8e-9cac-8f6be69001d3-000000@us-west-2.amazonses.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <0101016ecc56c5c5-ab66c0ce-da45-4d8e-9cac-8f6be69001d3-000000@us-west-2.amazonses.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-Mailman-Approved-At: Sun, 29 Dec 2019 14:43:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,71 +70,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, freedreno@lists.freedesktop.org,
+ dri-devel@freedesktop.org, linux-arm-msm@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The BOE NV133FHM-N61 panel is a 13.3" 1920x1080 eDP panel, add support
-for it in panel-simple.
+On Tue 03 Dec 07:17 PST 2019, Sharat Masetty wrote:
 
-Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
----
- drivers/gpu/drm/panel/panel-simple.c | 30 ++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+Please update subject to "arm64: dts: qcom: sc7180: Add A618 GPU nodes"
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index d7ae0ede2b6e..3c25e10b719d 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -1008,6 +1008,33 @@ static const struct panel_desc boe_nv101wxmn51 = {
- 	},
- };
- 
-+static const struct drm_display_mode boe_nv133fhm_n61_modes = {
-+	.clock = 147840,
-+	.hdisplay = 1920,
-+	.hsync_start = 1920 + 48,
-+	.hsync_end = 1920 + 48 + 32,
-+	.htotal = 1920 + 48 + 32 + 200,
-+	.vdisplay = 1080,
-+	.vsync_start = 1080 + 3,
-+	.vsync_end = 1080 + 3 + 6,
-+	.vtotal = 1080 + 3 + 6 + 31,
-+	.vrefresh = 60,
-+};
-+
-+static const struct panel_desc boe_nv133fhm_n61 = {
-+	.modes = &boe_nv133fhm_n61_modes,
-+	.num_modes = 1,
-+	.bpc = 8,
-+	.size = {
-+		.width = 300,
-+		.height = 187,
-+	},
-+	.delay = {
-+		.hpd_absent_delay = 200,
-+		.unprepare = 500,
-+	},
-+};
-+
- static const struct drm_display_mode cdtech_s043wq26h_ct7_mode = {
- 	.clock = 9000,
- 	.hdisplay = 480,
-@@ -3195,6 +3222,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "boe,nv101wxmn51",
- 		.data = &boe_nv101wxmn51,
-+	}, {
-+		.compatible = "boe,nv133fhm-n61",
-+		.data = &boe_nv133fhm_n61,
- 	}, {
- 		.compatible = "cdtech,s043wq26h-ct7",
- 		.data = &cdtech_s043wq26h_ct7,
--- 
-2.24.0
+> This patch adds the required dt nodes and properties
+> to enabled A618 GPU.
+> 
+> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
+> ---
+>  arch/arm64/boot/dts/qcom/sc7180.dtsi | 116 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 116 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> index c3db2e5..31223d0 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> @@ -18,6 +18,8 @@
+>  #include <dt-bindings/reset/qcom,sdm845-pdc.h>
+>  #include <dt-bindings/soc/qcom,rpmh-rsc.h>
+>  #include <dt-bindings/phy/phy-qcom-qusb2.h>
+> +#include <dt-bindings/clock/qcom,gpucc-sc7180.h>
+> +#include <dt-bindings/power/qcom-rpmpd.h>
 
+Please maintain sort order of includes.
+
+> 
+>  / {
+>  	interrupt-parent = <&intc>;
+> @@ -733,6 +735,120 @@
+>  			#power-domain-cells = <1>;
+>  		};
+> 
+> +		gpu: gpu@5000000 {
+
+Please rebase this on linux-next and ensure to maintain the sort order.
+
+> +			compatible = "qcom,adreno-618.0", "qcom,adreno";
+> +			#stream-id-cells = <16>;
+> +			reg = <0 0x5000000 0 0x40000>, <0 0x509e000 0 0x1000>,
+
+Please pad addresses to 8 digits.
+
+> +				<0 0x5061000 0 0x800>;
+> +			reg-names = "kgsl_3d0_reg_memory", "cx_mem", "cx_dbgc";
+> +
+> +			interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
+> +
+> +			iommus = <&adreno_smmu 0>;
+> +
+> +			operating-points-v2 = <&gpu_opp_table>;
+> +
+> +			interconnects = <&gem_noc 35 &mc_virt 512>;
+
+Please use the defines for these ports.
+
+> +
+> +			qcom,gmu = <&gmu>;
+
+You can reduce the number of empty lines above.
+
+> +
+> +			gpu_opp_table: opp-table {
+> +				compatible = "operating-points-v2";
+> +
+> +				opp-800000000 {
+> +					opp-hz = /bits/ 64 <800000000>;
+> +					opp-level = <RPMH_REGULATOR_LEVEL_TURBO>;
+> +				};
+> +
+> +				opp-650000000 {
+> +					opp-hz = /bits/ 64 <650000000>;
+> +					opp-level = <RPMH_REGULATOR_LEVEL_NOM_L1>;
+> +				};
+> +
+> +				opp-565000000 {
+> +					opp-hz = /bits/ 64 <565000000>;
+> +					opp-level = <RPMH_REGULATOR_LEVEL_NOM>;
+> +				};
+> +
+> +				opp-430000000 {
+> +					opp-hz = /bits/ 64 <430000000>;
+> +					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
+> +				};
+> +
+> +                                opp-355000000 {
+
+The indentation is off here.
+
+> +					opp-hz = /bits/ 64 <355000000>;
+> +					opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
+> +				};
+> +
+> +                                opp-267000000 {
+
+And here.
+
+> +					opp-hz = /bits/ 64 <267000000>;
+> +					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
+> +				};
+> +
+> +				opp-180000000 {
+> +					opp-hz = /bits/ 64 <180000000>;
+> +					opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
+> +				};
+> +			};
+> +		};
+> +
+> +		adreno_smmu: iommu@5040000 {
+> +			compatible = "qcom,sc7180-smmu-v2", "qcom,smmu-v2";
+> +			reg = <0 0x5040000 0 0x10000>;
+> +			#iommu-cells = <1>;
+> +			#global-interrupts = <2>;
+> +			interrupts = <GIC_SPI 229 IRQ_TYPE_LEVEL_HIGH>,
+> +					<GIC_SPI 231 IRQ_TYPE_LEVEL_HIGH>,
+> +					<GIC_SPI 364 IRQ_TYPE_EDGE_RISING>,
+> +					<GIC_SPI 365 IRQ_TYPE_EDGE_RISING>,
+> +					<GIC_SPI 366 IRQ_TYPE_EDGE_RISING>,
+> +					<GIC_SPI 367 IRQ_TYPE_EDGE_RISING>,
+> +					<GIC_SPI 368 IRQ_TYPE_EDGE_RISING>,
+> +					<GIC_SPI 369 IRQ_TYPE_EDGE_RISING>,
+> +					<GIC_SPI 370 IRQ_TYPE_EDGE_RISING>,
+> +					<GIC_SPI 371 IRQ_TYPE_EDGE_RISING>;
+> +			clocks = <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
+> +				<&gcc GCC_GPU_CFG_AHB_CLK>,
+> +				<&gcc GCC_DDRSS_GPU_AXI_CLK>;
+> +
+> +			clock-names = "bus", "iface", "mem_iface_clk";
+> +			power-domains = <&gpucc CX_GDSC>;
+> +		};
+> +
+> +		gmu: gmu@506a000 {
+> +			compatible="qcom,adreno-gmu-618", "qcom,adreno-gmu";
+> +
+> +			reg = 	<0 0x506a000 0 0x31000>,
+
+Extra spaces after =
+
+> +				<0 0xb290000 0 0x10000>,
+> +				<0 0xb490000 0 0x10000>;
+> +			reg-names = "gmu", "gmu_pdc", "gmu_pdc_seq";
+> +
+> +			interrupts = <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
+> +				   <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
+> +			interrupt-names = "hfi", "gmu";
+> +
+> +			clocks = <&gpucc GPU_CC_CX_GMU_CLK>,
+> +			       <&gpucc GPU_CC_CXO_CLK>,
+> +			       <&gcc GCC_DDRSS_GPU_AXI_CLK>,
+> +			       <&gcc GCC_GPU_MEMNOC_GFX_CLK>;
+> +			clock-names = "gmu", "cxo", "axi", "memnoc";
+> +
+> +			power-domains = <&gpucc CX_GDSC>;
+> +
+> +			iommus = <&adreno_smmu 5>;
+> +
+> +			operating-points-v2 = <&gmu_opp_table>;
+
+As above, please drop a few of these empty lines.
+
+Regards,
+Bjorn
+
+> +
+> +			gmu_opp_table: opp-table {
+> +				compatible = "operating-points-v2";
+> +
+> +				opp-200000000 {
+> +					opp-hz = /bits/ 64 <200000000>;
+> +					opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
+> +				};
+> +			};
+> +		};
+> +
+>  		apps_smmu: iommu@15000000 {
+>  			compatible = "qcom,sc7180-smmu-500", "arm,mmu-500";
+>  			reg = <0 0x15000000 0 0x100000>;
+> --
+> 1.9.1
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
