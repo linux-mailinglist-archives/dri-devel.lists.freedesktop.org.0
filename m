@@ -2,36 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEA8412D1F0
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2019 17:26:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BACB12D1FF
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2019 17:30:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2BAA89FDE;
-	Mon, 30 Dec 2019 16:26:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A186789F4F;
+	Mon, 30 Dec 2019 16:30:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0DE289FF9;
- Mon, 30 Dec 2019 16:26:06 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38E7D89EA9;
+ Mon, 30 Dec 2019 16:30:08 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 30 Dec 2019 08:26:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,375,1571727600"; d="scan'208";a="251418111"
-Received: from unknown (HELO amanna.iind.intel.com) ([10.223.74.53])
- by fmsmga002.fm.intel.com with ESMTP; 30 Dec 2019 08:26:03 -0800
-From: Animesh Manna <animesh.manna@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 9/9] drm/i915/dp: [FIXME] Program vswing, pre-emphasis,
- test-pattern
-Date: Mon, 30 Dec 2019 21:45:23 +0530
-Message-Id: <20191230161523.32222-10-animesh.manna@intel.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191230161523.32222-1-animesh.manna@intel.com>
-References: <20191230161523.32222-1-animesh.manna@intel.com>
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 30 Dec 2019 08:30:07 -0800
+X-IronPort-AV: E=Sophos;i="5.69,375,1571727600"; d="scan'208";a="213368025"
+Received: from unknown (HELO [10.66.114.55]) ([10.66.114.55])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA;
+ 30 Dec 2019 08:30:05 -0800
+Subject: Re: [PATCH v3 2/9] drm/dp: get/set phy compliance pattern
+To: Harry Wentland <hwentlan@amd.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20191218235324.GI12192@intel.com>
+ <20191223170350.15531-1-animesh.manna@intel.com>
+ <20191223170350.15531-2-animesh.manna@intel.com>
+ <2bf4630b-52f3-138d-9061-766275cbfbe8@amd.com>
+ <93fd1b3e-2c97-2cfb-0e1a-9de86b327451@intel.com>
+ <d733d496-108a-d0c0-ce5b-04cfb03416f2@amd.com>
+From: "Manna, Animesh" <animesh.manna@intel.com>
+Message-ID: <b01ea19c-2a67-6872-f7c7-e6ac6e1e9e5e@intel.com>
+Date: Mon, 30 Dec 2019 22:00:01 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
+In-Reply-To: <d733d496-108a-d0c0-ce5b-04cfb03416f2@amd.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,241 +50,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, nidhi1.gupta@intel.com,
- Animesh Manna <animesh.manna@intel.com>, manasi.d.navare@intel.com,
+Cc: jani.nikula@intel.com, nidhi1.gupta@intel.com, manasi.d.navare@intel.com,
  uma.shankar@intel.com, anshuman.gupta@intel.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch process phy compliance request by programming requested
-vswing, pre-emphasis and test pattern.
-
-Note: FIXME tag added as design discusion is ongoing in previous patch
-series. Some temporary fix added and the patch is under-development, not for
-review.
-
-Signed-off-by: Animesh Manna <animesh.manna@intel.com>
----
- drivers/gpu/drm/i915/display/intel_display.c | 24 ++++++-
- drivers/gpu/drm/i915/display/intel_dp.c      | 74 ++++++++++++++++++++
- drivers/gpu/drm/i915/display/intel_dp.h      |  2 +
- drivers/gpu/drm/i915/i915_drv.h              |  2 +
- 4 files changed, 101 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index da5266e76738..c00be1eb67d6 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -14480,6 +14480,9 @@ static int intel_atomic_check(struct drm_device *dev,
- 	int ret, i;
- 	bool any_ms = false;
- 
-+	if (dev_priv->dp_phy_comp)
-+		return 0;
-+
- 	/* Catch I915_MODE_FLAG_INHERITED */
- 	for_each_oldnew_intel_crtc_in_state(state, crtc, old_crtc_state,
- 					    new_crtc_state, i) {
-@@ -15207,10 +15210,23 @@ static void intel_atomic_commit_tail(struct intel_atomic_state *state)
- 	struct drm_i915_private *dev_priv = to_i915(dev);
- 	struct intel_crtc_state *new_crtc_state, *old_crtc_state;
- 	struct intel_crtc *crtc;
-+	const struct drm_connector_state *conn_state;
-+	struct drm_connector *conn;
- 	u64 put_domains[I915_MAX_PIPES] = {};
- 	intel_wakeref_t wakeref = 0;
- 	int i;
- 
-+	if(dev_priv->dp_phy_comp) {
-+		for_each_new_connector_in_state(&state->base, conn, conn_state, i) {
-+			struct intel_encoder *encoder =
-+				to_intel_encoder(conn_state->best_encoder);
-+			struct intel_dp *intel_dp = enc_to_intel_dp(&encoder->base);
-+
-+			intel_dp_process_phy_request(intel_dp);
-+		}
-+		goto dp_phy_comp1;
-+	}
-+
- 	intel_atomic_commit_fence_wait(state);
- 
- 	drm_atomic_helper_wait_for_dependencies(&state->base);
-@@ -15345,6 +15361,7 @@ static void intel_atomic_commit_tail(struct intel_atomic_state *state)
- 	if (state->modeset && intel_can_enable_sagv(state))
- 		intel_enable_sagv(dev_priv);
- 
-+dp_phy_comp1:
- 	drm_atomic_helper_commit_hw_done(&state->base);
- 
- 	if (state->modeset) {
-@@ -15436,6 +15453,7 @@ static int intel_atomic_commit(struct drm_device *dev,
- 	state->wakeref = intel_runtime_pm_get(&dev_priv->runtime_pm);
- 
- 	drm_atomic_state_get(&state->base);
-+	if (!dev_priv->dp_phy_comp) {
- 	i915_sw_fence_init(&state->commit_ready,
- 			   intel_atomic_commit_ready);
- 
-@@ -15474,11 +15492,13 @@ static int intel_atomic_commit(struct drm_device *dev,
- 		intel_runtime_pm_put(&dev_priv->runtime_pm, state->wakeref);
- 		return ret;
- 	}
-+	}
- 
- 	ret = drm_atomic_helper_setup_commit(&state->base, nonblock);
- 	if (!ret)
- 		ret = drm_atomic_helper_swap_state(&state->base, true);
- 
-+	if (!dev_priv->dp_phy_comp) {
- 	if (ret) {
- 		i915_sw_fence_commit(&state->commit_ready);
- 
-@@ -15489,6 +15509,7 @@ static int intel_atomic_commit(struct drm_device *dev,
- 	dev_priv->wm.distrust_bios_wm = false;
- 	intel_shared_dpll_swap_state(state);
- 	intel_atomic_track_fbs(state);
-+	}
- 
- 	if (state->global_state_changed) {
- 		assert_global_state_locked(dev_priv);
-@@ -15505,8 +15526,9 @@ static int intel_atomic_commit(struct drm_device *dev,
- 
- 	drm_atomic_state_get(&state->base);
- 	INIT_WORK(&state->base.commit_work, intel_atomic_commit_work);
--
-+	if (!dev_priv->dp_phy_comp) {
- 	i915_sw_fence_commit(&state->commit_ready);
-+	}
- 	if (nonblock && state->modeset) {
- 		queue_work(dev_priv->modeset_wq, &state->base.commit_work);
- 	} else if (nonblock) {
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 7c3f65e5d88b..c3454053a212 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -5060,9 +5060,82 @@ static inline void intel_dp_phy_pattern_update(struct intel_dp *intel_dp)
- 	}
- }
- 
-+static void
-+intel_dp_autotest_phy_ddi_disable(struct intel_dp *intel_dp)
-+{
-+	struct intel_digital_port *intel_dig_port = dp_to_dig_port(intel_dp);
-+	struct drm_device *dev = intel_dig_port->base.base.dev;
-+	struct drm_i915_private *dev_priv = to_i915(dev);
-+	enum port port = intel_dig_port->base.port;
-+	u32 ddi_buf_ctl_value, dp_tp_ctl_value, trans_ddi_func_ctl_value;
-+
-+	ddi_buf_ctl_value = I915_READ(DDI_BUF_CTL(port));
-+	dp_tp_ctl_value = I915_READ(TGL_DP_TP_CTL(port));
-+	trans_ddi_func_ctl_value = I915_READ(TRANS_DDI_FUNC_CTL(port));
-+
-+	ddi_buf_ctl_value        &= ~(DDI_BUF_CTL_ENABLE | DDI_PORT_WIDTH_MASK);
-+	dp_tp_ctl_value          &= ~DP_TP_CTL_ENABLE;
-+	trans_ddi_func_ctl_value &= ~(TRANS_DDI_FUNC_ENABLE |
-+				      DDI_PORT_WIDTH_MASK);
-+
-+	I915_WRITE(DDI_BUF_CTL(port), ddi_buf_ctl_value);
-+	I915_WRITE(TGL_DP_TP_CTL(port), dp_tp_ctl_value);
-+	I915_WRITE(TRANS_DDI_FUNC_CTL(port), trans_ddi_func_ctl_value);
-+}
-+
-+static void
-+intel_dp_autotest_phy_ddi_enable(struct intel_dp *intel_dp, uint8_t lane_cnt)
-+{
-+	struct intel_digital_port *intel_dig_port = dp_to_dig_port(intel_dp);
-+	struct drm_device *dev = intel_dig_port->base.base.dev;
-+	struct drm_i915_private *dev_priv = to_i915(dev);
-+	enum port port = intel_dig_port->base.port;
-+	u32 ddi_buf_ctl_value, dp_tp_ctl_value, trans_ddi_func_ctl_value;
-+
-+	ddi_buf_ctl_value = I915_READ(DDI_BUF_CTL(port));
-+	dp_tp_ctl_value = I915_READ(TGL_DP_TP_CTL(port));
-+	trans_ddi_func_ctl_value = I915_READ(TRANS_DDI_FUNC_CTL(port));
-+
-+	ddi_buf_ctl_value |= DDI_BUF_CTL_ENABLE | DDI_PORT_WIDTH(lane_cnt);
-+	dp_tp_ctl_value |= DP_TP_CTL_ENABLE;
-+	trans_ddi_func_ctl_value |= TRANS_DDI_FUNC_ENABLE |
-+				    DDI_PORT_WIDTH(lane_cnt);
-+
-+	I915_WRITE(TRANS_DDI_FUNC_CTL(port), trans_ddi_func_ctl_value);
-+	I915_WRITE(TGL_DP_TP_CTL(port), dp_tp_ctl_value);
-+	I915_WRITE(DDI_BUF_CTL(port), ddi_buf_ctl_value);
-+}
-+
-+void intel_dp_process_phy_request(struct intel_dp *intel_dp)
-+{
-+	struct drm_dp_phy_test_params *data =
-+		&intel_dp->compliance.test_data.phytest;
-+	u8 link_status[DP_LINK_STATUS_SIZE];
-+
-+	if (!intel_dp_get_link_status(intel_dp, link_status)) {
-+		DRM_DEBUG_KMS("failed to get link status\n");
-+		return;
-+	}
-+
-+	/* retrieve vswing & pre-emphasis setting */
-+	intel_dp_get_adjust_train(intel_dp, link_status);
-+
-+	intel_dp_autotest_phy_ddi_disable(intel_dp);
-+
-+	intel_dp_set_signal_levels(intel_dp);
-+
-+	intel_dp_phy_pattern_update(intel_dp);
-+
-+	intel_dp_autotest_phy_ddi_enable(intel_dp, data->num_lanes);
-+
-+	drm_dp_set_phy_test_pattern(&intel_dp->aux, data,
-+				    link_status[DP_DPCD_REV]);
-+}
-+
- static u8 intel_dp_autotest_phy_pattern(struct intel_dp *intel_dp)
- {
- 	u8 test_result = DP_TEST_NAK;
-+	struct drm_i915_private *dev_priv = dp_to_i915(intel_dp);
- 
- 	test_result = intel_dp_prepare_phytest(intel_dp);
- 	if (test_result != DP_TEST_ACK)
-@@ -5070,6 +5143,7 @@ static u8 intel_dp_autotest_phy_pattern(struct intel_dp *intel_dp)
- 
- 	/* Set test active flag here so userspace doesn't interrupt things */
- 	intel_dp->compliance.test_active = 1;
-+	dev_priv->dp_phy_comp = true;
- 
- 	return test_result;
- }
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i915/display/intel_dp.h
-index 83eadc87af26..65e4a01a4199 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.h
-+++ b/drivers/gpu/drm/i915/display/intel_dp.h
-@@ -121,6 +121,8 @@ void intel_dp_hdr_metadata_enable(struct intel_dp *intel_dp,
- 				  const struct intel_crtc_state *crtc_state,
- 				  const struct drm_connector_state *conn_state);
- bool intel_digital_port_connected(struct intel_encoder *encoder);
-+void intel_dp_process_phy_request(struct intel_dp *intel_dp);
-+
- 
- static inline unsigned int intel_dp_unused_lane_mask(int lane_count)
- {
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index b7f122dccdca..b5839db97c1f 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -1283,6 +1283,8 @@ struct drm_i915_private {
- 
- 	I915_SELFTEST_DECLARE(struct i915_selftest_stash selftest;)
- 
-+	bool dp_phy_comp;
-+
- 	/*
- 	 * NOTE: This is the dri1/ums dungeon, don't add stuff here. Your patch
- 	 * will be rejected. Instead look for a better place.
--- 
-2.24.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMzAtMTItMjAxOSAyMTo0MSwgSGFycnkgV2VudGxhbmQgd3JvdGU6Cgo+Cj4gT24gMjAxOS0x
+Mi0zMCAxMTowNSBhLm0uLCBNYW5uYSwgQW5pbWVzaCB3cm90ZToKPj4gT24gMjQtMTItMjAxOSAw
+MToyMywgSGFycnkgV2VudGxhbmQgd3JvdGU6Cj4+PiBPbiAyMDE5LTEyLTIzIDEyOjAzIHAubS4s
+IEFuaW1lc2ggTWFubmEgd3JvdGU6Cj4+Pj4gRHVyaW5nIHBoeSBjb21wbGlhbmNlIGF1dG8gdGVz
+dCBtb2RlIHNvdXJjZSBuZWVkIHRvIHJlYWQKPj4+PiByZXF1ZXN0ZWQgdGVzdCBwYXR0ZXJuIGZy
+b20gc2luayB0aHJvdWdoIERQQ0QuIEFmdGVyIHByb2Nlc3NpbmcKPj4+PiB0aGUgcmVxdWVzdCBz
+b3VyY2UgbmVlZCB0byBzZXQgdGhlIHBhdHRlcm4uIFNvIHNldC9nZXQgbWV0aG9kCj4+Pj4gYWRk
+ZWQgaW4gZHJtIGxheWVyIGFzIGl0IGlzIERQIHByb3RvY29sLgo+Pj4+Cj4+Pj4gdjI6IEFzIHBl
+ciByZXZpZXcgZmVlZGJhY2sgZnJvbSBNYW5hc2kgb24gUkZDIHZlcnNpb24sCj4+Pj4gLSBhZGRl
+ZCBkcCByZXZpc2lvbiBhcyBmdW5jdGlvbiBhcmd1bWVudCBpbiBzZXRfcGh5X3BhdHRlcm4gYXBp
+Lgo+Pj4+IC0gdXNlZCBpbnQgZm9yIGxpbmtfcmF0ZSBhbmQgdTggZm9yIGxhbmVfY291bnQgdG8g
+YWxpZ24gd2l0aAo+Pj4+IGV4aXN0aW5nIGNvZGUuCj4+Pj4KPj4+PiBTaWduZWQtb2ZmLWJ5OiBB
+bmltZXNoIE1hbm5hIDxhbmltZXNoLm1hbm5hQGludGVsLmNvbT4KPj4+PiAtLS0KPj4+PiAgwqAg
+ZHJpdmVycy9ncHUvZHJtL2RybV9kcF9oZWxwZXIuYyB8IDkzCj4+Pj4gKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrCj4+Pj4gIMKgIGluY2x1ZGUvZHJtL2RybV9kcF9oZWxwZXIuaMKg
+wqDCoMKgIHwgMzEgKysrKysrKysrKysKPj4+PiAgwqAgMiBmaWxlcyBjaGFuZ2VkLCAxMjQgaW5z
+ZXJ0aW9ucygrKQo+Pj4+Cj4+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBf
+aGVscGVyLmMKPj4+PiBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfaGVscGVyLmMKPj4+PiBpbmRl
+eCAyYzc4NzBhZWY0NjkuLjkxYzgwOTczYWE4MyAxMDA2NDQKPj4+PiAtLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vZHJtX2RwX2hlbHBlci5jCj4+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9o
+ZWxwZXIuYwo+Pj4+IEBAIC0xMzcxLDMgKzEzNzEsOTYgQEAgaW50Cj4+Pj4gZHJtX2RwX2RzY19z
+aW5rX3N1cHBvcnRlZF9pbnB1dF9icGNzKGNvbnN0IHU4Cj4+Pj4gZHNjX2RwY2RbRFBfRFNDX1JF
+Q0VJVkVSX0NBUF9TCj4+Pj4gIMKgwqDCoMKgwqAgcmV0dXJuIG51bV9icGM7Cj4+Pj4gIMKgIH0K
+Pj4+PiAgwqAgRVhQT1JUX1NZTUJPTChkcm1fZHBfZHNjX3Npbmtfc3VwcG9ydGVkX2lucHV0X2Jw
+Y3MpOwo+Pj4+ICsKPj4+PiArLyoqCj4+Pj4gKyAqIGRybV9kcF9nZXRfcGh5X3Rlc3RfcGF0dGVy
+bigpIC0gZ2V0IHRoZSByZXF1ZXN0ZWQgcGF0dGVybiBmcm9tCj4+Pj4gdGhlIHNpbmsuCj4+Pj4g
+KyAqIEBhdXg6IERpc3BsYXlQb3J0IEFVWCBjaGFubmVsCj4+Pj4gKyAqIEBkYXRhOiBEUCBwaHkg
+Y29tcGxpYW5jZSB0ZXN0IHBhcmFtZXRlcnMuCj4+Pj4gKyAqCj4+Pj4gKyAqIFJldHVybnMgMCBv
+biBzdWNjZXNzIG9yIGEgbmVnYXRpdmUgZXJyb3IgY29kZSBvbiBmYWlsdXJlLgo+Pj4+ICsgKi8K
+Pj4+PiAraW50IGRybV9kcF9nZXRfcGh5X3Rlc3RfcGF0dGVybihzdHJ1Y3QgZHJtX2RwX2F1eCAq
+YXV4LAo+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0IGRybV9kcF9w
+aHlfdGVzdF9wYXJhbXMgKmRhdGEpCj4+Pj4gK3sKPj4+PiArwqDCoMKgIGludCBlcnI7Cj4+Pj4g
+K8KgwqDCoCB1OCByYXRlLCBsYW5lczsKPj4+PiArCj4+Pj4gK8KgwqDCoCBlcnIgPSBkcm1fZHBf
+ZHBjZF9yZWFkYihhdXgsIERQX1RFU1RfTElOS19SQVRFLCAmcmF0ZSk7Cj4+Pj4gK8KgwqDCoCBp
+ZiAoZXJyIDwgMCkKPj4+PiArwqDCoMKgwqDCoMKgwqAgcmV0dXJuIGVycjsKPj4+PiArwqDCoMKg
+IGRhdGEtPmxpbmtfcmF0ZSA9IGRybV9kcF9id19jb2RlX3RvX2xpbmtfcmF0ZShyYXRlKTsKPj4+
+PiArCj4+Pj4gK8KgwqDCoCBlcnIgPSBkcm1fZHBfZHBjZF9yZWFkYihhdXgsIERQX1RFU1RfTEFO
+RV9DT1VOVCwgJmxhbmVzKTsKPj4+PiArwqDCoMKgIGlmIChlcnIgPCAwKQo+Pj4+ICvCoMKgwqDC
+oMKgwqDCoCByZXR1cm4gZXJyOwo+Pj4+ICvCoMKgwqAgZGF0YS0+bnVtX2xhbmVzID0gbGFuZXMg
+JiBEUF9NQVhfTEFORV9DT1VOVF9NQVNLOwo+Pj4+ICsKPj4+PiArwqDCoMKgIGlmIChsYW5lcyAm
+IERQX0VOSEFOQ0VEX0ZSQU1FX0NBUCkKPj4+PiArwqDCoMKgwqDCoMKgwqAgZGF0YS0+ZW5haGFu
+Y2VkX2ZyYW1lX2NhcCA9IHRydWU7Cj4+Pj4gKwo+Pj4+ICvCoMKgwqAgZXJyID0gZHJtX2RwX2Rw
+Y2RfcmVhZGIoYXV4LCBEUF9QSFlfVEVTVF9QQVRURVJOLAo+Pj4+ICZkYXRhLT5waHlfcGF0dGVy
+bik7Cj4+Pj4gK8KgwqDCoCBpZiAoZXJyIDwgMCkKPj4+PiArwqDCoMKgwqDCoMKgwqAgcmV0dXJu
+IGVycjsKPj4+PiArCj4+Pj4gK8KgwqDCoCBzd2l0Y2ggKGRhdGEtPnBoeV9wYXR0ZXJuKSB7Cj4+
+Pj4gK8KgwqDCoCBjYXNlIERQX1BIWV9URVNUX1BBVFRFUk5fODBCSVRfQ1VTVE9NOgo+Pj4+ICvC
+oMKgwqDCoMKgwqDCoCBlcnIgPSBkcm1fZHBfZHBjZF9yZWFkKGF1eCwgRFBfVEVTVF84MEJJVF9D
+VVNUT01fUEFUVEVSTl83XzAsCj4+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgICZkYXRhLT5jdXN0b204MCwgMTApOwo+Pj4gVXNpbmcgc2l6ZW9mKGRhdGEt
+PmN1c3RvbTgwKSBtaWdodCBiZSBzYWZlci4KPj4+Cj4+Pj4gK8KgwqDCoMKgwqDCoMKgIGlmIChl
+cnIgPCAwKQo+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiBlcnI7Cj4+Pj4gKwo+
+Pj4+ICvCoMKgwqDCoMKgwqDCoCBicmVhazsKPj4+PiArwqDCoMKgIGNhc2UgRFBfUEhZX1RFU1Rf
+UEFUVEVSTl9DUDI1MjA6Cj4+Pj4gK8KgwqDCoMKgwqDCoMKgIGVyciA9IGRybV9kcF9kcGNkX3Jl
+YWQoYXV4LCBEUF9URVNUX0hCUjJfU0NSQU1CTEVSX1JFU0VULAo+Pj4+ICvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAmZGF0YS0+aGJyMl9yZXNldCwgMik7Cj4+
+PiBTYW1lIGhlcmUsIHVzaW5nIHNpemVvZihkYXRhLT5oYnIyX3Jlc2V0KS4KPj4+Cj4+Pj4gK8Kg
+wqDCoMKgwqDCoMKgIGlmIChlcnIgPCAwKQo+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJl
+dHVybiBlcnI7Cj4+Pj4gK8KgwqDCoCB9Cj4+Pj4gKwo+Pj4+ICvCoMKgwqAgcmV0dXJuIDA7Cj4+
+Pj4gK30KPj4+PiArRVhQT1JUX1NZTUJPTChkcm1fZHBfZ2V0X3BoeV90ZXN0X3BhdHRlcm4pOwo+
+Pj4+ICsKPj4+PiArLyoqCj4+Pj4gKyAqIGRybV9kcF9zZXRfcGh5X3Rlc3RfcGF0dGVybigpIC0g
+c2V0IHRoZSBwYXR0ZXJuIHRvIHRoZSBzaW5rLgo+Pj4+ICsgKiBAYXV4OiBEaXNwbGF5UG9ydCBB
+VVggY2hhbm5lbAo+Pj4+ICsgKiBAZGF0YTogRFAgcGh5IGNvbXBsaWFuY2UgdGVzdCBwYXJhbWV0
+ZXJzLgo+Pj4+ICsgKgo+Pj4+ICsgKiBSZXR1cm5zIDAgb24gc3VjY2VzcyBvciBhIG5lZ2F0aXZl
+IGVycm9yIGNvZGUgb24gZmFpbHVyZS4KPj4+PiArICovCj4+Pj4gK2ludCBkcm1fZHBfc2V0X3Bo
+eV90ZXN0X3BhdHRlcm4oc3RydWN0IGRybV9kcF9hdXggKmF1eCwKPj4+PiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVjdCBkcm1fZHBfcGh5X3Rlc3RfcGFyYW1zICpkYXRhLCB1
+OCBkcF9yZXYpCj4+Pj4gK3sKPj4+PiArwqDCoMKgIGludCBlcnIsIGk7Cj4+Pj4gK8KgwqDCoCB1
+OCBsaW5rX2NvbmZpZ1syXTsKPj4+PiArwqDCoMKgIHU4IHRlc3RfcGF0dGVybjsKPj4+PiArCj4+
+Pj4gK8KgwqDCoCBsaW5rX2NvbmZpZ1swXSA9IGRybV9kcF9saW5rX3JhdGVfdG9fYndfY29kZShk
+YXRhLT5saW5rX3JhdGUpOwo+Pj4+ICvCoMKgwqAgbGlua19jb25maWdbMV0gPSBkYXRhLT5udW1f
+bGFuZXM7Cj4+Pj4gK8KgwqDCoCBpZiAoZGF0YS0+ZW5haGFuY2VkX2ZyYW1lX2NhcCkKPj4+PiAr
+wqDCoMKgwqDCoMKgwqAgbGlua19jb25maWdbMV0gfD0gRFBfTEFORV9DT1VOVF9FTkhBTkNFRF9G
+UkFNRV9FTjsKPj4+PiArwqDCoMKgIGVyciA9IGRybV9kcF9kcGNkX3dyaXRlKGF1eCwgRFBfTElO
+S19CV19TRVQsIGxpbmtfY29uZmlnLCAyKTsKPj4+PiArwqDCoMKgIGlmIChlcnIgPCAwKQo+Pj4+
+ICvCoMKgwqDCoMKgwqDCoCByZXR1cm4gZXJyOwo+Pj4+ICsKPj4+PiArwqDCoMKgIHRlc3RfcGF0
+dGVybiA9IGRhdGEtPnBoeV9wYXR0ZXJuOwo+Pj4+ICvCoMKgwqAgaWYgKGRwX3JldiA8IDB4MTIp
+IHsKPj4+PiArwqDCoMKgwqDCoMKgwqAgdGVzdF9wYXR0ZXJuID0gKHRlc3RfcGF0dGVybiA8PCAy
+KSAmCj4+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBEUF9MSU5LX1FV
+QUxfUEFUVEVSTl8xMV9NQVNLOwo+Pj4+ICvCoMKgwqDCoMKgwqDCoCBlcnIgPSBkcm1fZHBfZHBj
+ZF93cml0ZWIoYXV4LCBEUF9UUkFJTklOR19QQVRURVJOX1NFVCwKPj4+PiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB0ZXN0X3BhdHRlcm4pOwo+Pj4+ICvCoMKgwqDC
+oMKgwqDCoCBpZiAoZXJyIDwgMCkKPj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4g
+ZXJyOwo+Pj4+ICvCoMKgwqAgfSBlbHNlIHsKPj4+PiArwqDCoMKgwqDCoMKgwqAgZm9yIChpID0g
+MDsgaSA8IGRhdGEtPm51bV9sYW5lczsgaSsrKSB7Cj4+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgZXJyID0gZHJtX2RwX2RwY2Rfd3JpdGViKGF1eCwKPj4+PiArwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIERQX0xJTktfUVVBTF9MQU5FMF9TRVQgKyBp
+LAo+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+dGVzdF9wYXR0ZXJuKTsKPj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAoZXJyIDwgMCkK
+Pj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiBlcnI7Cj4+Pj4gK8Kg
+wqDCoMKgwqDCoMKgIH0KPj4+PiArwqDCoMKgIH0KPj4+PiArCj4+Pj4gK8KgwqDCoCByZXR1cm4g
+MDsKPj4+PiArfQo+Pj4+ICtFWFBPUlRfU1lNQk9MKGRybV9kcF9zZXRfcGh5X3Rlc3RfcGF0dGVy
+bik7Cj4+Pj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9kcF9oZWxwZXIuaCBiL2luY2x1
+ZGUvZHJtL2RybV9kcF9oZWxwZXIuaAo+Pj4+IGluZGV4IGQ2ZTU2MDg3MGZiMS4uNDJhMzY0NzQ4
+MzA4IDEwMDY0NAo+Pj4+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9kcF9oZWxwZXIuaAo+Pj4+ICsr
+KyBiL2luY2x1ZGUvZHJtL2RybV9kcF9oZWxwZXIuaAo+Pj4+IEBAIC03MDAsNiArNzAwLDE1IEBA
+Cj4+Pj4gIMKgICMgZGVmaW5lIERQX1RFU1RfQ09VTlRfTUFTS8KgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgMHhmCj4+Pj4gIMKgIMKgICNkZWZpbmUgRFBfUEhZX1RFU1RfUEFUVEVSTsKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIDB4MjQ4Cj4+Pj4gKyMgZGVmaW5lIERQX1BIWV9URVNUX1BB
+VFRFUk5fU0VMX01BU0vCoMKgwqDCoMKgwqAgMHg3Cj4+Pj4gKyMgZGVmaW5lIERQX1BIWV9URVNU
+X1BBVFRFUk5fTk9ORcKgwqDCoMKgwqDCoMKgwqDCoMKgIDB4MAo+Pj4+ICsjIGRlZmluZSBEUF9Q
+SFlfVEVTVF9QQVRURVJOX0QxMF8ywqDCoMKgwqDCoMKgwqDCoMKgIDB4MQo+Pj4+ICsjIGRlZmlu
+ZSBEUF9QSFlfVEVTVF9QQVRURVJOX0VSUk9SX0NPVU5UwqDCoMKgIDB4Mgo+Pj4+ICsjIGRlZmlu
+ZSBEUF9QSFlfVEVTVF9QQVRURVJOX1BSQlM3wqDCoMKgwqDCoMKgwqDCoMKgIDB4Mwo+Pj4+ICsj
+IGRlZmluZSBEUF9QSFlfVEVTVF9QQVRURVJOXzgwQklUX0NVU1RPTcKgwqAgMHg0Cj4+Pj4gKyMg
+ZGVmaW5lIERQX1BIWV9URVNUX1BBVFRFUk5fQ1AyNTIwwqDCoMKgwqDCoMKgwqDCoCAweDUKPj4+
+PiArCj4+Pj4gKyNkZWZpbmUgRFBfVEVTVF9IQlIyX1NDUkFNQkxFUl9SRVNFVMKgwqDCoMKgwqDC
+oMKgIDB4MjRBCj4+Pj4gIMKgICNkZWZpbmUgRFBfVEVTVF84MEJJVF9DVVNUT01fUEFUVEVSTl83
+XzDCoMKgwqAgMHgyNTAKPj4+PiAgwqAgI2RlZmluZcKgwqDCoCBEUF9URVNUXzgwQklUX0NVU1RP
+TV9QQVRURVJOXzE1XzjCoMKgIDB4MjUxCj4+Pj4gIMKgICNkZWZpbmXCoMKgwqAgRFBfVEVTVF84
+MEJJVF9DVVNUT01fUEFUVEVSTl8yM18xNsKgIDB4MjUyCj4+Pj4gQEAgLTE1NzAsNCArMTU3OSwy
+NiBAQCBzdGF0aWMgaW5saW5lIHZvaWQKPj4+PiBkcm1fZHBfY2VjX3Vuc2V0X2VkaWQoc3RydWN0
+IGRybV9kcF9hdXggKmF1eCkKPj4+PiAgwqAgwqAgI2VuZGlmCj4+Pj4gIMKgICsvKioKPj4+PiAr
+ICogc3RydWN0IGRybV9kcF9waHlfdGVzdF9wYXJhbXMgLSBEUCBQaHkgQ29tcGxpYW5jZSBwYXJh
+bWV0ZXJzCj4+Pj4gKyAqIEBsaW5rOiBMaW5rIGluZm9ybWF0aW9uLgo+Pj4gQGxpbmsgc2VlbXMg
+dG8gYmUgZnJvbSBhIHByZXZpb3VzIHBhdGNoIHZlcnNpb24uIFBsZWFzZSBkZXNjcmliZQo+Pj4g
+bGlua19yYXRlIGFuZCBudW1fbGFuZXMgaW5zdGVhZC4KPj4+Cj4+Pj4gKyAqIEBwaHlfcGF0dGVy
+bjogRFAgUGh5IHRlc3QgcGF0dGVybiBmcm9tIERQQ0QgMHgyNDggKHNpbmspCj4+Pj4gKyAqIEBo
+YjJfcmVzZXQ6IERQIEhCUjJfQ09NUExJQU5DRV9TQ1JBTUJMRVJfUkVTRVQgZnJvbSBEQ1BECj4+
+Pj4gKyAqwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAweDI0QSBhbmQgMHgyNEIgKHNpbmspCj4+Pj4g
+KyAqIEBjdXN0b204MDogRFAgVGVzdF84MEJJVF9DVVNUT01fUEFUVEVSTiBmcm9tIERQQ0RzIDB4
+MjUwCj4+Pj4gKyAqwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB0aHJvdWdoIDB4MjU5Lgo+
+Pj4gTWlzc2luZyBkb2MgZm9yIGVuaGFuY2VkX2ZyYW1lX2NhcC4KPj4+Cj4+Pj4gKyAqLwo+Pj4+
+ICtzdHJ1Y3QgZHJtX2RwX3BoeV90ZXN0X3BhcmFtcyB7Cj4+Pj4gK8KgwqDCoCBpbnQgbGlua19y
+YXRlOwo+Pj4gSXMgdGhlcmUgYSByZWFzb24geW91J3JlIG5vdCB1c2luZyB1OCBoZXJlPyBXb3Vs
+ZCBiZSBuaWNlIHRvIGtlZXAgaXQKPj4+IGNvbnNpc3RlbnQgd2l0aCBudW1fbGFuZXMuCj4+IGxp
+bmtfcmF0ZSB2YXJpYWJsZSBpcyB1c2VkIGhlcmUgdG8gc3RvcmUgYWN0dWFsIGNsb2NrIHZhbHVl
+IGFmdGVyCj4+IG11bHRpcGx5aW5nIHdpdGggMjcwMDAgKDAuMjcgZ2Jwcykgd2l0aCBsaW5rLWNv
+ZGUgdXNpbmcKPj4gZHJtX2RwX2J3X2NvZGVfdG9fbGlua19yYXRlKCkuCj4+IEZvbGxvd2VkIHRo
+ZSBzYW1lIGFuZCB1OCBtYXliZSBub3QgYmUgc3VmZmljaWVudC4gQWRkZWQgb3RoZXIKPj4gc3Vn
+Z2VzdGVkIGNoYW5nZXMuIFRoYW5rcyBmb3IgcmV2aWV3Lgo+Pgo+IFRoYXQgbWFrZXMgc2Vuc2Uu
+IEkgbWlzc2VkIHRoYXQuIEluIHRoYXQgY2FzZSBmZWVsIGZyZWUgdG8gYWRkIG15Cj4gUmV2aWV3
+ZWQtYnk6IEhhcnJ5IFdlbnRsYW5kIDxoYXJyeS53ZW50bGFuZEBhbWQuY29tPgoKU3VyZSB3aWxs
+IGFkZCB5b3VyIHItYiBpbiBuZXh0IHZlcnNpb24uIFRoYW5rcy4KClJlZ2FyZHMsCkFuaW1lc2gK
+Cj4KPiBIYXJyeQo+Cj4+IFJlZ3JhZHMsCj4+IEFuaW1lc2gKPj4KPj4+PiArwqDCoMKgIHU4IG51
+bV9sYW5lczsKPj4+PiArwqDCoMKgIHU4IHBoeV9wYXR0ZXJuOwo+Pj4+ICvCoMKgwqAgdTggaGJy
+Ml9yZXNldFsyXTsKPj4+PiArwqDCoMKgIHU4IGN1c3RvbTgwWzEwXTsKPj4+PiArwqDCoMKgIGJv
+b2wgZW5haGFuY2VkX2ZyYW1lX2NhcDsKPj4+IFR5cG8uIFNob3VsZCBiZSBlbmhhbnZlZF9mcmFt
+ZV9jYXAuCj4+Pgo+Pj4gSGFycnkKPj4+Cj4+Pj4gK307Cj4+Pj4gKwo+Pj4+ICtpbnQgZHJtX2Rw
+X2dldF9waHlfdGVzdF9wYXR0ZXJuKHN0cnVjdCBkcm1fZHBfYXV4ICphdXgsCj4+Pj4gK8KgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgZHJtX2RwX3BoeV90ZXN0X3BhcmFtcyAq
+ZGF0YSk7Cj4+Pj4gK2ludCBkcm1fZHBfc2V0X3BoeV90ZXN0X3BhdHRlcm4oc3RydWN0IGRybV9k
+cF9hdXggKmF1eCwKPj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVjdCBk
+cm1fZHBfcGh5X3Rlc3RfcGFyYW1zICpkYXRhLCB1OCBkcF9yZXYpOwo+Pj4+ICDCoCAjZW5kaWYg
+LyogX0RSTV9EUF9IRUxQRVJfSF8gKi8KPj4+PgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9kcmktZGV2ZWwK
