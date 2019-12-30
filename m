@@ -2,36 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 568AB12CB70
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2019 01:47:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E60E12CD3B
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2019 08:06:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E78D89CD3;
-	Mon, 30 Dec 2019 00:47:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC06E8994D;
+	Mon, 30 Dec 2019 07:05:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9903089CD3
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2019 00:47:10 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 66B7A31B;
- Sun, 29 Dec 2019 16:47:09 -0800 (PST)
-Received: from [192.168.1.123] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8E2E53F534;
- Sun, 29 Dec 2019 16:47:07 -0800 (PST)
-Subject: Re: [RFC v2 1/1] drm/lima: Add optional devfreq support
-To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-References: <20191227173707.20413-1-martin.blumenstingl@googlemail.com>
- <20191227173707.20413-2-martin.blumenstingl@googlemail.com>
- <dd38ff5c-6a14-bb6a-4df5-d706f99234e9@arm.com>
- <CAFBinCDs3a8TJcQKgHUkDvssMR6Y2Kys38p50P0q=2KOiDTNHg@mail.gmail.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <fe45f4f8-8c67-ded2-90bf-8d5fd6874876@arm.com>
-Date: Mon, 30 Dec 2019 00:47:00 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2089.outbound.protection.outlook.com [40.107.92.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD10C8994D;
+ Mon, 30 Dec 2019 07:05:56 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ql0+yMY6K48JEA3vNv2Qj4CObzh8NbnbViU3qPNIxG2FlIepXU4J4TKCKrqBlitI0wovD9qQ6pr72rXjqKCLpZEicP8Qvz12/dR3/WDSDjWxs+jaYSGn8vZQ8hWGYHdATHYpGltvAAaAHX7PQU/buT8ukz6H94jguOh00nNW9lEi4RtSEB1EivAoxDl3SrfZ50RKcd97X0un2UqjQypklUzc2IZic9MV0HUA1BiEA747UWISCXbs7MRuS1L+UN22HiVds3yTI0FqR7fIW54f8oLUCjGiUwirNJ6u1t9BzwsFG6xMLKMZY9mpuMR946cDCorCiOdPuMnwu3kNTBXosw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SPXHfHhL8dgN+PDXOXC5e3as7rRVt9+i3hKUhO1FG4A=;
+ b=PqcydoVMl+EpNiQdMdFu/gVeHD2okbMOuXCVIfUJFJWEF0CoDeb9a+nFJhMDja3n1IRdBbapW+L0AQTMP8lV1PQLwQCyCNA2hoJtrcU3XZF9LkfF/4JmNuDJibQjikfdDq/4EUkeP0wT7b1O5+gI1SLttFlw7n7NtsxS2AZNCqMyhtffBjsgZ+1AXxmo4QkiIMZUoZ3ejNMA7gSp/ny4NamH244YTDl2QSakRj+WdWY6mp7wyVLzkaHbm+Vbu+5qsYED9JcVPUZMo+16ePaYup+gv1AaLWK8gR3OcB+ln02M/Pi08bwf4finnBOYQMVU+fquZXWz1AnmA3iXI9+zIw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=permerror action=none header.from=amd.com; dkim=none (message not
+ signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SPXHfHhL8dgN+PDXOXC5e3as7rRVt9+i3hKUhO1FG4A=;
+ b=uWK9RKqB4QOiHne60Ok6TQplJY2GGVdVuQlHeP0Xzyba1Ds0hJgptqLXUPiT07htAphrqB7pdmQhyxVbOFIRu+QcV9ZzXeFr3xoMEcMsRZn0vkdpjoOHDIr18GpGxsjodQMxYZ4NatpmpVcZq8Z8VhBqdHRzuuo8QiNy1zWktXg=
+Received: from SN1PR12CA0063.namprd12.prod.outlook.com (2603:10b6:802:20::34)
+ by SN6PR12MB2606.namprd12.prod.outlook.com (2603:10b6:805:6e::31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2581.11; Mon, 30 Dec
+ 2019 07:05:54 +0000
+Received: from DM6NAM11FT040.eop-nam11.prod.protection.outlook.com
+ (2a01:111:f400:7eaa::201) by SN1PR12CA0063.outlook.office365.com
+ (2603:10b6:802:20::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2581.12 via Frontend
+ Transport; Mon, 30 Dec 2019 07:05:54 +0000
+Authentication-Results: spf=none (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none;lists.freedesktop.org; dmarc=permerror action=none
+ header.from=amd.com;
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+Received: from SATLEXMB02.amd.com (165.204.84.17) by
+ DM6NAM11FT040.mail.protection.outlook.com (10.13.173.133) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.2581.11 via Frontend Transport; Mon, 30 Dec 2019 07:05:53 +0000
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB02.amd.com
+ (10.181.40.143) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Mon, 30 Dec
+ 2019 01:05:53 -0600
+Received: from SATLEXMB01.amd.com (10.181.40.142) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Mon, 30 Dec
+ 2019 01:05:53 -0600
+Received: from wayne-System-Product-Name.amd.com (10.180.168.240) by
+ SATLEXMB01.amd.com (10.181.40.142) with Microsoft SMTP Server id 15.1.1713.5
+ via Frontend Transport; Mon, 30 Dec 2019 01:05:51 -0600
+From: Wayne Lin <Wayne.Lin@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
+Subject: [PATCH] drm/dp_mst: correct the shifting in DP_REMOTE_I2C_READ
+Date: Mon, 30 Dec 2019 15:05:16 +0800
+Message-ID: <20191230070516.4760-1-Wayne.Lin@amd.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <CAFBinCDs3a8TJcQKgHUkDvssMR6Y2Kys38p50P0q=2KOiDTNHg@mail.gmail.com>
-Content-Language: en-GB
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:165.204.84.17; IPV:; CTRY:US; EFV:NLI;
+ SFV:NSPM;
+ SFS:(10009020)(4636009)(376002)(346002)(136003)(39860400002)(396003)(428003)(199004)(189003)(110136005)(426003)(26005)(186003)(8676002)(36756003)(478600001)(86362001)(2906002)(316002)(2616005)(70586007)(70206006)(1076003)(54906003)(336012)(8936002)(5660300002)(81156014)(4326008)(7696005)(81166006)(356004)(6666004)(70780200001);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:SN6PR12MB2606; H:SATLEXMB02.amd.com; FPR:;
+ SPF:None; LANG:en; PTR:InfoDomainNonexistent; A:1; MX:1; 
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d63b7e63-1494-4322-4375-08d78cf6b5f4
+X-MS-TrafficTypeDiagnostic: SN6PR12MB2606:
+X-Microsoft-Antispam-PRVS: <SN6PR12MB2606133BEAC8CD8433C3346CFC270@SN6PR12MB2606.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:451;
+X-Forefront-PRVS: 0267E514F9
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 0ZGxYuFVubgWsJcegeh7tKA20xT25Xt91rCqqvSXYa6nY9DGoKdgdb+gOTsTut5sKDHuEKVcU8f3kmtyIoyyVLqo3Kig2l4JtkEJ1i2WNBgdI6oRcn5WNpW7Ev8L9qb+8ykrHWiE+6sMVm3zwaFsdIT6K0GFclHPuVGcv8kTanl/ejCjG1OpTyfZx4onAjtm30MLrkXERAvVEEybIFlPHV8U9rxenLmB4sqUmx1Ny00ob3XPw46fmtpbqAU2ABhjq1UHPmLVCvs3TdSJkujMKvqiTbFy3vlqhNDLuT/yNx7IZ0/Kif4PD5cPkC07qhnEXjO0cXDuRHIH/P3ZUDScGXwjwmWuOwvLcOqnrZxwtti881V9oVFfTnkEpT5zc46HgS6xwuXLQVEo8hnXnLcdkLL5N9VjtvMKF1hlCtAoxOgEiMdWlgmOYuygA2uIbWBKSwaQ4bFGhHpg+Bq7n2brDc+pCGXA+55/ZTT7TUY8+1sdBlnMqDIEdRP08+4qDFkZ
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Dec 2019 07:05:53.7911 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d63b7e63-1494-4322-4375-08d78cf6b5f4
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB02.amd.com]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2606
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,76 +103,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tomeu.vizoso@collabora.com, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, steven.price@arm.com,
- linux-rockchip@lists.infradead.org, wens@csie.org, yuq825@gmail.com,
- linux-amlogic@lists.infradead.org, alyssa.rosenzweig@collabora.com
+Cc: jerry.zuo@amd.com, Nicholas.Kazlauskas@amd.com,
+ Wayne Lin <Wayne.Lin@amd.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2019-12-29 11:19 pm, Martin Blumenstingl wrote:
-> Hi Robin,
-> 
-> On Sun, Dec 29, 2019 at 11:58 PM Robin Murphy <robin.murphy@arm.com> wrote:
->>
->> Hi Martin,
->>
->> On 2019-12-27 5:37 pm, Martin Blumenstingl wrote:
->>> Most platforms with a Mali-400 or Mali-450 GPU also have support for
->>> changing the GPU clock frequency. Add devfreq support so the GPU clock
->>> rate is updated based on the actual GPU usage when the
->>> "operating-points-v2" property is present in the board.dts.
->>>
->>> The actual devfreq code is taken from panfrost_devfreq.c and modified so
->>> it matches what the lima hardware needs:
->>> - a call to dev_pm_opp_set_clkname() during initialization because there
->>>     are two clocks on Mali-4x0 IPs. "core" is the one that actually clocks
->>>     the GPU so we need to control it using devfreq.
->>> - locking when reading or writing the devfreq statistics because (unlike
->>>     than panfrost) we have multiple PP and GP IRQs which may finish jobs
->>>     concurrently.
->>
->> I gave this a quick try on my RK3328, and the clock scaling indeed kicks
->> in nicely on the glmark2 scenes that struggle, however something appears
->> to be missing in terms of regulator association, as the appropriate OPP
->> voltages aren't reflected in the GPU supply (fortunately the initial
->> voltage seems close enough to that of the highest OPP not to cause major
->> problems, on my box at least). With panfrost on RK3399 I do see the
->> supply voltage scaling accordingly, but I don't know my way around
->> devfreq well enough to know what matters in the difference :/
-> first of all: thank you for trying this out! :-)
-> 
-> does your kernel include commit 221bc77914cbcc ("drm/panfrost: Use
-> generic code for devfreq") for your panfrost test?
-> if I understand the devfreq API correct then I suspect with that
-> commit panfrost also won't change the voltage anymore.
+[Why]
+According to DP spec, it should shift left 4 digits for NO_STOP_BIT
+in REMOTE_I2C_READ message. Not 5 digits.
 
-Oh, you're quite right - I was already considering that change as 
-ancient history, but indeed it's only in 5.5-rc, while that board is 
-still on 5.4.y release kernels. No wonder I couldn't make sense of how 
-the (current) code could possibly be working :)
+[How]
+Correct the shifting value of NO_STOP_BIT for DP_REMOTE_I2C_READ case in
+drm_dp_encode_sideband_req().
 
-I'll try the latest -rc kernel tomorrow to confirm (now that PCIe is 
-hopefully fixed), but I'm already fairly confident you've called it 
-correctly.
+Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
+---
+ drivers/gpu/drm/drm_dp_mst_topology.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cheers,
-Robin.
+diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+index 1d1bfa49ca2b..0557e225ff67 100644
+--- a/drivers/gpu/drm/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+@@ -393,7 +393,7 @@ drm_dp_encode_sideband_req(const struct drm_dp_sideband_msg_req_body *req,
+ 			memcpy(&buf[idx], req->u.i2c_read.transactions[i].bytes, req->u.i2c_read.transactions[i].num_bytes);
+ 			idx += req->u.i2c_read.transactions[i].num_bytes;
+ 
+-			buf[idx] = (req->u.i2c_read.transactions[i].no_stop_bit & 0x1) << 5;
++			buf[idx] = (req->u.i2c_read.transactions[i].no_stop_bit & 0x1) << 4;
+ 			buf[idx] |= (req->u.i2c_read.transactions[i].i2c_transaction_delay & 0xf);
+ 			idx++;
+ 		}
+-- 
+2.17.1
 
-> this is probably due to a missing call to dev_pm_opp_set_regulators()
-> which is supposed to attach the regulator to the devfreq instance.
-> I didn't notice this yet because on Amlogic SoCs the voltage is the
-> same for all OPPs.
-> 
-> I'll debug this in the next days and send an updated patch (and drop
-> the RFC prefix if there are no more comments).
-> 
-> 
-> Regards
-> Martin
-> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
