@@ -2,54 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C56112CEB4
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2019 11:24:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A77A12CF5F
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2019 12:15:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48B0289D42;
-	Mon, 30 Dec 2019 10:24:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5BE788FBD;
+	Mon, 30 Dec 2019 11:15:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38B5A89D42
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2019 10:24:47 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id v201so24821842lfa.11
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2019 02:24:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rzDoRC4MHhm3h5pF1afVY20HHsvL3mkKYh/fXUPc0Uw=;
- b=WtMjvql2lt33WePTaTxAejV/6Ql6c3RMJxp4Y23AMXse9xix5gI1Q4NnDK5ae02N6m
- 4LtduhmLFWqoU6P/2rplRTaKlUsF0ikMpjkvKNNj2NKqjcX0mFsgf/ofOq+dh6zumofR
- ZzBhRH3AAJhP80OMBTcdN+h5hJzrTXMdhj76bVcdCdHGVeRdhtXrCGQfS/pEuYDHR4jq
- /UZxFPsGjWGR6EBmiKNn4GWLFNxlSxBsGz4FaHVb19XG9bwEaRsCmcJsMSALj1i6SiBP
- 5T6ZpJtH98PU82kKunQ7kzRF3LI8JlXeqm6uwYciDhqUYhqU2oh/NhQKCPLwEMvDxxZb
- 11qA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rzDoRC4MHhm3h5pF1afVY20HHsvL3mkKYh/fXUPc0Uw=;
- b=Es/2MQkny/KWANX7OXC6sH2F0l9useY0mlO731uXF57V1lM7dwEyWlPV9KYSDpjvk4
- wEbPlxvuCAMx2SJOIEskfLHN6rojBg7NxYtCUjfkcR9zLe6mSBFaxffN3CM0CYnKckHD
- nD3D4Ym3OLBN/mAJTtF0bNdVygReR6SZpPYb9OVhtTco4l82Aw0WYfp32rf1KiNsOf/d
- i8d4zmBr3LjDQLFXaFnGlpuZKqDO2byXww3Ow+ODpKItTswJtQxrx1ta+evMK9rVhhRO
- +FfIRZxzl4KndNMXHwbssnnL2/u0uWmHdFfFUYu0yfhe8IuSOlAEEQohnWreRkldPsI+
- a0Ow==
-X-Gm-Message-State: APjAAAWpY7wUzO0KG3lsobyqfJ9MkSHjFRAeKwj+bb0BdeUG/UPGABZj
- iljbzcCFjPJXMA462UZhjP1qXnsay5NkYEVly+S+Hw==
-X-Google-Smtp-Source: APXvYqxRvkQxLspnMmrMM3h3Sj/dlWYZvO08GqnBkR25i7gWRKC/2+sgwKwkjkNbniEpGN7uNEbSVnL5aW6wlZVmlto=
-X-Received: by 2002:ac2:544f:: with SMTP id d15mr39891977lfn.126.1577701485459; 
- Mon, 30 Dec 2019 02:24:45 -0800 (PST)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 892B288F16;
+ Mon, 30 Dec 2019 11:15:22 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 30 Dec 2019 03:15:22 -0800
+X-IronPort-AV: E=Sophos;i="5.69,374,1571727600"; d="scan'208";a="213299813"
+Received: from mchanan-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.249.32.148])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 30 Dec 2019 03:15:19 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Wayne Lin <Wayne.Lin@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Subject: Re: [PATCH] drm/dp_mst: correct the shifting in DP_REMOTE_I2C_READ
+In-Reply-To: <20191230070516.4760-1-Wayne.Lin@amd.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20191230070516.4760-1-Wayne.Lin@amd.com>
+Date: Mon, 30 Dec 2019 13:15:34 +0200
+Message-ID: <87mubaoyi1.fsf@intel.com>
 MIME-Version: 1.0
-References: <1577495680-28766-1-git-send-email-tiantao6@hisilicon.com>
-In-Reply-To: <1577495680-28766-1-git-send-email-tiantao6@hisilicon.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Mon, 30 Dec 2019 10:23:40 +0000
-Message-ID: <CAPj87rO-ZrCCJCza0Eeyp-JAJ6Qp8RdhJQh_1Yh_QSeK2o8_hw@mail.gmail.com>
-Subject: Re: [PATCH] drm/hisilicon: Added three new resolutions and changed
- the alignment to 128 Bytes
-To: Tian Tao <tiantao6@hisilicon.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,48 +44,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Chen Feng <puck.chen@hisilicon.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, linuxarm@huawei.com,
- Xinliang Liu <xinliang.liu@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
- tzimmermann@suse.de, Alex Deucher <alexander.deucher@amd.com>,
- tglx@linutronix.de
+Cc: jerry.zuo@amd.com, Nicholas.Kazlauskas@amd.com,
+ Wayne Lin <Wayne.Lin@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tian,
-
-On Sat, 28 Dec 2019 at 01:14, Tian Tao <tiantao6@hisilicon.com> wrote:
-> @@ -118,11 +119,9 @@ static void hibmc_plane_atomic_update(struct drm_plane *plane,
->         writel(gpu_addr, priv->mmio + HIBMC_CRT_FB_ADDRESS);
+On Mon, 30 Dec 2019, Wayne Lin <Wayne.Lin@amd.com> wrote:
+> [Why]
+> According to DP spec, it should shift left 4 digits for NO_STOP_BIT
+> in REMOTE_I2C_READ message. Not 5 digits.
 >
->         reg = state->fb->width * (state->fb->format->cpp[0]);
-> -       /* now line_pad is 16 */
-> -       reg = PADDING(16, reg);
+> [How]
+> Correct the shifting value of NO_STOP_BIT for DP_REMOTE_I2C_READ case in
+> drm_dp_encode_sideband_req().
+
+Which commit introduced the issue? Fixes: tag. Does it need a stable
+backport? Does this fix a user visible bug?
+
+BR,
+Jani.
+
+> Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
+> ---
+>  drivers/gpu/drm/drm_dp_mst_topology.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
->         line_l = state->fb->width * state->fb->format->cpp[0];
-> -       line_l = PADDING(16, line_l);
-> +       line_l = PADDING(128, line_l);
+> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+> index 1d1bfa49ca2b..0557e225ff67 100644
+> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> @@ -393,7 +393,7 @@ drm_dp_encode_sideband_req(const struct drm_dp_sideband_msg_req_body *req,
+>  			memcpy(&buf[idx], req->u.i2c_read.transactions[i].bytes, req->u.i2c_read.transactions[i].num_bytes);
+>  			idx += req->u.i2c_read.transactions[i].num_bytes;
+>  
+> -			buf[idx] = (req->u.i2c_read.transactions[i].no_stop_bit & 0x1) << 5;
+> +			buf[idx] = (req->u.i2c_read.transactions[i].no_stop_bit & 0x1) << 4;
+>  			buf[idx] |= (req->u.i2c_read.transactions[i].i2c_transaction_delay & 0xf);
+>  			idx++;
+>  		}
 
-The 'line length' here is the 'stride' field of the FB. Stride is set
-by userspace when allocating the buffer, and the kernel must not
-attempt to guess what userspace set.
-
-You should use state->fb->strides[0] directly here, and in your
-atomic_check() function, make sure that the framebuffer stride is
-correctly aligned.
-
-Please split this into a separate change. Your commit has three
-changes in it, which should all be separate commits:
-  * enforce 128-byte stride alignment (is this a hardware limit?)
-  * get the BO from drm_fb rather than hibmc_fb (can hibmc_fb->obj
-just be removed now?)
-  * add new clock/resolution configurations
-
-Cheers,
-Daniel
+-- 
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
