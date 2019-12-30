@@ -1,37 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0675512D783
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2019 10:37:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2863712D780
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2019 10:37:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 609E46E153;
-	Tue, 31 Dec 2019 09:37:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C72C66E0F7;
+	Tue, 31 Dec 2019 09:37:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from onstation.org (onstation.org [52.200.56.107])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF6A989AB6;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6F2B8987A;
  Mon, 30 Dec 2019 02:01:07 +0000 (UTC)
 Received: from localhost.localdomain (c-98-239-145-235.hsd1.wv.comcast.net
  [98.239.145.235])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested) (Authenticated sender: masneyb)
- by onstation.org (Postfix) with ESMTPSA id 80B7B3EE7A;
+ by onstation.org (Postfix) with ESMTPSA id E0EE13F262;
  Mon, 30 Dec 2019 02:01:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=onstation.org;
- s=default; t=1577671266;
+ s=default; t=1577671267;
  bh=t0PObDLzsPhcqnRoun2t4cn7CK8IaaEUsOLL32hsp+A=;
- h=From:To:Cc:Subject:Date:From;
- b=hAmoq4Npmz3/1IQcX+qOctett7tt7TPaPFnCTIYg2L4+yaM0wk7VV2rrH85EtNsy/
- AlF/nGb/YkJxqKzRKxv+x14HYwOwENwdBDvGfrnT/xnO1FVuXzO3tNN8BoUvAFh83T
- 6pTNrklhEV5bUK409DI2L7LOlxWMvPDu18MuWTfU=
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=kZENiB83tEIEqiyvYfxpIm/AUe9rYXindPV5Wc6UPLe9ALgOWZg6dxrxcj10b/Mak
+ eUtBxlHssLnK5FzNqOCzVypYY11Ut1p0uiiTWL1rxxle/dCfv0tHipu1/ikpdbaqMz
+ NZJxJji08Tv2ZcOLQEp33HWAX9RDYlF5m3OousJA=
 From: Brian Masney <masneyb@onstation.org>
 To: jeffrey.l.hugo@gmail.com,
 	robdclark@gmail.com
 Subject: [PATCH RFC v2] drm/msm/mdp5: enable autorefresh
-Date: Sun, 29 Dec 2019 21:00:52 -0500
-Message-Id: <20191230020053.26016-1-masneyb@onstation.org>
+Date: Sun, 29 Dec 2019 21:00:53 -0500
+Message-Id: <20191230020053.26016-2-masneyb@onstation.org>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191230020053.26016-1-masneyb@onstation.org>
+References: <20191230020053.26016-1-masneyb@onstation.org>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 31 Dec 2019 09:37:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
