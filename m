@@ -2,55 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C419B12D04C
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2019 14:31:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6154612D16E
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2019 16:26:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 046BE8967F;
-	Mon, 30 Dec 2019 13:31:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BECC89B49;
+	Mon, 30 Dec 2019 15:26:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa44.google.com (mail-vk1-xa44.google.com
- [IPv6:2607:f8b0:4864:20::a44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5E918967F
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2019 13:31:34 +0000 (UTC)
-Received: by mail-vk1-xa44.google.com with SMTP id h13so8271382vkn.10
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2019 05:31:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oNV29BbOxXflnyWwf2B0CxiU+GnStWQ9JexGoMU2XlI=;
- b=Qr8gscKlr0x3QNw5/UG6H6605ovPfe83GBn13tR7j85Yiotg6vbGAc1/tYVxW65w0L
- 3xl6SGCq8hQeq6d7jVn4qp1kIrjC8SkkiXZFfcbKzWAaWEjzfo8yGnqrEnJcJYiM+y+i
- us4nfaGrq0lxpSiObbP+DPDDLtAUNSsUJn09U15Fci3PnTJR8ci02QxipCMwiT6GjX2N
- i3xkh3nQXNM9sVBkVc3H52Gu+FjKxaWE7ZoeNrANH8TMk4JCUjzVVyXtS0xbalYg9luG
- iQSHCzMwwHJNQORoT1anC7Mi3ybsVxNdecXs2n2wNnLcwqOqx9nfJoj9YAbKGj/k7rsm
- gY2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=oNV29BbOxXflnyWwf2B0CxiU+GnStWQ9JexGoMU2XlI=;
- b=VZqI+BOWHKvmafHTfLXDvsX59xHUAu/YXOtUpvKtZK9/IIVdmQxMpTlXY70WXd2GUU
- Suct1yHJqjAo3xkG5udryIOuMCwQPBJFQaYJYE6futnd+nHpDkuD0vjc4cOk7tsfJgL7
- X0RYiEbPqL2N3/S898PgcD5MnqZwUS/UXQp2mNazx4ZPBQfgcezaN+pwpUFoT+EvcLTw
- qw4XLWTt6CU2W+l2VzYagFISAmDmKN2oM6uGkguRqn7Bg4/FLu9LfTxK+hAVbZDYROnD
- 4qVzQpEAjGxk4PYscqxD1e/zsA6xNu1+OCFNNkfr1PO8M7ooToiG1vri0XlUUWZvVOL9
- 6NOQ==
-X-Gm-Message-State: APjAAAUghMrTeTbKN81LeCTPlk035rlqUsWYHlyN9U5DVq8d5Wh9UnFd
- SrQV3y9cCStvXqDRHjdfxQdmaEb/gvevlZh/yRKadg==
-X-Google-Smtp-Source: APXvYqxFag2CvxhfF9l68e0E6H1HTPVbDP+2WETnXmzv5qTwFtUcF8TJWRh54oESNBk460c12mL7WeiqbGkL+w36S/8=
-X-Received: by 2002:a05:6122:1065:: with SMTP id
- k5mr38200538vko.14.1577712693691; 
- Mon, 30 Dec 2019 05:31:33 -0800 (PST)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2059.outbound.protection.outlook.com [40.107.237.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FECD89AB2;
+ Mon, 30 Dec 2019 15:26:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EaozLc2DvlKjuZcjv8e5xjNrdEz8uNSqwcW60yMDLvtRECaK4cG9oC+zudctL0tzkfprgxb6l5r/kL5XSXMb6vZ4jyub3n1Cd0pXkKNKpk5YgMLM/y6l2S2NNqiJg4ZZ87Jxo2Srs/8CIM2DgzRwmgRLVOD2nqXPZzz5sZbqdnuLJRcifLve98+HeDfdEgt6WFk4b8vuO6W3hLee0fb7zoBU0R2TKln7tekk12tBLMEDq0h24yL+Kt9l77PJI8X8mknFhGHWgNXy8SCsJkrVCmvcipkk35LcmnrjD6HbWIs+azjsERHFM2chareMquVXNd90bytn3Hv0dTiw4tSeWA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oNKF9m/9ofMbb4nZzqPCNQzyR0yZ7X9BFJ6oeuA3Ulw=;
+ b=km7iGg4pyqnlse53/OOnBa/kbTgKSaIMHRyfi85mog501g7o1N3V1kP61NPIFlN0oTnS6QnlMVUtLQ6B0ibU/WG6MkCm6iSI1Joc+wHPn35b8rRPv1ktl711QBIavLIc9SF8KWNTe9hH6nf5tERPrUxYyJYDN6hnCkUT4RuLU9eRl9jDa71C1ZV4zbXwJLaIxh2CV9Rnh9ioFDRSDGvRX/27a2YncK1z91XqM77l77GONQZ6chpx299WiIPH3uxyQOUvwjDxqX9aOlT7KdyXktW+lyjmjlnqin1CB9+MqT4pPXzKACkAFJcWe4ihn+9spAw0fO4MZDGPkXi31OcDzA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oNKF9m/9ofMbb4nZzqPCNQzyR0yZ7X9BFJ6oeuA3Ulw=;
+ b=vOGumX4iDJlB5a2j3rE8VWCveXLYuinwrbYJKiwOh7sgGGH/4I6kRbAGcSbusuEXWRAFOFVkmD5VLOq4VhqjelN3DKwtwbSbXV5h9bqO9vH5JSOQb7JzajsbxZvFncanlsWFIi4Z2Sd+ZMRWvgiksfi7Dlk86/Hy6yQcgtDgDT8=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Harry.Wentland@amd.com; 
+Received: from CY4PR1201MB0230.namprd12.prod.outlook.com (10.172.79.7) by
+ CY4PR1201MB0149.namprd12.prod.outlook.com (10.172.78.19) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2581.11; Mon, 30 Dec 2019 15:26:27 +0000
+Received: from CY4PR1201MB0230.namprd12.prod.outlook.com
+ ([fe80::301e:b0c8:7af:d77d]) by CY4PR1201MB0230.namprd12.prod.outlook.com
+ ([fe80::301e:b0c8:7af:d77d%11]) with mapi id 15.20.2581.007; Mon, 30 Dec 2019
+ 15:26:27 +0000
+Subject: Re: [PATCH] drm/dp_mst: correct the shifting in DP_REMOTE_I2C_READ
+To: Wayne Lin <Wayne.Lin@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+References: <20191230070516.4760-1-Wayne.Lin@amd.com>
+From: Harry Wentland <hwentlan@amd.com>
+Autocrypt: addr=hwentlan@amd.com; keydata=
+ mQENBFhb4C8BCADhHHUNoBQ7K7LupCP0FsUb443Vuqq+dH0uo4A3lnPkMF6FJmGcJ9Sbx1C6
+ cd4PbVAaTFZUEmjqfpm+wCRBe11eF55hW3GJ273wvfH69Q/zmAxwO8yk+i5ZWWl8Hns5h69K
+ D9QURHLpXxrcwnfHFah0DwV23TrD1KGB7vowCZyJOw93U/GzAlXKESy0FM7ZOYIJH83X7qhh
+ Q9KX94iTEYTeH86Wy8hwHtqM6ySviwEz0g+UegpG8ebbz0w3b5QmdKCAg+eZTmBekP5o77YE
+ BKqR+Miiwo9+tzm2N5GiF9HDeI2pVe/egOLa5UcmsgdF4Y5FKoMnBbAHNaA6Fev8PHlNABEB
+ AAG0J0hhcnJ5IFdlbnRsYW5kIDxoYXJyeS53ZW50bGFuZEBhbWQuY29tPokBNwQTAQgAIQUC
+ WFvgLwIbAwULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgAAKCRAtWBXJjBS24xUlCAC9MqAlIbZO
+ /a37s41h+MQ+D20C6/hVErWO+RA06nA+jFDPUWrDJKYdn6EDQWdLY3ATeAq3X8GIeOTXGrPD
+ b2OXD6kOViW/RNvlXdrIsnIDacdr39aoAlY1b+bhTzZVz4pto4l+K1PZb5jlMgTk/ks9HesL
+ RfYVq5wOy3qIpocdjdlXnSUKn0WOkGBBd8Nv3o0OI18tiJ1S/QwLBBfZoVvfGinoB2p4j/wO
+ kJxpi3F9TaOtLGcdrgfghg31Fb48DP+6kodZ4ircerp4hyAp0U2iKtsrQ/sVWR4mbe3eTfcn
+ YjBxGd2JOVdNQZa2VTNf9GshIDMD8IIQK6jN0LfY8Py2uQENBFhb4C8BCAC/0KWY3pIbU2cy
+ i7GMj3gqB6h0jGqRuMpMRoSNDoAUIuSh17w+bawuOF6XZPdK3D4lC9cOXMwP3aP9tTJOori2
+ 8vMH8KW9jp9lAYnGWYhSqLdjzIACquMqi96EBtawJDct1e9pVgp+d4JXHlgIrl11ITJo8rCP
+ dEqjro2bCBWxijsIncdCzMjf57+nR7u86SBtGSFcXKapS7YJeWcvM6MzFYgIkxHxxBDvBBvm
+ U2/mAXiL72kwmlV1BNrabQxX2UnIb3xt3UovYJehrnDUMdYjxJgSPRBx27wQ/D05xAlhkmmL
+ FJ01ZYc412CRCC6gjgFPfUi2y7YJTrQHS79WSyANABEBAAGJAR8EGAEIAAkFAlhb4C8CGwwA
+ CgkQLVgVyYwUtuM72Qf+J6JOQ/27pWf5Ulde9GS0BigA1kV9CNfIq396TgvQzeyixHMvgPdq
+ Z36x89zZi0otjMZv6ypIdEg5co1Bvz0wFaKbCiNbTjpnA1VAbQVLSFjCZLQiu0vc+BZ1yKDV
+ T5ASJ97G4XvQNO+XXGY55MrmhoNqMaeIa/3Jas54fPVd5olcnUAyDty29/VWXNllUq38iBCX
+ /0tTF7oav1lzPGfeW2c6B700FFZMTR4YBVSGE8jPIzu2Fj0E8EkDmsgS+nibqSvWXfo1v231
+ 410h35CjbYDlYQO7Z1YD7asqbaOnF0As+rckyRMweQ9CxZn5+YBijtPJA3x5ldbCfQ9rWiTu XQ==
+Message-ID: <084e73fe-0f8c-a9da-3b20-0dc6804e8602@amd.com>
+Date: Mon, 30 Dec 2019 10:26:10 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
+In-Reply-To: <20191230070516.4760-1-Wayne.Lin@amd.com>
+Content-Language: en-US
+X-ClientProxiedBy: YTOPR0101CA0043.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:14::20) To CY4PR1201MB0230.namprd12.prod.outlook.com
+ (2603:10b6:910:1e::7)
 MIME-Version: 1.0
-References: <20191216205122.1850923-1-hdegoede@redhat.com>
- <20191216205122.1850923-2-hdegoede@redhat.com>
-In-Reply-To: <20191216205122.1850923-2-hdegoede@redhat.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 30 Dec 2019 14:31:22 +0100
-Message-ID: <CACRpkdaXFSJVkWJGzsVcvbUA9gpgP0Vbkwf1H-HWw8s35R9XYQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/5] pinctrl: Allow modules to use
- pinctrl_[un]register_mappings
-To: Hans de Goede <hdegoede@redhat.com>
+Received: from [172.29.18.152] (165.204.55.250) by
+ YTOPR0101CA0043.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:14::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2581.11 via Frontend
+ Transport; Mon, 30 Dec 2019 15:26:26 +0000
+X-Originating-IP: [165.204.55.250]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: ce496924-d3a3-4581-01d8-08d78d3ca316
+X-MS-TrafficTypeDiagnostic: CY4PR1201MB0149:|CY4PR1201MB0149:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <CY4PR1201MB0149D34F7E65D07E60A52A1A8C270@CY4PR1201MB0149.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:147;
+X-Forefront-PRVS: 0267E514F9
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10009020)(4636009)(39860400002)(346002)(396003)(136003)(376002)(366004)(189003)(199004)(4001150100001)(8676002)(16526019)(186003)(36756003)(4326008)(956004)(2616005)(81166006)(5660300002)(81156014)(478600001)(8936002)(31696002)(26005)(53546011)(31686004)(316002)(16576012)(66946007)(66556008)(66476007)(52116002)(6486002)(6666004)(2906002)(70780200001);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR1201MB0149;
+ H:CY4PR1201MB0230.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hLeAIObshOiQsUwCk9If5GLd8AAHA7iFAfXeOTaGnSkm8Zh+uqgti/9zVbYZ3UONlKC/6kAvp1Kujg4UsoeZSEvL8wEdO7F8ky5sNsEw2hVjKCebEYWkSsJTwHiKF9SBBQbSPIauKWw7XCujIpwAJsqg+RW5gHOp3h3QECM5LkJeJ3E0nR9F12mgwMkittLskuQTP1zT5IF69JZiTjmmdlOl3S8dECFpSkIGSwTn1W9EX2i1bCFffUYemRBuvJcl8CS826LKXqtUYZkUAtzZQ3Gcn8B6CsulzTAelU7jPtv3lJdR5DN6IITCd1mcx7VOkiaptUJ/AdtVagUs/K6cRO6l8+BZLm2QddrcaSlZxzLlmb4pyHj4Jiq8SNhjBXBXs44B6LXYGRwhsRQyov24ehvLQVqVMKcNSN45on8nIpKY+oWg7Kt5JhwPAEvJTA+t3wlDoYBNJ+UW6nxQBdHyXh5NcTxvd5xHLGmkbvma/7hXvyUi/xyQaZwNU17FJ2S+
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ce496924-d3a3-4581-01d8-08d78d3ca316
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Dec 2019 15:26:27.3005 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CX7mzzxn65f7sKkUt7vGvZAkNZKuG4m5TLTEzciawvMcdCX9gtuBqP0aaHR7u5x6SoObN1wblyR6aenbsnHrfg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB0149
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,65 +120,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Lee Jones <lee.jones@linaro.org>
+Cc: jerry.zuo@amd.com, Nicholas.Kazlauskas@amd.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 16, 2019 at 9:51 PM Hans de Goede <hdegoede@redhat.com> wrote:
+On 2019-12-30 2:05 a.m., Wayne Lin wrote:
+> [Why]
+> According to DP spec, it should shift left 4 digits for NO_STOP_BIT
+> in REMOTE_I2C_READ message. Not 5 digits.
+> 
+> [How]
+> Correct the shifting value of NO_STOP_BIT for DP_REMOTE_I2C_READ case in
+> drm_dp_encode_sideband_req().
+> 
+> Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
 
-> Currently only the drivers/pinctrl/devicetree.c code allows registering
-> pinctrl-mappings which may later be unregistered, all other mappings
-> are assumed to be permanent.
->
-> Non-dt platforms may also want to register pinctrl mappings from code which
-> is build as a module, which requires being able to unregister the mapping
-> when the module is unloaded to avoid dangling pointers.
->
-> To allow unregistering the mappings the devicetree code uses 2 internal
-> functions: pinctrl_register_map and pinctrl_unregister_map.
->
-> pinctrl_register_map allows the devicetree code to tell the core to
-> not memdup the mappings as it retains ownership of them and
-> pinctrl_unregister_map does the unregistering, note this only works
-> when the mappings where not memdupped.
->
-> The only code relying on the memdup/shallow-copy done by
-> pinctrl_register_mappings is arch/arm/mach-u300/core.c this commit
-> replaces the __initdata with const, so that the shallow-copy is no
-> longer necessary.
->
-> After that we can get rid of the internal pinctrl_unregister_map function
-> and just use pinctrl_register_mappings directly everywhere.
->
-> This commit also renames pinctrl_unregister_map to
-> pinctrl_unregister_mappings so that its naming matches its
-> pinctrl_register_mappings counter-part and exports it.
->
-> Together these 2 changes will allow non-dt platform code to
-> register pinctrl-mappings from modules without breaking things on
-> module unload (as they can now unregister the mapping on unload).
->
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Good catch. Looks like this has been there since the beginning of MST in
+the kernel. How did you find this? Did this cause bad EDID reads or some
+other problem? If so the commit message should probably mention it.
 
-This v2 works fine for me, I applied it to this immutable branch in the
-pinctrl tree:
-https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git/log/?h=ib-pinctrl-unreg-mappings
+Harry
 
-And pulled that into the pinctrl "devel" branch for v5.6.
-
-Please pull this immutable branch into the Intel DRM tree and apply
-the rest of the stuff on top!
-
-Yours,
-Linus Walleij
+> ---
+>  drivers/gpu/drm/drm_dp_mst_topology.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+> index 1d1bfa49ca2b..0557e225ff67 100644
+> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> @@ -393,7 +393,7 @@ drm_dp_encode_sideband_req(const struct drm_dp_sideband_msg_req_body *req,
+>  			memcpy(&buf[idx], req->u.i2c_read.transactions[i].bytes, req->u.i2c_read.transactions[i].num_bytes);
+>  			idx += req->u.i2c_read.transactions[i].num_bytes;
+>  
+> -			buf[idx] = (req->u.i2c_read.transactions[i].no_stop_bit & 0x1) << 5;
+> +			buf[idx] = (req->u.i2c_read.transactions[i].no_stop_bit & 0x1) << 4;
+>  			buf[idx] |= (req->u.i2c_read.transactions[i].i2c_transaction_delay & 0xf);
+>  			idx++;
+>  		}
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
