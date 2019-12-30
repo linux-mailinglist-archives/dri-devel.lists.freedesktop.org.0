@@ -1,56 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65C7212D197
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2019 16:54:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 860F312D1AF
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2019 17:02:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A16689DC7;
-	Mon, 30 Dec 2019 15:54:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DD7F89EB8;
+	Mon, 30 Dec 2019 16:02:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2926D89DC7
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2019 15:54:53 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBUFslYT107724;
- Mon, 30 Dec 2019 09:54:47 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1577721287;
- bh=717YTbPxt9H6OLOqeAdytOQWGa7WnNOXnJX7AvQNYc0=;
- h=From:To:CC:Subject:Date;
- b=epJvuCq4AhWIKClnhqjqahRxF6Nl+jO/ft3fjmVY8Zta+yPzB1+Qom7zjDh7x6C8M
- dxWnA/BxMYcchHx9MBx34fuDKdvNoNp/qvuE2m5KBqg0edKxuhgfdYloTuT3mCKWab
- FnYk8voaE0zOhsb6/o1ZJfYHPeOUXkWV4EjPOYjc=
-Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBUFslDp031569;
- Mon, 30 Dec 2019 09:54:47 -0600
-Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Mon, 30
- Dec 2019 09:54:47 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Mon, 30 Dec 2019 09:54:47 -0600
-Received: from legion.dal.design.ti.com (legion.dal.design.ti.com
- [128.247.22.53])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBUFsldo090087;
- Mon, 30 Dec 2019 09:54:47 -0600
-Received: from localhost ([10.250.65.50])
- by legion.dal.design.ti.com (8.11.7p1+Sun/8.11.7) with ESMTP id xBUFsku26998; 
- Mon, 30 Dec 2019 09:54:46 -0600 (CST)
-From: "Andrew F. Davis" <afd@ti.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Sean Paul <sean@poorly.run>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2] drm: Move radeon and amdgpu Kconfig options into their
- directories
-Date: Mon, 30 Dec 2019 10:54:46 -0500
-Message-ID: <20191230155446.11345-1-afd@ti.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD94D89E9E
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2019 16:02:23 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 206017] New: Kernel 5.4.x unusable with GUI due to
+ [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting for fences timed
+ out!
+Date: Mon, 30 Dec 2019 16:02:23 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: udovdh@xs4all.nl
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-206017-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,131 +53,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, "Andrew
- F . Davis" <afd@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Most Kconfig options to enable a driver are in the Kconfig file
-inside the relevant directory, move these two to the same.
+https://bugzilla.kernel.org/show_bug.cgi?id=206017
 
-Signed-off-by: Andrew F. Davis <afd@ti.com>
----
+            Bug ID: 206017
+           Summary: Kernel 5.4.x unusable with GUI due to
+                    [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR*
+                    Waiting for fences timed out!
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.4.x
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: high
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: udovdh@xs4all.nl
+        Regression: No
 
-Changes from v1:
- - Rebased
+AMD Ryzen 5 3400G with Radeon Vega Graphics on Gigabyte X570 AORUS PRO, running
+Fedora 31, kernel.org kernels, git mesa, etc
+After booting into 5.4, soon the GUI freezes, e.g. right when I start Firefox.
+On 5.3.18 it takes days to crash amdgpu.
+Soft recovery does not help.
+5.3.18 is EOLed so 5.4 issues need priority:
 
- drivers/gpu/drm/Kconfig            | 34 ------------------------------
- drivers/gpu/drm/amd/amdgpu/Kconfig | 18 ++++++++++++++++
- drivers/gpu/drm/radeon/Kconfig     | 18 ++++++++++++++++
- 3 files changed, 36 insertions(+), 34 deletions(-)
+(..)
+[   12.884828] pps pps0: new PPS source serial0
+[   12.884832] pps pps0: source "/dev/ttyS0" added
+[   12.898511] it87: it87 driver version <not provided>
+[   12.898635] it87: Found IT8792E/IT8795E chip at 0xa60, revision 3
+[   12.898675] it87: Beeping is supported
+[   14.244524] igb 0000:04:00.0: changing MTU from 1500 to 7200
+[   17.328845] igb 0000:04:00.0 eth0: igb: eth0 NIC Link is Up 1000 Mbps Full
+Duplex, Flow Control: RX/TX
+[   17.331973] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[   18.564142] io scheduler mq-deadline registered
+[   22.352636] igb 0000:04:00.0 eth0: igb: eth0 NIC Link is Up 1000 Mbps Full
+Duplex, Flow Control: RX/TX
+[   31.464130] fuse: init (API version 7.31)
+[   75.198868] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting for
+fences timed out!
+[   80.318799] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout, but
+soft recovered
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index bfdadc3667e0..714ae842b7ce 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -231,42 +231,8 @@ source "drivers/gpu/drm/i2c/Kconfig"
- 
- source "drivers/gpu/drm/arm/Kconfig"
- 
--config DRM_RADEON
--	tristate "ATI Radeon"
--	depends on DRM && PCI && MMU
--	select FW_LOADER
--        select DRM_KMS_HELPER
--        select DRM_TTM
--	select POWER_SUPPLY
--	select HWMON
--	select BACKLIGHT_CLASS_DEVICE
--	select INTERVAL_TREE
--	help
--	  Choose this option if you have an ATI Radeon graphics card.  There
--	  are both PCI and AGP versions.  You don't need to choose this to
--	  run the Radeon in plain VGA mode.
--
--	  If M is selected, the module will be called radeon.
--
- source "drivers/gpu/drm/radeon/Kconfig"
- 
--config DRM_AMDGPU
--	tristate "AMD GPU"
--	depends on DRM && PCI && MMU
--	select FW_LOADER
--	select DRM_KMS_HELPER
--	select DRM_SCHED
--	select DRM_TTM
--	select POWER_SUPPLY
--	select HWMON
--	select BACKLIGHT_CLASS_DEVICE
--	select INTERVAL_TREE
--	select CHASH
--	help
--	  Choose this option if you have a recent AMD Radeon graphics card.
--
--	  If M is selected, the module will be called amdgpu.
--
- source "drivers/gpu/drm/amd/amdgpu/Kconfig"
- 
- source "drivers/gpu/drm/nouveau/Kconfig"
-diff --git a/drivers/gpu/drm/amd/amdgpu/Kconfig b/drivers/gpu/drm/amd/amdgpu/Kconfig
-index 9375e7f12420..f6100cb193fb 100644
---- a/drivers/gpu/drm/amd/amdgpu/Kconfig
-+++ b/drivers/gpu/drm/amd/amdgpu/Kconfig
-@@ -1,4 +1,22 @@
- # SPDX-License-Identifier: MIT
-+
-+config DRM_AMDGPU
-+	tristate "AMD GPU"
-+	depends on DRM && PCI && MMU
-+	select FW_LOADER
-+	select DRM_KMS_HELPER
-+	select DRM_SCHED
-+	select DRM_TTM
-+	select POWER_SUPPLY
-+	select HWMON
-+	select BACKLIGHT_CLASS_DEVICE
-+	select INTERVAL_TREE
-+	select CHASH
-+	help
-+	  Choose this option if you have a recent AMD Radeon graphics card.
-+
-+	  If M is selected, the module will be called amdgpu.
-+
- config DRM_AMDGPU_SI
- 	bool "Enable amdgpu support for SI parts"
- 	depends on DRM_AMDGPU
-diff --git a/drivers/gpu/drm/radeon/Kconfig b/drivers/gpu/drm/radeon/Kconfig
-index 6f60f4840cc5..ba67b879d31d 100644
---- a/drivers/gpu/drm/radeon/Kconfig
-+++ b/drivers/gpu/drm/radeon/Kconfig
-@@ -1,4 +1,22 @@
- # SPDX-License-Identifier: GPL-2.0-only
-+
-+config DRM_RADEON
-+	tristate "ATI Radeon"
-+	depends on DRM && PCI && MMU
-+	select FW_LOADER
-+	select DRM_KMS_HELPER
-+	select DRM_TTM
-+	select POWER_SUPPLY
-+	select HWMON
-+	select BACKLIGHT_CLASS_DEVICE
-+	select INTERVAL_TREE
-+	help
-+	  Choose this option if you have an ATI Radeon graphics card.  There
-+	  are both PCI and AGP versions.  You don't need to choose this to
-+	  run the Radeon in plain VGA mode.
-+
-+	  If M is selected, the module will be called radeon.
-+
- config DRM_RADEON_USERPTR
- 	bool "Always enable userptr support"
- 	depends on DRM_RADEON
 -- 
-2.17.1
-
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
