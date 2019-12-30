@@ -1,28 +1,104 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EF8D12D781
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2019 10:37:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FFFF12D77F
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2019 10:37:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1F296E113;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7AF289F2E;
 	Tue, 31 Dec 2019 09:37:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE32289875
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2019 09:04:31 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: eballetbo) with ESMTPSA id 53C9728D210
-From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v24 2/2] drm/bridge: Add I2C based driver for ps8640 bridge
-Date: Mon, 30 Dec 2019 10:04:19 +0100
-Message-Id: <20191230090419.137141-3-enric.balletbo@collabora.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20191230090419.137141-1-enric.balletbo@collabora.com>
-References: <20191230090419.137141-1-enric.balletbo@collabora.com>
-MIME-Version: 1.0
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E48489333
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2019 09:35:27 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20191230093525euoutp01bdf34a3732891907ac21edd5ad265aab~lHHMn24wc1035210352euoutp01l
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2019 09:35:25 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20191230093525euoutp01bdf34a3732891907ac21edd5ad265aab~lHHMn24wc1035210352euoutp01l
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1577698525;
+ bh=Xypm1AJvMupF3z7nKOYeVDuwvHXqOAOdFl7YrwTD918=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+ b=cCcn6fejyXueb5UOEl5uzqv5Z2p0XgGZ0U8RwY4hNGAHFDvnetTQEoza6GiI9tgS3
+ p85hSIIszSwoOfodTyVToyGy+XRTnT5BoHNRpfKU9FOEgasBBvNsc6AZJpBEbgfYqE
+ +d6Aq2FeufUHHdeeNG2Z7pgMjImv5q0vVl2PVwnY=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20191230093525eucas1p27718806b19626b7b45579c53cd1f6948~lHHMWm6Uh2788427884eucas1p2H;
+ Mon, 30 Dec 2019 09:35:25 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id 59.09.60679.CD4C90E5; Mon, 30
+ Dec 2019 09:35:25 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20191230093524eucas1p171d0a5c805100c5cddc807a27c2f7657~lHHL8EVQj1988119881eucas1p1L;
+ Mon, 30 Dec 2019 09:35:24 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20191230093524eusmtrp2235b15ad248353efa1cbe6e829e56c25~lHHL2J17s0819408194eusmtrp2u;
+ Mon, 30 Dec 2019 09:35:24 +0000 (GMT)
+X-AuditID: cbfec7f4-0e5ff7000001ed07-6f-5e09c4dc89c9
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id ED.0F.08375.CD4C90E5; Mon, 30
+ Dec 2019 09:35:24 +0000 (GMT)
+Received: from AMDC3555 (unknown [106.120.51.67]) by eusmtip1.samsung.com
+ (KnoxPortal) with ESMTPA id
+ 20191230093523eusmtip1975ed3256410df9f51c198561a7c2d7d~lHHLE1W_J1785117851eusmtip1g;
+ Mon, 30 Dec 2019 09:35:23 +0000 (GMT)
+Message-ID: <43b0e5d3fc28c48e139c5fbc2120903d678904a0.camel@samsung.com>
+Subject: Re: [RFC PATCH v3 7/7] drm: exynos: mixer: Add interconnect support
+From: Artur =?UTF-8?Q?=C5=9Awigo=C5=84?= <a.swigon@samsung.com>
+To: Inki Dae <inki.dae@samsung.com>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org
+Date: Mon, 30 Dec 2019 10:35:21 +0100
+In-Reply-To: <6e8aa13a-c831-a7ee-70d3-f6b08fe6fbc3@samsung.com>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0hTURzHObu7d3ejzesU/KG9HKgUpVaSBworCLqURAYRhForLyb5WLvq
+ 1IJsgfQgG67StlCzUPHtWqXDXjKzLF2hqGlm0Qul15gJZWm73oX99z3f3+/z/Z4DhybUvWQw
+ nZaZzekztekaSiG9/ehn3+oxpzw52gy4tayZxENTn0hc4ewj8cCPbxQuvWujcMm4SYpdrhYZ
+ rh1zk9j2bpDE/Y6rFPacdyJc5ronwY3OMRkePVlL4TLzBLXZj7XVnaHYV4MdFDt+rlvC3rxx
+ gm392iZhi+11iPXYlu6S7VNsTOHS03I5fVTcAcXhopoBQucJzZu5/xYVIlPIWSSngYmBeuNr
+ maDVTC2C6X6/s0jh1VMIjD0vKPHgQWA22ch/hKvyGSkOahC8N13ybX1E0NjehIQtJcNCYZeD
+ EHQAEw9FxhapoClmE/SOTksEIJCZQPBh1jpPE8wIgo4LT+c7pEwYXHSfmaflXuLl8zmJ2L0K
+ vvQUe5Nob4M//GkLEGyCWQanblkJIQcYtwxmH/YT4v5W6DB3+XQATHbbZaJeDHPtFb5MHj60
+ j5MiXIjAVu30ARvgVd8vSigjmBXQ7IgS7S3w2dVKCjYwKhj+4i/eQQUlt0sJ0VbC6SK1KDXg
+ uKISQQBj/aAvm4WqxmKZCYVaFt5i+e8tloXWSkTUoSAuh89I5fi1mZwhktdm8DmZqZGHsjJs
+ yPvJns52T7Uhx++DnYihkWaRsqyUTlaT2lw+P6MTAU1oApUxifJktTJFm1/A6bP263PSOb4T
+ hdBSTZByXdVEkppJ1WZzRzhOx+n/TSW0PLgQRZYq8jzteLnlprFa9WQPvRPlTz+eGfme+ybc
+ PlESoTw+mRfWtTcpJetr9P5wyfo777NvLTJeDrLp3FV4ya+7caNV5epru10Gp/xHg2Eofq6O
+ m9I1jFDXF4dYuURrcGxRyIXtdNiW8m0bwppidxyd8S+I8xgiXqYdsz9IyEl4NqyR8oe1a1YS
+ el77F9SeV3VgAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrGIsWRmVeSWpSXmKPExsVy+t/xu7p3jnDGGeyfJGOxccZ6VovrX56z
+ Wsw/co7V4srX92wW0/duYrOYdH8Ci8X58xvYLVbc/chqsenxNVaLy7vmsFl87j3CaDHj/D4m
+ i7VH7rJb3G5cwWYxY/JLNgd+j02rOtk87lzbw+Zxv/s4k8fmJfUeG9/tYPLo27KK0ePzJrkA
+ 9ig9m6L80pJUhYz84hJbpWhDCyM9Q0sLPSMTSz1DY/NYKyNTJX07m5TUnMyy1CJ9uwS9jLbl
+ V5gLPitW/N7/kLGBcYJ0FyMnh4SAicT5BWdYuxi5OIQEljJKnHu+ghUiISHxcf0NKFtY4s+1
+ LjYQW0jgCaPErSYwm1fAQ6Lh6C5mEFtYwEeirWkDC4jNJmAvcfb2NyaQoSICrxglWid8YgZx
+ mAXuMEo0fnwE1sEioCox5WMnmM0J1HHzwn8miDM+M0ocuLyeCSTBLKAp0br9NzvEGToSb0/1
+ Aa3gAFotKPF3hzBEibxE89bZzBMYBWch6ZiFUDULSdUCRuZVjCKppcW56bnFhnrFibnFpXnp
+ esn5uZsYgXG67djPzTsYL20MPsQowMGoxMM7YzpHnBBrYllxZe4hRgkOZiURXpMYzjgh3pTE
+ yqrUovz4otKc1OJDjKZA/0xklhJNzgemkLySeENTQ3MLS0NzY3NjMwslcd4OgYMxQgLpiSWp
+ 2ampBalFMH1MHJxSDYz5u11qb65Lln1++ym7vvzWlli1i10f3MvMNr1oXVRQ1j/ZfYXDozta
+ t9ZHF/1bpHpP2DXSZ2dHKfPVk6ufbT+Q3bPJpd41favihY2xl+N3b7vRoXjn5rWHO7c8jq34
+ t3Hdpj/3l7THGb37Vso6M/394/bYttjUtPS71+6eV1xWtPbK25oE9hXTlViKMxINtZiLihMB
+ yMmhb+kCAAA=
+X-CMS-MailID: 20191230093524eucas1p171d0a5c805100c5cddc807a27c2f7657
+X-Msg-Generator: CA
+X-RootMTR: 20191220120146eucas1p22a7b0457be4f378b113f67dc25f2eba7
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20191220120146eucas1p22a7b0457be4f378b113f67dc25f2eba7
+References: <20191220115653.6487-1-a.swigon@samsung.com>
+ <CGME20191220120146eucas1p22a7b0457be4f378b113f67dc25f2eba7@eucas1p2.samsung.com>
+ <20191220115653.6487-8-a.swigon@samsung.com>
+ <6e8aa13a-c831-a7ee-70d3-f6b08fe6fbc3@samsung.com>
 X-Mailman-Approved-At: Tue, 31 Dec 2019 09:37:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -36,537 +112,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulrich Hecht <uli@fpond.eu>, Jernej Skrabec <jernej.skrabec@siol.net>,
- drinkcat@chromium.org, Jitao Shi <jitao.shi@mediatek.com>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Neil Armstrong <narmstrong@baylibre.com>, linux-mediatek@lists.infradead.org,
- dri-devel@lists.freedesktop.org, hsinyi@chromium.org, matthias.bgg@gmail.com,
- Collabora Kernel ML <kernel@collabora.com>,
- Ezequiel Garcia <ezequiel@collabora.com>, linux-arm-kernel@lists.infradead.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: b.zolnierkie@samsung.com, sw0312.kim@samsung.com, krzk@kernel.org,
+ cw00.choi@samsung.com, myungjoo.ham@samsung.com, leonard.crestez@nxp.com,
+ georgi.djakov@linaro.org, Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jitao Shi <jitao.shi@mediatek.com>
-
-This patch adds drm_bridge driver for parade DSI to eDP bridge chip.
-
-Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-Reviewed-by: Daniel Kurtz <djkurtz@chromium.org>
-[uli: followed API changes, removed FW update feature]
-Signed-off-by: Ulrich Hecht <uli@fpond.eu>
-Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Tested-by: Hsin-Yi Wang <hsinyi@chromium.org>
-Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
----
-One of the reviews from Laurent was to use 'i2c_new_ancillary_device'. I
-didn't change this for two reasons.
-1) It doesn't have a devm version, so the remove path is more simple
-using the devm_i2c_new_dummy_device family.
-2) IIUC the ancillary function is useful when you want to retrieve the
-address from the firmware or DT, that's not really the case here, as we
-have a base address and fixed offset to the base address which I think
-is not configurable.
-
-Let me know if you still think that I should use the ancillary call.
-
-Changes in v24:
-- Fix GPIO polarity as all GPIO descriptors should be handled as active high (Laurent Pinchart)
-- Make static ps8640_bridge_attach (Ezequiel Garcia)
-- Use a define for the number of lanes (Ezequiel Garcia)
-
-Changes in v23:
-- Merge mute/unmute functions into one (Nicolas Boichat)
-- Use enum for ENABLE/DISABLE instead of bool (Ezequiel Garcia)
-- Rename mute/unmute to vdo_control and fix error messages (Nicolas Boichat and Enric)
-- Add space between address and address parameter 'address%02x' (Nicolas Boichat)
-- Add Tested-by Hsin-Yi
-- Added me as author after the refactor
-
-Changes in v22:
-- Remove sysfs attributes because are not really used (Enric Balletbo)
-- Use enum for address page offsets (Ezequiel Garcia)
-- Remove enable tracking (Enric Balletbo)
-- Use panel_bridge API (Laurent Pinchart)
-- Do not use kernel-doc format for non kernel-doc formatted commands (Enric Balletbo)
-- Remove verbose message for PAGE1_VSTART command (Ezequiel Garcia)
-- Use time_is_after_jiffies idiom (Ezequiel Garcia)
-- Remove unused macros (Ezequiel Garcia)
-- Fix weird alignment in dsi->mode_flags (Laurent Pinchart)
-- Use drm_of_find_panel_or_bridge helper (Laurent Pinchart)
-- Remove mode-sel-gpios as is not used (Laurent Pinchart)
-- Remove error messages to get gpios as the core will already report it (Enric Balletbo)
-- Remove redundant message getting the regulators (Laurent Pinchart)
-- Rename sleep-gpios to powerdown-gpios (Laurent Pinchart)
-- Use ARRAY_SIZE(ps_bridge->page) instead of MAX_DEV when possible (Laurent Pinchart)
-- Fix race with userspace accessing the sysfs attributes (Laurent Pinchart)
-- Remove id_table as is only used on DR platforms (Laurent Pinchart)
-- Convert to new i2c device probe() (Laurent Pinchart)
-- Use i2c_smbus_read/write helpers instead of open coding it (Laurent Pinchart)
-- Remove unnused global variables (Laurent Pinchart)
-- Remove unnused fields in ps8640 struct (Laurent Pinchart)
-- Remove commented-out headers (Laurent Pinchart)
-
-Changes in v21:
- - Use devm_i2c_new_dummy_device and fix build issue using deprecated i2c_new_dummy
- - Fix build issue due missing drm_bridge.h
- - Do not remove in ps8640_remove device managed resources
-
-Changes in v19:
- - fixed return value of ps8640_probe() when no panel is found
-
-Changes in v18:
- - followed DRM API changes
- - use DEVICE_ATTR_RO()
- - remove firmware update code
- - add SPDX identifier
-
-Changes in v17:
- - remove some unused head files.
- - add macros for ps8640 pages.
- - remove ddc_i2c client
- - add mipi_dsi_device_register_full
- - remove the manufacturer from the name and i2c_device_id
-
-Changes in v16:
- - Disable ps8640 DSI MCS Function.
- - Rename gpios name more clearly.
- - Tune the ps8640 power on sequence.
-
-Changes in v15:
- - Drop drm_connector_(un)register calls from parade ps8640.
-   The main DRM driver mtk_drm_drv now calls
-   drm_connector_register_all() after drm_dev_register() in the
-   mtk_drm_bind() function. That function should iterate over all
-   connectors and call drm_connector_register() for each of them.
-   So, remove drm_connector_(un)register calls from parade ps8640.
-
-Changes in v14:
- - update copyright info.
- - change bridge_to_ps8640 and connector_to_ps8640 to inline function.
- - fix some coding style.
- - use sizeof as array counter.
- - use drm_get_edid when read edid.
- - add mutex when firmware updating.
-
-Changes in v13:
- - add const on data, ps8640_write_bytes(struct i2c_client *client, const u8 *data, u16 data_len)
- - fix PAGE2_SW_REST tyro.
- - move the buf[3] init to entrance of the function.
-
-Changes in v12:
- - fix hw_chip_id build warning
-
-Changes in v11:
- - Remove depends on I2C, add DRM depends
- - Reuse ps8640_write_bytes() in ps8640_write_byte()
- - Use timer check for polling like the routines in <linux/iopoll.h>
- - Fix no drm_connector_unregister/drm_connector_cleanup when ps8640_bridge_attach fail
- - Check the ps8640 hardware id in ps8640_validate_firmware
- - Remove fw_version check
- - Move ps8640_validate_firmware before ps8640_enter_bl
- - Add ddc_i2c unregister when probe fail and ps8640_remove
-
- drivers/gpu/drm/bridge/Kconfig         |  11 +
- drivers/gpu/drm/bridge/Makefile        |   1 +
- drivers/gpu/drm/bridge/parade-ps8640.c | 348 +++++++++++++++++++++++++
- 3 files changed, 360 insertions(+)
- create mode 100644 drivers/gpu/drm/bridge/parade-ps8640.c
-
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index 4734f6993858..3e0a63011723 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -101,6 +101,17 @@ config DRM_PARADE_PS8622
- 	---help---
- 	  Parade eDP-LVDS bridge chip driver.
- 
-+config DRM_PARADE_PS8640
-+	tristate "Parade PS8640 MIPI DSI to eDP Converter"
-+	depends on OF
-+	select DRM_KMS_HELPER
-+	select DRM_MIPI_DSI
-+	select DRM_PANEL
-+	help
-+	  Choose this option if you have PS8640 for display
-+	  The PS8640 is a high-performance and low-power
-+	  MIPI DSI to eDP converter
-+
- config DRM_SIL_SII8620
- 	tristate "Silicon Image SII8620 HDMI/MHL bridge"
- 	depends on OF
-diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-index 1c0c92667ac4..91490c595b38 100644
---- a/drivers/gpu/drm/bridge/Makefile
-+++ b/drivers/gpu/drm/bridge/Makefile
-@@ -8,6 +8,7 @@ obj-$(CONFIG_DRM_LVDS_ENCODER) += lvds-encoder.o
- obj-$(CONFIG_DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW) += megachips-stdpxxxx-ge-b850v3-fw.o
- obj-$(CONFIG_DRM_NXP_PTN3460) += nxp-ptn3460.o
- obj-$(CONFIG_DRM_PARADE_PS8622) += parade-ps8622.o
-+obj-$(CONFIG_DRM_PARADE_PS8640) += parade-ps8640.o
- obj-$(CONFIG_DRM_SIL_SII8620) += sil-sii8620.o
- obj-$(CONFIG_DRM_SII902X) += sii902x.o
- obj-$(CONFIG_DRM_SII9234) += sii9234.o
-diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-new file mode 100644
-index 000000000000..c6c06688aff2
---- /dev/null
-+++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-@@ -0,0 +1,348 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2016 MediaTek Inc.
-+ */
-+
-+#include <linux/delay.h>
-+#include <linux/err.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/of_graph.h>
-+#include <linux/regulator/consumer.h>
-+
-+#include <drm/drm_bridge.h>
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_of.h>
-+#include <drm/drm_panel.h>
-+#include <drm/drm_print.h>
-+
-+#define PAGE2_GPIO_H		0xa7
-+#define PS_GPIO9		BIT(1)
-+#define PAGE2_I2C_BYPASS	0xea
-+#define I2C_BYPASS_EN		0xd0
-+#define PAGE2_MCS_EN		0xf3
-+#define MCS_EN			BIT(0)
-+#define PAGE3_SET_ADD		0xfe
-+#define VDO_CTL_ADD		0x13
-+#define VDO_DIS			0x18
-+#define VDO_EN			0x1c
-+#define DP_NUM_LANES		4
-+
-+/*
-+ * PS8640 uses multiple addresses:
-+ * page[0]: for DP control
-+ * page[1]: for VIDEO Bridge
-+ * page[2]: for control top
-+ * page[3]: for DSI Link Control1
-+ * page[4]: for MIPI Phy
-+ * page[5]: for VPLL
-+ * page[6]: for DSI Link Control2
-+ * page[7]: for SPI ROM mapping
-+ */
-+enum page_addr_offset {
-+	PAGE0_DP_CNTL = 0,
-+	PAGE1_VDO_BDG,
-+	PAGE2_TOP_CNTL,
-+	PAGE3_DSI_CNTL1,
-+	PAGE4_MIPI_PHY,
-+	PAGE5_VPLL,
-+	PAGE6_DSI_CNTL2,
-+	PAGE7_SPI_CNTL,
-+	MAX_DEVS
-+};
-+
-+enum ps8640_vdo_control {
-+	DISABLE = VDO_DIS,
-+	ENABLE = VDO_EN,
-+};
-+
-+struct ps8640 {
-+	struct drm_bridge bridge;
-+	struct drm_bridge *panel_bridge;
-+	struct mipi_dsi_device *dsi;
-+	struct i2c_client *page[MAX_DEVS];
-+	struct regulator_bulk_data supplies[2];
-+	struct gpio_desc *gpio_reset;
-+	struct gpio_desc *gpio_powerdown;
-+};
-+
-+static inline struct ps8640 *bridge_to_ps8640(struct drm_bridge *e)
-+{
-+	return container_of(e, struct ps8640, bridge);
-+}
-+
-+static int ps8640_bridge_vdo_control(struct ps8640 *ps_bridge,
-+				     const enum ps8640_vdo_control ctrl)
-+{
-+	struct i2c_client *client = ps_bridge->page[PAGE3_DSI_CNTL1];
-+	u8 vdo_ctrl_buf[] = { VDO_CTL_ADD, ctrl };
-+	int ret;
-+
-+	ret = i2c_smbus_write_i2c_block_data(client, PAGE3_SET_ADD,
-+					     sizeof(vdo_ctrl_buf),
-+					     vdo_ctrl_buf);
-+	if (ret < 0)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static void ps8640_pre_enable(struct drm_bridge *bridge)
-+{
-+	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
-+	struct i2c_client *client = ps_bridge->page[PAGE2_TOP_CNTL];
-+	unsigned long timeout;
-+	int ret, status;
-+
-+	ret = regulator_bulk_enable(ARRAY_SIZE(ps_bridge->supplies),
-+				    ps_bridge->supplies);
-+	if (ret < 0) {
-+		DRM_ERROR("cannot enable regulators %d\n", ret);
-+		return;
-+	}
-+
-+	gpiod_set_value(ps_bridge->gpio_powerdown, 0);
-+	gpiod_set_value(ps_bridge->gpio_reset, 1);
-+	usleep_range(2000, 2500);
-+	gpiod_set_value(ps_bridge->gpio_reset, 0);
-+
-+	/*
-+	 * Wait for the ps8640 embedded MCU to be ready
-+	 * First wait 200ms and then check the MCU ready flag every 20ms
-+	 */
-+	msleep(200);
-+
-+	timeout = jiffies + msecs_to_jiffies(200) + 1;
-+
-+	while (time_is_after_jiffies(timeout)) {
-+		status = i2c_smbus_read_byte_data(client, PAGE2_GPIO_H);
-+		if (status < 0) {
-+			DRM_ERROR("failed read PAGE2_GPIO_H: %d\n", status);
-+			goto err_regulators_disable;
-+		}
-+		if ((status & PS_GPIO9) == PS_GPIO9)
-+			break;
-+
-+		msleep(20);
-+	}
-+
-+	msleep(50);
-+
-+	/*
-+	 * The Manufacturer Command Set (MCS) is a device dependent interface
-+	 * intended for factory programming of the display module default
-+	 * parameters. Once the display module is configured, the MCS shall be
-+	 * disabled by the manufacturer. Once disabled, all MCS commands are
-+	 * ignored by the display interface.
-+	 */
-+	status = i2c_smbus_read_byte_data(client, PAGE2_MCS_EN);
-+	if (status < 0) {
-+		DRM_ERROR("failed read PAGE2_MCS_EN: %d\n", status);
-+		goto err_regulators_disable;
-+	}
-+
-+	ret = i2c_smbus_write_byte_data(client, PAGE2_MCS_EN,
-+					status & ~MCS_EN);
-+	if (ret < 0) {
-+		DRM_ERROR("failed write PAGE2_MCS_EN: %d\n", ret);
-+		goto err_regulators_disable;
-+	}
-+
-+	ret = ps8640_bridge_vdo_control(ps_bridge, ENABLE);
-+	if (ret) {
-+		DRM_ERROR("failed to enable VDO: %d\n", ret);
-+		goto err_regulators_disable;
-+	}
-+
-+	/* Switch access edp panel's edid through i2c */
-+	ret = i2c_smbus_write_byte_data(client, PAGE2_I2C_BYPASS,
-+					I2C_BYPASS_EN);
-+	if (ret < 0) {
-+		DRM_ERROR("failed write PAGE2_I2C_BYPASS: %d\n", ret);
-+		goto err_regulators_disable;
-+	}
-+
-+	return;
-+
-+err_regulators_disable:
-+	regulator_bulk_disable(ARRAY_SIZE(ps_bridge->supplies),
-+			       ps_bridge->supplies);
-+}
-+
-+static void ps8640_post_disable(struct drm_bridge *bridge)
-+{
-+	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
-+	int ret;
-+
-+	ret = ps8640_bridge_vdo_control(ps_bridge, DISABLE);
-+	if (ret < 0)
-+		DRM_ERROR("failed to disable VDO: %d\n", ret);
-+
-+	gpiod_set_value(ps_bridge->gpio_reset, 1);
-+	gpiod_set_value(ps_bridge->gpio_powerdown, 1);
-+	ret = regulator_bulk_disable(ARRAY_SIZE(ps_bridge->supplies),
-+				     ps_bridge->supplies);
-+	if (ret < 0)
-+		DRM_ERROR("cannot disable regulators %d\n", ret);
-+}
-+
-+static int ps8640_bridge_attach(struct drm_bridge *bridge)
-+{
-+	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
-+	struct device *dev = &ps_bridge->page[0]->dev;
-+	struct device_node *in_ep, *dsi_node;
-+	struct mipi_dsi_device *dsi;
-+	struct mipi_dsi_host *host;
-+	int ret;
-+	const struct mipi_dsi_device_info info = { .type = "ps8640",
-+						   .channel = 0,
-+						   .node = NULL,
-+						 };
-+	/* port@0 is ps8640 dsi input port */
-+	in_ep = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
-+	if (!in_ep)
-+		return -ENODEV;
-+
-+	dsi_node = of_graph_get_remote_port_parent(in_ep);
-+	of_node_put(in_ep);
-+	if (!dsi_node)
-+		return -ENODEV;
-+
-+	host = of_find_mipi_dsi_host_by_node(dsi_node);
-+	of_node_put(dsi_node);
-+	if (!host)
-+		return -ENODEV;
-+
-+	dsi = mipi_dsi_device_register_full(host, &info);
-+	if (IS_ERR(dsi)) {
-+		dev_err(dev, "failed to create dsi device\n");
-+		ret = PTR_ERR(dsi);
-+		return ret;
-+	}
-+
-+	ps_bridge->dsi = dsi;
-+
-+	dsi->host = host;
-+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO |
-+			  MIPI_DSI_MODE_VIDEO_SYNC_PULSE;
-+	dsi->format = MIPI_DSI_FMT_RGB888;
-+	dsi->lanes = DP_NUM_LANES;
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret)
-+		goto err_dsi_attach;
-+
-+	/* Attach the panel-bridge to the dsi bridge */
-+	return drm_bridge_attach(bridge->encoder, ps_bridge->panel_bridge,
-+				 &ps_bridge->bridge);
-+
-+err_dsi_attach:
-+	mipi_dsi_device_unregister(dsi);
-+	return ret;
-+}
-+
-+static const struct drm_bridge_funcs ps8640_bridge_funcs = {
-+	.attach = ps8640_bridge_attach,
-+	.post_disable = ps8640_post_disable,
-+	.pre_enable = ps8640_pre_enable,
-+};
-+
-+static int ps8640_probe(struct i2c_client *client)
-+{
-+	struct device *dev = &client->dev;
-+	struct device_node *np = dev->of_node;
-+	struct ps8640 *ps_bridge;
-+	struct drm_panel *panel;
-+	int ret;
-+	u32 i;
-+
-+	ps_bridge = devm_kzalloc(dev, sizeof(*ps_bridge), GFP_KERNEL);
-+	if (!ps_bridge)
-+		return -ENOMEM;
-+
-+	/* port@1 is ps8640 output port */
-+	ret = drm_of_find_panel_or_bridge(np, 1, 0, &panel, NULL);
-+	if (ret < 0)
-+		return ret;
-+	if (!panel)
-+		return -ENODEV;
-+
-+	panel->connector_type = DRM_MODE_CONNECTOR_eDP;
-+
-+	ps_bridge->panel_bridge = devm_drm_panel_bridge_add(dev, panel);
-+	if (IS_ERR(ps_bridge->panel_bridge))
-+		return PTR_ERR(ps_bridge->panel_bridge);
-+
-+	ps_bridge->supplies[0].supply = "vdd33";
-+	ps_bridge->supplies[1].supply = "vdd12";
-+	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(ps_bridge->supplies),
-+				      ps_bridge->supplies);
-+	if (ret)
-+		return ret;
-+
-+	ps_bridge->gpio_powerdown = devm_gpiod_get(&client->dev, "powerdown",
-+						   GPIOD_OUT_HIGH);
-+	if (IS_ERR(ps_bridge->gpio_powerdown))
-+		return PTR_ERR(ps_bridge->gpio_powerdown);
-+
-+	/*
-+	 * Assert the reset to avoid the bridge being initialized prematurely
-+	 */
-+	ps_bridge->gpio_reset = devm_gpiod_get(&client->dev, "reset",
-+					       GPIOD_OUT_HIGH);
-+	if (IS_ERR(ps_bridge->gpio_reset))
-+		return PTR_ERR(ps_bridge->gpio_reset);
-+
-+	ps_bridge->bridge.funcs = &ps8640_bridge_funcs;
-+	ps_bridge->bridge.of_node = dev->of_node;
-+
-+	ps_bridge->page[PAGE0_DP_CNTL] = client;
-+
-+	for (i = 1; i < ARRAY_SIZE(ps_bridge->page); i++) {
-+		ps_bridge->page[i] = devm_i2c_new_dummy_device(&client->dev,
-+							     client->adapter,
-+							     client->addr + i);
-+		if (IS_ERR(ps_bridge->page[i])) {
-+			dev_err(dev, "failed i2c dummy device, address %02x\n",
-+				client->addr + i);
-+			return PTR_ERR(ps_bridge->page[i]);
-+		}
-+	}
-+
-+	i2c_set_clientdata(client, ps_bridge);
-+
-+	drm_bridge_add(&ps_bridge->bridge);
-+
-+	return 0;
-+}
-+
-+static int ps8640_remove(struct i2c_client *client)
-+{
-+	struct ps8640 *ps_bridge = i2c_get_clientdata(client);
-+
-+	drm_bridge_remove(&ps_bridge->bridge);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id ps8640_match[] = {
-+	{ .compatible = "parade,ps8640" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, ps8640_match);
-+
-+static struct i2c_driver ps8640_driver = {
-+	.probe_new = ps8640_probe,
-+	.remove = ps8640_remove,
-+	.driver = {
-+		.name = "ps8640",
-+		.of_match_table = ps8640_match,
-+	},
-+};
-+module_i2c_driver(ps8640_driver);
-+
-+MODULE_AUTHOR("Jitao Shi <jitao.shi@mediatek.com>");
-+MODULE_AUTHOR("CK Hu <ck.hu@mediatek.com>");
-+MODULE_AUTHOR("Enric Balletbo i Serra <enric.balletbo@collabora.com>");
-+MODULE_DESCRIPTION("PARADE ps8640 DSI-eDP converter driver");
-+MODULE_LICENSE("GPL v2");
--- 
-2.24.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksCgpPbiBUdWUsIDIwMTktMTItMjQgYXQgMTM6NTYgKzA5MDAsIElua2kgRGFlIHdyb3RlOgo+
+IEhpLAo+IAo+IDE5LiAxMi4gMjAuIOyYpO2bhCA4OjU27JeQIEFydHVyIMWad2lnb8WEIOydtCjq
+sIApIOyTtCDquIA6Cj4gPiBGcm9tOiBNYXJlayBTenlwcm93c2tpIDxtLnN6eXByb3dza2lAc2Ft
+c3VuZy5jb20+Cj4gPiAKPiA+IFRoaXMgcGF0Y2ggYWRkcyBpbnRlcmNvbm5lY3Qgc3VwcG9ydCB0
+byBleHlub3MtbWl4ZXIuIFRoZSBtaXhlciB3b3Jrcwo+ID4gdGhlIHNhbWUgYXMgYmVmb3JlIHdo
+ZW4gQ09ORklHX0lOVEVSQ09OTkVDVCBpcyAnbicuCj4gPiAKPiA+IENvLWRldmVsb3BlZC1ieTog
+QXJ0dXIgxZp3aWdvxYQgPGEuc3dpZ29uQHNhbXN1bmcuY29tPgo+ID4gU2lnbmVkLW9mZi1ieTog
+QXJ0dXIgxZp3aWdvxYQgPGEuc3dpZ29uQHNhbXN1bmcuY29tPgo+ID4gU2lnbmVkLW9mZi1ieTog
+TWFyZWsgU3p5cHJvd3NraSA8bS5zenlwcm93c2tpQHNhbXN1bmcuY29tPgo+ID4gLS0tCj4gPiAg
+ZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3NfbWl4ZXIuYyB8IDcxICsrKysrKysrKysrKysr
+KysrKysrKysrKystLQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCA2NiBpbnNlcnRpb25zKCspLCA1IGRl
+bGV0aW9ucygtKQo+ID4gCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9l
+eHlub3NfbWl4ZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX21peGVyLmMKPiA+
+IGluZGV4IDZjZmRiOTVmZWYyZi4uYTdlNzI0MGEwNTVmIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL2V4eW5vcy9leHlub3NfbWl4ZXIuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L2V4eW5vcy9leHlub3NfbWl4ZXIuYwo+ID4gQEAgLTEzLDYgKzEzLDcgQEAKPiA+ICAjaW5jbHVk
+ZSA8bGludXgvY29tcG9uZW50Lmg+Cj4gPiAgI2luY2x1ZGUgPGxpbnV4L2RlbGF5Lmg+Cj4gPiAg
+I2luY2x1ZGUgPGxpbnV4L2kyYy5oPgo+ID4gKyNpbmNsdWRlIDxsaW51eC9pbnRlcmNvbm5lY3Qu
+aD4KPiA+ICAjaW5jbHVkZSA8bGludXgvaW50ZXJydXB0Lmg+Cj4gPiAgI2luY2x1ZGUgPGxpbnV4
+L2lycS5oPgo+ID4gICNpbmNsdWRlIDxsaW51eC9rZXJuZWwuaD4KPiA+IEBAIC05Nyw2ICs5OCw3
+IEBAIHN0cnVjdCBtaXhlcl9jb250ZXh0IHsKPiA+ICAJc3RydWN0IGV4eW5vc19kcm1fY3J0Ywkq
+Y3J0YzsKPiA+ICAJc3RydWN0IGV4eW5vc19kcm1fcGxhbmUJcGxhbmVzW01JWEVSX1dJTl9OUl07
+Cj4gPiAgCXVuc2lnbmVkIGxvbmcJCWZsYWdzOwo+ID4gKwlzdHJ1Y3QgaWNjX3BhdGgJCSpzb2Nf
+cGF0aDsKPiA+ICAKPiA+ICAJaW50CQkJaXJxOwo+ID4gIAl2b2lkIF9faW9tZW0JCSptaXhlcl9y
+ZWdzOwo+ID4gQEAgLTkzMSw2ICs5MzMsNDAgQEAgc3RhdGljIHZvaWQgbWl4ZXJfZGlzYWJsZV92
+Ymxhbmsoc3RydWN0IGV4eW5vc19kcm1fY3J0YyAqY3J0YykKPiA+ICAJbWl4ZXJfcmVnX3dyaXRl
+bWFzayhtaXhlcl9jdHgsIE1YUl9JTlRfRU4sIDAsIE1YUl9JTlRfRU5fVlNZTkMpOwo+ID4gIH0K
+PiA+ICAKPiA+ICtzdGF0aWMgdm9pZCBtaXhlcl9zZXRfbWVtb3J5X2JhbmR3aWR0aChzdHJ1Y3Qg
+ZXh5bm9zX2RybV9jcnRjICpjcnRjKQo+ID4gK3sKPiA+ICsJc3RydWN0IGRybV9kaXNwbGF5X21v
+ZGUgKm1vZGUgPSAmY3J0Yy0+YmFzZS5zdGF0ZS0+YWRqdXN0ZWRfbW9kZTsKPiA+ICsJc3RydWN0
+IG1peGVyX2NvbnRleHQgKmN0eCA9IGNydGMtPmN0eDsKPiA+ICsJdW5zaWduZWQgbG9uZyBidywg
+YmFuZHdpZHRoID0gMDsKPiA+ICsJaW50IGksIGosIHN1YjsKPiA+ICsKPiA+ICsJaWYgKCFjdHgt
+PnNvY19wYXRoKQo+ID4gKwkJcmV0dXJuOwo+ID4gKwo+ID4gKwlmb3IgKGkgPSAwOyBpIDwgTUlY
+RVJfV0lOX05SOyBpKyspIHsKPiA+ICsJCXN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lID0gJmN0eC0+
+cGxhbmVzW2ldLmJhc2U7Cj4gPiArCQljb25zdCBzdHJ1Y3QgZHJtX2Zvcm1hdF9pbmZvICpmb3Jt
+YXQ7Cj4gPiArCj4gPiArCQlpZiAocGxhbmUtPnN0YXRlICYmIHBsYW5lLT5zdGF0ZS0+Y3J0YyAm
+JiBwbGFuZS0+c3RhdGUtPmZiKSB7Cj4gPiArCQkJZm9ybWF0ID0gcGxhbmUtPnN0YXRlLT5mYi0+
+Zm9ybWF0Owo+ID4gKwkJCWJ3ID0gbW9kZS0+aGRpc3BsYXkgKiBtb2RlLT52ZGlzcGxheSAqCj4g
+PiArCQkJCQkJCWRybV9tb2RlX3ZyZWZyZXNoKG1vZGUpOwo+ID4gKwkJCWlmIChtb2RlLT5mbGFn
+cyAmIERSTV9NT0RFX0ZMQUdfSU5URVJMQUNFKQo+ID4gKwkJCQlidyAvPSAyOwo+ID4gKwkJCWZv
+ciAoaiA9IDA7IGogPCBmb3JtYXQtPm51bV9wbGFuZXM7IGorKykgewo+ID4gKwkJCQlzdWIgPSBq
+ID8gKGZvcm1hdC0+dnN1YiAqIGZvcm1hdC0+aHN1YikgOiAxOwo+ID4gKwkJCQliYW5kd2lkdGgg
+Kz0gZm9ybWF0LT5jcHBbal0gKiBidyAvIHN1YjsKPiA+ICsJCQl9Cj4gPiArCQl9Cj4gPiArCX0K
+PiA+ICsKPiA+ICsJLyogYWRkIDIwJSBzYWZldHkgbWFyZ2luICovCj4gPiArCWJhbmR3aWR0aCA9
+IGJhbmR3aWR0aCAvIDQgKiA1Owo+ID4gKwo+ID4gKwlkZXZfZGJnKGN0eC0+ZGV2LCAiZXh5bm9z
+LW1peGVyOiBzYWZlIGJhbmR3aWR0aCAlbGQgQnBzXG4iLCBiYW5kd2lkdGgpOwo+ID4gKwlpY2Nf
+c2V0X2J3KGN0eC0+c29jX3BhdGgsIEJwc190b19pY2MoYmFuZHdpZHRoKSwgMCk7Cj4gPiArfQo+
+ID4gKwo+ID4gIHN0YXRpYyB2b2lkIG1peGVyX2F0b21pY19iZWdpbihzdHJ1Y3QgZXh5bm9zX2Ry
+bV9jcnRjICpjcnRjKQo+ID4gIHsKPiA+ICAJc3RydWN0IG1peGVyX2NvbnRleHQgKmN0eCA9IGNy
+dGMtPmN0eDsKPiA+IEBAIC05ODIsNiArMTAxOCw3IEBAIHN0YXRpYyB2b2lkIG1peGVyX2F0b21p
+Y19mbHVzaChzdHJ1Y3QgZXh5bm9zX2RybV9jcnRjICpjcnRjKQo+ID4gIAlpZiAoIXRlc3RfYml0
+KE1YUl9CSVRfUE9XRVJFRCwgJm1peGVyX2N0eC0+ZmxhZ3MpKQo+ID4gIAkJcmV0dXJuOwo+ID4g
+IAo+ID4gKwltaXhlcl9zZXRfbWVtb3J5X2JhbmR3aWR0aChjcnRjKTsKPiA+ICAJbWl4ZXJfZW5h
+YmxlX3N5bmMobWl4ZXJfY3R4KTsKPiA+ICAJZXh5bm9zX2NydGNfaGFuZGxlX2V2ZW50KGNydGMp
+Owo+ID4gIH0KPiA+IEBAIC0xMDI5LDYgKzEwNjYsNyBAQCBzdGF0aWMgdm9pZCBtaXhlcl9kaXNh
+YmxlKHN0cnVjdCBleHlub3NfZHJtX2NydGMgKmNydGMpCj4gPiAgCWZvciAoaSA9IDA7IGkgPCBN
+SVhFUl9XSU5fTlI7IGkrKykKPiA+ICAJCW1peGVyX2Rpc2FibGVfcGxhbmUoY3J0YywgJmN0eC0+
+cGxhbmVzW2ldKTsKPiA+ICA+ICsJbWl4ZXJfc2V0X21lbW9yeV9iYW5kd2lkdGgoY3J0Yyk7Cj4g
+Cj4gWW91ciBpbnRlbnRpb24gaXMgdG8gc2V0IHBlYWsgYW5kIGF2ZXJhZ2UgYmFuZHdpZHRoIHRv
+IDAgYXQgZGlzYWJsaW5nIG1peGVyIGRldmljZT8KClllcy4gSW4gZ2VuZXJhbCwgc2V0dGluZyB0
+aGUgcmVxdWVzdGVkIGJhbmR3aWR0aCB0byB6ZXJvIG1lYW5zICJkbyBub3Qgb3ZlcnJpZGUKdGhl
+IGRldmZyZXEgc2V0dGluZyIgYmVjYXVzZSBvbmx5IGNvbnN0cmFpbnRzIG9mIHR5cGUgREVWX1BN
+X1FPU19NSU5fRlJFUVVFTkNZCmFyZSB1c2VkIChjZi4gcGF0Y2ggMDUgb2YgdGhpcyBzZXJpZXMp
+LiBJIHdpbGwgbWFrZSBzdXJlIHRvIHJlZmxlY3QgdGhhdCBpbiB0aGUKY29tbWl0IG1lc3NhZ2Uu
+CgpNb3Jlb3ZlciwgdGhpcyBSRkMgZG9lcyBub3QgcmVhbGx5IG1ha2UgdXNlIG9mIHRoZSBwZWFr
+IGJhbmR3aWR0aCAoeWV0KS4gSXQgaXMKc2V0IHRvIHplcm8gaW4gdGhpcyBwYXRjaCBhbmQgaWdu
+b3JlZCBpbiBwYXRjaCAwNSAoY2YuIGV4eW5vc19idXNfaWNjX3NldCgpKS4KT25seSB0aGUgYXZl
+cmFnZSBiYW5kd2lkdGggaXMgdHJhbnNsYXRlZCB0byBhIG1pbmltdW0gZnJlcXVlbmN5IGNvbnN0
+cmFpbnQsCm92ZXJyaWRpbmcgZGV2ZnJlcSBpZiBuZWNlc3NhcnkuCgpBIHBvc3NpYmxlIG1vZGlm
+aWNhdGlvbiB0byBtaXhlcl9zZXRfbWVtb3J5X2JhbmR3aWR0aCgpIGNvdWxkIGJlOgotIGJhbmR3
+aWR0aCA9IGJhbmR3aWR0aCAvIDQgKiA1OworIHBlYWtfYmFuZHdpZHRoID0gYmFuZHdpZHRoIC8g
+NCAqIDU7CmluIG1peGVyX3NldF9tZW1vcnlfYmFuZHdpZHRoKCkgcGx1cyBzb21lIGFkZGl0aW9u
+YWwgbG9naWMgaW4gZXh5bm9zX2J1c19pY2Nfc2V0KCkuCgpCZXN0IHJlZ2FyZHMsCi0tIApBcnR1
+ciDFmndpZ2/FhApTYW1zdW5nIFImRCBJbnN0aXR1dGUgUG9sYW5kClNhbXN1bmcgRWxlY3Ryb25p
+Y3MKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
