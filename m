@@ -2,53 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8320C12D18F
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2019 16:44:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65C7212D197
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2019 16:54:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 257F389E26;
-	Mon, 30 Dec 2019 15:44:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A16689DC7;
+	Mon, 30 Dec 2019 15:54:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
- [209.85.208.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F82B89E26
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2019 15:44:10 +0000 (UTC)
-Received: by mail-ed1-f68.google.com with SMTP id l8so32935850edw.1
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2019 07:44:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=BqjpB17I4FAVcCVel4kRRM5u2ZSN97epJBsAntRnbvo=;
- b=t2N1aafHPhZehbu0Qf8p9usTBuSVYSChcnebj/atFOiQMgQ34bWnXjhOsYSLB16YyL
- oH1Tou1+TCORwasnQGtPGzX60Ia3WeEWQMVlg+Dy4yX/BDtXMsUbjpZ8VhN2Ad183PDG
- HX6RoGeTNQk1yPhFLyvFBaHT65U5UpF74MjLZ16SXwE5tc9xEOP5z9M8HVHgiA+dwqc8
- iaQ0GXtmHJMNK3xjhgqLsfAYCYHVShMjVRdLyfunlJSgUZysLTf7rcphchbn7AQPmaCG
- mPpAT6HArkrh1dxsi+Jc3K82y15bEe8REL7PRZBGLKS8jsWPpWfoYiF1ZannpmFCFqWE
- xrGA==
-X-Gm-Message-State: APjAAAV0jLNfAltnlNf74OMGSsi7Zh1G5oS4pdQPT91tapSaNXt/whlr
- lrFMwk7EAh26G675q7ihXcg=
-X-Google-Smtp-Source: APXvYqxzo56maTlSxQsNU5A2SyQb7P5FV8UkAKWQclUCoOB2bQNqmZBjZSuWqej4dQDiaLucch6EvA==
-X-Received: by 2002:a17:906:2649:: with SMTP id
- i9mr71611722ejc.120.1577720649214; 
- Mon, 30 Dec 2019 07:44:09 -0800 (PST)
-Received: from pi3 ([194.230.155.138])
- by smtp.googlemail.com with ESMTPSA id t1sm5651917ejg.32.2019.12.30.07.44.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Dec 2019 07:44:08 -0800 (PST)
-Date: Mon, 30 Dec 2019 16:44:05 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Artur =?utf-8?B?xZp3aWdvxYQ=?= <a.swigon@samsung.com>
-Subject: Re: [RFC PATCH v3 4/7] arm: dts: exynos: Add interconnect bindings
- for Exynos4412
-Message-ID: <20191230154405.GC4918@pi3>
-References: <20191220115653.6487-1-a.swigon@samsung.com>
- <CGME20191220120144eucas1p119ececf161a6d45a6a194e432bbbd1f9@eucas1p1.samsung.com>
- <20191220115653.6487-5-a.swigon@samsung.com>
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2926D89DC7
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2019 15:54:53 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBUFslYT107724;
+ Mon, 30 Dec 2019 09:54:47 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1577721287;
+ bh=717YTbPxt9H6OLOqeAdytOQWGa7WnNOXnJX7AvQNYc0=;
+ h=From:To:CC:Subject:Date;
+ b=epJvuCq4AhWIKClnhqjqahRxF6Nl+jO/ft3fjmVY8Zta+yPzB1+Qom7zjDh7x6C8M
+ dxWnA/BxMYcchHx9MBx34fuDKdvNoNp/qvuE2m5KBqg0edKxuhgfdYloTuT3mCKWab
+ FnYk8voaE0zOhsb6/o1ZJfYHPeOUXkWV4EjPOYjc=
+Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBUFslDp031569;
+ Mon, 30 Dec 2019 09:54:47 -0600
+Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Mon, 30
+ Dec 2019 09:54:47 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Mon, 30 Dec 2019 09:54:47 -0600
+Received: from legion.dal.design.ti.com (legion.dal.design.ti.com
+ [128.247.22.53])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBUFsldo090087;
+ Mon, 30 Dec 2019 09:54:47 -0600
+Received: from localhost ([10.250.65.50])
+ by legion.dal.design.ti.com (8.11.7p1+Sun/8.11.7) with ESMTP id xBUFsku26998; 
+ Mon, 30 Dec 2019 09:54:46 -0600 (CST)
+From: "Andrew F. Davis" <afd@ti.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Sean Paul <sean@poorly.run>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v2] drm: Move radeon and amdgpu Kconfig options into their
+ directories
+Date: Mon, 30 Dec 2019 10:54:46 -0500
+Message-ID: <20191230155446.11345-1-afd@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191220115653.6487-5-a.swigon@samsung.com>
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,41 +63,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-pm@vger.kernel.org, b.zolnierkie@samsung.com, sw0312.kim@samsung.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- cw00.choi@samsung.com, myungjoo.ham@samsung.com, leonard.crestez@nxp.com,
- georgi.djakov@linaro.org, linux-arm-kernel@lists.infradead.org,
- m.szyprowski@samsung.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, "Andrew
+ F . Davis" <afd@ti.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBEZWMgMjAsIDIwMTkgYXQgMTI6NTY6NTBQTSArMDEwMCwgQXJ0dXIgxZp3aWdvxYQg
-d3JvdGU6Cj4gVGhpcyBwYXRjaCBhZGRzIHRoZSBmb2xsb3dpbmcgcHJvcGVydGllcyB0byB0aGUg
-RXh5bm9zNDQxMiBEVDoKPiAgIC0gZXh5bm9zLGludGVyY29ubmVjdC1wYXJlbnQtbm9kZTogdG8g
-ZGVjbGFyZSBjb25uZWN0aW9ucyBiZXR3ZWVuCj4gICAgIG5vZGVzIGluIG9yZGVyIHRvIGd1YXJh
-bnRlZSBQTSBRb1MgcmVxdWlyZW1lbnRzIGJldHdlZW4gbm9kZXM7Cj4gICAtICNpbnRlcmNvbm5l
-Y3QtY2VsbHM6IHJlcXVpcmVkIGJ5IHRoZSBpbnRlcmNvbm5lY3QgZnJhbWV3b3JrLgo+IAo+IE5v
-dGUgdGhhdCAjaW50ZXJjb25uZWN0LWNlbGxzIGlzIGFsd2F5cyB6ZXJvIGFuZCBub2RlIElEcyBh
-cmUgbm90Cj4gaGFyZGNvZGVkIGFueXdoZXJlLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEFydHVyIMWa
-d2lnb8WEIDxhLnN3aWdvbkBzYW1zdW5nLmNvbT4KPiAtLS0KPiAgYXJjaC9hcm0vYm9vdC9kdHMv
-ZXh5bm9zNDQxMi1vZHJvaWQtY29tbW9uLmR0c2kgfCA1ICsrKysrCj4gIDEgZmlsZSBjaGFuZ2Vk
-LCA1IGluc2VydGlvbnMoKykKClRoZSBvcmRlciBvZiBwYXRjaGVzIGlzIGNvbmZ1c2luZy4gUGF0
-Y2hlcyA0IGFuZCA2IGFyZSBzcGxpdCAtIGRvIHRoZQpkZXBlbmQgb24gNT8gSSBkb3VidCBidXQu
-Li4KCkFkanVzdCB0aGUgdGl0bGUgdG8gbWF0Y2ggdGhlIGNvbnRlbnRzIC0geW91IGFyZSBub3Qg
-YWRkaW5nIGJpbmRpbmdzIGJ1dApwcm9wZXJ0aWVzIHRvIGJ1cyBub2Rlcy4gQWxzbyB0aGUgcHJl
-Zml4IGlzIEFSTTogKGxvb2sgYXQgcmVjZW50CmNvbW1pdHMpLgoKPiAKPiBkaWZmIC0tZ2l0IGEv
-YXJjaC9hcm0vYm9vdC9kdHMvZXh5bm9zNDQxMi1vZHJvaWQtY29tbW9uLmR0c2kgYi9hcmNoL2Fy
-bS9ib290L2R0cy9leHlub3M0NDEyLW9kcm9pZC1jb21tb24uZHRzaQo+IGluZGV4IDRjZTNkNzdh
-NjcwNC4uZDlkNzBlYWNmY2FmIDEwMDY0NAo+IC0tLSBhL2FyY2gvYXJtL2Jvb3QvZHRzL2V4eW5v
-czQ0MTItb2Ryb2lkLWNvbW1vbi5kdHNpCj4gKysrIGIvYXJjaC9hcm0vYm9vdC9kdHMvZXh5bm9z
-NDQxMi1vZHJvaWQtY29tbW9uLmR0c2kKPiBAQCAtOTAsNiArOTAsNyBAQAo+ICAmYnVzX2RtYyB7
-Cj4gIAlleHlub3MscHBtdS1kZXZpY2UgPSA8JnBwbXVfZG1jMF8zPiwgPCZwcG11X2RtYzFfMz47
-Cj4gIAl2ZGQtc3VwcGx5ID0gPCZidWNrMV9yZWc+Owo+ICsJI2ludGVyY29ubmVjdC1jZWxscyA9
-IDwwPjsKClRoaXMgZG9lcyBub3QgbG9vayBsaWtlIHByb3BlcnR5IG9mIE9kcm9pZCBidXQgRXh5
-bm9zNDQxMiBvciBFeHlub3M0LgoKQmVzdCByZWdhcmRzLApLcnp5c3p0b2YKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
-dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Most Kconfig options to enable a driver are in the Kconfig file
+inside the relevant directory, move these two to the same.
+
+Signed-off-by: Andrew F. Davis <afd@ti.com>
+---
+
+Changes from v1:
+ - Rebased
+
+ drivers/gpu/drm/Kconfig            | 34 ------------------------------
+ drivers/gpu/drm/amd/amdgpu/Kconfig | 18 ++++++++++++++++
+ drivers/gpu/drm/radeon/Kconfig     | 18 ++++++++++++++++
+ 3 files changed, 36 insertions(+), 34 deletions(-)
+
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index bfdadc3667e0..714ae842b7ce 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -231,42 +231,8 @@ source "drivers/gpu/drm/i2c/Kconfig"
+ 
+ source "drivers/gpu/drm/arm/Kconfig"
+ 
+-config DRM_RADEON
+-	tristate "ATI Radeon"
+-	depends on DRM && PCI && MMU
+-	select FW_LOADER
+-        select DRM_KMS_HELPER
+-        select DRM_TTM
+-	select POWER_SUPPLY
+-	select HWMON
+-	select BACKLIGHT_CLASS_DEVICE
+-	select INTERVAL_TREE
+-	help
+-	  Choose this option if you have an ATI Radeon graphics card.  There
+-	  are both PCI and AGP versions.  You don't need to choose this to
+-	  run the Radeon in plain VGA mode.
+-
+-	  If M is selected, the module will be called radeon.
+-
+ source "drivers/gpu/drm/radeon/Kconfig"
+ 
+-config DRM_AMDGPU
+-	tristate "AMD GPU"
+-	depends on DRM && PCI && MMU
+-	select FW_LOADER
+-	select DRM_KMS_HELPER
+-	select DRM_SCHED
+-	select DRM_TTM
+-	select POWER_SUPPLY
+-	select HWMON
+-	select BACKLIGHT_CLASS_DEVICE
+-	select INTERVAL_TREE
+-	select CHASH
+-	help
+-	  Choose this option if you have a recent AMD Radeon graphics card.
+-
+-	  If M is selected, the module will be called amdgpu.
+-
+ source "drivers/gpu/drm/amd/amdgpu/Kconfig"
+ 
+ source "drivers/gpu/drm/nouveau/Kconfig"
+diff --git a/drivers/gpu/drm/amd/amdgpu/Kconfig b/drivers/gpu/drm/amd/amdgpu/Kconfig
+index 9375e7f12420..f6100cb193fb 100644
+--- a/drivers/gpu/drm/amd/amdgpu/Kconfig
++++ b/drivers/gpu/drm/amd/amdgpu/Kconfig
+@@ -1,4 +1,22 @@
+ # SPDX-License-Identifier: MIT
++
++config DRM_AMDGPU
++	tristate "AMD GPU"
++	depends on DRM && PCI && MMU
++	select FW_LOADER
++	select DRM_KMS_HELPER
++	select DRM_SCHED
++	select DRM_TTM
++	select POWER_SUPPLY
++	select HWMON
++	select BACKLIGHT_CLASS_DEVICE
++	select INTERVAL_TREE
++	select CHASH
++	help
++	  Choose this option if you have a recent AMD Radeon graphics card.
++
++	  If M is selected, the module will be called amdgpu.
++
+ config DRM_AMDGPU_SI
+ 	bool "Enable amdgpu support for SI parts"
+ 	depends on DRM_AMDGPU
+diff --git a/drivers/gpu/drm/radeon/Kconfig b/drivers/gpu/drm/radeon/Kconfig
+index 6f60f4840cc5..ba67b879d31d 100644
+--- a/drivers/gpu/drm/radeon/Kconfig
++++ b/drivers/gpu/drm/radeon/Kconfig
+@@ -1,4 +1,22 @@
+ # SPDX-License-Identifier: GPL-2.0-only
++
++config DRM_RADEON
++	tristate "ATI Radeon"
++	depends on DRM && PCI && MMU
++	select FW_LOADER
++	select DRM_KMS_HELPER
++	select DRM_TTM
++	select POWER_SUPPLY
++	select HWMON
++	select BACKLIGHT_CLASS_DEVICE
++	select INTERVAL_TREE
++	help
++	  Choose this option if you have an ATI Radeon graphics card.  There
++	  are both PCI and AGP versions.  You don't need to choose this to
++	  run the Radeon in plain VGA mode.
++
++	  If M is selected, the module will be called radeon.
++
+ config DRM_RADEON_USERPTR
+ 	bool "Always enable userptr support"
+ 	depends on DRM_RADEON
+-- 
+2.17.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
