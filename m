@@ -1,103 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 069CF12DBE4
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2019 22:04:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD55412DBEB
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2019 22:04:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B09CA89D77;
-	Tue, 31 Dec 2019 21:04:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73D066E279;
+	Tue, 31 Dec 2019 21:04:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BB0D6E1F5
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2019 09:41:51 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20191231094149euoutp01b02616094544614d72381b0af559f25f~la2EyfpWg1037810378euoutp01A
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2019 09:41:49 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20191231094149euoutp01b02616094544614d72381b0af559f25f~la2EyfpWg1037810378euoutp01A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1577785309;
- bh=y65p+WJMtVpCaPejrbzx6k+tRLYVdapbmhiSddBe7YM=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=NSDtS1XpJ9KnPY2o2wQFSIiNTgHneHwskbHrSj3tYtuxnmJlcUZRrpuNojZUnv7c1
- myBXlqcRG4LxesO43+8L60VqaYZOJ02MG0F6iudP1OSN1tduXb5keHx7GoAj+32JFJ
- DINcSS90aHeMi9tiWOwTmC6Qt/s7trKcEcK3geAM=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20191231094149eucas1p21efabd86a864ac81a10d8ca4f9cfe0fa~la2EbylWW0078700787eucas1p2l;
- Tue, 31 Dec 2019 09:41:49 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id FB.B4.60679.DD71B0E5; Tue, 31
- Dec 2019 09:41:49 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20191231094148eucas1p1da266eb4f837c44e5f476185deb1bccd~la2DwdEJV2443224432eucas1p10;
- Tue, 31 Dec 2019 09:41:48 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20191231094148eusmtrp170ef1487803b8558cd23296b0d6144db~la2DvmekT0338403384eusmtrp1H;
- Tue, 31 Dec 2019 09:41:48 +0000 (GMT)
-X-AuditID: cbfec7f4-0e5ff7000001ed07-1b-5e0b17dddf4a
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 62.E2.08375.CD71B0E5; Tue, 31
- Dec 2019 09:41:48 +0000 (GMT)
-Received: from AMDC3555 (unknown [106.120.51.67]) by eusmtip1.samsung.com
- (KnoxPortal) with ESMTPA id
- 20191231094147eusmtip1de0581736a501cec168a3604c8533ae1~la2DGSVFi0034300343eusmtip19;
- Tue, 31 Dec 2019 09:41:47 +0000 (GMT)
-Message-ID: <99427c18b1fcca3bc21e69609500abdbbef59167.camel@samsung.com>
-Subject: Re: [RFC PATCH v3 4/7] arm: dts: exynos: Add interconnect bindings
- for Exynos4412
-From: Artur =?UTF-8?Q?=C5=9Awigo=C5=84?= <a.swigon@samsung.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Date: Tue, 31 Dec 2019 10:41:47 +0100
-In-Reply-To: <20191231092254.GA6939@pi3>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUgTcRjH+d3tbudyds7KpxdmLgqT0l4sDhpaEXQIRUQQRJmrjlltS3Zq
- KZSWJr6lsgJtFlZYDSXKNU1FjcZooLQV6Wqlrhe1jMxiSy1T2nZK/fd5Xr6/7/eBH4XLnhFL
- qOO6DE6vU2kUpETU/PSXY21/5LyUdTWGUKax+j7BvPJ9Ipham4Ngen6OkUxVh5lkDJ5KEeN0
- PhAzpv4fBGP+6CKYl23XSMZ7yYaYamcnxtyz9YuZt+dNJFN9eYTcOp811xeTbJ+rnWQ9pXaM
- fViXyzZ+a8HYcks9Yr1m+R7xAYnyGKc5nsXp4xNTJWllfcNkumP5mcnbA2QeGl5cgkIooBPA
- dnFaFGAZbULw3phTgiR+9iHocozhQuFFcN34Gc0p3AX22cFdBB9qCpBQDCMYG3fjgS0pzUKR
- +504wBH0QTBOeoJM0knw7O04FuAF9Gp4NT1BBMQ4fQWH56XPg0sieiXkTVQGHwqhY8BkGCYF
- 6zUw2lXuD0v5DcJhuiUi0MbpKMhvqgkmAnpUDK1uFybs74Di3se4wBHwxW4RC7wMui+XiQTm
- YajVQwjiPATmO7ZZwRboc/wmA2a4P+n9tnihvQ2aJkqxQBvoMHg9Gi5kCANDcxUutKVQVCgT
- UAFtV8MEIcCFBtfs2yy8qCsmKlG08d8txv9uMf5zvYHwehTJZfJaNcdv0HGn43iVls/UqeOO
- ntKakf+Tdc/YfS2o7c8RK6IppAiVvsMkKTJClcVna60IKFyxQJpwMCRFJj2mys7h9KcO6zM1
- HG9FSymRIlK68dbIIRmtVmVwJzkundPPTTEqZEkeah1aaD07+CQqW33Os78i942zlLhHXDsR
- 3jSkrHV0nl3dvyJefrN5y/tqecWDnp+7O6IyNZsLp5LvLr5dcMJiT120zzfyPTxxQPNVeWuq
- e+cVLil0b2evUhyLr9neM5hTMmmJ2ZXvbSDVmjJnCcbl4qntDfKbFauSZzZRhjRJ9COFiE9T
- rY/F9bzqL900QkRgAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrMIsWRmVeSWpSXmKPExsVy+t/xu7p3xLnjDL5uk7HYOGM9q8X1L89Z
- LeYfOcdqceXrezaL6Xs3sVlMuj+BxeL8+Q3sFivufmS12PT4GqvF5V1z2Cw+9x5htJhxfh+T
- xdojd9ktbjeuYLOYMfklmwO/x6ZVnWwed67tYfO4332cyWPzknqPje92MHn0bVnF6PF5k1wA
- e5SeTVF+aUmqQkZ+cYmtUrShhZGeoaWFnpGJpZ6hsXmslZGpkr6dTUpqTmZZapG+XYJeRs+d
- Z2wF5xQqfiy9x9bA+Eyyi5GTQ0LAROJmy3HmLkYuDiGBpYwSn/6fZYNISEh8XH+DFcIWlvhz
- rQssLiTwhFFi1Wd5EJtXwEOi4+YDdhBbWCBGYtaP+2A2m4C9xNnb35hAbBEBTYnrf7+DzWEW
- mMossXtWAIjNIqAq0fB9AjOIzSmgIbFi0jOo+TuYJCa3OEHUa0q0bv/NDnGDjsTbU30sXYwc
- QHsFJf7uEIYokZdo3jqbeQKj4CwkHbMQqmYhqVrAyLyKUSS1tDg3PbfYUK84Mbe4NC9dLzk/
- dxMjMEK3Hfu5eQfjpY3BhxgFOBiVeHgfMHHFCbEmlhVX5h5ilOBgVhLhNYnhjBPiTUmsrEot
- yo8vKs1JLT7EaAr0zkRmKdHkfGDyyCuJNzQ1NLewNDQ3Njc2s1AS5+0QOBgjJJCeWJKanZpa
- kFoE08fEwSnVwDjX7aG8A4fJlg32ce8WaS1bkvTaXvPyrY/XPQo2OcW0LHZbfU7Fttmw7bFO
- kNHX8Pm9JRf+8fSXa1qcVmKJqLHduUHwqC5rttbed3u/+i9fO+k44/n59+4mmzcmF070ZK9Y
- Gv+7oPz25aRk3uXLn1+e/3c2v/hFq8dOqp8+/E4zf1NhLCCuN1eJpTgj0VCLuag4EQAR2lqn
- 5gIAAA==
-X-CMS-MailID: 20191231094148eucas1p1da266eb4f837c44e5f476185deb1bccd
-X-Msg-Generator: CA
-X-RootMTR: 20191220120144eucas1p119ececf161a6d45a6a194e432bbbd1f9
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20191220120144eucas1p119ececf161a6d45a6a194e432bbbd1f9
-References: <20191220115653.6487-1-a.swigon@samsung.com>
- <CGME20191220120144eucas1p119ececf161a6d45a6a194e432bbbd1f9@eucas1p1.samsung.com>
- <20191220115653.6487-5-a.swigon@samsung.com> <20191230154405.GC4918@pi3>
- <2922135223b01126277ef92a53e6b294bc17bb5c.camel@samsung.com>
- <20191231092254.GA6939@pi3>
+Received: from mail.siol.net (mailoutvs25.siol.net [185.57.226.216])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 412DD89D6C
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2019 10:06:50 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by mail.siol.net (Postfix) with ESMTP id DEE665219D1;
+ Tue, 31 Dec 2019 11:06:47 +0100 (CET)
+X-Virus-Scanned: amavisd-new at psrvmta11.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+ by localhost (psrvmta11.zcs-production.pri [127.0.0.1]) (amavisd-new,
+ port 10032)
+ with ESMTP id jzCOG0hi0pwy; Tue, 31 Dec 2019 11:06:47 +0100 (CET)
+Received: from mail.siol.net (localhost [127.0.0.1])
+ by mail.siol.net (Postfix) with ESMTPS id 79ADF5219D9;
+ Tue, 31 Dec 2019 11:06:47 +0100 (CET)
+Received: from jernej-laptop.localnet (89-212-178-211.dynamic.t-2.net
+ [89.212.178.211]) (Authenticated sender: jernej.skrabec@siol.net)
+ by mail.siol.net (Postfix) with ESMTPA id 8A75A5219D1;
+ Tue, 31 Dec 2019 11:06:43 +0100 (CET)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
+To: mripard@kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ roman.stratiienko@globallogic.com
+Subject: Re: [PATCH v2 1/2] drm/sun4i: Add alpha property for sun8i UI layer
+Date: Tue, 31 Dec 2019 11:06:43 +0100
+Message-ID: <1972955.OBFZWjSADL@jernej-laptop>
+In-Reply-To: <20191230180842.13393-1-roman.stratiienko@globallogic.com>
+References: <20191230180842.13393-1-roman.stratiienko@globallogic.com>
+MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 31 Dec 2019 21:04:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -111,89 +50,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-pm@vger.kernel.org, b.zolnierkie@samsung.com, sw0312.kim@samsung.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- cw00.choi@samsung.com, myungjoo.ham@samsung.com, leonard.crestez@nxp.com,
- georgi.djakov@linaro.org, linux-arm-kernel@lists.infradead.org,
- m.szyprowski@samsung.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Roman Stratiienko <roman.stratiienko@globallogic.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAyMDE5LTEyLTMxIGF0IDEwOjIyICswMTAwLCBLcnp5c3p0b2YgS296bG93c2tpIHdy
-b3RlOgo+IE9uIFR1ZSwgRGVjIDMxLCAyMDE5IGF0IDA4OjE4OjAxQU0gKzAxMDAsIEFydHVyIMWa
-d2lnb8WEIHdyb3RlOgo+ID4gSGksCj4gPiAKPiA+IE9uIE1vbiwgMjAxOS0xMi0zMCBhdCAxNjo0
-NCArMDEwMCwgS3J6eXN6dG9mIEtvemxvd3NraSB3cm90ZToKPiA+ID4gT24gRnJpLCBEZWMgMjAs
-IDIwMTkgYXQgMTI6NTY6NTBQTSArMDEwMCwgQXJ0dXIgxZp3aWdvxYQgd3JvdGU6Cj4gPiA+ID4g
-VGhpcyBwYXRjaCBhZGRzIHRoZSBmb2xsb3dpbmcgcHJvcGVydGllcyB0byB0aGUgRXh5bm9zNDQx
-MiBEVDoKPiA+ID4gPiAgIC0gZXh5bm9zLGludGVyY29ubmVjdC1wYXJlbnQtbm9kZTogdG8gZGVj
-bGFyZSBjb25uZWN0aW9ucyBiZXR3ZWVuCj4gPiA+ID4gICAgIG5vZGVzIGluIG9yZGVyIHRvIGd1
-YXJhbnRlZSBQTSBRb1MgcmVxdWlyZW1lbnRzIGJldHdlZW4gbm9kZXM7Cj4gPiA+ID4gICAtICNp
-bnRlcmNvbm5lY3QtY2VsbHM6IHJlcXVpcmVkIGJ5IHRoZSBpbnRlcmNvbm5lY3QgZnJhbWV3b3Jr
-Lgo+ID4gPiA+IAo+ID4gPiA+IE5vdGUgdGhhdCAjaW50ZXJjb25uZWN0LWNlbGxzIGlzIGFsd2F5
-cyB6ZXJvIGFuZCBub2RlIElEcyBhcmUgbm90Cj4gPiA+ID4gaGFyZGNvZGVkIGFueXdoZXJlLgo+
-ID4gPiA+IAo+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IEFydHVyIMWad2lnb8WEIDxhLnN3aWdvbkBz
-YW1zdW5nLmNvbT4KPiA+ID4gPiAtLS0KPiA+ID4gPiAgYXJjaC9hcm0vYm9vdC9kdHMvZXh5bm9z
-NDQxMi1vZHJvaWQtY29tbW9uLmR0c2kgfCA1ICsrKysrCj4gPiA+ID4gIDEgZmlsZSBjaGFuZ2Vk
-LCA1IGluc2VydGlvbnMoKykKPiA+ID4gCj4gPiA+IFRoZSBvcmRlciBvZiBwYXRjaGVzIGlzIGNv
-bmZ1c2luZy4gUGF0Y2hlcyA0IGFuZCA2IGFyZSBzcGxpdCAtIGRvIHRoZQo+ID4gPiBkZXBlbmQg
-b24gNT8gSSBkb3VidCBidXQuLi4KPiA+IAo+ID4gTGV0IG1lIGVsYWJvcmF0ZToKPiA+IAo+ID4g
-VGhlIG9yZGVyIG9mIHRoZSBwYXRjaGVzIGluIHRoaXMgc2VyaWVzIGlzIHN1Y2ggdGhhdCBldmVy
-eSBzdWJzZXF1ZW50Cj4gPiBwYXRjaCBhZGRzIHNvbWUgZnVuY3Rpb25hbGl0eSAoYW5kLCBvZiBj
-b3Vyc2UsIGFwcGx5aW5nIHBhdGNoZXMgb25lLWJ5LW9uZQo+ID4geWllbGRzIGEgd29ya2luZyBr
-ZXJuZWwgYXQgZXZlcnkgc3RlcCkuIFNwZWNpZmljYWxseSBmb3IgcGF0Y2hlcyAwNC0tMDc6Cj4g
-PiAKPiA+ICAtLSBwYXRjaCAwNCBhZGRzIGludGVyY29ubmVjdCBfcHJvdmlkZXJfIHByb3BlcnRp
-ZXMgZm9yIEV4eW5vczQ0MTI7Cj4gPiAgLS0gcGF0Y2ggMDUgaW1wbGVtZW50cyBpbnRlcmNvbm5l
-Y3QgcHJvdmlkZXIgbG9naWMgKGRlcGVuZHMgb24gcGF0Y2ggMDQpOwo+ID4gIC0tIHBhdGNoIDA2
-IGFkZHMgaW50ZXJjb25uZWN0IF9jb25zdW1lcl8gcHJvcGVydGllcyBmb3IgRXh5bm9zNDQxMiBt
-aXhlcjsKPiA+ICAtLSBwYXRjaCAwNyBpbXBsZW1lbnRzIGludGVyY29ubmVjdCBjb25zdW1lciBs
-b2dpYyAoZGVwZW5kcyBvbiBwYXRjaGVzCj4gPiAgICAgMDUgJiAwNik7Cj4gPiAKPiA+IE15IHJl
-YXNvbmluZyBpcyB0aGF0IHRoaXMgb3JkZXIgYWxsb3dzIHRvIGUuZy4sIG1lcmdlIHRoZSBpbnRl
-cmNvbm5lY3QKPiA+IHByb3ZpZGVyIGZvciBleHlub3MtYnVzIGFuZCBsZWF2ZSB0aGUgY29uc3Vt
-ZXJzIGZvciBsYXRlciAobm90IGxpbWl0ZWQgdG8KPiA+IHRoZSBtaXhlcikuIEkgaG9wZSB0aGlz
-IG1ha2VzIHNlbnNlLgo+IAo+IEl0IGlzIHdyb25nLiBUaGUgZHJpdmVyIHNob3VsZCBub3QgZGVw
-ZW5kIG9uIERUUyBjaGFuZ2VzIGJlY2F1c2U6Cj4gMS4gRFRTIGFsd2F5cyBnbyB0aHJvdWdoIHNl
-cGFyYXRlIGJyYW5jaCBhbmQgdHJlZSwgc28gbGFzdCBwYXRjaAo+ICAgIHdpbGwgaGF2ZSB0byB3
-YWl0IHVwIHRvIDMgY3ljbGVzICghISEpLAo+IDIuIFlvdSBicmVhayBiYWNrd2FyZCBjb21wYXRp
-YmlsaXR5LgoKSXQgaXMgdXAgdG8gdGhlIGRlZmluaXRpb24gb2YgImRlcGVuZHMiLiBUaGUgZHJp
-dmVyIGlzIF9ub3RfIGJyb2tlbiB3aXRob3V0CnRoZSBEVFMgcGF0Y2hlcywgYnV0IHRoZSBpbnRl
-cmNvbm5lY3QgZnVuY3Rpb25hbGl0eSB3aWxsIG5vdCBiZSBhdmFpbGFibGUuCgpUaGUgb25seSBy
-ZXF1aXJlbWVudCBpcyB0aGF0IGlmIHdlIHdhbnQgdG8gaGF2ZSBhIHdvcmtpbmcgaW50ZXJjb25u
-ZWN0CmNvbnN1bWVyLCB0aGVyZSBuZWVkcyB0byBiZSBhIHdvcmtpbmcgaW50ZXJjb25uZXQgcHJv
-dmlkZXIgKGFuZCBJIHVzZWQKdGhlIHdvcmQgImRlcGVuZHMiIHRvIHNwZWNpZnkgd2hhdCBuZWVk
-cyB3aGF0IGluIG9yZGVyIHRvIHdvcmsgYXMgaW50ZW5kZWQpLgoKSSBzdGlsbCB0aGluayB0aGUg
-b3JkZXIgb2YgdGhlc2UgcGF0Y2hlcyBpcyB0aGUgbW9zdCBsb2dpY2FsIG9uZSBmb3Igc29tZW9u
-ZQpyZWFkaW5nIHRoaXMgUkZDIGFzIGEgd2hvbGUuCgo+IEluIGNlcnRhaW4gY2FzZXMgZGVwZW5k
-ZW5jeSBvbiBEVFMgY2hhbmdlcyBpcyBvazoKPiAxLiBDbGVhbmluZyB1cCBkZXByZWNhdGVkIHBy
-b3BlcnRpZXMsCj4gMi4gSWdub3JpbmcgdGhlIGJhY2t3YXJkIGNvbXBhdGliaWxpdHkgZm9yIGUu
-Zy4gbmV3IHBsYXRmb3Jtcy4KPiAKPiBOb25lIG9mIHRoZXNlIGFyZSBhcHBsaWNhYmxlIGhlcmUu
-Cj4gCj4gWW91IG5lZWQgdG8gcmV3b3JrIGl0LCBwdXQgRFRTIGNoYW5nZXMgYXQgdGhlIGVuZC4g
-VGhpcyBjbGVhcmx5IHNob3dzCj4gdGhhdCB0aGVyZSBpcyBubyB3cm9uZyBkZXBlbmRlbmN5Lgo+
-IAo+ID4gCj4gPiA+IEFkanVzdCB0aGUgdGl0bGUgdG8gbWF0Y2ggdGhlIGNvbnRlbnRzIC0geW91
-IGFyZSBub3QgYWRkaW5nIGJpbmRpbmdzIGJ1dAo+ID4gPiBwcm9wZXJ0aWVzIHRvIGJ1cyBub2Rl
-cy4gQWxzbyB0aGUgcHJlZml4IGlzIEFSTTogKGxvb2sgYXQgcmVjZW50Cj4gPiA+IGNvbW1pdHMp
-Lgo+ID4gCj4gPiBPSy4KPiA+IAo+ID4gPiA+IAo+ID4gPiA+IGRpZmYgLS1naXQgYS9hcmNoL2Fy
-bS9ib290L2R0cy9leHlub3M0NDEyLW9kcm9pZC1jb21tb24uZHRzaSBiL2FyY2gvYXJtL2Jvb3Qv
-ZHRzL2V4eW5vczQ0MTItb2Ryb2lkLWNvbW1vbi5kdHNpCj4gPiA+ID4gaW5kZXggNGNlM2Q3N2E2
-NzA0Li5kOWQ3MGVhY2ZjYWYgMTAwNjQ0Cj4gPiA+ID4gLS0tIGEvYXJjaC9hcm0vYm9vdC9kdHMv
-ZXh5bm9zNDQxMi1vZHJvaWQtY29tbW9uLmR0c2kKPiA+ID4gPiArKysgYi9hcmNoL2FybS9ib290
-L2R0cy9leHlub3M0NDEyLW9kcm9pZC1jb21tb24uZHRzaQo+ID4gPiA+IEBAIC05MCw2ICs5MCw3
-IEBACj4gPiA+ID4gICZidXNfZG1jIHsKPiA+ID4gPiAgCWV4eW5vcyxwcG11LWRldmljZSA9IDwm
-cHBtdV9kbWMwXzM+LCA8JnBwbXVfZG1jMV8zPjsKPiA+ID4gPiAgCXZkZC1zdXBwbHkgPSA8JmJ1
-Y2sxX3JlZz47Cj4gPiA+ID4gKwkjaW50ZXJjb25uZWN0LWNlbGxzID0gPDA+Owo+ID4gPiAKPiA+
-ID4gVGhpcyBkb2VzIG5vdCBsb29rIGxpa2UgcHJvcGVydHkgb2YgT2Ryb2lkIGJ1dCBFeHlub3M0
-NDEyIG9yIEV4eW5vczQuCj4gPiAKPiA+IFN0cmFuZ2VseSBlbm91Z2gsIHRoaXMgZmlsZSBpcyB3
-aGVyZSB0aGUgJ2V4eW5vcyxwYXJlbnQtYnVzJyAoYWthLiAnZGV2ZnJlcScpCj4gPiBwcm9wZXJ0
-aWVzIGFyZSBsb2NhdGVkIChhbmQgZXZlcnl0aGluZyBpbiB0aGlzIFJGQyBjb25jZXJucyBkZXZm
-cmVxKS4KPiAKPiBJIGNhbm5vdCBmaW5kIGV4eW5vcyxwYXJlbnQtYnVzIGluIGV4eW5vczQ0MTIt
-b2Ryb2lkLWNvbW1vbi5kdHNpLiBDYW4KPiB5b3UgZWxhYm9yYXRlPwoKQ3VycmVudGx5IGEgbmFt
-ZSBjaGFuZ2UgaXMgYmVpbmcgbWFkZTogJ2RldmZyZXEnIC0+ICdleHlub3MscGFyZW50LWJ1cycK
-aHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9wYXRjaC8xMTMwNDU0OS8KKGEgZGVwZW5kZW5j
-eSBvZiB0aGlzIFJGQzsgYWxzbyBhdmFpbGFibGUgaW4gZGV2ZnJlcS10ZXN0aW5nIGJyYW5jaCkK
-CkJlc3QgcmVnYXJkcywKLS0gCkFydHVyIMWad2lnb8WEClNhbXN1bmcgUiZEIEluc3RpdHV0ZSBQ
-b2xhbmQKU2Ftc3VuZyBFbGVjdHJvbmljcwoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+Hi!
+
+Dne ponedeljek, 30. december 2019 ob 19:08:41 CET je 
+roman.stratiienko@globallogic.com napisal(a):
+> From: Roman Stratiienko <roman.stratiienko@globallogic.com>
+> 
+> DE2.0 and DE3.0 UI layers supports plane-global alpha channel.
+> Add alpha property to the DRM plane and connect it to the
+> corresponding registers in mixer.
+> 
+> Signed-off-by: Roman Stratiienko <roman.stratiienko@globallogic.com>
+
+Reviewed-by: Jernej Skrabec <jernej.skrabec@siol.net>
+
+BTW, patch is marked as v2, but I don't see any changelog. What did you 
+change?
+
+Best regards,
+Jernej
+
+> ---
+>  drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 29 ++++++++++++++++++++++++++
+>  drivers/gpu/drm/sun4i/sun8i_ui_layer.h |  5 +++++
+>  2 files changed, 34 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+> b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c index c87fd842918e..4343ea9f8cf8
+> 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+> @@ -72,6 +72,27 @@ static void sun8i_ui_layer_enable(struct sun8i_mixer
+> *mixer, int channel, }
+>  }
+> 
+> +static void sun8i_ui_layer_update_alpha(struct sun8i_mixer *mixer, int
+> channel, +					int overlay, struct 
+drm_plane *plane)
+> +{
+> +	u32 mask, val, ch_base;
+> +
+> +	ch_base = sun8i_channel_base(mixer, channel);
+> +
+> +	mask = SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MODE_MASK |
+> +		SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MASK;
+> +
+> +	val = SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA(plane->state->alpha >> 
+8);
+> +
+> +	val |= (plane->state->alpha == DRM_BLEND_ALPHA_OPAQUE) ?
+> +		SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MODE_PIXEL :
+> +		SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MODE_COMBINED;
+> +
+> +	regmap_update_bits(mixer->engine.regs,
+> +			   SUN8I_MIXER_CHAN_UI_LAYER_ATTR(ch_base, 
+overlay),
+> +			   mask, val);
+> +}
+> +
+>  static int sun8i_ui_layer_update_coord(struct sun8i_mixer *mixer, int
+> channel, int overlay, struct drm_plane *plane,
+>  				       unsigned int zpos)
+> @@ -288,6 +309,8 @@ static void sun8i_ui_layer_atomic_update(struct
+> drm_plane *plane,
+> 
+>  	sun8i_ui_layer_update_coord(mixer, layer->channel,
+>  				    layer->overlay, plane, zpos);
+> +	sun8i_ui_layer_update_alpha(mixer, layer->channel,
+> +				    layer->overlay, plane);
+>  	sun8i_ui_layer_update_formats(mixer, layer->channel,
+>  				      layer->overlay, plane);
+>  	sun8i_ui_layer_update_buffer(mixer, layer->channel,
+> @@ -365,6 +388,12 @@ struct sun8i_ui_layer *sun8i_ui_layer_init_one(struct
+> drm_device *drm,
+> 
+>  	plane_cnt = mixer->cfg->ui_num + mixer->cfg->vi_num;
+> 
+> +	ret = drm_plane_create_alpha_property(&layer->plane);
+> +	if (ret) {
+> +		dev_err(drm->dev, "Couldn't add alpha property\n");
+> +		return ERR_PTR(ret);
+> +	}
+> +
+>  	ret = drm_plane_create_zpos_property(&layer->plane, channel,
+>  					     0, plane_cnt - 
+1);
+>  	if (ret) {
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.h
+> b/drivers/gpu/drm/sun4i/sun8i_ui_layer.h index f4ab1cf6cded..e3e32ee1178d
+> 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.h
+> +++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.h
+> @@ -40,6 +40,11 @@
+>  #define SUN8I_MIXER_CHAN_UI_LAYER_ATTR_FBFMT_MASK	GENMASK(12, 8)
+>  #define SUN8I_MIXER_CHAN_UI_LAYER_ATTR_FBFMT_OFFSET	8
+>  #define SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MASK	GENMASK(31, 24)
+> +#define SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA(x)		((x) << 24)
+> +
+> +#define SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MODE_PIXEL		
+((0) << 1)
+> +#define SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MODE_LAYER		
+((1) << 1)
+> +#define SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MODE_COMBINED	((2) << 1)
+> 
+>  struct sun8i_mixer;
+
+
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
