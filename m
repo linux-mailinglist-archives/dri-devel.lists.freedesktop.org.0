@@ -2,44 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99C4012D67C
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2019 07:17:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB1D212D6E6
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2019 08:59:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BF526E093;
-	Tue, 31 Dec 2019 06:17:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE07189B8E;
+	Tue, 31 Dec 2019 07:59:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A51846E093
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2019 06:17:15 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206021] AMDGPU/DC: freesync disabled on the monitor side after
- the monitor sleeps and resumes
-Date: Tue, 31 Dec 2019 06:17:15 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: libcg@protonmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-206021-2300-4NKwsU5ErC@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-206021-2300@https.bugzilla.kernel.org/>
-References: <bug-206021-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C51889B8E
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2019 07:59:02 +0000 (UTC)
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9A9E3206D9;
+ Tue, 31 Dec 2019 07:59:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1577779141;
+ bh=K+EArRDkwqSMvw8H//rZefExNcVYO63zAp5LFRQOfhI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=F7aR5Xx9Ze7ZSSsBHiaYjp57mhmz4fhJyYcN4Pxwro9MQBDLVmDK91H7w6O6PppHN
+ La629R30mgcLav3tzSPTAyojs4oeztfNyEcLw7gFOV3GcMkEGp1BJxCM5O60NigNqc
+ yc43y7XvGooSvbLdcyn6NgeK9ihaTi4Q6Z6KmWvE=
+Date: Tue, 31 Dec 2019 09:00:28 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
+ Frank Rowand <frowand.list@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Sean Paul <seanpaul@chromium.org>
+Subject: Re: [PATCH] dt-bindings: display: Convert Allwinner display pipeline
+ to schemas
+Message-ID: <20191231080028.meecr7gn2sbehrpg@hendrix.lan>
+References: <20191219084755.944642-1-maxime@cerno.tech>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20191219084755.944642-1-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,18 +50,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Chen-Yu Tsai <wens@csie.org>, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDYwMjEKCi0tLSBD
-b21tZW50ICMzIGZyb20gQ2zDqW1lbnQgR3XDqXJpbiAobGliY2dAcHJvdG9ubWFpbC5jb20pIC0t
-LQpDcmVhdGVkIGF0dGFjaG1lbnQgMjg2NTM1CiAgLS0+IGh0dHBzOi8vYnVnemlsbGEua2VybmVs
-Lm9yZy9hdHRhY2htZW50LmNnaT9pZD0yODY1MzUmYWN0aW9uPWVkaXQKbWFudWFsbHkgdHVybmlu
-ZyB0aGUgbW9uaXRvciBvZmYgYW5kIG9uIHdpdGggZHJtLmRlYnVnPTYKCi0tIApZb3UgYXJlIHJl
-Y2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUg
-b2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-Cg==
+On Thu, Dec 19, 2019 at 09:47:55AM +0100, Maxime Ripard wrote:
+> The Allwinner SoCs have a display engine composed of several controllers
+> assembled differently depending on the SoC, the number and type of output
+> they have, and the additional features they provide. A number of those are
+> supported in Linux, with the matching bindings.
+>
+> Now that we have the DT validation in place, let's split into separate file
+> and convert the device tree bindings for those controllers to schemas.
+>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+
+Ping?
+
+Maxime
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
