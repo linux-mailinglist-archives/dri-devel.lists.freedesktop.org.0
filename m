@@ -1,36 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4DFC12D796
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2019 10:37:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6555A12D785
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2019 10:37:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B3E16E1F2;
-	Tue, 31 Dec 2019 09:37:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65D356E154;
+	Tue, 31 Dec 2019 09:37:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2826D89F41
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2019 01:26:04 +0000 (UTC)
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 971E09AEA5D8655BBE85;
- Tue, 31 Dec 2019 09:26:02 +0800 (CST)
-Received: from [127.0.0.1] (10.57.60.129) by DGGEMS409-HUB.china.huawei.com
- (10.3.19.209) with Microsoft SMTP Server id 14.3.439.0; Tue, 31 Dec 2019
- 09:25:55 +0800
-Subject: Re: [PATCH] drm/hisilicon: Added three new resolutions and changed
- the alignment to 128 Bytes
-To: Daniel Stone <daniel@fooishbar.org>, Tian Tao <tiantao6@hisilicon.com>
-References: <1577495680-28766-1-git-send-email-tiantao6@hisilicon.com>
- <CAPj87rO-ZrCCJCza0Eeyp-JAJ6Qp8RdhJQh_1Yh_QSeK2o8_hw@mail.gmail.com>
-From: "tiantao (H)" <tiantao6@huawei.com>
-Message-ID: <45055b17-041c-f726-6c5d-5769c96b92d9@huawei.com>
-Date: Tue, 31 Dec 2019 09:25:54 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D5C16E0E5
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2019 06:42:52 +0000 (UTC)
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id BBB959DF03C5317FAABC;
+ Tue, 31 Dec 2019 14:42:48 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
+ 14.3.439.0; Tue, 31 Dec 2019 14:42:42 +0800
+From: Tian Tao <tiantao6@hisilicon.com>
+To: <puck.chen@hisilicon.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <tzimmermann@suse.de>, <kraxel@redhat.com>, <alexander.deucher@amd.com>,
+ <tglx@linutronix.de>, <dri-devel@lists.freedesktop.org>,
+ <xinliang.liu@linaro.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] drm/hisilicon: Add new clock/resolution configurations
+Date: Tue, 31 Dec 2019 14:42:51 +0800
+Message-ID: <1577774571-60493-1-git-send-email-tiantao6@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <CAPj87rO-ZrCCJCza0Eeyp-JAJ6Qp8RdhJQh_1Yh_QSeK2o8_hw@mail.gmail.com>
-X-Originating-IP: [10.57.60.129]
+X-Originating-IP: [10.69.192.56]
 X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Tue, 31 Dec 2019 09:37:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -45,42 +43,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Chen Feng <puck.chen@hisilicon.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, linuxarm@huawei.com, Xinliang
- Liu <xinliang.liu@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
- tzimmermann@suse.de, Alex Deucher <alexander.deucher@amd.com>,
- tglx@linutronix.de
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: linuxarm@huawei.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhpIERhbmllbDoKClRoYW5rcyB5b3UgdmVyeSBtdWNoICxJIHdpbGwgZm9sbG93IHlvdXIgc3Vn
-Z2VzdGlvbiB0byBzcGxpdCB0aGlzIHRvIAp0aHJlZSBwYXRjaGVzLgoKQmVzdArlnKggMjAxOS8x
-Mi8zMCAxODoyMywgRGFuaWVsIFN0b25lIOWGmemBkzoKPiBIaSBUaWFuLAo+IAo+IE9uIFNhdCwg
-MjggRGVjIDIwMTkgYXQgMDE6MTQsIFRpYW4gVGFvIDx0aWFudGFvNkBoaXNpbGljb24uY29tPiB3
-cm90ZToKPj4gQEAgLTExOCwxMSArMTE5LDkgQEAgc3RhdGljIHZvaWQgaGlibWNfcGxhbmVfYXRv
-bWljX3VwZGF0ZShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKPj4gICAgICAgICAgd3JpdGVsKGdw
-dV9hZGRyLCBwcml2LT5tbWlvICsgSElCTUNfQ1JUX0ZCX0FERFJFU1MpOwo+Pgo+PiAgICAgICAg
-ICByZWcgPSBzdGF0ZS0+ZmItPndpZHRoICogKHN0YXRlLT5mYi0+Zm9ybWF0LT5jcHBbMF0pOwo+
-PiAtICAgICAgIC8qIG5vdyBsaW5lX3BhZCBpcyAxNiAqLwo+PiAtICAgICAgIHJlZyA9IFBBRERJ
-TkcoMTYsIHJlZyk7Cj4+Cj4+ICAgICAgICAgIGxpbmVfbCA9IHN0YXRlLT5mYi0+d2lkdGggKiBz
-dGF0ZS0+ZmItPmZvcm1hdC0+Y3BwWzBdOwo+PiAtICAgICAgIGxpbmVfbCA9IFBBRERJTkcoMTYs
-IGxpbmVfbCk7Cj4+ICsgICAgICAgbGluZV9sID0gUEFERElORygxMjgsIGxpbmVfbCk7Cj4gCj4g
-VGhlICdsaW5lIGxlbmd0aCcgaGVyZSBpcyB0aGUgJ3N0cmlkZScgZmllbGQgb2YgdGhlIEZCLiBT
-dHJpZGUgaXMgc2V0Cj4gYnkgdXNlcnNwYWNlIHdoZW4gYWxsb2NhdGluZyB0aGUgYnVmZmVyLCBh
-bmQgdGhlIGtlcm5lbCBtdXN0IG5vdAo+IGF0dGVtcHQgdG8gZ3Vlc3Mgd2hhdCB1c2Vyc3BhY2Ug
-c2V0Lgo+IAo+IFlvdSBzaG91bGQgdXNlIHN0YXRlLT5mYi0+c3RyaWRlc1swXSBkaXJlY3RseSBo
-ZXJlLCBhbmQgaW4geW91cgo+IGF0b21pY19jaGVjaygpIGZ1bmN0aW9uLCBtYWtlIHN1cmUgdGhh
-dCB0aGUgZnJhbWVidWZmZXIgc3RyaWRlIGlzCj4gY29ycmVjdGx5IGFsaWduZWQuCj4gCj4gUGxl
-YXNlIHNwbGl0IHRoaXMgaW50byBhIHNlcGFyYXRlIGNoYW5nZS4gWW91ciBjb21taXQgaGFzIHRo
-cmVlCj4gY2hhbmdlcyBpbiBpdCwgd2hpY2ggc2hvdWxkIGFsbCBiZSBzZXBhcmF0ZSBjb21taXRz
-Ogo+ICAgICogZW5mb3JjZSAxMjgtYnl0ZSBzdHJpZGUgYWxpZ25tZW50IChpcyB0aGlzIGEgaGFy
-ZHdhcmUgbGltaXQ/KQo+ICAgICogZ2V0IHRoZSBCTyBmcm9tIGRybV9mYiByYXRoZXIgdGhhbiBo
-aWJtY19mYiAoY2FuIGhpYm1jX2ZiLT5vYmoKPiBqdXN0IGJlIHJlbW92ZWQgbm93PykKPiAgICAq
-IGFkZCBuZXcgY2xvY2svcmVzb2x1dGlvbiBjb25maWd1cmF0aW9ucwo+IAo+IENoZWVycywKPiBE
-YW5pZWwKPiAKPiAuCj4gCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWwK
+Add the three new pll config for corresponding resolution 1440x900 and
+1600x900, 640x480 for hibmc
+
+Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+Signed-off-by: Gong junjie <gongjunjie2@huawei.com>
+---
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c   | 3 +++
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_regs.h | 2 ++
+ 2 files changed, 5 insertions(+)
+
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+index f1ce6cb..6bf4334 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+@@ -40,6 +40,7 @@ struct hibmc_dislay_pll_config {
+ };
+ 
+ static const struct hibmc_dislay_pll_config hibmc_pll_table[] = {
++	{640, 480, CRT_PLL1_HS_25MHZ, CRT_PLL2_HS_25MHZ},
+ 	{800, 600, CRT_PLL1_HS_40MHZ, CRT_PLL2_HS_40MHZ},
+ 	{1024, 768, CRT_PLL1_HS_65MHZ, CRT_PLL2_HS_65MHZ},
+ 	{1152, 864, CRT_PLL1_HS_80MHZ_1152, CRT_PLL2_HS_80MHZ},
+@@ -47,6 +48,8 @@ static const struct hibmc_dislay_pll_config hibmc_pll_table[] = {
+ 	{1280, 720, CRT_PLL1_HS_74MHZ, CRT_PLL2_HS_74MHZ},
+ 	{1280, 960, CRT_PLL1_HS_108MHZ, CRT_PLL2_HS_108MHZ},
+ 	{1280, 1024, CRT_PLL1_HS_108MHZ, CRT_PLL2_HS_108MHZ},
++	{1440, 900, CRT_PLL1_HS_106MHZ, CRT_PLL2_HS_106MHZ},
++	{1600, 900, CRT_PLL1_HS_108MHZ, CRT_PLL2_HS_108MHZ},
+ 	{1600, 1200, CRT_PLL1_HS_162MHZ, CRT_PLL2_HS_162MHZ},
+ 	{1920, 1080, CRT_PLL1_HS_148MHZ, CRT_PLL2_HS_148MHZ},
+ 	{1920, 1200, CRT_PLL1_HS_193MHZ, CRT_PLL2_HS_193MHZ},
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_regs.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_regs.h
+index 9b7e859..17b30c3 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_regs.h
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_regs.h
+@@ -179,6 +179,7 @@
+ #define CRT_PLL1_HS_74MHZ			0x23941dc2
+ #define CRT_PLL1_HS_80MHZ			0x23941001
+ #define CRT_PLL1_HS_80MHZ_1152			0x23540fc2
++#define CRT_PLL1_HS_106MHZ			0x237C1641
+ #define CRT_PLL1_HS_108MHZ			0x23b41b01
+ #define CRT_PLL1_HS_162MHZ			0x23480681
+ #define CRT_PLL1_HS_148MHZ			0x23541dc2
+@@ -191,6 +192,7 @@
+ #define CRT_PLL2_HS_78MHZ			0x50E147AE
+ #define CRT_PLL2_HS_74MHZ			0x602B6AE7
+ #define CRT_PLL2_HS_80MHZ			0x70000000
++#define CRT_PLL2_HS_106MHZ			0x0075c28f
+ #define CRT_PLL2_HS_108MHZ			0x80000000
+ #define CRT_PLL2_HS_162MHZ			0xA0000000
+ #define CRT_PLL2_HS_148MHZ			0xB0CCCCCD
+-- 
+2.7.4
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
