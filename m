@@ -2,55 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B76EB12D791
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2019 10:37:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4DFC12D796
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2019 10:37:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C97636E1F6;
-	Tue, 31 Dec 2019 09:37:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B3E16E1F2;
+	Tue, 31 Dec 2019 09:37:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D731489F6E
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2019 19:56:15 +0000 (UTC)
-Received: by mail-ed1-x544.google.com with SMTP id f8so33743759edv.2
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2019 11:56:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=gO16AQCkNPb14dsCdpkNOICcLP4HpRwvIVTrCALZZko=;
- b=fzz92Rr5ad/tw0dAyXatXMplVhuQTUMwBoHdS2zFzvNq3breMRsKrqsAxDoCTQvjpj
- WB5JiebaJGU/chwFRmjzZtX66Re6Rm3vCKvnP2CwjjzBa3yQBa7X3ve2scCY/dC9ljry
- VJoXuBqYtHvYc2PtO3mdZDZcuEGoGUQigwd0u1XguvL8OcAP2WYRTjUbUeGFMwe3gmgh
- rOMNHL58k4ZYkEcc7vFiYn3vjtOcnLzwJ6yLVpWjnTGmvagFT0WvPI7Gc8DMp+R3rMms
- g5+qwkh3pwPpRsSJpRA4BQPwL2prIzuXHCjXa6IH9NViXz6mr2cZsL8ckh8YsSL4Hq2z
- DdlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=gO16AQCkNPb14dsCdpkNOICcLP4HpRwvIVTrCALZZko=;
- b=rIoubshdP7sEIMvuF2NQLm42DiSYVfX3PkjTPsDlcBFmeq6GsZXtEG88guJDzWvyYU
- GK9FnRSCyfiOXNSXIX6AVVEjNFbfiimqpWkhwXoB7b6WfiSE039hcIDB7ENV8hVUzWLb
- Z/Y05mULYWmIimLYZlbylTkel6VtSK4C+Gi9xZ+/+rZGxZ5ZD1DB06oJ1PaT1lGaypG8
- EG7Lzq3CDjDyZyp+OE3f8nielOTNLPC/qrz0ebhWD14l5V5RXgEHFJMhBcf9xf+Sb+kL
- 7IgddU23orAdpdd4irbtFv2fnr7fBBGNTGZe3rDnplcdhmSeBrx5AWQ4MX1V9TffVMO6
- isxw==
-X-Gm-Message-State: APjAAAXYi2CsYESuSHtGapkl47JToGzeBlXNby/9bls1Yw/eu6Tu8IZV
- Kgt50dnrf1j6hWtmJsOpN6s=
-X-Google-Smtp-Source: APXvYqyK9+yOm7EZSKgP1CIAOwXYYE/RZODwwHNa9cFvR2LrqE+OdolaLn4Q9Fr4gSKqnvbUjJbFkA==
-X-Received: by 2002:a05:6402:3184:: with SMTP id
- di4mr73253173edb.59.1577735774170; 
- Mon, 30 Dec 2019 11:56:14 -0800 (PST)
-Received: from localhost.localdomain ([197.254.95.38])
- by smtp.googlemail.com with ESMTPSA id ba29sm5446185edb.47.2019.12.30.11.56.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Dec 2019 11:56:13 -0800 (PST)
-From: Wambui Karuga <wambui.karugax@gmail.com>
-To: thierry.reding@gmail.com, sam@ravnborg.org, airlied@linux.ie,
- daniel@ffwll.ch
-Subject: [PATCH] drm/panel: declare variable as __be16
-Date: Mon, 30 Dec 2019 22:56:09 +0300
-Message-Id: <20191230195609.12386-1-wambui.karugax@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2826D89F41
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2019 01:26:04 +0000 (UTC)
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 971E09AEA5D8655BBE85;
+ Tue, 31 Dec 2019 09:26:02 +0800 (CST)
+Received: from [127.0.0.1] (10.57.60.129) by DGGEMS409-HUB.china.huawei.com
+ (10.3.19.209) with Microsoft SMTP Server id 14.3.439.0; Tue, 31 Dec 2019
+ 09:25:55 +0800
+Subject: Re: [PATCH] drm/hisilicon: Added three new resolutions and changed
+ the alignment to 128 Bytes
+To: Daniel Stone <daniel@fooishbar.org>, Tian Tao <tiantao6@hisilicon.com>
+References: <1577495680-28766-1-git-send-email-tiantao6@hisilicon.com>
+ <CAPj87rO-ZrCCJCza0Eeyp-JAJ6Qp8RdhJQh_1Yh_QSeK2o8_hw@mail.gmail.com>
+From: "tiantao (H)" <tiantao6@huawei.com>
+Message-ID: <45055b17-041c-f726-6c5d-5769c96b92d9@huawei.com>
+Date: Tue, 31 Dec 2019 09:25:54 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <CAPj87rO-ZrCCJCza0Eeyp-JAJ6Qp8RdhJQh_1Yh_QSeK2o8_hw@mail.gmail.com>
+X-Originating-IP: [10.57.60.129]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Tue, 31 Dec 2019 09:37:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,41 +45,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, Chen Feng <puck.chen@hisilicon.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linuxarm@huawei.com, Xinliang
+ Liu <xinliang.liu@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ tzimmermann@suse.de, Alex Deucher <alexander.deucher@amd.com>,
+ tglx@linutronix.de
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Declare the temp variable as __be16 to address the following sparse
-warning:
-drivers/gpu/drm/panel/panel-lg-lg4573.c:45:20: warning: incorrect type in initializer (different base types)
-drivers/gpu/drm/panel/panel-lg-lg4573.c:45:20:    expected unsigned short [unsigned] [usertype] temp
-drivers/gpu/drm/panel/panel-lg-lg4573.c:45:20:    got restricted __be16 [usertype] <noident>
-
-Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
----
- drivers/gpu/drm/panel/panel-lg-lg4573.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/panel/panel-lg-lg4573.c b/drivers/gpu/drm/panel/panel-lg-lg4573.c
-index 20235ff0bbc4..b262b53dbd85 100644
---- a/drivers/gpu/drm/panel/panel-lg-lg4573.c
-+++ b/drivers/gpu/drm/panel/panel-lg-lg4573.c
-@@ -42,7 +42,7 @@ static int lg4573_spi_write_u16(struct lg4573 *ctx, u16 data)
- 	struct spi_transfer xfer = {
- 		.len = 2,
- 	};
--	u16 temp = cpu_to_be16(data);
-+	__be16 temp = cpu_to_be16(data);
- 	struct spi_message msg;
- 
- 	dev_dbg(ctx->panel.dev, "writing data: %x\n", data);
--- 
-2.17.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CkhpIERhbmllbDoKClRoYW5rcyB5b3UgdmVyeSBtdWNoICxJIHdpbGwgZm9sbG93IHlvdXIgc3Vn
+Z2VzdGlvbiB0byBzcGxpdCB0aGlzIHRvIAp0aHJlZSBwYXRjaGVzLgoKQmVzdArlnKggMjAxOS8x
+Mi8zMCAxODoyMywgRGFuaWVsIFN0b25lIOWGmemBkzoKPiBIaSBUaWFuLAo+IAo+IE9uIFNhdCwg
+MjggRGVjIDIwMTkgYXQgMDE6MTQsIFRpYW4gVGFvIDx0aWFudGFvNkBoaXNpbGljb24uY29tPiB3
+cm90ZToKPj4gQEAgLTExOCwxMSArMTE5LDkgQEAgc3RhdGljIHZvaWQgaGlibWNfcGxhbmVfYXRv
+bWljX3VwZGF0ZShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKPj4gICAgICAgICAgd3JpdGVsKGdw
+dV9hZGRyLCBwcml2LT5tbWlvICsgSElCTUNfQ1JUX0ZCX0FERFJFU1MpOwo+Pgo+PiAgICAgICAg
+ICByZWcgPSBzdGF0ZS0+ZmItPndpZHRoICogKHN0YXRlLT5mYi0+Zm9ybWF0LT5jcHBbMF0pOwo+
+PiAtICAgICAgIC8qIG5vdyBsaW5lX3BhZCBpcyAxNiAqLwo+PiAtICAgICAgIHJlZyA9IFBBRERJ
+TkcoMTYsIHJlZyk7Cj4+Cj4+ICAgICAgICAgIGxpbmVfbCA9IHN0YXRlLT5mYi0+d2lkdGggKiBz
+dGF0ZS0+ZmItPmZvcm1hdC0+Y3BwWzBdOwo+PiAtICAgICAgIGxpbmVfbCA9IFBBRERJTkcoMTYs
+IGxpbmVfbCk7Cj4+ICsgICAgICAgbGluZV9sID0gUEFERElORygxMjgsIGxpbmVfbCk7Cj4gCj4g
+VGhlICdsaW5lIGxlbmd0aCcgaGVyZSBpcyB0aGUgJ3N0cmlkZScgZmllbGQgb2YgdGhlIEZCLiBT
+dHJpZGUgaXMgc2V0Cj4gYnkgdXNlcnNwYWNlIHdoZW4gYWxsb2NhdGluZyB0aGUgYnVmZmVyLCBh
+bmQgdGhlIGtlcm5lbCBtdXN0IG5vdAo+IGF0dGVtcHQgdG8gZ3Vlc3Mgd2hhdCB1c2Vyc3BhY2Ug
+c2V0Lgo+IAo+IFlvdSBzaG91bGQgdXNlIHN0YXRlLT5mYi0+c3RyaWRlc1swXSBkaXJlY3RseSBo
+ZXJlLCBhbmQgaW4geW91cgo+IGF0b21pY19jaGVjaygpIGZ1bmN0aW9uLCBtYWtlIHN1cmUgdGhh
+dCB0aGUgZnJhbWVidWZmZXIgc3RyaWRlIGlzCj4gY29ycmVjdGx5IGFsaWduZWQuCj4gCj4gUGxl
+YXNlIHNwbGl0IHRoaXMgaW50byBhIHNlcGFyYXRlIGNoYW5nZS4gWW91ciBjb21taXQgaGFzIHRo
+cmVlCj4gY2hhbmdlcyBpbiBpdCwgd2hpY2ggc2hvdWxkIGFsbCBiZSBzZXBhcmF0ZSBjb21taXRz
+Ogo+ICAgICogZW5mb3JjZSAxMjgtYnl0ZSBzdHJpZGUgYWxpZ25tZW50IChpcyB0aGlzIGEgaGFy
+ZHdhcmUgbGltaXQ/KQo+ICAgICogZ2V0IHRoZSBCTyBmcm9tIGRybV9mYiByYXRoZXIgdGhhbiBo
+aWJtY19mYiAoY2FuIGhpYm1jX2ZiLT5vYmoKPiBqdXN0IGJlIHJlbW92ZWQgbm93PykKPiAgICAq
+IGFkZCBuZXcgY2xvY2svcmVzb2x1dGlvbiBjb25maWd1cmF0aW9ucwo+IAo+IENoZWVycywKPiBE
+YW5pZWwKPiAKPiAuCj4gCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
+ZGV2ZWwK
