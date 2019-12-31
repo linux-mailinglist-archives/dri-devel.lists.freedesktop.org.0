@@ -1,60 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 389B712DBE3
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2019 22:04:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E2CD12DBEC
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2019 22:05:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7885989F5B;
-	Tue, 31 Dec 2019 21:04:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B24D6E27A;
+	Tue, 31 Dec 2019 21:05:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
- [IPv6:2a00:1450:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED4AA6E25B
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2019 16:47:51 +0000 (UTC)
-Received: by mail-ed1-x541.google.com with SMTP id c26so35617335eds.8
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2019 08:47:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5cGsByFr4h/gn5GTGed+TWKDlfh+tiGQaOBrL5+LciQ=;
- b=tekFZI5vkkt/vDaFdbyXiQ9T9oK543WnjVXoBu2WSNurH2ETaVpPDmsqM/K4vBR/SZ
- QJ9dLI0sWWF7sZt8UB0IgZ9v6sVztJashLl+a+gl5iZq+106TIB6ZxD1SvOu/zmktekT
- PK+wiOiqUfIlKDh8Kx+4Vkthdbov7erfXrdeg7QSQUADqffINId63yD2I8/yhnGoYU44
- Q/uI1s2ZzJ6YVG472BaPdUKx7qXSBEI5Pea9VlVAR95W9Qly/Z+jEFDp/D7AicBTDVir
- PCRXo3PikLY/zOOZKEFuW6wWRvo5r6hpX65ZhrES6wnNDVWK1AWuc/cwHvqDBVHnKmTQ
- ipNg==
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
+ [IPv6:2a00:1450:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A759D89D4B;
+ Tue, 31 Dec 2019 20:53:52 +0000 (UTC)
+Received: by mail-ed1-x543.google.com with SMTP id t17so35994173eds.6;
+ Tue, 31 Dec 2019 12:53:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id;
+ bh=NxVPnp1vgRmjH7L7kENjVVXZ5KNtEIGxlFIHfBLkDO0=;
+ b=Gt88ScDFSWLyoxvwTcRbq/5RlwwcCXcfGvg/V8/xg1HspxXhgUgOTDJHotVZbkGEUa
+ hRKxkFOtZ6FPJ8HmLF2h7/oxLvn/+rTsGl5YJbjSlqpFlDPoOke5h56RrKl12GepViuz
+ SlAtu/m7n/+ZlgvIgYDNk1SRN8raTca+hfNKWHyg5n1l8K6zY2rCCI4ykQ7V20XWcdo4
+ Pq1yUdjXqPNYwWWFmUFUGIOPkFsuvrXE3RlmTnkt47TfUJ/c+4B0bpqe05u6eVjmTn39
+ t0RcCciVUWjgJp9feY1rGp7whMb4RCRRg+rLRBWj0huSpYNMa2YWfMCw8HGJdjT1wvZN
+ j61w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5cGsByFr4h/gn5GTGed+TWKDlfh+tiGQaOBrL5+LciQ=;
- b=H0GhKw3tkBeWoTJiSizeE0oCHekz2VaQTdnlk87fxiQECEwhKLcVfsGJ/6zZxKSUoc
- G2rTx5B8XoukS3M4ZEVGP02jLcrdSKCwD+b+76438redmqcT4DbZiabLS2anxm09aKTQ
- Ct7ijeCnu3eTsSZUc4FtFtktFx/HnFJhsZ5bDp8q+mLf51sCPSWHRzUuUoQp9PBneb52
- OgfBs97vzOU0xmcs70B7D/eD+m6Vn/uBeJWMS8K4BRavjoC1RoUn6qp/+MpgGQ9OQxOm
- SchBT2uGnADdYr+eeMenpySQQDbxub/AbhSIY2rVPCvhtcvC4JecnTaapPWUuSRnRWUw
- gPIQ==
-X-Gm-Message-State: APjAAAW/1C/c1uhdV8FxPwYv2qJhiTPheoMmGvs0h5Z3nfq41oA2tZKw
- qSIW4hd0IQRBcy2mMXtkyYGb1hdff48+j2qHg8Q=
-X-Google-Smtp-Source: APXvYqyPr5J81gQPrQoYCkT+1zBN3nq2chGdkSn9ZwIahevBNVTzIArSqt56/oLThVzZHDREzBC0RWi6Rgxu34poChg=
-X-Received: by 2002:a50:fb96:: with SMTP id e22mr77460467edq.18.1577810870473; 
- Tue, 31 Dec 2019 08:47:50 -0800 (PST)
-MIME-Version: 1.0
-References: <20191227173707.20413-1-martin.blumenstingl@googlemail.com>
- <20191227173707.20413-2-martin.blumenstingl@googlemail.com>
- <dd38ff5c-6a14-bb6a-4df5-d706f99234e9@arm.com>
- <CAFBinCDs3a8TJcQKgHUkDvssMR6Y2Kys38p50P0q=2KOiDTNHg@mail.gmail.com>
- <fe45f4f8-8c67-ded2-90bf-8d5fd6874876@arm.com>
- <CAFBinCByzLLdVTL0v=eC-TbZQnwnDY7cBLf4jyWq7N4PA1rr+A@mail.gmail.com>
- <ff2bdd26-3c34-63db-beb5-8f7c9fc7e790@arm.com>
-In-Reply-To: <ff2bdd26-3c34-63db-beb5-8f7c9fc7e790@arm.com>
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Tue, 31 Dec 2019 17:47:39 +0100
-Message-ID: <CAFBinCAgzHJQpcf1WVQPkNXOq1ziXp7nx=ZAU9_2-VzA9hg-Yw@mail.gmail.com>
-Subject: Re: [RFC v2 1/1] drm/lima: Add optional devfreq support
-To: Robin Murphy <robin.murphy@arm.com>
+ h=x-gm-message-state:from:to:subject:date:message-id;
+ bh=NxVPnp1vgRmjH7L7kENjVVXZ5KNtEIGxlFIHfBLkDO0=;
+ b=suMlk36CSndE9JMrufIfzYeiOeYJ/Rxs5t5BjS0HZdh/cz9wH97Tj2Cxp4SHmRM0ZC
+ fT8j8JTe396YobNmnIjyhtA9a52Y5s0QGRNTCGNLJN+zAW92Q/5NF22EoiEmL2iGCjAg
+ kFfcHkQf9emsJO5lGrPpU5iR7qXI7Ur8DaXHOm/2xpXk2mmUy24yG2uqioWRbZ5JPoYs
+ Qe0nlFCmx6I3C9YjPcBJ3bMQv/+3SqOAc1jvYTadItecEr8Rq3pgUG+qxtkbOZAdXKcF
+ BW2BSOFOGDTX00nRJIv+xHiAXMgexmYM0WvEkHcwMZIvaHbANwfo5GzQzQOMJtju55jn
+ Xu4w==
+X-Gm-Message-State: APjAAAVv7KHoPPIjU0090/28RaA5+jHK6d1N+ukAPn0oiTN5+0QznfmR
+ X96HhIFhqVCDT+QTyk4GM9Y=
+X-Google-Smtp-Source: APXvYqxxUopZ/8pdt6GG0GgS0PFcwFypu8zzOhpDLyQ5fvLYLnMBZmjcdQphbEQIDVYCAE0DxMeoOA==
+X-Received: by 2002:a50:fb0b:: with SMTP id d11mr78494047edq.252.1577825630876; 
+ Tue, 31 Dec 2019 12:53:50 -0800 (PST)
+Received: from localhost.localdomain ([197.254.95.38])
+ by smtp.googlemail.com with ESMTPSA id y25sm6367432ejj.68.2019.12.31.12.53.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 31 Dec 2019 12:53:50 -0800 (PST)
+From: Wambui Karuga <wambui.karugax@gmail.com>
+To: bskeggs@redhat.com, airlied@linux.ie, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/nouveau: declare constants as unsigned long.
+Date: Tue, 31 Dec 2019 23:53:45 +0300
+Message-Id: <20191231205345.32615-1-wambui.karugax@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-Mailman-Approved-At: Tue, 31 Dec 2019 21:04:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,85 +64,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tomeu.vizoso@collabora.com, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, steven.price@arm.com,
- linux-rockchip@lists.infradead.org, wens@csie.org, yuq825@gmail.com,
- linux-amlogic@lists.infradead.org, alyssa.rosenzweig@collabora.com
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Robin,
+Explicitly declare constants are unsigned long to address the following
+sparse warnings:
+warning: constant is so big it is long
 
-On Tue, Dec 31, 2019 at 5:40 PM Robin Murphy <robin.murphy@arm.com> wrote:
->
-> On 2019-12-31 2:17 pm, Martin Blumenstingl wrote:
-> > Hi Robin,
-> >
-> > On Mon, Dec 30, 2019 at 1:47 AM Robin Murphy <robin.murphy@arm.com> wrote:
-> >>
-> >> On 2019-12-29 11:19 pm, Martin Blumenstingl wrote:
-> >>> Hi Robin,
-> >>>
-> >>> On Sun, Dec 29, 2019 at 11:58 PM Robin Murphy <robin.murphy@arm.com> wrote:
-> >>>>
-> >>>> Hi Martin,
-> >>>>
-> >>>> On 2019-12-27 5:37 pm, Martin Blumenstingl wrote:
-> >>>>> Most platforms with a Mali-400 or Mali-450 GPU also have support for
-> >>>>> changing the GPU clock frequency. Add devfreq support so the GPU clock
-> >>>>> rate is updated based on the actual GPU usage when the
-> >>>>> "operating-points-v2" property is present in the board.dts.
-> >>>>>
-> >>>>> The actual devfreq code is taken from panfrost_devfreq.c and modified so
-> >>>>> it matches what the lima hardware needs:
-> >>>>> - a call to dev_pm_opp_set_clkname() during initialization because there
-> >>>>>      are two clocks on Mali-4x0 IPs. "core" is the one that actually clocks
-> >>>>>      the GPU so we need to control it using devfreq.
-> >>>>> - locking when reading or writing the devfreq statistics because (unlike
-> >>>>>      than panfrost) we have multiple PP and GP IRQs which may finish jobs
-> >>>>>      concurrently.
-> >>>>
-> >>>> I gave this a quick try on my RK3328, and the clock scaling indeed kicks
-> >>>> in nicely on the glmark2 scenes that struggle, however something appears
-> >>>> to be missing in terms of regulator association, as the appropriate OPP
-> >>>> voltages aren't reflected in the GPU supply (fortunately the initial
-> >>>> voltage seems close enough to that of the highest OPP not to cause major
-> >>>> problems, on my box at least). With panfrost on RK3399 I do see the
-> >>>> supply voltage scaling accordingly, but I don't know my way around
-> >>>> devfreq well enough to know what matters in the difference :/
-> >>> first of all: thank you for trying this out! :-)
-> >>>
-> >>> does your kernel include commit 221bc77914cbcc ("drm/panfrost: Use
-> >>> generic code for devfreq") for your panfrost test?
-> >>> if I understand the devfreq API correct then I suspect with that
-> >>> commit panfrost also won't change the voltage anymore.
-> >>
-> >> Oh, you're quite right - I was already considering that change as
-> >> ancient history, but indeed it's only in 5.5-rc, while that board is
-> >> still on 5.4.y release kernels. No wonder I couldn't make sense of how
-> >> the (current) code could possibly be working :)
-> >>
-> >> I'll try the latest -rc kernel tomorrow to confirm (now that PCIe is
-> >> hopefully fixed), but I'm already fairly confident you've called it
-> >> correctly.
-> > I just tested it with the lima driver (by undervolting the GPU by
-> > 0.05V) and it seems that dev_pm_opp_set_regulators is really needed.
-> > I'll fix this in the next version of this patch and also submit a fix
-> > for panfrost (I won't be able to test that though, so help is
-> > appreciated in terms of testing :))
->
-> Yeah, I started hacking something up for panfrost yesterday, but at the
-> point of realising the core OPP code wants refactoring to actually
-> handle optional regulators without spewing errors, decided that was
-> crossing the line into "work" and thus could wait until next week :D
-I'm not sure what you mean, dev_pm_opp_set_regulators uses
-regulator_get_optional.
-doesn't that mean that it is optional already?
+Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
+---
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgf100.c | 2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgf108.c | 2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgk104.c | 2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgm107.c | 2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgm200.c | 2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgp100.c | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
 
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgf100.c b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgf100.c
+index ac87a3b6b7c9..506b358fcdb6 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgf100.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgf100.c
+@@ -655,7 +655,7 @@ gf100_ram_new_(const struct nvkm_ram_func *func,
+ 
+ static const struct nvkm_ram_func
+ gf100_ram = {
+-	.upper = 0x0200000000,
++	.upper = 0x0200000000UL,
+ 	.probe_fbp = gf100_ram_probe_fbp,
+ 	.probe_fbp_amount = gf100_ram_probe_fbp_amount,
+ 	.probe_fbpa_amount = gf100_ram_probe_fbpa_amount,
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgf108.c b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgf108.c
+index 70a06e3cd55a..3bc39895bbce 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgf108.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgf108.c
+@@ -43,7 +43,7 @@ gf108_ram_probe_fbp_amount(const struct nvkm_ram_func *func, u32 fbpao,
+ 
+ static const struct nvkm_ram_func
+ gf108_ram = {
+-	.upper = 0x0200000000,
++	.upper = 0x0200000000UL,
+ 	.probe_fbp = gf100_ram_probe_fbp,
+ 	.probe_fbp_amount = gf108_ram_probe_fbp_amount,
+ 	.probe_fbpa_amount = gf100_ram_probe_fbpa_amount,
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgk104.c b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgk104.c
+index 456aed1f2a02..d01f32c0956a 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgk104.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgk104.c
+@@ -1698,7 +1698,7 @@ gk104_ram_new_(const struct nvkm_ram_func *func, struct nvkm_fb *fb,
+ 
+ static const struct nvkm_ram_func
+ gk104_ram = {
+-	.upper = 0x0200000000,
++	.upper = 0x0200000000UL,
+ 	.probe_fbp = gf100_ram_probe_fbp,
+ 	.probe_fbp_amount = gf108_ram_probe_fbp_amount,
+ 	.probe_fbpa_amount = gf100_ram_probe_fbpa_amount,
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgm107.c b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgm107.c
+index 27c68e3f9772..e24ac664eb15 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgm107.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgm107.c
+@@ -33,7 +33,7 @@ gm107_ram_probe_fbp(const struct nvkm_ram_func *func,
+ 
+ static const struct nvkm_ram_func
+ gm107_ram = {
+-	.upper = 0x1000000000,
++	.upper = 0x1000000000UL,
+ 	.probe_fbp = gm107_ram_probe_fbp,
+ 	.probe_fbp_amount = gf108_ram_probe_fbp_amount,
+ 	.probe_fbpa_amount = gf100_ram_probe_fbpa_amount,
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgm200.c b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgm200.c
+index 6b0cac1fe7b4..17994cbda54b 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgm200.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgm200.c
+@@ -48,7 +48,7 @@ gm200_ram_probe_fbp_amount(const struct nvkm_ram_func *func, u32 fbpao,
+ 
+ static const struct nvkm_ram_func
+ gm200_ram = {
+-	.upper = 0x1000000000,
++	.upper = 0x1000000000UL,
+ 	.probe_fbp = gm107_ram_probe_fbp,
+ 	.probe_fbp_amount = gm200_ram_probe_fbp_amount,
+ 	.probe_fbpa_amount = gf100_ram_probe_fbpa_amount,
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgp100.c b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgp100.c
+index adb62a6beb63..7a07a6ed4578 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgp100.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgp100.c
+@@ -79,7 +79,7 @@ gp100_ram_probe_fbpa(struct nvkm_device *device, int fbpa)
+ 
+ static const struct nvkm_ram_func
+ gp100_ram = {
+-	.upper = 0x1000000000,
++	.upper = 0x1000000000UL,
+ 	.probe_fbp = gm107_ram_probe_fbp,
+ 	.probe_fbp_amount = gm200_ram_probe_fbp_amount,
+ 	.probe_fbpa_amount = gp100_ram_probe_fbpa,
+-- 
+2.17.1
 
-Martin
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
