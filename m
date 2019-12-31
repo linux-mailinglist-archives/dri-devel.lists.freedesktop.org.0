@@ -1,56 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF20612D8BF
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2019 14:06:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B61B712D8C2
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2019 14:06:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E99136E222;
-	Tue, 31 Dec 2019 13:06:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E6666E226;
+	Tue, 31 Dec 2019 13:06:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
- [IPv6:2607:f8b0:4864:20::1044])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 084B66E222
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2019 13:06:13 +0000 (UTC)
-Received: by mail-pj1-x1044.google.com with SMTP id t101so1207355pjb.4
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2019 05:06:13 -0800 (PST)
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
+ [IPv6:2607:f8b0:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26AF26E226
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2019 13:06:18 +0000 (UTC)
+Received: by mail-pf1-x444.google.com with SMTP id i23so14309636pfo.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2019 05:06:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LFRfv913MOD9bDVjn2WmuUvuBCX9q57n4nZIprY3VlY=;
- b=esmTNuuAHI5g0sdvenfWCCKOtxtWE8tDLrNoa4auzDAbZa4l0WWU2YmE1z+YTuH/f0
- IaUqnQ8uilEQG51LocZpc6sUqo2rv5Q0kEf0yj2MShhPDrhiyJqmCMHdbTTF25ImV4DJ
- CXhUToi3DDMDwcKcrKX0GuImPVYdLbeHPZgdE=
+ bh=httxNtiAtTuNvzz6MxoyCtXDBVFL0u6yHkvzNjKde9c=;
+ b=MdCq41ofpEY8c34RFkP1S5dM234FR2fXVDzxinANFdkXgf0FmIvFirPZtrEymmP3rZ
+ LRs/Acpaff/uiK9bcF0jbGBfc4NqQsBHRXTV5RGNJtDUQMjnEHt3B4Fek+onqtGLlGXR
+ 6h2gMOSkO3d5uyOGF/tLmDijKezdJdS0sH1+4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LFRfv913MOD9bDVjn2WmuUvuBCX9q57n4nZIprY3VlY=;
- b=BQHClkkgmJM1HaN/dAP9MStqYthcn6TmgpS1FaZfeS1JKhaP8yNrn7c28Rgpmxr1px
- raYExSB5K4+S1UtZ4aHJ3/ac5AtdOkQVXi18G0EJA0Htd2Y2HxLc/Ogoov0mOFfKes7B
- 7j6OaKAcTivT+sgDOysEb7Q4eIi4bp84s/N7txzDQP/0ln7PTyYEkmmj2J3WBzZgmIlU
- rPK3l+EZJxpcFs0OfnrnZmaZP7iDPVdwyao6DpvUu6Q0RTIZLzgw8jleXZzaXmUK/BiI
- k2W4b0RFJ0puHZr26XOM9qJ+we/OO94wX7RSCDOcVK7nalU2ZYt8iXsPnTjfp2V8H/n4
- s/aQ==
-X-Gm-Message-State: APjAAAUKEx6jbabXedv1/iNYWElEnxw0C82DUggGe62YOVS3RKPeVHk7
- oKao0sosgyt3fdazKfRAcz2n+VSfVUE=
-X-Google-Smtp-Source: APXvYqy6wcZpyDi0ZQJ1b5xgNNOeiknVdIr1W72rN6UUlfZ38jAq6za4qzzEBbhB0lGRuoIihrO2IA==
-X-Received: by 2002:a17:902:b68c:: with SMTP id
- c12mr40694609pls.160.1577797572591; 
- Tue, 31 Dec 2019 05:06:12 -0800 (PST)
+ bh=httxNtiAtTuNvzz6MxoyCtXDBVFL0u6yHkvzNjKde9c=;
+ b=r/WHsdpEUmmaTSdRTtsNU9mRvfOCP38bp/xUNE0kdU3yOM5UZckmleXmQ6559DBxEi
+ IxzibIV1qCIL9gWo0EowPp6x5vHCjmMQ+jYjpY1bGt/v97ztkAD4gGJVZKUEtluHG7pJ
+ VClme62ER3SW1CUlHklvC86sxL369dQd5KUhw6f9gIni/8+lG3E2u/rtxo0v5Cg4NTTP
+ +449WuDfSPhOxU0zhtRbNG6cakF3+ziy2rtJbD24oHFjVsd9BxkeHz8iBYwJaenxt3CS
+ s+pzusDq9+yhVuOlEa9qXnHzqRYdK6f4dUgeCFR8Ub59GcWzm7ApeetDwXbYwnZgDMVr
+ cp1g==
+X-Gm-Message-State: APjAAAUs4ka1rCUeAFBPrKowslNXBK1k2MKMThKJMIm68KJD8KX6Xmgp
+ EUSOTM6w+t3ltzuugmVKcV0lEQ==
+X-Google-Smtp-Source: APXvYqzP7Mrk8jxC0HNGSJpd7IzJbAguLU0Np2bAgt6OGvXHASkOvcgw72p733pq9UW4WQ3i9a9jJg==
+X-Received: by 2002:a65:4501:: with SMTP id n1mr76072356pgq.336.1577797577740; 
+ Tue, 31 Dec 2019 05:06:17 -0800 (PST)
 Received: from localhost.localdomain ([49.206.202.115])
- by smtp.gmail.com with ESMTPSA id i3sm55204089pfg.94.2019.12.31.05.06.07
+ by smtp.gmail.com with ESMTPSA id i3sm55204089pfg.94.2019.12.31.05.06.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Dec 2019 05:06:12 -0800 (PST)
+ Tue, 31 Dec 2019 05:06:17 -0800 (PST)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Jernej Skrabec <jernej.skrabec@siol.net>, Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v3 6/9] dt-bindings: sun6i-dsi: Add R40 DPHY compatible (w/
- A31 fallback)
-Date: Tue, 31 Dec 2019 18:35:25 +0530
-Message-Id: <20191231130528.20669-7-jagan@amarulasolutions.com>
+Subject: [PATCH v3 7/9] dt-bindings: sun6i-dsi: Document R40 MIPI-DSI
+ controller (w/ A64 fallback)
+Date: Tue, 31 Dec 2019 18:35:26 +0530
+Message-Id: <20191231130528.20669-8-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.18.0.321.gffc6fa0e3
 In-Reply-To: <20191231130528.20669-1-jagan@amarulasolutions.com>
 References: <20191231130528.20669-1-jagan@amarulasolutions.com>
@@ -77,31 +76,38 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The MIPI DSI PHY controller on Allwinner R40 is similar
-on the one on A31.
+The MIPI DSI controller on Allwinner R40 is similar on
+the one on A64 like doesn't associate any DSI_SCLK gating.
 
-Add R40 compatible and append A31 compatible as fallback.
+So, add R40 compatible and append A64 compatible as fallback.
 
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
 Changes for v3:
 - update the binding in new yaml format
 
- .../devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml   | 1 +
- 1 file changed, 1 insertion(+)
+ .../bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml    | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml
-index 8841938050b2..0c283fe79402 100644
---- a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml
-+++ b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml
-@@ -18,6 +18,7 @@ properties:
-     oneOf:
-       - const: allwinner,sun6i-a31-mipi-dphy
-       - items:
-+          - const: allwinner,sun8i-r40-mipi-dphy
-           - const: allwinner,sun50i-a64-mipi-dphy
-           - const: allwinner,sun6i-a31-mipi-dphy
+diff --git a/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml b/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
+index d41ecb5e7f7c..138ffb6ae403 100644
+--- a/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
++++ b/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
+@@ -15,9 +15,11 @@ properties:
+   "#size-cells": true
  
+   compatible:
+-    enum:
+-      - allwinner,sun6i-a31-mipi-dsi
+-      - allwinner,sun50i-a64-mipi-dsi
++    oneOf:
++      - const: allwinner,sun6i-a31-mipi-dsi
++      - const: allwinner,sun50i-a64-mipi-dsi
++      - items:
++          - const: allwinner,sun8i-r40-mipi-dsi
+ 
+   reg:
+     maxItems: 1
 -- 
 2.18.0.321.gffc6fa0e3
 
