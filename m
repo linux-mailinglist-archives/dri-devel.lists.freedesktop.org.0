@@ -2,28 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2735112D9DE
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2019 16:33:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4B4E12DA49
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2019 17:19:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46E6A6E243;
-	Tue, 31 Dec 2019 15:33:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F5696E255;
+	Tue, 31 Dec 2019 16:19:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35E256E243
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2019 15:33:47 +0000 (UTC)
-Received: from [185.109.153.2] (helo=phil.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.89) (envelope-from <heiko@sntech.de>)
- id 1imJWj-0004i6-Eg; Tue, 31 Dec 2019 16:33:45 +0100
-From: Heiko Stuebner <heiko@sntech.de>
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH v2 10/11] arm64: dts: rockchip: Add PX30 DSI DPHY
-Date: Tue, 31 Dec 2019 13:14:02 +0100
-Message-ID: <10740878.zWD4iEhqxt@phil>
-In-Reply-To: <1796464.bE5sXyoQCg@phil>
-References: <20191224143900.23567-1-miquel.raynal@bootlin.com>
- <20191224143900.23567-11-miquel.raynal@bootlin.com> <1796464.bE5sXyoQCg@phil>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFF886E255
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2019 16:19:39 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 205977] [amdgpu] Vega10 dpm defaults cause card to overvolt and
+ overboost
+Date: Tue, 31 Dec 2019 16:19:38 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: stefanspr94@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-205977-2300-i4kUNOIKHF@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-205977-2300@https.bugzilla.kernel.org/>
+References: <bug-205977-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -37,37 +52,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- David Airlie <airlied@linux.ie>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- linux-rockchip@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
- Maxime Chevallier <maxime.chevallier@bootlin.com>,
- linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Dienstag, 31. Dezember 2019, 12:56:14 CET schrieb Heiko Stuebner:
-> Am Dienstag, 24. Dezember 2019, 15:38:59 CET schrieb Miquel Raynal:
-> > Add the PHY which outputs MIPI DSI and LVDS.
-> > 
-> > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> 
-> applied for 5.6 (picked early due to it being shared between lvds and dsi)
+https://bugzilla.kernel.org/show_bug.cgi?id=205977
 
-and I've just added the VO powerdomain to the dsi-dphy node.
+--- Comment #1 from stefanspr94@gmail.com ---
+Created attachment 286549
+  --> https://bugzilla.kernel.org/attachment.cgi?id=286549&action=edit
+Testcase: Manually disabling ACG
 
-While the TRM is not really forthcoming in telling me if the dphy needs
-the power-domain as well, the vendor kernel does, so we should probably
-just follow their example ;-) .
+Manually disabling ACG leads to max. clocks being accepted all the time, but
+this only shows that there is an issue with ACG and is not a proper bugfix.
 
-
-Heiko
-
-
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
