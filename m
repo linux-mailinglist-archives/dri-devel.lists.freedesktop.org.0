@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 282AC12D8C7
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2019 14:06:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CE4612D8C8
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2019 14:06:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 135B86E227;
-	Tue, 31 Dec 2019 13:06:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 970386E228;
+	Tue, 31 Dec 2019 13:06:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
- [IPv6:2607:f8b0:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D1F66E227
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2019 13:06:22 +0000 (UTC)
-Received: by mail-pl1-x643.google.com with SMTP id c13so15903147pls.0
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2019 05:06:22 -0800 (PST)
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
+ [IPv6:2607:f8b0:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 930FB6E228
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2019 13:06:27 +0000 (UTC)
+Received: by mail-pf1-x444.google.com with SMTP id q10so19723977pfs.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2019 05:06:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WXe17pB2YX4+a+B1E8N8lDCTkuNeVa3zzzOGyzeuSys=;
- b=Xf+YTt7DfVvRCedUsAinpV3gLCg7SQWb27vKaMoWf0AxV5Ig7mLEyrsAaBoKisMnpo
- kGQVw1Tzx4RxuNcQ8CW292dVNXAccfNluNAT1XJL9XHIe1o5EriOTeHp6Z/Izy71lKNf
- ieLQ7eq/kP+w1W9qC/RIQ3WAHWZG3kTzWynY8=
+ bh=fxRlGBthrDx9tpHcl7NzfKEhaXjVuy3iPazdjbs07eE=;
+ b=rWDBjcTP7vdTmVKjqBqJDjfL/KLqpJi6y1PVUoahrxz+jJ5QENHuCIdL5ySphVYxl6
+ 529D2vpGPkc9u8jeoUmmdiKzi6unJwe9iqHOy+vBniKnoBJ+vDmORXZWNBzyufo6kWmx
+ 6tulMUwFmnl8PorHxLP0K+IrBi62D2W9ng2LQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WXe17pB2YX4+a+B1E8N8lDCTkuNeVa3zzzOGyzeuSys=;
- b=X3f+9c8H+Jj/Vh1ekY3zz0jiDeuWDgIokotsEzhHiOLt/C5ZR/wV+WhQ8oST/b6+Ra
- DUc2id9oW8rkkm0bwa0X35dRlwf2gyQITwnLZ2QBan1VonO24S51JGXRtGhUJI7laXHC
- ciJgmU2JN1njJpYuXgYLmzKyIS+cCzvCzhWDhJ0rztgLVU1PVEabVZdPc5YV3OXTc48K
- kxiV4hrnmTsytbx5tlnGTiusAymxG83lQwJXw+KOO0TDGf3+gGYxUqBk9ZKfSzqFbvDC
- jNDLG06LF4Fl+17Y2nvOt2ViW0L+Fe3KzDeLjmij9P+e7ANmzdyqE/Z0HJA62ax8AJ73
- RYYg==
-X-Gm-Message-State: APjAAAXGVe0bXm26wzNE2ps217tnRaXxix9dpHbrd9arA0bJJmqfLUsf
- Vk0qQue4ZvexXUQovDqihh3jIA==
-X-Google-Smtp-Source: APXvYqwgs9Bcy+Z1Q95DxDdQGebtt2lr2Jj5jnrCw2RqXNwEkWy7kQOj9wu1KDy5cwYGG9UM+31XiA==
-X-Received: by 2002:a17:90a:e657:: with SMTP id
- ep23mr5986713pjb.105.1577797582087; 
- Tue, 31 Dec 2019 05:06:22 -0800 (PST)
+ bh=fxRlGBthrDx9tpHcl7NzfKEhaXjVuy3iPazdjbs07eE=;
+ b=ZJ+Vrh3Ulhy4PbeFwlhZ60TYVjtSvT3Vj7c9mIWThSrcvQz9tKHqrhN2UpIDgwQ00z
+ HI+FeSmlo/DOmu1Gs+Su9G+zyFJ1tZo/s2ydcb1pLQzZGBZd/5yd1odr5Xy2StMeqRot
+ K1WlKsCS+IDpPheRuHGyL1ABPqiR3dI04Yo5jqOgyrou/ADjvm4yMiiGs+A7TMyeyQPz
+ zkqNaLfZLj6zZLoLdMooRsxddw9maUOyZdeOteHzAKRut1oB31QuWPaJJOOGWQwVfUrA
+ dHB+NF5jMQGfxNTxr2FyrhpxIyQVJQe4qZlALGJnJDFFbRfpvQylIuxSchNpmWM02Prq
+ cD3w==
+X-Gm-Message-State: APjAAAW8xxjGqZamZ5qz/N8mMuKYP3EA0Mgo+V+ppN/PbWOAt0nM43V7
+ teqrJfxEpOJL8BdhySriMnwSqg==
+X-Google-Smtp-Source: APXvYqzDVAb6YX9p2RJMeAlQW3kT2tWCf16EKKLyWJx6VENrFJl3/7ECaNvRha01ZbHs+/sF1cTm0A==
+X-Received: by 2002:a63:1110:: with SMTP id g16mr56093805pgl.84.1577797587194; 
+ Tue, 31 Dec 2019 05:06:27 -0800 (PST)
 Received: from localhost.localdomain ([49.206.202.115])
- by smtp.gmail.com with ESMTPSA id i3sm55204089pfg.94.2019.12.31.05.06.18
+ by smtp.gmail.com with ESMTPSA id i3sm55204089pfg.94.2019.12.31.05.06.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Dec 2019 05:06:21 -0800 (PST)
+ Tue, 31 Dec 2019 05:06:26 -0800 (PST)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Jernej Skrabec <jernej.skrabec@siol.net>, Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v3 8/9] ARM: dts: sun8i: r40: Add MIPI DSI pipeline
-Date: Tue, 31 Dec 2019 18:35:27 +0530
-Message-Id: <20191231130528.20669-9-jagan@amarulasolutions.com>
+Subject: [DO NOT MERGE] [PATCH v3 9/9] ARM: dts: sun8i-r40: bananapi-m2-ultra:
+ Enable Bananapi S070WV20-CT16
+Date: Tue, 31 Dec 2019 18:35:28 +0530
+Message-Id: <20191231130528.20669-10-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.18.0.321.gffc6fa0e3
 In-Reply-To: <20191231130528.20669-1-jagan@amarulasolutions.com>
 References: <20191231130528.20669-1-jagan@amarulasolutions.com>
@@ -76,125 +76,99 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add MIPI DSI pipeline for Allwinner R40.
+This patch add support for Bananapi S070WV20-CT16 DSI panel to
+BPI-M2U board.
 
-Unlike conventional Display pipeline in allwinner, R40 have
-TCON TCOP which would interact various block like muxes,
-tcon lcd, tcon_tv for better pipeline fitting.
-
-For MIPI DSI pipeline, we have to configure the tcon_lcd0
-block which would interact with tcon_top for upper pipeline
-connections and dsi block for lower pipeline connections.
-
-So, this patch created that pipeline by adding new nodes
-for tcon_lcd0, dsi, dphy and connet them to make proper
-pipeline fitting.
+DSI panel connected via board DSI port with,
+- DCDC1 as VCC-DSI supply
+- PH18 gpio for lcd enable pin
+- PD17 gpio for lcd reset pin
+- PD16 gpio for backlight enable pin
 
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
 Changes for v3:
-- drop clock-names in dsi node
+- none
 
- arch/arm/boot/dts/sun8i-r40.dtsi | 72 ++++++++++++++++++++++++++++++++
- 1 file changed, 72 insertions(+)
+ .../boot/dts/sun8i-r40-bananapi-m2-ultra.dts  | 37 +++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
-diff --git a/arch/arm/boot/dts/sun8i-r40.dtsi b/arch/arm/boot/dts/sun8i-r40.dtsi
-index 3faa35d43afa..4c61e93d9a0b 100644
---- a/arch/arm/boot/dts/sun8i-r40.dtsi
-+++ b/arch/arm/boot/dts/sun8i-r40.dtsi
-@@ -628,6 +628,7 @@
+diff --git a/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts b/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
+index 42d62d1ba1dc..99f84e6f15ce 100644
+--- a/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
++++ b/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
+@@ -45,6 +45,7 @@
+ #include "sun8i-r40.dtsi"
  
- 					tcon_top_mixer0_out_tcon_lcd0: endpoint@0 {
- 						reg = <0>;
-+						remote-endpoint = <&tcon_lcd0_in_tcon_top_mixer0>;
- 					};
+ #include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/pwm/pwm.h>
  
- 					tcon_top_mixer0_out_tcon_lcd1: endpoint@1 {
-@@ -706,6 +707,45 @@
- 			};
- 		};
+ / {
+ 	model = "Banana Pi BPI-M2-Ultra";
+@@ -55,6 +56,14 @@
+ 		serial0 = &uart0;
+ 	};
  
-+		tcon_lcd0: lcd-controller@1c71000 {
-+			compatible = "allwinner,sun8i-r40-tcon-lcd";
-+			reg = <0x01c71000 0x1000>;
-+			interrupts = <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_TCON_LCD0>, <&ccu CLK_TCON_LCD0>;
-+			clock-names = "ahb", "tcon-ch0";
-+			clock-output-names = "tcon-pixel-clock";
-+			resets = <&ccu RST_BUS_TCON_LCD0>, <&ccu RST_BUS_LVDS>;
-+			reset-names = "lcd", "lvds";
-+			status = "disabled";
++	backlight: backlight {
++		compatible = "pwm-backlight";
++		pwms = <&pwm 0 50000 PWM_POLARITY_INVERTED>;
++		brightness-levels = <1 2 4 8 16 32 64 128 255>;
++		default-brightness-level = <2>;
++		enable-gpios = <&pio 7 16 GPIO_ACTIVE_HIGH>; /* LCD-BL-EN: PH16 */
++	};
 +
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				tcon_lcd0_in: port@0 {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+					reg = <0>;
-+
-+					tcon_lcd0_in_tcon_top_mixer0: endpoint@0 {
-+						reg = <0>;
-+						remote-endpoint = <&tcon_top_mixer0_out_tcon_lcd0>;
-+					};
-+				};
-+
-+				tcon_lcd0_out: port@1 {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+					reg = <1>;
-+
-+					tcon_lcd0_out_dsi_out: endpoint@1 {
-+						reg = <1>;
-+						remote-endpoint = <&dsi_in_tcon_lcd0_out>;
-+					};
-+				};
-+			};
-+		};
-+
- 		tcon_tv0: lcd-controller@1c73000 {
- 			compatible = "allwinner,sun8i-r40-tcon-tv";
- 			reg = <0x01c73000 0x1000>;
-@@ -803,6 +843,38 @@
- 			interrupts = <GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_HIGH)>;
- 		};
+ 	chosen {
+ 		stdout-path = "serial0:115200n8";
+ 	};
+@@ -117,6 +126,24 @@
+ 	status = "okay";
+ };
  
-+		dsi: dsi@1ca0000 {
-+			compatible = "allwinner,sun8i-r40-mipi-dsi",
-+				     "allwinner,sun50i-a64-mipi-dsi";
-+			reg = <0x01ca0000 0x1000>;
-+			interrupts = <GIC_SPI 57 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_MIPI_DSI>;
-+			resets = <&ccu RST_BUS_MIPI_DSI>;
-+			phys = <&dphy>;
-+			phy-names = "dphy";
-+			status = "disabled";
-+			#address-cells = <1>;
-+			#size-cells = <0>;
++&dphy {
++	status = "okay";
++};
 +
-+			port {
-+				dsi_in_tcon_lcd0_out: endpoint {
-+					remote-endpoint = <&tcon_lcd0_out_dsi_out>;
-+				};
-+			};
-+		};
++&dsi {
++	vcc-dsi-supply = <&reg_dcdc1>;		/* VCC-DSI */
++	status = "okay";
 +
-+		dphy: d-phy@1ca1000 {
-+			compatible = "allwinner,sun8i-r40-mipi-dphy",
-+				     "allwinner,sun6i-a31-mipi-dphy";
-+			reg = <0x01ca1000 0x1000>;
-+			clocks = <&ccu CLK_BUS_MIPI_DSI>,
-+				 <&tcon_top CLK_TCON_TOP_DSI>;
-+			clock-names = "bus", "mod";
-+			resets = <&ccu RST_BUS_MIPI_DSI>;
-+			status = "disabled";
-+			#phy-cells = <0>;
-+		};
++	panel@0 {
++		compatible = "bananapi,s070wv20-ct16-icn6211";
++		reg = <0>;
++		enable-gpio = <&pio 7 18 GPIO_ACTIVE_HIGH>; /* LCD-PWR-EN: PH18 */
++		reset-gpios = <&pio 7 17 GPIO_ACTIVE_HIGH>; /* LCD-RST: PH17 */
++		vdd-supply = <&reg_dcdc1>;
++		backlight = <&backlight>;
++	};
++};
 +
- 		hdmi: hdmi@1ee0000 {
- 			compatible = "allwinner,sun8i-r40-dw-hdmi",
- 				     "allwinner,sun8i-a83t-dw-hdmi";
+ &ehci1 {
+ 	status = "okay";
+ };
+@@ -209,6 +236,12 @@
+ 	vcc-pg-supply = <&reg_dldo1>;
+ };
+ 
++&pwm {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pwm0_pin>;
++	status = "okay";
++};
++
+ &reg_aldo2 {
+ 	regulator-min-microvolt = <2500000>;
+ 	regulator-max-microvolt = <2500000>;
+@@ -295,6 +328,10 @@
+ 	regulator-name = "vdd1v2-sata";
+ };
+ 
++&tcon_lcd0 {
++	status = "okay";
++};
++
+ &tcon_tv0 {
+ 	status = "okay";
+ };
 -- 
 2.18.0.321.gffc6fa0e3
 
