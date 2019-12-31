@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E309B12DBE9
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2019 22:04:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6521D12DBE6
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2019 22:04:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5B0089F5F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A0C589F07;
 	Tue, 31 Dec 2019 21:04:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
  [IPv6:2a00:1450:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC7EA89C94;
- Tue, 31 Dec 2019 20:56:12 +0000 (UTC)
-Received: by mail-ed1-x543.google.com with SMTP id bx28so35965064edb.11;
- Tue, 31 Dec 2019 12:56:12 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD42089CD9;
+ Tue, 31 Dec 2019 20:57:39 +0000 (UTC)
+Received: by mail-ed1-x543.google.com with SMTP id r21so35982986edq.0;
+ Tue, 31 Dec 2019 12:57:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:subject:date:message-id;
- bh=Z+jvCslck9jvZyqIDORlvWYlx3m5W/qD1J93hFFm1XI=;
- b=vTVkJzzZyTHRnHwXoQ+eaVI3+LJyxV952KBN+N+Q/ZpyUXtN/8gNFsObt12NPIwVo4
- uZRpH8xALxFjZQKvaSGKY3I2tfoT73sv+Lqes0GyJjlJkfh5ZH3ckmHEfnJyWvDTFuUa
- f+BgxgScMy8o1UaqUz6y943UUrImEa7YrILZITWYD7glhutNyPO4MSNw2qYkmnZlqhhh
- tao2d9IOAcF238DT0AegtIKHWs2+moRepni8WZS2g/1M+PLIx+LkkZXkKMzA64o7atbb
- uGXqQOOB4R9PftsHT44ao8N/+mmH25ApN4MS4UXykKwVqW2dpLUeouVrmUCg9gs9qRWD
- sJ3g==
+ bh=/L0UDpnttYF4BqWVkxCJIlx3yMpKiM8ZTy0/08IBArQ=;
+ b=QksdBBrjGEgK9wuUn1CisFauT6ltKaiIeSdhWC5YXyRot6/jzbcbbYtUu/70RF+xti
+ nCyTghD7/hpqOweTC7VYhL6uYudRBFLBJ8KYgGZKmETJYqrgLo5rwJ2FjqrhWMEtGZYB
+ VvSgVX6KyEU/6R8p+Q6IbLHP9ejsMfQfm4Mul3OYe0GngEikiWDVxJDtbcT8jq9fs3/Q
+ jlQ0l5WZr3qeSJfk1WVlx0dwH5SdUeFmwCowEs3NIV7MFCXiFhHqCpWE0ZsNeAyIaNOA
+ PQqqd4r/wTJ1/dvlTtOPozBZeQFvBDI+cr7HMCnMkHWCJdQCDP9v05oCe95pp3v6X7Wo
+ QNbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id;
- bh=Z+jvCslck9jvZyqIDORlvWYlx3m5W/qD1J93hFFm1XI=;
- b=VOi4ae8GBkzhcRrk2TLMCPNcw87PKhtzEsesxQu1zxB3upQ5IsjHSqp5KTKpUScC8K
- 1G6m0NCqB/NyHS4tw6F3mL407bFSmIc6kuTh/vG6dYqBdLO0gcp3CjtW9lNYhYWhPmq1
- lt4ecjR34yy09s03xu6LZXpPECgv8QuUU1q1ot5ymUXGgDZTvaoSlPg8WuZajDLVGiFr
- x6pGBGdURY01CnORFmteBslAoIzYziPAFwTdscrTQOsPVTwzVkp6bz+ltN/UDkl3cct+
- 6je5QbNyVUSHnv2fAjunV0qDrNgxMWd8BHfcgiOSQsUJiS9rQ1yoD44tgWeJNJIelXj2
- NKFQ==
-X-Gm-Message-State: APjAAAV4FNwNj4oQ1HTEcVFKH9zvOzHh0L9vAaNmR9sAhbLfofQF3zcG
- yWUrQ7CCGBJlkBfZo1XeguU=
-X-Google-Smtp-Source: APXvYqxJ3dpj0n5GpU6dZRMCRgNpsDhzBQryxTk7/n7qJ79bFKRe5XPY0TwPd5dLwuEVv4yJNJ7lhQ==
-X-Received: by 2002:a05:6402:609:: with SMTP id
- n9mr79544990edv.305.1577825771379; 
- Tue, 31 Dec 2019 12:56:11 -0800 (PST)
+ bh=/L0UDpnttYF4BqWVkxCJIlx3yMpKiM8ZTy0/08IBArQ=;
+ b=K3psjKmtL6YvD6W0x2ZugolemUO2Ats26vuxlTrSBJAhv+vaRJ+VpK/lFiATWTy4ur
+ jSQTvv2dTXf934H8QccSd/KsJ88ojleSdEuq/SeAT0vXV04m0PacpX2def+iQUnnHa0U
+ XQC1NiarjcS4MMNimSRdLDRYU7HNox5B5Vnjw2aa2/0xU68EpBD/8ouGY9ppK9bIBoNb
+ 7gVxq/n3iQILeDqeUAuwiNaDoXy3zxLCPekmVDID9kaZZIzL+QCKkGq9UcqU5KIJma4X
+ 6p1hkwddVTjZUrLMi1qMX/EzzVaLMCeKvpw/ZXzawgQ6xQFKxF4ZGyu1WNXW81AK8Rkr
+ S70w==
+X-Gm-Message-State: APjAAAW184x17anidpk6pYIFsDDIr28GxV3HvNU1qv2m1KbLgbHeV6+g
+ vbhGpRBZsnq9e/amU0XK9fU=
+X-Google-Smtp-Source: APXvYqzHOV8xpOMmY6pgT4CHyziZ4IY9SHUbXafxJvwikQKUKZw/R+cByu8fvnA9nN3kliR7j6BW5A==
+X-Received: by 2002:a50:ef17:: with SMTP id m23mr77217345eds.106.1577825858489; 
+ Tue, 31 Dec 2019 12:57:38 -0800 (PST)
 Received: from localhost.localdomain ([197.254.95.38])
- by smtp.googlemail.com with ESMTPSA id r9sm6341288ejx.31.2019.12.31.12.56.09
+ by smtp.googlemail.com with ESMTPSA id u23sm6035905edq.74.2019.12.31.12.57.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Dec 2019 12:56:10 -0800 (PST)
+ Tue, 31 Dec 2019 12:57:38 -0800 (PST)
 From: Wambui Karuga <wambui.karugax@gmail.com>
 To: bskeggs@redhat.com, airlied@linux.ie, daniel@ffwll.ch,
  dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/nouveau: remove set but unused variable.
-Date: Tue, 31 Dec 2019 23:56:07 +0300
-Message-Id: <20191231205607.1005-1-wambui.karugax@gmail.com>
+Subject: [PATCH] drm/nouveau: use NULL for pointer assignment.
+Date: Tue, 31 Dec 2019 23:57:34 +0300
+Message-Id: <20191231205734.1452-1-wambui.karugax@gmail.com>
 X-Mailer: git-send-email 2.17.1
 X-Mailman-Approved-At: Tue, 31 Dec 2019 21:04:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,36 +70,28 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The local variable `pclks` is defined and set but not used and can
-therefore be removed.
-Issue found by coccinelle.
+Replace the use of 0 in the pointer assignment with NULL to address the
+following sparse warning:
+drivers/gpu/drm/nouveau/nouveau_hwmon.c:744:29: warning: Using plain integer as NULL pointer
 
 Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
 ---
- drivers/gpu/drm/nouveau/dispnv04/arb.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_hwmon.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv04/arb.c b/drivers/gpu/drm/nouveau/dispnv04/arb.c
-index 362495535e69..f607a04d262d 100644
---- a/drivers/gpu/drm/nouveau/dispnv04/arb.c
-+++ b/drivers/gpu/drm/nouveau/dispnv04/arb.c
-@@ -54,7 +54,7 @@ static void
- nv04_calc_arb(struct nv_fifo_info *fifo, struct nv_sim_state *arb)
- {
- 	int pagemiss, cas, width, bpp;
--	int nvclks, mclks, pclks, crtpagemiss;
-+	int nvclks, mclks, crtpagemiss;
- 	int found, mclk_extra, mclk_loop, cbs, m1, p1;
- 	int mclk_freq, pclk_freq, nvclk_freq;
- 	int us_m, us_n, us_p, crtc_drain_rate;
-@@ -69,7 +69,6 @@ nv04_calc_arb(struct nv_fifo_info *fifo, struct nv_sim_state *arb)
- 	bpp = arb->bpp;
- 	cbs = 128;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_hwmon.c b/drivers/gpu/drm/nouveau/nouveau_hwmon.c
+index d445c6f3fece..1c3104d20571 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_hwmon.c
++++ b/drivers/gpu/drm/nouveau/nouveau_hwmon.c
+@@ -741,7 +741,7 @@ nouveau_hwmon_init(struct drm_device *dev)
+ 			special_groups[i++] = &pwm_fan_sensor_group;
+ 	}
  
--	pclks = 2;
- 	nvclks = 10;
- 	mclks = 13 + cas;
- 	mclk_extra = 3;
+-	special_groups[i] = 0;
++	special_groups[i] = NULL;
+ 	hwmon_dev = hwmon_device_register_with_info(dev->dev, "nouveau", dev,
+ 							&nouveau_chip_info,
+ 							special_groups);
 -- 
 2.17.1
 
