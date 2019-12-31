@@ -1,57 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6521D12DBE6
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2019 22:04:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC2A812DC51
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jan 2020 00:38:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A0C589F07;
-	Tue, 31 Dec 2019 21:04:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83C476E28B;
+	Tue, 31 Dec 2019 23:38:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
- [IPv6:2a00:1450:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD42089CD9;
- Tue, 31 Dec 2019 20:57:39 +0000 (UTC)
-Received: by mail-ed1-x543.google.com with SMTP id r21so35982986edq.0;
- Tue, 31 Dec 2019 12:57:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id;
- bh=/L0UDpnttYF4BqWVkxCJIlx3yMpKiM8ZTy0/08IBArQ=;
- b=QksdBBrjGEgK9wuUn1CisFauT6ltKaiIeSdhWC5YXyRot6/jzbcbbYtUu/70RF+xti
- nCyTghD7/hpqOweTC7VYhL6uYudRBFLBJ8KYgGZKmETJYqrgLo5rwJ2FjqrhWMEtGZYB
- VvSgVX6KyEU/6R8p+Q6IbLHP9ejsMfQfm4Mul3OYe0GngEikiWDVxJDtbcT8jq9fs3/Q
- jlQ0l5WZr3qeSJfk1WVlx0dwH5SdUeFmwCowEs3NIV7MFCXiFhHqCpWE0ZsNeAyIaNOA
- PQqqd4r/wTJ1/dvlTtOPozBZeQFvBDI+cr7HMCnMkHWCJdQCDP9v05oCe95pp3v6X7Wo
- QNbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id;
- bh=/L0UDpnttYF4BqWVkxCJIlx3yMpKiM8ZTy0/08IBArQ=;
- b=K3psjKmtL6YvD6W0x2ZugolemUO2Ats26vuxlTrSBJAhv+vaRJ+VpK/lFiATWTy4ur
- jSQTvv2dTXf934H8QccSd/KsJ88ojleSdEuq/SeAT0vXV04m0PacpX2def+iQUnnHa0U
- XQC1NiarjcS4MMNimSRdLDRYU7HNox5B5Vnjw2aa2/0xU68EpBD/8ouGY9ppK9bIBoNb
- 7gVxq/n3iQILeDqeUAuwiNaDoXy3zxLCPekmVDID9kaZZIzL+QCKkGq9UcqU5KIJma4X
- 6p1hkwddVTjZUrLMi1qMX/EzzVaLMCeKvpw/ZXzawgQ6xQFKxF4ZGyu1WNXW81AK8Rkr
- S70w==
-X-Gm-Message-State: APjAAAW184x17anidpk6pYIFsDDIr28GxV3HvNU1qv2m1KbLgbHeV6+g
- vbhGpRBZsnq9e/amU0XK9fU=
-X-Google-Smtp-Source: APXvYqzHOV8xpOMmY6pgT4CHyziZ4IY9SHUbXafxJvwikQKUKZw/R+cByu8fvnA9nN3kliR7j6BW5A==
-X-Received: by 2002:a50:ef17:: with SMTP id m23mr77217345eds.106.1577825858489; 
- Tue, 31 Dec 2019 12:57:38 -0800 (PST)
-Received: from localhost.localdomain ([197.254.95.38])
- by smtp.googlemail.com with ESMTPSA id u23sm6035905edq.74.2019.12.31.12.57.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Dec 2019 12:57:38 -0800 (PST)
-From: Wambui Karuga <wambui.karugax@gmail.com>
-To: bskeggs@redhat.com, airlied@linux.ie, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/nouveau: use NULL for pointer assignment.
-Date: Tue, 31 Dec 2019 23:57:34 +0300
-Message-Id: <20191231205734.1452-1-wambui.karugax@gmail.com>
-X-Mailer: git-send-email 2.17.1
-X-Mailman-Approved-At: Tue, 31 Dec 2019 21:04:21 +0000
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2F8D6E28B;
+ Tue, 31 Dec 2019 23:38:41 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 31 Dec 2019 15:38:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,381,1571727600"; d="scan'208";a="221529982"
+Received: from ideak-desk.fi.intel.com ([10.237.72.183])
+ by orsmga003.jf.intel.com with ESMTP; 31 Dec 2019 15:38:39 -0800
+From: Imre Deak <imre.deak@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 5/7] drm/framebuffer: Format modifier for Intel Gen-12 media
+ compression
+Date: Wed,  1 Jan 2020 01:37:54 +0200
+Message-Id: <20191231233756.18753-6-imre.deak@intel.com>
+X-Mailer: git-send-email 2.23.1
+In-Reply-To: <20191231233756.18753-1-imre.deak@intel.com>
+References: <20191231233756.18753-1-imre.deak@intel.com>
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,38 +43,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Nanley G Chery <nanley.g.chery@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
+ Dhinakaran Pandiyan <dhinakaran.pandiyan@intel.com>,
+ Mika Kahola <mika.kahola@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace the use of 0 in the pointer assignment with NULL to address the
-following sparse warning:
-drivers/gpu/drm/nouveau/nouveau_hwmon.c:744:29: warning: Using plain integer as NULL pointer
-
-Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
----
- drivers/gpu/drm/nouveau/nouveau_hwmon.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nouveau_hwmon.c b/drivers/gpu/drm/nouveau/nouveau_hwmon.c
-index d445c6f3fece..1c3104d20571 100644
---- a/drivers/gpu/drm/nouveau/nouveau_hwmon.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_hwmon.c
-@@ -741,7 +741,7 @@ nouveau_hwmon_init(struct drm_device *dev)
- 			special_groups[i++] = &pwm_fan_sensor_group;
- 	}
- 
--	special_groups[i] = 0;
-+	special_groups[i] = NULL;
- 	hwmon_dev = hwmon_device_register_with_info(dev->dev, "nouveau", dev,
- 							&nouveau_chip_info,
- 							special_groups);
--- 
-2.17.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogRGhpbmFrYXJhbiBQYW5kaXlhbiA8ZGhpbmFrYXJhbi5wYW5kaXlhbkBpbnRlbC5jb20+
+CgpHZW4tMTIgZGlzcGxheSBjYW4gZGVjb21wcmVzcyBzdXJmYWNlcyBjb21wcmVzc2VkIGJ5IHRo
+ZSBtZWRpYSBlbmdpbmUsIGFkZAphIG5ldyBtb2RpZmllciBhcyB0aGUgZHJpdmVyIG5lZWRzIHRv
+IGtub3cgdGhlIHN1cmZhY2Ugd2FzIGNvbXByZXNzZWQgYnkKdGhlIG1lZGlhIG9yIHJlbmRlciBl
+bmdpbmUuCgp2MjogVXBkYXRlIGNvZGUgY29tbWVudCBkZXNjcmliaW5nIHRoZSBjb2xvciBwbGFu
+ZSBvcmRlciBmb3IgWVVWCiAgICBzZW1pcGxhbmFyIGZvcm1hdHMuCgpDYzogTmFubGV5IEcgQ2hl
+cnkgPG5hbmxleS5nLmNoZXJ5QGludGVsLmNvbT4KQ2M6IE1hdHQgUm9wZXIgPG1hdHRoZXcuZC5y
+b3BlckBpbnRlbC5jb20+CkNjOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXgu
+aW50ZWwuY29tPgpDYzogTWlrYSBLYWhvbGEgPG1pa2Eua2Fob2xhQGludGVsLmNvbT4KQ2M6IGRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKU2lnbmVkLW9mZi1ieTogRGhpbmFrYXJhbiBQ
+YW5kaXlhbiA8ZGhpbmFrYXJhbi5wYW5kaXlhbkBpbnRlbC5jb20+ClNpZ25lZC1vZmYtYnk6IEx1
+Y2FzIERlIE1hcmNoaSA8bHVjYXMuZGVtYXJjaGlAaW50ZWwuY29tPgpTaWduZWQtb2ZmLWJ5OiBJ
+bXJlIERlYWsgPGltcmUuZGVha0BpbnRlbC5jb20+ClJldmlld2VkLWJ5OiBNaWthIEthaG9sYSA8
+bWlrYS5rYWhvbGFAaW50ZWwuY29tPgotLS0KIGluY2x1ZGUvdWFwaS9kcm0vZHJtX2ZvdXJjYy5o
+IHwgMTMgKysrKysrKysrKysrKwogMSBmaWxlIGNoYW5nZWQsIDEzIGluc2VydGlvbnMoKykKCmRp
+ZmYgLS1naXQgYS9pbmNsdWRlL3VhcGkvZHJtL2RybV9mb3VyY2MuaCBiL2luY2x1ZGUvdWFwaS9k
+cm0vZHJtX2ZvdXJjYy5oCmluZGV4IDViYTQ4MWY0OTkzMS4uOGJjMGIzMTU5N2Q4IDEwMDY0NAot
+LS0gYS9pbmNsdWRlL3VhcGkvZHJtL2RybV9mb3VyY2MuaAorKysgYi9pbmNsdWRlL3VhcGkvZHJt
+L2RybV9mb3VyY2MuaApAQCAtNDIxLDYgKzQyMSwxOSBAQCBleHRlcm4gIkMiIHsKICAqLwogI2Rl
+ZmluZSBJOTE1X0ZPUk1BVF9NT0RfWV9USUxFRF9HRU4xMl9SQ19DQ1MgZm91cmNjX21vZF9jb2Rl
+KElOVEVMLCA2KQogCisvKgorICogSW50ZWwgY29sb3IgY29udHJvbCBzdXJmYWNlcyAoQ0NTKSBm
+b3IgR2VuLTEyIG1lZGlhIGNvbXByZXNzaW9uCisgKgorICogVGhlIG1haW4gc3VyZmFjZSBpcyBZ
+LXRpbGVkIGFuZCBhdCBwbGFuZSBpbmRleCAwLCB0aGUgQ0NTIGlzIGxpbmVhciBhbmQKKyAqIGF0
+IGluZGV4IDEuIEEgNjRCIENDUyBjYWNoZSBsaW5lIGNvcnJlc3BvbmRzIHRvIGFuIGFyZWEgb2Yg
+NHgxIHRpbGVzIGluCisgKiBtYWluIHN1cmZhY2UuIEluIG90aGVyIHdvcmRzLCA0IGJpdHMgaW4g
+Q0NTIG1hcCB0byBhIG1haW4gc3VyZmFjZSBjYWNoZQorICogbGluZSBwYWlyLiBUaGUgbWFpbiBz
+dXJmYWNlIHBpdGNoIGlzIHJlcXVpcmVkIHRvIGJlIGEgbXVsdGlwbGUgb2YgZm91cgorICogWS10
+aWxlIHdpZHRocy4gRm9yIHNlbWktcGxhbmFyIGZvcm1hdHMgbGlrZSBOVjEyLCBDQ1MgcGxhbmVz
+IGZvbGxvdyB0aGUKKyAqIFkgYW5kIFVWIHBsYW5lcyBpLmUuLCBwbGFuZXMgMCBhbmQgMSBhcmUg
+dXNlZCBmb3IgWSBhbmQgVVYgc3VyZmFjZXMsCisgKiBwbGFuZXMgMiBhbmQgMyBmb3IgdGhlIHJl
+c3BlY3RpdmUgQ0NTLgorICovCisjZGVmaW5lIEk5MTVfRk9STUFUX01PRF9ZX1RJTEVEX0dFTjEy
+X01DX0NDUyBmb3VyY2NfbW9kX2NvZGUoSU5URUwsIDcpCisKIC8qCiAgKiBUaWxlZCwgTlYxMk1U
+LCBncm91cGVkIGluIDY0IChwaXhlbHMpIHggMzIgKGxpbmVzKSAtc2l6ZWQgbWFjcm9ibG9ja3MK
+ICAqCi0tIAoyLjIzLjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbAo=
