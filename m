@@ -2,58 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E267E12DF44
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jan 2020 16:13:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D32B212DF9F
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jan 2020 18:04:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E17E589BAE;
-	Wed,  1 Jan 2020 15:13:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1507889C48;
+	Wed,  1 Jan 2020 17:04:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com
- [IPv6:2607:f8b0:4864:20::f2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FAAD89BAE;
- Wed,  1 Jan 2020 15:13:16 +0000 (UTC)
-Received: by mail-qv1-xf2e.google.com with SMTP id dp13so14209079qvb.7;
- Wed, 01 Jan 2020 07:13:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=y90zCYcUYpO16j+v27QKuBV95399qcncA3SXtCyTg3k=;
- b=lsZWEVEVjcvE1mmf0ZjDhLrPTx7oOa2uLHr68U401n3sDDHmVUMrVUQXu5W5gcQ3ob
- 0IoVHIYliqtmJIFSv02LRnPolboBC9qjsWVVKDlM/HsvQ+xHuN/Dm59hCOfHqdpphXA4
- 6l6n3jRB9OZCRat53jKJoXER6vzh9BZah+4u3QOoLs3ocdsvSl/yFnIHamftg2bLrUM7
- b7dUL+0sKG5MrxYSKmbTyD1DzgNiEGYqWmh3v/ApGEBvROw+jMATJp/BiZajHf/a25Ab
- zx5xHshp889P2jA6eenGD/Gtv+lhGM9dwJC6W/rEngjEkHJoXSc/xCSIf1KSimXDJ23i
- PWoQ==
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEF0289C48
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jan 2020 17:04:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1577898251;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=s50ZsxwjIKokV6x0z0goKHHGd0zXqfM+O8mAjhUFi1c=;
+ b=UZ9PonFi/oiAXS5mhilxCudpV5vlqknEneyndSzZqq+Ks0zz4tjHjwtU9VMvh+t03YcS/x
+ AsxcwQPm1awupula1bccvFuktH/URDPLwOcecWfLK6uEuhitbCiiFZTSQuq1MNHUqkkaL8
+ BUSrd2uZbPcYHeGthmU8K0Y+RsRCx+Q=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-31-E723Tf3pNzSDymIFhQuaLQ-1; Wed, 01 Jan 2020 12:04:10 -0500
+Received: by mail-wr1-f69.google.com with SMTP id f15so6231569wrr.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jan 2020 09:04:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=y90zCYcUYpO16j+v27QKuBV95399qcncA3SXtCyTg3k=;
- b=haaexTPs+ciSCk5ql65Rs1j1SSUVhMIgL+6nKWDTLfSHia4+xtnTKRvvSgS+Gjz+xg
- yH/3+pRXXGqtbmPm0T2L4C7JHdDTy3Ujmg/ow/rPRiT4u7kd7/j5dO/fZdvrJBKl5L3S
- WZbqNGp31nO8rpeedmAnmkv/sX3dJzU7a0a87DbNWEVRFa2yf/sNTv9biEXsv5EdZff8
- FePDHBGJ/ln/HQAV3sn/iE0STtmShd78wIMGWG5BC91rAKfF6chxXH8/N+gf1sCkSmvp
- oLY5/rMLFQ3xOE0jldkW6xspC8bg/e4bZDnWO7IPm0Bkw4epYSJsvhAIU4SMAmEF0tSZ
- pJkA==
-X-Gm-Message-State: APjAAAWvVgIFMIW/wUK4t4fumfkr3xOqJbs6QCZ/MhJBryz5yyjQ1yYA
- YZq1Z7IU1tGhrFkJvduIlmTSM0UG
-X-Google-Smtp-Source: APXvYqyafPzoQfYow4CGdyciHBazKSPgI56FnU4EwIxZqvCVoATz7AR0W/4s26ofAVwVkZzC6rtD8w==
-X-Received: by 2002:ad4:44ee:: with SMTP id p14mr58769669qvt.114.1577891595367; 
- Wed, 01 Jan 2020 07:13:15 -0800 (PST)
-Received: from localhost.localdomain ([71.219.59.120])
- by smtp.gmail.com with ESMTPSA id 3sm15881358qte.59.2020.01.01.07.13.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jan 2020 07:13:14 -0800 (PST)
-From: Alex Deucher <alexdeucher@gmail.com>
-X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
-To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- airlied@gmail.com, daniel.vetter@ffwll.ch
-Subject: [pull] amdgpu drm-fixes-5.5
-Date: Wed,  1 Jan 2020 10:13:07 -0500
-Message-Id: <20200101151307.5242-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.24.1
+ bh=s50ZsxwjIKokV6x0z0goKHHGd0zXqfM+O8mAjhUFi1c=;
+ b=UeYuZe4GsN2klYBAq6W2PSX2G714dUBQMUmuLNdIuoAHcz5yxNVDT/ndn4XEIh4an4
+ VJ/LYR4QCcdTtETbQSxDjVRocbBf72yFix5k5oK2GIGfHVwvLU3a19xYg5rbCSEcxZGi
+ UXayiCPgJ4nERhsJS5w0/Yi5p5NuHXFfIF4Rw6gY8Xl/Z+QG+dTppMDyGUCjaRhTPKh2
+ aatyVld7uMq7wiYxaXP8nTpny7xGJOq3Wps797bZmpjuj3kaqGKAAUe3+wfrn95gxezF
+ 2b/xYAdmWs4eNxdFZTCr+YgzF3e0n7S2F34iQ9u7nZ1lVWEaP5K19ADIuR18aPXtQ+UK
+ 2+lQ==
+X-Gm-Message-State: APjAAAWJMtNDp/0ZQoQEp9tyKv7RZUDi5+XOnkG6RW96Cjd0LT36ikJB
+ EJp1P3BPXwyB8yJhOCMawStab3qFu3ktHevVxqDYZgZ/a4dCPvucDE86pzPA36Uc1rM59Mld3HL
+ /QrjXSMyPqAXhHO9lD9wsSu6RXNQG
+X-Received: by 2002:a1c:7c18:: with SMTP id x24mr10312560wmc.21.1577898249274; 
+ Wed, 01 Jan 2020 09:04:09 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzZTswoExdSMw9TTuCmWANB6Q+psIllWhIgAWnlMFTOxuGzjGUdFyH9riu/K/XUlyuqb2WIVw==
+X-Received: by 2002:a1c:7c18:: with SMTP id x24mr10312542wmc.21.1577898249095; 
+ Wed, 01 Jan 2020 09:04:09 -0800 (PST)
+Received: from shalem.localdomain
+ (2001-1c00-0c0c-fe00-7e79-4dac-39d0-9c14.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c0c:fe00:7e79:4dac:39d0:9c14])
+ by smtp.gmail.com with ESMTPSA id x16sm5961353wmk.35.2020.01.01.09.04.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Jan 2020 09:04:08 -0800 (PST)
+Subject: Re: [PATCH resend 0/2] drm/connector: Add support for specifying
+ panel_orientation on the kernel cmdline
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20191216115158.862404-1-hdegoede@redhat.com>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <0d0e898f-a853-de16-40bf-4b7e3785b567@redhat.com>
+Date: Wed, 1 Jan 2020 18:04:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
+In-Reply-To: <20191216115158.862404-1-hdegoede@redhat.com>
+Content-Language: en-US
+X-MC-Unique: E723Tf3pNzSDymIFhQuaLQ-1
+X-Mimecast-Spam-Score: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,61 +84,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+Hi all,
 
-Happy New Year!  Fixes for 5.5.
+Ping? it would be really nice if we can get these last 2 patches from
+my series for specifying panel_orientation on the kernel cmdline upstream.
 
-The following changes since commit e31d941c7dd797df37ea94958638a88723325c30:
+If someone can review the first patch (the second one has already
+been reviewed) then that would be great.
 
-  Merge tag 'drm-intel-fixes-2019-12-23' of git://anongit.freedesktop.org/drm/drm-intel into drm-fixes (2019-12-27 13:13:30 +1000)
+Thanks & Regards,
 
-are available in the Git repository at:
+Hans
 
-  git://people.freedesktop.org/~agd5f/linux tags/amd-drm-fixes-5.5-2020-01-01
 
-for you to fetch changes up to 969e11529221a6a2a787cb3b63ccf9402f8d2e37:
 
-  drm/amdgpu: correct RLC firmwares loading sequence (2020-01-01 09:26:09 -0500)
+On 16-12-2019 12:51, Hans de Goede wrote:
+> Hi All,
+> 
+> This is a resend of the last 2 remaining patches of my series for adding
+> support for specifying panel_orientation on the kernel cmdline.
+> 
+> I've already pushed the other 11 patches which were mostly cleanups /
+> bug-fixes to the cmdline-parsing code and where all acked by Maxime
+> to drm-misc-next.
+> 
+> The first patch of these 2 still needs to be reviewed, if someone can
+> review it that would be great.
+> 
+> Once this is reviewed the question becomes how to merge this, both
+> patches are mostly drm-misc material and the second patch depends on
+> the changes I just pushed to drm-misc-next, so this series should
+> probably be pushed to drm-misc-next, but it also makes some changes
+> to i915 code. I've checked and there is no conflict with these patches
+> as they apply to drm-misc-next vs drm-intel-next-queued (atm). So it
+> should be fine to push these 2 patches to drm-misc-next and then do a
+> back-merge to drm-intel-next-queued.
+> 
+> Regards,
+> 
+> Hans
+> 
 
-----------------------------------------------------------------
-amd-drm-fixes-5.5-2020-01-01:
-
-amdgpu:
-- ATPX regression fix
-- SMU metrics table locking fixes
-- gfxoff fix for raven
-- RLC firmware loading stability fix
-
-----------------------------------------------------------------
-Alex Deucher (5):
-      Revert "drm/amdgpu: simplify ATPX detection"
-      drm/amdgpu/smu: add metrics table lock
-      drm/amdgpu/smu: add metrics table lock for arcturus (v2)
-      drm/amdgpu/smu: add metrics table lock for navi (v2)
-      drm/amdgpu/smu: add metrics table lock for vega20 (v2)
-
-Evan Quan (1):
-      drm/amdgpu: correct RLC firmwares loading sequence
-
-changzhu (1):
-      drm/amdgpu: enable gfxoff for raven1 refresh
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_atpx_handler.c | 12 +++++++++++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c          |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.h        |  2 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c            | 15 ++++-----------
- drivers/gpu/drm/amd/powerplay/amdgpu_smu.c       |  1 +
- drivers/gpu/drm/amd/powerplay/arcturus_ppt.c     |  3 +++
- drivers/gpu/drm/amd/powerplay/inc/amdgpu_smu.h   |  1 +
- drivers/gpu/drm/amd/powerplay/navi10_ppt.c       |  3 +++
- drivers/gpu/drm/amd/powerplay/vega20_ppt.c       |  3 +++
- 9 files changed, 28 insertions(+), 14 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
