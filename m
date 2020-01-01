@@ -1,62 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D01FF12E038
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jan 2020 19:51:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAD5612E064
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jan 2020 21:40:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E539589BCD;
-	Wed,  1 Jan 2020 18:51:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3EBA89906;
+	Wed,  1 Jan 2020 20:40:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6ED189A4B
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jan 2020 18:51:52 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id p9so4000653wmc.2
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jan 2020 10:51:52 -0800 (PST)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7255489906
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jan 2020 20:40:38 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id y11so37602237wrt.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jan 2020 12:40:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:mail-followup-to:references
  :mime-version:content-disposition:in-reply-to;
- bh=D8uPCxi3Y1/pc0576oAFGCcv9ILxWB3/3GiCiHCXgko=;
- b=CovNZjlE6y41FxRRV2dQgC2LXmUHj1E8p0Nrv8qiRfWxbkQdYpbWLSMjj/b+oII78U
- wl3wEHZITaqtJDiX2UUnM3rU9Poj3VDz0KTlFfXfgsLsgcwqUU8n+ad18kAFMtdYP3Nl
- H6F+gk0amyScbp2FsWH2Pzgq8Mylv+lGIT/y0=
+ bh=v7cr1kY2Lq9a8pmpvtgNvRRSj2Esi2GdGGct+/Bp2sY=;
+ b=X9zH/dsLOxvqxgx1Abkb/3kolnT7NP+fICu0gW4gpjSjeCIeR5oDmiRa6icLcaQTCb
+ bT1qmQ0EBZkIUP9BPPF3lXojVNT0f+9aD2nAXebkMd1nu/pnexMqHR4PZA/ClxtP0TrR
+ RUR+up5tCvVs9LqDFrP9RrdAlcBoRKaiv5FjI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id
  :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=D8uPCxi3Y1/pc0576oAFGCcv9ILxWB3/3GiCiHCXgko=;
- b=j3lSBOt+10/1gfiJnMy48/eYtnx6E2kl0WSkAq5uchdme43Rwnnm+xgsw/sA9y6qdQ
- uyR4470Ke34dDrxMI+e6AUZLVfCqOClP+5cKhAm0esYCeEdrr24zmuJpm0xchODE3iJ1
- 0iS7hpDmZLqyk+rSmFsBqgWk+MuJC+VUa2Va45yqT4ZT+w0no7OlJtvAx2OaJbyVYXEx
- ycfAuq8+CdDJXYt7qST1WAwrceJsk7OcBHdUa8oBrbsaYNgqR77KzaJY6RlV0DnvFl1i
- 4OPZ8eOLmdL0wJkLPghg/jiubD++k1+SLJoGi31TnXzTO9BcTynOB/f6xl01gBKw9nih
- /Leg==
-X-Gm-Message-State: APjAAAVZI1deChtdVpJ3J+c7Jxmp/7O78KhsTHFpIZMEocHp08qfWF4T
- +6h638LHQxHYgzuet3QXz920Hw==
-X-Google-Smtp-Source: APXvYqyjqRvgYGtxavvSSbnVsxx3hbCvsLvioRActoXXQldrptMzEMi+l6Q2nwcO1dPqXP/rbpsjRA==
-X-Received: by 2002:a05:600c:224d:: with SMTP id
- a13mr10459265wmm.70.1577904711502; 
- Wed, 01 Jan 2020 10:51:51 -0800 (PST)
+ bh=v7cr1kY2Lq9a8pmpvtgNvRRSj2Esi2GdGGct+/Bp2sY=;
+ b=XUXXyc/2/tfMmFvVb3H3bWuE2I6RQSBthjUlmbtrKUQCLVWtxdbhLeCPfpay3k/mp/
+ wg8sjdDldPCcm1ZPZJvU1n061Z5ZEE9m3HwQ00Tvyj1uQ0eqz2Uk8TkCT3WHJRU4DVzq
+ 6OKpfJJZx9YTNtGGLm7lJYZ4cqNpgKgfxxyv83jUHUm2YynBMTJbr3bsrJoEEDX7jdZo
+ a9YWDi9urJKnsdJ7TVby1jLD+rJoyOgx3jU3NArXeW/hNz7TVYBF6rtgrflpXxnQNP1m
+ DjDO2jNNKMxh797z7jWw/wPAgLMoy5anKdzI1oNpv21xWG8ro7G/cuozyF/Us9k+zr+y
+ OgfQ==
+X-Gm-Message-State: APjAAAUiezcjljLZMT3yzD7rbNt9zkIqEBKEz5BpuRBoAaW75bpg4OQb
+ vcaHueJDEAZcKUZ6YnwhofVUpw==
+X-Google-Smtp-Source: APXvYqwVuI5pnCU39vvfsIcyVkJd31it0JH7yCZ6vGmgY083JFly8IRIxIZzriskS1d9gxJiV0bjhg==
+X-Received: by 2002:adf:fc0c:: with SMTP id i12mr83084758wrr.74.1577911237198; 
+ Wed, 01 Jan 2020 12:40:37 -0800 (PST)
 Received: from dvetter-linux.ger.corp.intel.com ([194.230.159.125])
- by smtp.gmail.com with ESMTPSA id b21sm6272694wmd.37.2020.01.01.10.51.49
+ by smtp.gmail.com with ESMTPSA id s1sm6682123wmc.23.2020.01.01.12.40.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jan 2020 10:51:50 -0800 (PST)
-Date: Wed, 1 Jan 2020 19:51:47 +0100
+ Wed, 01 Jan 2020 12:40:35 -0800 (PST)
+Date: Wed, 1 Jan 2020 21:40:31 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Wambui Karuga <wambui.karugax@gmail.com>
-Subject: Re: [PATCH] drm/nouveau: use NULL for pointer assignment.
-Message-ID: <20200101185147.GB3856@dvetter-linux.ger.corp.intel.com>
+Subject: Re: [PATCH] drm/panel: declare variable as __be16
+Message-ID: <20200101204031.GC3856@dvetter-linux.ger.corp.intel.com>
 Mail-Followup-To: Wambui Karuga <wambui.karugax@gmail.com>,
- bskeggs@redhat.com, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20191231205734.1452-1-wambui.karugax@gmail.com>
+ thierry.reding@gmail.com, sam@ravnborg.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20191230195609.12386-1-wambui.karugax@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191231205734.1452-1-wambui.karugax@gmail.com>
+In-Reply-To: <20191230195609.12386-1-wambui.karugax@gmail.com>
 X-Operating-System: Linux dvetter-linux.ger.corp.intel.com
  5.2.11-200.fc30.x86_64 
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,44 +69,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- bskeggs@redhat.com
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, thierry.reding@gmail.com, sam@ravnborg.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 31, 2019 at 11:57:34PM +0300, Wambui Karuga wrote:
-> Replace the use of 0 in the pointer assignment with NULL to address the
-> following sparse warning:
-> drivers/gpu/drm/nouveau/nouveau_hwmon.c:744:29: warning: Using plain integer as NULL pointer
+On Mon, Dec 30, 2019 at 10:56:09PM +0300, Wambui Karuga wrote:
+> Declare the temp variable as __be16 to address the following sparse
+> warning:
+> drivers/gpu/drm/panel/panel-lg-lg4573.c:45:20: warning: incorrect type in initializer (different base types)
+> drivers/gpu/drm/panel/panel-lg-lg4573.c:45:20:    expected unsigned short [unsigned] [usertype] temp
+> drivers/gpu/drm/panel/panel-lg-lg4573.c:45:20:    got restricted __be16 [usertype] <noident>
 > 
 > Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-I'll check with Ben next week or so whether he wants to pick these up or
-whether I should stuff them into drm-misc-next.
+Applied to drm-misc-next, thanks for your patch!
 -Daniel
 
 > ---
->  drivers/gpu/drm/nouveau/nouveau_hwmon.c | 2 +-
+>  drivers/gpu/drm/panel/panel-lg-lg4573.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_hwmon.c b/drivers/gpu/drm/nouveau/nouveau_hwmon.c
-> index d445c6f3fece..1c3104d20571 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_hwmon.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_hwmon.c
-> @@ -741,7 +741,7 @@ nouveau_hwmon_init(struct drm_device *dev)
->  			special_groups[i++] = &pwm_fan_sensor_group;
->  	}
+> diff --git a/drivers/gpu/drm/panel/panel-lg-lg4573.c b/drivers/gpu/drm/panel/panel-lg-lg4573.c
+> index 20235ff0bbc4..b262b53dbd85 100644
+> --- a/drivers/gpu/drm/panel/panel-lg-lg4573.c
+> +++ b/drivers/gpu/drm/panel/panel-lg-lg4573.c
+> @@ -42,7 +42,7 @@ static int lg4573_spi_write_u16(struct lg4573 *ctx, u16 data)
+>  	struct spi_transfer xfer = {
+>  		.len = 2,
+>  	};
+> -	u16 temp = cpu_to_be16(data);
+> +	__be16 temp = cpu_to_be16(data);
+>  	struct spi_message msg;
 >  
-> -	special_groups[i] = 0;
-> +	special_groups[i] = NULL;
->  	hwmon_dev = hwmon_device_register_with_info(dev->dev, "nouveau", dev,
->  							&nouveau_chip_info,
->  							special_groups);
+>  	dev_dbg(ctx->panel.dev, "writing data: %x\n", data);
 > -- 
 > 2.17.1
 > 
