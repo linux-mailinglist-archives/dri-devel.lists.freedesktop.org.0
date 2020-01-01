@@ -1,55 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7657812DE8B
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jan 2020 11:39:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FE0012DEA4
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jan 2020 12:13:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BED7589B11;
-	Wed,  1 Jan 2020 10:39:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 122F689875;
+	Wed,  1 Jan 2020 11:13:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB92C89B11;
- Wed,  1 Jan 2020 10:39:31 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id r11so20518682pgf.1;
- Wed, 01 Jan 2020 02:39:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=IKUnwiZiyGhS0sEDG6jt8naamqO43MC5eCJVVvWFUqg=;
- b=U0W/W1MfwkfQcT6FvZtHiG6iyEfkSzEyahs8KffFCh2KBKXnn8h7ODzN/Ir0YLLQ7Z
- Ba/RlaCNnAapgRaIeD9XdQ7mo2ll+GrTHU69LPPel26buDwd9lrPw2+ZEvUI3769RZpn
- xuQ/fFC+Rupi5rqsVoZM7KN3cTafBc5lUahaxZjOhFwaeQkLYqlufMrMJhE51qG4efnZ
- A/IcTfjwZfUgvNLOZFmNozxWo2Al5FIme6FbkTxOihShaEUtAVC5Z5AkFTHoIDIBcoLm
- 2V1+C7+Xl3rI8JK5ET2JjplbQPyYjPbzWnjz5UF6kzbrH6EpHo2MV8l+DrIhup+KAnFB
- jIhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=IKUnwiZiyGhS0sEDG6jt8naamqO43MC5eCJVVvWFUqg=;
- b=Rz6wF/TkrvNzwVJHfQKze6W0cxFd6zJWSG5xSH+GiJkO+i3PNWc1J97uQ75BFSJw0w
- B/GrlNOGSvYZyMoi2ssa8eiYPmqFVx+v4hmwdPKULLHTfa+Nlr7S59XDRi6u6pdk6/j3
- DKdAeIOotZbZ8PBu99pPrm8CBhTqFJELjJHCmlR7LgRv8CJ0qiaBtYse/Gl5Bnsq202b
- LDMX2GBBzuK4/6hMeuMV4U4f1B4QxhgbpEFRE6cvp/Nzmp8g0kf1jY+uBiDQD3d+2eWn
- MvGdWDcBMeLPOtMD7pJmlAaf3biTDpUs1p5TTNamI304kZb2V+HOSlM7NO4PyULu2Kn8
- 6PLQ==
-X-Gm-Message-State: APjAAAWF4mwXxZk8uRXpJS7xLStGkqUGc4+GsjkpqopdOM1p7tT627Y3
- U6JU6kNuTBCnyPfJpyvnWVM/lQsMgMI=
-X-Google-Smtp-Source: APXvYqzbv1uZUQIDSR0j4ZjkNqiQNa5aiFfKigylLrD0oyaQF0WMAKHETcKjuN13MKsPY25FqHzIZw==
-X-Received: by 2002:a63:770c:: with SMTP id s12mr86527833pgc.25.1577875171181; 
- Wed, 01 Jan 2020 02:39:31 -0800 (PST)
-Received: from yuq-Aspire-4738G.lan (ah.ptr230.ptrcloud.net. [153.122.161.8])
- by smtp.gmail.com with ESMTPSA id
- h126sm35196071pfe.19.2020.01.01.02.39.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jan 2020 02:39:30 -0800 (PST)
-From: Qiang Yu <yuq825@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/lima: use drm_sched_fault for error task handling
-Date: Wed,  1 Jan 2020 18:38:31 +0800
-Message-Id: <20200101103831.22429-1-yuq825@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Received: from onstation.org (onstation.org [52.200.56.107])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EE8189612;
+ Wed,  1 Jan 2020 03:50:29 +0000 (UTC)
+Received: from localhost (c-98-239-145-235.hsd1.wv.comcast.net
+ [98.239.145.235])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: masneyb)
+ by onstation.org (Postfix) with ESMTPSA id 3B7503E9DC;
+ Wed,  1 Jan 2020 03:50:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=onstation.org;
+ s=default; t=1577850628;
+ bh=YdZrENY31tFEvhQW8UhSRWsAzqFtpPEHXpQaoGS21rM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=EkG4ibOllK0kgywN0n/8NaH6a8BDheubrNOhq/75whH1IHzJY54Mw5SHk82evG11l
+ aTVH9I4eKcYDROT7ci7UgbQdW+C9SVCZ+cXhGskbp/VJHYRyLLXLbZzaOYym6HmiB+
+ JSjANMJ2bp2zluxMATBljglC2M8N0PB9/68nGWdI=
+Date: Tue, 31 Dec 2019 22:50:27 -0500
+From: Brian Masney <masneyb@onstation.org>
+To: jeffrey.l.hugo@gmail.com, robdclark@gmail.com
+Subject: Re: [PATCH RFC v2] drm/msm/mdp5: enable autorefresh
+Message-ID: <20200101035027.GA9348@onstation.org>
+References: <20191230020053.26016-1-masneyb@onstation.org>
+ <20191230020053.26016-2-masneyb@onstation.org>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20191230020053.26016-2-masneyb@onstation.org>
+X-Mailman-Approved-At: Wed, 01 Jan 2020 11:13:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,119 +48,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lima@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- Vasily Khoruzhick <anarsoul@gmail.com>, Qiang Yu <yuq825@gmail.com>,
- Erico Nunes <nunes.erico@gmail.com>
-MIME-Version: 1.0
+Cc: sean@poorly.run, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_sched_job_timedout works with drm_sched_stop as a pair,
-so we'd better use the drm_sched_fault helper to make the
-error and timeout handling go the same path.
+On Sun, Dec 29, 2019 at 09:00:53PM -0500, Brian Masney wrote:
+> Since the introduction of commit 2d99ced787e3 ("drm/msm: async commit
+> support"), command-mode panels began throwing the following errors:
+> 
+>     msm fd900000.mdss: pp done time out, lm=0
+> 
+> Let's fix this by enabling the autorefresh feature that's available in
+> the MDP starting at version 1.0. This will cause the MDP to
+> automatically send a frame to the panel every time the panel invokes the
+> TE signal, which will trigger the PP_DONE IRQ. This requires only
+> sending a single START signal for command-mode panels.
+> 
+> This gives us a counter for command-mode panels that we can use to
+> implement async commit support for the MDP5 in a follow up patch.
+> 
+> Signed-off-by: Brian Masney <masneyb@onstation.org>
+> Suggested-by: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
+> Fixes: 2d99ced787e3 ("drm/msm: async commit support")
+> ---
+> Changes since v1:
+> - Send a single start command to kick off the pipeline.
+> 
+> The reason I marked this patch as a RFC is that the display during some
+> small percentage of boots will stop updating after a minute or so, and
+> the ping pong IRQs stop. Most of the time it works with no issues and I
+> haven't been able to find a way to reproduce the issue. I tried
+> suspending the phone by toggling /sys/power/state since I thought that
+> the issue could potentially be related to power management.
 
-This also fixes application hang when task error.
+After working to get the IOMMU up on msm8974, I suspect that the issue
+that I describe above is caused by a device probe deferral, which
+explains the intermittent nature of what I'm seeing. First driver load
+sets up the autorefresh registers, sends a single START signal, then a
+-EPROBE_DEFER is thrown later on. Second driver load lost the state, and
+sends a second START signal and overloads the DSI.
 
-Signed-off-by: Qiang Yu <yuq825@gmail.com>
----
- drivers/gpu/drm/lima/lima_sched.c | 35 ++++++++-----------------------
- drivers/gpu/drm/lima/lima_sched.h |  2 --
- 2 files changed, 9 insertions(+), 28 deletions(-)
+If that's the case, then potentially the solution may be to do
+both of the following:
 
-diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
-index f522c5f99729..a31a90c380b6 100644
---- a/drivers/gpu/drm/lima/lima_sched.c
-+++ b/drivers/gpu/drm/lima/lima_sched.c
-@@ -255,13 +255,17 @@ static struct dma_fence *lima_sched_run_job(struct drm_sched_job *job)
- 	return task->fence;
- }
- 
--static void lima_sched_handle_error_task(struct lima_sched_pipe *pipe,
--					 struct lima_sched_task *task)
-+static void lima_sched_timedout_job(struct drm_sched_job *job)
- {
-+	struct lima_sched_pipe *pipe = to_lima_pipe(job->sched);
-+	struct lima_sched_task *task = to_lima_task(job);
-+
-+	if (!pipe->error)
-+		DRM_ERROR("lima job timeout\n");
-+
- 	drm_sched_stop(&pipe->base, &task->base);
- 
--	if (task)
--		drm_sched_increase_karma(&task->base);
-+	drm_sched_increase_karma(&task->base);
- 
- 	pipe->task_error(pipe);
- 
-@@ -284,16 +288,6 @@ static void lima_sched_handle_error_task(struct lima_sched_pipe *pipe,
- 	drm_sched_start(&pipe->base, true);
- }
- 
--static void lima_sched_timedout_job(struct drm_sched_job *job)
--{
--	struct lima_sched_pipe *pipe = to_lima_pipe(job->sched);
--	struct lima_sched_task *task = to_lima_task(job);
--
--	DRM_ERROR("lima job timeout\n");
--
--	lima_sched_handle_error_task(pipe, task);
--}
--
- static void lima_sched_free_job(struct drm_sched_job *job)
- {
- 	struct lima_sched_task *task = to_lima_task(job);
-@@ -318,15 +312,6 @@ static const struct drm_sched_backend_ops lima_sched_ops = {
- 	.free_job = lima_sched_free_job,
- };
- 
--static void lima_sched_error_work(struct work_struct *work)
--{
--	struct lima_sched_pipe *pipe =
--		container_of(work, struct lima_sched_pipe, error_work);
--	struct lima_sched_task *task = pipe->current_task;
--
--	lima_sched_handle_error_task(pipe, task);
--}
--
- int lima_sched_pipe_init(struct lima_sched_pipe *pipe, const char *name)
- {
- 	unsigned int timeout = lima_sched_timeout_ms > 0 ?
-@@ -335,8 +320,6 @@ int lima_sched_pipe_init(struct lima_sched_pipe *pipe, const char *name)
- 	pipe->fence_context = dma_fence_context_alloc(1);
- 	spin_lock_init(&pipe->fence_lock);
- 
--	INIT_WORK(&pipe->error_work, lima_sched_error_work);
--
- 	return drm_sched_init(&pipe->base, &lima_sched_ops, 1, 0,
- 			      msecs_to_jiffies(timeout), name);
- }
-@@ -349,7 +332,7 @@ void lima_sched_pipe_fini(struct lima_sched_pipe *pipe)
- void lima_sched_pipe_task_done(struct lima_sched_pipe *pipe)
- {
- 	if (pipe->error)
--		schedule_work(&pipe->error_work);
-+		drm_sched_fault(&pipe->base);
- 	else {
- 		struct lima_sched_task *task = pipe->current_task;
- 
-diff --git a/drivers/gpu/drm/lima/lima_sched.h b/drivers/gpu/drm/lima/lima_sched.h
-index 928af91c1118..1d814fecbcc0 100644
---- a/drivers/gpu/drm/lima/lima_sched.h
-+++ b/drivers/gpu/drm/lima/lima_sched.h
-@@ -68,8 +68,6 @@ struct lima_sched_pipe {
- 	void (*task_fini)(struct lima_sched_pipe *pipe);
- 	void (*task_error)(struct lima_sched_pipe *pipe);
- 	void (*task_mmu_error)(struct lima_sched_pipe *pipe);
--
--	struct work_struct error_work;
- };
- 
- int lima_sched_task_init(struct lima_sched_task *task,
--- 
-2.17.1
+1) Disable autorefresh when the driver is unloaded.
+2) Before sending the START signal, check to make sure that autorefresh
+   is actually disabled.
+
+I likely won't be able to work on any this until Sunday evening.
+
+Brian
 
 _______________________________________________
 dri-devel mailing list
