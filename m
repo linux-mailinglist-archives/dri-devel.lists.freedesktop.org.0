@@ -1,27 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0A0412DEA3
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jan 2020 12:13:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE66312DEA2
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jan 2020 12:13:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FB8689854;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E50A89831;
 	Wed,  1 Jan 2020 11:13:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail2-relais-roc.national.inria.fr
  (mail2-relais-roc.national.inria.fr [192.134.164.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E74489330
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E93D889330
  for <dri-devel@lists.freedesktop.org>; Wed,  1 Jan 2020 08:20:11 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.69,382,1571695200"; d="scan'208";a="429578757"
+X-IronPort-AV: E=Sophos;i="5.69,382,1571695200"; d="scan'208";a="429578765"
 Received: from palace.rsr.lip6.fr (HELO palace.lip6.fr) ([132.227.105.202])
  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/AES128-SHA256;
  01 Jan 2020 09:20:08 +0100
 From: Julia Lawall <Julia.Lawall@inria.fr>
-To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: [PATCH 07/16] video: sa1100fb: constify copied structure
-Date: Wed,  1 Jan 2020 08:43:25 +0100
-Message-Id: <1577864614-5543-8-git-send-email-Julia.Lawall@inria.fr>
+To: Andrzej Hajda <a.hajda@samsung.com>
+Subject: [PATCH 15/16] drm: bridge: dw-hdmi: constify copied structure
+Date: Wed,  1 Jan 2020 08:43:33 +0100
+Message-Id: <1577864614-5543-16-git-send-email-Julia.Lawall@inria.fr>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1577864614-5543-1-git-send-email-Julia.Lawall@inria.fr>
 References: <1577864614-5543-1-git-send-email-Julia.Lawall@inria.fr>
@@ -38,15 +38,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The monspecs structure is only copied into another structure,
+The dw_hdmi_hw structure is only copied into another structure,
 so make it const.
 
 The opportunity for this change was found using Coccinelle.
@@ -54,22 +57,22 @@ The opportunity for this change was found using Coccinelle.
 Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
 
 ---
- drivers/video/fbdev/sa1100fb.c |    2 +-
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/sa1100fb.c b/drivers/video/fbdev/sa1100fb.c
-index 4680cc3efb81..c77b43dbc256 100644
---- a/drivers/video/fbdev/sa1100fb.c
-+++ b/drivers/video/fbdev/sa1100fb.c
-@@ -1053,7 +1053,7 @@ static int sa1100fb_map_video_memory(struct sa1100fb_info *fbi)
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+index 2b7539701b42..dd56996fe9c7 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+@@ -291,7 +291,7 @@ static irqreturn_t snd_dw_hdmi_irq(int irq, void *data)
+ 	return IRQ_HANDLED;
  }
  
- /* Fake monspecs to fill in fbinfo structure */
--static struct fb_monspecs monspecs = {
-+static const struct fb_monspecs monspecs = {
- 	.hfmin	= 30000,
- 	.hfmax	= 70000,
- 	.vfmin	= 50,
+-static struct snd_pcm_hardware dw_hdmi_hw = {
++static const struct snd_pcm_hardware dw_hdmi_hw = {
+ 	.info = SNDRV_PCM_INFO_INTERLEAVED |
+ 		SNDRV_PCM_INFO_BLOCK_TRANSFER |
+ 		SNDRV_PCM_INFO_MMAP |
 
 _______________________________________________
 dri-devel mailing list
