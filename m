@@ -1,62 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 508E612DEA0
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jan 2020 12:13:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C41512DEAB
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jan 2020 12:25:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD2E589804;
-	Wed,  1 Jan 2020 11:13:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A77688995F;
+	Wed,  1 Jan 2020 11:25:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
- [IPv6:2607:f8b0:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5F83897EE;
- Wed,  1 Jan 2020 09:40:16 +0000 (UTC)
-Received: by mail-pf1-x442.google.com with SMTP id q8so20639084pfh.7;
- Wed, 01 Jan 2020 01:40:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
- :content-disposition:in-reply-to;
- bh=H/6Fruq4L+is5MAGLCLnDa2kYoz3ypv5Xq87O+YG7dw=;
- b=TRVfiwLpS3gBwr93EH1UC3q2CxlOD58tSPzLvZyvXX08YQj/2dWxxs63GU/pHCXrbV
- kwuz/0wDEhp3dtMDLp9MRgdrGluIn7juafSYST1o7O8frJrRr7lGYYMiCTj9s/39m2Ou
- PD5plYGQ9VsjT9uA4UXBRjo80RbiLCmD04P7qHggegZ755PppHr5+FWdwuNYkBErfSac
- eI0DRWFPGZiLijig2z6G/Tam345Q+wzmbuXzfrGwqXd/23GOnqTiGrrV9nAiF7Ra0f7b
- o06GNBOJ/F4VjxjwPHeLmVIjwjAxS63ts4puy3Ah+5+H2srZ7PCs6n8KodcoXLtXR3lY
- lnTQ==
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
+ [IPv6:2607:f8b0:4864:20::102d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BCAA8995F
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jan 2020 11:25:11 +0000 (UTC)
+Received: by mail-pj1-x102d.google.com with SMTP id t101so2115324pjb.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jan 2020 03:25:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Xjl26WjVPVTED+/xAzYPIrEiiwgVbZ+1Lffk83rGuXg=;
+ b=pCxOBBMQfuNezDx4YUqo3tQFY05m/gmgb6vvLxTF1ZUJ9v4q6PEKGVmPi2bbETWWhT
+ pzFB4Tb9qeC4RQfaf0V5Uxb+jdQSpJg5E9QYSfKS3pOf0Z7ev/fLwfGEDFiEe0jE/q0u
+ OgCyU8qt5jPl38RFDgBoFS7stpw5HIzC4VgDU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
- :references:mime-version:content-disposition:in-reply-to;
- bh=H/6Fruq4L+is5MAGLCLnDa2kYoz3ypv5Xq87O+YG7dw=;
- b=qtxKOvhzJp3Y7VUHpT5+PfaRvqN4B4YJmmx+eN8kPfdzmMb7BNbFhqR11TgclMWXqb
- zGal7nGCSe+fCtAWz0s4zGo41xf8B59CXEY8BWqLAOYgwY7X/4KhRO3/91jz6bXzZ+Zo
- /QPekKWnzkKDf+bIVe6+XEi32DTU0VYMyEBLbrw05mfdSacx6TAMcfiTzI4MpORnyMzd
- HjAOyty73jGz1qwmQ3B/onqs1WM6VduDW76VvTmFf8Lu1PjoNWiOl0SqvtSuEGX4KVjX
- vV8muixd4GRBDJysYFno1LCmUQQ5GjBzt9HNBLW345RGOz6zdNSJaUEFDc/PQx7d8Qob
- elTg==
-X-Gm-Message-State: APjAAAXdQio/0k8k9r+KfevkKGrcoZKb1ZtCTVr5m6ge0a5PXlSvqrWQ
- aL/b/goiQ85rlCCwuOnaZrk=
-X-Google-Smtp-Source: APXvYqzc9owyZiEIkTs7gOcA6/mNU6W029/LpmhwbeZvUlJfeH3ec+8FXxZztntc3uJzsrtjhPjtbA==
-X-Received: by 2002:a63:3196:: with SMTP id
- x144mr83100783pgx.319.1577871616059; 
- Wed, 01 Jan 2020 01:40:16 -0800 (PST)
-Received: from wambui ([197.237.61.225])
- by smtp.gmail.com with ESMTPSA id r14sm59314953pfh.10.2020.01.01.01.40.09
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Xjl26WjVPVTED+/xAzYPIrEiiwgVbZ+1Lffk83rGuXg=;
+ b=P9XYt+3koE+bryxfi+8sfN7bhrRx81z8UVD7yv4I4TMDvzD3XsP69tW2b95pPZZV9R
+ yxKEFSe6SCJhapYMXYN6dcX1eWV0i00KeNnncfYOuli9FPKEJ9qSrUJEPQ5/eeLsJR1c
+ hECnr/fD/uM4ghg7dEl8kv3ev5WvWutU+B01Yow7Y173C5vBczXc5oD/WCmAhUk14kxl
+ ee7Uthq1r8+EvP6zzyknigG3Pe2cfuQTpuOAbAWkFOA7r9aTXSAboZ8pxRB6ufapwc3g
+ 9h1p7m2GGNOtKTUFXgm7vw6wRQPM57txWUCC+TX/nRGOU1rZM5TXGgrQpyuR5k5kBaOu
+ ysLg==
+X-Gm-Message-State: APjAAAVomSM3bUQrMYj1oZMJ+FiYuPE0FOLUN/JYi6Gb+90qZHs2A4T9
+ Mi7eG2QSDZ50S9idzWj2t/MUCw==
+X-Google-Smtp-Source: APXvYqzpUhwfAbGzLwKIL383B6Symz9HyuWU2vN+KQyIbBQzrtLHY7UohuWPzGTkdsMfQfTFtGfikA==
+X-Received: by 2002:a17:90a:a386:: with SMTP id
+ x6mr13658293pjp.116.1577877910967; 
+ Wed, 01 Jan 2020 03:25:10 -0800 (PST)
+Received: from localhost.localdomain ([2405:201:c809:c7d5:d0fe:8978:1b04:ff94])
+ by smtp.gmail.com with ESMTPSA id y7sm51945439pfb.139.2020.01.01.03.25.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jan 2020 01:40:15 -0800 (PST)
-Date: Wed, 1 Jan 2020 12:40:03 +0300
-From: Wambui Karuga <wambui.karugax@gmail.com>
-To: Ilia Mirkin <imirkin@alum.mit.edu>
-Subject: Re: [PATCH] drm/nouveau: declare constants as unsigned long.
-Message-ID: <20200101094003.GA5673@wambui>
-References: <20191231205345.32615-1-wambui.karugax@gmail.com>
- <CAKb7Uvii6RTp3FsX6z+4VuX6xcS9_SQ+CMC-UBOHVJY5BeWgew@mail.gmail.com>
+ Wed, 01 Jan 2020 03:25:10 -0800 (PST)
+From: Jagan Teki <jagan@amarulasolutions.com>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Rob Herring <robh+dt@kernel.org>
+Subject: [PATCH 0/6] dt-bindings: display: Update few panel bindings with YAML
+Date: Wed,  1 Jan 2020 16:54:38 +0530
+Message-Id: <20200101112444.16250-1-jagan@amarulasolutions.com>
+X-Mailer: git-send-email 2.18.0.321.gffc6fa0e3
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAKb7Uvii6RTp3FsX6z+4VuX6xcS9_SQ+CMC-UBOHVJY5BeWgew@mail.gmail.com>
-X-Mailman-Approved-At: Wed, 01 Jan 2020 11:13:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,120 +64,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: CAKb7Uvii6RTp3FsX6z+4VuX6xcS9_SQ+CMC-UBOHVJY5BeWgew@mail.gmail.com
-Cc: David Airlie <airlied@linux.ie>, nouveau <nouveau@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jagan Teki <jagan@amarulasolutions.com>,
+ linux-amarula@amarulasolutions.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 31, 2019 at 06:53:55PM -0500, Ilia Mirkin wrote:
-> Probably want ULL for 32-bit arches to be correct here too.
-> 
-Okay, I can convert them to ULL and send a v2.
+These panel bindings are owned by me, so updated all of them into
+YAML DT schema.
 
-Thanks,
-wambui.
+Any inputs?
+Jagan.
 
-> On Tue, Dec 31, 2019 at 3:53 PM Wambui Karuga <wambui.karugax@gmail.com> wrote:
-> >
-> > Explicitly declare constants are unsigned long to address the following
-> > sparse warnings:
-> > warning: constant is so big it is long
-> >
-> > Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
-> > ---
-> >  drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgf100.c | 2 +-
-> >  drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgf108.c | 2 +-
-> >  drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgk104.c | 2 +-
-> >  drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgm107.c | 2 +-
-> >  drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgm200.c | 2 +-
-> >  drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgp100.c | 2 +-
-> >  6 files changed, 6 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgf100.c b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgf100.c
-> > index ac87a3b6b7c9..506b358fcdb6 100644
-> > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgf100.c
-> > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgf100.c
-> > @@ -655,7 +655,7 @@ gf100_ram_new_(const struct nvkm_ram_func *func,
-> >
-> >  static const struct nvkm_ram_func
-> >  gf100_ram = {
-> > -       .upper = 0x0200000000,
-> > +       .upper = 0x0200000000UL,
-> >         .probe_fbp = gf100_ram_probe_fbp,
-> >         .probe_fbp_amount = gf100_ram_probe_fbp_amount,
-> >         .probe_fbpa_amount = gf100_ram_probe_fbpa_amount,
-> > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgf108.c b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgf108.c
-> > index 70a06e3cd55a..3bc39895bbce 100644
-> > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgf108.c
-> > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgf108.c
-> > @@ -43,7 +43,7 @@ gf108_ram_probe_fbp_amount(const struct nvkm_ram_func *func, u32 fbpao,
-> >
-> >  static const struct nvkm_ram_func
-> >  gf108_ram = {
-> > -       .upper = 0x0200000000,
-> > +       .upper = 0x0200000000UL,
-> >         .probe_fbp = gf100_ram_probe_fbp,
-> >         .probe_fbp_amount = gf108_ram_probe_fbp_amount,
-> >         .probe_fbpa_amount = gf100_ram_probe_fbpa_amount,
-> > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgk104.c b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgk104.c
-> > index 456aed1f2a02..d01f32c0956a 100644
-> > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgk104.c
-> > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgk104.c
-> > @@ -1698,7 +1698,7 @@ gk104_ram_new_(const struct nvkm_ram_func *func, struct nvkm_fb *fb,
-> >
-> >  static const struct nvkm_ram_func
-> >  gk104_ram = {
-> > -       .upper = 0x0200000000,
-> > +       .upper = 0x0200000000UL,
-> >         .probe_fbp = gf100_ram_probe_fbp,
-> >         .probe_fbp_amount = gf108_ram_probe_fbp_amount,
-> >         .probe_fbpa_amount = gf100_ram_probe_fbpa_amount,
-> > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgm107.c b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgm107.c
-> > index 27c68e3f9772..e24ac664eb15 100644
-> > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgm107.c
-> > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgm107.c
-> > @@ -33,7 +33,7 @@ gm107_ram_probe_fbp(const struct nvkm_ram_func *func,
-> >
-> >  static const struct nvkm_ram_func
-> >  gm107_ram = {
-> > -       .upper = 0x1000000000,
-> > +       .upper = 0x1000000000UL,
-> >         .probe_fbp = gm107_ram_probe_fbp,
-> >         .probe_fbp_amount = gf108_ram_probe_fbp_amount,
-> >         .probe_fbpa_amount = gf100_ram_probe_fbpa_amount,
-> > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgm200.c b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgm200.c
-> > index 6b0cac1fe7b4..17994cbda54b 100644
-> > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgm200.c
-> > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgm200.c
-> > @@ -48,7 +48,7 @@ gm200_ram_probe_fbp_amount(const struct nvkm_ram_func *func, u32 fbpao,
-> >
-> >  static const struct nvkm_ram_func
-> >  gm200_ram = {
-> > -       .upper = 0x1000000000,
-> > +       .upper = 0x1000000000UL,
-> >         .probe_fbp = gm107_ram_probe_fbp,
-> >         .probe_fbp_amount = gm200_ram_probe_fbp_amount,
-> >         .probe_fbpa_amount = gf100_ram_probe_fbpa_amount,
-> > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgp100.c b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgp100.c
-> > index adb62a6beb63..7a07a6ed4578 100644
-> > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgp100.c
-> > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgp100.c
-> > @@ -79,7 +79,7 @@ gp100_ram_probe_fbpa(struct nvkm_device *device, int fbpa)
-> >
-> >  static const struct nvkm_ram_func
-> >  gp100_ram = {
-> > -       .upper = 0x1000000000,
-> > +       .upper = 0x1000000000UL,
-> >         .probe_fbp = gm107_ram_probe_fbp,
-> >         .probe_fbp_amount = gm200_ram_probe_fbp_amount,
-> >         .probe_fbpa_amount = gp100_ram_probe_fbpa,
-> > --
-> > 2.17.1
-> >
+Jagan Teki (6):
+  dt-bindings: display: panel: Convert feiyang,fy07024di26a30d to DT
+    schema
+  dt-bindings: display: panel: Convert sitronix,st7701 to DT schema
+  MAINTAINERS: Update feiyang, st7701 panel bindings converted as YAML
+  dt-bindings: display: panel: Convert friendlyarm,hd702e to DT schema
+  dt-bindings: display: panel: Convert rocktech,rk070er9427 to DT schema
+  dt-bindings: display: panel: Convert koe,tx31d200vm0baa to DT schema
+
+ .../display/panel/feiyang,fy07024di26a30d.txt | 20 ------
+ .../panel/feiyang,fy07024di26a30d.yaml        | 50 +++++++++++++++
+ .../display/panel/friendlyarm,hd702e.txt      | 32 ----------
+ .../display/panel/friendlyarm,hd702e.yaml     | 47 ++++++++++++++
+ .../display/panel/koe,tx31d200vm0baa.txt      | 25 --------
+ .../display/panel/koe,tx31d200vm0baa.yaml     | 37 +++++++++++
+ .../display/panel/rocktech,rk070er9427.txt    | 25 --------
+ .../display/panel/rocktech,rk070er9427.yaml   | 37 +++++++++++
+ .../display/panel/sitronix,st7701.txt         | 30 ---------
+ .../display/panel/sitronix,st7701.yaml        | 61 +++++++++++++++++++
+ MAINTAINERS                                   |  4 +-
+ 11 files changed, 234 insertions(+), 134 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.txt
+ create mode 100644 Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/friendlyarm,hd702e.txt
+ create mode 100644 Documentation/devicetree/bindings/display/panel/friendlyarm,hd702e.yaml
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/koe,tx31d200vm0baa.txt
+ create mode 100644 Documentation/devicetree/bindings/display/panel/koe,tx31d200vm0baa.yaml
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/rocktech,rk070er9427.txt
+ create mode 100644 Documentation/devicetree/bindings/display/panel/rocktech,rk070er9427.yaml
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/sitronix,st7701.txt
+ create mode 100644 Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml
+
+-- 
+2.18.0.321.gffc6fa0e3
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
