@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BED9812DEAD
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jan 2020 12:25:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA65112DEAE
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jan 2020 12:25:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA7C08999A;
-	Wed,  1 Jan 2020 11:25:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4F20899A3;
+	Wed,  1 Jan 2020 11:25:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5280E8999A
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jan 2020 11:25:18 +0000 (UTC)
-Received: by mail-pf1-x441.google.com with SMTP id 2so20699925pfg.12
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jan 2020 03:25:18 -0800 (PST)
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
+ [IPv6:2607:f8b0:4864:20::642])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEDB88999E
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jan 2020 11:25:21 +0000 (UTC)
+Received: by mail-pl1-x642.google.com with SMTP id b22so16710096pls.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jan 2020 03:25:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xyLN4iY9zmJMkQfktKnQpRiD7IFHvGjo95ULoKZuL/c=;
- b=IXadCyul++yY5mPG22iSFOMQRK+KL5L9ALKOUeFfEH4nm+B5LBFbNpcHQb3/HrwRg3
- ZhVM3dPBunkPVLHx63K2jTaoz74vOIFPiBSyqo35wKbNw4jZSy51Nz9YgQcWRY0D54vv
- i+lN4Nxnt1ydsCzbq+6FROXZ/vibC0ATowOjo=
+ bh=kGyS2va2MM5LlItUz13S22TtfwiSSFhRb47vRs7rcSA=;
+ b=bRoDYVtQ1NYUFDceNj0TvN7AgLnYHCKEZc9F2ihByaESmLqX4XnrdAyOdO4dIcdRNd
+ BPIkUn4kHcXhQ90ZIpwuCpprRMAd9REj4spU0ZHxdb7GuFfpFARUird/OWwD74k/7O9q
+ 6R61h1eJJ/m91+hWicSXyQHEFX4LaY2hg7YyI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xyLN4iY9zmJMkQfktKnQpRiD7IFHvGjo95ULoKZuL/c=;
- b=S6XMcbKMzKpJ6KieVwRYAHfdFKEQDa8/pomUzvMFmsk3bcEBQRFdEQW8a4QC1nkout
- 01qAh0ghPZncO+i5XozJUvUin6BRHQM79rLtNritaKXYEKOVR/ZhKeyWEwfH2qLDShR5
- WAYnXdZxZyL3VUDFNVwIKQDikV8WvrLeFkYAYNduUxzuo7PnQfUUa9I6HcJ43IuF5jUK
- /ebQmBsYxQppCyTCiqfaqJhFvqOjxPYmc2Nn8z9sHtZMhDwbPt9KvzJYghKQj8zv2d88
- dMhPyj/RRfXeEy9HZH9YZxJW89qikx5NhJnu2ZRjHfZ4x6/2BJkmV+QexWkA+XM7y3Pw
- 80EA==
-X-Gm-Message-State: APjAAAU3xvxnqjU/0xZbVX/35y0AcQjkiHy+xfXfHRwTDt5EMLUKm226
- d8MOEY+SClPMlP09hAZXbh++Kg==
-X-Google-Smtp-Source: APXvYqzJsxHKB6CYiuv0K6eWz0RNBAElBtDwT3PR+UKjW90HgavORgR7YgQVx/CpMu50nzTTp1RO7g==
-X-Received: by 2002:a62:3343:: with SMTP id z64mr80281149pfz.150.1577877917923; 
- Wed, 01 Jan 2020 03:25:17 -0800 (PST)
+ bh=kGyS2va2MM5LlItUz13S22TtfwiSSFhRb47vRs7rcSA=;
+ b=IFe7J5gOwQIhJey0Z1Ib8YLpaz7GJGmsrtyBIiuhDQEzlpLy8dJj6+tA/GEZQvZ2DE
+ hc0eKHOquXL7u4VrIuBm7b9btzDfNHhGdf8VzlnpqljLN57HoaMfnAPkEEETzJ1xWTvF
+ IEb0h0BPoVD7XgmprL+uSPp2PRGhQHgYV2qYZgoxeJFS9w8vER+S64ucqc+Lvtyz/cia
+ gsbMS2MY8/8TGkMRIZpub3rhrUZhmlb5pTnI6br6NI3Q5IOzb/UNWwLm9dw+sTnBcBdP
+ yHwpoQIl4dRqHjd24dhnIc9MFR0DzvzNChaBXN5KmJL0LBidRVTvyhLc1q3TWaxGicSa
+ XZ3g==
+X-Gm-Message-State: APjAAAXg3/6frvSRqfY7a8ybSlsYchQ2hf3GZESVGYrmbXPkJdZrBgRg
+ 1F4jEd95tWozooGvg3cy9u+6EA==
+X-Google-Smtp-Source: APXvYqx1w7BI3kSg5znfx18d2dqgKYCH7WWv2q9ctxYTFGBJxvjbzmixsUdL7wGN2fv0ZiGpf8bK6g==
+X-Received: by 2002:a17:902:6b8a:: with SMTP id
+ p10mr64853544plk.47.1577877921397; 
+ Wed, 01 Jan 2020 03:25:21 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:c809:c7d5:d0fe:8978:1b04:ff94])
- by smtp.gmail.com with ESMTPSA id y7sm51945439pfb.139.2020.01.01.03.25.14
+ by smtp.gmail.com with ESMTPSA id y7sm51945439pfb.139.2020.01.01.03.25.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jan 2020 03:25:17 -0800 (PST)
+ Wed, 01 Jan 2020 03:25:20 -0800 (PST)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH 2/6] dt-bindings: display: panel: Convert sitronix,
- st7701 to DT schema
-Date: Wed,  1 Jan 2020 16:54:40 +0530
-Message-Id: <20200101112444.16250-3-jagan@amarulasolutions.com>
+Subject: [PATCH 3/6] MAINTAINERS: Update feiyang,
+ st7701 panel bindings converted as YAML
+Date: Wed,  1 Jan 2020 16:54:41 +0530
+Message-Id: <20200101112444.16250-4-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.18.0.321.gffc6fa0e3
 In-Reply-To: <20200101112444.16250-1-jagan@amarulasolutions.com>
 References: <20200101112444.16250-1-jagan@amarulasolutions.com>
@@ -75,119 +76,36 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the sitronix,st7701 panel bindings to DT schema.
+The feiyang,fy07024di26a30d.txt and sitronix,st7701.txt has been
+converted to YAML schemas, update MAINTAINERS to match them again.
 
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
- .../display/panel/sitronix,st7701.txt         | 30 ---------
- .../display/panel/sitronix,st7701.yaml        | 61 +++++++++++++++++++
- 2 files changed, 61 insertions(+), 30 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/panel/sitronix,st7701.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml
+ MAINTAINERS | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/sitronix,st7701.txt b/Documentation/devicetree/bindings/display/panel/sitronix,st7701.txt
-deleted file mode 100644
-index ccd17597f1f6..000000000000
---- a/Documentation/devicetree/bindings/display/panel/sitronix,st7701.txt
-+++ /dev/null
-@@ -1,30 +0,0 @@
--Sitronix ST7701 based LCD panels
--
--ST7701 designed for small and medium sizes of TFT LCD display, is
--capable of supporting up to 480RGBX864 in resolution. It provides
--several system interfaces like MIPI/RGB/SPI.
--
--Techstar TS8550B is 480x854, 2-lane MIPI DSI LCD panel which has
--inbuilt ST7701 chip.
--
--Required properties:
--- compatible: must be "sitronix,st7701" and one of
--  * "techstar,ts8550b"
--- reset-gpios: a GPIO phandle for the reset pin
--
--Required properties for techstar,ts8550b:
--- reg: DSI virtual channel used by that screen
--- VCC-supply: analog regulator for MIPI circuit
--- IOVCC-supply: I/O system regulator
--
--Optional properties:
--- backlight: phandle for the backlight control.
--
--panel@0 {
--	compatible = "techstar,ts8550b", "sitronix,st7701";
--	reg = <0>;
--	VCC-supply = <&reg_dldo2>;
--	IOVCC-supply = <&reg_dldo2>;
--	reset-gpios = <&pio 3 24 GPIO_ACTIVE_HIGH>; /* LCD-RST: PD24 */
--	backlight = <&backlight>;
--};
-diff --git a/Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml b/Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml
-new file mode 100644
-index 000000000000..49e4b54ecf7c
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml
-@@ -0,0 +1,61 @@
-+# SPDX-License-Identifier: (GPL-2.0+ OR X11)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/sitronix,st7701.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Sitronix ST7701 based LCD panels
-+
-+maintainers:
-+  - Jagan Teki <jagan@amarulasolutions.com>
-+
-+description: |
-+  ST7701 designed for small and medium sizes of TFT LCD display, is
-+  capable of supporting up to 480RGBX864 in resolution. It provides
-+  several system interfaces like MIPI/RGB/SPI.
-+
-+  Techstar TS8550B is 480x854, 2-lane MIPI DSI LCD panel which has
-+  inbuilt ST7701 chip.
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - const: sitronix,st7701
-+      - items:
-+          - const: techstar,ts8550b
-+
-+  reg:
-+    description: DSI virtual channel used by that screen
-+
-+  VCC-supply:
-+    description: analog regulator for MIPI circuit
-+
-+  IOVCC-supply:
-+    description: I/O system regulator
-+
-+  reset-gpios:
-+    description: a GPIO phandle for the reset pin
-+
-+  backlight:
-+    description: Backlight used by the panel
-+    $ref: "/schemas/types.yaml#/definitions/phandle"
-+
-+required:
-+  - compatible
-+  - reg
-+  - VCC-supply
-+  - IOVCC-supply
-+  - reset-gpios
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    panel@0 {
-+            compatible = "techstar,ts8550b", "sitronix,st7701";
-+            reg = <0>;
-+            VCC-supply = <&reg_dldo2>;
-+            IOVCC-supply = <&reg_dldo2>;
-+            reset-gpios = <&pio 3 24 GPIO_ACTIVE_HIGH>; /* LCD-RST: PD24 */
-+            backlight = <&backlight>;
-+    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8b2e6c68832d..4d6e4febd170 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5169,7 +5169,7 @@ DRM DRIVER FOR FEIYANG FY07024DI26A30-D MIPI-DSI LCD PANELS
+ M:	Jagan Teki <jagan@amarulasolutions.com>
+ S:	Maintained
+ F:	drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c
+-F:	Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.txt
++F:	Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml
+ 
+ DRM DRIVER FOR GRAIN MEDIA GM12U320 PROJECTORS
+ M:	Hans de Goede <hdegoede@redhat.com>
+@@ -5298,7 +5298,7 @@ DRM DRIVER FOR SITRONIX ST7701 PANELS
+ M:	Jagan Teki <jagan@amarulasolutions.com>
+ S:	Maintained
+ F:	drivers/gpu/drm/panel/panel-sitronix-st7701.c
+-F:	Documentation/devicetree/bindings/display/panel/sitronix,st7701.txt
++F:	Documentation/devicetree/bindings/display/panel/sitronix,st7701.yaml
+ 
+ DRM DRIVER FOR SITRONIX ST7586 PANELS
+ M:	David Lechner <david@lechnology.com>
 -- 
 2.18.0.321.gffc6fa0e3
 
