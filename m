@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A519F12E556
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 12:02:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5D3012E55C
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 12:02:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AB386E0AF;
-	Thu,  2 Jan 2020 11:02:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE3E46E0B9;
+	Thu,  2 Jan 2020 11:02:44 +0000 (UTC)
 X-Original-To: dri-devel@freedesktop.org
 Delivered-To: dri-devel@freedesktop.org
-Received: from mail25.static.mailgun.info (mail25.static.mailgun.info
- [104.130.122.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 456286E0B6
- for <dri-devel@freedesktop.org>; Thu,  2 Jan 2020 11:02:36 +0000 (UTC)
+Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
+ [104.130.122.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8C076E0B7
+ for <dri-devel@freedesktop.org>; Thu,  2 Jan 2020 11:02:42 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1577962956; h=References: In-Reply-To: Message-Id: Date:
+ s=smtp; t=1577962963; h=References: In-Reply-To: Message-Id: Date:
  Subject: Cc: To: From: Sender;
- bh=ey3WkaTUT+/okXLTbhjw6mNVNY5gdOyxxVH0V4Lo0/s=;
- b=Hp5qIQGonCRoN3Ii/reoNd83txeHtHjU+0UYaT+hWf4vSRK+8B/ykqc/IUyXqIqx6xRKXL6p
- UUm7Qz/Stx0/+6RmcXU39JnUJU8Zyt59wnYGhzCgokgcSGlrjq2F/mDKOFWuf4OUOleEoiUG
- FvDMmEtTi7SpYGMW21ydA7R00Zs=
-X-Mailgun-Sending-Ip: 104.130.122.25
+ bh=KKi9YMaJOYMEHaQlQc8Vg5xsn1JheRLqTCMbmMznaUk=;
+ b=v6sftwbpOSgtrrf5n4BMjmyMZ9La4SG1R8g96HhR3NxVK7OYqtNUUWWoXdJev0BL6rQNLIZe
+ KCvbXhHBPmgbZlBySXbIPL6b5AJ1Q1turZU+00LOapP3rH7e/03iyVOKPb2GL1I3shJCJgdg
+ S8ssnzZ/bdOYBWN3M+c3DYGxDv4=
+X-Mailgun-Sending-Ip: 104.130.122.26
 X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e0dcdcb.7f771cb5ad18-smtp-out-n01;
- Thu, 02 Jan 2020 11:02:35 -0000 (UTC)
+ by mxa.mailgun.org with ESMTP id 5e0dcdd0.7f4119665420-smtp-out-n01;
+ Thu, 02 Jan 2020 11:02:40 -0000 (UTC)
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 30261C447A5; Thu,  2 Jan 2020 11:02:35 +0000 (UTC)
+ id 8E900C447A9; Thu,  2 Jan 2020 11:02:40 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
@@ -38,19 +38,18 @@ Received: from smasetty-linux.qualcomm.com
  (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: smasetty)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 757ACC4479C;
- Thu,  2 Jan 2020 11:02:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 757ACC4479C
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 07EDFC447A3;
+ Thu,  2 Jan 2020 11:02:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 07EDFC447A3
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  spf=none smtp.mailfrom=smasetty@codeaurora.org
 From: Sharat Masetty <smasetty@codeaurora.org>
 To: freedreno@lists.freedesktop.org
-Subject: [PATCH v2 2/7] iommu/arm-smmu: Add domain attribute for QCOM system
- cache
-Date: Thu,  2 Jan 2020 16:32:08 +0530
-Message-Id: <1577962933-13577-3-git-send-email-smasetty@codeaurora.org>
+Subject: [PATCH v2 3/7] drm/msm: Attach the IOMMU device during initialization
+Date: Thu,  2 Jan 2020 16:32:09 +0530
+Message-Id: <1577962933-13577-4-git-send-email-smasetty@codeaurora.org>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1577962933-13577-1-git-send-email-smasetty@codeaurora.org>
 References: <1577962933-13577-1-git-send-email-smasetty@codeaurora.org>
@@ -69,107 +68,259 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: saiprakash.ranjan@codeaurora.org, will@kernel.org,
  linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
  iommu@lists.linux-foundation.org, dri-devel@freedesktop.org,
- Vivek Gautam <vivek.gautam@codeaurora.org>, robin.murphy@arm.com
+ robin.murphy@arm.com
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Vivek Gautam <vivek.gautam@codeaurora.org>
+From: Jordan Crouse <jcrouse@codeaurora.org>
 
-Add iommu domain attribute for using system cache aka last level
-cache on QCOM SoCs by client drivers like GPU to set right
-attributes for caching the hardware pagetables into the system cache.
+Everywhere an IOMMU object is created by msm_gpu_create_address_space
+the IOMMU device is attached immediately after. Instead of carrying around
+the infrastructure to do the attach from the device specific code do it
+directly in the msm_iommu_init() function. This gets it out of the way for
+more aggressive cleanups that follow.
 
-Signed-off-by: Vivek Gautam <vivek.gautam@codeaurora.org>
-Co-developed-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
 ---
- drivers/iommu/arm-smmu-qcom.c | 10 ++++++++++
- drivers/iommu/arm-smmu.c      | 14 ++++++++++++++
- drivers/iommu/arm-smmu.h      |  1 +
- include/linux/iommu.h         |  1 +
- 4 files changed, 26 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c  |  9 ---------
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c |  5 -----
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c |  8 --------
+ drivers/gpu/drm/msm/msm_gem_vma.c        | 23 +++++++++++++++++++----
+ drivers/gpu/drm/msm/msm_gpu.c            | 11 +----------
+ drivers/gpu/drm/msm/msm_gpummu.c         |  7 -------
+ drivers/gpu/drm/msm/msm_iommu.c          | 16 +++++++---------
+ drivers/gpu/drm/msm/msm_mmu.h            |  1 -
+ 8 files changed, 27 insertions(+), 53 deletions(-)
 
-diff --git a/drivers/iommu/arm-smmu-qcom.c b/drivers/iommu/arm-smmu-qcom.c
-index 24c071c..d1d22df 100644
---- a/drivers/iommu/arm-smmu-qcom.c
-+++ b/drivers/iommu/arm-smmu-qcom.c
-@@ -30,7 +30,17 @@ static int qcom_sdm845_smmu500_reset(struct arm_smmu_device *smmu)
- 	return ret;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index ee93ba3..fdd9e2e 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -736,7 +736,6 @@ static int _dpu_kms_mmu_init(struct dpu_kms *dpu_kms)
+ {
+ 	struct iommu_domain *domain;
+ 	struct msm_gem_address_space *aspace;
+-	int ret;
+ 
+ 	domain = iommu_domain_alloc(&platform_bus_type);
+ 	if (!domain)
+@@ -752,14 +751,6 @@ static int _dpu_kms_mmu_init(struct dpu_kms *dpu_kms)
+ 		return PTR_ERR(aspace);
+ 	}
+ 
+-	ret = aspace->mmu->funcs->attach(aspace->mmu, iommu_ports,
+-			ARRAY_SIZE(iommu_ports));
+-	if (ret) {
+-		DPU_ERROR("failed to attach iommu %d\n", ret);
+-		msm_gem_address_space_put(aspace);
+-		return ret;
+-	}
+-
+ 	dpu_kms->base.aspace = aspace;
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
+index 50711cc..c1c48df 100644
+--- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
++++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
+@@ -523,11 +523,6 @@ struct msm_kms *mdp4_kms_init(struct drm_device *dev)
+ 		}
+ 
+ 		kms->aspace = aspace;
+-
+-		ret = aspace->mmu->funcs->attach(aspace->mmu, iommu_ports,
+-				ARRAY_SIZE(iommu_ports));
+-		if (ret)
+-			goto fail;
+ 	} else {
+ 		DRM_DEV_INFO(dev->dev, "no iommu, fallback to phys "
+ 				"contig buffers for scanout\n");
+diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+index 91cd76a..2d66ae2 100644
+--- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
++++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+@@ -736,14 +736,6 @@ struct msm_kms *mdp5_kms_init(struct drm_device *dev)
+ 		}
+ 
+ 		kms->aspace = aspace;
+-
+-		ret = aspace->mmu->funcs->attach(aspace->mmu, iommu_ports,
+-				ARRAY_SIZE(iommu_ports));
+-		if (ret) {
+-			DRM_DEV_ERROR(&pdev->dev, "failed to attach iommu: %d\n",
+-				ret);
+-			goto fail;
+-		}
+ 	} else {
+ 		DRM_DEV_INFO(&pdev->dev,
+ 			 "no iommu, fallback to phys contig buffers for scanout\n");
+diff --git a/drivers/gpu/drm/msm/msm_gem_vma.c b/drivers/gpu/drm/msm/msm_gem_vma.c
+index 1af5354..91d993a 100644
+--- a/drivers/gpu/drm/msm/msm_gem_vma.c
++++ b/drivers/gpu/drm/msm/msm_gem_vma.c
+@@ -131,8 +131,8 @@ struct msm_gem_address_space *
+ 		const char *name)
+ {
+ 	struct msm_gem_address_space *aspace;
+-	u64 size = domain->geometry.aperture_end -
+-		domain->geometry.aperture_start;
++	u64 start = domain->geometry.aperture_start;
++	u64 size = domain->geometry.aperture_end - start;
+ 
+ 	aspace = kzalloc(sizeof(*aspace), GFP_KERNEL);
+ 	if (!aspace)
+@@ -141,9 +141,18 @@ struct msm_gem_address_space *
+ 	spin_lock_init(&aspace->lock);
+ 	aspace->name = name;
+ 	aspace->mmu = msm_iommu_new(dev, domain);
++	if (IS_ERR(aspace->mmu)) {
++		int ret = PTR_ERR(aspace->mmu);
+ 
+-	drm_mm_init(&aspace->mm, (domain->geometry.aperture_start >> PAGE_SHIFT),
+-		size >> PAGE_SHIFT);
++		kfree(aspace);
++		return ERR_PTR(ret);
++	}
++
++	/*
++	 * Attaching the IOMMU device changes the aperture values so use the
++	 * cached values instead
++	 */
++	drm_mm_init(&aspace->mm, start >> PAGE_SHIFT, size >> PAGE_SHIFT);
+ 
+ 	kref_init(&aspace->kref);
+ 
+@@ -164,6 +173,12 @@ struct msm_gem_address_space *
+ 	spin_lock_init(&aspace->lock);
+ 	aspace->name = name;
+ 	aspace->mmu = msm_gpummu_new(dev, gpu);
++	if (IS_ERR(aspace->mmu)) {
++		int ret = PTR_ERR(aspace->mmu);
++
++		kfree(aspace);
++		return ERR_PTR(ret);
++	}
+ 
+ 	drm_mm_init(&aspace->mm, (va_start >> PAGE_SHIFT),
+ 		size >> PAGE_SHIFT);
+diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+index a052364..ecfa6d9 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.c
++++ b/drivers/gpu/drm/msm/msm_gpu.c
+@@ -807,7 +807,6 @@ static int get_clocks(struct platform_device *pdev, struct msm_gpu *gpu)
+ 		uint64_t va_start, uint64_t va_end)
+ {
+ 	struct msm_gem_address_space *aspace;
+-	int ret;
+ 
+ 	/*
+ 	 * Setup IOMMU.. eventually we will (I think) do this once per context
+@@ -832,17 +831,9 @@ static int get_clocks(struct platform_device *pdev, struct msm_gpu *gpu)
+ 			va_start, va_end);
+ 	}
+ 
+-	if (IS_ERR(aspace)) {
++	if (IS_ERR(aspace))
+ 		DRM_DEV_ERROR(gpu->dev->dev, "failed to init mmu: %ld\n",
+ 			PTR_ERR(aspace));
+-		return ERR_CAST(aspace);
+-	}
+-
+-	ret = aspace->mmu->funcs->attach(aspace->mmu, NULL, 0);
+-	if (ret) {
+-		msm_gem_address_space_put(aspace);
+-		return ERR_PTR(ret);
+-	}
+ 
+ 	return aspace;
+ }
+diff --git a/drivers/gpu/drm/msm/msm_gpummu.c b/drivers/gpu/drm/msm/msm_gpummu.c
+index 34f643a..9e49928 100644
+--- a/drivers/gpu/drm/msm/msm_gpummu.c
++++ b/drivers/gpu/drm/msm/msm_gpummu.c
+@@ -21,12 +21,6 @@ struct msm_gpummu {
+ #define GPUMMU_PAGE_SIZE SZ_4K
+ #define TABLE_SIZE (sizeof(uint32_t) * GPUMMU_VA_RANGE / GPUMMU_PAGE_SIZE)
+ 
+-static int msm_gpummu_attach(struct msm_mmu *mmu, const char * const *names,
+-		int cnt)
+-{
+-	return 0;
+-}
+-
+ static void msm_gpummu_detach(struct msm_mmu *mmu, const char * const *names,
+ 		int cnt)
+ {
+@@ -87,7 +81,6 @@ static void msm_gpummu_destroy(struct msm_mmu *mmu)
  }
  
-+static int qcom_smmu_init_context(struct arm_smmu_domain *smmu_domain,
-+				  struct io_pgtable_cfg *pgtbl_cfg)
-+{
-+	if (smmu_domain->sys_cache)
-+		pgtbl_cfg->coherent_walk = false;
+ static const struct msm_mmu_funcs funcs = {
+-		.attach = msm_gpummu_attach,
+ 		.detach = msm_gpummu_detach,
+ 		.map = msm_gpummu_map,
+ 		.unmap = msm_gpummu_unmap,
+diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
+index 8c95c31..050d8cf 100644
+--- a/drivers/gpu/drm/msm/msm_iommu.c
++++ b/drivers/gpu/drm/msm/msm_iommu.c
+@@ -23,14 +23,6 @@ static int msm_fault_handler(struct iommu_domain *domain, struct device *dev,
+ 	return 0;
+ }
+ 
+-static int msm_iommu_attach(struct msm_mmu *mmu, const char * const *names,
+-			    int cnt)
+-{
+-	struct msm_iommu *iommu = to_msm_iommu(mmu);
+-
+-	return iommu_attach_device(iommu->domain, mmu->dev);
+-}
+-
+ static void msm_iommu_detach(struct msm_mmu *mmu, const char * const *names,
+ 			     int cnt)
+ {
+@@ -68,7 +60,6 @@ static void msm_iommu_destroy(struct msm_mmu *mmu)
+ }
+ 
+ static const struct msm_mmu_funcs funcs = {
+-		.attach = msm_iommu_attach,
+ 		.detach = msm_iommu_detach,
+ 		.map = msm_iommu_map,
+ 		.unmap = msm_iommu_unmap,
+@@ -78,6 +69,7 @@ static void msm_iommu_destroy(struct msm_mmu *mmu)
+ struct msm_mmu *msm_iommu_new(struct device *dev, struct iommu_domain *domain)
+ {
+ 	struct msm_iommu *iommu;
++	int ret;
+ 
+ 	iommu = kzalloc(sizeof(*iommu), GFP_KERNEL);
+ 	if (!iommu)
+@@ -87,5 +79,11 @@ struct msm_mmu *msm_iommu_new(struct device *dev, struct iommu_domain *domain)
+ 	msm_mmu_init(&iommu->base, dev, &funcs);
+ 	iommu_set_fault_handler(domain, msm_fault_handler, iommu);
+ 
++	ret = iommu_attach_device(iommu->domain, dev);
++	if (ret) {
++		kfree(iommu);
++		return ERR_PTR(ret);
++	}
 +
-+	return 0;
-+}
-+
- static const struct arm_smmu_impl qcom_smmu_impl = {
-+	.init_context = qcom_smmu_init_context,
- 	.reset = qcom_sdm845_smmu500_reset,
- };
+ 	return &iommu->base;
+ }
+diff --git a/drivers/gpu/drm/msm/msm_mmu.h b/drivers/gpu/drm/msm/msm_mmu.h
+index 871d563..e4029b0 100644
+--- a/drivers/gpu/drm/msm/msm_mmu.h
++++ b/drivers/gpu/drm/msm/msm_mmu.h
+@@ -10,7 +10,6 @@
+ #include <linux/iommu.h>
  
-diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
-index 4f7e0c0..055b548 100644
---- a/drivers/iommu/arm-smmu.c
-+++ b/drivers/iommu/arm-smmu.c
-@@ -1466,6 +1466,9 @@ static int arm_smmu_domain_get_attr(struct iommu_domain *domain,
- 		case DOMAIN_ATTR_NESTING:
- 			*(int *)data = (smmu_domain->stage == ARM_SMMU_DOMAIN_NESTED);
- 			return 0;
-+		case DOMAIN_ATTR_QCOM_SYS_CACHE:
-+			*((int *)data) = smmu_domain->sys_cache;
-+			return 0;
- 		default:
- 			return -ENODEV;
- 		}
-@@ -1506,6 +1509,17 @@ static int arm_smmu_domain_set_attr(struct iommu_domain *domain,
- 			else
- 				smmu_domain->stage = ARM_SMMU_DOMAIN_S1;
- 			break;
-+		case DOMAIN_ATTR_QCOM_SYS_CACHE:
-+			if (smmu_domain->smmu) {
-+				ret = -EPERM;
-+				goto out_unlock;
-+			}
-+
-+			if (*((int *)data))
-+				smmu_domain->sys_cache = true;
-+			else
-+				smmu_domain->sys_cache = false;
-+			break;
- 		default:
- 			ret = -ENODEV;
- 		}
-diff --git a/drivers/iommu/arm-smmu.h b/drivers/iommu/arm-smmu.h
-index f57cdbe..8aeaaf0 100644
---- a/drivers/iommu/arm-smmu.h
-+++ b/drivers/iommu/arm-smmu.h
-@@ -322,6 +322,7 @@ struct arm_smmu_domain {
- 	struct mutex			init_mutex; /* Protects smmu pointer */
- 	spinlock_t			cb_lock; /* Serialises ATS1* ops and TLB syncs */
- 	struct iommu_domain		domain;
-+	bool				sys_cache;
- };
- 
- 
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index 0c60e75..bd61c60 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -127,6 +127,7 @@ enum iommu_attr {
- 	DOMAIN_ATTR_FSL_PAMUV1,
- 	DOMAIN_ATTR_NESTING,	/* two stages of translation */
- 	DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE,
-+	DOMAIN_ATTR_QCOM_SYS_CACHE,
- 	DOMAIN_ATTR_MAX,
- };
- 
+ struct msm_mmu_funcs {
+-	int (*attach)(struct msm_mmu *mmu, const char * const *names, int cnt);
+ 	void (*detach)(struct msm_mmu *mmu, const char * const *names, int cnt);
+ 	int (*map)(struct msm_mmu *mmu, uint64_t iova, struct sg_table *sgt,
+ 			unsigned len, int prot);
 -- 
 1.9.1
 _______________________________________________
