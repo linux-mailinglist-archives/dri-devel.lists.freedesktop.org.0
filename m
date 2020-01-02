@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4A2112E530
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 11:58:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2971512E532
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 11:58:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8A5F6E060;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B07046E061;
 	Thu,  2 Jan 2020 10:58:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8B9A489A20
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2020 04:02:23 +0000 (UTC)
-X-UUID: 8fef84aaf38941f682fe84d6f3178c46-20200102
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 606A7898AA
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2020 04:02:24 +0000 (UTC)
+X-UUID: 39ae738e339142678703c3ed0a951c40-20200102
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=kXHf8iYj4C6hK/qT77hE59xGuvjlPsSzu09F9rK4n0E=; 
- b=VN+s8mGv5PHAFVX8ErXDrx9BeUCuPwNa0FtJWd/SzGPXLGilxzP/TMkozul3I0/A18ZcaYKYgNRyKk0sT6Nd6cj88Cddt/Wyh/adFZev7bDcybwe9kwjABK9d/a2X2efkTUMksxHD+F/DJzwehbQgp/EPfjl4baJB0YtUuP4tmE=;
-X-UUID: 8fef84aaf38941f682fe84d6f3178c46-20200102
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
- (envelope-from <yongqiang.niu@mediatek.com>)
+ bh=9nkkuYTfa+66MBIYSh5utyJH1bn2eVvXmMxu08xA0J0=; 
+ b=L58rDrAkMmpesJ/7k+FPiXUcdDjFYjIL75qiKOtQyWQt+IWBMrjeF3lBun40A/j/ynoA9ws8s2G3fHOYjKoiaLAzYiVp938F41vDbQZrcLYm7ueC9mQN4HzndVO7OIlXwbnE/qnalznq3IA8EfXu2OVSr9SPCXX2gtoKaqyI+Fs=;
+X-UUID: 39ae738e339142678703c3ed0a951c40-20200102
+Received: from mtkcas09.mediatek.inc [(172.21.101.178)] by
+ mailgw01.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 949068539; Thu, 02 Jan 2020 12:02:20 +0800
+ with ESMTP id 101910972; Thu, 02 Jan 2020 12:02:21 +0800
 Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Thu, 2 Jan 2020 12:01:54 +0800
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Thu, 2 Jan 2020 12:01:50 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Thu, 2 Jan 2020 12:01:38 +0800
+ Transport; Thu, 2 Jan 2020 12:01:39 +0800
 From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, Rob
  Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v6, 07/14] drm/mediatek: add connection from RDMA0 to COLOR0
-Date: Thu, 2 Jan 2020 12:00:17 +0800
-Message-ID: <1577937624-14313-8-git-send-email-yongqiang.niu@mediatek.com>
+Subject: [PATCH v6, 08/14] drm/mediatek: add connection from RDMA1 to DSI0
+Date: Thu, 2 Jan 2020 12:00:18 +0800
+Message-ID: <1577937624-14313-9-git-send-email-yongqiang.niu@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1577937624-14313-1-git-send-email-yongqiang.niu@mediatek.com>
 References: <1577937624-14313-1-git-send-email-yongqiang.niu@mediatek.com>
@@ -62,34 +62,33 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch add connection from RDMA0 to COLOR0
+This patch add connection from RDMA1 to DSI0
 
 Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 Reviewed-by: CK Hu <ck.hu@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_ddp.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/mediatek/mtk_drm_ddp.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
-index 4f7182e..31a0650 100644
+index 31a0650..bb41594 100644
 --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
 +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
-@@ -172,6 +172,8 @@ struct mtk_ddp {
- 
- struct mtk_mmsys_reg_data {
- 	u32 ovl0_mout_en;
-+	u32 rdma0_sout_sel_in;
-+	u32 rdma0_sout_color0;
+@@ -176,6 +176,7 @@ struct mtk_mmsys_reg_data {
+ 	u32 rdma0_sout_color0;
  	u32 rdma1_sout_sel_in;
  	u32 rdma1_sout_dpi0;
++	u32 rdma1_sout_dsi0;
  	u32 dpi0_sel_in;
-@@ -435,6 +437,9 @@ static unsigned int mtk_ddp_sout_sel(const struct mtk_mmsys_reg_data *data,
- 	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI3) {
- 		*addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
- 		value = RDMA2_SOUT_DSI3;
-+	} else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_COLOR0) {
-+		*addr = data->rdma0_sout_sel_in;
-+		value = data->rdma0_sout_color0;
+ 	u32 dpi0_sel_in_rdma1;
+ 	u32 dsi0_sel_in;
+@@ -440,6 +441,9 @@ static unsigned int mtk_ddp_sout_sel(const struct mtk_mmsys_reg_data *data,
+ 	} else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_COLOR0) {
+ 		*addr = data->rdma0_sout_sel_in;
+ 		value = data->rdma0_sout_color0;
++	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI0) {
++		*addr = data->rdma1_sout_sel_in;
++		value = data->rdma1_sout_dsi0;
  	} else {
  		value = 0;
  	}
