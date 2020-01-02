@@ -1,25 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78AF312E6A6
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 14:23:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03EFD12E6A8
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 14:23:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 777CD899B3;
-	Thu,  2 Jan 2020 13:23:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0085389DA4;
+	Thu,  2 Jan 2020 13:23:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1665899B3
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2020 13:23:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02E30899B3
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2020 13:23:13 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: andrzej.p) with ESMTPSA id 156CC28A074
+ (Authenticated sender: andrzej.p) with ESMTPSA id 811C028A0B9
 From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/4] drm/vc4: Provide ddc symlink in connector sysfs directory
-Date: Thu,  2 Jan 2020 14:22:58 +0100
-Message-Id: <20200102132300.24309-3-andrzej.p@collabora.com>
+Subject: [PATCH 3/4] drm: zte: Provide ddc symlink in hdmi connector sysfs
+ directory
+Date: Thu,  2 Jan 2020 14:22:59 +0100
+Message-Id: <20200102132300.24309-4-andrzej.p@collabora.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200102132300.24309-1-andrzej.p@collabora.com>
 References: <20200102132300.24309-1-andrzej.p@collabora.com>
@@ -50,46 +51,26 @@ Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
 Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/zte/zx_hdmi.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 1c62c6c9244b..cea18dc15f77 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -267,7 +267,8 @@ static const struct drm_connector_helper_funcs vc4_hdmi_connector_helper_funcs =
- };
+diff --git a/drivers/gpu/drm/zte/zx_hdmi.c b/drivers/gpu/drm/zte/zx_hdmi.c
+index a50f5a1f09b8..b98a1420dcd3 100644
+--- a/drivers/gpu/drm/zte/zx_hdmi.c
++++ b/drivers/gpu/drm/zte/zx_hdmi.c
+@@ -319,8 +319,10 @@ static int zx_hdmi_register(struct drm_device *drm, struct zx_hdmi *hdmi)
  
- static struct drm_connector *vc4_hdmi_connector_init(struct drm_device *dev,
--						     struct drm_encoder *encoder)
-+						     struct drm_encoder *encoder,
-+						     struct i2c_adapter *ddc)
- {
- 	struct drm_connector *connector;
- 	struct vc4_hdmi_connector *hdmi_connector;
-@@ -281,8 +282,10 @@ static struct drm_connector *vc4_hdmi_connector_init(struct drm_device *dev,
+ 	hdmi->connector.polled = DRM_CONNECTOR_POLL_HPD;
  
- 	hdmi_connector->encoder = encoder;
- 
--	drm_connector_init(dev, connector, &vc4_hdmi_connector_funcs,
+-	drm_connector_init(drm, &hdmi->connector, &zx_hdmi_connector_funcs,
 -			   DRM_MODE_CONNECTOR_HDMIA);
-+	drm_connector_init_with_ddc(dev, connector,
-+				    &vc4_hdmi_connector_funcs,
++	drm_connector_init_with_ddc(drm, &hdmi->connector,
++				    &zx_hdmi_connector_funcs,
 +				    DRM_MODE_CONNECTOR_HDMIA,
-+				    ddc);
- 	drm_connector_helper_add(connector, &vc4_hdmi_connector_helper_funcs);
++				    &hdmi->ddc->adap);
+ 	drm_connector_helper_add(&hdmi->connector,
+ 				 &zx_hdmi_connector_helper_funcs);
  
- 	/* Create and attach TV margin props to this connector. */
-@@ -1395,7 +1398,8 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
- 			 DRM_MODE_ENCODER_TMDS, NULL);
- 	drm_encoder_helper_add(hdmi->encoder, &vc4_hdmi_encoder_helper_funcs);
- 
--	hdmi->connector = vc4_hdmi_connector_init(drm, hdmi->encoder);
-+	hdmi->connector =
-+		vc4_hdmi_connector_init(drm, hdmi->encoder, hdmi->ddc);
- 	if (IS_ERR(hdmi->connector)) {
- 		ret = PTR_ERR(hdmi->connector);
- 		goto err_destroy_encoder;
 -- 
 2.17.1
 
