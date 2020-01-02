@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 630D912EC1C
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 23:15:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E597D12EC1F
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 23:15:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85CB189316;
-	Thu,  2 Jan 2020 22:15:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F41CB8961D;
+	Thu,  2 Jan 2020 22:15:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A40089320
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2020 22:15:29 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id z22so37330538ljg.1
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jan 2020 14:15:29 -0800 (PST)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECB9A895B2
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2020 22:15:30 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id l2so42129266lja.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Jan 2020 14:15:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HySOJe4JKyQl5ngDElO/PSPX+NbxsmrxWdvKU/pVxQA=;
- b=WFukb8PDyZt8elf/S4xt9tzpov6IPxJN4NndjMtrOCeurF1Yxl98AIdwzYu2Qy6q3n
- j5q8gZgekpr++QpFxurDu8BkSQPD4SQYWnJLWmTKmiWchoc9e0b2iCmIBHm+KSjXSJ8u
- O4SaDwR/xwyWwXYlIjb04J5BQ1hQfPZNgGeL3uxupMJoINpYPGqxSVW0XtCOr/J6smSu
- QMU+FuZPV8LL9+TPtVeSQT+uhyyW3/j3lwrVRUhBo4dTBTFOfIxxWyXu/VAHSkAlHczx
- 0/xOMnRVuMzPMJ+zZkZxytRI3aV7J6huRoUAXadllSm49NwAic8F0MgV0Uxxdb5L3Q0S
- dDLg==
+ bh=7Y7TfioDwpgvtQ4e6N4jTKssseK6qyEb7EKKC6In28c=;
+ b=sFLda86/eoiSl0wWMUEDAHTrLjyzWyK3ve64S7ZMtP02K9GBOX3Iy9WUcjXP5z+7D7
+ kVEuhlpBKyF5ltZw/mH9GvVeZTiOLTAja3WHnI+YMgdOcpMbV3wGYSP4XVY5Gb7EjSmK
+ cNL+28fRY67aM6+jo8QWK3yOvTGSMkxHf6rcqIYobfGYd/KR35Rp/ADPTYNTsUSo9IiI
+ 2Cex/IpzcZAsIMRDamL1GQK4WonyWCS2o8BVDpc6DRS3eKJe8Czzfs089eVk//uTQQ2S
+ C8+xToT3VY8Pn7ChRSsAAR3JWIuScQlBN0tRjs9J7EPxl1wij+Jdn+0fjB+bRve4n0Qw
+ bDXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=HySOJe4JKyQl5ngDElO/PSPX+NbxsmrxWdvKU/pVxQA=;
- b=nd05wUUIGm9K5yG9rJIv37azt0N4HvPwTHyDhSg6RsaRArlAjaN0eZGMdCmfLwOk12
- IqiRAHmeaJwmzBYi1Ske8d56GRsOHRu5ChYRwQrLGGwuWjdPGK+bYfNZXXbTrKeJRWLM
- UnBYDUzWXaobk+0XNK01TF3FBVqKwWwAKOG82ml3CJJYD7fsXkCTkWrSZfpIAGy0WCNc
- oIPh4jPUVM2YDJmesaByUWH1xdycYnN7ov0/gWtbfGbpLFP+zYeKdLbC2lKKd7XyLrtF
- nZnuRgCKkOOe8ub1TIpnjxB8NL+wgf0cFmiR0mHM2GII7lUC0iJxgjDtZD6uumdznRmT
- GIbA==
-X-Gm-Message-State: APjAAAXRMZ2kqwJxUsJu14K0dB9dR0wf1IdT236IPkFCJuUEUVQL4/3h
- D3ud6Vby51kxzxwlTfBh8hMOStUG
-X-Google-Smtp-Source: APXvYqzdhvxUrWgx4AvS07GwckAcRJo1GYxWHzEemIoxVxuCBiDCJhqgJw/7kIYERf8PvdKOjVzIcg==
-X-Received: by 2002:a05:651c:2046:: with SMTP id
- t6mr36218047ljo.180.1578003327184; 
- Thu, 02 Jan 2020 14:15:27 -0800 (PST)
+ bh=7Y7TfioDwpgvtQ4e6N4jTKssseK6qyEb7EKKC6In28c=;
+ b=TWM4q84Sk8iLGA1BnevZRE0NJId4FTaHvNufJTeWU9gqojJ4fEcwwsWEHMYCyN3jyb
+ jM6Rx0oXEbTMp5SVg3i5WrgMML9TJqvVnzU9X2bLeDm5roa43NYAFf+ZJ8XtqR7j5YS1
+ ADBn9lKruasIUujseAFWxQMH2n6pwYmgvRroqHhp+F0Z0JYHN1zsXd0HXNOVnbCNoMkw
+ dl54ek7RuLVYURjMDrwA+pi+vfYEdStNB8wxZqTseqstpNrhNYD8mZ9HcNZDrHjD7WJh
+ rH3WqMWVYgJUejEfqjj/6TDSBf3+KspsoJmnAKc/ttfgfVlpISBqyIpcxG35JMgDiqkw
+ 1zCw==
+X-Gm-Message-State: APjAAAVa6WcBzztLuWoeaTzl89JU2tk88YKx8Y2rKjgv1zh94wHItl77
+ OVGwvIxEJLMdW37Qw4igSkp/q7UQ
+X-Google-Smtp-Source: APXvYqy+HSg9BWKp37s7HXscgczR0JAVR0g7Fa5++yVhock1oJhCNs9rmzfbKIOIPjh9nxQM2KG5gQ==
+X-Received: by 2002:a2e:2e12:: with SMTP id u18mr23481674lju.36.1578003328905; 
+ Thu, 02 Jan 2020 14:15:28 -0800 (PST)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
  by smtp.gmail.com with ESMTPSA id
- z7sm23499965lji.30.2020.01.02.14.15.26
+ z7sm23499965lji.30.2020.01.02.14.15.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jan 2020 14:15:26 -0800 (PST)
+ Thu, 02 Jan 2020 14:15:28 -0800 (PST)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@intel.com>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 1/2] drm/print: document drm_ logging functions
-Date: Thu,  2 Jan 2020 23:15:18 +0100
-Message-Id: <20200102221519.31037-2-sam@ravnborg.org>
+Subject: [PATCH v2 2/2] drm/print: document DRM_ logging functions
+Date: Thu,  2 Jan 2020 23:15:19 +0100
+Message-Id: <20200102221519.31037-3-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200102221519.31037-1-sam@ravnborg.org>
 References: <20200102221519.31037-1-sam@ravnborg.org>
@@ -76,146 +75,142 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is the documentation I have missed when I looked for help
-how to do proper logging. Hopefully it can help others.
-
-v2:
-  - Add parameters to the logging functions in the doc
-  - Drop notes on other types of logging
+Document the remaining DRM_ logging functions.
+As the logging functions are now all properly
+listed drop the few specific kernel-doc markers
+so we keep the relevant parts in the documentation.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: Jani Nikula <jani.nikula@intel.com>
 Cc: Sean Paul <sean@poorly.run>
 Cc: Daniel Vetter <daniel@ffwll.ch>
 ---
- Documentation/gpu/drm-internals.rst |  6 +++
- include/drm/drm_print.h             | 80 ++++++++++++++++++++++++++---
- 2 files changed, 79 insertions(+), 7 deletions(-)
+ include/drm/drm_print.h | 84 +++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 80 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/gpu/drm-internals.rst b/Documentation/gpu/drm-internals.rst
-index a73320576ca9..c2093611999c 100644
---- a/Documentation/gpu/drm-internals.rst
-+++ b/Documentation/gpu/drm-internals.rst
-@@ -164,6 +164,12 @@ File Operations
- Misc Utilities
- ==============
- 
-+Logging
-+-------
-+
-+.. kernel-doc:: include/drm/drm_print.h
-+   :doc: logging
-+
- Printer
- -------
- 
 diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-index 8f99d389792d..89e75eea65d2 100644
+index 89e75eea65d2..abe247199bf7 100644
 --- a/include/drm/drm_print.h
 +++ b/include/drm/drm_print.h
-@@ -250,22 +250,42 @@ static inline struct drm_printer drm_err_printer(const char *prefix)
- }
- 
- /**
-- * enum drm_debug_category - The DRM debug categories
-+ * DOC: logging
-+ *
-+ * There is a set of functions/macros available used for logging
-+ * in the DRM subsystem.
-+ * Using the drm logging function enables that the logging is consistently
-+ * prefixed with *[drm]* thus the logging is easy to recognize.
-+ *
-+ * Example of logging with *[drm]* prefix::
+@@ -335,6 +335,82 @@ static inline struct drm_printer drm_err_printer(const char *prefix)
   *
-- * Each of the DRM debug logging macros use a specific category, and the logging
-- * is filtered by the drm.debug module parameter. This enum specifies the values
-- * for the interface.
-+ *   [drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
-+ *   [drm] Driver supports precise vblank timestamp query.
+  * See enum &drm_debug_category for a description of the categories.
   *
-- * Each DRM_DEBUG_<CATEGORY> macro logs to DRM_UT_<CATEGORY> category, except
-- * DRM_DEBUG() logs to DRM_UT_CORE.
++ * Logging when a &device * is available, but no &drm_device *
++ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 + *
-+ * Each of the debug logging macros use a specific category, and the logging
-+ * is filtered by the drm.debug module parameter. The &drm_debug_category enum
-+ * specifies the values for the interface.
-+ *
-+ * Each drm_dbg_<category> macro logs to a DRM_UT_<category> category,
-+ * except drm_dbg() that logs to DRM_UT_DRIVER.
-  *
-  * Enabling verbose debug messages is done through the drm.debug parameter, each
-  * category being enabled by a bit:
-  *
-  *  - drm.debug=0x1 will enable CORE messages
-  *  - drm.debug=0x2 will enable DRIVER messages
-+ *  - drm.debug=0x4 will enable KMS messages
-+ *  - drm.debug=0x8 will enable PRIME messages
-+ *  - drm.debug=0x10 will enable ATOMIC messages
-+ *  - drm.debug=0x20 will enable VBL messages
-+ *  - drm.debug=0x40 will enable STATE messages
-+ *  - drm.debug=0x80 will enable LEASE messages
-+ *  - drm.debug=0x100 will enable DP messages
-+ *
-+ * To enable more than one category OR the values - examples:
-+ *
-  *  - drm.debug=0x3 will enable CORE and DRIVER messages
-- *  - ...
-  *  - drm.debug=0x1ff will enable all messages
-  *
-  * An interesting feature is that it's possible to enable verbose logging at
-@@ -273,6 +293,52 @@ static inline struct drm_printer drm_err_printer(const char *prefix)
-  *
-  *   # echo 0xf > /sys/module/drm/parameters/debug
-  *
-+ *
-+ * When a &drm_device * is available use one of the following logging functions.
-+ * The same prototype is shared by all the logging functions
-+ * that take a &drm_device * as first argument:
++ * DRM/Drivers can use the following functions for logging when there is a
++ * struct device * available.
++ * The logging functions share the same prototype:
 + *
 + * .. code-block:: c
 + *
-+ *   void drm_xxx(struct drm_device *, char * fmt, ...)
-+ *
-+ * DRM/Drivers can use the following functions for logging.
++ *   void DRM_xxx(struct device *, char * fmt, ...)
 + *
 + * .. code-block:: none
 + *
 + *   # Plain logging
-+ *   drm_dbg(drm, fmt, ...)
-+ *   drm_info(drm, fmt, ...)
-+ *   drm_notice(drm, fmt, ...)
-+ *   drm_warn(drm, fmt, ...)
-+ *   drm_err(drm, fmt, ...)
++ *   DRM_DEV_INFO(dev, fmt, ...)
++ *   DRM_DEV_ERROR(dev, fmt, ...)
 + *
 + *   # Log only once
-+ *   drm_info_once(drm, fmt, ...)
-+ *   drm_notice_once(drm, fmt, ...)
-+ *   drm_warn_once(drm, fmt, ...)
-+ *   drm_err_once(drm, fmt, ...)
++ *   DRM_DEV_INFO_ONCE(dev, fmt, ...)
 + *
 + *   # Ratelimited - do not flood the logs
-+ *   drm_err_ratelimited(drm, fmt, ...)
++ *   DRM_DEV_DEBUG_RATELIMITED(dev, fmt, ...)
++ *   DRM_DEV_DEBUG_DRIVER_RATELIMITED(dev, fmt, ...)
++ *   DRM_DEV_DEBUG_KMS_RATELIMITED(dev, fmt, ...)
++ *   DRM_DEV_DEBUG_PRIME_RATELIMITED(dev, fmt, ...)
++ *   DRM_DEV_ERROR_RATELIMITED(dev, fmt, ...)
 + *
 + *   # Logging with a specific category
-+ *   drm_dbg_core(drm, fmt, ...)
-+ *   drm_dbg(drm, fmt, ...)		# Uses the DRIVER category
-+ *   drm_dbg_kms(drm, fmt, ...)
-+ *   drm_dbg_prime(drm, fmt, ...)
-+ *   drm_dbg_atomic(drm, fmt, ...)
-+ *   drm_dbg_vbl(drm, fmt, ...)
-+ *   drm_dbg_state(drm, fmt, ...)
-+ *   drm_dbg_lease(drm, fmt, ...)
-+ *   drm_dbg_dp(drm, fmt, ...)
++ *   DRM_DEV_DEBUG(dev, fmt, ...)		# Logged as CORE
++ *   DRM_DEV_DEBUG_DRIVER(dev, fmt, ...)
++ *   DRM_DEV_DEBUG_KMS(dev, fmt, ...)
++ *   DRM_DEV_DEBUG_PRIME(dev, fmt, ...)
++ *   DRM_DEV_DEBUG_ATOMIC(dev, fmt, ...)
++ *   DRM_DEV_DEBUG_VBL(dev, fmt, ...)
++ *   DRM_DEV_DEBUG_DP(dev, fmt, ...)
 + *
-+ * See enum &drm_debug_category for a description of the categories.
++ * Logging when no &device * nor &drm_device * is available
++ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 + *
-+ */
-+
-+/**
-+ * enum drm_debug_category - The DRM debug categories
++ * DRM/Drivers can use the following functions for logging when there is no
++ * extra info associated to the logging.
++ * The logging functions share the same prototype:
++ *
++ * .. code-block:: c
++ *
++ *   void DRM_xxx(char * fmt, ...)
++ *
++ * .. code-block:: none
++ *
++ *   # Plain logging
++ *   DRM_INFO(fmt, ...)
++ *   DRM_NOTE(fmt, ...)
++ *   DRM_WARN(fmt, ...)
++ *   DRM_ERROR(fmt, ...)
++ *
++ *   # Log only once
++ *   DRM_INFO_ONCE(fmt, ...)
++ *   DRM_NOTE_ONCE(fmt, ...)
++ *   DRM_WARN_ONCE(fmt, ...)
++ *
++ *   # Ratelimited - do not flood the logs
++ *   DRM_DEBUG_RATELIMITED(fmt, ...)
++ *   DRM_DEBUG_DRIVER_RATELIMITED(fmt, ...)
++ *   DRM_DEBUG_KMS_RATELIMITED(fmt, ...)
++ *   DRM_DEBUG_PRIME_RATELIMITED(fmt, ...)
++ *   DRM_ERROR_RATELIMITED(fmt, ...)
++ *
++ *   # Logging with a specific category
++ *   DRM_DEBUG(fmt, ...)		# Logged as CORE
++ *   DRM_DEBUG_DRIVER(fmt, ...)
++ *   DRM_DEBUG_KMS(fmt, ...)
++ *   DRM_DEBUG_PRIME(fmt, ...)
++ *   DRM_DEBUG_ATOMIC(fmt, ...)
++ *   DRM_DEBUG_VBL(fmt, ...)
++ *   DRM_DEBUG_LEASE(fmt, ...)
++ *   DRM_DEBUG_DP(fmt, ...)
   */
- enum drm_debug_category {
- 	/**
+ 
+ /**
+@@ -399,7 +475,7 @@ __printf(3, 4)
+ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+ 		 const char *format, ...);
+ 
+-/**
++/*
+  * Error output.
+  *
+  * @dev: device pointer
+@@ -408,7 +484,7 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+ #define DRM_DEV_ERROR(dev, fmt, ...)					\
+ 	drm_dev_printk(dev, KERN_ERR, "*ERROR* " fmt, ##__VA_ARGS__)
+ 
+-/**
++/*
+  * Rate limited error output.  Like DRM_ERROR() but won't flood the log.
+  *
+  * @dev: device pointer
+@@ -436,7 +512,7 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+ 	}								\
+ })
+ 
+-/**
++/*
+  * Debug output.
+  *
+  * @dev: device pointer
+@@ -466,7 +542,7 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+ 		drm_dev_dbg(dev, category, fmt, ##__VA_ARGS__);		\
+ })
+ 
+-/**
++/*
+  * Rate limited debug output. Like DRM_DEBUG() but won't flood the log.
+  *
+  * @dev: device pointer
 -- 
 2.20.1
 
