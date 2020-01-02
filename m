@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3846412E4BE
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 11:02:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEFDE12E4C0
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 11:03:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A6346E02C;
-	Thu,  2 Jan 2020 10:02:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C3D96E02F;
+	Thu,  2 Jan 2020 10:02:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE1F36E02C;
- Thu,  2 Jan 2020 10:02:54 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id b19so5096151wmj.4;
- Thu, 02 Jan 2020 02:02:54 -0800 (PST)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 692F76E02F;
+ Thu,  2 Jan 2020 10:02:58 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id z7so38615852wrl.13;
+ Thu, 02 Jan 2020 02:02:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=De6Z7XlByT/3y43y8ANqlsh9lPr7hWe/7UFt2ZwYqp4=;
- b=YATk5J7gbPl8aSHbGfbKvNtScL1wLi/SmbrgwfdHCFO53alDDQe6bpj3xhOaiw54fP
- iWW9bxSoChvzWwHweh5nzSHbxJgsfCG0909tt9AnIoMXLWdAM2CGWF1ecM/aPmDuSqYM
- rl3DXWMbMvWGmE/FMRzDroXXn9hHtgb9+eJITdbEAxviCn/m6LZ3q2Ot1ic3yY7pVkRF
- 6xoeoOVc7ZzSRiVrGPy5GpRVGdEYiRVxJzCd2eBa/HAn/EUmoTUHOGryhojEwDjlrL9R
- Uen6nPmMmoLFIX4rDo2Gchm1gaYURR3k71bqDsAb4lc+4CZ/R9S7LnW6HDFuvBznZ0tw
- jk8Q==
+ bh=/h6NXyD6aVKL5bx8Xk7zLnuH4ugoW90Sl0nahNHK5jE=;
+ b=U7I8i4xeYif2uypX4KDfROp0j+MUuq0bTvsx90CwzEy0ej2aUbqTEzGTDGoDoD1lMl
+ EEnplWcR3tc6csYkgiVANSuMEQfq1kG4GbnD2/dagsGEVaOrcAkj5ZJ6E6GwL9xeW6k/
+ Uk13PISUdBZjY57xpw9gNHeTnZ5hzRWLqb9KbOKtz9iV+I8Uren4+8xzmr39BHHt6/uC
+ IJpRohJROAaQGvSBADPoUyyjfkO4A+BxMPCuWTc8I/nr2cj5v6Lo7LeIRDuCq4zLH5hR
+ 26om24StYh/dVw2/hjo1FHaDkKpNAhOKsIDXgRS1DIsKTw4F9uXApP9x/WO2YO96BHQF
+ oOmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=De6Z7XlByT/3y43y8ANqlsh9lPr7hWe/7UFt2ZwYqp4=;
- b=frFIBvzVAjvVTFy/faEJCGGx1gBX7wnXtNlhAHLAPDa7SLNOruagSAR+/tXpnHl5X9
- E9lPFiS/83OVr+h3mVIPks2dyt424u7TftDGm7geh98rpnkIhUcgruKLrc3HtyN3PWni
- zSJCxyNRPGgLF8lnCoXUbWadKw5+xydvxvULXPIKuXwaMTCLEe29+qVUK+qlWjmqKAHq
- na5YsviGEKzvhImf9XUay5ipjVHKWkaLrjGzmd7dwzFsUrQeZDH0XboyhAxL8Xesy6S7
- IDyld2kGS48hn7Fycn9J+lsN6KDkLdNbz849E+LkL741X/Q4s5+rI0TpjgrxBMTr3gmC
- Xa0g==
-X-Gm-Message-State: APjAAAWcYlA/C246C1vtMLK1OKSfaWpsH4TWyJ/3aE44AcG+JuzXnIft
- HOR9L6CnwUd2pTRA+47F0NA=
-X-Google-Smtp-Source: APXvYqywYgY1OpijhABjU9VkAhd9hds5Pl2h/firY7w1mQDLa1s7CITtTjAt+znNZtG0BnLfCiA0pw==
-X-Received: by 2002:a05:600c:2318:: with SMTP id
- 24mr13403333wmo.48.1577959373515; 
- Thu, 02 Jan 2020 02:02:53 -0800 (PST)
+ bh=/h6NXyD6aVKL5bx8Xk7zLnuH4ugoW90Sl0nahNHK5jE=;
+ b=NQQKgmY3glj7fSDt3RIhC+lgmDg3fTsW43GrXzf31FoJJXNa65HIYTRZ28Q0eQ862t
+ MjsX6mR1URxKaIF7rKT3/TD9Urk5RK4S0LhVlpNo0aFzTBzqN+3gsMDznJwnBKA7SMHo
+ Ml/lNAdd20d/7AsUUMwcJ97Ywnm5Yt8m+3NJ39A7Y4wnBjv9WBJ7zK9gGHzXShEbcGqk
+ Gd+6ZJkir86vj7PDULbotcNeBrxphi88GRaTTGQrGBsYwPn1Jx1gIBHmyIAyJ4kcvTFG
+ 35kgDsyU1kkfpW5qTD1f6xhgO0O12lMs317TOuGnSWk58p2lwdETn3l24iBD5WKgc0H9
+ mcOA==
+X-Gm-Message-State: APjAAAVhLkfXKti3zjERsXAyBX8xPMZhXDVwR/v/Vi+JKSMIyWQ1FvPP
+ 0ZPuCGnMKbDqr75Ny5uPpuA=
+X-Google-Smtp-Source: APXvYqwuWzsCGpjQcNQa5lHuh7FuWlPCZt+dlf5F5Z/vvbfkuGlWFhtrM+c4T01AWO6cbZ1Pxh7SVw==
+X-Received: by 2002:adf:e6d2:: with SMTP id y18mr84428535wrm.262.1577959377141; 
+ Thu, 02 Jan 2020 02:02:57 -0800 (PST)
 Received: from localhost.localdomain (62-178-82-229.cable.dynamic.surfer.at.
  [62.178.82.229])
- by smtp.gmail.com with ESMTPSA id r6sm55418683wrq.92.2020.01.02.02.02.52
+ by smtp.gmail.com with ESMTPSA id r6sm55418683wrq.92.2020.01.02.02.02.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jan 2020 02:02:52 -0800 (PST)
+ Thu, 02 Jan 2020 02:02:56 -0800 (PST)
 From: Christian Gmeiner <christian.gmeiner@gmail.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5/6] drm/etnaviv: update hwdb selection logic
-Date: Thu,  2 Jan 2020 11:02:19 +0100
-Message-Id: <20200102100230.420009-6-christian.gmeiner@gmail.com>
+Subject: [PATCH 6/6] drm/etnaviv: add hwdb entry for gc400 found in STM32
+Date: Thu,  2 Jan 2020 11:02:20 +0100
+Message-Id: <20200102100230.420009-7-christian.gmeiner@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200102100230.420009-1-christian.gmeiner@gmail.com>
 References: <20200102100230.420009-1-christian.gmeiner@gmail.com>
@@ -75,46 +74,56 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Take product id, customer id and eco id into account. If that
-delivers no match try a search for model and revision.
+The information was taken from STM32 glacore driver hw database.
+The entry is named as gc7000nano_0x4652.
 
 Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 31 ++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-index eb0f3eb87ced..d1744f1b44b1 100644
+index d1744f1b44b1..8495b041a3b7 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-@@ -44,9 +44,26 @@ bool etnaviv_fill_identity_from_hwdb(struct etnaviv_gpu *gpu)
- 	struct etnaviv_chip_identity *ident = &gpu->identity;
- 	int i;
+@@ -6,6 +6,37 @@
+ #include "etnaviv_gpu.h"
  
-+	/* accurate match */
- 	for (i = 0; i < ARRAY_SIZE(etnaviv_chip_identities); i++) {
- 		if (etnaviv_chip_identities[i].model == ident->model &&
--		    etnaviv_chip_identities[i].revision == ident->revision) {
-+		    etnaviv_chip_identities[i].revision == ident->revision &&
-+		    etnaviv_chip_identities[i].product_id == ident->product_id &&
-+		    etnaviv_chip_identities[i].customer_id == ident->customer_id &&
-+		    etnaviv_chip_identities[i].eco_id == ident->eco_id) {
-+			memcpy(ident, &etnaviv_chip_identities[i],
-+			       sizeof(*ident));
-+			return true;
-+		}
-+	}
-+
-+	/* match based only on model and revision */
-+	for (i = 0; i < ARRAY_SIZE(etnaviv_chip_identities); i++) {
-+		if (etnaviv_chip_identities[i].model == ident->model &&
-+		    etnaviv_chip_identities[i].revision == ident->revision &&
-+		    etnaviv_chip_identities[i].product_id == ~0U &&
-+		    etnaviv_chip_identities[i].customer_id == ~0U &&
-+		    etnaviv_chip_identities[i].eco_id == ~0U) {
- 			memcpy(ident, &etnaviv_chip_identities[i],
- 			       sizeof(*ident));
- 			return true;
+ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
++	{
++		.model = 0x400,
++		.revision = 0x4652,
++		.product_id = 0x70001,
++		.customer_id = 0x100,
++		.eco_id = 0,
++		.stream_count = 4,
++		.register_max = 64,
++		.thread_count = 128,
++		.shader_core_count = 1,
++		.vertex_cache_size = 8,
++		.vertex_output_buffer_size = 1024,
++		.pixel_pipes = 1,
++		.instruction_count = 256,
++		.num_constants = 320,
++		.buffer_size = 0,
++		.varyings_count = 8,
++		.features = 0xa0e9e004,
++		.minor_features0 = 0xe1299fff,
++		.minor_features1 = 0xbe13b219,
++		.minor_features2 = 0xce110010,
++		.minor_features3 = 0x8000001,
++		.minor_features4 = 0x20102,
++		.minor_features5 = 0x120000,
++		.minor_features6 = 0x0,
++		.minor_features7 = 0x0,
++		.minor_features8 = 0x0,
++		.minor_features9 = 0x0,
++		.minor_features10 = 0x0,
++		.minor_features11 = 0x0,
++	},
+ 	{
+ 		.model = 0x7000,
+ 		.revision = 0x6214,
 -- 
 2.24.1
 
