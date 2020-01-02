@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11CBF12E453
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 10:19:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CDA612E45E
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 10:23:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E65C89DFB;
-	Thu,  2 Jan 2020 09:18:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3FDA89DA9;
+	Thu,  2 Jan 2020 09:23:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05CFF89DEA;
- Thu,  2 Jan 2020 09:18:53 +0000 (UTC)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7621589DA9;
+ Thu,  2 Jan 2020 09:23:19 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 02 Jan 2020 01:18:53 -0800
-X-IronPort-AV: E=Sophos;i="5.69,386,1571727600"; d="scan'208";a="214100693"
+ by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 02 Jan 2020 01:23:18 -0800
+X-IronPort-AV: E=Sophos;i="5.69,386,1571727600"; d="scan'208";a="214101734"
 Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 02 Jan 2020 01:18:50 -0800
+ 02 Jan 2020 01:23:16 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: Animesh Manna <animesh.manna@intel.com>, intel-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 3/9] drm/i915/dp: Move vswing/pre-emphasis adjustment
- calculation
-In-Reply-To: <20191230161523.32222-4-animesh.manna@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v3 8/9] drm/i915/dp: Update the pattern as per
+ request
+In-Reply-To: <20191230161523.32222-9-animesh.manna@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20191230161523.32222-1-animesh.manna@intel.com>
- <20191230161523.32222-4-animesh.manna@intel.com>
-Date: Thu, 02 Jan 2020 11:18:48 +0200
-Message-ID: <87v9putdvr.fsf@intel.com>
+ <20191230161523.32222-9-animesh.manna@intel.com>
+Date: Thu, 02 Jan 2020 11:23:14 +0200
+Message-ID: <87sgkytdod.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,172 +45,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: manasi.d.navare@intel.com, nidhi1.gupta@intel.com,
- Animesh Manna <animesh.manna@intel.com>, uma.shankar@intel.com,
- anshuman.gupta@intel.com
+Cc: nidhi1.gupta@intel.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Mon, 30 Dec 2019, Animesh Manna <animesh.manna@intel.com> wrote:
-> vswing/pre-emphasis adjustment calculation is needed in processing
-> of auto phy compliance request other than link training, so moved
-> the same function in intel_dp.c.
+> As per request from DP phy compliance test few special
+> test pattern need to set by source. Added function
+> to set pattern in DP_COMP_CTL register. It will be
+> called along with other test parameters like vswing,
+> pre-emphasis programming in atomic_commit_tail path.
+>
+> Signed-off-by: Animesh Manna <animesh.manna@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_dp.c | 55 +++++++++++++++++++++++++
+>  1 file changed, 55 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> index cbefda9b6204..7c3f65e5d88b 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -5005,6 +5005,61 @@ static u8 intel_dp_prepare_phytest(struct intel_dp *intel_dp)
+>  	return DP_TEST_ACK;
+>  }
+>  
+> +static inline void intel_dp_phy_pattern_update(struct intel_dp *intel_dp)
 
-I guess I'm still asking why you think this is better located in
-intel_dp.c than intel_dp_link_training.c, as the function has been moved
-once in the other direction already to split out stuff from intel_dp.c
-and to make the file smaller. Even the file name suggests it should
-really be in intel_dp_link_training.c, right?
+As a general rule, please only use the inline keyword for static inlines
+in headers. Sometimes, it's useful in small helpers, but usually you
+should just let the compiler decide what gets inlined.
+
+In this case, the inline probably just hides the compiler warning about
+the unused function.
 
 BR,
 Jani.
 
-
->
-> No functional change.
->
-> v1: initial patch.
-> v2:
-> - used "intel_dp" prefix in function name. (Jani)
-> - used array notation instead pointer for link_status. (Ville)
->
-> Signed-off-by: Animesh Manna <animesh.manna@intel.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_dp.c       | 34 ++++++++++++++++++
->  drivers/gpu/drm/i915/display/intel_dp.h       |  4 +++
->  .../drm/i915/display/intel_dp_link_training.c | 36 ++-----------------
->  3 files changed, 40 insertions(+), 34 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-> index 991f343579ef..2a27ee106089 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -4110,6 +4110,40 @@ ivb_cpu_edp_signal_levels(u8 train_set)
->  	}
->  }
->  
-> +void
-> +intel_dp_get_adjust_train(struct intel_dp *intel_dp,
-> +			  const u8 link_status[DP_LINK_STATUS_SIZE])
 > +{
-> +	u8 v = 0;
-> +	u8 p = 0;
-> +	int lane;
-> +	u8 voltage_max;
-> +	u8 preemph_max;
+> +	struct drm_i915_private *dev_priv =
+> +			to_i915(dp_to_dig_port(intel_dp)->base.base.dev);
+> +	struct intel_digital_port *intel_dig_port = dp_to_dig_port(intel_dp);
+> +	struct drm_dp_phy_test_params *data =
+> +			&intel_dp->compliance.test_data.phytest;
+> +	u32 temp;
 > +
-> +	for (lane = 0; lane < intel_dp->lane_count; lane++) {
-> +		u8 this_v = drm_dp_get_adjust_request_voltage(link_status,
-> +							      lane);
-> +		u8 this_p = drm_dp_get_adjust_request_pre_emphasis(link_status,
-> +								   lane);
-> +
-> +		if (this_v > v)
-> +			v = this_v;
-> +		if (this_p > p)
-> +			p = this_p;
+> +	switch (data->phy_pattern) {
+> +	case DP_PHY_TEST_PATTERN_NONE:
+> +		DRM_DEBUG_KMS("Disable Phy Test Pattern\n");
+> +		I915_WRITE(DDI_DP_COMP_CTL(intel_dig_port->base.port), 0x0);
+> +		break;
+> +	case DP_PHY_TEST_PATTERN_D10_2:
+> +		DRM_DEBUG_KMS("Set D10.2 Phy Test Pattern\n");
+> +		I915_WRITE(DDI_DP_COMP_CTL(intel_dig_port->base.port),
+> +			   DDI_DP_COMP_CTL_ENABLE | DDI_DP_COMP_CTL_D10_2);
+> +		break;
+> +	case DP_PHY_TEST_PATTERN_ERROR_COUNT:
+> +		DRM_DEBUG_KMS("Set Error Count Phy Test Pattern\n");
+> +		I915_WRITE(DDI_DP_COMP_CTL(intel_dig_port->base.port),
+> +			   DDI_DP_COMP_CTL_ENABLE |
+> +			   DDI_DP_COMP_CTL_SCRAMBLED_0);
+> +		break;
+> +	case DP_PHY_TEST_PATTERN_PRBS7:
+> +		DRM_DEBUG_KMS("Set PRBS7 Phy Test Pattern\n");
+> +		I915_WRITE(DDI_DP_COMP_CTL(intel_dig_port->base.port),
+> +			   DDI_DP_COMP_CTL_ENABLE | DDI_DP_COMP_CTL_PRBS7);
+> +		break;
+> +	case DP_PHY_TEST_PATTERN_80BIT_CUSTOM:
+> +		DRM_DEBUG_KMS("Set 80Bit Custom Phy Test Pattern\n");
+> +		temp = ((data->custom80[0] << 24) | (data->custom80[1] << 16) |
+> +			(data->custom80[2] << 8) | (data->custom80[3]));
+> +		I915_WRITE(DDI_DP_COMP_PAT(intel_dig_port->base.port, 0), temp);
+> +		temp = ((data->custom80[4] << 24) | (data->custom80[5] << 16) |
+> +			(data->custom80[6] << 8) | (data->custom80[7]));
+> +		I915_WRITE(DDI_DP_COMP_PAT(intel_dig_port->base.port, 1), temp);
+> +		temp = ((data->custom80[8] << 8) | data->custom80[9]);
+> +		I915_WRITE(DDI_DP_COMP_PAT(intel_dig_port->base.port, 2), temp);
+> +		I915_WRITE(DDI_DP_COMP_CTL(intel_dig_port->base.port),
+> +			   DDI_DP_COMP_CTL_ENABLE | DDI_DP_COMP_CTL_CUSTOM80);
+> +		break;
+> +	case DP_PHY_TEST_PATTERN_CP2520:
+> +		DRM_DEBUG_KMS("Set HBR2 compliance Phy Test Pattern\n");
+> +		temp = ((data->hbr2_reset[1] << 8) | data->hbr2_reset[0]);
+> +		I915_WRITE(DDI_DP_COMP_CTL(intel_dig_port->base.port),
+> +			   DDI_DP_COMP_CTL_ENABLE | DDI_DP_COMP_CTL_HBR2 |
+> +			   temp);
+> +		break;
+> +	default:
+> +		WARN(1, "Invalid Phy Test PAttern\n");
 > +	}
-> +
-> +	voltage_max = intel_dp_voltage_max(intel_dp);
-> +	if (v >= voltage_max)
-> +		v = voltage_max | DP_TRAIN_MAX_SWING_REACHED;
-> +
-> +	preemph_max = intel_dp_pre_emphasis_max(intel_dp, v);
-> +	if (p >= preemph_max)
-> +		p = preemph_max | DP_TRAIN_MAX_PRE_EMPHASIS_REACHED;
-> +
-> +	for (lane = 0; lane < 4; lane++)
-> +		intel_dp->train_set[lane] = v | p;
 > +}
 > +
->  void
->  intel_dp_set_signal_levels(struct intel_dp *intel_dp)
+>  static u8 intel_dp_autotest_phy_pattern(struct intel_dp *intel_dp)
 >  {
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i915/display/intel_dp.h
-> index 3da166054788..83eadc87af26 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.h
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.h
-> @@ -9,6 +9,7 @@
->  #include <linux/types.h>
->  
->  #include <drm/i915_drm.h>
-> +#include <drm/drm_dp_helper.h>
->  
->  #include "i915_reg.h"
->  
-> @@ -91,6 +92,9 @@ void
->  intel_dp_program_link_training_pattern(struct intel_dp *intel_dp,
->  				       u8 dp_train_pat);
->  void
-> +intel_dp_get_adjust_train(struct intel_dp *intel_dp,
-> +			  const u8 link_status[DP_LINK_STATUS_SIZE]);
-> +void
->  intel_dp_set_signal_levels(struct intel_dp *intel_dp);
->  void intel_dp_set_idle_link_train(struct intel_dp *intel_dp);
->  u8
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-> index 2a1130dd1ad0..e8ff9e279800 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-> @@ -34,38 +34,6 @@ intel_dp_dump_link_status(const u8 link_status[DP_LINK_STATUS_SIZE])
->  		      link_status[3], link_status[4], link_status[5]);
->  }
->  
-> -static void
-> -intel_get_adjust_train(struct intel_dp *intel_dp,
-> -		       const u8 link_status[DP_LINK_STATUS_SIZE])
-> -{
-> -	u8 v = 0;
-> -	u8 p = 0;
-> -	int lane;
-> -	u8 voltage_max;
-> -	u8 preemph_max;
-> -
-> -	for (lane = 0; lane < intel_dp->lane_count; lane++) {
-> -		u8 this_v = drm_dp_get_adjust_request_voltage(link_status, lane);
-> -		u8 this_p = drm_dp_get_adjust_request_pre_emphasis(link_status, lane);
-> -
-> -		if (this_v > v)
-> -			v = this_v;
-> -		if (this_p > p)
-> -			p = this_p;
-> -	}
-> -
-> -	voltage_max = intel_dp_voltage_max(intel_dp);
-> -	if (v >= voltage_max)
-> -		v = voltage_max | DP_TRAIN_MAX_SWING_REACHED;
-> -
-> -	preemph_max = intel_dp_pre_emphasis_max(intel_dp, v);
-> -	if (p >= preemph_max)
-> -		p = preemph_max | DP_TRAIN_MAX_PRE_EMPHASIS_REACHED;
-> -
-> -	for (lane = 0; lane < 4; lane++)
-> -		intel_dp->train_set[lane] = v | p;
-> -}
-> -
->  static bool
->  intel_dp_set_link_train(struct intel_dp *intel_dp,
->  			u8 dp_train_pat)
-> @@ -215,7 +183,7 @@ intel_dp_link_training_clock_recovery(struct intel_dp *intel_dp)
->  		voltage = intel_dp->train_set[0] & DP_TRAIN_VOLTAGE_SWING_MASK;
->  
->  		/* Update training set as requested by target */
-> -		intel_get_adjust_train(intel_dp, link_status);
-> +		intel_dp_get_adjust_train(intel_dp, link_status);
->  		if (!intel_dp_update_link_train(intel_dp)) {
->  			DRM_ERROR("failed to update link training\n");
->  			return false;
-> @@ -325,7 +293,7 @@ intel_dp_link_training_channel_equalization(struct intel_dp *intel_dp)
->  		}
->  
->  		/* Update training set as requested by target */
-> -		intel_get_adjust_train(intel_dp, link_status);
-> +		intel_dp_get_adjust_train(intel_dp, link_status);
->  		if (!intel_dp_update_link_train(intel_dp)) {
->  			DRM_ERROR("failed to update link training\n");
->  			break;
+>  	u8 test_result = DP_TEST_NAK;
 
 -- 
 Jani Nikula, Intel Open Source Graphics Center
