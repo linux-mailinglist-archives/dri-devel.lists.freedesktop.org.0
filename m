@@ -2,38 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBEAB12ED4D
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 23:27:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A7FA12EC1B
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 23:15:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E7076E151;
-	Thu,  2 Jan 2020 22:27:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BF73892B9;
+	Thu,  2 Jan 2020 22:15:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 324466E151
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2020 22:27:28 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 891D220863;
- Thu,  2 Jan 2020 22:27:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1578004048;
- bh=yfX2936HdLwEjC2mjPifYsObvdINNUm4mZVAF/eQtqc=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=daNf4ZqB9GyWkZceTSd2rjPHjO48Xs76IKALVsanEFC1YA+S6649HHq7AMk/7Zvdk
- 9VHbO8/UeSNA+1d8iOe7121f4aHL4+T66B54U4U9orQVuXOmmCHTrr/oCCCuuoiedE
- /+McsK5W0gz9W7d12uLoENU0TdlAgIApUpKUPW7Q=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 4.9 007/171] drm: mst: Fix query_payload ack reply struct
-Date: Thu,  2 Jan 2020 23:05:38 +0100
-Message-Id: <20200102220547.954943579@linuxfoundation.org>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200102220546.960200039@linuxfoundation.org>
-References: <20200102220546.960200039@linuxfoundation.org>
-User-Agent: quilt/0.66
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 186FE892B9
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2020 22:15:27 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id h23so42149443ljc.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Jan 2020 14:15:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uUUP/1Y6oOdsC9ROslrWc363EJHpn33hi6dmtmQlw58=;
+ b=CpHQ/JjI5rg5EM8Wgm9M77Eg7+bTrEjUs9n1kUAkB9HFRIdugcclcsbJJ+a7E780pN
+ qFUffcptU0PVf+wysPgLJ2yWK3iKIv7Btxt27OSfc/ZC302Ll/MjThPcUgXW4r/AP9vq
+ nHX89RAJtI7L4FC7L4/5nYdcXixHSQ+FDOp30rQ++KVzEmE3Sp1Umz1Aa1np2Ou1XwBg
+ VAxuJQCUcEG+rwEWnl8EHrF9yFKDok70Db7Acfgg/jWofoVdDCA2ip87Zo65tkri5l6S
+ A/XOuImURgPLwfF+1Npt5idNQFm/o0rMFzDjSU3P5iol2YXDRytAO1fbyNWWZBfOP6/G
+ H3Sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=uUUP/1Y6oOdsC9ROslrWc363EJHpn33hi6dmtmQlw58=;
+ b=asp16q5dBacFDkWMt1rm1eqGoqAQj/4tMb3r+Y/b/YsWtZKLfhe8izGYYXh7RkdIcX
+ NuK+b37IdX6TBAqkzXo78Tdl3jiWVWTiUHzTFLzsVhVeSHoVPs6fWBKSUNqwbx6qsHh4
+ /yKQEhwu9cakJBAi4SphSEV1NK3tmkHlAoBWZiahi0pyVGNSnk75zeerhiNT4UK7tf1+
+ 4sXe1lz538UdQpztUbTsT2jaLEed3LshdXpToT/h5T4RTUEA9YicWOvKqygPYhctoepr
+ heZ/ZCbNSiZrOjwORpKehtBbi9bMCbrwsJGfPNrlv3qPlYq45kyzwt5sV3BH5KMghad8
+ 2vUw==
+X-Gm-Message-State: APjAAAVM++xsra5T6gWsf7adQC6Pj8l6iWm/Xr75vO9vz8HdphF6v/JG
+ lY4sDDyjgf8V3rCTaYTV2ThbgBgZ
+X-Google-Smtp-Source: APXvYqzWN6SewVYPoxbyrGTgjDZ+9jDJHRO1P10XtC5CTNexiliPN83M4EyyIA8F4jdvYdNszGIYzQ==
+X-Received: by 2002:a2e:9510:: with SMTP id f16mr35866298ljh.249.1578003325179; 
+ Thu, 02 Jan 2020 14:15:25 -0800 (PST)
+Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
+ by smtp.gmail.com with ESMTPSA id
+ z7sm23499965lji.30.2020.01.02.14.15.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Jan 2020 14:15:24 -0800 (PST)
+From: Sam Ravnborg <sam@ravnborg.org>
+To: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v2 0/2] drm: document logging functions
+Date: Thu,  2 Jan 2020 23:15:17 +0100
+Message-Id: <20200102221519.31037-1-sam@ravnborg.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,59 +66,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Todd Previte <tprevite@gmail.com>, Sasha Levin <sashal@kernel.org>,
- Maxime Ripard <maxime.ripard@bootlin.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Sean Paul <seanpaul@chromium.org>,
- dri-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>,
+Cc: Joe Perches <joe@perches.com>, Sam Ravnborg <sam@ravnborg.org>,
  Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sean Paul <seanpaul@chromium.org>
+Add kernel-doc for the drm_ and DRM_ logging
+functions.
+This is the documentation that I missed when I started to use
+the logging functions.
 
-[ Upstream commit 268de6530aa18fe5773062367fd119f0045f6e88 ]
+Version 1 of this patchset included drm_ variants of the existing
+logging functions - but they are left out for now.
+The idea is that we should try to use drm_ logging in favour
+of the the variants that take a device *.
 
-Spec says[1] Allocated_PBN is 16 bits
+This patchset document the existing logging functions with
+no functional changes.
+And the documentation is properly wired up in drm-internals.rst
 
-[1]- DisplayPort 1.2 Spec, Section 2.11.9.8, Table 2-98
+	Sam
 
-Fixes: ad7f8a1f9ced ("drm/helper: add Displayport multi-stream helper (v0.6)")
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: Todd Previte <tprevite@gmail.com>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>
-Cc: Sean Paul <sean@poorly.run>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Reviewed-by: Lyude Paul <lyude@redhat.com>
-Signed-off-by: Sean Paul <seanpaul@chromium.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20190829165223.129662-1-sean@poorly.run
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- include/drm/drm_dp_mst_helper.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Sam Ravnborg (2):
+      drm/print: document drm_ logging functions
+      drm/print: document DRM_ logging functions
 
-diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst_helper.h
-index 003207670597..c0542de64690 100644
---- a/include/drm/drm_dp_mst_helper.h
-+++ b/include/drm/drm_dp_mst_helper.h
-@@ -312,7 +312,7 @@ struct drm_dp_resource_status_notify {
- 
- struct drm_dp_query_payload_ack_reply {
- 	u8 port_number;
--	u8 allocated_pbn;
-+	u16 allocated_pbn;
- };
- 
- struct drm_dp_sideband_msg_req_body {
--- 
-2.20.1
-
+ Documentation/gpu/drm-internals.rst |   6 ++
+ include/drm/drm_print.h             | 164 +++++++++++++++++++++++++++++++++---
+ 2 files changed, 159 insertions(+), 11 deletions(-)
 
 
 _______________________________________________
