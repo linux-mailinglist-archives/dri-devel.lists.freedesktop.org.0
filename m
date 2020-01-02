@@ -2,37 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CDA612E45E
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 10:23:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E01B512E495
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 10:49:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3FDA89DA9;
-	Thu,  2 Jan 2020 09:23:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F08F89E5F;
+	Thu,  2 Jan 2020 09:49:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7621589DA9;
- Thu,  2 Jan 2020 09:23:19 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 02 Jan 2020 01:23:18 -0800
-X-IronPort-AV: E=Sophos;i="5.69,386,1571727600"; d="scan'208";a="214101734"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 02 Jan 2020 01:23:16 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Animesh Manna <animesh.manna@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH v3 8/9] drm/i915/dp: Update the pattern as per
- request
-In-Reply-To: <20191230161523.32222-9-animesh.manna@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20191230161523.32222-1-animesh.manna@intel.com>
- <20191230161523.32222-9-animesh.manna@intel.com>
-Date: Thu, 02 Jan 2020 11:23:14 +0200
-Message-ID: <87sgkytdod.fsf@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5575589E5F
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2020 09:49:51 +0000 (UTC)
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id C03B42085B;
+ Thu,  2 Jan 2020 09:49:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1577958591;
+ bh=e2aX0MJhewGki2xBt4YdOc9opVq/Rid8prxQy6m/Ask=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=uJewPHQYBFbKV0Yfqi2AR4j6BhCuhjlhYdZMDjjUE6+7iSWBWg6lBV4hQS7nYnUWU
+ YqXJCeuwQfjnjsTt9fnunSdiA2+Bmr9xmhIs9X1uEWPd6aRNk6HmdG9x4pa1Z1yBw1
+ bCOoXERIIbmROz7TTCinfFclzPOVwGeV1S8Fbd34=
+Date: Thu, 2 Jan 2020 10:49:48 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@siol.net>
+Subject: Re: [RFC 3/4] drm/sun4i: Reimplement plane z position setting logic
+Message-ID: <20200102094948.2u56oiv6b3e4ekmb@gilmour.lan>
+References: <20191228202818.69908-1-roman.stratiienko@globallogic.com>
+ <1775324.taCxCBeP46@jernej-laptop>
+ <CAODwZ7srrrbDk=kKjg2-amVtGzNsqqZ72JopHijtNPD=-EzjgA@mail.gmail.com>
+ <2015568.Icojqenx9y@jernej-laptop>
 MIME-Version: 1.0
+In-Reply-To: <2015568.Icojqenx9y@jernej-laptop>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,105 +48,211 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nidhi1.gupta@intel.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Roman Stratiienko <roman.stratiienko@globallogic.com>,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============0955744806=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 30 Dec 2019, Animesh Manna <animesh.manna@intel.com> wrote:
-> As per request from DP phy compliance test few special
-> test pattern need to set by source. Added function
-> to set pattern in DP_COMP_CTL register. It will be
-> called along with other test parameters like vswing,
-> pre-emphasis programming in atomic_commit_tail path.
+
+--===============0955744806==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="de3mzsbuwly2nscs"
+Content-Disposition: inline
+
+
+--de3mzsbuwly2nscs
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sun, Dec 29, 2019 at 02:02:33PM +0100, Jernej =C5=A0krabec wrote:
+> Dne nedelja, 29. december 2019 ob 13:47:38 CET je Roman Stratiienko
+> napisal(a):
+> > On Sun, Dec 29, 2019 at 2:18 PM Jernej =C5=A0krabec <jernej.skrabec@sio=
+l.net>
+> wrote:
+> > > Dne nedelja, 29. december 2019 ob 13:08:19 CET je Roman Stratiienko
+> > >
+> > > napisal(a):
+> > > > Hello Jernej,
+> > > >
+> > > > Thank you for review.
+> > > >
+> > > > On Sun, Dec 29, 2019 at 11:40 AM Jernej =C5=A0krabec
+> > > > <jernej.skrabec@siol.net>
+> > >
+> > > wrote:
+> > > > > Hi!
+> > > > >
+> > > > > Dne sobota, 28. december 2019 ob 21:28:17 CET je
+> > > > >
+> > > > > roman.stratiienko@globallogic.com napisal(a):
+> > > > > > From: Roman Stratiienko <roman.stratiienko@globallogic.com>
+> > > > > >
+> > > > > > To set blending channel order register software needs to know s=
+tate
+> > > > > > and
+> > > > > > position of each channel, which impossible at plane commit stag=
+e.
+> > > > > >
+> > > > > > Move this procedure to atomic_flush stage, where all necessary
+> > > > > > information
+> > > > > > is available.
+> > > > > >
+> > > > > > Signed-off-by: Roman Stratiienko <roman.stratiienko@globallogic=
+=2Ecom>
+> > > > > > ---
+> > > > > >
+> > > > > >  drivers/gpu/drm/sun4i/sun8i_mixer.c    | 47
+> > > > > >  +++++++++++++++++++++++++-
+> > > > > >  drivers/gpu/drm/sun4i/sun8i_mixer.h    |  3 ++
+> > > > > >  drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 42 ++++--------------=
+-----
+> > > > > >  drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 39 +++---------------=
+---
+> > > > > >  4 files changed, 60 insertions(+), 71 deletions(-)
+> > > > > >
+> > > > > > diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> > > > > > b/drivers/gpu/drm/sun4i/sun8i_mixer.c index
+> > > > > > bb9a665fd053..da84fccf7784
+> > > > > > 100644
+> > > > > > --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> > > > > > +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> > > > > > @@ -307,8 +307,47 @@ static void sun8i_atomic_begin(struct
+> > > > > > sunxi_engine
+> > > > > > *engine,
+> > > > > >
+> > > > > >  static void sun8i_mixer_commit(struct sunxi_engine *engine)
+> > > > > >  {
+> > > > > >
+> > > > > > -     DRM_DEBUG_DRIVER("Committing changes\n");
+> > > > > > +     struct sun8i_mixer *mixer =3D engine_to_sun8i_mixer(engin=
+e);
+> > > > > > +     u32 base =3D sun8i_blender_base(mixer);
+> > > > > > +     int i, j;
+> > > > > > +     int channel_by_zpos[4] =3D {-1, -1, -1, -1};
+> > > > > > +     u32 route =3D 0, pipe_ctl =3D 0;
+> > > > > > +
+> > > > > > +     DRM_DEBUG_DRIVER("Update blender routing\n");
+> > > > >
+> > > > > Use drm_dbg().
+> > > > >
+> > > > > > +     for (i =3D 0; i < 4; i++) {
+> > > > > > +             int zpos =3D mixer->channel_zpos[i];
+> > > > >
+> > > > > channel_zpos can hold 5 elements which is also theoretical maximu=
+m for
+> > > > > current HW design. Why do you check only 4 elements?
+> > > >
+> > > > I'll use plane_cnt as it done in mixer_bind
+> > > >
+> > > > > It would be great to introduce a macro like SUN8I_MIXER_MAX_LAYER=
+S so
+> > > > > everyone would understand where this number comes from.
+> > > >
+> > > > Will do.
+> > > >
+> > > > > > +
+> > > > > > +             if (zpos >=3D 0 && zpos < 4)
+> > > > > > +                     channel_by_zpos[zpos] =3D i;
+> > > > > > +     }
+> > > > > > +
+> > > > > > +     j =3D 0;
+> > > > > > +     for (i =3D 0; i < 4; i++) {
+> > > > > > +             int ch =3D channel_by_zpos[i];
+> > > > > > +
+> > > > > > +             if (ch >=3D 0) {
+> > > > > > +                     pipe_ctl |=3D SUN8I_MIXER_BLEND_PIPE_CTL_=
+EN(j);
+> > > > > > +                     route |=3D ch <<
+> > > > >
+> > > > > SUN8I_MIXER_BLEND_ROUTE_PIPE_SHIFT(j);
+> > > > >
+> > > > > > +                     j++;
+> > > > > > +             }
+> > > > > > +     }
+> > > > > > +
+> > > > > > +     for (i =3D 0; i < 4 && j < 4; i++) {
+> > > > > > +             int zpos =3D mixer->channel_zpos[i];
+> > > > > >
+> > > > > > +             if (zpos < 0) {
+> > > > > > +                     route |=3D i <<
+> > > > >
+> > > > > SUN8I_MIXER_BLEND_ROUTE_PIPE_SHIFT(j);
+> > > > >
+> > > > > > +                     j++;
+> > > > > > +             }
+> > > > > > +     }
+> > > > > > +
+> > > > > > +     regmap_update_bits(mixer->engine.regs,
+> > > > >
+> > > > > SUN8I_MIXER_BLEND_PIPE_CTL(base),
+> > > > >
+> > > > > > +                        SUN8I_MIXER_BLEND_PIPE_CTL_EN_MSK,
+> > > > >
+> > > > > pipe_ctl);
+> > > > >
+> > > > > > +
+> > > > > > +     regmap_write(mixer->engine.regs,
+> > > > > > +                  SUN8I_MIXER_BLEND_ROUTE(base), route);
+> > > > > > +
+> > > > > > +     DRM_DEBUG_DRIVER("Committing changes\n");
+> > > > >
+> > > > > Use drm_dbg().
+> > > >
+> > > > According to
+> > > > https://github.com/torvalds/linux/commit/99a954874e7b9f0c8058476575=
+593b3
+> > > > beb
+> > > > 5731a5#diff-b0cd2d683c6afbab7bd54173cfd3d3ecR289 ,
+> > > > DRM_DEBUG_DRIVER uses drm_dbg.
+> > > > Also, using drm_dbg with category macro would require larger indent,
+> > > > making harder to fit in 80 chars limit.
+> > >
+> > > From what I can see, category is already defined by macro name. Check
+> > > here:
+> > > https://cgit.freedesktop.org/drm/drm-misc/tree/include/drm/drm_print.=
+h#n46
+> > > 5
+> > >
+> > > So it should be actually shorter.
+> >
+> > Ah, it something very recent.
+> > drm_dbg also require drm_device struct
+> > Do you know the best way to extract it from `struct engine`?
 >
-> Signed-off-by: Animesh Manna <animesh.manna@intel.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_dp.c | 55 +++++++++++++++++++++++++
->  1 file changed, 55 insertions(+)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-> index cbefda9b6204..7c3f65e5d88b 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -5005,6 +5005,61 @@ static u8 intel_dp_prepare_phytest(struct intel_dp *intel_dp)
->  	return DP_TEST_ACK;
->  }
->  
-> +static inline void intel_dp_phy_pattern_update(struct intel_dp *intel_dp)
+> I don't think there is a way. I guess we can solve this later. Maxime, any
+> thoughts?
 
-As a general rule, please only use the inline keyword for static inlines
-in headers. Sometimes, it's useful in small helpers, but usually you
-should just let the compiler decide what gets inlined.
+There's no way at the moment, but it would make sense to add a pointer
+to it.
 
-In this case, the inline probably just hides the compiler warning about
-the unused function.
+Maximey
 
-BR,
-Jani.
+--de3mzsbuwly2nscs
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> +{
-> +	struct drm_i915_private *dev_priv =
-> +			to_i915(dp_to_dig_port(intel_dp)->base.base.dev);
-> +	struct intel_digital_port *intel_dig_port = dp_to_dig_port(intel_dp);
-> +	struct drm_dp_phy_test_params *data =
-> +			&intel_dp->compliance.test_data.phytest;
-> +	u32 temp;
-> +
-> +	switch (data->phy_pattern) {
-> +	case DP_PHY_TEST_PATTERN_NONE:
-> +		DRM_DEBUG_KMS("Disable Phy Test Pattern\n");
-> +		I915_WRITE(DDI_DP_COMP_CTL(intel_dig_port->base.port), 0x0);
-> +		break;
-> +	case DP_PHY_TEST_PATTERN_D10_2:
-> +		DRM_DEBUG_KMS("Set D10.2 Phy Test Pattern\n");
-> +		I915_WRITE(DDI_DP_COMP_CTL(intel_dig_port->base.port),
-> +			   DDI_DP_COMP_CTL_ENABLE | DDI_DP_COMP_CTL_D10_2);
-> +		break;
-> +	case DP_PHY_TEST_PATTERN_ERROR_COUNT:
-> +		DRM_DEBUG_KMS("Set Error Count Phy Test Pattern\n");
-> +		I915_WRITE(DDI_DP_COMP_CTL(intel_dig_port->base.port),
-> +			   DDI_DP_COMP_CTL_ENABLE |
-> +			   DDI_DP_COMP_CTL_SCRAMBLED_0);
-> +		break;
-> +	case DP_PHY_TEST_PATTERN_PRBS7:
-> +		DRM_DEBUG_KMS("Set PRBS7 Phy Test Pattern\n");
-> +		I915_WRITE(DDI_DP_COMP_CTL(intel_dig_port->base.port),
-> +			   DDI_DP_COMP_CTL_ENABLE | DDI_DP_COMP_CTL_PRBS7);
-> +		break;
-> +	case DP_PHY_TEST_PATTERN_80BIT_CUSTOM:
-> +		DRM_DEBUG_KMS("Set 80Bit Custom Phy Test Pattern\n");
-> +		temp = ((data->custom80[0] << 24) | (data->custom80[1] << 16) |
-> +			(data->custom80[2] << 8) | (data->custom80[3]));
-> +		I915_WRITE(DDI_DP_COMP_PAT(intel_dig_port->base.port, 0), temp);
-> +		temp = ((data->custom80[4] << 24) | (data->custom80[5] << 16) |
-> +			(data->custom80[6] << 8) | (data->custom80[7]));
-> +		I915_WRITE(DDI_DP_COMP_PAT(intel_dig_port->base.port, 1), temp);
-> +		temp = ((data->custom80[8] << 8) | data->custom80[9]);
-> +		I915_WRITE(DDI_DP_COMP_PAT(intel_dig_port->base.port, 2), temp);
-> +		I915_WRITE(DDI_DP_COMP_CTL(intel_dig_port->base.port),
-> +			   DDI_DP_COMP_CTL_ENABLE | DDI_DP_COMP_CTL_CUSTOM80);
-> +		break;
-> +	case DP_PHY_TEST_PATTERN_CP2520:
-> +		DRM_DEBUG_KMS("Set HBR2 compliance Phy Test Pattern\n");
-> +		temp = ((data->hbr2_reset[1] << 8) | data->hbr2_reset[0]);
-> +		I915_WRITE(DDI_DP_COMP_CTL(intel_dig_port->base.port),
-> +			   DDI_DP_COMP_CTL_ENABLE | DDI_DP_COMP_CTL_HBR2 |
-> +			   temp);
-> +		break;
-> +	default:
-> +		WARN(1, "Invalid Phy Test PAttern\n");
-> +	}
-> +}
-> +
->  static u8 intel_dp_autotest_phy_pattern(struct intel_dp *intel_dp)
->  {
->  	u8 test_result = DP_TEST_NAK;
+-----BEGIN PGP SIGNATURE-----
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXg28vAAKCRDj7w1vZxhR
+xU6hAQCE+KlOly8mijq6chKdZDCcSW8wUtYhuO+CaIIU7J53xQEAuD9An1CTC6G1
+3+SsZAX+/ykUpdWbkwliqwhgmDmdKgU=
+=2asc
+-----END PGP SIGNATURE-----
+
+--de3mzsbuwly2nscs--
+
+--===============0955744806==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0955744806==--
