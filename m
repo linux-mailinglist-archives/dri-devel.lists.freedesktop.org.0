@@ -2,43 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EED212E542
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 11:59:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 949AC12E53F
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 11:58:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06B4F6E098;
-	Thu,  2 Jan 2020 10:58:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BE216E06B;
+	Thu,  2 Jan 2020 10:58:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.siol.net (mailoutvs28.siol.net [185.57.226.219])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 744ED89CC4
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2020 07:42:56 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by mail.siol.net (Postfix) with ESMTP id 8082052133B;
- Thu,  2 Jan 2020 08:42:52 +0100 (CET)
-X-Virus-Scanned: amavisd-new at psrvmta10.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
- by localhost (psrvmta10.zcs-production.pri [127.0.0.1]) (amavisd-new,
- port 10032)
- with ESMTP id ad5ClAWr3I4e; Thu,  2 Jan 2020 08:42:52 +0100 (CET)
-Received: from mail.siol.net (localhost [127.0.0.1])
- by mail.siol.net (Postfix) with ESMTPS id 09C39521341;
- Thu,  2 Jan 2020 08:42:52 +0100 (CET)
-Received: from jernej-laptop.localnet (89-212-178-211.dynamic.t-2.net
- [89.212.178.211]) (Authenticated sender: jernej.skrabec@siol.net)
- by mail.siol.net (Postfix) with ESMTPA id A612F52133B;
- Thu,  2 Jan 2020 08:42:51 +0100 (CET)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
-To: mripard@kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- roman.stratiienko@globallogic.com
-Subject: Re: [PATCH v3 2/2] drm/sun4i: Use CRTC size instead of PRIMARY plane
- size as mixer frame.
-Date: Thu, 02 Jan 2020 08:42:51 +0100
-Message-ID: <2989265.aV6nBDHxoP@jernej-laptop>
-In-Reply-To: <20200101204750.50541-2-roman.stratiienko@globallogic.com>
-References: <20200101204750.50541-1-roman.stratiienko@globallogic.com>
- <20200101204750.50541-2-roman.stratiienko@globallogic.com>
-MIME-Version: 1.0
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A70289EAE;
+ Thu,  2 Jan 2020 09:49:27 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id u2so5117788wmc.3;
+ Thu, 02 Jan 2020 01:49:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id;
+ bh=8CFwwBAmgqgcgGzucLPpxl2tYfKM/hG3OYkRoe8WYPU=;
+ b=d4HlM1/TBFOTa6XiDaYcMZwGiUc51p4Pv0bBSbInlqbpvi1cIco9U5kLvaLBYdgLZW
+ VaS9zaAFFO6S9Oc1lQKYNjDjrW4NCYPPoAu2ovrM6Ubd7GXc1PE5pL1VJO/hxapXCaGs
+ 67jqWjWasTK8FQwLLx1skppJitsfvMVOrZj0VmXyeKVyh4z0Vra7l/Crr3ECYLm6CykX
+ oxqwJsl5db2DHXHUXn4sDy40dp9gi9B2akAWlnOMkfkFUIyx1HfMAiBGefzkP+r6Oiff
+ jVKJPkTI+/VZiHFbipEqUL+f80TtVzegY+kexQHhFwwRwokXHzqlk2187GJ7o2Ay5dIP
+ aa5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id;
+ bh=8CFwwBAmgqgcgGzucLPpxl2tYfKM/hG3OYkRoe8WYPU=;
+ b=Z7qQLPQqYiLvGFos4UA7/V8GltSEL3EBEL/OQQSNqlpkWoG1Tggk1GwYZQtSHeg76u
+ zA/OSDVY9DaXMNGgi0esSrdEQE77uegVTRaeNx19OnU4FAX3w0CaFq13Q8S3oj4/FP+t
+ dkgpKXCZj9a0pbCJafBD78g8EltvnoY+3QCA4xEjM0PldFo7pYqLV41qKnWSaTgjzwIT
+ INdHYupJ1yq3QMTj2v56D5hszO5H9EKXEpdDhQ2VxyvzylpK/fNB3vPoScFMy5Nlkko0
+ RCK0yyDCYODuIglbMo6hYkRE30M5CEvVwcVWk1Hq+VvTU0rDwnZoW7cm3d01uUnFc9Xe
+ D5eQ==
+X-Gm-Message-State: APjAAAUpS+7ZoLXoSV8Rhm0CYAy+NgQ+G4KWNJwBd5s2KMhAmAUxGimP
+ wwQPNBob5wFbpiTqgeKocow=
+X-Google-Smtp-Source: APXvYqzO9axMTRGskzMsGwa8ngIZWcBBu4BvMO32lxcz//RnPJJwDLNpK5ESv5nCEsFizWXHbDucgw==
+X-Received: by 2002:a1c:964f:: with SMTP id y76mr13491283wmd.62.1577958565901; 
+ Thu, 02 Jan 2020 01:49:25 -0800 (PST)
+Received: from localhost.localdomain ([197.254.95.38])
+ by smtp.googlemail.com with ESMTPSA id h66sm8383963wme.41.2020.01.02.01.49.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Jan 2020 01:49:25 -0800 (PST)
+From: Wambui Karuga <wambui.karugax@gmail.com>
+To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/i915: remove boolean comparisons in conditionals.
+Date: Thu,  2 Jan 2020 12:49:21 +0300
+Message-Id: <20200102094921.6274-1-wambui.karugax@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-Mailman-Approved-At: Thu, 02 Jan 2020 10:58:15 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,151 +65,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Roman Stratiienko <roman.stratiienko@globallogic.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi!
+Remove unnecessary comparisons to true/false in if statements.
+Issues found by coccinelle.
 
-Dne sreda, 01. januar 2020 ob 21:47:50 CET je 
-roman.stratiienko@globallogic.com napisal(a):
-> From: Roman Stratiienko <roman.stratiienko@globallogic.com>
-> 
-> According to DRM documentation the only difference between PRIMARY
-> and OVERLAY plane is that each CRTC must have PRIMARY plane and
-> OVERLAY are optional.
-> 
-> Allow PRIMARY plane to have dimension different from full-screen.
-> 
-> Fixes: 5bb5f5dafa1a ("drm/sun4i: Reorganize UI layer code in DE2")
-> Signed-off-by: Roman Stratiienko <roman.stratiienko@globallogic.com>
+Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
+---
+ drivers/gpu/drm/i915/display/intel_ddi.c  | 2 +-
+ drivers/gpu/drm/i915/display/intel_dp.c   | 2 +-
+ drivers/gpu/drm/i915/display/intel_sdvo.c | 4 ++--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-This looks great now.
-
-Reviewed-by: Jernej Skrabec <jernej.skrabec@siol.net>
-
-What happened to other patches in the series? It would be nice to have a cover 
-letter for such cases, where you can explain reasons for dropped patches.
-
-Best regards,
-Jernej
-
-> ---
-> v2:
-> - Split commit in 2 parts
-> - Add Fixes line to the commit message
-> 
-> v3:
-> - Address review comments of v2 + removed 3 local varibles
-> - Change 'Fixes' line
-> 
-> Since I've put more changes from my side, please review/sign again.
-> ---
->  drivers/gpu/drm/sun4i/sun8i_mixer.c    | 28 ++++++++++++++++++++++++
->  drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 30 --------------------------
->  2 files changed, 28 insertions(+), 30 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> b/drivers/gpu/drm/sun4i/sun8i_mixer.c index 8b803eb903b8..658cf442c121
-> 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> @@ -257,6 +257,33 @@ const struct de2_fmt_info *sun8i_mixer_format_info(u32
-> format) return NULL;
->  }
-> 
-> +static void sun8i_mode_set(struct sunxi_engine *engine,
-> +			   struct drm_display_mode *mode)
-> +{
-> +	u32 size = SUN8I_MIXER_SIZE(mode->crtc_hdisplay, mode-
->crtc_vdisplay);
-> +	struct sun8i_mixer *mixer = engine_to_sun8i_mixer(engine);
-> +	u32 bld_base = sun8i_blender_base(mixer);
-> +	u32 val;
-> +
-> +	DRM_DEBUG_DRIVER("Mode change, updating global size W: %u H: %u\n",
-> +			 mode->crtc_hdisplay, mode->crtc_vdisplay);
-> +	regmap_write(mixer->engine.regs, SUN8I_MIXER_GLOBAL_SIZE, size);
-> +	regmap_write(mixer->engine.regs,
-> +		     SUN8I_MIXER_BLEND_OUTSIZE(bld_base), size);
-> +
-> +	if (mode->flags & DRM_MODE_FLAG_INTERLACE)
-> +		val = SUN8I_MIXER_BLEND_OUTCTL_INTERLACED;
-> +	else
-> +		val = 0;
-> +
-> +	regmap_update_bits(mixer->engine.regs,
-> +			   SUN8I_MIXER_BLEND_OUTCTL(bld_base),
-> +			   SUN8I_MIXER_BLEND_OUTCTL_INTERLACED,
-> +			   val);
-> +	DRM_DEBUG_DRIVER("Switching display mixer interlaced mode %s\n",
-> +			 val ? "on" : "off");
-> +}
-> +
->  static void sun8i_mixer_commit(struct sunxi_engine *engine)
->  {
->  	DRM_DEBUG_DRIVER("Committing changes\n");
-> @@ -310,6 +337,7 @@ static struct drm_plane **sun8i_layers_init(struct
-> drm_device *drm, static const struct sunxi_engine_ops sun8i_engine_ops = {
->  	.commit		= sun8i_mixer_commit,
->  	.layers_init	= sun8i_layers_init,
-> +	.mode_set	= sun8i_mode_set,
->  };
-> 
->  static struct regmap_config sun8i_mixer_regmap_config = {
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-> b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c index 4343ea9f8cf8..f01ac55191f1
-> 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-> @@ -120,36 +120,6 @@ static int sun8i_ui_layer_update_coord(struct
-> sun8i_mixer *mixer, int channel, insize = SUN8I_MIXER_SIZE(src_w, src_h);
->  	outsize = SUN8I_MIXER_SIZE(dst_w, dst_h);
-> 
-> -	if (plane->type == DRM_PLANE_TYPE_PRIMARY) {
-> -		bool interlaced = false;
-> -		u32 val;
-> -
-> -		DRM_DEBUG_DRIVER("Primary layer, updating global size 
-W: %u H: %u\n",
-> -				 dst_w, dst_h);
-> -		regmap_write(mixer->engine.regs,
-> -			     SUN8I_MIXER_GLOBAL_SIZE,
-> -			     outsize);
-> -		regmap_write(mixer->engine.regs,
-> -			     SUN8I_MIXER_BLEND_OUTSIZE(bld_base), 
-outsize);
-> -
-> -		if (state->crtc)
-> -			interlaced = state->crtc->state-
->adjusted_mode.flags
-> -				& DRM_MODE_FLAG_INTERLACE;
-> -
-> -		if (interlaced)
-> -			val = SUN8I_MIXER_BLEND_OUTCTL_INTERLACED;
-> -		else
-> -			val = 0;
-> -
-> -		regmap_update_bits(mixer->engine.regs,
-> -				   
-SUN8I_MIXER_BLEND_OUTCTL(bld_base),
-> -				   
-SUN8I_MIXER_BLEND_OUTCTL_INTERLACED,
-> -				   val);
-> -
-> -		DRM_DEBUG_DRIVER("Switching display mixer interlaced 
-mode %s\n",
-> -				 interlaced ? "on" : "off");
-> -	}
-> -
->  	/* Set height and width */
->  	DRM_DEBUG_DRIVER("Layer source offset X: %d Y: %d\n",
->  			 state->src.x1 >> 16, state->src.y1 >> 16);
-
-
-
+diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+index 9ba794cb9b4f..c065078b3be2 100644
+--- a/drivers/gpu/drm/i915/display/intel_ddi.c
++++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+@@ -1812,7 +1812,7 @@ void intel_ddi_set_vc_payload_alloc(const struct intel_crtc_state *crtc_state,
+ 	u32 temp;
+ 
+ 	temp = I915_READ(TRANS_DDI_FUNC_CTL(cpu_transcoder));
+-	if (state == true)
++	if (state)
+ 		temp |= TRANS_DDI_DP_VC_PAYLOAD_ALLOC;
+ 	else
+ 		temp &= ~TRANS_DDI_DP_VC_PAYLOAD_ALLOC;
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index aa515261cb9f..93140c75386a 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -4958,7 +4958,7 @@ intel_dp_check_mst_status(struct intel_dp *intel_dp)
+ 		WARN_ON_ONCE(intel_dp->active_mst_links < 0);
+ 		bret = intel_dp_get_sink_irq_esi(intel_dp, esi);
+ go_again:
+-		if (bret == true) {
++		if (bret) {
+ 
+ 			/* check link status - esi[10] = 0x200c */
+ 			if (intel_dp->active_mst_links > 0 &&
+diff --git a/drivers/gpu/drm/i915/display/intel_sdvo.c b/drivers/gpu/drm/i915/display/intel_sdvo.c
+index 47f5d87a938a..cff254c52f5e 100644
+--- a/drivers/gpu/drm/i915/display/intel_sdvo.c
++++ b/drivers/gpu/drm/i915/display/intel_sdvo.c
+@@ -3292,8 +3292,8 @@ bool intel_sdvo_init(struct drm_i915_private *dev_priv,
+ 	if (!intel_sdvo_get_capabilities(intel_sdvo, &intel_sdvo->caps))
+ 		goto err;
+ 
+-	if (intel_sdvo_output_setup(intel_sdvo,
+-				    intel_sdvo->caps.output_flags) != true) {
++	if (!intel_sdvo_output_setup(intel_sdvo,
++				     intel_sdvo->caps.output_flags)) {
+ 		DRM_DEBUG_KMS("SDVO output failed to setup on %s\n",
+ 			      SDVO_NAME(intel_sdvo));
+ 		/* Output_setup can leave behind connectors! */
+-- 
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
