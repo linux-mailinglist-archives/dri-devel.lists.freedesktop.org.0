@@ -1,57 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7CE712E4DF
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 11:17:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC1D12E4E1
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 11:17:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4DCF6E02E;
-	Thu,  2 Jan 2020 10:17:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECF296E037;
+	Thu,  2 Jan 2020 10:17:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 108DA6E02E
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2020 10:17:26 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id j26so40186798ljc.12
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jan 2020 02:17:26 -0800 (PST)
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75F8C6E037
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2020 10:17:31 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id m26so37756003ljc.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Jan 2020 02:17:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/MTGfQ5E4qXZEXmnJB6mzgCLib+I9ktBweyOlqsK414=;
- b=eppuZLmdBzgS1sTX+Z5gG2LbjSZHE0h8K2JwE4c0PqZDJWeJdX1YMQI3woI/PAuo+n
- u+lJ2sSYLySZ0r/ZhJTCRoc64sVbh0/SV37x3s8a5gikfD1t+ELaKAYZHqYx/eJkLsOC
- SKJxsb8PCV2F/AQuZY/v0BhSf0p2IJl4KGEvH6PeD2UYts4IRUwbkPHp3/SC/IulJ0TM
- rNxWUYBw6U2c0sNVtI0LjBhrDP0sequC3sGoAjrf+CXQ2sMfrDzzm/VmBeeAgQkiyq7r
- h9ufnOAgg9Xj81D7PlvBzL+OWhqGDYpK6Y1SCFueXcE61zL89dKirUoLtpEPx96tED3y
- Mzhg==
+ bh=HdveirHsIPhVU+fkPoTDfHHFQp2fyC7pfB55HT7qYno=;
+ b=Gi2UNwLci+se0PFY20T/OhetLxIvvY9XgaIoO/69Ge9J7EMtBQkLOmzkSiKVPTsHqi
+ m/n5EJHzYv9ZUNtDGsDm6KtJPN+x47lziTzAT14ifbh/R0B9EQP4KnMI2HRKZ9ZNjVTA
+ fJRULq1jN7RgL1FjM8b+fZOK0B4j5m4y/B7wQSBqw4us0hQceRyhfvj3+Q0HD+TmT0dW
+ psNjnBQFRWQgNyAxRONo/vzjIrs+ahhXy90UtLtzbf3aUqe4WwGexktmrQyWG8HTNCEt
+ joYi3o2KMkxGnOYo3woTSdeaa3Dy3ljggjDdjNcuupny+t3UrY4Czm+se2NvJ93Yj9yr
+ 7F0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=/MTGfQ5E4qXZEXmnJB6mzgCLib+I9ktBweyOlqsK414=;
- b=uJWRfneZSewRW9z+dECnWkydRV5mqoqHqKKl97VsId193XjVYUTb3uE+Bs1qsbZ4vX
- /fBbIOXxwz/EH7nUoVYBEwJiNjRD5+NG+0IpHJk9a1fJo+XB6eOuyVeXjmItTiv6io9/
- 8lQONFWbvW+l3wka9EE2wZvtRpWRtlExtPBWoKkXCBkCQPRVscDDyG8zhaaZVRiEogeV
- 771m0Y9eUnnmwugjjIHka4QJ4ddgINQPAmz32psSjr4PiJ6q5ua/QQ1MTV1+ixUibG6f
- 4/xSJEuOzQil+uNa+wd90rE4o0TDvBD0vKhAQ03MUOtdfleNyvpjda0xyE0TRPeCXvcd
- b79Q==
-X-Gm-Message-State: APjAAAV6AzAZ9xU0tnIGtEFXoJwaLT4UsbmEK0VGYmiM09v1/L525OP1
- gFVYF1J88oYLLUyeclIbAWg=
-X-Google-Smtp-Source: APXvYqw90yIr0mEonCawBbDO69XetCFU+e3nr8JEvztOZBWzJeqKzqPQd9/z6lkfvHUud7GbKNy1aw==
-X-Received: by 2002:a2e:7405:: with SMTP id p5mr48847794ljc.34.1577960245226; 
- Thu, 02 Jan 2020 02:17:25 -0800 (PST)
+ bh=HdveirHsIPhVU+fkPoTDfHHFQp2fyC7pfB55HT7qYno=;
+ b=gMcQoqaFvHmnSXBMsk98hfrW+1/23ydCG5m1R6FXP/8rVovNCNoilfP6jz8vM7HO+B
+ mK6D//U9li9x2jU0FSE4gfHf6UXbns3/ei3C5p4giuIekUjEel2HI579mne0IzgW762L
+ Zztp+Rmgvof4FdxyqhTYhBlQIDWHaBVYu1/i1bwYBuQjRw7gDBWjzV3e14xlO/J5zRu8
+ t9ykLFSv5utsn5vwwU2YbweK5EAdbfWuGuWbWK870+dV2w+8zDiUJX1IEXNjpT6NiPn9
+ Ed68VVJi3N6Dksgm+nwY50+7n1ThCq9KPV3aFiD+nSgAXwRZfiek+D3qk4TgnI4a96Og
+ Q/og==
+X-Gm-Message-State: APjAAAUbHwXUgh012OmpQrwzJxNZxNcIbNPsK11QF28tdDWhblcCwA3F
+ tnNy4i64UuGujUh4+gkKSDU=
+X-Google-Smtp-Source: APXvYqwAfBJWKYJujoq+TGAXqse2IxVi61pyufbfiuaJuxfXkOqmwL3oeQs76MNJPkqXVznqLQP5Iw==
+X-Received: by 2002:a05:651c:1a8:: with SMTP id
+ c8mr35734831ljn.207.1577960249839; 
+ Thu, 02 Jan 2020 02:17:29 -0800 (PST)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
  by smtp.gmail.com with ESMTPSA id
- m21sm23025892lfh.53.2020.01.02.02.17.23
+ m21sm23025892lfh.53.2020.01.02.02.17.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jan 2020 02:17:24 -0800 (PST)
+ Thu, 02 Jan 2020 02:17:27 -0800 (PST)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Thierry Reding <thierry.reding@gmail.com>,
 	Rob Herring <robh@kernel.org>
-Subject: [PATCH v2 1/2] dt-bindings: one binding file for all simple panels
-Date: Thu,  2 Jan 2020 11:17:11 +0100
-Message-Id: <20200102101712.5085-2-sam@ravnborg.org>
+Subject: [PATCH v2 2/2] dt-bindings: one file of all simple DSI panels
+Date: Thu,  2 Jan 2020 11:17:12 +0100
+Message-Id: <20200102101712.5085-3-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200102101712.5085-1-sam@ravnborg.org>
 References: <20200102101712.5085-1-sam@ravnborg.org>
@@ -76,53 +77,16 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is an increasing number of new simple panels.
-Common for many of these simple panels are that they have one
-mandatory power-supply and some of them have backlight and / or
-an enable gpio.
+To complement panel-simple.yaml, create panel-simple-dsi.yaml.
+panel-simple-dsi-yaml are for all simple DSP panels with a single
+power-supply and optional backlight / enable GPIO.
 
-The binding file to describe these panels adds overhead
-that really do not add value.
-The binding are known and there is nothing gained from a
-dedicated binding file nor for any dedicated example.
+Migrate panasonic,vvx10f034n00 over to the new file.
 
-The following patch introduces a single panel-simple.yaml
-and converts two ampire bindings over to the new file.
-
-The conversion - if applied will have following effects:
-
-- The maintainer for the individual file will change
-    There is no need for many different maintainers for a simple binding.
-    We have the same situation with the panel-simple driver in the kernel.
-
-- The license will change to (GPL-2.0-only OR BSD-2-Clause)
-    There is usually only a single line copied from the original
-    file, a line that is often copied from a datasheet.
-    This license change should be acceptable considered what little
-    is copied.
-    If the license change is not OK we can use a dedicated binding
-    file in these cases.
-
-This is a follow-up on Rob's big patch converting a lot of panel bindings
-to individual files:
-
-"dt-bindings: display: Convert a bunch of panels to DT schema"
-https://patchwork.ozlabs.org/patch/1197683/
-
-The objectives with one file for the relevant simple panels are:
-- Make it simpler to add bindings for simple panels
-- Keep the number of bindings file lower and thus easier to find a
-  relevant file to copy from when adding new panels.
-- Keep the binding documentation for simple panels more consistent
-- Make it simpler to add support for new panels
-
-v2:
-  - spelling fixes (imirkin via irc, Rob)
-  - updated description (Rob)
-  - list properires in alphabetical order
-  - added power-supply to example (Rob)
-  - updated title
-  - reworded changelog a little
+The objectives with one file for all the simple DSI panels are:
+    - Make it simpler to add bindings for simple DSI panels
+    - Keep the number of bindings file lower
+    - Keep the binding documentation for simple DSI panels more consistent
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: Thierry Reding <thierry.reding@gmail.com>
@@ -134,101 +98,64 @@ Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org
 Cc: devicetree@vger.kernel.org
 ---
- .../panel/ampire,am-480272h3tmqw-t01h.yaml    | 42 -------------
- .../panel/ampire,am800480r3tmqwa1h.txt        |  7 ---
- .../bindings/display/panel/panel-simple.yaml  | 59 +++++++++++++++++++
- 3 files changed, 59 insertions(+), 49 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/panel/ampire,am-480272h3tmqw-t01h.yaml
- delete mode 100644 Documentation/devicetree/bindings/display/panel/ampire,am800480r3tmqwa1h.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+ .../display/panel/panasonic,vvx10f034n00.txt  | 20 ------
+ .../display/panel/panel-simple-dsi.yaml       | 67 +++++++++++++++++++
+ 2 files changed, 67 insertions(+), 20 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/panasonic,vvx10f034n00.txt
+ create mode 100644 Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
 
-diff --git a/Documentation/devicetree/bindings/display/panel/ampire,am-480272h3tmqw-t01h.yaml b/Documentation/devicetree/bindings/display/panel/ampire,am-480272h3tmqw-t01h.yaml
+diff --git a/Documentation/devicetree/bindings/display/panel/panasonic,vvx10f034n00.txt b/Documentation/devicetree/bindings/display/panel/panasonic,vvx10f034n00.txt
 deleted file mode 100644
-index c6e33e7f36d0..000000000000
---- a/Documentation/devicetree/bindings/display/panel/ampire,am-480272h3tmqw-t01h.yaml
+index 37dedf6a6702..000000000000
+--- a/Documentation/devicetree/bindings/display/panel/panasonic,vvx10f034n00.txt
 +++ /dev/null
-@@ -1,42 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0
--%YAML 1.2
-----
--$id: http://devicetree.org/schemas/display/panel/ampire,am-480272h3tmqw-t01h.yaml#
--$schema: http://devicetree.org/meta-schemas/core.yaml#
--
--title: Ampire AM-480272H3TMQW-T01H 4.3" WQVGA TFT LCD panel
--
--maintainers:
--  - Yannick Fertre <yannick.fertre@st.com>
--  - Thierry Reding <treding@nvidia.com>
--
--allOf:
--  - $ref: panel-common.yaml#
--
--properties:
--  compatible:
--    const: ampire,am-480272h3tmqw-t01h
--
--  power-supply: true
--  enable-gpios: true
--  backlight: true
--  port: true
--
--required:
--  - compatible
--
--additionalProperties: false
--
--examples:
--  - |
--    panel_rgb: panel {
--      compatible = "ampire,am-480272h3tmqw-t01h";
--      enable-gpios = <&gpioa 8 1>;
--      port {
--        panel_in_rgb: endpoint {
--          remote-endpoint = <&controller_out_rgb>;
--        };
--      };
--    };
--
--...
-diff --git a/Documentation/devicetree/bindings/display/panel/ampire,am800480r3tmqwa1h.txt b/Documentation/devicetree/bindings/display/panel/ampire,am800480r3tmqwa1h.txt
-deleted file mode 100644
-index 83e2cae1cc1b..000000000000
---- a/Documentation/devicetree/bindings/display/panel/ampire,am800480r3tmqwa1h.txt
-+++ /dev/null
-@@ -1,7 +0,0 @@
--Ampire AM-800480R3TMQW-A1H 7.0" WVGA TFT LCD panel
+@@ -1,20 +0,0 @@
+-Panasonic 10" WUXGA TFT LCD panel
 -
 -Required properties:
--- compatible: should be "ampire,am800480r3tmqwa1h"
+-- compatible: should be "panasonic,vvx10f034n00"
+-- reg: DSI virtual channel of the peripheral
+-- power-supply: phandle of the regulator that provides the supply voltage
 -
--This binding is compatible with the simple-panel binding, which is specified
--in simple-panel.txt in this directory.
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+-Optional properties:
+-- backlight: phandle of the backlight device attached to the panel
+-
+-Example:
+-
+-	mdss_dsi@fd922800 {
+-		panel@0 {
+-			compatible = "panasonic,vvx10f034n00";
+-			reg = <0>;
+-			power-supply = <&vreg_vsp>;
+-			backlight = <&lp8566_wled>;
+-		};
+-	};
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
 new file mode 100644
-index 000000000000..51ca50201182
+index 000000000000..05c52390269e
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-@@ -0,0 +1,59 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+@@ -0,0 +1,67 @@
++# SPDX-License-Identifier: (GPL-2.0-only or BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/display/panel/panel-simple.yaml#
++$id: http://devicetree.org/schemas/display/panel/panel-simple-dsi.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Simple panels with one power supply
++title: Simple DSI panels with a single power-supply
 +
 +maintainers:
 +  - Thierry Reding <thierry.reding@gmail.com>
 +  - Sam Ravnborg <sam@ravnborg.org>
 +
 +description: |
-+  This binding file is a collection of the simple (dumb) panels that
++  This binding file is a collection of the DSI panels that
 +  requires only a single power-supply.
 +  There are optionally a backlight and an enable GPIO.
 +  The panel may use an OF graph binding for the association to the display,
 +  or it may be a direct child node of the display.
 +
-+  If the panel is more advanced a dedicated binding file is required. 
++  If the panel is more advanced a dedicated binding file is required.
 +
 +allOf:
 +  - $ref: panel-common.yaml#
@@ -240,10 +167,12 @@ index 000000000000..51ca50201182
 +    # compatible must be listed in alphabetical order, ordered by compatible.
 +    # The description in the comment is mandatory for each compatible.
 +
-+    # Ampire AM-480272H3TMQW-T01H 4.3" WQVGA TFT LCD panel
-+    - ampire,am-480272h3tmqw-t01h
-+    # Ampire AM-800480R3TMQW-A1H 7.0" WVGA TFT LCD panel
-+    - ampire,am800480r3tmqwa1h
++    # Panasonic 10" WUXGA TFT LCD panel
++    - panasonic,vvx10f034n00
++
++  reg:
++    maxItems: 1
++    description: DSI virtual channel
 +
 +  backlight: true
 +  enable-gpios: true
@@ -255,16 +184,22 @@ index 000000000000..51ca50201182
 +required:
 +  - compatible
 +  - power-supply
++  - reg
 +
 +examples:
 +  - |
-+    panel_rgb: panel-rgb {
-+      compatible = "ampire,am-480272h3tmqw-t01h";
-+      power-supply = <&vcc_lcd_reg>;
++    mdss_dsi@fd922800 {
++      #address-cells = <1>;
++      #size-cells = <0>;
++      panel@0 {
++        compatible = "panasonic,vvx10f034n00";
++        reg = <0>;
++        power-supply = <&vcc_lcd_reg>;
 +
-+      port {
-+        panel_in_rgb: endpoint {
-+          remote-endpoint = <&ltdc_out_rgb>;
++        port {
++          panel: endpoint {
++            remote-endpoint = <&ltdc_out>;
++          };
 +        };
 +      };
 +    };
