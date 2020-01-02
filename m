@@ -1,39 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC88212E437
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 10:08:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC50F12E443
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 10:11:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94DA5897EE;
-	Thu,  2 Jan 2020 09:08:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 401358959D;
+	Thu,  2 Jan 2020 09:11:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3E838959D
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2020 09:08:51 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id D5E712002E;
- Thu,  2 Jan 2020 10:08:49 +0100 (CET)
-Date: Thu, 2 Jan 2020 10:08:48 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Claudiu Beznea <claudiu.beznea@microchip.com>
-Subject: Re: [PATCH v3 5/6] drm: atmel-hlcdc: prefer a lower pixel-clock than
- requested
-Message-ID: <20200102090848.GC29446@ravnborg.org>
-References: <1576672109-22707-1-git-send-email-claudiu.beznea@microchip.com>
- <1576672109-22707-6-git-send-email-claudiu.beznea@microchip.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C17048959D
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2020 09:11:41 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 201957] amdgpu: ring gfx timeout
+Date: Thu, 02 Jan 2020 09:11:40 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: janpieter.sollie@dommel.be
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-201957-2300-nUrT7qaNA8@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-201957-2300@https.bugzilla.kernel.org/>
+References: <bug-201957-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1576672109-22707-6-git-send-email-claudiu.beznea@microchip.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=XYAwZIGsAAAA:8
- a=KFvkMixbUbwtBXHg22MA:9 a=CjuIK1q_8ugA:10 a=E8ToXWR_bxluHZ7gmE-Z:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,59 +51,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexandre.belloni@bootlin.com, airlied@linux.ie,
- nicolas.ferre@microchip.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, boris.brezillon@bootlin.com,
- lee.jones@linaro.org, peda@axentia.se, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 18, 2019 at 02:28:28PM +0200, Claudiu Beznea wrote:
-> From: Peter Rosin <peda@axentia.se>
-> 
-> The intention was to only select a higher pixel-clock rate than the
-> requested, if a slight overclocking would result in a rate significantly
-> closer to the requested rate than if the conservative lower pixel-clock
-> rate is selected. The fixed patch has the logic the other way around and
-> actually prefers the higher frequency. Fix that.
-> 
-> Fixes: f6f7ad323461 ("drm/atmel-hlcdc: allow selecting a higher pixel-clock than requested")
-The id is wrong here - the right one is: 9946a3a9dbedaaacef8b7e94f6ac144f1daaf1de
-The wrong id above was used before - so I think it is a copy'n'paste
-thing.
+https://bugzilla.kernel.org/show_bug.cgi?id=201957
 
-Hint: try "dim fixes 9946a3a9dbedaaacef8b7e94f6ac144f1daaf1de"
+--- Comment #25 from Janpieter Sollie (janpieter.sollie@dommel.be) ---
+Created attachment 286575
+  --> https://bugzilla.kernel.org/attachment.cgi?id=286575&action=edit
+kernel config 5.4.7 Fiji
 
-If I get a quick response from Lee I can fix it up while applying.
+Some additional info for my case:
+- Running kernel 5.4.7 (vanilla), firmware 20191108 on gentoo
+- Dmesg | grep -E "(drm)|(amdgpu)":
+[    3.930023] [drm] amdgpu kernel modesetting enabled.
+[    3.930217] amdgpu 0000:0a:00.0: remove_conflicting_pci_framebuffers: bar 0:
+0xe0000000 -> 0xefffffff
+[    3.930219] amdgpu 0000:0a:00.0: remove_conflicting_pci_framebuffers: bar 2:
+0xf0000000 -> 0xf01fffff
+[    3.930221] amdgpu 0000:0a:00.0: remove_conflicting_pci_framebuffers: bar 5:
+0xfce00000 -> 0xfce3ffff
+[    3.930224] fb0: switching to amdgpudrmfb from EFI VGA
+[    3.930475] [drm] initializing kernel modesetting (FIJI 0x1002:0x7300
+0x1002:0x0B36 0xCA).
+[    3.930486] [drm] register mmio base: 0xFCE00000
+[    3.930486] [drm] register mmio size: 262144
+[    3.930495] [drm] add ip block number 0 <vi_common>
+[    3.930495] [drm] add ip block number 1 <gmc_v8_0>
+[    3.930496] [drm] add ip block number 2 <tonga_ih>
+[    3.930497] [drm] add ip block number 3 <gfx_v8_0>
+[    3.930498] [drm] add ip block number 4 <sdma_v3_0>
+[    3.930498] [drm] add ip block number 5 <powerplay>
+[    3.930499] [drm] add ip block number 6 <dm>
+[    3.930500] [drm] add ip block number 7 <uvd_v6_0>
+[    3.930500] [drm] add ip block number 8 <vce_v3_0>
+[    3.930715] [drm] UVD is enabled in physical mode
+[    3.930715] [drm] VCE enabled in physical mode
+[    3.930743] [drm] vm size is 64 GB, 2 levels, block size is 10-bit, fragment
+size is 9-bit
+[    3.930751] amdgpu 0000:0a:00.0: VRAM: 4096M 0x000000F400000000 -
+0x000000F4FFFFFFFF (4096M used)
+[    3.930753] amdgpu 0000:0a:00.0: GART: 1024M 0x000000FF00000000 -
+0x000000FF3FFFFFFF
+[    3.930758] [drm] Detected VRAM RAM=4096M, BAR=256M
+[    3.930759] [drm] RAM width 512bits HBM
+[    3.930838] [drm] amdgpu: 4096M of VRAM memory ready
+[    3.930841] [drm] amdgpu: 4096M of GTT memory ready.
+[    3.930860] [drm] GART: num cpu pages 262144, num gpu pages 262144
+[    3.930928] [drm] PCIE GART of 1024M enabled (table at 0x000000F4001D5000).
+[    3.934174] [drm] Chained IB support enabled!
+[    3.940198] amdgpu: [powerplay] hwmgr_sw_init smu backed is fiji_smu
+[    3.941748] [drm] Found UVD firmware Version: 1.91 Family ID: 12
+[    3.941752] [drm] UVD ENC is disabled
+[    3.943542] [drm] Found VCE firmware Version: 55.2 Binary ID: 3
+[    4.009146] [drm] dce110_link_encoder_construct: Failed to get
+encoder_cap_info from VBIOS with error code 4!
+[    4.040084] [drm] Display Core initialized with v3.2.48!
+[    4.040542] [drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
+[    4.040543] [drm] Driver supports precise vblank timestamp query.
+[    4.067774] [drm] UVD initialized successfully.
+[    4.168780] [drm] VCE initialized successfully.
+[    4.170163] [drm] Cannot find any crtc or sizes
+[    4.171948] [drm] Initialized amdgpu 3.35.0 20150101 for 0000:0a:00.0 on
+minor 0
+[    7.280062] amdgpu 0000:0a:00.0: [drm:amdgpu_ib_ring_tests [amdgpu]] *ERROR*
+IB test failed on uvd (-110).
+[    8.400365] amdgpu 0000:0a:00.0: [drm:amdgpu_ib_ring_tests [amdgpu]] *ERROR*
+IB test failed on vce0 (-110).
+[    8.400370] [drm:process_one_work] *ERROR* ib ring test failed (-110).
 
-	Sam
-
-> Reported-by: Claudiu Beznea <claudiu.beznea@microchip.com>
-> Tested-by: Claudiu Beznea <claudiu.beznea@microchip.com>
-> Signed-off-by: Peter Rosin <peda@axentia.se>
-> ---
->  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-> index 721fa88bf71d..10985134ce0b 100644
-> --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-> +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-> @@ -121,8 +121,8 @@ static void atmel_hlcdc_crtc_mode_set_nofb(struct drm_crtc *c)
->  		int div_low = prate / mode_rate;
->  
->  		if (div_low >= 2 &&
-> -		    ((prate / div_low - mode_rate) <
-> -		     10 * (mode_rate - prate / div)))
-> +		    (10 * (prate / div_low - mode_rate) <
-> +		     (mode_rate - prate / div)))
->  			/*
->  			 * At least 10 times better when using a higher
->  			 * frequency than requested, instead of a lower.
-> -- 
-> 2.7.4
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
