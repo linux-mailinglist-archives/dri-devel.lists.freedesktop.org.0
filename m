@@ -1,46 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF32612E2D7
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 06:46:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2951512E2E5
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 07:02:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EDD9899B5;
-	Thu,  2 Jan 2020 05:46:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F9E189BA1;
+	Thu,  2 Jan 2020 06:02:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2B4EB899B5
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2020 05:46:19 +0000 (UTC)
-X-UUID: 7b6cdbb6c8be41ba97b2355f4cad766b-20200102
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2DCCB89BDB
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2020 06:02:34 +0000 (UTC)
+X-UUID: dd7d204af3d64f0a9d0cc923b9ac291b-20200102
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=IG2tyrpeNx9yyPt33Qko2hevHTaK1+2NS/W2pIy+XKo=; 
- b=QVTVqZWDGUfsAxtQwNt69C2c+U7+hNW8LizIo6jAt/ttHGydX37MAZCct0DevQ7iSdihP9L6PCdfSjm9tPE/TgUv2iytevShmxvY/e3b2l1HjXZ+RI0cFgeUmP2M7WBTsuouCbBQlRZvpfqERQG4YeknA6SY5c9kxQ25RInKmeU=;
-X-UUID: 7b6cdbb6c8be41ba97b2355f4cad766b-20200102
-Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+ bh=VDLfXcYUJeQkJKhzGgI3LI0lhtwysIGtBl5WGX6utNk=; 
+ b=BH0kFVI/GfyFnrjxaR1KLl8zPJfGM+eUIy2VW299DXTrYnDB5XZcB2PN0fD+1v2h7vZacl6yO7aSkzSrotC4BXYTcfJBczEu3kato1AB6+5lIyIJUd6rpreIV8dsNiiPj690hxK37PAgc304s0V1m90JPvz6RvJGQPK99qCwqrE=;
+X-UUID: dd7d204af3d64f0a9d0cc923b9ac291b-20200102
+Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
  (envelope-from <ck.hu@mediatek.com>)
  (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 7477676; Thu, 02 Jan 2020 13:46:09 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Thu, 2 Jan 2020 13:44:59 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas07.mediatek.inc
+ with ESMTP id 1129739519; Thu, 02 Jan 2020 14:02:31 +0800
+Received: from mtkcas09.mediatek.inc (172.21.101.178) by
+ MTKMBS31N1.mediatek.inc (172.27.4.69) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Thu, 2 Jan 2020 14:02:00 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas09.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Thu, 2 Jan 2020 13:45:26 +0800
-Message-ID: <1577943967.24650.12.camel@mtksdaap41>
-Subject: Re: [PATCH v6, 14/14] drm/mediatek: add support for mediatek SOC
- MT8183
+ Transport; Thu, 2 Jan 2020 14:02:56 +0800
+Message-ID: <1577944949.32066.1.camel@mtksdaap41>
+Subject: Re: [PATCH v6, 02/14] drm/mediatek: move dsi/dpi select input into
+ mtk_ddp_sel_in
 From: CK Hu <ck.hu@mediatek.com>
 To: Yongqiang Niu <yongqiang.niu@mediatek.com>
-Date: Thu, 2 Jan 2020 13:46:07 +0800
-In-Reply-To: <1577937624-14313-15-git-send-email-yongqiang.niu@mediatek.com>
+Date: Thu, 2 Jan 2020 14:02:29 +0800
+In-Reply-To: <1577943579.15116.1.camel@mhfsdcap03>
 References: <1577937624-14313-1-git-send-email-yongqiang.niu@mediatek.com>
- <1577937624-14313-15-git-send-email-yongqiang.niu@mediatek.com>
+ <1577937624-14313-3-git-send-email-yongqiang.niu@mediatek.com>
+ <1577941388.24650.2.camel@mtksdaap41> <1577943579.15116.1.camel@mhfsdcap03>
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 28683DAAFC551684F3E1FC34F20358448C73EAFC4041B0F9EFC155F340F1E3992000:8
+X-TM-SNTS-SMTP: A1684504572D72737A9A3F6FE56B804FCF8791910A3C4C4D11C54BBD967F1E9D2000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,99 +67,67 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi, Yongqiang:
 
-On Thu, 2020-01-02 at 12:00 +0800, Yongqiang Niu wrote:
-> This patch add support for mediatek SOC MT8183
-> 1.ovl_2l share driver with ovl
-> 2.rdma1 share drive with rdma0, but fifo size is different
-> 3.add mt8183 mutex private data, and mmsys private data
-> 4.add mt8183 main and external path module for crtc create
+On Thu, 2020-01-02 at 13:39 +0800, Yongqiang Niu wrote:
+> On Thu, 2020-01-02 at 13:03 +0800, CK Hu wrote:
+> > Hi, Yongqiang:
+> > 
+> > On Thu, 2020-01-02 at 12:00 +0800, Yongqiang Niu wrote:
+> > > move dsi/dpi select input into mtk_ddp_sel_in
+> > > 
+> > > Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+> > > ---
+> > >  drivers/gpu/drm/mediatek/mtk_drm_ddp.c | 10 ++++++----
+> > >  1 file changed, 6 insertions(+), 4 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
+> > > index 39700b9..91c9b19 100644
+> > > --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
+> > > +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
+> > > @@ -376,6 +376,12 @@ static unsigned int mtk_ddp_sel_in(enum mtk_ddp_comp_id cur,
+> > >  	} else if (cur == DDP_COMPONENT_BLS && next == DDP_COMPONENT_DSI0) {
+> > >  		*addr = DISP_REG_CONFIG_DSI_SEL;
+> > >  		value = DSI_SEL_IN_BLS;
+> > > +	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI0) {
+> > > +		*addr = DISP_REG_CONFIG_DSI_SEL;
+> > > +		value = DSI_SEL_IN_RDMA;
+> > 
+> > In original code, this is set when cur == DDP_COMPONENT_BLS and next ==
+> > DDP_COMPONENT_DPI0. Why do you change the condition?
+> > 
+> > Regards,
+> > CK
 > 
-> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_disp_ovl.c  | 18 +++++++++
->  drivers/gpu/drm/mediatek/mtk_disp_rdma.c |  6 +++
->  drivers/gpu/drm/mediatek/mtk_drm_ddp.c   | 69 ++++++++++++++++++++++++++++++++
->  drivers/gpu/drm/mediatek/mtk_drm_ddp.h   |  1 +
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c   | 48 ++++++++++++++++++++++
->  5 files changed, 142 insertions(+)
-> 
+> if bls connect with dpi0, rdma1 should connect with dsi0, the condition
+> is same with before.
 
-[snip]
-
-> +
-> +
->  static int mtk_drm_kms_init(struct drm_device *drm)
->  {
->  	struct mtk_drm_private *private = drm->dev_private;
-> @@ -449,12 +477,22 @@ static void mtk_drm_unbind(struct device *dev)
->  	  .data = (void *)MTK_DISP_OVL },
->  	{ .compatible = "mediatek,mt8173-disp-ovl",
->  	  .data = (void *)MTK_DISP_OVL },
-> +	{ .compatible = "mediatek,mt8183-disp-ovl",
-> +	  .data = (void *)MTK_DISP_OVL },
-> +	{ .compatible = "mediatek,mt8183-disp-ovl-2l",
-> +	  .data = (void *)MTK_DISP_OVL_2L },
->  	{ .compatible = "mediatek,mt2701-disp-rdma",
->  	  .data = (void *)MTK_DISP_RDMA },
->  	{ .compatible = "mediatek,mt8173-disp-rdma",
->  	  .data = (void *)MTK_DISP_RDMA },
-> +	{ .compatible = "mediatek,mt8183-disp-rdma",
-> +	  .data = (void *)MTK_DISP_RDMA },
-> +	{ .compatible = "mediatek,mt8183-disp-rdma1",
-
-"mediatek,mt8183-disp-rdma1" does not exist in binding document.
+You suggest that two crtcs are both enabled. If only one crtc is
+enabled, just one of these two would be set.
 
 Regards,
 CK
 
-> +	  .data = (void *)MTK_DISP_RDMA },
->  	{ .compatible = "mediatek,mt8173-disp-wdma",
->  	  .data = (void *)MTK_DISP_WDMA },
-> +	{ .compatible = "mediatek,mt8183-disp-ccorr",
-> +	  .data = (void *)MTK_DISP_CCORR },
->  	{ .compatible = "mediatek,mt2701-disp-color",
->  	  .data = (void *)MTK_DISP_COLOR },
->  	{ .compatible = "mediatek,mt8173-disp-color",
-> @@ -463,22 +501,30 @@ static void mtk_drm_unbind(struct device *dev)
->  	  .data = (void *)MTK_DISP_AAL},
->  	{ .compatible = "mediatek,mt8173-disp-gamma",
->  	  .data = (void *)MTK_DISP_GAMMA, },
-> +	{ .compatible = "mediatek,mt8183-disp-dither",
-> +	  .data = (void *)MTK_DISP_DITHER },
->  	{ .compatible = "mediatek,mt8173-disp-ufoe",
->  	  .data = (void *)MTK_DISP_UFOE },
->  	{ .compatible = "mediatek,mt2701-dsi",
->  	  .data = (void *)MTK_DSI },
->  	{ .compatible = "mediatek,mt8173-dsi",
->  	  .data = (void *)MTK_DSI },
-> +	{ .compatible = "mediatek,mt8183-dsi",
-> +	  .data = (void *)MTK_DSI },
->  	{ .compatible = "mediatek,mt2701-dpi",
->  	  .data = (void *)MTK_DPI },
->  	{ .compatible = "mediatek,mt8173-dpi",
->  	  .data = (void *)MTK_DPI },
-> +	{ .compatible = "mediatek,mt8183-dpi",
-> +	  .data = (void *)MTK_DPI },
->  	{ .compatible = "mediatek,mt2701-disp-mutex",
->  	  .data = (void *)MTK_DISP_MUTEX },
->  	{ .compatible = "mediatek,mt2712-disp-mutex",
->  	  .data = (void *)MTK_DISP_MUTEX },
->  	{ .compatible = "mediatek,mt8173-disp-mutex",
->  	  .data = (void *)MTK_DISP_MUTEX },
-> +	{ .compatible = "mediatek,mt8183-disp-mutex",
-> +	  .data = (void *)MTK_DISP_MUTEX },
->  	{ .compatible = "mediatek,mt2701-disp-pwm",
->  	  .data = (void *)MTK_DISP_BLS },
->  	{ .compatible = "mediatek,mt8173-disp-pwm",
-> @@ -672,6 +718,8 @@ static SIMPLE_DEV_PM_OPS(mtk_drm_pm_ops, mtk_drm_sys_suspend,
->  	  .data = &mt2712_mmsys_driver_data},
->  	{ .compatible = "mediatek,mt8173-mmsys",
->  	  .data = &mt8173_mmsys_driver_data},
-> +	{ .compatible = "mediatek,mt8183-mmsys",
-> +	  .data = &mt8183_mmsys_driver_data},
->  	{ }
->  };
->  
+> > 
+> > > +	} else if (cur == DDP_COMPONENT_BLS && next == DDP_COMPONENT_DPI0) {
+> > > +		*addr = DISP_REG_CONFIG_DPI_SEL;
+> > > +		value = DPI_SEL_IN_BLS;
+> > >  	} else {
+> > >  		value = 0;
+> > >  	}
+> > > @@ -393,10 +399,6 @@ static void mtk_ddp_sout_sel(struct regmap *config_regs,
+> > >  	} else if (cur == DDP_COMPONENT_BLS && next == DDP_COMPONENT_DPI0) {
+> > >  		regmap_write(config_regs, DISP_REG_CONFIG_OUT_SEL,
+> > >  				BLS_TO_DPI_RDMA1_TO_DSI);
+> > > -		regmap_write(config_regs, DISP_REG_CONFIG_DSI_SEL,
+> > > -				DSI_SEL_IN_RDMA);
+> > > -		regmap_write(config_regs, DISP_REG_CONFIG_DPI_SEL,
+> > > -				DPI_SEL_IN_BLS);
+> > >  	}
+> > >  }
+> > >  
+> > 
+> > 
+> 
+> 
 
 _______________________________________________
 dri-devel mailing list
