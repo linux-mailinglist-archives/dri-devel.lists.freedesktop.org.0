@@ -1,39 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2167B12E42F
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 10:04:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC96512E430
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 10:06:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 511B189D43;
-	Thu,  2 Jan 2020 09:04:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1100189231;
+	Thu,  2 Jan 2020 09:06:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A66D89D40;
- Thu,  2 Jan 2020 09:04:50 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 02 Jan 2020 01:04:49 -0800
-X-IronPort-AV: E=Sophos;i="5.69,386,1571727600"; d="scan'208";a="214098037"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 02 Jan 2020 01:04:45 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>,
- Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v2 1/5] pinctrl: Allow modules to use
- pinctrl_[un]register_mappings
-In-Reply-To: <CACRpkdaXFSJVkWJGzsVcvbUA9gpgP0Vbkwf1H-HWw8s35R9XYQ@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20191216205122.1850923-1-hdegoede@redhat.com>
- <20191216205122.1850923-2-hdegoede@redhat.com>
- <CACRpkdaXFSJVkWJGzsVcvbUA9gpgP0Vbkwf1H-HWw8s35R9XYQ@mail.gmail.com>
-Date: Thu, 02 Jan 2020 11:04:43 +0200
-Message-ID: <875zhuut3o.fsf@intel.com>
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A4E589231
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2020 09:06:00 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id C7E8A20027;
+ Thu,  2 Jan 2020 10:05:55 +0100 (CET)
+Date: Thu, 2 Jan 2020 10:05:54 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Claudiu Beznea <claudiu.beznea@microchip.com>, lee.jones@linaro.org
+Subject: Re: [PATCH v3 0/6] fixes for atmel-hlcdc
+Message-ID: <20200102090554.GB29446@ravnborg.org>
+References: <1576672109-22707-1-git-send-email-claudiu.beznea@microchip.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <1576672109-22707-1-git-send-email-claudiu.beznea@microchip.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
+ a=MpWoGPNM3uDNEO5XxNkA:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,71 +44,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>, "open
- list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Lee Jones <lee.jones@linaro.org>
+Cc: alexandre.belloni@bootlin.com, airlied@linux.ie,
+ nicolas.ferre@microchip.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, boris.brezillon@bootlin.com,
+ lee.jones@linaro.org, peda@axentia.se, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 30 Dec 2019, Linus Walleij <linus.walleij@linaro.org> wrote:
-> On Mon, Dec 16, 2019 at 9:51 PM Hans de Goede <hdegoede@redhat.com> wrote:
->
->> Currently only the drivers/pinctrl/devicetree.c code allows registering
->> pinctrl-mappings which may later be unregistered, all other mappings
->> are assumed to be permanent.
->>
->> Non-dt platforms may also want to register pinctrl mappings from code which
->> is build as a module, which requires being able to unregister the mapping
->> when the module is unloaded to avoid dangling pointers.
->>
->> To allow unregistering the mappings the devicetree code uses 2 internal
->> functions: pinctrl_register_map and pinctrl_unregister_map.
->>
->> pinctrl_register_map allows the devicetree code to tell the core to
->> not memdup the mappings as it retains ownership of them and
->> pinctrl_unregister_map does the unregistering, note this only works
->> when the mappings where not memdupped.
->>
->> The only code relying on the memdup/shallow-copy done by
->> pinctrl_register_mappings is arch/arm/mach-u300/core.c this commit
->> replaces the __initdata with const, so that the shallow-copy is no
->> longer necessary.
->>
->> After that we can get rid of the internal pinctrl_unregister_map function
->> and just use pinctrl_register_mappings directly everywhere.
->>
->> This commit also renames pinctrl_unregister_map to
->> pinctrl_unregister_mappings so that its naming matches its
->> pinctrl_register_mappings counter-part and exports it.
->>
->> Together these 2 changes will allow non-dt platform code to
->> register pinctrl-mappings from modules without breaking things on
->> module unload (as they can now unregister the mapping on unload).
->>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->
-> This v2 works fine for me, I applied it to this immutable branch in the
-> pinctrl tree:
-> https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git/log/?h=ib-pinctrl-unreg-mappings
->
-> And pulled that into the pinctrl "devel" branch for v5.6.
->
-> Please pull this immutable branch into the Intel DRM tree and apply
-> the rest of the stuff on top!
+Hi Lee.
 
-Thanks, pulled to drm-intel-next-queued.
+How do de handle the two mfd related patches?
 
-BR,
-Jani.
+> I have few fixes for atmel-hlcdc driver in this series as well
+> as two reverts.
+> Revert "drm: atmel-hlcdc: enable sys_clk during initalization." is
+> due to the fix in in patch 2/5.
+> 
+> Thank you,
+> Claudiu Beznea
+> 
+> Changes in v3:
+> - changes dev_err() message in patch 4/6
+> - collect Acked-by tags
+> 
+> Changes in v2:
+> - introduce patch 3/6
+> - use dev_err() inpatch 4/6
+> - introduce patch 5/6 instead of reverting commit f6f7ad323461
+>   ("drm/atmel-hlcdc: allow selecting a higher pixel-clock than requested")
+> 
+> Claudiu Beznea (5):
+>   drm: atmel-hlcdc: use double rate for pixel clock only if supported
+>   drm: atmel-hlcdc: enable clock before configuring timing engine
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+>   mfd: atmel-hlcdc: add struct device member to struct
+>     atmel_hlcdc_regmap
+>   mfd: atmel-hlcdc: return in case of error
+
+Would it be OK to apply the to drm-misc-next, or shal they go in via
+your mfd tree?
+
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
