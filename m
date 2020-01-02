@@ -1,62 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAC1D12E4E1
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 11:17:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B89BE12E4EF
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 11:26:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECF296E037;
-	Thu,  2 Jan 2020 10:17:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 437C689D30;
+	Thu,  2 Jan 2020 10:26:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75F8C6E037
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2020 10:17:31 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id m26so37756003ljc.13
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jan 2020 02:17:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=HdveirHsIPhVU+fkPoTDfHHFQp2fyC7pfB55HT7qYno=;
- b=Gi2UNwLci+se0PFY20T/OhetLxIvvY9XgaIoO/69Ge9J7EMtBQkLOmzkSiKVPTsHqi
- m/n5EJHzYv9ZUNtDGsDm6KtJPN+x47lziTzAT14ifbh/R0B9EQP4KnMI2HRKZ9ZNjVTA
- fJRULq1jN7RgL1FjM8b+fZOK0B4j5m4y/B7wQSBqw4us0hQceRyhfvj3+Q0HD+TmT0dW
- psNjnBQFRWQgNyAxRONo/vzjIrs+ahhXy90UtLtzbf3aUqe4WwGexktmrQyWG8HTNCEt
- joYi3o2KMkxGnOYo3woTSdeaa3Dy3ljggjDdjNcuupny+t3UrY4Czm+se2NvJ93Yj9yr
- 7F0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=HdveirHsIPhVU+fkPoTDfHHFQp2fyC7pfB55HT7qYno=;
- b=gMcQoqaFvHmnSXBMsk98hfrW+1/23ydCG5m1R6FXP/8rVovNCNoilfP6jz8vM7HO+B
- mK6D//U9li9x2jU0FSE4gfHf6UXbns3/ei3C5p4giuIekUjEel2HI579mne0IzgW762L
- Zztp+Rmgvof4FdxyqhTYhBlQIDWHaBVYu1/i1bwYBuQjRw7gDBWjzV3e14xlO/J5zRu8
- t9ykLFSv5utsn5vwwU2YbweK5EAdbfWuGuWbWK870+dV2w+8zDiUJX1IEXNjpT6NiPn9
- Ed68VVJi3N6Dksgm+nwY50+7n1ThCq9KPV3aFiD+nSgAXwRZfiek+D3qk4TgnI4a96Og
- Q/og==
-X-Gm-Message-State: APjAAAUbHwXUgh012OmpQrwzJxNZxNcIbNPsK11QF28tdDWhblcCwA3F
- tnNy4i64UuGujUh4+gkKSDU=
-X-Google-Smtp-Source: APXvYqwAfBJWKYJujoq+TGAXqse2IxVi61pyufbfiuaJuxfXkOqmwL3oeQs76MNJPkqXVznqLQP5Iw==
-X-Received: by 2002:a05:651c:1a8:: with SMTP id
- c8mr35734831ljn.207.1577960249839; 
- Thu, 02 Jan 2020 02:17:29 -0800 (PST)
-Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
- by smtp.gmail.com with ESMTPSA id
- m21sm23025892lfh.53.2020.01.02.02.17.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jan 2020 02:17:27 -0800 (PST)
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thierry Reding <thierry.reding@gmail.com>,
-	Rob Herring <robh@kernel.org>
-Subject: [PATCH v2 2/2] dt-bindings: one file of all simple DSI panels
-Date: Thu,  2 Jan 2020 11:17:12 +0100
-Message-Id: <20200102101712.5085-3-sam@ravnborg.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200102101712.5085-1-sam@ravnborg.org>
-References: <20200102101712.5085-1-sam@ravnborg.org>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AED389D30;
+ Thu,  2 Jan 2020 10:26:16 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 02 Jan 2020 02:26:15 -0800
+X-IronPort-AV: E=Sophos;i="5.69,386,1571727600"; d="scan'208";a="214115711"
+Received: from amanna-mobl1.gar.corp.intel.com (HELO [10.66.114.55])
+ ([10.66.114.55])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA;
+ 02 Jan 2020 02:26:13 -0800
+Subject: Re: [PATCH v3 3/9] drm/i915/dp: Move vswing/pre-emphasis adjustment
+ calculation
+To: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20191230161523.32222-1-animesh.manna@intel.com>
+ <20191230161523.32222-4-animesh.manna@intel.com> <87v9putdvr.fsf@intel.com>
+From: "Manna, Animesh" <animesh.manna@intel.com>
+Message-ID: <8d0d9c04-234f-f099-0f2d-3c3dee5384d6@intel.com>
+Date: Thu, 2 Jan 2020 15:56:09 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
+In-Reply-To: <87v9putdvr.fsf@intel.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,143 +48,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Yannick Fertre <yannick.fertre@st.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: manasi.d.navare@intel.com, nidhi1.gupta@intel.com, uma.shankar@intel.com,
+ anshuman.gupta@intel.com
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To complement panel-simple.yaml, create panel-simple-dsi.yaml.
-panel-simple-dsi-yaml are for all simple DSP panels with a single
-power-supply and optional backlight / enable GPIO.
+On 02-01-2020 14:48, Jani Nikula wrote:
+> On Mon, 30 Dec 2019, Animesh Manna <animesh.manna@intel.com> wrote:
+>> vswing/pre-emphasis adjustment calculation is needed in processing
+>> of auto phy compliance request other than link training, so moved
+>> the same function in intel_dp.c.
+> I guess I'm still asking why you think this is better located in
+> intel_dp.c than intel_dp_link_training.c, as the function has been moved
+> once in the other direction already to split out stuff from intel_dp.c
+> and to make the file smaller. Even the file name suggests it should
+> really be in intel_dp_link_training.c, right?
 
-Migrate panasonic,vvx10f034n00 over to the new file.
+Just a thought, can we change the name to "intel_dp_link_config.c" from "intel_dp_link_training.c" which will provide little wider scope
+and all the function playing with link configuration can be under it and also exposed through header file.
 
-The objectives with one file for all the simple DSI panels are:
-    - Make it simpler to add bindings for simple DSI panels
-    - Keep the number of bindings file lower
-    - Keep the binding documentation for simple DSI panels more consistent
+AFAIK, processing phy compliance request always do not need link training. I understood link training is very specific process consisting of clock recovery + channel eq.
+So I am afraid of exposing intel_get_adjust_train() from intel_dp_link_training.c which is not only specific to link-training. Need your suggestion.
 
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Yannick Fertre <yannick.fertre@st.com>
-Cc: Mark Rutland <mark.rutland@arm.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Cc: devicetree@vger.kernel.org
----
- .../display/panel/panasonic,vvx10f034n00.txt  | 20 ------
- .../display/panel/panel-simple-dsi.yaml       | 67 +++++++++++++++++++
- 2 files changed, 67 insertions(+), 20 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/panel/panasonic,vvx10f034n00.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+Regards,
+Animesh
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panasonic,vvx10f034n00.txt b/Documentation/devicetree/bindings/display/panel/panasonic,vvx10f034n00.txt
-deleted file mode 100644
-index 37dedf6a6702..000000000000
---- a/Documentation/devicetree/bindings/display/panel/panasonic,vvx10f034n00.txt
-+++ /dev/null
-@@ -1,20 +0,0 @@
--Panasonic 10" WUXGA TFT LCD panel
--
--Required properties:
--- compatible: should be "panasonic,vvx10f034n00"
--- reg: DSI virtual channel of the peripheral
--- power-supply: phandle of the regulator that provides the supply voltage
--
--Optional properties:
--- backlight: phandle of the backlight device attached to the panel
--
--Example:
--
--	mdss_dsi@fd922800 {
--		panel@0 {
--			compatible = "panasonic,vvx10f034n00";
--			reg = <0>;
--			power-supply = <&vreg_vsp>;
--			backlight = <&lp8566_wled>;
--		};
--	};
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-new file mode 100644
-index 000000000000..05c52390269e
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-@@ -0,0 +1,67 @@
-+# SPDX-License-Identifier: (GPL-2.0-only or BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/panel-simple-dsi.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Simple DSI panels with a single power-supply
-+
-+maintainers:
-+  - Thierry Reding <thierry.reding@gmail.com>
-+  - Sam Ravnborg <sam@ravnborg.org>
-+
-+description: |
-+  This binding file is a collection of the DSI panels that
-+  requires only a single power-supply.
-+  There are optionally a backlight and an enable GPIO.
-+  The panel may use an OF graph binding for the association to the display,
-+  or it may be a direct child node of the display.
-+
-+  If the panel is more advanced a dedicated binding file is required.
-+
-+allOf:
-+  - $ref: panel-common.yaml#
-+
-+properties:
-+
-+  compatible:
-+    enum:
-+    # compatible must be listed in alphabetical order, ordered by compatible.
-+    # The description in the comment is mandatory for each compatible.
-+
-+    # Panasonic 10" WUXGA TFT LCD panel
-+    - panasonic,vvx10f034n00
-+
-+  reg:
-+    maxItems: 1
-+    description: DSI virtual channel
-+
-+  backlight: true
-+  enable-gpios: true
-+  port: true
-+  power-supply: true
-+
-+additionalProperties: false
-+
-+required:
-+  - compatible
-+  - power-supply
-+  - reg
-+
-+examples:
-+  - |
-+    mdss_dsi@fd922800 {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+      panel@0 {
-+        compatible = "panasonic,vvx10f034n00";
-+        reg = <0>;
-+        power-supply = <&vcc_lcd_reg>;
-+
-+        port {
-+          panel: endpoint {
-+            remote-endpoint = <&ltdc_out>;
-+          };
-+        };
-+      };
-+    };
--- 
-2.20.1
-
+>
+> BR,
+> Jani.
+>
+>
+>> No functional change.
+>>
+>> v1: initial patch.
+>> v2:
+>> - used "intel_dp" prefix in function name. (Jani)
+>> - used array notation instead pointer for link_status. (Ville)
+>>
+>> Signed-off-by: Animesh Manna <animesh.manna@intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/display/intel_dp.c       | 34 ++++++++++++++++++
+>>   drivers/gpu/drm/i915/display/intel_dp.h       |  4 +++
+>>   .../drm/i915/display/intel_dp_link_training.c | 36 ++-----------------
+>>   3 files changed, 40 insertions(+), 34 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+>> index 991f343579ef..2a27ee106089 100644
+>> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+>> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+>> @@ -4110,6 +4110,40 @@ ivb_cpu_edp_signal_levels(u8 train_set)
+>>   	}
+>>   }
+>>   
+>> +void
+>> +intel_dp_get_adjust_train(struct intel_dp *intel_dp,
+>> +			  const u8 link_status[DP_LINK_STATUS_SIZE])
+>> +{
+>> +	u8 v = 0;
+>> +	u8 p = 0;
+>> +	int lane;
+>> +	u8 voltage_max;
+>> +	u8 preemph_max;
+>> +
+>> +	for (lane = 0; lane < intel_dp->lane_count; lane++) {
+>> +		u8 this_v = drm_dp_get_adjust_request_voltage(link_status,
+>> +							      lane);
+>> +		u8 this_p = drm_dp_get_adjust_request_pre_emphasis(link_status,
+>> +								   lane);
+>> +
+>> +		if (this_v > v)
+>> +			v = this_v;
+>> +		if (this_p > p)
+>> +			p = this_p;
+>> +	}
+>> +
+>> +	voltage_max = intel_dp_voltage_max(intel_dp);
+>> +	if (v >= voltage_max)
+>> +		v = voltage_max | DP_TRAIN_MAX_SWING_REACHED;
+>> +
+>> +	preemph_max = intel_dp_pre_emphasis_max(intel_dp, v);
+>> +	if (p >= preemph_max)
+>> +		p = preemph_max | DP_TRAIN_MAX_PRE_EMPHASIS_REACHED;
+>> +
+>> +	for (lane = 0; lane < 4; lane++)
+>> +		intel_dp->train_set[lane] = v | p;
+>> +}
+>> +
+>>   void
+>>   intel_dp_set_signal_levels(struct intel_dp *intel_dp)
+>>   {
+>> diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i915/display/intel_dp.h
+>> index 3da166054788..83eadc87af26 100644
+>> --- a/drivers/gpu/drm/i915/display/intel_dp.h
+>> +++ b/drivers/gpu/drm/i915/display/intel_dp.h
+>> @@ -9,6 +9,7 @@
+>>   #include <linux/types.h>
+>>   
+>>   #include <drm/i915_drm.h>
+>> +#include <drm/drm_dp_helper.h>
+>>   
+>>   #include "i915_reg.h"
+>>   
+>> @@ -91,6 +92,9 @@ void
+>>   intel_dp_program_link_training_pattern(struct intel_dp *intel_dp,
+>>   				       u8 dp_train_pat);
+>>   void
+>> +intel_dp_get_adjust_train(struct intel_dp *intel_dp,
+>> +			  const u8 link_status[DP_LINK_STATUS_SIZE]);
+>> +void
+>>   intel_dp_set_signal_levels(struct intel_dp *intel_dp);
+>>   void intel_dp_set_idle_link_train(struct intel_dp *intel_dp);
+>>   u8
+>> diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+>> index 2a1130dd1ad0..e8ff9e279800 100644
+>> --- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+>> +++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+>> @@ -34,38 +34,6 @@ intel_dp_dump_link_status(const u8 link_status[DP_LINK_STATUS_SIZE])
+>>   		      link_status[3], link_status[4], link_status[5]);
+>>   }
+>>   
+>> -static void
+>> -intel_get_adjust_train(struct intel_dp *intel_dp,
+>> -		       const u8 link_status[DP_LINK_STATUS_SIZE])
+>> -{
+>> -	u8 v = 0;
+>> -	u8 p = 0;
+>> -	int lane;
+>> -	u8 voltage_max;
+>> -	u8 preemph_max;
+>> -
+>> -	for (lane = 0; lane < intel_dp->lane_count; lane++) {
+>> -		u8 this_v = drm_dp_get_adjust_request_voltage(link_status, lane);
+>> -		u8 this_p = drm_dp_get_adjust_request_pre_emphasis(link_status, lane);
+>> -
+>> -		if (this_v > v)
+>> -			v = this_v;
+>> -		if (this_p > p)
+>> -			p = this_p;
+>> -	}
+>> -
+>> -	voltage_max = intel_dp_voltage_max(intel_dp);
+>> -	if (v >= voltage_max)
+>> -		v = voltage_max | DP_TRAIN_MAX_SWING_REACHED;
+>> -
+>> -	preemph_max = intel_dp_pre_emphasis_max(intel_dp, v);
+>> -	if (p >= preemph_max)
+>> -		p = preemph_max | DP_TRAIN_MAX_PRE_EMPHASIS_REACHED;
+>> -
+>> -	for (lane = 0; lane < 4; lane++)
+>> -		intel_dp->train_set[lane] = v | p;
+>> -}
+>> -
+>>   static bool
+>>   intel_dp_set_link_train(struct intel_dp *intel_dp,
+>>   			u8 dp_train_pat)
+>> @@ -215,7 +183,7 @@ intel_dp_link_training_clock_recovery(struct intel_dp *intel_dp)
+>>   		voltage = intel_dp->train_set[0] & DP_TRAIN_VOLTAGE_SWING_MASK;
+>>   
+>>   		/* Update training set as requested by target */
+>> -		intel_get_adjust_train(intel_dp, link_status);
+>> +		intel_dp_get_adjust_train(intel_dp, link_status);
+>>   		if (!intel_dp_update_link_train(intel_dp)) {
+>>   			DRM_ERROR("failed to update link training\n");
+>>   			return false;
+>> @@ -325,7 +293,7 @@ intel_dp_link_training_channel_equalization(struct intel_dp *intel_dp)
+>>   		}
+>>   
+>>   		/* Update training set as requested by target */
+>> -		intel_get_adjust_train(intel_dp, link_status);
+>> +		intel_dp_get_adjust_train(intel_dp, link_status);
+>>   		if (!intel_dp_update_link_train(intel_dp)) {
+>>   			DRM_ERROR("failed to update link training\n");
+>>   			break;
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
