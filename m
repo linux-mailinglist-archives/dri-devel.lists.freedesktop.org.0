@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E51912E4BC
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 11:02:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3846412E4BE
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 11:02:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F9F289FEA;
-	Thu,  2 Jan 2020 10:02:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A6346E02C;
+	Thu,  2 Jan 2020 10:02:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
  [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41F7889FEA;
- Thu,  2 Jan 2020 10:02:52 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id p17so5165751wma.1;
- Thu, 02 Jan 2020 02:02:52 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE1F36E02C;
+ Thu,  2 Jan 2020 10:02:54 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id b19so5096151wmj.4;
+ Thu, 02 Jan 2020 02:02:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zpVrjWu9aDwxR+gFK4Bj/HRMRoCvr4WMHyXpeXsUZuI=;
- b=XUFS/11/wVNM+/r+f1Vd8xJZWbXqdYDFXoUsCi/mHVhJ2kU96cF9Z0riPvkbtgPWj3
- 0lH9gaoXnNQ+wnIlKP/y9N9hcGkLde/8gYk8ikvBA52s4eWyoYK1Eb0UwgfWWvhblYhS
- DVXdgr17dnovrWtGu2yUIjWMhenQkIXA+/K5JkEPuEho7KHrCuz5DO/pE8Q79PTdBcZv
- xX4fKjNTMU7J4Z5fpB/8XQL1AoV97PNicKaDlNji5EGPFTgEOwEOxAevUoLrfBfixvdk
- LvVWWDWgAD+hP3sn/TWVT+Bqd1V1Ns/J92em8pAuluCRSxc91RLuvdrZoFpAVv13Vo2L
- bq/g==
+ bh=De6Z7XlByT/3y43y8ANqlsh9lPr7hWe/7UFt2ZwYqp4=;
+ b=YATk5J7gbPl8aSHbGfbKvNtScL1wLi/SmbrgwfdHCFO53alDDQe6bpj3xhOaiw54fP
+ iWW9bxSoChvzWwHweh5nzSHbxJgsfCG0909tt9AnIoMXLWdAM2CGWF1ecM/aPmDuSqYM
+ rl3DXWMbMvWGmE/FMRzDroXXn9hHtgb9+eJITdbEAxviCn/m6LZ3q2Ot1ic3yY7pVkRF
+ 6xoeoOVc7ZzSRiVrGPy5GpRVGdEYiRVxJzCd2eBa/HAn/EUmoTUHOGryhojEwDjlrL9R
+ Uen6nPmMmoLFIX4rDo2Gchm1gaYURR3k71bqDsAb4lc+4CZ/R9S7LnW6HDFuvBznZ0tw
+ jk8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zpVrjWu9aDwxR+gFK4Bj/HRMRoCvr4WMHyXpeXsUZuI=;
- b=SyOVuE0osZynPeDRxgE6Xzx2T0hMK0rzm4MEDqxFwx9yjVhNyuxTMQ82McHBcklRpU
- wnRSl3mwEtTD5KigiQdzVfwNFWvUBVZokN9yHLloOMH9ZlM0vJBBB23vZnQWyK7594DO
- WutJcpMf+Dt/RXhPQ6Q+HfYfS4MltPcDhEulKNgzOVZdYfPe7lVMSMWMBVCaK4oiX5pd
- jasIYbhs/FfcQhlUHxCdocVegRCzyzB4g7IOXXDgSGs/ZdttjGaFg0N5wqDPYyosvVwn
- yDpszVje23gHaybex2iifEu7XVEyEea0hDP0Q4QpzdWFPW/5LAsZ0l14ipvw3/Swb92/
- v6tw==
-X-Gm-Message-State: APjAAAUWXK/pdNXFzXvpeQPcQS8oanFNyBOT6lcRM7XgOp1Dr0fsqTyc
- Q88lR2E1wxoZCCV97jsm3nk=
-X-Google-Smtp-Source: APXvYqylD8GwBP3d6yFUKkkJNL3QNwwyoYcJUzEPpB2RvAj973nYeo/AuM9KHExhcF+1SgfwUwNTwQ==
-X-Received: by 2002:a1c:5f41:: with SMTP id t62mr14472812wmb.42.1577959370957; 
- Thu, 02 Jan 2020 02:02:50 -0800 (PST)
+ bh=De6Z7XlByT/3y43y8ANqlsh9lPr7hWe/7UFt2ZwYqp4=;
+ b=frFIBvzVAjvVTFy/faEJCGGx1gBX7wnXtNlhAHLAPDa7SLNOruagSAR+/tXpnHl5X9
+ E9lPFiS/83OVr+h3mVIPks2dyt424u7TftDGm7geh98rpnkIhUcgruKLrc3HtyN3PWni
+ zSJCxyNRPGgLF8lnCoXUbWadKw5+xydvxvULXPIKuXwaMTCLEe29+qVUK+qlWjmqKAHq
+ na5YsviGEKzvhImf9XUay5ipjVHKWkaLrjGzmd7dwzFsUrQeZDH0XboyhAxL8Xesy6S7
+ IDyld2kGS48hn7Fycn9J+lsN6KDkLdNbz849E+LkL741X/Q4s5+rI0TpjgrxBMTr3gmC
+ Xa0g==
+X-Gm-Message-State: APjAAAWcYlA/C246C1vtMLK1OKSfaWpsH4TWyJ/3aE44AcG+JuzXnIft
+ HOR9L6CnwUd2pTRA+47F0NA=
+X-Google-Smtp-Source: APXvYqywYgY1OpijhABjU9VkAhd9hds5Pl2h/firY7w1mQDLa1s7CITtTjAt+znNZtG0BnLfCiA0pw==
+X-Received: by 2002:a05:600c:2318:: with SMTP id
+ 24mr13403333wmo.48.1577959373515; 
+ Thu, 02 Jan 2020 02:02:53 -0800 (PST)
 Received: from localhost.localdomain (62-178-82-229.cable.dynamic.surfer.at.
  [62.178.82.229])
- by smtp.gmail.com with ESMTPSA id r6sm55418683wrq.92.2020.01.02.02.02.49
+ by smtp.gmail.com with ESMTPSA id r6sm55418683wrq.92.2020.01.02.02.02.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jan 2020 02:02:50 -0800 (PST)
+ Thu, 02 Jan 2020 02:02:52 -0800 (PST)
 From: Christian Gmeiner <christian.gmeiner@gmail.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 4/6] drm/etnaviv: update gc7000 chip identity entry
-Date: Thu,  2 Jan 2020 11:02:18 +0100
-Message-Id: <20200102100230.420009-5-christian.gmeiner@gmail.com>
+Subject: [PATCH 5/6] drm/etnaviv: update hwdb selection logic
+Date: Thu,  2 Jan 2020 11:02:19 +0100
+Message-Id: <20200102100230.420009-6-christian.gmeiner@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200102100230.420009-1-christian.gmeiner@gmail.com>
 References: <20200102100230.420009-1-christian.gmeiner@gmail.com>
@@ -74,29 +75,46 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use ~0U as marker for 'I do not care'. I am not sure what
-GC7000 based devices are in the wild and I do not want to
-break them. In the near future we should extend the hwdb.
+Take product id, customer id and eco id into account. If that
+delivers no match try a search for model and revision.
 
 Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-index 39b463db76c9..eb0f3eb87ced 100644
+index eb0f3eb87ced..d1744f1b44b1 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-@@ -9,6 +9,9 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
- 	{
- 		.model = 0x7000,
- 		.revision = 0x6214,
-+		.product_id = ~0U,
-+		.customer_id = ~0U,
-+		.eco_id = ~0U,
- 		.stream_count = 16,
- 		.register_max = 64,
- 		.thread_count = 1024,
+@@ -44,9 +44,26 @@ bool etnaviv_fill_identity_from_hwdb(struct etnaviv_gpu *gpu)
+ 	struct etnaviv_chip_identity *ident = &gpu->identity;
+ 	int i;
+ 
++	/* accurate match */
+ 	for (i = 0; i < ARRAY_SIZE(etnaviv_chip_identities); i++) {
+ 		if (etnaviv_chip_identities[i].model == ident->model &&
+-		    etnaviv_chip_identities[i].revision == ident->revision) {
++		    etnaviv_chip_identities[i].revision == ident->revision &&
++		    etnaviv_chip_identities[i].product_id == ident->product_id &&
++		    etnaviv_chip_identities[i].customer_id == ident->customer_id &&
++		    etnaviv_chip_identities[i].eco_id == ident->eco_id) {
++			memcpy(ident, &etnaviv_chip_identities[i],
++			       sizeof(*ident));
++			return true;
++		}
++	}
++
++	/* match based only on model and revision */
++	for (i = 0; i < ARRAY_SIZE(etnaviv_chip_identities); i++) {
++		if (etnaviv_chip_identities[i].model == ident->model &&
++		    etnaviv_chip_identities[i].revision == ident->revision &&
++		    etnaviv_chip_identities[i].product_id == ~0U &&
++		    etnaviv_chip_identities[i].customer_id == ~0U &&
++		    etnaviv_chip_identities[i].eco_id == ~0U) {
+ 			memcpy(ident, &etnaviv_chip_identities[i],
+ 			       sizeof(*ident));
+ 			return true;
 -- 
 2.24.1
 
