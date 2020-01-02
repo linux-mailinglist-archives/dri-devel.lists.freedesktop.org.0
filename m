@@ -2,39 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA84012E522
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 11:55:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5032212E54E
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 12:02:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C29C78933C;
-	Thu,  2 Jan 2020 10:55:22 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABC388933C
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2020 10:55:21 +0000 (UTC)
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 22B76215A4;
- Thu,  2 Jan 2020 10:55:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1577962521;
- bh=ukjU++godUoDpWkY61biU/lQXD6lUfIOlYlnf1ANUOk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=yzRfRP/ugZJwE3CCES4EvFu+akRgcakQsgYvpTbxeCgpSMThfu6KhS1CdGgiKRzHY
- n0CEda8Ar5AbKHkQpRYMSjGUSBT82TXFG4MJO2tz3L/JC1sf9bbgd/UEbmdzX+67VJ
- JCFwKX5fm1sHbUr76wiGL4iYWzqVdYe+Uv61QoJo=
-Date: Thu, 2 Jan 2020 11:55:19 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Subject: Re: [PATCH v3 3/9] ARM: dts: sun8i: r40: Use tcon top clock index
- macros
-Message-ID: <20200102105519.cvpcwvjyig5dztan@gilmour.lan>
-References: <20191231130528.20669-1-jagan@amarulasolutions.com>
- <20191231130528.20669-4-jagan@amarulasolutions.com>
-MIME-Version: 1.0
-In-Reply-To: <20191231130528.20669-4-jagan@amarulasolutions.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 651606E0A5;
+	Thu,  2 Jan 2020 11:02:29 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
+ [104.130.122.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B99D66E0A5
+ for <dri-devel@freedesktop.org>; Thu,  2 Jan 2020 11:02:27 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1577962947; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=tkKCPLe79npIk6waelmBeTcR6XDop2zkLNOKqt/0Dq0=;
+ b=vqtR9tmy8Bzb2zM8BZPnIcLzZgo8YCHm5IFn1xDUdajTkmkRfqeZ6zlgTBBjoeY/cFHhV6lZ
+ t5xOSzcjxXfhQswauhJWgrLmgUT1jvt6MRdTRezQ1fHuwM5aQ9J+3mBp/l0tZvgpGUc7+7YU
+ f45RTAI+nRRmXKz6mKPVkxeeq3Q=
+X-Mailgun-Sending-Ip: 104.130.122.26
+X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e0dcdc2.7faef0573d50-smtp-out-n02;
+ Thu, 02 Jan 2020 11:02:26 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 4AC53C447A3; Thu,  2 Jan 2020 11:02:26 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from smasetty-linux.qualcomm.com
+ (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: smasetty)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id C9813C43383;
+ Thu,  2 Jan 2020 11:02:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org C9813C43383
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=smasetty@codeaurora.org
+From: Sharat Masetty <smasetty@codeaurora.org>
+To: freedreno@lists.freedesktop.org
+Subject: [PATCH v2 0/7] drm/msm/a6xx: System Cache Support
+Date: Thu,  2 Jan 2020 16:32:06 +0530
+Message-Id: <1577962933-13577-1-git-send-email-smasetty@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,64 +62,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@siol.net>, David Airlie <airlied@linux.ie>,
- linux-sunxi <linux-sunxi@googlegroups.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
- Rob Herring <robh+dt@kernel.org>, linux-amarula@amarulasolutions.com,
- linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1681215508=="
+Cc: saiprakash.ranjan@codeaurora.org, will@kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, dri-devel@freedesktop.org,
+ robin.murphy@arm.com, Sharat Masetty <smasetty@codeaurora.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Some hardware variants contain a system level cache or the last level
+cache(llc). This cache is typically a large block which is shared by multiple
+clients on the SOC. GPU uses the system cache to cache both the GPU data
+buffers(like textures) as well the SMMU pagetables. This helps with
+improved render performance as well as lower power consumption by reducing
+the bus traffic to the system memory.
 
---===============1681215508==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="oj6tgo2qqefryvgl"
-Content-Disposition: inline
+The system cache architecture allows the cache to be split into slices which
+then be used by multiple SOC clients. This patch series is an effort to enable
+and use two of those slices perallocated for the GPU, one for the GPU data
+buffers and another for the GPU SMMU hardware pagetables.
 
+v2: Code reviews and rebased code on top of Jordan's split pagetables series
 
---oj6tgo2qqefryvgl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+To enable the system cache driver, add [1] to your stack if not already
+present. Please review.
 
-On Tue, Dec 31, 2019 at 06:35:22PM +0530, Jagan Teki wrote:
-> tcon_tv0, tcon_tv1 nodes have a clock names of tcon-ch0,
-> tcon-ch1 which are referring tcon_top clocks via index
-> numbers like 0, 1 with CLK_TCON_TV0 and CLK_TCON_TV1
-> respectively.
->
-> Use the macro in place of index numbers, for more code
-> readability.
->
-> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+[1] https://lore.kernel.org/patchwork/patch/1165298/
 
-Applied, thanks
-Maxime
+Jordan Crouse (3):
+  iommu/arm-smmu: Pass io_pgtable_cfg to impl specific init_context
+  drm/msm: Attach the IOMMU device during initialization
+  drm/msm: Refactor address space initialization
 
---oj6tgo2qqefryvgl
-Content-Type: application/pgp-signature; name="signature.asc"
+Sharat Masetty (3):
+  drm: msm: a6xx: Properly free up the iommu objects
+  drm/msm: rearrange the gpu_rmw() function
+  drm/msm/a6xx: Add support for using system cache(LLC)
 
------BEGIN PGP SIGNATURE-----
+Vivek Gautam (1):
+  iommu/arm-smmu: Add domain attribute for QCOM system cache
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXg3MFwAKCRDj7w1vZxhR
-xXAuAQDcI/HjKTyNWSYjBIfy/Ni4nla+VO45v3aSQ3cBZPTx0AEA5Ofb6egNlD0b
-Tq7ayXPuXNzgqUXGPC45HIFkDi7I+gw=
-=OC9E
------END PGP SIGNATURE-----
+ drivers/gpu/drm/msm/adreno/a2xx_gpu.c    |  16 ++++
+ drivers/gpu/drm/msm/adreno/a3xx_gpu.c    |   1 +
+ drivers/gpu/drm/msm/adreno/a4xx_gpu.c    |   1 +
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c    |   1 +
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c    | 124 +++++++++++++++++++++++++++++++
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.h    |   3 +
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c  |  23 ++++--
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h  |   8 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c  |  19 ++---
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c |  19 ++---
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c |   4 -
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c |  19 +++--
+ drivers/gpu/drm/msm/msm_drv.c            |   8 ++
+ drivers/gpu/drm/msm/msm_drv.h            |   9 +--
+ drivers/gpu/drm/msm/msm_gem_vma.c        |  37 ++-------
+ drivers/gpu/drm/msm/msm_gpu.c            |  49 +-----------
+ drivers/gpu/drm/msm/msm_gpu.h            |   9 +--
+ drivers/gpu/drm/msm/msm_gpummu.c         |   7 --
+ drivers/gpu/drm/msm/msm_iommu.c          |  22 +++---
+ drivers/gpu/drm/msm/msm_mmu.h            |   5 +-
+ drivers/iommu/arm-smmu-impl.c            |   3 +-
+ drivers/iommu/arm-smmu-qcom.c            |  10 +++
+ drivers/iommu/arm-smmu.c                 |  25 +++++--
+ drivers/iommu/arm-smmu.h                 |   4 +-
+ include/linux/iommu.h                    |   1 +
+ 25 files changed, 269 insertions(+), 158 deletions(-)
 
---oj6tgo2qqefryvgl--
-
---===============1681215508==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+--
+1.9.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1681215508==--
