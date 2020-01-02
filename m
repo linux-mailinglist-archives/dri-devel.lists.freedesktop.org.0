@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F232812E4B6
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 11:02:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A994712E4B9
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 11:02:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90E8789F41;
-	Thu,  2 Jan 2020 10:02:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C73989F6B;
+	Thu,  2 Jan 2020 10:02:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2A3189F1B;
- Thu,  2 Jan 2020 10:02:42 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id y11so38680191wrt.6;
- Thu, 02 Jan 2020 02:02:42 -0800 (PST)
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8768189F69;
+ Thu,  2 Jan 2020 10:02:47 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id j26so40151235ljc.12;
+ Thu, 02 Jan 2020 02:02:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SOmEZGQpMcpl6KDihwRiQnkiTEmQlzVwGvhf3uAJ7uE=;
- b=kYIlB2L1AxKKkqLfBBz2x5NEXeyGbYVvjEsE/WcP7lMpZBOsx0l01OwK8lT/Z7XPS+
- oD8ccvAUl89UzYzrIWEXEkaJQfXjz7fsdfDWYaW/E8EFJFYfSQVqDpuuPMfenpoCJyJR
- 4HIyY+CbbCsCDfI9eaWz0+SdEaB4WqkSYV6DFPRmdtkCkdl/UBRUbgrBAMXvnCJYGaGH
- jo9a95uXs++xqcqLoRFdF+rtLzT8AcfJaYeeSc/aZgGmzuJ9XLP4jfszbtHxHE737hMT
- oHeijPGP64v3QxJ5cf1sM8Eg0X/uO4Pjvp1isYys8ioG0EXlovPbj/dnh8+UABehzH97
- lWGA==
+ bh=vckSF9hpY/qz2kAzKmxateqNX/b2XwGcAzaPFz9WQdQ=;
+ b=TJXleVLoHctBPaOFvOv6CBlbQzySi93ukWOTrbxAnVszwNIKvekkBg0kLqA/Up4QDV
+ IXsPkEGu47pYf0YNuo6sxMZykuzzD5jaPAc8BuPdywUUNDWetq9pikeV3j5nRpZMqwAX
+ xswDDZ+yBQuWLPOBjfrVlJRpNnWGck36vEQS9YHyPDKf1Il+KT08+InDmRVeaKayFOFX
+ I9D05hcO10SbgtwKWh2RJQ5zuLfxZRdnIzR+jGy36CzzKWW76052OdreLrtr3rmRCwGZ
+ dGecClihocL73d3Zv2bGBYerkBDXwsQMFwK2+R0YrQpXkwzpJhVhmZSJRJNVUqoxfq5D
+ lzPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SOmEZGQpMcpl6KDihwRiQnkiTEmQlzVwGvhf3uAJ7uE=;
- b=oML5gG+O+SPKxtWUxht1RHPs3yfaMz9fh/WxYpAZVLgI7SEauysDJmbFa1MkY6RXn1
- jdqu6whgYxQZbjqPbRqphSHyW+UYttyxEEZ/fk84DPuSIP+WZ2dzGMIwjd2dMyG6xC9s
- AXciJuSzVIrbev51pUKMud37MMpvlqDIEyMsSuMh3QNoLx+ll4HcgJFB4/zZrH31GRZj
- hSs8AYDy6uLuvYzptoX7aWt+ES7fzW24MwVWiWr9++G0w42d5oJI7ALg8ydJlmANgQQu
- IRGZcU1/2Lxk3AtI07n9hr5lFl+ZHNVMrRZ4u/vxsAgHcuP5xspHOuZAzoCxlGuXiedG
- vq9Q==
-X-Gm-Message-State: APjAAAVbnwwMYEGa6wc32TxyfD6f9grF6PIQ8HDkKV4Dy0tM3Mrh5ivH
- iXgjRGTqI8sORpvYxtmMPlI=
-X-Google-Smtp-Source: APXvYqwxYJmjv+yPpKU1P3aQMjg8T96/q5DtGgvd/OuF0sZ3+bV9YgZGwNK+dOc207nRprf53055HA==
-X-Received: by 2002:adf:e6d2:: with SMTP id y18mr84427045wrm.262.1577959361310; 
- Thu, 02 Jan 2020 02:02:41 -0800 (PST)
+ bh=vckSF9hpY/qz2kAzKmxateqNX/b2XwGcAzaPFz9WQdQ=;
+ b=ZoW+t1aVd/hDrU3UxMI4P7W27qt35CB/+tXNWgichD8HeJkCxafLGYGW851Hv/7FEt
+ E+kjCdXkcitWm8EV9tf4BMMqQ4e1eAx7IhFKaBtdALwJBSvNvzptvR0zOd3Gih5zGP70
+ tl71OFDKGkPI5GkbQAztdX9ZDG/TANXincNh7MwdB47KHk1EoZGHH3IAySquUqJikSw8
+ WS7aNSFGu2dSEmi14PbtFKGxAqkoJlIwvFwM2dkjvrkZSr+v4dCD5Vx7VWAH9NLH9DrQ
+ 89U2vdsyEsnyjwfw4quFDlTfWsKv1bfZhwNlFev3EJXYIu6F7O86Ka5E9O92PAkxl18E
+ Kj6Q==
+X-Gm-Message-State: APjAAAWn9crOeoK4DsETsEB8A85irqNipUu13KVzTO+Z0CT6fvLf7ZYp
+ lfEOM6moOe3eHa86QJ+/RdrY18edxqE=
+X-Google-Smtp-Source: APXvYqy+OuS6PLVs/lm3LeFD0O7BF2v4S4kgM9bCjj1OccQ6dLHnyBdURAmyaNC9b1jbGsueQxOG3Q==
+X-Received: by 2002:adf:df90:: with SMTP id z16mr86769792wrl.273.1577959364963; 
+ Thu, 02 Jan 2020 02:02:44 -0800 (PST)
 Received: from localhost.localdomain (62-178-82-229.cable.dynamic.surfer.at.
  [62.178.82.229])
- by smtp.gmail.com with ESMTPSA id r6sm55418683wrq.92.2020.01.02.02.02.39
+ by smtp.gmail.com with ESMTPSA id r6sm55418683wrq.92.2020.01.02.02.02.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jan 2020 02:02:40 -0800 (PST)
+ Thu, 02 Jan 2020 02:02:44 -0800 (PST)
 From: Christian Gmeiner <christian.gmeiner@gmail.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 1/6] drm/etnaviv: update hardware headers from rnndb
-Date: Thu,  2 Jan 2020 11:02:15 +0100
-Message-Id: <20200102100230.420009-2-christian.gmeiner@gmail.com>
+Subject: [PATCH 2/6] drm/etnaviv: determine product, customer and eco id
+Date: Thu,  2 Jan 2020 11:02:16 +0100
+Message-Id: <20200102100230.420009-3-christian.gmeiner@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200102100230.420009-1-christian.gmeiner@gmail.com>
 References: <20200102100230.420009-1-christian.gmeiner@gmail.com>
@@ -74,75 +74,76 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update the state HI header from rnndb commit
-7f1ce75 ("rnndb: document some GPU identity register")
+They will be used for extended HWDB support. The eco id logic was taken
+from galcore kernel driver sources.
 
 Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
 ---
- drivers/gpu/drm/etnaviv/state_hi.xml.h | 29 ++++++++++++++++----------
- 1 file changed, 18 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 17 +++++++++++++++++
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h |  6 +++---
+ 2 files changed, 20 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/state_hi.xml.h b/drivers/gpu/drm/etnaviv/state_hi.xml.h
-index 41d8da2b6f4f..004d8ddacf6a 100644
---- a/drivers/gpu/drm/etnaviv/state_hi.xml.h
-+++ b/drivers/gpu/drm/etnaviv/state_hi.xml.h
-@@ -8,17 +8,17 @@ This file was generated by the rules-ng-ng headergen tool in this git repository
- git clone git://0x04.net/rules-ng-ng
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index d47d1a8e0219..253301be9e95 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -321,6 +321,18 @@ static void etnaviv_hw_specs(struct etnaviv_gpu *gpu)
+ 		gpu->identity.varyings_count -= 1;
+ }
  
- The rules-ng-ng source files this header was generated from are:
--- state.xml     (  26087 bytes, from 2017-12-18 16:51:59)
--- common.xml    (  35468 bytes, from 2018-01-22 13:48:54)
--- common_3d.xml (  14615 bytes, from 2017-12-18 16:51:59)
--- state_hi.xml  (  30232 bytes, from 2018-02-15 15:48:01)
--- copyright.xml (   1597 bytes, from 2016-12-08 16:37:56)
--- state_2d.xml  (  51552 bytes, from 2016-12-08 16:37:56)
--- state_3d.xml  (  79992 bytes, from 2017-12-18 16:51:59)
--- state_blt.xml (  13405 bytes, from 2017-12-18 16:51:59)
--- state_vg.xml  (   5975 bytes, from 2016-12-08 16:37:56)
++static void etnaviv_hw_eco_id(struct etnaviv_gpu *gpu)
++{
++	const u32 chipDate = gpu_read(gpu, VIVS_HI_CHIP_DATE);
++	gpu->identity.eco_id = gpu_read(gpu, VIVS_HI_CHIP_ECO_ID);
++
++	if (etnaviv_is_model_rev(gpu, GC1000, 0x5037) && (chipDate == 0x20120617))
++		gpu->identity.eco_id = 1;
++
++	if (etnaviv_is_model_rev(gpu, GC320, 0x5303) && (chipDate == 0x20140511))
++		gpu->identity.eco_id = 1;
++}
++
+ static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
+ {
+ 	u32 chipIdentity;
+@@ -362,6 +374,8 @@ static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
+ 			}
+ 		}
+ 
++		gpu->identity.product_id = gpu_read(gpu, VIVS_HI_CHIP_PRODUCT_ID);
++
+ 		/*
+ 		 * NXP likes to call the GPU on the i.MX6QP GC2000+, but in
+ 		 * reality it's just a re-branded GC3000. We can identify this
+@@ -375,6 +389,9 @@ static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
+ 		}
+ 	}
+ 
++	etnaviv_hw_eco_id(gpu);
++	gpu->identity.customer_id = gpu_read(gpu, VIVS_HI_CHIP_CUSTOMER_ID);
++
+ 	dev_info(gpu->dev, "model: GC%x, revision: %x\n",
+ 		 gpu->identity.model, gpu->identity.revision);
+ 
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+index 8f9bd4edc96a..68bd966e3916 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+@@ -15,11 +15,11 @@ struct etnaviv_gem_submit;
+ struct etnaviv_vram_mapping;
+ 
+ struct etnaviv_chip_identity {
+-	/* Chip model. */
+ 	u32 model;
 -
--Copyright (C) 2012-2018 by the following authors:
-+- state.xml     (  26666 bytes, from 2019-12-20 21:20:35)
-+- common.xml    (  35468 bytes, from 2018-02-10 13:09:26)
-+- common_3d.xml (  15058 bytes, from 2019-12-28 20:02:03)
-+- state_hi.xml  (  30552 bytes, from 2019-12-28 20:02:48)
-+- copyright.xml (   1597 bytes, from 2018-02-10 13:09:26)
-+- state_2d.xml  (  51552 bytes, from 2018-02-10 13:09:26)
-+- state_3d.xml  (  83098 bytes, from 2019-12-28 20:02:03)
-+- state_blt.xml (  14252 bytes, from 2019-10-20 19:59:15)
-+- state_vg.xml  (   5975 bytes, from 2018-02-10 13:09:26)
-+
-+Copyright (C) 2012-2019 by the following authors:
- - Wladimir J. van der Laan <laanwj@gmail.com>
- - Christian Gmeiner <christian.gmeiner@gmail.com>
- - Lucas Stach <l.stach@pengutronix.de>
-@@ -48,6 +48,9 @@ DEALINGS IN THE SOFTWARE.
- #define MMU_EXCEPTION_SLAVE_NOT_PRESENT				0x00000001
- #define MMU_EXCEPTION_PAGE_NOT_PRESENT				0x00000002
- #define MMU_EXCEPTION_WRITE_VIOLATION				0x00000003
-+#define MMU_EXCEPTION_OUT_OF_BOUND				0x00000004
-+#define MMU_EXCEPTION_READ_SECURITY_VIOLATION			0x00000005
-+#define MMU_EXCEPTION_WRITE_SECURITY_VIOLATION			0x00000006
- #define VIVS_HI							0x00000000
+-	/* Revision value.*/
+ 	u32 revision;
++	u32 product_id;
++	u32 customer_id;
++	u32 eco_id;
  
- #define VIVS_HI_CLOCK_CONTROL					0x00000000
-@@ -140,6 +143,8 @@ DEALINGS IN THE SOFTWARE.
- 
- #define VIVS_HI_CHIP_TIME					0x0000002c
- 
-+#define VIVS_HI_CHIP_CUSTOMER_ID				0x00000030
-+
- #define VIVS_HI_CHIP_MINOR_FEATURE_0				0x00000034
- 
- #define VIVS_HI_CACHE_CONTROL					0x00000038
-@@ -237,6 +242,8 @@ DEALINGS IN THE SOFTWARE.
- 
- #define VIVS_HI_BLT_INTR					0x000000d4
- 
-+#define VIVS_HI_CHIP_ECO_ID					0x000000e8
-+
- #define VIVS_HI_AUXBIT						0x000000ec
- 
- #define VIVS_PM							0x00000000
+ 	/* Supported feature fields. */
+ 	u32 features;
 -- 
 2.24.1
 
