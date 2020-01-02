@@ -2,39 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8672812E75E
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 15:46:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8105012E7A7
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2020 15:59:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2671F6E02A;
-	Thu,  2 Jan 2020 14:46:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A64976E108;
+	Thu,  2 Jan 2020 14:59:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B3EE6E02A
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2020 14:46:43 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 94B52803D7;
- Thu,  2 Jan 2020 15:46:37 +0100 (CET)
-Date: Thu, 2 Jan 2020 15:46:36 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH 1/3] dt-bindings: display: sitronix, st7735r: Add Okaya
- rh128128t
-Message-ID: <20200102144636.GA10075@ravnborg.org>
-References: <20200102141246.370-1-geert+renesas@glider.be>
- <20200102141246.370-2-geert+renesas@glider.be>
+X-Greylist: delayed 374 seconds by postgrey-1.36 at gabe;
+ Thu, 02 Jan 2020 14:59:02 UTC
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A99B76E108
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2020 14:59:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds201912;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=OAnAY2vaA2S1dqxbsSKJAdvKdXR2aLsZd3RWqY191tg=; b=FizrheWOtuPgPxIwSY3pmaukdy
+ qcfrcCXhyJ6PVkypQHNu5mFvM7XrDvPEzrrRKiP03hLsAO4G2L1HMc04Cs+33YWU69ig1HQEq7GYE
+ VgAE5hlIs5s8Bb8B/SejLyUKV9MSeAKRNv9ip9q67BqI4tJ1kitg6OfFn91jLhphnhaAwjApOmuLc
+ QY8lCXBNPPyLLstZX7rFpVPgvJHZMfZXrTF1X1uJQ2bhns7A9fXy+RNa0g/SPaBTyaREIBafz/D0v
+ WPZceY2kEttZHY9NJvwcmHtHspH8Z+nSnudItDpyH92lAGSCTWE4ujempd9WWAn+juyKvfcmVH8C9
+ aDSiBFUQ==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:57723
+ helo=[192.168.10.61])
+ by smtp.domeneshop.no with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1in1qA-0005O0-Jf; Thu, 02 Jan 2020 15:52:46 +0100
+Subject: Re: [PATCH] drm/mipi_dbi: Fix off-by-one bugs in mipi_dbi_blank()
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+References: <20191230130604.31006-1-geert+renesas@glider.be>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <4702e72d-b452-2f87-6c5c-f46321eb071a@tronnes.org>
+Date: Thu, 2 Jan 2020 15:52:40 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200102141246.370-2-geert+renesas@glider.be>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
- a=FF-hTYSRAwVgkRfqy0oA:9 a=CjuIK1q_8ugA:10 a=pHzHmUro8NiASowvMSCR:22
- a=6VlIyEUom7LUIeUMNQJH:22
+In-Reply-To: <20191230130604.31006-1-geert+renesas@glider.be>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,54 +58,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Lechner <david@lechnology.com>, David Airlie <airlied@linux.ie>,
- linux-renesas-soc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Chris Brandt <chris.brandt@renesas.com>, dri-devel@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org, Thierry Reding <treding@nvidia.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Geert.
 
-On Thu, Jan 02, 2020 at 03:12:44PM +0100, Geert Uytterhoeven wrote:
-> Document support for the Okaya RH128128T display, which is a 128x128
-> 1.44" TFT display driven by a Sitronix ST7715R TFT Controller/Driver.
+
+Den 30.12.2019 14.06, skrev Geert Uytterhoeven:
+> When configuring the frame memory window, the last column and row
+> numbers are written to the column resp. page address registers.  These
+> numbers are thus one less than the actual window width resp. height.
 > 
-> ST7715R and ST7735R are very similar.  Their major difference is that
-> the former is restricted to displays of up to 132x132 pixels, while the
-> latter supports displays up to 132x162 pixels.
+> While this is handled correctly in mipi_dbi_fb_dirty() since commit
+> 03ceb1c8dfd1e293 ("drm/tinydrm: Fix setting of the column/page end
+> addresses."), it is not in mipi_dbi_blank().  The latter still forgets
+> to subtract one when calculating the most significant bytes of the
+> column and row numbers, thus programming wrong values when the display
+> width or height is a multiple of 256.
 > 
+> Fixes: 02dd95fe31693626 ("drm/tinydrm: Add MIPI DBI support")
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->  .../devicetree/bindings/display/sitronix,st7735r.txt          | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/sitronix,st7735r.txt b/Documentation/devicetree/bindings/display/sitronix,st7735r.txt
-> index cd5c7186890a2be7..87ebdcb294e29798 100644
-> --- a/Documentation/devicetree/bindings/display/sitronix,st7735r.txt
-> +++ b/Documentation/devicetree/bindings/display/sitronix,st7735r.txt
-While touching the bindings file, can I convince you to convert it to
-meta-schema format (.yaml)?
 
+Thanks, applied to drm-misc-next.
 
-> @@ -4,7 +4,9 @@ This binding is for display panels using a Sitronix ST7735R controller in SPI
->  mode.
->  
->  Required properties:
-> -- compatible:	"jianda,jd-t18003-t01", "sitronix,st7735r"
-> +- compatible:	Must be one of the following combinations:
-> +		  - "jianda,jd-t18003-t01", "sitronix,st7735r"
-> +		  - "okaya,rh128128t", "sitronix,st7715r"
-
-It would be nice if there was a "description" for each pair of
-compatible that identified the actual panel.
-In your case "Okaya RH128128T 1.44" 128x128 TFT display"
-It can be looked up in git history - but better to have it in the
-binding file.
-
-	Sam
+Noralf.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
