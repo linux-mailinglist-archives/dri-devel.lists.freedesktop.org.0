@@ -1,31 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D75D1301F8
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Jan 2020 12:23:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 814D013020F
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Jan 2020 12:24:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4EB56E3EF;
-	Sat,  4 Jan 2020 11:23:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7B066E409;
+	Sat,  4 Jan 2020 11:23:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C0426E160;
- Fri,  3 Jan 2020 01:11:59 +0000 (UTC)
+Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 236A46E162;
+ Fri,  3 Jan 2020 01:12:08 +0000 (UTC)
 Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 7529F6F316B634044F52;
- Fri,  3 Jan 2020 09:11:56 +0800 (CST)
+ by Forcepoint Email with ESMTP id A3DD5D5EFD30BBB68550;
+ Fri,  3 Jan 2020 09:12:06 +0800 (CST)
 Received: from linux-lmwb.huawei.com (10.175.103.112) by
  DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.439.0; Fri, 3 Jan 2020 09:11:55 +0800
+ 14.3.439.0; Fri, 3 Jan 2020 09:12:01 +0800
 From: Ma Feng <mafeng.ma@huawei.com>
 To: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
  <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 2/3] drm/i915/dp: use true,
- false for bool variable in intel_dp.c
-Date: Fri, 3 Jan 2020 09:12:38 +0800
-Message-ID: <1578013959-31486-3-git-send-email-mafeng.ma@huawei.com>
+Subject: [PATCH 3/3] drm/i915: use true, false for bool variable in intel_crt.c
+Date: Fri, 3 Jan 2020 09:12:39 +0800
+Message-ID: <1578013959-31486-4-git-send-email-mafeng.ma@huawei.com>
 X-Mailer: git-send-email 2.6.2
 In-Reply-To: <1578013959-31486-1-git-send-email-mafeng.ma@huawei.com>
 References: <1578013959-31486-1-git-send-email-mafeng.ma@huawei.com>
@@ -54,37 +53,47 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes coccicheck warning:
 
-drivers/gpu/drm/i915/display/intel_dp.c:4950:1-33: WARNING: Assignment of 0/1 to bool variable
-drivers/gpu/drm/i915/display/intel_dp.c:4906:1-33: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/i915/display/intel_crt.c:1066:1-28: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/i915/display/intel_crt.c:928:2-29: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/i915/display/intel_crt.c:443:2-29: WARNING: Assignment of 0/1 to bool variable
 
 Reported-by: Hulk Robot <hulkci@huawei.com>
 Signed-off-by: Ma Feng <mafeng.ma@huawei.com>
 ---
- drivers/gpu/drm/i915/display/intel_dp.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/display/intel_crt.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 2f31d22..4fd0fcd 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -4903,7 +4903,7 @@ static u8 intel_dp_autotest_video_pattern(struct intel_dp *intel_dp)
- 	intel_dp->compliance.test_data.hdisplay = be16_to_cpu(h_width);
- 	intel_dp->compliance.test_data.vdisplay = be16_to_cpu(v_height);
- 	/* Set test active flag here so userspace doesn't interrupt things */
--	intel_dp->compliance.test_active = 1;
-+	intel_dp->compliance.test_active = true;
+diff --git a/drivers/gpu/drm/i915/display/intel_crt.c b/drivers/gpu/drm/i915/display/intel_crt.c
+index b2b1336..8596eef 100644
+--- a/drivers/gpu/drm/i915/display/intel_crt.c
++++ b/drivers/gpu/drm/i915/display/intel_crt.c
+@@ -440,7 +440,7 @@ static bool intel_ironlake_crt_detect_hotplug(struct drm_connector *connector)
+ 		bool turn_off_dac = HAS_PCH_SPLIT(dev_priv);
+ 		u32 save_adpa;
 
- 	return DP_TEST_ACK;
- }
-@@ -4947,7 +4947,7 @@ static u8 intel_dp_autotest_edid(struct intel_dp *intel_dp)
+-		crt->force_hotplug_required = 0;
++		crt->force_hotplug_required = false;
+
+ 		save_adpa = adpa = I915_READ(crt->adpa_reg);
+ 		DRM_DEBUG_KMS("trigger hotplug detect cycle: adpa=0x%x\n", adpa);
+@@ -925,7 +925,7 @@ void intel_crt_reset(struct drm_encoder *encoder)
+ 		POSTING_READ(crt->adpa_reg);
+
+ 		DRM_DEBUG_KMS("crt adpa set to 0x%x\n", adpa);
+-		crt->force_hotplug_required = 1;
++		crt->force_hotplug_required = true;
  	}
 
- 	/* Set test active flag here so userspace doesn't interrupt things */
--	intel_dp->compliance.test_active = 1;
-+	intel_dp->compliance.test_active = true;
-
- 	return test_result;
  }
+@@ -1063,7 +1063,7 @@ void intel_crt_init(struct drm_i915_private *dev_priv)
+ 	/*
+ 	 * Configure the automatic hotplug detection stuff
+ 	 */
+-	crt->force_hotplug_required = 0;
++	crt->force_hotplug_required = false;
+
+ 	/*
+ 	 * TODO: find a proper way to discover whether we need to set the the
 --
 2.6.2
 
