@@ -2,98 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A29EF12F882
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2020 13:50:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 567CC12F89E
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2020 14:07:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3EE66E2F0;
-	Fri,  3 Jan 2020 12:50:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39E2E6E303;
+	Fri,  3 Jan 2020 13:07:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
  [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FE126E2F0
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2020 12:50:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74E7B6E2F8
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2020 13:07:20 +0000 (UTC)
 Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
  by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200103125042euoutp021e961740165eb8d75b866ff41da03390~mYW2ZPqXw0942109421euoutp02g
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2020 12:50:42 +0000 (GMT)
+ 20200103130718euoutp023eb200a1b18fa376ff741988ddff7f7d~mYlV6zQFX2047020470euoutp02s
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2020 13:07:18 +0000 (GMT)
 DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200103125042euoutp021e961740165eb8d75b866ff41da03390~mYW2ZPqXw0942109421euoutp02g
+ 20200103130718euoutp023eb200a1b18fa376ff741988ddff7f7d~mYlV6zQFX2047020470euoutp02s
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1578055842;
- bh=0ZeVM/KjBET1JFzYLjy5seckIDWrndtGfSryu8ihgKs=;
+ s=mail20170921; t=1578056838;
+ bh=zDdH4NrkEQ5yIXja9XqlAOcAHDuIOVYWY5pN6f9uf1o=;
  h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=cXOpPzu5PFuwE5VlgesZx/LMQ+3nxaqzMw/RLtLvDQBlRmOs7WpWv+mqPs0DdXd6e
- rh44rsDrcQd+zB5ZGStbfkoFVcOarnxojd56FVoZcXVc68ynkvbgMy5JmdnnM/O54b
- rWXvpjqv47MGVBIcb26j+VpQSAtPBVs9wR3OS+dw=
+ b=AuceKUmDHf97e4ESKeRAuy19z2IVSgtlq5pghCTR4tdXeecE0pm5D4Q35fAhlFrmJ
+ RrZqjnP0RocevFmmhM/dtw4cfGwxDFC2oytILgg5D6fLeVz7bKRMpv8vcRe7w1i5ke
+ IeJi6cP/WmSsEdUov+gsVbAE+Cay5ctoG3KVuQys=
 Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200103125042eucas1p190d0d109ec05b856726b70e1e36f6719~mYW2SM93B1400814008eucas1p1r;
- Fri,  3 Jan 2020 12:50:42 +0000 (GMT)
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200103130718eucas1p2cfef288ae36a773db4e0c9e9321dcbfd~mYlVcfDzl3117531175eucas1p2C;
+ Fri,  3 Jan 2020 13:07:18 +0000 (GMT)
 Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id BB.79.60679.2A83F0E5; Fri,  3
- Jan 2020 12:50:42 +0000 (GMT)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id 24.CA.60679.68C3F0E5; Fri,  3
+ Jan 2020 13:07:18 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200103125042eucas1p1bcd7c14d3bdf141992015c37db683b15~mYW1z_Phg1400814008eucas1p1q;
- Fri,  3 Jan 2020 12:50:42 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200103125042eusmtrp282b436f048fa0636dfab60cc089be734~mYW1zUnIn1566015660eusmtrp2A;
- Fri,  3 Jan 2020 12:50:42 +0000 (GMT)
-X-AuditID: cbfec7f4-0e5ff7000001ed07-a6-5e0f38a29d0d
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 50.D6.08375.2A83F0E5; Fri,  3
- Jan 2020 12:50:42 +0000 (GMT)
+ 20200103130717eucas1p1707a5a61c3ae7df3233649d7e9e0abe3~mYlVNOJcZ0209102091eucas1p1K;
+ Fri,  3 Jan 2020 13:07:17 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200103130717eusmtrp133ec518ebccb9c2cf93b921f1882290a~mYlVMdYl32758327583eusmtrp14;
+ Fri,  3 Jan 2020 13:07:17 +0000 (GMT)
+X-AuditID: cbfec7f4-0e5ff7000001ed07-52-5e0f3c869f26
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 2B.87.07950.58C3F0E5; Fri,  3
+ Jan 2020 13:07:17 +0000 (GMT)
 Received: from [106.120.51.71] (unknown [106.120.51.71]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200103125040eusmtip21c99b86af833f345b01fa301fb31bdd5~mYW0q4G8v2676126761eusmtip2n;
- Fri,  3 Jan 2020 12:50:40 +0000 (GMT)
-Subject: Re: [PATCH] omapfb: reduce stack usage
-To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200103130717eusmtip1131e069ace366b89333b9139649af04d~mYlUZSZFU0169601696eusmtip1g;
+ Fri,  3 Jan 2020 13:07:17 +0000 (GMT)
+Subject: Re: [PATCH] fbdev: potential information leak in do_fb_ioctl()
+To: "Eric W. Biederman" <ebiederm@xmission.com>, Joe Perches <joe@perches.com>
 From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Message-ID: <f1c050c1-7ea8-e735-a552-e988ec3930ce@samsung.com>
-Date: Fri, 3 Jan 2020 13:50:40 +0100
+Message-ID: <fd4e6f01-074b-def7-7ffb-9a9197930c31@samsung.com>
+Date: Fri, 3 Jan 2020 14:07:16 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20191018163004.23498-1-sudipm.mukherjee@gmail.com>
+In-Reply-To: <87zhhjjryk.fsf@x220.int.ebiederm.org>
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrLKsWRmVeSWpSXmKPExsWy7djP87qLLPjjDJ68V7K48vU9m8Xs+49Z
- LGavnMxkcaLvA6vF5V1zgGJL+lksDpyewuzA7rFz1l12j6Mr1zJ53O8+zuTxZdU1Zo/Pm+QC
- WKO4bFJSczLLUov07RK4MhZO/Mde0CJT0b27mamBcYl4FyMnh4SAicT6870sXYxcHEICKxgl
- Oi8cZ4ZwvjBK/Fx/gxXC+cwosfHVK0aYlo+7XkIlljNKLGxbAdXyllFi9fGtYFXCAvoSTU1r
- WEBsEQEDibvrlrKDFDELHGGUeDd3MlgRm4CVxMT2VWA2r4CdxPH5k5hAbBYBFYnNEyeyg9ii
- AhESnx4cZoWoEZQ4OfMJ2FBOAQeJty8ugsWZBcQlbj2ZzwRhy0tsfzsH7CIJgV3sEsumn2eD
- uNtFYsGjf1C2sMSr41vYIWwZif87QZpBGtYxSvzteAHVvZ1RYvlkmA5riTvnfgHZHEArNCXW
- 79KHCDtKdH1qZQIJSwjwSdx4KwhxBJ/EpG3TmSHCvBIdbUIQ1WoSG5ZtYINZ27VzJfMERqVZ
- SF6bheSdWUjemYWwdwEjyypG8dTS4tz01GKjvNRyveLE3OLSvHS95PzcTYzARHT63/EvOxh3
- /Uk6xCjAwajEw5ugzB8nxJpYVlyZe4hRgoNZSYS3PJA3Tog3JbGyKrUoP76oNCe1+BCjNAeL
- kjiv8aKXsUIC6YklqdmpqQWpRTBZJg5OqQZGnwcP2U9/3DuF1yL42ZRFkzJOP1I/EfVznXz3
- 46tMrRvFqt9mxdtKCW8Ju8h0r+ATNyNHqL7L5pxHy5b+Mt6h/FSnMET3rEpHmbljd/ly14M+
- 9wrvl0TzLjr32qHPXbL4XtsDp6lbwmd5B3b6Cy65GRhgEDTHlnV29/KgFz+ZTaOEds7n0tNW
- YinOSDTUYi4qTgQAc5ndEkADAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrLIsWRmVeSWpSXmKPExsVy+t/xe7qLLPjjDGYeZbG48vU9m8Xs+49Z
- LGavnMxkcaLvA6vF5V1zgGJL+lksDpyewuzA7rFz1l12j6Mr1zJ53O8+zuTxZdU1Zo/Pm+QC
- WKP0bIryS0tSFTLyi0tslaINLYz0DC0t9IxMLPUMjc1jrYxMlfTtbFJSczLLUov07RL0MhZO
- /Mde0CJT0b27mamBcYl4FyMnh4SAicTHXS9Zuxi5OIQEljJKPOl8wN7FyAGUkJE4vr4MokZY
- 4s+1LjYQW0jgNaNE3xxDEFtYQF+iqWkNC4gtImAgcXfdUnaQOcwCRxgllm5oYoQYOplR4vGp
- h4wgVWwCVhIT21eB2bwCdhLH509iArFZBFQkNk+cyA5iiwpESBzeMQuqRlDi5MwnYBs4BRwk
- 3r64yApiMwuoS/yZd4kZwhaXuPVkPhOELS+x/e0c5gmMQrOQtM9C0jILScssJC0LGFlWMYqk
- lhbnpucWG+oVJ+YWl+al6yXn525iBEbdtmM/N+9gvLQx+BCjAAejEg9vgjJ/nBBrYllxZe4h
- RgkOZiUR3vJA3jgh3pTEyqrUovz4otKc1OJDjKZAz01klhJNzgcmhLySeENTQ3MLS0NzY3Nj
- Mwslcd4OgYMxQgLpiSWp2ampBalFMH1MHJxSDYxzjBUnrq722C6dUnuiRWRT17v4Hat2s1k+
- uls/zVv+8vnpQVqTrgeocHm+ji0692/zjSf7hPQ3LWA23e4duoBr/xyLt2I192VcnTkzF1f9
- Vcz9dtv7waawpc80XrQbGjW/zVy02bL46dGVu68HPSw/FL7Q9tLthwdrV/3Q+XD865M5zr0l
- 6ypWKbEUZyQaajEXFScCAOw4Q4DQAgAA
-X-CMS-MailID: 20200103125042eucas1p1bcd7c14d3bdf141992015c37db683b15
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Sf0yMcRz27X3vvbfL1bcru48YdszG8quMF80w5jUz+kOskV56lx/d1e7t
+ B/0Vo3JupkJz1yjSj8NJVC6u2VlSmWZIjhRiRXH6Remi13tN/3z3fJ7P8+x5PtuXJlTHqCD6
+ gC6R1+u4OA2lICsfDTUtSA/zi1qc5VIwX0dzSabgfSvBvBj4TjF/Ko/LGXPbR5Ipam9EzJNT
+ WqbCOY357KwnmMenXTLmeXUexRT8qCAZu+MSYi4+fEUxJUMViHnpzkRrMHv+gVnOmtOekax9
+ MJ9kbaZWOVtuOUmxF+vDWfudg2zbqTov9scnJ8n2W5oJtvD8S4r9XjP29JXPYM86MshtvpGK
+ sBg+7kAyr1+0Olqx3+p8QyR0Bhy2Xe8g0tAvPwPypgEvhYbcbtKAFLQKlyA4mnFSLg39CGzZ
+ 5yhp6ENQ0DQoG7cMu8weSzGC0pYSj6UHgcn8B4mqALwRTl8u+ocD8TYYqj0hE0UEdhNgbSsm
+ xQWFV0JWhuWfSIlXQ+lwn5eISTwHupvfUSKegndCb/tDmaTxh/oLHWNemvbGodCSvlykCawG
+ Z8clLwnPhKqePELMAnyDhuHGBkqqvR5qu6VygAPgS90duYSnQ2OOkZQMVgTuzE6PuwpBcc6o
+ x70K3j4dpsRkAs+Dm9WLJHotXLl7hhBpwL7Q0uMvlfCF7MpcD62EzHSVpJ4LZUVl1HiswVZK
+ nEEa04TLTBPOMU04x/Q/Nx+RFqTmkwRtLC+E6PiUhQKnFZJ0sQv3xWvL0djPbByt67+Lqkf2
+ OhCmkWayMnq2X5RKxiULR7QOBDShCVSmhCujVMoY7kgqr4/fo0+K4wUHmkaTGrUy9HLXbhWO
+ 5RL5QzyfwOvHt160d1AaygYfY6hb19N5zYduzYrJ+blAMRL0zB4c0duZuoM95t8VuSyYaxbu
+ 915dcb+pokE5YAxwb9jS9nPd0ggwRasTtqs3tu7aUmiPjSl8zf2+3f4icOqh4FTjra2bIi0z
+ glzJVa+sHww1po+6c49sEfkHayfl9c/SLgkxfNtszL9X05upIYX93JL5hF7g/gJwGHZMlQMA
+ AA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprEKsWRmVeSWpSXmKPExsVy+t/xu7qtNvxxBu3njS1e/5vOYrHw4V1m
+ iytf37NZ/N/Wwm4x+/5jFotlD04zWpzpzrXYekva4tmtk8wWJ/o+sFpc3jWHzWLhx60sFnsP
+ zWe0mHf4OpvFip9bGS2u/u1gdBDwmHZgNrvH7IaLLB57vy1g8dg56y67x6ZVnWwe804Geuzd
+ kuVxv/s4k8fHp7dYPL6susbssWTaVTaP9/uAxOdNch5TDrWzBPBF6dkU5ZeWpCpk5BeX2CpF
+ G1oY6RlaWugZmVjqGRqbx1oZmSrp29mkpOZklqUW6dsl6GWsu3WbueCFcMXONU+YGxh/8Hcx
+ cnJICJhI/Powm6WLkYtDSGApo0TLholADgdQQkbi+PoyiBphiT/Xutggal4zSlxZdoUZJCEs
+ 4C7Rt2gZI4gtIuAncf7nYTCbWeA/s0Tz1nqIhhWMEl9Pv2IBSbAJWElMbF8FVsQrYCex8tdn
+ JhCbRUBF4s21e2wgtqhAhMThHbOgagQlTs58AnYQp4CxxI02c4j56hJ/5l1ihrDFJW49mc8E
+ YctLbH87h3kCo9AsJN2zkLTMQtIyC0nLAkaWVYwiqaXFuem5xUZ6xYm5xaV56XrJ+bmbGIHp
+ Yduxn1t2MHa9Cz7EKMDBqMTDy6HIHyfEmlhWXJl7iFGCg1lJhLc8kDdOiDclsbIqtSg/vqg0
+ J7X4EKMp0G8TmaVEk/OBqSuvJN7Q1NDcwtLQ3Njc2MxCSZy3Q+BgjJBAemJJanZqakFqEUwf
+ EwenVAOjLtO0LZfzOzr3fXka2XiWr/ZR/61Ur6xjDZs+RNv9S4qo3n5gsf0mIWmZTWtd9lQU
+ FuQvsczKehojxf1o9cWKzQ9Zzz8+mbW4PfKA3EyZlIrnXK8iddKic89lKZy/dmA3Y2aBl92v
+ y7HpovuVQ9LXxKSsvLpY+oyJDNdi85OP539w1LXXFDJSYinOSDTUYi4qTgQAauMwRSUDAAA=
+X-CMS-MailID: 20200103130717eucas1p1707a5a61c3ae7df3233649d7e9e0abe3
 X-Msg-Generator: CA
-X-RootMTR: 20191018163010epcas4p1a11973fbca0b3248dae6b5e87cdbf1f3
+X-RootMTR: 20191029190229epcas3p4e9b24bd8cde962681ef3dc4644ed2c2e
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20191018163010epcas4p1a11973fbca0b3248dae6b5e87cdbf1f3
-References: <CGME20191018163010epcas4p1a11973fbca0b3248dae6b5e87cdbf1f3@epcas4p1.samsung.com>
- <20191018163004.23498-1-sudipm.mukherjee@gmail.com>
+X-CMS-RootMailID: 20191029190229epcas3p4e9b24bd8cde962681ef3dc4644ed2c2e
+References: <20191029182320.GA17569@mwanda>
+ <CGME20191029190229epcas3p4e9b24bd8cde962681ef3dc4644ed2c2e@epcas3p4.samsung.com>
+ <87zhhjjryk.fsf@x220.int.ebiederm.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,55 +110,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Ladislav Michl <ladis@linux-mips.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Joe Perches <joe@perches.com>, linux-omap@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, security@kernel.org,
+ Kees Cook <keescook@chromium.org>, kernel-janitors@vger.kernel.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Julia Lawall <Julia.Lawall@lip6.fr>,
+ Gerd Hoffmann <kraxel@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Peter Rosin <peda@axentia.se>, Dan Carpenter <dan.carpenter@oracle.com>,
+ Andrea Righi <righi.andrea@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 10/18/19 6:30 PM, Sudip Mukherjee wrote:
-> The build of xtensa allmodconfig is giving a warning of:
-> In function 'dsi_dump_dsidev_irqs':
-> warning: the frame size of 1120 bytes is larger than 1024 bytes
+On 10/29/19 8:02 PM, Eric W. Biederman wrote:
+> Dan Carpenter <dan.carpenter@oracle.com> writes:
 > 
-> Allocate the memory for 'struct dsi_irq_stats' dynamically instead
-> of assigning it in stack.
+>> The "fix" struct has a 2 byte hole after ->ywrapstep and the
+>> "fix = info->fix;" assignment doesn't necessarily clear it.  It depends
+>> on the compiler.
+>>
+>> Fixes: 1f5e31d7e55a ("fbmem: don't call copy_from/to_user() with mutex held")
+>> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+>> ---
+>> I have 13 more similar places to patch...  I'm not totally sure I
+>> understand all the issues involved.
 > 
-> Signed-off-by: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-> ---
->  drivers/video/fbdev/omap2/omapfb/dss/dsi.c | 24 ++++++++++++++----------
->  1 file changed, 14 insertions(+), 10 deletions(-)
+> What I have done in a similar situation with struct siginfo, is that
+> where the structure first appears I have initialized it with memset,
+> and then field by field.
 > 
-> diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dsi.c b/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
-> index d620376216e1..43402467bf40 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
-> @@ -1536,22 +1536,25 @@ static void dsi_dump_dsidev_irqs(struct platform_device *dsidev,
->  {
->  	struct dsi_data *dsi = dsi_get_dsidrv_data(dsidev);
->  	unsigned long flags;
-> -	struct dsi_irq_stats stats;
-> +	struct dsi_irq_stats *stats;
->  
-> +	stats = kmalloc(sizeof(*stats), GFP_KERNEL);
-> +	if (!stats)
-> +		return;
->  	spin_lock_irqsave(&dsi->irq_stats_lock, flags);
->  
-> -	stats = dsi->irq_stats;
-> +	memcpy(stats, &dsi->irq_stats, sizeof(*stats));
+> Then when the structure is copied I copy the structure with memcpy.
+> 
+> That ensures all of the bytes in the original structure are initialized
+> and that all of the bytes are copied.
+> 
+> The goal is to avoid memory that has values of the previous users of
+> that memory region from leaking to userspace.  Which depending on who
+> the previous user of that memory region is could tell userspace
+> information about what the kernel is doing that it should not be allowed
+> to find out.
+> 
+> I tried to trace through where "info" and thus presumably "info->fix" is
+> coming from and only made it as far as  register_framebuffer.  Given
 
-"stats" copy is only needed for generating debugfs information.
+"info" (and thus "info->fix") comes from framebuffer_alloc() (which is
+called by fbdev device drivers prior to registering "info" with
+register_framebuffer()). framebuffer_alloc() does kzalloc() on "info".
 
-We can probably reduce the stack usage and also simplify the driver
-by just accessing dsi->irq_stats directly before cleaning it
-(we would also need to extend coverage of spinlock but the code is
-debug only so this should not be a problem).
-
-Care to try this approach?
+Therefore shouldn't memcpy() (as suggested by Jeo Perches) be enough?
 
 Best regards,
 --
@@ -162,55 +166,30 @@ Bartlomiej Zolnierkiewicz
 Samsung R&D Institute Poland
 Samsung Electronics
 
->  	memset(&dsi->irq_stats, 0, sizeof(dsi->irq_stats));
->  	dsi->irq_stats.last_reset = jiffies;
->  
->  	spin_unlock_irqrestore(&dsi->irq_stats_lock, flags);
->  
->  	seq_printf(s, "period %u ms\n",
-> -			jiffies_to_msecs(jiffies - stats.last_reset));
-> +			jiffies_to_msecs(jiffies - stats->last_reset));
->  
-> -	seq_printf(s, "irqs %d\n", stats.irq_count);
-> +	seq_printf(s, "irqs %d\n", stats->irq_count);
->  #define PIS(x) \
-> -	seq_printf(s, "%-20s %10d\n", #x, stats.dsi_irqs[ffs(DSI_IRQ_##x)-1]);
-> +	seq_printf(s, "%-20s %10d\n", #x, stats->dsi_irqs[ffs(DSI_IRQ_##x)-1]);
->  
->  	seq_printf(s, "-- DSI%d interrupts --\n", dsi->module_id + 1);
->  	PIS(VC0);
-> @@ -1575,10 +1578,10 @@ static void dsi_dump_dsidev_irqs(struct platform_device *dsidev,
->  
->  #define PIS(x) \
->  	seq_printf(s, "%-20s %10d %10d %10d %10d\n", #x, \
-> -			stats.vc_irqs[0][ffs(DSI_VC_IRQ_##x)-1], \
-> -			stats.vc_irqs[1][ffs(DSI_VC_IRQ_##x)-1], \
-> -			stats.vc_irqs[2][ffs(DSI_VC_IRQ_##x)-1], \
-> -			stats.vc_irqs[3][ffs(DSI_VC_IRQ_##x)-1]);
-> +			stats->vc_irqs[0][ffs(DSI_VC_IRQ_##x)-1], \
-> +			stats->vc_irqs[1][ffs(DSI_VC_IRQ_##x)-1], \
-> +			stats->vc_irqs[2][ffs(DSI_VC_IRQ_##x)-1], \
-> +			stats->vc_irqs[3][ffs(DSI_VC_IRQ_##x)-1]);
->  
->  	seq_printf(s, "-- VC interrupts --\n");
->  	PIS(CS);
-> @@ -1594,7 +1597,7 @@ static void dsi_dump_dsidev_irqs(struct platform_device *dsidev,
->  
->  #define PIS(x) \
->  	seq_printf(s, "%-20s %10d\n", #x, \
-> -			stats.cio_irqs[ffs(DSI_CIO_IRQ_##x)-1]);
-> +			stats->cio_irqs[ffs(DSI_CIO_IRQ_##x)-1]);
->  
->  	seq_printf(s, "-- CIO interrupts --\n");
->  	PIS(ERRSYNCESC1);
-> @@ -1618,6 +1621,7 @@ static void dsi_dump_dsidev_irqs(struct platform_device *dsidev,
->  	PIS(ULPSACTIVENOT_ALL0);
->  	PIS(ULPSACTIVENOT_ALL1);
->  #undef PIS
-> +	kfree(stats);
->  }
->  
->  static void dsi1_dump_irqs(struct seq_file *s)
+> that I suspect a local memset, and then a field by field copy right
+> before copy_to_user might be a sound solution.  But ick.  That is a lot
+> of fields to copy.
+> 
+> 
+> Eric
+> 
+> 
+> 
+>>  drivers/video/fbdev/core/fbmem.c | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+>> index 6f6fc785b545..b4ce6a28aed9 100644
+>> --- a/drivers/video/fbdev/core/fbmem.c
+>> +++ b/drivers/video/fbdev/core/fbmem.c
+>> @@ -1109,6 +1109,7 @@ static long do_fb_ioctl(struct fb_info *info, unsigned int cmd,
+>>  			ret = -EFAULT;
+>>  		break;
+>>  	case FBIOGET_FSCREENINFO:
+>> +		memset(&fix, 0, sizeof(fix));
+>>  		lock_fb_info(info);
+>>  		fix = info->fix;
+>>  		if (info->flags & FBINFO_HIDE_SMEM_START)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
