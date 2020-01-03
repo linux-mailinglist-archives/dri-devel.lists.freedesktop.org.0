@@ -1,102 +1,102 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E3F812F7DB
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2020 12:55:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFEC612F7E4
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2020 13:00:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22E2E6E2D1;
-	Fri,  3 Jan 2020 11:55:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D53248914D;
+	Fri,  3 Jan 2020 12:00:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 324B96E2D1
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2020 11:55:48 +0000 (UTC)
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87C658914D
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2020 12:00:26 +0000 (UTC)
 Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200103115546euoutp02504e040aae9390c49634286c95c2624f~mXm43B5bC0920209202euoutp02s
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2020 11:55:46 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200103115546euoutp02504e040aae9390c49634286c95c2624f~mXm43B5bC0920209202euoutp02s
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200103120025euoutp01d5b8deac82814fa0c33c81ee8796b473~mXq8KONYq2748427484euoutp01S
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2020 12:00:25 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200103120025euoutp01d5b8deac82814fa0c33c81ee8796b473~mXq8KONYq2748427484euoutp01S
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1578052546;
- bh=lEKW45zmvnRN0vF53EoEcDpmZafzTqHkiGrjf7zgl9w=;
+ s=mail20170921; t=1578052825;
+ bh=Nml4FDopp8Lof2IWO413DHUK8c3U5jKvH/nyKhNvprQ=;
  h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=Giu3T394sjigPtJ3JeYEPiBUj/RUSyW664lpR6YKbFR9uL9Nd2dVi3v3vTWL1Kutd
- yoatDRK3CnrlIEp0p5WOwuapiDm/Ft7fKGPUhXnMKO//EX0GlNtfAHmbBGYxfAAHre
- wCqu6aK7mJSAMUy+EZo3vDX583KRGx3btxNkm8U4=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200103115546eucas1p20ee271b3660224259fd7bec0bbbb1ff8~mXm4fQDb20639906399eucas1p2D;
- Fri,  3 Jan 2020 11:55:46 +0000 (GMT)
+ b=EEwn0zB6+kd5BnaZ+N6mVf0+VDSbFS1PjVq7Bb+MOOOdOAA6KGh3UpUVm+vlhDjBJ
+ KwzWxA0J6KmrcAQhe8RIyROXleoyNXdBT9HOEpbS5dbx3wrf8yDMoNbHuCTPkzY/4v
+ T8/WkY/UsxvzxbMlkXHNQYlsdKIUtL9m1cm3cAMQ=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20200103120025eucas1p10bb3252f431a1fbe3d364b01c4efaee6~mXq8EUUbJ0406604066eucas1p1B;
+ Fri,  3 Jan 2020 12:00:25 +0000 (GMT)
 Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id 57.18.61286.2CB2F0E5; Fri,  3
- Jan 2020 11:55:46 +0000 (GMT)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id CC.C7.60698.9DC2F0E5; Fri,  3
+ Jan 2020 12:00:25 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200103115545eucas1p168a060a62814c15b9601828d73c198e0~mXm3_CWoN2845928459eucas1p19;
- Fri,  3 Jan 2020 11:55:45 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200103115545eusmtrp29cb448521fdc6bb7c6e4a46b70d267cc~mXm39aYjb1423314233eusmtrp2E;
- Fri,  3 Jan 2020 11:55:45 +0000 (GMT)
-X-AuditID: cbfec7f2-f0bff7000001ef66-3f-5e0f2bc24421
+ 20200103120024eucas1p167363029c80159dc57e02b7fcba04da3~mXq70BEwD0404704047eucas1p1B;
+ Fri,  3 Jan 2020 12:00:24 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200103120024eusmtrp1f6ddcd1048267ad0d764b595b70e81ac~mXq7yfkCS1619416194eusmtrp1H;
+ Fri,  3 Jan 2020 12:00:24 +0000 (GMT)
+X-AuditID: cbfec7f5-a29ff7000001ed1a-4b-5e0f2cd9a253
 Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id D9.82.08375.1CB2F0E5; Fri,  3
- Jan 2020 11:55:45 +0000 (GMT)
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id D1.82.07950.8DC2F0E5; Fri,  3
+ Jan 2020 12:00:24 +0000 (GMT)
 Received: from [106.120.51.71] (unknown [106.120.51.71]) by
  eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200103115545eusmtip14000199567ee48d8f534f8bb71e8e436~mXm3QkXCw2310523105eusmtip1L;
- Fri,  3 Jan 2020 11:55:45 +0000 (GMT)
-Subject: Re: [PATCH v3 3/3] fbdev: fbmem: avoid exporting fb_center_logo
-To: Peter Rosin <peda@axentia.se>, Geert Uytterhoeven <geert@linux-m68k.org>
+ 20200103120024eusmtip14bae2f131f4163bd69d1fda15052b2d1~mXq7ay2dK2450524505eusmtip12;
+ Fri,  3 Jan 2020 12:00:24 +0000 (GMT)
+Subject: Re: [PATCH] pxa168fb: Fix the function used to release some memory
+ in an error handling path
+To: Lubomir Rintel <lkundrak@v3.sk>, Christophe JAILLET
+ <christophe.jaillet@wanadoo.fr>
 From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Message-ID: <f248b742-37c8-356f-3128-628b578e896e@samsung.com>
-Date: Fri, 3 Jan 2020 12:55:44 +0100
+Message-ID: <1700b70d-7766-bd6b-10ad-149c73e3998e@samsung.com>
+Date: Fri, 3 Jan 2020 13:00:23 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <6cb5ec1b-ae60-5ca4-f0d9-1414f52fed73@axentia.se>
+In-Reply-To: <ca0213fd439a2b569e0d3bdb000712ee62ff4836.camel@v3.sk>
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrKKsWRmVeSWpSXmKPExsWy7djP87qHtPnjDB7MFbd4cqCd0eLK1/ds
- Fs9u7WWyWNi2hMXiRN8HVovLu+awWew9NJ/R4vePOWwOHB7TDsxm99i8Qsvj0OEORo/73ceZ
- PBb3TWb1+LxJLoAtissmJTUnsyy1SN8ugSuj6ewiloJ+7opvs9cwNjA2cXYxcnJICJhI9C2f
- yd7FyMUhJLCCUWLCi3NQzhdGif7tXYwQzmdGiaYvR4EcDrCWX1OcIOLLGSWur7jJAuG8ZZTY
- MH0FM8hcYQEPif/nZrCC2CICPhIPnv1gAyliFjjDJNF48ioTSIJNwEpiYvsqRhCbV8BO4vCh
- NnYQm0VARWLKsT9gtqhAhMSnB4dZIWoEJU7OfMICYnMC1R9bvgFsGbOAuMStJ/OZIGx5ie1v
- 5zCDLJMQOMQucWTSJjaIT10kZvybD2ULS7w6voUdwpaR+L8TpBmkYR2jxN+OF1Dd2xkllk/+
- B9VhLXHn3C82UAAwC2hKrN+lDxF2lJjZ94YZEi58EjfeCkIcwScxadt0qDCvREebEES1msSG
- ZRvYYNZ27VzJPIFRaRaS12YheWcWkndmIexdwMiyilE8tbQ4Nz212DAvtVyvODG3uDQvXS85
- P3cTIzAxnf53/NMOxq+Xkg4xCnAwKvHwJijzxwmxJpYVV+YeYpTgYFYS4S0P5I0T4k1JrKxK
- LcqPLyrNSS0+xCjNwaIkzmu86GWskEB6YklqdmpqQWoRTJaJg1OqgdH23a+jPV8XuZX5fUhK
- nW64wW1L56HumUmbG6zr3vVZzXT8P7NI0DRE8ohZ3Db+aY7PZ50qYqnsXDAzuJNjylndeZuS
- RNdE3f/+9clB7h8zD757qaJ67LXQnWa1A7P/r1YNnPbJw2VTVjtTqVr4w1mMx0ouV01uNrcU
- fNk08fqtr78WamzZcrpWiaU4I9FQi7moOBEAkVVKBkgDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrKIsWRmVeSWpSXmKPExsVy+t/xu7oHtfnjDLY+Mrd4cqCd0eLK1/ds
- Fs9u7WWyWNi2hMXiRN8HVovLu+awWew9NJ/R4vePOWwOHB7TDsxm99i8Qsvj0OEORo/73ceZ
- PBb3TWb1+LxJLoAtSs+mKL+0JFUhI7+4xFYp2tDCSM/Q0kLPyMRSz9DYPNbKyFRJ384mJTUn
- syy1SN8uQS+j6ewiloJ+7opvs9cwNjA2cXYxcnBICJhI/Jri1MXIySEksJRR4vbsIIiwjMTx
- 9WUgYQkBYYk/17rYuhi5gEpeM0r8O9nPDJIQFvCQ+H9uBiuILSLgI/Hg2Q+wImaBc0wSe0+0
- QXWsY5I4uWoBO0gVm4CVxMT2VYwgNq+AncThQ21gcRYBFYkpx/6A2aICERKHd8yCqhGUODnz
- CQuIzQlUf2z5BrDNzALqEn/mXYKyxSVuPZnPBGHLS2x/O4d5AqPQLCTts5C0zELSMgtJywJG
- llWMIqmlxbnpucWGesWJucWleel6yfm5mxiBUbjt2M/NOxgvbQw+xCjAwajEw5ugzB8nxJpY
- VlyZe4hRgoNZSYS3PJA3Tog3JbGyKrUoP76oNCe1+BCjKdBzE5mlRJPzgQkiryTe0NTQ3MLS
- 0NzY3NjMQkmct0PgYIyQQHpiSWp2ampBahFMHxMHp1QDo6T6h6B1HcesIjzmfJF32nb0ca/n
- o45p7qzPIow3sV9exVmWd9A2eePNjnu9PzUFjRariHx/WrQzbYNYyeE+7b2MfIsd9oXsO9I0
- fdMzkbxjDz/FHzrUpt5RsfuKiI6D5L4XrM9mzFTz7fx298qizJXXrj1/lqPylLVQX9K+6dST
- pJa/nMv3+iixFGckGmoxFxUnAgBcKJ5A2AIAAA==
-X-CMS-MailID: 20200103115545eucas1p168a060a62814c15b9601828d73c198e0
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrNKsWRmVeSWpSXmKPExsWy7djP87o3dfjjDFY3c1psPTiX1eLK1/ds
+ FltvSVuc6PvAanF51xw2i3svZ7NY3Pn6nMWB3aPlyFtWj/vdx5k8lhxczujxeZOcx+e761kD
+ WKO4bFJSczLLUov07RK4Mj5Me8tW0CdUsWXbG8YGxk7+LkZODgkBE4nT/c+Zuhi5OIQEVjBK
+ nNy8hBXC+cIoseX1ZWaQKiGBz4wSLS+tYDrOvzsGVbScUaL9RTczhPOWUWLytPXsIFXCAukS
+ x5Z2M4LYIgKRErO/tzGCFDELzGKUeLz+IxNIgk3ASmJi+yqwIl4BO4nJG5pZQWwWARWJSWcO
+ gK0WFYiQ+PTgMCtEjaDEyZlPWEBsTgFniVedt8DizALiEreezGeCsOUltr+dA3aRhMA2dom9
+ nzqYIe52kXj97i4jhC0s8er4FnYIW0bi9OQeFoiGdYwSfzteQHVvZ5RYPvkfG0SVtcSdc7+A
+ bA6gFZoS63fpQ4QdJfZuOsQMEpYQ4JO48VYQ4gg+iUnbpkOFeSU62oQgqtUkNizbwAaztmvn
+ SuYJjEqzkLw2C8k7s5C8Mwth7wJGllWM4qmlxbnpqcXGeanlesWJucWleel6yfm5mxiBSej0
+ v+NfdzDu+5N0iFGAg1GJhzdBmT9OiDWxrLgy9xCjBAezkghveSBvnBBvSmJlVWpRfnxRaU5q
+ 8SFGaQ4WJXFe40UvY4UE0hNLUrNTUwtSi2CyTBycUg2Mt2cxz8zovBjLnPn99GvDZ662Fv+3
+ PJ8Sv5HvcVv6z5+BzlIzsmvXTVpll7Zh8wdN9U6Omkcbrhl6KrKfsp18Tu6PaWia/atNX9bO
+ sHg0VTB07oH1ylP2dFt1W7vrnPp57oZ/XEdL0roopucR4X/mTV/T9DPefZF8RuqM5S0L1pZf
+ DJEJb9yxSomlOCPRUIu5qDgRANPMJrc+AwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrLIsWRmVeSWpSXmKPExsVy+t/xu7o3dPjjDJb+M7PYenAuq8WVr+/Z
+ LLbekrY40feB1eLyrjlsFvdezmaxuPP1OYsDu0fLkbesHve7jzN5LDm4nNHj8yY5j89317MG
+ sEbp2RTll5akKmTkF5fYKkUbWhjpGVpa6BmZWOoZGpvHWhmZKunb2aSk5mSWpRbp2yXoZXyY
+ 9patoE+oYsu2N4wNjJ38XYycHBICJhLn3x1j7WLk4hASWMoo8fLPVaYuRg6ghIzE8fVlEDXC
+ En+udbFB1LxmlGg+8oARJCEskC4x/dVGdhBbRCBS4kL7V3aQImaBWYwS/TduMUJ0nGOUWHLr
+ CFgVm4CVxMT2VWDdvAJ2EpM3NLOC2CwCKhKTzhxgBrFFBSIkDu+YBVUjKHFy5hMWEJtTwFni
+ VectsHpmAXWJP/MuMUPY4hK3nsxngrDlJba/ncM8gVFoFpL2WUhaZiFpmYWkZQEjyypGkdTS
+ 4tz03GIjveLE3OLSvHS95PzcTYzAqNt27OeWHYxd74IPMQpwMCrx8HIo8scJsSaWFVfmHmKU
+ 4GBWEuEtD+SNE+JNSaysSi3Kjy8qzUktPsRoCvTcRGYp0eR8YELIK4k3NDU0t7A0NDc2Nzaz
+ UBLn7RA4GCMkkJ5YkpqdmlqQWgTTx8TBKdXA6Ct5bKeAjI7i72MSkTLqe9snN986vchW6H1Z
+ 1if5C9cV4plkdzzd02mwc1lNm9KXxtUyaZvnxaXpah3vYelZteudwh3Xk23zuGe675opnsNz
+ b/O2z6cVCx9uEPz/7Mmc4+V3AlV25sc/jhDaWmrtOSFxpuukn5sPBXy+/D9V/JeDzxeJgDUp
+ J5RYijMSDbWYi4oTAVWbtj7QAgAA
+X-CMS-MailID: 20200103120024eucas1p167363029c80159dc57e02b7fcba04da3
 X-Msg-Generator: CA
-X-RootMTR: 20190829070834epcas1p2dbdbae4159daba3c62057effa46bb4ab
+X-RootMTR: 20190902091106epcas2p3519910dfea9c3515cdbe08263a1bcada
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20190829070834epcas1p2dbdbae4159daba3c62057effa46bb4ab
-References: <20190827110854.12574-1-peda@axentia.se>
- <20190827110854.12574-4-peda@axentia.se>
- <CAMuHMdVkqX7x_D5nf01s-kE=o+y5OLM-5fd3q=2RDKGTcpCfHg@mail.gmail.com>
- <CGME20190829070834epcas1p2dbdbae4159daba3c62057effa46bb4ab@epcas1p2.samsung.com>
- <6cb5ec1b-ae60-5ca4-f0d9-1414f52fed73@axentia.se>
+X-CMS-RootMailID: 20190902091106epcas2p3519910dfea9c3515cdbe08263a1bcada
+References: <20190831100024.3248-1-christophe.jaillet@wanadoo.fr>
+ <CGME20190902091106epcas2p3519910dfea9c3515cdbe08263a1bcada@epcas2p3.samsung.com>
+ <ca0213fd439a2b569e0d3bdb000712ee62ff4836.camel@v3.sk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,59 +109,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- Jonathan Corbet <corbet@lwn.net>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Matthew Wilcox <willy@infradead.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: kernel-janitors@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ yuehaibing@huawei.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 8/29/19 9:08 AM, Peter Rosin wrote:
-> On 2019-08-27 13:35, Geert Uytterhoeven wrote:
->> Hi Peter,
+On 9/2/19 11:10 AM, Lubomir Rintel wrote:
+> On Sat, 2019-08-31 at 12:00 +0200, Christophe JAILLET wrote:
+>> In the probe function, some resources are allocated using 'dma_alloc_wc()',
+>> they should be released with 'dma_free_wc()', not 'dma_free_coherent()'.
 >>
->> On Tue, Aug 27, 2019 at 1:09 PM Peter Rosin <peda@axentia.se> wrote:
->>> The variable is only ever used from fbcon.c which is linked into the
->>> same module. Therefore, the export is not needed.
->>>
->>> Signed-off-by: Peter Rosin <peda@axentia.se>
+>> We already use 'dma_free_wc()' in the remove function, but not in the
+>> error handling path of the probe function.
 >>
->> Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
+>> Also, remove a useless 'PAGE_ALIGN()'. 'info->fix.smem_len' is already
+>> PAGE_ALIGNed.
+>>
+>> Fixes: 638772c7553f ("fb: add support of LCD display controller on pxa168/910 (base layer)")
+>> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> 
+> Reviewed-by: Lubomir Rintel <lkundrak@v3.sk>
 
 Thanks, patch queued for v5.6 (also sorry for the delay).
 
->> But note that the same is true for fb_class, so perhaps it can be added
->> (or better, removed ;-)?
-> 
-> Right. Someone please let me know if 3/3 needs to be extended. I'm also
-> happy to just drop it...
-
-Please send incremental patch for fb_class. 
-
->> Once drivers/staging/olpc_dcon/olpc_dcon.c stops abusing registered_fb[]
->> and num_registered_fb, those can go, too.
->>
->> Does anyone remembe why au1200fb calls fb_prepare_logo() and fb_show_logo()
->> itself?
-> 
-> Maybe there should be a small drivers/video/fbdev/core/fbmem.h file (or
-> something) with these "internal" declarations, to hide some clutter currently
-> in include/linux/fb.h?
-
-Sounds like a good idea.
-
-> Feels like that could be done later, after these other cleanups you mention,
-> so that the new file has a few more things to declare.
 Best regards,
 --
 Bartlomiej Zolnierkiewicz
 Samsung R&D Institute Poland
 Samsung Electronics
+
+> Thanks,
+> Lubo
+> 
+>> ---
+>> The change about PAGE_ALIGN should probably be part of a separate commit.
+>> However, git history for this driver is really quiet. If you think it
+>> REALLY deserves a separate patch, either split it by yourself or axe this
+>> part of the patch. I won't bother resubmitting for this lonely cleanup.
+>> Hoping for your understanding.
+>> ---
+>>  drivers/video/fbdev/pxa168fb.c | 6 +++---
+>>  1 file changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/video/fbdev/pxa168fb.c b/drivers/video/fbdev/pxa168fb.c
+>> index 1410f476e135..1fc50fc0694b 100644
+>> --- a/drivers/video/fbdev/pxa168fb.c
+>> +++ b/drivers/video/fbdev/pxa168fb.c
+>> @@ -766,8 +766,8 @@ static int pxa168fb_probe(struct platform_device *pdev)
+>>  failed_free_clk:
+>>  	clk_disable_unprepare(fbi->clk);
+>>  failed_free_fbmem:
+>> -	dma_free_coherent(fbi->dev, info->fix.smem_len,
+>> -			info->screen_base, fbi->fb_start_dma);
+>> +	dma_free_wc(fbi->dev, info->fix.smem_len,
+>> +		    info->screen_base, fbi->fb_start_dma);
+>>  failed_free_info:
+>>  	kfree(info);
+>>  
+>> @@ -801,7 +801,7 @@ static int pxa168fb_remove(struct platform_device *pdev)
+>>  
+>>  	irq = platform_get_irq(pdev, 0);
+>>  
+>> -	dma_free_wc(fbi->dev, PAGE_ALIGN(info->fix.smem_len),
+>> +	dma_free_wc(fbi->dev, info->fix.smem_len,
+>>  		    info->screen_base, info->fix.smem_start);
+>>  
+>>  	clk_disable_unprepare(fbi->clk);
+> 
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
