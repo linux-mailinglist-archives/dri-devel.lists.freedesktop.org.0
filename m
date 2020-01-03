@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EBA912F9CB
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2020 16:30:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE44512F9D2
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2020 16:31:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D6A86E062;
-	Fri,  3 Jan 2020 15:30:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F07B66E096;
+	Fri,  3 Jan 2020 15:31:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
- [209.85.208.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D67EE6E062
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2020 15:30:50 +0000 (UTC)
-Received: by mail-ed1-f66.google.com with SMTP id dc19so41868343edb.10
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Jan 2020 07:30:50 -0800 (PST)
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+ [209.85.208.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46EB06E096
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2020 15:31:19 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id b8so41892327edx.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Jan 2020 07:31:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ByAdBB1G/PoGRjeTtrFxzGAEpeGoWNuIbHWkC7xwGOE=;
- b=JFDmGD4Vpd8WcCrsLUNzP4/QNPt1tmgt6v9JWOInXa6/4IBUaBh7vc8NjFShc1E3GJ
- 1EE4QQ3JOlGDaoPNc72hV00cbmz3YPPE+3etBe7QGAfNGjIGz80PdngUBgg4EM5nVY77
- gxSa+jsbeygecqikXrakVvznLi5WhNn5ilfTg9uJT27/LTQrM0B7NyzB55VlkuN9F7Ds
- wwLxr6dq+8GNRqWN9RrOLz0dVQI2y8Tq32LrnYHDqQJANVa0jdd4N9SgQ2+4m3mr7SFf
- gD97ElpTWOAXP87PF3qaWNK9DcRw3TqcheViHm2TGzCn+Gva+te0Ad2HrTKtKFpD1QAi
- HDAg==
-X-Gm-Message-State: APjAAAU7d9GZ4ZtacrIruVm7yE8EJ2YWRaCtDaOrRV2sVPlpzWM6c+Qn
- 0bkp05WocIlWIjTMqYI6OOOL8obYRI0=
-X-Google-Smtp-Source: APXvYqy3h7ObsxXpKFvXKqoawoUcuOkA15wm5F32O/QR4qHUBG4IqRABcrKGJgClge6CBChV6m/p8w==
-X-Received: by 2002:aa7:d285:: with SMTP id w5mr91462964edq.246.1578065448703; 
- Fri, 03 Jan 2020 07:30:48 -0800 (PST)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com.
- [209.85.128.44])
- by smtp.gmail.com with ESMTPSA id p17sm7627704ejb.84.2020.01.03.07.30.47
+ bh=RkLCz5in5T2g3YDNyQdgyTRFUwUtav+QzKtl9FKJNLY=;
+ b=rZSpa5x4ZYnarKvLANQsBCT6Zb3ODBJMf/4w/srNfpjT2rqp0zXVuFi82oGzW3LeSU
+ s+uPiFqZJ4aXEuSwG7+i/42MGkiPWK211FsF9GU+bRoakOOUNffboXZh06DM5o+05wC1
+ 1UomcoXU5Fr65uQqo0/acPYLyrUTkWdPlFpbJbnpoXoXXIo231J/Q8f6UWmV8PZFk6N4
+ rK+GouzulyDigNicoTVfb0yCaAiWm8XtOKxyeyIf3V3X4Qby3YDHTahdrOCG9xN+APqT
+ T18D3dSLm9LaTRVdd06RBrpv0dIf4KbtfC3drE/1bAMRYYZgeCzwD1MOidtx5aTi3Spo
+ fLWA==
+X-Gm-Message-State: APjAAAUqruS0Jnv8RpWkp9ZWg0d5xw2V9wwV3jRYKQxeGWh2eQC7ko7O
+ YHOHP9YgmxvLN0JxtpYBMaWeW4t35NE=
+X-Google-Smtp-Source: APXvYqzl77yzicOXqt/J6/2uQ2y/howzhUS0RxcEJnAwXCUqUlw15i8iCSvYDMiIzq53zl+PaXtUFA==
+X-Received: by 2002:a50:fc85:: with SMTP id f5mr93345532edq.294.1578065477333; 
+ Fri, 03 Jan 2020 07:31:17 -0800 (PST)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com.
+ [209.85.221.54])
+ by smtp.gmail.com with ESMTPSA id m27sm7092559eda.96.2020.01.03.07.31.16
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Jan 2020 07:30:48 -0800 (PST)
-Received: by mail-wm1-f44.google.com with SMTP id q9so8702918wmj.5
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Jan 2020 07:30:47 -0800 (PST)
-X-Received: by 2002:a05:600c:2046:: with SMTP id
- p6mr20513346wmg.110.1578065447558; 
- Fri, 03 Jan 2020 07:30:47 -0800 (PST)
+ Fri, 03 Jan 2020 07:31:17 -0800 (PST)
+Received: by mail-wr1-f54.google.com with SMTP id z3so42819731wru.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Jan 2020 07:31:16 -0800 (PST)
+X-Received: by 2002:adf:ef4e:: with SMTP id c14mr90003435wrp.142.1578065476585; 
+ Fri, 03 Jan 2020 07:31:16 -0800 (PST)
 MIME-Version: 1.0
 References: <20200103152801.47254-1-maxime@cerno.tech>
- <20200103152801.47254-3-maxime@cerno.tech>
-In-Reply-To: <20200103152801.47254-3-maxime@cerno.tech>
+ <20200103152801.47254-4-maxime@cerno.tech>
+In-Reply-To: <20200103152801.47254-4-maxime@cerno.tech>
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Fri, 3 Jan 2020 23:30:35 +0800
-X-Gmail-Original-Message-ID: <CAGb2v662mJCGaRx_-0ij9inTGz1GtzNxkFyBeeq2hhbSYZm3Rg@mail.gmail.com>
-Message-ID: <CAGb2v662mJCGaRx_-0ij9inTGz1GtzNxkFyBeeq2hhbSYZm3Rg@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] clk: sunxi: a23/a33: Export the MIPI PLL
+Date: Fri, 3 Jan 2020 23:31:05 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65S32hbbKHRu1W+p7eP3-_uC1qKKGSP+ftkzxEO1egnjA@mail.gmail.com>
+Message-ID: <CAGb2v65S32hbbKHRu1W+p7eP3-_uC1qKKGSP+ftkzxEO1egnjA@mail.gmail.com>
+Subject: Re: [PATCH v3 4/4] ARM: dts: sunxi: Add missing LVDS resets and clocks
 To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,8 +76,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Fri, Jan 3, 2020 at 11:28 PM Maxime Ripard <maxime@cerno.tech> wrote:
 >
-> The MIPI PLL is used for LVDS. Make sure it's exported in the dt bindings
-> headers.
+> Some old SoCs, while supporting LVDS, don't list the LVDS clocks and reset
+> lines. Let's add them when relevant.
 >
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
