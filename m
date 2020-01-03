@@ -1,69 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8418D12FEFD
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Jan 2020 00:01:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED3C912FF2B
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Jan 2020 00:34:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14FC56E36F;
-	Fri,  3 Jan 2020 23:01:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A4AD6E366;
+	Fri,  3 Jan 2020 23:33:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B64DA6E35F
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2020 23:01:21 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEEBD6E366
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2020 23:33:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578092480;
+ s=mimecast20190719; t=1578094435;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pRyK0cYYMkehGxlm9k3Z4bRzJwH3WMWw6wR1Zk7mY7c=;
- b=O17otkwJPV6fw7kmLo4UXKSV9HMKvhI95yx5Gc9BK2ni9k5fYRKF8mHYnBMXvwHgiXkmDG
- yFHEDC4k+1z0/6zgITGiiMNB4FQU8V729GCnpL9tn9lunK86VjwlC7XBaoG9DOShYN81eS
- z2eY3ah7+rJi9aWARrtBBS6DVD1p7Kw=
+ bh=efyUivrwT0eWnB85XA6uiUcfaQf7j2WsI1fpRnj8uyY=;
+ b=ccjqr5CIQ8UFSBzofo5oKrFu2QvVz25z3PapAUck1fBJd4XCInPdsF0EeR1OBYamfr9hxs
+ cj+MvtIsA1yO9AmHHYleXo+hBhi8nRzmxCKnsrV0Knpno8QDtjHeKUpiRWYIKJj3xuDcSU
+ cuLLpinPGVQb0t6GJbrxgH9A217UqC4=
 Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
  [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-285-Auz3T8VdPZOti8juKv4JUw-1; Fri, 03 Jan 2020 18:01:16 -0500
-Received: by mail-qt1-f197.google.com with SMTP id d9so25767962qtq.13
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Jan 2020 15:01:16 -0800 (PST)
+ us-mta-401-AnaFA2BWNfKsgxweQFCwdg-1; Fri, 03 Jan 2020 18:33:52 -0500
+Received: by mail-qt1-f197.google.com with SMTP id d9so25809655qtq.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Jan 2020 15:33:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
  :references:organization:user-agent:mime-version
  :content-transfer-encoding;
- bh=pRyK0cYYMkehGxlm9k3Z4bRzJwH3WMWw6wR1Zk7mY7c=;
- b=OKcPK0HaabdxgAAYaV3uGY8LWjwUU92fRU9zPjPn7kqEw0NTwT5hBhxUgGFmyhjsR/
- 7y0r79EYNf9RAXiNyFqc15NQ78C19eXzFu42iZYgtbqNBxImEKTFLj3gvSKTnQXC8SGU
- H4pKq2Qis9g0ubrm/XhKMzc+w0hFvpG1EqgdwT5thpAZLHG9bkrLQlYG721diiPB4Dqa
- qiD3wIhXbLT6GkhU0qcOOQnC+IzgX7P3rcb+BWBqpFrt6SZ5SL/ZqNZ9/MQ9p6f9eJEE
- oeSOIR/NiiRho0lPd3EkPkB1wDEh5dyPY8VZvUNqt5Natwf/PtDgD4IbOCMa+q5c7vkE
- Cpaw==
-X-Gm-Message-State: APjAAAXlD/jVL/AtF0T1QAbSqW9DapGPm9tETHedFoUJ11xEDbXHKoAZ
- sO9IjchYrdsXfpiDV6pqw4s1zFz9b0k9epiX/dlp8tv7M30sL7GNMPzFXEGQ8uEMbi5HIrnW2D2
- NLBJaCxQxzb9TPztxNAAzzNSMiUka
-X-Received: by 2002:aed:218f:: with SMTP id l15mr59267345qtc.247.1578092476191; 
- Fri, 03 Jan 2020 15:01:16 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyU9Ckv92edx9HhkOaoC1tTW7GXU1xDQPAJNZbR0hqdqu/+jDdtlt920k90dHv+TGKYuix08Q==
-X-Received: by 2002:aed:218f:: with SMTP id l15mr59267322qtc.247.1578092475913; 
- Fri, 03 Jan 2020 15:01:15 -0800 (PST)
+ bh=efyUivrwT0eWnB85XA6uiUcfaQf7j2WsI1fpRnj8uyY=;
+ b=m1YnGzbv5qhCGfwQHPm4QHOyPymWFgZHjXRz1BY6QTJW0aegIKqhEezF2t3fJsS+EH
+ ICbWWBDzmDfdLuAFg6PwD6uN1dq+StBiNcJmoHVaWrRWpIaZ8qwmq1YvccBXIwcmud6i
+ fjPJhqVWEcWjfX+wTifWiTEiEYusYJULZwxi3qW39ZgQ2wxatQe/FnPO6cj2rvutRVSz
+ KMDGZOSDUH7XAgP7YrAm4CUg7oyVOrQS76sCa08WIJ3xPFaAGSRbF0DJYMs02tE/d0T1
+ 515fAVXRsfIUs18lBnKq4uuv06RFJE79FZABZISYLlcTwywO1+UusIgONXlQfaE3HnKO
+ MtPA==
+X-Gm-Message-State: APjAAAX9QYmuL0hYFiw2rb+sQNdp6YayCRNJLMwR/p2vAoUiB6itlwmg
+ M3tG/7FWx1U/W0CkjMVWR8nFzPTcHZKA9UmSVfJMSRer+f0blFiUpFNRdKa8wqlVObcTiBI+Lfj
+ Tv5Q6Nxo5glT0A0CugUj3nRXvuXf0
+X-Received: by 2002:ac8:6f63:: with SMTP id u3mr59105795qtv.39.1578094431971; 
+ Fri, 03 Jan 2020 15:33:51 -0800 (PST)
+X-Google-Smtp-Source: APXvYqybxLCuuJeoaEoZ5+yINE7ht+XYIreLY5viupkoDidVs4ryN0W62LaqFy4zA3OnAD4Gq88meQ==
+X-Received: by 2002:ac8:6f63:: with SMTP id u3mr59105786qtv.39.1578094431747; 
+ Fri, 03 Jan 2020 15:33:51 -0800 (PST)
 Received: from dhcp-10-20-1-90.bss.redhat.com ([144.121.20.162])
- by smtp.gmail.com with ESMTPSA id l62sm17232971qke.12.2020.01.03.15.01.14
+ by smtp.gmail.com with ESMTPSA id h32sm19522562qth.2.2020.01.03.15.33.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jan 2020 15:01:15 -0800 (PST)
-Message-ID: <22b7ae5b1535ae51333250b12f47e4e715be3795.camel@redhat.com>
-Subject: Re: [PATCH 2/2] drm/nouveau: Add HD-audio component notifier support
+ Fri, 03 Jan 2020 15:33:50 -0800 (PST)
+Message-ID: <2fe0b1d172044934b9414a5497861f9c1f12cb24.camel@redhat.com>
+Subject: Re: [PATCH] drm/dp_mst: clear time slots for ports invalid
 From: Lyude Paul <lyude@redhat.com>
-To: Takashi Iwai <tiwai@suse.de>, dri-devel@lists.freedesktop.org
-Date: Fri, 03 Jan 2020 18:01:14 -0500
-In-Reply-To: <20190722143815.7339-3-tiwai@suse.de>
-References: <20190722143815.7339-1-tiwai@suse.de>
- <20190722143815.7339-3-tiwai@suse.de>
+To: "Lin, Wayne" <Wayne.Lin@amd.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
+ <amd-gfx@lists.freedesktop.org>
+Date: Fri, 03 Jan 2020 18:33:50 -0500
+In-Reply-To: <DM6PR12MB41378AEE89F13DA0825F2AD5FC280@DM6PR12MB4137.namprd12.prod.outlook.com>
+References: <20191206083937.9411-1-Wayne.Lin@amd.com>
+ <589e939efca5209af318645fa6799c423897eea6.camel@redhat.com>
+ <DM6PR12MB41378AEE89F13DA0825F2AD5FC280@DM6PR12MB4137.namprd12.prod.outlook.com>
 Organization: Red Hat
 User-Agent: Evolution 3.34.2 (3.34.2-1.fc31)
 MIME-Version: 1.0
-X-MC-Unique: Auz3T8VdPZOti8juKv4JUw-1
+X-MC-Unique: AnaFA2BWNfKsgxweQFCwdg-1
 X-Mimecast-Spam-Score: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,263 +80,198 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sean Paul <sean@poorly.run>,
- Ben Skeggs <bskeggs@redhat.com>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: "Zuo, Jerry" <Jerry.Zuo@amd.com>, "Kazlauskas,
+ Nicholas" <Nicholas.Kazlauskas@amd.com>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Got shown this patch at work and realized it still needed review, so I went
-ahead and did that :)
+On Wed, 2019-12-25 at 06:45 +0000, Lin, Wayne wrote:
+> > -----Original Message-----
+> > From: Lyude Paul <lyude@redhat.com>
+> > Sent: Saturday, December 21, 2019 8:12 AM
+> > To: Lin, Wayne <Wayne.Lin@amd.com>; dri-devel@lists.freedesktop.org;
+> > amd-gfx@lists.freedesktop.org
+> > Cc: Kazlauskas, Nicholas <Nicholas.Kazlauskas@amd.com>; Wentland, Harry
+> > <Harry.Wentland@amd.com>; Zuo, Jerry <Jerry.Zuo@amd.com>;
+> > stable@vger.kernel.org
+> > Subject: Re: [PATCH] drm/dp_mst: clear time slots for ports invalid
+> > 
+> > Mhh-I think I understand the problem you're trying to solve here but I
+> > think this
+> > solution might be a bit overkill. When I did the rework of topology
+> > references
+> > for ports, I made it so that we can guarantee memory access to a port
+> > without
+> > it needing to be a valid part of the topology. As well, all parents of the
+> > port are
+> > guaranteed to be accessible for as long as the child is. Take a look at:
+> > 
+> > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2F01.org%
+> > 2Flinuxgraphics%2Fgfx-docs%2Fdrm%2Fgpu%2Fdrm-kms-helpers.html%23refco
+> > unt-relationships-in-a-topology&amp;data=02%7C01%7Cwayne.lin%40amd.co
+> > m%7C722655b546c049dc081908d785aa6758%7C3dd8961fe4884e608e11a82d
+> > 994e183d%7C0%7C0%7C637124839257213115&amp;sdata=Ctha3ja8kleeFOp
+> > PpA7EwDV1is81RAMsjqd1P6463ak%3D&amp;reserved=0
+> > 
+> > It's also worth noting that because of this there's a lot of
+> > get_port_validated()/put_port_validated() calls in the MST helpers that
+> > are
+> > now bogus and need to be removed once I get a chance. For new code we
+> > should limit the use of topology references to sections of code where we
+> > need
+> > a guarantee that resources on the port/branch (such as a drm connector, dp
+> > aux port, etc.) won't go away for as long as we need to use them.
+> > 
+> > Do you think we could change this patch so instead of removing it from the
+> > proposed payloads on the CONNECTION_STATUS_NOTIFY, we keep the port's
+> > memory allocation around until it's been removed from the proposed
+> > payloads
+> > table and clean it up there on the next payload update?
+> > 
+> Really appreciate for your time and comments in detail.
+> 
+> In this patch, I wanted to just set the proposed_vcpi->num_slots to 0 for
+> those
+> ports which are no longer in the topology due to there is no need to
+> allocate time
+> slots for these port. And expect those vcpi will be updated during next
+> update of 
+> payload ID table by drm_dp_update_payload_part1(). 
+> 
+> I tried to use drm_dp_mst_topology_get_port_validated() as a helper to 
+> decide whether a port is in the topology or not. Use this function to
+> iterate over
+> all ports that all proposed_vcpi[] drive to. If one port is not in the
+> topology, set the
+> num_slots of the proposed_vcpi for this port to 0. With num_slots as 0,
+> these 
+> proposed_vcpi will be clean up in next payload table update by 
+> drm_dp_update_payload_part1(). If a port is still in the topology, then
+> release
+> the reference count which was acquired previously from
+> drm_dp_mst_topology_get_port_validated() and do nothing.
+> 
+> I didn't mean to kill invalid ports on receiving CONNECTION_STATUS_NOTIFY.
+> Sorry if I misuse or misunderstand something here?
+
+Ahh, it seems I made the mistake here then because from your explanation
+you're using the API exactly as intended :). All of this has me wondering if
+some day we should try to get rid of the payload tracking we have and move it
+into atomic. But, that's a problem for another day.
+
+Anyway-one small change below:
+
+> 
+> > On Fri, 2019-12-06 at 16:39 +0800, Wayne Lin wrote:
+> > > [Why]
+> > > When change the connection status in a MST topology, mst device which
+> > > detect the event will send out CONNECTION_STATUS_NOTIFY messgae.
+> > > 
+> > > e.g. src-mst-mst-sst => src-mst (unplug) mst-sst
+> > > 
+> > > Currently, under the above case of unplugging device, ports which have
+> > > been allocated payloads and are no longer in the topology still occupy
+> > > time slots and recorded in proposed_vcpi[] of topology manager.
+> > > 
+> > > If we don't clean up the proposed_vcpi[], when code flow goes to try
+> > > to update payload table by calling drm_dp_update_payload_part1(), we
+> > > will fail at checking port validation due to there are ports with
+> > > proposed time slots but no longer in the mst topology. As the result
+> > > of that, we will also stop updating the DPCD payload table of down
+> > > stream
+> > port.
+> > > [How]
+> > > While handling the CONNECTION_STATUS_NOTIFY message, add a detection
+> > > to see if the event indicates that a device is unplugged to an output
+> > > port.
+> > > If the detection is true, then iterrate over all proposed_vcpi[] to
+> > > see whether a port of the proposed_vcpi[] is still in the topology or
+> > > not. If the port is invalid, set its num_slots to 0.
+> > > 
+> > > Thereafter, when try to update payload table by calling
+> > > drm_dp_update_payload_part1(), we can successfully update the DPCD
+> > > payload table of down stream port and clear the proposed_vcpi[] to NULL.
+> > > 
+> > > Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
+> > > Cc: stable@vger.kernel.org
+> > > ---
+> > >  drivers/gpu/drm/drm_dp_mst_topology.c | 24
+> > +++++++++++++++++++++++-
+> > >  1 file changed, 23 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c
+> > > b/drivers/gpu/drm/drm_dp_mst_topology.c
+> > > index 5306c47dc820..2e236b6275c4 100644
+> > > --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> > > +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> > > @@ -2318,7 +2318,7 @@ drm_dp_mst_handle_conn_stat(struct
+> > > drm_dp_mst_branch *mstb,  {
+> > >  	struct drm_dp_mst_topology_mgr *mgr = mstb->mgr;
+> > >  	struct drm_dp_mst_port *port;
+> > > -	int old_ddps, ret;
+> > > +	int old_ddps, old_input, ret, i;
+> > >  	u8 new_pdt;
+> > >  	bool dowork = false, create_connector = false;
+> > > 
+> > > @@ -2349,6 +2349,7 @@ drm_dp_mst_handle_conn_stat(struct
+> > > drm_dp_mst_branch *mstb,
+> > >  	}
+> > > 
+> > >  	old_ddps = port->ddps;
+> > > +	old_input = port->input;
+> > >  	port->input = conn_stat->input_port;
+> > >  	port->mcs = conn_stat->message_capability_status;
+> > >  	port->ldps = conn_stat->legacy_device_plug_status;
+> > > @@ -2373,6 +2374,27 @@ drm_dp_mst_handle_conn_stat(struct
+> > > drm_dp_mst_branch *mstb,
+> > >  		dowork = false;
+> > >  	}
+> > > 
+> > > +	if (!old_input && old_ddps != port->ddps && !port->ddps) {
+> > > +		for (i = 0; i < mgr->max_payloads; i++) {
+> > > +			struct drm_dp_vcpi *vcpi = mgr->proposed_vcpis[i];
+> > > +			struct drm_dp_mst_port *port_validated;
+> > > +
+> > > +			if (vcpi) {
+
+Let's invert this conditional to reduce the indenting here a bit
+if (!vcpi)
+     continue;
+
+With that change this is:
 
 Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-On Mon, 2019-07-22 at 16:38 +0200, Takashi Iwai wrote:
-> This patch adds the support for the notification of HD-audio hotplug
-> via the already existing drm_audio_component framework.  This allows
-> us more reliable hotplug notification and ELD transfer without
-> accessing HD-audio bus; it's more efficient, and more importantly, it
-> works without waking up the runtime PM.
-> 
-> The implementation is rather simplistic: nouveau driver provides the
-> get_eld ops for HD-audio, and it notifies the audio hotplug via
-> pin_eld_notify callback upon each nv50_audio_enable() and _disable()
-> call.  As the HD-audio pin assignment seems corresponding to the CRTC,
-> the crtc->index number is passed directly as the zero-based port
-> number.
-> 
-> The bind and unbind callbacks handle the device-link so that it
-> assures the PM call order.
-> 
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> ---
->  drivers/gpu/drm/nouveau/Kconfig         |   1 +
->  drivers/gpu/drm/nouveau/dispnv50/disp.c | 111
-> ++++++++++++++++++++++++++++++++
->  drivers/gpu/drm/nouveau/nouveau_drv.h   |   7 ++
->  3 files changed, 119 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/Kconfig
-> b/drivers/gpu/drm/nouveau/Kconfig
-> index 96b9814e6d06..33ccf11bd70d 100644
-> --- a/drivers/gpu/drm/nouveau/Kconfig
-> +++ b/drivers/gpu/drm/nouveau/Kconfig
-> @@ -16,6 +16,7 @@ config DRM_NOUVEAU
->  	select INPUT if ACPI && X86
->  	select THERMAL if ACPI && X86
->  	select ACPI_VIDEO if ACPI && X86
-> +	select SND_HDA_COMPONENT if SND_HDA_CORE
->  	help
->  	  Choose this option for open-source NVIDIA support.
->  
-> diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> index 8497768f1b41..919f3d3db161 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> @@ -29,6 +29,7 @@
->  
->  #include <linux/dma-mapping.h>
->  #include <linux/hdmi.h>
-> +#include <linux/component.h>
->  
->  #include <drm/drmP.h>
->  #include <drm/drm_atomic_helper.h>
-> @@ -466,12 +467,113 @@ nv50_dac_create(struct drm_connector *connector,
-> struct dcb_output *dcbe)
->  	return 0;
->  }
->  
-> +/*
-> + * audio component binding for ELD notification
-> + */
-> +static void
-> +nv50_audio_component_eld_notify(struct drm_audio_component *acomp, int
-> port)
-> +{
-> +	if (acomp && acomp->audio_ops && acomp->audio_ops->pin_eld_notify)
-> +		acomp->audio_ops->pin_eld_notify(acomp->audio_ops->audio_ptr,
-> +						 port, -1);
-> +}
-> +
-> +static int
-> +nv50_audio_component_get_eld(struct device *kdev, int port, int pipe,
-> +			     bool *enabled, unsigned char *buf, int max_bytes)
-> +{
-> +	struct drm_device *drm_dev = dev_get_drvdata(kdev);
-> +	struct nouveau_drm *drm = nouveau_drm(drm_dev);
-> +	struct drm_encoder *encoder;
-> +	struct nouveau_encoder *nv_encoder;
-> +	struct nouveau_connector *nv_connector;
-> +	struct nouveau_crtc *nv_crtc;
-> +	int ret = 0;
-> +
-> +	*enabled = false;
-> +	drm_for_each_encoder(encoder, drm->dev) {
-> +		nv_encoder = nouveau_encoder(encoder);
-> +		nv_connector = nouveau_encoder_connector_get(nv_encoder);
-> +		nv_crtc = nouveau_crtc(encoder->crtc);
-> +		if (!nv_connector || !nv_crtc || nv_crtc->index != port)
-> +			continue;
-> +		*enabled = drm_detect_monitor_audio(nv_connector->edid);
-> +		if (*enabled) {
-> +			ret = drm_eld_size(nv_connector->base.eld);
-> +			memcpy(buf, nv_connector->base.eld,
-> +			       min(max_bytes, ret));
-> +		}
-> +		break;
-> +	}
-> +	return ret;
-> +}
-> +
-> +static const struct drm_audio_component_ops nv50_audio_component_ops = {
-> +	.get_eld = nv50_audio_component_get_eld,
-> +};
-> +
-> +static int
-> +nv50_audio_component_bind(struct device *kdev, struct device *hda_kdev,
-> +			  void *data)
-> +{
-> +	struct drm_device *drm_dev = dev_get_drvdata(kdev);
-> +	struct nouveau_drm *drm = nouveau_drm(drm_dev);
-> +	struct drm_audio_component *acomp = data;
-> +
-> +	if (WARN_ON(!device_link_add(hda_kdev, kdev, DL_FLAG_STATELESS)))
-> +		return -ENOMEM;
-> +
-> +	drm_modeset_lock_all(drm_dev);
-> +	acomp->ops = &nv50_audio_component_ops;
-> +	acomp->dev = kdev;
-> +	drm->audio.component = acomp;
-> +	drm_modeset_unlock_all(drm_dev);
-> +	return 0;
-> +}
-> +
-> +static void
-> +nv50_audio_component_unbind(struct device *kdev, struct device *hda_kdev,
-> +			    void *data)
-> +{
-> +	struct drm_device *drm_dev = dev_get_drvdata(kdev);
-> +	struct nouveau_drm *drm = nouveau_drm(drm_dev);
-> +	struct drm_audio_component *acomp = data;
-> +
-> +	drm_modeset_lock_all(drm_dev);
-> +	drm->audio.component = NULL;
-> +	acomp->ops = NULL;
-> +	acomp->dev = NULL;
-> +	drm_modeset_unlock_all(drm_dev);
-> +}
-> +
-> +static const struct component_ops nv50_audio_component_bind_ops = {
-> +	.bind   = nv50_audio_component_bind,
-> +	.unbind = nv50_audio_component_unbind,
-> +};
-> +
-> +static void
-> +nv50_audio_component_init(struct nouveau_drm *drm)
-> +{
-> +	if (!component_add(drm->dev->dev, &nv50_audio_component_bind_ops))
-> +		drm->audio.component_registered = true;
-> +}
-> +
-> +static void
-> +nv50_audio_component_fini(struct nouveau_drm *drm)
-> +{
-> +	if (drm->audio.component_registered) {
-> +		component_del(drm->dev->dev, &nv50_audio_component_bind_ops);
-> +		drm->audio.component_registered = false;
-> +	}
-> +}
-> +
->  /**************************************************************************
-> ****
->   * Audio
->  
-> ****************************************************************************
-> */
->  static void
->  nv50_audio_disable(struct drm_encoder *encoder, struct nouveau_crtc
-> *nv_crtc)
->  {
-> +	struct nouveau_drm *drm = nouveau_drm(encoder->dev);
->  	struct nouveau_encoder *nv_encoder = nouveau_encoder(encoder);
->  	struct nv50_disp *disp = nv50_disp(encoder->dev);
->  	struct {
-> @@ -486,11 +588,14 @@ nv50_audio_disable(struct drm_encoder *encoder, struct
-> nouveau_crtc *nv_crtc)
->  	};
->  
->  	nvif_mthd(&disp->disp->object, 0, &args, sizeof(args));
-> +
-> +	nv50_audio_component_eld_notify(drm->audio.component, nv_crtc->index);
->  }
->  
->  static void
->  nv50_audio_enable(struct drm_encoder *encoder, struct drm_display_mode
-> *mode)
->  {
-> +	struct nouveau_drm *drm = nouveau_drm(encoder->dev);
->  	struct nouveau_encoder *nv_encoder = nouveau_encoder(encoder);
->  	struct nouveau_crtc *nv_crtc = nouveau_crtc(encoder->crtc);
->  	struct nouveau_connector *nv_connector;
-> @@ -517,6 +622,8 @@ nv50_audio_enable(struct drm_encoder *encoder, struct
-> drm_display_mode *mode)
->  
->  	nvif_mthd(&disp->disp->object, 0, &args,
->  		  sizeof(args.base) + drm_eld_size(args.data));
-> +
-> +	nv50_audio_component_eld_notify(drm->audio.component, nv_crtc->index);
->  }
->  
->  /**************************************************************************
-> ****
-> @@ -2281,6 +2388,8 @@ nv50_display_destroy(struct drm_device *dev)
->  {
->  	struct nv50_disp *disp = nv50_disp(dev);
->  
-> +	nv50_audio_component_fini(nouveau_drm(dev));
-> +
->  	nv50_core_del(&disp->core);
->  
->  	nouveau_bo_unmap(disp->sync);
-> @@ -2401,6 +2510,8 @@ nv50_display_create(struct drm_device *dev)
->  	/* Disable vblank irqs aggressively for power-saving, safe on nv50+ */
->  	dev->vblank_disable_immediate = true;
->  
-> +	nv50_audio_component_init(drm);
-> +
->  out:
->  	if (ret)
->  		nv50_display_destroy(dev);
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h
-> b/drivers/gpu/drm/nouveau/nouveau_drv.h
-> index aae035816383..15e4f2aa19bf 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_drv.h
-> +++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
-> @@ -55,6 +55,8 @@
->  #include <drm/ttm/ttm_module.h>
->  #include <drm/ttm/ttm_page_alloc.h>
->  
-> +#include <drm/drm_audio_component.h>
-> +
->  #include "uapi/drm/nouveau_drm.h"
->  
->  struct nouveau_channel;
-> @@ -212,6 +214,11 @@ struct nouveau_drm {
->  	struct nouveau_svm *svm;
->  
->  	struct nouveau_dmem *dmem;
-> +
-> +	struct {
-> +		struct drm_audio_component *component;
-> +		bool component_registered;
-> +	} audio;
->  };
->  
->  static inline struct nouveau_drm *
+> > > +				port_validated =
+> > > +					container_of(vcpi, struct
+> > > drm_dp_mst_port, vcpi);
+> > > +				port_validated =
+> > > +					drm_dp_mst_topology_get_port_validated
+> > > (mgr, port_validated);
+> > > +				if (!port_validated) {
+> > > +					mutex_lock(&mgr->payload_lock);
+> > > +					vcpi->num_slots = 0;
+> > > +					mutex_unlock(&mgr->payload_lock);
+> > > +				} else {
+> > > +					drm_dp_mst_topology_put_port(port_vali
+> > > dated);
+> > > +				}
+> > > +			}
+> > > +		}
+> > > +	}
+> > > +
+> > >  	if (port->connector)
+> > >  		drm_modeset_unlock(&mgr->base.lock);
+> > >  	else if (create_connector)
+> > --
+> > Cheers,
+> > 	Lyude Paul
+> --
+> Best regards,
+> Wayne Lin
 -- 
 Cheers,
 	Lyude Paul
