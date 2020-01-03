@@ -1,39 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D3BC12FCF5
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2020 20:25:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B876812FCFB
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2020 20:25:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC0A3899E8;
-	Fri,  3 Jan 2020 19:25:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF8256E32D;
+	Fri,  3 Jan 2020 19:25:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6FBA896C7
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2020 19:25:05 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 5.5-rc5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1578079505;
- bh=RQg7ogAA5Z0uDirCP6aCQrHzBY1G8SgTCsaK+SsMbbc=;
- h=From:In-Reply-To:References:Date:To:Cc:From;
- b=iigZ+xXUFpDfssdL1tURaS6B9inH4xI2r/8DADwZ8IHLRT0Kg+wF7AaPq6rkesTRB
- JxjDhOIzsKkXrvKDM3KZUT+Q72Aw78xdwRWyMQS0c92d2A1hZlfFPbHjVP31/is4HY
- g09K7Wivf0UTphvOAczLVdbBbUgjoFDTGMjvRQXY=
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9twLL0KL7zS4hwH=TgcuwVqJCpvUB276+GzkhQaa_B2vHg@mail.gmail.com>
-References: <CAPM=9twLL0KL7zS4hwH=TgcuwVqJCpvUB276+GzkhQaa_B2vHg@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAPM=9twLL0KL7zS4hwH=TgcuwVqJCpvUB276+GzkhQaa_B2vHg@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2020-01-03
-X-PR-Tracked-Commit-Id: a6204fc7b83cbe3398f61cf1742b09f66f0ae220
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: ca78fdeb00fa656f09afee977750e85da929d259
-Message-Id: <157807950558.16643.5078290428003486265.pr-tracker-bot@kernel.org>
-Date: Fri, 03 Jan 2020 19:25:05 +0000
-To: Dave Airlie <airlied@gmail.com>
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 288526E32D
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2020 19:25:37 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 201497] [amdgpu]: '*ERROR* No EDID read' is back in 4.19
+Date: Fri, 03 Jan 2020 19:25:36 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: chriskoch@goldmail.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-201497-2300-14ccfHKa5x@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-201497-2300@https.bugzilla.kernel.org/>
+References: <bug-201497-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,28 +51,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 3 Jan 2020 16:57:38 +1000:
+https://bugzilla.kernel.org/show_bug.cgi?id=201497
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-01-03
+chriskoch@goldmail.de changed:
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/ca78fdeb00fa656f09afee977750e85da929d259
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |chriskoch@goldmail.de
 
-Thank you!
+--- Comment #13 from chriskoch@goldmail.de ---
+Same here with Acer XB240H and AMD Vega 56: 
+https://bugzilla.kernel.org/show_bug.cgi?id=205987
+
+All Kernels >4.15 have this
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
