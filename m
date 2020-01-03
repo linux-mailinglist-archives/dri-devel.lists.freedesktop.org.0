@@ -1,103 +1,113 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 567CC12F89E
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2020 14:07:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79D5E12F95F
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2020 15:54:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39E2E6E303;
-	Fri,  3 Jan 2020 13:07:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E22716E104;
+	Fri,  3 Jan 2020 14:54:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74E7B6E2F8
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2020 13:07:20 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200103130718euoutp023eb200a1b18fa376ff741988ddff7f7d~mYlV6zQFX2047020470euoutp02s
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2020 13:07:18 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200103130718euoutp023eb200a1b18fa376ff741988ddff7f7d~mYlV6zQFX2047020470euoutp02s
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1578056838;
- bh=zDdH4NrkEQ5yIXja9XqlAOcAHDuIOVYWY5pN6f9uf1o=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=AuceKUmDHf97e4ESKeRAuy19z2IVSgtlq5pghCTR4tdXeecE0pm5D4Q35fAhlFrmJ
- RrZqjnP0RocevFmmhM/dtw4cfGwxDFC2oytILgg5D6fLeVz7bKRMpv8vcRe7w1i5ke
- IeJi6cP/WmSsEdUov+gsVbAE+Cay5ctoG3KVuQys=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200103130718eucas1p2cfef288ae36a773db4e0c9e9321dcbfd~mYlVcfDzl3117531175eucas1p2C;
- Fri,  3 Jan 2020 13:07:18 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 24.CA.60679.68C3F0E5; Fri,  3
- Jan 2020 13:07:18 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200103130717eucas1p1707a5a61c3ae7df3233649d7e9e0abe3~mYlVNOJcZ0209102091eucas1p1K;
- Fri,  3 Jan 2020 13:07:17 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200103130717eusmtrp133ec518ebccb9c2cf93b921f1882290a~mYlVMdYl32758327583eusmtrp14;
- Fri,  3 Jan 2020 13:07:17 +0000 (GMT)
-X-AuditID: cbfec7f4-0e5ff7000001ed07-52-5e0f3c869f26
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 2B.87.07950.58C3F0E5; Fri,  3
- Jan 2020 13:07:17 +0000 (GMT)
-Received: from [106.120.51.71] (unknown [106.120.51.71]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200103130717eusmtip1131e069ace366b89333b9139649af04d~mYlUZSZFU0169601696eusmtip1g;
- Fri,  3 Jan 2020 13:07:17 +0000 (GMT)
-Subject: Re: [PATCH] fbdev: potential information leak in do_fb_ioctl()
-To: "Eric W. Biederman" <ebiederm@xmission.com>, Joe Perches <joe@perches.com>
-From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Message-ID: <fd4e6f01-074b-def7-7ffb-9a9197930c31@samsung.com>
-Date: Fri, 3 Jan 2020 14:07:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <87zhhjjryk.fsf@x220.int.ebiederm.org>
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2050.outbound.protection.outlook.com [40.107.92.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF5456E104;
+ Fri,  3 Jan 2020 14:54:44 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Zrgi8odqYiHRVYdXoE8Mf+hJ1uIKAIUJj1juC7tg0zjerjyiAdGPEXbxgamqBrzfvW1NjuWRGJG467dw1e8BcGcCRtyEbuZXsxAf2rg5smbFV5KqcMOjJAx637uImDWdPF6v1nQsrvP47DNqZFxIMnkuzRaOkNLRnPf69zxz0amo6bz/zbKQhMm/JLN2+1Hm+F2U1KA3WrHCgWTPA8/MDzYxuyljr1XsoMV+t6vIYe3fFHLgrcijSW82/FTEYikGYy4egxrY9vHAZHeoE+eBIc9GWLtCe2BFWGOF5d3SkxFIb+t4RVfnH5TYN1GZrBEfqkH2Sl+70TzH3iZko8ivmQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qdNqP+XNtXGqNj1Vs/26aABK04E1TSgI+Ui1YzZ7suk=;
+ b=UcTI5a2eJoMnLVtu8SLknyPT6WD4SqjxShYcu35Qxg7Fbs7sddPnkKDUwfcGkP9L6XANEuFBXJirugjGl2ga9BhMj5eDbkDyZUEz30UAR4VafiYZWPLVQZvX0slAZLHkDvfTz8lMhULVylTbasB0eBAn62/ZATSf+3x2Qs1qEDCKEZUx6cETN11E10ZBbtV0kxGOvCOvEQk9RExRyskX3JbiC2UFwYMCNYZ3yy+VAcb1uW1nEgdi6EYevHa9VqF2x22ZLsvpz7rjZ/W4/yWD12kI0HMlmmf9Wdw+raC+FNqMCuQ5aQVjJA1/jx/c8noTKQQBracL7Bm+qkA3Eq24YQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qdNqP+XNtXGqNj1Vs/26aABK04E1TSgI+Ui1YzZ7suk=;
+ b=pV/dG/AvBuWwYdGGH7SvACdKEPILnCEpN0Gsf7S6DO2IhRl5sAEfTVHmTSvg00pk7YKB0OuAnK2my5xvwSJVt3IR31uPrLAdfVzOT2tNIp4SlYRG1GVYP88vx1hRy2q2WReTskzHiArFQRhCPH60oH8NAcVonM2Uhay0z13kuIo=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Harry.Wentland@amd.com; 
+Received: from CY4PR1201MB0230.namprd12.prod.outlook.com (10.172.79.7) by
+ CY4PR1201MB0134.namprd12.prod.outlook.com (10.172.77.143) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2602.10; Fri, 3 Jan 2020 14:54:42 +0000
+Received: from CY4PR1201MB0230.namprd12.prod.outlook.com
+ ([fe80::301e:b0c8:7af:d77d]) by CY4PR1201MB0230.namprd12.prod.outlook.com
+ ([fe80::301e:b0c8:7af:d77d%11]) with mapi id 15.20.2581.014; Fri, 3 Jan 2020
+ 14:54:42 +0000
+Subject: Re: [PATCH v2] drm/dp_mst: correct the shifting in DP_REMOTE_I2C_READ
+To: Wayne Lin <Wayne.Lin@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+References: <20200103055001.10287-1-Wayne.Lin@amd.com>
+From: Harry Wentland <hwentlan@amd.com>
+Autocrypt: addr=hwentlan@amd.com; keydata=
+ mQENBFhb4C8BCADhHHUNoBQ7K7LupCP0FsUb443Vuqq+dH0uo4A3lnPkMF6FJmGcJ9Sbx1C6
+ cd4PbVAaTFZUEmjqfpm+wCRBe11eF55hW3GJ273wvfH69Q/zmAxwO8yk+i5ZWWl8Hns5h69K
+ D9QURHLpXxrcwnfHFah0DwV23TrD1KGB7vowCZyJOw93U/GzAlXKESy0FM7ZOYIJH83X7qhh
+ Q9KX94iTEYTeH86Wy8hwHtqM6ySviwEz0g+UegpG8ebbz0w3b5QmdKCAg+eZTmBekP5o77YE
+ BKqR+Miiwo9+tzm2N5GiF9HDeI2pVe/egOLa5UcmsgdF4Y5FKoMnBbAHNaA6Fev8PHlNABEB
+ AAG0J0hhcnJ5IFdlbnRsYW5kIDxoYXJyeS53ZW50bGFuZEBhbWQuY29tPokBNwQTAQgAIQUC
+ WFvgLwIbAwULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgAAKCRAtWBXJjBS24xUlCAC9MqAlIbZO
+ /a37s41h+MQ+D20C6/hVErWO+RA06nA+jFDPUWrDJKYdn6EDQWdLY3ATeAq3X8GIeOTXGrPD
+ b2OXD6kOViW/RNvlXdrIsnIDacdr39aoAlY1b+bhTzZVz4pto4l+K1PZb5jlMgTk/ks9HesL
+ RfYVq5wOy3qIpocdjdlXnSUKn0WOkGBBd8Nv3o0OI18tiJ1S/QwLBBfZoVvfGinoB2p4j/wO
+ kJxpi3F9TaOtLGcdrgfghg31Fb48DP+6kodZ4ircerp4hyAp0U2iKtsrQ/sVWR4mbe3eTfcn
+ YjBxGd2JOVdNQZa2VTNf9GshIDMD8IIQK6jN0LfY8Py2uQENBFhb4C8BCAC/0KWY3pIbU2cy
+ i7GMj3gqB6h0jGqRuMpMRoSNDoAUIuSh17w+bawuOF6XZPdK3D4lC9cOXMwP3aP9tTJOori2
+ 8vMH8KW9jp9lAYnGWYhSqLdjzIACquMqi96EBtawJDct1e9pVgp+d4JXHlgIrl11ITJo8rCP
+ dEqjro2bCBWxijsIncdCzMjf57+nR7u86SBtGSFcXKapS7YJeWcvM6MzFYgIkxHxxBDvBBvm
+ U2/mAXiL72kwmlV1BNrabQxX2UnIb3xt3UovYJehrnDUMdYjxJgSPRBx27wQ/D05xAlhkmmL
+ FJ01ZYc412CRCC6gjgFPfUi2y7YJTrQHS79WSyANABEBAAGJAR8EGAEIAAkFAlhb4C8CGwwA
+ CgkQLVgVyYwUtuM72Qf+J6JOQ/27pWf5Ulde9GS0BigA1kV9CNfIq396TgvQzeyixHMvgPdq
+ Z36x89zZi0otjMZv6ypIdEg5co1Bvz0wFaKbCiNbTjpnA1VAbQVLSFjCZLQiu0vc+BZ1yKDV
+ T5ASJ97G4XvQNO+XXGY55MrmhoNqMaeIa/3Jas54fPVd5olcnUAyDty29/VWXNllUq38iBCX
+ /0tTF7oav1lzPGfeW2c6B700FFZMTR4YBVSGE8jPIzu2Fj0E8EkDmsgS+nibqSvWXfo1v231
+ 410h35CjbYDlYQO7Z1YD7asqbaOnF0As+rckyRMweQ9CxZn5+YBijtPJA3x5ldbCfQ9rWiTu XQ==
+Message-ID: <854f57f3-b8b4-284f-796a-1c6d4f487471@amd.com>
+Date: Fri, 3 Jan 2020 09:54:39 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
+In-Reply-To: <20200103055001.10287-1-Wayne.Lin@amd.com>
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Sf0yMcRz27X3vvbfL1bcru48YdszG8quMF80w5jUz+kOskV56lx/d1e7t
- B/0Vo3JupkJz1yjSj8NJVC6u2VlSmWZIjhRiRXH6Remi13tN/3z3fJ7P8+x5PtuXJlTHqCD6
- gC6R1+u4OA2lICsfDTUtSA/zi1qc5VIwX0dzSabgfSvBvBj4TjF/Ko/LGXPbR5Ipam9EzJNT
- WqbCOY357KwnmMenXTLmeXUexRT8qCAZu+MSYi4+fEUxJUMViHnpzkRrMHv+gVnOmtOekax9
- MJ9kbaZWOVtuOUmxF+vDWfudg2zbqTov9scnJ8n2W5oJtvD8S4r9XjP29JXPYM86MshtvpGK
- sBg+7kAyr1+0Olqx3+p8QyR0Bhy2Xe8g0tAvPwPypgEvhYbcbtKAFLQKlyA4mnFSLg39CGzZ
- 5yhp6ENQ0DQoG7cMu8weSzGC0pYSj6UHgcn8B4mqALwRTl8u+ocD8TYYqj0hE0UEdhNgbSsm
- xQWFV0JWhuWfSIlXQ+lwn5eISTwHupvfUSKegndCb/tDmaTxh/oLHWNemvbGodCSvlykCawG
- Z8clLwnPhKqePELMAnyDhuHGBkqqvR5qu6VygAPgS90duYSnQ2OOkZQMVgTuzE6PuwpBcc6o
- x70K3j4dpsRkAs+Dm9WLJHotXLl7hhBpwL7Q0uMvlfCF7MpcD62EzHSVpJ4LZUVl1HiswVZK
- nEEa04TLTBPOMU04x/Q/Nx+RFqTmkwRtLC+E6PiUhQKnFZJ0sQv3xWvL0djPbByt67+Lqkf2
- OhCmkWayMnq2X5RKxiULR7QOBDShCVSmhCujVMoY7kgqr4/fo0+K4wUHmkaTGrUy9HLXbhWO
- 5RL5QzyfwOvHt160d1AaygYfY6hb19N5zYduzYrJ+blAMRL0zB4c0duZuoM95t8VuSyYaxbu
- 915dcb+pokE5YAxwb9jS9nPd0ggwRasTtqs3tu7aUmiPjSl8zf2+3f4icOqh4FTjra2bIi0z
- glzJVa+sHww1po+6c49sEfkHayfl9c/SLgkxfNtszL9X05upIYX93JL5hF7g/gJwGHZMlQMA
- AA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprEKsWRmVeSWpSXmKPExsVy+t/xu7qtNvxxBu3njS1e/5vOYrHw4V1m
- iytf37NZ/N/Wwm4x+/5jFotlD04zWpzpzrXYekva4tmtk8wWJ/o+sFpc3jWHzWLhx60sFnsP
- zWe0mHf4OpvFip9bGS2u/u1gdBDwmHZgNrvH7IaLLB57vy1g8dg56y67x6ZVnWwe804Geuzd
- kuVxv/s4k8fHp7dYPL6susbssWTaVTaP9/uAxOdNch5TDrWzBPBF6dkU5ZeWpCpk5BeX2CpF
- G1oY6RlaWugZmVjqGRqbx1oZmSrp29mkpOZklqUW6dsl6GWsu3WbueCFcMXONU+YGxh/8Hcx
- cnJICJhI/Powm6WLkYtDSGApo0TLholADgdQQkbi+PoyiBphiT/Xutggal4zSlxZdoUZJCEs
- 4C7Rt2gZI4gtIuAncf7nYTCbWeA/s0Tz1nqIhhWMEl9Pv2IBSbAJWElMbF8FVsQrYCex8tdn
- JhCbRUBF4s21e2wgtqhAhMThHbOgagQlTs58AnYQp4CxxI02c4j56hJ/5l1ihrDFJW49mc8E
- YctLbH87h3kCo9AsJN2zkLTMQtIyC0nLAkaWVYwiqaXFuem5xUZ6xYm5xaV56XrJ+bmbGIHp
- Yduxn1t2MHa9Cz7EKMDBqMTDy6HIHyfEmlhWXJl7iFGCg1lJhLc8kDdOiDclsbIqtSg/vqg0
- J7X4EKMp0G8TmaVEk/OBqSuvJN7Q1NDcwtLQ3Njc2MxCSZy3Q+BgjJBAemJJanZqakFqEUwf
- EwenVAOjLtO0LZfzOzr3fXka2XiWr/ZR/61Ur6xjDZs+RNv9S4qo3n5gsf0mIWmZTWtd9lQU
- FuQvsczKehojxf1o9cWKzQ9Zzz8+mbW4PfKA3EyZlIrnXK8iddKic89lKZy/dmA3Y2aBl92v
- y7HpovuVQ9LXxKSsvLpY+oyJDNdi85OP539w1LXXFDJSYinOSDTUYi4qTgQAauMwRSUDAAA=
-X-CMS-MailID: 20200103130717eucas1p1707a5a61c3ae7df3233649d7e9e0abe3
-X-Msg-Generator: CA
-X-RootMTR: 20191029190229epcas3p4e9b24bd8cde962681ef3dc4644ed2c2e
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20191029190229epcas3p4e9b24bd8cde962681ef3dc4644ed2c2e
-References: <20191029182320.GA17569@mwanda>
- <CGME20191029190229epcas3p4e9b24bd8cde962681ef3dc4644ed2c2e@epcas3p4.samsung.com>
- <87zhhjjryk.fsf@x220.int.ebiederm.org>
+X-ClientProxiedBy: YTXPR0101CA0062.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:1::39) To CY4PR1201MB0230.namprd12.prod.outlook.com
+ (2603:10b6:910:1e::7)
+MIME-Version: 1.0
+Received: from [172.29.18.152] (165.204.55.250) by
+ YTXPR0101CA0062.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:1::39) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2602.11 via Frontend
+ Transport; Fri, 3 Jan 2020 14:54:41 +0000
+X-Originating-IP: [165.204.55.250]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: aa16acd3-1654-44ad-5922-08d7905cdd6b
+X-MS-TrafficTypeDiagnostic: CY4PR1201MB0134:|CY4PR1201MB0134:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <CY4PR1201MB01345C0A1CA661A2F6C47B3F8C230@CY4PR1201MB0134.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:229;
+X-Forefront-PRVS: 0271483E06
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10009020)(4636009)(366004)(39860400002)(346002)(396003)(376002)(136003)(199004)(189003)(16526019)(186003)(316002)(31696002)(31686004)(8936002)(8676002)(5660300002)(4326008)(53546011)(956004)(26005)(478600001)(2616005)(36756003)(2906002)(52116002)(81166006)(81156014)(6486002)(66946007)(66556008)(66476007)(16576012)(70780200001);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR1201MB0134;
+ H:CY4PR1201MB0230.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ke8gXGmFjiqlQXeLt2B7wpxu5QXz/liSoyiqCeNCpJCrl+Xj8nftVMyvMEPEGaQrGCxdyEhLK/KUbQqi0Bs/fdGkXLMowNYiHrVYI3xbYvY9CEyyqPnnWGrIDNYwBpT1lDBiTXeSkvjPYFSTyjvRSUUF7+cglkx1EgzsZJ/DQmxiSgujBOQUhQyltew/DOKTDKv7N22PID0XAfylHBP03bAma9BqGClM0JYlhwEXmrJv5+wsx5Hg8Ee4CcHd03me7h56xZvHNiuq27+eB3cz+5dsTZcvBMyE4EdlDosHF7ZmLL/RVOqflMgc3oKlXLApEjmdfMapSgg+HWCM2pIWr1bHk+uWDndihBZkyCnfQ3SJj/NLgQCt/GqSWgWy547ft/0C0vVF49nUvuW95MLshrcWXVhCYUDFQO3jxnoqtJ47q+2HBtdjUDvnonv8ekvxRZSY0VC1CQ6U5eZF5QDc6rEokt4aGAjFCsKUdlXYI8TjmatasCe+B+GT3F1TiFUK1YWWSSCgqIIiVF+NevrxCZ1U+iZ+Pkj2Bl4msuMttMA=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: aa16acd3-1654-44ad-5922-08d7905cdd6b
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2020 14:54:42.7533 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eb8om3qZQLcHzB0An7wMyvMNDP+0uHIp+h/m2XpE/jRF5h/ka056ULDKu5uH3rRvVz3SaOuP1indyKibjW54Vw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB0134
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,86 +120,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, security@kernel.org,
- Kees Cook <keescook@chromium.org>, kernel-janitors@vger.kernel.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Julia Lawall <Julia.Lawall@lip6.fr>,
- Gerd Hoffmann <kraxel@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
- Peter Rosin <peda@axentia.se>, Dan Carpenter <dan.carpenter@oracle.com>,
- Andrea Righi <righi.andrea@gmail.com>
+Cc: jerry.zuo@amd.com, Nicholas.Kazlauskas@amd.com, stable@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 2020-01-03 12:50 a.m., Wayne Lin wrote:
+> [Why]
+> According to DP spec, it should shift left 4 digits for NO_STOP_BIT
+> in REMOTE_I2C_READ message. Not 5 digits.
+> 
+> In current code, NO_STOP_BIT is always set to zero which means I2C
+> master is always generating a I2C stop at the end of each I2C write
+> transaction while handling REMOTE_I2C_READ sideband message. This issue
+> might have the generated I2C signal not meeting the requirement. Take
+> random read in I2C for instance, I2C master should generate a repeat
+> start to start to read data after writing the read address. This issue
+> will cause the I2C master to generate a stop-start rather than a
+> re-start which is not expected in I2C random read.
+> 
 
-On 10/29/19 8:02 PM, Eric W. Biederman wrote:
-> Dan Carpenter <dan.carpenter@oracle.com> writes:
-> 
->> The "fix" struct has a 2 byte hole after ->ywrapstep and the
->> "fix = info->fix;" assignment doesn't necessarily clear it.  It depends
->> on the compiler.
->>
->> Fixes: 1f5e31d7e55a ("fbmem: don't call copy_from/to_user() with mutex held")
->> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
->> ---
->> I have 13 more similar places to patch...  I'm not totally sure I
->> understand all the issues involved.
-> 
-> What I have done in a similar situation with struct siginfo, is that
-> where the structure first appears I have initialized it with memset,
-> and then field by field.
-> 
-> Then when the structure is copied I copy the structure with memcpy.
-> 
-> That ensures all of the bytes in the original structure are initialized
-> and that all of the bytes are copied.
-> 
-> The goal is to avoid memory that has values of the previous users of
-> that memory region from leaking to userspace.  Which depending on who
-> the previous user of that memory region is could tell userspace
-> information about what the kernel is doing that it should not be allowed
-> to find out.
-> 
-> I tried to trace through where "info" and thus presumably "info->fix" is
-> coming from and only made it as far as  register_framebuffer.  Given
+Thanks for elaborating on the potential consequences of this bug.
 
-"info" (and thus "info->fix") comes from framebuffer_alloc() (which is
-called by fbdev device drivers prior to registering "info" with
-register_framebuffer()). framebuffer_alloc() does kzalloc() on "info".
+Harry
 
-Therefore shouldn't memcpy() (as suggested by Jeo Perches) be enough?
-
-Best regards,
---
-Bartlomiej Zolnierkiewicz
-Samsung R&D Institute Poland
-Samsung Electronics
-
-> that I suspect a local memset, and then a field by field copy right
-> before copy_to_user might be a sound solution.  But ick.  That is a lot
-> of fields to copy.
+> [How]
+> Correct the shifting value of NO_STOP_BIT for DP_REMOTE_I2C_READ case in
+> drm_dp_encode_sideband_req().
 > 
+> Changes since v1:(https://patchwork.kernel.org/patch/11312667/)
+> * Add more descriptions in commit and cc to stable
 > 
-> Eric
+> Fixes: ad7f8a1f9ce (drm/helper: add Displayport multi-stream helper (v0.6))
+> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+> Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
+> Cc: stable@vger.kernel.org
+> ---
+>  drivers/gpu/drm/drm_dp_mst_topology.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
+> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+> index 1cf5f8b8bbb8..9d24c98bece1 100644
+> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> @@ -393,7 +393,7 @@ drm_dp_encode_sideband_req(const struct drm_dp_sideband_msg_req_body *req,
+>  			memcpy(&buf[idx], req->u.i2c_read.transactions[i].bytes, req->u.i2c_read.transactions[i].num_bytes);
+>  			idx += req->u.i2c_read.transactions[i].num_bytes;
+>  
+> -			buf[idx] = (req->u.i2c_read.transactions[i].no_stop_bit & 0x1) << 5;
+> +			buf[idx] = (req->u.i2c_read.transactions[i].no_stop_bit & 0x1) << 4;
+>  			buf[idx] |= (req->u.i2c_read.transactions[i].i2c_transaction_delay & 0xf);
+>  			idx++;
+>  		}
 > 
-> 
->>  drivers/video/fbdev/core/fbmem.c | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
->> index 6f6fc785b545..b4ce6a28aed9 100644
->> --- a/drivers/video/fbdev/core/fbmem.c
->> +++ b/drivers/video/fbdev/core/fbmem.c
->> @@ -1109,6 +1109,7 @@ static long do_fb_ioctl(struct fb_info *info, unsigned int cmd,
->>  			ret = -EFAULT;
->>  		break;
->>  	case FBIOGET_FSCREENINFO:
->> +		memset(&fix, 0, sizeof(fix));
->>  		lock_fb_info(info);
->>  		fix = info->fix;
->>  		if (info->flags & FBINFO_HIDE_SMEM_START)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
