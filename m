@@ -1,71 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6D5D1301FF
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Jan 2020 12:24:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F0D3130209
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Jan 2020 12:24:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8045D6E40D;
-	Sat,  4 Jan 2020 11:23:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 361E86E417;
+	Sat,  4 Jan 2020 11:23:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A5C76E110
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2020 15:28:11 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 5B6409DFA;
- Fri,  3 Jan 2020 10:28:10 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Fri, 03 Jan 2020 10:28:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=TULb9dflR8f+i
- ar3Jra82jnUYUmBfpvUi/00CZDkdqw=; b=Xe35b4raQXdDk6erfRm9RcsNCi1iB
- dPvQG1r7ACZLQ4MTa7yv14VcPpYe5z5NJBs2Pj/qiTZUb0qFCT5ZDvB/9GHwt2KF
- TsOQ3N4TUXk35EkszFozOAJqksCZY4TU7elbViRWRj3Tv4EPnSBLWLX6ynz7quXJ
- Kw/4CTXfA8/xnv4ZcxdpN+g3XWZos5b1iZpXRIrD6nuinvRztZ6qDqtyhzgCzUrA
- sz6Lp5f2G9gtmwXpVCN1qiZJZC9JqA3q5BIMO3ST+1Vh58vVre0nQ2o12VCuZ86i
- xIeDmpvwIm/1oS1DH6PMrhfi3DSXgwVZQXZVzOGt/VhCjtEg1XkDOQySA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=TULb9dflR8f+iar3Jra82jnUYUmBfpvUi/00CZDkdqw=; b=CYG5raXD
- wzN9Wk4AkfnlUXjh7rPjEBGPIUq3KFltXI/iDglrf1zYR81jPjQdZJVMZRu2kKIh
- napyl7tZ6SYuqgu+rnYVVa2OLhzpVkcSRvh8TvSzgtO38hUSqdZEWqobtpcdO0dK
- ZhGwXhr3tcSrR6WGG0rso2dsPGz9WUQHMFu8rBqH1BWZkBfGfI/rBTlsCSPGFA3s
- d8BqIuRXyv00TyBXar4f4muD8omWrig7EKjgxhId5Tz/gT8j94py+4/ODct2nxkv
- 7+BCIElbN2um5uXO0WMoYtnFXiDRHc3UD1CQVx4Gt/jijYBOjvBmeOi1jW2epsVT
- G2p5d9RkGA9XwA==
-X-ME-Sender: <xms:il0PXg7pNP86bbok-xln6obbRGTTSYhetK_w9Qq4hIExWfYo-9UAFg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvdegfedgjeejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecukfhppeeltd
- drkeelrdeikedrjeeinecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggv
- rhhnohdrthgvtghhnecuvehluhhsthgvrhfuihiivgepvd
-X-ME-Proxy: <xmx:il0PXmm2YJ5BqfiCd0Ii3YWSpD_NDeTM_vCu4gv0uxSm850Fd7e0EA>
- <xmx:il0PXnXjTMULhxjosG8XTT2iLX1ngjyMBUUQJ5BF4eV3rC-BNqFPXw>
- <xmx:il0PXo4jp24etIEr1-gZwpZLPLnieZVnUfymBWOf3z09tpz4Q53Azg>
- <xmx:il0PXt_thndju0xsSyOFl3jK_erV92rgi1zAW7xtrrc2oLrMIrCWlg>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id F368530607CE;
- Fri,  3 Jan 2020 10:28:09 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Sean Paul <seanpaul@chromium.org>, Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH v3 4/4] ARM: dts: sunxi: Add missing LVDS resets and clocks
-Date: Fri,  3 Jan 2020 16:28:01 +0100
-Message-Id: <20200103152801.47254-4-maxime@cerno.tech>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200103152801.47254-1-maxime@cerno.tech>
-References: <20200103152801.47254-1-maxime@cerno.tech>
-MIME-Version: 1.0
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEAA36E32D;
+ Fri,  3 Jan 2020 19:19:00 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id z3so43417872wru.3;
+ Fri, 03 Jan 2020 11:19:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=5dSmFZluAq2raBNcYBXyZnuaNy9LKDAB9e+tRyUJHwo=;
+ b=gqa1jDSZE/L2osiIIKIHEf+8Onp0s7+Cl2aUOZUBp+CtkWBbOIKaeR6eus9Vzoj1Vv
+ 6i+XsbG8uR26Xo7qKmLKHQYud4nDhF6fnAXleOx9b44hvqA93sQvv1ARppStS1+x5utU
+ Ric5b3G9qOEMjLILKGf3JERRqYvkuiIjbvGsEENkNX01RxeFU5i8gvuX50GRDK3QzFKX
+ T5Eub4OTbgzNRIfrPlHCa6tGC86MhsizMIpq1Xeq6WapTX8W6hYhjXr23OzZ6o0d+K/k
+ Sj3ncLy9Xy07e1Te1YGN+hj7oCcmZhKl+tiSNeU8wZ8TJRKoTHkwrPAbbX4+drs1YCfi
+ mBmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=5dSmFZluAq2raBNcYBXyZnuaNy9LKDAB9e+tRyUJHwo=;
+ b=AHaxn12258JncNUkL1ZrZdiucE5gupr0YQPLHn9fCgyWEuaqGd1a7rc+If6T1cxH5F
+ oVGb1i73/FzolxzZlkOaxemcPUtBNgne9mReZEU4KeNyAHTz1TeT0oT0wSuc4Me8+k7R
+ fn9buaqDOg8GPw5odkTjhpxqLrs5NrcTlbIMvyfBfVuRjGaYY7UU/TJI5VSZRTgIXgqF
+ wia6Risz4J9SiE0OUuvmJvntz6uFgnPZPQi794axXkLIyga4SCEimzSzN4zA6DC8/Wfx
+ a9ABwQh/4RM9qsRUpSw7ITmIdAFAREZ/QylUjvdY3i9R7NmcxN7aWCnnWFCFn+G3WK5q
+ TeDA==
+X-Gm-Message-State: APjAAAXMRSgeY4MOdGwAoqRNHqjlRIQxzhmoXoOgK6BMBBjHlBheA+Br
+ e19GDFPIwrmZYMv9d7BEcyY=
+X-Google-Smtp-Source: APXvYqyAZ9YT29a+Bji26Yxf3C6hFa6tQzM7Yxyt9Q6hkpdzZ3R0E5g3lmpymrKxzVHacfySLQm2zQ==
+X-Received: by 2002:adf:a109:: with SMTP id o9mr95675914wro.189.1578079139609; 
+ Fri, 03 Jan 2020 11:18:59 -0800 (PST)
+Received: from localhost.localdomain ([197.254.95.38])
+ by smtp.googlemail.com with ESMTPSA id w8sm13270262wmm.0.2020.01.03.11.18.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Jan 2020 11:18:58 -0800 (PST)
+From: Wambui Karuga <wambui.karugax@gmail.com>
+To: alexander.deucher@amd.com, christian.koenig@amd.com, David1.Zhou@amd.com,
+ airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH] drm/amd: use list_for_each_entry for list iteration.
+Date: Fri,  3 Jan 2020 22:18:52 +0300
+Message-Id: <20200103191852.15357-1-wambui.karugax@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-Mailman-Approved-At: Sat, 04 Jan 2020 11:23:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,120 +63,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Chen-Yu Tsai <wens@csie.org>, linux-arm-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some old SoCs, while supporting LVDS, don't list the LVDS clocks and reset
-lines. Let's add them when relevant.
+list_for_each() can be replaced by the more concise
+list_for_each_entry() here for iteration over the lists.
+This change was reported by coccinelle.
 
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
 ---
- arch/arm/boot/dts/sun6i-a31.dtsi     | 23 +++++++++++++++--------
- arch/arm/boot/dts/sun8i-a23-a33.dtsi | 12 ++++++++----
- arch/arm/boot/dts/sun9i-a80.dtsi     |  8 ++++++--
- 3 files changed, 29 insertions(+), 14 deletions(-)
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c | 19 ++++---------------
+ 1 file changed, 4 insertions(+), 15 deletions(-)
 
-diff --git a/arch/arm/boot/dts/sun6i-a31.dtsi b/arch/arm/boot/dts/sun6i-a31.dtsi
-index 4d622ec48b24..7762fbd9a133 100644
---- a/arch/arm/boot/dts/sun6i-a31.dtsi
-+++ b/arch/arm/boot/dts/sun6i-a31.dtsi
-@@ -286,14 +286,18 @@ tcon0: lcd-controller@1c0c000 {
- 			reg = <0x01c0c000 0x1000>;
- 			interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
- 			dmas = <&dma 11>;
--			resets = <&ccu RST_AHB1_LCD0>;
--			reset-names = "lcd";
-+			resets = <&ccu RST_AHB1_LCD0>,
-+				 <&ccu RST_AHB1_LVDS>;
-+			reset-names = "lcd",
-+				      "lvds";
- 			clocks = <&ccu CLK_AHB1_LCD0>,
- 				 <&ccu CLK_LCD0_CH0>,
--				 <&ccu CLK_LCD0_CH1>;
-+				 <&ccu CLK_LCD0_CH1>,
-+				 <&ccu 15>;
- 			clock-names = "ahb",
- 				      "tcon-ch0",
--				      "tcon-ch1";
-+				      "tcon-ch1",
-+				      "lvds-alt";
- 			clock-output-names = "tcon0-pixel-clock";
- 			#clock-cells = <0>;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
+index 64445c4cc4c2..cbcf504f73a5 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
+@@ -111,17 +111,12 @@ static void init_handler_common_data(struct amdgpu_dm_irq_handler_data *hcd,
+  */
+ static void dm_irq_work_func(struct work_struct *work)
+ {
+-	struct list_head *entry;
+ 	struct irq_list_head *irq_list_head =
+ 		container_of(work, struct irq_list_head, work);
+ 	struct list_head *handler_list = &irq_list_head->head;
+ 	struct amdgpu_dm_irq_handler_data *handler_data;
  
-@@ -336,14 +340,17 @@ tcon1: lcd-controller@1c0d000 {
- 			reg = <0x01c0d000 0x1000>;
- 			interrupts = <GIC_SPI 87 IRQ_TYPE_LEVEL_HIGH>;
- 			dmas = <&dma 12>;
--			resets = <&ccu RST_AHB1_LCD1>;
--			reset-names = "lcd";
-+			resets = <&ccu RST_AHB1_LCD1>,
-+				 <&ccu RST_AHB1_LVDS>;
-+			reset-names = "lcd", "lvds";
- 			clocks = <&ccu CLK_AHB1_LCD1>,
- 				 <&ccu CLK_LCD1_CH0>,
--				 <&ccu CLK_LCD1_CH1>;
-+				 <&ccu CLK_LCD1_CH1>,
-+				 <&ccu 15>;
- 			clock-names = "ahb",
- 				      "tcon-ch0",
--				      "tcon-ch1";
-+				      "tcon-ch1",
-+				      "lvds-alt";
- 			clock-output-names = "tcon1-pixel-clock";
- 			#clock-cells = <0>;
+-	list_for_each(entry, handler_list) {
+-		handler_data = list_entry(entry,
+-					  struct amdgpu_dm_irq_handler_data,
+-					  list);
+-
++	list_for_each_entry(handler_data, handler_list, list) {
+ 		DRM_DEBUG_KMS("DM_IRQ: work_func: for dal_src=%d\n",
+ 				handler_data->irq_source);
  
-diff --git a/arch/arm/boot/dts/sun8i-a23-a33.dtsi b/arch/arm/boot/dts/sun8i-a23-a33.dtsi
-index 70ec3493061b..48487f6d4ab9 100644
---- a/arch/arm/boot/dts/sun8i-a23-a33.dtsi
-+++ b/arch/arm/boot/dts/sun8i-a23-a33.dtsi
-@@ -184,13 +184,17 @@ tcon0: lcd-controller@1c0c000 {
- 			interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
- 			dmas = <&dma 12>;
- 			clocks = <&ccu CLK_BUS_LCD>,
--				 <&ccu CLK_LCD_CH0>;
-+				 <&ccu CLK_LCD_CH0>,
-+				 <&ccu 13>;
- 			clock-names = "ahb",
--				      "tcon-ch0";
-+				      "tcon-ch0",
-+				      "lvds-alt";
- 			clock-output-names = "tcon-pixel-clock";
- 			#clock-cells = <0>;
--			resets = <&ccu RST_BUS_LCD>;
--			reset-names = "lcd";
-+			resets = <&ccu RST_BUS_LCD>,
-+				 <&ccu RST_BUS_LVDS>;
-+			reset-names = "lcd",
-+				      "lvds";
- 			status = "disabled";
+@@ -528,19 +523,13 @@ static void amdgpu_dm_irq_immediate_work(struct amdgpu_device *adev,
+ 					 enum dc_irq_source irq_source)
+ {
+ 	struct amdgpu_dm_irq_handler_data *handler_data;
+-	struct list_head *entry;
+ 	unsigned long irq_table_flags;
  
- 			ports {
-diff --git a/arch/arm/boot/dts/sun9i-a80.dtsi b/arch/arm/boot/dts/sun9i-a80.dtsi
-index 3b533e85da43..ce4fa6706d06 100644
---- a/arch/arm/boot/dts/sun9i-a80.dtsi
-+++ b/arch/arm/boot/dts/sun9i-a80.dtsi
-@@ -878,8 +878,12 @@ tcon0: lcd-controller@3c00000 {
- 			interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&ccu CLK_BUS_LCD0>, <&ccu CLK_LCD0>;
- 			clock-names = "ahb", "tcon-ch0";
--			resets = <&ccu RST_BUS_LCD0>, <&ccu RST_BUS_EDP>;
--			reset-names = "lcd", "edp";
-+			resets = <&ccu RST_BUS_LCD0>,
-+				 <&ccu RST_BUS_EDP>,
-+				 <&ccu RST_BUS_LVDS>;
-+			reset-names = "lcd",
-+				      "edp",
-+				      "lvds";
- 			clock-output-names = "tcon0-pixel-clock";
- 			#clock-cells = <0>;
+ 	DM_IRQ_TABLE_LOCK(adev, irq_table_flags);
  
+-	list_for_each(
+-		entry,
+-		&adev->dm.irq_handler_list_high_tab[irq_source]) {
+-
+-		handler_data = list_entry(entry,
+-					  struct amdgpu_dm_irq_handler_data,
+-					  list);
+-
++	list_for_each_entry(handler_data,
++			    &adev->dm.irq_handler_list_high_tab[irq_source],
++			    list) {
+ 		/* Call a subcomponent which registered for immediate
+ 		 * interrupt notification */
+ 		handler_data->handler(handler_data->handler_arg);
 -- 
-2.24.1
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
