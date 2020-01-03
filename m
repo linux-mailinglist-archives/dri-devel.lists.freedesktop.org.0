@@ -2,44 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C663B12FA0B
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2020 16:55:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 498F712FB29
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2020 18:11:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B7ED89956;
-	Fri,  3 Jan 2020 15:55:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F1366E1F9;
+	Fri,  3 Jan 2020 17:11:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C1E28997A
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2020 15:55:30 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 204849] amdgpu (RX560X) traceboot in dmesg boot output, system
- instability
-Date: Fri, 03 Jan 2020 15:55:29 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: robert@servermasters.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-204849-2300-n2qV0sIEfF@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-204849-2300@https.bugzilla.kernel.org/>
-References: <bug-204849-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 436FB6E1F9
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2020 17:11:50 +0000 (UTC)
+Received: from localhost.localdomain (unknown [194.230.155.149])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 5341120866;
+ Fri,  3 Jan 2020 17:11:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1578071510;
+ bh=TkCyTXSej2jF3YkVJR+FosrszYQgZzEVh8tdf+gPDXU=;
+ h=From:To:Cc:Subject:Date:From;
+ b=X6SMKWvhCdtdVjBpnZTwyc5Nb4X9Qdyxe/jHoZwFxVCKi1ZxWK3O8dC/+ZitNntjn
+ BwSlobbnTV39bTKIDJMR7u5H7rFObvsJg87q2Yq7nSI++V3/qf5/KErNkeSdINc4Ih
+ Mub3xv22cxOsp50xa2SZHpdtUQT/vOIA8NMOqcNo=
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 00/19] Rename Samsung and Exynos to lowercase
+Date: Fri,  3 Jan 2020 18:11:12 +0100
+Message-Id: <20200103171131.9900-1-krzk@kernel.org>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,81 +42,243 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Mark Rutland <mark.rutland@arm.com>, linux-fbdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-pci@vger.kernel.org, Kamil Debski <kamil@wypas.org>,
+ dri-devel@lists.freedesktop.org, netdev@vger.kernel.org,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, Lee Jones <lee.jones@linaro.org>,
+ Vipul Pandya <vipul.pandya@samsung.com>,
+ Amit Kucheria <amit.kucheria@verdurent.com>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, Jonathan Corbet <corbet@lwn.net>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Russell King <linux@armlinux.org.uk>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Kishon Vijay Abraham I <kishon@ti.com>, Chanwoo Choi <cw00.choi@samsung.com>,
+ Chen-Yu Tsai <wens@csie.org>, MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Alan Stern <stern@rowland.harvard.edu>, linux-serial@vger.kernel.org,
+ Jiri Slaby <jslaby@suse.com>, Zhang Rui <rui.zhang@intel.com>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ Byungho An <bh74.an@samsung.com>, Arnd Bergmann <arnd@arndb.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Girish K S <ks.giri@samsung.com>, linux-crypto@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, linux-samsung-soc@vger.kernel.org,
+ Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, Felipe Balbi <balbi@kernel.org>,
+ Sangbeom Kim <sbkim73@samsung.com>, Jingoo Han <jingoohan1@gmail.com>,
+ linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Mark Brown <broonie@kernel.org>,
+ Kukjin Kim <kgene@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andrew Murray <andrew.murray@arm.com>, "David S. Miller" <davem@davemloft.net>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=204849
+Hi all,
 
---- Comment #2 from Robert Hoffmann (robert@servermasters.com) ---
-(In reply to Robert Hoffmann from comment #1)
-> Hi guys,
-> 
-> I am getting a very similar issue with a Ryzen 3400G  (AMDGPU).
-> 
-> OS Fedora 31: Linux asrock 5.3.16-300.fc31.x86_64 #1 SMP Fri Dec 13 17:59:04
-> UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
-> 
-> The problem manifests itself every time I enter into an Xorg (LXDE) session,
-> I guess one time per CPU core. So I am getting 10-12 errors every time I log
-> in, as popups.  Xfce also will not work at all, only LXDE (Openbox) seems to
-> work fine.
-> 
-> Operationally all seems relatively OK though, except if I turn off one of my
-> 2 monitors, and turn them back on, I will get the errors again.
-> 
-> 
-> I dont have a kernel debugger or profiler installed.
-> 
-> -------- here is a snippet of a backtrace: -------------
-> WARNING: CPU: 1 PID: 917 at
-> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link.c:1758
-> write_i2c_retimer_setting.cold+0xae/0xb5 [amdgpu]
-> Modules linked in: serpent_avx2 serpent_avx_x86_64 serpent_sse2_x86_64
-> serpent_generic dm_crypt xt_CHECKSUM xt_MASQUERADE nf_nat_tftp
-> nf_conntrack_tftp xt_CT tun bridge stp llc ip6t_REJECT nf_reject_ipv6
-> ip6t_rpfilter ipt_REJECT nf_reject_ipv4 xt_conntrack ebtable_nat
-> ebtable_broute ip6table_nat ip6table_mangle ip6table_raw ip6table_security
-> iptable_nat nf_nat iptable_mangle iptable_raw iptable_security nf_conntrack
-> nf_defrag_ipv6 nf_defrag_ipv4 libcrc32c ip_set nfnetlink ebtable_filter
-> ebtables ip6table_filter ip6_tables iptable_filter sunrpc
-> snd_hda_codec_realtek snd_hda_codec_generic edac_mce_amd ledtrig_audio
-> snd_hda_codec_hdmi kvm_amd ccp snd_hda_intel snd_hda_codec kvm snd_hda_core
-> snd_hwdep irqbypass snd_seq crct10dif_pclmul snd_seq_device crc32_pclmul
-> snd_pcm joydev wmi_bmof ghash_clmulni_intel snd_timer nvme sp5100_tco
-> nvme_core snd k10temp i2c_piix4 soundcore acpi_cpufreq ip_tables uas
-> usb_storage amdgpu amd_iommu_v2 gpu_sched i2c_algo_bit ttm drm_kms_helper drm
->  crc32c_intel r8169 wmi video pinctrl_amd fuse
-> CPU: 1 PID: 917 Comm: Xorg Tainted: G        W        
-> 5.3.16-300.fc31.x86_64 #1
-> Hardware name: To Be Filled By O.E.M. To Be Filled By O.E.M./A300M-STX, BIOS
-> P3.50 05/15/2019
-> RIP: 0010:write_i2c_retimer_setting.cold+0xae/0xb5 [amdgpu]
-> Code: 6c f4 a0 c1 0f 0b e9 0e 0d fd ff 48 c7 c7 80 ee 7f c0 e8 59 f4 a0 c1
-> 0f 0b e9 27 0b fd ff 48 c7 c7 80 ee 7f c0 e8 46 f4 a0 c1 <0f> 0b e9 fd 09 fd
-> ff 48 c7 c7 80 ee 7f c0 e8 33 f4 a0 c1 0f 0b e9
-> RSP: 0018:ffffbe23c190f6a0 EFLAGS: 00010246
-> RAX: 0000000000000024 RBX: 0000000000000001 RCX: 0000000000000000
-> RDX: 0000000000000000 RSI: ffff99fc50657908 RDI: ffff99fc50657908
-> RBP: ffffbe23c190f71c R08: ffff99fc50657908 R09: 000000000000072a
-> R10: 0000000000024924 R11: 0000000000000003 R12: 000000000000005d
-> R13: 0000000000000000 R14: ffff99fc18140648 R15: 0000000000000000
-> FS:  00007fd0f4484f00(0000) GS:ffff99fc50640000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 000055800df036e8 CR3: 00000003ef71a000 CR4: 00000000003406e0
-> Call Trace:
-> --------------------------
+The "Samsung" and "Exynos" names are written inconsistently in Linux
+kernel sources. Sometimes all uppercase (as SAMSUNG), sometimes
+lowercase with capital letter (as Samsung).
 
-Quick update:  there is also a bug in Redhat bugzilla, which is directly
-repated:
-Bug link: https://bugzilla.redhat.com/show_bug.cgi?id=1786489
+This patchset tries to unify this towards "Samsung" and "Exynos"
+versions because:
 
-BTW, this happens both on the Display Port and the HDMI port.
+1. "SAMSUNG" and "EXYNOS" are not abbreviations but regular trademarked
+    names.  Therefore they should be written with lowercase letters starting
+    with capital letter.
+
+2. The lowercase "Exynos" name is promoted by its manufacturer Samsung
+   Electronics Co., Ltd., in advertisement materials and on website [1].
+
+3. Although advertisement materials usually use uppercase "SAMSUNG", the
+   lowercase version is used in all legal aspects (e.g. on Wikipedia [2]
+   and in privacy/legal statements on Samsung site [3]).
+
+Patches are independent of each other so I expect they will go through
+each maintainer's tree. Optionally let me know - I'll take it then
+through samsung-soc tree.
+
+[1] https://www.samsung.com/semiconductor/minisite/exynos/
+[2] https://en.wikipedia.org/wiki/Samsung
+[3] https://www.samsung.com/semiconductor/privacy-global/
+
+Best regards,
+Krzysztof
+
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: Kukjin Kim <kgene@kernel.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Kamil Debski <kamil@wypas.org>
+Cc: Sylwester Nawrocki <s.nawrocki@samsung.com>
+Cc: Kishon Vijay Abraham I <kishon@ti.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Russell King <linux@armlinux.org.uk>
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: MyungJoo Ham <myungjoo.ham@samsung.com>
+Cc: Kyungmin Park <kyungmin.park@samsung.com>
+Cc: Chanwoo Choi <cw00.choi@samsung.com>
+Cc: Inki Dae <inki.dae@samsung.com>
+Cc: Joonyoung Shim <jy0922.shim@samsung.com>
+Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Lee Jones <lee.jones@linaro.org>
+Cc: Byungho An <bh74.an@samsung.com>
+Cc: Girish K S <ks.giri@samsung.com>
+Cc: Vipul Pandya <vipul.pandya@samsung.com>
+Cc: Jingoo Han <jingoohan1@gmail.com>
+Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc: Andrew Murray <andrew.murray@arm.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: Sangbeom Kim <sbkim73@samsung.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Zhang Rui <rui.zhang@intel.com>
+Cc: Amit Kucheria <amit.kucheria@verdurent.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jiri Slaby <jslaby@suse.com>
+Cc: Felipe Balbi <balbi@kernel.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-samsung-soc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-pm@vger.kernel.org
+Cc: linux-crypto@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: netdev@vger.kernel.org
+Cc: linux-pci@vger.kernel.org
+Cc: linux-serial@vger.kernel.org
+Cc: linux-usb@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org
+
+Krzysztof Kozlowski (19):
+  arm64: dts: exynos: Rename Samsung and Exynos to lowercase
+  ARM: dts: samsung: Rename Samsung and Exynos to lowercase
+  ARM: samsung: Rename Samsung and Exynos to lowercase
+  soc: samsung: Rename Samsung and Exynos to lowercase
+  thermal: exynos: Rename Samsung and Exynos to lowercase
+  media: samsung: Rename Samsung and Exynos to lowercase
+  usb: exynos: Rename Samsung and Exynos to lowercase
+  memory: samsung: Rename Exynos to lowercase
+  phy: exynos: Rename Exynos to lowercase
+  clocksource/drivers/exynos_mct: Rename Exynos to lowercase
+  crypto: exynos-rng - Rename Exynos to lowercase
+  devfreq: exynos: Rename Exynos to lowercase
+  drm/exynos: Rename Exynos to lowercase
+  video: exynos: Rename Exynos to lowercase
+  pci: exynos: Rename Exynos to lowercase
+  serial: samsung: Rename Exynos to lowercase
+  mfd: samsung: Rename Samsung to lowercase
+  net: ethernet: sxgbe: Rename Samsung to lowercase
+  regulator: samsung: Rename Samsung to lowercase
+
+ .../bindings/media/exynos-jpeg-codec.txt      |  2 +-
+ .../devicetree/bindings/media/exynos5-gsc.txt |  2 +-
+ .../bindings/media/samsung-fimc.txt           |  2 +-
+ .../bindings/media/samsung-mipi-csis.txt      |  2 +-
+ .../devicetree/bindings/phy/samsung-phy.txt   |  6 ++--
+ .../driver-api/thermal/exynos_thermal.rst     |  6 ++--
+ Documentation/media/v4l-drivers/fimc.rst      |  6 ++--
+ Documentation/media/v4l-drivers/tuners.rst    |  2 +-
+ arch/arm/boot/dts/exynos5250-arndale.dts      |  2 +-
+ arch/arm/boot/dts/exynos5250-smdk5250.dts     |  4 +--
+ arch/arm/boot/dts/exynos5250.dtsi             |  8 ++---
+ arch/arm/boot/dts/exynos5260-xyref5260.dts    |  4 +--
+ arch/arm/boot/dts/exynos5260.dtsi             |  2 +-
+ arch/arm/boot/dts/exynos5410-smdk5410.dts     |  4 +--
+ arch/arm/boot/dts/exynos5410.dtsi             |  6 ++--
+ arch/arm/boot/dts/exynos5420-arndale-octa.dts |  2 +-
+ arch/arm/boot/dts/exynos5420-cpus.dtsi        |  2 +-
+ arch/arm/boot/dts/exynos5420-smdk5420.dts     |  4 +--
+ arch/arm/boot/dts/exynos5420.dtsi             |  6 ++--
+ arch/arm/boot/dts/exynos5422-cpus.dtsi        |  2 +-
+ arch/arm/boot/dts/exynos5800.dtsi             |  6 ++--
+ arch/arm/boot/dts/s3c2416-smdk2416.dts        |  2 +-
+ arch/arm/boot/dts/s3c6410-smdk6410.dts        |  4 +--
+ arch/arm/mach-exynos/Kconfig                  | 36 +++++++++----------
+ arch/arm/mach-exynos/common.h                 |  2 +-
+ arch/arm/mach-exynos/exynos.c                 |  4 +--
+ arch/arm/mach-exynos/include/mach/map.h       |  2 +-
+ arch/arm/mach-exynos/pm.c                     |  2 +-
+ arch/arm/mach-exynos/smc.h                    |  2 +-
+ arch/arm/mach-exynos/suspend.c                |  2 +-
+ arch/arm/mach-s3c24xx/Kconfig                 | 16 ++++-----
+ arch/arm/plat-samsung/adc.c                   |  2 +-
+ arch/arm/plat-samsung/devs.c                  |  2 +-
+ arch/arm/plat-samsung/gpio-samsung.c          |  2 +-
+ .../plat-samsung/include/plat/samsung-time.h  |  2 +-
+ .../dts/exynos/exynos5433-tm2-common.dtsi     |  2 +-
+ arch/arm64/boot/dts/exynos/exynos5433-tm2.dts |  2 +-
+ .../arm64/boot/dts/exynos/exynos5433-tm2e.dts |  2 +-
+ .../boot/dts/exynos/exynos7-espresso.dts      |  4 +--
+ arch/arm64/boot/dts/exynos/exynos7.dtsi       |  2 +-
+ drivers/clocksource/exynos_mct.c              |  2 +-
+ drivers/crypto/Kconfig                        |  2 +-
+ drivers/devfreq/Kconfig                       |  2 +-
+ drivers/devfreq/event/Kconfig                 |  4 +--
+ drivers/devfreq/event/exynos-nocp.c           |  2 +-
+ drivers/devfreq/event/exynos-nocp.h           |  2 +-
+ drivers/devfreq/event/exynos-ppmu.c           |  2 +-
+ drivers/devfreq/event/exynos-ppmu.h           |  2 +-
+ drivers/gpu/drm/exynos/Kconfig                |  6 ++--
+ drivers/media/platform/exynos4-is/media-dev.c |  2 +-
+ drivers/media/platform/s3c-camif/camif-core.c |  2 +-
+ drivers/memory/samsung/Kconfig                |  2 +-
+ drivers/memory/samsung/exynos-srom.c          |  2 +-
+ drivers/mfd/Kconfig                           |  2 +-
+ .../net/ethernet/samsung/sxgbe/sxgbe_main.c   |  2 +-
+ drivers/pci/controller/dwc/pci-exynos.c       |  2 +-
+ drivers/phy/allwinner/phy-sun4i-usb.c         |  2 +-
+ drivers/phy/samsung/Kconfig                   |  8 ++---
+ drivers/phy/samsung/phy-exynos-dp-video.c     |  4 +--
+ drivers/phy/samsung/phy-exynos-mipi-video.c   |  4 +--
+ drivers/phy/samsung/phy-exynos-pcie.c         |  2 +-
+ drivers/phy/samsung/phy-exynos5-usbdrd.c      |  6 ++--
+ drivers/phy/samsung/phy-samsung-usb2.c        |  2 +-
+ drivers/regulator/s2mpa01.c                   |  2 +-
+ drivers/regulator/s2mps11.c                   |  2 +-
+ drivers/regulator/s5m8767.c                   |  2 +-
+ drivers/soc/samsung/Kconfig                   |  2 +-
+ drivers/soc/samsung/exynos-chipid.c           |  2 +-
+ drivers/soc/samsung/exynos-pmu.c              |  2 +-
+ drivers/soc/samsung/exynos-pmu.h              |  2 +-
+ drivers/soc/samsung/exynos3250-pmu.c          |  2 +-
+ drivers/soc/samsung/exynos4-pmu.c             |  2 +-
+ drivers/soc/samsung/exynos5250-pmu.c          |  2 +-
+ drivers/soc/samsung/exynos5420-pmu.c          |  2 +-
+ drivers/thermal/samsung/Kconfig               |  2 +-
+ drivers/thermal/samsung/exynos_tmu.c          |  4 +--
+ drivers/tty/serial/samsung_tty.c              |  2 +-
+ drivers/usb/dwc3/dwc3-exynos.c                |  4 +--
+ drivers/usb/host/Kconfig                      |  4 +--
+ drivers/usb/host/ehci-exynos.c                |  4 +--
+ drivers/usb/host/ohci-exynos.c                |  2 +-
+ include/dt-bindings/thermal/thermal_exynos.h  |  2 +-
+ include/linux/soc/samsung/exynos-pmu.h        |  2 +-
+ include/linux/soc/samsung/exynos-regs-pmu.h   | 16 ++++-----
+ include/linux/sxgbe_platform.h                |  2 +-
+ include/uapi/drm/exynos_drm.h                 |  2 +-
+ include/video/samsung_fimd.h                  |  2 +-
+ 87 files changed, 154 insertions(+), 154 deletions(-)
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
