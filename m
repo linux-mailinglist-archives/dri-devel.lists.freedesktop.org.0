@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27A78130202
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Jan 2020 12:24:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F8C3130222
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Jan 2020 12:24:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9CA46E408;
-	Sat,  4 Jan 2020 11:23:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 210B56E424;
+	Sat,  4 Jan 2020 11:23:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id A6A616E174
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6EB7D6E171
  for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2020 03:12:46 +0000 (UTC)
-X-UUID: b4a1266f9c484b61902f67d249bd6165-20200103
+X-UUID: b790df706b334490bb52dd9a5451da94-20200103
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=eP/N/Xqnko8q3f2AyJvUXJXqc2tPHfSjF4NcXhV48RI=; 
- b=qSNn8hPn6LoapphOXcGYFTaMn8Bu6qhmzWOa6RB2IPhGfaBCVti3CEOyv8GpUIbxVmOEK0B571mu3+pAN1Fu45tPPPxiEy9HPJJl7CA+Gj+guKK0Wz1cH1xisNP1SVr4A+OS0FdBY/vqiKmabHIwXJYXMcsKFT8eJG3HjFdZObY=;
-X-UUID: b4a1266f9c484b61902f67d249bd6165-20200103
+ bh=m0ZbtrUVihopW92BuCVuhPEtw6E6cTsim/5HqeWiXzA=; 
+ b=fV2iC2T/VIkQl4zqCq8ApOSdt3MPOLgu60yne01pl5KCzOOIjeR9bsNseTX+w/tXsC5IicILhFR3Q0iLUK0hbjOwKVstZffWZPMMWNZAAKPQY5bB9bgz6HfmdJzlRzXd4Usz5erhdoNxuXJDq5IsL8sy9shGHgqpyJAwXDsaqt0=;
+X-UUID: b790df706b334490bb52dd9a5451da94-20200103
 Received: from mtkcas09.mediatek.inc [(172.21.101.178)] by
- mailgw02.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
+ mailgw01.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 329950506; Fri, 03 Jan 2020 11:12:43 +0800
+ with ESMTP id 349771517; Fri, 03 Jan 2020 11:12:44 +0800
 Received: from mtkcas09.mediatek.inc (172.21.101.178) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Fri, 3 Jan 2020 11:12:12 +0800
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Fri, 3 Jan 2020 11:12:17 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas09.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Fri, 3 Jan 2020 11:13:09 +0800
+ Transport; Fri, 3 Jan 2020 11:13:10 +0800
 From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, Rob
  Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [RESEND PATCH v6 07/17] drm/mediatek: add private data for rdma1 to
- dsi0 connection
-Date: Fri, 3 Jan 2020 11:12:18 +0800
-Message-ID: <1578021148-32413-8-git-send-email-yongqiang.niu@mediatek.com>
+Subject: [RESEND PATCH v6 08/17] drm/mediatek: move rdma sout from
+ mtk_ddp_mout_en into mtk_ddp_sout_sel
+Date: Fri, 3 Jan 2020 11:12:19 +0800
+Message-ID: <1578021148-32413-9-git-send-email-yongqiang.niu@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1578021148-32413-1-git-send-email-yongqiang.niu@mediatek.com>
 References: <1578021148-32413-1-git-send-email-yongqiang.niu@mediatek.com>
@@ -63,56 +63,124 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-the register offset and value will be different in future SOC,
-add private data for rdma1->dsi0 use case.
+This patch move rdma sout from mtk_ddp_mout_en into mtk_ddp_sout_sel
+rdma only has single output, but no multi output,
+all these rdma->dsi/dpi usecase should move to mtk_ddp_sout_sel
 
 Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_ddp.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_drm_ddp.c | 90 +++++++++++++++++-----------------
+ 1 file changed, 45 insertions(+), 45 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
-index 0015b35..296b157 100644
+index 296b157..205c62a 100644
 --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
 +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
-@@ -174,6 +174,8 @@ struct mtk_mmsys_reg_data {
- 	u32 rdma1_sout_dpi0;
- 	u32 dpi0_sel_in;
- 	u32 dpi0_sel_in_rdma1;
-+	u32 dsi0_sel_in;
-+	u32 dsi0_sel_in_rdma1;
- };
- 
- static const unsigned int mt2701_mutex_mod[DDP_COMPONENT_ID_MAX] = {
-@@ -256,6 +258,8 @@ struct mtk_mmsys_reg_data {
- 
- const struct mtk_mmsys_reg_data mt2701_mmsys_reg_data = {
- 	.ovl0_mout_en = DISP_REG_CONFIG_DISP_OVL_MOUT_EN,
-+	.dsi0_sel_in = DISP_REG_CONFIG_DSI_SEL,
-+	.dsi0_sel_in_rdma1 = DSI_SEL_IN_RDMA,
- };
- 
- const struct mtk_mmsys_reg_data mt8173_mmsys_reg_data = {
-@@ -264,6 +268,8 @@ struct mtk_mmsys_reg_data {
- 	.rdma1_sout_dpi0 = RDMA1_SOUT_DPI0,
- 	.dpi0_sel_in = DISP_REG_CONFIG_DPI_SEL_IN,
- 	.dpi0_sel_in_rdma1 = DPI0_SEL_IN_RDMA1,
-+	.dsi0_sel_in = DISP_REG_CONFIG_DSIE_SEL_IN,
-+	.dsi0_sel_in_rdma1 = DSI0_SEL_IN_RDMA1,
- };
- 
- static unsigned int mtk_ddp_mout_en(const struct mtk_mmsys_reg_data *data,
-@@ -363,8 +369,8 @@ static unsigned int mtk_ddp_sel_in(const struct mtk_mmsys_reg_data *data,
- 		*addr = DISP_REG_CONFIG_DPI_SEL_IN;
- 		value = DPI1_SEL_IN_RDMA1;
- 	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI0) {
--		*addr = DISP_REG_CONFIG_DSIE_SEL_IN;
--		value = DSI0_SEL_IN_RDMA1;
-+		*addr = data->dsi0_sel_in;
-+		value = data->dsi0_sel_in_rdma1;
- 	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI1) {
- 		*addr = DISP_REG_CONFIG_DSIO_SEL_IN;
- 		value = DSI1_SEL_IN_RDMA1;
+@@ -300,51 +300,6 @@ static unsigned int mtk_ddp_mout_en(const struct mtk_mmsys_reg_data *data,
+ 	} else if (cur == DDP_COMPONENT_OD1 && next == DDP_COMPONENT_RDMA1) {
+ 		*addr = DISP_REG_CONFIG_DISP_OD_MOUT_EN;
+ 		value = OD1_MOUT_EN_RDMA1;
+-	} else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DPI0) {
+-		*addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
+-		value = RDMA0_SOUT_DPI0;
+-	} else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DPI1) {
+-		*addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
+-		value = RDMA0_SOUT_DPI1;
+-	} else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DSI1) {
+-		*addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
+-		value = RDMA0_SOUT_DSI1;
+-	} else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DSI2) {
+-		*addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
+-		value = RDMA0_SOUT_DSI2;
+-	} else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DSI3) {
+-		*addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
+-		value = RDMA0_SOUT_DSI3;
+-	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI1) {
+-		*addr = DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN;
+-		value = RDMA1_SOUT_DSI1;
+-	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI2) {
+-		*addr = DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN;
+-		value = RDMA1_SOUT_DSI2;
+-	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI3) {
+-		*addr = DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN;
+-		value = RDMA1_SOUT_DSI3;
+-	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DPI0) {
+-		*addr = data->rdma1_sout_sel_in;
+-		value =data->rdma1_sout_dpi0;
+-	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DPI1) {
+-		*addr = DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN;
+-		value = RDMA1_SOUT_DPI1;
+-	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DPI0) {
+-		*addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
+-		value = RDMA2_SOUT_DPI0;
+-	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DPI1) {
+-		*addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
+-		value = RDMA2_SOUT_DPI1;
+-	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI1) {
+-		*addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
+-		value = RDMA2_SOUT_DSI1;
+-	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI2) {
+-		*addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
+-		value = RDMA2_SOUT_DSI2;
+-	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI3) {
+-		*addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
+-		value = RDMA2_SOUT_DSI3;
+ 	} else {
+ 		value = 0;
+ 	}
+@@ -427,6 +382,51 @@ static unsigned int mtk_ddp_sout_sel(const struct mtk_mmsys_reg_data *data,
+ 	} else if (cur == DDP_COMPONENT_BLS && next == DDP_COMPONENT_DPI0) {
+ 		*addr = DISP_REG_CONFIG_OUT_SEL;
+ 		value = BLS_TO_DPI_RDMA1_TO_DSI;
++	} else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DPI0) {
++		*addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
++		value = RDMA0_SOUT_DPI0;
++	} else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DPI1) {
++		*addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
++		value = RDMA0_SOUT_DPI1;
++	} else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DSI1) {
++		*addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
++		value = RDMA0_SOUT_DSI1;
++	} else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DSI2) {
++		*addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
++		value = RDMA0_SOUT_DSI2;
++	} else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DSI3) {
++		*addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
++		value = RDMA0_SOUT_DSI3;
++	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI1) {
++		*addr = DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN;
++		value = RDMA1_SOUT_DSI1;
++	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI2) {
++		*addr = DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN;
++		value = RDMA1_SOUT_DSI2;
++	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI3) {
++		*addr = DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN;
++		value = RDMA1_SOUT_DSI3;
++	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DPI0) {
++		*addr = data->rdma1_sout_sel_in;
++		value = data->rdma1_sout_dpi0;
++	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DPI1) {
++		*addr = DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN;
++		value = RDMA1_SOUT_DPI1;
++	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DPI0) {
++		*addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
++		value = RDMA2_SOUT_DPI0;
++	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DPI1) {
++		*addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
++		value = RDMA2_SOUT_DPI1;
++	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI1) {
++		*addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
++		value = RDMA2_SOUT_DSI1;
++	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI2) {
++		*addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
++		value = RDMA2_SOUT_DSI2;
++	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI3) {
++		*addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
++		value = RDMA2_SOUT_DSI3;
+ 	} else {
+ 		value = 0;
+ 	}
 -- 
 1.8.1.1.dirty
 _______________________________________________
