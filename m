@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1929513010F
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Jan 2020 06:45:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0183C13011C
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Jan 2020 06:53:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11AAB6E3A4;
-	Sat,  4 Jan 2020 05:45:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F8FC6E3A6;
+	Sat,  4 Jan 2020 05:53:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F19246E3A4
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Jan 2020 05:45:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B25DC6E3A6
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Jan 2020 05:53:47 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206017] Kernel 5.4.x unusable with GUI due to hard crashes
-Date: Sat, 04 Jan 2020 05:45:20 +0000
+Subject: [Bug 206017] Kernel 5.4.x unusable with GUI due to crashes (some hard)
+Date: Sat, 04 Jan 2020 05:53:46 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,7 +33,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: short_desc
-Message-ID: <bug-206017-2300-XeiOH6CCPl@https.bugzilla.kernel.org/>
+Message-ID: <bug-206017-2300-lDqsM7IfZu@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-206017-2300@https.bugzilla.kernel.org/>
 References: <bug-206017-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -63,11 +63,8 @@ udo (udovdh@xs4all.nl) changed:
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
             Summary|Kernel 5.4.x unusable with  |Kernel 5.4.x unusable with
-                   |GUI due to                  |GUI due to hard crashes
-                   |[drm:amdgpu_dm_atomic_commi |
-                   |t_tail [amdgpu]] *ERROR*    |
-                   |Waiting for fences timed    |
-                   |out!                        |
+                   |GUI due to hard crashes     |GUI due to crashes (some
+                   |                            |hard)
 
 -- 
 You are receiving this mail because:
