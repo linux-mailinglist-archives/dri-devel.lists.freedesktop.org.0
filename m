@@ -2,37 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79F9712FF4F
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Jan 2020 00:53:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B45FE12FF64
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Jan 2020 01:09:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 237396E37F;
-	Fri,  3 Jan 2020 23:53:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E4D36E37C;
+	Sat,  4 Jan 2020 00:09:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4FB86E375;
- Fri,  3 Jan 2020 23:53:41 +0000 (UTC)
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2020 15:53:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,392,1571727600"; d="scan'208";a="245037051"
-Received: from labuser-z97x-ud5h.jf.intel.com (HELO intel.com)
- ([10.165.21.211])
- by fmsmga004.fm.intel.com with ESMTP; 03 Jan 2020 15:53:41 -0800
-Date: Fri, 3 Jan 2020 15:54:45 -0800
-From: Manasi Navare <manasi.d.navare@intel.com>
-To: Animesh Manna <animesh.manna@intel.com>
-Subject: Re: [PATCH v3 1/9] drm/amd/display: Align macro name as per DP spec
-Message-ID: <20200103235444.GD2608@intel.com>
-References: <20191230161523.32222-1-animesh.manna@intel.com>
- <20191230161523.32222-2-animesh.manna@intel.com>
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA9C86E37C
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Jan 2020 00:08:58 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id z22so40580540ljg.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Jan 2020 16:08:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Yb2J3Cip7iuc6hM10iqStpjtiyPptdWBNQbgShe00mA=;
+ b=ckB6a2/CZSKt2HPa91HMLEnivkFJd9oobT/VLs1rK7t7+q36M0ZgPyh8cNh4lBUIlf
+ QdxWLXsZ2zxvGpaL3rmB3WKRppNliHHWvo2svPRe2zqyTNsQlrWLJoBwKJP/N197c1/2
+ vZn1PZ6LQft7vNyj3yW8wC+tlf5WDiuBnYJDu8j/0sdB72gXbJhfthapeTwpEopIVR/M
+ P5hGYV2Mv5BmTp02iIlaxdEtYEOgOgX/kb9KO74i2XZkkG8Gr6tywT0YjzQNZk1NjnTM
+ jbMjp7U69Cr1O/Ob2QejDoW59p/QqVqadTnQQdsKbp2rr6KITb4AlB4MGZcqjCLAeYNJ
+ K9qA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Yb2J3Cip7iuc6hM10iqStpjtiyPptdWBNQbgShe00mA=;
+ b=qdE2HUN+uZw43c9ulm0ewNhJVlm05ZMnl5HokiSJXuWO92TUH7Kfc8hFFAalvFVlLp
+ wx4uEJ2TiQ8CmlwFHFO1KdPWzjeDukf12EUcDfcmrV7wuFirPYeY2JgGZGd8B9PySvYK
+ A0MAy9Tgvhy+DLzqJkEYwZ4+bQJb557LSjRfvShR3CgMm6PkiJ6BOvtUY8lXwU57RjqZ
+ RR7XIiGsh/QosvATmoOf4tSJgG3Fqglzymu3pAlknTOENCEFhCCwMpL0gAKMuUFuQvF2
+ AipWSAMw5bo3rVU5Fvn1SVlDe43vO3bS/g1FKW+WUoS58IeRJpBlZjyLsQrYKKLFQG8a
+ vbyQ==
+X-Gm-Message-State: APjAAAWgtP5vLb4Gc8qAv2SK+QAcE6iVfDAld/N2t6j0ERna3G8mhkiD
+ 5JRiADu/wqT1u7VRzEeN6F2NR3bi3JBQM3oFtr8uwF/cZfw=
+X-Google-Smtp-Source: APXvYqz25sJv61iVrBa0v5Ep3qlMvsvNzQyFhlubU/3P3n9q3/oaRBPcG9yJTiCBo/smBn3oh6eIFQU5CWhNz08ec+I=
+X-Received: by 2002:a2e:a0cd:: with SMTP id f13mr16548077ljm.251.1578096537000; 
+ Fri, 03 Jan 2020 16:08:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191230161523.32222-2-animesh.manna@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+References: <20191114131525.3988-1-linus.walleij@linaro.org>
+ <20191114131525.3988-2-linus.walleij@linaro.org>
+ <20191120115247.GA52650@gerhold.net>
+In-Reply-To: <20191120115247.GA52650@gerhold.net>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Sat, 4 Jan 2020 01:08:46 +0100
+Message-ID: <CACRpkdZOhWVCfn5Wp9FiahnMdWvBEqT2OFxHPCk03HpYk791eQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2 v6] drm/panel: Add driver for Sony ACX424AKP panel
+To: Stephan Gerhold <stephan@gerhold.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,66 +62,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, nidhi1.gupta@intel.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- uma.shankar@intel.com, anshuman.gupta@intel.com,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Harry, Jani - Since this also updates the AMD driver file, should this be merged through
-AMD tree and then backmerged to drm-misc ?
+On Wed, Nov 20, 2019 at 12:53 PM Stephan Gerhold <stephan@gerhold.net> wrote:
+> On Thu, Nov 14, 2019 at 02:15:25PM +0100, Linus Walleij wrote:
 
-Manasi
+> > +     /* Calculate the PWM duty cycle in n/256's */
+> > +     pwm_ratio = max(((duty_ns * 256) / period_ns) - 1, 1);
+> > +     pwm_div = max(1,
+> > +                   ((FOSC * period_ns) / 256) /
+> > +                   SCALE_FACTOR_NS_DIV_MHZ);
+>
+> Does this handle the case where brightness = 0 (usually display off)?
 
-On Mon, Dec 30, 2019 at 09:45:15PM +0530, Animesh Manna wrote:
-> [Why]:
-> Aligh with DP spec wanted to follow same naming convention.
-> 
-> [How]:
-> Changed the macro name of the dpcd address used for getting requested
-> test-pattern.
-> 
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-> Signed-off-by: Animesh Manna <animesh.manna@intel.com>
-> ---
->  drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c | 2 +-
->  include/drm/drm_dp_helper.h                      | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-> index 42aa889fd0f5..1a6109be2fce 100644
-> --- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-> @@ -2491,7 +2491,7 @@ static void dp_test_send_phy_test_pattern(struct dc_link *link)
->  	/* get phy test pattern and pattern parameters from DP receiver */
->  	core_link_read_dpcd(
->  			link,
-> -			DP_TEST_PHY_PATTERN,
-> +			DP_PHY_TEST_PATTERN,
->  			&dpcd_test_pattern.raw,
->  			sizeof(dpcd_test_pattern));
->  	core_link_read_dpcd(
-> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-> index 8f8f3632e697..d6e560870fb1 100644
-> --- a/include/drm/drm_dp_helper.h
-> +++ b/include/drm/drm_dp_helper.h
-> @@ -699,7 +699,7 @@
->  # define DP_TEST_CRC_SUPPORTED		    (1 << 5)
->  # define DP_TEST_COUNT_MASK		    0xf
->  
-> -#define DP_TEST_PHY_PATTERN                 0x248
-> +#define DP_PHY_TEST_PATTERN                 0x248
->  #define DP_TEST_80BIT_CUSTOM_PATTERN_7_0    0x250
->  #define	DP_TEST_80BIT_CUSTOM_PATTERN_15_8   0x251
->  #define	DP_TEST_80BIT_CUSTOM_PATTERN_23_16  0x252
-> -- 
-> 2.24.0
-> 
+Yeah for brightness = 0 it will get duty_ns = 0 and the max()
+clause will set the duty cycle to 1.
+
+> I have also often seen code like
+>
+>         if (bl->props.power != FB_BLANK_UNBLANK ||
+>             bl->props.fb_blank != FB_BLANK_UNBLANK ||
+>             bl->props.state & (BL_CORE_SUSPENDED | BL_CORE_FBBLANK))
+>                 brightness = 0;
+>
+> to handle the blanking states. Not sure.
+
+It makes sense to wind down the brightness to minimum when blanking
+to save power, but that code seems a bit hairy, so not sure what
+is the right thing to do here :/
+
+I guess I could just implement enable/disable for the backlight and
+wind it down to 0 in disable and back to whatever brightness is in
+enable. But I don't know if that is a good idea since I don't really
+enable/disable the backlight (it cannot be disable without shutting
+down the display).
+
+Yours,
+Linus Walleij
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
