@@ -1,70 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8907E130219
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Jan 2020 12:24:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ACDC130290
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Jan 2020 15:15:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 045A56E443;
-	Sat,  4 Jan 2020 11:23:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95BC48996F;
+	Sat,  4 Jan 2020 14:15:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F7E6892CF
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Jan 2020 09:51:44 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 36B1421F30;
- Sat,  4 Jan 2020 04:51:40 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Sat, 04 Jan 2020 04:51:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=xC5Tz6kxh/HPATOcuMFe1CFgfrY
- z3FGFb6WfQx7tpiU=; b=QYPwpIXkFKiryPz0uVyL+qBqyJul4eapdXgrSk1C6LY
- pnjz+aagVn42z6xnw376R05QYmKSx/kXR8KDsGqeOKYlaqKSYZBUBo7Aj4bL7jEM
- D03FkNM2vAUW3X8VOqXYfAPq2uRBfnK3WfW88grvgZ5gPmGd+by366Ns4Sr/NZuE
- CTe1Mnz2/8UtFXpFDWrjA8L/WkxZATnCJ5ab4BG92PglfEnjOGtZYigQJgBcxN+5
- vqnMB8fqkn7vjiD4JBPmX/39bnAoItN2vtKILN3X05jv6zIZcl2kRJtYLX7LwYLI
- Tn8xT0HIr5QkBBzRhcx/oKTbGryp8PX4vXyZPVEyjyg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=xC5Tz6
- kxh/HPATOcuMFe1CFgfrYz3FGFb6WfQx7tpiU=; b=eP2LDquLIsBoBCjVO/uzUG
- qB+cEQvJEXOS6H6AfVwoMpvfkhOfdD+kDl7wXiPGTRQAVsgorS0gT0Z6AAKqNGxB
- 3pH98Il6vfN9yrXq5jEmNsEvZMd6j4saaChs5NBh/z0nQxrDJ+6dUV4w9q8/gG62
- CwJWGepPSGgMlocidhlQKnvVsrEBj9BwNlzKdV+TJ2khBM57DUq+6A2qYSN5A1z8
- rCXVt4km7J78YGRJ9ahAkwzMbHZ+grIpHIsnhF1HST2Ot1wczFnXwQ+1fvBRKtgO
- 0s7fdnh2iFmT4ppoMLkBU6t4f/mLQ75cJlH5RbBzBNSbpqvUSnxJ8Lib6z7+1E5Q
- ==
-X-ME-Sender: <xms:KmAQXkW_muQUBoXd7LPAjZkZSJyy3g4PY-TO4jmHXFEKJ3QFh1JKkw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvdeghedgtdelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecukfhppeeltd
- drkeelrdeikedrjeeinecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggv
- rhhnohdrthgvtghhnecuvehluhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:KmAQXs1jfChJntnx27I2W6Ago0un6WRF_3uWsfPC78tw3OKmdnFu_w>
- <xmx:KmAQXjaZR4ecL-EuVGQliH8pxzHDtGMKqDHylqjdl0bfAbYMhiYvFg>
- <xmx:KmAQXnrJ6Q23KCU5v-MlYCqW-yvVCmn5rvpDInUZbs24iK9TVgyz-w>
- <xmx:LGAQXnvfA7utU7AZ3Ea8lQQRUb3zu3UBGCjtlsQlHXB508k5Wc_RQQ>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 4A0D08005B;
- Sat,  4 Jan 2020 04:51:38 -0500 (EST)
-Date: Sat, 4 Jan 2020 10:51:36 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Chen-Yu Tsai <wens@csie.org>
-Subject: Re: [PATCH v3 4/4] ARM: dts: sunxi: Add missing LVDS resets and clocks
-Message-ID: <20200104095136.qaoai7lrmvp6komm@gilmour.lan>
-References: <20200103152801.47254-1-maxime@cerno.tech>
- <20200103152801.47254-4-maxime@cerno.tech>
- <CAGb2v65S32hbbKHRu1W+p7eP3-_uC1qKKGSP+ftkzxEO1egnjA@mail.gmail.com>
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B4A48996F
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Jan 2020 14:15:11 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id B230D20029;
+ Sat,  4 Jan 2020 15:15:08 +0100 (CET)
+Date: Sat, 4 Jan 2020 15:15:07 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH v7] drm/panel: Add driver for Sony ACX424AKP panel
+Message-ID: <20200104141507.GA17768@ravnborg.org>
+References: <20200104001026.201086-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <CAGb2v65S32hbbKHRu1W+p7eP3-_uC1qKKGSP+ftkzxEO1egnjA@mail.gmail.com>
-X-Mailman-Approved-At: Sat, 04 Jan 2020 11:23:45 +0000
+Content-Disposition: inline
+In-Reply-To: <20200104001026.201086-1-linus.walleij@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=j8Cu_9a8AAAA:8
+ a=KKAkSRfTAAAA:8 a=L3pK8pvX2aSRoR89ncwA:9 a=CjuIK1q_8ugA:10
+ a=A2jcf3dkIZPIRbEE90CI:22 a=cvBusfyB2V15izCimMoJ:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,62 +45,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Rob Herring <robh+dt@kernel.org>, Sean Paul <seanpaul@chromium.org>,
- Frank Rowand <frowand.list@gmail.com>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: multipart/mixed; boundary="===============0902130372=="
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Stephan Gerhold <stephan@gerhold.net>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Linus.
 
---===============0902130372==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="5vfkmj2tp2msjoyp"
-Content-Disposition: inline
+On Sat, Jan 04, 2020 at 01:10:26AM +0100, Linus Walleij wrote:
+> The Sony ACX424AKP is a command/videomode DSI panel for
+> mobile devices. It is used on the ST-Ericsson HREF520
+> reference design. We support video mode by default, but
+> it is possible to switch the panel into command mode
+> by using the bool property "dsi-command-mode".
+> 
+> Cc: Stephan Gerhold <stephan@gerhold.net>
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+
+Driver looks good but there are a few issues yet to address:
+It does not build on top of drm-misc-next due to changes to the
+drm_panel code.
+
+And then there is a few checkpatch warnings that needs to be looked at:
+-:25: WARNING:CONFIG_DESCRIPTION: please write a paragraph that describes the config symbol fully
+#25: FILE: drivers/gpu/drm/panel/Kconfig:330:
++config DRM_PANEL_SONY_ACX424AKP
+
+-:52: WARNING:FILE_PATH_CHANGES: added, moved or deleted file(s), does MAINTAINERS need updating?
+#52:
+new file mode 100644
+
+-:307: CHECK:USLEEP_RANGE: usleep_range is preferred over udelay; see Documentation/timers/timers-howto.rst
+#307: FILE: drivers/gpu/drm/panel/panel-sony-acx424akp.c:251:
++	udelay(20);
+
+-:310: WARNING:MSLEEP: msleep < 20ms can sleep for up to 20ms; see Documentation/timers/timers-howto.rst
+#310: FILE: drivers/gpu/drm/panel/panel-sony-acx424akp.c:254:
++	msleep(11);
+
+-:319: WARNING:MSLEEP: msleep < 20ms can sleep for up to 20ms; see Documentation/timers/timers-howto.rst
+#319: FILE: drivers/gpu/drm/panel/panel-sony-acx424akp.c:263:
++	msleep(11);
+
+-:543: CHECK:PARENTHESIS_ALIGNMENT: Alignment should match open parenthesis
+#543: FILE: drivers/gpu/drm/panel/panel-sony-acx424akp.c:487:
++	acx->reset_gpio = devm_gpiod_get_optional(dev, "reset",
++						 GPIOD_OUT_HIGH);
 
 
---5vfkmj2tp2msjoyp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+The build errors was easy to fix - but please have a look at the other
+warnings.
 
-On Fri, Jan 03, 2020 at 11:31:05PM +0800, Chen-Yu Tsai wrote:
-> On Fri, Jan 3, 2020 at 11:28 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> >
-> > Some old SoCs, while supporting LVDS, don't list the LVDS clocks and reset
-> > lines. Let's add them when relevant.
-> >
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->
-> Acked-by: Chen-Yu Tsai <wens@csie.org>
+I did the following changes locally to fix the build.
+But I did not try to look into the delay stuff.
 
-Applied, thanks!
-Maxime
+	Sam
 
---5vfkmj2tp2msjoyp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXhBgKAAKCRDj7w1vZxhR
-xSWTAP9aLj6GqedfeHASxNxXQ3luUUvfRIbz5JznIwm133TvOwEA8qXDQvjtDMqX
-rNEnwGr9Z5n8Qf9/snsuaWPlrXFNSAY=
-=7GLd
------END PGP SIGNATURE-----
-
---5vfkmj2tp2msjoyp--
-
---===============0902130372==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+diff --git a/drivers/gpu/drm/panel/panel-sony-acx424akp.c b/drivers/gpu/drm/panel/panel-sony-acx424akp.c
+index fe33f97cd812..38c83f5b16d5 100644
+--- a/drivers/gpu/drm/panel/panel-sony-acx424akp.c
++++ b/drivers/gpu/drm/panel/panel-sony-acx424akp.c
+@@ -407,17 +407,17 @@ static int acx424akp_disable(struct drm_panel *panel)
+ 	return 0;
+ }
+ 
+-static int acx424akp_get_modes(struct drm_panel *panel)
++static int acx424akp_get_modes(struct drm_panel *panel,
++			       struct drm_connector *connector)
+ {
+ 	struct acx424akp *acx = panel_to_acx424akp(panel);
+-	struct drm_connector *connector = panel->connector;
+ 	struct drm_display_mode *mode;
+ 
+ 	if (acx->video_mode)
+-		mode = drm_mode_duplicate(panel->drm,
++		mode = drm_mode_duplicate(connector->dev,
+ 					  &sony_acx424akp_vid_mode);
+ 	else
+-		mode = drm_mode_duplicate(panel->drm,
++		mode = drm_mode_duplicate(connector->dev,
+ 					  &sony_acx424akp_cmd_mode);
+ 	if (!mode) {
+ 		DRM_ERROR("bad mode or failed to add mode\n");
+@@ -484,7 +484,7 @@ static int acx424akp_probe(struct mipi_dsi_device *dsi)
+ 
+ 	/* This asserts RESET by default */
+ 	acx->reset_gpio = devm_gpiod_get_optional(dev, "reset",
+-						 GPIOD_OUT_HIGH);
++						  GPIOD_OUT_HIGH);
+ 	if (IS_ERR(acx->reset_gpio)) {
+ 		ret = PTR_ERR(acx->reset_gpio);
+ 		if (ret != -EPROBE_DEFER)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0902130372==--
