@@ -1,35 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89846130E13
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 08:41:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 277B2130E71
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 09:10:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3911C89BBE;
-	Mon,  6 Jan 2020 07:41:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 173AF89265;
+	Mon,  6 Jan 2020 08:10:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4366189BBE
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2020 07:41:36 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id AC99928A0EC;
- Mon,  6 Jan 2020 07:41:34 +0000 (GMT)
-Date: Mon, 6 Jan 2020 08:41:31 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Andrzej Hajda <a.hajda@samsung.com>, Marek Szyprowski
- <m.szyprowski@samsung.com>
-Subject: Re: [PATCH 3/3] drm/exynos: dsi: Fix bridge chain handling
-Message-ID: <20200106084131.0d4a8002@collabora.com>
-In-Reply-To: <20191227144124.210294-3-boris.brezillon@collabora.com>
-References: <20191227144124.210294-1-boris.brezillon@collabora.com>
- <20191227144124.210294-3-boris.brezillon@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1DC66E420;
+ Sat,  4 Jan 2020 12:23:21 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id z7so44681752wrl.13;
+ Sat, 04 Jan 2020 04:23:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zwNUSd99uCpcD2i/Zhi09ZcL/ngKkzJPJ00O7NK8uak=;
+ b=IfTd8sm1QFVaGBFpKEd2oviq06KevNXtkX8yOkcbAfoA/loOfqRuxsDuAIl+7o48RH
+ MSQEDOb1T81BxBwJxy5VfiRMx3OZz7EGSB+++T81oGS2K67N0qr86+S7tNcHwTsyXMh8
+ yxZQFVfHiv4Z79srxGd4VVTYYh+SuNKGV7d+yhhEYLou6OmAZk0cNSG11m8vRXHDpR6v
+ 7DaLWosJ0wFwOh/LQhuxWHn/86XYWgtAJWmeOVic27RwCYORDqmaOK+mk/3nGuKiyvv0
+ 0U7ZKg1A/dBNlW5n9hlSoXgvJJR7y7E+V6Lrzf1Bh8tHIb0hnrmvpjVmuc+TweyCWkEe
+ ravg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zwNUSd99uCpcD2i/Zhi09ZcL/ngKkzJPJ00O7NK8uak=;
+ b=kx6uoQHkQp3Z1uzZSL3YxED9RD8BVtGjB9fWtYS6om658Zd9GkyKXG0CjDU4diHwBw
+ 8yRTRlghStLekVam4O0KdZjsp+RMxAAGN4flOqvT2jpcTmu9oSSAsCysw+TKdZmVbg1j
+ IScVnULv7D/oR4GssaV9Hv1bmefN8J1fmKTWKJujpHPsb7eTjYvWf8SabPDlzHNcgifb
+ YrHVwAzYPumXRym9zSCbQOz/8jY9saSp0NDBZ9y2Z7EYaUoHTksAtDrG63Jn0TxUpC2x
+ fXu2m7hr1S1kh2bxrSdgz4X+p7JhrwZQXBTO6SIsA+kLeKeG6x6fD4/UeyNbwQvihFw3
+ 3nag==
+X-Gm-Message-State: APjAAAXDfXMK7VTEqjqlsvGARevzqOY3WFiaGjcIfF68rjLTjlZiBjH1
+ TTG9RvvIf05dOk5SZUA633KPcOUjRps=
+X-Google-Smtp-Source: APXvYqwWWPHCXqNuFyKebMBHxIW3UvhYBcQU+Lb0o2+33MGKCCL2vlFiYVBCV4+9nZQtxkNSoTyv6A==
+X-Received: by 2002:a5d:620b:: with SMTP id y11mr90778799wru.230.1578140599973; 
+ Sat, 04 Jan 2020 04:23:19 -0800 (PST)
+Received: from localhost.localdomain (bzq-79-176-206-154.red.bezeqint.net.
+ [79.176.206.154])
+ by smtp.googlemail.com with ESMTPSA id x1sm63227093wru.50.2020.01.04.04.23.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 04 Jan 2020 04:23:19 -0800 (PST)
+From: Dor Askayo <dor.askayo@gmail.com>
+To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/amd/display: do not allocate display_mode_lib
+ unnecessarily
+Date: Sat,  4 Jan 2020 14:22:15 +0200
+Message-Id: <20200104122217.148883-1-dor.askayo@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
+X-Mailman-Approved-At: Mon, 06 Jan 2020 08:09:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,63 +68,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, dri-devel@lists.freedesktop.org,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Dor Askayo <dor.askayo@gmail.com>, Leo Li <sunpeng.li@amd.com>,
+ David Airlie <airlied@linux.ie>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 27 Dec 2019 15:41:24 +0100
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
+This allocation isn't required and can fail when resuming from suspend.
 
-> Commit 05193dc38197 ("drm/bridge: Make the bridge chain a double-linked
-> list") patched the bridge chain logic to use a double-linked list instead
-> of a single-linked list. This change induced changes to the Exynos driver
-> which was manually resetting the encoder->bridge element to NULL to
-> control the enable/disable sequence of the bridge chain. During this
-> conversion, 2 bugs were introduced:
-> 
-> 1/ list_splice() was used to move chain elements to our own internal
->    chain, but list_splice() does not reset the source list to an empty
->    state, leading to unexpected bridge hook calls when
->    drm_bridge_chain_xxx() helpers were called by the core. Replacing
->    the list_splice() call by list_splice_init() fixes this problem.
-> 
-> 2/ drm_bridge_chain_xxx() helpers operate on the
->    bridge->encoder->bridge_chain list, which is now empty. When the
->    helper uses list_for_each_entry_reverse() we end up with no operation
->    done which is not what we want. But that's even worse when the helper
->    uses list_for_each_entry_from(), because in that case we end up in
->    an infinite loop searching for the list head element which is no
->    longer encoder->bridge_chain but exynos_dsi->bridge_chain. To address
->    that problem we stop using the bridge chain helpers and call the
->    hooks directly.
-> 
-> Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> Fixes: 05193dc38197 ("drm/bridge: Make the bridge chain a double-linked list")
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> ---
-> Hello Marek,
-> 
-> I'm perfectly fine applying your patch instead of this one if you prefer
-> to restrict the logic to a single bridge per chain. I just sent this
-> patch in case your okay with the slightly different version I propose
-> here.
+Bug: https://gitlab.freedesktop.org/drm/amd/issues/1009
+Signed-off-by: Dor Askayo <dor.askayo@gmail.com>
+---
+ drivers/gpu/drm/amd/display/dc/core/dc.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-Marek, Andrzej, did you have time to look at this patch (or respin
-"drm/bridge: Fix Exynos DSI after making bridge chain a  double-linked
-list" if you don't like this version)?
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index dd4731ab935c..83ebb716166b 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -2179,12 +2179,7 @@ void dc_set_power_state(
+ 	enum dc_acpi_cm_power_state power_state)
+ {
+ 	struct kref refcount;
+-	struct display_mode_lib *dml = kzalloc(sizeof(struct display_mode_lib),
+-						GFP_KERNEL);
+-
+-	ASSERT(dml);
+-	if (!dml)
+-		return;
++	struct display_mode_lib *dml;
+ 
+ 	switch (power_state) {
+ 	case DC_ACPI_CM_POWER_STATE_D0:
+@@ -2206,6 +2201,12 @@ void dc_set_power_state(
+ 		 * clean state, and dc hw programming optimizations will not
+ 		 * cause any trouble.
+ 		 */
++		dml = kzalloc(sizeof(struct display_mode_lib),
++				GFP_KERNEL);
++
++		ASSERT(dml);
++		if (!dml)
++			return;
+ 
+ 		/* Preserve refcount */
+ 		refcount = dc->current_state->refcount;
+@@ -2219,10 +2220,10 @@ void dc_set_power_state(
+ 		dc->current_state->refcount = refcount;
+ 		dc->current_state->bw_ctx.dml = *dml;
+ 
++		kfree(dml);
++
+ 		break;
+ 	}
+-
+-	kfree(dml);
+ }
+ 
+ void dc_resume(struct dc *dc)
+-- 
+2.24.1
 
-I'd really like to apply this fix (and its vc4 equivalent) to
-drm-misc-next as soon as possible.
-
-Thanks,
-
-Boris
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
