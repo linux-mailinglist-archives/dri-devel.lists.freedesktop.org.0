@@ -1,39 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA8601303DC
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Jan 2020 19:25:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99E2F130400
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Jan 2020 20:20:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 865A589CB8;
-	Sat,  4 Jan 2020 18:25:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50C00895CA;
+	Sat,  4 Jan 2020 19:20:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8455E89CB8
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Jan 2020 18:25:25 +0000 (UTC)
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2D4E895CA
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Jan 2020 19:20:30 +0000 (UTC)
 Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 006C220032;
- Sat,  4 Jan 2020 19:25:22 +0100 (CET)
-Date: Sat, 4 Jan 2020 19:25:21 +0100
+ by asavdk4.altibox.net (Postfix) with ESMTPS id AE581804EB;
+ Sat,  4 Jan 2020 20:20:27 +0100 (CET)
+Date: Sat, 4 Jan 2020 20:20:26 +0100
 From: Sam Ravnborg <sam@ravnborg.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH 2/2] drm/panel: Add driver for Novatek NT35510-based panels
-Message-ID: <20200104182521.GC8724@ravnborg.org>
-References: <20191225115610.14518-1-linus.walleij@linaro.org>
- <20191225115610.14518-2-linus.walleij@linaro.org>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v4 2/3] drm: Add support for the LogiCVC display controller
+Message-ID: <20200104192026.GA21210@ravnborg.org>
+References: <20191203150606.317062-1-paul.kocialkowski@bootlin.com>
+ <20191203150606.317062-3-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191225115610.14518-2-linus.walleij@linaro.org>
+In-Reply-To: <20191203150606.317062-3-paul.kocialkowski@bootlin.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
  a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=KKAkSRfTAAAA:8
- a=e5mUnYsNAAAA:8 a=20KFwNOVAAAA:8 a=J2hWI5m9r4qbfL5FBt0A:9
- a=CjuIK1q_8ugA:10 a=cvBusfyB2V15izCimMoJ:22 a=Vxmtnl_E_bksehYqCbjh:22
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
+ a=P-IC7800AAAA:8 a=VwQbUJbxAAAA:8 a=_jCGCIFR2UvvXztaO4UA:9
+ a=CejSvffWiMt_U7KW:21 a=nVbVrdCZduPxFul3:21 a=CjuIK1q_8ugA:10
+ a=E9Po1WZjFZOl8hwRPBS3:22 a=d3PnA9EDa4IxuAV0gXij:22
+ a=AjGcO6oz07-iQ99wixmX:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,378 +48,571 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephan Gerhold <stephan@gerhold.net>, dri-devel@lists.freedesktop.org,
- Sean Paul <sean@poorly.run>, linux-arm-kernel@lists.infradead.org
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus.
+Hi Paul.
 
-Driver looks good.
-Rahter complicated - but that what the controller/panel requires.
-Lot's of good code comments - very nice.
-
+Good looking driver. Well structured in a number of relevant files.
 A few comments in the following.
+Some parts I fail to follow - due to my lack of DRM knowledge.
+So all in all - only trivial comments.
+
+With these fixed you can add:
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
 
 	Sam
 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index e6db3889cb19..1372b4139ebd 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -5244,6 +5244,13 @@ F:	drivers/gpu/drm/msm/
->  F:	include/uapi/drm/msm_drm.h
->  F:	Documentation/devicetree/bindings/display/msm/
->  
-> +DRM DRIVER FOR NOVATEK NT35510 PANELS
-> +M:	Linus Walleij <linus.walleij@linaro.org>
-> +T:	git git://anongit.freedesktop.org/drm/drm-misc
-> +S:	Maintained
-> +F:	drivers/gpu/drm/panel/panel-novatek-nt35510*
-Unless you expect more files named panel-novatek-nt35510*  then use as
-specific filename (no wildcard).
+On Tue, Dec 03, 2019 at 04:06:05PM +0100, Paul Kocialkowski wrote:
+> Introduces a driver for the LogiCVC display controller, a programmable
+> logic controller optimized for use in Xilinx Zynq-7000 SoCs and other
+> Xilinx FPGAs. The controller is mostly configured at logic synthesis
+> time so only a subset of configuration is left for the driver to
+> handle.
+> 
+> The following features are implemented and tested:
+> - LVDS 4-bit interface;
+> - RGB565 pixel formats;
+> - Multiple layers and hardware composition;
+> - Layer-wide alpha mode;
+> 
+> The following features are implemented but untested:
+> - Other RGB pixel formats;
+> - Layer framebuffer configuration for version 4;
+> - Lowest-layer used as background color;
+> - Per-pixel alpha mode.
+> 
+> The following features are not implemented:
+> - YUV pixel formats;
+> - DVI, LVDS 3-bit, ITU656 and camera link interfaces;
+> - External parallel input for layer;
+> - Color-keying;
+> - LUT-based alpha modes.
+> 
+> Additional implementation-specific notes:
+> - Panels are only enabled after the first page flip to avoid flashing a
+>   white screen.
+> - Depth used in context of the LogiCVC driver only counts color components
+>   to match the definition of the synthesis parameters.
+> 
+> Support is implemented for both version 3 and 4 of the controller.
+> 
+> With version 3, framebuffers are stored in a dedicated contiguous
+> memory area, with a base address hardcoded for each layer. This requires
+> using a dedicated CMA pool registered at the base address and tweaking a
+> few offset-related registers to try to use any buffer allocated from
+> the pool. This is done on a best-effort basis to have the hardware cope
+> with the DRM framebuffer allocation model and there is no guarantee
+> that each buffer allocated by GEM CMA can be used for any layer.
+> In particular, buffers allocated below the base address for a layer are
+> guaranteed not to be configurable for that layer. See the implementation of
+> logicvc_layer_buffer_find_setup for specifics.
+> 
+> Version 4 allows configuring each buffer address directly, which
+> guarantees that any buffer can be configured.
+> 
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> Reviewed-by: Maxime Ripard <mripard@kernel.org>
+> ---
 
-> +F:	Documentation/devicetree/bindings/display/panel/novatek-nt35510.yaml
-> +
->  DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS
->  M:	Ben Skeggs <bskeggs@redhat.com>
->  L:	dri-devel@lists.freedesktop.org
-> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-> index 46e3c931e5d9..620a0fd1e816 100644
-> --- a/drivers/gpu/drm/panel/Kconfig
-> +++ b/drivers/gpu/drm/panel/Kconfig
-> @@ -127,6 +127,17 @@ config DRM_PANEL_NEC_NL8048HL11
->  	  panel (found on the Zoom2/3/3630 SDP boards). To compile this driver
->  	  as a module, choose M here.
->  
-> +config DRM_PANEL_NOVATEK_NT35510
-> +	tristate "Novatek NT35510 RGB panel driver"
-> +	depends on OF
-> +	depends on DRM_MIPI_DSI
-> +	depends on BACKLIGHT_CLASS_DEVICE
+MAINTAINERS needs an entry.
+Will this driver be supported in drm-misc?
+If yes, then yoy need to apply for write access (if you do not have it).
 
-> +	select VIDEOMODE_HELPERS
-Is this really needed? From a quick look you can drop it.
-
-> +	help
-> +	  Say Y here if you want to enable support for the panels built
-> +	  around the Novatek NT35510 display controller, such as some
-> +	  Hydis panels.
-> +
->  config DRM_PANEL_NOVATEK_NT39016
->  	tristate "Novatek NT39016 RGB/SPI panel"
->  	depends on OF && SPI
-> diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35510.c b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
+> diff --git a/drivers/gpu/drm/logicvc/Kconfig b/drivers/gpu/drm/logicvc/Kconfig
 > new file mode 100644
-> index 000000000000..b312a8848c25
+> index 000000000000..34dacabbb49a
 > --- /dev/null
-> +++ b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-> @@ -0,0 +1,1126 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
+> +++ b/drivers/gpu/drm/logicvc/Kconfig
+> @@ -0,0 +1,8 @@
+> +config DRM_LOGICVC
+> +       tristate "LogiCVC DRM"
+> +       depends on DRM
+> +       select DRM_KMS_HELPER
+> +       select DRM_KMS_CMA_HELPER
+> +       select DRM_GEM_CMA_HELPER
+> +       help
+> +         DRM display driver for the logiCVC programmable logic block from Xylon
+The driver, as far as I can tell, required OF.
+So a depends on OF seems missing.
+
+> diff --git a/drivers/gpu/drm/logicvc/logicvc_crtc.c b/drivers/gpu/drm/logicvc/logicvc_crtc.c
+> new file mode 100644
+> index 000000000000..2c07f4594c32
+> --- /dev/null
+> +++ b/drivers/gpu/drm/logicvc/logicvc_crtc.c
+> @@ -0,0 +1,271 @@
+> +// SPDX-License-Identifier: GPL-2.0+
 > +/*
-> + * Novatek NT35510 panel driver
-> + * Copyright (C) 2019 Linus Walleij <linus.walleij@linaro.org>
-> + * Based on code by Robert Teather (C) 2012 Samsung
-> + *
-> + * This display driver (and I refer to the physical component NT35510,
-> + * not this Linux kernel software driver) can handle:
-> + * 480x864, 480x854, 480x800, 480x720 and 480x640 pixel displays.
-> + * It has 480x840x24bit SRAM embedded for storing a frame.
-> + * When powered on the display is by default in 480x800 mode.
-> + *
-> + * The actual panels using this component have different names, but
-> + * the code needed to set up and configure the panel will be similar,
-> + * so they should all use the NT35510 driver with appropriate configuration
-> + * per-panel, e.g. for physical size.
-> + *
-> + * This driver is for the DSI interface to panels using the NT35510.
-> + *
-> + * The NT35510 can also use an RGB (DPI) interface combined with an
-
-> + * I2C or SPI interface for setting up the NT35510. If this is needed I
-> + * this panel driver should be refactored to also support that use
-An extra "I" sneaked in here.
-
-> + * case.
+> + * Copyright (C) 2019 Bootlin
+> + * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 > + */
-You are using nice kernel-doc style comments.
-Consider to wire this into Documentation/gpu/ somewhere.
+> +
+> +#include <linux/of.h>
+> +#include <linux/of_graph.h>
+> +#include <linux/types.h>
+> +#include <linux/workqueue.h>
 
-> +#include <drm/drm_modes.h>
-> +#include <drm/drm_mipi_dsi.h>
-> +#include <drm/drm_panel.h>
+Empty line between the include blocks.
+
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_crtc.h>
+> +#include <drm/drm_drv.h>
+> +#include <drm/drm_gem_cma_helper.h>
 > +#include <drm/drm_print.h>
+> +#include <drm/drm_vblank.h>
 > +
-> +#include <linux/bitops.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/module.h>
-> +#include <linux/of_device.h>
-> +#include <linux/regmap.h>
-> +#include <linux/regulator/consumer.h>
-> +#include <linux/backlight.h>
-> +
-> +#include <video/mipi_display.h>
-> +#include <video/of_videomode.h>
-> +#include <video/videomode.h>
-> +
+> +#include "logicvc_crtc.h"
+> +#include "logicvc_drm.h"
+> +#include "logicvc_interface.h"
+> +#include "logicvc_layer.h"
+> +#include "logicvc_regs.h"
 
-Please structure includes like this:
-
-#include <linux/*>
-
-#include <video/*>
-
-#include <drm/*>
-
-#include ""
-
-Within each block sort the include fiels alphabetically.
-
-I think you can drop of_videomode.h and videomode.h.
-
-
-> +#define MCS_CMD_MAUCCTR		0xF0 /* Manufacturer command enable */
-> +#define MCS_CMD_READ_ID1	0xDA
-> +#define MCS_CMD_READ_ID2	0xDB
-> +#define MCS_CMD_READ_ID3	0xDC
-> +#define MCS_CMD_MTP_READ_SETTING 0xF8 /* Uncertain about name */
-> +#define MCS_CMD_MTP_READ_PARAM 0xFF /* Uncertain about name */
-
-> + *
-> + * Gamma correction arrays are 10bit numbers, two consecutive bytes
-> + * makes out one point on the gamma correction curve. The points are
-> + * not linearly placed along the X axis, we get points 0, 1, 3, 5
-> + * 7, 11, 15, 23, 31, 47, 63, 95, 127, 128, 160, 192, 208, 224, 232,
-> + * 240, 244, 248, 250, 252, 254, 255. The voltages tuples form
-> + * V0, V1, V3 ... V255, with 0x0000 being the lowest voltage and
-> + * 0x03FF being the highest voltage.
-> + *
-> + * Each value must be strictly lower than the next value forming a
-                                  ^ higher?
-> + * rising curve like this:
-> + *
-> + * ^
-> + * |                                        V255
-> + * |                                 V254
-> + * |                         ....
-> + * |                    V5
-> + * |           V3
-> + * |     V1
-> + * | V0
-> + * +------------------------------------------->
-> + *
-> + * The details about all settings can be found in the NT35510 Application
-> + * Note.
-> + */
-> +struct nt35510_config {
-> +	/**
-> +	 * @width_mm: physical panel width [mm]
-> +	 */
-> +	u32 width_mm;
-> +	/**
-> +	 * @height_mm: physical panel height [mm]
-> +	 */
-> +	u32 height_mm;
-> +	/**
-> +	 * @mode: the display mode. This is only relevant outside the panel
-> +	 * in video mode: in command mode this is configuring the internal
-> +	 * timing in the display controller.
-> +	 */
-> +	const struct drm_display_mode mode;
-> +	/**
-> +	 * @avdd: setting for AVDD ranging from 0x00 = 6.5V to 0x14 = 4.5V
-> +	 * in 0.1V steps the default is 0x05 which means 6.0V
-> +	 */
-> +	u8 avdd[NT35510_P1_AVDD_LEN];
-> +	/**
-> +	 * @bt1ctr: setting for boost power control for the AVDD step-up
-> +	 * circuit (1)
-> +	 * bits 0..2 in the lower nybble controls PCK, the booster clock
-s/nybble/nibble/ ?
-Both spellings works so this is bike-shedding.
-
-> +	 * frequency for the step-up circuit:
-> +	 * 0 = Hsync/32
-> +	 * 1 = Hsync/16
-> +	 * 2 = Hsync/8
-> +	 * 3 = Hsync/4
-> +	 * 4 = Hsync/2
-> +	 * 5 = Hsync
-> +	 * 6 = Hsync x 2
-> +	 * 7 = Hsync x 4
-> +	 * bits 4..6 in the upper nybble controls BTP, the boosting
-> +	 * amplification for the the step-up circuit:
-> +	 * 0 = Disable
-> +	 * 1 = 1.5 x VDDB
-> +	 * 2 = 1.66 x VDDB
-> +	 * 3 = 2 x VDDB
-> +	 * 4 = 2.5 x VDDB
-> +	 * 5 = 3 x VDDB
-> +	 * The defaults are 4 and 4 yielding 0x44
-> +	 */
+All sorted within each block - good.
 
 > +
-> +/**
-> + * struct nt35510 - state container for the NT35510 panel
-> + */
-> +struct nt35510 {
-> +	/**
-> +	 * @dev: the container device
-> +	 */
-> +	struct device *dev;
-> +	/**
-> +	 * @conf: the specific panel configuration, as the NT35510
-> +	 * can be combined with many physical panels, they can have
-> +	 * different physical dimensions and gamma correction etc,
-> +	 * so this is stored in the config.
-> +	 */
-> +	const struct nt35510_config *conf;
-> +	/**
-> +	 * @panel: the DRM panel object for the instance
-> +	 */
-> +	struct drm_panel panel;
-> +	/**
-> +	 * @bl: backlight device
-> +	 */
-> +	struct backlight_device *bl;
-We have a backlight device as part of drm_panel now.
-It is documented that drivers should not assign it.
-
-We should consider to allow this - then this driver could
-just assign it and then the enable() and disable() functions
-would not be required.
-
-
-> +	/**
-> +	 * @supplies: regulators supplying the panel
-> +	 */
-> +	struct regulator_bulk_data supplies[2];
-> +	/**
-> +	 * @reset_gpio: the reset line
-> +	 */
-> +	struct gpio_desc *reset_gpio;
-> +};
+> +#define logicvc_crtc(c) \
+> +	container_of(c, struct logicvc_crtc, drm_crtc)
 > +
-
+> +static int logicvc_crtc_atomic_check(struct drm_crtc *drm_crtc,
+> +				     struct drm_crtc_state *state)
+> +{
+> +	struct drm_display_mode *mode = &state->adjusted_mode;
 > +
-> +	/* Toggle RESET in accordance with datasheet page 370 */
-> +	if (nt->reset_gpio) {
-> +		gpiod_set_value(nt->reset_gpio, 1);
-> +		/* Active min 10 us according to datasheet, let's say 20 */
-> +		usleep_range(20, 1000);
-> +		gpiod_set_value(nt->reset_gpio, 0);
-> +		/*
-> +		 * 5 ms during sleep mode, 120 ms during sleep out mode
-> +		 * according to datasheet, let's use 120-140 ms.
-> +		 */
-> +		usleep_range(120000, 140000);
-> +	}
-Add an URL to the data sheet maybe?
-
-
-> +
-> +	ret = nt35510_read_id(nt);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Set up stuff in  manufacturer control, page 1 */
-> +	ret = nt35510_send_long(nt, dsi, MCS_CMD_MAUCCTR,
-> +				ARRAY_SIZE(nt35510_mauc_select_page_1),
-> +				nt35510_mauc_select_page_1);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = nt35510_setup_power(nt);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = nt35510_send_long(nt, dsi, NT35510_P1_SET_GAMMA_RED_POS,
-> +				NT35510_P1_GAMMA_LEN,
-> +				nt->conf->gamma_corr_pos_r);
-> +	if (ret)
-> +		return ret;
-> +	ret = nt35510_send_long(nt, dsi, NT35510_P1_SET_GAMMA_GREEN_POS,
-> +				NT35510_P1_GAMMA_LEN,
-> +				nt->conf->gamma_corr_pos_g);
-> +	if (ret)
-> +		return ret;
-> +	ret = nt35510_send_long(nt, dsi, NT35510_P1_SET_GAMMA_BLUE_POS,
-> +				NT35510_P1_GAMMA_LEN,
-> +				nt->conf->gamma_corr_pos_b);
-> +	if (ret)
-> +		return ret;
-> +	ret = nt35510_send_long(nt, dsi, NT35510_P1_SET_GAMMA_RED_NEG,
-> +				NT35510_P1_GAMMA_LEN,
-> +				nt->conf->gamma_corr_neg_r);
-> +	if (ret)
-> +		return ret;
-> +	ret = nt35510_send_long(nt, dsi, NT35510_P1_SET_GAMMA_GREEN_NEG,
-> +				NT35510_P1_GAMMA_LEN,
-> +				nt->conf->gamma_corr_neg_g);
-> +	if (ret)
-> +		return ret;
-> +	ret = nt35510_send_long(nt, dsi, NT35510_P1_SET_GAMMA_BLUE_NEG,
-> +				NT35510_P1_GAMMA_LEN,
-> +				nt->conf->gamma_corr_neg_b);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Set up stuff in  manufacturer control, page 0 */
-> +	ret = nt35510_send_long(nt, dsi, MCS_CMD_MAUCCTR,
-> +				ARRAY_SIZE(nt35510_mauc_select_page_0),
-> +				nt35510_mauc_select_page_0);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = nt35510_setup_display(nt);
-> +	if (ret)
-> +		return ret;
+> +	if (mode->flags & DRM_MODE_FLAG_INTERLACE)
+> +		return -EINVAL;
 > +
 > +	return 0;
 > +}
-
+> +
 
 > +
-> +static int nt35510_get_modes(struct drm_panel *panel)
-Add connector as argument to match drm-misc-next.
-
+> +void logicvc_crtc_vblank_handler(struct logicvc_drm *logicvc)
 > +{
-> +	struct drm_connector *connector = panel->connector;
-> +	struct nt35510 *nt = panel_to_nt35510(panel);
-> +	struct drm_display_mode *mode;
-> +	struct drm_display_info *info;
+> +	struct logicvc_crtc *crtc = logicvc->crtc;
+> +	struct drm_device *drm = logicvc->drm;
+> +	unsigned long flags;
 > +
-> +	info = &connector->display_info;
-> +	info->width_mm = nt->conf->width_mm;
-> +	info->height_mm = nt->conf->height_mm;
-> +	mode = drm_mode_duplicate(panel->drm, &nt->conf->mode);
-Use connector->dev - as panel no logner has a drm_device pointer.
+> +	if (!crtc)
+> +		return;
+> +
+> +	drm_crtc_handle_vblank(&crtc->drm_crtc);
+> +
+> +	spin_lock_irqsave(&drm->event_lock, flags);
+> +	if (crtc->event) {
+> +		drm_crtc_send_vblank_event(&crtc->drm_crtc, crtc->event);
+> +		drm_crtc_vblank_put(&crtc->drm_crtc);
+> +		crtc->event = NULL;
+> +	}
+> +	spin_unlock_irqrestore(&drm->event_lock, flags);
+In the other cases you have spin_* inside the block.
+No nbeed to take the spinlock if crtc->event equals NULL
 
-> +	if (!mode) {
-> +		DRM_ERROR("bad mode or failed to add mode\n");
+> +}
+> +
+> +int logicvc_crtc_init(struct logicvc_drm *logicvc)
+> +{
+> +	struct device_node *of_node = logicvc->drm->dev->of_node;
+> +	struct logicvc_crtc *crtc;
+> +	struct logicvc_layer *layer_primary;
+> +	int ret;
+> +
+> +	crtc = devm_kzalloc(logicvc->drm->dev, sizeof(*crtc), GFP_KERNEL);
+> +	if (!crtc)
+> +		return -ENOMEM;
+> +
+> +	crtc->logicvc = logicvc;
+> +
+> +	layer_primary = logicvc_layer_get_primary(logicvc);
+> +	if (!layer_primary) {
+> +		DRM_ERROR("Failed to get primary layer\n");
+Please use drm_err(logicvc->drm, "...");
+This goes for all uses of DRM_ where you have a drm_device available.
+
+
 > +		return -EINVAL;
 > +	}
-> +	drm_mode_set_name(mode);
-> +	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
 > +
-> +	mode->width_mm = nt->conf->width_mm;
-> +	mode->height_mm = nt->conf->height_mm;
-> +	drm_mode_probed_add(connector, mode);
+> +	ret = drm_crtc_init_with_planes(logicvc->drm, &crtc->drm_crtc,
+> +					&layer_primary->drm_plane, NULL,
+> +					&logicvc_crtc_funcs, NULL);
+> +	if (ret) {
+> +		DRM_ERROR("Failed to initalize CRTC\n");
+> +		return ret;
+> +	}
 > +
-> +	return 1; /* Number of modes */
+> +	drm_crtc_helper_add(&crtc->drm_crtc, &logicvc_crtc_helper_funcs);
+> +
+> +	crtc->drm_crtc.port = of_graph_get_port_by_id(of_node, 1);
+> +
+> +	logicvc->crtc = crtc;
+> +
+> +	return 0;
+> +}
+> diff --git a/drivers/gpu/drm/logicvc/logicvc_crtc.h b/drivers/gpu/drm/logicvc/logicvc_crtc.h
+> new file mode 100644
+> index 000000000000..dfa55c377ac3
+> --- /dev/null
+> +++ b/drivers/gpu/drm/logicvc/logicvc_crtc.h
+> @@ -0,0 +1,25 @@
+> +/* SPDX-License-Identifier: GPL-2.0+ */
+> +/*
+> + * Copyright (C) 2019 Bootlin
+> + * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> + */
+> +
+> +#ifndef _LOGICVC_CRTC_H_
+> +#define _LOGICVC_CRTC_H_
+> +
+> +#include <drm/drm_crtc.h>
+> +#include <drm/drm_vblank.h>
+
+Use a forward declaration of drm_pending_vblank_event,
+then you can drop the above include.
+
+> +
+> +struct logicvc_drm;
+> +
+> +struct logicvc_crtc {
+> +	struct logicvc_drm *logicvc;
+> +
+> +	struct drm_crtc drm_crtc;
+> +	struct drm_pending_vblank_event *event;
+> +};
+> +
+> +void logicvc_crtc_vblank_handler(struct logicvc_drm *logicvc);
+> +int logicvc_crtc_init(struct logicvc_drm *logicvc);
+> +
+> +#endif
+> diff --git a/drivers/gpu/drm/logicvc/logicvc_drm.c b/drivers/gpu/drm/logicvc/logicvc_drm.c
+> new file mode 100644
+> index 000000000000..c9a1a6b38692
+> --- /dev/null
+> +++ b/drivers/gpu/drm/logicvc/logicvc_drm.c
+> @@ -0,0 +1,467 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Copyright (C) 2019 Bootlin
+> + * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/mfd/syscon.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/of_address.h>
+> +#include <linux/of_device.h>
+> +#include <linux/of_reserved_mem.h>
+> +#include <linux/regmap.h>
+> +#include <linux/types.h>
+> +#include <drm/drm_atomic_helper.h>
+Add empty lines between include blocks (one line up)..
+
+> +#include <drm/drm_drv.h>
+> +#include <drm/drm_fb_helper.h>
+> +#include <drm/drm_gem_cma_helper.h>
+> +#include <drm/drm_print.h>
+> +
+> +#include "logicvc_crtc.h"
+> +#include "logicvc_drm.h"
+> +#include "logicvc_interface.h"
+> +#include "logicvc_mode.h"
+> +#include "logicvc_layer.h"
+> +#include "logicvc_of.h"
+> +#include "logicvc_regs.h"
+> +
+> +DEFINE_DRM_GEM_CMA_FOPS(logicvc_drm_fops);
+> +
+> +static int logicvc_drm_gem_cma_dumb_create(struct drm_file *file_priv,
+> +					   struct drm_device *drm,
+> +					   struct drm_mode_create_dumb *args)
+> +{
+> +	struct logicvc_drm *logicvc = drm->dev_private;
+> +
+> +	/* Stride is always fixed to its configuration value. */
+> +	args->pitch = logicvc->config.row_stride * DIV_ROUND_UP(args->bpp, 8);
+> +
+> +	return drm_gem_cma_dumb_create_internal(file_priv, drm, args);
+> +}
+> +
+> +static struct drm_driver logicvc_drm_driver = {
+> +	.driver_features		= DRIVER_GEM | DRIVER_MODESET |
+> +					  DRIVER_ATOMIC,
+> +
+> +	.fops				= &logicvc_drm_fops,
+> +	.name				= "logicvc-drm",
+> +	.desc				= "Xylon LogiCVC DRM driver",
+> +	.date				= "20190319",
+2020?
+
+> +	.major				= 1,
+> +	.minor				= 0,
+> +
+> +	DRM_GEM_CMA_VMAP_DRIVER_OPS,
+> +	.dumb_create			= logicvc_drm_gem_cma_dumb_create,
+> +};
+> +
+
+> new file mode 100644
+> index 000000000000..cc728d5a4aee
+> --- /dev/null
+> +++ b/drivers/gpu/drm/logicvc/logicvc_drm.h
+> @@ -0,0 +1,60 @@
+> +/* SPDX-License-Identifier: GPL-2.0+ */
+> +/*
+> + * Copyright (C) 2019 Bootlin
+> + * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> + */
+> +
+> +#ifndef _LOGICVC_DRM_H_
+> +#define _LOGICVC_DRM_H_
+> +
+> +#include <linux/regmap.h>
+> +#include <linux/types.h>
+> +#include <drm/drm_device.h>
+> +
+> +#define LOGICVC_DISPLAY_INTERFACE_RGB			0
+> +#define LOGICVC_DISPLAY_INTERFACE_ITU656		1
+> +#define LOGICVC_DISPLAY_INTERFACE_LVDS_4BITS		2
+> +#define LOGICVC_DISPLAY_INTERFACE_LVDS_4BITS_CAMERA	3
+> +#define LOGICVC_DISPLAY_INTERFACE_LVDS_3BITS		4
+> +#define LOGICVC_DISPLAY_INTERFACE_DVI			5
+> +
+> +#define LOGICVC_DISPLAY_COLORSPACE_RGB		0
+> +#define LOGICVC_DISPLAY_COLORSPACE_YUV422	1
+> +#define LOGICVC_DISPLAY_COLORSPACE_YUV444	2
+> +
+> +struct logicvc_crtc;
+> +struct logicvc_interface;
+> +
+> +struct logicvc_drm_config {
+> +	u32 display_interface;
+> +	u32 display_colorspace;
+> +	u32 display_depth;
+> +	u32 row_stride;
+> +	bool dithering;
+> +	bool background_layer;
+> +	bool layers_configurable;
+> +	u32 layers_count;
+> +};
+> +
+> +struct logicvc_drm_caps {
+> +	bool layer_address;
+> +};
+> +
+> +struct logicvc_drm {
+> +	const struct logicvc_drm_caps *caps;
+> +	struct logicvc_drm_config config;
+> +	struct drm_device *drm;
+Modern drm drivers are expected to embed drm_device.
+See example in drm_drv.c
+
+> +	phys_addr_t reserved_mem_base;
+> +	struct regmap *regmap;
+> +
+> +	struct clk *vclk;
+> +	struct clk *vclk2;
+> +	struct clk *lvdsclk;
+> +	struct clk *lvdsclkn;
+> +
+> +	struct list_head layers_list;
+> +	struct logicvc_crtc *crtc;
+> +	struct logicvc_interface *interface;
+> +};
+> +
+> +#endif
+> diff --git a/drivers/gpu/drm/logicvc/logicvc_interface.c b/drivers/gpu/drm/logicvc/logicvc_interface.c
+> new file mode 100644
+> index 000000000000..792b1fc2a5f7
+> --- /dev/null
+> +++ b/drivers/gpu/drm/logicvc/logicvc_interface.c
+> @@ -0,0 +1,235 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Copyright (C) 2019 Bootlin
+> + * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> + */
+> +
+> +#include <linux/types.h>
+> +#include <drm/drm_atomic_helper.h>
+Empty line
+> +#include <drm/drm_bridge.h>
+> +#include <drm/drm_connector.h>
+> +#include <drm/drm_crtc_helper.h>
+> +#include <drm/drm_drv.h>
+> +#include <drm/drm_encoder.h>
+> +#include <drm/drm_gem_cma_helper.h>
+> +#include <drm/drm_modeset_helper_vtables.h>
+> +#include <drm/drm_of.h>
+> +#include <drm/drm_panel.h>
+> +#include <drm/drm_print.h>
+> +#include <drm/drm_probe_helper.h>
+> +
+> +#include "logicvc_crtc.h"
+> +#include "logicvc_drm.h"
+> +#include "logicvc_interface.h"
+> +#include "logicvc_regs.h"
+> +
+
+> +static int logicvc_connector_get_modes(struct drm_connector *drm_connector)
+> +{
+> +	struct logicvc_interface *interface =
+> +		logicvc_interface_from_drm_connector(drm_connector);
+> +
+> +	if (interface->drm_panel)
+> +		return drm_panel_get_modes(interface->drm_panel);
+In drm-misc-next this call takes a connector argument.
+
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct drm_connector_helper_funcs logicvc_connector_helper_funcs = {
+> +	.get_modes		= logicvc_connector_get_modes,
+> +};
+> +
+> +static void logicvc_connector_destroy(struct drm_connector *drm_connector)
+> +{
+> +	struct logicvc_interface *interface =
+> +		logicvc_interface_from_drm_connector(drm_connector);
+> +
+> +	if (interface->drm_panel)
+> +		drm_panel_detach(interface->drm_panel);
+> +
+> +	drm_connector_cleanup(drm_connector);
+> +}
+> +
+> +static const struct drm_connector_funcs logicvc_connector_funcs = {
+> +	.reset			= drm_atomic_helper_connector_reset,
+> +	.fill_modes		= drm_helper_probe_single_connector_modes,
+> +	.destroy		= logicvc_connector_destroy,
+> +	.atomic_duplicate_state	= drm_atomic_helper_connector_duplicate_state,
+> +	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
+> +};
+> +
+
+> +int logicvc_interface_init(struct logicvc_drm *logicvc)
+> +{
+> +	struct logicvc_interface *interface;
+> +	struct device_node *of_node = logicvc->drm->dev->of_node;
+> +	int encoder_type = logicvc_interface_encoder_type(logicvc);
+> +	int connector_type = logicvc_interface_connector_type(logicvc);
+The connector is today part of drm_panel, and should not be decided by
+the display driver.
+
+> +	bool native_connector = logicvc_interface_native_connector(logicvc);
+> +	int ret;
+> +
+> +	interface = devm_kzalloc(logicvc->drm->dev, sizeof(*interface),
+> +				 GFP_KERNEL);
+> +	if (!interface) {
+> +		ret = -ENOMEM;
+> +		goto error_early;
+> +	}
+> +
+> +	interface->logicvc = logicvc;
+> +
+> +	ret = drm_of_find_panel_or_bridge(of_node, 1, 0, &interface->drm_panel,
+> +					  &interface->drm_bridge);
+> +	if (ret == -EPROBE_DEFER)
+> +		goto error_early;
+> +
+> +	ret = drm_encoder_init(logicvc->drm, &interface->drm_encoder,
+> +			       &logicvc_encoder_funcs, encoder_type, NULL);
+> +	if (ret) {
+> +		DRM_ERROR("Failed to initalize encoder\n");
+> +		goto error_early;
+> +	}
+> +
+> +	drm_encoder_helper_add(&interface->drm_encoder,
+> +			       &logicvc_encoder_helper_funcs);
+> +
+> +	if (native_connector || interface->drm_panel) {
+> +		ret = drm_connector_init(logicvc->drm,
+> +					 &interface->drm_connector,
+> +					 &logicvc_connector_funcs,
+> +					 connector_type);
+> +		if (ret) {
+> +			DRM_ERROR("Failed to initalize connector\n");
+> +			goto error_encoder;
+> +		}
+> +
+> +		drm_connector_helper_add(&interface->drm_connector,
+> +					 &logicvc_connector_helper_funcs);
+> +
+> +		ret = drm_connector_attach_encoder(&interface->drm_connector,
+> +						   &interface->drm_encoder);
+> +		if (ret) {
+> +			DRM_ERROR("Failed to attach connector to encoder\n");
+> +			goto error_encoder;
+> +		}
+> +	}
+> +
+> +	if (interface->drm_panel) {
+> +		ret = drm_panel_attach(interface->drm_panel,
+> +				       &interface->drm_connector);
+> +		if (ret) {
+> +			DRM_ERROR("Failed to attach panel to connector\n");
+> +			goto error_encoder;
+> +		}
+> +	}
+> +
+> +	if (interface->drm_bridge) {
+> +		ret = drm_bridge_attach(&interface->drm_encoder,
+> +					interface->drm_bridge, NULL);
+> +		if (ret) {
+> +			DRM_ERROR("Failed to attach bridge to encoder\n");
+> +			goto error_encoder;
+> +		}
+> +	}
+> +
+> +	logicvc->interface = interface;
+> +
+> +	return 0;
+> +
+> +error_encoder:
+> +	drm_encoder_cleanup(&interface->drm_encoder);
+> +
+> +error_early:
+> +	return ret;
 > +}
 
+> diff --git a/drivers/gpu/drm/logicvc/logicvc_layer.c b/drivers/gpu/drm/logicvc/logicvc_layer.c
+> new file mode 100644
+> index 000000000000..c7b092d592ad
+> --- /dev/null
+> +++ b/drivers/gpu/drm/logicvc/logicvc_layer.c
+> @@ -0,0 +1,594 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Copyright (C) 2019 Bootlin
+> + * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> + */
 > +
-> +static const struct of_device_id nt35510_of_match[] = {
-> +	{
-> +		.compatible = "hydis,hva40wv1",
-> +		.data = &nt35510_hydis_hva40wv1,
-> +	},
-> +	{ }
-Use { /* sentinel */ },
+> +#include <linux/of.h>
+> +#include <linux/types.h>
+> +#include <drm/drm_atomic.h>
+Empty lines between blocks of include
 
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_fb_cma_helper.h>
+> +#include <drm/drm_fourcc.h>
+> +#include <drm/drm_plane.h>
+> +#include <drm/drm_plane_helper.h>
+> +#include <drm/drm_print.h>
+> +
+> +#include "logicvc_crtc.h"
+> +#include "logicvc_drm.h"
+> +#include "logicvc_layer.h"
+> +#include "logicvc_of.h"
+> +#include "logicvc_regs.h"
+> +
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
