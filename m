@@ -1,38 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ACDC130290
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Jan 2020 15:15:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0C9F130299
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Jan 2020 15:20:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95BC48996F;
-	Sat,  4 Jan 2020 14:15:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0B086E42F;
+	Sat,  4 Jan 2020 14:20:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B4A48996F
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Jan 2020 14:15:11 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3519C6E42F
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Jan 2020 14:20:17 +0000 (UTC)
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id B230D20029;
- Sat,  4 Jan 2020 15:15:08 +0100 (CET)
-Date: Sat, 4 Jan 2020 15:15:07 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v7] drm/panel: Add driver for Sony ACX424AKP panel
-Message-ID: <20200104141507.GA17768@ravnborg.org>
-References: <20200104001026.201086-1-linus.walleij@linaro.org>
+ by mail.kernel.org (Postfix) with ESMTPSA id 8872922B48;
+ Sat,  4 Jan 2020 14:20:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1578147617;
+ bh=XsnHsHj53JhaNYFbo6CFsI3eeVhtmBQ3PCkV9VTU9Hs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=cuQWj+ghg2SnHa/Geq6Fb5zpTiTpIcRhG/BSO2FF5F/yFYZSkTuL+Apmr7vFf6BDm
+ rMmn4RFiatdKPi4Ag0vnuMCM1mM7EP6naB3Dv0Cpl3hnzhOUCQF2+VWph0ZvQ5mBEv
+ I9e2N5Iet/IQV+5fTulEYEb94y0ai+vY/g7U0P2k=
+Date: Sat, 4 Jan 2020 15:20:14 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Subject: Re: [PATCH v3 2/9] drm/sun4i: tcon: Add TCON LCD support for R40
+Message-ID: <20200104142014.o6znmngwjw7o46dl@gilmour.lan>
+References: <20191231130528.20669-1-jagan@amarulasolutions.com>
+ <20191231130528.20669-3-jagan@amarulasolutions.com>
+ <20200102105424.kmte7aooh2gkrcnu@gilmour.lan>
+ <CAMty3ZA0e8eJZWvAh0x=KGAZVL3apdao3COvR6j3-ckv0cdvcg@mail.gmail.com>
+ <20200102154703.3prgwcjyo36g5g5u@gilmour.lan>
+ <CAMty3ZB_6GyK=hhJU-8yAQiom1Uq25ojFbKaGrK1fmW8SnDV_A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200104001026.201086-1-linus.walleij@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=j8Cu_9a8AAAA:8
- a=KKAkSRfTAAAA:8 a=L3pK8pvX2aSRoR89ncwA:9 a=CjuIK1q_8ugA:10
- a=A2jcf3dkIZPIRbEE90CI:22 a=cvBusfyB2V15izCimMoJ:22
+In-Reply-To: <CAMty3ZB_6GyK=hhJU-8yAQiom1Uq25ojFbKaGrK1fmW8SnDV_A@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,100 +50,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Stephan Gerhold <stephan@gerhold.net>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ devicetree <devicetree@vger.kernel.org>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, David Airlie <airlied@linux.ie>,
+ linux-sunxi <linux-sunxi@googlegroups.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Content-Type: multipart/mixed; boundary="===============1359551019=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus.
 
-On Sat, Jan 04, 2020 at 01:10:26AM +0100, Linus Walleij wrote:
-> The Sony ACX424AKP is a command/videomode DSI panel for
-> mobile devices. It is used on the ST-Ericsson HREF520
-> reference design. We support video mode by default, but
-> it is possible to switch the panel into command mode
-> by using the bool property "dsi-command-mode".
-> 
-> Cc: Stephan Gerhold <stephan@gerhold.net>
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-
-Driver looks good but there are a few issues yet to address:
-It does not build on top of drm-misc-next due to changes to the
-drm_panel code.
-
-And then there is a few checkpatch warnings that needs to be looked at:
--:25: WARNING:CONFIG_DESCRIPTION: please write a paragraph that describes the config symbol fully
-#25: FILE: drivers/gpu/drm/panel/Kconfig:330:
-+config DRM_PANEL_SONY_ACX424AKP
-
--:52: WARNING:FILE_PATH_CHANGES: added, moved or deleted file(s), does MAINTAINERS need updating?
-#52:
-new file mode 100644
-
--:307: CHECK:USLEEP_RANGE: usleep_range is preferred over udelay; see Documentation/timers/timers-howto.rst
-#307: FILE: drivers/gpu/drm/panel/panel-sony-acx424akp.c:251:
-+	udelay(20);
-
--:310: WARNING:MSLEEP: msleep < 20ms can sleep for up to 20ms; see Documentation/timers/timers-howto.rst
-#310: FILE: drivers/gpu/drm/panel/panel-sony-acx424akp.c:254:
-+	msleep(11);
-
--:319: WARNING:MSLEEP: msleep < 20ms can sleep for up to 20ms; see Documentation/timers/timers-howto.rst
-#319: FILE: drivers/gpu/drm/panel/panel-sony-acx424akp.c:263:
-+	msleep(11);
-
--:543: CHECK:PARENTHESIS_ALIGNMENT: Alignment should match open parenthesis
-#543: FILE: drivers/gpu/drm/panel/panel-sony-acx424akp.c:487:
-+	acx->reset_gpio = devm_gpiod_get_optional(dev, "reset",
-+						 GPIOD_OUT_HIGH);
+--===============1359551019==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="zomtrfc34zk3phes"
+Content-Disposition: inline
 
 
-The build errors was easy to fix - but please have a look at the other
-warnings.
+--zomtrfc34zk3phes
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I did the following changes locally to fix the build.
-But I did not try to look into the delay stuff.
+Hi,
 
-	Sam
+On Thu, Jan 02, 2020 at 10:04:40PM +0530, Jagan Teki wrote:
+> On Thu, Jan 2, 2020 at 9:17 PM Maxime Ripard <mripard@kernel.org> wrote:
+> >
+> > On Thu, Jan 02, 2020 at 09:10:31PM +0530, Jagan Teki wrote:
+> > > On Thu, Jan 2, 2020 at 4:24 PM Maxime Ripard <mripard@kernel.org> wrote:
+> > > >
+> > > > On Tue, Dec 31, 2019 at 06:35:21PM +0530, Jagan Teki wrote:
+> > > > > TCON LCD0, LCD1 in allwinner R40, are used for managing
+> > > > > LCD interfaces like RGB, LVDS and DSI.
+> > > > >
+> > > > > Like TCON TV0, TV1 these LCD0, LCD1 are also managed via
+> > > > > tcon top.
+> > > > >
+> > > > > Add support for it, in tcon driver.
+> > > > >
+> > > > > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> > > > > ---
+> > > > > Changes for v3:
+> > > > > - none
+> > > > >
+> > > > >  drivers/gpu/drm/sun4i/sun4i_tcon.c | 8 ++++++++
+> > > > >  1 file changed, 8 insertions(+)
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+> > > > > index fad72799b8df..69611d38c844 100644
+> > > > > --- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
+> > > > > +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+> > > > > @@ -1470,6 +1470,13 @@ static const struct sun4i_tcon_quirks sun8i_a83t_tv_quirks = {
+> > > > >       .has_channel_1          = true,
+> > > > >  };
+> > > > >
+> > > > > +static const struct sun4i_tcon_quirks sun8i_r40_lcd_quirks = {
+> > > > > +     .supports_lvds          = true,
+> > > > > +     .has_channel_0          = true,
+> > > > > +     /* TODO Need to support TCON output muxing via GPIO pins */
+> > > > > +     .set_mux                = sun8i_r40_tcon_tv_set_mux,
+> > > >
+> > > > What is this muking about? And why is it a TODO?
+> > >
+> > > Muxing similar like how TCON TOP handle TV0, TV1 I have reused the
+> > > same so-that it would configure de port selection via
+> > > sun8i_tcon_top_de_config
+> > >
+> > > TCON output muxing have gpio with GPIOD and GPIOH bits, which select
+> > > which of LCD or TV TCON outputs to the LCD function pins. I have
+> > > marked these has TODO for further support as mentioned by Chen-Yu in
+> > > v1[1].
+> >
+> > It should be in the commit log.
+>
+> Make sense.
+>
+> > What's the plan to support that when needed? And that means that the
+> > LCD and TV outputs are mutually exclusive? We should at the very least
+> > check that both aren't enabled at the same time.
+>
+> Yes, LCD or TV within the outselect seems to be mutually exclusive.
+> Like LCD0 or TV0 can output to GPIOD incase of TV0_OUTSEL and LCD1 or
+> TV1 can output to GPIOH incase of TV1_OUTSEL. I think checking them
+> before configuring TCON_TOP_PORT_SEL_REG would make sense, let me know
+> if you have any suggestions?
 
-diff --git a/drivers/gpu/drm/panel/panel-sony-acx424akp.c b/drivers/gpu/drm/panel/panel-sony-acx424akp.c
-index fe33f97cd812..38c83f5b16d5 100644
---- a/drivers/gpu/drm/panel/panel-sony-acx424akp.c
-+++ b/drivers/gpu/drm/panel/panel-sony-acx424akp.c
-@@ -407,17 +407,17 @@ static int acx424akp_disable(struct drm_panel *panel)
- 	return 0;
- }
- 
--static int acx424akp_get_modes(struct drm_panel *panel)
-+static int acx424akp_get_modes(struct drm_panel *panel,
-+			       struct drm_connector *connector)
- {
- 	struct acx424akp *acx = panel_to_acx424akp(panel);
--	struct drm_connector *connector = panel->connector;
- 	struct drm_display_mode *mode;
- 
- 	if (acx->video_mode)
--		mode = drm_mode_duplicate(panel->drm,
-+		mode = drm_mode_duplicate(connector->dev,
- 					  &sony_acx424akp_vid_mode);
- 	else
--		mode = drm_mode_duplicate(panel->drm,
-+		mode = drm_mode_duplicate(connector->dev,
- 					  &sony_acx424akp_cmd_mode);
- 	if (!mode) {
- 		DRM_ERROR("bad mode or failed to add mode\n");
-@@ -484,7 +484,7 @@ static int acx424akp_probe(struct mipi_dsi_device *dsi)
- 
- 	/* This asserts RESET by default */
- 	acx->reset_gpio = devm_gpiod_get_optional(dev, "reset",
--						 GPIOD_OUT_HIGH);
-+						  GPIOD_OUT_HIGH);
- 	if (IS_ERR(acx->reset_gpio)) {
- 		ret = PTR_ERR(acx->reset_gpio);
- 		if (ret != -EPROBE_DEFER)
+Making sure in atomic_check that TV and LCD are not used at the same
+time, and then in encoders mode_set / enable mux the pins to our
+encoders would be my first guess.
+
+Maxime
+
+--zomtrfc34zk3phes
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXhCfHgAKCRDj7w1vZxhR
+xQw+AQC+UAAD2DuXR7nMr0l0A/3NybkZVTKykyr2HbVJa1arrgEAuPLgwEfGu61X
+lS7E6DoCPkU97rnULAbmAOLQBZyMjws=
+=D1UE
+-----END PGP SIGNATURE-----
+
+--zomtrfc34zk3phes--
+
+--===============1359551019==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1359551019==--
