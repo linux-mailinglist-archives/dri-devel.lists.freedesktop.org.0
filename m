@@ -1,41 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A7351306D8
-	for <lists+dri-devel@lfdr.de>; Sun,  5 Jan 2020 09:46:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE0BB1306E4
+	for <lists+dri-devel@lfdr.de>; Sun,  5 Jan 2020 10:13:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F08789D83;
-	Sun,  5 Jan 2020 08:46:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 172716E0C4;
+	Sun,  5 Jan 2020 09:13:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9652B89D83
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Jan 2020 08:46:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A0A06E0C4
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Jan 2020 09:13:08 +0000 (UTC)
 Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 8028080440;
- Sun,  5 Jan 2020 09:46:29 +0100 (CET)
-Date: Sun, 5 Jan 2020 09:46:27 +0100
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 720D880441;
+ Sun,  5 Jan 2020 10:13:04 +0100 (CET)
+Date: Sun, 5 Jan 2020 10:13:03 +0100
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH 2/3] drm/mipi_dbi: Add support for display offsets
-Message-ID: <20200105084627.GA29102@ravnborg.org>
+Subject: Re: [PATCH 3/3] drm: tiny: st7735r: Add support for Okaya RH128128T
+Message-ID: <20200105091303.GB29102@ravnborg.org>
 References: <20200102141246.370-1-geert+renesas@glider.be>
- <20200102141246.370-3-geert+renesas@glider.be>
+ <20200102141246.370-4-geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200102141246.370-3-geert+renesas@glider.be>
+In-Reply-To: <20200102141246.370-4-geert+renesas@glider.be>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
  a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
- a=e5mUnYsNAAAA:8 a=ZoU0odOk0bs6Eg6Q7zMA:9 a=a0DBwEYVBf8EGunF:21
- a=msDo9IaW2_0JOe--:21 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
- a=Vxmtnl_E_bksehYqCbjh:22 a=pHzHmUro8NiASowvMSCR:22
- a=6VlIyEUom7LUIeUMNQJH:22
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=WZHNqt2aAAAA:8
+ a=e5mUnYsNAAAA:8 a=bDZ8_mipTldAwkuLC-IA:9 a=CjuIK1q_8ugA:10
+ a=PrHl9onO2p7xFKlKy1af:22 a=Vxmtnl_E_bksehYqCbjh:22
+ a=pHzHmUro8NiASowvMSCR:22 a=6VlIyEUom7LUIeUMNQJH:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,102 +58,213 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Geert.
 
-On Thu, Jan 02, 2020 at 03:12:45PM +0100, Geert Uytterhoeven wrote:
-> If the resolution of the TFT display is smaller than the maximum
-> resolution supported by the display controller, the display may be
-> connected to the driver output arrays with a horizontal and/or vertical
-> offset, leading to a shifted image.
+Good to see we add more functionality to the smallest driver in DRM.
+The patch triggered a few comments - see below.
+Some comments relates to the original driver - and not your changes.
+
+	Sam
+
+On Thu, Jan 02, 2020 at 03:12:46PM +0100, Geert Uytterhoeven wrote:
+> Add support for the Okaya RH128128T display to the st7735r driver.
 > 
-> Add support for specifying these offsets.
-> 
+> The RH128128T is a 128x128 1.44" TFT display driven by a Sitronix
+> ST7715R TFT Controller/Driver.  The latter is very similar to the
+> ST7735R, and can be handled by the existing st7735r driver.
+
+As a general comment - it would have eased review if this was split
+in two patches.
+One patch to introduce the infrastructure to deal with another set of
+controller/display and one patch introducing the new combination.
+
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Looks good - the helper made the code more readable.
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-
 > ---
->  drivers/gpu/drm/drm_mipi_dbi.c | 30 ++++++++++++++++++++----------
->  include/drm/drm_mipi_dbi.h     | 12 ++++++++++++
->  2 files changed, 32 insertions(+), 10 deletions(-)
+>  drivers/gpu/drm/tiny/st7735r.c | 65 ++++++++++++++++++++++++++++------
+>  1 file changed, 55 insertions(+), 10 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
-> index 16bff1be4b8ac622..27fe81a53c88e338 100644
-> --- a/drivers/gpu/drm/drm_mipi_dbi.c
-> +++ b/drivers/gpu/drm/drm_mipi_dbi.c
-> @@ -238,6 +238,23 @@ int mipi_dbi_buf_copy(void *dst, struct drm_framebuffer *fb,
->  }
->  EXPORT_SYMBOL(mipi_dbi_buf_copy);
+> diff --git a/drivers/gpu/drm/tiny/st7735r.c b/drivers/gpu/drm/tiny/st7735r.c
+> index 3f4487c716848cf8..05d162e76d8481e5 100644
+> --- a/drivers/gpu/drm/tiny/st7735r.c
+> +++ b/drivers/gpu/drm/tiny/st7735r.c
+> @@ -1,8 +1,9 @@
+>  // SPDX-License-Identifier: GPL-2.0+
+>  /*
+> - * DRM driver for Sitronix ST7735R panels
+> + * DRM driver for Sitronix ST7715R/ST7735R panels
+
+This comment could describe the situation a little better.
+This is a sitronix st7735r controller with a jianda jd-t18003-t01
+display.
+Or a sitronix st7715r controller with a okaya rh128128t display.
+
+
+>   *
+>   * Copyright 2017 David Lechner <david@lechnology.com>
+> + * Copyright (C) 2019 Glider bvba
+>   */
 >  
-> +static void mipi_dbi_set_window_address(struct mipi_dbi_dev *dbidev,
-> +					unsigned int xs, unsigned int xe,
-> +					unsigned int ys, unsigned int ye)
-> +{
-> +	struct mipi_dbi *dbi = &dbidev->dbi;
+>  #include <linux/backlight.h>
+> @@ -10,6 +11,7 @@
+>  #include <linux/dma-buf.h>
+>  #include <linux/gpio/consumer.h>
+>  #include <linux/module.h>
+> +#include <linux/of_device.h>
+>  #include <linux/property.h>
+>  #include <linux/spi/spi.h>
+>  #include <video/mipi_display.h>
+> @@ -37,12 +39,28 @@
+>  #define ST7735R_MY	BIT(7)
+>  #define ST7735R_MX	BIT(6)
+>  #define ST7735R_MV	BIT(5)
+> +#define ST7735R_RGB	BIT(3)
 > +
-> +	xs += dbidev->left_offset;
-> +	xe += dbidev->left_offset;
-> +	ys += dbidev->top_offset;
-> +	ye += dbidev->top_offset;
-> +
-> +	mipi_dbi_command(dbi, MIPI_DCS_SET_COLUMN_ADDRESS, (xs >> 8) & 0xff,
-> +			 xs & 0xff, (xe >> 8) & 0xff, xe & 0xff);
-> +	mipi_dbi_command(dbi, MIPI_DCS_SET_PAGE_ADDRESS, (ys >> 8) & 0xff,
-> +			 ys & 0xff, (ye >> 8) & 0xff, ye & 0xff);
-> +}
-> +
->  static void mipi_dbi_fb_dirty(struct drm_framebuffer *fb, struct drm_rect *rect)
->  {
->  	struct drm_gem_object *gem = drm_gem_fb_get_obj(fb, 0);
-> @@ -271,12 +288,8 @@ static void mipi_dbi_fb_dirty(struct drm_framebuffer *fb, struct drm_rect *rect)
->  		tr = cma_obj->vaddr;
->  	}
->  
-> -	mipi_dbi_command(dbi, MIPI_DCS_SET_COLUMN_ADDRESS,
-> -			 (rect->x1 >> 8) & 0xff, rect->x1 & 0xff,
-> -			 ((rect->x2 - 1) >> 8) & 0xff, (rect->x2 - 1) & 0xff);
-> -	mipi_dbi_command(dbi, MIPI_DCS_SET_PAGE_ADDRESS,
-> -			 (rect->y1 >> 8) & 0xff, rect->y1 & 0xff,
-> -			 ((rect->y2 - 1) >> 8) & 0xff, (rect->y2 - 1) & 0xff);
-> +	mipi_dbi_set_window_address(dbidev, rect->x1, rect->x2 - 1, rect->y1,
-> +				    rect->y2 - 1);
->  
->  	ret = mipi_dbi_command_buf(dbi, MIPI_DCS_WRITE_MEMORY_START, tr,
->  				   width * height * 2);
-> @@ -366,10 +379,7 @@ static void mipi_dbi_blank(struct mipi_dbi_dev *dbidev)
->  
->  	memset(dbidev->tx_buf, 0, len);
->  
-> -	mipi_dbi_command(dbi, MIPI_DCS_SET_COLUMN_ADDRESS, 0, 0,
-> -			 ((width - 1) >> 8) & 0xFF, (width - 1) & 0xFF);
-> -	mipi_dbi_command(dbi, MIPI_DCS_SET_PAGE_ADDRESS, 0, 0,
-> -			 ((height - 1) >> 8) & 0xFF, (height - 1) & 0xFF);
-> +	mipi_dbi_set_window_address(dbidev, 0, width - 1, 0, height - 1);
->  	mipi_dbi_command_buf(dbi, MIPI_DCS_WRITE_MEMORY_START,
->  			     (u8 *)dbidev->tx_buf, len);
->  
-> diff --git a/include/drm/drm_mipi_dbi.h b/include/drm/drm_mipi_dbi.h
-> index 67c66f5ee591e80f..33f325f5af2b921f 100644
-> --- a/include/drm/drm_mipi_dbi.h
-> +++ b/include/drm/drm_mipi_dbi.h
-> @@ -109,6 +109,18 @@ struct mipi_dbi_dev {
->  	 */
->  	unsigned int rotation;
->  
-> +	/**
-> +	 * @left_offset: Horizontal offset of the display relative to the
-> +	 *               controller's driver array
-> +	 */
+> +struct st7735r_cfg {
+> +	const struct drm_display_mode mode;
 > +	unsigned int left_offset;
-> +
-> +	/**
-> +	 * @top_offset: Vertical offset of the display relative to the
-> +	 *              controller's driver array
-> +	 */
 > +	unsigned int top_offset;
+> +	unsigned int write_only:1;
+> +	unsigned int rgb:1;		/* RGB (vs. BGR) */
+> +};
 > +
->  	/**
->  	 * @backlight: backlight device (optional)
->  	 */
+> +struct st7735r_priv {
+> +	struct mipi_dbi_dev dbidev;	/* Must be first for .release() */
+> +	unsigned int rgb:1;
+> +};
+
+The structs here uses "st7735r" as the generic prefix.
+But the rest of this file uses "jd_t18003_t01" as the generic prefix.
+
+It would help readability if the same prefix is used for the common
+stuff everywhere.
+
+struct st7735r_priv includes "rgb" which is copied from struct
+st7735r_cfg.
+Maybe just add a const pointer to struct st7735r_cfg,
+so when we later add more configuration items we do not need to have two
+copies. And then ofc drop st7735r_priv.rgb.
+
+>  
+>  static void jd_t18003_t01_pipe_enable(struct drm_simple_display_pipe *pipe,
+>  				      struct drm_crtc_state *crtc_state,
+>  				      struct drm_plane_state *plane_state)
+>  {
+>  	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
+> +	struct st7735r_priv *priv = container_of(dbidev, struct st7735r_priv,
+> +						 dbidev);
+>  	struct mipi_dbi *dbi = &dbidev->dbi;
+>  	int ret, idx;
+>  	u8 addr_mode;
+> @@ -87,6 +105,10 @@ static void jd_t18003_t01_pipe_enable(struct drm_simple_display_pipe *pipe,
+>  		addr_mode = ST7735R_MY | ST7735R_MV;
+>  		break;
+>  	}
+> +
+> +	if (priv->rgb)
+> +		addr_mode |= ST7735R_RGB;
+> +
+>  	mipi_dbi_command(dbi, MIPI_DCS_SET_ADDRESS_MODE, addr_mode);
+>  	mipi_dbi_command(dbi, MIPI_DCS_SET_PIXEL_FORMAT,
+>  			 MIPI_DCS_PIXEL_FMT_16BIT);
+> @@ -116,8 +138,17 @@ static const struct drm_simple_display_pipe_funcs jd_t18003_t01_pipe_funcs = {
+>  	.prepare_fb	= drm_gem_fb_simple_display_pipe_prepare_fb,
+>  };
+>  
+> -static const struct drm_display_mode jd_t18003_t01_mode = {
+> -	DRM_SIMPLE_MODE(128, 160, 28, 35),
+> +static const struct st7735r_cfg jd_t18003_t01_cfg = {
+> +	.mode		= { DRM_SIMPLE_MODE(128, 160, 28, 35) },
+> +	/* Cannot read from Adafruit 1.8" display via SPI */
+> +	.write_only	= true,
+> +};
+> +
+> +static const struct st7735r_cfg rh128128t_cfg = {
+> +	.mode		= { DRM_SIMPLE_MODE(128, 128, 25, 26) },
+> +	.left_offset	= 2,
+> +	.top_offset	= 3,
+> +	.rgb		= true,
+>  };
+>  
+>  DEFINE_DRM_GEM_CMA_FOPS(st7735r_fops);
+> @@ -136,13 +167,14 @@ static struct drm_driver st7735r_driver = {
+>  };
+>  
+>  static const struct of_device_id st7735r_of_match[] = {
+> -	{ .compatible = "jianda,jd-t18003-t01" },
+> +	{ .compatible = "jianda,jd-t18003-t01", .data = &jd_t18003_t01_cfg },
+> +	{ .compatible = "okaya,rh128128t", .data = &rh128128t_cfg },
+>  	{ },
+{ /* sentinel },
+
+Also - which is not a new thing - this fails to check that we have the
+correct combination of two compatibles.
+From the binding:
+
+    Must be one of the following combinations:
+    - "jianda,jd-t18003-t01", "sitronix,st7735r"
+    - "okaya,rh128128t", "sitronix,st7715r"
+
+>  };
+>  MODULE_DEVICE_TABLE(of, st7735r_of_match);
+>  
+>  static const struct spi_device_id st7735r_id[] = {
+> -	{ "jd-t18003-t01", 0 },
+> +	{ "jd-t18003-t01", (uintptr_t)&jd_t18003_t01_cfg },
+>  	{ },
+{ /* sentinel */ },
+
+Do we need an entry for "okaya,rh128128t" here?
+
+Note: I have not fully understood how MODULE_DEVICE_TABLE()
+works - so forgive me my ignorance.
+
+>  };
+>  MODULE_DEVICE_TABLE(spi, st7735r_id);
+> @@ -150,17 +182,26 @@ MODULE_DEVICE_TABLE(spi, st7735r_id);
+>  static int st7735r_probe(struct spi_device *spi)
+>  {
+>  	struct device *dev = &spi->dev;
+> +	const struct st7735r_cfg *cfg;
+>  	struct mipi_dbi_dev *dbidev;
+> +	struct st7735r_priv *priv;
+>  	struct drm_device *drm;
+>  	struct mipi_dbi *dbi;
+>  	struct gpio_desc *dc;
+>  	u32 rotation = 0;
+>  	int ret;
+>  
+> -	dbidev = kzalloc(sizeof(*dbidev), GFP_KERNEL);
+> -	if (!dbidev)
+> +	cfg = of_device_get_match_data(&spi->dev);
+> +	if (!cfg)
+> +		cfg = (void *)spi_get_device_id(spi)->driver_data;
+> +
+> +	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
+> +	if (!priv)
+>  		return -ENOMEM;
+>  
+> +	dbidev = &priv->dbidev;
+> +	priv->rgb = cfg->rgb;
+> +
+>  	dbi = &dbidev->dbi;
+>  	drm = &dbidev->drm;
+>  	ret = devm_drm_dev_init(dev, drm, &st7735r_driver);
+> @@ -193,10 +234,14 @@ static int st7735r_probe(struct spi_device *spi)
+>  	if (ret)
+>  		return ret;
+>  
+> -	/* Cannot read from Adafruit 1.8" display via SPI */
+> -	dbi->read_commands = NULL;
+> +	if (cfg->write_only)
+> +		dbi->read_commands = NULL;
+> +
+> +	dbidev->left_offset = cfg->left_offset;
+> +	dbidev->top_offset = cfg->top_offset;
+>  
+> -	ret = mipi_dbi_dev_init(dbidev, &jd_t18003_t01_pipe_funcs, &jd_t18003_t01_mode, rotation);
+> +	ret = mipi_dbi_dev_init(dbidev, &jd_t18003_t01_pipe_funcs, &cfg->mode,
+> +				rotation);
+>  	if (ret)
+>  		return ret;
+>  
 > -- 
 > 2.17.1
 > 
