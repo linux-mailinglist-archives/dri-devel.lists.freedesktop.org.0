@@ -1,55 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB5B61308E3
-	for <lists+dri-devel@lfdr.de>; Sun,  5 Jan 2020 16:51:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 273EC130971
+	for <lists+dri-devel@lfdr.de>; Sun,  5 Jan 2020 19:41:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B81F989F6F;
-	Sun,  5 Jan 2020 15:51:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6FE489F92;
+	Sun,  5 Jan 2020 18:41:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B2BB89F53
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Jan 2020 15:51:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578239489;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=x6OIc3pQ7ZIqC43FPRqB/KljWv+B3xg16y0Q8vkdWPs=;
- b=cUq2G17M9odBaU/zn3g6gxqw+4rDrmlZ+bgpCHug7S+8nWx7Ag86KOn/Zi7Co3ssvXo4eW
- m3LJwb+5ZkavhpElQKaf4obgXla3iIGcZM9sg/K1J3MVPaPUGdvztom4W+4PLrkfUwgheg
- jC99/ez2kGlXIav+aK6F7zU8/mjCHC0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-421-QZjMdC_rP7aACaHtandOIQ-1; Sun, 05 Jan 2020 10:51:27 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC6AD801E70;
- Sun,  5 Jan 2020 15:51:25 +0000 (UTC)
-Received: from shalem.localdomain.com (ovpn-116-82.ams2.redhat.com
- [10.36.116.82])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5D5475D9CD;
- Sun,  5 Jan 2020 15:51:24 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: [PATCH v2 2/2] drm/connector: Hookup the new drm_cmdline_mode
- panel_orientation member (v2)
-Date: Sun,  5 Jan 2020 16:51:20 +0100
-Message-Id: <20200105155120.96466-2-hdegoede@redhat.com>
-In-Reply-To: <20200105155120.96466-1-hdegoede@redhat.com>
-References: <20200105155120.96466-1-hdegoede@redhat.com>
+X-Greylist: delayed 582 seconds by postgrey-1.36 at gabe;
+ Sun, 05 Jan 2020 18:41:47 UTC
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E81189F89
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Jan 2020 18:41:47 +0000 (UTC)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+ id AE2F01C21EA; Sun,  5 Jan 2020 19:32:02 +0100 (CET)
+Date: Sun, 5 Jan 2020 19:32:02 +0100
+From: Pavel Machek <pavel@ucw.cz>
+To: kernel list <linux-kernel@vger.kernel.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ linux-omap@vger.kernel.org, tony@atomide.com, sre@kernel.org,
+ nekit1000@gmail.com, mpartap@gmx.net, merlijn@wizzup.org,
+ martin_rysavy@centrum.cz, agx@sigxcpu.org, lee.jones@linaro.org,
+ daniel.thompson@linaro.org, jingoohan1@gmail.com,
+ dri-devel@lists.freedesktop.org
+Subject: LED backlight on Droid 4 and others
+Message-ID: <20200105183202.GA17784@duo.ucw.cz>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: QZjMdC_rP7aACaHtandOIQ-1
-X-Mimecast-Spam-Score: 0
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,49 +41,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: jjhiblot@ti.com, daniel.thompson@linaro.org, tomi.valkeinen@ti.com
+Content-Type: multipart/mixed; boundary="===============0598420325=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the new video=... panel_orientation option is set for a connector, honor
-it and setup a matching "panel orientation" property on the connector.
 
-Changes in v2:
--Improve DRM_INFO message to make it clear that the panel_orientation is
- being forced from the commandline
+--===============0598420325==
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="pf9I7BMVVzbSWLtt"
+Content-Disposition: inline
 
-BugLink: https://gitlab.freedesktop.org/plymouth/plymouth/merge_requests/83
-Acked-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/gpu/drm/drm_connector.c | 7 +++++++
- 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index de5031c4aa49..f632ca05960e 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -140,6 +140,13 @@ static void drm_connector_get_cmdline_mode(struct drm_connector *connector)
- 		connector->force = mode->force;
- 	}
- 
-+	if (mode->panel_orientation != DRM_MODE_PANEL_ORIENTATION_UNKNOWN) {
-+		DRM_INFO("cmdline forces connector %s panel_orientation to %d\n",
-+			 connector->name, mode->panel_orientation);
-+		drm_connector_set_panel_orientation(connector,
-+						    mode->panel_orientation);
-+	}
-+
- 	DRM_DEBUG_KMS("cmdline mode for connector %s %s %dx%d@%dHz%s%s%s\n",
- 		      connector->name, mode->name,
- 		      mode->xres, mode->yres,
--- 
-2.24.1
+--pf9I7BMVVzbSWLtt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi!
+
+It would be good to get LED backlight to work in clean way for 5.6
+kernel.
+
+As far as I can see, these are neccessary (but not enough; it does not
+work for me): lm3532 changes to register LED with of node, plus device
+tree changes for droid 4, and these generic changes:
+
+commit d457d0c97d6d55fe3e62633791ac05d289a37d2e
+Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Date:   Thu Oct 3 10:28:12 2019 +0200
+
+    backlight: add led-backlight driver
+   =20
+    This patch adds a led-backlight driver (led_bl), which is similar to
+    pwm_bl except the driver uses a LED class driver to adjust the
+    brightness in the HW. Multiple LEDs can be used for a single backlight.
+   =20
+    Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+    Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
+    Acked-by: Pavel Machek <pavel@ucw.cz>
+    Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+
+commit 44b7adbf0b07904e4198ae1d0a763917d1c68a23
+Author: Jean-Jacques Hiblot <jjhiblot@ti.com>
+Date:   Thu Oct 3 10:28:10 2019 +0200
+
+    leds: Add managed API to get a LED from a device driver
+   =20
+    If the LED is acquired by a consumer device with devm_led_get(), it is
+    automatically released when the device is detached.
+   =20
+    Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
+    Acked-by: Pavel Machek <pavel@ucw.cz>
+    Signed-off-by: Pavel <pavel@ucw.cz>
+
+commit 93b98c570d7f898063ab6204e1b3950a3335dd12
+Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Date:   Thu Oct 3 10:28:09 2019 +0200
+
+    leds: Add of_led_get() and led_put()
+   =20
+    This patch adds basic support for a kernel driver to get a LED device.
+    This will be used by the led-backlight driver.
+   =20
+    Only OF version is implemented for now, and the behavior is similar to
+    PWM's of_pwm_get() and pwm_put().
+   =20
+    Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+    Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
+    Acked-by: Pavel Machek <pavel@ucw.cz>
+    Signed-off-by: Pavel <pavel@ucw.cz>
+
+[If you have an idea what else is needed, it would be welcome; it
+works for me in development tree but not in tree I'd like to
+upstream.]
+
+Lee, would you be willing to take "backlight: add led-backlight
+driver"? Would it help if I got "leds: Add managed API to get a LED
+=66rom a device driver" and "leds: Add of_led_get() and led_put()" into
+for_next tree of the LED subsystem?
+
+It is kind of important as, well, phone without screen looks pretty
+much dead, and same issue hits Droid 4 and Librem 5 phones at least...
+
+Best regards,
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--pf9I7BMVVzbSWLtt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXhIroQAKCRAw5/Bqldv6
+8qprAJ90Q8brwIbYFi2ax/hmdk3CLdmWuwCfX3POM4PZoSAPnOvVbdh+jOO7cfI=
+=sBIE
+-----END PGP SIGNATURE-----
+
+--pf9I7BMVVzbSWLtt--
+
+--===============0598420325==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0598420325==--
