@@ -2,28 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0484913085A
-	for <lists+dri-devel@lfdr.de>; Sun,  5 Jan 2020 15:05:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C7BC1308D2
+	for <lists+dri-devel@lfdr.de>; Sun,  5 Jan 2020 16:38:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92A8689A16;
-	Sun,  5 Jan 2020 14:05:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 596A689F55;
+	Sun,  5 Jan 2020 15:38:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 020D0898FD
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Jan 2020 14:05:33 +0000 (UTC)
-Received: from p508fce23.dip0.t-ipconnect.de ([80.143.206.35]
- helo=phil.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.89) (envelope-from <heiko@sntech.de>)
- id 1io6X0-0007kM-Qo; Sun, 05 Jan 2020 15:05:26 +0100
-From: Heiko Stuebner <heiko@sntech.de>
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH v2 00/11] Add PX30 LVDS support
-Date: Sun, 05 Jan 2020 15:05:26 +0100
-Message-ID: <1885398.klecWcqSHf@phil>
-In-Reply-To: <20191224143900.23567-1-miquel.raynal@bootlin.com>
-References: <20191224143900.23567-1-miquel.raynal@bootlin.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D248289F55
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Jan 2020 15:38:43 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 206017] Kernel 5.4.x unusable with GUI due to crashes (some hard)
+Date: Sun, 05 Jan 2020 15:38:42 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: udovdh@xs4all.nl
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-206017-2300-KM3Jkksm8J@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-206017-2300@https.bugzilla.kernel.org/>
+References: <bug-206017-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -37,89 +51,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- David Airlie <airlied@linux.ie>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- linux-rockchip@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
- Maxime Chevallier <maxime.chevallier@bootlin.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Dienstag, 24. Dezember 2019, 15:38:49 CET schrieb Miquel Raynal:
-> Hello,
-> =
+https://bugzilla.kernel.org/show_bug.cgi?id=206017
 
-> This series aims at supporting LVDS on PX30.
-> =
+--- Comment #8 from udo (udovdh@xs4all.nl) ---
+Does the screen corruption I see now and then have something to do with this
+issue?
 
-> A first couple of patches update the documentation with the new
-> compatible and the presence of a PHY. Then, the existing Rockchip
-> driver is cleaned and extended to support PX30 specificities. Finally,
-> the PX30 DTSI is updated with CRTC routes, the DSI DPHY and the LVDS
-> IP itself.
-> =
-
-> Cheers,
-> Miqu=E8l
-> =
-
-> Changes since v1:
-> * Added Rob's Ack.
-> * Used "must" instead of "should" in the bindings.
-> * Precised that phy-names is an optional property in the case of
->   PX30.
-> * Renamed the WRITE_EN macro into HIWORD_UPDATE to be aligned with
->   other files.
-> * Removed extra configuration, not needed for generic panels (see
->   Sandy Huang answer).
-> * Dropped the display-subsystem routes (useless).
-> * Merged two patches to avoid phandle interdependencies in graphs and
->   intermediate build errors.
-> =
-
-> Miquel Raynal (11):
->   dt-bindings: display: rockchip-lvds: Declare PX30 compatible
->   dt-bindings: display: rockchip-lvds: Document PX30 PHY
->   drm/rockchip: lvds: Fix indentation of a #define
->   drm/rockchip: lvds: Harmonize function names
->   drm/rockchip: lvds: Change platform data
->   drm/rockchip: lvds: Create an RK3288 specific probe function
->   drm/rockchip: lvds: Helpers should return decent values
->   drm/rockchip: lvds: Pack functions together
-
-applied patches 1-8 to drm-misc-next
-
->   drm/rockchip: lvds: Add PX30 support
-
-drm-misc-next is currently still at 5.4-rc4, so I'll need to find out how
-to get newer kernel changes in there, as right now we're missing
-the PHY_MODE_LVDS constant.
-
-
-Heiko
-
->   arm64: dts: rockchip: Add PX30 DSI DPHY
->   arm64: dts: rockchip: Add PX30 LVDS
-> =
-
->  .../display/rockchip/rockchip-lvds.txt        |   4 +
->  arch/arm64/boot/dts/rockchip/px30.dtsi        |  48 ++
->  drivers/gpu/drm/rockchip/rockchip_lvds.c      | 486 ++++++++++++------
->  drivers/gpu/drm/rockchip/rockchip_lvds.h      |  19 +-
->  4 files changed, 401 insertions(+), 156 deletions(-)
-> =
-
-> =
-
-
-
-
-
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
