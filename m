@@ -1,41 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6D92130F16
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 10:02:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB73F130F42
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 10:12:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B75489D8E;
-	Mon,  6 Jan 2020 09:01:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE8FA6E204;
+	Mon,  6 Jan 2020 09:11:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA5C689D8E
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2020 09:01:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4C196E204
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2020 09:11:54 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id B2328B027;
- Mon,  6 Jan 2020 09:01:55 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
- id 821931E0B47; Mon,  6 Jan 2020 10:01:47 +0100 (CET)
-Date: Mon, 6 Jan 2020 10:01:47 +0100
-From: Jan Kara <jack@suse.cz>
-To: John Hubbard <jhubbard@nvidia.com>
-Subject: Re: [PATCH v11 00/25] mm/gup: track dma-pinned pages: FOLL_PIN
-Message-ID: <20200106090147.GA9176@quack2.suse.cz>
-References: <20191219132607.GA410823@unreal>
- <a4849322-8e17-119e-a664-80d9f95d850b@nvidia.com>
- <20191219210743.GN17227@ziepe.ca> <20191220182939.GA10944@unreal>
- <1001a5fc-a71d-9c0f-1090-546c4913d8a2@nvidia.com>
- <20191222132357.GF13335@unreal>
- <49d57efe-85e1-6910-baf5-c18df1382206@nvidia.com>
- <20191225052612.GA212002@unreal>
- <b879d191-a07c-e808-e48f-2b9bd8ba4fa3@nvidia.com>
- <612aa292-ec45-295c-b56c-c622876620fa@nvidia.com>
+ by mx2.suse.de (Postfix) with ESMTP id 4DF7FAD00;
+ Mon,  6 Jan 2020 09:11:53 +0000 (UTC)
+Subject: Re: [PATCH] drm/hisilicon: Checked the resolution is valid before
+ connector
+To: Tian Tao <tiantao6@hisilicon.com>, puck.chen@hisilicon.com,
+ airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
+ alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org
+References: <1577494764-28381-1-git-send-email-tiantao6@hisilicon.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <c5772f0d-2741-131f-4086-67206c66c994@suse.de>
+Date: Mon, 6 Jan 2020 10:11:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <612aa292-ec45-295c-b56c-c622876620fa@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1577494764-28381-1-git-send-email-tiantao6@hisilicon.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,115 +67,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
- linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
- linux-kselftest@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
- Maor Gottlieb <maorg@mellanox.com>, Leon Romanovsky <leon@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
- Michael Ellerman <mpe@ellerman.id.au>, Christoph Hellwig <hch@infradead.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@suse.cz>,
- =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
- linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- Ran Rozenstein <ranro@mellanox.com>, linux-block@vger.kernel.org,
- =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
- Al Viro <viro@zeniv.linux.org.uk>, Dan Williams <dan.j.williams@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, bpf@vger.kernel.org,
- Magnus Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
- netdev@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>,
- Mike Kravetz <mike.kravetz@oracle.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: linuxarm@huawei.com
+Content-Type: multipart/mixed; boundary="===============0954441501=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat 28-12-19 20:33:32, John Hubbard wrote:
-> On 12/27/19 1:56 PM, John Hubbard wrote:
-> ...
-> >> It is ancient verification test (~10y) which is not an easy task to
-> >> make it understandable and standalone :).
-> >>
-> > =
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0954441501==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="jcwaaVT5gt1ZiPVhb62b5F7SKMqJQ48K1"
 
-> > Is this the only test that fails, btw? No other test failures or hints =
-of
-> > problems?
-> > =
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--jcwaaVT5gt1ZiPVhb62b5F7SKMqJQ48K1
+Content-Type: multipart/mixed; boundary="WYY8RS4swH90C5mD4WJWKllPPGwD1EoC1";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Tian Tao <tiantao6@hisilicon.com>, puck.chen@hisilicon.com,
+ airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
+ alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org
+Cc: linuxarm@huawei.com
+Message-ID: <c5772f0d-2741-131f-4086-67206c66c994@suse.de>
+Subject: Re: [PATCH] drm/hisilicon: Checked the resolution is valid before
+ connector
+References: <1577494764-28381-1-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <1577494764-28381-1-git-send-email-tiantao6@hisilicon.com>
 
-> > (Also, maybe hopeless, but can *anyone* on the RDMA list provide some
-> > characterization of the test, such as how many pins per page, what page
-> > sizes are used? I'm still hoping to write a test to trigger something
-> > close to this...)
-> > =
+--WYY8RS4swH90C5mD4WJWKllPPGwD1EoC1
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-> > I do have a couple more ideas for test runs:
-> > =
+Hi
 
-> > 1. Reduce GUP_PIN_COUNTING_BIAS to 1. That would turn the whole overrid=
-e of
-> > page->_refcount into a no-op, and so if all is well (it may not be!) wi=
-th the
-> > rest of the patch, then we'd expect this problem to not reappear.
-> > =
+Am 28.12.19 um 01:59 schrieb Tian Tao:
+> In the previous version, the callback function mode_valid of
+> drm_connector_helper_funcs directly returned MODE_OK. Now we will
+> ensure that the resolution is correct and return MODE_OK, otherwise
+> return MODE_NOMODE.
+>=20
+> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+> Signed-off-by: Gong junjie <gongjunjie2@huawei.com>
+> ---
+>  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c | 41 ++++++++++++++++=
+++++++--
+>  1 file changed, 39 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c b/drivers=
+/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+> index 6d98fdc..3d08210 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+> @@ -11,22 +11,59 @@
+>   *	Jianhua Li <lijianhua@huawei.com>
+>   */
+> =20
+> +#include <drm/drm_gem_vram_helper.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_probe_helper.h>
+> +#include <drm/drm_crtc_helper.h>
+>  #include <drm/drm_print.h>
+> =20
+>  #include "hibmc_drm_drv.h"
+>  #include "hibmc_drm_regs.h"
+> =20
+> +static const struct hibmc_resolution {
+> +	int w;
+> +	int h;
+> +} hibmc_modetables[] =3D {
+> +	{640, 480}, {800, 600}, {1024, 768}, {1152, 864}, {1280, 768},
+> +	{1280, 720}, {1280, 960}, {1280, 1024}, {1440, 900}, {1600, 900},
+> +	{1600, 1200}, {1920, 1080}, {1920, 1200}
+> +};
 
-> > 2. Active /proc/vmstat *foll_pin* statistics unconditionally (just for =
-these
-> > tests, of course), so we can see if there is a get/put mismatch. Howeve=
-r, that
-> > will change the timing, and so it must be attempted independently of (1=
-), in
-> > order to see if it ends up hiding the repro.
-> > =
+There's already a mode table for PLL programming in hibmc_drm_de.c.
+Rather than duplicating the information, maybe make the existing table
+available for the mode-checking code.
 
-> > I've updated this branch to implement (1), but not (2), hoping you can =
-give
-> > this one a spin?
-> > =
+> +
+> +static int hibmc_valid_mode(int w, int h)
+> +{
+> +	int size =3D sizeof(hibmc_modetables) / sizeof(struct hibmc_resolutio=
+n);
+> +	int i;
+> +
+> +	for (i =3D 0; i < size; i++) {
+> +		if (hibmc_modetables[i].w =3D=3D w && hibmc_modetables[i].h =3D=3D h=
+)
+> +			return 0;
+> +	}
+> +
+> +	return -1;
+> +}
+> +
+>  static int hibmc_connector_get_modes(struct drm_connector *connector)
+>  {
+> -	return drm_add_modes_noedid(connector, 800, 600);
+> +	int count;
+> +
+> +	drm_connector_update_edid_property(connector, NULL);
+> +	count =3D drm_add_modes_noedid(connector, 1920, 1200);
+> +	drm_set_preferred_mode(connector, 1024, 768);
+> +
+> +	return count;
+>  }
+> =20
+>  static enum drm_mode_status hibmc_connector_mode_valid(struct drm_conn=
+ector *connector,
+>  				      struct drm_display_mode *mode)
+>  {
+> -	return MODE_OK;
+> +	int vrefresh =3D drm_mode_vrefresh(mode);
+> +
+> +	if (vrefresh < 59 || vrefresh > 61)
+> +		return MODE_NOMODE;
+> +	else if (hibmc_valid_mode(mode->hdisplay, mode->vdisplay) !=3D 0)
 
-> > =A0=A0=A0 git@github.com:johnhubbard/linux.git=A0 pin_user_pages_tracki=
-ng_v11_with_diags
-> > =
+I'd rather drop hibmc_valid_mode() from the patch and do its tests right
+here.
 
-> > =
+More generally speaking, are these tests really related to the
+connector? Both, refresh and resolution are limits of the CRTC. I think
+they should be validated in the CRTC code.
 
-> =
+Best regards
+Thomas
 
-> Also, looking ahead:
-> =
+> +		return MODE_NOMODE;
+> +	else
+> +		return MODE_OK;
+>  }
+> =20
+>  static const struct drm_connector_helper_funcs
+>=20
 
-> a) if the problem disappears with the latest above test, then we likely h=
-ave
->    a huge page refcount overflow, and there are a couple of different way=
-s to
->    fix it. =
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
-> =
 
-> b) if it still reproduces with the above, then it's some other random mis=
-take,
->    and in that case I'd be inclined to do a sort of guided (or classic, u=
-nguided)
->    git bisect of the series. Because it could be any of several patches.
-> =
+--WYY8RS4swH90C5mD4WJWKllPPGwD1EoC1--
 
->    If that's too much trouble, then I'd have to fall back to submitting a=
- few
->    patches at a time and working my way up to the tracking patch...
+--jcwaaVT5gt1ZiPVhb62b5F7SKMqJQ48K1
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-It could also be that an ordinary page reference is dropped with 'unpin'
-thus underflowing the page refcount...
+-----BEGIN PGP SIGNATURE-----
 
-								Honza
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl4S+dYACgkQaA3BHVML
+eiP69Af/eoV45cNF3lUHsmrQD7zkILe02SuE6szgoyV0TMEGs5FHWdjmlqneu6Hn
+0eN+rQ02j75sOOcGgwRwBnd0EkEoR/nwmolfd7T5wgBUBP2jqyB3easkUx7/wmbF
+Anla/JdAUk57vWymH0vTrrLXQV/91htaQane/t+e7xuYf3EoOE7khDVH4NYYT7Xs
+jg/6JOQYdHVHpooC5tfR6cfVj7J8Ff9uxK1bxQdpoxtOUJz5IJscrTly5SOTlTx9
+CR7UW1ENj3PZxll4s1hofc/Ovz166G7BvNG8JWnS+ZtMzbgyC4LViJu4DFp3ntY1
+D29tCR2KSU0gIubNhSHpB5PrOZd0ZA==
+=2Tvv
+-----END PGP SIGNATURE-----
 
--- =
+--jcwaaVT5gt1ZiPVhb62b5F7SKMqJQ48K1--
 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+--===============0954441501==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0954441501==--
