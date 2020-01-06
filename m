@@ -1,29 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A65BB130AD0
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 00:55:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38423130AEA
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 01:38:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF51D89CF2;
-	Sun,  5 Jan 2020 23:55:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2052389DC5;
+	Mon,  6 Jan 2020 00:38:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36BF389CF2
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Jan 2020 23:55:55 +0000 (UTC)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
- id 4A0E11C2453; Mon,  6 Jan 2020 00:55:52 +0100 (CET)
-Date: Mon, 6 Jan 2020 00:55:51 +0100
-From: Pavel Machek <pavel@ucw.cz>
-To: Tony Lindgren <tony@atomide.com>, linux-leds@vger.kernel.org
-Subject: Re: LED backlight on Droid 4 and others
-Message-ID: <20200105235551.GB7598@amd>
-References: <20200105183202.GA17784@duo.ucw.cz>
- <20200105202449.GC5885@atomide.com>
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42CB789DC5
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2020 00:38:16 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id F259F8050A;
+ Mon,  6 Jan 2020 01:38:10 +0100 (CET)
+Date: Mon, 6 Jan 2020 01:38:09 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v2 3/3] drm/panel: simple: Add support for the Frida
+ FRD350H54004 panel
+Message-ID: <20200106003809.GA552@ravnborg.org>
+References: <20191202154123.64139-1-paul@crapouillou.net>
+ <20191202154123.64139-3-paul@crapouillou.net>
 MIME-Version: 1.0
-In-Reply-To: <20200105202449.GC5885@atomide.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Disposition: inline
+In-Reply-To: <20191202154123.64139-3-paul@crapouillou.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=ER_8r6IbAAAA:8
+ a=4eiu5t_5MPiKWv0nutYA:9 a=CjuIK1q_8ugA:10 a=9LHmKk7ezEChjTCyhBa9:22
+ a=pHzHmUro8NiASowvMSCR:22 a=6VlIyEUom7LUIeUMNQJH:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -36,97 +47,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.thompson@linaro.org, mpartap@gmx.net, jingoohan1@gmail.com,
- merlijn@wizzup.org, martin_rysavy@centrum.cz,
- kernel list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- sre@kernel.org, nekit1000@gmail.com, tomi.valkeinen@ti.com, jjhiblot@ti.com,
- linux-omap@vger.kernel.org, lee.jones@linaro.org, agx@sigxcpu.org,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: multipart/mixed; boundary="===============1151245500=="
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org, od@zcrc.me,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Paul.
 
---===============1151245500==
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="s2ZSL+KKDSLx8OML"
-Content-Disposition: inline
+On Mon, Dec 02, 2019 at 04:41:23PM +0100, Paul Cercueil wrote:
+> The FRD350H54004 is a simple 3.5" 320x240 24-bit TFT panel, found for
+> instance inside the Anbernic RG-350 handheld gaming console.
+> 
+> v2: Order alphabetically
+> 
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> ---
+>  drivers/gpu/drm/panel/panel-simple.c | 29 ++++++++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index 28fa6ba7b767..0e5e33a57f0c 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -1402,6 +1402,32 @@ static const struct panel_desc foxlink_fl500wvr00_a0t = {
+>  	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
+>  };
+>  
+> +static const struct drm_display_mode frida_frd350h54004_mode = {
+> +	.clock = 6777,
+> +	.hdisplay = 320,
+> +	.hsync_start = 320 + 70,
+> +	.hsync_end = 320 + 70 + 50,
+> +	.htotal = 320 + 70 + 50 + 10,
+> +	.vdisplay = 240,
+> +	.vsync_start = 240 + 5,
+> +	.vsync_end = 240 + 5 + 1,
+> +	.vtotal = 240 + 5 + 1 + 5,
+> +	.vrefresh = 60,
+> +	.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC,
+> +};
+> +
+> +static const struct panel_desc frida_frd350h54004 = {
+> +	.modes = &frida_frd350h54004_mode,
+> +	.num_modes = 1,
+> +	.bpc = 8,
+> +	.size = {
+> +		.width = 77,
+> +		.height = 64,
+> +	},
+> +	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
+> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_POSEDGE,
+> +};
+connector_type is mandatory for new panel-simple panels.
 
-
---s2ZSL+KKDSLx8OML
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
-> > It would be good to get LED backlight to work in clean way for 5.6
-> > kernel.
->=20
-> I agree, this is badly needed for many devices.
->=20
-> > [If you have an idea what else is needed, it would be welcome; it
-> > works for me in development tree but not in tree I'd like to
-> > upstream.]
->=20
-> I have some version of these patches working with modified dts in my
-> droid4-pending-v5.4 branch git branch, maybe try to diff against that.
-
-So.. backlight now works for me, and I put the LED parts of the
-patches to
-
-gitolite.kernel.org:pub/scm/linux/kernel/git/pavel/linux-leds.git for-next
-
-tree. [I guess I could try to sneak them into 5.5 if that helps.]
-
-Could we somehow get this to the backlight tree?
-
-commit d457d0c97d6d55fe3e62633791ac05d289a37d2e
-Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Date:   Thu Oct 3 10:28:12 2019 +0200
-
-    backlight: add led-backlight driver
-
-    This patch adds a led-backlight driver (led_bl), which is similar
-    to pwm_bl except the driver uses a LED class driver to adjust the
-    brightness in the HW. Multiple LEDs can be used for a single
-    backlight.
-
- Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
- Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
- Acked-by: Pavel Machek <pavel@ucw.cz>
- Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-
-Best regards,
-								Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---s2ZSL+KKDSLx8OML
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl4Sd4cACgkQMOfwapXb+vKtigCcD7s9rcf8yUC1oR22yqA5RyON
-RW4AmgOniJ4uj2z21/PEdlR5LnqhdCB/
-=7Rz5
------END PGP SIGNATURE-----
-
---s2ZSL+KKDSLx8OML--
-
---===============1151245500==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+	Sam
+> +
+>  static const struct drm_display_mode friendlyarm_hd702e_mode = {
+>  	.clock		= 67185,
+>  	.hdisplay	= 800,
+> @@ -3189,6 +3215,9 @@ static const struct of_device_id platform_of_match[] = {
+>  	}, {
+>  		.compatible = "foxlink,fl500wvr00-a0t",
+>  		.data = &foxlink_fl500wvr00_a0t,
+> +	}, {
+> +		.compatible = "frida,frd350h54004",
+> +		.data = &frida_frd350h54004,
+>  	}, {
+>  		.compatible = "friendlyarm,hd702e",
+>  		.data = &friendlyarm_hd702e,
+> -- 
+> 2.24.0
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1151245500==--
