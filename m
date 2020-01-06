@@ -1,88 +1,87 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A32B71319AD
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 21:48:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEB8E1319B8
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 21:49:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3375E6E526;
-	Mon,  6 Jan 2020 20:48:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 019FD6E527;
+	Mon,  6 Jan 2020 20:49:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR02-AM5-obe.outbound.protection.outlook.com
- (mail-am5eur02olkn0807.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe07::807])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84A896E525
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2020 20:48:31 +0000 (UTC)
+Received: from EUR03-VE1-obe.outbound.protection.outlook.com
+ (mail-oln040092072080.outbound.protection.outlook.com [40.92.72.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D42F66E527
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2020 20:49:27 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Di5ixYcudkZr062bOUemDgyD7jSPaG8yfMqpMpXzSXcLMCyRNpXdvS2AmIb4oQrilP5JvkMHqXxO/2ncB3kZLanLsp8N2PN0BcOVldcRjcrrwFZFYdsis/1JgKB4qGmTqHO2Tffm2ZUGPqjlYO7jQDf+j4vRiQhpE7YDNro3T55La5cSuOJM0h/f0ibl3N2NCtTqMqDRmMpVDRiwAyDRBtwFIMmyxXN6zKc95dWC3xVoEyyiqRmB0eGlX+atYwPFMFJ3fyeiQ/N5O0E0dDh+KMIao/vtjgIEjuia28aBpqY3tkccX6wtddJxxxnNIOUWX1P3OUQDln+95GrN69ytYA==
+ b=msWN/3gWc5nN2DGPLL+uTlbBpao0dP1XdxgOY8whoXWg6edbzrJrmC5Ucs/4qVsVJ8qlr76iWZkINLjovA1wn6rZRzP8B9IJiy3uYiSJtHZP2ieyOhB0SPgTeqPo2v+50hKJ8l64uWRawwmml/sE7PcUqS6t9bcpQxn6j4suxU+YRrQuD4o/7gZUtRqStUqTBjLHIYbk0j+1ZIT69gG2pOCAiUl12CZmkbAJ64n5SNVoj59+TBOD7SQ2eSUFLsCB8ARAsoqG20Eptqzlcoejo+zgGOyDIgpn8zS+I+YQPJ0N9OzS+L6NZF2hjgWy/2WOHTZ3JEUivsfOq5ZQJ8zTTw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7n41m/2M+iw6l5qfWXkDro4mxMirnRAXDbA/Qn5mD7I=;
- b=Ox+XJH/lm0F1Xv9Zktw72xBpTa77urMvRQ9aRAoSdH5HvHS0MLDcbdEDXaj88JGRfu8mhy7Aq30bd9t31C7GNlshtBulzsDYYAhzcV9v2Z1kRiCQnFIq/ETjZvE6oMvRnTNg6wIzBigOZ1rqJVmuEwmtODywrZQlMX8PcwkmqoWVFryQA2LDgMTj0cgLGCpU2yj9g1nQAdVNNrn3MtpsiTKUAYTv743v+rtkCyaBp2pMyd8q2tXAcsrrJ8i1NMHKDF6qIeNcvYXu7e/Whp+//YNwIQWYYfLFE/e+4wxQDTuriNHXO8Sm9/10iUtTqtTXrSSMws517U6hKG/sm253Kw==
+ bh=H8h6i2lE4L79B2OzEob02aGKetmxzm9ZjnF+1jPOmGw=;
+ b=fP1zd53e+hBujA+tpJLkFXuM2YadEQEWHMzCPNDWN1x9XEv4IarC+9dlgFfIYBXkN0hftAGp9ve7lpRUQN5NQLhz5RhcCpYYl7P5+yvkjmqEh7IC9x+H9TNYVf49/UMna5b9BllFlDQnBPgw9L6Cm9jv+aS1QY/d0NkNHnPbkGs1X9aG2yaCs/YV4mqq9P0e7brDOHZZXQEYANHDrGLPEX8/OkGHBq9qIgF9G2+f5jEeJ5ONJaSrwWxiis/zQufGrnsmFBfvq+z11iNU/UigwUvpeHISaHRrExPdIy/0o+m7e/tWd1+b59vYH3Gv6xKwC4lSs6UVp6MNobJiauxUng==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
-Received: from VE1EUR02FT060.eop-EUR02.prod.protection.outlook.com
- (10.152.12.53) by VE1EUR02HT192.eop-EUR02.prod.protection.outlook.com
- (10.152.12.245) with Microsoft SMTP Server (version=TLS1_2,
+Received: from VE1EUR03FT047.eop-EUR03.prod.protection.outlook.com
+ (10.152.18.58) by VE1EUR03HT161.eop-EUR03.prod.protection.outlook.com
+ (10.152.19.126) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2602.11; Mon, 6 Jan
- 2020 20:48:28 +0000
-Received: from HE1PR06MB4011.eurprd06.prod.outlook.com (10.152.12.60) by
- VE1EUR02FT060.mail.protection.outlook.com (10.152.13.140) with Microsoft SMTP
+ 2020 20:49:25 +0000
+Received: from HE1PR06MB4011.eurprd06.prod.outlook.com (10.152.18.51) by
+ VE1EUR03FT047.mail.protection.outlook.com (10.152.19.218) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2602.11 via Frontend Transport; Mon, 6 Jan 2020 20:48:28 +0000
+ 15.20.2602.11 via Frontend Transport; Mon, 6 Jan 2020 20:49:24 +0000
 Received: from HE1PR06MB4011.eurprd06.prod.outlook.com
  ([fe80::b957:6908:9f62:c28b]) by HE1PR06MB4011.eurprd06.prod.outlook.com
  ([fe80::b957:6908:9f62:c28b%5]) with mapi id 15.20.2602.015; Mon, 6 Jan 2020
- 20:48:28 +0000
+ 20:49:24 +0000
 Received: from bionic.localdomain (98.128.173.80) by
- BEXP281CA0004.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10::14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2602.12 via Frontend Transport; Mon, 6 Jan 2020 20:48:27 +0000
+ AM6PR0202CA0044.eurprd02.prod.outlook.com (2603:10a6:20b:3a::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2602.12 via Frontend
+ Transport; Mon, 6 Jan 2020 20:49:23 +0000
 From: Jonas Karlman <jonas@kwiboo.se>
 To: Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>
-Subject: [PATCH 08/15] drm/rockchip: dw-hdmi: require valid vpll clock rate on
- rk3228/rk3328
-Thread-Topic: [PATCH 08/15] drm/rockchip: dw-hdmi: require valid vpll clock
- rate on rk3228/rk3328
-Thread-Index: AQHVxNKmR0W4jadvKEivva24BcWyzA==
-Date: Mon, 6 Jan 2020 20:48:28 +0000
-Message-ID: <HE1PR06MB40113EA5E91DEEE586D39815AC3C0@HE1PR06MB4011.eurprd06.prod.outlook.com>
+Subject: [PATCH 09/15] clk: rockchip: set parent rate for DCLK_VOP clock on
+ rk3228
+Thread-Topic: [PATCH 09/15] clk: rockchip: set parent rate for DCLK_VOP clock
+ on rk3228
+Thread-Index: AQHVxNLHacXNFUslzEyifyZGfuh7tQ==
+Date: Mon, 6 Jan 2020 20:49:24 +0000
+Message-ID: <HE1PR06MB401178AA52E982D0DC237338AC3C0@HE1PR06MB4011.eurprd06.prod.outlook.com>
 References: <HE1PR06MB4011254424EDB4485617513CAC3C0@HE1PR06MB4011.eurprd06.prod.outlook.com>
- <20200106204812.5944-1-jonas@kwiboo.se>
-In-Reply-To: <20200106204812.5944-1-jonas@kwiboo.se>
+In-Reply-To: <HE1PR06MB4011254424EDB4485617513CAC3C0@HE1PR06MB4011.eurprd06.prod.outlook.com>
 Accept-Language: sv-SE, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-clientproxiedby: BEXP281CA0004.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10::14)
- To HE1PR06MB4011.eurprd06.prod.outlook.com
+x-clientproxiedby: AM6PR0202CA0044.eurprd02.prod.outlook.com
+ (2603:10a6:20b:3a::21) To HE1PR06MB4011.eurprd06.prod.outlook.com
  (2603:10a6:7:9c::32)
-x-incomingtopheadermarker: OriginalChecksum:A19395B89A6FDC5BAC83C828B43BC340A6BED94B82C857ED840F0AA645130AAF;
- UpperCasedChecksum:2215834707270EE1F4BDD38E5C7BA058E95F825CD6E175881542BFFD03ACCE68;
- SizeAsReceived:8182; Count:51
+x-incomingtopheadermarker: OriginalChecksum:110011F3A9C1BD70C5B00E947A81EB950704B06B1734E20D180BF5E3DE20A457;
+ UpperCasedChecksum:E7FDDD854CAA2E5B39E1C757530F6FCFD776B364C699F4D7CF1E8AF0616E6AA1;
+ SizeAsReceived:8216; Count:51
 x-ms-exchange-messagesentrepresentingtype: 1
 x-mailer: git-send-email 2.17.1
-x-tmn: [jpV+WYEymag5cXeXiRWDP9ASJiKwaDQS]
-x-microsoft-original-message-id: <20200106204812.5944-4-jonas@kwiboo.se>
+x-tmn: [eyFyHUd+p/8/xYO8zF6YKsprj1iScnge]
+x-microsoft-original-message-id: <20200106204914.6001-1-jonas@kwiboo.se>
 x-ms-publictraffictype: Email
 x-incomingheadercount: 51
 x-eopattributedmessage: 0
-x-ms-office365-filtering-correlation-id: 6b4bedf2-9790-4191-7d7e-08d792e9c83a
-x-ms-traffictypediagnostic: VE1EUR02HT192:
+x-ms-office365-filtering-correlation-id: 031b4704-6e52-4219-56a5-08d792e9e973
+x-ms-traffictypediagnostic: VE1EUR03HT161:
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: /Otsz4tjX/uZXFCyS0p5O4I2pRY746/q74SJP0bxD/CJ9igdxd/GKbWDvBDHFrvPHAclC349UYOzMCaqPCDkeCP926NEYoxbVwzseeLR/CT82E/WGiYqYVYOKo//z1H95iKpAM4qQV8Haaj1PHdbXfMslGikhxV6oJMe5MWxO4hIdViSO3JaF7FQZHcQNbuY
+x-microsoft-antispam-message-info: fyravQYXY9cpBv6d7xAD3OC9HSHXaqExWHsWmsHErBv/qAIRBX46ZVMPmOKyMVIwlAFAnY/QHr8WY5e3lYM7qIUA0UkAKvN7Ss29/rYue8jnYH7+EOzgw+ewvfAFcgy2i8yr4FyNOidDAQtQOR+rvo5JkJMKccEwFVcn+U1ESa0Y1lp+ZqqFzdour7bH23xO
 x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
 X-OriginatorOrg: outlook.com
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b4bedf2-9790-4191-7d7e-08d792e9c83a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 031b4704-6e52-4219-56a5-08d792e9e973
 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jan 2020 20:48:28.6292 (UTC)
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jan 2020 20:49:24.2757 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Internet
 X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1EUR02HT192
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1EUR03HT161
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,50 +108,24 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RK3228/RK3328 can only support clock rates defined in the pre pll table.
-Lets validate the mode clock rate against the pre pll config and filter
-out any mode with a clock rate returning error from clk_round_rate().
-
 Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 ---
- drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ drivers/clk/rockchip/clk-rk3228.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-index fae38b323a0c..45fcdce3f27f 100644
---- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-@@ -245,6 +245,22 @@ static void dw_hdmi_rockchip_encoder_disable(struct drm_encoder *encoder)
- {
- }
+diff --git a/drivers/clk/rockchip/clk-rk3228.c b/drivers/clk/rockchip/clk-rk3228.c
+index d17cfb7a3ff4..25f79af22cb8 100644
+--- a/drivers/clk/rockchip/clk-rk3228.c
++++ b/drivers/clk/rockchip/clk-rk3228.c
+@@ -410,7 +410,7 @@ static struct rockchip_clk_branch rk3228_clk_branches[] __initdata = {
+ 			RK2928_CLKSEL_CON(29), 0, 3, DFLAGS),
+ 	DIV(0, "sclk_vop_pre", "sclk_vop_src", 0,
+ 			RK2928_CLKSEL_CON(27), 8, 8, DFLAGS),
+-	MUX(DCLK_VOP, "dclk_vop", mux_dclk_vop_p, 0,
++	MUX(DCLK_VOP, "dclk_vop", mux_dclk_vop_p, CLK_SET_RATE_PARENT | CLK_SET_RATE_NO_REPARENT,
+ 			RK2928_CLKSEL_CON(27), 1, 1, MFLAGS),
  
-+static enum drm_mode_status
-+dw_hdmi_rockchip_encoder_mode_valid(struct drm_encoder *encoder,
-+				    const struct drm_display_mode *mode)
-+{
-+	struct rockchip_hdmi *hdmi = to_rockchip_hdmi(encoder);
-+	long rate;
-+
-+	if (hdmi->vpll_clk) {
-+		rate = clk_round_rate(hdmi->vpll_clk, mode->clock * 1000);
-+		if (rate < 0)
-+			return MODE_CLOCK_RANGE;
-+	}
-+
-+	return MODE_OK;
-+}
-+
- static bool
- dw_hdmi_rockchip_encoder_mode_fixup(struct drm_encoder *encoder,
- 				    const struct drm_display_mode *mode,
-@@ -306,6 +322,7 @@ dw_hdmi_rockchip_encoder_atomic_check(struct drm_encoder *encoder,
- }
- 
- static const struct drm_encoder_helper_funcs dw_hdmi_rockchip_encoder_helper_funcs = {
-+	.mode_valid = dw_hdmi_rockchip_encoder_mode_valid,
- 	.mode_fixup = dw_hdmi_rockchip_encoder_mode_fixup,
- 	.mode_set   = dw_hdmi_rockchip_encoder_mode_set,
- 	.enable     = dw_hdmi_rockchip_encoder_enable,
+ 	FACTOR(0, "xin12m", "xin24m", 0, 1, 2),
 -- 
 2.17.1
 
