@@ -1,37 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEB29130E6E
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 09:10:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E527130E6F
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 09:10:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A87689DFF;
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB66F89F99;
 	Mon,  6 Jan 2020 08:09:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from muru.com (muru.com [72.249.23.125])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8A56C89FE6
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Jan 2020 20:37:08 +0000 (UTC)
-Received: from atomide.com (localhost [127.0.0.1])
- by muru.com (Postfix) with ESMTPS id 0479E80E2;
- Sun,  5 Jan 2020 20:37:48 +0000 (UTC)
-Date: Sun, 5 Jan 2020 12:37:04 -0800
-From: Tony Lindgren <tony@atomide.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-omap@vger.kernel.org, "H . Nikolaus Schaller" <hns@goldelico.com>,
- Merlijn Wajer <merlijn@wizzup.org>,
- Matthijs van Duin <matthijsvanduin@gmail.com>
-Subject: Re: [PATCH] drm/omap: gem: Fix tearing with BO_TILED
-Message-ID: <20200105203704.GD5885@atomide.com>
-References: <20191221005711.47314-1-tony@atomide.com>
- <20191221164141.GI35479@atomide.com>
- <20200104050950.GA11429@chinchilla>
- <20200104055011.GA5885@atomide.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200104055011.GA5885@atomide.com>
+Received: from alexa-out-blr-01.qualcomm.com (alexa-out-blr-01.qualcomm.com
+ [103.229.18.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6214F6E204;
+ Mon,  6 Jan 2020 05:14:34 +0000 (UTC)
+Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
+ by alexa-out-blr-01.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 06 Jan 2020 10:44:28 +0530
+Received: from harigovi-linux.qualcomm.com ([10.204.66.157])
+ by ironmsg02-blr.qualcomm.com with ESMTP; 06 Jan 2020 10:44:04 +0530
+Received: by harigovi-linux.qualcomm.com (Postfix, from userid 2332695)
+ id AEB2827C8; Mon,  6 Jan 2020 10:44:03 +0530 (IST)
+From: Harigovindan P <harigovi@codeaurora.org>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: [v2] drm/msm: add support for 2.4.1 DSI version for sc7180 soc
+Date: Mon,  6 Jan 2020 10:43:49 +0530
+Message-Id: <1578287629-26709-1-git-send-email-harigovi@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-Mailman-Approved-At: Mon, 06 Jan 2020 08:09:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,47 +40,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Harigovindan P <harigovi@codeaurora.org>, abhinavk@codeaurora.org,
+ linux-kernel@vger.kernel.org, seanpaul@chromium.org, hoegsberg@chromium.org,
+ chandanu@codeaurora.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Modify commit text to indicate DSI version and SOC detail
 
-* Tony Lindgren <tony@atomide.com> [200104 05:51]:
-> 
-> Just changing the alingment fixes the issue. Looks like the minimum
-> alignment we currently allow is 128, I think 512 was the minimum
-> that worked for me, so maybe the right fix would be to just change
-> the minimum to 512 with no specific need to use 4096 for now.
+Changes in v1:
+	-Modify commit text to indicate DSI version and SOC detail(Jeffrey Hugo).
+	-Splitting visionox panel driver code out into a
+	 different patch(set), since panel drivers are merged into
+	 drm-next via a different tree(Rob Clark).
+Changes in v2:
+	-Update commit text accordingly(Matthias Kaehlcke).
 
-So Matthijs and I chatted about this a bit on irc, and here's what
-we concluded so far:
+Signed-off-by: Harigovindan P <harigovi@codeaurora.org>
+---
+ drivers/gpu/drm/msm/dsi/dsi_cfg.c | 21 +++++++++++++++++++++
+ drivers/gpu/drm/msm/dsi/dsi_cfg.h |  1 +
+ 2 files changed, 22 insertions(+)
 
-1. We have at least three different alignment needs for tiler
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.c b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
+index b7b7c1a..7b967dd 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_cfg.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
+@@ -133,6 +133,10 @@ static const char * const dsi_sdm845_bus_clk_names[] = {
+ 	"iface", "bus",
+ };
+ 
++static const char * const dsi_sc7180_bus_clk_names[] = {
++	"iface", "bus",
++};
++
+ static const struct msm_dsi_config sdm845_dsi_cfg = {
+ 	.io_offset = DSI_6G_REG_SHIFT,
+ 	.reg_cfg = {
+@@ -147,6 +151,20 @@ static const struct msm_dsi_config sdm845_dsi_cfg = {
+ 	.num_dsi = 2,
+ };
+ 
++static const struct msm_dsi_config sc7180_dsi_cfg = {
++	.io_offset = DSI_6G_REG_SHIFT,
++	.reg_cfg = {
++		.num = 1,
++		.regs = {
++			{"vdda", 21800, 4 },	/* 1.2 V */
++		},
++	},
++	.bus_clk_names = dsi_sc7180_bus_clk_names,
++	.num_bus_clks = ARRAY_SIZE(dsi_sc7180_bus_clk_names),
++	.io_start = { 0xae94000 },
++	.num_dsi = 1,
++};
++
+ const static struct msm_dsi_host_cfg_ops msm_dsi_v2_host_ops = {
+ 	.link_clk_enable = dsi_link_clk_enable_v2,
+ 	.link_clk_disable = dsi_link_clk_disable_v2,
+@@ -201,6 +219,9 @@ static const struct msm_dsi_cfg_handler dsi_cfg_handlers[] = {
+ 		&msm8998_dsi_cfg, &msm_dsi_6g_v2_host_ops},
+ 	{MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V2_2_1,
+ 		&sdm845_dsi_cfg, &msm_dsi_6g_v2_host_ops},
++	{MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V2_4_1,
++		&sc7180_dsi_cfg, &msm_dsi_6g_v2_host_ops},
++
+ };
+ 
+ const struct msm_dsi_cfg_handler *msm_dsi_cfg_get(u32 major, u32 minor)
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.h b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
+index e2b7a7d..9919536 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_cfg.h
++++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
+@@ -19,6 +19,7 @@
+ #define MSM_DSI_6G_VER_MINOR_V1_4_1	0x10040001
+ #define MSM_DSI_6G_VER_MINOR_V2_2_0	0x20000000
+ #define MSM_DSI_6G_VER_MINOR_V2_2_1	0x20020001
++#define MSM_DSI_6G_VER_MINOR_V2_4_1	0x20040001
+ 
+ #define MSM_DSI_V2_VER_MINOR_8064	0x0
+ 
+-- 
+2.7.4
 
-- Linux use of tiler aligned to 128 bytes
-
-- SGX use of tiler aligned to 4096 bytes (or 512 bytes?)
-
-- Fast userspace mapping aligned to 4096 bytes
-
-2. The alignment need may need to be configured by the tiler consumer
-   in #1 above
-
-3. The alignment need for SGX seems to be based on SGX MMU page size
-
-4. The issue I'm seeing with stellarium on droid4 may be a stride
-   issue as about one out of 3 or 4 frames is OK and aligning to
-   512 also fixes the issue maybe because it happens to make
-   multiple frames align to 4096
-
-So let's wait on this patch until we have more info and know how
-the different alignments should be handled.
-
-Regards,
-
-Tony
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
