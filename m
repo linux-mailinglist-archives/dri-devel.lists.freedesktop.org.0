@@ -2,55 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0128D131497
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 16:17:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EA2E13149A
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 16:17:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D00E56E484;
-	Mon,  6 Jan 2020 15:17:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 970256E487;
+	Mon,  6 Jan 2020 15:17:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96D446E484;
- Mon,  6 Jan 2020 15:17:01 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id f129so15636457wmf.2;
- Mon, 06 Jan 2020 07:17:01 -0800 (PST)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8465E6E487;
+ Mon,  6 Jan 2020 15:17:04 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id d16so50006769wre.10;
+ Mon, 06 Jan 2020 07:17:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=gpvhQLZoHknjJ48p3/o2FGQ5HOsekKMFfojG0bDSsqg=;
- b=KB5fdqLSM2cxZ4hWFKG4I+fvO8r5AB9PHS98h9BBsn2xLvMouLGDrBteRn9sUKU50h
- G9fMGn6fIYvg3Wm8+FA3eKhnVFvJj6lHr20iqMVWGB6loLxYo3CM+kuXNXui28iiqeNX
- T3kT8cT0BLyftcJiL7QHrrj1PUUqYg60s9HwMlSdOmbykqR/eSe7ZIHNsQnObzjtl3Ug
- u4d++4DJPrFPehKamp36pLNtFkalxWAw7EjIQm29xzy2tpLGMGl9vDNoB96pi0oLAN/g
- 0EC9TSrN8i4pohD3Qr7ofD14U2vVlfoA9XbK8wRcZC1EPRHP9uBvb3UQWmDZYVqLmPla
- erKw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=SOmEZGQpMcpl6KDihwRiQnkiTEmQlzVwGvhf3uAJ7uE=;
+ b=h1nloryK6q5QEDoF84Jg4fU1td226wfY8TNiivSZxmD2+DtGs6fGxuh4seu+uhrCar
+ rkfwxSWrP5XkpKfx6JspmwRVK0OQYz+AWQ4AF5uGtY5pwmeTaUHbKMpBZ18vgqXScZBO
+ XGIbLNveoFGJJAtBncNhx85zRx3+O/PvuQMM7izDQX1QVXR73zpTOJiAnSEISb086EXl
+ ktQbesxin9FmTtZX0GXSf03D6vWJqvvAnhWcG3aZM7uv7JMJoay8fa7VKakS8Krl9LnH
+ PJIgjnqRunCGw5sTEhzkC+jUGDMXzyzbZsXun6jLpRZPmCvmWXOc1LqpJ8xeQ4CGVLoF
+ RLCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=gpvhQLZoHknjJ48p3/o2FGQ5HOsekKMFfojG0bDSsqg=;
- b=WajFWHNXNuJXcwyDaF//F05VEyWfEOtZ1TEGM639meI3r9Y08+bTdSeaI3SAV+TqP8
- ddB7vQnCgCXFdmp/IBny8e3i7Q2ne4r04j0juzbWJ7hx2T3bbRnlc0fAXvFAgEQnUqoh
- sAhfKsYTZOcqEHLNdscAmhj/8/tbuUusmTeacIYM0YUac79M7HBKUTT8EPi2rjhcnx2v
- 3zLb701gOL9S9TpHidCLrkFZaVr+kJbPvrz8md4d8Uiu/Qs8zphUgoQz4nTp4jpkZYp7
- 7r4reEisl0BRCxN2ANogBT7pHTpTDYBh/eq8FY/D3wTeK8l5MuNzG24cfrAsmcStGg7n
- NbTw==
-X-Gm-Message-State: APjAAAUyrKg3YLlJf2BV1HEhIhIWagaRWYThVNSuYzZhjDdOXKrJ+2nt
- pLfEQ0kfuypdxrO7L+uTNuxPLLC8Wgf3ig==
-X-Google-Smtp-Source: APXvYqyPuCXy4xd36sgrJa286zCiAoAPjP2058i4I+qddvYosdeD5QkkY6BQZOszgfUbZSuabmd/mQ==
-X-Received: by 2002:a1c:4884:: with SMTP id v126mr32826252wma.64.1578323820322; 
- Mon, 06 Jan 2020 07:17:00 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=SOmEZGQpMcpl6KDihwRiQnkiTEmQlzVwGvhf3uAJ7uE=;
+ b=FW/Ep4uawrwGprxOOCe6BZrxUh92c/B1iuCBDHXLKFtkuC5jDbu+NIFzpIYBJz0cKr
+ eFlKjH5dmMSkWd9XY79C4yeubrguxmnxRqSrLEZoEo2Ce9aOW90c88UN633+mNJh+jL8
+ s5Mi7Z4MgQ/ys0yyvlxO9WJk9w+CWzflsL2sN3vRv0sWUJk8ljWp6XKlKukGj1xOB3Ld
+ DEezit4U9pcN1vMOfhHlZwOsYcHRWaDHULvVEkNXCTDJjvSRPLJn44qFdorVsnJrZvzm
+ L8WUZMXKFy8PVaqutYgEshECa31zHOb9sSZChGJu5gaDdZpUrH6ddXad6bm+PE/KWVpt
+ 7IJA==
+X-Gm-Message-State: APjAAAUDhywgKsV2SKSRfcPh8cV60lVm8UHEFBIgBkx0RhX4j+XSQDMP
+ IlCLh/br27mzxKXHJKsNizY=
+X-Google-Smtp-Source: APXvYqwMbChwE+QuvzUOzzlahZytW31FsGCmoxK+c31HuRNQAv4fnXL+sBrROUYhvkm3zpQ6qaKSXw==
+X-Received: by 2002:adf:f6c1:: with SMTP id y1mr111561575wrp.17.1578323823241; 
+ Mon, 06 Jan 2020 07:17:03 -0800 (PST)
 Received: from localhost.localdomain ([62.178.82.229])
- by smtp.gmail.com with ESMTPSA id l3sm72122463wrt.29.2020.01.06.07.16.58
+ by smtp.gmail.com with ESMTPSA id l3sm72122463wrt.29.2020.01.06.07.17.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2020 07:16:58 -0800 (PST)
+ Mon, 06 Jan 2020 07:17:02 -0800 (PST)
 From: Christian Gmeiner <christian.gmeiner@gmail.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/6] update hwdw for gc400
-Date: Mon,  6 Jan 2020 16:16:45 +0100
-Message-Id: <20200106151655.311413-1-christian.gmeiner@gmail.com>
+Subject: [PATCH v2 1/6] drm/etnaviv: update hardware headers from rnndb
+Date: Mon,  6 Jan 2020 16:16:46 +0100
+Message-Id: <20200106151655.311413-2-christian.gmeiner@gmail.com>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200106151655.311413-1-christian.gmeiner@gmail.com>
+References: <20200106151655.311413-1-christian.gmeiner@gmail.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,24 +73,75 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series extends the hwdb for an entry for the gc400 found
-in the ST STM32 SoC. With this patches we report the same limits and
-features for this GPU as the galcore kernel driver does.
+Update the state HI header from rnndb commit
+7f1ce75 ("rnndb: document some GPU identity register")
 
-Christian Gmeiner (6):
-  drm/etnaviv: update hardware headers from rnndb
-  drm/etnaviv: determine product, customer and eco id
-  drm/etnaviv: show identity information in debugfs
-  drm/etnaviv: update gc7000 chip identity entry
-  drm/etnaviv: update hwdb selection logic
-  drm/etnaviv: add hwdb entry for gc400 found in STM32
+Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+---
+ drivers/gpu/drm/etnaviv/state_hi.xml.h | 29 ++++++++++++++++----------
+ 1 file changed, 18 insertions(+), 11 deletions(-)
 
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c  | 18 ++++++++++-
- drivers/gpu/drm/etnaviv/etnaviv_gpu.h  |  6 ++--
- drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 42 +++++++++++++++++++++++++-
- drivers/gpu/drm/etnaviv/state_hi.xml.h | 29 +++++++++++-------
- 4 files changed, 79 insertions(+), 16 deletions(-)
-
+diff --git a/drivers/gpu/drm/etnaviv/state_hi.xml.h b/drivers/gpu/drm/etnaviv/state_hi.xml.h
+index 41d8da2b6f4f..004d8ddacf6a 100644
+--- a/drivers/gpu/drm/etnaviv/state_hi.xml.h
++++ b/drivers/gpu/drm/etnaviv/state_hi.xml.h
+@@ -8,17 +8,17 @@ This file was generated by the rules-ng-ng headergen tool in this git repository
+ git clone git://0x04.net/rules-ng-ng
+ 
+ The rules-ng-ng source files this header was generated from are:
+-- state.xml     (  26087 bytes, from 2017-12-18 16:51:59)
+-- common.xml    (  35468 bytes, from 2018-01-22 13:48:54)
+-- common_3d.xml (  14615 bytes, from 2017-12-18 16:51:59)
+-- state_hi.xml  (  30232 bytes, from 2018-02-15 15:48:01)
+-- copyright.xml (   1597 bytes, from 2016-12-08 16:37:56)
+-- state_2d.xml  (  51552 bytes, from 2016-12-08 16:37:56)
+-- state_3d.xml  (  79992 bytes, from 2017-12-18 16:51:59)
+-- state_blt.xml (  13405 bytes, from 2017-12-18 16:51:59)
+-- state_vg.xml  (   5975 bytes, from 2016-12-08 16:37:56)
+-
+-Copyright (C) 2012-2018 by the following authors:
++- state.xml     (  26666 bytes, from 2019-12-20 21:20:35)
++- common.xml    (  35468 bytes, from 2018-02-10 13:09:26)
++- common_3d.xml (  15058 bytes, from 2019-12-28 20:02:03)
++- state_hi.xml  (  30552 bytes, from 2019-12-28 20:02:48)
++- copyright.xml (   1597 bytes, from 2018-02-10 13:09:26)
++- state_2d.xml  (  51552 bytes, from 2018-02-10 13:09:26)
++- state_3d.xml  (  83098 bytes, from 2019-12-28 20:02:03)
++- state_blt.xml (  14252 bytes, from 2019-10-20 19:59:15)
++- state_vg.xml  (   5975 bytes, from 2018-02-10 13:09:26)
++
++Copyright (C) 2012-2019 by the following authors:
+ - Wladimir J. van der Laan <laanwj@gmail.com>
+ - Christian Gmeiner <christian.gmeiner@gmail.com>
+ - Lucas Stach <l.stach@pengutronix.de>
+@@ -48,6 +48,9 @@ DEALINGS IN THE SOFTWARE.
+ #define MMU_EXCEPTION_SLAVE_NOT_PRESENT				0x00000001
+ #define MMU_EXCEPTION_PAGE_NOT_PRESENT				0x00000002
+ #define MMU_EXCEPTION_WRITE_VIOLATION				0x00000003
++#define MMU_EXCEPTION_OUT_OF_BOUND				0x00000004
++#define MMU_EXCEPTION_READ_SECURITY_VIOLATION			0x00000005
++#define MMU_EXCEPTION_WRITE_SECURITY_VIOLATION			0x00000006
+ #define VIVS_HI							0x00000000
+ 
+ #define VIVS_HI_CLOCK_CONTROL					0x00000000
+@@ -140,6 +143,8 @@ DEALINGS IN THE SOFTWARE.
+ 
+ #define VIVS_HI_CHIP_TIME					0x0000002c
+ 
++#define VIVS_HI_CHIP_CUSTOMER_ID				0x00000030
++
+ #define VIVS_HI_CHIP_MINOR_FEATURE_0				0x00000034
+ 
+ #define VIVS_HI_CACHE_CONTROL					0x00000038
+@@ -237,6 +242,8 @@ DEALINGS IN THE SOFTWARE.
+ 
+ #define VIVS_HI_BLT_INTR					0x000000d4
+ 
++#define VIVS_HI_CHIP_ECO_ID					0x000000e8
++
+ #define VIVS_HI_AUXBIT						0x000000ec
+ 
+ #define VIVS_PM							0x00000000
 -- 
 2.24.1
 
