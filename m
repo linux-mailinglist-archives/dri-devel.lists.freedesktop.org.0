@@ -2,26 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12E871320EB
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 09:05:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52B1E1320EE
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 09:05:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 867108995F;
-	Tue,  7 Jan 2020 08:05:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 723B789B7D;
+	Tue,  7 Jan 2020 08:05:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 697706E486
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E35626E486
  for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2020 15:18:49 +0000 (UTC)
 Received: from localhost.localdomain (unknown [91.224.148.103])
  (Authenticated sender: miquel.raynal@bootlin.com)
- by relay10.mail.gandi.net (Postfix) with ESMTPSA id 111AE24000E;
- Mon,  6 Jan 2020 15:18:45 +0000 (UTC)
+ by relay10.mail.gandi.net (Postfix) with ESMTPSA id A7206240007;
+ Mon,  6 Jan 2020 15:18:47 +0000 (UTC)
 From: Miquel Raynal <miquel.raynal@bootlin.com>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v4 1/3] dt-bindings: Add vendor prefix for Satoz
-Date: Mon,  6 Jan 2020 16:18:25 +0100
-Message-Id: <20200106151827.31511-1-miquel.raynal@bootlin.com>
+Subject: [PATCH v4 2/3] dt-bindings: display: Add Satoz panel
+Date: Mon,  6 Jan 2020 16:18:26 +0100
+Message-Id: <20200106151827.31511-2-miquel.raynal@bootlin.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200106151827.31511-1-miquel.raynal@bootlin.com>
+References: <20200106151827.31511-1-miquel.raynal@bootlin.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 07 Jan 2020 08:05:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -49,35 +51,60 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Satoz is a Chinese TFT manufacturer.
 Website: http://www.sat-sz.com/English/index.html
 
+Add (simple) bindings for its SAT050AT40H12R2 5.0 inch LCD panel.
+
 Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-Acked-by: Rob Herring <robh@kernel.org>
 ---
 
 Changes since v3:
-* None.
+* Added the missing ".yaml" suffix in the $id.
+* Removed the unnecessary "contains" assertion about the compatible.
+* Added a precision : there is no public specification for this panel
+  (known for the moment).
+* Bindings checked with "make dt_binding_check"
 
 Changes since v2:
 * None.
 
 Changes since v1:
-* Added Rob's Ack.
+* New patch
 
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ .../display/panel/satoz,sat050at40h12r2.yaml  | 26 +++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/satoz,sat050at40h12r2.yaml
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index 967e78c5ec0a..4894c5314b49 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -819,6 +819,8 @@ patternProperties:
-     description: Sancloud Ltd
-   "^sandisk,.*":
-     description: Sandisk Corporation
-+  "^satoz,.*":
-+    description: Satoz International Co., Ltd
-   "^sbs,.*":
-     description: Smart Battery System
-   "^schindler,.*":
+diff --git a/Documentation/devicetree/bindings/display/panel/satoz,sat050at40h12r2.yaml b/Documentation/devicetree/bindings/display/panel/satoz,sat050at40h12r2.yaml
+new file mode 100644
+index 000000000000..1ad6cafc1cc1
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/satoz,sat050at40h12r2.yaml
+@@ -0,0 +1,26 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/satoz,sat050at40h12r2.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Satoz SAT050AT40H12R2 panel
++
++maintainers:
++  - Thierry Reding <thierry.reding@gmail.com>
++
++description: |+
++  LCD 5.0 inch 800x480 RGB panel (no public specification).
++
++  This binding is compatible with the simple-panel binding, which is specified
++  in simple-panel.txt in this directory.
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    const: satoz,sat050at40h12r2
++
++required:
++  - compatible
 -- 
 2.20.1
 
