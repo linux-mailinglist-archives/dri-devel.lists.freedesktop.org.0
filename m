@@ -1,40 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38423130AEA
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 01:38:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9288130B3E
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 02:06:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2052389DC5;
-	Mon,  6 Jan 2020 00:38:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52E1189CE0;
+	Mon,  6 Jan 2020 01:06:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42CB789DC5
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2020 00:38:16 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id F259F8050A;
- Mon,  6 Jan 2020 01:38:10 +0100 (CET)
-Date: Mon, 6 Jan 2020 01:38:09 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v2 3/3] drm/panel: simple: Add support for the Frida
- FRD350H54004 panel
-Message-ID: <20200106003809.GA552@ravnborg.org>
-References: <20191202154123.64139-1-paul@crapouillou.net>
- <20191202154123.64139-3-paul@crapouillou.net>
+Received: from mail-ua1-x944.google.com (mail-ua1-x944.google.com
+ [IPv6:2607:f8b0:4864:20::944])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7F5289CE0;
+ Mon,  6 Jan 2020 01:06:17 +0000 (UTC)
+Received: by mail-ua1-x944.google.com with SMTP id c14so15342848uaq.11;
+ Sun, 05 Jan 2020 17:06:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=oD/TmYE7Rc3ZEG5cPZO14SpBA53dODt6EQBgZE8gYPI=;
+ b=PEmo0PFq7DKBYxBtymV7LxJFLP5A+tQ61Dr0ltLhlVBdB2gwEN7SUZkn6EobnWvRem
+ OOY+ffQNhh4/RyrTB7CjApYSGy04OicYqOgN/yxu270OCR+8vLKP3227IoaoKuTGEKNu
+ 9mzyotU7JeOQnzPwz/GVM78jUm8dSUOobw4X68g2pB4VcfT58ih1EbnaFfXHDuONOBLt
+ zkcRL44LM3kClp35/K3eqEzB7Tj18SjIJxG0L66oSkyefi5kpoM4BRRt3Q/v9IoM8y/p
+ Ezv/Odb3x3dSfYxliNTUjm+idMNtR37QhXGI9QJJ+qIvJc/pXupjc7rIhOdXerPBXK4U
+ Q5Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=oD/TmYE7Rc3ZEG5cPZO14SpBA53dODt6EQBgZE8gYPI=;
+ b=tO9DDRr6VDzUvGIEMs2kpBiPAIWdXfB9FKBnnejenVqh0nFbrdGzZrTPYrTTRD9RM5
+ n6yVVjDB9kIMeVLz7wkAmJXdGtPrDAJ5oXJxxiXiv89oepTufl2Tz//hIb8lTq4neWwJ
+ tBfBT4C4twMRK8g3Y9c1APziUHIGKWIK5IVVXWNhXORLnseBI+OKD17O1Uk/mLA/sqg9
+ fo2Bt8OoQuh5ETARpjyvbWc5Ioj9hQeXYM+rxoloe3nxG6gmPuA3msR3/f6C2e80Kl22
+ 46lnS0D4+o+aeLfCOBgOk8tz3+hGEl8R8PLhePosEJmdgydHWssSqPlp7i0ux2SRmQz3
+ NXTA==
+X-Gm-Message-State: APjAAAUAvoFmu8028OZxPnE6nZJakylJtY+evgpg2BOrLxSQ27srhq0f
+ IkFuex+NcRD+jDHdl7b8T6p5kI2fjbVJ1/jIK/k=
+X-Google-Smtp-Source: APXvYqx3CyDfxmt7yEu8FyFHyU8Oa/0pVpqjMMDxszF13Rx1oXVB90+4EwrYBUaZfUuxGzrGM8cVVxOcDQ9zrjCmByw=
+X-Received: by 2002:ab0:6029:: with SMTP id n9mr57299619ual.35.1578272776664; 
+ Sun, 05 Jan 2020 17:06:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191202154123.64139-3-paul@crapouillou.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=ER_8r6IbAAAA:8
- a=4eiu5t_5MPiKWv0nutYA:9 a=CjuIK1q_8ugA:10 a=9LHmKk7ezEChjTCyhBa9:22
- a=pHzHmUro8NiASowvMSCR:22 a=6VlIyEUom7LUIeUMNQJH:22
+References: <20191230024628.11820-1-yuehaibing@huawei.com>
+In-Reply-To: <20191230024628.11820-1-yuehaibing@huawei.com>
+From: Ben Skeggs <skeggsb@gmail.com>
+Date: Mon, 6 Jan 2020 11:06:05 +1000
+Message-ID: <CACAvsv6GAO18farNBWy5t-tXyTkZHtNDxZEfHeNpZ475yMdGUA@mail.gmail.com>
+Subject: Re: [Nouveau] [PATCH -next] drm/nouveau/nv04: Use match_string()
+ helper to simplify the code
+To: YueHaibing <yuehaibing@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,79 +61,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org, od@zcrc.me,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>
+Cc: Dave Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Jani Nikula <jani.nikula@intel.com>, Ben Skeggs <bskeggs@redhat.com>,
+ ML nouveau <nouveau@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paul.
+On Mon, 30 Dec 2019 at 12:48, YueHaibing <yuehaibing@huawei.com> wrote:
+>
+> match_string() returns the array index of a matching string.
+> Use it instead of the open-coded implementation.
+>
+> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+Thanks!
 
-On Mon, Dec 02, 2019 at 04:41:23PM +0100, Paul Cercueil wrote:
-> The FRD350H54004 is a simple 3.5" 320x240 24-bit TFT panel, found for
-> instance inside the Anbernic RG-350 handheld gaming console.
-> 
-> v2: Order alphabetically
-> 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 > ---
->  drivers/gpu/drm/panel/panel-simple.c | 29 ++++++++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 28fa6ba7b767..0e5e33a57f0c 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -1402,6 +1402,32 @@ static const struct panel_desc foxlink_fl500wvr00_a0t = {
->  	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
->  };
->  
-> +static const struct drm_display_mode frida_frd350h54004_mode = {
-> +	.clock = 6777,
-> +	.hdisplay = 320,
-> +	.hsync_start = 320 + 70,
-> +	.hsync_end = 320 + 70 + 50,
-> +	.htotal = 320 + 70 + 50 + 10,
-> +	.vdisplay = 240,
-> +	.vsync_start = 240 + 5,
-> +	.vsync_end = 240 + 5 + 1,
-> +	.vtotal = 240 + 5 + 1 + 5,
-> +	.vrefresh = 60,
-> +	.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC,
-> +};
-> +
-> +static const struct panel_desc frida_frd350h54004 = {
-> +	.modes = &frida_frd350h54004_mode,
-> +	.num_modes = 1,
-> +	.bpc = 8,
-> +	.size = {
-> +		.width = 77,
-> +		.height = 64,
-> +	},
-> +	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
-> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_POSEDGE,
-> +};
-connector_type is mandatory for new panel-simple panels.
-
-	Sam
-> +
->  static const struct drm_display_mode friendlyarm_hd702e_mode = {
->  	.clock		= 67185,
->  	.hdisplay	= 800,
-> @@ -3189,6 +3215,9 @@ static const struct of_device_id platform_of_match[] = {
->  	}, {
->  		.compatible = "foxlink,fl500wvr00-a0t",
->  		.data = &foxlink_fl500wvr00_a0t,
-> +	}, {
-> +		.compatible = "frida,frd350h54004",
-> +		.data = &frida_frd350h54004,
->  	}, {
->  		.compatible = "friendlyarm,hd702e",
->  		.data = &friendlyarm_hd702e,
-> -- 
-> 2.24.0
+>  drivers/gpu/drm/nouveau/dispnv04/tvnv17.c | 13 +++++--------
+>  1 file changed, 5 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c b/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
+> index 03466f0..3a9489e 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
+> @@ -644,16 +644,13 @@ static int nv17_tv_create_resources(struct drm_encoder *encoder,
+>         int i;
+>
+>         if (nouveau_tv_norm) {
+> -               for (i = 0; i < num_tv_norms; i++) {
+> -                       if (!strcmp(nv17_tv_norm_names[i], nouveau_tv_norm)) {
+> -                               tv_enc->tv_norm = i;
+> -                               break;
+> -                       }
+> -               }
+> -
+> -               if (i == num_tv_norms)
+> +               i = match_string(nv17_tv_norm_names, num_tv_norms,
+> +                                nouveau_tv_norm);
+> +               if (i < 0)
+>                         NV_WARN(drm, "Invalid TV norm setting \"%s\"\n",
+>                                 nouveau_tv_norm);
+> +               else
+> +                       tv_enc->tv_norm = i;
+>         }
+>
+>         drm_mode_create_tv_properties(dev, num_tv_norms, nv17_tv_norm_names);
+> --
+> 2.7.4
+>
+>
+> _______________________________________________
+> Nouveau mailing list
+> Nouveau@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/nouveau
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
