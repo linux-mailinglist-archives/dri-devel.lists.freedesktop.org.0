@@ -2,31 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 780291310C2
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 11:48:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31A291310CC
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 11:49:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B33D96E252;
-	Mon,  6 Jan 2020 10:48:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0323F6E24E;
+	Mon,  6 Jan 2020 10:49:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48EAA6E252
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2020 10:48:05 +0000 (UTC)
-Received: from ip5f5a5f74.dynamic.kabel-deutschland.de ([95.90.95.116]
- helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.89) (envelope-from <heiko@sntech.de>)
- id 1ioPvN-0004Qj-NI; Mon, 06 Jan 2020 11:47:53 +0100
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Yannick FERTRE <yannick.fertre@st.com>
-Subject: Re: [PATCH] drm/bridge/synopsys: dsi: use mipi_dsi_device to find
- panel or bridge
-Date: Mon, 06 Jan 2020 11:47:53 +0100
-Message-ID: <5440050.dOyRey5V17@diego>
-In-Reply-To: <00359841-35ab-e1bb-5750-fe83f81aeef0@st.com>
-References: <20191217224150.20540-1-heiko@sntech.de>
- <00359841-35ab-e1bb-5750-fe83f81aeef0@st.com>
+Received: from mail-vk1-xa42.google.com (mail-vk1-xa42.google.com
+ [IPv6:2607:f8b0:4864:20::a42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A832F6E24E;
+ Mon,  6 Jan 2020 10:49:12 +0000 (UTC)
+Received: by mail-vk1-xa42.google.com with SMTP id c129so12366937vkh.7;
+ Mon, 06 Jan 2020 02:49:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XFzoZ86uEVjKWHiIx7n2HpYErMeQnxrhPD0oWb4wVqg=;
+ b=WfWGYz/RCLTMwYaL53SGSjgLV/BZVFTf8Hb1W6MeEDhZLlbxlTOclpavebEKZo+Ouk
+ vucaQKlXWfG9VXqw3WSM9fFrPH0i1ATOv5CdsFE9IleLn7p0nf8anBRhZ8plRZnRfSpl
+ yRBzIpzcxcPx1Eymy9tYDLrtnX92vNWAU5fD4a8Oa58sTGy6kGvJxdxpbs4fYS+Ik2zO
+ WurZZKXjWBTPzBB0Sd38L7GtvWt50cNfqP3LrRKRPYfpu2SCbaKcZdiBD4iyskUscUWK
+ gQ/j2Uo+8mR0LzlegzrTGfO0T3QtDlNw0vTwkseEk/SlZ/GH4n9GHvc/YhvV2eZXo4bN
+ ityA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XFzoZ86uEVjKWHiIx7n2HpYErMeQnxrhPD0oWb4wVqg=;
+ b=mzm5wprqkIPSK7WqWI+xFMSnrTGiJ0HTMccJwyizKL/bsOlSJV6bzkVG9+701BCRYU
+ jRiYEVdz66W4AeULckADteiwDHm12c7jMIaEaJvxdd0qxtWmxGX3BI8hQ/q4vZwRv0Jw
+ B6fB8mE3WRSiD1LbHMwQL7nl7f080jsYj0QtL5mdgqBqsuvyRIwOzijiCNmp9J+rxvFQ
+ ncgD7C1f7wbbcUGHyzgXtaZyUwn6KSosj9URSQYvMNH67ezSg638qb4eUza6iqc1Q4Hx
+ vdcddA+Q9WAS9JNGRoDU7tvzzx4G9YIRx7SdhuaNfLGKKbbZ6fTc7nLUTS910wGF8hUi
+ gmIQ==
+X-Gm-Message-State: APjAAAVmvmD6xV6WXLZS0+iEtsy4WzX+5kI/kwaH+eEx/MuP0qtZw9Vy
+ mRESL/yfZ2IfCZrHYx7GbxluPFbZBo0mUMT8F4M=
+X-Google-Smtp-Source: APXvYqxOZUpCU+5AFy4RLqhuDjx2AX6pxI9Zqbzh0mrMGe9Q/Xewjj0d9R3JxH1tbh0/Jpc5LMD095MmnifN/SM3DZ4=
+X-Received: by 2002:a1f:1806:: with SMTP id 6mr56157586vky.85.1578307751707;
+ Mon, 06 Jan 2020 02:49:11 -0800 (PST)
 MIME-Version: 1.0
+References: <20200102100230.420009-1-christian.gmeiner@gmail.com>
+ <20200102100230.420009-6-christian.gmeiner@gmail.com>
+ <82299ef95e44190d9bcea29bacb5651f3dc75b64.camel@pengutronix.de>
+In-Reply-To: <82299ef95e44190d9bcea29bacb5651f3dc75b64.camel@pengutronix.de>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Mon, 6 Jan 2020 11:49:00 +0100
+Message-ID: <CAH9NwWfS2GwL1kTYOOp8tnvCCXkMBQuOarBjiWXOQELWKPEM8A@mail.gmail.com>
+Subject: Re: [PATCH 5/6] drm/etnaviv: update hwdb selection logic
+To: Lucas Stach <l.stach@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,119 +62,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
- Philippe CORNU <philippe.cornu@st.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "maxime@cerno.tech" <maxime@cerno.tech>,
- "christoph.muellner@theobroma-systems.com"
- <christoph.muellner@theobroma-systems.com>
+Cc: David Airlie <airlied@linux.ie>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Yannick,
+Hi Lucas
 
-Am Freitag, 20. Dezember 2019, 16:52:47 CET schrieb Yannick FERTRE:
-> Hello Heiko,
-> I test with success your patch on a board stm32mp1 with a panel raydium 
-> rm68200.
-> I need more time to test with a HDMI bridge  like ad7533.
-
-I guess this was too short before the holiday season, so just a soft reminder,
-that you wanted to check that on that mentioned hdmi bridge :-)
-
-
-Thanks
-Heiko
-
-
-> On 12/17/19 11:41 PM, Heiko Stuebner wrote:
-> > From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+Am Mo., 6. Jan. 2020 um 11:15 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
+>
+> On Do, 2020-01-02 at 11:02 +0100, Christian Gmeiner wrote:
+> > Take product id, customer id and eco id into account. If that
+> > delivers no match try a search for model and revision.
 > >
-> > Right now the dsi driver uses drm_of_find_panel_or_bridge() to find a
-> > connected panel or bridge. But this requires an of-graph connection
-> > between the dsi-host and dsi-device, where normal bindings for regular
-> > panels just expect the dsi device to be a subnode of the actual dsi host
-> > not requiring ports.
-> >
-> > drm_of_find_panel_or_bridge is used to find panel/bridge under the actual
-> > device-node of the dsi device, but as this happens in the dsi_host_attach
-> > callback we already have the dsi-device and its device-node available and
-> > therefore can just call the relevant panel+bridge functions ourself,
-> > making it work as well in setups without port-connections.
-> >
-> > Tested on a Rockchip px30 single-dsi with panels form Leadtek and Xinpeng
-> > as well on Gru-Scarlet (rk3399) with dual-dsi (and thus port-connections
-> > to both dsi controllers) connected to the Innotek display variant.
-> >
-> > changes in v2:
-> > - rework commit message, rereading what I had written was just too
-> >    cringe-worthy ;-)
-> >
-> > Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+> > Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
 > > ---
-> >   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 17 ++++++++++-------
-> >   1 file changed, 10 insertions(+), 7 deletions(-)
+> >  drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 19 ++++++++++++++++++-
+> >  1 file changed, 18 insertions(+), 1 deletion(-)
 > >
-> > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> > index 981d532cdd59..4b4961e7c680 100644
-> > --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> > +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> > @@ -26,6 +26,7 @@
-> >   #include <drm/drm_mipi_dsi.h>
-> >   #include <drm/drm_modes.h>
-> >   #include <drm/drm_of.h>
-> > +#include <drm/drm_panel.h>
-> >   #include <drm/drm_print.h>
-> >   #include <drm/drm_probe_helper.h>
-> >   
-> > @@ -310,16 +311,16 @@ static int dw_mipi_dsi_host_attach(struct mipi_dsi_host *host,
-> >   	dsi->format = device->format;
-> >   	dsi->mode_flags = device->mode_flags;
-> >   
-> > -	ret = drm_of_find_panel_or_bridge(host->dev->of_node, 1, 0,
-> > -					  &panel, &bridge);
-> > -	if (ret)
-> > -		return ret;
-> > -
-> > -	if (panel) {
-> > +	panel = of_drm_find_panel(device->dev.of_node);
-> > +	if (!IS_ERR(panel)) {
-> >   		bridge = drm_panel_bridge_add_typed(panel,
-> >   						    DRM_MODE_CONNECTOR_DSI);
-> >   		if (IS_ERR(bridge))
-> >   			return PTR_ERR(bridge);
-> > +	} else {
-> > +		bridge = of_drm_find_bridge(device->dev.of_node);
-> > +		if (!bridge)
-> > +			return -EPROBE_DEFER;
-> >   	}
-> >   
-> >   	dsi->panel_bridge = bridge;
-> > @@ -340,6 +341,7 @@ static int dw_mipi_dsi_host_detach(struct mipi_dsi_host *host,
-> >   {
-> >   	struct dw_mipi_dsi *dsi = host_to_dsi(host);
-> >   	const struct dw_mipi_dsi_plat_data *pdata = dsi->plat_data;
-> > +	struct drm_bridge *bridge;
-> >   	int ret;
-> >   
-> >   	if (pdata->host_ops && pdata->host_ops->detach) {
-> > @@ -348,7 +350,8 @@ static int dw_mipi_dsi_host_detach(struct mipi_dsi_host *host,
-> >   			return ret;
-> >   	}
-> >   
-> > -	drm_of_panel_bridge_remove(host->dev->of_node, 1, 0);
-> > +	bridge = of_drm_find_bridge(device->dev.of_node);
-> > +	drm_panel_bridge_remove(bridge);
-> >   
-> >   	drm_bridge_remove(&dsi->bridge);
-> >   
-> 
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+> > index eb0f3eb87ced..d1744f1b44b1 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+> > @@ -44,9 +44,26 @@ bool etnaviv_fill_identity_from_hwdb(struct etnaviv_gpu *gpu)
+> >       struct etnaviv_chip_identity *ident = &gpu->identity;
+> >       int i;
+> >
+> > +     /* accurate match */
+> >       for (i = 0; i < ARRAY_SIZE(etnaviv_chip_identities); i++) {
+> >               if (etnaviv_chip_identities[i].model == ident->model &&
+> > -                 etnaviv_chip_identities[i].revision == ident->revision) {
+> > +                 etnaviv_chip_identities[i].revision == ident->revision &&
+> > +                 etnaviv_chip_identities[i].product_id == ident->product_id &&
+>
+> Why not simply make this:
+> (etnaviv_chip_identities[i].product_id == ident->product_id ||
+> etnaviv_chip_identities[i].product_id == ~0U)
+> and similar for customer and eco ID?
+>
+> With this we don't need two different walks through the HWDB, as long
+> as the more specific entries in the DB are ordered to the front of the
+> array.
+>
 
+Works for me too.. will be change in v2.
 
+-- 
+greets
+--
+Christian Gmeiner, MSc
 
-
+https://christian-gmeiner.info/privacypolicy
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
