@@ -2,38 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B402F131090
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 11:29:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EAEA1310A6
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 11:36:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 046A46E23D;
-	Mon,  6 Jan 2020 10:29:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61B1289A76;
+	Mon,  6 Jan 2020 10:36:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C67C6E23B
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2020 10:29:23 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7A86B52F;
- Mon,  6 Jan 2020 11:29:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1578306561;
- bh=Epnma+hHn8oqzO71KUPxhhXyABGgluqWJ8aDYarTFCQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=aigvBjAQvWmc8LAwYvHzTLXXO7BKX/wgcBPDtmHopU4+uCbi+NHq55BGMe5XUPPRf
- BUspD4IC/XxUK6FmRRc7RIuiwPlv12unT/wTF6Dd7qhwcS5iBzuLqciOBRHiRGoboX
- 6Mv08y27tCV2rZFbNsIlaPgqRzeSIqZrS7gKK2SE=
-Date: Mon, 6 Jan 2020 12:29:11 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Subject: Re: [PATCH 1/3] drm/bridge: Fix drm_bridge_chain_pre_enable()
-Message-ID: <20200106102911.GA4853@pendragon.ideasonboard.com>
-References: <20191227144124.210294-1-boris.brezillon@collabora.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0C1D89A76
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2020 10:36:52 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 80391AAC3;
+ Mon,  6 Jan 2020 10:36:51 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@redhat.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, zourongrong@gmail.com, kong.kongxinwei@hisilicon.com,
+ puck.chen@hisilicon.com, kraxel@redhat.com, sam@ravnborg.org
+Subject: [PATCH v3 0/3] drm/vram-helper: Various cleanups
+Date: Mon,  6 Jan 2020 11:36:43 +0100
+Message-Id: <20200106103646.13077-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191227144124.210294-1-boris.brezillon@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,66 +37,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, dri-devel@lists.freedesktop.org,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Boris,
+A number of cleanups that I wanted to apply for some time. The first
+two patches simplify the public interface. The third patch adds support
+for struct drm_driver.gem_create_object. All tested by running fbdev,
+X11 and Weston on ast HW.
 
-Thank you for the patch.
+v3:
+	* drm_gem_vram_create(): test for allocation failure before
+	  update
+v2:
+	* make drm_gem_vram_create() still work if GEM object is not
+	  first in struct
 
-On Fri, Dec 27, 2019 at 03:41:22PM +0100, Boris Brezillon wrote:
-> Stop iterating on the bridge chain when we reach the bridge element.
-> That's what other helpers do and should allow bridge implementations
-> to execute a pre_enable operation on a sub-chain.
+Thomas Zimmermann (3):
+  drm/vram-helper: Remove interruptible flag from public interface
+  drm/vram-helper: Remove BO device from public interface
+  drm/vram-helper: Support struct drm_driver.gem_create_object
 
-The code looks fine to me, but I think you should update the
-documentation to explain this. It currently states:
+ drivers/gpu/drm/ast/ast_mode.c              |  3 +-
+ drivers/gpu/drm/drm_gem_vram_helper.c       | 47 +++++++++++----------
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c |  2 +-
+ drivers/gpu/drm/mgag200/mgag200_cursor.c    |  3 +-
+ drivers/gpu/drm/mgag200/mgag200_drv.c       |  3 +-
+ include/drm/drm_gem_vram_helper.h           |  6 +--
+ 6 files changed, 29 insertions(+), 35 deletions(-)
 
- * Calls &drm_bridge_funcs.pre_enable op for all the bridges in the encoder
- * chain, starting from the last bridge to the first. These are called
- * before calling the encoder's commit op.
- *
- * Note: the bridge passed should be the one closest to the encoder
+--
+2.24.1
 
-I suggest stating instead that the operation is called from the last
-bridge to the bridge passed as the argument. The note should then either
-be removed, or updated to state that bridge is usually the bridge
-closest to the encoder, but can be any other bridge if the caller only
-wants to execute the operation on a subset of the chain. It's also
-probably worth it updating the other functions accordingly.
-
-> Fixes: 05193dc38197 ("drm/bridge: Make the bridge chain a double-linked list")
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> ---
->  drivers/gpu/drm/drm_bridge.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index c2cf0c90fa26..b3b269ec6a39 100644
-> --- a/drivers/gpu/drm/drm_bridge.c
-> +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -357,6 +357,9 @@ void drm_bridge_chain_pre_enable(struct drm_bridge *bridge)
->  	list_for_each_entry_reverse(iter, &encoder->bridge_chain, chain_node) {
->  		if (iter->funcs->pre_enable)
->  			iter->funcs->pre_enable(iter);
-> +
-> +		if (iter == bridge)
-> +			break;
->  	}
->  }
->  EXPORT_SYMBOL(drm_bridge_chain_pre_enable);
-
--- 
-Regards,
-
-Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
