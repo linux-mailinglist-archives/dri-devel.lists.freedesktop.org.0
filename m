@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EE2E1316C1
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 18:28:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD7AD1316BF
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 18:28:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DD286E4E6;
-	Mon,  6 Jan 2020 17:28:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B1CD6E4E3;
+	Mon,  6 Jan 2020 17:28:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E92F36E4D0;
- Mon,  6 Jan 2020 17:28:41 +0000 (UTC)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6FBE6E4D0;
+ Mon,  6 Jan 2020 17:28:40 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 06 Jan 2020 09:28:32 -0800
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 06 Jan 2020 09:28:40 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.69,403,1571727600"; 
- d="scan'208,217";a="225496114"
+ d="scan'208,217";a="225496129"
 Received: from plaxmina-desktop.iind.intel.com ([10.106.124.119])
- by fmsmga001.fm.intel.com with ESMTP; 06 Jan 2020 09:28:29 -0800
+ by fmsmga001.fm.intel.com with ESMTP; 06 Jan 2020 09:28:37 -0800
 From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 To: rodrigo.vivi@intel.com, irlied@linux.ie, daniel@ffwll.ch,
  sudeep.dutt@intel.com, jani.nikula@intel.com,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [Intel-gfx] [RFC 4/7] drm/i915: Make WARN* device specific where
- drm_device ptr available
-Date: Mon,  6 Jan 2020 22:53:23 +0530
-Message-Id: <20200106172326.32592-5-pankaj.laxminarayan.bharadiya@intel.com>
+Subject: [Intel-gfx] [RFC 6/7] drm/i915: Make WARN* device specific where
+ dev_priv can be extracted.
+Date: Mon,  6 Jan 2020 22:53:25 +0530
+Message-Id: <20200106172326.32592-7-pankaj.laxminarayan.bharadiya@intel.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200106172326.32592-1-pankaj.laxminarayan.bharadiya@intel.com>
 References: <20200106172326.32592-1-pankaj.laxminarayan.bharadiya@intel.com>
@@ -56,577 +56,370 @@ Device specific WARN* calls include device information in the
 backtrace, so we know what device the warnings originate from.
 
 Covert all the calls of WARN* with device specific dev_WARN*
-variants in functions where drm_device struct pointer is readily
-available.
+variants in functions where first function argument is a
+struct pointer and has drm_i915_private struct pointer member.
 
 The conversion was done automatically with below coccinelle semantic
 patch. checkpatch errors/warnings are fixed manually.
 
-@rule1@
-identifier func, T;
+@r exists@
+identifier func, s, i;
+position p;
 @@
-func(...) {
-...
-struct drm_device *T = ...;
+func(struct s *i,...) {
+
 <...
-(
--WARN(
-+dev_WARN(T->dev,
-...)
-|
--WARN_ON(
-+dev_WARN_ON(T->dev,
-...)
-|
--WARN_ONCE(
-+dev_WARN_ONCE(T->dev,
-...)
-|
--WARN_ON_ONCE(
-+dev_WARN_ON_ONCE(T->dev,
-...)
-)
+\(WARN@p\|WARN_ON@p\|WARN_ONCE@p\|WARN_ON_ONCE@p\)(...)
 ...>
 }
 
-@rule2@
-identifier func, T;
+@rr@
+identifier r.s,member;
 @@
-func(struct drm_device *T,...) {
-<...
+
+struct s {
+        ...
+     struct drm_i915_private *member;
+        ...
+};
+
+@XX@
+identifier r.i, r.s, rr.member;
+position r.p;
+@@
 (
--WARN(
-+dev_WARN(T->dev,
+-WARN@p
++dev_WARN
+   (
++ i915_to_dev(i->member),
 ...)
 |
--WARN_ON(
-+dev_WARN_ON(T->dev,
+-WARN_ON@p
++dev_WARN_ON
+   (
++ i915_to_dev(i->member),
 ...)
 |
--WARN_ONCE(
-+dev_WARN_ONCE(T->dev,
+-WARN_ONCE@p
++dev_WARN_ONCE
+   (
++ i915_to_dev(i->member),
 ...)
 |
--WARN_ON_ONCE(
-+dev_WARN_ON_ONCE(T->dev,
+-WARN_ON_ONCE@p
++dev_WARN_ON_ONCE
+   (
++ i915_to_dev(i->member),
 ...)
 )
-...>
-}
 
-command: spatch --sp-file <script> --dir drivers/gpu/drm/i915 \
-					--linux-spacing --in-place
+command: spatch  --sp-file <script>  --dir drivers/gpu/drm/i915/ \
+   		--in-place  --recursive-includes \
+		-I drivers/gpu/drm/i915/ \
+		-I drivers/gpu/drm/i915/display/
 
 Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 ---
- .../gpu/drm/i915/display/intel_connector.c    |  3 +-
- drivers/gpu/drm/i915/display/intel_ddi.c      | 10 +--
- drivers/gpu/drm/i915/display/intel_display.c  | 66 +++++++++++--------
- drivers/gpu/drm/i915/display/intel_dp.c       | 20 +++---
- drivers/gpu/drm/i915/display/intel_dpll_mgr.c |  2 +-
- .../i915/display/intel_dsi_dcs_backlight.c    |  2 +-
- drivers/gpu/drm/i915/display/intel_fbdev.c    | 15 +++--
- drivers/gpu/drm/i915/display/intel_hdmi.c     | 14 ++--
- drivers/gpu/drm/i915/display/intel_hotplug.c  |  2 +-
- drivers/gpu/drm/i915/display/intel_lvds.c     |  4 +-
- drivers/gpu/drm/i915/display/intel_pipe_crc.c |  5 +-
- drivers/gpu/drm/i915/display/intel_sdvo.c     |  7 +-
- drivers/gpu/drm/i915/i915_irq.c               |  2 +-
- 13 files changed, 87 insertions(+), 65 deletions(-)
+ drivers/gpu/drm/i915/display/intel_overlay.c  |  6 +-
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  4 +-
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  2 +-
+ drivers/gpu/drm/i915/gt/intel_gt_irq.c        | 15 +++--
+ drivers/gpu/drm/i915/gt/intel_gt_pm_irq.c     |  2 +-
+ drivers/gpu/drm/i915/i915_irq.c               | 10 ++--
+ drivers/gpu/drm/i915/i915_perf.c              |  3 +-
+ drivers/gpu/drm/i915/intel_uncore.c           | 55 ++++++++++---------
+ 8 files changed, 54 insertions(+), 43 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_connector.c b/drivers/gpu/drm/i915/display/intel_connector.c
-index 1133c4e97bb4..5ebd5d8e5b87 100644
---- a/drivers/gpu/drm/i915/display/intel_connector.c
-+++ b/drivers/gpu/drm/i915/display/intel_connector.c
-@@ -162,7 +162,8 @@ enum pipe intel_connector_get_pipe(struct intel_connector *connector)
- {
- 	struct drm_device *dev = connector->base.dev;
+diff --git a/drivers/gpu/drm/i915/display/intel_overlay.c b/drivers/gpu/drm/i915/display/intel_overlay.c
+index d30389303f5f..43dd002b5331 100644
+--- a/drivers/gpu/drm/i915/display/intel_overlay.c
++++ b/drivers/gpu/drm/i915/display/intel_overlay.c
+@@ -282,7 +282,7 @@ static void intel_overlay_flip_prepare(struct intel_overlay *overlay,
+ 	enum pipe pipe = overlay->crtc->pipe;
+ 	struct intel_frontbuffer *from = NULL, *to = NULL;
  
--	WARN_ON(!drm_modeset_is_locked(&dev->mode_config.connection_mutex));
-+	dev_WARN_ON(dev->dev,
-+		    !drm_modeset_is_locked(&dev->mode_config.connection_mutex));
+-	WARN_ON(overlay->old_vma);
++	dev_WARN_ON(i915_to_dev(overlay->i915), overlay->old_vma);
  
- 	if (!connector->base.state->crtc)
- 		return INVALID_PIPE;
-diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
-index 23f091e64498..5832faf74fdf 100644
---- a/drivers/gpu/drm/i915/display/intel_ddi.c
-+++ b/drivers/gpu/drm/i915/display/intel_ddi.c
-@@ -1260,8 +1260,9 @@ intel_ddi_get_crtc_encoder(struct intel_crtc *crtc)
- 	}
+ 	if (overlay->vma)
+ 		from = intel_frontbuffer_get(overlay->vma->obj);
+@@ -352,7 +352,7 @@ static void intel_overlay_release_old_vma(struct intel_overlay *overlay)
+ 	struct i915_vma *vma;
  
- 	if (num_encoders != 1)
--		WARN(1, "%d encoders on crtc for pipe %c\n", num_encoders,
--		     pipe_name(crtc->pipe));
-+		dev_WARN(dev->dev, 1, "%d encoders on crtc for pipe %c\n",
-+			 num_encoders,
-+			 pipe_name(crtc->pipe));
- 
- 	BUG_ON(ret == NULL);
- 	return ret;
-@@ -1983,10 +1984,11 @@ int intel_ddi_toggle_hdcp_signalling(struct intel_encoder *intel_encoder,
- 
- 	wakeref = intel_display_power_get_if_enabled(dev_priv,
- 						     intel_encoder->power_domain);
--	if (WARN_ON(!wakeref))
-+	if (dev_WARN_ON(dev->dev, !wakeref))
- 		return -ENXIO;
- 
--	if (WARN_ON(!intel_encoder->get_hw_state(intel_encoder, &pipe))) {
-+	if (dev_WARN_ON(dev->dev, !intel_encoder->get_hw_state(intel_encoder,
-+							       &pipe))) {
- 		ret = -EIO;
- 		goto out;
- 	}
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index ed755d54e4e5..817f49425bfb 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -890,7 +890,7 @@ static bool vlv_PLL_is_optimal(struct drm_device *dev, int target_freq,
- 		return calculated_clock->p > best_clock->p;
- 	}
- 
--	if (WARN_ON_ONCE(!target_freq))
-+	if (dev_WARN_ON_ONCE(dev->dev, !target_freq))
- 		return false;
- 
- 	*error_ppm = div_u64(1000000ULL *
-@@ -2190,7 +2190,7 @@ intel_pin_and_fence_fb_obj(struct drm_framebuffer *fb,
- 	unsigned int pinctl;
- 	u32 alignment;
- 
--	if (WARN_ON(!i915_gem_object_is_framebuffer(obj)))
-+	if (dev_WARN_ON(dev->dev, !i915_gem_object_is_framebuffer(obj)))
- 		return ERR_PTR(-EINVAL);
- 
- 	alignment = intel_surf_alignment(fb, 0);
-@@ -4656,7 +4656,7 @@ __intel_display_resume(struct drm_device *dev,
- 
- 	ret = drm_atomic_helper_commit_duplicated_state(state, ctx);
- 
--	WARN_ON(ret == -EDEADLK);
-+	dev_WARN_ON(dev->dev, ret == -EDEADLK);
- 	return ret;
- }
- 
-@@ -5677,7 +5677,7 @@ static void ilk_pch_enable(const struct intel_atomic_state *state,
- 			temp |= TRANS_DP_VSYNC_ACTIVE_HIGH;
- 
- 		port = intel_get_crtc_new_encoder(state, crtc_state)->port;
--		WARN_ON(port < PORT_B || port > PORT_D);
-+		dev_WARN_ON(dev->dev, port < PORT_B || port > PORT_D);
- 		temp |= TRANS_DP_PORT_SEL(port);
- 
- 		I915_WRITE(reg, temp);
-@@ -6083,11 +6083,15 @@ void hsw_enable_ips(const struct intel_crtc_state *crtc_state)
- 	 * This function is called from post_plane_update, which is run after
- 	 * a vblank wait.
- 	 */
--	WARN_ON(!(crtc_state->active_planes & ~BIT(PLANE_CURSOR)));
-+	dev_WARN_ON(dev->dev,
-+		    !(crtc_state->active_planes & ~BIT(PLANE_CURSOR)));
- 
- 	if (IS_BROADWELL(dev_priv)) {
--		WARN_ON(sandybridge_pcode_write(dev_priv, DISPLAY_IPS_CONTROL,
--						IPS_ENABLE | IPS_PCODE_CONTROL));
-+		dev_WARN_ON(dev->dev,
-+			    sandybridge_pcode_write(dev_priv,
-+						    DISPLAY_IPS_CONTROL,
-+						    IPS_ENABLE |
-+						    IPS_PCODE_CONTROL));
- 		/* Quoting Art Runyan: "its not safe to expect any particular
- 		 * value in IPS_CTL bit 31 after enabling IPS through the
- 		 * mailbox." Moreover, the mailbox may return a bogus state,
-@@ -6115,7 +6119,9 @@ void hsw_disable_ips(const struct intel_crtc_state *crtc_state)
+ 	vma = fetch_and_zero(&overlay->old_vma);
+-	if (WARN_ON(!vma))
++	if (dev_WARN_ON(i915_to_dev(overlay->i915), !vma))
  		return;
  
- 	if (IS_BROADWELL(dev_priv)) {
--		WARN_ON(sandybridge_pcode_write(dev_priv, DISPLAY_IPS_CONTROL, 0));
-+		dev_WARN_ON(dev->dev,
-+			    sandybridge_pcode_write(dev_priv,
-+						    DISPLAY_IPS_CONTROL, 0));
- 		/*
- 		 * Wait for PCODE to finish disabling IPS. The BSpec specified
- 		 * 42ms timeout value leads to occasional timeouts so use 100ms
-@@ -8952,7 +8958,7 @@ i9xx_get_initial_plane_config(struct intel_crtc *crtc,
- 	if (!plane->get_hw_state(plane, &pipe))
- 		return;
+ 	intel_frontbuffer_flip_complete(overlay->i915,
+@@ -398,7 +398,7 @@ static int intel_overlay_off(struct intel_overlay *overlay)
+ 	struct i915_request *rq;
+ 	u32 *cs, flip_addr = overlay->flip_addr;
  
--	WARN_ON(pipe != crtc->pipe);
-+	dev_WARN_ON(dev->dev, pipe != crtc->pipe);
+-	WARN_ON(!overlay->active);
++	dev_WARN_ON(i915_to_dev(overlay->i915), !overlay->active);
  
- 	intel_fb = kzalloc(sizeof(*intel_fb), GFP_KERNEL);
- 	if (!intel_fb) {
-@@ -10149,7 +10155,7 @@ skl_get_initial_plane_config(struct intel_crtc *crtc,
- 	if (!plane->get_hw_state(plane, &pipe))
- 		return;
- 
--	WARN_ON(pipe != crtc->pipe);
-+	dev_WARN_ON(dev->dev, pipe != crtc->pipe);
- 
- 	intel_fb = kzalloc(sizeof(*intel_fb), GFP_KERNEL);
- 	if (!intel_fb) {
-@@ -10278,8 +10284,8 @@ static void ilk_get_pfit_config(struct intel_crtc *crtc,
- 		 * ivb/hsw (since we don't use the higher upscaling modes which
- 		 * differentiates them) so just WARN about this case for now. */
- 		if (IS_GEN(dev_priv, 7)) {
--			WARN_ON((tmp & PF_PIPE_SEL_MASK_IVB) !=
--				PF_PIPE_SEL_IVB(crtc->pipe));
-+			dev_WARN_ON(dev->dev, (tmp & PF_PIPE_SEL_MASK_IVB) !=
-+				    PF_PIPE_SEL_IVB(crtc->pipe));
+ 	/* According to intel docs the overlay hw may hang (when switching
+ 	 * off) without loading the filter coeffs. It is however unclear whether
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+index cbd2bcade3c8..8b9adf259b39 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+@@ -1374,8 +1374,8 @@ eb_relocate_entry(struct i915_execbuffer *eb,
+ 		    IS_GEN(eb->i915, 6)) {
+ 			err = i915_vma_bind(target, target->obj->cache_level,
+ 					    PIN_GLOBAL, NULL);
+-			if (WARN_ONCE(err,
+-				      "Unexpected failure to bind target VMA!"))
++			if (dev_WARN_ONCE(i915_to_dev(eb->i915), err,
++					  "Unexpected failure to bind target VMA!"))
+ 				return err;
  		}
  	}
- }
-@@ -10376,7 +10382,8 @@ static bool ilk_get_pipe_config(struct intel_crtc *crtc,
- 			intel_get_shared_dpll_by_id(dev_priv, pll_id);
- 		pll = pipe_config->shared_dpll;
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+index 37869515acff..b60ff15317d8 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+@@ -320,7 +320,7 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id)
+ 		CONFIG_DRM_I915_TIMESLICE_DURATION;
  
--		WARN_ON(!pll->info->funcs->get_hw_state(dev_priv, pll,
-+		dev_WARN_ON(dev->dev,
-+			    !pll->info->funcs->get_hw_state(dev_priv, pll,
- 						&pipe_config->dpll_hw_state));
+ 	engine->context_size = intel_engine_context_size(gt, engine->class);
+-	if (WARN_ON(engine->context_size > BIT(20)))
++	if (dev_WARN_ON(i915_to_dev(gt->i915), engine->context_size > BIT(20)))
+ 		engine->context_size = 0;
+ 	if (engine->context_size)
+ 		DRIVER_CAPS(gt->i915)->has_logical_contexts = true;
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_irq.c b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
+index f796bdf1ed30..05bd675d689a 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_irq.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
+@@ -80,8 +80,9 @@ gen11_other_irq_handler(struct intel_gt *gt, const u8 instance,
+ 	if (instance == OTHER_GTPM_INSTANCE)
+ 		return gen11_rps_irq_handler(&gt->rps, iir);
  
- 		tmp = pipe_config->dpll_hw_state.dpll;
-@@ -10601,8 +10608,9 @@ static bool hsw_get_transcoder_state(struct intel_crtc *crtc,
- 
- 		switch (tmp & TRANS_DDI_EDP_INPUT_MASK) {
- 		default:
--			WARN(1, "unknown pipe linked to transcoder %s\n",
--			     transcoder_name(panel_transcoder));
-+			dev_WARN(dev->dev, 1,
-+				 "unknown pipe linked to transcoder %s\n",
-+				 transcoder_name(panel_transcoder));
- 			/* fall through */
- 		case TRANS_DDI_EDP_INPUT_A_ONOFF:
- 			force_thru = true;
-@@ -10630,11 +10638,12 @@ static bool hsw_get_transcoder_state(struct intel_crtc *crtc,
- 	/*
- 	 * Valid combos: none, eDP, DSI0, DSI1, DSI0+DSI1
- 	 */
--	WARN_ON((enabled_panel_transcoders & BIT(TRANSCODER_EDP)) &&
--		enabled_panel_transcoders != BIT(TRANSCODER_EDP));
-+	dev_WARN_ON(dev->dev,
-+		    (enabled_panel_transcoders & BIT(TRANSCODER_EDP)) &&
-+		    enabled_panel_transcoders != BIT(TRANSCODER_EDP));
- 
- 	power_domain = POWER_DOMAIN_TRANSCODER(pipe_config->cpu_transcoder);
--	WARN_ON(*power_domain_mask & BIT_ULL(power_domain));
-+	dev_WARN_ON(dev->dev, *power_domain_mask & BIT_ULL(power_domain));
- 
- 	wf = intel_display_power_get_if_enabled(dev_priv, power_domain);
- 	if (!wf)
-@@ -10668,7 +10677,8 @@ static bool bxt_get_dsi_transcoder_state(struct intel_crtc *crtc,
- 			cpu_transcoder = TRANSCODER_DSI_C;
- 
- 		power_domain = POWER_DOMAIN_TRANSCODER(cpu_transcoder);
--		WARN_ON(*power_domain_mask & BIT_ULL(power_domain));
-+		dev_WARN_ON(dev->dev,
-+			    *power_domain_mask & BIT_ULL(power_domain));
- 
- 		wf = intel_display_power_get_if_enabled(dev_priv, power_domain);
- 		if (!wf)
-@@ -11569,7 +11579,8 @@ int intel_get_load_detect_pipe(struct drm_connector *connector,
- 
- 	old->restore_state = NULL;
- 
--	WARN_ON(!drm_modeset_is_locked(&config->connection_mutex));
-+	dev_WARN_ON(dev->dev,
-+		    !drm_modeset_is_locked(&config->connection_mutex));
- 
- 	/*
- 	 * Algorithm gets a little messy:
-@@ -12786,12 +12797,12 @@ static bool check_digital_port_conflicts(struct intel_atomic_state *state)
- 
- 		encoder = to_intel_encoder(connector_state->best_encoder);
- 
--		WARN_ON(!connector_state->crtc);
-+		dev_WARN_ON(dev->dev, !connector_state->crtc);
- 
- 		switch (encoder->type) {
- 			unsigned int port_mask;
- 		case INTEL_OUTPUT_DDI:
--			if (WARN_ON(!HAS_DDI(to_i915(dev))))
-+			if (dev_WARN_ON(dev->dev, !HAS_DDI(to_i915(dev))))
- 				break;
- 			/* else, fall through */
- 		case INTEL_OUTPUT_DP:
-@@ -17036,12 +17047,12 @@ static void sanitize_watermarks(struct drm_device *dev)
- 	if (ret == -EDEADLK) {
- 		drm_modeset_backoff(&ctx);
- 		goto retry;
--	} else if (WARN_ON(ret)) {
-+	} else if (dev_WARN_ON(dev->dev, ret)) {
- 		goto fail;
- 	}
- 
- 	state = drm_atomic_helper_duplicate_state(dev, &ctx);
--	if (WARN_ON(IS_ERR(state)))
-+	if (dev_WARN_ON(dev->dev, IS_ERR(state)))
- 		goto fail;
- 
- 	intel_state = to_intel_atomic_state(state);
-@@ -17067,7 +17078,8 @@ static void sanitize_watermarks(struct drm_device *dev)
- 		 * If this actually happens, we'll have to just leave the
- 		 * BIOS-programmed watermarks untouched and hope for the best.
- 		 */
--		WARN(true, "Could not determine valid watermarks for inherited state\n");
-+		dev_WARN(dev->dev, true,
-+			 "Could not determine valid watermarks for inherited state\n");
- 		goto put_state;
- 	}
- 
-@@ -17885,7 +17897,7 @@ static void intel_modeset_readout_hw_state(struct drm_device *dev)
- 
- 		if (crtc_state->hw.active) {
- 			min_cdclk = intel_crtc_compute_min_cdclk(crtc_state);
--			if (WARN_ON(min_cdclk < 0))
-+			if (dev_WARN_ON(dev->dev, min_cdclk < 0))
- 				min_cdclk = 0;
- 		}
- 
-@@ -18096,7 +18108,7 @@ intel_modeset_setup_hw_state(struct drm_device *dev,
- 		u64 put_domains;
- 
- 		put_domains = modeset_get_crtc_power_domains(crtc_state);
--		if (WARN_ON(put_domains))
-+		if (dev_WARN_ON(dev->dev, put_domains))
- 			modeset_put_power_domains(dev_priv, put_domains);
- 	}
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 991f343579ef..255de50fcf84 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -7331,7 +7331,8 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
- 	 * with an already powered-on LVDS power sequencer.
- 	 */
- 	if (intel_get_lvds_encoder(dev_priv)) {
--		WARN_ON(!(HAS_PCH_IBX(dev_priv) || HAS_PCH_CPT(dev_priv)));
-+		dev_WARN_ON(dev->dev,
-+			    !(HAS_PCH_IBX(dev_priv) || HAS_PCH_CPT(dev_priv)));
- 		DRM_INFO("LVDS was detected, not registering eDP\n");
- 
- 		return false;
-@@ -7459,10 +7460,10 @@ intel_dp_init_connector(struct intel_digital_port *intel_dig_port,
- 	INIT_WORK(&intel_connector->modeset_retry_work,
- 		  intel_dp_modeset_retry_work_fn);
- 
--	if (WARN(intel_dig_port->max_lanes < 1,
--		 "Not enough lanes (%d) for DP on [ENCODER:%d:%s]\n",
--		 intel_dig_port->max_lanes, intel_encoder->base.base.id,
--		 intel_encoder->base.name))
-+	if (dev_WARN(dev->dev, intel_dig_port->max_lanes < 1,
-+		     "Not enough lanes (%d) for DP on [ENCODER:%d:%s]\n",
-+		     intel_dig_port->max_lanes, intel_encoder->base.base.id,
-+		     intel_encoder->base.name))
- 		return false;
- 
- 	intel_dp_set_source_rates(intel_dp);
-@@ -7480,7 +7481,7 @@ intel_dp_init_connector(struct intel_digital_port *intel_dig_port,
- 		 * Currently we don't support eDP on TypeC ports, although in
- 		 * theory it could work on TypeC legacy ports.
- 		 */
--		WARN_ON(intel_phy_is_tc(dev_priv, phy));
-+		dev_WARN_ON(dev->dev, intel_phy_is_tc(dev_priv, phy));
- 		type = DRM_MODE_CONNECTOR_eDP;
- 	} else {
- 		type = DRM_MODE_CONNECTOR_DisplayPort;
-@@ -7498,9 +7499,10 @@ intel_dp_init_connector(struct intel_digital_port *intel_dig_port,
- 		intel_encoder->type = INTEL_OUTPUT_EDP;
- 
- 	/* eDP only on port B and/or C on vlv/chv */
--	if (WARN_ON((IS_VALLEYVIEW(dev_priv) || IS_CHERRYVIEW(dev_priv)) &&
--		    intel_dp_is_edp(intel_dp) &&
--		    port != PORT_B && port != PORT_C))
-+	if (dev_WARN_ON(dev->dev, (IS_VALLEYVIEW(dev_priv) ||
-+				   IS_CHERRYVIEW(dev_priv)) &&
-+			intel_dp_is_edp(intel_dp) &&
-+			port != PORT_B && port != PORT_C))
- 		return false;
- 
- 	DRM_DEBUG_KMS("Adding %s connector on [ENCODER:%d:%s]\n",
-diff --git a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-index 728a4b045de7..2cae30d2669c 100644
---- a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-+++ b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-@@ -3777,7 +3777,7 @@ void intel_shared_dpll_init(struct drm_device *dev)
- 	dpll_info = dpll_mgr->dpll_info;
- 
- 	for (i = 0; dpll_info[i].name; i++) {
--		WARN_ON(i != dpll_info[i].id);
-+		dev_WARN_ON(dev->dev, i != dpll_info[i].id);
- 		dev_priv->shared_dplls[i].info = &dpll_info[i];
- 	}
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_dsi_dcs_backlight.c b/drivers/gpu/drm/i915/display/intel_dsi_dcs_backlight.c
-index bb3fd8b786a2..39ce0ad9ca6e 100644
---- a/drivers/gpu/drm/i915/display/intel_dsi_dcs_backlight.c
-+++ b/drivers/gpu/drm/i915/display/intel_dsi_dcs_backlight.c
-@@ -166,7 +166,7 @@ int intel_dsi_dcs_init_backlight_funcs(struct intel_connector *intel_connector)
- 	if (dev_priv->vbt.backlight.type != INTEL_BACKLIGHT_DSI_DCS)
- 		return -ENODEV;
- 
--	if (WARN_ON(encoder->type != INTEL_OUTPUT_DSI))
-+	if (dev_WARN_ON(dev->dev, encoder->type != INTEL_OUTPUT_DSI))
- 		return -EINVAL;
- 
- 	panel->backlight.setup = dcs_setup_backlight;
-diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
-index 1e98e432c9fa..bb5ef7d1b7ea 100644
---- a/drivers/gpu/drm/i915/display/intel_fbdev.c
-+++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
-@@ -191,7 +191,8 @@ static int intelfb_create(struct drm_fb_helper *helper,
- 		drm_framebuffer_put(&intel_fb->base);
- 		intel_fb = ifbdev->fb = NULL;
- 	}
--	if (!intel_fb || WARN_ON(!intel_fb_obj(&intel_fb->base))) {
-+	if (!intel_fb || dev_WARN_ON(dev->dev,
-+				     !intel_fb_obj(&intel_fb->base))) {
- 		DRM_DEBUG_KMS("no BIOS fb, allocating a new one\n");
- 		ret = intelfb_alloc(helper, sizes);
- 		if (ret)
-@@ -410,9 +411,9 @@ static bool intel_fbdev_init_bios(struct drm_device *dev,
- 		if (!crtc->state->active)
- 			continue;
- 
--		WARN(!crtc->primary->state->fb,
--		     "re-used BIOS config but lost an fb on crtc %d\n",
--		     crtc->base.id);
-+		dev_WARN(dev->dev, !crtc->primary->state->fb,
-+			 "re-used BIOS config but lost an fb on crtc %d\n",
-+			 crtc->base.id);
- 	}
- 
- 
-@@ -439,7 +440,9 @@ int intel_fbdev_init(struct drm_device *dev)
- 	struct intel_fbdev *ifbdev;
- 	int ret;
- 
--	if (WARN_ON(!HAS_DISPLAY(dev_priv) || !INTEL_DISPLAY_ENABLED(dev_priv)))
-+	if (dev_WARN_ON(dev->dev,
-+			!HAS_DISPLAY(dev_priv) ||
-+			!INTEL_DISPLAY_ENABLED(dev_priv)))
- 		return -ENODEV;
- 
- 	ifbdev = kzalloc(sizeof(struct intel_fbdev), GFP_KERNEL);
-@@ -569,7 +572,7 @@ void intel_fbdev_set_suspend(struct drm_device *dev, int state, bool synchronous
- 		 * to all the printk activity.  Try to keep it out of the hot
- 		 * path of resume if possible.
- 		 */
--		WARN_ON(state != FBINFO_STATE_RUNNING);
-+		dev_WARN_ON(dev->dev, state != FBINFO_STATE_RUNNING);
- 		if (!console_trylock()) {
- 			/* Don't block our own workqueue as this can
- 			 * be run in parallel with other i915.ko tasks.
-diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-index 685589064d10..715b854b24a0 100644
---- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-@@ -72,8 +72,8 @@ assert_hdmi_port_disabled(struct intel_hdmi *intel_hdmi)
- 
- 	enabled_bits = HAS_DDI(dev_priv) ? DDI_BUF_CTL_ENABLE : SDVO_ENABLE;
- 
--	WARN(I915_READ(intel_hdmi->hdmi_reg) & enabled_bits,
--	     "HDMI port enabled, expecting disabled\n");
-+	dev_WARN(dev->dev, I915_READ(intel_hdmi->hdmi_reg) & enabled_bits,
-+		 "HDMI port enabled, expecting disabled\n");
+-	WARN_ONCE(1, "unhandled other interrupt instance=0x%x, iir=0x%x\n",
+-		  instance, iir);
++	dev_WARN_ONCE(i915_to_dev(gt->i915), 1,
++		      "unhandled other interrupt instance=0x%x, iir=0x%x\n",
++		      instance, iir);
  }
  
  static void
-@@ -3138,13 +3138,13 @@ void intel_hdmi_init_connector(struct intel_digital_port *intel_dig_port,
- 	DRM_DEBUG_KMS("Adding HDMI connector on [ENCODER:%d:%s]\n",
- 		      intel_encoder->base.base.id, intel_encoder->base.name);
+@@ -98,8 +99,9 @@ gen11_engine_irq_handler(struct intel_gt *gt, const u8 class,
+ 	if (likely(engine))
+ 		return cs_irq_handler(engine, iir);
  
--	if (INTEL_GEN(dev_priv) < 12 && WARN_ON(port == PORT_A))
-+	if (INTEL_GEN(dev_priv) < 12 && dev_WARN_ON(dev->dev, port == PORT_A))
- 		return;
+-	WARN_ONCE(1, "unhandled engine interrupt class=0x%x, instance=0x%x\n",
+-		  class, instance);
++	dev_WARN_ONCE(i915_to_dev(gt->i915), 1,
++		      "unhandled engine interrupt class=0x%x, instance=0x%x\n",
++		      class, instance);
+ }
  
--	if (WARN(intel_dig_port->max_lanes < 4,
--		 "Not enough lanes (%d) for HDMI on [ENCODER:%d:%s]\n",
--		 intel_dig_port->max_lanes, intel_encoder->base.base.id,
--		 intel_encoder->base.name))
-+	if (dev_WARN(dev->dev, intel_dig_port->max_lanes < 4,
-+		     "Not enough lanes (%d) for HDMI on [ENCODER:%d:%s]\n",
-+		     intel_dig_port->max_lanes, intel_encoder->base.base.id,
-+		     intel_encoder->base.name))
- 		return;
+ static void
+@@ -118,8 +120,9 @@ gen11_gt_identity_handler(struct intel_gt *gt, const u32 identity)
+ 	if (class == OTHER_CLASS)
+ 		return gen11_other_irq_handler(gt, instance, intr);
  
- 	intel_hdmi->ddc_bus = intel_hdmi_ddc_pin(dev_priv, port);
-diff --git a/drivers/gpu/drm/i915/display/intel_hotplug.c b/drivers/gpu/drm/i915/display/intel_hotplug.c
-index fc29046d48ea..3a5e0db8888a 100644
---- a/drivers/gpu/drm/i915/display/intel_hotplug.c
-+++ b/drivers/gpu/drm/i915/display/intel_hotplug.c
-@@ -281,7 +281,7 @@ intel_encoder_hotplug(struct intel_encoder *encoder,
- 	struct drm_device *dev = connector->base.dev;
- 	enum drm_connector_status old_status;
+-	WARN_ONCE(1, "unknown interrupt class=0x%x, instance=0x%x, intr=0x%x\n",
+-		  class, instance, intr);
++	dev_WARN_ONCE(i915_to_dev(gt->i915), 1,
++		      "unknown interrupt class=0x%x, instance=0x%x, intr=0x%x\n",
++		      class, instance, intr);
+ }
  
--	WARN_ON(!mutex_is_locked(&dev->mode_config.mutex));
-+	dev_WARN_ON(dev->dev, !mutex_is_locked(&dev->mode_config.mutex));
- 	old_status = connector->base.status;
+ static void
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_irq.c b/drivers/gpu/drm/i915/gt/intel_gt_pm_irq.c
+index babe866126d7..958a5aa81bde 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_pm_irq.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_irq.c
+@@ -35,7 +35,7 @@ static void gen6_gt_pm_update_irq(struct intel_gt *gt,
+ {
+ 	u32 new_val;
  
- 	connector->base.status =
-diff --git a/drivers/gpu/drm/i915/display/intel_lvds.c b/drivers/gpu/drm/i915/display/intel_lvds.c
-index 10696bb99dcf..a320b8d76a64 100644
---- a/drivers/gpu/drm/i915/display/intel_lvds.c
-+++ b/drivers/gpu/drm/i915/display/intel_lvds.c
-@@ -827,8 +827,8 @@ void intel_lvds_init(struct drm_i915_private *dev_priv)
+-	WARN_ON(enabled_irq_mask & ~interrupt_mask);
++	dev_WARN_ON(i915_to_dev(gt->i915), enabled_irq_mask & ~interrupt_mask);
  
- 	/* Skip init on machines we know falsely report LVDS */
- 	if (dmi_check_system(intel_no_lvds)) {
--		WARN(!dev_priv->vbt.int_lvds_support,
--		     "Useless DMI match. Internal LVDS support disabled by VBT\n");
-+		dev_WARN(dev->dev, !dev_priv->vbt.int_lvds_support,
-+			 "Useless DMI match. Internal LVDS support disabled by VBT\n");
- 		return;
- 	}
+ 	lockdep_assert_held(&gt->irq_lock);
  
-diff --git a/drivers/gpu/drm/i915/display/intel_pipe_crc.c b/drivers/gpu/drm/i915/display/intel_pipe_crc.c
-index 2746512f4466..283416c73205 100644
---- a/drivers/gpu/drm/i915/display/intel_pipe_crc.c
-+++ b/drivers/gpu/drm/i915/display/intel_pipe_crc.c
-@@ -110,8 +110,9 @@ static int i9xx_pipe_crc_auto_source(struct drm_i915_private *dev_priv,
- 				*source = INTEL_PIPE_CRC_SOURCE_DP_D;
- 				break;
- 			default:
--				WARN(1, "nonexisting DP port %c\n",
--				     port_name(dig_port->base.port));
-+				dev_WARN(dev->dev, 1,
-+					 "nonexisting DP port %c\n",
-+					 port_name(dig_port->base.port));
- 				break;
- 			}
- 			break;
-diff --git a/drivers/gpu/drm/i915/display/intel_sdvo.c b/drivers/gpu/drm/i915/display/intel_sdvo.c
-index 8758ee2a4442..9b510a4cf8c5 100644
---- a/drivers/gpu/drm/i915/display/intel_sdvo.c
-+++ b/drivers/gpu/drm/i915/display/intel_sdvo.c
-@@ -1667,9 +1667,10 @@ static void intel_sdvo_get_config(struct intel_encoder *encoder,
- 		}
- 	}
- 
--	WARN(encoder_pixel_multiplier != pipe_config->pixel_multiplier,
--	     "SDVO pixel multiplier mismatch, port: %i, encoder: %i\n",
--	     pipe_config->pixel_multiplier, encoder_pixel_multiplier);
-+	dev_WARN(dev->dev,
-+		 encoder_pixel_multiplier != pipe_config->pixel_multiplier,
-+		 "SDVO pixel multiplier mismatch, port: %i, encoder: %i\n",
-+		 pipe_config->pixel_multiplier, encoder_pixel_multiplier);
- 
- 	if (sdvox & HDMI_COLOR_RANGE_16_235)
- 		pipe_config->limited_color_range = true;
 diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
-index afc6aad9bf8c..d1a254de182d 100644
+index 0bcc3915be0d..9b717a773854 100644
 --- a/drivers/gpu/drm/i915/i915_irq.c
 +++ b/drivers/gpu/drm/i915/i915_irq.c
-@@ -777,7 +777,7 @@ bool i915_get_crtc_scanoutpos(struct drm_device *dev, unsigned int index,
- 		IS_G4X(dev_priv) || IS_GEN(dev_priv, 2) ||
- 		mode->private_flags & I915_MODE_FLAG_USE_SCANLINE_COUNTER;
+@@ -208,8 +208,9 @@ static void gen3_assert_iir_is_zero(struct intel_uncore *uncore, i915_reg_t reg)
+ 	if (val == 0)
+ 		return;
  
--	if (WARN_ON(!mode->crtc_clock)) {
-+	if (dev_WARN_ON(dev->dev, !mode->crtc_clock)) {
- 		DRM_DEBUG_DRIVER("trying to get scanoutpos for disabled "
- 				 "pipe %c\n", pipe_name(pipe));
- 		return false;
+-	WARN(1, "Interrupt register 0x%x is not zero: 0x%08x\n",
+-	     i915_mmio_reg_offset(reg), val);
++	dev_WARN(i915_to_dev(uncore->i915), 1,
++		 "Interrupt register 0x%x is not zero: 0x%08x\n",
++		 i915_mmio_reg_offset(reg), val);
+ 	intel_uncore_write(uncore, reg, 0xffffffff);
+ 	intel_uncore_posting_read(uncore, reg);
+ 	intel_uncore_write(uncore, reg, 0xffffffff);
+@@ -223,8 +224,9 @@ static void gen2_assert_iir_is_zero(struct intel_uncore *uncore)
+ 	if (val == 0)
+ 		return;
+ 
+-	WARN(1, "Interrupt register 0x%x is not zero: 0x%08x\n",
+-	     i915_mmio_reg_offset(GEN2_IIR), val);
++	dev_WARN(i915_to_dev(uncore->i915), 1,
++		 "Interrupt register 0x%x is not zero: 0x%08x\n",
++		 i915_mmio_reg_offset(GEN2_IIR), val);
+ 	intel_uncore_write16(uncore, GEN2_IIR, 0xffff);
+ 	intel_uncore_posting_read16(uncore, GEN2_IIR);
+ 	intel_uncore_write16(uncore, GEN2_IIR, 0xffff);
+diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
+index 84350c7bc711..51006169a285 100644
+--- a/drivers/gpu/drm/i915/i915_perf.c
++++ b/drivers/gpu/drm/i915/i915_perf.c
+@@ -3409,7 +3409,8 @@ i915_perf_open_ioctl_locked(struct i915_perf *perf,
+ 	 * to have _stream_init check the combination of sample flags more
+ 	 * thoroughly, but still this is the expected result at this point.
+ 	 */
+-	if (WARN_ON(stream->sample_flags != props->sample_flags)) {
++	if (dev_WARN_ON(i915_to_dev(perf->i915),
++			stream->sample_flags != props->sample_flags)) {
+ 		ret = -ENODEV;
+ 		goto err_flags;
+ 	}
+diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
+index f3de70e7ee50..682c83ddaf6f 100644
+--- a/drivers/gpu/drm/i915/intel_uncore.c
++++ b/drivers/gpu/drm/i915/intel_uncore.c
+@@ -324,8 +324,9 @@ static void __gen6_gt_wait_for_thread_c0(struct intel_uncore *uncore)
+ 	 * w/a for a sporadic read returning 0 by waiting for the GT
+ 	 * thread to wake up.
+ 	 */
+-	WARN_ONCE(wait_for_atomic_us(gt_thread_status(uncore) == 0, 5000),
+-		  "GT thread status wait timed out\n");
++	dev_WARN_ONCE(i915_to_dev(uncore->i915),
++		      wait_for_atomic_us(gt_thread_status(uncore) == 0, 5000),
++		      "GT thread status wait timed out\n");
+ }
+ 
+ static void fw_domains_get_with_thread_status(struct intel_uncore *uncore,
+@@ -440,7 +441,7 @@ intel_uncore_forcewake_reset(struct intel_uncore *uncore)
+ 		cond_resched();
+ 	}
+ 
+-	WARN_ON(active_domains);
++	dev_WARN_ON(i915_to_dev(uncore->i915), active_domains);
+ 
+ 	fw = uncore->fw_domains_active;
+ 	if (fw)
+@@ -756,9 +757,9 @@ void assert_forcewakes_inactive(struct intel_uncore *uncore)
+ 	if (!uncore->funcs.force_wake_get)
+ 		return;
+ 
+-	WARN(uncore->fw_domains_active,
+-	     "Expected all fw_domains to be inactive, but %08x are still on\n",
+-	     uncore->fw_domains_active);
++	dev_WARN(i915_to_dev(uncore->i915), uncore->fw_domains_active,
++		 "Expected all fw_domains to be inactive, but %08x are still on\n",
++		 uncore->fw_domains_active);
+ }
+ 
+ void assert_forcewakes_active(struct intel_uncore *uncore,
+@@ -778,9 +779,10 @@ void assert_forcewakes_active(struct intel_uncore *uncore,
+ 	assert_rpm_wakelock_held(uncore->rpm);
+ 
+ 	fw_domains &= uncore->fw_domains;
+-	WARN(fw_domains & ~uncore->fw_domains_active,
+-	     "Expected %08x fw_domains to be active, but %08x are off\n",
+-	     fw_domains, fw_domains & ~uncore->fw_domains_active);
++	dev_WARN(i915_to_dev(uncore->i915),
++		 fw_domains & ~uncore->fw_domains_active,
++		 "Expected %08x fw_domains to be active, but %08x are off\n",
++		 fw_domains, fw_domains & ~uncore->fw_domains_active);
+ 
+ 	/*
+ 	 * Check that the caller has an explicit wakeref and we don't mistake
+@@ -793,9 +795,9 @@ void assert_forcewakes_active(struct intel_uncore *uncore,
+ 		if (uncore->fw_domains_timer & domain->mask)
+ 			expect++; /* pending automatic release */
+ 
+-		if (WARN(actual < expect,
+-			 "Expected domain %d to be held awake by caller, count=%d\n",
+-			 domain->id, actual))
++		if (dev_WARN(i915_to_dev(uncore->i915), actual < expect,
++			     "Expected domain %d to be held awake by caller, count=%d\n",
++			     domain->id, actual))
+ 			break;
+ 	}
+ 
+@@ -865,9 +867,10 @@ find_fw_domain(struct intel_uncore *uncore, u32 offset)
+ 	if (entry->domains == FORCEWAKE_ALL)
+ 		return uncore->fw_domains;
+ 
+-	WARN(entry->domains & ~uncore->fw_domains,
+-	     "Uninitialized forcewake domain(s) 0x%x accessed at 0x%x\n",
+-	     entry->domains & ~uncore->fw_domains, offset);
++	dev_WARN(i915_to_dev(uncore->i915),
++		 entry->domains & ~uncore->fw_domains,
++		 "Uninitialized forcewake domain(s) 0x%x accessed at 0x%x\n",
++		 entry->domains & ~uncore->fw_domains, offset);
+ 
+ 	return entry->domains;
+ }
+@@ -1157,10 +1160,11 @@ __unclaimed_reg_debug(struct intel_uncore *uncore,
+ 		      const bool read,
+ 		      const bool before)
+ {
+-	if (WARN(check_for_unclaimed_mmio(uncore) && !before,
+-		 "Unclaimed %s register 0x%x\n",
+-		 read ? "read from" : "write to",
+-		 i915_mmio_reg_offset(reg)))
++	if (dev_WARN(i915_to_dev(uncore->i915),
++		     check_for_unclaimed_mmio(uncore) && !before,
++		     "Unclaimed %s register 0x%x\n",
++		     read ? "read from" : "write to",
++		     i915_mmio_reg_offset(reg)))
+ 		/* Only report the first N failures */
+ 		i915_modparams.mmio_debug--;
+ }
+@@ -1435,8 +1439,8 @@ static int __fw_domain_init(struct intel_uncore *uncore,
+ 	if (!d)
+ 		return -ENOMEM;
+ 
+-	WARN_ON(!i915_mmio_reg_valid(reg_set));
+-	WARN_ON(!i915_mmio_reg_valid(reg_ack));
++	dev_WARN_ON(i915_to_dev(uncore->i915), !i915_mmio_reg_valid(reg_set));
++	dev_WARN_ON(i915_to_dev(uncore->i915), !i915_mmio_reg_valid(reg_ack));
+ 
+ 	d->uncore = uncore;
+ 	d->wake_count = 0;
+@@ -1481,8 +1485,8 @@ static void fw_domain_fini(struct intel_uncore *uncore,
+ 		return;
+ 
+ 	uncore->fw_domains &= ~BIT(domain_id);
+-	WARN_ON(d->wake_count);
+-	WARN_ON(hrtimer_cancel(&d->timer));
++	dev_WARN_ON(i915_to_dev(uncore->i915), d->wake_count);
++	dev_WARN_ON(i915_to_dev(uncore->i915), hrtimer_cancel(&d->timer));
+ 	kfree(d);
+ }
+ 
+@@ -2108,7 +2112,7 @@ intel_uncore_forcewake_for_reg(struct intel_uncore *uncore,
+ {
+ 	enum forcewake_domains fw_domains = 0;
+ 
+-	WARN_ON(!op);
++	dev_WARN_ON(i915_to_dev(uncore->i915), !op);
+ 
+ 	if (!intel_uncore_has_forcewake(uncore))
+ 		return 0;
+@@ -2119,7 +2123,8 @@ intel_uncore_forcewake_for_reg(struct intel_uncore *uncore,
+ 	if (op & FW_REG_WRITE)
+ 		fw_domains |= uncore->funcs.write_fw_domains(uncore, reg);
+ 
+-	WARN_ON(fw_domains & ~uncore->fw_domains);
++	dev_WARN_ON(i915_to_dev(uncore->i915),
++		    fw_domains & ~uncore->fw_domains);
+ 
+ 	return fw_domains;
+ }
 -- 
 2.23.0
 
