@@ -2,56 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6474C1320EA
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 09:05:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 657771320F9
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 09:05:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1162C8991D;
-	Tue,  7 Jan 2020 08:05:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CAE289B03;
+	Tue,  7 Jan 2020 08:05:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52CBD6E516
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2020 20:47:35 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id m26so49875565ljc.13
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Jan 2020 12:47:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=S0mqKpCEh0T5oGdQ8KLcBf7Df3QAvh9OV/hvSXpMlTg=;
- b=WKuEsDAF6KfV9cqhEhsLilh4GLM0tVgz5prXx49922TtPfkX4Z63/fDSzC5MCxRPaK
- fOjyIMK2jKl2cBi2NRFHlU5JUGewv7o+2AKc0LrPSzP0aNV2pHcz2AF21TJr/yZAFMbO
- BpG/ojwAm29d6xBWgUFm3TwNj3PwsTNFRT+2QCq+rL4+hWl0ULiwxDRr1l0rF3tiQef7
- rtCsdkINV6q5L7G45OLyWeP+oYwEMO9hpxURWeCPeB/HnR0pC8LPP4bFkd1f80n6NqGl
- cGsezUATJgbJ/lQoWiOAxy87i/oFrqNiALobqCLtLExFWSnPLjIzXQhzgOF/lduNDT4a
- 0gAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=S0mqKpCEh0T5oGdQ8KLcBf7Df3QAvh9OV/hvSXpMlTg=;
- b=H3qQdLiP56RjetZvY0lbnHPQAs33Nw+dg5SWpcKfsWKcXlnNNgA2nxRQAB26+4LeL5
- CyF7EKwjol2N5++D35rCi+4a+FQwg9xmDvWdEO2xk8BFxr9QUQVTp3dLiGjuPtOkobC0
- ZmQq/MwjeyXamVh1X+UJBaN0KLbVc7q0swG+QUPitNSDZ3UILWrirzDwO4W5iiSMRyna
- 8evyY4R8WJFZmORDD/9nWPgSQK3DwwoII9EJjItOK/WJChMdrZ1SFVFsvH8ICaYsHIG+
- y6wvhtcSeX1bIgutXar/iO1BDHWzL0Qxo5yqM51xMqpoOVMMRdxmSLYZ1hrhIVq0wmmJ
- Mdpg==
-X-Gm-Message-State: APjAAAWL4uZxP8QJCfJQri8DOtPOBkqun7StfT0qprYDIdn0ywmlYt5k
- V8Lk77inloBgqKz47NG8kV1uKSUlmH3Z5T9yx6oW
-X-Google-Smtp-Source: APXvYqw4j3klpPHcpNQwpnkmpv1ocQwp8Xbyj57bR7jwCjodHj11UA9OvE7qO6SlV0XN4OEfm6VGBaiGP0SXA4Uar/0=
-X-Received: by 2002:a2e:2c16:: with SMTP id s22mr60497543ljs.248.1578343653188; 
- Mon, 06 Jan 2020 12:47:33 -0800 (PST)
+Received: from APC01-HK2-obe.outbound.protection.outlook.com
+ (mail-eopbgr1300139.outbound.protection.outlook.com [40.107.130.139])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B2B26E4FE
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2020 22:38:09 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DMEsMwiBMLqfhzKBzI2gC62+D8UtNgSvjnxif8BznXuZlNchNxCewJqgo6JGVE9Brk9F/C9FSw+qBijV15JHePsPhDhsvsOgnecZy5asFC3O8A+Ey01PdASvv9KhRFtBPsSihHeHzmU7LS8PUeB1KMmaYm1i8zFJqlctgIjAfE41g5lXizGA/xq28q6Eqy4tAaVMaRMl+sil6EYkBR0d7xNbmaq9duA3//8asz0OV9ZwrurZ0oZZ97NRUJRZKuvi7z/S1bs+6RraoehzhSgZYDCUiAvnm+bSEIj2FofXj0vi7m6IzRIb+t5imqImMp+D2p3OjyM337BUCsOKbd+z4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KiCD50HsVXB3SDNGKs1hwRp9s1laNPeqRrAt3EpEMwY=;
+ b=RugJ9mrVF68bVZoQjk7bbHMDVlJEDgqkbxmiltcHZ8XG8pp2PAlEMVFzp2XSalTZ4ye3iN2E7K6hGSSXLlFvi2JceYaJBK6hLUvZZ9k9DeV5MKMV+6JvUOMw2yr5+vsn03oBAR766vRW4Y78E5/wo0fXSIPeZ2LlXVubCQvt5+igoVMUeDmxxm2P5i+NRg1fvh+kZdBM/bMPJ2XG8FT2mlJB4YTV6LghLVZwWCTy35cutGYsVK5D3oYGJQm1HNOBgL9+veoLGKIfxCRyM+9CLTiZetz5jbgjAhOsjO//JyXkpf6uKYL4uPFBBeR/ZhR1H/o1oPPyqO+k20sJrHalfQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KiCD50HsVXB3SDNGKs1hwRp9s1laNPeqRrAt3EpEMwY=;
+ b=dmF2P7alSZraMBXg1uLx8R4w/hUK6BnOPg6iSEoBuY+SHpKty8COJXdKQtvToWBVDsSDTjguCwGmYMgHHLoILS7puTaPzL/emFVvnsivP+7AT2bozg2lrKggUa+TDVHSbXYrxHOPWe5jqdoiJG4JTP5vDzTq3FOUjbiQBw80lUg=
+Received: from HK0P153MB0148.APCP153.PROD.OUTLOOK.COM (52.133.156.139) by
+ HK0P153MB0145.APCP153.PROD.OUTLOOK.COM (52.133.156.22) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2644.3; Mon, 6 Jan 2020 22:38:00 +0000
+Received: from HK0P153MB0148.APCP153.PROD.OUTLOOK.COM
+ ([fe80::15e7:8155:31bc:d4e7]) by HK0P153MB0148.APCP153.PROD.OUTLOOK.COM
+ ([fe80::15e7:8155:31bc:d4e7%7]) with mapi id 15.20.2644.002; Mon, 6 Jan 2020
+ 22:38:00 +0000
+From: Dexuan Cui <decui@microsoft.com>
+To: Michael Kelley <mikelley@microsoft.com>, Wei Hu <weh@microsoft.com>,
+ "b.zolnierkie@samsung.com" <b.zolnierkie@samsung.com>, KY Srinivasan
+ <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, Stephen
+ Hemminger <sthemmin@microsoft.com>, "sashal@kernel.org" <sashal@kernel.org>,
+ "hch@lst.de" <hch@lst.de>, "m.szyprowski@samsung.com"
+ <m.szyprowski@samsung.com>, "mchehab+samsung@kernel.org"
+ <mchehab+samsung@kernel.org>, "sam@ravnborg.org" <sam@ravnborg.org>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+ "info@metux.net" <info@metux.net>, "arnd@arndb.de" <arnd@arndb.de>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
+Subject: RE: [PATCH v4] video: hyperv: hyperv_fb: Use physical memory for fb
+ on HyperV Gen 1 VMs.
+Thread-Topic: [PATCH v4] video: hyperv: hyperv_fb: Use physical memory for fb
+ on HyperV Gen 1 VMs.
+Thread-Index: AQHVxOHxuopG5mY95kawnV462nTW6w==
+Date: Mon, 6 Jan 2020 22:37:59 +0000
+Message-ID: <HK0P153MB0148F18913BEA45144AF8443BF3C0@HK0P153MB0148.APCP153.PROD.OUTLOOK.COM>
+References: <20191209075749.3804-1-weh@microsoft.com>
+ <CY4PR21MB06293C21EC5338C98080F6AED7580@CY4PR21MB0629.namprd21.prod.outlook.com>
+In-Reply-To: <CY4PR21MB06293C21EC5338C98080F6AED7580@CY4PR21MB0629.namprd21.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Owner=mikelley@ntdev.microsoft.com;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2019-12-09T16:32:55.0594936Z;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=32db805d-f982-4dfd-985a-2183a1a1211d;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Extended_MSFT_Method=Automatic
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=decui@microsoft.com; 
+x-originating-ip: [2001:4898:80e8:9:9215:9356:cafd:e70d]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: ad78d3bc-0336-43a8-b8ae-08d792f91593
+x-ms-traffictypediagnostic: HK0P153MB0145:|HK0P153MB0145:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <HK0P153MB01453B73FFC8D5E7FB72F0FFBF3C0@HK0P153MB0145.APCP153.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:6430;
+x-forefront-prvs: 0274272F87
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(346002)(376002)(39860400002)(396003)(136003)(366004)(189003)(199004)(71200400001)(76116006)(316002)(10290500003)(86362001)(7416002)(9686003)(66946007)(478600001)(66476007)(66556008)(64756008)(55016002)(66446008)(53546011)(110136005)(8936002)(4326008)(8990500004)(5660300002)(2906002)(7696005)(6506007)(81166006)(81156014)(52536014)(8676002)(33656002)(186003)(921003)(1121003);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:HK0P153MB0145;
+ H:HK0P153MB0148.APCP153.PROD.OUTLOOK.COM; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: microsoft.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: TYfy/9hBwPHtX71CRSOAYpTOfijLZNuE09eWdKZAmqkEQsVJDYe5cAXN08W6/rwgaugrYVxueZQxBzP5nMJJgvZhPBBTNYWVHhLCjnNnkh/7XwEWxgnvrgC6EB/6nt0XBYiksmrQl28x/v1gzOGQDW1GXy/EdAP8RmuJD2bzw41HBjKPI39HKRnMmJloV8l3doBw7vRkvkwj9iz0whpNqJhRZHpy0Cgk6hylbgX47DyiYu/SOnW+33nO4bCg/Lireg3+jyhtBRcWvy82kjFK2W18UM/pPSjSa+Z/FYTWBWU3B+uFz1iiEfVlHXhwCdkApBXGe9g4Ajp8bj0UvA7PsQBD7gOK7mIGh+xOVTWKgLBmFFsDkjQNHOzSX0a0dNTuaE46ksA1YjEUDK95/4K3jPxj1Le8I2gjmGMOpMZiAIuUqMTTsea9hehD5+s35TnNEoVbUi6qHjIy4aKSyuO++ygODrs0ZNYgUWosY2R5Y/bma/SLlbzGKn4ueS7la5ZL
 MIME-Version: 1.0
-References: <CAKT=dDnhth-6giOWgym7qpLNeH=86=XhQmPcgHM2J8B_L3myRQ@mail.gmail.com>
- <2981882.gi1CFgH74X@saphira>
- <CAKT=dD=r46-UckK+hsZMvF0wBFqSe3bGdBa=vs2bOrarpexoPA@mail.gmail.com>
- <1931035.d46ecxlGCF@saphira>
-In-Reply-To: <1931035.d46ecxlGCF@saphira>
-From: Yiwei Zhang <zzyiwei@google.com>
-Date: Mon, 6 Jan 2020 12:47:21 -0800
-Message-ID: <CAKT=dDmMs1VOFst3gVUbsAp8yFuvV9e+zq0DqayBQ8G7+utc7g@mail.gmail.com>
-Subject: Re: Proposal to report GPU private memory allocations with sysfs
- nodes [plain text version]
-To: Rohan Garg <rohan.garg@collabora.com>
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ad78d3bc-0336-43a8-b8ae-08d792f91593
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jan 2020 22:37:59.8621 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /EgCmK1Ap1QFrM8BoWUuJ/CtYV54glkYyXuWQkpbSByV4QB+nlXqnOZBn6N127HB6glQky2coOSTQWFkMTTqxg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0P153MB0145
 X-Mailman-Approved-At: Tue, 07 Jan 2020 08:05:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,100 +117,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alistair Delva <adelva@google.com>, Prahlad Kilambi <prahladk@google.com>,
- dri-devel@lists.freedesktop.org, Jerome Glisse <jglisse@redhat.com>,
- Kenny Ho <y2kenny@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Sean Paul <seanpaul@chromium.org>, Chris Forbes <chrisforbes@google.com>,
- Android Kernel Team <kernel-team@android.com>
-Content-Type: multipart/mixed; boundary="===============0715143892=="
+Cc: kbuild test robot <lkp@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0715143892==
-Content-Type: multipart/alternative; boundary="000000000000c967c4059b7ec41a"
-
---000000000000c967c4059b7ec41a
-Content-Type: text/plain; charset="UTF-8"
-
-Thanks, I'll check it out.
-
-Best,
-Yiwei
-
-On Mon, Jan 6, 2020 at 2:46 AM Rohan Garg <rohan.garg@collabora.com> wrote:
-
-> Hi Yiwei
->
-> On jueves, 19 de diciembre de 2019 19:52:26 (CET) Yiwei Zhang wrote:
-> > Hi Rohan,
+> From: Michael Kelley <mikelley@microsoft.com>
+> Sent: Monday, December 9, 2019 8:33 AM
+> To: Wei Hu <weh@microsoft.com>; b.zolnierkie@samsung.com; KY
+> Srinivasan <kys@microsoft.com>; Haiyang Zhang <haiyangz@microsoft.com>;
+> Stephen Hemminger <sthemmin@microsoft.com>; sashal@kernel.org;
+> hch@lst.de; m.szyprowski@samsung.com; mchehab+samsung@kernel.org;
+> sam@ravnborg.org; gregkh@linuxfoundation.org;
+> alexandre.belloni@bootlin.com; info@metux.net; arnd@arndb.de;
+> dri-devel@lists.freedesktop.org; linux-fbdev@vger.kernel.org;
+> linux-kernel@vger.kernel.org; linux-hyperv@vger.kernel.org; Dexuan Cui
+> <decui@microsoft.com>
+> Cc: kbuild test robot <lkp@intel.com>
+> Subject: RE: [PATCH v4] video: hyperv: hyperv_fb: Use physical memory for
+> fb on HyperV Gen 1 VMs.
+> 
+> From: Wei Hu <weh@microsoft.com> Sent: Sunday, December 8, 2019 11:58
+> PM
 > >
-> > Thanks for pointing out the pids issue! Then the index would be
-> {namespace
-> > + pid(in that namespace)}. I'll grab a setup and play with the driver to
-> > see what I can do. I know how to find an Intel or Freedreno setup, but
-> I'd
-> > still like to know is there a development friendly Mali setup?
+> > On Hyper-V, Generation 1 VMs can directly use VM's physical memory for
+> > their framebuffers. This can improve the efficiency of framebuffer and
+> > overall performance for VM. The physical memory assigned to framebuffer
+> > must be contiguous. We use CMA allocator to get contiguous physicial
+> > memory when the framebuffer size is greater than 4MB. For size under
+> > 4MB, we use alloc_pages to achieve this.
 > >
->
-> You should be able to setup a Mali T860 compatible device with this guide
-> [1].
->
-> Cheers
-> Rohan Garg
->
-> [1] https://panfrost.freedesktop.org/building-panfrost-mesa.html
->
->
->
+> > To enable framebuffer memory allocation from CMA, supply a kernel
+> > parameter to give enough space to CMA allocator at boot time. For
+> > example:
+> >     cma=130m
+> > This gives 130MB memory to CAM allocator that can be allocated to
+> > framebuffer. If this fails, we fall back to the old way of using
+> > mmio for framebuffer.
+> >
+> > Reported-by: kbuild test robot <lkp@intel.com>
+> > Signed-off-by: Wei Hu <weh@microsoft.com>
+> > ---
+> >     v2: Incorporated review comments form hch@lst.de, Michael Kelley
+> and
+> >     Dexuan Cui
+> >     - Use dma_alloc_coherent to allocate large contiguous memory
+> >     - Use phys_addr_t for physical addresses
+> >     - Corrected a few spelling errors and minor cleanups
+> >     - Also tested on 32 bit Ubuntu guest
+> >     v3: Fixed a build issue reported by kbuild test robot and incorported
+> >     some review comments from Michael Kelley
+> >     - Add CMA check to avoid link failure
+> >     - Fixed small memory leak introduced by alloc_apertures
+> >     - Cleaned up so code
+> >     v4: Removed request_pages variable as it is no longer needed
+> >
+> >  drivers/video/fbdev/Kconfig     |   1 +
+> >  drivers/video/fbdev/hyperv_fb.c | 182
+> +++++++++++++++++++++++++-------
+> >  2 files changed, 144 insertions(+), 39 deletions(-)
+> >
+> 
+> Reviewed-by: Michael Kelley <mikelley@microsoft.com>
 
---000000000000c967c4059b7ec41a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Tested-by: Dexuan Cui <decui@microsoft.com>
 
-<div>Thanks, I&#39;ll check it out.</div><div dir=3D"auto"><br></div><div d=
-ir=3D"auto">Best,</div><div dir=3D"auto">Yiwei</div><div><br><div class=3D"=
-gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jan 6, 2020 at 2=
-:46 AM Rohan Garg &lt;<a href=3D"mailto:rohan.garg@collabora.com">rohan.gar=
-g@collabora.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Hi Y=
-iwei<br>
-<br>
-On jueves, 19 de diciembre de 2019 19:52:26 (CET) Yiwei Zhang wrote:<br>
-&gt; Hi Rohan,<br>
-&gt; <br>
-&gt; Thanks for pointing out the pids issue! Then the index would be {names=
-pace<br>
-&gt; + pid(in that namespace)}. I&#39;ll grab a setup and play with the dri=
-ver to<br>
-&gt; see what I can do. I know how to find an Intel or Freedreno setup, but=
- I&#39;d<br>
-&gt; still like to know is there a development friendly Mali setup?<br>
-&gt; <br>
-<br>
-You should be able to setup a Mali T860 compatible device with this guide [=
-1].<br>
-<br>
-Cheers<br>
-Rohan Garg<br>
-<br>
-[1] <a href=3D"https://panfrost.freedesktop.org/building-panfrost-mesa.html=
-" rel=3D"noreferrer" target=3D"_blank">https://panfrost.freedesktop.org/bui=
-lding-panfrost-mesa.html</a><br>
-<br>
-<br>
-</blockquote></div></div>
-
---000000000000c967c4059b7ec41a--
-
---===============0715143892==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+For a Gen-1 VM running on recent Hyper-V hosts, this patch can greatly 
+reduce the CPU utilization because it avoids the slow data copy from the 
+shadow framebuffer to the MMIO framebuffer, and hence it resolves the
+"blurred screen" issue when we output a lot of characters on the text-mode
+ternimal (e.g. "dmesg").
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0715143892==--
