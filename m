@@ -1,54 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A465A131592
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 17:01:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA7F6131605
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 17:28:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 477A36E49B;
-	Mon,  6 Jan 2020 16:01:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C3D76E4AA;
+	Mon,  6 Jan 2020 16:28:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x944.google.com (mail-ua1-x944.google.com
- [IPv6:2607:f8b0:4864:20::944])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DE466E48E;
- Mon,  6 Jan 2020 16:01:24 +0000 (UTC)
-Received: by mail-ua1-x944.google.com with SMTP id 73so17279024uac.6;
- Mon, 06 Jan 2020 08:01:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WHKvj+lR2oxOoJDYfB6OF+P0g9s4Fqqs9QyHOmAvNmo=;
- b=hE/Il/myONgZlPpM8dlP5hw/oNFkwGoIN4KZ+UY30BclcbEOUqUAWhMT9MwU5gZBxx
- gptw9QRBG10TwkwJAciBTr1c1//qBZB0PU3e3vyxhViKR94ANuJYmDclsBnmg+T+HU7v
- uFM//nFhAhfWR826oCEUpvKst94HTwOj9F64CfMr+aUEcftPvMW/9wEQ6FZkpDgk9UNh
- Nh++Q8b7giwiQpWsElAsGunOQGXVyNGxgfM2sST2pxro7mLwJiYKOZ3znx05Q10QH7QO
- ZSro9EN6Hzy2bT4uIfk7dmHuTXXR2CZJK/OuLFjHNnB4fqMlOe3Z3idimGPjERQKqMvv
- EChg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WHKvj+lR2oxOoJDYfB6OF+P0g9s4Fqqs9QyHOmAvNmo=;
- b=GhV5MqqqnQXA8S9TtesjNDquYONeTKFfHGPR2agBBHIrs2cBrVN0PHqRZLO1d7ZAkC
- EKE9bOK6w3JhiCmyTVgwdF500Ihb4riAmwFECu1jLmBJAvZX+NG76JwALY5QJAJr67ZU
- 1NW+kR3kW4gPtbqJEgHS0Y8hwNIIkk09+IfyuW0g6ukWp+AaonS5Kjrr6cX306pOe9tz
- Vh2OF9HBqQR1oDagoOkxRxBisVAAikmQ9adLc18/Zn2tzJodHgiEsoZW6xMc0mxU4wga
- SkzMcrbOYoI1QFp0CuuM2oLROVEwbXlTInTWKp2xT8jj7yoxIZ8sTYahY7hlYZlx+nWU
- JGVA==
-X-Gm-Message-State: APjAAAWtqBn6dEl82guFO8+Xq6LTBS4dnvRqj3L7YQ2+maAO1zjrICfF
- eC3RPsAG3665f5XKQNqccCYJGktRMTHamKTkgwQ=
-X-Google-Smtp-Source: APXvYqyanrUg5kMh1Y7eIxZ0CnYSMUXd/hQcoQkIbAMWiOWbPfnrcHCsktMDMB1gAMN1jTUdSGTJGPI1aMc5afzrAXM=
-X-Received: by 2002:ab0:4aca:: with SMTP id t10mr57253605uae.89.1578326483419; 
- Mon, 06 Jan 2020 08:01:23 -0800 (PST)
-MIME-Version: 1.0
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AD2E6E4AD;
+ Mon,  6 Jan 2020 16:28:06 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 8277F80536;
+ Mon,  6 Jan 2020 17:28:03 +0100 (CET)
+Date: Mon, 6 Jan 2020 17:28:02 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Christian Gmeiner <christian.gmeiner@gmail.com>
+Subject: Re: [PATCH v2 0/6] update hwdw for gc400
+Message-ID: <20200106162802.GA20675@ravnborg.org>
 References: <20200106151655.311413-1-christian.gmeiner@gmail.com>
  <20200106153643.GA8535@ravnborg.org>
-In-Reply-To: <20200106153643.GA8535@ravnborg.org>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Mon, 6 Jan 2020 17:01:11 +0100
-Message-ID: <CAH9NwWd7C+DzAKe97kURm=sGjDH+KQJOif3j=w6K+99xmYGncQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] update hwdw for gc400
-To: Sam Ravnborg <sam@ravnborg.org>
+ <CAH9NwWd7C+DzAKe97kURm=sGjDH+KQJOif3j=w6K+99xmYGncQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAH9NwWd7C+DzAKe97kURm=sGjDH+KQJOif3j=w6K+99xmYGncQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=D19gQVrFAAAA:8
+ a=xMcAtTC5Z7CYE8FbCH0A:9 a=CjuIK1q_8ugA:10 a=JZBxSqCIBzwA:10
+ a=W4TVW4IDbPiebHqcZpNg:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,51 +48,36 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>,
  LKML <linux-kernel@vger.kernel.org>,
  DRI mailing list <dri-devel@lists.freedesktop.org>,
- The etnaviv authors <etnaviv@lists.freedesktop.org>
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
+Hi Christian.
 
-> For future patches can you please incldue a small changelog
-> within each patch.
->
-> Something like
->
-> v2:
->   - Drop redundant newlines (Lucas)
->
-> This serves several purposes:
-> - It explains what was changed since last version
-> - It allow the reader to focus on changed parts
-> - It attributes who requested a specific change
-> - It gives a good idea of the history of a patch
->
-> In the DRM sub-subsystem the idea is that if it is written it
-> should be visible in git too. So include the changelog part in the
-> normal commit-message.
->
+> To be honest.. I forgot the change log thing this time - sorry.
+It was small changes - so no worries.
 
-To be honest.. I forgot the change log thing this time - sorry. So the rule
-is to have the change log in the normal commit message?
-Funny - Lucas told me something different:
+> So the rule
+> is to have the change log in the normal commit message?
+This is what Danial Vetter tell people - but it is not documented as
+far as I can tell.
 
-"Please move those changelogs below the 3 dashes, so they don't end up
-in the commit message. They don't really add any value to the
-persistent kernel history."
-https://lkml.org/lkml/2019/9/13/107
+> Funny - Lucas told me something different:
+> 
+> "Please move those changelogs below the 3 dashes, so they don't end up
+> in the commit message. They don't really add any value to the
+> persistent kernel history."
+> https://lkml.org/lkml/2019/9/13/107
+Lucas is maintainer of etnaviv driver - so do as he says.
 
--- 
-greets
---
-Christian Gmeiner, MSc
+Keep up the good work on etnaviv in mesa too!
 
-https://christian-gmeiner.info/privacypolicy
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
