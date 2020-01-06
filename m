@@ -1,60 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27FEF131402
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 15:47:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56C5113142C
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 15:56:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E39226E466;
-	Mon,  6 Jan 2020 14:47:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A79F6E478;
+	Mon,  6 Jan 2020 14:56:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0EAA6E466
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2020 14:46:58 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id m24so15205623wmc.3
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Jan 2020 06:46:58 -0800 (PST)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09B796E471
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2020 14:56:33 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id m24so15240367wmc.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Jan 2020 06:56:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:autocrypt:organization:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=subject:to:references:from:autocrypt:organization:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=0n1m11tBp2hFu7wROhbBHmbSSHv3Slnyc242QZYDSOM=;
- b=tzIuvsHnZK3JERaTM11QXfW4qv8zQKHptwOxWO+6l96yzSX8yRsqFFEh+SN9daYDG6
- mxi32fIhaEWubI5f7DFLafOHzayhy9B3RpDAh0eYDWLMFDz6vjumZ3iKuh4PrxmR2ZZG
- 74l4xTR4cBh5ESEyCSL5NkikPB2gbXV2nDYVHcUBL0JFZTtc8nRCaIplJnJ/p6HZ+7MT
- 9IPm7gswpg31xBKTDDNJTKSDLNBYsBT6OmimewtXDsv54dY17dYKgJVsUYKVlBYXxrrC
- MZ09Pz9PTNiQH/jIxdWwMOaP+ivck2V95U1EZvrOA6aujHM0ts75Qs/4nGuYozsqANYK
- klmw==
+ bh=/ipX5LKq9hyY23iIPVEUdWqCt2PENe7Cevsl5imsIzY=;
+ b=vtD2Ch9bvbOqCu0/8tj4Li+Br9KjSbSnPfzHjkI/PVHPJU2IwNs1zPgERh1GlMP462
+ 28VXkAZo4UW+naReEgqwkCYvnZf9vYmhECUD5o2QrWUaWcT2eZl2QlHlBzZvFGDQuZtx
+ Sp6E2MxGQU00hxeA7hLApQgr2nViKSXBnF65yvNTqS4HRRYQvhQ0L7IJA36dF3evHhmx
+ eeIZyzm9Z5G9lOiynvZKhEZAIZtfA03tzXjUFKzxWKD6M2pgfmP1yXp7EE3Q27sIGXKJ
+ lrv2dkpyE9Sjej6M9IAoAngQrVEDvRppJm9m5M55moKIPawHAKa8+dxg5KgA5xGQk8mq
+ UbUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ h=x-gm-message-state:subject:to:references:from:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=0n1m11tBp2hFu7wROhbBHmbSSHv3Slnyc242QZYDSOM=;
- b=gkzrApN8VmcKtILZWckN1na9ZD0QzO+ByvItw4t4mjSN3eAdjWz/tlEO0TkIyW2eCa
- Wri1sL+A4O6WHm0bIQ4xHilRGL18bXY+GijB6yFbyG/2ZsNyqIiY+CT8nalNr1raLNZE
- VJR3LE2rskXbF7UofGQxSWQAMMOuYW4mrPGhNs88dfh1Mi/R8QeQ5EJG7KrfbQjdqHO2
- 5vjtRy/roEmsMI5k/3nXQM1fKg8/8cbu6P520AKgfrr4lF287MviBW1sOvNZr7u55xrd
- mN9l/4xvEHBvgEx2/0R9n7gcH1dskwxpdpj8kOb9tqJ0EjkFkBTsEDKcRkKFg2behkrI
- Zg3Q==
-X-Gm-Message-State: APjAAAW8JgGvsCsWmZJr6xfuKaswmC253WopgHUcNbl8vjW3rPkGQk3s
- j7uWeEDgyUTwZ8zUE+LrT7LoDA==
-X-Google-Smtp-Source: APXvYqwZa5EBfgsN/MmJGvn7h/KhfjzrUM3SBsXZVBQ70gnC+ocQ8wKnn2137s0rkg5RiaszesGVAA==
-X-Received: by 2002:a7b:cf0d:: with SMTP id l13mr33637759wmg.13.1578322017392; 
- Mon, 06 Jan 2020 06:46:57 -0800 (PST)
+ bh=/ipX5LKq9hyY23iIPVEUdWqCt2PENe7Cevsl5imsIzY=;
+ b=YE4l6EmMuw5wI5uCwuoZ46OOYu+fHg4qZLLs/XZ4W3oprT3QPbezzKKbT/2X5oWVb7
+ wRhSl/C0mVgn9mF33QNzmkdfJq6CVeGU7d4OKEB9yTsXjPXaZrJN/rFANYXbey/L3IPf
+ 7LUakFZu4f7QwMy4wmEf23zbHVtla5JAdSuKop3XKZsrYlmw9qQKtnoP+0Epc28oR1D2
+ 0HKbl7y1baQDOaiTH+oaplNh8nemwmeHHYcVzPmDTZURJz5xCsJoGWj9lT1aNGopEWKv
+ OnMrEE+wcpj39UvNaB0len1Qf0BRM/wzIL2n2FUQh/B99vTVc2quu4oFfkabvnDVrJBs
+ Uysw==
+X-Gm-Message-State: APjAAAWPfl7mQtYrBTIBqtpXUyY4+plMpCqZG6La9aT+TyxmEISaEtj2
+ WUGJsenOvEwFzBkIqJzoPYyTVQ==
+X-Google-Smtp-Source: APXvYqxHhXICRcq4Kg8ww9Dx6GDlzjdoIEc7u9w23jzDha7CUOvXOu40wW7zI3nsWtBoE5y9tYuU3g==
+X-Received: by 2002:a1c:9c87:: with SMTP id f129mr33929322wme.26.1578322591595; 
+ Mon, 06 Jan 2020 06:56:31 -0800 (PST)
 Received: from [10.1.2.12] (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr.
  [90.63.244.31])
- by smtp.gmail.com with ESMTPSA id z11sm73032442wrt.82.2020.01.06.06.46.56
+ by smtp.gmail.com with ESMTPSA id p17sm73636851wrx.20.2020.01.06.06.56.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Jan 2020 06:46:56 -0800 (PST)
-Subject: Re: [PATCH v6 2/4] drm/bridge: Patch atomic hooks to take a
- drm_bridge_state
-To: Boris Brezillon <boris.brezillon@collabora.com>
-References: <20200106143409.32321-1-narmstrong@baylibre.com>
- <20200106143409.32321-3-narmstrong@baylibre.com>
- <20200106154026.366f039e@collabora.com>
+ Mon, 06 Jan 2020 06:56:31 -0800 (PST)
+Subject: Re: [PATCH] drm: meson: Remove unneeded semicolon
+To: zhengbin <zhengbin13@huawei.com>, airlied@linux.ie, daniel@ffwll.ch,
+ khilman@baylibre.com, linux-amlogic@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+References: <1576468701-69717-1-git-send-email-zhengbin13@huawei.com>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -106,12 +105,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  zR8QplXA5kogS4kLe/7/JmlDMO8Zgm9vKLHSUeesLOrjdZ59EcjldNNBszRZQgEhwaarfz46
  BSwxi7g3Mu7u5kUByanqHyA=
 Organization: Baylibre
-Message-ID: <e54886d2-052c-489e-3f38-f4e50336671f@baylibre.com>
-Date: Mon, 6 Jan 2020 15:46:56 +0100
+Message-ID: <cbc6f0b7-7245-1010-f9d5-5e539c4c0b99@baylibre.com>
+Date: Mon, 6 Jan 2020 15:56:30 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20200106154026.366f039e@collabora.com>
+In-Reply-To: <1576468701-69717-1-git-send-email-zhengbin13@huawei.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -125,55 +124,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>, devicetree@vger.kernel.org,
- Andrey Smirnov <andrew.smirnov@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, Kyungmin Park <kyungmin.park@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, kernel@collabora.com,
- Sam Ravnborg <sam@ravnborg.org>, Chris Healy <cphealy@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/01/2020 15:40, Boris Brezillon wrote:
-> On Mon,  6 Jan 2020 15:34:07 +0100
-> Neil Armstrong <narmstrong@baylibre.com> wrote:
+On 16/12/2019 04:58, zhengbin wrote:
+> Fixes coccicheck warning:
 > 
->> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
->> index 8ffa4fbbdeb3..b8b22dc55bdb 100644
->> --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
->> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
->> @@ -590,8 +590,9 @@ static void __rcar_lvds_atomic_enable(struct drm_bridge *bridge,
->>  }
->>  
->>  static void rcar_lvds_atomic_enable(struct drm_bridge *bridge,
->> -				    struct drm_atomic_state *state)
->> +				    struct drm_bridge_state *old_bridge_state)
->>  {
->> +	struct drm_atomic_state *state = old_bridge_state->base.state;
->>  	struct drm_connector *connector;
->>  	struct drm_crtc *crtc;
->>  
->> @@ -603,7 +604,7 @@ static void rcar_lvds_atomic_enable(struct drm_bridge *bridge,
->>  }
->>  
->>  static void rcar_lvds_atomic_disable(struct drm_bridge *bridge,
->> -				     struct drm_atomic_state *state)
->> +				     struct drm_bridge_state *state)
+> drivers/gpu/drm/meson/meson_crtc.c:360:3-4: Unneeded semicolon
+> drivers/gpu/drm/meson/meson_plane.c:181:2-3: Unneeded semicolon
 > 
-> Just a nit: maybe you should name that one old_bridge_state for
-> consistency.
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: zhengbin <zhengbin13@huawei.com>
+> ---
+>  drivers/gpu/drm/meson/meson_crtc.c  | 2 +-
+>  drivers/gpu/drm/meson/meson_plane.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
->>  {
->>  	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
->>  
+> diff --git a/drivers/gpu/drm/meson/meson_crtc.c b/drivers/gpu/drm/meson/meson_crtc.c
+> index 57ae1c1..eefefc4 100644
+> --- a/drivers/gpu/drm/meson/meson_crtc.c
+> +++ b/drivers/gpu/drm/meson/meson_crtc.c
+> @@ -357,7 +357,7 @@ void meson_crtc_irq(struct meson_drm *priv)
+>  					    MESON_CANVAS_WRAP_NONE,
+>  					    MESON_CANVAS_BLKMODE_LINEAR,
+>  					    MESON_CANVAS_ENDIAN_SWAP64);
+> -		};
+> +		}
+> 
+>  		writel_relaxed(priv->viu.vd1_if0_gen_reg,
+>  				priv->io_base + meson_crtc->viu_offset +
+> diff --git a/drivers/gpu/drm/meson/meson_plane.c b/drivers/gpu/drm/meson/meson_plane.c
+> index ed54322..b96fa43 100644
+> --- a/drivers/gpu/drm/meson/meson_plane.c
+> +++ b/drivers/gpu/drm/meson/meson_plane.c
+> @@ -178,7 +178,7 @@ static void meson_plane_atomic_update(struct drm_plane *plane,
+>  		priv->viu.osd1_blk0_cfg[0] |= OSD_BLK_MODE_16 |
+>  					      OSD_COLOR_MATRIX_16_RGB565;
+>  		break;
+> -	};
+> +	}
+> 
+>  	/* Default scaler parameters */
+>  	vsc_bot_rcv_num = 0;
+> --
+> 2.7.4
+> 
 
-Sure, will update while applying.
+Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
 
+and applied to drm-misc-next
+
+Thanks,
 Neil
 _______________________________________________
 dri-devel mailing list
