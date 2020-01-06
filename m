@@ -1,31 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7701013112A
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 12:09:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6584113115F
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 12:22:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A172C6E25A;
-	Mon,  6 Jan 2020 11:09:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 356FE6E265;
+	Mon,  6 Jan 2020 11:22:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED85E6E25A
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2020 11:09:26 +0000 (UTC)
-Received: from ip5f5a5f74.dynamic.kabel-deutschland.de ([95.90.95.116]
- helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.89) (envelope-from <heiko@sntech.de>)
- id 1ioQG8-0004XS-2c; Mon, 06 Jan 2020 12:09:20 +0100
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH v2 00/11] Add PX30 LVDS support
-Date: Mon, 06 Jan 2020 12:09:19 +0100
-Message-ID: <2064471.Uj1soXtvLx@diego>
-In-Reply-To: <1885398.klecWcqSHf@phil>
-References: <20191224143900.23567-1-miquel.raynal@bootlin.com>
- <1885398.klecWcqSHf@phil>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F29296E261
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2020 11:22:54 +0000 (UTC)
+Received: from kresse.hi.pengutronix.de ([2001:67c:670:100:1d::2a])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1ioQTD-0003IS-94; Mon, 06 Jan 2020 12:22:51 +0100
+Message-ID: <191213c32908a217cf78590464c9b9519865f3e0.camel@pengutronix.de>
+Subject: Re: [PATCH 2/6] drm/etnaviv: determine product, customer and eco id
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Mon, 06 Jan 2020 12:22:50 +0100
+In-Reply-To: <CAH9NwWddNNc+2rRsntm+_eYF0S9uwC0kTszpPysbzmkc4dNuNA@mail.gmail.com>
+References: <20200102100230.420009-1-christian.gmeiner@gmail.com>
+ <20200102100230.420009-3-christian.gmeiner@gmail.com>
+ <5cd1dc11df43d86d9db0dc2520de9b2e839ea7cc.camel@pengutronix.de>
+ <CAH9NwWddNNc+2rRsntm+_eYF0S9uwC0kTszpPysbzmkc4dNuNA@mail.gmail.com>
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::2a
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,78 +46,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- David Airlie <airlied@linux.ie>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- linux-rockchip@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
- Maxime Chevallier <maxime.chevallier@bootlin.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Russell King <linux+etnaviv@armlinux.org.uk>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Sonntag, 5. Januar 2020, 15:05:26 CET schrieb Heiko Stuebner:
-> Am Dienstag, 24. Dezember 2019, 15:38:49 CET schrieb Miquel Raynal:
-> > Hello,
-> > =
+On Mo, 2020-01-06 at 11:57 +0100, Christian Gmeiner wrote:
+> Hi Lucas
+> 
+> Am Mo., 6. Jan. 2020 um 11:03 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
+> > On Do, 2020-01-02 at 11:02 +0100, Christian Gmeiner wrote:
+> > > They will be used for extended HWDB support. The eco id logic was taken
+> > > from galcore kernel driver sources.
+> > > 
+> > > Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+> > > ---
+> > >  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 17 +++++++++++++++++
+> > >  drivers/gpu/drm/etnaviv/etnaviv_gpu.h |  6 +++---
+> > >  2 files changed, 20 insertions(+), 3 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > > index d47d1a8e0219..253301be9e95 100644
+> > > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > > @@ -321,6 +321,18 @@ static void etnaviv_hw_specs(struct etnaviv_gpu *gpu)
+> > >               gpu->identity.varyings_count -= 1;
+> > >  }
+> > > 
+> > > +static void etnaviv_hw_eco_id(struct etnaviv_gpu *gpu)
+> > > +{
+> > > +     const u32 chipDate = gpu_read(gpu, VIVS_HI_CHIP_DATE);
+> > > +     gpu->identity.eco_id = gpu_read(gpu, VIVS_HI_CHIP_ECO_ID);
+> > > +
+> > > +     if (etnaviv_is_model_rev(gpu, GC1000, 0x5037) && (chipDate == 0x20120617))
+> > > +             gpu->identity.eco_id = 1;
+> > > +
+> > > +     if (etnaviv_is_model_rev(gpu, GC320, 0x5303) && (chipDate == 0x20140511))
+> > > +             gpu->identity.eco_id = 1;
+> > 
+> > I'm not sure if those two checks warrant a separate function. Maybe
+> > just place them besides the other ID fixups?
+> > 
+> 
+> This is almost a 1:1 copy of _GetEcoID(..) but will try to move the fixups.
+> 
+> 
+> > > +}
+> > > +
+> > >  static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
+> > >  {
+> > >       u32 chipIdentity;
+> > > @@ -362,6 +374,8 @@ static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
+> > >                       }
+> > >               }
+> > > 
+> > > +             gpu->identity.product_id = gpu_read(gpu, VIVS_HI_CHIP_PRODUCT_ID);
+> > > +
+> > >               /*
+> > >                * NXP likes to call the GPU on the i.MX6QP GC2000+, but in
+> > >                * reality it's just a re-branded GC3000. We can identify this
+> > > @@ -375,6 +389,9 @@ static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
+> > >               }
+> > >       }
+> > > 
+> > > +     etnaviv_hw_eco_id(gpu);
+> > > +     gpu->identity.customer_id = gpu_read(gpu, VIVS_HI_CHIP_CUSTOMER_ID);
+> > 
+> > I don't like this scattering of identity register reads. Please move
+> > all of those reads to the else clause where we currently read
+> > model/rev. I doubt that the customer ID register is available on the
+> > really early cores, that only have the VIVS_HI_CHIP_IDENTITY register.
+> > 
+> 
+> There is feature bit for it: chipMinorFeatures5_HAS_PRODUCTID
+> Will change the code to make use of it. Shall I still put it in the
+> else clause then?
 
-> > This series aims at supporting LVDS on PX30.
-> > =
+If there's a feature bit we need to move the read toward the end of the
+function, as we currently read the features as the last step in the
+hw_identify.
 
-> > A first couple of patches update the documentation with the new
-> > compatible and the presence of a PHY. Then, the existing Rockchip
-> > driver is cleaned and extended to support PX30 specificities. Finally,
-> > the PX30 DTSI is updated with CRTC routes, the DSI DPHY and the LVDS
-> > IP itself.
-> > =
+But then I'm not sure if the HAS_PRODUCTID feature bit is correct. At
+least wumpus' gpus_comparison says that none of the known <= GC3000
+cores has it set, which seems... suspicious.
 
-> > Cheers,
-> > Miqu=E8l
-> > =
-
-> > Changes since v1:
-> > * Added Rob's Ack.
-> > * Used "must" instead of "should" in the bindings.
-> > * Precised that phy-names is an optional property in the case of
-> >   PX30.
-> > * Renamed the WRITE_EN macro into HIWORD_UPDATE to be aligned with
-> >   other files.
-> > * Removed extra configuration, not needed for generic panels (see
-> >   Sandy Huang answer).
-> > * Dropped the display-subsystem routes (useless).
-> > * Merged two patches to avoid phandle interdependencies in graphs and
-> >   intermediate build errors.
-> > =
-
-> > Miquel Raynal (11):
-> >   dt-bindings: display: rockchip-lvds: Declare PX30 compatible
-> >   dt-bindings: display: rockchip-lvds: Document PX30 PHY
-> >   drm/rockchip: lvds: Fix indentation of a #define
-> >   drm/rockchip: lvds: Harmonize function names
-> >   drm/rockchip: lvds: Change platform data
-> >   drm/rockchip: lvds: Create an RK3288 specific probe function
-> >   drm/rockchip: lvds: Helpers should return decent values
-> >   drm/rockchip: lvds: Pack functions together
-> =
-
-> applied patches 1-8 to drm-misc-next
-> =
-
-> >   drm/rockchip: lvds: Add PX30 support
-> =
-
-> drm-misc-next is currently still at 5.4-rc4, so I'll need to find out how
-> to get newer kernel changes in there, as right now we're missing
-> the PHY_MODE_LVDS constant.
-
-applied now to drm-misc-next as well, after drm-misc maintainers did the
-requested back-merge to get that constant.
-
-Heiko
-
+Regards,
+Lucas
 
 _______________________________________________
 dri-devel mailing list
