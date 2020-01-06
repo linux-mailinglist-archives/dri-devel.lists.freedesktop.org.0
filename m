@@ -2,57 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8D5D131013
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 11:11:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5AA0131017
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 11:11:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A45DB6E20A;
-	Mon,  6 Jan 2020 10:11:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 155C06E221;
+	Mon,  6 Jan 2020 10:11:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C779B6E20A
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2020 10:11:36 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 533F4ABF6;
- Mon,  6 Jan 2020 10:11:35 +0000 (UTC)
-Subject: Re: [PATCH RFC v1 2/6] drm/sprd: add Unisoc's drm kms master
-To: Kevin Tang <kevin3.tang@gmail.com>, airlied@linux.ie, daniel@ffwll.ch,
- robh+dt@kernel.org, mark.rutland@arm.com
-References: <1576496419-12409-1-git-send-email-kevin3.tang@gmail.com>
- <1576496419-12409-3-git-send-email-kevin3.tang@gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <f540df4e-5869-8a7d-612a-49b57dc44efc@suse.de>
-Date: Mon, 6 Jan 2020 11:11:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com
+ [IPv6:2607:f8b0:4864:20::d2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED9F16E221
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2020 10:11:52 +0000 (UTC)
+Received: by mail-io1-xd2d.google.com with SMTP id c16so44472670ioo.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Jan 2020 02:11:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=BM5QMsP0AbZFoP/y14rM3kVBayTcxH4QJqPjuJIFHqM=;
+ b=hTOhuySw6rVzMQXpbeRI1b4riYgYNv9nSHA24LrY6vw32Aaydw9rut6jpnDig03XNS
+ dGQQdNXySoRhgyugLGobTaaEF2yTpPJYXSfZQGzAHwqmS/Sv0Eg9qALfxRBvpNNQB/LH
+ oLBGtGQpCCpoJ94TQP7K+G8pwBgvLCRSsop1s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=BM5QMsP0AbZFoP/y14rM3kVBayTcxH4QJqPjuJIFHqM=;
+ b=ORtZYulfqJ/2TPBNuehapn9NnRsElUeAGgYEcD4SMGcFwVZiVTr0sah7PMQBEH+TV2
+ t7f99ohtV+24HepddxN2AkvrE1oJI0fg+ztKNtJxbUyn0szmcNs2Q1IZQdMn6ZdjPgqr
+ l/WzzHsRDofNlpypaAfuYBZdkSOBgo6sMOgsuT73h3vumMlhhRUuyfoPpE5lm+dOvQR4
+ EQ+J23i/VIdpaMgmbdp2m2W3MQCny8BiobbM6zEoQqOcIQ6i25BGZFA+CZCI86xgQ8tG
+ 6IdunnkrTmbmRR2kOLR9vw/MFKPXyaLP6RmWdHZFs7UnSL3x6U26+08Iyj5NV8yVtAVi
+ fsfw==
+X-Gm-Message-State: APjAAAVldU96xLOAYFulR1mbqGA4U3rnApJwwNgYwVNJQN9bEq9zs1ya
+ 6RREzeLWHYZo57iaO6v8UqQ9asI3vt3m7/N7u6Mh8g==
+X-Google-Smtp-Source: APXvYqzUirMUBMW0xxRJzNQkXJ6BFIkz9VVTNKPR3lN6QCD/Fd3IwAFCUoeqyShL+FgsbSIMx5prGQgOon0oVw7bq2c=
+X-Received: by 2002:a02:b893:: with SMTP id p19mr10064623jam.103.1578305512006; 
+ Mon, 06 Jan 2020 02:11:52 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1576496419-12409-3-git-send-email-kevin3.tang@gmail.com>
+References: <20200101112444.16250-1-jagan@amarulasolutions.com>
+ <20200104151702.GC17768@ravnborg.org>
+In-Reply-To: <20200104151702.GC17768@ravnborg.org>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Mon, 6 Jan 2020 15:41:40 +0530
+Message-ID: <CAMty3ZDbDf6YovrEdG0pACQAwMQidjKr6BJvx-FPXqyT11G05w@mail.gmail.com>
+Subject: Re: [PATCH 0/6] dt-bindings: display: Update few panel bindings with
+ YAML
+To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,733 +61,193 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: orsonzhai@gmail.com, baolin.wang@linaro.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, zhang.lyra@gmail.com
-Content-Type: multipart/mixed; boundary="===============1715796172=="
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1715796172==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="3dyTQlAML5x5Mrl16xuivknKfVv57tfOu"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---3dyTQlAML5x5Mrl16xuivknKfVv57tfOu
-Content-Type: multipart/mixed; boundary="wWCkebiC6zPFT2NwQ31JBQR2A58Lvfsp5";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Kevin Tang <kevin3.tang@gmail.com>, airlied@linux.ie, daniel@ffwll.ch,
- robh+dt@kernel.org, mark.rutland@arm.com
-Cc: orsonzhai@gmail.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, zhang.lyra@gmail.com, baolin.wang@linaro.org
-Message-ID: <f540df4e-5869-8a7d-612a-49b57dc44efc@suse.de>
-Subject: Re: [PATCH RFC v1 2/6] drm/sprd: add Unisoc's drm kms master
-References: <1576496419-12409-1-git-send-email-kevin3.tang@gmail.com>
- <1576496419-12409-3-git-send-email-kevin3.tang@gmail.com>
-In-Reply-To: <1576496419-12409-3-git-send-email-kevin3.tang@gmail.com>
-
---wWCkebiC6zPFT2NwQ31JBQR2A58Lvfsp5
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi Kevin
-
-Am 16.12.19 um 12:40 schrieb Kevin Tang:
-> From: Kevin Tang <kevin.tang@unisoc.com>
->=20
-> Adds drm support for the Unisoc's display subsystem.
->=20
-> This is drm device and gem driver. This driver provides support for the=
-
-> Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
->=20
-> Cc: Orson Zhai <orsonzhai@gmail.com>
-> Cc: Baolin Wang <baolin.wang@linaro.org>
-> Cc: Chunyan Zhang <zhang.lyra@gmail.com>
-> Signed-off-by: Kevin Tang <kevin.tang@unisoc.com>
-> ---
->  drivers/gpu/drm/Kconfig         |   2 +
->  drivers/gpu/drm/Makefile        |   1 +
->  drivers/gpu/drm/sprd/Kconfig    |  14 ++
->  drivers/gpu/drm/sprd/Makefile   |   8 ++
->  drivers/gpu/drm/sprd/sprd_drm.c | 286 ++++++++++++++++++++++++++++++++=
-++++++++
->  drivers/gpu/drm/sprd/sprd_drm.h |  16 +++
->  drivers/gpu/drm/sprd/sprd_gem.c | 178 +++++++++++++++++++++++++
->  drivers/gpu/drm/sprd/sprd_gem.h |  30 +++++
->  8 files changed, 535 insertions(+)
->  create mode 100644 drivers/gpu/drm/sprd/Kconfig
->  create mode 100644 drivers/gpu/drm/sprd/Makefile
->  create mode 100644 drivers/gpu/drm/sprd/sprd_drm.c
->  create mode 100644 drivers/gpu/drm/sprd/sprd_drm.h
->  create mode 100644 drivers/gpu/drm/sprd/sprd_gem.c
->  create mode 100644 drivers/gpu/drm/sprd/sprd_gem.h
->=20
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index bfdadc3..cead12c 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -387,6 +387,8 @@ source "drivers/gpu/drm/aspeed/Kconfig"
-> =20
->  source "drivers/gpu/drm/mcde/Kconfig"
-> =20
-> +source "drivers/gpu/drm/sprd/Kconfig"
-> +
->  # Keep legacy drivers last
-> =20
->  menuconfig DRM_LEGACY
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index 9f1c7c4..85ca211 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -122,3 +122,4 @@ obj-$(CONFIG_DRM_LIMA)  +=3D lima/
->  obj-$(CONFIG_DRM_PANFROST) +=3D panfrost/
->  obj-$(CONFIG_DRM_ASPEED_GFX) +=3D aspeed/
->  obj-$(CONFIG_DRM_MCDE) +=3D mcde/
-> +obj-$(CONFIG_DRM_SPRD) +=3D sprd/
-> diff --git a/drivers/gpu/drm/sprd/Kconfig b/drivers/gpu/drm/sprd/Kconfi=
-g
-> new file mode 100644
-> index 0000000..79f286b
-> --- /dev/null
-> +++ b/drivers/gpu/drm/sprd/Kconfig
-> @@ -0,0 +1,14 @@
-> +config DRM_SPRD
-> +	tristate "DRM Support for Unisoc SoCs Platform"
-> +	depends on ARCH_SPRD
-> +	depends on DRM && OF
-> +	select DRM_KMS_HELPER
-> +	select DRM_GEM_CMA_HELPER
-> +	select DRM_KMS_CMA_HELPER
-> +	select DRM_MIPI_DSI
-> +	select DRM_PANEL
-> +	select VIDEOMODE_HELPERS
-> +	select BACKLIGHT_CLASS_DEVICE
-> +	help
-> +	  Choose this option if you have a Unisoc chipsets.
-> +	  If M is selected the module will be called sprd-drm.
-> \ No newline at end of file
-> diff --git a/drivers/gpu/drm/sprd/Makefile b/drivers/gpu/drm/sprd/Makef=
-ile
-> new file mode 100644
-> index 0000000..df0b316
-> --- /dev/null
-> +++ b/drivers/gpu/drm/sprd/Makefile
-> @@ -0,0 +1,8 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +ccflags-y +=3D -Iinclude/drm
-> +
-> +subdir-ccflags-y +=3D -I$(src)
-> +
-> +obj-y :=3D sprd_drm.o \
-> +	sprd_gem.o
-> \ No newline at end of file
-> diff --git a/drivers/gpu/drm/sprd/sprd_drm.c b/drivers/gpu/drm/sprd/spr=
-d_drm.c
-> new file mode 100644
-> index 0000000..4aee25fa4
-> --- /dev/null
-> +++ b/drivers/gpu/drm/sprd/sprd_drm.c
-> @@ -0,0 +1,286 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) 2019 Unisoc Inc.
-> + */
-> +
-> +#include <linux/component.h>
-> +#include <linux/dma-mapping.h>
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include <linux/of_graph.h>
-> +#include <linux/of_platform.h>
-> +
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_crtc_helper.h>
-> +#include <drm/drm_drv.h>
-> +#include <drm/drm_gem_cma_helper.h>
-> +#include <drm/drm_gem_framebuffer_helper.h>
-> +#include <drm/drm_probe_helper.h>
-> +#include <drm/drm_vblank.h>
-> +
-> +#include "sprd_drm.h"
-> +#include "sprd_gem.h"
-> +
-> +#define DRIVER_NAME	"sprd"
-> +#define DRIVER_DESC	"Spreadtrum SoCs' DRM Driver"
-> +#define DRIVER_DATE	"20191101"
-> +#define DRIVER_MAJOR	1
-> +#define DRIVER_MINOR	0
-> +
-> +static const struct drm_mode_config_helper_funcs sprd_drm_mode_config_=
-helper =3D {
-> +	.atomic_commit_tail =3D drm_atomic_helper_commit_tail_rpm,
-> +};
-> +
-> +static const struct drm_mode_config_funcs sprd_drm_mode_config_funcs =3D=
- {
-> +	.fb_create =3D drm_gem_fb_create,
-> +	.atomic_check =3D drm_atomic_helper_check,
-> +	.atomic_commit =3D drm_atomic_helper_commit,
-> +};
-> +
-> +static void sprd_drm_mode_config_init(struct drm_device *drm)
-> +{
-> +	drm_mode_config_init(drm);
-> +
-> +	drm->mode_config.min_width =3D 0;
-> +	drm->mode_config.min_height =3D 0;
-> +	drm->mode_config.max_width =3D 8192;
-> +	drm->mode_config.max_height =3D 8192;
-> +	drm->mode_config.allow_fb_modifiers =3D true;
-> +
-> +	drm->mode_config.funcs =3D &sprd_drm_mode_config_funcs;
-> +	drm->mode_config.helper_private =3D &sprd_drm_mode_config_helper;
-> +}
-> +
-> +static const struct file_operations sprd_drm_fops =3D {
-> +	.owner		=3D THIS_MODULE,
-> +	.open		=3D drm_open,
-> +	.release	=3D drm_release,
-> +	.unlocked_ioctl	=3D drm_ioctl,
-> +	.compat_ioctl	=3D drm_compat_ioctl,
-> +	.poll		=3D drm_poll,
-> +	.read		=3D drm_read,
-> +	.llseek		=3D no_llseek,
-> +	.mmap		=3D sprd_gem_mmap,
-> +};
-> +
-> +static struct drm_driver sprd_drm_drv =3D {
-> +	.driver_features	=3D DRIVER_GEM | DRIVER_ATOMIC,
-> +	.fops			=3D &sprd_drm_fops,
-> +	.gem_vm_ops		=3D &drm_gem_cma_vm_ops,
-> +	.gem_free_object_unlocked	=3D sprd_gem_free_object,
-> +	.dumb_create		=3D sprd_gem_dumb_create,
-> +	.prime_fd_to_handle	=3D drm_gem_prime_fd_to_handle,
-> +	.gem_prime_import	=3D drm_gem_prime_import,
-> +	.gem_prime_import_sg_table =3D sprd_gem_prime_import_sg_table,
-> +
-> +	.name			=3D DRIVER_NAME,
-> +	.desc			=3D DRIVER_DESC,
-> +	.date			=3D DRIVER_DATE,
-> +	.major			=3D DRIVER_MAJOR,
-> +	.minor			=3D DRIVER_MINOR,
-> +};
-> +
-> +static int sprd_drm_bind(struct device *dev)
-> +{
-> +	struct drm_device *drm;
-> +	struct sprd_drm *sprd;
-> +	int err;
-> +
-> +	drm =3D drm_dev_alloc(&sprd_drm_drv, dev);
-> +	if (IS_ERR(drm))
-> +		return PTR_ERR(drm);
-> +
-> +	dev_set_drvdata(dev, drm);
-> +
-> +	sprd =3D devm_kzalloc(drm->dev, sizeof(*sprd), GFP_KERNEL);
-> +	if (!sprd) {
-> +		err =3D -ENOMEM;
-> +		goto err_free_drm;
-> +	}
-> +	drm->dev_private =3D sprd;
-> +
-> +	sprd_drm_mode_config_init(drm);
-> +
-> +	/* bind and init sub drivers */
-> +	err =3D component_bind_all(drm->dev, drm);
-> +	if (err) {
-> +		DRM_ERROR("failed to bind all component.\n");
-> +		goto err_dc_cleanup;
-> +	}
-> +
-> +	/* vblank init */
-> +	err =3D drm_vblank_init(drm, drm->mode_config.num_crtc);
-> +	if (err) {
-> +		DRM_ERROR("failed to initialize vblank.\n");
-> +		goto err_unbind_all;
-> +	}
-> +	/* with irq_enabled =3D true, we can use the vblank feature. */
-> +	drm->irq_enabled =3D true;
-> +
-> +	/* reset all the states of crtc/plane/encoder/connector */
-> +	drm_mode_config_reset(drm);
-> +
-> +	/* init kms poll for handling hpd */
-> +	drm_kms_helper_poll_init(drm);
-> +
-> +	err =3D drm_dev_register(drm, 0);
-> +	if (err < 0)
-> +		goto err_kms_helper_poll_fini;
-> +
-> +	return 0;
-> +
-> +err_kms_helper_poll_fini:
-> +	drm_kms_helper_poll_fini(drm);
-> +err_unbind_all:
-> +	component_unbind_all(drm->dev, drm);
-> +err_dc_cleanup:
-> +	drm_mode_config_cleanup(drm);
-> +err_free_drm:
-> +	drm_dev_put(drm);
-> +	return err;
-> +}
-> +
-> +static void sprd_drm_unbind(struct device *dev)
-> +{
-> +	drm_put_dev(dev_get_drvdata(dev));
-> +}
-> +
-> +static const struct component_master_ops sprd_drm_component_ops =3D {
-> +	.bind =3D sprd_drm_bind,
-> +	.unbind =3D sprd_drm_unbind,
-> +};
-> +
-> +static int compare_of(struct device *dev, void *data)
-> +{
-> +	struct device_node *np =3D data;
-> +
-> +	DRM_DEBUG("compare %s\n", np->full_name);
-> +
-> +	return dev->of_node =3D=3D np;
-> +}
-> +
-> +static int sprd_drm_component_probe(struct device *dev,
-> +			   const struct component_master_ops *m_ops)
-> +{
-> +	struct device_node *ep, *port, *remote;
-> +	struct component_match *match =3D NULL;
-> +	int i;
-> +
-> +	if (!dev->of_node)
-> +		return -EINVAL;
-> +
-> +	/*
-> +	 * Bind the crtc's ports first, so that drm_of_find_possible_crtcs()
-> +	 * called from encoder's .bind callbacks works as expected
-> +	 */
-> +	for (i =3D 0; ; i++) {
-> +		port =3D of_parse_phandle(dev->of_node, "ports", i);
-> +		if (!port)
-> +			break;
-> +
-> +		if (!of_device_is_available(port->parent)) {
-> +			of_node_put(port);
-> +			continue;
-> +		}
-> +
-> +		component_match_add(dev, &match, compare_of, port->parent);
-> +		of_node_put(port);
-> +	}
-> +
-> +	if (i =3D=3D 0) {
-> +		dev_err(dev, "missing 'ports' property\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	if (!match) {
-> +		dev_err(dev, "no available port\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	/*
-> +	 * For bound crtcs, bind the encoders attached to their remote endpoi=
-nt
-> +	 */
-> +	for (i =3D 0; ; i++) {
-> +		port =3D of_parse_phandle(dev->of_node, "ports", i);
-> +		if (!port)
-> +			break;
-> +
-> +		if (!of_device_is_available(port->parent)) {
-> +			of_node_put(port);
-> +			continue;
-> +		}
-> +
-> +		for_each_child_of_node(port, ep) {
-> +			remote =3D of_graph_get_remote_port_parent(ep);
-> +			if (!remote || !of_device_is_available(remote)) {
-> +				of_node_put(remote);
-> +				continue;
-> +			} else if (!of_device_is_available(remote->parent)) {
-> +				dev_warn(dev, "parent device of %s is not available\n",
-> +					 remote->full_name);
-> +				of_node_put(remote);
-> +				continue;
-> +			}
-> +
-> +			component_match_add(dev, &match, compare_of, remote);
-> +			of_node_put(remote);
-> +		}
-> +		of_node_put(port);
-> +	}
-> +
-> +	return component_master_add_with_match(dev, m_ops, match);
-> +}
-> +
-> +static int sprd_drm_probe(struct platform_device *pdev)
-> +{
-> +	int ret;
-> +
-> +	ret =3D dma_set_mask_and_coherent(&pdev->dev, ~0);
-> +	if (ret) {
-> +		DRM_ERROR("dma_set_mask_and_coherent failed (%d)\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	return sprd_drm_component_probe(&pdev->dev, &sprd_drm_component_ops);=
-
-> +}
-> +
-> +static int sprd_drm_remove(struct platform_device *pdev)
-> +{
-> +	component_master_del(&pdev->dev, &sprd_drm_component_ops);
-> +	return 0;
-> +}
-> +
-> +static void sprd_drm_shutdown(struct platform_device *pdev)
-> +{
-> +	struct drm_device *drm =3D platform_get_drvdata(pdev);
-> +
-> +	if (!drm) {
-> +		DRM_WARN("drm device is not available, no shutdown\n");
-> +		return;
-> +	}
-> +
-> +	drm_atomic_helper_shutdown(drm);
-> +}
-> +
-> +static const struct of_device_id sprd_drm_match_table[] =3D {
-> +	{ .compatible =3D "sprd,display-subsystem",},
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(of, sprd_drm_match_table);
-> +
-> +static struct platform_driver sprd_drm_driver =3D {
-> +	.probe =3D sprd_drm_probe,
-> +	.remove =3D sprd_drm_remove,
-> +	.shutdown =3D sprd_drm_shutdown,
-> +	.driver =3D {
-> +		.name =3D "sprd-drm-drv",
-> +		.of_match_table =3D sprd_drm_match_table,
-> +	},
-> +};
-> +
-> +module_platform_driver(sprd_drm_driver);
-> +
-> +MODULE_AUTHOR("Leon He <leon.he@unisoc.com>");
-> +MODULE_AUTHOR("Kevin Tang <kevin.tang@unisoc.com>");
-> +MODULE_DESCRIPTION("Unisoc DRM KMS Master Driver");
-> +MODULE_LICENSE("GPL v2");
-> diff --git a/drivers/gpu/drm/sprd/sprd_drm.h b/drivers/gpu/drm/sprd/spr=
-d_drm.h
-> new file mode 100644
-> index 0000000..137cb27
-> --- /dev/null
-> +++ b/drivers/gpu/drm/sprd/sprd_drm.h
-> @@ -0,0 +1,16 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (C) 2019 Unisoc Inc.
-> + */
-> +
-> +#ifndef _SPRD_DRM_H_
-> +#define _SPRD_DRM_H_
-> +
-> +#include <drm/drm_atomic.h>
-> +#include <drm/drm_print.h>
-> +
-> +struct sprd_drm {
-> +	struct drm_device *drm;
-> +};
-> +
-> +#endif /* _SPRD_DRM_H_ */
-> diff --git a/drivers/gpu/drm/sprd/sprd_gem.c b/drivers/gpu/drm/sprd/spr=
-d_gem.c
-> new file mode 100644
-> index 0000000..9aec78e
-> --- /dev/null
-> +++ b/drivers/gpu/drm/sprd/sprd_gem.c
-> @@ -0,0 +1,178 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) 2019 Unisoc Inc.
-> + */
-> +
-> +#include <linux/dma-buf.h>
-> +#include <linux/pm_runtime.h>
-> +
-> +#include <drm/drm_prime.h>
-> +
-> +#include "sprd_drm.h"
-> +#include "sprd_gem.h"
-> +
-> +static struct sprd_gem_obj *sprd_gem_obj_create(struct drm_device *drm=
-,
-> +						unsigned long size)
-> +{
-> +	struct sprd_gem_obj *sprd_gem;
-> +	int ret;
-> +
-> +	sprd_gem =3D kzalloc(sizeof(*sprd_gem), GFP_KERNEL);
-> +	if (!sprd_gem)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	ret =3D drm_gem_object_init(drm, &sprd_gem->base, size);
-> +	if (ret < 0) {
-> +		DRM_ERROR("failed to initialize gem object\n");
-> +		goto error;
-> +	}
-> +
-> +	ret =3D drm_gem_create_mmap_offset(&sprd_gem->base);
-> +	if (ret) {
-> +		drm_gem_object_release(&sprd_gem->base);
-> +		goto error;
-> +	}
-> +
-> +	return sprd_gem;
-> +
-> +error:
-> +	kfree(sprd_gem);
-> +	return ERR_PTR(ret);
-> +}
-> +
-> +void sprd_gem_free_object(struct drm_gem_object *obj)
-> +{
-> +	struct sprd_gem_obj *sprd_gem =3D to_sprd_gem_obj(obj);
-> +
-> +	DRM_DEBUG("gem =3D %p\n", obj);
-> +
-> +	if (sprd_gem->vaddr)
-> +		dma_free_wc(obj->dev->dev, obj->size,
-> +			sprd_gem->vaddr, sprd_gem->dma_addr);
-> +	else if (sprd_gem->sgtb)
-> +		drm_prime_gem_destroy(obj, sprd_gem->sgtb);
-> +
-> +	drm_gem_object_release(obj);
-> +
-> +	kfree(sprd_gem);
-> +}
-> +
-> +int sprd_gem_dumb_create(struct drm_file *file_priv, struct drm_device=
- *drm,
-> +			    struct drm_mode_create_dumb *args)
-> +{
-> +	struct sprd_gem_obj *sprd_gem;
-> +	int ret;
-> +
-> +	args->pitch =3D DIV_ROUND_UP(args->width * args->bpp, 8);
-> +	args->size =3D round_up(args->pitch * args->height, PAGE_SIZE);
-> +
-> +	sprd_gem =3D sprd_gem_obj_create(drm, args->size);
-> +	if (IS_ERR(sprd_gem))
-> +		return PTR_ERR(sprd_gem);
-> +
-> +	sprd_gem->vaddr =3D dma_alloc_wc(drm->dev, args->size,
-> +			&sprd_gem->dma_addr, GFP_KERNEL | __GFP_NOWARN | GFP_DMA);
-
-I might be missing something, but I still don't understand why all this
-GEM code is necessary. I quickly compared with the CMA helpers and the
-only meaningful difference is the use of the GFP_DMA flag.
-
-Rather than duplicating the CMA code, it's better to change the CMA
-helpers to provide a way of setting this flag.
-
-Best regards
-Thomas
-
-> +	if (!sprd_gem->vaddr) {
-> +		DRM_ERROR("failed to allocate buffer with size %llu\n",
-> +			  args->size);
-> +		ret =3D -ENOMEM;
-> +		goto error;
-> +	}
-> +
-> +	ret =3D drm_gem_handle_create(file_priv, &sprd_gem->base, &args->hand=
-le);
-> +	if (ret)
-> +		goto error;
-> +
-> +	drm_gem_object_put_unlocked(&sprd_gem->base);
-> +
-> +	return 0;
-> +
-> +error:
-> +	sprd_gem_free_object(&sprd_gem->base);
-> +	return ret;
-> +}
-> +
-> +static int sprd_gem_object_mmap(struct drm_gem_object *obj,
-> +				   struct vm_area_struct *vma)
-> +
-> +{
-> +	int ret;
-> +	struct sprd_gem_obj *sprd_gem =3D to_sprd_gem_obj(obj);
-> +
-> +	vma->vm_flags &=3D ~VM_PFNMAP;
-> +	vma->vm_pgoff =3D 0;
-> +
-> +	ret =3D dma_mmap_wc(obj->dev->dev, vma,
-> +				    sprd_gem->vaddr, sprd_gem->dma_addr,
-> +				    vma->vm_end - vma->vm_start);
-> +	if (ret)
-> +		drm_gem_vm_close(vma);
-> +
-> +	return ret;
-> +}
-> +
-> +int sprd_gem_mmap(struct file *filp, struct vm_area_struct *vma)
-> +{
-> +	struct drm_gem_object *obj;
-> +	int ret;
-> +
-> +	ret =3D drm_gem_mmap(filp, vma);
-> +	if (ret)
-> +		return ret;
-> +
-> +	obj =3D vma->vm_private_data;
-> +
-> +	return sprd_gem_object_mmap(obj, vma);
-> +}
-> +
-> +int sprd_gem_prime_mmap(struct drm_gem_object *obj,
-> +			    struct vm_area_struct *vma)
-> +{
-> +	int ret;
-> +
-> +	ret =3D drm_gem_mmap_obj(obj, obj->size, vma);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return sprd_gem_object_mmap(obj, vma);
-> +}
-> +
-> +struct sg_table *sprd_gem_prime_get_sg_table(struct drm_gem_object *ob=
-j)
-> +{
-> +	struct sprd_gem_obj *sprd_gem =3D to_sprd_gem_obj(obj);
-> +	struct sg_table *sgtb;
-> +	int ret;
-> +
-> +	sgtb =3D kzalloc(sizeof(*sgtb), GFP_KERNEL);
-> +	if (!sgtb)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	ret =3D dma_get_sgtable(obj->dev->dev, sgtb, sprd_gem->vaddr,
-> +			      sprd_gem->dma_addr, obj->size);
-> +	if (ret) {
-> +		DRM_ERROR("failed to allocate sg_table, %d\n", ret);
-> +		kfree(sgtb);
-> +		return ERR_PTR(ret);
-> +	}
-> +
-> +	return sgtb;
-> +}
-> +
-> +struct drm_gem_object *sprd_gem_prime_import_sg_table(struct drm_devic=
-e *drm,
-> +		struct dma_buf_attachment *attach, struct sg_table *sgtb)
-> +{
-> +	struct sprd_gem_obj *sprd_gem;
-> +
-> +	sprd_gem =3D sprd_gem_obj_create(drm, attach->dmabuf->size);
-> +	if (IS_ERR(sprd_gem))
-> +		return ERR_CAST(sprd_gem);
-> +
-> +	DRM_DEBUG("gem =3D %p\n", &sprd_gem->base);
-> +
-> +	if (sgtb->nents =3D=3D 1)
-> +		sprd_gem->dma_addr =3D sg_dma_address(sgtb->sgl);
-> +
-> +	sprd_gem->sgtb =3D sgtb;
-> +
-> +	return &sprd_gem->base;
-> +}
-> diff --git a/drivers/gpu/drm/sprd/sprd_gem.h b/drivers/gpu/drm/sprd/spr=
-d_gem.h
-> new file mode 100644
-> index 0000000..b6740bd
-> --- /dev/null
-> +++ b/drivers/gpu/drm/sprd/sprd_gem.h
-> @@ -0,0 +1,30 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (C) 2019 Unisoc Inc.
-> + */
-> +
-> +#ifndef _SPRD_GEM_H_
-> +#define _SPRD_GEM_H_
-> +
-> +#include <drm/drm_gem.h>
-> +
-> +struct sprd_gem_obj {
-> +	struct drm_gem_object	base;
-> +	dma_addr_t		dma_addr;
-> +	struct sg_table		*sgtb;
-> +	void			*vaddr;
-> +};
-> +
-> +#define to_sprd_gem_obj(x)	container_of(x, struct sprd_gem_obj, base)
-> +
-> +void sprd_gem_free_object(struct drm_gem_object *gem);
-> +int sprd_gem_dumb_create(struct drm_file *file_priv, struct drm_device=
- *dev,
-> +			    struct drm_mode_create_dumb *args);
-> +int sprd_gem_mmap(struct file *filp, struct vm_area_struct *vma);
-> +int sprd_gem_prime_mmap(struct drm_gem_object *obj,
-> +			 struct vm_area_struct *vma);
-> +struct sg_table *sprd_gem_prime_get_sg_table(struct drm_gem_object *ob=
-j);
-> +struct drm_gem_object *sprd_gem_prime_import_sg_table(struct drm_devic=
-e *dev,
-> +		struct dma_buf_attachment *attach, struct sg_table *sgtb);
-> +
-> +#endif
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---wWCkebiC6zPFT2NwQ31JBQR2A58Lvfsp5--
-
---3dyTQlAML5x5Mrl16xuivknKfVv57tfOu
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl4TB80ACgkQaA3BHVML
-eiN1cQf+IuRR27R/5STbW1vxN9YvqsQfvz9eAjoV7cNisIkgWClvzJIgv5w2IX7R
-ResDqoHAgiNHt7lZKRD+IkHzts3ODAabcY4GuEKHugnwDwPZhO8YtvfWv5hu06aj
-DGLOwFUv6/zUcBA3wOEATzjRXaeFKYqaEDEPsAZ73zRVDqJhLoGYjqYTQ67TVrra
-SxwHrplJxmplmU9ePpVZIhynlCEj4VZlzaELWPkYSlaRRbpAmoOE8n+uWSYyGgrn
-Vj/Xj7whO37yIPtVYAhKfimzzDTKIaBI/D6tNcvo85Pl/0GRlzoAQ63uNgua/Hyg
-dVIjfREFnnKmkHZ9E7zHxhoL+URnWg==
-=rF2w
------END PGP SIGNATURE-----
-
---3dyTQlAML5x5Mrl16xuivknKfVv57tfOu--
-
---===============1715796172==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1715796172==--
+SGkgU2FtLAoKT24gU2F0LCBKYW4gNCwgMjAyMCBhdCA4OjQ3IFBNIFNhbSBSYXZuYm9yZyA8c2Ft
+QHJhdm5ib3JnLm9yZz4gd3JvdGU6Cj4KPiBIaSBKYWdhbi4KPiBPbiBXZWQsIEphbiAwMSwgMjAy
+MCBhdCAwNDo1NDozOFBNICswNTMwLCBKYWdhbiBUZWtpIHdyb3RlOgo+ID4gVGhlc2UgcGFuZWwg
+YmluZGluZ3MgYXJlIG93bmVkIGJ5IG1lLCBzbyB1cGRhdGVkIGFsbCBvZiB0aGVtIGludG8KPiA+
+IFlBTUwgRFQgc2NoZW1hLgo+ID4KPiA+IEFueSBpbnB1dHM/Cj4gVGhhbmtzIGZvciBkb2luZyB0
+aGUgY29udmVyc2lvbi4KPgo+IGR0X2JpbmRpbmdfY2hlY2sgd2FzIG5vdCBoYXBweToKPiBEb2N1
+bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9yb2NrdGVjaCxyazA3
+MGVyOTQyNy5leGFtcGxlLmR0LnlhbWw6IHBhbmVsOiAnYmFja2xpZ2h0JywgJ3BvcnQnIGRvIG5v
+dCBtYXRjaCBhbnkgb2YgdGhlIHJlZ2V4ZXM6ICdwaW5jdHJsLVswLTldKycKPiAgIERUQyAgICAg
+RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvZnJpZW5kbHlh
+cm0saGQ3MDJlLmV4YW1wbGUuZHQueWFtbAo+ICAgQ0hFQ0sgICBEb2N1bWVudGF0aW9uL2Rldmlj
+ZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9mcmllbmRseWFybSxoZDcwMmUuZXhhbXBsZS5k
+dC55YW1sCj4gRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwv
+ZnJpZW5kbHlhcm0saGQ3MDJlLmV4YW1wbGUuZHQueWFtbDogcGFuZWw6ICdiYWNrbGlnaHQnLCAn
+cG9ydCcgZG8gbm90IG1hdGNoIGFueSBvZiB0aGUgcmVnZXhlczogJ3BpbmN0cmwtWzAtOV0rJwo+
+IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL2ZyaWVuZGx5
+YXJtLGhkNzAyZS5leGFtcGxlLmR0LnlhbWw6IHBhbmVsOiBjb21wYXRpYmxlOiBBZGRpdGlvbmFs
+IGl0ZW1zIGFyZSBub3QgYWxsb3dlZCAoJ3NpbXBsZS1wYW5lbCcgd2FzIHVuZXhwZWN0ZWQpCj4g
+RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvZnJpZW5kbHlh
+cm0saGQ3MDJlLmV4YW1wbGUuZHQueWFtbDogcGFuZWw6IGNvbXBhdGlibGU6IFsnZnJpZW5kbHlh
+cm0saGQ3MDJlJywgJ3NpbXBsZS1wYW5lbCddIGlzIHRvbyBsb25nCj4gICBEVEMgICAgIERvY3Vt
+ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL3NpdHJvbml4LHN0Nzcw
+MS5leGFtcGxlLmR0LnlhbWwKPiBFcnJvcjogRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
+bmdzL2Rpc3BsYXkvcGFuZWwvc2l0cm9uaXgsc3Q3NzAxLmV4YW1wbGUuZHRzOjIyLjQyLTQzIHN5
+bnRheCBlcnJvcgo+IEZBVEFMIEVSUk9SOiBVbmFibGUgdG8gcGFyc2UgaW5wdXQgdHJlZQo+Cj4g
+UGxlYXNlIGZpeCBhbmQgY2hlY2sgdGhlIGJpbmRpbmdzIHVzaW5nIGR0X2JpbmRpbmdfY2hlY2sg
+YmVmb3JlCj4gcmVzdWJtaXQuCj4KPiBJIGhhZCB0byBpbnN0YWxsIGxpYnlhbWwtZGV2IChhcyBs
+ZWFzdCBJIHJlY2FsbCB0aGlzIHdhcyB0aGUgbmFtZSkKPiBiZWZvcmUgZHRfYmluZGluZ19jaGVj
+ayB3b3JrZWQgT0sgZm9yIG1lLgoKSSBkaWQgY2hlY2sgZHRfYmluZmluZ19jaGVjayB3aXRoIHRo
+aXMgc2VyaWVzLiBIZXJlIGlzIHRoZSBjb21wbGV0ZQpidWlsZCBsb2cgYW5kIHlvdSBjYW4gc2Vl
+IHRoZSBwYW5lbHMgcmVsYXRlZCB0byB0aGlzIHNlcmllcyBhcmUKY2hlY2tlZCBmaW5lLiBMZXQg
+bWUga25vdyBpZiBJIG1pc3MgYW55dGhpbmcgaGVyZT8KCuKCuSBtYWtlIGR0X2JpbmRpbmdfY2hl
+Y2sKYXJjaC94ODYvTWFrZWZpbGU6MTQ3OiBDT05GSUdfWDg2X1gzMiBlbmFibGVkIGJ1dCBubyBi
+aW51dGlscyBzdXBwb3J0CiAgU0NIRU1BICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
+Z3MvcHJvY2Vzc2VkLXNjaGVtYS55YW1sCi9ob21lL2phZ2FuL3dvcmsvY29kZS9kcm0tbWlzYy9E
+b2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZmlybXdhcmUvaW50ZWwsaXhwNHh4LW5l
+dHdvcmstcHJvY2Vzc2luZy1lbmdpbmUueWFtbDoKaWdub3JpbmcsIGVycm9yIGluIHNjaGVtYTog
+cHJvcGVydGllczogcmVnOiBtaW5JdGVtcwp3YXJuaW5nOiBubyBzY2hlbWEgZm91bmQgaW4gZmls
+ZToKRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Zpcm13YXJlL2ludGVsLGl4cDR4
+eC1uZXR3b3JrLXByb2Nlc3NpbmctZW5naW5lLnlhbWwKL2hvbWUvamFnYW4vd29yay9jb2RlL2Ry
+bS1taXNjL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9pbnRlcnJ1cHQtY29udHJv
+bGxlci9hcm0sZ2ljLXYzLnlhbWw6Cmlnbm9yaW5nLCBlcnJvciBpbiBzY2hlbWE6IHByb3BlcnRp
+ZXM6IHBwaS1wYXJ0aXRpb25zOgpwYXR0ZXJuUHJvcGVydGllczogXmludGVycnVwdC1wYXJ0aXRp
+b24tWzAtOV0rJAp3YXJuaW5nOiBubyBzY2hlbWEgZm91bmQgaW4gZmlsZToKRG9jdW1lbnRhdGlv
+bi9kZXZpY2V0cmVlL2JpbmRpbmdzL2ludGVycnVwdC1jb250cm9sbGVyL2FybSxnaWMtdjMueWFt
+bAovaG9tZS9qYWdhbi93b3JrL2NvZGUvZHJtLW1pc2MvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVl
+L2JpbmRpbmdzL25ldC9zbnBzLGR3bWFjLnlhbWw6Cmlnbm9yaW5nLCBlcnJvciBpbiBzY2hlbWE6
+IGFsbE9mOiAyOiB0aGVuCndhcm5pbmc6IG5vIHNjaGVtYSBmb3VuZCBpbiBmaWxlOgpEb2N1bWVu
+dGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbmV0L3NucHMsZHdtYWMueWFtbAovaG9tZS9qYWdh
+bi93b3JrL2NvZGUvZHJtLW1pc2MvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3Jl
+Z3VsYXRvci9maXhlZC1yZWd1bGF0b3IueWFtbDoKaWdub3JpbmcsIGVycm9yIGluIHNjaGVtYTog
+cHJvcGVydGllczogY29tcGF0aWJsZTogZW51bTogMAp3YXJuaW5nOiBubyBzY2hlbWEgZm91bmQg
+aW4gZmlsZToKRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3JlZ3VsYXRvci9maXhl
+ZC1yZWd1bGF0b3IueWFtbAovaG9tZS9qYWdhbi93b3JrL2NvZGUvZHJtLW1pc2MvRG9jdW1lbnRh
+dGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3Jpc2N2L2NwdXMueWFtbDoKaWdub3JpbmcsIGVycm9y
+IGluIHNjaGVtYTogcHJvcGVydGllczogdGltZWJhc2UtZnJlcXVlbmN5OiB0eXBlCndhcm5pbmc6
+IG5vIHNjaGVtYSBmb3VuZCBpbiBmaWxlOgpEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
+Z3MvcmlzY3YvY3B1cy55YW1sCiAgQ0hLRFQgICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmlu
+ZGluZ3MvYXJtL3BtdS55YW1sCiAgQ0hLRFQgICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmlu
+ZGluZ3MvYXJtL3JvY2tjaGlwLnlhbWwKICBDSEtEVCAgIERvY3VtZW50YXRpb24vZGV2aWNldHJl
+ZS9iaW5kaW5ncy9hcm0vc2lyZi55YW1sCiAgQ0hLRFQgICBEb2N1bWVudGF0aW9uL2RldmljZXRy
+ZWUvYmluZGluZ3MvYXJtL3Z0ODUwMC55YW1sCiAgQ0hLRFQgICBEb2N1bWVudGF0aW9uL2Rldmlj
+ZXRyZWUvYmluZGluZ3MvYXJtL2NhbHhlZGEueWFtbAogIENIS0RUICAgRG9jdW1lbnRhdGlvbi9k
+ZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9hdG1lbC1hdDkxLnlhbWwKICBDSEtEVCAgIERvY3VtZW50
+YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9hcm0vc3VueGkueWFtbAogIENIS0RUICAgRG9jdW1l
+bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2FybS94aWxpbngueWFtbAogIENIS0RUICAgRG9j
+dW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9tb3hhcnQueWFtbAogIENIS0RUICAg
+RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9zdG0zMi9zdG0zMi55YW1sCiAg
+Q0hLRFQgICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvYXJtL3NwZWFyLnlhbWwK
+ICBDSEtEVCAgIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9hcm0vYWwsYWxwaW5l
+LnlhbWwKICBDSEtEVCAgIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9hcm0vZGln
+aWNvbG9yLnlhbWwKICBDSEtEVCAgIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9h
+cm0vYWx0ZXJhL3NvY2ZwZ2EtY2xrLW1hbmFnZXIueWFtbAogIENIS0RUICAgRG9jdW1lbnRhdGlv
+bi9kZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9hbHRlcmEueWFtbAogIENIS0RUICAgRG9jdW1lbnRh
+dGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9iaXRtYWluLnlhbWwKICBDSEtEVCAgIERvY3Vt
+ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9hcm0vbnhwL2xwYzMyeHgueWFtbAogIENIS0RU
+ICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9mc2wueWFtbAogIENIS0RU
+ICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9heHhpYS55YW1sCiAgQ0hL
+RFQgICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvYXJtL3BzY2kueWFtbAogIENI
+S0RUICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9xY29tLnlhbWwKICBD
+SEtEVCAgIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9hcm0venRlLnlhbWwKICBD
+SEtEVCAgIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9hcm0vaW50ZWwtaXhwNHh4
+LnlhbWwKICBDSEtEVCAgIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9hcm0vbWVk
+aWF0ZWsueWFtbAogIENIS0RUICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Fy
+bS9zb2Npb25leHQvbWlsYmVhdXQueWFtbAogIENIS0RUICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0
+cmVlL2JpbmRpbmdzL2FybS90aS9uc3BpcmUueWFtbAogIENIS0RUICAgRG9jdW1lbnRhdGlvbi9k
+ZXZpY2V0cmVlL2JpbmRpbmdzL2FybS90aS90aSxkYXZpbmNpLnlhbWwKICBDSEtEVCAgIERvY3Vt
+ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9hcm0vcmVhbHRlay55YW1sCiAgQ0hLRFQgICBE
+b2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvYXJtL3JkYS55YW1sCiAgQ0hLRFQgICBE
+b2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvYXJtL2FjdGlvbnMueWFtbAogIENIS0RU
+ICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9sMmMyeDAueWFtbAogIENI
+S0RUICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9yZW5lc2FzLnlhbWwK
+ICBDSEtEVCAgIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9hcm0vdGVncmEueWFt
+bAogIENIS0RUICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9hbWxvZ2lj
+LnlhbWwKICBDSEtEVCAgIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9hcm0vYW1s
+b2dpYy9hbWxvZ2ljLG1lc29uLWd4LWFvLXNlY3VyZS55YW1sCiAgQ0hLRFQgICBEb2N1bWVudGF0
+aW9uL2RldmljZXRyZWUvYmluZGluZ3MvYXJtL3N0aS55YW1sCiAgQ0hLRFQgICBEb2N1bWVudGF0
+aW9uL2RldmljZXRyZWUvYmluZGluZ3MvYXJtL3ByaW1lY2VsbC55YW1sCiAgQ0hLRFQgICBEb2N1
+bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvYXJtL2NwdXMueWFtbAogIENIS0RUICAgRG9j
+dW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2J1cy9hbGx3aW5uZXIsc3VuNTBpLWE2NC1k
+ZTIueWFtbAogIENIS0RUICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2J1cy9h
+bGx3aW5uZXIsc3VuOGktYTIzLXJzYi55YW1sCiAgQ0hLRFQgICBEb2N1bWVudGF0aW9uL2Rldmlj
+ZXRyZWUvYmluZGluZ3MvY2xvY2svZml4ZWQtZmFjdG9yLWNsb2NrLnlhbWwKICBDSEtEVCAgIERv
+Y3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9jbG9jay9taWxiZWF1dC1jbG9jay55YW1s
+CiAgQ0hLRFQgICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvY2xvY2svYWxsd2lu
+bmVyLHN1bjRpLWExMC1jY3UueWFtbAogIENIS0RUICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVl
+L2JpbmRpbmdzL2Nsb2NrL2lteDhtbi1jbG9jay55YW1sCiAgQ0hLRFQgICBEb2N1bWVudGF0aW9u
+L2RldmljZXRyZWUvYmluZGluZ3MvY2xvY2svZml4ZWQtY2xvY2sueWFtbAogIENIS0RUICAgRG9j
+dW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2NyeXB0by9hbGx3aW5uZXIsc3VuNGktYTEw
+LWNyeXB0by55YW1sCiAgQ0hLRFQgICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mv
+ZGlzcGxheS9wYW5lbC9hbXBpcmUsYW0tNDgwMjcyaDN0bXF3LXQwMWgueWFtbAogIENIS0RUICAg
+RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvaW5ub2x1eCxl
+ZTEwMWlhLTAxZC55YW1sCiAgQ0hLRFQgICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
+Z3MvZGlzcGxheS9wYW5lbC9wZGEsOTEtMDAxNTYtYTAueWFtbAogIENIS0RUICAgRG9jdW1lbnRh
+dGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvc2l0cm9uaXgsc3Q3NzAxLnlh
+bWwKICBDSEtEVCAgIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3Bh
+bmVsL25lYyxubDgwNDhobDExLnlhbWwKICBDSEtEVCAgIERvY3VtZW50YXRpb24vZGV2aWNldHJl
+ZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL2ZyaWVuZGx5YXJtLGhkNzAyZS55YW1sCiAgQ0hLRFQg
+ICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9iYW5hbmFw
+aSxzMDcwd3YyMC1jdDE2LnlhbWwKICBDSEtEVCAgIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
+aW5kaW5ncy9kaXNwbGF5L3BhbmVsL2ZlaXlhbmcsZnkwNzAyNGRpMjZhMzBkLnlhbWwKICBDSEtE
+VCAgIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL2RsYyxk
+bGMwNzAweXpnLTEueWFtbAogIENIS0RUICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
+bmdzL2Rpc3BsYXkvcGFuZWwva29lLHR4MzFkMjAwdm0wYmFhLnlhbWwKICBDSEtEVCAgIERvY3Vt
+ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL21pdHN1YmlzaGksYWEx
+MjF0ZDAxLnlhbWwKICBDSEtEVCAgIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9k
+aXNwbGF5L3BhbmVsL3NvbnksYWN4NDI0YWtwLnlhbWwKICBDSEtEVCAgIERvY3VtZW50YXRpb24v
+ZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL2xvZ2ljcGQsdHlwZTI4LnlhbWwKICBD
+SEtEVCAgIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL3Rm
+YyxzOTcwMHJ0d3Y0M3RyLTAxYi55YW1sCiAgQ0hLRFQgICBEb2N1bWVudGF0aW9uL2RldmljZXRy
+ZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC90aSxuc3BpcmUueWFtbAogIENIS0RUICAgRG9jdW1l
+bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvdHBvLHRwZzExMC55YW1s
+CiAgQ0hLRFQgICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5l
+bC9yb2NrdGVjaCxyazA3MGVyOTQyNy55YW1sCiAgQ0hLRFQgICBEb2N1bWVudGF0aW9uL2Rldmlj
+ZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9hcm1hZGV1cyxzdDA3MDAtYWRhcHQueWFtbAog
+IENIS0RUICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwv
+cmFzcGJlcnJ5cGksN2luY2gtdG91Y2hzY3JlZW4ueWFtbAogIENIS0RUICAgRG9jdW1lbnRhdGlv
+bi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvbHZkcy55YW1sCiAgQ0hLRFQgICBE
+b2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9wYW5lbC1jb21t
+b24ueWFtbAogIENIS0RUICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3Bs
+YXkvcGFuZWwvc2dkLGdrdHc3MHNkYWU0c2UueWFtbAogIENIS0RUICAgRG9jdW1lbnRhdGlvbi9k
+ZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvbWl0c3ViaXNoaSxhYTEwNHhkMTIueWFt
+bAogIENIS0RUICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFu
+ZWwvcm9uYm8scmIwNzBkMzAueWFtbAogIENIS0RUICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVl
+L2JpbmRpbmdzL2Rpc3BsYXkvYW1sb2dpYyxtZXNvbi12cHUueWFtbAogIENIS0RUICAgRG9jdW1l
+bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvZHNpLWNvbnRyb2xsZXIueWFtbAog
+IENIS0RUICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdl
+L2x2ZHMtY29kZWMueWFtbAogIENIS0RUICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
+bmdzL2Rpc3BsYXkvYW1sb2dpYyxtZXNvbi1kdy1oZG1pLnlhbWwKICBDSEtEVCAgIERvY3VtZW50
+YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3NpbXBsZS1mcmFtZWJ1ZmZlci55YW1s
+CiAgQ0hLRFQgICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9hbGx3
+aW5uZXIsc3VuNmktYTMxLW1pcGktZHNpLnlhbWwKICBDSEtEVCAgIERvY3VtZW50YXRpb24vZGV2
+aWNldHJlZS9iaW5kaW5ncy9kbWEvZG1hLXJvdXRlci55YW1sCiAgQ0hLRFQgICBEb2N1bWVudGF0
+aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZG1hL2RtYS1jb250cm9sbGVyLnlhbWwKICBDSEtEVCAg
+IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kbWEvYWxsd2lubmVyLHN1bjUwaS1h
+NjQtZG1hLnlhbWwKICBDSEtEVCAgIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9k
+bWEvYWxsd2lubmVyLHN1bjRpLWExMC1kbWEueWFtbAogIENIS0RUICAgRG9jdW1lbnRhdGlvbi9k
+ZXZpY2V0cmVlL2JpbmRpbmdzL2RtYS9kbWEtY29tbW9uLnlhbWwKICBDSEtEVCAgIERvY3VtZW50
+YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kbWEvYWxsd2lubmVyLHN1bjZpLWEzMS1kbWEueWFt
+bAogIENIS0RUICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2RzcC9mc2wsZHNw
+LnlhbWwKICBDSEtEVCAgIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9leGFtcGxl
+LXNjaGVtYS55YW1sCiAgQ0hLRFQgICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mv
+ZmlybXdhcmUvaW50ZWwsaXhwNHh4LW5ldHdvcmstcHJvY2Vzc2luZy1lbmdpbmUueWFtbAovaG9t
+ZS9qYWdhbi93b3JrL2NvZGUvZHJtLW1pc2MvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
+bmdzL2Zpcm13YXJlL2ludGVsLGl4cDR4eC1uZXR3b3JrLXByb2Nlc3NpbmctZW5naW5lLnlhbWw6
+CnByb3BlcnRpZXM6cmVnOm1pbkl0ZW1zOiBGYWxzZSBzY2hlbWEgZG9lcyBub3QgYWxsb3cgMwov
+aG9tZS9qYWdhbi93b3JrL2NvZGUvZHJtLW1pc2MvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
+bmRpbmdzL2Zpcm13YXJlL2ludGVsLGl4cDR4eC1uZXR3b3JrLXByb2Nlc3NpbmctZW5naW5lLnlh
+bWw6CnByb3BlcnRpZXM6cmVnOm1heEl0ZW1zOiBGYWxzZSBzY2hlbWEgZG9lcyBub3QgYWxsb3cg
+MwpEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvTWFrZWZpbGU6MTI6IHJlY2lwZSBm
+b3IgdGFyZ2V0CidEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZmlybXdhcmUvaW50
+ZWwsaXhwNHh4LW5ldHdvcmstcHJvY2Vzc2luZy1lbmdpbmUuZXhhbXBsZS5kdHMnCmZhaWxlZApt
+YWtlWzFdOiAqKiogW0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9maXJtd2FyZS9p
+bnRlbCxpeHA0eHgtbmV0d29yay1wcm9jZXNzaW5nLWVuZ2luZS5leGFtcGxlLmR0c10KRXJyb3Ig
+MQpNYWtlZmlsZToxMjYzOiByZWNpcGUgZm9yIHRhcmdldCAnZHRfYmluZGluZ19jaGVjaycgZmFp
+bGVkCm1ha2U6ICoqKiBbZHRfYmluZGluZ19jaGVja10gRXJyb3IgMgpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
