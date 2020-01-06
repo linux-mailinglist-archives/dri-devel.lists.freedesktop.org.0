@@ -1,54 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31A291310CC
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 11:49:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59B0E1310E1
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 11:58:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0323F6E24E;
-	Mon,  6 Jan 2020 10:49:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC51A6E255;
+	Mon,  6 Jan 2020 10:58:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa42.google.com (mail-vk1-xa42.google.com
- [IPv6:2607:f8b0:4864:20::a42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A832F6E24E;
- Mon,  6 Jan 2020 10:49:12 +0000 (UTC)
-Received: by mail-vk1-xa42.google.com with SMTP id c129so12366937vkh.7;
- Mon, 06 Jan 2020 02:49:12 -0800 (PST)
+Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com
+ [IPv6:2607:f8b0:4864:20::e42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7710C6E255;
+ Mon,  6 Jan 2020 10:58:01 +0000 (UTC)
+Received: by mail-vs1-xe42.google.com with SMTP id f8so31333079vsq.8;
+ Mon, 06 Jan 2020 02:58:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XFzoZ86uEVjKWHiIx7n2HpYErMeQnxrhPD0oWb4wVqg=;
- b=WfWGYz/RCLTMwYaL53SGSjgLV/BZVFTf8Hb1W6MeEDhZLlbxlTOclpavebEKZo+Ouk
- vucaQKlXWfG9VXqw3WSM9fFrPH0i1ATOv5CdsFE9IleLn7p0nf8anBRhZ8plRZnRfSpl
- yRBzIpzcxcPx1Eymy9tYDLrtnX92vNWAU5fD4a8Oa58sTGy6kGvJxdxpbs4fYS+Ik2zO
- WurZZKXjWBTPzBB0Sd38L7GtvWt50cNfqP3LrRKRPYfpu2SCbaKcZdiBD4iyskUscUWK
- gQ/j2Uo+8mR0LzlegzrTGfO0T3QtDlNw0vTwkseEk/SlZ/GH4n9GHvc/YhvV2eZXo4bN
- ityA==
+ :cc; bh=iz48PIJknU2j/A4zRHc/Rgg36rOPCVo1fXVtuRuysh0=;
+ b=RfbOUFacPPh2IC/QVAVcCcFV4ZIDaLQYpHmb1lF3qUmFz3qo7AOG5AtHg1TtJFXdke
+ yLnJwxHe/6VGC/9EXUxJ+QjepIhJviuughwTLnXtgZ3DU8xg/sH8qXnZQqDPtCk06FFV
+ BLWCwLB2l+8h1R1mncjklU5vwAryEVaF5tko/JFGnX3k5K8e+qY6P9/R5w2FsmczJyRj
+ +9h5v5qZMABAbDKRBWy/Z2aKq8tDVTwYsPcJpRpJV4xFtOE/9DA5j6jI9BquVLv1jGWk
+ ADKFJYxXEDqxJqm600HrfHOcQUwLyff0bhoKrC8uCW0b7lLlnFj4nYl+3au9/QLXXfQa
+ q5Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=XFzoZ86uEVjKWHiIx7n2HpYErMeQnxrhPD0oWb4wVqg=;
- b=mzm5wprqkIPSK7WqWI+xFMSnrTGiJ0HTMccJwyizKL/bsOlSJV6bzkVG9+701BCRYU
- jRiYEVdz66W4AeULckADteiwDHm12c7jMIaEaJvxdd0qxtWmxGX3BI8hQ/q4vZwRv0Jw
- B6fB8mE3WRSiD1LbHMwQL7nl7f080jsYj0QtL5mdgqBqsuvyRIwOzijiCNmp9J+rxvFQ
- ncgD7C1f7wbbcUGHyzgXtaZyUwn6KSosj9URSQYvMNH67ezSg638qb4eUza6iqc1Q4Hx
- vdcddA+Q9WAS9JNGRoDU7tvzzx4G9YIRx7SdhuaNfLGKKbbZ6fTc7nLUTS910wGF8hUi
- gmIQ==
-X-Gm-Message-State: APjAAAVmvmD6xV6WXLZS0+iEtsy4WzX+5kI/kwaH+eEx/MuP0qtZw9Vy
- mRESL/yfZ2IfCZrHYx7GbxluPFbZBo0mUMT8F4M=
-X-Google-Smtp-Source: APXvYqxOZUpCU+5AFy4RLqhuDjx2AX6pxI9Zqbzh0mrMGe9Q/Xewjj0d9R3JxH1tbh0/Jpc5LMD095MmnifN/SM3DZ4=
-X-Received: by 2002:a1f:1806:: with SMTP id 6mr56157586vky.85.1578307751707;
- Mon, 06 Jan 2020 02:49:11 -0800 (PST)
+ bh=iz48PIJknU2j/A4zRHc/Rgg36rOPCVo1fXVtuRuysh0=;
+ b=ojJ2wuv6/c6FLl6xkcsedU/uSI9ylyiTE4zQ243DuUZ0WwsKORgkVyVLgPY/2xWIUf
+ NS4QwdX+HWNc1x1amJOYT1JTF0hYfBhZuLO5H4aZRsqJ6O12j/2fCvIyTiwMXKkEVQV7
+ 2LF9Z8pPsX8PZZB8Z4qnotg4v/lCUOF93F2bjfV0RhFAiafAi5EssudZPoMhzBl5nMER
+ MLiTtPBb+nJyVARXnInf+CwuVbbP2uwhviJOnKAkQOcV09fKeBE12/NYNNJ9UDyx6/IJ
+ aNzRNUUrH78LH6iMF2SQogXc+Wg8a194F63F6XMRy4/vQECQCAgLV99CCRhbzzXPcldO
+ Rihw==
+X-Gm-Message-State: APjAAAWSlTgwxGtNmqkqWPykIz0LYWCLxqQqAve4tE0Il2zxEFchiewi
+ EKJb/iGJNk21HCGDVnOpjs3AAjPkDKSc3o6htgQ=
+X-Google-Smtp-Source: APXvYqzZYEYA6D40qqN8qfRYSNveoTvP+3l+AWVJQQU5FusthP8LMTWjWcFH4nhlUSEsQov459UNeISOmykUZ+o87LE=
+X-Received: by 2002:a05:6102:535:: with SMTP id
+ m21mr51039090vsa.95.1578308280617; 
+ Mon, 06 Jan 2020 02:58:00 -0800 (PST)
 MIME-Version: 1.0
 References: <20200102100230.420009-1-christian.gmeiner@gmail.com>
- <20200102100230.420009-6-christian.gmeiner@gmail.com>
- <82299ef95e44190d9bcea29bacb5651f3dc75b64.camel@pengutronix.de>
-In-Reply-To: <82299ef95e44190d9bcea29bacb5651f3dc75b64.camel@pengutronix.de>
+ <20200102100230.420009-3-christian.gmeiner@gmail.com>
+ <5cd1dc11df43d86d9db0dc2520de9b2e839ea7cc.camel@pengutronix.de>
+In-Reply-To: <5cd1dc11df43d86d9db0dc2520de9b2e839ea7cc.camel@pengutronix.de>
 From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Mon, 6 Jan 2020 11:49:00 +0100
-Message-ID: <CAH9NwWfS2GwL1kTYOOp8tnvCCXkMBQuOarBjiWXOQELWKPEM8A@mail.gmail.com>
-Subject: Re: [PATCH 5/6] drm/etnaviv: update hwdb selection logic
+Date: Mon, 6 Jan 2020 11:57:49 +0100
+Message-ID: <CAH9NwWddNNc+2rRsntm+_eYF0S9uwC0kTszpPysbzmkc4dNuNA@mail.gmail.com>
+Subject: Re: [PATCH 2/6] drm/etnaviv: determine product, customer and eco id
 To: Lucas Stach <l.stach@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,45 +75,76 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Lucas
 
-Am Mo., 6. Jan. 2020 um 11:15 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
+Am Mo., 6. Jan. 2020 um 11:03 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
 >
 > On Do, 2020-01-02 at 11:02 +0100, Christian Gmeiner wrote:
-> > Take product id, customer id and eco id into account. If that
-> > delivers no match try a search for model and revision.
+> > They will be used for extended HWDB support. The eco id logic was taken
+> > from galcore kernel driver sources.
 > >
 > > Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
 > > ---
-> >  drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 19 ++++++++++++++++++-
-> >  1 file changed, 18 insertions(+), 1 deletion(-)
+> >  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 17 +++++++++++++++++
+> >  drivers/gpu/drm/etnaviv/etnaviv_gpu.h |  6 +++---
+> >  2 files changed, 20 insertions(+), 3 deletions(-)
 > >
-> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-> > index eb0f3eb87ced..d1744f1b44b1 100644
-> > --- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-> > @@ -44,9 +44,26 @@ bool etnaviv_fill_identity_from_hwdb(struct etnaviv_gpu *gpu)
-> >       struct etnaviv_chip_identity *ident = &gpu->identity;
-> >       int i;
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > index d47d1a8e0219..253301be9e95 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > @@ -321,6 +321,18 @@ static void etnaviv_hw_specs(struct etnaviv_gpu *gpu)
+> >               gpu->identity.varyings_count -= 1;
+> >  }
 > >
-> > +     /* accurate match */
-> >       for (i = 0; i < ARRAY_SIZE(etnaviv_chip_identities); i++) {
-> >               if (etnaviv_chip_identities[i].model == ident->model &&
-> > -                 etnaviv_chip_identities[i].revision == ident->revision) {
-> > +                 etnaviv_chip_identities[i].revision == ident->revision &&
-> > +                 etnaviv_chip_identities[i].product_id == ident->product_id &&
+> > +static void etnaviv_hw_eco_id(struct etnaviv_gpu *gpu)
+> > +{
+> > +     const u32 chipDate = gpu_read(gpu, VIVS_HI_CHIP_DATE);
+> > +     gpu->identity.eco_id = gpu_read(gpu, VIVS_HI_CHIP_ECO_ID);
+> > +
+> > +     if (etnaviv_is_model_rev(gpu, GC1000, 0x5037) && (chipDate == 0x20120617))
+> > +             gpu->identity.eco_id = 1;
+> > +
+> > +     if (etnaviv_is_model_rev(gpu, GC320, 0x5303) && (chipDate == 0x20140511))
+> > +             gpu->identity.eco_id = 1;
 >
-> Why not simply make this:
-> (etnaviv_chip_identities[i].product_id == ident->product_id ||
-> etnaviv_chip_identities[i].product_id == ~0U)
-> and similar for customer and eco ID?
->
-> With this we don't need two different walks through the HWDB, as long
-> as the more specific entries in the DB are ordered to the front of the
-> array.
+> I'm not sure if those two checks warrant a separate function. Maybe
+> just place them besides the other ID fixups?
 >
 
-Works for me too.. will be change in v2.
+This is almost a 1:1 copy of _GetEcoID(..) but will try to move the fixups.
 
--- 
+
+> > +}
+> > +
+> >  static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
+> >  {
+> >       u32 chipIdentity;
+> > @@ -362,6 +374,8 @@ static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
+> >                       }
+> >               }
+> >
+> > +             gpu->identity.product_id = gpu_read(gpu, VIVS_HI_CHIP_PRODUCT_ID);
+> > +
+> >               /*
+> >                * NXP likes to call the GPU on the i.MX6QP GC2000+, but in
+> >                * reality it's just a re-branded GC3000. We can identify this
+> > @@ -375,6 +389,9 @@ static void etnaviv_hw_identify(struct etnaviv_gpu *gpu)
+> >               }
+> >       }
+> >
+> > +     etnaviv_hw_eco_id(gpu);
+> > +     gpu->identity.customer_id = gpu_read(gpu, VIVS_HI_CHIP_CUSTOMER_ID);
+>
+> I don't like this scattering of identity register reads. Please move
+> all of those reads to the else clause where we currently read
+> model/rev. I doubt that the customer ID register is available on the
+> really early cores, that only have the VIVS_HI_CHIP_IDENTITY register.
+>
+
+There is feature bit for it: chipMinorFeatures5_HAS_PRODUCTID
+Will change the code to make use of it. Shall I still put it in the
+else clause then?
+
+--
 greets
 --
 Christian Gmeiner, MSc
