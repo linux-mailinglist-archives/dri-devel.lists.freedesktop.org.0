@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56C5113142C
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 15:56:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90DF6131464
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 16:06:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A79F6E478;
-	Mon,  6 Jan 2020 14:56:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A303896C7;
+	Mon,  6 Jan 2020 15:06:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
  [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09B796E471
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2020 14:56:33 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id m24so15240367wmc.3
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Jan 2020 06:56:32 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 346B56E479
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2020 15:06:07 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id t14so15583148wmi.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Jan 2020 07:06:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:references:from:autocrypt:organization:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=subject:to:cc:references:from:autocrypt:organization:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=/ipX5LKq9hyY23iIPVEUdWqCt2PENe7Cevsl5imsIzY=;
- b=vtD2Ch9bvbOqCu0/8tj4Li+Br9KjSbSnPfzHjkI/PVHPJU2IwNs1zPgERh1GlMP462
- 28VXkAZo4UW+naReEgqwkCYvnZf9vYmhECUD5o2QrWUaWcT2eZl2QlHlBzZvFGDQuZtx
- Sp6E2MxGQU00hxeA7hLApQgr2nViKSXBnF65yvNTqS4HRRYQvhQ0L7IJA36dF3evHhmx
- eeIZyzm9Z5G9lOiynvZKhEZAIZtfA03tzXjUFKzxWKD6M2pgfmP1yXp7EE3Q27sIGXKJ
- lrv2dkpyE9Sjej6M9IAoAngQrVEDvRppJm9m5M55moKIPawHAKa8+dxg5KgA5xGQk8mq
- UbUA==
+ bh=4xBi7IZzhoIF7KdHTNyDKmphKN498FgJ/ek10YTA3A8=;
+ b=qqQ2bLTHuAXiOdrNVhPPLTlk+pnB+OpF9gok5Mr1dhmJDvESZlMyGicHDLnhwjI2BP
+ kMedKprUXSoSVUUejyvoTIwI9mnjhzTisEv0MlB7JWfrqHnJdH2eD1ac5Op6b/mPeNRX
+ q2V761mB7wDGKdQ/wi+sX8YrUUSO9AIeCoAfUxeNfYudL9FOATxfRl48tgE2ejJNcBkk
+ irr0ehoxXjM7IfsfbSNo1o5bVfeBHUkt/axo5/J6UaIju1AnbT4HWAMBcPTILlov3Y8S
+ TT+Skw4C2wvYD4oOfK0kqty1v6g4axoL0urwyrsl8I+NBxCUpDiqrocy81uuuY3D4Clq
+ go6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:autocrypt
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=/ipX5LKq9hyY23iIPVEUdWqCt2PENe7Cevsl5imsIzY=;
- b=YE4l6EmMuw5wI5uCwuoZ46OOYu+fHg4qZLLs/XZ4W3oprT3QPbezzKKbT/2X5oWVb7
- wRhSl/C0mVgn9mF33QNzmkdfJq6CVeGU7d4OKEB9yTsXjPXaZrJN/rFANYXbey/L3IPf
- 7LUakFZu4f7QwMy4wmEf23zbHVtla5JAdSuKop3XKZsrYlmw9qQKtnoP+0Epc28oR1D2
- 0HKbl7y1baQDOaiTH+oaplNh8nemwmeHHYcVzPmDTZURJz5xCsJoGWj9lT1aNGopEWKv
- OnMrEE+wcpj39UvNaB0len1Qf0BRM/wzIL2n2FUQh/B99vTVc2quu4oFfkabvnDVrJBs
- Uysw==
-X-Gm-Message-State: APjAAAWPfl7mQtYrBTIBqtpXUyY4+plMpCqZG6La9aT+TyxmEISaEtj2
- WUGJsenOvEwFzBkIqJzoPYyTVQ==
-X-Google-Smtp-Source: APXvYqxHhXICRcq4Kg8ww9Dx6GDlzjdoIEc7u9w23jzDha7CUOvXOu40wW7zI3nsWtBoE5y9tYuU3g==
-X-Received: by 2002:a1c:9c87:: with SMTP id f129mr33929322wme.26.1578322591595; 
- Mon, 06 Jan 2020 06:56:31 -0800 (PST)
+ bh=4xBi7IZzhoIF7KdHTNyDKmphKN498FgJ/ek10YTA3A8=;
+ b=fBltafBQq2Iv7kdaB9rpF/ykjTbhlarc5lrJQzoZdS8p9g8O1lQhoq4Kf9MrTpmLJp
+ d+CU9z0HmzzW7cngmmF2H+MWxu3yRAR4zOQIb9QCkc45ytu8p87nc+PfHZQ0cQKbc2Oz
+ JByeRbGsFp/Cl7/3WW8AlQnjx63gIbHv00RLhn39fYQi7hXbjAajrTGlmyDvcjOObQJd
+ mhwjYl1k5lb1rDZZgc8BTSjPZL0VAkgL+GwXM66z4VK8+cPLYCNpXiQdMOFT3p+99pDD
+ yek4aQzB27IfqFJOzY671hhlwpALP89nd9sat9tjmfTBb9Dqho6EogWtT2olp400qL21
+ iiwg==
+X-Gm-Message-State: APjAAAW0uCJ2cx1depMSUije/5x0XEB5rUGYeUyRRCyW5YUqAl7Pl8oP
+ SW5UuacgM8eqkF05q+xcbPRLqw==
+X-Google-Smtp-Source: APXvYqyCCcO+Jy3/h9qJXcbUHtKn+wTka58tVlU/uazUhcU5IZBCZGWZsosooWkC1fqxwTZFStBQGw==
+X-Received: by 2002:a7b:c389:: with SMTP id s9mr35024175wmj.7.1578323165746;
+ Mon, 06 Jan 2020 07:06:05 -0800 (PST)
 Received: from [10.1.2.12] (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr.
  [90.63.244.31])
- by smtp.gmail.com with ESMTPSA id p17sm73636851wrx.20.2020.01.06.06.56.30
+ by smtp.gmail.com with ESMTPSA id i11sm72950192wrs.10.2020.01.06.07.06.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Jan 2020 06:56:31 -0800 (PST)
-Subject: Re: [PATCH] drm: meson: Remove unneeded semicolon
-To: zhengbin <zhengbin13@huawei.com>, airlied@linux.ie, daniel@ffwll.ch,
- khilman@baylibre.com, linux-amlogic@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
-References: <1576468701-69717-1-git-send-email-zhengbin13@huawei.com>
+ Mon, 06 Jan 2020 07:06:05 -0800 (PST)
+Subject: Re: [PATCH v24 0/2] drm/bridge: PS8640 MIPI-to-eDP bridge
+To: Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ linux-kernel@vger.kernel.org
+References: <20191230090419.137141-1-enric.balletbo@collabora.com>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -105,12 +104,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  zR8QplXA5kogS4kLe/7/JmlDMO8Zgm9vKLHSUeesLOrjdZ59EcjldNNBszRZQgEhwaarfz46
  BSwxi7g3Mu7u5kUByanqHyA=
 Organization: Baylibre
-Message-ID: <cbc6f0b7-7245-1010-f9d5-5e539c4c0b99@baylibre.com>
-Date: Mon, 6 Jan 2020 15:56:30 +0100
+Message-ID: <94d3c3dd-1e3a-39f5-6180-04055da1dc70@baylibre.com>
+Date: Mon, 6 Jan 2020 16:06:04 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <1576468701-69717-1-git-send-email-zhengbin13@huawei.com>
+In-Reply-To: <20191230090419.137141-1-enric.balletbo@collabora.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -124,60 +123,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@siol.net>, drinkcat@chromium.org,
+ Jitao Shi <jitao.shi@mediatek.com>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Ulrich Hecht <uli@fpond.eu>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, hsinyi@chromium.org,
+ matthias.bgg@gmail.com, Collabora Kernel ML <kernel@collabora.com>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/12/2019 04:58, zhengbin wrote:
-> Fixes coccicheck warning:
-> 
-> drivers/gpu/drm/meson/meson_crtc.c:360:3-4: Unneeded semicolon
-> drivers/gpu/drm/meson/meson_plane.c:181:2-3: Unneeded semicolon
-> 
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: zhengbin <zhengbin13@huawei.com>
-> ---
->  drivers/gpu/drm/meson/meson_crtc.c  | 2 +-
->  drivers/gpu/drm/meson/meson_plane.c | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/meson/meson_crtc.c b/drivers/gpu/drm/meson/meson_crtc.c
-> index 57ae1c1..eefefc4 100644
-> --- a/drivers/gpu/drm/meson/meson_crtc.c
-> +++ b/drivers/gpu/drm/meson/meson_crtc.c
-> @@ -357,7 +357,7 @@ void meson_crtc_irq(struct meson_drm *priv)
->  					    MESON_CANVAS_WRAP_NONE,
->  					    MESON_CANVAS_BLKMODE_LINEAR,
->  					    MESON_CANVAS_ENDIAN_SWAP64);
-> -		};
-> +		}
-> 
->  		writel_relaxed(priv->viu.vd1_if0_gen_reg,
->  				priv->io_base + meson_crtc->viu_offset +
-> diff --git a/drivers/gpu/drm/meson/meson_plane.c b/drivers/gpu/drm/meson/meson_plane.c
-> index ed54322..b96fa43 100644
-> --- a/drivers/gpu/drm/meson/meson_plane.c
-> +++ b/drivers/gpu/drm/meson/meson_plane.c
-> @@ -178,7 +178,7 @@ static void meson_plane_atomic_update(struct drm_plane *plane,
->  		priv->viu.osd1_blk0_cfg[0] |= OSD_BLK_MODE_16 |
->  					      OSD_COLOR_MATRIX_16_RGB565;
->  		break;
-> -	};
-> +	}
-> 
->  	/* Default scaler parameters */
->  	vsc_bot_rcv_num = 0;
-> --
-> 2.7.4
-> 
+Hi,
 
-Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+On 30/12/2019 10:04, Enric Balletbo i Serra wrote:
+> Hi all,
+> 
+> This is another version of the driver. Note that the driver changed
+> significally and is a more simply because now is using the panel_bridge
+> helpers. Apart from this, I addressed the comments from Maxime, Laurent
+> and Ezequiel.
+> 
+> This bridge is required to have the embedded display working on an Acer
+> Chromebook R13 ("Elm"). Hopefully we are a bit more close to have this
+> driver merged. If more changes are required, please let me know and I
+> will work on it.
+> 
+> Note: Along these around 20 revisions of this driver I was unable to
+> reconstruct the full changelog history, so I'm skipping this. Sorry
+> about that, I promise I'll maintain the changelog for future revisions.
 
-and applied to drm-misc-next
+I can apply these, but I'll prefer Rob to ack the new YAML bindings or
+a go from Laurent/Maxime to go with the actual YAML state.
 
-Thanks,
+For patch 2, I think we can keep devm_i2c_new_dummy_device and not use i2c_new_ancillary_device
+
 Neil
+
+> 
+> Thanks,
+>  Enric
+> 
+> Changes in v24:
+> - Fix GPIO polarity as all GPIO descriptors should be handled as active high (Laurent Pinchart)
+> - Make static ps8640_bridge_attach (Ezequiel Garcia)
+> - Use a define for the number of lanes (Ezequiel Garcia)
+> 
+> Changes in v23:
+> - Merge mute/unmute functions into one (Nicolas Boichat)
+> - Use enum for ENABLE/DISABLE instead of bool (Ezequiel Garcia)
+> - Rename mute/unmute to vdo_control and fix error messages (Nicolas Boichat and Enric)
+> - Add space between address and address parameter 'address%02x' (Nicolas Boichat)
+> - Add Tested-by Hsin-Yi
+> - Added me as author after the refactor
+> 
+> Changes in v22:
+> - Migrate to YAML format (Maxime Ripart)
+> - Remove mode-sel property.
+> - Rename sleep-gpios to powerdown-gpios.
+> - Remove sysfs attributes because are not really used (Enric Balletbo)
+> - Use enum for address page offsets (Ezequiel Garcia)
+> - Remove enable tracking (Enric Balletbo)
+> - Use panel_bridge API (Laurent Pinchart)
+> - Do not use kernel-doc format for non kernel-doc formatted commands (Enric Balletbo)
+> - Remove verbose message for PAGE1_VSTART command (Ezequiel Garcia)
+> - Use time_is_after_jiffies idiom (Ezequiel Garcia)
+> - Remove unused macros (Ezequiel Garcia)
+> - Fix weird alignment in dsi->mode_flags (Laurent Pinchart)
+> - Use drm_of_find_panel_or_bridge helper (Laurent Pinchart)
+> - Remove mode-sel-gpios as is not used (Laurent Pinchart)
+> - Remove error messages to get gpios as the core will already report it (Enric Balletbo)
+> - Remove redundant message getting the regulators (Laurent Pinchart)
+> - Rename sleep-gpios to powerdown-gpios (Laurent Pinchart)
+> - Use ARRAY_SIZE(ps_bridge->page) instead of MAX_DEV when possible (Laurent Pinchart)
+> - Fix race with userspace accessing the sysfs attributes (Laurent Pinchart)
+> - Remove id_table as is only used on DR platforms (Laurent Pinchart)
+> - Convert to new i2c device probe() (Laurent Pinchart)
+> - Use i2c_smbus_read/write helpers instead of open coding it (Laurent Pinchart)
+> - Remove unnused global variables (Laurent Pinchart)
+> - Remove unnused fields in ps8640 struct (Laurent Pinchart)
+> - Remove commented-out headers (Laurent Pinchart)
+> 
+> Changes in v21:
+>  - Use devm_i2c_new_dummy_device and fix build issue using deprecated i2c_new_dummy
+>  - Fix build issue due missing drm_bridge.h
+>  - Do not remove in ps8640_remove device managed resources
+> 
+> Changes in v19:
+>  - fixed return value of ps8640_probe() when no panel is found
+> 
+> Changes in v18:
+>  - followed DRM API changes
+>  - use DEVICE_ATTR_RO()
+>  - remove firmware update code
+>  - add SPDX identifier
+> 
+> Changes in v17:
+>  - remove some unused head files.
+>  - add macros for ps8640 pages.
+>  - remove ddc_i2c client
+>  - add mipi_dsi_device_register_full
+>  - remove the manufacturer from the name and i2c_device_id
+> 
+> Changes in v16:
+>  - Disable ps8640 DSI MCS Function.
+>  - Rename gpios name more clearly.
+>  - Tune the ps8640 power on sequence.
+> 
+> Changes in v15:
+>  - Drop drm_connector_(un)register calls from parade ps8640.
+>    The main DRM driver mtk_drm_drv now calls
+>    drm_connector_register_all() after drm_dev_register() in the
+>    mtk_drm_bind() function. That function should iterate over all
+>    connectors and call drm_connector_register() for each of them.
+>    So, remove drm_connector_(un)register calls from parade ps8640.
+> 
+> Changes in v14:
+>  - update copyright info.
+>  - change bridge_to_ps8640 and connector_to_ps8640 to inline function.
+>  - fix some coding style.
+>  - use sizeof as array counter.
+>  - use drm_get_edid when read edid.
+>  - add mutex when firmware updating.
+> 
+> Changes in v13:
+>  - add const on data, ps8640_write_bytes(struct i2c_client *client, const u8 *data, u16 data_len)
+>  - fix PAGE2_SW_REST tyro.
+>  - move the buf[3] init to entrance of the function.
+> 
+> Changes in v12:
+>  - fix hw_chip_id build warning
+> 
+> Changes in v11:
+>  - Remove depends on I2C, add DRM depends
+>  - Reuse ps8640_write_bytes() in ps8640_write_byte()
+>  - Use timer check for polling like the routines in <linux/iopoll.h>
+>  - Fix no drm_connector_unregister/drm_connector_cleanup when ps8640_bridge_attach fail
+>  - Check the ps8640 hardware id in ps8640_validate_firmware
+>  - Remove fw_version check
+>  - Move ps8640_validate_firmware before ps8640_enter_bl
+>  - Add ddc_i2c unregister when probe fail and ps8640_remove
+> 
+> Jitao Shi (2):
+>   Documentation: bridge: Add documentation for ps8640 DT properties
+>   drm/bridge: Add I2C based driver for ps8640 bridge
+> 
+>  .../bindings/display/bridge/ps8640.yaml       | 112 ++++++
+>  drivers/gpu/drm/bridge/Kconfig                |  11 +
+>  drivers/gpu/drm/bridge/Makefile               |   1 +
+>  drivers/gpu/drm/bridge/parade-ps8640.c        | 348 ++++++++++++++++++
+>  4 files changed, 472 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/ps8640.yaml
+>  create mode 100644 drivers/gpu/drm/bridge/parade-ps8640.c
+> 
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
