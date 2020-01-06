@@ -1,60 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB73F130F42
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 10:12:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE6B3130F6F
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 10:28:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE8FA6E204;
-	Mon,  6 Jan 2020 09:11:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A73BB6E210;
+	Mon,  6 Jan 2020 09:28:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4C196E204
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2020 09:11:54 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 4DF7FAD00;
- Mon,  6 Jan 2020 09:11:53 +0000 (UTC)
-Subject: Re: [PATCH] drm/hisilicon: Checked the resolution is valid before
- connector
-To: Tian Tao <tiantao6@hisilicon.com>, puck.chen@hisilicon.com,
- airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
- alexander.deucher@amd.com, tglx@linutronix.de,
- dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org
-References: <1577494764-28381-1-git-send-email-tiantao6@hisilicon.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <c5772f0d-2741-131f-4086-67206c66c994@suse.de>
-Date: Mon, 6 Jan 2020 10:11:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+ [209.85.210.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB81A6E210
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2020 09:28:49 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id 59so70939847otp.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Jan 2020 01:28:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=w+vmYhiLoRG/NgQRQrZPsXjrV365H8hEN68ARUw4CIQ=;
+ b=HYtvuHWJgRZf1VC6gCjJKOgQAO5HXOAJupsOjhS3wnypxt3jk0QvAGpJT+TBw/bdye
+ ib9UVLy+SvN0da9NLpMnbYtCUxw0wFyO4AxQQm2OZWMATn4R2KFEx7+MSi0CYdY8RXKb
+ w3AF5Sk96mFQNklkKSX2jiy/r2vO1337l8CjEm8AGEoB0zQMHUoztskgQxAoT3JPN0Gb
+ b+UEAEJ4ec43t5Vn3ynNjdGd9qBMdIyTgWoHt+miDWVCplKFiFdDBfrcJGMpIk8pLT5T
+ X2KeY79iDmsvcTo7Ke89w8EQifRfcJN0lf2CKopcp6GA62ppl8pf3l9DkQq/fuksgXCu
+ Zi9g==
+X-Gm-Message-State: APjAAAWjXzzK4Xaaf8UKprdsCO5HeOZNiaRFUXDQIS8SAXN2f9PFd5r9
+ 5Bm1DP1AXJItIHrm/RegeT+yUCMlFYw6yjAllRw=
+X-Google-Smtp-Source: APXvYqydoa68HpndthaKYQ+8Q+Y7RAZToNChUskpMjnwO3n/K3vgBjeO5XSKtohC/HCShM8R0EGzQ3tA4+SdMZ+80tw=
+X-Received: by 2002:a9d:8f1:: with SMTP id 104mr107563805otf.107.1578302928931; 
+ Mon, 06 Jan 2020 01:28:48 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1577494764-28381-1-git-send-email-tiantao6@hisilicon.com>
+References: <20200102141246.370-1-geert+renesas@glider.be>
+ <20200102141246.370-4-geert+renesas@glider.be>
+ <20200105091303.GB29102@ravnborg.org>
+In-Reply-To: <20200105091303.GB29102@ravnborg.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 6 Jan 2020 10:28:37 +0100
+Message-ID: <CAMuHMdUL3tCZzCDyJkmqYT5n+-t+Z-Ubo4=+NJpHpZU1w5C07g@mail.gmail.com>
+Subject: Re: [PATCH 3/3] drm: tiny: st7735r: Add support for Okaya RH128128T
+To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,180 +53,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linuxarm@huawei.com
-Content-Type: multipart/mixed; boundary="===============0954441501=="
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, David Lechner <david@lechnology.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Chris Brandt <chris.brandt@renesas.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0954441501==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="jcwaaVT5gt1ZiPVhb62b5F7SKMqJQ48K1"
+Hi Sam,
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---jcwaaVT5gt1ZiPVhb62b5F7SKMqJQ48K1
-Content-Type: multipart/mixed; boundary="WYY8RS4swH90C5mD4WJWKllPPGwD1EoC1";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Tian Tao <tiantao6@hisilicon.com>, puck.chen@hisilicon.com,
- airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
- alexander.deucher@amd.com, tglx@linutronix.de,
- dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org
-Cc: linuxarm@huawei.com
-Message-ID: <c5772f0d-2741-131f-4086-67206c66c994@suse.de>
-Subject: Re: [PATCH] drm/hisilicon: Checked the resolution is valid before
- connector
-References: <1577494764-28381-1-git-send-email-tiantao6@hisilicon.com>
-In-Reply-To: <1577494764-28381-1-git-send-email-tiantao6@hisilicon.com>
+On Sun, Jan 5, 2020 at 10:13 AM Sam Ravnborg <sam@ravnborg.org> wrote:
+> Good to see we add more functionality to the smallest driver in DRM.
+> The patch triggered a few comments - see below.
+> Some comments relates to the original driver - and not your changes.
 
---WYY8RS4swH90C5mD4WJWKllPPGwD1EoC1
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Thanks for your comments!
 
-Hi
+> On Thu, Jan 02, 2020 at 03:12:46PM +0100, Geert Uytterhoeven wrote:
+> > Add support for the Okaya RH128128T display to the st7735r driver.
+> >
+> > The RH128128T is a 128x128 1.44" TFT display driven by a Sitronix
+> > ST7715R TFT Controller/Driver.  The latter is very similar to the
+> > ST7735R, and can be handled by the existing st7735r driver.
+>
+> As a general comment - it would have eased review if this was split
+> in two patches.
+> One patch to introduce the infrastructure to deal with another set of
+> controller/display and one patch introducing the new combination.
 
-Am 28.12.19 um 01:59 schrieb Tian Tao:
-> In the previous version, the callback function mode_valid of
-> drm_connector_helper_funcs directly returned MODE_OK. Now we will
-> ensure that the resolution is correct and return MODE_OK, otherwise
-> return MODE_NOMODE.
->=20
-> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
-> Signed-off-by: Gong junjie <gongjunjie2@huawei.com>
-> ---
->  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c | 41 ++++++++++++++++=
-++++++--
->  1 file changed, 39 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c b/drivers=
-/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-> index 6d98fdc..3d08210 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-> @@ -11,22 +11,59 @@
->   *	Jianhua Li <lijianhua@huawei.com>
->   */
-> =20
-> +#include <drm/drm_gem_vram_helper.h>
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_probe_helper.h>
-> +#include <drm/drm_crtc_helper.h>
->  #include <drm/drm_print.h>
-> =20
->  #include "hibmc_drm_drv.h"
->  #include "hibmc_drm_regs.h"
-> =20
-> +static const struct hibmc_resolution {
-> +	int w;
-> +	int h;
-> +} hibmc_modetables[] =3D {
-> +	{640, 480}, {800, 600}, {1024, 768}, {1152, 864}, {1280, 768},
-> +	{1280, 720}, {1280, 960}, {1280, 1024}, {1440, 900}, {1600, 900},
-> +	{1600, 1200}, {1920, 1080}, {1920, 1200}
-> +};
+I had thought about that, but didn't pursue as the new combination is
+just 7 added lines.  If you prefer a split, I can do that.
 
-There's already a mode table for PLL programming in hibmc_drm_de.c.
-Rather than duplicating the information, maybe make the existing table
-available for the mode-checking code.
+> > --- a/drivers/gpu/drm/tiny/st7735r.c
+> > +++ b/drivers/gpu/drm/tiny/st7735r.c
+> > @@ -1,8 +1,9 @@
+> >  // SPDX-License-Identifier: GPL-2.0+
+> >  /*
+> > - * DRM driver for Sitronix ST7735R panels
+> > + * DRM driver for Sitronix ST7715R/ST7735R panels
+>
+> This comment could describe the situation a little better.
+> This is a sitronix st7735r controller with a jianda jd-t18003-t01
+> display.
+> Or a sitronix st7715r controller with a okaya rh128128t display.
 
-> +
-> +static int hibmc_valid_mode(int w, int h)
-> +{
-> +	int size =3D sizeof(hibmc_modetables) / sizeof(struct hibmc_resolutio=
-n);
-> +	int i;
-> +
-> +	for (i =3D 0; i < size; i++) {
-> +		if (hibmc_modetables[i].w =3D=3D w && hibmc_modetables[i].h =3D=3D h=
-)
-> +			return 0;
-> +	}
-> +
-> +	return -1;
-> +}
-> +
->  static int hibmc_connector_get_modes(struct drm_connector *connector)
->  {
-> -	return drm_add_modes_noedid(connector, 800, 600);
-> +	int count;
-> +
-> +	drm_connector_update_edid_property(connector, NULL);
-> +	count =3D drm_add_modes_noedid(connector, 1920, 1200);
-> +	drm_set_preferred_mode(connector, 1024, 768);
-> +
-> +	return count;
->  }
-> =20
->  static enum drm_mode_status hibmc_connector_mode_valid(struct drm_conn=
-ector *connector,
->  				      struct drm_display_mode *mode)
->  {
-> -	return MODE_OK;
-> +	int vrefresh =3D drm_mode_vrefresh(mode);
-> +
-> +	if (vrefresh < 59 || vrefresh > 61)
-> +		return MODE_NOMODE;
-> +	else if (hibmc_valid_mode(mode->hdisplay, mode->vdisplay) !=3D 0)
+Indeed. It is currently limited to two controller/display combos.
+But I expect more combos to be added over time.
+Hence does it make sense to describe all of that in the top comments?
 
-I'd rather drop hibmc_valid_mode() from the patch and do its tests right
-here.
+> > @@ -37,12 +39,28 @@
+> >  #define ST7735R_MY   BIT(7)
+> >  #define ST7735R_MX   BIT(6)
+> >  #define ST7735R_MV   BIT(5)
+> > +#define ST7735R_RGB  BIT(3)
+> > +
+> > +struct st7735r_cfg {
+> > +     const struct drm_display_mode mode;
+> > +     unsigned int left_offset;
+> > +     unsigned int top_offset;
+> > +     unsigned int write_only:1;
+> > +     unsigned int rgb:1;             /* RGB (vs. BGR) */
+> > +};
+> > +
+> > +struct st7735r_priv {
+> > +     struct mipi_dbi_dev dbidev;     /* Must be first for .release() */
+> > +     unsigned int rgb:1;
+> > +};
+>
+> The structs here uses "st7735r" as the generic prefix.
+> But the rest of this file uses "jd_t18003_t01" as the generic prefix.
+>
+> It would help readability if the same prefix is used for the common
+> stuff everywhere.
 
-More generally speaking, are these tests really related to the
-connector? Both, refresh and resolution are limits of the CRTC. I think
-they should be validated in the CRTC code.
+Agreed.
+So I think it makes most sense to rename jd_t18003_t01_pipe_{enable,funcs}
+to sh7735r_pipe_{enable,funcs}?
+If needed, the display-specific parts (e.g. gamma parameters) could be
+factored out in st7735r_cfg later, if neeeded.
 
-Best regards
-Thomas
+> struct st7735r_priv includes "rgb" which is copied from struct
+> st7735r_cfg.
+> Maybe just add a const pointer to struct st7735r_cfg,
+> so when we later add more configuration items we do not need to have two
+> copies. And then ofc drop st7735r_priv.rgb.
 
-> +		return MODE_NOMODE;
-> +	else
-> +		return MODE_OK;
->  }
-> =20
->  static const struct drm_connector_helper_funcs
->=20
+I thought about that, but didn't do so, as the rgb field is the only
+parameter used outside the probe function.  Can be changed, of course.
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+> > @@ -136,13 +167,14 @@ static struct drm_driver st7735r_driver = {
+> >  };
+> >
+> >  static const struct of_device_id st7735r_of_match[] = {
+> > -     { .compatible = "jianda,jd-t18003-t01" },
+> > +     { .compatible = "jianda,jd-t18003-t01", .data = &jd_t18003_t01_cfg },
+> > +     { .compatible = "okaya,rh128128t", .data = &rh128128t_cfg },
+> >       { },
+> { /* sentinel },
+>
+> Also - which is not a new thing - this fails to check that we have the
+> correct combination of two compatibles.
+> From the binding:
+>
+>     Must be one of the following combinations:
+>     - "jianda,jd-t18003-t01", "sitronix,st7735r"
+>     - "okaya,rh128128t", "sitronix,st7715r"
 
+That will be checked by "make dtbs_check", once I have converted the DT
+bindings to yaml ;-)
 
---WYY8RS4swH90C5mD4WJWKllPPGwD1EoC1--
+In reality, there are lots of different ways to communicate with an
+ST77[13]5R display controller (3/4-wire SPI, or 6800/8080 bus, ...), and
+lots of different ways to wire a display to the controller.  Ideally,
+this should be described in DT.  As I don't have schematics for the
+display board, doing so is difficult, and will miss important details,
+which may lead to DTB ABI compatibility issues later.
+I understand using these compatible combinations was a pragmatic solution
+to this problem.
 
---jcwaaVT5gt1ZiPVhb62b5F7SKMqJQ48K1
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+> >  };
+> >  MODULE_DEVICE_TABLE(of, st7735r_of_match);
+> >
+> >  static const struct spi_device_id st7735r_id[] = {
+> > -     { "jd-t18003-t01", 0 },
+> > +     { "jd-t18003-t01", (uintptr_t)&jd_t18003_t01_cfg },
+> >       { },
+> { /* sentinel */ },
+>
+> Do we need an entry for "okaya,rh128128t" here?
+>
+> Note: I have not fully understood how MODULE_DEVICE_TABLE()
+> works - so forgive me my ignorance.
 
------BEGIN PGP SIGNATURE-----
+st7735r_id[] is used for matching based on platform device name.
+Hence an entry is needed only to use the display on non-DT systems.
+Can be added later, if ever needed.
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl4S+dYACgkQaA3BHVML
-eiP69Af/eoV45cNF3lUHsmrQD7zkILe02SuE6szgoyV0TMEGs5FHWdjmlqneu6Hn
-0eN+rQ02j75sOOcGgwRwBnd0EkEoR/nwmolfd7T5wgBUBP2jqyB3easkUx7/wmbF
-Anla/JdAUk57vWymH0vTrrLXQV/91htaQane/t+e7xuYf3EoOE7khDVH4NYYT7Xs
-jg/6JOQYdHVHpooC5tfR6cfVj7J8Ff9uxK1bxQdpoxtOUJz5IJscrTly5SOTlTx9
-CR7UW1ENj3PZxll4s1hofc/Ovz166G7BvNG8JWnS+ZtMzbgyC4LViJu4DFp3ntY1
-D29tCR2KSU0gIubNhSHpB5PrOZd0ZA==
-=2Tvv
------END PGP SIGNATURE-----
+Note that there is a separate MODULE_DEVICE_TABLE() for DT-based matching,
+so the driver module will be auto-loaded on DT-based systems.
 
---jcwaaVT5gt1ZiPVhb62b5F7SKMqJQ48K1--
+Gr{oetje,eeting}s,
 
---===============0954441501==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+                        Geert
 
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0954441501==--
