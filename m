@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6BB2131C22
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 00:12:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3743131C50
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 00:27:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A29F6E598;
-	Mon,  6 Jan 2020 23:12:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 374006E59D;
+	Mon,  6 Jan 2020 23:27:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02DEE6E598;
- Mon,  6 Jan 2020 23:12:28 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id b19so16903594wmj.4;
- Mon, 06 Jan 2020 15:12:28 -0800 (PST)
+Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com
+ [IPv6:2607:f8b0:4864:20::e42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 423E76E59D;
+ Mon,  6 Jan 2020 23:27:32 +0000 (UTC)
+Received: by mail-vs1-xe42.google.com with SMTP id p6so32764530vsj.11;
+ Mon, 06 Jan 2020 15:27:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mt/KSGizDW+gN6JY4pnkoG8YUZWLUj0R1lKF3CWE40I=;
- b=qpY2LVMA4Vffz9/P4mw8I4c+32ZDP+BurHCcfG+QxGsG0LMXJRdzau7WaTOzWYFlhk
- bmufM7RogOC8qk9WKcpJR9mWJidGFDJd8lEU6vbPPrt5W7PgeFtgPNANO13dUcVYQm8K
- pD+nqkyZsm7lQqkzLEfcsK3+46trMwV0RdDZbFF+1KFmR5Ok8KvELzZfZYT5CskPK2t1
- xw1YGc66YN22ipN3goNNa4b3WMM1Z/sILtYFCxKjcurF4slOjx4A8zRTeflvoM3isbuC
- ns5Cc3Fj+8i9+jwGlbi11rrlgPe8rZYOzuEMK6ajJRs2t0GMxuYBbTdXu9iHfXjCQfPh
- 0mXA==
+ :cc; bh=HR1adj1A3Ic5Jb0NPazOu77KkzAZJIoYDoyM9pqOY08=;
+ b=oqeFlizxumJS3xSs1GLYvD4rPCNojogiwdfHo2ADKRWPANURopELSwAadjJ2NXujSa
+ UHrMi+ntYK/HAoHmE/FTcFMw2qMSFICQonrtuXclCAPq9SeDkX5HF/6zNuNMWRf3dpM6
+ Fca7K1tRUR03UmtRYsdkIhJLBuyGio5J/dAOB9I9jTKr3DU646PZN+wm32NaSFy+LBsv
+ EVSME+gPCO0KEBL2M9+PaTpHvC+KOD9r6kwpnHcyXa8xC49mTfkEJXf3OI0znV0W2iPP
+ ylTLSWSQPBYJMl8/BqjLfrrh/WVe6YhYxgX6Z3xEfW2bE4195F+FPZtb7KE1sxlNoCW/
+ UXhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=mt/KSGizDW+gN6JY4pnkoG8YUZWLUj0R1lKF3CWE40I=;
- b=N6/DTGaaLqI7/7G4geyd8OYKdH/far2b1lyiCjmD3Rr6BeGSl2JKGvgUFXazUz/kIG
- 03GwQiFu/GxoKs+MXXKJI18q2ZedAGBARRvvEx0hVxYpVRG6RnOyiJq9wdV89uzJ3m1e
- HLg0Hs21gZUmjy/V8Z60O8uCJxwwM2T+/URRgiQSf7gf3PhBQ4f05sg6rAR2dALejtmf
- gfeuL0kVz0hewrjCctxOE2qCoWvoII78sRJ5KoW48O2m0aGXtzZAmHjsgZEoIjzxyGAO
- vLTZp7JGEzR6izTsUHbv4rHUW+cgHIlGxrgjzSnV+XVyrJrbTTg9cNY4N1rWYP1PWjEi
- G1hg==
-X-Gm-Message-State: APjAAAXTQ6EC5zsJo3+XYH2Fa6cMvCVoOpP55S1x5yF2nO94gcBfYGhM
- kz4tkcQDBxwePhiaHxPK65oLr1AnTp9IbnkKPj0=
-X-Google-Smtp-Source: APXvYqwsorRuwMKa4/uWPvFE6LVbj+OYVzmzpWsbdQ871r8KiGZXlD8QgFWS1cnGgkPjAmCdMOOihZlC0JttP7cdvSU=
-X-Received: by 2002:a05:600c:2406:: with SMTP id
- 6mr30944421wmp.30.1578352347620; 
- Mon, 06 Jan 2020 15:12:27 -0800 (PST)
+ bh=HR1adj1A3Ic5Jb0NPazOu77KkzAZJIoYDoyM9pqOY08=;
+ b=GLF1Afw5uzv2kjtkoM8sXDKYaV3bShMoEBqe1Eld8MLo2yWnCmmv/Tk5wDk/YOjeSz
+ oeQRRUibKvpCV724hZOqmsJTVQTRZVJ7SAOAHRujxn+xjPf8g1idND1a2zuqKUWYYUsg
+ /G7k4+xawBJ/6yaFlASZ+W5z1+gvHCSNvCESbDBJhlJOX7T9TS4mMrYWaDjj6GOFvkv5
+ duxMaqKA3vK0Vi0WrRzFmaROOB2U9EDMCEn8H4X8dRt8P5Fh/5KkcIv3DtzPFz8JDCCY
+ wTTWOzNuupboBXKyCPY6qp4niE9Fn/kDrrQ4Hc6v5HPBgfNPQb9s2wqPIV04RoffTjbL
+ YfWA==
+X-Gm-Message-State: APjAAAXYTUq/WO1kraOiKAu32vVoe10N7hgtrDWWZ/SeFx1yXj5GjmV8
+ 9/ZlMPtGRmbZ/PKmQXNE6QZfrnDdMTBTy2igp0LBlfD3vag=
+X-Google-Smtp-Source: APXvYqwkkkOg/lno/2sC3oRI5T+GHauTDffkyPSndoXTgSJBxq6bIMGr5/8gezWgHbYFVgfICqpfZ9QI9Xm/qWStQoE=
+X-Received: by 2002:a05:6102:3126:: with SMTP id
+ f6mr7144756vsh.204.1578353251286; 
+ Mon, 06 Jan 2020 15:27:31 -0800 (PST)
 MIME-Version: 1.0
-References: <20191202214713.41001-1-thomasanderson@google.com>
- <722bf0b1-5ff3-5a44-80f1-e67a3fe4d97f@amd.com>
-In-Reply-To: <722bf0b1-5ff3-5a44-80f1-e67a3fe4d97f@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 6 Jan 2020 18:12:15 -0500
-Message-ID: <CADnq5_ORRNiCu-oF2Et-Ukuiy1QesUP_mJFbBQr_Hxe0OPupBA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/amd/display: Reduce HDMI pixel encoding if max
- clock is exceeded
-To: Harry Wentland <hwentlan@amd.com>
+References: <20191217004520.2404-1-jajones@nvidia.com>
+ <CACAvsv6AKt=10JgjaEKc=pkmKfGJoUJjq_Unn0yGTuQK85Es2g@mail.gmail.com>
+ <b273ad88-d246-3395-2fd0-8188bc41a127@nvidia.com>
+In-Reply-To: <b273ad88-d246-3395-2fd0-8188bc41a127@nvidia.com>
+From: Ben Skeggs <skeggsb@gmail.com>
+Date: Tue, 7 Jan 2020 09:27:20 +1000
+Message-ID: <CACAvsv5bhaJozct9fgnJ8JNSXpdd5QCH+tCxciZetbnWuzzBPw@mail.gmail.com>
+Subject: Re: [Nouveau] [PATCH v2 0/3] drm/nouveau: Support NVIDIA format
+ modifiers
+To: James Jones <jajones@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,136 +64,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Anderson <thomasanderson@google.com>, Leo Li <sunpeng.li@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Mikita Lipski <mikita.lipski@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Cc: ML nouveau <nouveau@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 2, 2020 at 10:14 AM Harry Wentland <hwentlan@amd.com> wrote:
+On Tue, 7 Jan 2020 at 05:17, James Jones <jajones@nvidia.com> wrote:
 >
-> On 2019-12-02 4:47 p.m., Thomas Anderson wrote:
-> > For high-res (8K) or HFR (4K120) displays, using uncompressed pixel
-> > formats like YCbCr444 would exceed the bandwidth of HDMI 2.0, so the
-> > "interesting" modes would be disabled, leaving only low-res or low
-> > framerate modes.
+> On 1/5/20 5:30 PM, Ben Skeggs wrote:
+> > On Tue, 17 Dec 2019 at 10:44, James Jones <jajones@nvidia.com> wrote:
+> >>
+> >> This series modifies the NV5x+ nouveau display backends to advertise
+> >> appropriate format modifiers on their display planes in atomic mode
+> >> setting blobs.
+> >>
+> >> Corresponding modifications to Mesa/userspace are available here:
+> >>
+> >> https://gitlab.freedesktop.org/cubanismo/mesa/tree/nouveau_work
+> >>
+> >> But those need a bit of cleanup before they're ready to submit.
+> >>
+> >> I've tested this on Tesla, Kepler, Pascal, and Turing-class hardware
+> >> using various formats and all the exposed format modifiers, plus some
+> >> negative testing with invalid ones.
+> >>
+> >> NOTE: this series depends on the "[PATCH v3] drm: Generalized NV Block
+> >> Linear DRM format mod" patch submitted to dri-devel.
+> >>
+> >> v2: Used Tesla family instead of NV50 chipset compare to avoid treating
+> >>      oddly numbered NV4x-class chipsets as NV50+ GPUs.  Other instances
+> >>      of compares with chipset number in the series were audited, deemed
+> >>      safe, and left as-is for consistency with existing code.
+> > Hey James,
 > >
-> > This change lowers the pixel encoding to 4:2:2 or 4:2:0 if the max TMDS
-> > clock is exceeded. Verified that 8K30 and 4K120 are now available and
-> > working with a Samsung Q900R over an HDMI 2.0b link from a Radeon 5700.
-> >
-> > Signed-off-by: Thomas Anderson <thomasanderson@google.com>
+> > These look OK to me, with the minor issue I mentioned on one of the
+> > patches dealt with.  I'll hold off merging anything until I get the
+> > go-ahead that the modifier definitions are definitely set in stone /
+> > userspace is ready for inclusion.
 >
-> Apologies for the late response.
+> Thanks for having a look.  I'll try to get the userspace changes
+> finalized soon.  I think from the NV side, we consider the modifier
+> definition itself (the v3 version of the patch) final, so if there's any
+> stand-alone feedback from yourself or other drm/nouveau developers on
+> that layout, we'd be eager to hear it.  I don't want it rushed in, but
+> we do have several projects blocked on getting that approved & committed.
 >
-> Thanks for getting high-res modes working on HDMI.
+> I assume the sequencing should be:
 >
-> This change is
-> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+> * Fix the minor issue you identified here/complete review of nouveau
+> kernel patches
+> * Complete review of the related TegraDRM new modifier support patch
+> * Finalize and complete review of userspace/Mesa nouveau modifier
+> support patches
+> * Get drm_fourcc.h updates committed
+> * Get these patches and TegraDRM patches committed
+> * Integrate final drm_fourcc.h to Mesa patches and get Mesa patches
+> committed
 >
+> Does that sound right to you?
+Seems very reasonable!
 
-Applied.  thanks!
+Ben.
 
-Alex
-
-> Harry
 >
-> > ---
-> >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 45 ++++++++++---------
-> >  1 file changed, 23 insertions(+), 22 deletions(-)
+> Thanks,
+> -James
+>
+> > Thanks,
+> > Ben.
 > >
-> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > index 7aac9568d3be..803e59d97411 100644
-> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > @@ -3356,27 +3356,21 @@ get_output_color_space(const struct dc_crtc_timing *dc_crtc_timing)
-> >       return color_space;
-> >  }
-> >
-> > -static void reduce_mode_colour_depth(struct dc_crtc_timing *timing_out)
-> > -{
-> > -     if (timing_out->display_color_depth <= COLOR_DEPTH_888)
-> > -             return;
-> > -
-> > -     timing_out->display_color_depth--;
-> > -}
-> > -
-> > -static void adjust_colour_depth_from_display_info(struct dc_crtc_timing *timing_out,
-> > -                                             const struct drm_display_info *info)
-> > +static bool adjust_colour_depth_from_display_info(
-> > +     struct dc_crtc_timing *timing_out,
-> > +     const struct drm_display_info *info)
-> >  {
-> > +     enum dc_color_depth depth = timing_out->display_color_depth;
-> >       int normalized_clk;
-> > -     if (timing_out->display_color_depth <= COLOR_DEPTH_888)
-> > -             return;
-> >       do {
-> >               normalized_clk = timing_out->pix_clk_100hz / 10;
-> >               /* YCbCr 4:2:0 requires additional adjustment of 1/2 */
-> >               if (timing_out->pixel_encoding == PIXEL_ENCODING_YCBCR420)
-> >                       normalized_clk /= 2;
-> >               /* Adjusting pix clock following on HDMI spec based on colour depth */
-> > -             switch (timing_out->display_color_depth) {
-> > +             switch (depth) {
-> > +             case COLOR_DEPTH_888:
-> > +                     break;
-> >               case COLOR_DEPTH_101010:
-> >                       normalized_clk = (normalized_clk * 30) / 24;
-> >                       break;
-> > @@ -3387,14 +3381,15 @@ static void adjust_colour_depth_from_display_info(struct dc_crtc_timing *timing_
-> >                       normalized_clk = (normalized_clk * 48) / 24;
-> >                       break;
-> >               default:
-> > -                     return;
-> > +                     /* The above depths are the only ones valid for HDMI. */
-> > +                     return false;
-> >               }
-> > -             if (normalized_clk <= info->max_tmds_clock)
-> > -                     return;
-> > -             reduce_mode_colour_depth(timing_out);
-> > -
-> > -     } while (timing_out->display_color_depth > COLOR_DEPTH_888);
-> > -
-> > +             if (normalized_clk <= info->max_tmds_clock) {
-> > +                     timing_out->display_color_depth = depth;
-> > +                     return true;
-> > +             }
-> > +     } while (--depth > COLOR_DEPTH_666);
-> > +     return false;
-> >  }
-> >
-> >  static void fill_stream_properties_from_drm_display_mode(
-> > @@ -3474,8 +3469,14 @@ static void fill_stream_properties_from_drm_display_mode(
-> >
-> >       stream->out_transfer_func->type = TF_TYPE_PREDEFINED;
-> >       stream->out_transfer_func->tf = TRANSFER_FUNCTION_SRGB;
-> > -     if (stream->signal == SIGNAL_TYPE_HDMI_TYPE_A)
-> > -             adjust_colour_depth_from_display_info(timing_out, info);
-> > +     if (stream->signal == SIGNAL_TYPE_HDMI_TYPE_A) {
-> > +             if (!adjust_colour_depth_from_display_info(timing_out, info) &&
-> > +                 drm_mode_is_420_also(info, mode_in) &&
-> > +                 timing_out->pixel_encoding != PIXEL_ENCODING_YCBCR420) {
-> > +                     timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR420;
-> > +                     adjust_colour_depth_from_display_info(timing_out, info);
-> > +             }
-> > +     }
-> >  }
-> >
-> >  static void fill_audio_info(struct audio_info *audio_info,
-> >
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+> >>
+> >> James Jones (3):
+> >>    drm/nouveau: Add format mod prop to base/ovly/nvdisp
+> >>    drm/nouveau: Check framebuffer size against bo
+> >>    drm/nouveau: Support NVIDIA format modifiers
+> >>
+> >>   drivers/gpu/drm/nouveau/dispnv50/base507c.c |   7 +-
+> >>   drivers/gpu/drm/nouveau/dispnv50/disp.c     |  59 ++++++++
+> >>   drivers/gpu/drm/nouveau/dispnv50/disp.h     |   4 +
+> >>   drivers/gpu/drm/nouveau/dispnv50/wndw.c     |  35 ++++-
+> >>   drivers/gpu/drm/nouveau/dispnv50/wndwc57e.c |  17 +++
+> >>   drivers/gpu/drm/nouveau/nouveau_display.c   | 154 ++++++++++++++++++++
+> >>   drivers/gpu/drm/nouveau/nouveau_display.h   |   4 +
+> >>   7 files changed, 272 insertions(+), 8 deletions(-)
+> >>
+> >> --
+> >> 2.17.1
+> >>
+> >> _______________________________________________
+> >> Nouveau mailing list
+> >> Nouveau@lists.freedesktop.org
+> >> https://lists.freedesktop.org/mailman/listinfo/nouveau
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
