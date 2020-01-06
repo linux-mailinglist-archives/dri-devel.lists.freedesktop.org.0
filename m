@@ -2,58 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45E8B131064
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 11:20:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6795C13107A
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2020 11:23:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E85526E227;
-	Mon,  6 Jan 2020 10:20:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9D7D6E243;
+	Mon,  6 Jan 2020 10:22:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E9346E227
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2020 10:20:50 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id EF738B164;
- Mon,  6 Jan 2020 10:20:48 +0000 (UTC)
-Subject: Re: [PATCH v2 3/3] drm/vram-helper: Support struct
- drm_driver.gem_create_object
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20191212074117.29283-1-tzimmermann@suse.de>
- <20191212074117.29283-4-tzimmermann@suse.de>
- <20191213102748.GG624164@phenom.ffwll.local>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <561a1d96-5ce2-cdd3-6080-c7aca1a7839d@suse.de>
-Date: Mon, 6 Jan 2020 11:20:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+Received: from NAM02-BL2-obe.outbound.protection.outlook.com
+ (mail-eopbgr750057.outbound.protection.outlook.com [40.107.75.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6811F6E23D;
+ Mon,  6 Jan 2020 10:22:52 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=m2XWhVyXq2ZicUkkVYbB/Rl2j45LzZB+XHuSeHN7FVg5JAZfleQ7jklhv6nAJ6qFQuTsj79GqKtQ97ItvYR8AXaQRiXVjSBbB/lqQHMOQz7j8fEk9bnNBwHf5DHja1Pxf+U4tdJkffAWnYr0bOiDnU+9QwiE0Qysn8e6KqTsBH3HYbQKrShqfvzAJSk447VSU5umkAslhEyqWngJCJBtvJb4ta56N9+vPAZF5iV3624xbkFyAU7bmcj+5qGG9c8Jl+fBJ1d4wI8QXKrars8MQATemQXczc8C4jldZf+ci5h34qw4uY595xGuERn7FIcujGzBzOXGeZsImi1beUlfQA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vTw83XEi4hONHOSz02Mt32zNzr+OjKlYiC8OwlUXwEM=;
+ b=GDc2du1FmPsq+3q5ZJzpFgZdfxo7vAQAXu6crJb3lNbJI2hDOrfclZ5PB4G0sPL0KoslsmcCAm7+mJCFURpj2KTEkKv/8ibkxtRj2vNtkyzGa8MgHLcx4wny5CYF6cMI6oNhCjbv8fXrdceQoCV0WkHC/6HCIuVt/ZahaBpXynrWktfpbAPa3rnByvvfxkzIxfEh+sk4NIE8toUHQb9u6N+N9Q92m4RvEGlRa8hMTJ9/6/mfF1y0q0ptMM43C6tSir3slMlIfeXGfET7JHtcDxBGwD9pC3fDGJZSwZ7pZZs1kBjIkpVz0ykXvXAhoeFU76XBkJXuZzJAFa3qCs7ItQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=permerror action=none header.from=amd.com; dkim=none (message not
+ signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vTw83XEi4hONHOSz02Mt32zNzr+OjKlYiC8OwlUXwEM=;
+ b=Mk5ApJuDN82XGC75muhWhhe3YzUC9JhAdHilfQdk2el3A7/R206eINCQxekkuXaDqdVRGtJpTQwNrTaD6GQggUeq07aXldFpFIPBNO3J//Nd0os3enJAQ1qX0zbA7vB4QttSNsTr3nSYSBNwRXwW2ueIAcVVS/aHPeuuor9KYPA=
+Received: from MWHPR1201CA0024.namprd12.prod.outlook.com
+ (2603:10b6:301:4a::34) by CY4PR12MB1447.namprd12.prod.outlook.com
+ (2603:10b6:910:e::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2602.12; Mon, 6 Jan
+ 2020 10:22:49 +0000
+Received: from DM6NAM11FT044.eop-nam11.prod.protection.outlook.com
+ (2a01:111:f400:7eaa::204) by MWHPR1201CA0024.outlook.office365.com
+ (2603:10b6:301:4a::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2602.11 via Frontend
+ Transport; Mon, 6 Jan 2020 10:22:49 +0000
+Authentication-Results: spf=none (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none;lists.freedesktop.org; dmarc=permerror action=none
+ header.from=amd.com;
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+Received: from SATLEXMB02.amd.com (165.204.84.17) by
+ DM6NAM11FT044.mail.protection.outlook.com (10.13.173.185) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.2602.11 via Frontend Transport; Mon, 6 Jan 2020 10:22:49 +0000
+Received: from SATLEXMB02.amd.com (10.181.40.143) by SATLEXMB02.amd.com
+ (10.181.40.143) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Mon, 6 Jan 2020
+ 04:22:48 -0600
+Received: from wayne-System-Product-Name.amd.com (10.180.168.240) by
+ SATLEXMB02.amd.com (10.181.40.143) with Microsoft SMTP Server id 15.1.1713.5
+ via Frontend Transport; Mon, 6 Jan 2020 04:22:46 -0600
+From: Wayne Lin <Wayne.Lin@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
+Subject: [PATCH v2] drm/dp_mst: clear time slots for ports invalid
+Date: Mon, 6 Jan 2020 18:21:58 +0800
+Message-ID: <20200106102158.28261-1-Wayne.Lin@amd.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <20191213102748.GG624164@phenom.ffwll.local>
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:165.204.84.17; IPV:; CTRY:US; EFV:NLI;
+ SFV:NSPM;
+ SFS:(10009020)(4636009)(376002)(136003)(346002)(39860400002)(396003)(428003)(199004)(189003)(186003)(7696005)(86362001)(81156014)(81166006)(8676002)(8936002)(70206006)(70586007)(36756003)(2906002)(4326008)(26005)(5660300002)(426003)(316002)(2616005)(336012)(356004)(1076003)(54906003)(6666004)(478600001)(110136005);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR12MB1447; H:SATLEXMB02.amd.com; FPR:;
+ SPF:None; LANG:en; PTR:InfoDomainNonexistent; A:1; MX:1; 
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 46f3d965-7940-447f-ddfa-08d79292615f
+X-MS-TrafficTypeDiagnostic: CY4PR12MB1447:
+X-Microsoft-Antispam-PRVS: <CY4PR12MB1447E20D7F94409A54B821DDFC3C0@CY4PR12MB1447.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Forefront-PRVS: 0274272F87
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: REXZAyXXgDfz/Wuk/4/64qEtSfBLdB/l4yqszgmjEGoqJ686q8vxBBEiIyoyqQqXWoisWbAMrpdkSCO1GctKdeUZeVaYdGbcK5zKr/k0OMxXJqYCeVG5Ev2zpq2DIu86cA6DSnPZw0DCFnsOm3P9LIdpm3p/phWD9VnUsOCCWLz8esyCqHyos8u8Sh9Ddw9Osd45jTOpAIPHCWW2ATd8P/WrpufnwXmc28BtNI1L6YXWQ/8Y9qM8cX6/8bwTcC00rvAl4A51kJTMCkRdNRjQ729wKeDm+gMgAINBWdBfuyG66ESm/za36hwb1ho2ItMdFckCq+yryG2h05y6CMPtz2Hxf2xbvo3kRcY1a1SKUsAcxKHGYOR4Sx1+S3b473M44DBanBAdk8Ofbbc/u4Mk9UmBreLmi4evY8XnWSRPZhZonsmk08Xfq7KrpHAglRFIS8hchXMrdXd/t4EL5iFnXsvWLRjy9LN8VYaw5O5huio=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2020 10:22:49.1941 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 46f3d965-7940-447f-ddfa-08d79292615f
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB02.amd.com]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1447
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,143 +99,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: puck.chen@hisilicon.com, dri-devel@lists.freedesktop.org,
- kong.kongxinwei@hisilicon.com, kraxel@redhat.com, zourongrong@gmail.com,
- airlied@redhat.com, sam@ravnborg.org
-Content-Type: multipart/mixed; boundary="===============1882272236=="
+Cc: stable@vger.kernel.org, jerry.zuo@amd.com, Wayne Lin <Wayne.Lin@amd.com>,
+ Nicholas.Kazlauskas@amd.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1882272236==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="Z1iEInLWnwiZrDCsqz7trSnD3eQBOlQNV"
+[Why]
+When change the connection status in a MST topology, mst device
+which detect the event will send out CONNECTION_STATUS_NOTIFY messgae.
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Z1iEInLWnwiZrDCsqz7trSnD3eQBOlQNV
-Content-Type: multipart/mixed; boundary="0O4eyYcMAqReHQGfmdjPPrVAl8oXsj5Mr";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: airlied@redhat.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, zourongrong@gmail.com, kong.kongxinwei@hisilicon.com,
- puck.chen@hisilicon.com, kraxel@redhat.com, sam@ravnborg.org,
- dri-devel@lists.freedesktop.org
-Message-ID: <561a1d96-5ce2-cdd3-6080-c7aca1a7839d@suse.de>
-Subject: Re: [PATCH v2 3/3] drm/vram-helper: Support struct
- drm_driver.gem_create_object
-References: <20191212074117.29283-1-tzimmermann@suse.de>
- <20191212074117.29283-4-tzimmermann@suse.de>
- <20191213102748.GG624164@phenom.ffwll.local>
-In-Reply-To: <20191213102748.GG624164@phenom.ffwll.local>
+e.g. src-mst-mst-sst => src-mst (unplug) mst-sst
 
---0O4eyYcMAqReHQGfmdjPPrVAl8oXsj5Mr
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Currently, under the above case of unplugging device, ports which have
+been allocated payloads and are no longer in the topology still occupy
+time slots and recorded in proposed_vcpi[] of topology manager.
 
-Hi
+If we don't clean up the proposed_vcpi[], when code flow goes to try to
+update payload table by calling drm_dp_update_payload_part1(), we will
+fail at checking port validation due to there are ports with proposed
+time slots but no longer in the mst topology. As the result of that, we
+will also stop updating the DPCD payload table of down stream port.
 
-Am 13.12.19 um 11:27 schrieb Daniel Vetter:
-> On Thu, Dec 12, 2019 at 08:41:17AM +0100, Thomas Zimmermann wrote:
->> Drivers that what to allocate VRAM GEM objects with additional fields
->> can now do this by implementing struct drm_driver.gem_create_object.
->>
->> v2:
->> 	* only cast to gbo within if branch; set gbo directly
->> 	  in else branch
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
->>  drivers/gpu/drm/drm_gem_vram_helper.c | 9 ++++++++-
->>  1 file changed, 8 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/d=
-rm_gem_vram_helper.c
->> index b760fd27f3c0..baa49d1e9538 100644
->> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
->> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
->> @@ -2,6 +2,7 @@
->> =20
->>  #include <drm/drm_debugfs.h>
->>  #include <drm/drm_device.h>
->> +#include <drm/drm_drv.h>
->>  #include <drm/drm_file.h>
->>  #include <drm/drm_framebuffer.h>
->>  #include <drm/drm_gem_ttm_helper.h>
->> @@ -145,7 +146,13 @@ struct drm_gem_vram_object *drm_gem_vram_create(s=
-truct drm_device *dev,
->>  	struct drm_gem_vram_object *gbo;
->>  	int ret;
->> =20
->> -	gbo =3D kzalloc(sizeof(*gbo), GFP_KERNEL);
->> +	if (dev->driver->gem_create_object) {
->> +		struct drm_gem_object *gem =3D
->> +			dev->driver->gem_create_object(dev, size);
->> +		gbo =3D drm_gem_vram_of_gem(gem);
->> +	} else {
->> +		gbo =3D kzalloc(sizeof(*gbo), GFP_KERNEL);
->> +	}
->>  	if (!gbo)
->=20
-> See my other mail, I'd move the check too into if/else blocks. ERR_PTR
-> after an upcast is always a bit scary.
+[How]
+While handling the CONNECTION_STATUS_NOTIFY message, add a detection to
+see if the event indicates that a device is unplugged to an output port.
+If the detection is true, then iterrate over all proposed_vcpi[] to
+see whether a port of the proposed_vcpi[] is still in the topology or
+not. If the port is invalid, set its num_slots to 0.
 
-What a stupid mistake. I should have seen that myself. Will be fixed in
-the next iteration.
+Thereafter, when try to update payload table by calling
+drm_dp_update_payload_part1(), we can successfully update the DPCD
+payload table of down stream port and clear the proposed_vcpi[] to NULL.
 
-Best regards
-Thomas
+Changes since v1:(https://patchwork.kernel.org/patch/11275801/)
+* Invert the conditional to reduce the indenting
 
-> -Daniel
->=20
->>  		return ERR_PTR(-ENOMEM);
->> =20
->> --=20
->> 2.24.0
->>
->=20
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
+Cc: stable@vger.kernel.org
+---
+ drivers/gpu/drm/drm_dp_mst_topology.c | 25 ++++++++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---0O4eyYcMAqReHQGfmdjPPrVAl8oXsj5Mr--
-
---Z1iEInLWnwiZrDCsqz7trSnD3eQBOlQNV
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl4TCf8ACgkQaA3BHVML
-eiPJTgf/ZJsyxJCOwCDmhjlEMuVKYX8u4pcGGVNouM5UNr0MewEGgHCbL/n0pBBn
-sHAMELrEAN+MFNxlvClORdqu9mUGH6mocj9cyhERCVHTYVTF0cIKJ2iidELHv5UD
-MhEOO8+aB0n4kkoayt1OmDcphc2W4DuflHnw7P68VJ/Dp9yuuoZoE2MowFCR5uBs
-KcpPEYJOcElJdexatCRo8wJThpUjQlAff85SV9CDDfGbkED9YG8YV1TSv8H+i7cs
-DXxzcBdMGq6jRVTqOM5eD4IXdz7qa5hykHTPAJJch3ay4FwkIme/Pj39pP1Fd2hO
-BW/nc46OJD2P2amMl5V87QmPId+sDA==
-=Ij+p
------END PGP SIGNATURE-----
-
---Z1iEInLWnwiZrDCsqz7trSnD3eQBOlQNV--
-
---===============1882272236==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+index 6e10f6235009..e37cd6ec6e36 100644
+--- a/drivers/gpu/drm/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+@@ -2321,7 +2321,7 @@ drm_dp_mst_handle_conn_stat(struct drm_dp_mst_branch *mstb,
+ {
+ 	struct drm_dp_mst_topology_mgr *mgr = mstb->mgr;
+ 	struct drm_dp_mst_port *port;
+-	int old_ddps, ret;
++	int old_ddps, old_input, ret, i;
+ 	u8 new_pdt;
+ 	bool dowork = false, create_connector = false;
+ 
+@@ -2352,6 +2352,7 @@ drm_dp_mst_handle_conn_stat(struct drm_dp_mst_branch *mstb,
+ 	}
+ 
+ 	old_ddps = port->ddps;
++	old_input = port->input;
+ 	port->input = conn_stat->input_port;
+ 	port->mcs = conn_stat->message_capability_status;
+ 	port->ldps = conn_stat->legacy_device_plug_status;
+@@ -2376,6 +2377,28 @@ drm_dp_mst_handle_conn_stat(struct drm_dp_mst_branch *mstb,
+ 		dowork = false;
+ 	}
+ 
++	if (!old_input && old_ddps != port->ddps && !port->ddps) {
++		for (i = 0; i < mgr->max_payloads; i++) {
++			struct drm_dp_vcpi *vcpi = mgr->proposed_vcpis[i];
++			struct drm_dp_mst_port *port_validated;
++
++			if (!vcpi)
++				continue;
++
++			port_validated =
++				container_of(vcpi, struct drm_dp_mst_port, vcpi);
++			port_validated =
++				drm_dp_mst_topology_get_port_validated(mgr, port_validated);
++			if (!port_validated) {
++				mutex_lock(&mgr->payload_lock);
++				vcpi->num_slots = 0;
++				mutex_unlock(&mgr->payload_lock);
++			} else {
++				drm_dp_mst_topology_put_port(port_validated);
++			}
++		}
++	}
++
+ 	if (port->connector)
+ 		drm_modeset_unlock(&mgr->base.lock);
+ 	else if (create_connector)
+-- 
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1882272236==--
