@@ -2,66 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B864B132ADA
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 17:14:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8C3D132B7F
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 17:53:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD7306E101;
-	Tue,  7 Jan 2020 16:14:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC87F6E10F;
+	Tue,  7 Jan 2020 16:53:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 247FB6E101
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2020 16:14:05 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id c9so54618354wrw.8
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2020 08:14:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=BnDKwUCZGErP+KyVZtLEwU8FgiR2KztEMGDlEQCZd7s=;
- b=it6jWsNZqZnJRkxU0QF0aJRe+H0+HCzalY18g4ewAHrgujNSc8aGGHJOyIkjkmXvPP
- 5BXRcjhZEebBC8Fh/fPqNbuvXUVZRTPyF+QlRNp3popqzAHBTYNQLBz/Dzff+SBqtnJb
- i+pZDiEyjvepJxb7O5j423j2fpP6tNpbG9J18=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=BnDKwUCZGErP+KyVZtLEwU8FgiR2KztEMGDlEQCZd7s=;
- b=G2/17cgl2iZvpBRkD2WVWyr4yDUDxKSZJmbzq0zmm+1E/4ywT6/z+HWrazIWtITwXx
- Q1bYKasr2XlxTRYgqOWl/tsACbnamJ+3sbk9TIMpUWyFx+NHQDlU04JCfkzDIqeOGHcx
- YiWDOv5bz9V0g50Iat0CsCZLllPtlDyLtNd6p9PMzSR5rgY4lPT5Qis+9bviS/dgaaSy
- 8/K/dKhe2ZFGkBzx8m2yryj1ti/erzobNnv035iczuQt9dUMDJs5+w3qcWPBM6z0y4bm
- ytquvifUEWeAnh5pXoJzdNkJ9NtRYoqCJQUIIC03Sk0jRHRFK6oZFQoyDpS7csP3Od9f
- 0ETw==
-X-Gm-Message-State: APjAAAXMYM1iCMZRKkeuSsNCvVaMgwBPRNdg9mXlk6/ElRydGyM+C9Rd
- pOv8mfMGa4Q61lkuuonpAsLR6SE7NgE=
-X-Google-Smtp-Source: APXvYqyQHK3dzkGnpN+A204ch3gC1JI6BVacIWD7/CNfZ+GZU0DG7Tm8hsvhn35Lq2tPf4RZVD7Biw==
-X-Received: by 2002:a5d:4c8c:: with SMTP id z12mr79526820wrs.222.1578413643880; 
- Tue, 07 Jan 2020 08:14:03 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:564b:0:7567:bb67:3d7f:f863])
- by smtp.gmail.com with ESMTPSA id q14sm133727wmj.14.2020.01.07.08.14.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 08:14:03 -0800 (PST)
-Date: Tue, 7 Jan 2020 17:14:01 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [PATCH] video: fbdev: mmp: fix platform_get_irq.cocci warnings
-Message-ID: <20200107161401.GF43062@phenom.ffwll.local>
-Mail-Followup-To: Julia Lawall <julia.lawall@inria.fr>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- linux-fbdev@vger.kernel.org, kbuild-all@lists.01.org,
- "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Steve Winslow <swinslow@gmail.com>,
- Jilayne Lovejoy <opensource@jilayne.com>,
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FAE46E10F;
+ Tue,  7 Jan 2020 16:53:29 +0000 (UTC)
+Received: from PC-kkoz.proceq.com (unknown [213.160.61.66])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id B395D2073D;
+ Tue,  7 Jan 2020 16:53:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1578416009;
+ bh=5pGZzG2R2Yg9BvXiJJcmzkQkuLAOfS9PEHpiBXb0Uls=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Q+mZvp8DRBQ+NGLFMRHq+ToaCPgY0sfmDNR9VpdaiZ9T2V/2nT/SeANXkK/wLMDoP
+ zenjraQPO9M07VwPEmNNuyRUDTXxaFInE+OA1UUiQvrcd9MJ0C7xFDpFQN49dMy/gI
+ GDlqwuMx3bvmjp+6UgH+xyziWuKaIO8OxKhrqNsk=
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Richard Henderson <rth@twiddle.net>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Matt Turner <mattst88@gmail.com>, Alexey Brodkin <abrodkin@synopsys.com>,
+ Vineet Gupta <vgupta@synopsys.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Paul Mackerras <paulus@samba.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
+ Dave Airlie <airlied@redhat.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Ben Skeggs <bskeggs@redhat.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Jiri Slaby <jirislaby@gmail.com>, Nick Kossifidis <mickflemm@gmail.com>,
+ Luis Chamberlain <mcgrof@kernel.org>, Kalle Valo <kvalo@codeaurora.org>,
+ "David S. Miller" <davem@davemloft.net>, Dave Jiang <dave.jiang@intel.com>,
+ Jon Mason <jdmason@kudzu.us>, Allen Hubbe <allenbh@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Arnd Bergmann <arnd@arndb.de>, Andrew Morton <akpm@linux-foundation.org>,
  Thomas Gleixner <tglx@linutronix.de>,
- Allison Randal <allison@lohutok.net>
-References: <alpine.DEB.2.21.2001042140310.6944@hadrien>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.21.2001042140310.6944@hadrien>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+ Geert Uytterhoeven <geert@linux-m68k.org>, linux-alpha@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+ linux-ntb@googlegroups.com, virtualization@lists.linux-foundation.org,
+ linux-arch@vger.kernel.org
+Subject: [RFT 00/13] iomap: Constify ioreadX() iomem argument
+Date: Tue,  7 Jan 2020 17:52:57 +0100
+Message-Id: <1578415992-24054-1-git-send-email-krzk@kernel.org>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,64 +68,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, kbuild-all@lists.01.org,
- "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Steve Winslow <swinslow@gmail.com>, Jilayne Lovejoy <opensource@jilayne.com>,
- Thomas Gleixner <tglx@linutronix.de>, Allison Randal <allison@lohutok.net>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jan 04, 2020 at 09:43:31PM +0100, Julia Lawall wrote:
-> From: kbuild test robot <lkp@intel.com>
-> 
-> Remove dev_err() messages after platform_get_irq*() failures.
-> Line 450 is redundant because platform_get_irq() already prints
-> an error.
-> 
-> Generated by: scripts/coccinelle/api/platform_get_irq.cocci
-> 
-> Fixes: dd90e9ae55a1 ("video: fbdev: mmp: add COMPILE_TEST support")
-> Signed-off-by: kbuild test robot <lkp@intel.com>
-> Signed-off-by: Julia Lawall <julia.lawall@inria.fr>
+Hi,
 
-Applied to drm-misc-next, thanks for your patch.
--Daniel
+The ioread8/16/32() and others have inconsistent interface among the
+architectures: some taking address as const, some not.
 
-> 
-> ---
-> 
-> tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
-> head:   80805774fc354f9ae7755a8e649a01dedfd0dcf8
-> commit: dd90e9ae55a1e7efd3ac036afe9f7ae7bb64d39d [2/16] video: fbdev: mmp: add COMPILE_TEST support
-> :::::: branch date: 11 hours ago
-> :::::: commit date: 11 hours ago
-> 
->  mmp_ctrl.c |    1 -
->  1 file changed, 1 deletion(-)
-> 
-> --- a/drivers/video/fbdev/mmp/hw/mmp_ctrl.c
-> +++ b/drivers/video/fbdev/mmp/hw/mmp_ctrl.c
-> @@ -447,7 +447,6 @@ static int mmphw_probe(struct platform_d
-> 
->  	irq = platform_get_irq(pdev, 0);
->  	if (irq < 0) {
-> -		dev_err(&pdev->dev, "%s: no IRQ defined\n", __func__);
->  		ret = -ENOENT;
->  		goto failed;
->  	}
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+It seems there is nothing really stopping all of them to take
+pointer to const.
+
+Patchset was really tested on all affected architectures.
+Build testing is in progress - I hope auto-builders will point any issues.
+
+
+Todo
+====
+Convert also string versions (ioread16_rep() etc) if this aproach looks OK.
+
+
+Merging
+=======
+The first 5 patches - iomap, alpha, sh, parisc and powerpc - should probably go
+via one tree, or even squashed into one.
+
+All other can go separately after these get merged.
+
+Best regards,
+Krzysztof
+
+
+Krzysztof Kozlowski (13):
+  iomap: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  alpha: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  sh: Constify ioreadX() iomem argument (as in generic implementation)
+  parisc: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  powerpc: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  arc: Constify ioreadX() iomem argument (as in generic implementation)
+  drm/mgag200: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  drm/nouveau: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  media: fsl-viu: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  net: wireless: ath5k: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  net: wireless: rtl818x: Constify ioreadX() iomem argument (as in
+    generic implementation)
+  ntb: intel: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  virtio: pci: Constify ioreadX() iomem argument (as in generic
+    implementation)
+
+ arch/alpha/include/asm/core_apecs.h                |  6 +--
+ arch/alpha/include/asm/core_cia.h                  |  6 +--
+ arch/alpha/include/asm/core_lca.h                  |  6 +--
+ arch/alpha/include/asm/core_marvel.h               |  4 +-
+ arch/alpha/include/asm/core_mcpcia.h               |  6 +--
+ arch/alpha/include/asm/core_t2.h                   |  2 +-
+ arch/alpha/include/asm/io.h                        | 12 +++---
+ arch/alpha/include/asm/io_trivial.h                | 16 ++++----
+ arch/alpha/include/asm/jensen.h                    |  2 +-
+ arch/alpha/include/asm/machvec.h                   |  6 +--
+ arch/alpha/kernel/core_marvel.c                    |  2 +-
+ arch/alpha/kernel/io.c                             |  6 +--
+ arch/arc/plat-axs10x/axs10x.c                      |  4 +-
+ arch/parisc/include/asm/io.h                       |  4 +-
+ arch/parisc/lib/iomap.c                            | 48 +++++++++++-----------
+ arch/powerpc/kernel/iomap.c                        | 22 +++++-----
+ arch/sh/kernel/iomap.c                             | 10 ++---
+ drivers/gpu/drm/mgag200/mgag200_drv.h              |  4 +-
+ drivers/gpu/drm/nouveau/nouveau_bo.c               |  2 +-
+ drivers/media/platform/fsl-viu.c                   |  2 +-
+ drivers/net/wireless/ath/ath5k/ahb.c               | 10 ++---
+ .../net/wireless/realtek/rtl818x/rtl8180/rtl8180.h |  6 +--
+ drivers/ntb/hw/intel/ntb_hw_gen1.c                 |  2 +-
+ drivers/ntb/hw/intel/ntb_hw_gen3.h                 |  2 +-
+ drivers/ntb/hw/intel/ntb_hw_intel.h                |  2 +-
+ drivers/virtio/virtio_pci_modern.c                 |  6 +--
+ include/asm-generic/iomap.h                        | 22 +++++-----
+ include/linux/io-64-nonatomic-hi-lo.h              |  4 +-
+ include/linux/io-64-nonatomic-lo-hi.h              |  4 +-
+ lib/iomap.c                                        | 18 ++++----
+ 30 files changed, 123 insertions(+), 123 deletions(-)
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.7.4
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
