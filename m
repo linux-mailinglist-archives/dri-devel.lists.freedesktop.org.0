@@ -2,55 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B09F9132A32
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 16:41:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA797132A3F
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 16:42:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 310B089FEA;
-	Tue,  7 Jan 2020 15:41:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A69536E0E0;
+	Tue,  7 Jan 2020 15:42:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com
- [IPv6:2607:f8b0:4864:20::744])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00A1389FEA
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2020 15:41:26 +0000 (UTC)
-Received: by mail-qk1-x744.google.com with SMTP id j9so43414818qkk.1
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2020 07:41:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=LGgTET/mQ+BQRq2YpjHXtJkj1SpWAwe/cmMnJ4k3kFk=;
- b=UyJCsYn7+6NIErK/D0MTwbj7pWmKOeR39+gxmJfRkbxji5ujsEy/gFQ358VacSAA+E
- lY4VWw8jg/a8wKU36JVrTnZoFLxj34yMZnzxJR5VQ1fIAAkjw/iVIvy82CTazStGTEwB
- iBZtom5W59o/iyla+9cC4FXNXzAGDP+2eYd+Re7q9MddAZRZcuej6VVjxzy+cCiLa1sH
- X8Zzd5rXASOQdZFUEA56qF1X/DGdQ9EKaQpRsTrWhAZjdpjAmEC2rp1QCUFC7a8gHr5z
- /HuM+w2gc6qA6BxqXVikjmLrdAEpkXdGS6aBDbN7EnS4TVm5rngY+sflIjvQSHLLZnxE
- O+tw==
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 200CB6E0E0
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2020 15:42:53 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id c9so54485146wrw.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2020 07:42:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=e3JSrkA31lPQjM0qXrRZGQXu9t0TvJbA8jjtu6S4Kws=;
+ b=J5AV37YMJnHJ3RXFwlcgkZbwnjesyNWZCGcGQ9HbGoN2/KGcUJWMYOHJ644L/6842G
+ fvzBovUsbr46GGogb+jON8VfUPJWTsgksfQX3FM7MP1Z0QKoY+4D80AMiPLsLyT5D/+i
+ ZuBWwdoFgmGgy3oleSv4YP/oJ2Un2Z0W9tkpU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=LGgTET/mQ+BQRq2YpjHXtJkj1SpWAwe/cmMnJ4k3kFk=;
- b=DveCu8xdgYqg9FfkasptUDdDAFhmBkTix3wq1UpD8Yb7+QkzsOFWspNisnHU1t6bQ6
- PQDls18/0+92F+rNy0SZc4sYS2kRvNBeeLOcu34UMBF0Gb1fjnSmn7K6lbdkjofDaBSL
- qsrZVHi8yZD94TWpVutqqKf9x2qZBMuYENduCjPGGGK+WGw2o6rbuXXllf4BRZbuXck9
- 8zwErLFH/knAdBLVCjNbKXgSzCFKEVBvQxuNir8wtJBHiZ4YDZ4Wv6Dt0n1jwSxN9Zsi
- K3e/FOrXMz4vy/StTuf04ecCdt30A/TihYXsNG31K+w3d9W71BTwrZ4iqLG89UDt2SQJ
- aMCQ==
-X-Gm-Message-State: APjAAAX2myhx0YHJroRE1ccU0w8tUewQXdBDfSYBUfiGNkX1/ZbyNjiu
- 67FEsqeg+wOHARdbPXRKgBKv2w2rynwsJc+GLxYBrw==
-X-Google-Smtp-Source: APXvYqxQVQLtTp5i1Sqih0sWcwsCL51KS/gxOBHo2eRvfS5iLJb09nd6Ixt72/6fAmAs3CSkFEiR8aa6RhzW5Hs01zA=
-X-Received: by 2002:a37:4ac6:: with SMTP id
- x189mr86160417qka.219.1578411686063; 
- Tue, 07 Jan 2020 07:41:26 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=e3JSrkA31lPQjM0qXrRZGQXu9t0TvJbA8jjtu6S4Kws=;
+ b=n4NTyR0CnSAzH62a67IOBR5v+uSclUv18zoCbyXSfgbrAxpm8z5Y++wiL2mggywW3y
+ 4TRfrUYESjVHIpjD8v7Pi2FMxrB/YDoVhik/+6ocWccwD+ymZ0Q6Wum04jM1ofevNy2W
+ VoS0i3ee8w1TnPTXdKWT+8JdfKv6TxNYUipwu115c6KzzTNNKnHurYkcDhpIZTVVI2Yt
+ QAJe2oBZKyPlvq96X6kE1Vi6JGFhNqA8M/CMl1eGe8Hiqzu6JSVH6t0bDkBwBYdvZ/Jb
+ XMOqGpZ8LXUONdrY6JlFAZUtldfNjaEhD2i72vNmhsFHzcn9ODM7uydaqUrBHA74HU+E
+ ywwA==
+X-Gm-Message-State: APjAAAVhOGBHtIYWjTSX+udQDfEBtwrMAMHUsUqVXuMakC5F3b8QsYae
+ VYh2wYccVFUWCcvFoQ1oF+Zeag==
+X-Google-Smtp-Source: APXvYqxzjRRl6NXBuJI2QKzzEl9GDdX2Uvf5Cn8sj8TaUUnBTDqduz5Kg7Z/Xcxe5sZ6W6MbtlZrgQ==
+X-Received: by 2002:a5d:558d:: with SMTP id
+ i13mr110929908wrv.364.1578411771762; 
+ Tue, 07 Jan 2020 07:42:51 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:564b:0:7567:bb67:3d7f:f863])
+ by smtp.gmail.com with ESMTPSA id g199sm21778wmg.12.2020.01.07.07.42.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Jan 2020 07:42:50 -0800 (PST)
+Date: Tue, 7 Jan 2020 16:42:43 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Subject: Re: SIGBUS on device disappearance (Re: Warnings in DRM code when
+ removing/unbinding a driver)
+Message-ID: <20200107154243.GA43062@phenom.ffwll.local>
+Mail-Followup-To: Pekka Paalanen <ppaalanen@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, dbueso@suse.de,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ "Chenfeng (puck)" <puck.chen@hisilicon.com>,
+ John Garry <john.garry@huawei.com>, Linuxarm <linuxarm@huawei.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "kongxinwei (A)" <kong.kongxinwei@hisilicon.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Ezequiel Garcia <ezequiel@collabora.com>
+References: <07899bd5-e9a5-cff0-395f-b4fb3f0f7f6c@huawei.com>
+ <f867543cf5d0fc3fdd0534749326411bcfc5e363.camel@collabora.com>
+ <c2e5f5a5-5839-42a9-2140-903e99e166db@huawei.com>
+ <fde72f73-d678-2b77-3950-d465f0afe904@huawei.com>
+ <CAKMK7uFr03euoB6rY8z9zmRyznP41vwfdaKApZ_0HfYZT4Hq_w@mail.gmail.com>
+ <fcca5732-c7dc-6e1d-dcbe-bfd914a4295b@huawei.com>
+ <CAKMK7uE+nfR2hv1ybfv1ZApZbGnnX7ZHfjFCv5K72ZaAmdtfug@mail.gmail.com>
+ <20191219113151.sytkoi3m7rrxzps2@sirius.home.kraxel.org>
+ <CAKMK7uHEL3WzSHDM3XdLwOBtQUtygK6x-md8W1MVsAryDDgFog@mail.gmail.com>
+ <20191223110015.0e04ea25@ferris.localdomain>
 MIME-Version: 1.0
-References: <20200102101712.5085-1-sam@ravnborg.org>
- <20200102101712.5085-2-sam@ravnborg.org>
-In-Reply-To: <20200102101712.5085-2-sam@ravnborg.org>
-From: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-Date: Tue, 7 Jan 2020 16:41:15 +0100
-Message-ID: <CA+M3ks7_5To5r+PgUdg_4RrUpxHwVNuzTWGmn-cNXcfrgTq5Vg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: one binding file for all simple panels
-To: Sam Ravnborg <sam@ravnborg.org>
+Content-Disposition: inline
+In-Reply-To: <20191223110015.0e04ea25@ferris.localdomain>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,142 +86,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Yannick Fertre <yannick.fertre@st.com>,
- Thierry Reding <thierry.reding@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dbueso@suse.de,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ "Chenfeng \(puck\)" <puck.chen@hisilicon.com>,
+ John Garry <john.garry@huawei.com>, Linuxarm <linuxarm@huawei.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "kongxinwei \(A\)" <kong.kongxinwei@hisilicon.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Ezequiel Garcia <ezequiel@collabora.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TGUgamV1LiAyIGphbnYuIDIwMjAgw6AgMTE6MTcsIFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3Jn
-Lm9yZz4gYSDDqWNyaXQgOgo+Cj4gVGhlcmUgaXMgYW4gaW5jcmVhc2luZyBudW1iZXIgb2YgbmV3
-IHNpbXBsZSBwYW5lbHMuCj4gQ29tbW9uIGZvciBtYW55IG9mIHRoZXNlIHNpbXBsZSBwYW5lbHMg
-YXJlIHRoYXQgdGhleSBoYXZlIG9uZQo+IG1hbmRhdG9yeSBwb3dlci1zdXBwbHkgYW5kIHNvbWUg
-b2YgdGhlbSBoYXZlIGJhY2tsaWdodCBhbmQgLyBvcgo+IGFuIGVuYWJsZSBncGlvLgo+Cj4gVGhl
-IGJpbmRpbmcgZmlsZSB0byBkZXNjcmliZSB0aGVzZSBwYW5lbHMgYWRkcyBvdmVyaGVhZAo+IHRo
-YXQgcmVhbGx5IGRvIG5vdCBhZGQgdmFsdWUuCj4gVGhlIGJpbmRpbmcgYXJlIGtub3duIGFuZCB0
-aGVyZSBpcyBub3RoaW5nIGdhaW5lZCBmcm9tIGEKPiBkZWRpY2F0ZWQgYmluZGluZyBmaWxlIG5v
-ciBmb3IgYW55IGRlZGljYXRlZCBleGFtcGxlLgo+Cj4gVGhlIGZvbGxvd2luZyBwYXRjaCBpbnRy
-b2R1Y2VzIGEgc2luZ2xlIHBhbmVsLXNpbXBsZS55YW1sCj4gYW5kIGNvbnZlcnRzIHR3byBhbXBp
-cmUgYmluZGluZ3Mgb3ZlciB0byB0aGUgbmV3IGZpbGUuCj4KPiBUaGUgY29udmVyc2lvbiAtIGlm
-IGFwcGxpZWQgd2lsbCBoYXZlIGZvbGxvd2luZyBlZmZlY3RzOgo+Cj4gLSBUaGUgbWFpbnRhaW5l
-ciBmb3IgdGhlIGluZGl2aWR1YWwgZmlsZSB3aWxsIGNoYW5nZQo+ICAgICBUaGVyZSBpcyBubyBu
-ZWVkIGZvciBtYW55IGRpZmZlcmVudCBtYWludGFpbmVycyBmb3IgYSBzaW1wbGUgYmluZGluZy4K
-PiAgICAgV2UgaGF2ZSB0aGUgc2FtZSBzaXR1YXRpb24gd2l0aCB0aGUgcGFuZWwtc2ltcGxlIGRy
-aXZlciBpbiB0aGUga2VybmVsLgo+Cj4gLSBUaGUgbGljZW5zZSB3aWxsIGNoYW5nZSB0byAoR1BM
-LTIuMC1vbmx5IE9SIEJTRC0yLUNsYXVzZSkKPiAgICAgVGhlcmUgaXMgdXN1YWxseSBvbmx5IGEg
-c2luZ2xlIGxpbmUgY29waWVkIGZyb20gdGhlIG9yaWdpbmFsCj4gICAgIGZpbGUsIGEgbGluZSB0
-aGF0IGlzIG9mdGVuIGNvcGllZCBmcm9tIGEgZGF0YXNoZWV0Lgo+ICAgICBUaGlzIGxpY2Vuc2Ug
-Y2hhbmdlIHNob3VsZCBiZSBhY2NlcHRhYmxlIGNvbnNpZGVyZWQgd2hhdCBsaXR0bGUKPiAgICAg
-aXMgY29waWVkLgo+ICAgICBJZiB0aGUgbGljZW5zZSBjaGFuZ2UgaXMgbm90IE9LIHdlIGNhbiB1
-c2UgYSBkZWRpY2F0ZWQgYmluZGluZwo+ICAgICBmaWxlIGluIHRoZXNlIGNhc2VzLgo+Cj4gVGhp
-cyBpcyBhIGZvbGxvdy11cCBvbiBSb2IncyBiaWcgcGF0Y2ggY29udmVydGluZyBhIGxvdCBvZiBw
-YW5lbCBiaW5kaW5ncwo+IHRvIGluZGl2aWR1YWwgZmlsZXM6Cj4KPiAiZHQtYmluZGluZ3M6IGRp
-c3BsYXk6IENvbnZlcnQgYSBidW5jaCBvZiBwYW5lbHMgdG8gRFQgc2NoZW1hIgo+IGh0dHBzOi8v
-cGF0Y2h3b3JrLm96bGFicy5vcmcvcGF0Y2gvMTE5NzY4My8KPgo+IFRoZSBvYmplY3RpdmVzIHdp
-dGggb25lIGZpbGUgZm9yIHRoZSByZWxldmFudCBzaW1wbGUgcGFuZWxzIGFyZToKPiAtIE1ha2Ug
-aXQgc2ltcGxlciB0byBhZGQgYmluZGluZ3MgZm9yIHNpbXBsZSBwYW5lbHMKPiAtIEtlZXAgdGhl
-IG51bWJlciBvZiBiaW5kaW5ncyBmaWxlIGxvd2VyIGFuZCB0aHVzIGVhc2llciB0byBmaW5kIGEK
-PiAgIHJlbGV2YW50IGZpbGUgdG8gY29weSBmcm9tIHdoZW4gYWRkaW5nIG5ldyBwYW5lbHMuCj4g
-LSBLZWVwIHRoZSBiaW5kaW5nIGRvY3VtZW50YXRpb24gZm9yIHNpbXBsZSBwYW5lbHMgbW9yZSBj
-b25zaXN0ZW50Cj4gLSBNYWtlIGl0IHNpbXBsZXIgdG8gYWRkIHN1cHBvcnQgZm9yIG5ldyBwYW5l
-bHMKPgo+IHYyOgo+ICAgLSBzcGVsbGluZyBmaXhlcyAoaW1pcmtpbiB2aWEgaXJjLCBSb2IpCj4g
-ICAtIHVwZGF0ZWQgZGVzY3JpcHRpb24gKFJvYikKPiAgIC0gbGlzdCBwcm9wZXJpcmVzIGluIGFs
-cGhhYmV0aWNhbCBvcmRlcgo+ICAgLSBhZGRlZCBwb3dlci1zdXBwbHkgdG8gZXhhbXBsZSAoUm9i
-KQo+ICAgLSB1cGRhdGVkIHRpdGxlCj4gICAtIHJld29yZGVkIGNoYW5nZWxvZyBhIGxpdHRsZQo+
-Cj4gU2lnbmVkLW9mZi1ieTogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPgo+IENjOiBU
-aGllcnJ5IFJlZGluZyA8dGhpZXJyeS5yZWRpbmdAZ21haWwuY29tPgo+IENjOiBSb2IgSGVycmlu
-ZyA8cm9iaEBrZXJuZWwub3JnPgo+IENjOiBNYXhpbWUgUmlwYXJkIDxtcmlwYXJkQGtlcm5lbC5v
-cmc+Cj4gQ2M6IFlhbm5pY2sgRmVydHJlIDx5YW5uaWNrLmZlcnRyZUBzdC5jb20+Cj4gQ2M6IE1h
-cmsgUnV0bGFuZCA8bWFyay5ydXRsYW5kQGFybS5jb20+Cj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRh
-bmllbEBmZndsbC5jaD4KPiBDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IENj
-OiBkZXZpY2V0cmVlQHZnZXIua2VybmVsLm9yZwo+IC0tLQo+ICAuLi4vcGFuZWwvYW1waXJlLGFt
-LTQ4MDI3MmgzdG1xdy10MDFoLnlhbWwgICAgfCA0MiAtLS0tLS0tLS0tLS0tCj4gIC4uLi9wYW5l
-bC9hbXBpcmUsYW04MDA0ODByM3RtcXdhMWgudHh0ICAgICAgICB8ICA3IC0tLQo+ICAuLi4vYmlu
-ZGluZ3MvZGlzcGxheS9wYW5lbC9wYW5lbC1zaW1wbGUueWFtbCAgfCA1OSArKysrKysrKysrKysr
-KysrKysrCj4gIDMgZmlsZXMgY2hhbmdlZCwgNTkgaW5zZXJ0aW9ucygrKSwgNDkgZGVsZXRpb25z
-KC0pCj4gIGRlbGV0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
-Z3MvZGlzcGxheS9wYW5lbC9hbXBpcmUsYW0tNDgwMjcyaDN0bXF3LXQwMWgueWFtbAo+ICBkZWxl
-dGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkv
-cGFuZWwvYW1waXJlLGFtODAwNDgwcjN0bXF3YTFoLnR4dAo+ICBjcmVhdGUgbW9kZSAxMDA2NDQg
-RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvcGFuZWwtc2lt
-cGxlLnlhbWwKPgo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
-Z3MvZGlzcGxheS9wYW5lbC9hbXBpcmUsYW0tNDgwMjcyaDN0bXF3LXQwMWgueWFtbCBiL0RvY3Vt
-ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL2FtcGlyZSxhbS00ODAy
-NzJoM3RtcXctdDAxaC55YW1sCj4gZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0Cj4gaW5kZXggYzZl
-MzNlN2YzNmQwLi4wMDAwMDAwMDAwMDAKPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUv
-YmluZGluZ3MvZGlzcGxheS9wYW5lbC9hbXBpcmUsYW0tNDgwMjcyaDN0bXF3LXQwMWgueWFtbAo+
-ICsrKyAvZGV2L251bGwKPiBAQCAtMSw0MiArMCwwIEBACj4gLSMgU1BEWC1MaWNlbnNlLUlkZW50
-aWZpZXI6IEdQTC0yLjAKPiAtJVlBTUwgMS4yCj4gLS0tLQo+IC0kaWQ6IGh0dHA6Ly9kZXZpY2V0
-cmVlLm9yZy9zY2hlbWFzL2Rpc3BsYXkvcGFuZWwvYW1waXJlLGFtLTQ4MDI3MmgzdG1xdy10MDFo
-LnlhbWwjCj4gLSRzY2hlbWE6IGh0dHA6Ly9kZXZpY2V0cmVlLm9yZy9tZXRhLXNjaGVtYXMvY29y
-ZS55YW1sIwo+IC0KPiAtdGl0bGU6IEFtcGlyZSBBTS00ODAyNzJIM1RNUVctVDAxSCA0LjMiIFdR
-VkdBIFRGVCBMQ0QgcGFuZWwKPiAtCj4gLW1haW50YWluZXJzOgo+IC0gIC0gWWFubmljayBGZXJ0
-cmUgPHlhbm5pY2suZmVydHJlQHN0LmNvbT4KPiAtICAtIFRoaWVycnkgUmVkaW5nIDx0cmVkaW5n
-QG52aWRpYS5jb20+Cj4gLQo+IC1hbGxPZjoKPiAtICAtICRyZWY6IHBhbmVsLWNvbW1vbi55YW1s
-Iwo+IC0KPiAtcHJvcGVydGllczoKPiAtICBjb21wYXRpYmxlOgo+IC0gICAgY29uc3Q6IGFtcGly
-ZSxhbS00ODAyNzJoM3RtcXctdDAxaAo+IC0KPiAtICBwb3dlci1zdXBwbHk6IHRydWUKPiAtICBl
-bmFibGUtZ3Bpb3M6IHRydWUKPiAtICBiYWNrbGlnaHQ6IHRydWUKPiAtICBwb3J0OiB0cnVlCj4g
-LQo+IC1yZXF1aXJlZDoKPiAtICAtIGNvbXBhdGlibGUKPiAtCj4gLWFkZGl0aW9uYWxQcm9wZXJ0
-aWVzOiBmYWxzZQo+IC0KPiAtZXhhbXBsZXM6Cj4gLSAgLSB8Cj4gLSAgICBwYW5lbF9yZ2I6IHBh
-bmVsIHsKPiAtICAgICAgY29tcGF0aWJsZSA9ICJhbXBpcmUsYW0tNDgwMjcyaDN0bXF3LXQwMWgi
-Owo+IC0gICAgICBlbmFibGUtZ3Bpb3MgPSA8JmdwaW9hIDggMT47Cj4gLSAgICAgIHBvcnQgewo+
-IC0gICAgICAgIHBhbmVsX2luX3JnYjogZW5kcG9pbnQgewo+IC0gICAgICAgICAgcmVtb3RlLWVu
-ZHBvaW50ID0gPCZjb250cm9sbGVyX291dF9yZ2I+Owo+IC0gICAgICAgIH07Cj4gLSAgICAgIH07
-Cj4gLSAgICB9Owo+IC0KPiAtLi4uCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNl
-dHJlZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL2FtcGlyZSxhbTgwMDQ4MHIzdG1xd2ExaC50eHQg
-Yi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9hbXBpcmUs
-YW04MDA0ODByM3RtcXdhMWgudHh0Cj4gZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0Cj4gaW5kZXgg
-ODNlMmNhZTFjYzFiLi4wMDAwMDAwMDAwMDAKPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRy
-ZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9hbXBpcmUsYW04MDA0ODByM3RtcXdhMWgudHh0Cj4g
-KysrIC9kZXYvbnVsbAo+IEBAIC0xLDcgKzAsMCBAQAo+IC1BbXBpcmUgQU0tODAwNDgwUjNUTVFX
-LUExSCA3LjAiIFdWR0EgVEZUIExDRCBwYW5lbAo+IC0KPiAtUmVxdWlyZWQgcHJvcGVydGllczoK
-PiAtLSBjb21wYXRpYmxlOiBzaG91bGQgYmUgImFtcGlyZSxhbTgwMDQ4MHIzdG1xd2ExaCIKPiAt
-Cj4gLVRoaXMgYmluZGluZyBpcyBjb21wYXRpYmxlIHdpdGggdGhlIHNpbXBsZS1wYW5lbCBiaW5k
-aW5nLCB3aGljaCBpcyBzcGVjaWZpZWQKPiAtaW4gc2ltcGxlLXBhbmVsLnR4dCBpbiB0aGlzIGRp
-cmVjdG9yeS4KPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdz
-L2Rpc3BsYXkvcGFuZWwvcGFuZWwtc2ltcGxlLnlhbWwgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRy
-ZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9wYW5lbC1zaW1wbGUueWFtbAo+IG5ldyBmaWxlIG1v
-ZGUgMTAwNjQ0Cj4gaW5kZXggMDAwMDAwMDAwMDAwLi41MWNhNTAyMDExODIKPiAtLS0gL2Rldi9u
-dWxsCj4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFu
-ZWwvcGFuZWwtc2ltcGxlLnlhbWwKPiBAQCAtMCwwICsxLDU5IEBACj4gKyMgU1BEWC1MaWNlbnNl
-LUlkZW50aWZpZXI6IChHUEwtMi4wLW9ubHkgT1IgQlNELTItQ2xhdXNlKQo+ICslWUFNTCAxLjIK
-PiArLS0tCj4gKyRpZDogaHR0cDovL2RldmljZXRyZWUub3JnL3NjaGVtYXMvZGlzcGxheS9wYW5l
-bC9wYW5lbC1zaW1wbGUueWFtbCMKPiArJHNjaGVtYTogaHR0cDovL2RldmljZXRyZWUub3JnL21l
-dGEtc2NoZW1hcy9jb3JlLnlhbWwjCj4gKwo+ICt0aXRsZTogU2ltcGxlIHBhbmVscyB3aXRoIG9u
-ZSBwb3dlciBzdXBwbHkKPiArCj4gK21haW50YWluZXJzOgo+ICsgIC0gVGhpZXJyeSBSZWRpbmcg
-PHRoaWVycnkucmVkaW5nQGdtYWlsLmNvbT4KPiArICAtIFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5i
-b3JnLm9yZz4KPiArCj4gK2Rlc2NyaXB0aW9uOiB8Cj4gKyAgVGhpcyBiaW5kaW5nIGZpbGUgaXMg
-YSBjb2xsZWN0aW9uIG9mIHRoZSBzaW1wbGUgKGR1bWIpIHBhbmVscyB0aGF0Cj4gKyAgcmVxdWly
-ZXMgb25seSBhIHNpbmdsZSBwb3dlci1zdXBwbHkuCj4gKyAgVGhlcmUgYXJlIG9wdGlvbmFsbHkg
-YSBiYWNrbGlnaHQgYW5kIGFuIGVuYWJsZSBHUElPLgo+ICsgIFRoZSBwYW5lbCBtYXkgdXNlIGFu
-IE9GIGdyYXBoIGJpbmRpbmcgZm9yIHRoZSBhc3NvY2lhdGlvbiB0byB0aGUgZGlzcGxheSwKPiAr
-ICBvciBpdCBtYXkgYmUgYSBkaXJlY3QgY2hpbGQgbm9kZSBvZiB0aGUgZGlzcGxheS4KPiArCj4g
-KyAgSWYgdGhlIHBhbmVsIGlzIG1vcmUgYWR2YW5jZWQgYSBkZWRpY2F0ZWQgYmluZGluZyBmaWxl
-IGlzIHJlcXVpcmVkLgo+ICsKPiArYWxsT2Y6Cj4gKyAgLSAkcmVmOiBwYW5lbC1jb21tb24ueWFt
-bCMKPiArCj4gK3Byb3BlcnRpZXM6Cj4gKwo+ICsgIGNvbXBhdGlibGU6Cj4gKyAgICBlbnVtOgo+
-ICsgICAgIyBjb21wYXRpYmxlIG11c3QgYmUgbGlzdGVkIGluIGFscGhhYmV0aWNhbCBvcmRlciwg
-b3JkZXJlZCBieSBjb21wYXRpYmxlLgo+ICsgICAgIyBUaGUgZGVzY3JpcHRpb24gaW4gdGhlIGNv
-bW1lbnQgaXMgbWFuZGF0b3J5IGZvciBlYWNoIGNvbXBhdGlibGUuCj4gKwo+ICsgICAgIyBBbXBp
-cmUgQU0tNDgwMjcySDNUTVFXLVQwMUggNC4zIiBXUVZHQSBURlQgTENEIHBhbmVsCj4gKyAgICAt
-IGFtcGlyZSxhbS00ODAyNzJoM3RtcXctdDAxaAo+ICsgICAgIyBBbXBpcmUgQU0tODAwNDgwUjNU
-TVFXLUExSCA3LjAiIFdWR0EgVEZUIExDRCBwYW5lbAo+ICsgICAgLSBhbXBpcmUsYW04MDA0ODBy
-M3RtcXdhMWgKPiArCj4gKyAgYmFja2xpZ2h0OiB0cnVlCj4gKyAgZW5hYmxlLWdwaW9zOiB0cnVl
-Cj4gKyAgcG9ydDogdHJ1ZQo+ICsgIHBvd2VyLXN1cHBseTogdHJ1ZQo+ICsKPiArYWRkaXRpb25h
-bFByb3BlcnRpZXM6IGZhbHNlCj4gKwo+ICtyZXF1aXJlZDoKPiArICAtIGNvbXBhdGlibGUKPiAr
-ICAtIHBvd2VyLXN1cHBseQoKSGkgU2FtLAoKcG93ZXItc3VwcGx5IHByb3BlcnR5IHNob3VsZCBi
-ZSBvcHRpb25hbCBsaWtlIGl0IHdhcyBpbgphbXBpcmUsYW0tNDgwMjcyaDN0bXF3LXQwMWgueWFt
-bAplbHNlIGl0IGxvb2tzIGdvb2QgZm9yIG1lLgoKQmVuamFtaW4KCj4gKwo+ICtleGFtcGxlczoK
-PiArICAtIHwKPiArICAgIHBhbmVsX3JnYjogcGFuZWwtcmdiIHsKPiArICAgICAgY29tcGF0aWJs
-ZSA9ICJhbXBpcmUsYW0tNDgwMjcyaDN0bXF3LXQwMWgiOwo+ICsgICAgICBwb3dlci1zdXBwbHkg
-PSA8JnZjY19sY2RfcmVnPjsKPiArCj4gKyAgICAgIHBvcnQgewo+ICsgICAgICAgIHBhbmVsX2lu
-X3JnYjogZW5kcG9pbnQgewo+ICsgICAgICAgICAgcmVtb3RlLWVuZHBvaW50ID0gPCZsdGRjX291
-dF9yZ2I+Owo+ICsgICAgICAgIH07Cj4gKyAgICAgIH07Cj4gKyAgICB9Owo+IC0tCj4gMi4yMC4x
-Cj4KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4g
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Mon, Dec 23, 2019 at 11:00:15AM +0200, Pekka Paalanen wrote:
+> On Thu, 19 Dec 2019 13:42:33 +0100
+> Daniel Vetter <daniel@ffwll.ch> wrote:
+> 
+> > On Thu, Dec 19, 2019 at 12:32 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+> > >
+> > > While being at it:  How would a driver cleanup properly cleanup gem
+> > > objects created by userspace on hotunbind?  Specifically a gem object
+> > > pinned to vram?  
+> > 
+> > Two things:
+> > - the mmap needs to be torn down and replaced by something which will
+> > sigbus. Probably should have that as a helper (plus vram fault code
+> > should use drm_dev_enter/exit to plug races).
+> 
+> Hi,
+> 
+> I assume SIGBUS is the traditional way to say "oops, the memory you
+> mmapped and tried to access no longer exists". Is there nothing
+> else for this?
+> 
+> I'm asking, because SIGBUS is really hard to handle right in
+> userspace. It can be caused by any number of wildly different
+> reasons, yet being a signal means that a userspace process can only
+> have a single global handler for it. That makes it almost
+> impossible to use safely in libraries, because you would want to
+> register independent handlers from multiple libraries in the same
+> process. Some libraries may also be using threads.
+> 
+> How to handle a SIGBUS completely depends on what triggered it.
+> Almost always userspace wants it to be a non-fatal error. A Wayland
+> compositor can hit SIGBUS on accessing wl_shm-based client buffers
+> (regular mmapped files), and then it just wants to continue with
+> garbage data as if nothing happened and possibly send a protocol
+> error to the client provoking it.
+
+For drm drivers that you actually want to hotunplug (as opposed to more
+just for driver development) they all use system memory/shmem, so
+shouldn't sigbus. I think at least, I haven't tested anything. This is for
+udl, or the tiny displays behind an spi bridge.
+
+For pci drivers where the mmap often points at a pci bridge the mmio range
+will be gone, so not SIGBUSing is going to be a tough order. Not
+impossible, but before we enshrine this into uapi someont will have to do
+some serious typing.
+
+> I would also imagine that Mesa, when it starts looking into
+> supporting GPU hotunplug, needs to handle vanished mmaps. I don't
+> think Mesa can ever install signal handlers, because that would
+> mess with the applications that may already be using SIGBUS for
+> handling disappearing mmapped files. It needs to start returning
+> errors via API calls. I cannot imagine a way to reliably prevent
+> such SIGBUS either by e.g. ensuring Mesa gets notified of removal
+> before it actually starts failing.
+
+Mesa already blows up in all kinds of interesting ways when it gets an EIO
+at execbuf. I think. Robust handling of gpu hotunplug for gl/vk contexts
+is going to be more work on top (and mmap is probably the least issue
+there, at least right now).
+
+> For now, I'm just looking for a simple "yes" or "no" here for the
+> something else. If it's "no" like I expect, creating something else
+> is probably in the order of years to get into a usable state. Does
+> anyone already have plans towards that?
+
+I agree with you that SIGBUS for mmap of hotunplugged devices is
+essentially unusable because sighandlers and all what you point out (would
+make it impossible to have robust vk/gl contexts, at least robuts against
+hotunplug).
+
+So in principle I'm open to have some other uapi for this, but it's going
+to be serios amounts of work across the stack.
+
+For display only udl-style devices otoh I think we should be mostly there,
++/- driver bugs as usual.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
