@@ -2,56 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3743131C50
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 00:27:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CD30131CDD
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 01:55:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 374006E59D;
-	Mon,  6 Jan 2020 23:27:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A80F489762;
+	Tue,  7 Jan 2020 00:55:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com
- [IPv6:2607:f8b0:4864:20::e42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 423E76E59D;
- Mon,  6 Jan 2020 23:27:32 +0000 (UTC)
-Received: by mail-vs1-xe42.google.com with SMTP id p6so32764530vsj.11;
- Mon, 06 Jan 2020 15:27:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HR1adj1A3Ic5Jb0NPazOu77KkzAZJIoYDoyM9pqOY08=;
- b=oqeFlizxumJS3xSs1GLYvD4rPCNojogiwdfHo2ADKRWPANURopELSwAadjJ2NXujSa
- UHrMi+ntYK/HAoHmE/FTcFMw2qMSFICQonrtuXclCAPq9SeDkX5HF/6zNuNMWRf3dpM6
- Fca7K1tRUR03UmtRYsdkIhJLBuyGio5J/dAOB9I9jTKr3DU646PZN+wm32NaSFy+LBsv
- EVSME+gPCO0KEBL2M9+PaTpHvC+KOD9r6kwpnHcyXa8xC49mTfkEJXf3OI0znV0W2iPP
- ylTLSWSQPBYJMl8/BqjLfrrh/WVe6YhYxgX6Z3xEfW2bE4195F+FPZtb7KE1sxlNoCW/
- UXhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HR1adj1A3Ic5Jb0NPazOu77KkzAZJIoYDoyM9pqOY08=;
- b=GLF1Afw5uzv2kjtkoM8sXDKYaV3bShMoEBqe1Eld8MLo2yWnCmmv/Tk5wDk/YOjeSz
- oeQRRUibKvpCV724hZOqmsJTVQTRZVJ7SAOAHRujxn+xjPf8g1idND1a2zuqKUWYYUsg
- /G7k4+xawBJ/6yaFlASZ+W5z1+gvHCSNvCESbDBJhlJOX7T9TS4mMrYWaDjj6GOFvkv5
- duxMaqKA3vK0Vi0WrRzFmaROOB2U9EDMCEn8H4X8dRt8P5Fh/5KkcIv3DtzPFz8JDCCY
- wTTWOzNuupboBXKyCPY6qp4niE9Fn/kDrrQ4Hc6v5HPBgfNPQb9s2wqPIV04RoffTjbL
- YfWA==
-X-Gm-Message-State: APjAAAXYTUq/WO1kraOiKAu32vVoe10N7hgtrDWWZ/SeFx1yXj5GjmV8
- 9/ZlMPtGRmbZ/PKmQXNE6QZfrnDdMTBTy2igp0LBlfD3vag=
-X-Google-Smtp-Source: APXvYqwkkkOg/lno/2sC3oRI5T+GHauTDffkyPSndoXTgSJBxq6bIMGr5/8gezWgHbYFVgfICqpfZ9QI9Xm/qWStQoE=
-X-Received: by 2002:a05:6102:3126:: with SMTP id
- f6mr7144756vsh.204.1578353251286; 
- Mon, 06 Jan 2020 15:27:31 -0800 (PST)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01DB189762
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2020 00:55:29 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 06 Jan 2020 16:55:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,404,1571727600"; d="scan'208";a="210958509"
+Received: from shao2-debian.sh.intel.com (HELO [10.239.13.6]) ([10.239.13.6])
+ by orsmga007.jf.intel.com with ESMTP; 06 Jan 2020 16:55:25 -0800
+Subject: Re: [kbuild-all] Re: [PATCH v2 9/9] drm/bridge: ti-sn65dsi86: Avoid
+ invalid rates
+To: Doug Anderson <dianders@chromium.org>, kbuild test robot <lkp@intel.com>
+References: <20191217164702.v2.9.Ib59207b66db377380d13748752d6fce5596462c5@changeid>
+ <201912212109.ehZOyrlG%lkp@intel.com>
+ <CAD=FV=Ui=ZbzdyV6SjLvrL-zj6e+upog_wZMG4seOsdgZpF6tg@mail.gmail.com>
+From: Rong Chen <rong.a.chen@intel.com>
+Message-ID: <997d40ad-2a86-7a21-b16c-f33f4e2ebca8@intel.com>
+Date: Tue, 7 Jan 2020 08:55:08 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <20191217004520.2404-1-jajones@nvidia.com>
- <CACAvsv6AKt=10JgjaEKc=pkmKfGJoUJjq_Unn0yGTuQK85Es2g@mail.gmail.com>
- <b273ad88-d246-3395-2fd0-8188bc41a127@nvidia.com>
-In-Reply-To: <b273ad88-d246-3395-2fd0-8188bc41a127@nvidia.com>
-From: Ben Skeggs <skeggsb@gmail.com>
-Date: Tue, 7 Jan 2020 09:27:20 +1000
-Message-ID: <CACAvsv5bhaJozct9fgnJ8JNSXpdd5QCH+tCxciZetbnWuzzBPw@mail.gmail.com>
-Subject: Re: [Nouveau] [PATCH v2 0/3] drm/nouveau: Support NVIDIA format
- modifiers
-To: James Jones <jajones@nvidia.com>
+In-Reply-To: <CAD=FV=Ui=ZbzdyV6SjLvrL-zj6e+upog_wZMG4seOsdgZpF6tg@mail.gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,100 +47,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML nouveau <nouveau@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Rob Clark <robdclark@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, kbuild-all@lists.01.org,
+ Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Sean Paul <seanpaul@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 7 Jan 2020 at 05:17, James Jones <jajones@nvidia.com> wrote:
->
-> On 1/5/20 5:30 PM, Ben Skeggs wrote:
-> > On Tue, 17 Dec 2019 at 10:44, James Jones <jajones@nvidia.com> wrote:
-> >>
-> >> This series modifies the NV5x+ nouveau display backends to advertise
-> >> appropriate format modifiers on their display planes in atomic mode
-> >> setting blobs.
-> >>
-> >> Corresponding modifications to Mesa/userspace are available here:
-> >>
-> >> https://gitlab.freedesktop.org/cubanismo/mesa/tree/nouveau_work
-> >>
-> >> But those need a bit of cleanup before they're ready to submit.
-> >>
-> >> I've tested this on Tesla, Kepler, Pascal, and Turing-class hardware
-> >> using various formats and all the exposed format modifiers, plus some
-> >> negative testing with invalid ones.
-> >>
-> >> NOTE: this series depends on the "[PATCH v3] drm: Generalized NV Block
-> >> Linear DRM format mod" patch submitted to dri-devel.
-> >>
-> >> v2: Used Tesla family instead of NV50 chipset compare to avoid treating
-> >>      oddly numbered NV4x-class chipsets as NV50+ GPUs.  Other instances
-> >>      of compares with chipset number in the series were audited, deemed
-> >>      safe, and left as-is for consistency with existing code.
-> > Hey James,
-> >
-> > These look OK to me, with the minor issue I mentioned on one of the
-> > patches dealt with.  I'll hold off merging anything until I get the
-> > go-ahead that the modifier definitions are definitely set in stone /
-> > userspace is ready for inclusion.
->
-> Thanks for having a look.  I'll try to get the userspace changes
-> finalized soon.  I think from the NV side, we consider the modifier
-> definition itself (the v3 version of the patch) final, so if there's any
-> stand-alone feedback from yourself or other drm/nouveau developers on
-> that layout, we'd be eager to hear it.  I don't want it rushed in, but
-> we do have several projects blocked on getting that approved & committed.
->
-> I assume the sequencing should be:
->
-> * Fix the minor issue you identified here/complete review of nouveau
-> kernel patches
-> * Complete review of the related TegraDRM new modifier support patch
-> * Finalize and complete review of userspace/Mesa nouveau modifier
-> support patches
-> * Get drm_fourcc.h updates committed
-> * Get these patches and TegraDRM patches committed
-> * Integrate final drm_fourcc.h to Mesa patches and get Mesa patches
-> committed
->
-> Does that sound right to you?
-Seems very reasonable!
-
-Ben.
-
->
-> Thanks,
-> -James
->
-> > Thanks,
-> > Ben.
-> >
-> >>
-> >> James Jones (3):
-> >>    drm/nouveau: Add format mod prop to base/ovly/nvdisp
-> >>    drm/nouveau: Check framebuffer size against bo
-> >>    drm/nouveau: Support NVIDIA format modifiers
-> >>
-> >>   drivers/gpu/drm/nouveau/dispnv50/base507c.c |   7 +-
-> >>   drivers/gpu/drm/nouveau/dispnv50/disp.c     |  59 ++++++++
-> >>   drivers/gpu/drm/nouveau/dispnv50/disp.h     |   4 +
-> >>   drivers/gpu/drm/nouveau/dispnv50/wndw.c     |  35 ++++-
-> >>   drivers/gpu/drm/nouveau/dispnv50/wndwc57e.c |  17 +++
-> >>   drivers/gpu/drm/nouveau/nouveau_display.c   | 154 ++++++++++++++++++++
-> >>   drivers/gpu/drm/nouveau/nouveau_display.h   |   4 +
-> >>   7 files changed, 272 insertions(+), 8 deletions(-)
-> >>
-> >> --
-> >> 2.17.1
-> >>
-> >> _______________________________________________
-> >> Nouveau mailing list
-> >> Nouveau@lists.freedesktop.org
-> >> https://lists.freedesktop.org/mailman/listinfo/nouveau
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CgpPbiAxLzcvMjAgNjo0MyBBTSwgRG91ZyBBbmRlcnNvbiB3cm90ZToKPiBEZWFyIFJvYm90LAo+
+Cj4gT24gU2F0LCBEZWMgMjEsIDIwMTkgYXQgNTo1NyBBTSBrYnVpbGQgdGVzdCByb2JvdCA8bGtw
+QGludGVsLmNvbT4gd3JvdGU6Cj4+IEhpIERvdWdsYXMsCj4+Cj4+IEkgbG92ZSB5b3VyIHBhdGNo
+ISBQZXJoYXBzIHNvbWV0aGluZyB0byBpbXByb3ZlOgo+Pgo+PiBbYXV0byBidWlsZCB0ZXN0IFdB
+Uk5JTkcgb24gbGludXMvbWFzdGVyXQo+PiBbYWxzbyBidWlsZCB0ZXN0IFdBUk5JTkcgb24gdjUu
+NS1yYzIgbmV4dC0yMDE5MTIyMF0KPj4gW2lmIHlvdXIgcGF0Y2ggaXMgYXBwbGllZCB0byB0aGUg
+d3JvbmcgZ2l0IHRyZWUsIHBsZWFzZSBkcm9wIHVzIGEgbm90ZSB0byBoZWxwCj4+IGltcHJvdmUg
+dGhlIHN5c3RlbS4gQlRXLCB3ZSBhbHNvIHN1Z2dlc3QgdG8gdXNlICctLWJhc2UnIG9wdGlvbiB0
+byBzcGVjaWZ5IHRoZQo+PiBiYXNlIHRyZWUgaW4gZ2l0IGZvcm1hdC1wYXRjaCwgcGxlYXNlIHNl
+ZSBodHRwczovL3N0YWNrb3ZlcmZsb3cuY29tL2EvMzc0MDY5ODJdCj4+Cj4+IHVybDogICAgaHR0
+cHM6Ly9naXRodWIuY29tLzBkYXktY2kvbGludXgvY29tbWl0cy9Eb3VnbGFzLUFuZGVyc29uL2Ry
+bS1icmlkZ2UtdGktc242NWRzaTg2LUltcHJvdmUtc3VwcG9ydC1mb3ItQVVPLUIxMTZYQUswMS1v
+dGhlci1EUC8yMDE5MTIyMS0wODM0NDgKPj4gYmFzZTogICBodHRwczovL2dpdC5rZXJuZWwub3Jn
+L3B1Yi9zY20vbGludXgva2VybmVsL2dpdC90b3J2YWxkcy9saW51eC5naXQgN2UwMTY1YjJmMWE5
+MTJhMDZlMzgxZTkxZjBmNGU0OTVmNGFjMzczNgo+PiBjb25maWc6IHNoLWFsbG1vZGNvbmZpZyAo
+YXR0YWNoZWQgYXMgLmNvbmZpZykKPj4gY29tcGlsZXI6IHNoNC1saW51eC1nY2MgKEdDQykgNy41
+LjAKPj4gcmVwcm9kdWNlOgo+PiAgICAgICAgICB3Z2V0IGh0dHBzOi8vcmF3LmdpdGh1YnVzZXJj
+b250ZW50LmNvbS9pbnRlbC9sa3AtdGVzdHMvbWFzdGVyL3NiaW4vbWFrZS5jcm9zcyAtTyB+L2Jp
+bi9tYWtlLmNyb3NzCj4+ICAgICAgICAgIGNobW9kICt4IH4vYmluL21ha2UuY3Jvc3MKPj4gICAg
+ICAgICAgIyBzYXZlIHRoZSBhdHRhY2hlZCAuY29uZmlnIHRvIGxpbnV4IGJ1aWxkIHRyZWUKPj4g
+ICAgICAgICAgR0NDX1ZFUlNJT049Ny41LjAgbWFrZS5jcm9zcyBBUkNIPXNoCj4+Cj4+IElmIHlv
+dSBmaXggdGhlIGlzc3VlLCBraW5kbHkgYWRkIGZvbGxvd2luZyB0YWcKPj4gUmVwb3J0ZWQtYnk6
+IGtidWlsZCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPgo+Pgo+PiBOb3RlOiBpdCBtYXkgd2Vs
+bCBiZSBhIEZBTFNFIHdhcm5pbmcuIEZXSVcgeW91IGFyZSBhdCBsZWFzdCBhd2FyZSBvZiBpdCBu
+b3cuCj4+IGh0dHA6Ly9nY2MuZ251Lm9yZy93aWtpL0JldHRlcl9VbmluaXRpYWxpemVkX1dhcm5p
+bmdzCj4+Cj4+IEFsbCB3YXJuaW5ncyAobmV3IG9uZXMgcHJlZml4ZWQgYnkgPj4pOgo+Pgo+PiAg
+ICAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90aS1zbjY1ZHNpODYuYzogSW4gZnVuY3Rpb24gJ3Rp
+X3NuX2JyaWRnZV9lbmFibGUnOgo+Pj4+IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGktc242NWRz
+aTg2LmM6NTQzOjE4OiB3YXJuaW5nOiAncmF0ZV92YWxpZCcgbWF5IGJlIHVzZWQgdW5pbml0aWFs
+aXplZCBpbiB0aGlzIGZ1bmN0aW9uIFstV21heWJlLXVuaW5pdGlhbGl6ZWRdCj4+ICAgICAgICAg
+aWYgKHJhdGVfdmFsaWRbaV0pCj4+ICAgICAgICAgICAgIH5+fn5+fn5+fn5efn4KPiBJIGxvdmUg
+eW91ciByZXBvcnQhICBJbnRlcmVzdGluZ2x5IEkgaGFkIGFscmVhZHkgbm90aWNlZCB0aGlzIHBy
+b2JsZW0KPiBteXNlbGYgYW5kIHYzIG9mIHRoZSBwYXRjaCBmaXhlcyB0aGUgaXNzdWUuICBTZWU6
+Cj4KPiBodHRwczovL2xvcmUua2VybmVsLm9yZy9yLzIwMTkxMjE4MTQzNDE2LnYzLjkuSWI1OTIw
+N2I2NmRiMzc3MzgwZDEzNzQ4NzUyZDZmY2U1NTk2NDYyYzVAY2hhbmdlaWQKPgo+Cj4gSWYgdGhl
+IG1haW50YWluZXIgb2YgdGhlIHJvYm90IGlzIHJlYWRpbmcgdGhpcywgc29tZXRoaW5nIHRvIGlt
+cHJvdmUKPiBhYm91dCB5b3VyIHJvYm90IGlzIHRoYXQgaXQgY291bGQgaGF2ZSBub3RpY2VkIHYz
+IG9mIHRoZSBwYXRjaCAod2hpY2gKPiB3YXMgcG9zdGVkIHNldmVyYWwgZGF5cyBiZWZvcmUgeW91
+ciByZXBvcnQpIGFuZCBza2lwcGVkIGFuYWx5emluZyB2Mgo+IG9mIHRoZSBwYXRjaC4gIEknbSBj
+dXJyZW50bHkgdXNpbmcgQ2hhbmdlLUlkcyBlbWJlZGRlZCBpbiBteQo+IE1lc3NhZ2UtSWQgdG8g
+aGVscCBhdXRvbWF0aW9uIHJlbGF0ZSBvbmUgdmVyc2lvbiBvZiBteSBwYXRjaGVzIHRvIHRoZQo+
+IG5leHQuICBTcGVjaWZpY2FsbHkgeW91IGNvbXBhcmUgdGhlIE1lc3NhZ2UtSWQgb2YgdjIgYW5k
+IHYzIG9mIHRoaXMKPiBwYXRjaDoKPgo+IDIwMTkxMjE3MTY0NzAyLnYyLjkuSWI1OTIwN2I2NmRi
+Mzc3MzgwZDEzNzQ4NzUyZDZmY2U1NTk2NDYyYzVAY2hhbmdlaWQKPiAyMDE5MTIxODE0MzQxNi52
+My45LkliNTkyMDdiNjZkYjM3NzM4MGQxMzc0ODc1MmQ2ZmNlNTU5NjQ2MmM1QGNoYW5nZWlkCj4K
+PiBTaW5jZSB0aGUgbGFzdCBzZWN0aW9uIGJlZm9yZSB0aGUgIkBjaGFuZ2VpZCIgcmVtYWluZWQg
+Y29uc3RhbnQgaXQKPiBjb3VsZCBiZSBhc3N1bWVkIHRoYXQgdGhpcyBwYXRjaCByZXBsYWNlZCB0
+aGUgdjIuICBJIGtub3cgdGhlcmUncyBub3QKPiB0b28gbXVjaCB1c2FnZSBvZiB0aGlzIHRlY2hu
+aXF1ZSB5ZXQsIGJ1dCBpZiBvbmx5IG1vcmUgdG9vbHMgc3VwcG9ydGVkCj4gaXQgdGhlbiBtYXli
+ZSBtb3JlIHBlb3BsZSB3b3VsZCB1c2UgaXQuCgpIaSBEb3VnLAoKVGhhbmtzIGZvciB5b3VyIHN1
+Z2dlc3Rpb24sIHRoZSByb290IGNhdXNlIGlzIHRoYXQgdGhlIHYzIHdhc24ndCBoYW5kbGVkIApi
+ZWZvcmUgdGhpcyByZXBvcnQuCldlJ2xsIGRlZmluaXRlbHkgZ2l2ZSBzZXJpb3VzIHRob3VnaHQg
+dG8geW91ciBzdWdnZXN0aW9uLgoKIMKgIHYyOiAKRG91Z2xhcy1BbmRlcnNvbi9kcm0tYnJpZGdl
+LXRpLXNuNjVkc2k4Ni1JbXByb3ZlLXN1cHBvcnQtZm9yLUFVTy1CMTE2WEFLMDEtb3RoZXItRFAv
+MjAxOTEyMjEtMDgzNDQ4CiDCoCB2MzogCkRvdWdsYXMtQW5kZXJzb24vZHJtLWJyaWRnZS10aS1z
+bjY1ZHNpODYtSW1wcm92ZS1zdXBwb3J0LWZvci1BVU8tQjExNlhBSzAxLW90aGVyLURQLzIwMTkx
+MjIyLTA2MjY0NgoKQmVzdCBSZWdhcmRzLApSb25nIENoZW4KCj4KPgo+IC1Eb3VnCj4gX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBrYnVpbGQtYWxsIG1h
+aWxpbmcgbGlzdCAtLSBrYnVpbGQtYWxsQGxpc3RzLjAxLm9yZwo+IFRvIHVuc3Vic2NyaWJlIHNl
+bmQgYW4gZW1haWwgdG8ga2J1aWxkLWFsbC1sZWF2ZUBsaXN0cy4wMS5vcmcKCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
