@@ -1,37 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F7EC132EDC
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 19:58:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32599132FDC
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 20:51:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A49D6E835;
-	Tue,  7 Jan 2020 18:58:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E3356E12F;
+	Tue,  7 Jan 2020 19:51:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD8036E12A
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2020 18:58:19 +0000 (UTC)
-Received: from localhost.localdomain (unknown
- [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 62AED29054B;
- Tue,  7 Jan 2020 18:58:18 +0000 (GMT)
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 5/5] Revert "drm/bridge: Add a drm_bridge_state object"
-Date: Tue,  7 Jan 2020 19:58:07 +0100
-Message-Id: <20200107185807.606999-6-boris.brezillon@collabora.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200107185807.606999-1-boris.brezillon@collabora.com>
-References: <20200107185807.606999-1-boris.brezillon@collabora.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBAD46E12F
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2020 19:51:52 +0000 (UTC)
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com
+ [209.85.219.52])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9FFDA222D9
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2020 19:51:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1578426712;
+ bh=RkPkxHdDrVWTWUcfdQwi+Xu/cIE6Qm9n1GGBwAbqrOU=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=koi+qwb0kk2y+oCdP0Dw98mzl4xq36YUSAFXGOyLpjw3rPhVaAqNQkNpliAkRlRAc
+ Oz9G8Ol7VDw4pGmPMFyIDHdKBhvPvvxYdG/9MktPJjJG07xfCooqiaD4Z9jvOumxfn
+ fWHn8BrXXvcLBdfhA2tSFa+HVpYV4TSGL0VONs+U=
+Received: by mail-qv1-f52.google.com with SMTP id u10so409016qvi.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2020 11:51:52 -0800 (PST)
+X-Gm-Message-State: APjAAAWeKJxK2hecly/fd4KRczR8D53rYpqkdiMANvS12gJ7X7/qb5b6
+ VxzVjOf+ogmelEWViYK/ygd8P7TiulCvrJe8NA==
+X-Google-Smtp-Source: APXvYqyqfnWHJxq4dKDL6Fu0FBWApL6bA5ye4/JPZIjQq52JfXuVn/kiI1xloPDFuRdmsfn8sK9L280z437O+o6RbOQ=
+X-Received: by 2002:a0c:f6cd:: with SMTP id d13mr1028545qvo.20.1578426711761; 
+ Tue, 07 Jan 2020 11:51:51 -0800 (PST)
 MIME-Version: 1.0
+References: <20200102101712.5085-1-sam@ravnborg.org>
+ <20200102101712.5085-3-sam@ravnborg.org>
+In-Reply-To: <20200102101712.5085-3-sam@ravnborg.org>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 7 Jan 2020 13:51:40 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+C8zOKhT1jg7RcuMqMTYUqTCeyw2e_vJrz6-ycxhHQ3w@mail.gmail.com>
+Message-ID: <CAL_Jsq+C8zOKhT1jg7RcuMqMTYUqTCeyw2e_vJrz6-ycxhHQ3w@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] dt-bindings: one file of all simple DSI panels
+To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,480 +54,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Yannick Fertre <yannick.fertre@st.com>,
+ Thierry Reding <thierry.reding@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit 6ed7e9625fa6 ("drm/bridge: Add a drm_bridge_state
-object") which introduced a circular dependency between drm.ko and
-drm_kms_helper.ko. Looks like the helper/core split is not appropriate
-and fixing that is not simple.
+On Thu, Jan 2, 2020 at 4:17 AM Sam Ravnborg <sam@ravnborg.org> wrote:
+>
+> To complement panel-simple.yaml, create panel-simple-dsi.yaml.
+> panel-simple-dsi-yaml are for all simple DSP panels with a single
+> power-supply and optional backlight / enable GPIO.
+>
+> Migrate panasonic,vvx10f034n00 over to the new file.
+>
+> The objectives with one file for all the simple DSI panels are:
+>     - Make it simpler to add bindings for simple DSI panels
+>     - Keep the number of bindings file lower
+>     - Keep the binding documentation for simple DSI panels more consistent
+>
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Yannick Fertre <yannick.fertre@st.com>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: devicetree@vger.kernel.org
+> ---
+>  .../display/panel/panasonic,vvx10f034n00.txt  | 20 ------
+>  .../display/panel/panel-simple-dsi.yaml       | 67 +++++++++++++++++++
+>  2 files changed, 67 insertions(+), 20 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/panel/panasonic,vvx10f034n00.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
 
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
----
- drivers/gpu/drm/drm_atomic.c        |  39 --------
- drivers/gpu/drm/drm_atomic_helper.c |  20 ----
- drivers/gpu/drm/drm_bridge.c        | 139 ++--------------------------
- include/drm/drm_atomic.h            |   3 -
- include/drm/drm_bridge.h            | 114 -----------------------
- 5 files changed, 6 insertions(+), 309 deletions(-)
+Reviewed-by: Rob Herring <robh@kernel.org>
 
-diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index bf1b9c37d515..d33691512a8e 100644
---- a/drivers/gpu/drm/drm_atomic.c
-+++ b/drivers/gpu/drm/drm_atomic.c
-@@ -30,7 +30,6 @@
- 
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_uapi.h>
--#include <drm/drm_bridge.h>
- #include <drm/drm_debugfs.h>
- #include <drm/drm_device.h>
- #include <drm/drm_drv.h>
-@@ -1018,44 +1017,6 @@ static void drm_atomic_connector_print_state(struct drm_printer *p,
- 		connector->funcs->atomic_print_state(p, state);
- }
- 
--/**
-- * drm_atomic_add_encoder_bridges - add bridges attached to an encoder
-- * @state: atomic state
-- * @encoder: DRM encoder
-- *
-- * This function adds all bridges attached to @encoder. This is needed to add
-- * bridge states to @state and make them available when
-- * &bridge_funcs.atomic_{check,pre_enable,enable,disable_post_disable}() are
-- * called
-- *
-- * Returns:
-- * 0 on success or can fail with -EDEADLK or -ENOMEM. When the error is EDEADLK
-- * then the w/w mutex code has detected a deadlock and the entire atomic
-- * sequence must be restarted. All other errors are fatal.
-- */
--int
--drm_atomic_add_encoder_bridges(struct drm_atomic_state *state,
--			       struct drm_encoder *encoder)
--{
--	struct drm_bridge_state *bridge_state;
--	struct drm_bridge *bridge;
--
--	if (!encoder)
--		return 0;
--
--	DRM_DEBUG_ATOMIC("Adding all bridges for [encoder:%d:%s] to %p\n",
--			 encoder->base.id, encoder->name, state);
--
--	drm_for_each_bridge_in_chain(encoder, bridge) {
--		bridge_state = drm_atomic_get_bridge_state(state, bridge);
--		if (IS_ERR(bridge_state))
--			return PTR_ERR(bridge_state);
--	}
--
--	return 0;
--}
--EXPORT_SYMBOL(drm_atomic_add_encoder_bridges);
--
- /**
-  * drm_atomic_add_affected_connectors - add connectors for CRTC
-  * @state: atomic state
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index ad8eae98d9e8..4511c2e07bb9 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -730,26 +730,6 @@ drm_atomic_helper_check_modeset(struct drm_device *dev,
- 			return ret;
- 	}
- 
--	/*
--	 * Iterate over all connectors again, and add all affected bridges to
--	 * the state.
--	 */
--	for_each_oldnew_connector_in_state(state, connector,
--					   old_connector_state,
--					   new_connector_state, i) {
--		struct drm_encoder *encoder;
--
--		encoder = old_connector_state->best_encoder;
--		ret = drm_atomic_add_encoder_bridges(state, encoder);
--		if (ret)
--			return ret;
--
--		encoder = new_connector_state->best_encoder;
--		ret = drm_atomic_add_encoder_bridges(state, encoder);
--		if (ret)
--			return ret;
--	}
--
- 	ret = mode_valid(state);
- 	if (ret)
- 		return ret;
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index a213c9042f2c..c2cf0c90fa26 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -25,7 +25,6 @@
- #include <linux/module.h>
- #include <linux/mutex.h>
- 
--#include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_encoder.h>
- 
-@@ -90,74 +89,6 @@ void drm_bridge_remove(struct drm_bridge *bridge)
- }
- EXPORT_SYMBOL(drm_bridge_remove);
- 
--static struct drm_bridge_state *
--drm_atomic_default_bridge_duplicate_state(struct drm_bridge *bridge)
--{
--	struct drm_bridge_state *new;
--
--	if (WARN_ON(!bridge->base.state))
--		return NULL;
--
--	new = kzalloc(sizeof(*new), GFP_KERNEL);
--	if (new)
--		__drm_atomic_helper_bridge_duplicate_state(bridge, new);
--
--	return new;
--}
--
--static struct drm_private_state *
--drm_bridge_atomic_duplicate_priv_state(struct drm_private_obj *obj)
--{
--	struct drm_bridge *bridge = drm_priv_to_bridge(obj);
--	struct drm_bridge_state *state;
--
--	if (bridge->funcs->atomic_duplicate_state)
--		state = bridge->funcs->atomic_duplicate_state(bridge);
--	else
--		state = drm_atomic_default_bridge_duplicate_state(bridge);
--
--	return state ? &state->base : NULL;
--}
--
--static void
--drm_atomic_default_bridge_destroy_state(struct drm_bridge *bridge,
--					struct drm_bridge_state *state)
--{
--	/* Just a simple kfree() for now */
--	kfree(state);
--}
--
--static void
--drm_bridge_atomic_destroy_priv_state(struct drm_private_obj *obj,
--				     struct drm_private_state *s)
--{
--	struct drm_bridge_state *state = drm_priv_to_bridge_state(s);
--	struct drm_bridge *bridge = drm_priv_to_bridge(obj);
--
--	if (bridge->funcs->atomic_destroy_state)
--		bridge->funcs->atomic_destroy_state(bridge, state);
--	else
--		drm_atomic_default_bridge_destroy_state(bridge, state);
--}
--
--static const struct drm_private_state_funcs drm_bridge_priv_state_funcs = {
--	.atomic_duplicate_state = drm_bridge_atomic_duplicate_priv_state,
--	.atomic_destroy_state = drm_bridge_atomic_destroy_priv_state,
--};
--
--static struct drm_bridge_state *
--drm_atomic_default_bridge_reset(struct drm_bridge *bridge)
--{
--	struct drm_bridge_state *bridge_state;
--
--	bridge_state = kzalloc(sizeof(*bridge_state), GFP_KERNEL);
--	if (!bridge_state)
--		return ERR_PTR(-ENOMEM);
--
--	__drm_atomic_helper_bridge_reset(bridge, bridge_state);
--	return bridge_state;
--}
--
- /**
-  * drm_bridge_attach - attach the bridge to an encoder's chain
-  *
-@@ -183,7 +114,6 @@ drm_atomic_default_bridge_reset(struct drm_bridge *bridge)
- int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
- 		      struct drm_bridge *previous)
- {
--	struct drm_bridge_state *state;
- 	int ret;
- 
- 	if (!encoder || !bridge)
-@@ -205,35 +135,15 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
- 
- 	if (bridge->funcs->attach) {
- 		ret = bridge->funcs->attach(bridge);
--		if (ret < 0)
--			goto err_reset_bridge;
--	}
--
--	if (bridge->funcs->atomic_reset)
--		state = bridge->funcs->atomic_reset(bridge);
--	else
--		state = drm_atomic_default_bridge_reset(bridge);
--
--	if (IS_ERR(state)) {
--		ret = PTR_ERR(state);
--		goto err_detach_bridge;
-+		if (ret < 0) {
-+			list_del(&bridge->chain_node);
-+			bridge->dev = NULL;
-+			bridge->encoder = NULL;
-+			return ret;
-+		}
- 	}
- 
--	drm_atomic_private_obj_init(bridge->dev, &bridge->base,
--				    &state->base,
--				    &drm_bridge_priv_state_funcs);
--
- 	return 0;
--
--err_detach_bridge:
--	if (bridge->funcs->detach)
--		bridge->funcs->detach(bridge);
--
--err_reset_bridge:
--	bridge->dev = NULL;
--	bridge->encoder = NULL;
--	list_del(&bridge->chain_node);
--	return ret;
- }
- EXPORT_SYMBOL(drm_bridge_attach);
- 
-@@ -245,8 +155,6 @@ void drm_bridge_detach(struct drm_bridge *bridge)
- 	if (WARN_ON(!bridge->dev))
- 		return;
- 
--	drm_atomic_private_obj_fini(&bridge->base);
--
- 	if (bridge->funcs->detach)
- 		bridge->funcs->detach(bridge);
- 
-@@ -608,41 +516,6 @@ void drm_atomic_bridge_chain_enable(struct drm_bridge *bridge,
- }
- EXPORT_SYMBOL(drm_atomic_bridge_chain_enable);
- 
--/**
-- * __drm_atomic_helper_bridge_reset() - Initialize a bridge state to its
-- *					default
-- * @bridge: the bridge this state is refers to
-- * @state: bridge state to initialize
-- *
-- * Initialize the bridge state to default values. This is meant to be* called
-- * by the bridge &drm_plane_funcs.reset hook for bridges that subclass the
-- * bridge state.
-- */
--void __drm_atomic_helper_bridge_reset(struct drm_bridge *bridge,
--				      struct drm_bridge_state *state)
--{
--	memset(state, 0, sizeof(*state));
--	state->bridge = bridge;
--}
--EXPORT_SYMBOL(__drm_atomic_helper_bridge_reset);
--
--/**
-- * __drm_atomic_helper_bridge_duplicate_state() - Copy atomic bridge state
-- * @bridge: bridge object
-- * @state: atomic bridge state
-- *
-- * Copies atomic state from a bridge's current state and resets inferred values.
-- * This is useful for drivers that subclass the bridge state.
-- */
--void __drm_atomic_helper_bridge_duplicate_state(struct drm_bridge *bridge,
--						struct drm_bridge_state *state)
--{
--	__drm_atomic_helper_private_obj_duplicate_state(&bridge->base,
--							&state->base);
--	state->bridge = bridge;
--}
--EXPORT_SYMBOL(__drm_atomic_helper_bridge_duplicate_state);
--
- #ifdef CONFIG_OF
- /**
-  * of_drm_find_bridge - find the bridge corresponding to the device node in
-diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-index ccce65e14917..951dfb15c27b 100644
---- a/include/drm/drm_atomic.h
-+++ b/include/drm/drm_atomic.h
-@@ -669,9 +669,6 @@ __drm_atomic_get_current_plane_state(struct drm_atomic_state *state,
- 	return plane->state;
- }
- 
--int __must_check
--drm_atomic_add_encoder_bridges(struct drm_atomic_state *state,
--			       struct drm_encoder *encoder);
- int __must_check
- drm_atomic_add_affected_connectors(struct drm_atomic_state *state,
- 				   struct drm_crtc *crtc);
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index fc7c71f4de55..694e153a7531 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -25,8 +25,6 @@
- 
- #include <linux/list.h>
- #include <linux/ctype.h>
--
--#include <drm/drm_atomic.h>
- #include <drm/drm_encoder.h>
- #include <drm/drm_mode_object.h>
- #include <drm/drm_modes.h>
-@@ -35,23 +33,6 @@ struct drm_bridge;
- struct drm_bridge_timings;
- struct drm_panel;
- 
--/**
-- * struct drm_bridge_state - Atomic bridge state object
-- * @base: inherit from &drm_private_state
-- * @bridge: the bridge this state refers to
-- */
--struct drm_bridge_state {
--	struct drm_private_state base;
--
--	struct drm_bridge *bridge;
--};
--
--static inline struct drm_bridge_state *
--drm_priv_to_bridge_state(struct drm_private_state *priv)
--{
--	return container_of(priv, struct drm_bridge_state, base);
--}
--
- /**
-  * struct drm_bridge_funcs - drm_bridge control functions
-  */
-@@ -357,49 +338,6 @@ struct drm_bridge_funcs {
- 	 */
- 	void (*atomic_post_disable)(struct drm_bridge *bridge,
- 				    struct drm_atomic_state *old_state);
--
--	/**
--	 * @atomic_duplicate_state:
--	 *
--	 * Duplicate the current bridge state object (which is guaranteed to be
--	 * non-NULL).
--	 *
--	 * The atomic_duplicate_state() is optional. When not implemented the
--	 * core allocates a drm_bridge_state object and calls
--	 * &__drm_atomic_helper_bridge_duplicate_state() to initialize it.
--	 *
--	 * RETURNS:
--	 * A valid drm_bridge_state object or NULL if the allocation fails.
--	 */
--	struct drm_bridge_state *(*atomic_duplicate_state)(struct drm_bridge *bridge);
--
--	/**
--	 * @atomic_destroy_state:
--	 *
--	 * Destroy a bridge state object previously allocated by
--	 * &drm_bridge_funcs.atomic_duplicate_state().
--	 *
--	 * The atomic_destroy_state hook is optional. When not implemented the
--	 * core calls kfree() on the state.
--	 */
--	void (*atomic_destroy_state)(struct drm_bridge *bridge,
--				     struct drm_bridge_state *state);
--
--	/**
--	 * @atomic_reset:
--	 *
--	 * Reset the bridge to a predefined state (or retrieve its current
--	 * state) and return a &drm_bridge_state object matching this state.
--	 * This function is called at attach time.
--	 *
--	 * The atomic_reset hook is optional. When not implemented the core
--	 * allocates a new state and calls &__drm_atomic_helper_bridge_reset().
--	 *
--	 * RETURNS:
--	 * A valid drm_bridge_state object in case of success, an ERR_PTR()
--	 * giving the reason of the failure otherwise.
--	 */
--	struct drm_bridge_state *(*atomic_reset)(struct drm_bridge *bridge);
- };
- 
- /**
-@@ -442,8 +380,6 @@ struct drm_bridge_timings {
-  * struct drm_bridge - central DRM bridge control structure
-  */
- struct drm_bridge {
--	/** @base: inherit from &drm_private_object */
--	struct drm_private_obj base;
- 	/** @dev: DRM device this bridge belongs to */
- 	struct drm_device *dev;
- 	/** @encoder: encoder to which this bridge is connected */
-@@ -468,12 +404,6 @@ struct drm_bridge {
- 	void *driver_private;
- };
- 
--static inline struct drm_bridge *
--drm_priv_to_bridge(struct drm_private_obj *priv)
--{
--	return container_of(priv, struct drm_bridge, base);
--}
--
- void drm_bridge_add(struct drm_bridge *bridge);
- void drm_bridge_remove(struct drm_bridge *bridge);
- struct drm_bridge *of_drm_find_bridge(struct device_node *np);
-@@ -561,50 +491,6 @@ void drm_atomic_bridge_chain_pre_enable(struct drm_bridge *bridge,
- void drm_atomic_bridge_chain_enable(struct drm_bridge *bridge,
- 				    struct drm_atomic_state *state);
- 
--void __drm_atomic_helper_bridge_reset(struct drm_bridge *bridge,
--				      struct drm_bridge_state *state);
--void __drm_atomic_helper_bridge_duplicate_state(struct drm_bridge *bridge,
--						struct drm_bridge_state *new);
--
--static inline struct drm_bridge_state *
--drm_atomic_get_bridge_state(struct drm_atomic_state *state,
--			    struct drm_bridge *bridge)
--{
--	struct drm_private_state *obj_state;
--
--	obj_state = drm_atomic_get_private_obj_state(state, &bridge->base);
--	if (IS_ERR(obj_state))
--		return ERR_CAST(obj_state);
--
--	return drm_priv_to_bridge_state(obj_state);
--}
--
--static inline struct drm_bridge_state *
--drm_atomic_get_old_bridge_state(struct drm_atomic_state *state,
--				struct drm_bridge *bridge)
--{
--	struct drm_private_state *obj_state;
--
--	obj_state = drm_atomic_get_old_private_obj_state(state, &bridge->base);
--	if (!obj_state)
--		return NULL;
--
--	return drm_priv_to_bridge_state(obj_state);
--}
--
--static inline struct drm_bridge_state *
--drm_atomic_get_new_bridge_state(struct drm_atomic_state *state,
--				struct drm_bridge *bridge)
--{
--	struct drm_private_state *obj_state;
--
--	obj_state = drm_atomic_get_new_private_obj_state(state, &bridge->base);
--	if (!obj_state)
--		return NULL;
--
--	return drm_priv_to_bridge_state(obj_state);
--}
--
- #ifdef CONFIG_DRM_PANEL_BRIDGE
- struct drm_bridge *drm_panel_bridge_add(struct drm_panel *panel);
- struct drm_bridge *drm_panel_bridge_add_typed(struct drm_panel *panel,
--- 
-2.23.0
+>
+> diff --git a/Documentation/devicetree/bindings/display/panel/panasonic,vvx10f034n00.txt b/Documentation/devicetree/bindings/display/panel/panasonic,vvx10f034n00.txt
+> deleted file mode 100644
+> index 37dedf6a6702..000000000000
+> --- a/Documentation/devicetree/bindings/display/panel/panasonic,vvx10f034n00.txt
+> +++ /dev/null
+> @@ -1,20 +0,0 @@
+> -Panasonic 10" WUXGA TFT LCD panel
+> -
+> -Required properties:
+> -- compatible: should be "panasonic,vvx10f034n00"
+> -- reg: DSI virtual channel of the peripheral
+> -- power-supply: phandle of the regulator that provides the supply voltage
+> -
+> -Optional properties:
+> -- backlight: phandle of the backlight device attached to the panel
+> -
+> -Example:
+> -
+> -       mdss_dsi@fd922800 {
+> -               panel@0 {
+> -                       compatible = "panasonic,vvx10f034n00";
+> -                       reg = <0>;
+> -                       power-supply = <&vreg_vsp>;
+> -                       backlight = <&lp8566_wled>;
+> -               };
+> -       };
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+> new file mode 100644
+> index 000000000000..05c52390269e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+> @@ -0,0 +1,67 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only or BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/panel-simple-dsi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Simple DSI panels with a single power-supply
+> +
+> +maintainers:
+> +  - Thierry Reding <thierry.reding@gmail.com>
+> +  - Sam Ravnborg <sam@ravnborg.org>
+> +
+> +description: |
+> +  This binding file is a collection of the DSI panels that
+> +  requires only a single power-supply.
+> +  There are optionally a backlight and an enable GPIO.
+> +  The panel may use an OF graph binding for the association to the display,
+> +  or it may be a direct child node of the display.
+> +
+> +  If the panel is more advanced a dedicated binding file is required.
+> +
+> +allOf:
+> +  - $ref: panel-common.yaml#
+> +
+> +properties:
+> +
+> +  compatible:
+> +    enum:
+> +    # compatible must be listed in alphabetical order, ordered by compatible.
+> +    # The description in the comment is mandatory for each compatible.
 
+To answer your irc question, this is fine. You could do it like this instead:
+
+oneOf:
+  - description: ...
+    const: compat-string
+  - description: ...
+    const: compat-string-2
+
+The advantage is being able to extract 'description' if say you wanted
+to generate documentation. Even so, I somewhat prefer how you have it.
+
+> +
+> +    # Panasonic 10" WUXGA TFT LCD panel
+
+I'd align the # with the string to keep the list '-' a bit more
+visible. IOW, 2 more spaces (before my next comment).
+
+> +    - panasonic,vvx10f034n00
+
+This should be indented 2 more spaces.
+
+BTW, I extracted all the panels from my patch with this:
+
+git show | grep -E '(title|const)' | sed -e 's/\+title:/  #/' -e 's/+
+  const:/\-/'
+
+There's a few with more than just 'title'.
+
+Rob
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
