@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FED8133CD1
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 09:13:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC9B4133CDA
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 09:13:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 784E86E192;
-	Wed,  8 Jan 2020 08:12:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AD6E6E862;
+	Wed,  8 Jan 2020 08:12:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83A756E0D5;
- Tue,  7 Jan 2020 15:13:51 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id q6so54266410wro.9;
- Tue, 07 Jan 2020 07:13:51 -0800 (PST)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79A9A6E0D5;
+ Tue,  7 Jan 2020 15:13:54 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id g17so54326144wro.2;
+ Tue, 07 Jan 2020 07:13:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0AsRjqmSddZiXaJNHfNW43Wmc9oWEosMDJEk7wL2FDo=;
- b=YG9RW5e5joOPxoDvG6pcPCuwA5GGyBjDMtnNvp5f/ELEqUTKtwEnKSr1KC+XJFYnOz
- eT7E63bexxp0XZrUJ7aiQmVw4+tESSdP8UGAtPPdMAd8MIsxcnj7Jpfa84Ylv2YVUfyI
- c4TWnoRmaxbmfDYTVMg9WesEKPmYIj/cGE2Te8+GVnCh65PxuyOpD2RB5Br2kaIp/7WR
- niPNBhOheVKA5BYpw6IgR3f7mEX3tQ0SA5enxIkkxMlPPLqDXeFFzfw9UBEKMlGYJxNE
- rEaYaJ03vbvyNC9QVg1X5uyeULhRyfa3dIYEu1t5jQx8ZsDRySrovW7EtZ03T6je8LH8
- aEwg==
+ bh=Obgi+vCF9pVe8CuCXB1svKkTLEs23TqkO84K9EA0/yU=;
+ b=MAPHBKMf0l/6lU3qY7rRYUfyprgVU/WTvLEC44WSQ7ESU1bz2EKtEdyEzzY3fON8Wl
+ HF+b3Z30x+uLjBFqzyjc4QL8hgvdjjxNJ27eCtZN7OxKlVv9TKb/ixRtJ0Pn8pEm/IhN
+ nhsi9U8+nAclmAd0VvjmV/WfeikvlnNAaiucvNZuXe6SXP7gGYJaSiqBAif7s88//+mY
+ tIdTaw6y1sAwocJDDsaOGaF2Iia3lh9FJoypKqBP/1rsFmrdEViNO/cpm9wMiKhjFPce
+ Ix9Ls9liLZu4ByPa0WieLhf/SC+777W3L9UdIwagUJZeumt+9pt9BQ+4VVBc6DPdeMwo
+ eBFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0AsRjqmSddZiXaJNHfNW43Wmc9oWEosMDJEk7wL2FDo=;
- b=KoK3tD0Xwcsx7nTBj4LP0qR1opdVFLMIqzi7kvDW8P7ns2Ge0dEI6OkoTlnL0neXPz
- 6fzvS93WwaDNAgihJNH4Hxl7YiPVhsV3gE1Akc1IsalMw1fR54LrfhNVO1BEY8cD2nha
- Z3XFM/POtnW0jLSUJdPeDCNfqFUEPy1JOTvQe0AFsSlgGb55f7d1+NFyE9UoRr74iLJX
- uFTzjB8xfiyr5PxAAjGkOgiIiSfuZHtJpKxmguHMHpOZ14vVcvXmBcOjFPTyGssXMXKZ
- BBiqe7kDGNFFNStHsVfuF6TAtBXZYoOh/diJ4KEGixF85C79cvxJkfl1fo/222rRsDGk
- 4A0g==
-X-Gm-Message-State: APjAAAVNlLqmiVmJ73Ej+nUC3PxDFb5kz7BHziHcHDmtCdOlW8rTdE5j
- FGpkSWNyiLJtxWiVGxGVjsU=
-X-Google-Smtp-Source: APXvYqw9no5TtCcHAL2JCCdsE234J86HIbQroWZ5MeM6G0gn2jqlCqz9Gj/EcaDxk+UmLF3m63z07Q==
-X-Received: by 2002:adf:e984:: with SMTP id h4mr107119108wrm.275.1578410030242; 
- Tue, 07 Jan 2020 07:13:50 -0800 (PST)
+ bh=Obgi+vCF9pVe8CuCXB1svKkTLEs23TqkO84K9EA0/yU=;
+ b=C3Swb9B4uj70VxXZA0Y2VWUE7u5+4wgFt1Sq/02wZZdgRAPjv/xSI7V0mGV1aY82v+
+ D4DCU7yPATQyZaotJ4TfRlemvPPBuXEUBLXhyODISvDE0wRnDpl9rGtPmZDvnwcmVVaL
+ iI+o6TL/kLqTJvCwnpfQt/RMy9EdbdUuXAUmbeyJIzYTo1hiB4bwFd+rKUKPOSS2QBgl
+ dvwYN1JebImL9Z/aexc0KxHxu/S6EVw3VbGn+UL9002wZ8ucsCPhGsbxuHdyM3UMH+NU
+ ynKvVHblx5pvLOK/8FtCR5a9WzFHFOWZmVCywMaNidHdzocrSUsQhYjG2Kd0f7VyC4p0
+ v22w==
+X-Gm-Message-State: APjAAAUF2GBQ5x72sTERNOH/r35hDl60Y3IOteeugTdYRc9jHQtXRT/H
+ uuN3kwiFhA6FbnekHaWqurA=
+X-Google-Smtp-Source: APXvYqxPR3RNAYbs3VtzknDFhsHO6P2T0ip+rKpCGfW35FZGSNmo5qhhvSO9RNdIsLxFLQEOkz9WYg==
+X-Received: by 2002:a5d:6886:: with SMTP id h6mr96763900wru.154.1578410033098; 
+ Tue, 07 Jan 2020 07:13:53 -0800 (PST)
 Received: from wambui.zuku.co.ke ([197.237.61.225])
- by smtp.googlemail.com with ESMTPSA id c4sm27076664wml.7.2020.01.07.07.13.47
+ by smtp.googlemail.com with ESMTPSA id c4sm27076664wml.7.2020.01.07.07.13.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 07:13:49 -0800 (PST)
+ Tue, 07 Jan 2020 07:13:52 -0800 (PST)
 From: Wambui Karuga <wambui.karugax@gmail.com>
 To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
  rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH 4/5] drm/i915: convert to using new struct drm_device logging
- macros
-Date: Tue,  7 Jan 2020 18:13:32 +0300
-Message-Id: <ae253ecf3ca878fae7f1f246d75c2136fb6bd72c.1578409433.git.wambui.karugax@gmail.com>
+Subject: [PATCH 5/5] drm/i915: use new struct drm_device based macros.
+Date: Tue,  7 Jan 2020 18:13:33 +0300
+Message-Id: <7142083e727ab400797c8a90a2196ee37a22c201.1578409433.git.wambui.karugax@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1578409433.git.wambui.karugax@gmail.com>
 References: <cover.1578409433.git.wambui.karugax@gmail.com>
@@ -76,100 +75,99 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace the use of printk based debugging macros with the struct
-drm_device based logging macros in i915/intel_sideband.c.
+Convert to the use of new struct drm_device based logging macros to
+replace the use of the printk based macros in i915/intel_uncore.c
 
 Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
 ---
- drivers/gpu/drm/i915/intel_sideband.c | 29 ++++++++++++++++-----------
- 1 file changed, 17 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/i915/intel_uncore.c | 25 +++++++++++++------------
+ 1 file changed, 13 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/intel_sideband.c b/drivers/gpu/drm/i915/intel_sideband.c
-index e06b35b844a0..cbfb7171d62d 100644
---- a/drivers/gpu/drm/i915/intel_sideband.c
-+++ b/drivers/gpu/drm/i915/intel_sideband.c
-@@ -105,8 +105,8 @@ static int vlv_sideband_rw(struct drm_i915_private *i915,
- 	if (intel_wait_for_register(uncore,
- 				    VLV_IOSF_DOORBELL_REQ, IOSF_SB_BUSY, 0,
- 				    5)) {
--		DRM_DEBUG_DRIVER("IOSF sideband idle wait (%s) timed out\n",
--				 is_read ? "read" : "write");
-+		drm_dbg(&i915->drm, "IOSF sideband idle wait (%s) timed out\n",
-+			is_read ? "read" : "write");
- 		return -EAGAIN;
+diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
+index 94a97bf8c021..5f2cf6f43b8b 100644
+--- a/drivers/gpu/drm/i915/intel_uncore.c
++++ b/drivers/gpu/drm/i915/intel_uncore.c
+@@ -359,7 +359,8 @@ static void __gen6_gt_wait_for_fifo(struct intel_uncore *uncore)
+ 		if (wait_for_atomic((n = fifo_free_entries(uncore)) >
+ 				    GT_FIFO_NUM_RESERVED_ENTRIES,
+ 				    GT_FIFO_TIMEOUT_MS)) {
+-			DRM_DEBUG("GT_FIFO timeout, entries: %u\n", n);
++			drm_dbg(&uncore->i915->drm,
++				"GT_FIFO timeout, entries: %u\n", n);
+ 			return;
+ 		}
+ 	}
+@@ -432,7 +433,7 @@ intel_uncore_forcewake_reset(struct intel_uncore *uncore)
+ 			break;
+ 
+ 		if (--retry_count == 0) {
+-			DRM_ERROR("Timed out waiting for forcewake timers to finish\n");
++			drm_err(&uncore->i915->drm, "Timed out waiting for forcewake timers to finish\n");
+ 			break;
+ 		}
+ 
+@@ -490,7 +491,7 @@ gen6_check_for_fifo_debug(struct intel_uncore *uncore)
+ 	fifodbg = __raw_uncore_read32(uncore, GTFIFODBG);
+ 
+ 	if (unlikely(fifodbg)) {
+-		DRM_DEBUG_DRIVER("GTFIFODBG = 0x08%x\n", fifodbg);
++		drm_dbg(&uncore->i915->drm, "GTFIFODBG = 0x08%x\n", fifodbg);
+ 		__raw_uncore_write32(uncore, GTFIFODBG, fifodbg);
  	}
  
-@@ -129,8 +129,8 @@ static int vlv_sideband_rw(struct drm_i915_private *i915,
- 			*val = intel_uncore_read_fw(uncore, VLV_IOSF_DATA);
- 		err = 0;
- 	} else {
--		DRM_DEBUG_DRIVER("IOSF sideband finish wait (%s) timed out\n",
--				 is_read ? "read" : "write");
-+		drm_dbg(&i915->drm, "IOSF sideband finish wait (%s) timed out\n",
-+			is_read ? "read" : "write");
- 		err = -ETIMEDOUT;
+@@ -562,7 +563,7 @@ void intel_uncore_resume_early(struct intel_uncore *uncore)
+ 	unsigned int restore_forcewake;
+ 
+ 	if (intel_uncore_unclaimed_mmio(uncore))
+-		DRM_DEBUG("unclaimed mmio detected on resume, clearing\n");
++		drm_dbg(&uncore->i915->drm, "unclaimed mmio detected on resume, clearing\n");
+ 
+ 	if (!intel_uncore_has_forcewake(uncore))
+ 		return;
+@@ -1595,8 +1596,8 @@ static int intel_uncore_fw_domains_init(struct intel_uncore *uncore)
+ 		spin_unlock_irq(&uncore->lock);
+ 
+ 		if (!(ecobus & FORCEWAKE_MT_ENABLE)) {
+-			DRM_INFO("No MT forcewake available on Ivybridge, this can result in issues\n");
+-			DRM_INFO("when using vblank-synced partial screen updates.\n");
++			drm_info(&i915->drm, "No MT forcewake available on Ivybridge, this can result in issues\n");
++			drm_info(&i915->drm, "when using vblank-synced partial screen updates.\n");
+ 			fw_domain_fini(uncore, FW_DOMAIN_ID_RENDER);
+ 			fw_domain_init(uncore, FW_DOMAIN_ID_RENDER,
+ 				       FORCEWAKE, FORCEWAKE_ACK);
+@@ -1683,8 +1684,7 @@ static int uncore_mmio_setup(struct intel_uncore *uncore)
+ 		mmio_size = 2 * 1024 * 1024;
+ 	uncore->regs = pci_iomap(pdev, mmio_bar, mmio_size);
+ 	if (uncore->regs == NULL) {
+-		DRM_ERROR("failed to map registers\n");
+-
++		drm_err(&i915->drm, "failed to map registers\n");
+ 		return -EIO;
  	}
  
-@@ -283,7 +283,8 @@ static int intel_sbi_rw(struct drm_i915_private *i915, u16 reg,
- 	if (intel_wait_for_register_fw(uncore,
- 				       SBI_CTL_STAT, SBI_BUSY, 0,
- 				       100)) {
--		DRM_ERROR("timeout waiting for SBI to become ready\n");
-+		drm_err(&i915->drm,
-+			"timeout waiting for SBI to become ready\n");
- 		return -EBUSY;
- 	}
+@@ -1807,7 +1807,7 @@ int intel_uncore_init_mmio(struct intel_uncore *uncore)
  
-@@ -301,12 +302,13 @@ static int intel_sbi_rw(struct drm_i915_private *i915, u16 reg,
- 	if (__intel_wait_for_register_fw(uncore,
- 					 SBI_CTL_STAT, SBI_BUSY, 0,
- 					 100, 100, &cmd)) {
--		DRM_ERROR("timeout waiting for SBI to complete read\n");
-+		drm_err(&i915->drm,
-+			"timeout waiting for SBI to complete read\n");
- 		return -ETIMEDOUT;
- 	}
+ 	/* clear out unclaimed reg detection bit */
+ 	if (intel_uncore_unclaimed_mmio(uncore))
+-		DRM_DEBUG("unclaimed mmio detected on uncore init, clearing\n");
++		drm_dbg(&i915->drm, "unclaimed mmio detected on uncore init, clearing\n");
  
- 	if (cmd & SBI_RESPONSE_FAIL) {
--		DRM_ERROR("error during SBI read of reg %x\n", reg);
-+		drm_err(&i915->drm, "error during SBI read of reg %x\n", reg);
- 		return -ENXIO;
- 	}
+ 	return 0;
  
-@@ -426,8 +428,9 @@ int sandybridge_pcode_read(struct drm_i915_private *i915, u32 mbox,
- 	mutex_unlock(&i915->sb_lock);
+@@ -2072,9 +2072,10 @@ intel_uncore_arm_unclaimed_mmio_detection(struct intel_uncore *uncore)
  
- 	if (err) {
--		DRM_DEBUG_DRIVER("warning: pcode (read from mbox %x) mailbox access failed for %ps: %d\n",
--				 mbox, __builtin_return_address(0), err);
-+		drm_dbg(&i915->drm,
-+			"warning: pcode (read from mbox %x) mailbox access failed for %ps: %d\n",
-+			mbox, __builtin_return_address(0), err);
- 	}
- 
- 	return err;
-@@ -447,8 +450,9 @@ int sandybridge_pcode_write_timeout(struct drm_i915_private *i915,
- 	mutex_unlock(&i915->sb_lock);
- 
- 	if (err) {
--		DRM_DEBUG_DRIVER("warning: pcode (write of 0x%08x to mbox %x) mailbox access failed for %ps: %d\n",
--				 val, mbox, __builtin_return_address(0), err);
-+		drm_dbg(&i915->drm,
-+			"warning: pcode (write of 0x%08x to mbox %x) mailbox access failed for %ps: %d\n",
-+			val, mbox, __builtin_return_address(0), err);
- 	}
- 
- 	return err;
-@@ -519,7 +523,8 @@ int skl_pcode_request(struct drm_i915_private *i915, u32 mbox, u32 request,
- 	 * requests, and for any quirks of the PCODE firmware that delays
- 	 * the request completion.
- 	 */
--	DRM_DEBUG_KMS("PCODE timeout, retrying with preemption disabled\n");
-+	drm_dbg_kms(&i915->drm,
-+		    "PCODE timeout, retrying with preemption disabled\n");
- 	WARN_ON_ONCE(timeout_base_ms > 3);
- 	preempt_disable();
- 	ret = wait_for_atomic(COND, 50);
+ 	if (unlikely(check_for_unclaimed_mmio(uncore))) {
+ 		if (!i915_modparams.mmio_debug) {
+-			DRM_DEBUG("Unclaimed register detected, "
+-				  "enabling oneshot unclaimed register reporting. "
+-				  "Please use i915.mmio_debug=N for more information.\n");
++			drm_dbg(&uncore->i915->drm,
++				"Unclaimed register detected, "
++				"enabling oneshot unclaimed register reporting. "
++				"Please use i915.mmio_debug=N for more information.\n");
+ 			i915_modparams.mmio_debug++;
+ 		}
+ 		uncore->debug->unclaimed_mmio_check--;
 -- 
 2.24.1
 
