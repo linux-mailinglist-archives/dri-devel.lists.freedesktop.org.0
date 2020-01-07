@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2DEE132E3B
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 19:18:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 017E1132E46
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 19:21:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F90D6E120;
-	Tue,  7 Jan 2020 18:18:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EACC16E122;
+	Tue,  7 Jan 2020 18:21:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A84A96E120
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2020 18:17:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A3016E122
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2020 18:21:29 +0000 (UTC)
 Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 9B2EA2003E;
- Tue,  7 Jan 2020 19:17:53 +0100 (CET)
-Date: Tue, 7 Jan 2020 19:17:52 +0100
+ by asavdk3.altibox.net (Postfix) with ESMTPS id C5AF020033;
+ Tue,  7 Jan 2020 19:21:25 +0100 (CET)
+Date: Tue, 7 Jan 2020 19:21:24 +0100
 From: Sam Ravnborg <sam@ravnborg.org>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v2 2/2] drm/print: document DRM_ logging functions
-Message-ID: <20200107181752.GA20555@ravnborg.org>
-References: <20200102221519.31037-1-sam@ravnborg.org>
- <20200102221519.31037-3-sam@ravnborg.org>
- <20200107160852.GD43062@phenom.ffwll.local>
+To: Lee Jones <lee.jones@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: Re: [GIT PULL] Immutable branch between MFD and DRM due for the v5.6
+ merge window
+Message-ID: <20200107182124.GB20555@ravnborg.org>
+References: <1576672109-22707-1-git-send-email-claudiu.beznea@microchip.com>
+ <20200107101748.GC14821@dell>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200107160852.GD43062@phenom.ffwll.local>
+In-Reply-To: <20200107101748.GC14821@dell>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
  a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=25-AhOLfAAAA:8
- a=26ezMUyW1APrUCAVH8QA:9 a=hcASC10hvF5Fv3pL:21 a=_R0WbMInmFRGjRy6:21
- a=CjuIK1q_8ugA:10 a=dnuY3_Gu-P7Vi9ynLKQe:22
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=VwQbUJbxAAAA:8
+ a=htO-QbRAU_hgi8wv2wEA:9 a=CjuIK1q_8ugA:10 a=AjGcO6oz07-iQ99wixmX:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,157 +47,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, Joe Perches <joe@perches.com>,
- Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org
+Cc: alexandre.belloni@bootlin.com, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, nicolas.ferre@microchip.com,
+ dri-devel@lists.freedesktop.org, peda@axentia.se, boris.brezillon@bootlin.com,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel.
+Hi Maarten.
 
-> > + * Logging when a &device * is available, but no &drm_device *
-> > + * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > + *
-> > + * DRM/Drivers can use the following functions for logging when there is a
-> > + * struct device * available.
-> > + * The logging functions share the same prototype:
+On Tue, Jan 07, 2020 at 10:17:48AM +0000, Lee Jones wrote:
+> The MFD parts for testing:
 > 
-> I'd replace the entire block with a "This stuff is deprecated" warning. We
-> have at least a corresponding todo.rst entry.
+> The following changes since commit e42617b825f8073569da76dc4510bfa019b1c35a:
+> 
+>   Linux 5.5-rc1 (2019-12-08 14:57:55 -0800)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git tags/ib-mfd-drm-v5.6
+> 
+> for you to fetch changes up to 10f9167664362bac6f44813687cf52fec9d15845:
+> 
+>   mfd: atmel-hlcdc: Return in case of error (2020-01-07 10:08:58 +0000)
+> 
+> ----------------------------------------------------------------
+> Immutable branch between MFD and DRM due for the v5.6 merge window
+> 
+> ----------------------------------------------------------------
+> Claudiu Beznea (2):
+>       mfd: atmel-hlcdc: Add struct device member to struct atmel_hlcdc_regmap
+>       mfd: atmel-hlcdc: Return in case of error
+> 
+>  drivers/mfd/atmel-hlcdc.c | 18 ++++++++++++++----
+>  1 file changed, 14 insertions(+), 4 deletions(-)
 
-We have many situations where no drm_device is available.
-At least when you a buried in drm_panel patches.
+Can we get this into drm-misc-next?
 
-So it is either DRM_DEV_ERROR() or drv_err().
-Which is why I have pushed for nicer drm_ variants of these...
+I am not familiar with the process how to do this, and hope you can
+help.
 
-The todo entry only covers the nice new macros that Jani added
-where we have a drm_device.
+Thanks in advance,
 
 	Sam
-
-
-
-> -Daniel
-> 
-> > + *
-> > + * .. code-block:: c
-> > + *
-> > + *   void DRM_xxx(struct device *, char * fmt, ...)
-> > + *
-> > + * .. code-block:: none
-> > + *
-> > + *   # Plain logging
-> > + *   DRM_DEV_INFO(dev, fmt, ...)
-> > + *   DRM_DEV_ERROR(dev, fmt, ...)
-> > + *
-> > + *   # Log only once
-> > + *   DRM_DEV_INFO_ONCE(dev, fmt, ...)
-> > + *
-> > + *   # Ratelimited - do not flood the logs
-> > + *   DRM_DEV_DEBUG_RATELIMITED(dev, fmt, ...)
-> > + *   DRM_DEV_DEBUG_DRIVER_RATELIMITED(dev, fmt, ...)
-> > + *   DRM_DEV_DEBUG_KMS_RATELIMITED(dev, fmt, ...)
-> > + *   DRM_DEV_DEBUG_PRIME_RATELIMITED(dev, fmt, ...)
-> > + *   DRM_DEV_ERROR_RATELIMITED(dev, fmt, ...)
-> > + *
-> > + *   # Logging with a specific category
-> > + *   DRM_DEV_DEBUG(dev, fmt, ...)		# Logged as CORE
-> > + *   DRM_DEV_DEBUG_DRIVER(dev, fmt, ...)
-> > + *   DRM_DEV_DEBUG_KMS(dev, fmt, ...)
-> > + *   DRM_DEV_DEBUG_PRIME(dev, fmt, ...)
-> > + *   DRM_DEV_DEBUG_ATOMIC(dev, fmt, ...)
-> > + *   DRM_DEV_DEBUG_VBL(dev, fmt, ...)
-> > + *   DRM_DEV_DEBUG_DP(dev, fmt, ...)
-> > + *
-> > + * Logging when no &device * nor &drm_device * is available
-> > + * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > + *
-> > + * DRM/Drivers can use the following functions for logging when there is no
-> > + * extra info associated to the logging.
-> > + * The logging functions share the same prototype:
-> > + *
-> > + * .. code-block:: c
-> > + *
-> > + *   void DRM_xxx(char * fmt, ...)
-> > + *
-> > + * .. code-block:: none
-> > + *
-> > + *   # Plain logging
-> > + *   DRM_INFO(fmt, ...)
-> > + *   DRM_NOTE(fmt, ...)
-> > + *   DRM_WARN(fmt, ...)
-> > + *   DRM_ERROR(fmt, ...)
-> > + *
-> > + *   # Log only once
-> > + *   DRM_INFO_ONCE(fmt, ...)
-> > + *   DRM_NOTE_ONCE(fmt, ...)
-> > + *   DRM_WARN_ONCE(fmt, ...)
-> > + *
-> > + *   # Ratelimited - do not flood the logs
-> > + *   DRM_DEBUG_RATELIMITED(fmt, ...)
-> > + *   DRM_DEBUG_DRIVER_RATELIMITED(fmt, ...)
-> > + *   DRM_DEBUG_KMS_RATELIMITED(fmt, ...)
-> > + *   DRM_DEBUG_PRIME_RATELIMITED(fmt, ...)
-> > + *   DRM_ERROR_RATELIMITED(fmt, ...)
-> > + *
-> > + *   # Logging with a specific category
-> > + *   DRM_DEBUG(fmt, ...)		# Logged as CORE
-> > + *   DRM_DEBUG_DRIVER(fmt, ...)
-> > + *   DRM_DEBUG_KMS(fmt, ...)
-> > + *   DRM_DEBUG_PRIME(fmt, ...)
-> > + *   DRM_DEBUG_ATOMIC(fmt, ...)
-> > + *   DRM_DEBUG_VBL(fmt, ...)
-> > + *   DRM_DEBUG_LEASE(fmt, ...)
-> > + *   DRM_DEBUG_DP(fmt, ...)
-> >   */
-> >  
-> >  /**
-> > @@ -399,7 +475,7 @@ __printf(3, 4)
-> >  void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
-> >  		 const char *format, ...);
-> >  
-> > -/**
-> > +/*
-> >   * Error output.
-> >   *
-> >   * @dev: device pointer
-> > @@ -408,7 +484,7 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
-> >  #define DRM_DEV_ERROR(dev, fmt, ...)					\
-> >  	drm_dev_printk(dev, KERN_ERR, "*ERROR* " fmt, ##__VA_ARGS__)
-> >  
-> > -/**
-> > +/*
-> >   * Rate limited error output.  Like DRM_ERROR() but won't flood the log.
-> >   *
-> >   * @dev: device pointer
-> > @@ -436,7 +512,7 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
-> >  	}								\
-> >  })
-> >  
-> > -/**
-> > +/*
-> >   * Debug output.
-> >   *
-> >   * @dev: device pointer
-> > @@ -466,7 +542,7 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
-> >  		drm_dev_dbg(dev, category, fmt, ##__VA_ARGS__);		\
-> >  })
-> >  
-> > -/**
-> > +/*
-> >   * Rate limited debug output. Like DRM_DEBUG() but won't flood the log.
-> >   *
-> >   * @dev: device pointer
-> > -- 
-> > 2.20.1
-> > 
-> 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
