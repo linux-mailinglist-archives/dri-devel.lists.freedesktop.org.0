@@ -1,31 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55219132806
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 14:45:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C16B4132826
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 14:53:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48A9E6E07D;
-	Tue,  7 Jan 2020 13:45:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 587936E091;
+	Tue,  7 Jan 2020 13:53:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95FFB6E07D
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2020 13:45:44 +0000 (UTC)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
- id B41E61C2453; Tue,  7 Jan 2020 14:45:40 +0100 (CET)
-Date: Tue, 7 Jan 2020 14:45:40 +0100
-From: Pavel Machek <pavel@ucw.cz>
-To: Lee Jones <lee.jones@linaro.org>
-Subject: Re: [PATCH v10 6/6] backlight: add led-backlight driver
-Message-ID: <20200107134540.x5tngzoslssesb2y@ucw.cz>
-References: <20191009085127.22843-1-jjhiblot@ti.com>
- <20191009085127.22843-7-jjhiblot@ti.com>
- <20191121181350.GN43123@atomide.com> <20200107102800.GG14821@dell>
+Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A22E6E088;
+ Tue,  7 Jan 2020 13:53:33 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from localhost (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 19796329-1500050 for multiple; Tue, 07 Jan 2020 13:53:24 +0000
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200107102800.GG14821@dell>
-User-Agent: NeoMutt/20170113 (1.7.2)
+To: airlied@linux.ie, daniel@ffwll.ch, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, matthew.auld@intel.com,
+ rodrigo.vivi@intel.com, tvrtko.ursulin@intel.com,
+ ville.syrjala@linux.intel.com, yuehaibing@huawei.com
+From: Chris Wilson <chris@chris-wilson.co.uk>
+In-Reply-To: <20200107135014.36472-1-yuehaibing@huawei.com>
+References: <20200107135014.36472-1-yuehaibing@huawei.com>
+Message-ID: <157840520192.2273.1930989415602076960@skylake-alporthouse-com>
+User-Agent: alot/0.6
+Subject: Re: [PATCH -next] drm/i915: Add missing include file <linux/math64.h>
+Date: Tue, 07 Jan 2020 13:53:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,47 +41,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, daniel.thompson@linaro.org,
- Tony Lindgren <tony@atomide.com>, tomi.valkeinen@ti.com, sre@kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- robh+dt@kernel.org, jacek.anaszewski@gmail.com,
- Jean-Jacques Hiblot <jjhiblot@ti.com>, linux-leds@vger.kernel.org,
- dmurphy@ti.com
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi!
-
-> > * Jean-Jacques Hiblot <jjhiblot@ti.com> [700101 00:00]:
-> > > From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> > > 
-> > > This patch adds a led-backlight driver (led_bl), which is similar to
-> > > pwm_bl except the driver uses a LED class driver to adjust the
-> > > brightness in the HW. Multiple LEDs can be used for a single backlight.
-> > ...
-> > 
-> > > +	ret = of_property_read_u32(node, "default-brightness", &value);
-> > > +	if (!ret && value <= priv->max_brightness)
-> > > +		priv->default_brightness = value;
-> > > +	else if (!ret  && value > priv->max_brightness)
-> > > +		dev_warn(dev, "Invalid default brightness. Ignoring it\n");
-> > 
-> > Hmm so just wondering.. Are we using "default-brightness" instead of the
-> > usual "default-brightness-level" here?
+Quoting YueHaibing (2020-01-07 13:50:14)
+> Fix build error:
+> ./drivers/gpu/drm/i915/selftests/i915_random.h: In function i915_prandom_u32_max_state:
+> ./drivers/gpu/drm/i915/selftests/i915_random.h:48:23: error:
+>  implicit declaration of function mul_u32_u32; did you mean mul_u64_u32_div? [-Werror=implicit-function-declaration]
+>   return upper_32_bits(mul_u32_u32(prandom_u32_state(state), ep_ro));
 > 
-> Did this get answered?
-> 
-> > Please Cc me on the next patchset too :)
-> 
-> I've been waiting for v11.
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Fixes: 7ce5b6850b47 ("drm/i915/selftests: Use mul_u32_u32() for 32b x 32b -> 64b result")
 
-I guess I could just remove it from a merge for now if there's no other
-fix.
-
-Best regards,
-								Pavel
+While technically true, that doesn't explain why it only just started
+appearing on -next.
+-Chris
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
