@@ -1,66 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A690A132A87
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 16:56:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26EFF132ABF
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 17:09:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECABF6E0FA;
-	Tue,  7 Jan 2020 15:56:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C922F6E0F6;
+	Tue,  7 Jan 2020 16:08:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0BB56E0FB
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2020 15:56:13 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id q10so15586122wrm.11
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2020 07:56:13 -0800 (PST)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7EBA6E0F6
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2020 16:08:56 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id p17so82377wma.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2020 08:08:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=CvMm05V8g7+0q+Ui42OmT25y1ziIysK8ZY1Hix9SYOk=;
- b=b5zAbHoLeEnnKv5Pe2FO8SXc2DC9kOf7vi90pfVCVrAZTrEqSStlebOBOleTywwlu0
- L1b/R2sUnO88QH7MdQfYAwQKY5CQiKyAu450/ywdWpvDC9aV4+qVyu+F0elZsnXKGkGY
- x40SQaNAwyLjhSWVZzFNqi/j/WpUXI/vYyuEs=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=BXvWgkuj/NNYdBMLphidsp54Cn9l4cFWpBrKJFZ3lBw=;
+ b=YeIgv7PA97JsNHQN7Uus31ErlX8KtynioGQUBeY0aG5s+XWwIYG/RZVuwDLnyocgWj
+ XbxsYyGwV3Wq39TpNqzLO8r19mU70UP6XNKKfa5+AGGvWxVpeaAM4+G8SeufuGRBinkB
+ C5watg4E92PomkgYg+nyQ7S0ZkFsLldK6uaqs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=CvMm05V8g7+0q+Ui42OmT25y1ziIysK8ZY1Hix9SYOk=;
- b=tUe8G0j6Wq1Or2BS+avqXxuWLLWEVRM2ZbfEXyYRdJh5FM68vIm8CnAwSQqqrY108B
- vAu9RJcznxi2PbxaxCakI9i9+sFcPrHVDZVY5m8fNpDUB40coCOehb8fKWareWCp4ah3
- hGSn/5T2qPIBbMhpnZTer/nbVXN/C0YAn/5o1dxguB7YTQYqis2u/NtP1hUjJ4yfrr7A
- 6GC+okiXCav2v0IXzysUtDIqvfr7c4fomb5Ab86yA6CuOxYKdx2XDBHhvF4siFWnjJqz
- i7sjcyhqLDMZBv2W0WCmyPNuUjLx6PJwiRA7YZwwqmmkQEsZ4gvrnxDshkJoGWUgEFd7
- GKoQ==
-X-Gm-Message-State: APjAAAXXYAEaFY/oZrzNj+vMgCa2tIeAjkuOXU6ISMIYvz66+KtkI0yG
- iVsQEg6T9Pj6blaK7Eyfl/i74Q==
-X-Google-Smtp-Source: APXvYqx3h6noxkt81i/cx6q7p6cU1GJPR1y287dcrhXYvOtvXcQFfcMZU3tI3SF9MlsEh+F8zLMl/w==
-X-Received: by 2002:a5d:4a91:: with SMTP id o17mr32868608wrq.232.1578412572311; 
- Tue, 07 Jan 2020 07:56:12 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=BXvWgkuj/NNYdBMLphidsp54Cn9l4cFWpBrKJFZ3lBw=;
+ b=VvAaC7A+Cl8JQCXbmmwbjWXzSukRoO+TiCu4AeDHi4VOv6oAggqxb2Y62TlYgQ1Wro
+ VNHI/d+FTLkfKW0XiVQZxpzUvsF4Jkenh1jYgfuvjnzuqr34NmdgH2lkzcM9omdTtRVA
+ 7NU5NK/MB0A5tcznhYLJj9Q4I5U4g0pPt+4LJz51ZP7lzEuFJ5HCQM6j2636SfeVTlou
+ LB4RIR1i5/1tOZsU9YmnLjm8ea1Nnx8oAfQry5E+ID33HI4l/ncQa4BXvwtpOiDsY08o
+ teiBy1vCOcFIFSIX72BqMGSLO3dmxzCZI4LaGsrCPdhuZNG2qvinoa1XMcvwh81iPvRW
+ LjdQ==
+X-Gm-Message-State: APjAAAUc25yX2LWpgoVKa8TI+Cfcg9dPMqhsbgHqUsHZUtpQakuAQaWN
+ ca44uFo22ACGxZHJSOLNH0bhUw==
+X-Google-Smtp-Source: APXvYqyK7Bn2bQ6P/pDVqtmijK918pZ/4WMn5nvck5EJUvk7jJ288GGy0Usar+I6z6+5M6eYUtURXQ==
+X-Received: by 2002:a05:600c:1103:: with SMTP id
+ b3mr39001505wma.141.1578413335545; 
+ Tue, 07 Jan 2020 08:08:55 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:564b:0:7567:bb67:3d7f:f863])
- by smtp.gmail.com with ESMTPSA id v17sm242529wrt.91.2020.01.07.07.56.11
+ by smtp.gmail.com with ESMTPSA id n14sm87985wmi.26.2020.01.07.08.08.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 07:56:11 -0800 (PST)
-Date: Tue, 7 Jan 2020 16:56:09 +0100
+ Tue, 07 Jan 2020 08:08:54 -0800 (PST)
+Date: Tue, 7 Jan 2020 17:08:52 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH] drm/fb-helper: Round up bits_per_pixel if possible
-Message-ID: <20200107155609.GC43062@phenom.ffwll.local>
-Mail-Followup-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Stefan Agner <stefan@agner.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20191230132734.4538-1-geert+renesas@glider.be>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v2 2/2] drm/print: document DRM_ logging functions
+Message-ID: <20200107160852.GD43062@phenom.ffwll.local>
+References: <20200102221519.31037-1-sam@ravnborg.org>
+ <20200102221519.31037-3-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191230132734.4538-1-geert+renesas@glider.be>
+In-Reply-To: <20200102221519.31037-3-sam@ravnborg.org>
 X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,82 +66,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Sean Paul <sean@poorly.run>
+Cc: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
+ Joe Perches <joe@perches.com>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 30, 2019 at 02:27:34PM +0100, Geert Uytterhoeven wrote:
-> When userspace requests a video mode parameter value that is not
-> supported, frame buffer device drivers should round it up to a supported
-> value, if possible, instead of just rejecting it.  This allows
-> applications to quickly scan for supported video modes.
+On Thu, Jan 02, 2020 at 11:15:19PM +0100, Sam Ravnborg wrote:
+> Document the remaining DRM_ logging functions.
+> As the logging functions are now all properly
+> listed drop the few specific kernel-doc markers
+> so we keep the relevant parts in the documentation.
 > 
-> Currently this rule is not followed for the number of bits per pixel,
-> causing e.g. "fbset -depth N" to fail, if N is smaller than the current
-> number of bits per pixel.
-> 
-> Fix this by returning an error only if bits per pixel is too large, and
-> setting it to the current value otherwise.
-> 
-> See also Documentation/fb/framebuffer.rst, Section 2 (Programmer's View
-> of /dev/fb*").
-> 
-> Fixes: 865afb11949e5bf4 ("drm/fb-helper: reject any changes to the fbdev")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Applied to drm-misc-fixes with a cc:stable.
-
-Aside, would be really lovely if someone who cares about these fbdev
-details would start to with some unit tests in the drm testsuite:
-
-https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html?highlight=igt#testing-and-validation
-
-The drm version is gearing up to be _the_ fbdev implementation, that way
-we could make sure it wont break (e.g. intel gfx CI would run this stuff
-if it's in igt).
-
-Thanks, Daniel
-
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> Cc: Sean Paul <sean@poorly.run>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
 > ---
-> Against drm-misc#for-linux-next.
-> Applies with some fuzz against v5.5-rc4.
-> ---
->  drivers/gpu/drm/drm_fb_helper.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+>  include/drm/drm_print.h | 84 +++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 80 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-> index f8e9051926083373..cae8fa74781c8db0 100644
-> --- a/drivers/gpu/drm/drm_fb_helper.c
-> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> @@ -1267,7 +1267,7 @@ int drm_fb_helper_check_var(struct fb_var_screeninfo *var,
->  	 * Changes struct fb_var_screeninfo are currently not pushed back
->  	 * to KMS, hence fail if different settings are requested.
->  	 */
-> -	if (var->bits_per_pixel != fb->format->cpp[0] * 8 ||
-> +	if (var->bits_per_pixel > fb->format->cpp[0] * 8 ||
->  	    var->xres > fb->width || var->yres > fb->height ||
->  	    var->xres_virtual > fb->width || var->yres_virtual > fb->height) {
->  		drm_dbg_kms(dev, "fb requested width/height/bpp can't fit in current fb "
-> @@ -1292,6 +1292,11 @@ int drm_fb_helper_check_var(struct fb_var_screeninfo *var,
->  		drm_fb_helper_fill_pixel_fmt(var, fb->format->depth);
->  	}
+> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+> index 89e75eea65d2..abe247199bf7 100644
+> --- a/include/drm/drm_print.h
+> +++ b/include/drm/drm_print.h
+> @@ -335,6 +335,82 @@ static inline struct drm_printer drm_err_printer(const char *prefix)
+>   *
+>   * See enum &drm_debug_category for a description of the categories.
+>   *
+> + * Logging when a &device * is available, but no &drm_device *
+> + * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> + *
+> + * DRM/Drivers can use the following functions for logging when there is a
+> + * struct device * available.
+> + * The logging functions share the same prototype:
+
+I'd replace the entire block with a "This stuff is deprecated" warning. We
+have at least a corresponding todo.rst entry.
+-Daniel
+
+> + *
+> + * .. code-block:: c
+> + *
+> + *   void DRM_xxx(struct device *, char * fmt, ...)
+> + *
+> + * .. code-block:: none
+> + *
+> + *   # Plain logging
+> + *   DRM_DEV_INFO(dev, fmt, ...)
+> + *   DRM_DEV_ERROR(dev, fmt, ...)
+> + *
+> + *   # Log only once
+> + *   DRM_DEV_INFO_ONCE(dev, fmt, ...)
+> + *
+> + *   # Ratelimited - do not flood the logs
+> + *   DRM_DEV_DEBUG_RATELIMITED(dev, fmt, ...)
+> + *   DRM_DEV_DEBUG_DRIVER_RATELIMITED(dev, fmt, ...)
+> + *   DRM_DEV_DEBUG_KMS_RATELIMITED(dev, fmt, ...)
+> + *   DRM_DEV_DEBUG_PRIME_RATELIMITED(dev, fmt, ...)
+> + *   DRM_DEV_ERROR_RATELIMITED(dev, fmt, ...)
+> + *
+> + *   # Logging with a specific category
+> + *   DRM_DEV_DEBUG(dev, fmt, ...)		# Logged as CORE
+> + *   DRM_DEV_DEBUG_DRIVER(dev, fmt, ...)
+> + *   DRM_DEV_DEBUG_KMS(dev, fmt, ...)
+> + *   DRM_DEV_DEBUG_PRIME(dev, fmt, ...)
+> + *   DRM_DEV_DEBUG_ATOMIC(dev, fmt, ...)
+> + *   DRM_DEV_DEBUG_VBL(dev, fmt, ...)
+> + *   DRM_DEV_DEBUG_DP(dev, fmt, ...)
+> + *
+> + * Logging when no &device * nor &drm_device * is available
+> + * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> + *
+> + * DRM/Drivers can use the following functions for logging when there is no
+> + * extra info associated to the logging.
+> + * The logging functions share the same prototype:
+> + *
+> + * .. code-block:: c
+> + *
+> + *   void DRM_xxx(char * fmt, ...)
+> + *
+> + * .. code-block:: none
+> + *
+> + *   # Plain logging
+> + *   DRM_INFO(fmt, ...)
+> + *   DRM_NOTE(fmt, ...)
+> + *   DRM_WARN(fmt, ...)
+> + *   DRM_ERROR(fmt, ...)
+> + *
+> + *   # Log only once
+> + *   DRM_INFO_ONCE(fmt, ...)
+> + *   DRM_NOTE_ONCE(fmt, ...)
+> + *   DRM_WARN_ONCE(fmt, ...)
+> + *
+> + *   # Ratelimited - do not flood the logs
+> + *   DRM_DEBUG_RATELIMITED(fmt, ...)
+> + *   DRM_DEBUG_DRIVER_RATELIMITED(fmt, ...)
+> + *   DRM_DEBUG_KMS_RATELIMITED(fmt, ...)
+> + *   DRM_DEBUG_PRIME_RATELIMITED(fmt, ...)
+> + *   DRM_ERROR_RATELIMITED(fmt, ...)
+> + *
+> + *   # Logging with a specific category
+> + *   DRM_DEBUG(fmt, ...)		# Logged as CORE
+> + *   DRM_DEBUG_DRIVER(fmt, ...)
+> + *   DRM_DEBUG_KMS(fmt, ...)
+> + *   DRM_DEBUG_PRIME(fmt, ...)
+> + *   DRM_DEBUG_ATOMIC(fmt, ...)
+> + *   DRM_DEBUG_VBL(fmt, ...)
+> + *   DRM_DEBUG_LEASE(fmt, ...)
+> + *   DRM_DEBUG_DP(fmt, ...)
+>   */
 >  
-> +	/*
-> +	 * Likewise, bits_per_pixel should be rounded up to a supported value.
-> +	 */
-> +	var->bits_per_pixel = fb->format->cpp[0] * 8;
-> +
->  	/*
->  	 * drm fbdev emulation doesn't support changing the pixel format at all,
->  	 * so reject all pixel format changing requests.
+>  /**
+> @@ -399,7 +475,7 @@ __printf(3, 4)
+>  void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+>  		 const char *format, ...);
+>  
+> -/**
+> +/*
+>   * Error output.
+>   *
+>   * @dev: device pointer
+> @@ -408,7 +484,7 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+>  #define DRM_DEV_ERROR(dev, fmt, ...)					\
+>  	drm_dev_printk(dev, KERN_ERR, "*ERROR* " fmt, ##__VA_ARGS__)
+>  
+> -/**
+> +/*
+>   * Rate limited error output.  Like DRM_ERROR() but won't flood the log.
+>   *
+>   * @dev: device pointer
+> @@ -436,7 +512,7 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+>  	}								\
+>  })
+>  
+> -/**
+> +/*
+>   * Debug output.
+>   *
+>   * @dev: device pointer
+> @@ -466,7 +542,7 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+>  		drm_dev_dbg(dev, category, fmt, ##__VA_ARGS__);		\
+>  })
+>  
+> -/**
+> +/*
+>   * Rate limited debug output. Like DRM_DEBUG() but won't flood the log.
+>   *
+>   * @dev: device pointer
 > -- 
-> 2.17.1
+> 2.20.1
 > 
 
 -- 
