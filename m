@@ -2,36 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F6C3131D7D
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 03:09:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 669C2131DC5
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 03:56:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAC9B6E5CD;
-	Tue,  7 Jan 2020 02:09:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EA6A6E7D1;
+	Tue,  7 Jan 2020 02:56:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FD7B6E5CC;
- Tue,  7 Jan 2020 02:09:13 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 06 Jan 2020 18:09:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,404,1571727600"; 
- d="asc'?scan'208";a="420896975"
-Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.13.116])
- by fmsmga005.fm.intel.com with ESMTP; 06 Jan 2020 18:09:11 -0800
-Date: Tue, 7 Jan 2020 10:06:37 +0800
-From: Zhenyu Wang <zhenyuw@linux.intel.com>
-To: Julian Stecklina <julian.stecklina@cyberus-technology.de>
-Subject: Re: [PATCH 1/3] drm/i915/gvt: fix file paths in documentation
-Message-ID: <20200107020637.GA5894@zhen-hp.sh.intel.com>
-References: <20200106140622.14393-1-julian.stecklina@cyberus-technology.de>
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B89926E7D1
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2020 02:56:35 +0000 (UTC)
+X-UUID: f863a1236a9d4e5aaf75f5b8c2ee7b52-20200107
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:Date:To:From:Subject:Message-ID;
+ bh=WvLYzmY4ueg2Fb5nUQMyGzQBFOIPCUF9ozekNaAJI0w=; 
+ b=sF1kFZXt2IYCWEg2gsZH0wChmxMBqEYOiPXtxsYHfvIRYRFmITBjArmOj2GU5/uJDRvct4b+6AV54lgzEueZZgez9Iwgo/KpCEMWhRY3iZU7Wsvjbuh3Tk3q0n3+uDEbeldTLhR9I/85M1oyXY69y2CYTCAzoQ9S8a1gQlsC/oo=;
+X-UUID: f863a1236a9d4e5aaf75f5b8c2ee7b52-20200107
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 1459403321; Tue, 07 Jan 2020 10:56:32 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Tue, 7 Jan 2020 10:56:30 +0800
+Received: from [172.21.77.4] (172.21.77.4) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Tue, 7 Jan 2020 10:54:59 +0800
+Message-ID: <1578365790.28495.13.camel@mtksdaap41>
+Subject: Process identical patches in different tree
+From: CK Hu <ck.hu@mediatek.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@intel.com>, 
+ MatthiasBrugger <matthias.bgg@gmail.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-mediatek@lists.infradead.org>
+Date: Tue, 7 Jan 2020 10:56:30 +0800
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-In-Reply-To: <20200106140622.14393-1-julian.stecklina@cyberus-technology.de>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,103 +51,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
-Cc: linux-kernel@vger.kernel.org, hang.yuan@intel.com,
- dri-devel@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
- zhiyuan.lv@intel.com
-Content-Type: multipart/mixed; boundary="===============1579409148=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi, Dave, Daniel, Matthias:
 
---===============1579409148==
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="PEIAKu/WMn1b1Hv9"
-Content-Disposition: inline
+In mediatek-drm-next-5.6 [1], I've cherry-pick 3 patches from
+v5.5-next/soc [2] because some drm patches depend on these cmdq patches.
+So these cmdq patches exist in both tree now. I want to know how to
+process this case. I think we could choose one of below way:
 
+1. Because these cmdq patches are identical in both tree, so each tree
+could do its own upstream and the there would be nothing happen when
+merge.
+2. Let soc upstream first, and mediatek drm rebase on the latest
+mainline then upstream.
 
---PEIAKu/WMn1b1Hv9
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Which one do you prefer?
 
-On 2020.01.06 16:06:20 +0200, Julian Stecklina wrote:
-> The documentation had some stale paths to i915 graphics virtualization
-> code. Fix them to point to existing files.
->=20
-> Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
-> Cc: zhiyuan.lv@intel.com
-> Cc: hang.yuan@intel.com
->=20
-> Signed-off-by: Julian Stecklina <julian.stecklina@cyberus-technology.de>
-> ---
->  Documentation/gpu/i915.rst | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->=20
-> diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
-> index e539c42a3e78..d644683c5249 100644
-> --- a/Documentation/gpu/i915.rst
-> +++ b/Documentation/gpu/i915.rst
-> @@ -43,19 +43,19 @@ Interrupt Handling
->  Intel GVT-g Guest Support(vGPU)
->  -------------------------------
-> =20
-> -.. kernel-doc:: drivers/gpu/drm/i915/i915_vgpu.c
-> +.. kernel-doc:: drivers/gpu/drm/i915/gvt/vgpu.c
->     :doc: Intel GVT-g guest support
-> =20
-> -.. kernel-doc:: drivers/gpu/drm/i915/i915_vgpu.c
-> +.. kernel-doc:: drivers/gpu/drm/i915/gvt/vgpu.c
->     :internal:
-> =20
->  Intel GVT-g Host Support(vGPU device model)
->  -------------------------------------------
-> =20
-> -.. kernel-doc:: drivers/gpu/drm/i915/intel_gvt.c
-> +.. kernel-doc:: drivers/gpu/drm/i915/gvt/gvt.c
->     :doc: Intel GVT-g host support
-> =20
-> -.. kernel-doc:: drivers/gpu/drm/i915/intel_gvt.c
-> +.. kernel-doc:: drivers/gpu/drm/i915/gvt/gvt.c
->     :internal:
->
+[1]
+https://github.com/ckhu-mediatek/linux.git-tags/commits/mediatek-drm-next-5.6
+[2]
+https://git.kernel.org/pub/scm/linux/kernel/git/matthias.bgg/linux.git/log/?h=v5.5-next/soc
 
-The i915_vgpu.c and intel_gvt.c are still there for guest
-and host part of i915 interface with gvt. We still need them
-in doc. The files in gvt/ directory are gvt device model internals.=20
-
-
->  Workarounds
-> --=20
-> 2.24.1
->=20
-
---=20
-Open Source Technology Center, Intel ltd.
-
-$gpg --keyserver wwwkeys.pgp.net --recv-keys 4D781827
-
---PEIAKu/WMn1b1Hv9
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCXhPnrQAKCRCxBBozTXgY
-JyMvAJ9TsnqY3mHUvUBZ/z7Xk72MkvNYRwCeJH2j6DznfHpxHvpobBYCwKxej0k=
-=eCW/
------END PGP SIGNATURE-----
-
---PEIAKu/WMn1b1Hv9--
-
---===============1579409148==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Regards,
+CK
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1579409148==--
