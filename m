@@ -1,37 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 666151327BB
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 14:34:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E2E81327D6
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 14:38:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 848006E073;
-	Tue,  7 Jan 2020 13:34:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D88016E079;
+	Tue,  7 Jan 2020 13:38:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AB986E073
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2020 13:34:21 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 15A72291F9E;
- Tue,  7 Jan 2020 13:34:20 +0000 (GMT)
-Date: Tue, 7 Jan 2020 14:34:16 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: Re: [PATCH 3/3] drm/exynos: dsi: Fix bridge chain handling
-Message-ID: <20200107143416.33717553@collabora.com>
-In-Reply-To: <3cf5afd7-9bdf-25ac-0683-2b72105681eb@samsung.com>
-References: <20191227144124.210294-1-boris.brezillon@collabora.com>
- <CGME20191227144135eucas1p15c431ece1d12d133f2f30d725ca2df8d@eucas1p1.samsung.com>
- <20191227144124.210294-3-boris.brezillon@collabora.com>
- <3cf5afd7-9bdf-25ac-0683-2b72105681eb@samsung.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+ [209.85.208.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DAC56E079
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2020 13:38:12 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id r21so50341842edq.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2020 05:38:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/Ogr0kICtWAKUCwX8COeBVH7wt+URVAc4vJxZdPJDTg=;
+ b=P5VAKtI8xEokMlAQLSsCpdyKvfN6IzOcgYnOlSVhJKCJ0hKMgC3w0b7xVbqcSDqxVQ
+ qwv7Cldp2OPfpqVq4hIghPKJE34gsLJ5LsE9gn6b4xQUSfcQjLFPvw88S8+KyyVMgWcs
+ guH4Curri67RfYCsrYGhvyEnIhP6PE2FKmQ8+gAtx+vBSUW73yHRf0S0yzwSQQXVAhdK
+ Nint06lbAb1JN/WawHuzQxBy7YYv0isfd56DHrozVP/3aIJ1Keq/nIHtDlhw3ImDroRh
+ z04LRuR5hVpJ/Liv5jxyCtJ/Wj6z+BzWHAmKLxjkDAeVXHB4yAyRbe3fDeT2oiCbfeQD
+ kZ6g==
+X-Gm-Message-State: APjAAAV9bv1NPxj6E/b0Y0ov4XREYAmCu2A5UCoc4hblyCq3eOm48MPa
+ SyvZbf33WnuFcppyNJXy2MKv6nrH8BY=
+X-Google-Smtp-Source: APXvYqw1wvkTwcO5vNc3JA96rvA9gwR4Ms9xsKYszMIl4qbRTXPT2a+6QlH3HvdjkOTJUOtI0y0HmA==
+X-Received: by 2002:a17:906:55c1:: with SMTP id
+ z1mr113221286ejp.288.1578404290542; 
+ Tue, 07 Jan 2020 05:38:10 -0800 (PST)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com.
+ [209.85.128.47])
+ by smtp.gmail.com with ESMTPSA id s7sm5746779edh.34.2020.01.07.05.38.09
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jan 2020 05:38:10 -0800 (PST)
+Received: by mail-wm1-f47.google.com with SMTP id c127so14228871wme.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2020 05:38:09 -0800 (PST)
+X-Received: by 2002:a1c:a50e:: with SMTP id o14mr39148147wme.2.1578404289688; 
+ Tue, 07 Jan 2020 05:38:09 -0800 (PST)
 MIME-Version: 1.0
+References: <20191219092000.949052-1-maxime@cerno.tech>
+In-Reply-To: <20191219092000.949052-1-maxime@cerno.tech>
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Tue, 7 Jan 2020 21:37:58 +0800
+X-Gmail-Original-Message-ID: <CAGb2v67VxM=zmLCA1yS2vvwhwHRy7zHnjb69y3psVtBsUj3wWg@mail.gmail.com>
+Message-ID: <CAGb2v67VxM=zmLCA1yS2vvwhwHRy7zHnjb69y3psVtBsUj3wWg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/sun4i: backend: Make sure we enforce the clock
+ rate
+To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,61 +64,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, dri-devel@lists.freedesktop.org,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+On Thu, Dec 19, 2019 at 5:20 PM Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> The backend needs to run at 300MHz to be functional. This was done so far
+> using assigned-clocks in the device tree, but that is easy to forget, and
+> dosen't provide any other guarantee than the rate is going to be roughly
+> the one requested at probe time.
+>
+> Therefore it's pretty fragile, so let's just use the exclusive clock API to
+> enforce it.
+>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-On Tue, 7 Jan 2020 10:11:43 +0100
-Marek Szyprowski <m.szyprowski@samsung.com> wrote:
-
-> Hi Boris,
-> 
-> Sorry, for the late reply, I've just got back from my prolonged Chrismas 
-> holidays.
-> 
-> On 27.12.2019 15:41, Boris Brezillon wrote:
-> > Commit 05193dc38197 ("drm/bridge: Make the bridge chain a double-linked
-> > list") patched the bridge chain logic to use a double-linked list instead
-> > of a single-linked list. This change induced changes to the Exynos driver
-> > which was manually resetting the encoder->bridge element to NULL to
-> > control the enable/disable sequence of the bridge chain. During this
-> > conversion, 2 bugs were introduced:
-> >
-> > 1/ list_splice() was used to move chain elements to our own internal
-> >     chain, but list_splice() does not reset the source list to an empty
-> >     state, leading to unexpected bridge hook calls when
-> >     drm_bridge_chain_xxx() helpers were called by the core. Replacing
-> >     the list_splice() call by list_splice_init() fixes this problem.
-> >
-> > 2/ drm_bridge_chain_xxx() helpers operate on the
-> >     bridge->encoder->bridge_chain list, which is now empty. When the
-> >     helper uses list_for_each_entry_reverse() we end up with no operation
-> >     done which is not what we want. But that's even worse when the helper
-> >     uses list_for_each_entry_from(), because in that case we end up in
-> >     an infinite loop searching for the list head element which is no
-> >     longer encoder->bridge_chain but exynos_dsi->bridge_chain. To address
-> >     that problem we stop using the bridge chain helpers and call the
-> >     hooks directly.
-> >
-> > Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> > Fixes: 05193dc38197 ("drm/bridge: Make the bridge chain a double-linked list")
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>  
-> 
-> Works fine on Exynos5250-based Arndale board.
-> 
-> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-
-Thanks for testing, but can you also add your R-b (I need it to make
-dim happy)? While you're at it, maybe you can review patch 2 (it's very
-similar to this patch).
+Reviewed-by: Chen-Yu Tsai <wens@csie.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
