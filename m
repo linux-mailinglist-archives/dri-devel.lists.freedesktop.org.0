@@ -1,56 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE451335DD
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 23:46:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CC7E13360A
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 23:46:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36C176E14B;
-	Tue,  7 Jan 2020 22:46:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51DBB6E84A;
+	Tue,  7 Jan 2020 22:46:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
- [216.228.121.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7ECB26E149
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2020 22:46:01 +0000 (UTC)
+Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
+ [216.228.121.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CF816E841
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2020 22:46:09 +0000 (UTC)
 Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5e150a170000>; Tue, 07 Jan 2020 14:45:43 -0800
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5e150a1c0000>; Tue, 07 Jan 2020 14:45:48 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
  by hqpgpgate101.nvidia.com (PGP Universal service);
- Tue, 07 Jan 2020 14:46:00 -0800
+ Tue, 07 Jan 2020 14:46:05 -0800
 X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Tue, 07 Jan 2020 14:46:00 -0800
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 7 Jan
+ by hqpgpgate101.nvidia.com on Tue, 07 Jan 2020 14:46:05 -0800
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 7 Jan
+ 2020 22:46:04 +0000
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 7 Jan
  2020 22:46:00 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
  Transport; Tue, 7 Jan 2020 22:46:00 +0000
 Received: from blueforge.nvidia.com (Not Verified[10.110.48.28]) by
  hqnvemgw03.nvidia.com with Trustwave SEG (v7, 5, 8, 10121)
- id <B5e150a280001>; Tue, 07 Jan 2020 14:46:00 -0800
+ id <B5e150a280002>; Tue, 07 Jan 2020 14:46:00 -0800
 From: John Hubbard <jhubbard@nvidia.com>
 To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v12 05/22] goldish_pipe: rename local pin_user_pages() routine
-Date: Tue, 7 Jan 2020 14:45:41 -0800
-Message-ID: <20200107224558.2362728-6-jhubbard@nvidia.com>
+Subject: [PATCH v12 06/22] mm: fix get_user_pages_remote()'s handling of
+ FOLL_LONGTERM
+Date: Tue, 7 Jan 2020 14:45:42 -0800
+Message-ID: <20200107224558.2362728-7-jhubbard@nvidia.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200107224558.2362728-1-jhubbard@nvidia.com>
 References: <20200107224558.2362728-1-jhubbard@nvidia.com>
 MIME-Version: 1.0
 X-NVConfidentiality: public
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1578437143; bh=dU9rqRUjoEJDMl6YIDFuRWeBjP0SXaLfZLqPqCiHWKI=;
+ t=1578437148; bh=MKwa9FNUgW2GSdRoQWy4jgB881/WBtNchzrZ2I8BLbk=;
  h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
  In-Reply-To:References:MIME-Version:X-NVConfidentiality:
- Content-Type:Content-Transfer-Encoding;
- b=LzyYzyU/ah7gMx/f8uMRF30yHrKyaZbjMfFIoSyfNntr088nD8DLWRjhBaPxLgjUr
- 3YaKTOyLQv76NToZOP0SN+cIBJCIDJ4U47ZMRHUDYpnDhpzYA/j+HAhjzGpWL/Q2lL
- 2Q3b01lIWlPwxpZpAymtk/Sq7vodRc1H/RRWx/kPZ3oXk/+syGO8XjRANDGgJdpAxz
- AVjWM+AJ6xrZJzD+lhbdG89drx4j06QEbqbbfoIBBXopxLvS4VNXAQO+9hgFKGgKu3
- v7GcGX796iv82SW3+X1Cpk1kKjo5wECE4a6ptuamFcy3mQOe6CehCbBkewM7rnqntS
- XDY1WH9XpHtfA==
+ Content-Transfer-Encoding:Content-Type;
+ b=PR6tPgdZL1rZ8ERmazBZHKe2L7e6KucH5piwq/QICqKp/Nfybqjpy68iOJhI+6ORp
+ fxAfPJ5IiCUXRD+25qtq60D75IqldEu69I4BO94cZsaPE2KjRW9XccRJQ8azADvZzf
+ d7OR4dlDqStDaQMJDWmWGKXRQ9Yy407eowZ0RYacMHVhNBC0i0/a4RbibwDEPyhIFE
+ irDGedVFLrPzqQPIvVGd/Zi3d+AD822Q4qPxSkWCuI32B3ZkZ1Tg8bZ1ZAxzUum2f5
+ WCqqFMRHNyMyrFKKSq3If9kXCCuFRO3z1S5cZ9P6HW11G32jMX1KQsJuoHpLGOVAFc
+ VEbkfZSb/UhFw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,7 +75,8 @@ Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
  linux-kselftest@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
  Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
  Michael Ellerman <mpe@ellerman.id.au>, Christoph Hellwig <hch@infradead.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@suse.cz>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Jason
+ Gunthorpe <jgg@mellanox.com>, Vlastimil Babka <vbabka@suse.cz>,
  =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn.topel@intel.com>,
  linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
  John Hubbard <jhubbard@nvidia.com>, linux-block@vger.kernel.org,
@@ -79,50 +84,248 @@ Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
  Al Viro <viro@zeniv.linux.org.uk>,
  "Kirill A . Shutemov" <kirill@shutemov.name>,
  Dan Williams <dan.j.williams@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Magnus Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Magnus
+ Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
  netdev@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
  linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org,
  linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>,
  Mike Kravetz <mike.kravetz@oracle.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MS4gQXZvaWQgbmFtaW5nIGNvbmZsaWN0czogcmVuYW1lIGxvY2FsIHN0YXRpYyBmdW5jdGlvbiBm
-cm9tCiJwaW5fdXNlcl9wYWdlcygpIiB0byAiZ29sZGZpc2hfcGluX3BhZ2VzKCkiLgoKQW4gdXBj
-b21pbmcgcGF0Y2ggd2lsbCBpbnRyb2R1Y2UgYSBnbG9iYWwgcGluX3VzZXJfcGFnZXMoKQpmdW5j
-dGlvbi4KClJldmlld2VkLWJ5OiBKYW4gS2FyYSA8amFja0BzdXNlLmN6PgpSZXZpZXdlZC1ieTog
-SsOpcsO0bWUgR2xpc3NlIDxqZ2xpc3NlQHJlZGhhdC5jb20+ClJldmlld2VkLWJ5OiBJcmEgV2Vp
-bnkgPGlyYS53ZWlueUBpbnRlbC5jb20+ClNpZ25lZC1vZmYtYnk6IEpvaG4gSHViYmFyZCA8amh1
-YmJhcmRAbnZpZGlhLmNvbT4KLS0tCiBkcml2ZXJzL3BsYXRmb3JtL2dvbGRmaXNoL2dvbGRmaXNo
-X3BpcGUuYyB8IDE4ICsrKysrKysrKy0tLS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDkgaW5zZXJ0
-aW9ucygrKSwgOSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3BsYXRmb3JtL2dv
-bGRmaXNoL2dvbGRmaXNoX3BpcGUuYyBiL2RyaXZlcnMvcGxhdGZvcm0vZ29sZGZpc2gvZ29sZGZp
-c2hfcGlwZS5jCmluZGV4IGNlZjAxMzNhYTQ3YS4uZWY1MGMyNjRkYjcxIDEwMDY0NAotLS0gYS9k
-cml2ZXJzL3BsYXRmb3JtL2dvbGRmaXNoL2dvbGRmaXNoX3BpcGUuYworKysgYi9kcml2ZXJzL3Bs
-YXRmb3JtL2dvbGRmaXNoL2dvbGRmaXNoX3BpcGUuYwpAQCAtMjU3LDEyICsyNTcsMTIgQEAgc3Rh
-dGljIGludCBnb2xkZmlzaF9waXBlX2Vycm9yX2NvbnZlcnQoaW50IHN0YXR1cykKIAl9CiB9CiAK
-LXN0YXRpYyBpbnQgcGluX3VzZXJfcGFnZXModW5zaWduZWQgbG9uZyBmaXJzdF9wYWdlLAotCQkJ
-ICB1bnNpZ25lZCBsb25nIGxhc3RfcGFnZSwKLQkJCSAgdW5zaWduZWQgaW50IGxhc3RfcGFnZV9z
-aXplLAotCQkJICBpbnQgaXNfd3JpdGUsCi0JCQkgIHN0cnVjdCBwYWdlICpwYWdlc1tNQVhfQlVG
-RkVSU19QRVJfQ09NTUFORF0sCi0JCQkgIHVuc2lnbmVkIGludCAqaXRlcl9sYXN0X3BhZ2Vfc2l6
-ZSkKK3N0YXRpYyBpbnQgZ29sZGZpc2hfcGluX3BhZ2VzKHVuc2lnbmVkIGxvbmcgZmlyc3RfcGFn
-ZSwKKwkJCSAgICAgIHVuc2lnbmVkIGxvbmcgbGFzdF9wYWdlLAorCQkJICAgICAgdW5zaWduZWQg
-aW50IGxhc3RfcGFnZV9zaXplLAorCQkJICAgICAgaW50IGlzX3dyaXRlLAorCQkJICAgICAgc3Ry
-dWN0IHBhZ2UgKnBhZ2VzW01BWF9CVUZGRVJTX1BFUl9DT01NQU5EXSwKKwkJCSAgICAgIHVuc2ln
-bmVkIGludCAqaXRlcl9sYXN0X3BhZ2Vfc2l6ZSkKIHsKIAlpbnQgcmV0OwogCWludCByZXF1ZXN0
-ZWRfcGFnZXMgPSAoKGxhc3RfcGFnZSAtIGZpcnN0X3BhZ2UpID4+IFBBR0VfU0hJRlQpICsgMTsK
-QEAgLTM1NCw5ICszNTQsOSBAQCBzdGF0aWMgaW50IHRyYW5zZmVyX21heF9idWZmZXJzKHN0cnVj
-dCBnb2xkZmlzaF9waXBlICpwaXBlLAogCWlmIChtdXRleF9sb2NrX2ludGVycnVwdGlibGUoJnBp
-cGUtPmxvY2spKQogCQlyZXR1cm4gLUVSRVNUQVJUU1lTOwogCi0JcGFnZXNfY291bnQgPSBwaW5f
-dXNlcl9wYWdlcyhmaXJzdF9wYWdlLCBsYXN0X3BhZ2UsCi0JCQkJICAgICBsYXN0X3BhZ2Vfc2l6
-ZSwgaXNfd3JpdGUsCi0JCQkJICAgICBwaXBlLT5wYWdlcywgJml0ZXJfbGFzdF9wYWdlX3NpemUp
-OworCXBhZ2VzX2NvdW50ID0gZ29sZGZpc2hfcGluX3BhZ2VzKGZpcnN0X3BhZ2UsIGxhc3RfcGFn
-ZSwKKwkJCQkJIGxhc3RfcGFnZV9zaXplLCBpc193cml0ZSwKKwkJCQkJIHBpcGUtPnBhZ2VzLCAm
-aXRlcl9sYXN0X3BhZ2Vfc2l6ZSk7CiAJaWYgKHBhZ2VzX2NvdW50IDwgMCkgewogCQltdXRleF91
-bmxvY2soJnBpcGUtPmxvY2spOwogCQlyZXR1cm4gcGFnZXNfY291bnQ7Ci0tIAoyLjI0LjEKCl9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
-LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+As it says in the updated comment in gup.c: current FOLL_LONGTERM
+behavior is incompatible with FAULT_FLAG_ALLOW_RETRY because of the
+FS DAX check requirement on vmas.
+
+However, the corresponding restriction in get_user_pages_remote() was
+slightly stricter than is actually required: it forbade all
+FOLL_LONGTERM callers, but we can actually allow FOLL_LONGTERM callers
+that do not set the "locked" arg.
+
+Update the code and comments to loosen the restriction, allowing
+FOLL_LONGTERM in some cases.
+
+Also, copy the DAX check ("if a VMA is DAX, don't allow long term
+pinning") from the VFIO call site, all the way into the internals
+of get_user_pages_remote() and __gup_longterm_locked(). That is:
+get_user_pages_remote() calls __gup_longterm_locked(), which in turn
+calls check_dax_vmas(). This check will then be removed from the VFIO
+call site in a subsequent patch.
+
+Thanks to Jason Gunthorpe for pointing out a clean way to fix this,
+and to Dan Williams for helping clarify the DAX refactoring.
+
+Tested-by: Alex Williamson <alex.williamson@redhat.com>
+Acked-by: Alex Williamson <alex.williamson@redhat.com>
+Reviewed-by: Jason Gunthorpe <jgg@mellanox.com>
+Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+Suggested-by: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Kirill A. Shutemov <kirill@shutemov.name>
+Cc: Dan Williams <dan.j.williams@intel.com>
+Cc: Jerome Glisse <jglisse@redhat.com>
+Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+---
+ mm/gup.c | 174 +++++++++++++++++++++++++++++--------------------------
+ 1 file changed, 92 insertions(+), 82 deletions(-)
+
+diff --git a/mm/gup.c b/mm/gup.c
+index 5938e29a5a8b..b61bd5c469ae 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -1111,88 +1111,6 @@ static __always_inline long __get_user_pages_locked(struct task_struct *tsk,
+ 	return pages_done;
+ }
+ 
+-/*
+- * get_user_pages_remote() - pin user pages in memory
+- * @tsk:	the task_struct to use for page fault accounting, or
+- *		NULL if faults are not to be recorded.
+- * @mm:		mm_struct of target mm
+- * @start:	starting user address
+- * @nr_pages:	number of pages from start to pin
+- * @gup_flags:	flags modifying lookup behaviour
+- * @pages:	array that receives pointers to the pages pinned.
+- *		Should be at least nr_pages long. Or NULL, if caller
+- *		only intends to ensure the pages are faulted in.
+- * @vmas:	array of pointers to vmas corresponding to each page.
+- *		Or NULL if the caller does not require them.
+- * @locked:	pointer to lock flag indicating whether lock is held and
+- *		subsequently whether VM_FAULT_RETRY functionality can be
+- *		utilised. Lock must initially be held.
+- *
+- * Returns either number of pages pinned (which may be less than the
+- * number requested), or an error. Details about the return value:
+- *
+- * -- If nr_pages is 0, returns 0.
+- * -- If nr_pages is >0, but no pages were pinned, returns -errno.
+- * -- If nr_pages is >0, and some pages were pinned, returns the number of
+- *    pages pinned. Again, this may be less than nr_pages.
+- *
+- * The caller is responsible for releasing returned @pages, via put_page().
+- *
+- * @vmas are valid only as long as mmap_sem is held.
+- *
+- * Must be called with mmap_sem held for read or write.
+- *
+- * get_user_pages walks a process's page tables and takes a reference to
+- * each struct page that each user address corresponds to at a given
+- * instant. That is, it takes the page that would be accessed if a user
+- * thread accesses the given user virtual address at that instant.
+- *
+- * This does not guarantee that the page exists in the user mappings when
+- * get_user_pages returns, and there may even be a completely different
+- * page there in some cases (eg. if mmapped pagecache has been invalidated
+- * and subsequently re faulted). However it does guarantee that the page
+- * won't be freed completely. And mostly callers simply care that the page
+- * contains data that was valid *at some point in time*. Typically, an IO
+- * or similar operation cannot guarantee anything stronger anyway because
+- * locks can't be held over the syscall boundary.
+- *
+- * If gup_flags & FOLL_WRITE == 0, the page must not be written to. If the page
+- * is written to, set_page_dirty (or set_page_dirty_lock, as appropriate) must
+- * be called after the page is finished with, and before put_page is called.
+- *
+- * get_user_pages is typically used for fewer-copy IO operations, to get a
+- * handle on the memory by some means other than accesses via the user virtual
+- * addresses. The pages may be submitted for DMA to devices or accessed via
+- * their kernel linear mapping (via the kmap APIs). Care should be taken to
+- * use the correct cache flushing APIs.
+- *
+- * See also get_user_pages_fast, for performance critical applications.
+- *
+- * get_user_pages should be phased out in favor of
+- * get_user_pages_locked|unlocked or get_user_pages_fast. Nothing
+- * should use get_user_pages because it cannot pass
+- * FAULT_FLAG_ALLOW_RETRY to handle_mm_fault.
+- */
+-long get_user_pages_remote(struct task_struct *tsk, struct mm_struct *mm,
+-		unsigned long start, unsigned long nr_pages,
+-		unsigned int gup_flags, struct page **pages,
+-		struct vm_area_struct **vmas, int *locked)
+-{
+-	/*
+-	 * FIXME: Current FOLL_LONGTERM behavior is incompatible with
+-	 * FAULT_FLAG_ALLOW_RETRY because of the FS DAX check requirement on
+-	 * vmas.  As there are no users of this flag in this call we simply
+-	 * disallow this option for now.
+-	 */
+-	if (WARN_ON_ONCE(gup_flags & FOLL_LONGTERM))
+-		return -EINVAL;
+-
+-	return __get_user_pages_locked(tsk, mm, start, nr_pages, pages, vmas,
+-				       locked,
+-				       gup_flags | FOLL_TOUCH | FOLL_REMOTE);
+-}
+-EXPORT_SYMBOL(get_user_pages_remote);
+-
+ /**
+  * populate_vma_page_range() -  populate a range of pages in the vma.
+  * @vma:   target vma
+@@ -1626,6 +1544,98 @@ static __always_inline long __gup_longterm_locked(struct task_struct *tsk,
+ }
+ #endif /* CONFIG_FS_DAX || CONFIG_CMA */
+ 
++/*
++ * get_user_pages_remote() - pin user pages in memory
++ * @tsk:	the task_struct to use for page fault accounting, or
++ *		NULL if faults are not to be recorded.
++ * @mm:		mm_struct of target mm
++ * @start:	starting user address
++ * @nr_pages:	number of pages from start to pin
++ * @gup_flags:	flags modifying lookup behaviour
++ * @pages:	array that receives pointers to the pages pinned.
++ *		Should be at least nr_pages long. Or NULL, if caller
++ *		only intends to ensure the pages are faulted in.
++ * @vmas:	array of pointers to vmas corresponding to each page.
++ *		Or NULL if the caller does not require them.
++ * @locked:	pointer to lock flag indicating whether lock is held and
++ *		subsequently whether VM_FAULT_RETRY functionality can be
++ *		utilised. Lock must initially be held.
++ *
++ * Returns either number of pages pinned (which may be less than the
++ * number requested), or an error. Details about the return value:
++ *
++ * -- If nr_pages is 0, returns 0.
++ * -- If nr_pages is >0, but no pages were pinned, returns -errno.
++ * -- If nr_pages is >0, and some pages were pinned, returns the number of
++ *    pages pinned. Again, this may be less than nr_pages.
++ *
++ * The caller is responsible for releasing returned @pages, via put_page().
++ *
++ * @vmas are valid only as long as mmap_sem is held.
++ *
++ * Must be called with mmap_sem held for read or write.
++ *
++ * get_user_pages walks a process's page tables and takes a reference to
++ * each struct page that each user address corresponds to at a given
++ * instant. That is, it takes the page that would be accessed if a user
++ * thread accesses the given user virtual address at that instant.
++ *
++ * This does not guarantee that the page exists in the user mappings when
++ * get_user_pages returns, and there may even be a completely different
++ * page there in some cases (eg. if mmapped pagecache has been invalidated
++ * and subsequently re faulted). However it does guarantee that the page
++ * won't be freed completely. And mostly callers simply care that the page
++ * contains data that was valid *at some point in time*. Typically, an IO
++ * or similar operation cannot guarantee anything stronger anyway because
++ * locks can't be held over the syscall boundary.
++ *
++ * If gup_flags & FOLL_WRITE == 0, the page must not be written to. If the page
++ * is written to, set_page_dirty (or set_page_dirty_lock, as appropriate) must
++ * be called after the page is finished with, and before put_page is called.
++ *
++ * get_user_pages is typically used for fewer-copy IO operations, to get a
++ * handle on the memory by some means other than accesses via the user virtual
++ * addresses. The pages may be submitted for DMA to devices or accessed via
++ * their kernel linear mapping (via the kmap APIs). Care should be taken to
++ * use the correct cache flushing APIs.
++ *
++ * See also get_user_pages_fast, for performance critical applications.
++ *
++ * get_user_pages should be phased out in favor of
++ * get_user_pages_locked|unlocked or get_user_pages_fast. Nothing
++ * should use get_user_pages because it cannot pass
++ * FAULT_FLAG_ALLOW_RETRY to handle_mm_fault.
++ */
++long get_user_pages_remote(struct task_struct *tsk, struct mm_struct *mm,
++		unsigned long start, unsigned long nr_pages,
++		unsigned int gup_flags, struct page **pages,
++		struct vm_area_struct **vmas, int *locked)
++{
++	/*
++	 * Parts of FOLL_LONGTERM behavior are incompatible with
++	 * FAULT_FLAG_ALLOW_RETRY because of the FS DAX check requirement on
++	 * vmas. However, this only comes up if locked is set, and there are
++	 * callers that do request FOLL_LONGTERM, but do not set locked. So,
++	 * allow what we can.
++	 */
++	if (gup_flags & FOLL_LONGTERM) {
++		if (WARN_ON_ONCE(locked))
++			return -EINVAL;
++		/*
++		 * This will check the vmas (even if our vmas arg is NULL)
++		 * and return -ENOTSUPP if DAX isn't allowed in this case:
++		 */
++		return __gup_longterm_locked(tsk, mm, start, nr_pages, pages,
++					     vmas, gup_flags | FOLL_TOUCH |
++					     FOLL_REMOTE);
++	}
++
++	return __get_user_pages_locked(tsk, mm, start, nr_pages, pages, vmas,
++				       locked,
++				       gup_flags | FOLL_TOUCH | FOLL_REMOTE);
++}
++EXPORT_SYMBOL(get_user_pages_remote);
++
+ /*
+  * This is the same as get_user_pages_remote(), just with a
+  * less-flexible calling convention where we assume that the task
+-- 
+2.24.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
