@@ -2,40 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A718A132EC7
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 19:57:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 825A6132ECC
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 19:58:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 663FC6E127;
-	Tue,  7 Jan 2020 18:57:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CAC86E125;
+	Tue,  7 Jan 2020 18:58:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C93ED6E127;
- Tue,  7 Jan 2020 18:57:21 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 07 Jan 2020 10:57:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,406,1571727600"; d="scan'208";a="233314132"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga002.jf.intel.com with SMTP; 07 Jan 2020 10:57:18 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 07 Jan 2020 20:57:15 +0200
-Date: Tue, 7 Jan 2020 20:57:15 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: "Lin, Wayne" <Wayne.Lin@amd.com>
-Subject: Re: [PATCH] drm/dp_mst: correct the shifting in DP_REMOTE_I2C_READ
-Message-ID: <20200107185715.GK1208@intel.com>
-References: <20191230070516.4760-1-Wayne.Lin@amd.com>
- <87mubaoyi1.fsf@intel.com>
- <DM6PR12MB41375620C8A3030E0C9154CCFC260@DM6PR12MB4137.namprd12.prod.outlook.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 431166E125
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2020 18:58:18 +0000 (UTC)
+Received: from localhost.localdomain (unknown
+ [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D930B2904A1;
+ Tue,  7 Jan 2020 18:58:16 +0000 (GMT)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v2 0/5] drm/bridge: Revert all bridge_state related changes
+Date: Tue,  7 Jan 2020 19:58:02 +0100
+Message-Id: <20200107185807.606999-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <DM6PR12MB41375620C8A3030E0C9154CCFC260@DM6PR12MB4137.namprd12.prod.outlook.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,105 +42,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Zuo, Jerry" <Jerry.Zuo@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Kazlauskas, Nicholas" <Nicholas.Kazlauskas@amd.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 31, 2019 at 03:30:47AM +0000, Lin, Wayne wrote:
-> [AMD Official Use Only - Internal Distribution Only]
-> =
+Hello
 
-> > ________________________________________
-> > From: Jani Nikula <jani.nikula@linux.intel.com>
-> > Sent: Monday, December 30, 2019 19:15
-> > To: Lin, Wayne; dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesk=
-top.org
-> > Cc: Zuo, Jerry; Kazlauskas, Nicholas; Lin, Wayne
-> > Subject: Re: [PATCH] drm/dp_mst: correct the shifting in DP_REMOTE_I2C_=
-READ
-> >
-> > On Mon, 30 Dec 2019, Wayne Lin <Wayne.Lin@amd.com> wrote:
-> > > [Why]
-> > > According to DP spec, it should shift left 4 digits for NO_STOP_BIT
-> > > in REMOTE_I2C_READ message. Not 5 digits.
-> > >
-> > > [How]
-> > > Correct the shifting value of NO_STOP_BIT for DP_REMOTE_I2C_READ case=
- in
-> > > drm_dp_encode_sideband_req().
-> >
-> > Which commit introduced the issue? Fixes: tag. Does it need a stable
-> > backport? Does this fix a user visible bug?
-> >
-> > BR,
-> > Jani.
-> >
-> Thanks for your time and reminder.
-> =
+Sorry for the noise. I realize the v1 didn't contain any explanation
+about why those commits were reverted and were missing my SoB.
 
-> It seems like the issue has been there since very beginning.(commit: ad7f=
-8a1).
-> It doesn't introduce user visible bug under my test cases, but this affec=
-ts the I2C signal
-> between I2C master and I2C slave. Not pretty sure if there is any eeprom =
-will reset
-> the written offset once received I2C stop. If so, that might cause wrongl=
-y reading EDID.
-> I will Cc to stable. Thanks.
+The addition of a bridge_state object introduced a circular dependency
+between drm.ko and drm_kms_helper.ko which uncovered a misdesign in how
+the whole thing was implemented. Let's revert all patches for now.
 
-The segment address should be reset on STOP. So large EDIDs should
-fail. IIRC we had a bug report of some sort about this which I tried
-to fix by confgiuring .no_stop_bit correctly, but apparently I failed
-to double check that the bit get stuffed onto the wire correctly.
+Regards,
 
-Ah yes, https://bugs.freedesktop.org/show_bug.cgi?id=3D108081
-So you may have just fixed that one, although we seem to have closed
-it already.
+Boris
 
-> > > Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
-> > > ---
-> > >  drivers/gpu/drm/drm_dp_mst_topology.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/=
-drm_dp_mst_topology.c
-> > > index 1d1bfa49ca2b..0557e225ff67 100644
-> > > --- a/drivers/gpu/drm/drm_dp_mst_topology.c
-> > > +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-> > > @@ -393,7 +393,7 @@ drm_dp_encode_sideband_req(const struct drm_dp_si=
-deband_msg_req_body *req,
-> > >                       memcpy(&buf[idx], req->u.i2c_read.transactions[=
-i].bytes, req->u.i2c_read.transactions[i].num_bytes);
-> > >                       idx +=3D req->u.i2c_read.transactions[i].num_by=
-tes;
-> > >
-> > > -                     buf[idx] =3D (req->u.i2c_read.transactions[i].n=
-o_stop_bit & 0x1) << 5;
-> > > +                     buf[idx] =3D (req->u.i2c_read.transactions[i].n=
-o_stop_bit & 0x1) << 4;
-> > >                       buf[idx] |=3D (req->u.i2c_read.transactions[i].=
-i2c_transaction_delay & 0xf);
-> > >                       idx++;
-> > >               }
-> >
-> > --
-> > Jani Nikula, Intel Open Source Graphics Center
-> --
-> Wayne Lin
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+P.S.: Daniel, I'd appreciate if you could find some time to look at the
+patch series introducing the faulty patches [1]. Those have been
+reviewed by Laurent and Neil who didn't seem to notice the problem you
+reported (improper core/helper separation and improper use of atomic
+helpers from the core). I don't know if Laurent and Neil were aware of
+these rule, but I definitely wasn't. I'm pretty sure it's clearly
+stated somewhere in the doc, so it's likely all my fault (RTFM).
+To sum-up, I'm no denying my responsibility in this mess and I'm fine
+taking the blame for not noticing the regression before pushing
+those patches to drm-misc-next and for not reading the doc, but this
+also proves one thing: no matter how good the doc is, we need reviews
+from those who design/drive the subsystem (AKA you) if we want to catch
+such design issues before merging things. And I'm not talking about
+regressions that can be detected/reported with a good CI infrastructure
+here (though we definitely want a good CI too :-)).
 
--- =
+[1]https://patchwork.freedesktop.org/series/64915/
 
-Ville Syrj=E4l=E4
-Intel
+Boris Brezillon (5):
+  Revert "drm/bridge: Fix a NULL pointer dereference in
+    drm_atomic_bridge_chain_check()"
+  Revert "drm/bridge: Add the necessary bits to support bus format
+    negotiation"
+  Revert "drm/bridge: Add an ->atomic_check() hook"
+  Revert "drm/bridge: Patch atomic hooks to take a drm_bridge_state"
+  Revert "drm/bridge: Add a drm_bridge_state object"
+
+ .../drm/bridge/analogix/analogix_dp_core.c    |  41 +-
+ drivers/gpu/drm/drm_atomic.c                  |  39 --
+ drivers/gpu/drm/drm_atomic_helper.c           |  32 +-
+ drivers/gpu/drm/drm_bridge.c                  | 531 +-----------------
+ drivers/gpu/drm/rcar-du/rcar_lvds.c           |   8 +-
+ include/drm/drm_atomic.h                      |   3 -
+ include/drm/drm_bridge.h                      | 275 +--------
+ 7 files changed, 49 insertions(+), 880 deletions(-)
+
+-- 
+2.23.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
