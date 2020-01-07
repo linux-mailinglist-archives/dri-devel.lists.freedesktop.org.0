@@ -2,78 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA797132A3F
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 16:42:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6637C132A4A
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 16:44:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A69536E0E0;
-	Tue,  7 Jan 2020 15:42:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32C366E0EA;
+	Tue,  7 Jan 2020 15:44:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 200CB6E0E0
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2020 15:42:53 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id c9so54485146wrw.8
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2020 07:42:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=e3JSrkA31lPQjM0qXrRZGQXu9t0TvJbA8jjtu6S4Kws=;
- b=J5AV37YMJnHJ3RXFwlcgkZbwnjesyNWZCGcGQ9HbGoN2/KGcUJWMYOHJ644L/6842G
- fvzBovUsbr46GGogb+jON8VfUPJWTsgksfQX3FM7MP1Z0QKoY+4D80AMiPLsLyT5D/+i
- ZuBWwdoFgmGgy3oleSv4YP/oJ2Un2Z0W9tkpU=
+Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com
+ [IPv6:2607:f8b0:4864:20::743])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61C6A6E0EA
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2020 15:44:40 +0000 (UTC)
+Received: by mail-qk1-x743.google.com with SMTP id a203so43376708qkc.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2020 07:44:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=brSHC3syQNpberHSG1jKdg9VM+aSTdImHwfdjmty0fE=;
+ b=iu1SPelD7YO/cb7pKP/SP/x96tZBAafFuA7UuBH7DMFY4hr7s+VO8bCU3zO29gpSpn
+ RiDqylnwajy423Sj2t+PF8EyPNtrKJdyfFRJPQ9LQNIgvS9+euX8GdNQFqyo1QuDqr22
+ a6+TEY97EJivcJsJ2vY2nS00w3VPLc9uj4GcfVgET6gRfVO1tdviXGUlNGoS46+3ZM6b
+ iU6nVpCoXqlps1L1DfvgYvQWIow1Mv4NpxoJJp73wzQBzfoU6JwiLXGQiKman7lD6YTj
+ SqLbADD6O0DObocvtWXHMPnnth5ZAIjcYu3vRpO4ulSsDxgjEfECKdOVCumDis4BL/9C
+ JRMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=e3JSrkA31lPQjM0qXrRZGQXu9t0TvJbA8jjtu6S4Kws=;
- b=n4NTyR0CnSAzH62a67IOBR5v+uSclUv18zoCbyXSfgbrAxpm8z5Y++wiL2mggywW3y
- 4TRfrUYESjVHIpjD8v7Pi2FMxrB/YDoVhik/+6ocWccwD+ymZ0Q6Wum04jM1ofevNy2W
- VoS0i3ee8w1TnPTXdKWT+8JdfKv6TxNYUipwu115c6KzzTNNKnHurYkcDhpIZTVVI2Yt
- QAJe2oBZKyPlvq96X6kE1Vi6JGFhNqA8M/CMl1eGe8Hiqzu6JSVH6t0bDkBwBYdvZ/Jb
- XMOqGpZ8LXUONdrY6JlFAZUtldfNjaEhD2i72vNmhsFHzcn9ODM7uydaqUrBHA74HU+E
- ywwA==
-X-Gm-Message-State: APjAAAVhOGBHtIYWjTSX+udQDfEBtwrMAMHUsUqVXuMakC5F3b8QsYae
- VYh2wYccVFUWCcvFoQ1oF+Zeag==
-X-Google-Smtp-Source: APXvYqxzjRRl6NXBuJI2QKzzEl9GDdX2Uvf5Cn8sj8TaUUnBTDqduz5Kg7Z/Xcxe5sZ6W6MbtlZrgQ==
-X-Received: by 2002:a5d:558d:: with SMTP id
- i13mr110929908wrv.364.1578411771762; 
- Tue, 07 Jan 2020 07:42:51 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:564b:0:7567:bb67:3d7f:f863])
- by smtp.gmail.com with ESMTPSA id g199sm21778wmg.12.2020.01.07.07.42.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 07:42:50 -0800 (PST)
-Date: Tue, 7 Jan 2020 16:42:43 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Subject: Re: SIGBUS on device disappearance (Re: Warnings in DRM code when
- removing/unbinding a driver)
-Message-ID: <20200107154243.GA43062@phenom.ffwll.local>
-Mail-Followup-To: Pekka Paalanen <ppaalanen@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, dbueso@suse.de,
- "airlied@linux.ie" <airlied@linux.ie>,
- "Chenfeng (puck)" <puck.chen@hisilicon.com>,
- John Garry <john.garry@huawei.com>, Linuxarm <linuxarm@huawei.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "kongxinwei (A)" <kong.kongxinwei@hisilicon.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Ezequiel Garcia <ezequiel@collabora.com>
-References: <07899bd5-e9a5-cff0-395f-b4fb3f0f7f6c@huawei.com>
- <f867543cf5d0fc3fdd0534749326411bcfc5e363.camel@collabora.com>
- <c2e5f5a5-5839-42a9-2140-903e99e166db@huawei.com>
- <fde72f73-d678-2b77-3950-d465f0afe904@huawei.com>
- <CAKMK7uFr03euoB6rY8z9zmRyznP41vwfdaKApZ_0HfYZT4Hq_w@mail.gmail.com>
- <fcca5732-c7dc-6e1d-dcbe-bfd914a4295b@huawei.com>
- <CAKMK7uE+nfR2hv1ybfv1ZApZbGnnX7ZHfjFCv5K72ZaAmdtfug@mail.gmail.com>
- <20191219113151.sytkoi3m7rrxzps2@sirius.home.kraxel.org>
- <CAKMK7uHEL3WzSHDM3XdLwOBtQUtygK6x-md8W1MVsAryDDgFog@mail.gmail.com>
- <20191223110015.0e04ea25@ferris.localdomain>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=brSHC3syQNpberHSG1jKdg9VM+aSTdImHwfdjmty0fE=;
+ b=XPmAnLBMcfjgM9W1yzno8cGLKB3rSEcQCwQH3AtaOrzh7W1qJD33uy0KVxtSTEbZmS
+ efL2WSjyA5YiEcXSKEQyLMJfip6NOQl38H5PbJU2i7bKvsx6MOexQS+TFxzwyr8F2aSd
+ ApqnTdza46WaJwDaoYOGhd2CeUq5rzOq67SN3ZZ6NZvdmkjE37EzuudCMK3ph5fONmFa
+ vZhUZRloemHdO2lOTeALfXNEGZLvk4dZr2taUIpmHtH9AZT3JE9fVQSniPVGyiCSvaae
+ ApnfkQNUp9bdcfhqp5qHimwMBRFf6G08mNXeaS3Vv5JjTti/ZWPugbgGor7IhO9ENEwW
+ E51w==
+X-Gm-Message-State: APjAAAWrVVCG0uiM1E9OmfuONqn9Qo/9fOc+ej1zqEdAU868CIrHXtSu
+ mcj19uSk3X36QxmWDBWN6qXFACrGJO1lXlbt8bujEw==
+X-Google-Smtp-Source: APXvYqxIKBRtVJeuT8e/AYWBgalw8NkOw8MG9WUQNF2mVxBbqEPuUgdbpXAUsPSPio1TFQfJD9TOq5l6lwknApQJAnI=
+X-Received: by 2002:a37:454d:: with SMTP id s74mr88697089qka.104.1578411879532; 
+ Tue, 07 Jan 2020 07:44:39 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191223110015.0e04ea25@ferris.localdomain>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+References: <20200102101712.5085-1-sam@ravnborg.org>
+ <20200102101712.5085-3-sam@ravnborg.org>
+In-Reply-To: <20200102101712.5085-3-sam@ravnborg.org>
+From: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+Date: Tue, 7 Jan 2020 16:44:28 +0100
+Message-ID: <CA+M3ks5Zs5j0FMD4SQiva2soW62tSnu14qiq3kErhLvCMxrxAA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] dt-bindings: one file of all simple DSI panels
+To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,100 +62,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dbueso@suse.de,
- "airlied@linux.ie" <airlied@linux.ie>,
- "Chenfeng \(puck\)" <puck.chen@hisilicon.com>,
- John Garry <john.garry@huawei.com>, Linuxarm <linuxarm@huawei.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "kongxinwei \(A\)" <kong.kongxinwei@hisilicon.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Ezequiel Garcia <ezequiel@collabora.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Yannick Fertre <yannick.fertre@st.com>,
+ Thierry Reding <thierry.reding@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 23, 2019 at 11:00:15AM +0200, Pekka Paalanen wrote:
-> On Thu, 19 Dec 2019 13:42:33 +0100
-> Daniel Vetter <daniel@ffwll.ch> wrote:
-> 
-> > On Thu, Dec 19, 2019 at 12:32 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
-> > >
-> > > While being at it:  How would a driver cleanup properly cleanup gem
-> > > objects created by userspace on hotunbind?  Specifically a gem object
-> > > pinned to vram?  
-> > 
-> > Two things:
-> > - the mmap needs to be torn down and replaced by something which will
-> > sigbus. Probably should have that as a helper (plus vram fault code
-> > should use drm_dev_enter/exit to plug races).
-> 
-> Hi,
-> 
-> I assume SIGBUS is the traditional way to say "oops, the memory you
-> mmapped and tried to access no longer exists". Is there nothing
-> else for this?
-> 
-> I'm asking, because SIGBUS is really hard to handle right in
-> userspace. It can be caused by any number of wildly different
-> reasons, yet being a signal means that a userspace process can only
-> have a single global handler for it. That makes it almost
-> impossible to use safely in libraries, because you would want to
-> register independent handlers from multiple libraries in the same
-> process. Some libraries may also be using threads.
-> 
-> How to handle a SIGBUS completely depends on what triggered it.
-> Almost always userspace wants it to be a non-fatal error. A Wayland
-> compositor can hit SIGBUS on accessing wl_shm-based client buffers
-> (regular mmapped files), and then it just wants to continue with
-> garbage data as if nothing happened and possibly send a protocol
-> error to the client provoking it.
-
-For drm drivers that you actually want to hotunplug (as opposed to more
-just for driver development) they all use system memory/shmem, so
-shouldn't sigbus. I think at least, I haven't tested anything. This is for
-udl, or the tiny displays behind an spi bridge.
-
-For pci drivers where the mmap often points at a pci bridge the mmio range
-will be gone, so not SIGBUSing is going to be a tough order. Not
-impossible, but before we enshrine this into uapi someont will have to do
-some serious typing.
-
-> I would also imagine that Mesa, when it starts looking into
-> supporting GPU hotunplug, needs to handle vanished mmaps. I don't
-> think Mesa can ever install signal handlers, because that would
-> mess with the applications that may already be using SIGBUS for
-> handling disappearing mmapped files. It needs to start returning
-> errors via API calls. I cannot imagine a way to reliably prevent
-> such SIGBUS either by e.g. ensuring Mesa gets notified of removal
-> before it actually starts failing.
-
-Mesa already blows up in all kinds of interesting ways when it gets an EIO
-at execbuf. I think. Robust handling of gpu hotunplug for gl/vk contexts
-is going to be more work on top (and mmap is probably the least issue
-there, at least right now).
-
-> For now, I'm just looking for a simple "yes" or "no" here for the
-> something else. If it's "no" like I expect, creating something else
-> is probably in the order of years to get into a usable state. Does
-> anyone already have plans towards that?
-
-I agree with you that SIGBUS for mmap of hotunplugged devices is
-essentially unusable because sighandlers and all what you point out (would
-make it impossible to have robust vk/gl contexts, at least robuts against
-hotunplug).
-
-So in principle I'm open to have some other uapi for this, but it's going
-to be serios amounts of work across the stack.
-
-For display only udl-style devices otoh I think we should be mostly there,
-+/- driver bugs as usual.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+TGUgamV1LiAyIGphbnYuIDIwMjAgw6AgMTE6MTcsIFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3Jn
+Lm9yZz4gYSDDqWNyaXQgOgo+Cj4gVG8gY29tcGxlbWVudCBwYW5lbC1zaW1wbGUueWFtbCwgY3Jl
+YXRlIHBhbmVsLXNpbXBsZS1kc2kueWFtbC4KPiBwYW5lbC1zaW1wbGUtZHNpLXlhbWwgYXJlIGZv
+ciBhbGwgc2ltcGxlIERTUCBwYW5lbHMgd2l0aCBhIHNpbmdsZQo+IHBvd2VyLXN1cHBseSBhbmQg
+b3B0aW9uYWwgYmFja2xpZ2h0IC8gZW5hYmxlIEdQSU8uCj4KPiBNaWdyYXRlIHBhbmFzb25pYyx2
+dngxMGYwMzRuMDAgb3ZlciB0byB0aGUgbmV3IGZpbGUuCj4KPiBUaGUgb2JqZWN0aXZlcyB3aXRo
+IG9uZSBmaWxlIGZvciBhbGwgdGhlIHNpbXBsZSBEU0kgcGFuZWxzIGFyZToKPiAgICAgLSBNYWtl
+IGl0IHNpbXBsZXIgdG8gYWRkIGJpbmRpbmdzIGZvciBzaW1wbGUgRFNJIHBhbmVscwo+ICAgICAt
+IEtlZXAgdGhlIG51bWJlciBvZiBiaW5kaW5ncyBmaWxlIGxvd2VyCj4gICAgIC0gS2VlcCB0aGUg
+YmluZGluZyBkb2N1bWVudGF0aW9uIGZvciBzaW1wbGUgRFNJIHBhbmVscyBtb3JlIGNvbnNpc3Rl
+bnQKPgo+IFNpZ25lZC1vZmYtYnk6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KPiBD
+YzogVGhpZXJyeSBSZWRpbmcgPHRoaWVycnkucmVkaW5nQGdtYWlsLmNvbT4KPiBDYzogUm9iIEhl
+cnJpbmcgPHJvYmhAa2VybmVsLm9yZz4KPiBDYzogTWF4aW1lIFJpcGFyZCA8bXJpcGFyZEBrZXJu
+ZWwub3JnPgo+IENjOiBZYW5uaWNrIEZlcnRyZSA8eWFubmljay5mZXJ0cmVAc3QuY29tPgo+IENj
+OiBNYXJrIFJ1dGxhbmQgPG1hcmsucnV0bGFuZEBhcm0uY29tPgo+IENjOiBEYW5pZWwgVmV0dGVy
+IDxkYW5pZWxAZmZ3bGwuY2g+Cj4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+PiBDYzogZGV2aWNldHJlZUB2Z2VyLmtlcm5lbC5vcmcKPiAtLS0KPiAgLi4uL2Rpc3BsYXkvcGFu
+ZWwvcGFuYXNvbmljLHZ2eDEwZjAzNG4wMC50eHQgIHwgMjAgLS0tLS0tCj4gIC4uLi9kaXNwbGF5
+L3BhbmVsL3BhbmVsLXNpbXBsZS1kc2kueWFtbCAgICAgICB8IDY3ICsrKysrKysrKysrKysrKysr
+KysKPiAgMiBmaWxlcyBjaGFuZ2VkLCA2NyBpbnNlcnRpb25zKCspLCAyMCBkZWxldGlvbnMoLSkK
+PiAgZGVsZXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9k
+aXNwbGF5L3BhbmVsL3BhbmFzb25pYyx2dngxMGYwMzRuMDAudHh0Cj4gIGNyZWF0ZSBtb2RlIDEw
+MDY0NCBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9wYW5l
+bC1zaW1wbGUtZHNpLnlhbWwKPgo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRy
+ZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9wYW5hc29uaWMsdnZ4MTBmMDM0bjAwLnR4dCBiL0Rv
+Y3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL3BhbmFzb25pYyx2
+dngxMGYwMzRuMDAudHh0Cj4gZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0Cj4gaW5kZXggMzdkZWRm
+NmE2NzAyLi4wMDAwMDAwMDAwMDAKPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmlu
+ZGluZ3MvZGlzcGxheS9wYW5lbC9wYW5hc29uaWMsdnZ4MTBmMDM0bjAwLnR4dAo+ICsrKyAvZGV2
+L251bGwKPiBAQCAtMSwyMCArMCwwIEBACj4gLVBhbmFzb25pYyAxMCIgV1VYR0EgVEZUIExDRCBw
+YW5lbAo+IC0KPiAtUmVxdWlyZWQgcHJvcGVydGllczoKPiAtLSBjb21wYXRpYmxlOiBzaG91bGQg
+YmUgInBhbmFzb25pYyx2dngxMGYwMzRuMDAiCj4gLS0gcmVnOiBEU0kgdmlydHVhbCBjaGFubmVs
+IG9mIHRoZSBwZXJpcGhlcmFsCj4gLS0gcG93ZXItc3VwcGx5OiBwaGFuZGxlIG9mIHRoZSByZWd1
+bGF0b3IgdGhhdCBwcm92aWRlcyB0aGUgc3VwcGx5IHZvbHRhZ2UKPiAtCj4gLU9wdGlvbmFsIHBy
+b3BlcnRpZXM6Cj4gLS0gYmFja2xpZ2h0OiBwaGFuZGxlIG9mIHRoZSBiYWNrbGlnaHQgZGV2aWNl
+IGF0dGFjaGVkIHRvIHRoZSBwYW5lbAo+IC0KPiAtRXhhbXBsZToKPiAtCj4gLSAgICAgICBtZHNz
+X2RzaUBmZDkyMjgwMCB7Cj4gLSAgICAgICAgICAgICAgIHBhbmVsQDAgewo+IC0gICAgICAgICAg
+ICAgICAgICAgICAgIGNvbXBhdGlibGUgPSAicGFuYXNvbmljLHZ2eDEwZjAzNG4wMCI7Cj4gLSAg
+ICAgICAgICAgICAgICAgICAgICAgcmVnID0gPDA+Owo+IC0gICAgICAgICAgICAgICAgICAgICAg
+IHBvd2VyLXN1cHBseSA9IDwmdnJlZ192c3A+Owo+IC0gICAgICAgICAgICAgICAgICAgICAgIGJh
+Y2tsaWdodCA9IDwmbHA4NTY2X3dsZWQ+Owo+IC0gICAgICAgICAgICAgICB9Owo+IC0gICAgICAg
+fTsKPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3Bs
+YXkvcGFuZWwvcGFuZWwtc2ltcGxlLWRzaS55YW1sIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVl
+L2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvcGFuZWwtc2ltcGxlLWRzaS55YW1sCj4gbmV3IGZpbGUg
+bW9kZSAxMDA2NDQKPiBpbmRleCAwMDAwMDAwMDAwMDAuLjA1YzUyMzkwMjY5ZQo+IC0tLSAvZGV2
+L251bGwKPiArKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9w
+YW5lbC9wYW5lbC1zaW1wbGUtZHNpLnlhbWwKPiBAQCAtMCwwICsxLDY3IEBACj4gKyMgU1BEWC1M
+aWNlbnNlLUlkZW50aWZpZXI6IChHUEwtMi4wLW9ubHkgb3IgQlNELTItQ2xhdXNlKQo+ICslWUFN
+TCAxLjIKPiArLS0tCj4gKyRpZDogaHR0cDovL2RldmljZXRyZWUub3JnL3NjaGVtYXMvZGlzcGxh
+eS9wYW5lbC9wYW5lbC1zaW1wbGUtZHNpLnlhbWwjCj4gKyRzY2hlbWE6IGh0dHA6Ly9kZXZpY2V0
+cmVlLm9yZy9tZXRhLXNjaGVtYXMvY29yZS55YW1sIwo+ICsKPiArdGl0bGU6IFNpbXBsZSBEU0kg
+cGFuZWxzIHdpdGggYSBzaW5nbGUgcG93ZXItc3VwcGx5Cj4gKwo+ICttYWludGFpbmVyczoKPiAr
+ICAtIFRoaWVycnkgUmVkaW5nIDx0aGllcnJ5LnJlZGluZ0BnbWFpbC5jb20+Cj4gKyAgLSBTYW0g
+UmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+Cj4gKwo+ICtkZXNjcmlwdGlvbjogfAo+ICsgIFRo
+aXMgYmluZGluZyBmaWxlIGlzIGEgY29sbGVjdGlvbiBvZiB0aGUgRFNJIHBhbmVscyB0aGF0Cj4g
+KyAgcmVxdWlyZXMgb25seSBhIHNpbmdsZSBwb3dlci1zdXBwbHkuCj4gKyAgVGhlcmUgYXJlIG9w
+dGlvbmFsbHkgYSBiYWNrbGlnaHQgYW5kIGFuIGVuYWJsZSBHUElPLgo+ICsgIFRoZSBwYW5lbCBt
+YXkgdXNlIGFuIE9GIGdyYXBoIGJpbmRpbmcgZm9yIHRoZSBhc3NvY2lhdGlvbiB0byB0aGUgZGlz
+cGxheSwKPiArICBvciBpdCBtYXkgYmUgYSBkaXJlY3QgY2hpbGQgbm9kZSBvZiB0aGUgZGlzcGxh
+eS4KPiArCj4gKyAgSWYgdGhlIHBhbmVsIGlzIG1vcmUgYWR2YW5jZWQgYSBkZWRpY2F0ZWQgYmlu
+ZGluZyBmaWxlIGlzIHJlcXVpcmVkLgo+ICsKPiArYWxsT2Y6Cj4gKyAgLSAkcmVmOiBwYW5lbC1j
+b21tb24ueWFtbCMKPiArCj4gK3Byb3BlcnRpZXM6Cj4gKwo+ICsgIGNvbXBhdGlibGU6Cj4gKyAg
+ICBlbnVtOgo+ICsgICAgIyBjb21wYXRpYmxlIG11c3QgYmUgbGlzdGVkIGluIGFscGhhYmV0aWNh
+bCBvcmRlciwgb3JkZXJlZCBieSBjb21wYXRpYmxlLgo+ICsgICAgIyBUaGUgZGVzY3JpcHRpb24g
+aW4gdGhlIGNvbW1lbnQgaXMgbWFuZGF0b3J5IGZvciBlYWNoIGNvbXBhdGlibGUuCj4gKwo+ICsg
+ICAgIyBQYW5hc29uaWMgMTAiIFdVWEdBIFRGVCBMQ0QgcGFuZWwKPiArICAgIC0gcGFuYXNvbmlj
+LHZ2eDEwZjAzNG4wMAoKSGkgU2FtLAoKSSBoYXZlIHRlc3RlZCB5b3VyIHBhdGNoIHdpdGggdGhl
+c2UgMiBkc2kgcGFuZWxzOgojIE9yaXNlIFRlY2ggT1RNODAwOUEgaXMgYSAzLjk3IiA0ODB4ODAw
+IFRGVCBMQ0QKICAtIG9yaXNldGVjaCxvdG04MDA5YQogIyBSYXlkaXVtIFNlbWljb25kdWN0b3Ig
+Q29ycG9yYXRpb24gUk02ODIwMCBpcyBhIDUuNSIgNzIweDEyODAgVEZUIExDRAogICAtIHJheWRp
+dW0scm02ODIwMAoKSXQgaXMgY2xvc2UgdG8gYmUgZmluZSBmb3IgbWUgYnV0IEkgaGF2ZSBtaW5v
+cnMgY29tbWVudHMgYmVsb3cuCgpCZW5qYW1pbgoKPiArCj4gKyAgcmVnOgo+ICsgICAgbWF4SXRl
+bXM6IDEKPiArICAgIGRlc2NyaXB0aW9uOiBEU0kgdmlydHVhbCBjaGFubmVsCj4gKwo+ICsgIGJh
+Y2tsaWdodDogdHJ1ZQo+ICsgIGVuYWJsZS1ncGlvczogdHJ1ZQo+ICsgIHBvcnQ6IHRydWUKPiAr
+ICBwb3dlci1zdXBwbHk6IHRydWUKCmFkZCByZXNldC1ncGlvczogdHJ1ZSB0byBzdXBwb3J0IG9y
+aXNldGVjaCBwYW5lbAoKPiArCj4gK2FkZGl0aW9uYWxQcm9wZXJ0aWVzOiBmYWxzZQo+ICsKPiAr
+cmVxdWlyZWQ6Cj4gKyAgLSBjb21wYXRpYmxlCj4gKyAgLSBwb3dlci1zdXBwbHkKCnBvd2VyLXN1
+cHBseSBzaG91bGQgb3B0aW9uYWwKCj4gKyAgLSByZWcKPiArCj4gK2V4YW1wbGVzOgo+ICsgIC0g
+fAo+ICsgICAgbWRzc19kc2lAZmQ5MjI4MDAgewo+ICsgICAgICAjYWRkcmVzcy1jZWxscyA9IDwx
+PjsKPiArICAgICAgI3NpemUtY2VsbHMgPSA8MD47Cj4gKyAgICAgIHBhbmVsQDAgewo+ICsgICAg
+ICAgIGNvbXBhdGlibGUgPSAicGFuYXNvbmljLHZ2eDEwZjAzNG4wMCI7Cj4gKyAgICAgICAgcmVn
+ID0gPDA+Owo+ICsgICAgICAgIHBvd2VyLXN1cHBseSA9IDwmdmNjX2xjZF9yZWc+Owo+ICsKPiAr
+ICAgICAgICBwb3J0IHsKPiArICAgICAgICAgIHBhbmVsOiBlbmRwb2ludCB7Cj4gKyAgICAgICAg
+ICAgIHJlbW90ZS1lbmRwb2ludCA9IDwmbHRkY19vdXQ+Owo+ICsgICAgICAgICAgfTsKPiArICAg
+ICAgICB9Owo+ICsgICAgICB9Owo+ICsgICAgfTsKPiAtLQo+IDIuMjAuMQo+Cj4gX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
