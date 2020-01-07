@@ -2,69 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66D92131DFE
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 04:32:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A95CF131FF9
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 07:48:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A8366E7D5;
-	Tue,  7 Jan 2020 03:32:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 396996E50B;
+	Tue,  7 Jan 2020 06:48:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B83616E7D5;
- Tue,  7 Jan 2020 03:32:17 +0000 (UTC)
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 0073TkTH035398;
- Tue, 7 Jan 2020 03:32:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2019-08-05;
- bh=/GSK+vjilBpwNYvAPuJCz5bn9ib/JaZA+xLStA4qQXM=;
- b=kyB9K5p6gmNEgHAqQ/Xhfq2HEf5ho8MsTwWbjVZUsvRzgXqFN7Zh0DuuYyu9gnFw+0uk
- NfBAHEpQJGShQcc121JE7Nh4Nz336H4O5Sa5bS1/E+RKcgmVRsR598SavGQqvVyokb4R
- BAZoM+wjwLC+i+jVYdl95CS+i2m7o1ea0DqGh+pMP7mGOgEDEaVnZdbRu71uA2TMYMou
- FsLVGNEPccfuTn4dm0YysSMor6QVvHbrSTqVYCxEBQOyZCq1THKU6Cd4Gbi4xBIU7Tx1
- 3eUT9KXMXP1QJaYz/bqCalC2S8ujVyuqHF4Sh6C2KVzUWOZF2Fu4QBquZzAMl6rwYnUF aA== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by aserp2120.oracle.com with ESMTP id 2xajnptsu2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 07 Jan 2020 03:32:08 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 0073TgT0129555;
- Tue, 7 Jan 2020 03:32:07 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3030.oracle.com with ESMTP id 2xb4v271e0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 07 Jan 2020 03:32:07 +0000
-Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0073W6B1000421;
- Tue, 7 Jan 2020 03:32:06 GMT
-Received: from kadam (/129.205.23.165) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 06 Jan 2020 19:32:05 -0800
-Date: Tue, 7 Jan 2020 06:31:56 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: kbuild@lists.01.org, Chris Wilson <chris@chris-wilson.co.uk>
-Subject: [drm-intel:drm-intel-next-queued 20/20]
- drivers/gpu/drm/i915/gt/intel_lrc.c:4613 intel_execlists_create_virtual()
- warn: assigning (-2) to unsigned variable 've->base.uabi_instance'
-Message-ID: <20200107033156.GH3889@kadam>
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0103C6E50B
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2020 06:47:58 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0076ljZb049917;
+ Tue, 7 Jan 2020 00:47:45 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1578379665;
+ bh=ODJ0NEYqrokHx/XZRr/mSRy9p7wnelQTyTQlEpgfxH4=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=i21aNB1qs9sdXY54gDqh6MG8zV4rcKAjiHzA9EMtNipbZbsJRgqHWqw/deDRJEDMd
+ xCXx4e41TXY+ClHHc4irVRTxHO8g96+vKgo6RBPPjt8ZB+jXcgk/zlovDEICyQ2B5w
+ ElVly+gQRAci5vAHiRsFEgL6/4dmF2Oat8pH/FVc=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0076ljgs110930
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 7 Jan 2020 00:47:45 -0600
+Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 7 Jan
+ 2020 00:47:43 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE106.ent.ti.com
+ (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Tue, 7 Jan 2020 00:47:43 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0076leCl053362;
+ Tue, 7 Jan 2020 00:47:41 -0600
+Subject: Re: [PATCH] drm: replace IS_ERR and PTR_ERR with PTR_ERR_OR_ZERO
+To: yu kuai <yukuai3@huawei.com>
+References: <20191225132042.5491-1-yukuai3@huawei.com>
+ <20191227115401.agumkfuiwexl2wmx@hendrix.home>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <ec4d34d6-7c58-ea1e-cc9c-c2df0baaf23b@ti.com>
+Date: Tue, 7 Jan 2020 08:47:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9492
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-2001070026
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9492
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-2001070026
+In-Reply-To: <20191227115401.agumkfuiwexl2wmx@hendrix.home>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,71 +62,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, kbuild-all@lists.01.org,
- dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: jernej.skrabec@siol.net, yi.zhang@huawei.com, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, jonathanh@nvidia.com, zhengbin13@huawei.com,
+ wens@csie.org, thierry.reding@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm-intel drm-intel-next-queued
-head:   f75fc37b5e70b75f21550410f88e2379648120e2
-commit: f75fc37b5e70b75f21550410f88e2379648120e2 [20/20] drm/i915/gt: Mark up virtual engine uabi_instance
+On 27/12/2019 13:54, Maxime Ripard wrote:
+> On Wed, Dec 25, 2019 at 09:20:42PM +0800, yu kuai wrote:
+>> no functional change, just to make the code simpler
+>>
+>> Signed-off-by: yu kuai <yukuai3@huawei.com>
+>> ---
+>>   drivers/gpu/drm/omapdrm/dss/hdmi4.c         | 5 +----
+>>   drivers/gpu/drm/omapdrm/dss/hdmi4_core.c    | 6 ++----
+>>   drivers/gpu/drm/omapdrm/dss/hdmi5_core.c    | 4 +---
+>>   drivers/gpu/drm/omapdrm/dss/hdmi_phy.c      | 4 +---
+>>   drivers/gpu/drm/sun4i/sun4i_dotclock.c      | 4 +---
+>>   drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c      | 4 +---
+>>   drivers/gpu/drm/sun4i/sun4i_hdmi_tmds_clk.c | 4 +---
+>>   drivers/gpu/drm/sun4i/sun8i_hdmi_phy_clk.c  | 5 +----
+>>   drivers/gpu/drm/tegra/drm.c                 | 4 +---
+>>   drivers/gpu/drm/tegra/gem.c                 | 4 +---
+>>   10 files changed, 11 insertions(+), 33 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4.c b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
+>> index 0f557fad4513..eb71baedf19e 100644
+>> --- a/drivers/gpu/drm/omapdrm/dss/hdmi4.c
+>> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
+>> @@ -587,10 +587,7 @@ static int hdmi_audio_register(struct omap_hdmi *hdmi)
+>>   		&hdmi->pdev->dev, "omap-hdmi-audio", PLATFORM_DEVID_AUTO,
+>>   		&pdata, sizeof(pdata));
+>>
+>> -	if (IS_ERR(hdmi->audio_pdev))
+>> -		return PTR_ERR(hdmi->audio_pdev);
+>> -
+>> -	return 0;
+>> +	return PTR_ERR_OR_ZERO(hdmi->audio_pdev);
+>>   }
+>>
+>>   /* -----------------------------------------------------------------------------
+>> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4_core.c b/drivers/gpu/drm/omapdrm/dss/hdmi4_core.c
+>> index ea5d5c228534..fdd73fb73653 100644
+>> --- a/drivers/gpu/drm/omapdrm/dss/hdmi4_core.c
+>> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi4_core.c
+>> @@ -924,8 +924,6 @@ int hdmi4_core_init(struct platform_device *pdev, struct hdmi_core_data *core)
+>>
+>>   	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "core");
+>>   	core->base = devm_ioremap_resource(&pdev->dev, res);
+>> -	if (IS_ERR(core->base))
+>> -		return PTR_ERR(core->base);
+>> -
+>> -	return 0;
+>> +
+>> +	return PTR_ERR_OR_ZERO(core->base);
+>>   }
+>> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c b/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c
+>> index ff4d35c8771f..30454bc9de78 100644
+>> --- a/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c
+>> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c
+>> @@ -908,8 +908,6 @@ int hdmi5_core_init(struct platform_device *pdev, struct hdmi_core_data *core)
+>>
+>>   	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "core");
+>>   	core->base = devm_ioremap_resource(&pdev->dev, res);
+>> -	if (IS_ERR(core->base))
+>> -		return PTR_ERR(core->base);
+>>
+>> -	return 0;
+>> +	return PTR_ERR_OR_ZERO(core->base);
+>>   }
+>> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi_phy.c b/drivers/gpu/drm/omapdrm/dss/hdmi_phy.c
+>> index 00bbf24488c1..bbc02d5aa8fb 100644
+>> --- a/drivers/gpu/drm/omapdrm/dss/hdmi_phy.c
+>> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi_phy.c
+>> @@ -191,8 +191,6 @@ int hdmi_phy_init(struct platform_device *pdev, struct hdmi_phy_data *phy,
+>>
+>>   	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "phy");
+>>   	phy->base = devm_ioremap_resource(&pdev->dev, res);
+>> -	if (IS_ERR(phy->base))
+>> -		return PTR_ERR(phy->base);
+>>
+>> -	return 0;
+>> +	return PTR_ERR_OR_ZERO(phy->base);
+>>   }
+>> diff --git a/drivers/gpu/drm/sun4i/sun4i_dotclock.c b/drivers/gpu/drm/sun4i/sun4i_dotclock.c
+>> index 417ade3d2565..84c04d8192b3 100644
+>> --- a/drivers/gpu/drm/sun4i/sun4i_dotclock.c
+>> +++ b/drivers/gpu/drm/sun4i/sun4i_dotclock.c
+>> @@ -191,10 +191,8 @@ int sun4i_dclk_create(struct device *dev, struct sun4i_tcon *tcon)
+>>   	dclk->hw.init = &init;
+>>
+>>   	tcon->dclk = clk_register(dev, &dclk->hw);
+>> -	if (IS_ERR(tcon->dclk))
+>> -		return PTR_ERR(tcon->dclk);
+>>
+>> -	return 0;
+>> +	return PTR_ERR_OR_ZERO(tcon->dclk);
+> 
+> This has been submitted a couple of times already. It's harder to
+> maintain and not easier to read.
+> 
+> Please remove sun4i from your patch
 
-If you fix the issue, kindly add following tag
-Reported-by: kbuild test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Nack for the omapdrm parts too, for the same reasons.
 
-New smatch warnings:
-drivers/gpu/drm/i915/gt/intel_lrc.c:4613 intel_execlists_create_virtual() warn: assigning (-2) to unsigned variable 've->base.uabi_instance'
+  Tomi
 
-Old smatch warnings:
-drivers/gpu/drm/i915/gt/intel_lrc.c:4612 intel_execlists_create_virtual() warn: assigning (-2) to unsigned variable 've->base.instance'
-
-git remote add drm-intel git://anongit.freedesktop.org/drm-intel
-git remote update drm-intel
-git checkout f75fc37b5e70b75f21550410f88e2379648120e2
-vim +4613 drivers/gpu/drm/i915/gt/intel_lrc.c
-
-6d06779e867243 Chris Wilson   2019-05-21  4587  struct intel_context *
-e6ba76480299a0 Chris Wilson   2019-12-21  4588  intel_execlists_create_virtual(struct intel_engine_cs **siblings,
-6d06779e867243 Chris Wilson   2019-05-21  4589  			       unsigned int count)
-6d06779e867243 Chris Wilson   2019-05-21  4590  {
-6d06779e867243 Chris Wilson   2019-05-21  4591  	struct virtual_engine *ve;
-6d06779e867243 Chris Wilson   2019-05-21  4592  	unsigned int n;
-6d06779e867243 Chris Wilson   2019-05-21  4593  	int err;
-6d06779e867243 Chris Wilson   2019-05-21  4594  
-6d06779e867243 Chris Wilson   2019-05-21  4595  	if (count == 0)
-6d06779e867243 Chris Wilson   2019-05-21  4596  		return ERR_PTR(-EINVAL);
-6d06779e867243 Chris Wilson   2019-05-21  4597  
-6d06779e867243 Chris Wilson   2019-05-21  4598  	if (count == 1)
-e6ba76480299a0 Chris Wilson   2019-12-21  4599  		return intel_context_create(siblings[0]);
-6d06779e867243 Chris Wilson   2019-05-21  4600  
-6d06779e867243 Chris Wilson   2019-05-21  4601  	ve = kzalloc(struct_size(ve, siblings, count), GFP_KERNEL);
-6d06779e867243 Chris Wilson   2019-05-21  4602  	if (!ve)
-6d06779e867243 Chris Wilson   2019-05-21  4603  		return ERR_PTR(-ENOMEM);
-6d06779e867243 Chris Wilson   2019-05-21  4604  
-e6ba76480299a0 Chris Wilson   2019-12-21  4605  	ve->base.i915 = siblings[0]->i915;
-f937f5613b6f10 Tvrtko Ursulin 2019-06-21  4606  	ve->base.gt = siblings[0]->gt;
-20af04f3dd5679 Chris Wilson   2019-10-08  4607  	ve->base.uncore = siblings[0]->uncore;
-6d06779e867243 Chris Wilson   2019-05-21  4608  	ve->base.id = -1;
-f75fc37b5e70b7 Chris Wilson   2020-01-06  4609  
-6d06779e867243 Chris Wilson   2019-05-21  4610  	ve->base.class = OTHER_CLASS;
-6d06779e867243 Chris Wilson   2019-05-21  4611  	ve->base.uabi_class = I915_ENGINE_CLASS_INVALID;
-6d06779e867243 Chris Wilson   2019-05-21  4612  	ve->base.instance = I915_ENGINE_CLASS_INVALID_VIRTUAL;
-f75fc37b5e70b7 Chris Wilson   2020-01-06 @4613  	ve->base.uabi_instance = I915_ENGINE_CLASS_INVALID_VIRTUAL;
-                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-6d06779e867243 Chris Wilson   2019-05-21  4614  
-44d89409a12eb8 Chris Wilson   2019-06-18  4615  	/*
-44d89409a12eb8 Chris Wilson   2019-06-18  4616  	 * The decision on whether to submit a request using semaphores
-44d89409a12eb8 Chris Wilson   2019-06-18  4617  	 * depends on the saturated state of the engine. We only compute
-44d89409a12eb8 Chris Wilson   2019-06-18  4618  	 * this during HW submission of the request, and we need for this
-44d89409a12eb8 Chris Wilson   2019-06-18  4619  	 * state to be globally applied to all requests being submitted
-44d89409a12eb8 Chris Wilson   2019-06-18  4620  	 * to this engine. Virtual engines encompass more than one physical
-
----
-0-DAY kernel test infrastructure                 Open Source Technology Center
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org Intel Corporation
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
