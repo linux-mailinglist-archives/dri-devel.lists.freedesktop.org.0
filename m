@@ -1,33 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD4DF133CDC
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 09:13:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34CC6133CCB
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 09:13:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5558E6E868;
-	Wed,  8 Jan 2020 08:12:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CD0A6E194;
+	Wed,  8 Jan 2020 08:12:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from alexa-out-blr-01.qualcomm.com (alexa-out-blr-01.qualcomm.com
  [103.229.18.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A96D6E02F;
- Tue,  7 Jan 2020 11:30:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 915A189804;
+ Tue,  7 Jan 2020 11:30:03 +0000 (UTC)
 Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
  by alexa-out-blr-01.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 07 Jan 2020 17:00:00 +0530
+ 07 Jan 2020 17:00:01 +0530
 Received: from harigovi-linux.qualcomm.com ([10.204.66.157])
- by ironmsg02-blr.qualcomm.com with ESMTP; 07 Jan 2020 16:59:59 +0530
+ by ironmsg02-blr.qualcomm.com with ESMTP; 07 Jan 2020 17:00:01 +0530
 Received: by harigovi-linux.qualcomm.com (Postfix, from userid 2332695)
- id CB6EA2574; Tue,  7 Jan 2020 16:59:58 +0530 (IST)
+ id 4380D2574; Tue,  7 Jan 2020 17:00:00 +0530 (IST)
 From: Harigovindan P <harigovi@codeaurora.org>
 To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [PATCH v2 0/2] Add support for rm69299 Visionox panel driver and add
- devicetree bindings for visionox panel
-Date: Tue,  7 Jan 2020 16:59:55 +0530
-Message-Id: <1578396597-18324-1-git-send-email-harigovi@codeaurora.org>
+Subject: [PATCH v2 1/2] dt-bindings: display: add sc7180 panel variant
+Date: Tue,  7 Jan 2020 16:59:56 +0530
+Message-Id: <1578396597-18324-2-git-send-email-harigovi@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1578396597-18324-1-git-send-email-harigovi@codeaurora.org>
+References: <1578396597-18324-1-git-send-email-harigovi@codeaurora.org>
 X-Mailman-Approved-At: Wed, 08 Jan 2020 08:12:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,43 +50,73 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Current patchset adds support for rm69299 visionox panel driver used 
-in MSM reference platforms. The visionox panel driver supports a 
-resolution of 1080x2248 with 4 lanes and supports only single DSI mode.
-
-Current patchset is tested on actual panel.
+Add a compatible string to support sc7180 panel version.
 
 Changes in v1:
-	-add devicetree bindings for visionox panel.
-	-Split out panel driver patch from dsi config changes(Rob Clark).
-        -Remove unrelated code(Stephen Boyd).
-        -Remove static arrays to make regulator setup
-         open coded in probe(Stephen Boyd).
-        -Remove pre-assigning variables(Stephen Boyd).
-        -Inline panel_add function into probe(Stephen Boyd).
-        -Use mipi_dsi_dcs_write directly(Rob Clark).
-	-Remove qcom_rm69299_1080p_panel_magic_cmds array(Rob Clark).
+	-Added a compatible string to support sc7180 panel version.
 Changes in v2:
 	-Removed unwanted properties from description.
 	-Creating source files without execute permissions(Rob Herring).
-	-Dropping redundant space in Kconfig(Sam Ravnborg).
-	-Changing structure for include files(Sam Ravnborg).
-	-Removing backlight related code and functions(Sam Ravnborg).
-	-Removing repeated printing of error message(Sam Ravnborg).
-	-Adding drm_connector as an argument for get_modes function.
 
-Harigovindan P (2):
-  dt-bindings: display: add sc7180 panel variant
-  drm/panel: add support for rm69299 visionox panel driver
-
- .../bindings/display/visionox,rm69299.txt          |  48 +++
- drivers/gpu/drm/panel/Kconfig                      |   8 +
- drivers/gpu/drm/panel/Makefile                     |   1 +
- drivers/gpu/drm/panel/panel-visionox-rm69299.c     | 370 +++
- 4 files changed, 427 insertions(+)
+Signed-off-by: Harigovindan P <harigovi@codeaurora.org>
+---
+ .../bindings/display/visionox,rm69299.txt          | 48 ++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/visionox,rm69299.txt
- create mode 100644 drivers/gpu/drm/panel/panel-visionox-rm69299.c
 
+diff --git a/Documentation/devicetree/bindings/display/visionox,rm69299.txt b/Documentation/devicetree/bindings/display/visionox,rm69299.txt
+new file mode 100644
+index 0000000..d7bbd5f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/visionox,rm69299.txt
+@@ -0,0 +1,48 @@
++Visionox model RM69299 DSI display driver
++
++The Visionox RM69299 is a generic display driver, currently only configured
++for use in the 1080p display on the Qualcomm SC7180 MTP board.
++
++Required properties:
++- compatible: should be "visionox,rm69299-1080p-display"
++- vdda-supply: phandle of the regulator that provides the supply voltage
++  Power IC supply
++- vdd3p3-supply: phandle of the regulator that provides the supply voltage
++  Power IC supply
++- reset-gpios: phandle of gpio for reset line
++  This should be 8mA, gpio can be configured using mux, pinctrl, pinctrl-names
++  (active low)
++- ports: This device has one video port driven by one DSI. Their connections
++  are modeled using the OF graph bindings specified in
++  Documentation/devicetree/bindings/graph.txt.
++  - port@0: DSI input port driven by master DSI
++
++Example:
++
++	dsi@ae94000 {
++		panel@0 {
++			compatible = "visionox,rm69299-1080p-display";
++			reg = <0>;
++
++			vdda-supply = <&src_pp1800_l8c>;
++			vdd3p3-supply = <&src_pp2800_l18a>;
++
++			pinctrl-names = "default", "suspend";
++			pinctrl-0 = <&disp_pins_default>;
++			pinctrl-1 = <&disp_pins_default>;
++
++			reset-gpios = <&pm6150l_gpios 3 0>;
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				port@0 {
++					reg = <0>;
++					panel0_in: endpoint {
++						remote-endpoint = <&dsi0_out>;
++					};
++				};
++			};
++		};
++	};
 -- 
 2.7.4
 
