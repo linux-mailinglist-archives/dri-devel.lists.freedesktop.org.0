@@ -1,60 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC9B4133CDA
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 09:13:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AE19133CCC
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 09:13:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AD6E6E862;
-	Wed,  8 Jan 2020 08:12:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFF846E198;
+	Wed,  8 Jan 2020 08:12:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79A9A6E0D5;
- Tue,  7 Jan 2020 15:13:54 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id g17so54326144wro.2;
- Tue, 07 Jan 2020 07:13:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Obgi+vCF9pVe8CuCXB1svKkTLEs23TqkO84K9EA0/yU=;
- b=MAPHBKMf0l/6lU3qY7rRYUfyprgVU/WTvLEC44WSQ7ESU1bz2EKtEdyEzzY3fON8Wl
- HF+b3Z30x+uLjBFqzyjc4QL8hgvdjjxNJ27eCtZN7OxKlVv9TKb/ixRtJ0Pn8pEm/IhN
- nhsi9U8+nAclmAd0VvjmV/WfeikvlnNAaiucvNZuXe6SXP7gGYJaSiqBAif7s88//+mY
- tIdTaw6y1sAwocJDDsaOGaF2Iia3lh9FJoypKqBP/1rsFmrdEViNO/cpm9wMiKhjFPce
- Ix9Ls9liLZu4ByPa0WieLhf/SC+777W3L9UdIwagUJZeumt+9pt9BQ+4VVBc6DPdeMwo
- eBFw==
+Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com
+ [IPv6:2607:f8b0:4864:20::743])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C7416E0FC
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2020 16:02:09 +0000 (UTC)
+Received: by mail-qk1-x743.google.com with SMTP id j9so43479631qkk.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2020 08:02:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=m5L2Z7dBLaHFaGhh6t90np+r+vB2C1fkHc9c1XkE5eA=;
+ b=SRKTOX73kQ0C7bZJyVEQPX5lrHCfn6wtB+TUgnlKYaqAcPOJxRX9W33hvgPLf/Cqni
+ 20bWZcvpVtp+u3kVVCy8Pr6p5WX771zG/aaYNm3a43PBoZMEWPkVUdafi6z8zdNbP875
+ wtMMQXxTZrS4EHq5APXk2wYx3oJy+7yGEHag0xh0L78KeLuZ6Up0ZEKAeisMiKKEo5bD
+ GnoA9zsPeHtXte1J8C12L3Ve4R2yJhPrmNnqIh1xILeh06Iq5UCkFiirkFczmkS1Durt
+ VPuB0v7XEVsThI6kRHNHza1+1T1XUR1zTV2kSimviYK2TK4yxqHmw1gQJk9t+jf8ah8+
+ YhdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Obgi+vCF9pVe8CuCXB1svKkTLEs23TqkO84K9EA0/yU=;
- b=C3Swb9B4uj70VxXZA0Y2VWUE7u5+4wgFt1Sq/02wZZdgRAPjv/xSI7V0mGV1aY82v+
- D4DCU7yPATQyZaotJ4TfRlemvPPBuXEUBLXhyODISvDE0wRnDpl9rGtPmZDvnwcmVVaL
- iI+o6TL/kLqTJvCwnpfQt/RMy9EdbdUuXAUmbeyJIzYTo1hiB4bwFd+rKUKPOSS2QBgl
- dvwYN1JebImL9Z/aexc0KxHxu/S6EVw3VbGn+UL9002wZ8ucsCPhGsbxuHdyM3UMH+NU
- ynKvVHblx5pvLOK/8FtCR5a9WzFHFOWZmVCywMaNidHdzocrSUsQhYjG2Kd0f7VyC4p0
- v22w==
-X-Gm-Message-State: APjAAAUF2GBQ5x72sTERNOH/r35hDl60Y3IOteeugTdYRc9jHQtXRT/H
- uuN3kwiFhA6FbnekHaWqurA=
-X-Google-Smtp-Source: APXvYqxPR3RNAYbs3VtzknDFhsHO6P2T0ip+rKpCGfW35FZGSNmo5qhhvSO9RNdIsLxFLQEOkz9WYg==
-X-Received: by 2002:a5d:6886:: with SMTP id h6mr96763900wru.154.1578410033098; 
- Tue, 07 Jan 2020 07:13:53 -0800 (PST)
-Received: from wambui.zuku.co.ke ([197.237.61.225])
- by smtp.googlemail.com with ESMTPSA id c4sm27076664wml.7.2020.01.07.07.13.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 07:13:52 -0800 (PST)
-From: Wambui Karuga <wambui.karugax@gmail.com>
-To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH 5/5] drm/i915: use new struct drm_device based macros.
-Date: Tue,  7 Jan 2020 18:13:33 +0300
-Message-Id: <7142083e727ab400797c8a90a2196ee37a22c201.1578409433.git.wambui.karugax@gmail.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <cover.1578409433.git.wambui.karugax@gmail.com>
-References: <cover.1578409433.git.wambui.karugax@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=m5L2Z7dBLaHFaGhh6t90np+r+vB2C1fkHc9c1XkE5eA=;
+ b=aoKv3OYeNHQ/Wz+CRT56J7rkhznT2PlnQzJPTByqlDXqMZCEyg5VHmy2SJ3lCuDlSv
+ f5f/oC3ZT6cPEmxMe4N8ahn81pN8KhodKMeaQ6J7vM1xEJR8BkFTfjIC7U2BZ2CCx6Q6
+ 3Wo7JG32nP8unEL0ITU1mPxvBw/pSNa/8uOu6IpB01vov7KjHFRfh/Y3pnT6pVmawfuw
+ 91PYhOsmiFlGPThDbbzim8+XNuYkFTnvDiFYqlvvqOhQrLF2aKHjXV71ZUG/Qy/3vPCp
+ AzHXo+N6ZIJLt1CF5B5W2CrztHdzpP/hx1OxA6u2p6IpHn6TPPfnYPF/vMu/ri6VRt2w
+ /OcQ==
+X-Gm-Message-State: APjAAAXQivZhpI/b5c38BitxF7OSe1GNh4z8A+Y5N2Uj0WGgSR5AhZT8
+ 03eLLCk5jP4LXLSpUW8b+gaVbJtAAieatrFrUb+p7Q==
+X-Google-Smtp-Source: APXvYqzUW7seMxUlfo6okJae/fU1ZwL/kM+/uzTVDw6txhjzZH1cXINZE4qkaz5ynFXQaozCcU2Y+HQm3/FNG88d/6Y=
+X-Received: by 2002:a37:e312:: with SMTP id y18mr18264qki.250.1578412928223;
+ Tue, 07 Jan 2020 08:02:08 -0800 (PST)
 MIME-Version: 1.0
+References: <00000000000082b80f059a56da1f@google.com>
+ <0000000000002074ef059a5c86e2@google.com>
+ <20200107154755.GB43062@phenom.ffwll.local>
+In-Reply-To: <20200107154755.GB43062@phenom.ffwll.local>
+From: Dmitry Vyukov <dvyukov@google.com>
+Date: Tue, 7 Jan 2020 17:01:56 +0100
+Message-ID: <CACT4Y+arQyPjzHSFy1MkVF2jNPJbu262_FTL5ma9AnWkXosY1g@mail.gmail.com>
+Subject: Re: INFO: task hung in fb_release
+To: syzbot <syzbot+d130c4a0890561cfac5b@syzkaller.appspotmail.com>,
+ Rex.Zhu@amd.com, 
+ David Airlie <airlied@linux.ie>, alexander.deucher@amd.com,
+ amd-gfx@lists.freedesktop.org, 
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, christian.koenig@amd.com,
+ david1.zhou@amd.com, DRI <dri-devel@lists.freedesktop.org>, 
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>, 
+ syzkaller-bugs <syzkaller-bugs@googlegroups.com>
 X-Mailman-Approved-At: Wed, 08 Jan 2020 08:12:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,109 +73,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, seanpaul@chromium.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert to the use of new struct drm_device based logging macros to
-replace the use of the printk based macros in i915/intel_uncore.c
+On Tue, Jan 7, 2020 at 4:48 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Mon, Dec 23, 2019 at 02:31:01AM -0800, syzbot wrote:
+> > syzbot has bisected this bug to:
+> >
+> > commit e3933f26b657c341055443103bad331f4537b113
+> > Author: Rex Zhu <Rex.Zhu@amd.com>
+> > Date:   Tue Jan 16 10:35:15 2018 +0000
+> >
+> >     drm/amd/pp: Add edit/commit/show OD clock/voltage support in sysfs
+>
+> Pretty sure you don't even have that driver loaded ... from the config:
+>
+> # CONFIG_DRM_AMDGPU is not set
+>
+> :-)
 
-Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
----
- drivers/gpu/drm/i915/intel_uncore.c | 25 +++++++++++++------------
- 1 file changed, 13 insertions(+), 12 deletions(-)
+Yes, it seems the bug is very flaky and flakiness changes over time.
+And this is combined with non-deterministic kernel build bug:
+https://github.com/google/syzkaller/issues/1271#issuecomment-559093018
+It builds the same kernel, but gets a different result, so it's like
+"nope, this commit very much affects the kernel so could be the root
+cause"...
 
-diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
-index 94a97bf8c021..5f2cf6f43b8b 100644
---- a/drivers/gpu/drm/i915/intel_uncore.c
-+++ b/drivers/gpu/drm/i915/intel_uncore.c
-@@ -359,7 +359,8 @@ static void __gen6_gt_wait_for_fifo(struct intel_uncore *uncore)
- 		if (wait_for_atomic((n = fifo_free_entries(uncore)) >
- 				    GT_FIFO_NUM_RESERVED_ENTRIES,
- 				    GT_FIFO_TIMEOUT_MS)) {
--			DRM_DEBUG("GT_FIFO timeout, entries: %u\n", n);
-+			drm_dbg(&uncore->i915->drm,
-+				"GT_FIFO timeout, entries: %u\n", n);
- 			return;
- 		}
- 	}
-@@ -432,7 +433,7 @@ intel_uncore_forcewake_reset(struct intel_uncore *uncore)
- 			break;
- 
- 		if (--retry_count == 0) {
--			DRM_ERROR("Timed out waiting for forcewake timers to finish\n");
-+			drm_err(&uncore->i915->drm, "Timed out waiting for forcewake timers to finish\n");
- 			break;
- 		}
- 
-@@ -490,7 +491,7 @@ gen6_check_for_fifo_debug(struct intel_uncore *uncore)
- 	fifodbg = __raw_uncore_read32(uncore, GTFIFODBG);
- 
- 	if (unlikely(fifodbg)) {
--		DRM_DEBUG_DRIVER("GTFIFODBG = 0x08%x\n", fifodbg);
-+		drm_dbg(&uncore->i915->drm, "GTFIFODBG = 0x08%x\n", fifodbg);
- 		__raw_uncore_write32(uncore, GTFIFODBG, fifodbg);
- 	}
- 
-@@ -562,7 +563,7 @@ void intel_uncore_resume_early(struct intel_uncore *uncore)
- 	unsigned int restore_forcewake;
- 
- 	if (intel_uncore_unclaimed_mmio(uncore))
--		DRM_DEBUG("unclaimed mmio detected on resume, clearing\n");
-+		drm_dbg(&uncore->i915->drm, "unclaimed mmio detected on resume, clearing\n");
- 
- 	if (!intel_uncore_has_forcewake(uncore))
- 		return;
-@@ -1595,8 +1596,8 @@ static int intel_uncore_fw_domains_init(struct intel_uncore *uncore)
- 		spin_unlock_irq(&uncore->lock);
- 
- 		if (!(ecobus & FORCEWAKE_MT_ENABLE)) {
--			DRM_INFO("No MT forcewake available on Ivybridge, this can result in issues\n");
--			DRM_INFO("when using vblank-synced partial screen updates.\n");
-+			drm_info(&i915->drm, "No MT forcewake available on Ivybridge, this can result in issues\n");
-+			drm_info(&i915->drm, "when using vblank-synced partial screen updates.\n");
- 			fw_domain_fini(uncore, FW_DOMAIN_ID_RENDER);
- 			fw_domain_init(uncore, FW_DOMAIN_ID_RENDER,
- 				       FORCEWAKE, FORCEWAKE_ACK);
-@@ -1683,8 +1684,7 @@ static int uncore_mmio_setup(struct intel_uncore *uncore)
- 		mmio_size = 2 * 1024 * 1024;
- 	uncore->regs = pci_iomap(pdev, mmio_bar, mmio_size);
- 	if (uncore->regs == NULL) {
--		DRM_ERROR("failed to map registers\n");
--
-+		drm_err(&i915->drm, "failed to map registers\n");
- 		return -EIO;
- 	}
- 
-@@ -1807,7 +1807,7 @@ int intel_uncore_init_mmio(struct intel_uncore *uncore)
- 
- 	/* clear out unclaimed reg detection bit */
- 	if (intel_uncore_unclaimed_mmio(uncore))
--		DRM_DEBUG("unclaimed mmio detected on uncore init, clearing\n");
-+		drm_dbg(&i915->drm, "unclaimed mmio detected on uncore init, clearing\n");
- 
- 	return 0;
- 
-@@ -2072,9 +2072,10 @@ intel_uncore_arm_unclaimed_mmio_detection(struct intel_uncore *uncore)
- 
- 	if (unlikely(check_for_unclaimed_mmio(uncore))) {
- 		if (!i915_modparams.mmio_debug) {
--			DRM_DEBUG("Unclaimed register detected, "
--				  "enabling oneshot unclaimed register reporting. "
--				  "Please use i915.mmio_debug=N for more information.\n");
-+			drm_dbg(&uncore->i915->drm,
-+				"Unclaimed register detected, "
-+				"enabling oneshot unclaimed register reporting. "
-+				"Please use i915.mmio_debug=N for more information.\n");
- 			i915_modparams.mmio_debug++;
- 		}
- 		uncore->debug->unclaimed_mmio_check--;
--- 
-2.24.1
 
+
+
+> Cheers, Daniel
+> >
+> > bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12b5a799e00000
+> > start commit:   c6017471 Merge tag 'xfs-5.5-fixes-2' of git://git.kernel.o..
+> > git tree:       upstream
+> > final crash:    https://syzkaller.appspot.com/x/report.txt?x=11b5a799e00000
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=16b5a799e00000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=7f6119e2e3675a73
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=d130c4a0890561cfac5b
+> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=169b1925e00000
+> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12b9623ee00000
+> >
+> > Reported-by: syzbot+d130c4a0890561cfac5b@syzkaller.appspotmail.com
+> > Fixes: e3933f26b657 ("drm/amd/pp: Add edit/commit/show OD clock/voltage
+> > support in sysfs")
+> >
+> > For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+>
+> --
+> You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/20200107154755.GB43062%40phenom.ffwll.local.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
