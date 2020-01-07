@@ -1,54 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58528132753
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 14:13:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33805132782
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 14:24:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 258726E064;
-	Tue,  7 Jan 2020 13:13:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D8F26E067;
+	Tue,  7 Jan 2020 13:24:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com
- [IPv6:2607:f8b0:4864:20::f42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30EB66E064
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2020 13:13:50 +0000 (UTC)
-Received: by mail-qv1-xf42.google.com with SMTP id f16so20469397qvi.4
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2020 05:13:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=P/SE5McdrTSka+bx/IZ5kkM57UgYz4XAyQjoMJHuUQs=;
- b=lp6BmAU0n6esjFwvTsD7juffeuCaGxC1bSIiRNmFr/sUC7nD5ezvlMA1x7UHlOLYXZ
- xDPoQt7suR7V6Rmb6dy09Qjh7HkEXo1/ev014cf5hflGFRxsp52Lr07pRFS+LElYp6K4
- aCUJYZuW+cZyknx5s5p8l/Kd72gHgbGO1cM5KX3ge2uJhU9b8k+L0ZfXWym+zmpB93Xc
- coCXwor7WgQCDiokAh0sCEoVPu3p6dBqfVfn8Z6jrrlp2MGxEuC+NKBDebCcPYg9hz4z
- PIrQYpG7mvATEWjsO08YCVZmyl4udH1ZEyOukIzlb/dcM6B92e1rpsUaz3fNlbPPwKs6
- eNAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=P/SE5McdrTSka+bx/IZ5kkM57UgYz4XAyQjoMJHuUQs=;
- b=Mmtc6tLUnT5nh7Mww/8cvt2iYcDsRk3vaq2AVcrdMQyGE93EqySwGBGjiAlcyqMVRy
- +zecTiqszZtl9yU88Zk5Jsvk/XLu7jdaR29Vg271hJ1hgPQAUOo+HwoYPWlhwRkokfGl
- 6XuVtjJ8fdfD6hBunFshxEg02ntAo3W0VDB2gpnUuaT1SNKfEKw7Q9f0ol9SzXEkVsLV
- Mf3ePrkFeq9GLSjytNCSV7vgo3x26kk8UWqxeGFEEvS9cbdjSnjJqV6sJOoua1gnk8TF
- FGEHuvvlB5hifnOY34HTG4AkeG7oZIL50aFkKmDhhAfYniITiVv3pC6gSnCP3j6/gKS+
- pxew==
-X-Gm-Message-State: APjAAAXHIHR4bL1DcvBvu31wDda3HPTzrdI7V5RXyd0yVhJfwlNuAtag
- wS/zYxZuOmeLGNRMtxCf6QqRB/YtaJ53SG50BbxDxA==
-X-Google-Smtp-Source: APXvYqxD8SqL3UJjUIuFxPcR3Me6JeA87ulj3MZhtnLa0lw2HLKk/7HlGnEg2mKYujkBBWSJY2LF26CwTxc/tN5acsw=
-X-Received: by 2002:a0c:cd8e:: with SMTP id v14mr83896788qvm.182.1578402829335; 
- Tue, 07 Jan 2020 05:13:49 -0800 (PST)
-MIME-Version: 1.0
-References: <20191210102437.19377-1-benjamin.gaignard@st.com>
-In-Reply-To: <20191210102437.19377-1-benjamin.gaignard@st.com>
-From: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-Date: Tue, 7 Jan 2020 14:13:38 +0100
-Message-ID: <CA+M3ks7ha2PkznLJ8JO=ZLo9eN2Q3ijiR+Zw9x2PKPH3Vwbovw@mail.gmail.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4F4E6E067
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2020 13:24:51 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 6475DAD73;
+ Tue,  7 Jan 2020 13:24:50 +0000 (UTC)
 Subject: Re: [PATCH] drm/modes: tag unused variables to avoid warnings
-To: Benjamin Gaignard <benjamin.gaignard@st.com>
+To: Benjamin Gaignard <benjamin.gaignard@st.com>,
+ jani.nikula@linux.intel.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch,
+ yakui.zhao@intel.com
+References: <20191210102437.19377-1-benjamin.gaignard@st.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <ec3838df-6e8a-b0d9-4b00-2fcd07f97630@suse.de>
+Date: Tue, 7 Jan 2020 14:24:45 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
+MIME-Version: 1.0
+In-Reply-To: <20191210102437.19377-1-benjamin.gaignard@st.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,54 +66,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============0251871309=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TGUgbWVyLiAxMSBkw6ljLiAyMDE5IMOgIDEwOjIwLCBCZW5qYW1pbiBHYWlnbmFyZAo8YmVuamFt
-aW4uZ2FpZ25hcmRAc3QuY29tPiBhIMOpY3JpdCA6Cj4KPiBTb21lIHZhcmlhYmxlcyBhcmUgc2V0
-IGJ1dCBuZXZlciB1c2VkLiBUbyBhdm9pZCB3YXJuaW5nIHdoZW4gY29tcGlsaW5nCj4gd2l0aCBX
-PTEgYW5kIGtlZXAgdGhlIGFsZ29yaXRobSBsaWtlIGl0IGlzIHRhZyB0aGVzZXMgdmFyaWFibGVz
-Cj4gd2l0aCBfbWF5YmVfdW51c2VkIG1hY3JvLgoKR2VudGxlIHBpbmcuClRoYW5rcywKQmVuamFt
-aW4KCj4KPiBTaWduZWQtb2ZmLWJ5OiBCZW5qYW1pbiBHYWlnbmFyZCA8YmVuamFtaW4uZ2FpZ25h
-cmRAc3QuY29tPgo+IC0tLQo+IGNoYW5nZXMgaW4gdGhpcyB2ZXJzaW9uOgo+IC0gZG8gbm90IG1v
-ZGlmeSB0aGUgY29kZSB0byByZW1vdmUgdGhlIHVudXNlZCB2YXJpYWJsZXMKPiAgIGp1c3QgcHJl
-Zml4IHRoZW0gd2l0aCBfX21heWJlX3VudXNlZCBtYWNyby4KPgo+ICBkcml2ZXJzL2dwdS9kcm0v
-ZHJtX21vZGVzLmMgfCA5ICsrKysrLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRpb25z
-KCspLCA0IGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1f
-bW9kZXMuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fbW9kZXMuYwo+IGluZGV4IDg4MjMyNjk4ZDdh
-MC4uNzBhZWQ0ZTI5OTBkIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fbW9kZXMu
-Ywo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fbW9kZXMuYwo+IEBAIC0yMzMsNyArMjMzLDcg
-QEAgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKmRybV9jdnRfbW9kZShzdHJ1Y3QgZHJtX2Rldmlj
-ZSAqZGV2LCBpbnQgaGRpc3BsYXksCj4gICAgICAgICAgICAgICAgIC8qIDMpIE5vbWluYWwgSFN5
-bmMgd2lkdGggKCUgb2YgbGluZSBwZXJpb2QpIC0gZGVmYXVsdCA4ICovCj4gICNkZWZpbmUgQ1ZU
-X0hTWU5DX1BFUkNFTlRBR0UgICA4Cj4gICAgICAgICAgICAgICAgIHVuc2lnbmVkIGludCBoYmxh
-bmtfcGVyY2VudGFnZTsKPiAtICAgICAgICAgICAgICAgaW50IHZzeW5jYW5kYmFja19wb3JjaCwg
-dmJhY2tfcG9yY2gsIGhibGFuazsKPiArICAgICAgICAgICAgICAgaW50IHZzeW5jYW5kYmFja19w
-b3JjaCwgX19tYXliZV91bnVzZWQgdmJhY2tfcG9yY2gsIGhibGFuazsKPgo+ICAgICAgICAgICAg
-ICAgICAvKiBlc3RpbWF0ZWQgdGhlIGhvcml6b250YWwgcGVyaW9kICovCj4gICAgICAgICAgICAg
-ICAgIHRtcDEgPSBIVl9GQUNUT1IgKiAxMDAwMDAwICAtCj4gQEAgLTM4Niw5ICszODYsMTAgQEAg
-ZHJtX2d0Zl9tb2RlX2NvbXBsZXgoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgaW50IGhkaXNwbGF5
-LCBpbnQgdmRpc3BsYXksCj4gICAgICAgICBpbnQgdG9wX21hcmdpbiwgYm90dG9tX21hcmdpbjsK
-PiAgICAgICAgIGludCBpbnRlcmxhY2U7Cj4gICAgICAgICB1bnNpZ25lZCBpbnQgaGZyZXFfZXN0
-Owo+IC0gICAgICAgaW50IHZzeW5jX3BsdXNfYnAsIHZiYWNrX3BvcmNoOwo+IC0gICAgICAgdW5z
-aWduZWQgaW50IHZ0b3RhbF9saW5lcywgdmZpZWxkcmF0ZV9lc3QsIGhwZXJpb2Q7Cj4gLSAgICAg
-ICB1bnNpZ25lZCBpbnQgdmZpZWxkX3JhdGUsIHZmcmFtZV9yYXRlOwo+ICsgICAgICAgaW50IHZz
-eW5jX3BsdXNfYnAsIF9fbWF5YmVfdW51c2VkIHZiYWNrX3BvcmNoOwo+ICsgICAgICAgdW5zaWdu
-ZWQgaW50IHZ0b3RhbF9saW5lcywgX19tYXliZV91bnVzZWQgdmZpZWxkcmF0ZV9lc3Q7Cj4gKyAg
-ICAgICB1bnNpZ25lZCBpbnQgX19tYXliZV91bnVzZWQgaHBlcmlvZDsKPiArICAgICAgIHVuc2ln
-bmVkIGludCB2ZmllbGRfcmF0ZSwgX19tYXliZV91bnVzZWQgdmZyYW1lX3JhdGU7Cj4gICAgICAg
-ICBpbnQgbGVmdF9tYXJnaW4sIHJpZ2h0X21hcmdpbjsKPiAgICAgICAgIHVuc2lnbmVkIGludCB0
-b3RhbF9hY3RpdmVfcGl4ZWxzLCBpZGVhbF9kdXR5X2N5Y2xlOwo+ICAgICAgICAgdW5zaWduZWQg
-aW50IGhibGFuaywgdG90YWxfcGl4ZWxzLCBwaXhlbF9mcmVxOwo+IC0tCj4gMi4xNS4wCj4KPiBf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0251871309==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="LHNsfGAK4PHadNV60bXWhRMsy5DJYiLCb"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--LHNsfGAK4PHadNV60bXWhRMsy5DJYiLCb
+Content-Type: multipart/mixed; boundary="ahJGr5M4OVDuuokVZDWiPJsUaLtTrGqOW";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Benjamin Gaignard <benjamin.gaignard@st.com>,
+ jani.nikula@linux.intel.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch,
+ yakui.zhao@intel.com
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Message-ID: <ec3838df-6e8a-b0d9-4b00-2fcd07f97630@suse.de>
+Subject: Re: [PATCH] drm/modes: tag unused variables to avoid warnings
+References: <20191210102437.19377-1-benjamin.gaignard@st.com>
+In-Reply-To: <20191210102437.19377-1-benjamin.gaignard@st.com>
+
+--ahJGr5M4OVDuuokVZDWiPJsUaLtTrGqOW
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 10.12.19 um 11:24 schrieb Benjamin Gaignard:
+> Some variables are set but never used. To avoid warning when compiling
+> with W=3D1 and keep the algorithm like it is tag theses variables
+> with _maybe_unused macro.
+>=20
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+> ---
+> changes in this version:
+> - do not modify the code to remove the unused variables
+>   just prefix them with __maybe_unused macro.
+>  =20
+>  drivers/gpu/drm/drm_modes.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+> index 88232698d7a0..70aed4e2990d 100644
+> --- a/drivers/gpu/drm/drm_modes.c
+> +++ b/drivers/gpu/drm/drm_modes.c
+> @@ -233,7 +233,7 @@ struct drm_display_mode *drm_cvt_mode(struct drm_de=
+vice *dev, int hdisplay,
+>  		/* 3) Nominal HSync width (% of line period) - default 8 */
+>  #define CVT_HSYNC_PERCENTAGE	8
+>  		unsigned int hblank_percentage;
+> -		int vsyncandback_porch, vback_porch, hblank;
+> +		int vsyncandback_porch, __maybe_unused vback_porch, hblank;
+> =20
+>  		/* estimated the horizontal period */
+>  		tmp1 =3D HV_FACTOR * 1000000  -
+> @@ -386,9 +386,10 @@ drm_gtf_mode_complex(struct drm_device *dev, int h=
+display, int vdisplay,
+>  	int top_margin, bottom_margin;
+>  	int interlace;
+>  	unsigned int hfreq_est;
+> -	int vsync_plus_bp, vback_porch;
+> -	unsigned int vtotal_lines, vfieldrate_est, hperiod;
+> -	unsigned int vfield_rate, vframe_rate;
+> +	int vsync_plus_bp, __maybe_unused vback_porch;
+> +	unsigned int vtotal_lines, __maybe_unused vfieldrate_est;
+> +	unsigned int __maybe_unused hperiod;
+> +	unsigned int vfield_rate, __maybe_unused vframe_rate;
+>  	int left_margin, right_margin;
+>  	unsigned int total_active_pixels, ideal_duty_cycle;
+>  	unsigned int hblank, total_pixels, pixel_freq;
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--ahJGr5M4OVDuuokVZDWiPJsUaLtTrGqOW--
+
+--LHNsfGAK4PHadNV60bXWhRMsy5DJYiLCb
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl4Uhp0ACgkQaA3BHVML
+eiNdxwf/eBW4rz48DTfwxq5usxvjoxgc2HDvgUYY058/0XJJzuh5lmm3HOWuC32L
+dyJjcOGL3rA5jNPk5rqljTS4ZPkyv+sc1VuwBeMGbpJX2lgzCbUnbiPT4+kqdnmY
+aqCiC9H3UJRhYkFCb4Viv9zU1Oj9GlF28i0RqipxJmqvF2g4HGH5kjHx0JFDxkzg
++yoZ2eBxlhBrQj+iCA9HQBpUVJgI/ThyTl9kCVP9l4xHfQwGfUa/LXpEYqaL54Sh
+cEhrCv/2CDyug0Jz1J6MDfMt/YkNbb4AG2t2NrYEwQhxZ66aNvUyxaMCzvCcYzTW
+S1KywNgoGAYqTQzMr+6eQ72yQzLM4A==
+=kZQw
+-----END PGP SIGNATURE-----
+
+--LHNsfGAK4PHadNV60bXWhRMsy5DJYiLCb--
+
+--===============0251871309==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0251871309==--
