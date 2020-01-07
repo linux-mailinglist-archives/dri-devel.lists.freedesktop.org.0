@@ -1,48 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BF85132585
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 13:00:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B881C1325D2
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 13:15:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E50889D53;
-	Tue,  7 Jan 2020 12:00:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 951AD89852;
+	Tue,  7 Jan 2020 12:15:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
- [209.85.210.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EE3389D5E
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2020 12:00:21 +0000 (UTC)
-Received: by mail-ot1-f66.google.com with SMTP id r9so2797207otp.13
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2020 04:00:21 -0800 (PST)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 941228982D
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2020 12:15:09 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id t2so53675708wrr.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2020 04:15:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=4Vcrc9kPwEMI1qMY97ZKxc5ORffAx/A/CKvvB8bb9HU=;
+ b=EhpeMaFyUHCBnnfIlkhHmvYes0eM1ZWephawKnNl2g0DdN5tHsMvsQ/4FsRIcI1ViF
+ V3/zNmW1WqptpoasSr9aVQONe03NmK6y+Cy/hq3dcavQYK9NWmkl9yncPAucoZVWqrm1
+ gPX2TUOOvSfAT4nSupIbsHctrqzFpJbV4AK55H+WRQ8pzAHVKBqX9fYkFNQB9KymoiAu
+ 5pckxvxkWMzCezBHVm0PXp2+q61yOoT7RtNKrwGmk0N/cZXrCFPvvmA3KGehcXEty84s
+ qYp/wXsXFzMl6wnmBGudBncGbsTHnH+veG76aeSlYrgEJeARwZvgabwFPoH7F/fJylJz
+ 0ufw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=S1wiXwjq5bNvmzPILmmYBOTjMYtnHu6yYzhrvwBxyhQ=;
- b=FEW6aDBNqtpN4IPDugxqiv60rzSTTMturZvSj4eLNaM3z/6SovWl2binpEBlbH4Edp
- RZvyRWQGsQ0uRFNna96O+9G/4wQqyHa62Y8fgbW9eu+ZzLjycy2lLLdJ6RMtD8eVCLiK
- zMNGTDWK9+CSybCGDdA2VjL5UyaYVJzQBW3/BjTTMpa8vfqSqSL3RQAuQTvGsfgAjWqf
- z/YafqrQHLSJOpHB/NCIVPaBj8528/UWJ0r69gvpSqC5Tg1BhSFNZMEPWqUNo0yCg7gh
- qb5Em9tUJgCpNEGcEnaSl0Xd026bRc0NvVkuyl8rGV3zWQKyolSjne77axx2OSkLuYWx
- Ff7w==
-X-Gm-Message-State: APjAAAXx6d6mgVKENAUx3ZQWT9FUnsJAGc+l47c9aKJPOnCxiVF5zhXi
- DfQUNqPh3lw3umtMigg+4sP/CWZ9KQNxAeuaCRs=
-X-Google-Smtp-Source: APXvYqzT7NKt5AuNhkaTac1R66p2sfv4kCORKqYWKCFnDXfFGTTAXq67T4+HRh5ZfjBhcY6kAGr9/0+4yeC44TRkpqE=
-X-Received: by 2002:a9d:dc1:: with SMTP id 59mr22257984ots.250.1578398420315; 
- Tue, 07 Jan 2020 04:00:20 -0800 (PST)
-MIME-Version: 1.0
-References: <20200102141246.370-1-geert+renesas@glider.be>
- <20200102141246.370-4-geert+renesas@glider.be>
- <20200105091303.GB29102@ravnborg.org>
- <CAMuHMdUL3tCZzCDyJkmqYT5n+-t+Z-Ubo4=+NJpHpZU1w5C07g@mail.gmail.com>
- <20200106170808.GA21745@ravnborg.org>
-In-Reply-To: <20200106170808.GA21745@ravnborg.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 7 Jan 2020 13:00:08 +0100
-Message-ID: <CAMuHMdXa4zRipzxpKi=YnP672guW5YOvUJ49t6bEX9xp7DyuUg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] drm: tiny: st7735r: Add support for Okaya RH128128T
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=4Vcrc9kPwEMI1qMY97ZKxc5ORffAx/A/CKvvB8bb9HU=;
+ b=BICOwlUWEsN5Z8uoVA3v5zXoTz13sChRgEDUz2iAlSq8h1ssR9dgRHd/9X8feLXkm4
+ xd7ANfJAW3i/YHKZiKU3Iqy2Y4KvzXmFqsZKhnJpCjNRW5qPkiQ3utYFCqL5l7xb7zy1
+ 7b71IuIGyWr+4whK5dhGLKQCodBeJJpQRPY+6PTpN5HAC/Fs8wN/gVYzdS/sOT450SCY
+ kDt9+SBH1Nw0gUt0N6oI2xfo+wqZTn5FNYJiGI0IaBbtDY7JwmgzJ1V6FT/PhsqVr616
+ F5JxAqMqB/01REsIgfuRe86v/rcyXm7mmooR+Sv88yvtuPJGEMGFl34Jspuf9JLTzjTs
+ Lj8w==
+X-Gm-Message-State: APjAAAV/3wjYYAt7Jj5gWSGFQlqHj6/b/8R70djI5Io7GQePlWA4fLWK
+ Wkx4OKvfn4E9qP4iyC26HR4=
+X-Google-Smtp-Source: APXvYqxE9TizJBrkadc+zJOygaNd5/9MmQLFuKw9E9v9SnmDj4SWvg+X9NC/e2sfNSFX1wfVgHOQoQ==
+X-Received: by 2002:adf:ef92:: with SMTP id
+ d18mr105419063wro.234.1578399308307; 
+ Tue, 07 Jan 2020 04:15:08 -0800 (PST)
+Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
+ by smtp.gmail.com with ESMTPSA id b10sm78937461wrt.90.2020.01.07.04.15.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Jan 2020 04:15:07 -0800 (PST)
+Date: Tue, 7 Jan 2020 13:15:06 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
 To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v2 0/2] combine bindings for simple panels in a few files
+Message-ID: <20200107121506.GC1964183@ulmo>
+References: <20200102101712.5085-1-sam@ravnborg.org>
+MIME-Version: 1.0
+In-Reply-To: <20200102101712.5085-1-sam@ravnborg.org>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,115 +67,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, David Lechner <david@lechnology.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Chris Brandt <chris.brandt@renesas.com>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Yannick Fertre <yannick.fertre@st.com>
+Content-Type: multipart/mixed; boundary="===============1616966904=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
 
-On Mon, Jan 6, 2020 at 6:08 PM Sam Ravnborg <sam@ravnborg.org> wrote:
-> > > On Thu, Jan 02, 2020 at 03:12:46PM +0100, Geert Uytterhoeven wrote:
-> > > > Add support for the Okaya RH128128T display to the st7735r driver.
-> > > >
-> > > > The RH128128T is a 128x128 1.44" TFT display driven by a Sitronix
-> > > > ST7715R TFT Controller/Driver.  The latter is very similar to the
-> > > > ST7735R, and can be handled by the existing st7735r driver.
-> > >
-> > > As a general comment - it would have eased review if this was split
-> > > in two patches.
-> > > One patch to introduce the infrastructure to deal with another set of
-> > > controller/display and one patch introducing the new combination.
-> >
-> > I had thought about that, but didn't pursue as the new combination is
-> > just 7 added lines.  If you prefer a split, I can do that.
->
-> The good thing with a split is that is shows how little is really
-> required to support a new controller/panel pair.
-> So it would be good if you did so.
+--===============1616966904==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="32u276st3Jlj2kUU"
+Content-Disposition: inline
 
-OK.
 
-> > > > --- a/drivers/gpu/drm/tiny/st7735r.c
-> > > > +++ b/drivers/gpu/drm/tiny/st7735r.c
-> > > > @@ -1,8 +1,9 @@
-> > > >  // SPDX-License-Identifier: GPL-2.0+
-> > > >  /*
-> > > > - * DRM driver for Sitronix ST7735R panels
-> > > > + * DRM driver for Sitronix ST7715R/ST7735R panels
-> > >
-> > > This comment could describe the situation a little better.
-> > > This is a sitronix st7735r controller with a jianda jd-t18003-t01
-> > > display.
-> > > Or a sitronix st7715r controller with a okaya rh128128t display.
-> >
-> > Indeed. It is currently limited to two controller/display combos.
-> > But I expect more combos to be added over time.
-> > Hence does it make sense to describe all of that in the top comments?
->
-> If we do describe it we should do so as kernel-doc and then wire up the
-> driver somwhere under Documentation/gpu/
-> But there is no good place to wire it up yet.
+--32u276st3Jlj2kUU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Documentation/devicetree/bindings/display/sitronix,st7735r.yaml? ;-)
+On Thu, Jan 02, 2020 at 11:17:10AM +0100, Sam Ravnborg wrote:
+> This patchset introduces two files:
+>=20
+>     panel-simple.yaml
+>     panel-simple-dsi.yaml
+>=20
+> The two files will be used for bindings for simple
+> panels that have only a single power-supply.
+>=20
+> For now only a few bindings are migrated - the
+> reamining bindings will be migrated when we have agreed
+> on the format.
+>=20
+> v2:
+>   - updated binding description in panel-simple.yaml
+>   - fixed exampe in panel-simple.yaml
+>     (I was missing libyaml-dev - now the examples are checked properly he=
+re)
+>   - added panel-simple-dsi.yaml
+>=20
+> 	Sam=20
+>=20
+> Sam Ravnborg (2):
+>       dt-bindings: one binding file for all simple panels
+>       dt-bindings: one file of all simple DSI panels
+>=20
+>  .../display/panel/ampire,am-480272h3tmqw-t01h.yaml | 42 --------------
+>  .../display/panel/ampire,am800480r3tmqwa1h.txt     |  7 ---
+>  .../display/panel/panasonic,vvx10f034n00.txt       | 20 -------
+>  .../bindings/display/panel/panel-simple-dsi.yaml   | 67 ++++++++++++++++=
+++++++
+>  .../bindings/display/panel/panel-simple.yaml       | 59 ++++++++++++++++=
++++
+>  5 files changed, 126 insertions(+), 69 deletions(-)
 
-> > > > @@ -37,12 +39,28 @@
-> > > >  #define ST7735R_MY   BIT(7)
-> > > >  #define ST7735R_MX   BIT(6)
-> > > >  #define ST7735R_MV   BIT(5)
-> > > > +#define ST7735R_RGB  BIT(3)
-> > > > +
-> > > > +struct st7735r_cfg {
-> > > > +     const struct drm_display_mode mode;
-> > > > +     unsigned int left_offset;
-> > > > +     unsigned int top_offset;
-> > > > +     unsigned int write_only:1;
-> > > > +     unsigned int rgb:1;             /* RGB (vs. BGR) */
-> > > > +};
-> > > > +
-> > > > +struct st7735r_priv {
-> > > > +     struct mipi_dbi_dev dbidev;     /* Must be first for .release() */
-> > > > +     unsigned int rgb:1;
-> > > > +};
-> > >
-> > > The structs here uses "st7735r" as the generic prefix.
-> > > But the rest of this file uses "jd_t18003_t01" as the generic prefix.
-> > >
-> > > It would help readability if the same prefix is used for the common
-> > > stuff everywhere.
-> >
-> > Agreed.
-> > So I think it makes most sense to rename jd_t18003_t01_pipe_{enable,funcs}
-> > to sh7735r_pipe_{enable,funcs}?
-> s/sh/st/
+I like this. With the improved structure that the YAML bindings provide
+this becomes rather neat. You may want to update the subject of the
+patches to better reflect the style (most seem to use "dt-bindings:
+display: " as prefix, for example). But overall, looks good:
 
-Oops, seen to much SuperH-derived hardware ;-)
+Acked-by: Thierry Reding <treding@nvidia.com>
 
-> Yeah, or maybe just sitronix_pipe_{enable,funcs} as we have support
-> for more than one Sitronix controller anyway.
+--32u276st3Jlj2kUU
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Note that there are other drivers for Sitronix controllers, e.g.
-drivers/gpu/drm/tiny/st7586.c, which is a different beast.
-So st7735r_* sounds better to me ('15 and '35 are very similar).
+-----BEGIN PGP SIGNATURE-----
 
-Gr{oetje,eeting}s,
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl4UdkgACgkQ3SOs138+
+s6HTnxAAm2DXdt4nuIiLcds9qXXf1V3A+d0r/Qya5SmQkUW7UZQ6X4PMvIZKHUQx
+rTdXlrytFDfJgX6oGy0x3vd6fTTOLpTEiMNNORnj0/6TXtcVihVvF+HzkBvbeVKt
+zcDjCZN41KpimIsTEww1I/HUD/+iy/1s/ekjvxogcpzXLo/a2pMR5aAICgPp+Kni
+Q/zgsMNefCwqTJCBz37uxNBUJ5grcyHThuIp+dwfvcrTRbBN6qlMvylVJ6W5K8Al
+KKkG4HvFmTucPg7UgiE80wZWZgOdLFRleXtN7/7arIWrPNzyh5769hhcRlXR9Nm1
+/U6YR5XXImyNeWlKLV6H6Eo2Gmw2sHOC3OwtfDgGkQun9dyRhoIPdFV1DZlaymS+
+PF5F379d5piQT39BtDTUn00K/8drc8QjIzYxi2ko+aZPFj7oL3yYz6ZkCoycB4F9
+HwIrGjyNbxmto6UBvY3LPDEZV6tbfv+OWDfjYY/Itf74sUYjvivQjLUUZNIMsR9Q
+rhw+9MpDxx9o6MfO4Zgr+//7F+X3zDQuG+a4S/1GLJnV+ryYay7FJuH52GfO24Og
+q/exUWQONwXywghxZ58/QbBBDSAoJT/nH6NUKcFl5vn+gPO8rDVYu8EN7NJ74Qbl
+XWHW36sT/ZpMwzTBkQDpNwN+92nerIJYxVXYQq9RBG9tfVax6OE=
+=1Z06
+-----END PGP SIGNATURE-----
 
-                        Geert
+--32u276st3Jlj2kUU--
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+--===============1616966904==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1616966904==--
