@@ -2,37 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6F98132E89
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 19:33:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42615132EB5
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2020 19:53:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEDB16E124;
-	Tue,  7 Jan 2020 18:33:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE7BE6E0FB;
+	Tue,  7 Jan 2020 18:52:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA5676E0FB;
- Tue,  7 Jan 2020 18:33:18 +0000 (UTC)
-Received: from localhost (unknown [40.117.208.15])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D9B4F2187F;
- Tue,  7 Jan 2020 18:33:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1578421998;
- bh=Ol7MhT305QcSH/UyZNOqzrj3fQ/slH2zlgKMfiQBSVk=;
- h=Date:From:To:To:To:CC:Cc:Cc:Subject:In-Reply-To:References:From;
- b=nW6H1Euu614nv3D2i4ybnOcPVGcWJmAaC9+2SZXrt4jeA40X365WlLvWBsGHnpGsW
- GQyW7Sfsxhxm1rxJx/QCjKbfTiRJyUqzcBtWimBcKH4Hov/USE8ebDYS++kfGuW13d
- v7Qg4jDlsF/g5TOhfSSAKVQNI7iHTwOA7mre0+s4=
-Date: Tue, 07 Jan 2020 18:33:17 +0000
-From: Sasha Levin <sashal@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-To: Wayne Lin <Wayne.Lin@amd.com>
-To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
-Subject: Re: [PATCH v2] drm/dp_mst: clear time slots for ports invalid
-In-Reply-To: <20200106102158.28261-1-Wayne.Lin@amd.com>
-References: <20200106102158.28261-1-Wayne.Lin@amd.com>
-Message-Id: <20200107183317.D9B4F2187F@mail.kernel.org>
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C27D66E0FB
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2020 18:52:54 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 007Iqnog072734;
+ Tue, 7 Jan 2020 12:52:49 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1578423170;
+ bh=kpJWoOjfKvX62bCcFNnlveCUkcErCADA2gOAcwUC1Uc=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=OwxPRG+NFyl4azew3mbKgFKZN+qX+fSVUrVgxUI97vYCyOprTnFLaoSRFTtfAl0m8
+ IvSeplblkFIOF0EMOFLe0zBbRknLefX8bneuFlpLJ9PRxpcHgE5ws1ZreHHDcRHaH1
+ WtT6vlOA90gFhUkOyhwW+JsQXGXS0Vqjpn2jvefY=
+Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 007Iqn4B027555
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 7 Jan 2020 12:52:49 -0600
+Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 7 Jan
+ 2020 12:52:49 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Tue, 7 Jan 2020 12:52:49 -0600
+Received: from [10.1.3.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 007Iql7l097985;
+ Tue, 7 Jan 2020 12:52:47 -0600
+Subject: Re: [PATCH v3] phy: Add DisplayPort configuration options
+To: Yuti Amonkar <yamonkar@cadence.com>, <linux-kernel@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <kishon@ti.com>, <maxime@cerno.tech>
+References: <1578313360-18124-1-git-send-email-yamonkar@cadence.com>
+From: Jyri Sarha <jsarha@ti.com>
+Autocrypt: addr=jsarha@ti.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <9d849a10-493f-e297-f4c3-b34a341635ed@ti.com>
+Date: Tue, 7 Jan 2020 20:52:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
+MIME-Version: 1.0
+In-Reply-To: <1578313360-18124-1-git-send-email-yamonkar@cadence.com>
+Content-Language: en-GB
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,129 +104,203 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: , Nicholas.Kazlauskas@amd.com, stable@vger.kernel.org
-MIME-Version: 1.0
+Cc: praneeth@ti.com, mparab@cadence.com, tomi.valkeinen@ti.com,
+ sjakhade@cadence.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 06/01/2020 14:22, Yuti Amonkar wrote:
+> Allow DisplayPort PHYs to be configured through the generic
+> functions through a custom structure added to the generic union.
+> The configuration structure is used for reconfiguration of
+> DisplayPort PHYs during link training operation.
+> 
+> The parameters added here are the ones defined in the DisplayPort
+> spec v1.4 which include link rate, number of lanes, voltage swing
+> and pre-emphasis.
+> 
+> Add the DisplayPort phy mode to the generic phy_mode enum.
+> 
+> Signed-off-by: Yuti Amonkar <yamonkar@cadence.com>
 
-[This is an automated email]
+Reviewed-by: Jyri Sarha <jsarha@ti.com>
 
-This commit has been processed because it contains a -stable tag.
-The stable tag indicates that it's relevant for the following trees: all
+Kishon, can you still pick this for v5.6?
 
-The bot has tested the following trees: v5.4.8, v4.19.93, v4.14.162, v4.9.208, v4.4.208.
+Best regards,
+Jyri
 
-v5.4.8: Failed to apply! Possible dependencies:
-    14692a3637d4 ("drm/dp_mst: Add probe_lock")
-    37dfdc55ffeb ("drm/dp_mst: Cleanup drm_dp_send_link_address() a bit")
-    3f9b3f02dda5 ("drm/dp_mst: Protect drm_dp_mst_port members with locking")
-    50094b5dcd32 ("drm/dp_mst: Destroy topology_mgr mutexes")
-    5950f0b797fc ("drm/dp_mst: Move link address dumping into a function")
-    60f9ae9d0d3d ("drm/dp_mst: Remove huge conditional in drm_dp_mst_handle_up_req()")
-    7cb12d48314e ("drm/dp_mst: Destroy MSTBs asynchronously")
-    9408cc94eb04 ("drm/dp_mst: Handle UP requests asynchronously")
-    a29d881875fc ("drm/dp_mst: Refactor drm_dp_mst_handle_up_req()")
-    c485e2c97dae ("drm/dp_mst: Refactor pdt setup/teardown, add more locking")
-    caf81ec6cd72 ("drm: Destroy the correct mutex name in drm_dp_mst_topology_mgr_destroy")
-    dad7d84f8835 ("drm/dp_mst: Don't forget to update port->input in drm_dp_mst_handle_conn_stat()")
-    e2839ff692c6 ("drm/dp_mst: Rename drm_dp_add_port and drm_dp_update_port")
+> ---
+> 
+> Version History:
+> v3:
+>      Add DisplayPort mode to the generic phy_mode enum.
+> 
+> v2:
+>      Update DisplayPort spec version in the commit message.
+> 
+> This patch was a part of [1] series earlier but we think that it needs
+> to have a separate attention of the reviewers. Also as both [1] & [2] are
+> dependent on this patch, our sincere request to reviewers to have a
+> faster review of this patch.
+> 
+> [1]
+> 
+> https://lkml.org/lkml/2019/12/23/392
+> 
+> [2]
+> 
+> https://lkml.org/lkml/2019/12/23/394
+> 
+>  include/linux/phy/phy-dp.h | 95 ++++++++++++++++++++++++++++++++++++++++++++++
+>  include/linux/phy/phy.h    |  7 +++-
+>  2 files changed, 101 insertions(+), 1 deletion(-)
+>  create mode 100644 include/linux/phy/phy-dp.h
+> 
+> diff --git a/include/linux/phy/phy-dp.h b/include/linux/phy/phy-dp.h
+> new file mode 100644
+> index 0000000..18cad23
+> --- /dev/null
+> +++ b/include/linux/phy/phy-dp.h
+> @@ -0,0 +1,95 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (C) 2019 Cadence Design Systems Inc.
+> + */
+> +
+> +#ifndef __PHY_DP_H_
+> +#define __PHY_DP_H_
+> +
+> +#include <linux/types.h>
+> +
+> +/**
+> + * struct phy_configure_opts_dp - DisplayPort PHY configuration set
+> + *
+> + * This structure is used to represent the configuration state of a
+> + * DisplayPort phy.
+> + */
+> +struct phy_configure_opts_dp {
+> +	/**
+> +	 * @link_rate:
+> +	 *
+> +	 * Link Rate, in Mb/s, of the main link.
+> +	 *
+> +	 * Allowed values: 1620, 2160, 2430, 2700, 3240, 4320, 5400, 8100 Mb/s
+> +	 */
+> +	unsigned int link_rate;
+> +
+> +	/**
+> +	 * @lanes:
+> +	 *
+> +	 * Number of active, consecutive, data lanes, starting from
+> +	 * lane 0, used for the transmissions on main link.
+> +	 *
+> +	 * Allowed values: 1, 2, 4
+> +	 */
+> +	unsigned int lanes;
+> +
+> +	/**
+> +	 * @voltage:
+> +	 *
+> +	 * Voltage swing levels, as specified by DisplayPort specification,
+> +	 * to be used by particular lanes. One value per lane.
+> +	 * voltage[0] is for lane 0, voltage[1] is for lane 1, etc.
+> +	 *
+> +	 * Maximum value: 3
+> +	 */
+> +	unsigned int voltage[4];
+> +
+> +	/**
+> +	 * @pre:
+> +	 *
+> +	 * Pre-emphasis levels, as specified by DisplayPort specification, to be
+> +	 * used by particular lanes. One value per lane.
+> +	 *
+> +	 * Maximum value: 3
+> +	 */
+> +	unsigned int pre[4];
+> +
+> +	/**
+> +	 * @ssc:
+> +	 *
+> +	 * Flag indicating, whether or not to enable spread-spectrum clocking.
+> +	 *
+> +	 */
+> +	u8 ssc : 1;
+> +
+> +	/**
+> +	 * @set_rate:
+> +	 *
+> +	 * Flag indicating, whether or not reconfigure link rate and SSC to
+> +	 * requested values.
+> +	 *
+> +	 */
+> +	u8 set_rate : 1;
+> +
+> +	/**
+> +	 * @set_lanes:
+> +	 *
+> +	 * Flag indicating, whether or not reconfigure lane count to
+> +	 * requested value.
+> +	 *
+> +	 */
+> +	u8 set_lanes : 1;
+> +
+> +	/**
+> +	 * @set_voltages:
+> +	 *
+> +	 * Flag indicating, whether or not reconfigure voltage swing
+> +	 * and pre-emphasis to requested values. Only lanes specified
+> +	 * by "lanes" parameter will be affected.
+> +	 *
+> +	 */
+> +	u8 set_voltages : 1;
+> +};
+> +
+> +#endif /* __PHY_DP_H_ */
+> diff --git a/include/linux/phy/phy.h b/include/linux/phy/phy.h
+> index 15032f14..962a469 100644
+> --- a/include/linux/phy/phy.h
+> +++ b/include/linux/phy/phy.h
+> @@ -16,6 +16,7 @@
+>  #include <linux/pm_runtime.h>
+>  #include <linux/regulator/consumer.h>
+>  
+> +#include <linux/phy/phy-dp.h>
+>  #include <linux/phy/phy-mipi-dphy.h>
+>  
+>  struct phy;
+> @@ -38,7 +39,8 @@ enum phy_mode {
+>  	PHY_MODE_PCIE,
+>  	PHY_MODE_ETHERNET,
+>  	PHY_MODE_MIPI_DPHY,
+> -	PHY_MODE_SATA
+> +	PHY_MODE_SATA,
+> +	PHY_MODE_DP
+>  };
+>  
+>  /**
+> @@ -46,9 +48,12 @@ enum phy_mode {
+>   *
+>   * @mipi_dphy:	Configuration set applicable for phys supporting
+>   *		the MIPI_DPHY phy mode.
+> + * @dp:		Configuration set applicable for phys supporting
+> + *		the DisplayPort protocol.
+>   */
+>  union phy_configure_opts {
+>  	struct phy_configure_opts_mipi_dphy	mipi_dphy;
+> +	struct phy_configure_opts_dp		dp;
+>  };
+>  
+>  /**
+> 
 
-v4.19.93: Failed to apply! Possible dependencies:
-    1e55a53a28d3 ("drm: Trivial comment grammar cleanups")
-    706246c761dd ("drm/dp_mst: Refactor drm_dp_update_payload_part1()")
-    72fdb40c1a4b ("drm: extract drm_atomic_uapi.c")
-    7f4de521001f ("drm/atomic: Add __drm_atomic_helper_plane_reset")
-    a5ec8332d428 ("drm: Add per-plane pixel blend mode property")
-    c485e2c97dae ("drm/dp_mst: Refactor pdt setup/teardown, add more locking")
-    d0757afd00d7 ("drm/dp_mst: Rename drm_dp_mst_get_validated_(port|mstb)_ref and friends")
-    d86552efe10a ("drm/atomic: trim driver interface/docs")
-    dad7d84f8835 ("drm/dp_mst: Don't forget to update port->input in drm_dp_mst_handle_conn_stat()")
-    de9f8eea5a44 ("drm/atomic_helper: Stop modesets on unregistered connectors harder")
-    ebcc0e6b5091 ("drm/dp_mst: Introduce new refcounting scheme for mstbs and ports")
-    fc63668656bd ("drm/dp_mst: Remove bogus conditional in drm_dp_update_payload_part1()")
-
-v4.14.162: Failed to apply! Possible dependencies:
-    0bb9c2b27f5e ("drm/dp/mst: Sideband message transaction to power up/down nodes")
-    163bcc2c74a2 ("drm/atomic: Move drm_crtc_commit to drm_crtc_state, v4.")
-    179c02fe90a4 ("drm/tve200: Add new driver for TVE200")
-    1e55a53a28d3 ("drm: Trivial comment grammar cleanups")
-    21a01abbe32a ("drm/atomic: Fix freeing connector/plane state too early by tracking commits, v3.")
-    22a07038c0ea ("drm: NULL pointer dereference [null-pointer-deref] (CWE 476) problem")
-    24557865c8b1 ("drm: Add Content Protection property")
-    2ed077e467ee ("drm: Add drm_object lease infrastructure [v5]")
-    34ca26a98ad6 ("drm/atomic_helper: Allow DPMS On<->Off changes for unregistered connectors")
-    66660d4cf21b ("drm: add connector info/property for non-desktop displays [v2]")
-    6d544fd6f4e1 ("drm/doc: Put all driver docs into a separate chapter")
-    706246c761dd ("drm/dp_mst: Refactor drm_dp_update_payload_part1()")
-    72fdb40c1a4b ("drm: extract drm_atomic_uapi.c")
-    8d70f395e6cb ("drm: Add support for a panel-orientation connector property, v6")
-    935774cd71fe ("drm: Add writeback connector type")
-    c485e2c97dae ("drm/dp_mst: Refactor pdt setup/teardown, add more locking")
-    c76f0f7cb546 ("drm: Begin an API for in-kernel clients")
-    d0757afd00d7 ("drm/dp_mst: Rename drm_dp_mst_get_validated_(port|mstb)_ref and friends")
-    dad7d84f8835 ("drm/dp_mst: Don't forget to update port->input in drm_dp_mst_handle_conn_stat()")
-    de9f8eea5a44 ("drm/atomic_helper: Stop modesets on unregistered connectors harder")
-    e96550956fbc ("drm/atomic_helper: Disallow new modesets on unregistered connectors")
-    ebcc0e6b5091 ("drm/dp_mst: Introduce new refcounting scheme for mstbs and ports")
-    fc63668656bd ("drm/dp_mst: Remove bogus conditional in drm_dp_update_payload_part1()")
-
-v4.9.208: Failed to apply! Possible dependencies:
-    0bb9c2b27f5e ("drm/dp/mst: Sideband message transaction to power up/down nodes")
-    1cec20f0ea0e ("dma-buf: Restart reservation_object_wait_timeout_rcu() after writes")
-    3f3353b7e121 ("drm/dp: Introduce MST topology state to track available link bandwidth")
-    6806cdf9aa1c ("drm/kms-helpers: Use recommened kerneldoc for struct member refs")
-    78010cd9736e ("dma-buf/fence: add an lockdep_assert_held()")
-    9498c19b3f53 ("drm: Move tile group code into drm_connector.c")
-    9a83a71ac0d5 ("drm/fences: add DOC: for explicit fencing")
-    beaf5af48034 ("drm/fence: add out-fences support")
-    c485e2c97dae ("drm/dp_mst: Refactor pdt setup/teardown, add more locking")
-    d0757afd00d7 ("drm/dp_mst: Rename drm_dp_mst_get_validated_(port|mstb)_ref and friends")
-    d807ed1c55fb ("drm: atomic: Clarify documentation around drm_atomic_crtc_needs_modeset")
-    dad7d84f8835 ("drm/dp_mst: Don't forget to update port->input in drm_dp_mst_handle_conn_stat()")
-    ea0dd85a75f1 ("drm/doc: use preferred struct reference in kernel-doc")
-    edb1ed1ab7d3 ("drm/dp: Add DP MST helpers to atomically find and release vcpi slots")
-    f54d1867005c ("dma-buf: Rename struct fence to dma_fence")
-    fedf54132d24 ("dma-buf: Restart reservation_object_get_fences_rcu() after writes")
-
-v4.4.208: Failed to apply! Possible dependencies:
-    081e9c0f8b5f ("drm/atomic: kerneldoc for drm_atomic_crtc_needs_modeset")
-    092d01dae09a ("drm: Reorganize helper vtables and their docs")
-    0bb9c2b27f5e ("drm/dp/mst: Sideband message transaction to power up/down nodes")
-    132d49d728f3 ("drm/dp-mst: Missing kernel doc")
-    1eb83451ba55 ("drm: Pass the user drm_mode_fb_cmd2 as const to .fb_create()")
-    286dbb8d5d80 ("drm/atomic: Rename async parameter to nonblocking.")
-    373701b1fc7d ("drm: fix potential dangling else problems in for_each_ macros")
-    3f3353b7e121 ("drm/dp: Introduce MST topology state to track available link bandwidth")
-    441388a8a73f ("drm/mst: Don't ignore the MST PBN self-test result")
-    4c5b7f3ae53b ("drm/atomic: export drm_atomic_helper_wait_for_fences()")
-    5fff80bbdb6b ("drm/atomic: Allow for holes in connector state, v2.")
-    6806cdf9aa1c ("drm/kms-helpers: Use recommened kerneldoc for struct member refs")
-    69a0f89c0641 ("drm/dp/mst: constify drm_dp_mst_topology_cbs structures")
-    9953f41799bd ("drm: Kerneldoc for drm_mode_config_funcs")
-    9f2a7950e77a ("drm/atomic-helper: nonblocking commit support")
-    a095caa7f5ec ("drm/atomic-helper: roll out commit synchronization")
-    b516a9efb7af ("drm: Move LEAVE/ENTER_ATOMIC_MODESET to fbdev helpers")
-    be9174a482b9 ("drm/atomic-helper: use for_each_*_in_state more")
-    c240906d3665 ("drm/atomic-helper: Export framebuffer_changed()")
-    c485e2c97dae ("drm/dp_mst: Refactor pdt setup/teardown, add more locking")
-    d0757afd00d7 ("drm/dp_mst: Rename drm_dp_mst_get_validated_(port|mstb)_ref and friends")
-    d807ed1c55fb ("drm: atomic: Clarify documentation around drm_atomic_crtc_needs_modeset")
-    dad7d84f8835 ("drm/dp_mst: Don't forget to update port->input in drm_dp_mst_handle_conn_stat()")
-    edb1ed1ab7d3 ("drm/dp: Add DP MST helpers to atomically find and release vcpi slots")
-    ef8f9bea1368 ("dp/mst: add SDP stream support")
-
-
-NOTE: The patch will not be queued to stable trees until it is upstream.
-
-How should we proceed with this patch?
 
 -- 
-Thanks,
-Sasha
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
