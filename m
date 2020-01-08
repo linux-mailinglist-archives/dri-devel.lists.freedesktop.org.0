@@ -2,70 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3440133B5D
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 06:46:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74B5B133B89
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 07:08:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A56546E174;
-	Wed,  8 Jan 2020 05:46:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF3436E855;
+	Wed,  8 Jan 2020 06:08:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AD646E174
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 05:46:14 +0000 (UTC)
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 0085fWK6080687;
- Wed, 8 Jan 2020 05:46:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2019-08-05;
- bh=aQRbVUyJHocBW8KCphKH2dI17mFUo+d0ok0/MvtJ5kk=;
- b=E1QP2w1RGWo95dP7F3a6XHbil/PCaQO8nFFUOReHYUEnEl6bmVyMeG+ri+a4yY6yUbkm
- 12ov18ogZDbiFHT5eCQ02yYtc26UaOMRe4HUX9XYXqioRpS8cCxrodJG9mLvOZoGWUFE
- tUBCDGILHD6nD/RQjEyvTqw/tv2Mwz53hwNfKT/9Qt4opcQiEYrA/pUsMz9Brj46hJ4i
- xoauRWu1qFsui0AwRQ9Uh8OB47rWb5m5ImA/JSMP5RPI6ouilEmQ2WHR0CmCIoulVGaq
- mD4sfeqDOO1sUF2FeVtpCqAWG+EgkxvTSVlb1yUfr49wfNzDVD0r5SIYWMfFkHIoO9s7 Og== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2120.oracle.com with ESMTP id 2xajnq1ntw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 08 Jan 2020 05:46:11 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 0085flkm028345;
- Wed, 8 Jan 2020 05:46:10 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3020.oracle.com with ESMTP id 2xcpcrw745-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 08 Jan 2020 05:46:10 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0085k8cf020709;
- Wed, 8 Jan 2020 05:46:08 GMT
-Received: from kili.mountain (/129.205.23.165)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 07 Jan 2020 21:46:08 -0800
-Date: Wed, 8 Jan 2020 08:46:01 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Ben Skeggs <bskeggs@redhat.com>
-Subject: [PATCH] nouveau/secboot/gm20b: initialize pointer in
- gm20b_secboot_new()
-Message-ID: <20200108054601.mdwwtcqqpge2iwca@kili.mountain>
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0F776E17F;
+ Wed,  8 Jan 2020 06:08:10 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 47szLr5WMjz9sRf;
+ Wed,  8 Jan 2020 17:08:04 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1578463688;
+ bh=yjtgJYNjpLiclzKCjvm2LhAxhBOEzXwYBtw3gLFNUQ0=;
+ h=Date:From:To:Cc:Subject:From;
+ b=oSrJg21EzaCtDsk137+ZXZD+jbOysqR5DCxGgr8GMlS/99oGDgQEhm16yv7Ie28t3
+ 0MLHtGaRgnlm3zL81MiTEqsfVaqxLIxe7kV+9VepMYTfl+MfSOZNb+URUwxQAXizJ8
+ MtqnTO6G5HS6s6qBSp8FrOXz3gEmDP3pl8AxX3quJbXMsSDjonyiYehELoaujmu5c1
+ jaon4HXpzUyJjsPrr2W3kAcH6HJGmzvzE0YFRxoCoTPhY4qHzVLfMy5VygoKCFeXr2
+ ChxoPXGY/CLU+FUNkprOMQFTBE1qtq4rBORmQIYGjc26tGxgiTIpLsQQ7Hq3G0zYXD
+ s8izXNc24P9nQ==
+Date: Wed, 8 Jan 2020 17:08:03 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Christoph Hellwig <hch@lst.de>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
+ <dri-devel@lists.freedesktop.org>
+Subject: linux-next: manual merge of the generic-ioremap tree with the
+ drm-intel tree
+Message-ID: <20200108170803.1c91b20d@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9493
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-2001080049
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9493
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-2001080049
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,54 +51,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
- kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Alexandre Courbot <acourbot@nvidia.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Matthew Auld <matthew.auld@intel.com>
+Content-Type: multipart/mixed; boundary="===============0013450656=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We accidentally set "psb" which is a no-op instead of "*psb" so it
-generates a static checker warning.  We should probably set it before
-the first error return so that it's always initialized.
+--===============0013450656==
+Content-Type: multipart/signed; boundary="Sig_/DY3X6u8aQ1_kIqeYq914ZXw";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-Fixes: 923f1bd27bf1 ("drm/nouveau/secboot/gm20b: add secure boot support")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+--Sig_/DY3X6u8aQ1_kIqeYq914ZXw
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+Hi all,
+
+Today's linux-next merge of the generic-ioremap tree got a conflict in:
+
+  drivers/gpu/drm/i915/i915_gem_gtt.c
+
+between commit:
+
+  2c86e55d2ab5 ("drm/i915/gtt: split up i915_gem_gtt")
+
+from the drm-intel tree and commit:
+
+  4bdc0d676a64 ("remove ioremap_nocache and devm_ioremap_nocache")
+
+from the generic-ioremap tree.
+
+I fixed it up (I used the file from the former and added the following
+merge fix patch) and can carry the fix as necessary. This is now fixed
+as far as linux-next is concerned, but any non trivial conflicts should
+be mentioned to your upstream maintainer when your tree is submitted for
+merging.  You may also want to consider cooperating with the maintainer
+of the conflicting tree to minimise any particularly complex conflicts.
+
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+Date: Wed, 8 Jan 2020 17:04:59 +1100
+Subject: [PATCH] fix up for "drm/i915/gtt: split up i915_gem_gtt"
+
+Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
 ---
-Static analysis.  I'm not sure how this is called.
+ drivers/gpu/drm/i915/gt/intel_ggtt.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gm20b.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt=
+/intel_ggtt.c
+index 99189cdba8a9..1a2b5dcde960 100644
+--- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
++++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+@@ -801,7 +801,7 @@ static int ggtt_probe_common(struct i915_ggtt *ggtt, u6=
+4 size)
+ 	 * readback check when writing GTT PTE entries.
+ 	 */
+ 	if (IS_GEN9_LP(i915) || INTEL_GEN(i915) >=3D 10)
+-		ggtt->gsm =3D ioremap_nocache(phys_addr, size);
++		ggtt->gsm =3D ioremap(phys_addr, size);
+ 	else
+ 		ggtt->gsm =3D ioremap_wc(phys_addr, size);
+ 	if (!ggtt->gsm) {
+--=20
+2.24.0
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gm20b.c b/drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gm20b.c
-index df8b919dcf09..ace6fefba428 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gm20b.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gm20b.c
-@@ -108,6 +108,7 @@ gm20b_secboot_new(struct nvkm_device *device, int index,
- 	struct gm200_secboot *gsb;
- 	struct nvkm_acr *acr;
- 
-+	*psb = NULL;
- 	acr = acr_r352_new(BIT(NVKM_SECBOOT_FALCON_FECS) |
- 			   BIT(NVKM_SECBOOT_FALCON_PMU));
- 	if (IS_ERR(acr))
-@@ -116,10 +117,8 @@ gm20b_secboot_new(struct nvkm_device *device, int index,
- 	acr->optional_falcons = BIT(NVKM_SECBOOT_FALCON_PMU);
- 
- 	gsb = kzalloc(sizeof(*gsb), GFP_KERNEL);
--	if (!gsb) {
--		psb = NULL;
-+	if (!gsb)
- 		return -ENOMEM;
--	}
- 	*psb = &gsb->base;
- 
- 	ret = nvkm_secboot_ctor(&gm20b_secboot, acr, device, index, &gsb->base);
--- 
-2.11.0
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/DY3X6u8aQ1_kIqeYq914ZXw
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl4VccMACgkQAVBC80lX
+0GzkLAf9GVolluU4K7M7MdQINLQMtBjkyGZqt480dJn7crPAZxq2s0usXsoXMT6x
+w066yy0zLuu9SzxoC5ixntHzRHwWFhhzqWji0MCHNNYv/bEQiAHEgYooEX3e2bVJ
+1QrnE4Y2VZylpE1DVPY1hHRqY8ybeEzpybU+LGWlu6cyL8X7FsIwPVru08K6DspV
+2FmhaxUx3fu0acr4TQ+2WdVxsjAtmZQLO52kq9pqiTmjncXaD7NwqT+l4LDxb52c
+Nd/8+V8gUp4lo4rjK4D10QEmBn8a74OKdHRnYuwjVeaTVRGCTw2tEAi/bCWSwuhJ
+viaB1+O9Sed9q0eKOmeO1bjm/hvJjA==
+=Z6gs
+-----END PGP SIGNATURE-----
+
+--Sig_/DY3X6u8aQ1_kIqeYq914ZXw--
+
+--===============0013450656==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0013450656==--
