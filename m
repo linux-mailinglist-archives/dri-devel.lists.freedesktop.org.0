@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BE8F133846
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 02:10:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF68F133854
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 02:15:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27FEB6E158;
-	Wed,  8 Jan 2020 01:10:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2DFF6E15A;
+	Wed,  8 Jan 2020 01:15:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF18E6E158;
- Wed,  8 Jan 2020 01:10:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E234E6E15A;
+ Wed,  8 Jan 2020 01:15:30 +0000 (UTC)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 47srln734mz9sRf;
- Wed,  8 Jan 2020 12:10:45 +1100 (AEDT)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 47srsD5Jtzz9sRl;
+ Wed,  8 Jan 2020 12:15:28 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1578445846;
- bh=8snj5kP76dO4vwtqodaDJCVWIHACH1y3jhD4DSEN0bM=;
+ s=201702; t=1578446129;
+ bh=WLW9s4Q6bkfwP6wWJS5exAJsayPk4KKaWV7JLajorGA=;
  h=Date:From:To:Cc:Subject:From;
- b=LSHtolFT2hA75F1bJn8csV5oKJvFi/Ls9z/Pwd6GLLc1gPli4slfsCyFgIj5tzXMY
- 0togMcts7I0XTlC17mOusm9z3qOI8VetYsFRmiTDFHotwDtOec/XvM7TfUi5I5tHpS
- eALLJAWUoHDuDBeBXpR9YKlDJqvA328wzOWo6CEZXZLCio1edmvb45WNKBz5hHUeVa
- HiaqujaT2p2GuV5ZfFgBJeG9VapSXBdgpiqtrjWveNBGwcqj0nh84VglkBxBKCiBrH
- 5ZCB8PDGxo8c/LRpMw9lFwHdDUBvAIBs/jxRBT41MjZdaePZuNF5c8XLt3KCo3bDYP
- PDdZYv1cAjShw==
-Date: Wed, 8 Jan 2020 12:10:44 +1100
+ b=lYRkCjgnuv1rq7lOgF5SDeVPUH+redG/CrYRA9hDhpQPjLkryYyzbB/v3CxUlmsx+
+ AqjMl5Haap3euKwXkBEwnG3PYt537VXayBH+mE3LnYjI9v6m/e7tzIwx7a9gALT+xy
+ 3135NW0/GCQ4ekUVUUL5L1Cfo3FePkN7Evhi2XpEI10mAUL/YlzvM7BpybP4J4mvVQ
+ aQ4uv9MxBAoqiMKyJKTGMQZnzqNXN0zPMkfUWWqkDYoMY8qZiATklgLtomPogy2cg7
+ SygUd6ZTD3NO76wCDeeRYKjzUpukZSO13oOMFGlA02knynBZXJEKsmU00UVyEBv5CO
+ vxqHHLPFvwcLg==
+Date: Wed, 8 Jan 2020 12:15:28 +1100
 From: Stephen Rothwell <sfr@canb.auug.org.au>
 To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>,
  Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
@@ -36,7 +36,7 @@ To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>,
  <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Intel Graphics <intel-gfx@lists.freedesktop.org>
 Subject: linux-next: manual merge of the drm tree with the drm-intel-fixes tree
-Message-ID: <20200108121044.5edb4992@canb.auug.org.au>
+Message-ID: <20200108121528.5a800a65@canb.auug.org.au>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,17 +50,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+Cc: Manasi Navare <manasi.d.navare@intel.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="===============1625074878=="
+Content-Type: multipart/mixed; boundary="===============1548564681=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1625074878==
-Content-Type: multipart/signed; boundary="Sig_/3R2owpPGhb9DVxdhV1I8.j/";
+--===============1548564681==
+Content-Type: multipart/signed; boundary="Sig_/0S8l_O_FFF2_z+jPteUKeci";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 
---Sig_/3R2owpPGhb9DVxdhV1I8.j/
+--Sig_/0S8l_O_FFF2_z+jPteUKeci
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
@@ -68,48 +69,91 @@ Hi all,
 
 Today's linux-next merge of the drm tree got a conflict in:
 
-  drivers/gpu/drm/i915/i915_drv.h
+  drivers/gpu/drm/i915/display/intel_display.c
 
 between commit:
 
-  ce69e553b9a4 ("drm/i915/gt: Restore coarse power gating")
+  2b2c4a83d69d ("drm/i915/dp: Disable Port sync mode correctly on teardown")
 
 from the drm-intel-fixes tree and commit:
 
-  90eb7d2aa3ce ("drm/i915: Simplify NEEDS_WaRsDisableCoarsePowerGating")
+  773b4b54351c ("drm/i915: Move stuff from haswell_crtc_disable() into enco=
+der .post_disable()")
 
 from the drm tree.
 
-I fixed it up (I have no idea about this, so I just used the latter
-version) and can carry the fix as necessary. This is now fixed as far as
-linux-next is concerned, but any non trivial conflicts should be mentioned
-to your upstream maintainer when your tree is submitted for merging.
-You may also want to consider cooperating with the maintainer of the
+I fixed it up (I applied the change to icl_disable_transcoder_port_sync()
+from the former commit in its new location - see patch below) and can
+carry the fix as necessary. This is now fixed as far as linux-next is
+concerned, but any non trivial conflicts should be mentioned to your
+upstream maintainer when your tree is submitted for merging.  You may
+also want to consider cooperating with the maintainer of the
 conflicting tree to minimise any particularly complex conflicts.
+
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+Date: Wed, 8 Jan 2020 12:12:45 +1100
+Subject: [PATCH] drm/i915: fixup for "drm/i915/dp: Disable Port sync mode
+ correctly on teardown"
+
+Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+---
+ drivers/gpu/drm/i915/display/intel_ddi.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i91=
+5/display/intel_ddi.c
+index c9ba7d7f3787..e535a3b85575 100644
+--- a/drivers/gpu/drm/i915/display/intel_ddi.c
++++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+@@ -3860,8 +3860,6 @@ static void icl_disable_transcoder_port_sync(const st=
+ruct intel_crtc_state *old_
+ {
+ 	struct intel_crtc *crtc =3D to_intel_crtc(old_crtc_state->uapi.crtc);
+ 	struct drm_i915_private *dev_priv =3D to_i915(crtc->base.dev);
+-	i915_reg_t reg;
+-	u32 trans_ddi_func_ctl2_val;
+=20
+ 	if (old_crtc_state->master_transcoder =3D=3D INVALID_TRANSCODER)
+ 		return;
+@@ -3869,10 +3867,7 @@ static void icl_disable_transcoder_port_sync(const s=
+truct intel_crtc_state *old_
+ 	DRM_DEBUG_KMS("Disabling Transcoder Port Sync on Slave Transcoder %s\n",
+ 		      transcoder_name(old_crtc_state->cpu_transcoder));
+=20
+-	reg =3D TRANS_DDI_FUNC_CTL2(old_crtc_state->cpu_transcoder);
+-	trans_ddi_func_ctl2_val =3D ~(PORT_SYNC_MODE_ENABLE |
+-				    PORT_SYNC_MODE_MASTER_SELECT_MASK);
+-	I915_WRITE(reg, trans_ddi_func_ctl2_val);
++	I915_WRITE(TRANS_DDI_FUNC_CTL2(old_crtc_state->cpu_transcoder), 0);
+ }
+=20
+ static void intel_ddi_post_disable(struct intel_encoder *encoder,
+--=20
+2.24.0
 
 --=20
 Cheers,
 Stephen Rothwell
 
---Sig_/3R2owpPGhb9DVxdhV1I8.j/
+--Sig_/0S8l_O_FFF2_z+jPteUKeci
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl4VLBQACgkQAVBC80lX
-0GyUqAf9FNfH1ULiBD17CzD+OZNTl4C+JPgs1amIfl6E493anPXkH/CQeDJs5Hgy
-Idsqv/KaqEXLbkcMLCdpqq4iO+ySstjUQWojpnWClE8yGXxlnHZPJxmw+5wk8B79
-yJzznQoQTLw4Qv8Fa/IceM5ZB75Bzr+gitgCA3JsO1lN0V9bxd2lFS+JY+AxHYc4
-XlKBVvssh2iVH++cVG6M6TbBkb1QDujK38+XdzVwxXhUWxmVExcC/dq3UMHxWjSo
-oPvFgsYV0f3mnpP+iNvO4QjzIEYX0eoLCQg+cAc0ijAAUOm7977b7wmXgkf6GexR
-1GUsZNYhZVmkFZbL051UGcvcKeWJyw==
-=Nr1N
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl4VLTAACgkQAVBC80lX
+0GxQ0Af+JWKZelrEALDfQfGtW3uISstZ63INkQ42kft7UNa2Kjv/0IV5oZlwuq0u
+w9g23iZGl4xdwu9mAGA8EoomH2haNoMLKlhWHOnPspKwy9DW2vDg0hqijPMla6OC
+vC/F0wzRn9BerGsjow6wErxfjV2KEiqJTqoykr+t083tqsf94JsqFclXgh8EoxvG
+BScp8pePlvWk8FpBYEfcP8JpKkYZa+NPgVEHjzN2knBzBe/YNzApdth6fnD27VZl
+lBzvND0LbdQ02OgDkH9uhCRXMBOsKMSklGQ5EvpumG0CkG2NwRe8qv7UtFbXqQyX
+WBzAlymRoDMvQZP0AEUvsPkRhoWygg==
+=5PNq
 -----END PGP SIGNATURE-----
 
---Sig_/3R2owpPGhb9DVxdhV1I8.j/--
+--Sig_/0S8l_O_FFF2_z+jPteUKeci--
 
---===============1625074878==
+--===============1548564681==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -120,4 +164,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1625074878==--
+--===============1548564681==--
