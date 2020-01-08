@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68525134E99
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 22:13:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47234134E9E
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 22:13:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89F506E8D0;
-	Wed,  8 Jan 2020 21:12:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04F216E8D4;
+	Wed,  8 Jan 2020 21:12:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from o1.b.az.sendgrid.net (o1.b.az.sendgrid.net [208.117.55.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DFBC6E8C7
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 21:12:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCB546E8C9
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 21:12:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
  h=from:subject:in-reply-to:references:to:cc:content-type:
  content-transfer-encoding;
- s=001; bh=l+ozEXcAcbxudZpKacgFo3ceEpSnl6xSv3pANc4ozyU=;
- b=VLIoJRoLLX6vp+0o/gTni8uvzBtky3Is0xxi4tlzNnK7kUf/Ae49zVMQ2jgR4BHUbHJS
- MZPiuf30fuSmtQqqvfKNHJ5bw2rzqTN/2gtlu/3eDMAX1xAwebb1sIqCRnr8daACy6/VZE
- euzThXCkZxiwuPgxZNITbJsQQDJwnw7G8=
-Received: by filterdrecv-p3mdw1-56c97568b5-xjbx9 with SMTP id
- filterdrecv-p3mdw1-56c97568b5-xjbx9-19-5E1644A6-39
- 2020-01-08 21:07:50.55100434 +0000 UTC m=+1974283.600906199
+ s=001; bh=9Jj+NAbgprA6DENYOuHp17AlmWy0xXfyrllq+OdkH7g=;
+ b=MBDdbuzSOQT00uVzFB1TeI26jQ5PDsgZnGvXzcl1mhwrxnNIJihsvibTsqsqjVFvv2AH
+ QCkPIfTMP8VrOfR9URTfX9EFYtsEXPODmCxrF/tb00YfTKt1eNZcU3EE/Q8cc6/UFIoqJ2
+ nOfv0S4+udiMZcqf23vtrLAQdCU229B/g=
+Received: by filterdrecv-p3mdw1-56c97568b5-9vfcv with SMTP id
+ filterdrecv-p3mdw1-56c97568b5-9vfcv-17-5E1644A7-6C
+ 2020-01-08 21:07:51.781361678 +0000 UTC m=+1974280.403924586
 Received: from bionic.localdomain (unknown [98.128.173.80])
- by ismtpd0005p1lon1.sendgrid.net (SG) with ESMTP id 2iKuRjWuSoGvt9DqI_9m9w
- Wed, 08 Jan 2020 21:07:50.352 +0000 (UTC)
+ by ismtpd0005p1lon1.sendgrid.net (SG) with ESMTP id hV9nQRodQD6D2W9vsowA8Q
+ Wed, 08 Jan 2020 21:07:51.581 +0000 (UTC)
 From: Jonas Karlman <jonas@kwiboo.se>
-Subject: [PATCH v2 08/14] clk: rockchip: set parent rate for DCLK_VOP clock on
+Subject: [PATCH v2 11/14] ARM: dts: rockchip: add vpll clock to hdmi node on
  rk3228
-Date: Wed, 08 Jan 2020 21:07:50 +0000 (UTC)
-Message-Id: <20200108210740.28769-9-jonas@kwiboo.se>
+Date: Wed, 08 Jan 2020 21:07:51 +0000 (UTC)
+Message-Id: <20200108210740.28769-12-jonas@kwiboo.se>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200108210740.28769-1-jonas@kwiboo.se>
 References: <20200108210740.28769-1-jonas@kwiboo.se>
 X-SG-EID: =?us-ascii?Q?TdbjyGynYnRZWhH+7lKUQJL+ZxmxpowvO2O9SQF5CwCVrYgcwUXgU5DKUU3QxA?=
- =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0h338FT8hLbQuZn3EF?=
- =?us-ascii?Q?h3noMqyfEkSUfLuG04rziUH9YtKqSQPgd3OlYiQ?=
- =?us-ascii?Q?bBtqVjSu834dHYTOnUcRfTOS81p7D20pu6IVT9m?=
- =?us-ascii?Q?UjgsPdE7jjPeZHJWmVxHq56DF+yAktZSbLDQSgA?=
- =?us-ascii?Q?bbGeFNc2uBi0CfIQ3=2FFPYW=2FqvxH70dkTB9svJMH?=
- =?us-ascii?Q?nX743XyrkzTTOOYobJkKA=3D=3D?=
+ =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0h=2FbbmpOPRsDtGkVba?=
+ =?us-ascii?Q?CkWsg18J6MAJ=2F7UNlaGwK9UO1pBiv2MXipeMHJe?=
+ =?us-ascii?Q?4mrzEuk8+FykzeKYZEmvF9diWYbEVuFiNzB6vA+?=
+ =?us-ascii?Q?cN9x1=2FgA1f+XEx7g4Me5v8cY+MQazBzaEHe4kPp?=
+ =?us-ascii?Q?JJE6uiU7=2F2aUz4xSmMAh3IlfBzORt71yHu9EV23?=
+ =?us-ascii?Q?oEwl2MVxrg=2FxNdKBaADBg=3D=3D?=
 To: Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,24 +63,28 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Add the hdmiphy clock as the vpll in hdmi node.
+
 Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 ---
- drivers/clk/rockchip/clk-rk3228.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm/boot/dts/rk322x.dtsi | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/clk/rockchip/clk-rk3228.c b/drivers/clk/rockchip/clk-rk3228.c
-index d17cfb7a3ff4..25f79af22cb8 100644
---- a/drivers/clk/rockchip/clk-rk3228.c
-+++ b/drivers/clk/rockchip/clk-rk3228.c
-@@ -410,7 +410,7 @@ static struct rockchip_clk_branch rk3228_clk_branches[] __initdata = {
- 			RK2928_CLKSEL_CON(29), 0, 3, DFLAGS),
- 	DIV(0, "sclk_vop_pre", "sclk_vop_src", 0,
- 			RK2928_CLKSEL_CON(27), 8, 8, DFLAGS),
--	MUX(DCLK_VOP, "dclk_vop", mux_dclk_vop_p, 0,
-+	MUX(DCLK_VOP, "dclk_vop", mux_dclk_vop_p, CLK_SET_RATE_PARENT | CLK_SET_RATE_NO_REPARENT,
- 			RK2928_CLKSEL_CON(27), 1, 1, MFLAGS),
- 
- 	FACTOR(0, "xin12m", "xin24m", 0, 1, 2),
+diff --git a/arch/arm/boot/dts/rk322x.dtsi b/arch/arm/boot/dts/rk322x.dtsi
+index 340ed6ccb08f..16ad240d5f7f 100644
+--- a/arch/arm/boot/dts/rk322x.dtsi
++++ b/arch/arm/boot/dts/rk322x.dtsi
+@@ -639,8 +639,8 @@
+ 		interrupts = <GIC_SPI 35 IRQ_TYPE_LEVEL_HIGH>;
+ 		assigned-clocks = <&cru SCLK_HDMI_PHY>;
+ 		assigned-clock-parents = <&hdmi_phy>;
+-		clocks = <&cru SCLK_HDMI_HDCP>, <&cru PCLK_HDMI_CTRL>, <&cru SCLK_HDMI_CEC>;
+-		clock-names = "isfr", "iahb", "cec";
++		clocks = <&cru SCLK_HDMI_HDCP>, <&cru PCLK_HDMI_CTRL>, <&hdmi_phy>, <&cru SCLK_HDMI_CEC>;
++		clock-names = "isfr", "iahb", "vpll", "cec";
+ 		pinctrl-names = "default";
+ 		pinctrl-0 = <&hdmii2c_xfer &hdmi_hpd &hdmi_cec>;
+ 		resets = <&cru SRST_HDMI_P>;
 -- 
 2.17.1
 
