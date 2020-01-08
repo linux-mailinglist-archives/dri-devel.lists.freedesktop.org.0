@@ -1,42 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF68F133854
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 02:15:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D64B133887
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 02:39:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2DFF6E15A;
-	Wed,  8 Jan 2020 01:15:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC7216E11E;
+	Wed,  8 Jan 2020 01:39:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E234E6E15A;
- Wed,  8 Jan 2020 01:15:30 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 47srsD5Jtzz9sRl;
- Wed,  8 Jan 2020 12:15:28 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1578446129;
- bh=WLW9s4Q6bkfwP6wWJS5exAJsayPk4KKaWV7JLajorGA=;
- h=Date:From:To:Cc:Subject:From;
- b=lYRkCjgnuv1rq7lOgF5SDeVPUH+redG/CrYRA9hDhpQPjLkryYyzbB/v3CxUlmsx+
- AqjMl5Haap3euKwXkBEwnG3PYt537VXayBH+mE3LnYjI9v6m/e7tzIwx7a9gALT+xy
- 3135NW0/GCQ4ekUVUUL5L1Cfo3FePkN7Evhi2XpEI10mAUL/YlzvM7BpybP4J4mvVQ
- aQ4uv9MxBAoqiMKyJKTGMQZnzqNXN0zPMkfUWWqkDYoMY8qZiATklgLtomPogy2cg7
- SygUd6ZTD3NO76wCDeeRYKjzUpukZSO13oOMFGlA02knynBZXJEKsmU00UVyEBv5CO
- vxqHHLPFvwcLg==
-Date: Wed, 8 Jan 2020 12:15:28 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm tree with the drm-intel-fixes tree
-Message-ID: <20200108121528.5a800a65@canb.auug.org.au>
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A690D6E11E;
+ Wed,  8 Jan 2020 01:39:03 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id k25so734044pgt.7;
+ Tue, 07 Jan 2020 17:39:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qrBHJRFSRA4AlmSOTlxgOJ04a73uvSIbhRd+GAk2pRE=;
+ b=ejeetgrcvv9LsANDxK4s91NGCUtBlKd9sKWqIIK30ge81Kr3B8uhtVoCvfC+V8RuZo
+ k3tsAtYkYe+3Kj9IzIcdhnuZpq6JQKfNqfS+pPtEXTjMDRTixQSCX1D/GUUY/qg23W2N
+ YzM9zAOOlCEBSqx4grMnk0Z24bb7ilMh17h4wjC4MqvnSpejwCKLFk2XvVbFcbVB35tp
+ 41feryqS09briYf4eGcDGNuUU4XLmSVnU+X9EMbw1C2Gi0MUp7iCiq39bRvvhzBEC1we
+ WNT8TtlhktCHnPYfsp+GAIdGW2wHPu8p/3DVaAlxLAoasAomod10GTlOiuqQdCtG6UPU
+ 9YHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qrBHJRFSRA4AlmSOTlxgOJ04a73uvSIbhRd+GAk2pRE=;
+ b=tvBqQJhz3cyS226DRaDMKbPlBdHpJqB0xcZG3SF+6AOItNRcHdbbHS1k0lXJ9ZlEtK
+ 0GneUfFRV4TrjOHE9KsekoaCa6h0QPlnOrYm9SLkObrMXJet8Jj1L7OxlR69W2AfsNYg
+ TOziCbkRk6SC1VBcuLsmGUTIwF3G0JK7K9M+Jje/CVYnorF0HA+cCoKRVUYCfjIgQLSP
+ uKOkqIkBpU9Y90gH7a2jnNAu3LpqvobdywoKPkHx6E10Qd6goU9tuO1YQ4mPQyPKC7XD
+ Pj5gOmiFzdJk6c7Fd0/dnLT9CHKMKwAr77eWCN9c1c7ch39su28CZ1G9BBNoIr/lOfrI
+ Cv+g==
+X-Gm-Message-State: APjAAAUcGmzMFxAgv+zWGppCaJqFhECnVGDWAs4WMJ4581eyWTBBME4q
+ 9h/8ORnZQt6s0aVdpVG1Xwbuh8HNf3o=
+X-Google-Smtp-Source: APXvYqx/RXCffdkJxN9926F2ZtBJ7RCAjEZ+yRHzVoEMHDlC2SG4j9p18uaRcrabtEj3ZNUIWgSNsQ==
+X-Received: by 2002:aa7:8007:: with SMTP id j7mr2431615pfi.71.1578447542963;
+ Tue, 07 Jan 2020 17:39:02 -0800 (PST)
+Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
+ by smtp.gmail.com with ESMTPSA id 73sm1032858pgc.13.2020.01.07.17.39.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Jan 2020 17:39:02 -0800 (PST)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/3] drm/msm: use firmware-name to find zap fw
+Date: Tue,  7 Jan 2020 17:38:41 -0800
+Message-Id: <20200108013847.899170-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,118 +64,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Manasi Navare <manasi.d.navare@intel.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="===============1548564681=="
+Cc: Rob Clark <robdclark@chromium.org>, devicetree@vger.kernel.org,
+ Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, linux-arm-msm@vger.kernel.org,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Thomas Gleixner <tglx@linutronix.de>, freedreno@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>, Brian Masney <masneyb@onstation.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1548564681==
-Content-Type: multipart/signed; boundary="Sig_/0S8l_O_FFF2_z+jPteUKeci";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+From: Rob Clark <robdclark@chromium.org>
 
---Sig_/0S8l_O_FFF2_z+jPteUKeci
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+For devices which use zap fw to take the GPU out of secure mode on
+reset, the firmware is likely to be signed with a device specific key.
+Meaning that we can't have a single filesystem (or /lib/firmware) that
+works on multiple devices.
 
-Hi all,
+So allow a firmware-name to be specified in the zap-shader node in dt.
+This moves the zap-shader node out of the core sdm845.dtsi and into per-
+device dts files.  Which also removes the need for /delete-node/ in
+sdm845-cheza.dtsi (as cheza devices do not use zap).
 
-Today's linux-next merge of the drm tree got a conflict in:
+This aligns with how Bjorn has been handling the similar situation with
+adsp/cdsp/mpss fw:
 
-  drivers/gpu/drm/i915/display/intel_display.c
+   https://patchwork.kernel.org/patch/11160089/
 
-between commit:
+Rob Clark (3):
+  drm/msm: support firmware-name for zap fw
+  dt-bindings: drm/msm/gpu: Document firmware-name
+  arm64: dts: sdm845: move gpu zap nodes to per-device dts
 
-  2b2c4a83d69d ("drm/i915/dp: Disable Port sync mode correctly on teardown")
+ .../devicetree/bindings/display/msm/gpu.txt   |  3 ++
+ arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi    |  1 -
+ arch/arm64/boot/dts/qcom/sdm845-db845c.dts    |  7 ++++
+ arch/arm64/boot/dts/qcom/sdm845-mtp.dts       |  8 +++++
+ arch/arm64/boot/dts/qcom/sdm845.dtsi          |  6 +---
+ .../boot/dts/qcom/sdm850-lenovo-yoga-c630.dts |  7 ++++
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c       | 32 +++++++++++++++++--
+ 7 files changed, 55 insertions(+), 9 deletions(-)
 
-from the drm-intel-fixes tree and commit:
-
-  773b4b54351c ("drm/i915: Move stuff from haswell_crtc_disable() into enco=
-der .post_disable()")
-
-from the drm tree.
-
-I fixed it up (I applied the change to icl_disable_transcoder_port_sync()
-from the former commit in its new location - see patch below) and can
-carry the fix as necessary. This is now fixed as far as linux-next is
-concerned, but any non trivial conflicts should be mentioned to your
-upstream maintainer when your tree is submitted for merging.  You may
-also want to consider cooperating with the maintainer of the
-conflicting tree to minimise any particularly complex conflicts.
-
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-Date: Wed, 8 Jan 2020 12:12:45 +1100
-Subject: [PATCH] drm/i915: fixup for "drm/i915/dp: Disable Port sync mode
- correctly on teardown"
-
-Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
----
- drivers/gpu/drm/i915/display/intel_ddi.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i91=
-5/display/intel_ddi.c
-index c9ba7d7f3787..e535a3b85575 100644
---- a/drivers/gpu/drm/i915/display/intel_ddi.c
-+++ b/drivers/gpu/drm/i915/display/intel_ddi.c
-@@ -3860,8 +3860,6 @@ static void icl_disable_transcoder_port_sync(const st=
-ruct intel_crtc_state *old_
- {
- 	struct intel_crtc *crtc =3D to_intel_crtc(old_crtc_state->uapi.crtc);
- 	struct drm_i915_private *dev_priv =3D to_i915(crtc->base.dev);
--	i915_reg_t reg;
--	u32 trans_ddi_func_ctl2_val;
-=20
- 	if (old_crtc_state->master_transcoder =3D=3D INVALID_TRANSCODER)
- 		return;
-@@ -3869,10 +3867,7 @@ static void icl_disable_transcoder_port_sync(const s=
-truct intel_crtc_state *old_
- 	DRM_DEBUG_KMS("Disabling Transcoder Port Sync on Slave Transcoder %s\n",
- 		      transcoder_name(old_crtc_state->cpu_transcoder));
-=20
--	reg =3D TRANS_DDI_FUNC_CTL2(old_crtc_state->cpu_transcoder);
--	trans_ddi_func_ctl2_val =3D ~(PORT_SYNC_MODE_ENABLE |
--				    PORT_SYNC_MODE_MASTER_SELECT_MASK);
--	I915_WRITE(reg, trans_ddi_func_ctl2_val);
-+	I915_WRITE(TRANS_DDI_FUNC_CTL2(old_crtc_state->cpu_transcoder), 0);
- }
-=20
- static void intel_ddi_post_disable(struct intel_encoder *encoder,
---=20
-2.24.0
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/0S8l_O_FFF2_z+jPteUKeci
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl4VLTAACgkQAVBC80lX
-0GxQ0Af+JWKZelrEALDfQfGtW3uISstZ63INkQ42kft7UNa2Kjv/0IV5oZlwuq0u
-w9g23iZGl4xdwu9mAGA8EoomH2haNoMLKlhWHOnPspKwy9DW2vDg0hqijPMla6OC
-vC/F0wzRn9BerGsjow6wErxfjV2KEiqJTqoykr+t083tqsf94JsqFclXgh8EoxvG
-BScp8pePlvWk8FpBYEfcP8JpKkYZa+NPgVEHjzN2knBzBe/YNzApdth6fnD27VZl
-lBzvND0LbdQ02OgDkH9uhCRXMBOsKMSklGQ5EvpumG0CkG2NwRe8qv7UtFbXqQyX
-WBzAlymRoDMvQZP0AEUvsPkRhoWygg==
-=5PNq
------END PGP SIGNATURE-----
-
---Sig_/0S8l_O_FFF2_z+jPteUKeci--
-
---===============1548564681==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+-- 
+2.24.1
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1548564681==--
