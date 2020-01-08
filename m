@@ -1,74 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA982134AF9
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 19:52:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA2CB134B12
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 19:58:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93A8889E2B;
-	Wed,  8 Jan 2020 18:51:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59B516E321;
+	Wed,  8 Jan 2020 18:58:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
- [104.130.122.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD9A589DF9
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 18:51:57 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1578509517; h=In-Reply-To: Content-Type: MIME-Version:
- References: Message-ID: Subject: Cc: To: From: Date: Sender;
- bh=gTr19O6/h1bieTEtOdTwKJcuvZEZhmSsjFCuP6lT+N4=;
- b=aeS/6dswpDS3xqB6W+X5iINVKtG/Jn4yrKGz9YsIdslHDbTyZS3ifg5YZMqAFe1FxhBt6SHr
- 8GI9zDcfXS7Q2/tBaOH/yPInwtd+9qMf10xDH2JfAK/mOkFEUDRqxfQQjfCzhFKruCct+YZu
- 1zy55IK9kIc58C/6kPArWQ/XGIQ=
-X-Mailgun-Sending-Ip: 104.130.122.26
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e162418.7fb376ac6420-smtp-out-n03;
- Wed, 08 Jan 2020 18:48:56 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 1EE57C447AE; Wed,  8 Jan 2020 18:48:55 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id B59D8C4479F;
- Wed,  8 Jan 2020 18:48:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org B59D8C4479F
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=jcrouse@codeaurora.org
-Date: Wed, 8 Jan 2020 11:48:50 -0700
-From: Jordan Crouse <jcrouse@codeaurora.org>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH 1/3] drm/msm: support firmware-name for zap fw
-Message-ID: <20200108184850.GA13260@jcrouse1-lnx.qualcomm.com>
-Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- Rob Clark <robdclark@chromium.org>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Douglas Anderson <dianders@chromium.org>,
- Brian Masney <masneyb@onstation.org>,
- Fabio Estevam <festevam@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- open list <linux-kernel@vger.kernel.org>
-References: <20200108013847.899170-1-robdclark@gmail.com>
- <20200108013847.899170-2-robdclark@gmail.com>
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D5256E321
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 18:58:52 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id a5so57334wmb.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2020 10:58:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=NYn//EmKDly6maWi30qVPTzKbUb47omFrbFGUll/6qc=;
+ b=bjo/exzd2JCuXqWh5dUCvy5W7hu73p0ZVdPTaqK6Ld84p1K9byRveFdDYZflv2hD69
+ f6cOdOpfozJnEJxnJI5Sg+bsK5pLDeuQ35fDEmmTNOxNIRR6afbBc26llEj4XuoSlrTO
+ 3kXXJsAPmCUIwSZkcMOYqu+hQaRMyQJEZcANM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=NYn//EmKDly6maWi30qVPTzKbUb47omFrbFGUll/6qc=;
+ b=fmp3AzMgLdjkZja8dhsS+mu9be61HPDG2IfMEYi0Anxpm/n3SG3C23rWUBkE0iUwVq
+ pNTh3LQIwtKVaAAgOCa+/jjD3+elGpQmkmE01E6L0lehBJgFH/EwmkKmvqxBZhlP7tNd
+ BNXtDBPYQ5Gi0okPxgSjzzC97eN1HEiTiH3pZ3DG/KHt2A3MEors2HAD4mC0UHr8BE8l
+ AlMQViyBjL2UmT/0O0DMXGWOcf66dEyOiLuERyyW0CNqSPvEzNbXjlDFJZ/w2AEMpUX5
+ M92ci0c/31zH5qq9N82pmLBXVUOCUnDVbU7Tz8EwYIpxM/SiPKOYj9BHy9r+X/kmQhiz
+ JJEA==
+X-Gm-Message-State: APjAAAWnfen20XqpZ6DHMJglDHlFbvY2ayjjX6Eocu8ILyoAN98Gs3GC
+ zxhPkS1MkjJ//pOs8MnvE/zwrbEET5g=
+X-Google-Smtp-Source: APXvYqykaQ3IydKyTZie4MyatJYooOWlDjNIof4YMAy5rNTlSsCfmuHSy+M1oTg071QCffXh4mM4Xw==
+X-Received: by 2002:a1c:7dc4:: with SMTP id y187mr5404348wmc.161.1578509363468; 
+ Wed, 08 Jan 2020 10:49:23 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:564b:0:7567:bb67:3d7f:f863])
+ by smtp.gmail.com with ESMTPSA id p15sm4505634wma.40.2020.01.08.10.49.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Jan 2020 10:49:22 -0800 (PST)
+Date: Wed, 8 Jan 2020 19:49:20 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v2 2/2] drm/print: document DRM_ logging functions
+Message-ID: <20200108184920.GI43062@phenom.ffwll.local>
+References: <20200102221519.31037-1-sam@ravnborg.org>
+ <20200102221519.31037-3-sam@ravnborg.org>
+ <20200107160852.GD43062@phenom.ffwll.local>
+ <20200107181752.GA20555@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200108013847.899170-2-robdclark@gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <20200107181752.GA20555@ravnborg.org>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,103 +67,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Sharat Masetty <smasetty@codeaurora.org>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Thomas Gleixner <tglx@linutronix.de>, freedreno@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>, Brian Masney <masneyb@onstation.org>
+Cc: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
+ Joe Perches <joe@perches.com>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 07, 2020 at 05:38:42PM -0800, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
+On Tue, Jan 07, 2020 at 07:17:52PM +0100, Sam Ravnborg wrote:
+> Hi Daniel.
 > 
-> Since zap firmware can be device specific, allow for a firmware-name
-> property in the zap node to specify which firmware to load, similarly to
-> the scheme used for dsp/wifi/etc.
+> > > + * Logging when a &device * is available, but no &drm_device *
+> > > + * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > > + *
+> > > + * DRM/Drivers can use the following functions for logging when there is a
+> > > + * struct device * available.
+> > > + * The logging functions share the same prototype:
+> > 
+> > I'd replace the entire block with a "This stuff is deprecated" warning. We
+> > have at least a corresponding todo.rst entry.
 > 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->  drivers/gpu/drm/msm/adreno/adreno_gpu.c | 32 ++++++++++++++++++++++---
->  1 file changed, 29 insertions(+), 3 deletions(-)
+> We have many situations where no drm_device is available.
+> At least when you a buried in drm_panel patches.
 > 
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> index 112e8b8a261e..aa8737bd58db 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> @@ -26,6 +26,7 @@ static int zap_shader_load_mdt(struct msm_gpu *gpu, const char *fwname,
->  {
->  	struct device *dev = &gpu->pdev->dev;
->  	const struct firmware *fw;
-> +	const char *signed_fwname = NULL;
->  	struct device_node *np, *mem_np;
->  	struct resource r;
->  	phys_addr_t mem_phys;
-> @@ -58,8 +59,33 @@ static int zap_shader_load_mdt(struct msm_gpu *gpu, const char *fwname,
->  
->  	mem_phys = r.start;
->  
-> -	/* Request the MDT file for the firmware */
-> -	fw = adreno_request_fw(to_adreno_gpu(gpu), fwname);
-> +	/*
-> +	 * Check for a firmware-name property.  This is the new scheme
-> +	 * to handle firmware that may be signed with device specific
-> +	 * keys, allowing us to have a different zap fw path for different
-> +	 * devices.
-> +	 *
-> +	 * If the firmware-name property is found, we bypass the
-> +	 * adreno_request_fw() mechanism, because we don't need to handle
-> +	 * the /lib/firmware/qcom/* vs /lib/firmware/* case.
-> +	 *
-> +	 * If the firmware-name property is not found, for backwards
-> +	 * compatibility we fall back to the fwname from the gpulist
-> +	 * table.
-> +	 */
-> +	of_property_read_string_index(np, "firmware-name", 0, &signed_fwname);
-> +	if (signed_fwname) {
-> +		fwname = signed_fwname;
-> +		ret = request_firmware_direct(&fw, signed_fwname, gpu->dev->dev);
-> +		if (ret) {
-> +			DRM_DEV_ERROR(dev, "could not load signed zap firmware: %d\n", ret);
-> +			fw = ERR_PTR(ret);
-> +		}
-> +	} else {
-> +		/* Request the MDT file for the firmware */
-> +		fw = adreno_request_fw(to_adreno_gpu(gpu), fwname);
-> +	}
-> +
+> So it is either DRM_DEV_ERROR() or drv_err().
+> Which is why I have pushed for nicer drm_ variants of these...
 
-Since DT seems to be the trend for target specific firmware names I think we
-should plan to quickly deprecate the legacy name and not require new targets to
-set it. If a zap node is going to be opt in then it isn't onerous to ask
-the developer to set the additional property for each target platform.
+Huh, drm_panel indeed has no drm_device. And I guess we don't have a
+convenient excuse to add it ...
 
-Jordan
+> The todo entry only covers the nice new macros that Jani added
+> where we have a drm_device.
 
->  	if (IS_ERR(fw)) {
->  		DRM_DEV_ERROR(dev, "Unable to load %s\n", fwname);
->  		return PTR_ERR(fw);
-> @@ -95,7 +121,7 @@ static int zap_shader_load_mdt(struct msm_gpu *gpu, const char *fwname,
->  	 * not.  But since we've already gotten through adreno_request_fw()
->  	 * we know which of the two cases it is:
->  	 */
-> -	if (to_adreno_gpu(gpu)->fwloc == FW_LOCATION_LEGACY) {
-> +	if (signed_fwname || (to_adreno_gpu(gpu)->fwloc == FW_LOCATION_LEGACY)) {
->  		ret = qcom_mdt_load(dev, fw, fwname, pasid,
->  				mem_region, mem_phys, mem_size, NULL);
->  	} else {
-> -- 
-> 2.24.1
+I wonder whether for those cases we shouldn't just directly use the
+various dev_* macros?
+-Daniel
+
 > 
+> 	Sam
+> 
+> 
+> 
+> > -Daniel
+> > 
+> > > + *
+> > > + * .. code-block:: c
+> > > + *
+> > > + *   void DRM_xxx(struct device *, char * fmt, ...)
+> > > + *
+> > > + * .. code-block:: none
+> > > + *
+> > > + *   # Plain logging
+> > > + *   DRM_DEV_INFO(dev, fmt, ...)
+> > > + *   DRM_DEV_ERROR(dev, fmt, ...)
+> > > + *
+> > > + *   # Log only once
+> > > + *   DRM_DEV_INFO_ONCE(dev, fmt, ...)
+> > > + *
+> > > + *   # Ratelimited - do not flood the logs
+> > > + *   DRM_DEV_DEBUG_RATELIMITED(dev, fmt, ...)
+> > > + *   DRM_DEV_DEBUG_DRIVER_RATELIMITED(dev, fmt, ...)
+> > > + *   DRM_DEV_DEBUG_KMS_RATELIMITED(dev, fmt, ...)
+> > > + *   DRM_DEV_DEBUG_PRIME_RATELIMITED(dev, fmt, ...)
+> > > + *   DRM_DEV_ERROR_RATELIMITED(dev, fmt, ...)
+> > > + *
+> > > + *   # Logging with a specific category
+> > > + *   DRM_DEV_DEBUG(dev, fmt, ...)		# Logged as CORE
+> > > + *   DRM_DEV_DEBUG_DRIVER(dev, fmt, ...)
+> > > + *   DRM_DEV_DEBUG_KMS(dev, fmt, ...)
+> > > + *   DRM_DEV_DEBUG_PRIME(dev, fmt, ...)
+> > > + *   DRM_DEV_DEBUG_ATOMIC(dev, fmt, ...)
+> > > + *   DRM_DEV_DEBUG_VBL(dev, fmt, ...)
+> > > + *   DRM_DEV_DEBUG_DP(dev, fmt, ...)
+> > > + *
+> > > + * Logging when no &device * nor &drm_device * is available
+> > > + * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > > + *
+> > > + * DRM/Drivers can use the following functions for logging when there is no
+> > > + * extra info associated to the logging.
+> > > + * The logging functions share the same prototype:
+> > > + *
+> > > + * .. code-block:: c
+> > > + *
+> > > + *   void DRM_xxx(char * fmt, ...)
+> > > + *
+> > > + * .. code-block:: none
+> > > + *
+> > > + *   # Plain logging
+> > > + *   DRM_INFO(fmt, ...)
+> > > + *   DRM_NOTE(fmt, ...)
+> > > + *   DRM_WARN(fmt, ...)
+> > > + *   DRM_ERROR(fmt, ...)
+> > > + *
+> > > + *   # Log only once
+> > > + *   DRM_INFO_ONCE(fmt, ...)
+> > > + *   DRM_NOTE_ONCE(fmt, ...)
+> > > + *   DRM_WARN_ONCE(fmt, ...)
+> > > + *
+> > > + *   # Ratelimited - do not flood the logs
+> > > + *   DRM_DEBUG_RATELIMITED(fmt, ...)
+> > > + *   DRM_DEBUG_DRIVER_RATELIMITED(fmt, ...)
+> > > + *   DRM_DEBUG_KMS_RATELIMITED(fmt, ...)
+> > > + *   DRM_DEBUG_PRIME_RATELIMITED(fmt, ...)
+> > > + *   DRM_ERROR_RATELIMITED(fmt, ...)
+> > > + *
+> > > + *   # Logging with a specific category
+> > > + *   DRM_DEBUG(fmt, ...)		# Logged as CORE
+> > > + *   DRM_DEBUG_DRIVER(fmt, ...)
+> > > + *   DRM_DEBUG_KMS(fmt, ...)
+> > > + *   DRM_DEBUG_PRIME(fmt, ...)
+> > > + *   DRM_DEBUG_ATOMIC(fmt, ...)
+> > > + *   DRM_DEBUG_VBL(fmt, ...)
+> > > + *   DRM_DEBUG_LEASE(fmt, ...)
+> > > + *   DRM_DEBUG_DP(fmt, ...)
+> > >   */
+> > >  
+> > >  /**
+> > > @@ -399,7 +475,7 @@ __printf(3, 4)
+> > >  void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+> > >  		 const char *format, ...);
+> > >  
+> > > -/**
+> > > +/*
+> > >   * Error output.
+> > >   *
+> > >   * @dev: device pointer
+> > > @@ -408,7 +484,7 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+> > >  #define DRM_DEV_ERROR(dev, fmt, ...)					\
+> > >  	drm_dev_printk(dev, KERN_ERR, "*ERROR* " fmt, ##__VA_ARGS__)
+> > >  
+> > > -/**
+> > > +/*
+> > >   * Rate limited error output.  Like DRM_ERROR() but won't flood the log.
+> > >   *
+> > >   * @dev: device pointer
+> > > @@ -436,7 +512,7 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+> > >  	}								\
+> > >  })
+> > >  
+> > > -/**
+> > > +/*
+> > >   * Debug output.
+> > >   *
+> > >   * @dev: device pointer
+> > > @@ -466,7 +542,7 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+> > >  		drm_dev_dbg(dev, category, fmt, ##__VA_ARGS__);		\
+> > >  })
+> > >  
+> > > -/**
+> > > +/*
+> > >   * Rate limited debug output. Like DRM_DEBUG() but won't flood the log.
+> > >   *
+> > >   * @dev: device pointer
+> > > -- 
+> > > 2.20.1
+> > > 
+> > 
+> > -- 
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
 
 -- 
-The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
