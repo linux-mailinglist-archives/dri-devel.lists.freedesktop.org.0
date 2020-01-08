@@ -1,63 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADD96133CC9
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 09:13:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47FD2133CB9
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 09:12:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81CD26E859;
-	Wed,  8 Jan 2020 08:12:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A42726E186;
+	Wed,  8 Jan 2020 08:12:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2F396E14C
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2020 23:06:52 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id z3so1435770wru.3
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2020 15:06:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=UXJ/0vyPOcylwX7dQ7AqYqzbWcm6Xny6nu2+z0FOmf4=;
- b=SzQP3MkkW9JiVVLB0Q5AWl9ynYczk1eWo56lKzhjHMYAgL4dqVwYVe+d4zLq7IGG+E
- 6sjyRLDJcEljD4GDsoPqvuOXsfPBIXaZlV/7JQOkyCuXehAwjJhNybHUYy5Z5vlzNnDZ
- ojm8VASMXfBBnvdvuzRV37VlFgzD5KE4fzvicM94upMV58FI4Iz7SwtNdHRMPFmsse7V
- TAIL1Kz1SjxRxXsrpRd8sbRc/pyYzPY08UVCol5DeDNVgOzhjeB1iuSUkO+ZbVO0xDl8
- rT/WVhULD1GLl7l7FXJord3q/+308mnMIkdoHgox2+tnRgVZhARDTbdy+O32aBsGmQQM
- Mkgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=UXJ/0vyPOcylwX7dQ7AqYqzbWcm6Xny6nu2+z0FOmf4=;
- b=Z77qVpGCy07VOS7r4p3mrQlkosotoTVQBR0+pYvvf5XPF+M456Tuc8xAWiSV2Cg2uT
- KIGQmd5GnitesR7dhzDx+m9Nk9pHqQd7ne46B0xOMfi5HFSiVi88in6JgqEk9+NmT8yt
- 3ojlFUXGuKcdeC6uJQ+cT5rWXbsUp2er3LuH3AEjSTPZASaxeqp6EbNuitGWEzKFZllY
- vlk1lq9UArajRTXY22EGF4EhrD5xSlRIn3CP77B4erLgrS5bKZ7VGuq5nYhxdtKrm4VK
- B/lzhdDFP3xJjU/EJPzBJPR0LKZ0rnISjXbV7wgOgw8h1OW7+c/Y6dAC21QvJwm20oOu
- dafA==
-X-Gm-Message-State: APjAAAV4uTa28DVx+DNn04YOSfnyXU5rdPCY/4Lyb2E+3hdRijwWnn0t
- lSZOoK9XzpDYpDH6CaEu+P41M7ABW1A=
-X-Google-Smtp-Source: APXvYqyTpkD+YLeAxyWAoG8+IkEVG2zuH4q7SHZOXRueqxuzGo3+htimrqNb87QNSjKXFAZDdhKYXw==
-X-Received: by 2002:a5d:4984:: with SMTP id r4mr1253219wrq.137.1578438411229; 
- Tue, 07 Jan 2020 15:06:51 -0800 (PST)
-Received: from localhost.localdomain
- (p200300F1373A1900428D5CFFFEB99DB8.dip0.t-ipconnect.de.
- [2003:f1:373a:1900:428d:5cff:feb9:9db8])
- by smtp.googlemail.com with ESMTPSA id g21sm1335912wmh.17.2020.01.07.15.06.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 15:06:50 -0800 (PST)
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-To: dri-devel@lists.freedesktop.org, alyssa@rosenzweig.io,
- steven.price@arm.com, tomeu.vizoso@collabora.com, robh@kernel.org
-Subject: [PATCH RFT v1 3/3] drm/panfrost: Use the mali-supply regulator for
- control again
-Date: Wed,  8 Jan 2020 00:06:26 +0100
-Message-Id: <20200107230626.885451-4-martin.blumenstingl@googlemail.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200107230626.885451-1-martin.blumenstingl@googlemail.com>
-References: <20200107230626.885451-1-martin.blumenstingl@googlemail.com>
+X-Greylist: delayed 1231 seconds by postgrey-1.36 at gabe;
+ Wed, 08 Jan 2020 01:36:54 UTC
+Received: from imap2.colo.codethink.co.uk (imap2.colo.codethink.co.uk
+ [78.40.148.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3E6D6E15F;
+ Wed,  8 Jan 2020 01:36:54 +0000 (UTC)
+Received: from shadbolt.e.decadent.org.uk ([88.96.1.126] helo=xylophone)
+ by imap2.colo.codethink.co.uk with esmtpsa  (Exim 4.92 #3 (Debian))
+ id 1iozxD-0001AQ-83; Wed, 08 Jan 2020 01:16:11 +0000
+Message-ID: <6c2151b5d9b07c7cc29cd484a80d0db213e5fa19.camel@codethink.co.uk>
+Subject: Re: [Y2038] [PATCH v2 13/24] drm/etnaviv: reject timeouts with
+ tv_nsec >= NSEC_PER_SEC
+From: Ben Hutchings <ben.hutchings@codethink.co.uk>
+To: Arnd Bergmann <arnd@arndb.de>, y2038@lists.linaro.org, 
+ linux-kernel@vger.kernel.org, Lucas Stach <l.stach@pengutronix.de>, David
+ Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 08 Jan 2020 01:16:09 +0000
+In-Reply-To: <20191213205417.3871055-4-arnd@arndb.de>
+References: <20191213204936.3643476-1-arnd@arndb.de>
+ <20191213205417.3871055-4-arnd@arndb.de>
+Organization: Codethink Ltd.
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
 X-Mailman-Approved-At: Wed, 08 Jan 2020 08:12:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,107 +45,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-rockchip@lists.infradead.org, linux-amlogic@lists.infradead.org,
- robin.murphy@arm.com
+Cc: Guido =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>, Sam Ravnborg <sam@ravnborg.org>,
+ Emil Velikov <emil.velikov@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-dev_pm_opp_set_rate() needs a reference to the regulator which should be
-updated when updating the GPU frequency. The name of the regulator has
-to be passed at initialization-time using dev_pm_opp_set_regulators().
-Add the call to dev_pm_opp_set_regulators() so dev_pm_opp_set_rate()
-will update the GPU regulator when updating the frequency (just like
-we did this manually before when we open-coded dev_pm_opp_set_rate()).
+On Fri, 2019-12-13 at 21:53 +0100, Arnd Bergmann wrote:
+> Most kernel interfaces that take a timespec require normalized
+> representation with tv_nsec between 0 and NSEC_PER_SEC.
+> 
+> Passing values larger than 0x100000000ull further behaves differently
+> on 32-bit and 64-bit kernels, and can cause the latter to spend a long
+> time counting seconds in timespec64_sub()/set_normalized_timespec64().
+> 
+> Reject those large values at the user interface to enforce sane and
+> portable behavior.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> index 1f9c01be40d7..95d72dc00280 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -297,6 +297,9 @@ static int etnaviv_ioctl_gem_cpu_prep(struct drm_device *dev, void *data,
+>  	if (args->op & ~(ETNA_PREP_READ | ETNA_PREP_WRITE | ETNA_PREP_NOSYNC))
+>  		return -EINVAL;
+>  
+> +	if (args->timeout.tv_nsec > NSEC_PER_SEC)
+[...]
 
-Fixes: 221bc77914cbcc ("drm/panfrost: Use generic code for devfreq")
-Reported-by: Robin Murphy <robin.murphy@arm.com>
-Signed-off-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
----
- drivers/gpu/drm/panfrost/panfrost_devfreq.c | 22 ++++++++++++++++++++-
- drivers/gpu/drm/panfrost/panfrost_device.h  |  1 +
- 2 files changed, 22 insertions(+), 1 deletion(-)
+There's an off-by-one error between the subject line and the actual
+changes.  The subject line seems to have the correct comparison.
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-index 170f6c8c9651..4f7999c7b44c 100644
---- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-@@ -74,6 +74,7 @@ static struct devfreq_dev_profile panfrost_devfreq_profile = {
- int panfrost_devfreq_init(struct panfrost_device *pfdev)
- {
- 	int ret;
-+	struct opp_table *opp_table;
- 	struct dev_pm_opp *opp;
- 	unsigned long cur_freq;
- 	struct device *dev = &pfdev->pdev->dev;
-@@ -84,9 +85,24 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
- 		/* Optional, continue without devfreq */
- 		return 0;
- 
-+	opp_table = dev_pm_opp_set_regulators(dev,
-+					      (const char *[]){ "mali" },
-+					      1);
-+	if (IS_ERR(opp_table)) {
-+		ret = PTR_ERR(opp_table);
-+
-+		/* Continue if the optional regulator is missing */
-+		if (ret != -ENODEV)
-+			return ret;
-+	} else {
-+		pfdev->devfreq.regulators_opp_table = opp_table;
-+	}
-+
- 	ret = dev_pm_opp_of_add_table(dev);
--	if (ret)
-+	if (ret) {
-+		dev_pm_opp_put_regulators(pfdev->devfreq.regulators_opp_table);
- 		return ret;
-+	}
- 
- 	panfrost_devfreq_reset(pfdev);
- 
-@@ -95,6 +111,7 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
- 	opp = devfreq_recommended_opp(dev, &cur_freq, 0);
- 	if (IS_ERR(opp)) {
- 		dev_pm_opp_of_remove_table(dev);
-+		dev_pm_opp_put_regulators(pfdev->devfreq.regulators_opp_table);
- 		return PTR_ERR(opp);
- 	}
- 
-@@ -106,6 +123,7 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
- 	if (IS_ERR(devfreq)) {
- 		DRM_DEV_ERROR(dev, "Couldn't initialize GPU devfreq\n");
- 		dev_pm_opp_of_remove_table(dev);
-+		dev_pm_opp_put_regulators(pfdev->devfreq.regulators_opp_table);
- 		return PTR_ERR(devfreq);
- 	}
- 	pfdev->devfreq.devfreq = devfreq;
-@@ -124,6 +142,8 @@ void panfrost_devfreq_fini(struct panfrost_device *pfdev)
- 	if (pfdev->devfreq.cooling)
- 		devfreq_cooling_unregister(pfdev->devfreq.cooling);
- 	dev_pm_opp_of_remove_table(&pfdev->pdev->dev);
-+	if (pfdev->devfreq.regulators_opp_table)
-+		dev_pm_opp_put_regulators(pfdev->devfreq.regulators_opp_table);
- }
- 
- void panfrost_devfreq_resume(struct panfrost_device *pfdev)
-diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-index 06713811b92c..4878b239e301 100644
---- a/drivers/gpu/drm/panfrost/panfrost_device.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-@@ -85,6 +85,7 @@ struct panfrost_device {
- 
- 	struct {
- 		struct devfreq *devfreq;
-+		struct opp_table *regulators_opp_table;
- 		struct thermal_cooling_device *cooling;
- 		ktime_t busy_time;
- 		ktime_t idle_time;
+Ben.
+
 -- 
-2.24.1
+Ben Hutchings, Software Developer                         Codethink Ltd
+https://www.codethink.co.uk/                 Dale House, 35 Dale Street
+                                     Manchester, M1 2HF, United Kingdom
 
 _______________________________________________
 dri-devel mailing list
