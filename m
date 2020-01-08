@@ -1,46 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C739133CAB
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 09:10:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ACF1133CE3
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 09:13:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8515189C9A;
-	Wed,  8 Jan 2020 08:10:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DD8F6E86D;
+	Wed,  8 Jan 2020 08:13:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
- [209.85.167.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 227A889C9A;
- Wed,  8 Jan 2020 08:10:18 +0000 (UTC)
-Received: by mail-oi1-f195.google.com with SMTP id 13so12429oij.13;
- Wed, 08 Jan 2020 00:10:18 -0800 (PST)
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
+ [209.85.210.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB0EA6E875;
+ Wed,  8 Jan 2020 08:12:59 +0000 (UTC)
+Received: by mail-ot1-f67.google.com with SMTP id r9so2711607otp.13;
+ Wed, 08 Jan 2020 00:12:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=zSvatSaXmaDcygklTO+AiD7URC1DncR275ZO9qcviaY=;
- b=St5G9WzL/qGPbV3AzUO1EfVdzOCNcFV2qJmyMZbDXjcPJUnAIGaS0AFR+hXHsVuBvn
- sR830JChBzR02nWQ+EOLq9xgQYTsCqAlGuSfSwKIm2C8QSBLtTZcBa8soyrAd8ZHcbUy
- xM6AqTi20Oue2OTEYwXu8an+nCBAkKkihBAbIUJiOkLhudU6/7iy0jcLqRuLGaNh5ztu
- 28XmJfYTdU7rRMjBIlsEbo4upuN3mFOOqrOqPfjoxJ/MyRyIM2CxBkeMeO2Ew/Cbs/TI
- cd4jbvqyNaabTC/+1e78sxUD74Q5WRq9BAWM8EpKcgNxQ+t/iyZxBL/HBGM1uIV5kPVN
- lZdQ==
-X-Gm-Message-State: APjAAAVSDgqWDH0v04opDi6MdRmVVvdJtQ02OkeLggE3AtwDEiE8bCoq
- LjFKIi4Yn18TDrg7IdSjeWigFPoW8BbiGUnbFk0=
-X-Google-Smtp-Source: APXvYqx7mMV6iu/aCjHaPWwxCajM/7EbWdhdn3wdjlil8XEXHsid4BFGqUofVL4JHvNq7QwetgrnnLwPgZu0svS796A=
-X-Received: by 2002:a05:6808:292:: with SMTP id
- z18mr2042282oic.131.1578471017446; 
- Wed, 08 Jan 2020 00:10:17 -0800 (PST)
+ bh=fbJJB3WrQSG/aLI6W0tp/gWGqaTYGmXXjnwzN3HgNmk=;
+ b=qdTpxl0B8tpckunh05AN+xm33/kFPB6iFJa9FcVKYA2pe9G3UEygHuzQZewAwkMKmi
+ 4eg/loTfPE41PmhsTbJ2l0PvNrrqI6jdWS1AvwYO/lwLW32wp87aXwA4puMsoA8cVbaj
+ 1njE/dwvkL7EBXJYJSe/GFYntNWSVa3He7Gsmf7RoJeLlFshqhwhZ7VkMBOmJZVdSuWE
+ 5IwFImDJRP7S4FzNeySOa1l4VLADOzkSkPxh+SQEoZlOFfWEqsIacqKZYnTKRSEkHaGR
+ gZhf4epWzj6Ih7Tb9S0SmwCZjHQqm05UHygnvUGzfnwZdFUAI9/+qqvSbb7+u9SFSIR4
+ jrcw==
+X-Gm-Message-State: APjAAAUM68oKodmgL2tlRe2E2pK87+U0EeAT8ycZQBeETU2qqMMsbZPX
+ 2Scd15JSqv5DJfuKs+/R4AMY0aqsR30OXjjG3yQ=
+X-Google-Smtp-Source: APXvYqwmH7m1+9vDxuev+5inhGSC6vEDnCL0sxcZGlshqWSwfptz4C63wHebnfbZQpKCDEbUG2A5rdvMjyOud7C+JPk=
+X-Received: by 2002:a9d:dc1:: with SMTP id 59mr3308976ots.250.1578471178824;
+ Wed, 08 Jan 2020 00:12:58 -0800 (PST)
 MIME-Version: 1.0
 References: <1578415992-24054-1-git-send-email-krzk@kernel.org>
- <1578415992-24054-3-git-send-email-krzk@kernel.org>
-In-Reply-To: <1578415992-24054-3-git-send-email-krzk@kernel.org>
+ <CAMuHMdW4ek0OYQDrrbcpZjNUTTP04nSbwkmiZvBmKcU=PQM9qA@mail.gmail.com>
+In-Reply-To: <CAMuHMdW4ek0OYQDrrbcpZjNUTTP04nSbwkmiZvBmKcU=PQM9qA@mail.gmail.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 8 Jan 2020 09:10:06 +0100
-Message-ID: <CAMuHMdXHhF6GhS1W8qS4j7Jv5YnxXjcRopT5QSA=+trc8qwFng@mail.gmail.com>
-Subject: Re: [RFT 02/13] alpha: Constify ioreadX() iomem argument (as in
- generic implementation)
+Date: Wed, 8 Jan 2020 09:12:47 +0100
+Message-ID: <CAMuHMdUBmYtJKtSYzS_5u67hVZOqcKSgFY1rDGme6gLNRBJ_gA@mail.gmail.com>
+Subject: Re: [RFT 00/13] iomap: Constify ioreadX() iomem argument
 To: Krzysztof Kozlowski <krzk@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -89,37 +87,23 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Krzysztof,
 
-On Tue, Jan 7, 2020 at 5:53 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> The ioreadX() helpers have inconsistent interface.  On some architectures
-> void *__iomem address argument is a pointer to const, on some not.
+On Wed, Jan 8, 2020 at 9:07 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Tue, Jan 7, 2020 at 5:53 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> > The ioread8/16/32() and others have inconsistent interface among the
+> > architectures: some taking address as const, some not.
+> >
+> > It seems there is nothing really stopping all of them to take
+> > pointer to const.
 >
-> Implementations of ioreadX() do not modify the memory under the address
-> so they can be converted to a "const" version for const-safety and
-> consistency among architectures.
->
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> Shouldn't all of them take const volatile __iomem pointers?
+> It seems the "volatile" is missing from all but the implementations in
+> include/asm-generic/io.h.
 
-> --- a/arch/alpha/include/asm/io.h
-> +++ b/arch/alpha/include/asm/io.h
-> @@ -151,9 +151,9 @@ static inline void generic_##NAME(TYPE b, QUAL void __iomem *addr)  \
->         alpha_mv.mv_##NAME(b, addr);                                    \
->  }
->
-> -REMAP1(unsigned int, ioread8, /**/)
-> -REMAP1(unsigned int, ioread16, /**/)
-> -REMAP1(unsigned int, ioread32, /**/)
-> +REMAP1(unsigned int, ioread8, const)
-> +REMAP1(unsigned int, ioread16, const)
-> +REMAP1(unsigned int, ioread32, const)
+As my "volatile" comment applies to iowrite*(), too, probably that should be
+done in a separate patch.
 
-If these would become "const volatile", there would no longer be a need
-for the last parameter of the REMAP1() macro.
-
->  REMAP1(u8, readb, const volatile)
->  REMAP1(u16, readw, const volatile)
->  REMAP1(u32, readl, const volatile)
-
-Same for REMAP2() macro below, for iowrite*().
+Hence with patches 1-5 squashed, and for patches 11-13:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
