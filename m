@@ -2,50 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BE3B133D06
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 09:24:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F4AB133D0D
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 09:26:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92D326E870;
-	Wed,  8 Jan 2020 08:24:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19BBB6E86B;
+	Wed,  8 Jan 2020 08:26:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from www413.your-server.de (www413.your-server.de [88.198.28.140])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 281846E870;
- Wed,  8 Jan 2020 08:24:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=cyberus-technology.de; s=default1911; h=MIME-Version:Content-Type:
- References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=JBlWYGGSvBWACbm7HRiuPkVho02AyIMjSgIaZ7f4e1Q=; b=TD4KfA1mHsPk/otH1nsJhcfx2
- 6qMbUG8qh3Ag+InObwXGU1QjJ5b8J0+nvAXqzzzNrUd9Uarn2o3GB5AU+KsXEpmm37+MnJCBKZrPx
- A3S6FfMg2BTQuxXDat1VNUmpEtlM08UgFaErOIV5VqS0QoaiBoMoegmfB7Mz37cmfKX8uTW6HB1j2
- DVdc4kQ+GQ4GGKBgWTGwVUW/NnoYxlAFb2JWS3qaDdW/ItuzT72Bt20hWhpk9UjOOE8hW5vM4Jey1
- tg8Qqsf9ZID9xNjchIdKF+1R0qAmL8sm+DEc7y8RmFI8bfs7iF8gQmv+BJAwOGEwJrtawIYa2w0pd
- LuMtXVm1Q==;
-Received: from sslproxy02.your-server.de ([78.47.166.47])
- by www413.your-server.de with esmtpsa (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256)
- (Exim 4.89_1)
- (envelope-from <julian.stecklina@cyberus-technology.de>)
- id 1ip6dd-00062z-4J; Wed, 08 Jan 2020 09:24:25 +0100
-Received: from [24.134.37.229] (helo=192-168-0-109.rdsnet.ro)
- by sslproxy02.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <julian.stecklina@cyberus-technology.de>)
- id 1ip6dc-0007FL-PG; Wed, 08 Jan 2020 09:24:24 +0100
-Message-ID: <ab56cd76c4a4c1266ca35df1645d05bfeae58e25.camel@cyberus-technology.de>
-Subject: Re: [PATCH 1/3] drm/i915/gvt: fix file paths in documentation
-From: Julian Stecklina <julian.stecklina@cyberus-technology.de>
-To: Zhenyu Wang <zhenyuw@linux.intel.com>
-Date: Wed, 08 Jan 2020 10:24:22 +0200
-In-Reply-To: <20200107020637.GA5894@zhen-hp.sh.intel.com>
-References: <20200106140622.14393-1-julian.stecklina@cyberus-technology.de>
- <20200107020637.GA5894@zhen-hp.sh.intel.com>
-Organization: Cyberus Technology GmbH
-User-Agent: Evolution 3.34.2 (3.34.2-1.fc31) 
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD8D96E86B;
+ Wed,  8 Jan 2020 08:26:42 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 08 Jan 2020 00:26:42 -0800
+X-IronPort-AV: E=Sophos;i="5.69,409,1571727600"; d="scan'208";a="215883541"
+Received: from jlahtine-desk.ger.corp.intel.com (HELO localhost)
+ ([10.251.84.108])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 08 Jan 2020 00:26:39 -0800
 MIME-Version: 1.0
-X-Authenticated-Sender: julian.stecklina@cyberus-technology.de
-X-Virus-Scanned: Clear (ClamAV 0.101.4/25687/Tue Jan  7 10:56:22 2020)
+In-Reply-To: <b79ee0f6efbf8358cbb4f2e163fa6b5bb04db794.1578409433.git.wambui.karugax@gmail.com>
+References: <cover.1578409433.git.wambui.karugax@gmail.com>
+ <b79ee0f6efbf8358cbb4f2e163fa6b5bb04db794.1578409433.git.wambui.karugax@gmail.com>
+Subject: Re: [PATCH 1/5] drm/i915: convert to using the drm_dbg_kms() macro.
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Wambui Karuga <wambui.karugax@gmail.com>, airlied@linux.ie, daniel@ffwll.ch,
+ jani.nikula@linux.intel.com, rodrigo.vivi@intel.com
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Date: Wed, 08 Jan 2020 10:26:36 +0200
+Message-ID: <157847199686.4725.87481257304852182@jlahtine-desk.ger.corp.intel.com>
+User-Agent: alot/0.8.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,104 +46,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: zhiyuan.lv@intel.com, intel-gvt-dev@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- hang.yuan@intel.com
-Content-Type: multipart/mixed; boundary="===============0378216731=="
+Cc: intel-gfx@lists.freedesktop.org, seanpaul@chromium.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Quoting Wambui Karuga (2020-01-07 17:13:29)
+> Convert the use of the DRM_DEBUG_KMS() logging macro to the new struct
+> drm_device based drm_dbg_kms() logging macro in i915/intel_pch.c.
+> 
+> Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
+> ---
+>  drivers/gpu/drm/i915/intel_pch.c | 46 +++++++++++++++++---------------
+>  1 file changed, 24 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/intel_pch.c b/drivers/gpu/drm/i915/intel_pch.c
+> index 43b68b5fc562..4ed60e1f01db 100644
+> --- a/drivers/gpu/drm/i915/intel_pch.c
+> +++ b/drivers/gpu/drm/i915/intel_pch.c
+> @@ -12,90 +12,91 @@ intel_pch_type(const struct drm_i915_private *dev_priv, unsigned short id)
+>  {
+>         switch (id) {
+>         case INTEL_PCH_IBX_DEVICE_ID_TYPE:
+> -               DRM_DEBUG_KMS("Found Ibex Peak PCH\n");
+> +               drm_dbg_kms(&dev_priv->drm, "Found Ibex Peak PCH\n");
 
---===============0378216731==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-YmIID+xuIDInK9HOwQWr"
+Did we at some point consider i915_dbg_kms alias? That would just take
+dev_priv (or i915, as it's called in newer code). It would shorten many
+of the statements.
 
+i915_dbg_kms(dev_priv, ...) or i915_dbg_kms(i915, ...)
 
---=-YmIID+xuIDInK9HOwQWr
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, 2020-01-07 at 10:06 +0800, Zhenyu Wang wrote:
-> On 2020.01.06 16:06:20 +0200, Julian Stecklina wrote:
-> > The documentation had some stale paths to i915 graphics virtualization
-> > code. Fix them to point to existing files.
-> >=20
-> > Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
-> > Cc: zhiyuan.lv@intel.com
-> > Cc: hang.yuan@intel.com
-> >=20
-> > Signed-off-by: Julian Stecklina <julian.stecklina@cyberus-technology.de=
->
-> > ---
-> >  Documentation/gpu/i915.rst | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> >=20
-> > diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
-> > index e539c42a3e78..d644683c5249 100644
-> > --- a/Documentation/gpu/i915.rst
-> > +++ b/Documentation/gpu/i915.rst
-> > @@ -43,19 +43,19 @@ Interrupt Handling
-> >  Intel GVT-g Guest Support(vGPU)
-> >  -------------------------------
-> > =20
-> > -.. kernel-doc:: drivers/gpu/drm/i915/i915_vgpu.c
-> > +.. kernel-doc:: drivers/gpu/drm/i915/gvt/vgpu.c
-> >     :doc: Intel GVT-g guest support
-> > =20
-> > -.. kernel-doc:: drivers/gpu/drm/i915/i915_vgpu.c
-> > +.. kernel-doc:: drivers/gpu/drm/i915/gvt/vgpu.c
-> >     :internal:
-> > =20
-> >  Intel GVT-g Host Support(vGPU device model)
-> >  -------------------------------------------
-> > =20
-> > -.. kernel-doc:: drivers/gpu/drm/i915/intel_gvt.c
-> > +.. kernel-doc:: drivers/gpu/drm/i915/gvt/gvt.c
-> >     :doc: Intel GVT-g host support
-> > =20
-> > -.. kernel-doc:: drivers/gpu/drm/i915/intel_gvt.c
-> > +.. kernel-doc:: drivers/gpu/drm/i915/gvt/gvt.c
-> >     :internal:
-> >=20
->=20
-> The i915_vgpu.c and intel_gvt.c are still there for guest
-> and host part of i915 interface with gvt. We still need them
-> in doc. The files in gvt/ directory are gvt device model internals.=20
-
-Thanks for clarifying. I'll drop the patch.
-
-Julian
-
---=-YmIID+xuIDInK9HOwQWr
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEEIO56Pp1G3IBsGtZJ7pdfAn5EfbIFAl4VkbcACgkQ7pdfAn5E
-fbK0dgf+NEF/F4ESZ27i+/L3luQ2NUKGLIdTQZDfA0Wajb8ljuRZuEpM5Uv8D+r3
-o1+hTYRp15yqp1m23KKgvlJm9jUke4rpzNB7dJ1W/dbShshdsxRr90pCC0Mvm7W7
-emIY80YjJLT0hq9Yhy4lEDhXju75Xrt5SHmnBm+XKYn6d+14BgZn9W+s4GzL1zUF
-GdO791wtZpOAN2KK0B3+10ikhIkdtmoVsQvrRNflDWrDlQSSOqsDKu82KQDz2xxo
-ykDmaB/zVvbC5WN5i5CNc/McC538Y1rkrHW3Re7cjEV8U3Pl2zmTXmNODv2fOR8D
-jld35ZwlafJktmjluDQ0nbJUw8OBbA==
-=t/Da
------END PGP SIGNATURE-----
-
---=-YmIID+xuIDInK9HOwQWr--
-
-
---===============0378216731==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Regards, Joonas
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0378216731==--
-
