@@ -1,38 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 218571344D1
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 15:20:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 168631344E0
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 15:21:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06D9489BDB;
-	Wed,  8 Jan 2020 14:20:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 270216E2F2;
+	Wed,  8 Jan 2020 14:21:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id B313A89BDB
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 14:20:24 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8F23B31B;
- Wed,  8 Jan 2020 06:20:24 -0800 (PST)
-Received: from [10.1.196.37] (e121345-lin.cambridge.arm.com [10.1.196.37])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0E4533F703;
- Wed,  8 Jan 2020 06:20:22 -0800 (PST)
-Subject: Re: [PATCH RFT v1 1/3] drm/panfrost: enable devfreq based the
- "operating-points-v2" property
-To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-References: <20200107230626.885451-1-martin.blumenstingl@googlemail.com>
- <20200107230626.885451-2-martin.blumenstingl@googlemail.com>
- <a85f2063-f412-9762-58d1-47fdffb24af9@arm.com>
- <CAFBinCBYrNC+ULV6Y=77qogowkDZwM+H0bxOqPN4sT6q3krGfw@mail.gmail.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <be59a20b-af08-5b55-fa69-f87d5aa9f277@arm.com>
-Date: Wed, 8 Jan 2020 14:20:21 +0000
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
+ [209.85.167.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1E9B6E2F2
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 14:21:34 +0000 (UTC)
+Received: by mail-oi1-f193.google.com with SMTP id i1so2714814oie.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2020 06:21:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=oeAm7H9MXTcOn7oMc/cjvjqdocfYyvFvZAivnMFc/sA=;
+ b=Nh62bUXfWML2sbKV3Uw8ZNNC3zuIL7fVPnxVRZ519FPNXJuuUKRwxXwVVO3wt1rb8P
+ UO1bw7mCjaTWJnbNNSCw2Atw4EjG6CMNZC9HHcQsXJWkfBpf5cOeSWHVJvifYKR1WX9M
+ XrXRJccjPoRaS/xMCrzYxkO5bcWWAEmuW511sSQ8fTn/odgo3/eXFp/pKKbKeoFXc9T9
+ YN10OmRkNwQjPHfKg24UElUThwoeIgeiS+VVCT53iPOakXU6BFq9HE6Xtj1mAgTfHGKR
+ qRwzjHIf5q7H4X12mqGwWLFbVVOvja0r0a4t5B8OlI3ksyMMXDjaZeVX3DMl/dmAM1Bl
+ n1cg==
+X-Gm-Message-State: APjAAAXwMth9NXp9r9JnGvkvRQiPDSHNEc+hVNmkmtkMHbHpf92GOmzk
+ oOD8L3UlHMIRyaiBt4Ui+gOz0rI=
+X-Google-Smtp-Source: APXvYqzGGUyroXykIp3UW7pjmLmHrQkW0Jwu50f1I8q1mz/B0laHj/+zulxtTuVesKpzsSDlJonNmw==
+X-Received: by 2002:a54:4086:: with SMTP id i6mr3225810oii.65.1578493293648;
+ Wed, 08 Jan 2020 06:21:33 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id h1sm1149023otn.6.2020.01.08.06.21.32
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Jan 2020 06:21:33 -0800 (PST)
+Received: from rob (uid 1000) (envelope-from rob@rob-hp-laptop) id 22001a
+ by rob-hp-laptop (DragonFly Mail Agent v0.11);
+ Wed, 08 Jan 2020 08:21:32 -0600
+Date: Wed, 8 Jan 2020 08:21:32 -0600
+From: Rob Herring <robh@kernel.org>
+To: Lubomir Rintel <lkundrak@v3.sk>
+Subject: Re: [PATCH 2/3] dt-bindings: display: Add Chrontel CH7033 Video
+ Encoder binding
+Message-ID: <20200108142132.GA4830@bogus>
+References: <20191220074914.249281-1-lkundrak@v3.sk>
+ <20191220074914.249281-3-lkundrak@v3.sk>
 MIME-Version: 1.0
-In-Reply-To: <CAFBinCBYrNC+ULV6Y=77qogowkDZwM+H0bxOqPN4sT6q3krGfw@mail.gmail.com>
-Content-Language: en-GB
+Content-Disposition: inline
+In-Reply-To: <20191220074914.249281-3-lkundrak@v3.sk>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,47 +64,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tomeu.vizoso@collabora.com, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, steven.price@arm.com,
- linux-rockchip@lists.infradead.org, Sudeep Holla <sudeep.holla@arm.com>,
- linux-amlogic@lists.infradead.org, alyssa@rosenzweig.io
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[ +Sudeep ]
-
-On 08/01/2020 12:38 pm, Martin Blumenstingl wrote:
-> Hi Robin,
+On Fri, Dec 20, 2019 at 08:49:13AM +0100, Lubomir Rintel wrote:
+> Add binding document for the Chrontel CH7033 VGA/DVI/HDMI Encoder.
 > 
-> On Wed, Jan 8, 2020 at 12:18 PM Robin Murphy <robin.murphy@arm.com> wrote:
->>
->> On 07/01/2020 11:06 pm, Martin Blumenstingl wrote:
->>> Decouple the check to see whether we want to enable devfreq for the GPU
->>> from dev_pm_opp_set_regulators(). This is preparation work for adding
->>> back support for regulator control (which means we need to call
->>> dev_pm_opp_set_regulators() before dev_pm_opp_of_add_table(), which
->>> means having a check for "is devfreq enabled" that is not tied to
->>> dev_pm_opp_of_add_table() makes things easier).
->>
->> Hmm, what about cases like the SCMI DVFS protocol where the OPPs are
->> dynamically discovered rather than statically defined in DT?
-> where can I find such an example (Amlogic SoCs use SCPI instead of
-> SCMI, so I don't think that I have any board with SCMI support) or
-> some documentation?
-> (I could only find SCPI clock and CPU DVFS implementations, but no
-> generic "OPPs for any device" implementation)
+> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+> ---
+>  .../display/bridge/chrontel,ch7033.yaml       | 86 +++++++++++++++++++
+>  1 file changed, 86 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/chrontel,ch7033.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/chrontel,ch7033.yaml b/Documentation/devicetree/bindings/display/bridge/chrontel,ch7033.yaml
+> new file mode 100644
+> index 0000000000000..f19b336a99c78
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/chrontel,ch7033.yaml
+> @@ -0,0 +1,86 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
 
-On closer inspection I think this applies to the SCPI DVFS protocol 
-too[1]. AIUI the fact that neither is wired up to a devfreq driver yet 
-is merely due to lack of demand and suitable systems to develop/test on 
-so far - the panfrost devfreq code is only now looking like the first 
-viable upstream use-case ;)
+Dual license new bindings:
 
-Robin.
+(GPL-2.0-only OR BSD-2-Clause)
 
-[1] http://infocenter.arm.com/help/topic/com.arm.doc.dui0922g/BABFEBCD.html
+With that,
+
+Reviewed-by: Rob Herring <robh@kernel.org>
+
+> +# Copyright (C) 2019 Lubomir Rintel <lkundrak@v3.sk>
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/chrontel,ch7033.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Chrontel CH7033 Video Encoder Device Tree Bindings
+> +
+> +maintainers:
+> +  - Lubomir Rintel <lkundrak@v3.sk>
+> +
+> +properties:
+> +  compatible:
+> +    const: chrontel,ch7033
+> +
+> +  reg:
+> +    maxItems: 1
+> +    description: I2C address of the device
+> +
+> +  ports:
+> +    type: object
+> +
+> +    properties:
+> +      port@0:
+> +        type: object
+> +        description: |
+> +          Video port for RGB input.
+> +
+> +      port@1:
+> +        type: object
+> +        description: |
+> +          DVI port, should be connected to a node compatible with the
+> +          dvi-connector binding.
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    dvi-connector {
+> +        compatible = "dvi-connector";
+> +        ddc-i2c-bus = <&twsi5>;
+> +        hpd-gpios = <&gpio 62 GPIO_ACTIVE_LOW>;
+> +        digital;
+> +        analog;
+> +
+> +        port {
+> +            dvi_in: endpoint {
+> +                remote-endpoint = <&encoder_out>;
+> +            };
+> +        };
+> +    };
+> +
+> +    vga-dvi-encoder@76 {
+> +        compatible = "chrontel,ch7033";
+> +        reg = <0x76>;
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +                endpoint {
+> +                    remote-endpoint = <&lcd0_rgb_out>;
+> +                };
+> +            };
+> +
+> +            encoder_out: port@1 {
+> +                reg = <1>;
+> +                endpoint {
+> +                    remote-endpoint = <&dvi_in>;
+> +                };
+> +            };
+> +
+> +        };
+> +    };
+> -- 
+> 2.24.1
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
