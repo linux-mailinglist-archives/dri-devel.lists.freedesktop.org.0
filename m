@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8DE6134E9B
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 22:13:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C4BC134E8E
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 22:12:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 167BF6E8D3;
-	Wed,  8 Jan 2020 21:12:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00E806E347;
+	Wed,  8 Jan 2020 21:12:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from o1.b.az.sendgrid.net (o1.b.az.sendgrid.net [208.117.55.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C47C16E8C7
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 21:12:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=from:subject:in-reply-to:references:to:cc:content-type:
- content-transfer-encoding;
- s=001; bh=nKHc7PP51SSnABUdouUOk7MONm9v7F3W5A5WPyVt3og=;
- b=OYH1SV3zEoqscItQog5hChFMLjuQlKe31ZwLV0sv0upmViNTn5vcq5PYHSwo4F3X8YOb
- 8D+oMze3pjN0aUDT7kGFroPatlmOvBftExeBvAKKTEgiCYV6jLDrs8l6BuI/sRfZZtSKdJ
- FmrX4UyZHrBKrDJ1VqJ92/haf47/Frugg=
-Received: by filterdrecv-p3mdw1-56c97568b5-s82th with SMTP id
- filterdrecv-p3mdw1-56c97568b5-s82th-20-5E1644A8-9A
- 2020-01-08 21:07:53.049862267 +0000 UTC m=+1974283.024560838
-Received: from bionic.localdomain (unknown [98.128.173.80])
- by ismtpd0005p1lon1.sendgrid.net (SG) with ESMTP id hK45W9keTJiDypFiQ0QuWw
- Wed, 08 Jan 2020 21:07:52.847 +0000 (UTC)
-From: Jonas Karlman <jonas@kwiboo.se>
-Subject: [PATCH v2 14/14] phy/rockchip: inno-hdmi: Support more pre-pll
- configuration
-Date: Wed, 08 Jan 2020 21:07:53 +0000 (UTC)
-Message-Id: <20200108210740.28769-15-jonas@kwiboo.se>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200108210740.28769-1-jonas@kwiboo.se>
-References: <20200108210740.28769-1-jonas@kwiboo.se>
-X-SG-EID: =?us-ascii?Q?TdbjyGynYnRZWhH+7lKUQJL+ZxmxpowvO2O9SQF5CwCVrYgcwUXgU5DKUU3QxA?=
- =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0hzSnp2d=2Fa4qtlwU5A?=
- =?us-ascii?Q?xlGn3bJTyJre2O=2FQ8La4AzDLjmO9qKAT5397cvO?=
- =?us-ascii?Q?zK20=2F7RrJrsKgkSR3Uw2H5nQ=2FjWxVmiKa+UwJJN?=
- =?us-ascii?Q?3RusiCg2Kdi0HGrL3GJo3W=2F44pcH7lgdoC3c=2Fl7?=
- =?us-ascii?Q?Xy=2F12t4VOrRR4TZ03ucgtkW0Tkp7NiqW53Bq=2FPd?=
- =?us-ascii?Q?ZpV5i5BXmsJ8p7T62+HVw=3D=3D?=
-To: Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 583B36E347
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 21:12:18 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id E7F438046E;
+ Wed,  8 Jan 2020 22:12:14 +0100 (CET)
+Date: Wed, 8 Jan 2020 22:12:13 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Rob Herring <robh@kernel.org>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Jyri Sarha <jsarha@ti.com>, Rob Clark <robdclark@gmail.com>,
+ Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v2 1/2] dt-bindings: one binding file for all simple panels
+Message-ID: <20200108211213.GA8405@ravnborg.org>
+References: <20200102101712.5085-1-sam@ravnborg.org>
+ <20200102101712.5085-2-sam@ravnborg.org>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200102101712.5085-2-sam@ravnborg.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=voM4FWlXAAAA:8
+ a=7gkXJVJtAAAA:8 a=pGLkceISAAAA:8 a=VwQbUJbxAAAA:8 a=8b9GpE9nAAAA:8
+ a=7CQSdrXTAAAA:8 a=e5mUnYsNAAAA:8 a=gEfo2CItAAAA:8 a=Ikd4Dj_1AAAA:8
+ a=uTl3g0ePkkkIrOugLNwA:9 a=kZqpKjxlpy6geOCd:21 a=tP3eZPZ3YdYSV6mm:21
+ a=CjuIK1q_8ugA:10 a=IC2XNlieTeVoXbcui8wp:22 a=E9Po1WZjFZOl8hwRPBS3:22
+ a=AjGcO6oz07-iQ99wixmX:22 a=T3LWEMljR5ZiDmsYVIUa:22
+ a=a-qgeE7W1pNrGK8U0ZQC:22 a=Vxmtnl_E_bksehYqCbjh:22
+ a=sptkURWiP4Gy88Gu7hUp:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,131 +54,220 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Algea Cao <algea.cao@rock-chips.com>, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Kishon Vijay Abraham I <kishon@ti.com>, linux-rockchip@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, Zheng Yang <zhengyang@rock-chips.com>
-MIME-Version: 1.0
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Yannick Fertre <yannick.fertre@st.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Algea Cao <algea.cao@rock-chips.com>
+Hi Jyri, Rob, Paul, Miquel.
 
-Adding the following freq cfg in 8-bit and 10-bit color depth:
+Following patch is now applied to drm-misc-next.
 
-{
-  40000000,  65000000,  71000000,  83500000, 85750000,
-  88750000, 108000000, 119000000, 162000000
-}
+Please add your simple panels to this file so
+we avoid independent bindings files for ecah panel.
 
-New freq has been validated by quantumdata 980.
+I will handle the inevitable conflicts when I apply.
 
-For some freq which can't be got by only using integer freq div,
-frac freq div is needed, Such as 88.75Mhz 10-bit. But The actual
-freq is different from the target freq, We must try to narrow
-the gap between them. RK322X only support integer freq div.
+	Sam
 
-The VCO of pre-PLL must be more than 2Ghz, otherwise PLL may be
-unlocked.
 
-Signed-off-by: Algea Cao <algea.cao@rock-chips.com>
-Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-Acked-by: Heiko Stuebner <heiko@sntech.de>
----
- drivers/phy/rockchip/phy-rockchip-inno-hdmi.c | 74 ++++++++++++-------
- 1 file changed, 49 insertions(+), 25 deletions(-)
-
-diff --git a/drivers/phy/rockchip/phy-rockchip-inno-hdmi.c b/drivers/phy/rockchip/phy-rockchip-inno-hdmi.c
-index 3719309ad0d0..bb8bdf5e3301 100644
---- a/drivers/phy/rockchip/phy-rockchip-inno-hdmi.c
-+++ b/drivers/phy/rockchip/phy-rockchip-inno-hdmi.c
-@@ -291,32 +291,56 @@ struct inno_hdmi_phy_drv_data {
- 	const struct phy_config		*phy_cfg_table;
- };
- 
-+/*
-+ * If only using integer freq div can't get frequency we want, frac
-+ * freq div is needed. For example, pclk 88.75 Mhz and tmdsclk
-+ * 110.9375 Mhz must use frac div 0xF00000. The actual frequency is different
-+ * from the target frequency. Such as the tmds clock 110.9375 Mhz,
-+ * the actual tmds clock we get is 110.93719 Mhz. It is important
-+ * to note that RK322X platforms do not support frac div.
-+ */
- static const struct pre_pll_config pre_pll_cfg_table[] = {
--	{ 27000000,  27000000, 1,  90, 3, 2, 2, 10, 3, 3, 4, 0, 0},
--	{ 27000000,  33750000, 1,  90, 1, 3, 3, 10, 3, 3, 4, 0, 0},
--	{ 40000000,  40000000, 1,  80, 2, 2, 2, 12, 2, 2, 2, 0, 0},
--	{ 59341000,  59341000, 1,  98, 3, 1, 2,  1, 3, 3, 4, 0, 0xE6AE6B},
--	{ 59400000,  59400000, 1,  99, 3, 1, 1,  1, 3, 3, 4, 0, 0},
--	{ 59341000,  74176250, 1,  98, 0, 3, 3,  1, 3, 3, 4, 0, 0xE6AE6B},
--	{ 59400000,  74250000, 1,  99, 1, 2, 2,  1, 3, 3, 4, 0, 0},
--	{ 74176000,  74176000, 1,  98, 1, 2, 2,  1, 2, 3, 4, 0, 0xE6AE6B},
--	{ 74250000,  74250000, 1,  99, 1, 2, 2,  1, 2, 3, 4, 0, 0},
--	{ 74176000,  92720000, 4, 494, 1, 2, 2,  1, 3, 3, 4, 0, 0x816817},
--	{ 74250000,  92812500, 4, 495, 1, 2, 2,  1, 3, 3, 4, 0, 0},
--	{148352000, 148352000, 1,  98, 1, 1, 1,  1, 2, 2, 2, 0, 0xE6AE6B},
--	{148500000, 148500000, 1,  99, 1, 1, 1,  1, 2, 2, 2, 0, 0},
--	{148352000, 185440000, 4, 494, 0, 2, 2,  1, 3, 2, 2, 0, 0x816817},
--	{148500000, 185625000, 4, 495, 0, 2, 2,  1, 3, 2, 2, 0, 0},
--	{296703000, 296703000, 1,  98, 0, 1, 1,  1, 0, 2, 2, 0, 0xE6AE6B},
--	{297000000, 297000000, 1,  99, 0, 1, 1,  1, 0, 2, 2, 0, 0},
--	{296703000, 370878750, 4, 494, 1, 2, 0,  1, 3, 1, 1, 0, 0x816817},
--	{297000000, 371250000, 4, 495, 1, 2, 0,  1, 3, 1, 1, 0, 0},
--	{593407000, 296703500, 1,  98, 0, 1, 1,  1, 0, 2, 1, 0, 0xE6AE6B},
--	{594000000, 297000000, 1,  99, 0, 1, 1,  1, 0, 2, 1, 0, 0},
--	{593407000, 370879375, 4, 494, 1, 2, 0,  1, 3, 1, 1, 1, 0x816817},
--	{594000000, 371250000, 4, 495, 1, 2, 0,  1, 3, 1, 1, 1, 0},
--	{593407000, 593407000, 1,  98, 0, 2, 0,  1, 0, 1, 1, 0, 0xE6AE6B},
--	{594000000, 594000000, 1,  99, 0, 2, 0,  1, 0, 1, 1, 0, 0},
-+	{ 27000000,  27000000, 1,  90, 3, 2, 2, 10, 3, 3,  4, 0, 0},
-+	{ 27000000,  33750000, 1,  90, 1, 3, 3, 10, 3, 3,  4, 0, 0},
-+	{ 40000000,  40000000, 1,  80, 2, 2, 2, 12, 2, 2,  2, 0, 0},
-+	{ 40000000,  50000000, 1, 100, 2, 2, 2,  1, 0, 0, 15, 0, 0},
-+	{ 59341000,  59341000, 1,  98, 3, 1, 2,  1, 3, 3,  4, 0, 0xE6AE6B},
-+	{ 59400000,  59400000, 1,  99, 3, 1, 1,  1, 3, 3,  4, 0, 0},
-+	{ 59341000,  74176250, 1,  98, 0, 3, 3,  1, 3, 3,  4, 0, 0xE6AE6B},
-+	{ 59400000,  74250000, 1,  99, 1, 2, 2,  1, 3, 3,  4, 0, 0},
-+	{ 65000000,  65000000, 1, 130, 2, 2, 2,  1, 0, 0, 12, 0, 0},
-+	{ 65000000,  81250000, 3, 325, 0, 3, 3,  1, 0, 0, 10, 0, 0},
-+	{ 71000000,  71000000, 3, 284, 0, 3, 3,  1, 0, 0,  8, 0, 0},
-+	{ 71000000,  88750000, 3, 355, 0, 3, 3,  1, 0, 0, 10, 0, 0},
-+	{ 74176000,  74176000, 1,  98, 1, 2, 2,  1, 2, 3,  4, 0, 0xE6AE6B},
-+	{ 74250000,  74250000, 1,  99, 1, 2, 2,  1, 2, 3,  4, 0, 0},
-+	{ 74176000,  92720000, 4, 494, 1, 2, 2,  1, 3, 3,  4, 0, 0x816817},
-+	{ 74250000,  92812500, 4, 495, 1, 2, 2,  1, 3, 3,  4, 0, 0},
-+	{ 83500000,  83500000, 2, 167, 2, 1, 1,  1, 0, 0,  6, 0, 0},
-+	{ 83500000, 104375000, 1, 104, 2, 1, 1,  1, 1, 0,  5, 0, 0x600000},
-+	{ 85750000,  85750000, 3, 343, 0, 3, 3,  1, 0, 0,  8, 0, 0},
-+	{ 88750000,  88750000, 3, 355, 0, 3, 3,  1, 0, 0,  8, 0, 0},
-+	{ 88750000, 110937500, 1, 110, 2, 1, 1,  1, 1, 0,  5, 0, 0xF00000},
-+	{108000000, 108000000, 1,  90, 3, 0, 0,  1, 0, 0,  5, 0, 0},
-+	{108000000, 135000000, 1,  90, 0, 2, 2,  1, 0, 0,  5, 0, 0},
-+	{119000000, 119000000, 1, 119, 2, 1, 1,  1, 0, 0,  6, 0, 0},
-+	{119000000, 148750000, 1,  99, 0, 2, 2,  1, 0, 0,  5, 0, 0x2AAAAA},
-+	{148352000, 148352000, 1,  98, 1, 1, 1,  1, 2, 2,  2, 0, 0xE6AE6B},
-+	{148500000, 148500000, 1,  99, 1, 1, 1,  1, 2, 2,  2, 0, 0},
-+	{148352000, 185440000, 4, 494, 0, 2, 2,  1, 3, 2,  2, 0, 0x816817},
-+	{148500000, 185625000, 4, 495, 0, 2, 2,  1, 3, 2,  2, 0, 0},
-+	{162000000, 162000000, 1, 108, 0, 2, 2,  1, 0, 0,  4, 0, 0},
-+	{162000000, 202500000, 1, 135, 0, 2, 2,  1, 0, 0,  5, 0, 0},
-+	{296703000, 296703000, 1,  98, 0, 1, 1,  1, 0, 2,  2, 0, 0xE6AE6B},
-+	{297000000, 297000000, 1,  99, 0, 1, 1,  1, 0, 2,  2, 0, 0},
-+	{296703000, 370878750, 4, 494, 1, 2, 0,  1, 3, 1,  1, 0, 0x816817},
-+	{297000000, 371250000, 4, 495, 1, 2, 0,  1, 3, 1,  1, 0, 0},
-+	{593407000, 296703500, 1,  98, 0, 1, 1,  1, 0, 2,  1, 0, 0xE6AE6B},
-+	{594000000, 297000000, 1,  99, 0, 1, 1,  1, 0, 2,  1, 0, 0},
-+	{593407000, 370879375, 4, 494, 1, 2, 0,  1, 3, 1,  1, 1, 0x816817},
-+	{594000000, 371250000, 4, 495, 1, 2, 0,  1, 3, 1,  1, 1, 0},
-+	{593407000, 593407000, 1,  98, 0, 2, 0,  1, 0, 1,  1, 0, 0xE6AE6B},
-+	{594000000, 594000000, 1,  99, 0, 2, 0,  1, 0, 1,  1, 0, 0},
- 	{ /* sentinel */ }
- };
- 
--- 
-2.17.1
-
+On Thu, Jan 02, 2020 at 11:17:11AM +0100, Sam Ravnborg wrote:
+> There is an increasing number of new simple panels.
+> Common for many of these simple panels are that they have one
+> mandatory power-supply and some of them have backlight and / or
+> an enable gpio.
+> 
+> The binding file to describe these panels adds overhead
+> that really do not add value.
+> The binding are known and there is nothing gained from a
+> dedicated binding file nor for any dedicated example.
+> 
+> The following patch introduces a single panel-simple.yaml
+> and converts two ampire bindings over to the new file.
+> 
+> The conversion - if applied will have following effects:
+> 
+> - The maintainer for the individual file will change
+>     There is no need for many different maintainers for a simple binding.
+>     We have the same situation with the panel-simple driver in the kernel.
+> 
+> - The license will change to (GPL-2.0-only OR BSD-2-Clause)
+>     There is usually only a single line copied from the original
+>     file, a line that is often copied from a datasheet.
+>     This license change should be acceptable considered what little
+>     is copied.
+>     If the license change is not OK we can use a dedicated binding
+>     file in these cases.
+> 
+> This is a follow-up on Rob's big patch converting a lot of panel bindings
+> to individual files:
+> 
+> "dt-bindings: display: Convert a bunch of panels to DT schema"
+> https://patchwork.ozlabs.org/patch/1197683/
+> 
+> The objectives with one file for the relevant simple panels are:
+> - Make it simpler to add bindings for simple panels
+> - Keep the number of bindings file lower and thus easier to find a
+>   relevant file to copy from when adding new panels.
+> - Keep the binding documentation for simple panels more consistent
+> - Make it simpler to add support for new panels
+> 
+> v2:
+>   - spelling fixes (imirkin via irc, Rob)
+>   - updated description (Rob)
+>   - list properires in alphabetical order
+>   - added power-supply to example (Rob)
+>   - updated title
+>   - reworded changelog a little
+> 
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Yannick Fertre <yannick.fertre@st.com>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: devicetree@vger.kernel.org
+> ---
+>  .../panel/ampire,am-480272h3tmqw-t01h.yaml    | 42 -------------
+>  .../panel/ampire,am800480r3tmqwa1h.txt        |  7 ---
+>  .../bindings/display/panel/panel-simple.yaml  | 59 +++++++++++++++++++
+>  3 files changed, 59 insertions(+), 49 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/panel/ampire,am-480272h3tmqw-t01h.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/display/panel/ampire,am800480r3tmqwa1h.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/panel/ampire,am-480272h3tmqw-t01h.yaml b/Documentation/devicetree/bindings/display/panel/ampire,am-480272h3tmqw-t01h.yaml
+> deleted file mode 100644
+> index c6e33e7f36d0..000000000000
+> --- a/Documentation/devicetree/bindings/display/panel/ampire,am-480272h3tmqw-t01h.yaml
+> +++ /dev/null
+> @@ -1,42 +0,0 @@
+> -# SPDX-License-Identifier: GPL-2.0
+> -%YAML 1.2
+> ----
+> -$id: http://devicetree.org/schemas/display/panel/ampire,am-480272h3tmqw-t01h.yaml#
+> -$schema: http://devicetree.org/meta-schemas/core.yaml#
+> -
+> -title: Ampire AM-480272H3TMQW-T01H 4.3" WQVGA TFT LCD panel
+> -
+> -maintainers:
+> -  - Yannick Fertre <yannick.fertre@st.com>
+> -  - Thierry Reding <treding@nvidia.com>
+> -
+> -allOf:
+> -  - $ref: panel-common.yaml#
+> -
+> -properties:
+> -  compatible:
+> -    const: ampire,am-480272h3tmqw-t01h
+> -
+> -  power-supply: true
+> -  enable-gpios: true
+> -  backlight: true
+> -  port: true
+> -
+> -required:
+> -  - compatible
+> -
+> -additionalProperties: false
+> -
+> -examples:
+> -  - |
+> -    panel_rgb: panel {
+> -      compatible = "ampire,am-480272h3tmqw-t01h";
+> -      enable-gpios = <&gpioa 8 1>;
+> -      port {
+> -        panel_in_rgb: endpoint {
+> -          remote-endpoint = <&controller_out_rgb>;
+> -        };
+> -      };
+> -    };
+> -
+> -...
+> diff --git a/Documentation/devicetree/bindings/display/panel/ampire,am800480r3tmqwa1h.txt b/Documentation/devicetree/bindings/display/panel/ampire,am800480r3tmqwa1h.txt
+> deleted file mode 100644
+> index 83e2cae1cc1b..000000000000
+> --- a/Documentation/devicetree/bindings/display/panel/ampire,am800480r3tmqwa1h.txt
+> +++ /dev/null
+> @@ -1,7 +0,0 @@
+> -Ampire AM-800480R3TMQW-A1H 7.0" WVGA TFT LCD panel
+> -
+> -Required properties:
+> -- compatible: should be "ampire,am800480r3tmqwa1h"
+> -
+> -This binding is compatible with the simple-panel binding, which is specified
+> -in simple-panel.txt in this directory.
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> new file mode 100644
+> index 000000000000..51ca50201182
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> @@ -0,0 +1,59 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/panel-simple.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Simple panels with one power supply
+> +
+> +maintainers:
+> +  - Thierry Reding <thierry.reding@gmail.com>
+> +  - Sam Ravnborg <sam@ravnborg.org>
+> +
+> +description: |
+> +  This binding file is a collection of the simple (dumb) panels that
+> +  requires only a single power-supply.
+> +  There are optionally a backlight and an enable GPIO.
+> +  The panel may use an OF graph binding for the association to the display,
+> +  or it may be a direct child node of the display.
+> +
+> +  If the panel is more advanced a dedicated binding file is required. 
+> +
+> +allOf:
+> +  - $ref: panel-common.yaml#
+> +
+> +properties:
+> +
+> +  compatible:
+> +    enum:
+> +    # compatible must be listed in alphabetical order, ordered by compatible.
+> +    # The description in the comment is mandatory for each compatible.
+> +
+> +    # Ampire AM-480272H3TMQW-T01H 4.3" WQVGA TFT LCD panel
+> +    - ampire,am-480272h3tmqw-t01h
+> +    # Ampire AM-800480R3TMQW-A1H 7.0" WVGA TFT LCD panel
+> +    - ampire,am800480r3tmqwa1h
+> +
+> +  backlight: true
+> +  enable-gpios: true
+> +  port: true
+> +  power-supply: true
+> +
+> +additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - power-supply
+> +
+> +examples:
+> +  - |
+> +    panel_rgb: panel-rgb {
+> +      compatible = "ampire,am-480272h3tmqw-t01h";
+> +      power-supply = <&vcc_lcd_reg>;
+> +
+> +      port {
+> +        panel_in_rgb: endpoint {
+> +          remote-endpoint = <&ltdc_out_rgb>;
+> +        };
+> +      };
+> +    };
+> -- 
+> 2.20.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
