@@ -1,35 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75412135FD9
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 18:52:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96420135FCD
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 18:52:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE7646E946;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39ECA6E93F;
 	Thu,  9 Jan 2020 17:51:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0888F6E1A4
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 09:41:48 +0000 (UTC)
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 4020ED9CD9FD658F6AFA;
- Wed,  8 Jan 2020 17:41:46 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.439.0; Wed, 8 Jan 2020 17:41:37 +0800
-From: Tian Tao <tiantao6@hisilicon.com>
-To: <puck.chen@hisilicon.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <tzimmermann@suse.de>, <kraxel@redhat.com>, <alexander.deucher@amd.com>,
- <tglx@linutronix.de>, <dri-devel@lists.freedesktop.org>,
- <xinliang.liu@linaro.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] drm/hisilicon: Add the mode_valid function
-Date: Wed, 8 Jan 2020 17:41:41 +0800
-Message-ID: <1578476501-45807-1-git-send-email-tiantao6@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+X-Greylist: delayed 428 seconds by postgrey-1.36 at gabe;
+ Wed, 08 Jan 2020 12:16:03 UTC
+Received: from lb2-smtp-cloud8.xs4all.net (lb2-smtp-cloud8.xs4all.net
+ [194.109.24.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F3DE6E1C4
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 12:16:03 +0000 (UTC)
+Received: from [IPv6:2001:420:44c1:2577:919a:30e7:f323:4bf1]
+ ([IPv6:2001:420:44c1:2577:919a:30e7:f323:4bf1])
+ by smtp-cloud8.xs4all.net with ESMTPA
+ id pA8liVTFJpLtbpA8piGST2; Wed, 08 Jan 2020 13:08:54 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+ t=1578485334; bh=1C0KidIyiLVO8lwHIf540UFf1K42WRXWnuM8epXFZNw=;
+ h=Subject:From:To:Message-ID:Date:MIME-Version:Content-Type:From:
+ Subject;
+ b=q9Gsb9RT5m8IVE0R9IllFFtcoA/4erYYwBb7GEA/IF9HMxiEhyuMNkUjfrrBwq2E3
+ Z47dZAhFzskFSF3g5ttC4VD0LKhCCUgDBa2xurGDAg65gG8+cUJFV4QYyvKOijzJPw
+ wIs3mtlNyy3N+bs444FDU3kqd+h6Lsji5rl1KpF5Dzqzk8p/SbLSFnxh+wTR5qiNRv
+ H88Ms6yfeGfvRhOG2BTHDp/2agrycIL2s916RxyzLARa8CUhHrFxjquue4vrs6xOIE
+ KVWrLB9Wyug0vqfijuN1ZfQv/bTICOj45vX93u1tQZcGeXwCCBSnyplebEa3UkATHP
+ gmcfnrhQM2c6g==
+Subject: Re: [PATCH] drm/Kconfig: add missing 'depends on DRM' for DRM_DP_CEC
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To: Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+References: <489bdaae-9b05-2d70-12e1-4fda7899dfc1@xs4all.nl>
+Message-ID: <bbbef09d-6c90-75ba-e480-28365474b1a5@xs4all.nl>
+Date: Wed, 8 Jan 2020 13:08:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-Originating-IP: [10.69.192.56]
-X-CFilter-Loop: Reflected
+In-Reply-To: <489bdaae-9b05-2d70-12e1-4fda7899dfc1@xs4all.nl>
+Content-Language: en-US
+X-CMAE-Envelope: MS4wfAYfwofXI8ne6Q6yhVgrGvPLD/zxwNq2q6mztlCWWgWgoAv4NW0M2XXSlfY09uG4RbmlvFiIDWPtPT19dd0KbqR4ANU2Nd2J+S1CrgdwZskROWo0Fc9N
+ 5c6UzcxMzpfJdrfF1CbgOptP5vj3OiH4SLqCCMErYELzN8Y8QPjXHoh11eL2Q6qIij8k1t112N8R76YVVUibScyaEGlYQZC0uThe8HO/ec4tb2Qht6TPLkH3
+ j77oM5JOEjba9lpLjmNLR1mm1QtdP6oSB58Bf5PE13+l4pA+vYKra1Mb/hdiTLLd8/Svz8bCoQfoSARKrpkW3BNGadrPJFmC2RyW809egV7zJkHY6Mu2cpoN
+ YFHmNMlkQpgmhIZ63iuYWBrE9j9FIw==
 X-Mailman-Approved-At: Thu, 09 Jan 2020 17:51:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,64 +57,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linuxarm@huawei.com
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-add mode_valid function, we can make sure the resolution is valid.
+On 12/6/19 12:26 PM, Hans Verkuil wrote:
+> Add a missing 'depends on DRM' for the DRM_DP_CEC config
+> option. Without that enabling DRM_DP_CEC will force CEC_CORE
+> to =y instead of =m if DRM=m as well.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
-Signed-off-by: Gong junjie <gongjunjie2@huawei.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+Daniel, can you review this? It's annoying that the cec core is
+compiled as part of the kernel when it can just be a module.
 
----
-v2:	declare hibmc_crtc_mode_valid as static.
-	Modify the return value of hibmc_crtc_mode_valid .
----
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+Regards,
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
-index 843d784..675d629 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
-@@ -242,6 +242,24 @@ static void hibmc_crtc_atomic_disable(struct drm_crtc *crtc,
- 	hibmc_set_current_gate(priv, reg);
- }
- 
-+static enum drm_mode_status hibmc_crtc_mode_valid(struct drm_crtc *crtc,
-+					const struct drm_display_mode *mode)
-+{
-+	int i = 0;
-+	int vrefresh = drm_mode_vrefresh(mode);
-+
-+	if (vrefresh < 59 || vrefresh > 61)
-+		return MODE_NOCLOCK;
-+
-+	for (i = 0; i < ARRAY_SIZE(hibmc_pll_table); i++) {
-+		if (hibmc_pll_table[i].hdisplay == mode->hdisplay &&
-+			hibmc_pll_table[i].vdisplay == mode->vdisplay)
-+			return MODE_OK;
-+	}
-+
-+	return MODE_BAD;
-+}
-+
- static unsigned int format_pll_reg(void)
- {
- 	unsigned int pllreg = 0;
-@@ -510,6 +528,7 @@ static const struct drm_crtc_helper_funcs hibmc_crtc_helper_funcs = {
- 	.atomic_flush	= hibmc_crtc_atomic_flush,
- 	.atomic_enable	= hibmc_crtc_atomic_enable,
- 	.atomic_disable	= hibmc_crtc_atomic_disable,
-+	.mode_valid = hibmc_crtc_mode_valid,
- };
- 
- int hibmc_de_init(struct hibmc_drm_private *priv)
--- 
-2.7.4
+	Hans
+
+> ---
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index 1168351267fd..e8e478d6da9c 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -163,6 +163,7 @@ config DRM_LOAD_EDID_FIRMWARE
+> 
+>  config DRM_DP_CEC
+>  	bool "Enable DisplayPort CEC-Tunneling-over-AUX HDMI support"
+> +	depends on DRM
+>  	select CEC_CORE
+>  	help
+>  	  Choose this option if you want to enable HDMI CEC support for
+> 
 
 _______________________________________________
 dri-devel mailing list
