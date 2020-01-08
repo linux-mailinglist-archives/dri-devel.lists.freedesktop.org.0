@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A8FE133D78
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 09:45:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A4A4133D91
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 09:48:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D5506E877;
-	Wed,  8 Jan 2020 08:44:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3140589BF5;
+	Wed,  8 Jan 2020 08:48:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FAA76E877;
- Wed,  8 Jan 2020 08:44:57 +0000 (UTC)
-Received: from mail-qk1-f169.google.com ([209.85.222.169]) by
- mrelayeu.kundenserver.de (mreue011 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1MQNAv-1j25Xa21Dt-00MNUE; Wed, 08 Jan 2020 09:44:55 +0100
-Received: by mail-qk1-f169.google.com with SMTP id x1so1896593qkl.12;
- Wed, 08 Jan 2020 00:44:55 -0800 (PST)
-X-Gm-Message-State: APjAAAUnWS2dCz4MfX76E88zD9UYmW4pBsaOjYeeDmDJ4YP6eo8tA/Sv
- mEjZViVneIWwWpnKgACoBBPsZKaOx8m6kdDaYl8=
-X-Google-Smtp-Source: APXvYqwBkJ8QmnIL+nEzdyW4cVb2dCgT1+bxTVHrv/QXRUdjO9mWLnIecKxCrEVE9XkgL278ZPmA2bqFRRwBDXNH4F8=
-X-Received: by 2002:a05:620a:a5b:: with SMTP id
- j27mr3333439qka.286.1578473093254; 
- Wed, 08 Jan 2020 00:44:53 -0800 (PST)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA06789BF5
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 08:48:44 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 5AB81AD82;
+ Wed,  8 Jan 2020 08:48:43 +0000 (UTC)
+Subject: Re: [PATCH] drm/hisilicon: add the mode_valid function
+To: Tian Tao <tiantao6@hisilicon.com>, puck.chen@hisilicon.com,
+ airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
+ alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
+ linux-kernel@vger.kernel.org
+References: <1578471540-43322-1-git-send-email-tiantao6@hisilicon.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <ae14b728-d2dc-282d-2fed-19bf6db4df64@suse.de>
+Date: Wed, 8 Jan 2020 09:48:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-References: <1578415992-24054-1-git-send-email-krzk@kernel.org>
- <CAMuHMdW4ek0OYQDrrbcpZjNUTTP04nSbwkmiZvBmKcU=PQM9qA@mail.gmail.com>
- <CAMuHMdUBmYtJKtSYzS_5u67hVZOqcKSgFY1rDGme6gLNRBJ_gA@mail.gmail.com>
- <CAJKOXPfq9vS4kSyx1jOPHBvi9_HjviRv0LU2A8ZwdmqgUuebHQ@mail.gmail.com>
- <2355489c-a207-1927-54cf-85c04b62f18f@c-s.fr>
-In-Reply-To: <2355489c-a207-1927-54cf-85c04b62f18f@c-s.fr>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Wed, 8 Jan 2020 09:44:36 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a21yPrmp4ik3Ei1BZfeqZNf0wL5NZNF3uXqb4FLRDyUPw@mail.gmail.com>
-Message-ID: <CAK8P3a21yPrmp4ik3Ei1BZfeqZNf0wL5NZNF3uXqb4FLRDyUPw@mail.gmail.com>
-Subject: Re: [RFT 00/13] iomap: Constify ioreadX() iomem argument
-To: Christophe Leroy <christophe.leroy@c-s.fr>
-X-Provags-ID: V03:K1:eTwWuJU3Pu3vfd3swVS9/O4ZrS6NM/8n5pPg/n4irQSs/OB+VVg
- x/CBdQIz5s8c7asLWUUfG2Pn39A5X/kwd5K8mIkp1m4PXS2zIxR3KTXqUSbavIGaFgrIpFn
- pv+/R8qG+EsDUt2tGqqLTg06tARAP0SlPtTA8l8weCExGECE78YsqPUECNoIvLG1mYlU4S3
- R6kVU/IJOMDq+U1Up5z7w==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:MBHbI+rS12o=:z9ZLslwhwB/ZVyaKq0arkH
- oFv0Cj9cfbnxgkJO88/KRoqzk5HfR3UHl/4BJNXVtlYzlIkcNXSPkz/bp+2DmG/IXbSXTXdav
- SW6eckp9EWYdithsul/W7WycmcRqqxnDl5LrK6xHVz/8wE1DHooPzSjY7aRKgZ3Gk87B32a2r
- kAW4ZTM7iuFIW3uwSI4eKlTcbx5P2tTZAnCicZyASTEBckERuBkha99Usa3ukKGgBvyTIQfdn
- CsL8MRgmIrxCYst6omXOzwmY2GT6CubgqJ/d1OVCa9jVaodOKgSqqEnAUUplxjrb8kMf84GzI
- AYtx5JfybWvqkPGiHwlPTU6C4Ps3tqx7m/4tHSDDkZKnj16xtx142dvA3Y5DM9olrtZ4dSRVh
- y5r8msadRPIpR3a5ySQ40JEhASZk9s9oh7y2Lw4Fj9blRWZbENqDD6/IGpDCfqKwAf8XfWb0q
- dg5csAZXMpvbN3yrf8a37W4dwwHoO1Z5WZ6TXBxbNcXS8/k9cIVrBn/sjJSHpe0CE4Rl9NWKf
- ckeI+HiSLDtykomeqIuuPQkOS886EyaruY6sOqW7FSZWqRMeddTXGsEmrrZatINaHBws38SPG
- NO1QD+CKm2eWeXtvP8Zh1Zt4DlCXOJgluH3bPdoymx6nnDIsKcB+otqZMr2O44pByXrk5bMG8
- DgK6vQaJGarLOkF+aYU4CiMBhlumiQZLen1AN+NHN+ojIhfqk5rqymVwgXojRkTbNRIM1a+V/
- eO+paOlu/UG2SckQIUSMAh/zFIOC21RKNcHRj6pY/ZbkT1cY7vQqRAaCFPwQKU5oNyPMrHskI
- CZhlF2kleSDA/Oqw3A6OqU0lEOb17kzIQscveThEoMn/NNuMRQ9uVZkbkqP+qjL5I1uGd36+9
- 1WsYacINx5MpOfcV23Cw==
+In-Reply-To: <1578471540-43322-1-git-send-email-tiantao6@hisilicon.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,71 +67,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rich Felker <dalias@libc.org>, Jiri Slaby <jirislaby@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, David Airlie <airlied@linux.ie>,
- ML nouveau <nouveau@lists.freedesktop.org>, Jason Wang <jasowang@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- virtualization@lists.linux-foundation.org,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Paul Mackerras <paulus@samba.org>, Linux-Arch <linux-arch@vger.kernel.org>,
- Dave Jiang <dave.jiang@intel.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- Helge Deller <deller@gmx.de>, Linux-sh list <linux-sh@vger.kernel.org>,
- Alexey Brodkin <abrodkin@synopsys.com>, Krzysztof Kozlowski <krzk@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Ben Skeggs <bskeggs@redhat.com>,
- Dave Airlie <airlied@redhat.com>, Matt Turner <mattst88@gmail.com>,
- arcml <linux-snps-arc@lists.infradead.org>,
- Nick Kossifidis <mickflemm@gmail.com>, Allen Hubbe <allenbh@gmail.com>,
- Jon Mason <jdmason@kudzu.us>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Kalle Valo <kvalo@codeaurora.org>,
- Richard Henderson <rth@twiddle.net>,
- Parisc List <linux-parisc@vger.kernel.org>, netdev <netdev@vger.kernel.org>,
- linux-wireless <linux-wireless@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Vineet Gupta <vgupta@synopsys.com>,
- alpha <linux-alpha@vger.kernel.org>, linux-ntb@googlegroups.com,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linuxarm@huawei.com
+Content-Type: multipart/mixed; boundary="===============0945938196=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBKYW4gOCwgMjAyMCBhdCA5OjM2IEFNIENocmlzdG9waGUgTGVyb3kgPGNocmlzdG9w
-aGUubGVyb3lAYy1zLmZyPiB3cm90ZToKPiBMZSAwOC8wMS8yMDIwIMOgIDA5OjE4LCBLcnp5c3p0
-b2YgS296bG93c2tpIGEgw6ljcml0IDoKPiA+IE9uIFdlZCwgOCBKYW4gMjAyMCBhdCAwOToxMywg
-R2VlcnQgVXl0dGVyaG9ldmVuIDxnZWVydEBsaW51eC1tNjhrLm9yZz4gd3JvdGU6Cj4gPiBJJ2xs
-IGFkZCB0byB0aGlzIG9uZSBhbHNvIGNoYW5nZXMgdG8gaW9yZWFkWF9yZXAoKSBhbmQgYWRkIGFu
-b3RoZXIKPiA+IHBhdGNoIGZvciB2b2xhdGlsZSBmb3IgcmVhZHMgYW5kIHdyaXRlcy4gSSBndWVz
-cyB5b3VyIHJldmlldyB3aWxsIGJlCj4gPiBhcHByZWNpYXRlZCBvbmNlIG1vcmUgYmVjYXVzZSBv
-ZiBpb3JlYWRYX3JlcCgpCj4gPgo+Cj4gdm9sYXRpbGUgc2hvdWxkIHJlYWxseSBvbmx5IGJlIHVz
-ZWQgd2hlcmUgZGVlbWVkIG5lY2Vzc2FyeToKPgo+IGh0dHBzOi8vd3d3Lmtlcm5lbC5vcmcvZG9j
-L2h0bWwvbGF0ZXN0L3Byb2Nlc3Mvdm9sYXRpbGUtY29uc2lkZXJlZC1oYXJtZnVsLmh0bWwKPgo+
-IEl0IGlzIHNhaWQ6ICIgLi4uICBhY2Nlc3NvciBmdW5jdGlvbnMgbWlnaHQgdXNlIHZvbGF0aWxl
-IG9uCj4gYXJjaGl0ZWN0dXJlcyB3aGVyZSBkaXJlY3QgSS9PIG1lbW9yeSBhY2Nlc3MgZG9lcyB3
-b3JrLiBFc3NlbnRpYWxseSwKPiBlYWNoIGFjY2Vzc29yIGNhbGwgYmVjb21lcyBhIGxpdHRsZSBj
-cml0aWNhbCBzZWN0aW9uIG9uIGl0cyBvd24gYW5kCj4gZW5zdXJlcyB0aGF0IHRoZSBhY2Nlc3Mg
-aGFwcGVucyBhcyBleHBlY3RlZCBieSB0aGUgcHJvZ3JhbW1lci4iCgpUaGUgSS9PIGFjY2Vzc29y
-cyBhcmUgb25lIG9mIHRoZSBmZXcgcGxhY2VzIGluIHdoaWNoICd2b2xhdGlsZScgZ2VuZXJhbGx5
-Cm1ha2VzIHNlbnNlLCBhdCBsZWFzdCBmb3IgdGhlIGltcGxlbWVudGF0aW9ucyB0aGF0IGRvIGEg
-cGxhaW4gcG9pbnRlcgpkZXJlZmVyZW5jZSAocHJvYmFibHkgbm9uZSBvZiB0aGUgb25lcyBpbiBx
-dWVzdGlvbiBoZXJlKS4KCkluIGNhc2Ugb2YgcmVhZGwvd3JpdGVsLCB0aGlzIGlzIHdoYXQgd2Ug
-ZG8gaW4gYXNtLWdlbmVyaWM6CgpzdGF0aWMgaW5saW5lIHUzMiBfX3Jhd19yZWFkbChjb25zdCB2
-b2xhdGlsZSB2b2lkIF9faW9tZW0gKmFkZHIpCnsKICAgICAgICByZXR1cm4gKihjb25zdCB2b2xh
-dGlsZSB1MzIgX19mb3JjZSAqKWFkZHI7Cn0KClRoZSBfX2ZvcmNlLWNhc3QgdGhhdCByZW1vdmVz
-IHRoZSBfX2lvbWVtIGhlcmUgYWxzbyBtZWFucyB0aGF0CnRoZSAndm9sYXRpbGUnIGtleXdvcmQg
-Y291bGQgYmUgZHJvcHBlZCBmcm9tIHRoZSBhcmd1bWVudCBsaXN0LAphcyBpdCBoYXMgbm8gcmVh
-bCBlZmZlY3QgYW55IG1vcmUsIGJ1dCB0aGVuIHRoZXJlIGFyZSBhIGZldyBkcml2ZXJzCnRoYXQg
-bWFyayB0aGVpciBpb21lbSBwb2ludGVycyBhcyBlaXRoZXIgJ3ZvbGF0aWxlIHZvaWQgX19pb21l
-bSonIG9yCih3b3JzZSkgJ3ZvbGF0aWxlIHZvaWQgKicsIHNvIHdlIGtlZXAgaXQgaW4gdGhlIGFy
-Z3VtZW50IGxpc3QgdG8gbm90CmFkZCB3YXJuaW5ncyBmb3IgdGhvc2UgZHJpdmVycy4KCkl0IG1h
-eSBiZSB0aW1lIHRvIGNoYW5nZSB0aGVzZSBkcml2ZXJzIHRvIG5vdCB1c2Ugdm9sYXRpbGUgZm9y
-IF9faW9tZW0KcG9pbnRlcnMsIGJ1dCB0aGF0IHNlZW1zIG91dCBvZiBzY29wZSBmb3Igd2hhdCBL
-cnp5c3p0b2YgaXMgdHJ5aW5nCnRvIGRvLiBJZGVhbGx5IHdlIHdvdWxkIGJlIGNvbnNpc3RlbnQg
-aGVyZSB0aG91Z2gsIGVpdGhlciB1c2luZyB2b2xhdGlsZQphbGwgdGhlIHRpbWUgb3IgbmV2ZXIu
-CgogICAgICAgIEFybmQKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVsCg==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0945938196==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="OZ3Z0Rm1PvXry6qAkJcWesTazNMCuYBUx"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--OZ3Z0Rm1PvXry6qAkJcWesTazNMCuYBUx
+Content-Type: multipart/mixed; boundary="ujRMYAIfhnuseeewZLl362zPnio58F1kj";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Tian Tao <tiantao6@hisilicon.com>, puck.chen@hisilicon.com,
+ airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
+ alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
+ linux-kernel@vger.kernel.org
+Cc: linuxarm@huawei.com
+Message-ID: <ae14b728-d2dc-282d-2fed-19bf6db4df64@suse.de>
+Subject: Re: [PATCH] drm/hisilicon: add the mode_valid function
+References: <1578471540-43322-1-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <1578471540-43322-1-git-send-email-tiantao6@hisilicon.com>
+
+--ujRMYAIfhnuseeewZLl362zPnio58F1kj
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+here are a few more nits to fix.
+
+Am 08.01.20 um 09:19 schrieb Tian Tao:
+> add mode_valid function, and we can also use it to make suse the resolu=
+tion
+> is valid.
+
+Start with capital 'Add' and make it a simple sentence. Change 'suse' to
+'sure'
+
+>=20
+> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+> Signed-off-by: Gong junjie <gongjunjie2@huawei.com>
+> ---
+>  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c | 20 ++++++++++++++++++=
+++
+>  1 file changed, 20 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c b/drivers/g=
+pu/drm/hisilicon/hibmc/hibmc_drm_de.c
+> index 843d784..6cb7a79 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+> @@ -242,6 +242,25 @@ static void hibmc_crtc_atomic_disable(struct drm_c=
+rtc *crtc,
+>  	hibmc_set_current_gate(priv, reg);
+>  }
+> =20
+> +enum drm_mode_status hibmc_crtc_mode_valid(struct drm_crtc *crtc,
+> +					const struct drm_display_mode *mode)
+
+Please declare this function as static.
+
+> +{
+> +	int i =3D 0;
+> +	int vrefresh =3D drm_mode_vrefresh(mode);
+> +
+> +	if (vrefresh < 59 || vrefresh > 61)
+> +		return MODE_NOMODE;
+
+I'd return MODE_NOCLOCK or MODE_CLOCK_RANGE.
+
+> +
+> +	for (i =3D 0; i < ARRAY_SIZE(hibmc_pll_table); i++) {
+> +		if (hibmc_pll_table[i].hdisplay =3D=3D mode->hdisplay &&
+> +			hibmc_pll_table[i].vdisplay =3D=3D mode->vdisplay)
+> +			return MODE_OK;
+> +	}
+> +
+> +	return MODE_NOMODE;
+
+Maybe return MODE_BAD. MODE_NOMODE apparently refers to a descriptive
+string for the mode.
+
+> +}
+> +
+> +
+
+One one empty line please.
+
+With these fixes applied, you can add my
+
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Best regards
+Thomas
+
+
+>  static unsigned int format_pll_reg(void)
+>  {
+>  	unsigned int pllreg =3D 0;
+> @@ -510,6 +529,7 @@ static const struct drm_crtc_helper_funcs hibmc_crt=
+c_helper_funcs =3D {
+>  	.atomic_flush	=3D hibmc_crtc_atomic_flush,
+>  	.atomic_enable	=3D hibmc_crtc_atomic_enable,
+>  	.atomic_disable	=3D hibmc_crtc_atomic_disable,
+> +	.mode_valid =3D hibmc_crtc_mode_valid,
+>  };
+> =20
+>  int hibmc_de_init(struct hibmc_drm_private *priv)
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--ujRMYAIfhnuseeewZLl362zPnio58F1kj--
+
+--OZ3Z0Rm1PvXry6qAkJcWesTazNMCuYBUx
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl4Vl2cACgkQaA3BHVML
+eiOtvQgAl+IKOBGin0jJPitb0wqB32GKS7u8kxNi8XOnM9YrgBAVf1kh2JEKQid4
+uwPj9RXDKcvUPvQmPL/vtbnwW4bOC6Ozd5T4hLr/LFURtvLk7KPnLrCYaiYYLlpq
+dEy+hgizVw99TzD/os1Y9YipRQcfExiNKQZwoFpNC95csJENwPZuLdQpcacisQpZ
+bIo91OvPy/U9vpmqsrNYW7S9CMguPO0fQ2giSRkvVho88zCzsxwahI/SS4Ts0RJk
+IXhjiqytFxcRonvLJR272RqdCTH8LodVCbXFbXZTYasTsQDzXHXnz9vZvEK/eZwI
++jl149f6VR4riTxQ5uDKMT9Ei0cWmw==
+=QA9q
+-----END PGP SIGNATURE-----
+
+--OZ3Z0Rm1PvXry6qAkJcWesTazNMCuYBUx--
+
+--===============0945938196==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0945938196==--
