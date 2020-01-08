@@ -1,93 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2B3C133929
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 03:36:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDDCD133AC4
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 06:21:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 915626E84B;
-	Wed,  8 Jan 2020 02:36:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA07D6E156;
+	Wed,  8 Jan 2020 05:20:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2076.outbound.protection.outlook.com [40.107.94.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 590056E84B
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 02:36:21 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V/oR3f/Jy6+0eT0ljsoelI/J7+PjjPZnvFWYKTeyfUuGxW5LZ60cf3eBRA/5mhcYfvnJ8yzrO/rwDWmgbEvQ7hf1FY2K7G6Wcfyv1YgJOQC0dRIOmm/9+mh6wjs4L5HNtG0+fWyygHkjWD08A1iwrsV/BcWXiBC83qlw38ydD+KAuICP92QmJG6k8+OnYLnGf3ECIfwxkD8hyeSEGf4PkPE2iQ9v9Zr71T6TTnX97GMvvSwEncPfHUiZXsh+raXKLUrH+9HEggTWnnuKWC8ZoNEdscmGDZBV6O4BLaEq5Jl/Y5YhZHMVCLK1p1NJxh0xyOaJ+lkV5ZVniLuXEbJhPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NUH5iwiPaX/v8wnl/BJqHwRlobRjzAH31Mo4GI7iKQ8=;
- b=Qf49l1YL0M+ZFtZ+eQrxJw6Noby2zImQ5eo/ycZ0tvTs7muuim8mloyKsQVo3iL1bQUb+jxKFFcXD2J+rfBGxw/iM38J/Vn9ZYZHbkb/749lr+LZVlanBoMLbZTXW+87xQ4KB7KZiAzYeFpHWlOykP8mLherka5jsQx2ywvbMneBgjbI+WhVqkt4M/wxmAdMrsUmKvtDL/1DLmJNIN+zUhNQvOYIzJzY8ciGr/OFbJ9Lp9K5KOnFRgyDu9D1Zi2ubFCcw7Xa4At4nC06LPuzf05f2Muzwt9nYOivdEmDYT3vx+zZPSRGnSb1DmHA61x74FKTtaLqKiPZMCY8uLAM4w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NUH5iwiPaX/v8wnl/BJqHwRlobRjzAH31Mo4GI7iKQ8=;
- b=2bFYBPtaWzNv2BCPJHrfkWTZDJoU78boSTBDvGy1Q1vSvmGDMrMo/Ts4/cMvhuWdeyMfFgFBZL8S2ie9MJmkk43tTmRsRX310VfK0mwpzbO7enPmFVQfSmObQbGapPknlasyARg0TUJD9dNd+HcTdDHB8mEndZraNnTywMyZeFc=
-Received: from MN2PR12MB3296.namprd12.prod.outlook.com (20.179.80.139) by
- MN2PR12MB3136.namprd12.prod.outlook.com (20.178.244.89) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2602.15; Wed, 8 Jan 2020 02:36:19 +0000
-Received: from MN2PR12MB3296.namprd12.prod.outlook.com
- ([fe80::90a0:8353:690c:1751]) by MN2PR12MB3296.namprd12.prod.outlook.com
- ([fe80::90a0:8353:690c:1751%7]) with mapi id 15.20.2602.016; Wed, 8 Jan 2020
- 02:36:19 +0000
-From: "Wang, Kevin(Yang)" <Kevin1.Wang@amd.com>
-To: kbuild test robot <lkp@intel.com>, "Cui, Flora" <Flora.Cui@amd.com>
-Subject: Re: [radeon-alex:amd-19.50 1794/2680] cc1: fatal error:
- dkms/config/config.h: No such file or directory
-Thread-Topic: [radeon-alex:amd-19.50 1794/2680] cc1: fatal error:
- dkms/config/config.h: No such file or directory
-Thread-Index: AQHVxZ0EmhFxEmBLA0ynCdiYAzveS6fgDP9N
-Date: Wed, 8 Jan 2020 02:36:19 +0000
-Message-ID: <MN2PR12MB3296709A03D6B1414B0A13C3A23E0@MN2PR12MB3296.namprd12.prod.outlook.com>
-References: <202001080436.qzcoeKg9%lkp@intel.com>
-In-Reply-To: <202001080436.qzcoeKg9%lkp@intel.com>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Enabled=True;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SetDate=2020-01-08T02:36:18.911Z;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Name=Internal
- Distribution
- Only; MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ContentBits=0;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Method=Standard; 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Kevin1.Wang@amd.com; 
-x-originating-ip: [180.167.199.189]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: a667002c-08f1-425b-484c-08d793e38b29
-x-ms-traffictypediagnostic: MN2PR12MB3136:|MN2PR12MB3136:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR12MB3136ACD985C30C6B758A8E2DA23E0@MN2PR12MB3136.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:113;
-x-forefront-prvs: 02760F0D1C
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(396003)(366004)(136003)(39860400002)(376002)(346002)(199004)(189003)(81156014)(6506007)(26005)(8676002)(53546011)(186003)(5660300002)(7696005)(71200400001)(4326008)(966005)(45080400002)(478600001)(52536014)(86362001)(33656002)(9686003)(2906002)(8936002)(19627405001)(316002)(55016002)(66556008)(91956017)(76116006)(6636002)(110136005)(54906003)(66476007)(66446008)(81166006)(64756008)(66946007);
- DIR:OUT; SFP:1101; SCL:1; SRVR:MN2PR12MB3136;
- H:MN2PR12MB3296.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: /evmllcO+2RsbI7XiffkvJHrKUnWYtX/4lce/xYduO9jwuASGqfcdT8oIL/WDa4S4R180qSBVLrfxwMdJTOhTtjC7jmY0PAPKH6odc0QWoj5V2lsnITfKly4bq5qIDY9Y1epH8OSokrMavRa7VelcPLdKh7oAoDoyzCzO/OjBkFFry865EsIC+z7bma0i+qwWGbginR50h537XqNDTnCHLR3tKquaF/Fi/rB6NZ/iFHeXBk4gUn+KLD7fEHgvKAYdTqFItZ5DTaDkNx6chTMzSydPyf3LBNrqwwBt1it1E6ydlI6fSMEc/kbWy0PS1cB0Tr+snsh9CizmTRbCbvGtVFBwlDuvlHE+qtEqOLNs+ZbhF0W8NMMkdfzcI4tQONiS4znOnytCBYaJqXuuQ1mcQK2weQJqdX8OgDNFBf+TMkSmACv6cRzRRGKWuztDDM5GGMqBtzE+01m/qHb1h82MrLwi6Dr7ScRjFA9eh+mjjBRfF7VMoenGPo5dVybmeWVebJXgDX8ffRpP1QYmQa43Q==
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 984D46E156
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 05:20:54 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id D9168B118;
+ Wed,  8 Jan 2020 05:20:52 +0000 (UTC)
+Subject: Re: [drm/mgag200] 90f479ae51: vm-scalability.median -18.8% regression
+To: Rong Chen <rong.a.chen@intel.com>, Feng Tang <feng.tang@intel.com>
+References: <20190729095155.GP22106@shao2-debian>
+ <1c0bf22b-2c69-6b45-f700-ed832a3a5c17@suse.de>
+ <14fdaaed-51c8-b270-b46b-cba7b5c4ba52@suse.de>
+ <20190805070200.GA91650@shbuild999.sh.intel.com>
+ <2f524683-d9ee-77b6-1253-5645dff050a7@suse.de>
+ <20190805125239.GB96155@shbuild999.sh.intel.com>
+ <89eedbfc-6174-e59d-921e-b92d11a52331@suse.de>
+ <654bacf5-0567-0552-5cdb-c155d96d92bf@intel.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <fc55325c-a7bf-a431-fdd8-0fc2af91476f@suse.de>
+Date: Wed, 8 Jan 2020 06:20:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a667002c-08f1-425b-484c-08d793e38b29
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jan 2020 02:36:19.5863 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: n7XZvFT5mx9VKiCrIQqgm1TQ1hQM2o6G5iFdlATeUuH7B035sS+7PegkxQ6+LvqB
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3136
+In-Reply-To: <654bacf5-0567-0552-5cdb-c155d96d92bf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,227 +70,291 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Xu, Feifei" <Feifei.Xu@amd.com>,
- "kbuild-all@lists.01.org" <kbuild-all@lists.01.org>, "Gui, 
- Jack" <Jack.Gui@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Zhang,
- Yifan1" <Yifan1.Zhang@amd.com>
-Content-Type: multipart/mixed; boundary="===============1239605887=="
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, michel@daenzer.net, lkp@01.org,
+ dri-devel <dri-devel@lists.freedesktop.org>, ying.huang@intel.com
+Content-Type: multipart/mixed; boundary="===============1066691322=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1239605887==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1066691322==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="4EKelUYPqVNFq76sSaMyEmgK65ckOiMfs"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--4EKelUYPqVNFq76sSaMyEmgK65ckOiMfs
+Content-Type: multipart/mixed; boundary="UYWBDkO2Xfm87dA1bmuufDTNcQK8LUzfv";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Rong Chen <rong.a.chen@intel.com>, Feng Tang <feng.tang@intel.com>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, michel@daenzer.net,
+ dri-devel <dri-devel@lists.freedesktop.org>, ying.huang@intel.com, lkp@01.org
+Message-ID: <fc55325c-a7bf-a431-fdd8-0fc2af91476f@suse.de>
+Subject: Re: [drm/mgag200] 90f479ae51: vm-scalability.median -18.8% regression
+References: <20190729095155.GP22106@shao2-debian>
+ <1c0bf22b-2c69-6b45-f700-ed832a3a5c17@suse.de>
+ <14fdaaed-51c8-b270-b46b-cba7b5c4ba52@suse.de>
+ <20190805070200.GA91650@shbuild999.sh.intel.com>
+ <2f524683-d9ee-77b6-1253-5645dff050a7@suse.de>
+ <20190805125239.GB96155@shbuild999.sh.intel.com>
+ <89eedbfc-6174-e59d-921e-b92d11a52331@suse.de>
+ <654bacf5-0567-0552-5cdb-c155d96d92bf@intel.com>
+In-Reply-To: <654bacf5-0567-0552-5cdb-c155d96d92bf@intel.com>
+
+--UYWBDkO2Xfm87dA1bmuufDTNcQK8LUzfv
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_MN2PR12MB3296709A03D6B1414B0A13C3A23E0MN2PR12MB3296namp_"
-
---_000_MN2PR12MB3296709A03D6B1414B0A13C3A23E0MN2PR12MB3296namp_
-Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-[AMD Official Use Only - Internal Distribution Only]
+Hi
 
-Hi,
+Am 08.01.20 um 03:25 schrieb Rong Chen:
+> Hi Thomas,
+>=20
+> The previous throughput was reduced from 43955 to 35691, and there is a=
+ little increase in next-20200106,
+> but there is no obvious change after the patchset:
 
-the fixed patch has been merged into 19.50 branch yesterday.
+OK, I would have hoped for some improvements. Anyway, thanks for testing.=
 
-commit 673383cfa8707eb024669f510837694081da65c5
-Author: Flora Cui <flora.cui@amd.com>
-Date:   Thu Nov 28 15:20:06 2019 +0800
 
-    drm/amdkcl: fix intree build issue for config.h
+Best regards
+Thomas
 
-    fix "make O=3D$(output_dir) modules M=3Ddrivers/gpu/drm/amd/amdgpu"
+> =C2=A0
+> commit:=20
+>   f1f8555dfb ("drm/bochs: Use shadow buffer for bochs framebuffer conso=
+le")
+>   90f479ae51 ("drm/mgag200: Replace struct mga_fbdev with generic frame=
+buffer emulation")
+>=20
+> f1f8555dfb9a70a2 90f479ae51afa45efab97afdde9=20
+> ---------------- ---------------------------=20
+>          %stddev     %change         %stddev
+>              \          |                \ =20
+>      43955 =C2=B1  2%     -18.8%      35691        vm-scalability.media=
+n
+>=20
+> commit:=20
+>=20
+>   9eb1b48ca4 ("Add linux-next specific files for 20200106")
+>   5f20199bac ("drm/fb-helper: Synchronize dirty worker with vblank")
+>=20
+>  next-20200106  5f20199bac9b2de71fd2158b90
+> ----------------  --------------------------
+>          %stddev      change         %stddev
+>              \          |                \ =20
+>      38550                       38744      =20
+>      38549                       38744        vm-scalability.median
+>=20
+>=20
+> Best Regards,
+> Rong Chen
+>=20
+> On 1/6/20 9:19 PM, Thomas Zimmermann wrote:
+>> Hi Feng,
+>>
+>> do you still have the test setup that produced the performance penalty=
+?
+>>
+>> If so, could you give a try to the patchset at [1]? I think I've fixed=
 
-    Signed-off-by: Flora Cui <flora.cui@amd.com>
-    Reviewed-by: Kevin Wang <kevin1.wang@amd.com>
+>> the remaining issues in earlier versions and I'd like to see if it
+>> actually improves performance.
+>>
+>> Best regards
+>> Thomas
+>>
+>> [1]
+>> https://lists.freedesktop.org/archives/dri-devel/2019-December/247771.=
+html
+>>
+>> Am 05.08.19 um 14:52 schrieb Feng Tang:
+>>> Hi Thomas,
+>>>
+>>> On Mon, Aug 05, 2019 at 12:22:11PM +0200, Thomas Zimmermann wrote:
+>>>
+>>> 	[snip]=20
+>>>
+>>>>>>   2019-08-03 19:29:17  ./case-anon-cow-seq-hugetlb
+>>>>>>   2019-08-03 19:29:17  ./usemem --runtime 300 -n 4 --prealloc --pr=
+efault
+>>>>>>     -O -U 815394406
+>>>>>>   917318700 bytes / 659419 usecs =3D 1358497 KB/s
+>>>>>>   917318700 bytes / 659658 usecs =3D 1358005 KB/s
+>>>>>>   917318700 bytes / 659916 usecs =3D 1357474 KB/s
+>>>>>>   917318700 bytes / 660168 usecs =3D 1356956 KB/s
+>>>>>>
+>>>>>> Rong, Feng, could you confirm this by disabling the cursor or blin=
+king?
+>>>>> Glad to know this method restored the drop. Rong is running the cas=
+e.
+>>>>>
+>>>>> While I have another finds, as I noticed your patch changed the bpp=
+ from
+>>>>> 24 to 32, I had a patch to change it back to 24, and run the case i=
+n
+>>>>> the weekend, the -18% regrssion was reduced to about -5%. Could thi=
+s
+>>>>> be related?
+>>>> In the original code, the fbdev console already ran with 32 bpp [1] =
+and
+>>>> 16 bpp was selected for low-end devices. [2][3] The patch only set t=
+he
+>>>> same values for userspace; nothing changed for the console.
+>>> I did the experiment becasue I checked the commit=20
+>>>
+>>> 90f479ae51afa4 drm/mgag200: Replace struct mga_fbdev with generic fra=
+mebuffer emulation
+>>>
+>>> in which there is code:
+>>>
+>>> diff --git a/drivers/gpu/drm/mgag200/mgag200_main.c b/drivers/gpu/drm=
+/mgag200/mgag200_main.c
+>>> index b10f726..a977333 100644
+>>> --- a/drivers/gpu/drm/mgag200/mgag200_main.c
+>>> +++ b/drivers/gpu/drm/mgag200/mgag200_main.c
+>>> @@ -162,7 +162,7 @@ int mgag200_driver_load(struct drm_device *dev, u=
+nsigned long flags)
+>>>  	if (IS_G200_SE(mdev) && mdev->mc.vram_size < (2048*1024))
+>>>  		dev->mode_config.preferred_depth =3D 16;
+>>>  	else
+>>> -		dev->mode_config.preferred_depth =3D 24;
+>>> +		dev->mode_config.preferred_depth =3D 32;
+>>>  	dev->mode_config.prefer_shadow =3D 1;
+>>> =20
+>>> My debug patch was kind of restoring of this part.
+>>>
+>>> Thanks,
+>>> Feng
+>>>
+>>>> Best regards
+>>>> Thomas
+>>>>
+>>>> [1]
+>>>> https://cgit.freedesktop.org/drm/drm-tip/tree/drivers/gpu/drm/mgag20=
+0/mgag200_fb.c?id=3D5d17718997367c435dbe5341a8e270d9b19478d3#n259
+>>>> [2]
+>>>> https://cgit.freedesktop.org/drm/drm-tip/tree/drivers/gpu/drm/mgag20=
+0/mgag200_fb.c?id=3D5d17718997367c435dbe5341a8e270d9b19478d3#n263
+>>>> [3]
+>>>> https://cgit.freedesktop.org/drm/drm-tip/tree/drivers/gpu/drm/mgag20=
+0/mgag200_fb.c?id=3D5d17718997367c435dbe5341a8e270d9b19478d3#n286
+>>>>
+>>>>> commit:=20
+>>>>>   f1f8555dfb9 drm/bochs: Use shadow buffer for bochs framebuffer co=
+nsole
+>>>>>   90f479ae51a drm/mgag200: Replace struct mga_fbdev with generic fr=
+amebuffer emulation
+>>>>>   01e75fea0d5 mgag200: restore the depth back to 24
+>>>>>
+>>>>> f1f8555dfb9a70a2 90f479ae51afa45efab97afdde9 01e75fea0d5ff39d3e588c=
+20ec5=20
+>>>>> ---------------- --------------------------- ----------------------=
+-----=20
+>>>>>      43921 =C2=B1  2%     -18.3%      35884            -4.8%      4=
+1826        vm-scalability.median
+>>>>>   14889337           -17.5%   12291029            -4.1%   14278574 =
+       vm-scalability.throughput
+>>>>> =20
+>>>>> commit 01e75fea0d5ff39d3e588c20ec52e7a4e6588a74
+>>>>> Author: Feng Tang <feng.tang@intel.com>
+>>>>> Date:   Fri Aug 2 15:09:19 2019 +0800
+>>>>>
+>>>>>     mgag200: restore the depth back to 24
+>>>>>    =20
+>>>>>     Signed-off-by: Feng Tang <feng.tang@intel.com>
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/mgag200/mgag200_main.c b/drivers/gpu/d=
+rm/mgag200/mgag200_main.c
+>>>>> index a977333..ac8f6c9 100644
+>>>>> --- a/drivers/gpu/drm/mgag200/mgag200_main.c
+>>>>> +++ b/drivers/gpu/drm/mgag200/mgag200_main.c
+>>>>> @@ -162,7 +162,7 @@ int mgag200_driver_load(struct drm_device *dev,=
+ unsigned long flags)
+>>>>>  	if (IS_G200_SE(mdev) && mdev->mc.vram_size < (2048*1024))
+>>>>>  		dev->mode_config.preferred_depth =3D 16;
+>>>>>  	else
+>>>>> -		dev->mode_config.preferred_depth =3D 32;
+>>>>> +		dev->mode_config.preferred_depth =3D 24;>  	dev->mode_config.pre=
+fer_shadow =3D 1;
+>>>>> =20
+>>>>>  	r =3D mgag200_modeset_init(mdev);
+>>>>>
+>>>>> Thanks,
+>>>>> Feng
+>>>>>
+>>>>>> The difference between mgag200's original fbdev support and generi=
+c
+>>>>>> fbdev emulation is generic fbdev's worker task that updates the VR=
+AM
+>>>>>> buffer from the shadow buffer. mgag200 does this immediately, but =
+relies
+>>>>>> on drm_can_sleep(), which is deprecated.
+>>>>>>
+>>>>>> I think that the worker task interferes with the test case, as the=
 
-Best Regards,
-Kevin
+>>>>>> worker has been in fbdev emulation since forever and no performanc=
+e
+>>>>>> regressions have been reported so far.
+>>>>>>
+>>>>>>
+>>>>>> So unless there's a report where this problem happens in a real-wo=
+rld
+>>>>>> use case, I'd like to keep code as it is. And apparently there's a=
+lways
+>>>>>> the workaround of disabling the cursor blinking.
+>>>>>>
+>>>>>> Best regards
+>>>>>> Thomas
+>>>>>>
+>>>> --=20
+>>>> Thomas Zimmermann
+>>>> Graphics Driver Developer
+>>>> SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
+>>>> GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
+>>>> HRB 21284 (AG N=C3=BCrnberg)
+>>>>
+>>>
+>>> _______________________________________________
+>>> dri-devel mailing list
+>>> dri-devel@lists.freedesktop.org
+>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>>>
+>=20
 
-________________________________
-From: kbuild test robot <lkp@intel.com>
-Sent: Wednesday, January 8, 2020 4:56 AM
-To: Cui, Flora <Flora.Cui@amd.com>
-Cc: kbuild-all@lists.01.org <kbuild-all@lists.01.org>; dri-devel@lists.free=
-desktop.org <dri-devel@lists.freedesktop.org>; Gui, Jack <Jack.Gui@amd.com>=
-; Xu, Feifei <Feifei.Xu@amd.com>; Wang, Kevin(Yang) <Kevin1.Wang@amd.com>; =
-Zhang, Yifan1 <Yifan1.Zhang@amd.com>
-Subject: [radeon-alex:amd-19.50 1794/2680] cc1: fatal error: dkms/config/co=
-nfig.h: No such file or directory
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
-Hi Flora,
 
-FYI, the error/warning still remains.
+--UYWBDkO2Xfm87dA1bmuufDTNcQK8LUzfv--
 
-tree:   git://people.freedesktop.org/~agd5f/linux.git amd-19.50
-head:   f981f76437edab0861f3721c27f1c3cec5903dcc
-commit: 4d49aa8a40ceecfd8a6b2d4e1b86396fbeedbb01 [1794/2680] drm/amdkcl/aut=
-oconf: generate config.h for in-tree build
-config: x86_64-randconfig-h003-20200107 (attached as .config)
-compiler: gcc-7 (Debian 7.5.0-3) 7.5.0
-reproduce:
-        git checkout 4d49aa8a40ceecfd8a6b2d4e1b86396fbeedbb01
-        # save the attached .config to linux build tree
-        make ARCH=3Dx86_64
+--4EKelUYPqVNFq76sSaMyEmgK65ckOiMfs
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-If you fix the issue, kindly add following tag
-Reported-by: kbuild test robot <lkp@intel.com>
+-----BEGIN PGP SIGNATURE-----
 
-All errors (new ones prefixed by >>):
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl4VZrMACgkQaA3BHVML
+eiMGzAgAkgPrHQk/na1JTgBC7UnJLtpsTza1TmqhQd00qvffFxPlgZxpgd7NBjhA
+SMIUunCA5Dzgx+0seu1NVR7g9+00icf35nXpwsWC24gAKLyG4CeJHso4Xm9bMYJa
+2d/jmocchIHjSCDBUY3yxnJfHqnh/CIeaWQm/fGkjNVcEtumBwo3hZPDZlNYHwfn
+VGANKfHmj6wQ6NgUOr+0DkD4dR7yL6UOfBRwLhRci0Ek2Blo6D0iq4A6RJa9JZsT
+e3iRet957iqtXeKsJ8T16HrFHSyM9EdoU9vvsBCFFctg3Xmc7t7uj2EOYAUn1sQT
+Oi2vzpygJiZxrd3PA6jfOkKRw+ll+A==
+=IFS5
+-----END PGP SIGNATURE-----
 
->> cc1: fatal error: dkms/config/config.h: No such file or directory
-   compilation terminated.
+--4EKelUYPqVNFq76sSaMyEmgK65ckOiMfs--
 
----
-0-DAY kernel test infrastructure                 Open Source Technology Cen=
-ter
-https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flists.0=
-1.org%2Fhyperkitty%2Flist%2Fkbuild-all%40lists.01.org&amp;data=3D02%7C01%7C=
-kevin1.wang%40amd.com%7C46d0b1e6805140d3728708d793b4188a%7C3dd8961fe4884e60=
-8e11a82d994e183d%7C0%7C0%7C637140274251196664&amp;sdata=3DGrdbjBlNqVM%2BqpO=
-%2FYypvMrQ6Q8zcuso%2BIyFOhT9BQ14%3D&amp;reserved=3D0 Intel Corporation
-
---_000_MN2PR12MB3296709A03D6B1414B0A13C3A23E0MN2PR12MB3296namp_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<p style=3D"font-family:Arial;font-size:10pt;color:#0078D7;margin:15pt;" al=
-ign=3D"Left">
-[AMD Official Use Only - Internal Distribution Only]<br>
-</p>
-<br>
-<div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-Hi,</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-the fixed patch has been merged into 19.50 branch yesterday.</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<i><br>
-</i></div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<span><i>commit 673383cfa8707eb024669f510837694081da65c5<br>
-</i></span>
-<div><i>Author: Flora Cui &lt;flora.cui@amd.com&gt;<br>
-</i></div>
-<div><i>Date: &nbsp; Thu Nov 28 15:20:06 2019 &#43;0800<br>
-</i></div>
-<div><i><br>
-</i></div>
-<div><i>&nbsp; &nbsp; drm/amdkcl: fix intree build issue for config.h<br>
-</i></div>
-<div><i>&nbsp; &nbsp; <br>
-</i></div>
-<div><i>&nbsp; &nbsp; fix &quot;make O=3D$(output_dir) modules M=3Ddrivers/=
-gpu/drm/amd/amdgpu&quot;<br>
-</i></div>
-<div><i>&nbsp; &nbsp; <br>
-</i></div>
-<div><i>&nbsp; &nbsp; Signed-off-by: Flora Cui &lt;flora.cui@amd.com&gt;<br=
->
-</i></div>
-<div><i>&nbsp; &nbsp; Reviewed-by: Kevin Wang &lt;kevin1.wang@amd.com&gt;</=
-i></div>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-Best Regards,</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-Kevin</div>
-<div id=3D"appendonsend"></div>
-<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
-t; color:rgb(0,0,0)">
-<br>
-</div>
-<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" co=
-lor=3D"#000000" style=3D"font-size:11pt"><b>From:</b> kbuild test robot &lt=
-;lkp@intel.com&gt;<br>
-<b>Sent:</b> Wednesday, January 8, 2020 4:56 AM<br>
-<b>To:</b> Cui, Flora &lt;Flora.Cui@amd.com&gt;<br>
-<b>Cc:</b> kbuild-all@lists.01.org &lt;kbuild-all@lists.01.org&gt;; dri-dev=
-el@lists.freedesktop.org &lt;dri-devel@lists.freedesktop.org&gt;; Gui, Jack=
- &lt;Jack.Gui@amd.com&gt;; Xu, Feifei &lt;Feifei.Xu@amd.com&gt;; Wang, Kevi=
-n(Yang) &lt;Kevin1.Wang@amd.com&gt;; Zhang, Yifan1 &lt;Yifan1.Zhang@amd.com=
-&gt;<br>
-<b>Subject:</b> [radeon-alex:amd-19.50 1794/2680] cc1: fatal error: dkms/co=
-nfig/config.h: No such file or directory</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt"=
->
-<div class=3D"PlainText">Hi Flora,<br>
-<br>
-FYI, the error/warning still remains.<br>
-<br>
-tree:&nbsp;&nbsp; git://people.freedesktop.org/~agd5f/linux.git amd-19.50<b=
-r>
-head:&nbsp;&nbsp; f981f76437edab0861f3721c27f1c3cec5903dcc<br>
-commit: 4d49aa8a40ceecfd8a6b2d4e1b86396fbeedbb01 [1794/2680] drm/amdkcl/aut=
-oconf: generate config.h for in-tree build<br>
-config: x86_64-randconfig-h003-20200107 (attached as .config)<br>
-compiler: gcc-7 (Debian 7.5.0-3) 7.5.0<br>
-reproduce:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; git checkout 4d49aa8a40ceecfd8a6=
-b2d4e1b86396fbeedbb01<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # save the attached .config to l=
-inux build tree<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; make ARCH=3Dx86_64 <br>
-<br>
-If you fix the issue, kindly add following tag<br>
-Reported-by: kbuild test robot &lt;lkp@intel.com&gt;<br>
-<br>
-All errors (new ones prefixed by &gt;&gt;):<br>
-<br>
-&gt;&gt; cc1: fatal error: dkms/config/config.h: No such file or directory<=
-br>
-&nbsp;&nbsp; compilation terminated.<br>
-<br>
----<br>
-0-DAY kernel test infrastructure&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Open Source Technolog=
-y Center<br>
-<a href=3D"https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2=
-F%2Flists.01.org%2Fhyperkitty%2Flist%2Fkbuild-all%40lists.01.org&amp;amp;da=
-ta=3D02%7C01%7Ckevin1.wang%40amd.com%7C46d0b1e6805140d3728708d793b4188a%7C3=
-dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637140274251196664&amp;amp;sdata=
-=3DGrdbjBlNqVM%2BqpO%2FYypvMrQ6Q8zcuso%2BIyFOhT9BQ14%3D&amp;amp;reserved=3D=
-0">https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flist=
-s.01.org%2Fhyperkitty%2Flist%2Fkbuild-all%40lists.01.org&amp;amp;data=3D02%=
-7C01%7Ckevin1.wang%40amd.com%7C46d0b1e6805140d3728708d793b4188a%7C3dd8961fe=
-4884e608e11a82d994e183d%7C0%7C0%7C637140274251196664&amp;amp;sdata=3DGrdbjB=
-lNqVM%2BqpO%2FYypvMrQ6Q8zcuso%2BIyFOhT9BQ14%3D&amp;amp;reserved=3D0</a>
- Intel Corporation<br>
-</div>
-</span></font></div>
-</div>
-</body>
-</html>
-
---_000_MN2PR12MB3296709A03D6B1414B0A13C3A23E0MN2PR12MB3296namp_--
-
---===============1239605887==
+--===============1066691322==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -331,4 +365,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1239605887==--
+--===============1066691322==--
