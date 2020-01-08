@@ -2,34 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79F79134FB8
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 00:00:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88394134F8C
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 23:44:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0315C88249;
-	Wed,  8 Jan 2020 23:00:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F28476E343;
+	Wed,  8 Jan 2020 22:44:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from manjaro.org (mail.manjaro.org [176.9.38.148])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6042E89B0D
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 23:00:07 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by manjaro.org (Postfix) with ESMTP id 8683336E4DE5;
- Wed,  8 Jan 2020 23:43:15 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at manjaro.org
-Received: from manjaro.org ([127.0.0.1])
- by localhost (manjaro.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id bqW6UVg2x1jr; Wed,  8 Jan 2020 23:43:13 +0100 (CET)
-From: Tobias Schramm <t.schramm@manjaro.org>
-To: Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 1/1] drm/rockchip: fix integer type used for storing dp data
- rate and lane count
-Date: Wed,  8 Jan 2020 23:39:49 +0100
-Message-Id: <20200108223949.355975-2-t.schramm@manjaro.org>
-In-Reply-To: <20200108223949.355975-1-t.schramm@manjaro.org>
-References: <20200108223949.355975-1-t.schramm@manjaro.org>
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
+ [IPv6:2607:f8b0:4864:20::742])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FF406E343
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 22:44:32 +0000 (UTC)
+Received: by mail-qk1-x742.google.com with SMTP id t129so4233256qke.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2020 14:44:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Vo+6C1EuzsBLHBwL8bvb08t4OkksMVFETIJoYKx5DTo=;
+ b=Wnszb6on0SMp/3XOzNETDRgBA1SdEWJobacWeeLrc4lDfi7vhmtnOldGqbPPBAZbfG
+ 7wp6u/0G5WV3uSIpGENHwwILKLe4qZ56kKoDHOHcvgCpvAf4N2HVstmon3dD9/r6c9sv
+ qlfEDsZVhNNIdGprWFOmlxpJcR4ut9Km4zNUY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Vo+6C1EuzsBLHBwL8bvb08t4OkksMVFETIJoYKx5DTo=;
+ b=H6/N/lZClRixyefHG9aAIVWnVi0Z7g5PVxmg2AR0e4nZ4ElDAona7epIJblb2d0a/i
+ EExLwQy3nQMOM+/L2ljEqDies1/pREUx6Caqp5e5z9CrP785jJLPWKSwh0Mvj3aRxQDC
+ ImFpuw3zeOxaiIy/ikHxu6pBkBT5Xd9696lSWJeN6H8OcexzN73GTRYc6lUMj2e01qng
+ bae+GqN9VUqk83lyCbJEBTZQh0h5skrN9lzOQ3WMKyI7+25ibe7UNHuRkBerowX17q6Y
+ 6PbOK0ofm+3HyXBUCdRGDY//cQCzs/W3na+v8iOPkVfxnH1tBW3yORkuTY4swb2ucygQ
+ imuw==
+X-Gm-Message-State: APjAAAX0qYKoGeLg/1T3GO7ZrytsA7iFk13AO4wh5O9gu77IDPdJA3mL
+ gl6AlAhAgJuw7hPZw74NFMryMmwcSDkIB3zrcaOVvw==
+X-Google-Smtp-Source: APXvYqxnt7gN4ytrxX2jjjTbvXbu6erGQ6HNZhqe3Pr82LWm38qxIiDN1rgAR/6KRKR7dwyCXJ7fm7aQppC5xk7pbCM=
+X-Received: by 2002:ae9:e103:: with SMTP id g3mr6826468qkm.353.1578523471432; 
+ Wed, 08 Jan 2020 14:44:31 -0800 (PST)
 MIME-Version: 1.0
+References: <20200108052337.65916-1-drinkcat@chromium.org>
+ <20200108052337.65916-8-drinkcat@chromium.org>
+ <CAL_Jsq+jWtrV8-iDzqsefRxr_21jzf7AdSLap8k4hstqK3MBvQ@mail.gmail.com>
+In-Reply-To: <CAL_Jsq+jWtrV8-iDzqsefRxr_21jzf7AdSLap8k4hstqK3MBvQ@mail.gmail.com>
+From: Nicolas Boichat <drinkcat@chromium.org>
+Date: Thu, 9 Jan 2020 06:44:20 +0800
+Message-ID: <CANMq1KCTdtKDB4bmdAFf+voTvCECedAKTJHue4H1quhW6SXbxQ@mail.gmail.com>
+Subject: Re: [PATCH v2 7/7,
+ RFC]: drm/panfrost: devfreq: Add support for 2 regulators
+To: Rob Herring <robh+dt@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,44 +60,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rockchip@lists.infradead.org, Tobias Schramm <t.schramm@manjaro.org>,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Devicetree List <devicetree@vger.kernel.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Steven Price <steven.price@arm.com>, Mark Brown <broonie@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-commit 2589c4025f13 ("drm/rockchip: Avoid drm_dp_link helpers") changes
-the type of variables used to store the display port data rate and
-number of lanes to u8. However u8 is not sufficient to store the link
-data rate of the display port.
-This commit reverts the type of both the number of lanes and the data
-rate to unsigned int.
+On Thu, Jan 9, 2020 at 4:09 AM Rob Herring <robh+dt@kernel.org> wrote:
+> [snip]
+> >  void panfrost_devfreq_resume(struct panfrost_device *pfdev)
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+> > index 92d471676fc7823..581da3fe5df8b17 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_device.h
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+> > @@ -91,10 +91,12 @@ struct panfrost_device {
+> >         struct {
+> >                 struct devfreq *devfreq;
+> >                 struct thermal_cooling_device *cooling;
+> > +               struct opp_table *dev_opp_table;
+> >                 ktime_t busy_time;
+> >                 ktime_t idle_time;
+> >                 ktime_t time_last_update;
+> >                 atomic_t busy_count;
+> > +               struct panfrost_devfreq_slot slot[NUM_JOB_SLOTS];
+>
+> ?? Left over from some rebase?
 
-Signed-off-by: Tobias Schramm <t.schramm@manjaro.org>
----
- drivers/gpu/drm/rockchip/cdn-dp-core.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.h b/drivers/gpu/drm/rockchip/cdn-dp-core.h
-index 83c4586665b4..806cb0b08982 100644
---- a/drivers/gpu/drm/rockchip/cdn-dp-core.h
-+++ b/drivers/gpu/drm/rockchip/cdn-dp-core.h
-@@ -94,8 +94,8 @@ struct cdn_dp_device {
- 	struct video_info video_info;
- 	struct cdn_dp_port *port[MAX_PHY];
- 	u8 ports;
--	u8 max_lanes;
--	u8 max_rate;
-+	unsigned int max_lanes;
-+	unsigned int max_rate;
- 	u8 lanes;
- 	int active_port;
- 
--- 
-2.24.1
-
+Oh, yes, sorry.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
