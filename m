@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B223D134E9A
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 22:13:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8DE6134E9B
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 22:13:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EC406E8CF;
-	Wed,  8 Jan 2020 21:12:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 167BF6E8D3;
+	Wed,  8 Jan 2020 21:12:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from o1.b.az.sendgrid.net (o1.b.az.sendgrid.net [208.117.55.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 801126E8C7
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 21:12:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C47C16E8C7
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 21:12:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
  h=from:subject:in-reply-to:references:to:cc:content-type:
  content-transfer-encoding;
- s=001; bh=rEkBwwf1QWNXjn8vIYFhzi7wIguJy4lc2BpbKmg9n80=;
- b=ExtEv7m/RAJq48j005pEANu6aNs1Gq7zxmk5UqQ6DrLoHO7wasJoaaImLxrYyUvi8nHA
- Qxx5vK0kJJQ0+qk/iRz94ypFdYZbpeZdfWm/jfhHz5ZYX3IJweaiM/FMJxTR5ymBa52mW7
- vW17b+kOPBOsyERsPwJjpBKHwK3mSMao8=
-Received: by filterdrecv-p3mdw1-56c97568b5-fkvrs with SMTP id
- filterdrecv-p3mdw1-56c97568b5-fkvrs-20-5E1644A8-11
- 2020-01-08 21:07:52.195374981 +0000 UTC m=+1974283.569941188
+ s=001; bh=nKHc7PP51SSnABUdouUOk7MONm9v7F3W5A5WPyVt3og=;
+ b=OYH1SV3zEoqscItQog5hChFMLjuQlKe31ZwLV0sv0upmViNTn5vcq5PYHSwo4F3X8YOb
+ 8D+oMze3pjN0aUDT7kGFroPatlmOvBftExeBvAKKTEgiCYV6jLDrs8l6BuI/sRfZZtSKdJ
+ FmrX4UyZHrBKrDJ1VqJ92/haf47/Frugg=
+Received: by filterdrecv-p3mdw1-56c97568b5-s82th with SMTP id
+ filterdrecv-p3mdw1-56c97568b5-s82th-20-5E1644A8-9A
+ 2020-01-08 21:07:53.049862267 +0000 UTC m=+1974283.024560838
 Received: from bionic.localdomain (unknown [98.128.173.80])
- by ismtpd0005p1lon1.sendgrid.net (SG) with ESMTP id 3JS0NgZZRJK82Mp4YUQcKA
- Wed, 08 Jan 2020 21:07:51.991 +0000 (UTC)
+ by ismtpd0005p1lon1.sendgrid.net (SG) with ESMTP id hK45W9keTJiDypFiQ0QuWw
+ Wed, 08 Jan 2020 21:07:52.847 +0000 (UTC)
 From: Jonas Karlman <jonas@kwiboo.se>
-Subject: [PATCH v2 12/14] drm/rockchip: dw-hdmi: limit tmds to 340mhz on
- rk3228/rk3328
-Date: Wed, 08 Jan 2020 21:07:52 +0000 (UTC)
-Message-Id: <20200108210740.28769-13-jonas@kwiboo.se>
+Subject: [PATCH v2 14/14] phy/rockchip: inno-hdmi: Support more pre-pll
+ configuration
+Date: Wed, 08 Jan 2020 21:07:53 +0000 (UTC)
+Message-Id: <20200108210740.28769-15-jonas@kwiboo.se>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200108210740.28769-1-jonas@kwiboo.se>
 References: <20200108210740.28769-1-jonas@kwiboo.se>
 X-SG-EID: =?us-ascii?Q?TdbjyGynYnRZWhH+7lKUQJL+ZxmxpowvO2O9SQF5CwCVrYgcwUXgU5DKUU3QxA?=
- =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0h3yBhIbMTagqfT2zR?=
- =?us-ascii?Q?8DIjW=2Fj=2FX3Egb+8hajJVedi0tMDpE8GNB2sMY0q?=
- =?us-ascii?Q?enYQZ0se4WGjtVgc7msZY8iqJ7ZbMq5Dmq6GwQR?=
- =?us-ascii?Q?MPsisSPj7nbtdxcX8b20eKa6cAzSacnUVvFrxgl?=
- =?us-ascii?Q?3gx4pc7m9ZUafpVDmZh7WwmfhS4kPVaPynL7rG0?=
- =?us-ascii?Q?JhjngOQ=2FNEXLWs3tkr4cw=3D=3D?=
+ =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0hzSnp2d=2Fa4qtlwU5A?=
+ =?us-ascii?Q?xlGn3bJTyJre2O=2FQ8La4AzDLjmO9qKAT5397cvO?=
+ =?us-ascii?Q?zK20=2F7RrJrsKgkSR3Uw2H5nQ=2FjWxVmiKa+UwJJN?=
+ =?us-ascii?Q?3RusiCg2Kdi0HGrL3GJo3W=2F44pcH7lgdoC3c=2Fl7?=
+ =?us-ascii?Q?Xy=2F12t4VOrRR4TZ03ucgtkW0Tkp7NiqW53Bq=2FPd?=
+ =?us-ascii?Q?ZpV5i5BXmsJ8p7T62+HVw=3D=3D?=
 To: Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,74 +53,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Kishon Vijay Abraham I <kishon@ti.com>,
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Zheng Yang <zhengyang@rock-chips.com>
+Cc: Algea Cao <algea.cao@rock-chips.com>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Kishon Vijay Abraham I <kishon@ti.com>, linux-rockchip@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, Zheng Yang <zhengyang@rock-chips.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RK3228/RK3328 does not provide a stable hdmi signal at TMDS rates
-above 371.25MHz (340MHz pixel clock).
+From: Algea Cao <algea.cao@rock-chips.com>
 
-Limit the pixel clock rate to 340MHz to provide a stable signal.
-Also limit the pixel clock to the display reported max tmds clock.
+Adding the following freq cfg in 8-bit and 10-bit color depth:
 
+{
+  40000000,  65000000,  71000000,  83500000, 85750000,
+  88750000, 108000000, 119000000, 162000000
+}
+
+New freq has been validated by quantumdata 980.
+
+For some freq which can't be got by only using integer freq div,
+frac freq div is needed, Such as 88.75Mhz 10-bit. But The actual
+freq is different from the target freq, We must try to narrow
+the gap between them. RK322X only support integer freq div.
+
+The VCO of pre-PLL must be more than 2Ghz, otherwise PLL may be
+unlocked.
+
+Signed-off-by: Algea Cao <algea.cao@rock-chips.com>
 Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+Acked-by: Heiko Stuebner <heiko@sntech.de>
 ---
- drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 22 +++++++++++++++++++--
- 1 file changed, 20 insertions(+), 2 deletions(-)
+ drivers/phy/rockchip/phy-rockchip-inno-hdmi.c | 74 ++++++++++++-------
+ 1 file changed, 49 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-index 45fcdce3f27f..66c14df4a680 100644
---- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-@@ -237,6 +237,24 @@ dw_hdmi_rockchip_mode_valid(struct drm_connector *connector,
- 	return (valid) ? MODE_OK : MODE_BAD;
- }
- 
-+static enum drm_mode_status
-+dw_hdmi_rk3228_mode_valid(struct drm_connector *connector,
-+			  const struct drm_display_mode *mode)
-+{
-+	struct drm_display_info *info = &connector->display_info;
-+	int max_tmds_clock = max(info->max_tmds_clock, 165000);
-+	int clock = mode->clock;
-+
-+	if (connector->ycbcr_420_allowed && drm_mode_is_420(info, mode) &&
-+	    (info->color_formats & DRM_COLOR_FORMAT_YCRCB420))
-+		clock /= 2;
-+
-+	if (clock > max_tmds_clock || clock > 340000)
-+		return MODE_CLOCK_HIGH;
-+
-+	return MODE_OK;
-+}
-+
- static const struct drm_encoder_funcs dw_hdmi_rockchip_encoder_funcs = {
- 	.destroy = drm_encoder_cleanup,
- };
-@@ -424,7 +442,7 @@ static struct rockchip_hdmi_chip_data rk3228_chip_data = {
+diff --git a/drivers/phy/rockchip/phy-rockchip-inno-hdmi.c b/drivers/phy/rockchip/phy-rockchip-inno-hdmi.c
+index 3719309ad0d0..bb8bdf5e3301 100644
+--- a/drivers/phy/rockchip/phy-rockchip-inno-hdmi.c
++++ b/drivers/phy/rockchip/phy-rockchip-inno-hdmi.c
+@@ -291,32 +291,56 @@ struct inno_hdmi_phy_drv_data {
+ 	const struct phy_config		*phy_cfg_table;
  };
  
- static const struct dw_hdmi_plat_data rk3228_hdmi_drv_data = {
--	.mode_valid = dw_hdmi_rockchip_mode_valid,
-+	.mode_valid = dw_hdmi_rk3228_mode_valid,
- 	.mpll_cfg = rockchip_mpll_cfg,
- 	.cur_ctr = rockchip_cur_ctr,
- 	.phy_config = rockchip_phy_config,
-@@ -461,7 +479,7 @@ static struct rockchip_hdmi_chip_data rk3328_chip_data = {
++/*
++ * If only using integer freq div can't get frequency we want, frac
++ * freq div is needed. For example, pclk 88.75 Mhz and tmdsclk
++ * 110.9375 Mhz must use frac div 0xF00000. The actual frequency is different
++ * from the target frequency. Such as the tmds clock 110.9375 Mhz,
++ * the actual tmds clock we get is 110.93719 Mhz. It is important
++ * to note that RK322X platforms do not support frac div.
++ */
+ static const struct pre_pll_config pre_pll_cfg_table[] = {
+-	{ 27000000,  27000000, 1,  90, 3, 2, 2, 10, 3, 3, 4, 0, 0},
+-	{ 27000000,  33750000, 1,  90, 1, 3, 3, 10, 3, 3, 4, 0, 0},
+-	{ 40000000,  40000000, 1,  80, 2, 2, 2, 12, 2, 2, 2, 0, 0},
+-	{ 59341000,  59341000, 1,  98, 3, 1, 2,  1, 3, 3, 4, 0, 0xE6AE6B},
+-	{ 59400000,  59400000, 1,  99, 3, 1, 1,  1, 3, 3, 4, 0, 0},
+-	{ 59341000,  74176250, 1,  98, 0, 3, 3,  1, 3, 3, 4, 0, 0xE6AE6B},
+-	{ 59400000,  74250000, 1,  99, 1, 2, 2,  1, 3, 3, 4, 0, 0},
+-	{ 74176000,  74176000, 1,  98, 1, 2, 2,  1, 2, 3, 4, 0, 0xE6AE6B},
+-	{ 74250000,  74250000, 1,  99, 1, 2, 2,  1, 2, 3, 4, 0, 0},
+-	{ 74176000,  92720000, 4, 494, 1, 2, 2,  1, 3, 3, 4, 0, 0x816817},
+-	{ 74250000,  92812500, 4, 495, 1, 2, 2,  1, 3, 3, 4, 0, 0},
+-	{148352000, 148352000, 1,  98, 1, 1, 1,  1, 2, 2, 2, 0, 0xE6AE6B},
+-	{148500000, 148500000, 1,  99, 1, 1, 1,  1, 2, 2, 2, 0, 0},
+-	{148352000, 185440000, 4, 494, 0, 2, 2,  1, 3, 2, 2, 0, 0x816817},
+-	{148500000, 185625000, 4, 495, 0, 2, 2,  1, 3, 2, 2, 0, 0},
+-	{296703000, 296703000, 1,  98, 0, 1, 1,  1, 0, 2, 2, 0, 0xE6AE6B},
+-	{297000000, 297000000, 1,  99, 0, 1, 1,  1, 0, 2, 2, 0, 0},
+-	{296703000, 370878750, 4, 494, 1, 2, 0,  1, 3, 1, 1, 0, 0x816817},
+-	{297000000, 371250000, 4, 495, 1, 2, 0,  1, 3, 1, 1, 0, 0},
+-	{593407000, 296703500, 1,  98, 0, 1, 1,  1, 0, 2, 1, 0, 0xE6AE6B},
+-	{594000000, 297000000, 1,  99, 0, 1, 1,  1, 0, 2, 1, 0, 0},
+-	{593407000, 370879375, 4, 494, 1, 2, 0,  1, 3, 1, 1, 1, 0x816817},
+-	{594000000, 371250000, 4, 495, 1, 2, 0,  1, 3, 1, 1, 1, 0},
+-	{593407000, 593407000, 1,  98, 0, 2, 0,  1, 0, 1, 1, 0, 0xE6AE6B},
+-	{594000000, 594000000, 1,  99, 0, 2, 0,  1, 0, 1, 1, 0, 0},
++	{ 27000000,  27000000, 1,  90, 3, 2, 2, 10, 3, 3,  4, 0, 0},
++	{ 27000000,  33750000, 1,  90, 1, 3, 3, 10, 3, 3,  4, 0, 0},
++	{ 40000000,  40000000, 1,  80, 2, 2, 2, 12, 2, 2,  2, 0, 0},
++	{ 40000000,  50000000, 1, 100, 2, 2, 2,  1, 0, 0, 15, 0, 0},
++	{ 59341000,  59341000, 1,  98, 3, 1, 2,  1, 3, 3,  4, 0, 0xE6AE6B},
++	{ 59400000,  59400000, 1,  99, 3, 1, 1,  1, 3, 3,  4, 0, 0},
++	{ 59341000,  74176250, 1,  98, 0, 3, 3,  1, 3, 3,  4, 0, 0xE6AE6B},
++	{ 59400000,  74250000, 1,  99, 1, 2, 2,  1, 3, 3,  4, 0, 0},
++	{ 65000000,  65000000, 1, 130, 2, 2, 2,  1, 0, 0, 12, 0, 0},
++	{ 65000000,  81250000, 3, 325, 0, 3, 3,  1, 0, 0, 10, 0, 0},
++	{ 71000000,  71000000, 3, 284, 0, 3, 3,  1, 0, 0,  8, 0, 0},
++	{ 71000000,  88750000, 3, 355, 0, 3, 3,  1, 0, 0, 10, 0, 0},
++	{ 74176000,  74176000, 1,  98, 1, 2, 2,  1, 2, 3,  4, 0, 0xE6AE6B},
++	{ 74250000,  74250000, 1,  99, 1, 2, 2,  1, 2, 3,  4, 0, 0},
++	{ 74176000,  92720000, 4, 494, 1, 2, 2,  1, 3, 3,  4, 0, 0x816817},
++	{ 74250000,  92812500, 4, 495, 1, 2, 2,  1, 3, 3,  4, 0, 0},
++	{ 83500000,  83500000, 2, 167, 2, 1, 1,  1, 0, 0,  6, 0, 0},
++	{ 83500000, 104375000, 1, 104, 2, 1, 1,  1, 1, 0,  5, 0, 0x600000},
++	{ 85750000,  85750000, 3, 343, 0, 3, 3,  1, 0, 0,  8, 0, 0},
++	{ 88750000,  88750000, 3, 355, 0, 3, 3,  1, 0, 0,  8, 0, 0},
++	{ 88750000, 110937500, 1, 110, 2, 1, 1,  1, 1, 0,  5, 0, 0xF00000},
++	{108000000, 108000000, 1,  90, 3, 0, 0,  1, 0, 0,  5, 0, 0},
++	{108000000, 135000000, 1,  90, 0, 2, 2,  1, 0, 0,  5, 0, 0},
++	{119000000, 119000000, 1, 119, 2, 1, 1,  1, 0, 0,  6, 0, 0},
++	{119000000, 148750000, 1,  99, 0, 2, 2,  1, 0, 0,  5, 0, 0x2AAAAA},
++	{148352000, 148352000, 1,  98, 1, 1, 1,  1, 2, 2,  2, 0, 0xE6AE6B},
++	{148500000, 148500000, 1,  99, 1, 1, 1,  1, 2, 2,  2, 0, 0},
++	{148352000, 185440000, 4, 494, 0, 2, 2,  1, 3, 2,  2, 0, 0x816817},
++	{148500000, 185625000, 4, 495, 0, 2, 2,  1, 3, 2,  2, 0, 0},
++	{162000000, 162000000, 1, 108, 0, 2, 2,  1, 0, 0,  4, 0, 0},
++	{162000000, 202500000, 1, 135, 0, 2, 2,  1, 0, 0,  5, 0, 0},
++	{296703000, 296703000, 1,  98, 0, 1, 1,  1, 0, 2,  2, 0, 0xE6AE6B},
++	{297000000, 297000000, 1,  99, 0, 1, 1,  1, 0, 2,  2, 0, 0},
++	{296703000, 370878750, 4, 494, 1, 2, 0,  1, 3, 1,  1, 0, 0x816817},
++	{297000000, 371250000, 4, 495, 1, 2, 0,  1, 3, 1,  1, 0, 0},
++	{593407000, 296703500, 1,  98, 0, 1, 1,  1, 0, 2,  1, 0, 0xE6AE6B},
++	{594000000, 297000000, 1,  99, 0, 1, 1,  1, 0, 2,  1, 0, 0},
++	{593407000, 370879375, 4, 494, 1, 2, 0,  1, 3, 1,  1, 1, 0x816817},
++	{594000000, 371250000, 4, 495, 1, 2, 0,  1, 3, 1,  1, 1, 0},
++	{593407000, 593407000, 1,  98, 0, 2, 0,  1, 0, 1,  1, 0, 0xE6AE6B},
++	{594000000, 594000000, 1,  99, 0, 2, 0,  1, 0, 1,  1, 0, 0},
+ 	{ /* sentinel */ }
  };
  
- static const struct dw_hdmi_plat_data rk3328_hdmi_drv_data = {
--	.mode_valid = dw_hdmi_rockchip_mode_valid,
-+	.mode_valid = dw_hdmi_rk3228_mode_valid,
- 	.mpll_cfg = rockchip_mpll_cfg,
- 	.cur_ctr = rockchip_cur_ctr,
- 	.phy_config = rockchip_phy_config,
 -- 
 2.17.1
 
