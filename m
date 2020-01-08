@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEC58133AD1
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 06:24:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36BF4133AD3
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 06:24:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FA386E170;
-	Wed,  8 Jan 2020 05:24:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5FEB6E171;
+	Wed,  8 Jan 2020 05:24:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
- [IPv6:2607:f8b0:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37E8C6E170
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 05:24:05 +0000 (UTC)
-Received: by mail-pl1-x641.google.com with SMTP id ay11so612975plb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2020 21:24:05 -0800 (PST)
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
+ [IPv6:2607:f8b0:4864:20::1041])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68B1D6E174
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 05:24:07 +0000 (UTC)
+Received: by mail-pj1-x1041.google.com with SMTP id m13so560588pjb.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2020 21:24:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VXWKPtv3cxE8lSp3PQIY49x0a4P+s/RHd/rRix+wGzg=;
- b=Jfjo+Faggwo7DaWWKVmhC7/00Vvhz+MTRYNmhAKQYX1HCOP3EYR8Lin5NwFPnmhjMY
- 4+Fb5Qu0e1wDWqALzow5cVbQpRrmDtK6+s0MWVLSCLeAn/oBigTNqV6pS0G3uvjzNP7g
- ZOYd16bXAfTR+SPI/3E9hzT5bBEzHfFjf0IP8=
+ bh=GZPi5S7C9JBOvDvG9rs8XlkVI4VOHpLwCsMiOaYI8o4=;
+ b=KZ2Fr1SIWZOlOI/MInwohmz1Hb6Xx7Tq+QTxkCat51I7DcfFdbynSqAxDlo/ZrmAzy
+ bzYx04hvPnPCCny7HlSE8qtcQ54XXy3skRRoKWw/srh/+NPKZBDJmkfK0r32EhMKP8As
+ Ki1O01CCcGhKnBDTGVZ2lIeuDq9nZ6XwreZMY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VXWKPtv3cxE8lSp3PQIY49x0a4P+s/RHd/rRix+wGzg=;
- b=UHF+igdjs+VmkZIai7SWCrOKYpWAhcnN5kIt52vDDZjwanR030yne6gEKN0ml8rz3h
- x52O7H5NCKZPmkWut1E2moeOPCp4LdUcP71QlTsCyU1eVCkXCMDwEbbjUVziVMpqCzcl
- NKgKyv9W14FOHmtm+3OHH5aSat0LxZ9ZzGd9GgUEzpzJ25NR0pnhdxOhi6jz4AcHw6rH
- pu44+js8rm3Utixq166vTvyue9h2W55t7nSR2NFcLUY78zYY47FFy/05JaonaZf7Fc72
- wQ60fX57XECIa15N5Xs+nS+YOYgVRkrHik24XjuPvRZTxiSfxTZc83XsmKs8/Xeai9rg
- 9lTQ==
-X-Gm-Message-State: APjAAAX2CGQfljSfe1B9WVh3U2Cu2TXRW0zKNvOW8Viz/PL01WKw/cxw
- v5ckzQ6Ry9F6OfsxrpwyGODpSA==
-X-Google-Smtp-Source: APXvYqyHC+8oOSDbkbTqCwSPnXshCUeDVww8reRuLxI2n62N7ExPieyrDCDC2ipIyCqYctUkgXWJYA==
-X-Received: by 2002:a17:90a:3aaf:: with SMTP id
- b44mr2510426pjc.9.1578461044170; 
- Tue, 07 Jan 2020 21:24:04 -0800 (PST)
+ bh=GZPi5S7C9JBOvDvG9rs8XlkVI4VOHpLwCsMiOaYI8o4=;
+ b=JUQsC7umP8fc1JsXXxR7OChZs6kj/BiQfFaTwNSDAPxOeZ5H7hTgh0xOew2dtx2xUq
+ gkLIb663bavt0u0hfOPzuFd4xJpHZsfHvb1HQpNX2gagQI1+6Lju7HMCSgfyKxQKmCzN
+ ZJqwMz1t07WF7TMIT1HtswK/6YsFR9jVpCp8BV74FKVu/FDedg5jQQd8vHnHridsfJAe
+ JQXt/NW0m7KlSoTcdLRLEsba6VQHjGPW0/9wFBwzpzE6Snj5olR+bvXc7bj8VDqE0s56
+ WQ+9sALoCL+mJ4JOk9/GJ2Z6JZeXZ7cbxOSRiX4yZPHovgD/bmlofLE+RSrFmpUXMYZa
+ wDOg==
+X-Gm-Message-State: APjAAAUKvz0xfWC4Ju4TiiyWhr8mwAKmnOJdoNfM3IBoYNzo5AjUwFDD
+ lbZOonmExoVl2GiUed2FePH4oA==
+X-Google-Smtp-Source: APXvYqyXscgEKtXSz2fpP6ePSqF6Ze4O7OI5VBeA+RFqRdvOMivOeOELOfMM09JM7WNsSJ6itelcsA==
+X-Received: by 2002:a17:90a:d789:: with SMTP id z9mr2508178pju.5.1578461047043; 
+ Tue, 07 Jan 2020 21:24:07 -0800 (PST)
 Received: from drinkcat2.tpe.corp.google.com
  ([2401:fa00:1:b:d8b7:33af:adcb:b648])
- by smtp.gmail.com with ESMTPSA id n24sm387505pff.12.2020.01.07.21.24.01
+ by smtp.gmail.com with ESMTPSA id n24sm387505pff.12.2020.01.07.21.24.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 21:24:03 -0800 (PST)
+ Tue, 07 Jan 2020 21:24:06 -0800 (PST)
 From: Nicolas Boichat <drinkcat@chromium.org>
 To: Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v2 3/7] drm/panfrost: Improve error reporting in
- panfrost_gpu_power_on
-Date: Wed,  8 Jan 2020 13:23:33 +0800
-Message-Id: <20200108052337.65916-4-drinkcat@chromium.org>
+Subject: [PATCH v2 4/7] drm/panfrost: Add support for a second regulator for
+ the GPU
+Date: Wed,  8 Jan 2020 13:23:34 +0800
+Message-Id: <20200108052337.65916-5-drinkcat@chromium.org>
 X-Mailer: git-send-email 2.24.1.735.g03f4e72817-goog
 In-Reply-To: <20200108052337.65916-1-drinkcat@chromium.org>
 References: <20200108052337.65916-1-drinkcat@chromium.org>
@@ -79,54 +78,65 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It is useful to know which component cannot be powered on.
+Some GPUs, namely, the bifrost/g72 part on MT8183, have a second
+regulator for their SRAM, let's add support for that.
 
 Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
-
 ---
+ drivers/gpu/drm/panfrost/panfrost_device.c | 21 +++++++++++++++++++++
+ drivers/gpu/drm/panfrost/panfrost_device.h |  1 +
+ 2 files changed, 22 insertions(+)
 
-Was useful when trying to probe bifrost GPU, to understand what
-issue we are facing.
----
- drivers/gpu/drm/panfrost/panfrost_gpu.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-index 8822ec13a0d619f..ba02bbfcf28c011 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-@@ -308,21 +308,26 @@ void panfrost_gpu_power_on(struct panfrost_device *pfdev)
- 	gpu_write(pfdev, L2_PWRON_LO, pfdev->features.l2_present);
- 	ret = readl_relaxed_poll_timeout(pfdev->iomem + L2_READY_LO,
- 		val, val == pfdev->features.l2_present, 100, 1000);
-+	if (ret)
-+		dev_err(pfdev->dev, "error powering up gpu L2");
+diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+index 238fb6d54df4732..a0b0a6fef8b4e63 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_device.c
++++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+@@ -102,12 +102,33 @@ static int panfrost_regulator_init(struct panfrost_device *pfdev)
+ 		return ret;
+ 	}
  
- 	gpu_write(pfdev, STACK_PWRON_LO, pfdev->features.stack_present);
--	ret |= readl_relaxed_poll_timeout(pfdev->iomem + STACK_READY_LO,
-+	ret = readl_relaxed_poll_timeout(pfdev->iomem + STACK_READY_LO,
- 		val, val == pfdev->features.stack_present, 100, 1000);
-+	if (ret)
-+		dev_err(pfdev->dev, "error powering up gpu stack");
- 
- 	gpu_write(pfdev, SHADER_PWRON_LO, pfdev->features.shader_present);
--	ret |= readl_relaxed_poll_timeout(pfdev->iomem + SHADER_READY_LO,
-+	ret = readl_relaxed_poll_timeout(pfdev->iomem + SHADER_READY_LO,
- 		val, val == pfdev->features.shader_present, 100, 1000);
-+	if (ret)
-+		dev_err(pfdev->dev, "error powering up gpu shader");
- 
- 	gpu_write(pfdev, TILER_PWRON_LO, pfdev->features.tiler_present);
--	ret |= readl_relaxed_poll_timeout(pfdev->iomem + TILER_READY_LO,
-+	ret = readl_relaxed_poll_timeout(pfdev->iomem + TILER_READY_LO,
- 		val, val == pfdev->features.tiler_present, 100, 1000);
--
- 	if (ret)
--		dev_err(pfdev->dev, "error powering up gpu");
-+		dev_err(pfdev->dev, "error powering up gpu tiler");
++	pfdev->regulator_sram = devm_regulator_get_optional(pfdev->dev, "sram");
++	if (IS_ERR(pfdev->regulator_sram)) {
++		ret = PTR_ERR(pfdev->regulator_sram);
++		dev_err(pfdev->dev, "failed to get SRAM regulator: %d\n", ret);
++		goto err;
++	}
++
++	if (pfdev->regulator_sram) {
++		ret = regulator_enable(pfdev->regulator_sram);
++		if (ret < 0) {
++			dev_err(pfdev->dev,
++				"failed to enable SRAM regulator: %d\n", ret);
++			goto err;
++		}
++	}
++
+ 	return 0;
++
++err:
++	regulator_disable(pfdev->regulator);
++	return ret;
  }
  
- void panfrost_gpu_power_off(struct panfrost_device *pfdev)
+ static void panfrost_regulator_fini(struct panfrost_device *pfdev)
+ {
+ 	regulator_disable(pfdev->regulator);
++	regulator_disable(pfdev->regulator_sram);
+ }
+ 
+ int panfrost_device_init(struct panfrost_device *pfdev)
+diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+index 06713811b92cdf7..a124334d69e7e93 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_device.h
++++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+@@ -60,6 +60,7 @@ struct panfrost_device {
+ 	struct clk *clock;
+ 	struct clk *bus_clock;
+ 	struct regulator *regulator;
++	struct regulator *regulator_sram;
+ 	struct reset_control *rstc;
+ 
+ 	struct panfrost_features features;
 -- 
 2.24.1.735.g03f4e72817-goog
 
