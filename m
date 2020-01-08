@@ -2,54 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55FF913473A
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 17:08:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39F1C13478B
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 17:18:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36C136E8A9;
-	Wed,  8 Jan 2020 16:08:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 137C388161;
+	Wed,  8 Jan 2020 16:18:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from www413.your-server.de (www413.your-server.de [88.198.28.140])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 799586E150;
- Wed,  8 Jan 2020 16:08:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=cyberus-technology.de; s=default1911; h=Content-Transfer-Encoding:
- MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=iMgpRwMfBTA/wg1V1yYv/ptKkHdbwk4G6gGbVx8IaEQ=; b=lgY7QYcicyoKwvccg83IZQro0
- 0cResX5TJ+zvSIpLlLQDFaZF2/s8crlziDLa9UCb79Wo0iA+5QxfM4z5XRTmg3g4n5H+lVAFrSgZj
- hULgkB/qa5xtNPoCCeiIC8EWWw2G0H2wVMXZCb3Igvu20TWgiaC0FsbfKTrtGpWj+EWHOG+oFr3rK
- EbVEVokH/sT2XBGNxUG26c8bpcGw89Ema7TtlHzGoG6sZK9KhEogvk412Iwu8lDMVygkugjpMd5va
- atSePYPRa/H/tDRUmpPyfO7p8MhV7yjSL5w4rmoO10ezG/P0N8AjxUM57OseHrcutrOQBZmnUYKSL
- /dNK9O48A==;
-Received: from sslproxy05.your-server.de ([78.46.172.2])
- by www413.your-server.de with esmtpsa (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256)
- (Exim 4.89_1)
- (envelope-from <julian.stecklina@cyberus-technology.de>)
- id 1ipDsk-00028w-O8; Wed, 08 Jan 2020 17:08:30 +0100
-Received: from [24.134.37.229] (helo=192-168-0-109.rdsnet.ro)
- by sslproxy05.your-server.de with esmtpsa
- (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256) (Exim 4.89)
- (envelope-from <julian.stecklina@cyberus-technology.de>)
- id 1ipDsk-0002Bk-C4; Wed, 08 Jan 2020 17:08:30 +0100
-Message-ID: <5e98e9666bfeb275ec168df24bb8e9a33781229e.camel@cyberus-technology.de>
-Subject: Re: [PATCH 2/3] drm/i915/gvt: make gvt oblivious of kvmgt data
- structures
-From: Julian Stecklina <julian.stecklina@cyberus-technology.de>
-To: Jani Nikula <jani.nikula@linux.intel.com>, 
- intel-gvt-dev@lists.freedesktop.org
-Date: Wed, 08 Jan 2020 18:08:28 +0200
-In-Reply-To: <87tv56qm9m.fsf@intel.com>
-References: <20200106140622.14393-1-julian.stecklina@cyberus-technology.de>
- <20200106140622.14393-2-julian.stecklina@cyberus-technology.de>
- <87tv56qm9m.fsf@intel.com>
-Organization: Cyberus Technology GmbH
-User-Agent: Evolution 3.34.2 (3.34.2-1.fc31) 
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0541C88161
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 16:18:31 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 008GIPrI043113;
+ Wed, 8 Jan 2020 10:18:25 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1578500305;
+ bh=IPNoriE5Ifxbl+JvBH+GwGiXCzj2PCyX80up/L46dYs=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=iTsCRjKy6ybXHNfKUMaw27KNbV0b0l/WpePQFQiP9HSQSXCyi+RnIJWoMjvz8eQnz
+ M4muXfj/GP6WCSe705n7AwxwyNV/QhdGt4Kg8JMT5+ukQrAHyTuE9pH8Eu65bUO8nW
+ sGboQObtxR2rhp4VcFf2mZbIk41c5do5qKI5Jf2A=
+Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 008GIOkQ100956
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 8 Jan 2020 10:18:25 -0600
+Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Wed, 8 Jan
+ 2020 10:18:23 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Wed, 8 Jan 2020 10:18:23 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 008GILY8030471;
+ Wed, 8 Jan 2020 10:18:22 -0600
+Subject: Re: [PATCH v4 05/51] drm/bridge: Extend bridge API to disable
+ connector creation
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ <dri-devel@lists.freedesktop.org>
+References: <20191219104522.9379-1-laurent.pinchart@ideasonboard.com>
+ <20191219104522.9379-6-laurent.pinchart@ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <115b7f72-3d46-0257-75a0-e5af51da7234@ti.com>
+Date: Wed, 8 Jan 2020 18:18:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-X-Authenticated-Sender: julian.stecklina@cyberus-technology.de
-X-Virus-Scanned: Clear (ClamAV 0.101.4/25688/Wed Jan  8 10:56:24 2020)
+In-Reply-To: <20191219104522.9379-6-laurent.pinchart@ideasonboard.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,40 +64,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: zhiyuan.lv@intel.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, hang.yuan@intel.com
-Content-Type: text/plain; charset="us-ascii"
+Cc: Sam Ravnborg <sam@ravnborg.org>, Sean Paul <sean@poorly.run>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Boris Brezillon <bbrezillon@kernel.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2020-01-08 at 12:24 +0200, Jani Nikula wrote:
-> On Mon, 06 Jan 2020, Julian Stecklina <julian.stecklina@cyberus-technology.de>
-> wrote:
-[...]
-> > +	/* Hypervisor-specific device state. */
-> > +	void *vdev;
+On 19/12/2019 12:44, Laurent Pinchart wrote:
+> Most bridge drivers create a DRM connector to model the connector at the
+> output of the bridge. This model is historical and has worked pretty
+> well so far, but causes several issues:
 > 
-> I have no clue about the relative merits of the patch, but you can use
-> the actual type for the pointer with a forward declaration. You don't
-> need the definition for that.
+> - It prevents supporting more complex display pipelines where DRM
+> connector operations are split over multiple components. For instance a
+> pipeline with a bridge connected to the DDC signals to read EDID data,
+> and another one connected to the HPD signal to detect connection and
+> disconnection, will not be possible to support through this model.
 > 
-> i.e.
+> - It requires every bridge driver to implement similar connector
+> handling code, resulting in code duplication.
 > 
-> struct kvmgt_vdev;
-> ...
-> 	struct kvmgt_vdev *vdev;
+> - It assumes that a bridge will either be wired to a connector or to
+> another bridge, but doesn't support bridges that can be used in both
+> positions very well (although there is some ad-hoc support for this in
+> the analogix_dp bridge driver).
+> 
+> In order to solve these issues, ownership of the connector should be
+> moved to the display controller driver (where it can be implemented
+> using helpers provided by the core).
+> 
+> Extend the bridge API to allow disabling connector creation in bridge
+> drivers as a first step towards the new model. The new flags argument to
+> the bridge .attach() operation allows instructing the bridge driver to
+> skip creating a connector. Unconditionally set the new flags argument to
+> 0 for now to keep the existing behaviour, and modify all existing bridge
+> drivers to return an error when connector creation is not requested as
+> they don't support this feature yet.
+> 
+> The change is based on the following semantic patch, with manual review
+> and edits.
+> 
+> @ rule1 @
+> identifier funcs;
+> identifier fn;
+> @@
+>   struct drm_bridge_funcs funcs = {
+>   	...,
+>   	.attach = fn
+>   };
+> 
+> @ depends on rule1 @
+> identifier rule1.fn;
+> identifier bridge;
+> statement S, S1;
+> @@
+>   int fn(
+>   	struct drm_bridge *bridge
+> +	, enum drm_bridge_attach_flags flags
+>   )
+>   {
+>   	... when != S
+> +	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
+> +		DRM_ERROR("Fix bridge driver to make connector optional!");
+> +		return -EINVAL;
+> +	}
+> +
+>   	S1
+>   	...
+>   }
+> 
+> @ depends on rule1 @
+> identifier rule1.fn;
+> identifier bridge, flags;
+> expression E1, E2, E3;
+> @@
+>   int fn(
+>   	struct drm_bridge *bridge,
+>   	enum drm_bridge_attach_flags flags
+>   ) {
+>   <...
+>   drm_bridge_attach(E1, E2, E3
+> +	, flags
+>   )
+>   ...>
+>   }
+> 
+> @@
+> expression E1, E2, E3;
+> @@
+>   drm_bridge_attach(E1, E2, E3
+> +	, 0
+>   )
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
 
-The goal here is to make the GVT code independent of the hypervisor backend.
-Different hypervisor backends need to keep different per-device state, so using
-the KVM type here defeats the purpose.
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 
-I assume this is not only useful for us, but also for other hypervisor backends,
-such as Xen or 3rd-party hypervisors.
+  Tomi
 
-Julian
-
-
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
