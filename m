@@ -2,48 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96420135FCD
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 18:52:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69CA1135FB6
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 18:51:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39ECA6E93F;
-	Thu,  9 Jan 2020 17:51:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDBAB6E434;
+	Thu,  9 Jan 2020 17:51:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 428 seconds by postgrey-1.36 at gabe;
- Wed, 08 Jan 2020 12:16:03 UTC
-Received: from lb2-smtp-cloud8.xs4all.net (lb2-smtp-cloud8.xs4all.net
- [194.109.24.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F3DE6E1C4
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 12:16:03 +0000 (UTC)
-Received: from [IPv6:2001:420:44c1:2577:919a:30e7:f323:4bf1]
- ([IPv6:2001:420:44c1:2577:919a:30e7:f323:4bf1])
- by smtp-cloud8.xs4all.net with ESMTPA
- id pA8liVTFJpLtbpA8piGST2; Wed, 08 Jan 2020 13:08:54 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
- t=1578485334; bh=1C0KidIyiLVO8lwHIf540UFf1K42WRXWnuM8epXFZNw=;
- h=Subject:From:To:Message-ID:Date:MIME-Version:Content-Type:From:
- Subject;
- b=q9Gsb9RT5m8IVE0R9IllFFtcoA/4erYYwBb7GEA/IF9HMxiEhyuMNkUjfrrBwq2E3
- Z47dZAhFzskFSF3g5ttC4VD0LKhCCUgDBa2xurGDAg65gG8+cUJFV4QYyvKOijzJPw
- wIs3mtlNyy3N+bs444FDU3kqd+h6Lsji5rl1KpF5Dzqzk8p/SbLSFnxh+wTR5qiNRv
- H88Ms6yfeGfvRhOG2BTHDp/2agrycIL2s916RxyzLARa8CUhHrFxjquue4vrs6xOIE
- KVWrLB9Wyug0vqfijuN1ZfQv/bTICOj45vX93u1tQZcGeXwCCBSnyplebEa3UkATHP
- gmcfnrhQM2c6g==
-Subject: Re: [PATCH] drm/Kconfig: add missing 'depends on DRM' for DRM_DP_CEC
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To: Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-References: <489bdaae-9b05-2d70-12e1-4fda7899dfc1@xs4all.nl>
-Message-ID: <bbbef09d-6c90-75ba-e480-28365474b1a5@xs4all.nl>
-Date: Wed, 8 Jan 2020 13:08:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C8AD6E1A2
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 12:38:12 +0000 (UTC)
+Received: by mail-ed1-x542.google.com with SMTP id l8so2453045edw.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2020 04:38:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=googlemail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=RotMCjOJKktSIUBCGAb4BBJvwMzxDTEukuKk1C8nR/Y=;
+ b=DVTb0EFtmqEPjuV03pnzZK8BsOoSGErBVKLIgk8UCu08OyrkYyp+HrCskvsX5sy5Ff
+ 7dgC90WFdqalh7qU8HwYisvMIeBkmy+stiyz7LUL0LjF2/5fICa+Z4jUYnRAwAV4kksQ
+ 7dZZUA2bit+LnZ4BIwweatxdmsnogHTuTJ2y1kqqYR2/oD1hUVcpiVL6nExK6EfOAQIE
+ bqcVrcApy0/mju2Mt+SP/RFG4is3ocgdJpHtYhpE74dGn55SZ2FCKUSQmnx5qLeY5PyP
+ qt9S8KPXnqjmbCkZ7ZHnvoc+ZArLCNgibMc4uWYw8FFqFFLTlLcbfckZ9XhF/1HEvSog
+ eEMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RotMCjOJKktSIUBCGAb4BBJvwMzxDTEukuKk1C8nR/Y=;
+ b=O73Ftj75HKw+tam/KCbHCU8NBAp0VdoOi0QjRdlyXnTbKqdS5exfNHvEsw+kLFawaH
+ 5l871IRr0Hn+vEqBW/C1vUcEp3tyO9rE82hwB/1Vow6WPJWR40ORkebioxfN6B6dazD/
+ ugO+NEHjTDuzMHanPZOuH3DpetyA/bSeZZxFL+vqOj93XF8NxUSWCzzqMfiZv8zbDaHy
+ 7O80u9++EqHVEW7wnkuDJFoAqvzHj8E3pXRIysvlEAO0xazdqlUO7JwOGetBB05TOaW8
+ woIfXbIkpusN78OTVa3qMqK1wq6mdcV+Ts18rciwB46t3z5qoRriIBy6J8QwVUZDOTld
+ zqbA==
+X-Gm-Message-State: APjAAAV4dkjW9AdT9w7gc+J8+T7iz4FEObkStMJ6aIwzT0SM/SrO/GKu
+ uXMaVExEV+ywMeB9VjzA5otfyqBzzwhkk64mR7w=
+X-Google-Smtp-Source: APXvYqzi0WPsidDDmVj1R0p4gUv6jfBMcq5h5l5TD4QO3F5rD/GE1j0AN/0+zT53es3eTRwo2dDerj4WmIdMbbc4SpY=
+X-Received: by 2002:a17:906:1a50:: with SMTP id
+ j16mr4721042ejf.106.1578487090894; 
+ Wed, 08 Jan 2020 04:38:10 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <489bdaae-9b05-2d70-12e1-4fda7899dfc1@xs4all.nl>
-Content-Language: en-US
-X-CMAE-Envelope: MS4wfAYfwofXI8ne6Q6yhVgrGvPLD/zxwNq2q6mztlCWWgWgoAv4NW0M2XXSlfY09uG4RbmlvFiIDWPtPT19dd0KbqR4ANU2Nd2J+S1CrgdwZskROWo0Fc9N
- 5c6UzcxMzpfJdrfF1CbgOptP5vj3OiH4SLqCCMErYELzN8Y8QPjXHoh11eL2Q6qIij8k1t112N8R76YVVUibScyaEGlYQZC0uThe8HO/ec4tb2Qht6TPLkH3
- j77oM5JOEjba9lpLjmNLR1mm1QtdP6oSB58Bf5PE13+l4pA+vYKra1Mb/hdiTLLd8/Svz8bCoQfoSARKrpkW3BNGadrPJFmC2RyW809egV7zJkHY6Mu2cpoN
- YFHmNMlkQpgmhIZ63iuYWBrE9j9FIw==
+References: <20200107230626.885451-1-martin.blumenstingl@googlemail.com>
+ <20200107230626.885451-2-martin.blumenstingl@googlemail.com>
+ <a85f2063-f412-9762-58d1-47fdffb24af9@arm.com>
+In-Reply-To: <a85f2063-f412-9762-58d1-47fdffb24af9@arm.com>
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date: Wed, 8 Jan 2020 13:38:00 +0100
+Message-ID: <CAFBinCBYrNC+ULV6Y=77qogowkDZwM+H0bxOqPN4sT6q3krGfw@mail.gmail.com>
+Subject: Re: [PATCH RFT v1 1/3] drm/panfrost: enable devfreq based the
+ "operating-points-v2" property
+To: Robin Murphy <robin.murphy@arm.com>
 X-Mailman-Approved-At: Thu, 09 Jan 2020 17:51:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,42 +66,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: tomeu.vizoso@collabora.com, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, steven.price@arm.com,
+ linux-rockchip@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ alyssa@rosenzweig.io
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/6/19 12:26 PM, Hans Verkuil wrote:
-> Add a missing 'depends on DRM' for the DRM_DP_CEC config
-> option. Without that enabling DRM_DP_CEC will force CEC_CORE
-> to =y instead of =m if DRM=m as well.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Hi Robin,
 
-Daniel, can you review this? It's annoying that the cec core is
-compiled as part of the kernel when it can just be a module.
+On Wed, Jan 8, 2020 at 12:18 PM Robin Murphy <robin.murphy@arm.com> wrote:
+>
+> On 07/01/2020 11:06 pm, Martin Blumenstingl wrote:
+> > Decouple the check to see whether we want to enable devfreq for the GPU
+> > from dev_pm_opp_set_regulators(). This is preparation work for adding
+> > back support for regulator control (which means we need to call
+> > dev_pm_opp_set_regulators() before dev_pm_opp_of_add_table(), which
+> > means having a check for "is devfreq enabled" that is not tied to
+> > dev_pm_opp_of_add_table() makes things easier).
+>
+> Hmm, what about cases like the SCMI DVFS protocol where the OPPs are
+> dynamically discovered rather than statically defined in DT?
+where can I find such an example (Amlogic SoCs use SCPI instead of
+SCMI, so I don't think that I have any board with SCMI support) or
+some documentation?
+(I could only find SCPI clock and CPU DVFS implementations, but no
+generic "OPPs for any device" implementation)
 
-Regards,
 
-	Hans
-
-> ---
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 1168351267fd..e8e478d6da9c 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -163,6 +163,7 @@ config DRM_LOAD_EDID_FIRMWARE
-> 
->  config DRM_DP_CEC
->  	bool "Enable DisplayPort CEC-Tunneling-over-AUX HDMI support"
-> +	depends on DRM
->  	select CEC_CORE
->  	help
->  	  Choose this option if you want to enable HDMI CEC support for
-> 
-
+Martin
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
