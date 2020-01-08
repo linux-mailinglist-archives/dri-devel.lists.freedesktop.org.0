@@ -2,59 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD0C5135036
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 00:58:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF5B1135033
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 00:58:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDB176E359;
-	Wed,  8 Jan 2020 23:58:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6487D6E357;
+	Wed,  8 Jan 2020 23:58:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
- [IPv6:2607:f8b0:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC7F26E35D
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 23:58:24 +0000 (UTC)
-Received: by mail-pl1-x643.google.com with SMTP id f20so1769527plj.5
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2020 15:58:24 -0800 (PST)
+Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com
+ [IPv6:2607:f8b0:4864:20::e44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86E496E357;
+ Wed,  8 Jan 2020 23:58:16 +0000 (UTC)
+Received: by mail-vs1-xe44.google.com with SMTP id n27so3122046vsa.0;
+ Wed, 08 Jan 2020 15:58:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=st0ckcOqaRV+ZvHstV7I6k7aAc3QTXy2/XaWGPv2J64=;
- b=NPF9IFGSgMgntYLD6eWINkS4FKHUSk00e/FB68oqFvCSHcAakBezDXHUmFl6VYX6g8
- P2S8OwhJpgLtI3zEIzpifr7SprtaswE5E0UT/3kAU9EZO+2dAayA9AIcabxaZSb97/TU
- tTQ8WFonFasx12Yg/WorXmtif23vQWiQVPa1v8YhyPLwOyi6V6zz7LqBofcU2hP3cp+T
- fJWgtSriHjZkyUjNz43jDTJi0s2WDsSot9zwI8q8zbagZtBYkmzDy8NeH9v+bsXRgESM
- DT+dUw5uwy4Resyzl6LgkzzTfg3LNDZzfRfQrsecipDNFwhTI6J/KtXff+ys8SniwTUI
- /0sw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+nZtXADyrfsNI2t3xLAuGKVhqb37ykNuxCZAZeGw7DM=;
+ b=iAwp+fCZaLvX/muKgM754JeMKkD7idPOE2o7PBHbcHzg8JrSG9zoSSF8EWXOFtA401
+ dJXpNx32dwiM/LpOeFiZzJj7024cqsQjZzo2+uHMPahH7M6q2DwhDj2xXlPMvBTB+HUX
+ ERou0n5/WG8WT/ChA5nV37bgtXguRvx2iitV2vuHgfmeu28VT/JtjdL/ojyy3Yr8x2/a
+ 9yrz19jR9B86daH/XECUu6lf0GiA3kSGX7M2m/6/IDBixPzjlEkdxQdy0KsBfEBJLuhM
+ Camx9I79Gv0kE74xTlqoDKMcOOuO94fWkejGl6H5xrTUhhUfNyuwy0Ksim/OArakUpsI
+ araw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=st0ckcOqaRV+ZvHstV7I6k7aAc3QTXy2/XaWGPv2J64=;
- b=DFj3bNWERG7DGEOV7mixHbrJevpQ2AOf0HcCPG6l5eXN9/c3RVuHuLEwwNaa3ZinHp
- V1BcfsnH5B2W/sL3EcSUmmdF+KBv+Vx/PpKwK+AN1L0JyrAVEiEXDacSqQUzSKjccaiz
- Fwl/o+w7FQU7k7FyL+6jzvLh//ipMuN9SGhfEjMexIyis3Iu76YcYLCW0SGuP4jYcdS+
- IzAA+VNOXMtN/ItnRhhyK2nMJba9eGlfokcFJzqTsI4MwX9bcgGTpidJReg/E9wkONQk
- XqhEcNSBYZtth5mBQ4jdHdq+nDZEZp7ae6Qg3+S9CC9E0KDg20gsi8YLL6xkokbWulkn
- HVRw==
-X-Gm-Message-State: APjAAAXQibBW1RQ/NuCTU9FbDGH3bo9jRbUIr/xDYsmXCRIHaBVGl0sP
- F1HHsVNG6UHNnUtxRf5a2IBNULievBM=
-X-Google-Smtp-Source: APXvYqy+t3SaP+IB09BU86n962/2WWP+4/lU9dArW8bBU/fPKZ26xI0HntnvHYQAgnvnpjp4sKLdIg==
-X-Received: by 2002:a17:90a:8a0c:: with SMTP id
- w12mr1558940pjn.61.1578527904251; 
- Wed, 08 Jan 2020 15:58:24 -0800 (PST)
-Received: from localhost ([100.118.89.215])
- by smtp.gmail.com with ESMTPSA id e14sm5202366pfm.97.2020.01.08.15.58.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jan 2020 15:58:23 -0800 (PST)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/2] drm/panel: Add support for AUO B116XAK01 panel
-Date: Wed,  8 Jan 2020 15:53:56 -0800
-Message-Id: <20200108235356.918189-2-robdclark@gmail.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200108235356.918189-1-robdclark@gmail.com>
-References: <20200108235356.918189-1-robdclark@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+nZtXADyrfsNI2t3xLAuGKVhqb37ykNuxCZAZeGw7DM=;
+ b=tzkWz+ggLqCUG69peL3kCJqmu1Li8O2Iaj7PmqNdN9PZpmZ1kulneuODuLmCwK363d
+ qq1Oq/7IJImfkOtMSJ6Ynfvz8q2U4BUad55PVF2xCYZDje1oycNb4uLu7BMOYFo8m4yz
+ amiSdBsNgKTShKThIee53E5LOGmPWDAR/ZTffe9CfiG4a2oamWZHEVdc1aqD4Z/Vd0z6
+ o+6TfAfRYcPIsTOjJEAABTa10qeJMwJvIYlIM2OnU30XB24rl5VPHMObd3dtMhE4RrcP
+ Fx2LLYlTF6/xGwtitPVrGhv+zgeDOdMq99opDqIK617F0/DO0HJMKk4yoLv2vwJQfMRD
+ 7PXw==
+X-Gm-Message-State: APjAAAUFfwn9YZXsdiqmbAt2cpwpYgrWU0sic8Ob6yIfdDE/9oKstf1q
+ bkR+kSkkhNfsUgIF1vHLwzIlEBHSvqzchQFCZo0=
+X-Google-Smtp-Source: APXvYqxMq8zNTpaV3+2pz3t18Kf9P+tFw/MULex1slX6odPImj9OrwG/evNC/zqK9OvL+pybbZSddcdWPVmyb0WaKjQ=
+X-Received: by 2002:a05:6102:3126:: with SMTP id
+ f6mr4480683vsh.204.1578527895518; 
+ Wed, 08 Jan 2020 15:58:15 -0800 (PST)
 MIME-Version: 1.0
+References: <20200108054601.mdwwtcqqpge2iwca@kili.mountain>
+In-Reply-To: <20200108054601.mdwwtcqqpge2iwca@kili.mountain>
+From: Ben Skeggs <skeggsb@gmail.com>
+Date: Thu, 9 Jan 2020 09:58:04 +1000
+Message-ID: <CACAvsv4ifPYma15xDfu43yanyznpNFyN1vgFrYmao=tdhE6Qjg@mail.gmail.com>
+Subject: Re: [PATCH] nouveau/secboot/gm20b: initialize pointer in
+ gm20b_secboot_new()
+To: Dan Carpenter <dan.carpenter@oracle.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,75 +62,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- Douglas Anderson <dianders@chromium.org>,
- open list <linux-kernel@vger.kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: David Airlie <airlied@linux.ie>, ML nouveau <nouveau@lists.freedesktop.org>,
+ kernel-janitors@vger.kernel.org,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Alexandre Courbot <acourbot@nvidia.com>, Ben Skeggs <bskeggs@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On Wed, 8 Jan 2020 at 15:46, Dan Carpenter <dan.carpenter@oracle.com> wrote:
+>
+> We accidentally set "psb" which is a no-op instead of "*psb" so it
+> generates a static checker warning.  We should probably set it before
+> the first error return so that it's always initialized.
+You actually don't need to do either, *psb will be NULL already on
+entry to the function.  But removing the assignment in the error path
+should be done still.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/panel/panel-simple.c | 32 ++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+Ben.
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index ba3f85f36c2f..0c3444c62014 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -629,6 +629,35 @@ static const struct panel_desc auo_b101xtn01 = {
- 	},
- };
- 
-+static const struct drm_display_mode auo_b116xak01_mode = {
-+	.clock = 69300,
-+	.hdisplay = 1366,
-+	.hsync_start = 1366 + 48,
-+	.hsync_end = 1366 + 48 + 32,
-+	.htotal = 1366 + 48 + 32 + 10,
-+	.vdisplay = 768,
-+	.vsync_start = 768 + 4,
-+	.vsync_end = 768 + 4 + 6,
-+	.vtotal = 768 + 4 + 6 + 15,
-+	.vrefresh = 60,
-+	.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
-+};
-+
-+static const struct panel_desc auo_b116xak01 = {
-+	.modes = &auo_b116xak01_mode,
-+	.num_modes = 1,
-+	.bpc = 6,
-+	.size = {
-+		.width = 256,
-+		.height = 144,
-+	},
-+	.delay = {
-+		.hpd_absent_delay = 200,
-+	},
-+	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
-+	.connector_type = DRM_MODE_CONNECTOR_eDP,
-+};
-+
- static const struct drm_display_mode auo_b116xw03_mode = {
- 	.clock = 70589,
- 	.hdisplay = 1366,
-@@ -3125,6 +3154,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "auo,b101xtn01",
- 		.data = &auo_b101xtn01,
-+	}, {
-+		.compatible = "auo,b116xa01",
-+		.data = &auo_b116xak01,
- 	}, {
- 		.compatible = "auo,b116xw03",
- 		.data = &auo_b116xw03,
--- 
-2.24.1
-
+>
+> Fixes: 923f1bd27bf1 ("drm/nouveau/secboot/gm20b: add secure boot support")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> ---
+> Static analysis.  I'm not sure how this is called.
+>
+>  drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gm20b.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gm20b.c b/drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gm20b.c
+> index df8b919dcf09..ace6fefba428 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gm20b.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gm20b.c
+> @@ -108,6 +108,7 @@ gm20b_secboot_new(struct nvkm_device *device, int index,
+>         struct gm200_secboot *gsb;
+>         struct nvkm_acr *acr;
+>
+> +       *psb = NULL;
+>         acr = acr_r352_new(BIT(NVKM_SECBOOT_FALCON_FECS) |
+>                            BIT(NVKM_SECBOOT_FALCON_PMU));
+>         if (IS_ERR(acr))
+> @@ -116,10 +117,8 @@ gm20b_secboot_new(struct nvkm_device *device, int index,
+>         acr->optional_falcons = BIT(NVKM_SECBOOT_FALCON_PMU);
+>
+>         gsb = kzalloc(sizeof(*gsb), GFP_KERNEL);
+> -       if (!gsb) {
+> -               psb = NULL;
+> +       if (!gsb)
+>                 return -ENOMEM;
+> -       }
+>         *psb = &gsb->base;
+>
+>         ret = nvkm_secboot_ctor(&gm20b_secboot, acr, device, index, &gsb->base);
+> --
+> 2.11.0
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
