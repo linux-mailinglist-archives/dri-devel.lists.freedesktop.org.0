@@ -1,54 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA660135FBA
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 18:51:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C612135FCF
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 18:52:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 262256E930;
-	Thu,  9 Jan 2020 17:51:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C9446E941;
+	Thu,  9 Jan 2020 17:51:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 303 seconds by postgrey-1.36 at gabe;
- Wed, 08 Jan 2020 17:46:05 UTC
-Received: from eu-smtp-delivery-151.mimecast.com
- (eu-smtp-delivery-151.mimecast.com [146.101.78.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13D0C6E1DE
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 17:46:04 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id uk-mta-2-XMFewsroMBqNVmL4iq_bTQ-1;
- Wed, 08 Jan 2020 17:39:44 +0000
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Wed, 8 Jan 2020 17:39:42 +0000
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000; 
- Wed, 8 Jan 2020 17:39:42 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Christophe Leroy' <christophe.leroy@c-s.fr>, Geert Uytterhoeven
- <geert@linux-m68k.org>
-Subject: RE: [RFT 00/13] iomap: Constify ioreadX() iomem argument
-Thread-Topic: [RFT 00/13] iomap: Constify ioreadX() iomem argument
-Thread-Index: AQHVxgB0oW/g95TA9k2fcgn+xgLf36fhB6DA
-Date: Wed, 8 Jan 2020 17:39:42 +0000
-Message-ID: <334434313e1642768995acc03a51214f@AcuMS.aculab.com>
-References: <1578415992-24054-1-git-send-email-krzk@kernel.org>
- <CAMuHMdW4ek0OYQDrrbcpZjNUTTP04nSbwkmiZvBmKcU=PQM9qA@mail.gmail.com>
- <CAMuHMdUBmYtJKtSYzS_5u67hVZOqcKSgFY1rDGme6gLNRBJ_gA@mail.gmail.com>
- <CAJKOXPfq9vS4kSyx1jOPHBvi9_HjviRv0LU2A8ZwdmqgUuebHQ@mail.gmail.com>
- <2355489c-a207-1927-54cf-85c04b62f18f@c-s.fr>
- <CAMuHMdV=-m-eN4rOa=XQhk2oBDZZwgXXMU6RMVQRVsc6ALyeoA@mail.gmail.com>
- <00a43e5c-0708-d49a-9cc4-eb2ce8b4cf99@c-s.fr>
-In-Reply-To: <00a43e5c-0708-d49a-9cc4-eb2ce8b4cf99@c-s.fr>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
+ [IPv6:2607:f8b0:4864:20::644])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C01489DEA
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 19:04:52 +0000 (UTC)
+Received: by mail-pl1-x644.google.com with SMTP id bd4so1488159plb.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2020 11:04:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=WuNXLxL+1sMtBQwv2K4eumVoHhxOxma8tmqoVufR3Bo=;
+ b=DXG1ZtsIcjDxidZu/VinHygy2TnOOMWJCkW68fgKSoLzbNQuosPVTfeFICr2WeZO/o
+ jEz4NM8gdLtyyjADFqAgi02ttsRMWhyxHSbz5o4LuO+7Qy+BKExbX7qFidFEVzrX+vZK
+ KCmZzBTJoCG6A7mi/a10GpnVfSa38TbwRFAE5dP+gHSQ8rrsUTznxoim7ZKKbcFH5jgf
+ EpOSKff4YTs5tRjobJ+zZoXvlf/3o0g9v6X+GCj1MkzoIb8HMcjcLlj7XGqVNh8GXcsC
+ LANolYpfTQ6cB62xGw/ttyTOV93kTgQ0xpDe0xCWHoFl4YEWonrWZ0wIMwCzLzJBXHUe
+ FtpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=WuNXLxL+1sMtBQwv2K4eumVoHhxOxma8tmqoVufR3Bo=;
+ b=hl/x2s3GNFIXcXyo4tqzCS0bAKjLtUVDT89LJpuDsGWxNExXjq76F4Y81D2T4iO+vx
+ L6KNrv21XUIf3hLJsHEZ2pvvmT/iykynxssKPeO9tPHMU+eMaslzhIoCT7P1IVeTwXM5
+ hZH5FSz4zpHlxC7YeJgdgxetSvXtQxmNEF01INFeeE7va3cy/viNylSOUDWsm3B6siYb
+ xQybxrgKGRmE09IUiDOLVX1PmFFvxW9/6ICMRmjhzmOXVYESsI7K0cYmpq9wfRjyw3IY
+ xlYBYNTmRmOzh5JqVA/km2kzebeUu2sb7bLeUT0DrADi0xXZi+dce6krf7d4P6aIXC6U
+ GA2g==
+X-Gm-Message-State: APjAAAVbGRnCtdIFqkD6tZ9lAUATVpgMyhHAYwGV0W4bhctTTy3BH5mC
+ WVir7oeZDGqOrwtmQu2qnhww2A==
+X-Google-Smtp-Source: APXvYqzdDG6/dcVOe88U3YPEnVAhW9Km4txL2BJeQX8JE8h8UKIkAzsn0ducTYHl8ZhNVbgcVE0nwg==
+X-Received: by 2002:a17:902:b701:: with SMTP id
+ d1mr5876172pls.280.1578510291991; 
+ Wed, 08 Jan 2020 11:04:51 -0800 (PST)
+Received: from minitux (104-188-17-28.lightspeed.sndgca.sbcglobal.net.
+ [104.188.17.28])
+ by smtp.gmail.com with ESMTPSA id u127sm4731367pfc.95.2020.01.08.11.04.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Jan 2020 11:04:51 -0800 (PST)
+Date: Wed, 8 Jan 2020 11:04:48 -0800
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, Sharat Masetty <smasetty@codeaurora.org>,
+ Rob Clark <robdclark@chromium.org>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ Brian Masney <masneyb@onstation.org>, Fabio Estevam <festevam@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/3] drm/msm: support firmware-name for zap fw
+Message-ID: <20200108190448.GI1214176@minitux>
+References: <20200108013847.899170-1-robdclark@gmail.com>
+ <20200108013847.899170-2-robdclark@gmail.com>
+ <20200108184850.GA13260@jcrouse1-lnx.qualcomm.com>
 MIME-Version: 1.0
-X-MC-Unique: XMFewsroMBqNVmL4iq_bTQ-1
-X-Mimecast-Spam-Score: 0
+Content-Disposition: inline
+In-Reply-To: <20200108184850.GA13260@jcrouse1-lnx.qualcomm.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-Mailman-Approved-At: Thu, 09 Jan 2020 17:51:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,61 +81,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rich Felker <dalias@libc.org>, Jiri Slaby <jirislaby@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, David Airlie <airlied@linux.ie>,
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- Jason Wang <jasowang@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "virtualization@lists.linux-foundation.org"
- <virtualization@lists.linux-foundation.org>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Paul Mackerras <paulus@samba.org>, Linux-Arch <linux-arch@vger.kernel.org>,
- Dave Jiang <dave.jiang@intel.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- Helge Deller <deller@gmx.de>, Linux-sh list <linux-sh@vger.kernel.org>,
- Alexey Brodkin <abrodkin@synopsys.com>, Krzysztof Kozlowski <krzk@kernel.org>,
- Ben Skeggs <bskeggs@redhat.com>, Dave Airlie <airlied@redhat.com>, Matt
- Turner <mattst88@gmail.com>, arcml <linux-snps-arc@lists.infradead.org>,
- Nick Kossifidis <mickflemm@gmail.com>, Allen Hubbe <allenbh@gmail.com>,
- Arnd Bergmann <arnd@arndb.de>, Jon Mason <jdmason@kudzu.us>, Ivan
- Kokshaysky <ink@jurassic.park.msu.ru>, Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Kalle Valo <kvalo@codeaurora.org>,
- Richard Henderson <rth@twiddle.net>,
- Parisc List <linux-parisc@vger.kernel.org>, netdev <netdev@vger.kernel.org>,
- linux-wireless <linux-wireless@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Vineet Gupta <vgupta@synopsys.com>,
- alpha <linux-alpha@vger.kernel.org>,
- "linux-ntb@googlegroups.com" <linux-ntb@googlegroups.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Christophe Leroy
-> Sent: 08 January 2020 08:49
-...
-> And as pointed by Arnd, the volatile is really only necessary for the
-> dereference itself, should the arch use dereferencing.
+On Wed 08 Jan 10:48 PST 2020, Jordan Crouse wrote:
 
-I've had trouble with some versions of gcc and reading of 'volatile unsigned char *'.
-It tended to follow the memory read with an extra mask with 0xff.
-(I suspect that internally the value landed into a temporary 'int' variable.)
+> On Tue, Jan 07, 2020 at 05:38:42PM -0800, Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
+> > 
+> > Since zap firmware can be device specific, allow for a firmware-name
+> > property in the zap node to specify which firmware to load, similarly to
+> > the scheme used for dsp/wifi/etc.
+> > 
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > ---
+> >  drivers/gpu/drm/msm/adreno/adreno_gpu.c | 32 ++++++++++++++++++++++---
+> >  1 file changed, 29 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> > index 112e8b8a261e..aa8737bd58db 100644
+> > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> > @@ -26,6 +26,7 @@ static int zap_shader_load_mdt(struct msm_gpu *gpu, const char *fwname,
+> >  {
+> >  	struct device *dev = &gpu->pdev->dev;
+> >  	const struct firmware *fw;
+> > +	const char *signed_fwname = NULL;
+> >  	struct device_node *np, *mem_np;
+> >  	struct resource r;
+> >  	phys_addr_t mem_phys;
+> > @@ -58,8 +59,33 @@ static int zap_shader_load_mdt(struct msm_gpu *gpu, const char *fwname,
+> >  
+> >  	mem_phys = r.start;
+> >  
+> > -	/* Request the MDT file for the firmware */
+> > -	fw = adreno_request_fw(to_adreno_gpu(gpu), fwname);
+> > +	/*
+> > +	 * Check for a firmware-name property.  This is the new scheme
+> > +	 * to handle firmware that may be signed with device specific
+> > +	 * keys, allowing us to have a different zap fw path for different
+> > +	 * devices.
+> > +	 *
+> > +	 * If the firmware-name property is found, we bypass the
+> > +	 * adreno_request_fw() mechanism, because we don't need to handle
+> > +	 * the /lib/firmware/qcom/* vs /lib/firmware/* case.
+> > +	 *
+> > +	 * If the firmware-name property is not found, for backwards
+> > +	 * compatibility we fall back to the fwname from the gpulist
+> > +	 * table.
+> > +	 */
+> > +	of_property_read_string_index(np, "firmware-name", 0, &signed_fwname);
+> > +	if (signed_fwname) {
+> > +		fwname = signed_fwname;
+> > +		ret = request_firmware_direct(&fw, signed_fwname, gpu->dev->dev);
+> > +		if (ret) {
+> > +			DRM_DEV_ERROR(dev, "could not load signed zap firmware: %d\n", ret);
+> > +			fw = ERR_PTR(ret);
+> > +		}
+> > +	} else {
+> > +		/* Request the MDT file for the firmware */
+> > +		fw = adreno_request_fw(to_adreno_gpu(gpu), fwname);
+> > +	}
+> > +
+> 
+> Since DT seems to be the trend for target specific firmware names I think we
+> should plan to quickly deprecate the legacy name and not require new targets to
+> set it. If a zap node is going to be opt in then it isn't onerous to ask
+> the developer to set the additional property for each target platform.
+> 
 
-I got better code using memory barriers.
-So putting an asm barrier for the exact location of the memory read
-either side of the read should have the desired effect without adding
-extra instructions.
-(You might think 'volatile' would mean that - but it doesn't.)
+For the zap specifically I agree that it would be nice to require this
+property, but for non-zap firmware it seems reasonable to continue with
+the existing scheme.
 
-	David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+Regards,
+Bjorn
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
