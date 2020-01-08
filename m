@@ -1,58 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F40CF133E70
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 10:41:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5533F133EAD
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 10:55:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F21EC6E1A8;
-	Wed,  8 Jan 2020 09:41:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 021C46E1AA;
+	Wed,  8 Jan 2020 09:55:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com
- [IPv6:2607:f8b0:4864:20::743])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8DD56E1A4
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 09:41:23 +0000 (UTC)
-Received: by mail-qk1-x743.google.com with SMTP id z14so2025709qkg.9
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2020 01:41:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=3k6KL6OW1KuD898Wo+SDCSL7TZFSrXg9GJsYynsrAdM=;
- b=okYH2IapmjevC5ti+PTUU3rDgJnZbZhkOFFP5/HMzw3t1VcZyMsKGQdtxXCzMGoe02
- WojLrMbu17kYro+jjp3Rmim2CnbXH3uS2MO7JBir6PHFg9U69der0jw6adFENPjLflIq
- zxtGDVyKIkkS08xrxFMFQnKYye0r0cJo6+sXyLUOBtv5H0w//MCznhmoqcGVd/wVzgY3
- 3M/k4/d8p3TAMefDrxzrIFFm77j0U7A+Ny+1iHJDuVmlFykct7vmExVd0d4WNy/FTiJz
- WnI3+HLDB79CSwQAC/tQVJf9KjuwQefZVLUYHbkLqWlrE1UP0mj/Hf8F8jx4N8JBBEUT
- Wc7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=3k6KL6OW1KuD898Wo+SDCSL7TZFSrXg9GJsYynsrAdM=;
- b=oUVby/b6nWVwm4xHEL1g9pZkhi4sP2wUtPGqKHhrwnx1evHRonUufC77/ImdlJ8R1i
- QunJLfvG0l4B2Ok5KJBykfYfLr4vXf2TlOXaGTca1kyUS44EaqByS7uy+qkafsG0+fnQ
- CT3wHvJO1hQa6tDaDHxXIswa0johN4XabAJ95eR3vIREPfyr87m8anjxvWmYphJjIt3R
- OjXBOV6xY02TY9+Rs+E6weOHO8oExPMuSDZYAaRDTZaf8AsSW8elaZnFNd/QJZem2pHU
- zxcR7Gmd+5Gtxv4uBWrN+fSpgmZJhaIqYmJtY5c/PF5lL8x2PV6nCwiakEbNRVE+QGUx
- p4ng==
-X-Gm-Message-State: APjAAAXVIyQDxYk/am7BqEahMnGBK4gOt7t6xKmosQ411Nhnfx2SmWCi
- EDoicSvZO0b9ys4NzVLSsKwhhqP9Hp8aenvOqmjIBw==
-X-Google-Smtp-Source: APXvYqy2/LpK3ufvjtvR9X+/rFP3P9INLibytATp5NFmROxu1EyOEfLgKPVYeRJln5R2ecUpmMXB1RsyhjuzaypjjWI=
-X-Received: by 2002:a05:620a:cd1:: with SMTP id
- b17mr3073346qkj.427.1578476482847; 
- Wed, 08 Jan 2020 01:41:22 -0800 (PST)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D80E26E1A7
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 09:55:42 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 08 Jan 2020 01:55:42 -0800
+X-IronPort-AV: E=Sophos;i="5.69,409,1571727600"; d="scan'208";a="211490674"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 08 Jan 2020 01:55:33 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Randy Dunlap <rdunlap@infradead.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH] drm/drm_panel: fix export of drm_panel_of_backlight,
+ try #3
+In-Reply-To: <20200107203231.920256-1-arnd@arndb.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200107203231.920256-1-arnd@arndb.de>
+Date: Wed, 08 Jan 2020 11:55:29 +0200
+Message-ID: <87zheyqnla.fsf@intel.com>
 MIME-Version: 1.0
-References: <20200102101712.5085-1-sam@ravnborg.org>
- <20200102101712.5085-3-sam@ravnborg.org>
- <CA+M3ks5Zs5j0FMD4SQiva2soW62tSnu14qiq3kErhLvCMxrxAA@mail.gmail.com>
- <CAL_Jsq+g8mVdC=aOZDpMGMt3j1Y=Lgku-OcfoBP_V7PGabq5Lg@mail.gmail.com>
-In-Reply-To: <CAL_Jsq+g8mVdC=aOZDpMGMt3j1Y=Lgku-OcfoBP_V7PGabq5Lg@mail.gmail.com>
-From: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-Date: Wed, 8 Jan 2020 10:41:12 +0100
-Message-ID: <CA+M3ks4sD971mCUQRJO+9gXaAWcwgzy2iNtMNVBRov5JSJk=HQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] dt-bindings: one file of all simple DSI panels
-To: Rob Herring <robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,116 +50,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Yannick Fertre <yannick.fertre@st.com>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Arnd Bergmann <arnd@arndb.de>, Maxime Ripard <maxime.ripard@bootlin.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Boris Brezillon <boris.brezillon@collabora.com>, Sean Paul <sean@poorly.run>,
+ Emil Velikov <emil.velikov@collabora.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TGUgbWFyLiA3IGphbnYuIDIwMjAgw6AgMTg6MDUsIFJvYiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5v
-cmc+IGEgw6ljcml0IDoKPgo+IE9uIFR1ZSwgSmFuIDcsIDIwMjAgYXQgOTo0NCBBTSBCZW5qYW1p
-biBHYWlnbmFyZAo+IDxiZW5qYW1pbi5nYWlnbmFyZEBsaW5hcm8ub3JnPiB3cm90ZToKPiA+Cj4g
-PiBMZSBqZXUuIDIgamFudi4gMjAyMCDDoCAxMToxNywgU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJv
-cmcub3JnPiBhIMOpY3JpdCA6Cj4gPiA+Cj4gPiA+IFRvIGNvbXBsZW1lbnQgcGFuZWwtc2ltcGxl
-LnlhbWwsIGNyZWF0ZSBwYW5lbC1zaW1wbGUtZHNpLnlhbWwuCj4gPiA+IHBhbmVsLXNpbXBsZS1k
-c2kteWFtbCBhcmUgZm9yIGFsbCBzaW1wbGUgRFNQIHBhbmVscyB3aXRoIGEgc2luZ2xlCj4gPiA+
-IHBvd2VyLXN1cHBseSBhbmQgb3B0aW9uYWwgYmFja2xpZ2h0IC8gZW5hYmxlIEdQSU8uCj4gPiA+
-Cj4gPiA+IE1pZ3JhdGUgcGFuYXNvbmljLHZ2eDEwZjAzNG4wMCBvdmVyIHRvIHRoZSBuZXcgZmls
-ZS4KPiA+ID4KPiA+ID4gVGhlIG9iamVjdGl2ZXMgd2l0aCBvbmUgZmlsZSBmb3IgYWxsIHRoZSBz
-aW1wbGUgRFNJIHBhbmVscyBhcmU6Cj4gPiA+ICAgICAtIE1ha2UgaXQgc2ltcGxlciB0byBhZGQg
-YmluZGluZ3MgZm9yIHNpbXBsZSBEU0kgcGFuZWxzCj4gPiA+ICAgICAtIEtlZXAgdGhlIG51bWJl
-ciBvZiBiaW5kaW5ncyBmaWxlIGxvd2VyCj4gPiA+ICAgICAtIEtlZXAgdGhlIGJpbmRpbmcgZG9j
-dW1lbnRhdGlvbiBmb3Igc2ltcGxlIERTSSBwYW5lbHMgbW9yZSBjb25zaXN0ZW50Cj4gPiA+Cj4g
-PiA+IFNpZ25lZC1vZmYtYnk6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KPiA+ID4g
-Q2M6IFRoaWVycnkgUmVkaW5nIDx0aGllcnJ5LnJlZGluZ0BnbWFpbC5jb20+Cj4gPiA+IENjOiBS
-b2IgSGVycmluZyA8cm9iaEBrZXJuZWwub3JnPgo+ID4gPiBDYzogTWF4aW1lIFJpcGFyZCA8bXJp
-cGFyZEBrZXJuZWwub3JnPgo+ID4gPiBDYzogWWFubmljayBGZXJ0cmUgPHlhbm5pY2suZmVydHJl
-QHN0LmNvbT4KPiA+ID4gQ2M6IE1hcmsgUnV0bGFuZCA8bWFyay5ydXRsYW5kQGFybS5jb20+Cj4g
-PiA+IENjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+Cj4gPiA+IENjOiBkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gPiA+IENjOiBkZXZpY2V0cmVlQHZnZXIua2VybmVs
-Lm9yZwo+ID4gPiAtLS0KPiA+ID4gIC4uLi9kaXNwbGF5L3BhbmVsL3BhbmFzb25pYyx2dngxMGYw
-MzRuMDAudHh0ICB8IDIwIC0tLS0tLQo+ID4gPiAgLi4uL2Rpc3BsYXkvcGFuZWwvcGFuZWwtc2lt
-cGxlLWRzaS55YW1sICAgICAgIHwgNjcgKysrKysrKysrKysrKysrKysrKwo+ID4gPiAgMiBmaWxl
-cyBjaGFuZ2VkLCA2NyBpbnNlcnRpb25zKCspLCAyMCBkZWxldGlvbnMoLSkKPiA+ID4gIGRlbGV0
-ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9w
-YW5lbC9wYW5hc29uaWMsdnZ4MTBmMDM0bjAwLnR4dAo+ID4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0
-IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL3BhbmVsLXNp
-bXBsZS1kc2kueWFtbAo+ID4gPgo+ID4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZp
-Y2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvcGFuYXNvbmljLHZ2eDEwZjAzNG4wMC50eHQg
-Yi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9wYW5hc29u
-aWMsdnZ4MTBmMDM0bjAwLnR4dAo+ID4gPiBkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKPiA+ID4g
-aW5kZXggMzdkZWRmNmE2NzAyLi4wMDAwMDAwMDAwMDAKPiA+ID4gLS0tIGEvRG9jdW1lbnRhdGlv
-bi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvcGFuYXNvbmljLHZ2eDEwZjAzNG4w
-MC50eHQKPiA+ID4gKysrIC9kZXYvbnVsbAo+ID4gPiBAQCAtMSwyMCArMCwwIEBACj4gPiA+IC1Q
-YW5hc29uaWMgMTAiIFdVWEdBIFRGVCBMQ0QgcGFuZWwKPiA+ID4gLQo+ID4gPiAtUmVxdWlyZWQg
-cHJvcGVydGllczoKPiA+ID4gLS0gY29tcGF0aWJsZTogc2hvdWxkIGJlICJwYW5hc29uaWMsdnZ4
-MTBmMDM0bjAwIgo+ID4gPiAtLSByZWc6IERTSSB2aXJ0dWFsIGNoYW5uZWwgb2YgdGhlIHBlcmlw
-aGVyYWwKPiA+ID4gLS0gcG93ZXItc3VwcGx5OiBwaGFuZGxlIG9mIHRoZSByZWd1bGF0b3IgdGhh
-dCBwcm92aWRlcyB0aGUgc3VwcGx5IHZvbHRhZ2UKPiA+ID4gLQo+ID4gPiAtT3B0aW9uYWwgcHJv
-cGVydGllczoKPiA+ID4gLS0gYmFja2xpZ2h0OiBwaGFuZGxlIG9mIHRoZSBiYWNrbGlnaHQgZGV2
-aWNlIGF0dGFjaGVkIHRvIHRoZSBwYW5lbAo+ID4gPiAtCj4gPiA+IC1FeGFtcGxlOgo+ID4gPiAt
-Cj4gPiA+IC0gICAgICAgbWRzc19kc2lAZmQ5MjI4MDAgewo+ID4gPiAtICAgICAgICAgICAgICAg
-cGFuZWxAMCB7Cj4gPiA+IC0gICAgICAgICAgICAgICAgICAgICAgIGNvbXBhdGlibGUgPSAicGFu
-YXNvbmljLHZ2eDEwZjAzNG4wMCI7Cj4gPiA+IC0gICAgICAgICAgICAgICAgICAgICAgIHJlZyA9
-IDwwPjsKPiA+ID4gLSAgICAgICAgICAgICAgICAgICAgICAgcG93ZXItc3VwcGx5ID0gPCZ2cmVn
-X3ZzcD47Cj4gPiA+IC0gICAgICAgICAgICAgICAgICAgICAgIGJhY2tsaWdodCA9IDwmbHA4NTY2
-X3dsZWQ+Owo+ID4gPiAtICAgICAgICAgICAgICAgfTsKPiA+ID4gLSAgICAgICB9Owo+ID4gPiBk
-aWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFu
-ZWwvcGFuZWwtc2ltcGxlLWRzaS55YW1sIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
-bmdzL2Rpc3BsYXkvcGFuZWwvcGFuZWwtc2ltcGxlLWRzaS55YW1sCj4gPiA+IG5ldyBmaWxlIG1v
-ZGUgMTAwNjQ0Cj4gPiA+IGluZGV4IDAwMDAwMDAwMDAwMC4uMDVjNTIzOTAyNjllCj4gPiA+IC0t
-LSAvZGV2L251bGwKPiA+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdz
-L2Rpc3BsYXkvcGFuZWwvcGFuZWwtc2ltcGxlLWRzaS55YW1sCj4gPiA+IEBAIC0wLDAgKzEsNjcg
-QEAKPiA+ID4gKyMgU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IChHUEwtMi4wLW9ubHkgb3IgQlNE
-LTItQ2xhdXNlKQo+ID4gPiArJVlBTUwgMS4yCj4gPiA+ICstLS0KPiA+ID4gKyRpZDogaHR0cDov
-L2RldmljZXRyZWUub3JnL3NjaGVtYXMvZGlzcGxheS9wYW5lbC9wYW5lbC1zaW1wbGUtZHNpLnlh
-bWwjCj4gPiA+ICskc2NoZW1hOiBodHRwOi8vZGV2aWNldHJlZS5vcmcvbWV0YS1zY2hlbWFzL2Nv
-cmUueWFtbCMKPiA+ID4gKwo+ID4gPiArdGl0bGU6IFNpbXBsZSBEU0kgcGFuZWxzIHdpdGggYSBz
-aW5nbGUgcG93ZXItc3VwcGx5Cj4gPiA+ICsKPiA+ID4gK21haW50YWluZXJzOgo+ID4gPiArICAt
-IFRoaWVycnkgUmVkaW5nIDx0aGllcnJ5LnJlZGluZ0BnbWFpbC5jb20+Cj4gPiA+ICsgIC0gU2Ft
-IFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPgo+ID4gPiArCj4gPiA+ICtkZXNjcmlwdGlvbjog
-fAo+ID4gPiArICBUaGlzIGJpbmRpbmcgZmlsZSBpcyBhIGNvbGxlY3Rpb24gb2YgdGhlIERTSSBw
-YW5lbHMgdGhhdAo+ID4gPiArICByZXF1aXJlcyBvbmx5IGEgc2luZ2xlIHBvd2VyLXN1cHBseS4K
-PiA+ID4gKyAgVGhlcmUgYXJlIG9wdGlvbmFsbHkgYSBiYWNrbGlnaHQgYW5kIGFuIGVuYWJsZSBH
-UElPLgo+ID4gPiArICBUaGUgcGFuZWwgbWF5IHVzZSBhbiBPRiBncmFwaCBiaW5kaW5nIGZvciB0
-aGUgYXNzb2NpYXRpb24gdG8gdGhlIGRpc3BsYXksCj4gPiA+ICsgIG9yIGl0IG1heSBiZSBhIGRp
-cmVjdCBjaGlsZCBub2RlIG9mIHRoZSBkaXNwbGF5Lgo+ID4gPiArCj4gPiA+ICsgIElmIHRoZSBw
-YW5lbCBpcyBtb3JlIGFkdmFuY2VkIGEgZGVkaWNhdGVkIGJpbmRpbmcgZmlsZSBpcyByZXF1aXJl
-ZC4KPiA+ID4gKwo+ID4gPiArYWxsT2Y6Cj4gPiA+ICsgIC0gJHJlZjogcGFuZWwtY29tbW9uLnlh
-bWwjCj4gPiA+ICsKPiA+ID4gK3Byb3BlcnRpZXM6Cj4gPiA+ICsKPiA+ID4gKyAgY29tcGF0aWJs
-ZToKPiA+ID4gKyAgICBlbnVtOgo+ID4gPiArICAgICMgY29tcGF0aWJsZSBtdXN0IGJlIGxpc3Rl
-ZCBpbiBhbHBoYWJldGljYWwgb3JkZXIsIG9yZGVyZWQgYnkgY29tcGF0aWJsZS4KPiA+ID4gKyAg
-ICAjIFRoZSBkZXNjcmlwdGlvbiBpbiB0aGUgY29tbWVudCBpcyBtYW5kYXRvcnkgZm9yIGVhY2gg
-Y29tcGF0aWJsZS4KPiA+ID4gKwo+ID4gPiArICAgICMgUGFuYXNvbmljIDEwIiBXVVhHQSBURlQg
-TENEIHBhbmVsCj4gPiA+ICsgICAgLSBwYW5hc29uaWMsdnZ4MTBmMDM0bjAwCj4gPgo+ID4gSGkg
-U2FtLAo+ID4KPiA+IEkgaGF2ZSB0ZXN0ZWQgeW91ciBwYXRjaCB3aXRoIHRoZXNlIDIgZHNpIHBh
-bmVsczoKPiA+ICMgT3Jpc2UgVGVjaCBPVE04MDA5QSBpcyBhIDMuOTciIDQ4MHg4MDAgVEZUIExD
-RAo+ID4gICAtIG9yaXNldGVjaCxvdG04MDA5YQo+ID4gICMgUmF5ZGl1bSBTZW1pY29uZHVjdG9y
-IENvcnBvcmF0aW9uIFJNNjgyMDAgaXMgYSA1LjUiIDcyMHgxMjgwIFRGVCBMQ0QKPiA+ICAgIC0g
-cmF5ZGl1bSxybTY4MjAwCj4gPgo+ID4gSXQgaXMgY2xvc2UgdG8gYmUgZmluZSBmb3IgbWUgYnV0
-IEkgaGF2ZSBtaW5vcnMgY29tbWVudHMgYmVsb3cuCj4gPgo+ID4gQmVuamFtaW4KPiA+Cj4gPiA+
-ICsKPiA+ID4gKyAgcmVnOgo+ID4gPiArICAgIG1heEl0ZW1zOiAxCj4gPiA+ICsgICAgZGVzY3Jp
-cHRpb246IERTSSB2aXJ0dWFsIGNoYW5uZWwKPiA+ID4gKwo+ID4gPiArICBiYWNrbGlnaHQ6IHRy
-dWUKPiA+ID4gKyAgZW5hYmxlLWdwaW9zOiB0cnVlCj4gPiA+ICsgIHBvcnQ6IHRydWUKPiA+ID4g
-KyAgcG93ZXItc3VwcGx5OiB0cnVlCj4gPgo+ID4gYWRkIHJlc2V0LWdwaW9zOiB0cnVlIHRvIHN1
-cHBvcnQgb3Jpc2V0ZWNoIHBhbmVsCj4KPiBOb3BlLiBJZiBub3QgYSBzaW5nbGUgR1BJTyBhbmQg
-c2luZ2xlIHN1cHBseSwgbm90IGEgc2ltcGxlIHBhbmVsLgo+Cj4gTWF5YmUgcmVzZXQgY291bGQg
-YmUgYWxsb3dlZCwgYnV0IHdlIGhhdmUgdG8gZHJhdyB0aGUgbGluZSBzb21ld2hlcmUuCj4KPiA+
-ID4gKwo+ID4gPiArYWRkaXRpb25hbFByb3BlcnRpZXM6IGZhbHNlCj4gPiA+ICsKPiA+ID4gK3Jl
-cXVpcmVkOgo+ID4gPiArICAtIGNvbXBhdGlibGUKPiA+ID4gKyAgLSBwb3dlci1zdXBwbHkKPiA+
-Cj4gPiBwb3dlci1zdXBwbHkgc2hvdWxkIG9wdGlvbmFsCj4KPiBUaGUgcGFuZWwgd29ya3Mgd2l0
-aG91dCBwb3dlcj8gVGhlIGR0cyBzaG91bGQgaGF2ZSBhIGZpeGVkIHN1cHBseSBpZgo+IG5vdCBj
-b250cm9sbGFibGUuCj4KPiBIZXJlJ3MgdGhlIHByb2JsZW0uIElmIGl0IGlzIG5vdCByZXF1aXJl
-ZCwgdGhlbiBwYW5lbHMgd2l0aCBtdWx0aXBsZQo+IHN1cHBsaWVzIHdpbGwgZ2V0IGFkZGVkIGhl
-cmUgYmVjYXVzZSB0aGV5IGRpZG4ndCBjYXJlIHRvIGJlZ2luIHdpdGguCj4gVGhlbiB3aGVuIHNv
-bWVvbmUgZGVjaWRlcyB0byB0aGluayBhYm91dCB0aGUgc3VwcGxpZXMgaXQgd2lsbCBoYXZlIHRv
-Cj4gYmUgbW92ZWQuIEJpbmRpbmdzIG5lZWQgdG8gYmUgY29tcGxldGUgZnJvbSB0aGUgc3RhcnQu
-CgpGYWlyIGVub3VnaCwgSSB3aWxsIGFkZCBmaXhlZCBzdXBwbHkgaW4gZHRzIGZpbGVzLgpJZiBy
-ZXNldC1ncGlvcyBjb3VsZCBiZSBhZGRlZCBpbiB0aGlzIHNjaGVtYSB0aGVuIHdlIGNvdWxkIGlu
-Y2x1ZGUKb3Jpc3RlY2ggcGFuZWwgaGVyZS4KCkJlbmphbWluCgo+Cj4gUm9iCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Tue, 07 Jan 2020, Arnd Bergmann <arnd@arndb.de> wrote:
+> Making this IS_REACHABLE() was still wrong, as that just determines
+> whether the lower-level backlight code would be reachable from the panel
+> driver. However, with CONFIG_DRM=y and CONFIG_BACKLIGHT_CLASS_DEVICE=m,
+> the drm_panel_of_backlight is left out of drm_panel.o but the condition
+> tells the driver that it is there, leading to multiple link errors such as
+>
+> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-sitronix-st7701.ko] undefined!
+> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-sharp-ls043t1le01.ko] undefined!
+> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-seiko-43wvf1g.ko] undefined!
+> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-ronbo-rb070d30.ko] undefined!
+> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-rocktech-jh057n00900.ko] undefined!
+> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.ko] undefined!
+> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.ko] undefined!
+>
+> Change the condition to check for whether the function was actually part
+> of the drm module. This version of the patch survived a few hundred
+> randconfig builds, so I have a good feeling this might be the last
+> one for the export.
+
+Broken record, this will still be wrong, even if it builds and links. No
+backlight support for panel despite expectations.
+
+See http://mid.mail-archive.com/87d0cnynst.fsf@intel.com
+
+All of this is just another hack until the backlight config usage is
+fixed for good. Do we really want to make this the example to copy paste
+wherever we hit the issue next?
+
+I'm not naking, but I'm not acking either.
+
+BR,
+Jani.
+
+
+>
+> Fixes: 4a34a9dcec94 ("drm/drm_panel: Fix EXPORT of drm_panel_of_backlight() one more time")
+> Fixes: 907aa265fde6 ("drm/drm_panel: fix EXPORT of drm_panel_of_backlight")
+> Fixes: 152dbdeab1b2 ("drm/panel: add backlight support")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  include/drm/drm_panel.h | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
+> index 121f7aabccd1..6193cb555acc 100644
+> --- a/include/drm/drm_panel.h
+> +++ b/include/drm/drm_panel.h
+> @@ -198,7 +198,8 @@ static inline struct drm_panel *of_drm_find_panel(const struct device_node *np)
+>  }
+>  #endif
+>  
+> -#if IS_REACHABLE(CONFIG_BACKLIGHT_CLASS_DEVICE)
+> +#if IS_ENABLED(CONFIG_DRM_PANEL) && (IS_BUILTIN(CONFIG_BACKLIGHT_CLASS_DEVICE) || \
+> +	(IS_MODULE(CONFIG_DRM) && IS_MODULE(CONFIG_BACKLIGHT_CLASS_DEVICE)))
+>  int drm_panel_of_backlight(struct drm_panel *panel);
+>  #else
+>  static inline int drm_panel_of_backlight(struct drm_panel *panel)
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
