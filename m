@@ -1,39 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E1FE134E57
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 22:04:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18163134E96
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 22:13:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A5396E33F;
-	Wed,  8 Jan 2020 21:04:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACCED6E8C6;
+	Wed,  8 Jan 2020 21:12:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 856D06E33F
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 21:04:00 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 319B380540;
- Wed,  8 Jan 2020 22:03:58 +0100 (CET)
-Date: Wed, 8 Jan 2020 22:03:56 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH v4 1/3] dt-bindings: Add vendor prefix for Satoz
-Message-ID: <20200108210356.GB4476@ravnborg.org>
-References: <20200106151827.31511-1-miquel.raynal@bootlin.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200106151827.31511-1-miquel.raynal@bootlin.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=oYh99mQ5AAAA:8
- a=P-IC7800AAAA:8 a=VwQbUJbxAAAA:8 a=J3MoksNOTPvGxBsvGqEA:9
- a=CjuIK1q_8ugA:10 a=Dexii-P0nw1V_nRav-Pa:22 a=d3PnA9EDa4IxuAV0gXij:22
- a=AjGcO6oz07-iQ99wixmX:22
+Received: from o1.b.az.sendgrid.net (o1.b.az.sendgrid.net [208.117.55.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6ED716E34C
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 21:12:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=from:subject:in-reply-to:references:to:cc:content-type:
+ content-transfer-encoding;
+ s=001; bh=HR4kr+bDhTd27xGffh3PFuiOeC0GhYxHGFLRteOkMOg=;
+ b=qTH3Rztt9TtsEzsXieR+TFCLopR8u2ZrZOHLBtaWty4oxNBgGJ9Pf5EwDtK5x62EpSKy
+ 4k5UxXqMtND9rZipXu3mt/2c8gZDqWSc2Qfqq/f5K9Ye7GCGXhOEsXX7HfdwnrL6dz1vgH
+ QelEOyKt8DhS+PieHfUrfJBDh0tpSbTU4=
+Received: by filterdrecv-p3mdw1-56c97568b5-cmx66 with SMTP id
+ filterdrecv-p3mdw1-56c97568b5-cmx66-20-5E1644A3-2B
+ 2020-01-08 21:07:47.622450628 +0000 UTC m=+1974280.682507477
+Received: from bionic.localdomain (unknown [98.128.173.80])
+ by ismtpd0005p1lon1.sendgrid.net (SG) with ESMTP id NtXS8e1kTL6_-W3B2T8JjA
+ Wed, 08 Jan 2020 21:07:47.425 +0000 (UTC)
+From: Jonas Karlman <jonas@kwiboo.se>
+Subject: [PATCH v2 01/14] phy/rockchip: inno-hdmi: use correct vco_div_5 macro
+ on rk3328
+Date: Wed, 08 Jan 2020 21:07:47 +0000 (UTC)
+Message-Id: <20200108210740.28769-2-jonas@kwiboo.se>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200108210740.28769-1-jonas@kwiboo.se>
+References: <20200108210740.28769-1-jonas@kwiboo.se>
+X-SG-EID: =?us-ascii?Q?TdbjyGynYnRZWhH+7lKUQJL+ZxmxpowvO2O9SQF5CwCVrYgcwUXgU5DKUU3QxA?=
+ =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0h6dCnj1HKtTOCeaQg?=
+ =?us-ascii?Q?1cKo1TnVwkYTrFfi8tlX3cmgptM7fFz8fCRLnhs?=
+ =?us-ascii?Q?FI3uw0nbK305k2jfu72RZd9R0pvt=2Fjjeyf9vaEm?=
+ =?us-ascii?Q?BcvN5CGTrWndPrRlhvgy5y7FJvsqQ7RPqm8XErw?=
+ =?us-ascii?Q?MZwgWBgdbSb1L0lCIiJkdDJSamwfVPRbV3rVQ+N?=
+ =?us-ascii?Q?AQ4Jb7jAOS3+5TRpDkmHQ=3D=3D?=
+To: Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,63 +53,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Maxime Chevallier <maxime.chevallier@bootlin.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Thierry Reding <thierry.reding@gmail.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Kishon Vijay Abraham I <kishon@ti.com>,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Zheng Yang <zhengyang@rock-chips.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Miquel.
+inno_hdmi_phy_rk3328_clk_set_rate() is using the RK3228 macro
+when configuring vco_div_5 on RK3328.
 
-On Mon, Jan 06, 2020 at 04:18:25PM +0100, Miquel Raynal wrote:
-> Satoz is a Chinese TFT manufacturer.
-> Website: http://www.sat-sz.com/English/index.html
-> 
-> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> Acked-by: Rob Herring <robh@kernel.org>
+Fix this by using correct vco_div_5 macro for RK3328.
 
-I have applied this.
-Can you please re-do patch 2/3 so the compatible is added to
-panel-simple.yaml - which I just pushed to drm-misc-next.
+Fixes: 53706a116863 ("phy: add Rockchip Innosilicon hdmi phy")
+Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+---
+ drivers/phy/rockchip/phy-rockchip-inno-hdmi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Then we have a two-line entry rather than a whole file
-as you also asked for.
+diff --git a/drivers/phy/rockchip/phy-rockchip-inno-hdmi.c b/drivers/phy/rockchip/phy-rockchip-inno-hdmi.c
+index 9ca20c947283..b0ac1d3ee390 100644
+--- a/drivers/phy/rockchip/phy-rockchip-inno-hdmi.c
++++ b/drivers/phy/rockchip/phy-rockchip-inno-hdmi.c
+@@ -790,8 +790,8 @@ static int inno_hdmi_phy_rk3328_clk_set_rate(struct clk_hw *hw,
+ 			 RK3328_PRE_PLL_POWER_DOWN);
+ 
+ 	/* Configure pre-pll */
+-	inno_update_bits(inno, 0xa0, RK3228_PCLK_VCO_DIV_5_MASK,
+-			 RK3228_PCLK_VCO_DIV_5(cfg->vco_div_5_en));
++	inno_update_bits(inno, 0xa0, RK3328_PCLK_VCO_DIV_5_MASK,
++			 RK3328_PCLK_VCO_DIV_5(cfg->vco_div_5_en));
+ 	inno_write(inno, 0xa1, RK3328_PRE_PLL_PRE_DIV(cfg->prediv));
+ 
+ 	val = RK3328_SPREAD_SPECTRUM_MOD_DISABLE;
+-- 
+2.17.1
 
-	Sam
-
-> ---
-> 
-> Changes since v3:
-> * None.
-> 
-> Changes since v2:
-> * None.
-> 
-> Changes since v1:
-> * Added Rob's Ack.
-> 
->  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> index 967e78c5ec0a..4894c5314b49 100644
-> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> @@ -819,6 +819,8 @@ patternProperties:
->      description: Sancloud Ltd
->    "^sandisk,.*":
->      description: Sandisk Corporation
-> +  "^satoz,.*":
-> +    description: Satoz International Co., Ltd
->    "^sbs,.*":
->      description: Smart Battery System
->    "^schindler,.*":
-> -- 
-> 2.20.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
