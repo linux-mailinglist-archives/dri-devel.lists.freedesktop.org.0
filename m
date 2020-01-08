@@ -2,37 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A698133F88
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 11:45:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B431E133FE5
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 12:06:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68E88892B5;
-	Wed,  8 Jan 2020 10:45:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B70F6E889;
+	Wed,  8 Jan 2020 11:06:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCAFF6E1B3;
- Wed,  8 Jan 2020 10:45:02 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 19806929-1500050 for multiple; Wed, 08 Jan 2020 10:44:59 +0000
-MIME-Version: 1.0
-To: Jani Nikula <jani.nikula@linux.intel.com>,
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 578396E1B6;
+ Wed,  8 Jan 2020 11:06:52 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 08 Jan 2020 03:06:51 -0800
+X-IronPort-AV: E=Sophos;i="5.69,409,1571727600"; d="scan'208";a="215920519"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 08 Jan 2020 03:06:48 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Wambui Karuga <wambui.karugax@gmail.com>, airlied@linux.ie, daniel@ffwll.ch,
- rodrigo.vivi@intel.com
-From: Chris Wilson <chris@chris-wilson.co.uk>
-In-Reply-To: <8736cqs2uf.fsf@intel.com>
-References: <cover.1578409433.git.wambui.karugax@gmail.com>
- <b79ee0f6efbf8358cbb4f2e163fa6b5bb04db794.1578409433.git.wambui.karugax@gmail.com>
- <157847199686.4725.87481257304852182@jlahtine-desk.ger.corp.intel.com>
- <8736cqs2uf.fsf@intel.com>
-Message-ID: <157848029770.2273.9590955422248556735@skylake-alporthouse-com>
-User-Agent: alot/0.6
-Subject: Re: [Intel-gfx] [PATCH 1/5] drm/i915: convert to using the
- drm_dbg_kms() macro.
-Date: Wed, 08 Jan 2020 10:44:57 +0000
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Manasi Navare <manasi.d.navare@intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>
+Subject: Re: [PATCH][next] drm/i915/display: Fix inconsistent IS_ERR and
+ PTR_ERR
+In-Reply-To: <20200106070152.GA13299@embeddedor>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200106070152.GA13299@embeddedor>
+Date: Wed, 08 Jan 2020 13:06:45 +0200
+Message-ID: <87pnfuqkai.fsf@intel.com>
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,52 +47,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, seanpaul@chromium.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ "Gustavo A. R. Silva" <gustavo@embeddedor.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Jani Nikula (2020-01-08 09:40:40)
-> On Wed, 08 Jan 2020, Joonas Lahtinen <joonas.lahtinen@linux.intel.com> wrote:
-> > Quoting Wambui Karuga (2020-01-07 17:13:29)
-> >> Convert the use of the DRM_DEBUG_KMS() logging macro to the new struct
-> >> drm_device based drm_dbg_kms() logging macro in i915/intel_pch.c.
-> >> 
-> >> Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
-> >> ---
-> >>  drivers/gpu/drm/i915/intel_pch.c | 46 +++++++++++++++++---------------
-> >>  1 file changed, 24 insertions(+), 22 deletions(-)
-> >> 
-> >> diff --git a/drivers/gpu/drm/i915/intel_pch.c b/drivers/gpu/drm/i915/intel_pch.c
-> >> index 43b68b5fc562..4ed60e1f01db 100644
-> >> --- a/drivers/gpu/drm/i915/intel_pch.c
-> >> +++ b/drivers/gpu/drm/i915/intel_pch.c
-> >> @@ -12,90 +12,91 @@ intel_pch_type(const struct drm_i915_private *dev_priv, unsigned short id)
-> >>  {
-> >>         switch (id) {
-> >>         case INTEL_PCH_IBX_DEVICE_ID_TYPE:
-> >> -               DRM_DEBUG_KMS("Found Ibex Peak PCH\n");
-> >> +               drm_dbg_kms(&dev_priv->drm, "Found Ibex Peak PCH\n");
-> >
-> > Did we at some point consider i915_dbg_kms alias? That would just take
-> > dev_priv (or i915, as it's called in newer code). It would shorten many
-> > of the statements.
-> >
-> > i915_dbg_kms(dev_priv, ...) or i915_dbg_kms(i915, ...)
-> 
-> I'd rather use the common drm logging macros. I thought about adding
-> i915 specific ones only if the drm device specific logging macros
-> weren't going to be merged.
+On Mon, 06 Jan 2020, "Gustavo A. R. Silva" <gustavo@embeddedor.com> wrote:
+> Fix inconsistent IS_ERR and PTR_ERR in intel_modeset_all_tiles().
+>
+> The proper pointer to be passed as argument is crtc_state.
+>
+> This bug was detected with the help of Coccinelle.
 
-Why do they even exist? Why isn't it enough to do
-#define drm_info(drm, fmt, ...) dev_info(&(drm)->dev, fmt, ##__VA_ARGS) ?
-#define i915_info(i915, fmt, ...) drm_info(&(i915)->drm, fmt, ##__VA_ARGS)
+Thanks, already fixed by Dan in commit 953cac3ec55f ("drm/i915: fix an
+error code in intel_modeset_all_tiles()").
 
-The lea for &i915->drm.dev is the same as the mov, so we shave off an
-unnecessary wrapper.
--Chris
+BR,
+Jani.
+
+>
+> Fixes: a603f5bd1691 ("drm/i915/dp: Make sure all tiled connectors get added to the state with full modeset")
+> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_display.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+> index da5266e76738..a96bee699a5e 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -14424,7 +14424,7 @@ intel_modeset_all_tiles(struct intel_atomic_state *state, int tile_grp_id)
+>  		crtc_state = drm_atomic_get_crtc_state(&state->base,
+>  						       conn_state->crtc);
+>  		if (IS_ERR(crtc_state)) {
+> -			ret = PTR_ERR(conn_state);
+> +			ret = PTR_ERR(crtc_state);
+>  			break;
+>  		}
+>  		crtc_state->mode_changed = true;
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
