@@ -2,40 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6344134C4A
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 21:04:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40BC5134C51
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 21:05:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB4396E32F;
-	Wed,  8 Jan 2020 20:04:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55C956E330;
+	Wed,  8 Jan 2020 20:05:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B3476E32F
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 20:04:21 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F1476E330;
+ Wed,  8 Jan 2020 20:05:46 +0000 (UTC)
+Received: from localhost.localdomain (unknown [83.218.167.187])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 456F920021;
- Wed,  8 Jan 2020 21:04:18 +0100 (CET)
-Date: Wed, 8 Jan 2020 21:04:16 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v2 2/2] drm/print: document DRM_ logging functions
-Message-ID: <20200108200416.GA32453@ravnborg.org>
-References: <20200102221519.31037-1-sam@ravnborg.org>
- <20200102221519.31037-3-sam@ravnborg.org>
- <20200107160852.GD43062@phenom.ffwll.local>
- <20200107181752.GA20555@ravnborg.org>
- <20200108184920.GI43062@phenom.ffwll.local>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200108184920.GI43062@phenom.ffwll.local>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
- a=z3XEeJo_DTYVsUXuRXcA:9 a=CjuIK1q_8ugA:10
+ by mail.kernel.org (Postfix) with ESMTPSA id 4D70120705;
+ Wed,  8 Jan 2020 20:05:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1578513946;
+ bh=7+a0M4QeXOG9b8lMwdfVaJAPohBMh++kbzQxdvukK48=;
+ h=From:To:Subject:Date:From;
+ b=evYOx5KdUdG0Jr/Vc38MOswPxNnF7vRlb4Tb199FZpqwnzGTIvL+ezoR/DMzbuceA
+ kFY/nO2cZ4Rz6kmSrTr6FWXXDO9kMP2CReYBBlel+BAJjwJUXV7GF+gCcHoo1B+vS3
+ sn9Be5nqVhaTYIYYOT8RQp0qbzzYGBxIewpxHquo=
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Richard Henderson <rth@twiddle.net>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Matt Turner <mattst88@gmail.com>, Alexey Brodkin <abrodkin@synopsys.com>,
+ Vineet Gupta <vgupta@synopsys.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Paul Mackerras <paulus@samba.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
+ Dave Airlie <airlied@redhat.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Ben Skeggs <bskeggs@redhat.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Jiri Slaby <jirislaby@gmail.com>, Nick Kossifidis <mickflemm@gmail.com>,
+ Luis Chamberlain <mcgrof@kernel.org>, Kalle Valo <kvalo@codeaurora.org>,
+ "David S. Miller" <davem@davemloft.net>, Dave Jiang <dave.jiang@intel.com>,
+ Jon Mason <jdmason@kudzu.us>, Allen Hubbe <allenbh@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Arnd Bergmann <arnd@arndb.de>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-alpha@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+ linux-ntb@googlegroups.com, virtualization@lists.linux-foundation.org,
+ linux-arch@vger.kernel.org
+Subject: [PATCH v2 0/9] iomap: Constify ioreadX() iomem argument
+Date: Wed,  8 Jan 2020 21:05:19 +0100
+Message-Id: <20200108200528.4614-1-krzk@kernel.org>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,57 +68,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, Joe Perches <joe@perches.com>,
- Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel.
-> > > 
-> > > I'd replace the entire block with a "This stuff is deprecated" warning. We
-> > > have at least a corresponding todo.rst entry.
-> > 
-> > We have many situations where no drm_device is available.
-> > At least when you a buried in drm_panel patches.
-> > 
-> > So it is either DRM_DEV_ERROR() or drv_err().
-> > Which is why I have pushed for nicer drm_ variants of these...
-> 
-> Huh, drm_panel indeed has no drm_device. And I guess we don't have a
-> convenient excuse to add it ...
-> 
-> > The todo entry only covers the nice new macros that Jani added
-> > where we have a drm_device.
-> 
-> I wonder whether for those cases we shouldn't just directly use the
-> various dev_* macros?
-
-We would miss the nice [drm] marker in the logging.
-So [drm] will be added by the drivers and the core - but not the panels.
-That is the only drawback I see right now.
-
-Which was enough justification for me to add the drm_dev_ variants.
-Feel free to convince me that this is not justification to add these
-variants.
-
-In drm/panel/* there is no use of DRM_DEBUG* - and there is no
-reason to introduce the variants we can filer with drm.debug.
-
-There is a single DRM_DEBUG() user, which does not count here.
+Hi,
 
 
-We could introduce only:
+Changes since v1
+================
+https://lore.kernel.org/lkml/1578415992-24054-1-git-send-email-krzk@kernel.org/
+1. Constify also ioreadX_rep() and mmio_insX(),
+2. Squash lib+alpha+powerpc+parisc+sh into one patch for bisectability,
+3. Add Geert's review,
+4. Re-order patches so all optional driver changes are at the end.
 
-drm_dev_(err|warn|info|debug) - and not the more specialized variants.
 
-Then we avoid that people make shortcuts and use drm_dev_dbg_kms() when
-they are supposed to use drm_dbg_kms().
-This was one of the very valid argumest against the patch that
-introduced all the drm_dev_* variants.
+Description
+===========
+The ioread8/16/32() and others have inconsistent interface among the
+architectures: some taking address as const, some not.
 
-	Sam
+It seems there is nothing really stopping all of them to take
+pointer to const.
+
+Patchset was not really tested on all affected architectures.
+Build testing is in progress - I hope auto-builders will point any issues.
+
+
+volatile
+========
+There is still interface inconsistency between architectures around
+"volatile" qualifier:
+ - include/asm-generic/io.h:static inline u32 ioread32(const volatile void __iomem *addr)
+ - include/asm-generic/iomap.h:extern unsigned int ioread32(const void __iomem *);
+
+This is still discussed and out of scope of this patchset.
+
+
+Merging
+=======
+Multiple architectures are affected in first patch so acks are welcomed.
+
+Patches 2-4 depend on first patch.
+The rest is optional cleanup, without actual impact.
+
+
+Best regards,
+Krzysztof
+
+
+Krzysztof Kozlowski (9):
+  iomap: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  net: wireless: rtl818x: Constify ioreadX() iomem argument (as in
+    generic implementation)
+  ntb: intel: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  virtio: pci: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  arc: Constify ioreadX() iomem argument (as in generic implementation)
+  drm/mgag200: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  drm/nouveau: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  media: fsl-viu: Constify ioreadX() iomem argument (as in generic
+    implementation)
+  net: wireless: ath5k: Constify ioreadX() iomem argument (as in generic
+    implementation)
+
+ arch/alpha/include/asm/core_apecs.h           |  6 +-
+ arch/alpha/include/asm/core_cia.h             |  6 +-
+ arch/alpha/include/asm/core_lca.h             |  6 +-
+ arch/alpha/include/asm/core_marvel.h          |  4 +-
+ arch/alpha/include/asm/core_mcpcia.h          |  6 +-
+ arch/alpha/include/asm/core_t2.h              |  2 +-
+ arch/alpha/include/asm/io.h                   | 12 ++--
+ arch/alpha/include/asm/io_trivial.h           | 16 ++---
+ arch/alpha/include/asm/jensen.h               |  2 +-
+ arch/alpha/include/asm/machvec.h              |  6 +-
+ arch/alpha/kernel/core_marvel.c               |  2 +-
+ arch/alpha/kernel/io.c                        | 12 ++--
+ arch/arc/plat-axs10x/axs10x.c                 |  4 +-
+ arch/parisc/include/asm/io.h                  |  4 +-
+ arch/parisc/lib/iomap.c                       | 72 +++++++++----------
+ arch/powerpc/kernel/iomap.c                   | 28 ++++----
+ arch/sh/kernel/iomap.c                        | 22 +++---
+ drivers/gpu/drm/mgag200/mgag200_drv.h         |  4 +-
+ drivers/gpu/drm/nouveau/nouveau_bo.c          |  2 +-
+ drivers/media/platform/fsl-viu.c              |  2 +-
+ drivers/net/wireless/ath/ath5k/ahb.c          | 10 +--
+ .../realtek/rtl818x/rtl8180/rtl8180.h         |  6 +-
+ drivers/ntb/hw/intel/ntb_hw_gen1.c            |  2 +-
+ drivers/ntb/hw/intel/ntb_hw_gen3.h            |  2 +-
+ drivers/ntb/hw/intel/ntb_hw_intel.h           |  2 +-
+ drivers/virtio/virtio_pci_modern.c            |  6 +-
+ include/asm-generic/iomap.h                   | 28 ++++----
+ include/linux/io-64-nonatomic-hi-lo.h         |  4 +-
+ include/linux/io-64-nonatomic-lo-hi.h         |  4 +-
+ lib/iomap.c                                   | 30 ++++----
+ 30 files changed, 156 insertions(+), 156 deletions(-)
+
+-- 
+2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
