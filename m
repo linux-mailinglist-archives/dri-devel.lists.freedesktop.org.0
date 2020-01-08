@@ -1,62 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD97A133CE2
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 09:13:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A215F133CD8
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2020 09:13:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B93C26E86F;
-	Wed,  8 Jan 2020 08:12:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C28EF6E85F;
+	Wed,  8 Jan 2020 08:12:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
- [IPv6:2607:f8b0:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34E966E156
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 05:00:59 +0000 (UTC)
-Received: by mail-pf1-x442.google.com with SMTP id 2so973275pfg.12
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2020 21:00:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=X37F/PBhiA4LwJm08uRB6YNKHdDjwop2i2GIlG0JFWg=;
- b=NUiVu62v3HRo0eFiWC89LLpUuaBgLMcU8567eZd8RGwJUXIP+hwUtxWw8qdZtAROrx
- 2GyZJNn4cYwyKjXe6VBoV/hrPM33WX1ytgGf4qSj2tLY22f2BIJMKVQ6dOkxd6PTQ8Pq
- eJ/pyeosrxmzpzdK3TaGdcozwHQqbOUG8giwUJSV+gRo3mPTVZD3qOTIKRC6uz/fFeTT
- lIlDuMbPhceLob0Z0hDXw4JwJUXA3JE/mlKM1bMBsAlcrjBj2oZjcV+G4b1oEDcNZ0Il
- okqbzPeowrV9S2F+/bJ+fBL3Dpz4FPNBz7i9pxMizR9CAhIKo4IL3gRIAAfuV/TjYhbm
- Ic6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=X37F/PBhiA4LwJm08uRB6YNKHdDjwop2i2GIlG0JFWg=;
- b=hKNOyxsVC8vQlYA1usyW8OclA8IdKSbXYFHoudAw+2nZtkFG7Up2jJdap0BUGjp1YN
- glG4vRKrRFRksp5GGn7jLM4mQZYSgukWLG+xdJu+mXn854PDZGswb2ZBImu2rgbWpN0v
- V+R88jDagX9guY1s/0xvyYbp7I5gwvQ49kDT2ibHOLOPKLvKD6QPlxnLpw2TfpJCT8AA
- o9tPe7zh4q1PFwbsLTTLRvwvOOjibu6waVs2IDMZthxCVGflidu8968Rw6BlCE9vsg6M
- vkk4xhtYP5c7N3qVpyGVtYTAjPWVZFXnJkTeXIXvr9z9my2HgCf5v99b+G1z5tAyQpTJ
- 8dsA==
-X-Gm-Message-State: APjAAAXTyaXcdvtWrKW6Tu664xegVhSiGS20pwav8Azm/ZAbxxHDK9sB
- Ry8AcuDkJ35WeoFFHg5E475tjA==
-X-Google-Smtp-Source: APXvYqwjTVtnryOd1gkgsIYiny/IO42W3vQYflxFzhsS6U/6YKIfqzOoivrrcRW9DWuo9N0ausldWA==
-X-Received: by 2002:a62:1c88:: with SMTP id c130mr3132646pfc.195.1578459658738; 
- Tue, 07 Jan 2020 21:00:58 -0800 (PST)
-Received: from yoga (104-188-17-28.lightspeed.sndgca.sbcglobal.net.
- [104.188.17.28])
- by smtp.gmail.com with ESMTPSA id n14sm1349243pff.188.2020.01.07.21.00.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 21:00:58 -0800 (PST)
-Date: Tue, 7 Jan 2020 21:00:55 -0800
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH 1/3] drm/msm: support firmware-name for zap fw
-Message-ID: <20200108050055.GJ738324@yoga>
-References: <20200108013847.899170-1-robdclark@gmail.com>
- <20200108013847.899170-2-robdclark@gmail.com>
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47D746E162
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2020 05:36:17 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0085aCIJ100921;
+ Tue, 7 Jan 2020 23:36:12 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1578461772;
+ bh=HZPNRJuzdDiBHJDwYy9Z3EAqsCKdw2svb8xwWgVcoNQ=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=xq3DWXnUUHz9GP1rVPMP1Jbe6mLEkncf6PFQTjuYLiiWQ/SZk81Q3BvS9XCwtbruM
+ jHh8uHeqJVmIWBJoFSF43jJtuCtI6kCpXjYYkuS4P98sST/gCMzQ/PD7VHeEINhY+t
+ Mk+KFY5YUFfB7bk2kPvJV6mvG18YkqQrCAvQYKsU=
+Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0085aCvP093219
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 7 Jan 2020 23:36:12 -0600
+Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 7 Jan
+ 2020 23:36:11 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Tue, 7 Jan 2020 23:36:11 -0600
+Received: from [10.24.69.159] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0085a8TV003220;
+ Tue, 7 Jan 2020 23:36:09 -0600
+Subject: Re: [PATCH v3] phy: Add DisplayPort configuration options
+To: Jyri Sarha <jsarha@ti.com>, Yuti Amonkar <yamonkar@cadence.com>,
+ <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <maxime@cerno.tech>
+References: <1578313360-18124-1-git-send-email-yamonkar@cadence.com>
+ <9d849a10-493f-e297-f4c3-b34a341635ed@ti.com>
+From: Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <5e3853dd-719b-c6a0-4af0-04967a2c6e3a@ti.com>
+Date: Wed, 8 Jan 2020 11:08:15 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200108013847.899170-2-robdclark@gmail.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <9d849a10-493f-e297-f4c3-b34a341635ed@ti.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-Mailman-Approved-At: Wed, 08 Jan 2020 08:12:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,105 +65,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Sharat Masetty <smasetty@codeaurora.org>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Thomas Gleixner <tglx@linutronix.de>, freedreno@lists.freedesktop.org,
- Brian Masney <masneyb@onstation.org>
+Cc: praneeth@ti.com, mparab@cadence.com, tomi.valkeinen@ti.com,
+ sjakhade@cadence.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue 07 Jan 17:38 PST 2020, Rob Clark wrote:
 
-> From: Rob Clark <robdclark@chromium.org>
+
+On 08/01/20 12:22 AM, Jyri Sarha wrote:
+> On 06/01/2020 14:22, Yuti Amonkar wrote:
+>> Allow DisplayPort PHYs to be configured through the generic
+>> functions through a custom structure added to the generic union.
+>> The configuration structure is used for reconfiguration of
+>> DisplayPort PHYs during link training operation.
+>>
+>> The parameters added here are the ones defined in the DisplayPort
+>> spec v1.4 which include link rate, number of lanes, voltage swing
+>> and pre-emphasis.
+>>
+>> Add the DisplayPort phy mode to the generic phy_mode enum.
+>>
+>> Signed-off-by: Yuti Amonkar <yamonkar@cadence.com>
 > 
-> Since zap firmware can be device specific, allow for a firmware-name
-> property in the zap node to specify which firmware to load, similarly to
-> the scheme used for dsp/wifi/etc.
+> Reviewed-by: Jyri Sarha <jsarha@ti.com>
 > 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->  drivers/gpu/drm/msm/adreno/adreno_gpu.c | 32 ++++++++++++++++++++++---
->  1 file changed, 29 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> index 112e8b8a261e..aa8737bd58db 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> @@ -26,6 +26,7 @@ static int zap_shader_load_mdt(struct msm_gpu *gpu, const char *fwname,
->  {
->  	struct device *dev = &gpu->pdev->dev;
->  	const struct firmware *fw;
-> +	const char *signed_fwname = NULL;
->  	struct device_node *np, *mem_np;
->  	struct resource r;
->  	phys_addr_t mem_phys;
-> @@ -58,8 +59,33 @@ static int zap_shader_load_mdt(struct msm_gpu *gpu, const char *fwname,
->  
->  	mem_phys = r.start;
->  
-> -	/* Request the MDT file for the firmware */
-> -	fw = adreno_request_fw(to_adreno_gpu(gpu), fwname);
-> +	/*
-> +	 * Check for a firmware-name property.  This is the new scheme
-> +	 * to handle firmware that may be signed with device specific
-> +	 * keys, allowing us to have a different zap fw path for different
-> +	 * devices.
-> +	 *
-> +	 * If the firmware-name property is found, we bypass the
-> +	 * adreno_request_fw() mechanism, because we don't need to handle
-> +	 * the /lib/firmware/qcom/* vs /lib/firmware/* case.
-> +	 *
-> +	 * If the firmware-name property is not found, for backwards
-> +	 * compatibility we fall back to the fwname from the gpulist
-> +	 * table.
-> +	 */
-> +	of_property_read_string_index(np, "firmware-name", 0, &signed_fwname);
-> +	if (signed_fwname) {
-> +		fwname = signed_fwname;
-> +		ret = request_firmware_direct(&fw, signed_fwname, gpu->dev->dev);
-> +		if (ret) {
-> +			DRM_DEV_ERROR(dev, "could not load signed zap firmware: %d\n", ret);
-> +			fw = ERR_PTR(ret);
+> Kishon, can you still pick this for v5.6?
 
-Perhaps just return ret; here, or omit the error print here any rely
-solely on the one below?
+Thank you Jyri and Maxime for reviewing this.
 
-> +		}
-> +	} else {
-> +		/* Request the MDT file for the firmware */
+Merged it now.
 
-How about changing this to "Request the MDT file from the default
-location" or something like that?
-
-Rest looks good.
-
-Regards,
-Bjorn
-
-> +		fw = adreno_request_fw(to_adreno_gpu(gpu), fwname);
-> +	}
-> +
->  	if (IS_ERR(fw)) {
->  		DRM_DEV_ERROR(dev, "Unable to load %s\n", fwname);
->  		return PTR_ERR(fw);
-> @@ -95,7 +121,7 @@ static int zap_shader_load_mdt(struct msm_gpu *gpu, const char *fwname,
->  	 * not.  But since we've already gotten through adreno_request_fw()
->  	 * we know which of the two cases it is:
->  	 */
-> -	if (to_adreno_gpu(gpu)->fwloc == FW_LOCATION_LEGACY) {
-> +	if (signed_fwname || (to_adreno_gpu(gpu)->fwloc == FW_LOCATION_LEGACY)) {
->  		ret = qcom_mdt_load(dev, fw, fwname, pasid,
->  				mem_region, mem_phys, mem_size, NULL);
->  	} else {
-> -- 
-> 2.24.1
-> 
+Thanks
+Kishon
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
