@@ -1,47 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7116135FB7
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 18:51:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D05DF135FC8
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 18:52:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58FB26E92C;
-	Thu,  9 Jan 2020 17:51:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60F206E952;
+	Thu,  9 Jan 2020 17:51:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lb2-smtp-cloud9.xs4all.net (lb2-smtp-cloud9.xs4all.net
- [194.109.24.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA6576E8D9
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2020 09:11:55 +0000 (UTC)
-Received: from [192.168.2.10] ([62.249.185.68])
- by smtp-cloud9.xs4all.net with ESMTPA
- id pTr2ifgi8T6sRpTr5iJl9k; Thu, 09 Jan 2020 10:11:54 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
- t=1578561114; bh=UlqesI6gSSS8++9yX65c9DLlbuwVIyDHmf34kZcOyL4=;
- h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
- Subject;
- b=Wz+A7AsssyI+AgNTcJXvnwnJpdVvcctnq4MxkNvG+/mILYF7xU4FFmkvPLnrc82Un
- kIUIZCFqGI/b8F7Q8fM/1PkJC7KDRVQ8VW893tqj7iuku+kSVfl611X1wpfeXYAhtO
- PSRPsJQcZd4tzeRFImchQO31f4DtBiIfpjGmEMx6lqK/lmq8YOT+qXqu3LoIzWKcUn
- 9hG6VefXu7XNQi6/oTHcJ+W/LYAV0DOp1S42YlU1p19TB1J/vWNiXy5IeLUIeFZPgZ
- M0w6DkJ2r4Odl9KGSHuQtGktUnBXiB619FQPzTFmnzBQz2GjPxhJd8EWk/xQGXDbxq
- PnsecslZSKH2A==
-Subject: Re: [PATCH] drm/Kconfig: add missing 'depends on DRM' for DRM_DP_CEC
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <489bdaae-9b05-2d70-12e1-4fda7899dfc1@xs4all.nl>
- <bbbef09d-6c90-75ba-e480-28365474b1a5@xs4all.nl>
- <20200108174236.GH43062@phenom.ffwll.local>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <008645fc-29e0-6cf1-5871-dc01898449f0@xs4all.nl>
-Date: Thu, 9 Jan 2020 10:11:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <20200108174236.GH43062@phenom.ffwll.local>
-Content-Language: en-US
-X-CMAE-Envelope: MS4wfAIjQxO9UiwegK3KQxRkG+HbFATzpReCspiJv1i5JIGYSCLcLqTC315jR0IxEoBzhXAlRR9XEBGpp6t/zJj3XLAdCCM3I2r8IlLn+IV+Pfaii967TpkX
- 1jww40g26M0mcSkBlGmQ1Xa2MrdLI8de6BP61Xksd2nL9Nj5uXkRB9P+SR6VA4Ra1CrDdDk77bCUlUVpMO93ME7y3QxWgv6Gi5go6hUKH+zYB5wYdML2OUxG
- 0ueICpt3yJO8M7o73URd3g5UyOHWG2kaDT6SK03kSOKnq5yaoC4C6Trj3IRtFs/S
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFE726E8EE;
+ Thu,  9 Jan 2020 09:42:34 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id t14so2025727wmi.5;
+ Thu, 09 Jan 2020 01:42:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=x/rJsrzAFN1SHOY1ywcZnWjYD9yWmdldMlh5f03XRYg=;
+ b=l7n3Me2CEVGR8p5a6YW0NNtdcTDn9ZDVgj4YDu6Cl4Kif/Plbh9xiOT5YRyZ7xRTe1
+ E5H3y4vlS/PAPJvfMTXpBk7W1aX0vf/JSBniLv5yMnE9WtvQAA5zv0ZjGsDZQO8ZOXs1
+ xmDE5aMNv6e/0tWG4RgYVIqEUor25w0M+2Pch+0E8c45C3X/HU5G+To1CTwW5J3cLYA/
+ SjHjxo84gnQgT16WkbPApY15KlgcBvYHOCTq/SggQUSf2/b9jhpcyvU5VQINfyabWHfH
+ 5bJkNepes33nKKUn5T5Ifoke5iVS9EI7IQZKz+z2uv9Js1rr8hlL0ALfEMeOzCIDvr7L
+ pYmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=x/rJsrzAFN1SHOY1ywcZnWjYD9yWmdldMlh5f03XRYg=;
+ b=gEcOIOHhbLNsPKg246B6hEqlXuHDM6Vp3BLDsbSV6JobWAF651LsDn00Pe61mhUYLk
+ UBc2XZiVjTcK9RvxRp1bXaUIgR2EpHgRQiKWnLLv2fiEtQXCpXjGYGw8ygv3LAwdWPgR
+ ilQWPuVajMyZWWKb0S4GoUqLUZAlQOL4WwglKrkWJQ0WfQQIrVHHdt6RfmSPdQ5QnOgi
+ TcfBCum+cwBxKm/tsw8e0sFxsDG/8Zr/1mLOhL9XEGGxavpJPUDxX3lKoGDW/vxQdpJj
+ 0rTZnFDN61a8UucGnfCbjYYqV7IKgOAuy+n9RIIJbiE1rSnfSFGVEAebuyq77eHFqcm4
+ 4drA==
+X-Gm-Message-State: APjAAAWhsVC4MJDjEM/RA/SCxjbtrGMlL30GDCoEoUCKou2H7fmJIt7u
+ Xpnnmp3Bgfjmvu5srm6pv1c=
+X-Google-Smtp-Source: APXvYqzutBXNb9l/OLivyPXT06DnycTvFXLnYG/Z5uxCovB+J7j2p4azD6X6kG/WwBfIrjj1YXBhog==
+X-Received: by 2002:a1c:ddd7:: with SMTP id u206mr3920334wmg.159.1578562953501; 
+ Thu, 09 Jan 2020 01:42:33 -0800 (PST)
+Received: from localhost.localdomain ([197.254.95.38])
+ by smtp.googlemail.com with ESMTPSA id y7sm3219435wmd.1.2020.01.09.01.42.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Jan 2020 01:42:33 -0800 (PST)
+From: Wambui Karuga <wambui.karugax@gmail.com>
+To: robdclark@gmail.com, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH v2] drm/msm: use BUG_ON macro for debugging.
+Date: Thu,  9 Jan 2020 12:42:26 +0300
+Message-Id: <20200109094226.4967-1-wambui.karugax@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-Mailman-Approved-At: Thu, 09 Jan 2020 17:51:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,74 +62,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/8/20 6:42 PM, Daniel Vetter wrote:
-> On Wed, Jan 08, 2020 at 01:08:47PM +0100, Hans Verkuil wrote:
->> On 12/6/19 12:26 PM, Hans Verkuil wrote:
->>> Add a missing 'depends on DRM' for the DRM_DP_CEC config
->>> option. Without that enabling DRM_DP_CEC will force CEC_CORE
->>> to =y instead of =m if DRM=m as well.
->>>
->>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->>
->> Daniel, can you review this? It's annoying that the cec core is
->> compiled as part of the kernel when it can just be a module.
-> 
-> Why did we even make this optional? Really worth it to compile out 4
-> functions and some change?
+As the if statement only checks for the value of the offset_name
+variable, it can be replaced by the more conscise BUG_ON macro for error
+reporting.
 
-It's not about those few functions, it's because this enables the CEC
-framework as well (drivers/media/cec).
+v2: format expression to less than 80 characters for each line.
 
-If CEC is not needed, then disabling this saves a lot more code than the
-few functions in drm_dp_cec.c.
+Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
+---
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-CEC is an optional HDMI feature, so CEC support for HDMI input/output
-drivers is optional as well in the kernel config.
-
-Regards,
-
-	Hans
-
-> 
-> Anyway the one you really want here is CONFIG_DRM_KMS_HELPER, but that is
-> a selected variable, and you can't mix select and depends on because that
-> breaks Kconfig in hilarious ways. Or so I thought, but other public
-> symbols like this (e.g. DRM_FBDEV_EMULATION) do the same trick. So I guess
-> 
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> 
-> But really, is all this complexity?
-> -Daniel
-> 
->>
->> Regards,
->>
->> 	Hans
->>
->>> ---
->>> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
->>> index 1168351267fd..e8e478d6da9c 100644
->>> --- a/drivers/gpu/drm/Kconfig
->>> +++ b/drivers/gpu/drm/Kconfig
->>> @@ -163,6 +163,7 @@ config DRM_LOAD_EDID_FIRMWARE
->>>
->>>  config DRM_DP_CEC
->>>  	bool "Enable DisplayPort CEC-Tunneling-over-AUX HDMI support"
->>> +	depends on DRM
->>>  	select CEC_CORE
->>>  	help
->>>  	  Choose this option if you want to enable HDMI CEC support for
->>>
->>
-> 
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+index c7441fb8313e..d1843abc3ac7 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+@@ -315,10 +315,8 @@ OUT_PKT7(struct msm_ringbuffer *ring, uint8_t opcode, uint16_t cnt)
+ static inline bool adreno_reg_check(struct adreno_gpu *gpu,
+ 		enum adreno_regs offset_name)
+ {
+-	if (offset_name >= REG_ADRENO_REGISTER_MAX ||
+-			!gpu->reg_offsets[offset_name]) {
+-		BUG();
+-	}
++	BUG_ON(offset_name >= REG_ADRENO_REGISTER_MAX ||
++	       !gpu->reg_offsets[offset_name]);
+ 
+ 	/*
+ 	 * REG_SKIP is a special value that tell us that the register in
+-- 
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
