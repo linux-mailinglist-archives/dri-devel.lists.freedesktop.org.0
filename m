@@ -2,33 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0C85135800
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 12:31:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5787135805
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 12:31:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC0A66E8F5;
-	Thu,  9 Jan 2020 11:31:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A3046E900;
+	Thu,  9 Jan 2020 11:31:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from manjaro.org (mail.manjaro.org [176.9.38.148])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F1C96E8F5
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2020 11:31:14 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by manjaro.org (Postfix) with ESMTP id 0BE9036E4E5F;
- Thu,  9 Jan 2020 12:31:13 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at manjaro.org
-Received: from manjaro.org ([127.0.0.1])
- by localhost (manjaro.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id vlTgAkb2G5RS; Thu,  9 Jan 2020 12:31:10 +0100 (CET)
-From: Tobias Schramm <t.schramm@manjaro.org>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [RESEND 1/1] drm/panel: Add support for BOE NV140FHM-N49 panel to
- panel-simple
-Date: Thu,  9 Jan 2020 12:29:52 +0100
-Message-Id: <20200109112952.2620-2-t.schramm@manjaro.org>
-In-Reply-To: <20200109112952.2620-1-t.schramm@manjaro.org>
-References: <20200109112952.2620-1-t.schramm@manjaro.org>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A57FD6E900
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2020 11:31:52 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DE3CF31B;
+ Thu,  9 Jan 2020 03:31:51 -0800 (PST)
+Received: from [10.1.194.52] (e112269-lin.cambridge.arm.com [10.1.194.52])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 85AD23F703;
+ Thu,  9 Jan 2020 03:31:50 -0800 (PST)
+Subject: Re: [PATCH RFT v1 3/3] drm/panfrost: Use the mali-supply regulator
+ for control again
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ dri-devel@lists.freedesktop.org, alyssa@rosenzweig.io,
+ tomeu.vizoso@collabora.com, robh@kernel.org
+References: <20200107230626.885451-1-martin.blumenstingl@googlemail.com>
+ <20200107230626.885451-4-martin.blumenstingl@googlemail.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <2ceffe46-57a8-79a8-2c41-d04b227d3792@arm.com>
+Date: Thu, 9 Jan 2020 11:31:48 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
+In-Reply-To: <20200107230626.885451-4-martin.blumenstingl@googlemail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,76 +45,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Tobias Schramm <t.schramm@manjaro.org>
+Cc: airlied@linux.ie, linux-rockchip@lists.infradead.org, robin.murphy@arm.com,
+ linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds support for the BOE NV140FHM-N49 panel to the panel-simple
-driver. The panel is used by the pine64 Pinebook Pro.
+On 07/01/2020 23:06, Martin Blumenstingl wrote:
+> dev_pm_opp_set_rate() needs a reference to the regulator which should be
+> updated when updating the GPU frequency. The name of the regulator has
+> to be passed at initialization-time using dev_pm_opp_set_regulators().
+> Add the call to dev_pm_opp_set_regulators() so dev_pm_opp_set_rate()
+> will update the GPU regulator when updating the frequency (just like
+> we did this manually before when we open-coded dev_pm_opp_set_rate()).
 
-Signed-off-by: Tobias Schramm <t.schramm@manjaro.org>
----
- drivers/gpu/drm/panel/panel-simple.c | 35 ++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+This patch causes a warning from debugfs on my firefly (RK3288) board:
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 5d487686d25c..6320df9765f3 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -1036,6 +1036,38 @@ static const struct panel_desc boe_nv101wxmn51 = {
- 	},
- };
- 
-+static const struct drm_display_mode boe_nv140fhmn49_modes[] = {
-+	{
-+		.clock = 148500,
-+		.hdisplay = 1920,
-+		.hsync_start = 1920 + 48,
-+		.hsync_end = 1920 + 48 + 32,
-+		.htotal = 2200,
-+		.vdisplay = 1080,
-+		.vsync_start = 1080 + 3,
-+		.vsync_end = 1080 + 3 + 5,
-+		.vtotal = 1125,
-+		.vrefresh = 60,
-+	},
-+};
-+
-+static const struct panel_desc boe_nv140fhmn49 = {
-+	.modes = boe_nv140fhmn49_modes,
-+	.num_modes = ARRAY_SIZE(boe_nv140fhmn49_modes),
-+	.bpc = 6,
-+	.size = {
-+		.width = 309,
-+		.height = 174,
-+	},
-+	.delay = {
-+		.prepare = 210,
-+		.enable = 50,
-+		.unprepare = 160,
-+	},
-+	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
-+	.connector_type = DRM_MODE_CONNECTOR_eDP,
-+};
-+
- static const struct drm_display_mode cdtech_s043wq26h_ct7_mode = {
- 	.clock = 9000,
- 	.hdisplay = 480,
-@@ -3161,6 +3193,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "boe,nv101wxmn51",
- 		.data = &boe_nv101wxmn51,
-+	}, {
-+		.compatible = "boe,nv140fhmn49",
-+		.data = &boe_nv140fhmn49,
- 	}, {
- 		.compatible = "cdtech,s043wq26h-ct7",
- 		.data = &cdtech_s043wq26h_ct7,
--- 
-2.24.1
+debugfs: Directory 'ffa30000.gpu-mali' with parent 'vdd_gpu' already
+present!
+
+So it looks like the regulator is being added twice - but I haven't
+investigated further.
+
+> Fixes: 221bc77914cbcc ("drm/panfrost: Use generic code for devfreq")
+> Reported-by: Robin Murphy <robin.murphy@arm.com>
+> Signed-off-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_devfreq.c | 22 ++++++++++++++++++++-
+>  drivers/gpu/drm/panfrost/panfrost_device.h  |  1 +
+>  2 files changed, 22 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> index 170f6c8c9651..4f7999c7b44c 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> @@ -74,6 +74,7 @@ static struct devfreq_dev_profile panfrost_devfreq_profile = {
+>  int panfrost_devfreq_init(struct panfrost_device *pfdev)
+>  {
+>  	int ret;
+> +	struct opp_table *opp_table;
+>  	struct dev_pm_opp *opp;
+>  	unsigned long cur_freq;
+>  	struct device *dev = &pfdev->pdev->dev;
+> @@ -84,9 +85,24 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
+>  		/* Optional, continue without devfreq */
+>  		return 0;
+>  
+> +	opp_table = dev_pm_opp_set_regulators(dev,
+> +					      (const char *[]){ "mali" },
+> +					      1);
+> +	if (IS_ERR(opp_table)) {
+> +		ret = PTR_ERR(opp_table);
+> +
+> +		/* Continue if the optional regulator is missing */
+> +		if (ret != -ENODEV)
+> +			return ret;
+> +	} else {
+> +		pfdev->devfreq.regulators_opp_table = opp_table;
+> +	}
+> +
+>  	ret = dev_pm_opp_of_add_table(dev);
+> -	if (ret)
+> +	if (ret) {
+> +		dev_pm_opp_put_regulators(pfdev->devfreq.regulators_opp_table);
+
+If we don't have a regulator then regulators_opp_table will be NULL and
+sadly dev_pm_opp_put_regulators() doesn't handle a NULL argument. The
+same applies to the two below calls obviously.
+
+Steve
+
+>  		return ret;
+> +	}
+>  
+>  	panfrost_devfreq_reset(pfdev);
+>  
+> @@ -95,6 +111,7 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
+>  	opp = devfreq_recommended_opp(dev, &cur_freq, 0);
+>  	if (IS_ERR(opp)) {
+>  		dev_pm_opp_of_remove_table(dev);
+> +		dev_pm_opp_put_regulators(pfdev->devfreq.regulators_opp_table);
+>  		return PTR_ERR(opp);
+>  	}
+>  
+> @@ -106,6 +123,7 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
+>  	if (IS_ERR(devfreq)) {
+>  		DRM_DEV_ERROR(dev, "Couldn't initialize GPU devfreq\n");
+>  		dev_pm_opp_of_remove_table(dev);
+> +		dev_pm_opp_put_regulators(pfdev->devfreq.regulators_opp_table);
+>  		return PTR_ERR(devfreq);
+>  	}
+>  	pfdev->devfreq.devfreq = devfreq;
+> @@ -124,6 +142,8 @@ void panfrost_devfreq_fini(struct panfrost_device *pfdev)
+>  	if (pfdev->devfreq.cooling)
+>  		devfreq_cooling_unregister(pfdev->devfreq.cooling);
+>  	dev_pm_opp_of_remove_table(&pfdev->pdev->dev);
+> +	if (pfdev->devfreq.regulators_opp_table)
+> +		dev_pm_opp_put_regulators(pfdev->devfreq.regulators_opp_table);
+>  }
+>  
+>  void panfrost_devfreq_resume(struct panfrost_device *pfdev)
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+> index 06713811b92c..4878b239e301 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+> @@ -85,6 +85,7 @@ struct panfrost_device {
+>  
+>  	struct {
+>  		struct devfreq *devfreq;
+> +		struct opp_table *regulators_opp_table;
+>  		struct thermal_cooling_device *cooling;
+>  		ktime_t busy_time;
+>  		ktime_t idle_time;
+> 
 
 _______________________________________________
 dri-devel mailing list
