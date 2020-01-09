@@ -2,34 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75163135CBC
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 16:28:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A25DC135CEF
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 16:38:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD5906E91B;
-	Thu,  9 Jan 2020 15:28:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBAF96E43F;
+	Thu,  9 Jan 2020 15:38:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from manjaro.org (mail.manjaro.org [176.9.38.148])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F7876E91B
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2020 15:28:21 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by manjaro.org (Postfix) with ESMTP id 0A2AC36E4E6C;
- Thu,  9 Jan 2020 16:28:20 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at manjaro.org
-Received: from manjaro.org ([127.0.0.1])
- by localhost (manjaro.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Er5maKmcrGp7; Thu,  9 Jan 2020 16:28:17 +0100 (CET)
-Subject: Re: [RESEND 0/1] Add support for BOE NV140FHM-N49 panel to
- panel-simple
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20200109112952.2620-1-t.schramm@manjaro.org>
- <20200109140742.GA12940@ravnborg.org>
-From: Tobias Schramm <t.schramm@manjaro.org>
-Message-ID: <d4b20bfa-9315-b24b-b58b-f16825df715b@manjaro.org>
-Date: Thu, 9 Jan 2020 16:27:43 +0100
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBB756E441;
+ Thu,  9 Jan 2020 15:38:19 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2020 07:38:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,414,1571727600"; d="scan'208";a="211928654"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga007.jf.intel.com with SMTP; 09 Jan 2020 07:38:16 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 09 Jan 2020 17:38:15 +0200
+Date: Thu, 9 Jan 2020 17:38:15 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Mario Kleiner <mario.kleiner.de@gmail.com>
+Subject: Re: [PATCH] drm/i915/dp: Add current maximum eDP link rate to
+ sink_rate array.
+Message-ID: <20200109153815.GQ1208@intel.com>
+References: <20200109150752.28098-1-mario.kleiner.de@gmail.com>
+ <20200109152656.GP1208@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200109140742.GA12940@ravnborg.org>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200109152656.GP1208@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,68 +48,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Thierry Reding <thierry.reding@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: mario.kleiner.de@gmail.de, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Hi Tobias.
-> 
-> We need binding schema before we can apply this patch.
-Knew I forgot something
-> See patch below.
-> Please review/ack the patch, then we can process your panel-simple
-> patch.
-LGTM, thanks!
-> 	Sam
-> 
-> On Thu, Jan 09, 2020 at 12:29:51PM +0100, Tobias Schramm wrote:
->> This patch adds support for the 14 inch BOE NV140FHM-N49 eDP panel to
->> the panel-simple driver. The panel is used by the Pinebook Pro.
->>
->> Resending with changed CCs due to lack of feedback.
-> 
-> 
->>
->> Tobias Schramm (1):
->>    drm/panel: Add support for BOE NV140FHM-N49 panel to panel-simple
->>
->>   drivers/gpu/drm/panel/panel-simple.c | 35 ++++++++++++++++++++++++++++
->>   1 file changed, 35 insertions(+)
->>
->  From ad19c4636475bb05ba5c0b6cec2bee85045d628e Mon Sep 17 00:00:00 2001
-> From: Sam Ravnborg <sam@ravnborg.org>
-> Date: Thu, 9 Jan 2020 14:48:41 +0100
-> Subject: [PATCH] dt-bindings: display: add BOE 14" panel
-> 
-> Add bindings for the BOE NV140FHM-N49 14" 1920x1080 panel.
-> 
-> The panel is used by the pine64 Pinebook Pro.
-> 
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Tobias Schramm <t.schramm@manjaro.org>
-> ---
->   .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> index ddc00480b6fe..6c098a0b6e1e 100644
-> --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> @@ -35,6 +35,8 @@ properties:
->         - ampire,am800480r3tmqwa1h
->           # AUO B116XAK01 eDP TFT LCD panel
->         - auo,b116xa01
-> +        # BOE NV140FHM-N49 14.0" FHD a-Si FT panel
-> +      - boe,nv140fhmn49
->           # GiantPlus GPM940B0 3.0" QVGA TFT LCD panel
->         - giantplus,gpm940b0
->           # Sharp LS020B1DD01D 2.0" HQVGA TFT LCD panel
-> 
-Reviewed-by: Tobias Schramm <t.schramm@manjaro.org>
+On Thu, Jan 09, 2020 at 05:26:57PM +0200, Ville Syrj=E4l=E4 wrote:
+> On Thu, Jan 09, 2020 at 04:07:52PM +0100, Mario Kleiner wrote:
+> > If the current eDP link rate, as read from hw, provides a
+> > higher bandwidth than the standard link rates, then add the
+> > current link rate to the link_rates array for consideration
+> > in future mode-sets.
+> > =
+
+> > These initial current eDP link settings have been set up by
+> > firmware during boot, so they should work on the eDP panel.
+> > Therefore use them if the firmware thinks they are good and
+> > they provide higher link bandwidth, e.g., to enable higher
+> > resolutions / color depths.
+> > =
+
+> > This fixes a problem found on the MacBookPro 2017 Retina panel:
+> > =
+
+> > The panel reports 10 bpc color depth in its EDID, and the UEFI
+> > firmware chooses link settings at boot which support enough
+> > bandwidth for 10 bpc (324000 kbit/sec to be precise), but the
+> > DP_MAX_LINK_RATE dpcd register only reports 2.7 Gbps as possible,
+
+Does it actually or do we just ignore the fact that it reports 3.24Gbps?
+
+If it really reports 3.24 then we should be able to just add that to
+dp_rates[] in intel_dp_set_sink_rates() and be done with it.
+
+Although we'd likely want to skip 3.24 unless it really is reported
+as the max so as to not use that non-standard rate on other displays.
+So would require a bit fancier logic for that.
+
+> > so intel_dp_set_sink_rates() would cap at that. This restricts
+> > achievable color depth to 8 bpc, not providing the full color
+> > depth of the panel. With this commit, we can use firmware setting
+> > and get the full 10 bpc advertised by the Retina panel.
+> > =
+
+> > Signed-off-by: Mario Kleiner <mario.kleiner.de@gmail.com>
+> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > ---
+> >  drivers/gpu/drm/i915/display/intel_dp.c | 23 +++++++++++++++++++++++
+> >  1 file changed, 23 insertions(+)
+> > =
+
+> > diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/=
+i915/display/intel_dp.c
+> > index 2f31d226c6eb..aa3e0b5108c6 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> > @@ -4368,6 +4368,8 @@ intel_edp_init_dpcd(struct intel_dp *intel_dp)
+> >  {
+> >  	struct drm_i915_private *dev_priv =3D
+> >  		to_i915(dp_to_dig_port(intel_dp)->base.base.dev);
+> > +	int max_rate;
+> > +	u8 link_bw;
+> >  =
+
+> >  	/* this function is meant to be called only once */
+> >  	WARN_ON(intel_dp->dpcd[DP_DPCD_REV] !=3D 0);
+> > @@ -4433,6 +4435,27 @@ intel_edp_init_dpcd(struct intel_dp *intel_dp)
+> >  	else
+> >  		intel_dp_set_sink_rates(intel_dp);
+> >  =
+
+> > +	/*
+> > +	 * If the firmware programmed a rate higher than the standard sink ra=
+tes
+> > +	 * during boot, then add that rate as a valid sink rate, as fw knows
+> > +	 * this is a good rate and we get extra bandwidth.
+> > +	 *
+> > +	 * Helps, e.g., on the Apple MacBookPro 2017 Retina panel, which is o=
+nly
+> > +	 * eDP 1.1, but supports the unusual rate of 324000 kHz at bootup, for
+> > +	 * 10 bpc / 30 bit color depth.
+> > +	 */
+> > +	if (!intel_dp->use_rate_select &&
+> > +	    (drm_dp_dpcd_read(&intel_dp->aux, DP_LINK_BW_SET, &link_bw, 1) =
+=3D=3D 1) &&
+> > +	    (link_bw > 0) && (intel_dp->num_sink_rates < DP_MAX_SUPPORTED_RAT=
+ES)) {
+> > +		max_rate =3D drm_dp_bw_code_to_link_rate(link_bw);
+> > +		if (max_rate > intel_dp->sink_rates[intel_dp->num_sink_rates - 1]) {
+> > +			intel_dp->sink_rates[intel_dp->num_sink_rates] =3D max_rate;
+> > +			intel_dp->num_sink_rates++;
+> > +			DRM_DEBUG_KMS("Adding max bandwidth eDP rate %d kHz.\n",
+> > +				      max_rate);
+> > +		}
+> =
+
+> Hmm. I guess we could do this. But plese put it into a separate
+> function so we don't end up with that super ugly if condition.
+> =
+
+> The debug message should probably be a bit more explicit. Eg. =
+
+> something like: =
+
+> "Firmware using non-standard link rate %d kHz. Including it in sink rates=
+.\n"
+> =
+
+> I'm also wondering if we shouldn't just add the link rate to the sink
+> rates regradless of whether it's the highest rate or not...
+> =
+
+> > +	}
+> > +
+> >  	intel_dp_set_common_rates(intel_dp);
+> >  =
+
+> >  	/* Read the eDP DSC DPCD registers */
+> > -- =
+
+> > 2.24.0
+> > =
+
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> =
+
+> -- =
+
+> Ville Syrj=E4l=E4
+> Intel
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
