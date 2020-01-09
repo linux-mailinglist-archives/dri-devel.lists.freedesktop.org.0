@@ -2,36 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06011135FD8
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 18:52:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 153B4135FC0
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 18:52:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16DD46E951;
-	Thu,  9 Jan 2020 17:51:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36E9D6E932;
+	Thu,  9 Jan 2020 17:51:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from onstation.org (onstation.org [52.200.56.107])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55C3C6E362;
- Thu,  9 Jan 2020 00:26:25 +0000 (UTC)
-Received: from localhost.localdomain (c-98-239-145-235.hsd1.wv.comcast.net
- [98.239.145.235])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested) (Authenticated sender: masneyb)
- by onstation.org (Postfix) with ESMTPSA id 0E27B3EE6F;
- Thu,  9 Jan 2020 00:26:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=onstation.org;
- s=default; t=1578529584;
- bh=bSP4GLHNIkw9HeeIY0NybAJJvEgnnxZaLRa3yG6+E1Q=;
- h=From:To:Cc:Subject:Date:From;
- b=TK7LNbfLzwC1F6wyfJLhAZh/bLnMAMGWyPQ+53Ef9F9qfGO8LdHQdNxZzdN/ApgLQ
- spnXD0HCF2D5BgqAqnzHtGmbgkilGBxb8HwbfZjcP8Jtx2F3pGL+IMEfcms3ov2jp4
- CwsIsk1ZiP73Lrd5/c1t4wIJrKy7VCeU3zbrKz+U=
-From: Brian Masney <masneyb@onstation.org>
-To: robdclark@gmail.com,
-	bjorn.andersson@linaro.org
-Subject: [PATCH RFC] ARM: dts: qcom: msm8974: add mdp5 iommu support
-Date: Wed,  8 Jan 2020 19:26:06 -0500
-Message-Id: <20200109002606.35653-1-masneyb@onstation.org>
-X-Mailer: git-send-email 2.24.1
+Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5533289293
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2020 00:30:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1578529817; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:references; bh=NHhHx7ZlRF7eivXl3/VLwz7qgS0NV8FmX8RqxK46cCo=;
+ b=pyTObPhS2panfCUwZeh7TMkP5NeDmK0j6O7a4knVlSYsQ+W4IE7vgiMVmfs8ratrnVHNQ8
+ azPFgtapRx/ZtkTyaZZPWiLbqLM+4I7duxshzMlUiD3PNsJTfGaeuwn3zkM5x7N7kmGX/e
+ m/uImfSjxz7ikrsJtAYdM8xNIOVM2Pw=
+From: Paul Cercueil <paul@crapouillou.net>
+To: Sam Ravnborg <sam@ravnborg.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>
+Subject: [PATCH 1/2] dt-bindings: panel-simple: Add compatible for GiantPlus
+ GPM940B0
+Date: Wed,  8 Jan 2020 21:29:59 -0300
+Message-Id: <20200109003000.119516-1-paul@crapouillou.net>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 09 Jan 2020 17:51:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -46,128 +41,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
- agross@kernel.org, freedreno@lists.freedesktop.org
+Cc: Paul Cercueil <paul@crapouillou.net>, devicetree@vger.kernel.org,
+ od@zcrc.me, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds preliminary IOMMU support for the MDP5 on msm8974. It appears
-that the qcom-iommu driver in upstream can be used on this SoC. I marked
-this patch as a RFC since the frame buffer becomes corrupted when I boot
-the Nexus 5 phone with this patch:
+Add a compatible string for the GiantPlus GPM740B0 3" QVGA TFT LCD
+panel, and remove the old giantplus,gpm740b0.txt documentation which is
+now obsolete.
 
-https://raw.githubusercontent.com/masneyb/nexus-5-upstream/master/images/broken-mdp5-iommu.jpg
-
-A quick note about the ranges of the context banks below: Based on the
-downstream sources, I believe that the memory addresses should be mapped
-out like this:
-
-	mdp_iommu: iommu@fd928000 {
-		reg = <0xfd928000 0x8000>;
-		ranges = <0 0xfd930000 0x8000>;
-		...
-
-		iommu-ctx@0 {
-			reg = <0x0 0x1000>;
-			...
-		};
-
-		iommu-ctx@1000 {
-			reg = <0x1000 0x1000>;
-			...
-		};
-
-		iommu-ctx@2000 {
-			reg = <0x2000 0x1000>;
-			...
-		};
-	};
-
-However, the qcom-iommu driver in upstream expects the first context
-bank to exist at address 0x1000, and the address space identifier
-(asid) to be greater than 0. See get_asid() and qcom_iommu_of_xlate()
-in the upstream qcom-iommu.c driver. I put in the patch below what the
-driver expects. I modified the driver in my local tree to allow the
-mapping that I have above so that the extra 0x1000 of memory is mapped
-into the global address space and still experience the same screen
-corruption issue.
-
-Downstream MSM 3.4 IOMMU dts snippet for reference:
-https://github.com/AICP/kernel_lge_hammerhead/blob/n7.1/arch/arm/boot/dts/msm-iommu-v1.dtsi#L110
-
-I'm hoping that someone that's more familiar with this hardware has a
-suggestion for something to try.
-
-Signed-off-by: Brian Masney <masneyb@onstation.org>
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- arch/arm/boot/dts/qcom-msm8974.dtsi | 44 +++++++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
+ .../bindings/display/panel/giantplus,gpm940b0.txt    | 12 ------------
+ .../bindings/display/panel/panel-simple.yaml         |  2 ++
+ 2 files changed, 2 insertions(+), 12 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/giantplus,gpm940b0.txt
 
-diff --git a/arch/arm/boot/dts/qcom-msm8974.dtsi b/arch/arm/boot/dts/qcom-msm8974.dtsi
-index 4b161b809dd5..2515a3bd4aa7 100644
---- a/arch/arm/boot/dts/qcom-msm8974.dtsi
-+++ b/arch/arm/boot/dts/qcom-msm8974.dtsi
-@@ -1305,6 +1305,46 @@ etm3_out: endpoint {
- 			};
- 		};
+diff --git a/Documentation/devicetree/bindings/display/panel/giantplus,gpm940b0.txt b/Documentation/devicetree/bindings/display/panel/giantplus,gpm940b0.txt
+deleted file mode 100644
+index 3dab52f92c26..000000000000
+--- a/Documentation/devicetree/bindings/display/panel/giantplus,gpm940b0.txt
++++ /dev/null
+@@ -1,12 +0,0 @@
+-GiantPlus 3.0" (320x240 pixels) 24-bit TFT LCD panel
+-
+-Required properties:
+-- compatible: should be "giantplus,gpm940b0"
+-- power-supply: as specified in the base binding
+-
+-Optional properties:
+-- backlight: as specified in the base binding
+-- enable-gpios: as specified in the base binding
+-
+-This binding is compatible with the simple-panel binding, which is specified
+-in simple-panel.txt in this directory.
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index 090866260f4f..c1a77d9105a2 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -33,6 +33,8 @@ properties:
+       - ampire,am-480272h3tmqw-t01h
+         # Ampire AM-800480R3TMQW-A1H 7.0" WVGA TFT LCD panel
+       - ampire,am800480r3tmqwa1h
++        # GiantPlus GPM940B0 3.0" QVGA TFT LCD panel
++      - giantplus,gpm940b0
  
-+		mdp_iommu: iommu@fd928000 {
-+			compatible = "qcom,msm8974-iommu",
-+			             "qcom,msm-iommu-v1";
-+			reg = <0xfd928000 0x7000>;
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+			#iommu-cells = <1>;
-+			ranges = <0 0xfd92f000 0x9000>;
-+
-+			clocks = <&mmcc MDSS_AHB_CLK>,
-+			         <&mmcc MDSS_AXI_CLK>;
-+			clock-names = "iface",
-+			              "bus";
-+
-+			qcom,iommu-secure-id = <1>;
-+
-+			// mdp_0
-+			iommu-ctx@1000 {
-+				compatible = "qcom,msm-iommu-v1-ns";
-+				reg = <0x1000 0x1000>;
-+				interrupts = <GIC_SPI 47 IRQ_TYPE_LEVEL_HIGH>;
-+			};
-+
-+			// mdp_1
-+			iommu-ctx@2000 {
-+				compatible = "qcom,msm-iommu-v1-sec";
-+				reg = <0x2000 0x1000>;
-+				interrupts = <GIC_SPI 47 IRQ_TYPE_LEVEL_HIGH>,
-+				             <GIC_SPI 46 IRQ_TYPE_LEVEL_HIGH>;
-+			};
-+
-+			// mdp_2
-+			iommu-ctx@3000 {
-+				compatible = "qcom,msm-iommu-v1-sec";
-+				reg = <0x3000 0x1000>;
-+				interrupts = <GIC_SPI 47 IRQ_TYPE_LEVEL_HIGH>,
-+				             <GIC_SPI 46 IRQ_TYPE_LEVEL_HIGH>;
-+			};
-+                };
-+
- 		ocmem@fdd00000 {
- 			compatible = "qcom,msm8974-ocmem";
- 			reg = <0xfdd00000 0x2000>,
-@@ -1427,6 +1467,10 @@ mdp: mdp@fd900000 {
- 				interconnects = <&mmssnoc MNOC_MAS_MDP_PORT0 &bimc BIMC_SLV_EBI_CH0>;
- 				interconnect-names = "mdp0-mem";
- 
-+				iommus = <&mdp_iommu 1
-+				          &mdp_iommu 2
-+				          &mdp_iommu 3>;
-+
- 				ports {
- 					#address-cells = <1>;
- 					#size-cells = <0>;
+   backlight: true
+   enable-gpios: true
 -- 
 2.24.1
 
