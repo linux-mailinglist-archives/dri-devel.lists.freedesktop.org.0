@@ -1,60 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 996A2135C88
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 16:20:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD4C8135CA8
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 16:24:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 430526E918;
-	Thu,  9 Jan 2020 15:20:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3219C6E912;
+	Thu,  9 Jan 2020 15:24:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57EDD6E914;
- Thu,  9 Jan 2020 15:20:55 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id m24so3344788wmc.3;
- Thu, 09 Jan 2020 07:20:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=HVmcjsQ4CK4Dh4FAXO7O8QfRWUhREJ70mgUGQmInyOw=;
- b=tzrU3tLvFIv4t8yFUPMr2exQ8u60/2njo7AlY5raTAJPU8vzcgRIV7rj3hz60qbde2
- DharD1t/tEqNFJD3A5ycq74QZvRSTB3D1GB40+cccogmW1SD/8s35ELuBY8zhFDcWRRq
- Vy+cktSi5rXqagQ3sFScwEDDKKY9CS4sgdPTthOKVplkC+q1i34gg9gfBrpDWpygZDbf
- isrYlWbPxH9bPn9/gIP6FfPa/XqTvTP9Y47axI0IUbPNtHTyGkdXiuy2sBa8zJrPr9QG
- ak3y2tJwbAg6rofXvG9146mPb7YIzuTgth/l9fjxXrCnrQp18m6/jilZ9NZa6HSzIGAl
- AYPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=HVmcjsQ4CK4Dh4FAXO7O8QfRWUhREJ70mgUGQmInyOw=;
- b=c1hhKN1VzLxOYHdP2AqOIxDHHfysNd1NYJtKFjqmk2pske29BHy6GmD5H166nCCLlq
- 8vYgrV8zyMvOXKZ3vUwJOYx0Qe34iNad4ZO0tJAt2u8VrAY482y9mNberVe6mNrUU6Uq
- Vfliy7BmtEI9+oIcnSu0RBLoxAtEK6lOBzJKxMQY0ot4UXyHlVo9DubFhJRiS6LM1SyC
- rsWChgPO5CA/rv935Gpx+UrX2pwBWBLp5nNdV/3Oc6B35bj0BenmDTzJUKQeJb+5XHK1
- xSNQU0p08ckV56jFQ8OOx7EobXC87oaOuvcoRfvrRpu/4CC72l7XDal6Uc09SulvkvjM
- 46qg==
-X-Gm-Message-State: APjAAAXBi7QnuMPkJV7bX3V3U6lIUrYCX/8+xCpNmfNzwI2o6sPpOrS4
- h2m7efcL8tnue6UnBcGVxXe6CSMQ+wc=
-X-Google-Smtp-Source: APXvYqxATA133zpHm/kEqxSsCx0yrbj8Jg7uWTU5FgWAFe69ir1WuVn8XAk0mFA4Q2s7ZBpgy4TJ4w==
-X-Received: by 2002:a1c:1fc5:: with SMTP id f188mr5867919wmf.55.1578583253772; 
- Thu, 09 Jan 2020 07:20:53 -0800 (PST)
-Received: from twisty.localdomain ([2a01:c23:7c40:600:59fe:915f:cac1:6580])
- by smtp.gmail.com with ESMTPSA id r62sm3309872wma.32.2020.01.09.07.20.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jan 2020 07:20:53 -0800 (PST)
-From: Mario Kleiner <mario.kleiner.de@gmail.com>
-To: dri-devel@lists.freedesktop.org,
-	amd-gfx@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/amd/display: Allow current eDP link settings to
- override verified ones.
-Date: Thu,  9 Jan 2020 16:20:28 +0100
-Message-Id: <20200109152028.28260-3-mario.kleiner.de@gmail.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20200109152028.28260-1-mario.kleiner.de@gmail.com>
-References: <20200109152028.28260-1-mario.kleiner.de@gmail.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 534B46E912
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2020 15:24:34 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2020 07:24:33 -0800
+X-IronPort-AV: E=Sophos;i="5.69,414,1571727600"; d="scan'208";a="216331227"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2020 07:24:32 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Manasi Navare <manasi.d.navare@intel.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2] drm/dp: Add function to parse EDID descriptors for
+ adaptive sync limits
+In-Reply-To: <20200108003208.18706-1-manasi.d.navare@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200108003208.18706-1-manasi.d.navare@intel.com>
+Date: Thu, 09 Jan 2020 17:24:30 +0200
+Message-ID: <87y2ugodox.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,73 +43,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, mario.kleiner.de@gmail.de
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Manasi Navare <manasi.d.navare@intel.com>,
+ Nicholas Kazlauskas <nicholas.kazluaskas@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the current eDP link settings, as read from hw, provide a higher
-bandwidth than the verified_link_cap ones (= reported_link_cap), then
-override verified_link_cap with current settings.
-
-These initial current eDP link settings have been set up by
-firmware during boot, so they should work on the eDP panel.
-Therefore use them if the firmware thinks they are good and
-they provide higher link bandwidth, e.g., to enable higher
-resolutions / color depths.
-
-This fixes a problem found on the MacBookPro 2017 Retina panel:
-
-The panel reports 10 bpc color depth in its EDID, and the
-firmware chooses link settings at boot which support enough
-bandwidth for 10 bpc (324000 kbit/sec aka LINK_RATE_RBR2),
-but the DP_MAX_LINK_RATE dpcd register only reports 2.7 Gbps
-as possible, so verified_link_cap is only good for 2.7 Gbps
-and 8 bpc, not providing the full color depth of the panel.
-
-Signed-off-by: Mario Kleiner <mario.kleiner.de@gmail.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
----
- drivers/gpu/drm/amd/display/dc/core/dc_link.c | 21 +++++++++++++++++++
- 1 file changed, 21 insertions(+)
-
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-index 5ea4a1675259..f3acdb8fead5 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-@@ -819,6 +819,27 @@ static bool dc_link_detect_helper(struct dc_link *link,
- 		case SIGNAL_TYPE_EDP: {
- 			detect_edp_sink_caps(link);
- 			read_current_link_settings_on_detect(link);
-+
-+			/* If cur_link_settings provides higher bandwidth than
-+			 * verified_link_cap, then use cur_link_settings as new
-+			 * verified_link_cap, as it obviously works according to
-+			 * firmware boot setup.
-+			 *
-+			 * This has been observed on the Apple MacBookPro 2017
-+			 * Retina panel, which boots with a link setting higher
-+			 * than what dpcd[DP_MAX_LINK_RATE] claims as possible.
-+			 * Overriding allows to run the panel at 10 bpc / 30 bit.
-+			 */
-+			if (dc_link_bandwidth_kbps(link, &link->cur_link_settings) >
-+			    dc_link_bandwidth_kbps(link, &link->verified_link_cap)) {
-+				DC_LOG_DETECTION_DP_CAPS(
-+				"eDP current link setting bw %d kbps > verified_link_cap %d kbps. Override.",
-+				dc_link_bandwidth_kbps(link, &link->cur_link_settings),
-+				dc_link_bandwidth_kbps(link, &link->verified_link_cap));
-+
-+				link->verified_link_cap = link->cur_link_settings;
-+			}
-+
- 			sink_caps.transaction_type = DDC_TRANSACTION_TYPE_I2C_OVER_AUX;
- 			sink_caps.signal = SIGNAL_TYPE_EDP;
- 			break;
--- 
-2.24.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCAwNyBKYW4gMjAyMCwgTWFuYXNpIE5hdmFyZSA8bWFuYXNpLmQubmF2YXJlQGludGVs
+LmNvbT4gd3JvdGU6Cj4gQWRhcHRpdmUgU3luYyBpcyBhIFZFU0EgZmVhdHVyZSBzbyBhZGQgYSBE
+Uk0gY29yZSBoZWxwZXIgdG8gcGFyc2UKPiB0aGUgRURJRCdzIGRldGFpbGVkIGRlc2NyaXRvcnMg
+dG8gb2J0YWluIHRoZSBhZGFwdGl2ZSBzeW5jIG1vbml0b3IgcmFuZ2UuCj4gU3RvcmUgdGhpcyBp
+bmZvIGFzIHBhcnQgZm8gZHJtX2Rpc3BsYXlfaW5mbyBzbyBpdCBjYW4gYmUgdXNlZAo+IGFjcm9z
+cyBhbGwgZHJpdmVycy4KPiBUaGlzIHBhcnQgb2YgdGhlIGNvZGUgaXMgc3RyaXBwZWQgb3V0IG9m
+IGFtZGdwdSdzIGZ1bmN0aW9uCj4gYW1kZ3B1X2RtX3VwZGF0ZV9mcmVlc3luY19jYXBzKCkgdG8g
+bWFrZSBpdCBnZW5lcmljIGFuZCBiZSB1c2VkCj4gYWNyb3NzIGFsbCBEUk0gZHJpdmVycwo+Cj4g
+djI6Cj4gKiBDaGFuZ2Ugdm1pbiBhbmQgdm1heCB0byB1c2UgdTggKFZpbGxlKQo+ICogRG9udCBz
+dG9yZSBwaXhlbCBjbG9jayBzaW5jZSB0aGF0IGlzIGp1c3QgYSBtYXggZG90Y2xvY2sKPiBhbmQg
+bm90IHJlbGF0ZWQgdG8gVlJSIG1vZGUgKE1hbmFzaSkKPgo+IENjOiBWaWxsZSBTeXJqw6Rsw6Qg
+PHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+IENjOiBIYXJyeSBXZW50bGFuZCA8aGFy
+cnkud2VudGxhbmRAYW1kLmNvbT4KPiBDYzogQ2xpbnRvbiBBIFRheWxvciA8Y2xpbnRvbi5hLnRh
+eWxvckBpbnRlbC5jb20+Cj4gQ2M6IE5pY2hvbGFzIEthemxhdXNrYXMgPG5pY2hvbGFzLmthemx1
+YXNrYXNAYW1kLmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBNYW5hc2kgTmF2YXJlIDxtYW5hc2kuZC5u
+YXZhcmVAaW50ZWwuY29tPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYyAgfCA1
+MSArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrCj4gIGluY2x1ZGUvZHJtL2Ry
+bV9jb25uZWN0b3IuaCB8IDIyICsrKysrKysrKysrKysrKysKPiAgaW5jbHVkZS9kcm0vZHJtX2Vk
+aWQuaCAgICAgIHwgIDIgKysKPiAgMyBmaWxlcyBjaGFuZ2VkLCA3NSBpbnNlcnRpb25zKCspCj4K
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9lZGlkLmMgYi9kcml2ZXJzL2dwdS9k
+cm0vZHJtX2VkaWQuYwo+IGluZGV4IDk5NzY5ZDZjOWY4NC4uNTI3ODFhMGU3MDhiIDEwMDY0NAo+
+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L2RybV9lZGlkLmMKPiBAQCAtNDg4MCw2ICs0ODgwLDU0IEBAIHN0YXRpYyB2b2lkIGRybV9wYXJz
+ZV9jZWFfZXh0KHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IsCj4gIAl9Cj4gIH0KPiAg
+Cj4gK3ZvaWQgZHJtX2dldF9hZGFwdGl2ZV9zeW5jX2xpbWl0cyhzdHJ1Y3QgZHJtX2Nvbm5lY3Rv
+ciAqY29ubmVjdG9yLAo+ICsJCQkJICBjb25zdCBzdHJ1Y3QgZWRpZCAqZWRpZCkKPiArewo+ICsJ
+c3RydWN0IGRybV9kaXNwbGF5X2luZm8gKmluZm8gPSAmY29ubmVjdG9yLT5kaXNwbGF5X2luZm87
+Cj4gKwljb25zdCBzdHJ1Y3QgZGV0YWlsZWRfdGltaW5nICp0aW1pbmc7Cj4gKwljb25zdCBzdHJ1
+Y3QgZGV0YWlsZWRfbm9uX3BpeGVsICpkYXRhOwo+ICsJY29uc3Qgc3RydWN0IGRldGFpbGVkX2Rh
+dGFfbW9uaXRvcl9yYW5nZSAqcmFuZ2U7Cj4gKwlpbnQgaTsKPiArCj4gKwkvKgo+ICsJICogUmVz
+dHJpY3QgQWRhcHRpdmUgU3luYyBvbmx5IGZvciBkcCBhbmQgZWRwCj4gKwkgKi8KPiArCWlmIChj
+b25uZWN0b3ItPmNvbm5lY3Rvcl90eXBlICE9IERSTV9NT0RFX0NPTk5FQ1RPUl9EaXNwbGF5UG9y
+dCAmJgo+ICsJICAgIGNvbm5lY3Rvci0+Y29ubmVjdG9yX3R5cGUgIT0gRFJNX01PREVfQ09OTkVD
+VE9SX2VEUCkKPiArCQlyZXR1cm47Cj4gKwo+ICsJaWYgKGVkaWQtPnZlcnNpb24gPD0gMSAmJiAh
+KGVkaWQtPnZlcnNpb24gPT0gMSAmJiBlZGlkLT5yZXZpc2lvbiA+IDEpKQo+ICsJCXJldHVybjsK
+PiArCj4gKwlmb3IgKGkgPSAwOyBpIDwgNDsgaSsrKSB7Cj4gKwkJdGltaW5nICA9ICZlZGlkLT5k
+ZXRhaWxlZF90aW1pbmdzW2ldOwo+ICsJCWRhdGEgICAgPSAmdGltaW5nLT5kYXRhLm90aGVyX2Rh
+dGE7Cj4gKwkJcmFuZ2UgICA9ICZkYXRhLT5kYXRhLnJhbmdlOwo+ICsJCS8qCj4gKwkJICogQ2hl
+Y2sgaWYgbW9uaXRvciBoYXMgY29udGludW91cyBmcmVxdWVuY3kgbW9kZQo+ICsJCSAqLwo+ICsJ
+CWlmIChkYXRhLT50eXBlICE9IEVESURfREVUQUlMX01PTklUT1JfUkFOR0UpCj4gKwkJCWNvbnRp
+bnVlOwo+ICsJCS8qCj4gKwkJICogQ2hlY2sgZm9yIGZsYWcgcmFuZ2UgbGltaXRzIG9ubHkuIElm
+IGZsYWcgPT0gMSB0aGVuCj4gKwkJICogbm8gYWRkaXRpb25hbCB0aW1pbmcgaW5mb3JtYXRpb24g
+cHJvdmlkZWQuCj4gKwkJICogRGVmYXVsdCBHVEYsIEdURiBTZWNvbmRhcnkgY3VydmUgYW5kIENW
+VCBhcmUgbm90Cj4gKwkJICogc3VwcG9ydGVkCj4gKwkJICovCj4gKwkJaWYgKHJhbmdlLT5mbGFn
+cyAhPSAxKQo+ICsJCQljb250aW51ZTsKPiArCj4gKwkJaW5mby0+YWRhcHRpdmVfc3luYy5taW5f
+dmZyZXEgPSByYW5nZS0+bWluX3ZmcmVxOwo+ICsJCWluZm8tPmFkYXB0aXZlX3N5bmMubWF4X3Zm
+cmVxID0gcmFuZ2UtPm1heF92ZnJlcTsKPiArCj4gKwkJRFJNX0RFQlVHX0tNUygiQWRhcHRpdmUg
+U3luYyByZWZyZXNoIHJhdGUgcmFuZ2UgaXMgJWQgSHogLSAlZCBIelxuIiwKPiArCQkJICAgICAg
+aW5mby0+YWRhcHRpdmVfc3luYy5taW5fdmZyZXEsCj4gKwkJCSAgICAgIGluZm8tPmFkYXB0aXZl
+X3N5bmMubWF4X3ZmcmVxKTsKPiArCQlicmVhazsKPiArCX0KPiArfQo+ICtFWFBPUlRfU1lNQk9M
+KGRybV9nZXRfYWRhcHRpdmVfc3luY19saW1pdHMpOwoKV2h5IHRoZSBleHBvcnQ/IFJhdGhlciwg
+d2h5IGlzIHRoaXMgbm90IHN0YXRpYz8KCkJSLApKYW5pLgoKPiArCj4gIC8qIEEgY29ubmVjdG9y
+IGhhcyBubyBFRElEIGluZm9ybWF0aW9uLCBzbyB3ZSd2ZSBnb3Qgbm8gRURJRCB0byBjb21wdXRl
+IHF1aXJrcyBmcm9tLiBSZXNldAo+ICAgKiBhbGwgb2YgdGhlIHZhbHVlcyB3aGljaCB3b3VsZCBo
+YXZlIGJlZW4gc2V0IGZyb20gRURJRAo+ICAgKi8KPiBAQCAtNDkwMSw2ICs0OTQ5LDcgQEAgZHJt
+X3Jlc2V0X2Rpc3BsYXlfaW5mbyhzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yKQo+ICAJ
+bWVtc2V0KCZpbmZvLT5oZG1pLCAwLCBzaXplb2YoaW5mby0+aGRtaSkpOwo+ICAKPiAgCWluZm8t
+Pm5vbl9kZXNrdG9wID0gMDsKPiArCW1lbXNldCgmaW5mby0+YWRhcHRpdmVfc3luYywgMCwgc2l6
+ZW9mKGluZm8tPmFkYXB0aXZlX3N5bmMpKTsKPiAgfQo+ICAKPiAgdTMyIGRybV9hZGRfZGlzcGxh
+eV9pbmZvKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IsIGNvbnN0IHN0cnVjdCBlZGlk
+ICplZGlkKQo+IEBAIC00OTE2LDYgKzQ5NjUsOCBAQCB1MzIgZHJtX2FkZF9kaXNwbGF5X2luZm8o
+c3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciwgY29uc3Qgc3RydWN0IGVkaWQgKmVkaQo+
+ICAKPiAgCWluZm8tPm5vbl9kZXNrdG9wID0gISEocXVpcmtzICYgRURJRF9RVUlSS19OT05fREVT
+S1RPUCk7Cj4gIAo+ICsJZHJtX2dldF9hZGFwdGl2ZV9zeW5jX2xpbWl0cyhjb25uZWN0b3IsIGVk
+aWQpOwo+ICsKPiAgCURSTV9ERUJVR19LTVMoIm5vbl9kZXNrdG9wIHNldCB0byAlZFxuIiwgaW5m
+by0+bm9uX2Rlc2t0b3ApOwo+ICAKPiAgCWlmIChlZGlkLT5yZXZpc2lvbiA8IDMpCj4gZGlmZiAt
+LWdpdCBhL2luY2x1ZGUvZHJtL2RybV9jb25uZWN0b3IuaCBiL2luY2x1ZGUvZHJtL2RybV9jb25u
+ZWN0b3IuaAo+IGluZGV4IDIyMTkxMDk0OGIzNy4uNzdkZjQwNGEyZTAxIDEwMDY0NAo+IC0tLSBh
+L2luY2x1ZGUvZHJtL2RybV9jb25uZWN0b3IuaAo+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9jb25u
+ZWN0b3IuaAo+IEBAIC0yNTQsNiArMjU0LDIzIEBAIGVudW0gZHJtX3BhbmVsX29yaWVudGF0aW9u
+IHsKPiAgCURSTV9NT0RFX1BBTkVMX09SSUVOVEFUSU9OX1JJR0hUX1VQLAo+ICB9Owo+ICAKPiAr
+LyoqCj4gKyAqIHN0cnVjdCBkcm1fYWRhcHRpdmVfc3luY19pbmZvIC0gUGFuZWwncyBBZGFwdGl2
+ZSBTeW5jIGNhcGFiaWxpdGllcyBmb3IKPiArICogJmRybV9kaXNwbGF5X2luZm8KPiArICoKPiAr
+ICogVGhpcyBzdHJ1Y3QgaXMgdXNlZCB0byBzdG9yZSBhIFBhbmVsJ3MgQWRhcHRpdmUgU3luYyBj
+YXBhYmlsaXRpZXMKPiArICogYXMgcGFyc2VkIGZyb20gRURJRCdzIGRldGFpbGVkIG1vbml0b3Ig
+cmFuZ2UgZGVzY3JpcHRvciBibG9jay4KPiArICoKPiArICogQG1pbl92ZnJlcTogVGhpcyBpcyB0
+aGUgbWluIHN1cHBvcnRlZCByZWZyZXNoIHJhdGUgaW4gSHogZnJvbQo+ICsgKiAgICAgICAgICAg
+ICBFRElEJ3MgZGV0YWlsZWQgbW9uaXRvciByYW5nZS4KPiArICogQG1heF92ZnJlcTogVGhpcyBp
+cyB0aGUgbWF4IHN1cHBvcnRlZCByZWZyZXNoIHJhdGUgaW4gSHogZnJvbQo+ICsgKiAgICAgICAg
+ICAgICBFRElEJ3MgZGV0YWlsZWQgbW9uaXRvciByYW5nZQo+ICsgKi8KPiArc3RydWN0IGRybV9h
+ZGFwdGl2ZV9zeW5jX2luZm8gewo+ICsJdTggbWluX3ZmcmVxOwo+ICsJdTggbWF4X3ZmcmVxOwo+
+ICt9Owo+ICsKPiAgLyoKPiAgICogVGhpcyBpcyBhIGNvbnNvbGlkYXRlZCBjb2xvcmltZXRyeSBs
+aXN0IHN1cHBvcnRlZCBieSBIRE1JIGFuZAo+ICAgKiBEUCBwcm90b2NvbCBzdGFuZGFyZC4gVGhl
+IHJlc3BlY3RpdmUgY29ubmVjdG9ycyB3aWxsIHJlZ2lzdGVyCj4gQEAgLTQ2NSw2ICs0ODIsMTEg
+QEAgc3RydWN0IGRybV9kaXNwbGF5X2luZm8gewo+ICAJICogQG5vbl9kZXNrdG9wOiBOb24gZGVz
+a3RvcCBkaXNwbGF5IChITUQpLgo+ICAJICovCj4gIAlib29sIG5vbl9kZXNrdG9wOwo+ICsKPiAr
+CS8qKgo+ICsJICogQGFkYXB0aXZlX3N5bmM6IEFkYXB0aXZlIFN5bmMgY2FwYWJpbGl0aWVzIG9m
+IHRoZSBEUC9lRFAgc2luawo+ICsJICovCj4gKwlzdHJ1Y3QgZHJtX2FkYXB0aXZlX3N5bmNfaW5m
+byBhZGFwdGl2ZV9zeW5jOwo+ICB9Owo+ICAKPiAgaW50IGRybV9kaXNwbGF5X2luZm9fc2V0X2J1
+c19mb3JtYXRzKHN0cnVjdCBkcm1fZGlzcGxheV9pbmZvICppbmZvLAo+IGRpZmYgLS1naXQgYS9p
+bmNsdWRlL2RybS9kcm1fZWRpZC5oIGIvaW5jbHVkZS9kcm0vZHJtX2VkaWQuaAo+IGluZGV4IGYw
+YjAzZDQwMWMyNy4uYjlhMjMwYWEzZTY5IDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9l
+ZGlkLmgKPiArKysgYi9pbmNsdWRlL2RybS9kcm1fZWRpZC5oCj4gQEAgLTUwMyw0ICs1MDMsNiBA
+QCB2b2lkIGRybV9lZGlkX2dldF9tb25pdG9yX25hbWUoc3RydWN0IGVkaWQgKmVkaWQsIGNoYXIg
+Km5hbWUsCj4gIHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICpkcm1fbW9kZV9maW5kX2RtdChzdHJ1
+Y3QgZHJtX2RldmljZSAqZGV2LAo+ICAJCQkJCSAgIGludCBoc2l6ZSwgaW50IHZzaXplLCBpbnQg
+ZnJlc2gsCj4gIAkJCQkJICAgYm9vbCByYik7Cj4gK3ZvaWQgZHJtX2dldF9hZGFwdGl2ZV9zeW5j
+X2xpbWl0cyhzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLAo+ICsJCQkJICBjb25zdCBz
+dHJ1Y3QgZWRpZCAqZWRpZCk7Cj4gICNlbmRpZiAvKiBfX0RSTV9FRElEX0hfXyAqLwoKLS0gCkph
+bmkgTmlrdWxhLCBJbnRlbCBPcGVuIFNvdXJjZSBHcmFwaGljcyBDZW50ZXIKX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
