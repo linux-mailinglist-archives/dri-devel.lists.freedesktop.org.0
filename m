@@ -2,30 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE18A138657
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Jan 2020 13:36:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07149138659
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Jan 2020 13:36:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DD826E046;
-	Sun, 12 Jan 2020 12:36:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A13C6E4EA;
+	Sun, 12 Jan 2020 12:36:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BA776E029
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2020 18:40:14 +0000 (UTC)
-Received: from xps13 (unknown [91.224.148.103])
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
+ [217.70.183.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D445A6E029
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2020 18:40:50 +0000 (UTC)
+X-Originating-IP: 91.224.148.103
+Received: from localhost.localdomain (unknown [91.224.148.103])
  (Authenticated sender: miquel.raynal@bootlin.com)
- by relay10.mail.gandi.net (Postfix) with ESMTPSA id 88D8C240005;
- Thu,  9 Jan 2020 18:40:09 +0000 (UTC)
-Date: Thu, 9 Jan 2020 19:40:08 +0100
+ by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 2883220002;
+ Thu,  9 Jan 2020 18:40:46 +0000 (UTC)
 From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v4 1/3] dt-bindings: Add vendor prefix for Satoz
-Message-ID: <20200109194008.4d3b3370@xps13>
-In-Reply-To: <20200108210356.GB4476@ravnborg.org>
-References: <20200106151827.31511-1-miquel.raynal@bootlin.com>
- <20200108210356.GB4476@ravnborg.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v5 1/2] dt-bindings: display: simple: Add Satoz panel
+Date: Thu,  9 Jan 2020 19:40:36 +0100
+Message-Id: <20200109184037.9091-1-miquel.raynal@bootlin.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-Mailman-Approved-At: Sun, 12 Jan 2020 12:36:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -40,29 +39,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Maxime Chevallier <maxime.chevallier@bootlin.com>,
  Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Thierry Reding <thierry.reding@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Rob Herring <robh+dt@kernel.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgU2FtLAoKU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPiB3cm90ZSBvbiBXZWQsIDgg
-SmFuIDIwMjAgMjI6MDM6NTYgKzAxMDA6Cgo+IEhpIE1pcXVlbC4KPiAKPiBPbiBNb24sIEphbiAw
-NiwgMjAyMCBhdCAwNDoxODoyNVBNICswMTAwLCBNaXF1ZWwgUmF5bmFsIHdyb3RlOgo+ID4gU2F0
-b3ogaXMgYSBDaGluZXNlIFRGVCBtYW51ZmFjdHVyZXIuCj4gPiBXZWJzaXRlOiBodHRwOi8vd3d3
-LnNhdC1zei5jb20vRW5nbGlzaC9pbmRleC5odG1sCj4gPiAKPiA+IFNpZ25lZC1vZmYtYnk6IE1p
-cXVlbCBSYXluYWwgPG1pcXVlbC5yYXluYWxAYm9vdGxpbi5jb20+Cj4gPiBBY2tlZC1ieTogUm9i
-IEhlcnJpbmcgPHJvYmhAa2VybmVsLm9yZz4gIAo+IAo+IEkgaGF2ZSBhcHBsaWVkIHRoaXMuCj4g
-Q2FuIHlvdSBwbGVhc2UgcmUtZG8gcGF0Y2ggMi8zIHNvIHRoZSBjb21wYXRpYmxlIGlzIGFkZGVk
-IHRvCj4gcGFuZWwtc2ltcGxlLnlhbWwgLSB3aGljaCBJIGp1c3QgcHVzaGVkIHRvIGRybS1taXNj
-LW5leHQuCj4gCj4gVGhlbiB3ZSBoYXZlIGEgdHdvLWxpbmUgZW50cnkgcmF0aGVyIHRoYW4gYSB3
-aG9sZSBmaWxlCj4gYXMgeW91IGFsc28gYXNrZWQgZm9yLgoKR3JlYXQhIEkgdGhpbmsgaXQncyBt
-dWNoIGJldHRlciBsaWtlIHRoaXMuIExldCdzIGRyb3AgcGF0Y2ggMi8zLCBJJ20KcmUtc2VuZGlu
-ZyAyLzMgKHVwZGF0ZWQpIGFuZCAzLzMgKG5vIGNoYW5nZXMpLgoKVGhhbmtzLApNaXF1w6hsCl9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
-LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Satoz is a Chinese TFT manufacturer.
+Website: http://www.sat-sz.com/English/index.html
+
+Add the compatible for its SAT050AT40H12R2 5.0 inch LCD panel.
+
+Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+---
+
+Changes since v4:
+* Drop the satoz,sat050at40h12r2.yaml file in favor of the very new
+  panel-simple.yaml common file. Just add the compatible there.
+
+Changes since v3:
+* Added the missing ".yaml" suffix in the $id.
+* Removed the unnecessary "contains" assertion about the compatible.
+* Added a precision : there is no public specification for this panel
+  (known for the moment).
+* Bindings checked with "make dt_binding_check"
+
+Changes since v2:
+* None.
+
+Changes since v1:
+* New patch
+
+ .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index 090866260f4f..8a9c37640dc0 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -33,6 +33,8 @@ properties:
+       - ampire,am-480272h3tmqw-t01h
+         # Ampire AM-800480R3TMQW-A1H 7.0" WVGA TFT LCD panel
+       - ampire,am800480r3tmqwa1h
++        # Satoz SAT050AT40H12R2 5.0" WVGA TFT LCD panel
++      - satoz,sat050at40h12r2
+ 
+   backlight: true
+   enable-gpios: true
+-- 
+2.20.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
