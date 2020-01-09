@@ -1,54 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D05DF135FC8
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 18:52:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B3E9135FCC
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 18:52:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60F206E952;
-	Thu,  9 Jan 2020 17:51:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D47DF6E947;
+	Thu,  9 Jan 2020 17:51:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFE726E8EE;
- Thu,  9 Jan 2020 09:42:34 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id t14so2025727wmi.5;
- Thu, 09 Jan 2020 01:42:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=x/rJsrzAFN1SHOY1ywcZnWjYD9yWmdldMlh5f03XRYg=;
- b=l7n3Me2CEVGR8p5a6YW0NNtdcTDn9ZDVgj4YDu6Cl4Kif/Plbh9xiOT5YRyZ7xRTe1
- E5H3y4vlS/PAPJvfMTXpBk7W1aX0vf/JSBniLv5yMnE9WtvQAA5zv0ZjGsDZQO8ZOXs1
- xmDE5aMNv6e/0tWG4RgYVIqEUor25w0M+2Pch+0E8c45C3X/HU5G+To1CTwW5J3cLYA/
- SjHjxo84gnQgT16WkbPApY15KlgcBvYHOCTq/SggQUSf2/b9jhpcyvU5VQINfyabWHfH
- 5bJkNepes33nKKUn5T5Ifoke5iVS9EI7IQZKz+z2uv9Js1rr8hlL0ALfEMeOzCIDvr7L
- pYmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=x/rJsrzAFN1SHOY1ywcZnWjYD9yWmdldMlh5f03XRYg=;
- b=gEcOIOHhbLNsPKg246B6hEqlXuHDM6Vp3BLDsbSV6JobWAF651LsDn00Pe61mhUYLk
- UBc2XZiVjTcK9RvxRp1bXaUIgR2EpHgRQiKWnLLv2fiEtQXCpXjGYGw8ygv3LAwdWPgR
- ilQWPuVajMyZWWKb0S4GoUqLUZAlQOL4WwglKrkWJQ0WfQQIrVHHdt6RfmSPdQ5QnOgi
- TcfBCum+cwBxKm/tsw8e0sFxsDG/8Zr/1mLOhL9XEGGxavpJPUDxX3lKoGDW/vxQdpJj
- 0rTZnFDN61a8UucGnfCbjYYqV7IKgOAuy+n9RIIJbiE1rSnfSFGVEAebuyq77eHFqcm4
- 4drA==
-X-Gm-Message-State: APjAAAWhsVC4MJDjEM/RA/SCxjbtrGMlL30GDCoEoUCKou2H7fmJIt7u
- Xpnnmp3Bgfjmvu5srm6pv1c=
-X-Google-Smtp-Source: APXvYqzutBXNb9l/OLivyPXT06DnycTvFXLnYG/Z5uxCovB+J7j2p4azD6X6kG/WwBfIrjj1YXBhog==
-X-Received: by 2002:a1c:ddd7:: with SMTP id u206mr3920334wmg.159.1578562953501; 
- Thu, 09 Jan 2020 01:42:33 -0800 (PST)
-Received: from localhost.localdomain ([197.254.95.38])
- by smtp.googlemail.com with ESMTPSA id y7sm3219435wmd.1.2020.01.09.01.42.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jan 2020 01:42:33 -0800 (PST)
-From: Wambui Karuga <wambui.karugax@gmail.com>
-To: robdclark@gmail.com, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH v2] drm/msm: use BUG_ON macro for debugging.
-Date: Thu,  9 Jan 2020 12:42:26 +0300
-Message-Id: <20200109094226.4967-1-wambui.karugax@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 136166E420
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2020 13:43:58 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: alyssa) with ESMTPSA id E424428DB47
+Date: Thu, 9 Jan 2020 08:43:51 -0500
+From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH] drm/panfrost: Remove core stack power management
+Message-ID: <20200109134351.GA3053@kevin>
+References: <20200109133104.11661-1-steven.price@arm.com>
+MIME-Version: 1.0
+In-Reply-To: <20200109133104.11661-1-steven.price@arm.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-Mailman-Approved-At: Thu, 09 Jan 2020 17:51:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,46 +37,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Robin Murphy <robin.murphy@arm.com>
+Content-Type: multipart/mixed; boundary="===============0385683076=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As the if statement only checks for the value of the offset_name
-variable, it can be replaced by the more conscise BUG_ON macro for error
-reporting.
 
-v2: format expression to less than 80 characters for each line.
+--===============0385683076==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="jRHKVT23PllUwdXP"
+Content-Disposition: inline
 
-Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
----
- drivers/gpu/drm/msm/adreno/adreno_gpu.h | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-index c7441fb8313e..d1843abc3ac7 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-@@ -315,10 +315,8 @@ OUT_PKT7(struct msm_ringbuffer *ring, uint8_t opcode, uint16_t cnt)
- static inline bool adreno_reg_check(struct adreno_gpu *gpu,
- 		enum adreno_regs offset_name)
- {
--	if (offset_name >= REG_ADRENO_REGISTER_MAX ||
--			!gpu->reg_offsets[offset_name]) {
--		BUG();
--	}
-+	BUG_ON(offset_name >= REG_ADRENO_REGISTER_MAX ||
-+	       !gpu->reg_offsets[offset_name]);
- 
- 	/*
- 	 * REG_SKIP is a special value that tell us that the register in
--- 
-2.17.1
+--jRHKVT23PllUwdXP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+A-b
+
+On Thu, Jan 09, 2020 at 01:31:04PM +0000, Steven Price wrote:
+> Explict management of the GPU's core stacks is only necessary in the
+> case of a broken integration with the PDC. Since there are no known
+> platforms which have such a broken integration let's remove the explict
+> control from the driver since this apparently causes problems on other
+> platforms and will have a small performance penality.
+>=20
+> The out of tree mali_kbase driver contains this text regarding
+> controlling the core stack (CONFIGMALI_CORESTACK):
+>=20
+>   Enabling this feature on supported GPUs will let the driver powering
+>   on/off the GPU core stack independently without involving the Power
+>   Domain Controller. This should only be enabled on platforms which
+>   integration of the PDC to the Mali GPU is known to be problematic.
+>   This feature is currently only supported on t-Six and t-HEx GPUs.
+>=20
+>   If unsure, say N.
+>=20
+> Signed-off-by: Steven Price <steven.price@arm.com>
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_gpu.c | 5 -----
+>  1 file changed, 5 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/pa=
+nfrost/panfrost_gpu.c
+> index 8822ec13a0d6..460fc190de6e 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> @@ -309,10 +309,6 @@ void panfrost_gpu_power_on(struct panfrost_device *p=
+fdev)
+>  	ret =3D readl_relaxed_poll_timeout(pfdev->iomem + L2_READY_LO,
+>  		val, val =3D=3D pfdev->features.l2_present, 100, 1000);
+> =20
+> -	gpu_write(pfdev, STACK_PWRON_LO, pfdev->features.stack_present);
+> -	ret |=3D readl_relaxed_poll_timeout(pfdev->iomem + STACK_READY_LO,
+> -		val, val =3D=3D pfdev->features.stack_present, 100, 1000);
+> -
+>  	gpu_write(pfdev, SHADER_PWRON_LO, pfdev->features.shader_present);
+>  	ret |=3D readl_relaxed_poll_timeout(pfdev->iomem + SHADER_READY_LO,
+>  		val, val =3D=3D pfdev->features.shader_present, 100, 1000);
+> @@ -329,7 +325,6 @@ void panfrost_gpu_power_off(struct panfrost_device *p=
+fdev)
+>  {
+>  	gpu_write(pfdev, TILER_PWROFF_LO, 0);
+>  	gpu_write(pfdev, SHADER_PWROFF_LO, 0);
+> -	gpu_write(pfdev, STACK_PWROFF_LO, 0);
+>  	gpu_write(pfdev, L2_PWROFF_LO, 0);
+>  }
+> =20
+> --=20
+> 2.20.1
+>=20
+
+--jRHKVT23PllUwdXP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEQ17gm7CvANAdqvY4/v5QWgr1WA0FAl4XLgoACgkQ/v5QWgr1
+WA3VcA//cEcrQwxrlJ8ndUPseWUHj3sldo778/VRcu6Z6yHCW21o8/xZVa0xQdHX
+GQuCTw0vDldVAPmxzKhnt41khOHBtYCqeppjYUdC8BQm7IIe+AbN0DoxYR5xRDaB
+Bo8NcZ7ytOSkzI6Ww91jZVx5jq2k8l5Tj628QbWrDa2t1RP2xzUuet9zWH+9IAyE
+IjNYszKjYk9MloCyt3AwPSDkHuyKXb9Zc970qHGNAWZC868wIktaQVI6aUl79+uE
+UeHzGimWKPVPQnIkuQxCS6MaG0sLdcgRjjsTtfIS6TllYLZ/0mWhbE/6smFmmXIb
+EPfuBVjrK9q4WcXy3DhJHrUnpiDdWm/I7xoy8neKbEb4UHJ0qlsi46NRbYv1fge4
+fF0fyWw6VHnti9JRkuqsYWdJ052FEvFEqg3+Dal1oC4HG3Rta+rD72mvmsJtZ1sW
+JGOXycotJAvQP2U86S7Oml3PcJG9jy4bLvpOk+jU/kTdW12eLhvdouWko/JsCTNI
+s7x3AvY5Lj7MgNpPt9AKu1GRLHlEPqvG3jVAztc5i1QxaKKhRtYGyb++fBHpBA8B
+PyrJfcHNckWLgF1kY2cfrIeCZcI9yYSM0Oq2+LpOoTJjFTGbq4te0P5pJR0O0nj3
+dAY5fKG3kpp7ObzRhho4ANxt1gpZ41AZvT7NMK6zn98i/xYh0Bw=
+=nFTn
+-----END PGP SIGNATURE-----
+
+--jRHKVT23PllUwdXP--
+
+--===============0385683076==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0385683076==--
