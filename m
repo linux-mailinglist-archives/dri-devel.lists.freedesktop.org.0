@@ -2,40 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD3C6135E54
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 17:31:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B51BE135E5D
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 17:34:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CE4D6E90C;
-	Thu,  9 Jan 2020 16:31:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F165F6E91E;
+	Thu,  9 Jan 2020 16:34:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 262836E90C;
- Thu,  9 Jan 2020 16:31:32 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2020 08:31:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,414,1571727600"; d="scan'208";a="272155403"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by FMSMGA003.fm.intel.com with SMTP; 09 Jan 2020 08:31:28 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 09 Jan 2020 18:31:27 +0200
-Date: Thu, 9 Jan 2020 18:31:27 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Mario Kleiner <mario.kleiner.de@gmail.com>
-Subject: Re: [PATCH] drm/i915/dp: Add current maximum eDP link rate to
- sink_rate array.
-Message-ID: <20200109163127.GC13686@intel.com>
-References: <20200109150752.28098-1-mario.kleiner.de@gmail.com>
- <20200109152656.GP1208@intel.com> <20200109153815.GQ1208@intel.com>
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
+ [IPv6:2607:f8b0:4864:20::841])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 056996E91E
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2020 16:34:05 +0000 (UTC)
+Received: by mail-qt1-x841.google.com with SMTP id w30so5149127qtd.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2020 08:34:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=1y196/fnbEpnC9sIv+FxPS9US7j6TCqpE/hgHgeZN80=;
+ b=EhEf2Ypd4dMBZL1Z4eZQUoeoV1U/sfXOUNMlTk4oE2ubSg61VXz6zmuEgcWWwsmB+J
+ 4J6HAPRoVsWWYJOFUxJk9ytcjgQULw+3vyUeU6CqlrluWB8XDJ6jM21AvFyzDL3tjNXH
+ KfJ/hs7ieC+9nuZBKUxFfBBywnXjZksJ/xH6+nNA3q2db4/Qt4xj723DkuY5Bg9mq7PK
+ yLOw9G7pSPhxDmIaBlfbb8l+eayJyYWZaWFYWj14m7ObLCal1BC92/pOB7Ygm+4xMITK
+ W+o35n+tcdTqpW555uSrmszyURHyA/vInaYt/U4aw2272ihdC0Oz8XbirSqxxuXOwHnQ
+ K6Gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=1y196/fnbEpnC9sIv+FxPS9US7j6TCqpE/hgHgeZN80=;
+ b=M/KijeecCZ2DJCI+DFoGk1AveQztW4PDGzouRh5DjSurJaOZZkBZrWIl6Y8oqsqoH/
+ QUsU5s0RwVNO7Vgo0rIu/8hXCLjaL83bm4gnavAedtsH/qsxqW2DuXGR+JC12BPjcMWD
+ FqsqgWWmjsj3uWem5wVDr5NJ1cDK2QTPKU0i5h/BwykaV+fFvbWIriznNe4ctR5vScjF
+ Q9i6sE4P7IOEX2JmLCJEwjD95fwEgz1MpR5SaahmATubUgm3QSpjTJ4nCU+2/Y0cjKxB
+ aKA36fJ1Lvyfw8no3ND4/yJe9REBFFdsoBWBirm+eD5qV11Ufmup/LwcgeXqW1PkxpEc
+ 0Qvw==
+X-Gm-Message-State: APjAAAW6fVttQTTH+jRS0cmYdxLEHy6i8Yk1MyIvYXTpRFR6BImU1qbH
+ bhLkcOjDprv0fkXHZamNPIgzcZlSUQLa/QHCqmQdTQ==
+X-Google-Smtp-Source: APXvYqxidMsdaPP4lby56x2DJB/wrUu01RgG4Ruw+w38dqIgvpt/xG0nzmnXjBgDvkhYqRbjZLO1BxdtoV/O6qzpccA=
+X-Received: by 2002:ac8:33ab:: with SMTP id c40mr8822381qtb.250.1578587644018; 
+ Thu, 09 Jan 2020 08:34:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200109153815.GQ1208@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20191119105753.32363-1-benjamin.gaignard@st.com>
+ <CA+M3ks7C+_B+4Jxy+55bFoWct7j=WseoPKxxh7KLOZ0LhEUL7Q@mail.gmail.com>
+ <17fdbb6a-493d-d47c-9acf-3c79032359b0@st.com>
+In-Reply-To: <17fdbb6a-493d-d47c-9acf-3c79032359b0@st.com>
+From: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+Date: Thu, 9 Jan 2020 17:33:53 +0100
+Message-ID: <CA+M3ks5d9Vjw6kF1YsJVnx1HDOpvNiuMQUGgANfjd=XDohpjfA@mail.gmail.com>
+Subject: Re: [PATCH] drm/fb-cma-helpers: Fix include issue
+To: Benjamin GAIGNARD <benjamin.gaignard@st.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,182 +63,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mario.kleiner.de@gmail.de, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 09, 2020 at 05:38:15PM +0200, Ville Syrj=E4l=E4 wrote:
-> On Thu, Jan 09, 2020 at 05:26:57PM +0200, Ville Syrj=E4l=E4 wrote:
-> > On Thu, Jan 09, 2020 at 04:07:52PM +0100, Mario Kleiner wrote:
-> > > If the current eDP link rate, as read from hw, provides a
-> > > higher bandwidth than the standard link rates, then add the
-> > > current link rate to the link_rates array for consideration
-> > > in future mode-sets.
-> > > =
-
-> > > These initial current eDP link settings have been set up by
-> > > firmware during boot, so they should work on the eDP panel.
-> > > Therefore use them if the firmware thinks they are good and
-> > > they provide higher link bandwidth, e.g., to enable higher
-> > > resolutions / color depths.
-> > > =
-
-> > > This fixes a problem found on the MacBookPro 2017 Retina panel:
-> > > =
-
-> > > The panel reports 10 bpc color depth in its EDID, and the UEFI
-> > > firmware chooses link settings at boot which support enough
-> > > bandwidth for 10 bpc (324000 kbit/sec to be precise), but the
-> > > DP_MAX_LINK_RATE dpcd register only reports 2.7 Gbps as possible,
-> =
-
-> Does it actually or do we just ignore the fact that it reports 3.24Gbps?
-> =
-
-> If it really reports 3.24 then we should be able to just add that to
-> dp_rates[] in intel_dp_set_sink_rates() and be done with it.
-> =
-
-> Although we'd likely want to skip 3.24 unless it really is reported
-> as the max so as to not use that non-standard rate on other displays.
-> So would require a bit fancier logic for that.
-
-Maybe just something like this?
-
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -177,6 +177,12 @@ static void intel_dp_set_sink_rates(struct intel_dp *i=
-ntel_dp)
-                intel_dp->sink_rates[i] =3D dp_rates[i];
-        }
- =
-
-+       /* blah */
-+       if (max_rate > intel_dp->sink_rates[i - 1]) {
-+               DRM_DEBUG_KMS(...);
-+               intel_dp->sink_rates[i++] =3D max_rate;
-+       }
-+
-        intel_dp->num_sink_rates =3D i;
-
-> =
-
-> > > so intel_dp_set_sink_rates() would cap at that. This restricts
-> > > achievable color depth to 8 bpc, not providing the full color
-> > > depth of the panel. With this commit, we can use firmware setting
-> > > and get the full 10 bpc advertised by the Retina panel.
-> > > =
-
-> > > Signed-off-by: Mario Kleiner <mario.kleiner.de@gmail.com>
-> > > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > > ---
-> > >  drivers/gpu/drm/i915/display/intel_dp.c | 23 +++++++++++++++++++++++
-> > >  1 file changed, 23 insertions(+)
-> > > =
-
-> > > diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/dr=
-m/i915/display/intel_dp.c
-> > > index 2f31d226c6eb..aa3e0b5108c6 100644
-> > > --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> > > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> > > @@ -4368,6 +4368,8 @@ intel_edp_init_dpcd(struct intel_dp *intel_dp)
-> > >  {
-> > >  	struct drm_i915_private *dev_priv =3D
-> > >  		to_i915(dp_to_dig_port(intel_dp)->base.base.dev);
-> > > +	int max_rate;
-> > > +	u8 link_bw;
-> > >  =
-
-> > >  	/* this function is meant to be called only once */
-> > >  	WARN_ON(intel_dp->dpcd[DP_DPCD_REV] !=3D 0);
-> > > @@ -4433,6 +4435,27 @@ intel_edp_init_dpcd(struct intel_dp *intel_dp)
-> > >  	else
-> > >  		intel_dp_set_sink_rates(intel_dp);
-> > >  =
-
-> > > +	/*
-> > > +	 * If the firmware programmed a rate higher than the standard sink =
-rates
-> > > +	 * during boot, then add that rate as a valid sink rate, as fw knows
-> > > +	 * this is a good rate and we get extra bandwidth.
-> > > +	 *
-> > > +	 * Helps, e.g., on the Apple MacBookPro 2017 Retina panel, which is=
- only
-> > > +	 * eDP 1.1, but supports the unusual rate of 324000 kHz at bootup, =
-for
-> > > +	 * 10 bpc / 30 bit color depth.
-> > > +	 */
-> > > +	if (!intel_dp->use_rate_select &&
-> > > +	    (drm_dp_dpcd_read(&intel_dp->aux, DP_LINK_BW_SET, &link_bw, 1) =
-=3D=3D 1) &&
-> > > +	    (link_bw > 0) && (intel_dp->num_sink_rates < DP_MAX_SUPPORTED_R=
-ATES)) {
-> > > +		max_rate =3D drm_dp_bw_code_to_link_rate(link_bw);
-> > > +		if (max_rate > intel_dp->sink_rates[intel_dp->num_sink_rates - 1])=
- {
-> > > +			intel_dp->sink_rates[intel_dp->num_sink_rates] =3D max_rate;
-> > > +			intel_dp->num_sink_rates++;
-> > > +			DRM_DEBUG_KMS("Adding max bandwidth eDP rate %d kHz.\n",
-> > > +				      max_rate);
-> > > +		}
-> > =
-
-> > Hmm. I guess we could do this. But plese put it into a separate
-> > function so we don't end up with that super ugly if condition.
-> > =
-
-> > The debug message should probably be a bit more explicit. Eg. =
-
-> > something like: =
-
-> > "Firmware using non-standard link rate %d kHz. Including it in sink rat=
-es.\n"
-> > =
-
-> > I'm also wondering if we shouldn't just add the link rate to the sink
-> > rates regradless of whether it's the highest rate or not...
-> > =
-
-> > > +	}
-> > > +
-> > >  	intel_dp_set_common_rates(intel_dp);
-> > >  =
-
-> > >  	/* Read the eDP DSC DPCD registers */
-> > > -- =
-
-> > > 2.24.0
-> > > =
-
-> > > _______________________________________________
-> > > dri-devel mailing list
-> > > dri-devel@lists.freedesktop.org
-> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> > =
-
-> > -- =
-
-> > Ville Syrj=E4l=E4
-> > Intel
-> =
-
-> -- =
-
-> Ville Syrj=E4l=E4
-> Intel
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+TGUgamV1LiA5IGphbnYuIDIwMjAgw6AgMTc6MjksIEJlbmphbWluIEdBSUdOQVJECjxiZW5qYW1p
+bi5nYWlnbmFyZEBzdC5jb20+IGEgw6ljcml0IDoKPgo+Cj4gT24gMTIvMy8xOSA1OjQ5IFBNLCBC
+ZW5qYW1pbiBHYWlnbmFyZCB3cm90ZToKPiA+IExlIG1lci4gMjAgbm92LiAyMDE5IMOgIDAwOjI4
+LCBCZW5qYW1pbiBHYWlnbmFyZAo+ID4gPGJlbmphbWluLmdhaWduYXJkQHN0LmNvbT4gYSDDqWNy
+aXQgOgo+ID4+IEV4cG9ydGVkIGZ1bmN0aW9ucyBwcm90b3R5cGVzIGFyZSBtaXNzaW5nIGluIGRy
+bV9mYl9jbWFfaGVscGVyLmMKPiA+PiBJbmNsdWRlIGRybV9mYl9jbWFfaGVscGVyIHRvIGZpeCB0
+aGF0IGlzc3VlLgo+ID4+Cj4gPiBHZW50bGUgcGluZyB0byByZXZpZXdlcnMuCj4gPiBUaGFua3Ms
+Cj4gPiBCZW5qYW1pbgo+Cj4gSSBrbm93IHRoYXQgcmVtb3Zpbmcgd2FybmluZ3MgaXMgbm90IGEg
+c2V4eSB0YXNrLCBidXQgcmV2aWV3ZXJzIGFyZSB3ZWxjb21lLgoKQXBwbGllZCBvbiBkcm0tbWlz
+Yy1uZXh0LCB3aXRoIFRob21hcyBhY2sgZXZlbiBpZiBkcmkgcGF0Y2h3b3JrIGRvZXNuJ3Qgc2hv
+dyBpdC4KClRoYW5rcwpCZW5qYW1pbgoKPgo+IFRoYW5rcywKPgo+IEJlbmphbWluCj4KPiA+Cj4g
+Pj4gU2lnbmVkLW9mZi1ieTogQmVuamFtaW4gR2FpZ25hcmQgPGJlbmphbWluLmdhaWduYXJkQHN0
+LmNvbT4KPiA+PiAtLS0KPiA+PiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fZmJfY21hX2hlbHBlci5j
+IHwgMSArCj4gPj4gICBpbmNsdWRlL2RybS9kcm1fZmJfY21hX2hlbHBlci5oICAgICB8IDIgKysK
+PiA+PiAgIDIgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspCj4gPj4KPiA+PiBkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9mYl9jbWFfaGVscGVyLmMgYi9kcml2ZXJzL2dwdS9k
+cm0vZHJtX2ZiX2NtYV9oZWxwZXIuYwo+ID4+IGluZGV4IGMwYjBmNjAzYWY2My4uOTgwMWMwMzMz
+ZWNhIDEwMDY0NAo+ID4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJfY21hX2hlbHBlci5j
+Cj4gPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9mYl9jbWFfaGVscGVyLmMKPiA+PiBAQCAt
+OSw2ICs5LDcgQEAKPiA+PiAgICAqICBDb3B5cmlnaHQgKEMpIDIwMTIgUmVkIEhhdAo+ID4+ICAg
+ICovCj4gPj4KPiA+PiArI2luY2x1ZGUgPGRybS9kcm1fZmJfY21hX2hlbHBlci5oPgo+ID4+ICAg
+I2luY2x1ZGUgPGRybS9kcm1fZm91cmNjLmg+Cj4gPj4gICAjaW5jbHVkZSA8ZHJtL2RybV9mcmFt
+ZWJ1ZmZlci5oPgo+ID4+ICAgI2luY2x1ZGUgPGRybS9kcm1fZ2VtX2NtYV9oZWxwZXIuaD4KPiA+
+PiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX2ZiX2NtYV9oZWxwZXIuaCBiL2luY2x1ZGUv
+ZHJtL2RybV9mYl9jbWFfaGVscGVyLmgKPiA+PiBpbmRleCA0YmVjYjA5OTc1YTQuLjc5NWFlYTFk
+MGEyNSAxMDA2NDQKPiA+PiAtLS0gYS9pbmNsdWRlL2RybS9kcm1fZmJfY21hX2hlbHBlci5oCj4g
+Pj4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX2ZiX2NtYV9oZWxwZXIuaAo+ID4+IEBAIC0yLDYgKzIs
+OCBAQAo+ID4+ICAgI2lmbmRlZiBfX0RSTV9GQl9DTUFfSEVMUEVSX0hfXwo+ID4+ICAgI2RlZmlu
+ZSBfX0RSTV9GQl9DTUFfSEVMUEVSX0hfXwo+ID4+Cj4gPj4gKyNpbmNsdWRlIDxsaW51eC90eXBl
+cy5oPgo+ID4+ICsKPiA+PiAgIHN0cnVjdCBkcm1fZnJhbWVidWZmZXI7Cj4gPj4gICBzdHJ1Y3Qg
+ZHJtX3BsYW5lX3N0YXRlOwo+ID4+Cj4gPj4gLS0KPiA+PiAyLjE1LjAKPiA+Pgo+ID4+IF9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gPj4gZHJpLWRldmVs
+IG1haWxpbmcgbGlzdAo+ID4+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+PiBo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbApf
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
+bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
+cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
