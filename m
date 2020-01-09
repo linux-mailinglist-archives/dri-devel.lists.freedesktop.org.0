@@ -1,36 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D97F51359C1
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 14:10:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76B84135A19
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 14:29:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBAE96E418;
-	Thu,  9 Jan 2020 13:10:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C16556E40B;
+	Thu,  9 Jan 2020 13:29:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4EA406E416
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2020 13:10:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id DE7ED6E40B
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2020 13:29:42 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B2FD031B;
- Thu,  9 Jan 2020 05:10:36 -0800 (PST)
-Received: from [10.1.196.37] (e121345-lin.cambridge.arm.com [10.1.196.37])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 95ED13F534;
- Thu,  9 Jan 2020 05:10:34 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6179E31B;
+ Thu,  9 Jan 2020 05:29:42 -0800 (PST)
+Received: from arm.com (e112269-lin.cambridge.arm.com [10.1.194.52])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 65F263F534;
+ Thu,  9 Jan 2020 05:29:40 -0800 (PST)
+Date: Thu, 9 Jan 2020 13:29:35 +0000
+From: Steven Price <steven.price@arm.com>
+To: Robin Murphy <robin.murphy@arm.com>
 Subject: Re: [PATCH v2 0/7] Add dts for mt8183 GPU (and misc panfrost patches)
-To: Steven Price <steven.price@arm.com>,
- Nicolas Boichat <drinkcat@chromium.org>, Rob Herring <robh+dt@kernel.org>
+Message-ID: <20200109132934.GA6198@arm.com>
 References: <20200108052337.65916-1-drinkcat@chromium.org>
  <79fe7055-c11b-c9f6-64e5-48e3d5687dfe@arm.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <ca77cd74-b747-20c4-b07c-60df23421690@arm.com>
-Date: Thu, 9 Jan 2020 13:10:33 +0000
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ <ca77cd74-b747-20c4-b07c-60df23421690@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <79fe7055-c11b-c9f6-64e5-48e3d5687dfe@arm.com>
-Content-Language: en-GB
+Content-Disposition: inline
+In-Reply-To: <ca77cd74-b747-20c4-b07c-60df23421690@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,118 +42,226 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+Cc: Mark Rutland <Mark.Rutland@arm.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Nicolas Boichat <drinkcat@chromium.org>,
  Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- linux-mediatek@lists.infradead.org,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>, hsinyi@chromium.org,
+ Mark Brown <broonie@kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ "hsinyi@chromium.org" <hsinyi@chromium.org>,
  Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMDkvMDEvMjAyMCAxMjowMSBwbSwgU3RldmVuIFByaWNlIHdyb3RlOgo+IE9uIDA4LzAxLzIw
-MjAgMDU6MjMsIE5pY29sYXMgQm9pY2hhdCB3cm90ZToKPj4gSGkhCj4+Cj4+IFNvcnJ5IGZvciB0
-aGUgbG9uZyBkZWxheSBzaW5jZSAKPj4gaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9wYXRj
-aC8xMTEzMjM4MS8sCj4+IGZpbmFsbHkgZ290IGFyb3VuZCB0byBnaXZlIHRoaXMgYSByZWFsIHRy
-eS4KPj4KPj4gVGhlIG1haW4gcHVycG9zZSBvZiB0aGlzIHNlcmllcyBpcyB0byB1cHN0cmVhbSB0
-aGUgZHRzIGNoYW5nZSBhbmQgdGhlIAo+PiBiaW5kaW5nCj4+IGRvY3VtZW50LCBidXQgSSB3YW50
-ZWQgdG8gc2VlIGhvdyBmYXIgSSBjb3VsZCBwcm9iZSB0aGUgR1BVLCB0byBjaGVjayAKPj4gdGhh
-dCB0aGUKPj4gYmluZGluZyBpcyBpbmRlZWQgY29ycmVjdC4gVGhlIHJlc3Qgb2YgdGhlIHBhdGNo
-ZXMgYXJlIAo+PiBSRkMvd29yay1pbi1wcm9ncmVzcywgYnV0Cj4+IEkgdGhpbmsgc29tZSBvZiB0
-aGVtIGNvdWxkIGFscmVhZHkgYmUgcGlja2VkIHVwLgo+Pgo+PiBTbyB0aGlzIGlzIHRlc3RlZCBv
-biBNVDgxODMgd2l0aCBhIGNocm9tZW9zLTQuMTkga2VybmVsLCBhbmQgYSB0b24gb2YKPj4gYmFj
-a3BvcnRzIHRvIGdldCB0aGUgbGF0ZXN0IHBhbmZyb3N0IGRyaXZlciAoSSBzaG91bGQgcHJvYmFi
-bHkgdHJ5IG9uCj4+IGxpbnV4LW5leHQgYXQgc29tZSBwb2ludCBidXQgdGhpcyB3YXMgdGhlIHBh
-dGggb2YgbGVhc3QgcmVzaXN0YW5jZSkuCj4+Cj4+IEkgdGVzdGVkIGl0IGFzIGEgbW9kdWxlIGFz
-IGl0J3MgbW9yZSBjaGFsbGVuZ2luZyAob3JpZ2luYWxseSBwcm9iaW5nIAo+PiB3b3VsZAo+PiB3
-b3JrIGJ1aWx0LWluLCBvbiBib290LCBidXQgbm90IGFzIGEgbW9kdWxlLCBhcyBJIGRpZG4ndCBo
-YXZlIHRoZSBwb3dlcgo+PiBkb21haW4gY2hhbmdlcywgYW5kIGFsbCBwb3dlciBkb21haW5zIGFy
-ZSBvbiBieSBkZWZhdWx0IGR1cmluZyBib290KS4KPj4KPj4gUHJvYmluZyBsb2dzIGxvb2tzIGxp
-a2UgdGhpcywgY3VycmVudGx5Ogo+PiBbwqAgMjIxLjg2NzcyNl0gcGFuZnJvc3QgMTMwNDAwMDAu
-Z3B1OiBjbG9jayByYXRlID0gNTExOTk5OTcwCj4+IFvCoCAyMjEuODY3OTI5XSBwYW5mcm9zdCAx
-MzA0MDAwMC5ncHU6IExpbmtlZCBhcyBhIGNvbnN1bWVyIHRvIAo+PiByZWd1bGF0b3IuMTQKPj4g
-W8KgIDIyMS44Njg2MDBdIHBhbmZyb3N0IDEzMDQwMDAwLmdwdTogTGlua2VkIGFzIGEgY29uc3Vt
-ZXIgdG8gCj4+IHJlZ3VsYXRvci4zMQo+PiBbwqAgMjIxLjg3MDU4Nl0gcGFuZnJvc3QgMTMwNDAw
-MDAuZ3B1OiBMaW5rZWQgYXMgYSBjb25zdW1lciB0byAKPj4gZ2VucGQ6MDoxMzA0MDAwMC5ncHUK
-Pj4gW8KgIDIyMS44NzE0OTJdIHBhbmZyb3N0IDEzMDQwMDAwLmdwdTogTGlua2VkIGFzIGEgY29u
-c3VtZXIgdG8gCj4+IGdlbnBkOjE6MTMwNDAwMDAuZ3B1Cj4+IFvCoCAyMjEuODcxODY2XSBwYW5m
-cm9zdCAxMzA0MDAwMC5ncHU6IExpbmtlZCBhcyBhIGNvbnN1bWVyIHRvIAo+PiBnZW5wZDoyOjEz
-MDQwMDAwLmdwdQo+PiBbwqAgMjIxLjg3MjQyN10gcGFuZnJvc3QgMTMwNDAwMDAuZ3B1OiBtYWxp
-LWc3MiBpZCAweDYyMjEgbWFqb3IgMHgwIAo+PiBtaW5vciAweDMgc3RhdHVzIDB4MAo+PiBbwqAg
-MjIxLjg3MjQzOV0gcGFuZnJvc3QgMTMwNDAwMDAuZ3B1OiBmZWF0dXJlczogMDAwMDAwMDAsMTNk
-ZTc3ZmYsIAo+PiBpc3N1ZXM6IDAwMDAwMDAwLDAwMDAwNDAwCj4+IFvCoCAyMjEuODcyNDQ1XSBw
-YW5mcm9zdCAxMzA0MDAwMC5ncHU6IEZlYXR1cmVzOiBMMjoweDA3MTIwMjA2IAo+PiBTaGFkZXI6
-MHgwMDAwMDAwMCBUaWxlcjoweDAwMDAwODA5IE1lbToweDEgTU1VOjB4MDAwMDI4MzAgQVM6MHhm
-ZiBKUzoweDcKPj4gW8KgIDIyMS44NzI0NDldIHBhbmZyb3N0IDEzMDQwMDAwLmdwdTogc2hhZGVy
-X3ByZXNlbnQ9MHg3IGwyX3ByZXNlbnQ9MHgxCj4+IFvCoCAyMjEuODczNTI2XSBwYW5mcm9zdCAx
-MzA0MDAwMC5ncHU6IGVycm9yIHBvd2VyaW5nIHVwIGdwdSBzdGFjawo+PiBbwqAgMjIxLjg3ODA4
-OF0gW2RybV0gSW5pdGlhbGl6ZWQgcGFuZnJvc3QgMS4xLjAgMjAxODA5MDggZm9yIAo+PiAxMzA0
-MDAwMC5ncHUgb24gbWlub3IgMgo+PiBbwqAgMjIxLjk0MDgxN10gcGFuZnJvc3QgMTMwNDAwMDAu
-Z3B1OiBlcnJvciBwb3dlcmluZyB1cCBncHUgc3RhY2sKPj4gW8KgIDIyMi4wMTgyMzNdIHBhbmZy
-b3N0IDEzMDQwMDAwLmdwdTogZXJyb3IgcG93ZXJpbmcgdXAgZ3B1IHN0YWNrCj4+IChyZXBlYXRl
-ZCkKPiAKPiBJdCdzIGludGVyZXN0aW5nIHRoYXQgaXQncyBvbmx5IHRoZSBzdGFjayB0aGF0IGlz
-IGZhaWxpbmcuIEluIGhhcmR3YXJlIAo+IHRoZXJlJ3MgYSBkZXBlbmRlbmN5OiBMMi0+c3RhY2st
-PnNoYWRlciAtIHNvIGluIHRoZW9yeSB0aGUgc2hhZGVyIGNvcmVzIAo+IHNob3VsZG4ndCBiZSBh
-YmxlIHRvIHBvd2VyIHVwIGVpdGhlci4gVGhlcmUgYXJlIHNvbWUga25vd24gaGFyZHdhcmUgYnVn
-cyAKPiBoZXJlIHRob3VnaFsxXToKPiAKPiAgwqDCoMKgwqBNT0RVTEVfUEFSTV9ERVNDKGNvcmVz
-dGFja19kcml2ZXJfY29udHJvbCwKPiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAiTGV0IHRoZSBk
-cml2ZXIgcG93ZXIgb24vb2ZmIHRoZSBHUFUgY29yZSBzdGFjayAKPiBpbmRlcGVuZGVudGx5ICIK
-PiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAid2l0aG91dCBpbnZvbHZpbmcgdGhlIFBvd2VyIERv
-bWFpbiBDb250cm9sbGVyLiBUaGlzIHNob3VsZCAiCj4gIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-Im9ubHkgYmUgZW5hYmxlZCBvbiBwbGF0Zm9ybXMgZm9yIHdoaWNoIGludGVncmF0aW9uIG9mIHRo
-ZSAKPiBQREMgIgo+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICJ0byB0aGUgTWFsaSBHUFUgaXMg
-a25vd24gdG8gYmUgcHJvYmxlbWF0aWMuIik7Cj4gCj4gWzFdIAo+IGh0dHBzOi8vZ2l0aHViLmNv
-bS9pYW5tYWNkL2Qycy9ibG9iL21hc3Rlci9kcml2ZXJzL2dwdS9hcm0vYl9yMTZwMC9iYWNrZW5k
-L2dwdS9tYWxpX2tiYXNlX3BtX2RyaXZlci5jI0w1NyAKPiAKPiAKPiBJdCBtaWdodCBiZSB3b3J0
-aCBqdXN0IGRyb3BwaW5nIHRoZSBjb2RlIGZvciBwb3dlcmluZyB1cC9kb3duIHN0YWNrcyBhbmQg
-Cj4gbGV0IHRoZSBHUFUncyBvd24gZGVwZW5kZW5jeSBtYW5hZ2VtZW50IGhhbmRsZSBpdC4KCkZX
-SVcgSSByZW1lbWJlciBkaWdnaW5nIGludG8gdGhhdCBzYW1lIG1lc3NhZ2UgYSB3aGlsZSBiYWNr
-IChhbHRob3VnaCAKSSd2ZSBmb3Jnb3R0ZW4gd2hpY2ggcGFydGljdWxhciBHUFUgSSB3YXMgcGxh
-eWluZyB3aXRoIGF0IHRoZSB0aW1lKSwgYW5kIApjb25jbHVkZWQgdGhhdCB0aGUgU1RBQ0tfUFdS
-T04vU1RBQ0tfUkVBRFkgcmVnaXN0ZXJzIG1pZ2h0IGp1c3Qgbm90IGJlIAppbXBsZW1lbnRlZCBv
-biBzb21lIEdQVXMsIGFuZC9vciB0aGlzIGVhc3ktdG8tb3Zlcmxvb2sgcmVnaXN0ZXIgYml0IApj
-b3VsZCBiZSBzb21lIGtpbmQgb2YgZW5hYmxlIGZvciB0aGUgZnVuY3Rpb25hbGl0eToKCmh0dHBz
-Oi8vZ2l0aHViLmNvbS9pYW5tYWNkL2Qycy9ibG9iL21hc3Rlci9kcml2ZXJzL2dwdS9hcm0vYl9y
-MTZwMC9iYWNrZW5kL2dwdS9tYWxpX2tiYXNlX3BtX2RyaXZlci5jI0wxNjMxCgpTaW5jZSBldmVu
-IGluIGtiYXNlIHRoaXMgaXMgYWxsIGJlaGluZCBhbiAnZXhwZXJ0JyBjb25maWcgb3B0aW9uLCBJ
-J20gCmluY2xpbmVkIHRvIGFncmVlIHRoYXQganVzdCBkcm9wcGluZyBpdCBmcm9tIHBhbmZyb3N0
-IHVubGVzcyBhbmQgdW50aWwgCml0IHByb3ZlcyBuZWNlc3NhcnkgaXMgcHJvYmFibHkgcHJlZmVy
-YWJsZSB0byBhZGRpbmcgbW9yZSBsb2dpYyBhbmQgCmluc2NydXRhYmxlIHJlZ2lzdGVyLW1hZ2lj
-LgoKUm9iaW4uCgo+IAo+IFN0ZXZlCj4gCj4+Cj4+IFNvIHRoZSBHUFUgaXMgcHJvYmVkLCBidXQg
-dGhlcmUncyBhbiBpc3N1ZSB3aGVuIHBvd2VyaW5nIHVwIHRoZSBTVEFDSywgCj4+IG5vdAo+PiBx
-dWl0ZSBzdXJlIHdoeSwgSSdsbCB0cnkgdG8gaGF2ZSBhIGRlZXBlciBsb29rLCBhdCBzb21lIHBv
-aW50Lgo+Pgo+PiBUaGFua3MhCj4+Cj4+IE5pY29sYXMKPj4KPj4gdjI6Cj4+IMKgIC0gVXNlIHNy
-YW0gaW5zdGVhZCBvZiBtYWxpX3NyYW0gYXMgU1JBTSBzdXBwbHkgbmFtZS4KPj4gwqAgLSBSZW5h
-bWUgbWFsaUAgdG8gZ3B1QC4KPj4gwqAgLSBBZGQgZHQtYmluZGluZ3MgY2hhbmdlcwo+PiDCoCAt
-IFN0YWNraW5nIHBhdGNoZXMgYWZ0ZXIgdGhlIGRldmljZSB0cmVlIGNoYW5nZSB0aGF0IGFsbG93
-IGJhc2ljCj4+IMKgwqDCoCBwcm9iaW5nIChzdGlsbCBpbmNvbXBsZXRlIGFuZCBicm9rZW4pLgo+
-Pgo+PiBOaWNvbGFzIEJvaWNoYXQgKDcpOgo+PiDCoMKgIGR0LWJpbmRpbmdzOiBncHU6IG1hbGkt
-Ymlmcm9zdDogQWRkIE1lZGlhdGVrIE1UODE4Mwo+PiDCoMKgIGFybTY0OiBkdHM6IG10ODE4Mzog
-QWRkIG5vZGUgZm9yIHRoZSBNYWxpIEdQVQo+PiDCoMKgIGRybS9wYW5mcm9zdDogSW1wcm92ZSBl
-cnJvciByZXBvcnRpbmcgaW4gcGFuZnJvc3RfZ3B1X3Bvd2VyX29uCj4+IMKgwqAgZHJtL3BhbmZy
-b3N0OiBBZGQgc3VwcG9ydCBmb3IgYSBzZWNvbmQgcmVndWxhdG9yIGZvciB0aGUgR1BVCj4+IMKg
-wqAgZHJtL3BhbmZyb3N0OiBBZGQgc3VwcG9ydCBmb3IgbXVsdGlwbGUgcG93ZXIgZG9tYWluIHN1
-cHBvcnQKPj4gwqDCoCBSRkM6IGRybS9wYW5mcm9zdDogQWRkIGJpZnJvc3QgY29tcGF0aWJsZSBz
-dHJpbmcKPj4gwqDCoCBSRkM6IGRybS9wYW5mcm9zdDogZGV2ZnJlcTogQWRkIHN1cHBvcnQgZm9y
-IDIgcmVndWxhdG9ycwo+Pgo+PiDCoCAuLi4vYmluZGluZ3MvZ3B1L2FybSxtYWxpLWJpZnJvc3Qu
-eWFtbMKgwqDCoMKgwqDCoMKgIHzCoCAyMCArKysrCj4+IMKgIGFyY2gvYXJtNjQvYm9vdC9kdHMv
-bWVkaWF0ZWsvbXQ4MTgzLWV2Yi5kdHPCoMKgIHzCoMKgIDcgKysKPj4gwqAgYXJjaC9hcm02NC9i
-b290L2R0cy9tZWRpYXRlay9tdDgxODMuZHRzacKgwqDCoMKgwqAgfCAxMDQgKysrKysrKysrKysr
-KysrKysKPj4gwqAgZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2RldmZyZXEuY8Kg
-wqAgfMKgIDE4ICsrKwo+PiDCoCBkcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZGV2
-aWNlLmPCoMKgwqAgfCAxMDggKysrKysrKysrKysrKysrKy0tCj4+IMKgIGRyaXZlcnMvZ3B1L2Ry
-bS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZpY2UuaMKgwqDCoCB8wqDCoCA3ICsrCj4+IMKgIGRyaXZl
-cnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kcnYuY8KgwqDCoMKgwqDCoCB8wqDCoCAxICsK
-Pj4gwqAgZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2dwdS5jwqDCoMKgwqDCoMKg
-IHzCoCAxNSArKy0KPj4gwqAgOCBmaWxlcyBjaGFuZ2VkLCAyNjcgaW5zZXJ0aW9ucygrKSwgMTMg
-ZGVsZXRpb25zKC0pCj4+Cj4gCj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbAo=
+On Thu, Jan 09, 2020 at 01:10:33PM +0000, Robin Murphy wrote:
+> On 09/01/2020 12:01 pm, Steven Price wrote:
+> > On 08/01/2020 05:23, Nicolas Boichat wrote:
+> >> Hi!
+> >>
+> >> Sorry for the long delay since =
+
+> >> https://patchwork.kernel.org/patch/11132381/,
+> >> finally got around to give this a real try.
+> >>
+> >> The main purpose of this series is to upstream the dts change and the =
+
+> >> binding
+> >> document, but I wanted to see how far I could probe the GPU, to check =
+
+> >> that the
+> >> binding is indeed correct. The rest of the patches are =
+
+> >> RFC/work-in-progress, but
+> >> I think some of them could already be picked up.
+> >>
+> >> So this is tested on MT8183 with a chromeos-4.19 kernel, and a ton of
+> >> backports to get the latest panfrost driver (I should probably try on
+> >> linux-next at some point but this was the path of least resistance).
+> >>
+> >> I tested it as a module as it's more challenging (originally probing =
+
+> >> would
+> >> work built-in, on boot, but not as a module, as I didn't have the power
+> >> domain changes, and all power domains are on by default during boot).
+> >>
+> >> Probing logs looks like this, currently:
+> >> [=A0 221.867726] panfrost 13040000.gpu: clock rate =3D 511999970
+> >> [=A0 221.867929] panfrost 13040000.gpu: Linked as a consumer to =
+
+> >> regulator.14
+> >> [=A0 221.868600] panfrost 13040000.gpu: Linked as a consumer to =
+
+> >> regulator.31
+> >> [=A0 221.870586] panfrost 13040000.gpu: Linked as a consumer to =
+
+> >> genpd:0:13040000.gpu
+> >> [=A0 221.871492] panfrost 13040000.gpu: Linked as a consumer to =
+
+> >> genpd:1:13040000.gpu
+> >> [=A0 221.871866] panfrost 13040000.gpu: Linked as a consumer to =
+
+> >> genpd:2:13040000.gpu
+> >> [=A0 221.872427] panfrost 13040000.gpu: mali-g72 id 0x6221 major 0x0 =
+
+> >> minor 0x3 status 0x0
+> >> [=A0 221.872439] panfrost 13040000.gpu: features: 00000000,13de77ff, =
+
+> >> issues: 00000000,00000400
+> >> [=A0 221.872445] panfrost 13040000.gpu: Features: L2:0x07120206 =
+
+> >> Shader:0x00000000 Tiler:0x00000809 Mem:0x1 MMU:0x00002830 AS:0xff JS:0=
+x7
+> >> [=A0 221.872449] panfrost 13040000.gpu: shader_present=3D0x7 l2_presen=
+t=3D0x1
+> >> [=A0 221.873526] panfrost 13040000.gpu: error powering up gpu stack
+> >> [=A0 221.878088] [drm] Initialized panfrost 1.1.0 20180908 for =
+
+> >> 13040000.gpu on minor 2
+> >> [=A0 221.940817] panfrost 13040000.gpu: error powering up gpu stack
+> >> [=A0 222.018233] panfrost 13040000.gpu: error powering up gpu stack
+> >> (repeated)
+> > =
+
+> > It's interesting that it's only the stack that is failing. In hardware =
+
+> > there's a dependency: L2->stack->shader - so in theory the shader cores =
+
+> > shouldn't be able to power up either. There are some known hardware bug=
+s =
+
+> > here though[1]:
+> > =
+
+> >  =A0=A0=A0=A0MODULE_PARM_DESC(corestack_driver_control,
+> >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 "Let the driver power on/off the GPU=
+ core stack =
+
+> > independently "
+> >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 "without involving the Power Domain =
+Controller. This should "
+> >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 "only be enabled on platforms for wh=
+ich integration of the =
+
+> > PDC "
+> >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 "to the Mali GPU is known to be prob=
+lematic.");
+> > =
+
+> > [1] =
+
+> > https://github.com/ianmacd/d2s/blob/master/drivers/gpu/arm/b_r16p0/back=
+end/gpu/mali_kbase_pm_driver.c#L57 =
+
+> > =
+
+> > =
+
+> > It might be worth just dropping the code for powering up/down stacks an=
+d =
+
+> > let the GPU's own dependency management handle it.
+> =
+
+> FWIW I remember digging into that same message a while back (although =
+
+> I've forgotten which particular GPU I was playing with at the time), and =
+
+> concluded that the STACK_PWRON/STACK_READY registers might just not be =
+
+> implemented on some GPUs,
+
+They are indeed not implemented on some GPUs. Specifically none of the
+Midgard GPUs. I believe G71 also doesn't have it. However the register
+addresses were picked so that on these older GPUs they should
+read-as-zero and write-ignore so this shouldn't actually cause any
+problems.
+
+> and/or this easy-to-overlook register bit =
+
+> could be some kind of enable for the functionality:
+> =
+
+> https://github.com/ianmacd/d2s/blob/master/drivers/gpu/arm/b_r16p0/backen=
+d/gpu/mali_kbase_pm_driver.c#L1631
+> =
+
+> Since even in kbase this is all behind an 'expert' config option, I'm =
+
+> inclined to agree that just dropping it from panfrost unless and until =
+
+> it proves necessary is probably preferable to adding more logic and =
+
+> inscrutable register-magic.
+
+Indeed - I'll post a patch removing it.
+
+Thanks,
+
+Steve
+
+> Robin.
+> =
+
+> > =
+
+> > Steve
+> > =
+
+> >>
+> >> So the GPU is probed, but there's an issue when powering up the STACK, =
+
+> >> not
+> >> quite sure why, I'll try to have a deeper look, at some point.
+> >>
+> >> Thanks!
+> >>
+> >> Nicolas
+> >>
+> >> v2:
+> >> =A0 - Use sram instead of mali_sram as SRAM supply name.
+> >> =A0 - Rename mali@ to gpu@.
+> >> =A0 - Add dt-bindings changes
+> >> =A0 - Stacking patches after the device tree change that allow basic
+> >> =A0=A0=A0 probing (still incomplete and broken).
+> >>
+> >> Nicolas Boichat (7):
+> >> =A0=A0 dt-bindings: gpu: mali-bifrost: Add Mediatek MT8183
+> >> =A0=A0 arm64: dts: mt8183: Add node for the Mali GPU
+> >> =A0=A0 drm/panfrost: Improve error reporting in panfrost_gpu_power_on
+> >> =A0=A0 drm/panfrost: Add support for a second regulator for the GPU
+> >> =A0=A0 drm/panfrost: Add support for multiple power domain support
+> >> =A0=A0 RFC: drm/panfrost: Add bifrost compatible string
+> >> =A0=A0 RFC: drm/panfrost: devfreq: Add support for 2 regulators
+> >>
+> >> =A0 .../bindings/gpu/arm,mali-bifrost.yaml=A0=A0=A0=A0=A0=A0=A0 |=A0 2=
+0 ++++
+> >> =A0 arch/arm64/boot/dts/mediatek/mt8183-evb.dts=A0=A0 |=A0=A0 7 ++
+> >> =A0 arch/arm64/boot/dts/mediatek/mt8183.dtsi=A0=A0=A0=A0=A0 | 104 ++++=
++++++++++++++
+> >> =A0 drivers/gpu/drm/panfrost/panfrost_devfreq.c=A0=A0 |=A0 18 +++
+> >> =A0 drivers/gpu/drm/panfrost/panfrost_device.c=A0=A0=A0 | 108 ++++++++=
+++++++++--
+> >> =A0 drivers/gpu/drm/panfrost/panfrost_device.h=A0=A0=A0 |=A0=A0 7 ++
+> >> =A0 drivers/gpu/drm/panfrost/panfrost_drv.c=A0=A0=A0=A0=A0=A0 |=A0=A0 =
+1 +
+> >> =A0 drivers/gpu/drm/panfrost/panfrost_gpu.c=A0=A0=A0=A0=A0=A0 |=A0 15 =
+++-
+> >> =A0 8 files changed, 267 insertions(+), 13 deletions(-)
+> >>
+> > =
+
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
