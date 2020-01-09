@@ -1,36 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD4C8135CA8
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 16:24:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 395FC135CB8
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 16:27:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3219C6E912;
-	Thu,  9 Jan 2020 15:24:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EB756E914;
+	Thu,  9 Jan 2020 15:27:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 534B46E912
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2020 15:24:34 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 093EF6E914;
+ Thu,  9 Jan 2020 15:27:00 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2020 07:24:33 -0800
-X-IronPort-AV: E=Sophos;i="5.69,414,1571727600"; d="scan'208";a="216331227"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2020 07:24:32 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Manasi Navare <manasi.d.navare@intel.com>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2] drm/dp: Add function to parse EDID descriptors for
- adaptive sync limits
-In-Reply-To: <20200108003208.18706-1-manasi.d.navare@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200108003208.18706-1-manasi.d.navare@intel.com>
-Date: Thu, 09 Jan 2020 17:24:30 +0200
-Message-ID: <87y2ugodox.fsf@intel.com>
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2020 07:27:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,414,1571727600"; d="scan'208";a="216331926"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga008.jf.intel.com with SMTP; 09 Jan 2020 07:26:57 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 09 Jan 2020 17:26:57 +0200
+Date: Thu, 9 Jan 2020 17:26:57 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Mario Kleiner <mario.kleiner.de@gmail.com>
+Subject: Re: [PATCH] drm/i915/dp: Add current maximum eDP link rate to
+ sink_rate array.
+Message-ID: <20200109152656.GP1208@intel.com>
+References: <20200109150752.28098-1-mario.kleiner.de@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200109150752.28098-1-mario.kleiner.de@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,113 +47,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Manasi Navare <manasi.d.navare@intel.com>,
- Nicholas Kazlauskas <nicholas.kazluaskas@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: mario.kleiner.de@gmail.de, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAwNyBKYW4gMjAyMCwgTWFuYXNpIE5hdmFyZSA8bWFuYXNpLmQubmF2YXJlQGludGVs
-LmNvbT4gd3JvdGU6Cj4gQWRhcHRpdmUgU3luYyBpcyBhIFZFU0EgZmVhdHVyZSBzbyBhZGQgYSBE
-Uk0gY29yZSBoZWxwZXIgdG8gcGFyc2UKPiB0aGUgRURJRCdzIGRldGFpbGVkIGRlc2NyaXRvcnMg
-dG8gb2J0YWluIHRoZSBhZGFwdGl2ZSBzeW5jIG1vbml0b3IgcmFuZ2UuCj4gU3RvcmUgdGhpcyBp
-bmZvIGFzIHBhcnQgZm8gZHJtX2Rpc3BsYXlfaW5mbyBzbyBpdCBjYW4gYmUgdXNlZAo+IGFjcm9z
-cyBhbGwgZHJpdmVycy4KPiBUaGlzIHBhcnQgb2YgdGhlIGNvZGUgaXMgc3RyaXBwZWQgb3V0IG9m
-IGFtZGdwdSdzIGZ1bmN0aW9uCj4gYW1kZ3B1X2RtX3VwZGF0ZV9mcmVlc3luY19jYXBzKCkgdG8g
-bWFrZSBpdCBnZW5lcmljIGFuZCBiZSB1c2VkCj4gYWNyb3NzIGFsbCBEUk0gZHJpdmVycwo+Cj4g
-djI6Cj4gKiBDaGFuZ2Ugdm1pbiBhbmQgdm1heCB0byB1c2UgdTggKFZpbGxlKQo+ICogRG9udCBz
-dG9yZSBwaXhlbCBjbG9jayBzaW5jZSB0aGF0IGlzIGp1c3QgYSBtYXggZG90Y2xvY2sKPiBhbmQg
-bm90IHJlbGF0ZWQgdG8gVlJSIG1vZGUgKE1hbmFzaSkKPgo+IENjOiBWaWxsZSBTeXJqw6Rsw6Qg
-PHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+IENjOiBIYXJyeSBXZW50bGFuZCA8aGFy
-cnkud2VudGxhbmRAYW1kLmNvbT4KPiBDYzogQ2xpbnRvbiBBIFRheWxvciA8Y2xpbnRvbi5hLnRh
-eWxvckBpbnRlbC5jb20+Cj4gQ2M6IE5pY2hvbGFzIEthemxhdXNrYXMgPG5pY2hvbGFzLmthemx1
-YXNrYXNAYW1kLmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBNYW5hc2kgTmF2YXJlIDxtYW5hc2kuZC5u
-YXZhcmVAaW50ZWwuY29tPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYyAgfCA1
-MSArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrCj4gIGluY2x1ZGUvZHJtL2Ry
-bV9jb25uZWN0b3IuaCB8IDIyICsrKysrKysrKysrKysrKysKPiAgaW5jbHVkZS9kcm0vZHJtX2Vk
-aWQuaCAgICAgIHwgIDIgKysKPiAgMyBmaWxlcyBjaGFuZ2VkLCA3NSBpbnNlcnRpb25zKCspCj4K
-PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9lZGlkLmMgYi9kcml2ZXJzL2dwdS9k
-cm0vZHJtX2VkaWQuYwo+IGluZGV4IDk5NzY5ZDZjOWY4NC4uNTI3ODFhMGU3MDhiIDEwMDY0NAo+
-IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
-L2RybV9lZGlkLmMKPiBAQCAtNDg4MCw2ICs0ODgwLDU0IEBAIHN0YXRpYyB2b2lkIGRybV9wYXJz
-ZV9jZWFfZXh0KHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IsCj4gIAl9Cj4gIH0KPiAg
-Cj4gK3ZvaWQgZHJtX2dldF9hZGFwdGl2ZV9zeW5jX2xpbWl0cyhzdHJ1Y3QgZHJtX2Nvbm5lY3Rv
-ciAqY29ubmVjdG9yLAo+ICsJCQkJICBjb25zdCBzdHJ1Y3QgZWRpZCAqZWRpZCkKPiArewo+ICsJ
-c3RydWN0IGRybV9kaXNwbGF5X2luZm8gKmluZm8gPSAmY29ubmVjdG9yLT5kaXNwbGF5X2luZm87
-Cj4gKwljb25zdCBzdHJ1Y3QgZGV0YWlsZWRfdGltaW5nICp0aW1pbmc7Cj4gKwljb25zdCBzdHJ1
-Y3QgZGV0YWlsZWRfbm9uX3BpeGVsICpkYXRhOwo+ICsJY29uc3Qgc3RydWN0IGRldGFpbGVkX2Rh
-dGFfbW9uaXRvcl9yYW5nZSAqcmFuZ2U7Cj4gKwlpbnQgaTsKPiArCj4gKwkvKgo+ICsJICogUmVz
-dHJpY3QgQWRhcHRpdmUgU3luYyBvbmx5IGZvciBkcCBhbmQgZWRwCj4gKwkgKi8KPiArCWlmIChj
-b25uZWN0b3ItPmNvbm5lY3Rvcl90eXBlICE9IERSTV9NT0RFX0NPTk5FQ1RPUl9EaXNwbGF5UG9y
-dCAmJgo+ICsJICAgIGNvbm5lY3Rvci0+Y29ubmVjdG9yX3R5cGUgIT0gRFJNX01PREVfQ09OTkVD
-VE9SX2VEUCkKPiArCQlyZXR1cm47Cj4gKwo+ICsJaWYgKGVkaWQtPnZlcnNpb24gPD0gMSAmJiAh
-KGVkaWQtPnZlcnNpb24gPT0gMSAmJiBlZGlkLT5yZXZpc2lvbiA+IDEpKQo+ICsJCXJldHVybjsK
-PiArCj4gKwlmb3IgKGkgPSAwOyBpIDwgNDsgaSsrKSB7Cj4gKwkJdGltaW5nICA9ICZlZGlkLT5k
-ZXRhaWxlZF90aW1pbmdzW2ldOwo+ICsJCWRhdGEgICAgPSAmdGltaW5nLT5kYXRhLm90aGVyX2Rh
-dGE7Cj4gKwkJcmFuZ2UgICA9ICZkYXRhLT5kYXRhLnJhbmdlOwo+ICsJCS8qCj4gKwkJICogQ2hl
-Y2sgaWYgbW9uaXRvciBoYXMgY29udGludW91cyBmcmVxdWVuY3kgbW9kZQo+ICsJCSAqLwo+ICsJ
-CWlmIChkYXRhLT50eXBlICE9IEVESURfREVUQUlMX01PTklUT1JfUkFOR0UpCj4gKwkJCWNvbnRp
-bnVlOwo+ICsJCS8qCj4gKwkJICogQ2hlY2sgZm9yIGZsYWcgcmFuZ2UgbGltaXRzIG9ubHkuIElm
-IGZsYWcgPT0gMSB0aGVuCj4gKwkJICogbm8gYWRkaXRpb25hbCB0aW1pbmcgaW5mb3JtYXRpb24g
-cHJvdmlkZWQuCj4gKwkJICogRGVmYXVsdCBHVEYsIEdURiBTZWNvbmRhcnkgY3VydmUgYW5kIENW
-VCBhcmUgbm90Cj4gKwkJICogc3VwcG9ydGVkCj4gKwkJICovCj4gKwkJaWYgKHJhbmdlLT5mbGFn
-cyAhPSAxKQo+ICsJCQljb250aW51ZTsKPiArCj4gKwkJaW5mby0+YWRhcHRpdmVfc3luYy5taW5f
-dmZyZXEgPSByYW5nZS0+bWluX3ZmcmVxOwo+ICsJCWluZm8tPmFkYXB0aXZlX3N5bmMubWF4X3Zm
-cmVxID0gcmFuZ2UtPm1heF92ZnJlcTsKPiArCj4gKwkJRFJNX0RFQlVHX0tNUygiQWRhcHRpdmUg
-U3luYyByZWZyZXNoIHJhdGUgcmFuZ2UgaXMgJWQgSHogLSAlZCBIelxuIiwKPiArCQkJICAgICAg
-aW5mby0+YWRhcHRpdmVfc3luYy5taW5fdmZyZXEsCj4gKwkJCSAgICAgIGluZm8tPmFkYXB0aXZl
-X3N5bmMubWF4X3ZmcmVxKTsKPiArCQlicmVhazsKPiArCX0KPiArfQo+ICtFWFBPUlRfU1lNQk9M
-KGRybV9nZXRfYWRhcHRpdmVfc3luY19saW1pdHMpOwoKV2h5IHRoZSBleHBvcnQ/IFJhdGhlciwg
-d2h5IGlzIHRoaXMgbm90IHN0YXRpYz8KCkJSLApKYW5pLgoKPiArCj4gIC8qIEEgY29ubmVjdG9y
-IGhhcyBubyBFRElEIGluZm9ybWF0aW9uLCBzbyB3ZSd2ZSBnb3Qgbm8gRURJRCB0byBjb21wdXRl
-IHF1aXJrcyBmcm9tLiBSZXNldAo+ICAgKiBhbGwgb2YgdGhlIHZhbHVlcyB3aGljaCB3b3VsZCBo
-YXZlIGJlZW4gc2V0IGZyb20gRURJRAo+ICAgKi8KPiBAQCAtNDkwMSw2ICs0OTQ5LDcgQEAgZHJt
-X3Jlc2V0X2Rpc3BsYXlfaW5mbyhzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yKQo+ICAJ
-bWVtc2V0KCZpbmZvLT5oZG1pLCAwLCBzaXplb2YoaW5mby0+aGRtaSkpOwo+ICAKPiAgCWluZm8t
-Pm5vbl9kZXNrdG9wID0gMDsKPiArCW1lbXNldCgmaW5mby0+YWRhcHRpdmVfc3luYywgMCwgc2l6
-ZW9mKGluZm8tPmFkYXB0aXZlX3N5bmMpKTsKPiAgfQo+ICAKPiAgdTMyIGRybV9hZGRfZGlzcGxh
-eV9pbmZvKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IsIGNvbnN0IHN0cnVjdCBlZGlk
-ICplZGlkKQo+IEBAIC00OTE2LDYgKzQ5NjUsOCBAQCB1MzIgZHJtX2FkZF9kaXNwbGF5X2luZm8o
-c3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciwgY29uc3Qgc3RydWN0IGVkaWQgKmVkaQo+
-ICAKPiAgCWluZm8tPm5vbl9kZXNrdG9wID0gISEocXVpcmtzICYgRURJRF9RVUlSS19OT05fREVT
-S1RPUCk7Cj4gIAo+ICsJZHJtX2dldF9hZGFwdGl2ZV9zeW5jX2xpbWl0cyhjb25uZWN0b3IsIGVk
-aWQpOwo+ICsKPiAgCURSTV9ERUJVR19LTVMoIm5vbl9kZXNrdG9wIHNldCB0byAlZFxuIiwgaW5m
-by0+bm9uX2Rlc2t0b3ApOwo+ICAKPiAgCWlmIChlZGlkLT5yZXZpc2lvbiA8IDMpCj4gZGlmZiAt
-LWdpdCBhL2luY2x1ZGUvZHJtL2RybV9jb25uZWN0b3IuaCBiL2luY2x1ZGUvZHJtL2RybV9jb25u
-ZWN0b3IuaAo+IGluZGV4IDIyMTkxMDk0OGIzNy4uNzdkZjQwNGEyZTAxIDEwMDY0NAo+IC0tLSBh
-L2luY2x1ZGUvZHJtL2RybV9jb25uZWN0b3IuaAo+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9jb25u
-ZWN0b3IuaAo+IEBAIC0yNTQsNiArMjU0LDIzIEBAIGVudW0gZHJtX3BhbmVsX29yaWVudGF0aW9u
-IHsKPiAgCURSTV9NT0RFX1BBTkVMX09SSUVOVEFUSU9OX1JJR0hUX1VQLAo+ICB9Owo+ICAKPiAr
-LyoqCj4gKyAqIHN0cnVjdCBkcm1fYWRhcHRpdmVfc3luY19pbmZvIC0gUGFuZWwncyBBZGFwdGl2
-ZSBTeW5jIGNhcGFiaWxpdGllcyBmb3IKPiArICogJmRybV9kaXNwbGF5X2luZm8KPiArICoKPiAr
-ICogVGhpcyBzdHJ1Y3QgaXMgdXNlZCB0byBzdG9yZSBhIFBhbmVsJ3MgQWRhcHRpdmUgU3luYyBj
-YXBhYmlsaXRpZXMKPiArICogYXMgcGFyc2VkIGZyb20gRURJRCdzIGRldGFpbGVkIG1vbml0b3Ig
-cmFuZ2UgZGVzY3JpcHRvciBibG9jay4KPiArICoKPiArICogQG1pbl92ZnJlcTogVGhpcyBpcyB0
-aGUgbWluIHN1cHBvcnRlZCByZWZyZXNoIHJhdGUgaW4gSHogZnJvbQo+ICsgKiAgICAgICAgICAg
-ICBFRElEJ3MgZGV0YWlsZWQgbW9uaXRvciByYW5nZS4KPiArICogQG1heF92ZnJlcTogVGhpcyBp
-cyB0aGUgbWF4IHN1cHBvcnRlZCByZWZyZXNoIHJhdGUgaW4gSHogZnJvbQo+ICsgKiAgICAgICAg
-ICAgICBFRElEJ3MgZGV0YWlsZWQgbW9uaXRvciByYW5nZQo+ICsgKi8KPiArc3RydWN0IGRybV9h
-ZGFwdGl2ZV9zeW5jX2luZm8gewo+ICsJdTggbWluX3ZmcmVxOwo+ICsJdTggbWF4X3ZmcmVxOwo+
-ICt9Owo+ICsKPiAgLyoKPiAgICogVGhpcyBpcyBhIGNvbnNvbGlkYXRlZCBjb2xvcmltZXRyeSBs
-aXN0IHN1cHBvcnRlZCBieSBIRE1JIGFuZAo+ICAgKiBEUCBwcm90b2NvbCBzdGFuZGFyZC4gVGhl
-IHJlc3BlY3RpdmUgY29ubmVjdG9ycyB3aWxsIHJlZ2lzdGVyCj4gQEAgLTQ2NSw2ICs0ODIsMTEg
-QEAgc3RydWN0IGRybV9kaXNwbGF5X2luZm8gewo+ICAJICogQG5vbl9kZXNrdG9wOiBOb24gZGVz
-a3RvcCBkaXNwbGF5IChITUQpLgo+ICAJICovCj4gIAlib29sIG5vbl9kZXNrdG9wOwo+ICsKPiAr
-CS8qKgo+ICsJICogQGFkYXB0aXZlX3N5bmM6IEFkYXB0aXZlIFN5bmMgY2FwYWJpbGl0aWVzIG9m
-IHRoZSBEUC9lRFAgc2luawo+ICsJICovCj4gKwlzdHJ1Y3QgZHJtX2FkYXB0aXZlX3N5bmNfaW5m
-byBhZGFwdGl2ZV9zeW5jOwo+ICB9Owo+ICAKPiAgaW50IGRybV9kaXNwbGF5X2luZm9fc2V0X2J1
-c19mb3JtYXRzKHN0cnVjdCBkcm1fZGlzcGxheV9pbmZvICppbmZvLAo+IGRpZmYgLS1naXQgYS9p
-bmNsdWRlL2RybS9kcm1fZWRpZC5oIGIvaW5jbHVkZS9kcm0vZHJtX2VkaWQuaAo+IGluZGV4IGYw
-YjAzZDQwMWMyNy4uYjlhMjMwYWEzZTY5IDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9l
-ZGlkLmgKPiArKysgYi9pbmNsdWRlL2RybS9kcm1fZWRpZC5oCj4gQEAgLTUwMyw0ICs1MDMsNiBA
-QCB2b2lkIGRybV9lZGlkX2dldF9tb25pdG9yX25hbWUoc3RydWN0IGVkaWQgKmVkaWQsIGNoYXIg
-Km5hbWUsCj4gIHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICpkcm1fbW9kZV9maW5kX2RtdChzdHJ1
-Y3QgZHJtX2RldmljZSAqZGV2LAo+ICAJCQkJCSAgIGludCBoc2l6ZSwgaW50IHZzaXplLCBpbnQg
-ZnJlc2gsCj4gIAkJCQkJICAgYm9vbCByYik7Cj4gK3ZvaWQgZHJtX2dldF9hZGFwdGl2ZV9zeW5j
-X2xpbWl0cyhzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLAo+ICsJCQkJICBjb25zdCBz
-dHJ1Y3QgZWRpZCAqZWRpZCk7Cj4gICNlbmRpZiAvKiBfX0RSTV9FRElEX0hfXyAqLwoKLS0gCkph
-bmkgTmlrdWxhLCBJbnRlbCBPcGVuIFNvdXJjZSBHcmFwaGljcyBDZW50ZXIKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
-dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Thu, Jan 09, 2020 at 04:07:52PM +0100, Mario Kleiner wrote:
+> If the current eDP link rate, as read from hw, provides a
+> higher bandwidth than the standard link rates, then add the
+> current link rate to the link_rates array for consideration
+> in future mode-sets.
+> =
+
+> These initial current eDP link settings have been set up by
+> firmware during boot, so they should work on the eDP panel.
+> Therefore use them if the firmware thinks they are good and
+> they provide higher link bandwidth, e.g., to enable higher
+> resolutions / color depths.
+> =
+
+> This fixes a problem found on the MacBookPro 2017 Retina panel:
+> =
+
+> The panel reports 10 bpc color depth in its EDID, and the UEFI
+> firmware chooses link settings at boot which support enough
+> bandwidth for 10 bpc (324000 kbit/sec to be precise), but the
+> DP_MAX_LINK_RATE dpcd register only reports 2.7 Gbps as possible,
+> so intel_dp_set_sink_rates() would cap at that. This restricts
+> achievable color depth to 8 bpc, not providing the full color
+> depth of the panel. With this commit, we can use firmware setting
+> and get the full 10 bpc advertised by the Retina panel.
+> =
+
+> Signed-off-by: Mario Kleiner <mario.kleiner.de@gmail.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> ---
+>  drivers/gpu/drm/i915/display/intel_dp.c | 23 +++++++++++++++++++++++
+>  1 file changed, 23 insertions(+)
+> =
+
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i9=
+15/display/intel_dp.c
+> index 2f31d226c6eb..aa3e0b5108c6 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -4368,6 +4368,8 @@ intel_edp_init_dpcd(struct intel_dp *intel_dp)
+>  {
+>  	struct drm_i915_private *dev_priv =3D
+>  		to_i915(dp_to_dig_port(intel_dp)->base.base.dev);
+> +	int max_rate;
+> +	u8 link_bw;
+>  =
+
+>  	/* this function is meant to be called only once */
+>  	WARN_ON(intel_dp->dpcd[DP_DPCD_REV] !=3D 0);
+> @@ -4433,6 +4435,27 @@ intel_edp_init_dpcd(struct intel_dp *intel_dp)
+>  	else
+>  		intel_dp_set_sink_rates(intel_dp);
+>  =
+
+> +	/*
+> +	 * If the firmware programmed a rate higher than the standard sink rates
+> +	 * during boot, then add that rate as a valid sink rate, as fw knows
+> +	 * this is a good rate and we get extra bandwidth.
+> +	 *
+> +	 * Helps, e.g., on the Apple MacBookPro 2017 Retina panel, which is only
+> +	 * eDP 1.1, but supports the unusual rate of 324000 kHz at bootup, for
+> +	 * 10 bpc / 30 bit color depth.
+> +	 */
+> +	if (!intel_dp->use_rate_select &&
+> +	    (drm_dp_dpcd_read(&intel_dp->aux, DP_LINK_BW_SET, &link_bw, 1) =3D=
+=3D 1) &&
+> +	    (link_bw > 0) && (intel_dp->num_sink_rates < DP_MAX_SUPPORTED_RATES=
+)) {
+> +		max_rate =3D drm_dp_bw_code_to_link_rate(link_bw);
+> +		if (max_rate > intel_dp->sink_rates[intel_dp->num_sink_rates - 1]) {
+> +			intel_dp->sink_rates[intel_dp->num_sink_rates] =3D max_rate;
+> +			intel_dp->num_sink_rates++;
+> +			DRM_DEBUG_KMS("Adding max bandwidth eDP rate %d kHz.\n",
+> +				      max_rate);
+> +		}
+
+Hmm. I guess we could do this. But plese put it into a separate
+function so we don't end up with that super ugly if condition.
+
+The debug message should probably be a bit more explicit. Eg. =
+
+something like: =
+
+"Firmware using non-standard link rate %d kHz. Including it in sink rates.\=
+n"
+
+I'm also wondering if we shouldn't just add the link rate to the sink
+rates regradless of whether it's the highest rate or not...
+
+> +	}
+> +
+>  	intel_dp_set_common_rates(intel_dp);
+>  =
+
+>  	/* Read the eDP DSC DPCD registers */
+> -- =
+
+> 2.24.0
+> =
+
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
