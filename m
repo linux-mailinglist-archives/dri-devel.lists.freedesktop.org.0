@@ -2,61 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CA8F135FD0
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 18:52:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7116135FB7
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 18:51:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0432E6E949;
-	Thu,  9 Jan 2020 17:51:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58FB26E92C;
+	Thu,  9 Jan 2020 17:51:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F40E6E3C1;
- Thu,  9 Jan 2020 09:07:07 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id p17so1937112wmb.0;
- Thu, 09 Jan 2020 01:07:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=srJzvMMQdpxyH00NoNIv1SdEKNzlKV0X21LyZXL6/tY=;
- b=eeOkVav3QtkOQrSyAYP34ttKjtKRxUKJhIuZS0/TC1uLiiy5EpnkIUgVGpyXGCiKPt
- y0rwRvQFOx9fIYvgn7CmD5L54YaTt/zNKp5DfCABveJgki3N46zSurPNPLaXPOHLX8VF
- CH9uC3bE5Ty8npPc4AyAkwYkN84BJzhmq/1cnwn6Z04aqzSH/9c4AZauXO1E4lrkm/dQ
- BFwFDS0W9DbkoQMGul67giCNYsI0hidenVfSl8/2ZeLQ2I/AM/x8Jo3qaT4JvTYrb0fO
- SSx0G6KQzB7gBHDVz0w1SsBk8hOc81svJhFYAQS/DACCT92W6KpJXM3a2AFjKQgrSQTb
- lsmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=srJzvMMQdpxyH00NoNIv1SdEKNzlKV0X21LyZXL6/tY=;
- b=rjg857y1hZsKQqmW4j/K+hNOePAGu5fzy1gTUJfLhdC9PEpOG4/oXMXV74VtWzzTt7
- whqFHA/6WtL9yQNvX5yrf+aM8n+wiPV6JsIVU5nJYBeZPW4o2hwtGmSlBpT7GUGHa3DU
- ELNvmS/txT0vTjFgRnC/K//l3Z2TBmN3RI6upS5S+ehlGpvjC+Cs6AXn0IxMXs0Pc+Bz
- smvFnrbf0zHOE+HdtIhjgWlIj5D5qHSjZr5OjhDJz8If1d/hUln1fGgHc9U/uldaconX
- kFOfjyiSKuS+RV9QbSX2VbVdtXdDl84fcwZhX7vkBFyl57vVjoa5vyQcjVLUq+SUeqqX
- ZmAw==
-X-Gm-Message-State: APjAAAWQta+BX0yTeIzeaamueJRgo9XlO9JJaxi6Fezvt+uoMD0GiDek
- cJUpDiHHBN+tCUvwDF0cbNzwjNt05QE=
-X-Google-Smtp-Source: APXvYqw3p1tNZvJ6wGQcHlYj+kueCXToKBOgAY9fxM9CWd7N+g8KXeUHmFyiTOoSrXAf60CTyuKZYw==
-X-Received: by 2002:a05:600c:2c50:: with SMTP id
- r16mr3398556wmg.74.1578560826373; 
- Thu, 09 Jan 2020 01:07:06 -0800 (PST)
-Received: from wambui.zuku.co.ke ([197.237.61.225])
- by smtp.googlemail.com with ESMTPSA id i8sm8004734wro.47.2020.01.09.01.07.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jan 2020 01:07:05 -0800 (PST)
-From: Wambui Karuga <wambui.karugax@gmail.com>
-To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH 5/5] drm/i915: convert to new logging macros in
- i915/intel_memory_region.c
-Date: Thu,  9 Jan 2020 12:06:46 +0300
-Message-Id: <1bf4d362e72c619843d44aac96c3561f54e4b23a.1578560355.git.wambui.karugax@gmail.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <cover.1578560355.git.wambui.karugax@gmail.com>
-References: <cover.1578560355.git.wambui.karugax@gmail.com>
+Received: from lb2-smtp-cloud9.xs4all.net (lb2-smtp-cloud9.xs4all.net
+ [194.109.24.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA6576E8D9
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2020 09:11:55 +0000 (UTC)
+Received: from [192.168.2.10] ([62.249.185.68])
+ by smtp-cloud9.xs4all.net with ESMTPA
+ id pTr2ifgi8T6sRpTr5iJl9k; Thu, 09 Jan 2020 10:11:54 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+ t=1578561114; bh=UlqesI6gSSS8++9yX65c9DLlbuwVIyDHmf34kZcOyL4=;
+ h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+ Subject;
+ b=Wz+A7AsssyI+AgNTcJXvnwnJpdVvcctnq4MxkNvG+/mILYF7xU4FFmkvPLnrc82Un
+ kIUIZCFqGI/b8F7Q8fM/1PkJC7KDRVQ8VW893tqj7iuku+kSVfl611X1wpfeXYAhtO
+ PSRPsJQcZd4tzeRFImchQO31f4DtBiIfpjGmEMx6lqK/lmq8YOT+qXqu3LoIzWKcUn
+ 9hG6VefXu7XNQi6/oTHcJ+W/LYAV0DOp1S42YlU1p19TB1J/vWNiXy5IeLUIeFZPgZ
+ M0w6DkJ2r4Odl9KGSHuQtGktUnBXiB619FQPzTFmnzBQz2GjPxhJd8EWk/xQGXDbxq
+ PnsecslZSKH2A==
+Subject: Re: [PATCH] drm/Kconfig: add missing 'depends on DRM' for DRM_DP_CEC
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <489bdaae-9b05-2d70-12e1-4fda7899dfc1@xs4all.nl>
+ <bbbef09d-6c90-75ba-e480-28365474b1a5@xs4all.nl>
+ <20200108174236.GH43062@phenom.ffwll.local>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <008645fc-29e0-6cf1-5871-dc01898449f0@xs4all.nl>
+Date: Thu, 9 Jan 2020 10:11:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <20200108174236.GH43062@phenom.ffwll.local>
+Content-Language: en-US
+X-CMAE-Envelope: MS4wfAIjQxO9UiwegK3KQxRkG+HbFATzpReCspiJv1i5JIGYSCLcLqTC315jR0IxEoBzhXAlRR9XEBGpp6t/zJj3XLAdCCM3I2r8IlLn+IV+Pfaii967TpkX
+ 1jww40g26M0mcSkBlGmQ1Xa2MrdLI8de6BP61Xksd2nL9Nj5uXkRB9P+SR6VA4Ra1CrDdDk77bCUlUVpMO93ME7y3QxWgv6Gi5go6hUKH+zYB5wYdML2OUxG
+ 0ueICpt3yJO8M7o73URd3g5UyOHWG2kaDT6SK03kSOKnq5yaoC4C6Trj3IRtFs/S
 X-Mailman-Approved-At: Thu, 09 Jan 2020 17:51:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,38 +55,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, sean@poorly.run,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace the use of printk based logging macros with the new struct
-drm_device based logging macro in i915/intel_memory_region.c.
+On 1/8/20 6:42 PM, Daniel Vetter wrote:
+> On Wed, Jan 08, 2020 at 01:08:47PM +0100, Hans Verkuil wrote:
+>> On 12/6/19 12:26 PM, Hans Verkuil wrote:
+>>> Add a missing 'depends on DRM' for the DRM_DP_CEC config
+>>> option. Without that enabling DRM_DP_CEC will force CEC_CORE
+>>> to =y instead of =m if DRM=m as well.
+>>>
+>>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>>
+>> Daniel, can you review this? It's annoying that the cec core is
+>> compiled as part of the kernel when it can just be a module.
+> 
+> Why did we even make this optional? Really worth it to compile out 4
+> functions and some change?
 
-Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
----
- drivers/gpu/drm/i915/intel_memory_region.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+It's not about those few functions, it's because this enables the CEC
+framework as well (drivers/media/cec).
 
-diff --git a/drivers/gpu/drm/i915/intel_memory_region.c b/drivers/gpu/drm/i915/intel_memory_region.c
-index d0d038b3cd79..6b5e9d88646d 100644
---- a/drivers/gpu/drm/i915/intel_memory_region.c
-+++ b/drivers/gpu/drm/i915/intel_memory_region.c
-@@ -265,7 +265,9 @@ int intel_memory_regions_hw_probe(struct drm_i915_private *i915)
- 
- 		if (IS_ERR(mem)) {
- 			err = PTR_ERR(mem);
--			DRM_ERROR("Failed to setup region(%d) type=%d\n", err, type);
-+			drm_err(&i915->drm,
-+				"Failed to setup region(%d) type=%d\n",
-+				err, type);
- 			goto out_cleanup;
- 		}
- 
--- 
-2.24.1
+If CEC is not needed, then disabling this saves a lot more code than the
+few functions in drm_dp_cec.c.
+
+CEC is an optional HDMI feature, so CEC support for HDMI input/output
+drivers is optional as well in the kernel config.
+
+Regards,
+
+	Hans
+
+> 
+> Anyway the one you really want here is CONFIG_DRM_KMS_HELPER, but that is
+> a selected variable, and you can't mix select and depends on because that
+> breaks Kconfig in hilarious ways. Or so I thought, but other public
+> symbols like this (e.g. DRM_FBDEV_EMULATION) do the same trick. So I guess
+> 
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> 
+> But really, is all this complexity?
+> -Daniel
+> 
+>>
+>> Regards,
+>>
+>> 	Hans
+>>
+>>> ---
+>>> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+>>> index 1168351267fd..e8e478d6da9c 100644
+>>> --- a/drivers/gpu/drm/Kconfig
+>>> +++ b/drivers/gpu/drm/Kconfig
+>>> @@ -163,6 +163,7 @@ config DRM_LOAD_EDID_FIRMWARE
+>>>
+>>>  config DRM_DP_CEC
+>>>  	bool "Enable DisplayPort CEC-Tunneling-over-AUX HDMI support"
+>>> +	depends on DRM
+>>>  	select CEC_CORE
+>>>  	help
+>>>  	  Choose this option if you want to enable HDMI CEC support for
+>>>
+>>
+> 
 
 _______________________________________________
 dri-devel mailing list
