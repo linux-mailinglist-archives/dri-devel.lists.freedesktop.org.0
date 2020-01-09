@@ -1,40 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23DDA136168
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 20:49:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4CC91361A1
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 21:17:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACA936E95D;
-	Thu,  9 Jan 2020 19:49:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81D936E95F;
+	Thu,  9 Jan 2020 20:16:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9523C6E95D
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2020 19:49:32 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2264531B;
- Thu,  9 Jan 2020 11:49:32 -0800 (PST)
-Received: from localhost (unknown [10.37.6.21])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9CFEA3F534;
- Thu,  9 Jan 2020 11:49:31 -0800 (PST)
-Date: Thu, 9 Jan 2020 19:49:30 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v2 4/7] drm/panfrost: Add support for a second regulator
- for the GPU
-Message-ID: <20200109194930.GD3702@sirena.org.uk>
-References: <20200108052337.65916-1-drinkcat@chromium.org>
- <20200108052337.65916-5-drinkcat@chromium.org>
- <20200108132302.GA3817@sirena.org.uk>
- <CANMq1KBo8ND+YDHaCw3yZZ0RUr69-NSUcVbqu38DuZvHUB-LFw@mail.gmail.com>
- <09ddfac3-da8d-c039-92a0-d0f51dc3fea5@arm.com>
- <20200109162814.GB3702@sirena.org.uk>
- <a40baddb-cbab-d8fc-3fd9-0582f1b5b24e@arm.com>
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E17C36E04A;
+ Thu,  9 Jan 2020 20:16:57 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id p9so4410010wmc.2;
+ Thu, 09 Jan 2020 12:16:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=E+lwrXE3aZ94AXYYIKmBRrTAemPYlA5yIdzG6bHrsbM=;
+ b=juSyx3fIemNz4CfhuztJJRSl/hZcSdBYYxa82QRPNc5ezugZgpxWIbJe8ZOAo3Y/OG
+ Zh/nnA/LwkmeHKVD7+fhrraxUqdbXkIy/yzqfxMcPcER5SXWrAyKbodbiHRcDIH+Ljuw
+ jaBKurW4cZD1tlk6qEhW+vkbcwBOHdbuGU5V8qYp+1KFz7/RUTucBBwEzhMSINlLG5X5
+ 6mNdA+hmav+o0Q3JCRsTmjgEwgDdMmcRrPQZd8Jft6uVqLuSaSZ16wAOs8zaI4+CzvDb
+ Xr4BLxh34hH4LHKSqjloscJkcH30Dm0S74Y+WMf0O9hOYJc8+JEZJDiZ/iwgImwD7e0k
+ R50A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=E+lwrXE3aZ94AXYYIKmBRrTAemPYlA5yIdzG6bHrsbM=;
+ b=ai8wYMmul3CO4kpzZk0YuUtqQsnIQhrw3U4QhZYPBhd/teqZRr/b+JUo81pEInlsgG
+ RuUUR4b0trJ57qqlL5NE6EIrG/pu8v1895fCpMH2nXnNgBZGyewvDbYg1LjRv3fpidg/
+ DCobA5WwyEcS7MuZxfVh11nXqpfQshHqdfJbOQ2x7Irm/DZbF9MBuAXvEjB9UW4lDAvn
+ +GWctGhyk6rlgbhnl1OjFv0AFxBdYEH8MHI6bE5FrQSB3sBDAEvJCpAhR/FT2orsCE6A
+ cwpZdgj5AXbSp7vgmhtpQ9BKL5QB7mvZfbIlja3msx64MH7KhWvBHWg+9VbnQdOLTH9m
+ hn/g==
+X-Gm-Message-State: APjAAAWMg95bCfChKRpjSqjZ3Yc3VF68ML5Yq3ElJ6rTR8HIwGJEKFOt
+ KB3xE0KX3VddlBo1fmDTv2J55hjSw4haSzSIzsE=
+X-Google-Smtp-Source: APXvYqyRBoQWA0EPa3ebhHv8AejJlhOoyhlMvK0QfxIl4zgcvvSGuHQ4BPXGpoSdlb3wsdh6/KtNAXpvrLOLks96BXo=
+X-Received: by 2002:a1c:6404:: with SMTP id y4mr6727312wmb.143.1578601016498; 
+ Thu, 09 Jan 2020 12:16:56 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <a40baddb-cbab-d8fc-3fd9-0582f1b5b24e@arm.com>
-X-Cookie: Killing turkeys causes winter.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200107192555.20606-1-tli@digitalocean.com>
+ <b5984995-7276-97d3-a604-ddacfb89bd89@amd.com>
+ <202001080936.A36005F1@keescook>
+ <CADnq5_NLS=CuHD39utCTnTVsY_izuTPXFfsew6TpMjovgFoT5g@mail.gmail.com>
+ <a2919283-f5aa-43b2-9186-6c41315458c4@amd.com>
+ <505a76a9-6110-3ddb-0f15-059b60922482@suse.de>
+In-Reply-To: <505a76a9-6110-3ddb-0f15-059b60922482@suse.de>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 9 Jan 2020 15:16:44 -0500
+Message-ID: <CADnq5_NH0Xwhr3YjT5Ax-45-f8mmCxvfUPb8V6i34TY44BJPOA@mail.gmail.com>
+Subject: Re: [PATCH 0/2] drm/radeon: have the callers of set_memory_*() check
+ the return value
+To: Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,117 +67,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Devicetree List <devicetree@vger.kernel.org>,
- Nicolas Boichat <drinkcat@chromium.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
- lkml <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>
-Content-Type: multipart/mixed; boundary="===============1931812937=="
+Cc: Kees Cook <keescook@chromium.org>, kernel-hardening@lists.openwall.com,
+ David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Tianlin Li <tli@digitalocean.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1931812937==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="pQhZXvAqiZgbeUkD"
-Content-Disposition: inline
-
-
---pQhZXvAqiZgbeUkD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Thu, Jan 09, 2020 at 04:53:02PM +0000, Steven Price wrote:
-> On 09/01/2020 16:28, Mark Brown wrote:
-> > On Thu, Jan 09, 2020 at 02:14:42PM +0000, Steven Price wrote:
-
-> > > I'm not sure if it's better, but could we just encode the list of
-> > > regulators into device tree. I'm a bit worried about special casing an
-> > > "sram" regulator given that other platforms might have a similar
-> > > situation but call the second regulator a different name.
-
-> > Obviously the list of regulators bound on a given platform is encoded in
-> > the device tree but you shouldn't really be relying on that to figure
-> > out what to request in the driver - the driver should know what it's
-> > expecting.
-
-> From a driver perspective we don't expect to have to worry about power
-> domains/multiple regulators - the hardware provides a bunch of power
-> registers to turn on/off various parts of the hardware and this should be
-> linked (in hardware) to a PDC which sorts it out. The GPU/PDC handles the
-> required sequencing. So it *should* be a case of turn power/clocks on and
-> go.
-
-Ah, the well abstracted and consistent hardware with which we are all so
-fortunate to work :) .  More seriously perhaps the thing to do here is
-create a driver that provides a soft PDC and then push all the special
-case handling into that?  It can then get instantiated based on the
-compatible or perhaps represented directly in the device tree if that
-makes sense.
-
-> However certain integrations may have quirks such that there are physically
-> multiple supplies. These are expected to all be turned on before using the
-> GPU. Quite how this is best represented is something I'm not sure about.
-
-If they're always on and don't ever change then that's really easy to
-represent in the DT without involving drivers, it's when you need to
-actively manage them that it's more effort.
-
-> > Bear in mind that getting regulator stuff wrong can result
-> > in physical damage to the system so it pays to be careful and to
-> > consider that platform integrators have a tendency to rely on things
-> > that just happen to work but aren't a good idea or accurate
-> > representations of the system.  It's certainly *possible* to do
-> > something like that, the information is there, but I would not in any
-> > way recommend doing things that way as it's likely to not be robust.
-
-> > The possibility that the regulator setup may vary on other platforms
-> > (which I'd expect TBH) does suggest that just requesting a bunch of
-> > supply names optionally and hoping that we got all the ones that are
-> > important on a given platform is going to lead to trouble down the line.
-
-> Certainly if we miss a regulator the GPU isn't going to work properly (some
-> cores won't be able to power up successfully). However at the moment the
-> driver will happily do this if someone provides it with a DT which includes
-> regulators that it doesn't know about. So I'm not sure how adding special
-> case code for a SoC would help here.
-
-I thought this SoC neeed to vary the voltage on both rails as part of
-the power management?  Things like that can lead to hardware damage if
-we go out of spec far enough for long enough - there can be requirements
-like keeping one rail a certain voltage above another or whatever.
-
---pQhZXvAqiZgbeUkD
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl4Xg8kACgkQJNaLcl1U
-h9DhIQf9HZ2Q1blNvGt1n4U2y9oZgTgphMEa0JMJU6uCB4DzokV/ki8co9SwPcFC
-feV+gosXXo6A98jenPsWIobEfWSUiwEYa5w3ClUYlcVrKLIwlUmThXvSiIS1+uva
-LEnxvF+4WP37piAr891qK5iZdpOoMniy8m1bBXSm75midArEGcV2rqCorXEStIih
-LNey+eFBxgweMQNmVL/FElCItrW6+x9HyxEGdBL4TLDMOpxC1cb/qyQUs9dAlRwQ
-evp+V1ZYh5rSuQqAF5XEJwA+f8k33X0VJki7BJ+Nh3IkQpVWtg0ORKW3e4hw5+DW
-B6Gvn1/3P+OYjc/Azm6w18G1USraiQ==
-=M45L
------END PGP SIGNATURE-----
-
---pQhZXvAqiZgbeUkD--
-
---===============1931812937==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1931812937==--
+T24gVGh1LCBKYW4gOSwgMjAyMCBhdCA1OjQ5IEFNIFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVy
+bWFubkBzdXNlLmRlPiB3cm90ZToKPgo+IEhpCj4KPiBBbSAwOS4wMS4yMCB1bSAxMToxNSBzY2hy
+aWViIENocmlzdGlhbiBLw7ZuaWc6Cj4gPiBBbSAwOC4wMS4yMCB1bSAxODo1MSBzY2hyaWViIEFs
+ZXggRGV1Y2hlcjoKPiA+PiBPbiBXZWQsIEphbiA4LCAyMDIwIGF0IDEyOjM5IFBNIEtlZXMgQ29v
+ayA8a2Vlc2Nvb2tAY2hyb21pdW0ub3JnPiB3cm90ZToKPiA+Pj4gT24gV2VkLCBKYW4gMDgsIDIw
+MjAgYXQgMDE6NTY6NDdQTSArMDEwMCwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPiA+Pj4+IEFt
+IDA3LjAxLjIwIHVtIDIwOjI1IHNjaHJpZWIgVGlhbmxpbiBMaToKPiA+Pj4+PiBSaWdodCBub3cg
+c2V2ZXJhbCBhcmNoaXRlY3R1cmVzIGFsbG93IHRoZWlyIHNldF9tZW1vcnlfKigpIGZhbWlseSBv
+Zgo+ID4+Pj4+IGZ1bmN0aW9ucyB0byBmYWlsLCBidXQgY2FsbGVycyBtYXkgbm90IGJlIGNoZWNr
+aW5nIHRoZSByZXR1cm4gdmFsdWVzLgo+ID4+Pj4+IElmIHNldF9tZW1vcnlfKigpIHJldHVybnMg
+d2l0aCBhbiBlcnJvciwgY2FsbC1zaXRlIGFzc3VtcHRpb25zIG1heSBiZQo+ID4+Pj4+IGluZmFj
+dCB3cm9uZyB0byBhc3N1bWUgdGhhdCBpdCB3b3VsZCBlaXRoZXIgc3VjY2VlZCBvciBub3Qgc3Vj
+Y2VlZCBhdAo+ID4+Pj4+IGFsbC4gSWRlYWxseSwgdGhlIGZhaWx1cmUgb2Ygc2V0X21lbW9yeV8q
+KCkgc2hvdWxkIGJlIHBhc3NlZCB1cCB0aGUKPiA+Pj4+PiBjYWxsIHN0YWNrLCBhbmQgY2FsbGVy
+cyBzaG91bGQgZXhhbWluZSB0aGUgZmFpbHVyZSBhbmQgZGVhbCB3aXRoIGl0Lgo+ID4+Pj4+Cj4g
+Pj4+Pj4gTmVlZCB0byBmaXggdGhlIGNhbGxlcnMgYW5kIGFkZCB0aGUgX19tdXN0X2NoZWNrIGF0
+dHJpYnV0ZS4gVGhleSBhbHNvCj4gPj4+Pj4gbWF5IG5vdCBwcm92aWRlIGFueSBsZXZlbCBvZiBh
+dG9taWNpdHksIGluIHRoZSBzZW5zZSB0aGF0IHRoZSBtZW1vcnkKPiA+Pj4+PiBwcm90ZWN0aW9u
+cyBtYXkgYmUgbGVmdCBpbmNvbXBsZXRlIG9uIGZhaWx1cmUuIFRoaXMgaXNzdWUgbGlrZWx5IGhh
+cyBhCj4gPj4+Pj4gZmV3IHN0ZXBzIG9uIGVmZmVjdHMgYXJjaGl0ZWN0dXJlczoKPiA+Pj4+PiAx
+KUhhdmUgYWxsIGNhbGxlcnMgb2Ygc2V0X21lbW9yeV8qKCkgaGVscGVycyBjaGVjayB0aGUgcmV0
+dXJuIHZhbHVlLgo+ID4+Pj4+IDIpQWRkIF9fbXVzdF9jaGVjayB0byBhbGwgc2V0X21lbW9yeV8q
+KCkgaGVscGVycyBzbyB0aGF0IG5ldyB1c2VzIGRvCj4gPj4+Pj4gbm90IGlnbm9yZSB0aGUgcmV0
+dXJuIHZhbHVlLgo+ID4+Pj4+IDMpQWRkIGF0b21pY2l0eSB0byB0aGUgY2FsbHMgc28gdGhhdCB0
+aGUgbWVtb3J5IHByb3RlY3Rpb25zIGFyZW4ndAo+ID4+Pj4+IGxlZnQKPiA+Pj4+PiBpbiBhIHBh
+cnRpYWwgc3RhdGUuCj4gPj4+Pj4KPiA+Pj4+PiBUaGlzIHNlcmllcyBpcyBwYXJ0IG9mIHN0ZXAg
+MS4gTWFrZSBkcm0vcmFkZW9uIGNoZWNrIHRoZSByZXR1cm4KPiA+Pj4+PiB2YWx1ZSBvZgo+ID4+
+Pj4+IHNldF9tZW1vcnlfKigpLgo+ID4+Pj4gSSdtIGEgbGl0dGxlIGhlc2l0YXRlIG1lcmdlIHRo
+YXQuIFRoaXMgaGFyZHdhcmUgaXMgPjE1IHllYXJzIG9sZCBhbmQKPiA+Pj4+IG5vYm9keQo+ID4+
+Pj4gb2YgdGhlIGRldmVsb3BlcnMgaGF2ZSBhbnkgc3lzdGVtIGxlZnQgdG8gdGVzdCB0aGlzIGNo
+YW5nZSBvbi4KPiA+Pj4gSWYgdGhhdCdzIHRydWUgaXQgc2hvdWxkIGJlIHJlbW92ZWQgZnJvbSB0
+aGUgdHJlZS4gV2UgbmVlZCB0byBiZSBhYmxlIHRvCj4gPj4+IGNvcnJlY3RseSBtYWtlIHRoZXNl
+IGtpbmRzIG9mIGNoYW5nZXMgaW4gdGhlIGtlcm5lbC4KPiA+PiBUaGlzIGRyaXZlciBzdXBwb3J0
+cyBhYm91dCAxNSB5ZWFycyBvZiBoYXJkd2FyZSBnZW5lcmF0aW9ucy4gIE5ld2VyCj4gPj4gY2Fy
+ZHMgYXJlIHN0aWxsIHByZXZhbGVudCwgYnV0IHRoZSBvbGRlciBzdHVmZiBpcyBsZXNzIHNvLiAg
+SXQgc3RpbGwKPiA+PiB3b3JrcyBhbmQgcGVvcGxlIHVzZSBpdCBiYXNlZCBvbiBmZWVkYmFjayBJ
+J3ZlIHNlZW4sIGJ1dCB0aGUgb2xkZXIKPiA+PiBzdHVmZiBoYXMgbm8gYWN0aXZlIGRldmVsb3Bt
+ZW50IGF0IHRoaXMgcG9pbnQuICBUaGlzIGNoYW5nZSBqdXN0Cj4gPj4gaGFwcGVucyB0byB0YXJn
+ZXQgdGhvc2Ugb2xkZXIgY2hpcHMuCj4gPgo+ID4gSnVzdCBhIGZldyB3ZWVrcyBiYWNrIHdlJ3Zl
+IGdvdCBhIG1haWwgZnJvbSBzb21lYm9keSB1c2luZyBhbiBpbnRlZ3JhdGVkCj4gPiBSMTI4IGlu
+IGEgbGFwdG9wLgo+ID4KPiA+IEFmdGVyIGEgZmV3IG1haWxzIGJhY2sgYW5kIGZvcmNlIHdlIGZp
+Z3VyZWQgb3V0IHRoYXQgaGlzIG5lYXJseSAyMCB5ZWFycwo+ID4gb2xkIGhhcmR3YXJlIHdhcyBm
+aW5hbGx5IGZhaWxpbmcuCj4gPgo+ID4gVXAgdGlsbCB0aGF0IGhlIHdhcyBzdGlsbCBzdWNjZXNz
+ZnVsbHkgdXBkYXRpbmcgaGlzIGtlcm5lbCBmcm9tIHRpbWUgdG8KPiA+IHRpbWUgYW5kIHRoZSBk
+cml2ZXIgc3RpbGwgd29ya2VkLiBJIGZpbmQgdGhhdCBwcmV0dHkgaW1wcmVzc2l2ZS4KPiA+Cj4g
+Pj4KPiA+PiBBbGV4Cj4gPj4KPiA+Pj4+IFdvdWxkIGl0IGJlIHRvIG11Y2ggb2YgYSBwcm9ibGVt
+IHRvIGp1c3QgYWRkIHNvbWV0aGluZyBsaWtlOiByID0KPiA+Pj4+IHNldF9tZW1vcnlfKigpOyAo
+dm9pZClyOyAvKiBJbnRlbnRpb25hbGx5IGlnbm9yZWQgKi8uCj4gPj4+IFRoaXMgc2VlbXMgbGlr
+ZSBhIGJhZCBpZGVhIC0tIHdlIHNob3VsZG4ndCBiZSBwYXBlcmluZyBvdmVyIGZhaWx1cmUKPiA+
+Pj4gbGlrZSB0aGlzIHdoZW4gdGhlcmUgaXMgbG9naWMgYXZhaWxhYmxlIHRvIGRlYWwgd2l0aCBp
+dC4KPiA+Cj4gPiBXZWxsIEkgY2VydGFpbmx5IGFncmVlIHRvIHRoYXQsIGJ1dCB3ZSBhcmUgdGFs
+a2luZyBhYm91dCBhIGNhbGwgd2hpY2gKPiA+IGhhcHBlbnMgb25seSBvbmNlIGR1cmluZyBkcml2
+ZXIgbG9hZC91bmxvYWQuIElmIG5lY2Vzc2FyeSB3ZSBjb3VsZCBhbHNvCj4gPiBwcmludCBhbiBl
+cnJvciB3aGVuIHNvbWV0aGluZyBnb2VzIHdyb25nLCBidXQgcGxlYXNlIG5vIGxhcmdlcgo+ID4g
+cmVmYWN0b3Jpbmcgb2YgcmV0dXJuIHZhbHVlcyBhbmQgY2FsbCBwYXRocy4KPiA+Cj4KPiBJTUhP
+IHJhZGVvbiBzaG91bGQgYmUgbWFya2VkIGFzIG9ycGhhbmVkIG9yIG9ic29sZXRlIHRoZW4uCgpB
+cyBJIHNhaWQgdGhpcyBjb3ZlcnMgYWJvdXQgMTUtMTcgeWVhcnMgb2YgR1BVcyAofjYwIGFzaWMg
+ZmFtaWxpZXMpLgpUaGUgb2xkZXIgc3R1ZmYgaXMgaGFyZCB0byB0ZXN0IHRoZXNlIGRheXMgYmVj
+YXVzZSBpdCdzIFBDSSBvciBBR1AKaGFyZHdhcmUuICBTbyBmYXIgaXQgd29ya3MgZm9yIG1vc3Qg
+cGVvcGxlLiAgVGhlIG5ld2VyIHN0dWZmIGlzIHN0aWxsCnRlc3RlZCBhcyB1c2VkIHJlZ3VsYXJs
+eS4KCkFsZXgKCj4KPiBCZXN0IHJlZ2FyZHMKPiBUaG9tYXMKPgo+ID4gSXQgaXMgcGVyZmVjdGx5
+IHBvc3NpYmxlIHRoYXQgdGhpcyBjYWxsIGFjdHVhbGx5IGZhaWxlZCBvbiBzb21lYm9kaWVzCj4g
+PiBoYXJkd2FyZSwgYnV0IHdlIG5ldmVyIG5vdGljZWQgYmVjYXVzZSB0aGUgZHJpdmVyIHN0aWxs
+IHdvcmtzIGZpbmUuIElmCj4gPiB3ZSBub3cgaGFuZGxlIHRoZSBlcnJvciBpdCBpcyBwb3NzaWJs
+ZSB0aGF0IHRoZSBtb2R1bGUgbmV2ZXIgbG9hZHMgYW5kCj4gPiB0aGUgdXNlciBnZXRzIGEgYmxh
+Y2sgc2NyZWVuIGluc3RlYWQuCj4gPgo+ID4gUmVnYXJkcywKPiA+IENocmlzdGlhbi4KPiA+Cj4g
+Pj4+Cj4gPj4+PiBBcGFydCBmcm9tIHRoYXQgY2VydGFpbmx5IGEgZ29vZCBpZGVhIHRvIGFkZCBf
+X211c3RfY2hlY2sgdG8gdGhlCj4gPj4+PiBmdW5jdGlvbnMuCj4gPj4+IEFncmVlZCEKPiA+Pj4K
+PiA+Pj4gLUtlZXMKPiA+Pj4KPiA+Pj4gLS0KPiA+Pj4gS2VlcyBDb29rCj4gPj4+IF9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gPj4+IGRyaS1kZXZlbCBt
+YWlsaW5nIGxpc3QKPiA+Pj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4+PiBo
+dHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29tLz91cmw9aHR0cHMl
+M0ElMkYlMkZsaXN0cy5mcmVlZGVza3RvcC5vcmclMkZtYWlsbWFuJTJGbGlzdGluZm8lMkZkcmkt
+ZGV2ZWwmYW1wO2RhdGE9MDIlN0MwMSU3Q2NocmlzdGlhbi5rb2VuaWclNDBhbWQuY29tJTdDYTU0
+MmQzODRkNTQwNDBiNWIwYjcwOGQ3OTQ2MzZkZjElN0MzZGQ4OTYxZmU0ODg0ZTYwOGUxMWE4MmQ5
+OTRlMTgzZCU3QzAlN0MwJTdDNjM3MTQxMDI3MDgwMDgwMTQ3JmFtcDtzZGF0YT1FSEZsNllPSG1O
+cDdnT3FXc1ZtZm9lRDBqTmlyQlRPR0hjQ1A0ZWZDJTJGdkUlM0QmYW1wO3Jlc2VydmVkPTAKPiA+
+Pj4KPiA+Cj4gPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+Xwo+ID4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+ID4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwo+ID4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
+by9kcmktZGV2ZWwKPgo+IC0tCj4gVGhvbWFzIFppbW1lcm1hbm4KPiBHcmFwaGljcyBEcml2ZXIg
+RGV2ZWxvcGVyCj4gU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJICj4gTWF4ZmVs
+ZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55Cj4gKEhSQiAzNjgwOSwgQUcgTsO8cm5i
+ZXJnKQo+IEdlc2Now6RmdHNmw7xocmVyOiBGZWxpeCBJbWVuZMO2cmZmZXIKPgpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
