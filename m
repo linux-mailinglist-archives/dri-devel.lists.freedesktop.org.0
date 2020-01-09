@@ -2,49 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87CEB13626E
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 22:26:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09FD0136270
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 22:26:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0370F6E96A;
-	Thu,  9 Jan 2020 21:26:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2DF76E96E;
+	Thu,  9 Jan 2020 21:26:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-eopbgr770051.outbound.protection.outlook.com [40.107.77.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 711246E96A;
- Thu,  9 Jan 2020 21:26:21 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2087.outbound.protection.outlook.com [40.107.220.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68F4E6E96E;
+ Thu,  9 Jan 2020 21:26:23 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=StNBkcBPcFm5UIboVQlyF2eakxv7ucq0K2p4oCRjvUq1NIDw4vD0jT0OAbcR+C++WHa+jUO1Sax/9E31XoOInspPaYz255TShydbi68faImi1y30NThA7xOF/GHD8p/qAS7CsnNbKm2+nw78A/NJJLBb3T/KZfb7Zon7M3mKRqOhDNzqLC/8flRP+o6ZXPEgkVvGMmMYjaPjT/aP5fLTFPyt6q5PoOSoUk//BNuwAk0KnsoRe5bkUFuuyRzttBvwwyHjolGSLnn6O4n3ka0SUVJX8SoyIriSPprP/vPoE8omaAIZpaQDvKn2kD9nScFYpXhub8pO5K5AUL8RgREY5A==
+ b=Pk3CeaVWVpdEobKh7ETwmjVZkeFQHmPhkJjM+Efr7H+Jm1+dBwviMNMQ/ZYSkObXJHB9fA+vd4qzS4NAljLLO4lui3k3VEItoIgJX+OKVlYWL+hHPajANWn5OxYAfW7NcIXs6hR2BmJQpcKBvyqCt6BKJyjHqNi8mdInPaBz4Fc/dOjkJEOpcJsmeRZ12EE8bkwE2LiICYpsujPeSPkZrcgevsloz6UeR0MvDbIqwhFYrVZ+M/1Q0tKY9JuLn49DFn/L/UArvT4884D7Na0CExXJXDCyBuY/UWVS+f9j3D6/1yAgFgkT/oz/G/UdQ9WsEdJB6oerTpvQCEYqgMabGQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qQjzt9y3E+1vtcgaZ5lbC6Kb+s0ZI7dhP1HLRtSxOEg=;
- b=XBtQPiNk8jgARf93oIa0TcsxDc9ypktsCZmD+EBkcpLgwChDBwn17w8A/gD8j/xi1/JPriRumX3mUCjhGaS0nOgd4wfn5XDEsT9wi3g6lVXo9BLQ20YfSHDqD4P6s8MS9HNhr9d5VxyMNSCqWTZ5ksw/2Yl5mPmMalcYdCP/40KjwXd3p8PMjox305r0d2PsZFK2svpFUHAj3LN5QTaOKTU1h0PTsxHJs5qJrERuWvHKLFK100nw7KgMJXwuX3eNan+BgZop44RbhhxrsRYsSwiAu5sySFVAsCZeEgC1G8bZqoMvSxMKMuHbg61uR9FF3zFrdmYT6x4RmMVFe3D+cQ==
+ bh=OvNhci6tWBZltRIsxH9vrCmkKIy8HBbQWDvX68bKbz4=;
+ b=Cic3vsYuX6jV84udmSq8oKihBizAGvdDLeCg7d46mUpIrlc9T+9NUE5pcYRq0OvgX81SZsWFzo3l/JkVjn0hfMt0lv//T4OGVlBB3j8v4rHYoem2gTqIYIzzGj6llfsl97pJbH4EAl2aqeQmmxZ4zwp8EGy+Y5lntg5hBnZ0gtmiwqR7bfxwE02LRP/OZIIiofuLfkhOfrf566jJqKAlUVW47YyGTy/VklQwzjLvP1WORPvRGFW65bEkPm5q5xlC0pP2jteihBNJnRhYUdzevSNHkoxHeZObMO4/KUjQlbykPJ9He73V4EtxqqERyM9VwPTgp+/mfchgzQ3vatJ+5g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qQjzt9y3E+1vtcgaZ5lbC6Kb+s0ZI7dhP1HLRtSxOEg=;
- b=tL/MXCj2ZDFpqlvstlX/Aab5aUXhNaLgpXIlVau1+Xpo6GPH0te1OxjgvMOyj0oGpb/Xtrkkv9nb+fS0VcZMJl0k6k1fw6EwfbZDZ5coiqWYpclz6WAZPOk3ViNOi4xsYwyEeZSd/NU1VCph4kFLY285Ac4acWCnTDE2pBGVc3U=
+ bh=OvNhci6tWBZltRIsxH9vrCmkKIy8HBbQWDvX68bKbz4=;
+ b=etfhccQAi1rmIgAArcdL7BtVnxOx2i6Sn/m93EfT1ZAUQRYBWwRYvYVBl4uteolZow9gr2UKNwxNGVmWSfAkrc2Agd3p6gpZV+uXAhEqhr23LfP5cTzUqvysw1ih8KF+dZhSxj851RnlQr9RFbIu9RAg1WvFsuEccwQPPu1/etU=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=Harry.Wentland@amd.com; 
 Received: from CY4PR1201MB0230.namprd12.prod.outlook.com (10.172.79.7) by
- CY4PR1201MB0198.namprd12.prod.outlook.com (10.172.75.138) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2623.11; Thu, 9 Jan 2020 21:26:19 +0000
+ CY4PR1201MB2535.namprd12.prod.outlook.com (10.172.121.143) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2602.15; Thu, 9 Jan 2020 21:26:21 +0000
 Received: from CY4PR1201MB0230.namprd12.prod.outlook.com
  ([fe80::4c09:215c:e5d2:3c8f]) by CY4PR1201MB0230.namprd12.prod.outlook.com
  ([fe80::4c09:215c:e5d2:3c8f%9]) with mapi id 15.20.2602.016; Thu, 9 Jan 2020
- 21:26:19 +0000
-Subject: Re: [PATCH 2/2] drm/amd/display: Allow current eDP link settings to
- override verified ones.
-To: Mario Kleiner <mario.kleiner.de@gmail.com>
-References: <20200109152028.28260-1-mario.kleiner.de@gmail.com>
- <20200109152028.28260-3-mario.kleiner.de@gmail.com>
- <9238371c-fc93-2a65-c3e5-df6b3d1270dd@amd.com>
- <CAEsyxygx+2p+i91bvYBLVfq-9qog-SLQ_KdHBTmSyq4Zfr09jg@mail.gmail.com>
+ 21:26:21 +0000
+Subject: Re: [PATCH] drm/i915/dp: Add current maximum eDP link rate to
+ sink_rate array.
+To: Mario Kleiner <mario.kleiner.de@gmail.com>,
+ Alex Deucher <alexdeucher@gmail.com>, Harry Wentland <Harry.Wentland@amd.com>
+References: <20200109150752.28098-1-mario.kleiner.de@gmail.com>
+ <CADnq5_PvPD+FyEwUrqDVmbdLrP6ZC72HPtd19bqm-Csx-fHMOA@mail.gmail.com>
+ <CAEsyxyjTvuCHHA3D-NJd=aGkHz2d=obSizwGQL8B4k1B7i2jJg@mail.gmail.com>
+ <CADnq5_NPdg8MjQ5cB2aCD+US1Hv+FoP1gqKcA4W2e0pouG8cGQ@mail.gmail.com>
+ <CAEsyxyjMsCU8rzyO0GewU_-uV5+UoDDwa5Mc74irUnJHhF6ALQ@mail.gmail.com>
 From: Harry Wentland <hwentlan@amd.com>
 Autocrypt: addr=hwentlan@amd.com; keydata=
  mQENBFhb4C8BCADhHHUNoBQ7K7LupCP0FsUb443Vuqq+dH0uo4A3lnPkMF6FJmGcJ9Sbx1C6
@@ -69,48 +71,48 @@ Autocrypt: addr=hwentlan@amd.com; keydata=
  T5ASJ97G4XvQNO+XXGY55MrmhoNqMaeIa/3Jas54fPVd5olcnUAyDty29/VWXNllUq38iBCX
  /0tTF7oav1lzPGfeW2c6B700FFZMTR4YBVSGE8jPIzu2Fj0E8EkDmsgS+nibqSvWXfo1v231
  410h35CjbYDlYQO7Z1YD7asqbaOnF0As+rckyRMweQ9CxZn5+YBijtPJA3x5ldbCfQ9rWiTu XQ==
-Message-ID: <6d481758-d0d9-8911-1473-4257b74a1e97@amd.com>
-Date: Thu, 9 Jan 2020 16:26:17 -0500
+Message-ID: <bae132f3-73e6-5004-c9a9-adb632338268@amd.com>
+Date: Thu, 9 Jan 2020 16:26:19 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.1
-In-Reply-To: <CAEsyxygx+2p+i91bvYBLVfq-9qog-SLQ_KdHBTmSyq4Zfr09jg@mail.gmail.com>
+In-Reply-To: <CAEsyxyjMsCU8rzyO0GewU_-uV5+UoDDwa5Mc74irUnJHhF6ALQ@mail.gmail.com>
 Content-Language: en-US
-X-ClientProxiedBy: YTOPR0101CA0068.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b00:14::45) To CY4PR1201MB0230.namprd12.prod.outlook.com
+X-ClientProxiedBy: YTOPR0101CA0063.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:14::40) To CY4PR1201MB0230.namprd12.prod.outlook.com
  (2603:10b6:910:1e::7)
 MIME-Version: 1.0
 Received: from [10.4.33.74] (165.204.55.251) by
- YTOPR0101CA0068.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:14::45) with
+ YTOPR0101CA0063.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:14::40) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2623.9 via Frontend
- Transport; Thu, 9 Jan 2020 21:26:18 +0000
+ Transport; Thu, 9 Jan 2020 21:26:21 +0000
 X-Originating-IP: [165.204.55.251]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: a541fbd1-d770-489f-cafc-08d7954a9136
-X-MS-TrafficTypeDiagnostic: CY4PR1201MB0198:|CY4PR1201MB0198:
+X-MS-Office365-Filtering-Correlation-Id: 97905d00-3fa7-4884-7d7d-08d7954a9286
+X-MS-TrafficTypeDiagnostic: CY4PR1201MB2535:|CY4PR1201MB2535:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <CY4PR1201MB0198CA901FC655626CC0EB0A8C390@CY4PR1201MB0198.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Microsoft-Antispam-PRVS: <CY4PR1201MB253539EF3203DB739A8413AE8C390@CY4PR1201MB2535.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
 X-Forefront-PRVS: 02778BF158
 X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10009020)(4636009)(136003)(39860400002)(376002)(396003)(346002)(366004)(189003)(199004)(8936002)(6916009)(956004)(8676002)(36756003)(6486002)(81156014)(81166006)(4326008)(15650500001)(2906002)(478600001)(31696002)(2616005)(31686004)(53546011)(16576012)(54906003)(316002)(66556008)(66946007)(5660300002)(66476007)(16526019)(186003)(26005)(52116002)(46800400005);
- DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR1201MB0198;
+ SFS:(10009020)(4636009)(396003)(376002)(366004)(136003)(346002)(39860400002)(189003)(199004)(81156014)(81166006)(6636002)(316002)(2906002)(8936002)(6486002)(4326008)(478600001)(16576012)(8676002)(36756003)(16526019)(52116002)(2616005)(33964004)(31686004)(956004)(66946007)(66476007)(53546011)(66556008)(31696002)(5660300002)(186003)(110136005)(26005)(54906003);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR1201MB2535;
  H:CY4PR1201MB0230.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; MX:1; A:1; 
 Received-SPF: None (protection.outlook.com: amd.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: e557tThCNH5nlNxc9WBRlhg75YQZ/dhXoy8SXWDflzkXmmBJz4Nb8iGKGrEI4Bx52uHJkkf3g5to/s12KNJsrYhzC8SEaIFJUrIN1TyueyXR386ikFYu3u46oJ/MO/NrZ5cYvh13xEbGL9ixy45ESOyPFr+kNONrl8DT165xKNOVRBhUgOt1BzvBc2T3zHGBT1siXNu3FT/JVZX0bwXiy98YlgGk2oVDFHlcaUdh/Z8tm6awMepuc5ttZFWjmBSWg61QtWFB4MWrC5iBPXg3SiiD/2xdg8IUVQHHxZKX4HIDL/UfTY2WcjmouQJsQA3Z56bazcBDx77+FCk7z8jPmFGlGRvZ8NBLWSaeyLvFwScFA+/vZcDZ3em44PsZ+AOZ5wJzYEbNWiHtD9vgbCn5IijJQAi4uazzRRqnqwAaI2OqvVMl6OMcWgsCda8AnxyJIXZQbXZQGGi70kq5ymXN0p88YlpSIDOR5rAOIDSMOO3bwCz1nleQuAOWCOUY+Ylb
+X-Microsoft-Antispam-Message-Info: 4Dm+6e/AkjVG9O3SMJ4MJ7vRsbJ+fvI3rHYl3HnUUtSu1Vua6VeYqj8C0YJQvyNasDsCiRdplhZ3uILjgpv7Edcl6sI8FB0lujyvQSBEqC/JIDOoeYym2KDQiPUSDcs6G2rn9fr0darHoKwFFHSkRJHLRAwDw6bMLO8W22g36iQCYu9FQSG8xrMHcMOXFRLyaMK5Q6tVdQSN/9SVyFvg8+B9eVqV+ff07459h7H3Au28RHUomjG0oWDeoBGtNWEJ8DqP9ffRPWxWkblfT8QZMkcRj5IQhdOHcAaNBfQ39PVLa+FxXpc4AQHCgpBGh7NzGTqESueXmQTHp0H0IDasMRs6bXl/ti2Tbeuf8Xv9THOrmXD6oWjSqROz2psBpsRHl2PpNetDbQ11MU7NAme3yfiRDc42pYDSyPCZQ3mpkd7YvuqfNV377MI2sVX0AMwY
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a541fbd1-d770-489f-cafc-08d7954a9136
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2020 21:26:19.4609 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 97905d00-3fa7-4884-7d7d-08d7954a9286
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2020 21:26:21.6179 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OaAxJHoANyVCq4CwjhAQdUJXO3n8a2faDx949yAREz1TEXlTAS94+XwpzElIqxR8HAh6spMTxJHbZvUkSl/03A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB0198
+X-MS-Exchange-CrossTenant-UserPrincipalName: BoyPFMmYbZ93WhBuyQuQfCRJB+j02q2Btlvi3CYyfNpViKpIOXdBn8KXHD4+TK1cAFV/FnZhGh6WvpWjvRrrxQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB2535
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,115 +125,217 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>, mario.kleiner.de@gmail.de,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: mario.kleiner.de@gmail.de,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: multipart/mixed; boundary="===============1818409056=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAyMC0wMS0wOSA0OjEzIHAubS4sIE1hcmlvIEtsZWluZXIgd3JvdGU6Cj4gT24gVGh1LCBK
-YW4gOSwgMjAyMCBhdCA3OjQ0IFBNIEhhcnJ5IFdlbnRsYW5kIDxod2VudGxhbkBhbWQuY29tCj4g
-PG1haWx0bzpod2VudGxhbkBhbWQuY29tPj4gd3JvdGU6Cj4gCj4gICAgIE9uIDIwMjAtMDEtMDkg
-MTA6MjAgYS5tLiwgTWFyaW8gS2xlaW5lciB3cm90ZToKPiAgICAgPiBJZiB0aGUgY3VycmVudCBl
-RFAgbGluayBzZXR0aW5ncywgYXMgcmVhZCBmcm9tIGh3LCBwcm92aWRlIGEgaGlnaGVyCj4gICAg
-ID4gYmFuZHdpZHRoIHRoYW4gdGhlIHZlcmlmaWVkX2xpbmtfY2FwIG9uZXMgKD0gcmVwb3J0ZWRf
-bGlua19jYXApLCB0aGVuCj4gICAgID4gb3ZlcnJpZGUgdmVyaWZpZWRfbGlua19jYXAgd2l0aCBj
-dXJyZW50IHNldHRpbmdzLgo+ICAgICA+Cj4gICAgID4gVGhlc2UgaW5pdGlhbCBjdXJyZW50IGVE
-UCBsaW5rIHNldHRpbmdzIGhhdmUgYmVlbiBzZXQgdXAgYnkKPiAgICAgPiBmaXJtd2FyZSBkdXJp
-bmcgYm9vdCwgc28gdGhleSBzaG91bGQgd29yayBvbiB0aGUgZURQIHBhbmVsLgo+ICAgICA+IFRo
-ZXJlZm9yZSB1c2UgdGhlbSBpZiB0aGUgZmlybXdhcmUgdGhpbmtzIHRoZXkgYXJlIGdvb2QgYW5k
-Cj4gICAgID4gdGhleSBwcm92aWRlIGhpZ2hlciBsaW5rIGJhbmR3aWR0aCwgZS5nLiwgdG8gZW5h
-YmxlIGhpZ2hlcgo+ICAgICA+IHJlc29sdXRpb25zIC8gY29sb3IgZGVwdGhzLgo+ICAgICA+Cj4g
-ICAgIMKgCj4gCj4gCj4gSGkgSGFycnksIGhhcHB5IG5ldyB5ZWFyIQo+IAoKRnJvaGVzIE5ldWVz
-LiA6KQoKPiAgICAgVGhpcyBvbmx5IHdvcmtzIHdoZW4gdGFraW5nIG92ZXIgZnJvbSBVRUZJLCBz
-byBvbiBib290IG9yIHJlc3VtZSBmcm9tCj4gICAgIGhpYmVybmF0ZS4gVGhpcyB3b3VsZG4ndCB3
-b3JrIG9uIGEgbm9ybWFsIHN1c3BlbmQvcmVzdW1lLgo+IAo+IAo+IFNlZSB0aGUgb3RoZXIgdGhy
-ZWFkIGkganVzdCBjYydlZCB5b3Ugb24uIERlcGVuZHMgaWYKPiBkY19saW5rX2RldGVjdF9oZWxw
-ZXIoKSBnZXRzIHNraXBwZWQvZWFybHkgcmV0dXJucyBvciBub3Qgb24gRURQLiBTb21lCj4gaWYg
-c3RhdGVtZW50IHN1Z2dlc3RzIGl0IG1pZ2h0IGdldCBza2lwcGVkIG9uIEVEUCArIHJlc3VtZT8K
-PiDCoAoKWW91J3ZlIGxpa2VseSBsb29rZWQgYXQgdGhlIGNvZGUgbW9yZSBjbG9zZWx5IHdoaWxl
-IGRlYnVnZ2luZyB0aGlzIHRoYW4KSSBoYXZlIHJlY2VudGx5LiBJdCBsb29rcyBsaWtlIHdlIGlu
-ZGVlZCBza2lwIGRldGVjdGlvbiBpZiB3ZSd2ZQpwcmV2aW91c2x5IGRldGVjdGVkIHRoZSBlRFAg
-c2luay4KCj4gCj4gICAgIENhbiB5b3UgY2hlY2sgaWYgc2V0dGluZyBsaW5rLT5kYy0+Y29uZmln
-Lm9wdGltaXplX2VkcF9saW5rX3JhdGUgKHNlZQo+ICAgICBmaXJzdCBpZiBzdGF0ZW1lbnQgaW4g
-ZGV0ZWN0X2VkcF9zaW5rX2NhcHMpIGZpeGVzIHRoaXM/IEkgaW1hZ2luZSB3ZQo+ICAgICBuZWVk
-IHRvIHJlYWQgdGhlIHJlcG9ydGVkIHNldHRpbmdzIGZyb20gRFBfU1VQUE9SVEVEX0xJTktfUkFU
-RVMgYW5kIGZhaWwKPiAgICAgdG8gZG8gc28uCj4gCj4gCj4gVHJpZWQgdGhhdCBhbHJlYWR5IChz
-ZWUgb3RoZXIgbWFpbCksIHJlcGxhY2luZyB0aGUgd2hvbGUgaWYgc3RhdGVtZW50Cj4gd2l0aCBh
-IGlmICh0cnVlKSB0byBmb3JjZSByZWFkaW5nIERQX1NVUFBPUlRFRF9MSU5LX1JBVEVTLiBUaGUg
-d2hvbGUKPiB0YWJsZSByZWFkcyBiYWNrIGFzIGFsbC16ZXJvLCBhbmQgdmVyc2lvbnMgYXJlIERQ
-IDEuMSwgZURQIDEuMywgbm90IDEuNCsKPiBhcyB3aGF0IHNlZW1zIHRvIGJlIHJlcXVpcmVkLiBU
-aGUgdXNlIHRoZSBjbGFzc2ljIGxpbmsgYncgc3R1ZmYsIGJ1dAo+IHdpdGggYSBub24tc3RhbmRh
-cmQgbGluayBiYW5kd2lkdGggbXVsdGlwbGllciBvZiAweGMsIGFuZCBhIHJlcG9ydGVkCj4gRFBf
-TUFYX0xJTktfUkFURSBvZiAweGEsIGNvbnRyYWRpY3RpbmcgdGhlIDB4YyBzZXR0aW5nIHRoYXQg
-dGhlIGZpcm13YXJlCj4gc2V0cyBhdCBib290dXAuCj4gCj4gU2VlbXMgdG8gYmUgYSB2ZXJ5IEFw
-cGxlIHRoaW5nLi4uCgpJbmRlZWQuIEkgdGhpbmsgaXQgd2FzIGEgZnVua3kgcGFuZWwgdGhhdCB3
-YXMgImFoZWFkIG9mIGl0cyB0aW1lIiBhbmQKYWhlYWQgb2YgdGhlIHNwZWMuCgpJIHdvdWxkIHBy
-ZWZlciBhIERQQ0QgcXVpcmsgZm9yIHRoaXMgcGFuZWwgdGhhdCB1cGRhdGVzIHRoZSByZXBvcnRl
-ZCBEUApjYXBzLCByYXRoZXIgdGhhbiBwaWNraW5nIHRoZSAiY3VycmVudCIgb25lcyBmcm9tIHRo
-ZSBGVyBsaWdodHVwLgoKSGFycnkKCj4gLW1hcmlvCj4gwqAKPiAKPiAKPiAgICAgVGhhbmtzLAo+
-ICAgICBIYXJyeQo+IAo+ICAgICA+IFRoaXMgZml4ZXMgYSBwcm9ibGVtIGZvdW5kIG9uIHRoZSBN
-YWNCb29rUHJvIDIwMTcgUmV0aW5hIHBhbmVsOgo+ICAgICA+Cj4gICAgID4gVGhlIHBhbmVsIHJl
-cG9ydHMgMTAgYnBjIGNvbG9yIGRlcHRoIGluIGl0cyBFRElELCBhbmQgdGhlCj4gICAgID4gZmly
-bXdhcmUgY2hvb3NlcyBsaW5rIHNldHRpbmdzIGF0IGJvb3Qgd2hpY2ggc3VwcG9ydCBlbm91Z2gK
-PiAgICAgPiBiYW5kd2lkdGggZm9yIDEwIGJwYyAoMzI0MDAwIGtiaXQvc2VjIGFrYSBMSU5LX1JB
-VEVfUkJSMiksCj4gICAgID4gYnV0IHRoZSBEUF9NQVhfTElOS19SQVRFIGRwY2QgcmVnaXN0ZXIg
-b25seSByZXBvcnRzIDIuNyBHYnBzCj4gICAgID4gYXMgcG9zc2libGUsIHNvIHZlcmlmaWVkX2xp
-bmtfY2FwIGlzIG9ubHkgZ29vZCBmb3IgMi43IEdicHMKPiAgICAgPiBhbmQgOCBicGMsIG5vdCBw
-cm92aWRpbmcgdGhlIGZ1bGwgY29sb3IgZGVwdGggb2YgdGhlIHBhbmVsLgo+ICAgICA+Cj4gICAg
-ID4gU2lnbmVkLW9mZi1ieTogTWFyaW8gS2xlaW5lciA8bWFyaW8ua2xlaW5lci5kZUBnbWFpbC5j
-b20KPiAgICAgPG1haWx0bzptYXJpby5rbGVpbmVyLmRlQGdtYWlsLmNvbT4+Cj4gICAgID4gQ2M6
-IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbQo+ICAgICA8bWFpbHRvOmFs
-ZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+Pgo+ICAgICA+IC0tLQo+ICAgICA+wqAgZHJpdmVycy9n
-cHUvZHJtL2FtZC9kaXNwbGF5L2RjL2NvcmUvZGNfbGluay5jIHwgMjEKPiAgICAgKysrKysrKysr
-KysrKysrKysrKwo+ICAgICA+wqAgMSBmaWxlIGNoYW5nZWQsIDIxIGluc2VydGlvbnMoKykKPiAg
-ICAgPgo+ICAgICA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMv
-Y29yZS9kY19saW5rLmMKPiAgICAgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvY29y
-ZS9kY19saW5rLmMKPiAgICAgPiBpbmRleCA1ZWE0YTE2NzUyNTkuLmYzYWNkYjhmZWFkNSAxMDA2
-NDQKPiAgICAgPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvY29yZS9kY19s
-aW5rLmMKPiAgICAgPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvY29yZS9k
-Y19saW5rLmMKPiAgICAgPiBAQCAtODE5LDYgKzgxOSwyNyBAQCBzdGF0aWMgYm9vbCBkY19saW5r
-X2RldGVjdF9oZWxwZXIoc3RydWN0Cj4gICAgIGRjX2xpbmsgKmxpbmssCj4gICAgID7CoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoGNhc2UgU0lHTkFMX1RZUEVfRURQOiB7Cj4gICAgID7CoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoGRldGVjdF9lZHBfc2lua19jYXBzKGxpbmspOwo+ICAg
-ICA+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqByZWFkX2N1cnJlbnRfbGlua19z
-ZXR0aW5nc19vbl9kZXRlY3QobGluayk7Cj4gICAgID4gKwo+ICAgICA+ICvCoCDCoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoC8qIElmIGN1cl9saW5rX3NldHRpbmdzIHByb3ZpZGVzIGhpZ2hl
-cgo+ICAgICBiYW5kd2lkdGggdGhhbgo+ICAgICA+ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
-oCDCoCDCoCAqIHZlcmlmaWVkX2xpbmtfY2FwLCB0aGVuIHVzZQo+ICAgICBjdXJfbGlua19zZXR0
-aW5ncyBhcyBuZXcKPiAgICAgPiArwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgKiB2
-ZXJpZmllZF9saW5rX2NhcCwgYXMgaXQgb2J2aW91c2x5IHdvcmtzCj4gICAgIGFjY29yZGluZyB0
-bwo+ICAgICA+ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCAqIGZpcm13YXJlIGJv
-b3Qgc2V0dXAuCj4gICAgID4gK8KgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgICoKPiAg
-ICAgPiArwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgKiBUaGlzIGhhcyBiZWVuIG9i
-c2VydmVkIG9uIHRoZSBBcHBsZQo+ICAgICBNYWNCb29rUHJvIDIwMTcKPiAgICAgPiArwqAgwqAg
-wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgKiBSZXRpbmEgcGFuZWwsIHdoaWNoIGJvb3RzIHdp
-dGggYSBsaW5rCj4gICAgIHNldHRpbmcgaGlnaGVyCj4gICAgID4gK8KgIMKgIMKgIMKgIMKgIMKg
-IMKgIMKgIMKgIMKgIMKgICogdGhhbiB3aGF0IGRwY2RbRFBfTUFYX0xJTktfUkFURV0gY2xhaW1z
-Cj4gICAgIGFzIHBvc3NpYmxlLgo+ICAgICA+ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
-oCDCoCAqIE92ZXJyaWRpbmcgYWxsb3dzIHRvIHJ1biB0aGUgcGFuZWwgYXQgMTAKPiAgICAgYnBj
-IC8gMzAgYml0Lgo+ICAgICA+ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCAqLwo+
-ICAgICA+ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoGlmIChkY19saW5rX2JhbmR3
-aWR0aF9rYnBzKGxpbmssCj4gICAgICZsaW5rLT5jdXJfbGlua19zZXR0aW5ncykgPgo+ICAgICA+
-ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoGRjX2xpbmtfYmFuZHdpZHRo
-X2ticHMobGluaywKPiAgICAgJmxpbmstPnZlcmlmaWVkX2xpbmtfY2FwKSkgewo+ICAgICA+ICvC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoERDX0xPR19ERVRFQ1RJ
-T05fRFBfQ0FQUygKPiAgICAgPiArwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgwqAgwqAiZURQIGN1cnJlbnQgbGluayBzZXR0aW5nIGJ3ICVkIGticHMKPiAgICAgPiB2ZXJp
-ZmllZF9saW5rX2NhcCAlZCBrYnBzLiBPdmVycmlkZS4iLAo+ICAgICA+ICvCoCDCoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoGRjX2xpbmtfYmFuZHdpZHRoX2ticHMobGlu
-aywKPiAgICAgJmxpbmstPmN1cl9saW5rX3NldHRpbmdzKSwKPiAgICAgPiArwqAgwqAgwqAgwqAg
-wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqBkY19saW5rX2JhbmR3aWR0aF9rYnBzKGxp
-bmssCj4gICAgICZsaW5rLT52ZXJpZmllZF9saW5rX2NhcCkpOwo+ICAgICA+ICsKPiAgICAgPiAr
-wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqBsaW5rLT52ZXJpZmll
-ZF9saW5rX2NhcCA9Cj4gICAgIGxpbmstPmN1cl9saW5rX3NldHRpbmdzOwo+ICAgICA+ICvCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoH0KPiAgICAgPiArCj4gICAgID7CoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoHNpbmtfY2Fwcy50cmFuc2FjdGlvbl90eXBlID0KPiAg
-ICAgRERDX1RSQU5TQUNUSU9OX1RZUEVfSTJDX09WRVJfQVVYOwo+ICAgICA+wqAgwqAgwqAgwqAg
-wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqBzaW5rX2NhcHMuc2lnbmFsID0gU0lHTkFMX1RZUEVfRURQ
-Owo+ICAgICA+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqBicmVhazsKPiAgICAg
-Pgo+IApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+--===============1818409056==
+Content-Type: multipart/alternative;
+ boundary="------------233C9ABD89B05595E9630594"
+Content-Language: en-US
+
+--------------233C9ABD89B05595E9630594
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+
+
+On 2020-01-09 4:04 p.m., Mario Kleiner wrote:
+> On Thu, Jan 9, 2020 at 8:49 PM Alex Deucher <alexdeucher@gmail.com
+> <mailto:alexdeucher@gmail.com>> wrote:
+>
+>     On Thu, Jan 9, 2020 at 11:47 AM Mario Kleiner
+>     <mario.kleiner.de@gmail.com <mailto:mario.kleiner.de@gmail.com>>
+>     wrote:
+>     >
+>     > On Thu, Jan 9, 2020 at 4:40 PM Alex Deucher
+>     <alexdeucher@gmail.com <mailto:alexdeucher@gmail.com>> wrote:
+>     >>
+>     >> On Thu, Jan 9, 2020 at 10:08 AM Mario Kleiner
+>     >> <mario.kleiner.de@gmail.com
+>     <mailto:mario.kleiner.de@gmail.com>> wrote:
+>     >> >
+>     As Harry mentioned in the other thread, won't this only work if the=
+
+>     display was brought up by the vbios?=C2=A0 In the suspend/resume ca=
+se,
+>     won't we just fall back to 2.7Gbps?
+>
+>     Alex
+>
+>
+> Adding Harry to cc...
+>
+> The code is only executed for eDP. On the Intel side, it seems that
+> intel_edp_init_dpcd() gets only called during driver load /
+> modesetting init, so not on resume.
+>
+> On the AMD DC side, dc_link_detect_helper() has this early no-op
+> return at the beginning:
+>
+> if ((link->connector_signal =3D=3D SIGNAL_TYPE_LVDS ||
+> 			link->connector_signal =3D=3D SIGNAL_TYPE_EDP) &&
+> 			link->local_sink)
+> 		return true;
+>
+> So i guess if link->local_sink doesn't get NULL'ed during a
+> suspend/resume cycle, then we never reach the setup code that would
+> overwrite with non vbios settings?
+>
+> Sounds reasonable to me, given that eDP panels are usually fixed
+> internal panels, nothing that gets hot(un-)plugged?
+>
+> I can't test, because suspend/resume with the Polaris gpu on the MBP
+> 2017 is totally broken atm., just as vgaswitcheroo can't do its job.
+> Looks like powering down the gpu works, but powering up doesn't. And
+> also modesetting at vgaswitcheroo switch time is no-go, because the
+> DDC/AUX lines apparently can't be switched on that Apple gmux, and
+> handover of that data seems to be not implemented in current
+> vgaswitcheroo. At the moment switching between AMD only or Intel+AMD
+> Prime setup is quite a pita...
+>
+
+I haven't followed the entire discussion on the i915 thread but for the
+amdgpu dc patch I would prefer a DPCD quirk to override the reported
+link settings with the correct link rate.
+
+Harry
+
+> -mario
+>
+>
+
+
+--------------233C9ABD89B05595E9630594
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <br>
+    <br>
+    <div class="moz-cite-prefix">On 2020-01-09 4:04 p.m., Mario Kleiner
+      wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:CAEsyxyjMsCU8rzyO0GewU_-uV5&#43;UoDDwa5Mc74irUnJHhF6ALQ@mail.gmail.com">
+      
+      <div dir="ltr">
+        <div dir="ltr">On Thu, Jan 9, 2020 at 8:49 PM Alex Deucher &lt;<a href="mailto:alexdeucher@gmail.com" moz-do-not-send="true">alexdeucher@gmail.com</a>&gt;
+          wrote:<br>
+        </div>
+        <div class="gmail_quote">
+          <blockquote class="gmail_quote" style="margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">On Thu, Jan 9, 2020 at
+            11:47 AM Mario Kleiner<br>
+            &lt;<a href="mailto:mario.kleiner.de@gmail.com" target="_blank" moz-do-not-send="true">mario.kleiner.de@gmail.com</a>&gt;
+            wrote:<br>
+            &gt;<br>
+            &gt; On Thu, Jan 9, 2020 at 4:40 PM Alex Deucher &lt;<a href="mailto:alexdeucher@gmail.com" target="_blank" moz-do-not-send="true">alexdeucher@gmail.com</a>&gt;
+            wrote:<br>
+            &gt;&gt;<br>
+            &gt;&gt; On Thu, Jan 9, 2020 at 10:08 AM Mario Kleiner<br>
+            &gt;&gt; &lt;<a href="mailto:mario.kleiner.de@gmail.com" target="_blank" moz-do-not-send="true">mario.kleiner.de@gmail.com</a>&gt;
+            wrote:<br>
+            &gt;&gt; &gt;<br>
+            As Harry mentioned in the other thread, won't this only work
+            if the<br>
+            display was brought up by the vbios?&nbsp; In the suspend/resume
+            case,<br>
+            won't we just fall back to 2.7Gbps?<br>
+            <br>
+            Alex<br>
+            <br>
+          </blockquote>
+        </div>
+        <div class="gmail_quote"><br>
+        </div>
+        <div class="gmail_quote">Adding Harry to cc...<br>
+        </div>
+        <div class="gmail_quote"><br>
+        </div>
+        <div class="gmail_quote">The code is only executed for eDP. On
+          the Intel side, it seems that intel_edp_init_dpcd() gets only
+          called during driver load / modesetting init, so not on
+          resume.</div>
+        <div class="gmail_quote"><br>
+        </div>
+        <div class="gmail_quote">On the AMD DC side,
+          dc_link_detect_helper() has this early no-op return at the
+          beginning:</div>
+        <div class="gmail_quote"><br>
+        </div>
+        <div class="gmail_quote">
+          <pre>if ((link-&gt;connector_signal == SIGNAL_TYPE_LVDS ||
+			link-&gt;connector_signal == SIGNAL_TYPE_EDP) &amp;&amp;
+			link-&gt;local_sink)
+		return true;</pre>
+        </div>
+        <div class="gmail_quote"><br>
+        </div>
+        <div class="gmail_quote">So i guess if link-&gt;local_sink
+          doesn't get NULL'ed during a suspend/resume cycle, then we
+          never reach the setup code that would overwrite with non vbios
+          settings?</div>
+        <div class="gmail_quote"><br>
+        </div>
+        <div class="gmail_quote">Sounds reasonable to me, given that eDP
+          panels are usually fixed internal panels, nothing that gets
+          hot(un-)plugged?</div>
+        <div class="gmail_quote"><br>
+        </div>
+        <div class="gmail_quote">I can't test, because suspend/resume
+          with the Polaris gpu on the MBP 2017 is totally broken atm.,
+          just as vgaswitcheroo can't do its job. Looks like powering
+          down the gpu works, but powering up doesn't. And also
+          modesetting at vgaswitcheroo switch time is no-go, because the
+          DDC/AUX lines apparently can't be switched on that Apple gmux,
+          and handover of that data seems to be not implemented in
+          current vgaswitcheroo. At the moment switching between AMD
+          only or Intel&#43;AMD Prime setup is quite a pita...<br>
+        </div>
+        <div class="gmail_quote"><br>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+    I haven't followed the entire discussion on the i915 thread but for
+    the amdgpu dc patch I would prefer a DPCD quirk to override the
+    reported link settings with the correct link rate.<br>
+    <br>
+    Harry<br>
+    <br>
+    <blockquote type="cite" cite="mid:CAEsyxyjMsCU8rzyO0GewU_-uV5&#43;UoDDwa5Mc74irUnJHhF6ALQ@mail.gmail.com">
+      <div dir="ltr">
+        <div class="gmail_quote">-mario<br>
+        </div>
+        <div class="gmail_quote"><br>
+        </div>
+        <div class="gmail_quote"><br>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------233C9ABD89B05595E9630594--
+
+--===============1818409056==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1818409056==--
