@@ -1,43 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3873135570
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 10:18:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D9EC1355C7
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 10:29:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F361F6E8EA;
-	Thu,  9 Jan 2020 09:18:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF2E56E8EB;
+	Thu,  9 Jan 2020 09:29:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E37FF6E8EA
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2020 09:18:07 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206141] New: VCE UVD ring test failed -110
-Date: Thu, 09 Jan 2020 09:18:07 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: janpieter.sollie@dommel.be
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-206141-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 352056E8EB;
+ Thu,  9 Jan 2020 09:29:08 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2020 01:29:07 -0800
+X-IronPort-AV: E=Sophos;i="5.69,413,1571727600"; d="scan'208";a="216242055"
+Received: from vmastnak-mobl6.ger.corp.intel.com (HELO localhost)
+ ([10.252.37.138])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2020 01:29:05 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Julian Stecklina <julian.stecklina@cyberus-technology.de>,
+ intel-gvt-dev@lists.freedesktop.org
+Subject: Re: [PATCH 2/3] drm/i915/gvt: make gvt oblivious of kvmgt data
+ structures
+In-Reply-To: <5e98e9666bfeb275ec168df24bb8e9a33781229e.camel@cyberus-technology.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200106140622.14393-1-julian.stecklina@cyberus-technology.de>
+ <20200106140622.14393-2-julian.stecklina@cyberus-technology.de>
+ <87tv56qm9m.fsf@intel.com>
+ <5e98e9666bfeb275ec168df24bb8e9a33781229e.camel@cyberus-technology.de>
+Date: Thu, 09 Jan 2020 11:29:22 +0200
+Message-ID: <87zhexj7v1.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,54 +48,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: zhiyuan.lv@intel.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, hang.yuan@intel.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=206141
+On Wed, 08 Jan 2020, Julian Stecklina <julian.stecklina@cyberus-technology.de> wrote:
+> On Wed, 2020-01-08 at 12:24 +0200, Jani Nikula wrote:
+>> On Mon, 06 Jan 2020, Julian Stecklina <julian.stecklina@cyberus-technology.de>
+>> wrote:
+> [...]
+>> > +	/* Hypervisor-specific device state. */
+>> > +	void *vdev;
+>> 
+>> I have no clue about the relative merits of the patch, but you can use
+>> the actual type for the pointer with a forward declaration. You don't
+>> need the definition for that.
+>> 
+>> i.e.
+>> 
+>> struct kvmgt_vdev;
+>> ...
+>> 	struct kvmgt_vdev *vdev;
+>
+> The goal here is to make the GVT code independent of the hypervisor backend.
+> Different hypervisor backends need to keep different per-device state, so using
+> the KVM type here defeats the purpose.
+>
+> I assume this is not only useful for us, but also for other hypervisor backends,
+> such as Xen or 3rd-party hypervisors.
 
-            Bug ID: 206141
-           Summary: VCE UVD ring test failed -110
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.4.6
-          Hardware: x86-64
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: low
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: janpieter.sollie@dommel.be
-        Regression: No
+Right, carry on, sorry for the noise. ;)
 
-Created attachment 286705
-  --> https://bugzilla.kernel.org/attachment.cgi?id=286705&action=edit
-part of DMESG that looks relevant
-
-while booting my PC, amdgpu complains it cannot execute UVD and VCE ring tests
-on Fiji GPU (R9 Nano).
-The error code -110 points to a timeout.
-Maybe R9 Nano needs more time to initialize the UVD decoder in UEFI mode?
--------------------
-[    7.270335] amdgpu 0000:0a:00.0: [drm:amdgpu_ib_ring_tests [amdgpu]] *ERROR*
-IB test failed on uvd (-110).
-[    8.063987] Generic FE-GE Realtek PHY r8169-500:00: attached PHY driver
-[Generic FE-GE Realtek PHY] (mii_bus:phy_addr=r8169-500:00, irq=IGNORE)
-[    8.211306] r8169 0000:05:00.0 eth0: Link is Down
-[    8.400079] amdgpu 0000:0a:00.0: [drm:amdgpu_ib_ring_tests [amdgpu]] *ERROR*
-IB test failed on vce0 (-110).
-[    8.400084] [drm:process_one_work] *ERROR* ib ring test failed (-110).
---------------------
-Please note that this is not critical to me at all: I only use this card to
-perform OpenCL calculations via RoCm, so couldn't care less, but I still think
-it's worth to have a look at.
+BR,
+Jani.
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
