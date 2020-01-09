@@ -2,42 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BA91135E9C
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 17:47:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3363135EBB
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 17:53:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B8426E44D;
-	Thu,  9 Jan 2020 16:47:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A39796E45C;
+	Thu,  9 Jan 2020 16:53:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3158A6E44D;
- Thu,  9 Jan 2020 16:47:19 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2020 08:47:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,414,1571727600"; d="scan'208";a="227974216"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga001.fm.intel.com with SMTP; 09 Jan 2020 08:47:15 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 09 Jan 2020 18:47:15 +0200
-Date: Thu, 9 Jan 2020 18:47:15 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Mario Kleiner <mario.kleiner.de@gmail.com>
-Subject: Re: [PATCH] drm/i915/dp: Add current maximum eDP link rate to
- sink_rate array.
-Message-ID: <20200109164715.GD13686@intel.com>
-References: <20200109150752.28098-1-mario.kleiner.de@gmail.com>
- <20200109152656.GP1208@intel.com> <20200109153815.GQ1208@intel.com>
- <CAEsyxyj6xbHrkKk5=bG5APrD5VW_PP-Cs+nT0vqCjW_LBSG29A@mail.gmail.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 47A5A6E45C
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2020 16:53:08 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E4EBE1FB;
+ Thu,  9 Jan 2020 08:53:07 -0800 (PST)
+Received: from [10.1.38.29] (e122027.cambridge.arm.com [10.1.38.29])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9D45A3F703;
+ Thu,  9 Jan 2020 08:53:04 -0800 (PST)
+Subject: Re: [PATCH v2 4/7] drm/panfrost: Add support for a second regulator
+ for the GPU
+To: Mark Brown <broonie@kernel.org>
+References: <20200108052337.65916-1-drinkcat@chromium.org>
+ <20200108052337.65916-5-drinkcat@chromium.org>
+ <20200108132302.GA3817@sirena.org.uk>
+ <CANMq1KBo8ND+YDHaCw3yZZ0RUr69-NSUcVbqu38DuZvHUB-LFw@mail.gmail.com>
+ <09ddfac3-da8d-c039-92a0-d0f51dc3fea5@arm.com>
+ <20200109162814.GB3702@sirena.org.uk>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <a40baddb-cbab-d8fc-3fd9-0582f1b5b24e@arm.com>
+Date: Thu, 9 Jan 2020 16:53:02 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAEsyxyj6xbHrkKk5=bG5APrD5VW_PP-Cs+nT0vqCjW_LBSG29A@mail.gmail.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200109162814.GB3702@sirena.org.uk>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,50 +47,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mario.kleiner.de@gmail.de, intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Devicetree List <devicetree@vger.kernel.org>,
+ Nicolas Boichat <drinkcat@chromium.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
+ lkml <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 09, 2020 at 05:30:05PM +0100, Mario Kleiner wrote:
-> On Thu, Jan 9, 2020 at 4:38 PM Ville Syrj=E4l=E4 <ville.syrjala@linux.int=
-el.com>
-> wrote:
-> =
+On 09/01/2020 16:28, Mark Brown wrote:
+> On Thu, Jan 09, 2020 at 02:14:42PM +0000, Steven Price wrote:
+>> On 08/01/2020 22:52, Nicolas Boichat wrote:
+> 
+>>> That'd be a bit awkward to match, though... Currently all bifrost
+>>> share the same compatible "arm,mali-bifrost", and it'd seem
+>>> weird/wrong to match "mediatek,mt8183-mali" in this driver? I have no
+>>> idea if any other Mali implementation will require a second regulator,
+>>> but with the MT8183 we do need it, see below.
+> 
+> This doesn't sound particularly hard, just new.  Plenty of other devices
+> have quirks done based on the SoC they're in or the IP revision, this
+> would just be another of those quirks.
+> 
+>>> Well if devfreq was working (see patch 7
+>>> https://patchwork.kernel.org/patch/11322851/ for a partial
+>>> implementation), it would adjust both mali and sram regulators, see
+>>> the OPP table in patch 2
+>>> (https://patchwork.kernel.org/patch/11322825/): SRAM voltage needs to
+>>> be increased for frequencies >=698Mhz.
+> 
+>>> Now if you have some better idea how to implement this, I'm all ears!
+> 
+> Set a flag based on the compatible, then base runtime decisions off
+> that.
+> 
+>> I'm not sure if it's better, but could we just encode the list of
+>> regulators into device tree. I'm a bit worried about special casing an
+>> "sram" regulator given that other platforms might have a similar
+>> situation but call the second regulator a different name.
+> 
+> Obviously the list of regulators bound on a given platform is encoded in
+> the device tree but you shouldn't really be relying on that to figure
+> out what to request in the driver - the driver should know what it's
+> expecting. 
 
-> > On Thu, Jan 09, 2020 at 05:26:57PM +0200, Ville Syrj=E4l=E4 wrote:
-> > > On Thu, Jan 09, 2020 at 04:07:52PM +0100, Mario Kleiner wrote:
-> > > > The panel reports 10 bpc color depth in its EDID, and the UEFI
-> > > > firmware chooses link settings at boot which support enough
-> > > > bandwidth for 10 bpc (324000 kbit/sec to be precise), but the
-> > > > DP_MAX_LINK_RATE dpcd register only reports 2.7 Gbps as possible,
-> >
-> > Does it actually or do we just ignore the fact that it reports 3.24Gbps?
-> >
-> > If it really reports 3.24 then we should be able to just add that to
-> > dp_rates[] in intel_dp_set_sink_rates() and be done with it.
-> >
-> > Although we'd likely want to skip 3.24 unless it really is reported
-> > as the max so as to not use that non-standard rate on other displays.
-> > So would require a bit fancier logic for that.
-> >
-> >
-> Was also my initial thought, but the DP_MAX_LINK_RATE reg reports 2.7 Gbps
-> as maximum.
+ From a driver perspective we don't expect to have to worry about power 
+domains/multiple regulators - the hardware provides a bunch of power 
+registers to turn on/off various parts of the hardware and this should 
+be linked (in hardware) to a PDC which sorts it out. The GPU/PDC handles 
+the required sequencing. So it *should* be a case of turn power/clocks 
+on and go.
 
-So dpcd[0x1] =3D=3D 0xa ?
+However certain integrations may have quirks such that there are 
+physically multiple supplies. These are expected to all be turned on 
+before using the GPU. Quite how this is best represented is something 
+I'm not sure about.
 
-What about the magic second version of DP_MAX_LINK_RATE at 0x2201 ?
-Hmm. I guess we should already be reading that via
-intel_dp_extended_receiver_capabilities().
+> Bear in mind that getting regulator stuff wrong can result
+> in physical damage to the system so it pays to be careful and to
+> consider that platform integrators have a tendency to rely on things
+> that just happen to work but aren't a good idea or accurate
+> representations of the system.  It's certainly *possible* to do
+> something like that, the information is there, but I would not in any
+> way recommend doing things that way as it's likely to not be robust.
+> 
+> The possibility that the regulator setup may vary on other platforms
+> (which I'd expect TBH) does suggest that just requesting a bunch of
+> supply names optionally and hoping that we got all the ones that are
+> important on a given platform is going to lead to trouble down the line.
 
--- =
+Certainly if we miss a regulator the GPU isn't going to work properly 
+(some cores won't be able to power up successfully). However at the 
+moment the driver will happily do this if someone provides it with a DT 
+which includes regulators that it doesn't know about. So I'm not sure 
+how adding special case code for a SoC would help here.
 
-Ville Syrj=E4l=E4
-Intel
+> Steve, please fix your mail client to word wrap within paragraphs at
+> something substantially less than 80 columns.  Doing this makes your
+> messages much easier to read and reply to.
+
+Sorry about that - I switched to my laptop to escape the noisy work 
+going on outside the office, and apparently that was misconfigured. 
+Hopefully fixed now, thanks for letting me know!
+
+Steve
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
