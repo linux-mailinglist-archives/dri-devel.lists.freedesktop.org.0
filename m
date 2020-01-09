@@ -2,50 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A155B135F0B
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 18:14:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47F0A135F0D
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 18:14:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C554F6E462;
-	Thu,  9 Jan 2020 17:14:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 457086E923;
+	Thu,  9 Jan 2020 17:14:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from www413.your-server.de (www413.your-server.de [88.198.28.140])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D35386E92C;
- Thu,  9 Jan 2020 17:14:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=cyberus-technology.de; s=default1911; h=Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
- :Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From
- :Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=eVK3qcP+C0X2No4jeiblUro/rWSKEKB9v5M7ETmBrrw=; b=IWDLoccswBwBeHjyI9yjPSGksI
- WBJ1XrIr3lvVWAtx9TN+BmctmvcE70SofZ3UJaiKprl7CUL5jbsGeXOhSAhPyHhr7PYP9VT6MtShd
- 8dt1nrFnbLPxQ4FbPWjopPJufuZDcrZlNBmRGrBiNJoRpC4DAmwVLQrV+7NbrjyMk9DWHrFvnDIxg
- 7V9fs6NAKKBNMcY+uB8MYr35TmObFVrq8R53caxlXPHuD01O3L9CO3E8SuADKQMrK77J8WdHsGL2t
- xF/Ym9atnNRG9ilkXbhJMwo/7BQsx99Cwy9a58STbtA0ilHPmdvEGnXx7CZTh6plRhFqpoiAd4wrx
- HIlL1SkA==;
-Received: from sslproxy02.your-server.de ([78.47.166.47])
- by www413.your-server.de with esmtpsa (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256)
- (Exim 4.89_1)
- (envelope-from <julian.stecklina@cyberus-technology.de>)
- id 1ipbNz-0002W9-Go; Thu, 09 Jan 2020 18:14:19 +0100
-Received: from [24.134.37.229] (helo=192-168-0-109.rdsnet.ro)
- by sslproxy02.your-server.de with esmtpsa (TLSv1:ECDHE-RSA-AES256-SHA:256)
- (Exim 4.92) (envelope-from <julian.stecklina@cyberus-technology.de>)
- id 1ipbNz-000Eh8-7V; Thu, 09 Jan 2020 18:14:19 +0100
-From: Julian Stecklina <julian.stecklina@cyberus-technology.de>
-To: intel-gvt-dev@lists.freedesktop.org
-Subject: [RFC PATCH 4/4] drm/i915/gvt: move public gvt headers out into global
- include
-Date: Thu,  9 Jan 2020 19:13:57 +0200
-Message-Id: <20200109171357.115936-5-julian.stecklina@cyberus-technology.de>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200109171357.115936-1-julian.stecklina@cyberus-technology.de>
-References: <4079ce7c26a2d2a3c7e0828ed1ea6008d6e2c805.camel@cyberus-technology.de>
- <20200109171357.115936-1-julian.stecklina@cyberus-technology.de>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA9586E923
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2020 17:14:38 +0000 (UTC)
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com
+ [209.85.160.179])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 716302075D
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2020 17:14:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1578590078;
+ bh=Dch1iGkhTV+eYdJdzZBn4xYXbKV8xPq0X3G4VgsfXEM=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=C4n5O6/0S00QhfNWP8s/GpLMHcZE7jx9perbLBZwGrsT8my8StFTHdlaxcxFfQMMc
+ ya6pRTPRNoPiGxvt8flGOMw9aLD5wl7eBnc9S16M2UgVsyX2yS4yJU7FS4zNqrg6O9
+ cSzCZhFCkoZw9SuoYtQQ1jNBPQH47Yh4XC0uWvJE=
+Received: by mail-qt1-f179.google.com with SMTP id v25so4644299qto.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2020 09:14:38 -0800 (PST)
+X-Gm-Message-State: APjAAAXWEzzRgPBJ9PRna4oa50K/orXNcT44N70265KSIEPWgA9iUtS7
+ ZI1usfVx4Vm2BYrtvfn1qGyZ8IIqRu3kKP7glg==
+X-Google-Smtp-Source: APXvYqzapBWqvVlPCkoZzEPyI6taChV5dThBfHj/lQBiEQvTNIevbWEXIyuSW398SFqpdsfSbqSBDGVgQxNPtTh73oI=
+X-Received: by 2002:ac8:6747:: with SMTP id n7mr8935081qtp.224.1578590077587; 
+ Thu, 09 Jan 2020 09:14:37 -0800 (PST)
 MIME-Version: 1.0
-X-Authenticated-Sender: julian.stecklina@cyberus-technology.de
-X-Virus-Scanned: Clear (ClamAV 0.101.4/25689/Thu Jan  9 10:59:33 2020)
+References: <20200103152801.47254-1-maxime@cerno.tech>
+In-Reply-To: <20200103152801.47254-1-maxime@cerno.tech>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Thu, 9 Jan 2020 11:14:26 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+nVOb5+yg=bOJMyOocJD6kst0BX7NGhZepNtm_B_35ow@mail.gmail.com>
+Message-ID: <CAL_Jsq+nVOb5+yg=bOJMyOocJD6kst0BX7NGhZepNtm_B_35ow@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] dt-bindings: display: Convert Allwinner display
+ pipeline to schemas
+To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,124 +54,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Julian Stecklina <julian.stecklina@cyberus-technology.de>,
- linux-kernel@vger.kernel.org, hang.yuan@intel.com,
- dri-devel@lists.freedesktop.org, zhiyuan.lv@intel.com
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Chen-Yu Tsai <wens@csie.org>, Sean Paul <seanpaul@chromium.org>,
+ Frank Rowand <frowand.list@gmail.com>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that the GVT interface to hypervisors does not depend on i915/GVT
-internals anymore, we can move the headers to the global include/.
+On Fri, Jan 3, 2020 at 9:28 AM Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> The Allwinner SoCs have a display engine composed of several controllers
+> assembled differently depending on the SoC, the number and type of output
+> they have, and the additional features they provide. A number of those are
+> supported in Linux, with the matching bindings.
+>
+> Now that we have the DT validation in place, let's split into separate file
+> and convert the device tree bindings for those controllers to schemas.
+>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>
+> ---
+>
+> Changes from v2:
+>   - Changed a number of maxItems to minItems to make more sense
+>   - Fixed a few enum that were improperly declared. This raised a bunch of
+>     warnings that were unnoticed before. Fixed them.
+>   - Added an if clause to the HDMI PHY binding to check the number of clocks
+>
+> Changes from v1:
+>   - Declare the ports in the bindings
+> ---
+>  .../allwinner,sun4i-a10-display-backend.yaml  | 291 ++++++++
+>  .../allwinner,sun4i-a10-display-engine.yaml   | 114 +++
+>  .../allwinner,sun4i-a10-display-frontend.yaml | 138 ++++
+>  .../display/allwinner,sun4i-a10-hdmi.yaml     | 183 +++++
+>  .../display/allwinner,sun4i-a10-tcon.yaml     | 676 ++++++++++++++++++
+>  .../allwinner,sun4i-a10-tv-encoder.yaml       |  62 ++
+>  .../display/allwinner,sun6i-a31-drc.yaml      | 138 ++++
+>  .../allwinner,sun8i-a83t-de2-mixer.yaml       | 118 +++
+>  .../display/allwinner,sun8i-a83t-dw-hdmi.yaml | 273 +++++++
+>  .../allwinner,sun8i-a83t-hdmi-phy.yaml        | 117 +++
+>  .../display/allwinner,sun8i-r40-tcon-top.yaml | 382 ++++++++++
+>  .../display/allwinner,sun9i-a80-deu.yaml      | 133 ++++
+>  .../bindings/display/sunxi/sun4i-drm.txt      | 637 -----------------
+>  13 files changed, 2625 insertions(+), 637 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-backend.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-engine.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-frontend.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/allwinner,sun4i-a10-hdmi.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tv-encoder.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/allwinner,sun6i-a31-drc.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-hdmi-phy.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/allwinner,sun8i-r40-tcon-top.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/allwinner,sun9i-a80-deu.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/display/sunxi/sun4i-drm.txt
 
-This makes out-of-tree modules for hypervisor integration possible.
-
-Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
-
-Signed-off-by: Julian Stecklina <julian.stecklina@cyberus-technology.de>
----
- drivers/gpu/drm/i915/gvt/gvt.h                         |  3 +--
- drivers/gpu/drm/i915/gvt/kvmgt.c                       |  2 +-
- .../i915/gvt/gvt_public.h => include/drm/i915_gvt.h    |  8 ++++----
- .../hypercall.h => include/drm/i915_gvt_hypercall.h    | 10 +++++++---
- 4 files changed, 13 insertions(+), 10 deletions(-)
- rename drivers/gpu/drm/i915/gvt/gvt_public.h => include/drm/i915_gvt.h (97%)
- rename drivers/gpu/drm/i915/gvt/hypercall.h => include/drm/i915_gvt_hypercall.h (95%)
-
-diff --git a/drivers/gpu/drm/i915/gvt/gvt.h b/drivers/gpu/drm/i915/gvt/gvt.h
-index f9693c44e342..d09374aa7710 100644
---- a/drivers/gpu/drm/i915/gvt/gvt.h
-+++ b/drivers/gpu/drm/i915/gvt/gvt.h
-@@ -33,9 +33,8 @@
- #ifndef _GVT_H_
- #define _GVT_H_
- 
--#include "gvt_public.h"
-+#include <drm/i915_gvt.h>
- #include "debug.h"
--#include "hypercall.h"
- #include "mmio.h"
- #include "reg.h"
- #include "interrupt.h"
-diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/kvmgt.c
-index f5157211d45f..280d69ca964b 100644
---- a/drivers/gpu/drm/i915/gvt/kvmgt.c
-+++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
-@@ -28,6 +28,7 @@
-  *    Xiaoguang Chen <xiaoguang.chen@intel.com>
-  */
- 
-+#include <drm/i915_gvt.h>
- #include <drm/drm_edid.h>
- #include <linux/init.h>
- #include <linux/device.h>
-@@ -52,7 +53,6 @@
- #include <linux/nospec.h>
- 
- #include "debug.h"
--#include "gvt_public.h"
- 
- static const struct intel_gvt_ops *intel_gvt_ops;
- 
-diff --git a/drivers/gpu/drm/i915/gvt/gvt_public.h b/include/drm/i915_gvt.h
-similarity index 97%
-rename from drivers/gpu/drm/i915/gvt/gvt_public.h
-rename to include/drm/i915_gvt.h
-index 23bf1235e1a1..3926ca32f773 100644
---- a/drivers/gpu/drm/i915/gvt/gvt_public.h
-+++ b/include/drm/i915_gvt.h
-@@ -21,10 +21,10 @@
-  * SOFTWARE.
-  */
- 
--#ifndef _GVT_PUBLIC_H_
--#define _GVT_PUBLIC_H_
-+#ifndef _I915_GVT_H_
-+#define _I915_GVT_H_
- 
--#include "hypercall.h"
-+#include <drm/i915_gvt_hypercall.h>
- 
- struct attribute;
- struct attribute_group;
-@@ -101,4 +101,4 @@ bool intel_gvt_in_gtt(struct intel_vgpu *vgpu, u64 off);
- 
- struct dentry *intel_vgpu_debugfs(struct intel_vgpu *vgpu);
- 
--#endif /* _GVT_PUBLIC_H_ */
-+#endif /* _I915_GVT_H_ */
-diff --git a/drivers/gpu/drm/i915/gvt/hypercall.h b/include/drm/i915_gvt_hypercall.h
-similarity index 95%
-rename from drivers/gpu/drm/i915/gvt/hypercall.h
-rename to include/drm/i915_gvt_hypercall.h
-index 7ed33e4919a3..c26eef7dbdde 100644
---- a/drivers/gpu/drm/i915/gvt/hypercall.h
-+++ b/include/drm/i915_gvt_hypercall.h
-@@ -30,8 +30,12 @@
-  *
-  */
- 
--#ifndef _GVT_HYPERCALL_H_
--#define _GVT_HYPERCALL_H_
-+#ifndef _I915_GVT_HYPERCALL_H_
-+#define _I915_GVT_HYPERCALL_H_
-+
-+#include <linux/types.h>
-+
-+struct device;
- 
- #include <linux/types.h>
- 
-@@ -84,4 +88,4 @@ extern struct intel_gvt_mpt xengt_mpt;
- int intel_gvt_register_hypervisor(struct intel_gvt_mpt *);
- void intel_gvt_unregister_hypervisor(void);
- 
--#endif /* _GVT_HYPERCALL_H_ */
-+#endif /* _I915_GVT_HYPERCALL_H_ */
--- 
-2.24.1
-
+Reviewed-by: Rob Herring <robh@kernel.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
