@@ -1,60 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4CC91361A1
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 21:17:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ACB61361A7
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 21:19:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81D936E95F;
-	Thu,  9 Jan 2020 20:16:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 573606E963;
+	Thu,  9 Jan 2020 20:19:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E17C36E04A;
- Thu,  9 Jan 2020 20:16:57 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id p9so4410010wmc.2;
- Thu, 09 Jan 2020 12:16:57 -0800 (PST)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 018406E962;
+ Thu,  9 Jan 2020 20:19:19 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id p17so4283281wmb.0;
+ Thu, 09 Jan 2020 12:19:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=E+lwrXE3aZ94AXYYIKmBRrTAemPYlA5yIdzG6bHrsbM=;
- b=juSyx3fIemNz4CfhuztJJRSl/hZcSdBYYxa82QRPNc5ezugZgpxWIbJe8ZOAo3Y/OG
- Zh/nnA/LwkmeHKVD7+fhrraxUqdbXkIy/yzqfxMcPcER5SXWrAyKbodbiHRcDIH+Ljuw
- jaBKurW4cZD1tlk6qEhW+vkbcwBOHdbuGU5V8qYp+1KFz7/RUTucBBwEzhMSINlLG5X5
- 6mNdA+hmav+o0Q3JCRsTmjgEwgDdMmcRrPQZd8Jft6uVqLuSaSZ16wAOs8zaI4+CzvDb
- Xr4BLxh34hH4LHKSqjloscJkcH30Dm0S74Y+WMf0O9hOYJc8+JEZJDiZ/iwgImwD7e0k
- R50A==
+ :cc; bh=LmmmTV+l4WQWa4WjNnHTYqHYZO7ME/LQrwd/inNoJ1M=;
+ b=ZZFbWktOPdVn9fle1ZdSDtb0yp+80d73K9LlqmiIVak5aKOKJno6Eyt73Ua57z68+D
+ h/xnZx7KqUxqghtYX5UnVlBNOgDLirgM+jyC1GhHL+3ZRMKh8zzFuXRSwp3IOIKztmrx
+ dsZB/1eZhTJKFc3+y+sKKUQyLfWZFaHtUQ76pP0C4upb4TYR1a+xoF+uXS4f+WhdcYJO
+ j9KObJ0bwwktx4vj1PA+B/9rFROBxpJl5DgBZM+UwOMRUs1OL20KHeHv9cUVzUMxG0l+
+ ZjnyiFPnGoPHiDlHZUpfscwP33KaJZ9WKK0dePEvQOfh/rs+j4mddXXnrBQsX3I5ZyDU
+ XYgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=E+lwrXE3aZ94AXYYIKmBRrTAemPYlA5yIdzG6bHrsbM=;
- b=ai8wYMmul3CO4kpzZk0YuUtqQsnIQhrw3U4QhZYPBhd/teqZRr/b+JUo81pEInlsgG
- RuUUR4b0trJ57qqlL5NE6EIrG/pu8v1895fCpMH2nXnNgBZGyewvDbYg1LjRv3fpidg/
- DCobA5WwyEcS7MuZxfVh11nXqpfQshHqdfJbOQ2x7Irm/DZbF9MBuAXvEjB9UW4lDAvn
- +GWctGhyk6rlgbhnl1OjFv0AFxBdYEH8MHI6bE5FrQSB3sBDAEvJCpAhR/FT2orsCE6A
- cwpZdgj5AXbSp7vgmhtpQ9BKL5QB7mvZfbIlja3msx64MH7KhWvBHWg+9VbnQdOLTH9m
- hn/g==
-X-Gm-Message-State: APjAAAWMg95bCfChKRpjSqjZ3Yc3VF68ML5Yq3ElJ6rTR8HIwGJEKFOt
- KB3xE0KX3VddlBo1fmDTv2J55hjSw4haSzSIzsE=
-X-Google-Smtp-Source: APXvYqyRBoQWA0EPa3ebhHv8AejJlhOoyhlMvK0QfxIl4zgcvvSGuHQ4BPXGpoSdlb3wsdh6/KtNAXpvrLOLks96BXo=
-X-Received: by 2002:a1c:6404:: with SMTP id y4mr6727312wmb.143.1578601016498; 
- Thu, 09 Jan 2020 12:16:56 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=LmmmTV+l4WQWa4WjNnHTYqHYZO7ME/LQrwd/inNoJ1M=;
+ b=m7DwR7t53KgzNtpTDYIWSBV3GdylufIFGhaLJfLcEa+hu4jXM/4wpXrU91IBoBcyml
+ UhFc5UTnHsleUX2qo8sR9as4dgTUhM/tUtH6VtwahSGXWjwb3bvHEIc8dLeYn3fcHUm7
+ 7siTrztE8UUw7eIS0ojcyX8GRJ9j8j3eT1jSIreaKPuSIP7fdTa5s6qBjRGLeXgLXud8
+ brYfxdcQft6n+bDyumvM8+A576V2pcz8vYAk3E0Vk4o8YsTLr9QB67MU4++vXtp0z/kM
+ iTWEejGM3Wt6GAtdtmZAdnzeHY+ZM2pCXf/qSXYTGolsEoYTxWlOfFxZVA5IqdmBfMcY
+ w3CA==
+X-Gm-Message-State: APjAAAVPGnB20ZS3v/UogoMJ4xwLh+x0+LMd8Z3I+9bTdwHA40e2Hfxc
+ nPA6I+oTR+fTHL/CxTCcJQjdKlm4T42laFudMgDW4A50QEs=
+X-Google-Smtp-Source: APXvYqweKVtjTiZXT6FmyiQcX5hZYRk/FefoHElRPe9Hf6tp6IkbnvnGMVafc8iiAUYCwEOicSJTfumqeFqCyiQvpZM=
+X-Received: by 2002:a1c:28d4:: with SMTP id o203mr6695542wmo.123.1578601158696; 
+ Thu, 09 Jan 2020 12:19:18 -0800 (PST)
 MIME-Version: 1.0
-References: <20200107192555.20606-1-tli@digitalocean.com>
- <b5984995-7276-97d3-a604-ddacfb89bd89@amd.com>
- <202001080936.A36005F1@keescook>
- <CADnq5_NLS=CuHD39utCTnTVsY_izuTPXFfsew6TpMjovgFoT5g@mail.gmail.com>
- <a2919283-f5aa-43b2-9186-6c41315458c4@amd.com>
- <505a76a9-6110-3ddb-0f15-059b60922482@suse.de>
-In-Reply-To: <505a76a9-6110-3ddb-0f15-059b60922482@suse.de>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 9 Jan 2020 15:16:44 -0500
-Message-ID: <CADnq5_NH0Xwhr3YjT5Ax-45-f8mmCxvfUPb8V6i34TY44BJPOA@mail.gmail.com>
-Subject: Re: [PATCH 0/2] drm/radeon: have the callers of set_memory_*() check
- the return value
-To: Thomas Zimmermann <tzimmermann@suse.de>
+References: <20200109150752.28098-1-mario.kleiner.de@gmail.com>
+ <20200109152656.GP1208@intel.com> <20200109153815.GQ1208@intel.com>
+ <CAEsyxyj6xbHrkKk5=bG5APrD5VW_PP-Cs+nT0vqCjW_LBSG29A@mail.gmail.com>
+ <20200109164715.GD13686@intel.com>
+ <CAEsyxyhjbP6ADutU7XRJUjryj1+X8mFqopB9TvBoW6RWjBihww@mail.gmail.com>
+ <20200109182408.GF13686@intel.com>
+In-Reply-To: <20200109182408.GF13686@intel.com>
+From: Mario Kleiner <mario.kleiner.de@gmail.com>
+Date: Thu, 9 Jan 2020 21:19:07 +0100
+Message-ID: <CAEsyxyiTxRZC=Mw4rKvjCQO557Qg6Q2JRkoUvQWOia7SxumznA@mail.gmail.com>
+Subject: Re: [PATCH] drm/i915/dp: Add current maximum eDP link rate to
+ sink_rate array.
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,104 +66,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kees Cook <keescook@chromium.org>, kernel-hardening@lists.openwall.com,
- David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Tianlin Li <tli@digitalocean.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: mario.kleiner.de@gmail.de, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: multipart/mixed; boundary="===============1884855674=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBKYW4gOSwgMjAyMCBhdCA1OjQ5IEFNIFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVy
-bWFubkBzdXNlLmRlPiB3cm90ZToKPgo+IEhpCj4KPiBBbSAwOS4wMS4yMCB1bSAxMToxNSBzY2hy
-aWViIENocmlzdGlhbiBLw7ZuaWc6Cj4gPiBBbSAwOC4wMS4yMCB1bSAxODo1MSBzY2hyaWViIEFs
-ZXggRGV1Y2hlcjoKPiA+PiBPbiBXZWQsIEphbiA4LCAyMDIwIGF0IDEyOjM5IFBNIEtlZXMgQ29v
-ayA8a2Vlc2Nvb2tAY2hyb21pdW0ub3JnPiB3cm90ZToKPiA+Pj4gT24gV2VkLCBKYW4gMDgsIDIw
-MjAgYXQgMDE6NTY6NDdQTSArMDEwMCwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPiA+Pj4+IEFt
-IDA3LjAxLjIwIHVtIDIwOjI1IHNjaHJpZWIgVGlhbmxpbiBMaToKPiA+Pj4+PiBSaWdodCBub3cg
-c2V2ZXJhbCBhcmNoaXRlY3R1cmVzIGFsbG93IHRoZWlyIHNldF9tZW1vcnlfKigpIGZhbWlseSBv
-Zgo+ID4+Pj4+IGZ1bmN0aW9ucyB0byBmYWlsLCBidXQgY2FsbGVycyBtYXkgbm90IGJlIGNoZWNr
-aW5nIHRoZSByZXR1cm4gdmFsdWVzLgo+ID4+Pj4+IElmIHNldF9tZW1vcnlfKigpIHJldHVybnMg
-d2l0aCBhbiBlcnJvciwgY2FsbC1zaXRlIGFzc3VtcHRpb25zIG1heSBiZQo+ID4+Pj4+IGluZmFj
-dCB3cm9uZyB0byBhc3N1bWUgdGhhdCBpdCB3b3VsZCBlaXRoZXIgc3VjY2VlZCBvciBub3Qgc3Vj
-Y2VlZCBhdAo+ID4+Pj4+IGFsbC4gSWRlYWxseSwgdGhlIGZhaWx1cmUgb2Ygc2V0X21lbW9yeV8q
-KCkgc2hvdWxkIGJlIHBhc3NlZCB1cCB0aGUKPiA+Pj4+PiBjYWxsIHN0YWNrLCBhbmQgY2FsbGVy
-cyBzaG91bGQgZXhhbWluZSB0aGUgZmFpbHVyZSBhbmQgZGVhbCB3aXRoIGl0Lgo+ID4+Pj4+Cj4g
-Pj4+Pj4gTmVlZCB0byBmaXggdGhlIGNhbGxlcnMgYW5kIGFkZCB0aGUgX19tdXN0X2NoZWNrIGF0
-dHJpYnV0ZS4gVGhleSBhbHNvCj4gPj4+Pj4gbWF5IG5vdCBwcm92aWRlIGFueSBsZXZlbCBvZiBh
-dG9taWNpdHksIGluIHRoZSBzZW5zZSB0aGF0IHRoZSBtZW1vcnkKPiA+Pj4+PiBwcm90ZWN0aW9u
-cyBtYXkgYmUgbGVmdCBpbmNvbXBsZXRlIG9uIGZhaWx1cmUuIFRoaXMgaXNzdWUgbGlrZWx5IGhh
-cyBhCj4gPj4+Pj4gZmV3IHN0ZXBzIG9uIGVmZmVjdHMgYXJjaGl0ZWN0dXJlczoKPiA+Pj4+PiAx
-KUhhdmUgYWxsIGNhbGxlcnMgb2Ygc2V0X21lbW9yeV8qKCkgaGVscGVycyBjaGVjayB0aGUgcmV0
-dXJuIHZhbHVlLgo+ID4+Pj4+IDIpQWRkIF9fbXVzdF9jaGVjayB0byBhbGwgc2V0X21lbW9yeV8q
-KCkgaGVscGVycyBzbyB0aGF0IG5ldyB1c2VzIGRvCj4gPj4+Pj4gbm90IGlnbm9yZSB0aGUgcmV0
-dXJuIHZhbHVlLgo+ID4+Pj4+IDMpQWRkIGF0b21pY2l0eSB0byB0aGUgY2FsbHMgc28gdGhhdCB0
-aGUgbWVtb3J5IHByb3RlY3Rpb25zIGFyZW4ndAo+ID4+Pj4+IGxlZnQKPiA+Pj4+PiBpbiBhIHBh
-cnRpYWwgc3RhdGUuCj4gPj4+Pj4KPiA+Pj4+PiBUaGlzIHNlcmllcyBpcyBwYXJ0IG9mIHN0ZXAg
-MS4gTWFrZSBkcm0vcmFkZW9uIGNoZWNrIHRoZSByZXR1cm4KPiA+Pj4+PiB2YWx1ZSBvZgo+ID4+
-Pj4+IHNldF9tZW1vcnlfKigpLgo+ID4+Pj4gSSdtIGEgbGl0dGxlIGhlc2l0YXRlIG1lcmdlIHRo
-YXQuIFRoaXMgaGFyZHdhcmUgaXMgPjE1IHllYXJzIG9sZCBhbmQKPiA+Pj4+IG5vYm9keQo+ID4+
-Pj4gb2YgdGhlIGRldmVsb3BlcnMgaGF2ZSBhbnkgc3lzdGVtIGxlZnQgdG8gdGVzdCB0aGlzIGNo
-YW5nZSBvbi4KPiA+Pj4gSWYgdGhhdCdzIHRydWUgaXQgc2hvdWxkIGJlIHJlbW92ZWQgZnJvbSB0
-aGUgdHJlZS4gV2UgbmVlZCB0byBiZSBhYmxlIHRvCj4gPj4+IGNvcnJlY3RseSBtYWtlIHRoZXNl
-IGtpbmRzIG9mIGNoYW5nZXMgaW4gdGhlIGtlcm5lbC4KPiA+PiBUaGlzIGRyaXZlciBzdXBwb3J0
-cyBhYm91dCAxNSB5ZWFycyBvZiBoYXJkd2FyZSBnZW5lcmF0aW9ucy4gIE5ld2VyCj4gPj4gY2Fy
-ZHMgYXJlIHN0aWxsIHByZXZhbGVudCwgYnV0IHRoZSBvbGRlciBzdHVmZiBpcyBsZXNzIHNvLiAg
-SXQgc3RpbGwKPiA+PiB3b3JrcyBhbmQgcGVvcGxlIHVzZSBpdCBiYXNlZCBvbiBmZWVkYmFjayBJ
-J3ZlIHNlZW4sIGJ1dCB0aGUgb2xkZXIKPiA+PiBzdHVmZiBoYXMgbm8gYWN0aXZlIGRldmVsb3Bt
-ZW50IGF0IHRoaXMgcG9pbnQuICBUaGlzIGNoYW5nZSBqdXN0Cj4gPj4gaGFwcGVucyB0byB0YXJn
-ZXQgdGhvc2Ugb2xkZXIgY2hpcHMuCj4gPgo+ID4gSnVzdCBhIGZldyB3ZWVrcyBiYWNrIHdlJ3Zl
-IGdvdCBhIG1haWwgZnJvbSBzb21lYm9keSB1c2luZyBhbiBpbnRlZ3JhdGVkCj4gPiBSMTI4IGlu
-IGEgbGFwdG9wLgo+ID4KPiA+IEFmdGVyIGEgZmV3IG1haWxzIGJhY2sgYW5kIGZvcmNlIHdlIGZp
-Z3VyZWQgb3V0IHRoYXQgaGlzIG5lYXJseSAyMCB5ZWFycwo+ID4gb2xkIGhhcmR3YXJlIHdhcyBm
-aW5hbGx5IGZhaWxpbmcuCj4gPgo+ID4gVXAgdGlsbCB0aGF0IGhlIHdhcyBzdGlsbCBzdWNjZXNz
-ZnVsbHkgdXBkYXRpbmcgaGlzIGtlcm5lbCBmcm9tIHRpbWUgdG8KPiA+IHRpbWUgYW5kIHRoZSBk
-cml2ZXIgc3RpbGwgd29ya2VkLiBJIGZpbmQgdGhhdCBwcmV0dHkgaW1wcmVzc2l2ZS4KPiA+Cj4g
-Pj4KPiA+PiBBbGV4Cj4gPj4KPiA+Pj4+IFdvdWxkIGl0IGJlIHRvIG11Y2ggb2YgYSBwcm9ibGVt
-IHRvIGp1c3QgYWRkIHNvbWV0aGluZyBsaWtlOiByID0KPiA+Pj4+IHNldF9tZW1vcnlfKigpOyAo
-dm9pZClyOyAvKiBJbnRlbnRpb25hbGx5IGlnbm9yZWQgKi8uCj4gPj4+IFRoaXMgc2VlbXMgbGlr
-ZSBhIGJhZCBpZGVhIC0tIHdlIHNob3VsZG4ndCBiZSBwYXBlcmluZyBvdmVyIGZhaWx1cmUKPiA+
-Pj4gbGlrZSB0aGlzIHdoZW4gdGhlcmUgaXMgbG9naWMgYXZhaWxhYmxlIHRvIGRlYWwgd2l0aCBp
-dC4KPiA+Cj4gPiBXZWxsIEkgY2VydGFpbmx5IGFncmVlIHRvIHRoYXQsIGJ1dCB3ZSBhcmUgdGFs
-a2luZyBhYm91dCBhIGNhbGwgd2hpY2gKPiA+IGhhcHBlbnMgb25seSBvbmNlIGR1cmluZyBkcml2
-ZXIgbG9hZC91bmxvYWQuIElmIG5lY2Vzc2FyeSB3ZSBjb3VsZCBhbHNvCj4gPiBwcmludCBhbiBl
-cnJvciB3aGVuIHNvbWV0aGluZyBnb2VzIHdyb25nLCBidXQgcGxlYXNlIG5vIGxhcmdlcgo+ID4g
-cmVmYWN0b3Jpbmcgb2YgcmV0dXJuIHZhbHVlcyBhbmQgY2FsbCBwYXRocy4KPiA+Cj4KPiBJTUhP
-IHJhZGVvbiBzaG91bGQgYmUgbWFya2VkIGFzIG9ycGhhbmVkIG9yIG9ic29sZXRlIHRoZW4uCgpB
-cyBJIHNhaWQgdGhpcyBjb3ZlcnMgYWJvdXQgMTUtMTcgeWVhcnMgb2YgR1BVcyAofjYwIGFzaWMg
-ZmFtaWxpZXMpLgpUaGUgb2xkZXIgc3R1ZmYgaXMgaGFyZCB0byB0ZXN0IHRoZXNlIGRheXMgYmVj
-YXVzZSBpdCdzIFBDSSBvciBBR1AKaGFyZHdhcmUuICBTbyBmYXIgaXQgd29ya3MgZm9yIG1vc3Qg
-cGVvcGxlLiAgVGhlIG5ld2VyIHN0dWZmIGlzIHN0aWxsCnRlc3RlZCBhcyB1c2VkIHJlZ3VsYXJs
-eS4KCkFsZXgKCj4KPiBCZXN0IHJlZ2FyZHMKPiBUaG9tYXMKPgo+ID4gSXQgaXMgcGVyZmVjdGx5
-IHBvc3NpYmxlIHRoYXQgdGhpcyBjYWxsIGFjdHVhbGx5IGZhaWxlZCBvbiBzb21lYm9kaWVzCj4g
-PiBoYXJkd2FyZSwgYnV0IHdlIG5ldmVyIG5vdGljZWQgYmVjYXVzZSB0aGUgZHJpdmVyIHN0aWxs
-IHdvcmtzIGZpbmUuIElmCj4gPiB3ZSBub3cgaGFuZGxlIHRoZSBlcnJvciBpdCBpcyBwb3NzaWJs
-ZSB0aGF0IHRoZSBtb2R1bGUgbmV2ZXIgbG9hZHMgYW5kCj4gPiB0aGUgdXNlciBnZXRzIGEgYmxh
-Y2sgc2NyZWVuIGluc3RlYWQuCj4gPgo+ID4gUmVnYXJkcywKPiA+IENocmlzdGlhbi4KPiA+Cj4g
-Pj4+Cj4gPj4+PiBBcGFydCBmcm9tIHRoYXQgY2VydGFpbmx5IGEgZ29vZCBpZGVhIHRvIGFkZCBf
-X211c3RfY2hlY2sgdG8gdGhlCj4gPj4+PiBmdW5jdGlvbnMuCj4gPj4+IEFncmVlZCEKPiA+Pj4K
-PiA+Pj4gLUtlZXMKPiA+Pj4KPiA+Pj4gLS0KPiA+Pj4gS2VlcyBDb29rCj4gPj4+IF9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gPj4+IGRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKPiA+Pj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4+PiBo
-dHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29tLz91cmw9aHR0cHMl
-M0ElMkYlMkZsaXN0cy5mcmVlZGVza3RvcC5vcmclMkZtYWlsbWFuJTJGbGlzdGluZm8lMkZkcmkt
-ZGV2ZWwmYW1wO2RhdGE9MDIlN0MwMSU3Q2NocmlzdGlhbi5rb2VuaWclNDBhbWQuY29tJTdDYTU0
-MmQzODRkNTQwNDBiNWIwYjcwOGQ3OTQ2MzZkZjElN0MzZGQ4OTYxZmU0ODg0ZTYwOGUxMWE4MmQ5
-OTRlMTgzZCU3QzAlN0MwJTdDNjM3MTQxMDI3MDgwMDgwMTQ3JmFtcDtzZGF0YT1FSEZsNllPSG1O
-cDdnT3FXc1ZtZm9lRDBqTmlyQlRPR0hjQ1A0ZWZDJTJGdkUlM0QmYW1wO3Jlc2VydmVkPTAKPiA+
-Pj4KPiA+Cj4gPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-Xwo+ID4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+ID4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwo+ID4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWwKPgo+IC0tCj4gVGhvbWFzIFppbW1lcm1hbm4KPiBHcmFwaGljcyBEcml2ZXIg
-RGV2ZWxvcGVyCj4gU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJICj4gTWF4ZmVs
-ZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55Cj4gKEhSQiAzNjgwOSwgQUcgTsO8cm5i
-ZXJnKQo+IEdlc2Now6RmdHNmw7xocmVyOiBGZWxpeCBJbWVuZMO2cmZmZXIKPgpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+--===============1884855674==
+Content-Type: multipart/alternative; boundary="0000000000004e63ba059bbab94a"
+
+--0000000000004e63ba059bbab94a
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Jan 9, 2020 at 7:24 PM Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux=
+.intel.com>
+wrote:
+
+> On Thu, Jan 09, 2020 at 06:57:14PM +0100, Mario Kleiner wrote:
+> > On Thu, Jan 9, 2020 at 5:47 PM Ville Syrj=C3=A4l=C3=A4 <
+> ville.syrjala@linux.intel.com>
+> > wrote:
+> >
+> > > On Thu, Jan 09, 2020 at 05:30:05PM +0100, Mario Kleiner wrote:
+> > > > On Thu, Jan 9, 2020 at 4:38 PM Ville Syrj=C3=A4l=C3=A4 <
+> > > ville.syrjala@linux.intel.com>
+> > > > wrote:
+> > > >
+>
+
+> wouldn't work if dpcd[0x1] =3D=3D 0xa, which it likely is [*]. AMD DC
+> > identified it as DP 1.1, eDP 1.3, and these extended caps seem to be on=
+ly
+> > part of DP 1.3+ if i understand the comments in
+> > intel_dp_extended_receiver_capabilities() correctly.
+>
+>
+Ok, looking at previous debug output logs shows that those extended caps
+are not present on the systems, ie. that extended caps bit is not set. So
+dpcd[0x1] =3D=3D 0xa.
+
+
+> Yeah, but you never know how creative they've been with the DPCD in
+> such a propritary machine. A full DPCD dump from /dev/drm_dp_aux* would
+> be nice. Can you file a bug an attach the DPCD dump there so we have a
+> good reference on what we're talking about (also for future if/when
+> someone eventually starts to wonder why we have such hacks in the
+> code)?
+>
+>
+True, it's Apple which likes to "Think different..." :/
+
+Will do. But is there a proper/better way to do the /dev/drm_dp_aux0 dump?
+I used cat /dev/drm_dp_aux0 > dump, and that hangs, but if i interrupt it
+after a few seconds, i get a dump file of 512k size, which seems excessive?
+On AMD DC atm., in case that matters.
+
+However, the file shows DPCD_REV 1.1, maximum 0xa and no extended caps (
+DP_TRAINING_AUX_RD_INTERVAL
+<https://elixir.bootlin.com/linux/v5.5-rc5/ident/DP_TRAINING_AUX_RD_INTERVA=
+L>
+aka
+[0xe] =3D=3D 0x00).
+ -mario
+
+
+--=20
+> Ville Syrj=C3=A4l=C3=A4
+> Intel
+>
+
+--0000000000004e63ba059bbab94a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Thu, Jan 9, 2020 at 7:24 PM Ville Syrj=
+=C3=A4l=C3=A4 &lt;<a href=3D"mailto:ville.syrjala@linux.intel.com">ville.sy=
+rjala@linux.intel.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">On Thu, Jan 09, 2020 at 06:=
+57:14PM +0100, Mario Kleiner wrote:<br>
+&gt; On Thu, Jan 9, 2020 at 5:47 PM Ville Syrj=C3=A4l=C3=A4 &lt;<a href=3D"=
+mailto:ville.syrjala@linux.intel.com" target=3D"_blank">ville.syrjala@linux=
+.intel.com</a>&gt;<br>
+&gt; wrote:<br>
+&gt; <br>
+&gt; &gt; On Thu, Jan 09, 2020 at 05:30:05PM +0100, Mario Kleiner wrote:<br=
+>
+&gt; &gt; &gt; On Thu, Jan 9, 2020 at 4:38 PM Ville Syrj=C3=A4l=C3=A4 &lt;<=
+br>
+&gt; &gt; <a href=3D"mailto:ville.syrjala@linux.intel.com" target=3D"_blank=
+">ville.syrjala@linux.intel.com</a>&gt;<br>
+&gt; &gt; &gt; wrote:<br>
+&gt; &gt; &gt;<br>=C2=A0</blockquote><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex">
+&gt; wouldn&#39;t work if dpcd[0x1] =3D=3D 0xa, which it likely is [*]. AMD=
+ DC<br>
+&gt; identified it as DP 1.1, eDP 1.3, and these extended caps seem to be o=
+nly<br>
+&gt; part of DP 1.3+ if i understand the comments in<br>
+&gt; intel_dp_extended_receiver_capabilities() correctly.<br>
+<br></blockquote><div><br></div><div>Ok, looking at previous debug output l=
+ogs shows that those extended caps are not present on the systems, ie. that=
+ extended caps bit is not set. So dpcd[0x1] =3D=3D 0xa.<br></div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+Yeah, but you never know how creative they&#39;ve been with the DPCD in<br>
+such a propritary machine. A full DPCD dump from /dev/drm_dp_aux* would<br>
+be nice. Can you file a bug an attach the DPCD dump there so we have a<br>
+good reference on what we&#39;re talking about (also for future if/when<br>
+someone eventually starts to wonder why we have such hacks in the<br>
+code)?<br>
+<br></blockquote><div><br></div><div>True, it&#39;s Apple which likes to &q=
+uot;Think different...&quot; :/</div><div><br></div><div>Will do. But is th=
+ere a proper/better way to do the /dev/drm_dp_aux0 dump? I used cat /dev/dr=
+m_dp_aux0 &gt; dump, and that hangs, but if i interrupt it after a few seco=
+nds, i get a dump file of 512k size, which seems excessive? On AMD DC atm.,=
+ in case that matters.<br></div><div><br></div><div>However, the file shows=
+ DPCD_REV 1.1, maximum 0xa and no extended caps (<span class=3D"gmail-cp"><=
+a href=3D"https://elixir.bootlin.com/linux/v5.5-rc5/ident/DP_TRAINING_AUX_R=
+D_INTERVAL">DP_TRAINING_AUX_RD_INTERVAL</a> </span>aka [0xe] =3D=3D 0x00).<=
+br></div><div>=C2=A0-mario</div><div><br></div><div><br></div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
+d rgb(204,204,204);padding-left:1ex">
+-- <br>
+Ville Syrj=C3=A4l=C3=A4<br>
+Intel<br>
+</blockquote></div></div>
+
+--0000000000004e63ba059bbab94a--
+
+--===============1884855674==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1884855674==--
