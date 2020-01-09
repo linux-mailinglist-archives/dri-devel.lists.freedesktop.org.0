@@ -1,56 +1,116 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2670D136251
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 22:13:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87CEB13626E
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 22:26:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 908646E96B;
-	Thu,  9 Jan 2020 21:13:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0370F6E96A;
+	Thu,  9 Jan 2020 21:26:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0CB56E96A;
- Thu,  9 Jan 2020 21:13:36 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id d73so4550930wmd.1;
- Thu, 09 Jan 2020 13:13:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fINWBWTQQh7QSskk5jBe/rgUu9y3MpwfI7+Qn438jNs=;
- b=GZC/mJAJgLktOFnBb4UR75TOlS60PYHyXAzilC0h3WMUCOWc3pFkyzsSbCMzbFtRr7
- ZpaWkrYvnVD13Bbu8kN+rceFp2/5ubey3xvacOoEQuEd8axtovPciWPj0KclTU1CkuJi
- XmtAxo9AQZthVayI7ZM+S3sw5VMJ1h9m8GwDtKVxr/8DLLqjB/1WSfdTE5tgyzb7ogUw
- 3+iGrIB56F+rBNF/M9FWdJMCYt8UIRhZMkPq1Rd0pqiv6EyhbRhswLXRe/FKOJUU6j69
- jWO6PsGiJ0qaeg64ElNFvb5LuZcq/AfxLTWb6GCIO47uSKfzLI3lrIDN6FsBTQoZi2XI
- EDEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fINWBWTQQh7QSskk5jBe/rgUu9y3MpwfI7+Qn438jNs=;
- b=IOY5c8TFrH3JzIHEmZL8SpTzBFOq8H6LLPVZBzYAPOB1aYLo5Zv0hToBc/lQlzqjM7
- eA0PNcxY+GkUnC5QHF4OLhEiwAiKud7SqaxxxmU7tSsquPHOO2VF0yR4aFjrVmrzjuXW
- 3dgE7JCdTTwxcRUS+fwlrrbcWagnypG2ZfaFrzBKDczKoZiN3v+mixB8cAmPjo0mUhMc
- DQQz28CZ6vCTnSQwlMv4u4dl9wtAAopB0Uf6zwF8bkVB8E/n8j/IYb/h8HDdi+QkAcIy
- xt69dLe2AlIR5ZQWDNSgC/dPjlVg7Mx08BFA4WkoTPVi5pE7pxd9fJHGcfy6+5R0IiaJ
- qktg==
-X-Gm-Message-State: APjAAAV2P1G1mYHvIY+5iL1mJnQ/jEH5M7mT8rpUlXc4qeqNAmnmIWlB
- elT7p+9vCTM5ZucRt6EjR4gyEzm7Vdup0uaSjxK7Dc7BIA0=
-X-Google-Smtp-Source: APXvYqxwHLzbgRphtR/F1yO1qKrvk2wlowYoG0AElH+V3K5SI7asrQbBdNI0DLE40jpN8AELNah0Lxj1DWTpH/aUN8M=
-X-Received: by 2002:a1c:28d4:: with SMTP id o203mr6860365wmo.123.1578604415154; 
- Thu, 09 Jan 2020 13:13:35 -0800 (PST)
-MIME-Version: 1.0
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-eopbgr770051.outbound.protection.outlook.com [40.107.77.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 711246E96A;
+ Thu,  9 Jan 2020 21:26:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=StNBkcBPcFm5UIboVQlyF2eakxv7ucq0K2p4oCRjvUq1NIDw4vD0jT0OAbcR+C++WHa+jUO1Sax/9E31XoOInspPaYz255TShydbi68faImi1y30NThA7xOF/GHD8p/qAS7CsnNbKm2+nw78A/NJJLBb3T/KZfb7Zon7M3mKRqOhDNzqLC/8flRP+o6ZXPEgkVvGMmMYjaPjT/aP5fLTFPyt6q5PoOSoUk//BNuwAk0KnsoRe5bkUFuuyRzttBvwwyHjolGSLnn6O4n3ka0SUVJX8SoyIriSPprP/vPoE8omaAIZpaQDvKn2kD9nScFYpXhub8pO5K5AUL8RgREY5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qQjzt9y3E+1vtcgaZ5lbC6Kb+s0ZI7dhP1HLRtSxOEg=;
+ b=XBtQPiNk8jgARf93oIa0TcsxDc9ypktsCZmD+EBkcpLgwChDBwn17w8A/gD8j/xi1/JPriRumX3mUCjhGaS0nOgd4wfn5XDEsT9wi3g6lVXo9BLQ20YfSHDqD4P6s8MS9HNhr9d5VxyMNSCqWTZ5ksw/2Yl5mPmMalcYdCP/40KjwXd3p8PMjox305r0d2PsZFK2svpFUHAj3LN5QTaOKTU1h0PTsxHJs5qJrERuWvHKLFK100nw7KgMJXwuX3eNan+BgZop44RbhhxrsRYsSwiAu5sySFVAsCZeEgC1G8bZqoMvSxMKMuHbg61uR9FF3zFrdmYT6x4RmMVFe3D+cQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qQjzt9y3E+1vtcgaZ5lbC6Kb+s0ZI7dhP1HLRtSxOEg=;
+ b=tL/MXCj2ZDFpqlvstlX/Aab5aUXhNaLgpXIlVau1+Xpo6GPH0te1OxjgvMOyj0oGpb/Xtrkkv9nb+fS0VcZMJl0k6k1fw6EwfbZDZ5coiqWYpclz6WAZPOk3ViNOi4xsYwyEeZSd/NU1VCph4kFLY285Ac4acWCnTDE2pBGVc3U=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Harry.Wentland@amd.com; 
+Received: from CY4PR1201MB0230.namprd12.prod.outlook.com (10.172.79.7) by
+ CY4PR1201MB0198.namprd12.prod.outlook.com (10.172.75.138) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2623.11; Thu, 9 Jan 2020 21:26:19 +0000
+Received: from CY4PR1201MB0230.namprd12.prod.outlook.com
+ ([fe80::4c09:215c:e5d2:3c8f]) by CY4PR1201MB0230.namprd12.prod.outlook.com
+ ([fe80::4c09:215c:e5d2:3c8f%9]) with mapi id 15.20.2602.016; Thu, 9 Jan 2020
+ 21:26:19 +0000
+Subject: Re: [PATCH 2/2] drm/amd/display: Allow current eDP link settings to
+ override verified ones.
+To: Mario Kleiner <mario.kleiner.de@gmail.com>
 References: <20200109152028.28260-1-mario.kleiner.de@gmail.com>
  <20200109152028.28260-3-mario.kleiner.de@gmail.com>
  <9238371c-fc93-2a65-c3e5-df6b3d1270dd@amd.com>
-In-Reply-To: <9238371c-fc93-2a65-c3e5-df6b3d1270dd@amd.com>
-From: Mario Kleiner <mario.kleiner.de@gmail.com>
-Date: Thu, 9 Jan 2020 22:13:23 +0100
-Message-ID: <CAEsyxygx+2p+i91bvYBLVfq-9qog-SLQ_KdHBTmSyq4Zfr09jg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/amd/display: Allow current eDP link settings to
- override verified ones.
-To: Harry Wentland <hwentlan@amd.com>
+ <CAEsyxygx+2p+i91bvYBLVfq-9qog-SLQ_KdHBTmSyq4Zfr09jg@mail.gmail.com>
+From: Harry Wentland <hwentlan@amd.com>
+Autocrypt: addr=hwentlan@amd.com; keydata=
+ mQENBFhb4C8BCADhHHUNoBQ7K7LupCP0FsUb443Vuqq+dH0uo4A3lnPkMF6FJmGcJ9Sbx1C6
+ cd4PbVAaTFZUEmjqfpm+wCRBe11eF55hW3GJ273wvfH69Q/zmAxwO8yk+i5ZWWl8Hns5h69K
+ D9QURHLpXxrcwnfHFah0DwV23TrD1KGB7vowCZyJOw93U/GzAlXKESy0FM7ZOYIJH83X7qhh
+ Q9KX94iTEYTeH86Wy8hwHtqM6ySviwEz0g+UegpG8ebbz0w3b5QmdKCAg+eZTmBekP5o77YE
+ BKqR+Miiwo9+tzm2N5GiF9HDeI2pVe/egOLa5UcmsgdF4Y5FKoMnBbAHNaA6Fev8PHlNABEB
+ AAG0J0hhcnJ5IFdlbnRsYW5kIDxoYXJyeS53ZW50bGFuZEBhbWQuY29tPokBNwQTAQgAIQUC
+ WFvgLwIbAwULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgAAKCRAtWBXJjBS24xUlCAC9MqAlIbZO
+ /a37s41h+MQ+D20C6/hVErWO+RA06nA+jFDPUWrDJKYdn6EDQWdLY3ATeAq3X8GIeOTXGrPD
+ b2OXD6kOViW/RNvlXdrIsnIDacdr39aoAlY1b+bhTzZVz4pto4l+K1PZb5jlMgTk/ks9HesL
+ RfYVq5wOy3qIpocdjdlXnSUKn0WOkGBBd8Nv3o0OI18tiJ1S/QwLBBfZoVvfGinoB2p4j/wO
+ kJxpi3F9TaOtLGcdrgfghg31Fb48DP+6kodZ4ircerp4hyAp0U2iKtsrQ/sVWR4mbe3eTfcn
+ YjBxGd2JOVdNQZa2VTNf9GshIDMD8IIQK6jN0LfY8Py2uQENBFhb4C8BCAC/0KWY3pIbU2cy
+ i7GMj3gqB6h0jGqRuMpMRoSNDoAUIuSh17w+bawuOF6XZPdK3D4lC9cOXMwP3aP9tTJOori2
+ 8vMH8KW9jp9lAYnGWYhSqLdjzIACquMqi96EBtawJDct1e9pVgp+d4JXHlgIrl11ITJo8rCP
+ dEqjro2bCBWxijsIncdCzMjf57+nR7u86SBtGSFcXKapS7YJeWcvM6MzFYgIkxHxxBDvBBvm
+ U2/mAXiL72kwmlV1BNrabQxX2UnIb3xt3UovYJehrnDUMdYjxJgSPRBx27wQ/D05xAlhkmmL
+ FJ01ZYc412CRCC6gjgFPfUi2y7YJTrQHS79WSyANABEBAAGJAR8EGAEIAAkFAlhb4C8CGwwA
+ CgkQLVgVyYwUtuM72Qf+J6JOQ/27pWf5Ulde9GS0BigA1kV9CNfIq396TgvQzeyixHMvgPdq
+ Z36x89zZi0otjMZv6ypIdEg5co1Bvz0wFaKbCiNbTjpnA1VAbQVLSFjCZLQiu0vc+BZ1yKDV
+ T5ASJ97G4XvQNO+XXGY55MrmhoNqMaeIa/3Jas54fPVd5olcnUAyDty29/VWXNllUq38iBCX
+ /0tTF7oav1lzPGfeW2c6B700FFZMTR4YBVSGE8jPIzu2Fj0E8EkDmsgS+nibqSvWXfo1v231
+ 410h35CjbYDlYQO7Z1YD7asqbaOnF0As+rckyRMweQ9CxZn5+YBijtPJA3x5ldbCfQ9rWiTu XQ==
+Message-ID: <6d481758-d0d9-8911-1473-4257b74a1e97@amd.com>
+Date: Thu, 9 Jan 2020 16:26:17 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
+In-Reply-To: <CAEsyxygx+2p+i91bvYBLVfq-9qog-SLQ_KdHBTmSyq4Zfr09jg@mail.gmail.com>
+Content-Language: en-US
+X-ClientProxiedBy: YTOPR0101CA0068.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:14::45) To CY4PR1201MB0230.namprd12.prod.outlook.com
+ (2603:10b6:910:1e::7)
+MIME-Version: 1.0
+Received: from [10.4.33.74] (165.204.55.251) by
+ YTOPR0101CA0068.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:14::45) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2623.9 via Frontend
+ Transport; Thu, 9 Jan 2020 21:26:18 +0000
+X-Originating-IP: [165.204.55.251]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: a541fbd1-d770-489f-cafc-08d7954a9136
+X-MS-TrafficTypeDiagnostic: CY4PR1201MB0198:|CY4PR1201MB0198:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <CY4PR1201MB0198CA901FC655626CC0EB0A8C390@CY4PR1201MB0198.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Forefront-PRVS: 02778BF158
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10009020)(4636009)(136003)(39860400002)(376002)(396003)(346002)(366004)(189003)(199004)(8936002)(6916009)(956004)(8676002)(36756003)(6486002)(81156014)(81166006)(4326008)(15650500001)(2906002)(478600001)(31696002)(2616005)(31686004)(53546011)(16576012)(54906003)(316002)(66556008)(66946007)(5660300002)(66476007)(16526019)(186003)(26005)(52116002)(46800400005);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR1201MB0198;
+ H:CY4PR1201MB0230.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: e557tThCNH5nlNxc9WBRlhg75YQZ/dhXoy8SXWDflzkXmmBJz4Nb8iGKGrEI4Bx52uHJkkf3g5to/s12KNJsrYhzC8SEaIFJUrIN1TyueyXR386ikFYu3u46oJ/MO/NrZ5cYvh13xEbGL9ixy45ESOyPFr+kNONrl8DT165xKNOVRBhUgOt1BzvBc2T3zHGBT1siXNu3FT/JVZX0bwXiy98YlgGk2oVDFHlcaUdh/Z8tm6awMepuc5ttZFWjmBSWg61QtWFB4MWrC5iBPXg3SiiD/2xdg8IUVQHHxZKX4HIDL/UfTY2WcjmouQJsQA3Z56bazcBDx77+FCk7z8jPmFGlGRvZ8NBLWSaeyLvFwScFA+/vZcDZ3em44PsZ+AOZ5wJzYEbNWiHtD9vgbCn5IijJQAi4uazzRRqnqwAaI2OqvVMl6OMcWgsCda8AnxyJIXZQbXZQGGi70kq5ymXN0p88YlpSIDOR5rAOIDSMOO3bwCz1nleQuAOWCOUY+Ylb
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a541fbd1-d770-489f-cafc-08d7954a9136
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2020 21:26:19.4609 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OaAxJHoANyVCq4CwjhAQdUJXO3n8a2faDx949yAREz1TEXlTAS94+XwpzElIqxR8HAh6spMTxJHbZvUkSl/03A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB0198
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,278 +126,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Alex Deucher <alexander.deucher@amd.com>, mario.kleiner.de@gmail.de,
  amd-gfx list <amd-gfx@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============1563301238=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1563301238==
-Content-Type: multipart/alternative; boundary="00000000000067ffbc059bbb7bd3"
-
---00000000000067ffbc059bbb7bd3
-Content-Type: text/plain; charset="UTF-8"
-
-On Thu, Jan 9, 2020 at 7:44 PM Harry Wentland <hwentlan@amd.com> wrote:
-
-> On 2020-01-09 10:20 a.m., Mario Kleiner wrote:
-> > If the current eDP link settings, as read from hw, provide a higher
-> > bandwidth than the verified_link_cap ones (= reported_link_cap), then
-> > override verified_link_cap with current settings.
-> >
-> > These initial current eDP link settings have been set up by
-> > firmware during boot, so they should work on the eDP panel.
-> > Therefore use them if the firmware thinks they are good and
-> > they provide higher link bandwidth, e.g., to enable higher
-> > resolutions / color depths.
-> >
->
-
-
-Hi Harry, happy new year!
-
-This only works when taking over from UEFI, so on boot or resume from
-> hibernate. This wouldn't work on a normal suspend/resume.
->
->
-See the other thread i just cc'ed you on. Depends if
-dc_link_detect_helper() gets skipped/early returns or not on EDP. Some if
-statement suggests it might get skipped on EDP + resume?
-
-
-> Can you check if setting link->dc->config.optimize_edp_link_rate (see
-> first if statement in detect_edp_sink_caps) fixes this? I imagine we
-> need to read the reported settings from DP_SUPPORTED_LINK_RATES and fail
-> to do so.
->
-
-Tried that already (see other mail), replacing the whole if statement with
-a if (true) to force reading DP_SUPPORTED_LINK_RATES. The whole table reads
-back as all-zero, and versions are DP 1.1, eDP 1.3, not 1.4+ as what seems
-to be required. The use the classic link bw stuff, but with a non-standard
-link bandwidth multiplier of 0xc, and a reported DP_MAX_LINK_RATE of 0xa,
-contradicting the 0xc setting that the firmware sets at bootup.
-
-Seems to be a very Apple thing...
--mario
-
-
->
-> Thanks,
-> Harry
->
-> > This fixes a problem found on the MacBookPro 2017 Retina panel:
-> >
-> > The panel reports 10 bpc color depth in its EDID, and the
-> > firmware chooses link settings at boot which support enough
-> > bandwidth for 10 bpc (324000 kbit/sec aka LINK_RATE_RBR2),
-> > but the DP_MAX_LINK_RATE dpcd register only reports 2.7 Gbps
-> > as possible, so verified_link_cap is only good for 2.7 Gbps
-> > and 8 bpc, not providing the full color depth of the panel.
-> >
-> > Signed-off-by: Mario Kleiner <mario.kleiner.de@gmail.com>
-> > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > ---
-> >  drivers/gpu/drm/amd/display/dc/core/dc_link.c | 21 +++++++++++++++++++
-> >  1 file changed, 21 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-> b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-> > index 5ea4a1675259..f3acdb8fead5 100644
-> > --- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-> > +++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-> > @@ -819,6 +819,27 @@ static bool dc_link_detect_helper(struct dc_link
-> *link,
-> >               case SIGNAL_TYPE_EDP: {
-> >                       detect_edp_sink_caps(link);
-> >                       read_current_link_settings_on_detect(link);
-> > +
-> > +                     /* If cur_link_settings provides higher bandwidth
-> than
-> > +                      * verified_link_cap, then use cur_link_settings
-> as new
-> > +                      * verified_link_cap, as it obviously works
-> according to
-> > +                      * firmware boot setup.
-> > +                      *
-> > +                      * This has been observed on the Apple MacBookPro
-> 2017
-> > +                      * Retina panel, which boots with a link setting
-> higher
-> > +                      * than what dpcd[DP_MAX_LINK_RATE] claims as
-> possible.
-> > +                      * Overriding allows to run the panel at 10 bpc /
-> 30 bit.
-> > +                      */
-> > +                     if (dc_link_bandwidth_kbps(link,
-> &link->cur_link_settings) >
-> > +                         dc_link_bandwidth_kbps(link,
-> &link->verified_link_cap)) {
-> > +                             DC_LOG_DETECTION_DP_CAPS(
-> > +                             "eDP current link setting bw %d kbps >
-> verified_link_cap %d kbps. Override.",
-> > +                             dc_link_bandwidth_kbps(link,
-> &link->cur_link_settings),
-> > +                             dc_link_bandwidth_kbps(link,
-> &link->verified_link_cap));
-> > +
-> > +                             link->verified_link_cap =
-> link->cur_link_settings;
-> > +                     }
-> > +
-> >                       sink_caps.transaction_type =
-> DDC_TRANSACTION_TYPE_I2C_OVER_AUX;
-> >                       sink_caps.signal = SIGNAL_TYPE_EDP;
-> >                       break;
-> >
->
-
---00000000000067ffbc059bbb7bd3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Thu, Jan 9, 2020 at 7:44 PM Harry Went=
-land &lt;<a href=3D"mailto:hwentlan@amd.com">hwentlan@amd.com</a>&gt; wrote=
-:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex">On 2020-01-09 10:20 a.m., Mario Kleiner wrote:<br>
-&gt; If the current eDP link settings, as read from hw, provide a higher<br=
->
-&gt; bandwidth than the verified_link_cap ones (=3D reported_link_cap), the=
-n<br>
-&gt; override verified_link_cap with current settings.<br>
-&gt; <br>
-&gt; These initial current eDP link settings have been set up by<br>
-&gt; firmware during boot, so they should work on the eDP panel.<br>
-&gt; Therefore use them if the firmware thinks they are good and<br>
-&gt; they provide higher link bandwidth, e.g., to enable higher<br>
-&gt; resolutions / color depths.<br>
-&gt; <br>
-=C2=A0</blockquote><div><br></div><div>Hi Harry, happy new year!<br></div><=
-div> <br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-This only works when taking over from UEFI, so on boot or resume from<br>
-hibernate. This wouldn&#39;t work on a normal suspend/resume.<br>
-<br></blockquote><div><br></div><div>See the other thread i just cc&#39;ed =
-you on. Depends if dc_link_detect_helper() gets skipped/early returns or no=
-t on EDP. Some if statement suggests it might get skipped on EDP + resume?<=
-br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->
-Can you check if setting link-&gt;dc-&gt;config.optimize_edp_link_rate (see=
-<br>
-first if statement in detect_edp_sink_caps) fixes this? I imagine we<br>
-need to read the reported settings from DP_SUPPORTED_LINK_RATES and fail<br=
->
-to do so.<br></blockquote><div><br></div><div>Tried that already (see other=
- mail), replacing the whole if statement with a if (true) to force reading =
-DP_SUPPORTED_LINK_RATES. The whole table reads back as all-zero, and versio=
-ns are DP 1.1, eDP 1.3, not 1.4+ as what seems to be required. The use the =
-classic link bw stuff, but with a non-standard link bandwidth multiplier of=
- 0xc, and a reported DP_MAX_LINK_RATE of 0xa, contradicting the 0xc setting=
- that the firmware sets at bootup.</div><div><br></div><div>Seems to be a v=
-ery Apple thing...</div><div>-mario<br></div><div>=C2=A0</div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">
-<br>
-Thanks,<br>
-Harry<br>
-<br>
-&gt; This fixes a problem found on the MacBookPro 2017 Retina panel:<br>
-&gt; <br>
-&gt; The panel reports 10 bpc color depth in its EDID, and the<br>
-&gt; firmware chooses link settings at boot which support enough<br>
-&gt; bandwidth for 10 bpc (324000 kbit/sec aka LINK_RATE_RBR2),<br>
-&gt; but the DP_MAX_LINK_RATE dpcd register only reports 2.7 Gbps<br>
-&gt; as possible, so verified_link_cap is only good for 2.7 Gbps<br>
-&gt; and 8 bpc, not providing the full color depth of the panel.<br>
-&gt; <br>
-&gt; Signed-off-by: Mario Kleiner &lt;<a href=3D"mailto:mario.kleiner.de@gm=
-ail.com" target=3D"_blank">mario.kleiner.de@gmail.com</a>&gt;<br>
-&gt; Cc: Alex Deucher &lt;<a href=3D"mailto:alexander.deucher@amd.com" targ=
-et=3D"_blank">alexander.deucher@amd.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 drivers/gpu/drm/amd/display/dc/core/dc_link.c | 21 +++++++++++++=
-++++++<br>
-&gt;=C2=A0 1 file changed, 21 insertions(+)<br>
-&gt; <br>
-&gt; diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/g=
-pu/drm/amd/display/dc/core/dc_link.c<br>
-&gt; index 5ea4a1675259..f3acdb8fead5 100644<br>
-&gt; --- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c<br>
-&gt; +++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c<br>
-&gt; @@ -819,6 +819,27 @@ static bool dc_link_detect_helper(struct dc_link =
-*link,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case SIGNAL_TYPE=
-_EDP: {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0detect_edp_sink_caps(link);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0read_current_link_settings_on_detect(link);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0/* If cur_link_settings provides higher bandwidth than<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 * verified_link_cap, then use cur_link_settings as new<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 * verified_link_cap, as it obviously works according to<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 * firmware boot setup.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 *<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 * This has been observed on the Apple MacBookPro 2017<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 * Retina panel, which boots with a link setting higher<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 * than what dpcd[DP_MAX_LINK_RATE] claims as possible.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 * Overriding allows to run the panel at 10 bpc / 30 bit.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0if (dc_link_bandwidth_kbps(link, &amp;link-&gt;cur_link_settings) &g=
-t;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0dc_link_bandwidth_kbps(link, &amp;link-&gt;verified_li=
-nk_cap)) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DC_LOG_DETECTION_DP_CAPS(<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;eDP current link setting bw %d kbp=
-s &gt; verified_link_cap %d kbps. Override.&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dc_link_bandwidth_kbps(link, &amp;link-&=
-gt;cur_link_settings),<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dc_link_bandwidth_kbps(link, &amp;link-&=
-gt;verified_link_cap));<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0link-&gt;verified_link_cap =3D link-&gt;=
-cur_link_settings;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0}<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0sink_caps.transaction_type =3D DDC_TRANSACTION_TYPE_I2C_OVER_A=
-UX;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0sink_caps.signal =3D SIGNAL_TYPE_EDP;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0break;<br>
-&gt; <br>
-</blockquote></div></div>
-
---00000000000067ffbc059bbb7bd3--
-
---===============1563301238==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1563301238==--
+T24gMjAyMC0wMS0wOSA0OjEzIHAubS4sIE1hcmlvIEtsZWluZXIgd3JvdGU6Cj4gT24gVGh1LCBK
+YW4gOSwgMjAyMCBhdCA3OjQ0IFBNIEhhcnJ5IFdlbnRsYW5kIDxod2VudGxhbkBhbWQuY29tCj4g
+PG1haWx0bzpod2VudGxhbkBhbWQuY29tPj4gd3JvdGU6Cj4gCj4gICAgIE9uIDIwMjAtMDEtMDkg
+MTA6MjAgYS5tLiwgTWFyaW8gS2xlaW5lciB3cm90ZToKPiAgICAgPiBJZiB0aGUgY3VycmVudCBl
+RFAgbGluayBzZXR0aW5ncywgYXMgcmVhZCBmcm9tIGh3LCBwcm92aWRlIGEgaGlnaGVyCj4gICAg
+ID4gYmFuZHdpZHRoIHRoYW4gdGhlIHZlcmlmaWVkX2xpbmtfY2FwIG9uZXMgKD0gcmVwb3J0ZWRf
+bGlua19jYXApLCB0aGVuCj4gICAgID4gb3ZlcnJpZGUgdmVyaWZpZWRfbGlua19jYXAgd2l0aCBj
+dXJyZW50IHNldHRpbmdzLgo+ICAgICA+Cj4gICAgID4gVGhlc2UgaW5pdGlhbCBjdXJyZW50IGVE
+UCBsaW5rIHNldHRpbmdzIGhhdmUgYmVlbiBzZXQgdXAgYnkKPiAgICAgPiBmaXJtd2FyZSBkdXJp
+bmcgYm9vdCwgc28gdGhleSBzaG91bGQgd29yayBvbiB0aGUgZURQIHBhbmVsLgo+ICAgICA+IFRo
+ZXJlZm9yZSB1c2UgdGhlbSBpZiB0aGUgZmlybXdhcmUgdGhpbmtzIHRoZXkgYXJlIGdvb2QgYW5k
+Cj4gICAgID4gdGhleSBwcm92aWRlIGhpZ2hlciBsaW5rIGJhbmR3aWR0aCwgZS5nLiwgdG8gZW5h
+YmxlIGhpZ2hlcgo+ICAgICA+IHJlc29sdXRpb25zIC8gY29sb3IgZGVwdGhzLgo+ICAgICA+Cj4g
+ICAgIMKgCj4gCj4gCj4gSGkgSGFycnksIGhhcHB5IG5ldyB5ZWFyIQo+IAoKRnJvaGVzIE5ldWVz
+LiA6KQoKPiAgICAgVGhpcyBvbmx5IHdvcmtzIHdoZW4gdGFraW5nIG92ZXIgZnJvbSBVRUZJLCBz
+byBvbiBib290IG9yIHJlc3VtZSBmcm9tCj4gICAgIGhpYmVybmF0ZS4gVGhpcyB3b3VsZG4ndCB3
+b3JrIG9uIGEgbm9ybWFsIHN1c3BlbmQvcmVzdW1lLgo+IAo+IAo+IFNlZSB0aGUgb3RoZXIgdGhy
+ZWFkIGkganVzdCBjYydlZCB5b3Ugb24uIERlcGVuZHMgaWYKPiBkY19saW5rX2RldGVjdF9oZWxw
+ZXIoKSBnZXRzIHNraXBwZWQvZWFybHkgcmV0dXJucyBvciBub3Qgb24gRURQLiBTb21lCj4gaWYg
+c3RhdGVtZW50IHN1Z2dlc3RzIGl0IG1pZ2h0IGdldCBza2lwcGVkIG9uIEVEUCArIHJlc3VtZT8K
+PiDCoAoKWW91J3ZlIGxpa2VseSBsb29rZWQgYXQgdGhlIGNvZGUgbW9yZSBjbG9zZWx5IHdoaWxl
+IGRlYnVnZ2luZyB0aGlzIHRoYW4KSSBoYXZlIHJlY2VudGx5LiBJdCBsb29rcyBsaWtlIHdlIGlu
+ZGVlZCBza2lwIGRldGVjdGlvbiBpZiB3ZSd2ZQpwcmV2aW91c2x5IGRldGVjdGVkIHRoZSBlRFAg
+c2luay4KCj4gCj4gICAgIENhbiB5b3UgY2hlY2sgaWYgc2V0dGluZyBsaW5rLT5kYy0+Y29uZmln
+Lm9wdGltaXplX2VkcF9saW5rX3JhdGUgKHNlZQo+ICAgICBmaXJzdCBpZiBzdGF0ZW1lbnQgaW4g
+ZGV0ZWN0X2VkcF9zaW5rX2NhcHMpIGZpeGVzIHRoaXM/IEkgaW1hZ2luZSB3ZQo+ICAgICBuZWVk
+IHRvIHJlYWQgdGhlIHJlcG9ydGVkIHNldHRpbmdzIGZyb20gRFBfU1VQUE9SVEVEX0xJTktfUkFU
+RVMgYW5kIGZhaWwKPiAgICAgdG8gZG8gc28uCj4gCj4gCj4gVHJpZWQgdGhhdCBhbHJlYWR5IChz
+ZWUgb3RoZXIgbWFpbCksIHJlcGxhY2luZyB0aGUgd2hvbGUgaWYgc3RhdGVtZW50Cj4gd2l0aCBh
+IGlmICh0cnVlKSB0byBmb3JjZSByZWFkaW5nIERQX1NVUFBPUlRFRF9MSU5LX1JBVEVTLiBUaGUg
+d2hvbGUKPiB0YWJsZSByZWFkcyBiYWNrIGFzIGFsbC16ZXJvLCBhbmQgdmVyc2lvbnMgYXJlIERQ
+IDEuMSwgZURQIDEuMywgbm90IDEuNCsKPiBhcyB3aGF0IHNlZW1zIHRvIGJlIHJlcXVpcmVkLiBU
+aGUgdXNlIHRoZSBjbGFzc2ljIGxpbmsgYncgc3R1ZmYsIGJ1dAo+IHdpdGggYSBub24tc3RhbmRh
+cmQgbGluayBiYW5kd2lkdGggbXVsdGlwbGllciBvZiAweGMsIGFuZCBhIHJlcG9ydGVkCj4gRFBf
+TUFYX0xJTktfUkFURSBvZiAweGEsIGNvbnRyYWRpY3RpbmcgdGhlIDB4YyBzZXR0aW5nIHRoYXQg
+dGhlIGZpcm13YXJlCj4gc2V0cyBhdCBib290dXAuCj4gCj4gU2VlbXMgdG8gYmUgYSB2ZXJ5IEFw
+cGxlIHRoaW5nLi4uCgpJbmRlZWQuIEkgdGhpbmsgaXQgd2FzIGEgZnVua3kgcGFuZWwgdGhhdCB3
+YXMgImFoZWFkIG9mIGl0cyB0aW1lIiBhbmQKYWhlYWQgb2YgdGhlIHNwZWMuCgpJIHdvdWxkIHBy
+ZWZlciBhIERQQ0QgcXVpcmsgZm9yIHRoaXMgcGFuZWwgdGhhdCB1cGRhdGVzIHRoZSByZXBvcnRl
+ZCBEUApjYXBzLCByYXRoZXIgdGhhbiBwaWNraW5nIHRoZSAiY3VycmVudCIgb25lcyBmcm9tIHRo
+ZSBGVyBsaWdodHVwLgoKSGFycnkKCj4gLW1hcmlvCj4gwqAKPiAKPiAKPiAgICAgVGhhbmtzLAo+
+ICAgICBIYXJyeQo+IAo+ICAgICA+IFRoaXMgZml4ZXMgYSBwcm9ibGVtIGZvdW5kIG9uIHRoZSBN
+YWNCb29rUHJvIDIwMTcgUmV0aW5hIHBhbmVsOgo+ICAgICA+Cj4gICAgID4gVGhlIHBhbmVsIHJl
+cG9ydHMgMTAgYnBjIGNvbG9yIGRlcHRoIGluIGl0cyBFRElELCBhbmQgdGhlCj4gICAgID4gZmly
+bXdhcmUgY2hvb3NlcyBsaW5rIHNldHRpbmdzIGF0IGJvb3Qgd2hpY2ggc3VwcG9ydCBlbm91Z2gK
+PiAgICAgPiBiYW5kd2lkdGggZm9yIDEwIGJwYyAoMzI0MDAwIGtiaXQvc2VjIGFrYSBMSU5LX1JB
+VEVfUkJSMiksCj4gICAgID4gYnV0IHRoZSBEUF9NQVhfTElOS19SQVRFIGRwY2QgcmVnaXN0ZXIg
+b25seSByZXBvcnRzIDIuNyBHYnBzCj4gICAgID4gYXMgcG9zc2libGUsIHNvIHZlcmlmaWVkX2xp
+bmtfY2FwIGlzIG9ubHkgZ29vZCBmb3IgMi43IEdicHMKPiAgICAgPiBhbmQgOCBicGMsIG5vdCBw
+cm92aWRpbmcgdGhlIGZ1bGwgY29sb3IgZGVwdGggb2YgdGhlIHBhbmVsLgo+ICAgICA+Cj4gICAg
+ID4gU2lnbmVkLW9mZi1ieTogTWFyaW8gS2xlaW5lciA8bWFyaW8ua2xlaW5lci5kZUBnbWFpbC5j
+b20KPiAgICAgPG1haWx0bzptYXJpby5rbGVpbmVyLmRlQGdtYWlsLmNvbT4+Cj4gICAgID4gQ2M6
+IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbQo+ICAgICA8bWFpbHRvOmFs
+ZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+Pgo+ICAgICA+IC0tLQo+ICAgICA+wqAgZHJpdmVycy9n
+cHUvZHJtL2FtZC9kaXNwbGF5L2RjL2NvcmUvZGNfbGluay5jIHwgMjEKPiAgICAgKysrKysrKysr
+KysrKysrKysrKwo+ICAgICA+wqAgMSBmaWxlIGNoYW5nZWQsIDIxIGluc2VydGlvbnMoKykKPiAg
+ICAgPgo+ICAgICA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMv
+Y29yZS9kY19saW5rLmMKPiAgICAgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvY29y
+ZS9kY19saW5rLmMKPiAgICAgPiBpbmRleCA1ZWE0YTE2NzUyNTkuLmYzYWNkYjhmZWFkNSAxMDA2
+NDQKPiAgICAgPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvY29yZS9kY19s
+aW5rLmMKPiAgICAgPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvY29yZS9k
+Y19saW5rLmMKPiAgICAgPiBAQCAtODE5LDYgKzgxOSwyNyBAQCBzdGF0aWMgYm9vbCBkY19saW5r
+X2RldGVjdF9oZWxwZXIoc3RydWN0Cj4gICAgIGRjX2xpbmsgKmxpbmssCj4gICAgID7CoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoGNhc2UgU0lHTkFMX1RZUEVfRURQOiB7Cj4gICAgID7CoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoGRldGVjdF9lZHBfc2lua19jYXBzKGxpbmspOwo+ICAg
+ICA+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqByZWFkX2N1cnJlbnRfbGlua19z
+ZXR0aW5nc19vbl9kZXRlY3QobGluayk7Cj4gICAgID4gKwo+ICAgICA+ICvCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoC8qIElmIGN1cl9saW5rX3NldHRpbmdzIHByb3ZpZGVzIGhpZ2hl
+cgo+ICAgICBiYW5kd2lkdGggdGhhbgo+ICAgICA+ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCAqIHZlcmlmaWVkX2xpbmtfY2FwLCB0aGVuIHVzZQo+ICAgICBjdXJfbGlua19zZXR0
+aW5ncyBhcyBuZXcKPiAgICAgPiArwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgKiB2
+ZXJpZmllZF9saW5rX2NhcCwgYXMgaXQgb2J2aW91c2x5IHdvcmtzCj4gICAgIGFjY29yZGluZyB0
+bwo+ICAgICA+ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCAqIGZpcm13YXJlIGJv
+b3Qgc2V0dXAuCj4gICAgID4gK8KgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgICoKPiAg
+ICAgPiArwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgKiBUaGlzIGhhcyBiZWVuIG9i
+c2VydmVkIG9uIHRoZSBBcHBsZQo+ICAgICBNYWNCb29rUHJvIDIwMTcKPiAgICAgPiArwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgKiBSZXRpbmEgcGFuZWwsIHdoaWNoIGJvb3RzIHdp
+dGggYSBsaW5rCj4gICAgIHNldHRpbmcgaGlnaGVyCj4gICAgID4gK8KgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgICogdGhhbiB3aGF0IGRwY2RbRFBfTUFYX0xJTktfUkFURV0gY2xhaW1z
+Cj4gICAgIGFzIHBvc3NpYmxlLgo+ICAgICA+ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCAqIE92ZXJyaWRpbmcgYWxsb3dzIHRvIHJ1biB0aGUgcGFuZWwgYXQgMTAKPiAgICAgYnBj
+IC8gMzAgYml0Lgo+ICAgICA+ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCAqLwo+
+ICAgICA+ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoGlmIChkY19saW5rX2JhbmR3
+aWR0aF9rYnBzKGxpbmssCj4gICAgICZsaW5rLT5jdXJfbGlua19zZXR0aW5ncykgPgo+ICAgICA+
+ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoGRjX2xpbmtfYmFuZHdpZHRo
+X2ticHMobGluaywKPiAgICAgJmxpbmstPnZlcmlmaWVkX2xpbmtfY2FwKSkgewo+ICAgICA+ICvC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoERDX0xPR19ERVRFQ1RJ
+T05fRFBfQ0FQUygKPiAgICAgPiArwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAiZURQIGN1cnJlbnQgbGluayBzZXR0aW5nIGJ3ICVkIGticHMKPiAgICAgPiB2ZXJp
+ZmllZF9saW5rX2NhcCAlZCBrYnBzLiBPdmVycmlkZS4iLAo+ICAgICA+ICvCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoGRjX2xpbmtfYmFuZHdpZHRoX2ticHMobGlu
+aywKPiAgICAgJmxpbmstPmN1cl9saW5rX3NldHRpbmdzKSwKPiAgICAgPiArwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqBkY19saW5rX2JhbmR3aWR0aF9rYnBzKGxp
+bmssCj4gICAgICZsaW5rLT52ZXJpZmllZF9saW5rX2NhcCkpOwo+ICAgICA+ICsKPiAgICAgPiAr
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqBsaW5rLT52ZXJpZmll
+ZF9saW5rX2NhcCA9Cj4gICAgIGxpbmstPmN1cl9saW5rX3NldHRpbmdzOwo+ICAgICA+ICvCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoH0KPiAgICAgPiArCj4gICAgID7CoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoHNpbmtfY2Fwcy50cmFuc2FjdGlvbl90eXBlID0KPiAg
+ICAgRERDX1RSQU5TQUNUSU9OX1RZUEVfSTJDX09WRVJfQVVYOwo+ICAgICA+wqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqBzaW5rX2NhcHMuc2lnbmFsID0gU0lHTkFMX1RZUEVfRURQ
+Owo+ICAgICA+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqBicmVhazsKPiAgICAg
+Pgo+IApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
