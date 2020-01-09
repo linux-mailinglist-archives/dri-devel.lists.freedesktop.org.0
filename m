@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04474135FBE
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 18:51:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B1C135FC1
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 18:52:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 385A66E939;
-	Thu,  9 Jan 2020 17:51:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BB4A6E943;
+	Thu,  9 Jan 2020 17:51:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B47B86E3CB;
- Thu,  9 Jan 2020 09:06:58 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id p17so1936481wmb.0;
- Thu, 09 Jan 2020 01:06:58 -0800 (PST)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CBDD6E3C1;
+ Thu,  9 Jan 2020 09:07:02 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id y17so6524070wrh.5;
+ Thu, 09 Jan 2020 01:07:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Kvdfo5p7rGw6kjZkh9zkMAcibuMahAFzCWtpfQCY54I=;
- b=Q7ic9Z2e9nve5H4Tkmw1sEa3snMzPEKbOpJC+93YR6BjyzubO6YRlLXrTNYQmv/Mfx
- KUrQKWtbAx3s/XgHEJwYz3q1lKgoy04GLeGJcoC0XfwozQuHczFKZyW6TMOS6yULtXol
- cA+hqjdYmRUAdM0aTcRIOpiSq+GllGzA+v8iKE54owjsx8hIiVHNU2HTWcECOc+je4PB
- CTm3bj7Xe5tJL/Bbp9OM0qffAd3e1ciM93jVuAwR48NDAGlR7rY9c5N6AUJNk9jnviN0
- /IaBe3F0gNYnU/rrJShNwOCK9/JM3l7tI/jha5wCzPdj1lzDtWpVcaxi8oHvjG6L584Y
- 1cyA==
+ bh=g8+nW7WUiZHp/JTJe3ieEHrqcqpq+rbcRaXX3uhxHvs=;
+ b=OC+bfD98D0zbY38YLn1j6UUzuvzFCsCffoXx6rd75N/l27A6rInDg3eqrAq7JhZSfe
+ DG5TH/0OgKZMoNsKVCR/F/6ZHsSuZdI8h7T1WnTUa2RarMO3IpiAncNvcQT5KgsrIXWj
+ ThXdo7sidBhOB/wY6g5Dk7DOGKxzxCzzHPz1qfbfghYVMB46sLHofTAzlAxFm403evhO
+ iUHPp/RTMP1zLjtRwtLJT7ZGYZcFaL31inuCWL38jRxnOD+isDXRSYD/HTysAgCHNrsS
+ z8SlhxOv8pI4DC6jGm5x6ju+zg14BuRzJu1vYod4KgYc0QrnolfPoEpGQdoLItjjWRSj
+ HTyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Kvdfo5p7rGw6kjZkh9zkMAcibuMahAFzCWtpfQCY54I=;
- b=gkw+7EMXYoOxKya/UmWzy8veOIRGpCcgytFOKpaxkSDps11J/EjrFA/9ErNfmohDPc
- kIM0tV4G08aGVRdjMmYisNsI3WWtBu8/u/1SVYcUn0Pw1WEIMKdDMMKFkOe46dx19GYR
- +AKM0hZpiL0FgWnWcfK2qzH4RU9qfXjmZrCVWMF61C/S9Kx4ODKJRtKRMeyM7Ga3aD9o
- bO1hlzuXjHkf5EdeIEx7OzhUwIuVI419sxB9k5yUXFQs7/R2gQQdANTcztb8O2hHWqB0
- LI+7spyafycyoYvp0Xk5nH19vfz9H9mGC1pyGi2z4aRtrDc/Z2p8AZ7jN7Rf14YNTgrh
- j1Ag==
-X-Gm-Message-State: APjAAAUQP41hDFW16y8RWIswM6cHHY+a4FSttUTAegwYd4vMLD+BsMqL
- m4Z/bKJsZK6IMwtQ/8cxd/s=
-X-Google-Smtp-Source: APXvYqwVuHDn92wUI+VKXs8iqgeYtS2XopG9hgSpBEVm6ExhW37DQkykMGyIQyid+gDpQ/m4FoqLEg==
-X-Received: by 2002:a1c:f009:: with SMTP id a9mr3393989wmb.73.1578560817414;
- Thu, 09 Jan 2020 01:06:57 -0800 (PST)
+ bh=g8+nW7WUiZHp/JTJe3ieEHrqcqpq+rbcRaXX3uhxHvs=;
+ b=FwN7Tmg+cM2Z/XMcHW+D+Dn9KguAskdaTT+ngckMo2Tq0Kwi4qrd+HNRaGOix2YIYx
+ gTn5XXIELgFqgeXP+AoIh4YWZxzEci5KUtInUniMZxukAX1VBhwo0NK/ttZgUTzWeCIO
+ 2xdCo+urXN4hIMozpIubKUW+fIxywwi1pvsD0cXsnK2COrJIX+0LCh+oqRmrPElF6+Sd
+ sPFAwDUWUFvlYyJvx6DFzzEz522a6Yld52RuhrxhnN03t6PYBfcA7mNk9SvY/ZFOx4nP
+ 98TCJ260nOqQ8Uqyo7m9R1PbD5YAHI4o3SXCw2kkdf45BbdXWrU5AoYK0f3E6Bm4cx6F
+ KUuA==
+X-Gm-Message-State: APjAAAU4Bi2kES/jhEGQolYZmy62YYEAiaCIEAnogkJe6V9V+YCtTv8E
+ jhm5XWGsQ5gvT8q+9qlJwJg=
+X-Google-Smtp-Source: APXvYqzCEUpEv+edqK9ll9+pCMUADVtECHnGemRB5PnQJQWZIgbIFRMja/Fq8jnHGZy/6Mx18My0Mw==
+X-Received: by 2002:adf:fa87:: with SMTP id h7mr9357843wrr.172.1578560821062; 
+ Thu, 09 Jan 2020 01:07:01 -0800 (PST)
 Received: from wambui.zuku.co.ke ([197.237.61.225])
- by smtp.googlemail.com with ESMTPSA id i8sm8004734wro.47.2020.01.09.01.06.54
+ by smtp.googlemail.com with ESMTPSA id i8sm8004734wro.47.2020.01.09.01.06.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jan 2020 01:06:56 -0800 (PST)
+ Thu, 09 Jan 2020 01:07:00 -0800 (PST)
 From: Wambui Karuga <wambui.karugax@gmail.com>
 To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
  rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH 2/5] drm/i915: conversion to new logging macros in
- i915/intel_csr.c
-Date: Thu,  9 Jan 2020 12:06:43 +0300
-Message-Id: <0ea8e0f39013a73ed66052893a8f8abf8cc23ba6.1578560355.git.wambui.karugax@gmail.com>
+Subject: [PATCH 3/5] drm/i915: conversion to new logging macros in
+ i915/intel_device_info.c
+Date: Thu,  9 Jan 2020 12:06:44 +0300
+Message-Id: <e404429ff2a5e5080867f577beccd7b578a671cd.1578560355.git.wambui.karugax@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1578560355.git.wambui.karugax@gmail.com>
 References: <cover.1578560355.git.wambui.karugax@gmail.com>
@@ -76,82 +76,88 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace the use of printk and struct device based logging macros with
-the new struct drm_device based logging macros in i915/intel_csr.c
+This replaces the printk and struct device based logging macros with the
+new struct drm_device style based logging macros i915/intel_device_info.c.
 
 Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
 ---
- drivers/gpu/drm/i915/intel_csr.c | 24 ++++++++++++++----------
- 1 file changed, 14 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/i915/intel_device_info.c | 25 +++++++++++++-----------
+ 1 file changed, 14 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/intel_csr.c b/drivers/gpu/drm/i915/intel_csr.c
-index 09870a31b4f0..85e41db7dc0e 100644
---- a/drivers/gpu/drm/i915/intel_csr.c
-+++ b/drivers/gpu/drm/i915/intel_csr.c
-@@ -298,12 +298,14 @@ void intel_csr_load_program(struct drm_i915_private *dev_priv)
- 	u32 i, fw_size;
- 
- 	if (!HAS_CSR(dev_priv)) {
--		DRM_ERROR("No CSR support available for this platform\n");
-+		drm_err(&dev_priv->drm,
-+			"No CSR support available for this platform\n");
- 		return;
- 	}
- 
- 	if (!dev_priv->csr.dmc_payload) {
--		DRM_ERROR("Tried to program CSR with empty payload\n");
-+		drm_err(&dev_priv->drm,
-+			"Tried to program CSR with empty payload\n");
- 		return;
- 	}
- 
-@@ -636,16 +638,16 @@ static void csr_load_work_fn(struct work_struct *work)
- 		intel_csr_load_program(dev_priv);
- 		intel_csr_runtime_pm_put(dev_priv);
- 
--		DRM_INFO("Finished loading DMC firmware %s (v%u.%u)\n",
--			 dev_priv->csr.fw_path,
--			 CSR_VERSION_MAJOR(csr->version),
-+		drm_info(&dev_priv->drm,
-+			 "Finished loading DMC firmware %s (v%u.%u)\n",
-+			 dev_priv->csr.fw_path, CSR_VERSION_MAJOR(csr->version),
- 			 CSR_VERSION_MINOR(csr->version));
- 	} else {
--		dev_notice(dev_priv->drm.dev,
-+		drm_notice(&dev_priv->drm,
- 			   "Failed to load DMC firmware %s."
- 			   " Disabling runtime power management.\n",
- 			   csr->fw_path);
--		dev_notice(dev_priv->drm.dev, "DMC firmware homepage: %s",
-+		drm_notice(&dev_priv->drm, "DMC firmware homepage: %s",
- 			   INTEL_UC_FIRMWARE_URL);
- 	}
- 
-@@ -712,7 +714,8 @@ void intel_csr_ucode_init(struct drm_i915_private *dev_priv)
- 	if (i915_modparams.dmc_firmware_path) {
- 		if (strlen(i915_modparams.dmc_firmware_path) == 0) {
- 			csr->fw_path = NULL;
--			DRM_INFO("Disabling CSR firmware and runtime PM\n");
+diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
+index 6670a0763be2..fcdacd6d4aa5 100644
+--- a/drivers/gpu/drm/i915/intel_device_info.c
++++ b/drivers/gpu/drm/i915/intel_device_info.c
+@@ -974,10 +974,11 @@ void intel_device_info_runtime_init(struct drm_i915_private *dev_priv)
+ 		    sfuse_strap & SFUSE_STRAP_DISPLAY_DISABLED ||
+ 		    (HAS_PCH_CPT(dev_priv) &&
+ 		     !(sfuse_strap & SFUSE_STRAP_FUSE_LOCK))) {
+-			DRM_INFO("Display fused off, disabling\n");
 +			drm_info(&dev_priv->drm,
-+				 "Disabling CSR firmware and runtime PM\n");
- 			return;
++				 "Display fused off, disabling\n");
+ 			info->pipe_mask = 0;
+ 		} else if (fuse_strap & IVB_PIPE_C_DISABLE) {
+-			DRM_INFO("PipeC fused off\n");
++			drm_info(&dev_priv->drm, "PipeC fused off\n");
+ 			info->pipe_mask &= ~BIT(PIPE_C);
+ 		}
+ 	} else if (HAS_DISPLAY(dev_priv) && INTEL_GEN(dev_priv) >= 9) {
+@@ -1000,8 +1001,9 @@ void intel_device_info_runtime_init(struct drm_i915_private *dev_priv)
+ 		 * in the mask.
+ 		 */
+ 		if (enabled_mask == 0 || !is_power_of_2(enabled_mask + 1))
+-			DRM_ERROR("invalid pipe fuse configuration: enabled_mask=0x%x\n",
+-				  enabled_mask);
++			drm_err(&dev_priv->drm,
++				"invalid pipe fuse configuration: enabled_mask=0x%x\n",
++				enabled_mask);
+ 		else
+ 			info->pipe_mask = enabled_mask;
+ 
+@@ -1036,7 +1038,8 @@ void intel_device_info_runtime_init(struct drm_i915_private *dev_priv)
+ 		gen12_sseu_info_init(dev_priv);
+ 
+ 	if (IS_GEN(dev_priv, 6) && intel_vtd_active()) {
+-		DRM_INFO("Disabling ppGTT for VT-d support\n");
++		drm_info(&dev_priv->drm,
++			 "Disabling ppGTT for VT-d support\n");
+ 		info->ppgtt_type = INTEL_PPGTT_NONE;
+ 	}
+ 
+@@ -1084,7 +1087,7 @@ void intel_device_info_init_mmio(struct drm_i915_private *dev_priv)
+ 
+ 		if (!(BIT(i) & vdbox_mask)) {
+ 			info->engine_mask &= ~BIT(_VCS(i));
+-			DRM_DEBUG_DRIVER("vcs%u fused off\n", i);
++			drm_dbg(&dev_priv->drm, "vcs%u fused off\n", i);
+ 			continue;
  		}
  
-@@ -722,11 +725,12 @@ void intel_csr_ucode_init(struct drm_i915_private *dev_priv)
+@@ -1096,8 +1099,8 @@ void intel_device_info_init_mmio(struct drm_i915_private *dev_priv)
+ 		if (INTEL_GEN(dev_priv) >= 12 || logical_vdbox++ % 2 == 0)
+ 			RUNTIME_INFO(dev_priv)->vdbox_sfc_access |= BIT(i);
  	}
+-	DRM_DEBUG_DRIVER("vdbox enable: %04x, instances: %04lx\n",
+-			 vdbox_mask, VDBOX_MASK(dev_priv));
++	drm_dbg(&dev_priv->drm, "vdbox enable: %04x, instances: %04lx\n",
++		vdbox_mask, VDBOX_MASK(dev_priv));
+ 	GEM_BUG_ON(vdbox_mask != VDBOX_MASK(dev_priv));
  
- 	if (csr->fw_path == NULL) {
--		DRM_DEBUG_KMS("No known CSR firmware for platform, disabling runtime PM\n");
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "No known CSR firmware for platform, disabling runtime PM\n");
- 		return;
+ 	for (i = 0; i < I915_MAX_VECS; i++) {
+@@ -1108,10 +1111,10 @@ void intel_device_info_init_mmio(struct drm_i915_private *dev_priv)
+ 
+ 		if (!(BIT(i) & vebox_mask)) {
+ 			info->engine_mask &= ~BIT(_VECS(i));
+-			DRM_DEBUG_DRIVER("vecs%u fused off\n", i);
++			drm_dbg(&dev_priv->drm, "vecs%u fused off\n", i);
+ 		}
  	}
- 
--	DRM_DEBUG_KMS("Loading %s\n", csr->fw_path);
-+	drm_dbg_kms(&dev_priv->drm, "Loading %s\n", csr->fw_path);
- 	schedule_work(&dev_priv->csr.work);
+-	DRM_DEBUG_DRIVER("vebox enable: %04x, instances: %04lx\n",
+-			 vebox_mask, VEBOX_MASK(dev_priv));
++	drm_dbg(&dev_priv->drm, "vebox enable: %04x, instances: %04lx\n",
++		vebox_mask, VEBOX_MASK(dev_priv));
+ 	GEM_BUG_ON(vebox_mask != VEBOX_MASK(dev_priv));
  }
- 
 -- 
 2.24.1
 
