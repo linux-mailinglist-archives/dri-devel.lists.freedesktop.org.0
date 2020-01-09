@@ -2,50 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF938135EC7
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 17:56:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B05C3135F00
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 18:14:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 328A96E45D;
-	Thu,  9 Jan 2020 16:56:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5A1F6E920;
+	Thu,  9 Jan 2020 17:14:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AA3A6E45D
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2020 16:56:43 +0000 (UTC)
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com
- [209.85.222.182])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 841642072A
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2020 16:56:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1578589002;
- bh=9oyg27saFaqgN0kNufIh+bWG6/4Iwy6kaQ1n0BzczVk=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=2CosUSQhDeszdClob89wkM5qUuLn+NGmxavbwwJtOjFrz9J9rb5rJcMgFQI1xDAQ4
- fUXa0Ef1aePHujZvmpoUW/06Em/BF7VVOjDi5q5fkKIAJuUjWK6nHJS6vh0B+JXDfJ
- atgBkzj5WtLXXdJkwB2Qpsf8KlWlFaaxn/mc4FF0=
-Received: by mail-qk1-f182.google.com with SMTP id x129so6590312qke.8
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2020 08:56:42 -0800 (PST)
-X-Gm-Message-State: APjAAAUDVEh9N+vgB69ldooITeWVYdZdMTFF5EG2ya73hZH2VwCKIaF8
- v6oZPes9grGbnBojIRQgQ2uaCrg69JoJn0tpWg==
-X-Google-Smtp-Source: APXvYqwejonPhLn1c6g5UIO7dw/MXR05QYRJuuZwXtZ9dn62B4O5MWFoIh0m1SoNLfPeYaTMJ9QV835I1LSeJT6q4Lo=
-X-Received: by 2002:a05:620a:1eb:: with SMTP id
- x11mr10791122qkn.254.1578589001636; 
- Thu, 09 Jan 2020 08:56:41 -0800 (PST)
+Received: from www413.your-server.de (www413.your-server.de [88.198.28.140])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A84196E462;
+ Thu,  9 Jan 2020 17:14:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=cyberus-technology.de; s=default1911; h=Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
+ :Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From
+ :Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=O3sWLg9hXmPWCaRpEux+8egZoPW0W6HONbIvuu6mIFE=; b=iZgh73mdaks3w6sVK2gpdKGd8E
+ HEeg3ZiO/sVeOMs2VxQ2S8PqMBz2/oAX15QYPTXZoQu9eAsmxa4Wed0hcZGsRSZCZMpV49vtzqdtQ
+ yyuoflGIhwqyPnL5VTozoaEgyKSi3H1x2NGYC7oIUgMae65s7Jb8THu6ec/CV1xxveDfhfhno3x3/
+ eRoas/GgD4HaqdRSc0wxeus8ZGvDCkkmWNLIMqgZ7OlMOUDZogF1F+yCSBBum0Ab5KQlJfcj7WD0I
+ W278M40RdkY5Ogg2iXGP1UnKiRFu9B1Vr5H7EJzdbTWOaIhpfT+n2gkGmu9xlObI7tSNnUlLGFoLn
+ nsddFRSg==;
+Received: from sslproxy02.your-server.de ([78.47.166.47])
+ by www413.your-server.de with esmtpsa (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256)
+ (Exim 4.89_1)
+ (envelope-from <julian.stecklina@cyberus-technology.de>)
+ id 1ipbNp-0002Un-F3; Thu, 09 Jan 2020 18:14:09 +0100
+Received: from [24.134.37.229] (helo=192-168-0-109.rdsnet.ro)
+ by sslproxy02.your-server.de with esmtpsa (TLSv1:ECDHE-RSA-AES256-SHA:256)
+ (Exim 4.92) (envelope-from <julian.stecklina@cyberus-technology.de>)
+ id 1ipbNp-000Dxc-66; Thu, 09 Jan 2020 18:14:09 +0100
+From: Julian Stecklina <julian.stecklina@cyberus-technology.de>
+To: intel-gvt-dev@lists.freedesktop.org
+Subject: [RFC PATCH 0/4] Support for out-of-tree hypervisor modules in i915/gvt
+Date: Thu,  9 Jan 2020 19:13:53 +0200
+Message-Id: <20200109171357.115936-1-julian.stecklina@cyberus-technology.de>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <4079ce7c26a2d2a3c7e0828ed1ea6008d6e2c805.camel@cyberus-technology.de>
+References: <4079ce7c26a2d2a3c7e0828ed1ea6008d6e2c805.camel@cyberus-technology.de>
 MIME-Version: 1.0
-References: <20200108052337.65916-1-drinkcat@chromium.org>
- <20200108052337.65916-5-drinkcat@chromium.org>
- <20200108132302.GA3817@sirena.org.uk>
- <CANMq1KBo8ND+YDHaCw3yZZ0RUr69-NSUcVbqu38DuZvHUB-LFw@mail.gmail.com>
-In-Reply-To: <CANMq1KBo8ND+YDHaCw3yZZ0RUr69-NSUcVbqu38DuZvHUB-LFw@mail.gmail.com>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Thu, 9 Jan 2020 10:56:29 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqKvNBCVkiE4zKn0aXdrV4Ncx2bB6+KRpM+aPpMVzS4XbQ@mail.gmail.com>
-Message-ID: <CAL_JsqKvNBCVkiE4zKn0aXdrV4Ncx2bB6+KRpM+aPpMVzS4XbQ@mail.gmail.com>
-Subject: Re: [PATCH v2 4/7] drm/panfrost: Add support for a second regulator
- for the GPU
-To: Nicolas Boichat <drinkcat@chromium.org>
+X-Authenticated-Sender: julian.stecklina@cyberus-technology.de
+X-Virus-Scanned: Clear (ClamAV 0.101.4/25689/Thu Jan  9 10:59:33 2020)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,57 +56,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Devicetree List <devicetree@vger.kernel.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
- lkml <linux-kernel@vger.kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>, Mark Brown <broonie@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>
+Cc: Julian Stecklina <julian.stecklina@cyberus-technology.de>,
+ hang.yuan@intel.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, zhiyuan.lv@intel.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 8, 2020 at 4:52 PM Nicolas Boichat <drinkcat@chromium.org> wrote:
->
-> On Wed, Jan 8, 2020 at 9:23 PM Mark Brown <broonie@kernel.org> wrote:
-> >
-> > On Wed, Jan 08, 2020 at 01:23:34PM +0800, Nicolas Boichat wrote:
-> >
-> > > Some GPUs, namely, the bifrost/g72 part on MT8183, have a second
-> > > regulator for their SRAM, let's add support for that.
-> >
-> > > +     pfdev->regulator_sram = devm_regulator_get_optional(pfdev->dev, "sram");
-> > > +     if (IS_ERR(pfdev->regulator_sram)) {
-> >
-> > This supply is required for the devices that need it so I'd therefore
-> > expect the driver to request the supply non-optionally based on the
-> > compatible string rather than just hoping that a missing regulator isn't
-> > important.
->
-> That'd be a bit awkward to match, though... Currently all bifrost
-> share the same compatible "arm,mali-bifrost", and it'd seem
-> weird/wrong to match "mediatek,mt8183-mali" in this driver? I have no
-> idea if any other Mali implementation will require a second regulator,
-> but with the MT8183 we do need it, see below.
+These patch series removes the dependency of i915/gvt hypervisor
+backends on the driver internals of the i915 driver. Instead, we add a
+small public API that hypervisor backends can use.
 
-The current number of supported bifrost platforms is 0. It's only a
-matter of time until SoC specific compatibles need to be used in the
-driver. This is why we require them.
+This enables out-of-tree hypervisor backends for the Intel graphics
+virtualization and simplifies development. At the same time, it
+creates at least a bit of a barrier to including more i915 internals
+into kvmgt, which is nice in itself.
 
-It could very well be that all bifrost implementations need 2
-supplies. On chip RAMs are very frequently a separate thing which are
-synthesized differently from logic. At least within a specific IP
-model, I somewhat doubt there's a variable number of supplies. It
-could be possible to connect both to the same supply, but the correct
-way to handle that is both -supply properties point to the same
-regulator.
+The first two patches are pretty much general cleanup and could be
+merged without the rest.
 
-Rob
+Any feedback is welcome.
+
+Julian Stecklina (4):
+  drm/i915/gvt: make gvt oblivious of kvmgt data structures
+  drm/i915/gvt: remove unused vblank_done completion
+  drm/i915/gvt: define a public interface to gvt
+  drm/i915/gvt: move public gvt headers out into global include
+
+ drivers/gpu/drm/i915/gvt/Makefile             |   2 +-
+ drivers/gpu/drm/i915/gvt/debug.h              |   2 +-
+ drivers/gpu/drm/i915/gvt/display.c            |  26 ++
+ drivers/gpu/drm/i915/gvt/display.h            |  27 --
+ drivers/gpu/drm/i915/gvt/gtt.h                |   2 -
+ drivers/gpu/drm/i915/gvt/gvt.h                |  65 +--
+ drivers/gpu/drm/i915/gvt/gvt_public.c         | 154 +++++++
+ drivers/gpu/drm/i915/gvt/kvmgt.c              | 413 ++++++++++--------
+ drivers/gpu/drm/i915/gvt/mpt.h                |   3 -
+ drivers/gpu/drm/i915/gvt/reg.h                |   2 -
+ include/drm/i915_gvt.h                        | 104 +++++
+ .../drm/i915_gvt_hypercall.h                  |  13 +-
+ 12 files changed, 537 insertions(+), 276 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gvt/gvt_public.c
+ create mode 100644 include/drm/i915_gvt.h
+ rename drivers/gpu/drm/i915/gvt/hypercall.h => include/drm/i915_gvt_hypercall.h (92%)
+
+-- 
+2.24.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
