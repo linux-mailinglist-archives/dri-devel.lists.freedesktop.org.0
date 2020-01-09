@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3B1C135FC1
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 18:52:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64BA6135FC4
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2020 18:52:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BB4A6E943;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 691016E93B;
 	Thu,  9 Jan 2020 17:51:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CBDD6E3C1;
- Thu,  9 Jan 2020 09:07:02 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id y17so6524070wrh.5;
- Thu, 09 Jan 2020 01:07:02 -0800 (PST)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0444E6E3C1;
+ Thu,  9 Jan 2020 09:07:05 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id c9so6483115wrw.8;
+ Thu, 09 Jan 2020 01:07:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=g8+nW7WUiZHp/JTJe3ieEHrqcqpq+rbcRaXX3uhxHvs=;
- b=OC+bfD98D0zbY38YLn1j6UUzuvzFCsCffoXx6rd75N/l27A6rInDg3eqrAq7JhZSfe
- DG5TH/0OgKZMoNsKVCR/F/6ZHsSuZdI8h7T1WnTUa2RarMO3IpiAncNvcQT5KgsrIXWj
- ThXdo7sidBhOB/wY6g5Dk7DOGKxzxCzzHPz1qfbfghYVMB46sLHofTAzlAxFm403evhO
- iUHPp/RTMP1zLjtRwtLJT7ZGYZcFaL31inuCWL38jRxnOD+isDXRSYD/HTysAgCHNrsS
- z8SlhxOv8pI4DC6jGm5x6ju+zg14BuRzJu1vYod4KgYc0QrnolfPoEpGQdoLItjjWRSj
- HTyw==
+ bh=OZjGs6UaTVRsqD7bMcmmmmdB5ZvGFZd3+9egdXlSicM=;
+ b=mTrUtVuUIgMGMeKiU3qViZO4W1gDjq0b1y5RuoDM/aFt4XoqNTHLGJQVabcB1LrKIQ
+ iwC6NKhxaZQbazMlWOJ/Ng3mHn7vj29OSM0Vqor+RkQiWPTI8pVMCCcYEJcc7GqItlkL
+ jOXRR1Jjn7htMPtWKITbvLNrboggGbVRebPzRg9ZfR73/heOcRifuOIjp6m+4RgM3qSK
+ rNBmkYt2Wsr39XhhMLkTcWBYMSySDDdVOlVHa/l+Vh14E5HOhnJ5hsy/KlCqDCP2xHDT
+ dkvr65sEz90V4v7jR/SUITLIkCcGpX7+GcEm/fwwcmCPdGl4HiHF37+YVNXxHcEfGv5A
+ sGjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=g8+nW7WUiZHp/JTJe3ieEHrqcqpq+rbcRaXX3uhxHvs=;
- b=FwN7Tmg+cM2Z/XMcHW+D+Dn9KguAskdaTT+ngckMo2Tq0Kwi4qrd+HNRaGOix2YIYx
- gTn5XXIELgFqgeXP+AoIh4YWZxzEci5KUtInUniMZxukAX1VBhwo0NK/ttZgUTzWeCIO
- 2xdCo+urXN4hIMozpIubKUW+fIxywwi1pvsD0cXsnK2COrJIX+0LCh+oqRmrPElF6+Sd
- sPFAwDUWUFvlYyJvx6DFzzEz522a6Yld52RuhrxhnN03t6PYBfcA7mNk9SvY/ZFOx4nP
- 98TCJ260nOqQ8Uqyo7m9R1PbD5YAHI4o3SXCw2kkdf45BbdXWrU5AoYK0f3E6Bm4cx6F
- KUuA==
-X-Gm-Message-State: APjAAAU4Bi2kES/jhEGQolYZmy62YYEAiaCIEAnogkJe6V9V+YCtTv8E
- jhm5XWGsQ5gvT8q+9qlJwJg=
-X-Google-Smtp-Source: APXvYqzCEUpEv+edqK9ll9+pCMUADVtECHnGemRB5PnQJQWZIgbIFRMja/Fq8jnHGZy/6Mx18My0Mw==
-X-Received: by 2002:adf:fa87:: with SMTP id h7mr9357843wrr.172.1578560821062; 
- Thu, 09 Jan 2020 01:07:01 -0800 (PST)
+ bh=OZjGs6UaTVRsqD7bMcmmmmdB5ZvGFZd3+9egdXlSicM=;
+ b=nV+h/hlGxwfzQChZy+29ezLzvbuHLsXTRpQ9WfWonn+X3coZN0Edn8Nuzd+t35zYXS
+ eEsJ+AL6UXGD44VUkmAuuPiSUJNszVCLCq+V4onWYxJ7mfvjvPdk500eY5qu4/dEvXhe
+ E9+vd/OyfB2gxqaeAhoGeLJiXkKEY6GXTx7ARD2qIeF99S4nILxKIhLx//25D/VPQo1f
+ stbUiC53jQtjFsOWix8RPVp6kqIK2KkClLlRlNKFsJf2/n+q+S9/0UqAaGZ/4kF79h+1
+ u3+I5UjzY+v4NOuXvfy8lXyX2LJD+wJibZnmDNUNeAx6c9ubqHGXSSI4moQL1yiSGSEh
+ mByQ==
+X-Gm-Message-State: APjAAAWwP4qHTSk4U95G8NrPJrosRd39YuD2XiDJkW5irpRilVmY+pJB
+ jNONh0G6qLPtZl4EnQAWk4c=
+X-Google-Smtp-Source: APXvYqyy6dELvru4OOP3T6y3Yj7E8EV8t3vnuNoSlszG4R1U2avG9l79QFwVBUUis2bzJ3P8u3dXpA==
+X-Received: by 2002:a5d:690e:: with SMTP id t14mr9518982wru.65.1578560823717; 
+ Thu, 09 Jan 2020 01:07:03 -0800 (PST)
 Received: from wambui.zuku.co.ke ([197.237.61.225])
- by smtp.googlemail.com with ESMTPSA id i8sm8004734wro.47.2020.01.09.01.06.57
+ by smtp.googlemail.com with ESMTPSA id i8sm8004734wro.47.2020.01.09.01.07.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jan 2020 01:07:00 -0800 (PST)
+ Thu, 09 Jan 2020 01:07:03 -0800 (PST)
 From: Wambui Karuga <wambui.karugax@gmail.com>
 To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
  rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH 3/5] drm/i915: conversion to new logging macros in
- i915/intel_device_info.c
-Date: Thu,  9 Jan 2020 12:06:44 +0300
-Message-Id: <e404429ff2a5e5080867f577beccd7b578a671cd.1578560355.git.wambui.karugax@gmail.com>
+Subject: [PATCH 4/5] drm/i915: convert to new logging macros in
+ i915/intel_gvt.c
+Date: Thu,  9 Jan 2020 12:06:45 +0300
+Message-Id: <44f3839820a32ed03d73dc56a6ef3581994802c9.1578560355.git.wambui.karugax@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1578560355.git.wambui.karugax@gmail.com>
 References: <cover.1578560355.git.wambui.karugax@gmail.com>
@@ -76,88 +76,58 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This replaces the printk and struct device based logging macros with the
-new struct drm_device style based logging macros i915/intel_device_info.c.
+This converts the use of printk based logging macros in i915/intel_gvt.c
+with the new struct drm_device based logging macros.
 
 Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
 ---
- drivers/gpu/drm/i915/intel_device_info.c | 25 +++++++++++++-----------
- 1 file changed, 14 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/i915/intel_gvt.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
-index 6670a0763be2..fcdacd6d4aa5 100644
---- a/drivers/gpu/drm/i915/intel_device_info.c
-+++ b/drivers/gpu/drm/i915/intel_device_info.c
-@@ -974,10 +974,11 @@ void intel_device_info_runtime_init(struct drm_i915_private *dev_priv)
- 		    sfuse_strap & SFUSE_STRAP_DISPLAY_DISABLED ||
- 		    (HAS_PCH_CPT(dev_priv) &&
- 		     !(sfuse_strap & SFUSE_STRAP_FUSE_LOCK))) {
--			DRM_INFO("Display fused off, disabling\n");
-+			drm_info(&dev_priv->drm,
-+				 "Display fused off, disabling\n");
- 			info->pipe_mask = 0;
- 		} else if (fuse_strap & IVB_PIPE_C_DISABLE) {
--			DRM_INFO("PipeC fused off\n");
-+			drm_info(&dev_priv->drm, "PipeC fused off\n");
- 			info->pipe_mask &= ~BIT(PIPE_C);
- 		}
- 	} else if (HAS_DISPLAY(dev_priv) && INTEL_GEN(dev_priv) >= 9) {
-@@ -1000,8 +1001,9 @@ void intel_device_info_runtime_init(struct drm_i915_private *dev_priv)
- 		 * in the mask.
- 		 */
- 		if (enabled_mask == 0 || !is_power_of_2(enabled_mask + 1))
--			DRM_ERROR("invalid pipe fuse configuration: enabled_mask=0x%x\n",
--				  enabled_mask);
-+			drm_err(&dev_priv->drm,
-+				"invalid pipe fuse configuration: enabled_mask=0x%x\n",
-+				enabled_mask);
- 		else
- 			info->pipe_mask = enabled_mask;
+diff --git a/drivers/gpu/drm/i915/intel_gvt.c b/drivers/gpu/drm/i915/intel_gvt.c
+index 2b6c016387c2..38ebd5562c7c 100644
+--- a/drivers/gpu/drm/i915/intel_gvt.c
++++ b/drivers/gpu/drm/i915/intel_gvt.c
+@@ -67,12 +67,13 @@ void intel_gvt_sanitize_options(struct drm_i915_private *dev_priv)
+ 		return;
  
-@@ -1036,7 +1038,8 @@ void intel_device_info_runtime_init(struct drm_i915_private *dev_priv)
- 		gen12_sseu_info_init(dev_priv);
+ 	if (intel_vgpu_active(dev_priv)) {
+-		DRM_INFO("GVT-g is disabled for guest\n");
++		drm_info(&dev_priv->drm, "GVT-g is disabled for guest\n");
+ 		goto bail;
+ 	}
  
- 	if (IS_GEN(dev_priv, 6) && intel_vtd_active()) {
--		DRM_INFO("Disabling ppGTT for VT-d support\n");
+ 	if (!is_supported_device(dev_priv)) {
+-		DRM_INFO("Unsupported device. GVT-g is disabled\n");
 +		drm_info(&dev_priv->drm,
-+			 "Disabling ppGTT for VT-d support\n");
- 		info->ppgtt_type = INTEL_PPGTT_NONE;
++			 "Unsupported device. GVT-g is disabled\n");
+ 		goto bail;
  	}
  
-@@ -1084,7 +1087,7 @@ void intel_device_info_init_mmio(struct drm_i915_private *dev_priv)
+@@ -99,18 +100,20 @@ int intel_gvt_init(struct drm_i915_private *dev_priv)
+ 		return -ENODEV;
  
- 		if (!(BIT(i) & vdbox_mask)) {
- 			info->engine_mask &= ~BIT(_VCS(i));
--			DRM_DEBUG_DRIVER("vcs%u fused off\n", i);
-+			drm_dbg(&dev_priv->drm, "vcs%u fused off\n", i);
- 			continue;
- 		}
- 
-@@ -1096,8 +1099,8 @@ void intel_device_info_init_mmio(struct drm_i915_private *dev_priv)
- 		if (INTEL_GEN(dev_priv) >= 12 || logical_vdbox++ % 2 == 0)
- 			RUNTIME_INFO(dev_priv)->vdbox_sfc_access |= BIT(i);
+ 	if (!i915_modparams.enable_gvt) {
+-		DRM_DEBUG_DRIVER("GVT-g is disabled by kernel params\n");
++		drm_dbg(&dev_priv->drm,
++			"GVT-g is disabled by kernel params\n");
+ 		return 0;
  	}
--	DRM_DEBUG_DRIVER("vdbox enable: %04x, instances: %04lx\n",
--			 vdbox_mask, VDBOX_MASK(dev_priv));
-+	drm_dbg(&dev_priv->drm, "vdbox enable: %04x, instances: %04lx\n",
-+		vdbox_mask, VDBOX_MASK(dev_priv));
- 	GEM_BUG_ON(vdbox_mask != VDBOX_MASK(dev_priv));
  
- 	for (i = 0; i < I915_MAX_VECS; i++) {
-@@ -1108,10 +1111,10 @@ void intel_device_info_init_mmio(struct drm_i915_private *dev_priv)
- 
- 		if (!(BIT(i) & vebox_mask)) {
- 			info->engine_mask &= ~BIT(_VECS(i));
--			DRM_DEBUG_DRIVER("vecs%u fused off\n", i);
-+			drm_dbg(&dev_priv->drm, "vecs%u fused off\n", i);
- 		}
+ 	if (USES_GUC_SUBMISSION(dev_priv)) {
+-		DRM_ERROR("i915 GVT-g loading failed due to Graphics virtualization is not yet supported with GuC submission\n");
++		drm_err(&dev_priv->drm,
++			"i915 GVT-g loading failed due to Graphics virtualization is not yet supported with GuC submission\n");
+ 		return -EIO;
  	}
--	DRM_DEBUG_DRIVER("vebox enable: %04x, instances: %04lx\n",
--			 vebox_mask, VEBOX_MASK(dev_priv));
-+	drm_dbg(&dev_priv->drm, "vebox enable: %04x, instances: %04lx\n",
-+		vebox_mask, VEBOX_MASK(dev_priv));
- 	GEM_BUG_ON(vebox_mask != VEBOX_MASK(dev_priv));
- }
+ 
+ 	ret = intel_gvt_init_device(dev_priv);
+ 	if (ret) {
+-		DRM_DEBUG_DRIVER("Fail to init GVT device\n");
++		drm_dbg(&dev_priv->drm, "Fail to init GVT device\n");
+ 		goto bail;
+ 	}
+ 
 -- 
 2.24.1
 
