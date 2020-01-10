@@ -1,21 +1,21 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26EC61369F3
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2020 10:23:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB28F1369EA
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2020 10:22:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D66F6E9C8;
-	Fri, 10 Jan 2020 09:21:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0CBE6E9E8;
+	Fri, 10 Jan 2020 09:21:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6189D6EA0C;
- Fri, 10 Jan 2020 09:21:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C1AA6EA15;
+ Fri, 10 Jan 2020 09:21:49 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id F26F6B016;
- Fri, 10 Jan 2020 09:21:46 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id CC991B2A1;
+ Fri, 10 Jan 2020 09:21:47 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@linux.ie, daniel@ffwll.ch, alexander.deucher@amd.com,
  christian.koenig@amd.com, David1.Zhou@amd.com,
@@ -28,9 +28,9 @@ To: airlied@linux.ie, daniel@ffwll.ch, alexander.deucher@amd.com,
  bskeggs@redhat.com, harry.wentland@amd.com, sunpeng.li@amd.com,
  jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
  rodrigo.vivi@intel.com
-Subject: [PATCH 19/23] drm/stm: Convert to CRTC VBLANK callbacks
-Date: Fri, 10 Jan 2020 10:21:23 +0100
-Message-Id: <20200110092127.27847-20-tzimmermann@suse.de>
+Subject: [PATCH 20/23] drm/vc4: Convert to CRTC VBLANK callbacks
+Date: Fri, 10 Jan 2020 10:21:24 +0100
+Message-Id: <20200110092127.27847-21-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200110092127.27847-1-tzimmermann@suse.de>
 References: <20200110092127.27847-1-tzimmermann@suse.de>
@@ -57,38 +57,39 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 VBLANK callbacks in struct drm_driver are deprecated in favor of
-their equivalents in struct drm_crtc_funcs. Convert stm over.
+their equivalents in struct drm_crtc_funcs. Convert vc4 over.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/stm/drv.c  | 1 -
- drivers/gpu/drm/stm/ltdc.c | 1 +
- 2 files changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/vc4/vc4_crtc.c | 1 +
+ drivers/gpu/drm/vc4/vc4_drv.c  | 2 --
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/stm/drv.c b/drivers/gpu/drm/stm/drv.c
-index 486985604109..ea9fcbdc68b3 100644
---- a/drivers/gpu/drm/stm/drv.c
-+++ b/drivers/gpu/drm/stm/drv.c
-@@ -72,7 +72,6 @@ static struct drm_driver drv_driver = {
- 	.gem_prime_vmap = drm_gem_cma_prime_vmap,
- 	.gem_prime_vunmap = drm_gem_cma_prime_vunmap,
- 	.gem_prime_mmap = drm_gem_cma_prime_mmap,
--	.get_vblank_timestamp = drm_calc_vbltimestamp_from_scanoutpos,
- };
- 
- static int drv_load(struct drm_device *ddev)
-diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-index 8b6d1a2252e3..4fe9b033de1b 100644
---- a/drivers/gpu/drm/stm/ltdc.c
-+++ b/drivers/gpu/drm/stm/ltdc.c
-@@ -722,6 +722,7 @@ static const struct drm_crtc_funcs ltdc_crtc_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
- 	.enable_vblank = ltdc_crtc_enable_vblank,
- 	.disable_vblank = ltdc_crtc_disable_vblank,
-+	.get_vblank_timestamp = drm_crtc_calc_vbltimestamp_from_scanoutpos,
+diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
+index f1e7597ea17e..e4081634648d 100644
+--- a/drivers/gpu/drm/vc4/vc4_crtc.c
++++ b/drivers/gpu/drm/vc4/vc4_crtc.c
+@@ -1031,6 +1031,7 @@ static const struct drm_crtc_funcs vc4_crtc_funcs = {
  	.gamma_set = drm_atomic_helper_legacy_gamma_set,
+ 	.enable_vblank = vc4_enable_vblank,
+ 	.disable_vblank = vc4_disable_vblank,
++	.get_vblank_timestamp = drm_crtc_calc_vbltimestamp_from_scanoutpos,
  };
  
+ static const struct drm_crtc_helper_funcs vc4_crtc_helper_funcs = {
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
+index e6982a7b0c5e..76f93b662766 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.c
++++ b/drivers/gpu/drm/vc4/vc4_drv.c
+@@ -190,8 +190,6 @@ static struct drm_driver vc4_drm_driver = {
+ 	.irq_postinstall = vc4_irq_postinstall,
+ 	.irq_uninstall = vc4_irq_uninstall,
+ 
+-	.get_vblank_timestamp = drm_calc_vbltimestamp_from_scanoutpos,
+-
+ #if defined(CONFIG_DEBUG_FS)
+ 	.debugfs_init = vc4_debugfs_init,
+ #endif
 -- 
 2.24.1
 
