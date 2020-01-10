@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2A141374AD
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2020 18:23:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03260137521
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2020 18:46:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0467A6EA6E;
-	Fri, 10 Jan 2020 17:23:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBE436EA71;
+	Fri, 10 Jan 2020 17:46:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1ECE6EA6E
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 17:23:28 +0000 (UTC)
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C6386EA71
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 17:46:07 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 51E41206ED;
- Fri, 10 Jan 2020 17:23:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1578677008;
- bh=rHPYbG02URRLCw0nb1EuUODTBvDRsydVaOWW7leWqUU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=S7oB24/UF1pSVRYdi4Dfw013OwhiImwWV9Lf+qboUZCndl8xIL9jWKW5n1gtdwu7a
- 3ZhWpp+8s6jhaq0SfctaCwYU5Hpk8hRhHk2TVESsZfptdleXPOcVfgVWa5ITLg9tZt
- KdxoyGX4BUjus8iLLZvyDo696CBBE/7z+cTshkp0=
-Date: Fri, 10 Jan 2020 18:23:25 +0100
-From: Maxime Ripard <mripard@kernel.org>
+ by asavdk3.altibox.net (Postfix) with ESMTPS id EE7A920057;
+ Fri, 10 Jan 2020 18:46:04 +0100 (CET)
+Date: Fri, 10 Jan 2020 18:46:03 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
 To: Icenowy Zheng <icenowy@aosc.io>
-Subject: Re: [PATCH 5/5] arm64: dts: allwinner: a64: add support for PineTab
-Message-ID: <20200110172325.er7kdlfc4fvjbl6x@gilmour.lan>
+Subject: Re: [PATCH 3/5] drm/panel: Add Feixin K101 IM2BA02 panel
+Message-ID: <20200110174603.GC25099@ravnborg.org>
 References: <20200110155225.1051749-1-icenowy@aosc.io>
- <20200110155225.1051749-6-icenowy@aosc.io>
+ <20200110155225.1051749-4-icenowy@aosc.io>
 MIME-Version: 1.0
-In-Reply-To: <20200110155225.1051749-6-icenowy@aosc.io>
+Content-Disposition: inline
+In-Reply-To: <20200110155225.1051749-4-icenowy@aosc.io>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
+ a=bNPPjxCvKY4QfMc8yoEA:9 a=CjuIK1q_8ugA:10 a=pHzHmUro8NiASowvMSCR:22
+ a=6VlIyEUom7LUIeUMNQJH:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,294 +48,322 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
  linux-sunxi@googlegroups.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0344618021=="
+ Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Icenowy.
 
---===============0344618021==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="x7pug4yqpkmc5pl7"
-Content-Disposition: inline
+On Fri, Jan 10, 2020 at 11:52:23PM +0800, Icenowy Zheng wrote:
+> Feixin K101 IM2BA02 is a 800x1280 4-lane MIPI-DSI LCD panel.
+> 
+> Add a panel driver for it.
+Thanks, driver looks really good.
+Only a few comments/nits below.
 
-
---x7pug4yqpkmc5pl7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi,
-
-On Fri, Jan 10, 2020 at 11:52:25PM +0800, Icenowy Zheng wrote:
-> PineTab is a 10.1" tablet by Pine64 with Allwinner A64 inside.
->
-> It includes the following peripherals:
->
-> USB:
-> - A microUSB Type-B port connected to the OTG-capable USB PHY of
-> Allwinner A64. The ID pin is connected to a GPIO of the A64 SoC, and the
-> Vbus is connected to the Vbus of AXP803 PMIC. These enables OTG
-> functionality on this port.
-> - A USB Type-A port is connected to the internal hub attached to the
-> non-OTG USB PHY of Allwinner A64.
-> - There are reserved pins for an external keyboard connected to the
-> internal hub.
->
-> Power:
-> - The microUSB port has its Vbus connected to AXP803, mentioned above.
-> - A DC jack (of a strange size, 2.5mm outer diameter) is connected to
-> the ACIN of AXP803.
-> - A Li-Polymer battery is connected to the battery pins of AXP803.
->
-> Storage:
-> - An tradition Pine64 eMMC slot is on the board, mounted with an eMMC
-> module by factory.
-> - An external microSD slot is hidden under a protect case.
->
-> Display:
-> - A MIPI-DSI LCD panel (800x1280) is connected to the DSI port of A64 SoC.
-> - A mini HDMI port.
->
-> Input:
-> - A touch panel attached to a Goodix GT9271 touch controller.
-> - Volume keys connected to the LRADC of the A64 SoC.
->
-> Camera:
-> - An OV5640 CMOS camera is at rear, connected to the CSI bus of A64 SoC.
-> - A GC2145 CMOS camera is at front, shares the same CSI bus with OV5640.
->
-> Audio:
-> - A headphone jack is conencted to the SoC's internal codec.
-> - A speaker connected is to the Line Out port of SoC's internal codec, via
-> an amplifier.
->
-> Misc:
-> - Debug UART is muxed with the headphone jack, with the switch next to
-> the microSD slot.
-> - A bosch BMA223 accelerometer is connected to the I2C bus of A64 SoC.
-> - Wi-Fi and Bluetooth are available via a RTL8723CS chip, similar to the
-> one in Pinebook.
->
-> This commit adds a basically usable device tree for it, implementing
-> most of the features mentioned above. HDMI is not supported now because
-> bad LCD-HDMI coexistence situation of mainline A64 display driver, and
-> the front camera currently lacks a driver and a facility to share the
-> bus with the rear one.
->
+	Sam
+> 
 > Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
 > ---
->  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
->  .../boot/dts/allwinner/sun50i-a64-pinetab.dts | 461 ++++++++++++++++++
->  2 files changed, 462 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
->
-> diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-> index cf4f78617c3f..6dad63881cd3 100644
-> --- a/arch/arm64/boot/dts/allwinner/Makefile
-> +++ b/arch/arm64/boot/dts/allwinner/Makefile
-> @@ -9,6 +9,7 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-orangepi-win.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-pine64-lts.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-pine64-plus.dtb sun50i-a64-pine64.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-pinebook.dtb
-> +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-pinetab.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-sopine-baseboard.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-teres-i.dtb
->  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-bananapi-m2-plus.dtb
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
+>  MAINTAINERS                                   |   6 +
+>  drivers/gpu/drm/panel/Kconfig                 |   9 +
+>  drivers/gpu/drm/panel/Makefile                |   1 +
+>  .../gpu/drm/panel/panel-feixin-k101-im2ba02.c | 548 ++++++++++++++++++
+>  4 files changed, 564 insertions(+)
+>  create mode 100644 drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c
+> 
+
 > new file mode 100644
-> index 000000000000..1dfa3668636e
+> index 000000000000..45a62bdabb3f
 > --- /dev/null
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
-> @@ -0,0 +1,461 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +++ b/drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c
+> @@ -0,0 +1,548 @@
+> +// SPDX-License-Identifier: GPL-2.0+
 > +/*
-> + * Copyright (C) 2019 Icenowy Zheng <icenowy@aosc.xyz>
-> + *
+> + * Copyright (C) 2019-2020 Icenowy Zheng <icenowy@aosc.io>
 > + */
 > +
-> +/dts-v1/;
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/delay.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/module.h>
+> +#include <linux/of_device.h>
+> +#include <linux/regulator/consumer.h>
 > +
-> +#include "sun50i-a64.dtsi"
-> +
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/input/input.h>
-> +#include <dt-bindings/pwm/pwm.h>
-> +
-> +/ {
-> +	model = "PineTab";
-> +	compatible = "pine64,pinetab", "allwinner,sun50i-a64";
-> +
-> +	aliases {
-> +		serial0 = &uart0;
-> +		ethernet0 = &rtl8723cs;
-> +	};
-> +
-> +	backlight: backlight {
-> +		compatible = "pwm-backlight";
-> +		pwms = <&pwm 0 50000 PWM_POLARITY_INVERTED>;
-> +		brightness-levels = <0 10 20 30 40 50 60 70 80 90 100>;
-
-Each step should be a perceived step, not a decimal one. So let's say,
-if you have 10 steps, each step should be seen as a 10% increase in
-brightness. Usually a quadratic increase works better there.
-
-> +&dsi {
-> +	vcc-dsi-supply = <&reg_dldo1>;
-> +	#address-cells = <1>;
-> +	#size-cells = <0>;
-> +	status = "okay";
-
-address-cells and size-cells aren't in the DTSI? They should be.
+> +#include <drm/drm_mipi_dsi.h>
+> +#include <drm/drm_modes.h>
+> +#include <drm/drm_panel.h>
+> +#include <drm/drm_print.h>
+Sorted and in the right order - good.
 
 > +
-> +	panel@0 {
-> +		compatible = "feixin,k101-im2ba02";
-> +		reg = <0>;
-> +		avdd-supply = <&reg_dc1sw>;
-> +		dvdd-supply = <&reg_dc1sw>;
-> +		cvdd-supply = <&reg_ldo_io1>;
-> +		reset-gpios = <&pio 3 24 GPIO_ACTIVE_HIGH>; /* PD24 */
-> +		backlight = <&backlight>;
-> +	};
+> +static int k101_im2ba02_prepare(struct drm_panel *panel)
+> +{
+> +	struct k101_im2ba02 *ctx = panel_to_k101_im2ba02(panel);
+> +	struct mipi_dsi_device *dsi = ctx->dsi;
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	ret = regulator_enable(ctx->avdd);
+> +	if (ret)
+> +		return ret;
+> +
+> +	msleep(20);
+> +
+> +	ret = regulator_enable(ctx->dvdd);
+> +	if (ret)
+> +		return ret;
+> +
+> +	msleep(20);
+> +
+> +	ret = regulator_enable(ctx->cvdd);
+> +	if (ret)
+> +		return ret;
+
+Unless the msleep() between is regulator_enable() really is needed,
+this change this to use regulator_bulk_enable().
+
+If the above is kept then please do proper error handling
+where all enabled regulators are disable in case of errors.
+
+> +
+> +	msleep(30);
+> +
+> +	gpiod_set_value(ctx->reset, 1);
+> +	msleep(50);
+> +
+> +	gpiod_set_value(ctx->reset, 0);
+> +	msleep(50);
+> +
+> +	gpiod_set_value(ctx->reset, 1);
+> +	msleep(200);
+> +
+> +	for (i = 0; i < ARRAY_SIZE(k101_im2ba02_init_cmds); i++) {
+> +		const struct k101_im2ba02_init_cmd *cmd = &k101_im2ba02_init_cmds[i];
+> +
+> +		ret = mipi_dsi_dcs_write_buffer(dsi, cmd->data, K101_IM2BA02_INIT_CMD_LEN);
+> +		if (ret < 0)
+> +			return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int k101_im2ba02_enable(struct drm_panel *panel)
+> +{
+> +	struct k101_im2ba02 *ctx = panel_to_k101_im2ba02(panel);
+> +	const struct k101_im2ba02_init_cmd *cmd = &timed_cmds[1];
+> +	int ret;
+> +
+> +	msleep(150);
+> +
+> +	ret = mipi_dsi_dcs_set_display_on(ctx->dsi);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	msleep(50);
+> +
+> +	return mipi_dsi_dcs_write_buffer(ctx->dsi, cmd->data, K101_IM2BA02_INIT_CMD_LEN);
+> +	if (ret < 0)
+> +		return ret;
+The last two lines can be deleted - they are never reached.
+
+> +}
+> +
+> +static int k101_im2ba02_disable(struct drm_panel *panel)
+> +{
+> +	struct k101_im2ba02 *ctx = panel_to_k101_im2ba02(panel);
+> +
+> +	return mipi_dsi_dcs_set_display_off(ctx->dsi);
+> +}
+> +
+> +static int k101_im2ba02_unprepare(struct drm_panel *panel)
+> +{
+> +	struct k101_im2ba02 *ctx = panel_to_k101_im2ba02(panel);
+> +	int ret;
+> +
+> +	ret = mipi_dsi_dcs_set_display_off(ctx->dsi);
+> +	if (ret < 0)
+> +		DRM_DEV_ERROR(panel->dev, "failed to set display off: %d\n",
+> +			      ret);
+> +
+> +	ret = mipi_dsi_dcs_enter_sleep_mode(ctx->dsi);
+> +	if (ret < 0)
+> +		DRM_DEV_ERROR(panel->dev, "failed to enter sleep mode: %d\n",
+> +			      ret);
+> +
+> +	msleep(200);
+> +
+> +	gpiod_set_value(ctx->reset, 0);
+> +
+> +	msleep(20);
+> +
+> +	regulator_disable(ctx->cvdd);
+> +
+> +	msleep(20);
+> +
+> +	regulator_disable(ctx->dvdd);
+> +
+> +	msleep(20);
+> +
+> +	regulator_disable(ctx->avdd);
+Can we get rid of a few empty lines here?
+If the 20 msecs are not really needed then use regulator_bulk_disable()
+
+
+> +	return 0;
+> +}
+> +
+> +static const struct drm_display_mode k101_im2ba02_default_mode = {
+> +	.clock = 70000,
+> +	.vrefresh = 60,
+> +
+> +	.hdisplay = 800,
+> +	.hsync_start = 800 + 20,
+> +	.hsync_end = 800 + 20 + 20,
+> +	.htotal = 800 + 20 + 20 + 20,
+> +
+> +	.vdisplay = 1280,
+> +	.vsync_start = 1280 + 16,
+> +	.vsync_end = 1280 + 16 + 4,
+> +	.vtotal = 1280 + 16 + 4 + 4,
+> +
+> +	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
+> +	.width_mm	= 136,
+> +	.height_mm	= 217,
 > +};
 > +
-> +&ehci0 {
-> +	status = "okay";
+> +static int k101_im2ba02_get_modes(struct drm_panel *panel,
+> +				  struct drm_connector *connector)
+> +{
+> +	struct k101_im2ba02 *ctx = panel_to_k101_im2ba02(panel);
+> +	struct drm_display_mode *mode;
+> +
+> +	mode = drm_mode_duplicate(connector->dev, &k101_im2ba02_default_mode);
+> +	if (!mode) {
+> +		DRM_DEV_ERROR(&ctx->dsi->dev, "failed to add mode %ux%ux@%u\n",
+> +			      k101_im2ba02_default_mode.hdisplay,
+> +			      k101_im2ba02_default_mode.vdisplay,
+> +			      k101_im2ba02_default_mode.vrefresh);
+> +		return -ENOMEM;
+> +	}
+> +
+> +	drm_mode_set_name(mode);
+> +
+> +	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+> +	connector->display_info.width_mm = mode->width_mm;
+> +	connector->display_info.height_mm = mode->height_mm;
+> +	drm_mode_probed_add(connector, mode);
+> +
+> +	return 1;
+> +}
+> +
+> +static const struct drm_panel_funcs k101_im2ba02_funcs = {
+> +	.disable = k101_im2ba02_disable,
+> +	.unprepare = k101_im2ba02_unprepare,
+> +	.prepare = k101_im2ba02_prepare,
+> +	.enable = k101_im2ba02_enable,
+> +	.get_modes = k101_im2ba02_get_modes,
 > +};
 > +
-> +&ehci1 {
-> +	status = "okay";
+> +static int k101_im2ba02_dsi_probe(struct mipi_dsi_device *dsi)
+> +{
+> +	struct k101_im2ba02 *ctx;
+> +	int ret;
+> +
+> +	ctx = devm_kzalloc(&dsi->dev, sizeof(*ctx), GFP_KERNEL);
+> +	if (!ctx)
+> +		return -ENOMEM;
+> +
+> +	mipi_dsi_set_drvdata(dsi, ctx);
+> +	ctx->dsi = dsi;
+> +
+> +	ctx->dvdd = devm_regulator_get(&dsi->dev, "dvdd");
+> +	if (IS_ERR(ctx->dvdd)) {
+> +		DRM_DEV_ERROR(&dsi->dev, "Couldn't get dvdd regulator\n");
+> +		return PTR_ERR(ctx->dvdd);
+> +	}
+> +
+> +	ctx->avdd = devm_regulator_get(&dsi->dev, "avdd");
+> +	if (IS_ERR(ctx->avdd)) {
+> +		DRM_DEV_ERROR(&dsi->dev, "Couldn't get avdd regulator\n");
+> +		return PTR_ERR(ctx->avdd);
+> +	}
+> +
+> +	ctx->cvdd = devm_regulator_get(&dsi->dev, "cvdd");
+> +	if (IS_ERR(ctx->cvdd)) {
+> +		DRM_DEV_ERROR(&dsi->dev, "Couldn't get cvdd regulator\n");
+> +		return PTR_ERR(ctx->cvdd);
+> +	}
+> +
+> +	ctx->reset = devm_gpiod_get(&dsi->dev, "reset", GPIOD_OUT_LOW);
+> +	if (IS_ERR(ctx->reset)) {
+> +		DRM_DEV_ERROR(&dsi->dev, "Couldn't get our reset GPIO\n");
+> +		return PTR_ERR(ctx->reset);
+> +	}
+> +
+> +	drm_panel_init(&ctx->panel, &dsi->dev, &k101_im2ba02_funcs,
+> +		       DRM_MODE_CONNECTOR_DSI);
+> +
+> +	ret = drm_panel_of_backlight(&ctx->panel);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = drm_panel_add(&ctx->panel);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	dsi->mode_flags = MIPI_DSI_MODE_VIDEO;
+> +	dsi->format = MIPI_DSI_FMT_RGB888;
+> +	dsi->lanes = 4;
+> +
+> +	ret = mipi_dsi_attach(dsi);
+> +	if (ret < 0) {
+> +		drm_panel_remove(&ctx->panel);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int k101_im2ba02_dsi_remove(struct mipi_dsi_device *dsi)
+> +{
+> +	struct k101_im2ba02 *ctx = mipi_dsi_get_drvdata(dsi);
+> +
+> +	mipi_dsi_detach(dsi);
+> +	drm_panel_remove(&ctx->panel);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id k101_im2ba02_of_match[] = {
+> +	{ .compatible = "feixin,k101-im2ba02", },
+> +	{ }
+Use { /* sentinel */ },
+
 > +};
+> +MODULE_DEVICE_TABLE(of, k101_im2ba02_of_match);
 > +
-> +&i2c0 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&i2c0_pins>;
-
-That should be set in the DTSI already?
-
-> +	status = "okay";
-> +
-> +	touchscreen@5d {
-> +		compatible = "goodix,gt9271";
-> +		reg = <0x5d>;
-> +		interrupt-parent = <&pio>;
-> +		interrupts = <7 4 IRQ_TYPE_LEVEL_HIGH>; /* PH4 */
-> +		irq-gpios = <&pio 7 4 GPIO_ACTIVE_HIGH>; /* PH4 */
-> +		reset-gpios = <&pio 7 8 GPIO_ACTIVE_HIGH>; /* PH8 */
-> +		AVDD28-supply = <&reg_ldo_io1>;
-> +	};
+> +static struct mipi_dsi_driver k101_im2ba02_driver = {
+> +	.probe = k101_im2ba02_dsi_probe,
+> +	.remove = k101_im2ba02_dsi_remove,
+> +	.driver = {
+> +		.name = "feixin-k101-im2ba02",
+> +		.of_match_table = k101_im2ba02_of_match,
+> +	},
 > +};
+> +module_mipi_dsi_driver(k101_im2ba02_driver);
 > +
-> +&i2c0_pins {
-> +	bias-pull-up;
-> +};
-> +
-> +&i2c1 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&i2c1_pins>;
-
-Ditto
-
-> +	status = "okay";
-> +
-> +	bma223@18 {
-> +		compatible = "bosch,bma223", "bosch,bma222e";
-> +		reg = <0x18>;
-> +		interrupt-parent = <&pio>;
-> +		interrupts = <7 5 IRQ_TYPE_LEVEL_HIGH>; /* PH5 */
-> +		mount-matrix = "0", "-1", "0",
-> +			       "-1", "0", "0",
-> +			       "0", "0", "-1";
-> +	};
-> +};
-> +
-> +&lradc {
-> +	vref-supply = <&reg_aldo3>;
-> +	status = "okay";
-> +
-> +	button-200 {
-> +		label = "Volume Up";
-> +		linux,code = <KEY_VOLUMEUP>;
-> +		channel = <0>;
-> +		voltage = <200000>;
-> +	};
-> +
-> +	button-400 {
-> +		label = "Volume Down";
-> +		linux,code = <KEY_VOLUMEDOWN>;
-> +		channel = <0>;
-> +		voltage = <400000>;
-> +	};
-> +};
-> +
-> +&mixer1 {
-> +	status = "okay";
-> +};
-> +
-> +&mmc0 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&mmc0_pins>;
-
-Ditto
-
-> +	vmmc-supply = <&reg_dcdc1>;
-> +	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;
-> +	disable-wp;
-> +	bus-width = <4>;
-> +	status = "okay";
-> +};
-> +
-> +&mmc1 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&mmc1_pins>;
-
-Ditto
-
-> +	vmmc-supply = <&reg_dldo4>;
-> +	vqmmc-supply = <&reg_eldo1>;
-> +	mmc-pwrseq = <&wifi_pwrseq>;
-> +	bus-width = <4>;
-> +	non-removable;
-> +	status = "okay";
-> +
-> +	rtl8723cs: wifi@1 {
-> +		reg = <1>;
-> +	};
-> +};
-> +
-> +&mmc2 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&mmc2_pins>;
-
-Ditto
-
-Looks good otherwise, thanks!
-Maxime
-
---x7pug4yqpkmc5pl7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXhizDQAKCRDj7w1vZxhR
-xSa+AQDxmVfX7/N4LXf2dmyOjkWdFPi2lil3agh6JmKfYenkSAEA/5gILjn67VjB
-0pyAS0uYl/jzyQ83E1Hq+tqZCVmLCg8=
-=iCFh
------END PGP SIGNATURE-----
-
---x7pug4yqpkmc5pl7--
-
---===============0344618021==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+> +MODULE_AUTHOR("Icenowy Zheng <icenowy@aosc.io>");
+> +MODULE_DESCRIPTION("Feixin K101 IM2BA02 MIPI-DSI LCD panel");
+> +MODULE_LICENSE("GPL");
+> -- 
+> 2.23.0
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0344618021==--
