@@ -1,20 +1,20 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02DC81369B5
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2020 10:22:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2FB01369C0
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2020 10:22:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33CEA6E9A9;
-	Fri, 10 Jan 2020 09:21:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9FE26E9DA;
+	Fri, 10 Jan 2020 09:21:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF1936E99F;
- Fri, 10 Jan 2020 09:21:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C8176E9A4;
+ Fri, 10 Jan 2020 09:21:37 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 0327AB2A2;
+ by mx2.suse.de (Postfix) with ESMTP id D4F20B2A3;
  Fri, 10 Jan 2020 09:21:35 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@linux.ie, daniel@ffwll.ch, alexander.deucher@amd.com,
@@ -28,10 +28,10 @@ To: airlied@linux.ie, daniel@ffwll.ch, alexander.deucher@amd.com,
  bskeggs@redhat.com, harry.wentland@amd.com, sunpeng.li@amd.com,
  jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
  rodrigo.vivi@intel.com
-Subject: [PATCH 05/23] drm/radeon: Convert to struct
+Subject: [PATCH 06/23] drm/msm: Convert to struct
  drm_crtc_helper_funcs.get_scanout_position()
-Date: Fri, 10 Jan 2020 10:21:09 +0100
-Message-Id: <20200110092127.27847-6-tzimmermann@suse.de>
+Date: Fri, 10 Jan 2020 10:21:10 +0100
+Message-Id: <20200110092127.27847-7-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200110092127.27847-1-tzimmermann@suse.de>
 References: <20200110092127.27847-1-tzimmermann@suse.de>
@@ -59,110 +59,178 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 The callback struct drm_driver.get_scanout_position() is deprecated in
 favor of struct drm_crtc_helper_funcs.get_scanout_position(). Convert
-radeon over.
+mem over.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/radeon/atombios_crtc.c      |  1 +
- drivers/gpu/drm/radeon/radeon_display.c     | 13 +++++++++++++
- drivers/gpu/drm/radeon/radeon_drv.c         | 11 -----------
- drivers/gpu/drm/radeon/radeon_legacy_crtc.c |  3 ++-
- drivers/gpu/drm/radeon/radeon_mode.h        |  6 ++++++
- 5 files changed, 22 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c | 67 +++++++++++++++++++++++
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c  | 61 ---------------------
+ 2 files changed, 67 insertions(+), 61 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/atombios_crtc.c b/drivers/gpu/drm/radeon/atombios_crtc.c
-index da2c9e295408..447d74b78f19 100644
---- a/drivers/gpu/drm/radeon/atombios_crtc.c
-+++ b/drivers/gpu/drm/radeon/atombios_crtc.c
-@@ -2232,6 +2232,7 @@ static const struct drm_crtc_helper_funcs atombios_helper_funcs = {
- 	.prepare = atombios_crtc_prepare,
- 	.commit = atombios_crtc_commit,
- 	.disable = atombios_crtc_disable,
-+	.get_scanout_position = radeon_get_crtc_scanout_position,
- };
- 
- void radeon_atombios_init_crtc(struct drm_device *dev,
-diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/drm/radeon/radeon_display.c
-index 962575e27cde..7187158b9963 100644
---- a/drivers/gpu/drm/radeon/radeon_display.c
-+++ b/drivers/gpu/drm/radeon/radeon_display.c
-@@ -1978,3 +1978,16 @@ int radeon_get_crtc_scanoutpos(struct drm_device *dev, unsigned int pipe,
- 
- 	return ret;
+diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+index 05cc04f729d6..4decf19847a8 100644
+--- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
++++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+@@ -405,6 +405,72 @@ static void mdp5_crtc_mode_set_nofb(struct drm_crtc *crtc)
+ 	spin_unlock_irqrestore(&mdp5_crtc->lm_lock, flags);
  }
-+
-+bool
-+radeon_get_crtc_scanout_position(struct drm_crtc *crtc,
-+				 bool in_vblank_irq, int *vpos, int *hpos,
-+				 ktime_t *stime, ktime_t *etime,
-+				 const struct drm_display_mode *mode)
+ 
++static struct drm_encoder *get_encoder_from_crtc(struct drm_crtc *crtc)
 +{
 +	struct drm_device *dev = crtc->dev;
-+	unsigned int pipe = crtc->index;
++	struct drm_encoder *encoder;
 +
-+	return radeon_get_crtc_scanoutpos(dev, pipe, 0, vpos, hpos,
-+					  stime, etime, mode);
++	drm_for_each_encoder(encoder, dev)
++		if (encoder->crtc == crtc)
++			return encoder;
++
++	return NULL;
 +}
-diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon/radeon_drv.c
-index fd74e2611185..1f597f166bff 100644
---- a/drivers/gpu/drm/radeon/radeon_drv.c
-+++ b/drivers/gpu/drm/radeon/radeon_drv.c
-@@ -563,16 +563,6 @@ static const struct file_operations radeon_driver_kms_fops = {
- #endif
++
++static bool mdp5_crtc_get_scanout_position(struct drm_crtc *crtc,
++					   bool in_vblank_irq,
++					   int *vpos, int *hpos,
++					   ktime_t *stime, ktime_t *etime,
++					   const struct drm_display_mode *mode)
++{
++	unsigned int pipe = crtc->index;
++	struct drm_encoder *encoder;
++	int line, vsw, vbp, vactive_start, vactive_end, vfp_end;
++
++
++	encoder = get_encoder_from_crtc(crtc);
++	if (!encoder) {
++		DRM_ERROR("no encoder found for crtc %d\n", pipe);
++		return false;
++	}
++
++	vsw = mode->crtc_vsync_end - mode->crtc_vsync_start;
++	vbp = mode->crtc_vtotal - mode->crtc_vsync_end;
++
++	/*
++	 * the line counter is 1 at the start of the VSYNC pulse and VTOTAL at
++	 * the end of VFP. Translate the porch values relative to the line
++	 * counter positions.
++	 */
++
++	vactive_start = vsw + vbp + 1;
++
++	vactive_end = vactive_start + mode->crtc_vdisplay;
++
++	/* last scan line before VSYNC */
++	vfp_end = mode->crtc_vtotal;
++
++	if (stime)
++		*stime = ktime_get();
++
++	line = mdp5_encoder_get_linecount(encoder);
++
++	if (line < vactive_start)
++		line -= vactive_start;
++	else if (line > vactive_end)
++		line = line - vfp_end - vactive_start;
++	else
++		line -= vactive_start;
++
++	*vpos = line;
++	*hpos = 0;
++
++	if (etime)
++		*etime = ktime_get();
++
++	return true;
++}
++
+ static void mdp5_crtc_atomic_disable(struct drm_crtc *crtc,
+ 				     struct drm_crtc_state *old_state)
+ {
+@@ -1063,6 +1129,7 @@ static const struct drm_crtc_helper_funcs mdp5_crtc_helper_funcs = {
+ 	.atomic_flush = mdp5_crtc_atomic_flush,
+ 	.atomic_enable = mdp5_crtc_atomic_enable,
+ 	.atomic_disable = mdp5_crtc_atomic_disable,
++	.get_scanout_position = mdp5_crtc_get_scanout_position,
  };
  
--static bool
--radeon_get_crtc_scanout_position(struct drm_device *dev, unsigned int pipe,
--				 bool in_vblank_irq, int *vpos, int *hpos,
--				 ktime_t *stime, ktime_t *etime,
--				 const struct drm_display_mode *mode)
+ static void mdp5_crtc_vblank_irq(struct mdp_irq *irq, uint32_t irqstatus)
+diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+index e43ecd4be10a..8b72ac44ce55 100644
+--- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
++++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+@@ -595,66 +595,6 @@ static struct drm_encoder *get_encoder_from_crtc(struct drm_crtc *crtc)
+ 	return NULL;
+ }
+ 
+-static bool mdp5_get_scanoutpos(struct drm_device *dev, unsigned int pipe,
+-				bool in_vblank_irq, int *vpos, int *hpos,
+-				ktime_t *stime, ktime_t *etime,
+-				const struct drm_display_mode *mode)
 -{
--	return radeon_get_crtc_scanoutpos(dev, pipe, 0, vpos, hpos,
--					  stime, etime, mode);
+-	struct msm_drm_private *priv = dev->dev_private;
+-	struct drm_crtc *crtc;
+-	struct drm_encoder *encoder;
+-	int line, vsw, vbp, vactive_start, vactive_end, vfp_end;
+-
+-	crtc = priv->crtcs[pipe];
+-	if (!crtc) {
+-		DRM_ERROR("Invalid crtc %d\n", pipe);
+-		return false;
+-	}
+-
+-	encoder = get_encoder_from_crtc(crtc);
+-	if (!encoder) {
+-		DRM_ERROR("no encoder found for crtc %d\n", pipe);
+-		return false;
+-	}
+-
+-	vsw = mode->crtc_vsync_end - mode->crtc_vsync_start;
+-	vbp = mode->crtc_vtotal - mode->crtc_vsync_end;
+-
+-	/*
+-	 * the line counter is 1 at the start of the VSYNC pulse and VTOTAL at
+-	 * the end of VFP. Translate the porch values relative to the line
+-	 * counter positions.
+-	 */
+-
+-	vactive_start = vsw + vbp + 1;
+-
+-	vactive_end = vactive_start + mode->crtc_vdisplay;
+-
+-	/* last scan line before VSYNC */
+-	vfp_end = mode->crtc_vtotal;
+-
+-	if (stime)
+-		*stime = ktime_get();
+-
+-	line = mdp5_encoder_get_linecount(encoder);
+-
+-	if (line < vactive_start) {
+-		line -= vactive_start;
+-	} else if (line > vactive_end) {
+-		line = line - vfp_end - vactive_start;
+-	} else {
+-		line -= vactive_start;
+-	}
+-
+-	*vpos = line;
+-	*hpos = 0;
+-
+-	if (etime)
+-		*etime = ktime_get();
+-
+-	return true;
 -}
 -
- static struct drm_driver kms_driver = {
- 	.driver_features =
- 	    DRIVER_USE_AGP | DRIVER_GEM | DRIVER_RENDER,
-@@ -585,7 +575,6 @@ static struct drm_driver kms_driver = {
- 	.enable_vblank = radeon_enable_vblank_kms,
- 	.disable_vblank = radeon_disable_vblank_kms,
- 	.get_vblank_timestamp = drm_calc_vbltimestamp_from_scanoutpos,
--	.get_scanout_position = radeon_get_crtc_scanout_position,
- 	.irq_preinstall = radeon_driver_irq_preinstall_kms,
- 	.irq_postinstall = radeon_driver_irq_postinstall_kms,
- 	.irq_uninstall = radeon_driver_irq_uninstall_kms,
-diff --git a/drivers/gpu/drm/radeon/radeon_legacy_crtc.c b/drivers/gpu/drm/radeon/radeon_legacy_crtc.c
-index a1985a552794..8817fd033cd0 100644
---- a/drivers/gpu/drm/radeon/radeon_legacy_crtc.c
-+++ b/drivers/gpu/drm/radeon/radeon_legacy_crtc.c
-@@ -1111,7 +1111,8 @@ static const struct drm_crtc_helper_funcs legacy_helper_funcs = {
- 	.mode_set_base_atomic = radeon_crtc_set_base_atomic,
- 	.prepare = radeon_crtc_prepare,
- 	.commit = radeon_crtc_commit,
--	.disable = radeon_crtc_disable
-+	.disable = radeon_crtc_disable,
-+	.get_scanout_position = radeon_get_crtc_scanout_position,
- };
+ static u32 mdp5_get_vblank_counter(struct drm_device *dev, unsigned int pipe)
+ {
+ 	struct msm_drm_private *priv = dev->dev_private;
+@@ -763,7 +703,6 @@ struct msm_kms *mdp5_kms_init(struct drm_device *dev)
+ 	dev->mode_config.max_height = 0xffff;
  
- 
-diff --git a/drivers/gpu/drm/radeon/radeon_mode.h b/drivers/gpu/drm/radeon/radeon_mode.h
-index fd470d6bf3f4..06c4c527d376 100644
---- a/drivers/gpu/drm/radeon/radeon_mode.h
-+++ b/drivers/gpu/drm/radeon/radeon_mode.h
-@@ -881,6 +881,12 @@ extern int radeon_get_crtc_scanoutpos(struct drm_device *dev, unsigned int pipe,
- 				      ktime_t *stime, ktime_t *etime,
- 				      const struct drm_display_mode *mode);
- 
-+extern bool radeon_get_crtc_scanout_position(struct drm_crtc *crtc,
-+					     bool in_vblank_irq, int *vpos,
-+					     int *hpos, ktime_t *stime,
-+					     ktime_t *etime,
-+					     const struct drm_display_mode *mode);
-+
- extern bool radeon_combios_check_hardcoded_edid(struct radeon_device *rdev);
- extern struct edid *
- radeon_bios_get_hardcoded_edid(struct radeon_device *rdev);
+ 	dev->driver->get_vblank_timestamp = drm_calc_vbltimestamp_from_scanoutpos;
+-	dev->driver->get_scanout_position = mdp5_get_scanoutpos;
+ 	dev->driver->get_vblank_counter = mdp5_get_vblank_counter;
+ 	dev->max_vblank_count = 0; /* max_vblank_count is set on each CRTC */
+ 	dev->vblank_disable_immediate = true;
 -- 
 2.24.1
 
