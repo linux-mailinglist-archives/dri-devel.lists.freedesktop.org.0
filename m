@@ -2,44 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED1FE138653
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Jan 2020 13:36:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A805D138654
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Jan 2020 13:36:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E22489D5B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A965B6E038;
 	Sun, 12 Jan 2020 12:36:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (lhrrgout.huawei.com [185.176.76.210])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF83F6E9F2
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 12:54:32 +0000 (UTC)
-Received: from lhreml705-cah.china.huawei.com (unknown [172.18.7.106])
- by Forcepoint Email with ESMTP id 73FAA8783076078CEC20;
- Fri, 10 Jan 2020 12:54:28 +0000 (GMT)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- lhreml705-cah.china.huawei.com (10.201.108.46) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Fri, 10 Jan 2020 12:54:27 +0000
-Received: from [127.0.0.1] (10.202.226.43) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Fri, 10 Jan
- 2020 12:54:27 +0000
-Subject: Re: Warnings in DRM code when removing/unbinding a driver
-To: Thomas Zimmermann <tzimmermann@suse.de>, "kongxinwei (A)"
- <kong.kongxinwei@hisilicon.com>, "Chenfeng (puck)" <puck.chen@hisilicon.com>, 
- "airlied@linux.ie" <airlied@linux.ie>, <daniel@ffwll.ch>
-References: <07899bd5-e9a5-cff0-395f-b4fb3f0f7f6c@huawei.com>
- <381e28c2-f3e4-6f75-c632-96dd8a980c87@suse.de>
-From: John Garry <john.garry@huawei.com>
-Message-ID: <38ce1d99-e803-3693-adff-106dc438c973@huawei.com>
-Date: Fri, 10 Jan 2020 12:54:26 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.2
+Received: from mail25.static.mailgun.info (mail25.static.mailgun.info
+ [104.130.122.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A8256EA15
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 13:32:33 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1578663154; h=Content-Type: MIME-Version: Message-ID:
+ In-Reply-To: Date: References: Subject: Cc: To: From: Sender;
+ bh=KvNC+ZtmcyAhVZ56ZMn6CaYYHAi0RWpQoUQ7isluNMU=;
+ b=QtBmriFXdyg0uiLinXVE2p64k6Ju6zo6uqPnUFpZH/6hnaciHc7l7aHtlBvvVCfWezqnP7oq
+ qZ7kd0VeEBk/zTP5QULSrvYnD7e23sdUDY1PhN6P8V9nKIsaOzLoJgjRv0NXXo6TC1uQxD5d
+ upIG3Vp2KHybR8M6d9NlaTn83b4=
+X-Mailgun-Sending-Ip: 104.130.122.25
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e187cee.7fec0b84d308-smtp-out-n01;
+ Fri, 10 Jan 2020 13:32:30 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id A45B3C447AD; Fri, 10 Jan 2020 13:32:28 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from x230.qca.qualcomm.com (unknown [83.145.195.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: kvalo)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 1C016C43383;
+ Fri, 10 Jan 2020 13:32:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 1C016C43383
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=kvalo@codeaurora.org
+From: Kalle Valo <kvalo@codeaurora.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v2 2/9] net: wireless: rtl818x: Constify ioreadX() iomem
+ argument (as in generic implementation)
+References: <20200108200528.4614-1-krzk@kernel.org>
+ <20200108200528.4614-3-krzk@kernel.org>
+Date: Fri, 10 Jan 2020 15:32:13 +0200
+In-Reply-To: <20200108200528.4614-3-krzk@kernel.org> (Krzysztof Kozlowski's
+ message of "Wed, 8 Jan 2020 21:05:21 +0100")
+Message-ID: <87imljsahu.fsf@codeaurora.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.5 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <381e28c2-f3e4-6f75-c632-96dd8a980c87@suse.de>
-Content-Language: en-US
-X-Originating-IP: [10.202.226.43]
-X-ClientProxiedBy: lhreml729-chm.china.huawei.com (10.201.108.80) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Sun, 12 Jan 2020 12:36:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,144 +69,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Rich Felker <dalias@libc.org>, Jiri Slaby <jirislaby@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ "Michael S. Tsirkin" <mst@redhat.com>, David Airlie <airlied@linux.ie>,
+ Jason Wang <jasowang@redhat.com>, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ netdev@vger.kernel.org, Paul Mackerras <paulus@samba.org>,
+ linux-arch@vger.kernel.org, Dave Jiang <dave.jiang@intel.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Michael Ellerman <mpe@ellerman.id.au>, Helge Deller <deller@gmx.de>,
+ linux-sh@vger.kernel.org, Alexey Brodkin <abrodkin@synopsys.com>,
+ Ben Skeggs <bskeggs@redhat.com>, nouveau@lists.freedesktop.org,
+ Dave Airlie <airlied@redhat.com>, Matt Turner <mattst88@gmail.com>,
+ linux-snps-arc@lists.infradead.org, Nick Kossifidis <mickflemm@gmail.com>,
+ Allen Hubbe <allenbh@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+ linux-alpha@vger.kernel.org, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Richard Henderson <rth@twiddle.net>, linux-parisc@vger.kernel.org,
+ Vineet Gupta <vgupta@synopsys.com>, linux-wireless@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>,
+ Jon Mason <jdmason@kudzu.us>, linux-ntb@googlegroups.com,
+ linux-media@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ "David S. Miller" <davem@davemloft.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpIaSBUaG9tYXMsCgo+IGRybS10aXAgbm93IGNvbnRhaW5zCgpJIGhhdmUgdGVzdGVkIHRvZGF5
-J3MgbGludXgtbmV4dCwgd2hpY2ggaW5jbHVkZXMgdGhpczoKCj4gCj4gY29tbWl0IGE4ODI0ODUw
-NmEyYmNmZWFlZjY4MzdhNTNjZGUxOWZlMTE5NzBlNmMKPiBBdXRob3I6IFRob21hcyBaaW1tZXJt
-YW5uIDx0emltbWVybWFubkBzdXNlLmRlPgo+IERhdGU6ICAgVHVlIERlYyAzIDA5OjM4OjE1IDIw
-MTkgKzAxMDAKPiAKPiAgICAgIGRybS9oaXNpbGljb24vaGlibWM6IFN3aXRjaCB0byBnZW5lcmlj
-IGZiZGV2IGVtdWxhdGlvbgo+IAo+IHdoaWNoIHJlbW92ZXMgdGhpcyBlbnRpcmUgY29kZSBhbmQg
-c3dpdGNoZXMgaGlibWMgdG8gZ2VuZXJpYyBmYmRldgo+IGVtdWxhdGlvbi4gRG9lcyB0aGF0IGZp
-eCB0aGUgcHJvYmxlbT8KPiAKCkFuZCBJIHNlZSBubyB3YXJuLCBoZXJlJ3MgYSBkbWVzZyBzbmlw
-cGV0OgoKWyAgIDIwLjY3Mjc4N10gcGNpIDAwMDc6OTA6MDAuMDogY2FuJ3QgZGVyaXZlIHJvdXRp
-bmcgZm9yIFBDSSBJTlQgQQpbICAgMjAuNjc4ODMxXSBoaWJtYy1kcm0gMDAwNzo5MTowMC4wOiBQ
-Q0kgSU5UIEE6IG5vIEdTSQpbICAgMjAuNjg2NTM2XSBwY2lfYnVzIDAwMDc6OTA6IDItYnl0ZSBj
-b25maWcgd3JpdGUgdG8gMDAwNzo5MDowMC4wIApvZmZzZXQgMHg0IG1heSBjb3JydXB0IGFkamFj
-ZW50IFJXMUMgYml0cwpbICAgMjAuNjk2ODg4XSBbVFRNXSBab25lICBrZXJuZWw6IEF2YWlsYWJs
-ZSBncmFwaGljcyBtZW1vcnk6IDU3MzU5NDU4IEtpQgpbICAgMjAuNzAzNTQ1XSBbVFRNXSBab25l
-ICAgZG1hMzI6IEF2YWlsYWJsZSBncmFwaGljcyBtZW1vcnk6IDIwOTcxNTIgS2lCClsgICAyMC43
-MTAxMDhdIFtUVE1dIEluaXRpYWxpemluZyBwb29sIGFsbG9jYXRvcgpbICAgMjAuNzE0NTYxXSBb
-VFRNXSBJbml0aWFsaXppbmcgRE1BIHBvb2wgYWxsb2NhdG9yClsgICAyMC43MjAyMTJdIFtkcm1d
-IFN1cHBvcnRzIHZibGFuayB0aW1lc3RhbXAgY2FjaGluZyBSZXYgMiAoMjEuMTAuMjAxMykuClsg
-ICAyMC43MjY4NjNdIFtkcm1dIE5vIGRyaXZlciBzdXBwb3J0IGZvciB2YmxhbmsgdGltZXN0YW1w
-IHF1ZXJ5LgpbICAgMjAuNzU0Nzc3XSBDb25zb2xlOiBzd2l0Y2hpbmcgdG8gY29sb3VyIGZyYW1l
-IGJ1ZmZlciBkZXZpY2UgMTAweDM3ClsgICAyMC43NzgxODBdIGhpYm1jLWRybSAwMDA3OjkxOjAw
-LjA6IGZiMDogaGlibWNkcm1mYiBmcmFtZSBidWZmZXIgZGV2aWNlClsgICAyMC43ODY0NDddIFtk
-cm1dIEluaXRpYWxpemVkIGhpYm1jIDEuMC4wIDIwMTYwODI4IGZvciAwMDA3OjkxOjAwLjAgCm9u
-IG1pbm9yIDAKWyAgIDIwLjc5NDM0Nl0gQ29uc29sZTogc3dpdGNoaW5nIHRvIGNvbG91ciBkdW1t
-eSBkZXZpY2UgODB4MjUKWyAgIDIwLjgwMTg4NF0gcGNpIDAwMDc6OTA6MDAuMDogY2FuJ3QgZGVy
-aXZlIHJvdXRpbmcgZm9yIFBDSSBJTlQgQQpbICAgMjAuODA3OTYzXSBoaWJtYy1kcm0gMDAwNzo5
-MTowMC4wOiBQQ0kgSU5UIEE6IG5vIEdTSQpbICAgMjAuODEzNjU2XSBbVFRNXSBGaW5hbGl6aW5n
-IHBvb2wgYWxsb2NhdG9yClsgICAyMC44MTc5MDVdIFtUVE1dIEZpbmFsaXppbmcgRE1BIHBvb2wg
-YWxsb2NhdG9yClsgICAyMC44MjI1NzZdIFtUVE1dIFpvbmUgIGtlcm5lbDogVXNlZCBtZW1vcnkg
-YXQgZXhpdDogMCBLaUIKWyAgIDIwLjgyODc2MF0gW1RUTV0gWm9uZSAgIGRtYTMyOiBVc2VkIG1l
-bW9yeSBhdCBleGl0OiAwIEtpQgpbICAgMjAuODM0OTc4XSBwY2kgMDAwNzo5MDowMC4wOiBjYW4n
-dCBkZXJpdmUgcm91dGluZyBmb3IgUENJIElOVCBBClsgICAyMC44NDEwMjFdIGhpYm1jLWRybSAw
-MDA3OjkxOjAwLjA6IFBDSSBJTlQgQTogbm8gR1NJClsgICAyMC44NDg4NThdIFtUVE1dIFpvbmUg
-IGtlcm5lbDogQXZhaWxhYmxlIGdyYXBoaWNzIG1lbW9yeTogNTczNTk0NTggS2lCClsgICAyMC44
-NTU1MTZdIFtUVE1dIFpvbmUgICBkbWEzMjogQXZhaWxhYmxlIGdyYXBoaWNzIG1lbW9yeTogMjA5
-NzE1MiBLaUIKWyAgIDIwLjg2MjA3OV0gW1RUTV0gSW5pdGlhbGl6aW5nIHBvb2wgYWxsb2NhdG9y
-ClsgICAyMC44NjY1MjVdIFtUVE1dIEluaXRpYWxpemluZyBETUEgcG9vbCBhbGxvY2F0b3IKWyAg
-IDIwLjg3MjA2NF0gW2RybV0gU3VwcG9ydHMgdmJsYW5rIHRpbWVzdGFtcCBjYWNoaW5nIFJldiAy
-ICgyMS4xMC4yMDEzKS4KWyAgIDIwLjg3ODcxNl0gW2RybV0gTm8gZHJpdmVyIHN1cHBvcnQgZm9y
-IHZibGFuayB0aW1lc3RhbXAgcXVlcnkuClsgICAyMC45MDU5OTZdIENvbnNvbGU6IHN3aXRjaGlu
-ZyB0byBjb2xvdXIgZnJhbWUgYnVmZmVyIGRldmljZSAxMDB4MzcKWyAgIDIwLjkyOTM4NV0gaGli
-bWMtZHJtIDAwMDc6OTE6MDAuMDogZmIwOiBoaWJtY2RybWZiIGZyYW1lIGJ1ZmZlciBkZXZpY2UK
-WyAgIDIwLjkzNzI0MV0gW2RybV0gSW5pdGlhbGl6ZWQgaGlibWMgMS4wLjAgMjAxNjA4MjggZm9y
-IDAwMDc6OTE6MDAuMCAKb24gbWlub3IgMApbICAgMjEuMTcxOTA2XSBsb29wOiBtb2R1bGUgbG9h
-ZGVkCgpUaGFua3MsCkpvaG4KCj4gQmVzdCByZWdhcmRzCj4gVGhvbWFzCj4gCj4+IFvCoMKgIDI3
-Ljk2NTgwMl3CoCBoaWJtY191bmxvYWQrMHgyYy8weGQwCj4+IFvCoMKgIDI3Ljk2OTI4MV3CoCBo
-aWJtY19wY2lfcmVtb3ZlKzB4MmMvMHg0MAo+PiBbwqDCoCAyNy45NzMxMDldwqAgcGNpX2Rldmlj
-ZV9yZW1vdmUrMHg2Yy8weDE0MAo+PiBbwqDCoCAyNy45NzcxMTBdwqAgcmVhbGx5X3Byb2JlKzB4
-MTc0LzB4NTQ4Cj4+IFvCoMKgIDI3Ljk4MDc2M13CoCBkcml2ZXJfcHJvYmVfZGV2aWNlKzB4N2Mv
-MHgxNDgKPj4gW8KgwqAgMjcuOTg0OTM2XcKgIGRldmljZV9kcml2ZXJfYXR0YWNoKzB4OTQvMHhh
-MAo+PiBbwqDCoCAyNy45ODkxMDldwqAgX19kcml2ZXJfYXR0YWNoKzB4YTgvMHgxMTAKPj4gW8Kg
-wqAgMjcuOTkyOTM1XcKgIGJ1c19mb3JfZWFjaF9kZXYrMHhlOC8weDE1OAo+PiBbwqDCoCAyNy45
-OTY4NDldwqAgZHJpdmVyX2F0dGFjaCsweDMwLzB4NDAKPj4gW8KgwqAgMjguMDAwNDE1XcKgIGJ1
-c19hZGRfZHJpdmVyKzB4MjM0LzB4MmYwCj4+IFvCoMKgIDI4LjAwNDI0MV3CoCBkcml2ZXJfcmVn
-aXN0ZXIrMHhiYy8weDFkMAo+PiBbwqDCoCAyOC4wMDgwNjddwqAgX19wY2lfcmVnaXN0ZXJfZHJp
-dmVyKzB4YmMvMHhkMAo+PiBbwqDCoCAyOC4wMTIzMjldwqAgaGlibWNfcGNpX2RyaXZlcl9pbml0
-KzB4MjAvMHgyOAo+PiBbwqDCoCAyOC4wMTY1OTBdwqAgZG9fb25lX2luaXRjYWxsKzB4YjQvMHgy
-NTQKPj4gW8KgwqAgMjguMDIwNDE3XcKgIGtlcm5lbF9pbml0X2ZyZWVhYmxlKzB4MjdjLzB4MzI4
-Cj4+IFvCoMKgIDI4LjAyNDc2NV3CoCBrZXJuZWxfaW5pdCsweDEwLzB4MTE4Cj4+IFvCoMKgIDI4
-LjAyODI0NV3CoCByZXRfZnJvbV9mb3JrKzB4MTAvMHgxOAo+PiBbwqDCoCAyOC4wMzE4MTNdIC0t
-LVsgZW5kIHRyYWNlIDM1YTgzYjcxYjY1Nzg3OGQgXS0tLQo+PiBbwqDCoCAyOC4wMzY1MDNdIC0t
-LS0tLS0tLS0tLVsgY3V0IGhlcmUgXS0tLS0tLS0tLS0tLQo+PiBbwqDCoCAyOC4wNDExMTVdIFdB
-Uk5JTkc6IENQVTogMjQgUElEOiAxIGF0Cj4+IGRyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3ZyYW1f
-aGVscGVyLmM6NDAKPj4gdHRtX2J1ZmZlcl9vYmplY3RfZGVzdHJveSsweDRjLzB4ODAKPj4gW8Kg
-wqAgMjguMDUxNTM3XSBNb2R1bGVzIGxpbmtlZCBpbjoKPj4gW8KgwqAgMjguMDU0NTg1XSBDUFU6
-IDI0IFBJRDogMSBDb21tOiBzd2FwcGVyLzAgVGFpbnRlZDogR8KgwqDCoCBCwqDCoCBXCj4+ICDC
-oDUuNS4wLXJjMS1kaXJ0eSAjNTY1Cj4+IFvCoMKgIDI4LjA2MjkyNF0gSGFyZHdhcmUgbmFtZTog
-SHVhd2VpIEQwNiAvRDA2LCBCSU9TIEhpc2lsaWNvbiBEMDYgVUVGSQo+PiBSQzAgLSBWMS4xNi4w
-MSAwMy8xNS8yMDE5Cj4+Cj4+IFtzbmlwXQo+Pgo+PiBJbmRlZWQsIHNpbXBseSB1bmJpbmRpbmcg
-dGhlIGRldmljZSBmcm9tIHRoZSBkcml2ZXIgY2F1c2VzIHRoZSBzYW1lIHNvcnQKPj4gb2YgaXNz
-dWU6Cj4+Cj4+IHJvb3RAKG5vbmUpJCBjZCAuL2J1cy9wY2kvZHJpdmVycy9oaWJtYy1kcm0vCj4+
-IHJvb3RAKG5vbmUpJCBscwo+PiAwMDAwOjA1OjAwLjDCoCBiaW5kwqDCoMKgwqDCoMKgwqDCoMKg
-IG5ld19pZMKgwqDCoMKgwqDCoMKgIHJlbW92ZV9pZMKgwqDCoMKgIHVldmVudAo+PiB1bmJpbmQK
-Pj4gcm9vdEAobm9uZSkkIGVjaG8gMDAwMFw6MDVcOjAwLjAgPiB1bmJpbmQKPj4gW8KgIDExNi4w
-NzQzNTJdIC0tLS0tLS0tLS0tLVsgY3V0IGhlcmUgXS0tLS0tLS0tLS0tLQo+PiBbwqAgMTE2LjA3
-ODk3OF0gV0FSTklORzogQ1BVOiAxNyBQSUQ6IDExNzggYXQKPj4gZHJpdmVycy9ncHUvZHJtL2Ry
-bV9nZW1fdnJhbV9oZWxwZXIuYzo0MAo+PiB0dG1fYnVmZmVyX29iamVjdF9kZXN0cm95KzB4NGMv
-MHg4MAo+PiBbwqAgMTE2LjA4OTY2MV0gTW9kdWxlcyBsaW5rZWQgaW46Cj4+IFvCoCAxMTYuMDky
-NzExXSBDUFU6IDE3IFBJRDogMTE3OCBDb21tOiBzaCBUYWludGVkOiBHwqDCoMKgIELCoMKgIFcK
-Pj4gNS41LjAtcmMxLWRpcnR5ICM1NjUKPj4gW8KgIDExNi4xMDA3MDRdIEhhcmR3YXJlIG5hbWU6
-IEh1YXdlaSBEMDYgL0QwNiwgQklPUyBIaXNpbGljb24gRDA2IFVFRkkKPj4gUkMwIC0gVjEuMTYu
-MDEgMDMvMTUvMjAxOQo+PiBbwqAgMTE2LjEwOTIxOF0gcHN0YXRlOiAyMDQwMDAwOSAobnpDdiBk
-YWlmICtQQU4gLVVBTykKPj4gW8KgIDExNi4xMTQwMDFdIHBjIDogdHRtX2J1ZmZlcl9vYmplY3Rf
-ZGVzdHJveSsweDRjLzB4ODAKPj4gW8KgIDExNi4xMTg5NTZdIGxyIDogdHRtX2J1ZmZlcl9vYmpl
-Y3RfZGVzdHJveSsweDE4LzB4ODAKPj4gW8KgIDExNi4xMjM5MTBdIHNwIDogZmZmZjAwMjJlNmNl
-ZjhlMAo+PiBbwqAgMTE2LjEyNzIxNV0geDI5OiBmZmZmMDAyMmU2Y2VmOGUwIHgyODogZmZmZjAw
-MjMxYjFmYjAwMAo+PiBbwqAgMTE2LjEzMjUxOV0geDI3OiAwMDAwMDAwMDAwMDAwMDAwIHgyNjog
-ZmZmZjAwMjMxYjFmYjAwMAo+PiBbwqAgMTE2LjEzNzgyMV0geDI1OiBmZmZmMDAyMmU2Y2VmZGMw
-IHgyNDogMDAwMDAwMDAwMDAwMjQ4MAo+PiBbwqAgMTE2LjE0MzEyNF0geDIzOiBmZmZmMDAyMzY4
-MmI2YWIwIHgyMjogZmZmZjAwMjM2ODJiNjgwMAo+PiBbwqAgMTE2LjE0ODQyN10geDIxOiBmZmZm
-MDAyMzY4MmI2ODAwIHgyMDogMDAwMDAwMDAwMDAwMDAwMAo+PiBbwqAgMTE2LjE1MzczMF0geDE5
-OiBmZmZmMDAyMzY4MmI2ODAwIHgxODogMDAwMDAwMDAwMDAwMDAwMAo+PiBbwqAgMTE2LjE1OTAz
-Ml0geDE3OiAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDEKPj4gW8KgIDExNi4xODU1NDVdIHg3
-IDogZmZmZjAwMjM2ODJiNmIwNyB4NiA6IGZmZmY4MDA0NmQwNTZkNjEKPj4gW8KgIDExNi4xOTA4
-NDhdIHg1IDogZmZmZjgwMDQ2ZDA1NmQ2MSB4NCA6IGZmZmYwMDIzNjgyYjZiYTAKPj4gW8KgIDEx
-Ni4xOTYxNTFdIHgzIDogZmZmZmEwMDAxMDE5NzMzOCB4MiA6IGRmZmZhMDAwMDAwMDAwMDAKPj4g
-W8KgIDExNi4yMDE0NTNdIHgxIDogMDAwMDAwMDAwMDAwMDAwMyB4MCA6IDAwMDAwMDAwMDAwMDAw
-MDEKPj4gW8KgIDExNi4yMDY3NTZdIENhbGwgdHJhY2U6Cj4+IFvCoCAxMTYuMjA5MTk1XcKgIHR0
-bV9idWZmZXJfb2JqZWN0X2Rlc3Ryb3krMHg0Yy8weDgwCj4+IFvCoCAxMTYuMjEzODAzXcKgIHR0
-bV9ib19yZWxlYXNlX2xpc3QrMHgxODQvMHgyMjAKPj4gW8KgIDExNi4yMTgwNjRdwqAgdHRtX2Jv
-X3B1dCsweDQxMC8weDVkMAo+PiBbwqAgMTE2LjIyMTU0NF3CoCBkcm1fZ2VtX3ZyYW1fb2JqZWN0
-X2ZyZWUrMHhjLzB4MTgKPj4gW8KgIDExNi4yMjU5NzldwqAgZHJtX2dlbV9vYmplY3RfZnJlZSsw
-eDM0LzB4ZDAKPj4gW8KgIDExNi4yMzAwNjZdwqAgZHJtX2dlbV9vYmplY3RfcHV0X3VubG9ja2Vk
-KzB4YzgvMHhmMAo+PiBbwqAgMTE2LjIzNDg0OF3CoCBoaWJtY191c2VyX2ZyYW1lYnVmZmVyX2Rl
-c3Ryb3krMHgyMC8weDQwCj4+IFvCoCAxMTYuMjM5ODkwXcKgIGRybV9mcmFtZWJ1ZmZlcl9mcmVl
-KzB4NDgvMHg1OAo+PiBbwqAgMTE2LjI0NDA2NF3CoCBkcm1fbW9kZV9vYmplY3RfcHV0LnBhcnQu
-MSsweDkwLzB4ZTgKPj4gW8KgIDExNi4yNDg3NTldwqAgZHJtX21vZGVfb2JqZWN0X3B1dCsweDI4
-LzB4MzgKPj4gW8KgIDExNi4yNTI4NDZdwqAgaGlibWNfZmJkZXZfZmluaSsweDU0LzB4NzgKPj4g
-W8KgIDExNi4yNTY2NzJdwqAgaGlibWNfdW5sb2FkKzB4MmMvMHhkMAo+PiBbwqAgMTE2LjI2MDE1
-MV3CoCBoaWJtY19wY2lfcmVtb3ZlKzB4MmMvMHg0MAo+PiBbwqAgMTE2LjI2Mzk3OV3CoCBwY2lf
-ZGV2aWNlX3JlbW92ZSsweDZjLzB4MTQwCj4+IFvCoCAxMTYuMjY3OTgwXcKgIGRldmljZV9yZWxl
-YXNlX2RyaXZlcl9pbnRlcm5hbCsweDEzNC8weDI1MAo+PiBbwqAgMTE2LjI3MzE5Nl3CoCBkZXZp
-Y2VfZHJpdmVyX2RldGFjaCsweDI4LzB4MzgKPj4gW8KgIDExNi4yNzczNjldwqAgdW5iaW5kX3N0
-b3JlKzB4ZmMvMHgxNTAKPj4gW8KgIDExNi4yODA5MzRdwqAgZHJ2X2F0dHJfc3RvcmUrMHg0OC8w
-eDYwCj4+IFvCoCAxMTYuMjg0NTg5XcKgIHN5c2ZzX2tmX3dyaXRlKzB4ODAvMHhiMAo+PiBbwqAg
-MTE2LjI4ODI0MV3CoCBrZXJuZnNfZm9wX3dyaXRlKzB4MWQ0LzB4MzIwCj4+IFvCoCAxMTYuMjky
-MjQzXcKgIF9fdmZzX3dyaXRlKzB4NTQvMHg5OAo+PiBbwqAgMTE2LjI5NTYzNV3CoCB2ZnNfd3Jp
-dGUrMHhlOC8weDI3MAo+PiBbwqAgMTE2LjI5ODk0MF3CoCBrc3lzX3dyaXRlKzB4YzgvMHgxODAK
-Pj4gW8KgIDExNi4zMDIzMzNdwqAgX19hcm02NF9zeXNfd3JpdGUrMHg0MC8weDUwCj4+IFvCoCAx
-MTYuMzA2MjQ4XcKgIGVsMF9zdmNfY29tbW9uLmNvbnN0cHJvcC4wKzB4YTQvMHgxZjgKPj4gW8Kg
-IDExNi4zMTEwMjldwqAgZWwwX3N2Y19oYW5kbGVyKzB4MzQvMHhiMAo+PiBbwqAgMTE2LjMxNDc3
-MF3CoCBlbDBfc3luY19oYW5kbGVyKzB4MTBjLzB4MWM4Cj4+IFvCoCAxMTYuMzE4NzY5XcKgIGVs
-MF9zeW5jKzB4MTQwLzB4MTgwCj4+IFvCoCAxMTYuMzIyMDc0XSAtLS1bIGVuZCB0cmFjZSBlNjBl
-NDNkMGUzMTZiNWM4IF0tLS0KPj4gW8KgIDExNi4zMjY4NjhdIC0tLS0tLS0tLS0tLVsgY3V0IGhl
-cmUgXS0tLS0tLS0tLS0tLQo+Pgo+Pgo+PiBkbWVzZyBhbmQgLmNvbmZpZyBpcyBoZXJlOgo+PiBo
-dHRwczovL3Bhc3RlYmluLmNvbS80UDV5YVpCUwo+Pgo+PiBJJ20gbm90IHN1cmUgaWYgdGhpcyBp
-cyBhIEhJQk1DIGRyaXZlciBpc3N1ZSBvciBpc3N1ZSB3aXRoIHRoZSBmcmFtZXdvcmsuCj4+Cj4+
-IGpvaG4KPj4KPj4KPj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KPj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+PiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCj4+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVsCj4gCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWwK
+Krzysztof Kozlowski <krzk@kernel.org> writes:
+
+> The ioreadX() helpers have inconsistent interface.  On some architectures
+> void *__iomem address argument is a pointer to const, on some not.
+>
+> Implementations of ioreadX() do not modify the memory under the address
+> so they can be converted to a "const" version for const-safety and
+> consistency among architectures.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> ---
+>
+> Changes since v1:
+> 1. Add Geert's review.
+> ---
+>  drivers/net/wireless/realtek/rtl818x/rtl8180/rtl8180.h | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+
+No need to have "net: wireless: " in the title, this is enough.
+
+rtl818x: Constify ioreadX() iomem argument (as in generic implementation)
+
+I assume someone else will take this so here's my ack:
+
+Acked-by: Kalle Valo <kvalo@codeaurora.org>
+
+-- 
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
