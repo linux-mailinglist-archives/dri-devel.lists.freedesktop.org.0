@@ -1,20 +1,20 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 062EB1369A0
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2020 10:22:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF87C13698A
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2020 10:21:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52F606E9A5;
-	Fri, 10 Jan 2020 09:21:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D2006E99A;
+	Fri, 10 Jan 2020 09:21:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 851A76E99C;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63F496E99A;
  Fri, 10 Jan 2020 09:21:35 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 405B0B29E;
+ by mx2.suse.de (Postfix) with ESMTP id 50C2FB2A0;
  Fri, 10 Jan 2020 09:21:33 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@linux.ie, daniel@ffwll.ch, alexander.deucher@amd.com,
@@ -28,10 +28,10 @@ To: airlied@linux.ie, daniel@ffwll.ch, alexander.deucher@amd.com,
  bskeggs@redhat.com, harry.wentland@amd.com, sunpeng.li@amd.com,
  jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
  rodrigo.vivi@intel.com
-Subject: [PATCH 02/23] drm/amdgpu: Convert to struct
- drm_crtc_helper_funcs.get_scanout_position()
-Date: Fri, 10 Jan 2020 10:21:06 +0100
-Message-Id: <20200110092127.27847-3-tzimmermann@suse.de>
+Subject: [PATCH 03/23] drm/i915: Don't use struct
+ drm_driver.get_scanout_position()
+Date: Fri, 10 Jan 2020 10:21:07 +0100
+Message-Id: <20200110092127.27847-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200110092127.27847-1-tzimmermann@suse.de>
 References: <20200110092127.27847-1-tzimmermann@suse.de>
@@ -58,161 +58,195 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 The callback struct drm_driver.get_scanout_position() is deprecated in
-favor of struct drm_crtc_helper_funcs.get_scanout_position(). Convert
-amdgpu over.
+favor of struct drm_crtc_helper_funcs.get_scanout_position().
+
+i915 doesn't use CRTC helpers. The patch duplicates the caller
+drm_calc_vbltimestamp_from_scanoutpos() for i915, such that the callback
+function is not needed.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c       | 12 ++++++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c           | 11 -----------
- drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h          |  5 +++++
- drivers/gpu/drm/amd/amdgpu/dce_v10_0.c            |  1 +
- drivers/gpu/drm/amd/amdgpu/dce_v11_0.c            |  1 +
- drivers/gpu/drm/amd/amdgpu/dce_v6_0.c             |  1 +
- drivers/gpu/drm/amd/amdgpu/dce_v8_0.c             |  1 +
- drivers/gpu/drm/amd/amdgpu/dce_virtual.c          |  1 +
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  3 ++-
- 9 files changed, 24 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/i915/i915_drv.c |   3 +-
+ drivers/gpu/drm/i915/i915_irq.c | 117 ++++++++++++++++++++++++++++++--
+ drivers/gpu/drm/i915/i915_irq.h |   9 +--
+ 3 files changed, 119 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-index 4e699071d144..a1e769d4417d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-@@ -914,3 +914,15 @@ int amdgpu_display_crtc_idx_to_irq_type(struct amdgpu_device *adev, int crtc)
- 		return AMDGPU_CRTC_IRQ_NONE;
- 	}
- }
+diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
+index f7385abdd74b..4a0a7fb85c53 100644
+--- a/drivers/gpu/drm/i915/i915_drv.c
++++ b/drivers/gpu/drm/i915/i915_drv.c
+@@ -2769,8 +2769,7 @@ static struct drm_driver driver = {
+ 	.gem_prime_export = i915_gem_prime_export,
+ 	.gem_prime_import = i915_gem_prime_import,
+ 
+-	.get_vblank_timestamp = drm_calc_vbltimestamp_from_scanoutpos,
+-	.get_scanout_position = i915_get_crtc_scanoutpos,
++	.get_vblank_timestamp = i915_calc_vbltimestamp_from_scanoutpos,
+ 
+ 	.dumb_create = i915_gem_dumb_create,
+ 	.dumb_map_offset = i915_gem_dumb_mmap_offset,
+diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
+index afc6aad9bf8c..99d0c3b0feae 100644
+--- a/drivers/gpu/drm/i915/i915_irq.c
++++ b/drivers/gpu/drm/i915/i915_irq.c
+@@ -52,6 +52,11 @@
+ #include "i915_trace.h"
+ #include "intel_pm.h"
+ 
++/* Retry timestamp calculation up to 3 times to satisfy
++ * drm_timestamp_precision before giving up.
++ */
++#define I915_TIMESTAMP_MAXRETRIES 3
 +
-+bool amdgpu_crtc_get_scanout_position(struct drm_crtc *crtc,
-+			bool in_vblank_irq, int *vpos,
-+			int *hpos, ktime_t *stime, ktime_t *etime,
-+			const struct drm_display_mode *mode)
+ /**
+  * DOC: interrupt handling
+  *
+@@ -762,10 +767,11 @@ static int __intel_get_crtc_scanline(struct intel_crtc *crtc)
+ 	return (position + crtc->scanline_offset) % vtotal;
+ }
+ 
+-bool i915_get_crtc_scanoutpos(struct drm_device *dev, unsigned int index,
+-			      bool in_vblank_irq, int *vpos, int *hpos,
+-			      ktime_t *stime, ktime_t *etime,
+-			      const struct drm_display_mode *mode)
++static bool i915_get_crtc_scanoutpos(struct drm_device *dev,
++				     unsigned int index, bool in_vblank_irq,
++				     int *vpos, int *hpos,
++				     ktime_t *stime, ktime_t *etime,
++				     const struct drm_display_mode *mode)
+ {
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+ 	struct intel_crtc *crtc = to_intel_crtc(drm_crtc_from_index(dev, index));
+@@ -879,6 +885,109 @@ bool i915_get_crtc_scanoutpos(struct drm_device *dev, unsigned int index,
+ 	return true;
+ }
+ 
++bool i915_calc_vbltimestamp_from_scanoutpos(struct drm_device *dev,
++					    unsigned int pipe,
++					    int *max_error,
++					    ktime_t *vblank_time,
++					    bool in_vblank_irq)
 +{
-+	struct drm_device *dev = crtc->dev;
-+	unsigned int pipe = crtc->index;
++	struct timespec64 ts_etime, ts_vblank_time;
++	ktime_t stime, etime;
++	bool vbl_status;
++	struct drm_crtc *crtc;
++	const struct drm_display_mode *mode;
++	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
++	int vpos, hpos, i;
++	int delta_ns, duration_ns;
 +
-+	return amdgpu_display_get_crtc_scanoutpos(dev, pipe, 0, vpos, hpos,
-+						  stime, etime, mode);
++	crtc = drm_crtc_from_index(dev, pipe);
++
++	if (pipe >= dev->num_crtcs || !crtc) {
++		DRM_ERROR("Invalid crtc %u\n", pipe);
++		return false;
++	}
++
++	if (drm_drv_uses_atomic_modeset(dev))
++		mode = &vblank->hwmode;
++	else
++		mode = &crtc->hwmode;
++
++	/* If mode timing undefined, just return as no-op:
++	 * Happens during initial modesetting of a crtc.
++	 */
++	if (mode->crtc_clock == 0) {
++		DRM_DEBUG("crtc %u: Noop due to uninitialized mode.\n", pipe);
++		WARN_ON_ONCE(drm_drv_uses_atomic_modeset(dev));
++
++		return false;
++	}
++
++	/* Get current scanout position with system timestamp.
++	 * Repeat query up to DRM_TIMESTAMP_MAXRETRIES times
++	 * if single query takes longer than max_error nanoseconds.
++	 *
++	 * This guarantees a tight bound on maximum error if
++	 * code gets preempted or delayed for some reason.
++	 */
++	for (i = 0; i < I915_TIMESTAMP_MAXRETRIES; i++) {
++		/*
++		 * Get vertical and horizontal scanout position vpos, hpos,
++		 * and bounding timestamps stime, etime, pre/post query.
++		 */
++		vbl_status = i915_get_crtc_scanoutpos(dev, pipe, in_vblank_irq,
++						      &vpos, &hpos, &stime,
++						      &etime, mode);
++		/* Return as no-op if scanout query unsupported or failed. */
++		if (!vbl_status) {
++			DRM_DEBUG("crtc %u : scanoutpos query failed.\n",
++				  pipe);
++			return false;
++		}
++
++		/* Compute uncertainty in timestamp of scanout position query. */
++		duration_ns = ktime_to_ns(etime) - ktime_to_ns(stime);
++
++		/* Accept result with <  max_error nsecs timing uncertainty. */
++		if (duration_ns <= *max_error)
++			break;
++	}
++
++	/* Noisy system timing? */
++	if (i == I915_TIMESTAMP_MAXRETRIES) {
++		DRM_DEBUG("crtc %u: Noisy timestamp %d us > %d us [%d reps].\n",
++			  pipe, duration_ns/1000, *max_error/1000, i);
++	}
++
++	/* Return upper bound of timestamp precision error. */
++	*max_error = duration_ns;
++
++	/* Convert scanout position into elapsed time at raw_time query
++	 * since start of scanout at first display scanline. delta_ns
++	 * can be negative if start of scanout hasn't happened yet.
++	 */
++	delta_ns = div_s64(1000000LL * (vpos * mode->crtc_htotal + hpos),
++			   mode->crtc_clock);
++
++	/* Subtract time delta from raw timestamp to get final
++	 * vblank_time timestamp for end of vblank.
++	 */
++	*vblank_time = ktime_sub_ns(etime, delta_ns);
++
++	if (!drm_debug_enabled(DRM_UT_VBL))
++		return true;
++
++	ts_etime = ktime_to_timespec64(etime);
++	ts_vblank_time = ktime_to_timespec64(*vblank_time);
++
++	DRM_DEBUG_VBL("crtc %u : v p(%d,%d)@ %lld.%06ld -> %lld.%06ld [e %d us, %d rep]\n",
++		      pipe, hpos, vpos,
++		      (u64)ts_etime.tv_sec, ts_etime.tv_nsec / 1000,
++		      (u64)ts_vblank_time.tv_sec, ts_vblank_time.tv_nsec / 1000,
++		      duration_ns / 1000, i);
++
++	return true;
 +}
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index 3f6f14ce1511..0749285dd1c7 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -1367,16 +1367,6 @@ int amdgpu_file_to_fpriv(struct file *filp, struct amdgpu_fpriv **fpriv)
- 	return 0;
- }
- 
--static bool
--amdgpu_get_crtc_scanout_position(struct drm_device *dev, unsigned int pipe,
--				 bool in_vblank_irq, int *vpos, int *hpos,
--				 ktime_t *stime, ktime_t *etime,
--				 const struct drm_display_mode *mode)
--{
--	return amdgpu_display_get_crtc_scanoutpos(dev, pipe, 0, vpos, hpos,
--						  stime, etime, mode);
--}
--
- static struct drm_driver kms_driver = {
- 	.driver_features =
- 	    DRIVER_USE_AGP | DRIVER_ATOMIC |
-@@ -1391,7 +1381,6 @@ static struct drm_driver kms_driver = {
- 	.enable_vblank = amdgpu_enable_vblank_kms,
- 	.disable_vblank = amdgpu_disable_vblank_kms,
- 	.get_vblank_timestamp = drm_calc_vbltimestamp_from_scanoutpos,
--	.get_scanout_position = amdgpu_get_crtc_scanout_position,
- 	.irq_handler = amdgpu_irq_handler,
- 	.ioctls = amdgpu_ioctls_kms,
- 	.gem_free_object_unlocked = amdgpu_gem_object_free,
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-index eb9975f4decb..37ba07e2feb5 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-@@ -612,6 +612,11 @@ void amdgpu_panel_mode_fixup(struct drm_encoder *encoder,
- 			     struct drm_display_mode *adjusted_mode);
- int amdgpu_display_crtc_idx_to_irq_type(struct amdgpu_device *adev, int crtc);
- 
-+bool amdgpu_crtc_get_scanout_position(struct drm_crtc *crtc,
-+			bool in_vblank_irq, int *vpos,
-+			int *hpos, ktime_t *stime, ktime_t *etime,
-+			const struct drm_display_mode *mode);
 +
- /* fbdev layer */
- int amdgpu_fbdev_init(struct amdgpu_device *adev);
- void amdgpu_fbdev_fini(struct amdgpu_device *adev);
-diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
-index 40d2ac723dd6..bdc1e0f036d4 100644
---- a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
-@@ -2685,6 +2685,7 @@ static const struct drm_crtc_helper_funcs dce_v10_0_crtc_helper_funcs = {
- 	.prepare = dce_v10_0_crtc_prepare,
- 	.commit = dce_v10_0_crtc_commit,
- 	.disable = dce_v10_0_crtc_disable,
-+	.get_scanout_position = amdgpu_crtc_get_scanout_position,
- };
+ int intel_get_crtc_scanline(struct intel_crtc *crtc)
+ {
+ 	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
+diff --git a/drivers/gpu/drm/i915/i915_irq.h b/drivers/gpu/drm/i915/i915_irq.h
+index 812c47a9c2d6..5f7b133ce721 100644
+--- a/drivers/gpu/drm/i915/i915_irq.h
++++ b/drivers/gpu/drm/i915/i915_irq.h
+@@ -101,10 +101,11 @@ void gen8_irq_power_well_post_enable(struct drm_i915_private *dev_priv,
+ void gen8_irq_power_well_pre_disable(struct drm_i915_private *dev_priv,
+ 				     u8 pipe_mask);
  
- static int dce_v10_0_crtc_init(struct amdgpu_device *adev, int index)
-diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
-index 898ef72d423c..0319da5f7bf9 100644
---- a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
-@@ -2793,6 +2793,7 @@ static const struct drm_crtc_helper_funcs dce_v11_0_crtc_helper_funcs = {
- 	.prepare = dce_v11_0_crtc_prepare,
- 	.commit = dce_v11_0_crtc_commit,
- 	.disable = dce_v11_0_crtc_disable,
-+	.get_scanout_position = amdgpu_crtc_get_scanout_position,
- };
+-bool i915_get_crtc_scanoutpos(struct drm_device *dev, unsigned int pipe,
+-			      bool in_vblank_irq, int *vpos, int *hpos,
+-			      ktime_t *stime, ktime_t *etime,
+-			      const struct drm_display_mode *mode);
++bool i915_calc_vbltimestamp_from_scanoutpos(struct drm_device *dev,
++					    unsigned int pipe,
++					    int *max_error,
++					    ktime_t *vblank_time,
++					    bool in_vblank_irq);
  
- static int dce_v11_0_crtc_init(struct amdgpu_device *adev, int index)
-diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
-index db15a112becc..78642c3b14fc 100644
---- a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
-@@ -2575,6 +2575,7 @@ static const struct drm_crtc_helper_funcs dce_v6_0_crtc_helper_funcs = {
- 	.prepare = dce_v6_0_crtc_prepare,
- 	.commit = dce_v6_0_crtc_commit,
- 	.disable = dce_v6_0_crtc_disable,
-+	.get_scanout_position = amdgpu_crtc_get_scanout_position,
- };
- 
- static int dce_v6_0_crtc_init(struct amdgpu_device *adev, int index)
-diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
-index f06c9022c1fd..1e8d4975435a 100644
---- a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
-@@ -2593,6 +2593,7 @@ static const struct drm_crtc_helper_funcs dce_v8_0_crtc_helper_funcs = {
- 	.prepare = dce_v8_0_crtc_prepare,
- 	.commit = dce_v8_0_crtc_commit,
- 	.disable = dce_v8_0_crtc_disable,
-+	.get_scanout_position = amdgpu_crtc_get_scanout_position,
- };
- 
- static int dce_v8_0_crtc_init(struct amdgpu_device *adev, int index)
-diff --git a/drivers/gpu/drm/amd/amdgpu/dce_virtual.c b/drivers/gpu/drm/amd/amdgpu/dce_virtual.c
-index e4f94863332c..4b2f915aba47 100644
---- a/drivers/gpu/drm/amd/amdgpu/dce_virtual.c
-+++ b/drivers/gpu/drm/amd/amdgpu/dce_virtual.c
-@@ -218,6 +218,7 @@ static const struct drm_crtc_helper_funcs dce_virtual_crtc_helper_funcs = {
- 	.prepare = dce_virtual_crtc_prepare,
- 	.commit = dce_virtual_crtc_commit,
- 	.disable = dce_virtual_crtc_disable,
-+	.get_scanout_position = amdgpu_crtc_get_scanout_position,
- };
- 
- static int dce_virtual_crtc_init(struct amdgpu_device *adev, int index)
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index f2db400a3920..39c5cf242c1b 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -4821,7 +4821,8 @@ static bool dm_crtc_helper_mode_fixup(struct drm_crtc *crtc,
- static const struct drm_crtc_helper_funcs amdgpu_dm_crtc_helper_funcs = {
- 	.disable = dm_crtc_helper_disable,
- 	.atomic_check = dm_crtc_helper_atomic_check,
--	.mode_fixup = dm_crtc_helper_mode_fixup
-+	.mode_fixup = dm_crtc_helper_mode_fixup,
-+	.get_scanout_position = amdgpu_crtc_get_scanout_position,
- };
- 
- static void dm_encoder_helper_disable(struct drm_encoder *encoder)
+ u32 i915_get_vblank_counter(struct drm_crtc *crtc);
+ u32 g4x_get_vblank_counter(struct drm_crtc *crtc);
 -- 
 2.24.1
 
