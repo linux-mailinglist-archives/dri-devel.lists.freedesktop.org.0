@@ -1,21 +1,21 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B96DE1369B9
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2020 10:22:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8C581369CD
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2020 10:22:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 826A06E9BC;
-	Fri, 10 Jan 2020 09:21:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0720C6E9F9;
+	Fri, 10 Jan 2020 09:21:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 035F16E9B6;
- Fri, 10 Jan 2020 09:21:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D17676E9BC;
+ Fri, 10 Jan 2020 09:21:39 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 90053B2A6;
- Fri, 10 Jan 2020 09:21:37 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 6E637B2AA;
+ Fri, 10 Jan 2020 09:21:38 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@linux.ie, daniel@ffwll.ch, alexander.deucher@amd.com,
  christian.koenig@amd.com, David1.Zhou@amd.com,
@@ -28,10 +28,9 @@ To: airlied@linux.ie, daniel@ffwll.ch, alexander.deucher@amd.com,
  bskeggs@redhat.com, harry.wentland@amd.com, sunpeng.li@amd.com,
  jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
  rodrigo.vivi@intel.com
-Subject: [PATCH 08/23] drm/stm: Convert to struct
- drm_crtc_helper_funcs.get_scanout_position()
-Date: Fri, 10 Jan 2020 10:21:12 +0100
-Message-Id: <20200110092127.27847-9-tzimmermann@suse.de>
+Subject: [PATCH 09/23] drm: Remove struct drm_driver.get_scanout_position()
+Date: Fri, 10 Jan 2020 10:21:13 +0100
+Message-Id: <20200110092127.27847-10-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200110092127.27847-1-tzimmermann@suse.de>
 References: <20200110092127.27847-1-tzimmermann@suse.de>
@@ -57,129 +56,112 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The callback struct drm_driver.get_scanout_position() is deprecated in
-favor of struct drm_crtc_helper_funcs.get_scanout_position(). Convert stm
-over.
+All users of struct drm_driver.get_scanout_position() have been
+covnerted to the respective CRTC helper function. Remove the callback
+from struct drm_driver.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/stm/drv.c  |  1 -
- drivers/gpu/drm/stm/ltdc.c | 65 ++++++++++++++++++++------------------
- drivers/gpu/drm/stm/ltdc.h |  5 ---
- 3 files changed, 34 insertions(+), 37 deletions(-)
+ drivers/gpu/drm/drm_vblank.c | 13 ++-------
+ include/drm/drm_drv.h        | 52 ------------------------------------
+ 2 files changed, 2 insertions(+), 63 deletions(-)
 
-diff --git a/drivers/gpu/drm/stm/drv.c b/drivers/gpu/drm/stm/drv.c
-index 5a9f9aca8bc2..486985604109 100644
---- a/drivers/gpu/drm/stm/drv.c
-+++ b/drivers/gpu/drm/stm/drv.c
-@@ -72,7 +72,6 @@ static struct drm_driver drv_driver = {
- 	.gem_prime_vmap = drm_gem_cma_prime_vmap,
- 	.gem_prime_vunmap = drm_gem_cma_prime_vunmap,
- 	.gem_prime_mmap = drm_gem_cma_prime_mmap,
--	.get_scanout_position = ltdc_crtc_scanoutpos,
- 	.get_vblank_timestamp = drm_calc_vbltimestamp_from_scanoutpos,
- };
- 
-diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-index c2815e8ae1da..8b6d1a2252e3 100644
---- a/drivers/gpu/drm/stm/ltdc.c
-+++ b/drivers/gpu/drm/stm/ltdc.c
-@@ -636,38 +636,13 @@ static void ltdc_crtc_atomic_flush(struct drm_crtc *crtc,
+diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+index c12f0b333e14..b84065911d69 100644
+--- a/drivers/gpu/drm/drm_vblank.c
++++ b/drivers/gpu/drm/drm_vblank.c
+@@ -633,8 +633,7 @@ bool drm_calc_vbltimestamp_from_scanoutpos(struct drm_device *dev,
  	}
- }
  
--static const struct drm_crtc_helper_funcs ltdc_crtc_helper_funcs = {
--	.mode_valid = ltdc_crtc_mode_valid,
--	.mode_fixup = ltdc_crtc_mode_fixup,
--	.mode_set_nofb = ltdc_crtc_mode_set_nofb,
--	.atomic_flush = ltdc_crtc_atomic_flush,
--	.atomic_enable = ltdc_crtc_atomic_enable,
--	.atomic_disable = ltdc_crtc_atomic_disable,
--};
--
--static int ltdc_crtc_enable_vblank(struct drm_crtc *crtc)
--{
--	struct ltdc_device *ldev = crtc_to_ltdc(crtc);
--
--	DRM_DEBUG_DRIVER("\n");
--	reg_set(ldev->regs, LTDC_IER, IER_LIE);
--
--	return 0;
--}
--
--static void ltdc_crtc_disable_vblank(struct drm_crtc *crtc)
--{
--	struct ltdc_device *ldev = crtc_to_ltdc(crtc);
--
--	DRM_DEBUG_DRIVER("\n");
--	reg_clear(ldev->regs, LTDC_IER, IER_LIE);
--}
--
--bool ltdc_crtc_scanoutpos(struct drm_device *ddev, unsigned int pipe,
--			  bool in_vblank_irq, int *vpos, int *hpos,
--			  ktime_t *stime, ktime_t *etime,
--			  const struct drm_display_mode *mode)
-+static bool ltdc_crtc_get_scanout_position(struct drm_crtc *crtc,
-+					   bool in_vblank_irq,
-+					   int *vpos, int *hpos,
-+					   ktime_t *stime, ktime_t *etime,
-+					   const struct drm_display_mode *mode)
- {
-+	struct drm_device *ddev = crtc->dev;
- 	struct ltdc_device *ldev = ddev->dev_private;
- 	int line, vactive_start, vactive_end, vtotal;
+ 	/* Scanout position query not supported? Should not happen. */
+-	if (!dev->driver->get_scanout_position ||
+-	    !crtc->helper_private->get_scanout_position) {
++	if (!crtc->helper_private->get_scanout_position) {
+ 		DRM_ERROR("Called from CRTC w/o get_scanout_position()!?\n");
+ 		return false;
+ 	}
+@@ -666,17 +665,9 @@ bool drm_calc_vbltimestamp_from_scanoutpos(struct drm_device *dev,
+ 		 * Get vertical and horizontal scanout position vpos, hpos,
+ 		 * and bounding timestamps stime, etime, pre/post query.
+ 		 */
+-		if (crtc->helper_private->get_scanout_position) {
+-			vbl_status =
+-				crtc->helper_private->get_scanout_position(
++		vbl_status = crtc->helper_private->get_scanout_position(
+ 					crtc, in_vblank_irq, &vpos, &hpos,
+ 					&stime, &etime, mode);
+-		} else {
+-			vbl_status =
+-				dev->driver->get_scanout_position(
+-					dev, pipe, in_vblank_irq, &vpos,
+-					&hpos, &stime, &etime, mode);
+-		}
  
-@@ -710,6 +685,34 @@ bool ltdc_crtc_scanoutpos(struct drm_device *ddev, unsigned int pipe,
- 	return true;
- }
+ 		/* Return as no-op if scanout query unsupported or failed. */
+ 		if (!vbl_status) {
+diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+index d0049e5786fc..b704e252f3b2 100644
+--- a/include/drm/drm_drv.h
++++ b/include/drm/drm_drv.h
+@@ -318,58 +318,6 @@ struct drm_driver {
+ 	 */
+ 	void (*disable_vblank) (struct drm_device *dev, unsigned int pipe);
  
-+static const struct drm_crtc_helper_funcs ltdc_crtc_helper_funcs = {
-+	.mode_valid = ltdc_crtc_mode_valid,
-+	.mode_fixup = ltdc_crtc_mode_fixup,
-+	.mode_set_nofb = ltdc_crtc_mode_set_nofb,
-+	.atomic_flush = ltdc_crtc_atomic_flush,
-+	.atomic_enable = ltdc_crtc_atomic_enable,
-+	.atomic_disable = ltdc_crtc_atomic_disable,
-+	.get_scanout_position = ltdc_crtc_get_scanout_position,
-+};
-+
-+static int ltdc_crtc_enable_vblank(struct drm_crtc *crtc)
-+{
-+	struct ltdc_device *ldev = crtc_to_ltdc(crtc);
-+
-+	DRM_DEBUG_DRIVER("\n");
-+	reg_set(ldev->regs, LTDC_IER, IER_LIE);
-+
-+	return 0;
-+}
-+
-+static void ltdc_crtc_disable_vblank(struct drm_crtc *crtc)
-+{
-+	struct ltdc_device *ldev = crtc_to_ltdc(crtc);
-+
-+	DRM_DEBUG_DRIVER("\n");
-+	reg_clear(ldev->regs, LTDC_IER, IER_LIE);
-+}
-+
- static const struct drm_crtc_funcs ltdc_crtc_funcs = {
- 	.destroy = drm_crtc_cleanup,
- 	.set_config = drm_atomic_helper_set_config,
-diff --git a/drivers/gpu/drm/stm/ltdc.h b/drivers/gpu/drm/stm/ltdc.h
-index a1ad0ae3b006..c5467d74e707 100644
---- a/drivers/gpu/drm/stm/ltdc.h
-+++ b/drivers/gpu/drm/stm/ltdc.h
-@@ -39,11 +39,6 @@ struct ltdc_device {
- 	struct drm_atomic_state *suspend_state;
- };
- 
--bool ltdc_crtc_scanoutpos(struct drm_device *dev, unsigned int pipe,
--			  bool in_vblank_irq, int *vpos, int *hpos,
--			  ktime_t *stime, ktime_t *etime,
--			  const struct drm_display_mode *mode);
+-	/**
+-	 * @get_scanout_position:
+-	 *
+-	 * Called by vblank timestamping code.
+-	 *
+-	 * Returns the current display scanout position from a crtc, and an
+-	 * optional accurate ktime_get() timestamp of when position was
+-	 * measured. Note that this is a helper callback which is only used if a
+-	 * driver uses drm_calc_vbltimestamp_from_scanoutpos() for the
+-	 * @get_vblank_timestamp callback.
+-	 *
+-	 * Parameters:
+-	 *
+-	 * dev:
+-	 *     DRM device.
+-	 * pipe:
+-	 *     Id of the crtc to query.
+-	 * in_vblank_irq:
+-	 *     True when called from drm_crtc_handle_vblank().  Some drivers
+-	 *     need to apply some workarounds for gpu-specific vblank irq quirks
+-	 *     if flag is set.
+-	 * vpos:
+-	 *     Target location for current vertical scanout position.
+-	 * hpos:
+-	 *     Target location for current horizontal scanout position.
+-	 * stime:
+-	 *     Target location for timestamp taken immediately before
+-	 *     scanout position query. Can be NULL to skip timestamp.
+-	 * etime:
+-	 *     Target location for timestamp taken immediately after
+-	 *     scanout position query. Can be NULL to skip timestamp.
+-	 * mode:
+-	 *     Current display timings.
+-	 *
+-	 * Returns vpos as a positive number while in active scanout area.
+-	 * Returns vpos as a negative number inside vblank, counting the number
+-	 * of scanlines to go until end of vblank, e.g., -1 means "one scanline
+-	 * until start of active scanout / end of vblank."
+-	 *
+-	 * Returns:
+-	 *
+-	 * True on success, false if a reliable scanout position counter could
+-	 * not be read out.
+-	 *
+-	 * This is deprecated and should not be used by new drivers.
+-	 * Use &drm_crtc_helper_funcs.get_scanout_position instead.
+-	 */
+-	bool (*get_scanout_position) (struct drm_device *dev, unsigned int pipe,
+-				      bool in_vblank_irq, int *vpos, int *hpos,
+-				      ktime_t *stime, ktime_t *etime,
+-				      const struct drm_display_mode *mode);
 -
- int ltdc_load(struct drm_device *ddev);
- void ltdc_unload(struct drm_device *ddev);
- void ltdc_suspend(struct drm_device *ddev);
+ 	/**
+ 	 * @get_vblank_timestamp:
+ 	 *
 -- 
 2.24.1
 
