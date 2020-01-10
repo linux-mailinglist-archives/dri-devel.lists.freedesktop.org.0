@@ -2,54 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 034BA138656
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Jan 2020 13:36:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED1FE138653
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Jan 2020 13:36:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25D956E4F1;
-	Sun, 12 Jan 2020 12:36:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E22489D5B;
+	Sun, 12 Jan 2020 12:36:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 283AD6E9B4
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 10:59:39 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00AAxZTe081793;
- Fri, 10 Jan 2020 04:59:35 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1578653975;
- bh=9+Ck3PRaRVIdp1krLVpCgf4FURcXnlnWOb8T6coy79M=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=nyfrNejkNB1FiPAWgbDHVtQ3iiC2/Jp8H1uiZfT+cRUg1ai0DpE4z38L1wvYHw6Hq
- 8cWFwy/ozYcxI31BVErd34xjIXMOHvvUdkNWpstpTW72gan8oeLU1scsQrmutxpChP
- jalicy0DTy0H6D+m2wH6BzDJ/S8XBZFmMsJS2to4=
-Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00AAxZhE012420
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 10 Jan 2020 04:59:35 -0600
-Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Fri, 10
- Jan 2020 04:59:34 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Fri, 10 Jan 2020 04:59:35 -0600
-Received: from [10.24.69.159] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00AAxWRT044018;
- Fri, 10 Jan 2020 04:59:32 -0600
-Subject: Re: [PATCH v2 00/14] Support more HDMI modes on RK3228/RK3328
-To: Jonas Karlman <jonas@kwiboo.se>, Heiko Stuebner <heiko@sntech.de>, Sandy
- Huang <hjc@rock-chips.com>
-References: <20200108210740.28769-1-jonas@kwiboo.se>
-From: Kishon Vijay Abraham I <kishon@ti.com>
-Message-ID: <b159ee28-213e-35d2-6d09-516abc3358bb@ti.com>
-Date: Fri, 10 Jan 2020 16:31:40 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+Received: from huawei.com (lhrrgout.huawei.com [185.176.76.210])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF83F6E9F2
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 12:54:32 +0000 (UTC)
+Received: from lhreml705-cah.china.huawei.com (unknown [172.18.7.106])
+ by Forcepoint Email with ESMTP id 73FAA8783076078CEC20;
+ Fri, 10 Jan 2020 12:54:28 +0000 (GMT)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ lhreml705-cah.china.huawei.com (10.201.108.46) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Fri, 10 Jan 2020 12:54:27 +0000
+Received: from [127.0.0.1] (10.202.226.43) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Fri, 10 Jan
+ 2020 12:54:27 +0000
+Subject: Re: Warnings in DRM code when removing/unbinding a driver
+To: Thomas Zimmermann <tzimmermann@suse.de>, "kongxinwei (A)"
+ <kong.kongxinwei@hisilicon.com>, "Chenfeng (puck)" <puck.chen@hisilicon.com>, 
+ "airlied@linux.ie" <airlied@linux.ie>, <daniel@ffwll.ch>
+References: <07899bd5-e9a5-cff0-395f-b4fb3f0f7f6c@huawei.com>
+ <381e28c2-f3e4-6f75-c632-96dd8a980c87@suse.de>
+From: John Garry <john.garry@huawei.com>
+Message-ID: <38ce1d99-e803-3693-adff-106dc438c973@huawei.com>
+Date: Fri, 10 Jan 2020 12:54:26 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.2
 MIME-Version: 1.0
-In-Reply-To: <20200108210740.28769-1-jonas@kwiboo.se>
+In-Reply-To: <381e28c2-f3e4-6f75-c632-96dd8a980c87@suse.de>
 Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Originating-IP: [10.202.226.43]
+X-ClientProxiedBy: lhreml729-chm.china.huawei.com (10.201.108.80) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Sun, 12 Jan 2020 12:36:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,92 +53,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Zheng Yang <zhengyang@rock-chips.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 09/01/20 2:37 AM, Jonas Karlman wrote:
-> This series make it possible to use more HDMI modes on RK3328,
-> and presumably also on RK3228. It also prepares for a future YUV420 and
-> 10-bit output series.
-> 
-> Part of this has been reworked from vendor BSP 4.4 kernel commits.
-> 
-> Patch 1-5 fixes issues and shortcomings in the inno hdmi phy driver.
-> 
-> Patch 6 prepares for use of high TMDS bit rates used with HDMI 2.0 and
-> 10-bit output modes.
-> 
-> Patch 7-13 changes rk3228/rk3328 to use mode_valid functions suited for
-> the inno hdmi phy instead of the dw-hdmi phy. These changes allows for
-> more CEA modes to be usable, e.g. some 4K and fractal modes.
-> 
-> Patch 14 adds support for more pixel clock rates in order to support
-> common DMT modes in addition to CEA modes.
-
-Is it possible to split the series targeted for different subsystems or
-is it required for all the patches to be merged together?
-
-Thanks
-Kishon
-> 
-> Note: I have only been able to build test RK322x related changes
-> as I do not have any RK322x device to test on.
-> 
-> All modes, including fractal modes, has been tested with modetest on
-> a RK3328 Rock64 device using e.g.
-> 
->   modetest -M rockchip -s 39:3840x2160-29.97
-> 
-> Changes in v2:
->   - collect acked-by tag
->   - drop the limit resolution width to 3840 patch
-> 
-> This series is also available at [1] and the early work on YUV420 and
-> 10-bit output is available at [2].
-> 
-> [1] https://github.com/Kwiboo/linux-rockchip/commits/next-20200108-inno-hdmi-phy
-> [2] https://github.com/Kwiboo/linux-rockchip/commits/next-20200108-bus-format
-> 
-> Regards,
-> Jonas
-> 
-> Algea Cao (1):
->   phy/rockchip: inno-hdmi: Support more pre-pll configuration
-> 
-> Huicong Xu (1):
->   phy/rockchip: inno-hdmi: force set_rate on power_on
-> 
-> Jonas Karlman (11):
->   phy/rockchip: inno-hdmi: use correct vco_div_5 macro on rk3328
->   phy/rockchip: inno-hdmi: remove unused no_c from rk3328 recalc_rate
->   phy/rockchip: inno-hdmi: do not power on rk3328 post pll on reg write
->   drm/rockchip: dw-hdmi: allow high tmds bit rates
->   drm/rockchip: dw-hdmi: require valid vpll clock rate on rk3228/rk3328
->   clk: rockchip: set parent rate for DCLK_VOP clock on rk3228
->   arm64: dts: rockchip: increase vop clock rate on rk3328
->   arm64: dts: rockchip: add vpll clock to hdmi node on rk3328
->   ARM: dts: rockchip: add vpll clock to hdmi node on rk3228
->   drm/rockchip: dw-hdmi: limit tmds to 340mhz on rk3228/rk3328
->   drm/rockchip: dw-hdmi: remove unused plat_data on rk3228/rk3328
-> 
-> Zheng Yang (1):
->   phy/rockchip: inno-hdmi: round fractal pixclock in rk3328 recalc_rate
-> 
->  arch/arm/boot/dts/rk322x.dtsi                 |   4 +-
->  arch/arm64/boot/dts/rockchip/rk3328.dtsi      |   6 +-
->  drivers/clk/rockchip/clk-rk3228.c             |   2 +-
->  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c   |  47 ++++++--
->  drivers/phy/rockchip/phy-rockchip-inno-hdmi.c | 110 ++++++++++++------
->  5 files changed, 120 insertions(+), 49 deletions(-)
-> 
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CgpIaSBUaG9tYXMsCgo+IGRybS10aXAgbm93IGNvbnRhaW5zCgpJIGhhdmUgdGVzdGVkIHRvZGF5
+J3MgbGludXgtbmV4dCwgd2hpY2ggaW5jbHVkZXMgdGhpczoKCj4gCj4gY29tbWl0IGE4ODI0ODUw
+NmEyYmNmZWFlZjY4MzdhNTNjZGUxOWZlMTE5NzBlNmMKPiBBdXRob3I6IFRob21hcyBaaW1tZXJt
+YW5uIDx0emltbWVybWFubkBzdXNlLmRlPgo+IERhdGU6ICAgVHVlIERlYyAzIDA5OjM4OjE1IDIw
+MTkgKzAxMDAKPiAKPiAgICAgIGRybS9oaXNpbGljb24vaGlibWM6IFN3aXRjaCB0byBnZW5lcmlj
+IGZiZGV2IGVtdWxhdGlvbgo+IAo+IHdoaWNoIHJlbW92ZXMgdGhpcyBlbnRpcmUgY29kZSBhbmQg
+c3dpdGNoZXMgaGlibWMgdG8gZ2VuZXJpYyBmYmRldgo+IGVtdWxhdGlvbi4gRG9lcyB0aGF0IGZp
+eCB0aGUgcHJvYmxlbT8KPiAKCkFuZCBJIHNlZSBubyB3YXJuLCBoZXJlJ3MgYSBkbWVzZyBzbmlw
+cGV0OgoKWyAgIDIwLjY3Mjc4N10gcGNpIDAwMDc6OTA6MDAuMDogY2FuJ3QgZGVyaXZlIHJvdXRp
+bmcgZm9yIFBDSSBJTlQgQQpbICAgMjAuNjc4ODMxXSBoaWJtYy1kcm0gMDAwNzo5MTowMC4wOiBQ
+Q0kgSU5UIEE6IG5vIEdTSQpbICAgMjAuNjg2NTM2XSBwY2lfYnVzIDAwMDc6OTA6IDItYnl0ZSBj
+b25maWcgd3JpdGUgdG8gMDAwNzo5MDowMC4wIApvZmZzZXQgMHg0IG1heSBjb3JydXB0IGFkamFj
+ZW50IFJXMUMgYml0cwpbICAgMjAuNjk2ODg4XSBbVFRNXSBab25lICBrZXJuZWw6IEF2YWlsYWJs
+ZSBncmFwaGljcyBtZW1vcnk6IDU3MzU5NDU4IEtpQgpbICAgMjAuNzAzNTQ1XSBbVFRNXSBab25l
+ICAgZG1hMzI6IEF2YWlsYWJsZSBncmFwaGljcyBtZW1vcnk6IDIwOTcxNTIgS2lCClsgICAyMC43
+MTAxMDhdIFtUVE1dIEluaXRpYWxpemluZyBwb29sIGFsbG9jYXRvcgpbICAgMjAuNzE0NTYxXSBb
+VFRNXSBJbml0aWFsaXppbmcgRE1BIHBvb2wgYWxsb2NhdG9yClsgICAyMC43MjAyMTJdIFtkcm1d
+IFN1cHBvcnRzIHZibGFuayB0aW1lc3RhbXAgY2FjaGluZyBSZXYgMiAoMjEuMTAuMjAxMykuClsg
+ICAyMC43MjY4NjNdIFtkcm1dIE5vIGRyaXZlciBzdXBwb3J0IGZvciB2YmxhbmsgdGltZXN0YW1w
+IHF1ZXJ5LgpbICAgMjAuNzU0Nzc3XSBDb25zb2xlOiBzd2l0Y2hpbmcgdG8gY29sb3VyIGZyYW1l
+IGJ1ZmZlciBkZXZpY2UgMTAweDM3ClsgICAyMC43NzgxODBdIGhpYm1jLWRybSAwMDA3OjkxOjAw
+LjA6IGZiMDogaGlibWNkcm1mYiBmcmFtZSBidWZmZXIgZGV2aWNlClsgICAyMC43ODY0NDddIFtk
+cm1dIEluaXRpYWxpemVkIGhpYm1jIDEuMC4wIDIwMTYwODI4IGZvciAwMDA3OjkxOjAwLjAgCm9u
+IG1pbm9yIDAKWyAgIDIwLjc5NDM0Nl0gQ29uc29sZTogc3dpdGNoaW5nIHRvIGNvbG91ciBkdW1t
+eSBkZXZpY2UgODB4MjUKWyAgIDIwLjgwMTg4NF0gcGNpIDAwMDc6OTA6MDAuMDogY2FuJ3QgZGVy
+aXZlIHJvdXRpbmcgZm9yIFBDSSBJTlQgQQpbICAgMjAuODA3OTYzXSBoaWJtYy1kcm0gMDAwNzo5
+MTowMC4wOiBQQ0kgSU5UIEE6IG5vIEdTSQpbICAgMjAuODEzNjU2XSBbVFRNXSBGaW5hbGl6aW5n
+IHBvb2wgYWxsb2NhdG9yClsgICAyMC44MTc5MDVdIFtUVE1dIEZpbmFsaXppbmcgRE1BIHBvb2wg
+YWxsb2NhdG9yClsgICAyMC44MjI1NzZdIFtUVE1dIFpvbmUgIGtlcm5lbDogVXNlZCBtZW1vcnkg
+YXQgZXhpdDogMCBLaUIKWyAgIDIwLjgyODc2MF0gW1RUTV0gWm9uZSAgIGRtYTMyOiBVc2VkIG1l
+bW9yeSBhdCBleGl0OiAwIEtpQgpbICAgMjAuODM0OTc4XSBwY2kgMDAwNzo5MDowMC4wOiBjYW4n
+dCBkZXJpdmUgcm91dGluZyBmb3IgUENJIElOVCBBClsgICAyMC44NDEwMjFdIGhpYm1jLWRybSAw
+MDA3OjkxOjAwLjA6IFBDSSBJTlQgQTogbm8gR1NJClsgICAyMC44NDg4NThdIFtUVE1dIFpvbmUg
+IGtlcm5lbDogQXZhaWxhYmxlIGdyYXBoaWNzIG1lbW9yeTogNTczNTk0NTggS2lCClsgICAyMC44
+NTU1MTZdIFtUVE1dIFpvbmUgICBkbWEzMjogQXZhaWxhYmxlIGdyYXBoaWNzIG1lbW9yeTogMjA5
+NzE1MiBLaUIKWyAgIDIwLjg2MjA3OV0gW1RUTV0gSW5pdGlhbGl6aW5nIHBvb2wgYWxsb2NhdG9y
+ClsgICAyMC44NjY1MjVdIFtUVE1dIEluaXRpYWxpemluZyBETUEgcG9vbCBhbGxvY2F0b3IKWyAg
+IDIwLjg3MjA2NF0gW2RybV0gU3VwcG9ydHMgdmJsYW5rIHRpbWVzdGFtcCBjYWNoaW5nIFJldiAy
+ICgyMS4xMC4yMDEzKS4KWyAgIDIwLjg3ODcxNl0gW2RybV0gTm8gZHJpdmVyIHN1cHBvcnQgZm9y
+IHZibGFuayB0aW1lc3RhbXAgcXVlcnkuClsgICAyMC45MDU5OTZdIENvbnNvbGU6IHN3aXRjaGlu
+ZyB0byBjb2xvdXIgZnJhbWUgYnVmZmVyIGRldmljZSAxMDB4MzcKWyAgIDIwLjkyOTM4NV0gaGli
+bWMtZHJtIDAwMDc6OTE6MDAuMDogZmIwOiBoaWJtY2RybWZiIGZyYW1lIGJ1ZmZlciBkZXZpY2UK
+WyAgIDIwLjkzNzI0MV0gW2RybV0gSW5pdGlhbGl6ZWQgaGlibWMgMS4wLjAgMjAxNjA4MjggZm9y
+IDAwMDc6OTE6MDAuMCAKb24gbWlub3IgMApbICAgMjEuMTcxOTA2XSBsb29wOiBtb2R1bGUgbG9h
+ZGVkCgpUaGFua3MsCkpvaG4KCj4gQmVzdCByZWdhcmRzCj4gVGhvbWFzCj4gCj4+IFvCoMKgIDI3
+Ljk2NTgwMl3CoCBoaWJtY191bmxvYWQrMHgyYy8weGQwCj4+IFvCoMKgIDI3Ljk2OTI4MV3CoCBo
+aWJtY19wY2lfcmVtb3ZlKzB4MmMvMHg0MAo+PiBbwqDCoCAyNy45NzMxMDldwqAgcGNpX2Rldmlj
+ZV9yZW1vdmUrMHg2Yy8weDE0MAo+PiBbwqDCoCAyNy45NzcxMTBdwqAgcmVhbGx5X3Byb2JlKzB4
+MTc0LzB4NTQ4Cj4+IFvCoMKgIDI3Ljk4MDc2M13CoCBkcml2ZXJfcHJvYmVfZGV2aWNlKzB4N2Mv
+MHgxNDgKPj4gW8KgwqAgMjcuOTg0OTM2XcKgIGRldmljZV9kcml2ZXJfYXR0YWNoKzB4OTQvMHhh
+MAo+PiBbwqDCoCAyNy45ODkxMDldwqAgX19kcml2ZXJfYXR0YWNoKzB4YTgvMHgxMTAKPj4gW8Kg
+wqAgMjcuOTkyOTM1XcKgIGJ1c19mb3JfZWFjaF9kZXYrMHhlOC8weDE1OAo+PiBbwqDCoCAyNy45
+OTY4NDldwqAgZHJpdmVyX2F0dGFjaCsweDMwLzB4NDAKPj4gW8KgwqAgMjguMDAwNDE1XcKgIGJ1
+c19hZGRfZHJpdmVyKzB4MjM0LzB4MmYwCj4+IFvCoMKgIDI4LjAwNDI0MV3CoCBkcml2ZXJfcmVn
+aXN0ZXIrMHhiYy8weDFkMAo+PiBbwqDCoCAyOC4wMDgwNjddwqAgX19wY2lfcmVnaXN0ZXJfZHJp
+dmVyKzB4YmMvMHhkMAo+PiBbwqDCoCAyOC4wMTIzMjldwqAgaGlibWNfcGNpX2RyaXZlcl9pbml0
+KzB4MjAvMHgyOAo+PiBbwqDCoCAyOC4wMTY1OTBdwqAgZG9fb25lX2luaXRjYWxsKzB4YjQvMHgy
+NTQKPj4gW8KgwqAgMjguMDIwNDE3XcKgIGtlcm5lbF9pbml0X2ZyZWVhYmxlKzB4MjdjLzB4MzI4
+Cj4+IFvCoMKgIDI4LjAyNDc2NV3CoCBrZXJuZWxfaW5pdCsweDEwLzB4MTE4Cj4+IFvCoMKgIDI4
+LjAyODI0NV3CoCByZXRfZnJvbV9mb3JrKzB4MTAvMHgxOAo+PiBbwqDCoCAyOC4wMzE4MTNdIC0t
+LVsgZW5kIHRyYWNlIDM1YTgzYjcxYjY1Nzg3OGQgXS0tLQo+PiBbwqDCoCAyOC4wMzY1MDNdIC0t
+LS0tLS0tLS0tLVsgY3V0IGhlcmUgXS0tLS0tLS0tLS0tLQo+PiBbwqDCoCAyOC4wNDExMTVdIFdB
+Uk5JTkc6IENQVTogMjQgUElEOiAxIGF0Cj4+IGRyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3ZyYW1f
+aGVscGVyLmM6NDAKPj4gdHRtX2J1ZmZlcl9vYmplY3RfZGVzdHJveSsweDRjLzB4ODAKPj4gW8Kg
+wqAgMjguMDUxNTM3XSBNb2R1bGVzIGxpbmtlZCBpbjoKPj4gW8KgwqAgMjguMDU0NTg1XSBDUFU6
+IDI0IFBJRDogMSBDb21tOiBzd2FwcGVyLzAgVGFpbnRlZDogR8KgwqDCoCBCwqDCoCBXCj4+ICDC
+oDUuNS4wLXJjMS1kaXJ0eSAjNTY1Cj4+IFvCoMKgIDI4LjA2MjkyNF0gSGFyZHdhcmUgbmFtZTog
+SHVhd2VpIEQwNiAvRDA2LCBCSU9TIEhpc2lsaWNvbiBEMDYgVUVGSQo+PiBSQzAgLSBWMS4xNi4w
+MSAwMy8xNS8yMDE5Cj4+Cj4+IFtzbmlwXQo+Pgo+PiBJbmRlZWQsIHNpbXBseSB1bmJpbmRpbmcg
+dGhlIGRldmljZSBmcm9tIHRoZSBkcml2ZXIgY2F1c2VzIHRoZSBzYW1lIHNvcnQKPj4gb2YgaXNz
+dWU6Cj4+Cj4+IHJvb3RAKG5vbmUpJCBjZCAuL2J1cy9wY2kvZHJpdmVycy9oaWJtYy1kcm0vCj4+
+IHJvb3RAKG5vbmUpJCBscwo+PiAwMDAwOjA1OjAwLjDCoCBiaW5kwqDCoMKgwqDCoMKgwqDCoMKg
+IG5ld19pZMKgwqDCoMKgwqDCoMKgIHJlbW92ZV9pZMKgwqDCoMKgIHVldmVudAo+PiB1bmJpbmQK
+Pj4gcm9vdEAobm9uZSkkIGVjaG8gMDAwMFw6MDVcOjAwLjAgPiB1bmJpbmQKPj4gW8KgIDExNi4w
+NzQzNTJdIC0tLS0tLS0tLS0tLVsgY3V0IGhlcmUgXS0tLS0tLS0tLS0tLQo+PiBbwqAgMTE2LjA3
+ODk3OF0gV0FSTklORzogQ1BVOiAxNyBQSUQ6IDExNzggYXQKPj4gZHJpdmVycy9ncHUvZHJtL2Ry
+bV9nZW1fdnJhbV9oZWxwZXIuYzo0MAo+PiB0dG1fYnVmZmVyX29iamVjdF9kZXN0cm95KzB4NGMv
+MHg4MAo+PiBbwqAgMTE2LjA4OTY2MV0gTW9kdWxlcyBsaW5rZWQgaW46Cj4+IFvCoCAxMTYuMDky
+NzExXSBDUFU6IDE3IFBJRDogMTE3OCBDb21tOiBzaCBUYWludGVkOiBHwqDCoMKgIELCoMKgIFcK
+Pj4gNS41LjAtcmMxLWRpcnR5ICM1NjUKPj4gW8KgIDExNi4xMDA3MDRdIEhhcmR3YXJlIG5hbWU6
+IEh1YXdlaSBEMDYgL0QwNiwgQklPUyBIaXNpbGljb24gRDA2IFVFRkkKPj4gUkMwIC0gVjEuMTYu
+MDEgMDMvMTUvMjAxOQo+PiBbwqAgMTE2LjEwOTIxOF0gcHN0YXRlOiAyMDQwMDAwOSAobnpDdiBk
+YWlmICtQQU4gLVVBTykKPj4gW8KgIDExNi4xMTQwMDFdIHBjIDogdHRtX2J1ZmZlcl9vYmplY3Rf
+ZGVzdHJveSsweDRjLzB4ODAKPj4gW8KgIDExNi4xMTg5NTZdIGxyIDogdHRtX2J1ZmZlcl9vYmpl
+Y3RfZGVzdHJveSsweDE4LzB4ODAKPj4gW8KgIDExNi4xMjM5MTBdIHNwIDogZmZmZjAwMjJlNmNl
+ZjhlMAo+PiBbwqAgMTE2LjEyNzIxNV0geDI5OiBmZmZmMDAyMmU2Y2VmOGUwIHgyODogZmZmZjAw
+MjMxYjFmYjAwMAo+PiBbwqAgMTE2LjEzMjUxOV0geDI3OiAwMDAwMDAwMDAwMDAwMDAwIHgyNjog
+ZmZmZjAwMjMxYjFmYjAwMAo+PiBbwqAgMTE2LjEzNzgyMV0geDI1OiBmZmZmMDAyMmU2Y2VmZGMw
+IHgyNDogMDAwMDAwMDAwMDAwMjQ4MAo+PiBbwqAgMTE2LjE0MzEyNF0geDIzOiBmZmZmMDAyMzY4
+MmI2YWIwIHgyMjogZmZmZjAwMjM2ODJiNjgwMAo+PiBbwqAgMTE2LjE0ODQyN10geDIxOiBmZmZm
+MDAyMzY4MmI2ODAwIHgyMDogMDAwMDAwMDAwMDAwMDAwMAo+PiBbwqAgMTE2LjE1MzczMF0geDE5
+OiBmZmZmMDAyMzY4MmI2ODAwIHgxODogMDAwMDAwMDAwMDAwMDAwMAo+PiBbwqAgMTE2LjE1OTAz
+Ml0geDE3OiAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDEKPj4gW8KgIDExNi4xODU1NDVdIHg3
+IDogZmZmZjAwMjM2ODJiNmIwNyB4NiA6IGZmZmY4MDA0NmQwNTZkNjEKPj4gW8KgIDExNi4xOTA4
+NDhdIHg1IDogZmZmZjgwMDQ2ZDA1NmQ2MSB4NCA6IGZmZmYwMDIzNjgyYjZiYTAKPj4gW8KgIDEx
+Ni4xOTYxNTFdIHgzIDogZmZmZmEwMDAxMDE5NzMzOCB4MiA6IGRmZmZhMDAwMDAwMDAwMDAKPj4g
+W8KgIDExNi4yMDE0NTNdIHgxIDogMDAwMDAwMDAwMDAwMDAwMyB4MCA6IDAwMDAwMDAwMDAwMDAw
+MDEKPj4gW8KgIDExNi4yMDY3NTZdIENhbGwgdHJhY2U6Cj4+IFvCoCAxMTYuMjA5MTk1XcKgIHR0
+bV9idWZmZXJfb2JqZWN0X2Rlc3Ryb3krMHg0Yy8weDgwCj4+IFvCoCAxMTYuMjEzODAzXcKgIHR0
+bV9ib19yZWxlYXNlX2xpc3QrMHgxODQvMHgyMjAKPj4gW8KgIDExNi4yMTgwNjRdwqAgdHRtX2Jv
+X3B1dCsweDQxMC8weDVkMAo+PiBbwqAgMTE2LjIyMTU0NF3CoCBkcm1fZ2VtX3ZyYW1fb2JqZWN0
+X2ZyZWUrMHhjLzB4MTgKPj4gW8KgIDExNi4yMjU5NzldwqAgZHJtX2dlbV9vYmplY3RfZnJlZSsw
+eDM0LzB4ZDAKPj4gW8KgIDExNi4yMzAwNjZdwqAgZHJtX2dlbV9vYmplY3RfcHV0X3VubG9ja2Vk
+KzB4YzgvMHhmMAo+PiBbwqAgMTE2LjIzNDg0OF3CoCBoaWJtY191c2VyX2ZyYW1lYnVmZmVyX2Rl
+c3Ryb3krMHgyMC8weDQwCj4+IFvCoCAxMTYuMjM5ODkwXcKgIGRybV9mcmFtZWJ1ZmZlcl9mcmVl
+KzB4NDgvMHg1OAo+PiBbwqAgMTE2LjI0NDA2NF3CoCBkcm1fbW9kZV9vYmplY3RfcHV0LnBhcnQu
+MSsweDkwLzB4ZTgKPj4gW8KgIDExNi4yNDg3NTldwqAgZHJtX21vZGVfb2JqZWN0X3B1dCsweDI4
+LzB4MzgKPj4gW8KgIDExNi4yNTI4NDZdwqAgaGlibWNfZmJkZXZfZmluaSsweDU0LzB4NzgKPj4g
+W8KgIDExNi4yNTY2NzJdwqAgaGlibWNfdW5sb2FkKzB4MmMvMHhkMAo+PiBbwqAgMTE2LjI2MDE1
+MV3CoCBoaWJtY19wY2lfcmVtb3ZlKzB4MmMvMHg0MAo+PiBbwqAgMTE2LjI2Mzk3OV3CoCBwY2lf
+ZGV2aWNlX3JlbW92ZSsweDZjLzB4MTQwCj4+IFvCoCAxMTYuMjY3OTgwXcKgIGRldmljZV9yZWxl
+YXNlX2RyaXZlcl9pbnRlcm5hbCsweDEzNC8weDI1MAo+PiBbwqAgMTE2LjI3MzE5Nl3CoCBkZXZp
+Y2VfZHJpdmVyX2RldGFjaCsweDI4LzB4MzgKPj4gW8KgIDExNi4yNzczNjldwqAgdW5iaW5kX3N0
+b3JlKzB4ZmMvMHgxNTAKPj4gW8KgIDExNi4yODA5MzRdwqAgZHJ2X2F0dHJfc3RvcmUrMHg0OC8w
+eDYwCj4+IFvCoCAxMTYuMjg0NTg5XcKgIHN5c2ZzX2tmX3dyaXRlKzB4ODAvMHhiMAo+PiBbwqAg
+MTE2LjI4ODI0MV3CoCBrZXJuZnNfZm9wX3dyaXRlKzB4MWQ0LzB4MzIwCj4+IFvCoCAxMTYuMjky
+MjQzXcKgIF9fdmZzX3dyaXRlKzB4NTQvMHg5OAo+PiBbwqAgMTE2LjI5NTYzNV3CoCB2ZnNfd3Jp
+dGUrMHhlOC8weDI3MAo+PiBbwqAgMTE2LjI5ODk0MF3CoCBrc3lzX3dyaXRlKzB4YzgvMHgxODAK
+Pj4gW8KgIDExNi4zMDIzMzNdwqAgX19hcm02NF9zeXNfd3JpdGUrMHg0MC8weDUwCj4+IFvCoCAx
+MTYuMzA2MjQ4XcKgIGVsMF9zdmNfY29tbW9uLmNvbnN0cHJvcC4wKzB4YTQvMHgxZjgKPj4gW8Kg
+IDExNi4zMTEwMjldwqAgZWwwX3N2Y19oYW5kbGVyKzB4MzQvMHhiMAo+PiBbwqAgMTE2LjMxNDc3
+MF3CoCBlbDBfc3luY19oYW5kbGVyKzB4MTBjLzB4MWM4Cj4+IFvCoCAxMTYuMzE4NzY5XcKgIGVs
+MF9zeW5jKzB4MTQwLzB4MTgwCj4+IFvCoCAxMTYuMzIyMDc0XSAtLS1bIGVuZCB0cmFjZSBlNjBl
+NDNkMGUzMTZiNWM4IF0tLS0KPj4gW8KgIDExNi4zMjY4NjhdIC0tLS0tLS0tLS0tLVsgY3V0IGhl
+cmUgXS0tLS0tLS0tLS0tLQo+Pgo+Pgo+PiBkbWVzZyBhbmQgLmNvbmZpZyBpcyBoZXJlOgo+PiBo
+dHRwczovL3Bhc3RlYmluLmNvbS80UDV5YVpCUwo+Pgo+PiBJJ20gbm90IHN1cmUgaWYgdGhpcyBp
+cyBhIEhJQk1DIGRyaXZlciBpc3N1ZSBvciBpc3N1ZSB3aXRoIHRoZSBmcmFtZXdvcmsuCj4+Cj4+
+IGpvaG4KPj4KPj4KPj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KPj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+PiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCj4+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVsCj4gCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
+ZGV2ZWwK
