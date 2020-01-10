@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13C881377C1
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2020 21:12:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6D2413783C
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2020 22:02:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4A4A6EA95;
-	Fri, 10 Jan 2020 20:12:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA8AC6EAA3;
+	Fri, 10 Jan 2020 21:02:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B4D66EA94;
- Fri, 10 Jan 2020 20:12:24 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id y17so2981882wrh.5;
- Fri, 10 Jan 2020 12:12:24 -0800 (PST)
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
+ [IPv6:2607:f8b0:4864:20::d44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5DDE6EAA3
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 21:02:29 +0000 (UTC)
+Received: by mail-io1-xd44.google.com with SMTP id n11so3529141iom.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 13:02:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=K3el6y+T0RooUufQva2UKoLvCa/zJA4NSqZwSQmCN20=;
- b=ed5UJ1jApV+AI+jMHZ3QvIBfgFZh68DmxMUXx4FaPSPa5zrUqHjwZEde/zlQx2aJel
- eTUdTIs0YDHKOvkRfkuqep8cWTAZZqUBrUhgYGD9Mqw/XxaeX4UDm4uWSF5VL1slx414
- Av7GlQ2pdvfBBYOAdYgWliohSviqNrp9Szy7Cy15I+12f3HeBZd4dwuW3UK1TivPYmQe
- SVeiY+8rqiuL5xO3tbXAeVhvasvBsLoEgGdaOxBXo6n9cDi0wirEoGxvG3wsCwPsXqt+
- D6PPnFg5VkY0CS46ZoBdMdVpgzSAArpwHk0FEMXjd1tEbpafbfiV/TQ5NGXe4lIH4RIP
- CQ3g==
+ :cc; bh=DscpuWHCpmPvr4rJjWCNU0C+wW4iWR7q6WdgIPGNWp8=;
+ b=DZNIJtWDxi/IFi9rezbRRGdt2PNteEKMx12hwXSahx8QOiYfv5QyoZqEUO/h6dY2nG
+ HtYbN0XKSDT8rKy8m4E9XUoK3k8d4QEoCk51sSf7ZKTPnsGDS8Mif3kgP9ZNFg1K+qXk
+ LcEY3UPe1tYogE1FsCAoO5Iz+UIzPdbrwyXfEXyetei5BsL/kj6kUWYl5fVf78wUEPDh
+ 4mJsUUuDU2lH5qsgNRd1M2hov480V52g3r3NyOi1eRaf3yeQ6XpzBmDLzBJ7v9pT5Idt
+ PxQfxFN8fEkEWRabStaLVCog4wNnxT8rHfjnwqaWisU+oY0x0ulS0d4iVIad737zTc4U
+ mMbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=K3el6y+T0RooUufQva2UKoLvCa/zJA4NSqZwSQmCN20=;
- b=KYX4nyVZwid1PKD/uyoba/GLW1J0ADlbNMvtPXEc2Jem9Sc4AdTIQg2cTp7DW036Lp
- tzzvoh0ETFa2Y3V+jiF5s81MQlypdCIfQhWL/FTqUDTWyROT8ynq+Z9OCyL8I6KhT14t
- b7GfGwcffKgoOmen3X/3kTLJfps9KLfUf8iaY6TSR9bGmtmCEfmIfcuhke6qvepOTREV
- rkg2Ctkdy04QMH35zNGKTxlvQ7Ld6xmVh02M7TJYufokcNCcNYH9Ho0871v1EH8ZwDlS
- uXCGlkICtl701F+s4FRoTivpyzsHs/m5Mv3Q1t8XK9ilh2wlAXLHvwSCQJwPOS+siKxK
- 0OuA==
-X-Gm-Message-State: APjAAAWmwas2g2cxNbh3wgITgQO22pzwGLwp3oPZlUChQO5DnVC9H/OH
- lHV5B4+PGHcWzIVm/77O6sLV5tHDDJbm4peKrBA=
-X-Google-Smtp-Source: APXvYqwVCXt2prbrvBhyw6CgcgtrW8taoJIPwfi/bM3cEGw7uIwMa9CmdAHHu1ia3cgbfQ24KGLaswapiHh0VmD8wOE=
-X-Received: by 2002:a5d:46c7:: with SMTP id g7mr5124387wrs.11.1578687143141;
- Fri, 10 Jan 2020 12:12:23 -0800 (PST)
+ bh=DscpuWHCpmPvr4rJjWCNU0C+wW4iWR7q6WdgIPGNWp8=;
+ b=Bii37OOqBHhhryJYqBI1izMg2vePk5xrdtQvtx6UDYRu5AENDXv8Y//WkdRsGBYc5E
+ mV+Z294lHQXSZ6dmFS4VH0mHySUR0iBGWx+0eZoWCRJh7OYFXmAQz1qHAm+6WhVEhJDw
+ RGnb4JeFSg2qDoArag/wBFWqHtAwjz0qoqCg2nin2WPt+9hsQTkAPt6Rmio+hHh1YEsp
+ A+nk8hRpV6iP6jg4461jC1C9LlAdiZ0zH7EKqxBAr+KNtJz+PXt2BSZvIjP75Znca5AO
+ Z1KUi/zlK4tvTvulZs/3vQkeXqhupMEjY4eo7GAZzv9bzVc4U6c79ytacMA1bykf0mSO
+ iEdA==
+X-Gm-Message-State: APjAAAXtdq20tRzysTxljmbIj5IwyKGnOCJseNJDk61iaCsj3YNpdASo
+ X6rr3bjV5/F+y5vNiuAFXkBZz3kOvpaaEyYS9OU=
+X-Google-Smtp-Source: APXvYqwLh4K1IfrVM9/WMlQhAf6HvRXmjNuB6U8BcycbyeLI32u6bBID/d1x4io+NNaZ/oLcomb7JELbKTP/2iO8c2Y=
+X-Received: by 2002:a5d:8b96:: with SMTP id p22mr4006771iol.93.1578690149027; 
+ Fri, 10 Jan 2020 13:02:29 -0800 (PST)
 MIME-Version: 1.0
-References: <20200110194123.3718-1-mikita.lipski@amd.com>
-In-Reply-To: <20200110194123.3718-1-mikita.lipski@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 10 Jan 2020 15:12:11 -0500
-Message-ID: <CADnq5_OrgCv4trx2GhgLWQOOWRm2DthrweFz-_+YB9W=xaxyfA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Fix compilation warnings on i386
-To: "Lipski, Mikita" <mikita.lipski@amd.com>
+References: <20200110094535.23472-1-kraxel@redhat.com>
+ <CAG48ez0wfLkTqdBtDBV4b1uUQMGeeAr09GPPi9WT++Fn8ph4rA@mail.gmail.com>
+In-Reply-To: <CAG48ez0wfLkTqdBtDBV4b1uUQMGeeAr09GPPi9WT++Fn8ph4rA@mail.gmail.com>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Fri, 10 Jan 2020 13:02:17 -0800
+Message-ID: <CAPaKu7TQCXOmj1zthBXq4XtNpK8WT4Rv5CwUmLrRBNwm4f0uRw@mail.gmail.com>
+Subject: Re: [PATCH] drm/virtio: add missing virtio_gpu_array_lock_resv call
+To: Jann Horn <jannh@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,64 +61,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- Randy Dunlap <rdunlap@infradead.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 10, 2020 at 2:41 PM <mikita.lipski@amd.com> wrote:
+On Fri, Jan 10, 2020 at 6:27 AM Jann Horn <jannh@google.com> wrote:
 >
-> From: Mikita Lipski <mikita.lipski@amd.com>
+> On Fri, Jan 10, 2020 at 10:45 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+> > When submitting a fenced command we must lock the object reservations
+> > because virtio_gpu_queue_fenced_ctrl_buffer() unlocks after adding the
+> > fence.
 >
-> [why]
-> Compilation error "undefined reference to `__udivdi3'" was
-> thrown on i386 architecture.
+> Thanks a lot! With this patch applied, my VM doesn't throw lockdep
+> warnings anymore. If you want, you can add:
 >
-> [how]
-> Use div_u64 for unsigned long division instead of a divide operator.
+> Tested-by: Jann Horn <jannh@google.com>
 >
-> Reported-by: Randy Dunlap <rdunlap@infradead.org>
-> Signed-off-by: Mikita Lipski <mikita.lipski@amd.com>
-
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-
-> ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> index 5a476028ee37..52fb207393ef 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> @@ -533,7 +533,7 @@ static int kbps_to_peak_pbn(int kbps)
->         u64 peak_kbps = kbps;
->
->         peak_kbps *= 1006;
-> -       peak_kbps /= 1000;
-> +       peak_kbps = div_u64(peak_kbps, 1000);
->         return (int) DIV_ROUND_UP(peak_kbps * 64, (54 * 8 * 1000));
->  }
->
-> @@ -565,7 +565,7 @@ static int bpp_x16_from_pbn(struct dsc_mst_fairness_params param, int pbn)
->         struct dc_dsc_config dsc_config;
->         u64 kbps;
->
-> -       kbps = (u64)pbn * 994 * 8 * 54 / 64;
-> +       kbps = div_u64((u64)pbn * 994 * 8 * 54, 64);
->         dc_dsc_compute_config(
->                         param.sink->ctx->dc->res_pool->dscs[0],
->                         &param.sink->sink_dsc_caps.dsc_dec_caps,
-> --
-> 2.17.1
->
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+> > Reported-by: Jann Horn <jannh@google.com>
+> > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
+> > ---
+> >  drivers/gpu/drm/virtio/virtgpu_plane.c | 1 +
+> >  1 file changed, 1 insertion(+)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
