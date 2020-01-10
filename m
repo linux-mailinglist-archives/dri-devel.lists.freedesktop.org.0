@@ -1,40 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47AB2137388
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2020 17:26:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C3671373B0
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2020 17:31:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12D996EA4F;
-	Fri, 10 Jan 2020 16:26:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A653B6EA59;
+	Fri, 10 Jan 2020 16:31:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 259346EA4F
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 16:26:34 +0000 (UTC)
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7A870206ED;
- Fri, 10 Jan 2020 16:26:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1578673594;
- bh=qUSh+34QaXX+miyORbEBsNLX6p44MlxlbIBf8Z85xtA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Z9cjrptgTnj5mcpzreKGcx0DMbca47nUK82CAD5j8L6t3165Txt5hDoLixrOxM6Qb
- 6BIPBo6TWpHvFOVP0ljw+bjKzh7TADxlappQooAIDm0mVs4DTXMRgIEyk1rXQHIt5Y
- nkTUBhcOYjtLCoAwm69Vvxn+L6DPoyZsfhB+zQtE=
-Date: Fri, 10 Jan 2020 17:26:31 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Stefan Mavrodiev <stefan@olimex.com>
-Subject: Re: [PATCH 2/2] drm: sun4i: hdmi: Add support for sun4i HDMI encoder
- audio
-Message-ID: <20200110162631.wbufz5h7nqfgd6am@gilmour.lan>
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+ [209.85.208.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A025A6EA59
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 16:31:09 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id j17so2101788edp.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 08:31:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BcakXweHEcQflg8HJoYvX703zzGZOe1NoqnogCk40Mc=;
+ b=fZ0leFzD7Og+dtCTgZ9Ecj4KV1bQx/7Eg5RkVMvaIu7GCoyAJzKzarRLGQeuv8LVMQ
+ W26mJb/fawbyYUPtU12K8X07mA+M+fRTkOrzv8dGm+NQRgNp43UJTFYi1Rvpt8A1kqpx
+ BBTOb+i1gEUXfP+xGEetdbsJhQCSi1NOsJ2YxLwReci31faxftEYLxnORAyGtwubnM7C
+ JDxkJCE0uqefRcb8ZYLB8RlYqmdpuHwv9OwZhUbLx1aAZkAnnuzZZYd/vO6J3bBJrZvU
+ GItOdaQ7a92rn7Hv4ZtY5eWuq52ljnYLZ0kxKsEQQVZ4Gi+4OvpNpPRYxfnJiaAHQDnw
+ TDqg==
+X-Gm-Message-State: APjAAAX/6ZS4UIWAv3uCC2HYd3AmGCkUlpeJyUGLtDjUmaFSzbhNsUWg
+ IpFo+Tuy8Xgo/xbngP4Dg8Ed5SaTSrc=
+X-Google-Smtp-Source: APXvYqwVWQxUJ1WjPyykbK0a2TLs75g4WSHzbEv1jvI3sGSqTR9SphqgDHWEYVX8VBVP0bEZw1/UHw==
+X-Received: by 2002:a05:6402:a51:: with SMTP id
+ bt17mr1709615edb.314.1578673867635; 
+ Fri, 10 Jan 2020 08:31:07 -0800 (PST)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com.
+ [209.85.221.54])
+ by smtp.gmail.com with ESMTPSA id md13sm53180ejb.85.2020.01.10.08.31.07
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 10 Jan 2020 08:31:07 -0800 (PST)
+Received: by mail-wr1-f54.google.com with SMTP id g17so2420545wro.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 08:31:07 -0800 (PST)
+X-Received: by 2002:adf:ef4e:: with SMTP id c14mr4522664wrp.142.1578673866678; 
+ Fri, 10 Jan 2020 08:31:06 -0800 (PST)
+MIME-Version: 1.0
 References: <20200110141140.28527-1-stefan@olimex.com>
  <20200110141140.28527-3-stefan@olimex.com>
-MIME-Version: 1.0
 In-Reply-To: <20200110141140.28527-3-stefan@olimex.com>
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Sat, 11 Jan 2020 00:30:53 +0800
+X-Gmail-Original-Message-ID: <CAGb2v670FN7-dyjQuL+gyagupm5pr+z1ZWGG8E8YnYJA0aKPEA@mail.gmail.com>
+Message-ID: <CAGb2v670FN7-dyjQuL+gyagupm5pr+z1ZWGG8E8YnYJA0aKPEA@mail.gmail.com>
+Subject: Re: [linux-sunxi] [PATCH 2/2] drm: sun4i: hdmi: Add support for sun4i
+ HDMI encoder audio
+To: Stefan Mavrodiev <stefan@olimex.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,32 +65,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-sunxi@googlegroups.com,
- Vinod Koul <vkoul@kernel.org>,
+Cc: David Airlie <airlied@linux.ie>, linux-sunxi <linux-sunxi@googlegroups.com>,
+ open list <linux-kernel@vger.kernel.org>, Vinod Koul <vkoul@kernel.org>,
  "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" <dmaengine@vger.kernel.org>,
  Dan Williams <dan.j.williams@intel.com>,
  "moderated list:ARM/Allwinner sunXi SoC support"
  <linux-arm-kernel@lists.infradead.org>
-Content-Type: multipart/mixed; boundary="===============1814878246=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1814878246==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="k5znubyhdepgt4o6"
-Content-Disposition: inline
-
-
---k5znubyhdepgt4o6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi,
-
-On Fri, Jan 10, 2020 at 04:11:40PM +0200, Stefan Mavrodiev wrote:
+On Fri, Jan 10, 2020 at 10:12 PM Stefan Mavrodiev <stefan@olimex.com> wrote:
+>
 > Add HDMI audio support for the sun4i-hdmi encoder, used on
 > the older Allwinner chips - A10, A20, A31.
 >
@@ -100,153 +106,109 @@ On Fri, Jan 10, 2020 at 04:11:40PM +0200, Stefan Mavrodiev wrote:
 >         default DRM_SUN4I
 > +       select SND_PCM_ELD
 >         help
->  	  Choose this option if you have an Allwinner SoC with an HDMI
->  	  controller.
+>           Choose this option if you have an Allwinner SoC with an HDMI
+>           controller.
 > diff --git a/drivers/gpu/drm/sun4i/Makefile b/drivers/gpu/drm/sun4i/Makefile
 > index 0d04f2447b01..e2d82b451c36 100644
 > --- a/drivers/gpu/drm/sun4i/Makefile
 > +++ b/drivers/gpu/drm/sun4i/Makefile
-> @@ -5,6 +5,7 @@ sun4i-frontend-y		+= sun4i_frontend.o
->  sun4i-drm-y			+= sun4i_drv.o
->  sun4i-drm-y			+= sun4i_framebuffer.o
+> @@ -5,6 +5,7 @@ sun4i-frontend-y                += sun4i_frontend.o
+>  sun4i-drm-y                    += sun4i_drv.o
+>  sun4i-drm-y                    += sun4i_framebuffer.o
 >
-> +sun4i-drm-hdmi-y		+= sun4i_hdmi_audio.o
->  sun4i-drm-hdmi-y		+= sun4i_hdmi_ddc_clk.o
->  sun4i-drm-hdmi-y		+= sun4i_hdmi_enc.o
->  sun4i-drm-hdmi-y		+= sun4i_hdmi_i2c.o
+> +sun4i-drm-hdmi-y               += sun4i_hdmi_audio.o
+>  sun4i-drm-hdmi-y               += sun4i_hdmi_ddc_clk.o
+>  sun4i-drm-hdmi-y               += sun4i_hdmi_enc.o
+>  sun4i-drm-hdmi-y               += sun4i_hdmi_i2c.o
 > diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi.h b/drivers/gpu/drm/sun4i/sun4i_hdmi.h
 > index 7ad3f06c127e..456964e681b0 100644
 > --- a/drivers/gpu/drm/sun4i/sun4i_hdmi.h
 > +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi.h
 > @@ -42,7 +42,32 @@
->  #define SUN4I_HDMI_VID_TIMING_POL_VSYNC		BIT(1)
->  #define SUN4I_HDMI_VID_TIMING_POL_HSYNC		BIT(0)
+>  #define SUN4I_HDMI_VID_TIMING_POL_VSYNC                BIT(1)
+>  #define SUN4I_HDMI_VID_TIMING_POL_HSYNC                BIT(0)
 >
-> +#define SUN4I_HDMI_AUDIO_CTRL_REG	0x040
-> +#define SUN4I_HDMI_AUDIO_CTRL_ENABLE		BIT(31)
-> +#define SUN4I_HDMI_AUDIO_CTRL_RESET		BIT(30)
+> +#define SUN4I_HDMI_AUDIO_CTRL_REG      0x040
+> +#define SUN4I_HDMI_AUDIO_CTRL_ENABLE           BIT(31)
+> +#define SUN4I_HDMI_AUDIO_CTRL_RESET            BIT(30)
 > +
-> +#define SUN4I_HDMI_AUDIO_FMT_REG	0x048
-> +#define SUN4I_HDMI_AUDIO_FMT_SRC		BIT(31)
-> +#define SUN4I_HDMI_AUDIO_FMT_LAYOUT		BIT(3)
-> +#define SUN4I_HDMI_AUDIO_FMT_CH_CFG(n)		(n - 1)
-
-There's the issue multiple times in the headers, but you should wrap n
-in parentheses to make sure we have no issue with precedence when
-calling the macro.
-
-> +int sun4i_hdmi_audio_create(struct sun4i_hdmi *hdmi)
-> +{
-> +	struct snd_soc_card *card = &sun4i_hdmi_audio_card;
-> +	struct snd_soc_dai_link_component *comp;
-> +	struct snd_soc_dai_link *link;
-> +	int ret;
+> +#define SUN4I_HDMI_AUDIO_FMT_REG       0x048
+> +#define SUN4I_HDMI_AUDIO_FMT_SRC               BIT(31)
+> +#define SUN4I_HDMI_AUDIO_FMT_LAYOUT            BIT(3)
+> +#define SUN4I_HDMI_AUDIO_FMT_CH_CFG(n)         (n - 1)
+> +#define SUN4I_HDMI_AUDIO_FMT_CH_CFG_MASK       GENMASK(2, 0)
 > +
-> +	ret = devm_snd_dmaengine_pcm_register(hdmi->dev,
-> +					      &sun4i_hdmi_audio_pcm_config, 0);
-> +	if (ret) {
-> +		DRM_ERROR("Could not register PCM\n");
-> +		return ret;
-> +	}
+> +#define SUN4I_HDMI_AUDIO_PCM_REG       0x4c
+> +#define SUN4I_HDMI_AUDIO_PCM_CH_MAP(n, m)      ((m - 1) << (n * 4))
+> +#define SUN4I_HDMI_AUDIO_PCM_CH_MAP_MASK(n)    (GENMASK(2, 0) << (n * 4))
 > +
-> +	ret = devm_snd_soc_register_component(hdmi->dev,
-> +					      &sun4i_hdmi_audio_component,
-> +					      &sun4i_hdmi_audio_dai, 1);
-> +	if (ret) {
-> +		DRM_ERROR("Could not register DAI\n");
-> +		return ret;
-> +	}
+> +#define SUN4I_HDMI_AUDIO_CTS_REG       0x050
+> +#define SUN4I_HDMI_AUDIO_CTS(n)                        (n & GENMASK(19, 0))
 > +
-> +	link = devm_kzalloc(hdmi->dev, sizeof(*link), GFP_KERNEL);
-> +	if (!link)
-> +		return -ENOMEM;
+> +#define SUN4I_HDMI_AUDIO_N_REG         0x054
+> +#define SUN4I_HDMI_AUDIO_N(n)                  (n & GENMASK(19, 0))
 > +
-> +	comp = devm_kzalloc(hdmi->dev, sizeof(*comp) * 3, GFP_KERNEL);
-> +	if (!comp)
-> +		return -ENOMEM;
+> +#define SUN4I_HDMI_AUDIO_STAT0_REG     0x58
+> +#define SUN4I_HDMI_AUDIO_STAT0_FREQ(n)         (n << 24)
+> +#define SUN4I_HDMI_AUDIO_STAT0_FREQ_MASK       GENMASK(27, 24)
 > +
-> +	link->cpus = &comp[0];
-> +	link->codecs = &comp[1];
-> +	link->platforms = &comp[2];
-> +
-> +	link->num_cpus = 1;
-> +	link->num_codecs = 1;
-> +	link->num_platforms = 1;
-> +
-> +	link->playback_only = 1;
-> +
-> +	link->name = "SUN4I-HDMI";
-> +	link->stream_name = "SUN4I-HDMI PCM";
-> +
-> +	link->codecs->name = dev_name(hdmi->dev);
-> +	link->codecs->dai_name	= sun4i_hdmi_audio_dai.name;
-> +
-> +	link->cpus->dai_name = dev_name(hdmi->dev);
-> +
-> +	link->platforms->name = dev_name(hdmi->dev);
-> +
-> +	link->dai_fmt = SND_SOC_DAIFMT_I2S;
-> +
-> +	card->dai_link = link;
-> +	card->num_links = 1;
-> +	card->dev = hdmi->dev;
-> +
-> +	snd_soc_card_set_drvdata(card, hdmi);
-> +	return devm_snd_soc_register_card(hdmi->dev, card);
-
-Out of curiosity, did you try to remove the module with that patch
-applied? IIRC, these functions will overwrite the device drvdata, and
-we will try to access them in unbind / remove.
-
-> +}
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-> index a7c4654445c7..79ecd89fb705 100644
-> --- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-> @@ -114,6 +114,9 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder)
->  		val |= SUN4I_HDMI_VID_CTRL_HDMI_MODE;
+>  #define SUN4I_HDMI_AVI_INFOFRAME_REG(n)        (0x080 + (n))
+> +#define SUN4I_HDMI_AUDIO_INFOFRAME_REG(n)      (0x0a0 + (n))
 >
->  	writel(val, hdmi->base + SUN4I_HDMI_VID_CTRL_REG);
+>  #define SUN4I_HDMI_PAD_CTRL0_REG       0x200
+>  #define SUN4I_HDMI_PAD_CTRL0_BIASEN            BIT(31)
+> @@ -283,9 +308,13 @@ struct sun4i_hdmi {
+>         struct regmap_field     *field_ddc_sda_en;
+>         struct regmap_field     *field_ddc_sck_en;
+>
+> +       u8                      hdmi_audio_channels;
 > +
-> +	if (hdmi->hdmi_audio && sun4i_hdmi_audio_create(hdmi))
-> +		DRM_ERROR("Couldn't create the HDMI audio adapter\n");
+>         struct sun4i_drv        *drv;
+>
+>         bool                    hdmi_monitor;
+> +       bool                    hdmi_audio;
+> +
+>         struct cec_adapter      *cec_adap;
+>
+>         const struct sun4i_hdmi_variant *variant;
+> @@ -294,5 +323,6 @@ struct sun4i_hdmi {
+>  int sun4i_ddc_create(struct sun4i_hdmi *hdmi, struct clk *clk);
+>  int sun4i_tmds_create(struct sun4i_hdmi *hdmi);
+>  int sun4i_hdmi_i2c_create(struct device *dev, struct sun4i_hdmi *hdmi);
+> +int sun4i_hdmi_audio_create(struct sun4i_hdmi *hdmi);
+>
+>  #endif /* _SUN4I_HDMI_H_ */
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_audio.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_audio.c
+> new file mode 100644
+> index 000000000000..b6d4199d15ce
+> --- /dev/null
+> +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_audio.c
+> @@ -0,0 +1,375 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Copyright (C) 2020 Olimex Ltd.
+> + *   Author: Stefan Mavrodiev <stefan@olimex.com>
+> + */
+> +#include <linux/dma-mapping.h>
+> +#include <linux/dmaengine.h>
+> +#include <linux/module.h>
+> +#include <linux/of_dma.h>
+> +#include <linux/regmap.h>
+> +
+> +#include <drm/drm_print.h>
+> +
+> +#include <sound/dmaengine_pcm.h>
+> +#include <sound/pcm_drm_eld.h>
+> +#include <sound/pcm_params.h>
+> +#include <sound/soc.h>
 
-So you create the audio card each time the display is enabled? I guess
-this is to deal with the hotplug?
+I would drop the ASoC stuff and just do a standard ALSA driver.
+You really don't gain anything from using ASoC, since this is
+just a really standard PCM DMA interface plus some controls.
+There aren't multiple components that need to be strung together.
 
-I'm not sure this is the right thing to do. If I remember well, the
-ELD are here precisely to let userspace know that the display is
-plugged (and audio-capable) or not.
-
-Also, you don't remove that card in the disable, which mean that if
-you end up in a situation where you would enable the display, disable
-it and then enable it again, you have two audio cards now.
-
-Thanks!
-Maxime
-
---k5znubyhdepgt4o6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXhiltwAKCRDj7w1vZxhR
-xUtjAQDUdNxWMzdX5tY/iStjYWj0MXs0bYASvg/UjfYqTY6DUAEA8G7cqydIOqWJ
-6rQl0/jVlUPXdNEudZ8FcGFFOkXJWww=
-=I5iw
------END PGP SIGNATURE-----
-
---k5znubyhdepgt4o6--
-
---===============1814878246==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+ChenYu
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1814878246==--
