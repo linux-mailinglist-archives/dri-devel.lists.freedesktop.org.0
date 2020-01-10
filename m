@@ -1,32 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B77E13865B
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Jan 2020 13:36:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9BC513864D
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Jan 2020 13:36:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA30C6E4FB;
-	Sun, 12 Jan 2020 12:36:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6E1989CB3;
+	Sun, 12 Jan 2020 12:36:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A0196E093;
- Fri, 10 Jan 2020 07:32:38 +0000 (UTC)
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 2915527788F637AE5125;
- Fri, 10 Jan 2020 15:32:35 +0800 (CST)
-Received: from localhost (10.133.213.239) by DGGEMS404-HUB.china.huawei.com
- (10.3.19.204) with Microsoft SMTP Server id 14.3.439.0; Fri, 10 Jan 2020
- 15:32:25 +0800
-From: YueHaibing <yuehaibing@huawei.com>
-To: <bskeggs@redhat.com>, <airlied@linux.ie>, <daniel@ffwll.ch>
-Subject: [PATCH -next] drm/ttm: Remove set but not used variable 'mem'
-Date: Fri, 10 Jan 2020 15:28:37 +0800
-Message-ID: <20200110072837.48060-1-yuehaibing@huawei.com>
-X-Mailer: git-send-email 2.10.2.windows.1
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6A8888AA1
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 08:00:12 +0000 (UTC)
+X-Originating-IP: 91.224.148.103
+Received: from xps13 (unknown [91.224.148.103])
+ (Authenticated sender: miquel.raynal@bootlin.com)
+ by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 846836000E;
+ Fri, 10 Jan 2020 08:00:04 +0000 (UTC)
+Date: Fri, 10 Jan 2020 09:00:03 +0100
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v5 1/2] dt-bindings: display: simple: Add Satoz panel
+Message-ID: <20200110090003.1e233d15@xps13>
+In-Reply-To: <20200109193203.GA22666@ravnborg.org>
+References: <20200109184037.9091-1-miquel.raynal@bootlin.com>
+ <20200109193203.GA22666@ravnborg.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-Originating-IP: [10.133.213.239]
-X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Sun, 12 Jan 2020 12:36:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -40,62 +42,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, YueHaibing <yuehaibing@huawei.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drivers/gpu/drm/nouveau/nouveau_ttm.c: In function nouveau_vram_manager_new:
-drivers/gpu/drm/nouveau/nouveau_ttm.c:66:22: warning: variable mem set but not used [-Wunused-but-set-variable]
-drivers/gpu/drm/nouveau/nouveau_ttm.c: In function nouveau_gart_manager_new:
-drivers/gpu/drm/nouveau/nouveau_ttm.c:106:22: warning: variable mem set but not used [-Wunused-but-set-variable]
-
-They are not used any more, so remove it.
-
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: YueHaibing <yuehaibing@huawei.com>
----
- drivers/gpu/drm/nouveau/nouveau_ttm.c | 4 ----
- 1 file changed, 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c b/drivers/gpu/drm/nouveau/nouveau_ttm.c
-index 77a0c6a..7ca0a24 100644
---- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
-@@ -63,14 +63,12 @@ nouveau_vram_manager_new(struct ttm_mem_type_manager *man,
- {
- 	struct nouveau_bo *nvbo = nouveau_bo(bo);
- 	struct nouveau_drm *drm = nouveau_bdev(bo->bdev);
--	struct nouveau_mem *mem;
- 	int ret;
- 
- 	if (drm->client.device.info.ram_size == 0)
- 		return -ENOMEM;
- 
- 	ret = nouveau_mem_new(&drm->master, nvbo->kind, nvbo->comp, reg);
--	mem = nouveau_mem(reg);
- 	if (ret)
- 		return ret;
- 
-@@ -103,11 +101,9 @@ nouveau_gart_manager_new(struct ttm_mem_type_manager *man,
- {
- 	struct nouveau_bo *nvbo = nouveau_bo(bo);
- 	struct nouveau_drm *drm = nouveau_bdev(bo->bdev);
--	struct nouveau_mem *mem;
- 	int ret;
- 
- 	ret = nouveau_mem_new(&drm->master, nvbo->kind, nvbo->comp, reg);
--	mem = nouveau_mem(reg);
- 	if (ret)
- 		return ret;
- 
--- 
-2.7.4
-
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGVsbG8sCgpTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+IHdyb3RlIG9uIFRodSwgOSBK
+YW4gMjAyMCAyMDozMjowMyArMDEwMDoKCj4gSGkgTWlxdWVsLgo+IAo+IE9uIFRodSwgSmFuIDA5
+LCAyMDIwIGF0IDA3OjQwOjM2UE0gKzAxMDAsIE1pcXVlbCBSYXluYWwgd3JvdGU6Cj4gPiBTYXRv
+eiBpcyBhIENoaW5lc2UgVEZUIG1hbnVmYWN0dXJlci4KPiA+IFdlYnNpdGU6IGh0dHA6Ly93d3cu
+c2F0LXN6LmNvbS9FbmdsaXNoL2luZGV4Lmh0bWwKPiA+IAo+ID4gQWRkIHRoZSBjb21wYXRpYmxl
+IGZvciBpdHMgU0FUMDUwQVQ0MEgxMlIyIDUuMCBpbmNoIExDRCBwYW5lbC4KPiA+IAo+ID4gU2ln
+bmVkLW9mZi1ieTogTWlxdWVsIFJheW5hbCA8bWlxdWVsLnJheW5hbEBib290bGluLmNvbT4gIAo+
+IAo+IEFwcGxpZWQgdGhpcyBhbmQgdGhlIGZvbGxvd2luZyBwYXRjaCB0byBkcm0tbWlzYy1uZXh0
+Lgo+IEkgbWFudWFsbHkgcmVzb2x2ZWQgdGhlIGNvbmZsaWN0IGluIHBhbmVsLXNpbXBsZS55YW1s
+LgoKVGhhbmtzIGZvciB5b3VyIHdvcmssIFNhbSwgdGhpcyBpcyB2ZXJ5IGFwcHJlY2lhdGVkLgoK
+Q2hlZXJzLApNaXF1w6hsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbAo=
