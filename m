@@ -1,39 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E381D1379CE
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2020 23:42:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFAEA137A03
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Jan 2020 00:16:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 374B26E0F3;
-	Fri, 10 Jan 2020 22:42:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D88926E0F4;
+	Fri, 10 Jan 2020 23:16:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22D116E0F3
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 22:42:29 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3D0F6E0F4
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 23:16:33 +0000 (UTC)
+X-Amp-Result: UNSCANNABLE
 X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2020 14:42:28 -0800
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 10 Jan 2020 15:16:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,418,1571727600"; d="scan'208";a="223953185"
+X-IronPort-AV: E=Sophos;i="5.69,418,1571727600"; d="scan'208";a="218208619"
 Received: from labuser-z97x-ud5h.jf.intel.com (HELO intel.com)
  ([10.165.21.211])
- by orsmga006.jf.intel.com with ESMTP; 10 Jan 2020 14:42:28 -0800
-Date: Fri, 10 Jan 2020 14:43:39 -0800
+ by fmsmga007.fm.intel.com with ESMTP; 10 Jan 2020 15:16:33 -0800
+Date: Fri, 10 Jan 2020 15:17:43 -0800
 From: Manasi Navare <manasi.d.navare@intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
 Subject: Re: [PATCH v2] drm/dp: Add function to parse EDID descriptors for
  adaptive sync limits
-Message-ID: <20200110224338.GA16729@intel.com>
+Message-ID: <20200110231743.GB16729@intel.com>
 References: <20200108003208.18706-1-manasi.d.navare@intel.com>
- <87y2ugodox.fsf@intel.com>
+ <20200109130852.GN1208@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <87y2ugodox.fsf@intel.com>
+In-Reply-To: <20200109130852.GN1208@intel.com>
 User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,8 +53,8 @@ Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 09, 2020 at 05:24:30PM +0200, Jani Nikula wrote:
-> On Tue, 07 Jan 2020, Manasi Navare <manasi.d.navare@intel.com> wrote:
+On Thu, Jan 09, 2020 at 03:08:52PM +0200, Ville Syrj=E4l=E4 wrote:
+> On Tue, Jan 07, 2020 at 04:32:08PM -0800, Manasi Navare wrote:
 > > Adaptive Sync is a VESA feature so add a DRM core helper to parse
 > > the EDID's detailed descritors to obtain the adaptive sync monitor rang=
 e.
@@ -64,12 +63,14 @@ e.
 > > This part of the code is stripped out of amdgpu's function
 > > amdgpu_dm_update_freesync_caps() to make it generic and be used
 > > across all DRM drivers
-> >
+> > =
+
 > > v2:
 > > * Change vmin and vmax to use u8 (Ville)
 > > * Dont store pixel clock since that is just a max dotclock
 > > and not related to VRR mode (Manasi)
-> >
+> > =
+
 > > Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
 > > Cc: Harry Wentland <harry.wentland@amd.com>
 > > Cc: Clinton A Taylor <clinton.a.taylor@intel.com>
@@ -80,7 +81,8 @@ e.
 > >  include/drm/drm_connector.h | 22 ++++++++++++++++
 > >  include/drm/drm_edid.h      |  2 ++
 > >  3 files changed, 75 insertions(+)
-> >
+> > =
+
 > > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
 > > index 99769d6c9f84..52781a0e708b 100644
 > > --- a/drivers/gpu/drm/drm_edid.c
@@ -98,6 +100,14 @@ or *connector,
 > > +	const struct detailed_timing *timing;
 > > +	const struct detailed_non_pixel *data;
 > > +	const struct detailed_data_monitor_range *range;
+> =
+
+> Needlessly wide scope for everything above.
+
+Okay will move inside the for_each loop ?
+
+> =
+
 > > +	int i;
 > > +
 > > +	/*
@@ -110,8 +120,30 @@ or *connector,
 > > +	if (edid->version <=3D 1 && !(edid->version =3D=3D 1 && edid->revisio=
 n > 1))
 > > +		return;
+> =
+
+> if (!version_greater(...))
+> 	return;
+
+You mean simplify the condition or use define a function version_greater() =
+to check this condition?
+
+> =
+
 > > +
 > > +	for (i =3D 0; i < 4; i++) {
+> =
+
+> This should probably use for_each_detailed_block()
+>
+
+
+Ok yes will use for_each_detailed_block
+
+Manasi
+
+ =
+
 > > +		timing  =3D &edid->detailed_timings[i];
 > > +		data    =3D &timing->data.other_data;
 > > +		range   =3D &data->data.range;
@@ -139,26 +171,6 @@ n > 1))
 > > +	}
 > > +}
 > > +EXPORT_SYMBOL(drm_get_adaptive_sync_limits);
-> =
-
-> Why the export? Rather, why is this not static?
->
-
-I could make it static but since the way AMDGPU code is written right now t=
-hey
-would be calling this function explicitly to populate the vmin and vmax in =
-their local
-structs but I can make it static and with some minor refactoring they shoul=
-d be able to
-use thsi infor directly from drm_display_info
-
-Manasi
- =
-
-> BR,
-> Jani.
-> =
-
 > > +
 > >  /* A connector has no EDID information, so we've got no EDID to comput=
 e quirks from. Reset
@@ -244,11 +256,15 @@ har *name,
 > > +void drm_get_adaptive_sync_limits(struct drm_connector *connector,
 > > +				  const struct edid *edid);
 > >  #endif /* __DRM_EDID_H__ */
+> > -- =
+
+> > 2.19.1
 > =
 
 > -- =
 
-> Jani Nikula, Intel Open Source Graphics Center
+> Ville Syrj=E4l=E4
+> Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
