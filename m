@@ -2,20 +2,20 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42E041369ED
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2020 10:22:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEE531369F2
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2020 10:22:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5E9E6E9FC;
-	Fri, 10 Jan 2020 09:21:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58B826E9AA;
+	Fri, 10 Jan 2020 09:21:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0367F6E9ED;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6A946E9AA;
  Fri, 10 Jan 2020 09:21:51 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 97265B29E;
- Fri, 10 Jan 2020 09:21:49 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 67688B016;
+ Fri, 10 Jan 2020 09:21:50 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@linux.ie, daniel@ffwll.ch, alexander.deucher@amd.com,
  christian.koenig@amd.com, David1.Zhou@amd.com,
@@ -28,9 +28,9 @@ To: airlied@linux.ie, daniel@ffwll.ch, alexander.deucher@amd.com,
  bskeggs@redhat.com, harry.wentland@amd.com, sunpeng.li@amd.com,
  jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
  rodrigo.vivi@intel.com
-Subject: [PATCH 22/23] drm/vmwgfx: Convert to CRTC VBLANK callbacks
-Date: Fri, 10 Jan 2020 10:21:26 +0100
-Message-Id: <20200110092127.27847-23-tzimmermann@suse.de>
+Subject: [PATCH 23/23] drm: Cleanup VBLANK callbacks in struct drm_driver
+Date: Fri, 10 Jan 2020 10:21:27 +0100
+Message-Id: <20200110092127.27847-24-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200110092127.27847-1-tzimmermann@suse.de>
 References: <20200110092127.27847-1-tzimmermann@suse.de>
@@ -56,148 +56,244 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VBLANK callbacks in struct drm_driver are deprecated in favor of
-their equivalents in struct drm_crtc_funcs. Convert vmwgfx over.
+All non-legacy users of VBLANK functions in struct drm_driver have been
+converted to use the respective interfaces in struct drm_crtc_funcs. The
+remaining users of VBLANK callbacks in struct drm_driver are legacy drivers
+with userspace modesetting.
+
+There are no users left of get_vblank_timestamp(), so the callback is
+being removed. The other VBLANK callbacks are being moved to the legacy
+section at the end of struct drm_driver.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c  | 5 +----
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h  | 6 +++---
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c  | 8 ++++----
- drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c  | 3 +++
- drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c | 5 ++++-
- drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c | 3 +++
- 6 files changed, 18 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/drm_vblank.c |  39 +++++---------
+ include/drm/drm_drv.h        | 101 ++---------------------------------
+ 2 files changed, 17 insertions(+), 123 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index e962048f65d2..f5ab04468522 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -1329,7 +1329,7 @@ static int vmw_pm_freeze(struct device *kdev)
+diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+index 7cf436a4b908..ceff68474d4d 100644
+--- a/drivers/gpu/drm/drm_vblank.c
++++ b/drivers/gpu/drm/drm_vblank.c
+@@ -138,10 +138,9 @@ static u32 __get_vblank_counter(struct drm_device *dev, unsigned int pipe)
  
- 	vmw_fence_fifo_down(dev_priv->fman);
- 	__vmw_svga_disable(dev_priv);
--	
-+
- 	vmw_release_device_late(dev_priv);
- 	return 0;
- }
-@@ -1393,9 +1393,6 @@ static struct drm_driver driver = {
- 	DRIVER_MODESET | DRIVER_RENDER | DRIVER_ATOMIC,
- 	.load = vmw_driver_load,
- 	.unload = vmw_driver_unload,
--	.get_vblank_counter = vmw_get_vblank_counter,
--	.enable_vblank = vmw_enable_vblank,
--	.disable_vblank = vmw_disable_vblank,
- 	.ioctls = vmw_ioctls,
- 	.num_ioctls = ARRAY_SIZE(vmw_ioctls),
- 	.master_set = vmw_master_set,
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-index a31e726d6d71..845b3b8c29ca 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-@@ -1100,9 +1100,9 @@ int vmw_kms_write_svga(struct vmw_private *vmw_priv,
- bool vmw_kms_validate_mode_vram(struct vmw_private *dev_priv,
- 				uint32_t pitch,
- 				uint32_t height);
--u32 vmw_get_vblank_counter(struct drm_device *dev, unsigned int pipe);
--int vmw_enable_vblank(struct drm_device *dev, unsigned int pipe);
--void vmw_disable_vblank(struct drm_device *dev, unsigned int pipe);
-+u32 vmw_get_vblank_counter(struct drm_crtc *crtc);
-+int vmw_enable_vblank(struct drm_crtc *crtc);
-+void vmw_disable_vblank(struct drm_crtc *crtc);
- int vmw_kms_present(struct vmw_private *dev_priv,
- 		    struct drm_file *file_priv,
- 		    struct vmw_framebuffer *vfb,
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-index f47d5710cc95..9f0fee62904a 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-@@ -1991,7 +1991,7 @@ bool vmw_kms_validate_mode_vram(struct vmw_private *dev_priv,
- /**
-  * Function called by DRM code called with vbl_lock held.
-  */
--u32 vmw_get_vblank_counter(struct drm_device *dev, unsigned int pipe)
-+u32 vmw_get_vblank_counter(struct drm_crtc *crtc)
- {
- 	return 0;
- }
-@@ -1999,7 +1999,7 @@ u32 vmw_get_vblank_counter(struct drm_device *dev, unsigned int pipe)
- /**
-  * Function called by DRM code called with vbl_lock held.
-  */
--int vmw_enable_vblank(struct drm_device *dev, unsigned int pipe)
-+int vmw_enable_vblank(struct drm_crtc *crtc)
- {
- 	return -EINVAL;
- }
-@@ -2007,7 +2007,7 @@ int vmw_enable_vblank(struct drm_device *dev, unsigned int pipe)
- /**
-  * Function called by DRM code called with vbl_lock held.
-  */
--void vmw_disable_vblank(struct drm_device *dev, unsigned int pipe)
-+void vmw_disable_vblank(struct drm_crtc *crtc)
- {
- }
+ 		if (crtc->funcs->get_vblank_counter)
+ 			return crtc->funcs->get_vblank_counter(crtc);
+-	}
+-
+-	if (dev->driver->get_vblank_counter)
++	} else if (dev->driver->get_vblank_counter) {
+ 		return dev->driver->get_vblank_counter(dev, pipe);
++	}
  
-@@ -2088,7 +2088,7 @@ static int vmw_du_update_layout(struct vmw_private *dev_priv,
- 	drm_modeset_drop_locks(&ctx);
- 	drm_modeset_acquire_fini(&ctx);
- 	mutex_unlock(&dev->mode_config.mutex);
-- 
-+
- 	return 0;
+ 	return drm_vblank_no_hw_counter(dev, pipe);
  }
+@@ -334,8 +333,7 @@ u64 drm_crtc_accurate_vblank_count(struct drm_crtc *crtc)
+ 	unsigned long flags;
  
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-index 5702219ec38f..16dafff5cab1 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-@@ -236,6 +236,9 @@ static const struct drm_crtc_funcs vmw_legacy_crtc_funcs = {
- 	.atomic_duplicate_state = vmw_du_crtc_duplicate_state,
- 	.atomic_destroy_state = vmw_du_crtc_destroy_state,
- 	.set_config = drm_atomic_helper_set_config,
-+	.get_vblank_counter = vmw_get_vblank_counter,
-+	.enable_vblank = vmw_enable_vblank,
-+	.disable_vblank = vmw_disable_vblank,
- };
+ 	WARN_ONCE(drm_debug_enabled(DRM_UT_VBL) &&
+-		  !crtc->funcs->get_vblank_timestamp &&
+-		  !dev->driver->get_vblank_timestamp,
++		  !crtc->funcs->get_vblank_timestamp,
+ 		  "This function requires support for accurate vblank timestamps.");
  
+ 	spin_lock_irqsave(&dev->vblank_time_lock, flags);
+@@ -357,13 +355,11 @@ static void __disable_vblank(struct drm_device *dev, unsigned int pipe)
+ 		if (WARN_ON(!crtc))
+ 			return;
  
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
-index e5a283263211..207a4053e769 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
-@@ -319,6 +319,9 @@ static const struct drm_crtc_funcs vmw_screen_object_crtc_funcs = {
- 	.atomic_destroy_state = vmw_du_crtc_destroy_state,
- 	.set_config = drm_atomic_helper_set_config,
- 	.page_flip = drm_atomic_helper_page_flip,
-+	.get_vblank_counter = vmw_get_vblank_counter,
-+	.enable_vblank = vmw_enable_vblank,
-+	.disable_vblank = vmw_disable_vblank,
- };
+-		if (crtc->funcs->disable_vblank) {
++		if (crtc->funcs->disable_vblank)
+ 			crtc->funcs->disable_vblank(crtc);
+-			return;
+-		}
++	} else {
++		dev->driver->disable_vblank(dev, pipe);
+ 	}
+-
+-	dev->driver->disable_vblank(dev, pipe);
+ }
  
  /*
-@@ -1388,6 +1391,6 @@ int vmw_kms_sou_readback(struct vmw_private *dev_priv,
- 	vmw_validation_revert(&val_ctx);
- out_unref:
- 	vmw_validation_unref_lists(&val_ctx);
--	
-+
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-index 41a96fb49835..570687a1a327 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-@@ -916,6 +916,9 @@ static const struct drm_crtc_funcs vmw_stdu_crtc_funcs = {
- 	.atomic_destroy_state = vmw_du_crtc_destroy_state,
- 	.set_config = drm_atomic_helper_set_config,
- 	.page_flip = drm_atomic_helper_page_flip,
-+	.get_vblank_counter = vmw_get_vblank_counter,
-+	.enable_vblank = vmw_enable_vblank,
-+	.disable_vblank = vmw_disable_vblank,
- };
+@@ -791,9 +787,6 @@ drm_get_last_vbltimestamp(struct drm_device *dev, unsigned int pipe,
  
+ 		ret = crtc->funcs->get_vblank_timestamp(crtc, &max_error,
+ 							tvblank, in_vblank_irq);
+-	} else if (dev->driver->get_vblank_timestamp && (max_error > 0)) {
+-		ret = dev->driver->get_vblank_timestamp(dev, pipe, &max_error,
+-							tvblank, in_vblank_irq);
+ 	}
+ 
+ 	/* GPU high precision timestamp query unsupported or failed.
+@@ -1016,9 +1009,11 @@ static int __enable_vblank(struct drm_device *dev, unsigned int pipe)
+ 
+ 		if (crtc->funcs->enable_vblank)
+ 			return crtc->funcs->enable_vblank(crtc);
++	} else if (dev->driver->enable_vblank) {
++		return dev->driver->enable_vblank(dev, pipe);
+ 	}
+ 
+-	return dev->driver->enable_vblank(dev, pipe);
++	return -EINVAL;
+ }
+ 
+ static int drm_vblank_enable(struct drm_device *dev, unsigned int pipe)
+@@ -1109,13 +1104,10 @@ static bool __vblank_disable_immediate(struct drm_device *dev, unsigned int pipe
+ 		return false;
+ 
+ 	crtc = drm_crtc_from_index(dev, pipe);
+-	if (crtc && crtc->funcs->get_vblank_timestamp)
+-		return true;
+-
+-	if (dev->driver->get_vblank_timestamp)
+-		return true;
++	if (!crtc || !crtc->funcs->get_vblank_timestamp)
++		return false;
+ 
+-	return false;
++	return true;
+ }
+ 
+ static void drm_vblank_put(struct drm_device *dev, unsigned int pipe)
+@@ -1798,7 +1790,6 @@ static void drm_handle_vblank_events(struct drm_device *dev, unsigned int pipe)
+ 	struct drm_pending_vblank_event *e, *t;
+ 	ktime_t now;
+ 	u64 seq;
+-	bool high_prec;
+ 
+ 	assert_spin_locked(&dev->event_lock);
+ 
+@@ -1818,10 +1809,8 @@ static void drm_handle_vblank_events(struct drm_device *dev, unsigned int pipe)
+ 		send_vblank_event(dev, e, seq, now);
+ 	}
+ 
+-	high_prec = crtc->funcs->get_vblank_timestamp ||
+-		    dev->driver->get_vblank_timestamp;
+-
+-	trace_drm_vblank_event(pipe, seq, now, high_prec);
++	trace_drm_vblank_event(pipe, seq, now,
++			       crtc->funcs->get_vblank_timestamp != NULL);
+ }
+ 
+ /**
+diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+index b704e252f3b2..e290b3aca6eb 100644
+--- a/include/drm/drm_drv.h
++++ b/include/drm/drm_drv.h
+@@ -268,104 +268,6 @@ struct drm_driver {
+ 	 */
+ 	void (*release) (struct drm_device *);
+ 
+-	/**
+-	 * @get_vblank_counter:
+-	 *
+-	 * Driver callback for fetching a raw hardware vblank counter for the
+-	 * CRTC specified with the pipe argument.  If a device doesn't have a
+-	 * hardware counter, the driver can simply leave the hook as NULL.
+-	 * The DRM core will account for missed vblank events while interrupts
+-	 * where disabled based on system timestamps.
+-	 *
+-	 * Wraparound handling and loss of events due to modesetting is dealt
+-	 * with in the DRM core code, as long as drivers call
+-	 * drm_crtc_vblank_off() and drm_crtc_vblank_on() when disabling or
+-	 * enabling a CRTC.
+-	 *
+-	 * This is deprecated and should not be used by new drivers.
+-	 * Use &drm_crtc_funcs.get_vblank_counter instead.
+-	 *
+-	 * Returns:
+-	 *
+-	 * Raw vblank counter value.
+-	 */
+-	u32 (*get_vblank_counter) (struct drm_device *dev, unsigned int pipe);
+-
+-	/**
+-	 * @enable_vblank:
+-	 *
+-	 * Enable vblank interrupts for the CRTC specified with the pipe
+-	 * argument.
+-	 *
+-	 * This is deprecated and should not be used by new drivers.
+-	 * Use &drm_crtc_funcs.enable_vblank instead.
+-	 *
+-	 * Returns:
+-	 *
+-	 * Zero on success, appropriate errno if the given @crtc's vblank
+-	 * interrupt cannot be enabled.
+-	 */
+-	int (*enable_vblank) (struct drm_device *dev, unsigned int pipe);
+-
+-	/**
+-	 * @disable_vblank:
+-	 *
+-	 * Disable vblank interrupts for the CRTC specified with the pipe
+-	 * argument.
+-	 *
+-	 * This is deprecated and should not be used by new drivers.
+-	 * Use &drm_crtc_funcs.disable_vblank instead.
+-	 */
+-	void (*disable_vblank) (struct drm_device *dev, unsigned int pipe);
+-
+-	/**
+-	 * @get_vblank_timestamp:
+-	 *
+-	 * Called by drm_get_last_vbltimestamp(). Should return a precise
+-	 * timestamp when the most recent VBLANK interval ended or will end.
+-	 *
+-	 * Specifically, the timestamp in @vblank_time should correspond as
+-	 * closely as possible to the time when the first video scanline of
+-	 * the video frame after the end of VBLANK will start scanning out,
+-	 * the time immediately after end of the VBLANK interval. If the
+-	 * @crtc is currently inside VBLANK, this will be a time in the future.
+-	 * If the @crtc is currently scanning out a frame, this will be the
+-	 * past start time of the current scanout. This is meant to adhere
+-	 * to the OpenML OML_sync_control extension specification.
+-	 *
+-	 * Paramters:
+-	 *
+-	 * dev:
+-	 *     dev DRM device handle.
+-	 * pipe:
+-	 *     crtc for which timestamp should be returned.
+-	 * max_error:
+-	 *     Maximum allowable timestamp error in nanoseconds.
+-	 *     Implementation should strive to provide timestamp
+-	 *     with an error of at most max_error nanoseconds.
+-	 *     Returns true upper bound on error for timestamp.
+-	 * vblank_time:
+-	 *     Target location for returned vblank timestamp.
+-	 * in_vblank_irq:
+-	 *     True when called from drm_crtc_handle_vblank().  Some drivers
+-	 *     need to apply some workarounds for gpu-specific vblank irq quirks
+-	 *     if flag is set.
+-	 *
+-	 * Returns:
+-	 *
+-	 * True on success, false on failure, which means the core should
+-	 * fallback to a simple timestamp taken in drm_crtc_handle_vblank().
+-	 *
+-	 * FIXME:
+-	 *
+-	 * We should move this hook to &struct drm_crtc_funcs like all the other
+-	 * vblank hooks.
+-	 */
+-	bool (*get_vblank_timestamp) (struct drm_device *dev, unsigned int pipe,
+-				     int *max_error,
+-				     ktime_t *vblank_time,
+-				     bool in_vblank_irq);
+-
+ 	/**
+ 	 * @irq_handler:
+ 	 *
+@@ -720,6 +622,9 @@ struct drm_driver {
+ 	int (*dma_ioctl) (struct drm_device *dev, void *data, struct drm_file *file_priv);
+ 	int (*dma_quiescent) (struct drm_device *);
+ 	int (*context_dtor) (struct drm_device *dev, int context);
++	u32 (*get_vblank_counter)(struct drm_device *dev, unsigned int pipe);
++	int (*enable_vblank)(struct drm_device *dev, unsigned int pipe);
++	void (*disable_vblank)(struct drm_device *dev, unsigned int pipe);
+ 	int dev_priv_size;
+ };
  
 -- 
 2.24.1
