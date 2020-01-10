@@ -2,104 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A7E9136470
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2020 01:50:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6747136512
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2020 02:53:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6747F6E353;
-	Fri, 10 Jan 2020 00:49:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6393A6E97C;
+	Fri, 10 Jan 2020 01:53:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56ED26E353
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 00:49:54 +0000 (UTC)
-Received: from epcas1p1.samsung.com (unknown [182.195.41.45])
- by mailout4.samsung.com (KnoxPortal) with ESMTP id
- 20200110004952epoutp04bef054d515bdd1a00f70c9cb6e159761~oYCd8PY6b2801628016epoutp042
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 00:49:52 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
- 20200110004952epoutp04bef054d515bdd1a00f70c9cb6e159761~oYCd8PY6b2801628016epoutp042
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1578617392;
- bh=9llBaxZQihQ0FI+mzVpfexSpdKELJdhgop34n/hcIBI=;
- h=Date:From:Reply-To:To:CC:Subject:In-Reply-To:References:From;
- b=cUauapf1vvbyx9UA6oIbXtVQHYFBvdULRqDaTCNsu2hSwKqBjOXHsWqbn4guJATL/
- Pl83CSVw12Nuv8+aWSUwXnkCL83EpKsyMwREEtREuhEpeYaCDOGIm8zoTAFxCHcEAg
- TcMsxfBSIwcA/8NtTfo1UkIFJ0ewJF6+mzkM66tk=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
- epcas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200110004951epcas1p13cc7c0c7faf30e43358ba1396a53e893~oYCdhK7Wk2829228292epcas1p1e;
- Fri, 10 Jan 2020 00:49:51 +0000 (GMT)
-Received: from epsmges1p5.samsung.com (unknown [182.195.40.157]) by
- epsnrtp4.localdomain (Postfix) with ESMTP id 47v4Bh2hDbzMqYkh; Fri, 10 Jan
- 2020 00:49:48 +0000 (GMT)
-Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
- epsmges1p5.samsung.com (Symantec Messaging Gateway) with SMTP id
- C4.B3.51241.C2AC71E5; Fri, 10 Jan 2020 09:49:48 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
- 20200110004947epcas1p3a93bb1970c4d04a44d93a850c76527b1~oYCZc8Dbk2319923199epcas1p3T;
- Fri, 10 Jan 2020 00:49:47 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200110004947epsmtrp134c20f2801a93ce74ca1bbd2fba1f041~oYCZcTBDV3120131201epsmtrp1e;
- Fri, 10 Jan 2020 00:49:47 +0000 (GMT)
-X-AuditID: b6c32a39-163ff7000001c829-7e-5e17ca2c8307
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 73.3B.10238.B2AC71E5; Fri, 10 Jan 2020 09:49:47 +0900 (KST)
-Received: from [10.113.221.222] (unknown [10.113.221.222]) by
- epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200110004947epsmtip2f479dc193329bf171759581d01e6872c~oYCZNpNtj2491224912epsmtip2g;
- Fri, 10 Jan 2020 00:49:47 +0000 (GMT)
-Message-ID: <5E17CAE8.7090601@samsung.com>
-Date: Fri, 10 Jan 2020 09:52:56 +0900
-From: Seung-Woo Kim <sw0312.kim@samsung.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:16.0) Gecko/20121011
- Thunderbird/16.0.1
+Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com
+ [IPv6:2607:f8b0:4864:20::f44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 469556E97C
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 01:53:30 +0000 (UTC)
+Received: by mail-qv1-xf44.google.com with SMTP id o18so112395qvf.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2020 17:53:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=/fMVlCqxH7TYnGng6weJicBdaodJmAWTQi+tUFgHll4=;
+ b=c9L+frf0rw+duLwmB6qHSNoiIPfTUYtK8oqEW7QzYzMerHKt6OccqOlSyTHGvVCTqf
+ Kin2nhmdMCTXyrZ3pw0bAwscFkyMqEwCL5cFVp2kPDTnY8aCLuzokcQrA8pyvA+Npe19
+ 454L+KinqcoARRXLI9n3K/XrRuEzoeRSNtmtw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=/fMVlCqxH7TYnGng6weJicBdaodJmAWTQi+tUFgHll4=;
+ b=HaOzlg/Y3IO1CCmxSjRRB1f/ac/xzPmgEaiZvVGANoD2gO4IL9CMrwXKfOk3j3593z
+ y66LNQNz0QfrYOhJhiP1bGksCcxhRZE18cVAlrNN3q+IQnP092ZWjwxl0cN2BImKtX4O
+ kRfbaF/tlfpWIqwr9z6R/XC8OycTXL576+XSfpK4auOHkxdhrFXzU7xx7bOOtUEdidUI
+ tKBWti+mUJI03r5d3yN2tiIIlaA0Cl5idIVg3mmLE/9UJuJgxSqqKOQWPnlCwzjSSt6a
+ XjvsG87lBRJwkjcnIDR4mG0QXKhqxbRDqM3bHLjiWtzcqoxEoSnLdCJHXBeadX9eBCZ8
+ HpsQ==
+X-Gm-Message-State: APjAAAVsG6WOEsYvwZQHfZLeemszDGeyL5nGQayeDKTXnEnu6Jtz5H0b
+ zDTcUqpJTixZIRxKhO9vYV08wald2aOs/oT+5fsEqQ==
+X-Google-Smtp-Source: APXvYqwwMn64xtYJxSAfST4HD4Mcg/Ska64cyK6bvZ7Sz6NVYCLT+MPjgY36iu8O+DTFs0t+m6y7JWQK0aWzGRuwboU=
+X-Received: by 2002:a0c:c345:: with SMTP id j5mr555882qvi.156.1578621209242;
+ Thu, 09 Jan 2020 17:53:29 -0800 (PST)
 MIME-Version: 1.0
-To: Niclas Zeising <zeising@daemonic.se>
-Subject: Re: [PATCH] xf86drm: only include <sys/sysctl.h> for FreeBSD build
- case
-In-Reply-To: <94d436b2-b4e0-3414-a2fc-9d58e5ad4c07@daemonic.se>
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SWUwTURSGc2djMFQvReCkPlgnmiiB2rEWiwFXNDXygJr4YLA4gUlb6ZZO
- EXBJULQqGiqgDeK+xYAaQBHBaNAqKBANoA8KiVt4EFRwF4NG2w5G3v6zfPe/557LksoyRsVa
- HR7R7RBsHDOJaro3R5OU2Blv0tYGYg1Pv40whit9dynDxSd1yFBVOcgYfJ2/iCW0sfnDA8J4
- 7tYgYTzZscb48kAwKmusRZn0hrxUiyjkim616Mhx5lod5jRu9brs5dn6ZC2fxKcYFnBqh2AX
- 07j0jMyklVZb0JxTbxFs+cFUpiBJ3NxFqW5nvkdUW5ySJ40TXbk2V4pLIwl2Kd9h1uQ47Qt5
- rXaePti4Kc9SceA5cvlxYcOT+0QxGosqRZEs4PnQ87kmohRNYpW4GcFA315CDj4jGN31drzy
- HUH9w3qyFLFhpPedJkQr8W0EvX6Qe0YQjJ05TYUKCpwAR57eC2sKz4KymrN0SDM4EVrPj9Ey
- rIbu61VMSMfi9VB114dkNho6jg6E2al4NrSMvgpfgsRHEJz6+jsiVIjBa+HOa9ksEi+Ga8N7
- wgeReDqUXD9GhgDA/Qy0N3ZR8qDpUO4N0LKOgaEHjRGyVsGgzzuut8GNQz8jZHgfgoN7d47D
- Omi9UEmExifxHKi7OVdOz4CWsRNINp4Mw98O0vILKWCfVym3zISWtgpGTqugun6dnDbC+R+X
- iUNoRvWEkasnTFD93+s0ImtRnOiS7GZR4l36iQu+isJ/MSGlGbU/zgggzCIuSmGJiTcpaWGL
- VGQPIGBJbqqi7VmcSanIFYq2im5ntjvfJkoBpA9up5xUxeY4gz/b4cnm9fN0Op1hPp+s53ku
- XsGO9mxUYrPgEfNE0SW6/3EEG6kqRlPs5sSmykKJpU1lj4o2LvuyqKCja+tCqmj4p5kuL/mQ
- Xj5T7S88vv3NZqq1Z/T+iO5ciXX7igpr78B7RUP3R19x9FD0FP9+7e+m7jMv6n0xgU9Wt/fZ
- 4mn+3Zf6Vy8tsFtN9sOp8dfiqN2pXRpmR92qZd6LWY0NWZGdfzxvbcRajpIsAp9AuiXhL0sS
- 53ahAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrDLMWRmVeSWpSXmKPExsWy7bCSvK72KfE4g2O/eS2ufH3PZrH21kEW
- i+WX1zNazJj8ks2i/9QfJgdWjx1vjzN5LN7zkslj3slAj/vdQF7fllWMAaxRXDYpqTmZZalF
- +nYJXBmTum8yFkwTqNh4+QhTA+Nvni5GDg4JAROJS6/1uhi5OIQEdjNK7Px5namLkRMoLiUx
- 99t2RogaYYnDh4shat4ySixtXsMGUsMroCUx9cphFhCbRUBVom/lIlYQm01AR2L/kt9gtpCA
- gsSFrTPA6kUFQiR+fbzCCtErKHFy5hOwXhEBDYmdPx6wgyxgFpjGKLF30iRmkISwQJDEgYcL
- WCA2P2OU+Ll8ASNIglPAXmLzu1Y2kOuYBdQl1s8TAgkzC8hLNG+dzTyBUWgWkh2zEKpmIala
- wMi8ilEytaA4Nz232LDAMC+1XK84Mbe4NC9dLzk/dxMjOA60NHcwXl4Sf4hRgINRiYc3Q1g8
- Tog1say4MvcQowQHs5II79EbYnFCvCmJlVWpRfnxRaU5qcWHGKU5WJTEeZ/mHYsUEkhPLEnN
- Tk0tSC2CyTJxcEo1MDqde8ZjkvTAmfFpGM+1U+3Mpgo/VbdXzXRu2R93M+z5CkPZRwetVSS2
- 5n+wa9/EvOjlAmPej7XtC6WWbK7WNjwxcY/vm3v7hD+5ZU3Q9ji8nP2yw5FJcVXJd5/onora
- MDux9uBj9pLpGTusVZ8s72a/GPTS7Kvxfllu1+tq32XdrqZcEjXtF1diKc5INNRiLipOBACg
- Ztg+fwIAAA==
-X-CMS-MailID: 20200110004947epcas1p3a93bb1970c4d04a44d93a850c76527b1
-X-Msg-Generator: CA
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20200109092903epcas1p49de22b4892ff4c6e205fb098c83c76ae
-References: <CGME20200109092903epcas1p49de22b4892ff4c6e205fb098c83c76ae@epcas1p4.samsung.com>
- <1578562330-25594-1-git-send-email-sw0312.kim@samsung.com>
- <871rs8psjy.fsf@intel.com>
- <94d436b2-b4e0-3414-a2fc-9d58e5ad4c07@daemonic.se>
+References: <20200108052337.65916-1-drinkcat@chromium.org>
+ <20200108052337.65916-6-drinkcat@chromium.org>
+ <b58a8cf9-3275-cf89-6dff-596aceeb8000@arm.com>
+In-Reply-To: <b58a8cf9-3275-cf89-6dff-596aceeb8000@arm.com>
+From: Nicolas Boichat <drinkcat@chromium.org>
+Date: Fri, 10 Jan 2020 09:53:18 +0800
+Message-ID: <CANMq1KBcNr=1_poBHrA_SDo_h-5i3e5TMqASEVaDj5LevsRcOQ@mail.gmail.com>
+Subject: Re: [PATCH v2 5/7] drm/panfrost: Add support for multiple power
+ domain support
+To: Steven Price <steven.price@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,49 +61,237 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: sw0312.kim@samsung.com
-Cc: eric.engestrom@intel.com, Seung-Woo Kim <sw0312.kim@samsung.com>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Devicetree List <devicetree@vger.kernel.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
+ Mark Brown <broonie@kernel.org>, lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkKCk9uIDIwMjDrhYQgMDHsm5QgMTDsnbwgMDA6MjgsIE5pY2xhcyBaZWlzaW5nIHdyb3RlOgo+
-IE9uIDIwMjAtMDEtMDkgMTY6MTgsIEphbmkgTmlrdWxhIHdyb3RlOgo+PiBPbiBUaHUsIDA5IEph
-biAyMDIwLCBTZXVuZy1Xb28gS2ltIDxzdzAzMTIua2ltQHNhbXN1bmcuY29tPiB3cm90ZToKPj4+
-IFRoZSA8c3lzL3N5c2N0bC5oPiBoZWFkZXIgaXMgb25seSByZXF1aXJlZCBGcmVlQlNEIGFuZCBH
-TlUgbGliYwo+Pj4gMi4zMCBzdGFydHMgdG8gd2FybiBhYm91dCBMaW51eCBzcGVjaWZpYyA8c3lz
-L3N5c2N0bC5oPiBoZWFkZXIKPj4+IGRlcHJlY2F0aW9uLiBPbmx5IGluY2x1ZGUgPHN5cy9zeXNj
-dGwuaD4gZm9yIEZyZWVCU0QuCj4+Pgo+Pj4gU2lnbmVkLW9mZi1ieTogU2V1bmctV29vIEtpbSA8
-c3cwMzEyLmtpbUBzYW1zdW5nLmNvbT4KPj4+IC0tLQo+Pj4gICB4Zjg2ZHJtTW9kZS5jIHwgICAg
-MiArKwo+Pj4gICAxIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMCBkZWxldGlvbnMo
-LSkKPj4+Cj4+PiBkaWZmIC0tZ2l0IGEveGY4NmRybU1vZGUuYyBiL3hmODZkcm1Nb2RlLmMKPj4+
-IGluZGV4IDIwN2Q3YmUuLmZmMWQzMWQgMTAwNjQ0Cj4+PiAtLS0gYS94Zjg2ZHJtTW9kZS5jCj4+
-PiArKysgYi94Zjg2ZHJtTW9kZS5jCj4+PiBAQCAtNDIsOSArNDIsMTEgQEAKPj4+ICAgI2luY2x1
-ZGUgPHN0ZGludC5oPgo+Pj4gICAjaW5jbHVkZSA8c3RkbGliLmg+Cj4+PiAgICNpbmNsdWRlIDxz
-eXMvaW9jdGwuaD4KPj4+ICsjaWYgZGVmaW5lZCAoX19GcmVlQlNEX18pIHx8IGRlZmluZWQgKF9f
-RnJlZUJTRF9rZXJuZWxfXykKPj4+ICAgI2lmZGVmIEhBVkVfU1lTX1NZU0NUTF9ICj4+Cj4+IE5v
-dCB0aGF0IEkga25vdyBhbnl0aGluZyBhYm91dCB0aGlzLCBidXQgc2hvdWxkbid0IHlvdSBpbnN0
-ZWFkIGZpeAo+PiBIQVZFX1NZU19TWVNDVExfSCBkZWZpbml0aW9uIGluIGNvbmZpZ3VyZSBzdGFn
-ZSB0byBvbmx5IGJlIGVuYWJsZWQgb24KPj4gRnJlZUJTRD8KPj4KPj4gQlIsCj4+IEphbmkuCj4+
-Cj4+PiAgICNpbmNsdWRlIDxzeXMvc3lzY3RsLmg+Cj4+PiAgICNlbmRpZgo+Pj4gKyNlbmRpZiAv
-KiBkZWZpbmVkIChfX0ZyZWVCU0RfXykgfHwgZGVmaW5lZCAoX19GcmVlQlNEX2tlcm5lbF9fKSAq
-Lwo+Pj4gICAjaW5jbHVkZSA8c3RkaW8uaD4KPj4+ICAgI2luY2x1ZGUgPHN0ZGJvb2wuaD4KPj4K
-PiAKPiBIaSEKPiBUaGlzIGZpeCBsb29rcyBPSyBvbiBGcmVlQlNEIChJIGhhdmVuJ3QgaGFkIHRp
-bWUgdG8gdGVzdCksIGhvd2V2ZXIsIGFzCj4gaGFzIGJlZW4gcG9pbnRlZCBvdXQsIHBlcmhhcHMg
-dGhlIGNoYW5nZSBzaG91bGQgZ28gaW50byB0aGUgbWVzb24gYnVpbGQKPiBzY3JpcHQgb3IgY29u
-ZmlndXJlIGluc3RlYWQuCgpPaywgSSB3aWxsIHRyeSB0byBmaXggaW4gYnVpbGQgc2lkZSBpbnN0
-ZWFkIG9mIGluY2x1ZGUgaXRzZWxmLgoKPiBJIGRvbid0IGtub3cgaWYgb3RoZXIgT1NlcyAob3Ro
-ZXIgQlNEcyBwcmltYXJpbHkpIG5lZWQgdGhpcyBhcyB3ZWxsLiBJJ20KPiBwcmV0dHkgc3VyZSBp
-dCdzIG5lZWRlZCBvbiBEcmFnb25mbHlCU0QgYXQgbGVhc3QuCj4gUGVyaGFwcyBrZWVwIHRoZSBp
-bmNsdWRlIGZvciBldmVyeXRoaW5nIGV4Y2VwdCBMaW51eCBmb3IgdGhlIHRpbWUgYmVpbmc/CgpB
-cyBmYXIgYXMgSSBjaGVja2VkLCBzeXNjdGxieW5hbWUoKSBjYWxsZWQgb25seSB3aXRoIEZyZWVC
-U0QgYnVpbGQgZmxhZwppcyBvbmx5IGZ1bmN0aW9uIGRlZmluZWQgaW4gPHN5cy9zeXNjdGwuaD4g
-YXQgbGVhc3QgZm9yIHhmODZkcm1Nb2RlLmMsCmJ1dCBJIG1pc3NlZCBzb21ldGhpbmcuIFRoZSBo
-ZWFkZXIgZGVwcmVjYXRpb24gaXMgZG9uZSBmcm9tIExpbnV4LCBzbyBpdApzZWVtcyBmaW5lIHJl
-bW92aW5nIHRoZSBoZWFkZXIgaW5jbHVkZSBvbmx5IGZvciBMaW51eC4KCkJlc3QgUmVnYXJkcywK
-LSBTZXVuZy1Xb28gS2ltCgo+IFJlZ2FyZHMKCi0tIApTZXVuZy1Xb28gS2ltClNhbXN1bmcgUmVz
-ZWFyY2gKLS0KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
++Ulf to keep me honest on the power domains
+
+On Thu, Jan 9, 2020 at 10:08 PM Steven Price <steven.price@arm.com> wrote:
+>
+> On 08/01/2020 05:23, Nicolas Boichat wrote:
+> > When there is a single power domain per device, the core will
+> > ensure the power domains are all switched on.
+> >
+> > However, when there are multiple ones, as in MT8183 Bifrost GPU,
+> > we need to handle them in driver code.
+> >
+> >
+> > Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
+> > ---
+> >
+> > The downstream driver we use on chromeos-4.19 currently uses 2
+> > additional devices in device tree to accomodate for this [1], but
+> > I believe this solution is cleaner.
+>
+> I'm not sure what is best, but it seems odd to encode this into the Panfrost driver itself - it doesn't have any knowledge of what to do with these power domains. The naming of the domains looks suspiciously like someone thought that e.g. only half of the cores could be powered, but it doesn't look like that was implemented in the chromeos driver linked and anyway that is *meant* to be automatic in the hardware! (I.e. if you only power up one cores in one core stack then the PDC should only enable the power domain for that set of cores).
+
+This is actually implemented in the Chrome OS driver [1]. IMHO power
+domains are a bit confusing [2]:
+ i. If there's only 1 power domain in the device, then the core takes
+care of power on the domain (based on pm_runtime)
+ ii. If there's more than 1 power domain, then the device needs to
+link the domains manually.
+
+So the Chrome OS [1] driver takes approach (i), by creating 3 devices,
+each with 1 power domain that is switched on/off automatically using
+pm_runtime.
+
+This patch takes approach (ii) with device links to handle the extra domains.
+
+I believe the latter is more upstream-friendly, but, as always,
+suggestions welcome.
+
+[2] https://elixir.bootlin.com/linux/latest/source/drivers/base/power/domain.c#L2466
+
+> Steve
+>
+> >
+> > [1] https://chromium.googlesource.com/chromiumos/third_party/kernel/+/refs/heads/chromeos-4.19/drivers/gpu/arm/midgard/platform/mediatek/mali_kbase_runtime_pm.c#31
+> >
+> > drivers/gpu/drm/panfrost/panfrost_device.c | 87 ++++++++++++++++++++--
+> >   drivers/gpu/drm/panfrost/panfrost_device.h |  4 +
+> >   2 files changed, 83 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+> > index a0b0a6fef8b4e63..c6e9e059de94a4d 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_device.c
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+> > @@ -5,6 +5,7 @@
+> >   #include <linux/clk.h>
+> >   #include <linux/reset.h>
+> >   #include <linux/platform_device.h>
+> > +#include <linux/pm_domain.h>
+> >   #include <linux/regulator/consumer.h>
+> >
+> >   #include "panfrost_device.h"
+> > @@ -131,6 +132,67 @@ static void panfrost_regulator_fini(struct panfrost_device *pfdev)
+> >       regulator_disable(pfdev->regulator_sram);
+> >   }
+> >
+> > +static void panfrost_pm_domain_fini(struct panfrost_device *pfdev)
+> > +{
+> > +     int i;
+> > +
+> > +     for (i = 0; i < ARRAY_SIZE(pfdev->pm_domain_devs); i++) {
+> > +             if (!pfdev->pm_domain_devs[i])
+> > +                     break;
+> > +
+> > +             if (pfdev->pm_domain_links[i])
+> > +                     device_link_del(pfdev->pm_domain_links[i]);
+> > +
+> > +             dev_pm_domain_detach(pfdev->pm_domain_devs[i], true);
+> > +     }
+> > +}
+> > +
+> > +static int panfrost_pm_domain_init(struct panfrost_device *pfdev)
+> > +{
+> > +     int err;
+> > +     int i, num_domains;
+> > +
+> > +     num_domains = of_count_phandle_with_args(pfdev->dev->of_node,
+> > +                                              "power-domains",
+> > +                                              "#power-domain-cells");
+> > +     /* Single domains are handled by the core. */
+> > +     if (num_domains < 2)
+> > +             return 0;
+> > +
+> > +     if (num_domains > ARRAY_SIZE(pfdev->pm_domain_devs)) {
+> > +             dev_err(pfdev->dev, "Too many pm-domains: %d\n", num_domains);
+> > +             return -EINVAL;
+> > +     }
+> > +
+> > +     for (i = 0; i < num_domains; i++) {
+> > +             pfdev->pm_domain_devs[i] =
+> > +                     dev_pm_domain_attach_by_id(pfdev->dev, i);
+> > +             if (IS_ERR(pfdev->pm_domain_devs[i])) {
+> > +                     err = PTR_ERR(pfdev->pm_domain_devs[i]);
+> > +                     pfdev->pm_domain_devs[i] = NULL;
+> > +                     dev_err(pfdev->dev,
+> > +                             "failed to get pm-domain %d: %d\n", i, err);
+> > +                     goto err;
+> > +             }
+> > +
+> > +             pfdev->pm_domain_links[i] = device_link_add(pfdev->dev,
+> > +                             pfdev->pm_domain_devs[i], DL_FLAG_PM_RUNTIME |
+> > +                             DL_FLAG_STATELESS | DL_FLAG_RPM_ACTIVE);
+> > +             if (!pfdev->pm_domain_links[i]) {
+> > +                     dev_err(pfdev->pm_domain_devs[i],
+> > +                             "adding device link failed!\n");
+> > +                     err = -ENODEV;
+> > +                     goto err;
+> > +             }
+> > +     }
+> > +
+> > +     return 0;
+> > +
+> > +err:
+> > +     panfrost_pm_domain_fini(pfdev);
+> > +     return err;
+> > +}
+> > +
+> >   int panfrost_device_init(struct panfrost_device *pfdev)
+> >   {
+> >       int err;
+> > @@ -161,37 +223,45 @@ int panfrost_device_init(struct panfrost_device *pfdev)
+> >               goto err_out1;
+> >       }
+> >
+> > +     err = panfrost_pm_domain_init(pfdev);
+> > +     if (err) {
+> > +             dev_err(pfdev->dev, "pm_domain init failed %d\n", err);
+> > +             goto err_out2;
+> > +     }
+> > +
+> >       res = platform_get_resource(pfdev->pdev, IORESOURCE_MEM, 0);
+> >       pfdev->iomem = devm_ioremap_resource(pfdev->dev, res);
+> >       if (IS_ERR(pfdev->iomem)) {
+> >               dev_err(pfdev->dev, "failed to ioremap iomem\n");
+> >               err = PTR_ERR(pfdev->iomem);
+> > -             goto err_out2;
+> > +             goto err_out3;
+> >       }
+> >
+> >       err = panfrost_gpu_init(pfdev);
+> >       if (err)
+> > -             goto err_out2;
+> > +             goto err_out3;
+> >
+> >       err = panfrost_mmu_init(pfdev);
+> >       if (err)
+> > -             goto err_out3;
+> > +             goto err_out4;
+> >
+> >       err = panfrost_job_init(pfdev);
+> >       if (err)
+> > -             goto err_out4;
+> > +             goto err_out5;
+> >
+> >       err = panfrost_perfcnt_init(pfdev);
+> >       if (err)
+> > -             goto err_out5;
+> > +             goto err_out6;
+> >
+> >       return 0;
+> > -err_out5:
+> > +err_out6:
+> >       panfrost_job_fini(pfdev);
+> > -err_out4:
+> > +err_out5:
+> >       panfrost_mmu_fini(pfdev);
+> > -err_out3:
+> > +err_out4:
+> >       panfrost_gpu_fini(pfdev);
+> > +err_out3:
+> > +     panfrost_pm_domain_fini(pfdev);
+> >   err_out2:
+> >       panfrost_reset_fini(pfdev);
+> >   err_out1:
+> > @@ -208,6 +278,7 @@ void panfrost_device_fini(struct panfrost_device *pfdev)
+> >       panfrost_mmu_fini(pfdev);
+> >       panfrost_gpu_fini(pfdev);
+> >       panfrost_reset_fini(pfdev);
+> > +     panfrost_pm_domain_fini(pfdev);
+> >       panfrost_regulator_fini(pfdev);
+> >       panfrost_clk_fini(pfdev);
+> >   }
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+> > index a124334d69e7e93..92d471676fc7823 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_device.h
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+> > @@ -19,6 +19,7 @@ struct panfrost_job;
+> >   struct panfrost_perfcnt;
+> >
+> >   #define NUM_JOB_SLOTS 3
+> > +#define MAX_PM_DOMAINS 3
+> >
+> >   struct panfrost_features {
+> >       u16 id;
+> > @@ -62,6 +63,9 @@ struct panfrost_device {
+> >       struct regulator *regulator;
+> >       struct regulator *regulator_sram;
+> >       struct reset_control *rstc;
+> > +     /* pm_domains for devices with more than one. */
+> > +     struct device *pm_domain_devs[MAX_PM_DOMAINS];
+> > +     struct device_link *pm_domain_links[MAX_PM_DOMAINS];
+> >
+> >       struct panfrost_features features;
+> >
+> >
+>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
