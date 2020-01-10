@@ -1,89 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1E87137265
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2020 17:07:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAEDC13726C
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2020 17:07:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B063F6EA46;
-	Fri, 10 Jan 2020 16:07:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 892A96EA42;
+	Fri, 10 Jan 2020 16:07:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2053.outbound.protection.outlook.com [40.107.237.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 755AF6EA42;
- Fri, 10 Jan 2020 16:07:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SRH90VjxOU3bK7NvGOYGfkJ1JcJnHXkPX+DXdM4SP2w1iVRqK2z2y5aUOHObY/1BT0thoHy6zlopIF1h7wazl0QfAuOAMkRLBQpq74zMFKzegzLGwWN9LChRUjWbO/ObZjU0gXSV+S1ES1tPzkR5y62guY/0FsuA3hp76T3oVjmkr2Kl772vkierqTV9iiHVg5+wAqBH+jp+3j7XSHdFDsuBYX5td65FIN5EmVUOX829XH0Eb/SlNjsuBVGWizOTvDIm7rOTm/i4JO7Q/UcIirsnLrHyGjuf3FDrtV0rTuroY/PggzM0534h0E+MmE/goJK+ak2HtUAgV8FpNJaq3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jkK5k89touXwLwS7AqYpmYpsBLsd0IHxaG1CDdPsGpA=;
- b=g7AbtfZ7zpvx6diZ11RkDD3BwAFaxTcMCTRy+qwx/hgdlJm2zL7qTnogoNH9rzTWJhLm2BJ+O0Z9IYNQVOSDGpWNk9WnAsNevdHdLHEs+45hynlWbZCktLyp4kG4Ow2Y/UPMrd7AnquzdPambAn8ldZJnFmvMYz4l9BUzEGWHsdSvh3S9Q4c6O4HS8bYN9UrYQDLLHGN9IwDUxSWxQ2Yfhk1eepIIclS3muZRDKL0H5p8wIdJZfqMADOaCpigtlVAEddltUXYgKwEbJTGCROrqWk/wnJWve6vxXaAYNkWat27eACiGbgPrIWC/UupHL3+uZ/TK160HJhuKZuQ2ytjQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jkK5k89touXwLwS7AqYpmYpsBLsd0IHxaG1CDdPsGpA=;
- b=FPilZZavFn/PV0l8+QEXNu5K72c1XWs+s6ofhd5/ScbG6kNI1vqTw/JZJSuoPDUqwnWyg/MhDQ3fUYq1/LSrZvuE4p0FM58PGm8hmqnIc076m0yGLtS7S8w1xSz/YyNFGblRa1ZBz23RY0vv7gDrv8YxLVbprPOwCqZT3mt8kX8=
-Received: from DM5PR1201MB2554.namprd12.prod.outlook.com (10.172.92.14) by
- DM5PR1201MB0092.namprd12.prod.outlook.com (10.174.106.22) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2623.9; Fri, 10 Jan 2020 16:07:09 +0000
-Received: from DM5PR1201MB2554.namprd12.prod.outlook.com
- ([fe80::918b:7720:5da1:d845]) by DM5PR1201MB2554.namprd12.prod.outlook.com
- ([fe80::918b:7720:5da1:d845%9]) with mapi id 15.20.2623.013; Fri, 10 Jan 2020
- 16:07:09 +0000
-From: "Liu, Zhan" <Zhan.Liu@amd.com>
-To: "bugzilla-daemon@bugzilla.kernel.org"
- <bugzilla-daemon@bugzilla.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
- <amd-gfx@lists.freedesktop.org>
-Subject: RE: [Bug 206155] New: amdgpu several warnings while booting Fiji GPU, 
- GPU not activated
-Thread-Topic: [Bug 206155] New: amdgpu several warnings while booting Fiji
- GPU, GPU not activated
-Thread-Index: AQHVx8AZz87ZZEJuZkm7iuHRU2+S2KfkD6Hw
-Date: Fri, 10 Jan 2020 16:07:09 +0000
-Message-ID: <DM5PR1201MB2554FB066F8666B6DD9887899E380@DM5PR1201MB2554.namprd12.prod.outlook.com>
-References: <bug-206155-2300@https.bugzilla.kernel.org/>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 358756EA42
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 16:07:14 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 206155] amdgpu several warnings while booting Fiji GPU, GPU not
+ activated
+Date: Fri, 10 Jan 2020 16:07:13 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: Zhan.Liu@amd.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-206155-2300-0ZIz1hVyQ5@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-206155-2300@https.bugzilla.kernel.org/>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Zhan.Liu@amd.com; 
-x-originating-ip: [165.204.55.250]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 14ee0bbc-ab3f-4233-f8b4-08d795e7259e
-x-ms-traffictypediagnostic: DM5PR1201MB0092:
-x-microsoft-antispam-prvs: <DM5PR1201MB009224EB925D92DD8294465A9E380@DM5PR1201MB0092.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 02788FF38E
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10001)(10009020)(4636009)(39860400002)(396003)(366004)(376002)(136003)(346002)(189003)(199004)(13464003)(186003)(76116006)(64756008)(66446008)(66476007)(66556008)(8676002)(81166006)(81156014)(26005)(2906002)(5660300002)(33656002)(7696005)(66946007)(8936002)(30864003)(316002)(110136005)(71200400001)(9686003)(52536014)(478600001)(45080400002)(86362001)(55016002)(6506007)(966005)(53546011);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR1201MB0092;
- H:DM5PR1201MB2554.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 13Sfc+9ZzncZG3S7WbTcv2jLTjYghgwYx584VmJINvtBbGLMyQf+ljnm0VQUXqCtaMPnox8WUfTDYEjBLErFezS3AYpOosaOFe7QpZliUckfQDxa+M+79eFcnJTD1Kpa049Rn2OMrpchq2oV5dPJzA2uZwXUH2haff3dDzpZWRXiGKA8b37QTFnV6K3Zc+ZHUcba3XsGxbGHtPxzhccMnp6S19jUWnXzNa2vj+W8MVHf0B1o8B3UoXyS+PHe3aSqPk9iRiSG/IkkrByAgwRqPy7Dy923RzXduz+twb7Vmt7AD0LKEHeXbWoMFk3AnvcJqBNAU1xLqobH+8aQiDFCDlMTDV1OFFK2F+vI9x+0EfV80mO/aRlG2gWoi15PiobplccpD306uu8dqUIf5BPJEyg2KBjw7sPF7KEwbXbaArt/IhcMICq/+49A0o0XD2dzevQXpRWjlQSUClsZ4qeCdgm7Q+V0ECe4YYFoJYgNhSl5FOZHfe6lqzaONLYFZDQFB38HkzSc9JSowMNnWQYK9Po1aXvV8f1ZEaODX32eB9NgYAF7Pz97u8RAlqO3dCimWUR5iDGFllmYVeZaaFSGgVpB+gSMcTNtNgRsTcwl+u4fppD6mbZc01qpzLs2vWPxT6BzkXhcocoennq7O0jg4A==
-x-ms-exchange-transport-forked: True
+References: <bug-206155-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 14ee0bbc-ab3f-4233-f8b4-08d795e7259e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jan 2020 16:07:09.5864 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: CP8Z21rdf9ulANeI4rfiU7ytXv2jLjUTu8yk3VUKTNCCwsOOTlpB4XXhqhvgeLy8
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1201MB0092
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,13 +57,18 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+https://bugzilla.kernel.org/show_bug.cgi?id=206155
+
+--- Comment #1 from Zhan.Liu@amd.com ---
 + amd-gfx@lists.freedesktop.org
 
 Hi there,
 
-Thank you for your bug report (though from your email address seems like you are a robot :p)
+Thank you for your bug report (though from your email address seems like you
+are a robot :p)
 
-Since it's an amdgpu related bug, please also add amd-gfx@lists.freedesktop.org for better visibility.
+Since it's an amdgpu related bug, please also add amd-gfx@lists.freedesktop.org
+for better visibility.
 
 Thanks,
 Zhan
@@ -353,7 +314,8 @@ Zhan
 > BIOS F10 11/15/2019
 > [   14.536370] RIP: 0010:sysfs_remove_group+0x8b/0xa0
 > [   14.536371] Code: 8b 6c 24 08 48 83 c4 18 e9 f2 ba ff ff 48 89 ef e8 da b8
-> ff ff eb be 49 8b 14 24 48 8b 33 48 c7 c7 40 82 1c 96 e8 b5 44 dd ff <0f> 0b 48
+> ff ff eb be 49 8b 14 24 48 8b 33 48 c7 c7 40 82 1c 96 e8 b5 44 dd ff <0f> 0b
+> 48
 > 8b 1c 24 48 8b 6c 24 08 4c 8b 64 24 10 48 83 c4 18 c3 48
 > [   14.536372] RSP: 0018:ffff9bba8132fa48 EFLAGS: 00010296
 > [   14.536373] RAX: 000000000000003d RBX: ffffffffc05e4980 RCX:
@@ -432,6 +394,10 @@ Zhan
 > 01b808d795d739ca%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%
 > 7C637142623944629645&amp;sdata=l4z2lcSD9uZEeQWgjRGIc2k52w468PZII
 > ytRxozTZhw%3D&amp;reserved=0
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
