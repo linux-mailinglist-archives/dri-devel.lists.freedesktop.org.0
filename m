@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C32131371BE
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2020 16:51:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF3301371F7
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2020 16:59:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9F016EA36;
-	Fri, 10 Jan 2020 15:51:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DE846EA41;
+	Fri, 10 Jan 2020 15:59:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D04916EA3B;
- Fri, 10 Jan 2020 15:51:08 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id p9so2527873wmc.2;
- Fri, 10 Jan 2020 07:51:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=htyoGL9S6T2kkncuOXbjEVpKCQi9kwjwIDkV+g2u2rc=;
- b=mZ/SCd05crNRHh6oNQy0i8PHGSzZikzR8j/KFgVzIaRoz1u/BLIzdW91VY2H/uRggC
- yZyYkfHbyN2WiSCWmG84Ps+1j1ezZVzWPE3RuzOBsnCzUGaPjvGAp25o+QzBL8AUdM3q
- 4RZ5ihbpF54ttmjYT8YdiawirUeaNWW4FrLTW2Rj/JeUfIpS6Dvl2ku3y+lY3hpEHNro
- hhgIJhtg2FqmRtUdm0by1sPDfwzk7n9eML1hWjh+TOw9BHo5quOkwW8xRLUbrtAjYxeq
- yLwH7/v1CVtKfhmts/sHT4HKPXHaq/1ROjeXhB7dXjPTxzKH9J8Oani+Y9qU1s/QfrGO
- X7pA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=htyoGL9S6T2kkncuOXbjEVpKCQi9kwjwIDkV+g2u2rc=;
- b=EHqesOSPG7q0Xwhw+UZoGBmQzUG0iGiefm2QXmXz8sg414+D+2RVzUCvKeQWXIPNGd
- KntYboNSQ+xfTcTzuC7TaDCCu9Q/IsVueBbQOAWPqjOXZ2ixI2xYWu6NTd9G4MdGa0qw
- 3pqtjuuwSVVxhRmfDfnOUZ3GHW0NrcMLOx4bh7g8P/gkXkYNQn1cHZoQMG5ppnG5yBX4
- 1o+Olq5TRcjFVd5edS97R33dXY2zCbycAKKG2JBllerY5o50hE6kmcBgXapq4GBc9mfI
- XIoGrfKObpf/iVvIn/91ZY+eTS+i9cq28+6j1SfHnQXNdxiCMFVAC21r8JW2NG7GA3yA
- GPDw==
-X-Gm-Message-State: APjAAAUDtp2Bqvwl95owb+GOrybA2FAQesI0lDK+S59RZ51R8sQyaxfn
- TxqepLgtVCpRnUKdTCoxEv1DLFGUCxr5SdVfYKYKPynlpaY=
-X-Google-Smtp-Source: APXvYqwaOkrg4Yrffudmq2vHobTM+XNapFzfoN3/FCBco4Mko5b/jJKi/pWHSzVAvuuLhsGbMs7xIqDWsqdGAt1nias=
-X-Received: by 2002:a05:600c:10cd:: with SMTP id
- l13mr5377595wmd.102.1578671467565; 
- Fri, 10 Jan 2020 07:51:07 -0800 (PST)
+Received: from pio-pvt-msa3.bahnhof.se (pio-pvt-msa3.bahnhof.se [79.136.2.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D7B46EA41
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 15:59:33 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTP id ED1C93F5E0
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 16:59:30 +0100 (CET)
+Authentication-Results: pio-pvt-msa3.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=f84T1VT7; 
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
+ autolearn=ham autolearn_force=no
+Received: from pio-pvt-msa3.bahnhof.se ([127.0.0.1])
+ by localhost (pio-pvt-msa3.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id kQHWBW2i_rqh for <dri-devel@lists.freedesktop.org>;
+ Fri, 10 Jan 2020 16:59:29 +0100 (CET)
+Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
+ [155.4.205.35]) (Authenticated sender: mb878879)
+ by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTPA id 090313F580
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 16:59:28 +0100 (CET)
+Received: from localhost.localdomain (h-205-35.A357.priv.bahnhof.se
+ [155.4.205.35])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 388CB3600B2
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 16:59:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1578671968; bh=YCTYjZ/PhKwXufWAosZcdqWIcZWTAkXzBhDmWxBitKA=;
+ h=Subject:To:References:From:Date:In-Reply-To:From;
+ b=f84T1VT7Wq7NxMEyQbGxFhXgpAhMvhVVy6p7eIjC7IHzmx7gVA4z5/ZHdedReW6mv
+ r+84sEQeV0fdNhxizlSkE0dYbUAR6wWnhoqBFKSaGy0JFbTOqqHKnF91WMhZbRptKw
+ pU0dUZSAA1RXRK4/GVktuL8sUORdIy2Kl8etQxoI=
+Subject: Re: [PATCH] drm/ttm: nuke invalidate_caches callback
+To: dri-devel@lists.freedesktop.org
+References: <20200110150954.95958-1-christian.koenig@amd.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28VMware=29?= <thomas_os@shipmail.org>
+Organization: VMware Inc.
+Message-ID: <c5bc7924-e977-b308-4b4e-7113eb4c897a@shipmail.org>
+Date: Fri, 10 Jan 2020 16:59:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <20200109150752.28098-1-mario.kleiner.de@gmail.com>
- <20200109152656.GP1208@intel.com> <20200109153815.GQ1208@intel.com>
- <CAEsyxyj6xbHrkKk5=bG5APrD5VW_PP-Cs+nT0vqCjW_LBSG29A@mail.gmail.com>
- <20200109164715.GD13686@intel.com>
- <CAEsyxyhjbP6ADutU7XRJUjryj1+X8mFqopB9TvBoW6RWjBihww@mail.gmail.com>
- <20200109182408.GF13686@intel.com>
- <CAEsyxyiTxRZC=Mw4rKvjCQO557Qg6Q2JRkoUvQWOia7SxumznA@mail.gmail.com>
- <20200110133232.GJ13686@intel.com>
-In-Reply-To: <20200110133232.GJ13686@intel.com>
-From: Mario Kleiner <mario.kleiner.de@gmail.com>
-Date: Fri, 10 Jan 2020 16:50:55 +0100
-Message-ID: <CAEsyxyj1bR2zuXFegE2B0FMoN8nrct84QCpY7HsF4P-6ZKY4Cw@mail.gmail.com>
-Subject: Re: [PATCH] drm/i915/dp: Add current maximum eDP link rate to
- sink_rate array.
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+In-Reply-To: <20200110150954.95958-1-christian.koenig@amd.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,197 +68,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mario.kleiner.de@gmail.de, intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: multipart/mixed; boundary="===============1138810182=="
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1138810182==
-Content-Type: multipart/alternative; boundary="0000000000000a97fb059bcb18fd"
-
---0000000000000a97fb059bcb18fd
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Jan 10, 2020 at 2:32 PM Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linu=
-x.intel.com>
-wrote:
-
-> On Thu, Jan 09, 2020 at 09:19:07PM +0100, Mario Kleiner wrote:
-> > On Thu, Jan 9, 2020 at 7:24 PM Ville Syrj=C3=A4l=C3=A4 <
-> ville.syrjala@linux.intel.com>
-> > wrote:
-> >
-> > > On Thu, Jan 09, 2020 at 06:57:14PM +0100, Mario Kleiner wrote:
-> > > > On Thu, Jan 9, 2020 at 5:47 PM Ville Syrj=C3=A4l=C3=A4 <
-> > > ville.syrjala@linux.intel.com>
-> > > > wrote:
-> > > >
-> > > > > On Thu, Jan 09, 2020 at 05:30:05PM +0100, Mario Kleiner wrote:
-> > > > > > On Thu, Jan 9, 2020 at 4:38 PM Ville Syrj=C3=A4l=C3=A4 <
-> > > > > ville.syrjala@linux.intel.com>
-> > > > > > wrote:
-> > > > > >
-> > >
-> >
-> > > wouldn't work if dpcd[0x1] =3D=3D 0xa, which it likely is [*]. AMD DC
-> > > > identified it as DP 1.1, eDP 1.3, and these extended caps seem to b=
-e
-> only
-> > > > part of DP 1.3+ if i understand the comments in
-> > > > intel_dp_extended_receiver_capabilities() correctly.
-> > >
-> > >
-> > Ok, looking at previous debug output logs shows that those extended cap=
-s
-> > are not present on the systems, ie. that extended caps bit is not set. =
-So
-> > dpcd[0x1] =3D=3D 0xa.
-> >
-> >
-> > > Yeah, but you never know how creative they've been with the DPCD in
-> > > such a propritary machine. A full DPCD dump from /dev/drm_dp_aux* wou=
-ld
-> > > be nice. Can you file a bug an attach the DPCD dump there so we have =
-a
-> > > good reference on what we're talking about (also for future if/when
-> > > someone eventually starts to wonder why we have such hacks in the
-> > > code)?
-> > >
-> > >
-> > True, it's Apple which likes to "Think different..." :/
-> >
-> > Will do. But is there a proper/better way to do the /dev/drm_dp_aux0
-> dump?
-> > I used cat /dev/drm_dp_aux0 > dump, and that hangs, but if i interrupt =
-it
-> > after a few seconds, i get a dump file of 512k size, which seems
-> excessive?
-> > On AMD DC atm., in case that matters.
->
-> It can take a while to dump the whole thing. If there are errors in some
-> parts (against the spec but some devices simply don't care about the
-> spec) you may need to use ddrescue/etc. to dump everything that can be
-> dumped.
->
-> Ok, it is Mozilla bug 206157:
-
-https://bugzilla.kernel.org/show_bug.cgi?id=3D206157
-
-I attached the first ~ 5000 Bytes of DPCD dump, as there is a 5k file size
-limit. The total dump is 512 kB, mostly zeros.
-
--mario
-
---=20
-> Ville Syrj=C3=A4l=C3=A4
-> Intel
->
-
---0000000000000a97fb059bcb18fd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jan 10, 2020 at 2:32 PM Ville=
- Syrj=C3=A4l=C3=A4 &lt;<a href=3D"mailto:ville.syrjala@linux.intel.com">vil=
-le.syrjala@linux.intel.com</a>&gt; wrote:<br></div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex">On Thu, Jan 09, 2020 at 09:19:07PM +0100, Mario K=
-leiner wrote:<br>
-&gt; On Thu, Jan 9, 2020 at 7:24 PM Ville Syrj=C3=A4l=C3=A4 &lt;<a href=3D"=
-mailto:ville.syrjala@linux.intel.com" target=3D"_blank">ville.syrjala@linux=
-.intel.com</a>&gt;<br>
-&gt; wrote:<br>
-&gt; <br>
-&gt; &gt; On Thu, Jan 09, 2020 at 06:57:14PM +0100, Mario Kleiner wrote:<br=
->
-&gt; &gt; &gt; On Thu, Jan 9, 2020 at 5:47 PM Ville Syrj=C3=A4l=C3=A4 &lt;<=
-br>
-&gt; &gt; <a href=3D"mailto:ville.syrjala@linux.intel.com" target=3D"_blank=
-">ville.syrjala@linux.intel.com</a>&gt;<br>
-&gt; &gt; &gt; wrote:<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; On Thu, Jan 09, 2020 at 05:30:05PM +0100, Mario Kleiner=
- wrote:<br>
-&gt; &gt; &gt; &gt; &gt; On Thu, Jan 9, 2020 at 4:38 PM Ville Syrj=C3=A4l=
-=C3=A4 &lt;<br>
-&gt; &gt; &gt; &gt; <a href=3D"mailto:ville.syrjala@linux.intel.com" target=
-=3D"_blank">ville.syrjala@linux.intel.com</a>&gt;<br>
-&gt; &gt; &gt; &gt; &gt; wrote:<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt;<br>
-&gt; <br>
-&gt; &gt; wouldn&#39;t work if dpcd[0x1] =3D=3D 0xa, which it likely is [*]=
-. AMD DC<br>
-&gt; &gt; &gt; identified it as DP 1.1, eDP 1.3, and these extended caps se=
-em to be only<br>
-&gt; &gt; &gt; part of DP 1.3+ if i understand the comments in<br>
-&gt; &gt; &gt; intel_dp_extended_receiver_capabilities() correctly.<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; Ok, looking at previous debug output logs shows that those extended ca=
-ps<br>
-&gt; are not present on the systems, ie. that extended caps bit is not set.=
- So<br>
-&gt; dpcd[0x1] =3D=3D 0xa.<br>
-&gt; <br>
-&gt; <br>
-&gt; &gt; Yeah, but you never know how creative they&#39;ve been with the D=
-PCD in<br>
-&gt; &gt; such a propritary machine. A full DPCD dump from /dev/drm_dp_aux*=
- would<br>
-&gt; &gt; be nice. Can you file a bug an attach the DPCD dump there so we h=
-ave a<br>
-&gt; &gt; good reference on what we&#39;re talking about (also for future i=
-f/when<br>
-&gt; &gt; someone eventually starts to wonder why we have such hacks in the=
-<br>
-&gt; &gt; code)?<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; True, it&#39;s Apple which likes to &quot;Think different...&quot; :/<=
-br>
-&gt; <br>
-&gt; Will do. But is there a proper/better way to do the /dev/drm_dp_aux0 d=
-ump?<br>
-&gt; I used cat /dev/drm_dp_aux0 &gt; dump, and that hangs, but if i interr=
-upt it<br>
-&gt; after a few seconds, i get a dump file of 512k size, which seems exces=
-sive?<br>
-&gt; On AMD DC atm., in case that matters.<br>
-<br>
-It can take a while to dump the whole thing. If there are errors in some<br=
->
-parts (against the spec but some devices simply don&#39;t care about the<br=
->
-spec) you may need to use ddrescue/etc. to dump everything that can be<br>
-dumped.<br>
-<br></blockquote><div>Ok, it is Mozilla bug 206157:</div><div><br></div><di=
-v><a href=3D"https://bugzilla.kernel.org/show_bug.cgi?id=3D206157">https://=
-bugzilla.kernel.org/show_bug.cgi?id=3D206157</a></div><div><br></div><div>I=
- attached the first ~ 5000 Bytes of DPCD dump, as there is a 5k file size l=
-imit. The total dump is 512 kB, mostly zeros.</div><div><br></div><div>-mar=
-io</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
--- <br>
-Ville Syrj=C3=A4l=C3=A4<br>
-Intel<br>
-</blockquote></div></div>
-
---0000000000000a97fb059bcb18fd--
-
---===============1138810182==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1138810182==--
+ClJldmlld2VkLWJ5OiBUaG9tYXMgSGVsbHN0cm9tIDx0aGVsbHN0cm9tQHZtd2FyZS5jb20+CgpJ
+SVJDIHRoaXMgd2FzIHVzZWQgYnkgdGhlIG9sZCBpOTE1IGltcGxlbWVudGF0aW9uLgoKL1Rob21h
+cwoKT24gMS8xMC8yMCA0OjA5IFBNLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+IEFub3RoZXIg
+Y29tcGxldGVseSB1bnVzZWQgZmVhdHVyZS4KPgo+IFNpZ25lZC1vZmYtYnk6IENocmlzdGlhbiBL
+w7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiAtLS0KPiAgIGRyaXZlcnMvZ3B1L2Ry
+bS9hbWQvYW1kZ3B1L2FtZGdwdV90dG0uYyAgICB8ICA2IC0tLS0tLQo+ICAgZHJpdmVycy9ncHUv
+ZHJtL25vdXZlYXUvbm91dmVhdV9iby5jICAgICAgIHwgIDggLS0tLS0tLS0KPiAgIGRyaXZlcnMv
+Z3B1L2RybS9xeGwvcXhsX3R0bS5jICAgICAgICAgICAgICB8ICA2IC0tLS0tLQo+ICAgZHJpdmVy
+cy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fdHRtLmMgICAgICAgIHwgIDYgLS0tLS0tCj4gICBkcml2
+ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jICAgICAgICAgICAgICAgfCAgOSArLS0tLS0tLS0KPiAg
+IGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3R0bV9idWZmZXIuYyB8ICA2IC0tLS0tLQo+
+ICAgaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19kcml2ZXIuaCAgICAgICAgICAgIHwgMTUgLS0tLS0t
+LS0tLS0tLS0tCj4gICA3IGZpbGVzIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCA1NSBkZWxldGlv
+bnMoLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVf
+dHRtLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdHRtLmMKPiBpbmRleCA0
+NDVkZTU5NGMyMTQuLjdjNGIxY2JkOWE1MCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
+YW1kL2FtZGdwdS9hbWRncHVfdHRtLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdw
+dS9hbWRncHVfdHRtLmMKPiBAQCAtNjgsMTEgKzY4LDYgQEAgc3RhdGljIGludCBhbWRncHVfbWFw
+X2J1ZmZlcihzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLAo+ICAgc3RhdGljIGludCBhbWRn
+cHVfdHRtX2RlYnVnZnNfaW5pdChzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldik7Cj4gICBzdGF0
+aWMgdm9pZCBhbWRncHVfdHRtX2RlYnVnZnNfZmluaShzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRl
+dik7Cj4gICAKPiAtc3RhdGljIGludCBhbWRncHVfaW52YWxpZGF0ZV9jYWNoZXMoc3RydWN0IHR0
+bV9ib19kZXZpY2UgKmJkZXYsIHVpbnQzMl90IGZsYWdzKQo+IC17Cj4gLQlyZXR1cm4gMDsKPiAt
+fQo+IC0KPiAgIC8qKgo+ICAgICogYW1kZ3B1X2luaXRfbWVtX3R5cGUgLSBJbml0aWFsaXplIGEg
+bWVtb3J5IG1hbmFnZXIgZm9yIGEgc3BlY2lmaWMgdHlwZSBvZgo+ICAgICogbWVtb3J5IHJlcXVl
+c3QuCj4gQEAgLTE2MzcsNyArMTYzMiw2IEBAIHN0YXRpYyBzdHJ1Y3QgdHRtX2JvX2RyaXZlciBh
+bWRncHVfYm9fZHJpdmVyID0gewo+ICAgCS50dG1fdHRfY3JlYXRlID0gJmFtZGdwdV90dG1fdHRf
+Y3JlYXRlLAo+ICAgCS50dG1fdHRfcG9wdWxhdGUgPSAmYW1kZ3B1X3R0bV90dF9wb3B1bGF0ZSwK
+PiAgIAkudHRtX3R0X3VucG9wdWxhdGUgPSAmYW1kZ3B1X3R0bV90dF91bnBvcHVsYXRlLAo+IC0J
+LmludmFsaWRhdGVfY2FjaGVzID0gJmFtZGdwdV9pbnZhbGlkYXRlX2NhY2hlcywKPiAgIAkuaW5p
+dF9tZW1fdHlwZSA9ICZhbWRncHVfaW5pdF9tZW1fdHlwZSwKPiAgIAkuZXZpY3Rpb25fdmFsdWFi
+bGUgPSBhbWRncHVfdHRtX2JvX2V2aWN0aW9uX3ZhbHVhYmxlLAo+ICAgCS5ldmljdF9mbGFncyA9
+ICZhbWRncHVfZXZpY3RfZmxhZ3MsCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2
+ZWF1L25vdXZlYXVfYm8uYyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfYm8uYwo+
+IGluZGV4IGY4MDE1ZTAzMThkNy4uODE2NjgxMDQ1OTVmIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMv
+Z3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfYm8uYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2
+ZWF1L25vdXZlYXVfYm8uYwo+IEBAIC02NDYsMTMgKzY0Niw2IEBAIG5vdXZlYXVfdHRtX3R0X2Ny
+ZWF0ZShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLCB1aW50MzJfdCBwYWdlX2ZsYWdzKQo+
+ICAgCXJldHVybiBub3V2ZWF1X3NnZG1hX2NyZWF0ZV90dG0oYm8sIHBhZ2VfZmxhZ3MpOwo+ICAg
+fQo+ICAgCj4gLXN0YXRpYyBpbnQKPiAtbm91dmVhdV9ib19pbnZhbGlkYXRlX2NhY2hlcyhzdHJ1
+Y3QgdHRtX2JvX2RldmljZSAqYmRldiwgdWludDMyX3QgZmxhZ3MpCj4gLXsKPiAtCS8qIFdlJ2xs
+IGRvIHRoaXMgZnJvbSB1c2VyIHNwYWNlLiAqLwo+IC0JcmV0dXJuIDA7Cj4gLX0KPiAtCj4gICBz
+dGF0aWMgaW50Cj4gICBub3V2ZWF1X2JvX2luaXRfbWVtX3R5cGUoc3RydWN0IHR0bV9ib19kZXZp
+Y2UgKmJkZXYsIHVpbnQzMl90IHR5cGUsCj4gICAJCQkgc3RydWN0IHR0bV9tZW1fdHlwZV9tYW5h
+Z2VyICptYW4pCj4gQEAgLTE2OTYsNyArMTY4OSw2IEBAIHN0cnVjdCB0dG1fYm9fZHJpdmVyIG5v
+dXZlYXVfYm9fZHJpdmVyID0gewo+ICAgCS50dG1fdHRfY3JlYXRlID0gJm5vdXZlYXVfdHRtX3R0
+X2NyZWF0ZSwKPiAgIAkudHRtX3R0X3BvcHVsYXRlID0gJm5vdXZlYXVfdHRtX3R0X3BvcHVsYXRl
+LAo+ICAgCS50dG1fdHRfdW5wb3B1bGF0ZSA9ICZub3V2ZWF1X3R0bV90dF91bnBvcHVsYXRlLAo+
+IC0JLmludmFsaWRhdGVfY2FjaGVzID0gbm91dmVhdV9ib19pbnZhbGlkYXRlX2NhY2hlcywKPiAg
+IAkuaW5pdF9tZW1fdHlwZSA9IG5vdXZlYXVfYm9faW5pdF9tZW1fdHlwZSwKPiAgIAkuZXZpY3Rp
+b25fdmFsdWFibGUgPSB0dG1fYm9fZXZpY3Rpb25fdmFsdWFibGUsCj4gICAJLmV2aWN0X2ZsYWdz
+ID0gbm91dmVhdV9ib19ldmljdF9mbGFncywKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L3F4bC9xeGxfdHRtLmMgYi9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF90dG0uYwo+IGluZGV4IDE2
+YTVlOTAzNTMzZC4uNjJhNWU0MjQ5NzFiIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9x
+eGwvcXhsX3R0bS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfdHRtLmMKPiBAQCAt
+NDgsMTEgKzQ4LDYgQEAgc3RhdGljIHN0cnVjdCBxeGxfZGV2aWNlICpxeGxfZ2V0X3FkZXYoc3Ry
+dWN0IHR0bV9ib19kZXZpY2UgKmJkZXYpCj4gICAJcmV0dXJuIHFkZXY7Cj4gICB9Cj4gICAKPiAt
+c3RhdGljIGludCBxeGxfaW52YWxpZGF0ZV9jYWNoZXMoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJk
+ZXYsIHVpbnQzMl90IGZsYWdzKQo+IC17Cj4gLQlyZXR1cm4gMDsKPiAtfQo+IC0KPiAgIHN0YXRp
+YyBpbnQgcXhsX2luaXRfbWVtX3R5cGUoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsIHVpbnQz
+Ml90IHR5cGUsCj4gICAJCQkgICAgIHN0cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdlciAqbWFuKQo+
+ICAgewo+IEBAIC0yNTYsNyArMjUxLDYgQEAgc3RhdGljIHZvaWQgcXhsX2JvX21vdmVfbm90aWZ5
+KHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sCj4gICAKPiAgIHN0YXRpYyBzdHJ1Y3QgdHRt
+X2JvX2RyaXZlciBxeGxfYm9fZHJpdmVyID0gewo+ICAgCS50dG1fdHRfY3JlYXRlID0gJnF4bF90
+dG1fdHRfY3JlYXRlLAo+IC0JLmludmFsaWRhdGVfY2FjaGVzID0gJnF4bF9pbnZhbGlkYXRlX2Nh
+Y2hlcywKPiAgIAkuaW5pdF9tZW1fdHlwZSA9ICZxeGxfaW5pdF9tZW1fdHlwZSwKPiAgIAkuZXZp
+Y3Rpb25fdmFsdWFibGUgPSB0dG1fYm9fZXZpY3Rpb25fdmFsdWFibGUsCj4gICAJLmV2aWN0X2Zs
+YWdzID0gJnF4bF9ldmljdF9mbGFncywKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Jh
+ZGVvbi9yYWRlb25fdHRtLmMgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90dG0uYwo+
+IGluZGV4IGY0YWY2NzAzNTY3My4uNDAyODJiZjBhZGJlIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMv
+Z3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVv
+bi9yYWRlb25fdHRtLmMKPiBAQCAtNjYsMTEgKzY2LDYgQEAgc3RhdGljIHN0cnVjdCByYWRlb25f
+ZGV2aWNlICpyYWRlb25fZ2V0X3JkZXYoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYpCj4gICAJ
+cmV0dXJuIHJkZXY7Cj4gICB9Cj4gICAKPiAtc3RhdGljIGludCByYWRlb25faW52YWxpZGF0ZV9j
+YWNoZXMoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsIHVpbnQzMl90IGZsYWdzKQo+IC17Cj4g
+LQlyZXR1cm4gMDsKPiAtfQo+IC0KPiAgIHN0YXRpYyBpbnQgcmFkZW9uX2luaXRfbWVtX3R5cGUo
+c3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsIHVpbnQzMl90IHR5cGUsCj4gICAJCQkJc3RydWN0
+IHR0bV9tZW1fdHlwZV9tYW5hZ2VyICptYW4pCj4gICB7Cj4gQEAgLTc3NCw3ICs3NjksNiBAQCBz
+dGF0aWMgc3RydWN0IHR0bV9ib19kcml2ZXIgcmFkZW9uX2JvX2RyaXZlciA9IHsKPiAgIAkudHRt
+X3R0X2NyZWF0ZSA9ICZyYWRlb25fdHRtX3R0X2NyZWF0ZSwKPiAgIAkudHRtX3R0X3BvcHVsYXRl
+ID0gJnJhZGVvbl90dG1fdHRfcG9wdWxhdGUsCj4gICAJLnR0bV90dF91bnBvcHVsYXRlID0gJnJh
+ZGVvbl90dG1fdHRfdW5wb3B1bGF0ZSwKPiAtCS5pbnZhbGlkYXRlX2NhY2hlcyA9ICZyYWRlb25f
+aW52YWxpZGF0ZV9jYWNoZXMsCj4gICAJLmluaXRfbWVtX3R5cGUgPSAmcmFkZW9uX2luaXRfbWVt
+X3R5cGUsCj4gICAJLmV2aWN0aW9uX3ZhbHVhYmxlID0gdHRtX2JvX2V2aWN0aW9uX3ZhbHVhYmxl
+LAo+ICAgCS5ldmljdF9mbGFncyA9ICZyYWRlb25fZXZpY3RfZmxhZ3MsCj4gZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9i
+by5jCj4gaW5kZXggNWRmNTk2ZmIwMjgwLi4wNmY2ZDY1MDgyN2YgMTAwNjQ0Cj4gLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRt
+X2JvLmMKPiBAQCAtMzcyLDE0ICszNzIsNyBAQCBzdGF0aWMgaW50IHR0bV9ib19oYW5kbGVfbW92
+ZV9tZW0oc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywKPiAgIAl9Cj4gICAKPiAgIG1vdmVk
+Ogo+IC0JaWYgKGJvLT5ldmljdGVkKSB7Cj4gLQkJaWYgKGJkZXYtPmRyaXZlci0+aW52YWxpZGF0
+ZV9jYWNoZXMpIHsKPiAtCQkJcmV0ID0gYmRldi0+ZHJpdmVyLT5pbnZhbGlkYXRlX2NhY2hlcyhi
+ZGV2LCBiby0+bWVtLnBsYWNlbWVudCk7Cj4gLQkJCWlmIChyZXQpCj4gLQkJCQlwcl9lcnIoIkNh
+biBub3QgZmx1c2ggcmVhZCBjYWNoZXNcbiIpOwo+IC0JCX0KPiAtCQliby0+ZXZpY3RlZCA9IGZh
+bHNlOwo+IC0JfQo+ICsJYm8tPmV2aWN0ZWQgPSBmYWxzZTsKPiAgIAo+ICAgCWlmIChiby0+bWVt
+Lm1tX25vZGUpCj4gICAJCWJvLT5vZmZzZXQgPSAoYm8tPm1lbS5zdGFydCA8PCBQQUdFX1NISUZU
+KSArCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3R0bV9idWZm
+ZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3R0bV9idWZmZXIuYwo+IGluZGV4
+IGQ4ZWEzZGQxMGFmMC4uM2YzYjJjN2EyMDhhIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS92bXdnZngvdm13Z2Z4X3R0bV9idWZmZXIuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS92bXdn
+Zngvdm13Z2Z4X3R0bV9idWZmZXIuYwo+IEBAIC03MzYsMTEgKzczNiw2IEBAIHN0YXRpYyBzdHJ1
+Y3QgdHRtX3R0ICp2bXdfdHRtX3R0X2NyZWF0ZShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJv
+LAo+ICAgCXJldHVybiBOVUxMOwo+ICAgfQo+ICAgCj4gLXN0YXRpYyBpbnQgdm13X2ludmFsaWRh
+dGVfY2FjaGVzKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LCB1aW50MzJfdCBmbGFncykKPiAt
+ewo+IC0JcmV0dXJuIDA7Cj4gLX0KPiAtCj4gICBzdGF0aWMgaW50IHZtd19pbml0X21lbV90eXBl
+KHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LCB1aW50MzJfdCB0eXBlLAo+ICAgCQkgICAgICBz
+dHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXIgKm1hbikKPiAgIHsKPiBAQCAtODY2LDcgKzg2MSw2
+IEBAIHN0cnVjdCB0dG1fYm9fZHJpdmVyIHZtd19ib19kcml2ZXIgPSB7Cj4gICAJLnR0bV90dF9j
+cmVhdGUgPSAmdm13X3R0bV90dF9jcmVhdGUsCj4gICAJLnR0bV90dF9wb3B1bGF0ZSA9ICZ2bXdf
+dHRtX3BvcHVsYXRlLAo+ICAgCS50dG1fdHRfdW5wb3B1bGF0ZSA9ICZ2bXdfdHRtX3VucG9wdWxh
+dGUsCj4gLQkuaW52YWxpZGF0ZV9jYWNoZXMgPSB2bXdfaW52YWxpZGF0ZV9jYWNoZXMsCj4gICAJ
+LmluaXRfbWVtX3R5cGUgPSB2bXdfaW5pdF9tZW1fdHlwZSwKPiAgIAkuZXZpY3Rpb25fdmFsdWFi
+bGUgPSB0dG1fYm9fZXZpY3Rpb25fdmFsdWFibGUsCj4gICAJLmV2aWN0X2ZsYWdzID0gdm13X2V2
+aWN0X2ZsYWdzLAo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2RyaXZlci5o
+IGIvaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19kcml2ZXIuaAo+IGluZGV4IGNhYzdhOGEwODI1YS4u
+YzllMGZkMDlmNGIyIDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fZHJpdmVy
+LmgKPiArKysgYi9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2RyaXZlci5oCj4gQEAgLTIxMCw4ICsy
+MTAsNiBAQCBzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXIgewo+ICAgICogc3RydWN0IHR0bV9i
+b19kcml2ZXIKPiAgICAqCj4gICAgKiBAY3JlYXRlX3R0bV9iYWNrZW5kX2VudHJ5OiBDYWxsYmFj
+ayB0byBjcmVhdGUgYSBzdHJ1Y3QgdHRtX2JhY2tlbmQuCj4gLSAqIEBpbnZhbGlkYXRlX2NhY2hl
+czogQ2FsbGJhY2sgdG8gaW52YWxpZGF0ZSByZWFkIGNhY2hlcyB3aGVuIGEgYnVmZmVyIG9iamVj
+dAo+IC0gKiBoYXMgYmVlbiBldmljdGVkLgo+ICAgICogQGluaXRfbWVtX3R5cGU6IENhbGxiYWNr
+IHRvIGluaXRpYWxpemUgYSBzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXIKPiAgICAqIHN0cnVj
+dHVyZS4KPiAgICAqIEBldmljdF9mbGFnczogQ2FsbGJhY2sgdG8gb2J0YWluIHBsYWNlbWVudCBm
+bGFncyB3aGVuIGEgYnVmZmVyIGlzIGV2aWN0ZWQuCj4gQEAgLTI1NiwxOSArMjU0LDYgQEAgc3Ry
+dWN0IHR0bV9ib19kcml2ZXIgewo+ICAgCSAqLwo+ICAgCXZvaWQgKCp0dG1fdHRfdW5wb3B1bGF0
+ZSkoc3RydWN0IHR0bV90dCAqdHRtKTsKPiAgIAo+IC0JLyoqCj4gLQkgKiBzdHJ1Y3QgdHRtX2Jv
+X2RyaXZlciBtZW1iZXIgaW52YWxpZGF0ZV9jYWNoZXMKPiAtCSAqCj4gLQkgKiBAYmRldjogdGhl
+IGJ1ZmZlciBvYmplY3QgZGV2aWNlLgo+IC0JICogQGZsYWdzOiBuZXcgcGxhY2VtZW50IG9mIHRo
+ZSByZWJvdW5kIGJ1ZmZlciBvYmplY3QuCj4gLQkgKgo+IC0JICogQSBwcmV2aW9zbHkgZXZpY3Rl
+ZCBidWZmZXIgaGFzIGJlZW4gcmVib3VuZCBpbiBhCj4gLQkgKiBwb3RlbnRpYWxseSBuZXcgbG9j
+YXRpb24uIFRlbGwgdGhlIGRyaXZlciB0aGF0IGl0IG1pZ2h0Cj4gLQkgKiBjb25zaWRlciBpbnZh
+bGlkYXRpbmcgcmVhZCAodGV4dHVyZSkgY2FjaGVzIG9uIHRoZSBuZXh0IGNvbW1hbmQKPiAtCSAq
+IHN1Ym1pc3Npb24gYXMgYSBjb25zZXF1ZW5jZS4KPiAtCSAqLwo+IC0KPiAtCWludCAoKmludmFs
+aWRhdGVfY2FjaGVzKShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwgdWludDMyX3QgZmxhZ3Mp
+Owo+ICAgCWludCAoKmluaXRfbWVtX3R5cGUpKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LCB1
+aW50MzJfdCB0eXBlLAo+ICAgCQkJICAgICBzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXIgKm1h
+bik7Cj4gICAKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
