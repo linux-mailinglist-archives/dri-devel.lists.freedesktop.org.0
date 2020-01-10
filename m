@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9BC513864D
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Jan 2020 13:36:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 179C013864F
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Jan 2020 13:36:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6E1989CB3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC7F789CBC;
 	Sun, 12 Jan 2020 12:36:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
- [217.70.183.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6A8888AA1
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 08:00:12 +0000 (UTC)
-X-Originating-IP: 91.224.148.103
-Received: from xps13 (unknown [91.224.148.103])
- (Authenticated sender: miquel.raynal@bootlin.com)
- by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 846836000E;
- Fri, 10 Jan 2020 08:00:04 +0000 (UTC)
-Date: Fri, 10 Jan 2020 09:00:03 +0100
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v5 1/2] dt-bindings: display: simple: Add Satoz panel
-Message-ID: <20200110090003.1e233d15@xps13>
-In-Reply-To: <20200109193203.GA22666@ravnborg.org>
-References: <20200109184037.9091-1-miquel.raynal@bootlin.com>
- <20200109193203.GA22666@ravnborg.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5952F6E99A
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 09:19:45 +0000 (UTC)
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id D171E1CCB194AE3BA2B3;
+ Fri, 10 Jan 2020 17:19:42 +0800 (CST)
+Received: from localhost (10.133.213.239) by DGGEMS411-HUB.china.huawei.com
+ (10.3.19.211) with Microsoft SMTP Server id 14.3.439.0; Fri, 10 Jan 2020
+ 17:19:33 +0800
+From: YueHaibing <yuehaibing@huawei.com>
+To: <airlied@linux.ie>, <daniel@ffwll.ch>, <yuehaibing@huawei.com>,
+ <alexander.deucher@amd.com>
+Subject: [PATCH -next] drm/ch7006: Use match_string() helper to simplify the
+ code
+Date: Fri, 10 Jan 2020 17:19:26 +0800
+Message-ID: <20200110091926.48380-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.10.2.windows.1
 MIME-Version: 1.0
+X-Originating-IP: [10.133.213.239]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Sun, 12 Jan 2020 12:36:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,29 +42,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Maxime Chevallier <maxime.chevallier@bootlin.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGVsbG8sCgpTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+IHdyb3RlIG9uIFRodSwgOSBK
-YW4gMjAyMCAyMDozMjowMyArMDEwMDoKCj4gSGkgTWlxdWVsLgo+IAo+IE9uIFRodSwgSmFuIDA5
-LCAyMDIwIGF0IDA3OjQwOjM2UE0gKzAxMDAsIE1pcXVlbCBSYXluYWwgd3JvdGU6Cj4gPiBTYXRv
-eiBpcyBhIENoaW5lc2UgVEZUIG1hbnVmYWN0dXJlci4KPiA+IFdlYnNpdGU6IGh0dHA6Ly93d3cu
-c2F0LXN6LmNvbS9FbmdsaXNoL2luZGV4Lmh0bWwKPiA+IAo+ID4gQWRkIHRoZSBjb21wYXRpYmxl
-IGZvciBpdHMgU0FUMDUwQVQ0MEgxMlIyIDUuMCBpbmNoIExDRCBwYW5lbC4KPiA+IAo+ID4gU2ln
-bmVkLW9mZi1ieTogTWlxdWVsIFJheW5hbCA8bWlxdWVsLnJheW5hbEBib290bGluLmNvbT4gIAo+
-IAo+IEFwcGxpZWQgdGhpcyBhbmQgdGhlIGZvbGxvd2luZyBwYXRjaCB0byBkcm0tbWlzYy1uZXh0
-Lgo+IEkgbWFudWFsbHkgcmVzb2x2ZWQgdGhlIGNvbmZsaWN0IGluIHBhbmVsLXNpbXBsZS55YW1s
-LgoKVGhhbmtzIGZvciB5b3VyIHdvcmssIFNhbSwgdGhpcyBpcyB2ZXJ5IGFwcHJlY2lhdGVkLgoK
-Q2hlZXJzLApNaXF1w6hsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbAo=
+match_string() returns the array index of a matching string.
+Use it instead of the open-coded implementation.
+
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+---
+ drivers/gpu/drm/i2c/ch7006_drv.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/gpu/drm/i2c/ch7006_drv.c b/drivers/gpu/drm/i2c/ch7006_drv.c
+index b91e48d..f9a46b5 100644
+--- a/drivers/gpu/drm/i2c/ch7006_drv.c
++++ b/drivers/gpu/drm/i2c/ch7006_drv.c
+@@ -464,16 +464,13 @@ static int ch7006_encoder_init(struct i2c_client *client,
+ 	priv->chip_version = ch7006_read(client, CH7006_VERSION_ID);
+ 
+ 	if (ch7006_tv_norm) {
+-		for (i = 0; i < NUM_TV_NORMS; i++) {
+-			if (!strcmp(ch7006_tv_norm_names[i], ch7006_tv_norm)) {
+-				priv->norm = i;
+-				break;
+-			}
+-		}
+-
+-		if (i == NUM_TV_NORMS)
++		i = match_string(ch7006_tv_norm_names, NUM_TV_NORMS,
++				 ch7006_tv_norm);
++		if (i < 0)
+ 			ch7006_err(client, "Invalid TV norm setting \"%s\".\n",
+ 				   ch7006_tv_norm);
++		else
++			priv->norm = i;
+ 	}
+ 
+ 	if (ch7006_scale >= 0 && ch7006_scale <= 2)
+-- 
+2.7.4
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
