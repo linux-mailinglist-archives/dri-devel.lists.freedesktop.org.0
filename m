@@ -2,43 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82790137437
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2020 17:57:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C33B13746B
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2020 18:07:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A109A6EA61;
-	Fri, 10 Jan 2020 16:56:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9275D6EA63;
+	Fri, 10 Jan 2020 17:07:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5F826EA61
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 16:56:58 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206017] Kernel 5.4.x unusable with GUI due to crashes (some hard)
-Date: Fri, 10 Jan 2020 16:56:57 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: udovdh@xs4all.nl
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-206017-2300-mhIpJw2oJ7@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-206017-2300@https.bugzilla.kernel.org/>
-References: <bug-206017-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DCDF6EA63
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 17:07:40 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id C2B4420053;
+ Fri, 10 Jan 2020 18:07:34 +0100 (CET)
+Date: Fri, 10 Jan 2020 18:07:33 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Icenowy Zheng <icenowy@aosc.io>
+Subject: Re: [PATCH 1/5] dt-bindings: vendor-prefix: add Shenzhen Feixin
+ Photoelectics Co., Ltd
+Message-ID: <20200110170733.GA25099@ravnborg.org>
+References: <20200110155225.1051749-1-icenowy@aosc.io>
+ <20200110155225.1051749-2-icenowy@aosc.io>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200110155225.1051749-2-icenowy@aosc.io>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
+ a=Ms75YHVibuC86ioFB_8A:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+ a=pHzHmUro8NiASowvMSCR:22 a=6VlIyEUom7LUIeUMNQJH:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,21 +47,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-sunxi@googlegroups.com, linux-kernel@vger.kernel.org,
+ Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=206017
+Hi Icenowy.
 
---- Comment #12 from udo (udovdh@xs4all.nl) ---
-5.4.9 also has this issue.
-Runs ok with firefox not being used, as far as I can test and detect.
-With firefox the system locks hard after a while.
+On Fri, Jan 10, 2020 at 11:52:21PM +0800, Icenowy Zheng wrote:
+> Shenzhen Feixin Photoelectics Co., Ltd is a company to provide LCD
+> modules.
+> 
+> Add its vendor prefix.
+> 
+> Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+
+> ---
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> index 3dab8150dae7..a6d53bbbe33d 100644
+> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> @@ -335,6 +335,8 @@ patternProperties:
+>      description: Fastrax Oy
+>    "^fcs,.*":
+>      description: Fairchild Semiconductor
+> +  "^feixin,.*":
+> +    description: Shenzhen Feixin Photoelectic Co., Ltd
+>    "^feiyang,.*":
+>      description: Shenzhen Fly Young Technology Co.,LTD.
+>    "^firefly,.*":
+> -- 
+> 2.23.0
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
