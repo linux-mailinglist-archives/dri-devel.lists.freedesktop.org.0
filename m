@@ -1,37 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B491F136E58
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2020 14:42:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF582136ED2
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2020 14:56:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57AB06EA20;
-	Fri, 10 Jan 2020 13:42:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6993F6EA15;
+	Fri, 10 Jan 2020 13:56:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2DCC6EA20;
- Fri, 10 Jan 2020 13:42:10 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF7586EA02;
+ Fri, 10 Jan 2020 13:56:19 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2020 05:42:10 -0800
-X-IronPort-AV: E=Sophos;i="5.69,417,1571727600"; d="scan'208";a="216669084"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 10 Jan 2020 05:56:19 -0800
+X-IronPort-AV: E=Sophos;i="5.69,417,1571727600"; d="scan'208";a="371616160"
 Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2020 05:42:07 -0800
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 10 Jan 2020 05:56:08 -0800
 From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Oleg Vasilev <oleg.vasilev@intel.com>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v4 2/7] drm: always determine branch device with
- drm_dp_is_branch()
-In-Reply-To: <20190829114854.1539-2-oleg.vasilev@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@linux.ie, daniel@ffwll.ch,
+ alexander.deucher@amd.com, christian.koenig@amd.com, David1.Zhou@amd.com,
+ maarten.lankhorst@linux.intel.com, patrik.r.jakobsson@gmail.com,
+ robdclark@gmail.com, sean@poorly.run, benjamin.gaignard@linaro.org,
+ vincent.abriou@st.com, yannick.fertre@st.com, philippe.cornu@st.com,
+ mcoquelin.stm32@gmail.com, alexandre.torgue@st.com, eric@anholt.net,
+ rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
+ linux-graphics-maintainer@vmware.com, thellstrom@vmware.com,
+ bskeggs@redhat.com, harry.wentland@amd.com, sunpeng.li@amd.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com
+Subject: Re: [PATCH 03/23] drm/i915: Don't use struct
+ drm_driver.get_scanout_position()
+In-Reply-To: <761ae94c-aaf1-9167-9c44-06824304fdfd@suse.de>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20190826132216.2823-1-oleg.vasilev@intel.com>
- <20190829114854.1539-1-oleg.vasilev@intel.com>
- <20190829114854.1539-2-oleg.vasilev@intel.com>
-Date: Fri, 10 Jan 2020 15:42:03 +0200
-Message-ID: <87blrbo2c4.fsf@intel.com>
+References: <20200110092127.27847-1-tzimmermann@suse.de>
+ <20200110092127.27847-4-tzimmermann@suse.de> <87eew7o73u.fsf@intel.com>
+ <761ae94c-aaf1-9167-9c44-06824304fdfd@suse.de>
+Date: Fri, 10 Jan 2020 15:56:06 +0200
+Message-ID: <875zhjo1op.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,44 +54,247 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Emil Velikov <emil.velikov@collabora.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAyOSBBdWcgMjAxOSwgT2xlZyBWYXNpbGV2IDxvbGVnLnZhc2lsZXZAaW50ZWwuY29t
-PiB3cm90ZToKPiBUaGUgaGVscGVyIHNob3VsZCBhbHdheXMgYmUgdXNlZC4KPgo+IFJldmlld2Vk
-LWJ5OiBFbWlsIFZlbGlrb3YgPGVtaWwudmVsaWtvdkBjb2xsYWJvcmEuY29tPgo+IFNpZ25lZC1v
-ZmYtYnk6IE9sZWcgVmFzaWxldiA8b2xlZy52YXNpbGV2QGludGVsLmNvbT4KPiBDYzogVmlsbGUg
-U3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KPiBDYzogaW50ZWwtZ2Z4
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwoKUHVzaGVkIHBhdGNoZXMgMS0yIHRvIGRybS1taXNjLW5l
-eHQsIHRoYW5rcyBmb3IgdGhlIHBhdGNoZXMgYW5kIHJldmlldy4KCkJSLApKYW5pLgoKCj4gLS0t
-Cj4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fZHBfaGVscGVyLmMgICAgICAgICB8IDMgKy0tCj4gIGRy
-aXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYyB8IDIgKy0KPiAgMiBmaWxlcyBj
-aGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9ncHUvZHJtL2RybV9kcF9oZWxwZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBf
-aGVscGVyLmMKPiBpbmRleCBmZmM2OGQzMDVhZmUuLjE0MzIwOTMwMDkxYiAxMDA2NDQKPiAtLS0g
-YS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX2hlbHBlci5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
-L2RybV9kcF9oZWxwZXIuYwo+IEBAIC01NzMsOCArNTczLDcgQEAgdm9pZCBkcm1fZHBfZG93bnN0
-cmVhbV9kZWJ1ZyhzdHJ1Y3Qgc2VxX2ZpbGUgKm0sCj4gIAlpbnQgbGVuOwo+ICAJdWludDhfdCBy
-ZXZbMl07Cj4gIAlpbnQgdHlwZSA9IHBvcnRfY2FwWzBdICYgRFBfRFNfUE9SVF9UWVBFX01BU0s7
-Cj4gLQlib29sIGJyYW5jaF9kZXZpY2UgPSBkcGNkW0RQX0RPV05TVFJFQU1QT1JUX1BSRVNFTlRd
-ICYKPiAtCQkJICAgICBEUF9EV05fU1RSTV9QT1JUX1BSRVNFTlQ7Cj4gKwlib29sIGJyYW5jaF9k
-ZXZpY2UgPSBkcm1fZHBfaXNfYnJhbmNoKGRwY2QpOwo+ICAKPiAgCXNlcV9wcmludGYobSwgIlx0
-RFAgYnJhbmNoIGRldmljZSBwcmVzZW50OiAlc1xuIiwKPiAgCQkgICBicmFuY2hfZGV2aWNlID8g
-InllcyIgOiAibm8iKTsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxh
-eS9pbnRlbF9kcC5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5jCj4g
-aW5kZXggMjM5MDhkYTFjZDVkLi42ZGE2YTQ4NTlmMDYgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5
-MTUvZGlzcGxheS9pbnRlbF9kcC5jCj4gQEAgLTI5MjIsNyArMjkyMiw3IEBAIHN0YXRpYyBib29s
-IGRvd25zdHJlYW1faHBkX25lZWRzX2QwKHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHApCj4gIAkg
-KiBGSVhNRSBzaG91bGQgcmVhbGx5IGNoZWNrIGFsbCBkb3duc3RyZWFtIHBvcnRzLi4uCj4gIAkg
-Ki8KPiAgCXJldHVybiBpbnRlbF9kcC0+ZHBjZFtEUF9EUENEX1JFVl0gPT0gMHgxMSAmJgo+IC0J
-CWludGVsX2RwLT5kcGNkW0RQX0RPV05TVFJFQU1QT1JUX1BSRVNFTlRdICYgRFBfRFdOX1NUUk1f
-UE9SVF9QUkVTRU5UICYmCj4gKwkJZHJtX2RwX2lzX2JyYW5jaChpbnRlbF9kcC0+ZHBjZCkgJiYK
-PiAgCQlpbnRlbF9kcC0+ZG93bnN0cmVhbV9wb3J0c1swXSAmIERQX0RTX1BPUlRfSFBEOwo+ICB9
-CgotLSAKSmFuaSBOaWt1bGEsIEludGVsIE9wZW4gU291cmNlIEdyYXBoaWNzIENlbnRlcgpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Fri, 10 Jan 2020, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> Hi
+>
+> Am 10.01.20 um 12:59 schrieb Jani Nikula:
+>> On Fri, 10 Jan 2020, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>>> The callback struct drm_driver.get_scanout_position() is deprecated in
+>>> favor of struct drm_crtc_helper_funcs.get_scanout_position().
+>>>
+>>> i915 doesn't use CRTC helpers. The patch duplicates the caller
+>>> drm_calc_vbltimestamp_from_scanoutpos() for i915, such that the callback
+>>> function is not needed.
+>>>
+>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> ---
+>>>  drivers/gpu/drm/i915/i915_drv.c |   3 +-
+>>>  drivers/gpu/drm/i915/i915_irq.c | 117 ++++++++++++++++++++++++++++++--
+>>>  drivers/gpu/drm/i915/i915_irq.h |   9 +--
+>>>  3 files changed, 119 insertions(+), 10 deletions(-)
+>> 
+>> Not really enthusiastic about the diffstat in a "cleanup" series.
+>
+> Well, the cleanup is about the content of drm_driver :)
+>
+>> 
+>> I wonder if you could add a generic helper version of
+>> drm_calc_vbltimestamp_from_scanoutpos where you pass the
+>> get_scanout_position function as a parameter. Both
+>> drm_calc_vbltimestamp_from_scanoutpos and the new
+>> i915_calc_vbltimestamp_from_scanoutpos would then be fairly thin
+>> wrappers passing in the relevant get_scanout_position function.
+>
+> Of course. Will be in v2 of the series.
+
+Please give Ville (Cc'd) a moment before sending v2 in case he wants to
+chime in on this.
+
+Thanks,
+Jani.
+
+
+>
+> Best regards
+> Thomas
+>
+>> 
+>> This would reduce the almost identical duplication of the function in
+>> i915.
+>> 
+>> BR,
+>> Jani.
+>> 
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
+>>> index f7385abdd74b..4a0a7fb85c53 100644
+>>> --- a/drivers/gpu/drm/i915/i915_drv.c
+>>> +++ b/drivers/gpu/drm/i915/i915_drv.c
+>>> @@ -2769,8 +2769,7 @@ static struct drm_driver driver = {
+>>>  	.gem_prime_export = i915_gem_prime_export,
+>>>  	.gem_prime_import = i915_gem_prime_import,
+>>>  
+>>> -	.get_vblank_timestamp = drm_calc_vbltimestamp_from_scanoutpos,
+>>> -	.get_scanout_position = i915_get_crtc_scanoutpos,
+>>> +	.get_vblank_timestamp = i915_calc_vbltimestamp_from_scanoutpos,
+>>>  
+>>>  	.dumb_create = i915_gem_dumb_create,
+>>>  	.dumb_map_offset = i915_gem_dumb_mmap_offset,
+>>> diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
+>>> index afc6aad9bf8c..99d0c3b0feae 100644
+>>> --- a/drivers/gpu/drm/i915/i915_irq.c
+>>> +++ b/drivers/gpu/drm/i915/i915_irq.c
+>>> @@ -52,6 +52,11 @@
+>>>  #include "i915_trace.h"
+>>>  #include "intel_pm.h"
+>>>  
+>>> +/* Retry timestamp calculation up to 3 times to satisfy
+>>> + * drm_timestamp_precision before giving up.
+>>> + */
+>>> +#define I915_TIMESTAMP_MAXRETRIES 3
+>>> +
+>>>  /**
+>>>   * DOC: interrupt handling
+>>>   *
+>>> @@ -762,10 +767,11 @@ static int __intel_get_crtc_scanline(struct intel_crtc *crtc)
+>>>  	return (position + crtc->scanline_offset) % vtotal;
+>>>  }
+>>>  
+>>> -bool i915_get_crtc_scanoutpos(struct drm_device *dev, unsigned int index,
+>>> -			      bool in_vblank_irq, int *vpos, int *hpos,
+>>> -			      ktime_t *stime, ktime_t *etime,
+>>> -			      const struct drm_display_mode *mode)
+>>> +static bool i915_get_crtc_scanoutpos(struct drm_device *dev,
+>>> +				     unsigned int index, bool in_vblank_irq,
+>>> +				     int *vpos, int *hpos,
+>>> +				     ktime_t *stime, ktime_t *etime,
+>>> +				     const struct drm_display_mode *mode)
+>>>  {
+>>>  	struct drm_i915_private *dev_priv = to_i915(dev);
+>>>  	struct intel_crtc *crtc = to_intel_crtc(drm_crtc_from_index(dev, index));
+>>> @@ -879,6 +885,109 @@ bool i915_get_crtc_scanoutpos(struct drm_device *dev, unsigned int index,
+>>>  	return true;
+>>>  }
+>>>  
+>>> +bool i915_calc_vbltimestamp_from_scanoutpos(struct drm_device *dev,
+>>> +					    unsigned int pipe,
+>>> +					    int *max_error,
+>>> +					    ktime_t *vblank_time,
+>>> +					    bool in_vblank_irq)
+>>> +{
+>>> +	struct timespec64 ts_etime, ts_vblank_time;
+>>> +	ktime_t stime, etime;
+>>> +	bool vbl_status;
+>>> +	struct drm_crtc *crtc;
+>>> +	const struct drm_display_mode *mode;
+>>> +	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+>>> +	int vpos, hpos, i;
+>>> +	int delta_ns, duration_ns;
+>>> +
+>>> +	crtc = drm_crtc_from_index(dev, pipe);
+>>> +
+>>> +	if (pipe >= dev->num_crtcs || !crtc) {
+>>> +		DRM_ERROR("Invalid crtc %u\n", pipe);
+>>> +		return false;
+>>> +	}
+>>> +
+>>> +	if (drm_drv_uses_atomic_modeset(dev))
+>>> +		mode = &vblank->hwmode;
+>>> +	else
+>>> +		mode = &crtc->hwmode;
+>>> +
+>>> +	/* If mode timing undefined, just return as no-op:
+>>> +	 * Happens during initial modesetting of a crtc.
+>>> +	 */
+>>> +	if (mode->crtc_clock == 0) {
+>>> +		DRM_DEBUG("crtc %u: Noop due to uninitialized mode.\n", pipe);
+>>> +		WARN_ON_ONCE(drm_drv_uses_atomic_modeset(dev));
+>>> +
+>>> +		return false;
+>>> +	}
+>>> +
+>>> +	/* Get current scanout position with system timestamp.
+>>> +	 * Repeat query up to DRM_TIMESTAMP_MAXRETRIES times
+>>> +	 * if single query takes longer than max_error nanoseconds.
+>>> +	 *
+>>> +	 * This guarantees a tight bound on maximum error if
+>>> +	 * code gets preempted or delayed for some reason.
+>>> +	 */
+>>> +	for (i = 0; i < I915_TIMESTAMP_MAXRETRIES; i++) {
+>>> +		/*
+>>> +		 * Get vertical and horizontal scanout position vpos, hpos,
+>>> +		 * and bounding timestamps stime, etime, pre/post query.
+>>> +		 */
+>>> +		vbl_status = i915_get_crtc_scanoutpos(dev, pipe, in_vblank_irq,
+>>> +						      &vpos, &hpos, &stime,
+>>> +						      &etime, mode);
+>>> +		/* Return as no-op if scanout query unsupported or failed. */
+>>> +		if (!vbl_status) {
+>>> +			DRM_DEBUG("crtc %u : scanoutpos query failed.\n",
+>>> +				  pipe);
+>>> +			return false;
+>>> +		}
+>>> +
+>>> +		/* Compute uncertainty in timestamp of scanout position query. */
+>>> +		duration_ns = ktime_to_ns(etime) - ktime_to_ns(stime);
+>>> +
+>>> +		/* Accept result with <  max_error nsecs timing uncertainty. */
+>>> +		if (duration_ns <= *max_error)
+>>> +			break;
+>>> +	}
+>>> +
+>>> +	/* Noisy system timing? */
+>>> +	if (i == I915_TIMESTAMP_MAXRETRIES) {
+>>> +		DRM_DEBUG("crtc %u: Noisy timestamp %d us > %d us [%d reps].\n",
+>>> +			  pipe, duration_ns/1000, *max_error/1000, i);
+>>> +	}
+>>> +
+>>> +	/* Return upper bound of timestamp precision error. */
+>>> +	*max_error = duration_ns;
+>>> +
+>>> +	/* Convert scanout position into elapsed time at raw_time query
+>>> +	 * since start of scanout at first display scanline. delta_ns
+>>> +	 * can be negative if start of scanout hasn't happened yet.
+>>> +	 */
+>>> +	delta_ns = div_s64(1000000LL * (vpos * mode->crtc_htotal + hpos),
+>>> +			   mode->crtc_clock);
+>>> +
+>>> +	/* Subtract time delta from raw timestamp to get final
+>>> +	 * vblank_time timestamp for end of vblank.
+>>> +	 */
+>>> +	*vblank_time = ktime_sub_ns(etime, delta_ns);
+>>> +
+>>> +	if (!drm_debug_enabled(DRM_UT_VBL))
+>>> +		return true;
+>>> +
+>>> +	ts_etime = ktime_to_timespec64(etime);
+>>> +	ts_vblank_time = ktime_to_timespec64(*vblank_time);
+>>> +
+>>> +	DRM_DEBUG_VBL("crtc %u : v p(%d,%d)@ %lld.%06ld -> %lld.%06ld [e %d us, %d rep]\n",
+>>> +		      pipe, hpos, vpos,
+>>> +		      (u64)ts_etime.tv_sec, ts_etime.tv_nsec / 1000,
+>>> +		      (u64)ts_vblank_time.tv_sec, ts_vblank_time.tv_nsec / 1000,
+>>> +		      duration_ns / 1000, i);
+>>> +
+>>> +	return true;
+>>> +}
+>>> +
+>>>  int intel_get_crtc_scanline(struct intel_crtc *crtc)
+>>>  {
+>>>  	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
+>>> diff --git a/drivers/gpu/drm/i915/i915_irq.h b/drivers/gpu/drm/i915/i915_irq.h
+>>> index 812c47a9c2d6..5f7b133ce721 100644
+>>> --- a/drivers/gpu/drm/i915/i915_irq.h
+>>> +++ b/drivers/gpu/drm/i915/i915_irq.h
+>>> @@ -101,10 +101,11 @@ void gen8_irq_power_well_post_enable(struct drm_i915_private *dev_priv,
+>>>  void gen8_irq_power_well_pre_disable(struct drm_i915_private *dev_priv,
+>>>  				     u8 pipe_mask);
+>>>  
+>>> -bool i915_get_crtc_scanoutpos(struct drm_device *dev, unsigned int pipe,
+>>> -			      bool in_vblank_irq, int *vpos, int *hpos,
+>>> -			      ktime_t *stime, ktime_t *etime,
+>>> -			      const struct drm_display_mode *mode);
+>>> +bool i915_calc_vbltimestamp_from_scanoutpos(struct drm_device *dev,
+>>> +					    unsigned int pipe,
+>>> +					    int *max_error,
+>>> +					    ktime_t *vblank_time,
+>>> +					    bool in_vblank_irq);
+>>>  
+>>>  u32 i915_get_vblank_counter(struct drm_crtc *crtc);
+>>>  u32 g4x_get_vblank_counter(struct drm_crtc *crtc);
+>> 
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
