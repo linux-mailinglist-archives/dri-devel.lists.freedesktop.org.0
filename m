@@ -1,22 +1,22 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1EA713866A
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Jan 2020 13:37:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79594138650
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Jan 2020 13:36:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC0F36E530;
-	Sun, 12 Jan 2020 12:36:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10D8D89CCB;
+	Sun, 12 Jan 2020 12:36:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from olimex.com (olimex.com [IPv6:2001:470:0:1f2::b869:4820])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A22789FDD
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 14:12:07 +0000 (UTC)
+Received: from olimex.com (olimex.com [184.105.72.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A0186EA27
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 14:12:13 +0000 (UTC)
 Received: from localhost.localdomain ([94.155.250.134])
  by olimex.com with ESMTPSA
  (ECDHE-RSA-AES128-GCM-SHA256:TLSv1.2:Kx=ECDH:Au=RSA:Enc=AESGCM(128):Mac=AEAD)
  (SMTP-AUTH username stefan@olimex.com, mechanism PLAIN)
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 06:11:56 -0800
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 06:12:01 -0800
 From: Stefan Mavrodiev <stefan@olimex.com>
 To: Dan Williams <dan.j.williams@intel.com>, Vinod Koul <vkoul@kernel.org>,
  Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
@@ -26,10 +26,13 @@ To: Dan Williams <dan.j.williams@intel.com>, Vinod Koul <vkoul@kernel.org>,
  linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC
  support), 
  dri-devel@lists.freedesktop.org (open list:DRM DRIVERS FOR ALLWINNER A10)
-Subject: [PATCH 0/2] Add support for sun4i HDMI audio
-Date: Fri, 10 Jan 2020 16:11:38 +0200
-Message-Id: <20200110141140.28527-1-stefan@olimex.com>
+Subject: [PATCH 1/2] dmaengine: sun4i: Add support for cyclic requests with
+ dedicated DMA
+Date: Fri, 10 Jan 2020 16:11:39 +0200
+Message-Id: <20200110141140.28527-2-stefan@olimex.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200110141140.28527-1-stefan@olimex.com>
+References: <20200110141140.28527-1-stefan@olimex.com>
 X-Mailman-Approved-At: Sun, 12 Jan 2020 12:36:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,30 +53,103 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series add support for HDMI audio for sun4i HDMI encored.
-The code uses some parts from the Allwinners's BSP kernel.
+Currently the cyclic transfers can be used only with normal DMAs. They
+can be used by pcm_dmaengine module, which is required for implementing
+sound with sun4i-hdmi encoder. This is so because the controller can
+accept audio only from a dedicated DMA.
 
-Currently cyclic DMA transfers are disabled. The first patch permits them
-as they are required for the audio.
+This patch enables them, following the existing style for the
+scatter/gather type transfers.
 
-The patch is tested on A20 chip. For the other chips, only the addresses
-of the registers are checked.
+Signed-off-by: Stefan Mavrodiev <stefan@olimex.com>
+---
+ drivers/dma/sun4i-dma.c | 45 ++++++++++++++++++++++-------------------
+ 1 file changed, 24 insertions(+), 21 deletions(-)
 
-Stefan Mavrodiev (2):
-  dmaengine: sun4i: Add support for cyclic requests with dedicated DMA
-  drm: sun4i: hdmi: Add support for sun4i HDMI encoder audio
-
- drivers/dma/sun4i-dma.c                  |  45 +--
- drivers/gpu/drm/sun4i/Kconfig            |   1 +
- drivers/gpu/drm/sun4i/Makefile           |   1 +
- drivers/gpu/drm/sun4i/sun4i_hdmi.h       |  30 ++
- drivers/gpu/drm/sun4i/sun4i_hdmi_audio.c | 375 +++++++++++++++++++++++
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c   |   4 +
- 6 files changed, 435 insertions(+), 21 deletions(-)
- create mode 100644 drivers/gpu/drm/sun4i/sun4i_hdmi_audio.c
-
+diff --git a/drivers/dma/sun4i-dma.c b/drivers/dma/sun4i-dma.c
+index e397a50058c8..7b41815d86fb 100644
+--- a/drivers/dma/sun4i-dma.c
++++ b/drivers/dma/sun4i-dma.c
+@@ -669,43 +669,41 @@ sun4i_dma_prep_dma_cyclic(struct dma_chan *chan, dma_addr_t buf, size_t len,
+ 	dma_addr_t src, dest;
+ 	u32 endpoints;
+ 	int nr_periods, offset, plength, i;
++	u8 ram_type, io_mode, linear_mode;
+ 
+ 	if (!is_slave_direction(dir)) {
+ 		dev_err(chan2dev(chan), "Invalid DMA direction\n");
+ 		return NULL;
+ 	}
+ 
+-	if (vchan->is_dedicated) {
+-		/*
+-		 * As we are using this just for audio data, we need to use
+-		 * normal DMA. There is nothing stopping us from supporting
+-		 * dedicated DMA here as well, so if a client comes up and
+-		 * requires it, it will be simple to implement it.
+-		 */
+-		dev_err(chan2dev(chan),
+-			"Cyclic transfers are only supported on Normal DMA\n");
+-		return NULL;
+-	}
+-
+ 	contract = generate_dma_contract();
+ 	if (!contract)
+ 		return NULL;
+ 
+ 	contract->is_cyclic = 1;
+ 
+-	/* Figure out the endpoints and the address we need */
++	if (vchan->is_dedicated) {
++		io_mode = SUN4I_DDMA_ADDR_MODE_IO;
++		linear_mode = SUN4I_DDMA_ADDR_MODE_LINEAR;
++		ram_type = SUN4I_DDMA_DRQ_TYPE_SDRAM;
++	} else {
++		io_mode = SUN4I_NDMA_ADDR_MODE_IO;
++		linear_mode = SUN4I_NDMA_ADDR_MODE_LINEAR;
++		ram_type = SUN4I_NDMA_DRQ_TYPE_SDRAM;
++	}
++
+ 	if (dir == DMA_MEM_TO_DEV) {
+ 		src = buf;
+ 		dest = sconfig->dst_addr;
+-		endpoints = SUN4I_DMA_CFG_SRC_DRQ_TYPE(SUN4I_NDMA_DRQ_TYPE_SDRAM) |
+-			    SUN4I_DMA_CFG_DST_DRQ_TYPE(vchan->endpoint) |
+-			    SUN4I_DMA_CFG_DST_ADDR_MODE(SUN4I_NDMA_ADDR_MODE_IO);
++		endpoints = SUN4I_DMA_CFG_DST_DRQ_TYPE(vchan->endpoint) |
++			    SUN4I_DMA_CFG_DST_ADDR_MODE(io_mode) |
++			    SUN4I_DMA_CFG_SRC_DRQ_TYPE(ram_type);
+ 	} else {
+ 		src = sconfig->src_addr;
+ 		dest = buf;
+-		endpoints = SUN4I_DMA_CFG_SRC_DRQ_TYPE(vchan->endpoint) |
+-			    SUN4I_DMA_CFG_SRC_ADDR_MODE(SUN4I_NDMA_ADDR_MODE_IO) |
+-			    SUN4I_DMA_CFG_DST_DRQ_TYPE(SUN4I_NDMA_DRQ_TYPE_SDRAM);
++		endpoints = SUN4I_DMA_CFG_DST_DRQ_TYPE(ram_type) |
++			    SUN4I_DMA_CFG_SRC_DRQ_TYPE(vchan->endpoint) |
++			    SUN4I_DMA_CFG_SRC_ADDR_MODE(io_mode);
+ 	}
+ 
+ 	/*
+@@ -747,8 +745,13 @@ sun4i_dma_prep_dma_cyclic(struct dma_chan *chan, dma_addr_t buf, size_t len,
+ 			dest = buf + offset;
+ 
+ 		/* Make the promise */
+-		promise = generate_ndma_promise(chan, src, dest,
+-						plength, sconfig, dir);
++		if (vchan->is_dedicated)
++			promise = generate_ddma_promise(chan, src, dest,
++							plength, sconfig);
++		else
++			promise = generate_ndma_promise(chan, src, dest,
++							plength, sconfig, dir);
++
+ 		if (!promise) {
+ 			/* TODO: should we free everything? */
+ 			return NULL;
 -- 
 2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
