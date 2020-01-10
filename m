@@ -2,20 +2,20 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90FFD1369CF
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2020 10:22:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27E4E1369D0
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2020 10:22:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B0F86E9FA;
-	Fri, 10 Jan 2020 09:21:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 282D16E9A4;
+	Fri, 10 Jan 2020 09:21:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46C6E6E9DD;
- Fri, 10 Jan 2020 09:21:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D34B6E9E7;
+ Fri, 10 Jan 2020 09:21:44 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id D6F67ADEF;
- Fri, 10 Jan 2020 09:21:41 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id A6F9AB2B3;
+ Fri, 10 Jan 2020 09:21:42 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@linux.ie, daniel@ffwll.ch, alexander.deucher@amd.com,
  christian.koenig@amd.com, David1.Zhou@amd.com,
@@ -28,9 +28,9 @@ To: airlied@linux.ie, daniel@ffwll.ch, alexander.deucher@amd.com,
  bskeggs@redhat.com, harry.wentland@amd.com, sunpeng.li@amd.com,
  jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
  rodrigo.vivi@intel.com
-Subject: [PATCH 13/23] drm/gma500: Convert to CRTC VBLANK callbacks
-Date: Fri, 10 Jan 2020 10:21:17 +0100
-Message-Id: <20200110092127.27847-14-tzimmermann@suse.de>
+Subject: [PATCH 14/23] drm/i915: Convert to CRTC VBLANK callbacks
+Date: Fri, 10 Jan 2020 10:21:18 +0100
+Message-Id: <20200110092127.27847-15-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200110092127.27847-1-tzimmermann@suse.de>
 References: <20200110092127.27847-1-tzimmermann@suse.de>
@@ -57,156 +57,139 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 VBLANK callbacks in struct drm_driver are deprecated in favor of
-their equivalents in struct drm_crtc_funcs. Convert gma500 over.
+their equivalents in struct drm_crtc_funcs. Convert i915 over.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/gma500/cdv_intel_display.c |  3 +++
- drivers/gpu/drm/gma500/psb_drv.c           |  4 ----
- drivers/gpu/drm/gma500/psb_drv.h           |  6 +++---
- drivers/gpu/drm/gma500/psb_intel_display.c |  3 +++
- drivers/gpu/drm/gma500/psb_irq.c           | 12 +++++++++---
- drivers/gpu/drm/gma500/psb_irq.h           |  7 ++++---
- 6 files changed, 22 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/i915/display/intel_display.c |  7 +++++++
+ drivers/gpu/drm/i915/i915_drv.c              |  2 --
+ drivers/gpu/drm/i915/i915_irq.c              | 13 +++----------
+ drivers/gpu/drm/i915/i915_irq.h              |  3 +--
+ 4 files changed, 11 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/gma500/cdv_intel_display.c b/drivers/gpu/drm/gma500/cdv_intel_display.c
-index 1ed854f498b7..686385a66167 100644
---- a/drivers/gpu/drm/gma500/cdv_intel_display.c
-+++ b/drivers/gpu/drm/gma500/cdv_intel_display.c
-@@ -977,6 +977,9 @@ const struct drm_crtc_funcs cdv_intel_crtc_funcs = {
- 	.set_config = gma_crtc_set_config,
- 	.destroy = gma_crtc_destroy,
- 	.page_flip = gma_crtc_page_flip,
-+	.enable_vblank = psb_enable_vblank,
-+	.disable_vblank = psb_disable_vblank,
-+	.get_vblank_counter = psb_get_vblank_counter,
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index da5266e76738..515788698298 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -16227,6 +16227,7 @@ static const struct drm_crtc_funcs bdw_crtc_funcs = {
+ 	.get_vblank_counter = g4x_get_vblank_counter,
+ 	.enable_vblank = bdw_enable_vblank,
+ 	.disable_vblank = bdw_disable_vblank,
++	.get_vblank_timestamp = i915_calc_vbltimestamp_from_scanoutpos,
  };
  
- const struct gma_clock_funcs cdv_clock_funcs = {
-diff --git a/drivers/gpu/drm/gma500/psb_drv.c b/drivers/gpu/drm/gma500/psb_drv.c
-index 52591416f8fe..36cb292fdebe 100644
---- a/drivers/gpu/drm/gma500/psb_drv.c
-+++ b/drivers/gpu/drm/gma500/psb_drv.c
-@@ -363,7 +363,6 @@ static int psb_driver_load(struct drm_device *dev, unsigned long flags)
- 	drm_irq_install(dev, dev->pdev->irq);
- 
- 	dev->max_vblank_count = 0xffffff; /* only 24 bits of frame count */
--	dev->driver->get_vblank_counter = psb_get_vblank_counter;
- 
- 	psb_modeset_init(dev);
- 	psb_fbdev_init(dev);
-@@ -507,9 +506,6 @@ static struct drm_driver driver = {
- 	.irq_postinstall = psb_irq_postinstall,
- 	.irq_uninstall = psb_irq_uninstall,
- 	.irq_handler = psb_irq_handler,
--	.enable_vblank = psb_enable_vblank,
--	.disable_vblank = psb_disable_vblank,
--	.get_vblank_counter = psb_get_vblank_counter,
- 
- 	.gem_free_object = psb_gem_free_object,
- 	.gem_vm_ops = &psb_gem_vm_ops,
-diff --git a/drivers/gpu/drm/gma500/psb_drv.h b/drivers/gpu/drm/gma500/psb_drv.h
-index 3d4ef3071d45..956926341316 100644
---- a/drivers/gpu/drm/gma500/psb_drv.h
-+++ b/drivers/gpu/drm/gma500/psb_drv.h
-@@ -681,15 +681,15 @@ extern void psb_irq_turn_off_dpst(struct drm_device *dev);
- extern void psb_irq_uninstall_islands(struct drm_device *dev, int hw_islands);
- extern int psb_vblank_wait2(struct drm_device *dev, unsigned int *sequence);
- extern int psb_vblank_wait(struct drm_device *dev, unsigned int *sequence);
--extern int psb_enable_vblank(struct drm_device *dev, unsigned int pipe);
--extern void psb_disable_vblank(struct drm_device *dev, unsigned int pipe);
-+extern int psb_enable_vblank(struct drm_crtc *crtc);
-+extern void psb_disable_vblank(struct drm_crtc *crtc);
- void
- psb_enable_pipestat(struct drm_psb_private *dev_priv, int pipe, u32 mask);
- 
- void
- psb_disable_pipestat(struct drm_psb_private *dev_priv, int pipe, u32 mask);
- 
--extern u32 psb_get_vblank_counter(struct drm_device *dev, unsigned int pipe);
-+extern u32 psb_get_vblank_counter(struct drm_crtc *crtc);
- 
- /* framebuffer.c */
- extern int psbfb_probed(struct drm_device *dev);
-diff --git a/drivers/gpu/drm/gma500/psb_intel_display.c b/drivers/gpu/drm/gma500/psb_intel_display.c
-index fed3b563e62e..531c5485be17 100644
---- a/drivers/gpu/drm/gma500/psb_intel_display.c
-+++ b/drivers/gpu/drm/gma500/psb_intel_display.c
-@@ -433,6 +433,9 @@ const struct drm_crtc_funcs psb_intel_crtc_funcs = {
- 	.set_config = gma_crtc_set_config,
- 	.destroy = gma_crtc_destroy,
- 	.page_flip = gma_crtc_page_flip,
-+	.enable_vblank = psb_enable_vblank,
-+	.disable_vblank = psb_disable_vblank,
-+	.get_vblank_counter = psb_get_vblank_counter,
+ static const struct drm_crtc_funcs ilk_crtc_funcs = {
+@@ -16235,6 +16236,7 @@ static const struct drm_crtc_funcs ilk_crtc_funcs = {
+ 	.get_vblank_counter = g4x_get_vblank_counter,
+ 	.enable_vblank = ilk_enable_vblank,
+ 	.disable_vblank = ilk_disable_vblank,
++	.get_vblank_timestamp = i915_calc_vbltimestamp_from_scanoutpos,
  };
  
- const struct gma_clock_funcs psb_clock_funcs = {
-diff --git a/drivers/gpu/drm/gma500/psb_irq.c b/drivers/gpu/drm/gma500/psb_irq.c
-index 40a37e400b02..7ec031d28dc0 100644
---- a/drivers/gpu/drm/gma500/psb_irq.c
-+++ b/drivers/gpu/drm/gma500/psb_irq.c
-@@ -507,8 +507,10 @@ int psb_irq_disable_dpst(struct drm_device *dev)
- /*
-  * It is used to enable VBLANK interrupt
-  */
--int psb_enable_vblank(struct drm_device *dev, unsigned int pipe)
-+int psb_enable_vblank(struct drm_crtc *crtc)
+ static const struct drm_crtc_funcs g4x_crtc_funcs = {
+@@ -16243,6 +16245,7 @@ static const struct drm_crtc_funcs g4x_crtc_funcs = {
+ 	.get_vblank_counter = g4x_get_vblank_counter,
+ 	.enable_vblank = i965_enable_vblank,
+ 	.disable_vblank = i965_disable_vblank,
++	.get_vblank_timestamp = i915_calc_vbltimestamp_from_scanoutpos,
+ };
+ 
+ static const struct drm_crtc_funcs i965_crtc_funcs = {
+@@ -16251,6 +16254,7 @@ static const struct drm_crtc_funcs i965_crtc_funcs = {
+ 	.get_vblank_counter = i915_get_vblank_counter,
+ 	.enable_vblank = i965_enable_vblank,
+ 	.disable_vblank = i965_disable_vblank,
++	.get_vblank_timestamp = i915_calc_vbltimestamp_from_scanoutpos,
+ };
+ 
+ static const struct drm_crtc_funcs i915gm_crtc_funcs = {
+@@ -16259,6 +16263,7 @@ static const struct drm_crtc_funcs i915gm_crtc_funcs = {
+ 	.get_vblank_counter = i915_get_vblank_counter,
+ 	.enable_vblank = i915gm_enable_vblank,
+ 	.disable_vblank = i915gm_disable_vblank,
++	.get_vblank_timestamp = i915_calc_vbltimestamp_from_scanoutpos,
+ };
+ 
+ static const struct drm_crtc_funcs i915_crtc_funcs = {
+@@ -16267,6 +16272,7 @@ static const struct drm_crtc_funcs i915_crtc_funcs = {
+ 	.get_vblank_counter = i915_get_vblank_counter,
+ 	.enable_vblank = i8xx_enable_vblank,
+ 	.disable_vblank = i8xx_disable_vblank,
++	.get_vblank_timestamp = i915_calc_vbltimestamp_from_scanoutpos,
+ };
+ 
+ static const struct drm_crtc_funcs i8xx_crtc_funcs = {
+@@ -16275,6 +16281,7 @@ static const struct drm_crtc_funcs i8xx_crtc_funcs = {
+ 	/* no hw vblank counter */
+ 	.enable_vblank = i8xx_enable_vblank,
+ 	.disable_vblank = i8xx_disable_vblank,
++	.get_vblank_timestamp = i915_calc_vbltimestamp_from_scanoutpos,
+ };
+ 
+ static struct intel_crtc *intel_crtc_alloc(void)
+diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
+index 4a0a7fb85c53..30b9ba136a81 100644
+--- a/drivers/gpu/drm/i915/i915_drv.c
++++ b/drivers/gpu/drm/i915/i915_drv.c
+@@ -2769,8 +2769,6 @@ static struct drm_driver driver = {
+ 	.gem_prime_export = i915_gem_prime_export,
+ 	.gem_prime_import = i915_gem_prime_import,
+ 
+-	.get_vblank_timestamp = i915_calc_vbltimestamp_from_scanoutpos,
+-
+ 	.dumb_create = i915_gem_dumb_create,
+ 	.dumb_map_offset = i915_gem_dumb_mmap_offset,
+ 
+diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
+index 99d0c3b0feae..dbbbdff8fa89 100644
+--- a/drivers/gpu/drm/i915/i915_irq.c
++++ b/drivers/gpu/drm/i915/i915_irq.c
+@@ -885,28 +885,21 @@ static bool i915_get_crtc_scanoutpos(struct drm_device *dev,
+ 	return true;
+ }
+ 
+-bool i915_calc_vbltimestamp_from_scanoutpos(struct drm_device *dev,
+-					    unsigned int pipe,
++bool i915_calc_vbltimestamp_from_scanoutpos(struct drm_crtc *crtc,
+ 					    int *max_error,
+ 					    ktime_t *vblank_time,
+ 					    bool in_vblank_irq)
  {
 +	struct drm_device *dev = crtc->dev;
 +	unsigned int pipe = crtc->index;
- 	struct drm_psb_private *dev_priv = dev->dev_private;
- 	unsigned long irqflags;
- 	uint32_t reg_val = 0;
-@@ -546,8 +548,10 @@ int psb_enable_vblank(struct drm_device *dev, unsigned int pipe)
- /*
-  * It is used to disable VBLANK interrupt
-  */
--void psb_disable_vblank(struct drm_device *dev, unsigned int pipe)
-+void psb_disable_vblank(struct drm_crtc *crtc)
- {
-+	struct drm_device *dev = crtc->dev;
-+	unsigned int pipe = crtc->index;
- 	struct drm_psb_private *dev_priv = dev->dev_private;
- 	unsigned long irqflags;
+ 	struct timespec64 ts_etime, ts_vblank_time;
+ 	ktime_t stime, etime;
+ 	bool vbl_status;
+-	struct drm_crtc *crtc;
+ 	const struct drm_display_mode *mode;
+ 	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+ 	int vpos, hpos, i;
+ 	int delta_ns, duration_ns;
  
-@@ -619,8 +623,10 @@ void mdfld_disable_te(struct drm_device *dev, int pipe)
- /* Called from drm generic code, passed a 'crtc', which
-  * we use as a pipe index
-  */
--u32 psb_get_vblank_counter(struct drm_device *dev, unsigned int pipe)
-+u32 psb_get_vblank_counter(struct drm_crtc *crtc)
- {
-+	struct drm_device *dev = crtc->dev;
-+	unsigned int pipe = crtc->index;
- 	uint32_t high_frame = PIPEAFRAMEHIGH;
- 	uint32_t low_frame = PIPEAFRAMEPIXEL;
- 	uint32_t pipeconf_reg = PIPEACONF;
-diff --git a/drivers/gpu/drm/gma500/psb_irq.h b/drivers/gpu/drm/gma500/psb_irq.h
-index 58fd502e3b9d..4f73998848d1 100644
---- a/drivers/gpu/drm/gma500/psb_irq.h
-+++ b/drivers/gpu/drm/gma500/psb_irq.h
-@@ -12,6 +12,7 @@
- #ifndef _PSB_IRQ_H_
- #define _PSB_IRQ_H_
+-	crtc = drm_crtc_from_index(dev, pipe);
+-
+-	if (pipe >= dev->num_crtcs || !crtc) {
+-		DRM_ERROR("Invalid crtc %u\n", pipe);
+-		return false;
+-	}
+-
+ 	if (drm_drv_uses_atomic_modeset(dev))
+ 		mode = &vblank->hwmode;
+ 	else
+diff --git a/drivers/gpu/drm/i915/i915_irq.h b/drivers/gpu/drm/i915/i915_irq.h
+index 5f7b133ce721..756577a7a384 100644
+--- a/drivers/gpu/drm/i915/i915_irq.h
++++ b/drivers/gpu/drm/i915/i915_irq.h
+@@ -101,8 +101,7 @@ void gen8_irq_power_well_post_enable(struct drm_i915_private *dev_priv,
+ void gen8_irq_power_well_pre_disable(struct drm_i915_private *dev_priv,
+ 				     u8 pipe_mask);
  
-+struct drm_crtc;
- struct drm_device;
- 
- bool sysirq_init(struct drm_device *dev);
-@@ -26,9 +27,9 @@ int psb_irq_enable_dpst(struct drm_device *dev);
- int psb_irq_disable_dpst(struct drm_device *dev);
- void psb_irq_turn_on_dpst(struct drm_device *dev);
- void psb_irq_turn_off_dpst(struct drm_device *dev);
--int  psb_enable_vblank(struct drm_device *dev, unsigned int pipe);
--void psb_disable_vblank(struct drm_device *dev, unsigned int pipe);
--u32  psb_get_vblank_counter(struct drm_device *dev, unsigned int pipe);
-+int  psb_enable_vblank(struct drm_crtc *crtc);
-+void psb_disable_vblank(struct drm_crtc *crtc);
-+u32  psb_get_vblank_counter(struct drm_crtc *crtc);
- 
- int mdfld_enable_te(struct drm_device *dev, int pipe);
- void mdfld_disable_te(struct drm_device *dev, int pipe);
+-bool i915_calc_vbltimestamp_from_scanoutpos(struct drm_device *dev,
+-					    unsigned int pipe,
++bool i915_calc_vbltimestamp_from_scanoutpos(struct drm_crtc *crtc,
+ 					    int *max_error,
+ 					    ktime_t *vblank_time,
+ 					    bool in_vblank_irq);
 -- 
 2.24.1
 
