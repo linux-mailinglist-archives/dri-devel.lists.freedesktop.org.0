@@ -2,38 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFAEA137A03
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Jan 2020 00:16:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 323B2137A7E
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Jan 2020 01:18:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D88926E0F4;
-	Fri, 10 Jan 2020 23:16:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D31D6E1E5;
+	Sat, 11 Jan 2020 00:17:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3D0F6E0F4
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2020 23:16:33 +0000 (UTC)
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2020 15:16:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,418,1571727600"; d="scan'208";a="218208619"
-Received: from labuser-z97x-ud5h.jf.intel.com (HELO intel.com)
- ([10.165.21.211])
- by fmsmga007.fm.intel.com with ESMTP; 10 Jan 2020 15:16:33 -0800
-Date: Fri, 10 Jan 2020 15:17:43 -0800
-From: Manasi Navare <manasi.d.navare@intel.com>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v2] drm/dp: Add function to parse EDID descriptors for
- adaptive sync limits
-Message-ID: <20200110231743.GB16729@intel.com>
-References: <20200108003208.18706-1-manasi.d.navare@intel.com>
- <20200109130852.GN1208@intel.com>
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C74656E1E5;
+ Sat, 11 Jan 2020 00:17:56 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id u2so3772990wmc.3;
+ Fri, 10 Jan 2020 16:17:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ze59xLiTAJSzDVkiY1kAM7m1KT/ayX5lzJy7k2zz1E0=;
+ b=GxMN/muxILuh6Mz1cqljfmEh6ATU8zHhpSLeFdPf9z5VzMmxKflDSh8snUzIDyHljN
+ IjqtNjSJTZvVY5RLH4+Ku9paOmAlM5Yk44CUe3yDKDEbMu0XIUbU+xsZwaFloA4MzLyQ
+ XJn+KxK9ASSmWYNU1ynfwWkaaHymwYUpzSP4JdS6GzMUcJ2WejqjSjKtWaSDrtkxwnqT
+ Z4AWLUulce+1i32IGezvPV/B1OCQIFRZzRA8Vv9MndgTuekyFF7jODqRfHdQ3eFi0YHg
+ zYzsNYAdLXoDDDAKOXySrGRDz5y5c5xaCt+OXbtw5qC5JdCzf/cgnqysc55JQP1LDzYP
+ UEog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ze59xLiTAJSzDVkiY1kAM7m1KT/ayX5lzJy7k2zz1E0=;
+ b=SvYWssAF+DQK8V28TuRUaqC27oAPvp/6b3AJv76nocGaHtYPrSQkgA/gbgJyII6yFO
+ dGY75+kWskMIWmYbgaAXQwFLhE9G6LIMQF3TX6AKv1I2fVCX7b71R0xps5RCjHh4ddSm
+ GYmdsaCgBkHZBepCX7+p7GFJa+tamYAPlGa1Hn6XHm6AtF6AwDgIFUSfsmXDi37hwUcd
+ iOOCWp1xkHRiCs42gwacJ+V5MqO6EXQTKnfkoFTr/Mzy9u7yY+e8507xUQLkJrlmvegr
+ JZRtge3WWt9todSMDvM6UKp41ylHgXW0F2YT27WUP27IyAIkK36tp/Dd7/JQ8Pm/LiGf
+ SQeA==
+X-Gm-Message-State: APjAAAV1p9tOaPeEz6Q4Igkd7/9f/CMC8DUszkHVUOK9lkeLTZgrzKAa
+ XoQE9dKf827/njT8RlmEUfwwjmVc+XR9hmEfbeI=
+X-Google-Smtp-Source: APXvYqwjQjxv8G5Ads8QwxDVEai740q8qo4sFItXY/qwf3UdJyZiqRhV1s470G2PuGznsF7/7eniM0daOmayO59vUv8=
+X-Received: by 2002:a1c:486:: with SMTP id 128mr7008543wme.163.1578701875402; 
+ Fri, 10 Jan 2020 16:17:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200109130852.GN1208@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+References: <20200109152028.28260-1-mario.kleiner.de@gmail.com>
+ <20200109152028.28260-2-mario.kleiner.de@gmail.com>
+ <d54ab31d-1821-fe40-2dd7-c6b35b42547f@amd.com>
+In-Reply-To: <d54ab31d-1821-fe40-2dd7-c6b35b42547f@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 10 Jan 2020 19:17:42 -0500
+Message-ID: <CADnq5_NUgbFda-m-LNC43hARJACSVP3nBrGE7d5HkYejfEuV2A@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/amd/display: Reorder detect_edp_sink_caps before
+ link settings read.
+To: Harry Wentland <hwentlan@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,225 +63,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicholas Kazlauskas <nicholas.kazluaskas@amd.com>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: mario.kleiner.de@gmail.de, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Martin Leung <martin.leung@amd.com>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 09, 2020 at 03:08:52PM +0200, Ville Syrj=E4l=E4 wrote:
-> On Tue, Jan 07, 2020 at 04:32:08PM -0800, Manasi Navare wrote:
-> > Adaptive Sync is a VESA feature so add a DRM core helper to parse
-> > the EDID's detailed descritors to obtain the adaptive sync monitor rang=
-e.
-> > Store this info as part fo drm_display_info so it can be used
-> > across all drivers.
-> > This part of the code is stripped out of amdgpu's function
-> > amdgpu_dm_update_freesync_caps() to make it generic and be used
-> > across all DRM drivers
-> > =
+Applied.  Thanks!
 
-> > v2:
-> > * Change vmin and vmax to use u8 (Ville)
-> > * Dont store pixel clock since that is just a max dotclock
-> > and not related to VRR mode (Manasi)
-> > =
+Alex
 
-> > Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > Cc: Harry Wentland <harry.wentland@amd.com>
-> > Cc: Clinton A Taylor <clinton.a.taylor@intel.com>
-> > Cc: Nicholas Kazlauskas <nicholas.kazluaskas@amd.com>
-> > Signed-off-by: Manasi Navare <manasi.d.navare@intel.com>
-> > ---
-> >  drivers/gpu/drm/drm_edid.c  | 51 +++++++++++++++++++++++++++++++++++++
-> >  include/drm/drm_connector.h | 22 ++++++++++++++++
-> >  include/drm/drm_edid.h      |  2 ++
-> >  3 files changed, 75 insertions(+)
-> > =
-
-> > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> > index 99769d6c9f84..52781a0e708b 100644
-> > --- a/drivers/gpu/drm/drm_edid.c
-> > +++ b/drivers/gpu/drm/drm_edid.c
-> > @@ -4880,6 +4880,54 @@ static void drm_parse_cea_ext(struct drm_connect=
-or *connector,
-> >  	}
-> >  }
-> >  =
-
-> > +void drm_get_adaptive_sync_limits(struct drm_connector *connector,
-> > +				  const struct edid *edid)
-> > +{
-> > +	struct drm_display_info *info =3D &connector->display_info;
-> > +	const struct detailed_timing *timing;
-> > +	const struct detailed_non_pixel *data;
-> > +	const struct detailed_data_monitor_range *range;
-> =
-
-> Needlessly wide scope for everything above.
-
-Okay will move inside the for_each loop ?
-
-> =
-
-> > +	int i;
-> > +
-> > +	/*
-> > +	 * Restrict Adaptive Sync only for dp and edp
-> > +	 */
-> > +	if (connector->connector_type !=3D DRM_MODE_CONNECTOR_DisplayPort &&
-> > +	    connector->connector_type !=3D DRM_MODE_CONNECTOR_eDP)
-> > +		return;
-> > +
-> > +	if (edid->version <=3D 1 && !(edid->version =3D=3D 1 && edid->revisio=
-n > 1))
-> > +		return;
-> =
-
-> if (!version_greater(...))
-> 	return;
-
-You mean simplify the condition or use define a function version_greater() =
-to check this condition?
-
-> =
-
-> > +
-> > +	for (i =3D 0; i < 4; i++) {
-> =
-
-> This should probably use for_each_detailed_block()
+On Thu, Jan 9, 2020 at 1:41 PM Harry Wentland <hwentlan@amd.com> wrote:
 >
-
-
-Ok yes will use for_each_detailed_block
-
-Manasi
-
- =
-
-> > +		timing  =3D &edid->detailed_timings[i];
-> > +		data    =3D &timing->data.other_data;
-> > +		range   =3D &data->data.range;
-> > +		/*
-> > +		 * Check if monitor has continuous frequency mode
-> > +		 */
-> > +		if (data->type !=3D EDID_DETAIL_MONITOR_RANGE)
-> > +			continue;
-> > +		/*
-> > +		 * Check for flag range limits only. If flag =3D=3D 1 then
-> > +		 * no additional timing information provided.
-> > +		 * Default GTF, GTF Secondary curve and CVT are not
-> > +		 * supported
-> > +		 */
-> > +		if (range->flags !=3D 1)
-> > +			continue;
-> > +
-> > +		info->adaptive_sync.min_vfreq =3D range->min_vfreq;
-> > +		info->adaptive_sync.max_vfreq =3D range->max_vfreq;
-> > +
-> > +		DRM_DEBUG_KMS("Adaptive Sync refresh rate range is %d Hz - %d Hz\n",
-> > +			      info->adaptive_sync.min_vfreq,
-> > +			      info->adaptive_sync.max_vfreq);
-> > +		break;
-> > +	}
-> > +}
-> > +EXPORT_SYMBOL(drm_get_adaptive_sync_limits);
-> > +
-> >  /* A connector has no EDID information, so we've got no EDID to comput=
-e quirks from. Reset
-> >   * all of the values which would have been set from EDID
-> >   */
-> > @@ -4901,6 +4949,7 @@ drm_reset_display_info(struct drm_connector *conn=
-ector)
-> >  	memset(&info->hdmi, 0, sizeof(info->hdmi));
-> >  =
-
-> >  	info->non_desktop =3D 0;
-> > +	memset(&info->adaptive_sync, 0, sizeof(info->adaptive_sync));
-> >  }
-> >  =
-
-> >  u32 drm_add_display_info(struct drm_connector *connector, const struct=
- edid *edid)
-> > @@ -4916,6 +4965,8 @@ u32 drm_add_display_info(struct drm_connector *co=
-nnector, const struct edid *edi
-> >  =
-
-> >  	info->non_desktop =3D !!(quirks & EDID_QUIRK_NON_DESKTOP);
-> >  =
-
-> > +	drm_get_adaptive_sync_limits(connector, edid);
-> > +
-> >  	DRM_DEBUG_KMS("non_desktop set to %d\n", info->non_desktop);
-> >  =
-
-> >  	if (edid->revision < 3)
-> > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> > index 221910948b37..77df404a2e01 100644
-> > --- a/include/drm/drm_connector.h
-> > +++ b/include/drm/drm_connector.h
-> > @@ -254,6 +254,23 @@ enum drm_panel_orientation {
-> >  	DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
-> >  };
-> >  =
-
-> > +/**
-> > + * struct drm_adaptive_sync_info - Panel's Adaptive Sync capabilities =
-for
-> > + * &drm_display_info
-> > + *
-> > + * This struct is used to store a Panel's Adaptive Sync capabilities
-> > + * as parsed from EDID's detailed monitor range descriptor block.
-> > + *
-> > + * @min_vfreq: This is the min supported refresh rate in Hz from
-> > + *             EDID's detailed monitor range.
-> > + * @max_vfreq: This is the max supported refresh rate in Hz from
-> > + *             EDID's detailed monitor range
-> > + */
-> > +struct drm_adaptive_sync_info {
-> > +	u8 min_vfreq;
-> > +	u8 max_vfreq;
-> > +};
-> > +
-> >  /*
-> >   * This is a consolidated colorimetry list supported by HDMI and
-> >   * DP protocol standard. The respective connectors will register
-> > @@ -465,6 +482,11 @@ struct drm_display_info {
-> >  	 * @non_desktop: Non desktop display (HMD).
-> >  	 */
-> >  	bool non_desktop;
-> > +
-> > +	/**
-> > +	 * @adaptive_sync: Adaptive Sync capabilities of the DP/eDP sink
-> > +	 */
-> > +	struct drm_adaptive_sync_info adaptive_sync;
-> >  };
-> >  =
-
-> >  int drm_display_info_set_bus_formats(struct drm_display_info *info,
-> > diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-> > index f0b03d401c27..b9a230aa3e69 100644
-> > --- a/include/drm/drm_edid.h
-> > +++ b/include/drm/drm_edid.h
-> > @@ -503,4 +503,6 @@ void drm_edid_get_monitor_name(struct edid *edid, c=
-har *name,
-> >  struct drm_display_mode *drm_mode_find_dmt(struct drm_device *dev,
-> >  					   int hsize, int vsize, int fresh,
-> >  					   bool rb);
-> > +void drm_get_adaptive_sync_limits(struct drm_connector *connector,
-> > +				  const struct edid *edid);
-> >  #endif /* __DRM_EDID_H__ */
-> > -- =
-
-> > 2.19.1
-> =
-
-> -- =
-
-> Ville Syrj=E4l=E4
-> Intel
+> On 2020-01-09 10:20 a.m., Mario Kleiner wrote:
+> > read_current_link_settings_on_detect() on eDP 1.4+ may use the
+> > edp_supported_link_rates table which is set up by
+> > detect_edp_sink_caps(), so that function needs to be called first.
+> >
+> > Signed-off-by: Mario Kleiner <mario.kleiner.de@gmail.com>
+> > Cc: Martin Leung <martin.leung@amd.com>
+>
+> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+>
+> This also fixes our assumption that retrieve_link_cap is the first DPCD
+> reads we perform during detection.
+>
+> Harry
+>
+> > ---
+> >  drivers/gpu/drm/amd/display/dc/core/dc_link.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+> > index cef8c1ba9797..5ea4a1675259 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+> > +++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+> > @@ -817,8 +817,8 @@ static bool dc_link_detect_helper(struct dc_link *link,
+> >               }
+> >
+> >               case SIGNAL_TYPE_EDP: {
+> > -                     read_current_link_settings_on_detect(link);
+> >                       detect_edp_sink_caps(link);
+> > +                     read_current_link_settings_on_detect(link);
+> >                       sink_caps.transaction_type = DDC_TRANSACTION_TYPE_I2C_OVER_AUX;
+> >                       sink_caps.signal = SIGNAL_TYPE_EDP;
+> >                       break;
+> >
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
