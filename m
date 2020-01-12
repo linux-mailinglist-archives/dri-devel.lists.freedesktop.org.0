@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13ECB1384B0
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Jan 2020 04:53:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD76913855A
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Jan 2020 08:38:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9ACFF6E2EF;
-	Sun, 12 Jan 2020 03:53:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8340E6E4B1;
+	Sun, 12 Jan 2020 07:38:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75CD26E2EF
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Jan 2020 03:53:15 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 011F16E4B1
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Jan 2020 07:38:52 +0000 (UTC)
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 11 Jan 2020 19:53:14 -0800
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 11 Jan 2020 23:38:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,423,1571727600"; 
- d="gz'50?scan'50,208,50";a="247402690"
+X-IronPort-AV: E=Sophos;i="5.69,424,1571727600"; 
+ d="gz'50?scan'50,208,50";a="396849661"
 Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
- by fmsmga004.fm.intel.com with ESMTP; 11 Jan 2020 19:53:12 -0800
+ by orsmga005.jf.intel.com with ESMTP; 11 Jan 2020 23:38:49 -0800
 Received: from kbuild by lkp-server01 with local (Exim 4.89)
  (envelope-from <lkp@intel.com>)
- id 1iqUJM-000AUQ-4o; Sun, 12 Jan 2020 11:53:12 +0800
-Date: Sun, 12 Jan 2020 11:52:19 +0800
+ id 1iqXpg-0001P3-GO; Sun, 12 Jan 2020 15:38:48 +0800
+Date: Sun, 12 Jan 2020 15:38:09 +0800
 From: kbuild test robot <lkp@intel.com>
-To: Slava Grigorev <slava.grigorev@amd.com>
-Subject: [radeon-alex:amd-19.50 2081/2687] include/kcl/kcl_mm.h:53:28: error:
- redefinition of 'memalloc_nofs_save'
-Message-ID: <202001121116.y0MnO7Wa%lkp@intel.com>
+To: Prike Liang <Prike.Liang@amd.com>
+Subject: [radeon-alex:amd-19.50 2082/2687] include/kcl/kcl_mm_types.h:10:3:
+ error: conflicting types for 'pfn_t'
+Message-ID: <202001121506.fIrDZ4fW%lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="lg7yf6lqnbflzmp4"
+Content-Type: multipart/mixed; boundary="psjvfbgmbbiqni42"
 Content-Disposition: inline
 User-Agent: NeoMutt/20170113 (1.7.2)
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -48,28 +48,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yifan Zhang <yifan1.zhang@amd.com>, Flora Cui <flora.cui@amd.com>,
- kbuild-all@lists.01.org, Jack Gui <Jack.Gui@amd.com>,
- dri-devel@lists.freedesktop.org
+Cc: Yifan Zhang <yifan1.zhang@amd.com>, kbuild-all@lists.01.org,
+ Jack Gui <Jack.Gui@amd.com>, Tao Zhou <Tao.Zhou1@amd.com>,
+ Slava Grigorev <slava.grigorev@amd.com>, dri-devel@lists.freedesktop.org,
+ Flora Cui <flora.cui@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---lg7yf6lqnbflzmp4
+--psjvfbgmbbiqni42
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Slava,
+Hi Prike,
 
 FYI, the error/warning still remains.
 
 tree:   git://people.freedesktop.org/~agd5f/linux.git amd-19.50
 head:   02692309efa6ad48d47894e40fcb3832ace49c4c
-commit: efcd1418868bc7be0eb22a57497ac20eeb831ff1 [2081/2687] drm/amdkcl: Test whether memalloc_nofs_save() and memalloc_nofs_restore() functions are available
+commit: 3ba40228e28c15ca2dfec398cd7e5ebebdb5a9c2 [2082/2687] drm/amdkcl: Test whether vmf_insert_*() functions are available
 config: i386-allyesconfig (attached as .config)
 compiler: gcc-7 (Debian 7.5.0-3) 7.5.0
 reproduce:
-        git checkout efcd1418868bc7be0eb22a57497ac20eeb831ff1
+        git checkout 3ba40228e28c15ca2dfec398cd7e5ebebdb5a9c2
         # save the attached .config to linux build tree
         make ARCH=i386 
 
@@ -78,158 +79,6 @@ Reported-by: kbuild test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
-    struct drm_gem_object *drm_gem_object_lookup(struct drm_file *filp, u32 handle);
-                           ^~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h:260:10: error: too many arguments to function 'drm_gem_object_lookup'
-      return drm_gem_object_lookup(dev, filp, handle);
-             ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/kcl/kcl_drm.h:9:0,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/drm/drm_gem.h:386:24: note: declared here
-    struct drm_gem_object *drm_gem_object_lookup(struct drm_file *filp, u32 handle);
-                           ^~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h: At top level:
-   include/kcl/kcl_drm.h:269:8: error: redefinition of 'struct drm_format_name_buf'
-    struct drm_format_name_buf {
-           ^~~~~~~~~~~~~~~~~~~
-   In file included from include/drm/drmP.h:69:0,
-                    from include/kcl/kcl_drm.h:6,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/drm/drm_fourcc.h:142:8: note: originally defined here
-    struct drm_format_name_buf {
-           ^~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h: In function 'kcl_drm_gem_object_put_unlocked':
-   include/kcl/kcl_drm.h:301:9: error: implicit declaration of function 'drm_gem_object_unreference_unlocked'; did you mean 'drm_gem_object_put_unlocked'? [-Werror=implicit-function-declaration]
-     return drm_gem_object_unreference_unlocked(obj);
-            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            drm_gem_object_put_unlocked
-   include/kcl/kcl_drm.h:301:9: warning: 'return' with a value, in function returning void
-     return drm_gem_object_unreference_unlocked(obj);
-            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kcl/kcl_drm.h:298:20: note: declared here
-    static inline void kcl_drm_gem_object_put_unlocked(struct drm_gem_object *obj)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kcl/kcl_drm.h: In function 'kcl_drm_atomic_get_old_crtc_state_before_commit':
-   include/kcl/kcl_drm.h:325:43: error: invalid type argument of '->' (have 'struct __drm_crtcs_state')
-     return state->crtcs[drm_crtc_index(crtc)]->state;
-                                              ^~
-   include/kcl/kcl_drm.h: In function 'kcl_drm_atomic_get_new_crtc_state_after_commit':
-   include/kcl/kcl_drm.h:360:43: error: invalid type argument of '->' (have 'struct __drm_crtcs_state')
-     return state->crtcs[drm_crtc_index(crtc)]->state;
-                                              ^~
-   include/kcl/kcl_drm.h: At top level:
-   include/kcl/kcl_drm.h:465:8: error: redefinition of 'struct drm_printer'
-    struct drm_printer {
-           ^~~~~~~~~~~
-   In file included from include/drm/drm_mm.h:49:0,
-                    from include/drm/drm_vma_manager.h:26,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
-                    from <command-line>:0:
-   include/drm/drm_print.h:70:8: note: originally defined here
-    struct drm_printer {
-           ^~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h:471:6: error: conflicting types for 'drm_printf'
-    void drm_printf(struct drm_printer *p, const char *f, ...);
-         ^~~~~~~~~~
-   In file included from include/drm/drm_mm.h:49:0,
-                    from include/drm/drm_vma_manager.h:26,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
-                    from <command-line>:0:
-   include/drm/drm_print.h:86:6: note: previous declaration of 'drm_printf' was here
-    void drm_printf(struct drm_printer *p, const char *f, ...);
-         ^~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h:537:20: error: static declaration of 'drm_dev_put' follows non-static declaration
-    static inline void drm_dev_put(struct drm_device *dev)
-                       ^~~~~~~~~~~
-   In file included from include/drm/drmP.h:74:0,
-                    from include/kcl/kcl_drm.h:6,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/drm/drm_drv.h:739:6: note: previous declaration of 'drm_dev_put' was here
-    void drm_dev_put(struct drm_device *dev);
-         ^~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h: In function 'drm_dev_put':
-   include/kcl/kcl_drm.h:539:9: error: implicit declaration of function 'drm_dev_unref'; did you mean 'drm_dev_enter'? [-Werror=implicit-function-declaration]
-     return drm_dev_unref(dev);
-            ^~~~~~~~~~~~~
-            drm_dev_enter
-   include/kcl/kcl_drm.h:539:9: warning: 'return' with a value, in function returning void
-     return drm_dev_unref(dev);
-            ^~~~~~~~~~~~~~~~~~
-   include/kcl/kcl_drm.h:537:20: note: declared here
-    static inline void drm_dev_put(struct drm_device *dev)
-                       ^~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
-                    from <command-line>:0:
-   include/kcl/kcl_mm.h: At top level:
->> include/kcl/kcl_mm.h:53:28: error: redefinition of 'memalloc_nofs_save'
-    static inline unsigned int memalloc_nofs_save(void)
-                               ^~~~~~~~~~~~~~~~~~
-   In file included from include/kcl/kcl_mm.h:5:0,
-                    from drivers/gpu/drm/ttm/backport/backport.h:8,
-                    from <command-line>:0:
-   include/linux/sched/mm.h:248:28: note: previous definition of 'memalloc_nofs_save' was here
-    static inline unsigned int memalloc_nofs_save(void)
-                               ^~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
-                    from <command-line>:0:
->> include/kcl/kcl_mm.h:58:20: error: redefinition of 'memalloc_nofs_restore'
-    static inline void memalloc_nofs_restore(unsigned int flags)
-                       ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/kcl/kcl_mm.h:5:0,
-                    from drivers/gpu/drm/ttm/backport/backport.h:8,
-                    from <command-line>:0:
-   include/linux/sched/mm.h:263:20: note: previous definition of 'memalloc_nofs_restore' was here
-    static inline void memalloc_nofs_restore(unsigned int flags)
-                       ^~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
-                    from <command-line>:0:
-   include/kcl/kcl_mm.h:64:21: error: redefinition of 'kvmalloc'
-    static inline void *kvmalloc(size_t size, gfp_t flags)
-                        ^~~~~~~~
-   In file included from include/drm/drm_vma_manager.h:27:0,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
-                    from <command-line>:0:
-   include/linux/mm.h:635:21: note: previous definition of 'kvmalloc' was here
-    static inline void *kvmalloc(size_t size, gfp_t flags)
-                        ^~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
-                    from <command-line>:0:
-   include/kcl/kcl_mm.h:74:21: error: redefinition of 'kvzalloc'
-    static inline void *kvzalloc(size_t size, gfp_t flags)
-                        ^~~~~~~~
-   In file included from include/drm/drm_vma_manager.h:27:0,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
-                    from <command-line>:0:
-   include/linux/mm.h:643:21: note: previous definition of 'kvzalloc' was here
-    static inline void *kvzalloc(size_t size, gfp_t flags)
-                        ^~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
-                    from <command-line>:0:
-   include/kcl/kcl_mm.h:84:20: error: static declaration of 'kvfree' follows non-static declaration
-    static inline void kvfree(const void *addr)
-                       ^~~~~~
-   In file included from include/drm/drm_vma_manager.h:27:0,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
                     from <command-line>:0:
    include/linux/mm.h:663:13: note: previous declaration of 'kvfree' was here
     extern void kvfree(const void *addr);
@@ -290,159 +139,117 @@ All errors (new ones prefixed by >>):
                     from include/kcl/kcl_drm_vma_manager.h:8,
                     from drivers/gpu/drm/ttm/backport/backport.h:5,
                     from <command-line>:0:
+   include/linux/list.h:212:20: note: previous definition of 'list_bulk_move_tail' was here
+    static inline void list_bulk_move_tail(struct list_head *head,
+                       ^~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:11:0,
+                    from <command-line>:0:
+   include/kcl/kcl_kref.h:7:28: error: redefinition of 'kref_read'
+    static inline unsigned int kref_read(const struct kref *kref)
+                               ^~~~~~~~~
+   In file included from include/linux/kobject.h:23:0,
+                    from include/linux/device.h:16,
+                    from include/drm/drm_print.h:32,
+                    from include/drm/drm_mm.h:49,
+                    from include/drm/drm_vma_manager.h:26,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/kref.h:36:28: note: previous definition of 'kref_read' was here
+    static inline unsigned int kref_read(const struct kref *kref)
+                               ^~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:11:0,
+                    from <command-line>:0:
+   include/kcl/kcl_kref.h: In function 'kref_read':
+   include/kcl/kcl_kref.h:9:21: error: passing argument 1 of 'atomic_read' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     return atomic_read(&kref->refcount);
+                        ^
+   In file included from arch/x86/include/asm/atomic.h:265:0,
+                    from include/linux/atomic.h:7,
+                    from include/linux/rcupdate.h:25,
+                    from include/linux/rbtree.h:34,
+                    from include/drm/drm_mm.h:41,
+                    from include/drm/drm_vma_manager.h:26,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/asm-generic/atomic-instrumented.h:24:1: note: expected 'const atomic_t * {aka const struct <anonymous> *}' but argument is of type 'const refcount_t * {aka const struct refcount_struct *}'
+    atomic_read(const atomic_t *v)
+    ^~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:12:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm_types.h: At top level:
+>> include/kcl/kcl_mm_types.h:10:3: error: conflicting types for 'pfn_t'
+    } pfn_t;
+      ^~~~~
+   In file included from include/asm-generic/memory_model.h:5:0,
+                    from arch/x86/include/asm/page.h:76,
+                    from arch/x86/include/asm/thread_info.h:12,
+                    from include/linux/thread_info.h:38,
+                    from arch/x86/include/asm/preempt.h:7,
+                    from include/linux/preempt.h:78,
+                    from include/linux/rcupdate.h:27,
+                    from include/linux/rbtree.h:34,
+                    from include/drm/drm_mm.h:41,
+                    from include/drm/drm_vma_manager.h:26,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/pfn.h:15:3: note: previous declaration of 'pfn_t' was here
+    } pfn_t;
+      ^~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:12:0,
+                    from <command-line>:0:
+>> include/kcl/kcl_mm_types.h:33:13: error: conflicting types for 'vm_fault_t'
+    typedef int vm_fault_t;
+                ^~~~~~~~~~
+   In file included from include/drm/drm_mm.h:43:0,
+                    from include/drm/drm_vma_manager.h:26,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm_types.h:631:32: note: previous declaration of 'vm_fault_t' was here
+    typedef __bitwise unsigned int vm_fault_t;
+                                   ^~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:12:0,
+                    from <command-line>:0:
+>> include/kcl/kcl_mm_types.h:35:26: error: conflicting types for 'vmf_insert_mixed'
+    static inline vm_fault_t vmf_insert_mixed(struct vm_area_struct *vma,
+                             ^~~~~~~~~~~~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:2587:12: note: previous declaration of 'vmf_insert_mixed' was here
+    vm_fault_t vmf_insert_mixed(struct vm_area_struct *vma, unsigned long addr,
+               ^~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:12:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm_types.h: In function 'vmf_insert_mixed':
+>> include/kcl/kcl_mm_types.h:41:8: error: implicit declaration of function 'vm_insert_mixed'; did you mean 'vmf_insert_mixed'? [-Werror=implicit-function-declaration]
+     err = vm_insert_mixed(vma, addr, pfn_t_to_pfn(pfn));
+           ^~~~~~~~~~~~~~~
+           vmf_insert_mixed
+   include/kcl/kcl_mm_types.h: At top level:
+>> include/kcl/kcl_mm_types.h:53:26: error: conflicting types for 'vmf_insert_pfn'
+    static inline vm_fault_t vmf_insert_pfn(struct vm_area_struct *vma,
+                             ^~~~~~~~~~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:2583:12: note: previous declaration of 'vmf_insert_pfn' was here
+    vm_fault_t vmf_insert_pfn(struct vm_area_struct *vma, unsigned long addr,
+               ^~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:12:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm_types.h: In function 'vmf_insert_pfn':
+>> include/kcl/kcl_mm_types.h:56:13: error: implicit declaration of function 'vm_insert_pfn'; did you mean 'vmf_insert_pfn'? [-Werror=implicit-function-declaration]
+      int err = vm_insert_pfn(vma, addr, pfn);
+                ^~~~~~~~~~~~~
+                vmf_insert_pfn
+   cc1: some warnings being treated as errors
 --
-    struct drm_gem_object *drm_gem_object_lookup(struct drm_file *filp, u32 handle);
-                           ^~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h:260:10: error: too many arguments to function 'drm_gem_object_lookup'
-      return drm_gem_object_lookup(dev, filp, handle);
-             ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/kcl/kcl_drm.h:9:0,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/drm/drm_gem.h:386:24: note: declared here
-    struct drm_gem_object *drm_gem_object_lookup(struct drm_file *filp, u32 handle);
-                           ^~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h: At top level:
-   include/kcl/kcl_drm.h:269:8: error: redefinition of 'struct drm_format_name_buf'
-    struct drm_format_name_buf {
-           ^~~~~~~~~~~~~~~~~~~
-   In file included from include/drm/drmP.h:69:0,
-                    from include/kcl/kcl_drm.h:6,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/drm/drm_fourcc.h:142:8: note: originally defined here
-    struct drm_format_name_buf {
-           ^~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h: In function 'kcl_drm_gem_object_put_unlocked':
-   include/kcl/kcl_drm.h:301:9: error: implicit declaration of function 'drm_gem_object_unreference_unlocked'; did you mean 'drm_gem_object_put_unlocked'? [-Werror=implicit-function-declaration]
-     return drm_gem_object_unreference_unlocked(obj);
-            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            drm_gem_object_put_unlocked
-   include/kcl/kcl_drm.h:301:9: warning: 'return' with a value, in function returning void
-     return drm_gem_object_unreference_unlocked(obj);
-            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kcl/kcl_drm.h:298:20: note: declared here
-    static inline void kcl_drm_gem_object_put_unlocked(struct drm_gem_object *obj)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kcl/kcl_drm.h: In function 'kcl_drm_atomic_get_old_crtc_state_before_commit':
-   include/kcl/kcl_drm.h:325:43: error: invalid type argument of '->' (have 'struct __drm_crtcs_state')
-     return state->crtcs[drm_crtc_index(crtc)]->state;
-                                              ^~
-   include/kcl/kcl_drm.h: In function 'kcl_drm_atomic_get_new_crtc_state_after_commit':
-   include/kcl/kcl_drm.h:360:43: error: invalid type argument of '->' (have 'struct __drm_crtcs_state')
-     return state->crtcs[drm_crtc_index(crtc)]->state;
-                                              ^~
-   include/kcl/kcl_drm.h: At top level:
-   include/kcl/kcl_drm.h:465:8: error: redefinition of 'struct drm_printer'
-    struct drm_printer {
-           ^~~~~~~~~~~
-   In file included from include/drm/drm_mm.h:49:0,
-                    from include/drm/drm_vma_manager.h:26,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
-                    from <command-line>:0:
-   include/drm/drm_print.h:70:8: note: originally defined here
-    struct drm_printer {
-           ^~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h:471:6: error: conflicting types for 'drm_printf'
-    void drm_printf(struct drm_printer *p, const char *f, ...);
-         ^~~~~~~~~~
-   In file included from include/drm/drm_mm.h:49:0,
-                    from include/drm/drm_vma_manager.h:26,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
-                    from <command-line>:0:
-   include/drm/drm_print.h:86:6: note: previous declaration of 'drm_printf' was here
-    void drm_printf(struct drm_printer *p, const char *f, ...);
-         ^~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h:537:20: error: static declaration of 'drm_dev_put' follows non-static declaration
-    static inline void drm_dev_put(struct drm_device *dev)
-                       ^~~~~~~~~~~
-   In file included from include/drm/drmP.h:74:0,
-                    from include/kcl/kcl_drm.h:6,
-                    from drivers/gpu/drm/ttm/backport/backport.h:6,
-                    from <command-line>:0:
-   include/drm/drm_drv.h:739:6: note: previous declaration of 'drm_dev_put' was here
-    void drm_dev_put(struct drm_device *dev);
-         ^~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
-                    from <command-line>:0:
-   include/kcl/kcl_drm.h: In function 'drm_dev_put':
-   include/kcl/kcl_drm.h:539:9: error: implicit declaration of function 'drm_dev_unref'; did you mean 'drm_dev_enter'? [-Werror=implicit-function-declaration]
-     return drm_dev_unref(dev);
-            ^~~~~~~~~~~~~
-            drm_dev_enter
-   include/kcl/kcl_drm.h:539:9: warning: 'return' with a value, in function returning void
-     return drm_dev_unref(dev);
-            ^~~~~~~~~~~~~~~~~~
-   include/kcl/kcl_drm.h:537:20: note: declared here
-    static inline void drm_dev_put(struct drm_device *dev)
-                       ^~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
-                    from <command-line>:0:
-   include/kcl/kcl_mm.h: At top level:
->> include/kcl/kcl_mm.h:53:28: error: redefinition of 'memalloc_nofs_save'
-    static inline unsigned int memalloc_nofs_save(void)
-                               ^~~~~~~~~~~~~~~~~~
-   In file included from include/kcl/kcl_mm.h:5:0,
-                    from drivers/gpu/drm/ttm/backport/backport.h:8,
-                    from <command-line>:0:
-   include/linux/sched/mm.h:248:28: note: previous definition of 'memalloc_nofs_save' was here
-    static inline unsigned int memalloc_nofs_save(void)
-                               ^~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
-                    from <command-line>:0:
->> include/kcl/kcl_mm.h:58:20: error: redefinition of 'memalloc_nofs_restore'
-    static inline void memalloc_nofs_restore(unsigned int flags)
-                       ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/kcl/kcl_mm.h:5:0,
-                    from drivers/gpu/drm/ttm/backport/backport.h:8,
-                    from <command-line>:0:
-   include/linux/sched/mm.h:263:20: note: previous definition of 'memalloc_nofs_restore' was here
-    static inline void memalloc_nofs_restore(unsigned int flags)
-                       ^~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
-                    from <command-line>:0:
-   include/kcl/kcl_mm.h:64:21: error: redefinition of 'kvmalloc'
-    static inline void *kvmalloc(size_t size, gfp_t flags)
-                        ^~~~~~~~
-   In file included from include/drm/drm_vma_manager.h:27:0,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
-                    from <command-line>:0:
-   include/linux/mm.h:635:21: note: previous definition of 'kvmalloc' was here
-    static inline void *kvmalloc(size_t size, gfp_t flags)
-                        ^~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
-                    from <command-line>:0:
-   include/kcl/kcl_mm.h:74:21: error: redefinition of 'kvzalloc'
-    static inline void *kvzalloc(size_t size, gfp_t flags)
-                        ^~~~~~~~
-   In file included from include/drm/drm_vma_manager.h:27:0,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
-                    from <command-line>:0:
-   include/linux/mm.h:643:21: note: previous definition of 'kvzalloc' was here
-    static inline void *kvzalloc(size_t size, gfp_t flags)
-                        ^~~~~~~~
-   In file included from drivers/gpu/drm/ttm/backport/backport.h:8:0,
-                    from <command-line>:0:
-   include/kcl/kcl_mm.h:84:20: error: static declaration of 'kvfree' follows non-static declaration
-    static inline void kvfree(const void *addr)
-                       ^~~~~~
-   In file included from include/drm/drm_vma_manager.h:27:0,
-                    from include/kcl/kcl_drm_vma_manager.h:8,
-                    from drivers/gpu/drm/ttm/backport/backport.h:5,
                     from <command-line>:0:
    include/linux/mm.h:663:13: note: previous declaration of 'kvfree' was here
     extern void kvfree(const void *addr);
@@ -503,40 +310,198 @@ All errors (new ones prefixed by >>):
                     from include/kcl/kcl_drm_vma_manager.h:8,
                     from drivers/gpu/drm/ttm/backport/backport.h:5,
                     from <command-line>:0:
+   include/linux/list.h:212:20: note: previous definition of 'list_bulk_move_tail' was here
+    static inline void list_bulk_move_tail(struct list_head *head,
+                       ^~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:11:0,
+                    from <command-line>:0:
+   include/kcl/kcl_kref.h:7:28: error: redefinition of 'kref_read'
+    static inline unsigned int kref_read(const struct kref *kref)
+                               ^~~~~~~~~
+   In file included from include/linux/kobject.h:23:0,
+                    from include/linux/device.h:16,
+                    from include/drm/drm_print.h:32,
+                    from include/drm/drm_mm.h:49,
+                    from include/drm/drm_vma_manager.h:26,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/kref.h:36:28: note: previous definition of 'kref_read' was here
+    static inline unsigned int kref_read(const struct kref *kref)
+                               ^~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:11:0,
+                    from <command-line>:0:
+   include/kcl/kcl_kref.h: In function 'kref_read':
+   include/kcl/kcl_kref.h:9:21: error: passing argument 1 of 'atomic_read' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     return atomic_read(&kref->refcount);
+                        ^
+   In file included from arch/x86/include/asm/atomic.h:265:0,
+                    from include/linux/atomic.h:7,
+                    from include/linux/rcupdate.h:25,
+                    from include/linux/rbtree.h:34,
+                    from include/drm/drm_mm.h:41,
+                    from include/drm/drm_vma_manager.h:26,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/asm-generic/atomic-instrumented.h:24:1: note: expected 'const atomic_t * {aka const struct <anonymous> *}' but argument is of type 'const refcount_t * {aka const struct refcount_struct *}'
+    atomic_read(const atomic_t *v)
+    ^~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:12:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm_types.h: At top level:
+>> include/kcl/kcl_mm_types.h:10:3: error: conflicting types for 'pfn_t'
+    } pfn_t;
+      ^~~~~
+   In file included from include/asm-generic/memory_model.h:5:0,
+                    from arch/x86/include/asm/page.h:76,
+                    from arch/x86/include/asm/thread_info.h:12,
+                    from include/linux/thread_info.h:38,
+                    from arch/x86/include/asm/preempt.h:7,
+                    from include/linux/preempt.h:78,
+                    from include/linux/rcupdate.h:27,
+                    from include/linux/rbtree.h:34,
+                    from include/drm/drm_mm.h:41,
+                    from include/drm/drm_vma_manager.h:26,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/pfn.h:15:3: note: previous declaration of 'pfn_t' was here
+    } pfn_t;
+      ^~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:12:0,
+                    from <command-line>:0:
+>> include/kcl/kcl_mm_types.h:33:13: error: conflicting types for 'vm_fault_t'
+    typedef int vm_fault_t;
+                ^~~~~~~~~~
+   In file included from include/drm/drm_mm.h:43:0,
+                    from include/drm/drm_vma_manager.h:26,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm_types.h:631:32: note: previous declaration of 'vm_fault_t' was here
+    typedef __bitwise unsigned int vm_fault_t;
+                                   ^~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:12:0,
+                    from <command-line>:0:
+>> include/kcl/kcl_mm_types.h:35:26: error: conflicting types for 'vmf_insert_mixed'
+    static inline vm_fault_t vmf_insert_mixed(struct vm_area_struct *vma,
+                             ^~~~~~~~~~~~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:2587:12: note: previous declaration of 'vmf_insert_mixed' was here
+    vm_fault_t vmf_insert_mixed(struct vm_area_struct *vma, unsigned long addr,
+               ^~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:12:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm_types.h: In function 'vmf_insert_mixed':
+>> include/kcl/kcl_mm_types.h:41:8: error: implicit declaration of function 'vm_insert_mixed'; did you mean 'vmf_insert_mixed'? [-Werror=implicit-function-declaration]
+     err = vm_insert_mixed(vma, addr, pfn_t_to_pfn(pfn));
+           ^~~~~~~~~~~~~~~
+           vmf_insert_mixed
+   include/kcl/kcl_mm_types.h: At top level:
+>> include/kcl/kcl_mm_types.h:53:26: error: conflicting types for 'vmf_insert_pfn'
+    static inline vm_fault_t vmf_insert_pfn(struct vm_area_struct *vma,
+                             ^~~~~~~~~~~~~~
+   In file included from include/drm/drm_vma_manager.h:27:0,
+                    from include/kcl/kcl_drm_vma_manager.h:8,
+                    from drivers/gpu/drm/ttm/backport/backport.h:5,
+                    from <command-line>:0:
+   include/linux/mm.h:2583:12: note: previous declaration of 'vmf_insert_pfn' was here
+    vm_fault_t vmf_insert_pfn(struct vm_area_struct *vma, unsigned long addr,
+               ^~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:12:0,
+                    from <command-line>:0:
+   include/kcl/kcl_mm_types.h: In function 'vmf_insert_pfn':
+>> include/kcl/kcl_mm_types.h:56:13: error: implicit declaration of function 'vm_insert_pfn'; did you mean 'vmf_insert_pfn'? [-Werror=implicit-function-declaration]
+      int err = vm_insert_pfn(vma, addr, pfn);
+                ^~~~~~~~~~~~~
+                vmf_insert_pfn
+   drivers/gpu/drm/ttm/ttm_bo.c: In function 'ttm_bo_mem_space_debug':
+   drivers/gpu/drm/ttm/ttm_bo.c:101:25: error: invalid initializer
+     struct drm_printer p = drm_debug_printer(TTM_PFX);
+                            ^~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 ..
 
-vim +/memalloc_nofs_save +53 include/kcl/kcl_mm.h
+vim +/pfn_t +10 include/kcl/kcl_mm_types.h
 
-b4f7d254be169a Junwei Zhang   2016-12-23  50  
-b4f7d254be169a Junwei Zhang   2016-12-23  51  
-efcd1418868bc7 Slava Grigorev 2019-07-11  52  #if !defined(HAVE_MEMALLOC_NOFS_SAVE)
-b4f7d254be169a Junwei Zhang   2016-12-23 @53  static inline unsigned int memalloc_nofs_save(void)
-b4f7d254be169a Junwei Zhang   2016-12-23  54  {
-b4f7d254be169a Junwei Zhang   2016-12-23  55  		return current->flags;
-b4f7d254be169a Junwei Zhang   2016-12-23  56  }
-b4f7d254be169a Junwei Zhang   2016-12-23  57  
-b4f7d254be169a Junwei Zhang   2016-12-23 @58  static inline void memalloc_nofs_restore(unsigned int flags)
-b4f7d254be169a Junwei Zhang   2016-12-23  59  {
-b4f7d254be169a Junwei Zhang   2016-12-23  60  }
-b4f7d254be169a Junwei Zhang   2016-12-23  61  #endif
-b4f7d254be169a Junwei Zhang   2016-12-23  62  
-
-:::::: The code at line 53 was first introduced by commit
-:::::: b4f7d254be169a27d8759eff4cdc418427ad10a3 drm/amdkcl: [4.6] fix kcl_get_user_pages()
-
-:::::: TO: Junwei Zhang <Jerry.Zhang@amd.com>
-:::::: CC: Chengming Gui <Jack.Gui@amd.com>
+     3	
+     4	#include <linux/mm.h>
+     5	#ifdef HAVE_PFN_T
+     6	#include <linux/pfn_t.h>
+     7	#else
+     8	typedef struct {
+     9		u64 val;
+  > 10	} pfn_t;
+    11	
+    12	#define PFN_FLAGS_MASK (((unsigned long) ~PAGE_MASK) \
+    13				<< (BITS_PER_LONG - PAGE_SHIFT))
+    14	#define PFN_SG_CHAIN (1UL << (BITS_PER_LONG - 1))
+    15	#define PFN_SG_LAST (1UL << (BITS_PER_LONG - 2))
+    16	#define PFN_DEV (1UL << (BITS_PER_LONG - 3))
+    17	#define PFN_MAP (1UL << (BITS_PER_LONG - 4))
+    18	
+    19	static inline pfn_t __pfn_to_pfn_t(unsigned long pfn, unsigned long flags)
+    20	{
+    21		pfn_t pfn_t = { .val = pfn | (flags & PFN_FLAGS_MASK), };
+    22	
+    23		return pfn_t;
+    24	}
+    25	
+    26	static inline unsigned long pfn_t_to_pfn(pfn_t pfn)
+    27	{
+    28		return pfn.val & ~PFN_FLAGS_MASK;
+    29	}
+    30	#endif
+    31	
+    32	#ifndef HAVE_VMF_INSERT
+  > 33	typedef int vm_fault_t;
+    34	
+  > 35	static inline vm_fault_t vmf_insert_mixed(struct vm_area_struct *vma,
+    36					unsigned long addr,
+    37					pfn_t pfn)
+    38	{
+    39		int err;
+    40	#if !defined(HAVE_PFN_T_VM_INSERT_MIXED)
+  > 41		err = vm_insert_mixed(vma, addr, pfn_t_to_pfn(pfn));
+    42	#else
+    43		err = vm_insert_mixed(vma, addr, pfn);
+    44	#endif
+    45		if (err == -ENOMEM)
+    46			return VM_FAULT_OOM;
+    47		if (err < 0 && err != -EBUSY)
+    48			return VM_FAULT_SIGBUS;
+    49	
+    50		return VM_FAULT_NOPAGE;
+    51	}
+    52	
+  > 53	static inline vm_fault_t vmf_insert_pfn(struct vm_area_struct *vma,
+    54					unsigned long addr, unsigned long pfn)
+    55	{
+  > 56			int err = vm_insert_pfn(vma, addr, pfn);
+    57	
+    58			if (err == -ENOMEM)
+    59				return VM_FAULT_OOM;
+    60			if (err < 0 && err != -EBUSY)
+    61				return VM_FAULT_SIGBUS;
+    62	
+    63			return VM_FAULT_NOPAGE;
+    64	}
+    65	
 
 ---
 0-DAY kernel test infrastructure                 Open Source Technology Center
 https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org Intel Corporation
 
---lg7yf6lqnbflzmp4
+--psjvfbgmbbiqni42
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICE+SGl4AAy5jb25maWcAlDzbctw2su/5iinnJamtJLpZdp1TesCAIAcZkmAAcDTjF5Yi
+H4sICKDFGl4AAy5jb25maWcAlDzbctw2su/5iinnJamtJLpZdp1TesCAIAcZkmAAcDTjF5Yi
 j72qtSUfSd6N//50A7w0QFDObqXWYjeujb6jMT/+8OOKfX1++HzzfHd78+nTt9XH4/3x8eb5
 +H714e7T8X9XmVrVyq5EJu2v0Li8u//61293528vV69/Pfv15JfH29PV9vh4f/y04g/3H+4+
 foXedw/3P/z4A/z3IwA/f4GBHv9n9fH29pc3q5+y4593N/erN7++ht7nP/s/oClXdS6LjvNO
@@ -1800,7 +1765,7 @@ LgdorNisgu633qmaO8N4vYkrqhmnJ0AvyDjtFGWtkHGbh/XosBz1g8OmQYeNZZpZZD5OZKoW
 t6cOTX+M+n/pCaG8g3Qc7qLm8gxEFuijnZAifrTec8wTN95XU7Xx3IkqZLitQ2hzp5VEgy9v
 UVIINBwTzb0Cvf7JK/QmgYKG/fUqvTEhh+0nYNd7glE5+H9FuF3KUlYEAA==
 
---lg7yf6lqnbflzmp4
+--psjvfbgmbbiqni42
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -1811,4 +1776,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---lg7yf6lqnbflzmp4--
+--psjvfbgmbbiqni42--
