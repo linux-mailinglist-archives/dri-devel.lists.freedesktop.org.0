@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3770A138806
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Jan 2020 20:54:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DC6813880A
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Jan 2020 20:54:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 316936E03F;
-	Sun, 12 Jan 2020 19:54:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B95DA6E045;
+	Sun, 12 Jan 2020 19:54:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
- [IPv6:2607:f8b0:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE85B89F07;
- Sun, 12 Jan 2020 19:54:19 +0000 (UTC)
-Received: by mail-pf1-x442.google.com with SMTP id 195so3806933pfw.11;
- Sun, 12 Jan 2020 11:54:19 -0800 (PST)
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
+ [IPv6:2607:f8b0:4864:20::1044])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84E516E040;
+ Sun, 12 Jan 2020 19:54:21 +0000 (UTC)
+Received: by mail-pj1-x1044.google.com with SMTP id d5so3235569pjz.5;
+ Sun, 12 Jan 2020 11:54:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WSVqYNJUUS8Cz3ud3WlLWDQz1ieCxDDqWx8hZG4FPuM=;
- b=hlMWNnStz5gAnwaf/V6EMtEo7MjCQteKxKAJZfSQAPcf5p9JvFf3n1xjwJfXsd48yT
- pkLov7ZLYKS36FOc85Qrcls0iFvaiGGwbcHkf1grhXekPo+u/fECXDBKz0K+bp63Cped
- lAGjn6YJngWi9wcOptKyu9iVc/l2nT18dGrLeh7OzKeRBiu11mOUtift32WdzRKdeDlN
- kS5vbVPkCgUmkd94FqvSRayv2xMv8bB9V50hCgnaxOQn7M4BpIYmQxLe90YDGDhjD4IW
- xN/xOANiP9JFhsbin98ornwbxLDhljnfSQBORBYajis2LNUIXK1o2MyMQZ2Cu/MPV9GG
- DQTA==
+ bh=WAKFhdZyK7HD40XoPNoJKm5mL4rsXQP3NWhrKWK0Lv8=;
+ b=tkhxotQzMNS/84e+1iIUXadR/8wu+V1vzYgRh2Ofqgjn0UiFS8RtohOkSahN1x2BnB
+ Ezl3uybClY4/hFIRyNf0sBbVgHCuNzXtXJe55THmPY/prpnj3t3FvDAae+TTzydQKw+F
+ V0dlsni7YyKNdyiVKNvHvxbkh4VsGhEhktieKL5kqh5IxFfdFlFU8ZWJwRWwiFVNzhlv
+ pdvzWv4Yk55XFad7bMaX0qHn93hXvzxCM4diIFhfXz7YwWngfwBrPt37tej9vLRyEygs
+ TL0j5d9fmp2SzjsXIR61s9sUu3iuu5uFpEiDaUG2iBfBz99AhBekKJeHDFSi/270qNmo
+ OdnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WSVqYNJUUS8Cz3ud3WlLWDQz1ieCxDDqWx8hZG4FPuM=;
- b=lIYqWco1++fbRVHAFTkYXThex9KrUK9RzBiO5KCw96TTVQ+0Nu9dXDzSJhtcqlRfsL
- NUy6jccPI+seZkkUB+8IBcBBe/bSQkH8Za2duqsi1qrcgKKEo9JjGBSFktuOZvqnz2/3
- 64gxHOMKIPko061rbT4WubIfKEDyjQEikBl//bq/babPtZlSbF0n27UtE+mXFFW+Sqt4
- f7y1MN92iR0qeUA3k8gS5Nx9DLRJbigucr5ZgaB+Ymce8uCFzTroq+Lj3cwN2ibvPou6
- VhP8jFGFjOv1xEgOWD1tTsnbVND4Q9V3uqS26K94BgDMufZJLMCQy0cu+8PsUrRKf4St
- olBg==
-X-Gm-Message-State: APjAAAU1VbkGjneQn7+mUhrQZ7hQo0UrlHAHfKK49kBYI1bixNNA2QHA
- PYkikFBG7lIzfC2lGM6Om0pBKcrBxyc=
-X-Google-Smtp-Source: APXvYqxqydVI8GozbDEUMd8efHH3OugcN/BFlYVdHRgY1xAKs9qkPMBBK5A8WNsg2suQai/ZbDr/8Q==
-X-Received: by 2002:a63:9d85:: with SMTP id
- i127mr16526507pgd.186.1578858858941; 
- Sun, 12 Jan 2020 11:54:18 -0800 (PST)
+ bh=WAKFhdZyK7HD40XoPNoJKm5mL4rsXQP3NWhrKWK0Lv8=;
+ b=sHHw/Xo7IkrOf+RkM4RI0XiBfelZ24jz4v4jQP0LR8zzRrRvNfoD7J7kYd2zFTZu5e
+ HjOZdGGKw3toFxHi0Q8St/n2QkqAIB5WwU5VeIc20NUHwxQRKmHRHcNUJuwemjQA//Ri
+ KmFRsL7Ba9WAfb3N4infNGz3ympIajPIlQpZmzGJ0hMkS5Ogk2ortsfhH4PysbeHae+w
+ Ki6F1c3VVZ3mBrvFGvy6oRlDjCwY+VVEDjL7gIj5i3b9LAvUGHz3NzUmmXz5wFaSbOIF
+ 952y5XENN2t4OcdIN1Fn2xsFOLSmdJzLesyM9Umg0nOnjgT/ULu7aWIYVvNH8ZIBCsGd
+ 6QGQ==
+X-Gm-Message-State: APjAAAVszreAAj5IXvsYhAUAyG2V5OLeP7wRBVxjBs5zZpL3IhSBC4hG
+ yXLQs56nCbYZej//WdwfORncefgaHmY=
+X-Google-Smtp-Source: APXvYqwTHGhndNZNsQKYW9nTAcuiFTj1LSY80cI+G9OpcouT/PjQ1Ca1QJlhYXRZmaQOV1+0IG/iHw==
+X-Received: by 2002:a17:902:426:: with SMTP id
+ 35mr10638467ple.302.1578858860792; 
+ Sun, 12 Jan 2020 11:54:20 -0800 (PST)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
  by smtp.gmail.com with ESMTPSA id
- o134sm11416105pfg.137.2020.01.12.11.54.17
+ 17sm11391924pfv.142.2020.01.12.11.54.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Jan 2020 11:54:18 -0800 (PST)
+ Sun, 12 Jan 2020 11:54:20 -0800 (PST)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/4] drm/msm: allow zapfw to not be specified in gpulist
-Date: Sun, 12 Jan 2020 11:53:58 -0800
-Message-Id: <20200112195405.1132288-3-robdclark@gmail.com>
+Subject: [PATCH v2 3/4] dt-bindings: drm/msm/gpu: Document firmware-name
+Date: Sun, 12 Jan 2020 11:53:59 -0800
+Message-Id: <20200112195405.1132288-4-robdclark@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200112195405.1132288-1-robdclark@gmail.com>
 References: <20200112195405.1132288-1-robdclark@gmail.com>
@@ -68,13 +68,13 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Sharat Masetty <smasetty@codeaurora.org>,
+Cc: Rob Clark <robdclark@chromium.org>, Mark Rutland <mark.rutland@arm.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Sharat Masetty <smasetty@codeaurora.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Thomas Gleixner <tglx@linutronix.de>, freedreno@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>, Brian Masney <masneyb@onstation.org>
+ Rob Herring <robh+dt@kernel.org>, freedreno@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -82,56 +82,36 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-For newer devices we want to require the path to come from the
-firmware-name property in the zap-shader dt node.
+The firmware-name property in the zap node can be used to specify a
+device specific zap firmware.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
+Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 ---
- drivers/gpu/drm/msm/adreno/adreno_gpu.c | 22 +++++++++++++---------
- 1 file changed, 13 insertions(+), 9 deletions(-)
+ Documentation/devicetree/bindings/display/msm/gpu.txt | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index 456bb5af1717..c146c3b8f52b 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -79,9 +79,21 @@ static int zap_shader_load_mdt(struct msm_gpu *gpu, const char *fwname,
- 		ret = request_firmware_direct(&fw, fwname, gpu->dev->dev);
- 		if (ret)
- 			fw = ERR_PTR(ret);
--	} else {
-+	} else if (fwname) {
- 		/* Request the MDT file from the default location: */
- 		fw = adreno_request_fw(to_adreno_gpu(gpu), fwname);
-+	} else {
-+		/*
-+		 * For new targets, we require the firmware-name property,
-+		 * if a zap-shader is required, rather than falling back
-+		 * to a firmware name specified in gpulist.
-+		 *
-+		 * Because the firmware is signed with a (potentially)
-+		 * device specific key, having the name come from gpulist
-+		 * was a bad idea, and is only provided for backwards
-+		 * compatibility for older targets.
-+		 */
-+		return -ENODEV;
- 	}
+diff --git a/Documentation/devicetree/bindings/display/msm/gpu.txt b/Documentation/devicetree/bindings/display/msm/gpu.txt
+index 3e6cd3f64a78..7edc298a15f2 100644
+--- a/Documentation/devicetree/bindings/display/msm/gpu.txt
++++ b/Documentation/devicetree/bindings/display/msm/gpu.txt
+@@ -33,6 +33,8 @@ Required properties:
+ - zap-shader: For a5xx and a6xx devices this node contains a memory-region that
+   points to reserved memory to store the zap shader that can be used to help
+   bring the GPU out of secure mode.
++- firmware-name: optional property of the 'zap-shader' node, listing the
++  relative path of the device specific zap firmware.
  
- 	if (IS_ERR(fw)) {
-@@ -170,14 +182,6 @@ int adreno_zap_shader_load(struct msm_gpu *gpu, u32 pasid)
- 		return -EPROBE_DEFER;
- 	}
+ Example 3xx/4xx/a5xx:
  
--	/* Each GPU has a target specific zap shader firmware name to use */
--	if (!adreno_gpu->info->zapfw) {
--		zap_available = false;
--		DRM_DEV_ERROR(&pdev->dev,
--			"Zap shader firmware file not specified for this target\n");
--		return -ENODEV;
--	}
--
- 	return zap_shader_load_mdt(gpu, adreno_gpu->info->zapfw, pasid);
- }
+@@ -85,6 +87,7 @@ Example a6xx (with GMU):
  
+ 		zap-shader {
+ 			memory-region = <&zap_shader_region>;
++			firmware-name = "qcom/LENOVO/81JL/qcdxkmsuc850.mbn"
+ 		};
+ 	};
+ };
 -- 
 2.24.1
 
