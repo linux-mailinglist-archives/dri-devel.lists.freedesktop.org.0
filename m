@@ -2,59 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73FDE13866E
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Jan 2020 13:37:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAF9713866D
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Jan 2020 13:37:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 023A26E50B;
-	Sun, 12 Jan 2020 12:36:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F6B36E536;
+	Sun, 12 Jan 2020 12:36:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 975BA6E4AB
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Jan 2020 00:16:45 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id d16so5173094wre.10
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Jan 2020 16:16:45 -0800 (PST)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 953216E4AB
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Jan 2020 00:16:46 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id 20so5835718wmj.4
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Jan 2020 16:16:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=googlemail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=AjUv0l8hskCQu/sfhTW+zT+JFalMEnxaLpHc5wjsSrk=;
- b=uZapQ+by1rty3HyhlkQGQkL4kSQRFma4TxmcNEsHnvBp7pkpTBMBX3vgVUMG3/IClu
- IdHTMtYLKZeVzzvg+Qfdyi/l7s5XskJDnMxZRuZsGRBMoTHlDD+YnLEQHQ5eS3CFXphI
- HIDuL1wMXLwd/+ib2+jlhodUqkboDBpYVhCZ5GkTDadamEcaOfwQJfCx6JGEM9subtBS
- xfJqEWOS4NkPl+/XTRZ0RgtsvZMJu96IjLswacwCUb09BNsTfFjIpPpEW6Fjh+gXEaQ5
- 2Sm1qgWUR++mXkO7AZvhOE5GSRKeOomTQo9+/4P8ZcgDTlCPaCdNAgc4uKiDO5BU5VQB
- r3Rg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=TO4ro9G4vD3zIHyJt/0agdTa39l4m1TB7ZW3wf7lrf0=;
+ b=UH7MWGgmwpk+vFbDOSAfRRM5C2mVjwsDV1I/lidLxqldDbgNh2mQf1YvA9C/MsU15K
+ eSNVEdudBaJL3+6RGJN2DaZN3xbK4vXy5fdslb47DmZYmpER4EKUUIMYxqpmcOntHN1l
+ h0OGL18OHKnXe/pn/dS+JeYnlNQ36lO5c+iEAPAm95AnQBFva2HCmFAgf9whFsoL3rPk
+ vAP5147OME9RQ3F9CGQP5epoyqVAK/twGXgZIFxRjJM97l6b+4qqcaRMLldmjvfZtp/g
+ hTifIsQG74JrK5hFgARq04sLxGb7P2nGygPB1DnFV1tFlija8XeEg34NvACoT25k77PD
+ 2ThA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=AjUv0l8hskCQu/sfhTW+zT+JFalMEnxaLpHc5wjsSrk=;
- b=CEny4OoSeIo+unw5fH33FPmyvFp3H51ez/pt7H0AVRB2U414QBIJkIfzZIiQYT7cSe
- YpopNPAZuswpiFnRGeoqygd3YUxduZ2quCflSj6M+ftxe4aX8+8W4+WbCfP8bK1qvzx6
- pb7VNph7KaAVtKZxX1VN+gGz67pzzufM0qFkqsuzqYoNbLySRcANvhKvjNnjQwxNxojq
- Y1I2eI2hDxQthdrcgqXZwfv5pGiNKnF0fHKjqs9DzmTs4i7I+lCvUBRLEPigzDyWGmIo
- K1JebmpOBgEHB5VLjm4tzmACAsz/gpG2W32/+UnTK0IIgMkYa3uIVqx4MxeQBzvN7SDF
- vRaw==
-X-Gm-Message-State: APjAAAWesl2SfzllCCMAWYygfYQscxhIjj7Q2+yqQ3trSK4OYPU/7RLn
- 50DqTVrq+2RrTXQAK2fXQZxsVGO/
-X-Google-Smtp-Source: APXvYqwxgbwC6cX6oTmsyFU5iWJhMbjSDPZ+lTlZ+fPIHUdsXfTc9BQoIDqOEKQOSfKrzV9ga6hutw==
-X-Received: by 2002:a5d:44cd:: with SMTP id z13mr10795278wrr.104.1578788203919; 
- Sat, 11 Jan 2020 16:16:43 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=TO4ro9G4vD3zIHyJt/0agdTa39l4m1TB7ZW3wf7lrf0=;
+ b=Lp7qaKzE3cuzmQ29tXVFpgS0s7q7q/n0m0s6WcRUb2fgAV0XoXTG2ABmSf7PbeB38w
+ ErnaMzODyIYbKgSnRcsYgMZCCOpYuDoEhpslYimWY919bhCPsmqSDbgx3I7Uj1ccQOkh
+ y/XVv6UymfFuZUB5+TGtAIyOCBRamynSaVhkT1B8IswU9VHMwClxU+Iw8rE6hWtgXol/
+ sNck6pEfDX70+Cl0UVNwuohNXJr7j6ElFC1olQAe7LA5BWOZTZu2dWSqoR+FBgeu1SaJ
+ M3Vajx/NZUgXox5LuukXlmCOmMop6vIz4cc934LPr92FL60La8EzBnTlmge694OjT+JR
+ noPQ==
+X-Gm-Message-State: APjAAAVxMFS9zU4287fnw6269Fbb8rgx6w2leiCwWO77qB6eeB4o1JK8
+ x/X8Lq33/hpya9vPHEuLtyxdWdFx
+X-Google-Smtp-Source: APXvYqxwsOHaGPq94M95EVR5OBQt7fgZiB2P/O5Jg9DgUSfO9JLb4kiGFlvW8Na/knMYtda6GHHQNg==
+X-Received: by 2002:a05:600c:230d:: with SMTP id
+ 13mr11799060wmo.12.1578788204957; 
+ Sat, 11 Jan 2020 16:16:44 -0800 (PST)
 Received: from localhost.localdomain
  (p200300F1373A1900428D5CFFFEB99DB8.dip0.t-ipconnect.de.
  [2003:f1:373a:1900:428d:5cff:feb9:9db8])
- by smtp.googlemail.com with ESMTPSA id h66sm8575535wme.41.2020.01.11.16.16.42
+ by smtp.googlemail.com with ESMTPSA id h66sm8575535wme.41.2020.01.11.16.16.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Jan 2020 16:16:43 -0800 (PST)
+ Sat, 11 Jan 2020 16:16:44 -0800 (PST)
 From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 To: dri-devel@lists.freedesktop.org, alyssa@rosenzweig.io,
  steven.price@arm.com, tomeu.vizoso@collabora.com, robh@kernel.org
-Subject: [PATCH RFT v2 0/3] devfreq fixes for panfrost
-Date: Sun, 12 Jan 2020 01:16:20 +0100
-Message-Id: <20200112001623.2121227-1-martin.blumenstingl@googlemail.com>
+Subject: [PATCH RFT v2 1/3] drm/panfrost: enable devfreq based the
+ "operating-points-v2" property
+Date: Sun, 12 Jan 2020 01:16:21 +0100
+Message-Id: <20200112001623.2121227-2-martin.blumenstingl@googlemail.com>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200112001623.2121227-1-martin.blumenstingl@googlemail.com>
+References: <20200112001623.2121227-1-martin.blumenstingl@googlemail.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Sun, 12 Jan 2020 12:36:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,47 +82,46 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These are a bunch of devfreq fixes for panfrost that came up in a
-discussion with Robin Murphy during the code-review of the lima
-devfreq patches: [0]
+Decouple the check to see whether we want to enable devfreq for the GPU
+from dev_pm_opp_set_regulators(). This is preparation work for adding
+back support for regulator control (which means we need to call
+dev_pm_opp_set_regulators() before dev_pm_opp_of_add_table(), which
+means having a check for "is devfreq enabled" that is not tied to
+dev_pm_opp_of_add_table() makes things easier).
 
-I am only able to test patch #1 properly because the only boards with
-panfrost GPU that I have are using an Amlogic SoC. We don't have
-support for the OPP tables or dynamic clock changes there yet.
-So patches #2 and #3 are compile-tested only.
+Signed-off-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+---
+ drivers/gpu/drm/panfrost/panfrost_devfreq.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-
-Changes since v1 at [1]
-- added Steven's Reviewed-by to patch #2 (thank you!)
-- only use dev_pm_opp_put_regulators() to clean up in
-  panfrost_devfreq_init() if regulators_opp_table is not NULL to fix
-  a potential crash inside dev_pm_opp_put_regulators() as spotted by
-  Steven Price (thank you!). While here, I also switched to "goto err"
-  pattern to avoid lines with more than 80 characters.
-
-Known discussion topics (I have no way to test either of these, so I am
-looking for help here):
-- Steven Price reported the following message on his firefly (RK3288)
-  board:
-  "debugfs: Directory 'ffa30000.gpu-mali' with parent 'vdd_gpu' already
-  present!"
-- Robin Murphy suggested that patch #1 may not work once the OPP table
-  for the GPU comes from SCMI
-
-
-[0] https://patchwork.freedesktop.org/patch/346898/
-[1] https://patchwork.freedesktop.org/series/71744/
-
-
-Martin Blumenstingl (3):
-  drm/panfrost: enable devfreq based the "operating-points-v2" property
-  drm/panfrost: call dev_pm_opp_of_remove_table() in all error-paths
-  drm/panfrost: Use the mali-supply regulator for control again
-
- drivers/gpu/drm/panfrost/panfrost_devfreq.c | 44 +++++++++++++++++----
- drivers/gpu/drm/panfrost/panfrost_device.h  |  1 +
- 2 files changed, 37 insertions(+), 8 deletions(-)
-
+diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+index 413987038fbf..1471588763ce 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
++++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+@@ -5,6 +5,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/pm_opp.h>
+ #include <linux/clk.h>
++#include <linux/property.h>
+ #include <linux/regulator/consumer.h>
+ 
+ #include "panfrost_device.h"
+@@ -79,10 +80,12 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
+ 	struct devfreq *devfreq;
+ 	struct thermal_cooling_device *cooling;
+ 
+-	ret = dev_pm_opp_of_add_table(dev);
+-	if (ret == -ENODEV) /* Optional, continue without devfreq */
++	if (!device_property_present(dev, "operating-points-v2"))
++		/* Optional, continue without devfreq */
+ 		return 0;
+-	else if (ret)
++
++	ret = dev_pm_opp_of_add_table(dev);
++	if (ret)
+ 		return ret;
+ 
+ 	panfrost_devfreq_reset(pfdev);
 -- 
 2.24.1
 
