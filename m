@@ -2,58 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA687138874
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Jan 2020 23:43:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 259D713888D
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Jan 2020 23:48:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17F5189FD9;
-	Sun, 12 Jan 2020 22:43:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFD0F89916;
+	Sun, 12 Jan 2020 22:48:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
- [IPv6:2607:f8b0:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF4CC89FD9
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Jan 2020 22:43:36 +0000 (UTC)
-Received: by mail-pf1-x443.google.com with SMTP id z16so3953831pfk.0
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Jan 2020 14:43:36 -0800 (PST)
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
+ [IPv6:2607:f8b0:4864:20::1042])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40E4389916
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Jan 2020 22:48:31 +0000 (UTC)
+Received: by mail-pj1-x1042.google.com with SMTP id n96so3343288pjc.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Jan 2020 14:48:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=+ShsEjNhpOzPOvXgPh9E0OrWn1BweWqy02bpDa5vEPM=;
- b=SjC/0IH9J0r3xXXN27JRYLGa2ug+ywUFhtcLIi5rbf1ym/mrKNUDRdqjp8eBe+bUu/
- Iq/Fy3naihP7QpdenrWV1hRqFlXEHeErCexkeKAhqGpbFC04/m661z/ZOl9L/UwbzTQ4
- ifymvoQW7Ge+le3sHMhHGP4G/a/jgr67JXEqo=
+ bh=m00+JFtx0F5Dn+QU1onhVVva113ya7ONGht6wxKkj1Q=;
+ b=IG3ORHS2Q6CepRzyqTmubTmsJND0iniUiWe0k2A+0DHgzeuQwDcy5XNr1gIS4alezn
+ y6kXy45ESyCWRTMC9ZXiDhcRtXE79yXHd5UryOG2rW+M8uVePNYgzqnMNJ37hRGLcYe2
+ vqgZm8L13bAkXtvEx++euqU8bsFKWMCPGppP0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=+ShsEjNhpOzPOvXgPh9E0OrWn1BweWqy02bpDa5vEPM=;
- b=PhdtaTKWcf4TdIIRxYBF4GRaf/zXGB7T8qaGpmNERo798mXktq6cyuSfRp957uXNmv
- lcfmfemRSH0Wl20cWGY0tZcz2LTvV7Og7mcC9ZhpLB4ZOjSKRATp7Hf/rBMyOkCFktzA
- KwbXmqze01WxMR8H6wFVoVmuIDlGfLBqReB2YcGswz3zv3nP/qC1GO02fM95nfprb+L+
- Vu9+T63Sq9bIMS/ttTfryIpt3sGBFufPQCqEhe2oR0WHyIyucK/nqNVkAI3ETPVbY9bd
- UgyQOLqaya94kBC5fDOFItDSG4EzM9ErgOWtQjLN69A88yKth6F2xU0dcIL8/i45/6wz
- NZpQ==
-X-Gm-Message-State: APjAAAVB2NHlIqFRhVy7yUfXtvqt8YrY+5BvjbAiLmb6sRK/jMvVL2By
- 3LNG34habbORFac5fflkysM/RA==
-X-Google-Smtp-Source: APXvYqyv2IeFysbjNVlQn+TlwieQWIr7YHfIEe6RktGt9ZCJtvHpb4tppM3O/dW6K/TTA/I5KZyS4g==
-X-Received: by 2002:a63:3e03:: with SMTP id l3mr17916506pga.118.1578869016123; 
- Sun, 12 Jan 2020 14:43:36 -0800 (PST)
+ bh=m00+JFtx0F5Dn+QU1onhVVva113ya7ONGht6wxKkj1Q=;
+ b=PV8iw64daB14T8osflPpYMqVvrJ0oqeBGUtY5FhQeDltwJKsHE1J/ymRr/pLHxCquR
+ mpNNT5xnN0XdJb3yTcE5UByu5BY9MWN4OTgdsNJz8Efy9P+13Tz0kFh4Go+s4/UUJrP6
+ LjDOE8aA6zNABiSOuSX55Ei2JLHOPvO7DVwhH26joNP2RoD/7SIEcA4GlQ5ga7oqRZ9T
+ hVl5lbw9rIKR5i8Rf+CG8D+bUHcD6k1eSyea6vqo3UiVw3UXWs+94KjqXlMFdqcgaOak
+ Y7dlJoN4hY51OlckpOzhbZZBJxGonjtXQq0t7P/E2f7LUFqSna6wN7tMBDDuEmRa77f+
+ uokg==
+X-Gm-Message-State: APjAAAXruGVrenbusfWstHQ8OVL3AxGbwImwF42vrdVMy89Y+tZZkSaO
+ MOeQl3Q9/Ptz4LD0azUvG+jypA==
+X-Google-Smtp-Source: APXvYqxLock9GxP/2msi8cZNiiK7GRKX+6CLYoVtBL7r5ZlaqlLRqn/Q84saS/1trH+bHOqngrugUg==
+X-Received: by 2002:a17:902:8a83:: with SMTP id
+ p3mr17933180plo.56.1578869310580; 
+ Sun, 12 Jan 2020 14:48:30 -0800 (PST)
 Received: from dvetter-linux.ger.corp.intel.com ([138.44.248.126])
- by smtp.gmail.com with ESMTPSA id w20sm11285607pfi.86.2020.01.12.14.43.33
+ by smtp.gmail.com with ESMTPSA id b21sm12007483pfp.0.2020.01.12.14.48.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Jan 2020 14:43:35 -0800 (PST)
-Date: Sun, 12 Jan 2020 23:43:15 +0100
+ Sun, 12 Jan 2020 14:48:29 -0800 (PST)
+Date: Sun, 12 Jan 2020 23:48:23 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH] drm/Kconfig: add missing 'depends on DRM' for DRM_DP_CEC
-Message-ID: <20200112224315.GA5340@dvetter-linux.ger.corp.intel.com>
-References: <489bdaae-9b05-2d70-12e1-4fda7899dfc1@xs4all.nl>
- <bbbef09d-6c90-75ba-e480-28365474b1a5@xs4all.nl>
- <20200108174236.GH43062@phenom.ffwll.local>
- <008645fc-29e0-6cf1-5871-dc01898449f0@xs4all.nl>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v2 2/2] drm/print: document DRM_ logging functions
+Message-ID: <20200112224823.GB5340@dvetter-linux.ger.corp.intel.com>
+References: <20200102221519.31037-1-sam@ravnborg.org>
+ <20200102221519.31037-3-sam@ravnborg.org>
+ <20200107160852.GD43062@phenom.ffwll.local>
+ <20200107181752.GA20555@ravnborg.org>
+ <20200108184920.GI43062@phenom.ffwll.local>
+ <20200108200416.GA32453@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <008645fc-29e0-6cf1-5871-dc01898449f0@xs4all.nl>
+In-Reply-To: <20200108200416.GA32453@ravnborg.org>
 X-Operating-System: Linux dvetter-linux.ger.corp.intel.com
  5.2.11-200.fc30.x86_64 
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,89 +71,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
+ Joe Perches <joe@perches.com>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 09, 2020 at 10:11:48AM +0100, Hans Verkuil wrote:
-> On 1/8/20 6:42 PM, Daniel Vetter wrote:
-> > On Wed, Jan 08, 2020 at 01:08:47PM +0100, Hans Verkuil wrote:
-> >> On 12/6/19 12:26 PM, Hans Verkuil wrote:
-> >>> Add a missing 'depends on DRM' for the DRM_DP_CEC config
-> >>> option. Without that enabling DRM_DP_CEC will force CEC_CORE
-> >>> to =y instead of =m if DRM=m as well.
-> >>>
-> >>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> >>
-> >> Daniel, can you review this? It's annoying that the cec core is
-> >> compiled as part of the kernel when it can just be a module.
+On Wed, Jan 08, 2020 at 09:04:16PM +0100, Sam Ravnborg wrote:
+> Hi Daniel.
+> > > > 
+> > > > I'd replace the entire block with a "This stuff is deprecated" warning. We
+> > > > have at least a corresponding todo.rst entry.
+> > > 
+> > > We have many situations where no drm_device is available.
+> > > At least when you a buried in drm_panel patches.
+> > > 
+> > > So it is either DRM_DEV_ERROR() or drv_err().
+> > > Which is why I have pushed for nicer drm_ variants of these...
 > > 
-> > Why did we even make this optional? Really worth it to compile out 4
-> > functions and some change?
+> > Huh, drm_panel indeed has no drm_device. And I guess we don't have a
+> > convenient excuse to add it ...
+> > 
+> > > The todo entry only covers the nice new macros that Jani added
+> > > where we have a drm_device.
+> > 
+> > I wonder whether for those cases we shouldn't just directly use the
+> > various dev_* macros?
 > 
-> It's not about those few functions, it's because this enables the CEC
-> framework as well (drivers/media/cec).
+> We would miss the nice [drm] marker in the logging.
+> So [drm] will be added by the drivers and the core - but not the panels.
+> That is the only drawback I see right now.
 > 
-> If CEC is not needed, then disabling this saves a lot more code than the
-> few functions in drm_dp_cec.c.
-> 
-> CEC is an optional HDMI feature, so CEC support for HDMI input/output
-> drivers is optional as well in the kernel config.
+> Which was enough justification for me to add the drm_dev_ variants.
+> Feel free to convince me that this is not justification to add these
+> variants.
 
-The trouble is that once you have multiple layers of such automatically
-optional pieces of code, Kconfig keels over: select isn't recursive. So if
-you want to make CEC stuff optional, just compile the DRM stuff only if
-both CEC and DRM are enabled, and drivers can then select the overall CEC
-stuff. Or alternatively have dummy functions at the CEC library, and just
-always compile the DRM CEC stuff in.
+tbh I don't mind, I just don't want to have a massive proliferation of drm
+debugging functions, all kinda alike but not the same. If we can settle on
+some color choice for this bikeshed and actually reduce the not-longer
+favoured version, I'm pretty much ok with anything.
 
-You could also fix Kconfig, if you have a life or two to spare :-)
+> In drm/panel/* there is no use of DRM_DEBUG* - and there is no
+> reason to introduce the variants we can filer with drm.debug.
+> 
+> There is a single DRM_DEBUG() user, which does not count here.
+> 
+> 
+> We could introduce only:
+> 
+> drm_dev_(err|warn|info|debug) - and not the more specialized variants.
+> 
+> Then we avoid that people make shortcuts and use drm_dev_dbg_kms() when
+> they are supposed to use drm_dbg_kms().
+> This was one of the very valid argumest against the patch that
+> introduced all the drm_dev_* variants.
 
-Cheers, Daniel
+Hm, if you want something for panels, what about a drm_panel_* set of
+functions? Plus ofc patches to just roll them out everywhere (it should be
+a simple sed/cocci job, drm/panel/* isn't that big). Some churn, but yay!
+for consisteny at least.
 
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> > 
-> > Anyway the one you really want here is CONFIG_DRM_KMS_HELPER, but that is
-> > a selected variable, and you can't mix select and depends on because that
-> > breaks Kconfig in hilarious ways. Or so I thought, but other public
-> > symbols like this (e.g. DRM_FBDEV_EMULATION) do the same trick. So I guess
-> > 
-> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > 
-> > But really, is all this complexity?
-> > -Daniel
-> > 
-> >>
-> >> Regards,
-> >>
-> >> 	Hans
-> >>
-> >>> ---
-> >>> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> >>> index 1168351267fd..e8e478d6da9c 100644
-> >>> --- a/drivers/gpu/drm/Kconfig
-> >>> +++ b/drivers/gpu/drm/Kconfig
-> >>> @@ -163,6 +163,7 @@ config DRM_LOAD_EDID_FIRMWARE
-> >>>
-> >>>  config DRM_DP_CEC
-> >>>  	bool "Enable DisplayPort CEC-Tunneling-over-AUX HDMI support"
-> >>> +	depends on DRM
-> >>>  	select CEC_CORE
-> >>>  	help
-> >>>  	  Choose this option if you want to enable HDMI CEC support for
-> >>>
-> >>
-> > 
-> 
-
+If we have another set of generic drm debug/logging functions then I think
+consistency is going to take a big toll, and we're already bad with this.
+-Daniel
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
