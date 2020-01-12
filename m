@@ -2,38 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 587F3138830
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Jan 2020 21:22:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA687138874
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Jan 2020 23:43:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60E2F89FCA;
-	Sun, 12 Jan 2020 20:22:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17F5189FD9;
+	Sun, 12 Jan 2020 22:43:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7838F89FCA
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Jan 2020 20:22:14 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 6BEE6804EB;
- Sun, 12 Jan 2020 21:22:08 +0100 (CET)
-Date: Sun, 12 Jan 2020 21:22:07 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH] drm/drm_panel: fix export of drm_panel_of_backlight, try
- #3
-Message-ID: <20200112202207.GB24849@ravnborg.org>
-References: <20200107203231.920256-1-arnd@arndb.de>
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
+ [IPv6:2607:f8b0:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF4CC89FD9
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Jan 2020 22:43:36 +0000 (UTC)
+Received: by mail-pf1-x443.google.com with SMTP id z16so3953831pfk.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Jan 2020 14:43:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=+ShsEjNhpOzPOvXgPh9E0OrWn1BweWqy02bpDa5vEPM=;
+ b=SjC/0IH9J0r3xXXN27JRYLGa2ug+ywUFhtcLIi5rbf1ym/mrKNUDRdqjp8eBe+bUu/
+ Iq/Fy3naihP7QpdenrWV1hRqFlXEHeErCexkeKAhqGpbFC04/m661z/ZOl9L/UwbzTQ4
+ ifymvoQW7Ge+le3sHMhHGP4G/a/jgr67JXEqo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=+ShsEjNhpOzPOvXgPh9E0OrWn1BweWqy02bpDa5vEPM=;
+ b=PhdtaTKWcf4TdIIRxYBF4GRaf/zXGB7T8qaGpmNERo798mXktq6cyuSfRp957uXNmv
+ lcfmfemRSH0Wl20cWGY0tZcz2LTvV7Og7mcC9ZhpLB4ZOjSKRATp7Hf/rBMyOkCFktzA
+ KwbXmqze01WxMR8H6wFVoVmuIDlGfLBqReB2YcGswz3zv3nP/qC1GO02fM95nfprb+L+
+ Vu9+T63Sq9bIMS/ttTfryIpt3sGBFufPQCqEhe2oR0WHyIyucK/nqNVkAI3ETPVbY9bd
+ UgyQOLqaya94kBC5fDOFItDSG4EzM9ErgOWtQjLN69A88yKth6F2xU0dcIL8/i45/6wz
+ NZpQ==
+X-Gm-Message-State: APjAAAVB2NHlIqFRhVy7yUfXtvqt8YrY+5BvjbAiLmb6sRK/jMvVL2By
+ 3LNG34habbORFac5fflkysM/RA==
+X-Google-Smtp-Source: APXvYqyv2IeFysbjNVlQn+TlwieQWIr7YHfIEe6RktGt9ZCJtvHpb4tppM3O/dW6K/TTA/I5KZyS4g==
+X-Received: by 2002:a63:3e03:: with SMTP id l3mr17916506pga.118.1578869016123; 
+ Sun, 12 Jan 2020 14:43:36 -0800 (PST)
+Received: from dvetter-linux.ger.corp.intel.com ([138.44.248.126])
+ by smtp.gmail.com with ESMTPSA id w20sm11285607pfi.86.2020.01.12.14.43.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 12 Jan 2020 14:43:35 -0800 (PST)
+Date: Sun, 12 Jan 2020 23:43:15 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH] drm/Kconfig: add missing 'depends on DRM' for DRM_DP_CEC
+Message-ID: <20200112224315.GA5340@dvetter-linux.ger.corp.intel.com>
+References: <489bdaae-9b05-2d70-12e1-4fda7899dfc1@xs4all.nl>
+ <bbbef09d-6c90-75ba-e480-28365474b1a5@xs4all.nl>
+ <20200108174236.GH43062@phenom.ffwll.local>
+ <008645fc-29e0-6cf1-5871-dc01898449f0@xs4all.nl>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200107203231.920256-1-arnd@arndb.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
- a=0Qoab_-yLbQqVm7gteMA:9 a=CjuIK1q_8ugA:10 a=Z5ABNNGmrOfJ6cZ5bIyy:22
- a=bWyr8ysk75zN3GCy5bjg:22
+In-Reply-To: <008645fc-29e0-6cf1-5871-dc01898449f0@xs4all.nl>
+X-Operating-System: Linux dvetter-linux.ger.corp.intel.com
+ 5.2.11-200.fc30.x86_64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,78 +68,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, Randy Dunlap <rdunlap@infradead.org>,
- linux-kernel@vger.kernel.org, Maxime Ripard <maxime.ripard@bootlin.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Sean Paul <sean@poorly.run>, Emil Velikov <emil.velikov@collabora.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Arnd.
-
-On Tue, Jan 07, 2020 at 09:32:19PM +0100, Arnd Bergmann wrote:
-> Making this IS_REACHABLE() was still wrong, as that just determines
-> whether the lower-level backlight code would be reachable from the panel
-> driver. However, with CONFIG_DRM=y and CONFIG_BACKLIGHT_CLASS_DEVICE=m,
-> the drm_panel_of_backlight is left out of drm_panel.o but the condition
-> tells the driver that it is there, leading to multiple link errors such as
+On Thu, Jan 09, 2020 at 10:11:48AM +0100, Hans Verkuil wrote:
+> On 1/8/20 6:42 PM, Daniel Vetter wrote:
+> > On Wed, Jan 08, 2020 at 01:08:47PM +0100, Hans Verkuil wrote:
+> >> On 12/6/19 12:26 PM, Hans Verkuil wrote:
+> >>> Add a missing 'depends on DRM' for the DRM_DP_CEC config
+> >>> option. Without that enabling DRM_DP_CEC will force CEC_CORE
+> >>> to =y instead of =m if DRM=m as well.
+> >>>
+> >>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> >>
+> >> Daniel, can you review this? It's annoying that the cec core is
+> >> compiled as part of the kernel when it can just be a module.
+> > 
+> > Why did we even make this optional? Really worth it to compile out 4
+> > functions and some change?
 > 
-> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-sitronix-st7701.ko] undefined!
-> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-sharp-ls043t1le01.ko] undefined!
-> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-seiko-43wvf1g.ko] undefined!
-> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-ronbo-rb070d30.ko] undefined!
-> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-rocktech-jh057n00900.ko] undefined!
-> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.ko] undefined!
-> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.ko] undefined!
+> It's not about those few functions, it's because this enables the CEC
+> framework as well (drivers/media/cec).
 > 
-> Change the condition to check for whether the function was actually part
-> of the drm module. This version of the patch survived a few hundred
-> randconfig builds, so I have a good feeling this might be the last
-> one for the export.
+> If CEC is not needed, then disabling this saves a lot more code than the
+> few functions in drm_dp_cec.c.
 > 
-> Fixes: 4a34a9dcec94 ("drm/drm_panel: Fix EXPORT of drm_panel_of_backlight() one more time")
-> Fixes: 907aa265fde6 ("drm/drm_panel: fix EXPORT of drm_panel_of_backlight")
-> Fixes: 152dbdeab1b2 ("drm/panel: add backlight support")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> CEC is an optional HDMI feature, so CEC support for HDMI input/output
+> drivers is optional as well in the kernel config.
 
-I spent some hours this weekend trying to improve the Kconfig
-logic around BACKLIGHT_CLASS_DEVICE and ACPI_VIDEO.
+The trouble is that once you have multiple layers of such automatically
+optional pieces of code, Kconfig keels over: select isn't recursive. So if
+you want to make CEC stuff optional, just compile the DRM stuff only if
+both CEC and DRM are enabled, and drivers can then select the overall CEC
+stuff. Or alternatively have dummy functions at the CEC library, and just
+always compile the DRM CEC stuff in.
 
-I did manage to change something but I did not manage to make something
-that is a real improvement to the current situation.
-So everything abandoned.
+You could also fix Kconfig, if you have a life or two to spare :-)
 
-As we need this fixed I have applied your patch to drm-misc-next.
-Thanks,
+Cheers, Daniel
 
-	Sam
-
-> ---
->  include/drm/drm_panel.h | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
-> index 121f7aabccd1..6193cb555acc 100644
-> --- a/include/drm/drm_panel.h
-> +++ b/include/drm/drm_panel.h
-> @@ -198,7 +198,8 @@ static inline struct drm_panel *of_drm_find_panel(const struct device_node *np)
->  }
->  #endif
->  
-> -#if IS_REACHABLE(CONFIG_BACKLIGHT_CLASS_DEVICE)
-> +#if IS_ENABLED(CONFIG_DRM_PANEL) && (IS_BUILTIN(CONFIG_BACKLIGHT_CLASS_DEVICE) || \
-> +	(IS_MODULE(CONFIG_DRM) && IS_MODULE(CONFIG_BACKLIGHT_CLASS_DEVICE)))
->  int drm_panel_of_backlight(struct drm_panel *panel);
->  #else
->  static inline int drm_panel_of_backlight(struct drm_panel *panel)
-> -- 
-> 2.20.0
+> Regards,
+> 
+> 	Hans
+> 
+> > 
+> > Anyway the one you really want here is CONFIG_DRM_KMS_HELPER, but that is
+> > a selected variable, and you can't mix select and depends on because that
+> > breaks Kconfig in hilarious ways. Or so I thought, but other public
+> > symbols like this (e.g. DRM_FBDEV_EMULATION) do the same trick. So I guess
+> > 
+> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > 
+> > But really, is all this complexity?
+> > -Daniel
+> > 
+> >>
+> >> Regards,
+> >>
+> >> 	Hans
+> >>
+> >>> ---
+> >>> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> >>> index 1168351267fd..e8e478d6da9c 100644
+> >>> --- a/drivers/gpu/drm/Kconfig
+> >>> +++ b/drivers/gpu/drm/Kconfig
+> >>> @@ -163,6 +163,7 @@ config DRM_LOAD_EDID_FIRMWARE
+> >>>
+> >>>  config DRM_DP_CEC
+> >>>  	bool "Enable DisplayPort CEC-Tunneling-over-AUX HDMI support"
+> >>> +	depends on DRM
+> >>>  	select CEC_CORE
+> >>>  	help
+> >>>  	  Choose this option if you want to enable HDMI CEC support for
+> >>>
+> >>
+> > 
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
