@@ -1,96 +1,94 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89C8A138E42
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2020 10:53:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD7EC138FB3
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2020 12:03:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B85089C03;
-	Mon, 13 Jan 2020 09:53:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29C9C89B78;
+	Mon, 13 Jan 2020 11:03:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2089.outbound.protection.outlook.com [40.107.92.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 995F089AEB;
- Mon, 13 Jan 2020 09:53:17 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RMgvUSDnT3DXYnXKGVKv3heEvHCn57WdnjxnYjHjC18i/WiVOsBP4z8/HdIz5FE9Hv0bpC2L6F8TJJtBTttI9TCAgEnsTmPjvNINrsHRrD1RHVBhe/cUiJo2+/krRFgmknermVMhaFik4TPls48aczb4o8FcG5U3FgLoWdniQtug+ugatfF49sDb6P8HNANPQgqGrbXq0BBcssXViB0tdNXtxi7Vr3DJJDbB/OW0RUAJyPRs+4qf16LOaTpDisz8Zu6K8VWNxfuKyYJbYGw0FPvcxXI91hK/TAl43yxuPn+7Q0wa11zXel/nbjZ4yvCfCsstSaZzq9rfDyHYB2mLfg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FmZftCqn69OQfdWczJzzFbutP0FES3TAqwVX6XDbdKY=;
- b=Rm5VdrNWRXbUYlNeYXo9n8PRw0IRIYaRmoyZKYNqJ8FG95icbtvihJJV5Ndbi4OZJJcNELLH6D31YhpXjya+dE1bA2r7apvs+yrmk6gEEiwqyadIR2X9CVC/zTcBYh8TeDXSZHEmSBI5nMDWTgTGKYGIU40lK6ZVCz+flbHxqHvkLqveEo7nd8yF9Q2Ml2Ug5M3ykvFmPKTS2H0ZhlfWrbQDN4FpKL76MIUT5XpzTL/eSeSrHA9zXk1GaRYvbt5xK5iC5BDx7wzIuer6vUj1Cmqs6ROXXtN8lWnpCI1zmbu6lBjsqcYbbjPQQBdUnsfnKkcPT6uMX/TpTT+1CpTEgg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=permerror action=none header.from=amd.com; dkim=none (message not
- signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FmZftCqn69OQfdWczJzzFbutP0FES3TAqwVX6XDbdKY=;
- b=AMKduGLc4RY54e5O9+y2rUN7d5Q26NVWbwdafVAQy7GVp3Bd6CCnzLcsXOst697mm2BUx2GoBvhTylvE4ivwMBswpAptsuSxOAXGWkMEwxcBsB0dizjwLVTqWEZ1jlx88hbJh4GC1SOB6f1r8d+nfWaW7rTkZhk1n+yuLIDD7dg=
-Received: from DM3PR12CA0122.namprd12.prod.outlook.com (2603:10b6:0:51::18) by
- BN6PR12MB1220.namprd12.prod.outlook.com (2603:10b6:404:1e::17) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2623.9; Mon, 13 Jan 2020 09:37:42 +0000
-Received: from CO1NAM11FT030.eop-nam11.prod.protection.outlook.com
- (2a01:111:f400:7eab::208) by DM3PR12CA0122.outlook.office365.com
- (2603:10b6:0:51::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2623.9 via Frontend
- Transport; Mon, 13 Jan 2020 09:37:42 +0000
-Authentication-Results: spf=none (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
- header.d=none;lists.freedesktop.org; dmarc=permerror action=none
- header.from=amd.com;
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-Received: from SATLEXMB01.amd.com (165.204.84.17) by
- CO1NAM11FT030.mail.protection.outlook.com (10.13.174.125) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.2623.9 via Frontend Transport; Mon, 13 Jan 2020 09:37:41 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB01.amd.com
- (10.181.40.142) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Mon, 13 Jan
- 2020 03:37:40 -0600
-Received: from SATLEXMB02.amd.com (10.181.40.143) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Mon, 13 Jan
- 2020 03:37:40 -0600
-Received: from wayne-System-Product-Name.amd.com (10.180.168.240) by
- SATLEXMB02.amd.com (10.181.40.143) with Microsoft SMTP Server id 15.1.1713.5
- via Frontend Transport; Mon, 13 Jan 2020 03:37:38 -0600
-From: Wayne Lin <Wayne.Lin@amd.com>
-To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH] drm/dp_mst: Have DP_Tx send one msg at a time
-Date: Mon, 13 Jan 2020 17:36:49 +0800
-Message-ID: <20200113093649.11755-1-Wayne.Lin@amd.com>
-X-Mailer: git-send-email 2.17.1
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C58ED89B78
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2020 11:03:18 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00DB3Ev0078705;
+ Mon, 13 Jan 2020 05:03:14 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1578913394;
+ bh=RZfGbBisRQkmhwBX3k5Zb+qgZ4e99k8XkjlENkZtXT0=;
+ h=From:Subject:To:CC:Date;
+ b=l1+E0h19qyP5aSG6gNhc9eY643pBK1HRfLA90JYyluxyScMKmoowOiBKhfpbLi6pO
+ 2H1W65AKSXJV1k+rp+OMubE2BDLj8TKRe89VL9tamc/Mrj5hKsN1LUys3NxCp3je2u
+ B0TMFG3/ABrqM1LZS5MOXzozm9+rqZ8Hn1/LExmg=
+Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00DB3EHB016105
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 13 Jan 2020 05:03:14 -0600
+Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Mon, 13
+ Jan 2020 05:03:13 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Mon, 13 Jan 2020 05:03:13 -0600
+Received: from [10.1.3.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00DB3COt049612;
+ Mon, 13 Jan 2020 05:03:12 -0600
+From: Jyri Sarha <jsarha@ti.com>
+Subject: DRM driver and runtime suspend-resume handling?
+Autocrypt: addr=jsarha@ti.com; prefer-encrypt=mutual; keydata=
+ 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
+To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Message-ID: <df769d2e-5fea-403f-2d04-b3239f89256f@ti.com>
+Date: Mon, 13 Jan 2020 13:03:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:165.204.84.17; IPV:; CTRY:US; EFV:NLI;
- SFV:NSPM;
- SFS:(10009020)(4636009)(396003)(376002)(346002)(39860400002)(136003)(428003)(199004)(189003)(2906002)(26005)(426003)(336012)(70586007)(70206006)(1076003)(186003)(86362001)(5660300002)(2616005)(8936002)(36756003)(6666004)(356004)(7696005)(4326008)(81166006)(316002)(110136005)(81156014)(8676002)(478600001)(54906003);
- DIR:OUT; SFP:1101; SCL:1; SRVR:BN6PR12MB1220; H:SATLEXMB01.amd.com; FPR:;
- SPF:None; LANG:en; PTR:InfoDomainNonexistent; A:1; MX:1; 
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5c631947-1199-465a-1803-08d7980c3c98
-X-MS-TrafficTypeDiagnostic: BN6PR12MB1220:
-X-Microsoft-Antispam-PRVS: <BN6PR12MB12207330C51B5C990D4E1B60FC350@BN6PR12MB1220.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-Forefront-PRVS: 028166BF91
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PcyOmk4heO7YRyU+wRNYZnf7MrdXaBVBI30CJkkKSW6Gxd14xlAj9+L1JS5+TGizHvwFgg1t+4hn/MggklcJ1eikJ5jdiz/DxM0bmNXPa3c1z11afKec2BMxWLAbBN2xSfgLuAkW5J+qaLcr2C2aKLfflb+tBVU3swf3IorOQDzkokIGZAtN3Qj5dzAlH+LLX34+RWS34Gv3aFZQ67nsmui4Drha+bZUFEzu+Y6XE5tD9K2vSLVHzUW3WoroE3gog+mCD2sK6clF6QVThzrQDCiQ35qw3viSRITGn+CmxC+3Fsy/ktg0VF6j69dMHOaBiK6OGXzZmPKF6ozebaLV67S2Y/uyPRIbLQehd7trMJDg393iC9DsZcgOGBzpcNh4Gdgh6+xfPf5lDxHRmiaCa5ULPko/lejsnIrQrhaJK2riHn3gcCFRNOC8sXm1lPAV
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2020 09:37:41.8243 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c631947-1199-465a-1803-08d7980c3c98
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB01.amd.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1220
+Content-Language: en-GB
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,137 +101,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jerry.zuo@amd.com, Nicholas.Kazlauskas@amd.com,
- Wayne Lin <Wayne.Lin@amd.com>
+Cc: "Valkeinen, Tomi" <tomi.valkeinen@ti.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Why]
-Noticed this while testing MST with the 4 ports MST hub from
-StarTech.com. Sometimes can't light up monitors normally and get the
-error message as 'sideband msg build failed'.
+Hi,
+While working with CRTC color related properties (gamma and CTM for
+instance) and making them persistent over suspend-resume cycle it
+occurred to me if I am just wasting resources by storing the property
+values in the driver and restoring them in dev_pm_ops runtime_resume()..
 
-Look into aux transactions, found out that source sometimes will send
-out another down request before receiving the down reply of the
-previous down request. On the other hand, in drm_dp_get_one_sb_msg(),
-current code doesn't handle the interleaved replies case. Hence, source
-can't build up message completely and can't light up monitors.
+Wouldn't it work if I would just:
 
-[How]
-For good compatibility, enforce source to send out one down request at a
-time. Add a flag, is_waiting_for_dwn_reply, to determine if the source
-can send out a down request immediately or not.
+1. Add a flag in the driver to indicate that the context may have been
+lost since the previous atomic commit and set in runtime_resume().
 
-- Check the flag before calling process_single_down_tx_qlock to send out
-a msg
-- Set the flag when successfully send out a down request
-- Clear the flag when successfully build up a down reply
-- Clear the flag when find erros during sending out a down request
-- Clear the flag when find errors during building up a down reply
-- Clear the flag when timeout occurs during waiting for a down reply
-- Use drm_dp_mst_kick_tx() to try to send another down request in queue
-at the end of drm_dp_mst_wait_tx_reply() (attempt to send out messages
-in queue when errors occur)
+2. And write the color properties to HW if the context lost flag is set
+even if the drm_crtc_state color_mgmt_changed is false.
 
-Cc: Lyude Paul <lyude@redhat.com>
-Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
----
- drivers/gpu/drm/drm_dp_mst_topology.c | 14 ++++++++++++--
- include/drm/drm_dp_mst_helper.h       |  6 ++++++
- 2 files changed, 18 insertions(+), 2 deletions(-)
+The color property values are there despite the color_mgmt_changed ==
+false, aren't they?
 
-diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-index 4395d5cc0645..3542af15387a 100644
---- a/drivers/gpu/drm/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -1195,6 +1195,8 @@ static int drm_dp_mst_wait_tx_reply(struct drm_dp_mst_branch *mstb,
- 		    txmsg->state == DRM_DP_SIDEBAND_TX_SENT) {
- 			mstb->tx_slots[txmsg->seqno] = NULL;
- 		}
-+		mgr->is_waiting_for_dwn_reply = false;
-+
- 	}
- out:
- 	if (unlikely(ret == -EIO) && drm_debug_enabled(DRM_UT_DP)) {
-@@ -1204,6 +1206,7 @@ static int drm_dp_mst_wait_tx_reply(struct drm_dp_mst_branch *mstb,
- 	}
- 	mutex_unlock(&mgr->qlock);
- 
-+	drm_dp_mst_kick_tx(mgr);
- 	return ret;
- }
- 
-@@ -2770,9 +2773,11 @@ static void process_single_down_tx_qlock(struct drm_dp_mst_topology_mgr *mgr)
- 	ret = process_single_tx_qlock(mgr, txmsg, false);
- 	if (ret == 1) {
- 		/* txmsg is sent it should be in the slots now */
-+		mgr->is_waiting_for_dwn_reply = true;
- 		list_del(&txmsg->next);
- 	} else if (ret) {
- 		DRM_DEBUG_KMS("failed to send msg in q %d\n", ret);
-+		mgr->is_waiting_for_dwn_reply = false;
- 		list_del(&txmsg->next);
- 		if (txmsg->seqno != -1)
- 			txmsg->dst->tx_slots[txmsg->seqno] = NULL;
-@@ -2812,7 +2817,8 @@ static void drm_dp_queue_down_tx(struct drm_dp_mst_topology_mgr *mgr,
- 		drm_dp_mst_dump_sideband_msg_tx(&p, txmsg);
- 	}
- 
--	if (list_is_singular(&mgr->tx_msg_downq))
-+	if (list_is_singular(&mgr->tx_msg_downq) &&
-+	    !mgr->is_waiting_for_dwn_reply)
- 		process_single_down_tx_qlock(mgr);
- 	mutex_unlock(&mgr->qlock);
- }
-@@ -3743,6 +3749,7 @@ static int drm_dp_mst_handle_down_rep(struct drm_dp_mst_topology_mgr *mgr)
- 	mutex_lock(&mgr->qlock);
- 	txmsg->state = DRM_DP_SIDEBAND_TX_RX;
- 	mstb->tx_slots[slot] = NULL;
-+	mgr->is_waiting_for_dwn_reply = false;
- 	mutex_unlock(&mgr->qlock);
- 
- 	wake_up_all(&mgr->tx_waitq);
-@@ -3752,6 +3759,9 @@ static int drm_dp_mst_handle_down_rep(struct drm_dp_mst_topology_mgr *mgr)
- no_msg:
- 	drm_dp_mst_topology_put_mstb(mstb);
- clear_down_rep_recv:
-+	mutex_lock(&mgr->qlock);
-+	mgr->is_waiting_for_dwn_reply = false;
-+	mutex_unlock(&mgr->qlock);
- 	memset(&mgr->down_rep_recv, 0, sizeof(struct drm_dp_sideband_msg_rx));
- 
- 	return 0;
-@@ -4591,7 +4601,7 @@ static void drm_dp_tx_work(struct work_struct *work)
- 	struct drm_dp_mst_topology_mgr *mgr = container_of(work, struct drm_dp_mst_topology_mgr, tx_work);
- 
- 	mutex_lock(&mgr->qlock);
--	if (!list_empty(&mgr->tx_msg_downq))
-+	if (!list_empty(&mgr->tx_msg_downq) && !mgr->is_waiting_for_dwn_reply)
- 		process_single_down_tx_qlock(mgr);
- 	mutex_unlock(&mgr->qlock);
- }
-diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst_helper.h
-index 942575de86a0..d0b45468135a 100644
---- a/include/drm/drm_dp_mst_helper.h
-+++ b/include/drm/drm_dp_mst_helper.h
-@@ -610,6 +610,12 @@ struct drm_dp_mst_topology_mgr {
- 	 * &drm_dp_sideband_msg_tx.state once they are queued
- 	 */
- 	struct mutex qlock;
-+
-+	/**
-+	 * @is_waiting_for_dwn_reply: indicate whether is waiting for down reply
-+	 */
-+	bool is_waiting_for_dwn_reply;
-+
- 	/**
- 	 * @tx_msg_downq: List of pending down replies.
- 	 */
+Best regards,
+Jyri
+
 -- 
-2.17.1
-
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
