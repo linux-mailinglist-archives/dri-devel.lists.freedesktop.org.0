@@ -1,79 +1,87 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5AB61394D8
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2020 16:32:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE4DD1394EC
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2020 16:37:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67C9289330;
-	Mon, 13 Jan 2020 15:32:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EE1089F6F;
+	Mon, 13 Jan 2020 15:37:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A494489131
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2020 15:32:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578929563;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/ugGRc3ZSBpA03LgnAY27K4MxINi4CuEFoptsSyvb9I=;
- b=IQI0GF8gLlN2KalGmdI54eAVK/wV9BfsrkO0cTQ4lI+2WMox4vZAo7f3jSkWBWw4JwkcMB
- CJMjJzG+CWRAXv693nXk4E/NmXuHeXeJFEDKZr8mYQ+yY09XBspvx7OH9J4mb2t6PxyKA8
- 8Ml9TJUPSSyLveeMVaYjcpydPBWVNVc=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-182-n5yRsVh1MCK6Boo5pY5epQ-1; Mon, 13 Jan 2020 10:32:40 -0500
-Received: by mail-qt1-f197.google.com with SMTP id d9so6741773qtq.13
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2020 07:32:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ElsdEkFyMX9PyqBKUyWZEu82iD4Q0YddLseGJka/eAI=;
- b=BmvrD1mgvr4vuu14kSyOkT/uhij857D2Ukh9P9+3di4yo8B0eiMqIcWI4ifAL+580s
- UEKP7Z9ScdH/e8omgn4oXPorpeo3WuennS8MKF5gcBenYP/38W7nOl63dfG0ug/zr2vP
- VmGIDiFqK6Ttts0E+nfDtjazBJqx2OG804SA9MtRnl8nd8q/xAaJi3Rm2TJdfkl6BIFk
- HBckuV1NIGL+KUiTnqZfZeJnEphL33hg7i6SLgiDCO4d8PoGhhrLC1geUxYZPn+l119N
- opH9pzL09bEsyItkn1vuhQxzLNOwfI7WOPKvTUoFQVGfn1c60uiASrFJGNnCQlyABSZz
- blAA==
-X-Gm-Message-State: APjAAAVFPJcvGHihDg12DfGolNM4AbmvPeA5OqFEub9S6Kh3GtMl5nus
- fO+P8fPYCTzUYIIJpXARjyXFIoWc0zC6Ttl3Hd7ETS3ZGJ5CTMgwdGU9VfCr10x+nkpb1N6CRws
- 0gpkRJQlMMjjjTOOBlAw13nQxr0cvbOaqXuUuqIHSvSTS
-X-Received: by 2002:a37:9245:: with SMTP id u66mr12325310qkd.102.1578929560032; 
- Mon, 13 Jan 2020 07:32:40 -0800 (PST)
-X-Google-Smtp-Source: APXvYqytL56xMC0vF1glxTM38WsY2Ix40Z1naBdqh2T+YigaQEOs8RJRhNMIOMubvldRvknv5G4xQqo3cppMYY9Rex0=
-X-Received: by 2002:a37:9245:: with SMTP id u66mr12325263qkd.102.1578929559700; 
- Mon, 13 Jan 2020 07:32:39 -0800 (PST)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2070.outbound.protection.outlook.com [40.107.92.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC13389F6F
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2020 15:37:12 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IKG6L57PrOWf7nNdwGYDLji9wv5BsrEPPgidcDQeSVA7LPTqt5z9q8qki77jG+XUu2NWKCJzxgU/EVZhA/KqYl8aQnXDCgjYqF503W0Y9XtenY7XEMbkXylUug2fyNbqQXXCiL+awp/j7EV1FIMHYKEXKbalp24owCTDV15A886qThxQLRQQv5KxiXbEIAq8ddHeic1v3Zb5NoozpIcNCrDHGPUDIqF/G1mh/iWHKvxEMNxJAQmQz9LThurh8rGVIpvmFTgZcXoQcU7OofHGoDtg5dGaCt5fsqcE11z9pj0YbH6/6+pxi23Zk0JFEQoz/ntXOJm5fqm1lKLbE/Sknw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rsmRFEVmj30XrwddG2qG6+/9LY7okiYo3z6I6OKGbrs=;
+ b=k3wUn7Sm/p1eM8oj3vDw1KUZLUQySKRao0dXgSGGlajEW/mjBPejDq6un4Slx++bQZ379AbtqZH54QjYNTqy33tIL2eTxX/GRpBwnAb5n2O+7MBuy+R1shHMGJqp0w4BcV24FGULZ5A8wiflhFECZQjdaEURkODdXR6rngCyG/+PNNI4kEx43YUZVW4IofJ7ZjZdvXkPTDr2hV7pZBmz4GxLGJAn22XjapmX/XCM8wzkKgYdKhke+KUzm8NVkOWA4rPnQLxeSJHiLgui3dwBwCBLtY968ZDRlc613owIIJJ2PgIMtCnWKXNB7rpcodJ5JgR1oRVSNXT1aAOcc4rH7A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rsmRFEVmj30XrwddG2qG6+/9LY7okiYo3z6I6OKGbrs=;
+ b=derinofgmcsleCAXhujSxeIKTxTl2BzgWy+LVErHA29fDH2jrgZT60u4tanLCqHi05pQiT2Vcp9ND265z/Szh2rn8o4q/0X0/NG4Q9WNRtGVqPoIkSrjflFK+XlmhgNasTzdMYDUY2lMG5ft3kI14ELG9WR0ddT3cyt+bBhkzFk=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Qiang.Yu@amd.com; 
+Received: from SN6PR12MB2702.namprd12.prod.outlook.com (52.135.101.144) by
+ SN6PR12MB2685.namprd12.prod.outlook.com (52.135.99.33) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2623.9; Mon, 13 Jan 2020 15:37:10 +0000
+Received: from SN6PR12MB2702.namprd12.prod.outlook.com
+ ([fe80::d46f:d4ae:d96d:ef70]) by SN6PR12MB2702.namprd12.prod.outlook.com
+ ([fe80::d46f:d4ae:d96d:ef70%5]) with mapi id 15.20.2623.015; Mon, 13 Jan 2020
+ 15:37:10 +0000
+From: Qiang Yu <qiang.yu@amd.com>
+To: linux-mm@kvack.org, cgroups@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH RFC 0/3] mm/memcontrol drm/ttm: charge ttm buffer backed by
+ system memory
+Date: Mon, 13 Jan 2020 23:35:40 +0800
+Message-Id: <20200113153543.24957-1-qiang.yu@amd.com>
+X-Mailer: git-send-email 2.17.1
+X-ClientProxiedBy: SG2PR0302CA0024.apcprd03.prod.outlook.com
+ (2603:1096:3:2::34) To SN6PR12MB2702.namprd12.prod.outlook.com
+ (2603:10b6:805:6c::16)
 MIME-Version: 1.0
-References: <CACO55ttTPi2XpRRM_NYJU5c5=OvG0=-YngFy1BiR8WpHkavwXw@mail.gmail.com>
- <CAJZ5v0h=7zu3A+ojgUSmwTH0KeXmYP5OKDL__rwkkWaWqcJcWQ@mail.gmail.com>
- <20191121112821.GU11621@lahna.fi.intel.com>
- <CAJZ5v0hQhj5Wf+piU11abC4pF26yM=XHGHAcDv8Jsgdx04aN-w@mail.gmail.com>
- <20191121114610.GW11621@lahna.fi.intel.com>
- <CACO55ttXJgXG32HzYP_uJDfQ6T-d8zQaGjXK_AZD3kF0Rmft4g@mail.gmail.com>
- <CAJZ5v0ibzcLEm44udUxW2uVgaF9NapdNBF8Ag+RE++u7gi2yNA@mail.gmail.com>
- <CACO55ttBkZD9dm0Y_jT931NnzHHtDFyLz28aoo+ZG0pnLzPgbA@mail.gmail.com>
- <CAJZ5v0jbh7jz+YQcw-gC5ztmMOc4E9+KFBCy4VGRsRFxBw-gnw@mail.gmail.com>
- <e0eeddf4214f54dfac08e428dfb30cbd39f20680.camel@redhat.com>
- <20191127114856.GZ11621@lahna.fi.intel.com>
- <CACO55tt5SAf24vk0XrKguhh2J=WuKirDsdY7T+u7PsGFCpnFxg@mail.gmail.com>
- <e7aec10d789b322ca98f4b250923b0f14f2b8226.camel@redhat.com>
- <CACO55tu+hT1WGbBn_nxLR=A-X6YWmeuz-UztJKw0QAFQDDV_xg@mail.gmail.com>
- <CAJZ5v0hcONxiWD+jpBe62H1SZ-84iNxT+QCn8mcesB1C7SVWjw@mail.gmail.com>
- <CAPM=9txefUg9_EO82an3b313mZz7J7-ydTuJtWD-hOQwE4QXkQ@mail.gmail.com>
- <CACO55tvhSM0aATBOK05-05aOc6LeN67=US2zO2jqXKWGTpUZFw@mail.gmail.com>
-In-Reply-To: <CACO55tvhSM0aATBOK05-05aOc6LeN67=US2zO2jqXKWGTpUZFw@mail.gmail.com>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Mon, 13 Jan 2020 16:31:50 +0100
-Message-ID: <CACO55tsCRzSOz4GcLuuvGP3hfbz8gYtYXqtYHy5XCpCi3tmPeA@mail.gmail.com>
-Subject: Re: [PATCH v4] pci: prevent putting nvidia GPUs into lower device
- states on certain intel bridges
-To: Dave Airlie <airlied@gmail.com>
-X-MC-Unique: n5yRsVh1MCK6Boo5pY5epQ-1
-X-Mimecast-Spam-Score: 0
+Received: from localhost.localdomain (221.239.222.115) by
+ SG2PR0302CA0024.apcprd03.prod.outlook.com (2603:1096:3:2::34) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2644.10 via Frontend Transport; Mon, 13 Jan 2020 15:37:06 +0000
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [221.239.222.115]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 718f5000-eeb8-477c-9e2b-08d7983e746b
+X-MS-TrafficTypeDiagnostic: SN6PR12MB2685:|SN6PR12MB2685:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR12MB2685ECA91C63E5C10BAEBBD28F350@SN6PR12MB2685.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Forefront-PRVS: 028166BF91
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10009020)(4636009)(396003)(136003)(366004)(39860400002)(346002)(376002)(199004)(189003)(86362001)(4326008)(478600001)(1076003)(81156014)(5660300002)(81166006)(8936002)(8676002)(36756003)(6512007)(6486002)(66946007)(66476007)(66556008)(2906002)(956004)(26005)(6506007)(44832011)(6666004)(54906003)(316002)(186003)(52116002)(16526019)(69590400006)(2616005);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:SN6PR12MB2685;
+ H:SN6PR12MB2702.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: C0Mscc4SaGo0WoNDKG7OeJ0AJotO7uJB3M6l0Ufk1IH3P9Pi0JQ8OJCLoJDtgOkZCs8+ohZDatwRDuCSHYauuDFhFh9xegUmiWp5RCqOLzHkTRrs/YmJe4vVETGiDLroxliJG/1kT4xseRr0steGjB1Kck8/X/bnDkTAUfUoSBoO+Tz5i1Pzp/XvXHzjTO6E09/RlaE/Clqo6zz0wT1sncb+gTLD80lzmB7Ne0zDN/7yAOfFjvP0984zRi8u7POg5w8aq9lg99VzOHNrZomlYKD80iXHkPCn+Hrqlf+2dt2weehLacUivLv3IvC8BpHFJMcgghcV2vl+YiZq3BVdGl7QWFGivuopjyB7CROcTQJBCjP7vA1DoBBztJ97Eockyk54KBozGgkQ9g6nm0vscfp92iJgfDWT64V5BOqY6mEuiUotnZhgUcBTCM2JtHz9DsRYysjGcNSAtCm5vD1Uj1Ilzzl450qDY7KlsQofAo3qf1omuO5CR5+0c1M0HqKZ
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 718f5000-eeb8-477c-9e2b-08d7983e746b
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2020 15:37:10.7297 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DEPP1630dug7ii2JVSKE+6w0bX0mW2AQjlZR1hQKy4wyPxe42Pk03AqOy3PKgwFS
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2685
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,74 +94,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
- Linux PCI <linux-pci@vger.kernel.org>,
- Mika Westerberg <mika.westerberg@intel.com>,
- Linux PM <linux-pm@vger.kernel.org>, "Rafael J . Wysocki" <rjw@rjwysocki.net>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Mario Limonciello <Mario.Limonciello@dell.com>,
- Bjorn Helgaas <helgaas@kernel.org>, nouveau <nouveau@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>, Kenny Ho <kenny.ho@amd.com>,
+ Michal Hocko <mhocko@kernel.org>, Qiang Yu <qiang.yu@amd.com>,
+ Huang Rui <ray.huang@amd.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Tejun Heo <tj@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Christian Koenig <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-okay.. so checking whatever is the difference with _REV being 5
-(meaning the firmware uses the legacy paths) doesn't help in any way.
-It's using a different method to turn the link of and the other ACPI
-variables touched either point to undocumented registers on the PCI
-bridge or internal ACPI memory...
+Buffers created by GPU driver could be huge (often several MB and even hundred
+or thousand MB). Some GPU driver call drm_gem_get_pages() which uses shmem to
+allocate these buffers which will charge memcg already, while some GPU driver
+like amdgpu use TTM which just allocate these system memory backed buffers with
+alloc_pages() so won't charge memcg currently.
 
-so, anybody with any other ideas? I really wished the nvidia driver
-would enable runpm on pre turing GPUs, but that's sadly not the case
-and on Turing things seem to be totally different, so it wouldn't help
-to check there as well... *sigh*
+Not like pure kernel memory, GPU buffer need to be mapped to user space for user
+filling data and command then let GPU hardware consume these buffers. So it is
+not proper to use memcg kmem by adding __GFP_ACCOUNT to alloc_pages gfp flags.
 
-On Tue, Dec 10, 2019 at 9:49 PM Karol Herbst <kherbst@redhat.com> wrote:
->
-> On Tue, Dec 10, 2019 at 8:58 PM Dave Airlie <airlied@gmail.com> wrote:
-> >
-> > On Mon, 9 Dec 2019 at 21:39, Rafael J. Wysocki <rafael@kernel.org> wrote:
-> > >
-> > > On Mon, Dec 9, 2019 at 12:17 PM Karol Herbst <kherbst@redhat.com> wrote:
-> > > >
-> > > > anybody any other ideas?
-> > >
-> > > Not yet, but I'm trying to collect some more information.
-> > >
-> > > > It seems that both patches don't really fix
-> > > > the issue and I have no idea left on my side to try out. The only
-> > > > thing left I could do to further investigate would be to reverse
-> > > > engineer the Nvidia driver as they support runpm on Turing+ GPUs now,
-> > > > but I've heard users having similar issues to the one Lyude told us
-> > > > about... and I couldn't verify that the patches help there either in a
-> > > > reliable way.
-> > >
-> > > It looks like the newer (8+) versions of Windows expect the GPU driver
-> > > to prepare the GPU for power removal in some specific way and the
-> > > latter fails if the GPU has not been prepared as expected.
-> > >
-> > > Because testing indicates that the Windows 7 path in the platform
-> > > firmware works, it may be worth trying to do what it does to the PCIe
-> > > link before invoking the _OFF method for the power resource
-> > > controlling the GPU power.
-> > >
-> >
-> > Remember the pre Win8 path required calling a DSM method to actually
-> > power the card down, I think by the time we reach these methods in
-> > those cases the card is already gone.
-> >
-> > Dave.
-> >
->
-> The point was that the firmware seems to do more in the legacy paths
-> and maybe we just have to do those things inside the driver instead
-> when using the new method. Also the _DSM call just wraps around the
-> interfaces on newer firmware anyway. The OS check is usually what
-> makes the difference. I might be wrong about the _DSM call just
-> wrapping though, but I think I saw it at least in some firmware at
-> some point.
+Another reason is back memory of GPU buffer may be allocated latter after the
+buffer object is created, and even in other processes. So we need to record the
+memcg when buffer object creation, then charge it latter when needed.
+
+TTM will use a page pool acting as a cache for write-combine/no-cache pages.
+So adding new GFP flags for alloc_pages also does not work.
+
+Qiang Yu (3):
+  mm: memcontrol: add mem_cgroup_(un)charge_drvmem
+  mm: memcontrol: record driver memory statistics
+  drm/ttm: support memcg for ttm_tt
+
+ drivers/gpu/drm/ttm/ttm_bo.c         | 10 +++++
+ drivers/gpu/drm/ttm/ttm_page_alloc.c | 18 ++++++++-
+ drivers/gpu/drm/ttm/ttm_tt.c         |  3 ++
+ include/drm/ttm/ttm_bo_api.h         |  5 +++
+ include/drm/ttm/ttm_tt.h             |  4 ++
+ include/linux/memcontrol.h           | 22 +++++++++++
+ mm/memcontrol.c                      | 58 ++++++++++++++++++++++++++++
+ 7 files changed, 119 insertions(+), 1 deletion(-)
+
+-- 
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
