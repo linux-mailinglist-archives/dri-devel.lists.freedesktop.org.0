@@ -1,58 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9737139097
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2020 13:02:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E1CA1390B1
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2020 13:04:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E31C289FED;
-	Mon, 13 Jan 2020 12:02:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B87EB6E073;
+	Mon, 13 Jan 2020 12:04:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69EC889FED
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2020 12:02:06 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00DC1x5L110807;
- Mon, 13 Jan 2020 06:01:59 -0600
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8880F6E073
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2020 12:04:42 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00DC4ZJr097265;
+ Mon, 13 Jan 2020 06:04:35 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1578916919;
- bh=H2gDMp/Ne//Z1zeRNw2FyZRd1bmJxMtU/ICfn0o8bn8=;
+ s=ti-com-17Q1; t=1578917075;
+ bh=A1XedcPXvbRKBkpZOeHIwI2DnTHQR9L7cGA4caxJfWM=;
  h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=YrwMozSeEbxwQYqZ6eHn1HJ3hd1lE3Yu+JqwShV2x7AxkYNy/lfmrsFa+3GZ5XHGY
- z3XwTeT/DjEawhQCRX5xHHSkxsGfEHKTyHVYVxndDTo0wDDr7LloI6vD7LgvPlYzYK
- R77R8LHCocu0S85+vVqV+2PGlRh++FMvx4pLxlJQ=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00DC1xwq104092
+ b=C9IirWiCen5nn6EKNJxu2zG6GMegSEUoZyLcXB+Ot2bp2WPoVTBLeR5rZIfXNOB2H
+ mOwUt9NcK4eHimYZA68dhxzeWZdfnLCacOMvO29BkpnWBOfv3h5rclEKJ/1FU/WQLA
+ su4LNtKKR999Qu4Pm504oQOqA/UWmrz0rtUUSqf4=
+Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00DC4ZM0102040
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 13 Jan 2020 06:01:59 -0600
-Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ Mon, 13 Jan 2020 06:04:35 -0600
+Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Mon, 13
- Jan 2020 06:01:58 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ Jan 2020 06:04:34 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Mon, 13 Jan 2020 06:01:58 -0600
+ Frontend Transport; Mon, 13 Jan 2020 06:04:34 -0600
 Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00DC1uN6105432;
- Mon, 13 Jan 2020 06:01:57 -0600
-Subject: Re: [PATCH 2/3] ARM: dts: am437x-gp/epos-evm: drop unused panel
- timings
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00DC4Wd8035858;
+ Mon, 13 Jan 2020 06:04:33 -0600
+Subject: Re: [PATCH 3/3] drm/panel: simple: fix osd070t1718_19ts sync drive
+ edge
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Thierry Reding
+ <thierry.reding@gmail.com>
 References: <20191114093950.4101-1-tomi.valkeinen@ti.com>
- <20191114093950.4101-3-tomi.valkeinen@ti.com>
- <20191202130459.GH4929@pendragon.ideasonboard.com>
- <20191211165331.GC43123@atomide.com>
- <45dae8f7-2f5e-6948-5a05-dc8a09ace1fa@ti.com>
- <20191212203550.GB4892@pendragon.ideasonboard.com>
+ <20191114093950.4101-4-tomi.valkeinen@ti.com>
+ <20191202130717.GI4929@pendragon.ideasonboard.com>
 From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <add3d8af-6977-68e6-fb77-2fa748c4714a@ti.com>
-Date: Mon, 13 Jan 2020 14:01:56 +0200
+Message-ID: <beb62b97-f45e-2cbc-6e2b-a05f1ef60e29@ti.com>
+Date: Mon, 13 Jan 2020 14:04:32 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191212203550.GB4892@pendragon.ideasonboard.com>
+In-Reply-To: <20191202130717.GI4929@pendragon.ideasonboard.com>
 Content-Language: en-US
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,51 +65,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Tony Lindgren <tony@atomide.com>,
- Jyri Sarha <jsarha@ti.com>, Peter Ujfalusi <peter.ujfalusi@ti.com>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: Tony Lindgren <tony@atomide.com>, devicetree@vger.kernel.org,
+ Jyri Sarha <jsarha@ti.com>, dri-devel@lists.freedesktop.org,
+ Peter Ujfalusi <peter.ujfalusi@ti.com>
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/12/2019 22:35, Laurent Pinchart wrote:
+Hi Thierry,
+
+On 02/12/2019 15:07, Laurent Pinchart wrote:
 > Hi Tomi,
 > 
-> On Thu, Dec 12, 2019 at 11:37:51AM +0200, Tomi Valkeinen wrote:
->> On 11/12/2019 18:53, Tony Lindgren wrote:
->>> * Laurent Pinchart <laurent.pinchart@ideasonboard.com> [191202 13:05]:
->>>> Hi Tomi,
->>>>
->>>> Thank you for the patch.
->>>>
->>>> On Thu, Nov 14, 2019 at 11:39:49AM +0200, Tomi Valkeinen wrote:
->>>>> panel-simple now handled panel osd070t1718-19ts, and we no longer need
->>>>> the panel timings in the DT file. So remove them.
->>>>
->>>> Should you in that case drop the panel-dpi compatible string too, as the
->>>> panel-dpi bindings require panel timings in DT ?
->>>
->>> Yeah sounds like if panel-dpi is no longer usable for this device it
->>> should be dropped from the compatible list.
->>
->> Ok, I agree.
->>
->> Looking at the dts files, panel-dpi is used in a bunch of boards. But
->> we even have 3 dts files with panel-dpi, without the detailed panel
->> model in compatible...
->>
->> Fixing those will break the compatibility with old dtbs and new
->> kernel, unless we add timings-from-dt to a panel driver that handles
->> panel-dpi.
+> Thank you for the patch.
 > 
-> I know, and I don't have a perfect answer for this :-( I don't see a
-> third option, it's either breaking DT backward compatibility or adding
-> timings parsing to a panel driver (either a new panel-dpi driver or to
-> panel-simple). What's your preferred option ?
+> On Thu, Nov 14, 2019 at 11:39:50AM +0200, Tomi Valkeinen wrote:
+>> The panel datasheet says that the panel samples at falling edge, but
+>> does not say anything about h/v sync signals. Testing shows that if the
+>> sync signals are driven on falling edge, the picture on the panel will
+>> be slightly shifted right.
+>>
+>> Setting sync drive edge to the same as data drive edge fixes this issue.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> 
+> I don't have access to the documentation, but this makes sense, so
+> 
+> Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+>> ---
+>>   drivers/gpu/drm/panel/panel-simple.c | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+>> index 5d487686d25c..0784536ae6af 100644
+>> --- a/drivers/gpu/drm/panel/panel-simple.c
+>> +++ b/drivers/gpu/drm/panel/panel-simple.c
+>> @@ -2397,7 +2397,8 @@ static const struct panel_desc osddisplays_osd070t1718_19ts = {
+>>   		.height = 91,
+>>   	},
+>>   	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
+>> -	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
+>> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE |
+>> +		DRM_BUS_FLAG_SYNC_DRIVE_POSEDGE,
+>>   	.connector_type = DRM_MODE_CONNECTOR_DPI,
+>>   };
+>>   
+> 
 
-Hmm, I just realized that changing these will break omapfb. It relies on panel-dpi and timings from 
-DT...
+Can you pick this one up?
 
   Tomi
 
