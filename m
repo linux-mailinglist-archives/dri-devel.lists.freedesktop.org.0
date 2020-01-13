@@ -1,48 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38D22139275
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2020 14:46:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64ED11392A8
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2020 14:57:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EED789DFA;
-	Mon, 13 Jan 2020 13:46:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB6FD89ADC;
+	Mon, 13 Jan 2020 13:57:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46E4B89DFA
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2020 13:46:42 +0000 (UTC)
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com
- [209.85.219.50])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 0DB1A21569
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2020 13:46:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1578923202;
- bh=AIlrTSnZ1J1BYZeDE/zgmZ4IXahNEVbk9lgMh1AEQ7Y=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=iuAnG+CuflajR1/NGCyzA+4OgWdGpK3JBRoW8i3KxcgXNDqf9Araj+ScJo6ZeOjjT
- ToxoD9QgrlII2z7n3Hm7SMXMKF36MPInnWtwtpDLa2NsPpMtB1H9dT9mt/EKuNq5Z+
- kUI3gsWP6kXyJfteOQcIJNHfn36dpPu35Nr5/ljs=
-Received: by mail-qv1-f50.google.com with SMTP id dp13so3979523qvb.7
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2020 05:46:42 -0800 (PST)
-X-Gm-Message-State: APjAAAUDsEs/04EYhr/lgSThLXA1mk3qK6cbW4VaFnE8ZWs8Jp31e8w5
- 4eOtU5X5FRbULD7mCjvMWzXHHm9C51xXjQGEFw==
-X-Google-Smtp-Source: APXvYqyIYYc2t9K2miXG3KyEWH3O5mjcXutnn4DUpikq6B35lTbFFyOCnIJ1ccg69kvCPXEd2zULH+m1JMCJtqyImI8=
-X-Received: by 2002:a0c:f6cd:: with SMTP id d13mr15327544qvo.20.1578923201111; 
- Mon, 13 Jan 2020 05:46:41 -0800 (PST)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 191D989AB7;
+ Mon, 13 Jan 2020 13:57:17 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2020 05:57:16 -0800
+X-IronPort-AV: E=Sophos;i="5.69,429,1571727600"; d="scan'208";a="217411967"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2020 05:57:13 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Chen Zhou <chenzhou10@huawei.com>, airlied@linux.ie, daniel@ffwll.ch
+Subject: Re: [PATCH next] drm/i915: fix build error without ACPI
+In-Reply-To: <20200113132724.143687-1-chenzhou10@huawei.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200113132724.143687-1-chenzhou10@huawei.com>
+Date: Mon, 13 Jan 2020 15:57:10 +0200
+Message-ID: <874kwzmpc9.fsf@intel.com>
 MIME-Version: 1.0
-References: <20191230090419.137141-1-enric.balletbo@collabora.com>
- <20191230090419.137141-2-enric.balletbo@collabora.com>
-In-Reply-To: <20191230090419.137141-2-enric.balletbo@collabora.com>
-From: Rob Herring <robh@kernel.org>
-Date: Mon, 13 Jan 2020 07:46:29 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqLHWa9n167xn+aPFVDvcFLNZpNvWVkrJ15v1WnTtYBLWg@mail.gmail.com>
-Message-ID: <CAL_JsqLHWa9n167xn+aPFVDvcFLNZpNvWVkrJ15v1WnTtYBLWg@mail.gmail.com>
-Subject: Re: [PATCH v24 1/2] Documentation: bridge: Add documentation for
- ps8640 DT properties
-To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,41 +42,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Ulrich Hecht <uli@fpond.eu>,
- Nicolas Boichat <drinkcat@chromium.org>, Jitao Shi <jitao.shi@mediatek.com>,
- devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Collabora Kernel ML <kernel@collabora.com>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>
+Cc: chenzhou10@huawei.com, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 30, 2019 at 3:04 AM Enric Balletbo i Serra
-<enric.balletbo@collabora.com> wrote:
+On Mon, 13 Jan 2020, Chen Zhou <chenzhou10@huawei.com> wrote:
+> If CONFIG_ACPI=n and CONFIG_BACKLIGHT_CLASS_DEVICE=m, compilation complains
+> with undefined references:
 >
-> From: Jitao Shi <jitao.shi@mediatek.com>
+> drivers/gpu/drm/i915/display/intel_panel.o: In function `intel_backlight_device_register':
+> intel_panel.c:(.text+0x4dd9): undefined reference to `backlight_device_register'
+> drivers/gpu/drm/i915/display/intel_panel.o: In function `intel_backlight_device_unregister':
+> intel_panel.c:(.text+0x4e96): undefined reference to `backlight_device_unregister'
 >
-> Add documentation for DT properties supported by
-> ps8640 DSI-eDP converter.
->
-> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-> Acked-by: Rob Herring <robh@kernel.org>
-> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-> Signed-off-by: Ulrich Hecht <uli@fpond.eu>
-> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> ---
-> I maintained the ack from Rob Herring and the review from Philipp
-> because in essence the only thing I did is migrate to YAML format and
-> check that no errors are reported via dtbs_check. Just let me know if
-> you're not agree.
+> This patch select BACKLIGHT_CLASS_DEVICE directly.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+i915 does not unconditionally require backlight.
+
+See e.g. [1] for the details.
+
+BR,
+Jani.
+
+
+[1] http://lore.kernel.org/r/87o8veotf9.fsf@intel.com
+
+>
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+> ---
+>  drivers/gpu/drm/i915/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
+> index ba95959..6b69dab 100644
+> --- a/drivers/gpu/drm/i915/Kconfig
+> +++ b/drivers/gpu/drm/i915/Kconfig
+> @@ -16,7 +16,7 @@ config DRM_I915
+>  	select IRQ_WORK
+>  	# i915 depends on ACPI_VIDEO when ACPI is enabled
+>  	# but for select to work, need to select ACPI_VIDEO's dependencies, ick
+> -	select BACKLIGHT_CLASS_DEVICE if ACPI
+> +	select BACKLIGHT_CLASS_DEVICE
+>  	select INPUT if ACPI
+>  	select ACPI_VIDEO if ACPI
+>  	select ACPI_BUTTON if ACPI
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
