@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 539F61397D0
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2020 18:33:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72430139811
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2020 18:52:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45B8F6E11F;
-	Mon, 13 Jan 2020 17:33:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4D8C6E12A;
+	Mon, 13 Jan 2020 17:51:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
  [104.130.122.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 673EB6E11F
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2020 17:33:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C3FC6E120
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2020 17:51:56 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1578936835; h=In-Reply-To: Content-Type: MIME-Version:
+ s=smtp; t=1578937918; h=In-Reply-To: Content-Type: MIME-Version:
  References: Message-ID: Subject: Cc: To: From: Date: Sender;
- bh=w+XPcExk+Qre2Gbc4AQCx9OnrvzBE4v0GR5D1rNcKaY=;
- b=fYJU0xvAACTCYjMcq8Fs116Y1KNLukmv2alvnWQT8miF1EL8Nz5OpnuMsTJ8o8ulOVIQ63Be
- yaEc/M2rsCw+7quPmplJB9Q3WdtOnk6UIdkrs5SV5lmaP9chidk5FrWev1ux0RAtV9lu2GVU
- TK+IkjI0f0BJ/FZt+h3Pzn6m+Z4=
+ bh=ombH+SYwC37lMpgEuedoKs2/ILJEt2p/GnXt9vDnvJA=;
+ b=cYapeeOMD5AUMgk+OQS6+iB90EkHmcE2O6Q+QfAUuzeYI+kxMHTf4mTONcx1o+TAeHl0pTFx
+ RjrReH7FbwpBr4p3tVdk1N9O8O06Km971wG6UcQijLGzNPzNXQsefJ0+iiOkukjlywYyn+k5
+ k0XClvBedCFOFKHSwYR44AkeVSo=
 X-Mailgun-Sending-Ip: 104.130.122.26
 X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e1caa02.7f0c8c354538-smtp-out-n01;
- Mon, 13 Jan 2020 17:33:54 -0000 (UTC)
+ by mxa.mailgun.org with ESMTP id 5e1cae39.7f2d3ae86378-smtp-out-n01;
+ Mon, 13 Jan 2020 17:51:53 -0000 (UTC)
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 0D92BC447A5; Mon, 13 Jan 2020 17:33:53 +0000 (UTC)
+ id EE7ECC4479C; Mon, 13 Jan 2020 17:51:52 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
@@ -38,36 +38,31 @@ Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id BE2EFC433CB;
- Mon, 13 Jan 2020 17:33:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org BE2EFC433CB
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id E3E8AC433CB;
+ Mon, 13 Jan 2020 17:51:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org E3E8AC433CB
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  spf=none smtp.mailfrom=jcrouse@codeaurora.org
-Date: Mon, 13 Jan 2020 10:33:50 -0700
+Date: Mon, 13 Jan 2020 10:51:49 -0700
 From: Jordan Crouse <jcrouse@codeaurora.org>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v2 2/4] drm/msm: allow zapfw to not be specified in gpulist
-Message-ID: <20200113173349.GB26711@jcrouse1-lnx.qualcomm.com>
-Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org,
- Sharat Masetty <smasetty@codeaurora.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@chromium.org>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
- Brian Masney <masneyb@onstation.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- open list <linux-kernel@vger.kernel.org>
-References: <20200112195405.1132288-1-robdclark@gmail.com>
- <20200112195405.1132288-3-robdclark@gmail.com>
+To: Brian Ho <brian@brkho.com>
+Subject: Re: [Freedreno] [PATCH 2/2] drm/msm: Add MSM_WAIT_IOVA ioctl
+Message-ID: <20200113175148.GC26711@jcrouse1-lnx.qualcomm.com>
+Mail-Followup-To: Brian Ho <brian@brkho.com>,
+ freedreno@lists.freedesktop.org, robdclark@chromium.org,
+ David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ Rob Clark <robdclark@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ hoegsberg@chromium.org, Sean Paul <sean@poorly.run>
+References: <20200113153605.52350-1-brian@brkho.com>
+ <20200113153605.52350-3-brian@brkho.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200112195405.1132288-3-robdclark@gmail.com>
+In-Reply-To: <20200113153605.52350-3-brian@brkho.com>
 User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,82 +76,214 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Sharat Masetty <smasetty@codeaurora.org>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Thomas Gleixner <tglx@linutronix.de>, freedreno@lists.freedesktop.org,
- Brian Masney <masneyb@onstation.org>
+Cc: robdclark@chromium.org, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ Sean Paul <sean@poorly.run>, hoegsberg@chromium.org,
+ freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jan 12, 2020 at 11:53:58AM -0800, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
+On Mon, Jan 13, 2020 at 10:36:05AM -0500, Brian Ho wrote:
+> Implements an ioctl to wait until a value at a given iova is greater
+> than or equal to a supplied value.
 > 
-> For newer devices we want to require the path to come from the
-> firmware-name property in the zap-shader dt node.
-
-Reviewed-by: Jordan Crouse <jcrouse@codeaurora.org>
-
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> This will initially be used by turnip (open-source Vulkan driver for
+> QC in mesa) for occlusion queries where the userspace driver can
+> block on a query becoming available before continuing via
+> vkGetQueryPoolResults.
+> 
+> Signed-off-by: Brian Ho <brian@brkho.com>
 > ---
->  drivers/gpu/drm/msm/adreno/adreno_gpu.c | 22 +++++++++++++---------
->  1 file changed, 13 insertions(+), 9 deletions(-)
+>  drivers/gpu/drm/msm/msm_drv.c | 63 +++++++++++++++++++++++++++++++++--
+>  include/uapi/drm/msm_drm.h    | 13 ++++++++
+>  2 files changed, 74 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> index 456bb5af1717..c146c3b8f52b 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> @@ -79,9 +79,21 @@ static int zap_shader_load_mdt(struct msm_gpu *gpu, const char *fwname,
->  		ret = request_firmware_direct(&fw, fwname, gpu->dev->dev);
->  		if (ret)
->  			fw = ERR_PTR(ret);
-> -	} else {
-> +	} else if (fwname) {
->  		/* Request the MDT file from the default location: */
->  		fw = adreno_request_fw(to_adreno_gpu(gpu), fwname);
-> +	} else {
-> +		/*
-> +		 * For new targets, we require the firmware-name property,
-> +		 * if a zap-shader is required, rather than falling back
-> +		 * to a firmware name specified in gpulist.
-> +		 *
-> +		 * Because the firmware is signed with a (potentially)
-> +		 * device specific key, having the name come from gpulist
-> +		 * was a bad idea, and is only provided for backwards
-> +		 * compatibility for older targets.
-> +		 */
-> +		return -ENODEV;
->  	}
-
-A possible future optimization would be to move a lot of this to the target
-specific code but we can do that once we're sure that all the rest of the
-fallout has bee militated.
-
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> index c84f0a8b3f2c..dcc46874a5a2 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -36,10 +36,11 @@
+>   *           MSM_GEM_INFO ioctl.
+>   * - 1.4.0 - softpin, MSM_RELOC_BO_DUMP, and GEM_INFO support to set/get
+>   *           GEM object's debug name
+> - * - 1.5.0 - Add SUBMITQUERY_QUERY ioctl
+> + * - 1.5.0 - Add SUBMITQUEUE_QUERY ioctl
+> + * - 1.6.0 - Add WAIT_IOVA ioctl
+>   */
+>  #define MSM_VERSION_MAJOR	1
+> -#define MSM_VERSION_MINOR	5
+> +#define MSM_VERSION_MINOR	6
+>  #define MSM_VERSION_PATCHLEVEL	0
 >  
->  	if (IS_ERR(fw)) {
-> @@ -170,14 +182,6 @@ int adreno_zap_shader_load(struct msm_gpu *gpu, u32 pasid)
->  		return -EPROBE_DEFER;
->  	}
->  
-> -	/* Each GPU has a target specific zap shader firmware name to use */
-> -	if (!adreno_gpu->info->zapfw) {
-> -		zap_available = false;
-> -		DRM_DEV_ERROR(&pdev->dev,
-> -			"Zap shader firmware file not specified for this target\n");
-> -		return -ENODEV;
-> -	}
-> -
->  	return zap_shader_load_mdt(gpu, adreno_gpu->info->zapfw, pasid);
+>  static const struct drm_mode_config_funcs mode_config_funcs = {
+> @@ -952,6 +953,63 @@ static int msm_ioctl_submitqueue_close(struct drm_device *dev, void *data,
+>  	return msm_submitqueue_remove(file->driver_priv, id);
 >  }
 >  
+> +static int msm_ioctl_wait_iova(struct drm_device *dev, void *data,
+> +		struct drm_file *file)
+> +{
+> +	struct msm_drm_private *priv = dev->dev_private;
+> +	struct drm_gem_object *obj;
+> +	struct drm_msm_wait_iova *args = data;
+> +	ktime_t timeout = to_ktime(args->timeout);
+> +	unsigned long remaining_jiffies = timeout_to_jiffies(&timeout);
+> +	struct msm_gpu *gpu = priv->gpu;
+> +	void *base_vaddr;
+> +	uint64_t *vaddr;
+> +	int ret;
+> +
+> +	if (args->pad)
+> +		return -EINVAL;
+> +
+> +	if (!gpu)
+> +		return 0;
+
+If the GPU isn't up, it should be an error since this macro is specifically
+designed for just the GPU (though, I suppose the display *COULD* use it to watch
+a memory mapped register or something).
+
+> +
+> +	obj = drm_gem_object_lookup(file, args->handle);
+> +	if (!obj)
+> +		return -ENOENT;
+> +
+> +	base_vaddr = msm_gem_get_vaddr(obj);
+> +	if (IS_ERR(base_vaddr)) {
+> +		ret = PTR_ERR(base_vaddr);
+> +		goto err_put_gem_object;
+> +	}
+> +	if (args->offset + sizeof(*vaddr) > obj->size) {
+
+There is a chance to trigger a u64 overflow here resulting in an arbitrary (ish)
+vaddr two lines below.
+
+
+> +		ret = -EINVAL;
+> +		goto err_put_vaddr;
+> +	}
+
+You can check this before getting the vaddr which would save you a clean up
+step.
+
+> +
+> +	vaddr = base_vaddr + args->offset;
+> +
+> +	/* Assumes WC mapping */
+> +	ret = wait_event_interruptible_timeout(
+> +			gpu->event, *vaddr >= args->value, remaining_jiffies);
+
+I feel like a barrier might be needed before checking *vaddr just in case you
+get the interrupt and wake up the queue before the write posts from the
+hardware.
+
+> +
+
+> +	if (ret == 0) {
+> +		ret = -ETIMEDOUT;
+> +		goto err_put_vaddr;
+> +	} else if (ret == -ERESTARTSYS) {
+> +		goto err_put_vaddr;
+> +	}
+
+You don't need either goto here because both paths execute the following cleanup
+steps. I'm also not sure you need to worry about explicitly checking the
+ERESTARTSYS value, I think that this would be sufficient:
+
+ if (ret == 0)
+     ret = -ETIMEDOUT;
+ else if (ret > 0)
+     ret = 0;
+
+> +
+
+Put your err_put_vaddr: label here, but looking up, if you move the bounds check
+before the msm_gem_get_vaddr, I don't think you need a label.
+
+> +	msm_gem_put_vaddr(obj);
+
+Put the err_put_gem_object: label here.
+
+> +	drm_gem_object_put_unlocked(obj);
+> +	return 0;
+
+return ret;
+
+> +
+> +err_put_vaddr:
+> +	msm_gem_put_vaddr(obj);
+> +err_put_gem_object:
+> +	drm_gem_object_put_unlocked(obj);
+> +	return ret;
+> +}
+
+And then these guys aren't needed.
+
+> +
+>  static const struct drm_ioctl_desc msm_ioctls[] = {
+>  	DRM_IOCTL_DEF_DRV(MSM_GET_PARAM,    msm_ioctl_get_param,    DRM_RENDER_ALLOW),
+>  	DRM_IOCTL_DEF_DRV(MSM_GEM_NEW,      msm_ioctl_gem_new,      DRM_RENDER_ALLOW),
+> @@ -964,6 +1022,7 @@ static const struct drm_ioctl_desc msm_ioctls[] = {
+>  	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_NEW,   msm_ioctl_submitqueue_new,   DRM_RENDER_ALLOW),
+>  	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_CLOSE, msm_ioctl_submitqueue_close, DRM_RENDER_ALLOW),
+>  	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_QUERY, msm_ioctl_submitqueue_query, DRM_RENDER_ALLOW),
+> +	DRM_IOCTL_DEF_DRV(MSM_WAIT_IOVA, msm_ioctl_wait_iova, DRM_RENDER_ALLOW),
+>  };
+>  
+>  static const struct vm_operations_struct vm_ops = {
+> diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
+> index 0b85ed6a3710..8477f28a4ee1 100644
+> --- a/include/uapi/drm/msm_drm.h
+> +++ b/include/uapi/drm/msm_drm.h
+> @@ -298,6 +298,17 @@ struct drm_msm_submitqueue_query {
+>  	__u32 pad;
+>  };
+>  
+> +/* This ioctl blocks until the u64 value at bo + offset is greater than or
+> + * equal to the reference value.
+> + */
+> +struct drm_msm_wait_iova {
+> +	__u32 handle;          /* in, GEM handle */
+> +	__u32 pad;
+> +	struct drm_msm_timespec timeout;   /* in */
+> +	__u64 offset;          /* offset into bo */
+> +	__u64 value;           /* reference value */
+
+Any specific reason why we wouldn't just put the offset and value first and save
+ourselves the padding?
+
+> +};
+> +
+>  #define DRM_MSM_GET_PARAM              0x00
+>  /* placeholder:
+>  #define DRM_MSM_SET_PARAM              0x01
+> @@ -315,6 +326,7 @@ struct drm_msm_submitqueue_query {
+>  #define DRM_MSM_SUBMITQUEUE_NEW        0x0A
+>  #define DRM_MSM_SUBMITQUEUE_CLOSE      0x0B
+>  #define DRM_MSM_SUBMITQUEUE_QUERY      0x0C
+> +#define DRM_MSM_WAIT_IOVA      0x0D
+>  
+>  #define DRM_IOCTL_MSM_GET_PARAM        DRM_IOWR(DRM_COMMAND_BASE + DRM_MSM_GET_PARAM, struct drm_msm_param)
+>  #define DRM_IOCTL_MSM_GEM_NEW          DRM_IOWR(DRM_COMMAND_BASE + DRM_MSM_GEM_NEW, struct drm_msm_gem_new)
+> @@ -327,6 +339,7 @@ struct drm_msm_submitqueue_query {
+>  #define DRM_IOCTL_MSM_SUBMITQUEUE_NEW    DRM_IOWR(DRM_COMMAND_BASE + DRM_MSM_SUBMITQUEUE_NEW, struct drm_msm_submitqueue)
+>  #define DRM_IOCTL_MSM_SUBMITQUEUE_CLOSE  DRM_IOW (DRM_COMMAND_BASE + DRM_MSM_SUBMITQUEUE_CLOSE, __u32)
+>  #define DRM_IOCTL_MSM_SUBMITQUEUE_QUERY  DRM_IOW (DRM_COMMAND_BASE + DRM_MSM_SUBMITQUEUE_QUERY, struct drm_msm_submitqueue_query)
+> +#define DRM_IOCTL_MSM_WAIT_IOVA        DRM_IOW (DRM_COMMAND_BASE + DRM_MSM_WAIT_IOVA, struct drm_msm_wait_iova)
+>  
+>  #if defined(__cplusplus)
+>  }
 > -- 
-> 2.24.1
+> 2.25.0.rc1.283.g88dfdc4193-goog
 > 
+> _______________________________________________
+> Freedreno mailing list
+> Freedreno@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/freedreno
 
 -- 
 The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
