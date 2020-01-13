@@ -1,34 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64ED11392A8
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2020 14:57:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3157A1392EE
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2020 14:59:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB6FD89ADC;
-	Mon, 13 Jan 2020 13:57:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F5BF89C98;
+	Mon, 13 Jan 2020 13:59:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 191D989AB7;
- Mon, 13 Jan 2020 13:57:17 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2020 05:57:16 -0800
-X-IronPort-AV: E=Sophos;i="5.69,429,1571727600"; d="scan'208";a="217411967"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2020 05:57:13 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Chen Zhou <chenzhou10@huawei.com>, airlied@linux.ie, daniel@ffwll.ch
-Subject: Re: [PATCH next] drm/i915: fix build error without ACPI
-In-Reply-To: <20200113132724.143687-1-chenzhou10@huawei.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200113132724.143687-1-chenzhou10@huawei.com>
-Date: Mon, 13 Jan 2020 15:57:10 +0200
-Message-ID: <874kwzmpc9.fsf@intel.com>
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF53789C98
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2020 13:59:35 +0000 (UTC)
+Received: from wf0253.dip.tu-dresden.de ([141.76.180.253] helo=phil.localnet)
+ by gloria.sntech.de with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
+ (envelope-from <heiko@sntech.de>)
+ id 1ir0Fd-0003DP-Se; Mon, 13 Jan 2020 14:59:29 +0100
+From: Heiko Stuebner <heiko@sntech.de>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH] drm/rockchip: Add missing vmalloc header
+Date: Mon, 13 Jan 2020 14:59:29 +0100
+Message-ID: <1782062.vAMIso9ooe@phil>
+In-Reply-To: <1577779956-7612-1-git-send-email-krzk@kernel.org>
+References: <1577779956-7612-1-git-send-email-krzk@kernel.org>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,58 +37,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chenzhou10@huawei.com, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Douglas Anderson <dianders@chromium.org>, Eric Auger <eric.auger@redhat.com>,
+ David Airlie <airlied@linux.ie>, Joerg Roedel <joro@8bytes.org>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ iommu@lists.linux-foundation.org, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 13 Jan 2020, Chen Zhou <chenzhou10@huawei.com> wrote:
-> If CONFIG_ACPI=n and CONFIG_BACKLIGHT_CLASS_DEVICE=m, compilation complains
-> with undefined references:
->
-> drivers/gpu/drm/i915/display/intel_panel.o: In function `intel_backlight_device_register':
-> intel_panel.c:(.text+0x4dd9): undefined reference to `backlight_device_register'
-> drivers/gpu/drm/i915/display/intel_panel.o: In function `intel_backlight_device_unregister':
-> intel_panel.c:(.text+0x4e96): undefined reference to `backlight_device_unregister'
->
-> This patch select BACKLIGHT_CLASS_DEVICE directly.
-
-i915 does not unconditionally require backlight.
-
-See e.g. [1] for the details.
-
-BR,
-Jani.
-
-
-[1] http://lore.kernel.org/r/87o8veotf9.fsf@intel.com
-
->
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
-> ---
->  drivers/gpu/drm/i915/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
-> index ba95959..6b69dab 100644
-> --- a/drivers/gpu/drm/i915/Kconfig
-> +++ b/drivers/gpu/drm/i915/Kconfig
-> @@ -16,7 +16,7 @@ config DRM_I915
->  	select IRQ_WORK
->  	# i915 depends on ACPI_VIDEO when ACPI is enabled
->  	# but for select to work, need to select ACPI_VIDEO's dependencies, ick
-> -	select BACKLIGHT_CLASS_DEVICE if ACPI
-> +	select BACKLIGHT_CLASS_DEVICE
->  	select INPUT if ACPI
->  	select ACPI_VIDEO if ACPI
->  	select ACPI_BUTTON if ACPI
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gRGllbnN0YWcsIDMxLiBEZXplbWJlciAyMDE5LCAwOToxMjozNiBDRVQgc2NocmllYiBLcnp5
+c3p0b2YgS296bG93c2tpOgo+IFRoZSBSb2Nrc2hpcCBEUk0gR0VNIGNvZGUgdXNlcyB2bWFwKCkv
+dnVubWFwKCkgc28gdm1hbGxvYyBoZWFkZXIgbXVzdCBiZQo+IGluY2x1ZGVkIHRvIGF2b2lkIHdh
+cm5pbmdzIGxpa2UgKG9uIElBNjQsIGNvbXBpbGUgdGVzdGVkKToKPiAKPiAgICAgZHJpdmVycy9n
+cHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV9nZW0uYzogSW4gZnVuY3Rpb24g4oCYcm9ja2No
+aXBfZ2VtX2FsbG9jX2lvbW114oCZOgo+ICAgICBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9j
+a2NoaXBfZHJtX2dlbS5jOjEzNDoyMDogZXJyb3I6Cj4gICAgICAgICBpbXBsaWNpdCBkZWNsYXJh
+dGlvbiBvZiBmdW5jdGlvbiDigJh2bWFw4oCZIFstV2Vycm9yPWltcGxpY2l0LWZ1bmN0aW9uLWRl
+Y2xhcmF0aW9uXQo+IAo+IFJlcG9ydGVkLWJ5OiBrYnVpbGQgdGVzdCByb2JvdCA8bGtwQGludGVs
+LmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBLcnp5c3p0b2YgS296bG93c2tpIDxrcnprQGtlcm5lbC5v
+cmc+CgphcHBsaWVkIHRvIGRybS1taXNjLW5leHQKClRoYW5rcwpIZWlrbwoKCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
