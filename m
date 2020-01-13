@@ -1,27 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53E0F139380
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2020 15:17:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE33B1393E7
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2020 15:45:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EF706E0B8;
-	Mon, 13 Jan 2020 14:17:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E21CD89A60;
+	Mon, 13 Jan 2020 14:45:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21C7289F6F;
- Mon, 13 Jan 2020 14:17:33 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id BAC86B1B9;
- Mon, 13 Jan 2020 14:17:31 +0000 (UTC)
-From: Takashi Iwai <tiwai@suse.de>
-To: Ben Skeggs <bskeggs@redhat.com>
-Subject: [PATCH RESEND] drm/nouveau: Add HD-audio component notifier support
-Date: Mon, 13 Jan 2020 15:17:21 +0100
-Message-Id: <20200113141721.16123-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.16.4
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8399689A60
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2020 14:45:28 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id q10so8849007wrm.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2020 06:45:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:from:to:references:cc:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=q/ULf0381pXVLpm1H3TJYYrHC52vrpS7wbBm1KfS3Qc=;
+ b=cdsNbkXu+pDuMZcMsILhJaIkadKzJtLL3dseZbm/qFbSgBzeNKuLq3SlKHa8xsVdTx
+ IRGgssZ5xzeRphpVuxvpRO+Sl6APAIJOw1oBN3dxMMta2P9xLOpeMwsxSbRVUE3sCHUP
+ w8RfhpGd58+acENB8UzCB9injMTGY+CMx1ym4/kpySHOuSaSuDdvSqUUHlg646hl8jEf
+ gBRhPDEpqcxWNe3+w7UpPxV9ufB+l22VIOntjgyPPSV/7afgl/JoXwFGCWm3jvUWQkPq
+ XU+3+mXMjbblwZXiMPvpKarcjapAOzrKSwACUIX+NUB3swCl1RnAr662HTmlbuAlmD6f
+ ek5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:references:cc:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=q/ULf0381pXVLpm1H3TJYYrHC52vrpS7wbBm1KfS3Qc=;
+ b=a98a+T6a8kCH849oLFrXwHywP4e4DhSKSMgsvfYtF2CObIew9gDDjud4gvgfiXCpDd
+ /p9361cmIf+YzqjbflWJtC3a+uCb/dEapAf2GkReRZP7eY240Q5+T5gbZzSJtV90OGxJ
+ qN9Uu1eTDh0ZIMzl5kfDScIs/05rM9eyJ4icH+n19+IDiJca5pPTPE/BQo7YgYKiiyuf
+ i71Ilb2UM5culqjRKnrdnfVJXV9axDh0j6aH2rEdsXQgPLiIOx5eQvma6q3WKdtH2qih
+ bJ1E/Jl6yyqcDfIowYL5IJ5DiRpgwEm+3J/mrWDGL2hxG/wPtHK8ViPuWLbpoSTMAaBR
+ kzcA==
+X-Gm-Message-State: APjAAAVrtBf6SBp6FlcjU4r/ylYDZZ1ezSbTaYw2tkzHr/Y1DoPSdTGu
+ ciDC/0M/OViTWDxAxMdKxmpBeCbX
+X-Google-Smtp-Source: APXvYqwxD9/JZps/rnkmDSxmw8Sfj5PHIfZp9q2yfwkTCi69WOCvSTxT7HewiYiQV1xNPybzUfJxrA==
+X-Received: by 2002:a5d:6390:: with SMTP id p16mr19447886wru.170.1578926727106; 
+ Mon, 13 Jan 2020 06:45:27 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id u1sm14696267wmc.5.2020.01.13.06.45.26
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 13 Jan 2020 06:45:26 -0800 (PST)
+Subject: Re: [PATCH] drm/ttm: nuke invalidate_caches callback
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+To: dri-devel@lists.freedesktop.org
+References: <20200110150954.95958-1-christian.koenig@amd.com>
+Message-ID: <ca36a644-ced7-3c15-cdc0-0bffec0c74e9@gmail.com>
+Date: Mon, 13 Jan 2020 15:45:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <20200110150954.95958-1-christian.koenig@amd.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -34,258 +70,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Huang Rui <ray.huang@amd.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds the support for the notification of HD-audio hotplug
-via the already existing drm_audio_component framework.  This allows
-us more reliable hotplug notification and ELD transfer without
-accessing HD-audio bus; it's more efficient, and more importantly, it
-works without waking up the runtime PM.
-
-The implementation is rather simplistic: nouveau driver provides the
-get_eld ops for HD-audio, and it notifies the audio hotplug via
-pin_eld_notify callback upon each nv50_audio_enable() and _disable()
-call.  As the HD-audio pin assignment seems corresponding to the CRTC,
-the crtc->index number is passed directly as the zero-based port
-number.
-
-The bind and unbind callbacks handle the device-link so that it
-assures the PM call order.
-
-Link: https://lore.kernel.org/r/20190722143815.7339-3-tiwai@suse.de
-Reviewed-by: Lyude Paul <lyude@redhat.com>
-Cc: Jaroslav Kysela <perex@perex.cz>
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
-
-This is a re-submission of the same patch in the last year, applied on
-top of the current linux-next.
-
-Without this audio component support, the HD-audio HDMI codec won't
-recognize the display hotplug at all due to the recent runtime PM
-change.  So, please review and merge if it's OK.  Thanks.
-
-
- drivers/gpu/drm/nouveau/Kconfig         |   1 +
- drivers/gpu/drm/nouveau/dispnv50/disp.c | 111 ++++++++++++++++++++++++++++++++
- drivers/gpu/drm/nouveau/nouveau_drv.h   |   7 ++
- 3 files changed, 119 insertions(+)
-
-diff --git a/drivers/gpu/drm/nouveau/Kconfig b/drivers/gpu/drm/nouveau/Kconfig
-index 9c990266e876..7b5c4121374a 100644
---- a/drivers/gpu/drm/nouveau/Kconfig
-+++ b/drivers/gpu/drm/nouveau/Kconfig
-@@ -16,6 +16,7 @@ config DRM_NOUVEAU
- 	select INPUT if ACPI && X86
- 	select THERMAL if ACPI && X86
- 	select ACPI_VIDEO if ACPI && X86
-+	select SND_HDA_COMPONENT if SND_HDA_CORE
- 	help
- 	  Choose this option for open-source NVIDIA support.
- 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index fd31bff0c920..368749a883a1 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -29,6 +29,7 @@
- 
- #include <linux/dma-mapping.h>
- #include <linux/hdmi.h>
-+#include <linux/component.h>
- 
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_dp_helper.h>
-@@ -476,12 +477,113 @@ nv50_dac_create(struct drm_connector *connector, struct dcb_output *dcbe)
- 	return 0;
- }
- 
-+/*
-+ * audio component binding for ELD notification
-+ */
-+static void
-+nv50_audio_component_eld_notify(struct drm_audio_component *acomp, int port)
-+{
-+	if (acomp && acomp->audio_ops && acomp->audio_ops->pin_eld_notify)
-+		acomp->audio_ops->pin_eld_notify(acomp->audio_ops->audio_ptr,
-+						 port, -1);
-+}
-+
-+static int
-+nv50_audio_component_get_eld(struct device *kdev, int port, int pipe,
-+			     bool *enabled, unsigned char *buf, int max_bytes)
-+{
-+	struct drm_device *drm_dev = dev_get_drvdata(kdev);
-+	struct nouveau_drm *drm = nouveau_drm(drm_dev);
-+	struct drm_encoder *encoder;
-+	struct nouveau_encoder *nv_encoder;
-+	struct nouveau_connector *nv_connector;
-+	struct nouveau_crtc *nv_crtc;
-+	int ret = 0;
-+
-+	*enabled = false;
-+	drm_for_each_encoder(encoder, drm->dev) {
-+		nv_encoder = nouveau_encoder(encoder);
-+		nv_connector = nouveau_encoder_connector_get(nv_encoder);
-+		nv_crtc = nouveau_crtc(encoder->crtc);
-+		if (!nv_connector || !nv_crtc || nv_crtc->index != port)
-+			continue;
-+		*enabled = drm_detect_monitor_audio(nv_connector->edid);
-+		if (*enabled) {
-+			ret = drm_eld_size(nv_connector->base.eld);
-+			memcpy(buf, nv_connector->base.eld,
-+			       min(max_bytes, ret));
-+		}
-+		break;
-+	}
-+	return ret;
-+}
-+
-+static const struct drm_audio_component_ops nv50_audio_component_ops = {
-+	.get_eld = nv50_audio_component_get_eld,
-+};
-+
-+static int
-+nv50_audio_component_bind(struct device *kdev, struct device *hda_kdev,
-+			  void *data)
-+{
-+	struct drm_device *drm_dev = dev_get_drvdata(kdev);
-+	struct nouveau_drm *drm = nouveau_drm(drm_dev);
-+	struct drm_audio_component *acomp = data;
-+
-+	if (WARN_ON(!device_link_add(hda_kdev, kdev, DL_FLAG_STATELESS)))
-+		return -ENOMEM;
-+
-+	drm_modeset_lock_all(drm_dev);
-+	acomp->ops = &nv50_audio_component_ops;
-+	acomp->dev = kdev;
-+	drm->audio.component = acomp;
-+	drm_modeset_unlock_all(drm_dev);
-+	return 0;
-+}
-+
-+static void
-+nv50_audio_component_unbind(struct device *kdev, struct device *hda_kdev,
-+			    void *data)
-+{
-+	struct drm_device *drm_dev = dev_get_drvdata(kdev);
-+	struct nouveau_drm *drm = nouveau_drm(drm_dev);
-+	struct drm_audio_component *acomp = data;
-+
-+	drm_modeset_lock_all(drm_dev);
-+	drm->audio.component = NULL;
-+	acomp->ops = NULL;
-+	acomp->dev = NULL;
-+	drm_modeset_unlock_all(drm_dev);
-+}
-+
-+static const struct component_ops nv50_audio_component_bind_ops = {
-+	.bind   = nv50_audio_component_bind,
-+	.unbind = nv50_audio_component_unbind,
-+};
-+
-+static void
-+nv50_audio_component_init(struct nouveau_drm *drm)
-+{
-+	if (!component_add(drm->dev->dev, &nv50_audio_component_bind_ops))
-+		drm->audio.component_registered = true;
-+}
-+
-+static void
-+nv50_audio_component_fini(struct nouveau_drm *drm)
-+{
-+	if (drm->audio.component_registered) {
-+		component_del(drm->dev->dev, &nv50_audio_component_bind_ops);
-+		drm->audio.component_registered = false;
-+	}
-+}
-+
- /******************************************************************************
-  * Audio
-  *****************************************************************************/
- static void
- nv50_audio_disable(struct drm_encoder *encoder, struct nouveau_crtc *nv_crtc)
- {
-+	struct nouveau_drm *drm = nouveau_drm(encoder->dev);
- 	struct nouveau_encoder *nv_encoder = nouveau_encoder(encoder);
- 	struct nv50_disp *disp = nv50_disp(encoder->dev);
- 	struct {
-@@ -496,11 +598,14 @@ nv50_audio_disable(struct drm_encoder *encoder, struct nouveau_crtc *nv_crtc)
- 	};
- 
- 	nvif_mthd(&disp->disp->object, 0, &args, sizeof(args));
-+
-+	nv50_audio_component_eld_notify(drm->audio.component, nv_crtc->index);
- }
- 
- static void
- nv50_audio_enable(struct drm_encoder *encoder, struct drm_display_mode *mode)
- {
-+	struct nouveau_drm *drm = nouveau_drm(encoder->dev);
- 	struct nouveau_encoder *nv_encoder = nouveau_encoder(encoder);
- 	struct nouveau_crtc *nv_crtc = nouveau_crtc(encoder->crtc);
- 	struct nouveau_connector *nv_connector;
-@@ -527,6 +632,8 @@ nv50_audio_enable(struct drm_encoder *encoder, struct drm_display_mode *mode)
- 
- 	nvif_mthd(&disp->disp->object, 0, &args,
- 		  sizeof(args.base) + drm_eld_size(args.data));
-+
-+	nv50_audio_component_eld_notify(drm->audio.component, nv_crtc->index);
- }
- 
- /******************************************************************************
-@@ -2302,6 +2409,8 @@ nv50_display_destroy(struct drm_device *dev)
- {
- 	struct nv50_disp *disp = nv50_disp(dev);
- 
-+	nv50_audio_component_fini(nouveau_drm(dev));
-+
- 	nv50_core_del(&disp->core);
- 
- 	nouveau_bo_unmap(disp->sync);
-@@ -2423,6 +2532,8 @@ nv50_display_create(struct drm_device *dev)
- 	/* Disable vblank irqs aggressively for power-saving, safe on nv50+ */
- 	dev->vblank_disable_immediate = true;
- 
-+	nv50_audio_component_init(drm);
-+
- out:
- 	if (ret)
- 		nv50_display_destroy(dev);
-diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h b/drivers/gpu/drm/nouveau/nouveau_drv.h
-index da8c46e09943..c2c332fbde97 100644
---- a/drivers/gpu/drm/nouveau/nouveau_drv.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
-@@ -58,6 +58,8 @@
- #include <drm/ttm/ttm_module.h>
- #include <drm/ttm/ttm_page_alloc.h>
- 
-+#include <drm/drm_audio_component.h>
-+
- #include "uapi/drm/nouveau_drm.h"
- 
- struct nouveau_channel;
-@@ -211,6 +213,11 @@ struct nouveau_drm {
- 	struct nouveau_svm *svm;
- 
- 	struct nouveau_dmem *dmem;
-+
-+	struct {
-+		struct drm_audio_component *component;
-+		bool component_registered;
-+	} audio;
- };
- 
- static inline struct nouveau_drm *
--- 
-2.16.4
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+UGluZz8gSnVzdCBhIHRyaXZpYWwgY2xlYW51cC4KCkFtIDEwLjAxLjIwIHVtIDE2OjA5IHNjaHJp
+ZWIgQ2hyaXN0aWFuIEvDtm5pZzoKPiBBbm90aGVyIGNvbXBsZXRlbHkgdW51c2VkIGZlYXR1cmUu
+Cj4KPiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFt
+ZC5jb20+Cj4gLS0tCj4gICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdHRtLmMg
+ICAgfCAgNiAtLS0tLS0KPiAgIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfYm8uYyAg
+ICAgICB8ICA4IC0tLS0tLS0tCj4gICBkcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF90dG0uYyAgICAg
+ICAgICAgICAgfCAgNiAtLS0tLS0KPiAgIGRyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0
+bS5jICAgICAgICB8ICA2IC0tLS0tLQo+ICAgZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYyAg
+ICAgICAgICAgICAgIHwgIDkgKy0tLS0tLS0tCj4gICBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Zt
+d2dmeF90dG1fYnVmZmVyLmMgfCAgNiAtLS0tLS0KPiAgIGluY2x1ZGUvZHJtL3R0bS90dG1fYm9f
+ZHJpdmVyLmggICAgICAgICAgICB8IDE1IC0tLS0tLS0tLS0tLS0tLQo+ICAgNyBmaWxlcyBjaGFu
+Z2VkLCAxIGluc2VydGlvbigrKSwgNTUgZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jIGIvZHJpdmVycy9ncHUvZHJtL2Ft
+ZC9hbWRncHUvYW1kZ3B1X3R0bS5jCj4gaW5kZXggNDQ1ZGU1OTRjMjE0Li43YzRiMWNiZDlhNTAg
+MTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jCj4g
+KysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jCj4gQEAgLTY4LDEx
+ICs2OCw2IEBAIHN0YXRpYyBpbnQgYW1kZ3B1X21hcF9idWZmZXIoc3RydWN0IHR0bV9idWZmZXJf
+b2JqZWN0ICpibywKPiAgIHN0YXRpYyBpbnQgYW1kZ3B1X3R0bV9kZWJ1Z2ZzX2luaXQoc3RydWN0
+IGFtZGdwdV9kZXZpY2UgKmFkZXYpOwo+ICAgc3RhdGljIHZvaWQgYW1kZ3B1X3R0bV9kZWJ1Z2Zz
+X2Zpbmkoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYpOwo+ICAgCj4gLXN0YXRpYyBpbnQgYW1k
+Z3B1X2ludmFsaWRhdGVfY2FjaGVzKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LCB1aW50MzJf
+dCBmbGFncykKPiAtewo+IC0JcmV0dXJuIDA7Cj4gLX0KPiAtCj4gICAvKioKPiAgICAqIGFtZGdw
+dV9pbml0X21lbV90eXBlIC0gSW5pdGlhbGl6ZSBhIG1lbW9yeSBtYW5hZ2VyIGZvciBhIHNwZWNp
+ZmljIHR5cGUgb2YKPiAgICAqIG1lbW9yeSByZXF1ZXN0Lgo+IEBAIC0xNjM3LDcgKzE2MzIsNiBA
+QCBzdGF0aWMgc3RydWN0IHR0bV9ib19kcml2ZXIgYW1kZ3B1X2JvX2RyaXZlciA9IHsKPiAgIAku
+dHRtX3R0X2NyZWF0ZSA9ICZhbWRncHVfdHRtX3R0X2NyZWF0ZSwKPiAgIAkudHRtX3R0X3BvcHVs
+YXRlID0gJmFtZGdwdV90dG1fdHRfcG9wdWxhdGUsCj4gICAJLnR0bV90dF91bnBvcHVsYXRlID0g
+JmFtZGdwdV90dG1fdHRfdW5wb3B1bGF0ZSwKPiAtCS5pbnZhbGlkYXRlX2NhY2hlcyA9ICZhbWRn
+cHVfaW52YWxpZGF0ZV9jYWNoZXMsCj4gICAJLmluaXRfbWVtX3R5cGUgPSAmYW1kZ3B1X2luaXRf
+bWVtX3R5cGUsCj4gICAJLmV2aWN0aW9uX3ZhbHVhYmxlID0gYW1kZ3B1X3R0bV9ib19ldmljdGlv
+bl92YWx1YWJsZSwKPiAgIAkuZXZpY3RfZmxhZ3MgPSAmYW1kZ3B1X2V2aWN0X2ZsYWdzLAo+IGRp
+ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JvLmMgYi9kcml2ZXJz
+L2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JvLmMKPiBpbmRleCBmODAxNWUwMzE4ZDcuLjgxNjY4
+MTA0NTk1ZiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2Jv
+LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JvLmMKPiBAQCAtNjQ2
+LDEzICs2NDYsNiBAQCBub3V2ZWF1X3R0bV90dF9jcmVhdGUoc3RydWN0IHR0bV9idWZmZXJfb2Jq
+ZWN0ICpibywgdWludDMyX3QgcGFnZV9mbGFncykKPiAgIAlyZXR1cm4gbm91dmVhdV9zZ2RtYV9j
+cmVhdGVfdHRtKGJvLCBwYWdlX2ZsYWdzKTsKPiAgIH0KPiAgIAo+IC1zdGF0aWMgaW50Cj4gLW5v
+dXZlYXVfYm9faW52YWxpZGF0ZV9jYWNoZXMoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsIHVp
+bnQzMl90IGZsYWdzKQo+IC17Cj4gLQkvKiBXZSdsbCBkbyB0aGlzIGZyb20gdXNlciBzcGFjZS4g
+Ki8KPiAtCXJldHVybiAwOwo+IC19Cj4gLQo+ICAgc3RhdGljIGludAo+ICAgbm91dmVhdV9ib19p
+bml0X21lbV90eXBlKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LCB1aW50MzJfdCB0eXBlLAo+
+ICAgCQkJIHN0cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdlciAqbWFuKQo+IEBAIC0xNjk2LDcgKzE2
+ODksNiBAQCBzdHJ1Y3QgdHRtX2JvX2RyaXZlciBub3V2ZWF1X2JvX2RyaXZlciA9IHsKPiAgIAku
+dHRtX3R0X2NyZWF0ZSA9ICZub3V2ZWF1X3R0bV90dF9jcmVhdGUsCj4gICAJLnR0bV90dF9wb3B1
+bGF0ZSA9ICZub3V2ZWF1X3R0bV90dF9wb3B1bGF0ZSwKPiAgIAkudHRtX3R0X3VucG9wdWxhdGUg
+PSAmbm91dmVhdV90dG1fdHRfdW5wb3B1bGF0ZSwKPiAtCS5pbnZhbGlkYXRlX2NhY2hlcyA9IG5v
+dXZlYXVfYm9faW52YWxpZGF0ZV9jYWNoZXMsCj4gICAJLmluaXRfbWVtX3R5cGUgPSBub3V2ZWF1
+X2JvX2luaXRfbWVtX3R5cGUsCj4gICAJLmV2aWN0aW9uX3ZhbHVhYmxlID0gdHRtX2JvX2V2aWN0
+aW9uX3ZhbHVhYmxlLAo+ICAgCS5ldmljdF9mbGFncyA9IG5vdXZlYXVfYm9fZXZpY3RfZmxhZ3Ms
+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX3R0bS5jIGIvZHJpdmVycy9n
+cHUvZHJtL3F4bC9xeGxfdHRtLmMKPiBpbmRleCAxNmE1ZTkwMzUzM2QuLjYyYTVlNDI0OTcxYiAx
+MDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF90dG0uYwo+ICsrKyBiL2RyaXZl
+cnMvZ3B1L2RybS9xeGwvcXhsX3R0bS5jCj4gQEAgLTQ4LDExICs0OCw2IEBAIHN0YXRpYyBzdHJ1
+Y3QgcXhsX2RldmljZSAqcXhsX2dldF9xZGV2KHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2KQo+
+ICAgCXJldHVybiBxZGV2Owo+ICAgfQo+ICAgCj4gLXN0YXRpYyBpbnQgcXhsX2ludmFsaWRhdGVf
+Y2FjaGVzKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LCB1aW50MzJfdCBmbGFncykKPiAtewo+
+IC0JcmV0dXJuIDA7Cj4gLX0KPiAtCj4gICBzdGF0aWMgaW50IHF4bF9pbml0X21lbV90eXBlKHN0
+cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LCB1aW50MzJfdCB0eXBlLAo+ICAgCQkJICAgICBzdHJ1
+Y3QgdHRtX21lbV90eXBlX21hbmFnZXIgKm1hbikKPiAgIHsKPiBAQCAtMjU2LDcgKzI1MSw2IEBA
+IHN0YXRpYyB2b2lkIHF4bF9ib19tb3ZlX25vdGlmeShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3Qg
+KmJvLAo+ICAgCj4gICBzdGF0aWMgc3RydWN0IHR0bV9ib19kcml2ZXIgcXhsX2JvX2RyaXZlciA9
+IHsKPiAgIAkudHRtX3R0X2NyZWF0ZSA9ICZxeGxfdHRtX3R0X2NyZWF0ZSwKPiAtCS5pbnZhbGlk
+YXRlX2NhY2hlcyA9ICZxeGxfaW52YWxpZGF0ZV9jYWNoZXMsCj4gICAJLmluaXRfbWVtX3R5cGUg
+PSAmcXhsX2luaXRfbWVtX3R5cGUsCj4gICAJLmV2aWN0aW9uX3ZhbHVhYmxlID0gdHRtX2JvX2V2
+aWN0aW9uX3ZhbHVhYmxlLAo+ICAgCS5ldmljdF9mbGFncyA9ICZxeGxfZXZpY3RfZmxhZ3MsCj4g
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jIGIvZHJpdmVy
+cy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fdHRtLmMKPiBpbmRleCBmNGFmNjcwMzU2NzMuLjQwMjgy
+YmYwYWRiZSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90dG0u
+Ywo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jCj4gQEAgLTY2LDEx
+ICs2Niw2IEBAIHN0YXRpYyBzdHJ1Y3QgcmFkZW9uX2RldmljZSAqcmFkZW9uX2dldF9yZGV2KHN0
+cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2KQo+ICAgCXJldHVybiByZGV2Owo+ICAgfQo+ICAgCj4g
+LXN0YXRpYyBpbnQgcmFkZW9uX2ludmFsaWRhdGVfY2FjaGVzKHN0cnVjdCB0dG1fYm9fZGV2aWNl
+ICpiZGV2LCB1aW50MzJfdCBmbGFncykKPiAtewo+IC0JcmV0dXJuIDA7Cj4gLX0KPiAtCj4gICBz
+dGF0aWMgaW50IHJhZGVvbl9pbml0X21lbV90eXBlKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2
+LCB1aW50MzJfdCB0eXBlLAo+ICAgCQkJCXN0cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdlciAqbWFu
+KQo+ICAgewo+IEBAIC03NzQsNyArNzY5LDYgQEAgc3RhdGljIHN0cnVjdCB0dG1fYm9fZHJpdmVy
+IHJhZGVvbl9ib19kcml2ZXIgPSB7Cj4gICAJLnR0bV90dF9jcmVhdGUgPSAmcmFkZW9uX3R0bV90
+dF9jcmVhdGUsCj4gICAJLnR0bV90dF9wb3B1bGF0ZSA9ICZyYWRlb25fdHRtX3R0X3BvcHVsYXRl
+LAo+ICAgCS50dG1fdHRfdW5wb3B1bGF0ZSA9ICZyYWRlb25fdHRtX3R0X3VucG9wdWxhdGUsCj4g
+LQkuaW52YWxpZGF0ZV9jYWNoZXMgPSAmcmFkZW9uX2ludmFsaWRhdGVfY2FjaGVzLAo+ICAgCS5p
+bml0X21lbV90eXBlID0gJnJhZGVvbl9pbml0X21lbV90eXBlLAo+ICAgCS5ldmljdGlvbl92YWx1
+YWJsZSA9IHR0bV9ib19ldmljdGlvbl92YWx1YWJsZSwKPiAgIAkuZXZpY3RfZmxhZ3MgPSAmcmFk
+ZW9uX2V2aWN0X2ZsYWdzLAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9i
+by5jIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYwo+IGluZGV4IDVkZjU5NmZiMDI4MC4u
+MDZmNmQ2NTA4MjdmIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMK
+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jCj4gQEAgLTM3MiwxNCArMzcyLDcg
+QEAgc3RhdGljIGludCB0dG1fYm9faGFuZGxlX21vdmVfbWVtKHN0cnVjdCB0dG1fYnVmZmVyX29i
+amVjdCAqYm8sCj4gICAJfQo+ICAgCj4gICBtb3ZlZDoKPiAtCWlmIChiby0+ZXZpY3RlZCkgewo+
+IC0JCWlmIChiZGV2LT5kcml2ZXItPmludmFsaWRhdGVfY2FjaGVzKSB7Cj4gLQkJCXJldCA9IGJk
+ZXYtPmRyaXZlci0+aW52YWxpZGF0ZV9jYWNoZXMoYmRldiwgYm8tPm1lbS5wbGFjZW1lbnQpOwo+
+IC0JCQlpZiAocmV0KQo+IC0JCQkJcHJfZXJyKCJDYW4gbm90IGZsdXNoIHJlYWQgY2FjaGVzXG4i
+KTsKPiAtCQl9Cj4gLQkJYm8tPmV2aWN0ZWQgPSBmYWxzZTsKPiAtCX0KPiArCWJvLT5ldmljdGVk
+ID0gZmFsc2U7Cj4gICAKPiAgIAlpZiAoYm8tPm1lbS5tbV9ub2RlKQo+ICAgCQliby0+b2Zmc2V0
+ID0gKGJvLT5tZW0uc3RhcnQgPDwgUEFHRV9TSElGVCkgKwo+IGRpZmYgLS1naXQgYS9kcml2ZXJz
+L2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF90dG1fYnVmZmVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vdm13
+Z2Z4L3Ztd2dmeF90dG1fYnVmZmVyLmMKPiBpbmRleCBkOGVhM2RkMTBhZjAuLjNmM2IyYzdhMjA4
+YSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF90dG1fYnVmZmVy
+LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF90dG1fYnVmZmVyLmMKPiBA
+QCAtNzM2LDExICs3MzYsNiBAQCBzdGF0aWMgc3RydWN0IHR0bV90dCAqdm13X3R0bV90dF9jcmVh
+dGUoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywKPiAgIAlyZXR1cm4gTlVMTDsKPiAgIH0K
+PiAgIAo+IC1zdGF0aWMgaW50IHZtd19pbnZhbGlkYXRlX2NhY2hlcyhzdHJ1Y3QgdHRtX2JvX2Rl
+dmljZSAqYmRldiwgdWludDMyX3QgZmxhZ3MpCj4gLXsKPiAtCXJldHVybiAwOwo+IC19Cj4gLQo+
+ICAgc3RhdGljIGludCB2bXdfaW5pdF9tZW1fdHlwZShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRl
+diwgdWludDMyX3QgdHlwZSwKPiAgIAkJICAgICAgc3RydWN0IHR0bV9tZW1fdHlwZV9tYW5hZ2Vy
+ICptYW4pCj4gICB7Cj4gQEAgLTg2Niw3ICs4NjEsNiBAQCBzdHJ1Y3QgdHRtX2JvX2RyaXZlciB2
+bXdfYm9fZHJpdmVyID0gewo+ICAgCS50dG1fdHRfY3JlYXRlID0gJnZtd190dG1fdHRfY3JlYXRl
+LAo+ICAgCS50dG1fdHRfcG9wdWxhdGUgPSAmdm13X3R0bV9wb3B1bGF0ZSwKPiAgIAkudHRtX3R0
+X3VucG9wdWxhdGUgPSAmdm13X3R0bV91bnBvcHVsYXRlLAo+IC0JLmludmFsaWRhdGVfY2FjaGVz
+ID0gdm13X2ludmFsaWRhdGVfY2FjaGVzLAo+ICAgCS5pbml0X21lbV90eXBlID0gdm13X2luaXRf
+bWVtX3R5cGUsCj4gICAJLmV2aWN0aW9uX3ZhbHVhYmxlID0gdHRtX2JvX2V2aWN0aW9uX3ZhbHVh
+YmxlLAo+ICAgCS5ldmljdF9mbGFncyA9IHZtd19ldmljdF9mbGFncywKPiBkaWZmIC0tZ2l0IGEv
+aW5jbHVkZS9kcm0vdHRtL3R0bV9ib19kcml2ZXIuaCBiL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9f
+ZHJpdmVyLmgKPiBpbmRleCBjYWM3YThhMDgyNWEuLmM5ZTBmZDA5ZjRiMiAxMDA2NDQKPiAtLS0g
+YS9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2RyaXZlci5oCj4gKysrIGIvaW5jbHVkZS9kcm0vdHRt
+L3R0bV9ib19kcml2ZXIuaAo+IEBAIC0yMTAsOCArMjEwLDYgQEAgc3RydWN0IHR0bV9tZW1fdHlw
+ZV9tYW5hZ2VyIHsKPiAgICAqIHN0cnVjdCB0dG1fYm9fZHJpdmVyCj4gICAgKgo+ICAgICogQGNy
+ZWF0ZV90dG1fYmFja2VuZF9lbnRyeTogQ2FsbGJhY2sgdG8gY3JlYXRlIGEgc3RydWN0IHR0bV9i
+YWNrZW5kLgo+IC0gKiBAaW52YWxpZGF0ZV9jYWNoZXM6IENhbGxiYWNrIHRvIGludmFsaWRhdGUg
+cmVhZCBjYWNoZXMgd2hlbiBhIGJ1ZmZlciBvYmplY3QKPiAtICogaGFzIGJlZW4gZXZpY3RlZC4K
+PiAgICAqIEBpbml0X21lbV90eXBlOiBDYWxsYmFjayB0byBpbml0aWFsaXplIGEgc3RydWN0IHR0
+bV9tZW1fdHlwZV9tYW5hZ2VyCj4gICAgKiBzdHJ1Y3R1cmUuCj4gICAgKiBAZXZpY3RfZmxhZ3M6
+IENhbGxiYWNrIHRvIG9idGFpbiBwbGFjZW1lbnQgZmxhZ3Mgd2hlbiBhIGJ1ZmZlciBpcyBldmlj
+dGVkLgo+IEBAIC0yNTYsMTkgKzI1NCw2IEBAIHN0cnVjdCB0dG1fYm9fZHJpdmVyIHsKPiAgIAkg
+Ki8KPiAgIAl2b2lkICgqdHRtX3R0X3VucG9wdWxhdGUpKHN0cnVjdCB0dG1fdHQgKnR0bSk7Cj4g
+ICAKPiAtCS8qKgo+IC0JICogc3RydWN0IHR0bV9ib19kcml2ZXIgbWVtYmVyIGludmFsaWRhdGVf
+Y2FjaGVzCj4gLQkgKgo+IC0JICogQGJkZXY6IHRoZSBidWZmZXIgb2JqZWN0IGRldmljZS4KPiAt
+CSAqIEBmbGFnczogbmV3IHBsYWNlbWVudCBvZiB0aGUgcmVib3VuZCBidWZmZXIgb2JqZWN0Lgo+
+IC0JICoKPiAtCSAqIEEgcHJldmlvc2x5IGV2aWN0ZWQgYnVmZmVyIGhhcyBiZWVuIHJlYm91bmQg
+aW4gYQo+IC0JICogcG90ZW50aWFsbHkgbmV3IGxvY2F0aW9uLiBUZWxsIHRoZSBkcml2ZXIgdGhh
+dCBpdCBtaWdodAo+IC0JICogY29uc2lkZXIgaW52YWxpZGF0aW5nIHJlYWQgKHRleHR1cmUpIGNh
+Y2hlcyBvbiB0aGUgbmV4dCBjb21tYW5kCj4gLQkgKiBzdWJtaXNzaW9uIGFzIGEgY29uc2VxdWVu
+Y2UuCj4gLQkgKi8KPiAtCj4gLQlpbnQgKCppbnZhbGlkYXRlX2NhY2hlcykoc3RydWN0IHR0bV9i
+b19kZXZpY2UgKmJkZXYsIHVpbnQzMl90IGZsYWdzKTsKPiAgIAlpbnQgKCppbml0X21lbV90eXBl
+KShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwgdWludDMyX3QgdHlwZSwKPiAgIAkJCSAgICAg
+c3RydWN0IHR0bV9tZW1fdHlwZV9tYW5hZ2VyICptYW4pOwo+ICAgCgpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
