@@ -1,40 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98ACE1396FC
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2020 18:07:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A9F0139725
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2020 18:10:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88B556E0B7;
-	Mon, 13 Jan 2020 17:07:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 373FD89DA8;
+	Mon, 13 Jan 2020 17:10:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F17266E096;
- Mon, 13 Jan 2020 17:07:28 +0000 (UTC)
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2020 09:07:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,429,1571727600"; d="scan'208";a="273078751"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by FMSMGA003.fm.intel.com with SMTP; 13 Jan 2020 09:07:22 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 13 Jan 2020 19:07:22 +0200
-Date: Mon, 13 Jan 2020 19:07:22 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: mikita.lipski@amd.com
-Subject: Re: [PATCH] drm/amdgpu/display: Use u64 divide macro for round up
- division
-Message-ID: <20200113170722.GS13686@intel.com>
-References: <20200113132042.25717-1-mikita.lipski@amd.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5941989DA8
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2020 17:10:26 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 98A4C11B3;
+ Mon, 13 Jan 2020 09:10:25 -0800 (PST)
+Received: from [10.1.194.52] (e112269-lin.cambridge.arm.com [10.1.194.52])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 48CE13F534;
+ Mon, 13 Jan 2020 09:10:24 -0800 (PST)
+Subject: Re: [PATCH RFT v1 3/3] drm/panfrost: Use the mali-supply regulator
+ for control again
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+References: <20200107230626.885451-1-martin.blumenstingl@googlemail.com>
+ <20200107230626.885451-4-martin.blumenstingl@googlemail.com>
+ <2ceffe46-57a8-79a8-2c41-d04b227d3792@arm.com>
+ <CAFBinCD7o-q-i66zZhOro1DanKAfG-8obQtzxxD==xOwsy_d6A@mail.gmail.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <21d0730b-8299-8bfd-4321-746ccb3772d0@arm.com>
+Date: Mon, 13 Jan 2020 17:10:23 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200113132042.25717-1-mikita.lipski@amd.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CAFBinCD7o-q-i66zZhOro1DanKAfG-8obQtzxxD==xOwsy_d6A@mail.gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,65 +45,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexander.Deucher@amd.com, rdunlap@infradead.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: tomeu.vizoso@collabora.com, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, robin.murphy@arm.com, alyssa@rosenzweig.io
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 13, 2020 at 08:20:42AM -0500, mikita.lipski@amd.com wrote:
-> From: Mikita Lipski <mikita.lipski@amd.com>
-> =
+On 09/01/2020 17:27, Martin Blumenstingl wrote:
+> On Thu, Jan 9, 2020 at 12:31 PM Steven Price <steven.price@arm.com> wrote:
+>>
+>> On 07/01/2020 23:06, Martin Blumenstingl wrote:
+>>> dev_pm_opp_set_rate() needs a reference to the regulator which should be
+>>> updated when updating the GPU frequency. The name of the regulator has
+>>> to be passed at initialization-time using dev_pm_opp_set_regulators().
+>>> Add the call to dev_pm_opp_set_regulators() so dev_pm_opp_set_rate()
+>>> will update the GPU regulator when updating the frequency (just like
+>>> we did this manually before when we open-coded dev_pm_opp_set_rate()).
+>>
+>> This patch causes a warning from debugfs on my firefly (RK3288) board:
+>>
+>> debugfs: Directory 'ffa30000.gpu-mali' with parent 'vdd_gpu' already
+>> present!
+>>
+>> So it looks like the regulator is being added twice - but I haven't
+>> investigated further.
+> I *think* it's because the regulator is already fetched by the
+> panfrost driver itself to enable it
+> (the devfreq code currently does not support enabling the regulator,
+> it can only control the voltage)
+> 
+> I'm not sure what to do about this though
 
-> [why]
-> Fix compilation warnings on i386 architecture:
-> undefined reference to `__udivdi3'
-> [how]
-> Switch DIV_ROUND_UP to DIV64_U64_ROUND_UP
-> =
+Having a little play around with this, I think you can simply remove the
+panfrost_regulator_init() call. This at least works for me - the call to
+dev_pm_opp_set_regulators() seems to set everything up. However I
+suspect you need to do this unconditionally even if there are no
+operating points defined.
 
-> Reported-by: Randy Dunlap <rdunlap@infradead.org>
-> Signed-off-by: Mikita Lipski <mikita.lipski@amd.com>
-> ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> =
+> [...]
+>>>       ret = dev_pm_opp_of_add_table(dev);
+>>> -     if (ret)
+>>> +     if (ret) {
+>>> +             dev_pm_opp_put_regulators(pfdev->devfreq.regulators_opp_table);
+>>
+>> If we don't have a regulator then regulators_opp_table will be NULL and
+>> sadly dev_pm_opp_put_regulators() doesn't handle a NULL argument. The
+>> same applies to the two below calls obviously.
+> good catch, thank you!
+> are you happy with the general approach here or do you think that
+> dev_pm_opp_set_regulators is the wrong way to go (for whatever
+> reason)?
 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c =
-b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> index 52fb207393ef..96b391e4b3e7 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> @@ -534,7 +534,7 @@ static int kbps_to_peak_pbn(int kbps)
->  =
+To be honest this is an area I still don't fully understand. There's a
+lot of magic helper functions and very little in the way of helpful
+documentation to work out which are the right ones to call. It seems
+reasonable to me, hopefully someone more in the know will chime in it
+there's something fundamentally wrong!
 
->  	peak_kbps *=3D 1006;
->  	peak_kbps =3D div_u64(peak_kbps, 1000);
-> -	return (int) DIV_ROUND_UP(peak_kbps * 64, (54 * 8 * 1000));
-> +	return (int) DIV64_U64_ROUND_UP(peak_kbps * 64, (54 * 8 * 1000));
+Thanks,
 
-DIV_ROUND_UP_ULL() would seem to suffice for this divisor.
-
->  }
->  =
-
->  static void set_dsc_configs_from_fairness_vars(struct dsc_mst_fairness_p=
-arams *params,
-> -- =
-
-> 2.17.1
-> =
-
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
+Steve
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
