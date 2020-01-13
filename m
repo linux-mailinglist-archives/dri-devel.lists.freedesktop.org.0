@@ -2,52 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4BC8139C67
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2020 23:26:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46873139C53
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2020 23:21:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B4356E184;
-	Mon, 13 Jan 2020 22:26:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CC356E17C;
+	Mon, 13 Jan 2020 22:20:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FC056E181
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2020 22:26:22 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00DM118W053727;
- Mon, 13 Jan 2020 16:01:01 -0600
+X-Greylist: delayed 1216 seconds by postgrey-1.36 at gabe;
+ Mon, 13 Jan 2020 22:20:55 UTC
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 668DC6E17B
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2020 22:20:55 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00DM1R0f008048;
+ Mon, 13 Jan 2020 16:01:27 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1578952861;
- bh=1fwXPsSu3lc6TUM7K7k4xvKPEijcTV9ffOBOPjAr8W0=;
+ s=ti-com-17Q1; t=1578952887;
+ bh=eNTijv2UyQtC4PHses4FMl4R64oQ2eQ2tdB3G59Jlrg=;
  h=Date:From:To:CC:Subject:References:In-Reply-To;
- b=bW3dF+qJTioEB0qrxH31c1dAJCaszrVRvl5Vywrcj4t9WXD3ixWlBGdv8ywE0Kpvn
- OYumHaT/LDkFsAx8UGUVn5ZeD7c8jLHkA4Sk/QAY/Z8mKkclBBa9S6WSohvWEEqlAG
- cwJDzym7e4fpUVK/DhUBAzUyF3eFjx7DO95spkOo=
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00DM11Mk084353
+ b=M3hZ27ZK6rbnIYIRaTE6CNJ8KGOM6mQBznzzXtX9s2Yaa02QinPQU4xr4AaLXLXmp
+ u395ZFC3UqQ1JaV3/Ulxkk6N+PxeEMwi8gKDY1HDvxzuNRXtGBKbXx93H+2vY9GU0S
+ 3Qka3rp2mA/TiBf0w2rehydvebpZhjlrsjMFe/9M=
+Received: from DFLE106.ent.ti.com (dfle106.ent.ti.com [10.64.6.27])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00DM1Rm1055723
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 13 Jan 2020 16:01:01 -0600
-Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Mon, 13
- Jan 2020 16:01:01 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE106.ent.ti.com
+ Mon, 13 Jan 2020 16:01:27 -0600
+Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE106.ent.ti.com
  (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Mon, 13
+ Jan 2020 16:01:26 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Mon, 13 Jan 2020 16:01:01 -0600
+ Frontend Transport; Mon, 13 Jan 2020 16:01:26 -0600
 Received: from ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with SMTP id 00DM11Xj010978;
- Mon, 13 Jan 2020 16:01:01 -0600
-Date: Mon, 13 Jan 2020 16:04:47 -0600
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with SMTP id 00DM1Q4B011935;
+ Mon, 13 Jan 2020 16:01:26 -0600
+Date: Mon, 13 Jan 2020 16:05:12 -0600
 From: Benoit Parrot <bparrot@ti.com>
 To: Jyri Sarha <jsarha@ti.com>
-Subject: Re: [PATCH v5 2/5] dt-bindings: display: ti, am65x-dss: Add dt-schema
+Subject: Re: [PATCH v5 3/5] dt-bindings: display: ti, j721e-dss: Add dt-schema
  yaml binding
-Message-ID: <20200113220447.4y5smxqba7zw5v2a@ti.com>
+Message-ID: <20200113220512.5xqikwseah2rylwj@ti.com>
 References: <cover.1576857145.git.jsarha@ti.com>
- <1007a467492c2a588d4348106313a9f4853f3f20.1576857145.git.jsarha@ti.com>
+ <e05570c9c5c0a22f5aaa36dd2503fe918b1f941e.1576857145.git.jsarha@ti.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1007a467492c2a588d4348106313a9f4853f3f20.1576857145.git.jsarha@ti.com>
+In-Reply-To: <e05570c9c5c0a22f5aaa36dd2503fe918b1f941e.1576857145.git.jsarha@ti.com>
 User-Agent: NeoMutt/20171215
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,28 +73,28 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Jyri Sarha <jsarha@ti.com> wrote on Fri [2019-Dec-20 17:55:10 +0200]:
-> Add dt-schema yaml bindig for AM65x DSS, AM65x version TI Keystone
+Jyri Sarha <jsarha@ti.com> wrote on Fri [2019-Dec-20 17:55:11 +0200]:
+> Add dt-schema yaml bindig for J721E DSS, J721E version TI Keystone
 > Display SubSystem.
 > 
 > Version history:
 > 
 > v2: no change
 > 
-> v3: - Add ports node
->     - use allOf in ti,am65x-oldi-io-ctrl to add both $ref and maxItems
+> v3: - reg-names: "wp" -> "wb"
+>     - Add ports node
 >     - Add includes to dts example
 >     - reindent dts example
 > 
-> v4: - Add descriptions to reg and clocks properties
+> v4: - Add descriptions to reg, clocks, and interrups properties
 >     - Remove minItems when its value is the same as maxItems value
 > 
-> v5: - itemize reg and clocks properties' descriptions
+> v5: - itemize reg, clocks and interrupts properties' descriptions
+>     - there is no "vp" reg-name, only "wb" for write back
 > 
 > Signed-off-by: Jyri Sarha <jsarha@ti.com>
 
 Reviewed-by: Benoit Parrot <bparrot@ti.com>
-
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
