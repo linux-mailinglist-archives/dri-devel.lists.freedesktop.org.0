@@ -2,47 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA2FE13A2D8
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2020 09:19:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7127913A2DF
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2020 09:20:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1785C6E30D;
-	Tue, 14 Jan 2020 08:19:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0D9A6E31C;
+	Tue, 14 Jan 2020 08:19:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from eu-smtp-delivery-151.mimecast.com
- (eu-smtp-delivery-151.mimecast.com [146.101.78.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 396D86E0D8
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2020 14:36:03 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-140-AwUQH5QOP_e8J5DRSiGalQ-1; Mon, 13 Jan 2020 14:34:43 +0000
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Mon, 13 Jan 2020 14:34:42 +0000
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000; 
- Mon, 13 Jan 2020 14:34:42 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: "'maarten.lankhorst@linux.intel.com'" <maarten.lankhorst@linux.intel.com>, 
- "'mripard@kernel.org'" <mripard@kernel.org>, "'sean@poorly.run'"
- <sean@poorly.run>, "'airlied@linux.ie'" <airlied@linux.ie>,
- "'daniel@ffwll.ch'" <daniel@ffwll.ch>, "'dri-devel@lists.freedesktop.org'"
- <dri-devel@lists.freedesktop.org>, "'linux-kernel@vger.kernel.org'"
- <linux-kernel@vger.kernel.org>
-Subject: drm_cflush_sg() loops for over 3ms
-Thread-Topic: drm_cflush_sg() loops for over 3ms
-Thread-Index: AdXKGWEIeE2T2qdBRV+WPmYW5zRi/w==
-Date: Mon, 13 Jan 2020 14:34:42 +0000
-Message-ID: <e2498e2794ab421bb27982b4c863e87f@AcuMS.aculab.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+Received: from mail-yw1-xc64.google.com (mail-yw1-xc64.google.com
+ [IPv6:2607:f8b0:4864:20::c64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DFA86E0CC
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2020 15:36:49 +0000 (UTC)
+Received: by mail-yw1-xc64.google.com with SMTP id b186so6332705ywc.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2020 07:36:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=brkho-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XJFdDikfbN+KalEJTdnTdl6gsZ3fW2Tc7ZjkvYTvyD0=;
+ b=Ra1HwBngnQsFsdibS3erX1ro72SPNFOPBuna6fAXIQWG17KVuwQqD9gMrdmCX7ki+B
+ EfZnaFMA5gKVT3d2qJucInxK1XRuJFIQjhpLG292NZcU6B2kEOsnvEAtLvx58jiTXMJk
+ R3JhbyxnKu264DFtvTI48xgHQS4fvpOzUpteR3OrVr78AnbU2zIkVDSvrN5ZD8cvjeee
+ JFM3IRmFzWideOV8V9KEow0sfm4l9HLJVDVYnrOiZTg2y3gnmUrcDev8aU5KY5uD5KlR
+ ZI8urhn7LhvdDYHsVAv38s1cdzYy0VpHd73CuBsHJdDdJIh3/5QdZn3CfaseC0z8UOlv
+ K8pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XJFdDikfbN+KalEJTdnTdl6gsZ3fW2Tc7ZjkvYTvyD0=;
+ b=GPrJfCOAnAcsVDQdw7QYsM6hQB2ONUGRV7TFfrZWoz6hXPUSDhik4bxTUp5FSDh+XF
+ W4j9OpY2nnEm5pP5D78xqqVK6VcMZiQ4F5B7zCXUhKCR+IsaJnxmmR0eEYb+jEY8rNqA
+ 7bQ3iVgsIxZxc7Pawc3Mmqrug1x+TtFrAmpT9a5WzWVD36MqAtqtUS0XSUv3Aax1rWMd
+ GfekNrjPz+Uya9ES/1RR3aU4IAQIO/rjGt8ED2DmK7k0+NyJtPCB+pCmzlb0pG9b6E3l
+ nszqTgJA/QwfafzOtrRmQ6ZGdsV5NYD6coUjBw5JXb9vCFTETKwIhu6TRuM3IHlg8CQ+
+ M+Xw==
+X-Gm-Message-State: APjAAAWtlJHY6e8YdLJynrU4GURPBddc7nVDQ+vw1FSPmBPzSAZOZz9B
+ YIoV/TzfhRUVOTJ12/jZ0OEjTbXMOJLuhr0HT6UtN+K370hxCQ==
+X-Google-Smtp-Source: APXvYqze74w6U50gaTJnAzutIy9P9BFgvcZsIGa2e6zF7CwAW4jN8VuBPit1CodjbUXUBdLxFIXm1nt6Mg+C
+X-Received: by 2002:a25:2c9:: with SMTP id 192mr12441529ybc.48.1578929808492; 
+ Mon, 13 Jan 2020 07:36:48 -0800 (PST)
+Received: from hob1.nyc.corp.google.com ([100.118.32.120])
+ by smtp-relay.gmail.com with ESMTPS id m193sm1672393ywd.0.2020.01.13.07.36.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Jan 2020 07:36:48 -0800 (PST)
+X-Relaying-Domain: brkho.com
+From: Brian Ho <brian@brkho.com>
+To: freedreno@lists.freedesktop.org
+Subject: [PATCH 0/2] drm/msm: Add the MSM_WAIT_IOVA ioctl
+Date: Mon, 13 Jan 2020 10:36:03 -0500
+Message-Id: <20200113153605.52350-1-brian@brkho.com>
+X-Mailer: git-send-email 2.25.0.rc1.283.g88dfdc4193-goog
 MIME-Version: 1.0
-X-MC-Unique: AwUQH5QOP_e8J5DRSiGalQ-1
-X-Mimecast-Spam-Score: 0
 X-Mailman-Approved-At: Tue, 14 Jan 2020 08:19:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,53 +67,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: robdclark@chromium.org, Brian Ho <brian@brkho.com>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ hoegsberg@chromium.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I've been looking at why some RT processes don't get scheduled promptly.
-In my test the RT process's affinity ties it to a single cpu (this may not be such
-a good idea as it seems).
+This patch set implements the MSM_WAIT_IOVA ioctl which lets
+userspace sleep until the value at a given iova reaches a certain
+condition. This is needed in turnip to implement the
+VK_QUERY_RESULT_WAIT_BIT flag for vkGetQueryPoolResults.
 
-What I've found is that the Intel i915 graphics driver uses the 'events_unbound'
-kernel worker thread to periodically execute drm_cflush_sg().
-(see https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/drm_cache.c)
+First, we add a GPU-wide wait queue that is signaled on all IRQs.
+We can then wait on this wait queue inside MSM_WAIT_IOVA until the
+condition is met.
 
-I'm guessing this is to ensure that any writes to graphics memory become
-visible is a semi-timely manner.
+The corresponding merge request in mesa can be found at:
+https://gitlab.freedesktop.org/mesa/mesa/merge_requests/3279
 
-This loop takes about 1us per iteration split fairly evenly between whatever is in
-for_each_sg_page() and drm_cflush_page().
-With a 2560x1440 display the loop count is 3600 (4 bytes/pixel) and the whole
-function takes around 3.3ms.
+Brian Ho (2):
+  drm/msm: Add a GPU-wide wait queue
+  drm/msm: Add MSM_WAIT_IOVA ioctl
 
-Since the kernel isn't pre-emptive (I though that wasn't much harder than SMP)
-nothing else can run on that cpu until the loop finishes.
+ drivers/gpu/drm/msm/msm_drv.c | 63 +++++++++++++++++++++++++++++++++--
+ drivers/gpu/drm/msm/msm_gpu.c |  4 +++
+ drivers/gpu/drm/msm/msm_gpu.h |  3 ++
+ include/uapi/drm/msm_drm.h    | 13 ++++++++
+ 4 files changed, 81 insertions(+), 2 deletions(-)
 
-Adding a cond_resched() to the loop (maybe every 64 iterations) will
-allow higher priority processes to run.
-But really the code needs to be a lot faster.
-
-I actually suspect that the (I assume IPI based) wbinv_on_all_cpus() would be
-a lot faster - especially done by a per-cpu work queue?
-
-I had moderate difficulty getting from the process (kworker/u8:3) to the
-name of the worker thread pool, never mind the actual work.
-Fortunately it runs so long that some of the output from 'echo t >/proc/sysrq-trigger'
-still linked the pid (which I knew from ftrace scheduler events (and schedviz))
-to the actual work item name.
-(Oh, after I'd written a program to tidy up the raw ftrace output so schedviz
-didn't barf on a trace that had wrapped.)
-
-Is there anything in /proc (etc) that shows all the work queues and their current
-work?
-
-	David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+-- 
+2.25.0.rc1.283.g88dfdc4193-goog
 
 _______________________________________________
 dri-devel mailing list
