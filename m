@@ -1,50 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6E5713B0C9
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2020 18:24:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 260B213B0D1
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2020 18:27:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E661C6E431;
-	Tue, 14 Jan 2020 17:24:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05D3D89722;
+	Tue, 14 Jan 2020 17:27:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 430686E431;
- Tue, 14 Jan 2020 17:24:35 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id dc19so12607346edb.10;
- Tue, 14 Jan 2020 09:24:35 -0800 (PST)
+Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com
+ [IPv6:2607:f8b0:4864:20::e41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E721E89722;
+ Tue, 14 Jan 2020 17:27:08 +0000 (UTC)
+Received: by mail-vs1-xe41.google.com with SMTP id y125so8717842vsb.6;
+ Tue, 14 Jan 2020 09:27:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=ExWR3NxwjvVwqdpV466QGOKUKw0k3X+0mcFDLohXg1g=;
- b=GMungYyV7wOTX1rYqMyxszAJKBxfaDFoowd6jBU3qd/SoXVT2gyWi88vNMzreXqEzI
- MykGKkTiCMGxkgixQvVfu0jjVG2khsgWPdCqOeQ8JoFHCI096cGsaey6fTPlGQZNDHee
- 6BUjJ4P7vsBl7iRBMF2jpsZ8aUvOc7zGntT7uZIuj75ZgpXsn1bjX4vFcYiwbl/VYTMY
- KaY6q21UaeeEvhlINawtnk53OJ3M2A55tDw4S4mWZR/zXCOHPxw7+uQBIfd1bbrElOvC
- PR9KlYzDyPGfNFgcjU5ukrqZwrrl1M8S6+3ll2H5HdQe8qcjIB/ytkSwuKzOrY6lq+gW
- jDLg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fXe7VXyk7Bp4OR35uM+nTT22f4rQvVhtqrkA05h8pbU=;
+ b=F208V+PT29gGuf2bAXd2JGZNueW+iRBmj9nSDJqtXkXjMSptyiemO+oEibuSlBe9sd
+ ACZu88VCpEXLqAbuKC58yX2QT+wfv+wFxvyiMQAldNCKJeQQ1Qp2SX6lvurNcCT/0a/K
+ zRuEi6M9YYzbWlCXcuhVw7ro1CUJRhRX/0BZvsoPptCdIe6K9ABZ8Ep2dvcmy2IDKftp
+ VOUzYASC8DOa8kN0KoDkg5nSs8RfxYqcQVu36zFiU7wjaxpt0HvwO8oSOsmdMjTGSdxh
+ Jb9uaI4YBnCOHs91FY37fEJ9PUKuDnvqVjSW9d5E2rHlGTJ0XInBnkDa5hJplEjXpEma
+ rXVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=ExWR3NxwjvVwqdpV466QGOKUKw0k3X+0mcFDLohXg1g=;
- b=d3rCkICQWlubu1eGCr76bhbX8qWg9fUpAM+sSlA7S1BSkKIAImZMk/3pHvtZo0//6T
- UWz2wGQfdy9bv+5rgiacdKcjNGIafT9sW2LJzonnI/VSPIWsuDrVakchKfzmjlK3b67x
- CpbBvDC/pHMZfckoaixDzrrtW2j6Gat5/ktkZHB3CHnrJY2r78TK5cMaFVug+UrEfsVj
- U2kbYIojQdAKSDNMJX5WRPn8zNwPdhLSOyb/66OMfUEnXxHtLbf+gRb/S6mu1LUabgRg
- WjldC6dSifNJlR6NK7sP7SQKtCUkw29VcYdt9R0aos4gotOQwZzaG7oLWmgN+gga0t+v
- wXEw==
-X-Gm-Message-State: APjAAAWEP4rSgkd9VxmYBPYgQ0g1lsg4ERxLcHqiNXIwWYnjQNeYOyz6
- vUexocF0XNyhXDmFb9TG93BA3RHtF7GlK3CCz94=
-X-Google-Smtp-Source: APXvYqzWO7+ibk8CIEBmxcVycKOPJOCItIZZ64QfuIQW7YFq6IxmUN7OAtlmZ5SyRx0MBNOpfEQcSQLGHwm58dG9EdE=
-X-Received: by 2002:a50:ce56:: with SMTP id k22mr25259991edj.34.1579022673862; 
- Tue, 14 Jan 2020 09:24:33 -0800 (PST)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fXe7VXyk7Bp4OR35uM+nTT22f4rQvVhtqrkA05h8pbU=;
+ b=Njghg+ciOUtu5Bt6dmX+5NwjO56GWGdhi8eqbnaQn4pK7YSnTAcoIj8E28UByoi2gN
+ HbAgpnher7lAVGA0tBwA6F/XbNxsyANc2QrlkLlAtJMvK2gsCYnMzGqdt9+WN3pU2Vrx
+ xQVQ6vU5pW39iaV3rnX+X1KoUJevCQMt401sRQWz0aLopgiKK1fWwL5GgWw9VXX7LwS9
+ /K6Sfv9K+1ji/Ttf6WDY1QMd3hp3IXjG/wGAh60kGTen8aVdZ7lmK0HU7QvatJDQhqKq
+ SzyphWCJE4oMgdUSOG5MRxVm4T7CHPJ38J3z0QctG22aHJINV+zVUJfETdcKQAZrVoqK
+ +9Uw==
+X-Gm-Message-State: APjAAAVqwAA/lwAGWG9UHkdm2nqSqn8M9rfN28HNB1VEeaYPIoNvH9I3
+ LWgC4I1Ec/5bT8EvXRLDP47zfOEDWvEohJCxpjc=
+X-Google-Smtp-Source: APXvYqyFYt+I3Tr3kys2YnC8Nqt4invVC2UA2WJRGEM4znZA3TI0S8m4lrCiEAUbMRBJlDftrhvyv6ZGIGuZBLWf8pE=
+X-Received: by 2002:a67:7a03:: with SMTP id v3mr2070205vsc.66.1579022827743;
+ Tue, 14 Jan 2020 09:27:07 -0800 (PST)
 MIME-Version: 1.0
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 14 Jan 2020 09:24:22 -0800
-Message-ID: <CAF6AEGvv03ifuP0tp7-dmqZtr1iS=s8Vc=az8BNGtEoSMD-dkw@mail.gmail.com>
-Subject: [pull] drm/msm: msm-next for 5.6
-To: Dave Airlie <airlied@gmail.com>
+References: <20200113202557.110095-1-bas@basnieuwenhuizen.nl>
+ <20200113234113.GE26711@jcrouse1-lnx.qualcomm.com>
+ <CAP+8YyFV4DU-FJEy9oRHnkhPhRaXNb_F+3R9J1RO+bORpqxdcg@mail.gmail.com>
+ <20200114155817.GA22648@jcrouse1-lnx.qualcomm.com>
+ <CAJs_Fx5eds-f7VzO7oxn810AQ-OngKP0ivVXs9Dnpy=990CJ5g@mail.gmail.com>
+In-Reply-To: <CAJs_Fx5eds-f7VzO7oxn810AQ-OngKP0ivVXs9Dnpy=990CJ5g@mail.gmail.com>
+From: =?UTF-8?Q?Kristian_H=C3=B8gsberg?= <hoegsberg@gmail.com>
+Date: Tue, 14 Jan 2020 09:26:56 -0800
+Message-ID: <CAOeoa-f+5_OusueGLLd00oPSoL+gRyv_GxNJs_TPnrrnSzek_A@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH] drm/msm: Add syncobj support.
+To: Rob Clark <robdclark@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,165 +64,201 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+On Tue, Jan 14, 2020 at 8:41 AM Rob Clark <robdclark@chromium.org> wrote:
+>
+> On Tue, Jan 14, 2020 at 7:58 AM Jordan Crouse <jcrouse@codeaurora.org> wrote:
+> >
+> > On Tue, Jan 14, 2020 at 01:40:11AM +0100, Bas Nieuwenhuizen wrote:
+> > > On Tue, Jan 14, 2020 at 12:41 AM Jordan Crouse <jcrouse@codeaurora.org> wrote:
+> > > >
+> > > > On Mon, Jan 13, 2020 at 09:25:57PM +0100, Bas Nieuwenhuizen wrote:
+> > > > > This
+> > > > >
+> > > > > 1) Enables core DRM syncobj support.
+> > > > > 2) Adds options to the submission ioctl to wait/signal syncobjs.
+> > > > >
+> > > > > Just like the wait fence fd, this does inline waits. Using the
+> > > > > scheduler would be nice but I believe it is out of scope for
+> > > > > this work.
+> > > > >
+> > > > > Support for timeline syncobjs is implemented and the interface
+> > > > > is ready for it, but I'm not enabling it yet until there is
+> > > > > some code for turnip to use it.
+> > > > >
+> > > > > The reset is mostly in there because in the presence of waiting
+> > > > > and signalling the same semaphores, resetting them after
+> > > > > signalling can become very annoying.
+> > > > >
+> > > > > Signed-off-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+> > > > > ---
+> > > > >
+> > > > > Userspace code in
+> > > > >
+> > > > > https://gitlab.freedesktop.org/mesa/mesa/merge_requests/2769
+> > > > >
+> > > > >  drivers/gpu/drm/msm/msm_drv.c        |   6 +-
+> > > > >  drivers/gpu/drm/msm/msm_gem_submit.c | 241 ++++++++++++++++++++++++++-
+> > > > >  include/uapi/drm/msm_drm.h           |  22 ++-
+> > > > >  3 files changed, 265 insertions(+), 4 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> > > > > index c84f0a8b3f2c..ca36d6b21d8f 100644
+> > > > > --- a/drivers/gpu/drm/msm/msm_drv.c
+> > > > > +++ b/drivers/gpu/drm/msm/msm_drv.c
+> > > > > @@ -37,9 +37,10 @@
+> > > > >   * - 1.4.0 - softpin, MSM_RELOC_BO_DUMP, and GEM_INFO support to set/get
+> > > > >   *           GEM object's debug name
+> > > > >   * - 1.5.0 - Add SUBMITQUERY_QUERY ioctl
+> > > > > + * - 1.6.0 - Syncobj support
+> > > > >   */
+> > > > >  #define MSM_VERSION_MAJOR    1
+> > > > > -#define MSM_VERSION_MINOR    5
+> > > > > +#define MSM_VERSION_MINOR    6
+> > > > >  #define MSM_VERSION_PATCHLEVEL       0
+> > > > >
+> > > > >  static const struct drm_mode_config_funcs mode_config_funcs = {
+> > > > > @@ -988,7 +989,8 @@ static struct drm_driver msm_driver = {
+> > > > >       .driver_features    = DRIVER_GEM |
+> > > > >                               DRIVER_RENDER |
+> > > > >                               DRIVER_ATOMIC |
+> > > > > -                             DRIVER_MODESET,
+> > > > > +                             DRIVER_MODESET|
+> > > >
+> > > > A space before the | would be preferred.
+> > >
+> > > Done.
+> > > >
+> > > > > +                             DRIVER_SYNCOBJ,
+> > > > >       .open               = msm_open,
+> > > > >       .postclose           = msm_postclose,
+> > > > >       .lastclose          = drm_fb_helper_lastclose,
+> > > > > diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+> > > > > index be5327af16fa..9085229f88e0 100644
+> > > > > --- a/drivers/gpu/drm/msm/msm_gem_submit.c
+> > > > > +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+> > > > > @@ -8,7 +8,9 @@
+> > > > >  #include <linux/sync_file.h>
+> > > > >  #include <linux/uaccess.h>
+> > > > >
+> > > > > +#include <drm/drm_drv.h>
+> > > > >  #include <drm/drm_file.h>
+> > > > > +#include <drm/drm_syncobj.h>
+> > > > >
+> > > > >  #include "msm_drv.h"
+> > > > >  #include "msm_gpu.h"
+> > > > > @@ -394,6 +396,196 @@ static void submit_cleanup(struct msm_gem_submit *submit)
+> > > > >       ww_acquire_fini(&submit->ticket);
+> > > > >  }
+> > > > >
+> > > > > +
+> > > > > +struct msm_submit_post_dep {
+> > > > > +     struct drm_syncobj *syncobj;
+> > > > > +     uint64_t point;
+> > > > > +     struct dma_fence_chain *chain;
+> > > > > +};
+> > > > > +
+> > > > > +static int msm_wait_deps(struct drm_device *dev,
+> > > > > +                         struct drm_file *file,
+> > > > > +                         uint64_t in_syncobjs_addr,
+> > > > > +                         uint32_t nr_in_syncobjs,
+> > > > > +                         struct msm_ringbuffer *ring,
+> > > > > +                         struct drm_syncobj ***syncobjs)
+> > > > > +{
+> > > > > +     struct drm_msm_gem_submit_syncobj *syncobj_descs;
+> > > > > +     int ret = 0;
+> > > > > +     uint32_t i, j;
+> > > > > +
+> > > > > +     syncobj_descs = kmalloc_array(nr_in_syncobjs, sizeof(*syncobj_descs),
+> > > > > +                                   GFP_KERNEL);
+> > > > > +     if (!syncobj_descs)
+> > > > > +             return -ENOMEM;
+> > > > > +
+> > > > We would want to watch out here for fuzzers and malicious actors that try to
+> > > > force an enormous memory allocation. It seems like we should be able to
+> > > > iteratively read each fences in the loop and skip this memory allocation.
+> > > >
+> > > > > +     *syncobjs = kcalloc(nr_in_syncobjs, sizeof(**syncobjs), GFP_KERNEL);
+> > > > > +     if (!syncobjs) {
+> > > > > +             ret = -ENOMEM;
+> > > > > +             goto out_syncobjs;
+> > > > > +     }
+> > > >
+> > > > Alas no good way to skip this one. But it seems that syncobjs should only
+> > > > contain descriptors with MSM_SUBMIT_SYNCOBJ_RESET set. I'm not very familiar
+> > > > with how fences work so I'm not sure how common this path is. Would the same
+> > > > fuzzer or malicious actor be able to double the destruction by forcing a large
+> > > > allocation that doesn't even end up getting used?
+> > >
+> > > In real usecases I expect MSM_SUBMIT_SYNCOBJ_RESET to be set for 50%+
+> > > of the entries and the number of entries to be < 10.
+> > >
+> > > I can certainly start doing a copy_from_user per entry and save one of
+> > > the array. (I was under the impression that copy_from_user was
+> > > expensive but if it is not, okay)
+> >
+> > I guess with recent exploit mitigations it is more expensive, but it shouldn't
+> > be too bad if your nominal use cases are somewhere in the area of 10. That
+> > said...
+> >
+> > > Overall though, there is a real issue of wanting to delay all write
+> > > actions until we are sure the ioctl will succeed. That will mean we
+> > > need to have arrays that are on the order of a UINT32_MAX elements if
+> > > we assume full range on the inputs. How much is it worth trying to
+> > > squeeze the syncobjs_to_reset, given that a malicious caller could
+> > > just set all the reset flags? Especially since a malicious actor would
+> > > instead just cause large allocations in the post_deps instead which we
+> > > always need to allocate.
+> > >
+> > > What is the thread model here and what significant improvements can be
+> > > made to avoid issues?
+> >
+> > I'm mostly worried about dealing with fuzzers who will throw you the full u32
+> > range and I'm always worried about providing easy ways for non-trusted users to
+> > exert memory pressure.
+> >
+> > > The only thing I could think of is that by doing krealloc we require
+> > > the user to commit to using similar amount of memory in userspace.
+> > > However, that comes at the significant complexity cost of handling
+> > > reallocing and handling the failures of that.
+> >
+> > If there needs to be a 1:1 relationship between the user and the kernel then
+> > I agree krealloc isn't a great idea.
+> >
+> > > Thoughts?
+> >
+> > Should we just stick with the classics and restrict the maximum number of fences
+> > to a fixed number? 50?  128? You would want the synobjs allocation to fit within
+> > a page anyway so 4096 / sizeof(struct drm_syncobj) might be a good start.
+> > Assuming we don't run up against any angry tests that try to allocate hundreds
+> > of fences this should do and you don't have to worry about the copy_to_user cost
+> > you mention above.
+> >
+>
+> I suppose in the end it isn't *too* much different from the existing
+> bos/cmds tables on the submit ioctl, is it?  Maybe we should be caring
+> about those too, but we don't currently.
+>
+> Is there a way to allocate memory on the kernel side which abides by
+> userspace process limits?  That kinda sounds like what we need here.
 
-This time around:
+Alternatively we can use the fixed-size-bulk copy pattern where we
+allocate a page, copy as many fences as will fit, process them,
+iterate. We still get a bulk copy from userspace, we have a fixed size
+kernel allocation but we don't restrict the number of fences.
 
-+ sc7180 display + DSI support
-+ a618 (sc7180) support
-+ more UBWC (bandwidth compression) support
-+ various cleanups to handle devices that use vs don't
-  use zap fw, etc
-+ usual random cleanups and fixes
-
-
-The following changes since commit fd6988496e79a6a4bdb514a4655d2920209eb85d:
-
-  Linux 5.5-rc4 (2019-12-29 15:29:16 -0800)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/msm.git drm-msm-next-2020-01-14
-
-for you to fetch changes up to 5f9935f514d66ddba868e587d9e976a567232547:
-
-  drm/msm: Fix error about comments within a comment block (2020-01-13
-16:06:00 -0800)
-
-----------------------------------------------------------------
-Brian Masney (4):
-      dt-bindings: drm/msm/gpu: document second interconnect
-      drm/msm/gpu: add support for ocmem interconnect path
-      drm/msm/a3xx: set interconnect bandwidth vote
-      drm/msm/a4xx: set interconnect bandwidth vote
-
-Douglas Anderson (1):
-      drm/msm: Fix error about comments within a comment block
-
-Drew Davenport (6):
-      drm/msm/dpu: Remove unnecessary NULL checks
-      drm/msm/dpu: Remove unnecessary NULL checks
-      drm/msm/dpu: Remove unnecessary NULL checks
-      drm/msm/dpu: Remove unnecessary NULL check
-      drm/msm/dpu: Remove unreachable code
-      drm/msm/dpu: Remove unnecessary NULL checks
-
-Fabio Estevam (1):
-      drm/msm/adreno: Do not print error on "qcom, gpu-pwrlevels" absence
-
-Fritz Koenig (2):
-      drm/msm/dpu: Add UBWC support for RGB8888 formats
-      drm/msm/dpu: Allow UBWC on NV12
-
-Harigovindan P (2):
-      drm/msm: add DSI support for sc7180
-      drm/msm: update LANE_CTRL register value from default value
-
-John Stultz (1):
-      drm: msm: Quiet down plane errors in atomic_check
-
-Kalyan Thota (4):
-      dt-bindings: msm:disp: add sc7180 DPU variant
-      msm:disp:dpu1: add support for display for SC7180 target
-      msm:disp:dpu1: setup display datapath for SC7180 target
-      msm:disp:dpu1: add mixer selection for display topology
-
-Nathan Chancellor (1):
-      drm: msm: mdp4: Adjust indentation in mdp4_dsi_encoder_enable
-
-Rob Clark (7):
-      drm/msm/dpu: ignore NULL clocks
-      drm/msm/a6xx: restore previous freq on resume
-      drm/msm/adreno: fix zap vs no-zap handling
-      drm/msm/dsi: split clk rate setting and enable
-      drm/msm: support firmware-name for zap fw (v2)
-      drm/msm: allow zapfw to not be specified in gpulist
-      dt-bindings: drm/msm/gpu: Document firmware-name
-
-Sharat Masetty (3):
-      drm: msm: Add 618 gpu to the adreno gpu list
-      drm: msm: a6xx: Add support for A618
-      drm: msm: a6xx: Dump GBIF registers, debugbus in gpu state
-
-Shubhashree Dhar (3):
-      msm: disp: dpu1: add support to access hw irqs regs depending on revision
-      msm:disp:dpu1: add scaler support on SC7180 display
-      msm:disp:dpu1: Fix core clk rate in display driver
-
-Stephan Gerhold (1):
-      drm/msm/dsi: Delay drm_panel_enable() until dsi_mgr_bridge_enable()
-
-Stephen Boyd (1):
-      drm/msm/dpu: Mark various data tables as const
-
-Wambui Karuga (1):
-      drm/msm: use BUG_ON macro for debugging.
-
-zhengbin (4):
-      drm/msm/hdmi: Remove unneeded semicolon
-      drm/msm/mdp5: Remove unneeded semicolon
-      drm/msm/dpu: Remove unneeded semicolon in dpu_plane.c
-      drm/msm/dpu: Remove unneeded semicolon in dpu_encoder.c
-
- .../devicetree/bindings/display/msm/dpu.txt        |   4 +-
- .../devicetree/bindings/display/msm/gpu.txt        |   9 +-
- drivers/gpu/drm/msm/adreno/a3xx_gpu.c              |   8 +
- drivers/gpu/drm/msm/adreno/a4xx_gpu.c              |   8 +
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c              |  11 +-
- drivers/gpu/drm/msm/adreno/a6xx.xml.h              |  52 ++++-
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c              |  32 ++-
- drivers/gpu/drm/msm/adreno/a6xx_gmu.h              |   3 +
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c              |  81 ++++++-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.h              |   9 +-
- drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c        |  52 ++++-
- drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h        |  16 +-
- drivers/gpu/drm/msm/adreno/adreno_device.c         |  11 +
- drivers/gpu/drm/msm/adreno/adreno_gpu.c            |  66 ++++--
- drivers/gpu/drm/msm/adreno/adreno_gpu.h            |  17 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |  15 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 186 +++++++---------
- .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c   |  73 ++-----
- .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   |  73 +++----
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c        |  18 ++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     | 241 ++++++++++++++++++---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |  38 ++--
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog_format.h  |   4 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         |  92 +++++++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h         |  26 ++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c  |  22 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h  |   1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        |  36 ++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h        |   8 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c          |  13 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h          |   2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c    |   8 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h    |   2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c        |   8 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h        |   5 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_io_util.c        |  27 +--
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          |  34 ++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c             |   6 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c           |   6 +-
- drivers/gpu/drm/msm/disp/mdp4/mdp4_dsi_encoder.c   |   2 +-
- drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c           |   2 +-
- drivers/gpu/drm/msm/dsi/dsi.h                      |   2 +
- drivers/gpu/drm/msm/dsi/dsi_cfg.c                  |  24 ++
- drivers/gpu/drm/msm/dsi/dsi_cfg.h                  |   2 +
- drivers/gpu/drm/msm/dsi/dsi_host.c                 |  46 ++--
- drivers/gpu/drm/msm/dsi/dsi_manager.c              |  62 ++++--
- drivers/gpu/drm/msm/hdmi/hdmi_connector.c          |   2 +-
- drivers/gpu/drm/msm/msm_drv.c                      |   4 +-
- drivers/gpu/drm/msm/msm_gpu.h                      |   7 +
- 50 files changed, 1049 insertions(+), 428 deletions(-)
+> BR,
+> -R
+> _______________________________________________
+> Freedreno mailing list
+> Freedreno@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/freedreno
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
