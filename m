@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 005E113B64D
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 01:01:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 111D313B6A6
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 02:02:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34AE86E5D4;
-	Wed, 15 Jan 2020 00:01:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC5766E7F1;
+	Wed, 15 Jan 2020 01:01:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76E5D6E5D4
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 00:01:36 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EFF06E457;
+ Wed, 15 Jan 2020 01:01:50 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 14 Jan 2020 16:01:35 -0800
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 14 Jan 2020 17:01:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,320,1574150400"; d="scan'208";a="219091069"
-Received: from labuser-z97x-ud5h.jf.intel.com (HELO intel.com)
- ([10.165.21.211])
- by fmsmga007.fm.intel.com with ESMTP; 14 Jan 2020 16:01:35 -0800
-Date: Tue, 14 Jan 2020 16:02:55 -0800
-From: Manasi Navare <manasi.d.navare@intel.com>
-To: Harry Wentland <hwentlan@amd.com>
-Subject: Re: [PATCH v2] drm/dp: Add function to parse EDID descriptors for
- adaptive sync limits
-Message-ID: <20200115000255.GE27746@intel.com>
-References: <20200108003208.18706-1-manasi.d.navare@intel.com>
- <87y2ugodox.fsf@intel.com> <20200110224338.GA16729@intel.com>
- <5d1ef8d1-4ef2-6b85-2893-d1c2276e4b70@amd.com>
+X-IronPort-AV: E=Sophos;i="5.70,320,1574150400"; d="scan'208";a="217940885"
+Received: from unknown (HELO localhost.jf.intel.com) ([10.166.29.74])
+ by orsmga008.jf.intel.com with ESMTP; 14 Jan 2020 17:01:49 -0800
+From: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
+To: akeem.g.abodunrin@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, omer.aran@intel.com,
+ pragyansri.pathi@intel.com, d.scott.phillips@intel.com,
+ david.c.stewart@intel.com, tony.luck@intel.com, jon.bloomfield@intel.com,
+ sudeep.dutt@intel.com, daniel.vetter@intel.com, joonas.lahtinen@intel.com,
+ jani.nikula@intel.com, chris.p.wilson@intel.com,
+ prathap.kumar.valsan@intel.com, mika.kuoppala@intel.com,
+ francesco.balestrieri@intel.com
+Subject: [RFC PATCH v2 0/2] Security mitigation for Intel Gen7 HWs
+Date: Tue, 14 Jan 2020 09:45:46 -0800
+Message-Id: <20200114174549.74643-1-akeem.g.abodunrin@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <5d1ef8d1-4ef2-6b85-2893-d1c2276e4b70@amd.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,243 +47,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, "Kazlauskas,
- Nicholas" <Nicholas.Kazlauskas@amd.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 14, 2020 at 08:31:22AM -0500, Harry Wentland wrote:
-> Fixing Nick's email.
-> =
-
-> On 2020-01-10 5:43 p.m., Manasi Navare wrote:
-> > On Thu, Jan 09, 2020 at 05:24:30PM +0200, Jani Nikula wrote:
-> >> On Tue, 07 Jan 2020, Manasi Navare <manasi.d.navare@intel.com> wrote:
-> >>> Adaptive Sync is a VESA feature so add a DRM core helper to parse
-> >>> the EDID's detailed descritors to obtain the adaptive sync monitor ra=
-nge.
-> >>> Store this info as part fo drm_display_info so it can be used
-> >>> across all drivers.
-> >>> This part of the code is stripped out of amdgpu's function
-> >>> amdgpu_dm_update_freesync_caps() to make it generic and be used
-> >>> across all DRM drivers
-> >>>
-> >>> v2:
-> >>> * Change vmin and vmax to use u8 (Ville)
-> >>> * Dont store pixel clock since that is just a max dotclock
-> >>> and not related to VRR mode (Manasi)
-> >>>
-> >>> Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> >>> Cc: Harry Wentland <harry.wentland@amd.com>
-> >>> Cc: Clinton A Taylor <clinton.a.taylor@intel.com>
-> >>> Cc: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-> >>> Signed-off-by: Manasi Navare <manasi.d.navare@intel.com>
-> >>> ---
-> >>>  drivers/gpu/drm/drm_edid.c  | 51 +++++++++++++++++++++++++++++++++++=
-++
-> >>>  include/drm/drm_connector.h | 22 ++++++++++++++++
-> >>>  include/drm/drm_edid.h      |  2 ++
-> >>>  3 files changed, 75 insertions(+)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> >>> index 99769d6c9f84..52781a0e708b 100644
-> >>> --- a/drivers/gpu/drm/drm_edid.c
-> >>> +++ b/drivers/gpu/drm/drm_edid.c
-> >>> @@ -4880,6 +4880,54 @@ static void drm_parse_cea_ext(struct drm_conne=
-ctor *connector,
-> >>>  	}
-> >>>  }
-> >>>  =
-
-> >>> +void drm_get_adaptive_sync_limits(struct drm_connector *connector,
-> >>> +				  const struct edid *edid)
-> >>> +{
-> >>> +	struct drm_display_info *info =3D &connector->display_info;
-> >>> +	const struct detailed_timing *timing;
-> >>> +	const struct detailed_non_pixel *data;
-> >>> +	const struct detailed_data_monitor_range *range;
-> >>> +	int i;
-> >>> +
-> >>> +	/*
-> >>> +	 * Restrict Adaptive Sync only for dp and edp
-> >>> +	 */
-> >>> +	if (connector->connector_type !=3D DRM_MODE_CONNECTOR_DisplayPort &&
-> >>> +	    connector->connector_type !=3D DRM_MODE_CONNECTOR_eDP)
-> >>> +		return;
-> >>> +
-> >>> +	if (edid->version <=3D 1 && !(edid->version =3D=3D 1 && edid->revis=
-ion > 1))
-> >>> +		return;
-> >>> +
-> >>> +	for (i =3D 0; i < 4; i++) {
-> >>> +		timing  =3D &edid->detailed_timings[i];
-> >>> +		data    =3D &timing->data.other_data;
-> >>> +		range   =3D &data->data.range;
-> >>> +		/*
-> >>> +		 * Check if monitor has continuous frequency mode
-> >>> +		 */
-> >>> +		if (data->type !=3D EDID_DETAIL_MONITOR_RANGE)
-> >>> +			continue;
-> >>> +		/*
-> >>> +		 * Check for flag range limits only. If flag =3D=3D 1 then
-> >>> +		 * no additional timing information provided.
-> >>> +		 * Default GTF, GTF Secondary curve and CVT are not
-> >>> +		 * supported
-> >>> +		 */
-> >>> +		if (range->flags !=3D 1)
-> >>> +			continue;
-> >>> +
-> >>> +		info->adaptive_sync.min_vfreq =3D range->min_vfreq;
-> >>> +		info->adaptive_sync.max_vfreq =3D range->max_vfreq;
-> >>> +
-> >>> +		DRM_DEBUG_KMS("Adaptive Sync refresh rate range is %d Hz - %d Hz\n=
-",
-> >>> +			      info->adaptive_sync.min_vfreq,
-> >>> +			      info->adaptive_sync.max_vfreq);
-> >>> +		break;
-> >>> +	}
-> >>> +}
-> >>> +EXPORT_SYMBOL(drm_get_adaptive_sync_limits);
-> >>
-> >> Why the export? Rather, why is this not static?
-> >>
-> > =
-
-> > I could make it static but since the way AMDGPU code is written right n=
-ow they
-> > would be calling this function explicitly to populate the vmin and vmax=
- in their local
-> > structs but I can make it static and with some minor refactoring they s=
-hould be able to
-> > use thsi infor directly from drm_display_info
-> > =
-
-> =
-
-> Calling this through drm_add_edid_modes should be sufficient for us.
-> We'll just need to move amdgpu_dm_update_freesync_caps to our get_modes
-> function.
-
-Thanks Harry, Would you or Nick make these changes as follow up changes aft=
-er this patch lands?
-Since it might be easier for you to figure out where to accomodate the chan=
-ges in amdgpu.
-
-Manasi
-
-
-> =
-
-> Dropping the export here seems to be the right thing to do.
-> =
-
-> Harry
-> =
-
-> > Manasi
-> >  =
-
-> >> BR,
-> >> Jani.
-> >>
-> >>> +
-> >>>  /* A connector has no EDID information, so we've got no EDID to comp=
-ute quirks from. Reset
-> >>>   * all of the values which would have been set from EDID
-> >>>   */
-> >>> @@ -4901,6 +4949,7 @@ drm_reset_display_info(struct drm_connector *co=
-nnector)
-> >>>  	memset(&info->hdmi, 0, sizeof(info->hdmi));
-> >>>  =
-
-> >>>  	info->non_desktop =3D 0;
-> >>> +	memset(&info->adaptive_sync, 0, sizeof(info->adaptive_sync));
-> >>>  }
-> >>>  =
-
-> >>>  u32 drm_add_display_info(struct drm_connector *connector, const stru=
-ct edid *edid)
-> >>> @@ -4916,6 +4965,8 @@ u32 drm_add_display_info(struct drm_connector *=
-connector, const struct edid *edi
-> >>>  =
-
-> >>>  	info->non_desktop =3D !!(quirks & EDID_QUIRK_NON_DESKTOP);
-> >>>  =
-
-> >>> +	drm_get_adaptive_sync_limits(connector, edid);
-> >>> +
-> >>>  	DRM_DEBUG_KMS("non_desktop set to %d\n", info->non_desktop);
-> >>>  =
-
-> >>>  	if (edid->revision < 3)
-> >>> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> >>> index 221910948b37..77df404a2e01 100644
-> >>> --- a/include/drm/drm_connector.h
-> >>> +++ b/include/drm/drm_connector.h
-> >>> @@ -254,6 +254,23 @@ enum drm_panel_orientation {
-> >>>  	DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
-> >>>  };
-> >>>  =
-
-> >>> +/**
-> >>> + * struct drm_adaptive_sync_info - Panel's Adaptive Sync capabilitie=
-s for
-> >>> + * &drm_display_info
-> >>> + *
-> >>> + * This struct is used to store a Panel's Adaptive Sync capabilities
-> >>> + * as parsed from EDID's detailed monitor range descriptor block.
-> >>> + *
-> >>> + * @min_vfreq: This is the min supported refresh rate in Hz from
-> >>> + *             EDID's detailed monitor range.
-> >>> + * @max_vfreq: This is the max supported refresh rate in Hz from
-> >>> + *             EDID's detailed monitor range
-> >>> + */
-> >>> +struct drm_adaptive_sync_info {
-> >>> +	u8 min_vfreq;
-> >>> +	u8 max_vfreq;
-> >>> +};
-> >>> +
-> >>>  /*
-> >>>   * This is a consolidated colorimetry list supported by HDMI and
-> >>>   * DP protocol standard. The respective connectors will register
-> >>> @@ -465,6 +482,11 @@ struct drm_display_info {
-> >>>  	 * @non_desktop: Non desktop display (HMD).
-> >>>  	 */
-> >>>  	bool non_desktop;
-> >>> +
-> >>> +	/**
-> >>> +	 * @adaptive_sync: Adaptive Sync capabilities of the DP/eDP sink
-> >>> +	 */
-> >>> +	struct drm_adaptive_sync_info adaptive_sync;
-> >>>  };
-> >>>  =
-
-> >>>  int drm_display_info_set_bus_formats(struct drm_display_info *info,
-> >>> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-> >>> index f0b03d401c27..b9a230aa3e69 100644
-> >>> --- a/include/drm/drm_edid.h
-> >>> +++ b/include/drm/drm_edid.h
-> >>> @@ -503,4 +503,6 @@ void drm_edid_get_monitor_name(struct edid *edid,=
- char *name,
-> >>>  struct drm_display_mode *drm_mode_find_dmt(struct drm_device *dev,
-> >>>  					   int hsize, int vsize, int fresh,
-> >>>  					   bool rb);
-> >>> +void drm_get_adaptive_sync_limits(struct drm_connector *connector,
-> >>> +				  const struct edid *edid);
-> >>>  #endif /* __DRM_EDID_H__ */
-> >>
-> >> -- =
-
-> >> Jani Nikula, Intel Open Source Graphics Center
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> > =
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SW50ZWwgSUQ6IFBTSVJULVRBLTIwMTkxMC0wMDEKQ1ZFSUQ6IENWRS0yMDE5LTE0NjE1CgpTdW1t
+YXJ5IG9mIFZ1bG5lcmFiaWxpdHkKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCkluc3VmZmljaWVu
+dCBjb250cm9sIGZsb3cgaW4gY2VydGFpbiBkYXRhIHN0cnVjdHVyZXMgZm9yIHNvbWUgSW50ZWwo
+UikKUHJvY2Vzc29ycyB3aXRoIEludGVsIFByb2Nlc3NvciBHcmFwaGljcyBtYXkgYWxsb3cgYW4g
+dW5hdXRoZW50aWNhdGVkCnVzZXIgdG8gcG90ZW50aWFsbHkgZW5hYmxlIGluZm9ybWF0aW9uIGRp
+c2Nsb3N1cmUgdmlhIGxvY2FsIGFjY2VzcwoKUHJvZHVjdHMgYWZmZWN0ZWQ6Ci0tLS0tLS0tLS0t
+LS0tLS0tLQpJbnRlbCBDUFXigJlzIHdpdGggR2VuNywgR2VuNy41IGFuZCBHZW45IEdyYXBoaWNz
+LgoKTWl0aWdhdGlvbiBTdW1tYXJ5Ci0tLS0tLS0tLS0tLS0tLS0tLQpUaGlzIHBhdGNoIHByb3Zp
+ZGVzIG1pdGlnYXRpb24gZm9yIEdlbjcgYW5kIEdlbjcuNSBoYXJkd2FyZSBvbmx5LgpQYXRjaCBm
+b3IgR2VuOSBkZXZpY2VzIGhhdmUgYmVlbiBwcm92aWRlZCBhbmQgbWVyZ2VkIHRvIExpbnV4IG1h
+aW5saW5lLAphbmQgYmFja3BvcnRlZCB0byBzdGFibGUga2VybmVscy4KTm90ZSB0aGF0IEdlbjgg
+aXMgbm90IGltcGFjdGVkIGR1ZSB0byBhIHByZXZpb3VzbHkgaW1wbGVtZW50ZWQKd29ya2Fyb3Vu
+ZC4KClRoZSBtaXRpZ2F0aW9uIGludm9sdmVzIHN1Ym1pdHRpbmcgYSBjdXN0b20gRVUga2VybmVs
+IHByaW9yIHRvIGV2ZXJ5CmNvbnRleHQgcmVzdG9yZSwgaW4gb3JkZXIgdG8gZm9yY2libHkgY2xl
+YXIgZG93biByZXNpZHVhbCBFVSBhbmQgVVJCCnJlc291cmNlcy4KClRoaXMgaXMgY3VycmVudGx5
+IGFuIFJGQyB3aGlsZSBtb3JlIGFuYWx5c2lzIGlzIHBlcmZvcm1lZCBvbiB0aGUKcGVyZm9ybWFu
+Y2UgaW1wbGljYXRpb25zLgoKTm90ZSBvbiBBZGRyZXNzIFNwYWNlIElzb2xhdGlvbiAoRnVsbCBQ
+UEdUVCkKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KCklzb2xh
+dGlvbiBvZiBFVSBrZXJuZWwgYXNzZXRzIHNob3VsZCBiZSBjb25zaWRlcmVkIGNvbXBsZW1lbnRh
+cnkgdG8gdGhlCmV4aXN0aW5nIHN1cHBvcnQgZm9yIGFkZHJlc3Mgc3BhY2UgaXNvbGF0aW9uIChh
+a2EgRnVsbCBQUEdUVCksIHNpbmNlCndpdGhvdXQgYWRkcmVzcyBzcGFjZSBpc29sYXRpb24gdGhl
+cmUgaXMgbWluaW1hbCB2YWx1ZSBpbiBwcmV2ZW50aW5nCmxlYWthZ2UgYmV0d2VlbiBFVSBjb250
+ZXh0cy4gRnVsbCBQUEdUVCBoYXMgbG9uZyBiZWVuIHN1cHBvcnRlZCBvbiBHZW4KR2Z4IGRldmlj
+ZXMgc2luY2UgR2VuOCwgYW5kIHByb3RlY3Rpb24gYWdhaW5zdCBFVSByZXNpZHVhbCBsZWFrYWdl
+IGlzIGEKd2VsY29tZSBhZGRpdGlvbiBmb3IgdGhlc2UgbmV3ZXIgcGxhdGZvcm1zLgoKQnkgY29u
+dHJhc3QsIEdlbjcgYW5kIEdlbjcuNSBkZXZpY2UgaW50cm9kdWNlZCBGdWxsIFBQR1RUIHN1cHBv
+cnQgb25seQphcyBhIGhhcmR3YXJlIGRldmVsb3BtZW50IGZlYXR1cmUgZm9yIGFudGljaXBhdGVk
+IEdlbjggcHJvZHVjdGl6YXRpb24uClN1cHBvcnQgd2FzIG5ldmVyIGludGVuZGVkIGZvciwgb3Ig
+cHJvdmlkZWQgdG8gdGhlIExpbnV4IGtlcm5lbHMgZm9yCnRoZXNlIHBsYXRmb3Jtcy4gUmVjZW50
+IHdvcmsgKHN0aWxsIG9uZ29pbmcpIHRvIHRoZSBtYWlubGluZSBrZXJuZWwgaXMKcmV0cm9hY3Rp
+dmVseSBwcm92aWRpbmcgdGhpcyBzdXBwb3J0LCBidXQgZHVlIHRvIHRoZSBsZXZlbCBvZiBjb21w
+bGV4aXR5Cml0IGlzIG5vdCBwcmFjdGljYWwgdG8gYXR0ZW1wdCB0byBiYWNrcG9ydCB0aGlzIHRv
+IGVhcmxpZXIgc3RhYmxlCmtlcm5lbHMuIFNpbmNlIHdpdGhvdXQgRnVsbCBQUEdUVCwgRVUgcmVz
+aWR1YWxzIHByb3RlY3Rpb24gaGFzCnF1ZXN0aW9uYWJsZSBiZW5lZml0LCAqdGhlcmUgYXJlIG5v
+IHBsYW5zIHRvIHByb3ZpZGUgc3RhYmxlIGtlcm5lbApiYWNrcG9ydHMgZm9yIHRoaXMgcGF0Y2gg
+c2VyaWVzLioKClYyOiBBZGRyZXNzZWQgY29tbWVudHMgYWJvdXQgdW51c2VkIGNvZGUsIGNvZGUg
+Zm9ybWF0dGluZywgYW5kIGluY2x1ZGUKYWRkaXRpb25hbCBkZWJ1ZyBjb2RlCgpNaWthIEt1b3Bw
+YWxhICgxKToKICBkcm0vaTkxNTogQWRkIG1lY2hhbmlzbSB0byBzdWJtaXQgYSBjb250ZXh0IFdB
+IG9uIHJpbmcgc3VibWlzc2lvbgoKUHJhdGhhcCBLdW1hciBWYWxzYW4gKDEpOgogIGRybS9pOTE1
+L2dlbjc6IENsZWFyIGFsbCBFVS9MMyByZXNpZHVhbCBjb250ZXh0cwoKIGRyaXZlcnMvZ3B1L2Ry
+bS9pOTE1L01ha2VmaWxlICAgICAgICAgICAgICAgICB8ICAgMSArCiBkcml2ZXJzL2dwdS9kcm0v
+aTkxNS9ndC9nZW43X3JlbmRlcmNsZWFyLmMgICAgfCA1MTUgKysrKysrKysrKysrKysrKysrCiBk
+cml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9nZW43X3JlbmRlcmNsZWFyLmggICAgfCAgMTYgKwogZHJp
+dmVycy9ncHUvZHJtL2k5MTUvZ3QvaW50ZWxfZ3B1X2NvbW1hbmRzLmggIHwgIDE3ICstCiAuLi4v
+Z3B1L2RybS9pOTE1L2d0L2ludGVsX3Jpbmdfc3VibWlzc2lvbi5jICAgfCAxMDMgKysrLQogZHJp
+dmVycy9ncHUvZHJtL2k5MTUvaTkxNV91dGlscy5oICAgICAgICAgICAgIHwgICA1ICsKIDYgZmls
+ZXMgY2hhbmdlZCwgNjUxIGluc2VydGlvbnMoKyksIDYgZGVsZXRpb25zKC0pCiBjcmVhdGUgbW9k
+ZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3QvZ2VuN19yZW5kZXJjbGVhci5jCiBjcmVh
+dGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3QvZ2VuN19yZW5kZXJjbGVhci5o
+CgotLSAKMi4yMC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWwK
