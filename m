@@ -2,89 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAE3013AC45
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2020 15:25:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDE3A13ACB1
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2020 15:55:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B259B89C96;
-	Tue, 14 Jan 2020 14:25:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60C3C6E3FE;
+	Tue, 14 Jan 2020 14:55:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BL2-obe.outbound.protection.outlook.com
- (mail-eopbgr750049.outbound.protection.outlook.com [40.107.75.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05FD389C96
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2020 14:25:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=M4b9WDswJeBFIHUx27zXWI7QwhYs6BBmwU0rJf1Lxtfa0L/ZicmPUAukMwJELZEvNuuoAx3g7npPnA/AwERvRCSbhhmiIWlrFjHnP2ikbzIM/v4jSDysPuRgyYqHE6Mh+plu3cCQXo5BfMJn8qJk3brk5GXSt5LVeaPe178fIoN0kdF8IG1qaMBJSbx909/4Z7OxF3XP+l6DblQiJQFMhsNamUzbrb6sJl2KScvMbieUhRiNnp2E2PJkzSbnGhLcDFRY8IKTEteD5/NsOnGx6UnEuDarNGYqlxffyTvAWthNHTtYo6vMLUOobncW7dTy1FZIJi5I6z/8iE9VALEcFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/VjvhfhyD3YUD1Zeh/gTBZXBc4ICXteSfBplXWOFNlQ=;
- b=PpZJAfLjwNqbOTpFKd2slNbC0/Ju7fR5sThj5HK8C29r8c1W3II0oDh+LRT/51x67zQDElWLlNTMPVTlUvt4o+pnpmy1oOnIOGxh7D0fh3Vh4qQQaUzV4Yy/6oiWL7FsCxlxYVPhgpcGu8Tlc1sMXFGMTQ/zaeFEZk0O0huEHq1LM6IxIJ6N03BItIzGh8GyiD0u9jrUEWunU6sw5H4OsidnXGKdc3KnfRB1OruarGJfvM0SCFMe8bBhTXCEMREppLBUxTPQJiR94xmTU3S5kam3YNeBY15nwHlIQEgFT+kSrfE1YiUFVPDD7qFrcuibXvJedinG3QW7GeiZW4zbLA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/VjvhfhyD3YUD1Zeh/gTBZXBc4ICXteSfBplXWOFNlQ=;
- b=a+GE1RT0JuVBaWXG/CQZos3sFj9pX///nhBk7eDSWtmvg9XtHMfu0NOCTVzfc1FlsCZMtPBBNfwSkcJ0xhbbX6gbmSqPL3jk+/8onWsWQR2HKFqaOPtGY1nfr5aExYQOimlXI+LCv4zr1zTge2k0uQ6JCrp5cbiAOWp5l/3pGl8=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Christian.Koenig@amd.com; 
-Received: from DM5PR12MB1705.namprd12.prod.outlook.com (10.175.88.22) by
- DM5PR12MB2472.namprd12.prod.outlook.com (52.132.143.167) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2623.9; Tue, 14 Jan 2020 14:25:39 +0000
-Received: from DM5PR12MB1705.namprd12.prod.outlook.com
- ([fe80::8dde:b52a:d97a:e89]) by DM5PR12MB1705.namprd12.prod.outlook.com
- ([fe80::8dde:b52a:d97a:e89%2]) with mapi id 15.20.2623.015; Tue, 14 Jan 2020
- 14:25:39 +0000
-Subject: Re: [PATCH v2] drm/syncobj: Add documentation for timeline syncobj
-To: Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- dri-devel@lists.freedesktop.org
-References: <20200114121928.251434-1-lionel.g.landwerlin@intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <6b017f69-c798-40dc-aea6-ac6bcb3a49bf@amd.com>
-Date: Tue, 14 Jan 2020 15:25:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-In-Reply-To: <20200114121928.251434-1-lionel.g.landwerlin@intel.com>
-Content-Language: en-US
-X-ClientProxiedBy: ZRAP278CA0008.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:10::18) To DM5PR12MB1705.namprd12.prod.outlook.com
- (2603:10b6:3:10c::22)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68FE26E3FE;
+ Tue, 14 Jan 2020 14:55:46 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 14 Jan 2020 06:55:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,433,1571727600"; d="scan'208";a="242495126"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga002.jf.intel.com with SMTP; 14 Jan 2020 06:55:42 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 14 Jan 2020 16:55:41 +0200
+Date: Tue, 14 Jan 2020 16:55:41 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH v3] drm/i915: Re-init lspcon after HPD if lspcon probe
+ failed
+Message-ID: <20200114145541.GW13686@intel.com>
+References: <20191224084251.28414-1-kai.heng.feng@canonical.com>
+ <85235F00-7FBA-46E4-B7A5-45294DE1B824@canonical.com>
+ <87ftgiku03.fsf@intel.com>
 MIME-Version: 1.0
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- ZRAP278CA0008.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:10::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2623.9 via Frontend Transport; Tue, 14 Jan 2020 14:25:37 +0000
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: d42ef23e-bd4e-4515-62ba-08d798fda0a5
-X-MS-TrafficTypeDiagnostic: DM5PR12MB2472:|DM5PR12MB2472:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM5PR12MB2472F765C0468EB242B7157183340@DM5PR12MB2472.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-Forefront-PRVS: 028256169F
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10009020)(4636009)(366004)(189003)(199004)(6486002)(36756003)(8936002)(2616005)(2906002)(4326008)(52116002)(86362001)(31696002)(5660300002)(54906003)(66556008)(186003)(8676002)(81166006)(66476007)(498600001)(31686004)(66946007)(16526019)(6666004)(81156014);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR12MB2472;
- H:DM5PR12MB1705.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: NXwChKkqQnW3EyI17PE4uTthCSv0EuCRs3+f9HO07pllYxZXnwpA2Y9kU+5qMKxBfjbwdkDTdNLFFyFFqz44w47Bb9chjnATdwpvbBs7JWQrmNnywbnTPvPHe6AAIRJr88EPmCz6HWtivJrFQpFLt0PPdwQF5X7J+nWnaW/cEqZXSgxd4I9zKaib/IbY/tn2JLOlB/Zl+vosTSwCrMKcOFcDvS9S4uWsd5nqlNw45CBYltxx/U+TAL+qC38SSczHwH2cx+wgjhZ2IyFm7a92b4ig5AyiR/V7oaiOJxf35Ka8Za99qw5eQA6b/I1hbVPPxc9ozRt32cvr9xNQO8oRLMOvxP/zKJt5axaIWHcmBDcIUJdroi/9xbzBQcWA43ABva92eHA90mrWl9xJfvW0ownIrBzNlGsXIRn8MJmhdZ52pzXchI0f6oLQAB3A/h82
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d42ef23e-bd4e-4515-62ba-08d798fda0a5
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2020 14:25:38.9463 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zASWiGnfr0LGgZ+J7lRAdaI0C5PtGaQCU+doJlf7WAcn1zDdwUo2+miIAsYrkXqa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2472
+Content-Disposition: inline
+In-Reply-To: <87ftgiku03.fsf@intel.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,135 +50,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jason Ekstrand <jason@jlekstrand.net>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: airlied@linux.ie, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, swati2.sharma@intel.com,
+ Kai-Heng Feng <kai.heng.feng@canonical.com>, dri-devel@lists.freedesktop.org,
+ rodrigo.vivi@intel.com
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMTQuMDEuMjAgdW0gMTM6MTkgc2NocmllYiBMaW9uZWwgTGFuZHdlcmxpbjoKPiBXZSd2ZSBh
-ZGRlZCBhIHNldCBvZiBuZXcgQVBJcyB0byBtYW5pcHVsYXRlIHN5bmNvYmpzIGhvbGRpbmcgdGlt
-ZWxpbmVzCj4gb2YgZG1hX2ZlbmNlLiBUaGlzIGFkZHMgYSBiaXQgb2YgZG9jdW1lbnRhdGlvbiBh
-Ym91dCBob3cgdGhpcyB3b3Jrcy4KPgo+IHYyOiBTbWFsbCBsYW5ndWFnZSBuaXRzIChMaW9uZWwp
-Cj4KPiBTaWduZWQtb2ZmLWJ5OiBMaW9uZWwgTGFuZHdlcmxpbiA8bGlvbmVsLmcubGFuZHdlcmxp
-bkBpbnRlbC5jb20+Cj4gQ2M6IENocmlzdGlhbiBLb2VuaWcgPENocmlzdGlhbi5Lb2VuaWdAYW1k
-LmNvbT4KPiBDYzogSmFzb24gRWtzdHJhbmQgPGphc29uQGpsZWtzdHJhbmQubmV0Pgo+IENjOiBE
-YXZpZChDaHVuTWluZykgWmhvdSA8RGF2aWQxLlpob3VAYW1kLmNvbT4KClJldmlld2VkLWJ5OiBD
-aHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cgo+IC0tLQo+ICAgZHJp
-dmVycy9ncHUvZHJtL2RybV9zeW5jb2JqLmMgfCA4NyArKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKy0tLS0tLQo+ICAgMSBmaWxlIGNoYW5nZWQsIDc0IGluc2VydGlvbnMoKyksIDEzIGRlbGV0
-aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fc3luY29iai5jIGIv
-ZHJpdmVycy9ncHUvZHJtL2RybV9zeW5jb2JqLmMKPiBpbmRleCA2NjljOTNmZTI1MDAuLjQyZDQ2
-NDE0Zjc2NyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3N5bmNvYmouYwo+ICsr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fc3luY29iai5jCj4gQEAgLTQzLDI3ICs0Myw2NiBAQAo+
-ICAgICogIC0gU2lnbmFsIGEgc3luY29iaiAoc2V0IGEgdHJpdmlhbGx5IHNpZ25hbGVkIGZlbmNl
-KQo+ICAgICogIC0gV2FpdCBmb3IgYSBzeW5jb2JqJ3MgZmVuY2UgdG8gYXBwZWFyIGFuZCBiZSBz
-aWduYWxlZAo+ICAgICoKPiArICogVGhlIHN5bmNvYmogdXNlcnNwYWNlIEFQSSBhbHNvIHByb3Zp
-ZGVzIG9wZXJhdGlvbnMgdG8gbWFuaXB1bGF0ZSBhIHN5bmNvYmoKPiArICogaW4gdGVybXMgb2Yg
-YSB0aW1lbGluZSBvZiBzdHJ1Y3QgJmRtYV9mZW5jZV9jaGFpbiByYXRoZXIgdGhhbiBhIHNpbmds
-ZQo+ICsgKiBzdHJ1Y3QgJmRtYV9mZW5jZSwgdGhyb3VnaCB0aGUgZm9sbG93aW5nIG9wZXJhdGlv
-bnM6Cj4gKyAqCj4gKyAqICAgLSBTaWduYWwgYSBnaXZlbiBwb2ludCBvbiB0aGUgdGltZWxpbmUK
-PiArICogICAtIFdhaXQgZm9yIGEgZ2l2ZW4gcG9pbnQgdG8gYXBwZWFyIGFuZC9vciBiZSBzaWdu
-YWxlZAo+ICsgKiAgIC0gSW1wb3J0IGFuZCBleHBvcnQgZnJvbS90byBhIGdpdmVuIHBvaW50IG9m
-IGEgdGltZWxpbmUKPiArICoKPiAgICAqIEF0IGl0J3MgY29yZSwgYSBzeW5jb2JqIGlzIHNpbXBs
-eSBhIHdyYXBwZXIgYXJvdW5kIGEgcG9pbnRlciB0byBhIHN0cnVjdAo+ICAgICogJmRtYV9mZW5j
-ZSB3aGljaCBtYXkgYmUgTlVMTC4KPiAgICAqIFdoZW4gYSBzeW5jb2JqIGlzIGZpcnN0IGNyZWF0
-ZWQsIGl0cyBwb2ludGVyIGlzIGVpdGhlciBOVUxMIG9yIGEgcG9pbnRlcgo+ICAgICogdG8gYW4g
-YWxyZWFkeSBzaWduYWxlZCBmZW5jZSBkZXBlbmRpbmcgb24gd2hldGhlciB0aGUKPiAgICAqICZE
-Uk1fU1lOQ09CSl9DUkVBVEVfU0lHTkFMRUQgZmxhZyBpcyBwYXNzZWQgdG8KPiAgICAqICZEUk1f
-SU9DVExfU1lOQ09CSl9DUkVBVEUuCj4gLSAqIFdoZW4gR1BVIHdvcmsgd2hpY2ggc2lnbmFscyBh
-IHN5bmNvYmogaXMgZW5xdWV1ZWQgaW4gYSBEUk0gZHJpdmVyLAo+IC0gKiB0aGUgc3luY29iaiBm
-ZW5jZSBpcyByZXBsYWNlZCB3aXRoIGEgZmVuY2Ugd2hpY2ggd2lsbCBiZSBzaWduYWxlZCBieSB0
-aGUKPiAtICogY29tcGxldGlvbiBvZiB0aGF0IHdvcmsuCj4gLSAqIFdoZW4gR1BVIHdvcmsgd2hp
-Y2ggd2FpdHMgb24gYSBzeW5jb2JqIGlzIGVucXVldWVkIGluIGEgRFJNIGRyaXZlciwgdGhlCj4g
-LSAqIGRyaXZlciByZXRyaWV2ZXMgc3luY29iaidzIGN1cnJlbnQgZmVuY2UgYXQgdGhlIHRpbWUg
-dGhlIHdvcmsgaXMgZW5xdWV1ZWQKPiAtICogd2FpdHMgb24gdGhhdCBmZW5jZSBiZWZvcmUgc3Vi
-bWl0dGluZyB0aGUgd29yayB0byBoYXJkd2FyZS4KPiAtICogSWYgdGhlIHN5bmNvYmoncyBmZW5j
-ZSBpcyBOVUxMLCB0aGUgZW5xdWV1ZSBvcGVyYXRpb24gaXMgZXhwZWN0ZWQgdG8gZmFpbC4KPiAt
-ICogQWxsIG1hbmlwdWxhdGlvbiBvZiB0aGUgc3luY29ianMncyBmZW5jZSBoYXBwZW5zIGluIHRl
-cm1zIG9mIHRoZSBjdXJyZW50Cj4gLSAqIGZlbmNlIGF0IHRoZSB0aW1lIHRoZSBpb2N0bCBpcyBj
-YWxsZWQgYnkgdXNlcnNwYWNlIHJlZ2FyZGxlc3Mgb2Ygd2hldGhlcgo+IC0gKiB0aGF0IG9wZXJh
-dGlvbiBpcyBhbiBpbW1lZGlhdGUgaG9zdC1zaWRlIG9wZXJhdGlvbiAoc2lnbmFsIG9yIHJlc2V0
-KSBvcgo+IC0gKiBvciBhbiBvcGVyYXRpb24gd2hpY2ggaXMgZW5xdWV1ZWQgaW4gc29tZSBkcml2
-ZXIgcXVldWUuCj4gLSAqICZEUk1fSU9DVExfU1lOQ09CSl9SRVNFVCBhbmQgJkRSTV9JT0NUTF9T
-WU5DT0JKX1NJR05BTCBjYW4gYmUgdXNlZCB0bwo+IC0gKiBtYW5pcHVsYXRlIGEgc3luY29iaiBm
-cm9tIHRoZSBob3N0IGJ5IHJlc2V0dGluZyBpdHMgcG9pbnRlciB0byBOVUxMIG9yCj4gKyAqCj4g
-KyAqIElmIHRoZSBzeW5jb2JqIGlzIGNvbnNpZGVyZWQgYXMgYSBiaW5hcnkgKGl0cyBzdGF0ZSBp
-cyBlaXRoZXIgc2lnbmFsZWQgb3IKPiArICogdW5zaWduYWxlZCkgcHJpbWl0aXZlLCB3aGVuIEdQ
-VSB3b3JrIGlzIGVucXVldWVkIGluIGEgRFJNIGRyaXZlciB0byBzaWduYWwKPiArICogdGhlIHN5
-bmNvYmosIHRoZSBzeW5jb2JqJ3MgZmVuY2UgaXMgcmVwbGFjZWQgd2l0aCBhIGZlbmNlIHdoaWNo
-IHdpbGwgYmUKPiArICogc2lnbmFsZWQgYnkgdGhlIGNvbXBsZXRpb24gb2YgdGhhdCB3b3JrLgo+
-ICsgKiBJZiB0aGUgc3luY29iaiBpcyBjb25zaWRlcmVkIGFzIGEgdGltZWxpbmUgcHJpbWl0aXZl
-LCB3aGVuIEdQVSB3b3JrIGlzCj4gKyAqIGVucXVldWVkIGluIGEgRFJNIGRyaXZlciB0byBzaWdu
-YWwgdGhlIGEgZ2l2ZW4gcG9pbnQgb2YgdGhlIHN5bmNvYmosIGEgbmV3Cj4gKyAqIHN0cnVjdCAm
-ZG1hX2ZlbmNlX2NoYWluIHBvaW50aW5nIHRvIHRoZSBEUk0gZHJpdmVyJ3MgZmVuY2UgYW5kIGFs
-c28KPiArICogcG9pbnRpbmcgdG8gdGhlIHByZXZpb3VzIGZlbmNlIHRoYXQgd2FzIGluIHRoZSBz
-eW5jb2JqLiBUaGUgbmV3IHN0cnVjdAo+ICsgKiAmZG1hX2ZlbmNlX2NoYWluIGZlbmNlIHJlcGxh
-Y2UgdGhlIHN5bmNvYmoncyBmZW5jZSBhbmQgd2lsbCBiZSBzaWduYWxlZCBieQo+ICsgKiBjb21w
-bGV0aW9uIG9mIHRoZSBEUk0gZHJpdmVyJ3Mgd29yayBhbmQgYWxzbyBhbnkgd29yayBhc3NvY2lh
-dGVkIHdpdGggdGhlCj4gKyAqIGZlbmNlIHByZXZpb3VzbHkgaW4gdGhlIHN5bmNvYmouCj4gKyAq
-Cj4gKyAqIFdoZW4gR1BVIHdvcmsgd2hpY2ggd2FpdHMgb24gYSBzeW5jb2JqIGlzIGVucXVldWVk
-IGluIGEgRFJNIGRyaXZlciwgYXQgdGhlCj4gKyAqIHRpbWUgdGhlIHdvcmsgaXMgZW5xdWV1ZWQs
-IGl0IHdhaXRzIG9uIHRoZSBzeW5jb2JqJ3MgZmVuY2UgYmVmb3JlCj4gKyAqIHN1Ym1pdHRpbmcg
-dGhlIHdvcmsgdG8gaGFyZHdhcmUuIFRoYXQgZmVuY2UgaXMgZWl0aGVyIDoKPiArICoKPiArICog
-ICAgLSBUaGUgc3luY29iaidzIGN1cnJlbnQgZmVuY2UgaWYgdGhlIHN5bmNvYmogaXMgY29uc2lk
-ZXJlZCBhcyBhIGJpbmFyeQo+ICsgKiAgICAgIHByaW1pdGl2ZS4KPiArICogICAgLSBUaGUgc3Ry
-dWN0ICZkbWFfZmVuY2UgYXNzb2NpYXRlZCB3aXRoIGEgZ2l2ZW4gcG9pbnQgaWYgdGhlIHN5bmNv
-YmogaXMKPiArICogICAgICBjb25zaWRlcmVkIGFzIGEgdGltZWxpbmUgcHJpbWl0aXZlLgo+ICsg
-Kgo+ICsgKiBJZiB0aGUgc3luY29iaidzIGZlbmNlIGlzIE5VTEwgb3Igbm90IHByZXNlbnQgaW4g
-dGhlIHN5bmNvYmoncyB0aW1lbGluZSwKPiArICogdGhlIGVucXVldWUgb3BlcmF0aW9uIGlzIGV4
-cGVjdGVkIHRvIGZhaWwuCj4gKyAqCj4gKyAqIFdpdGggYmluYXJ5IHN5bmNvYmosIGFsbCBtYW5p
-cHVsYXRpb24gb2YgdGhlIHN5bmNvYmpzJ3MgZmVuY2UgaGFwcGVucyBpbgo+ICsgKiB0ZXJtcyBv
-ZiB0aGUgY3VycmVudCBmZW5jZSBhdCB0aGUgdGltZSB0aGUgaW9jdGwgaXMgY2FsbGVkIGJ5IHVz
-ZXJzcGFjZQo+ICsgKiByZWdhcmRsZXNzIG9mIHdoZXRoZXIgdGhhdCBvcGVyYXRpb24gaXMgYW4g
-aW1tZWRpYXRlIGhvc3Qtc2lkZSBvcGVyYXRpb24KPiArICogKHNpZ25hbCBvciByZXNldCkgb3Ig
-b3IgYW4gb3BlcmF0aW9uIHdoaWNoIGlzIGVucXVldWVkIGluIHNvbWUgZHJpdmVyCj4gKyAqIHF1
-ZXVlLiAmRFJNX0lPQ1RMX1NZTkNPQkpfUkVTRVQgYW5kICZEUk1fSU9DVExfU1lOQ09CSl9TSUdO
-QUwgY2FuIGJlIHVzZWQKPiArICogdG8gbWFuaXB1bGF0ZSBhIHN5bmNvYmogZnJvbSB0aGUgaG9z
-dCBieSByZXNldHRpbmcgaXRzIHBvaW50ZXIgdG8gTlVMTCBvcgo+ICAgICogc2V0dGluZyBpdHMg
-cG9pbnRlciB0byBhIGZlbmNlIHdoaWNoIGlzIGFscmVhZHkgc2lnbmFsZWQuCj4gICAgKgo+ICsg
-KiBXaXRoIGEgdGltZWxpbmUgc3luY29iaiwgYWxsIG1hbmlwdWxhdGlvbiBvZiB0aGUgc3lub2Jq
-J3MgZmVuY2UgaGFwcGVucyBpbgo+ICsgKiB0ZXJtcyBvZiBhIHU2NCB2YWx1ZSByZWZlcnJpbmcg
-dG8gcG9pbnQgaW4gdGhlIHRpbWVsaW5lLiBTZWUKPiArICogZG1hX2ZlbmNlX2NoYWluX2ZpbmRf
-c2Vxbm8oKSB0byBzZWUgaG93IGEgZ2l2ZW4gcG9pbnQgaXMgZm91bmQgaW4gdGhlCj4gKyAqIHRp
-bWVsaW5lLgo+ICsgKgo+ICsgKiBOb3RlIHRoYXQgYXBwbGljYXRpb25zIHNob3VsZCBiZSBjYXJl
-ZnVsIHRvIGFsd2F5cyB1c2UgdGltZWxpbmUgc2V0IG9mCj4gKyAqIGlvY3RsKCkgd2hlbiBkZWFs
-aW5nIHdpdGggc3luY29iaiBjb25zaWRlcmVkIGFzIHRpbWVsaW5lLiBVc2luZyBhIGJpbmFyeQo+
-ICsgKiBzZXQgb2YgaW9jdGwoKSB3aXRoIGEgc3luY29iaiBjb25zaWRlcmVkIGFzIHRpbWVsaW5l
-IGNvdWxkIHJlc3VsdCBpbmNvcnJlY3QKPiArICogc3luY2hyb25pemF0aW9uLiBUaGUgdXNlIG9m
-IGJpbmFyeSBzeW5jb2JqIGlzIHN1cHBvcnRlZCB0aHJvdWdoIHRoZQo+ICsgKiB0aW1lbGluZSBz
-ZXQgb2YgaW9jdGwoKSBieSB1c2luZyBhIHBvaW50IHZhbHVlIG9mIDAsIHRoaXMgd2lsbCByZXBy
-b2R1Y2UKPiArICogdGhlIGJlaGF2aW9yIG9mIHRoZSBiaW5hcnkgc2V0IG9mIGlvY3RsKCkgKGZv
-ciBleGFtcGxlIHJlcGxhY2UgdGhlCj4gKyAqIHN5bmNvYmoncyBmZW5jZSB3aGVuIHNpZ25hbGlu
-ZykuCj4gKyAqCj4gICAgKgo+ICAgICogSG9zdC1zaWRlIHdhaXQgb24gc3luY29ianMKPiAgICAq
-IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gQEAgLTg3LDYgKzEyNiwxNiBAQAo+ICAgICog
-c3luY2hyb25pemUgYmV0d2VlbiB0aGUgdHdvLgo+ICAgICogVGhpcyByZXF1aXJlbWVudCBpcyBp
-bmhlcml0ZWQgZnJvbSB0aGUgVnVsa2FuIGZlbmNlIEFQSS4KPiAgICAqCj4gKyAqIFNpbWlsYXJs
-eSwgJkRSTV9JT0NUTF9TWU5DT0JKX1RJTUVMSU5FX1dBSVQgdGFrZXMgYW4gYXJyYXkgb2Ygc3lu
-Y29iago+ICsgKiBoYW5kbGVzIGFzIHdlbGwgYXMgYW4gYXJyYXkgb2YgdTY0IHBvaW50cyBhbmQg
-ZG9lcyBhIGhvc3Qtc2lkZSB3YWl0IG9uIGFsbAo+ICsgKiBvZiBzeW5jb2JqIGZlbmNlcyBhdCB0
-aGUgZ2l2ZW4gcG9pbnRzIHNpbXVsdGFuZW91c2x5Lgo+ICsgKgo+ICsgKiAmRFJNX0lPQ1RMX1NZ
-TkNPQkpfVElNRUxJTkVfV0FJVCBhbHNvIGFkZHMgdGhlIGFiaWxpdHkgdG8gd2FpdCBmb3IgYSBn
-aXZlbgo+ICsgKiBmZW5jZSB0byBtYXRlcmlhbGl6ZSBvbiB0aGUgdGltZWxpbmUgd2l0aG91dCB3
-YWl0aW5nIGZvciB0aGUgZmVuY2UgdG8gYmUKPiArICogc2lnbmFsZWQgYnkgdXNpbmcgdGhlICZE
-Uk1fU1lOQ09CSl9XQUlUX0ZMQUdTX1dBSVRfQVZBSUxBQkxFIGZsYWcuIFRoaXMKPiArICogcmVx
-dWlyZW1lbnQgaXMgaW5oZXJpdGVkIGZyb20gdGhlIHdhaXQtYmVmb3JlLXNpZ25hbCBiZWhhdmlv
-ciByZXF1aXJlZCBieQo+ICsgKiB0aGUgVnVsa2FuIHRpbWVsaW5lIHNlbWFwaG9yZSBBUEkuCj4g
-KyAqCj4gICAgKgo+ICAgICogSW1wb3J0L2V4cG9ydCBvZiBzeW5jb2Jqcwo+ICAgICogLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLQo+IEBAIC0xMjAsNiArMTY5LDE4IEBACj4gICAgKiBCZWNhdXNl
-IHN5bmMgZmlsZXMgYXJlIGltbXV0YWJsZSwgcmVzZXR0aW5nIG9yIHNpZ25hbGluZyB0aGUgc3lu
-Y29iago+ICAgICogd2lsbCBub3QgYWZmZWN0IGFueSBzeW5jIGZpbGVzIHdob3NlIGZlbmNlcyBo
-YXZlIGJlZW4gaW1wb3J0ZWQgaW50byB0aGUKPiAgICAqIHN5bmNvYmouCj4gKyAqCj4gKyAqCj4g
-KyAqIEltcG9ydC9leHBvcnQgb2YgdGltZWxpbmUgcG9pbnRzIGluIHRpbWVsaW5lIHN5bmNvYmpz
-Cj4gKyAqIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tCj4gKyAqCj4gKyAqICZEUk1fSU9DVExfU1lOQ09CSl9UUkFOU0ZFUiBwcm92aWRlcyBhIG1l
-Y2hhbmlzbSB0byB0cmFuc2ZlciBhIHN0cnVjdAo+ICsgKiAmZG1hX2ZlbmNlX2NoYWluIG9mIGEg
-c3luY29iaiBhdCBhIGdpdmVuIHU2NCBwb2ludCB0byBhbm90aGVyIHU2NCBwb2ludAo+ICsgKiBp
-bnRvIGFub3RoZXIgc3luY29iai4KPiArICoKPiArICogTm90ZSB0aGF0IGlmIHlvdSB3YW50IHRv
-IHRyYW5zZmVyIGEgc3RydWN0ICZkbWFfZmVuY2VfY2hhaW4gZnJvbSBhIGdpdmVuCj4gKyAqIHBv
-aW50IG9uIGEgdGltZWxpbmUgc3luY29iaiBmcm9tL2ludG8gYSBiaW5hcnkgc3luY29iaiwgeW91
-IGNhbiB1c2UgdGhlCj4gKyAqIHBvaW50IDAgdG8gbWVhbiB0YWtlL3JlcGxhY2UgdGhlIGZlbmNl
-IGluIHRoZSBzeW5jb2JqLgo+ICAgICovCj4gICAKPiAgICNpbmNsdWRlIDxsaW51eC9hbm9uX2lu
-b2Rlcy5oPgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Tue, Jan 14, 2020 at 04:11:40PM +0200, Jani Nikula wrote:
+> On Mon, 06 Jan 2020, Kai-Heng Feng <kai.heng.feng@canonical.com> wrote:
+> > Hi Jani,
+> >
+> >> On Dec 24, 2019, at 16:42, Kai-Heng Feng <kai.heng.feng@canonical.com>=
+ wrote:
+> >> =
+
+> >> On HP 800 G4 DM, if HDMI cable isn't plugged before boot, the HDMI port
+> >> becomes useless and never responds to cable hotplugging:
+> >> [    3.031904] [drm:lspcon_init [i915]] *ERROR* Failed to probe lspcon
+> >> [    3.031945] [drm:intel_ddi_init [i915]] *ERROR* LSPCON init failed =
+on port D
+> >> =
+
+> >> Seems like the lspcon chip on the system in question only gets powered
+> >> after the cable is plugged.
+> >> =
+
+> >> So let's call lspcon_init() dynamically to properly initialize the
+> >> lspcon chip and make HDMI port work.
+> >
+> > Do you have any further suggestion for this patch?
+> =
+
+> Sorry for taking so long. Comments inline.
+> =
+
+> >
+> > Kai-Heng
+> >
+> >> =
+
+> >> Closes: https://gitlab.freedesktop.org/drm/intel/issues/203
+> >> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> >> ---
+> >> v3:
+> >> - Make sure it's handled under long HPD case.
+> >> =
+
+> >> v2: =
+
+> >> - Move lspcon_init() inside of intel_dp_hpd_pulse().
+> >> =
+
+> >> drivers/gpu/drm/i915/display/intel_dp.c | 8 +++++++-
+> >> 1 file changed, 7 insertions(+), 1 deletion(-)
+> >> =
+
+> >> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm=
+/i915/display/intel_dp.c
+> >> index fe31bbfd6c62..a72c9c041c60 100644
+> >> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> >> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> >> @@ -6573,6 +6573,7 @@ enum irqreturn
+> >> intel_dp_hpd_pulse(struct intel_digital_port *intel_dig_port, bool lon=
+g_hpd)
+> >> {
+> >> 	struct intel_dp *intel_dp =3D &intel_dig_port->dp;
+> >> +	struct drm_i915_private *dev_priv =3D dp_to_i915(intel_dp);
+> >> =
+
+> >> 	if (long_hpd && intel_dig_port->base.type =3D=3D INTEL_OUTPUT_EDP) {
+> >> 		/*
+> >> @@ -6593,7 +6594,12 @@ intel_dp_hpd_pulse(struct intel_digital_port *i=
+ntel_dig_port, bool long_hpd)
+> >> 		      long_hpd ? "long" : "short");
+> >> =
+
+> >> 	if (long_hpd) {
+> >> -		intel_dp->reset_link_params =3D true;
+> >> +		if (intel_dig_port->base.type =3D=3D INTEL_OUTPUT_DDI &&
+> >> +		    HAS_LSPCON(dev_priv) && !intel_dig_port->lspcon.active)
+> >> +			lspcon_init(intel_dig_port);
+> >> +		else
+> >> +			intel_dp->reset_link_params =3D true;
+> >> +
+> =
+
+> Hmm, I think this will try to init lspcon on ports that do not have
+> lspcon. Also, why wouldn't we reset the params?
+> =
+
+> I think this boils down to just adding the following lines:
+> =
+
+> 	if (intel_bios_is_lspcon_present(dev_priv, intel_dig_port->base.port) &&
+>             !intel_dig_port->lspcon.active)
+> 		lspcon_init(intel_dig_port);
+> =
+
+> =
+
+> Ville?
+
+This won't work right. Eg. intel_infoframe_init() assumes that lspcon
+init happens during driver load. We should probably change that to just
+trust the VBT and simply move the lspcon probe (if we even need one)
+into dp_detect() instead of sprinkling it around in several places.
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
