@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 597AC13A16E
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2020 08:16:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7864D13A196
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2020 08:21:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A76F6E2D8;
-	Tue, 14 Jan 2020 07:16:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA5116E2CC;
+	Tue, 14 Jan 2020 07:21:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
- [IPv6:2607:f8b0:4864:20::1044])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F48B6E2D5
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2020 07:16:30 +0000 (UTC)
-Received: by mail-pj1-x1044.google.com with SMTP id r67so5299935pjb.0
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2020 23:16:30 -0800 (PST)
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
+ [IPv6:2607:f8b0:4864:20::841])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96E636E2CC
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2020 07:21:16 +0000 (UTC)
+Received: by mail-qt1-x841.google.com with SMTP id c24so831513qtp.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2020 23:21:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=OSlwbkk1pzyLFKga0+D5pkXbBE5RP0e6plgOO4eYBJQ=;
- b=WcPRp+7Mdnpj9rMQS/ieZ3gIzSidtcpvoi1VWauuCFrsi4euYkjOGWlPabSCB8OsXn
- fY+YYvvLPmrGfP7dqyY3bXJOdPSwTJ5H54BELtP27PkE73ZBk5FuadDchNDNSvGGv0S4
- eY1/zvVBMuRO/wV9+mzojLylgHcwdzX5frKms=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Qu8L9/P7G3E9Yw4p+SvLP/VGjTn+xJR8yruIENAwmw8=;
+ b=FBLmig+XuYQLjy+MeDi4VsXucyJ6x0+XdvVzpi5nWJqWnehAgKtDnYacLVqKcbPzIH
+ UyGqW0OT0p1dWpNDMovF2Lm9I6w7iFZU/8ULTFeHFJQ9p5LA9Zgyc+J1gC6Hyp8txp+1
+ vMsvum9BkFPYlPeoCokHaWZR/Gb75cRTzLyB4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=OSlwbkk1pzyLFKga0+D5pkXbBE5RP0e6plgOO4eYBJQ=;
- b=ak3Iw211TFd/YjEXQ+Ba9417FSzCJt7iQLfJdGg8fsUuc4wb+4ZW1vAV6iphpYd24E
- LSsp9hto7pRbogbsqW2hknGMFX0rkJVXdbWxPJ7SEjtY3w0XM6BA4YHjA0tB6j0wv9dq
- J6tfnGTzn2pOvwr09+0LXDVAKUAAIeQ88tAtutEtCfH9Ot0i+3I18E/vDbsS/qpcuTlU
- vFxeY3IWJiYK5EtyJIhzDCwf9J0l9arQ8AV9gHgs/olm47Mdkoa7zgaQGfo4vbFpAFms
- aoNVk+a6Z4sLAq9MlBFDW3fxjUp8eY+C+XZcfZsS5f0uUbTG4K3G+mlwnBuUyU+VayO4
- ZXHg==
-X-Gm-Message-State: APjAAAUeEznt8iIqUZO1+p48Epwi2aRO0Qp3nyJNNEdR8sykCRHkGMIo
- m7Q5r9z1pfrymajF80/INRvlXg==
-X-Google-Smtp-Source: APXvYqxAVfz0yEjQZNh09tBVmqQhNTSo4PFJ0addejqjhSdLfGflyqf0R2L9U0djUMmD4gnScDcTBQ==
-X-Received: by 2002:a17:90a:bf92:: with SMTP id
- d18mr20309660pjs.21.1578986189911; 
- Mon, 13 Jan 2020 23:16:29 -0800 (PST)
-Received: from drinkcat2.tpe.corp.google.com
- ([2401:fa00:1:b:d8b7:33af:adcb:b648])
- by smtp.gmail.com with ESMTPSA id b4sm17092976pfd.18.2020.01.13.23.16.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jan 2020 23:16:29 -0800 (PST)
-From: Nicolas Boichat <drinkcat@chromium.org>
-To: Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v3 7/7,
- RFC] drm/panfrost: devfreq: Add support for 2 regulators
-Date: Tue, 14 Jan 2020 15:16:02 +0800
-Message-Id: <20200114071602.47627-8-drinkcat@chromium.org>
-X-Mailer: git-send-email 2.25.0.rc1.283.g88dfdc4193-goog
-In-Reply-To: <20200114071602.47627-1-drinkcat@chromium.org>
-References: <20200114071602.47627-1-drinkcat@chromium.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Qu8L9/P7G3E9Yw4p+SvLP/VGjTn+xJR8yruIENAwmw8=;
+ b=j3/5jlNWy6xbGOOStp4ZELNADK6QEiXmdRYr8gj67YvnSg9Shus7fmHk71pfNLHoK8
+ 3KcH4F1FyJlm03CgBAx8ACykxBZXY6maQfL6qUAJQDkq1VAIa6/VA8L6C08eDSkm52Hh
+ snIbcZ/wxR1aPaVzSD9F0ZYrgBkLnb7gEfhEHqSDYPv9L0bEoNYp12HhIPW+M+Wmc0GY
+ /eFpB3yu4/LUsTpYXc2i7SDIQ77K/mq87vM+en65aq5J9YsEXJMIQVXTVljk007P8fv8
+ y/LKKFHo3rK/JrfMkDdmplrHkGB+bPKUBza/dgu8Y81W8RQ/ORUoqUPO7cOxh5UjZ/5E
+ JjNw==
+X-Gm-Message-State: APjAAAVmmxxySwBpfRDLfIjRHSHcPa0dODmyjZAQcv7O3RWzvGypqUGP
+ 4QXLNYrBSIe0KfDLpyIZ+9kIfHbn6cz9ZekWBA3dig==
+X-Google-Smtp-Source: APXvYqy5dTRwvBZSp2Sl2oa5uqtPjgwo9dLYORqfUzS4GprMz5UdJxHfSaILw3N4vb/BqqZHf3UJ8KY/Bw2G5cK4+Kc=
+X-Received: by 2002:ac8:4446:: with SMTP id m6mr2448249qtn.159.1578986475520; 
+ Mon, 13 Jan 2020 23:21:15 -0800 (PST)
 MIME-Version: 1.0
+References: <20200108052337.65916-1-drinkcat@chromium.org>
+ <20200108052337.65916-5-drinkcat@chromium.org>
+ <20200108132302.GA3817@sirena.org.uk>
+ <CANMq1KBo8ND+YDHaCw3yZZ0RUr69-NSUcVbqu38DuZvHUB-LFw@mail.gmail.com>
+ <09ddfac3-da8d-c039-92a0-d0f51dc3fea5@arm.com>
+ <20200109162814.GB3702@sirena.org.uk>
+ <a40baddb-cbab-d8fc-3fd9-0582f1b5b24e@arm.com>
+ <20200109194930.GD3702@sirena.org.uk>
+ <90993401-6896-bf95-a15a-d99c465ec12a@arm.com>
+In-Reply-To: <90993401-6896-bf95-a15a-d99c465ec12a@arm.com>
+From: Nicolas Boichat <drinkcat@chromium.org>
+Date: Tue, 14 Jan 2020 15:21:04 +0800
+Message-ID: <CANMq1KBnUZ8v62=P734BrwPYwojWiqnvweewUY7OQjym-xuQ2Q@mail.gmail.com>
+Subject: Re: [PATCH v2 4/7] drm/panfrost: Add support for a second regulator
+ for the GPU
+To: Steven Price <steven.price@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,82 +66,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Devicetree List <devicetree@vger.kernel.org>,
  Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
- dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
- Mark Brown <broonie@kernel.org>, linux-mediatek@lists.infradead.org,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>, hsinyi@chromium.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+ lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Mark Brown <broonie@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Bifrost GPU on MT8183 uses 2 regulators (core and SRAM) for
-devfreq, and provides OPP table with 2 sets of voltages.
+On Fri, Jan 10, 2020 at 7:30 PM Steven Price <steven.price@arm.com> wrote:
+>
+> On 09/01/2020 19:49, Mark Brown wrote:
+> > On Thu, Jan 09, 2020 at 04:53:02PM +0000, Steven Price wrote:
+> >> On 09/01/2020 16:28, Mark Brown wrote:
+> >>> On Thu, Jan 09, 2020 at 02:14:42PM +0000, Steven Price wrote:
+> >
+> >>>> I'm not sure if it's better, but could we just encode the list of
+> >>>> regulators into device tree. I'm a bit worried about special casing an
+> >>>> "sram" regulator given that other platforms might have a similar
+> >>>> situation but call the second regulator a different name.
+> >
+> >>> Obviously the list of regulators bound on a given platform is encoded in
+> >>> the device tree but you shouldn't really be relying on that to figure
+> >>> out what to request in the driver - the driver should know what it's
+> >>> expecting.
+> >
+> >> From a driver perspective we don't expect to have to worry about power
+> >> domains/multiple regulators - the hardware provides a bunch of power
+> >> registers to turn on/off various parts of the hardware and this should be
+> >> linked (in hardware) to a PDC which sorts it out. The GPU/PDC handles the
+> >> required sequencing. So it *should* be a case of turn power/clocks on and
+> >> go.
+> >
+> > Ah, the well abstracted and consistent hardware with which we are all so
+> > fortunate to work :) .  More seriously perhaps the thing to do here is
+> > create a driver that provides a soft PDC and then push all the special
+> > case handling into that?  It can then get instantiated based on the
+> > compatible or perhaps represented directly in the device tree if that
+> > makes sense.
+>
+> That makes sense to me.
+>
+> >> However certain integrations may have quirks such that there are physically
+> >> multiple supplies. These are expected to all be turned on before using the
+> >> GPU. Quite how this is best represented is something I'm not sure about.
+> >
+> > If they're always on and don't ever change then that's really easy to
+> > represent in the DT without involving drivers, it's when you need to
+> > actively manage them that it's more effort.
+>
+> Sorry, I should have been more clear. They are managed as a group - so
+> either the entire GPU is powered off, or powered on. There's no support
+> in Panfrost or mali_kbase for attempting to power part of the GPU.
+>
+> >>> Bear in mind that getting regulator stuff wrong can result
+> >>> in physical damage to the system so it pays to be careful and to
+> >>> consider that platform integrators have a tendency to rely on things
+> >>> that just happen to work but aren't a good idea or accurate
+> >>> representations of the system.  It's certainly *possible* to do
+> >>> something like that, the information is there, but I would not in any
+> >>> way recommend doing things that way as it's likely to not be robust.
+> >
+> >>> The possibility that the regulator setup may vary on other platforms
+> >>> (which I'd expect TBH) does suggest that just requesting a bunch of
+> >>> supply names optionally and hoping that we got all the ones that are
+> >>> important on a given platform is going to lead to trouble down the line.
+> >
+> >> Certainly if we miss a regulator the GPU isn't going to work properly (some
+> >> cores won't be able to power up successfully). However at the moment the
+> >> driver will happily do this if someone provides it with a DT which includes
+> >> regulators that it doesn't know about. So I'm not sure how adding special
+> >> case code for a SoC would help here.
+> >
+> > I thought this SoC neeed to vary the voltage on both rails as part of
+> > the power management?  Things like that can lead to hardware damage if
+> > we go out of spec far enough for long enough - there can be requirements
+> > like keeping one rail a certain voltage above another or whatever.
+>
+> Yes, you are correct. My concern is that a DT which specifies a new
+> regulator (e.g. "sram2") would be accepted by an old kernel (because it
+> wouldn't know to look for the new regulator) but wouldn't know to
+> control the regulator. It could then create a situation which puts the
+> board out of spec - potentially in a damaging way. Hence I'd like to
+> express the regulator structure in such a way that old kernels wouldn't
+> "half-work". Your "soft-PDC" approach would seem to fit that requirement.
 
-TODO: This is incomplete as we'll need add support for setting
-a pair of voltages as well.
+FYI, I sent a v3 here: https://patchwork.kernel.org/patch/11331373/
+that addresses _some_ of these concerns.
 
-Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
+I'm not quite sure how to describe the regulators in a way that we can
+check that the device tree does not specific extra ones (apart from
+doing some string matching on all properties?), and I don't think I'm
+best placed to implement the soft-PDC idea. See my comment on that
+patch.
 
----
- drivers/gpu/drm/panfrost/panfrost_devfreq.c | 17 +++++++++++++++++
- drivers/gpu/drm/panfrost/panfrost_device.h  |  1 +
- 2 files changed, 18 insertions(+)
-
-diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-index 413987038fbfccb..9c0987a3d71c597 100644
---- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-@@ -79,6 +79,21 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
- 	struct devfreq *devfreq;
- 	struct thermal_cooling_device *cooling;
- 
-+	/* If we have 2 regulator, we need an OPP table with 2 voltages. */
-+	if (pfdev->comp->num_supplies > 1) {
-+		pfdev->devfreq.dev_opp_table =
-+			dev_pm_opp_set_regulators(dev,
-+					pfdev->comp->supply_names,
-+					pfdev->comp->num_supplies);
-+		if (IS_ERR(pfdev->devfreq.dev_opp_table)) {
-+			ret = PTR_ERR(pfdev->devfreq.dev_opp_table);
-+			pfdev->devfreq.dev_opp_table = NULL;
-+			dev_err(dev,
-+				"Failed to init devfreq opp table: %d\n", ret);
-+			return ret;
-+		}
-+	}
-+
- 	ret = dev_pm_opp_of_add_table(dev);
- 	if (ret == -ENODEV) /* Optional, continue without devfreq */
- 		return 0;
-@@ -119,6 +134,8 @@ void panfrost_devfreq_fini(struct panfrost_device *pfdev)
- 	if (pfdev->devfreq.cooling)
- 		devfreq_cooling_unregister(pfdev->devfreq.cooling);
- 	dev_pm_opp_of_remove_table(&pfdev->pdev->dev);
-+	if (pfdev->devfreq.dev_opp_table)
-+		dev_pm_opp_put_regulators(pfdev->devfreq.dev_opp_table);
- }
- 
- void panfrost_devfreq_resume(struct panfrost_device *pfdev)
-diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-index 143eab57180a2e1..30ba11cbf600847 100644
---- a/drivers/gpu/drm/panfrost/panfrost_device.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-@@ -108,6 +108,7 @@ struct panfrost_device {
- 	struct {
- 		struct devfreq *devfreq;
- 		struct thermal_cooling_device *cooling;
-+		struct opp_table *dev_opp_table;
- 		ktime_t busy_time;
- 		ktime_t idle_time;
- 		ktime_t time_last_update;
--- 
-2.25.0.rc1.283.g88dfdc4193-goog
-
+Thanks!
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
