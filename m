@@ -2,33 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61BBC13A921
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2020 13:19:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1465113AA54
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2020 14:08:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7640E6E3A0;
-	Tue, 14 Jan 2020 12:19:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD1586E39C;
+	Tue, 14 Jan 2020 13:08:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42BCD6E393
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2020 12:19:34 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FFDF6E39C
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2020 13:07:59 +0000 (UTC)
+X-Amp-Result: UNSCANNABLE
 X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 14 Jan 2020 04:19:33 -0800
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 14 Jan 2020 05:07:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,432,1571727600"; d="scan'208";a="248031177"
-Received: from wagnerst-mobl.ger.corp.intel.com (HELO
- delly.ger.corp.intel.com) ([10.252.51.171])
- by fmsmga004.fm.intel.com with ESMTP; 14 Jan 2020 04:19:31 -0800
-From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm/syncobj: Add documentation for timeline syncobj
-Date: Tue, 14 Jan 2020 14:19:28 +0200
-Message-Id: <20200114121928.251434-1-lionel.g.landwerlin@intel.com>
-X-Mailer: git-send-email 2.25.0.rc2
+X-IronPort-AV: E=Sophos;i="5.69,432,1571727600"; d="scan'208";a="217736068"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga008.jf.intel.com with SMTP; 14 Jan 2020 05:07:56 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 14 Jan 2020 15:07:56 +0200
+Date: Tue, 14 Jan 2020 15:07:56 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Manasi Navare <manasi.d.navare@intel.com>
+Subject: Re: [PATCH v2] drm/dp: Add function to parse EDID descriptors for
+ adaptive sync limits
+Message-ID: <20200114130756.GV13686@intel.com>
+References: <20200108003208.18706-1-manasi.d.navare@intel.com>
+ <20200109130852.GN1208@intel.com>
+ <20200110231743.GB16729@intel.com>
+ <20200114003900.GA27746@intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200114003900.GA27746@intel.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,149 +50,270 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jason Ekstrand <jason@jlekstrand.net>,
- Christian Koenig <Christian.Koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Nicholas Kazlauskas <nicholas.kazluaskas@amd.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We've added a set of new APIs to manipulate syncobjs holding timelines
-of dma_fence. This adds a bit of documentation about how this works.
+On Mon, Jan 13, 2020 at 04:39:00PM -0800, Manasi Navare wrote:
+> Hi Ville,
+> =
 
-v2: Small language nits (Lionel)
+> So the two major changes you would like to see here are:
+> =
 
-Signed-off-by: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-Cc: Christian Koenig <Christian.Koenig@amd.com>
-Cc: Jason Ekstrand <jason@jlekstrand.net>
-Cc: David(ChunMing) Zhou <David1.Zhou@amd.com>
----
- drivers/gpu/drm/drm_syncobj.c | 87 +++++++++++++++++++++++++++++------
- 1 file changed, 74 insertions(+), 13 deletions(-)
+>  use version_greate(edid) function =
 
-diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-index 669c93fe2500..42d46414f767 100644
---- a/drivers/gpu/drm/drm_syncobj.c
-+++ b/drivers/gpu/drm/drm_syncobj.c
-@@ -43,27 +43,66 @@
-  *  - Signal a syncobj (set a trivially signaled fence)
-  *  - Wait for a syncobj's fence to appear and be signaled
-  *
-+ * The syncobj userspace API also provides operations to manipulate a syncobj
-+ * in terms of a timeline of struct &dma_fence_chain rather than a single
-+ * struct &dma_fence, through the following operations:
-+ *
-+ *   - Signal a given point on the timeline
-+ *   - Wait for a given point to appear and/or be signaled
-+ *   - Import and export from/to a given point of a timeline
-+ *
-  * At it's core, a syncobj is simply a wrapper around a pointer to a struct
-  * &dma_fence which may be NULL.
-  * When a syncobj is first created, its pointer is either NULL or a pointer
-  * to an already signaled fence depending on whether the
-  * &DRM_SYNCOBJ_CREATE_SIGNALED flag is passed to
-  * &DRM_IOCTL_SYNCOBJ_CREATE.
-- * When GPU work which signals a syncobj is enqueued in a DRM driver,
-- * the syncobj fence is replaced with a fence which will be signaled by the
-- * completion of that work.
-- * When GPU work which waits on a syncobj is enqueued in a DRM driver, the
-- * driver retrieves syncobj's current fence at the time the work is enqueued
-- * waits on that fence before submitting the work to hardware.
-- * If the syncobj's fence is NULL, the enqueue operation is expected to fail.
-- * All manipulation of the syncobjs's fence happens in terms of the current
-- * fence at the time the ioctl is called by userspace regardless of whether
-- * that operation is an immediate host-side operation (signal or reset) or
-- * or an operation which is enqueued in some driver queue.
-- * &DRM_IOCTL_SYNCOBJ_RESET and &DRM_IOCTL_SYNCOBJ_SIGNAL can be used to
-- * manipulate a syncobj from the host by resetting its pointer to NULL or
-+ *
-+ * If the syncobj is considered as a binary (its state is either signaled or
-+ * unsignaled) primitive, when GPU work is enqueued in a DRM driver to signal
-+ * the syncobj, the syncobj's fence is replaced with a fence which will be
-+ * signaled by the completion of that work.
-+ * If the syncobj is considered as a timeline primitive, when GPU work is
-+ * enqueued in a DRM driver to signal the a given point of the syncobj, a new
-+ * struct &dma_fence_chain pointing to the DRM driver's fence and also
-+ * pointing to the previous fence that was in the syncobj. The new struct
-+ * &dma_fence_chain fence replace the syncobj's fence and will be signaled by
-+ * completion of the DRM driver's work and also any work associated with the
-+ * fence previously in the syncobj.
-+ *
-+ * When GPU work which waits on a syncobj is enqueued in a DRM driver, at the
-+ * time the work is enqueued, it waits on the syncobj's fence before
-+ * submitting the work to hardware. That fence is either :
-+ *
-+ *    - The syncobj's current fence if the syncobj is considered as a binary
-+ *      primitive.
-+ *    - The struct &dma_fence associated with a given point if the syncobj is
-+ *      considered as a timeline primitive.
-+ *
-+ * If the syncobj's fence is NULL or not present in the syncobj's timeline,
-+ * the enqueue operation is expected to fail.
-+ *
-+ * With binary syncobj, all manipulation of the syncobjs's fence happens in
-+ * terms of the current fence at the time the ioctl is called by userspace
-+ * regardless of whether that operation is an immediate host-side operation
-+ * (signal or reset) or or an operation which is enqueued in some driver
-+ * queue. &DRM_IOCTL_SYNCOBJ_RESET and &DRM_IOCTL_SYNCOBJ_SIGNAL can be used
-+ * to manipulate a syncobj from the host by resetting its pointer to NULL or
-  * setting its pointer to a fence which is already signaled.
-  *
-+ * With a timeline syncobj, all manipulation of the synobj's fence happens in
-+ * terms of a u64 value referring to point in the timeline. See
-+ * dma_fence_chain_find_seqno() to see how a given point is found in the
-+ * timeline.
-+ *
-+ * Note that applications should be careful to always use timeline set of
-+ * ioctl() when dealing with syncobj considered as timeline. Using a binary
-+ * set of ioctl() with a syncobj considered as timeline could result incorrect
-+ * synchronization. The use of binary syncobj is supported through the
-+ * timeline set of ioctl() by using a point value of 0, this will reproduce
-+ * the behavior of the binary set of ioctl() (for example replace the
-+ * syncobj's fence when signaling).
-+ *
-  *
-  * Host-side wait on syncobjs
-  * --------------------------
-@@ -87,6 +126,16 @@
-  * synchronize between the two.
-  * This requirement is inherited from the Vulkan fence API.
-  *
-+ * Similarly, &DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT takes an array of syncobj
-+ * handles as well as an array of u64 points and does a host-side wait on all
-+ * of syncobj fences at the given points simultaneously.
-+ *
-+ * &DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT also adds the ability to wait for a given
-+ * fence to materialize on the timeline without waiting for the fence to be
-+ * signaled by using the &DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE flag. This
-+ * requirement is inherited from the wait-before-signal behavior required by
-+ * the Vulkan timeline semaphore API.
-+ *
-  *
-  * Import/export of syncobjs
-  * -------------------------
-@@ -120,6 +169,18 @@
-  * Because sync files are immutable, resetting or signaling the syncobj
-  * will not affect any sync files whose fences have been imported into the
-  * syncobj.
-+ *
-+ *
-+ * Import/export of timeline points in timeline syncobjs
-+ * -----------------------------------------------------
-+ *
-+ * &DRM_IOCTL_SYNCOBJ_TRANSFER provides a mechanism to transfer a struct
-+ * &dma_fence_chain of a syncobj at a given u64 point to another u64 point
-+ * into another syncobj.
-+ *
-+ * Note that if you want to transfer a struct &dma_fence_chain from a given
-+ * point on a timeline syncobj from/into a binary syncobj, you can use the
-+ * point 0 to mean take/replace the fence in the syncobj.
-  */
- 
- #include <linux/anon_inodes.h>
--- 
-2.25.0.rc2
+> and make use of :
+> drm_for_each_detailed_block() instead of the for loop.
+> But this function does not parse the monitor range yet so
+> you are suggesting modifying that dmr helper function as well?
 
+That functions is just the thing that iterates the descriptors, so
+can't figure out what you're asking.
+
+> =
+
+> Manasi
+> =
+
+> On Fri, Jan 10, 2020 at 03:17:43PM -0800, Manasi Navare wrote:
+> > On Thu, Jan 09, 2020 at 03:08:52PM +0200, Ville Syrj=E4l=E4 wrote:
+> > > On Tue, Jan 07, 2020 at 04:32:08PM -0800, Manasi Navare wrote:
+> > > > Adaptive Sync is a VESA feature so add a DRM core helper to parse
+> > > > the EDID's detailed descritors to obtain the adaptive sync monitor =
+range.
+> > > > Store this info as part fo drm_display_info so it can be used
+> > > > across all drivers.
+> > > > This part of the code is stripped out of amdgpu's function
+> > > > amdgpu_dm_update_freesync_caps() to make it generic and be used
+> > > > across all DRM drivers
+> > > > =
+
+> > > > v2:
+> > > > * Change vmin and vmax to use u8 (Ville)
+> > > > * Dont store pixel clock since that is just a max dotclock
+> > > > and not related to VRR mode (Manasi)
+> > > > =
+
+> > > > Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > > > Cc: Harry Wentland <harry.wentland@amd.com>
+> > > > Cc: Clinton A Taylor <clinton.a.taylor@intel.com>
+> > > > Cc: Nicholas Kazlauskas <nicholas.kazluaskas@amd.com>
+> > > > Signed-off-by: Manasi Navare <manasi.d.navare@intel.com>
+> > > > ---
+> > > >  drivers/gpu/drm/drm_edid.c  | 51 +++++++++++++++++++++++++++++++++=
+++++
+> > > >  include/drm/drm_connector.h | 22 ++++++++++++++++
+> > > >  include/drm/drm_edid.h      |  2 ++
+> > > >  3 files changed, 75 insertions(+)
+> > > > =
+
+> > > > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> > > > index 99769d6c9f84..52781a0e708b 100644
+> > > > --- a/drivers/gpu/drm/drm_edid.c
+> > > > +++ b/drivers/gpu/drm/drm_edid.c
+> > > > @@ -4880,6 +4880,54 @@ static void drm_parse_cea_ext(struct drm_con=
+nector *connector,
+> > > >  	}
+> > > >  }
+> > > >  =
+
+> > > > +void drm_get_adaptive_sync_limits(struct drm_connector *connector,
+> > > > +				  const struct edid *edid)
+> > > > +{
+> > > > +	struct drm_display_info *info =3D &connector->display_info;
+> > > > +	const struct detailed_timing *timing;
+> > > > +	const struct detailed_non_pixel *data;
+> > > > +	const struct detailed_data_monitor_range *range;
+> > > =
+
+> > > Needlessly wide scope for everything above.
+> > =
+
+> > Okay will move inside the for_each loop ?
+> > =
+
+> > > =
+
+> > > > +	int i;
+> > > > +
+> > > > +	/*
+> > > > +	 * Restrict Adaptive Sync only for dp and edp
+> > > > +	 */
+> > > > +	if (connector->connector_type !=3D DRM_MODE_CONNECTOR_DisplayPort=
+ &&
+> > > > +	    connector->connector_type !=3D DRM_MODE_CONNECTOR_eDP)
+> > > > +		return;
+> > > > +
+> > > > +	if (edid->version <=3D 1 && !(edid->version =3D=3D 1 && edid->rev=
+ision > 1))
+> > > > +		return;
+> > > =
+
+> > > if (!version_greater(...))
+> > > 	return;
+> > =
+
+> > You mean simplify the condition or use define a function version_greate=
+r() to check this condition?
+> > =
+
+> > > =
+
+> > > > +
+> > > > +	for (i =3D 0; i < 4; i++) {
+> > > =
+
+> > > This should probably use for_each_detailed_block()
+> > >
+> > =
+
+> > =
+
+> > Ok yes will use for_each_detailed_block
+> > =
+
+> > Manasi
+> > =
+
+> >  =
+
+> > > > +		timing  =3D &edid->detailed_timings[i];
+> > > > +		data    =3D &timing->data.other_data;
+> > > > +		range   =3D &data->data.range;
+> > > > +		/*
+> > > > +		 * Check if monitor has continuous frequency mode
+> > > > +		 */
+> > > > +		if (data->type !=3D EDID_DETAIL_MONITOR_RANGE)
+> > > > +			continue;
+> > > > +		/*
+> > > > +		 * Check for flag range limits only. If flag =3D=3D 1 then
+> > > > +		 * no additional timing information provided.
+> > > > +		 * Default GTF, GTF Secondary curve and CVT are not
+> > > > +		 * supported
+> > > > +		 */
+> > > > +		if (range->flags !=3D 1)
+> > > > +			continue;
+> > > > +
+> > > > +		info->adaptive_sync.min_vfreq =3D range->min_vfreq;
+> > > > +		info->adaptive_sync.max_vfreq =3D range->max_vfreq;
+> > > > +
+> > > > +		DRM_DEBUG_KMS("Adaptive Sync refresh rate range is %d Hz - %d Hz=
+\n",
+> > > > +			      info->adaptive_sync.min_vfreq,
+> > > > +			      info->adaptive_sync.max_vfreq);
+> > > > +		break;
+> > > > +	}
+> > > > +}
+> > > > +EXPORT_SYMBOL(drm_get_adaptive_sync_limits);
+> > > > +
+> > > >  /* A connector has no EDID information, so we've got no EDID to co=
+mpute quirks from. Reset
+> > > >   * all of the values which would have been set from EDID
+> > > >   */
+> > > > @@ -4901,6 +4949,7 @@ drm_reset_display_info(struct drm_connector *=
+connector)
+> > > >  	memset(&info->hdmi, 0, sizeof(info->hdmi));
+> > > >  =
+
+> > > >  	info->non_desktop =3D 0;
+> > > > +	memset(&info->adaptive_sync, 0, sizeof(info->adaptive_sync));
+> > > >  }
+> > > >  =
+
+> > > >  u32 drm_add_display_info(struct drm_connector *connector, const st=
+ruct edid *edid)
+> > > > @@ -4916,6 +4965,8 @@ u32 drm_add_display_info(struct drm_connector=
+ *connector, const struct edid *edi
+> > > >  =
+
+> > > >  	info->non_desktop =3D !!(quirks & EDID_QUIRK_NON_DESKTOP);
+> > > >  =
+
+> > > > +	drm_get_adaptive_sync_limits(connector, edid);
+> > > > +
+> > > >  	DRM_DEBUG_KMS("non_desktop set to %d\n", info->non_desktop);
+> > > >  =
+
+> > > >  	if (edid->revision < 3)
+> > > > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connecto=
+r.h
+> > > > index 221910948b37..77df404a2e01 100644
+> > > > --- a/include/drm/drm_connector.h
+> > > > +++ b/include/drm/drm_connector.h
+> > > > @@ -254,6 +254,23 @@ enum drm_panel_orientation {
+> > > >  	DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
+> > > >  };
+> > > >  =
+
+> > > > +/**
+> > > > + * struct drm_adaptive_sync_info - Panel's Adaptive Sync capabilit=
+ies for
+> > > > + * &drm_display_info
+> > > > + *
+> > > > + * This struct is used to store a Panel's Adaptive Sync capabiliti=
+es
+> > > > + * as parsed from EDID's detailed monitor range descriptor block.
+> > > > + *
+> > > > + * @min_vfreq: This is the min supported refresh rate in Hz from
+> > > > + *             EDID's detailed monitor range.
+> > > > + * @max_vfreq: This is the max supported refresh rate in Hz from
+> > > > + *             EDID's detailed monitor range
+> > > > + */
+> > > > +struct drm_adaptive_sync_info {
+> > > > +	u8 min_vfreq;
+> > > > +	u8 max_vfreq;
+> > > > +};
+> > > > +
+> > > >  /*
+> > > >   * This is a consolidated colorimetry list supported by HDMI and
+> > > >   * DP protocol standard. The respective connectors will register
+> > > > @@ -465,6 +482,11 @@ struct drm_display_info {
+> > > >  	 * @non_desktop: Non desktop display (HMD).
+> > > >  	 */
+> > > >  	bool non_desktop;
+> > > > +
+> > > > +	/**
+> > > > +	 * @adaptive_sync: Adaptive Sync capabilities of the DP/eDP sink
+> > > > +	 */
+> > > > +	struct drm_adaptive_sync_info adaptive_sync;
+> > > >  };
+> > > >  =
+
+> > > >  int drm_display_info_set_bus_formats(struct drm_display_info *info,
+> > > > diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+> > > > index f0b03d401c27..b9a230aa3e69 100644
+> > > > --- a/include/drm/drm_edid.h
+> > > > +++ b/include/drm/drm_edid.h
+> > > > @@ -503,4 +503,6 @@ void drm_edid_get_monitor_name(struct edid *edi=
+d, char *name,
+> > > >  struct drm_display_mode *drm_mode_find_dmt(struct drm_device *dev,
+> > > >  					   int hsize, int vsize, int fresh,
+> > > >  					   bool rb);
+> > > > +void drm_get_adaptive_sync_limits(struct drm_connector *connector,
+> > > > +				  const struct edid *edid);
+> > > >  #endif /* __DRM_EDID_H__ */
+> > > > -- =
+
+> > > > 2.19.1
+> > > =
+
+> > > -- =
+
+> > > Ville Syrj=E4l=E4
+> > > Intel
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
