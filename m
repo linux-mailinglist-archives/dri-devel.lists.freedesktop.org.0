@@ -2,52 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E549913A027
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2020 04:52:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F24B713A03E
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2020 05:29:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47C616E20E;
-	Tue, 14 Jan 2020 03:52:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 003D56E209;
+	Tue, 14 Jan 2020 04:29:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
- [IPv6:2607:f8b0:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE9556E1E0
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2020 03:52:16 +0000 (UTC)
-Received: by mail-oi1-x241.google.com with SMTP id 18so10530858oin.9
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2020 19:52:16 -0800 (PST)
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
+ [IPv6:2607:f8b0:4864:20::1041])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F37BF6E209
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2020 04:29:19 +0000 (UTC)
+Received: by mail-pj1-x1041.google.com with SMTP id m13so5269876pjb.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2020 20:29:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=EdIJqpquQROf/Tm4qI+WA7t2jppDnJTdJwBTOKne4C0=;
- b=aQ2lfXTbk2LUdPt9GdWMFKp8+gdA/RTa80mXoSdms3+1oxJOnUFg5wuHSfZPUVWjUZ
- +EZ2m9F/2X4cwJvpEcEinfyo3JYoGq3yytHSys0chnjJI+N+ouuQopmz2CyiDIZd5IpD
- ddXmor12FUMR6T+GEYXTQVS9p8QrDN8Wm4rXw=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=yXrCm5kVYOEmylazK18T+P+2YnE2e0RIkXwo12Gyq9U=;
+ b=F8v2wFpwLrjM8KrVCiNA8uGzHjIJsmwNNo5w8NcWPmh5nvGgIVqinLe9X0nnjjLbOI
+ zHn3OqMR/7BgzStozTUjn7+uFAyWhtpRbwKdyiDxqTUP8hZ9D+7QCbsgZHm7ltLW4A/w
+ 8Qn/tAiixtvt24c23FQLjfGu/P+8bWuVZ4eBg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=EdIJqpquQROf/Tm4qI+WA7t2jppDnJTdJwBTOKne4C0=;
- b=NdpMm8c5xyIK6MTx2hz+6uyg4y+VgIk19sDKVUa1fimx38Z/5kvXE0JGO6NJ8bKyb9
- YVzRb3XKQPqUbNgG/kQRHT60M5i3Xl6we29vL2/4yJBA/2KSimRO31ex6x/nvVAzEYN/
- nmptaB18SXZOf9il9OZ+8AZ35fY8U4+SXxvGZzUsvVSB2XgV/aXyS2rtEi+eTtcoqR2f
- XZfOExoljyjYXQQntvHDoK/YjrHFfiF0O2I3gF5X6CljwPGgHaIFG9ySQhn8JTzrhnVD
- sj0OKKYZPu1IVGldqSngl/36DY6kLzY23U3dYyvNu+qbdlj++SRAuwgyu2ZQojZHsc8n
- 3G3g==
-X-Gm-Message-State: APjAAAXMOWR1mRlzXreFLwh9a9p4aJl/m5f+Y3bDZnsR1IvsS4DdTOvg
- N3FQOY0GitS/8DZFk0zZgfzx2eu48cUNCD4DrpgDag==
-X-Google-Smtp-Source: APXvYqwHPspOB3+fRDbkoMOc4jwta+uyHofvQ6O7M428gb0Vl/YJW2pdZSm/kHP+Zj+5C98Ovqze4QnMk/8spc+WcUo=
-X-Received: by 2002:aca:481:: with SMTP id 123mr15618038oie.110.1578973935899; 
- Mon, 13 Jan 2020 19:52:15 -0800 (PST)
-MIME-Version: 1.0
-References: <20200110115707.14080-1-tzimmermann@suse.de>
- <20200112230045.GE5340@dvetter-linux.ger.corp.intel.com>
- <d74a1e5f-a815-979e-1bbb-412d195b3f75@suse.de>
-In-Reply-To: <d74a1e5f-a815-979e-1bbb-412d195b3f75@suse.de>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=yXrCm5kVYOEmylazK18T+P+2YnE2e0RIkXwo12Gyq9U=;
+ b=Nc0sguKK83EFbArTynt5Tin5Hdaf5SWYxRKbX4LknAKD/3vAeKXBODqylIuJV9suc9
+ CYrg7Gj8besS/ZVntZjPqP7QebEUh1J/wByeH81QxIljRWzrm9SRDk2cL5mH0PPmIf2F
+ xjL4DkwiGe46Ac+LblSNUEPIVtjMlz4Ij+2xciFrQVbhlD+xsGZsmHHv2TfrApV3y4DR
+ Q4rfcN3H0Ya7TJdBxY33KgB/K8r2IFJJeJu48P6W/a02chPfFl/FxYN63UEXyv81Imb/
+ uHavNB4LkNVZ/JoNGoZyT8b4z72PEpyJUk/ldy3z9muiRqKlsJitd4NVJNnw+1kQGBx6
+ 4ODg==
+X-Gm-Message-State: APjAAAXdwXxpsQ6WEMP0QlLq6KvRJeDX1AJ58Bgj5kRr9ukQt7tqkeqR
+ aYE7NbVGrRkXnJmr/dMdd1rBng==
+X-Google-Smtp-Source: APXvYqzQ2bL8nZaP9pP/CcsPUaMelMvhx1Fkmj1QRZIqWGvOKd1yE3HS8jJSICcVdaBclviT/CYMTA==
+X-Received: by 2002:a17:902:8a85:: with SMTP id
+ p5mr24609701plo.154.1578976159564; 
+ Mon, 13 Jan 2020 20:29:19 -0800 (PST)
+Received: from dvetter-linux.ger.corp.intel.com ([138.44.248.126])
+ by smtp.gmail.com with ESMTPSA id o17sm14849131pjq.1.2020.01.13.20.29.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Jan 2020 20:29:18 -0800 (PST)
+Date: Tue, 14 Jan 2020 05:29:13 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 14 Jan 2020 04:52:04 +0100
-Message-ID: <CAKMK7uEthyYuQpgmhp_YZbdOtFhLY2snARG6mEA1ZtQiKB6eag@mail.gmail.com>
-Subject: Re: [PATCH] drm/cirrus: Let DRM core send VBLANK events
-To: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jyri Sarha <jsarha@ti.com>
+Subject: Re: DRM driver and runtime suspend-resume handling?
+Message-ID: <20200114042913.GF5340@dvetter-linux.ger.corp.intel.com>
+References: <df769d2e-5fea-403f-2d04-b3239f89256f@ti.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <df769d2e-5fea-403f-2d04-b3239f89256f@ti.com>
+X-Operating-System: Linux dvetter-linux.ger.corp.intel.com
+ 5.2.11-200.fc30.x86_64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,91 +66,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, "open list:VIRTIO CORE,
- NET..." <virtualization@lists.linux-foundation.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "Valkeinen, Tomi" <tomi.valkeinen@ti.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBKYW4gMTMsIDIwMjAgYXQgMTA6MDEgQU0gVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1t
-ZXJtYW5uQHN1c2UuZGU+IHdyb3RlOgo+Cj4gSGkKPgo+IEFtIDEzLjAxLjIwIHVtIDAwOjAwIHNj
-aHJpZWIgRGFuaWVsIFZldHRlcjoKPiA+IE9uIEZyaSwgSmFuIDEwLCAyMDIwIGF0IDEyOjU3OjA3
-UE0gKzAxMDAsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOgo+ID4+IEluIGRybV9hdG9taWNfaGVs
-cGVyX2Zha2VfdmJsYW5rKCkgdGhlIERSTSBjb3JlIHNlbmRzIG91dCBWQkxBTksKPiA+PiBldmVu
-dHMgaWYgc3RydWN0IGRybV9jcnRjX3N0YXRlLm5vX3ZibGFuayBpcyBlbmFibGVkLiBSZXBsYWNl
-IGNpcnJ1cycKPiA+PiBWQkxBTksgZXZlbnRzIHdpdGggdGhlIERSTSBjb3JlJ3MgZnVuY3Rpb25h
-bGl0eS4KPiA+Pgo+ID4+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVy
-bWFubkBzdXNlLmRlPgo+ID4+IC0tLQo+ID4+ICBkcml2ZXJzL2dwdS9kcm0vY2lycnVzL2NpcnJ1
-cy5jIHwgMTAgKystLS0tLS0tLQo+ID4+ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCsp
-LCA4IGRlbGV0aW9ucygtKQo+ID4+Cj4gPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9j
-aXJydXMvY2lycnVzLmMgYi9kcml2ZXJzL2dwdS9kcm0vY2lycnVzL2NpcnJ1cy5jCj4gPj4gaW5k
-ZXggMjQ4YzlmNzY1YzQ1Li40YTE3MjlhYTdlNTMgMTAwNjQ0Cj4gPj4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL2NpcnJ1cy9jaXJydXMuYwo+ID4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9jaXJydXMv
-Y2lycnVzLmMKPiA+PiBAQCAtMzgsNyArMzgsNiBAQAo+ID4+ICAjaW5jbHVkZSA8ZHJtL2RybV9t
-b2Rlc2V0X2hlbHBlcl92dGFibGVzLmg+Cj4gPj4gICNpbmNsdWRlIDxkcm0vZHJtX3Byb2JlX2hl
-bHBlci5oPgo+ID4+ICAjaW5jbHVkZSA8ZHJtL2RybV9zaW1wbGVfa21zX2hlbHBlci5oPgo+ID4+
-IC0jaW5jbHVkZSA8ZHJtL2RybV92YmxhbmsuaD4KPiA+Pgo+ID4+ICAjZGVmaW5lIERSSVZFUl9O
-QU1FICJjaXJydXMiCj4gPj4gICNkZWZpbmUgRFJJVkVSX0RFU0MgInFlbXUgY2lycnVzIHZnYSIK
-PiA+PiBAQCAtNDE1LDYgKzQxNCw4IEBAIHN0YXRpYyB2b2lkIGNpcnJ1c19waXBlX2VuYWJsZShz
-dHJ1Y3QgZHJtX3NpbXBsZV9kaXNwbGF5X3BpcGUgKnBpcGUsCj4gPj4gIHsKPiA+PiAgICAgIHN0
-cnVjdCBjaXJydXNfZGV2aWNlICpjaXJydXMgPSBwaXBlLT5jcnRjLmRldi0+ZGV2X3ByaXZhdGU7
-Cj4gPj4KPiA+PiArICAgIGNydGNfc3RhdGUtPm5vX3ZibGFuayA9IHRydWU7Cj4gPgo+ID4gSHVo
-LCBuaWNlIHVudGVuZGVkIHVzZSBvZiB0aGlzIHN0dWZmIC4uLiBXZSd2ZSBhZGRlZCB0aGlzIGZv
-ciB3cml0ZWJhY2ssCj4gPiBidXQgSSBndWVzcyBpdCBjYW4gYmUgdXNlZCBmb3IgYW55dGhpbmcg
-dGhhdCdzIGEgdmlydHVhbCBjb25uZWN0b3IgLi4uCj4KPiBPaCwgJ2ltcHJvdmVkIGJ5IGFjY2lk
-ZW50Jy4KPgo+IEknbSBub3QgcXVpdGUgc3VyZSB3aGF0IHlvdSBtZWFuIGJ5IHZpcnR1YWwgY29u
-bmVjdG9yLCBidXQgaXQgc2hvdWxkCj4gd29yayB3aXRoIGFueSBDUlRDIHdpdGhvdXQgVkJMQU5L
-IHN1cHBvcnQuIEF0IGxlYXN0IEkndmUgbmV2ZXIgc2VlbiBhbnkKPiBwcm9ibGVtIHdpdGggYXN0
-IGFuZCB1ZGwuIEknbGwgdXBkYXRlIHRoZSBkb2NzIGFjY29yZGluZ2x5LgoKVGhlcmUncyBhIHBy
-ZXR0eSBodWdlIGRpZmZlcmVuY2UgYmV0d2VlbiAicmVhbCB2Ymxhbmsgc3VwcG9ydCIsIHdoaWNo
-Cm1lYW5zIHRoZSB2YXJpb3VzIHZibGFuay9jcnRjX3NlcXVlbmNlIGlvY3RscyB3b3JrLCBhbmQg
-dGhlIGZha2UKdmJsYW5rIGV2ZW4gc3R1ZmYgd2Ugc2VuZCBvdXQgZm9yIGFsbCBkcml2ZXJzIHJp
-Z2h0IGF3YXkgdG8gZnVsZmlsbAp0aGUgYXRvbWljIHVhcGkgZXZlbnQgcmVxdWlyZW1lbnRzLiBX
-ZSdsbCBuZWVkIHRvIGhpZ2hsaWdodCB0aGF0IHN0dWZmCmluIHRoZSBkb2N1bWVudGF0aW9uIEkg
-dGhpbmsgLi4uIE9uIHNlY29uZCB0aG91Z2h0LCBtYXliZSB3ZSBjb3VsZApjaGFuZ2UgdGhlIGF0
-b21pYyBoZWxwZXJzIHRvIGF1dG9tYXRpY2FsbHkgc2V0IG5vX3ZibGFuayB3aGVuIHRoZQpkcml2
-ZXIvY3J0YyBkb2Vzbid0IHN1cHBvcnQgcmVhbCB2YmxhbmtzLiBCdXQgaXMgZXZlbiBtb3JlIGlu
-dm9sdmVkCihidXQgSSB0aGluayBtaWdodCBhbHNvIGJlIHRoZSBldmVuIG5lYXRlciBzb2x1YXRp
-b24sIGJ1dCBoYXJkIHRvIGJlCnN1cmUgd2l0aG91dCB0eXBpbmcgaXQgYWxsIHVwKS4gT2ggYW5k
-IGJlY2F1c2UgaGlsYXJpb3VzIGhpc3RvcmljYWwKYWNjZW50cyAibm8gcmVhbCB2YmxhbmsiID0g
-ZHJtX2Rldi0+bnVtX2NydGNzID09IDAsIHdoaWNoIHdlIG1pZ2h0CndhbnQgdG8gcHV0IGludG8g
-YSBoZWxwZXIgaWYgd2UgbGVhayB0aGlzIG91dCBvZiB0aGUgZHJtX3ZibGFuay5jCnNvdXJjZSBm
-aWxlcy4KCkNoZWVycywgRGFuaWVsCgo+Cj4gQmVzdCByZWdhcmRzCj4gVGhvbWFzCj4KPiA+Cj4g
-PiBJJ3ZlIGFsc28gc3BvdHRlZCB0aGF0IHlvdSd2ZSBkb25lIHRoaXMgc2FtZSB0cmljayBmb3Ig
-YXN0ICYgdWRsIGFscmVhZHkuCj4gPiBCdXQgSSB0aGluayBiZWZvcmUgd2Ugcm9sbCB0aGlzIG91
-dCBtYXNzaXZlbHkgd2Ugc2hvdWxkIG1ha2UgdGhpcwo+ID4gb2ZmaWNpYWwuIENhbiB5b3UgcGxz
-IGRvIGEgcGF0Y2ggdG8gdXBkYXRlIHRoZSBrZXJuZWxkb2MgZm9yIEBub192YmxhbmsKPiA+IHRo
-YXQgdmlydHVhbCBodyBjYW4gYWxzbyB1c2UgdGhpcyBzdHVmZj8KPiA+Cj4gPiBBbHNvLCBjb21w
-dXRpbmcgc3RhdGUgdmFsdWVzIGluIGF0b21pY19jb21taXQgY29kZSBpcyBraW5kYSB1bmNvb2wg
-YW5kCj4gPiBmcmF1Z2h0IHdpdGggcGVyaWwgLSBkZXNpZ24gYXNzdW1wdGlvbiBpcyB0aGF0IHdp
-dGggc29tZSB2ZXJ5IGZldwo+ID4gZXhjZXB0aW9ucyAod2hpY2ggYXJlIGtpbmRhIGF3a3dhcmQs
-IHdvdWxkIGJlIG5pY2UgdG8gbWFrZSBzdGF0ZSBwb2ludGVycwo+ID4gY29uc3QpIGFsbCB0aGUg
-Y29yZSBhbmQgaGVscGVyIGNvZGVzIHRoYXQgc3RhdGUgc3RydWN0dXJlcyBzdGF5IHVuY2hhbmdl
-ZAo+ID4gYWZ0ZXIgYXRvbWljX2NoZWNrIGNvbXBsZXRlZC4gVGhpcyBzaG91bGQgYmUgY29tcHV0
-ZWQgaW4gYXRvbWljX2NoZWNrIChsaWtlIHZjNAo+ID4gZG9lcykuIENhbiB5b3UgcGxzIGFsc28g
-aW5jbHVkZSBwYXRjaGVzIHRvIHVwZGF0ZSBhc3QgYW5kIHVkbCBpbiB0aGlzCj4gPiBzZXJpZXM/
-Cj4gPgo+ID4gVGhhbmtzLCBEYW5pZWwKPiA+Cj4gPgo+ID4+ICsKPiA+PiAgICAgIGNpcnJ1c19t
-b2RlX3NldChjaXJydXMsICZjcnRjX3N0YXRlLT5tb2RlLCBwbGFuZV9zdGF0ZS0+ZmIpOwo+ID4+
-ICAgICAgY2lycnVzX2ZiX2JsaXRfZnVsbHNjcmVlbihwbGFuZV9zdGF0ZS0+ZmIpOwo+ID4+ICB9
-Cj4gPj4gQEAgLTQzNCwxMyArNDM1LDYgQEAgc3RhdGljIHZvaWQgY2lycnVzX3BpcGVfdXBkYXRl
-KHN0cnVjdCBkcm1fc2ltcGxlX2Rpc3BsYXlfcGlwZSAqcGlwZSwKPiA+Pgo+ID4+ICAgICAgaWYg
-KGRybV9hdG9taWNfaGVscGVyX2RhbWFnZV9tZXJnZWQob2xkX3N0YXRlLCBzdGF0ZSwgJnJlY3Qp
-KQo+ID4+ICAgICAgICAgICAgICBjaXJydXNfZmJfYmxpdF9yZWN0KHBpcGUtPnBsYW5lLnN0YXRl
-LT5mYiwgJnJlY3QpOwo+ID4+IC0KPiA+PiAtICAgIGlmIChjcnRjLT5zdGF0ZS0+ZXZlbnQpIHsK
-PiA+PiAtICAgICAgICAgICAgc3Bpbl9sb2NrX2lycSgmY3J0Yy0+ZGV2LT5ldmVudF9sb2NrKTsK
-PiA+PiAtICAgICAgICAgICAgZHJtX2NydGNfc2VuZF92YmxhbmtfZXZlbnQoY3J0YywgY3J0Yy0+
-c3RhdGUtPmV2ZW50KTsKPiA+PiAtICAgICAgICAgICAgY3J0Yy0+c3RhdGUtPmV2ZW50ID0gTlVM
-TDsKPiA+PiAtICAgICAgICAgICAgc3Bpbl91bmxvY2tfaXJxKCZjcnRjLT5kZXYtPmV2ZW50X2xv
-Y2spOwo+ID4+IC0gICAgfQo+ID4+ICB9Cj4gPj4KPiA+PiAgc3RhdGljIGNvbnN0IHN0cnVjdCBk
-cm1fc2ltcGxlX2Rpc3BsYXlfcGlwZV9mdW5jcyBjaXJydXNfcGlwZV9mdW5jcyA9IHsKPiA+PiAt
-LQo+ID4+IDIuMjQuMQo+ID4+Cj4gPgo+Cj4gLS0KPiBUaG9tYXMgWmltbWVybWFubgo+IEdyYXBo
-aWNzIERyaXZlciBEZXZlbG9wZXIKPiBTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdt
-YkgKPiBNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkKPiAoSFJCIDM2ODA5
-LCBBRyBOw7xybmJlcmcpCj4gR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcgo+
-CgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9u
-Cis0MSAoMCkgNzkgMzY1IDU3IDQ4IC0gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
-dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Mon, Jan 13, 2020 at 01:03:11PM +0200, Jyri Sarha wrote:
+> Hi,
+> While working with CRTC color related properties (gamma and CTM for
+> instance) and making them persistent over suspend-resume cycle it
+> occurred to me if I am just wasting resources by storing the property
+> values in the driver and restoring them in dev_pm_ops runtime_resume()..
+> 
+> Wouldn't it work if I would just:
+> 
+> 1. Add a flag in the driver to indicate that the context may have been
+> lost since the previous atomic commit and set in runtime_resume().
+> 
+> 2. And write the color properties to HW if the context lost flag is set
+> even if the drm_crtc_state color_mgmt_changed is false.
+
+Still feels a bit too complicated, but might be needed for your hw. The
+usual approach is:
+
+- runtime pm within modeset enable/disable. Since atomic helpers always
+  enable the entire pipeline for a crtc enable/disable you can put the
+  runtime pm into each component (drm_crtc/encoder/bridge/...).
+
+- just unconditionally restore everything in modeset enable, assuming
+  everything got lost.
+
+- drm_atomic_helper_suspend/resume for system suspend/resume.
+
+And you should be covevered. State save/restore in your driver code is
+indeed an anti-pattern for modeset drivers, don't do that - ime at least
+with fragile hw you'll get divergence between the two paths in minor
+details, with some really hard to track down bugs as a result.
+
+Ime tracking state changes and trying to be clever with when to restore
+stuff (maybe outside of some atomic flip fastpath) in driver code only
+attracts bugs :-)
+
+> The color property values are there despite the color_mgmt_changed ==
+> false, aren't they?
+
+Yes.
+
+Cheers, Daniel
+> 
+> Best regards,
+> Jyri
+> 
+> -- 
+> Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+> Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
