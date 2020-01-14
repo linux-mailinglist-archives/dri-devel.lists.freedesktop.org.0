@@ -2,57 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEB9F139E85
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2020 01:46:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88791139FA8
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2020 04:01:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A7186E1C0;
-	Tue, 14 Jan 2020 00:46:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4D516E1D7;
+	Tue, 14 Jan 2020 03:01:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa44.google.com (mail-vk1-xa44.google.com
- [IPv6:2607:f8b0:4864:20::a44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B581E6E1BE;
- Tue, 14 Jan 2020 00:46:03 +0000 (UTC)
-Received: by mail-vk1-xa44.google.com with SMTP id t129so3134901vkg.6;
- Mon, 13 Jan 2020 16:46:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5gV2R3Ixh954iDDkX0/3sL6lriDWXRsCN/lGpeZTPDc=;
- b=Ae2/ZpxL7fCLzR07ewdAZzfF6zv0hgrMulsQk6hBjzkRY2R3ni9cLvphMhfN0zFm9U
- bXVgXzMZf8dakJlgfvmfl1kMEuPUGiiTVRQkDA7orrFVyOefuo4+g8r3pI2k3xxkesof
- lVR00q56O/gui25Ejs3Rs7IIid5tJye7uL/BJipl6utSvBupumWfLRSCaW4tmBZzBlTL
- /o/qKNvR83SgSNqKYDIo8U6AHdWpnk19/htXse5/eHl/pF+/eenbsSicE3YCZNtiRf66
- ucjiWMV2gekghCUZe5YlAEY3zyj47kQ98HYW9A0LRpzVrcubsDHV2LzE00mH8tVl/132
- pEhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5gV2R3Ixh954iDDkX0/3sL6lriDWXRsCN/lGpeZTPDc=;
- b=lVROR5u9Yh0EQhk0ZOZVwwRa6fBqAjzWZnR0SobJ6G0Qdt3aNwBxsy/D+oE0xpabVL
- eEgXPsNXObJNChqNVI6vDgXOuPTabjCYU/jmWrLHMxLBDiSyB9ZhF9jcJflMk3DrrRpF
- +Abv6ELacTobzxGk7xojT0i7bZ72j27kApvYXKLHaJ0RofXoHGDix9fMvb0j8nsKGpsT
- BKpOyMR8j1cXX2HC2qCN0eAycNmXrOFQT3utfw/0w0NvgfWB08c1J5uTGdT3iYh31UJf
- 6mdsrSys/eTe+UjCLTBVXgekG5zlAFN1kmkf0dRGitoPmKNH9ju6h1Dx+aDscg8HaoQ7
- dbxg==
-X-Gm-Message-State: APjAAAWtFlGVsid0AVPc7oZ62u4LNrui3qALWpe0QxP5imO2OekxPx7w
- vTIXf3zjF3lAtl1lONTLSbj9GQwKmOXhWR9vAQo=
-X-Google-Smtp-Source: APXvYqytrAmAqZ1DZJZHtOKbPoD4M2PzlcYb4C2dq0T5kKCR4DnU0ejkGLTzL3HmE6wVsnhESA6wMV+h8oh/AkIFo6Y=
-X-Received: by 2002:a1f:2910:: with SMTP id p16mr9214513vkp.71.1578962762480; 
- Mon, 13 Jan 2020 16:46:02 -0800 (PST)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2061.outbound.protection.outlook.com [40.107.93.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 802CA6E1D7;
+ Tue, 14 Jan 2020 03:01:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eU9KSbJKyvOoolXkNdEO3pnYOvm0XciQPdZGmVqKltvXpQzYPn2K1wHKPLZ6Vvz+sH986cjTfQOFgp3W6sdZmKW6G49lQA7gpl8dVNixAEv5og9pAnKvZOfyYul17+Z+4k1g0Q/h7/lT5ce11IVJffmLZBzm8lB/eUSi0tQVfu9/xfPLtJ+5ByySQ/xP7fH5XtNf1X4LncqUZNcHGtIcMmnmparo20elteGnNj4AcBck44Vt7wVCkni1w73SlKzEpPlxzR8LuVIvroOdG3zvjPh8FtiI0NSuz7EUKdPlBXSIOsjjqOtxSevm35qFH+HYZth8CQq+Z5RvBWENzz4PZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CPSUE2QCxTHbPuJ+qgdmRtnQY8qYEQITPagFMXUYoTk=;
+ b=iuAwKNuuskckGon7yIf0gwRfJSApAAQRoJQGI+h51DGzxEwFHe/Sb84Qcx8c4LfZ6L0hMVWUUFxoVsF8ZvHLfLwXFmV4POjep7T+s3+GJqUkPeC321REfIeSnS5LnndNSvCeKM3SLeEeicrgdYLbfxr4etUJpbI+4lbIvdL02S90Jd6T1GS/fyPel+VxkbKfw2n3eYnKqQpChaA3wXy82L6txjpT8WRfDPv+Tvj7h2IgSjlOMXnejdux+Fv/tHLL7mhrXLHaNap+t9Q5wW5hPQwUmyzC1fEcbE9mHX87lUGa3ETUtzbOsARzb1u+28QYrcyQWWpqL+rR2loV0jS0Hw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CPSUE2QCxTHbPuJ+qgdmRtnQY8qYEQITPagFMXUYoTk=;
+ b=rvQYZ/bPIFMhOmfLNcHTRdzIR0lYJ9jrgvlpHCdZfwKciSN30lyOZdu3SIdoeE3jZwYB9VjQY8AOxFZkHmEwBsIYToLW/I3ezqgX8TT2HdHLnYI5gjDEy0f8qaFES0SdwtAh44tew1XOKrMkpq81IGmM4uuSbOer4YulV0VhnyA=
+Received: from DM6PR12MB4137.namprd12.prod.outlook.com (10.141.186.21) by
+ DM6PR12MB3771.namprd12.prod.outlook.com (10.255.174.84) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2623.9; Tue, 14 Jan 2020 03:01:19 +0000
+Received: from DM6PR12MB4137.namprd12.prod.outlook.com
+ ([fe80::cd1d:def3:d2df:3882]) by DM6PR12MB4137.namprd12.prod.outlook.com
+ ([fe80::cd1d:def3:d2df:3882%7]) with mapi id 15.20.2623.015; Tue, 14 Jan 2020
+ 03:01:19 +0000
+From: "Lin, Wayne" <Wayne.Lin@amd.com>
+To: Lyude Paul <lyude@redhat.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
+ <amd-gfx@lists.freedesktop.org>
+Subject: RE: [PATCH] drm/dp_mst: Have DP_Tx send one msg at a time
+Thread-Topic: [PATCH] drm/dp_mst: Have DP_Tx send one msg at a time
+Thread-Index: AQHVyfUbuOCcXK3SL0+leoduf4Kwfafo4l+AgACWwBA=
+Date: Tue, 14 Jan 2020 03:01:19 +0000
+Message-ID: <DM6PR12MB4137E0B1BE39D7C4DD1AC33CFC340@DM6PR12MB4137.namprd12.prod.outlook.com>
+References: <20200113093649.11755-1-Wayne.Lin@amd.com>
+ <7e60f25010669799afe5bf77c943244809c744bf.camel@redhat.com>
+In-Reply-To: <7e60f25010669799afe5bf77c943244809c744bf.camel@redhat.com>
+Accept-Language: en-US, zh-TW
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Enabled=true;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_SetDate=2020-01-14T02:58:48Z; 
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Method=Privileged;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Name=Public_0;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_ActionId=38e5deb2-60ad-447d-b9b5-0000c9f0b509;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_ContentBits=1
+msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_enabled: true
+msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_setdate: 2020-01-14T03:01:14Z
+msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_method: Privileged
+msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_name: Public_0
+msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_siteid: 3dd8961f-e488-4e60-8e11-a82d994e183d
+msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_actionid: bc24522e-3eaf-4ca2-918a-0000829c8e32
+msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_contentbits: 0
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Wayne.Lin@amd.com; 
+x-originating-ip: [165.204.68.36]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 6fa2b6d9-2279-4c3d-e0fc-08d7989e076a
+x-ms-traffictypediagnostic: DM6PR12MB3771:|DM6PR12MB3771:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM6PR12MB377194A95AA89051A392DDF2FC340@DM6PR12MB3771.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 028256169F
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(4636009)(396003)(136003)(376002)(346002)(366004)(39860400002)(199004)(189003)(26005)(33656002)(7696005)(478600001)(186003)(4326008)(86362001)(81166006)(55016002)(9686003)(54906003)(8676002)(81156014)(6506007)(53546011)(110136005)(2906002)(8936002)(66476007)(66446008)(66946007)(66556008)(316002)(52536014)(71200400001)(76116006)(64756008)(5660300002);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:DM6PR12MB3771;
+ H:DM6PR12MB4137.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 8+hXmQykzL1+XbU0BkGCJLqaPP8gNdXo/DiRPrHtpx4UHq0tRFb8GgErURu/FJ495qD/mFYNNkMtjXX9QYemBewiS7kmcKECDYLpMqeSMpi77umOvBDXu/9pRHHBCBCJNszw3iRyz000+fyzP0uLIoZdLYsYfGhMWgRUGmkzrXWN7o8EyPmJe9utRRhYtx58Ddsg4qKZsEwT95hcTVf7rQPL5bu8cda8yEi8TEU98bAh69Jg+7OnLvdrBSHoeJI8+6ou6yCQQwL9kMPLFmPLCyez04t9zWXf0QByiNbke4EM90LmJBja3s1noJ/vWxB9cp3N5SGZU3BnlWp3mgs5NO2ZG34QJT/Led4CrhQbjanYGReRu3MnExjiqmdWS0CuRSFK0nlmNtOlbV1yPcOg/tsDEhM5HexTb32/UYrVuwkaugiS7VrlpeBv/YB7n5P+
 MIME-Version: 1.0
-References: <20200113153605.52350-1-brian@brkho.com>
- <20200113153605.52350-3-brian@brkho.com>
- <CAJs_Fx48B-C8GEeAmPaqGAqAOTR2dT0csg8W=TRyULOfy=1=VQ@mail.gmail.com>
- <CAOPc6Tn8CWVzcLoJOGmn3CW6B9FMKf_-NzE8TpwDHsPfoQDaQQ@mail.gmail.com>
- <20200113225516.GA157345@google.com>
- <CAJs_Fx5i-cZ0qXk_jNo=JGfZRc7uuvUcTZ2TE1ppuYUfNLymKQ@mail.gmail.com>
-In-Reply-To: <CAJs_Fx5i-cZ0qXk_jNo=JGfZRc7uuvUcTZ2TE1ppuYUfNLymKQ@mail.gmail.com>
-From: =?UTF-8?Q?Kristian_H=C3=B8gsberg?= <hoegsberg@gmail.com>
-Date: Mon, 13 Jan 2020 16:45:51 -0800
-Message-ID: <CAOeoa-eLpuJ7Bf8FiZS+YyxUK5c8h7oA9qVMnqr1TDRXh2TpNA@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH 2/2] drm/msm: Add MSM_WAIT_IOVA ioctl
-To: Rob Clark <robdclark@chromium.org>
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6fa2b6d9-2279-4c3d-e0fc-08d7989e076a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jan 2020 03:01:19.2047 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 7LlUBlZoxsCrkGXUfAcnNIyAkIwqiI5BwT8uPWOrDzPLQYB9g6aoyeWw2wqxb6F0V01RVYuMxihLeHS/usmxsQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3771
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,265 +108,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Brian Ho <brian@brkho.com>,
- David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- Kristian Kristensen <hoegsberg@google.com>, hoegsberg <hoegsberg@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: "Zuo, Jerry" <Jerry.Zuo@amd.com>, "Kazlauskas,
+ Nicholas" <Nicholas.Kazlauskas@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 13, 2020 at 3:17 PM Rob Clark <robdclark@chromium.org> wrote:
->
-> On Mon, Jan 13, 2020 at 2:55 PM Brian Ho <brian@brkho.com> wrote:
-> >
-> > On Mon, Jan 13, 2020 at 09:57:43AM -0800, Kristian Kristensen wrote:
-> > > On Mon, Jan 13, 2020 at 8:25 AM Rob Clark <robdclark@chromium.org> wrote:
-> > >
-> > > > On Mon, Jan 13, 2020 at 7:37 AM Brian Ho <brian@brkho.com> wrote:
-> > > > >
-> > > > > Implements an ioctl to wait until a value at a given iova is greater
-> > > > > than or equal to a supplied value.
-> > > > >
-> > > > > This will initially be used by turnip (open-source Vulkan driver for
-> > > > > QC in mesa) for occlusion queries where the userspace driver can
-> > > > > block on a query becoming available before continuing via
-> > > > > vkGetQueryPoolResults.
-> > > > >
-> > > > > Signed-off-by: Brian Ho <brian@brkho.com>
-> > > > > ---
-> > > > >  drivers/gpu/drm/msm/msm_drv.c | 63 +++++++++++++++++++++++++++++++++--
-> > > > >  include/uapi/drm/msm_drm.h    | 13 ++++++++
-> > > > >  2 files changed, 74 insertions(+), 2 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/msm/msm_drv.c
-> > > > b/drivers/gpu/drm/msm/msm_drv.c
-> > > > > index c84f0a8b3f2c..dcc46874a5a2 100644
-> > > > > --- a/drivers/gpu/drm/msm/msm_drv.c
-> > > > > +++ b/drivers/gpu/drm/msm/msm_drv.c
-> > > > > @@ -36,10 +36,11 @@
-> > > > >   *           MSM_GEM_INFO ioctl.
-> > > > >   * - 1.4.0 - softpin, MSM_RELOC_BO_DUMP, and GEM_INFO support to set/get
-> > > > >   *           GEM object's debug name
-> > > > > - * - 1.5.0 - Add SUBMITQUERY_QUERY ioctl
-> > > > > + * - 1.5.0 - Add SUBMITQUEUE_QUERY ioctl
-> > > > > + * - 1.6.0 - Add WAIT_IOVA ioctl
-> > > > >   */
-> > > > >  #define MSM_VERSION_MAJOR      1
-> > > > > -#define MSM_VERSION_MINOR      5
-> > > > > +#define MSM_VERSION_MINOR      6
-> > > > >  #define MSM_VERSION_PATCHLEVEL 0
-> > > > >
-> > > > >  static const struct drm_mode_config_funcs mode_config_funcs = {
-> > > > > @@ -952,6 +953,63 @@ static int msm_ioctl_submitqueue_close(struct
-> > > > drm_device *dev, void *data,
-> > > > >         return msm_submitqueue_remove(file->driver_priv, id);
-> > > > >  }
-> > > > >
-> > > > > +static int msm_ioctl_wait_iova(struct drm_device *dev, void *data,
-> > > > > +               struct drm_file *file)
-> > > > > +{
-> > > > > +       struct msm_drm_private *priv = dev->dev_private;
-> > > > > +       struct drm_gem_object *obj;
-> > > > > +       struct drm_msm_wait_iova *args = data;
-> > > > > +       ktime_t timeout = to_ktime(args->timeout);
-> > > > > +       unsigned long remaining_jiffies = timeout_to_jiffies(&timeout);
-> > > > > +       struct msm_gpu *gpu = priv->gpu;
-> > > > > +       void *base_vaddr;
-> > > > > +       uint64_t *vaddr;
-> > > > > +       int ret;
-> > > > > +
-> > > > > +       if (args->pad)
-> > > > > +               return -EINVAL;
-> > > > > +
-> > > > > +       if (!gpu)
-> > > > > +               return 0;
-> > > >
-> > > > hmm, I'm not sure we should return zero in this case.. maybe -ENODEV?
-> > > >
-> > > > > +
-> > > > > +       obj = drm_gem_object_lookup(file, args->handle);
-> > > > > +       if (!obj)
-> > > > > +               return -ENOENT;
-> > > > > +
-> > > > > +       base_vaddr = msm_gem_get_vaddr(obj);
-> > > > > +       if (IS_ERR(base_vaddr)) {
-> > > > > +               ret = PTR_ERR(base_vaddr);
-> > > > > +               goto err_put_gem_object;
-> > > > > +       }
-> > > > > +       if (args->offset + sizeof(*vaddr) > obj->size) {
-> > > > > +               ret = -EINVAL;
-> > > > > +               goto err_put_vaddr;
-> > > > > +       }
-> > > > > +
-> > > > > +       vaddr = base_vaddr + args->offset;
-> > > > > +
-> > > > > +       /* Assumes WC mapping */
-> > > > > +       ret = wait_event_interruptible_timeout(
-> > > > > +                       gpu->event, *vaddr >= args->value,
-> > > > remaining_jiffies);
-> > > >
-> > >
-> > > This needs to do the awkward looking
-> > >
-> > >   (int64_t)(*data - value) >= 0
-> > >
-> > > to properly handle the wraparound case.
-> > >
-> >
-> > I think this comparison will run into issues if we allow for 64-bit
-> > reference values. For example, if value is ULLONG_MAX, and *data
-> > starts at 0 on the first comparison, we'll immediately return.
+[AMD Public Use]
 
-The comparison will have to account of the number of bits in the
-serial number. The (int64_t) (*data - value) works for 64 bit unsigned
-serial numbers, but for 32 bit serials as suggested below, we need to
-cast to int32_t. It does work though, in the case where value is
-ULLONG_MAX and and *data is 0, 0 - ULLONG_MAX is one, which is
-correct. The serial numbers wrap around and the distance is computed
-modulo 2^64. See
-https://en.wikipedia.org/wiki/Serial_number_arithmetic.
+Thanks for your time and hope you get well soon!
 
-> >
-> > It's not too much of an issue in fence_completed (msm_fence.c), but
-> > in this ioctl, *data can grow at an arbitrary rate. Are we concerned
-> > about this?
-> >
-> > > > +
-> > > > > +       if (ret == 0) {
-> > > > > +               ret = -ETIMEDOUT;
-> > > > > +               goto err_put_vaddr;
-> > > > > +       } else if (ret == -ERESTARTSYS) {
-> > > > > +               goto err_put_vaddr;
-> > > > > +       }
-> > > >
-> > > > maybe:
-> > > >
-> > > >  } else {
-> > > >    ret = 0;
-> > > >  }
-> > > >
-> > > > and then drop the next three lines?
-> > > >
-> > > > > +
-> > > > > +       msm_gem_put_vaddr(obj);
-> > > > > +       drm_gem_object_put_unlocked(obj);
-> > > > > +       return 0;
-> > > > > +
-> > > > > +err_put_vaddr:
-> > > > > +       msm_gem_put_vaddr(obj);
-> > > > > +err_put_gem_object:
-> > > > > +       drm_gem_object_put_unlocked(obj);
-> > > > > +       return ret;
-> > > > > +}
-> > > > > +
-> > > > >  static const struct drm_ioctl_desc msm_ioctls[] = {
-> > > > >         DRM_IOCTL_DEF_DRV(MSM_GET_PARAM,    msm_ioctl_get_param,
-> > > > DRM_RENDER_ALLOW),
-> > > > >         DRM_IOCTL_DEF_DRV(MSM_GEM_NEW,      msm_ioctl_gem_new,
-> > > > DRM_RENDER_ALLOW),
-> > > > > @@ -964,6 +1022,7 @@ static const struct drm_ioctl_desc msm_ioctls[] = {
-> > > > >         DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_NEW,
-> > > >  msm_ioctl_submitqueue_new,   DRM_RENDER_ALLOW),
-> > > > >         DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_CLOSE,
-> > > > msm_ioctl_submitqueue_close, DRM_RENDER_ALLOW),
-> > > > >         DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_QUERY,
-> > > > msm_ioctl_submitqueue_query, DRM_RENDER_ALLOW),
-> > > > > +       DRM_IOCTL_DEF_DRV(MSM_WAIT_IOVA, msm_ioctl_wait_iova,
-> > > > DRM_RENDER_ALLOW),
-> > > > >  };
-> > > > >
-> > > > >  static const struct vm_operations_struct vm_ops = {
-> > > > > diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
-> > > > > index 0b85ed6a3710..8477f28a4ee1 100644
-> > > > > --- a/include/uapi/drm/msm_drm.h
-> > > > > +++ b/include/uapi/drm/msm_drm.h
-> > > > > @@ -298,6 +298,17 @@ struct drm_msm_submitqueue_query {
-> > > > >         __u32 pad;
-> > > > >  };
-> > > > >
-> > > > > +/* This ioctl blocks until the u64 value at bo + offset is greater than
-> > > > or
-> > > > > + * equal to the reference value.
-> > > > > + */
-> > > > > +struct drm_msm_wait_iova {
-> > > > > +       __u32 handle;          /* in, GEM handle */
-> > > > > +       __u32 pad;
-> > > > > +       struct drm_msm_timespec timeout;   /* in */
-> > > > > +       __u64 offset;          /* offset into bo */
-> > > > > +       __u64 value;           /* reference value */
-> > > >
-> > > > Maybe we should go ahead and add a __u64 mask;
-> > > >
-> > > > that would let us wait for 32b values as well, and wait for bits in a
-> > > > bitmask
-> > > >
-> > >
-> > > I think we'd be OK to just default to 32 bit values instead, since most of
-> > > the CP commands that this is intended to work with (CP_EVENT_WRITE,
-> > > CP_WAIT_MEM_GTE etc) operate on 32 bit values. We could move 'value' to the
-> > > slot right after 'handle' but then we'd not have any pad/reserved fields.
-> > > Maybe we keep 'value' 64 bit but restrict it to 32 bits, with an option to
-> > > add a 64 bit flag in 'pad' later on?
-> > >
-> >
-> > FWIW, the current usage of this in my mesa MR uses a 64 bit value.
-> > There's no super great reason that the available bit is 64 bits and
-> > not 32 bits (I think it made the addressing math a bit simpler), but
-> > I'm fine with whatever you all decide on here.
-> >
->
-> I assume you are waiting for a fence value written w/ CP_EVENT_WRITE?
-> Or at least that is what I'd recommend.  That would be 32b
->
-> BR,
-> -R
->
-> > > >
-> > > > Other than those minor comments, it looks pretty good to me
-> > > >
-> > > > BR,
-> > > > -R
-> > > >
-> > > > > +};
-> > > > > +
-> > > > >  #define DRM_MSM_GET_PARAM              0x00
-> > > > >  /* placeholder:
-> > > > >  #define DRM_MSM_SET_PARAM              0x01
-> > > > > @@ -315,6 +326,7 @@ struct drm_msm_submitqueue_query {
-> > > > >  #define DRM_MSM_SUBMITQUEUE_NEW        0x0A
-> > > > >  #define DRM_MSM_SUBMITQUEUE_CLOSE      0x0B
-> > > > >  #define DRM_MSM_SUBMITQUEUE_QUERY      0x0C
-> > > > > +#define DRM_MSM_WAIT_IOVA      0x0D
-> > > > >
-> > > > >  #define DRM_IOCTL_MSM_GET_PARAM        DRM_IOWR(DRM_COMMAND_BASE +
-> > > > DRM_MSM_GET_PARAM, struct drm_msm_param)
-> > > > >  #define DRM_IOCTL_MSM_GEM_NEW          DRM_IOWR(DRM_COMMAND_BASE +
-> > > > DRM_MSM_GEM_NEW, struct drm_msm_gem_new)
-> > > > > @@ -327,6 +339,7 @@ struct drm_msm_submitqueue_query {
-> > > > >  #define DRM_IOCTL_MSM_SUBMITQUEUE_NEW    DRM_IOWR(DRM_COMMAND_BASE +
-> > > > DRM_MSM_SUBMITQUEUE_NEW, struct drm_msm_submitqueue)
-> > > > >  #define DRM_IOCTL_MSM_SUBMITQUEUE_CLOSE  DRM_IOW (DRM_COMMAND_BASE +
-> > > > DRM_MSM_SUBMITQUEUE_CLOSE, __u32)
-> > > > >  #define DRM_IOCTL_MSM_SUBMITQUEUE_QUERY  DRM_IOW (DRM_COMMAND_BASE +
-> > > > DRM_MSM_SUBMITQUEUE_QUERY, struct drm_msm_submitqueue_query)
-> > > > > +#define DRM_IOCTL_MSM_WAIT_IOVA        DRM_IOW (DRM_COMMAND_BASE +
-> > > > DRM_MSM_WAIT_IOVA, struct drm_msm_wait_iova)
-> > > > >
-> > > > >  #if defined(__cplusplus)
-> > > > >  }
-> > > > > --
-> > > > > 2.25.0.rc1.283.g88dfdc4193-goog
-> > > > >
-> > > >
-> _______________________________________________
-> Freedreno mailing list
-> Freedreno@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/freedreno
+-----Original Message-----
+From: Lyude Paul <lyude@redhat.com> 
+Sent: Tuesday, January 14, 2020 1:59 AM
+To: Lin, Wayne <Wayne.Lin@amd.com>; dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org
+Cc: Kazlauskas, Nicholas <Nicholas.Kazlauskas@amd.com>; Wentland, Harry <Harry.Wentland@amd.com>; Zuo, Jerry <Jerry.Zuo@amd.com>
+Subject: Re: [PATCH] drm/dp_mst: Have DP_Tx send one msg at a time
+
+Hey! Haven't taken a look at this patch yet but just wanted to let you know I'm going to try to get to most of the stuff you've got pending for me. I came down with a really nasty cold last week so sorry if you've had any other patches waiting until now!
+
+On Mon, 2020-01-13 at 17:36 +0800, Wayne Lin wrote:
+> [Why]
+> Noticed this while testing MST with the 4 ports MST hub from 
+> StarTech.com. Sometimes can't light up monitors normally and get the 
+> error message as 'sideband msg build failed'.
+> 
+> Look into aux transactions, found out that source sometimes will send 
+> out another down request before receiving the down reply of the 
+> previous down request. On the other hand, in drm_dp_get_one_sb_msg(), 
+> current code doesn't handle the interleaved replies case. Hence, 
+> source can't build up message completely and can't light up monitors.
+> 
+> [How]
+> For good compatibility, enforce source to send out one down request at 
+> a time. Add a flag, is_waiting_for_dwn_reply, to determine if the 
+> source can send out a down request immediately or not.
+> 
+> - Check the flag before calling process_single_down_tx_qlock to send 
+> out a msg
+> - Set the flag when successfully send out a down request
+> - Clear the flag when successfully build up a down reply
+> - Clear the flag when find erros during sending out a down request
+> - Clear the flag when find errors during building up a down reply
+> - Clear the flag when timeout occurs during waiting for a down reply
+> - Use drm_dp_mst_kick_tx() to try to send another down request in 
+> queue at the end of drm_dp_mst_wait_tx_reply() (attempt to send out 
+> messages in queue when errors occur)
+> 
+> Cc: Lyude Paul <lyude@redhat.com>
+> Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
+> ---
+>  drivers/gpu/drm/drm_dp_mst_topology.c | 14 ++++++++++++--
+>  include/drm/drm_dp_mst_helper.h       |  6 ++++++
+>  2 files changed, 18 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c
+> b/drivers/gpu/drm/drm_dp_mst_topology.c
+> index 4395d5cc0645..3542af15387a 100644
+> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> @@ -1195,6 +1195,8 @@ static int drm_dp_mst_wait_tx_reply(struct 
+> drm_dp_mst_branch *mstb,
+>  		    txmsg->state == DRM_DP_SIDEBAND_TX_SENT) {
+>  			mstb->tx_slots[txmsg->seqno] = NULL;
+>  		}
+> +		mgr->is_waiting_for_dwn_reply = false;
+> +
+>  	}
+>  out:
+>  	if (unlikely(ret == -EIO) && drm_debug_enabled(DRM_UT_DP)) { @@ 
+> -1204,6 +1206,7 @@ static int drm_dp_mst_wait_tx_reply(struct 
+> drm_dp_mst_branch *mstb,
+>  	}
+>  	mutex_unlock(&mgr->qlock);
+>  
+> +	drm_dp_mst_kick_tx(mgr);
+>  	return ret;
+>  }
+>  
+> @@ -2770,9 +2773,11 @@ static void process_single_down_tx_qlock(struct
+> drm_dp_mst_topology_mgr *mgr)
+>  	ret = process_single_tx_qlock(mgr, txmsg, false);
+>  	if (ret == 1) {
+>  		/* txmsg is sent it should be in the slots now */
+> +		mgr->is_waiting_for_dwn_reply = true;
+>  		list_del(&txmsg->next);
+>  	} else if (ret) {
+>  		DRM_DEBUG_KMS("failed to send msg in q %d\n", ret);
+> +		mgr->is_waiting_for_dwn_reply = false;
+>  		list_del(&txmsg->next);
+>  		if (txmsg->seqno != -1)
+>  			txmsg->dst->tx_slots[txmsg->seqno] = NULL; @@ -2812,7 +2817,8 @@ 
+> static void drm_dp_queue_down_tx(struct drm_dp_mst_topology_mgr *mgr,
+>  		drm_dp_mst_dump_sideband_msg_tx(&p, txmsg);
+>  	}
+>  
+> -	if (list_is_singular(&mgr->tx_msg_downq))
+> +	if (list_is_singular(&mgr->tx_msg_downq) &&
+> +	    !mgr->is_waiting_for_dwn_reply)
+>  		process_single_down_tx_qlock(mgr);
+>  	mutex_unlock(&mgr->qlock);
+>  }
+> @@ -3743,6 +3749,7 @@ static int drm_dp_mst_handle_down_rep(struct 
+> drm_dp_mst_topology_mgr *mgr)
+>  	mutex_lock(&mgr->qlock);
+>  	txmsg->state = DRM_DP_SIDEBAND_TX_RX;
+>  	mstb->tx_slots[slot] = NULL;
+> +	mgr->is_waiting_for_dwn_reply = false;
+>  	mutex_unlock(&mgr->qlock);
+>  
+>  	wake_up_all(&mgr->tx_waitq);
+> @@ -3752,6 +3759,9 @@ static int drm_dp_mst_handle_down_rep(struct 
+> drm_dp_mst_topology_mgr *mgr)
+>  no_msg:
+>  	drm_dp_mst_topology_put_mstb(mstb);
+>  clear_down_rep_recv:
+> +	mutex_lock(&mgr->qlock);
+> +	mgr->is_waiting_for_dwn_reply = false;
+> +	mutex_unlock(&mgr->qlock);
+>  	memset(&mgr->down_rep_recv, 0, sizeof(struct 
+> drm_dp_sideband_msg_rx));
+>  
+>  	return 0;
+> @@ -4591,7 +4601,7 @@ static void drm_dp_tx_work(struct work_struct *work)
+>  	struct drm_dp_mst_topology_mgr *mgr = container_of(work, struct 
+> drm_dp_mst_topology_mgr, tx_work);
+>  
+>  	mutex_lock(&mgr->qlock);
+> -	if (!list_empty(&mgr->tx_msg_downq))
+> +	if (!list_empty(&mgr->tx_msg_downq) && 
+> +!mgr->is_waiting_for_dwn_reply)
+>  		process_single_down_tx_qlock(mgr);
+>  	mutex_unlock(&mgr->qlock);
+>  }
+> diff --git a/include/drm/drm_dp_mst_helper.h 
+> b/include/drm/drm_dp_mst_helper.h index 942575de86a0..d0b45468135a 
+> 100644
+> --- a/include/drm/drm_dp_mst_helper.h
+> +++ b/include/drm/drm_dp_mst_helper.h
+> @@ -610,6 +610,12 @@ struct drm_dp_mst_topology_mgr {
+>  	 * &drm_dp_sideband_msg_tx.state once they are queued
+>  	 */
+>  	struct mutex qlock;
+> +
+> +	/**
+> +	 * @is_waiting_for_dwn_reply: indicate whether is waiting for down
+> reply
+> +	 */
+> +	bool is_waiting_for_dwn_reply;
+> +
+>  	/**
+>  	 * @tx_msg_downq: List of pending down replies.
+>  	 */
+> --
+> Cheers,
+>	Lyude Paul
+--
+Best regards,
+Wayne Lin
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
