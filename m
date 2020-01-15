@@ -1,61 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D31DC13C274
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 14:17:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7847413C27B
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 14:19:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 396146E9CC;
-	Wed, 15 Jan 2020 13:17:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 671B36E9D0;
+	Wed, 15 Jan 2020 13:19:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FE526E9CC
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 13:17:18 +0000 (UTC)
-Received: from mail-qv1-f51.google.com ([209.85.219.51]) by
- mrelayeu.kundenserver.de (mreue012 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1MgzWP-1jJ4fh0Hcb-00hR8R for <dri-devel@lists.freedesktop.org>; Wed, 15
- Jan 2020 14:17:16 +0100
-Received: by mail-qv1-f51.google.com with SMTP id l14so7296348qvu.12
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 05:17:14 -0800 (PST)
-X-Gm-Message-State: APjAAAWS2xsqXe4YxPenMBli3q7JkKKmcELon5EeK1PG61q/dmWwDuWn
- dyVvJ0mW+LVgha5MFambiHIFpjyjdXML7jBZkcY=
-X-Google-Smtp-Source: APXvYqw6NIFS97lqecGyqkucJJ9eR92lH8OkYLUR/9zn7Yxt/NLRzeCcRu106nWrGyp9+B+UV4pv/9O/RYpLvGnJKEc=
-X-Received: by 2002:a0c:d788:: with SMTP id z8mr20666215qvi.211.1579094234004; 
- Wed, 15 Jan 2020 05:17:14 -0800 (PST)
+Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com
+ [IPv6:2607:f8b0:4864:20::b41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B49BD6E9D0;
+ Wed, 15 Jan 2020 13:19:21 +0000 (UTC)
+Received: by mail-yb1-xb41.google.com with SMTP id w9so2285186ybs.3;
+ Wed, 15 Jan 2020 05:19:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=INCOtpe95Ws8JrYlw5UXXXuxsmjC1tIEmoEcKivXLvo=;
+ b=IlWOO4FgjOZnmo2ei2RS7xnRxkLir4q4A36gh0fTihPxSoVR4AoNKAJ6t/Ep+H3PpN
+ Hqcd7xEydzOf8PvkQ174Ehn/D5XkVj+nLxIYDN+6vupOuMrO9mY+6HolfgXbJl2Mbx75
+ pMELxpmLpxFJ2rfJe0AbOdvx2HfOPg4KfWqhOixFrn3L+pmykUeFxq+X7zuidP3euh4H
+ rKJ2b551iNX2gqXSOflk81Uqjw3CYtxAnKt+qpZrH/f0Oq/KFtDd5KlfWH3Ow8i+JUks
+ cbD0WAEONXyxdYMT8fJyChp/4mmJsxsEx5FimuaIbkRoN3mOXHAjymbmLAQE2I/rHC/R
+ Cnvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=INCOtpe95Ws8JrYlw5UXXXuxsmjC1tIEmoEcKivXLvo=;
+ b=DKJK3vDhauO7p4XRTcxZMMAMzl6NEoEb+dLwGn56m7iEbiGnjM6X8eTV7eZPFyU9rA
+ SAvoMfhBiAAcjEqDVipKp2ZcbWhQdqQZpaG7plAFeEEq+6QZgaa1VXInt3kMZs45NPfX
+ gxN1tMwywZpjKrSkJQxOYt5oiortJ4Q2UdjSWkRnzUmxVUjk2fIyHDcS529QLODnxxmJ
+ E+en29ily//nJsedYHl9xGjJZErK1W0wS9gAL7z1x2RTzSs6nIi3OrW6wf7LPHYwneHj
+ YWt0iIvOCW1o8jUB1H5At5D3IbXkxClk5ITRWpwpM0R56HGON10KANz46rI3YRbzjir+
+ INOA==
+X-Gm-Message-State: APjAAAVz9GApAxetbC/wwZGkX1rZmUVb5WtHCM0/FyVlUvqDP5JJJBvr
+ tZ8ZCUVEs7LbAxYBlvZopRns/AUQ
+X-Google-Smtp-Source: APXvYqwbKdSj7SJC122wz4HT/2jdFqmX96EGOOtkZk0QgMYoTjbq1HUmvGyoLsI7qaEQ+vyBsHI7FA==
+X-Received: by 2002:a25:9888:: with SMTP id l8mr17982836ybo.204.1579094360843; 
+ Wed, 15 Jan 2020 05:19:20 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id y17sm8039760ywd.23.2020.01.15.05.19.19
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 15 Jan 2020 05:19:20 -0800 (PST)
+Subject: Re: [PATCH] drm/amdgpu: flush the fence on the bo after we
+ individualize
+To: "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
+References: <SN6PR12MB2800D9829487F03471B416C787370@SN6PR12MB2800.namprd12.prod.outlook.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <3df4af2c-aced-bb33-a485-7eb8cb7adcb1@gmail.com>
+Date: Wed, 15 Jan 2020 14:19:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20191029182320.GA17569@mwanda>
- <CGME20191029190229epcas3p4e9b24bd8cde962681ef3dc4644ed2c2e@epcas3p4.samsung.com>
- <87zhhjjryk.fsf@x220.int.ebiederm.org>
- <fd4e6f01-074b-def7-7ffb-9a9197930c31@samsung.com>
- <CAK8P3a2uLm9pJtx42qDXJSdD71-dVW6+iDcRAnEB85Ajak-HLw@mail.gmail.com>
- <6ed59903-afe7-d5b2-73eb-ca626616dd6f@samsung.com>
-In-Reply-To: <6ed59903-afe7-d5b2-73eb-ca626616dd6f@samsung.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Wed, 15 Jan 2020 14:16:57 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a3SJZ+j0jzYGtETaLGUXwwn0WqjN+wojUrYngOui9+h7A@mail.gmail.com>
-Message-ID: <CAK8P3a3SJZ+j0jzYGtETaLGUXwwn0WqjN+wojUrYngOui9+h7A@mail.gmail.com>
-Subject: Re: [PATCH] fbdev: potential information leak in do_fb_ioctl()
-To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-X-Provags-ID: V03:K1:2Aj6vF/QtQP6DLVRPDSkZ3d6Ev3Gl5ZIzQNYLkU+mJiGreYknTs
- sD3wiO5PdbwU02u3j1vhvZIgqlV0/tpW2S19BrXo7jHgqhRYmRoGrUswSZ3t3Mc/lhAs8IT
- gWKFkEW4LIY56G9Efd5ihaWQUo7D6pvf6A8SQ/G0fn1iGARqU0fRALB8VtkM6R8ht4z0n7X
- y7xkZOw8enf5TdCscFpIw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:hHAfE38rQAc=:bUgdVuiPwnzAUAPRciKWlF
- L2TCL50cYLvsE6hXPkXA6zkaPmTR/VY+YuwB98WXyv8+XEVYKv/Sicm/7V5aerjOA9UHjoxWX
- pf13LFsHhiYFOetQuUsOf47Uo7Ihu4gey77lPngXT+D/lnBOf6nbKvWpTxWE3dEAnBVSen3c5
- vSfGkroPNJR/bTYXvqX+gKThEezeq9gXtFmXrl/tx1CCszs75Kbbq2jrY94mFTv8JDxcrqSLI
- ZoEYUiqIzKxaBIzfExQI8Cg3f7sewmhIvGQAjf2tlC/1UspxuvMUcI4rs11wMxvogqdQgBQLM
- SHGyhMi5eOhQH8ip3lAgbrjZxGVXpGZ/7boz45N7gqQjmzCzHPHnvvGfFwiUPj2avkn8f0xym
- TDgd9L7SF8xfOh6ywYsUcgHi2sXp4ZeFHEaX+f8VTDGui89lSg9mUk5P6TUDnn8/6EWdriKJm
- 1K7PDB2wG9FrqbhC+peV+1EB3Iz0mCrg9xMe6yxVP10TN7t5T8Zdvp70EkNwF6ySUJPGvWQHP
- 7TrTsFyg4uKHtM8C7dMrSM4j+Pwt8F+ss9xs6ucayUBuTMavtWTQWSBeBWjsmRzupMCdrRVI7
- 4ySUATXR8FRrsrivbFgMzQKU8SSd/KMyYIzUkqlEdTNhfKZrrkqrqzrZrv93oBPPqUCXZJy0J
- zEyPrAeTfnCpfcapM+ZsHaFYOqBAR+/kzhY43Ok5ab0mPu2TBx3uL/85cmUFmsioPSupGpGen
- i7nv0+euHBkC6IQ79IJm0Ms8sc4BYVgiyL86tn3tpPfD4Ww5JQ1VnBm8lAYU1XTT2lmXSabBE
- 0mKRAF9A1CLAB+lGfOtPjlEiArCEnOrk7rkk7NImL6IdtHBcKBgznPKSbnPgCgtvJGFu5SALZ
- 0uHZZkhIVH6progD+rlg==
+In-Reply-To: <SN6PR12MB2800D9829487F03471B416C787370@SN6PR12MB2800.namprd12.prod.outlook.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,74 +72,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- security@kernel.org, Gerd Hoffmann <kraxel@redhat.com>,
- Kees Cook <keescook@chromium.org>, kernel-janitors@vger.kernel.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Julia Lawall <Julia.Lawall@lip6.fr>,
- "Eric W. Biederman" <ebiederm@xmission.com>, Joe Perches <joe@perches.com>,
- Sam Ravnborg <sam@ravnborg.org>, Peter Rosin <peda@axentia.se>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Andrea Righi <righi.andrea@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Reply-To: christian.koenig@amd.com
+Cc: "Koenig, Christian" <Christian.Koenig@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 15, 2020 at 2:09 PM Bartlomiej Zolnierkiewicz
-<b.zolnierkie@samsung.com> wrote:
-
-> > $ git grep -wl register_framebuffer | xargs grep -L framebuffer_alloc
-> > Documentation/fb/framebuffer.rst
-> > drivers/media/pci/ivtv/ivtvfb.c
-> > drivers/media/platform/vivid/vivid-osd.c
-> > drivers/video/fbdev/68328fb.c
-> > drivers/video/fbdev/acornfb.c
-> > drivers/video/fbdev/amba-clcd.c
-> > drivers/video/fbdev/atafb.c
-> > drivers/video/fbdev/au1100fb.c
-> > drivers/video/fbdev/controlfb.c
-> > drivers/video/fbdev/core/fbmem.c
-> > drivers/video/fbdev/cyber2000fb.c
-> > drivers/video/fbdev/fsl-diu-fb.c
-> > drivers/video/fbdev/g364fb.c
-> > drivers/video/fbdev/goldfishfb.c
-> > drivers/video/fbdev/hpfb.c
-> > drivers/video/fbdev/macfb.c
-> > drivers/video/fbdev/matrox/matroxfb_base.c
-> > drivers/video/fbdev/matrox/matroxfb_crtc2.c
-> > drivers/video/fbdev/maxinefb.c
-> > drivers/video/fbdev/ocfb.c
-> > drivers/video/fbdev/pxafb.c
-> > drivers/video/fbdev/sa1100fb.c
-> > drivers/video/fbdev/stifb.c
-> > drivers/video/fbdev/valkyriefb.c
-> > drivers/video/fbdev/vermilion/vermilion.c
-> > drivers/video/fbdev/vt8500lcdfb.c
-> > drivers/video/fbdev/wm8505fb.c
-> > drivers/video/fbdev/xilinxfb.c
-> >
-> > It's possible (even likely, the ones I looked at are fine) that they
-> > all correctly
-> > zero out the fb_info structure first, but it seems hard to guarantee, so
-> > Eric's suggestion would possibly still be the safer choice.
->
-> I've audited all above instances and they are all fine. They either
-> use the fb_info structure embedded in a driver specific structure
-> (which is zeroed out) or (in case of some m68k specific drivers) use
-> a static fb_info instance.
->
-> Since fbdev is closed for new drivers it should be now fine to use
-> the simpler approach (just use memcpy()).
-
-Yes, let's do that then. The complex approach seems more likely
-to introduce a bug than one of the existing drivers to stop initializing
-the structure correctly.
-
-      Arnd
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gMTUuMDEuMjAgdW0gMDc6MjYgc2NocmllYiBQYW4sIFhpbmh1aToKPiBBcyB3ZSBtb3ZlIHRo
+ZSB0dG1fYm9faW5kaXZpZHVhbGl6ZV9yZXN2KCkgdXB3YXJkcywgd2UgbmVlZCBmbHVzaCB0aGUK
+PiBjb3BpZWQgZmVuY2UgdG9vLiBPdGhlcndpc2UgdGhlIGRyaXZlciBrZWVwcyB3YWl0aW5nIGZv
+ciBmZW5jZS4KPgo+IHJ1biZLaWxsIGtmZHRlc3QsIHRoZW4gcGVyZiB0b3AuCj4KPiAgICAyNS41
+MyUgIFt0dG1dICAgICAgICAgICAgICAgICAgICAgW2tdIHR0bV9ib19kZWxheWVkX2RlbGV0ZQo+
+ICAgIDI0LjI5JSAgW2tlcm5lbF0gICAgICAgICAgICAgICAgICBba10gZG1hX3Jlc3ZfdGVzdF9z
+aWduYWxlZF9yY3UKPiAgICAxOS43MiUgIFtrZXJuZWxdICAgICAgICAgICAgICAgICAgW2tdIHd3
+X211dGV4X2xvY2sKPgo+IEZpeDogMzc4ZTJkNWIoImRybS90dG06IGZpeCB0dG1fYm9fY2xlYW51
+cF9yZWZzX29yX3F1ZXVlIG9uY2UgbW9yZSIpCj4gU2lnbmVkLW9mZi1ieTogeGluaHVpIHBhbiA8
+eGluaHVpLnBhbkBhbWQuY29tPgoKVGhhdCdzIGluZGVlZCBhIHJhdGhlciBuaWNlIGlkZWEuIFJl
+dmlld2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIAo8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgoK
+SSdtIGdvaW5nIHRvIHBpY2sgdGhhdCB1cCBmb3IgaW5jbHVzaW9uIGluIGRybS1taXNjLW5leHQu
+IFBsZWFzZSBzZW5kIApUVE0gcGF0Y2hlcyBhbHNvIHRvIHRoZSBkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0IGluIHRoZSBmdXR1cmUuCgpDaHJpc3RpYW4uCgo+IC0tLQo+ICAgZHJpdmVycy9ncHUvZHJt
+L3R0bS90dG1fYm8uYyB8IDQgKysrLQo+ICAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygr
+KSwgMSBkZWxldGlvbigtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRt
+X2JvLmMgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jCj4gaW5kZXggOGQ5MWIwNDI4YWYx
+Li4xNDk0YWViYjgxMjggMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8u
+Ywo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMKPiBAQCAtNDk5LDggKzQ5OSwx
+MCBAQCBzdGF0aWMgdm9pZCB0dG1fYm9fY2xlYW51cF9yZWZzX29yX3F1ZXVlKHN0cnVjdCB0dG1f
+YnVmZmVyX29iamVjdCAqYm8pCj4gICAKPiAgIAkJZG1hX3Jlc3ZfdW5sb2NrKGJvLT5iYXNlLnJl
+c3YpOwo+ICAgCX0KPiAtCWlmIChiby0+YmFzZS5yZXN2ICE9ICZiby0+YmFzZS5fcmVzdikKPiAr
+CWlmIChiby0+YmFzZS5yZXN2ICE9ICZiby0+YmFzZS5fcmVzdikgewo+ICsJCXR0bV9ib19mbHVz
+aF9hbGxfZmVuY2VzKGJvKTsKPiAgIAkJZG1hX3Jlc3ZfdW5sb2NrKCZiby0+YmFzZS5fcmVzdik7
+Cj4gKwl9Cj4gICAKPiAgIGVycm9yOgo+ICAgCWtyZWZfZ2V0KCZiby0+bGlzdF9rcmVmKTsKCl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
+YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
+LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
