@@ -2,48 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4A3E13C4B4
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 15:01:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE3B813C4CC
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 15:02:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 282B66EA20;
-	Wed, 15 Jan 2020 14:01:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B35386EA18;
+	Wed, 15 Jan 2020 14:02:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0F6206EA20
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 14:01:16 +0000 (UTC)
-X-UUID: e17ba0cc0d9142efad2d09c625ac8f73-20200115
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=oZYrr2LEPwbdNLpuKoMeOVVJNsOiZbhJJb8h4ktYfYk=; 
- b=FVmk2u9djdawoG27yWeax2/PSlVH6YSNQQlZb+JlmRRjUmcGLjCITtnmp4ilLuaxZxSCxNzstDPBaua9KoUaQg1H0fp8ZsWdg1hT5nvhO9pP5AIxLbgsO4WNTZTw3liLQ1M6JpeaWN7cFJWE9xcZhyWRx8O62mpRUxNR2B/smCQ=;
-X-UUID: e17ba0cc0d9142efad2d09c625ac8f73-20200115
-Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
- (envelope-from <jitao.shi@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 1935524702; Wed, 15 Jan 2020 22:01:13 +0800
-Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS33N2.mediatek.inc
- (172.27.4.76) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
- Wed, 15 Jan 2020 22:01:40 +0800
-Received: from mszsdclx1018.gcn.mediatek.inc (10.16.6.18) by
- MTKCAS32.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
- 15.0.1395.4 via Frontend Transport; Wed, 15 Jan 2020 22:01:23 +0800
-From: Jitao Shi <jitao.shi@mediatek.com>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg
- <sam@ravnborg.org>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v8 8/8] drm/panel: support for auo,
- b101uan08.3 wuxga dsi video mode panel
-Date: Wed, 15 Jan 2020 21:59:58 +0800
-Message-ID: <20200115135958.126303-9-jitao.shi@mediatek.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200115135958.126303-1-jitao.shi@mediatek.com>
-References: <20200115135958.126303-1-jitao.shi@mediatek.com>
+Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E57AD6EA18
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 14:02:10 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from localhost (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 19889159-1500050 for multiple; Wed, 15 Jan 2020 14:01:22 +0000
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 4A2ED715479501E90EC666853CA3146553CBE76094AEC6A42B2C4770B0B57D342000:8
-X-MTK: N
+To: Sean Paul <sean@poorly.run>
+From: Chris Wilson <chris@chris-wilson.co.uk>
+In-Reply-To: <20200115134158.GC25564@art_vandelay>
+References: <20200114172155.215463-1-sean@poorly.run>
+ <157908459623.12549.3531242692320169983@skylake-alporthouse-com>
+ <20200115134158.GC25564@art_vandelay>
+Message-ID: <157909687975.14122.1932646175287417072@skylake-alporthouse-com>
+User-Agent: alot/0.6
+Subject: Re: [PATCH v4] drm/trace: Buffer DRM logs in a ringbuffer accessible
+ via debugfs
+Date: Wed, 15 Jan 2020 14:01:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,130 +41,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jitao Shi <jitao.shi@mediatek.com>, srv_heupstream@mediatek.com,
- stonea168@163.com, cawa.cheng@mediatek.com, linux-mediatek@lists.infradead.org,
- yingjoe.chen@mediatek.com, eddie.huang@mediatek.com
+Cc: linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
+ dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Auo,auo,b101uan08.3's connector is same as boe,tv101wum-nl6.
-The most codes can be reuse.
-So auo,b101uan08.3 and boe,tv101wum-nl6 use one driver file.
-Add the different parts in driver data.
+Quoting Sean Paul (2020-01-15 13:41:58)
+> On Wed, Jan 15, 2020 at 10:36:36AM +0000, Chris Wilson wrote:
+> > Quoting Sean Paul (2020-01-14 17:21:43)
+> > > From: Sean Paul <seanpaul@chromium.org>
+> > > 
+> > > This patch uses a ring_buffer to keep a "flight recorder" (name credit Weston)
+> > > of DRM logs for a specified set of debug categories. The user writes a
+> > > bitmask of debug categories to the "trace_mask" node and can read log
+> > > messages from the "trace" node.
+> > > 
+> > > These nodes currently exist in debugfs under the dri directory. I
+> > > intended on exposing all of this through tracefs originally, but the
+> > > tracefs entry points are not exposed, so there's no way to create
+> > > tracefs files from drivers at the moment. I think it would be a
+> > > worthwhile endeavour, but one requiring more time and conversation to
+> > > ensure the drm traces fit somewhere sensible.
+> > 
+> > Fwiw, I have a need for client orientated debug message store, with
+> > the primary purpose of figuring out -EINVAL. We need per-client so we can
+> > put sensitive information about the potentially buggy client behaviour,
+> > and of course it needs to be accessible by the non-privileged client.
+> > 
+> > On the execution side, it's easy to keep track of the client so we could
+> > trace execution flow per client, within reason. And we could do
+> > similarly for kms clients.
+> 
+> Could you build such a thing with drm_trace underpinning it, just put the
+> pertinent information in the message?
 
-Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
----
- .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 78 +++++++++++++++++++
- 1 file changed, 78 insertions(+)
+Not as is. The global has to go, and there's no use for debugfs. So we
+are just left with a sprintf() around a ring_buffer. I am left in the
+same position as just wanting to generalise tracek to take the ringbuffer
+as a parameter.
 
-diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-index 0108bff283c5..51001940eab3 100644
---- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-+++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-@@ -377,6 +377,53 @@ static const struct panel_init_cmd auo_kd101n80_45na_init_cmd[] = {
- 	{},
- };
- 
-+static const struct panel_init_cmd auo_b101uan08_3_init_cmd[] = {
-+	_INIT_DELAY_CMD(24),
-+	_INIT_DCS_CMD(0xB0, 0x01),
-+	_INIT_DCS_CMD(0xC0, 0x48),
-+	_INIT_DCS_CMD(0xC1, 0x48),
-+	_INIT_DCS_CMD(0xC2, 0x47),
-+	_INIT_DCS_CMD(0xC3, 0x47),
-+	_INIT_DCS_CMD(0xC4, 0x46),
-+	_INIT_DCS_CMD(0xC5, 0x46),
-+	_INIT_DCS_CMD(0xC6, 0x45),
-+	_INIT_DCS_CMD(0xC7, 0x45),
-+	_INIT_DCS_CMD(0xC8, 0x64),
-+	_INIT_DCS_CMD(0xC9, 0x64),
-+	_INIT_DCS_CMD(0xCA, 0x4F),
-+	_INIT_DCS_CMD(0xCB, 0x4F),
-+	_INIT_DCS_CMD(0xCC, 0x40),
-+	_INIT_DCS_CMD(0xCD, 0x40),
-+	_INIT_DCS_CMD(0xCE, 0x66),
-+	_INIT_DCS_CMD(0xCF, 0x66),
-+	_INIT_DCS_CMD(0xD0, 0x4F),
-+	_INIT_DCS_CMD(0xD1, 0x4F),
-+	_INIT_DCS_CMD(0xD2, 0x41),
-+	_INIT_DCS_CMD(0xD3, 0x41),
-+	_INIT_DCS_CMD(0xD4, 0x48),
-+	_INIT_DCS_CMD(0xD5, 0x48),
-+	_INIT_DCS_CMD(0xD6, 0x47),
-+	_INIT_DCS_CMD(0xD7, 0x47),
-+	_INIT_DCS_CMD(0xD8, 0x46),
-+	_INIT_DCS_CMD(0xD9, 0x46),
-+	_INIT_DCS_CMD(0xDA, 0x45),
-+	_INIT_DCS_CMD(0xDB, 0x45),
-+	_INIT_DCS_CMD(0xDC, 0x64),
-+	_INIT_DCS_CMD(0xDD, 0x64),
-+	_INIT_DCS_CMD(0xDE, 0x4F),
-+	_INIT_DCS_CMD(0xDF, 0x4F),
-+	_INIT_DCS_CMD(0xE0, 0x40),
-+	_INIT_DCS_CMD(0xE1, 0x40),
-+	_INIT_DCS_CMD(0xE2, 0x66),
-+	_INIT_DCS_CMD(0xE3, 0x66),
-+	_INIT_DCS_CMD(0xE4, 0x4F),
-+	_INIT_DCS_CMD(0xE5, 0x4F),
-+	_INIT_DCS_CMD(0xE6, 0x41),
-+	_INIT_DCS_CMD(0xE7, 0x41),
-+	_INIT_DELAY_CMD(150),
-+	{},
-+};
-+
- static inline struct boe_panel *to_boe_panel(struct drm_panel *panel)
- {
- 	return container_of(panel, struct boe_panel, base);
-@@ -621,6 +668,34 @@ static const struct panel_desc boe_tv101wum_n53_desc = {
- 	.init_cmds = boe_init_cmd,
- };
- 
-+static const struct drm_display_mode auo_b101uan08_3_default_mode = {
-+	.clock = 159667,
-+	.hdisplay = 1200,
-+	.hsync_start = 1200 + 60,
-+	.hsync_end = 1200 + 60 + 4,
-+	.htotal = 1200 + 60 + 4 + 80,
-+	.vdisplay = 1920,
-+	.vsync_start = 1920 + 34,
-+	.vsync_end = 1920 + 34 + 2,
-+	.vtotal = 1920 + 34 + 2 + 24,
-+	.vrefresh = 60,
-+	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
-+};
-+
-+static const struct panel_desc auo_b101uan08_3_desc = {
-+	.modes = &auo_b101uan08_3_default_mode,
-+	.bpc = 8,
-+	.size = {
-+		.width_mm = 135,
-+		.height_mm = 216,
-+	},
-+	.lanes = 4,
-+	.format = MIPI_DSI_FMT_RGB888,
-+	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
-+		      MIPI_DSI_MODE_LPM,
-+	.init_cmds = auo_b101uan08_3_init_cmd,
-+};
-+
- static int boe_panel_get_modes(struct drm_panel *panel,
- 			       struct drm_connector *connector)
- {
-@@ -756,6 +831,9 @@ static const struct of_device_id boe_of_match[] = {
- 	{ .compatible = "boe,tv101wum-n53",
- 	  .data = &boe_tv101wum_n53_desc
- 	},
-+	{ .compatible = "auo,b101uan08.3",
-+	  .data = &auo_b101uan08_3_desc
-+	},
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, boe_of_match);
--- 
-2.21.0
+> > Just chiming to say, I don't think a duplicate of dmesg hidden inside
+> > debugfs achieves much. But a generic tracek-esque ringbuf would be very
+> > useful -- even if only so we can separate our GEM_TRACE from the global
+> > tracek.
+> 
+> I think that's essentially what we've got, I've just narrowly focused on
+> surfacing debug logs. If drm_trace_printf were exported, replacing
+> GEM_TRACE would be as simple as s/trace_printk/drm_trace_printf/. Initially I
+> thought exporting it to drivers would be a bad idea, but I'm open to changing my
+> mind on this as long as drivers are using it responsibly. 
+
+I definitely can't make the mistake of flooding kms tracing with
+overwhelming execution traces -- we can't go back to mixing kms traces
+with execution traces.
+-Chris
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
