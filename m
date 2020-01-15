@@ -1,20 +1,20 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED97D13C04D
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 13:18:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84D9B13C05B
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 13:18:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A86316E9AB;
-	Wed, 15 Jan 2020 12:17:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D7436E9B8;
+	Wed, 15 Jan 2020 12:17:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74E3B6E962;
- Wed, 15 Jan 2020 12:17:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F5D76E96A;
+ Wed, 15 Jan 2020 12:17:13 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 0F1E0B03E;
+ by mx2.suse.de (Postfix) with ESMTP id DD783AE62;
  Wed, 15 Jan 2020 12:17:11 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@linux.ie, daniel@ffwll.ch, alexander.deucher@amd.com,
@@ -28,9 +28,9 @@ To: airlied@linux.ie, daniel@ffwll.ch, alexander.deucher@amd.com,
  bskeggs@redhat.com, harry.wentland@amd.com, sunpeng.li@amd.com,
  jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
  rodrigo.vivi@intel.com
-Subject: [PATCH v2 15/21] drm/stm: Convert to CRTC VBLANK callbacks
-Date: Wed, 15 Jan 2020 13:16:46 +0100
-Message-Id: <20200115121652.7050-16-tzimmermann@suse.de>
+Subject: [PATCH v2 16/21] drm/sti: Convert to CRTC VBLANK callbacks
+Date: Wed, 15 Jan 2020 13:16:47 +0100
+Message-Id: <20200115121652.7050-17-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200115121652.7050-1-tzimmermann@suse.de>
 References: <20200115121652.7050-1-tzimmermann@suse.de>
@@ -57,38 +57,95 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 VBLANK callbacks in struct drm_driver are deprecated in favor of
-their equivalents in struct drm_crtc_funcs. Convert stm over.
+their equivalents in struct drm_crtc_funcs. Convert sti over.
+
+v2:
+	* remove unnecessary include of sti_crtc.h from sti_drv.c
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Acked-by: Benjamin Gaignard <benjamin.gaignard@linaro.org>
 ---
- drivers/gpu/drm/stm/drv.c  | 1 -
- drivers/gpu/drm/stm/ltdc.c | 1 +
- 2 files changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/sti/sti_crtc.c | 11 ++++++++---
+ drivers/gpu/drm/sti/sti_crtc.h |  2 --
+ drivers/gpu/drm/sti/sti_drv.c  |  4 ----
+ 3 files changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/stm/drv.c b/drivers/gpu/drm/stm/drv.c
-index 486985604109..ea9fcbdc68b3 100644
---- a/drivers/gpu/drm/stm/drv.c
-+++ b/drivers/gpu/drm/stm/drv.c
-@@ -72,7 +72,6 @@ static struct drm_driver drv_driver = {
- 	.gem_prime_vmap = drm_gem_cma_prime_vmap,
- 	.gem_prime_vunmap = drm_gem_cma_prime_vunmap,
- 	.gem_prime_mmap = drm_gem_cma_prime_mmap,
--	.get_vblank_timestamp = drm_calc_vbltimestamp_from_scanoutpos,
- };
+diff --git a/drivers/gpu/drm/sti/sti_crtc.c b/drivers/gpu/drm/sti/sti_crtc.c
+index dc64fbfc4e61..49e6cb8f5836 100644
+--- a/drivers/gpu/drm/sti/sti_crtc.c
++++ b/drivers/gpu/drm/sti/sti_crtc.c
+@@ -279,12 +279,13 @@ int sti_crtc_vblank_cb(struct notifier_block *nb,
+ 	return 0;
+ }
  
- static int drv_load(struct drm_device *ddev)
-diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-index 8b6d1a2252e3..ee2a8cac59cb 100644
---- a/drivers/gpu/drm/stm/ltdc.c
-+++ b/drivers/gpu/drm/stm/ltdc.c
-@@ -722,6 +722,7 @@ static const struct drm_crtc_funcs ltdc_crtc_funcs = {
+-int sti_crtc_enable_vblank(struct drm_device *dev, unsigned int pipe)
++static int sti_crtc_enable_vblank(struct drm_crtc *crtc)
+ {
++	struct drm_device *dev = crtc->dev;
++	unsigned int pipe = crtc->index;
+ 	struct sti_private *dev_priv = dev->dev_private;
+ 	struct sti_compositor *compo = dev_priv->compo;
+ 	struct notifier_block *vtg_vblank_nb = &compo->vtg_vblank_nb[pipe];
+-	struct drm_crtc *crtc = &compo->mixer[pipe]->drm_crtc;
+ 	struct sti_vtg *vtg = compo->vtg[pipe];
+ 
+ 	DRM_DEBUG_DRIVER("\n");
+@@ -297,8 +298,10 @@ int sti_crtc_enable_vblank(struct drm_device *dev, unsigned int pipe)
+ 	return 0;
+ }
+ 
+-void sti_crtc_disable_vblank(struct drm_device *drm_dev, unsigned int pipe)
++static void sti_crtc_disable_vblank(struct drm_crtc *crtc)
+ {
++	struct drm_device *drm_dev = crtc->dev;
++	unsigned int pipe = crtc->index;
+ 	struct sti_private *priv = drm_dev->dev_private;
+ 	struct sti_compositor *compo = priv->compo;
+ 	struct notifier_block *vtg_vblank_nb = &compo->vtg_vblank_nb[pipe];
+@@ -330,6 +333,8 @@ static const struct drm_crtc_funcs sti_crtc_funcs = {
+ 	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
  	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
- 	.enable_vblank = ltdc_crtc_enable_vblank,
- 	.disable_vblank = ltdc_crtc_disable_vblank,
-+	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,
- 	.gamma_set = drm_atomic_helper_legacy_gamma_set,
+ 	.late_register = sti_crtc_late_register,
++	.enable_vblank = sti_crtc_enable_vblank,
++	.disable_vblank = sti_crtc_disable_vblank,
  };
  
+ bool sti_crtc_is_main(struct drm_crtc *crtc)
+diff --git a/drivers/gpu/drm/sti/sti_crtc.h b/drivers/gpu/drm/sti/sti_crtc.h
+index df489ab14e2b..1132b4586712 100644
+--- a/drivers/gpu/drm/sti/sti_crtc.h
++++ b/drivers/gpu/drm/sti/sti_crtc.h
+@@ -15,8 +15,6 @@ struct sti_mixer;
+ 
+ int sti_crtc_init(struct drm_device *drm_dev, struct sti_mixer *mixer,
+ 		  struct drm_plane *primary, struct drm_plane *cursor);
+-int sti_crtc_enable_vblank(struct drm_device *dev, unsigned int pipe);
+-void sti_crtc_disable_vblank(struct drm_device *dev, unsigned int pipe);
+ int sti_crtc_vblank_cb(struct notifier_block *nb,
+ 		       unsigned long event, void *data);
+ bool sti_crtc_is_main(struct drm_crtc *drm_crtc);
+diff --git a/drivers/gpu/drm/sti/sti_drv.c b/drivers/gpu/drm/sti/sti_drv.c
+index a39fc36f815b..50870d8cbb76 100644
+--- a/drivers/gpu/drm/sti/sti_drv.c
++++ b/drivers/gpu/drm/sti/sti_drv.c
+@@ -21,7 +21,6 @@
+ #include <drm/drm_of.h>
+ #include <drm/drm_probe_helper.h>
+ 
+-#include "sti_crtc.h"
+ #include "sti_drv.h"
+ #include "sti_plane.h"
+ 
+@@ -146,9 +145,6 @@ static struct drm_driver sti_driver = {
+ 	.dumb_create = drm_gem_cma_dumb_create,
+ 	.fops = &sti_driver_fops,
+ 
+-	.enable_vblank = sti_crtc_enable_vblank,
+-	.disable_vblank = sti_crtc_disable_vblank,
+-
+ 	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
+ 	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
+ 	.gem_prime_get_sg_table = drm_gem_cma_prime_get_sg_table,
 -- 
 2.24.1
 
