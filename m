@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C9DB13D5D6
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 09:21:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BF2D13D5D5
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 09:21:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0B056EC27;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 764416EC22;
 	Thu, 16 Jan 2020 08:21:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x961.google.com (mail-ua1-x961.google.com
- [IPv6:2607:f8b0:4864:20::961])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 091956EA9D
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 20:57:35 +0000 (UTC)
-Received: by mail-ua1-x961.google.com with SMTP id z24so6822842uam.7
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 12:57:35 -0800 (PST)
+Received: from mail-vs1-xe63.google.com (mail-vs1-xe63.google.com
+ [IPv6:2607:f8b0:4864:20::e63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D73256EA9E
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 20:57:37 +0000 (UTC)
+Received: by mail-vs1-xe63.google.com with SMTP id x18so11331318vsq.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 12:57:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=brkho-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WAq6TrEVx22C9NeXV+u5E8p8eBKHJtE8qNPoQl4adsE=;
- b=JYjuVTSotuEa5LKchq1QwLvMiC0miS12YXda9sHdZclwC92lt8XOByu06EK7yqK9r4
- WCBYRHBwJdaS94EIh7jMaUWTVZZYvUhWL9XBklNDK6A8QC9DqQEpnz8v45Z9wC3EflW+
- gwoDaiKJbd4DfyNMo7Bq7JUudOlO+KZVDKdDCjnvAPhSHqmKfD/+2NvMg6rYunAXunQq
- iVwQl8EuDAxN9kmFZjdQhkRqyLfeN8m5DEHs2R9Y8iQmkfWay48vJc1Oa5KrF3tTeDLc
- dhDkGUXfDcG5x4C9tviRSMV0IbElyaH1E/d9I0UdlhbH1f9wRnYLlwq2fZylhxEr/IsU
- Fgxg==
+ bh=MoaLqRsXbsF8WWfj7JkWTIfWhuB0czfd/jbk7/+hexM=;
+ b=ksKqKO6Uhobvq/K9pBY4ix3j3Vkphyaa/mEZ535OVhGl9gLs0a7c8MJ5OmR87Vf+10
+ 5mEsnaytE8agpwaKvl+1JEpKFyCVqGXGk86ZEtZDhZl64V1b7FlM27TjWUdL+TViZxBr
+ roDScgykIksCyMPlsZf2jsPV2NY9Y3e/rhuaNaqSrYV1O65LVpJ2eBs1boUQZfSdB88/
+ FS2am7QPK8rOs/bSwXlNR0jhR4M4myAQGPv8450qrCSUmpsW6VzDcm5oAIwLOsYH31rw
+ Cuu/fvR7S3p40ad5eRyeky7sPs/tRlm3g9z2FKx2uIfPngHMJLMwqXmStnxes1H731++
+ kwVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WAq6TrEVx22C9NeXV+u5E8p8eBKHJtE8qNPoQl4adsE=;
- b=Rkk2c+Xqf19dH31Z6YNBkfjTJMNf/xx7TqXuCJnBj0DO3OZEqDpN9SUgOrmQHWEXll
- CzbbjUiVpAI/cQkTfnU1MegZ9EssyfoJTJadtIuNtc7yI4WvtgYjccyhOf/MJbgywMJc
- 8kV/4S3pyM8DVGZoNu2p6zOVcO86IRVz78GAlWNRhE/0x5ZlWW7rZOnvqE0+cpwkzS++
- /b8z6PZeX8+XDySkWVmbG6FVpMEUVtpRBrxL1Zh/K6z58ZpBBbUMUFd79BZg/iSrT3sk
- T9lAosD4SEcCOT1vygeUbdZhL1ixseZ2tC731CEkHvLgj3aD+YSO0slR4vPiiaN5L6ik
- +R+Q==
-X-Gm-Message-State: APjAAAUfdA2B+D/kfFSGPIGjJOzZhEe6E9Aj6n2olu2MsChve5CIGkUp
- ULI+eNdIsZKifPJOxlHX232Zk7PT3u5YJXtfHWE2+UDYCHs1pA==
-X-Google-Smtp-Source: APXvYqxjXDMjnFKkSryidbYnjPMiySJ2xbqbi1okq9jcW8s3Bi6lp++0JgkqqYp9Bkjvkqtrqnlfvge183NV
-X-Received: by 2002:ab0:422:: with SMTP id 31mr17816176uav.98.1579121855091;
- Wed, 15 Jan 2020 12:57:35 -0800 (PST)
+ bh=MoaLqRsXbsF8WWfj7JkWTIfWhuB0czfd/jbk7/+hexM=;
+ b=DBc1TPGmsk4nQcYHBf3jN/o9GuWa0jIWum8RiIedQGVMJ/yRJYFYz7nBdDu0CuLrko
+ WFBHDhr2GHiaMM2vM9vd+1h13DeMLprwsxnmsMlAI3GAnJWQHhg3fGsq5AAXv9AHnNWD
+ 0OYqnZXT5bCYnyLc1xFnje9c6ti6nv8lw4XsE+TAda9WBjn2gERvKSc0k3vahm8MPD2B
+ Sk64HFc3nIsExtVrbvygUw/2zXjeQJgkBpAPz2txyFjGtYef9hy+JqnDJgIf6McmRMdm
+ 4xPcLdqsWqnJQwN97SQgd0kkrE6miUztlkXJ6SHNfQg9cngza5X1bzKpZuTzBmvcb+o2
+ KyOw==
+X-Gm-Message-State: APjAAAWoobYhBfvIl5LeWLVhUGMViQ/1P6p3PVoCtUFOpk8vuq+y2TOr
+ nTxJmQcBOrG3eLPbewjCEsYYuu2kSS2hJ3pqM01xU44CAt+j3w==
+X-Google-Smtp-Source: APXvYqx5I5VrFSVu9xq8Xm4JtWThqjJdeqMg8fv8mfJ+xc7a8lZAi7mI+C25Nup37fai/gBlYNHBcUaY6hQs
+X-Received: by 2002:a67:6746:: with SMTP id b67mr5544300vsc.193.1579121856991; 
+ Wed, 15 Jan 2020 12:57:36 -0800 (PST)
 Received: from hob1.nyc.corp.google.com ([100.118.32.120])
- by smtp-relay.gmail.com with ESMTPS id j26sm1472756uak.1.2020.01.15.12.57.34
+ by smtp-relay.gmail.com with ESMTPS id j26sm1472756uak.1.2020.01.15.12.57.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Jan 2020 12:57:35 -0800 (PST)
+ Wed, 15 Jan 2020 12:57:36 -0800 (PST)
 X-Relaying-Domain: brkho.com
 From: Brian Ho <brian@brkho.com>
 To: freedreno@lists.freedesktop.org
-Subject: [PATCH v2 1/2] drm/msm: Add a GPU-wide wait queue
-Date: Wed, 15 Jan 2020 15:56:48 -0500
-Message-Id: <20200115205649.12971-2-brian@brkho.com>
+Subject: [PATCH v2 2/2] drm/msm: Add MSM_WAIT_IOVA ioctl
+Date: Wed, 15 Jan 2020 15:56:49 -0500
+Message-Id: <20200115205649.12971-3-brian@brkho.com>
 X-Mailer: git-send-email 2.25.0.rc1.283.g88dfdc4193-goog
 In-Reply-To: <20200115205649.12971-1-brian@brkho.com>
 References: <20200115205649.12971-1-brian@brkho.com>
@@ -80,52 +80,147 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This wait queue is signaled on all IRQs for a given GPU and will be
-used as part of the new MSM_WAIT_IOVA ioctl so userspace can sleep
-until the value at a given iova reaches a certain condition.
+Implements an ioctl to wait until a value at a given iova is greater
+than or equal to a supplied value.
+
+This will initially be used by turnip (open-source Vulkan driver for
+QC in mesa) for occlusion queries where the userspace driver can
+block on a query becoming available before continuing via
+vkGetQueryPoolResults.
 
 Signed-off-by: Brian Ho <brian@brkho.com>
 ---
- drivers/gpu/drm/msm/msm_gpu.c | 4 ++++
- drivers/gpu/drm/msm/msm_gpu.h | 3 +++
- 2 files changed, 7 insertions(+)
+ drivers/gpu/drm/msm/msm_drv.c | 61 +++++++++++++++++++++++++++++++++--
+ include/uapi/drm/msm_drm.h    | 14 ++++++++
+ 2 files changed, 73 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index a052364a5d74..d7310c1336e5 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -779,6 +779,8 @@ void msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit,
- static irqreturn_t irq_handler(int irq, void *data)
- {
- 	struct msm_gpu *gpu = data;
-+	wake_up_all(&gpu->event);
-+
- 	return gpu->funcs->irq(gpu);
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index c84f0a8b3f2c..92853c795c5c 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -36,10 +36,11 @@
+  *           MSM_GEM_INFO ioctl.
+  * - 1.4.0 - softpin, MSM_RELOC_BO_DUMP, and GEM_INFO support to set/get
+  *           GEM object's debug name
+- * - 1.5.0 - Add SUBMITQUERY_QUERY ioctl
++ * - 1.5.0 - Add SUBMITQUEUE_QUERY ioctl
++ * - 1.6.0 - Add WAIT_IOVA ioctl
+  */
+ #define MSM_VERSION_MAJOR	1
+-#define MSM_VERSION_MINOR	5
++#define MSM_VERSION_MINOR	6
+ #define MSM_VERSION_PATCHLEVEL	0
+ 
+ static const struct drm_mode_config_funcs mode_config_funcs = {
+@@ -952,6 +953,61 @@ static int msm_ioctl_submitqueue_close(struct drm_device *dev, void *data,
+ 	return msm_submitqueue_remove(file->driver_priv, id);
  }
  
-@@ -871,6 +873,8 @@ int msm_gpu_init(struct drm_device *drm, struct platform_device *pdev,
- 
- 	spin_lock_init(&gpu->perf_lock);
- 
-+	init_waitqueue_head(&gpu->event);
++static int msm_ioctl_wait_iova(struct drm_device *dev, void *data,
++		struct drm_file *file)
++{
++	struct msm_drm_private *priv = dev->dev_private;
++	struct drm_gem_object *obj;
++	struct drm_msm_wait_iova *args = data;
++	ktime_t timeout = to_ktime(args->timeout);
++	unsigned long remaining_jiffies = timeout_to_jiffies(&timeout);
++	struct msm_gpu *gpu = priv->gpu;
++	void *base_vaddr;
++	uint64_t ref_value = args->value & args->mask;
++	uint64_t *vaddr;
++	int ret;
 +
- 
- 	/* Map registers: */
- 	gpu->mmio = msm_ioremap(pdev, config->ioname, name);
-diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-index ab8f0f9c9dc8..60562f065dbc 100644
---- a/drivers/gpu/drm/msm/msm_gpu.h
-+++ b/drivers/gpu/drm/msm/msm_gpu.h
-@@ -104,6 +104,9 @@ struct msm_gpu {
- 
- 	struct msm_gem_address_space *aspace;
- 
-+	/* GPU-wide wait queue that is signaled on all IRQs */
-+	wait_queue_head_t event;
++	if (args->pad)
++		return -EINVAL;
 +
- 	/* Power Control: */
- 	struct regulator *gpu_reg, *gpu_cx;
- 	struct clk_bulk_data *grp_clks;
++	if (!gpu)
++		return -ENODEV;
++
++	obj = drm_gem_object_lookup(file, args->handle);
++	if (!obj)
++		return -ENOENT;
++
++	if (args->offset + sizeof(*vaddr) < args->offset ||
++		args->offset + sizeof(*vaddr) > obj->size) {
++		ret = -EINVAL;
++		goto err_put_gem_object;
++	}
++
++	base_vaddr = msm_gem_get_vaddr(obj);
++	if (IS_ERR(base_vaddr)) {
++		ret = PTR_ERR(base_vaddr);
++		goto err_put_gem_object;
++	}
++
++	vaddr = base_vaddr + args->offset;
++
++	/* TODO: Support 64 bit reference values with a flag. */
++	ret = wait_event_interruptible_timeout(gpu->event,
++			(int32_t)((uint32_t)*vaddr - (uint32_t)ref_value) >= 0,
++			remaining_jiffies);
++
++	if (ret == 0)
++		ret = -ETIMEDOUT;
++	else if (ret > 0)
++		ret = 0;
++
++    msm_gem_put_vaddr(obj);
++
++err_put_gem_object:
++	drm_gem_object_put_unlocked(obj);
++	return ret;
++}
++
+ static const struct drm_ioctl_desc msm_ioctls[] = {
+ 	DRM_IOCTL_DEF_DRV(MSM_GET_PARAM,    msm_ioctl_get_param,    DRM_RENDER_ALLOW),
+ 	DRM_IOCTL_DEF_DRV(MSM_GEM_NEW,      msm_ioctl_gem_new,      DRM_RENDER_ALLOW),
+@@ -964,6 +1020,7 @@ static const struct drm_ioctl_desc msm_ioctls[] = {
+ 	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_NEW,   msm_ioctl_submitqueue_new,   DRM_RENDER_ALLOW),
+ 	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_CLOSE, msm_ioctl_submitqueue_close, DRM_RENDER_ALLOW),
+ 	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_QUERY, msm_ioctl_submitqueue_query, DRM_RENDER_ALLOW),
++	DRM_IOCTL_DEF_DRV(MSM_WAIT_IOVA, msm_ioctl_wait_iova, DRM_RENDER_ALLOW),
+ };
+ 
+ static const struct vm_operations_struct vm_ops = {
+diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
+index 0b85ed6a3710..d4eac312f56e 100644
+--- a/include/uapi/drm/msm_drm.h
++++ b/include/uapi/drm/msm_drm.h
+@@ -298,6 +298,18 @@ struct drm_msm_submitqueue_query {
+ 	__u32 pad;
+ };
+ 
++/* This ioctl blocks until the value at bo + offset is greater than or equal
++ * to the reference value.
++ */
++struct drm_msm_wait_iova {
++	__u32 handle;          /* in, GEM handle */
++	__u32 pad;
++	struct drm_msm_timespec timeout;   /* in */
++	__u64 offset;          /* in, offset into bo */
++	__u64 mask;            /* in, mask of the value at bo + offset */
++	__u64 value;           /* in, reference value, 32 bits */
++};
++
+ #define DRM_MSM_GET_PARAM              0x00
+ /* placeholder:
+ #define DRM_MSM_SET_PARAM              0x01
+@@ -315,6 +327,7 @@ struct drm_msm_submitqueue_query {
+ #define DRM_MSM_SUBMITQUEUE_NEW        0x0A
+ #define DRM_MSM_SUBMITQUEUE_CLOSE      0x0B
+ #define DRM_MSM_SUBMITQUEUE_QUERY      0x0C
++#define DRM_MSM_WAIT_IOVA      0x0D
+ 
+ #define DRM_IOCTL_MSM_GET_PARAM        DRM_IOWR(DRM_COMMAND_BASE + DRM_MSM_GET_PARAM, struct drm_msm_param)
+ #define DRM_IOCTL_MSM_GEM_NEW          DRM_IOWR(DRM_COMMAND_BASE + DRM_MSM_GEM_NEW, struct drm_msm_gem_new)
+@@ -327,6 +340,7 @@ struct drm_msm_submitqueue_query {
+ #define DRM_IOCTL_MSM_SUBMITQUEUE_NEW    DRM_IOWR(DRM_COMMAND_BASE + DRM_MSM_SUBMITQUEUE_NEW, struct drm_msm_submitqueue)
+ #define DRM_IOCTL_MSM_SUBMITQUEUE_CLOSE  DRM_IOW (DRM_COMMAND_BASE + DRM_MSM_SUBMITQUEUE_CLOSE, __u32)
+ #define DRM_IOCTL_MSM_SUBMITQUEUE_QUERY  DRM_IOW (DRM_COMMAND_BASE + DRM_MSM_SUBMITQUEUE_QUERY, struct drm_msm_submitqueue_query)
++#define DRM_IOCTL_MSM_WAIT_IOVA        DRM_IOW (DRM_COMMAND_BASE + DRM_MSM_WAIT_IOVA, struct drm_msm_wait_iova)
+ 
+ #if defined(__cplusplus)
+ }
 -- 
 2.25.0.rc1.283.g88dfdc4193-goog
 
