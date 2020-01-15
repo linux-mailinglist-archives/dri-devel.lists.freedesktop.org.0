@@ -1,39 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7F2A13C0F7
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 13:29:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C02313C108
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 13:31:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 207AD6E95B;
-	Wed, 15 Jan 2020 12:29:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75D926E960;
+	Wed, 15 Jan 2020 12:31:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37A156E95B
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 12:29:26 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCBBB6E960
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 12:31:51 +0000 (UTC)
+Received: from localhost (unknown [223.226.122.163])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 2960F20372;
- Wed, 15 Jan 2020 13:29:24 +0100 (CET)
-Date: Wed, 15 Jan 2020 13:29:22 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Jyri Sarha <jsarha@ti.com>
-Subject: Re: [PATCH v6 4/5] drm/tidss: New driver for TI Keystone platform
- Display SubSystem
-Message-ID: <20200115122922.GA18982@ravnborg.org>
-References: <cover.1579086894.git.jsarha@ti.com>
- <66c57bb30685920f040933ada9ccd4f5035d099f.1579086894.git.jsarha@ti.com>
+ by mail.kernel.org (Postfix) with ESMTPSA id B68A0214AF;
+ Wed, 15 Jan 2020 12:31:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1579091511;
+ bh=mj/hReSoRHp5ydIC4cRcSvA+mXisS9dp2mIrgDLg1zg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=yB1CEdipMT24qNy8hy+KhE7gUIehT6Af306QNSUVUtQWok+N54kT9/FshiIHE1jwD
+ G/fq4ukzF+hoQFC22Pz5JKTdrfyMPxhHvni+G11vjQHuDaPFV97A5DsVfaGRikPSx/
+ RkTYR3KBIQMu66Vo0pvTYyAKL3aCUNh8F4SPyCVE=
+Date: Wed, 15 Jan 2020 18:01:37 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Stefan Mavrodiev <stefan@olimex.com>
+Subject: Re: [PATCH 1/2] dmaengine: sun4i: Add support for cyclic requests
+ with dedicated DMA
+Message-ID: <20200115123137.GJ2818@vkoul-mobl>
+References: <20200110141140.28527-1-stefan@olimex.com>
+ <20200110141140.28527-2-stefan@olimex.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <66c57bb30685920f040933ada9ccd4f5035d099f.1579086894.git.jsarha@ti.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=IkcTkHD0fZMA:10
- a=6AkCbFbQfmYoq7yG4RYA:9 a=QEXdDO2ut3YA:10
+In-Reply-To: <20200110141140.28527-2-stefan@olimex.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,32 +47,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, yamonkar@cadence.com, praneeth@ti.com,
- dri-devel@lists.freedesktop.org, peter.ujfalusi@ti.com, tomi.valkeinen@ti.com,
- laurent.pinchart@ideasonboard.com, sjakhade@cadence.com, maxime@cerno.tech
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, linux-sunxi@googlegroups.com,
+ open list <linux-kernel@vger.kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
+ "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" <dmaengine@vger.kernel.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ "moderated list:ARM/Allwinner sunXi SoC support"
+ <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgSnlyaS4KCj4gCj4gdjY6IC0gQ2hlY2sgQ1RNIGFuZCBnYW1tYSBzdXBwb3J0IGZyb20gZGlz
-cGNfZmVhdHVyZXMgd2hlbiBjcmVhdGluZyBjcnRjCj4gICAgIC0gSW1wbGVtZW50IENUTSBzdXBw
-b3J0IGZvciBrMmcgYW5kIGZpeCBrMyBDVE0gaW1wbGVtZW50YXRpb24KPiAgICAgLSBSZW1vdmUg
-Z2FtbWEgcHJvcGVydHkgcGVyc2lzdGVuY2UgYW5kIGFsd2F5cyB3cml0ZSBjb2xvciBwcm9wZXJ0
-aWVzCj4gICAgICAgaW4gYSBuZXcgbW9kZXNldAoKSSBnZXQgdGhpcyBlcnJvciB3aGVuIEkgYnVp
-bGQgdGhpcyBwYXRjaCBvbiB0b3Agb2YgZHJtLW1pc2MtbmV4dDoKCmRyaXZlcnMvZ3B1L2RybS90
-aWRzcy90aWRzc19lbmNvZGVyLmM6IEluIGZ1bmN0aW9uIOKAmHRpZHNzX2VuY29kZXJfYXRvbWlj
-X2NoZWNr4oCZOgpkcml2ZXJzL2dwdS9kcm0vdGlkc3MvdGlkc3NfZW5jb2Rlci5jOjM1OjIzOiBl
-cnJvcjog4oCYc3RydWN0IGRybV9lbmNvZGVy4oCZIGhhcyBubyBtZW1iZXIgbmFtZWQg4oCYYnJp
-ZGdl4oCZCiAgIDM1IHwgIGZvciAoYnJpZGdlID0gZW5jb2Rlci0+YnJpZGdlOyBicmlkZ2U7IGJy
-aWRnZSA9IGJyaWRnZS0+bmV4dCkgewogICAgICB8ICAgICAgICAgICAgICAgICAgICAgICBefgpk
-cml2ZXJzL2dwdS9kcm0vdGlkc3MvdGlkc3NfZW5jb2Rlci5jOjM1OjU2OiBlcnJvcjog4oCYc3Ry
-dWN0IGRybV9icmlkZ2XigJkgaGFzIG5vIG1lbWJlciBuYW1lZCDigJhuZXh04oCZCiAgIDM1IHwg
-IGZvciAoYnJpZGdlID0gZW5jb2Rlci0+YnJpZGdlOyBicmlkZ2U7IGJyaWRnZSA9IGJyaWRnZS0+
-bmV4dCkgewogICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICBefgoKSSBkaWQgbm90IGludmVzdGlnYXRlIC0gYnV0IGl0IGxvb2tzIGxp
-a2UgdGhlIHBhdGNoIG5lZWRzCnRvIGJlIGFkYXB0ZWQgdG8gbGF0ZXN0IGRybS1taXNjLW5leHQg
-Y2hhbmdlcy4KCglTYW0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVsCg==
+On 10-01-20, 16:11, Stefan Mavrodiev wrote:
+> Currently the cyclic transfers can be used only with normal DMAs. They
+> can be used by pcm_dmaengine module, which is required for implementing
+> sound with sun4i-hdmi encoder. This is so because the controller can
+> accept audio only from a dedicated DMA.
+> 
+> This patch enables them, following the existing style for the
+> scatter/gather type transfers.
+
+I presume you want this to go with drm tree (if not let me know) so:
+
+Acked-by: Vinod Koul <vkoul@kernel.org>
+
+-- 
+~Vinod
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
