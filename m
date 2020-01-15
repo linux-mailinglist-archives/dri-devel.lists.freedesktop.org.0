@@ -1,99 +1,97 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3535913C82F
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 16:42:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DD6313C85E
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 16:51:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F08126EAEA;
-	Wed, 15 Jan 2020 15:42:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75C346EA38;
+	Wed, 15 Jan 2020 15:51:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 214C06EAEA
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 15:42:43 +0000 (UTC)
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03F6E6EA38
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 15:51:16 +0000 (UTC)
 Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200115154242euoutp024ddbc727e47813201cc01dbd7b95daa3~qGccgN3Qz1728617286euoutp02M
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 15:42:42 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200115154242euoutp024ddbc727e47813201cc01dbd7b95daa3~qGccgN3Qz1728617286euoutp02M
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200115155115euoutp017e9e32d498945911beabbb93e1f17be3~qGj6Llje02520125201euoutp01w
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 15:51:15 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200115155115euoutp017e9e32d498945911beabbb93e1f17be3~qGj6Llje02520125201euoutp01w
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1579102962;
- bh=5UcOrZcqA2Gc029OVzaqHjJku0OF8oexgVfZBcw5ALo=;
+ s=mail20170921; t=1579103475;
+ bh=+44ruQrELZzOfxaxRN2GmBO3IiWVrUwlLHTkRFl5+to=;
  h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=tApO0fcO2muxSsWhgxaWaMRThdd3/rOQoM2TD2/5J6IUXlWAywGl45oF2so7G6KK/
- c+5sy0UCvijV0HuNBKRk19AhQTIIc1cAZtNEwWXkIWfzzsiwXoXbr5fcBq7RCKwwGo
- V2XISi2FNk618NR3NZGPsseF0Kmn4ZywXMQJNW4g=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ b=AKqDlkDk2HuuNJM8EpsZqXxshA+EfieR4fZqoJYSXQS6YHF51zWpnuC3TQkTAdD3M
+ 4QlUD5525LiauJHakxio/3AwQ4pTiBd4uSNnAygs/acgRN2qHo+0HjPZ/AfVkD83iS
+ F5jBlsxwSTogQOSheeCiXvv8Ykvbd9wfs6F/qwtI=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
  eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200115154242eucas1p2028e091c4f5d6430591c9308c0313b96~qGccbKMcS0110001100eucas1p2Y;
- Wed, 15 Jan 2020 15:42:42 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id 32.E4.60698.2F23F1E5; Wed, 15
- Jan 2020 15:42:42 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20200115154241eucas1p21c72afb605f6ffc1620212d17d746ba3~qGccF34mD0110001100eucas1p2X;
- Wed, 15 Jan 2020 15:42:41 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200115154241eusmtrp1f903b55d574667a5152c9417c323f023~qGccFQY412598225982eusmtrp1Q;
- Wed, 15 Jan 2020 15:42:41 +0000 (GMT)
-X-AuditID: cbfec7f5-a29ff7000001ed1a-31-5e1f32f29a7b
+ 20200115155115eucas1p27a60e25c2d968b43a30d2780a72de44e~qGj6Ed99s1479514795eucas1p2b;
+ Wed, 15 Jan 2020 15:51:15 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id AE.72.60679.3F43F1E5; Wed, 15
+ Jan 2020 15:51:15 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200115155114eucas1p198c7ce2fbffe03e764f82f61898186db~qGj5puXIr1202512025eucas1p1Y;
+ Wed, 15 Jan 2020 15:51:14 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20200115155114eusmtrp2794655590659509db9904f1d9212ed0b~qGj5pKZGV1277712777eusmtrp2s;
+ Wed, 15 Jan 2020 15:51:14 +0000 (GMT)
+X-AuditID: cbfec7f4-0e5ff7000001ed07-a3-5e1f34f34cdf
 Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 43.D0.07950.1F23F1E5; Wed, 15
- Jan 2020 15:42:41 +0000 (GMT)
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id B4.B1.08375.2F43F1E5; Wed, 15
+ Jan 2020 15:51:14 +0000 (GMT)
 Received: from [106.120.51.71] (unknown [106.120.51.71]) by
  eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200115154241eusmtip113989aba779e4c4827ea19af8343fba2~qGcbmTfEu3130831308eusmtip1k;
- Wed, 15 Jan 2020 15:42:41 +0000 (GMT)
-Subject: Re: [PATCH] OMAP: DSS2: remove non-zero check on variable r
-To: Colin King <colin.king@canonical.com>
+ 20200115155114eusmtip132e904b80e9be5b7346d2b9713cbf679~qGj5NU8rN0471004710eusmtip1M;
+ Wed, 15 Jan 2020 15:51:14 +0000 (GMT)
+Subject: Re: [PATCH] pxa168fb: fix release function mismatch in probe failure
+To: Chuhong Yuan <hslester96@gmail.com>
 From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Message-ID: <6a3951c7-4b17-6371-24ab-17742aeaa464@samsung.com>
-Date: Wed, 15 Jan 2020 16:42:40 +0100
+Message-ID: <83ca49d1-ca86-1005-7799-cc9f95af28db@samsung.com>
+Date: Wed, 15 Jan 2020 16:51:13 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20191204152847.1435188-1-colin.king@canonical.com>
+In-Reply-To: <20191205160613.32075-1-hslester96@gmail.com>
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrKKsWRmVeSWpSXmKPExsWy7djPc7qfjOTjDP5eEbD4vbqXzeLK1/ds
- FltvSVuc6PvAanF51xw2i9lL+lksVl/9yezA7jGroZfN4373cSaPu7cuMXl83iQXwBLFZZOS
- mpNZllqkb5fAlXHo91S2grm8FS//7WdtYDzB1cXIySEhYCLx6tEXli5GLg4hgRWMEgeOLYFy
- vjBKdH6/wQbhfGaUmNXxkx2mpfHtWiaIxHJGie/tN1khnLeMEo93XmYBqRIWcJE4sP4zYxcj
- B4eIgKbE+XNFIDXMAqcYJfpmdTCD1LAJWElMbF8FVsMrYCex6Wk+SJhFQFXi2+VTYGNEBSIk
- Pj04zApi8woISpyc+QQszingILGi/R0jiM0sIC5x68l8JghbXmL72znMILskBDaxSxz6+5cV
- 4moXiYW7VjFD2MISr45vgfpGRuL05B4WiIZ1jBJ/O15AdW9nlFg++R8bRJW1xJ1zv9hALmUG
- +mb9Ln2IsKNEe/8ydpCwhACfxI23ghBH8ElM2jadGSLMK9HRJgRRrSaxYdkGNpi1XTtXMk9g
- VJqF5LVZSN6ZheSdWQh7FzCyrGIUTy0tzk1PLTbOSy3XK07MLS7NS9dLzs/dxAhMPKf/Hf+6
- g3Hfn6RDjAIcjEo8vBl/5OKEWBPLiitzDzFKcDArifCenCEbJ8SbklhZlVqUH19UmpNafIhR
- moNFSZzXeNHLWCGB9MSS1OzU1ILUIpgsEwenVAPjHv/fzIkGso+9r3O4/t4qs02gqWPBCb6X
- Hz++XfJEU0Sqpp/7Usmpt05Vn7lCJ3Z7byk3ZWKunxhtUiN+z2V2kMOMfAXbWe+8N6V9Dg+c
- q5771FuJr+ncLV+vg6Lb81dqn9HrurI9XNp4wZoO3aI3Jx51XcxZNeON+r3FM9o5uGz499uH
- W3YosRRnJBpqMRcVJwIARcJ8xjgDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrGIsWRmVeSWpSXmKPExsVy+t/xu7ofjeTjDNZcNLT4vbqXzeLK1/ds
- FltvSVuc6PvAanF51xw2i9lL+lksVl/9yezA7jGroZfN4373cSaPu7cuMXl83iQXwBKlZ1OU
- X1qSqpCRX1xiqxRtaGGkZ2hpoWdkYqlnaGwea2VkqqRvZ5OSmpNZllqkb5egl3Ho91S2grm8
- FS//7WdtYDzB1cXIySEhYCLR+HYtUxcjF4eQwFJGiSc/L7J3MXIAJWQkjq8vg6gRlvhzrYsN
- ouY1o8TmP6tZQRLCAi4SB9Z/ZgSpFxHQlDh/rgikhlngFKPExtY+VoiGyYwSMy6eZQRpYBOw
- kpjYvgqsgVfATmLT03yQMIuAqsS3y6dYQGxRgQiJwztmgZXzCghKnJz5BCzOKeAgsaL9HVic
- WUBd4s+8S8wQtrjErSfzmSBseYntb+cwT2AUmoWkfRaSlllIWmYhaVnAyLKKUSS1tDg3PbfY
- SK84Mbe4NC9dLzk/dxMjMM62Hfu5ZQdj17vgQ4wCHIxKPLwH/snFCbEmlhVX5h5ilOBgVhLh
- PTlDNk6INyWxsiq1KD++qDQntfgQoynQcxOZpUST84EpIK8k3tDU0NzC0tDc2NzYzEJJnLdD
- 4GCMkEB6YklqdmpqQWoRTB8TB6dUA+POl/9erX+fo7Siq/GvbXnL9ckLDl44HK180oThoPfJ
- sxLbXsy3qCxX1hBxa0kLM7tl7LuH8cmEJd98GyeHcnAbHvJ6eOPhPjaWKSLS9is3va2V+XD2
- /KJyFv0dX9rrX0wy6kphnZP2Ybv4NDG/oMXHDA0C//EV9wXum9Vazqgx9XfwvU8xN6YqsRRn
- JBpqMRcVJwIA7E4WqckCAAA=
-X-CMS-MailID: 20200115154241eucas1p21c72afb605f6ffc1620212d17d746ba3
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprEKsWRmVeSWpSXmKPExsWy7djP87qfTeTjDA7NZbe48vU9m8XsQy+Z
+ LU70fWC1uLxrDpsDi8fOWXfZPe53H2fy+LxJLoA5issmJTUnsyy1SN8ugSvj1bn/jAXTuCr2
+ LNjN0sC4g6OLkZNDQsBEYv7J+0wgtpDACkaJTVOkuxi5gOwvjBJX/h5jg3A+M0pMnTqBDabj
+ Zf8EqMRyRolJjyczQThvGSUWzjzGDFIlLOAvMenuCnYQW0RAXeLzrp1gNrNAgsTpRfdYQGw2
+ ASuJie2rGEFsXgE7ifNLboP1sgioSiz4vQVsm6hAhMSnB4dZIWoEJU7OfALWywnU+3fhISaI
+ meISt57Mh7LlJba/ncMMcpCEQDe7xMr7TxkhznaRmHT1ODOELSzx6vgWdghbRuL/zvlMEA3r
+ GCX+dryA6t7OKLF88j+op60l7pz7BWRzAK3QlFi/Sx8i7CjxcOt9dpCwhACfxI23ghBH8ElM
+ 2jadGSLMK9HRJgRRrSaxYdkGNpi1XTtXMk9gVJqF5LVZSN6ZheSdWQh7FzCyrGIUTy0tzk1P
+ LTbKSy3XK07MLS7NS9dLzs/dxAhMKaf/Hf+yg3HXn6RDjAIcjEo8vBl/5OKEWBPLiitzDzFK
+ cDArifCenCEbJ8SbklhZlVqUH19UmpNafIhRmoNFSZzXeNHLWCGB9MSS1OzU1ILUIpgsEwen
+ VAOjaEyzc7lfyXY1htYLdwIcXx0OeTJjwxrLz1lmQkrSfP5GsXVWa7IkZu3ny05y/aOs5Gks
+ +jSrOXipbPOuvzw7J6+bzS1z11buikK9gsH3e8/u1C9vunP8V0j6eufpKc1npd37piYc536w
+ MyN0zsyn2rILSyfptXBkCeZ+fSN1aG25xK/lExuUWIozEg21mIuKEwFFRS6yJQMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrMIsWRmVeSWpSXmKPExsVy+t/xu7qfTOTjDI4eU7W48vU9m8XsQy+Z
+ LU70fWC1uLxrDpsDi8fOWXfZPe53H2fy+LxJLoA5Ss+mKL+0JFUhI7+4xFYp2tDCSM/Q0kLP
+ yMRSz9DYPNbKyFRJ384mJTUnsyy1SN8uQS/j1bn/jAXTuCr2LNjN0sC4g6OLkZNDQsBE4mX/
+ BLYuRi4OIYGljBKtH5ewdzFyACVkJI6vL4OoEZb4c60LquY1o8Sb5UeZQRLCAr4SZzo2sIPY
+ IgLqEp937QTrZRZIkHg2LwWivpdR4vn2lWA1bAJWEhPbVzGC2LwCdhLnl9wGm8MioCqx4PcW
+ NhBbVCBC4vCOWVA1ghInZz5hAbE5gXr/LjzEBGIzA+36M+8SM4QtLnHryXyouLzE9rdzmCcw
+ Cs1C0j4LScssJC2zkLQsYGRZxSiSWlqcm55bbKhXnJhbXJqXrpecn7uJERhB24793LyD8dLG
+ 4EOMAhyMSjy8GX/k4oRYE8uKK3MPMUpwMCuJ8J6cIRsnxJuSWFmVWpQfX1Sak1p8iNEU6LmJ
+ zFKiyfnA6M4riTc0NTS3sDQ0NzY3NrNQEuftEDgYIySQnliSmp2aWpBaBNPHxMEp1cCoy5Q6
+ 10JLLK8oPHWeVG/00dmais3MfOZrbYXFqrI1fb5zPXaVy52deXX7zPTPNfkV6Tpx7bcs9ynu
+ f87Y82WqvSpPtMGVM4w8GaGzXk70Onf2a/Z7LT/HrDmzM7V/vOD9b76Ku3A/37vL/CGRLRt7
+ uraw3LOWfOpx8NLfpglK7Hz/6vfKaiuxFGckGmoxFxUnAgB9pX67tgIAAA==
+X-CMS-MailID: 20200115155114eucas1p198c7ce2fbffe03e764f82f61898186db
 X-Msg-Generator: CA
-X-RootMTR: 20191204152851epcas5p413006712eafa500de3013c2ce8a3bc02
+X-RootMTR: 20191205160628epcas4p38c1843647699dcbd209c5381d65ab869
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20191204152851epcas5p413006712eafa500de3013c2ce8a3bc02
-References: <CGME20191204152851epcas5p413006712eafa500de3013c2ce8a3bc02@epcas5p4.samsung.com>
- <20191204152847.1435188-1-colin.king@canonical.com>
+X-CMS-RootMailID: 20191205160628epcas4p38c1843647699dcbd209c5381d65ab869
+References: <CGME20191205160628epcas4p38c1843647699dcbd209c5381d65ab869@epcas4p3.samsung.com>
+ <20191205160613.32075-1-hslester96@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,30 +104,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Tomi Valkeinen <tomi.valkeinen@nokia.com>, linux-omap@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 12/4/19 4:28 PM, Colin King wrote:
-> From: Colin Ian King <colin.king@canonical.com>
-> 
-> Variable r is being initialized to zero, so the check of a non-zero
-> rv is redundant and can be removed.
-> 
-> It appears that the previous case statements set r to be -EINVAL
-> and the "Fallthrough" comment afterwards suggested it was going
-> to fall through to this non-zero check but won't because of the
-> break statement. Remove the confusion by removing the Fallthrough
-> comment too.
-> 
-> Addresses-Coverity: ("Logically dead code")
-> Fixes: b39a982ddecf ("OMAP: DSS2: omapfb driver")
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+On 12/5/19 5:06 PM, Chuhong Yuan wrote:
+> The driver uses kfree() to release the resource allocated by
+> framebuffer_alloc(), which does not match.
+> Use framebuffer_release() instead to fix it.
+
+For pxa168fb driver framebuffer_release() does only kfree() so
+there is no real breakage currently. Lets fix it anyway so it
+won't break in the future.
+
+> Fixes: 638772c7553f ("fb: add support of LCD display controller on pxa168/910 (base layer)")
+> Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
 
 Patch queued for v5.6, thanks.
  
@@ -140,32 +133,23 @@ Samsung R&D Institute Poland
 Samsung Electronics
 
 > ---
->  drivers/video/fbdev/omap2/omapfb/omapfb-main.c | 4 ----
->  1 file changed, 4 deletions(-)
+>  drivers/video/fbdev/pxa168fb.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/video/fbdev/omap2/omapfb/omapfb-main.c b/drivers/video/fbdev/omap2/omapfb/omapfb-main.c
-> index 858c2c011d19..a2a2c1b205d9 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/omapfb-main.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/omapfb-main.c
-> @@ -1154,16 +1154,12 @@ static int _setcolreg(struct fb_info *fbi, u_int regno, u_int red, u_int green,
->  		   r = fbdev->ctrl->setcolreg(regno, red, green, blue,
->  		   transp, update_hw_pal);
->  		   */
-> -		/* Fallthrough */
->  		r = -EINVAL;
->  		break;
->  	case OMAPFB_COLOR_RGB565:
->  	case OMAPFB_COLOR_RGB444:
->  	case OMAPFB_COLOR_RGB24P:
->  	case OMAPFB_COLOR_RGB24U:
-> -		if (r != 0)
-> -			break;
-> -
->  		if (regno < 16) {
->  			u32 pal;
->  			pal = ((red >> (16 - var->red.length)) <<
+> diff --git a/drivers/video/fbdev/pxa168fb.c b/drivers/video/fbdev/pxa168fb.c
+> index 1410f476e135..b9435133b6f3 100644
+> --- a/drivers/video/fbdev/pxa168fb.c
+> +++ b/drivers/video/fbdev/pxa168fb.c
+> @@ -769,7 +769,7 @@ static int pxa168fb_probe(struct platform_device *pdev)
+>  	dma_free_coherent(fbi->dev, info->fix.smem_len,
+>  			info->screen_base, fbi->fb_start_dma);
+>  failed_free_info:
+> -	kfree(info);
+> +	framebuffer_release(info);
+>  
+>  	dev_err(&pdev->dev, "frame buffer device init failed with %d\n", ret);
+>  	return ret;
 > 
-
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
