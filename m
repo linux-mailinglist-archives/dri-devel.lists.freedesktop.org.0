@@ -2,38 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5761013C174
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 13:46:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3F2613C1B6
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 13:52:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D94DC6E9AF;
-	Wed, 15 Jan 2020 12:46:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 730386E9BF;
+	Wed, 15 Jan 2020 12:52:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from michel.telenet-ops.be (michel.telenet-ops.be
- [IPv6:2a02:1800:110:4::f00:18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B47366E9AF
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 12:46:00 +0000 (UTC)
-Received: from ramsan ([84.195.182.253]) by michel.telenet-ops.be with bizsmtp
- id qclq2100M5USYZQ06clqYB; Wed, 15 Jan 2020 13:45:58 +0100
-Received: from rox.of.borg ([192.168.97.57]) by ramsan with esmtp (Exim 4.90_1)
- (envelope-from <geert@linux-m68k.org>)
- id 1iri3S-0003z9-68; Wed, 15 Jan 2020 13:45:50 +0100
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
- (envelope-from <geert@linux-m68k.org>)
- id 1iri3S-00012k-4a; Wed, 15 Jan 2020 13:45:50 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
- David Lechner <david@lechnology.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>
-Subject: [PATCH v2 5/5] drm: tiny: st7735r: Add support for Okaya RH128128T
-Date: Wed, 15 Jan 2020 13:45:48 +0100
-Message-Id: <20200115124548.3951-6-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200115124548.3951-1-geert+renesas@glider.be>
-References: <20200115124548.3951-1-geert+renesas@glider.be>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A63886E9C2
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 12:52:36 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 7BA3BAFE0;
+ Wed, 15 Jan 2020 12:52:34 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, hdegoede@redhat.com,
+ david@lechnology.com, noralf@tronnes.org, sean@poorly.run,
+ oleksandr_andrushchenko@epam.com, sam@ravnborg.org,
+ laurent.pinchart@ideasonboard.com, emil.velikov@collabora.com
+Subject: [PATCH v2 0/4] Use no_vblank property for drivers without VBLANK
+Date: Wed, 15 Jan 2020 13:52:22 +0100
+Message-Id: <20200115125226.13843-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.24.1
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,94 +39,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, Chris Brandt <chris.brandt@renesas.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
-MIME-Version: 1.0
+Cc: xen-devel@lists.xenproject.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the Okaya RH128128T display to the st7735r driver on
-DT-enabled systems.
+(Resending because I did not cc dri-devel properly.)
 
-The RH128128T is a 128x128 1.44" TFT display driven by a Sitronix
-ST7715R TFT Controller/Driver.  The latter is very similar to the
-ST7735R, and can be handled by the existing st7735r driver.
+Instead of faking VBLANK events by themselves, drivers without VBLANK
+support can enable drm_crtc_vblank.no_vblank and let DRM do the rest.
+The patchset makes this official and converts over several drivers.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
+Ast already uses the functionality and just needs a cleanup. Cirrus can
+be converted easily by setting the field in the check() callback and
+removing the existing VBLANK code. For most other simple-KMS drivers
+without enable_vblank() and check(), simple-KMS helpers can enable the
+faked VBLANK by default. The only exception is Xen, which comes with
+its own VBLANK logic and should rather to disable no_vblank.
+
 v2:
-  - Split in two patches,
-  - Update Kconfig help text,
-  - Improve file comment header.
----
- drivers/gpu/drm/tiny/Kconfig   | 8 +++++---
- drivers/gpu/drm/tiny/st7735r.c | 9 ++++++++-
- 2 files changed, 13 insertions(+), 4 deletions(-)
+	* document functionality (Daniel)
+	* cleanup ast (Daniel)
+	* let simple-kms handle no_vblank where possible
 
-diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
-index a46ac284dd5e9211..a8664211123e7025 100644
---- a/drivers/gpu/drm/tiny/Kconfig
-+++ b/drivers/gpu/drm/tiny/Kconfig
-@@ -85,14 +85,16 @@ config TINYDRM_ST7586
- 	  If M is selected the module will be called st7586.
- 
- config TINYDRM_ST7735R
--	tristate "DRM support for Sitronix ST7735R display panels"
-+	tristate "DRM support for Sitronix ST7715R/ST7735R display panels"
- 	depends on DRM && SPI
- 	select DRM_KMS_HELPER
- 	select DRM_KMS_CMA_HELPER
- 	select DRM_MIPI_DBI
- 	select BACKLIGHT_CLASS_DEVICE
- 	help
--	  DRM driver Sitronix ST7735R with one of the following LCDs:
--	  * JD-T18003-T01 1.8" 128x160 TFT
-+	  DRM driver for Sitronix ST7715R/ST7735R with one of the following
-+	  LCDs:
-+	  * Jianda JD-T18003-T01 1.8" 128x160 TFT
-+	  * Okaya RH128128T 1.44" 128x128 TFT
- 
- 	  If M is selected the module will be called st7735r.
-diff --git a/drivers/gpu/drm/tiny/st7735r.c b/drivers/gpu/drm/tiny/st7735r.c
-index a838f237c8d82e3d..32574f1b60716390 100644
---- a/drivers/gpu/drm/tiny/st7735r.c
-+++ b/drivers/gpu/drm/tiny/st7735r.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * DRM driver for Sitronix ST7735R panels
-+ * DRM driver for display panels connected to a Sitronix ST7715R or ST7735R
-+ * display controller in SPI mode.
-  *
-  * Copyright 2017 David Lechner <david@lechnology.com>
-  * Copyright (C) 2019 Glider bvba
-@@ -144,6 +145,11 @@ static const struct st7735r_cfg jd_t18003_t01_cfg = {
- 	.write_only	= true,
- };
- 
-+static const struct st7735r_cfg rh128128t_cfg = {
-+	.mode		= { DRM_SIMPLE_MODE(128, 128, 25, 26) },
-+	.left_offset	= 2,
-+	.top_offset	= 3,
-+	.rgb		= true,
- };
- 
- DEFINE_DRM_GEM_CMA_FOPS(st7735r_fops);
-@@ -163,6 +169,7 @@ static struct drm_driver st7735r_driver = {
- 
- static const struct of_device_id st7735r_of_match[] = {
- 	{ .compatible = "jianda,jd-t18003-t01", .data = &jd_t18003_t01_cfg },
-+	{ .compatible = "okaya,rh128128t", .data = &rh128128t_cfg },
- 	{ },
- };
- MODULE_DEVICE_TABLE(of, st7735r_of_match);
--- 
-2.17.1
+Thomas Zimmermann (4):
+  drm: Document struct drm_crtc_state.no_vblank for faking VBLANK events
+  drm/ast: Set struct drm_crtc_state.no_vblank in atomic_check()
+  drm/cirrus: Let DRM core send VBLANK events
+  drm/simple-kms: Let DRM core send VBLANK events by default
+
+ drivers/gpu/drm/ast/ast_mode.c          |  4 ++--
+ drivers/gpu/drm/bochs/bochs_kms.c       |  9 ---------
+ drivers/gpu/drm/cirrus/cirrus.c         | 10 ++--------
+ drivers/gpu/drm/drm_atomic_helper.c     |  4 +++-
+ drivers/gpu/drm/drm_mipi_dbi.c          |  9 ---------
+ drivers/gpu/drm/drm_simple_kms_helper.c | 19 +++++++++++++++----
+ drivers/gpu/drm/tiny/gm12u320.c         |  9 ---------
+ drivers/gpu/drm/tiny/ili9225.c          |  9 ---------
+ drivers/gpu/drm/tiny/repaper.c          |  9 ---------
+ drivers/gpu/drm/tiny/st7586.c           |  9 ---------
+ drivers/gpu/drm/udl/udl_modeset.c       | 11 -----------
+ drivers/gpu/drm/xen/xen_drm_front_kms.c | 13 +++++++++++++
+ include/drm/drm_crtc.h                  |  9 +++++++--
+ include/drm/drm_simple_kms_helper.h     |  7 +++++--
+ 14 files changed, 47 insertions(+), 84 deletions(-)
+
+--
+2.24.1
 
 _______________________________________________
 dri-devel mailing list
