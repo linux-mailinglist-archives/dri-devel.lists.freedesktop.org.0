@@ -1,62 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC7F613C366
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 14:42:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA92213C4E5
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 15:05:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 641116E9F2;
-	Wed, 15 Jan 2020 13:42:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1D9F6EA22;
+	Wed, 15 Jan 2020 14:05:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb43.google.com (mail-yb1-xb43.google.com
- [IPv6:2607:f8b0:4864:20::b43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AB0A6E9F2
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 13:42:00 +0000 (UTC)
-Received: by mail-yb1-xb43.google.com with SMTP id k128so2868430ybc.13
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 05:42:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=tBoB1ckViw2xjM3alHJlxMuA6hafIKJ9L4vJFC1EOL8=;
- b=Y8ROTf9Nhh+35v+lCwfnkjPVC+4UASDK3asApVI1gn940CgvwUtla8gsPJz9EP7cUs
- UqgEbUV2NMJwuFRZCrJAxD4M88iJRdS3i6x9+334qcshaXtEDXrao/qnS+mOwCCgC6rE
- ZMCXYP5nUGKW3FAhVWSeAjsi0bKjeu931xZ4b3wuqBINnvdegoSjrPmhTZL4YIlJNo2n
- ab/9rhH06ZHgHvUMw61I6VeaHxlkoa5/LHdE7HagYgEB9dmSuX+5ZT9R6D+hsuGVaJJP
- TMqyJyVFggIDMIzwga3YNUzuUOL99L+0hm3WDs5KVkj8qwZ+b3kY61IkwoVaWWhPokGT
- sSaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=tBoB1ckViw2xjM3alHJlxMuA6hafIKJ9L4vJFC1EOL8=;
- b=K1Cd6kp8QMGI4ShMXcZmKtzfI200pY02Jz4IxhtouIJlg9uH/aZCyAkTu61KDdfmx2
- cqddfAA81eCmo8e8MWtXWv79JGMn5gFWWLaX3AVqGEkUn4Y6+xyUcT9PXy1Et+ove637
- ZUJ4DBwwf8gL1Pf/wCgk/Oec6iGV0TLfE6FkA+mWlnX/bxSSL1CuKHq1PjHgM1DEUhU4
- 116xStzLIfSpb4pjKRkn9D4so/F7LzRj+YJeSNSQ3JsQZLlcnxhrFH1eVY5luTyFjovZ
- U/8Kmjgvc7gjmzGS0d9KfI0QftVsOP96NPlb/TtQIta1OVzc5sHqaOfzxN2CAso7Zvbn
- d8jw==
-X-Gm-Message-State: APjAAAWyPFXiYn782YNbsddxun+4VS1pyvxLVGT3CbZ6ou5UX5OCZRGb
- nG1X0KSagdlopbV3c2sSRymI/zZ7oD03gQ==
-X-Google-Smtp-Source: APXvYqzt8yo/8jipqYKJa8QELpLqoJJXlQzbH7NYp8AjAKrlMLht44fCze5DZysWrlsNkJvI3kHs+w==
-X-Received: by 2002:a25:3308:: with SMTP id z8mr21438792ybz.485.1579095719612; 
- Wed, 15 Jan 2020 05:41:59 -0800 (PST)
-Received: from localhost ([2620:0:1013:11:1e1:4760:6ce4:fc64])
- by smtp.gmail.com with ESMTPSA id e76sm8288088ywe.25.2020.01.15.05.41.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Jan 2020 05:41:59 -0800 (PST)
-Date: Wed, 15 Jan 2020 08:41:58 -0500
-From: Sean Paul <sean@poorly.run>
-To: Chris Wilson <chris@chris-wilson.co.uk>
-Subject: Re: [PATCH v4] drm/trace: Buffer DRM logs in a ringbuffer accessible
- via debugfs
-Message-ID: <20200115134158.GC25564@art_vandelay>
-References: <20200114172155.215463-1-sean@poorly.run>
- <157908459623.12549.3531242692320169983@skylake-alporthouse-com>
+Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 39F796EA22
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 14:05:54 +0000 (UTC)
+X-UUID: 84e03eedd14d40068ec299080c9132be-20200115
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=iqI0/BExz5+Ja7rS3jk0iIZb9us1L2XdgWD3khlwGTc=; 
+ b=LWjHoDhyXr0y9XU2gzGe72pGrxYp8ZrRRXLFa+62qWdBtL7esNLE/JgWYwEFgTWo0aIueIpiwqRTrVDFk4tnevdwnFecproMmHrTf4e+5JYiB/ETcw0Z7dB5IxbuVCk2A7RRfz5aU/HcGs3+q7NA/pFQZwSavkUIoMGhHvVBZNQ=;
+X-UUID: 84e03eedd14d40068ec299080c9132be-20200115
+Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+ (envelope-from <jitao.shi@mediatek.com>)
+ (mailgw01.mediatek.com ESMTP with TLS)
+ with ESMTP id 63424230; Wed, 15 Jan 2020 22:00:49 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS33N2.mediatek.inc
+ (172.27.4.76) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+ Wed, 15 Jan 2020 22:01:15 +0800
+Received: from mszsdclx1018.gcn.mediatek.inc (10.16.6.18) by
+ MTKCAS32.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
+ 15.0.1395.4 via Frontend Transport; Wed, 15 Jan 2020 22:00:58 +0800
+From: Jitao Shi <jitao.shi@mediatek.com>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg
+ <sam@ravnborg.org>, David Airlie <airlied@linux.ie>, Daniel Vetter
+ <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v8 0/8] add driver for "boe, tv101wum-nl6", "boe, tv101wum-n53",
+ "auo, kd101n80-45na" and "auo, b101uan08.3" panels
+Date: Wed, 15 Jan 2020 21:59:50 +0800
+Message-ID: <20200115135958.126303-1-jitao.shi@mediatek.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <157908459623.12549.3531242692320169983@skylake-alporthouse-com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-TM-SNTS-SMTP: E5D42284C1FC6913D7CA8B057FD34836D64D46B9D57845A57AD5644DF877DD162000:8
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,62 +54,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
- Steven Rostedt <rostedt@goodmis.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Sean Paul <sean@poorly.run>
+Cc: Jitao Shi <jitao.shi@mediatek.com>, srv_heupstream@mediatek.com,
+ stonea168@163.com, cawa.cheng@mediatek.com, linux-mediatek@lists.infradead.org,
+ yingjoe.chen@mediatek.com, eddie.huang@mediatek.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 15, 2020 at 10:36:36AM +0000, Chris Wilson wrote:
-> Quoting Sean Paul (2020-01-14 17:21:43)
-> > From: Sean Paul <seanpaul@chromium.org>
-> > 
-> > This patch uses a ring_buffer to keep a "flight recorder" (name credit Weston)
-> > of DRM logs for a specified set of debug categories. The user writes a
-> > bitmask of debug categories to the "trace_mask" node and can read log
-> > messages from the "trace" node.
-> > 
-> > These nodes currently exist in debugfs under the dri directory. I
-> > intended on exposing all of this through tracefs originally, but the
-> > tracefs entry points are not exposed, so there's no way to create
-> > tracefs files from drivers at the moment. I think it would be a
-> > worthwhile endeavour, but one requiring more time and conversation to
-> > ensure the drm traces fit somewhere sensible.
-> 
-> Fwiw, I have a need for client orientated debug message store, with
-> the primary purpose of figuring out -EINVAL. We need per-client so we can
-> put sensitive information about the potentially buggy client behaviour,
-> and of course it needs to be accessible by the non-privileged client.
-> 
-> On the execution side, it's easy to keep track of the client so we could
-> trace execution flow per client, within reason. And we could do
-> similarly for kms clients.
+Changes since v7:
+ - base drm-misc-next branch
+ - fix document pass dt_binding_check
+ - remove backlight from panel driver
 
-Could you build such a thing with drm_trace underpinning it, just put the
-pertinent information in the message?
+Changes since v6:
+ - fix boe_panel_init err uninit.
+ - adjust the delay of backlight on.
 
-> 
-> Just chiming to say, I don't think a duplicate of dmesg hidden inside
-> debugfs achieves much. But a generic tracek-esque ringbuf would be very
-> useful -- even if only so we can separate our GEM_TRACE from the global
-> tracek.
+Changes since v5:
+ - covert the documents to yaml
+ - fine tune boe, tv101wum-n53 panel video timine
 
-I think that's essentially what we've got, I've just narrowly focused on
-surfacing debug logs. If drm_trace_printf were exported, replacing
-GEM_TRACE would be as simple as s/trace_printk/drm_trace_printf/. Initially I
-thought exporting it to drivers would be a bad idea, but I'm open to changing my
-mind on this as long as drivers are using it responsibly. 
+Changes since v4:
+ - add auo,b101uan08.3 panel for this driver.
+ - add boe,tv101wum-n53 panel for this driver.
 
-Sean
+Changes since v3:
+ - remove check enable_gpio.
+ - fine tune the auo,kd101n80-45na panel's power on timing.
 
-> -Chris
+Changes since v2:
+ - correct the panel size
+ - remove blank line in Kconfig
+ - move auo,kd101n80-45na panel driver in this series.
+
+Changes since v1:
+ - update typo nl6 -> n16.
+ - update new panel config and makefile are added in alphabetically order.
+ - add the panel mode and panel info in driver data.
+ - merge auo,kd101n80-45a and boe,tv101wum-nl6 in one driver
+
+Jitao Shi (8):
+  dt-bindings: display: panel: Add BOE tv101wum-n16 panel bindings
+  drm/panel: support for BOE tv101wum-nl6 wuxga dsi video mode panel
+  dt-bindings: display: panel: add auo kd101n80-45na panel bindings
+  drm/panel: support for auo,kd101n80-45na wuxga dsi video mode panel
+  dt-bindings: display: panel: add boe tv101wum-n53 panel documentation
+  drm/panel: support for boe,tv101wum-n53 wuxga dsi video mode panel
+  dt-bindings: display: panel: add AUO auo, b101uan08.3 panel
+    documentation
+  drm/panel: support for auo,b101uan08.3 wuxga dsi video mode panel
+
+ .../display/panel/auo,b101uan08.3.yaml        |  74 ++
+ .../display/panel/auo,kd101n80-45na.yaml      |  74 ++
+ .../display/panel/boe,tv101wum-n53.yaml       |  74 ++
+ .../display/panel/boe,tv101wum-nl6.yaml       |  74 ++
+ drivers/gpu/drm/panel/Kconfig                 |   9 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 854 ++++++++++++++++++
+ 7 files changed, 1160 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/auo,b101uan08.3.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/panel/auo,kd101n80-45na.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/panel/boe,tv101wum-n53.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
 
 -- 
-Sean Paul, Software Engineer, Google / Chromium OS
+2.21.0
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
