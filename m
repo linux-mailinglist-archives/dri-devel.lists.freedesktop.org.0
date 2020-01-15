@@ -1,43 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA82E13CAAB
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 18:14:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E2B413CB29
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 18:39:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 445096EA53;
-	Wed, 15 Jan 2020 17:14:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 081406EA63;
+	Wed, 15 Jan 2020 17:39:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE0AE6EA53
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 17:14:04 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 7DC9A81200;
- Wed, 15 Jan 2020 18:14:00 +0100 (CET)
-Date: Wed, 15 Jan 2020 18:13:58 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Jyri Sarha <jsarha@ti.com>
-Subject: Re: [PATCH v6 4/5] drm/tidss: New driver for TI Keystone platform
- Display SubSystem
-Message-ID: <20200115171358.GA23015@ravnborg.org>
-References: <cover.1579086894.git.jsarha@ti.com>
- <66c57bb30685920f040933ada9ccd4f5035d099f.1579086894.git.jsarha@ti.com>
- <20200115122253.GA22854@ravnborg.org>
- <848720ca-6062-8314-e874-3a36f8aee1da@ti.com>
- <20200115144309.GA20850@ravnborg.org>
- <b4f5d846-aa44-a759-1caa-70244dfabeb3@ti.com>
+Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 266846EA63
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 17:39:29 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from localhost (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 19891978-1500050 for multiple; Wed, 15 Jan 2020 17:38:16 +0000
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <b4f5d846-aa44-a759-1caa-70244dfabeb3@ti.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
- a=FBmygEOeIvoNrRZmZRsA:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+To: Sean Paul <sean@poorly.run>
+From: Chris Wilson <chris@chris-wilson.co.uk>
+In-Reply-To: <20200115142118.GD25564@art_vandelay>
+References: <20200114172155.215463-1-sean@poorly.run>
+ <157908459623.12549.3531242692320169983@skylake-alporthouse-com>
+ <20200115134158.GC25564@art_vandelay>
+ <157909687975.14122.1932646175287417072@skylake-alporthouse-com>
+ <20200115142118.GD25564@art_vandelay>
+Message-ID: <157910989392.14122.11828997592074603326@skylake-alporthouse-com>
+User-Agent: alot/0.6
+Subject: Re: [PATCH v4] drm/trace: Buffer DRM logs in a ringbuffer accessible
+ via debugfs
+Date: Wed, 15 Jan 2020 17:38:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,33 +43,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, yamonkar@cadence.com, praneeth@ti.com,
- dri-devel@lists.freedesktop.org, peter.ujfalusi@ti.com, tomi.valkeinen@ti.com,
- laurent.pinchart@ideasonboard.com, sjakhade@cadence.com, maxime@cerno.tech
+Cc: linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
+ dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jyri.
+Quoting Sean Paul (2020-01-15 14:21:18)
+> On Wed, Jan 15, 2020 at 02:01:19PM +0000, Chris Wilson wrote:
+> > Quoting Sean Paul (2020-01-15 13:41:58)
+> > > On Wed, Jan 15, 2020 at 10:36:36AM +0000, Chris Wilson wrote:
+> > > > Quoting Sean Paul (2020-01-14 17:21:43)
+> > > > > From: Sean Paul <seanpaul@chromium.org>
+> > > > > 
+> > > > > This patch uses a ring_buffer to keep a "flight recorder" (name credit Weston)
+> > > > > of DRM logs for a specified set of debug categories. The user writes a
+> > > > > bitmask of debug categories to the "trace_mask" node and can read log
+> > > > > messages from the "trace" node.
+> > > > > 
+> > > > > These nodes currently exist in debugfs under the dri directory. I
+> > > > > intended on exposing all of this through tracefs originally, but the
+> > > > > tracefs entry points are not exposed, so there's no way to create
+> > > > > tracefs files from drivers at the moment. I think it would be a
+> > > > > worthwhile endeavour, but one requiring more time and conversation to
+> > > > > ensure the drm traces fit somewhere sensible.
+> > > > 
+> > > > Fwiw, I have a need for client orientated debug message store, with
+> > > > the primary purpose of figuring out -EINVAL. We need per-client so we can
+> > > > put sensitive information about the potentially buggy client behaviour,
+> > > > and of course it needs to be accessible by the non-privileged client.
+> > > > 
+> > > > On the execution side, it's easy to keep track of the client so we could
+> > > > trace execution flow per client, within reason. And we could do
+> > > > similarly for kms clients.
+> > > 
+> > > Could you build such a thing with drm_trace underpinning it, just put the
+> > > pertinent information in the message?
+> > 
+> > Not as is. The global has to go, and there's no use for debugfs. So we
+> > are just left with a sprintf() around a ring_buffer. I am left in the
+> > same position as just wanting to generalise tracek to take the ringbuffer
+> > as a parameter.
+> > 
+> 
+> Ah, I think I see what you're getting at now. I think it would be reasonable to
+> split out a drm_trace_buffer from the current code for this purpose. We could
+> have an interface like:
+> 
+> struct drm_trace_buffer *drm_trace_buffer_init(unsigned int num_pages);
+> int drm_trace_buffer_resize(struct drm_trace_buffer *buf, unsigned int num_pages);
+> int drm_trace_buffer_printf(struct drm_trace_buffer *buf, const char *format, ...);
+> int drm_trace_buffer_output(struct seq_file *seq);
+> void drm_trace_buffer_cleanup(struct drm_trace_buffer *buf);
+> 
+> Then to Joonas' point, we could have drm_trace_log which uses this interface to
+> mirror the logs with a debugfs interface.
+> 
+> Would that work for your purpose?
 
-> Well, I'll bite the bullet then, and start mangling the code to the
-> "strict" format.
+The seq_file doesn't marry with the anticipated uAPI, I'll probably need
+a raw file_ops (thinking along the lines of return an fd to userspace,
+that is read ala /dev/kmsg).
 
-While touching the code please consider moving all logging
-over to the new drm_{err,warn,info,dbg} functions.
-They give the nice "[drm]" marker.
-And they are a tad shorter as you do not have to dereference ddev->dev
-everywhere.
-And you then also gain support for controlling logging using
-drm.debug=0xxxx, os sysfs too.
-
-See drm_print.h in latest drm_misc_next
-
-With or without this change you can add my:
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-
-	Sam
+I would be tempted to drop the drm_ and put it straight in lib/
+-Chris
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
