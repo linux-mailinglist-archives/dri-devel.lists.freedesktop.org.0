@@ -2,59 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAB2613BAEC
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 09:28:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9FB413BB1E
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 09:32:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DC356E897;
-	Wed, 15 Jan 2020 08:27:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC4A36E890;
+	Wed, 15 Jan 2020 08:32:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DAFB6E462
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2020 20:21:37 +0000 (UTC)
-Received: by mail-ed1-x544.google.com with SMTP id e10so13188494edv.9
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2020 12:21:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eTYOdAjqpPQyd/dKUd7t4m1y6m6buUvTbOTtmO8r2xg=;
- b=uPnlPYExpuZKHXBq0k1aDFQypwDgNSHN+5V84q3ieCd874DrCu8HeEwMpj5bzRFH+P
- F1QXEi8rne5kzXiaawvx7TbGhZwwQR+x3dVDWFlXR/Sc1lLsa8eIVcEv+YyC2/NwDMIy
- pJvXxofQ1Xj7CuoHioC8CVqOX+C6PwyQK43bhK2g/wxMUW9PeRKGwvVBGi1yRgOJx1EH
- 3SoHWKXB2QHnuzpGffvxygQR1x1L9Id36rfosShZB3jm6tCQR3W8Pky/sS2jaRWP4FgF
- Zhx9TOCGmzN4LHksxWRKSzE91ZH8b6LOCoqNMjE1VBfHBLCVNWqVZkP5b85iiKkTGoQe
- vcQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=eTYOdAjqpPQyd/dKUd7t4m1y6m6buUvTbOTtmO8r2xg=;
- b=eFXrQ3lz5Yr3NuJcamtkdNAOhSy1R+8QCkgAeTu+Bgd6f/Tez3NtDNMFbatnB59NTr
- iGmAirYLW4FM8GbgNF+BaIffdtwmoQQ3SK5YsRfvMNckcvVooNt42ZJJPY4cLSucX7ce
- 80B0xBpNUoB2yWmCBsHCOjyaT+6Wrvl2b0qmV5famnhiIcomCUJQzxAHklEXbnkjoTUW
- tcp+ugIJrOTDsEbF3DcKu85dxmJhArh3fJZQbBl9caNkvqIBJ0SfJj3OVcFrGvQfC4LU
- B1Zu8Zs+zsED9+w93qZi+HuCXkhhFmKi7XzZISIm8+YBzEMNZFlrlCRXPuQbocI6g1xX
- XKTw==
-X-Gm-Message-State: APjAAAUEcv059uDTqbvcgSQUUH2cv01hGO1KZgqVUBS0p+00JbFGpOZc
- 2Lru63t7xPcqqp4jVSdCEA/Sb5mRQcH+lf4A9qM=
-X-Google-Smtp-Source: APXvYqwUGwwmpnBLO0b5hpgDEXjku/e8Ri4iad2bNMoLATaQhP7Vu24eJWlvCK7tUZvc70ovkb7JVC8NryjWKrbam2A=
-X-Received: by 2002:aa7:d94d:: with SMTP id l13mr23832761eds.328.1579033295846; 
- Tue, 14 Jan 2020 12:21:35 -0800 (PST)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CF336E890
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 08:32:36 +0000 (UTC)
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9EDB62187F;
+ Wed, 15 Jan 2020 08:32:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1579077156;
+ bh=AJyv1HZR4EHgQ2ATWhJRGP+gmuAx89Jzdjy+Kx5JWto=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=S3T1oBaqDC6tntUQMYVvrQOVvm4PoNHLCcm6dT2c4bq9ngC9hqWnNpR0Djn//d779
+ ZINmrLjH4ZlDVmIA+PN/HR6pE4dCNhE0xcnADbgKkQzaq334ms0vj9p66uDVhBNl5y
+ f1Jn3Lo8LiQ2vnlPTcg2SpvCvjbUGXfPcg2w4THI=
+Date: Wed, 15 Jan 2020 09:32:33 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Stefan Mavrodiev <stefan@olimex.com>
+Subject: Re: [PATCH 2/2] drm: sun4i: hdmi: Add support for sun4i HDMI encoder
+ audio
+Message-ID: <20200115083233.7wedmnkj4ju4eccv@gilmour.lan>
+References: <20200110141140.28527-1-stefan@olimex.com>
+ <20200110141140.28527-3-stefan@olimex.com>
+ <20200110162631.wbufz5h7nqfgd6am@gilmour.lan>
+ <f4ad41ce-e3d0-33e4-1e85-d23e557b484d@olimex.com>
 MIME-Version: 1.0
-References: <20200107230626.885451-1-martin.blumenstingl@googlemail.com>
- <20200107230626.885451-4-martin.blumenstingl@googlemail.com>
- <2ceffe46-57a8-79a8-2c41-d04b227d3792@arm.com>
- <CAFBinCD7o-q-i66zZhOro1DanKAfG-8obQtzxxD==xOwsy_d6A@mail.gmail.com>
- <21d0730b-8299-8bfd-4321-746ccb3772d0@arm.com>
-In-Reply-To: <21d0730b-8299-8bfd-4321-746ccb3772d0@arm.com>
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Tue, 14 Jan 2020 21:21:24 +0100
-Message-ID: <CAFBinCC4LttRsWDpMDEsYFa-ccRcErOuhpwa41O54f9Cmn4v0A@mail.gmail.com>
-Subject: Re: [PATCH RFT v1 3/3] drm/panfrost: Use the mali-supply regulator
- for control again
-To: Steven Price <steven.price@arm.com>
-X-Mailman-Approved-At: Wed, 15 Jan 2020 08:27:50 +0000
+In-Reply-To: <f4ad41ce-e3d0-33e4-1e85-d23e557b484d@olimex.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,79 +49,270 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tomeu.vizoso@collabora.com, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- linux-amlogic@lists.infradead.org, robin.murphy@arm.com, alyssa@rosenzweig.io
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, linux-sunxi@googlegroups.com,
+ Vinod Koul <vkoul@kernel.org>,
+ "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" <dmaengine@vger.kernel.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ "moderated list:ARM/Allwinner sunXi SoC support"
+ <linux-arm-kernel@lists.infradead.org>
+Content-Type: multipart/mixed; boundary="===============1626890868=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Steven,
 
-On Mon, Jan 13, 2020 at 6:10 PM Steven Price <steven.price@arm.com> wrote:
->
-> On 09/01/2020 17:27, Martin Blumenstingl wrote:
-> > On Thu, Jan 9, 2020 at 12:31 PM Steven Price <steven.price@arm.com> wrote:
-> >>
-> >> On 07/01/2020 23:06, Martin Blumenstingl wrote:
-> >>> dev_pm_opp_set_rate() needs a reference to the regulator which should be
-> >>> updated when updating the GPU frequency. The name of the regulator has
-> >>> to be passed at initialization-time using dev_pm_opp_set_regulators().
-> >>> Add the call to dev_pm_opp_set_regulators() so dev_pm_opp_set_rate()
-> >>> will update the GPU regulator when updating the frequency (just like
-> >>> we did this manually before when we open-coded dev_pm_opp_set_rate()).
-> >>
-> >> This patch causes a warning from debugfs on my firefly (RK3288) board:
-> >>
-> >> debugfs: Directory 'ffa30000.gpu-mali' with parent 'vdd_gpu' already
-> >> present!
-> >>
-> >> So it looks like the regulator is being added twice - but I haven't
-> >> investigated further.
-> > I *think* it's because the regulator is already fetched by the
-> > panfrost driver itself to enable it
-> > (the devfreq code currently does not support enabling the regulator,
-> > it can only control the voltage)
+--===============1626890868==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="7lkei534qhur3fvp"
+Content-Disposition: inline
+
+
+--7lkei534qhur3fvp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Stefan,
+
+On Tue, Jan 14, 2020 at 11:04:55AM +0200, Stefan Mavrodiev wrote:
+> On 1/10/20 6:26 PM, Maxime Ripard wrote:
+> > Hi,
 > >
-> > I'm not sure what to do about this though
+> > On Fri, Jan 10, 2020 at 04:11:40PM +0200, Stefan Mavrodiev wrote:
+> > > Add HDMI audio support for the sun4i-hdmi encoder, used on
+> > > the older Allwinner chips - A10, A20, A31.
+> > >
+> > > Most of the code is based on the BSP implementation. In it
+> > > dditional formats are supported (S20_3LE and S24_LE), however
+> > > there where some problems with them and only S16_LE is left.
+> > >
+> > > Signed-off-by: Stefan Mavrodiev <stefan@olimex.com>
+> > > ---
+> > >   drivers/gpu/drm/sun4i/Kconfig            |   1 +
+> > >   drivers/gpu/drm/sun4i/Makefile           |   1 +
+> > >   drivers/gpu/drm/sun4i/sun4i_hdmi.h       |  30 ++
+> > >   drivers/gpu/drm/sun4i/sun4i_hdmi_audio.c | 375 +++++++++++++++++++++++
+> > >   drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c   |   4 +
+> > >   5 files changed, 411 insertions(+)
+> > >   create mode 100644 drivers/gpu/drm/sun4i/sun4i_hdmi_audio.c
+> > >
+> > > diff --git a/drivers/gpu/drm/sun4i/Kconfig b/drivers/gpu/drm/sun4i/Kconfig
+> > > index 37e90e42943f..192b732b10cd 100644
+> > > --- a/drivers/gpu/drm/sun4i/Kconfig
+> > > +++ b/drivers/gpu/drm/sun4i/Kconfig
+> > > @@ -19,6 +19,7 @@ if DRM_SUN4I
+> > >   config DRM_SUN4I_HDMI
+> > >          tristate "Allwinner A10 HDMI Controller Support"
+> > >          default DRM_SUN4I
+> > > +       select SND_PCM_ELD
+> > >          help
+> > >   	  Choose this option if you have an Allwinner SoC with an HDMI
+> > >   	  controller.
+> > > diff --git a/drivers/gpu/drm/sun4i/Makefile b/drivers/gpu/drm/sun4i/Makefile
+> > > index 0d04f2447b01..e2d82b451c36 100644
+> > > --- a/drivers/gpu/drm/sun4i/Makefile
+> > > +++ b/drivers/gpu/drm/sun4i/Makefile
+> > > @@ -5,6 +5,7 @@ sun4i-frontend-y		+= sun4i_frontend.o
+> > >   sun4i-drm-y			+= sun4i_drv.o
+> > >   sun4i-drm-y			+= sun4i_framebuffer.o
+> > >
+> > > +sun4i-drm-hdmi-y		+= sun4i_hdmi_audio.o
+> > >   sun4i-drm-hdmi-y		+= sun4i_hdmi_ddc_clk.o
+> > >   sun4i-drm-hdmi-y		+= sun4i_hdmi_enc.o
+> > >   sun4i-drm-hdmi-y		+= sun4i_hdmi_i2c.o
+> > > diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi.h b/drivers/gpu/drm/sun4i/sun4i_hdmi.h
+> > > index 7ad3f06c127e..456964e681b0 100644
+> > > --- a/drivers/gpu/drm/sun4i/sun4i_hdmi.h
+> > > +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi.h
+> > > @@ -42,7 +42,32 @@
+> > >   #define SUN4I_HDMI_VID_TIMING_POL_VSYNC		BIT(1)
+> > >   #define SUN4I_HDMI_VID_TIMING_POL_HSYNC		BIT(0)
+> > >
+> > > +#define SUN4I_HDMI_AUDIO_CTRL_REG	0x040
+> > > +#define SUN4I_HDMI_AUDIO_CTRL_ENABLE		BIT(31)
+> > > +#define SUN4I_HDMI_AUDIO_CTRL_RESET		BIT(30)
+> > > +
+> > > +#define SUN4I_HDMI_AUDIO_FMT_REG	0x048
+> > > +#define SUN4I_HDMI_AUDIO_FMT_SRC		BIT(31)
+> > > +#define SUN4I_HDMI_AUDIO_FMT_LAYOUT		BIT(3)
+> > > +#define SUN4I_HDMI_AUDIO_FMT_CH_CFG(n)		(n - 1)
+> > There's the issue multiple times in the headers, but you should wrap n
+> > in parentheses to make sure we have no issue with precedence when
+> > calling the macro.
+> >
+> > > +int sun4i_hdmi_audio_create(struct sun4i_hdmi *hdmi)
+> > > +{
+> > > +	struct snd_soc_card *card = &sun4i_hdmi_audio_card;
+> > > +	struct snd_soc_dai_link_component *comp;
+> > > +	struct snd_soc_dai_link *link;
+> > > +	int ret;
+> > > +
+> > > +	ret = devm_snd_dmaengine_pcm_register(hdmi->dev,
+> > > +					      &sun4i_hdmi_audio_pcm_config, 0);
+> > > +	if (ret) {
+> > > +		DRM_ERROR("Could not register PCM\n");
+> > > +		return ret;
+> > > +	}
+> > > +
+> > > +	ret = devm_snd_soc_register_component(hdmi->dev,
+> > > +					      &sun4i_hdmi_audio_component,
+> > > +					      &sun4i_hdmi_audio_dai, 1);
+> > > +	if (ret) {
+> > > +		DRM_ERROR("Could not register DAI\n");
+> > > +		return ret;
+> > > +	}
+> > > +
+> > > +	link = devm_kzalloc(hdmi->dev, sizeof(*link), GFP_KERNEL);
+> > > +	if (!link)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	comp = devm_kzalloc(hdmi->dev, sizeof(*comp) * 3, GFP_KERNEL);
+> > > +	if (!comp)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	link->cpus = &comp[0];
+> > > +	link->codecs = &comp[1];
+> > > +	link->platforms = &comp[2];
+> > > +
+> > > +	link->num_cpus = 1;
+> > > +	link->num_codecs = 1;
+> > > +	link->num_platforms = 1;
+> > > +
+> > > +	link->playback_only = 1;
+> > > +
+> > > +	link->name = "SUN4I-HDMI";
+> > > +	link->stream_name = "SUN4I-HDMI PCM";
+> > > +
+> > > +	link->codecs->name = dev_name(hdmi->dev);
+> > > +	link->codecs->dai_name	= sun4i_hdmi_audio_dai.name;
+> > > +
+> > > +	link->cpus->dai_name = dev_name(hdmi->dev);
+> > > +
+> > > +	link->platforms->name = dev_name(hdmi->dev);
+> > > +
+> > > +	link->dai_fmt = SND_SOC_DAIFMT_I2S;
+> > > +
+> > > +	card->dai_link = link;
+> > > +	card->num_links = 1;
+> > > +	card->dev = hdmi->dev;
+> > > +
+> > > +	snd_soc_card_set_drvdata(card, hdmi);
+> > > +	return devm_snd_soc_register_card(hdmi->dev, card);
+> >
+> > Out of curiosity, did you try to remove the module with that patch
+> > applied? IIRC, these functions will overwrite the device drvdata, and
+> > we will try to access them in unbind / remove.
 >
-> Having a little play around with this, I think you can simply remove the
-> panfrost_regulator_init() call. This at least works for me - the call to
-> dev_pm_opp_set_regulators() seems to set everything up. However I
-> suspect you need to do this unconditionally even if there are no
-> operating points defined.
-I'm not sure if I can safely remove panfrost_regulator_init() because
-it calls regulator_enable()
-but there's no regulator_enable() equivalent in devfreq or OPP
+> Actually I did not. Just tried that and you're right. The module
+> crashes at the unbind call.  I use sun4i_hdmi struct only for
+> regmap. Maybe create separate private structure and copy only
+> regmap?
 
-I'm not sure how this is supposed to work
-if someone has an idea: please let me know
+I think the issue is that:
 
-> > [...]
-> >>>       ret = dev_pm_opp_of_add_table(dev);
-> >>> -     if (ret)
-> >>> +     if (ret) {
-> >>> +             dev_pm_opp_put_regulators(pfdev->devfreq.regulators_opp_table);
-> >>
-> >> If we don't have a regulator then regulators_opp_table will be NULL and
-> >> sadly dev_pm_opp_put_regulators() doesn't handle a NULL argument. The
-> >> same applies to the two below calls obviously.
-> > good catch, thank you!
-> > are you happy with the general approach here or do you think that
-> > dev_pm_opp_set_regulators is the wrong way to go (for whatever
-> > reason)?
+  - In bind, we first call dev_set_drvdata on the bound device, with a
+    pointer to struct sun4i_hdmi as the value. The driver_data field
+    in struct device is now a pointer to our instance of struct
+    sun4i_hdmi.
+
+  - In audio create, you then call snd_soc_card_set_drvdata with a
+    pointer to struct sun4i_hdmi as the value. The drvdata field in
+    the struct snd_soc_card is now a pointer to our instance of struct
+    sun4i_hdmi (so far so good).
+
+  - Then you call (devm_)snd_soc_register_card. One of the thing that
+    it will do is call drv_set_drvdata on the card->dev device,
+    setting it to our pointer to the struct snd_soc_card we provided.
+    However, since you set card->dev to the same device than the one
+    initially bound, this means that you just overwrote the struct
+    sun4i_hdmi pointer with a pointer to struct snd_soc_card.
+
+  - The driver will operate properly, since we never really use the
+    driver_data field, in the HDMI driver, except when...
+
+  - At unbind, you retrieve the driver_data field, expecting a struct
+    sun4i_hdmi pointer, except you have a pointer to struct
+    snd_soc_card, and everything explodes.
+
+I think the way to work around that would be to create a new
+(platform_)device for the HDMI audio component, so that ASoC can work
+on that device instead.
+
+This seems to be what dw-hdmi is doing here:
+https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c#L2812
+
+(Except that they are also using platform_data, since they have
+multiple drivers, we wouldn't, so we can just lookup sun4i_hdmi using
+the parent's device driver_data).
+
+> > > +}
+> > > diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+> > > index a7c4654445c7..79ecd89fb705 100644
+> > > --- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+> > > +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+> > > @@ -114,6 +114,9 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder)
+> > >   		val |= SUN4I_HDMI_VID_CTRL_HDMI_MODE;
+> > >
+> > >   	writel(val, hdmi->base + SUN4I_HDMI_VID_CTRL_REG);
+> > > +
+> > > +	if (hdmi->hdmi_audio && sun4i_hdmi_audio_create(hdmi))
+> > > +		DRM_ERROR("Couldn't create the HDMI audio adapter\n");
+> >
+> > So you create the audio card each time the display is enabled? I guess
+> > this is to deal with the hotplug?
 >
-> To be honest this is an area I still don't fully understand. There's a
-> lot of magic helper functions and very little in the way of helpful
-> documentation to work out which are the right ones to call. It seems
-> reasonable to me, hopefully someone more in the know will chime in it
-> there's something fundamentally wrong!
-OK, if you know anybody who could help then please Cc them
+> Yes. See below.
+>
+> > I'm not sure this is the right thing to do. If I remember well, the
+> > ELD are here precisely to let userspace know that the display is
+> > plugged (and audio-capable) or not.
+> >
+> > Also, you don't remove that card in the disable, which mean that if
+> > you end up in a situation where you would enable the display, disable
+> > it and then enable it again, you have two audio cards now.
+>
+> There is issue with the hotplug. When inserting the cable, the event
+> is detected and the hdmi encoder is enabled. Thus the card is
+> created. However further removal and insertions are not
+> detected.
 
+I guess we would need to fix that then?
 
-Martin
+> This is why I don't remove the card.
+>
+> Also I count on devm_snd_soc_register_card() to release the card.
+
+I think you should really create the card all the time, and just
+update the ELD to let the userspace know when something has been
+created.
+
+And yeah, we should have a working hotplug, but that's a separate
+story :)
+
+Maxime
+
+--7lkei534qhur3fvp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXh7OIQAKCRDj7w1vZxhR
+xSGNAQCNXFtKsLB1nNmulxiyZXc/7/SfbpDPB/OKbkP52GqFbQEA63XlCs381oP3
+sIQOwaZU0eGpZ8IU+Sse2PFWS9FNTgE=
+=hGfC
+-----END PGP SIGNATURE-----
+
+--7lkei534qhur3fvp--
+
+--===============1626890868==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1626890868==--
