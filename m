@@ -1,42 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A558D13C10E
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 13:34:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB0B613C124
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 13:38:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 895156E96D;
-	Wed, 15 Jan 2020 12:34:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7292B6E994;
+	Wed, 15 Jan 2020 12:38:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E365A6E967;
- Wed, 15 Jan 2020 12:34:08 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75D136E981;
+ Wed, 15 Jan 2020 12:38:25 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 15 Jan 2020 04:34:08 -0800
-X-IronPort-AV: E=Sophos;i="5.70,322,1574150400"; d="scan'208";a="213687798"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 15 Jan 2020 04:38:24 -0800
+X-IronPort-AV: E=Sophos;i="5.70,322,1574150400"; d="scan'208";a="226067880"
 Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 15 Jan 2020 04:34:05 -0800
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 15 Jan 2020 04:38:16 -0800
 From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, Harry
- Wentland <hwentlan@amd.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/dp: Add current maximum eDP link
- rate to sink_rate array.
-In-Reply-To: <20200110180944.GL13686@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@linux.ie, daniel@ffwll.ch,
+ alexander.deucher@amd.com, christian.koenig@amd.com, David1.Zhou@amd.com,
+ maarten.lankhorst@linux.intel.com, patrik.r.jakobsson@gmail.com,
+ robdclark@gmail.com, sean@poorly.run, benjamin.gaignard@linaro.org,
+ vincent.abriou@st.com, yannick.fertre@st.com, philippe.cornu@st.com,
+ mcoquelin.stm32@gmail.com, alexandre.torgue@st.com, eric@anholt.net,
+ rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
+ linux-graphics-maintainer@vmware.com, thellstrom@vmware.com,
+ bskeggs@redhat.com, harry.wentland@amd.com, sunpeng.li@amd.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com
+Subject: Re: [PATCH v2 07/21] drm/i915: Convert to CRTC VBLANK callbacks
+In-Reply-To: <20200115121652.7050-8-tzimmermann@suse.de>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200109150752.28098-1-mario.kleiner.de@gmail.com>
- <CADnq5_PvPD+FyEwUrqDVmbdLrP6ZC72HPtd19bqm-Csx-fHMOA@mail.gmail.com>
- <CAEsyxyjTvuCHHA3D-NJd=aGkHz2d=obSizwGQL8B4k1B7i2jJg@mail.gmail.com>
- <CADnq5_NPdg8MjQ5cB2aCD+US1Hv+FoP1gqKcA4W2e0pouG8cGQ@mail.gmail.com>
- <CAEsyxyjMsCU8rzyO0GewU_-uV5+UoDDwa5Mc74irUnJHhF6ALQ@mail.gmail.com>
- <bae132f3-73e6-5004-c9a9-adb632338268@amd.com>
- <20200110180944.GL13686@intel.com>
-Date: Wed, 15 Jan 2020 14:34:02 +0200
-Message-ID: <87o8v4kif9.fsf@intel.com>
+References: <20200115121652.7050-1-tzimmermann@suse.de>
+ <20200115121652.7050-8-tzimmermann@suse.de>
+Date: Wed, 15 Jan 2020 14:38:13 +0200
+Message-ID: <87lfq8ki8a.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,89 +52,178 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mario.kleiner.de@gmail.de, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, nouveau@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAxMCBKYW4gMjAyMCwgVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4
-LmludGVsLmNvbT4gd3JvdGU6Cj4gT24gVGh1LCBKYW4gMDksIDIwMjAgYXQgMDQ6MjY6MTlQTSAt
-MDUwMCwgSGFycnkgV2VudGxhbmQgd3JvdGU6Cj4+IAo+PiAKPj4gT24gMjAyMC0wMS0wOSA0OjA0
-IHAubS4sIE1hcmlvIEtsZWluZXIgd3JvdGU6Cj4+ID4gT24gVGh1LCBKYW4gOSwgMjAyMCBhdCA4
-OjQ5IFBNIEFsZXggRGV1Y2hlciA8YWxleGRldWNoZXJAZ21haWwuY29tCj4+ID4gPG1haWx0bzph
-bGV4ZGV1Y2hlckBnbWFpbC5jb20+PiB3cm90ZToKPj4gPgo+PiA+ICAgICBPbiBUaHUsIEphbiA5
-LCAyMDIwIGF0IDExOjQ3IEFNIE1hcmlvIEtsZWluZXIKPj4gPiAgICAgPG1hcmlvLmtsZWluZXIu
-ZGVAZ21haWwuY29tIDxtYWlsdG86bWFyaW8ua2xlaW5lci5kZUBnbWFpbC5jb20+Pgo+PiA+ICAg
-ICB3cm90ZToKPj4gPiAgICAgPgo+PiA+ICAgICA+IE9uIFRodSwgSmFuIDksIDIwMjAgYXQgNDo0
-MCBQTSBBbGV4IERldWNoZXIKPj4gPiAgICAgPGFsZXhkZXVjaGVyQGdtYWlsLmNvbSA8bWFpbHRv
-OmFsZXhkZXVjaGVyQGdtYWlsLmNvbT4+IHdyb3RlOgo+PiA+ICAgICA+Pgo+PiA+ICAgICA+PiBP
-biBUaHUsIEphbiA5LCAyMDIwIGF0IDEwOjA4IEFNIE1hcmlvIEtsZWluZXIKPj4gPiAgICAgPj4g
-PG1hcmlvLmtsZWluZXIuZGVAZ21haWwuY29tCj4+ID4gICAgIDxtYWlsdG86bWFyaW8ua2xlaW5l
-ci5kZUBnbWFpbC5jb20+PiB3cm90ZToKPj4gPiAgICAgPj4gPgo+PiA+ICAgICBBcyBIYXJyeSBt
-ZW50aW9uZWQgaW4gdGhlIG90aGVyIHRocmVhZCwgd29uJ3QgdGhpcyBvbmx5IHdvcmsgaWYgdGhl
-Cj4+ID4gICAgIGRpc3BsYXkgd2FzIGJyb3VnaHQgdXAgYnkgdGhlIHZiaW9zP8KgIEluIHRoZSBz
-dXNwZW5kL3Jlc3VtZSBjYXNlLAo+PiA+ICAgICB3b24ndCB3ZSBqdXN0IGZhbGwgYmFjayB0byAy
-LjdHYnBzPwo+PiA+Cj4+ID4gICAgIEFsZXgKPj4gPgo+PiA+Cj4+ID4gQWRkaW5nIEhhcnJ5IHRv
-IGNjLi4uCj4+ID4KPj4gPiBUaGUgY29kZSBpcyBvbmx5IGV4ZWN1dGVkIGZvciBlRFAuIE9uIHRo
-ZSBJbnRlbCBzaWRlLCBpdCBzZWVtcyB0aGF0Cj4+ID4gaW50ZWxfZWRwX2luaXRfZHBjZCgpIGdl
-dHMgb25seSBjYWxsZWQgZHVyaW5nIGRyaXZlciBsb2FkIC8KPj4gPiBtb2Rlc2V0dGluZyBpbml0
-LCBzbyBub3Qgb24gcmVzdW1lLgo+PiA+Cj4+ID4gT24gdGhlIEFNRCBEQyBzaWRlLCBkY19saW5r
-X2RldGVjdF9oZWxwZXIoKSBoYXMgdGhpcyBlYXJseSBuby1vcAo+PiA+IHJldHVybiBhdCB0aGUg
-YmVnaW5uaW5nOgo+PiA+Cj4+ID4gaWYgKChsaW5rLT5jb25uZWN0b3Jfc2lnbmFsID09IFNJR05B
-TF9UWVBFX0xWRFMgfHwKPj4gPiAJCQlsaW5rLT5jb25uZWN0b3Jfc2lnbmFsID09IFNJR05BTF9U
-WVBFX0VEUCkgJiYKPj4gPiAJCQlsaW5rLT5sb2NhbF9zaW5rKQo+PiA+IAkJcmV0dXJuIHRydWU7
-Cj4+ID4KPj4gPiBTbyBpIGd1ZXNzIGlmIGxpbmstPmxvY2FsX3NpbmsgZG9lc24ndCBnZXQgTlVM
-TCdlZCBkdXJpbmcgYQo+PiA+IHN1c3BlbmQvcmVzdW1lIGN5Y2xlLCB0aGVuIHdlIG5ldmVyIHJl
-YWNoIHRoZSBzZXR1cCBjb2RlIHRoYXQgd291bGQKPj4gPiBvdmVyd3JpdGUgd2l0aCBub24gdmJp
-b3Mgc2V0dGluZ3M/Cj4+ID4KPj4gPiBTb3VuZHMgcmVhc29uYWJsZSB0byBtZSwgZ2l2ZW4gdGhh
-dCBlRFAgcGFuZWxzIGFyZSB1c3VhbGx5IGZpeGVkCj4+ID4gaW50ZXJuYWwgcGFuZWxzLCBub3Ro
-aW5nIHRoYXQgZ2V0cyBob3QodW4tKXBsdWdnZWQ/Cj4+ID4KPj4gPiBJIGNhbid0IHRlc3QsIGJl
-Y2F1c2Ugc3VzcGVuZC9yZXN1bWUgd2l0aCB0aGUgUG9sYXJpcyBncHUgb24gdGhlIE1CUAo+PiA+
-IDIwMTcgaXMgdG90YWxseSBicm9rZW4gYXRtLiwganVzdCBhcyB2Z2Fzd2l0Y2hlcm9vIGNhbid0
-IGRvIGl0cyBqb2IuCj4+ID4gTG9va3MgbGlrZSBwb3dlcmluZyBkb3duIHRoZSBncHUgd29ya3Ms
-IGJ1dCBwb3dlcmluZyB1cCBkb2Vzbid0LiBBbmQKPj4gPiBhbHNvIG1vZGVzZXR0aW5nIGF0IHZn
-YXN3aXRjaGVyb28gc3dpdGNoIHRpbWUgaXMgbm8tZ28sIGJlY2F1c2UgdGhlCj4+ID4gRERDL0FV
-WCBsaW5lcyBhcHBhcmVudGx5IGNhbid0IGJlIHN3aXRjaGVkIG9uIHRoYXQgQXBwbGUgZ211eCwg
-YW5kCj4+ID4gaGFuZG92ZXIgb2YgdGhhdCBkYXRhIHNlZW1zIHRvIGJlIG5vdCBpbXBsZW1lbnRl
-ZCBpbiBjdXJyZW50Cj4+ID4gdmdhc3dpdGNoZXJvby4gQXQgdGhlIG1vbWVudCBzd2l0Y2hpbmcg
-YmV0d2VlbiBBTUQgb25seSBvciBJbnRlbCtBTUQKPj4gPiBQcmltZSBzZXR1cCBpcyBxdWl0ZSBh
-IHBpdGEuLi4KPj4gPgo+PiAKPj4gSSBoYXZlbid0IGZvbGxvd2VkIHRoZSBlbnRpcmUgZGlzY3Vz
-c2lvbiBvbiB0aGUgaTkxNSB0aHJlYWQgYnV0IGZvciB0aGUKPj4gYW1kZ3B1IGRjIHBhdGNoIEkg
-d291bGQgcHJlZmVyIGEgRFBDRCBxdWlyayB0byBvdmVycmlkZSB0aGUgcmVwb3J0ZWQKPj4gbGlu
-ayBzZXR0aW5ncyB3aXRoIHRoZSBjb3JyZWN0IGxpbmsgcmF0ZS4KPgo+IFdlIGNvdWxkIGNvbnNp
-ZGVyIGFkZGluZyBhIHN0YW5kYXJkIGZ1bmN0aW9uIGZvciByZWFkaW5nIHRoZSByZWNlaXZlcgo+
-IGNhcHMgYW5kIGFwcGx5aW5nIHRoZSBxdWlyayB0aGVyZS4gSSBoYXZlIGEgZmVlbGluZyB0aGF0
-IHB1dHRpbmcgaXQKPiBpbnRvIGRybV9kcF9kcGNkX3JlYWQoKSB3b3VsZCBiZSBhIGJpdCB0b28g
-bG93IGxldmVsIHNpbmNlIGl0IHdvdWxkCj4gcHJldmVudCByZWFkaW5nIHRoZSBub24tcXVpcmtl
-ZCByYXcgZGF0YSBlYXNpbHkuCgpFdmVyeXRoaW5nIGFib3V0IHRoaXMgcGFuZWwgaXMgdWdseS4K
-ClRoZSBwYW5lbCBkb2VzIG5vdCBjbGFpbSB0byBzdXBwb3J0IGV4dGVuZGVkIHJlY2VpdmVyIGNh
-cHMuIChJIGhhdmUgbm90CnNlZW4gd2hldGhlciB0aGVyZSBpcyBub24temVybyBkYXRhIGF0IDB4
-MjIwMC4gTWFyaW8sIHBsZWFzZSBwcm92aWRlIGEKZHVtcCBvZiB0aGF0IERQQ0QgcmVnaW9uLikK
-ClRoZSBwYW5lbCBkb2VzIHVzZSBEUENEX0RJU1BMQVlfQ09OVFJPTF9DQVBBQkxFIGFuZCByZXBv
-cnRzIGVEUCAxLjMgaW4KRURQX0RQQ0RfUkVWLgoKZURQIDEuMyBzYXlzIG9ubHkgZm91ciB2YWx1
-ZXMgYXJlIHN1cHBvcnRlZCBpbiBMSU5LX0JXX1NFVCAoMHgwNiwgMHgwYSwKMHgxNCwgYW5kIDB4
-MWUpLiBUaGUgc2FtZSBmb3IgTUFYX0xJTktfUkFURSBmb3IgYWxsIERQLCBhbmQgZXZlbiBpbiB0
-aGUKZXh0ZW5kZWQgcmVjZWl2ZXIgY2FwLgoKWW91IGNvdWxkIHBlcmhhcHMgbWFrZSB0aGUgY2Fz
-ZSBmb3IgdGhlIGludGVycHJldGF0aW9uIGluIGNvbW1pdAo1N2ExYjA4OTM3ODIgKCJkcm06IE1h
-a2UgdGhlIGJ3L2xpbmsgcmF0ZSBjYWxjdWxhdGlvbnMgbW9yZSBmb3JnaXZpbmciKQp0aGF0IGlu
-IGVEUCAxLjQrIHlvdSBjYW4gdXNlIGFyYml0cmFyeSB2YWx1ZXMgaW4gTElOS19CV19TRVQuIEJ1
-dCBJCnRoaW5rIHRoYXQncyBhIHN0cmV0Y2gsIHJlYWxseS4gQW5kIGFueXdheSB0aGUgcGFuZWwg
-cmVwb3J0cyBlRFAgMS4zLgoKVGhlIHBhbmVsIGlzIGNvbnNpc3RlbnQgaW4gdGhhdCBpdCBkb2Vz
-IG5vdCBjbGFpbSB0byBzdXBwb3J0IGxpbmsgcmF0ZQpzZWxlY3Rpb24gbm9yIGRvZXMgaXQgaGF2
-ZSBhbnl0aGluZyBpbiBTVVBQT1JURURfTElOS19SQVRFUyB3aGljaCBhcmUKZURQIDEuNCsgZmVh
-dHVyZXMuCgpIb3dldmVyLCB0aGUgcGFuZWwgcmVwb3J0cyAweDBhIGFzIHRoZSBtYXggbGluayBy
-YXRlIGluIE1BWF9MSU5LX1JBVEUsCndoaWNoIGV4Y2VlZHMgdGhlIHZhbHVlIDB4MGMgc2V0IGlu
-IExJTktfQldfU0VUIGJ5IHRoZSBmaXJtd2FyZS4KCkJvdHRvbSBsaW5lIGlzLCAqaWYqIHdlJ3Jl
-IGdvaW5nIHRvIHN1cHBvcnQgdGhpcyBwcm9wcmlldGFyeSBjcmFwIG9mIGEKcGFuZWwsIGl0ICpt
-dXN0KiBiZSBhbiBpc29sYXRlZCBxdWlyay4gSSBjZXJ0YWlubHkgd29uJ3QgdGFrZSBhIHBhdGNo
-CmdlbmVyYWxpemluZyB0aGlzIHRvIGFueSBwYW5lbCBvdXQgdGhlcmUuIEJ1dCB5b3UncmUgZ29p
-bmcgdG8gaGF2ZSB0byBiZQpwcmV0dHkgY2xldmVyIHRvIGlzb2xhdGUgdGhpcyBjcmFwLiBJJ20g
-bm90IHN1cmUgaWYgcXVpcmtpbmcgYSBob21lYnJldwpleHRlbmRlZCByZWNlaXZlciBjYXAgaXMg
-Z29pbmcgdG8gYmUgZW5vdWdoLgoKCkJSLApKYW5pLgoKCi0tIApKYW5pIE5pa3VsYSwgSW50ZWwg
-T3BlbiBTb3VyY2UgR3JhcGhpY3MgQ2VudGVyCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+On Wed, 15 Jan 2020, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> VBLANK callbacks in struct drm_driver are deprecated in favor of their
+> equivalents in struct drm_crtc_funcs. Convert i915 over.
+>
+> The callback struct drm_driver.get_scanout_position() is deprecated
+> in favor of struct drm_crtc_helper_funcs.get_scanout_position().
+> i915 doesn't use CRTC helpers. Instead pass i915's implementation of
+> get_scanout_position() to DRM core's
+> drm_crtc_vblank_helper_get_vblank_timestamp_internal().
+>
+> v2:
+> 	* use DRM's implementation of get_vblank_timestamp()
+> 	* simplify function names
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Acked-by: Jani Nikula <jani.nikula@intel.com>
+
+for the approach and for merging through whichever tree makes most
+sense, *however* needs detailed review on the whole.
+
+> ---
+>  drivers/gpu/drm/i915/display/intel_display.c |  7 +++++++
+>  drivers/gpu/drm/i915/i915_drv.c              |  3 ---
+>  drivers/gpu/drm/i915/i915_irq.c              | 20 +++++++++++++++-----
+>  drivers/gpu/drm/i915/i915_irq.h              |  6 ++----
+>  4 files changed, 24 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+> index 59c375879186..c8f1da845e7d 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -16336,6 +16336,7 @@ static const struct drm_crtc_funcs bdw_crtc_funcs = {
+>  	.get_vblank_counter = g4x_get_vblank_counter,
+>  	.enable_vblank = bdw_enable_vblank,
+>  	.disable_vblank = bdw_disable_vblank,
+> +	.get_vblank_timestamp = i915_crtc_get_vblank_timestamp,
+>  };
+>  
+>  static const struct drm_crtc_funcs ilk_crtc_funcs = {
+> @@ -16344,6 +16345,7 @@ static const struct drm_crtc_funcs ilk_crtc_funcs = {
+>  	.get_vblank_counter = g4x_get_vblank_counter,
+>  	.enable_vblank = ilk_enable_vblank,
+>  	.disable_vblank = ilk_disable_vblank,
+> +	.get_vblank_timestamp = i915_crtc_get_vblank_timestamp,
+>  };
+>  
+>  static const struct drm_crtc_funcs g4x_crtc_funcs = {
+> @@ -16352,6 +16354,7 @@ static const struct drm_crtc_funcs g4x_crtc_funcs = {
+>  	.get_vblank_counter = g4x_get_vblank_counter,
+>  	.enable_vblank = i965_enable_vblank,
+>  	.disable_vblank = i965_disable_vblank,
+> +	.get_vblank_timestamp = i915_crtc_get_vblank_timestamp,
+>  };
+>  
+>  static const struct drm_crtc_funcs i965_crtc_funcs = {
+> @@ -16360,6 +16363,7 @@ static const struct drm_crtc_funcs i965_crtc_funcs = {
+>  	.get_vblank_counter = i915_get_vblank_counter,
+>  	.enable_vblank = i965_enable_vblank,
+>  	.disable_vblank = i965_disable_vblank,
+> +	.get_vblank_timestamp = i915_crtc_get_vblank_timestamp,
+>  };
+>  
+>  static const struct drm_crtc_funcs i915gm_crtc_funcs = {
+> @@ -16368,6 +16372,7 @@ static const struct drm_crtc_funcs i915gm_crtc_funcs = {
+>  	.get_vblank_counter = i915_get_vblank_counter,
+>  	.enable_vblank = i915gm_enable_vblank,
+>  	.disable_vblank = i915gm_disable_vblank,
+> +	.get_vblank_timestamp = i915_crtc_get_vblank_timestamp,
+>  };
+>  
+>  static const struct drm_crtc_funcs i915_crtc_funcs = {
+> @@ -16376,6 +16381,7 @@ static const struct drm_crtc_funcs i915_crtc_funcs = {
+>  	.get_vblank_counter = i915_get_vblank_counter,
+>  	.enable_vblank = i8xx_enable_vblank,
+>  	.disable_vblank = i8xx_disable_vblank,
+> +	.get_vblank_timestamp = i915_crtc_get_vblank_timestamp,
+>  };
+>  
+>  static const struct drm_crtc_funcs i8xx_crtc_funcs = {
+> @@ -16384,6 +16390,7 @@ static const struct drm_crtc_funcs i8xx_crtc_funcs = {
+>  	/* no hw vblank counter */
+>  	.enable_vblank = i8xx_enable_vblank,
+>  	.disable_vblank = i8xx_disable_vblank,
+> +	.get_vblank_timestamp = i915_crtc_get_vblank_timestamp,
+>  };
+>  
+>  static struct intel_crtc *intel_crtc_alloc(void)
+> diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
+> index f7385abdd74b..30b9ba136a81 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.c
+> +++ b/drivers/gpu/drm/i915/i915_drv.c
+> @@ -2769,9 +2769,6 @@ static struct drm_driver driver = {
+>  	.gem_prime_export = i915_gem_prime_export,
+>  	.gem_prime_import = i915_gem_prime_import,
+>  
+> -	.get_vblank_timestamp = drm_calc_vbltimestamp_from_scanoutpos,
+> -	.get_scanout_position = i915_get_crtc_scanoutpos,
+> -
+>  	.dumb_create = i915_gem_dumb_create,
+>  	.dumb_map_offset = i915_gem_dumb_mmap_offset,
+>  
+> diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
+> index afc6aad9bf8c..c39e3ef6e4a2 100644
+> --- a/drivers/gpu/drm/i915/i915_irq.c
+> +++ b/drivers/gpu/drm/i915/i915_irq.c
+> @@ -762,13 +762,15 @@ static int __intel_get_crtc_scanline(struct intel_crtc *crtc)
+>  	return (position + crtc->scanline_offset) % vtotal;
+>  }
+>  
+> -bool i915_get_crtc_scanoutpos(struct drm_device *dev, unsigned int index,
+> -			      bool in_vblank_irq, int *vpos, int *hpos,
+> -			      ktime_t *stime, ktime_t *etime,
+> -			      const struct drm_display_mode *mode)
+> +static bool i915_get_crtc_scanoutpos(struct drm_crtc *dcrtc,
+> +				     bool in_vblank_irq,
+> +				     int *vpos, int *hpos,
+> +				     ktime_t *stime, ktime_t *etime,
+> +				     const struct drm_display_mode *mode)
+>  {
+> +	struct drm_device *dev = dcrtc->dev;
+>  	struct drm_i915_private *dev_priv = to_i915(dev);
+> -	struct intel_crtc *crtc = to_intel_crtc(drm_crtc_from_index(dev, index));
+> +	struct intel_crtc *crtc = to_intel_crtc(dcrtc);
+>  	enum pipe pipe = crtc->pipe;
+>  	int position;
+>  	int vbl_start, vbl_end, hsync_start, htotal, vtotal;
+> @@ -879,6 +881,14 @@ bool i915_get_crtc_scanoutpos(struct drm_device *dev, unsigned int index,
+>  	return true;
+>  }
+>  
+> +bool i915_crtc_get_vblank_timestamp(struct drm_crtc *crtc, int *max_error,
+> +				    ktime_t *vblank_time, bool in_vblank_irq)
+> +{
+> +	return drm_crtc_vblank_helper_get_vblank_timestamp_internal(
+> +		crtc, max_error, vblank_time, in_vblank_irq,
+> +		i915_get_crtc_scanoutpos);
+> +}
+> +
+>  int intel_get_crtc_scanline(struct intel_crtc *crtc)
+>  {
+>  	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
+> diff --git a/drivers/gpu/drm/i915/i915_irq.h b/drivers/gpu/drm/i915/i915_irq.h
+> index 812c47a9c2d6..53ec921c1c67 100644
+> --- a/drivers/gpu/drm/i915/i915_irq.h
+> +++ b/drivers/gpu/drm/i915/i915_irq.h
+> @@ -101,10 +101,8 @@ void gen8_irq_power_well_post_enable(struct drm_i915_private *dev_priv,
+>  void gen8_irq_power_well_pre_disable(struct drm_i915_private *dev_priv,
+>  				     u8 pipe_mask);
+>  
+> -bool i915_get_crtc_scanoutpos(struct drm_device *dev, unsigned int pipe,
+> -			      bool in_vblank_irq, int *vpos, int *hpos,
+> -			      ktime_t *stime, ktime_t *etime,
+> -			      const struct drm_display_mode *mode);
+> +bool i915_crtc_get_vblank_timestamp(struct drm_crtc *crtc, int *max_error,
+> +				    ktime_t *vblank_time, bool in_vblank_irq);
+>  
+>  u32 i915_get_vblank_counter(struct drm_crtc *crtc);
+>  u32 g4x_get_vblank_counter(struct drm_crtc *crtc);
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
