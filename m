@@ -1,59 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E632213B625
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 00:50:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1F6213B646
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 00:58:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB70F89B84;
-	Tue, 14 Jan 2020 23:50:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BD7F6E5D3;
+	Tue, 14 Jan 2020 23:58:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf41.google.com (mail-qv1-xf41.google.com
- [IPv6:2607:f8b0:4864:20::f41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9B0989B84
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2020 23:50:18 +0000 (UTC)
-Received: by mail-qv1-xf41.google.com with SMTP id n8so6562559qvg.11
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2020 15:50:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=ltWFIHCyY7OrWG5Cg+S59nIkaHWj+/GSD9PDSisGf+I=;
- b=qm2ZNpGjogw/nTc0qK/av1kE/Uzpfeh8KI+FHfu25NiBau+Snbh1kww4DSggXpKQM8
- ioBiZdABqqnwcmu5B0YM6br72P3MOvTdaiZoJQ9LLE2/wo5KIOPe4wbccOh11Dvg9DCu
- +uD0mh8Tzoo0YDrFWXGSPqkgjpJMGrzAZZJPa2nprnjconvJ0ClsFwCq2WIZJ47rU6a3
- 1F2zB6NJbNY9VEVx1JavcSLQYdLWwmJSvrsLNszR2dKzQulgiT+bwvA3HEmYKHqPLKcy
- c7DBJAnxgx5plNKuOQ4YVzNaxakYGxAohLZlCTuzMP7A/krBpRbj6nuDsMGUe2o4I69R
- EYBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ltWFIHCyY7OrWG5Cg+S59nIkaHWj+/GSD9PDSisGf+I=;
- b=QXiAmAaiz57/2NHSjhIsqJfp4QOff2RTz7Nb1OqK/E5iQV8XeIy+gDZmOC7wUWwndA
- hFMlMyBmGC59XLXhrbiax/OtELQPsbKt2HjRsHDm+/jYJ3fyFa0r+yjLYnopzQpm6M4+
- 9xNvqVzAXA0mbAYspF3iRC2NSd/P15SiME2gywZLUg6zfIp8qPvvIA4yTGLYX/U8heKr
- X8xetyMDSUiKMYDTqVwmqAOqrkyy+7Lu4A2/Lv/JjerLAIGQTPqBXrrCRi0TCegaIlAn
- Jbwdm1nwAa6Zq+cyaiF4D+w2DIpMcpW+yvgVBBq46e3Vckju9NFu56UIluL/Qxh+kXFq
- Va2A==
-X-Gm-Message-State: APjAAAVz4uinlg+Pw8zo3qOL0wao+3pPQxI4cm0Y6R0pS1M4yfpTTHUK
- hYkCxc1q3H4syJoCmy6/M+g=
-X-Google-Smtp-Source: APXvYqxi864iIohQ1jlGvEqnBFBtc+lyFBNwFKyCwBF6hrlUCBaXVvFwV5pjxuKyf9DmT96Rk7yXdA==
-X-Received: by 2002:a0c:aa8a:: with SMTP id f10mr19631909qvb.200.1579045817752; 
- Tue, 14 Jan 2020 15:50:17 -0800 (PST)
-Received: from smtp.gmail.com ([165.204.55.250])
- by smtp.gmail.com with ESMTPSA id v7sm8604606qtk.89.2020.01.14.15.50.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jan 2020 15:50:16 -0800 (PST)
-Date: Tue, 14 Jan 2020 18:50:13 -0500
-From: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH 09/10] drm/vkms: plane_state->fb iff plane_state->crtc
-Message-ID: <20200114235013.o6y2hgu6mzfpf6dx@smtp.gmail.com>
-References: <20191213172612.1514842-1-daniel.vetter@ffwll.ch>
- <20191213172612.1514842-9-daniel.vetter@ffwll.ch>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A8BB6E5D4
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2020 23:58:50 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 14 Jan 2020 15:58:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,320,1574150400"; d="scan'208";a="256517700"
+Received: from labuser-z97x-ud5h.jf.intel.com (HELO intel.com)
+ ([10.165.21.211])
+ by fmsmga002.fm.intel.com with ESMTP; 14 Jan 2020 15:58:50 -0800
+Date: Tue, 14 Jan 2020 16:00:10 -0800
+From: Manasi Navare <manasi.d.navare@intel.com>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH v2] drm/dp: Add function to parse EDID descriptors for
+ adaptive sync limits
+Message-ID: <20200115000009.GD27746@intel.com>
+References: <20200108003208.18706-1-manasi.d.navare@intel.com>
+ <20200109130852.GN1208@intel.com>
+ <20200110231743.GB16729@intel.com>
+ <20200114003900.GA27746@intel.com>
+ <20200114130756.GV13686@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20191213172612.1514842-9-daniel.vetter@ffwll.ch>
+Content-Disposition: inline
+In-Reply-To: <20200114130756.GV13686@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,104 +50,290 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Haneen Mohammed <hamohammed.sa@gmail.com>
-Content-Type: multipart/mixed; boundary="===============0259765431=="
+Cc: Nicholas Kazlauskas <nicholas.kazluaskas@amd.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Jan 14, 2020 at 03:07:56PM +0200, Ville Syrj=E4l=E4 wrote:
+> On Mon, Jan 13, 2020 at 04:39:00PM -0800, Manasi Navare wrote:
+> > Hi Ville,
+> > =
 
---===============0259765431==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="a75u4bat3424wry7"
-Content-Disposition: inline
+> > So the two major changes you would like to see here are:
+> > =
 
+> >  use version_greate(edid) function =
 
---a75u4bat3424wry7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> > and make use of :
+> > drm_for_each_detailed_block() instead of the for loop.
+> > But this function does not parse the monitor range yet so
+> > you are suggesting modifying that dmr helper function as well?
+> =
 
-On 12/13, Daniel Vetter wrote:
-> Checking both is one too much, so wrap a WARN_ON around it to stope
-> the copypasta.
->=20
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-> Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> ---
->  drivers/gpu/drm/vkms/vkms_plane.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkm=
-s_plane.c
-> index 5fc8f85aaf3d..6d31265a2ab7 100644
-> --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> @@ -117,7 +117,7 @@ static int vkms_plane_atomic_check(struct drm_plane *=
-plane,
->  	bool can_position =3D false;
->  	int ret;
-> =20
-> -	if (!state->fb | !state->crtc)
-> +	if (!state->fb || WARN_ON(!state->crtc))
->  		return 0;
-> =20
->  	crtc_state =3D drm_atomic_get_crtc_state(state->state, state->crtc);
-> --=20
-> 2.24.0
->
+> That functions is just the thing that iterates the descriptors, so
+> can't figure out what you're asking.
 
-Hi,
+My question was on your review comment below where you asked me to use
+for_each_detailed_block(), were you referring to using the existing drm_for=
+_each_detailed_block
+or just defining a new iterator for looping through 4 detailed blocks to ge=
+t the
+monitor range?
 
-Sorry, the delay in taking a look at this patch.
+Manasi
 
-I tried to find the whole series for getting the context related to this
-patch, but I could not find it in my mailbox. Could you shed some light
-here? Why check fb and crtc is too much? How the WARN_ON fix the issue?
+> =
 
-Best Regards
+> > =
 
-Ps.: in the commit message: "stope" -> "stop"
+> > Manasi
+> > =
 
---=20
-Rodrigo Siqueira
-Software Engineer, Advanced Micro Devices (AMD)
-https://siqueira.tech
+> > On Fri, Jan 10, 2020 at 03:17:43PM -0800, Manasi Navare wrote:
+> > > On Thu, Jan 09, 2020 at 03:08:52PM +0200, Ville Syrj=E4l=E4 wrote:
+> > > > On Tue, Jan 07, 2020 at 04:32:08PM -0800, Manasi Navare wrote:
+> > > > > Adaptive Sync is a VESA feature so add a DRM core helper to parse
+> > > > > the EDID's detailed descritors to obtain the adaptive sync monito=
+r range.
+> > > > > Store this info as part fo drm_display_info so it can be used
+> > > > > across all drivers.
+> > > > > This part of the code is stripped out of amdgpu's function
+> > > > > amdgpu_dm_update_freesync_caps() to make it generic and be used
+> > > > > across all DRM drivers
+> > > > > =
 
---a75u4bat3424wry7
-Content-Type: application/pgp-signature; name="signature.asc"
+> > > > > v2:
+> > > > > * Change vmin and vmax to use u8 (Ville)
+> > > > > * Dont store pixel clock since that is just a max dotclock
+> > > > > and not related to VRR mode (Manasi)
+> > > > > =
 
------BEGIN PGP SIGNATURE-----
+> > > > > Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > > > > Cc: Harry Wentland <harry.wentland@amd.com>
+> > > > > Cc: Clinton A Taylor <clinton.a.taylor@intel.com>
+> > > > > Cc: Nicholas Kazlauskas <nicholas.kazluaskas@amd.com>
+> > > > > Signed-off-by: Manasi Navare <manasi.d.navare@intel.com>
+> > > > > ---
+> > > > >  drivers/gpu/drm/drm_edid.c  | 51 +++++++++++++++++++++++++++++++=
+++++++
+> > > > >  include/drm/drm_connector.h | 22 ++++++++++++++++
+> > > > >  include/drm/drm_edid.h      |  2 ++
+> > > > >  3 files changed, 75 insertions(+)
+> > > > > =
 
-iQIzBAEBCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl4eU64ACgkQWJzP/com
-vP/eNhAAwufnWl5lI5OK5c6YC5MIs1mT2pq2lQRM+6OguXvMYLFUNUeN04OqFV7i
-xhqSlwc32wHx5Ik2DEsfItEAkWA2yFTtRg2CDPnLtVF1Z8odFdxeExqUiH2yFYzj
-n+s/1kXc0kRmHRW8l1+bZe+jzcCQWugb7bRks8besMYTEzSXdZs6yZ0Ylnqr1aRv
-AZ+rIpiq3TCduqPiA2ylqtIDOzG4cA7bG3XZqmSeUjB6rVlu9a30/tJ/TpD3C60m
-VOCQaJiQL0ty8+BNonLpQJ0QxRFoZ0h/9rRuZ9Nmzs+eOoRkBQwoDJd2QpMKywq9
-ymPBSUv9DzrK/gnyHka06Lh8so0eZrgYOmfLjgqNkeiE/SwlM62zhJwYRtCEUu8x
-1KZ/19tJQQHGsDMCR9tSQouyQInCJkIg+2J5kU5xPjX/zvr5gdd5/Lz4YUvXajMF
-U64KveTs+sVhCWoguGtJaxnul5JEcEKos6B1bTYTB1JfCLw5ftjNm65JJuRPOtGp
-uqx+eY0ietcHVMxgxqoknUE9LXc5lgwBTo5gPl2NF247Vr/kcZxBZ9TVYZK8EaEk
-cA67gchHRCfO7mObcjC5aJ4WcZffgm3GLlUYFBFtdCDem+zNL9Y8Agat24vX8r8G
-GxyP7ozbCq+nRUK91I6rbUYh5D1RW4Wa65ul2KFJ6utAEEt8j54=
-=3FtI
------END PGP SIGNATURE-----
+> > > > > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edi=
+d.c
+> > > > > index 99769d6c9f84..52781a0e708b 100644
+> > > > > --- a/drivers/gpu/drm/drm_edid.c
+> > > > > +++ b/drivers/gpu/drm/drm_edid.c
+> > > > > @@ -4880,6 +4880,54 @@ static void drm_parse_cea_ext(struct drm_c=
+onnector *connector,
+> > > > >  	}
+> > > > >  }
+> > > > >  =
 
---a75u4bat3424wry7--
+> > > > > +void drm_get_adaptive_sync_limits(struct drm_connector *connecto=
+r,
+> > > > > +				  const struct edid *edid)
+> > > > > +{
+> > > > > +	struct drm_display_info *info =3D &connector->display_info;
+> > > > > +	const struct detailed_timing *timing;
+> > > > > +	const struct detailed_non_pixel *data;
+> > > > > +	const struct detailed_data_monitor_range *range;
+> > > > =
 
---===============0259765431==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> > > > Needlessly wide scope for everything above.
+> > > =
 
+> > > Okay will move inside the for_each loop ?
+> > > =
+
+> > > > =
+
+> > > > > +	int i;
+> > > > > +
+> > > > > +	/*
+> > > > > +	 * Restrict Adaptive Sync only for dp and edp
+> > > > > +	 */
+> > > > > +	if (connector->connector_type !=3D DRM_MODE_CONNECTOR_DisplayPo=
+rt &&
+> > > > > +	    connector->connector_type !=3D DRM_MODE_CONNECTOR_eDP)
+> > > > > +		return;
+> > > > > +
+> > > > > +	if (edid->version <=3D 1 && !(edid->version =3D=3D 1 && edid->r=
+evision > 1))
+> > > > > +		return;
+> > > > =
+
+> > > > if (!version_greater(...))
+> > > > 	return;
+> > > =
+
+> > > You mean simplify the condition or use define a function version_grea=
+ter() to check this condition?
+> > > =
+
+> > > > =
+
+> > > > > +
+> > > > > +	for (i =3D 0; i < 4; i++) {
+> > > > =
+
+> > > > This should probably use for_each_detailed_block()
+> > > >
+> > > =
+
+> > > =
+
+> > > Ok yes will use for_each_detailed_block
+> > > =
+
+> > > Manasi
+> > > =
+
+> > >  =
+
+> > > > > +		timing  =3D &edid->detailed_timings[i];
+> > > > > +		data    =3D &timing->data.other_data;
+> > > > > +		range   =3D &data->data.range;
+> > > > > +		/*
+> > > > > +		 * Check if monitor has continuous frequency mode
+> > > > > +		 */
+> > > > > +		if (data->type !=3D EDID_DETAIL_MONITOR_RANGE)
+> > > > > +			continue;
+> > > > > +		/*
+> > > > > +		 * Check for flag range limits only. If flag =3D=3D 1 then
+> > > > > +		 * no additional timing information provided.
+> > > > > +		 * Default GTF, GTF Secondary curve and CVT are not
+> > > > > +		 * supported
+> > > > > +		 */
+> > > > > +		if (range->flags !=3D 1)
+> > > > > +			continue;
+> > > > > +
+> > > > > +		info->adaptive_sync.min_vfreq =3D range->min_vfreq;
+> > > > > +		info->adaptive_sync.max_vfreq =3D range->max_vfreq;
+> > > > > +
+> > > > > +		DRM_DEBUG_KMS("Adaptive Sync refresh rate range is %d Hz - %d =
+Hz\n",
+> > > > > +			      info->adaptive_sync.min_vfreq,
+> > > > > +			      info->adaptive_sync.max_vfreq);
+> > > > > +		break;
+> > > > > +	}
+> > > > > +}
+> > > > > +EXPORT_SYMBOL(drm_get_adaptive_sync_limits);
+> > > > > +
+> > > > >  /* A connector has no EDID information, so we've got no EDID to =
+compute quirks from. Reset
+> > > > >   * all of the values which would have been set from EDID
+> > > > >   */
+> > > > > @@ -4901,6 +4949,7 @@ drm_reset_display_info(struct drm_connector=
+ *connector)
+> > > > >  	memset(&info->hdmi, 0, sizeof(info->hdmi));
+> > > > >  =
+
+> > > > >  	info->non_desktop =3D 0;
+> > > > > +	memset(&info->adaptive_sync, 0, sizeof(info->adaptive_sync));
+> > > > >  }
+> > > > >  =
+
+> > > > >  u32 drm_add_display_info(struct drm_connector *connector, const =
+struct edid *edid)
+> > > > > @@ -4916,6 +4965,8 @@ u32 drm_add_display_info(struct drm_connect=
+or *connector, const struct edid *edi
+> > > > >  =
+
+> > > > >  	info->non_desktop =3D !!(quirks & EDID_QUIRK_NON_DESKTOP);
+> > > > >  =
+
+> > > > > +	drm_get_adaptive_sync_limits(connector, edid);
+> > > > > +
+> > > > >  	DRM_DEBUG_KMS("non_desktop set to %d\n", info->non_desktop);
+> > > > >  =
+
+> > > > >  	if (edid->revision < 3)
+> > > > > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connec=
+tor.h
+> > > > > index 221910948b37..77df404a2e01 100644
+> > > > > --- a/include/drm/drm_connector.h
+> > > > > +++ b/include/drm/drm_connector.h
+> > > > > @@ -254,6 +254,23 @@ enum drm_panel_orientation {
+> > > > >  	DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
+> > > > >  };
+> > > > >  =
+
+> > > > > +/**
+> > > > > + * struct drm_adaptive_sync_info - Panel's Adaptive Sync capabil=
+ities for
+> > > > > + * &drm_display_info
+> > > > > + *
+> > > > > + * This struct is used to store a Panel's Adaptive Sync capabili=
+ties
+> > > > > + * as parsed from EDID's detailed monitor range descriptor block.
+> > > > > + *
+> > > > > + * @min_vfreq: This is the min supported refresh rate in Hz from
+> > > > > + *             EDID's detailed monitor range.
+> > > > > + * @max_vfreq: This is the max supported refresh rate in Hz from
+> > > > > + *             EDID's detailed monitor range
+> > > > > + */
+> > > > > +struct drm_adaptive_sync_info {
+> > > > > +	u8 min_vfreq;
+> > > > > +	u8 max_vfreq;
+> > > > > +};
+> > > > > +
+> > > > >  /*
+> > > > >   * This is a consolidated colorimetry list supported by HDMI and
+> > > > >   * DP protocol standard. The respective connectors will register
+> > > > > @@ -465,6 +482,11 @@ struct drm_display_info {
+> > > > >  	 * @non_desktop: Non desktop display (HMD).
+> > > > >  	 */
+> > > > >  	bool non_desktop;
+> > > > > +
+> > > > > +	/**
+> > > > > +	 * @adaptive_sync: Adaptive Sync capabilities of the DP/eDP sink
+> > > > > +	 */
+> > > > > +	struct drm_adaptive_sync_info adaptive_sync;
+> > > > >  };
+> > > > >  =
+
+> > > > >  int drm_display_info_set_bus_formats(struct drm_display_info *in=
+fo,
+> > > > > diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+> > > > > index f0b03d401c27..b9a230aa3e69 100644
+> > > > > --- a/include/drm/drm_edid.h
+> > > > > +++ b/include/drm/drm_edid.h
+> > > > > @@ -503,4 +503,6 @@ void drm_edid_get_monitor_name(struct edid *e=
+did, char *name,
+> > > > >  struct drm_display_mode *drm_mode_find_dmt(struct drm_device *de=
+v,
+> > > > >  					   int hsize, int vsize, int fresh,
+> > > > >  					   bool rb);
+> > > > > +void drm_get_adaptive_sync_limits(struct drm_connector *connecto=
+r,
+> > > > > +				  const struct edid *edid);
+> > > > >  #endif /* __DRM_EDID_H__ */
+> > > > > -- =
+
+> > > > > 2.19.1
+> > > > =
+
+> > > > -- =
+
+> > > > Ville Syrj=E4l=E4
+> > > > Intel
+> > > _______________________________________________
+> > > dri-devel mailing list
+> > > dri-devel@lists.freedesktop.org
+> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> =
+
+> -- =
+
+> Ville Syrj=E4l=E4
+> Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0259765431==--
