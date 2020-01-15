@@ -2,61 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E8E913C16C
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 13:45:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D832313C176
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 13:46:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B58906E9AD;
-	Wed, 15 Jan 2020 12:45:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFB146E9B0;
+	Wed, 15 Jan 2020 12:46:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pio-pvt-msa3.bahnhof.se (pio-pvt-msa3.bahnhof.se [79.136.2.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 742046E9AD
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 12:45:45 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTP id EF6C83F580;
- Wed, 15 Jan 2020 13:45:43 +0100 (CET)
-Authentication-Results: pio-pvt-msa3.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=AeI6b8ax; 
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
- autolearn=ham autolearn_force=no
-Received: from pio-pvt-msa3.bahnhof.se ([127.0.0.1])
- by localhost (pio-pvt-msa3.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id sk4cqvU11fdV; Wed, 15 Jan 2020 13:45:43 +0100 (CET)
-Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
- [155.4.205.35]) (Authenticated sender: mb878879)
- by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTPA id D7AE53F3F2;
- Wed, 15 Jan 2020 13:45:42 +0100 (CET)
-Received: from localhost.localdomain (h-205-35.A357.priv.bahnhof.se
- [155.4.205.35])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 0EC78360315;
- Wed, 15 Jan 2020 13:45:42 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1579092342; bh=rDCh+vypIt6vDxtPBNzzQsrA8yTJPEVD51kHOHd6c4c=;
- h=Subject:From:To:References:Date:In-Reply-To:From;
- b=AeI6b8axnWrmnsrq2F3T+dDoK/ne74N1/PXSgsSnt1sPv+CQWg7YwUoKQT885xXdl
- cRkkmsI+Mz5k7k7doxtUXfySBZKFC5gzAMNXfViCGku2V8VUqL5VTy2v1naqcTGR0y
- KuRCZXp7O2uoPXRnKmUSxNqubZDgTKyZyQHGUSNg=
-Subject: TTM or vmwgfx tree? Re: [PATCH v5 0/2] mm, drm/ttm: Fix pte insertion
- with customized protection
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28VMware=29?= <thomas_os@shipmail.org>
-To: dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20200115124107.3845-1-thomas_os@shipmail.org>
-Organization: VMware Inc.
-Message-ID: <01560aef-b21e-57b9-a7a1-fd7ff3aabfb2@shipmail.org>
-Date: Wed, 15 Jan 2020 13:45:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <20200115124107.3845-1-thomas_os@shipmail.org>
-Content-Language: en-US
+Received: from andre.telenet-ops.be (andre.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA16A6E9B3
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 12:46:00 +0000 (UTC)
+Received: from ramsan ([84.195.182.253]) by andre.telenet-ops.be with bizsmtp
+ id qclr2100Q5USYZQ01clrg9; Wed, 15 Jan 2020 13:45:58 +0100
+Received: from rox.of.borg ([192.168.97.57]) by ramsan with esmtp (Exim 4.90_1)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1iri3S-0003z0-3D; Wed, 15 Jan 2020 13:45:50 +0100
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1iri3S-00012X-03; Wed, 15 Jan 2020 13:45:50 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ David Lechner <david@lechnology.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>
+Subject: [PATCH v2 0/5] drm: Add support for Okaya RH128128T
+Date: Wed, 15 Jan 2020 13:45:43 +0100
+Message-Id: <20200115124548.3951-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,25 +44,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: devicetree@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, Chris Brandt <chris.brandt@renesas.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgQ2hyaXN0aWFuLAoKT24gMS8xNS8yMCAxOjQxIFBNLCBUaG9tYXMgSGVsbHN0csO2bSAoVk13
-YXJlKSB3cm90ZToKPiBGcm9tOiBUaG9tYXMgSGVsbHN0cm9tIDx0aGVsbHN0cm9tQHZtd2FyZS5j
-b20+Cj4KPiBUaGUgZHJtL3R0bSBtb2R1bGUgaXMgdXNpbmcgYSBtb2RpZmllZCBvbi1zdGFjayBj
-b3B5IG9mIHRoZQo+IHN0cnVjdCB2bV9hcmVhX3N0cnVjdCB0byBiZSBhYmxlIHRvIHNldCBhIHBh
-Z2UgcHJvdGVjdGlvbiB3aXRoIGN1c3RvbWl6ZWQKPiBjYWNoaW5nLiBGaXggdGhhdCBieSBhZGRp
-bmcgYSB2bWZfaW5zZXJ0X21peGVkX3Byb3QoKSBmdW5jdGlvbiBzaW1pbGFyCj4gdG8gdGhlIGV4
-aXN0aW5nIHZtZl9pbnNlcnRfcGZuX3Byb3QoKSBmb3IgdXNlIHdpdGggZHJtL3R0bS4KPgo+IFBh
-dGNoZXMgYXJlIGFja2VkIHRvIGJlIG1lcmdlZCB0aHJvdWdoIGEgZHJtIHRyZWUuCgpUaGlzIHNt
-YWxsIHBhdGNoc2V0IHNob3VsZCBiZSByZWFkeSB0byBiZSBtZXJnZWQgbm93LCB3aXRoIGFja3Mg
-ZnJvbSBBbmRyZXcuCgpEbyB5b3Ugd2FudCB0byB0YWtlIGl0IHRocm91Z2ggdGhlIHR0bSB0cmVl
-LCBvciBzaG91bGQgSSBhc2sgRGF2ZSAvIApEYW5pZWwgdG8gcHVsbCBpdCBzZXBhcmF0ZWx5PwoK
-Tm90ZSB0aGF0IHNpbWlsYXIgdG8gdGhlIHZtd2dmeCBjb2hlcmVudCBwYXRjaGVzLCBMaW51cyBo
-YXMgaW5kaWNhdGVkIAp0aGF0IGhlIHdhbnRzIHNlcGFyYXRlIHB1bGwgcmVxdWVzdHMgZm9yIHN0
-dWZmIGxpa2UgdGhpcyB0aGF0IHRvdWNoZXMgbW0uCgpUaGFua3MsCgpUaG9tYXMKCgpfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
-ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
-ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+	Hi all,
+
+This patch series adds support for the Okaya RH128128T LCD to the
+existing ST7735R driver.  This is a 128x128 1.4" TFT display driven by a
+Sitronix ST7715R TFT Controller/Driver.  It is used on e.g. the Renesas
+YRSK-LCD-PMOD extension board, which is shipped with Renesas RSK+RZA1
+development boards[1], and with several other Renesas starter kits, for
+RX, Synergy, and RZ/T1 MCUs and SoCs.
+
+Changes compared to v1[2]:
+  - Convert DT bindings to DT schema,
+  - Add YRSK-LCD-PMOD reference and links,
+  - Add Reviewed-by,
+  - Split driver preparation and adding actual support in two separate
+    patches,
+  - Replace st7735r_priv.rgb by a pointer to struct st7735r_cfg,
+  - Change prefix of jd_t18003_t01_pipe_enable() and
+    jd_t18003_t01_pipe_funcs(),
+  - Update Kconfig help text,
+  - Improve file comment header.
+
+This has been tested using the r7s72100-rskrza1-pmod-spi.dtso and
+r7s72100-rskrza1-pmod2-lcd.dtso DT overlays[3].
+Note that for using this on RSK+RZA1, there is a dependency on RSPI
+cs-gpios support (now in linux-next).
+With DT overlays, this also depends on DT overlays[4] and gpio-hog
+overlay support[5].
+
+Thanks!
+
+[1] https://renesasrulz.com/the_vault/f/archive-forum/4981/upgrading-to-the-renesas-rz-a1h
+[1] https://lore.kernel.org/dri-devel/20200102141246.370-1-geert+renesas@glider.be/
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/log/?h=topic/renesas-overlays
+[4] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/log/?h=topic/overlays
+[5] "[PATCH/RFC 0/2] gpio: of: Add DT overlay support for GPIO hogs"
+    https://lore.kernel.org/lkml/20191230133852.5890-1-geert+renesas@glider.be/
+
+Geert Uytterhoeven (5):
+  dt-bindings: display: sitronix,st7735r: Convert to DT schema
+  dt-bindings: display: sitronix,st7735r: Add Okaya RH128128T
+  drm/mipi_dbi: Add support for display offsets
+  drm: tiny: st7735r: Prepare for adding support for more displays
+  drm: tiny: st7735r: Add support for Okaya RH128128T
+
+ .../bindings/display/sitronix,st7735r.txt     | 35 ---------
+ .../bindings/display/sitronix,st7735r.yaml    | 71 +++++++++++++++++
+ MAINTAINERS                                   |  2 +-
+ drivers/gpu/drm/drm_mipi_dbi.c                | 30 +++++---
+ drivers/gpu/drm/tiny/Kconfig                  |  8 +-
+ drivers/gpu/drm/tiny/st7735r.c                | 76 +++++++++++++++----
+ include/drm/drm_mipi_dbi.h                    | 12 +++
+ 7 files changed, 170 insertions(+), 64 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/sitronix,st7735r.txt
+ create mode 100644 Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
+
+-- 
+2.17.1
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
