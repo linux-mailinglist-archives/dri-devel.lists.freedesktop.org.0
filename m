@@ -2,41 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F37E13CED2
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 22:21:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2718B13CF29
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 22:34:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4619D6EAA3;
-	Wed, 15 Jan 2020 21:21:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1AA56EB4C;
+	Wed, 15 Jan 2020 21:34:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D48D96EAA3
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 21:21:10 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 23F578050D;
- Wed, 15 Jan 2020 22:21:08 +0100 (CET)
-Date: Wed, 15 Jan 2020 22:21:06 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Jitao Shi <jitao.shi@mediatek.com>
-Subject: Re: [PATCH v8 1/8] dt-bindings: display: panel: Add BOE tv101wum-n16
- panel bindings
-Message-ID: <20200115212106.GD28904@ravnborg.org>
-References: <20200115135958.126303-1-jitao.shi@mediatek.com>
- <20200115135958.126303-2-jitao.shi@mediatek.com>
+Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
+ [216.228.121.143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 863C96EB4C
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 21:34:17 +0000 (UTC)
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5e1f85210000>; Wed, 15 Jan 2020 13:33:21 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate102.nvidia.com (PGP Universal service);
+ Wed, 15 Jan 2020 13:34:16 -0800
+X-PGP-Universal: processed;
+ by hqpgpgate102.nvidia.com on Wed, 15 Jan 2020 13:34:16 -0800
+Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 15 Jan
+ 2020 21:34:16 +0000
+Subject: Re: [PATCH v12 11/22] mm/gup: introduce pin_user_pages*() and FOLL_PIN
+To: Christoph Hellwig <hch@infradead.org>
+References: <20200107224558.2362728-1-jhubbard@nvidia.com>
+ <20200107224558.2362728-12-jhubbard@nvidia.com>
+ <20200115153020.GF19546@infradead.org>
+X-Nvconfidentiality: public
+From: John Hubbard <jhubbard@nvidia.com>
+Message-ID: <1a0ee1db-5528-86a8-0713-3d820fbdf4ad@nvidia.com>
+Date: Wed, 15 Jan 2020 13:34:16 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200115135958.126303-2-jitao.shi@mediatek.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=mpaa-ttXAAAA:8
- a=7gkXJVJtAAAA:8 a=gEfo2CItAAAA:8 a=pGLkceISAAAA:8 a=VwQbUJbxAAAA:8
- a=-W9t3f-s57Xz0V4m3JgA:9 a=d-McAGeJY93I7joI:21 a=s8DGCSS_m8B6YGa2:21
- a=CjuIK1q_8ugA:10 a=6heAxKwa5pAsJatQ0mat:22 a=E9Po1WZjFZOl8hwRPBS3:22
- a=sptkURWiP4Gy88Gu7hUp:22 a=AjGcO6oz07-iQ99wixmX:22
+In-Reply-To: <20200115153020.GF19546@infradead.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1579124001; bh=87Rlq6x45ruVW7JTVYUJt0mWD3kN4xgsTUgpHaSTwOs=;
+ h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=dbP5SmA0QfbUlmT548bubiJAkEQguNXb+B22BE0nnic910e/52B3pTFYwo0R9gnOk
+ /mlFxNBraLMyXPTecP1trRDknv0CWyUqRUhn8AvgRKQEt/OrYnrlJ5ltQrtwu2/iZG
+ uXyWe/Tp3/8o2BssD5h12JhA8/Qf+tvLIUVBAfdgHpiHf/vpXBUQ/a29w86sKWsdhS
+ xLP+ysLSXK1OimxyU8GqDxRUN80ueCmWM+W82ScjqhN2l7u6YLSbkEfUVc40jSw+4n
+ 1alFBQ4/aOAizIIaeTPZN6p/1uIoYyQqWqSWRALwuOXb5xR9ZMfEIX7FqzbdBDPZRO
+ IYaka2FAJgWiw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,138 +65,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: srv_heupstream@mediatek.com, David Airlie <airlied@linux.ie>,
- stonea168@163.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, cawa.cheng@mediatek.com,
- Thierry Reding <thierry.reding@gmail.com>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, yingjoe.chen@mediatek.com,
- eddie.huang@mediatek.com
+Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
+ kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
+ dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
+ linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
+ linux-kselftest@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
+ Michael Ellerman <mpe@ellerman.id.au>, Mike Rapoport <rppt@linux.ibm.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@suse.cz>,
+ =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+ linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ linux-block@vger.kernel.org,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Al Viro <viro@zeniv.linux.org.uk>,
+ "Kirill A . Shutemov" <kirill@shutemov.name>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, bpf@vger.kernel.org,
+ Magnus Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
+ netdev@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jitao.
-
-A few comments that I missed in last round.
-
-Please consider to combine the three panels in one binding.
-I realise they are almost identical so no need for three binding files.
-
-On Wed, Jan 15, 2020 at 09:59:51PM +0800, Jitao Shi wrote:
-> Add documentation for boe tv101wum-n16 panel.
+On 1/15/20 7:30 AM, Christoph Hellwig wrote:
+> On Tue, Jan 07, 2020 at 02:45:47PM -0800, John Hubbard wrote:
+>> Introduce pin_user_pages*() variations of get_user_pages*() calls,
+>> and also pin_longterm_pages*() variations.
+>>
+>> For now, these are placeholder calls, until the various call sites
+>> are converted to use the correct get_user_pages*() or
+>> pin_user_pages*() API.
 > 
-> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> ---
->  .../display/panel/boe,tv101wum-nl6.yaml       | 74 +++++++++++++++++++
->  1 file changed, 74 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
+> What do the pure placeholders buy us?  The API itself looks ok,
+> but until it actually is properly implemented it doesn't help at
+> all, and we've had all kinds of bad experiences with these sorts
+> of stub APIs.
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
-> new file mode 100644
-> index 000000000000..d38aee22d406
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
-> @@ -0,0 +1,74 @@
-> +# SPDX-License-Identifier: GPL-2.0
 
-Please use (GPL-2.0-only OR BSD-2-Clause) for all new bindings.
-(Sorry if this was not part of my previous feedback)
+Hi Christoph,
 
-	Sam
+Absolutely agreed, and in fact, after spending some time in this area I 
+am getting a much better understanding of just how problematic "this will 
+be used soon" APIs really are. However, this is not quite that case.
 
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/boe,tv101wum-nl6.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: BOE TV101WUM-Nl6 DSI Display Panel
-> +
-> +maintainers:
-> +  - Thierry Reding <thierry.reding@gmail.com>
-> +  - Sam Ravnborg <sam@ravnborg.org>
+The following things make this different from a "pure placeholder" API:
 
-> +  - Rob Herring <robh+dt@kernel.org>
-Rob is not a typical maintainer of panel bindings.
-The fallback it Thierry and me.
+1) These APIs are all exercised in the following patches in this series, 
+unless I've overlooked one, and
 
-But if you have agreed this with Rob then all is good.
+2) The pages are actually tracked in the very next patch that I want to
+post. That patch was posted as part of the v11 series [1], but 
+Leon Romanovsky reported a problem with it, and so I'm going to add in
+the ability to handle larger "pin" refcounts for the huge page cases.
+
+Meanwhile, I wanted to get these long-simmering simpler preparatory
+patches submitted, because it's clear that the API is unaffected by the
+huge page refcount fix. (That fix will likely use the second struct page of
+the compound page, to count up higher.)
 
 
-> +
-> +allOf:
-> +  - $ref: panel-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +        const: boe,tv101wum-nl6
-> +
-> +  reg:
-> +    description: the virtual channel number of a DSI peripheral
-> +
-> +  enable-gpios:
-> +    description: a GPIO spec for the enable pin
-> +
-> +  pp1800-supply:
-> +    description: core voltage supply
-> +
-> +  avdd-supply:
-> +    description: phandle of the regulator that provides positive voltage
-> +
-> +  avee-supply:
-> +    description: phandle of the regulator that provides negative voltage
-> +
-> +  backlight:
-> +    description: phandle of the backlight device attached to the panel
-> +
-> +  port: true
-> +
-> +required:
-> + - compatible
-> + - reg
-> + - enable-gpios
-> + - pp1800-supply
-> + - avdd-supply
-> + - avee-supply
+[1] https://lore.kernel.org/r/20191216222537.491123-24-jhubbard@nvidia.com  
+    [PATCH v11 23/25] mm/gup: track FOLL_PIN pages
 
-> + - backlight
-I would be suprised if backlight is a required node.
-You could always tie the input to a fixed voltage and then no backlight
-node are required.
-Please remove from the required list unless you can convince me
-otherwise.
-
-	Sam
-
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    dsi {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        panel@0 {
-> +            compatible = "boe,tv101wum-nl6";
-> +            reg = <0>;
-> +            enable-gpios = <&pio 45 0>;
-> +            avdd-supply = <&ppvarn_lcd>;
-> +            avee-supply = <&ppvarp_lcd>;
-> +            pp1800-supply = <&pp1800_lcd>;
-> +            backlight = <&backlight_lcd0>;
-> +            status = "okay";
-> +            port {
-> +                panel_in: endpoint {
-> +                    remote-endpoint = <&dsi_out>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> -- 
-> 2.21.0
+thanks,
+-- 
+John Hubbard
+NVIDIA
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
