@@ -2,98 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0659613C5F1
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 15:27:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01F3913C607
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 15:31:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4658F6EA0F;
-	Wed, 15 Jan 2020 14:27:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 874CE6EA32;
+	Wed, 15 Jan 2020 14:31:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F1186EA0F
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 14:27:14 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00FER6kR092484;
- Wed, 15 Jan 2020 08:27:06 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1579098426;
- bh=e6oAJvpCf1dz7QEByKMWIW/B3TpmnJJ6G/yqf0P5Vys=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=LYAOyWgJpmH3Uobuv1cXISZfGA2taTW8QJ8nrqYi3EPhqwWn1z4Vv8xvWIHmQVvQu
- ulwdXFByZem4XSqUUJnfqGCF7SRO9oUv9aDbJBXUbdG+kAi+O4VYP1vct58YUxdo/J
- dV2HFazN5FwxCegBiuNrQE5a7H8f/q8w4vs06oIk=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00FER6qX123543
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 15 Jan 2020 08:27:06 -0600
-Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Wed, 15
- Jan 2020 08:27:04 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Wed, 15 Jan 2020 08:27:04 -0600
-Received: from [10.1.3.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00FER2ur074251;
- Wed, 15 Jan 2020 08:27:02 -0600
-Subject: Re: [PATCH v6 4/5] drm/tidss: New driver for TI Keystone platform
- Display SubSystem
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <cover.1579086894.git.jsarha@ti.com>
- <66c57bb30685920f040933ada9ccd4f5035d099f.1579086894.git.jsarha@ti.com>
- <20200115122253.GA22854@ravnborg.org>
-From: Jyri Sarha <jsarha@ti.com>
-Autocrypt: addr=jsarha@ti.com; prefer-encrypt=mutual; keydata=
- xsFNBFbdWt8BEADnCIkQrHIvAmuDcDzp1h2pO9s22nacEffl0ZyzIS//ruiwjMfSnuzhhB33
- fNEWzMjm7eqoUBi1BUAQIReS6won0cXIEXFg9nDYQ3wNTPyh+VRjBvlb/gRJlf4MQnJDTGDP
- S5i63HxYtOfjPMSsUSu8NvhbzayNkN5YKspJDu1cK5toRtyUn1bMzUSKDHfwpdmuCDgXZSj2
- t+z+c6u7yx99/j4m9t0SVlaMt00p1vJJ3HJ2Pkm3IImWvtIfvCmxnOsK8hmwgNQY6PYK1Idk
- puSRjMIGLqjZo071Z6dyDe08zv6DWL1fMoOYbAk/H4elYBaqEsdhUlDCJxZURcheQUnOMYXo
- /kg+7TP6RqjcyXoGgqjfkqlf3hYKmyNMq0FaYmUAfeqCWGOOy3PPxR/IiACezs8mMya1XcIK
- Hk/5JAGuwsqT80bvDFAB2XfnF+fNIie/n5SUHHejJBxngb9lFE90BsSfdcVwzNJ9gVf/TOJc
- qJEHuUx0WPi0taO7hw9+jXV8KTHp6CQPmDSikEIlW7/tJmVDBXQx8n4RMUk4VzjE9Y/m9kHE
- UVJ0bJYzMqECMTAP6KgzgkQCD7n8OzswC18PrK69ByGFpcm664uCAa8YiMuX92MnesKMiYPQ
- z1rvR5riXZdplziIRjFRX+68fvhPverrvjNVmzz0bAFwfVjBsQARAQABzRpKeXJpIFNhcmhh
- IDxqc2FyaGFAdGkuY29tPsLBeAQTAQIAIgUCVt1a3wIbAwYLCQgHAwIGFQgCCQoLBBYCAwEC
- HgECF4AACgkQkDazUNfWGUEVVhAAmFL/21tUhZECrDrP9FWuAUuDvg+1CgrrqBj7ZxKtMaiz
- qTcZwZdggp8bKlFaNrmsyrBsuPlAk99f7ToxufqbV5l/lAT3DdIkjb4nwN4rJkxqSU3PaUnh
- mDMKIAp6bo1N9L+h82LE6CjI89W4ydQp5i+cOeD/kbdxbHHvxgNwrv5x4gg1JvEQLVnUSHva
- R2kx7u2rlnq7OOyh9vU0MUq7U5enNNqdBjjBTeaOwa5xb3S2Cc9dR10mpFiy+jSSkuFOjPpc
- fLfr/s03NGqbZ4aXvZCGjCw4jclpTJkuWPKO+Gb+a/3oJ4qpGN9pJ+48n2Tx9MdSrR4aaXHi
- EYMrbYQz9ICJ5V80P5+yCY5PzCvqpkizP6vtKvRSi8itzsglauMZGu6GwGraMJNBgu5u+HIZ
- nfRtJO1AAiwuupOHxe1nH05c0zBJaEP4xJHyeyDsMDh+ThwbGwQmAkrLJZtOd3rTmqlJXnuj
- sfgQlFyC68t1YoMHukz9LHzg02xxBCaLb0KjslfwuDUTPrWtcDL1a5hccksrkHx7k9crVFA1
- o6XWsOPGKRHOGvYyo3TU3CRygXysO41UnGG40Q3B5R8RMwRHV925LOQIwEGF/6Os8MLgFXCb
- Lv3iJtan+PBdqO1Bv3u2fXUMbYgQ3v7jHctB8nHphwSwnHuGN7FAmto+SxzotE3OwU0EVt1a
- 3wEQAMHwOgNaIidGN8UqhSJJWDEfF/SPSCrsd3WsJklanbDlUCB3WFP2EB4k03JroIRvs7/V
- VMyITLQvPoKgaECbDS5U20r/Po/tmaAOEgC7m1VaWJUUEXhjYQIw7t/tSdWlo5XxZIcO4LwO
- Kf0S4BPrQux6hDLIFL8RkDH/8lKKc44ZnSLoF1gyjc5PUt6iwgGJRRkOD8gGxCv1RcUsu1xU
- U9lHBxdWdPmMwyXiyui1Vx7VJJyD55mqc7+qGrpDHG9yh3pUm2IWp7jVt/qw9+OE9dVwwhP9
- GV2RmBpDmB3oSFpk7lNvLJ11VPixl+9PpmRlozMBO00wA1W017EpDHgOm8XGkq++3wsFNOmx
- 6p631T2WuIthdCSlZ2kY32nGITWn4d8L9plgb4HnDX6smrMTy1VHVYX9vsHXzbqffDszQrHS
- wFo5ygKhbGNXO15Ses1r7Cs/XAZk3PkFsL78eDBHbQd+MveApRB7IyfffIz7pW1R1ZmCrmAg
- Bn36AkDXJTgUwWqGyJMd+5GHEOg1UPjR5Koxa4zFhj1jp1Fybn1t4N11cmEmWh0aGgI/zsty
- g/qtGRnFEywBbzyrDEoV4ZJy2Q5pnZohVhpbhsyETeYKQrRnMk/dIPWg6AJx38Cl4P9PK1JX
- 8VK661BG8GXsXJ3uZbPSu6K0+FiJy09N4IW7CPJNABEBAAHCwV8EGAECAAkFAlbdWt8CGwwA
- CgkQkDazUNfWGUFOfRAA5K/z9DXVEl2kkuMuIWkgtuuLQ7ZwqgxGP3dMA5z3Iv/N+VNRGbaw
- oxf+ZkTbJHEE/dWclj1TDtpET/t6BJNLaldLtJ1PborQH+0jTmGbsquemKPgaHeSU8vYLCdc
- GV/Rz+3FN0/fRdmoq2+bIHght4T6KZJ6jsrnBhm7y6gzjMOiftH6M5GXPjU0/FsU09qsk/af
- jbwLETaea0mlWMrLd9FC2KfVITA/f/YG2gqtUUF9WlizidyctWJqSTZn08MdzaoPItIkRUTv
- 6Bv6rmFn0daWkHt23BLd0ZP7e7pON1rqNVljWjWQ/b/E/SzeETrehgiyDr8pP+CLlC+vSQxi
- XtjhWjt1ItFLXxb4/HLZbb/L4gYX7zbZ3NwkON6Ifn3VU7UwqxGLmKfUwu/mFV+DXif1cKSS
- v6vWkVQ6Go9jPsSMFxMXPA5317sZZk/v18TAkIiwFqda3/SSjwc3e8Y76/DwPvUQd36lEbva
- uBrUXDDhCoiZnjQaNz/J+o9iYjuMTpY1Wp+igjIretYr9+kLvGsoPo/kTPWyiuh/WiFU2d6J
- PMCGFGhodTS5qmQA6IOuazek1qSZIl475u3E2uG98AEX/kRhSzgpsbvADPEUPaz75uvlmOCX
- tv+Sye9QT4Z1QCh3lV/Zh4GlY5lt4MwYnqFCxroK/1LpkLgdyQ4rRVw=
-Message-ID: <848720ca-6062-8314-e874-3a36f8aee1da@ti.com>
-Date: Wed, 15 Jan 2020 16:27:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6572D6EA32
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 14:31:33 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200115143131euoutp018ef6aeca40c57b784457ac900721c916~qFeTQ8GhK2291322913euoutp01X
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 14:31:31 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200115143131euoutp018ef6aeca40c57b784457ac900721c916~qFeTQ8GhK2291322913euoutp01X
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1579098691;
+ bh=1cw4JMKy1lErsNYO/NGq+Qbzm8WjBl+Evi60eX5AHHw=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=H+Gb1ulHlR0zP/LiOqkr2g7iidbvBUKzZ8i/eF5RJcfLLDaYdAXF/Nk/Xd5+lfvkm
+ hCz+kXQ9LRT3nNMa27cA4sNkkndlAVsqI7c5PVM0HpFjVzQmRKmVn90Vbbqne0bLJf
+ PseTHPwJMsvnY0X0vNrSTwG1bm5kXmYsjAPy30GE=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200115143131eucas1p25ddd1f5510a4c878dc4d029fba83b695~qFeTHeD-90399003990eucas1p2O;
+ Wed, 15 Jan 2020 14:31:31 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id CA.DB.61286.3422F1E5; Wed, 15
+ Jan 2020 14:31:31 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200115143131eucas1p11e74f62a262e12c8bf664e181384cfc1~qFeSy6NpB3147931479eucas1p1d;
+ Wed, 15 Jan 2020 14:31:31 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200115143131eusmtrp16383aedf24a8b1f5e3935b44e610ded1~qFeSxtlYC1089610896eusmtrp1E;
+ Wed, 15 Jan 2020 14:31:31 +0000 (GMT)
+X-AuditID: cbfec7f2-f0bff7000001ef66-ac-5e1f22438f16
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 24.D7.08375.3422F1E5; Wed, 15
+ Jan 2020 14:31:31 +0000 (GMT)
+Received: from [106.120.51.71] (unknown [106.120.51.71]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200115143130eusmtip1f078a4fb398be341001874dc8707ba6b~qFeSIQxju1623716237eusmtip1b;
+ Wed, 15 Jan 2020 14:31:30 +0000 (GMT)
+Subject: Re: [PATCH v2] fbdev: potential information leak in do_fb_ioctl()
+To: Dan Carpenter <dan.carpenter@oracle.com>
+From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Message-ID: <ac5585a5-1670-92d2-c019-f349df123f47@samsung.com>
+Date: Wed, 15 Jan 2020 15:31:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200115122253.GA22854@ravnborg.org>
-Content-Language: en-GB
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <20200113100132.ixpaymordi24n3av@kili.mountain>
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Sa0hTYRjm2zk7OxMnp2X5pnZhZFBUJhl8lkpRxKEI7E90IWvpQSOndpZ2
+ +VVkTVeEaanNOaddLLM0c0tNRSapQ51SVmoTDSq18pZ5t5XuKPnn43mf93ne93s+PpqQX6M8
+ 6dPR5zg+WhmloFxIc+2kbdNuxerQLVfH12J9YQGF/6TUSvAPRzqJG392SnDO504Ct44OUviv
+ OUGCK+w/EDZ1eOFvHVYC198aEuN35XoK5wybSFxpyUbYUPORwo8nTWgnw05PpSA2rTpTwlaO
+ GUm2TNcpYe9X9IlY+4cKiq3PmCZZg/Ug23WjTsQOf+0g2Qdp7yl2sGr2GClexd6xaMgQt6Mu
+ geFc1Ol4jvcNPukSmfQ0XRJrlV6oTh6nLqMeiRZJaWD8oemOjtAiF1rOPEZwd3RMIhS/EWQ1
+ DIqFYgSBNrOCWLCktltJoZGH4GZy83zRj8D80ugcvJTZBy2tjU6HO7MR3iVNOOcSjIWEbs19
+ Z4NitsNtTT6awzImGLLe2Kg5TDI+UGNoIufwMuYw/OquEQuaJWC998XJS5lAmDZXOfUE4wEd
+ X7JFAl4Nr/r1zkTAlNKQbSpBwr33QOe9drGAl8L3upL5J/CGhtSbpGB4juBPYu+8+xWCvFQH
+ Jah2gN02NYvp2RXrobDcV6B3QZ8hTTRHA+MGbf1LhEu4QYo5nRBoGSRelwvqdVD0qIhaWKst
+ e0IkI4VuUTTdoji6RXF0//caEZmPPLg4tSqCU/tFc+c3q5UqdVx0xOawGFUxmv2cDY66X6Vo
+ 9O0pC2JopHCVRc6sCpWLlfHqiyoLAppQuMusGStD5bJw5cVLHB9zgo+L4tQW5EWTCg/Z1ty+
+ 43ImQnmOO8NxsRy/0BXRUs/LiI9cz+sOtmmzsK57xCeh9UbQzqhU/2Zb1rFDPTbj/kszv3Ou
+ 2HZNvH7wMjfxWUvX2lvnFQN7Zd0BAxrXofzhXqMqNiUirEQfcrZsm1dhTsiVTy3HfOz6yYS9
+ QXlnHRrvjOWcr+Ph+zVH6NARy5SBHLD3HnD9vuKIawFf/Ckz4IW/glRHKv02ELxa+Q8P2mGI
+ mAMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0hTURyAO7vXe6e0uE7Fw/IRV6KQms5pO4qJVNQlCIogItM19OYk53R3
+ E40iQcE0KrXysWwq9jATTENT0WWT1JVZqFmK0sslauUrNfNRmxrsn8PH+X3fgQM/PibMdxDx
+ 4xK0rCZBEU8TTvir1Y7h3ftp7yj/9iYKFVdXEWglr51EE6sFOOr6Pkyiss/DGOqbmyTQ3/oM
+ EjUPTQBUN7gVfRs0Y6jz2pQD6m0qJlDZdB2OWkwlABna3hOoYrEOhFPM0p88wOS33iaZlvlS
+ nGnUD5NMefMYjxnqbyaYzsIlnDGYjzEfr3TwmGnLIM7czX9HMJNG6zFb68XcNGXiR7ecEodq
+ 1Dotu02p5rR76QgJChBLgpE4IDBYLJHKIkMCgmi/sNAYNj4umdX4hZ0RK7MeFZCJZseU1pwF
+ Ig2MktnAkQ+pQHhjwIxnAye+kLoH4NDoHC8b8K0DD9hRnbzuuMDl/mxi3ZkAsOjLqoNt4EId
+ hm/7ujAbu1K7YG/Wb9ImYZQJhzOZNRuvXgewtPTWWkFQITA3sxLYWECFwTsvugkb49R22GZ4
+ jdvYjToJ2xr0G44zNBeNrN07UqFwqd645mPUDrhs6MHW2R0OjpTw1tkbPv1RjOUAod4u19sl
+ ertEb5eUArwSuLI6ThWr4iRiTqHidAmx4mi1qhZYd6K+ffFJA+ipOW4CFB/QmwXKZa8ooYMi
+ mUtVmQDkY7SrwFzoGSUUxChSz7MatVyji2c5Ewiyfi4XE7lFq60blqCVS4IkMhQskUll0j2I
+ dhdcpp6fFlKxCi17jmUTWc3/jsd3FKUBb8uFyojuxjJ5mnEfr8IyMIOU0y3kg45a1cX5g0Ob
+ aCANv/Th04Ei6RvX1l9TjFNGvDnJf3y2ojFfUR7qqzMFJo0VLkR4nPgqZ8rP+owfyU0uuFqT
+ I6/4GZW+ohepU0X9h4wjkfB+UevYdEbNQ8+6Kn8L+9LnGbbzcXqgc8o8jXNKhcQX03CKf53x
+ gMwpAwAA
+X-CMS-MailID: 20200115143131eucas1p11e74f62a262e12c8bf664e181384cfc1
+X-Msg-Generator: CA
+X-RootMTR: 20200113111044eucas1p2037e64332e79316dc0114d67a38400ab
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200113111044eucas1p2037e64332e79316dc0114d67a38400ab
+References: <CGME20200113111044eucas1p2037e64332e79316dc0114d67a38400ab@eucas1p2.samsung.com>
+ <20200113100132.ixpaymordi24n3av@kili.mountain>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,72 +110,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, yamonkar@cadence.com, praneeth@ti.com,
- dri-devel@lists.freedesktop.org, peter.ujfalusi@ti.com, tomi.valkeinen@ti.com,
- laurent.pinchart@ideasonboard.com, sjakhade@cadence.com, maxime@cerno.tech
+Cc: Daniel Thompson <daniel.thompson@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+ Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ "Eric W. Biederman" <ebiederm@xmission.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Peter Rosin <peda@axentia.se>, Andrea Righi <righi.andrea@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/01/2020 14:22, Sam Ravnborg wrote:
-> Hi Jyri.
-> 
-> On Wed, Jan 15, 2020 at 01:45:38PM +0200, Jyri Sarha wrote:
->> This patch adds a new DRM driver for Texas Instruments DSS IPs used on
->> Texas Instruments Keystone K2G, AM65x, and J721e SoCs. The new DSS IP is
->> a major change to the older DSS IP versions, which are supported by
->> the omapdrm driver. While on higher level the Keystone DSS resembles
->> the older DSS versions, the registers are completely different and the
->> internal pipelines differ a lot.
->>
->> DSS IP found on K2G is an "ultra-light" version, and has only a single
->> plane and a single output. The K3 DSS IPs are found on AM65x and J721E
->> SoCs. AM65x DSS has two video ports, one full video plane, and another
->> "lite" plane without scaling support. J721E has 4 video ports, 2 video
->> planes and 2 lite planes. AM65x DSS has also an integrated OLDI (LVDS)
->> output.
->>
-> ...
->> v6: - Check CTM and gamma support from dispc_features when creating crtc
->>     - Implement CTM support for k2g and fix k3 CTM implementation
->>     - Remove gamma property persistence and always write color properties
->>       in a new modeset
-> 
-> I applied this, just to throw this throgh my build setup.
-> 
-> checkpatch reported:
-> total: 0 errors, 45 warnings, 46 checks, 4920 lines checked
-> 
-> - space after cast
-> - CamelCase
-> - Macro argument
-> - length warnings
-> - alignment
-> 
-> I would ignore the line length warnings for the coefficients, but fix the
-> rest.
-> 
 
-You are using --subjective, or are there new warnings turned on since I
-rebased?
+On 1/13/20 12:08 PM, Dan Carpenter wrote:
+> The "fix" struct has a 2 byte hole after ->ywrapstep and the
+> "fix = info->fix;" assignment doesn't necessarily clear it.  It depends
+> on the compiler.  The solution is just to replace the assignment with an
+> memcpy().
+> 
+> Fixes: 1f5e31d7e55a ("fbmem: don't call copy_from/to_user() with mutex held")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-Without it I only see long lines warnings and one "break is not useful
-after a goto or return" that I had accidentally added there. We have not
-cared too much of the long lines, but that is not a big deal, I'll fix them.
-
-I had checked the subjective warnings too, but there I used some
-consideration, if the warning would indicate a real problem.
-
-Should I get rid off all the subjective warnings (apart from the long
-lines in the coefficients)?
+Patch queued for v5.6, thanks.
 
 Best regards,
-Jyri
+--
+Bartlomiej Zolnierkiewicz
+Samsung R&D Institute Poland
+Samsung Electronics
 
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+> ---
+> v2:  Use memcpy()
+> 
+>  drivers/video/fbdev/core/fbmem.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+> index d04554959ea7..bb8d8dbc0461 100644
+> --- a/drivers/video/fbdev/core/fbmem.c
+> +++ b/drivers/video/fbdev/core/fbmem.c
+> @@ -1115,7 +1115,7 @@ static long do_fb_ioctl(struct fb_info *info, unsigned int cmd,
+>  		break;
+>  	case FBIOGET_FSCREENINFO:
+>  		lock_fb_info(info);
+> -		fix = info->fix;
+> +		memcpy(&fix, &info->fix, sizeof(fix));
+>  		if (info->flags & FBINFO_HIDE_SMEM_START)
+>  			fix.smem_start = 0;
+>  		unlock_fb_info(info);
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
