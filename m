@@ -1,92 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88B1813D5DA
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 09:21:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 283B613D5DB
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 09:21:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE7916EC2B;
-	Thu, 16 Jan 2020 08:21:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 594B06EC35;
+	Thu, 16 Jan 2020 08:21:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR03-DB5-obe.outbound.protection.outlook.com
- (mail-eopbgr40093.outbound.protection.outlook.com [40.107.4.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FC006E97A
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 12:34:21 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lwSw2GzXc3ybvGT4L30/dM990bjk89VBZyUnZ0gVAIiBb3it3VPqBJFaLAngE60KbchkskaiH1CSyOwyHsdt94ApXql9M1bE2ypijexYvvn3xdJnLpI7GdMCWuTybdFbVUwqeH6DE0AcDma34ZBEo5zHOY7XKW97gE88qI9Fp9NYEAb5dIWSU2zKeQ1j1dRbYA8pJqXnH2NFZSZRxfngjg+Ckc7CUVQAl6vjZJAasqbCGRKS++kyfbr5vU4VYeKHWoNfYozeWKxg1mbqVx/mdISv8bFzMkOZ7BzkQ0wEsfAubofPHwl4EAApPcEpsm2cJWS+sEo16LOkYRs8VHIEKA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9M8wkwM8VH7vF+foXDJpeEMSeZOaQ5pZQMmK4tguDdU=;
- b=j4aciQCNI+2QDASdPoV1Cb//HFDn9zWOMPz0AnCGPy3uc4kJGVLh+sfgHrQgoSQld7/qisxM4piwHh8jKImU10dBLMqhAmqoZLxnTMfle/JePtlWFV2iP5S/t4F5Z4AyW3g7oCFhc1BOeyZfABTbfaoXV+YM+59i3o7BKNMSf1SObPIhWgNgLOs+VakymUgQ+CUuChoR3s/A55UMbEhxyBr4p1agHV9M9E2rGUOlSQ+jKiaBCTzWTtx/4+fWqCiszEC/rlryV14GhWhGgigwgWqmZb3NknSSoJzvp/RrxRzXgVe3pQLPL6GKMPUAt4ZY0q10zYdSkgvP++BmXjwzFQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=toradex.com; dmarc=pass action=none header.from=toradex.com;
- dkim=pass header.d=toradex.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=toradex.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9M8wkwM8VH7vF+foXDJpeEMSeZOaQ5pZQMmK4tguDdU=;
- b=hSm4uFUBfg72IWe5g8QHlk3/4lSxqvudU92XbsAViY5aQzuGLouGkpo3KL09k7HTnV8StiGM34D8gXPWc5K3m6VKapQVJ6+jDQK5BJrmK4eey+t0DFUfzzebCBaR2cdJahYb396Har+/yKLKbIGRZz+fSkEj6CU6xTe+9tPqN1c=
-Received: from VI1PR05MB3279.eurprd05.prod.outlook.com (10.170.238.24) by
- AM6SPR01MB0060.eurprd05.prod.outlook.com (10.255.22.14) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2644.18; Wed, 15 Jan 2020 12:34:19 +0000
-Received: from VI1PR05MB3279.eurprd05.prod.outlook.com
- ([fe80::c14f:4592:515f:6e52]) by VI1PR05MB3279.eurprd05.prod.outlook.com
- ([fe80::c14f:4592:515f:6e52%7]) with mapi id 15.20.2623.018; Wed, 15 Jan 2020
- 12:34:19 +0000
-Received: from localhost (194.105.145.90) by
- PR0P264CA0039.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100:1::27) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2644.19 via Frontend Transport; Wed, 15 Jan 2020 12:34:19 +0000
-From: Oleksandr Suvorov <oleksandr.suvorov@toradex.com>
-To: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: [PATCH 2/3] drm/panel: pass video modes bus_flags
-Thread-Topic: [PATCH 2/3] drm/panel: pass video modes bus_flags
-Thread-Index: AQHVy6AbStXpDk/5LkG4OWGT5cIsUw==
-Date: Wed, 15 Jan 2020 12:34:19 +0000
-Message-ID: <20200115123401.2264293-3-oleksandr.suvorov@toradex.com>
-References: <20200115123401.2264293-1-oleksandr.suvorov@toradex.com>
-In-Reply-To: <20200115123401.2264293-1-oleksandr.suvorov@toradex.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: PR0P264CA0039.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:100:1::27) To VI1PR05MB3279.eurprd05.prod.outlook.com
- (2603:10a6:802:1c::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=oleksandr.suvorov@toradex.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: git-send-email 2.24.1
-x-originating-ip: [194.105.145.90]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b0db77f6-6ac8-41bd-6b87-08d799b73ddf
-x-ms-traffictypediagnostic: AM6SPR01MB0060:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <AM6SPR01MB006063733453419C03F9D662F9370@AM6SPR01MB0060.eurprd05.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1468;
-x-forefront-prvs: 02830F0362
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(39850400004)(136003)(396003)(346002)(376002)(366004)(189003)(199004)(54906003)(52116002)(6496006)(6916009)(81156014)(316002)(66556008)(64756008)(8676002)(66446008)(66946007)(86362001)(71200400001)(44832011)(66476007)(4326008)(36756003)(16526019)(26005)(478600001)(2906002)(5660300002)(4744005)(81166006)(8936002)(186003)(1076003)(6486002)(956004)(2616005);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM6SPR01MB0060;
- H:VI1PR05MB3279.eurprd05.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: toradex.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: JQlaoe3xcYC7yJuVww+w4OOugBXnimIcen+Ntbt4Z73cp503z2EEhEXh20+mQJL1VuINPo2PG007cxGxDzpnJ7aQEQq/rm6PWz93xQx29jQxf316BnJaQaFryacyjMYSGRBJldBcaxavfydJ0JT8ty7dUJkxsH6tWCQdaUu9TnPujg5LiQxWbKuY2dNI/b23BSnqc0Qz2ywTPdWjHYO7vAK/vAqufmRfsCscQ4cyd05XZaX4mkxXTg1Uqil5Xq/iJ7u0FYjBbyi8Ca57Mbg0vINwHFxngm1aUX4VmULEewbUiXjLEY5wcu31Kvs/WO69SA7QygqABnh6Ix4QJWIsIfNlS8DNt0TKXUdoQAyvebwvc0+PAOIotXesWoF3Y+IKJXDJ1VmJp2mZVed/cqbnGhPEoaBrWcW/3XsCl06FTdipO8a0qkGcTJCmrs4GOZ1W
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BA356EA30
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 16:15:13 +0000 (UTC)
+Received: by mail-io1-f71.google.com with SMTP id t18so10584305iob.18
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 08:15:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+ bh=0Cf6ZphCZYNLk3aMASlUpbTauK9EgyI+kH/XKXJeTh8=;
+ b=kjlJ5/nSAT1l6CnJQe/S0hUe3q29OfJ/CezPcuxOLsINk7eyQ+sX0EMTzlCK2GixQo
+ RauCmlBkDgsCoIAkCkbfcW3HlGtYxOJDRv0Zokc3v6PpNTgYFFsE0PdYtIt8BjyltP5Y
+ ABR/ordrvPLDgIgWS2uOmh3D17xJI57Y/9WZ7GEnU7reCS9V8G24Ah8POh//fdbB8VbB
+ RyUiLSN+a0/kifWVCJVIwDyWivFnD7xMrC1xj6e5kCZ4NTKbYbmUUrxlcLWdOXXggQgt
+ hnwvITnJOaNeHQqRBIV0KJqBIZ55tJYlIU2dpGBnvj6jHylcaWjEzs4Wk7fDOgj6tb2n
+ nx0Q==
+X-Gm-Message-State: APjAAAVryx/PIlGyAZi5vcARtcN2Sh07kgGlZ44xIRJR8Vd44gRQtcrH
+ 4B91FT9iuypx0a51EWK4b+VaE1gwKclQDkrVUfOmnWCpGdhF
+X-Google-Smtp-Source: APXvYqwfRsBBbJBifQ7RCfcxQmK6ZLIT8rJpubcScU624bYMWwroDHBbnv0d4FhB+q1u791/Q3siJ2cps49pYQN5i0SrbL5a7ymR
 MIME-Version: 1.0
-X-OriginatorOrg: toradex.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b0db77f6-6ac8-41bd-6b87-08d799b73ddf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jan 2020 12:34:19.3920 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d9995866-0d9b-4251-8315-093f062abab4
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: cH1LEE6+vlaWGJJGuWGP3ZQ31KrDuLNNZWYAStcGtA1chnoE8sTPcFvHtUApEtsJKpBEUISQSNstYbO/EwOoO+QmkXmE8FcSZ1VLIwYXHcY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6SPR01MB0060
+X-Received: by 2002:a6b:8ecd:: with SMTP id
+ q196mr22125597iod.136.1579104912850; 
+ Wed, 15 Jan 2020 08:15:12 -0800 (PST)
+Date: Wed, 15 Jan 2020 08:15:12 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000064c69e059c3003f6@google.com>
+Subject: WARNING in schedule_bh
+From: syzbot <syzbot+bfc0855888f853dca7ad@syzkaller.appspotmail.com>
+To: axboe@kernel.dk, dri-devel@lists.freedesktop.org, efremov@linux.com, 
+ linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com
 X-Mailman-Approved-At: Thu, 16 Jan 2020 08:21:03 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -100,47 +55,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marcel Ziswiler <marcel.ziswiler@toradex.com>,
- Oleksandr Suvorov <oleksandr.suvorov@toradex.com>,
- David Airlie <airlied@linux.ie>, Igor Opanyuk <igor.opanyuk@toradex.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"; DelSp="yes"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Stefan Agner <stefan@agner.ch>
+Hello,
 
-Make sure that the bus_flags parsed from the display timings are
-passed to the connector display info.
+syzbot found the following crash on:
 
-Signed-off-by: Stefan Agner <stefan@agner.ch>
-Signed-off-by: Oleksandr Suvorov <oleksandr.suvorov@toradex.com>
+HEAD commit:    95e20af9 Merge tag 'nfs-for-5.5-2' of git://git.linux-nfs...
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=17648c21e00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=d9290aeb7e6cf1c4
+dashboard link: https://syzkaller.appspot.com/bug?extid=bfc0855888f853dca7ad
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+userspace arch: i386
+
+Unfortunately, I don't have any reproducer for this crash yet.
+
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+bfc0855888f853dca7ad@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+WARNING: CPU: 3 PID: 12339 at drivers/block/floppy.c:985  
+schedule_bh+0x67/0x70 drivers/block/floppy.c:985
+Kernel panic - not syncing: panic_on_warn set ...
+CPU: 3 PID: 12339 Comm: syz-executor.1 Not tainted 5.5.0-rc6-syzkaller #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS  
+rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org 04/01/2014
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0x197/0x210 lib/dump_stack.c:118
+  panic+0x2e3/0x75c kernel/panic.c:221
+  __warn.cold+0x2f/0x3e kernel/panic.c:582
+  report_bug+0x289/0x300 lib/bug.c:195
+  fixup_bug arch/x86/kernel/traps.c:174 [inline]
+  fixup_bug arch/x86/kernel/traps.c:169 [inline]
+  do_error_trap+0x11b/0x200 arch/x86/kernel/traps.c:267
+  do_invalid_op+0x37/0x50 arch/x86/kernel/traps.c:286
+  invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1027
+RIP: 0010:schedule_bh+0x67/0x70 drivers/block/floppy.c:985
+Code: fd 48 8b 35 8b 82 ab 07 48 c7 c2 c0 80 00 8a bf 40 00 00 00 4c 89 25  
+98 7d ab 07 e8 93 51 e3 fc 5b 41 5c 5d c3 e8 09 4a 0b fd <0f> 0b eb ce 0f  
+1f 44 00 00 55 48 89 e5 e8 f7 49 0b fd 48 c7 c7 10
+RSP: 0018:ffffc900075774b0 EFLAGS: 00010212
+RAX: 0000000000040000 RBX: 0000000000000001 RCX: ffffc900039f0000
+RDX: 00000000000086ed RSI: ffffffff8469ab77 RDI: 0000000000000007
+RBP: ffffc900075774c0 R08: ffff888028b50d40 R09: fffffbfff1401019
+R10: fffffbfff1401018 R11: ffffffff8a0080c7 R12: ffffffff846a94a0
+R13: ffffffff846a94a0 R14: 0000000000000001 R15: 0000000000000001
+  wait_til_done+0x88/0x370 drivers/block/floppy.c:1977
+  poll_drive+0xd5/0xf0 drivers/block/floppy.c:2939
+  floppy_check_events+0x39f/0x440 drivers/block/floppy.c:4107
+  disk_check_events+0x13b/0x5c0 block/genhd.c:1859
+  disk_clear_events+0x143/0x318 block/genhd.c:1819
+  check_disk_change+0x79/0x140 fs/block_dev.c:1488
+  floppy_open+0x6ba/0xae0 drivers/block/floppy.c:4067
+  __blkdev_get+0x34f/0x1650 fs/block_dev.c:1604
+  blkdev_get+0x47/0x2c0 fs/block_dev.c:1736
+  blkdev_open+0x205/0x290 fs/block_dev.c:1875
+  do_dentry_open+0x4e6/0x1380 fs/open.c:797
+  vfs_open+0xa0/0xd0 fs/open.c:914
+  do_last fs/namei.c:3420 [inline]
+  path_openat+0x10df/0x4500 fs/namei.c:3537
+  do_filp_open+0x1a1/0x280 fs/namei.c:3567
+  do_sys_open+0x3fe/0x5d0 fs/open.c:1097
+  __do_compat_sys_open fs/open.c:1134 [inline]
+  __se_compat_sys_open fs/open.c:1132 [inline]
+  __ia32_compat_sys_open+0x79/0xb0 fs/open.c:1132
+  do_syscall_32_irqs_on arch/x86/entry/common.c:337 [inline]
+  do_fast_syscall_32+0x27b/0xe16 arch/x86/entry/common.c:408
+  entry_SYSENTER_compat+0x70/0x7f arch/x86/entry/entry_64_compat.S:139
+RIP: 0023:0xf7fa9a39
+Code: 00 00 00 89 d3 5b 5e 5f 5d c3 b8 80 96 98 00 eb c4 8b 04 24 c3 8b 1c  
+24 c3 8b 34 24 c3 8b 3c 24 c3 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90  
+90 90 90 eb 0d 90 90 90 90 90 90 90 90 90 90 90 90
+RSP: 002b:00000000f5da4c04 EFLAGS: 00000293 ORIG_RAX: 0000000000000005
+RAX: ffffffffffffffda RBX: 00000000f5da4cc0 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: 0000000066666667 RDI: 00000000f5da4cc0
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+Kernel Offset: disabled
+
+
 ---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
- drivers/gpu/drm/panel/panel-lvds.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/panel/panel-lvds.c b/drivers/gpu/drm/panel/panel-lvds.c
-index 21a169aa3ae4..334a67c1a52f 100644
---- a/drivers/gpu/drm/panel/panel-lvds.c
-+++ b/drivers/gpu/drm/panel/panel-lvds.c
-@@ -101,7 +101,9 @@ static int panel_lvds_get_modes(struct drm_panel *panel,
- 	connector->display_info.height_mm = lvds->height;
- 	drm_display_info_set_bus_formats(&connector->display_info,
- 					 &lvds->bus_format, 1);
--	connector->display_info.bus_flags = lvds->data_mirror
-+	drm_bus_flags_from_videomode(&lvds->video_mode,
-+				     &connector->display_info.bus_flags);
-+	connector->display_info.bus_flags |= lvds->data_mirror
- 					  ? DRM_BUS_FLAG_DATA_LSB_TO_MSB
- 					  : DRM_BUS_FLAG_DATA_MSB_TO_LSB;
- 
--- 
-2.24.1
-
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
