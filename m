@@ -2,45 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA49713C5BF
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 15:18:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8365E13C5CC
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 15:21:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9CFA6EA07;
-	Wed, 15 Jan 2020 14:17:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B5B06EA04;
+	Wed, 15 Jan 2020 14:21:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 643B96EA02;
- Wed, 15 Jan 2020 14:17:55 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 15 Jan 2020 06:17:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,322,1574150400"; d="scan'208";a="213715688"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga007.jf.intel.com with SMTP; 15 Jan 2020 06:17:51 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 15 Jan 2020 16:17:50 +0200
-Date: Wed, 15 Jan 2020 16:17:50 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/dp: Add current maximum eDP link
- rate to sink_rate array.
-Message-ID: <20200115141750.GX13686@intel.com>
-References: <20200109150752.28098-1-mario.kleiner.de@gmail.com>
- <CADnq5_PvPD+FyEwUrqDVmbdLrP6ZC72HPtd19bqm-Csx-fHMOA@mail.gmail.com>
- <CAEsyxyjTvuCHHA3D-NJd=aGkHz2d=obSizwGQL8B4k1B7i2jJg@mail.gmail.com>
- <CADnq5_NPdg8MjQ5cB2aCD+US1Hv+FoP1gqKcA4W2e0pouG8cGQ@mail.gmail.com>
- <CAEsyxyjMsCU8rzyO0GewU_-uV5+UoDDwa5Mc74irUnJHhF6ALQ@mail.gmail.com>
- <bae132f3-73e6-5004-c9a9-adb632338268@amd.com>
- <20200110180944.GL13686@intel.com> <87o8v4kif9.fsf@intel.com>
+Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com
+ [IPv6:2607:f8b0:4864:20::b42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F73E6EA04
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 14:21:20 +0000 (UTC)
+Received: by mail-yb1-xb42.google.com with SMTP id k128so2925033ybc.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 06:21:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=3ObquDazAteZHqeIwUV/wupCgwXXwnvtoRKdROHL06M=;
+ b=Fyez2ljB74T5rwo/zJO7JOoMGJwoPpEs/0jNr6ETdoOXZMPSEjDkKjkubY7TzGs9ug
+ WlGGBOODv9KPiK8JZtMAkUaFz5NBYvxieGCffYyEt0ZwYXMda/4uOmR5HguLtNffosbt
+ w2UvHFJVASvN3qOOo0PfjwM+NnaTo9D+b0/TotySDydAVBeRZZdsm1bSgV2pw5JaHC2p
+ Or9TuNWaL0dtYNDXfxaZOs6mv3fC1cGgy1PBNt3b3fxi4WF5F52X5QuDRVOdtdBIZT55
+ Hv4APhbS84NaPVXO8KgDUaHLZgR3W/sx+QIA4hHCoaojZkz9/8nnut8ZiW9D24d/rcTK
+ E5kA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=3ObquDazAteZHqeIwUV/wupCgwXXwnvtoRKdROHL06M=;
+ b=n53pHQ1OLdRV/52v0m2qCX1SEJaxIc3NwBkSJiHdE7CjOmz0LRrGCuuT4tOiCYq5jU
+ KTpEzbR0LFPQLZlYVt6VixF58ghzxbec7uVFWjk6YdRGX9c0ZzP06f0RtHSyAo3axQsK
+ MdyRlsMUNup2GOO9rApShg45AhtaHUDG45EUYTqL5e2lA3U+Foz3TVZmd+8gyssxSp/w
+ J/4s9wJbSNeLFW7JhNyYrUWjLR/WqfKB4puuvJfn6OQXDWNnTcnSzhJmrvuw6H/koJVO
+ Z1SS0VTkr9VykLR7R2IRh4uDWArW4zCSFS/K6sMGMoAfdREGcuu+5sGiy/MAv3hv+2UC
+ 3+ig==
+X-Gm-Message-State: APjAAAX1UqWpeqnWVUPdPO/n764gG6HInt9urG2Jy6+2jzYoR0UVzlKA
+ L+42vESJFHNLEj3oTDCMmjfkMw==
+X-Google-Smtp-Source: APXvYqyOsPXQ1DEc7nSX1QdY8Nfs6hxA8MMMSaVb01nV96cXhb/yL7axeWHdvpfTDAUsr8WEyou6PA==
+X-Received: by 2002:a25:743:: with SMTP id 64mr21908668ybh.178.1579098079461; 
+ Wed, 15 Jan 2020 06:21:19 -0800 (PST)
+Received: from localhost ([2620:0:1013:11:1e1:4760:6ce4:fc64])
+ by smtp.gmail.com with ESMTPSA id z12sm7961758ywl.27.2020.01.15.06.21.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Jan 2020 06:21:18 -0800 (PST)
+Date: Wed, 15 Jan 2020 09:21:18 -0500
+From: Sean Paul <sean@poorly.run>
+To: Chris Wilson <chris@chris-wilson.co.uk>
+Subject: Re: [PATCH v4] drm/trace: Buffer DRM logs in a ringbuffer accessible
+ via debugfs
+Message-ID: <20200115142118.GD25564@art_vandelay>
+References: <20200114172155.215463-1-sean@poorly.run>
+ <157908459623.12549.3531242692320169983@skylake-alporthouse-com>
+ <20200115134158.GC25564@art_vandelay>
+ <157909687975.14122.1932646175287417072@skylake-alporthouse-com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <87o8v4kif9.fsf@intel.com>
-X-Patchwork-Hint: comment
+In-Reply-To: <157909687975.14122.1932646175287417072@skylake-alporthouse-com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,150 +71,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mario.kleiner.de@gmail.de, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Harry Wentland <hwentlan@amd.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
+ dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 15, 2020 at 02:34:02PM +0200, Jani Nikula wrote:
-> On Fri, 10 Jan 2020, Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com> wr=
-ote:
-> > On Thu, Jan 09, 2020 at 04:26:19PM -0500, Harry Wentland wrote:
-> >> =
+On Wed, Jan 15, 2020 at 02:01:19PM +0000, Chris Wilson wrote:
+> Quoting Sean Paul (2020-01-15 13:41:58)
+> > On Wed, Jan 15, 2020 at 10:36:36AM +0000, Chris Wilson wrote:
+> > > Quoting Sean Paul (2020-01-14 17:21:43)
+> > > > From: Sean Paul <seanpaul@chromium.org>
+> > > > 
+> > > > This patch uses a ring_buffer to keep a "flight recorder" (name credit Weston)
+> > > > of DRM logs for a specified set of debug categories. The user writes a
+> > > > bitmask of debug categories to the "trace_mask" node and can read log
+> > > > messages from the "trace" node.
+> > > > 
+> > > > These nodes currently exist in debugfs under the dri directory. I
+> > > > intended on exposing all of this through tracefs originally, but the
+> > > > tracefs entry points are not exposed, so there's no way to create
+> > > > tracefs files from drivers at the moment. I think it would be a
+> > > > worthwhile endeavour, but one requiring more time and conversation to
+> > > > ensure the drm traces fit somewhere sensible.
+> > > 
+> > > Fwiw, I have a need for client orientated debug message store, with
+> > > the primary purpose of figuring out -EINVAL. We need per-client so we can
+> > > put sensitive information about the potentially buggy client behaviour,
+> > > and of course it needs to be accessible by the non-privileged client.
+> > > 
+> > > On the execution side, it's easy to keep track of the client so we could
+> > > trace execution flow per client, within reason. And we could do
+> > > similarly for kms clients.
+> > 
+> > Could you build such a thing with drm_trace underpinning it, just put the
+> > pertinent information in the message?
+> 
+> Not as is. The global has to go, and there's no use for debugfs. So we
+> are just left with a sprintf() around a ring_buffer. I am left in the
+> same position as just wanting to generalise tracek to take the ringbuffer
+> as a parameter.
+> 
 
-> >> =
+Ah, I think I see what you're getting at now. I think it would be reasonable to
+split out a drm_trace_buffer from the current code for this purpose. We could
+have an interface like:
 
-> >> On 2020-01-09 4:04 p.m., Mario Kleiner wrote:
-> >> > On Thu, Jan 9, 2020 at 8:49 PM Alex Deucher <alexdeucher@gmail.com
-> >> > <mailto:alexdeucher@gmail.com>> wrote:
-> >> >
-> >> >     On Thu, Jan 9, 2020 at 11:47 AM Mario Kleiner
-> >> >     <mario.kleiner.de@gmail.com <mailto:mario.kleiner.de@gmail.com>>
-> >> >     wrote:
-> >> >     >
-> >> >     > On Thu, Jan 9, 2020 at 4:40 PM Alex Deucher
-> >> >     <alexdeucher@gmail.com <mailto:alexdeucher@gmail.com>> wrote:
-> >> >     >>
-> >> >     >> On Thu, Jan 9, 2020 at 10:08 AM Mario Kleiner
-> >> >     >> <mario.kleiner.de@gmail.com
-> >> >     <mailto:mario.kleiner.de@gmail.com>> wrote:
-> >> >     >> >
-> >> >     As Harry mentioned in the other thread, won't this only work if =
-the
-> >> >     display was brought up by the vbios?=A0 In the suspend/resume ca=
-se,
-> >> >     won't we just fall back to 2.7Gbps?
-> >> >
-> >> >     Alex
-> >> >
-> >> >
-> >> > Adding Harry to cc...
-> >> >
-> >> > The code is only executed for eDP. On the Intel side, it seems that
-> >> > intel_edp_init_dpcd() gets only called during driver load /
-> >> > modesetting init, so not on resume.
-> >> >
-> >> > On the AMD DC side, dc_link_detect_helper() has this early no-op
-> >> > return at the beginning:
-> >> >
-> >> > if ((link->connector_signal =3D=3D SIGNAL_TYPE_LVDS ||
-> >> > 			link->connector_signal =3D=3D SIGNAL_TYPE_EDP) &&
-> >> > 			link->local_sink)
-> >> > 		return true;
-> >> >
-> >> > So i guess if link->local_sink doesn't get NULL'ed during a
-> >> > suspend/resume cycle, then we never reach the setup code that would
-> >> > overwrite with non vbios settings?
-> >> >
-> >> > Sounds reasonable to me, given that eDP panels are usually fixed
-> >> > internal panels, nothing that gets hot(un-)plugged?
-> >> >
-> >> > I can't test, because suspend/resume with the Polaris gpu on the MBP
-> >> > 2017 is totally broken atm., just as vgaswitcheroo can't do its job.
-> >> > Looks like powering down the gpu works, but powering up doesn't. And
-> >> > also modesetting at vgaswitcheroo switch time is no-go, because the
-> >> > DDC/AUX lines apparently can't be switched on that Apple gmux, and
-> >> > handover of that data seems to be not implemented in current
-> >> > vgaswitcheroo. At the moment switching between AMD only or Intel+AMD
-> >> > Prime setup is quite a pita...
-> >> >
-> >> =
+struct drm_trace_buffer *drm_trace_buffer_init(unsigned int num_pages);
+int drm_trace_buffer_resize(struct drm_trace_buffer *buf, unsigned int num_pages);
+int drm_trace_buffer_printf(struct drm_trace_buffer *buf, const char *format, ...);
+int drm_trace_buffer_output(struct seq_file *seq);
+void drm_trace_buffer_cleanup(struct drm_trace_buffer *buf);
 
-> >> I haven't followed the entire discussion on the i915 thread but for the
-> >> amdgpu dc patch I would prefer a DPCD quirk to override the reported
-> >> link settings with the correct link rate.
-> >
-> > We could consider adding a standard function for reading the receiver
-> > caps and applying the quirk there. I have a feeling that putting it
-> > into drm_dp_dpcd_read() would be a bit too low level since it would
-> > prevent reading the non-quirked raw data easily.
-> =
+Then to Joonas' point, we could have drm_trace_log which uses this interface to
+mirror the logs with a debugfs interface.
 
-> Everything about this panel is ugly.
-> =
+Would that work for your purpose?
 
-> The panel does not claim to support extended receiver caps. (I have not
-> seen whether there is non-zero data at 0x2200. Mario, please provide a
-> dump of that DPCD region.)
-> =
 
-> The panel does use DPCD_DISPLAY_CONTROL_CAPABLE and reports eDP 1.3 in
-> EDP_DPCD_REV.
-> =
+> > > Just chiming to say, I don't think a duplicate of dmesg hidden inside
+> > > debugfs achieves much. But a generic tracek-esque ringbuf would be very
+> > > useful -- even if only so we can separate our GEM_TRACE from the global
+> > > tracek.
+> > 
+> > I think that's essentially what we've got, I've just narrowly focused on
+> > surfacing debug logs. If drm_trace_printf were exported, replacing
+> > GEM_TRACE would be as simple as s/trace_printk/drm_trace_printf/. Initially I
+> > thought exporting it to drivers would be a bad idea, but I'm open to changing my
+> > mind on this as long as drivers are using it responsibly. 
+> 
+> I definitely can't make the mistake of flooding kms tracing with
+> overwhelming execution traces -- we can't go back to mixing kms traces
+> with execution traces.
 
-> eDP 1.3 says only four values are supported in LINK_BW_SET (0x06, 0x0a,
-> 0x14, and 0x1e). The same for MAX_LINK_RATE for all DP, and even in the
-> extended receiver cap.
-> =
+Yeah, I assumed this wouldn't be enabled during normal operation, just for
+debugging (as it is used now).
 
-> You could perhaps make the case for the interpretation in commit
-> 57a1b0893782 ("drm: Make the bw/link rate calculations more forgiving")
-> that in eDP 1.4+ you can use arbitrary values in LINK_BW_SET. But I
-> think that's a stretch, really. And anyway the panel reports eDP 1.3.
-> =
+Sean
 
-> The panel is consistent in that it does not claim to support link rate
-> selection nor does it have anything in SUPPORTED_LINK_RATES which are
-> eDP 1.4+ features.
-> =
+> -Chris
 
-> However, the panel reports 0x0a as the max link rate in MAX_LINK_RATE,
-> which exceeds the value 0x0c set in LINK_BW_SET by the firmware.
-> =
-
-> Bottom line is, *if* we're going to support this proprietary crap of a
-> panel, it *must* be an isolated quirk. I certainly won't take a patch
-> generalizing this to any panel out there. But you're going to have to be
-> pretty clever to isolate this crap. I'm not sure if quirking a homebrew
-> extended receiver cap is going to be enough.
-
-drm_dp_read_receiver_caps()
-{
-	dpcd_read(dpcd);
-	if (quirk) {
-		DRM_DEBUG_KMS("blah");
-		dpcd[MAX_BW] =3D 0xc;
-	}
-}
-
-intel_dp_sink_rates()
-{
-	...
-	if (max_bw > rates[i-1])
-		rates[i++] =3D max_bw;
-}
-
-Would seem more or less OK to me. And doing it this way would also
-cover the MyDP 6.75 case automagically.
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
+-- 
+Sean Paul, Software Engineer, Google / Chromium OS
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
