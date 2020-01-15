@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35CD113BFFD
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 13:17:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1BEF13BFF6
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 13:17:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DDC96E93E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E2296E939;
 	Wed, 15 Jan 2020 12:17:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67AC06E93C;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FFB56E939;
  Wed, 15 Jan 2020 12:17:03 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 06AF5AFC2;
+ by mx2.suse.de (Postfix) with ESMTP id 051C9AE62;
  Wed, 15 Jan 2020 12:17:00 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@linux.ie, daniel@ffwll.ch, alexander.deucher@amd.com,
@@ -28,10 +28,13 @@ To: airlied@linux.ie, daniel@ffwll.ch, alexander.deucher@amd.com,
  bskeggs@redhat.com, harry.wentland@amd.com, sunpeng.li@amd.com,
  jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
  rodrigo.vivi@intel.com
-Subject: [PATCH v2 00/21] drm: Clean up VBLANK callbacks in struct drm_driver
-Date: Wed, 15 Jan 2020 13:16:31 +0100
-Message-Id: <20200115121652.7050-1-tzimmermann@suse.de>
+Subject: [PATCH v2 01/21] drm: Add get_scanout_position() to struct
+ drm_crtc_helper_funcs
+Date: Wed, 15 Jan 2020 13:16:32 +0100
+Message-Id: <20200115121652.7050-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200115121652.7050-1-tzimmermann@suse.de>
+References: <20200115121652.7050-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,142 +52,113 @@ Cc: linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Thomas Zimmermann <tzimmermann@suse.de>, nouveau@lists.freedesktop.org,
  freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VBLANK handlers in struct drm_driver are deprecated. Only legacy,
-non-KMS drivers are supposed to used them. DRM drivers with kernel
-modesetting are supposed to use VBLANK callbacks of the CRTC
-infrastructure.
-
-This patchset converts all DRM drivers to CRTC VBLANK callbacks and
-cleans up struct drm_driver. The remaining VBLANK callbacks in struct
-drm_driver are only used by legacy drivers.
-
-Patches 1 and 3 prepare the DRM infrastructure. These patches add
-get_scanout_position() to struct drm_crtc_helper_funcs, get_vblank_timestamp()
-to struct drm_crtc_funcs, and add helpers for the new interfaces. Patch 2
-changes the VBLANK code to evaluate vblank_disable_immediate in struct
-drm_device. This simplifies the integration of CRTC VBLANK callbacks in
-patch 3. If necessary, a future patch could move vblank_disable_immedate
-to struct drm_crtc, so that high-precision VBLANKs could be enabled on a
-per-CRTC basis.
-
-Patches 4 to 20 convert drivers over.
-
-In patch 21, all VBLANK callbacks are removed from struct drm_driver, except
-for get_vblank_counter(), enable_vblank(), and disable_vblank(). These
-interfaces are moved to the legacy section at the end of the structure. Old
-helper code is now unused and being removed as well.
-
-To cover all affected drivers, I build the patchset in x86, x86-64,
-arm and aarch64. I smoke-tested amdgpu, gma500, i915, radeon and vc4 on
-respective hardware.
-
-v2:
-	* reorder patches so the i915 can be converted without duplicating
-	  helper code.
-	* merged cleanup patches
-	* changed VBLANK function signatures in amdgpu
-
-Thomas Zimmermann (21):
-  drm: Add get_scanout_position() to struct drm_crtc_helper_funcs
-  drm: Evaluate struct drm_device.vblank_disable_immediate on each use
-  drm: Add get_vblank_timestamp() to struct drm_crtc_funcs
-  drm/amdgpu: Convert to struct
-    drm_crtc_helper_funcs.get_scanout_position()
-  drm/amdgpu: Convert to CRTC VBLANK callbacks
-  drm/gma500: Convert to CRTC VBLANK callbacks
-  drm/i915: Convert to CRTC VBLANK callbacks
-  drm/nouveau: Convert to struct
-    drm_crtc_helper_funcs.get_scanout_position()
-  drm/nouveau: Convert to CRTC VBLANK callbacks
-  drm/radeon: Convert to struct
-    drm_crtc_helper_funcs.get_scanout_position()
-  drm/radeon: Convert to CRTC VBLANK callbacks
-  drm/msm: Convert to struct
-    drm_crtc_helper_funcs.get_scanout_position()
-  drm/msm: Convert to CRTC VBLANK callbacks
-  drm/stm: Convert to struct
-    drm_crtc_helper_funcs.get_scanout_position()
-  drm/stm: Convert to CRTC VBLANK callbacks
-  drm/sti: Convert to CRTC VBLANK callbacks
-  drm/vc4: Convert to struct
-    drm_crtc_helper_funcs.get_scanout_position()
-  drm/vc4: Convert to CRTC VBLANK callbacks
-  drm/vkms: Convert to CRTC VBLANK callbacks
-  drm/vmwgfx: Convert to CRTC VBLANK callbacks
-  drm: Clean-up VBLANK-related callbacks in struct drm_driver
-
- drivers/gpu/drm/amd/amdgpu/amdgpu.h           |   6 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |  16 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  15 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c       |  21 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |   5 +
- drivers/gpu/drm/amd/amdgpu/dce_v10_0.c        |   5 +
- drivers/gpu/drm/amd/amdgpu/dce_v11_0.c        |   5 +
- drivers/gpu/drm/amd/amdgpu/dce_v6_0.c         |   5 +
- drivers/gpu/drm/amd/amdgpu/dce_v8_0.c         |   5 +
- drivers/gpu/drm/amd/amdgpu/dce_virtual.c      |   5 +
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  13 +-
- drivers/gpu/drm/drm_vblank.c                  | 411 ++++++++++--------
- drivers/gpu/drm/gma500/cdv_intel_display.c    |   3 +
- drivers/gpu/drm/gma500/psb_drv.c              |   4 -
- drivers/gpu/drm/gma500/psb_drv.h              |   6 +-
- drivers/gpu/drm/gma500/psb_intel_display.c    |   3 +
- drivers/gpu/drm/gma500/psb_irq.c              |  12 +-
- drivers/gpu/drm/gma500/psb_irq.h              |   7 +-
- drivers/gpu/drm/i915/display/intel_display.c  |   7 +
- drivers/gpu/drm/i915/i915_drv.c               |   3 -
- drivers/gpu/drm/i915/i915_irq.c               |  20 +-
- drivers/gpu/drm/i915/i915_irq.h               |   6 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      |   2 +
- drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c     |   2 +
- drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c     |  82 ++++
- drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c      |  95 ----
- drivers/gpu/drm/msm/msm_drv.c                 |  10 +-
- drivers/gpu/drm/msm/msm_drv.h                 |   3 +
- drivers/gpu/drm/nouveau/dispnv04/crtc.c       |   4 +
- drivers/gpu/drm/nouveau/dispnv50/head.c       |   5 +
- drivers/gpu/drm/nouveau/nouveau_display.c     |  28 +-
- drivers/gpu/drm/nouveau/nouveau_display.h     |   6 +-
- drivers/gpu/drm/nouveau/nouveau_drm.c         |   5 -
- drivers/gpu/drm/radeon/atombios_crtc.c        |   1 +
- drivers/gpu/drm/radeon/radeon_display.c       |  25 +-
- drivers/gpu/drm/radeon/radeon_drv.c           |  18 -
- drivers/gpu/drm/radeon/radeon_kms.c           |  29 +-
- drivers/gpu/drm/radeon/radeon_legacy_crtc.c   |   3 +-
- drivers/gpu/drm/radeon/radeon_mode.h          |   6 +
- drivers/gpu/drm/sti/sti_crtc.c                |  11 +-
- drivers/gpu/drm/sti/sti_crtc.h                |   2 -
- drivers/gpu/drm/sti/sti_drv.c                 |   4 -
- drivers/gpu/drm/stm/drv.c                     |   2 -
- drivers/gpu/drm/stm/ltdc.c                    |  66 +--
- drivers/gpu/drm/stm/ltdc.h                    |   5 -
- drivers/gpu/drm/vc4/vc4_crtc.c                |  13 +-
- drivers/gpu/drm/vc4/vc4_drv.c                 |   3 -
- drivers/gpu/drm/vc4/vc4_drv.h                 |   4 -
- drivers/gpu/drm/vkms/vkms_crtc.c              |   9 +-
- drivers/gpu/drm/vkms/vkms_drv.c               |   1 -
- drivers/gpu/drm/vkms/vkms_drv.h               |   4 -
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |   3 -
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h           |   6 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           |   6 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c           |   3 +
- drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c          |   3 +
- drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c          |   3 +
- include/drm/drm_crtc.h                        |  46 +-
- include/drm/drm_drv.h                         | 156 +------
- include/drm/drm_modeset_helper_vtables.h      |  47 ++
- include/drm/drm_vblank.h                      |  30 +-
- 61 files changed, 692 insertions(+), 642 deletions(-)
-
---
-2.24.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhlIG5ldyBjYWxsYmFjayBnZXRfc2Nhbm91dF9wb3NpdGlvbigpIHJlYWRzIHRoZSBjdXJyZW50
+IGxvY2F0aW9uIG9mCnRoZSBzY2Fub3V0IHByb2Nlc3MuIFRoZSBvcGVyYXRpb24gaXMgY3VycmVu
+dHlsIGxvY2F0ZWQgaW4gc3RydWN0CmRybV9kcml2ZXIsIGJ1dCByZWFsbHkgYmVsb25ncyB0byB0
+aGUgQ1JUQy4gRHJpdmVycyB3aWxsIGJlIGNvbnZlcnRlZAppbiBzZXBhcmF0ZSBwYXRjaGVzLgoK
+djI6CgkqIGZpeCBsb2dpY2FsIG9wIGluIGRybV9jYWxjX3ZibHRpbWVzdGFtcF9mcm9tX3NjYW5v
+dXRwb3MoKQoKU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1
+c2UuZGU+ClRlc3RlZC1ieTogWWFubmljayBGZXJ0csOpIDx5YW5uaWNrLmZlcnRyZUBzdC5jb20+
+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2RybV92YmxhbmsuYyAgICAgICAgICAgICB8IDI0ICsrKysr
+KysrLS0tLQogaW5jbHVkZS9kcm0vZHJtX2Rydi5oICAgICAgICAgICAgICAgICAgICB8ICA3ICst
+LS0KIGluY2x1ZGUvZHJtL2RybV9tb2Rlc2V0X2hlbHBlcl92dGFibGVzLmggfCA0NyArKysrKysr
+KysrKysrKysrKysrKysrKysKIDMgZmlsZXMgY2hhbmdlZCwgNjUgaW5zZXJ0aW9ucygrKSwgMTMg
+ZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV92YmxhbmsuYyBi
+L2RyaXZlcnMvZ3B1L2RybS9kcm1fdmJsYW5rLmMKaW5kZXggMTY1OWIxM2IxNzhjLi4zZjFkZDU0
+Y2M4YmIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fdmJsYW5rLmMKKysrIGIvZHJp
+dmVycy9ncHUvZHJtL2RybV92YmxhbmsuYwpAQCAtMzAsNiArMzAsNyBAQAogI2luY2x1ZGUgPGRy
+bS9kcm1fY3J0Yy5oPgogI2luY2x1ZGUgPGRybS9kcm1fZHJ2Lmg+CiAjaW5jbHVkZSA8ZHJtL2Ry
+bV9mcmFtZWJ1ZmZlci5oPgorI2luY2x1ZGUgPGRybS9kcm1fbW9kZXNldF9oZWxwZXJfdnRhYmxl
+cy5oPgogI2luY2x1ZGUgPGRybS9kcm1fcHJpbnQuaD4KICNpbmNsdWRlIDxkcm0vZHJtX3ZibGFu
+ay5oPgogCkBAIC01OTAsNyArNTkxLDcgQEAgRVhQT1JUX1NZTUJPTChkcm1fY2FsY190aW1lc3Rh
+bXBpbmdfY29uc3RhbnRzKTsKICAqIEltcGxlbWVudHMgY2FsY3VsYXRpb24gb2YgZXhhY3QgdmJs
+YW5rIHRpbWVzdGFtcHMgZnJvbSBnaXZlbiBkcm1fZGlzcGxheV9tb2RlCiAgKiB0aW1pbmdzIGFu
+ZCBjdXJyZW50IHZpZGVvIHNjYW5vdXQgcG9zaXRpb24gb2YgYSBDUlRDLiBUaGlzIGNhbiBiZSBk
+aXJlY3RseQogICogdXNlZCBhcyB0aGUgJmRybV9kcml2ZXIuZ2V0X3ZibGFua190aW1lc3RhbXAg
+aW1wbGVtZW50YXRpb24gb2YgYSBrbXMgZHJpdmVyCi0gKiBpZiAmZHJtX2RyaXZlci5nZXRfc2Nh
+bm91dF9wb3NpdGlvbiBpcyBpbXBsZW1lbnRlZC4KKyAqIGlmICZkcm1fY3J0Y19oZWxwZXJfZnVu
+Y3MuZ2V0X3NjYW5vdXRfcG9zaXRpb24gaXMgaW1wbGVtZW50ZWQuCiAgKgogICogVGhlIGN1cnJl
+bnQgaW1wbGVtZW50YXRpb24gb25seSBoYW5kbGVzIHN0YW5kYXJkIHZpZGVvIG1vZGVzLiBGb3Ig
+ZG91YmxlIHNjYW4KICAqIGFuZCBpbnRlcmxhY2VkIG1vZGVzIHRoZSBkcml2ZXIgaXMgc3VwcG9z
+ZWQgdG8gYWRqdXN0IHRoZSBoYXJkd2FyZSBtb2RlCkBAIC02MzIsOCArNjMzLDkgQEAgYm9vbCBk
+cm1fY2FsY192Ymx0aW1lc3RhbXBfZnJvbV9zY2Fub3V0cG9zKHN0cnVjdCBkcm1fZGV2aWNlICpk
+ZXYsCiAJfQogCiAJLyogU2Nhbm91dCBwb3NpdGlvbiBxdWVyeSBub3Qgc3VwcG9ydGVkPyBTaG91
+bGQgbm90IGhhcHBlbi4gKi8KLQlpZiAoIWRldi0+ZHJpdmVyLT5nZXRfc2Nhbm91dF9wb3NpdGlv
+bikgewotCQlEUk1fRVJST1IoIkNhbGxlZCBmcm9tIGRyaXZlciB3L28gZ2V0X3NjYW5vdXRfcG9z
+aXRpb24oKSE/XG4iKTsKKwlpZiAoIWRldi0+ZHJpdmVyLT5nZXRfc2Nhbm91dF9wb3NpdGlvbiAm
+JgorCSAgICAhY3J0Yy0+aGVscGVyX3ByaXZhdGUtPmdldF9zY2Fub3V0X3Bvc2l0aW9uKSB7CisJ
+CURSTV9FUlJPUigiQ2FsbGVkIGZyb20gQ1JUQyB3L28gZ2V0X3NjYW5vdXRfcG9zaXRpb24oKSE/
+XG4iKTsKIAkJcmV0dXJuIGZhbHNlOwogCX0KIApAQCAtNjY0LDExICs2NjYsMTcgQEAgYm9vbCBk
+cm1fY2FsY192Ymx0aW1lc3RhbXBfZnJvbV9zY2Fub3V0cG9zKHN0cnVjdCBkcm1fZGV2aWNlICpk
+ZXYsCiAJCSAqIEdldCB2ZXJ0aWNhbCBhbmQgaG9yaXpvbnRhbCBzY2Fub3V0IHBvc2l0aW9uIHZw
+b3MsIGhwb3MsCiAJCSAqIGFuZCBib3VuZGluZyB0aW1lc3RhbXBzIHN0aW1lLCBldGltZSwgcHJl
+L3Bvc3QgcXVlcnkuCiAJCSAqLwotCQl2Ymxfc3RhdHVzID0gZGV2LT5kcml2ZXItPmdldF9zY2Fu
+b3V0X3Bvc2l0aW9uKGRldiwgcGlwZSwKLQkJCQkJCQkgICAgICAgaW5fdmJsYW5rX2lycSwKLQkJ
+CQkJCQkgICAgICAgJnZwb3MsICZocG9zLAotCQkJCQkJCSAgICAgICAmc3RpbWUsICZldGltZSwK
+LQkJCQkJCQkgICAgICAgbW9kZSk7CisJCWlmIChjcnRjLT5oZWxwZXJfcHJpdmF0ZS0+Z2V0X3Nj
+YW5vdXRfcG9zaXRpb24pIHsKKwkJCXZibF9zdGF0dXMgPQorCQkJCWNydGMtPmhlbHBlcl9wcml2
+YXRlLT5nZXRfc2Nhbm91dF9wb3NpdGlvbigKKwkJCQkJY3J0YywgaW5fdmJsYW5rX2lycSwgJnZw
+b3MsICZocG9zLAorCQkJCQkmc3RpbWUsICZldGltZSwgbW9kZSk7CisJCX0gZWxzZSB7CisJCQl2
+Ymxfc3RhdHVzID0KKwkJCQlkZXYtPmRyaXZlci0+Z2V0X3NjYW5vdXRfcG9zaXRpb24oCisJCQkJ
+CWRldiwgcGlwZSwgaW5fdmJsYW5rX2lycSwgJnZwb3MsCisJCQkJCSZocG9zLCAmc3RpbWUsICZl
+dGltZSwgbW9kZSk7CisJCX0KIAogCQkvKiBSZXR1cm4gYXMgbm8tb3AgaWYgc2Nhbm91dCBxdWVy
+eSB1bnN1cHBvcnRlZCBvciBmYWlsZWQuICovCiAJCWlmICghdmJsX3N0YXR1cykgewpkaWZmIC0t
+Z2l0IGEvaW5jbHVkZS9kcm0vZHJtX2Rydi5oIGIvaW5jbHVkZS9kcm0vZHJtX2Rydi5oCmluZGV4
+IGNmMTM0NzA4MTBhNS4uZDAwNDllNTc4NmZjIDEwMDY0NAotLS0gYS9pbmNsdWRlL2RybS9kcm1f
+ZHJ2LmgKKysrIGIvaW5jbHVkZS9kcm0vZHJtX2Rydi5oCkBAIC0zNjIsMTEgKzM2Miw4IEBAIHN0
+cnVjdCBkcm1fZHJpdmVyIHsKIAkgKiBUcnVlIG9uIHN1Y2Nlc3MsIGZhbHNlIGlmIGEgcmVsaWFi
+bGUgc2Nhbm91dCBwb3NpdGlvbiBjb3VudGVyIGNvdWxkCiAJICogbm90IGJlIHJlYWQgb3V0Lgog
+CSAqCi0JICogRklYTUU6Ci0JICoKLQkgKiBTaW5jZSB0aGlzIGlzIGEgaGVscGVyIHRvIGltcGxl
+bWVudCBAZ2V0X3ZibGFua190aW1lc3RhbXAsIHdlIHNob3VsZAotCSAqIG1vdmUgaXQgdG8gJnN0
+cnVjdCBkcm1fY3J0Y19oZWxwZXJfZnVuY3MsIGxpa2UgYWxsIHRoZSBvdGhlcgotCSAqIGhlbHBl
+ci1pbnRlcm5hbCBob29rcy4KKwkgKiBUaGlzIGlzIGRlcHJlY2F0ZWQgYW5kIHNob3VsZCBub3Qg
+YmUgdXNlZCBieSBuZXcgZHJpdmVycy4KKwkgKiBVc2UgJmRybV9jcnRjX2hlbHBlcl9mdW5jcy5n
+ZXRfc2Nhbm91dF9wb3NpdGlvbiBpbnN0ZWFkLgogCSAqLwogCWJvb2wgKCpnZXRfc2Nhbm91dF9w
+b3NpdGlvbikgKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHVuc2lnbmVkIGludCBwaXBlLAogCQkJ
+CSAgICAgIGJvb2wgaW5fdmJsYW5rX2lycSwgaW50ICp2cG9zLCBpbnQgKmhwb3MsCmRpZmYgLS1n
+aXQgYS9pbmNsdWRlL2RybS9kcm1fbW9kZXNldF9oZWxwZXJfdnRhYmxlcy5oIGIvaW5jbHVkZS9k
+cm0vZHJtX21vZGVzZXRfaGVscGVyX3Z0YWJsZXMuaAppbmRleCA1YTg3ZjFiZDdhM2YuLmUzOTg1
+MTJiZmQ1ZiAxMDA2NDQKLS0tIGEvaW5jbHVkZS9kcm0vZHJtX21vZGVzZXRfaGVscGVyX3Z0YWJs
+ZXMuaAorKysgYi9pbmNsdWRlL2RybS9kcm1fbW9kZXNldF9oZWxwZXJfdnRhYmxlcy5oCkBAIC00
+NTAsNiArNDUwLDUzIEBAIHN0cnVjdCBkcm1fY3J0Y19oZWxwZXJfZnVuY3MgewogCSAqLwogCXZv
+aWQgKCphdG9taWNfZGlzYWJsZSkoc3RydWN0IGRybV9jcnRjICpjcnRjLAogCQkJICAgICAgIHN0
+cnVjdCBkcm1fY3J0Y19zdGF0ZSAqb2xkX2NydGNfc3RhdGUpOworCisJLyoqCisJICogQGdldF9z
+Y2Fub3V0X3Bvc2l0aW9uOgorCSAqCisJICogQ2FsbGVkIGJ5IHZibGFuayB0aW1lc3RhbXBpbmcg
+Y29kZS4KKwkgKgorCSAqIFJldHVybnMgdGhlIGN1cnJlbnQgZGlzcGxheSBzY2Fub3V0IHBvc2l0
+aW9uIGZyb20gYSBDUlRDIGFuZCBhbgorCSAqIG9wdGlvbmFsIGFjY3VyYXRlIGt0aW1lX2dldCgp
+IHRpbWVzdGFtcCBvZiB3aGVuIHRoZSBwb3NpdGlvbiB3YXMKKwkgKiBtZWFzdXJlZC4gTm90ZSB0
+aGF0IHRoaXMgaXMgYSBoZWxwZXIgY2FsbGJhY2sgd2hpY2ggaXMgb25seSB1c2VkCisJICogaWYg
+YSBkcml2ZXIgdXNlcyBkcm1fY2FsY192Ymx0aW1lc3RhbXBfZnJvbV9zY2Fub3V0cG9zKCkgZm9y
+IHRoZQorCSAqIEBkcm1fZHJpdmVyLmdldF92YmxhbmtfdGltZXN0YW1wIGNhbGxiYWNrLgorCSAq
+CisJICogUGFyYW1ldGVyczoKKwkgKgorCSAqIGNydGM6CisJICogICAgIFRoZSBDUlRDLgorCSAq
+IGluX3ZibGFua19pcnE6CisJICogICAgIFRydWUgd2hlbiBjYWxsZWQgZnJvbSBkcm1fY3J0Y19o
+YW5kbGVfdmJsYW5rKCkuIFNvbWUgZHJpdmVycworCSAqICAgICBuZWVkIHRvIGFwcGx5IHNvbWUg
+d29ya2Fyb3VuZHMgZm9yIGdwdS1zcGVjaWZpYyB2YmxhbmsgaXJxCisJICogICAgIHF1aXJrcyBp
+ZiB0aGUgZmxhZyBpcyBzZXQuCisJICogdnBvczoKKwkgKiAgICAgVGFyZ2V0IGxvY2F0aW9uIGZv
+ciBjdXJyZW50IHZlcnRpY2FsIHNjYW5vdXQgcG9zaXRpb24uCisJICogaHBvczoKKwkgKiAgICAg
+VGFyZ2V0IGxvY2F0aW9uIGZvciBjdXJyZW50IGhvcml6b250YWwgc2Nhbm91dCBwb3NpdGlvbi4K
+KwkgKiBzdGltZToKKwkgKiAgICAgVGFyZ2V0IGxvY2F0aW9uIGZvciB0aW1lc3RhbXAgdGFrZW4g
+aW1tZWRpYXRlbHkgYmVmb3JlCisJICogICAgIHNjYW5vdXQgcG9zaXRpb24gcXVlcnkuIENhbiBi
+ZSBOVUxMIHRvIHNraXAgdGltZXN0YW1wLgorCSAqIGV0aW1lOgorCSAqICAgICBUYXJnZXQgbG9j
+YXRpb24gZm9yIHRpbWVzdGFtcCB0YWtlbiBpbW1lZGlhdGVseSBhZnRlcgorCSAqICAgICBzY2Fu
+b3V0IHBvc2l0aW9uIHF1ZXJ5LiBDYW4gYmUgTlVMTCB0byBza2lwIHRpbWVzdGFtcC4KKwkgKiBt
+b2RlOgorCSAqICAgICBDdXJyZW50IGRpc3BsYXkgdGltaW5ncy4KKwkgKgorCSAqIFJldHVybnMg
+dnBvcyBhcyBhIHBvc2l0aXZlIG51bWJlciB3aGlsZSBpbiBhY3RpdmUgc2Nhbm91dCBhcmVhLgor
+CSAqIFJldHVybnMgdnBvcyBhcyBhIG5lZ2F0aXZlIG51bWJlciBpbnNpZGUgdmJsYW5rLCBjb3Vu
+dGluZyB0aGUgbnVtYmVyCisJICogb2Ygc2NhbmxpbmVzIHRvIGdvIHVudGlsIGVuZCBvZiB2Ymxh
+bmssIGUuZy4sIC0xIG1lYW5zICJvbmUgc2NhbmxpbmUKKwkgKiB1bnRpbCBzdGFydCBvZiBhY3Rp
+dmUgc2Nhbm91dCAvIGVuZCBvZiB2YmxhbmsuIgorCSAqCisJICogUmV0dXJuczoKKwkgKgorCSAq
+IFRydWUgb24gc3VjY2VzcywgZmFsc2UgaWYgYSByZWxpYWJsZSBzY2Fub3V0IHBvc2l0aW9uIGNv
+dW50ZXIgY291bGQKKwkgKiBub3QgYmUgcmVhZCBvdXQuCisJICovCisJYm9vbCAoKmdldF9zY2Fu
+b3V0X3Bvc2l0aW9uKShzdHJ1Y3QgZHJtX2NydGMgKmNydGMsCisJCQkJICAgICBib29sIGluX3Zi
+bGFua19pcnEsIGludCAqdnBvcywgaW50ICpocG9zLAorCQkJCSAgICAga3RpbWVfdCAqc3RpbWUs
+IGt0aW1lX3QgKmV0aW1lLAorCQkJCSAgICAgY29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X21vZGUg
+Km1vZGUpOwogfTsKIAogLyoqCi0tIAoyLjI0LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
+c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL2RyaS1kZXZlbAo=
