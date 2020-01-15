@@ -1,26 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D832313C176
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 13:46:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC8F513C179
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 13:46:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFB146E9B0;
-	Wed, 15 Jan 2020 12:46:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D4BE6E9B3;
+	Wed, 15 Jan 2020 12:46:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from andre.telenet-ops.be (andre.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA16A6E9B3
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB84C6E9B0
  for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 12:46:00 +0000 (UTC)
-Received: from ramsan ([84.195.182.253]) by andre.telenet-ops.be with bizsmtp
- id qclr2100Q5USYZQ01clrg9; Wed, 15 Jan 2020 13:45:58 +0100
+Received: from ramsan ([84.195.182.253])
+ by baptiste.telenet-ops.be with bizsmtp
+ id qclq210045USYZQ01clqd9; Wed, 15 Jan 2020 13:45:57 +0100
 Received: from rox.of.borg ([192.168.97.57]) by ramsan with esmtp (Exim 4.90_1)
  (envelope-from <geert@linux-m68k.org>)
- id 1iri3S-0003z0-3D; Wed, 15 Jan 2020 13:45:50 +0100
+ id 1iri3S-0003yz-3C; Wed, 15 Jan 2020 13:45:50 +0100
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
  (envelope-from <geert@linux-m68k.org>)
- id 1iri3S-00012X-03; Wed, 15 Jan 2020 13:45:50 +0100
+ id 1iri3S-00012Z-1m; Wed, 15 Jan 2020 13:45:50 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
  David Lechner <david@lechnology.com>, David Airlie <airlied@linux.ie>,
@@ -28,10 +29,13 @@ To: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
  Mark Rutland <mark.rutland@arm.com>
-Subject: [PATCH v2 0/5] drm: Add support for Okaya RH128128T
-Date: Wed, 15 Jan 2020 13:45:43 +0100
-Message-Id: <20200115124548.3951-1-geert+renesas@glider.be>
+Subject: [PATCH v2 1/5] dt-bindings: display: sitronix,
+ st7735r: Convert to DT schema
+Date: Wed, 15 Jan 2020 13:45:44 +0100
+Message-Id: <20200115124548.3951-2-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200115124548.3951-1-geert+renesas@glider.be>
+References: <20200115124548.3951-1-geert+renesas@glider.be>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,74 +59,151 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-	Hi all,
+Convert the DT binding documentation for Sitronix ST7735R displays to DT
+schema.
 
-This patch series adds support for the Okaya RH128128T LCD to the
-existing ST7735R driver.  This is a 128x128 1.4" TFT display driven by a
-Sitronix ST7715R TFT Controller/Driver.  It is used on e.g. the Renesas
-YRSK-LCD-PMOD extension board, which is shipped with Renesas RSK+RZA1
-development boards[1], and with several other Renesas starter kits, for
-RX, Synergy, and RZ/T1 MCUs and SoCs.
+Add a reference to the Adafruit 1.8" LCD while at it.
 
-Changes compared to v1[2]:
-  - Convert DT bindings to DT schema,
-  - Add YRSK-LCD-PMOD reference and links,
-  - Add Reviewed-by,
-  - Split driver preparation and adding actual support in two separate
-    patches,
-  - Replace st7735r_priv.rgb by a pointer to struct st7735r_cfg,
-  - Change prefix of jd_t18003_t01_pipe_enable() and
-    jd_t18003_t01_pipe_funcs(),
-  - Update Kconfig help text,
-  - Improve file comment header.
-
-This has been tested using the r7s72100-rskrza1-pmod-spi.dtso and
-r7s72100-rskrza1-pmod2-lcd.dtso DT overlays[3].
-Note that for using this on RSK+RZA1, there is a dependency on RSPI
-cs-gpios support (now in linux-next).
-With DT overlays, this also depends on DT overlays[4] and gpio-hog
-overlay support[5].
-
-Thanks!
-
-[1] https://renesasrulz.com/the_vault/f/archive-forum/4981/upgrading-to-the-renesas-rz-a1h
-[1] https://lore.kernel.org/dri-devel/20200102141246.370-1-geert+renesas@glider.be/
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/log/?h=topic/renesas-overlays
-[4] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/log/?h=topic/overlays
-[5] "[PATCH/RFC 0/2] gpio: of: Add DT overlay support for GPIO hogs"
-    https://lore.kernel.org/lkml/20191230133852.5890-1-geert+renesas@glider.be/
-
-Geert Uytterhoeven (5):
-  dt-bindings: display: sitronix,st7735r: Convert to DT schema
-  dt-bindings: display: sitronix,st7735r: Add Okaya RH128128T
-  drm/mipi_dbi: Add support for display offsets
-  drm: tiny: st7735r: Prepare for adding support for more displays
-  drm: tiny: st7735r: Add support for Okaya RH128128T
-
- .../bindings/display/sitronix,st7735r.txt     | 35 ---------
- .../bindings/display/sitronix,st7735r.yaml    | 71 +++++++++++++++++
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+v2:
+  - New.
+---
+ .../bindings/display/sitronix,st7735r.txt     | 35 ----------
+ .../bindings/display/sitronix,st7735r.yaml    | 65 +++++++++++++++++++
  MAINTAINERS                                   |  2 +-
- drivers/gpu/drm/drm_mipi_dbi.c                | 30 +++++---
- drivers/gpu/drm/tiny/Kconfig                  |  8 +-
- drivers/gpu/drm/tiny/st7735r.c                | 76 +++++++++++++++----
- include/drm/drm_mipi_dbi.h                    | 12 +++
- 7 files changed, 170 insertions(+), 64 deletions(-)
+ 3 files changed, 66 insertions(+), 36 deletions(-)
  delete mode 100644 Documentation/devicetree/bindings/display/sitronix,st7735r.txt
  create mode 100644 Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
 
+diff --git a/Documentation/devicetree/bindings/display/sitronix,st7735r.txt b/Documentation/devicetree/bindings/display/sitronix,st7735r.txt
+deleted file mode 100644
+index cd5c7186890a2be7..0000000000000000
+--- a/Documentation/devicetree/bindings/display/sitronix,st7735r.txt
++++ /dev/null
+@@ -1,35 +0,0 @@
+-Sitronix ST7735R display panels
+-
+-This binding is for display panels using a Sitronix ST7735R controller in SPI
+-mode.
+-
+-Required properties:
+-- compatible:	"jianda,jd-t18003-t01", "sitronix,st7735r"
+-- dc-gpios:	Display data/command selection (D/CX)
+-- reset-gpios:	Reset signal (RSTX)
+-
+-The node for this driver must be a child node of a SPI controller, hence
+-all mandatory properties described in ../spi/spi-bus.txt must be specified.
+-
+-Optional properties:
+-- rotation:	panel rotation in degrees counter clockwise (0,90,180,270)
+-- backlight:	phandle of the backlight device attached to the panel
+-
+-Example:
+-
+-	backlight: backlight {
+-		compatible = "gpio-backlight";
+-		gpios = <&gpio 44 GPIO_ACTIVE_HIGH>;
+-	};
+-
+-	...
+-
+-	display@0{
+-		compatible = "jianda,jd-t18003-t01", "sitronix,st7735r";
+-		reg = <0>;
+-		spi-max-frequency = <32000000>;
+-		dc-gpios = <&gpio 43 GPIO_ACTIVE_HIGH>;
+-		reset-gpios = <&gpio 80 GPIO_ACTIVE_HIGH>;
+-		rotation = <270>;
+-		backlight = &backlight;
+-	};
+diff --git a/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml b/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
+new file mode 100644
+index 0000000000000000..21bccc91f74255e1
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
+@@ -0,0 +1,65 @@
++# SPDX-License-Identifier: GPL-2.0-only
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/sitronix,st7735r.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Sitronix ST7735R Display Panels Device Tree Bindings
++
++maintainers:
++  - David Lechner <david@lechnology.com>
++
++description:
++  This binding is for display panels using a Sitronix ST7735R controller in
++  SPI mode.
++
++allOf:
++  - $ref: panel/panel-common.yaml#
++
++properties:
++  compatible:
++    oneOf:
++      - description:
++          Adafruit 1.8" 160x128 Color TFT LCD (Product ID 358 or 618)
++        items:
++          - enum:
++              - jianda,jd-t18003-t01
++          - const: sitronix,st7735r
++
++  spi-max-frequency:
++    maximum: 32000000
++
++  dc-gpios:
++    maxItems: 1
++    description: Display data/command selection (D/CX)
++
++required:
++  - compatible
++  - reg
++  - dc-gpios
++  - reset-gpios
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    backlight: backlight {
++            compatible = "gpio-backlight";
++            gpios = <&gpio 44 GPIO_ACTIVE_HIGH>;
++    };
++
++    spi {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            display@0{
++                    compatible = "jianda,jd-t18003-t01", "sitronix,st7735r";
++                    reg = <0>;
++                    spi-max-frequency = <32000000>;
++                    dc-gpios = <&gpio 43 GPIO_ACTIVE_HIGH>;
++                    reset-gpios = <&gpio 80 GPIO_ACTIVE_HIGH>;
++                    rotation = <270>;
++            };
++    };
++
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ea8262509bdd21ac..3007f83bd504194a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5382,7 +5382,7 @@ M:	David Lechner <david@lechnology.com>
+ T:	git git://anongit.freedesktop.org/drm/drm-misc
+ S:	Maintained
+ F:	drivers/gpu/drm/tiny/st7735r.c
+-F:	Documentation/devicetree/bindings/display/sitronix,st7735r.txt
++F:	Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
+ 
+ DRM DRIVER FOR SONY ACX424AKP PANELS
+ M:	Linus Walleij <linus.walleij@linaro.org>
 -- 
 2.17.1
 
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
