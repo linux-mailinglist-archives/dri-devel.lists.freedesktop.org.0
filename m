@@ -1,56 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6826613C599
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 15:15:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA49713C5BF
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 15:18:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D9FF6E9FD;
-	Wed, 15 Jan 2020 14:15:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9CFA6EA07;
+	Wed, 15 Jan 2020 14:17:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pio-pvt-msa2.bahnhof.se (pio-pvt-msa2.bahnhof.se [79.136.2.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C5BB6E9FD
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 14:15:49 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTP id 8729E3F53F;
- Wed, 15 Jan 2020 15:15:47 +0100 (CET)
-Authentication-Results: pio-pvt-msa2.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=HKoB5nYO; 
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
- autolearn=ham autolearn_force=no
-Received: from pio-pvt-msa2.bahnhof.se ([127.0.0.1])
- by localhost (pio-pvt-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id o--5bJm1gjP6; Wed, 15 Jan 2020 15:15:46 +0100 (CET)
-Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
- [155.4.205.35]) (Authenticated sender: mb878879)
- by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id 351163F462;
- Wed, 15 Jan 2020 15:15:44 +0100 (CET)
-Received: from localhost.localdomain.localdomain
- (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 48ABC360315;
- Wed, 15 Jan 2020 15:15:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1579097744; bh=xouYrhGGt+sbB4F2j/bQU9tm6EbEYYEXMviV1lMl2VA=;
- h=From:To:Cc:Subject:Date:From;
- b=HKoB5nYOs5pu7x5cyYWIJpsA4OGI/zQNn4Dg9rkA98WI3/JpL+Ib0IUgGJPhFCCFa
- 7sYWLnBXbqYAvqjmFniTZsg3dvYU+x8CFcDlnzdqC/Jp03u6ZwrYknkw+yGS/Q4DK0
- MJONQgcKPtEp7WHLwAITEOJhw75s9jWZmE6k8wQg=
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m=20=28VMware=29?=
- <thomas_os@shipmail.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/vmwgfx: Use VM_PFNMAP instead of VM_MIXEDMAP when possible
-Date: Wed, 15 Jan 2020 15:15:36 +0100
-Message-Id: <20200115141536.2819-1-thomas_os@shipmail.org>
-X-Mailer: git-send-email 2.21.0
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 643B96EA02;
+ Wed, 15 Jan 2020 14:17:55 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 15 Jan 2020 06:17:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,322,1574150400"; d="scan'208";a="213715688"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga007.jf.intel.com with SMTP; 15 Jan 2020 06:17:51 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 15 Jan 2020 16:17:50 +0200
+Date: Wed, 15 Jan 2020 16:17:50 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/dp: Add current maximum eDP link
+ rate to sink_rate array.
+Message-ID: <20200115141750.GX13686@intel.com>
+References: <20200109150752.28098-1-mario.kleiner.de@gmail.com>
+ <CADnq5_PvPD+FyEwUrqDVmbdLrP6ZC72HPtd19bqm-Csx-fHMOA@mail.gmail.com>
+ <CAEsyxyjTvuCHHA3D-NJd=aGkHz2d=obSizwGQL8B4k1B7i2jJg@mail.gmail.com>
+ <CADnq5_NPdg8MjQ5cB2aCD+US1Hv+FoP1gqKcA4W2e0pouG8cGQ@mail.gmail.com>
+ <CAEsyxyjMsCU8rzyO0GewU_-uV5+UoDDwa5Mc74irUnJHhF6ALQ@mail.gmail.com>
+ <bae132f3-73e6-5004-c9a9-adb632338268@amd.com>
+ <20200110180944.GL13686@intel.com> <87o8v4kif9.fsf@intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <87o8v4kif9.fsf@intel.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,47 +54,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Roland Scheidegger <sroland@vmware.com>,
- Thomas Hellstrom <thellstrom@vmware.com>, linux-graphics-maintainer@vmware.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: mario.kleiner.de@gmail.de, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Harry Wentland <hwentlan@amd.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thomas Hellstrom <thellstrom@vmware.com>
+On Wed, Jan 15, 2020 at 02:34:02PM +0200, Jani Nikula wrote:
+> On Fri, 10 Jan 2020, Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com> wr=
+ote:
+> > On Thu, Jan 09, 2020 at 04:26:19PM -0500, Harry Wentland wrote:
+> >> =
 
-For shared, and read-only private mappings of graphics memory, use
-VM_PFNMAP instead of VM_MIXEDMAP. This means less accounting overhead
-when inserting and removing page-table entries. TTM doesn't do this
-by default, since there was a performance problem with book-keeping of
-write-combined mappings. Since vmwgfx solely uses cached mappings, that's
-not a problem and now that the TTM vm has largely been turned into
-helpers, we can use VM_PFNMAP on a per-driver basis
+> >> =
 
-Signed-off-by: Thomas Hellstrom <thellstrom@vmware.com>
-Reviewed-by: Roland Scheidegger <sroland@vmware.com>
----
- drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c | 4 ++++
- 1 file changed, 4 insertions(+)
+> >> On 2020-01-09 4:04 p.m., Mario Kleiner wrote:
+> >> > On Thu, Jan 9, 2020 at 8:49 PM Alex Deucher <alexdeucher@gmail.com
+> >> > <mailto:alexdeucher@gmail.com>> wrote:
+> >> >
+> >> >     On Thu, Jan 9, 2020 at 11:47 AM Mario Kleiner
+> >> >     <mario.kleiner.de@gmail.com <mailto:mario.kleiner.de@gmail.com>>
+> >> >     wrote:
+> >> >     >
+> >> >     > On Thu, Jan 9, 2020 at 4:40 PM Alex Deucher
+> >> >     <alexdeucher@gmail.com <mailto:alexdeucher@gmail.com>> wrote:
+> >> >     >>
+> >> >     >> On Thu, Jan 9, 2020 at 10:08 AM Mario Kleiner
+> >> >     >> <mario.kleiner.de@gmail.com
+> >> >     <mailto:mario.kleiner.de@gmail.com>> wrote:
+> >> >     >> >
+> >> >     As Harry mentioned in the other thread, won't this only work if =
+the
+> >> >     display was brought up by the vbios?=A0 In the suspend/resume ca=
+se,
+> >> >     won't we just fall back to 2.7Gbps?
+> >> >
+> >> >     Alex
+> >> >
+> >> >
+> >> > Adding Harry to cc...
+> >> >
+> >> > The code is only executed for eDP. On the Intel side, it seems that
+> >> > intel_edp_init_dpcd() gets only called during driver load /
+> >> > modesetting init, so not on resume.
+> >> >
+> >> > On the AMD DC side, dc_link_detect_helper() has this early no-op
+> >> > return at the beginning:
+> >> >
+> >> > if ((link->connector_signal =3D=3D SIGNAL_TYPE_LVDS ||
+> >> > 			link->connector_signal =3D=3D SIGNAL_TYPE_EDP) &&
+> >> > 			link->local_sink)
+> >> > 		return true;
+> >> >
+> >> > So i guess if link->local_sink doesn't get NULL'ed during a
+> >> > suspend/resume cycle, then we never reach the setup code that would
+> >> > overwrite with non vbios settings?
+> >> >
+> >> > Sounds reasonable to me, given that eDP panels are usually fixed
+> >> > internal panels, nothing that gets hot(un-)plugged?
+> >> >
+> >> > I can't test, because suspend/resume with the Polaris gpu on the MBP
+> >> > 2017 is totally broken atm., just as vgaswitcheroo can't do its job.
+> >> > Looks like powering down the gpu works, but powering up doesn't. And
+> >> > also modesetting at vgaswitcheroo switch time is no-go, because the
+> >> > DDC/AUX lines apparently can't be switched on that Apple gmux, and
+> >> > handover of that data seems to be not implemented in current
+> >> > vgaswitcheroo. At the moment switching between AMD only or Intel+AMD
+> >> > Prime setup is quite a pita...
+> >> >
+> >> =
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
-index ce288756531b..aa7e50f63b94 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
-@@ -45,6 +45,10 @@ int vmw_mmap(struct file *filp, struct vm_area_struct *vma)
- 
- 	vma->vm_ops = &vmw_vm_ops;
- 
-+	/* Use VM_PFNMAP rather than VM_MIXEDMAP if not a COW mapping */
-+	if ((vma->vm_flags & (VM_SHARED | VM_MAYWRITE)) != VM_MAYWRITE)
-+		vma->vm_flags = (vma->vm_flags & ~VM_MIXEDMAP) | VM_PFNMAP;
-+
- 	return 0;
- }
- 
--- 
-2.21.0
+> >> I haven't followed the entire discussion on the i915 thread but for the
+> >> amdgpu dc patch I would prefer a DPCD quirk to override the reported
+> >> link settings with the correct link rate.
+> >
+> > We could consider adding a standard function for reading the receiver
+> > caps and applying the quirk there. I have a feeling that putting it
+> > into drm_dp_dpcd_read() would be a bit too low level since it would
+> > prevent reading the non-quirked raw data easily.
+> =
 
+> Everything about this panel is ugly.
+> =
+
+> The panel does not claim to support extended receiver caps. (I have not
+> seen whether there is non-zero data at 0x2200. Mario, please provide a
+> dump of that DPCD region.)
+> =
+
+> The panel does use DPCD_DISPLAY_CONTROL_CAPABLE and reports eDP 1.3 in
+> EDP_DPCD_REV.
+> =
+
+> eDP 1.3 says only four values are supported in LINK_BW_SET (0x06, 0x0a,
+> 0x14, and 0x1e). The same for MAX_LINK_RATE for all DP, and even in the
+> extended receiver cap.
+> =
+
+> You could perhaps make the case for the interpretation in commit
+> 57a1b0893782 ("drm: Make the bw/link rate calculations more forgiving")
+> that in eDP 1.4+ you can use arbitrary values in LINK_BW_SET. But I
+> think that's a stretch, really. And anyway the panel reports eDP 1.3.
+> =
+
+> The panel is consistent in that it does not claim to support link rate
+> selection nor does it have anything in SUPPORTED_LINK_RATES which are
+> eDP 1.4+ features.
+> =
+
+> However, the panel reports 0x0a as the max link rate in MAX_LINK_RATE,
+> which exceeds the value 0x0c set in LINK_BW_SET by the firmware.
+> =
+
+> Bottom line is, *if* we're going to support this proprietary crap of a
+> panel, it *must* be an isolated quirk. I certainly won't take a patch
+> generalizing this to any panel out there. But you're going to have to be
+> pretty clever to isolate this crap. I'm not sure if quirking a homebrew
+> extended receiver cap is going to be enough.
+
+drm_dp_read_receiver_caps()
+{
+	dpcd_read(dpcd);
+	if (quirk) {
+		DRM_DEBUG_KMS("blah");
+		dpcd[MAX_BW] =3D 0xc;
+	}
+}
+
+intel_dp_sink_rates()
+{
+	...
+	if (max_bw > rates[i-1])
+		rates[i++] =3D max_bw;
+}
+
+Would seem more or less OK to me. And doing it this way would also
+cover the MyDP 6.75 case automagically.
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
