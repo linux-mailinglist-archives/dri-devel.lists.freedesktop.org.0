@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35D6F13C4B3
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 15:01:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4A3E13C4B4
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 15:01:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6972A6EA1A;
-	Wed, 15 Jan 2020 14:01:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 282B66EA20;
+	Wed, 15 Jan 2020 14:01:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
- by gabe.freedesktop.org (Postfix) with ESMTP id DBFB16EA12
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0F6206EA20
  for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 14:01:16 +0000 (UTC)
-X-UUID: 5b56a25171ea4de8be2b2551f0f22d19-20200115
+X-UUID: e17ba0cc0d9142efad2d09c625ac8f73-20200115
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=H5OZq43lseoJbAte5FGzei/it0uT9wMq/wUce9c8DTk=; 
- b=JmgJQc3/hSwa48Q+/GaXplBGTW5etoyFta+WFutOWKAhAIlFat3CQykCD0JXHo9wZZSPYtanrmAzQcofSUpjXKs4ceavhureOKTQiibcJXbRe2FNFNxCm7nQIqiHAkOkVqPwAGsrqkLtIYdSUAUtUxRexMz4MzNornXZ/BvAFaY=;
-X-UUID: 5b56a25171ea4de8be2b2551f0f22d19-20200115
+ bh=oZYrr2LEPwbdNLpuKoMeOVVJNsOiZbhJJb8h4ktYfYk=; 
+ b=FVmk2u9djdawoG27yWeax2/PSlVH6YSNQQlZb+JlmRRjUmcGLjCITtnmp4ilLuaxZxSCxNzstDPBaua9KoUaQg1H0fp8ZsWdg1hT5nvhO9pP5AIxLbgsO4WNTZTw3liLQ1M6JpeaWN7cFJWE9xcZhyWRx8O62mpRUxNR2B/smCQ=;
+X-UUID: e17ba0cc0d9142efad2d09c625ac8f73-20200115
 Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
  (envelope-from <jitao.shi@mediatek.com>)
  (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 365432629; Wed, 15 Jan 2020 22:01:11 +0800
-Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS33DR.mediatek.inc
- (172.27.6.106) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
- Wed, 15 Jan 2020 21:57:56 +0800
+ with ESMTP id 1935524702; Wed, 15 Jan 2020 22:01:13 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS33N2.mediatek.inc
+ (172.27.4.76) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+ Wed, 15 Jan 2020 22:01:40 +0800
 Received: from mszsdclx1018.gcn.mediatek.inc (10.16.6.18) by
  MTKCAS32.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
- 15.0.1395.4 via Frontend Transport; Wed, 15 Jan 2020 22:01:20 +0800
+ 15.0.1395.4 via Frontend Transport; Wed, 15 Jan 2020 22:01:23 +0800
 From: Jitao Shi <jitao.shi@mediatek.com>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg
  <sam@ravnborg.org>, David Airlie <airlied@linux.ie>, Daniel Vetter
  <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
  <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v8 7/8] dt-bindings: display: panel: add AUO auo,
- b101uan08.3 panel documentation
-Date: Wed, 15 Jan 2020 21:59:57 +0800
-Message-ID: <20200115135958.126303-8-jitao.shi@mediatek.com>
+Subject: [PATCH v8 8/8] drm/panel: support for auo,
+ b101uan08.3 wuxga dsi video mode panel
+Date: Wed, 15 Jan 2020 21:59:58 +0800
+Message-ID: <20200115135958.126303-9-jitao.shi@mediatek.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200115135958.126303-1-jitao.shi@mediatek.com>
 References: <20200115135958.126303-1-jitao.shi@mediatek.com>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 47C1A3B39FDDA9CF03CE43C5B4524C4A83E3DB78B2107AD5C928EC188B01A65A2000:8
+X-TM-SNTS-SMTP: 4A2ED715479501E90EC666853CA3146553CBE76094AEC6A42B2C4770B0B57D342000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,95 +64,120 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add dcumentation for auo,b101uan08.3, which is mipi dsi video panel
-and resolution is 1200x1920.
+Auo,auo,b101uan08.3's connector is same as boe,tv101wum-nl6.
+The most codes can be reuse.
+So auo,b101uan08.3 and boe,tv101wum-nl6 use one driver file.
+Add the different parts in driver data.
 
 Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- .../display/panel/auo,b101uan08.3.yaml        | 74 +++++++++++++++++++
- 1 file changed, 74 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/panel/auo,b101uan08.3.yaml
+ .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 78 +++++++++++++++++++
+ 1 file changed, 78 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/auo,b101uan08.3.yaml b/Documentation/devicetree/bindings/display/panel/auo,b101uan08.3.yaml
-new file mode 100644
-index 000000000000..cafa870120fb
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/auo,b101uan08.3.yaml
-@@ -0,0 +1,74 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/auo,b101uan08.3.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+index 0108bff283c5..51001940eab3 100644
+--- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
++++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+@@ -377,6 +377,53 @@ static const struct panel_init_cmd auo_kd101n80_45na_init_cmd[] = {
+ 	{},
+ };
+ 
++static const struct panel_init_cmd auo_b101uan08_3_init_cmd[] = {
++	_INIT_DELAY_CMD(24),
++	_INIT_DCS_CMD(0xB0, 0x01),
++	_INIT_DCS_CMD(0xC0, 0x48),
++	_INIT_DCS_CMD(0xC1, 0x48),
++	_INIT_DCS_CMD(0xC2, 0x47),
++	_INIT_DCS_CMD(0xC3, 0x47),
++	_INIT_DCS_CMD(0xC4, 0x46),
++	_INIT_DCS_CMD(0xC5, 0x46),
++	_INIT_DCS_CMD(0xC6, 0x45),
++	_INIT_DCS_CMD(0xC7, 0x45),
++	_INIT_DCS_CMD(0xC8, 0x64),
++	_INIT_DCS_CMD(0xC9, 0x64),
++	_INIT_DCS_CMD(0xCA, 0x4F),
++	_INIT_DCS_CMD(0xCB, 0x4F),
++	_INIT_DCS_CMD(0xCC, 0x40),
++	_INIT_DCS_CMD(0xCD, 0x40),
++	_INIT_DCS_CMD(0xCE, 0x66),
++	_INIT_DCS_CMD(0xCF, 0x66),
++	_INIT_DCS_CMD(0xD0, 0x4F),
++	_INIT_DCS_CMD(0xD1, 0x4F),
++	_INIT_DCS_CMD(0xD2, 0x41),
++	_INIT_DCS_CMD(0xD3, 0x41),
++	_INIT_DCS_CMD(0xD4, 0x48),
++	_INIT_DCS_CMD(0xD5, 0x48),
++	_INIT_DCS_CMD(0xD6, 0x47),
++	_INIT_DCS_CMD(0xD7, 0x47),
++	_INIT_DCS_CMD(0xD8, 0x46),
++	_INIT_DCS_CMD(0xD9, 0x46),
++	_INIT_DCS_CMD(0xDA, 0x45),
++	_INIT_DCS_CMD(0xDB, 0x45),
++	_INIT_DCS_CMD(0xDC, 0x64),
++	_INIT_DCS_CMD(0xDD, 0x64),
++	_INIT_DCS_CMD(0xDE, 0x4F),
++	_INIT_DCS_CMD(0xDF, 0x4F),
++	_INIT_DCS_CMD(0xE0, 0x40),
++	_INIT_DCS_CMD(0xE1, 0x40),
++	_INIT_DCS_CMD(0xE2, 0x66),
++	_INIT_DCS_CMD(0xE3, 0x66),
++	_INIT_DCS_CMD(0xE4, 0x4F),
++	_INIT_DCS_CMD(0xE5, 0x4F),
++	_INIT_DCS_CMD(0xE6, 0x41),
++	_INIT_DCS_CMD(0xE7, 0x41),
++	_INIT_DELAY_CMD(150),
++	{},
++};
 +
-+title: AUO B101UAN08.3 DSI Display Panel
+ static inline struct boe_panel *to_boe_panel(struct drm_panel *panel)
+ {
+ 	return container_of(panel, struct boe_panel, base);
+@@ -621,6 +668,34 @@ static const struct panel_desc boe_tv101wum_n53_desc = {
+ 	.init_cmds = boe_init_cmd,
+ };
+ 
++static const struct drm_display_mode auo_b101uan08_3_default_mode = {
++	.clock = 159667,
++	.hdisplay = 1200,
++	.hsync_start = 1200 + 60,
++	.hsync_end = 1200 + 60 + 4,
++	.htotal = 1200 + 60 + 4 + 80,
++	.vdisplay = 1920,
++	.vsync_start = 1920 + 34,
++	.vsync_end = 1920 + 34 + 2,
++	.vtotal = 1920 + 34 + 2 + 24,
++	.vrefresh = 60,
++	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
++};
 +
-+maintainers:
-+  - Thierry Reding <thierry.reding@gmail.com>
-+  - Sam Ravnborg <sam@ravnborg.org>
-+  - Rob Herring <robh+dt@kernel.org>
++static const struct panel_desc auo_b101uan08_3_desc = {
++	.modes = &auo_b101uan08_3_default_mode,
++	.bpc = 8,
++	.size = {
++		.width_mm = 135,
++		.height_mm = 216,
++	},
++	.lanes = 4,
++	.format = MIPI_DSI_FMT_RGB888,
++	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
++		      MIPI_DSI_MODE_LPM,
++	.init_cmds = auo_b101uan08_3_init_cmd,
++};
 +
-+allOf:
-+  - $ref: panel-common.yaml#
-+
-+properties:
-+  compatible:
-+        const: auo,b101uan08.3
-+
-+  reg:
-+    description: the virtual channel number of a DSI peripheral
-+
-+  enable-gpios:
-+    description: a GPIO spec for the enable pin
-+
-+  pp1800-supply:
-+    description: core voltage supply
-+
-+  avdd-supply:
-+    description: phandle of the regulator that provides positive voltage
-+
-+  avee-supply:
-+    description: phandle of the regulator that provides negative voltage
-+
-+  backlight:
-+    description: phandle of the backlight device attached to the panel
-+
-+  port: true
-+
-+required:
-+ - compatible
-+ - reg
-+ - enable-gpios
-+ - pp1800-supply
-+ - avdd-supply
-+ - avee-supply
-+ - backlight
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    dsi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        panel@0 {
-+            compatible = "auo,b101uan08.3";
-+            reg = <0>;
-+            enable-gpios = <&pio 45 0>;
-+            avdd-supply = <&ppvarn_lcd>;
-+            avee-supply = <&ppvarp_lcd>;
-+            pp1800-supply = <&pp1800_lcd>;
-+            backlight = <&backlight_lcd0>;
-+            status = "okay";
-+            port {
-+                panel_in: endpoint {
-+                    remote-endpoint = <&dsi_out>;
-+                };
-+            };
-+        };
-+    };
-+
-+...
+ static int boe_panel_get_modes(struct drm_panel *panel,
+ 			       struct drm_connector *connector)
+ {
+@@ -756,6 +831,9 @@ static const struct of_device_id boe_of_match[] = {
+ 	{ .compatible = "boe,tv101wum-n53",
+ 	  .data = &boe_tv101wum_n53_desc
+ 	},
++	{ .compatible = "auo,b101uan08.3",
++	  .data = &auo_b101uan08_3_desc
++	},
+ 	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, boe_of_match);
 -- 
 2.21.0
 _______________________________________________
