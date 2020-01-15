@@ -2,50 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CFE613B898
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 05:09:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8891D13BA57
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 08:31:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 442316E84E;
-	Wed, 15 Jan 2020 04:09:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF0696E85C;
+	Wed, 15 Jan 2020 07:31:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com
- [IPv6:2607:f8b0:4864:20::e2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 856A96E844
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 04:09:20 +0000 (UTC)
-Received: by mail-vs1-xe2f.google.com with SMTP id s16so9657616vsc.10
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2020 20:09:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=SdtBfNL8DEKtIYDZw9q4/SCjOHJSoHBQdNSEDeslsBo=;
- b=kxl5QZVLUGm0LXsmSfmEkn+N2sIhsUeP4ajNtV4OlNanrXKoz+rvaFmJ4oM+fhBApl
- dCGuLP8uCS9CQ7W8DBYtK+rdnX1Xn6lGRmtpR8OEqqDy51BO4qP2aPqZ01kzXkLODgS2
- sjqZBtK8M6ikulXxcBPBa+jXMozEphZFsNBiL1irrKzzJZbA703DdpiMnxakFUBZunBN
- eZ/Fvng8GMChkNQEz895sQvJfPmRdHfiGi+RwhwREKcUbsV9/XxdfBOIGFClIyWgA2B5
- lx8Eh96aCQjKEuApkKXWdTEsM6p+/YsE4pSPHUsJSch2IasQ2iH1UzF7vRmGtmhFT9rq
- laAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=SdtBfNL8DEKtIYDZw9q4/SCjOHJSoHBQdNSEDeslsBo=;
- b=FcCZ8IQZNP81j2pdG/REmm3zgZT8dqzh74KGrjLc7zI7Po7pmIdq3jIdjEg+nntNFO
- VAPtQV76D2GuarLZhm9cYA8TSe8dLvCdzykSuCxYIn/ZAEfBVtkOPA3M77Fmofwly/jd
- KELDKktNFHdyT9+pHN5NB0bgsZsqCSnx0H5kYGmvSb/rq2L8+eRoRzDObeMk5p6Yh0BG
- nHwjrj8wts2pWNHl16Y8EqL1emr1eJ8pCR+8uc49qTjX4V1M6M9fqx+1je8a4DeQXdla
- +0cSGs4TQ912nu/j0zu73d1U2DvvEqQQApNzvqDz6xTuEwhayTlVGVpbcmJBo9bFlxSl
- AIwg==
-X-Gm-Message-State: APjAAAUOTtlMT5Y3bwioScfIQqhKcmVrjncoBFuMMOu21jBu3sQw2bOv
- 0ZxE0//pI52Q8jTWNm1KrkEEJmLAMVqZ0QnRsnHECx3dIXs=
-X-Google-Smtp-Source: APXvYqz6ZLWZygtvEGe4QwfiPtSTIaMh3yLEbm4iAntmRnJse8EEvTP0FUQCHRnfM7pJBSOJMjUxREBgyb2Nt38Qcj0=
-X-Received: by 2002:a67:6345:: with SMTP id x66mr3220472vsb.132.1579061358907; 
- Tue, 14 Jan 2020 20:09:18 -0800 (PST)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AD186E14D;
+ Wed, 15 Jan 2020 07:31:24 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 0261FAD3C;
+ Wed, 15 Jan 2020 07:31:21 +0000 (UTC)
+Subject: Re: [PATCH 01/23] drm: Add get_scanout_position() to struct
+ drm_crtc_helper_funcs
+To: Yannick FERTRE <yannick.fertre@st.com>,
+ "airlied@linux.ie" <airlied@linux.ie>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "David1.Zhou@amd.com" <David1.Zhou@amd.com>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "patrik.r.jakobsson@gmail.com" <patrik.r.jakobsson@gmail.com>,
+ "robdclark@gmail.com" <robdclark@gmail.com>,
+ "sean@poorly.run" <sean@poorly.run>,
+ "benjamin.gaignard@linaro.org" <benjamin.gaignard@linaro.org>,
+ Vincent ABRIOU <vincent.abriou@st.com>,
+ Philippe CORNU <philippe.cornu@st.com>,
+ "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
+ Alexandre TORGUE <alexandre.torgue@st.com>, "eric@anholt.net"
+ <eric@anholt.net>,
+ "rodrigosiqueiramelo@gmail.com" <rodrigosiqueiramelo@gmail.com>,
+ "hamohammed.sa@gmail.com" <hamohammed.sa@gmail.com>,
+ "linux-graphics-maintainer@vmware.com"
+ <linux-graphics-maintainer@vmware.com>,
+ "thellstrom@vmware.com" <thellstrom@vmware.com>,
+ "bskeggs@redhat.com" <bskeggs@redhat.com>,
+ "harry.wentland@amd.com" <harry.wentland@amd.com>,
+ "sunpeng.li@amd.com" <sunpeng.li@amd.com>,
+ "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
+ "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
+ "rodrigo.vivi@intel.com" <rodrigo.vivi@intel.com>
+References: <20200110092127.27847-1-tzimmermann@suse.de>
+ <20200110092127.27847-2-tzimmermann@suse.de>
+ <921ff745-0f2a-0bb6-c758-07174ac26e40@st.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <fdef25cd-8784-c8b5-4cd0-1ffcf5e27695@suse.de>
+Date: Wed, 15 Jan 2020 08:31:16 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-From: Ben Skeggs <skeggsb@gmail.com>
-Date: Wed, 15 Jan 2020 14:09:07 +1000
-Message-ID: <CACAvsv5GKasg9-hEUwp9+aHVJg+nbQ0LukXyudgj6=YKu96jWQ@mail.gmail.com>
-Subject: nouveau-next 5.6
-To: ML dri-devel <dri-devel@lists.freedesktop.org>,
- Dave Airlie <airlied@gmail.com>
+In-Reply-To: <921ff745-0f2a-0bb6-c758-07174ac26e40@st.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,458 +91,297 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============0752273078=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Dave,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0752273078==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="dy8utQKQWBe6XuW8macqRBBoPSguKlppq"
 
-It's a little late in the -next cycle, but final firmware images from
-NVIDIA appear to be ready now, so I've spent the last few days
-testing/tidying up this code to get it ready to upstream - finally.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--dy8utQKQWBe6XuW8macqRBBoPSguKlppq
+Content-Type: multipart/mixed; boundary="SmewxxS8D8HCScoDniLEP9bGTKtCgtZAO";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Yannick FERTRE <yannick.fertre@st.com>,
+ "airlied@linux.ie" <airlied@linux.ie>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "David1.Zhou@amd.com" <David1.Zhou@amd.com>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "patrik.r.jakobsson@gmail.com" <patrik.r.jakobsson@gmail.com>,
+ "robdclark@gmail.com" <robdclark@gmail.com>,
+ "sean@poorly.run" <sean@poorly.run>,
+ "benjamin.gaignard@linaro.org" <benjamin.gaignard@linaro.org>,
+ Vincent ABRIOU <vincent.abriou@st.com>,
+ Philippe CORNU <philippe.cornu@st.com>,
+ "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
+ Alexandre TORGUE <alexandre.torgue@st.com>, "eric@anholt.net"
+ <eric@anholt.net>,
+ "rodrigosiqueiramelo@gmail.com" <rodrigosiqueiramelo@gmail.com>,
+ "hamohammed.sa@gmail.com" <hamohammed.sa@gmail.com>,
+ "linux-graphics-maintainer@vmware.com"
+ <linux-graphics-maintainer@vmware.com>,
+ "thellstrom@vmware.com" <thellstrom@vmware.com>,
+ "bskeggs@redhat.com" <bskeggs@redhat.com>,
+ "harry.wentland@amd.com" <harry.wentland@amd.com>,
+ "sunpeng.li@amd.com" <sunpeng.li@amd.com>,
+ "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
+ "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
+ "rodrigo.vivi@intel.com" <rodrigo.vivi@intel.com>
+Cc: "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>
+Message-ID: <fdef25cd-8784-c8b5-4cd0-1ffcf5e27695@suse.de>
+Subject: Re: [PATCH 01/23] drm: Add get_scanout_position() to struct
+ drm_crtc_helper_funcs
+References: <20200110092127.27847-1-tzimmermann@suse.de>
+ <20200110092127.27847-2-tzimmermann@suse.de>
+ <921ff745-0f2a-0bb6-c758-07174ac26e40@st.com>
+In-Reply-To: <921ff745-0f2a-0bb6-c758-07174ac26e40@st.com>
 
-Brief overview (more info in commit messages):
+--SmewxxS8D8HCScoDniLEP9bGTKtCgtZAO
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-- Rewrite of the ACR (formerly "secure boot") code, both to support
-Turing, support multiple FW revisions, and to make life easier when
-having to debug HW/FW bring-up in the future
-- Support for TU10x graphics engine, TU11x not available yet as FW isn't ready
-- Proper page 'kind' mappings for Turing
-- 10-bit LUT support
-- GP10B (Tegra) fixes
-- Misc other fixes
+Hi
 
-Thanks,
-Ben.
+Am 14.01.20 um 16:31 schrieb Yannick FERTRE:
+> Thanks for the patch.
+>=20
+> Tested-by: Yannick Fertr=C3=A9 <yannick.fertre@st.com>=20
 
-The following changes since commit 688486a49cf500a193dfe15be9eb5aa468887769:
+Thanks for testing all these patches.
 
-  Merge tag 'amd-drm-next-5.6-2020-01-10-dp-mst-dsc' of
-git://people.freedesktop.org/~agd5f/linux into drm-next (2020-01-13
-17:14:34 +1000)
+Best regards
+Thomas
 
-are available in the Git repository at:
+>=20
+> BR
+> Yannick Fertr=C3=A9
+>=20
+>=20
+> On 1/10/20 10:21 AM, Thomas Zimmermann wrote:
+>> The new callback get_scanout_position() reads the current location of
+>> the scanout process. The operation is currentyl located in struct
+>> drm_driver, but really belongs to the CRTC. Drivers will be converted
+>> in separate patches.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>  drivers/gpu/drm/drm_vblank.c             | 24 ++++++++----
+>>  include/drm/drm_drv.h                    |  7 +---
+>>  include/drm/drm_modeset_helper_vtables.h | 47 +++++++++++++++++++++++=
++
+>>  3 files changed, 65 insertions(+), 13 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank=
+=2Ec
+>> index 1659b13b178c..c12f0b333e14 100644
+>> --- a/drivers/gpu/drm/drm_vblank.c
+>> +++ b/drivers/gpu/drm/drm_vblank.c
+>> @@ -30,6 +30,7 @@
+>>  #include <drm/drm_crtc.h>
+>>  #include <drm/drm_drv.h>
+>>  #include <drm/drm_framebuffer.h>
+>> +#include <drm/drm_modeset_helper_vtables.h>
+>>  #include <drm/drm_print.h>
+>>  #include <drm/drm_vblank.h>
+>> =20
+>> @@ -590,7 +591,7 @@ EXPORT_SYMBOL(drm_calc_timestamping_constants);
+>>   * Implements calculation of exact vblank timestamps from given drm_d=
+isplay_mode
+>>   * timings and current video scanout position of a CRTC. This can be =
+directly
+>>   * used as the &drm_driver.get_vblank_timestamp implementation of a k=
+ms driver
+>> - * if &drm_driver.get_scanout_position is implemented.
+>> + * if &drm_crtc_helper_funcs.get_scanout_position is implemented.
+>>   *
+>>   * The current implementation only handles standard video modes. For =
+double scan
+>>   * and interlaced modes the driver is supposed to adjust the hardware=
+ mode
+>> @@ -632,8 +633,9 @@ bool drm_calc_vbltimestamp_from_scanoutpos(struct =
+drm_device *dev,
+>>  	}
+>> =20
+>>  	/* Scanout position query not supported? Should not happen. */
+>> -	if (!dev->driver->get_scanout_position) {
+>> -		DRM_ERROR("Called from driver w/o get_scanout_position()!?\n");
+>> +	if (!dev->driver->get_scanout_position ||
+>> +	    !crtc->helper_private->get_scanout_position) {
+>> +		DRM_ERROR("Called from CRTC w/o get_scanout_position()!?\n");
+>>  		return false;
+>>  	}
+>> =20
+>> @@ -664,11 +666,17 @@ bool drm_calc_vbltimestamp_from_scanoutpos(struc=
+t drm_device *dev,
+>>  		 * Get vertical and horizontal scanout position vpos, hpos,
+>>  		 * and bounding timestamps stime, etime, pre/post query.
+>>  		 */
+>> -		vbl_status =3D dev->driver->get_scanout_position(dev, pipe,
+>> -							       in_vblank_irq,
+>> -							       &vpos, &hpos,
+>> -							       &stime, &etime,
+>> -							       mode);
+>> +		if (crtc->helper_private->get_scanout_position) {
+>> +			vbl_status =3D
+>> +				crtc->helper_private->get_scanout_position(
+>> +					crtc, in_vblank_irq, &vpos, &hpos,
+>> +					&stime, &etime, mode);
+>> +		} else {
+>> +			vbl_status =3D
+>> +				dev->driver->get_scanout_position(
+>> +					dev, pipe, in_vblank_irq, &vpos,
+>> +					&hpos, &stime, &etime, mode);
+>> +		}
+>> =20
+>>  		/* Return as no-op if scanout query unsupported or failed. */
+>>  		if (!vbl_status) {
+>> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+>> index cf13470810a5..d0049e5786fc 100644
+>> --- a/include/drm/drm_drv.h
+>> +++ b/include/drm/drm_drv.h
+>> @@ -362,11 +362,8 @@ struct drm_driver {
+>>  	 * True on success, false if a reliable scanout position counter cou=
+ld
+>>  	 * not be read out.
+>>  	 *
+>> -	 * FIXME:
+>> -	 *
+>> -	 * Since this is a helper to implement @get_vblank_timestamp, we sho=
+uld
+>> -	 * move it to &struct drm_crtc_helper_funcs, like all the other
+>> -	 * helper-internal hooks.
+>> +	 * This is deprecated and should not be used by new drivers.
+>> +	 * Use &drm_crtc_helper_funcs.get_scanout_position instead.
+>>  	 */
+>>  	bool (*get_scanout_position) (struct drm_device *dev, unsigned int p=
+ipe,
+>>  				      bool in_vblank_irq, int *vpos, int *hpos,
+>> diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/dr=
+m_modeset_helper_vtables.h
+>> index 5a87f1bd7a3f..e398512bfd5f 100644
+>> --- a/include/drm/drm_modeset_helper_vtables.h
+>> +++ b/include/drm/drm_modeset_helper_vtables.h
+>> @@ -450,6 +450,53 @@ struct drm_crtc_helper_funcs {
+>>  	 */
+>>  	void (*atomic_disable)(struct drm_crtc *crtc,
+>>  			       struct drm_crtc_state *old_crtc_state);
+>> +
+>> +	/**
+>> +	 * @get_scanout_position:
+>> +	 *
+>> +	 * Called by vblank timestamping code.
+>> +	 *
+>> +	 * Returns the current display scanout position from a CRTC and an
+>> +	 * optional accurate ktime_get() timestamp of when the position was
+>> +	 * measured. Note that this is a helper callback which is only used
+>> +	 * if a driver uses drm_calc_vbltimestamp_from_scanoutpos() for the
+>> +	 * @drm_driver.get_vblank_timestamp callback.
+>> +	 *
+>> +	 * Parameters:
+>> +	 *
+>> +	 * crtc:
+>> +	 *     The CRTC.
+>> +	 * in_vblank_irq:
+>> +	 *     True when called from drm_crtc_handle_vblank(). Some drivers
+>> +	 *     need to apply some workarounds for gpu-specific vblank irq
+>> +	 *     quirks if the flag is set.
+>> +	 * vpos:
+>> +	 *     Target location for current vertical scanout position.
+>> +	 * hpos:
+>> +	 *     Target location for current horizontal scanout position.
+>> +	 * stime:
+>> +	 *     Target location for timestamp taken immediately before
+>> +	 *     scanout position query. Can be NULL to skip timestamp.
+>> +	 * etime:
+>> +	 *     Target location for timestamp taken immediately after
+>> +	 *     scanout position query. Can be NULL to skip timestamp.
+>> +	 * mode:
+>> +	 *     Current display timings.
+>> +	 *
+>> +	 * Returns vpos as a positive number while in active scanout area.
+>> +	 * Returns vpos as a negative number inside vblank, counting the num=
+ber
+>> +	 * of scanlines to go until end of vblank, e.g., -1 means "one scanl=
+ine
+>> +	 * until start of active scanout / end of vblank."
+>> +	 *
+>> +	 * Returns:
+>> +	 *
+>> +	 * True on success, false if a reliable scanout position counter cou=
+ld
+>> +	 * not be read out.
+>> +	 */
+>> +	bool (*get_scanout_position)(struct drm_crtc *crtc,
+>> +				     bool in_vblank_irq, int *vpos, int *hpos,
+>> +				     ktime_t *stime, ktime_t *etime,
+>> +				     const struct drm_display_mode *mode);
+>>  };
+>> =20
+>>  /**
+>=20
+>=20
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
 
-  git://github.com/skeggsb/linux linux-5.6
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
-for you to fetch changes up to afa3b96b058d87c2c44d1c83dadb2ba6998d03ce:
 
-  drm/nouveau/gr/tu10x: initial support (2020-01-15 10:50:30 +1000)
+--SmewxxS8D8HCScoDniLEP9bGTKtCgtZAO--
 
-----------------------------------------------------------------
-Ben Skeggs (77):
-      drm/nouveau/gr/gk208-gm10x: regenerate built-in firmware
-      drm/nouveau/core: fix missing newline in fw loader error message
-      drm/nouveau/fault/tu102: define nvkm_fault_func.pin
-      drm/nouveau/gr/gf100-: remove dtor
-      drm/nouveau/gr/gk20a,gm200-: add terminators to method lists read from fw
-      drm/nouveau/gr/gv100-: modify gr init to match newer version of RM
-      drm/nouveau/disp/dp: fix typo when determining failsafe link configuration
-      drm/nouveau/fault/gv100-: fix memory leak on module unload
-      drm/nouveau/flcn: move fetching of configuration until first use
-      drm/nouveau/flcn: fetch PRI address from TOP if not provided by
-constructor
-      drm/nouveau/flcn: export existing funcs
-      drm/nouveau/core: output fw size in debug messages
-      drm/nouveau/core: add a macro to better handle multiple firmware versions
-      drm/nouveau/core: add representation of generic binary objects
-      drm/nouveau/core: define ACR subdev
-      drm/nouveau/acr: add stub implementation for all GPUs currently
-supported by SECBOOT
-      drm/nouveau/acr: add loaders for currently available LS firmware images
-      drm/nouveau/gsp: select implementation based on available firmware
-      drm/nouveau/gsp: initialise SW state for falcon from constructor
-      drm/nouveau/pmu/gp10b: split from gm20b implementation
-      drm/nouveau/pmu: select implementation based on available firmware
-      drm/nouveau/pmu: initialise SW state for falcon from constructor
-      drm/nouveau/gr/gf100-: use nvkm_blob structure for fecs/gpccs fw
-      drm/nouveau/gr/gk20a,gm200-: use nvkm_firmware_load_blob for sw init
-      drm/nouveau/gr/gf100-: drop fuc_ prefix on sw init
-      drm/nouveau/gr/gf100-: move fecs/gpccs ucode into their substructures
-      drm/nouveau/gr/gp108: split from gp107
-      drm/nouveau/gr/gf100-: select implementation based on available FW
-      drm/nouveau/gr/gf100-: initialise SW state for falcon from constructor
-      drm/nouveau/sec2/gp108: split from gp102 implementation
-      drm/nouveau/sec2: select implementation based on available firmware
-      drm/nouveau/sec2: initialise SW state for falcon from constructor
-      drm/nouveau/sec2: use falcon funcs
-      drm/nouveau/sec2: move interrupt handler to hw-specific module
-      drm/nouveau/nvdec: select implementation based on available fw
-      drm/nouveau/nvdec: initialise SW state for falcon from constructor
-      drm/nouveau/nvdec/gm107: rename from gp102 implementation
-      drm/nouveau/nvdec/gm107-: add missing engine instances
-      drm/nouveau/nvenc: add a stub implementation for the GPUs where
-it should be supported
-      drm/nouveau/flcn: specify FBIF offset from subdev
-      drm/nouveau/flcn: move bind_context WAR out of common code
-      drm/nouveau/flcn: specify EMEM address from subdev
-      drm/nouveau/flcn: specify debug/production register offset from subdev
-      drm/nouveau/flcn: specify queue register offsets from subdev
-      drm/nouveau/flcn: reset sec2/gsp falcons harder
-      drm/nouveau/flcn: add printk macros
-      drm/nouveau/flcn: split msgqueue into multiple pieces
-      drm/nouveau/flcn/qmgr: explicitly create queue manager from subdevs
-      drm/nouveau/flcn/cmdq: explicitly create command queue(s) from subdevs
-      drm/nouveau/flcn/msgq: explicitly create message queue from subdevs
-      drm/nouveau/flcn/qmgr: move sequence tracking from nvkm_msgqueue
-to nvkm_falcon_qmgr
-      drm/nouveau/flcn/qmgr: allow arbtrary priv + return code for callbacks
-      drm/nouveau/flcn/qmgr: support syncronous command submission
-from common code
-      drm/nouveau/flcn/qmgr: rename remaining nvkm_msgqueue bits to
-nvkm_falcon_qmgr
-      drm/nouveau/flcn/cmdq: split the condition for queue readiness
-vs pmu acr readiness
-      drm/nouveau/flcn/cmdq: cmd_queue_push can't fail, remove error
-handling for it
-      drm/nouveau/flcn/cmdq: cmd_queue_close always commits, simplify it
-      drm/nouveau/flcn/cmdq: switch to falcon queue printk macros
-      drm/nouveau/flcn/cmdq: drop nvkm_msgqueue argument to functions
-      drm/nouveau/flcn/cmdq: implement a more explicit send() interface
-      drm/nouveau/flcn/cmdq: rename cmdq-related nvkm_msqqueue_queue
-to nvkm_falcon_cmdq
-      drm/nouveau/flcn/cmdq: move command generation to subdevs
-      drm/nouveau/flcn/msgq: remove error handling for
-msg_queue_open(), it can't fail
-      drm/nouveau/flcn/msgq: simplify msg_queue_pop() error handling
-      drm/nouveau/flcn/msgq: switch to falcon queue printk macros
-      drm/nouveau/flcn/msgq: drop nvkm_msgqueue argument to functions
-      drm/nouveau/flcn/msgq: move handling of init message to subdevs
-      drm/nouveau/flcn/msgq: pass explicit message queue pointer to recv()
-      drm/nouveau/flcn/msgq: rename msgq-related nvkm_msgqueue_queue
-to nvkm_falcon_msgq
-      drm/nouveau/secboot: move code to boot LS falcons to subdevs
-      drm/nouveau/core/memory: add macros to read/write blocks from objects
-      drm/nouveau/fb/gp102-: unlock VPR as part of FB init
-      drm/nouveau/acr: implement new subdev to replace "secure boot"
-      drm/nouveau/secboot: remove
-      drm/nouveau/core: remove previous versioned fw loader
-      drm/nouveau/acr/tu10x: initial support
-      drm/nouveau/gr/tu10x: initial support
+--dy8utQKQWBe6XuW8macqRBBoPSguKlppq
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-Colin Ian King (1):
-      drm/nouveau/nouveau: fix incorrect sizeof on args.src an args.dst
+-----BEGIN PGP SIGNATURE-----
 
-Dan Carpenter (1):
-      drm/nouveau/secboot/gm20b: initialize pointer in gm20b_secboot_new()
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl4ev8cACgkQaA3BHVML
+eiPQPAgAhNBXxz0tZEzNlLqbwwfpcEJrCLZf/o7JVn07uUaHaDDU/MOgY7tyis90
+qcfe1ZSVJsNiKyd81M5WVhxnzywTZbhJOlifgzdF0QJV8j+oPYSoNyUf2FkFdI25
+Z0qCKYBW/07bNezPyl8OWD4teGOvMmQFCM7u6ZmaWL7O0kXgAb18zp2d8gZ47Cua
+eoVZ6Dkz339eNR/o+N13BcSQH0G5WY736lmO/NI3jAkPpdv09v1L1HzNjrbkEGqb
+E5WzMu+rDk0N7MHxa16XNSv9a9WCmLRfeqnQTxmCJ5B/CH5l/OXGFjytPMC9vAjp
+SFw+EjFt/J9IAV9D/CxaWttoRrzadg==
+=NncW
+-----END PGP SIGNATURE-----
 
-Ilia Mirkin (1):
-      drm/nouveau/kms/gf119-: allow both 256- and 1024-sized LUTs to be used
+--dy8utQKQWBe6XuW8macqRBBoPSguKlppq--
 
-James Jones (2):
-      drm/nouveau: Fix ttm move init with multiple GPUs
-      drm/nouveau/mmu: Add correct turing page kinds
+--===============0752273078==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-Lyude Paul (3):
-      drm/nouveau/kms/nv50-: Remove nv50_mstc_best_encoder()
-      drm/nouveau/kms/nv50-: Use less encoders by making mstos per-head
-      drm/nouveau/kms/nv50-: Report possible_crtcs incorrectly on mstos, for now
-
-Thierry Reding (7):
-      drm/nouveau/fault: Add support for GP10B
-      drm/nouveau: Do not try to disable PCI device on Tegra
-      drm/nouveau/tegra: Avoid pulsing reset twice
-      drm/nouveau/tegra: Set clock rate if not set
-      drm/nouveau/secboot/gm20b,gp10b: Read WPR configuration from GPU registers
-      drm/nouveau/ltc/gp10b: Add custom L2 cache implementation
-      drm/nouveau/ce/gp10b: Use correct copy engine
-
-Wambui Karuga (3):
-      drm/nouveau/fb/gf100-: declare constants as unsigned long long.
-      drm/nouveau/kms/nv04: remove set but unused variable.
-      drm/nouveau: use NULL for pointer assignment.
-
-YueHaibing (3):
-      drm/nouveau/kms/nv04-nv4x: Use match_string() helper to simplify the code
-      drm/nouveau: Fix copy-paste error in nouveau_fence_wait_uevent_handler
-      drm/nouveau/drm/ttm: Remove set but not used variable 'mem'
-
- drivers/gpu/drm/nouveau/dispnv04/arb.c             |    3 +-
- drivers/gpu/drm/nouveau/dispnv04/tvnv17.c          |   13 +-
- drivers/gpu/drm/nouveau/dispnv50/base907c.c        |   11 +-
- drivers/gpu/drm/nouveau/dispnv50/disp.c            |  111 +-
- drivers/gpu/drm/nouveau/dispnv50/disp.h            |    2 +
- drivers/gpu/drm/nouveau/dispnv50/head.c            |   43 +-
- drivers/gpu/drm/nouveau/dispnv50/head.h            |   10 +-
- drivers/gpu/drm/nouveau/dispnv50/head507d.c        |    9 +-
- drivers/gpu/drm/nouveau/dispnv50/head827d.c        |    1 +
- drivers/gpu/drm/nouveau/dispnv50/head907d.c        |   11 +-
- drivers/gpu/drm/nouveau/dispnv50/head917d.c        |    1 +
- drivers/gpu/drm/nouveau/dispnv50/headc37d.c        |   11 +-
- drivers/gpu/drm/nouveau/dispnv50/headc57d.c        |   12 +-
- drivers/gpu/drm/nouveau/dispnv50/lut.c             |    2 +-
- drivers/gpu/drm/nouveau/dispnv50/wndw.c            |   17 +-
- drivers/gpu/drm/nouveau/dispnv50/wndw.h            |    3 +-
- drivers/gpu/drm/nouveau/dispnv50/wndwc37e.c        |   11 +-
- drivers/gpu/drm/nouveau/dispnv50/wndwc57e.c        |   11 +-
- drivers/gpu/drm/nouveau/include/nvfw/acr.h         |  152 +++
- drivers/gpu/drm/nouveau/include/nvfw/flcn.h        |   97 ++
- drivers/gpu/drm/nouveau/include/nvfw/fw.h          |   28 +
- drivers/gpu/drm/nouveau/include/nvfw/hs.h          |   31 +
- drivers/gpu/drm/nouveau/include/nvfw/ls.h          |   53 +
- drivers/gpu/drm/nouveau/include/nvfw/pmu.h         |   98 ++
- drivers/gpu/drm/nouveau/include/nvfw/sec2.h        |   60 +
- drivers/gpu/drm/nouveau/include/nvif/class.h       |    3 +
- drivers/gpu/drm/nouveau/include/nvif/if0008.h      |    2 +-
- drivers/gpu/drm/nouveau/include/nvif/mmu.h         |    4 +-
- drivers/gpu/drm/nouveau/include/nvkm/core/device.h |   10 +-
- drivers/gpu/drm/nouveau/include/nvkm/core/falcon.h |   77 ++
- .../gpu/drm/nouveau/include/nvkm/core/firmware.h   |   51 +-
- drivers/gpu/drm/nouveau/include/nvkm/core/memory.h |   16 +
- .../gpu/drm/nouveau/include/nvkm/core/msgqueue.h   |   43 -
- drivers/gpu/drm/nouveau/include/nvkm/core/os.h     |   13 +
- .../gpu/drm/nouveau/include/nvkm/engine/falcon.h   |   20 +-
- drivers/gpu/drm/nouveau/include/nvkm/engine/gr.h   |    2 +
- .../gpu/drm/nouveau/include/nvkm/engine/nvdec.h    |    8 +-
- .../gpu/drm/nouveau/include/nvkm/engine/nvenc.h    |   10 +
- drivers/gpu/drm/nouveau/include/nvkm/engine/sec2.h |   13 +-
- drivers/gpu/drm/nouveau/include/nvkm/subdev/acr.h  |  126 ++
- .../gpu/drm/nouveau/include/nvkm/subdev/fault.h    |    1 +
- drivers/gpu/drm/nouveau/include/nvkm/subdev/fb.h   |    2 +
- drivers/gpu/drm/nouveau/include/nvkm/subdev/gsp.h  |    5 +-
- drivers/gpu/drm/nouveau/include/nvkm/subdev/ltc.h  |    1 +
- drivers/gpu/drm/nouveau/include/nvkm/subdev/pmu.h  |   14 +-
- drivers/gpu/drm/nouveau/nouveau_bo.c               |    5 +-
- drivers/gpu/drm/nouveau/nouveau_dmem.c             |    4 +-
- drivers/gpu/drm/nouveau/nouveau_drm.c              |    3 +-
- drivers/gpu/drm/nouveau/nouveau_fence.c            |    2 +-
- drivers/gpu/drm/nouveau/nouveau_hwmon.c            |    2 +-
- drivers/gpu/drm/nouveau/nouveau_ttm.c              |    4 -
- drivers/gpu/drm/nouveau/nvif/mmu.c                 |    1 +
- drivers/gpu/drm/nouveau/nvkm/Kbuild                |    1 +
- drivers/gpu/drm/nouveau/nvkm/core/firmware.c       |   67 +-
- drivers/gpu/drm/nouveau/nvkm/core/subdev.c         |    2 +-
- drivers/gpu/drm/nouveau/nvkm/engine/device/base.c  |  108 +-
- drivers/gpu/drm/nouveau/nvkm/engine/device/priv.h  |    2 +-
- drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c |   24 +-
- drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c      |    2 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/Kbuild      |    3 +
- drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgf100.c  |   27 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgf100.h  |   10 +
- drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgk20a.c  |    6 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgm20b.c  |    6 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgv100.c  |   23 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxtu102.c  |   95 ++
- .../drm/nouveau/nvkm/engine/gr/fuc/hubgk208.fuc5.h |  786 ++++++-------
- .../drm/nouveau/nvkm/engine/gr/fuc/hubgm107.fuc5.h |  786 ++++++-------
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c     |  311 ++---
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.h     |   89 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gf104.c     |    9 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gf108.c     |    9 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gf110.c     |    9 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gf117.c     |    9 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gf119.c     |    9 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gk104.c     |    9 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gk110.c     |    9 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gk110b.c    |    9 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gk208.c     |    9 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gk20a.c     |  130 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gm107.c     |    9 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gm200.c     |  160 ++-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gm20b.c     |   98 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gp100.c     |   21 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gp102.c     |   21 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gp104.c     |   34 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gp107.c     |   23 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gp108.c     |   97 ++
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gp10b.c     |   35 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gv100.c     |   29 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c     |  177 +++
- drivers/gpu/drm/nouveau/nvkm/engine/nvdec/Kbuild   |    2 +-
- drivers/gpu/drm/nouveau/nvkm/engine/nvdec/base.c   |   42 +-
- .../nouveau/nvkm/engine/nvdec/{gp102.c => gm107.c} |   39 +-
- drivers/gpu/drm/nouveau/nvkm/engine/nvdec/priv.h   |   14 +-
- drivers/gpu/drm/nouveau/nvkm/engine/nvenc/Kbuild   |    3 +-
- drivers/gpu/drm/nouveau/nvkm/engine/nvenc/base.c   |   63 +
- drivers/gpu/drm/nouveau/nvkm/engine/nvenc/gm107.c  |   63 +
- drivers/gpu/drm/nouveau/nvkm/engine/nvenc/priv.h   |   19 +
- drivers/gpu/drm/nouveau/nvkm/engine/sec2/Kbuild    |    1 +
- drivers/gpu/drm/nouveau/nvkm/engine/sec2/base.c    |  109 +-
- drivers/gpu/drm/nouveau/nvkm/engine/sec2/gp102.c   |  312 ++++-
- .../secboot/acr_r367.h => engine/sec2/gp108.c}     |   37 +-
- drivers/gpu/drm/nouveau/nvkm/engine/sec2/priv.h    |   24 +-
- drivers/gpu/drm/nouveau/nvkm/engine/sec2/tu102.c   |   47 +-
- drivers/gpu/drm/nouveau/nvkm/falcon/Kbuild         |    6 +-
- drivers/gpu/drm/nouveau/nvkm/falcon/base.c         |   87 +-
- drivers/gpu/drm/nouveau/nvkm/falcon/cmdq.c         |  214 ++++
- drivers/gpu/drm/nouveau/nvkm/falcon/msgq.c         |  213 ++++
- drivers/gpu/drm/nouveau/nvkm/falcon/msgqueue.c     |  577 ---------
- drivers/gpu/drm/nouveau/nvkm/falcon/msgqueue.h     |  213 ----
- .../drm/nouveau/nvkm/falcon/msgqueue_0137c63d.c    |  436 -------
- .../drm/nouveau/nvkm/falcon/msgqueue_0148cdec.c    |  264 -----
- drivers/gpu/drm/nouveau/nvkm/falcon/priv.h         |    6 +-
- drivers/gpu/drm/nouveau/nvkm/falcon/qmgr.c         |   87 ++
- drivers/gpu/drm/nouveau/nvkm/falcon/qmgr.h         |   89 ++
- drivers/gpu/drm/nouveau/nvkm/falcon/v1.c           |   86 +-
- drivers/gpu/drm/nouveau/nvkm/nvfw/Kbuild           |    7 +
- drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c            |  165 +++
- drivers/gpu/drm/nouveau/nvkm/nvfw/flcn.c           |  115 ++
- drivers/gpu/drm/nouveau/nvkm/nvfw/fw.c             |   51 +
- drivers/gpu/drm/nouveau/nvkm/nvfw/hs.c             |   62 +
- drivers/gpu/drm/nouveau/nvkm/nvfw/ls.c             |  108 ++
- drivers/gpu/drm/nouveau/nvkm/subdev/Kbuild         |    2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/acr/Kbuild     |   10 +
- drivers/gpu/drm/nouveau/nvkm/subdev/acr/base.c     |  411 +++++++
- drivers/gpu/drm/nouveau/nvkm/subdev/acr/gm200.c    |  470 ++++++++
- drivers/gpu/drm/nouveau/nvkm/subdev/acr/gm20b.c    |  134 +++
- drivers/gpu/drm/nouveau/nvkm/subdev/acr/gp102.c    |  281 +++++
- drivers/gpu/drm/nouveau/nvkm/subdev/acr/gp108.c    |  111 ++
- drivers/gpu/drm/nouveau/nvkm/subdev/acr/gp10b.c    |   57 +
- drivers/gpu/drm/nouveau/nvkm/subdev/acr/hsfw.c     |  180 +++
- drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c     |  249 ++++
- drivers/gpu/drm/nouveau/nvkm/subdev/acr/priv.h     |  151 +++
- drivers/gpu/drm/nouveau/nvkm/subdev/acr/tu102.c    |  215 ++++
- drivers/gpu/drm/nouveau/nvkm/subdev/fault/Kbuild   |    1 +
- drivers/gpu/drm/nouveau/nvkm/subdev/fault/base.c   |    3 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/fault/gp100.c  |   17 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/fault/gp10b.c  |   53 +
- drivers/gpu/drm/nouveau/nvkm/subdev/fault/gv100.c  |    1 +
- drivers/gpu/drm/nouveau/nvkm/subdev/fault/priv.h   |   10 +
- drivers/gpu/drm/nouveau/nvkm/subdev/fault/tu102.c  |    1 +
- drivers/gpu/drm/nouveau/nvkm/subdev/fb/base.c      |   19 +
- drivers/gpu/drm/nouveau/nvkm/subdev/fb/gp102.c     |   96 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/fb/gv100.c     |    9 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/fb/priv.h      |   10 +
- drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgf100.c  |    2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgf108.c  |    2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgk104.c  |    2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgm107.c  |    2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgm200.c  |    2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgp100.c  |    2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/Kbuild     |    1 +
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/base.c     |   59 +
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/gv100.c    |   53 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/priv.h     |   15 +
- drivers/gpu/drm/nouveau/nvkm/subdev/ltc/Kbuild     |    1 +
- drivers/gpu/drm/nouveau/nvkm/subdev/ltc/gp10b.c    |   65 +
- drivers/gpu/drm/nouveau/nvkm/subdev/ltc/priv.h     |    2 +
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/gf100.c    |    3 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/gm200.c    |    3 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/nv50.c     |    3 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/priv.h     |    8 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/tu102.c    |   16 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/ummu.c     |    7 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgf100.c |    6 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c |    6 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmnv50.c  |    6 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/pmu/Kbuild     |    1 +
- drivers/gpu/drm/nouveau/nvkm/subdev/pmu/base.c     |   53 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gf100.c    |   15 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gf119.c    |    9 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gk104.c    |    9 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gk110.c    |    9 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gk208.c    |    9 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gk20a.c    |   21 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gm107.c    |    9 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gm20b.c    |  211 +++-
- drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp100.c    |    9 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp102.c    |    9 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp10b.c    |   96 ++
- drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gt215.c    |   27 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/pmu/priv.h     |   33 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/secboot/Kbuild |   17 -
- drivers/gpu/drm/nouveau/nvkm/subdev/secboot/acr.c  |   54 -
- drivers/gpu/drm/nouveau/nvkm/subdev/secboot/acr.h  |   70 --
- .../gpu/drm/nouveau/nvkm/subdev/secboot/acr_r352.c | 1241 --------------------
- .../gpu/drm/nouveau/nvkm/subdev/secboot/acr_r352.h |  167 ---
- .../gpu/drm/nouveau/nvkm/subdev/secboot/acr_r361.c |  229 ----
- .../gpu/drm/nouveau/nvkm/subdev/secboot/acr_r361.h |   71 --
- .../gpu/drm/nouveau/nvkm/subdev/secboot/acr_r364.c |  117 --
- .../gpu/drm/nouveau/nvkm/subdev/secboot/acr_r367.c |  418 -------
- .../gpu/drm/nouveau/nvkm/subdev/secboot/acr_r370.c |  168 ---
- .../gpu/drm/nouveau/nvkm/subdev/secboot/acr_r370.h |   50 -
- .../gpu/drm/nouveau/nvkm/subdev/secboot/acr_r375.c |   94 --
- drivers/gpu/drm/nouveau/nvkm/subdev/secboot/base.c |  213 ----
- .../gpu/drm/nouveau/nvkm/subdev/secboot/gm200.c    |  262 -----
- .../gpu/drm/nouveau/nvkm/subdev/secboot/gm200.h    |   46 -
- .../gpu/drm/nouveau/nvkm/subdev/secboot/gm20b.c    |  148 ---
- .../gpu/drm/nouveau/nvkm/subdev/secboot/gp102.c    |  264 -----
- .../gpu/drm/nouveau/nvkm/subdev/secboot/gp108.c    |   88 --
- .../gpu/drm/nouveau/nvkm/subdev/secboot/gp10b.c    |   95 --
- .../gpu/drm/nouveau/nvkm/subdev/secboot/hs_ucode.c |   97 --
- .../gpu/drm/nouveau/nvkm/subdev/secboot/hs_ucode.h |   81 --
- .../gpu/drm/nouveau/nvkm/subdev/secboot/ls_ucode.h |  161 ---
- .../drm/nouveau/nvkm/subdev/secboot/ls_ucode_gr.c  |  160 ---
- .../nvkm/subdev/secboot/ls_ucode_msgqueue.c        |  177 ---
- drivers/gpu/drm/nouveau/nvkm/subdev/secboot/priv.h |   65 -
- 208 files changed, 8123 insertions(+), 7774 deletions(-)
- create mode 100644 drivers/gpu/drm/nouveau/include/nvfw/acr.h
- create mode 100644 drivers/gpu/drm/nouveau/include/nvfw/flcn.h
- create mode 100644 drivers/gpu/drm/nouveau/include/nvfw/fw.h
- create mode 100644 drivers/gpu/drm/nouveau/include/nvfw/hs.h
- create mode 100644 drivers/gpu/drm/nouveau/include/nvfw/ls.h
- create mode 100644 drivers/gpu/drm/nouveau/include/nvfw/pmu.h
- create mode 100644 drivers/gpu/drm/nouveau/include/nvfw/sec2.h
- create mode 100644 drivers/gpu/drm/nouveau/include/nvkm/core/falcon.h
- delete mode 100644 drivers/gpu/drm/nouveau/include/nvkm/core/msgqueue.h
- create mode 100644 drivers/gpu/drm/nouveau/include/nvkm/subdev/acr.h
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxtu102.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/gr/gp108.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c
- rename drivers/gpu/drm/nouveau/nvkm/engine/nvdec/{gp102.c => gm107.c} (56%)
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/nvenc/base.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/nvenc/gm107.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/nvenc/priv.h
- rename drivers/gpu/drm/nouveau/nvkm/{subdev/secboot/acr_r367.h =>
-engine/sec2/gp108.c} (50%)
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/falcon/cmdq.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/falcon/msgq.c
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/falcon/msgqueue.c
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/falcon/msgqueue.h
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/falcon/msgqueue_0137c63d.c
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/falcon/msgqueue_0148cdec.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/falcon/qmgr.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/falcon/qmgr.h
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/nvfw/Kbuild
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/nvfw/flcn.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/nvfw/fw.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/nvfw/hs.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/nvfw/ls.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/acr/Kbuild
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/acr/base.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/acr/gm200.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/acr/gm20b.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/acr/gp102.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/acr/gp108.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/acr/gp10b.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/acr/hsfw.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/acr/priv.h
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/acr/tu102.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/fault/gp10b.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/base.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/priv.h
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/ltc/gp10b.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp10b.c
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/secboot/Kbuild
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/secboot/acr.c
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/secboot/acr.h
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/secboot/acr_r352.c
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/secboot/acr_r352.h
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/secboot/acr_r361.c
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/secboot/acr_r361.h
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/secboot/acr_r364.c
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/secboot/acr_r367.c
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/secboot/acr_r370.c
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/secboot/acr_r370.h
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/secboot/acr_r375.c
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/secboot/base.c
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gm200.c
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gm200.h
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gm20b.c
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gp102.c
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gp108.c
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/secboot/gp10b.c
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/secboot/hs_ucode.c
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/secboot/hs_ucode.h
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/secboot/ls_ucode.h
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/secboot/ls_ucode_gr.c
- delete mode 100644
-drivers/gpu/drm/nouveau/nvkm/subdev/secboot/ls_ucode_msgqueue.c
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/secboot/priv.h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0752273078==--
