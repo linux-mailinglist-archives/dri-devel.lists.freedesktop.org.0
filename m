@@ -1,27 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC8F513C179
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 13:46:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60B5013C17E
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 13:46:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D4BE6E9B3;
-	Wed, 15 Jan 2020 12:46:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 082716E9B1;
+	Wed, 15 Jan 2020 12:46:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB84C6E9B0
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0FDF6E9B7
  for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 12:46:00 +0000 (UTC)
-Received: from ramsan ([84.195.182.253])
- by baptiste.telenet-ops.be with bizsmtp
- id qclq210045USYZQ01clqd9; Wed, 15 Jan 2020 13:45:57 +0100
+Received: from ramsan ([84.195.182.253]) by laurent.telenet-ops.be with bizsmtp
+ id qclq2100K5USYZQ01clqWY; Wed, 15 Jan 2020 13:45:58 +0100
 Received: from rox.of.borg ([192.168.97.57]) by ramsan with esmtp (Exim 4.90_1)
  (envelope-from <geert@linux-m68k.org>)
- id 1iri3S-0003yz-3C; Wed, 15 Jan 2020 13:45:50 +0100
+ id 1iri3S-0003z3-3l; Wed, 15 Jan 2020 13:45:50 +0100
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
  (envelope-from <geert@linux-m68k.org>)
- id 1iri3S-00012Z-1m; Wed, 15 Jan 2020 13:45:50 +0100
+ id 1iri3S-00012b-2R; Wed, 15 Jan 2020 13:45:50 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
  David Lechner <david@lechnology.com>, David Airlie <airlied@linux.ie>,
@@ -29,10 +28,10 @@ To: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
  Mark Rutland <mark.rutland@arm.com>
-Subject: [PATCH v2 1/5] dt-bindings: display: sitronix,
- st7735r: Convert to DT schema
-Date: Wed, 15 Jan 2020 13:45:44 +0100
-Message-Id: <20200115124548.3951-2-geert+renesas@glider.be>
+Subject: [PATCH v2 2/5] dt-bindings: display: sitronix,
+ st7735r: Add Okaya RH128128T
+Date: Wed, 15 Jan 2020 13:45:45 +0100
+Message-Id: <20200115124548.3951-3-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200115124548.3951-1-geert+renesas@glider.be>
 References: <20200115124548.3951-1-geert+renesas@glider.be>
@@ -59,148 +58,55 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the DT binding documentation for Sitronix ST7735R displays to DT
-schema.
+Document support for the Okaya RH128128T display, which is a 128x128
+1.44" TFT display driven by a Sitronix ST7715R TFT Controller/Driver.
+It can be found on e.g. the Renesas YRSK-LCD-PMOD extension board, which
+comes with various Renesas development kits (e.g. Renesas Starter Kit+
+for RZ/A1H[1]).
 
-Add a reference to the Adafruit 1.8" LCD while at it.
+ST7715R and ST7735R are very similar.  Their major difference is that
+the former is restricted to displays of up to 132x132 pixels, while the
+latter supports displays up to 132x162 pixels.
+
+[1] https://renesasrulz.com/the_vault/f/archive-forum/4981/upgrading-to-the-renesas-rz-a1h
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 v2:
-  - New.
+  - Rebase on top of DT schema conversion,
+  - Add YRSK-LCD-PMOD reference and links.
 ---
- .../bindings/display/sitronix,st7735r.txt     | 35 ----------
- .../bindings/display/sitronix,st7735r.yaml    | 65 +++++++++++++++++++
- MAINTAINERS                                   |  2 +-
- 3 files changed, 66 insertions(+), 36 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/sitronix,st7735r.txt
- create mode 100644 Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
+ .../devicetree/bindings/display/sitronix,st7735r.yaml  | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/sitronix,st7735r.txt b/Documentation/devicetree/bindings/display/sitronix,st7735r.txt
-deleted file mode 100644
-index cd5c7186890a2be7..0000000000000000
---- a/Documentation/devicetree/bindings/display/sitronix,st7735r.txt
-+++ /dev/null
-@@ -1,35 +0,0 @@
--Sitronix ST7735R display panels
--
--This binding is for display panels using a Sitronix ST7735R controller in SPI
--mode.
--
--Required properties:
--- compatible:	"jianda,jd-t18003-t01", "sitronix,st7735r"
--- dc-gpios:	Display data/command selection (D/CX)
--- reset-gpios:	Reset signal (RSTX)
--
--The node for this driver must be a child node of a SPI controller, hence
--all mandatory properties described in ../spi/spi-bus.txt must be specified.
--
--Optional properties:
--- rotation:	panel rotation in degrees counter clockwise (0,90,180,270)
--- backlight:	phandle of the backlight device attached to the panel
--
--Example:
--
--	backlight: backlight {
--		compatible = "gpio-backlight";
--		gpios = <&gpio 44 GPIO_ACTIVE_HIGH>;
--	};
--
--	...
--
--	display@0{
--		compatible = "jianda,jd-t18003-t01", "sitronix,st7735r";
--		reg = <0>;
--		spi-max-frequency = <32000000>;
--		dc-gpios = <&gpio 43 GPIO_ACTIVE_HIGH>;
--		reset-gpios = <&gpio 80 GPIO_ACTIVE_HIGH>;
--		rotation = <270>;
--		backlight = &backlight;
--	};
 diff --git a/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml b/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
-new file mode 100644
-index 0000000000000000..21bccc91f74255e1
---- /dev/null
+index 21bccc91f74255e1..8892d79e6e100b79 100644
+--- a/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
 +++ b/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
-@@ -0,0 +1,65 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/sitronix,st7735r.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Sitronix ST7735R Display Panels Device Tree Bindings
-+
-+maintainers:
-+  - David Lechner <david@lechnology.com>
-+
-+description:
-+  This binding is for display panels using a Sitronix ST7735R controller in
-+  SPI mode.
-+
-+allOf:
-+  - $ref: panel/panel-common.yaml#
-+
-+properties:
-+  compatible:
-+    oneOf:
+@@ -10,8 +10,8 @@ maintainers:
+   - David Lechner <david@lechnology.com>
+ 
+ description:
+-  This binding is for display panels using a Sitronix ST7735R controller in
+-  SPI mode.
++  This binding is for display panels using a Sitronix ST7715R or ST7735R
++  controller in SPI mode.
+ 
+ allOf:
+   - $ref: panel/panel-common.yaml#
+@@ -25,6 +25,12 @@ properties:
+           - enum:
+               - jianda,jd-t18003-t01
+           - const: sitronix,st7735r
 +      - description:
-+          Adafruit 1.8" 160x128 Color TFT LCD (Product ID 358 or 618)
++          Okaya 1.44" 128x128 Color TFT LCD (E.g. Renesas YRSK-LCD-PMOD)
 +        items:
 +          - enum:
-+              - jianda,jd-t18003-t01
-+          - const: sitronix,st7735r
-+
-+  spi-max-frequency:
-+    maximum: 32000000
-+
-+  dc-gpios:
-+    maxItems: 1
-+    description: Display data/command selection (D/CX)
-+
-+required:
-+  - compatible
-+  - reg
-+  - dc-gpios
-+  - reset-gpios
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    backlight: backlight {
-+            compatible = "gpio-backlight";
-+            gpios = <&gpio 44 GPIO_ACTIVE_HIGH>;
-+    };
-+
-+    spi {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            display@0{
-+                    compatible = "jianda,jd-t18003-t01", "sitronix,st7735r";
-+                    reg = <0>;
-+                    spi-max-frequency = <32000000>;
-+                    dc-gpios = <&gpio 43 GPIO_ACTIVE_HIGH>;
-+                    reset-gpios = <&gpio 80 GPIO_ACTIVE_HIGH>;
-+                    rotation = <270>;
-+            };
-+    };
-+
-+...
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ea8262509bdd21ac..3007f83bd504194a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5382,7 +5382,7 @@ M:	David Lechner <david@lechnology.com>
- T:	git git://anongit.freedesktop.org/drm/drm-misc
- S:	Maintained
- F:	drivers/gpu/drm/tiny/st7735r.c
--F:	Documentation/devicetree/bindings/display/sitronix,st7735r.txt
-+F:	Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
++              - okaya,rh128128t
++          - const: sitronix,st7715r
  
- DRM DRIVER FOR SONY ACX424AKP PANELS
- M:	Linus Walleij <linus.walleij@linaro.org>
+   spi-max-frequency:
+     maximum: 32000000
 -- 
 2.17.1
 
