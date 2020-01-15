@@ -1,38 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F24513B884
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 04:59:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF6AC13B88A
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2020 05:00:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C356C6E84D;
-	Wed, 15 Jan 2020 03:59:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 057D56E849;
+	Wed, 15 Jan 2020 03:59:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 777316E844;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B13FC6E845;
  Wed, 15 Jan 2020 03:59:46 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 14 Jan 2020 19:52:41 -0800
+ 14 Jan 2020 19:52:46 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.70,321,1574150400"; 
- d="scan'208,217";a="242720367"
+ d="scan'208,217";a="242720379"
 Received: from plaxmina-desktop.iind.intel.com ([10.106.124.119])
- by orsmga002.jf.intel.com with ESMTP; 14 Jan 2020 19:52:37 -0800
+ by orsmga002.jf.intel.com with ESMTP; 14 Jan 2020 19:52:42 -0800
 From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 To: jani.nikula@intel.com, daniel@ffwll.ch, sam@ravnborg.org,
  sudeep.dutt@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Zhenyu Wang <zhenyuw@linux.intel.com>,
- Zhi Wang <zhi.a.wang@intel.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [[Intel-gfx] [PATCH v2 08/10] drm/i915/gvt: Make WARN* drm specific
- where vgpu ptr is available
-Date: Wed, 15 Jan 2020 09:14:52 +0530
-Message-Id: <20200115034455.17658-9-pankaj.laxminarayan.bharadiya@intel.com>
+Subject: [[Intel-gfx] [PATCH v2 09/10] drm/i915: Make WARN* drm specific where
+ drm_priv ptr is available
+Date: Wed, 15 Jan 2020 09:14:53 +0530
+Message-Id: <20200115034455.17658-10-pankaj.laxminarayan.bharadiya@intel.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200115034455.17658-1-pankaj.laxminarayan.bharadiya@intel.com>
 References: <20200115034455.17658-1-pankaj.laxminarayan.bharadiya@intel.com>
@@ -55,670 +54,732 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drm specific drm_WARN* calls include device information in the
+drm specific WARN* calls include device information in the
 backtrace, so we know what device the warnings originate from.
 
 Covert all the calls of WARN* with device specific drm_WARN*
-variants in functions where drm_device struct pointer is readily
+variants in functions where drm_i915_private struct pointer is readily
 available.
 
 The conversion was done automatically with below coccinelle semantic
 patch. checkpatch errors/warnings are fixed manually.
 
-@@
+@rule1@
 identifier func, T;
 @@
-func(struct intel_vgpu *T,...) {
-+struct drm_i915_private *i915 = T->gvt->dev_priv;
+func(...) {
+...
+struct drm_i915_private *T = ...;
 <+...
 (
 -WARN(
-+drm_WARN(&i915->drm,
++drm_WARN(&T->drm,
 ...)
 |
 -WARN_ON(
-+drm_WARN_ON(&i915->drm,
++drm_WARN_ON(&T->drm,
 ...)
 |
 -WARN_ONCE(
-+drm_WARN_ONCE(&i915->drm,
++drm_WARN_ONCE(&T->drm,
 ...)
 |
 -WARN_ON_ONCE(
-+drm_WARN_ON_ONCE(&i915->drm,
++drm_WARN_ON_ONCE(&T->drm,
 ...)
 )
 ...+>
-
 }
 
-command: spatch --sp-file <script> --dir drivers/gpu/drm/i915/gvt \
-					--linux-spacing --in-place
+@rule2@
+identifier func, T;
+@@
+func(struct drm_i915_private *T,...) {
+<+...
+(
+-WARN(
++drm_WARN(&T->drm,
+...)
+|
+-WARN_ON(
++drm_WARN_ON(&T->drm,
+...)
+|
+-WARN_ONCE(
++drm_WARN_ONCE(&T->drm,
+...)
+|
+-WARN_ON_ONCE(
++drm_WARN_ON_ONCE(&T->drm,
+...)
+)
+...+>
+}
+
+command: ls drivers/gpu/drm/i915/*.c | xargs spatch --sp-file \
+			<script> --linux-spacing --in-place
 
 Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 ---
- drivers/gpu/drm/i915/gvt/cfg_space.c    | 23 +++++++++++--------
- drivers/gpu/drm/i915/gvt/display.c      |  3 ++-
- drivers/gpu/drm/i915/gvt/edid.c         | 17 +++++++++-----
- drivers/gpu/drm/i915/gvt/gtt.c          | 21 ++++++++++++-----
- drivers/gpu/drm/i915/gvt/handlers.c     | 20 ++++++++++++-----
- drivers/gpu/drm/i915/gvt/interrupt.c    | 15 ++++++++-----
- drivers/gpu/drm/i915/gvt/kvmgt.c        | 10 ++++++---
- drivers/gpu/drm/i915/gvt/mmio.c         | 30 +++++++++++++++----------
- drivers/gpu/drm/i915/gvt/mmio_context.c |  6 +++--
- drivers/gpu/drm/i915/gvt/scheduler.c    |  6 +++--
- drivers/gpu/drm/i915/gvt/vgpu.c         |  6 +++--
- 11 files changed, 104 insertions(+), 53 deletions(-)
+ drivers/gpu/drm/i915/i915_drv.c       | 19 +++----
+ drivers/gpu/drm/i915/i915_gem.c       |  7 +--
+ drivers/gpu/drm/i915/i915_irq.c       | 75 ++++++++++++++-------------
+ drivers/gpu/drm/i915/i915_pmu.c       |  6 +--
+ drivers/gpu/drm/i915/intel_csr.c      |  4 +-
+ drivers/gpu/drm/i915/intel_pch.c      | 66 ++++++++++++++---------
+ drivers/gpu/drm/i915/intel_pm.c       | 24 +++++----
+ drivers/gpu/drm/i915/intel_sideband.c |  7 +--
+ drivers/gpu/drm/i915/intel_uncore.c   |  2 +-
+ 9 files changed, 118 insertions(+), 92 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gvt/cfg_space.c b/drivers/gpu/drm/i915/gvt/cfg_space.c
-index 19cf1bbe059d..7fd16bab2f39 100644
---- a/drivers/gpu/drm/i915/gvt/cfg_space.c
-+++ b/drivers/gpu/drm/i915/gvt/cfg_space.c
-@@ -106,10 +106,13 @@ static void vgpu_pci_cfg_mem_write(struct intel_vgpu *vgpu, unsigned int off,
- int intel_vgpu_emulate_cfg_read(struct intel_vgpu *vgpu, unsigned int offset,
- 	void *p_data, unsigned int bytes)
+diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
+index f7385abdd74b..e9b42e962032 100644
+--- a/drivers/gpu/drm/i915/i915_drv.c
++++ b/drivers/gpu/drm/i915/i915_drv.c
+@@ -1015,9 +1015,9 @@ bxt_get_dram_info(struct drm_i915_private *dev_priv)
+ 		bxt_get_dimm_info(&dimm, val);
+ 		type = bxt_get_dimm_type(val);
+ 
+-		WARN_ON(type != INTEL_DRAM_UNKNOWN &&
+-			dram_info->type != INTEL_DRAM_UNKNOWN &&
+-			dram_info->type != type);
++		drm_WARN_ON(&dev_priv->drm, type != INTEL_DRAM_UNKNOWN &&
++			    dram_info->type != INTEL_DRAM_UNKNOWN &&
++			    dram_info->type != type);
+ 
+ 		DRM_DEBUG_KMS("CH%u DIMM size: %u GB, width: X%u, ranks: %u, type: %s\n",
+ 			      i - BXT_D_CR_DRP0_DUNIT_START,
+@@ -1805,8 +1805,8 @@ int i915_suspend_switcheroo(struct drm_i915_private *i915, pm_message_t state)
  {
--	if (WARN_ON(bytes > 4))
-+	struct drm_i915_private *i915 = vgpu->gvt->dev_priv;
-+
-+	if (drm_WARN_ON(&i915->drm, bytes > 4))
+ 	int error;
+ 
+-	if (WARN_ON_ONCE(state.event != PM_EVENT_SUSPEND &&
+-			 state.event != PM_EVENT_FREEZE))
++	if (drm_WARN_ON_ONCE(&i915->drm, state.event != PM_EVENT_SUSPEND &&
++			     state.event != PM_EVENT_FREEZE))
  		return -EINVAL;
  
--	if (WARN_ON(offset + bytes > vgpu->gvt->device_info.cfg_space_size))
-+	if (drm_WARN_ON(&i915->drm,
-+			offset + bytes > vgpu->gvt->device_info.cfg_space_size))
- 		return -EINVAL;
+ 	if (i915->drm.switch_power_state == DRM_SWITCH_POWER_OFF)
+@@ -2429,7 +2429,8 @@ static int vlv_suspend_complete(struct drm_i915_private *dev_priv)
+ 	vlv_wait_for_gt_wells(dev_priv, false);
  
- 	memcpy(p_data, vgpu_cfg_space(vgpu) + offset, bytes);
-@@ -297,34 +300,36 @@ static int emulate_pci_bar_write(struct intel_vgpu *vgpu, unsigned int offset,
- int intel_vgpu_emulate_cfg_write(struct intel_vgpu *vgpu, unsigned int offset,
- 	void *p_data, unsigned int bytes)
- {
-+	struct drm_i915_private *i915 = vgpu->gvt->dev_priv;
- 	int ret;
+ 	mask = VLV_GTLC_RENDER_CTX_EXISTS | VLV_GTLC_MEDIA_CTX_EXISTS;
+-	WARN_ON((I915_READ(VLV_GTLC_WAKE_CTRL) & mask) != mask);
++	drm_WARN_ON(&dev_priv->drm,
++		    (I915_READ(VLV_GTLC_WAKE_CTRL) & mask) != mask);
  
--	if (WARN_ON(bytes > 4))
-+	if (drm_WARN_ON(&i915->drm, bytes > 4))
- 		return -EINVAL;
+ 	vlv_check_no_gt_access(dev_priv);
  
--	if (WARN_ON(offset + bytes > vgpu->gvt->device_info.cfg_space_size))
-+	if (drm_WARN_ON(&i915->drm,
-+			offset + bytes > vgpu->gvt->device_info.cfg_space_size))
- 		return -EINVAL;
- 
- 	/* First check if it's PCI_COMMAND */
- 	if (IS_ALIGNED(offset, 2) && offset == PCI_COMMAND) {
--		if (WARN_ON(bytes > 2))
-+		if (drm_WARN_ON(&i915->drm, bytes > 2))
- 			return -EINVAL;
- 		return emulate_pci_command_write(vgpu, offset, p_data, bytes);
- 	}
- 
- 	switch (rounddown(offset, 4)) {
- 	case PCI_ROM_ADDRESS:
--		if (WARN_ON(!IS_ALIGNED(offset, 4)))
-+		if (drm_WARN_ON(&i915->drm, !IS_ALIGNED(offset, 4)))
- 			return -EINVAL;
- 		return emulate_pci_rom_bar_write(vgpu, offset, p_data, bytes);
- 
- 	case PCI_BASE_ADDRESS_0 ... PCI_BASE_ADDRESS_5:
--		if (WARN_ON(!IS_ALIGNED(offset, 4)))
-+		if (drm_WARN_ON(&i915->drm, !IS_ALIGNED(offset, 4)))
- 			return -EINVAL;
- 		return emulate_pci_bar_write(vgpu, offset, p_data, bytes);
- 
- 	case INTEL_GVT_PCI_SWSCI:
--		if (WARN_ON(!IS_ALIGNED(offset, 4)))
-+		if (drm_WARN_ON(&i915->drm, !IS_ALIGNED(offset, 4)))
- 			return -EINVAL;
- 		ret = intel_vgpu_emulate_opregion_request(vgpu, *(u32 *)p_data);
- 		if (ret)
-@@ -332,7 +337,7 @@ int intel_vgpu_emulate_cfg_write(struct intel_vgpu *vgpu, unsigned int offset,
- 		break;
- 
- 	case INTEL_GVT_PCI_OPREGION:
--		if (WARN_ON(!IS_ALIGNED(offset, 4)))
-+		if (drm_WARN_ON(&i915->drm, !IS_ALIGNED(offset, 4)))
- 			return -EINVAL;
- 		ret = intel_vgpu_opregion_base_write_handler(vgpu,
- 						   *(u32 *)p_data);
-diff --git a/drivers/gpu/drm/i915/gvt/display.c b/drivers/gpu/drm/i915/gvt/display.c
-index 2a4b228d16b0..97daf44a32a5 100644
---- a/drivers/gpu/drm/i915/gvt/display.c
-+++ b/drivers/gpu/drm/i915/gvt/display.c
-@@ -320,9 +320,10 @@ static void clean_virtual_dp_monitor(struct intel_vgpu *vgpu, int port_num)
- static int setup_virtual_dp_monitor(struct intel_vgpu *vgpu, int port_num,
- 				    int type, unsigned int resolution)
- {
-+	struct drm_i915_private *i915 = vgpu->gvt->dev_priv;
- 	struct intel_vgpu_port *port = intel_vgpu_port(vgpu, port_num);
- 
--	if (WARN_ON(resolution >= GVT_EDID_NUM))
-+	if (drm_WARN_ON(&i915->drm, resolution >= GVT_EDID_NUM))
- 		return -EINVAL;
- 
- 	port->edid = kzalloc(sizeof(*(port->edid)), GFP_KERNEL);
-diff --git a/drivers/gpu/drm/i915/gvt/edid.c b/drivers/gpu/drm/i915/gvt/edid.c
-index 97bf75890c7d..c093038eb30b 100644
---- a/drivers/gpu/drm/i915/gvt/edid.c
-+++ b/drivers/gpu/drm/i915/gvt/edid.c
-@@ -276,7 +276,9 @@ static int gmbus1_mmio_write(struct intel_vgpu *vgpu, unsigned int offset,
- static int gmbus3_mmio_write(struct intel_vgpu *vgpu, unsigned int offset,
- 	void *p_data, unsigned int bytes)
- {
--	WARN_ON(1);
-+	struct drm_i915_private *i915 = vgpu->gvt->dev_priv;
-+
-+	drm_WARN_ON(&i915->drm, 1);
- 	return 0;
- }
- 
-@@ -371,7 +373,9 @@ static int gmbus2_mmio_write(struct intel_vgpu *vgpu, unsigned int offset,
- int intel_gvt_i2c_handle_gmbus_read(struct intel_vgpu *vgpu,
- 	unsigned int offset, void *p_data, unsigned int bytes)
- {
--	if (WARN_ON(bytes > 8 && (offset & (bytes - 1))))
-+	struct drm_i915_private *i915 = vgpu->gvt->dev_priv;
-+
-+	if (drm_WARN_ON(&i915->drm, bytes > 8 && (offset & (bytes - 1))))
- 		return -EINVAL;
- 
- 	if (offset == i915_mmio_reg_offset(PCH_GMBUS2))
-@@ -399,7 +403,9 @@ int intel_gvt_i2c_handle_gmbus_read(struct intel_vgpu *vgpu,
- int intel_gvt_i2c_handle_gmbus_write(struct intel_vgpu *vgpu,
- 		unsigned int offset, void *p_data, unsigned int bytes)
- {
--	if (WARN_ON(bytes > 8 && (offset & (bytes - 1))))
-+	struct drm_i915_private *i915 = vgpu->gvt->dev_priv;
-+
-+	if (drm_WARN_ON(&i915->drm, bytes > 8 && (offset & (bytes - 1))))
- 		return -EINVAL;
- 
- 	if (offset == i915_mmio_reg_offset(PCH_GMBUS0))
-@@ -473,6 +479,7 @@ void intel_gvt_i2c_handle_aux_ch_write(struct intel_vgpu *vgpu,
- 				unsigned int offset,
- 				void *p_data)
- {
-+	struct drm_i915_private *i915 = vgpu->gvt->dev_priv;
- 	struct intel_vgpu_i2c_edid *i2c_edid = &vgpu->display.i2c_edid;
- 	int msg_length, ret_msg_size;
- 	int msg, addr, ctrl, op;
-@@ -532,9 +539,9 @@ void intel_gvt_i2c_handle_aux_ch_write(struct intel_vgpu *vgpu,
- 		 * support the gfx driver to do EDID access.
- 		 */
- 	} else {
--		if (WARN_ON((op & 0x1) != GVT_AUX_I2C_READ))
-+		if (drm_WARN_ON(&i915->drm, (op & 0x1) != GVT_AUX_I2C_READ))
- 			return;
--		if (WARN_ON(msg_length != 4))
-+		if (drm_WARN_ON(&i915->drm, msg_length != 4))
- 			return;
- 		if (i2c_edid->edid_available && i2c_edid->slave_selected) {
- 			unsigned char val = edid_get_byte(vgpu);
-diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gvt/gtt.c
-index 34cb404ba4b7..7090fd5c4f7c 100644
---- a/drivers/gpu/drm/i915/gvt/gtt.c
-+++ b/drivers/gpu/drm/i915/gvt/gtt.c
-@@ -71,8 +71,10 @@ bool intel_gvt_ggtt_validate_range(struct intel_vgpu *vgpu, u64 addr, u32 size)
- /* translate a guest gmadr to host gmadr */
- int intel_gvt_ggtt_gmadr_g2h(struct intel_vgpu *vgpu, u64 g_addr, u64 *h_addr)
- {
--	if (WARN(!vgpu_gmadr_is_valid(vgpu, g_addr),
--		 "invalid guest gmadr %llx\n", g_addr))
-+	struct drm_i915_private *i915 = vgpu->gvt->dev_priv;
-+
-+	if (drm_WARN(&i915->drm, !vgpu_gmadr_is_valid(vgpu, g_addr),
-+		     "invalid guest gmadr %llx\n", g_addr))
- 		return -EACCES;
- 
- 	if (vgpu_gmadr_is_aperture(vgpu, g_addr))
-@@ -87,8 +89,10 @@ int intel_gvt_ggtt_gmadr_g2h(struct intel_vgpu *vgpu, u64 g_addr, u64 *h_addr)
- /* translate a host gmadr to guest gmadr */
- int intel_gvt_ggtt_gmadr_h2g(struct intel_vgpu *vgpu, u64 h_addr, u64 *g_addr)
- {
--	if (WARN(!gvt_gmadr_is_valid(vgpu->gvt, h_addr),
--		 "invalid host gmadr %llx\n", h_addr))
-+	struct drm_i915_private *i915 = vgpu->gvt->dev_priv;
-+
-+	if (drm_WARN(&i915->drm, !gvt_gmadr_is_valid(vgpu->gvt, h_addr),
-+		     "invalid host gmadr %llx\n", h_addr))
- 		return -EACCES;
- 
- 	if (gvt_gmadr_is_aperture(vgpu->gvt, h_addr))
-@@ -940,6 +944,7 @@ static int ppgtt_invalidate_spt(struct intel_vgpu_ppgtt_spt *spt);
- static int ppgtt_invalidate_spt_by_shadow_entry(struct intel_vgpu *vgpu,
- 		struct intel_gvt_gtt_entry *e)
- {
-+	struct drm_i915_private *i915 = vgpu->gvt->dev_priv;
- 	struct intel_gvt_gtt_pte_ops *ops = vgpu->gvt->gtt.pte_ops;
- 	struct intel_vgpu_ppgtt_spt *s;
- 	enum intel_gvt_gtt_type cur_pt_type;
-@@ -952,7 +957,9 @@ static int ppgtt_invalidate_spt_by_shadow_entry(struct intel_vgpu *vgpu,
- 
- 		if (!gtt_type_is_pt(cur_pt_type) ||
- 				!gtt_type_is_pt(cur_pt_type + 1)) {
--			WARN(1, "Invalid page table type, cur_pt_type is: %d\n", cur_pt_type);
-+			drm_WARN(&i915->drm, 1,
-+				 "Invalid page table type, cur_pt_type is: %d\n",
-+				 cur_pt_type);
- 			return -EINVAL;
- 		}
- 
-@@ -2343,6 +2350,7 @@ int intel_vgpu_emulate_ggtt_mmio_write(struct intel_vgpu *vgpu,
- static int alloc_scratch_pages(struct intel_vgpu *vgpu,
- 		enum intel_gvt_gtt_type type)
- {
-+	struct drm_i915_private *i915 = vgpu->gvt->dev_priv;
- 	struct intel_vgpu_gtt *gtt = &vgpu->gtt;
- 	struct intel_gvt_gtt_pte_ops *ops = vgpu->gvt->gtt.pte_ops;
- 	int page_entry_num = I915_GTT_PAGE_SIZE >>
-@@ -2352,7 +2360,8 @@ static int alloc_scratch_pages(struct intel_vgpu *vgpu,
- 	struct device *dev = &vgpu->gvt->dev_priv->drm.pdev->dev;
- 	dma_addr_t daddr;
- 
--	if (WARN_ON(type < GTT_TYPE_PPGTT_PTE_PT || type >= GTT_TYPE_MAX))
-+	if (drm_WARN_ON(&i915->drm,
-+			type < GTT_TYPE_PPGTT_PTE_PT || type >= GTT_TYPE_MAX))
- 		return -EINVAL;
- 
- 	scratch_pt = (void *)get_zeroed_page(GFP_KERNEL);
-diff --git a/drivers/gpu/drm/i915/gvt/handlers.c b/drivers/gpu/drm/i915/gvt/handlers.c
-index fbb46cc999b8..17ac8778919c 100644
---- a/drivers/gpu/drm/i915/gvt/handlers.c
-+++ b/drivers/gpu/drm/i915/gvt/handlers.c
-@@ -1306,13 +1306,15 @@ static int pvinfo_mmio_write(struct intel_vgpu *vgpu, unsigned int offset,
- static int pf_write(struct intel_vgpu *vgpu,
- 		unsigned int offset, void *p_data, unsigned int bytes)
- {
-+	struct drm_i915_private *i915 = vgpu->gvt->dev_priv;
- 	u32 val = *(u32 *)p_data;
- 
- 	if ((offset == _PS_1A_CTRL || offset == _PS_2A_CTRL ||
- 	   offset == _PS_1B_CTRL || offset == _PS_2B_CTRL ||
- 	   offset == _PS_1C_CTRL) && (val & PS_PLANE_SEL_MASK) != 0) {
--		WARN_ONCE(true, "VM(%d): guest is trying to scaling a plane\n",
--			  vgpu->id);
-+		drm_WARN_ONCE(&i915->drm, true,
-+			      "VM(%d): guest is trying to scaling a plane\n",
-+			      vgpu->id);
- 		return 0;
- 	}
- 
-@@ -1360,13 +1362,15 @@ static int fpga_dbg_mmio_write(struct intel_vgpu *vgpu,
- static int dma_ctrl_write(struct intel_vgpu *vgpu, unsigned int offset,
- 		void *p_data, unsigned int bytes)
- {
-+	struct drm_i915_private *i915 = vgpu->gvt->dev_priv;
- 	u32 mode;
- 
- 	write_vreg(vgpu, offset, p_data, bytes);
- 	mode = vgpu_vreg(vgpu, offset);
- 
- 	if (GFX_MODE_BIT_SET_IN_MASK(mode, START_DMA)) {
--		WARN_ONCE(1, "VM(%d): iGVT-g doesn't support GuC\n",
-+		drm_WARN_ONCE(&i915->drm, 1,
-+				"VM(%d): iGVT-g doesn't support GuC\n",
- 				vgpu->id);
- 		return 0;
- 	}
-@@ -1377,10 +1381,12 @@ static int dma_ctrl_write(struct intel_vgpu *vgpu, unsigned int offset,
- static int gen9_trtte_write(struct intel_vgpu *vgpu, unsigned int offset,
- 		void *p_data, unsigned int bytes)
- {
-+	struct drm_i915_private *i915 = vgpu->gvt->dev_priv;
- 	u32 trtte = *(u32 *)p_data;
- 
- 	if ((trtte & 1) && (trtte & (1 << 1)) == 0) {
--		WARN(1, "VM(%d): Use physical address for TRTT!\n",
-+		drm_WARN(&i915->drm, 1,
-+				"VM(%d): Use physical address for TRTT!\n",
- 				vgpu->id);
- 		return -EINVAL;
- 	}
-@@ -1682,12 +1688,13 @@ static int mmio_read_from_hw(struct intel_vgpu *vgpu,
- static int elsp_mmio_write(struct intel_vgpu *vgpu, unsigned int offset,
- 		void *p_data, unsigned int bytes)
- {
-+	struct drm_i915_private *i915 = vgpu->gvt->dev_priv;
- 	int ring_id = intel_gvt_render_mmio_to_ring_id(vgpu->gvt, offset);
- 	struct intel_vgpu_execlist *execlist;
- 	u32 data = *(u32 *)p_data;
+@@ -2495,7 +2496,7 @@ static int intel_runtime_suspend(struct device *kdev)
+ 	struct intel_runtime_pm *rpm = &dev_priv->runtime_pm;
  	int ret = 0;
  
--	if (WARN_ON(ring_id < 0 || ring_id >= I915_NUM_ENGINES))
-+	if (drm_WARN_ON(&i915->drm, ring_id < 0 || ring_id >= I915_NUM_ENGINES))
- 		return -EINVAL;
+-	if (WARN_ON_ONCE(!HAS_RUNTIME_PM(dev_priv)))
++	if (drm_WARN_ON_ONCE(&dev_priv->drm, !HAS_RUNTIME_PM(dev_priv)))
+ 		return -ENODEV;
  
- 	execlist = &vgpu->submission.execlist[ring_id];
-@@ -3541,13 +3548,14 @@ bool intel_gvt_in_force_nonpriv_whitelist(struct intel_gvt *gvt,
- int intel_vgpu_mmio_reg_rw(struct intel_vgpu *vgpu, unsigned int offset,
- 			   void *pdata, unsigned int bytes, bool is_read)
- {
-+	struct drm_i915_private *i915 = vgpu->gvt->dev_priv;
- 	struct intel_gvt *gvt = vgpu->gvt;
- 	struct intel_gvt_mmio_info *mmio_info;
- 	struct gvt_mmio_block *mmio_block;
- 	gvt_mmio_func func;
- 	int ret;
+ 	DRM_DEBUG_KMS("Suspending device\n");
+@@ -2580,12 +2581,12 @@ static int intel_runtime_resume(struct device *kdev)
+ 	struct intel_runtime_pm *rpm = &dev_priv->runtime_pm;
+ 	int ret = 0;
  
--	if (WARN_ON(bytes > 8))
-+	if (drm_WARN_ON(&i915->drm, bytes > 8))
- 		return -EINVAL;
+-	if (WARN_ON_ONCE(!HAS_RUNTIME_PM(dev_priv)))
++	if (drm_WARN_ON_ONCE(&dev_priv->drm, !HAS_RUNTIME_PM(dev_priv)))
+ 		return -ENODEV;
  
+ 	DRM_DEBUG_KMS("Resuming device\n");
+ 
+-	WARN_ON_ONCE(atomic_read(&rpm->wakeref_count));
++	drm_WARN_ON_ONCE(&dev_priv->drm, atomic_read(&rpm->wakeref_count));
+ 	disable_rpm_wakeref_asserts(rpm);
+ 
+ 	intel_opregion_notify_adapter(dev_priv, PCI_D0);
+diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
+index 94f993e4c12f..0a20083321a3 100644
+--- a/drivers/gpu/drm/i915/i915_gem.c
++++ b/drivers/gpu/drm/i915/i915_gem.c
+@@ -1198,7 +1198,7 @@ void i915_gem_driver_release(struct drm_i915_private *dev_priv)
+ 
+ 	i915_gem_drain_freed_objects(dev_priv);
+ 
+-	WARN_ON(!list_empty(&dev_priv->gem.contexts.list));
++	drm_WARN_ON(&dev_priv->drm, !list_empty(&dev_priv->gem.contexts.list));
+ }
+ 
+ static void i915_gem_init__mm(struct drm_i915_private *i915)
+@@ -1226,7 +1226,7 @@ void i915_gem_cleanup_early(struct drm_i915_private *dev_priv)
+ 	i915_gem_drain_freed_objects(dev_priv);
+ 	GEM_BUG_ON(!llist_empty(&dev_priv->mm.free_list));
+ 	GEM_BUG_ON(atomic_read(&dev_priv->mm.free_count));
+-	WARN_ON(dev_priv->mm.shrink_count);
++	drm_WARN_ON(&dev_priv->drm, dev_priv->mm.shrink_count);
+ }
+ 
+ int i915_gem_freeze(struct drm_i915_private *dev_priv)
+@@ -1266,7 +1266,8 @@ int i915_gem_freeze_late(struct drm_i915_private *i915)
+ 
+ 	list_for_each_entry(obj, &i915->mm.shrink_list, mm.link) {
+ 		i915_gem_object_lock(obj);
+-		WARN_ON(i915_gem_object_set_to_cpu_domain(obj, true));
++		drm_WARN_ON(&i915->drm,
++			    i915_gem_object_set_to_cpu_domain(obj, true));
+ 		i915_gem_object_unlock(obj);
+ 	}
+ 
+diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
+index afc6aad9bf8c..4b53d776bf7e 100644
+--- a/drivers/gpu/drm/i915/i915_irq.c
++++ b/drivers/gpu/drm/i915/i915_irq.c
+@@ -262,7 +262,7 @@ i915_hotplug_interrupt_update_locked(struct drm_i915_private *dev_priv,
+ 	u32 val;
+ 
+ 	lockdep_assert_held(&dev_priv->irq_lock);
+-	WARN_ON(bits & ~mask);
++	drm_WARN_ON(&dev_priv->drm, bits & ~mask);
+ 
+ 	val = I915_READ(PORT_HOTPLUG_EN);
+ 	val &= ~mask;
+@@ -305,9 +305,9 @@ void ilk_update_display_irq(struct drm_i915_private *dev_priv,
+ 
+ 	lockdep_assert_held(&dev_priv->irq_lock);
+ 
+-	WARN_ON(enabled_irq_mask & ~interrupt_mask);
++	drm_WARN_ON(&dev_priv->drm, enabled_irq_mask & ~interrupt_mask);
+ 
+-	if (WARN_ON(!intel_irqs_enabled(dev_priv)))
++	if (drm_WARN_ON(&dev_priv->drm, !intel_irqs_enabled(dev_priv)))
+ 		return;
+ 
+ 	new_val = dev_priv->irq_mask;
+@@ -336,9 +336,9 @@ static void bdw_update_port_irq(struct drm_i915_private *dev_priv,
+ 
+ 	lockdep_assert_held(&dev_priv->irq_lock);
+ 
+-	WARN_ON(enabled_irq_mask & ~interrupt_mask);
++	drm_WARN_ON(&dev_priv->drm, enabled_irq_mask & ~interrupt_mask);
+ 
+-	if (WARN_ON(!intel_irqs_enabled(dev_priv)))
++	if (drm_WARN_ON(&dev_priv->drm, !intel_irqs_enabled(dev_priv)))
+ 		return;
+ 
+ 	old_val = I915_READ(GEN8_DE_PORT_IMR);
+@@ -369,9 +369,9 @@ void bdw_update_pipe_irq(struct drm_i915_private *dev_priv,
+ 
+ 	lockdep_assert_held(&dev_priv->irq_lock);
+ 
+-	WARN_ON(enabled_irq_mask & ~interrupt_mask);
++	drm_WARN_ON(&dev_priv->drm, enabled_irq_mask & ~interrupt_mask);
+ 
+-	if (WARN_ON(!intel_irqs_enabled(dev_priv)))
++	if (drm_WARN_ON(&dev_priv->drm, !intel_irqs_enabled(dev_priv)))
+ 		return;
+ 
+ 	new_val = dev_priv->de_irq_mask[pipe];
+@@ -399,11 +399,11 @@ void ibx_display_interrupt_update(struct drm_i915_private *dev_priv,
+ 	sdeimr &= ~interrupt_mask;
+ 	sdeimr |= (~enabled_irq_mask & interrupt_mask);
+ 
+-	WARN_ON(enabled_irq_mask & ~interrupt_mask);
++	drm_WARN_ON(&dev_priv->drm, enabled_irq_mask & ~interrupt_mask);
+ 
+ 	lockdep_assert_held(&dev_priv->irq_lock);
+ 
+-	if (WARN_ON(!intel_irqs_enabled(dev_priv)))
++	if (drm_WARN_ON(&dev_priv->drm, !intel_irqs_enabled(dev_priv)))
+ 		return;
+ 
+ 	I915_WRITE(SDEIMR, sdeimr);
+@@ -425,13 +425,15 @@ u32 i915_pipestat_enable_mask(struct drm_i915_private *dev_priv,
+ 	 * On pipe A we don't support the PSR interrupt yet,
+ 	 * on pipe B and C the same bit MBZ.
+ 	 */
+-	if (WARN_ON_ONCE(status_mask & PIPE_A_PSR_STATUS_VLV))
++	if (drm_WARN_ON_ONCE(&dev_priv->drm,
++			     status_mask & PIPE_A_PSR_STATUS_VLV))
+ 		return 0;
  	/*
-diff --git a/drivers/gpu/drm/i915/gvt/interrupt.c b/drivers/gpu/drm/i915/gvt/interrupt.c
-index 11accd3e1023..9c08a6aa5280 100644
---- a/drivers/gpu/drm/i915/gvt/interrupt.c
-+++ b/drivers/gpu/drm/i915/gvt/interrupt.c
-@@ -244,6 +244,7 @@ int intel_vgpu_reg_master_irq_handler(struct intel_vgpu *vgpu,
- int intel_vgpu_reg_ier_handler(struct intel_vgpu *vgpu,
- 	unsigned int reg, void *p_data, unsigned int bytes)
- {
-+	struct drm_i915_private *i915 = vgpu->gvt->dev_priv;
- 	struct intel_gvt *gvt = vgpu->gvt;
- 	struct intel_gvt_irq_ops *ops = gvt->irq.ops;
- 	struct intel_gvt_irq_info *info;
-@@ -255,7 +256,7 @@ int intel_vgpu_reg_ier_handler(struct intel_vgpu *vgpu,
- 	vgpu_vreg(vgpu, reg) = ier;
+ 	 * On pipe B and C we don't support the PSR interrupt yet, on pipe
+ 	 * A the same bit is for perf counters which we don't use either.
+ 	 */
+-	if (WARN_ON_ONCE(status_mask & PIPE_B_PSR_STATUS_VLV))
++	if (drm_WARN_ON_ONCE(&dev_priv->drm,
++			     status_mask & PIPE_B_PSR_STATUS_VLV))
+ 		return 0;
  
- 	info = regbase_to_irq_info(gvt, ier_to_regbase(reg));
--	if (WARN_ON(!info))
-+	if (drm_WARN_ON(&i915->drm, !info))
- 		return -EINVAL;
+ 	enable_mask &= ~(PIPE_FIFO_UNDERRUN_STATUS |
+@@ -443,10 +445,11 @@ u32 i915_pipestat_enable_mask(struct drm_i915_private *dev_priv,
+ 		enable_mask |= SPRITE1_FLIP_DONE_INT_EN_VLV;
  
- 	if (info->has_upstream_irq)
-@@ -282,6 +283,7 @@ int intel_vgpu_reg_ier_handler(struct intel_vgpu *vgpu,
- int intel_vgpu_reg_iir_handler(struct intel_vgpu *vgpu, unsigned int reg,
- 	void *p_data, unsigned int bytes)
- {
-+	struct drm_i915_private *i915 = vgpu->gvt->dev_priv;
- 	struct intel_gvt_irq_info *info = regbase_to_irq_info(vgpu->gvt,
- 		iir_to_regbase(reg));
- 	u32 iir = *(u32 *)p_data;
-@@ -289,7 +291,7 @@ int intel_vgpu_reg_iir_handler(struct intel_vgpu *vgpu, unsigned int reg,
- 	trace_write_ir(vgpu->id, "IIR", reg, iir, vgpu_vreg(vgpu, reg),
- 		       (vgpu_vreg(vgpu, reg) ^ iir));
+ out:
+-	WARN_ONCE(enable_mask & ~PIPESTAT_INT_ENABLE_MASK ||
+-		  status_mask & ~PIPESTAT_INT_STATUS_MASK,
+-		  "pipe %c: enable_mask=0x%x, status_mask=0x%x\n",
+-		  pipe_name(pipe), enable_mask, status_mask);
++	drm_WARN_ONCE(&dev_priv->drm,
++		      enable_mask & ~PIPESTAT_INT_ENABLE_MASK ||
++		      status_mask & ~PIPESTAT_INT_STATUS_MASK,
++		      "pipe %c: enable_mask=0x%x, status_mask=0x%x\n",
++		      pipe_name(pipe), enable_mask, status_mask);
  
--	if (WARN_ON(!info))
-+	if (drm_WARN_ON(&i915->drm, !info))
- 		return -EINVAL;
- 
- 	vgpu_vreg(vgpu, reg) &= ~iir;
-@@ -319,6 +321,7 @@ static struct intel_gvt_irq_map gen8_irq_map[] = {
- static void update_upstream_irq(struct intel_vgpu *vgpu,
- 		struct intel_gvt_irq_info *info)
- {
-+	struct drm_i915_private *i915 = vgpu->gvt->dev_priv;
- 	struct intel_gvt_irq *irq = &vgpu->gvt->irq;
- 	struct intel_gvt_irq_map *map = irq->irq_map;
- 	struct intel_gvt_irq_info *up_irq_info = NULL;
-@@ -340,7 +343,8 @@ static void update_upstream_irq(struct intel_vgpu *vgpu,
- 		if (!up_irq_info)
- 			up_irq_info = irq->info[map->up_irq_group];
- 		else
--			WARN_ON(up_irq_info != irq->info[map->up_irq_group]);
-+			drm_WARN_ON(&i915->drm,
-+			    up_irq_info != irq->info[map->up_irq_group]);
- 
- 		bit = map->up_irq_bit;
- 
-@@ -350,7 +354,7 @@ static void update_upstream_irq(struct intel_vgpu *vgpu,
- 			clear_bits |= (1 << bit);
- 	}
- 
--	if (WARN_ON(!up_irq_info))
-+	if (drm_WARN_ON(&i915->drm, !up_irq_info))
- 		return;
- 
- 	if (up_irq_info->group == INTEL_GVT_IRQ_INFO_MASTER) {
-@@ -618,13 +622,14 @@ static struct intel_gvt_irq_ops gen8_irq_ops = {
- void intel_vgpu_trigger_virtual_event(struct intel_vgpu *vgpu,
- 	enum intel_gvt_event_type event)
- {
-+	struct drm_i915_private *i915 = vgpu->gvt->dev_priv;
- 	struct intel_gvt *gvt = vgpu->gvt;
- 	struct intel_gvt_irq *irq = &gvt->irq;
- 	gvt_event_virt_handler_t handler;
- 	struct intel_gvt_irq_ops *ops = gvt->irq.ops;
- 
- 	handler = get_event_virt_handler(irq, event);
--	WARN_ON(!handler);
-+	drm_WARN_ON(&i915->drm, !handler);
- 
- 	handler(irq, event, vgpu);
- 
-diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/kvmgt.c
-index 3259a1fa69e1..f349e7acb375 100644
---- a/drivers/gpu/drm/i915/gvt/kvmgt.c
-+++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
-@@ -120,6 +120,7 @@ static bool kvmgt_guest_exit(struct kvmgt_guest_info *info);
- static void gvt_unpin_guest_page(struct intel_vgpu *vgpu, unsigned long gfn,
- 		unsigned long size)
- {
-+	struct drm_i915_private *i915 = vgpu->gvt->dev_priv;
- 	int total_pages;
- 	int npage;
- 	int ret;
-@@ -130,7 +131,7 @@ static void gvt_unpin_guest_page(struct intel_vgpu *vgpu, unsigned long gfn,
- 		unsigned long cur_gfn = gfn + npage;
- 
- 		ret = vfio_unpin_pages(mdev_dev(vgpu->vdev.mdev), &cur_gfn, 1);
--		WARN_ON(ret != 1);
-+		drm_WARN_ON(&i915->drm, ret != 1);
- 	}
+ 	return enable_mask;
  }
+@@ -457,12 +460,12 @@ void i915_enable_pipestat(struct drm_i915_private *dev_priv,
+ 	i915_reg_t reg = PIPESTAT(pipe);
+ 	u32 enable_mask;
  
-@@ -808,6 +809,7 @@ static void intel_vgpu_release_msi_eventfd_ctx(struct intel_vgpu *vgpu)
+-	WARN_ONCE(status_mask & ~PIPESTAT_INT_STATUS_MASK,
+-		  "pipe %c: status_mask=0x%x\n",
+-		  pipe_name(pipe), status_mask);
++	drm_WARN_ONCE(&dev_priv->drm, status_mask & ~PIPESTAT_INT_STATUS_MASK,
++		      "pipe %c: status_mask=0x%x\n",
++		      pipe_name(pipe), status_mask);
  
- static void __intel_vgpu_release(struct intel_vgpu *vgpu)
- {
-+	struct drm_i915_private *i915 = vgpu->gvt->dev_priv;
- 	struct kvmgt_guest_info *info;
- 	int ret;
+ 	lockdep_assert_held(&dev_priv->irq_lock);
+-	WARN_ON(!intel_irqs_enabled(dev_priv));
++	drm_WARN_ON(&dev_priv->drm, !intel_irqs_enabled(dev_priv));
  
-@@ -821,11 +823,13 @@ static void __intel_vgpu_release(struct intel_vgpu *vgpu)
- 
- 	ret = vfio_unregister_notifier(mdev_dev(vgpu->vdev.mdev), VFIO_IOMMU_NOTIFY,
- 					&vgpu->vdev.iommu_notifier);
--	WARN(ret, "vfio_unregister_notifier for iommu failed: %d\n", ret);
-+	drm_WARN(&i915->drm, ret,
-+		 "vfio_unregister_notifier for iommu failed: %d\n", ret);
- 
- 	ret = vfio_unregister_notifier(mdev_dev(vgpu->vdev.mdev), VFIO_GROUP_NOTIFY,
- 					&vgpu->vdev.group_notifier);
--	WARN(ret, "vfio_unregister_notifier for group failed: %d\n", ret);
-+	drm_WARN(&i915->drm, ret,
-+		 "vfio_unregister_notifier for group failed: %d\n", ret);
- 
- 	/* dereference module reference taken at open */
- 	module_put(THIS_MODULE);
-diff --git a/drivers/gpu/drm/i915/gvt/mmio.c b/drivers/gpu/drm/i915/gvt/mmio.c
-index a55178884d67..1046a68da888 100644
---- a/drivers/gpu/drm/i915/gvt/mmio.c
-+++ b/drivers/gpu/drm/i915/gvt/mmio.c
-@@ -102,6 +102,7 @@ static void failsafe_emulate_mmio_rw(struct intel_vgpu *vgpu, u64 pa,
- int intel_vgpu_emulate_mmio_read(struct intel_vgpu *vgpu, u64 pa,
- 		void *p_data, unsigned int bytes)
- {
-+	struct drm_i915_private *i915 = vgpu->gvt->dev_priv;
- 	struct intel_gvt *gvt = vgpu->gvt;
- 	unsigned int offset = 0;
- 	int ret = -EINVAL;
-@@ -114,15 +115,17 @@ int intel_vgpu_emulate_mmio_read(struct intel_vgpu *vgpu, u64 pa,
- 
- 	offset = intel_vgpu_gpa_to_mmio_offset(vgpu, pa);
- 
--	if (WARN_ON(bytes > 8))
-+	if (drm_WARN_ON(&i915->drm, bytes > 8))
- 		goto err;
- 
- 	if (reg_is_gtt(gvt, offset)) {
--		if (WARN_ON(!IS_ALIGNED(offset, 4) && !IS_ALIGNED(offset, 8)))
-+		if (drm_WARN_ON(&i915->drm, !IS_ALIGNED(offset, 4) &&
-+				!IS_ALIGNED(offset, 8)))
- 			goto err;
--		if (WARN_ON(bytes != 4 && bytes != 8))
-+		if (drm_WARN_ON(&i915->drm, bytes != 4 && bytes != 8))
- 			goto err;
--		if (WARN_ON(!reg_is_gtt(gvt, offset + bytes - 1)))
-+		if (drm_WARN_ON(&i915->drm,
-+				!reg_is_gtt(gvt, offset + bytes - 1)))
- 			goto err;
- 
- 		ret = intel_vgpu_emulate_ggtt_mmio_read(vgpu, offset,
-@@ -132,16 +135,16 @@ int intel_vgpu_emulate_mmio_read(struct intel_vgpu *vgpu, u64 pa,
- 		goto out;
- 	}
- 
--	if (WARN_ON_ONCE(!reg_is_mmio(gvt, offset))) {
-+	if (drm_WARN_ON_ONCE(&i915->drm, !reg_is_mmio(gvt, offset))) {
- 		ret = intel_gvt_hypervisor_read_gpa(vgpu, pa, p_data, bytes);
- 		goto out;
- 	}
- 
--	if (WARN_ON(!reg_is_mmio(gvt, offset + bytes - 1)))
-+	if (drm_WARN_ON(&i915->drm, !reg_is_mmio(gvt, offset + bytes - 1)))
- 		goto err;
- 
- 	if (!intel_gvt_mmio_is_unalign(gvt, offset)) {
--		if (WARN_ON(!IS_ALIGNED(offset, bytes)))
-+		if (drm_WARN_ON(&i915->drm, !IS_ALIGNED(offset, bytes)))
- 			goto err;
- 	}
- 
-@@ -174,6 +177,7 @@ int intel_vgpu_emulate_mmio_read(struct intel_vgpu *vgpu, u64 pa,
- int intel_vgpu_emulate_mmio_write(struct intel_vgpu *vgpu, u64 pa,
- 		void *p_data, unsigned int bytes)
- {
-+	struct drm_i915_private *i915 = vgpu->gvt->dev_priv;
- 	struct intel_gvt *gvt = vgpu->gvt;
- 	unsigned int offset = 0;
- 	int ret = -EINVAL;
-@@ -187,15 +191,17 @@ int intel_vgpu_emulate_mmio_write(struct intel_vgpu *vgpu, u64 pa,
- 
- 	offset = intel_vgpu_gpa_to_mmio_offset(vgpu, pa);
- 
--	if (WARN_ON(bytes > 8))
-+	if (drm_WARN_ON(&i915->drm, bytes > 8))
- 		goto err;
- 
- 	if (reg_is_gtt(gvt, offset)) {
--		if (WARN_ON(!IS_ALIGNED(offset, 4) && !IS_ALIGNED(offset, 8)))
-+		if (drm_WARN_ON(&i915->drm, !IS_ALIGNED(offset, 4) &&
-+				!IS_ALIGNED(offset, 8)))
- 			goto err;
--		if (WARN_ON(bytes != 4 && bytes != 8))
-+		if (drm_WARN_ON(&i915->drm, bytes != 4 && bytes != 8))
- 			goto err;
--		if (WARN_ON(!reg_is_gtt(gvt, offset + bytes - 1)))
-+		if (drm_WARN_ON(&i915->drm,
-+				!reg_is_gtt(gvt, offset + bytes - 1)))
- 			goto err;
- 
- 		ret = intel_vgpu_emulate_ggtt_mmio_write(vgpu, offset,
-@@ -205,7 +211,7 @@ int intel_vgpu_emulate_mmio_write(struct intel_vgpu *vgpu, u64 pa,
- 		goto out;
- 	}
- 
--	if (WARN_ON_ONCE(!reg_is_mmio(gvt, offset))) {
-+	if (drm_WARN_ON_ONCE(&i915->drm, !reg_is_mmio(gvt, offset))) {
- 		ret = intel_gvt_hypervisor_write_gpa(vgpu, pa, p_data, bytes);
- 		goto out;
- 	}
-diff --git a/drivers/gpu/drm/i915/gvt/mmio_context.c b/drivers/gpu/drm/i915/gvt/mmio_context.c
-index a4a1de347af0..46c291e4926b 100644
---- a/drivers/gpu/drm/i915/gvt/mmio_context.c
-+++ b/drivers/gpu/drm/i915/gvt/mmio_context.c
-@@ -392,6 +392,7 @@ static void handle_tlb_pending_event(struct intel_vgpu *vgpu, int ring_id)
- static void switch_mocs(struct intel_vgpu *pre, struct intel_vgpu *next,
- 			int ring_id)
- {
-+	struct drm_i915_private *i915 = pre->gvt->dev_priv;
- 	struct drm_i915_private *dev_priv;
- 	i915_reg_t offset, l3_offset;
- 	u32 old_v, new_v;
-@@ -406,7 +407,7 @@ static void switch_mocs(struct intel_vgpu *pre, struct intel_vgpu *next,
- 	int i;
- 
- 	dev_priv = pre ? pre->gvt->dev_priv : next->gvt->dev_priv;
--	if (WARN_ON(ring_id >= ARRAY_SIZE(regs)))
-+	if (drm_WARN_ON(&i915->drm, ring_id >= ARRAY_SIZE(regs)))
+ 	if ((dev_priv->pipestat_irq_mask[pipe] & status_mask) == status_mask)
  		return;
+@@ -480,12 +483,12 @@ void i915_disable_pipestat(struct drm_i915_private *dev_priv,
+ 	i915_reg_t reg = PIPESTAT(pipe);
+ 	u32 enable_mask;
  
- 	if (ring_id == RCS0 && IS_GEN(dev_priv, 9))
-@@ -551,9 +552,10 @@ static void switch_mmio(struct intel_vgpu *pre,
- void intel_gvt_switch_mmio(struct intel_vgpu *pre,
- 			   struct intel_vgpu *next, int ring_id)
- {
-+	struct drm_i915_private *i915 = pre->gvt->dev_priv;
- 	struct drm_i915_private *dev_priv;
+-	WARN_ONCE(status_mask & ~PIPESTAT_INT_STATUS_MASK,
+-		  "pipe %c: status_mask=0x%x\n",
+-		  pipe_name(pipe), status_mask);
++	drm_WARN_ONCE(&dev_priv->drm, status_mask & ~PIPESTAT_INT_STATUS_MASK,
++		      "pipe %c: status_mask=0x%x\n",
++		      pipe_name(pipe), status_mask);
  
--	if (WARN_ON(!pre && !next))
-+	if (drm_WARN_ON(&i915->drm, !pre && !next))
+ 	lockdep_assert_held(&dev_priv->irq_lock);
+-	WARN_ON(!intel_irqs_enabled(dev_priv));
++	drm_WARN_ON(&dev_priv->drm, !intel_irqs_enabled(dev_priv));
+ 
+ 	if ((dev_priv->pipestat_irq_mask[pipe] & status_mask) == 0)
  		return;
+@@ -777,7 +780,7 @@ bool i915_get_crtc_scanoutpos(struct drm_device *dev, unsigned int index,
+ 		IS_G4X(dev_priv) || IS_GEN(dev_priv, 2) ||
+ 		mode->private_flags & I915_MODE_FLAG_USE_SCANLINE_COUNTER;
  
- 	gvt_dbg_render("switch ring %d from %s to %s\n", ring_id,
-diff --git a/drivers/gpu/drm/i915/gvt/scheduler.c b/drivers/gpu/drm/i915/gvt/scheduler.c
-index 685d1e04a5ff..cc89afd7b5f1 100644
---- a/drivers/gpu/drm/i915/gvt/scheduler.c
-+++ b/drivers/gpu/drm/i915/gvt/scheduler.c
-@@ -1309,6 +1309,7 @@ int intel_vgpu_select_submission_ops(struct intel_vgpu *vgpu,
- 				     intel_engine_mask_t engine_mask,
- 				     unsigned int interface)
- {
-+	struct drm_i915_private *i915 = vgpu->gvt->dev_priv;
- 	struct intel_vgpu_submission *s = &vgpu->submission;
- 	const struct intel_vgpu_submission_ops *ops[] = {
- 		[INTEL_VGPU_EXECLIST_SUBMISSION] =
-@@ -1316,10 +1317,11 @@ int intel_vgpu_select_submission_ops(struct intel_vgpu *vgpu,
- 	};
- 	int ret;
+-	if (WARN_ON(!mode->crtc_clock)) {
++	if (drm_WARN_ON(&dev_priv->drm, !mode->crtc_clock)) {
+ 		DRM_DEBUG_DRIVER("trying to get scanoutpos for disabled "
+ 				 "pipe %c\n", pipe_name(pipe));
+ 		return false;
+@@ -918,7 +921,7 @@ static void ivb_parity_work(struct work_struct *work)
+ 	mutex_lock(&dev_priv->drm.struct_mutex);
  
--	if (WARN_ON(interface >= ARRAY_SIZE(ops)))
-+	if (drm_WARN_ON(&i915->drm, interface >= ARRAY_SIZE(ops)))
- 		return -EINVAL;
+ 	/* If we've screwed up tracking, just let the interrupt fire again */
+-	if (WARN_ON(!dev_priv->l3_parity.which_slice))
++	if (drm_WARN_ON(&dev_priv->drm, !dev_priv->l3_parity.which_slice))
+ 		goto out;
  
--	if (WARN_ON(interface == 0 && engine_mask != ALL_ENGINES))
-+	if (drm_WARN_ON(&i915->drm,
-+			interface == 0 && engine_mask != ALL_ENGINES))
- 		return -EINVAL;
+ 	misccpctl = I915_READ(GEN7_MISCCPCTL);
+@@ -929,7 +932,8 @@ static void ivb_parity_work(struct work_struct *work)
+ 		i915_reg_t reg;
  
- 	if (s->active)
-diff --git a/drivers/gpu/drm/i915/gvt/vgpu.c b/drivers/gpu/drm/i915/gvt/vgpu.c
-index 85bd9bf4f6ee..6f35e9a3a561 100644
---- a/drivers/gpu/drm/i915/gvt/vgpu.c
-+++ b/drivers/gpu/drm/i915/gvt/vgpu.c
-@@ -37,6 +37,7 @@
+ 		slice--;
+-		if (WARN_ON_ONCE(slice >= NUM_L3_SLICES(dev_priv)))
++		if (drm_WARN_ON_ONCE(&dev_priv->drm,
++				     slice >= NUM_L3_SLICES(dev_priv)))
+ 			break;
  
- void populate_pvinfo_page(struct intel_vgpu *vgpu)
- {
-+	struct drm_i915_private *i915 = vgpu->gvt->dev_priv;
- 	/* setup the ballooning information */
- 	vgpu_vreg64_t(vgpu, vgtif_reg(magic)) = VGT_MAGIC;
- 	vgpu_vreg_t(vgpu, vgtif_reg(version_major)) = 1;
-@@ -69,7 +70,7 @@ void populate_pvinfo_page(struct intel_vgpu *vgpu)
- 		vgpu_hidden_gmadr_base(vgpu), vgpu_hidden_sz(vgpu));
- 	gvt_dbg_core("fence size %d\n", vgpu_fence_sz(vgpu));
+ 		dev_priv->l3_parity.which_slice &= ~(1<<slice);
+@@ -966,7 +970,7 @@ static void ivb_parity_work(struct work_struct *work)
+ 	I915_WRITE(GEN7_MISCCPCTL, misccpctl);
  
--	WARN_ON(sizeof(struct vgt_if) != VGT_PVINFO_SIZE);
-+	drm_WARN_ON(&i915->drm, sizeof(struct vgt_if) != VGT_PVINFO_SIZE);
+ out:
+-	WARN_ON(dev_priv->l3_parity.which_slice);
++	drm_WARN_ON(&dev_priv->drm, dev_priv->l3_parity.which_slice);
+ 	spin_lock_irq(&gt->irq_lock);
+ 	gen5_gt_enable_irq(gt, GT_PARITY_ERROR(dev_priv));
+ 	spin_unlock_irq(&gt->irq_lock);
+@@ -1463,9 +1467,9 @@ static u32 i9xx_hpd_irq_ack(struct drm_i915_private *dev_priv)
+ 		I915_WRITE(PORT_HOTPLUG_STAT, hotplug_status);
+ 	}
+ 
+-	WARN_ONCE(1,
+-		  "PORT_HOTPLUG_STAT did not clear (0x%08x)\n",
+-		  I915_READ(PORT_HOTPLUG_STAT));
++	drm_WARN_ONCE(&dev_priv->drm, 1,
++		      "PORT_HOTPLUG_STAT did not clear (0x%08x)\n",
++		      I915_READ(PORT_HOTPLUG_STAT));
+ 
+ 	return hotplug_status;
  }
+@@ -1844,8 +1848,9 @@ static void icp_irq_handler(struct drm_i915_private *dev_priv, u32 pch_iir)
+ 		tc_port_hotplug_long_detect = icp_tc_port_hotplug_long_detect;
+ 		pins = hpd_icp;
+ 	} else {
+-		WARN(!HAS_PCH_ICP(dev_priv),
+-		     "Unrecognized PCH type 0x%x\n", INTEL_PCH_TYPE(dev_priv));
++		drm_WARN(&dev_priv->drm, !HAS_PCH_ICP(dev_priv),
++			 "Unrecognized PCH type 0x%x\n",
++			 INTEL_PCH_TYPE(dev_priv));
  
- #define VGPU_MAX_WEIGHT 16
-@@ -270,11 +271,12 @@ void intel_gvt_release_vgpu(struct intel_vgpu *vgpu)
-  */
- void intel_gvt_destroy_vgpu(struct intel_vgpu *vgpu)
+ 		ddi_hotplug_trigger = pch_iir & SDE_DDI_MASK_ICP;
+ 		tc_hotplug_trigger = pch_iir & SDE_TC_MASK_ICP;
+@@ -2686,7 +2691,7 @@ static void ibx_irq_pre_postinstall(struct drm_i915_private *dev_priv)
+ 	if (HAS_PCH_NOP(dev_priv))
+ 		return;
+ 
+-	WARN_ON(I915_READ(SDEIER) != 0);
++	drm_WARN_ON(&dev_priv->drm, I915_READ(SDEIER) != 0);
+ 	I915_WRITE(SDEIER, 0xffffffff);
+ 	POSTING_READ(SDEIER);
+ }
+@@ -2733,7 +2738,7 @@ static void vlv_display_irq_postinstall(struct drm_i915_private *dev_priv)
+ 		enable_mask |= I915_DISPLAY_PIPE_C_EVENT_INTERRUPT |
+ 			I915_LPE_PIPE_C_INTERRUPT;
+ 
+-	WARN_ON(dev_priv->irq_mask != ~0u);
++	drm_WARN_ON(&dev_priv->drm, dev_priv->irq_mask != ~0u);
+ 
+ 	dev_priv->irq_mask = ~enable_mask;
+ 
+@@ -3418,7 +3423,7 @@ static void icp_irq_postinstall(struct drm_i915_private *dev_priv)
  {
-+	struct drm_i915_private *i915 = vgpu->gvt->dev_priv;
- 	struct intel_gvt *gvt = vgpu->gvt;
+ 	u32 mask = SDE_GMBUS_ICP;
  
- 	mutex_lock(&vgpu->vgpu_lock);
+-	WARN_ON(I915_READ(SDEIER) != 0);
++	drm_WARN_ON(&dev_priv->drm, I915_READ(SDEIER) != 0);
+ 	I915_WRITE(SDEIER, 0xffffffff);
+ 	POSTING_READ(SDEIER);
  
--	WARN(vgpu->active, "vGPU is still active!\n");
-+	drm_WARN(&i915->drm, vgpu->active, "vGPU is still active!\n");
+diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
+index 28a82c849bac..19f0e904a8f3 100644
+--- a/drivers/gpu/drm/i915/i915_pmu.c
++++ b/drivers/gpu/drm/i915/i915_pmu.c
+@@ -448,7 +448,7 @@ static void engine_event_destroy(struct perf_event *event)
+ 	engine = intel_engine_lookup_user(i915,
+ 					  engine_event_class(event),
+ 					  engine_event_instance(event));
+-	if (WARN_ON_ONCE(!engine))
++	if (drm_WARN_ON_ONCE(&i915->drm, !engine))
+ 		return;
  
- 	intel_gvt_debugfs_remove_vgpu(vgpu);
- 	intel_vgpu_clean_sched_policy(vgpu);
+ 	if (engine_event_sample(event) == I915_SAMPLE_BUSY &&
+@@ -584,7 +584,7 @@ static u64 __i915_pmu_event_read(struct perf_event *event)
+ 						  engine_event_class(event),
+ 						  engine_event_instance(event));
+ 
+-		if (WARN_ON_ONCE(!engine)) {
++		if (drm_WARN_ON_ONCE(&i915->drm, !engine)) {
+ 			/* Do nothing */
+ 		} else if (sample == I915_SAMPLE_BUSY &&
+ 			   intel_engine_supports_stats(engine)) {
+@@ -1174,7 +1174,7 @@ void i915_pmu_unregister(struct drm_i915_private *i915)
+ 	if (!pmu->base.event_init)
+ 		return;
+ 
+-	WARN_ON(pmu->enable);
++	drm_WARN_ON(&i915->drm, pmu->enable);
+ 
+ 	hrtimer_cancel(&pmu->timer);
+ 
+diff --git a/drivers/gpu/drm/i915/intel_csr.c b/drivers/gpu/drm/i915/intel_csr.c
+index 09870a31b4f0..801181ad60ce 100644
+--- a/drivers/gpu/drm/i915/intel_csr.c
++++ b/drivers/gpu/drm/i915/intel_csr.c
+@@ -607,7 +607,7 @@ static void parse_csr_fw(struct drm_i915_private *dev_priv,
+ 
+ static void intel_csr_runtime_pm_get(struct drm_i915_private *dev_priv)
+ {
+-	WARN_ON(dev_priv->csr.wakeref);
++	drm_WARN_ON(&dev_priv->drm, dev_priv->csr.wakeref);
+ 	dev_priv->csr.wakeref =
+ 		intel_display_power_get(dev_priv, POWER_DOMAIN_INIT);
+ }
+@@ -783,7 +783,7 @@ void intel_csr_ucode_fini(struct drm_i915_private *dev_priv)
+ 		return;
+ 
+ 	intel_csr_ucode_suspend(dev_priv);
+-	WARN_ON(dev_priv->csr.wakeref);
++	drm_WARN_ON(&dev_priv->drm, dev_priv->csr.wakeref);
+ 
+ 	kfree(dev_priv->csr.dmc_payload);
+ }
+diff --git a/drivers/gpu/drm/i915/intel_pch.c b/drivers/gpu/drm/i915/intel_pch.c
+index 4ed60e1f01db..20ab9a5023b5 100644
+--- a/drivers/gpu/drm/i915/intel_pch.c
++++ b/drivers/gpu/drm/i915/intel_pch.c
+@@ -13,91 +13,106 @@ intel_pch_type(const struct drm_i915_private *dev_priv, unsigned short id)
+ 	switch (id) {
+ 	case INTEL_PCH_IBX_DEVICE_ID_TYPE:
+ 		drm_dbg_kms(&dev_priv->drm, "Found Ibex Peak PCH\n");
+-		WARN_ON(!IS_GEN(dev_priv, 5));
++		drm_WARN_ON(&dev_priv->drm, !IS_GEN(dev_priv, 5));
+ 		return PCH_IBX;
+ 	case INTEL_PCH_CPT_DEVICE_ID_TYPE:
+ 		drm_dbg_kms(&dev_priv->drm, "Found CougarPoint PCH\n");
+-		WARN_ON(!IS_GEN(dev_priv, 6) && !IS_IVYBRIDGE(dev_priv));
++		drm_WARN_ON(&dev_priv->drm,
++			    !IS_GEN(dev_priv, 6) && !IS_IVYBRIDGE(dev_priv));
+ 		return PCH_CPT;
+ 	case INTEL_PCH_PPT_DEVICE_ID_TYPE:
+ 		drm_dbg_kms(&dev_priv->drm, "Found PantherPoint PCH\n");
+-		WARN_ON(!IS_GEN(dev_priv, 6) && !IS_IVYBRIDGE(dev_priv));
++		drm_WARN_ON(&dev_priv->drm,
++			    !IS_GEN(dev_priv, 6) && !IS_IVYBRIDGE(dev_priv));
+ 		/* PantherPoint is CPT compatible */
+ 		return PCH_CPT;
+ 	case INTEL_PCH_LPT_DEVICE_ID_TYPE:
+ 		drm_dbg_kms(&dev_priv->drm, "Found LynxPoint PCH\n");
+-		WARN_ON(!IS_HASWELL(dev_priv) && !IS_BROADWELL(dev_priv));
+-		WARN_ON(IS_HSW_ULT(dev_priv) || IS_BDW_ULT(dev_priv));
++		drm_WARN_ON(&dev_priv->drm,
++			    !IS_HASWELL(dev_priv) && !IS_BROADWELL(dev_priv));
++		drm_WARN_ON(&dev_priv->drm,
++			    IS_HSW_ULT(dev_priv) || IS_BDW_ULT(dev_priv));
+ 		return PCH_LPT;
+ 	case INTEL_PCH_LPT_LP_DEVICE_ID_TYPE:
+ 		drm_dbg_kms(&dev_priv->drm, "Found LynxPoint LP PCH\n");
+-		WARN_ON(!IS_HASWELL(dev_priv) && !IS_BROADWELL(dev_priv));
+-		WARN_ON(!IS_HSW_ULT(dev_priv) && !IS_BDW_ULT(dev_priv));
++		drm_WARN_ON(&dev_priv->drm,
++			    !IS_HASWELL(dev_priv) && !IS_BROADWELL(dev_priv));
++		drm_WARN_ON(&dev_priv->drm,
++			    !IS_HSW_ULT(dev_priv) && !IS_BDW_ULT(dev_priv));
+ 		return PCH_LPT;
+ 	case INTEL_PCH_WPT_DEVICE_ID_TYPE:
+ 		drm_dbg_kms(&dev_priv->drm, "Found WildcatPoint PCH\n");
+-		WARN_ON(!IS_HASWELL(dev_priv) && !IS_BROADWELL(dev_priv));
+-		WARN_ON(IS_HSW_ULT(dev_priv) || IS_BDW_ULT(dev_priv));
++		drm_WARN_ON(&dev_priv->drm,
++			    !IS_HASWELL(dev_priv) && !IS_BROADWELL(dev_priv));
++		drm_WARN_ON(&dev_priv->drm,
++			    IS_HSW_ULT(dev_priv) || IS_BDW_ULT(dev_priv));
+ 		/* WildcatPoint is LPT compatible */
+ 		return PCH_LPT;
+ 	case INTEL_PCH_WPT_LP_DEVICE_ID_TYPE:
+ 		drm_dbg_kms(&dev_priv->drm, "Found WildcatPoint LP PCH\n");
+-		WARN_ON(!IS_HASWELL(dev_priv) && !IS_BROADWELL(dev_priv));
+-		WARN_ON(!IS_HSW_ULT(dev_priv) && !IS_BDW_ULT(dev_priv));
++		drm_WARN_ON(&dev_priv->drm,
++			    !IS_HASWELL(dev_priv) && !IS_BROADWELL(dev_priv));
++		drm_WARN_ON(&dev_priv->drm,
++			    !IS_HSW_ULT(dev_priv) && !IS_BDW_ULT(dev_priv));
+ 		/* WildcatPoint is LPT compatible */
+ 		return PCH_LPT;
+ 	case INTEL_PCH_SPT_DEVICE_ID_TYPE:
+ 		drm_dbg_kms(&dev_priv->drm, "Found SunrisePoint PCH\n");
+-		WARN_ON(!IS_SKYLAKE(dev_priv) && !IS_KABYLAKE(dev_priv));
++		drm_WARN_ON(&dev_priv->drm,
++			    !IS_SKYLAKE(dev_priv) && !IS_KABYLAKE(dev_priv));
+ 		return PCH_SPT;
+ 	case INTEL_PCH_SPT_LP_DEVICE_ID_TYPE:
+ 		drm_dbg_kms(&dev_priv->drm, "Found SunrisePoint LP PCH\n");
+-		WARN_ON(!IS_SKYLAKE(dev_priv) && !IS_KABYLAKE(dev_priv) &&
+-			!IS_COFFEELAKE(dev_priv));
++		drm_WARN_ON(&dev_priv->drm,
++			    !IS_SKYLAKE(dev_priv) && !IS_KABYLAKE(dev_priv) &&
++			    !IS_COFFEELAKE(dev_priv));
+ 		return PCH_SPT;
+ 	case INTEL_PCH_KBP_DEVICE_ID_TYPE:
+ 		drm_dbg_kms(&dev_priv->drm, "Found Kaby Lake PCH (KBP)\n");
+-		WARN_ON(!IS_SKYLAKE(dev_priv) && !IS_KABYLAKE(dev_priv) &&
+-			!IS_COFFEELAKE(dev_priv));
++		drm_WARN_ON(&dev_priv->drm,
++			    !IS_SKYLAKE(dev_priv) && !IS_KABYLAKE(dev_priv) &&
++			    !IS_COFFEELAKE(dev_priv));
+ 		/* KBP is SPT compatible */
+ 		return PCH_SPT;
+ 	case INTEL_PCH_CNP_DEVICE_ID_TYPE:
+ 		drm_dbg_kms(&dev_priv->drm, "Found Cannon Lake PCH (CNP)\n");
+-		WARN_ON(!IS_CANNONLAKE(dev_priv) && !IS_COFFEELAKE(dev_priv));
++		drm_WARN_ON(&dev_priv->drm, !IS_CANNONLAKE(dev_priv) &&
++			    !IS_COFFEELAKE(dev_priv));
+ 		return PCH_CNP;
+ 	case INTEL_PCH_CNP_LP_DEVICE_ID_TYPE:
+ 		drm_dbg_kms(&dev_priv->drm,
+ 			    "Found Cannon Lake LP PCH (CNP-LP)\n");
+-		WARN_ON(!IS_CANNONLAKE(dev_priv) && !IS_COFFEELAKE(dev_priv));
++		drm_WARN_ON(&dev_priv->drm, !IS_CANNONLAKE(dev_priv) &&
++			    !IS_COFFEELAKE(dev_priv));
+ 		return PCH_CNP;
+ 	case INTEL_PCH_CMP_DEVICE_ID_TYPE:
+ 	case INTEL_PCH_CMP2_DEVICE_ID_TYPE:
+ 		drm_dbg_kms(&dev_priv->drm, "Found Comet Lake PCH (CMP)\n");
+-		WARN_ON(!IS_COFFEELAKE(dev_priv));
++		drm_WARN_ON(&dev_priv->drm, !IS_COFFEELAKE(dev_priv));
+ 		/* CometPoint is CNP Compatible */
+ 		return PCH_CNP;
+ 	case INTEL_PCH_CMP_V_DEVICE_ID_TYPE:
+ 		drm_dbg_kms(&dev_priv->drm, "Found Comet Lake V PCH (CMP-V)\n");
+-		WARN_ON(!IS_COFFEELAKE(dev_priv));
++		drm_WARN_ON(&dev_priv->drm, !IS_COFFEELAKE(dev_priv));
+ 		/* Comet Lake V PCH is based on KBP, which is SPT compatible */
+ 		return PCH_SPT;
+ 	case INTEL_PCH_ICP_DEVICE_ID_TYPE:
+ 		drm_dbg_kms(&dev_priv->drm, "Found Ice Lake PCH\n");
+-		WARN_ON(!IS_ICELAKE(dev_priv));
++		drm_WARN_ON(&dev_priv->drm, !IS_ICELAKE(dev_priv));
+ 		return PCH_ICP;
+ 	case INTEL_PCH_MCC_DEVICE_ID_TYPE:
+ 		drm_dbg_kms(&dev_priv->drm, "Found Mule Creek Canyon PCH\n");
+-		WARN_ON(!IS_ELKHARTLAKE(dev_priv));
++		drm_WARN_ON(&dev_priv->drm, !IS_ELKHARTLAKE(dev_priv));
+ 		return PCH_MCC;
+ 	case INTEL_PCH_TGP_DEVICE_ID_TYPE:
+ 	case INTEL_PCH_TGP2_DEVICE_ID_TYPE:
+ 		drm_dbg_kms(&dev_priv->drm, "Found Tiger Lake LP PCH\n");
+-		WARN_ON(!IS_TIGERLAKE(dev_priv));
++		drm_WARN_ON(&dev_priv->drm, !IS_TIGERLAKE(dev_priv));
+ 		return PCH_TGP;
+ 	case INTEL_PCH_JSP_DEVICE_ID_TYPE:
+ 	case INTEL_PCH_JSP2_DEVICE_ID_TYPE:
+ 		drm_dbg_kms(&dev_priv->drm, "Found Jasper Lake PCH\n");
+-		WARN_ON(!IS_ELKHARTLAKE(dev_priv));
++		drm_WARN_ON(&dev_priv->drm, !IS_ELKHARTLAKE(dev_priv));
+ 		return PCH_JSP;
+ 	default:
+ 		return PCH_NONE;
+@@ -188,7 +203,8 @@ void intel_detect_pch(struct drm_i915_private *dev_priv)
+ 			pch_type = intel_pch_type(dev_priv, id);
+ 
+ 			/* Sanity check virtual PCH id */
+-			if (WARN_ON(id && pch_type == PCH_NONE))
++			if (drm_WARN_ON(&dev_priv->drm,
++					id && pch_type == PCH_NONE))
+ 				id = 0;
+ 
+ 			dev_priv->pch_type = pch_type;
+diff --git a/drivers/gpu/drm/i915/intel_pm.c b/drivers/gpu/drm/i915/intel_pm.c
+index bd2d30ecc030..bd0272a8debe 100644
+--- a/drivers/gpu/drm/i915/intel_pm.c
++++ b/drivers/gpu/drm/i915/intel_pm.c
+@@ -1977,8 +1977,8 @@ static void vlv_atomic_update_fifo(struct intel_atomic_state *state,
+ 	sprite1_start = fifo_state->plane[PLANE_SPRITE0] + sprite0_start;
+ 	fifo_size = fifo_state->plane[PLANE_SPRITE1] + sprite1_start;
+ 
+-	WARN_ON(fifo_state->plane[PLANE_CURSOR] != 63);
+-	WARN_ON(fifo_size != 511);
++	drm_WARN_ON(&dev_priv->drm, fifo_state->plane[PLANE_CURSOR] != 63);
++	drm_WARN_ON(&dev_priv->drm, fifo_size != 511);
+ 
+ 	trace_vlv_fifo_size(crtc, sprite0_start, sprite1_start, fifo_size);
+ 
+@@ -3417,7 +3417,7 @@ static void ilk_compute_wm_results(struct drm_i915_private *dev_priv,
+ 		 * level is disabled. Doing otherwise could cause underruns.
+ 		 */
+ 		if (INTEL_GEN(dev_priv) <= 6 && r->spr_val) {
+-			WARN_ON(wm_lp != 1);
++			drm_WARN_ON(&dev_priv->drm, wm_lp != 1);
+ 			results->wm_lp_spr[wm_lp - 1] = WM1S_LP_EN | r->spr_val;
+ 		} else
+ 			results->wm_lp_spr[wm_lp - 1] = r->spr_val;
+@@ -3429,7 +3429,7 @@ static void ilk_compute_wm_results(struct drm_i915_private *dev_priv,
+ 		const struct intel_wm_level *r =
+ 			&intel_crtc->wm.active.ilk.wm[0];
+ 
+-		if (WARN_ON(!r->enable))
++		if (drm_WARN_ON(&dev_priv->drm, !r->enable))
+ 			continue;
+ 
+ 		results->wm_linetime[pipe] = intel_crtc->wm.active.ilk.linetime;
+@@ -3874,7 +3874,7 @@ static u16 intel_get_ddb_size(struct drm_i915_private *dev_priv,
+ 	u64 total_data_bw;
+ 	u16 ddb_size = INTEL_INFO(dev_priv)->ddb_size;
+ 
+-	WARN_ON(ddb_size == 0);
++	drm_WARN_ON(&dev_priv->drm, ddb_size == 0);
+ 
+ 	if (INTEL_GEN(dev_priv) < 11)
+ 		return ddb_size - 4; /* 4 blocks for bypass path allocation */
+@@ -3917,7 +3917,7 @@ skl_ddb_get_pipe_allocation_limits(struct drm_i915_private *dev_priv,
+ 	u16 ddb_size;
+ 	u32 i;
+ 
+-	if (WARN_ON(!state) || !crtc_state->hw.active) {
++	if (drm_WARN_ON(&dev_priv->drm, !state) || !crtc_state->hw.active) {
+ 		alloc->start = 0;
+ 		alloc->end = 0;
+ 		*num_active = hweight8(dev_priv->active_pipes);
+@@ -4002,7 +4002,7 @@ skl_cursor_allocation(const struct intel_crtc_state *crtc_state,
+ 				    DRM_FORMAT_MOD_LINEAR,
+ 				    DRM_MODE_ROTATE_0,
+ 				    crtc_state->pixel_rate, &wp, 0);
+-	WARN_ON(ret);
++	drm_WARN_ON(&dev_priv->drm, ret);
+ 
+ 	for (level = 0; level <= max_level; level++) {
+ 		skl_compute_plane_wm(crtc_state, level, &wp, &wm, &wm);
+@@ -4294,7 +4294,7 @@ skl_allocate_pipe_ddb(struct intel_crtc_state *crtc_state,
+ 	memset(crtc_state->wm.skl.plane_ddb_y, 0, sizeof(crtc_state->wm.skl.plane_ddb_y));
+ 	memset(crtc_state->wm.skl.plane_ddb_uv, 0, sizeof(crtc_state->wm.skl.plane_ddb_uv));
+ 
+-	if (WARN_ON(!state))
++	if (drm_WARN_ON(&dev_priv->drm, !state))
+ 		return 0;
+ 
+ 	if (!crtc_state->hw.active) {
+@@ -4341,7 +4341,8 @@ skl_allocate_pipe_ddb(struct intel_crtc_state *crtc_state,
+ 
+ 			if (plane_id == PLANE_CURSOR) {
+ 				if (wm->wm[level].min_ddb_alloc > total[PLANE_CURSOR]) {
+-					WARN_ON(wm->wm[level].min_ddb_alloc != U16_MAX);
++					drm_WARN_ON(&dev_priv->drm,
++						    wm->wm[level].min_ddb_alloc != U16_MAX);
+ 					blocks = U32_MAX;
+ 					break;
+ 				}
+@@ -4406,7 +4407,7 @@ skl_allocate_pipe_ddb(struct intel_crtc_state *crtc_state,
+ 		alloc_size -= extra;
+ 		total_data_rate -= rate;
+ 	}
+-	WARN_ON(alloc_size != 0 || total_data_rate != 0);
++	drm_WARN_ON(&dev_priv->drm, alloc_size != 0 || total_data_rate != 0);
+ 
+ 	/* Set the actual DDB start/end points for each plane */
+ 	start = alloc->start;
+@@ -4420,7 +4421,8 @@ skl_allocate_pipe_ddb(struct intel_crtc_state *crtc_state,
+ 			continue;
+ 
+ 		/* Gen11+ uses a separate plane for UV watermarks */
+-		WARN_ON(INTEL_GEN(dev_priv) >= 11 && uv_total[plane_id]);
++		drm_WARN_ON(&dev_priv->drm,
++			    INTEL_GEN(dev_priv) >= 11 && uv_total[plane_id]);
+ 
+ 		/* Leave disabled planes at (0,0) */
+ 		if (total[plane_id]) {
+diff --git a/drivers/gpu/drm/i915/intel_sideband.c b/drivers/gpu/drm/i915/intel_sideband.c
+index cbfb7171d62d..6de683ec884c 100644
+--- a/drivers/gpu/drm/i915/intel_sideband.c
++++ b/drivers/gpu/drm/i915/intel_sideband.c
+@@ -241,8 +241,9 @@ u32 vlv_dpio_read(struct drm_i915_private *i915, enum pipe pipe, int reg)
+ 	 * FIXME: There might be some registers where all 1's is a valid value,
+ 	 * so ideally we should check the register offset instead...
+ 	 */
+-	WARN(val == 0xffffffff, "DPIO read pipe %c reg 0x%x == 0x%x\n",
+-	     pipe_name(pipe), reg, val);
++	drm_WARN(&i915->drm, val == 0xffffffff,
++		 "DPIO read pipe %c reg 0x%x == 0x%x\n",
++		 pipe_name(pipe), reg, val);
+ 
+ 	return val;
+ }
+@@ -525,7 +526,7 @@ int skl_pcode_request(struct drm_i915_private *i915, u32 mbox, u32 request,
+ 	 */
+ 	drm_dbg_kms(&i915->drm,
+ 		    "PCODE timeout, retrying with preemption disabled\n");
+-	WARN_ON_ONCE(timeout_base_ms > 3);
++	drm_WARN_ON_ONCE(&i915->drm, timeout_base_ms > 3);
+ 	preempt_disable();
+ 	ret = wait_for_atomic(COND, 50);
+ 	preempt_enable();
+diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
+index 5f2cf6f43b8b..7a5a1461b9c0 100644
+--- a/drivers/gpu/drm/i915/intel_uncore.c
++++ b/drivers/gpu/drm/i915/intel_uncore.c
+@@ -1613,7 +1613,7 @@ static int intel_uncore_fw_domains_init(struct intel_uncore *uncore)
+ #undef fw_domain_init
+ 
+ 	/* All future platforms are expected to require complex power gating */
+-	WARN_ON(!ret && uncore->fw_domains == 0);
++	drm_WARN_ON(&i915->drm, !ret && uncore->fw_domains == 0);
+ 
+ out:
+ 	if (ret)
 -- 
 2.23.0
 
