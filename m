@@ -1,38 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05D1A13EA20
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 18:42:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32F8813EA2C
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 18:43:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 280B96EE67;
-	Thu, 16 Jan 2020 17:42:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4784C6EE68;
+	Thu, 16 Jan 2020 17:43:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5C506EE67
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 17:42:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 634DC6EE68
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 17:43:03 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 0C14020728;
- Thu, 16 Jan 2020 17:42:52 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id AEB0B24695;
+ Thu, 16 Jan 2020 17:43:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1579196573;
- bh=SjvVj+je/HMlB1NOEWTRrKGFRifaS0pbyWGdTMOoztQ=;
- h=From:To:Cc:Subject:Date:From;
- b=B2B8Az3+sDeZ9fW1Jnz/IhYHzHvoqrauzA27Wrma3JznGfVnBFEPuGMLJAltD0166
- qPAcU2XtFF8vI++qoZZcy9bRKgzW1/tLob+4cPCpHz5sNGLFR/Z8RYcozgt+MCFD4N
- Jt+wpTTKe/11r7Woqa/T2YgOtSrE8zs/9JhS76I8=
+ s=default; t=1579196583;
+ bh=yIxhLpc4/8MptiFRK8fD88gnwx9ZyQChQN3xYV4/iOA=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=HRYegrT7NDEUhYTfjkFGibtMv1uupUMU/wrXI4LTgcax3Y6FkieG+/StCnCt7216X
+ J4+x4rhV9kpbl75DEZnpX63pblK47jAP5I4yi07XbH9/urpCgmymhBZxAvOSFeuDPu
+ +yku1MLqW7B639o5PMVPEGmiyoPXZ9A7U62fC0Po=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 001/174] drm/virtio: fix bounds check in
- virtio_gpu_cmd_get_capset()
-Date: Thu, 16 Jan 2020 12:39:58 -0500
-Message-Id: <20200116174251.24326-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 008/174] drm/dp_mst: Skip validating ports during
+ destruction, just ref
+Date: Thu, 16 Jan 2020 12:40:05 -0500
+Message-Id: <20200116174251.24326-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200116174251.24326-1-sashal@kernel.org>
+References: <20200116174251.24326-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -49,60 +51,95 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- Gerd Hoffmann <kraxel@redhat.com>, Dan Carpenter <dan.carpenter@oracle.com>,
- virtualization@lists.linux-foundation.org
+ Jerry Zuo <Jerry.Zuo@amd.com>, Sean Paul <seanpaul@chromium.org>,
+ Dave Airlie <airlied@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: Lyude Paul <lyude@redhat.com>
 
-[ Upstream commit 09c4b49457434fa74749ad6194ef28464d9f5df9 ]
+[ Upstream commit c54c7374ff44de5e609506aca7c0deae4703b6d1 ]
 
-This doesn't affect runtime because in the current code "idx" is always
-valid.
+Jerry Zuo pointed out a rather obscure hotplugging issue that it seems I
+accidentally introduced into DRM two years ago.
 
-First, we read from "vgdev->capsets[idx].max_size" before checking
-whether "idx" is within bounds.  And secondly the bounds check is off by
-one so we could end up reading one element beyond the end of the
-vgdev->capsets[] array.
+Pretend we have a topology like this:
 
-Fixes: 62fb7a5e1096 ("virtio-gpu: add 3d/virgl support")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-Link: http://patchwork.freedesktop.org/patch/msgid/20180704094250.m7sgvvzg3dhcvv3h@kili.mountain
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+|- DP-1: mst_primary
+   |- DP-4: active display
+   |- DP-5: disconnected
+   |- DP-6: active hub
+      |- DP-7: active display
+      |- DP-8: disconnected
+      |- DP-9: disconnected
+
+If we unplug DP-6, the topology starting at DP-7 will be destroyed but
+it's payloads will live on in DP-1's VCPI allocations and thus require
+removal. However, this removal currently fails because
+drm_dp_update_payload_part1() will (rightly so) try to validate the port
+before accessing it, fail then abort. If we keep going, eventually we
+run the MST hub out of bandwidth and all new allocations will start to
+fail (or in my case; all new displays just start flickering a ton).
+
+We could just teach drm_dp_update_payload_part1() not to drop the port
+ref in this case, but then we also need to teach
+drm_dp_destroy_payload_step1() to do the same thing, then hope no one
+ever adds anything to the that requires a validated port reference in
+drm_dp_destroy_connector_work(). Kind of sketchy.
+
+So let's go with a more clever solution: any port that
+drm_dp_destroy_connector_work() interacts with is guaranteed to still
+exist in memory until we say so. While said port might not be valid we
+don't really care: that's the whole reason we're destroying it in the
+first place! So, teach drm_dp_get_validated_port_ref() to use the all
+mighty current_work() function to avoid attempting to validate ports
+from the context of mgr->destroy_connector_work. I can't see any
+situation where this wouldn't be safe, and this avoids having to play
+whack-a-mole in the future of trying to work around port validation.
+
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Fixes: 263efde31f97 ("drm/dp/mst: Get validated port ref in drm_dp_update_payload_part1()")
+Reported-by: Jerry Zuo <Jerry.Zuo@amd.com>
+Cc: Jerry Zuo <Jerry.Zuo@amd.com>
+Cc: Harry Wentland <Harry.Wentland@amd.com>
+Cc: <stable@vger.kernel.org> # v4.6+
+Reviewed-by: Dave Airlie <airlied@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20181113224613.28809-1-lyude@redhat.com
+Signed-off-by: Sean Paul <seanpaul@chromium.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/virtio/virtgpu_vq.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_dp_mst_topology.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-index a1b3ea1ccb65..772a5a3b0ce1 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vq.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-@@ -681,11 +681,11 @@ int virtio_gpu_cmd_get_capset(struct virtio_gpu_device *vgdev,
+diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+index 2cb924ffd5a3..4d0f77f0edad 100644
+--- a/drivers/gpu/drm/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+@@ -975,9 +975,20 @@ static struct drm_dp_mst_port *drm_dp_mst_get_port_ref_locked(struct drm_dp_mst_
+ static struct drm_dp_mst_port *drm_dp_get_validated_port_ref(struct drm_dp_mst_topology_mgr *mgr, struct drm_dp_mst_port *port)
  {
- 	struct virtio_gpu_get_capset *cmd_p;
- 	struct virtio_gpu_vbuffer *vbuf;
--	int max_size = vgdev->capsets[idx].max_size;
-+	int max_size;
- 	struct virtio_gpu_drv_cap_cache *cache_ent;
- 	void *resp_buf;
- 
--	if (idx > vgdev->num_capsets)
-+	if (idx >= vgdev->num_capsets)
- 		return -EINVAL;
- 
- 	if (version > vgdev->capsets[idx].max_version)
-@@ -695,6 +695,7 @@ int virtio_gpu_cmd_get_capset(struct virtio_gpu_device *vgdev,
- 	if (!cache_ent)
- 		return -ENOMEM;
- 
-+	max_size = vgdev->capsets[idx].max_size;
- 	cache_ent->caps_cache = kmalloc(max_size, GFP_KERNEL);
- 	if (!cache_ent->caps_cache) {
- 		kfree(cache_ent);
+ 	struct drm_dp_mst_port *rport = NULL;
++
+ 	mutex_lock(&mgr->lock);
+-	if (mgr->mst_primary)
+-		rport = drm_dp_mst_get_port_ref_locked(mgr->mst_primary, port);
++	/*
++	 * Port may or may not be 'valid' but we don't care about that when
++	 * destroying the port and we are guaranteed that the port pointer
++	 * will be valid until we've finished
++	 */
++	if (current_work() == &mgr->destroy_connector_work) {
++		kref_get(&port->kref);
++		rport = port;
++	} else if (mgr->mst_primary) {
++		rport = drm_dp_mst_get_port_ref_locked(mgr->mst_primary,
++						       port);
++	}
+ 	mutex_unlock(&mgr->lock);
+ 	return rport;
+ }
 -- 
 2.20.1
 
