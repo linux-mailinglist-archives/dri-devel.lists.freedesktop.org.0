@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EB4C13E3FA
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 18:05:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D83C513E403
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 18:05:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 758146EE0B;
-	Thu, 16 Jan 2020 17:05:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 043516EE0F;
+	Thu, 16 Jan 2020 17:05:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58B546EE0B
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 17:05:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DF226EE0F
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 17:05:37 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 85F3D2087E;
- Thu, 16 Jan 2020 17:05:26 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id A0A962081E;
+ Thu, 16 Jan 2020 17:05:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1579194327;
- bh=2rpy/MMMrn6+0nPuWAz83Vpo/mL3rkWiZmO0V/DJzLU=;
+ s=default; t=1579194336;
+ bh=sCOKl7AT5wuYByHfu1pu1f4QwZR7geoFCO+SXHsTYyI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kG9O+YWIRmv+3gx+YVhUqsd/GVpBSZhg+RDoL1dglH9+OafK61gBiTaKM+lqHwQQA
- ROhzvS1/zRwDyCi+/Z5kTgD4V81qSJpw3twIqy915XGoYBUduJIvRvzHgIkZuJqLtT
- LPp79en7GBiU1ewtZYavS6to/ih6lcTVQPGhr73w=
+ b=mW3N9QDDmeF6o0LsC1jnH3abpNtmYWZnr7wJ2Uiz4BTiXwX8rC2p1ZnRWu2Oh5KPk
+ fG7xXv94JZfTuem10wKwNGQTbKl3uQ708MXQASV8HscxoBjM6EnnX5fic3P3NNWwKP
+ g6k+4nNjdjt2scoJAKobQgqL6SSc3BBvCd2zXVCI=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 275/671] drm/fb-helper: generic: Call
- drm_client_add() after setup is done
-Date: Thu, 16 Jan 2020 11:58:33 -0500
-Message-Id: <20200116170509.12787-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 281/671] drm/vmwgfx: Remove set but not used
+ variable 'restart'
+Date: Thu, 16 Jan 2020 11:58:39 -0500
+Message-Id: <20200116170509.12787-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116170509.12787-1-sashal@kernel.org>
 References: <20200116170509.12787-1-sashal@kernel.org>
@@ -50,40 +50,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sasha Levin <sashal@kernel.org>, Deepak Rawat <drawat@vmware.com>,
+ YueHaibing <yuehaibing@huawei.com>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogTm9yYWxmIFRyw7hubmVzIDxub3JhbGZAdHJvbm5lcy5vcmc+CgpbIFVwc3RyZWFtIGNv
-bW1pdCA2ZTNmMTdlZTczZjdlM2MyZWYwZTJjOGZkODYyNGIyZWNlOGVmMmM5IF0KCkhvdHBsdWcg
-Y2FuIGhhcHBlbiB3aGlsZSBkcm1fZmJkZXZfZ2VuZXJpY19zZXR1cCgpIGlzIHJ1bm5pbmcgc28g
-bW92ZQpkcm1fY2xpZW50X2FkZCgpIGNhbGwgYWZ0ZXIgc2V0dXAgaXMgZG9uZSB0byBhdm9pZApk
-cm1fZmJkZXZfY2xpZW50X2hvdHBsdWcoKSBydW5uaW5nIGluIHR3byB0aHJlYWRzIGF0IHRoZSBz
-YW1lIHRpbWUuCgpGaXhlczogOTA2MGQ3ZjQ5Mzc2ICgiZHJtL2ZiLWhlbHBlcjogRmluaXNoIHRo
-ZSBnZW5lcmljIGZiZGV2IGVtdWxhdGlvbiIpCkNjOiBzdGFibGVAdmdlci5rZXJuZWwub3JnClJl
-cG9ydGVkLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgpTaWduZWQt
-b2ZmLWJ5OiBOb3JhbGYgVHLDuG5uZXMgPG5vcmFsZkB0cm9ubmVzLm9yZz4KUmV2aWV3ZWQtYnk6
-IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+Ckxpbms6IGh0dHBzOi8vcGF0
-Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9wYXRjaC9tc2dpZC8yMDE5MDQwMTE0MTM1OC4yNTMwOS0x
-LW5vcmFsZkB0cm9ubmVzLm9yZwpTaWduZWQtb2ZmLWJ5OiBTYXNoYSBMZXZpbiA8c2FzaGFsQGtl
-cm5lbC5vcmc+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2RybV9mYl9oZWxwZXIuYyB8IDQgKystLQog
-MSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jIGIvZHJpdmVycy9ncHUvZHJtL2Ry
-bV9mYl9oZWxwZXIuYwppbmRleCAxYzg3YWQ2NjY3ZTcuLmRhOWEzODFkNmI1NyAxMDA2NDQKLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL2RybV9mYl9oZWxwZXIuYworKysgYi9kcml2ZXJzL2dwdS9kcm0v
-ZHJtX2ZiX2hlbHBlci5jCkBAIC0zMjU3LDggKzMyNTcsNiBAQCBpbnQgZHJtX2ZiZGV2X2dlbmVy
-aWNfc2V0dXAoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdW5zaWduZWQgaW50IHByZWZlcnJlZF9i
-cHApCiAJCXJldHVybiByZXQ7CiAJfQogCi0JZHJtX2NsaWVudF9hZGQoJmZiX2hlbHBlci0+Y2xp
-ZW50KTsKLQogCWlmICghcHJlZmVycmVkX2JwcCkKIAkJcHJlZmVycmVkX2JwcCA9IGRldi0+bW9k
-ZV9jb25maWcucHJlZmVycmVkX2RlcHRoOwogCWlmICghcHJlZmVycmVkX2JwcCkKQEAgLTMyNjcs
-NiArMzI2NSw4IEBAIGludCBkcm1fZmJkZXZfZ2VuZXJpY19zZXR1cChzdHJ1Y3QgZHJtX2Rldmlj
-ZSAqZGV2LCB1bnNpZ25lZCBpbnQgcHJlZmVycmVkX2JwcCkKIAogCWRybV9mYmRldl9jbGllbnRf
-aG90cGx1ZygmZmJfaGVscGVyLT5jbGllbnQpOwogCisJZHJtX2NsaWVudF9hZGQoJmZiX2hlbHBl
-ci0+Y2xpZW50KTsKKwogCXJldHVybiAwOwogfQogRVhQT1JUX1NZTUJPTChkcm1fZmJkZXZfZ2Vu
-ZXJpY19zZXR1cCk7Ci0tIAoyLjIwLjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbAo=
+From: YueHaibing <yuehaibing@huawei.com>
+
+[ Upstream commit b2130cca9c8db5073b71d832da2a6c8311a8f3bb ]
+
+Fixes gcc '-Wunused-but-set-variable' warning:
+
+drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c: In function 'vmw_cmdbuf_work_func':
+drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:514:7: warning:
+ variable 'restart' set but not used [-Wunused-but-set-variable]
+
+It not used any more after commit dc366364c4ef ("drm/vmwgfx: Fix multiple
+command buffer context use")
+
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+Reviewed-by: Deepak Rawat <drawat@vmware.com>
+Signed-off-by: Deepak Rawat <drawat@vmware.com>
+Fixes: dc366364c4ef ("drm/vmwgfx: Fix multiple command buffer context use")
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c
+index e7e4655d3f36..ce1ad7cd7899 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c
+@@ -511,17 +511,14 @@ static void vmw_cmdbuf_work_func(struct work_struct *work)
+ 		container_of(work, struct vmw_cmdbuf_man, work);
+ 	struct vmw_cmdbuf_header *entry, *next;
+ 	uint32_t dummy;
+-	bool restart[SVGA_CB_CONTEXT_MAX];
+ 	bool send_fence = false;
+ 	struct list_head restart_head[SVGA_CB_CONTEXT_MAX];
+ 	int i;
+ 	struct vmw_cmdbuf_context *ctx;
+ 	bool global_block = false;
+ 
+-	for_each_cmdbuf_ctx(man, i, ctx) {
++	for_each_cmdbuf_ctx(man, i, ctx)
+ 		INIT_LIST_HEAD(&restart_head[i]);
+-		restart[i] = false;
+-	}
+ 
+ 	mutex_lock(&man->error_mutex);
+ 	spin_lock(&man->lock);
+@@ -533,7 +530,6 @@ static void vmw_cmdbuf_work_func(struct work_struct *work)
+ 		const char *cmd_name;
+ 
+ 		list_del_init(&entry->list);
+-		restart[entry->cb_context] = true;
+ 		global_block = true;
+ 
+ 		if (!vmw_cmd_describe(header, &error_cmd_size, &cmd_name)) {
+-- 
+2.20.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
