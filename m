@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 952B013E24B
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 17:55:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D18F413E250
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 17:55:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCD1B6EDF5;
-	Thu, 16 Jan 2020 16:55:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCA7A6EDF6;
+	Thu, 16 Jan 2020 16:55:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0DDD6EDF5
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 16:55:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 635846EDF6;
+ Thu, 16 Jan 2020 16:55:35 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 203882192A;
- Thu, 16 Jan 2020 16:55:19 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 71BF22176D;
+ Thu, 16 Jan 2020 16:55:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1579193719;
- bh=mrqyG+s5KkU79YeSwsbvGa5llda5DIJSBZQHAAEAfXM=;
+ s=default; t=1579193735;
+ bh=ivXiS/0NletdSdpGqEZ6JWiA8+PWPDz+IRO1QapDrGc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=guhFjWabM+V+h7WfYKpDiAInDCYY4vWr0VP1h6djzh0ellC5q6V2cjZ5Oaur23IRI
- plkElDqBj+BK61Hq0y/Pp7WB4K56kC4YAJNt1vODjk/sNoSlEhha8em113l/S0ZCmX
- y2skKv97CErUtRhjVhFMUl9b4msN2BdFhhLLnvqM=
+ b=1v6UBU29SX/oyp1Fn+SX21KPD4UG5aDrMwXExm8SUOAPMe8TVlHP/Am7W8CPw3fcm
+ 5r+7IxKRPeniSC7aNzNhiovOZAWlwtPV4ZabfkZcYXsS5eJwSF2Jp71Gvs1c3PUe03
+ 1Z31PiCrjCLCrv/nU1xlN+I961KHAWeT8oZ30zrE=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 014/671] drm/hisilicon: hibmc: Don't overwrite fb
- helper surface depth
-Date: Thu, 16 Jan 2020 11:44:05 -0500
-Message-Id: <20200116165502.8838-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 027/671] drm/msm: fix unsigned comparison with
+ less than zero
+Date: Thu, 16 Jan 2020 11:44:18 -0500
+Message-Id: <20200116165502.8838-27-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116165502.8838-1-sashal@kernel.org>
 References: <20200116165502.8838-1-sashal@kernel.org>
@@ -50,47 +50,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinliang Liu <z.liuxinliang@hisilicon.com>, Sasha Levin <sashal@kernel.org>,
- John Garry <john.garry@huawei.com>, dri-devel@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Colin Ian King <colin.king@canonical.com>,
+ freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Garry <john.garry@huawei.com>
+From: Colin Ian King <colin.king@canonical.com>
 
-[ Upstream commit 0ff9f49646353ce31312411e7e7bd2281492a40e ]
+[ Upstream commit dfdb3be43ef1195c491e6c3760b922acb52e3575 ]
 
-Currently the driver overwrites the surface depth provided by the fb
-helper to give an invalid bpp/surface depth combination.
+The return from the call to _mixer_stages can be a negative error
+code however this is being assigned to an unsigned variable 'stages'
+hence the check is always false. Fix this by making 'stages' an
+int.
 
-This has been exposed by commit 70109354fed2 ("drm: Reject unknown legacy
-bpp and depth for drm_mode_addfb ioctl"), which now causes the driver to
-fail to probe.
+Detected by Coccinelle ("Unsigned expression compared with zero:
+stages < 0")
 
-Fix by not overwriting the surface depth.
-
-Fixes: d1667b86795a ("drm/hisilicon/hibmc: Add support for frame buffer")
-Signed-off-by: John Garry <john.garry@huawei.com>
-Reviewed-by: Xinliang Liu <z.liuxinliang@hisilicon.com>
-Signed-off-by: Xinliang Liu <z.liuxinliang@hisilicon.com>
+Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+Signed-off-by: Rob Clark <robdclark@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_fbdev.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_fbdev.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_fbdev.c
-index 8bd29075ae4e..edcca1761500 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_fbdev.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_fbdev.c
-@@ -71,7 +71,6 @@ static int hibmc_drm_fb_create(struct drm_fb_helper *helper,
- 	DRM_DEBUG_DRIVER("surface width(%d), height(%d) and bpp(%d)\n",
- 			 sizes->surface_width, sizes->surface_height,
- 			 sizes->surface_bpp);
--	sizes->surface_depth = 32;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+index 06be7cf7ce50..79bafea66354 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+@@ -310,7 +310,7 @@ static void dpu_hw_ctl_setup_blendstage(struct dpu_hw_ctl *ctx,
+ 	u32 mixercfg = 0, mixercfg_ext = 0, mix, ext;
+ 	u32 mixercfg_ext2 = 0, mixercfg_ext3 = 0;
+ 	int i, j;
+-	u8 stages;
++	int stages;
+ 	int pipes_per_stage;
  
- 	bytes_per_pixel = DIV_ROUND_UP(sizes->surface_bpp, 8);
- 
+ 	stages = _mixer_stages(ctx->mixer_hw_caps, ctx->mixer_count, lm);
 -- 
 2.20.1
 
