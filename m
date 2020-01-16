@@ -1,61 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EA0F1404FA
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 09:13:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E10D11404FF
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 09:13:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28D316F412;
-	Fri, 17 Jan 2020 08:13:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 305216F41A;
+	Fri, 17 Jan 2020 08:13:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 933996EDA8
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 15:52:35 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id c14so19659620wrn.7
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 07:52:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RYd215MGwbtyx8TO2Lq76zx4YR7/TZxm4/f4N/JxQ0c=;
- b=t394Fjd2kjuuvhpFMwqR/RgxFbTF9QreSaGqWiH78GT8QaNhs/vYSTyiWL7hccPs/I
- JPCeyA5ulRHXenEggdBK88v26VMPSQJBTnopJpaXswX0u78ddKYZW9cuAvlpNf9adWgs
- wu41MDJ5//G+azoEcNa5Xp8i2LreQzAaS6Sbui0VqHTUQWN61w3HRX4vFsjVsUIGhm+x
- 3pbWjCbXhIdH4BJeHtXf2YPmte29UVLL1hpzqPeETyPSmh//fhsvpokiOsy/i2UF4x1m
- Lt4mW0JMWlIPIgGsGEwAXON8ebsHfGLF75qoXdbFwJfyVjK54NODO6QrxVwr0yGBsSmZ
- J7CA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RYd215MGwbtyx8TO2Lq76zx4YR7/TZxm4/f4N/JxQ0c=;
- b=podTO25I9PaWCRKjOlofVhUuP4vep6YW6PzzeK8fXRr+c8oHwELVQX5Bf76tqduah8
- 1WsQPPVxbVCJxFp5Hfl58JtHPSWPKP6x9xLAmOUcYVz3D4fcqR9KlPxOmojXgnRcGUaI
- CgBAFUSaMaPxZEZGrfXq+NuMRUZ4H/ub5GTuKCyUo34O8cbrv5HPvTDrr9lCwYKc5Vty
- iIgFUA/tobKpL7PoEFsnt/CPsDar8uoohGrMBUuazEs2U3k5S/lk2xco6ExLaEudlaU8
- 3Gc2AMoyDrALFtsjfXlTGwcYPMfpR2k3tYDAbitxGHkwbQCXIoPAU6lWv3zqlocUyRsJ
- 8uLA==
-X-Gm-Message-State: APjAAAVsZ4GXeD/EG29CP0lrqVYiFWT2TRxhKZtimrT/P3TnSnrM1XHP
- O+jT86t531xpFW6b3Whpmka9y06rzx+CoHVf
-X-Google-Smtp-Source: APXvYqzWQ593sHsHdJgiszLle3IFAS2je86ZzySyALnwB6MlyXZUWrbJezVZgOfNi/kOphvTR6RCVA==
-X-Received: by 2002:adf:e58d:: with SMTP id l13mr3866253wrm.135.1579189953854; 
- Thu, 16 Jan 2020 07:52:33 -0800 (PST)
-Received: from brihaspati.amd.com
- (p200300C58F2F9500BD0C32DA1D260485.dip0.t-ipconnect.de.
- [2003:c5:8f2f:9500:bd0c:32da:1d26:485])
- by smtp.gmail.com with ESMTPSA id m7sm4705477wma.39.2020.01.16.07.52.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jan 2020 07:52:32 -0800 (PST)
-From: Nirmoy Das <nirmoy.aiemd@gmail.com>
-X-Google-Original-From: Nirmoy Das <nirmoy.das@amd.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/scheduler: fix documentation by replacing rq_list with
- sched_list
-Date: Thu, 16 Jan 2020 16:53:46 +0100
-Message-Id: <20200116155346.7659-1-nirmoy.das@amd.com>
-X-Mailer: git-send-email 2.24.1
-MIME-Version: 1.0
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C842E6EDB7;
+ Thu, 16 Jan 2020 16:12:39 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 16 Jan 2020 08:12:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,326,1574150400"; d="scan'208";a="219729445"
+Received: from rosetta.fi.intel.com ([10.237.72.194])
+ by fmsmga007.fm.intel.com with ESMTP; 16 Jan 2020 08:12:35 -0800
+Received: by rosetta.fi.intel.com (Postfix, from userid 1000)
+ id 693FC843B9F; Thu, 16 Jan 2020 18:12:34 +0200 (EET)
+From: Mika Kuoppala <mika.kuoppala@linux.intel.com>
+To: akeem.g.abodunrin@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, omer.aran@intel.com,
+ pragyansri.pathi@intel.com, d.scott.phillips@intel.com,
+ david.c.stewart@intel.com, tony.luck@intel.com, jon.bloomfield@intel.com,
+ sudeep.dutt@intel.com, daniel.vetter@intel.com, joonas.lahtinen@intel.com,
+ jani.nikula@intel.com, chris.p.wilson@intel.com
+Subject: [PATCH 1/2] drm/i915: Add mechanism to submit a context WA on ring
+ submission
+Date: Thu, 16 Jan 2020 18:12:31 +0200
+Message-Id: <20200116161231.26026-1-mika.kuoppala@linux.intel.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200114145136.65373-2-akeem.g.abodunrin@intel.com>
+References: <20200114145136.65373-2-akeem.g.abodunrin@intel.com>
 X-Mailman-Approved-At: Fri, 17 Jan 2020 08:13:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,59 +50,251 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nirmoy.das@amd.com, christian.koenig@amd.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Balestrieri Francesco <francesco.balestrieri@intel.com>,
+ Mika Kuoppala <mika.kuoppala@linux.intel.com>,
+ Kumar Valsan Prathap <prathap.kumar.valsan@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBhbHNvIHJlcGxhY2VzIG9sZCBhcnRpZmFjdHMgd2l0aCBhIGNvcnJlY3Qgb25lIGluIGRy
-bV9zY2hlZF9lbnRpdHlfaW5pdCgpCmRlY2xhcmF0aW9uCgpTaWduZWQtb2ZmLWJ5OiBOaXJtb3kg
-RGFzIDxuaXJtb3kuZGFzQGFtZC5jb20+ClJldmlld2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxj
-aHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9z
-Y2hlZF9lbnRpdHkuYyB8ICAyICstCiBpbmNsdWRlL2RybS9ncHVfc2NoZWR1bGVyLmggICAgICAg
-ICAgICAgIHwgMTAgKysrKystLS0tLQogMiBmaWxlcyBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyks
-IDYgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9z
-Y2hlZF9lbnRpdHkuYyBiL2RyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfZW50aXR5LmMK
-aW5kZXggMzNlMmNkMTA4OWEyLi5lYzc5ZThlNWFkM2MgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1
-L2RybS9zY2hlZHVsZXIvc2NoZWRfZW50aXR5LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3NjaGVk
-dWxlci9zY2hlZF9lbnRpdHkuYwpAQCAtNDUsNyArNDUsNyBAQAogICogQGd1aWx0eTogYXRvbWlj
-X3Qgc2V0IHRvIDEgd2hlbiBhIGpvYiBvbiB0aGlzIHF1ZXVlCiAgKiAgICAgICAgICBpcyBmb3Vu
-ZCB0byBiZSBndWlsdHkgY2F1c2luZyBhIHRpbWVvdXQKICAqCi0gKiBOb3RlOiB0aGUgcnFfbGlz
-dCBzaG91bGQgaGF2ZSBhdGxlYXN0IG9uZSBlbGVtZW50IHRvIHNjaGVkdWxlCisgKiBOb3RlOiB0
-aGUgc2NoZWRfbGlzdCBzaG91bGQgaGF2ZSBhdGxlYXN0IG9uZSBlbGVtZW50IHRvIHNjaGVkdWxl
-CiAgKiAgICAgICB0aGUgZW50aXR5CiAgKgogICogUmV0dXJucyAwIG9uIHN1Y2Nlc3Mgb3IgYSBu
-ZWdhdGl2ZSBlcnJvciBjb2RlIG9uIGZhaWx1cmUuCmRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9n
-cHVfc2NoZWR1bGVyLmggYi9pbmNsdWRlL2RybS9ncHVfc2NoZWR1bGVyLmgKaW5kZXggNTM3Zjdh
-NDY1NWE1Li45ZTcxYmUxMjljMzAgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvZHJtL2dwdV9zY2hlZHVs
-ZXIuaAorKysgYi9pbmNsdWRlL2RybS9ncHVfc2NoZWR1bGVyLmgKQEAgLTUyLDkgKzUyLDkgQEAg
-ZW51bSBkcm1fc2NoZWRfcHJpb3JpdHkgewogICogQGxpc3Q6IHVzZWQgdG8gYXBwZW5kIHRoaXMg
-c3RydWN0IHRvIHRoZSBsaXN0IG9mIGVudGl0aWVzIGluIHRoZQogICogICAgICAgIHJ1bnF1ZXVl
-LgogICogQHJxOiBydW5xdWV1ZSBvbiB3aGljaCB0aGlzIGVudGl0eSBpcyBjdXJyZW50bHkgc2No
-ZWR1bGVkLgotICogQHJxX2xpc3Q6IGEgbGlzdCBvZiBydW4gcXVldWVzIG9uIHdoaWNoIGpvYnMg
-ZnJvbSB0aGlzIGVudGl0eSBjYW4KLSAqICAgICAgICAgICBiZSBzY2hlZHVsZWQKLSAqIEBudW1f
-cnFfbGlzdDogbnVtYmVyIG9mIHJ1biBxdWV1ZXMgaW4gdGhlIHJxX2xpc3QKKyAqIEBzY2hlZF9s
-aXN0OiBhIGxpc3Qgb2YgZHJtX2dwdV9zY2hlZHVsZXJzIG9uIHdoaWNoIGpvYnMgZnJvbSB0aGlz
-IGVudGl0eSBjYW4KKyAqICAgICAgICAgICAgICBiZSBzY2hlZHVsZWQKKyAqIEBudW1fc2NoZWRf
-bGlzdDogbnVtYmVyIG9mIGRybV9ncHVfc2NoZWR1bGVycyBpbiB0aGUgc2NoZWRfbGlzdC4KICAq
-IEBycV9sb2NrOiBsb2NrIHRvIG1vZGlmeSB0aGUgcnVucXVldWUgdG8gd2hpY2ggdGhpcyBlbnRp
-dHkgYmVsb25ncy4KICAqIEBqb2JfcXVldWU6IHRoZSBsaXN0IG9mIGpvYnMgb2YgdGhpcyBlbnRp
-dHkuCiAgKiBAZmVuY2Vfc2VxOiBhIGxpbmVhcmx5IGluY3JlYXNpbmcgc2Vxbm8gaW5jcmVtZW50
-ZWQgd2l0aCBlYWNoCkBAIC04MSw4ICs4MSw4IEBAIGVudW0gZHJtX3NjaGVkX3ByaW9yaXR5IHsK
-IHN0cnVjdCBkcm1fc2NoZWRfZW50aXR5IHsKIAlzdHJ1Y3QgbGlzdF9oZWFkCQlsaXN0OwogCXN0
-cnVjdCBkcm1fc2NoZWRfcnEJCSpycTsKLQl1bnNpZ25lZCBpbnQgICAgICAgICAgICAgICAgICAg
-IG51bV9zY2hlZF9saXN0OwogCXN0cnVjdCBkcm1fZ3B1X3NjaGVkdWxlciAgICAgICAgKipzY2hl
-ZF9saXN0OworCXVuc2lnbmVkIGludCAgICAgICAgICAgICAgICAgICAgbnVtX3NjaGVkX2xpc3Q7
-CiAJZW51bSBkcm1fc2NoZWRfcHJpb3JpdHkgICAgICAgICBwcmlvcml0eTsKIAlzcGlubG9ja190
-CQkJcnFfbG9jazsKIApAQCAtMzE1LDcgKzMxNSw3IEBAIHZvaWQgZHJtX3NjaGVkX3JxX3JlbW92
-ZV9lbnRpdHkoc3RydWN0IGRybV9zY2hlZF9ycSAqcnEsCiBpbnQgZHJtX3NjaGVkX2VudGl0eV9p
-bml0KHN0cnVjdCBkcm1fc2NoZWRfZW50aXR5ICplbnRpdHksCiAJCQkgIGVudW0gZHJtX3NjaGVk
-X3ByaW9yaXR5IHByaW9yaXR5LAogCQkJICBzdHJ1Y3QgZHJtX2dwdV9zY2hlZHVsZXIgKipzY2hl
-ZF9saXN0LAotCQkJICB1bnNpZ25lZCBpbnQgbnVtX3JxX2xpc3QsCisJCQkgIHVuc2lnbmVkIGlu
-dCBudW1fc2NoZWRfbGlzdCwKIAkJCSAgYXRvbWljX3QgKmd1aWx0eSk7CiBsb25nIGRybV9zY2hl
-ZF9lbnRpdHlfZmx1c2goc3RydWN0IGRybV9zY2hlZF9lbnRpdHkgKmVudGl0eSwgbG9uZyB0aW1l
-b3V0KTsKIHZvaWQgZHJtX3NjaGVkX2VudGl0eV9maW5pKHN0cnVjdCBkcm1fc2NoZWRfZW50aXR5
-ICplbnRpdHkpOwotLSAKMi4yNC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWwK
+This patch adds framework to submit an arbitrary batchbuffer on each
+context switch to clear residual state for render engine on Gen7/7.5
+devices.
+
+The idea of always emitting the context and vm setup around each request
+is primary to make reset recovery easy, and not require rewriting the
+ringbuffer. As each request would set up its own context, leaving it to
+the HW to notice and elide no-op context switches, we could restart the
+ring at any point, and reorder the requests freely.
+
+However, to avoid emitting clear_residuals() between consecutive requests
+in the ringbuffer of the same context, we do want to track the current
+context in the ring. In doing so, we need to be careful to only record a
+context switch when we are sure the next request will be emitted.
+
+v2: elide optimization patch squashed, courtesy of Chris Wilson
+
+Signed-off-by: Mika Kuoppala <mika.kuoppala@linux.intel.com>
+Signed-off-by: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
+Cc: Kumar Valsan Prathap <prathap.kumar.valsan@intel.com>
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Balestrieri Francesco <francesco.balestrieri@intel.com>
+Cc: Bloomfield Jon <jon.bloomfield@intel.com>
+Cc: Dutt Sudeep <sudeep.dutt@intel.com>
+---
+ .../gpu/drm/i915/gt/intel_ring_submission.c   | 132 +++++++++++++++++-
+ 1 file changed, 129 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gt/intel_ring_submission.c b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+index bc44fe8e5ffa..58500032c993 100644
+--- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
++++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+@@ -1384,7 +1384,9 @@ static int load_pd_dir(struct i915_request *rq,
+ 	return rq->engine->emit_flush(rq, EMIT_FLUSH);
+ }
+ 
+-static inline int mi_set_context(struct i915_request *rq, u32 flags)
++static inline int mi_set_context(struct i915_request *rq,
++				 struct intel_context *ce,
++				 u32 flags)
+ {
+ 	struct drm_i915_private *i915 = rq->i915;
+ 	struct intel_engine_cs *engine = rq->engine;
+@@ -1459,7 +1461,7 @@ static inline int mi_set_context(struct i915_request *rq, u32 flags)
+ 
+ 	*cs++ = MI_NOOP;
+ 	*cs++ = MI_SET_CONTEXT;
+-	*cs++ = i915_ggtt_offset(rq->context->state) | flags;
++	*cs++ = i915_ggtt_offset(ce->state) | flags;
+ 	/*
+ 	 * w/a: MI_SET_CONTEXT must always be followed by MI_NOOP
+ 	 * WaMiSetContext_Hang:snb,ivb,vlv
+@@ -1574,13 +1576,56 @@ static int switch_mm(struct i915_request *rq, struct i915_address_space *vm)
+ 	return rq->engine->emit_flush(rq, EMIT_INVALIDATE);
+ }
+ 
++static int clear_residuals(struct i915_request *rq)
++{
++	struct intel_engine_cs *engine = rq->engine;
++	int ret;
++
++	GEM_BUG_ON(!engine->kernel_context->state);
++
++	ret = switch_mm(rq, vm_alias(engine->kernel_context));
++	if (ret)
++		return ret;
++
++	ret = mi_set_context(rq,
++			     engine->kernel_context,
++			     MI_MM_SPACE_GTT | MI_RESTORE_INHIBIT);
++	if (ret)
++		return ret;
++
++	ret = engine->emit_bb_start(rq,
++				    engine->wa_ctx.vma->node.start, 0,
++				    0);
++	if (ret)
++		return ret;
++
++	ret = engine->emit_flush(rq, EMIT_FLUSH);
++	if (ret)
++		return ret;
++
++	/* Always invalidate before the next switch_mm() */
++	return engine->emit_flush(rq, EMIT_INVALIDATE);
++}
++
+ static int switch_context(struct i915_request *rq)
+ {
++	struct intel_engine_cs *engine = rq->engine;
+ 	struct intel_context *ce = rq->context;
++	void **residuals = NULL;
+ 	int ret;
+ 
+ 	GEM_BUG_ON(HAS_EXECLISTS(rq->i915));
+ 
++	if (engine->wa_ctx.vma && ce != engine->kernel_context) {
++		if (engine->wa_ctx.vma->private != ce) {
++			ret = clear_residuals(rq);
++			if (ret)
++				return ret;
++
++			residuals = &engine->wa_ctx.vma->private;
++		}
++	}
++
+ 	ret = switch_mm(rq, vm_alias(ce));
+ 	if (ret)
+ 		return ret;
+@@ -1600,7 +1645,7 @@ static int switch_context(struct i915_request *rq)
+ 		else
+ 			flags |= MI_RESTORE_INHIBIT;
+ 
+-		ret = mi_set_context(rq, flags);
++		ret = mi_set_context(rq, ce, flags);
+ 		if (ret)
+ 			return ret;
+ 	}
+@@ -1609,6 +1654,20 @@ static int switch_context(struct i915_request *rq)
+ 	if (ret)
+ 		return ret;
+ 
++	/*
++	 * Now past the point of no return, this request _will_ be emitted.
++	 *
++	 * Or at least this preamble will be emitted, the request may be
++	 * interrupted prior to submitting the user payload. If so, we
++	 * still submit the "empty" request in order to preserve global
++	 * state tracking such as this, our tracking of the current
++	 * dirty context.
++	 */
++	if (residuals) {
++		intel_context_put(*residuals);
++		*residuals = intel_context_get(ce);
++	}
++
+ 	return 0;
+ }
+ 
+@@ -1792,6 +1851,11 @@ static void ring_release(struct intel_engine_cs *engine)
+ 
+ 	intel_engine_cleanup_common(engine);
+ 
++	if (engine->wa_ctx.vma) {
++		intel_context_put(engine->wa_ctx.vma->private);
++		i915_vma_unpin_and_release(&engine->wa_ctx.vma, 0);
++	}
++
+ 	intel_ring_unpin(engine->legacy.ring);
+ 	intel_ring_put(engine->legacy.ring);
+ 
+@@ -1939,6 +2003,60 @@ static void setup_vecs(struct intel_engine_cs *engine)
+ 	engine->emit_fini_breadcrumb = gen7_xcs_emit_breadcrumb;
+ }
+ 
++static int gen7_ctx_switch_bb_setup(struct intel_engine_cs * const engine,
++				    struct i915_vma * const vma)
++{
++	return 0;
++}
++
++static int gen7_ctx_switch_bb_init(struct intel_engine_cs *engine)
++{
++	struct drm_i915_gem_object *obj;
++	struct i915_vma *vma;
++	int size;
++	int err;
++
++	size = gen7_ctx_switch_bb_setup(engine, NULL /* probe size */);
++	if (size <= 0)
++		return size;
++
++	size = ALIGN(size, PAGE_SIZE);
++	obj = i915_gem_object_create_internal(engine->i915, size);
++	if (IS_ERR(obj))
++		return PTR_ERR(obj);
++
++	vma = i915_vma_instance(obj, engine->gt->vm, NULL);
++	if (IS_ERR(vma)) {
++		err = PTR_ERR(vma);
++		goto err_obj;
++	}
++
++	vma->private = intel_context_create(engine); /* dummy residuals */
++	if (IS_ERR(vma->private)) {
++		err = PTR_ERR(vma->private);
++		goto err_obj;
++	}
++
++	err = i915_vma_pin(vma, 0, 0, PIN_USER | PIN_HIGH);
++	if (err)
++		goto err_private;
++
++	err = gen7_ctx_switch_bb_setup(engine, vma);
++	if (err)
++		goto err_unpin;
++
++	engine->wa_ctx.vma = vma;
++	return 0;
++
++err_unpin:
++	i915_vma_unpin(vma);
++err_private:
++	intel_context_put(vma->private);
++err_obj:
++	i915_gem_object_put(obj);
++	return err;
++}
++
+ int intel_ring_submission_setup(struct intel_engine_cs *engine)
+ {
+ 	struct intel_timeline *timeline;
+@@ -1992,11 +2110,19 @@ int intel_ring_submission_setup(struct intel_engine_cs *engine)
+ 
+ 	GEM_BUG_ON(timeline->hwsp_ggtt != engine->status_page.vma);
+ 
++	if (IS_GEN(engine->i915, 7) && engine->class == RENDER_CLASS) {
++		err = gen7_ctx_switch_bb_init(engine);
++		if (err)
++			goto err_ring_unpin;
++	}
++
+ 	/* Finally, take ownership and responsibility for cleanup! */
+ 	engine->release = ring_release;
+ 
+ 	return 0;
+ 
++err_ring_unpin:
++	intel_ring_unpin(ring);
+ err_ring:
+ 	intel_ring_put(ring);
+ err_timeline_unpin:
+-- 
+2.17.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
