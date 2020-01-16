@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F75613E5F5
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 18:18:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7358513E73E
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 18:24:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8A516EE29;
-	Thu, 16 Jan 2020 17:18:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A875E6EE35;
+	Thu, 16 Jan 2020 17:24:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C8036EE29
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 17:18:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DCCE6EE33
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 17:24:45 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D1BD6246C7;
- Thu, 16 Jan 2020 17:18:30 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4DC4F246B6;
+ Thu, 16 Jan 2020 17:24:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1579195111;
- bh=Kfq7vR1aY0nNg82frCd7ANsw/ZvrzG9h0pRt5rTHc9o=;
+ s=default; t=1579195485;
+ bh=bT5/2MJcIpgpjY2eppwjDB2SlZlU7x8jPy5Cpzfz2y0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=qA2PTpix5lgzuWTuacZEyoq2rcEWD7gBnEzD0DC8eVyz+J3dY306UCw5iZKtVawdV
- tAtwh1lZ28vHxbWv6Y6VJDqieICxluZIP14YLW25exC1q3nWxvdUPwCtWirWyAaay3
- 6UBOUZOyIUujJbV2Q69eeHOfe8cI/Vjh/6oVvXV8=
+ b=tbIMTR+vhKyZHfSjrBTXqBOVMoqnGPKR9DQbBtv/w0p8VKoNcw5OpxJPl7p5YUfwu
+ Mg9kBKQq4wwTEnSQgE6v5FF++rUVqKX4gjh2lAxgPLE8xZ9XpsGfgu19AofTFWiNWt
+ fkXTeNxgg/tMNZCJUsfU45mnMZFbhtDTD4Qtz8fo=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 053/371] drm/shmob: Fix return value check in
- shmob_drm_probe
-Date: Thu, 16 Jan 2020 12:12:01 -0500
-Message-Id: <20200116171719.16965-53-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 089/371] fbdev: chipsfb: remove set but not used
+ variable 'size'
+Date: Thu, 16 Jan 2020 12:19:21 -0500
+Message-Id: <20200116172403.18149-32-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200116171719.16965-1-sashal@kernel.org>
-References: <20200116171719.16965-1-sashal@kernel.org>
+In-Reply-To: <20200116172403.18149-1-sashal@kernel.org>
+References: <20200116172403.18149-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,12 +50,11 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- YueHaibing <yuehaibing@huawei.com>, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Simon Horman <horms+renesas@verge.net.au>
+Cc: Christophe Leroy <christophe.leroy@c-s.fr>, Sasha Levin <sashal@kernel.org>,
+ linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, YueHaibing <yuehaibing@huawei.com>,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -63,38 +62,47 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: YueHaibing <yuehaibing@huawei.com>
 
-[ Upstream commit 06c3bbd3c12737a50c2e981821b5585e1786e73d ]
+[ Upstream commit 8e71fa5e4d86bedfd26df85381d65d6b4c860020 ]
 
-In case of error, the function devm_ioremap_resource() returns ERR_PTR()
-and never returns NULL. The NULL test in the return value check should
-be replaced with IS_ERR().
+Fixes gcc '-Wunused-but-set-variable' warning:
 
-Fixes: 8f1597c8f1a5 ("drm: shmobile: Perform initialization/cleanup at probe/remove time")
+drivers/video/fbdev/chipsfb.c: In function 'chipsfb_pci_init':
+drivers/video/fbdev/chipsfb.c:352:22: warning:
+ variable 'size' set but not used [-Wunused-but-set-variable]
+
+Fixes: 8c8709334cec ("[PATCH] ppc32: Remove CONFIG_PMAC_PBOOK").
 Signed-off-by: YueHaibing <yuehaibing@huawei.com>
-Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Acked-by: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Christophe Leroy <christophe.leroy@c-s.fr>
+[b.zolnierkie: minor commit summary and description fixups]
+Signed-off-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/shmobile/shmob_drm_drv.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/video/fbdev/chipsfb.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-index 592572554eb0..58d8a98c749b 100644
---- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-+++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-@@ -233,8 +233,8 @@ static int shmob_drm_probe(struct platform_device *pdev)
+diff --git a/drivers/video/fbdev/chipsfb.c b/drivers/video/fbdev/chipsfb.c
+index f103665cad43..f9b366d17587 100644
+--- a/drivers/video/fbdev/chipsfb.c
++++ b/drivers/video/fbdev/chipsfb.c
+@@ -350,7 +350,7 @@ static void init_chips(struct fb_info *p, unsigned long addr)
+ static int chipsfb_pci_init(struct pci_dev *dp, const struct pci_device_id *ent)
+ {
+ 	struct fb_info *p;
+-	unsigned long addr, size;
++	unsigned long addr;
+ 	unsigned short cmd;
+ 	int rc = -ENODEV;
  
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	sdev->mmio = devm_ioremap_resource(&pdev->dev, res);
--	if (sdev->mmio == NULL)
--		return -ENOMEM;
-+	if (IS_ERR(sdev->mmio))
-+		return PTR_ERR(sdev->mmio);
+@@ -362,7 +362,6 @@ static int chipsfb_pci_init(struct pci_dev *dp, const struct pci_device_id *ent)
+ 	if ((dp->resource[0].flags & IORESOURCE_MEM) == 0)
+ 		goto err_disable;
+ 	addr = pci_resource_start(dp, 0);
+-	size = pci_resource_len(dp, 0);
+ 	if (addr == 0)
+ 		goto err_disable;
  
- 	ret = shmob_drm_setup_clocks(sdev, pdata->clk_source);
- 	if (ret < 0)
 -- 
 2.20.1
 
