@@ -1,49 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8F0A140511
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 09:14:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81D61140512
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 09:14:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 137576F433;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D36496F439;
 	Fri, 17 Jan 2020 08:13:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 374 seconds by postgrey-1.36 at gabe;
- Thu, 16 Jan 2020 12:33:05 UTC
-Received: from eu-smtp-delivery-151.mimecast.com
- (eu-smtp-delivery-151.mimecast.com [207.82.80.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FFCC6ECD7
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 12:33:05 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-140-XHznUHIJPea1EeGEH4eIuQ-1; Thu, 16 Jan 2020 12:26:45 +0000
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Thu, 16 Jan 2020 12:26:45 +0000
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000; 
- Thu, 16 Jan 2020 12:26:45 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Chris Wilson' <chris@chris-wilson.co.uk>, Daniel Vetter <daniel@ffwll.ch>
-Subject: RE: [PATCH] drm: Inject a cond_resched() into long drm_clflush_sg()
-Thread-Topic: [PATCH] drm: Inject a cond_resched() into long drm_clflush_sg()
-Thread-Index: AQHVy+gMprmlNntzX0qJh6CaHCkwb6fs20gAgAANToCAAEszQA==
-Date: Thu, 16 Jan 2020 12:26:45 +0000
-Message-ID: <8f6b9daa2af342a79137064203255242@AcuMS.aculab.com>
-References: <20200115205245.2772800-1-chris@chris-wilson.co.uk>
- <20200116065242.GC8400@dvetter-linux.ger.corp.intel.com>
- <157916041994.14122.8524532515240369595@skylake-alporthouse-com>
-In-Reply-To: <157916041994.14122.8524532515240369595@skylake-alporthouse-com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6E0A6ECF4
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 12:55:01 +0000 (UTC)
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 9BBD9299CC308E0F7886;
+ Thu, 16 Jan 2020 20:54:57 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
+ 14.3.439.0; Thu, 16 Jan 2020 20:54:47 +0800
+From: Chen Zhou <chenzhou10@huawei.com>
+To: <bskeggs@redhat.com>, <airlied@linux.ie>, <daniel@ffwll.ch>
+Subject: [PATCH -next] drm/nouveau: fix build error without CONFIG_IOMMU_API
+Date: Thu, 16 Jan 2020 20:50:10 +0800
+Message-ID: <20200116125010.166572-1-chenzhou10@huawei.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-MC-Unique: XHznUHIJPea1EeGEH4eIuQ-1
-X-Mimecast-Spam-Score: 0
+X-Originating-IP: [10.175.113.25]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Fri, 17 Jan 2020 08:13:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,71 +40,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: chenzhou10@huawei.com, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Wilson <chris@chris-wilson.co.uk>
-> Sent: 16 January 2020 07:40
-> Quoting Daniel Vetter (2020-01-16 06:52:42)
-> > On Wed, Jan 15, 2020 at 08:52:45PM +0000, Chris Wilson wrote:
-> > > Since we may try and flush the cachelines associated with large buffers
-> > > (an 8K framebuffer is about 128MiB, even before we try HDR), this leads
-> > > to unacceptably long latencies (when using a voluntary CONFIG_PREEMPT).
-> > > If we call cond_resched() between each sg chunk, that it about every 128
-> > > pages, we have a natural break point in which to check if the process
-> > > needs to be rescheduled. Naturally, this means that drm_clflush_sg() can
-> > > only be called from process context -- which is true at the moment. The
-> > > other clflush routines remain usable from atomic context.
-> > >
-> > > Even though flushing large objects takes a demonstrable amount to time
-> > > to flush all the cachelines, clflush is still preferred over a
-> > > system-wide wbinvd as the latter has unpredictable latencies affecting
-> > > the whole system not just the local task.
-> > >
-> > > Reported-by: David Laight <David.Laight@ACULAB.COM>
-> > > Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> > > Cc: David Laight <David.Laight@ACULAB.COM>
-> >
-> > The original bug report is complaining about latencies for SCHED_RT
-> > threads, on a system that doesn't even use CONFIG_PREEMPT. I'm not sure
-> > it's terribly valid to cater to that use-case - all the desktop distros
-> > seem a lot more reasonable. So firmly *shrug* from my side ...
-> 
-> Yeah, I had the same immediate response to the complaint), but otoh we've
-> inserted cond_resched() before when it looks like may consume entire
-> jiffies inside a loop. At the very minimum, we should have a
-> might_sleep() here and a reminder that this can be very slow (remember
-> byt?).
+If CONFIG_IOMMU_API is n, build fails:
 
-I'm using RT to get more deterministic scheduling to look for long
-scheduling delays, rather than because we need very tight scheduling.
-Delays of several 100us aren't a real problem.
+vers/gpu/drm/nouveau/nvkm/subdev/ltc/gp10b.c:37:9: error: implicit declaration of function dev_iommu_fwspec_get; did you mean iommu_fwspec_free? [-Werror=implicit-function-declaration]
+  spec = dev_iommu_fwspec_get(device->dev);
+         ^~~~~~~~~~~~~~~~~~~~
+         iommu_fwspec_free
+drivers/gpu/drm/nouveau/nvkm/subdev/ltc/gp10b.c:37:7: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+  spec = dev_iommu_fwspec_get(device->dev);
+       ^
+drivers/gpu/drm/nouveau/nvkm/subdev/ltc/gp10b.c:39:17: error: struct iommu_fwspec has no member named ids
+   u32 sid = spec->ids[0] & 0xffff;
 
-The problem with CONFIG_PREEMPT is that the distros don't
-enable it and it isn't a command line option.
-So it is really useless unless you are able/willing to build your
-own kernel.
+Seletc IOMMU_API under config DRM_NOUVEAU to fix this.
 
-I could run the code under the normal scheduler with 'nice -19'.
-I stlll wouldn't expect to have all but one cpu idle when I've just
-done a cv_broadcast() to wake up a lot of threads.
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+---
+ drivers/gpu/drm/nouveau/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-I've added 'if (!(++i & 31)) cond_resched();' after the drm_clfulsh_page()
-call in drm_cflush_sg().
-In my case that it 3600/32 reschedules in 3.3ms - plenty.
+diff --git a/drivers/gpu/drm/nouveau/Kconfig b/drivers/gpu/drm/nouveau/Kconfig
+index 9c990266..ce03693 100644
+--- a/drivers/gpu/drm/nouveau/Kconfig
++++ b/drivers/gpu/drm/nouveau/Kconfig
+@@ -2,6 +2,7 @@
+ config DRM_NOUVEAU
+ 	tristate "Nouveau (NVIDIA) cards"
+ 	depends on DRM && PCI && MMU
++	select IOMMU_API
+ 	select FW_LOADER
+ 	select DRM_KMS_HELPER
+ 	select DRM_TTM
+-- 
+2.7.4
 
-However there is a call from __i915_gem_objet_set_pages() that
-is preceded by a lockdep_assert_held() check - so mustn't sleep.
-
-	David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
