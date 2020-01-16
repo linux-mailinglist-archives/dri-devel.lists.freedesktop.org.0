@@ -1,36 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60B2113E529
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 18:13:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2101113E52C
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 18:13:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D99CA6EE1D;
-	Thu, 16 Jan 2020 17:12:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D2ED6EE1E;
+	Thu, 16 Jan 2020 17:13:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF2CF6EE1D;
- Thu, 16 Jan 2020 17:12:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C4566EE1E
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 17:13:18 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 88F862469A;
- Thu, 16 Jan 2020 17:12:57 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 706A72468C;
+ Thu, 16 Jan 2020 17:13:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1579194778;
- bh=y0+WgApjunz0Ef6HurVOOELfgTPbItrrD/zs2yt9JIo=;
+ s=default; t=1579194798;
+ bh=aOKjMlhukutgw1+Sk4z/1CeV3kR3/79/Q7lf4BLEXwU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZAH/Yz/pFCwueM1hBiH+Y9GdCvD/t82fcoUlTz4kg4h9TeVGcAN10wvAwe+2X01i+
- b6t5KF5/bWMkseZBSPHiPN9CxYNFoqTQB65hO4wFh7FXqTPIlVzR41GXRWr+4tdVxQ
- pQdL7lmE5E+haWBjOTWq1aJ21HxkcUqgieVrHhlY=
+ b=xMR7tLW6iucsEmLBaXDiaBt9tcqj0Fo0yCpJTK7aSM7ZGuw7DwT0iHfk33KW4q6hu
+ rVYJTR6w3JjTt4zzo2Ma6kYAoQpp5H8T0g5AZb4JQtQUHJAE4pTEoCEgqk1uAU4kHZ
+ VDF9mbbkpYqTOYk7/7YM5Cir9HCh/oyiP5lgkclo=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 595/671] drm/msm/dsi: Implement reset correctly
-Date: Thu, 16 Jan 2020 12:03:53 -0500
-Message-Id: <20200116170509.12787-332-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 610/671] drm: panel-lvds: Potential Oops in probe
+ error handling
+Date: Thu, 16 Jan 2020 12:04:08 -0500
+Message-Id: <20200116170509.12787-347-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116170509.12787-1-sashal@kernel.org>
 References: <20200116170509.12787-1-sashal@kernel.org>
@@ -49,80 +50,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, freedreno@lists.freedesktop.org,
- Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, Hai Li <hali@codeaurora.org>,
- dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
- linux-arm-msm@vger.kernel.org, Sean Paul <sean@poorly.run>
+Cc: Sasha Levin <sashal@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org, Dan Carpenter <dan.carpenter@oracle.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
+From: Dan Carpenter <dan.carpenter@oracle.com>
 
-[ Upstream commit 78e31c42261779a01bc73472d0f65f15378e9de3 ]
+[ Upstream commit fb2ee9bf084bcaeff1e5be100decc0eacb4af2d5 ]
 
-On msm8998, vblank timeouts are observed because the DSI controller is not
-reset properly, which ends up stalling the MDP.  This is because the reset
-logic is not correct per the hardware documentation.
+The "lvds->backlight" pointer could be NULL in situations where
+of_parse_phandle() returns NULL.  This code is cleaner if we use the
+managed devm_of_find_backlight() so the clean up is automatic.
 
-The documentation states that after asserting reset, software should wait
-some time (no indication of how long), or poll the status register until it
-returns 0 before deasserting reset.
-
-wmb() is insufficient for this purpose since it just ensures ordering, not
-timing between writes.  Since asserting and deasserting reset occurs on the
-same register, ordering is already guaranteed by the architecture, making
-the wmb extraneous.
-
-Since we would define a timeout for polling the status register to avoid a
-possible infinite loop, lets just use a static delay of 20 ms, since 16.666
-ms is the time available to process one frame at 60 fps.
-
-Fixes: a689554ba6ed ("drm/msm: Initial add DSI connector support")
-Cc: Hai Li <hali@codeaurora.org>
-Cc: Rob Clark <robdclark@gmail.com>
-Signed-off-by: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
-Reviewed-by: Sean Paul <sean@poorly.run>
-[seanpaul renamed RESET_DELAY to DSI_RESET_TOGGLE_DELAY_MS]
-Signed-off-by: Sean Paul <seanpaul@chromium.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20191011133939.16551-1-jeffrey.l.hugo@gmail.com
+Fixes: 7c9dff5bd643 ("drm: panels: Add LVDS panel driver")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20190911104928.GA15930@mwanda
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/msm/dsi/dsi_host.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/panel/panel-lvds.c | 21 ++++-----------------
+ 1 file changed, 4 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index cc4ea5502d6c..3b78bca0bb4d 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -34,6 +34,8 @@
- #include "dsi_cfg.h"
- #include "msm_kms.h"
- 
-+#define DSI_RESET_TOGGLE_DELAY_MS 20
-+
- static int dsi_get_version(const void __iomem *base, u32 *major, u32 *minor)
+diff --git a/drivers/gpu/drm/panel/panel-lvds.c b/drivers/gpu/drm/panel/panel-lvds.c
+index 8a1687887ae9..bd704a36c5d0 100644
+--- a/drivers/gpu/drm/panel/panel-lvds.c
++++ b/drivers/gpu/drm/panel/panel-lvds.c
+@@ -199,7 +199,6 @@ static int panel_lvds_parse_dt(struct panel_lvds *lvds)
+ static int panel_lvds_probe(struct platform_device *pdev)
  {
- 	u32 ver;
-@@ -994,7 +996,7 @@ static void dsi_sw_reset(struct msm_dsi_host *msm_host)
- 	wmb(); /* clocks need to be enabled before reset */
+ 	struct panel_lvds *lvds;
+-	struct device_node *np;
+ 	int ret;
  
- 	dsi_write(msm_host, REG_DSI_RESET, 1);
--	wmb(); /* make sure reset happen */
-+	msleep(DSI_RESET_TOGGLE_DELAY_MS); /* make sure reset happen */
- 	dsi_write(msm_host, REG_DSI_RESET, 0);
+ 	lvds = devm_kzalloc(&pdev->dev, sizeof(*lvds), GFP_KERNEL);
+@@ -245,14 +244,9 @@ static int panel_lvds_probe(struct platform_device *pdev)
+ 		return ret;
+ 	}
+ 
+-	np = of_parse_phandle(lvds->dev->of_node, "backlight", 0);
+-	if (np) {
+-		lvds->backlight = of_find_backlight_by_node(np);
+-		of_node_put(np);
+-
+-		if (!lvds->backlight)
+-			return -EPROBE_DEFER;
+-	}
++	lvds->backlight = devm_of_find_backlight(lvds->dev);
++	if (IS_ERR(lvds->backlight))
++		return PTR_ERR(lvds->backlight);
+ 
+ 	/*
+ 	 * TODO: Handle all power supplies specified in the DT node in a generic
+@@ -268,14 +262,10 @@ static int panel_lvds_probe(struct platform_device *pdev)
+ 
+ 	ret = drm_panel_add(&lvds->panel);
+ 	if (ret < 0)
+-		goto error;
++		return ret;
+ 
+ 	dev_set_drvdata(lvds->dev, lvds);
+ 	return 0;
+-
+-error:
+-	put_device(&lvds->backlight->dev);
+-	return ret;
  }
  
-@@ -1402,7 +1404,7 @@ static void dsi_sw_reset_restore(struct msm_dsi_host *msm_host)
+ static int panel_lvds_remove(struct platform_device *pdev)
+@@ -286,9 +276,6 @@ static int panel_lvds_remove(struct platform_device *pdev)
  
- 	/* dsi controller can only be reset while clocks are running */
- 	dsi_write(msm_host, REG_DSI_RESET, 1);
--	wmb();	/* make sure reset happen */
-+	msleep(DSI_RESET_TOGGLE_DELAY_MS); /* make sure reset happen */
- 	dsi_write(msm_host, REG_DSI_RESET, 0);
- 	wmb();	/* controller out of reset */
- 	dsi_write(msm_host, REG_DSI_CTRL, data0);
+ 	panel_lvds_disable(&lvds->panel);
+ 
+-	if (lvds->backlight)
+-		put_device(&lvds->backlight->dev);
+-
+ 	return 0;
+ }
+ 
 -- 
 2.20.1
 
