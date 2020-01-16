@@ -1,61 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BF2D13D5D5
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 09:21:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 502C013D5E0
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 09:21:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 764416EC22;
-	Thu, 16 Jan 2020 08:21:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 349EB6EC2C;
+	Thu, 16 Jan 2020 08:21:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe63.google.com (mail-vs1-xe63.google.com
- [IPv6:2607:f8b0:4864:20::e63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D73256EA9E
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 20:57:37 +0000 (UTC)
-Received: by mail-vs1-xe63.google.com with SMTP id x18so11331318vsq.4
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2020 12:57:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brkho-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=MoaLqRsXbsF8WWfj7JkWTIfWhuB0czfd/jbk7/+hexM=;
- b=ksKqKO6Uhobvq/K9pBY4ix3j3Vkphyaa/mEZ535OVhGl9gLs0a7c8MJ5OmR87Vf+10
- 5mEsnaytE8agpwaKvl+1JEpKFyCVqGXGk86ZEtZDhZl64V1b7FlM27TjWUdL+TViZxBr
- roDScgykIksCyMPlsZf2jsPV2NY9Y3e/rhuaNaqSrYV1O65LVpJ2eBs1boUQZfSdB88/
- FS2am7QPK8rOs/bSwXlNR0jhR4M4myAQGPv8450qrCSUmpsW6VzDcm5oAIwLOsYH31rw
- Cuu/fvR7S3p40ad5eRyeky7sPs/tRlm3g9z2FKx2uIfPngHMJLMwqXmStnxes1H731++
- kwVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=MoaLqRsXbsF8WWfj7JkWTIfWhuB0czfd/jbk7/+hexM=;
- b=DBc1TPGmsk4nQcYHBf3jN/o9GuWa0jIWum8RiIedQGVMJ/yRJYFYz7nBdDu0CuLrko
- WFBHDhr2GHiaMM2vM9vd+1h13DeMLprwsxnmsMlAI3GAnJWQHhg3fGsq5AAXv9AHnNWD
- 0OYqnZXT5bCYnyLc1xFnje9c6ti6nv8lw4XsE+TAda9WBjn2gERvKSc0k3vahm8MPD2B
- Sk64HFc3nIsExtVrbvygUw/2zXjeQJgkBpAPz2txyFjGtYef9hy+JqnDJgIf6McmRMdm
- 4xPcLdqsWqnJQwN97SQgd0kkrE6miUztlkXJ6SHNfQg9cngza5X1bzKpZuTzBmvcb+o2
- KyOw==
-X-Gm-Message-State: APjAAAWoobYhBfvIl5LeWLVhUGMViQ/1P6p3PVoCtUFOpk8vuq+y2TOr
- nTxJmQcBOrG3eLPbewjCEsYYuu2kSS2hJ3pqM01xU44CAt+j3w==
-X-Google-Smtp-Source: APXvYqx5I5VrFSVu9xq8Xm4JtWThqjJdeqMg8fv8mfJ+xc7a8lZAi7mI+C25Nup37fai/gBlYNHBcUaY6hQs
-X-Received: by 2002:a67:6746:: with SMTP id b67mr5544300vsc.193.1579121856991; 
- Wed, 15 Jan 2020 12:57:36 -0800 (PST)
-Received: from hob1.nyc.corp.google.com ([100.118.32.120])
- by smtp-relay.gmail.com with ESMTPS id j26sm1472756uak.1.2020.01.15.12.57.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Jan 2020 12:57:36 -0800 (PST)
-X-Relaying-Domain: brkho.com
-From: Brian Ho <brian@brkho.com>
-To: freedreno@lists.freedesktop.org
-Subject: [PATCH v2 2/2] drm/msm: Add MSM_WAIT_IOVA ioctl
-Date: Wed, 15 Jan 2020 15:56:49 -0500
-Message-Id: <20200115205649.12971-3-brian@brkho.com>
-X-Mailer: git-send-email 2.25.0.rc1.283.g88dfdc4193-goog
-In-Reply-To: <20200115205649.12971-1-brian@brkho.com>
-References: <20200115205649.12971-1-brian@brkho.com>
+Received: from dodo.xh.is (dodo.xh.is
+ [IPv6:2001:19f0:8001:184d:5400:2ff:fe7b:e8bd])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A0406EBBA
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 03:37:12 +0000 (UTC)
+X-Spam: yes
+X-Spam-Score: 6.6 / 99999
+X-Spam-Symbols: RCVD_VIA_SMTP_AUTH, TO_DN_SOME, FREEMAIL_ENVRCPT,
+ SUSPICIOUS_RECIPS, BROKEN_CONTENT_TYPE, MID_CONTAINS_FROM,
+ MIME_TRACE, FROM_HAS_DN, R_MISSING_CHARSET, RCPT_COUNT_TWELVE,
+ RCVD_NO_TLS_LAST, ASN, RCVD_COUNT_TWO, ARC_NA, TAGGED_RCPT,
+ TO_MATCH_ENVRCPT_SOME, FROM_EQ_ENVFROM
+Received: by dodo.xh.is (OpenSMTPD) with ESMTPSA id f941aa06
+ (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256:NO); 
+ Wed, 15 Jan 2020 19:37:08 -0800 (PST)
+Received: from localhost (localhost [127.0.0.1]) (Authenticated sender:
+ icenowy@aosc.io)
+ by hermes.aosc.io (Postfix) with ESMTPSA id 9001A476BD;
+ Thu, 16 Jan 2020 03:37:02 +0000 (UTC)
+From: Icenowy Zheng <icenowy@aosc.io>
+To: Rob Herring <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v2 0/5] Add support for Pine64 PineTab
+Date: Thu, 16 Jan 2020 11:36:31 +0800
+Message-Id: <20200116033636.512461-1-icenowy@aosc.io>
 MIME-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aosc.io; s=dkim;
+ t=1579145827;
+ h=from:subject:date:message-id:to:cc:mime-version:content-transfer-encoding;
+ bh=87YLJpRmWJZe7wdqCNVEOJqDLc0q4dXIL0xBAUd1+uc=;
+ b=rLIg6ejDnIPKj2/wuLCe7oV04s+UUjnr9lzxNfVZvngMGL0e9FWjpypJeC+4Yt9og8H3O5
+ rPjTvm7h3pt2Ms1F2TGZWJv6KC0vvS3oPzAbYooutYILC0SkIFm0hHl1WS5+wLNxpmFaxR
+ INAepk+nLaEPL0GmpOBJDgBVG0M3TMc=
 X-Mailman-Approved-At: Thu, 16 Jan 2020 08:21:03 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,160 +56,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, Brian Ho <brian@brkho.com>,
- David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>, hoegsberg@chromium.org,
- Sean Paul <sean@poorly.run>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-sunxi@googlegroups.com,
+ linux-arm-kernel@lists.infradead.org, Icenowy Zheng <icenowy@aosc.io>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implements an ioctl to wait until a value at a given iova is greater
-than or equal to a supplied value.
+This patchset tries to add support for the PineTab tablet from Pine64.
 
-This will initially be used by turnip (open-source Vulkan driver for
-QC in mesa) for occlusion queries where the userspace driver can
-block on a query becoming available before continuing via
-vkGetQueryPoolResults.
+As it uses a specific MIPI-DSI panel, the support of the panel should be
+introduced first, with its DT binding.
 
-Signed-off-by: Brian Ho <brian@brkho.com>
----
- drivers/gpu/drm/msm/msm_drv.c | 61 +++++++++++++++++++++++++++++++++--
- include/uapi/drm/msm_drm.h    | 14 ++++++++
- 2 files changed, 73 insertions(+), 2 deletions(-)
+Then a device tree is added. Compared to v1 of the patchset, the
+accelerometer support is temporarily removed because a DT binding is
+lacked (although a proper driver exists).
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index c84f0a8b3f2c..92853c795c5c 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -36,10 +36,11 @@
-  *           MSM_GEM_INFO ioctl.
-  * - 1.4.0 - softpin, MSM_RELOC_BO_DUMP, and GEM_INFO support to set/get
-  *           GEM object's debug name
-- * - 1.5.0 - Add SUBMITQUERY_QUERY ioctl
-+ * - 1.5.0 - Add SUBMITQUEUE_QUERY ioctl
-+ * - 1.6.0 - Add WAIT_IOVA ioctl
-  */
- #define MSM_VERSION_MAJOR	1
--#define MSM_VERSION_MINOR	5
-+#define MSM_VERSION_MINOR	6
- #define MSM_VERSION_PATCHLEVEL	0
- 
- static const struct drm_mode_config_funcs mode_config_funcs = {
-@@ -952,6 +953,61 @@ static int msm_ioctl_submitqueue_close(struct drm_device *dev, void *data,
- 	return msm_submitqueue_remove(file->driver_priv, id);
- }
- 
-+static int msm_ioctl_wait_iova(struct drm_device *dev, void *data,
-+		struct drm_file *file)
-+{
-+	struct msm_drm_private *priv = dev->dev_private;
-+	struct drm_gem_object *obj;
-+	struct drm_msm_wait_iova *args = data;
-+	ktime_t timeout = to_ktime(args->timeout);
-+	unsigned long remaining_jiffies = timeout_to_jiffies(&timeout);
-+	struct msm_gpu *gpu = priv->gpu;
-+	void *base_vaddr;
-+	uint64_t ref_value = args->value & args->mask;
-+	uint64_t *vaddr;
-+	int ret;
-+
-+	if (args->pad)
-+		return -EINVAL;
-+
-+	if (!gpu)
-+		return -ENODEV;
-+
-+	obj = drm_gem_object_lookup(file, args->handle);
-+	if (!obj)
-+		return -ENOENT;
-+
-+	if (args->offset + sizeof(*vaddr) < args->offset ||
-+		args->offset + sizeof(*vaddr) > obj->size) {
-+		ret = -EINVAL;
-+		goto err_put_gem_object;
-+	}
-+
-+	base_vaddr = msm_gem_get_vaddr(obj);
-+	if (IS_ERR(base_vaddr)) {
-+		ret = PTR_ERR(base_vaddr);
-+		goto err_put_gem_object;
-+	}
-+
-+	vaddr = base_vaddr + args->offset;
-+
-+	/* TODO: Support 64 bit reference values with a flag. */
-+	ret = wait_event_interruptible_timeout(gpu->event,
-+			(int32_t)((uint32_t)*vaddr - (uint32_t)ref_value) >= 0,
-+			remaining_jiffies);
-+
-+	if (ret == 0)
-+		ret = -ETIMEDOUT;
-+	else if (ret > 0)
-+		ret = 0;
-+
-+    msm_gem_put_vaddr(obj);
-+
-+err_put_gem_object:
-+	drm_gem_object_put_unlocked(obj);
-+	return ret;
-+}
-+
- static const struct drm_ioctl_desc msm_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(MSM_GET_PARAM,    msm_ioctl_get_param,    DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(MSM_GEM_NEW,      msm_ioctl_gem_new,      DRM_RENDER_ALLOW),
-@@ -964,6 +1020,7 @@ static const struct drm_ioctl_desc msm_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_NEW,   msm_ioctl_submitqueue_new,   DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_CLOSE, msm_ioctl_submitqueue_close, DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_QUERY, msm_ioctl_submitqueue_query, DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(MSM_WAIT_IOVA, msm_ioctl_wait_iova, DRM_RENDER_ALLOW),
- };
- 
- static const struct vm_operations_struct vm_ops = {
-diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
-index 0b85ed6a3710..d4eac312f56e 100644
---- a/include/uapi/drm/msm_drm.h
-+++ b/include/uapi/drm/msm_drm.h
-@@ -298,6 +298,18 @@ struct drm_msm_submitqueue_query {
- 	__u32 pad;
- };
- 
-+/* This ioctl blocks until the value at bo + offset is greater than or equal
-+ * to the reference value.
-+ */
-+struct drm_msm_wait_iova {
-+	__u32 handle;          /* in, GEM handle */
-+	__u32 pad;
-+	struct drm_msm_timespec timeout;   /* in */
-+	__u64 offset;          /* in, offset into bo */
-+	__u64 mask;            /* in, mask of the value at bo + offset */
-+	__u64 value;           /* in, reference value, 32 bits */
-+};
-+
- #define DRM_MSM_GET_PARAM              0x00
- /* placeholder:
- #define DRM_MSM_SET_PARAM              0x01
-@@ -315,6 +327,7 @@ struct drm_msm_submitqueue_query {
- #define DRM_MSM_SUBMITQUEUE_NEW        0x0A
- #define DRM_MSM_SUBMITQUEUE_CLOSE      0x0B
- #define DRM_MSM_SUBMITQUEUE_QUERY      0x0C
-+#define DRM_MSM_WAIT_IOVA      0x0D
- 
- #define DRM_IOCTL_MSM_GET_PARAM        DRM_IOWR(DRM_COMMAND_BASE + DRM_MSM_GET_PARAM, struct drm_msm_param)
- #define DRM_IOCTL_MSM_GEM_NEW          DRM_IOWR(DRM_COMMAND_BASE + DRM_MSM_GEM_NEW, struct drm_msm_gem_new)
-@@ -327,6 +340,7 @@ struct drm_msm_submitqueue_query {
- #define DRM_IOCTL_MSM_SUBMITQUEUE_NEW    DRM_IOWR(DRM_COMMAND_BASE + DRM_MSM_SUBMITQUEUE_NEW, struct drm_msm_submitqueue)
- #define DRM_IOCTL_MSM_SUBMITQUEUE_CLOSE  DRM_IOW (DRM_COMMAND_BASE + DRM_MSM_SUBMITQUEUE_CLOSE, __u32)
- #define DRM_IOCTL_MSM_SUBMITQUEUE_QUERY  DRM_IOW (DRM_COMMAND_BASE + DRM_MSM_SUBMITQUEUE_QUERY, struct drm_msm_submitqueue_query)
-+#define DRM_IOCTL_MSM_WAIT_IOVA        DRM_IOW (DRM_COMMAND_BASE + DRM_MSM_WAIT_IOVA, struct drm_msm_wait_iova)
- 
- #if defined(__cplusplus)
- }
+Icenowy Zheng (5):
+  dt-bindings: vendor-prefix: add Shenzhen Feixin Photoelectics Co., Ltd
+  dt-bindings: panel: add Feixin K101 IM2BA02 MIPI-DSI panel
+  drm/panel: Add Feixin K101 IM2BA02 panel
+  dt-bindings: arm: sunxi: add binding for PineTab tablet
+  arm64: dts: allwinner: a64: add support for PineTab
+
+ .../devicetree/bindings/arm/sunxi.yaml        |   5 +
+ .../display/panel/feixin,k101-im2ba02.yaml    |  55 ++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ MAINTAINERS                                   |   6 +
+ arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+ .../boot/dts/allwinner/sun50i-a64-pinetab.dts | 460 +++++++++++++++
+ drivers/gpu/drm/panel/Kconfig                 |   9 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../gpu/drm/panel/panel-feixin-k101-im2ba02.c | 526 ++++++++++++++++++
+ 9 files changed, 1065 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/feixin,k101-im2ba02.yaml
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
+ create mode 100644 drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c
+
 -- 
-2.25.0.rc1.283.g88dfdc4193-goog
+2.23.0
 
 _______________________________________________
 dri-devel mailing list
