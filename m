@@ -2,27 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E10D11404FF
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 09:13:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FB70140507
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 09:13:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 305216F41A;
-	Fri, 17 Jan 2020 08:13:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFD006F423;
+	Fri, 17 Jan 2020 08:13:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C842E6EDB7;
- Thu, 16 Jan 2020 16:12:39 +0000 (UTC)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 999786EDBE;
+ Thu, 16 Jan 2020 16:16:13 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 16 Jan 2020 08:12:39 -0800
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 16 Jan 2020 08:16:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,326,1574150400"; d="scan'208";a="219729445"
+X-IronPort-AV: E=Sophos;i="5.70,326,1574150400"; d="scan'208";a="257425663"
 Received: from rosetta.fi.intel.com ([10.237.72.194])
- by fmsmga007.fm.intel.com with ESMTP; 16 Jan 2020 08:12:35 -0800
+ by fmsmga002.fm.intel.com with ESMTP; 16 Jan 2020 08:16:08 -0800
 Received: by rosetta.fi.intel.com (Postfix, from userid 1000)
- id 693FC843B9F; Thu, 16 Jan 2020 18:12:34 +0200 (EET)
+ id DD873843B9F; Thu, 16 Jan 2020 18:16:07 +0200 (EET)
 From: Mika Kuoppala <mika.kuoppala@linux.intel.com>
 To: akeem.g.abodunrin@intel.com, intel-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, omer.aran@intel.com,
@@ -32,11 +32,11 @@ To: akeem.g.abodunrin@intel.com, intel-gfx@lists.freedesktop.org,
  jani.nikula@intel.com, chris.p.wilson@intel.com
 Subject: [PATCH 1/2] drm/i915: Add mechanism to submit a context WA on ring
  submission
-Date: Thu, 16 Jan 2020 18:12:31 +0200
-Message-Id: <20200116161231.26026-1-mika.kuoppala@linux.intel.com>
+Date: Thu, 16 Jan 2020 18:16:01 +0200
+Message-Id: <20200116161601.26110-1-mika.kuoppala@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200114145136.65373-2-akeem.g.abodunrin@intel.com>
-References: <20200114145136.65373-2-akeem.g.abodunrin@intel.com>
+In-Reply-To: <20200114174549.74643-2-akeem.g.abodunrin@intel.com>
+References: <20200114174549.74643-2-akeem.g.abodunrin@intel.com>
 X-Mailman-Approved-At: Fri, 17 Jan 2020 08:13:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
