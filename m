@@ -2,37 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA4A613E23F
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 17:55:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E285F13E244
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 17:55:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4F686EDF4;
-	Thu, 16 Jan 2020 16:55:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D3FD6E228;
+	Thu, 16 Jan 2020 16:55:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4AB96EDF4
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 16:55:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 873696EDF3
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 16:55:09 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 082AD22464;
- Thu, 16 Jan 2020 16:55:03 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id AC50E22464;
+ Thu, 16 Jan 2020 16:55:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1579193704;
- bh=bdU4W6NQUKwa38DROjElBeIEwAa7e1UupvtmZlJXjRM=;
- h=From:To:Cc:Subject:Date:From;
- b=MhbhV+5IxqV/Gye42s9tyuvD3p9gSzv6UwD2qIysvD8Qva7FoofrQdZiL94ZJ2TlW
- RYepKR47FL49q+fgtKGxTUUPqO/QHnWho9uritmiImtDFTliSiLOx8J3fWlXxa5TQ0
- 5JDgD9gUnz5soFhdOborokc0UEtJAHFx+jQhdcZQ=
+ s=default; t=1579193709;
+ bh=TBonzQ10dSFUgOdB4B2DcmnCu975X+gpMksn/PHNrEA=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=l0BCxwY83NGCwKU4IPM+NY+ZbJVDDYzAXtF0U5zHtaIqnSwjuyB0C1NqrxCkPhA1z
+ 5Qz2UOswb4EnBtkufwD7aTgPyV2Rc8+CXZWs185kghXmgd3NAf4ohlkh44IqekTryS
+ l9o1aG5Z9WjB83wbw9nPw8yrA1E6seQRwzFwWpBI=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 001/671] drm/sti: do not remove the drm_bridge
- that was never added
-Date: Thu, 16 Jan 2020 11:43:52 -0500
-Message-Id: <20200116165502.8838-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 005/671] drm/virtio: fix bounds check in
+ virtio_gpu_cmd_get_capset()
+Date: Thu, 16 Jan 2020 11:43:56 -0500
+Message-Id: <20200116165502.8838-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200116165502.8838-1-sashal@kernel.org>
+References: <20200116165502.8838-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -48,60 +50,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Peter Rosin <peda@axentia.se>
+Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Dan Carpenter <dan.carpenter@oracle.com>,
+ virtualization@lists.linux-foundation.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Peter Rosin <peda@axentia.se>
+From: Dan Carpenter <dan.carpenter@oracle.com>
 
-[ Upstream commit 66e31a72dc38543b2d9d1ce267dc78ba9beebcfd ]
+[ Upstream commit 09c4b49457434fa74749ad6194ef28464d9f5df9 ]
 
-Removing the drm_bridge_remove call should avoid a NULL dereference
-during list processing in drm_bridge_remove if the error path is ever
-taken.
+This doesn't affect runtime because in the current code "idx" is always
+valid.
 
-The more natural approach would perhaps be to add a drm_bridge_add,
-but there are several other bridges that never call drm_bridge_add.
-Just removing the drm_bridge_remove is the easier fix.
+First, we read from "vgdev->capsets[idx].max_size" before checking
+whether "idx" is within bounds.  And secondly the bounds check is off by
+one so we could end up reading one element beyond the end of the
+vgdev->capsets[] array.
 
-Fixes: 84601dbdea36 ("drm: sti: rework init sequence")
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Signed-off-by: Peter Rosin <peda@axentia.se>
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20180806061910.29914-2-peda@axentia.se
+Fixes: 62fb7a5e1096 ("virtio-gpu: add 3d/virgl support")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Link: http://patchwork.freedesktop.org/patch/msgid/20180704094250.m7sgvvzg3dhcvv3h@kili.mountain
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/sti/sti_hda.c  | 1 -
- drivers/gpu/drm/sti/sti_hdmi.c | 1 -
- 2 files changed, 2 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_vq.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/sti/sti_hda.c b/drivers/gpu/drm/sti/sti_hda.c
-index 49438337f70d..19b9b5ed1297 100644
---- a/drivers/gpu/drm/sti/sti_hda.c
-+++ b/drivers/gpu/drm/sti/sti_hda.c
-@@ -721,7 +721,6 @@ static int sti_hda_bind(struct device *dev, struct device *master, void *data)
- 	return 0;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
+index c8a581b1f4c4..608906f06ced 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_vq.c
++++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
+@@ -650,11 +650,11 @@ int virtio_gpu_cmd_get_capset(struct virtio_gpu_device *vgdev,
+ {
+ 	struct virtio_gpu_get_capset *cmd_p;
+ 	struct virtio_gpu_vbuffer *vbuf;
+-	int max_size = vgdev->capsets[idx].max_size;
++	int max_size;
+ 	struct virtio_gpu_drv_cap_cache *cache_ent;
+ 	void *resp_buf;
  
- err_sysfs:
--	drm_bridge_remove(bridge);
- 	return -EINVAL;
- }
+-	if (idx > vgdev->num_capsets)
++	if (idx >= vgdev->num_capsets)
+ 		return -EINVAL;
  
-diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
-index 34cdc4644435..ccf718404a1c 100644
---- a/drivers/gpu/drm/sti/sti_hdmi.c
-+++ b/drivers/gpu/drm/sti/sti_hdmi.c
-@@ -1315,7 +1315,6 @@ static int sti_hdmi_bind(struct device *dev, struct device *master, void *data)
- 	return 0;
+ 	if (version > vgdev->capsets[idx].max_version)
+@@ -664,6 +664,7 @@ int virtio_gpu_cmd_get_capset(struct virtio_gpu_device *vgdev,
+ 	if (!cache_ent)
+ 		return -ENOMEM;
  
- err_sysfs:
--	drm_bridge_remove(bridge);
- 	hdmi->drm_connector = NULL;
- 	return -EINVAL;
- }
++	max_size = vgdev->capsets[idx].max_size;
+ 	cache_ent->caps_cache = kmalloc(max_size, GFP_KERNEL);
+ 	if (!cache_ent->caps_cache) {
+ 		kfree(cache_ent);
 -- 
 2.20.1
 
