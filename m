@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA80013E78A
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 18:27:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90DDD13E7B9
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 18:27:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DCE86EE40;
-	Thu, 16 Jan 2020 17:27:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8A026EE44;
+	Thu, 16 Jan 2020 17:27:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AFDB6EE40
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 17:27:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CD596EE43;
+ Thu, 16 Jan 2020 17:27:54 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 17881246D6;
- Thu, 16 Jan 2020 17:27:15 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 1C578246EB;
+ Thu, 16 Jan 2020 17:27:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1579195636;
- bh=UIxcUvduVdcP4qofQbk8fqLg1lEDIcWViqbTbAe5F+A=;
+ s=default; t=1579195674;
+ bh=oZRjKA7GGnkS5D3Z+OySvQJHR7OF8LYaprgmuTMpSj0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=qnB+E+eNDbdd6BWqzF8C9ZhznG5tZVTmTaR6qT/NqG1sQQkMbcxu6yxbThfZylIzD
- cLwxVlVZ+Cyp02yiKJmksFa/1vXm1JGkA3H0HCp3H34RS7cNg8+sDMeJQwVXUedihl
- 6xF/HRWPQmoZWBvusIT65YbuQjg/aeBAjjhflLUk=
+ b=st0XS/CsQB3YY4tUoFRsxc0l5o31qvG6+abTFCqybodyOiaMb06D9J642JYzlKJCq
+ KJBgjnQBIE/thyBEvAYScVfgNdH+iyUbiWltfEKx6jljKQqLwZeOvl1yswwgSDj50x
+ EEmzTIES5JykYg68UrolHQEUW66dv/CmPHleSJRc=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 202/371] backlight: lm3630a: Return 0 on success
- in update_status functions
-Date: Thu, 16 Jan 2020 12:21:14 -0500
-Message-Id: <20200116172403.18149-145-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 230/371] drm/msm/mdp5: Fix mdp5_cfg_init error
+ return
+Date: Thu, 16 Jan 2020 12:21:42 -0500
+Message-Id: <20200116172403.18149-173-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116172403.18149-1-sashal@kernel.org>
 References: <20200116172403.18149-1-sashal@kernel.org>
@@ -50,57 +50,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Pavel Machek <pavel@ucw.cz>,
- Lee Jones <lee.jones@linaro.org>, Brian Masney <masneyb@onstation.org>
+Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
+ Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Brian Masney <masneyb@onstation.org>
+From: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
 
-[ Upstream commit d3f48ec0954c6aac736ab21c34a35d7554409112 ]
+[ Upstream commit fc19cbb785d7bbd1a1af26229b5240a3ab332744 ]
 
-lm3630a_bank_a_update_status() and lm3630a_bank_b_update_status()
-both return the brightness value if the brightness was successfully
-updated. Writing to these attributes via sysfs would cause a 'Bad
-address' error to be returned. These functions should return 0 on
-success, so let's change it to correct that error.
+If mdp5_cfg_init fails because of an unknown major version, a null pointer
+dereference occurs.  This is because the caller of init expects error
+pointers, but init returns NULL on error.  Fix this by returning the
+expected values on error.
 
-Fixes: 28e64a68a2ef ("backlight: lm3630: apply chip revision")
-Signed-off-by: Brian Masney <masneyb@onstation.org>
-Acked-by: Pavel Machek <pavel@ucw.cz>
-Acked-by: Daniel Thompson <daniel.thompson@linaro.org>
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
+Fixes: 2e362e1772b8 (drm/msm/mdp5: introduce mdp5_cfg module)
+Signed-off-by: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
+Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+Signed-off-by: Rob Clark <robdclark@chromium.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/backlight/lm3630a_bl.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/msm/mdp/mdp5/mdp5_cfg.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/backlight/lm3630a_bl.c b/drivers/video/backlight/lm3630a_bl.c
-index 2030a6b77a09..ef2553f452ca 100644
---- a/drivers/video/backlight/lm3630a_bl.c
-+++ b/drivers/video/backlight/lm3630a_bl.c
-@@ -201,7 +201,7 @@ static int lm3630a_bank_a_update_status(struct backlight_device *bl)
- 				      LM3630A_LEDA_ENABLE, LM3630A_LEDA_ENABLE);
- 	if (ret < 0)
- 		goto out_i2c_err;
--	return bl->props.brightness;
-+	return 0;
+diff --git a/drivers/gpu/drm/msm/mdp/mdp5/mdp5_cfg.c b/drivers/gpu/drm/msm/mdp/mdp5/mdp5_cfg.c
+index 824067d2d427..42f0ecb0cf35 100644
+--- a/drivers/gpu/drm/msm/mdp/mdp5/mdp5_cfg.c
++++ b/drivers/gpu/drm/msm/mdp/mdp5/mdp5_cfg.c
+@@ -635,7 +635,7 @@ struct mdp5_cfg_handler *mdp5_cfg_init(struct mdp5_kms *mdp5_kms,
+ 	if (cfg_handler)
+ 		mdp5_cfg_destroy(cfg_handler);
  
- out_i2c_err:
- 	dev_err(pchip->dev, "i2c failed to access\n");
-@@ -278,7 +278,7 @@ static int lm3630a_bank_b_update_status(struct backlight_device *bl)
- 				      LM3630A_LEDB_ENABLE, LM3630A_LEDB_ENABLE);
- 	if (ret < 0)
- 		goto out_i2c_err;
--	return bl->props.brightness;
-+	return 0;
+-	return NULL;
++	return ERR_PTR(ret);
+ }
  
- out_i2c_err:
- 	dev_err(pchip->dev, "i2c failed to access REG_CTRL\n");
+ static struct mdp5_cfg_platform *mdp5_get_config(struct platform_device *dev)
 -- 
 2.20.1
 
