@@ -2,37 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7915A140472
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 08:25:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8F0A140511
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 09:14:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DDA86F3ED;
-	Fri, 17 Jan 2020 07:25:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 137576F433;
+	Fri, 17 Jan 2020 08:13:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8B946F3ED
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2020 07:25:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID;
- bh=xkBF8jCSOWPumWg9R+MOpddk9K9WEJFLsXsk5vUpwbU=; 
- b=ctgc1bMFPsEvVCcRWuutv+YO2ueOPTps5Bt6MPdOZxl0KloyUOn9f0hYS7JBAP89XHhp/vfRf7bptujxrAIlMsrG0sWnRbKLIAuU7iS9+xFRPoZ8VL+OvJ7WMAu1kkK7v3nMnJ3y3hIxjvVhUeA8s0Wcjg080Em0FF8EeHom99OO8mLi13fCUVAKq5Pj50iiEdcc4m63hho9fAfWt+TAU3Zyf0QCRtiYU9AMd98dJqiA64iCO3yjrPiofo+VNVdjjJ74qNABJwgbedobd2rr8QEMJduQYJOcFwUubSPhukHyPiVuM1DC7scKUrxgryJ2apfGF+D9rINzKTEEJhxXrw==;
-Received: from [192.168.10.170] (helo=ip170.dynamic.igalia.com)
- by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1isM0Y-00039r-B1; Fri, 17 Jan 2020 08:25:30 +0100
-Message-ID: <cb93a21557216d1b389390c556f421132aac88f0.camel@igalia.com>
-Subject: Re: [PATCH AUTOSEL 5.4 003/205] drm/v3d: don't leak bin job if
- v3d_job_init fails.
-From: Iago Toral <itoral@igalia.com>
-To: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org
-Date: Fri, 17 Jan 2020 08:25:30 +0100
-In-Reply-To: <20200116164300.6705-3-sashal@kernel.org>
-References: <20200116164300.6705-1-sashal@kernel.org>
- <20200116164300.6705-3-sashal@kernel.org>
-User-Agent: Evolution 3.32.1-2 
+X-Greylist: delayed 374 seconds by postgrey-1.36 at gabe;
+ Thu, 16 Jan 2020 12:33:05 UTC
+Received: from eu-smtp-delivery-151.mimecast.com
+ (eu-smtp-delivery-151.mimecast.com [207.82.80.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FFCC6ECD7
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 12:33:05 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-140-XHznUHIJPea1EeGEH4eIuQ-1; Thu, 16 Jan 2020 12:26:45 +0000
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Thu, 16 Jan 2020 12:26:45 +0000
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000; 
+ Thu, 16 Jan 2020 12:26:45 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Chris Wilson' <chris@chris-wilson.co.uk>, Daniel Vetter <daniel@ffwll.ch>
+Subject: RE: [PATCH] drm: Inject a cond_resched() into long drm_clflush_sg()
+Thread-Topic: [PATCH] drm: Inject a cond_resched() into long drm_clflush_sg()
+Thread-Index: AQHVy+gMprmlNntzX0qJh6CaHCkwb6fs20gAgAANToCAAEszQA==
+Date: Thu, 16 Jan 2020 12:26:45 +0000
+Message-ID: <8f6b9daa2af342a79137064203255242@AcuMS.aculab.com>
+References: <20200115205245.2772800-1-chris@chris-wilson.co.uk>
+ <20200116065242.GC8400@dvetter-linux.ger.corp.intel.com>
+ <157916041994.14122.8524532515240369595@skylake-alporthouse-com>
+In-Reply-To: <157916041994.14122.8524532515240369595@skylake-alporthouse-com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
+X-MC-Unique: XHznUHIJPea1EeGEH4eIuQ-1
+X-Mimecast-Spam-Score: 0
+X-Mailman-Approved-At: Fri, 17 Jan 2020 08:13:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,59 +57,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sasha,
-
-
-please notice that there were two separate patches that addressed the
-same issue and applying both simultaneously leads to a double free
-(which is what I see is happening with this patch: see the second call
-to kfree(bin) right below the one added here). This issue was raised
-previously here:
-
-https://lists.freedesktop.org/archives/dri-devel/2019-October/241425.html
-
-Iago
-
-On Thu, 2020-01-16 at 11:39 -0500, Sasha Levin wrote:
-> From: Iago Toral Quiroga <itoral@igalia.com>
+From: Chris Wilson <chris@chris-wilson.co.uk>
+> Sent: 16 January 2020 07:40
+> Quoting Daniel Vetter (2020-01-16 06:52:42)
+> > On Wed, Jan 15, 2020 at 08:52:45PM +0000, Chris Wilson wrote:
+> > > Since we may try and flush the cachelines associated with large buffers
+> > > (an 8K framebuffer is about 128MiB, even before we try HDR), this leads
+> > > to unacceptably long latencies (when using a voluntary CONFIG_PREEMPT).
+> > > If we call cond_resched() between each sg chunk, that it about every 128
+> > > pages, we have a natural break point in which to check if the process
+> > > needs to be rescheduled. Naturally, this means that drm_clflush_sg() can
+> > > only be called from process context -- which is true at the moment. The
+> > > other clflush routines remain usable from atomic context.
+> > >
+> > > Even though flushing large objects takes a demonstrable amount to time
+> > > to flush all the cachelines, clflush is still preferred over a
+> > > system-wide wbinvd as the latter has unpredictable latencies affecting
+> > > the whole system not just the local task.
+> > >
+> > > Reported-by: David Laight <David.Laight@ACULAB.COM>
+> > > Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> > > Cc: David Laight <David.Laight@ACULAB.COM>
+> >
+> > The original bug report is complaining about latencies for SCHED_RT
+> > threads, on a system that doesn't even use CONFIG_PREEMPT. I'm not sure
+> > it's terribly valid to cater to that use-case - all the desktop distros
+> > seem a lot more reasonable. So firmly *shrug* from my side ...
 > 
-> [ Upstream commit 0d352a3a8a1f26168d09f7073e61bb4b328e3bb9 ]
-> 
-> If the initialization of the job fails we need to kfree() it
-> before returning.
-> 
-> Signed-off-by: Iago Toral Quiroga <itoral@igalia.com>
-> Signed-off-by: Eric Anholt <eric@anholt.net>
-> Link: 
-> https://patchwork.freedesktop.org/patch/msgid/20190916071125.5255-1-itoral@igalia.com
-> Fixes: a783a09ee76d ("drm/v3d: Refactor job management.")
-> Reviewed-by: Eric Anholt <eric@anholt.net>
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
->  drivers/gpu/drm/v3d/v3d_gem.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c
-> b/drivers/gpu/drm/v3d/v3d_gem.c
-> index 19c092d75266..6316bf3646af 100644
-> --- a/drivers/gpu/drm/v3d/v3d_gem.c
-> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
-> @@ -565,6 +565,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void
-> *data,
->  		ret = v3d_job_init(v3d, file_priv, &bin->base,
->  				   v3d_job_free, args->in_sync_bcl);
->  		if (ret) {
-> +			kfree(bin);
->  			v3d_job_put(&render->base);
->  			kfree(bin);
->  			return ret;
+> Yeah, I had the same immediate response to the complaint), but otoh we've
+> inserted cond_resched() before when it looks like may consume entire
+> jiffies inside a loop. At the very minimum, we should have a
+> might_sleep() here and a reminder that this can be very slow (remember
+> byt?).
 
+I'm using RT to get more deterministic scheduling to look for long
+scheduling delays, rather than because we need very tight scheduling.
+Delays of several 100us aren't a real problem.
+
+The problem with CONFIG_PREEMPT is that the distros don't
+enable it and it isn't a command line option.
+So it is really useless unless you are able/willing to build your
+own kernel.
+
+I could run the code under the normal scheduler with 'nice -19'.
+I stlll wouldn't expect to have all but one cpu idle when I've just
+done a cv_broadcast() to wake up a lot of threads.
+
+I've added 'if (!(++i & 31)) cond_resched();' after the drm_clfulsh_page()
+call in drm_cflush_sg().
+In my case that it 3600/32 reschedules in 3.3ms - plenty.
+
+However there is a call from __i915_gem_objet_set_pages() that
+is preceded by a lockdep_assert_held() check - so mustn't sleep.
+
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
