@@ -1,52 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF90D1404F1
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 09:13:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48866140502
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 09:13:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BADE6F404;
-	Fri, 17 Jan 2020 08:13:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 183C06F419;
+	Fri, 17 Jan 2020 08:13:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from eu-smtp-delivery-151.mimecast.com
- (eu-smtp-delivery-151.mimecast.com [146.101.78.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8471A6ED85
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 15:05:04 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-151-OeP4EoJrOLyEo7Ur8YABHw-1; Thu, 16 Jan 2020 15:04:59 +0000
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Thu, 16 Jan 2020 15:04:58 +0000
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000; 
- Thu, 16 Jan 2020 15:04:58 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Chris Wilson' <chris@chris-wilson.co.uk>, 'Daniel Vetter'
- <daniel@ffwll.ch>
-Subject: RE: [PATCH] drm: Inject a cond_resched() into long drm_clflush_sg()
-Thread-Topic: [PATCH] drm: Inject a cond_resched() into long drm_clflush_sg()
-Thread-Index: AQHVy+gMprmlNntzX0qJh6CaHCkwb6fs20gAgAANToCAAEszQIAABVIAgAAWQUCAAAyNcIAACDbg
-Date: Thu, 16 Jan 2020 15:04:58 +0000
-Message-ID: <ffbb911f6baa4721a47e28116c5514c7@AcuMS.aculab.com>
-References: <20200115205245.2772800-1-chris@chris-wilson.co.uk>
- <20200116065242.GC8400@dvetter-linux.ger.corp.intel.com>
- <157916041994.14122.8524532515240369595@skylake-alporthouse-com>
- <8f6b9daa2af342a79137064203255242@AcuMS.aculab.com>
- <157917771007.2795.953028640868055754@skylake-alporthouse-com>
- <90de9ae911dc481f9c2c62e196b2bacf@AcuMS.aculab.com>
- <fbc24dd0f61e4fb8b777777d1de46ab3@AcuMS.aculab.com>
-In-Reply-To: <fbc24dd0f61e4fb8b777777d1de46ab3@AcuMS.aculab.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+Received: from www413.your-server.de (www413.your-server.de [88.198.28.140])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E09558958E;
+ Thu, 16 Jan 2020 15:05:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=cyberus-technology.de; s=default1911; h=Content-Transfer-Encoding:
+ MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:
+ Message-ID:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=ZexOn4FEQsloo7emu6e0E5yv/ua4j8MP3CCsOZRUTrA=; b=cH5daPaIgIih/Pf96nB99OLLk
+ He2uzFd9DbAroxYeSqMNge2LxXZrOBo0v9OmLE1S1Lx6nZDqfcfSUgRRsALGbAG6E0i3u9JEOoLeO
+ nW8ahzkp0DymxyHCyrb8Lpgu8dDWPvaZBgthAi6iJ6k3RMozor0uQuZVcP18d1Kpdi3rjJr9/D93w
+ YCYKZS4ffZBVmP4qGFJjIvCR2lV95riAy6Ynqt3L9SGKqmK97KlJbSORWmZeIQ7ZkC0OnfYRwsphz
+ I5+MAvoMGMdH7r3DNTwUd2/voreF9TX9qKfWfK7oGJ64qA47BDI8Gy3Lhadp1enI/h8niGUyqBCSq
+ tYsAw7+fQ==;
+Received: from sslproxy06.your-server.de ([78.46.172.3])
+ by www413.your-server.de with esmtpsa (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256)
+ (Exim 4.89_1)
+ (envelope-from <julian.stecklina@cyberus-technology.de>)
+ id 1is6i5-0002D5-DF; Thu, 16 Jan 2020 16:05:25 +0100
+Received: from [2a02:8106:231:700:38db:ba68:aa3a:bbaa]
+ (helo=localhost.localdomain)
+ by sslproxy06.your-server.de with esmtpsa
+ (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256) (Exim 4.89)
+ (envelope-from <julian.stecklina@cyberus-technology.de>)
+ id 1is6i5-000K38-4Y; Thu, 16 Jan 2020 16:05:25 +0100
+Message-ID: <edb721906354e26c26883edf5bce09690ca07d6d.camel@cyberus-technology.de>
+Subject: Re: [RFC PATCH 4/4] drm/i915/gvt: move public gvt headers out into
+ global include
+From: Julian Stecklina <julian.stecklina@cyberus-technology.de>
+To: Greg KH <gregkh@linuxfoundation.org>
+Date: Thu, 16 Jan 2020 16:05:22 +0100
+In-Reply-To: <20200116142345.GA476889@kroah.com>
+References: <4079ce7c26a2d2a3c7e0828ed1ea6008d6e2c805.camel@cyberus-technology.de>
+ <20200109171357.115936-1-julian.stecklina@cyberus-technology.de>
+ <20200109171357.115936-5-julian.stecklina@cyberus-technology.de>
+ <20200115152215.GA3830321@kroah.com>
+ <9b32e225ee680e61716e300eb1ed8387599cc0dd.camel@cyberus-technology.de>
+ <20200116142345.GA476889@kroah.com>
+Organization: Cyberus Technology GmbH
+User-Agent: Evolution 3.34.2 (3.34.2-1.fc31) 
 MIME-Version: 1.0
-X-MC-Unique: OeP4EoJrOLyEo7Ur8YABHw-1
-X-Mimecast-Spam-Score: 0
+X-Authenticated-Sender: julian.stecklina@cyberus-technology.de
+X-Virus-Scanned: Clear (ClamAV 0.101.4/25697/Thu Jan 16 12:42:45 2020)
 X-Mailman-Approved-At: Fri, 17 Jan 2020 08:13:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,44 +66,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "'intel-gfx@lists.freedesktop.org'" <intel-gfx@lists.freedesktop.org>,
- "'dri-devel@lists.freedesktop.org'" <dri-devel@lists.freedesktop.org>
+Cc: Thomas Prescher <thomas.prescher@cyberus-technology.de>,
+ linux-kernel@vger.kernel.org, hang.yuan@intel.com,
+ dri-devel@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
+ zhiyuan.lv@intel.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: David Laight
-> Sent: 16 January 2020 14:41
-> > I'll do some measurements later this afternoon.
+Hi Greg,
+
+On Thu, 2020-01-16 at 15:23 +0100, Greg KH wrote:
+> On Thu, Jan 16, 2020 at 03:13:01PM +0100, Julian Stecklina wrote:
+> > Hi Greg, Christoph,
+> > 
+> > On Wed, 2020-01-15 at 16:22 +0100, Greg KH wrote:
+> > > On Thu, Jan 09, 2020 at 07:13:57PM +0200, Julian Stecklina wrote:
+> > > > Now that the GVT interface to hypervisors does not depend on i915/GVT
+> > > > internals anymore, we can move the headers to the global include/.
+> > > > 
+> > > > This makes out-of-tree modules for hypervisor integration possible.
+> > > 
+> > > What kind of out-of-tree modules do you need/want for this?
+> > 
+> > The mediated virtualization support in the i915 driver needs a backend to
+> > the
+> > hypervisor. There is currently one backend for KVM in the tree
+> > (drivers/gpu/drm/i915/gvt/kvmgt.c) and at least 3 other hypervisor backends
+> > out
+> > of tree in various states of development that I know of. We are currently
+> > developing one of these.
 > 
-> This is an Ivy bridge cpu, so clflush (not clflushopt).
-> With a cond_resched for every page I get:
-> (Note these calls are every 10 seconds....)
+> Great, then just submit this patch series as part of your patch series
+> when submitting yoru hypervisor code.  That's the normal way to export
+> new symbols, we can't do so without an in-kernel user.
 
-For comparison some times booted with the original drm.ko
+Fair enough.
 
- 1) # 3125.116 us |  drm_clflush_sg [drm]();
- 0) # 3181.705 us |  drm_clflush_sg [drm]();
- 1) # 3108.863 us |  drm_clflush_sg [drm]();
- 1) # 3051.926 us |  drm_clflush_sg [drm]();
- 2) # 3088.468 us |  drm_clflush_sg [drm]();
- 2) # 3012.729 us |  drm_clflush_sg [drm]();
- 2) # 3191.268 us |  drm_clflush_sg [drm]();
- 3) # 3044.294 us |  drm_clflush_sg [drm]();
- 0) # 3163.916 us |  drm_clflush_sg [drm]();
- 2) # 3029.307 us |  drm_clflush_sg [drm]();
- 2) # 3116.360 us |  drm_clflush_sg [drm]();
- 2) # 3031.620 us |  drm_clflush_sg [drm]();
- 0) # 3349.706 us |  drm_clflush_sg [drm]();
+As I already said, the KVMGT code is the in-kernel user. But I guess I can
+extend the already existing function pointer way of decoupling KVMGT from i915
+and be on my way without exporting any symbols.
 
-Probably nothing really significant.
+Somewhat independent of the current discussion, I also think that it's valuable
+to have a defined API (I'm not saying stable API) for the hypervisor backends to
+define what's okay and not okay for them to do.
 
-	David
+Thanks,
+Julian
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
