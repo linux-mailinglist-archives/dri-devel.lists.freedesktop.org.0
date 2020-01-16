@@ -2,45 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4572E13F9D6
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 20:48:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FC6313FAA8
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 21:33:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 402726EEBD;
-	Thu, 16 Jan 2020 19:48:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E7476E265;
+	Thu, 16 Jan 2020 20:33:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D90D36EEB9;
- Thu, 16 Jan 2020 19:48:32 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 4660520730;
- Thu, 16 Jan 2020 19:48:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1579204112;
- bh=eCRmzjTIyjfbPAe/mgLEe93bWWVURDrSsFcpf6uROXM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NWyeid1GitOMqE3prMch6/hWlduNt9sJY2Qz8f5orJr7pXXcK5jrOwHt2yPJo5JAt
- qkSGn8BCTgaxWqLcPZqSdnGSmNEBlVaiDlOwiYiS2wBtUgjGvdBR+GLL7PxGIY8xKt
- QXCC908Z+SglQ58IDwsYgrc1X/SAahZRdscSSY20=
-Date: Thu, 16 Jan 2020 20:48:30 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Julian Stecklina <julian.stecklina@cyberus-technology.de>
-Subject: Re: [RFC PATCH 4/4] drm/i915/gvt: move public gvt headers out into
- global include
-Message-ID: <20200116194830.GA1072059@kroah.com>
-References: <4079ce7c26a2d2a3c7e0828ed1ea6008d6e2c805.camel@cyberus-technology.de>
- <20200109171357.115936-1-julian.stecklina@cyberus-technology.de>
- <20200109171357.115936-5-julian.stecklina@cyberus-technology.de>
- <20200115152215.GA3830321@kroah.com>
- <9b32e225ee680e61716e300eb1ed8387599cc0dd.camel@cyberus-technology.de>
- <20200116142345.GA476889@kroah.com>
- <edb721906354e26c26883edf5bce09690ca07d6d.camel@cyberus-technology.de>
+Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
+ [216.228.121.143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6CEA6E265
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 20:33:20 +0000 (UTC)
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5e20c8570000>; Thu, 16 Jan 2020 12:32:23 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate102.nvidia.com (PGP Universal service);
+ Thu, 16 Jan 2020 12:33:20 -0800
+X-PGP-Universal: processed;
+ by hqpgpgate102.nvidia.com on Thu, 16 Jan 2020 12:33:20 -0800
+Received: from [10.2.160.8] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 16 Jan
+ 2020 20:33:19 +0000
+Subject: Re: [PATCH v12 04/22] mm: devmap: refactor 1-based refcounting for
+ ZONE_DEVICE pages
+To: Christoph Hellwig <hch@infradead.org>
+References: <20200107224558.2362728-1-jhubbard@nvidia.com>
+ <20200107224558.2362728-5-jhubbard@nvidia.com>
+ <20200115152306.GA19546@infradead.org>
+ <4707f191-86f8-db4a-c3de-0a84b415b658@nvidia.com>
+ <20200116093712.GA11011@infradead.org>
+From: John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <ccf2723a-dcce-57d3-f63d-ee96dbf6653a@nvidia.com>
+Date: Thu, 16 Jan 2020 12:30:26 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <edb721906354e26c26883edf5bce09690ca07d6d.camel@cyberus-technology.de>
+In-Reply-To: <20200116093712.GA11011@infradead.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1579206743; bh=EQpRDmAadXrYPrWI0G8MSYR7uqZas3jC8zZTGB2Hfnk=;
+ h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=B3a+nJMY1e/PvYKAT7LBGlwa/kugx+AfoqbMvj/EyT3hxrpeJ7sQMsWMdJQlxzKho
+ jy2YJ47pzKLca9QqrMI2qpXvMA46wU1dfzb3yzBY8NTIGraOJl+bg0Pq/59xdUBLNS
+ /bnG7fSxkcGgsGNzlzCgQWOOUXWSDOgkuZxsp+8IlbnfinKUcliv6MqWXSulEsNyXv
+ EIh2GmNEud9hkIp72ZuHMkWrhgwhMDnw4xjgxdJ2+W90cT6UoDxxzOl8PDPrjhQ9p0
+ IklTRq4Mlrg+UVduRNOxi7jCeWI/98S5JYFUwVk8qaaNzULyUj0q2zlHy86g76FXcR
+ ZxTytDejWJDcw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,63 +68,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Prescher <thomas.prescher@cyberus-technology.de>,
- linux-kernel@vger.kernel.org, hang.yuan@intel.com,
- dri-devel@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
- zhiyuan.lv@intel.com
-Content-Type: text/plain; charset="us-ascii"
+Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
+ kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
+ dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
+ linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
+ linux-kselftest@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
+ Christoph Hellwig <hch@lst.de>, Jonathan Corbet <corbet@lwn.net>,
+ linux-rdma@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@suse.cz>,
+ =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+ linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ linux-block@vger.kernel.org,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Al Viro <viro@zeniv.linux.org.uk>,
+ "Kirill A . Shutemov" <kirill@shutemov.name>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, bpf@vger.kernel.org,
+ Magnus Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
+ netdev@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 16, 2020 at 04:05:22PM +0100, Julian Stecklina wrote:
-> Hi Greg,
+On 1/16/20 1:37 AM, Christoph Hellwig wrote:
+> On Wed, Jan 15, 2020 at 01:19:41PM -0800, John Hubbard wrote:
+>> On 1/15/20 7:23 AM, Christoph Hellwig wrote:
+>> ...
+>>>
+>>> I'm really not sold on this scheme.  Note that I think it is
+>>> particularly bad, but it also doesn't seem any better than what
+>>> we had before, and it introduced quite a bit more code.
+>>>
+>>
+>> Hi Christoph,
+>>
+>> All by itself, yes. But the very next patch (which needs a little
+>> rework for other reasons, so not included here) needs to reuse some of
+>> these functions within __unpin_devmap_managed_user_page():
 > 
-> On Thu, 2020-01-16 at 15:23 +0100, Greg KH wrote:
-> > On Thu, Jan 16, 2020 at 03:13:01PM +0100, Julian Stecklina wrote:
-> > > Hi Greg, Christoph,
-> > > 
-> > > On Wed, 2020-01-15 at 16:22 +0100, Greg KH wrote:
-> > > > On Thu, Jan 09, 2020 at 07:13:57PM +0200, Julian Stecklina wrote:
-> > > > > Now that the GVT interface to hypervisors does not depend on i915/GVT
-> > > > > internals anymore, we can move the headers to the global include/.
-> > > > > 
-> > > > > This makes out-of-tree modules for hypervisor integration possible.
-> > > > 
-> > > > What kind of out-of-tree modules do you need/want for this?
-> > > 
-> > > The mediated virtualization support in the i915 driver needs a backend to
-> > > the
-> > > hypervisor. There is currently one backend for KVM in the tree
-> > > (drivers/gpu/drm/i915/gvt/kvmgt.c) and at least 3 other hypervisor backends
-> > > out
-> > > of tree in various states of development that I know of. We are currently
-> > > developing one of these.
-> > 
-> > Great, then just submit this patch series as part of your patch series
-> > when submitting yoru hypervisor code.  That's the normal way to export
-> > new symbols, we can't do so without an in-kernel user.
-> 
-> Fair enough.
-> 
-> As I already said, the KVMGT code is the in-kernel user. But I guess I can
-> extend the already existing function pointer way of decoupling KVMGT from i915
-> and be on my way without exporting any symbols.
-> 
-> Somewhat independent of the current discussion, I also think that it's valuable
-> to have a defined API (I'm not saying stable API) for the hypervisor backends to
-> define what's okay and not okay for them to do.
+> Well, then combine it with the series that actually does the change.
 
-The only way to get a "good" api is for at least 3 users of them get
-into the kernel tree.  If all you have is one or two, then you go with
-what you got, and evolve over time as more get added and find better
-ways to use them.
 
-In short, it's just basic evolution, not intelligent design :)
+OK, that makes sense. I just double-checked with a quick test run, that it
+doesn't have dependencies with the rest of this series, and it came out clean,
+so:
+
+Andrew, could you please remove just this one patch from mmotm and linux-next?
+
+
+> 
+> Also my vaguely recollection is that we had some idea on how to get rid
+> of the off by one refcounting for the zone device pages, which would be
+> a much better outcome.
+> 
+
+Yes, I recall that Dan Williams mentioned it, but I don't think he provided
+any details yet.
+
 
 thanks,
-
-greg k-h
+-- 
+John Hubbard
+NVIDIA
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
