@@ -1,16 +1,16 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC413140147
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 02:03:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 541A3140145
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 02:03:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09A3B6EF33;
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0C076EF32;
 	Fri, 17 Jan 2020 01:02:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 532896EF2F;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 971C06E4AA;
  Fri, 17 Jan 2020 01:02:56 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
@@ -18,7 +18,7 @@ Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
  16 Jan 2020 17:02:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,327,1574150400"; d="scan'208";a="214307351"
+X-IronPort-AV: E=Sophos;i="5.70,327,1574150400"; d="scan'208";a="214307353"
 Received: from unknown (HELO localhost.jf.intel.com) ([10.166.29.74])
  by orsmga007.jf.intel.com with ESMTP; 16 Jan 2020 17:02:55 -0800
 From: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
@@ -30,10 +30,13 @@ To: akeem.g.abodunrin@intel.com, intel-gfx@lists.freedesktop.org,
  joonas.lahtinen@linux.intel.com, jani.nikula@intel.com,
  chris.p.wilson@intel.com, prathap.kumar.valsan@intel.com,
  mika.kuoppala@intel.com, francesco.balestrieri@intel.com
-Subject: [RFC PATCH v3 0/2] Security mitigation for Intel Gen7 HWs
-Date: Thu, 16 Jan 2020 09:46:53 -0800
-Message-Id: <20200116174655.85926-1-akeem.g.abodunrin@intel.com>
+Subject: [RFC PATCH v3 1/2] drm/i915: Add mechanism to submit a context WA on
+ ring submission
+Date: Thu, 16 Jan 2020 09:46:54 -0800
+Message-Id: <20200116174655.85926-2-akeem.g.abodunrin@intel.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200116174655.85926-1-akeem.g.abodunrin@intel.com>
+References: <20200116174655.85926-1-akeem.g.abodunrin@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,67 +50,262 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-KioqKiBOT1RFOiAqKioqClRoaXMgc2VyaWVzIGlzIGluIGFjdGl2ZSBkZXZlbG9wbWVudCBhbmQg
-aXMgbm90IGludGVuZGVkIHRvIGJlIG1lcmdlZCB0bwptYWlubGluZSBpbiBpdHMgY3VycmVudCBm
-b3JtLiBUaGUgaW50ZW50IG9mIHRoZSBSRkMgaXMgc2ltcGx5IHRvIG91dGxpbmUKdGhlIHN0cmF0
-ZWd5IGZvciB0aGUgbWl0aWdhdGlvbiwgYXMgYSBmb2N1cyBmb3IgYWN0aXZlIGRpc2N1c3Npb24s
-IGFuZAp0byBvcGVubHkgc2hhcmUgcHJvZ3Jlc3MuIFRoZXJlIGhhcyBiZWVuIG9ubHkgbWluaW1h
-bCBhdHRlbnRpb24gcGFpZCB0bwpwZXJmb3JtYW5jZSB0aHVzIGZhciwgYXMgdGhlIGZvY3VzIGlz
-IG9uIHJvYnVzdG5lc3MuIEl0IGlzIG5vdAphbnRpY2lwYXRlZCB0aGF0IHRoZXJlIHdpbGwgYmUg
-YW55IG1lYXN1cmFibGUgcGVyZm9ybWFuY2UgaW1wYWN0IGluIHRoZQpmaW5hbCB2ZXJzaW9uLgoq
-KioqIEVORCBOT1RFICoqKiogCgpJbnRlbCBJRDogUFNJUlQtVEEtMjAxOTEwLTAwMQpDVkVJRDog
-Q1ZFLTIwMTktMTQ2MTUKClN1bW1hcnkgb2YgVnVsbmVyYWJpbGl0eQotLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0KSW5zdWZmaWNpZW50IGNvbnRyb2wgZmxvdyBpbiBjZXJ0YWluIGRhdGEgc3RydWN0
-dXJlcyBmb3Igc29tZSBJbnRlbChSKQpQcm9jZXNzb3JzIHdpdGggSW50ZWwgUHJvY2Vzc29yIEdy
-YXBoaWNzIG1heSBhbGxvdyBhbiB1bmF1dGhlbnRpY2F0ZWQKdXNlciB0byBwb3RlbnRpYWxseSBl
-bmFibGUgaW5mb3JtYXRpb24gZGlzY2xvc3VyZSB2aWEgbG9jYWwgYWNjZXNzCgpQcm9kdWN0cyBh
-ZmZlY3RlZDoKLS0tLS0tLS0tLS0tLS0tLS0tCkludGVsIENQVeKAmXMgd2l0aCBHZW43LCBHZW43
-LjUgYW5kIEdlbjkgR3JhcGhpY3MuCgpNaXRpZ2F0aW9uIFN1bW1hcnkKLS0tLS0tLS0tLS0tLS0t
-LS0tClRoaXMgcGF0Y2ggcHJvdmlkZXMgbWl0aWdhdGlvbiBmb3IgR2VuNyBhbmQgR2VuNy41IGhh
-cmR3YXJlIG9ubHkuClBhdGNoIGZvciBHZW45IGRldmljZXMgaGF2ZSBiZWVuIHByb3ZpZGVkIGFu
-ZCBtZXJnZWQgdG8gTGludXggbWFpbmxpbmUsCmFuZCBiYWNrcG9ydGVkIHRvIHN0YWJsZSBrZXJu
-ZWxzLgpOb3RlIHRoYXQgR2VuOCBpcyBub3QgaW1wYWN0ZWQgZHVlIHRvIGEgcHJldmlvdXNseSBp
-bXBsZW1lbnRlZAp3b3JrYXJvdW5kLgoKVGhlIG1pdGlnYXRpb24gaW52b2x2ZXMgc3VibWl0dGlu
-ZyBhIGN1c3RvbSBFVSBrZXJuZWwgcHJpb3IgdG8gZXZlcnkKY29udGV4dCByZXN0b3JlLCBpbiBv
-cmRlciB0byBmb3JjaWJseSBjbGVhciBkb3duIHJlc2lkdWFsIEVVIGFuZCBVUkIKcmVzb3VyY2Vz
-LgoKVGhpcyBpcyBjdXJyZW50bHkgYW4gUkZDIHdoaWxlIG1vcmUgYW5hbHlzaXMgaXMgcGVyZm9y
-bWVkIG9uIHRoZQpwZXJmb3JtYW5jZSBpbXBsaWNhdGlvbnMuCgpOb3RlIG9uIEFkZHJlc3MgU3Bh
-Y2UgSXNvbGF0aW9uIChGdWxsIFBQR1RUKQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLQoKSXNvbGF0aW9uIG9mIEVVIGtlcm5lbCBhc3NldHMgc2hvdWxkIGJlIGNv
-bnNpZGVyZWQgY29tcGxlbWVudGFyeSB0byB0aGUKZXhpc3Rpbmcgc3VwcG9ydCBmb3IgYWRkcmVz
-cyBzcGFjZSBpc29sYXRpb24gKGFrYSBGdWxsIFBQR1RUKSwgc2luY2UKd2l0aG91dCBhZGRyZXNz
-IHNwYWNlIGlzb2xhdGlvbiB0aGVyZSBpcyBtaW5pbWFsIHZhbHVlIGluIHByZXZlbnRpbmcKbGVh
-a2FnZSBiZXR3ZWVuIEVVIGNvbnRleHRzLiBGdWxsIFBQR1RUIGhhcyBsb25nIGJlZW4gc3VwcG9y
-dGVkIG9uIEdlbgpHZnggZGV2aWNlcyBzaW5jZSBHZW44LCBhbmQgcHJvdGVjdGlvbiBhZ2FpbnN0
-IEVVIHJlc2lkdWFsIGxlYWthZ2UgaXMgYQp3ZWxjb21lIGFkZGl0aW9uIGZvciB0aGVzZSBuZXdl
-ciBwbGF0Zm9ybXMuCgpCeSBjb250cmFzdCwgR2VuNyBhbmQgR2VuNy41IGRldmljZSBpbnRyb2R1
-Y2VkIEZ1bGwgUFBHVFQgc3VwcG9ydCBvbmx5CmFzIGEgaGFyZHdhcmUgZGV2ZWxvcG1lbnQgZmVh
-dHVyZSBmb3IgYW50aWNpcGF0ZWQgR2VuOCBwcm9kdWN0aXphdGlvbi4KU3VwcG9ydCB3YXMgbmV2
-ZXIgaW50ZW5kZWQgZm9yLCBvciBwcm92aWRlZCB0byB0aGUgTGludXgga2VybmVscyBmb3IKdGhl
-c2UgcGxhdGZvcm1zLiBSZWNlbnQgd29yayAoc3RpbGwgb25nb2luZykgdG8gdGhlIG1haW5saW5l
-IGtlcm5lbCBpcwpyZXRyb2FjdGl2ZWx5IHByb3ZpZGluZyB0aGlzIHN1cHBvcnQsIGJ1dCBkdWUg
-dG8gdGhlIGxldmVsIG9mIGNvbXBsZXhpdHkKaXQgaXMgbm90IHByYWN0aWNhbCB0byBhdHRlbXB0
-IHRvIGJhY2twb3J0IHRoaXMgdG8gZWFybGllciBzdGFibGUKa2VybmVscy4gU2luY2Ugd2l0aG91
-dCBGdWxsIFBQR1RULCBFVSByZXNpZHVhbHMgcHJvdGVjdGlvbiBoYXMKcXVlc3Rpb25hYmxlIGJl
-bmVmaXQsICp0aGVyZSBhcmUgbm8gcGxhbnMgdG8gcHJvdmlkZSBzdGFibGUga2VybmVsCmJhY2tw
-b3J0cyBmb3IgdGhpcyBwYXRjaCBzZXJpZXMuKgoKTWlrYSBLdW9wcGFsYSAoMSk6CiAgZHJtL2k5
-MTU6IEFkZCBtZWNoYW5pc20gdG8gc3VibWl0IGEgY29udGV4dCBXQSBvbiByaW5nIHN1Ym1pc3Np
-b24KClByYXRoYXAgS3VtYXIgVmFsc2FuICgxKToKICBkcm0vaTkxNS9nZW43OiBDbGVhciBhbGwg
-RVUvTDMgcmVzaWR1YWwgY29udGV4dHMKCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9NYWtlZmlsZSAg
-ICAgICAgICAgICAgICAgfCAgIDEgKwogZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3QvZ2VuN19yZW5k
-ZXJjbGVhci5jICAgIHwgNTI0ICsrKysrKysrKysrKysrKysrKwogZHJpdmVycy9ncHUvZHJtL2k5
-MTUvZ3QvZ2VuN19yZW5kZXJjbGVhci5oICAgIHwgIDE1ICsKIGRyaXZlcnMvZ3B1L2RybS9pOTE1
-L2d0L2ludGVsX2dwdV9jb21tYW5kcy5oICB8ICAxNyArLQogLi4uL2dwdS9kcm0vaTkxNS9ndC9p
-bnRlbF9yaW5nX3N1Ym1pc3Npb24uYyAgIHwgMTMzICsrKystCiBkcml2ZXJzL2dwdS9kcm0vaTkx
-NS9pOTE1X3V0aWxzLmggICAgICAgICAgICAgfCAgIDUgKwogNiBmaWxlcyBjaGFuZ2VkLCA2ODkg
-aW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkKIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJz
-L2dwdS9kcm0vaTkxNS9ndC9nZW43X3JlbmRlcmNsZWFyLmMKIGNyZWF0ZSBtb2RlIDEwMDY0NCBk
-cml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9nZW43X3JlbmRlcmNsZWFyLmgKCi0tIAoyLjIwLjEKCl9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
-LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+From: Mika Kuoppala <mika.kuoppala@linux.intel.com>
+
+**** NOTE: ****
+This series is in active development and is not intended to be merged to
+mainline in its current form. The intent of the RFC is simply to outline
+the strategy for the mitigation, as a focus for active discussion, and
+to openly share progress. There has been only minimal attention paid to
+performance thus far, as the focus is on robustness. It is not
+anticipated that there will be any measurable performance impact in the
+final version.
+**** END NOTE ****
+
+This patch adds framework to submit an arbitrary batchbuffer on each
+context switch to clear residual state for render engine on Gen7/7.5
+devices.
+
+The idea of always emitting the context and vm setup around each request
+is primary to make reset recovery easy, and not require rewriting the
+ringbuffer. As each request would set up its own context, leaving it to
+the HW to notice and elide no-op context switches, we could restart the
+ring at any point, and reorder the requests freely.
+
+However, to avoid emitting clear_residuals() between consecutive requests
+in the ringbuffer of the same context, we do want to track the current
+context in the ring. In doing so, we need to be careful to only record a
+context switch when we are sure the next request will be emitted.
+
+v2: No change
+v3: elide optimization patch squashed, courtesy of Chris Wilson - the
+changes show significant performance improvements, on par with current
+drm-tips.
+
+Signed-off-by: Mika Kuoppala <mika.kuoppala@linux.intel.com>
+Signed-off-by: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
+Cc: Kumar Valsan Prathap <prathap.kumar.valsan@intel.com>
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Balestrieri Francesco <francesco.balestrieri@intel.com>
+Cc: Bloomfield Jon <jon.bloomfield@intel.com>
+Cc: Dutt Sudeep <sudeep.dutt@intel.com>
+---
+ .../gpu/drm/i915/gt/intel_ring_submission.c   | 132 +++++++++++++++++-
+ 1 file changed, 129 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gt/intel_ring_submission.c b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+index bc44fe8e5ffa..58500032c993 100644
+--- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
++++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+@@ -1384,7 +1384,9 @@ static int load_pd_dir(struct i915_request *rq,
+ 	return rq->engine->emit_flush(rq, EMIT_FLUSH);
+ }
+ 
+-static inline int mi_set_context(struct i915_request *rq, u32 flags)
++static inline int mi_set_context(struct i915_request *rq,
++				 struct intel_context *ce,
++				 u32 flags)
+ {
+ 	struct drm_i915_private *i915 = rq->i915;
+ 	struct intel_engine_cs *engine = rq->engine;
+@@ -1459,7 +1461,7 @@ static inline int mi_set_context(struct i915_request *rq, u32 flags)
+ 
+ 	*cs++ = MI_NOOP;
+ 	*cs++ = MI_SET_CONTEXT;
+-	*cs++ = i915_ggtt_offset(rq->context->state) | flags;
++	*cs++ = i915_ggtt_offset(ce->state) | flags;
+ 	/*
+ 	 * w/a: MI_SET_CONTEXT must always be followed by MI_NOOP
+ 	 * WaMiSetContext_Hang:snb,ivb,vlv
+@@ -1574,13 +1576,56 @@ static int switch_mm(struct i915_request *rq, struct i915_address_space *vm)
+ 	return rq->engine->emit_flush(rq, EMIT_INVALIDATE);
+ }
+ 
++static int clear_residuals(struct i915_request *rq)
++{
++	struct intel_engine_cs *engine = rq->engine;
++	int ret;
++
++	GEM_BUG_ON(!engine->kernel_context->state);
++
++	ret = switch_mm(rq, vm_alias(engine->kernel_context));
++	if (ret)
++		return ret;
++
++	ret = mi_set_context(rq,
++			     engine->kernel_context,
++			     MI_MM_SPACE_GTT | MI_RESTORE_INHIBIT);
++	if (ret)
++		return ret;
++
++	ret = engine->emit_bb_start(rq,
++				    engine->wa_ctx.vma->node.start, 0,
++				    0);
++	if (ret)
++		return ret;
++
++	ret = engine->emit_flush(rq, EMIT_FLUSH);
++	if (ret)
++		return ret;
++
++	/* Always invalidate before the next switch_mm() */
++	return engine->emit_flush(rq, EMIT_INVALIDATE);
++}
++
+ static int switch_context(struct i915_request *rq)
+ {
++	struct intel_engine_cs *engine = rq->engine;
+ 	struct intel_context *ce = rq->context;
++	void **residuals = NULL;
+ 	int ret;
+ 
+ 	GEM_BUG_ON(HAS_EXECLISTS(rq->i915));
+ 
++	if (engine->wa_ctx.vma && ce != engine->kernel_context) {
++		if (engine->wa_ctx.vma->private != ce) {
++			ret = clear_residuals(rq);
++			if (ret)
++				return ret;
++
++			residuals = &engine->wa_ctx.vma->private;
++		}
++	}
++
+ 	ret = switch_mm(rq, vm_alias(ce));
+ 	if (ret)
+ 		return ret;
+@@ -1600,7 +1645,7 @@ static int switch_context(struct i915_request *rq)
+ 		else
+ 			flags |= MI_RESTORE_INHIBIT;
+ 
+-		ret = mi_set_context(rq, flags);
++		ret = mi_set_context(rq, ce, flags);
+ 		if (ret)
+ 			return ret;
+ 	}
+@@ -1609,6 +1654,20 @@ static int switch_context(struct i915_request *rq)
+ 	if (ret)
+ 		return ret;
+ 
++	/*
++	 * Now past the point of no return, this request _will_ be emitted.
++	 *
++	 * Or at least this preamble will be emitted, the request may be
++	 * interrupted prior to submitting the user payload. If so, we
++	 * still submit the "empty" request in order to preserve global
++	 * state tracking such as this, our tracking of the current
++	 * dirty context.
++	 */
++	if (residuals) {
++		intel_context_put(*residuals);
++		*residuals = intel_context_get(ce);
++	}
++
+ 	return 0;
+ }
+ 
+@@ -1792,6 +1851,11 @@ static void ring_release(struct intel_engine_cs *engine)
+ 
+ 	intel_engine_cleanup_common(engine);
+ 
++	if (engine->wa_ctx.vma) {
++		intel_context_put(engine->wa_ctx.vma->private);
++		i915_vma_unpin_and_release(&engine->wa_ctx.vma, 0);
++	}
++
+ 	intel_ring_unpin(engine->legacy.ring);
+ 	intel_ring_put(engine->legacy.ring);
+ 
+@@ -1939,6 +2003,60 @@ static void setup_vecs(struct intel_engine_cs *engine)
+ 	engine->emit_fini_breadcrumb = gen7_xcs_emit_breadcrumb;
+ }
+ 
++static int gen7_ctx_switch_bb_setup(struct intel_engine_cs * const engine,
++				    struct i915_vma * const vma)
++{
++	return 0;
++}
++
++static int gen7_ctx_switch_bb_init(struct intel_engine_cs *engine)
++{
++	struct drm_i915_gem_object *obj;
++	struct i915_vma *vma;
++	int size;
++	int err;
++
++	size = gen7_ctx_switch_bb_setup(engine, NULL /* probe size */);
++	if (size <= 0)
++		return size;
++
++	size = ALIGN(size, PAGE_SIZE);
++	obj = i915_gem_object_create_internal(engine->i915, size);
++	if (IS_ERR(obj))
++		return PTR_ERR(obj);
++
++	vma = i915_vma_instance(obj, engine->gt->vm, NULL);
++	if (IS_ERR(vma)) {
++		err = PTR_ERR(vma);
++		goto err_obj;
++	}
++
++	vma->private = intel_context_create(engine); /* dummy residuals */
++	if (IS_ERR(vma->private)) {
++		err = PTR_ERR(vma->private);
++		goto err_obj;
++	}
++
++	err = i915_vma_pin(vma, 0, 0, PIN_USER | PIN_HIGH);
++	if (err)
++		goto err_private;
++
++	err = gen7_ctx_switch_bb_setup(engine, vma);
++	if (err)
++		goto err_unpin;
++
++	engine->wa_ctx.vma = vma;
++	return 0;
++
++err_unpin:
++	i915_vma_unpin(vma);
++err_private:
++	intel_context_put(vma->private);
++err_obj:
++	i915_gem_object_put(obj);
++	return err;
++}
++
+ int intel_ring_submission_setup(struct intel_engine_cs *engine)
+ {
+ 	struct intel_timeline *timeline;
+@@ -1992,11 +2110,19 @@ int intel_ring_submission_setup(struct intel_engine_cs *engine)
+ 
+ 	GEM_BUG_ON(timeline->hwsp_ggtt != engine->status_page.vma);
+ 
++	if (IS_GEN(engine->i915, 7) && engine->class == RENDER_CLASS) {
++		err = gen7_ctx_switch_bb_init(engine);
++		if (err)
++			goto err_ring_unpin;
++	}
++
+ 	/* Finally, take ownership and responsibility for cleanup! */
+ 	engine->release = ring_release;
+ 
+ 	return 0;
+ 
++err_ring_unpin:
++	intel_ring_unpin(ring);
+ err_ring:
+ 	intel_ring_put(ring);
+ err_timeline_unpin:
+-- 
+2.20.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
