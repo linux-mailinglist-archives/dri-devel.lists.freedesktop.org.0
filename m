@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6035713E05A
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 17:43:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D930B13E05B
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 17:43:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F20996EDDA;
-	Thu, 16 Jan 2020 16:43:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D49B26EDDD;
+	Thu, 16 Jan 2020 16:43:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 471776EDDA
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 16:43:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C44C6EDDB
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 16:43:21 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id CE2852073A;
- Thu, 16 Jan 2020 16:43:13 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 88EE2208C3;
+ Thu, 16 Jan 2020 16:43:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1579192996;
- bh=RYT3Thh3tiOU++abROfc/4w/PvMGTw8L9nEx8FuHJ18=;
+ s=default; t=1579193001;
+ bh=GaAUbciWo3cT/NZi6ll/BQ2VPPLGnZI9Do8ANEOuQSo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WgbuheOAl6EwsEFOsNe8giSV0N+x7+a+uR/xUlnkvfk6LtvuptLQZrjVjH+Y/2rxG
- 27f3aMVKoXr/vxt4JyyD/9Y+kHvxAeht7aNXOmpofN7Fv2FJj2cV6QNdqAruMDdngd
- tMbs6WB9cCGLEFBn9RvfKlgZX2XNMG+4/IfIDsm4=
+ b=wkBSLHRkL4N/U4KuP7aLmXWDLXVVAFfwkMVNZfE7OYKG8jY00/MdDVA/Bp+Vx+ge0
+ u+bn7/rVXsYxAHqMBqRowjzdynoTTqcjClPCpxmwa4IWT3VoGNG4LPJfJ+yLj4P/DC
+ OrjjjoHZ9ge/oLKP7ZzJ1VBm08yjHIcnENrKNZc8=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 003/205] drm/v3d: don't leak bin job if
- v3d_job_init fails.
-Date: Thu, 16 Jan 2020 11:39:38 -0500
-Message-Id: <20200116164300.6705-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 004/205] drm: panel-lvds: Potential Oops in probe
+ error handling
+Date: Thu, 16 Jan 2020 11:39:39 -0500
+Message-Id: <20200116164300.6705-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116164300.6705-1-sashal@kernel.org>
 References: <20200116164300.6705-1-sashal@kernel.org>
@@ -50,42 +50,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Iago Toral Quiroga <itoral@igalia.com>,
- dri-devel@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org, Dan Carpenter <dan.carpenter@oracle.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Iago Toral Quiroga <itoral@igalia.com>
+From: Dan Carpenter <dan.carpenter@oracle.com>
 
-[ Upstream commit 0d352a3a8a1f26168d09f7073e61bb4b328e3bb9 ]
+[ Upstream commit fb2ee9bf084bcaeff1e5be100decc0eacb4af2d5 ]
 
-If the initialization of the job fails we need to kfree() it
-before returning.
+The "lvds->backlight" pointer could be NULL in situations where
+of_parse_phandle() returns NULL.  This code is cleaner if we use the
+managed devm_of_find_backlight() so the clean up is automatic.
 
-Signed-off-by: Iago Toral Quiroga <itoral@igalia.com>
-Signed-off-by: Eric Anholt <eric@anholt.net>
-Link: https://patchwork.freedesktop.org/patch/msgid/20190916071125.5255-1-itoral@igalia.com
-Fixes: a783a09ee76d ("drm/v3d: Refactor job management.")
-Reviewed-by: Eric Anholt <eric@anholt.net>
+Fixes: 7c9dff5bd643 ("drm: panels: Add LVDS panel driver")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20190911104928.GA15930@mwanda
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/v3d/v3d_gem.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/panel/panel-lvds.c | 21 ++++-----------------
+ 1 file changed, 4 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-index 19c092d75266..6316bf3646af 100644
---- a/drivers/gpu/drm/v3d/v3d_gem.c
-+++ b/drivers/gpu/drm/v3d/v3d_gem.c
-@@ -565,6 +565,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
- 		ret = v3d_job_init(v3d, file_priv, &bin->base,
- 				   v3d_job_free, args->in_sync_bcl);
- 		if (ret) {
-+			kfree(bin);
- 			v3d_job_put(&render->base);
- 			kfree(bin);
- 			return ret;
+diff --git a/drivers/gpu/drm/panel/panel-lvds.c b/drivers/gpu/drm/panel/panel-lvds.c
+index ad47cc95459e..bf5fcc3e5379 100644
+--- a/drivers/gpu/drm/panel/panel-lvds.c
++++ b/drivers/gpu/drm/panel/panel-lvds.c
+@@ -197,7 +197,6 @@ static int panel_lvds_parse_dt(struct panel_lvds *lvds)
+ static int panel_lvds_probe(struct platform_device *pdev)
+ {
+ 	struct panel_lvds *lvds;
+-	struct device_node *np;
+ 	int ret;
+ 
+ 	lvds = devm_kzalloc(&pdev->dev, sizeof(*lvds), GFP_KERNEL);
+@@ -243,14 +242,9 @@ static int panel_lvds_probe(struct platform_device *pdev)
+ 		return ret;
+ 	}
+ 
+-	np = of_parse_phandle(lvds->dev->of_node, "backlight", 0);
+-	if (np) {
+-		lvds->backlight = of_find_backlight_by_node(np);
+-		of_node_put(np);
+-
+-		if (!lvds->backlight)
+-			return -EPROBE_DEFER;
+-	}
++	lvds->backlight = devm_of_find_backlight(lvds->dev);
++	if (IS_ERR(lvds->backlight))
++		return PTR_ERR(lvds->backlight);
+ 
+ 	/*
+ 	 * TODO: Handle all power supplies specified in the DT node in a generic
+@@ -266,14 +260,10 @@ static int panel_lvds_probe(struct platform_device *pdev)
+ 
+ 	ret = drm_panel_add(&lvds->panel);
+ 	if (ret < 0)
+-		goto error;
++		return ret;
+ 
+ 	dev_set_drvdata(lvds->dev, lvds);
+ 	return 0;
+-
+-error:
+-	put_device(&lvds->backlight->dev);
+-	return ret;
+ }
+ 
+ static int panel_lvds_remove(struct platform_device *pdev)
+@@ -284,9 +274,6 @@ static int panel_lvds_remove(struct platform_device *pdev)
+ 
+ 	panel_lvds_disable(&lvds->panel);
+ 
+-	if (lvds->backlight)
+-		put_device(&lvds->backlight->dev);
+-
+ 	return 0;
+ }
+ 
 -- 
 2.20.1
 
