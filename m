@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F72D13E11F
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 17:48:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7FDB13E1D9
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 17:54:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C9576EDE8;
-	Thu, 16 Jan 2020 16:48:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F5C16EDF1;
+	Thu, 16 Jan 2020 16:53:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE3536EDE8;
- Thu, 16 Jan 2020 16:48:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94D2F6EDEF;
+ Thu, 16 Jan 2020 16:53:56 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id EBF2520663;
- Thu, 16 Jan 2020 16:48:02 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id B9F5F2176D;
+ Thu, 16 Jan 2020 16:53:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1579193285;
- bh=SvnjTp3S3Rs2yeHSY5+SCBEcB5/rFV/XnzG7hbKOwAs=;
+ s=default; t=1579193636;
+ bh=NGeX31yHaJjulEnEI8CSs+W7be4cul/wAnLxIUgPJuw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Tn382tP+vC1YosrVFQbuXjhyzZKZsPAfIokd5ZSfkFAy1S0Tt0gz0q7/JKcv8FzI2
- TzECo6eTeqhEKsiIQ0juLmhT3iwsEOMuakUesSalgsJ5kOia8bNa3yLUKDRsE2dIvH
- LvqB2nu+t/I2kaw5PAR/VTJz2NmrNewzlZZCieVE=
+ b=oiFyTes2Xy07hYbwxjsXWocdL9h2nTu+tlK9EI6o1RWAjgPxg4D2T3FZ1O9M1HKYm
+ RbdlSp6flDNSuQp3WNGqQQuGGcVYfCwbih4/lXr856WQVvBoIw9qtWAa22UWffnmuX
+ 83+UTp59GVX+v1EPjGejWhLsY3r4UEIHYjzWnuL4=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 066/205] drm/amdgpu/vi: silence an uninitialized
- variable warning
-Date: Thu, 16 Jan 2020 11:40:41 -0500
-Message-Id: <20200116164300.6705-66-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 169/205] drm/radeon: fix bad DMA from
+ INTERRUPT_CNTL2
+Date: Thu, 16 Jan 2020 11:42:24 -0500
+Message-Id: <20200116164300.6705-169-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116164300.6705-1-sashal@kernel.org>
 References: <20200116164300.6705-1-sashal@kernel.org>
@@ -50,44 +50,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Sam Bobroff <sbobroff@linux.ibm.com>,
+ Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Sasha Levin <sashal@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: Sam Bobroff <sbobroff@linux.ibm.com>
 
-[ Upstream commit 4ff17a1df7d550257972a838220a8af4611c8f2c ]
+[ Upstream commit 62d91dd2851e8ae2ca552f1b090a3575a4edf759 ]
 
-Smatch complains that we need to initialized "*cap" otherwise it can
-lead to an uninitialized variable bug in the caller.  This seems like a
-reasonable warning and it doesn't hurt to silence it at least.
+The INTERRUPT_CNTL2 register expects a valid DMA address, but is
+currently set with a GPU MC address.  This can cause problems on
+systems that detect the resulting DMA read from an invalid address
+(found on a Power8 guest).
 
-drivers/gpu/drm/amd/amdgpu/vi.c:767 vi_asic_reset_method() error: uninitialized symbol 'baco_reset'.
+Instead, use the DMA address of the dummy page because it will always
+be safe.
 
-Fixes: 425db2553e43 ("drm/amdgpu: expose BACO interfaces to upper level from PP")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Fixes: d8f60cfc9345 ("drm/radeon/kms: Add support for interrupts on r6xx/r7xx chips (v3)")
+Fixes: 25a857fbe973 ("drm/radeon/kms: add support for interrupts on SI")
+Fixes: a59781bbe528 ("drm/radeon: add support for interrupts on CIK (v5)")
+Signed-off-by: Sam Bobroff <sbobroff@linux.ibm.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/powerplay/amd_powerplay.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/radeon/cik.c  | 4 ++--
+ drivers/gpu/drm/radeon/r600.c | 4 ++--
+ drivers/gpu/drm/radeon/si.c   | 4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/powerplay/amd_powerplay.c b/drivers/gpu/drm/amd/powerplay/amd_powerplay.c
-index fa8ad7db2b3a..d306cc711997 100644
---- a/drivers/gpu/drm/amd/powerplay/amd_powerplay.c
-+++ b/drivers/gpu/drm/amd/powerplay/amd_powerplay.c
-@@ -1421,6 +1421,7 @@ static int pp_get_asic_baco_capability(void *handle, bool *cap)
- {
- 	struct pp_hwmgr *hwmgr = handle;
+diff --git a/drivers/gpu/drm/radeon/cik.c b/drivers/gpu/drm/radeon/cik.c
+index 62eab82a64f9..897442754fd0 100644
+--- a/drivers/gpu/drm/radeon/cik.c
++++ b/drivers/gpu/drm/radeon/cik.c
+@@ -6969,8 +6969,8 @@ static int cik_irq_init(struct radeon_device *rdev)
+ 	}
  
-+	*cap = false;
- 	if (!hwmgr)
- 		return -EINVAL;
+ 	/* setup interrupt control */
+-	/* XXX this should actually be a bus address, not an MC address. same on older asics */
+-	WREG32(INTERRUPT_CNTL2, rdev->ih.gpu_addr >> 8);
++	/* set dummy read address to dummy page address */
++	WREG32(INTERRUPT_CNTL2, rdev->dummy_page.addr >> 8);
+ 	interrupt_cntl = RREG32(INTERRUPT_CNTL);
+ 	/* IH_DUMMY_RD_OVERRIDE=0 - dummy read disabled with msi, enabled without msi
+ 	 * IH_DUMMY_RD_OVERRIDE=1 - dummy read controlled by IH_DUMMY_RD_EN
+diff --git a/drivers/gpu/drm/radeon/r600.c b/drivers/gpu/drm/radeon/r600.c
+index e937cc01910d..033bc466a862 100644
+--- a/drivers/gpu/drm/radeon/r600.c
++++ b/drivers/gpu/drm/radeon/r600.c
+@@ -3696,8 +3696,8 @@ int r600_irq_init(struct radeon_device *rdev)
+ 	}
  
+ 	/* setup interrupt control */
+-	/* set dummy read address to ring address */
+-	WREG32(INTERRUPT_CNTL2, rdev->ih.gpu_addr >> 8);
++	/* set dummy read address to dummy page address */
++	WREG32(INTERRUPT_CNTL2, rdev->dummy_page.addr >> 8);
+ 	interrupt_cntl = RREG32(INTERRUPT_CNTL);
+ 	/* IH_DUMMY_RD_OVERRIDE=0 - dummy read disabled with msi, enabled without msi
+ 	 * IH_DUMMY_RD_OVERRIDE=1 - dummy read controlled by IH_DUMMY_RD_EN
+diff --git a/drivers/gpu/drm/radeon/si.c b/drivers/gpu/drm/radeon/si.c
+index 05894d198a79..1d8efb0eefdb 100644
+--- a/drivers/gpu/drm/radeon/si.c
++++ b/drivers/gpu/drm/radeon/si.c
+@@ -5997,8 +5997,8 @@ static int si_irq_init(struct radeon_device *rdev)
+ 	}
+ 
+ 	/* setup interrupt control */
+-	/* set dummy read address to ring address */
+-	WREG32(INTERRUPT_CNTL2, rdev->ih.gpu_addr >> 8);
++	/* set dummy read address to dummy page address */
++	WREG32(INTERRUPT_CNTL2, rdev->dummy_page.addr >> 8);
+ 	interrupt_cntl = RREG32(INTERRUPT_CNTL);
+ 	/* IH_DUMMY_RD_OVERRIDE=0 - dummy read disabled with msi, enabled without msi
+ 	 * IH_DUMMY_RD_OVERRIDE=1 - dummy read controlled by IH_DUMMY_RD_EN
 -- 
 2.20.1
 
