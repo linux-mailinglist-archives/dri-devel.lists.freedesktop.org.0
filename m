@@ -1,96 +1,98 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88B4B13DDF5
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 15:49:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3736C13DDFB
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 15:51:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD5E46ED65;
-	Thu, 16 Jan 2020 14:49:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F72B6EA93;
+	Thu, 16 Jan 2020 14:51:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
  [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC3FC6ED67
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 14:49:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F7E06EA93
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 14:51:18 +0000 (UTC)
 Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
  by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200116144910euoutp0124a19a6ac1e1119e8b46b1e916ad3aae~qZW-KeDEx0621106211euoutp01a
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 14:49:10 +0000 (GMT)
+ 20200116145117euoutp017ea2f9a0c286beec74b1d2f61aa83fad~qZY1ZnhCO0710107101euoutp01z
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 14:51:17 +0000 (GMT)
 DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200116144910euoutp0124a19a6ac1e1119e8b46b1e916ad3aae~qZW-KeDEx0621106211euoutp01a
+ 20200116145117euoutp017ea2f9a0c286beec74b1d2f61aa83fad~qZY1ZnhCO0710107101euoutp01z
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1579186150;
- bh=5z+EA0+AvXuwxUQKzh/8qQSatvOShkqzcgYqau+xnSE=;
- h=To:Cc:From:Subject:Date:References:From;
- b=DDIe3U6JBSA6KlAsZHaaKYN6rMDei5clQ7oEUlxFE4xn5+CarUuxGeU1KqlsF8uxJ
- 27Gi9jmpwu8TZookH68EXl8jZ6a2TV8PXn1Zqkhm8QffWDpbuA5Dkq+V4YtpKq2E61
- 2dFjdXVGFAiq3Ff7KNpSs5j2dONcAmZuVw6MkJnE=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200116144909eucas1p269ec4b4c4e5572f9a85efd96b3d77f04~qZW_s57FO0038900389eucas1p2U;
- Thu, 16 Jan 2020 14:49:09 +0000 (GMT)
+ s=mail20170921; t=1579186277;
+ bh=zM5QKDUUFvzxmck4BWoQ7EibKTrMCs6fH624KxIH7Jo=;
+ h=From:Subject:To:Cc:Date:References:From;
+ b=Nx70jCGHt8zusZVaJ62EXB+XAubmMAIuJT4X5FwYCSS9/Ox+GDwpS5TCWVBpQNbUE
+ rXSD0GYZ0i8QwplwZthQhHaokBRtHBBE9zo72YnS0rETBdr0slOHEjKkjjEB3xykhN
+ K+zRFW9XMCXegsvs53RGz08yBGfs+JiG+W0YlNW0=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20200116145116eucas1p1e42b04ca64c1403b153abc27e9a5c0cd~qZY1N42gL1036510365eucas1p1T;
+ Thu, 16 Jan 2020 14:51:16 +0000 (GMT)
 Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id CF.34.61286.5E7702E5; Thu, 16
- Jan 2020 14:49:09 +0000 (GMT)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200116144909eucas1p1b247368aded82dad3ca8da852deaca1a~qZW_GmgFX3193331933eucas1p1f;
- Thu, 16 Jan 2020 14:49:09 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200116144909eusmtrp2bb0d677eae675ac93160d567dcaeb23f~qZW_FwysQ0199001990eusmtrp2U;
- Thu, 16 Jan 2020 14:49:09 +0000 (GMT)
-X-AuditID: cbfec7f2-ef1ff7000001ef66-05-5e2077e52aaf
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id EE.A5.07950.4E7702E5; Thu, 16
- Jan 2020 14:49:08 +0000 (GMT)
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id 20.14.60679.468702E5; Thu, 16
+ Jan 2020 14:51:16 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200116145116eucas1p2d512db3f05f01d87bc9039af5bf70af3~qZY016bKP0505605056eucas1p2B;
+ Thu, 16 Jan 2020 14:51:16 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200116145116eusmtrp11db69222731b0e45a88d3414e3f6582f~qZY01Xt4Y1110811108eusmtrp14;
+ Thu, 16 Jan 2020 14:51:16 +0000 (GMT)
+X-AuditID: cbfec7f4-0cbff7000001ed07-70-5e20786426b2
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 04.75.08375.468702E5; Thu, 16
+ Jan 2020 14:51:16 +0000 (GMT)
 Received: from [106.120.51.71] (unknown [106.120.51.71]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200116144908eusmtip29cb56798e109445012d2e882883204ea~qZW918RDk2936329363eusmtip2m;
- Thu, 16 Jan 2020 14:49:08 +0000 (GMT)
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200116145115eusmtip1b9c1be999ff790774ec794ee71847d48~qZY0W6wQ43258232582eusmtip1g;
+ Thu, 16 Jan 2020 14:51:15 +0000 (GMT)
+From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Subject: [PATCH 1/2] video: fbdev: sh_mobile_lcdcfb: fix sparse warnings
+ about using incorrect types
 To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: [PATCH] video: fbdev: arcfb: add COMPILE_TEST support
-Message-ID: <acf2cc2e-614d-f0fb-ce40-cee62bfcde4c@samsung.com>
-Date: Thu, 16 Jan 2020 15:49:07 +0100
+Message-ID: <c687dbc5-cf5a-9508-2a61-e757a1a14568@samsung.com>
+Date: Thu, 16 Jan 2020 15:51:15 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprOKsWRmVeSWpSXmKPExsWy7djPc7pPyxXiDHqPqlncWneO1WLjjPWs
- Fle+vmezONH3gdXi8q45bA6sHve7jzN59G1ZxejxeZNcAHMUl01Kak5mWWqRvl0CV8aCyzuY
- CuayVsxpfsXUwLiJpYuRk0NCwETi4trrzF2MXBxCAisYJX5232CHcL4wSrydvRfK+cwocfPp
- KUaYlkWLN0MlljNKXLp9Esp5yyixs+Mi2GARgQSJFdNngHUwC8RLbGs+CmazCVhJTGxfBWYL
- C9hJbL8Bso+TgxfIvrzpEiuIzSKgKtF57R8TiC0qECHx6cFhVogaQYmTM5+wQMwUl7j1ZD4T
- hC0vsf3tHLAnJAR+s0l8fbcPqIgDyHGRePGeH+JqYYlXx7ewQ9gyEv93gvSC1K9jlPjb8QKq
- eTujxPLJ/9ggqqwl7pz7xQYyiFlAU2L9Ln2IsKPExKuLmCDm80nceCsIcQOfxKRt05khwrwS
- HW1CENVqEhuWbWCDWdu1cyUzhO0hcWjCU6YJjIqzkHw2C8lns5B8NgvhhgWMLKsYxVNLi3PT
- U4sN81LL9YoTc4tL89L1kvNzNzECk8vpf8c/7WD8einpEKMAB6MSD++MIIU4IdbEsuLK3EOM
- EhzMSiK8J2fIxgnxpiRWVqUW5ccXleakFh9ilOZgURLnNV70MlZIID2xJDU7NbUgtQgmy8TB
- KdXAuN5my53Xxc2XottexsmnRbXNtfWYJiocZOe9Q4XVVSr2/E+x+BJDzwXPZ60ryN0pPal6
- f2UTzwspzZcPVH5ulpbxD52fp8Ya6iO2cs7pP9U7j8xkvVMsW580bcoGpV9rVn3mXNjRuoyF
- N6v2bmyR9Xrd/M0KDrsOPKjZ7HFat+VPpu6cnIP1SizFGYmGWsxFxYkA59gdHioDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprAIsWRmVeSWpSXmKPExsVy+t/xe7pPyhXiDLactbG4te4cq8XGGetZ
- La58fc9mcaLvA6vF5V1z2BxYPe53H2fy6NuyitHj8ya5AOYoPZui/NKSVIWM/OISW6VoQwsj
- PUNLCz0jE0s9Q2PzWCsjUyV9O5uU1JzMstQifbsEvYwFl3cwFcxlrZjT/IqpgXETSxcjJ4eE
- gInEosWb2bsYuTiEBJYySqyftJyxi5EDKCEjcXx9GUSNsMSfa11sEDWvGSW+rPwF1iwikCDx
- 9PV8NhCbWSBeonNbAyOIzSZgJTGxfRWYLSxgJ7H9xg12EJsXyL686RIriM0ioCrRee0fE4gt
- KhAhcXjHLEaIGkGJkzOfsEDMVJf4M+8SM4QtLnHryXwmCFteYvvbOcwTGAVmIWmZhaRlFpKW
- WUhaFjCyrGIUSS0tzk3PLTbSK07MLS7NS9dLzs/dxAiMjW3Hfm7Zwdj1LvgQowAHoxIP74wg
- hTgh1sSy4srcQ4wSHMxKIrwnZ8jGCfGmJFZWpRblxxeV5qQWH2I0BXpoIrOUaHI+MG7zSuIN
- TQ3NLSwNzY3Njc0slMR5OwQOxggJpCeWpGanphakFsH0MXFwSjUwTjzhYryYN5Td9vhqtYfc
- Zzr0Nr+8/3/xZob5IvoRzz9z3npROFHE+GRdfJDmg8PHXi/fpcp5TE7fZUZhzI9GD4mnt7Nu
- 6+vK+f5Qaqq44fjV7TRT3pYFJ3tUTHu/RRu8Pr+NQTHE6fHPYz0xmZcsIq0ev2T+bte9pvj/
- g6d1pSxipzJOa2rfUmIpzkg01GIuKk4EABHBc4OjAgAA
-X-CMS-MailID: 20200116144909eucas1p1b247368aded82dad3ca8da852deaca1a
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprCKsWRmVeSWpSXmKPExsWy7djPc7opFQpxBl8WmVjcWneO1WLjjPWs
+ Fle+vmezONH3gdXi8q45bA6sHve7jzN59G1ZxejxeZNcAHMUl01Kak5mWWqRvl0CV0bL6vmM
+ Bcc4K+acOMXewDiZo4uRk0NCwETiwNX5jCC2kMAKRomVt9Qh7C+MEqeb+boYuYDsz4wS/ddm
+ sMI0/Nx4lRUisZxRomP5bWaIjreMEv+buEBsNgEriYntq8CmCgukSXz7/o8JxBYRSJBYMX0G
+ WJxZIF5iW/NRMJtXwE5iycN+oBoODhYBVYkvhw1AwqICERKfHhxmhSgRlDg58wkLRKu4xK0n
+ 85kgbHmJ7W/nMIPcIyHwm01iwduZbBCHukhM2X2dEcIWlnh1fAs7hC0jcXpyDwtEwzpGib8d
+ L6C6tzNKLJ/8D6rbWuLOuV9sIBcxC2hKrN+lDxF2lNjbMYkdJCwhwCdx460gxBF8EpO2TWeG
+ CPNKdLQJQVSrSWxYtoENZm3XzpXMELaHxNTGnSwTGBVnIXltFpLXZiF5bRbCDQsYWVYxiqeW
+ FuempxYb5aWW6xUn5haX5qXrJefnbmIEppXT/45/2cG460/SIUYBDkYlHt4ZQQpxQqyJZcWV
+ uYcYJTiYlUR4T86QjRPiTUmsrEotyo8vKs1JLT7EKM3BoiTOa7zoZayQQHpiSWp2ampBahFM
+ lomDU6qBUfOHRP6+qWwTtkR8+XauZ6rCN/Gzp/q8XU1EbvtN2Rv94em8incymsJ6r1NtGie/
+ /ZL1QLc4f6L2m8bfC5Z4JC1x5D9VfHn2tculb7p/rTqhUWO0Ki3tHpd1G+usmZ1MCq08b0Sm
+ urC1X9qySu5G0p3nBy5eSzFZ/bV3ZViL0r23DCetGWOWbVdiKc5INNRiLipOBABlbaKsJwMA
+ AA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupnkeLIzCtJLcpLzFFi42I5/e/4Xd2UCoU4gxs/ZC1urTvHarFxxnpW
+ iytf37NZnOj7wGpxedccNgdWj/vdx5k8+rasYvT4vEkugDlKz6Yov7QkVSEjv7jEVina0MJI
+ z9DSQs/IxFLP0Ng81srIVEnfziYlNSezLLVI3y5BL6Nl9XzGgmOcFXNOnGJvYJzM0cXIySEh
+ YCLxc+NV1i5GLg4hgaWMEn2/3rF1MXIAJWQkjq8vg6gRlvhzrYsNouY1o8TSOxvZQRJsAlYS
+ E9tXMYLYwgJpEptXvmIFsUUEEiSevp7PBmIzC8RLdG5rAKvhFbCTWPKwnwlkPouAqsSXwwYg
+ YVGBCInDO2ZBlQhKnJz5hAWiVV3iz7xLzBC2uMStJ/OZIGx5ie1v5zBPYBSYhaRlFpKWWUha
+ ZiFpWcDIsopRJLW0ODc9t9hQrzgxt7g0L10vOT93EyMwMrYd+7l5B+OljcGHGAU4GJV4eGcE
+ KcQJsSaWFVfmHmKU4GBWEuE9OUM2Tog3JbGyKrUoP76oNCe1+BCjKdA/E5mlRJPzgVGbVxJv
+ aGpobmFpaG5sbmxmoSTO2yFwMEZIID2xJDU7NbUgtQimj4mDU6qBccKBug39lQd5IryUgxQ8
+ Dwdw5Lpd3cm3RH2O5DFOo0mZMa0ZgTIi6389NVj8YcGjz8r31TTjX81a+LGbs+K31Jz5LVJf
+ q8rVviv+qbkwz6rX9uKKyl1feIvWTGbevc46JPqE5+e9JZMOOKcUTg38OTNqocPuLVMecZ1d
+ +0gh80j988l7ebz8i5VYijMSDbWYi4oTAWFq3yGiAgAA
+X-CMS-MailID: 20200116145116eucas1p2d512db3f05f01d87bc9039af5bf70af3
 X-Msg-Generator: CA
-X-RootMTR: 20200116144909eucas1p1b247368aded82dad3ca8da852deaca1a
+X-RootMTR: 20200116145116eucas1p2d512db3f05f01d87bc9039af5bf70af3
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200116144909eucas1p1b247368aded82dad3ca8da852deaca1a
-References: <CGME20200116144909eucas1p1b247368aded82dad3ca8da852deaca1a@eucas1p1.samsung.com>
+X-CMS-RootMailID: 20200116145116eucas1p2d512db3f05f01d87bc9039af5bf70af3
+References: <CGME20200116145116eucas1p2d512db3f05f01d87bc9039af5bf70af3@eucas1p2.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,27 +111,39 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add COMPILE_TEST support to arcfb driver for better compile
-testing coverage.
+Use ->screen_buffer instead of ->screen_base to fix sparse warnings.
+
+[ Please see commit 17a7b0b4d974 ("fb.h: Provide alternate screen_base
+  pointer") for details. ]
 
 Signed-off-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 ---
- drivers/video/fbdev/Kconfig |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/video/fbdev/sh_mobile_lcdcfb.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Index: b/drivers/video/fbdev/Kconfig
+Index: b/drivers/video/fbdev/sh_mobile_lcdcfb.c
 ===================================================================
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@ -435,7 +435,7 @@ config FB_FM2
+--- a/drivers/video/fbdev/sh_mobile_lcdcfb.c
++++ b/drivers/video/fbdev/sh_mobile_lcdcfb.c
+@@ -1572,7 +1572,7 @@ sh_mobile_lcdc_overlay_fb_init(struct sh
+ 	info->flags = FBINFO_FLAG_DEFAULT;
+ 	info->fbops = &sh_mobile_lcdc_overlay_ops;
+ 	info->device = priv->dev;
+-	info->screen_base = ovl->fb_mem;
++	info->screen_buffer = ovl->fb_mem;
+ 	info->par = ovl;
  
- config FB_ARC
- 	tristate "Arc Monochrome LCD board support"
--	depends on FB && X86
-+	depends on FB && (X86 || COMPILE_TEST)
- 	select FB_SYS_FILLRECT
- 	select FB_SYS_COPYAREA
- 	select FB_SYS_IMAGEBLIT
+ 	/* Initialize fixed screen information. Restrict pan to 2 lines steps
+@@ -2056,7 +2056,7 @@ sh_mobile_lcdc_channel_fb_init(struct sh
+ 	info->flags = FBINFO_FLAG_DEFAULT;
+ 	info->fbops = &sh_mobile_lcdc_ops;
+ 	info->device = priv->dev;
+-	info->screen_base = ch->fb_mem;
++	info->screen_buffer = ch->fb_mem;
+ 	info->pseudo_palette = &ch->pseudo_palette;
+ 	info->par = ch;
+ 
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
