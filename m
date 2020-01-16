@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB0B813E5C9
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 18:17:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A42DC13E5CA
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 18:17:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D75376EE24;
-	Thu, 16 Jan 2020 17:17:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60ABE6EE25;
+	Thu, 16 Jan 2020 17:17:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9B516EE23
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 17:17:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 232986EE25
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 17:17:28 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 106DF2192A;
- Thu, 16 Jan 2020 17:17:21 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4BFD424687;
+ Thu, 16 Jan 2020 17:17:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1579195042;
- bh=3eLMMh8KlXh6rXmsQyeddSFMT0xdTbwhmS3gyxUko8Y=;
+ s=default; t=1579195048;
+ bh=mrqyG+s5KkU79YeSwsbvGa5llda5DIJSBZQHAAEAfXM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BQEtyBdrUn7PN6X4x5SfnOtNXhKo/l4Tcq3K9hRXwKcFM4tUjnwUdy0/LEdpZ4NdB
- T+LsJeso6oFtitisHuOUsx/v8RtIqslvYUM1pTOgFFAb1oFgMANDCfZcujvh9MpoVz
- d/f+GpgmeLifLQwRTLghbmgmlRMG+buHtH6vEWdg=
+ b=gri+YUbMHmrrWGG0PpnQrCWTR9VCp9aNDhFoK9fCIGIlG25CBc4W7s+yi0B6n4EmW
+ LTOz6R708xpzjd12QUiWD2yfR4Nt+tqJrZQdlIWlj08I9rrE2J35TDWk/R8EtG3EGY
+ vj3iepamFEFRb7EVtSNqeeeLHGpGyq5C+/g3jUUQ=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 002/371] drm/virtio: fix bounds check in
- virtio_gpu_cmd_get_capset()
-Date: Thu, 16 Jan 2020 12:11:10 -0500
-Message-Id: <20200116171719.16965-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 006/371] drm/hisilicon: hibmc: Don't overwrite fb
+ helper surface depth
+Date: Thu, 16 Jan 2020 12:11:14 -0500
+Message-Id: <20200116171719.16965-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116171719.16965-1-sashal@kernel.org>
 References: <20200116171719.16965-1-sashal@kernel.org>
@@ -50,61 +50,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- Gerd Hoffmann <kraxel@redhat.com>, Dan Carpenter <dan.carpenter@oracle.com>,
- virtualization@lists.linux-foundation.org
+Cc: Xinliang Liu <z.liuxinliang@hisilicon.com>, Sasha Levin <sashal@kernel.org>,
+ John Garry <john.garry@huawei.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: John Garry <john.garry@huawei.com>
 
-[ Upstream commit 09c4b49457434fa74749ad6194ef28464d9f5df9 ]
+[ Upstream commit 0ff9f49646353ce31312411e7e7bd2281492a40e ]
 
-This doesn't affect runtime because in the current code "idx" is always
-valid.
+Currently the driver overwrites the surface depth provided by the fb
+helper to give an invalid bpp/surface depth combination.
 
-First, we read from "vgdev->capsets[idx].max_size" before checking
-whether "idx" is within bounds.  And secondly the bounds check is off by
-one so we could end up reading one element beyond the end of the
-vgdev->capsets[] array.
+This has been exposed by commit 70109354fed2 ("drm: Reject unknown legacy
+bpp and depth for drm_mode_addfb ioctl"), which now causes the driver to
+fail to probe.
 
-Fixes: 62fb7a5e1096 ("virtio-gpu: add 3d/virgl support")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-Link: http://patchwork.freedesktop.org/patch/msgid/20180704094250.m7sgvvzg3dhcvv3h@kili.mountain
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Fix by not overwriting the surface depth.
+
+Fixes: d1667b86795a ("drm/hisilicon/hibmc: Add support for frame buffer")
+Signed-off-by: John Garry <john.garry@huawei.com>
+Reviewed-by: Xinliang Liu <z.liuxinliang@hisilicon.com>
+Signed-off-by: Xinliang Liu <z.liuxinliang@hisilicon.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/virtio/virtgpu_vq.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_fbdev.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-index 21c2de81f3e3..a3be65e689fd 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vq.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-@@ -648,11 +648,11 @@ int virtio_gpu_cmd_get_capset(struct virtio_gpu_device *vgdev,
- {
- 	struct virtio_gpu_get_capset *cmd_p;
- 	struct virtio_gpu_vbuffer *vbuf;
--	int max_size = vgdev->capsets[idx].max_size;
-+	int max_size;
- 	struct virtio_gpu_drv_cap_cache *cache_ent;
- 	void *resp_buf;
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_fbdev.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_fbdev.c
+index 8bd29075ae4e..edcca1761500 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_fbdev.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_fbdev.c
+@@ -71,7 +71,6 @@ static int hibmc_drm_fb_create(struct drm_fb_helper *helper,
+ 	DRM_DEBUG_DRIVER("surface width(%d), height(%d) and bpp(%d)\n",
+ 			 sizes->surface_width, sizes->surface_height,
+ 			 sizes->surface_bpp);
+-	sizes->surface_depth = 32;
  
--	if (idx > vgdev->num_capsets)
-+	if (idx >= vgdev->num_capsets)
- 		return -EINVAL;
+ 	bytes_per_pixel = DIV_ROUND_UP(sizes->surface_bpp, 8);
  
- 	if (version > vgdev->capsets[idx].max_version)
-@@ -662,6 +662,7 @@ int virtio_gpu_cmd_get_capset(struct virtio_gpu_device *vgdev,
- 	if (!cache_ent)
- 		return -ENOMEM;
- 
-+	max_size = vgdev->capsets[idx].max_size;
- 	cache_ent->caps_cache = kmalloc(max_size, GFP_KERNEL);
- 	if (!cache_ent->caps_cache) {
- 		kfree(cache_ent);
 -- 
 2.20.1
 
