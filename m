@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7581413E0CE
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 17:45:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0456513E0FC
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 17:47:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85E676EDDF;
-	Thu, 16 Jan 2020 16:45:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12D7E6EDE3;
+	Thu, 16 Jan 2020 16:47:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F21376EDDF
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 16:45:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B43E56EDE3
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 16:46:58 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7CA4C2081E;
- Thu, 16 Jan 2020 16:45:48 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id C1F81214AF;
+ Thu, 16 Jan 2020 16:46:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1579193154;
- bh=zrtug52BmZXPYpKd1XK968zeRSRJc2alCuFgpYu/tK0=;
+ s=default; t=1579193218;
+ bh=soEda4LnwxwIeFkNICBfyvXmeA/EOSoybIFXUCSfTdk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=qZ80nJes95A0EtwUVl+xtYVbbnV5p9bwEE/invClvQmw2/JJzonV5epPJ7E/ChVuq
- gte70akMowggxXPPrm387o8wwyJ2+94tANP3NvJ5FtX7SxCJuJaUCgVUWLCxPyfFNp
- 5i5xSKHhtDc4Qg60lc0CRI8QrR6BMHf/ruhDutyE=
+ b=2lNxzOBxZ+h2GzGRm03Y5FhXSwC46k2i48rWeKuzRLyWbEdTY4C7ER2s+QmbqopEL
+ HycMD/QgG9KvIgZDJvlvtNCzMYj/f0u03Uro5/gIhk4JHrFe5kTEfQHBBkF4x/ej4O
+ XV4Em4ZwAt94IQBATbHCI4WyPecKx6Z088DYNKYQ=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 035/205] drm/rockchip: Round up _before_ giving to
- the clock framework
-Date: Thu, 16 Jan 2020 11:40:10 -0500
-Message-Id: <20200116164300.6705-35-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 048/205] drm: rcar_lvds: Fix color mismatches on
+ R-Car H2 ES2.0 and later
+Date: Thu, 16 Jan 2020 11:40:23 -0500
+Message-Id: <20200116164300.6705-48-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116164300.6705-1-sashal@kernel.org>
 References: <20200116164300.6705-1-sashal@kernel.org>
@@ -50,120 +50,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- Sean Paul <seanpaul@chromium.org>, linux-arm-kernel@lists.infradead.org
+Cc: Sasha Levin <sashal@kernel.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Ulrich Hecht <uli+renesas@fpond.eu>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Douglas Anderson <dianders@chromium.org>
+From: Geert Uytterhoeven <geert+renesas@glider.be>
 
-[ Upstream commit 287422a95fe28e05c1952de0472e0dfdffa6caae ]
+[ Upstream commit 3986457110a054466bf02f9c4a85aa2bba96177b ]
 
-I'm embarassed to say that even though I've touched
-vop_crtc_mode_fixup() twice and I swear I tested it, there's still a
-stupid glaring bug in it.  Specifically, on veyron_minnie (with all
-the latest display timings) we want to be setting our pixel clock to
-66,666,666.67 Hz and we tell userspace that's what we set, but we're
-actually choosing 66,000,000 Hz.  This is confirmed by looking at the
-clock tree.
+Commit 5cca30ebe089be23 ("drm/rcar-du: Add LVDS_LANES quirk") states
+that LVDS lanes 1 and 3 are inverted on R-Car H2 ES1 only, and that the
+problem has been fixed in newer revisions.
 
-The problem is that in drm_display_mode_from_videomode() we convert
-from Hz to kHz with:
+However, the code didn't take into account the actual hardware revision,
+thus applying the quirk also on newer hardware revisions, causing green
+color reversals.
 
-  dmode->clock = vm->pixelclock / 1000;
+Fix this by applying the quirk when running on R-Car H2 ES1.x only.
 
-...and drm_display_mode_from_videomode() is called from panel-simple
-when we have an "override_mode" like we do on veyron_minnie.  See
-commit 123643e5c40a ("ARM: dts: rockchip: Specify
-rk3288-veyron-minnie's display timings").
-
-...so when the device tree specifies a clock of 66666667 for the panel
-then DRM translates that to 66666000.  The clock framework will always
-pick a clock that is _lower_ than the one requested, so it will refuse
-to pick 66666667 and we'll end up at 66000000.
-
-While we could try to fix drm_display_mode_from_videomode() to round
-to the nearest kHz and it would fix our problem, it wouldn't help if
-the clock we actually needed was 60,000,001 Hz.  We could
-alternatively have DRM always round up, but maybe this would break
-someone else who already baked in the assumption that DRM rounds down.
-Specifically note that clock drivers are not consistent about whether
-they round up or round down when you call clk_set_rate().  We know how
-Rockchip's clock driver works, but (for instance) you can see that on
-most Qualcomm clocks the default is clk_rcg2_ops which rounds up.
-
-Let's solve this by just adding 999 Hz before calling
-clk_round_rate().  This should be safe and work everywhere.  As
-discussed in more detail in comments in the commit, Rockchip's PLLs
-are configured in a way that there shouldn't be another PLL setting
-that is only a few kHz off so we won't get mixed up.
-
-NOTE: if this is picked to stable, it's probably easiest to first pick
-commit 527e4ca3b6d1 ("drm/rockchip: Base adjustments of the mode based
-on prev adjustments") which shouldn't hurt in stable.
-
-Fixes: b59b8de31497 ("drm/rockchip: return a true clock rate to adjusted_mode")
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
-Reviewed-by: Sean Paul <seanpaul@chromium.org>
-Signed-off-by: Sean Paul <seanpaul@chromium.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20191003114726.v2.1.Ib233b3e706cf6317858384264d5b0ed35657456e@changeid
+Reported-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Fixes: 5cca30ebe089be23 ("drm/rcar-du: Add LVDS_LANES quirk")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 37 +++++++++++++++++++--
- 1 file changed, 34 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/rcar-du/rcar_lvds.c | 28 +++++++++++++++++++++-------
+ 1 file changed, 21 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-index 613404f86668..84e3decb17b1 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-@@ -1040,10 +1040,41 @@ static bool vop_crtc_mode_fixup(struct drm_crtc *crtc,
- 				struct drm_display_mode *adjusted_mode)
- {
- 	struct vop *vop = to_vop(crtc);
-+	unsigned long rate;
+diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+index 3fc7e6899cab..50c11a7f0467 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
++++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+@@ -16,6 +16,7 @@
+ #include <linux/of_graph.h>
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
++#include <linux/sys_soc.h>
  
--	adjusted_mode->clock =
--		DIV_ROUND_UP(clk_round_rate(vop->dclk,
--					    adjusted_mode->clock * 1000), 1000);
-+	/*
-+	 * Clock craziness.
-+	 *
-+	 * Key points:
-+	 *
-+	 * - DRM works in in kHz.
-+	 * - Clock framework works in Hz.
-+	 * - Rockchip's clock driver picks the clock rate that is the
-+	 *   same _OR LOWER_ than the one requested.
-+	 *
-+	 * Action plan:
-+	 *
-+	 * 1. When DRM gives us a mode, we should add 999 Hz to it.  That way
-+	 *    if the clock we need is 60000001 Hz (~60 MHz) and DRM tells us to
-+	 *    make 60000 kHz then the clock framework will actually give us
-+	 *    the right clock.
-+	 *
-+	 *    NOTE: if the PLL (maybe through a divider) could actually make
-+	 *    a clock rate 999 Hz higher instead of the one we want then this
-+	 *    could be a problem.  Unfortunately there's not much we can do
-+	 *    since it's baked into DRM to use kHz.  It shouldn't matter in
-+	 *    practice since Rockchip PLLs are controlled by tables and
-+	 *    even if there is a divider in the middle I wouldn't expect PLL
-+	 *    rates in the table that are just a few kHz different.
-+	 *
-+	 * 2. Get the clock framework to round the rate for us to tell us
-+	 *    what it will actually make.
-+	 *
-+	 * 3. Store the rounded up rate so that we don't need to worry about
-+	 *    this in the actual clk_set_rate().
-+	 */
-+	rate = clk_round_rate(vop->dclk, adjusted_mode->clock * 1000 + 999);
-+	adjusted_mode->clock = DIV_ROUND_UP(rate, 1000);
- 
- 	return true;
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+@@ -842,8 +843,23 @@ static int rcar_lvds_get_clocks(struct rcar_lvds *lvds)
+ 	return 0;
  }
+ 
++static const struct rcar_lvds_device_info rcar_lvds_r8a7790es1_info = {
++	.gen = 2,
++	.quirks = RCAR_LVDS_QUIRK_LANES,
++	.pll_setup = rcar_lvds_pll_setup_gen2,
++};
++
++static const struct soc_device_attribute lvds_quirk_matches[] = {
++	{
++		.soc_id = "r8a7790", .revision = "ES1.*",
++		.data = &rcar_lvds_r8a7790es1_info,
++	},
++	{ /* sentinel */ }
++};
++
+ static int rcar_lvds_probe(struct platform_device *pdev)
+ {
++	const struct soc_device_attribute *attr;
+ 	struct rcar_lvds *lvds;
+ 	struct resource *mem;
+ 	int ret;
+@@ -857,6 +873,10 @@ static int rcar_lvds_probe(struct platform_device *pdev)
+ 	lvds->dev = &pdev->dev;
+ 	lvds->info = of_device_get_match_data(&pdev->dev);
+ 
++	attr = soc_device_match(lvds_quirk_matches);
++	if (attr)
++		lvds->info = attr->data;
++
+ 	ret = rcar_lvds_parse_dt(lvds);
+ 	if (ret < 0)
+ 		return ret;
+@@ -893,12 +913,6 @@ static const struct rcar_lvds_device_info rcar_lvds_gen2_info = {
+ 	.pll_setup = rcar_lvds_pll_setup_gen2,
+ };
+ 
+-static const struct rcar_lvds_device_info rcar_lvds_r8a7790_info = {
+-	.gen = 2,
+-	.quirks = RCAR_LVDS_QUIRK_LANES,
+-	.pll_setup = rcar_lvds_pll_setup_gen2,
+-};
+-
+ static const struct rcar_lvds_device_info rcar_lvds_gen3_info = {
+ 	.gen = 3,
+ 	.quirks = RCAR_LVDS_QUIRK_PWD,
+@@ -930,7 +944,7 @@ static const struct of_device_id rcar_lvds_of_table[] = {
+ 	{ .compatible = "renesas,r8a7744-lvds", .data = &rcar_lvds_gen2_info },
+ 	{ .compatible = "renesas,r8a774a1-lvds", .data = &rcar_lvds_gen3_info },
+ 	{ .compatible = "renesas,r8a774c0-lvds", .data = &rcar_lvds_r8a77990_info },
+-	{ .compatible = "renesas,r8a7790-lvds", .data = &rcar_lvds_r8a7790_info },
++	{ .compatible = "renesas,r8a7790-lvds", .data = &rcar_lvds_gen2_info },
+ 	{ .compatible = "renesas,r8a7791-lvds", .data = &rcar_lvds_gen2_info },
+ 	{ .compatible = "renesas,r8a7793-lvds", .data = &rcar_lvds_gen2_info },
+ 	{ .compatible = "renesas,r8a7795-lvds", .data = &rcar_lvds_gen3_info },
 -- 
 2.20.1
 
