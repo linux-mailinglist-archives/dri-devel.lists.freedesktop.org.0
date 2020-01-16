@@ -2,57 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48866140502
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 09:13:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2716A14050D
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 09:14:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 183C06F419;
-	Fri, 17 Jan 2020 08:13:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD51F6F42C;
+	Fri, 17 Jan 2020 08:13:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from www413.your-server.de (www413.your-server.de [88.198.28.140])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E09558958E;
- Thu, 16 Jan 2020 15:05:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=cyberus-technology.de; s=default1911; h=Content-Transfer-Encoding:
- MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ZexOn4FEQsloo7emu6e0E5yv/ua4j8MP3CCsOZRUTrA=; b=cH5daPaIgIih/Pf96nB99OLLk
- He2uzFd9DbAroxYeSqMNge2LxXZrOBo0v9OmLE1S1Lx6nZDqfcfSUgRRsALGbAG6E0i3u9JEOoLeO
- nW8ahzkp0DymxyHCyrb8Lpgu8dDWPvaZBgthAi6iJ6k3RMozor0uQuZVcP18d1Kpdi3rjJr9/D93w
- YCYKZS4ffZBVmP4qGFJjIvCR2lV95riAy6Ynqt3L9SGKqmK97KlJbSORWmZeIQ7ZkC0OnfYRwsphz
- I5+MAvoMGMdH7r3DNTwUd2/voreF9TX9qKfWfK7oGJ64qA47BDI8Gy3Lhadp1enI/h8niGUyqBCSq
- tYsAw7+fQ==;
-Received: from sslproxy06.your-server.de ([78.46.172.3])
- by www413.your-server.de with esmtpsa (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256)
- (Exim 4.89_1)
- (envelope-from <julian.stecklina@cyberus-technology.de>)
- id 1is6i5-0002D5-DF; Thu, 16 Jan 2020 16:05:25 +0100
-Received: from [2a02:8106:231:700:38db:ba68:aa3a:bbaa]
- (helo=localhost.localdomain)
- by sslproxy06.your-server.de with esmtpsa
- (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256) (Exim 4.89)
- (envelope-from <julian.stecklina@cyberus-technology.de>)
- id 1is6i5-000K38-4Y; Thu, 16 Jan 2020 16:05:25 +0100
-Message-ID: <edb721906354e26c26883edf5bce09690ca07d6d.camel@cyberus-technology.de>
-Subject: Re: [RFC PATCH 4/4] drm/i915/gvt: move public gvt headers out into
- global include
-From: Julian Stecklina <julian.stecklina@cyberus-technology.de>
-To: Greg KH <gregkh@linuxfoundation.org>
-Date: Thu, 16 Jan 2020 16:05:22 +0100
-In-Reply-To: <20200116142345.GA476889@kroah.com>
-References: <4079ce7c26a2d2a3c7e0828ed1ea6008d6e2c805.camel@cyberus-technology.de>
- <20200109171357.115936-1-julian.stecklina@cyberus-technology.de>
- <20200109171357.115936-5-julian.stecklina@cyberus-technology.de>
- <20200115152215.GA3830321@kroah.com>
- <9b32e225ee680e61716e300eb1ed8387599cc0dd.camel@cyberus-technology.de>
- <20200116142345.GA476889@kroah.com>
-Organization: Cyberus Technology GmbH
-User-Agent: Evolution 3.34.2 (3.34.2-1.fc31) 
-MIME-Version: 1.0
-X-Authenticated-Sender: julian.stecklina@cyberus-technology.de
-X-Virus-Scanned: Clear (ClamAV 0.101.4/25697/Thu Jan 16 12:42:45 2020)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 439996EAF5
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 15:21:01 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2136F1396;
+ Thu, 16 Jan 2020 07:21:00 -0800 (PST)
+Received: from e123648.arm.com (unknown [10.37.12.156])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 0E3AB3F68E;
+ Thu, 16 Jan 2020 07:20:48 -0800 (PST)
+From: lukasz.luba@arm.com
+To: linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-omap@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-imx@nxp.com
+Subject: [PATCH 0/4] Add support for devices in the Energy Model
+Date: Thu, 16 Jan 2020 15:20:28 +0000
+Message-Id: <20200116152032.11301-1-lukasz.luba@arm.com>
+X-Mailer: git-send-email 2.17.1
 X-Mailman-Approved-At: Fri, 17 Jan 2020 08:13:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,54 +40,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Prescher <thomas.prescher@cyberus-technology.de>,
- linux-kernel@vger.kernel.org, hang.yuan@intel.com,
- dri-devel@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
- zhiyuan.lv@intel.com
+Cc: nm@ti.com, juri.lelli@redhat.com, peterz@infradead.org,
+ viresh.kumar@linaro.org, bjorn.andersson@linaro.org, bsegall@google.com,
+ Morten.Rasmussen@arm.com, amit.kucheria@verdurent.com,
+ vincent.guittot@linaro.org, khilman@kernel.org, daniel.lezcano@linaro.org,
+ steven.price@arm.com, cw00.choi@samsung.com, mingo@redhat.com, mgorman@suse.de,
+ rui.zhang@intel.com, alyssa.rosenzweig@collabora.com, b.zolnierkie@samsung.com,
+ s.hauer@pengutronix.de, rostedt@goodmis.org, matthias.bgg@gmail.com,
+ Chris.Redpath@arm.com, Dietmar.Eggemann@arm.com, airlied@linux.ie,
+ javi.merino@arm.com, tomeu.vizoso@collabora.com, qperret@google.com,
+ sboyd@kernel.org, shawnguo@kernel.org, rjw@rjwysocki.net, agross@kernel.org,
+ kernel@pengutronix.de, sudeep.holla@arm.com, patrick.bellasi@matbug.net,
+ ionela.voinescu@arm.com, lukasz.luba@arm.com
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Greg,
+From: Lukasz Luba <lukasz.luba@arm.com>
 
-On Thu, 2020-01-16 at 15:23 +0100, Greg KH wrote:
-> On Thu, Jan 16, 2020 at 03:13:01PM +0100, Julian Stecklina wrote:
-> > Hi Greg, Christoph,
-> > 
-> > On Wed, 2020-01-15 at 16:22 +0100, Greg KH wrote:
-> > > On Thu, Jan 09, 2020 at 07:13:57PM +0200, Julian Stecklina wrote:
-> > > > Now that the GVT interface to hypervisors does not depend on i915/GVT
-> > > > internals anymore, we can move the headers to the global include/.
-> > > > 
-> > > > This makes out-of-tree modules for hypervisor integration possible.
-> > > 
-> > > What kind of out-of-tree modules do you need/want for this?
-> > 
-> > The mediated virtualization support in the i915 driver needs a backend to
-> > the
-> > hypervisor. There is currently one backend for KVM in the tree
-> > (drivers/gpu/drm/i915/gvt/kvmgt.c) and at least 3 other hypervisor backends
-> > out
-> > of tree in various states of development that I know of. We are currently
-> > developing one of these.
-> 
-> Great, then just submit this patch series as part of your patch series
-> when submitting yoru hypervisor code.  That's the normal way to export
-> new symbols, we can't do so without an in-kernel user.
+Hi all,
 
-Fair enough.
+This patch set introduces support for devices in the Energy Model (EM) framework.
+It will unify the power model for thermal subsystem and make it simpler.
+The 1st patch refactors EM framework and adds support for devices. The 2nd patch
+changes dev_pm_opp_of_register_em() in OPP/OF which now should take as an
+argument struct device pointer. It touches a few trees (OMAP, NXP, mediatek) updating
+their CPUfreq drivers to the new interface.
+Patch 3 changes thermal devfreq cooling removing old code for calculating local power
+table. It simplifies the code and uses EM for requested power calculation.
+Last patch 4 is based on 'drm-misc-next' and adds EM to Panfrost driver.
 
-As I already said, the KVMGT code is the in-kernel user. But I guess I can
-extend the already existing function pointer way of decoupling KVMGT from i915
-and be on my way without exporting any symbols.
+The patch set is based on v5.5-rc6 tag (excluding last patch).
 
-Somewhat independent of the current discussion, I also think that it's valuable
-to have a defined API (I'm not saying stable API) for the hypervisor backends to
-define what's okay and not okay for them to do.
+Regards,
+Lukasz Luba
 
-Thanks,
-Julian
+Lukasz Luba (4):
+  PM / EM: and devices to Energy Model
+  OPP: change parameter to device pointer in dev_pm_opp_of_register_em()
+  thermal: devfreq_cooling: Refactor code and switch to use Energy Model
+  drm/panfrost: Register to the Energy Model with devfreq device
+
+ Documentation/power/energy-model.rst        |  67 ++--
+ drivers/cpufreq/cpufreq-dt.c                |   2 +-
+ drivers/cpufreq/imx6q-cpufreq.c             |   2 +-
+ drivers/cpufreq/mediatek-cpufreq.c          |   2 +-
+ drivers/cpufreq/omap-cpufreq.c              |   2 +-
+ drivers/cpufreq/qcom-cpufreq-hw.c           |   2 +-
+ drivers/cpufreq/scmi-cpufreq.c              |  11 +-
+ drivers/cpufreq/scpi-cpufreq.c              |   2 +-
+ drivers/gpu/drm/panfrost/panfrost_devfreq.c |   3 +
+ drivers/opp/of.c                            |  43 +--
+ drivers/thermal/cpu_cooling.c               |  10 +-
+ drivers/thermal/devfreq_cooling.c           | 397 +++++++------------
+ include/linux/devfreq_cooling.h             |  17 -
+ include/linux/energy_model.h                | 108 ++++--
+ include/linux/pm_opp.h                      |  13 +-
+ include/trace/events/thermal.h              |  19 +-
+ kernel/power/energy_model.c                 | 406 ++++++++++++++++----
+ kernel/sched/sched.h                        |   2 +-
+ kernel/sched/topology.c                     |   4 +-
+ 19 files changed, 631 insertions(+), 481 deletions(-)
+
+-- 
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
