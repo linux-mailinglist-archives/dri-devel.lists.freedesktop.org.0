@@ -2,96 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0491E13DE1F
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 15:54:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E16BC13DE25
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 15:56:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 131826ED71;
-	Thu, 16 Jan 2020 14:54:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4E046ED7B;
+	Thu, 16 Jan 2020 14:56:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 760B36ED71
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 14:54:46 +0000 (UTC)
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DBF76ED7B
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 14:56:55 +0000 (UTC)
 Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200116145445euoutp02fb8520c4f0c69a6e2cd2164e086ca3f9~qZb3Eju_H0280802808euoutp02_
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 14:54:45 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200116145445euoutp02fb8520c4f0c69a6e2cd2164e086ca3f9~qZb3Eju_H0280802808euoutp02_
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200116145654euoutp011d71c49dcbe98079fa096a3cd6f36dd1~qZdvNdiYZ1195411954euoutp01o
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 14:56:54 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200116145654euoutp011d71c49dcbe98079fa096a3cd6f36dd1~qZdvNdiYZ1195411954euoutp01o
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1579186485;
- bh=b65qnNpZPszXG+jwsFpQRilWQfE42OoelAKKff3CP5U=;
+ s=mail20170921; t=1579186614;
+ bh=gYFlVr9o/9ffDBMZ9X8ERiwufXV1iHNJKOICXMmjbf8=;
  h=From:Subject:To:Cc:Date:References:From;
- b=uN+X0R9DwJOTpEDHkYnjcPt7yQ9M8jqJz8rypj+G2eNGYCuAlr1semr2kznBVigYL
- v4xTaosFY8fbZeNT4i3/qCXsukjkeBE0qID3NRVjSsj4NQvTAeOHsKT4FG/Vr0Hk5a
- YT3pVMz747X2Jx/WdY+JRczcvOpWNK6cohMRfnSs=
+ b=F1MtKtSKgKJuwct1s6wIGio/KDar53tCoaN3rDRW71bPR06I2sIzY+ZlbpNIuX5Uf
+ dkujl7N/YAV0UJYNrlRhTQAK7AD1VyF2EweCNOhyXfj1rw8oEvrwSMqUs3Zo1Pv07r
+ DRww05QuMyTa/G5Z4GMxBbb+gcLPROzXId5hfyog=
 Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200116145444eucas1p22d4769c433e37f048f6100b6d032c9b5~qZb246Q5M1744817448eucas1p2B;
- Thu, 16 Jan 2020 14:54:44 +0000 (GMT)
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20200116145653eucas1p1e3e1189b5de9b64ca210a00c788f4796~qZduzuYES2220922209eucas1p1C;
+ Thu, 16 Jan 2020 14:56:53 +0000 (GMT)
 Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id D9.84.60698.439702E5; Thu, 16
- Jan 2020 14:54:44 +0000 (GMT)
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 15.D4.60698.5B9702E5; Thu, 16
+ Jan 2020 14:56:53 +0000 (GMT)
 Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200116145444eucas1p1b62a023ad7ea3722193c932761eb8493~qZb2VS-RQ0962409624eucas1p1S;
- Thu, 16 Jan 2020 14:54:44 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200116145653eucas1p2222fb48dd6fe1023a4152e687ec577d5~qZdudwj-b1470514705eucas1p2H;
+ Thu, 16 Jan 2020 14:56:53 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
  eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200116145444eusmtrp1a6015b8d3fef1a854e9729889efd87c8~qZb2RoV471332413324eusmtrp1N;
- Thu, 16 Jan 2020 14:54:44 +0000 (GMT)
-X-AuditID: cbfec7f5-a0fff7000001ed1a-51-5e207934bdc2
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id A2.66.07950.439702E5; Thu, 16
- Jan 2020 14:54:44 +0000 (GMT)
+ 20200116145653eusmtrp1e452f405ef97ba250cae718242794690~qZdudAc4a1494014940eusmtrp1J;
+ Thu, 16 Jan 2020 14:56:53 +0000 (GMT)
+X-AuditID: cbfec7f5-a0fff7000001ed1a-dc-5e2079b53320
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 21.26.08375.5B9702E5; Thu, 16
+ Jan 2020 14:56:53 +0000 (GMT)
 Received: from [106.120.51.71] (unknown [106.120.51.71]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200116145443eusmtip2609623863bfb9e2ba72cc8ce9cafe547~qZb1tBdpz3165131651eusmtip2J;
- Thu, 16 Jan 2020 14:54:43 +0000 (GMT)
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200116145651eusmtip1054969a694e6110ad67cc935712ce6c6~qZdsknekg0369003690eusmtip1P;
+ Thu, 16 Jan 2020 14:56:51 +0000 (GMT)
 From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 Subject: [PATCH 1/2] video: fbdev: wm8505fb: fix sparse warnings about using
  incorrect types
 To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Message-ID: <411db705-a098-27e6-8f52-acfea2735738@samsung.com>
-Date: Thu, 16 Jan 2020 15:54:42 +0100
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Message-ID: <567cba81-5fec-4d91-f711-c0bdbfe5b513@samsung.com>
+Date: Thu, 16 Jan 2020 15:56:50 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprKKsWRmVeSWpSXmKPExsWy7djPc7omlQpxBg2LdS1urTvHarFxxnpW
- iytf37NZnOj7wGpxedccNgdWj/vdx5k8+rasYvT4vEkugDmKyyYlNSezLLVI3y6BK2Pyqf3M
- BZvZKq787WVsYNzB2sXIwSEhYCJx6G9CFyMXh5DACkaJvtXH2SGcL4wS8948Ze5i5ARyPjNK
- PHrGDWKDNHw50MgKUbScUWLx32WMEM5bRokrd5YwglSxCVhJTGxfBWYLC8RJfNr0CWySiECC
- xIrpM8DizALxEtuaj4LZvAJ2EjtenwGzWQRUJV4vu84GYosKREh8enCYFaJGUOLkzCcsEL3i
- EreezGeCsOUltr+dwwxyhITAbzaJaR9esEKc6iKxY/lMJghbWOLV8S3sELaMxOnJPSwQDesY
- Jf52vIDq3s4osXzyPzaIKmuJO+d+sYFCiVlAU2L9Ln2IsKPEtWPP2CGBxydx460gxBF8EpO2
- TWeGCPNKdLQJQVSrSWxYtoENZm3XzpVQJR4S9+eYTWBUnIXks1lIPpuF5LNZCCcsYGRZxSie
- Wlqcm55abJyXWq5XnJhbXJqXrpecn7uJEZhYTv87/nUH474/SYcYBTgYlXh4P4QoxAmxJpYV
- V+YeYpTgYFYS4T05QzZOiDclsbIqtSg/vqg0J7X4EKM0B4uSOK/xopexQgLpiSWp2ampBalF
- MFkmDk6pBsbLVXbPTso1ZDSs27zrV1jumRm66T3nfFUjW4VVfW83Zgct9NTiYfG3TlH6Hhpc
- zm10IfRX7695K493ap/7x/T5HduBgzFxm52K+lIuMzx75Krz7M38j0Uy/ac1655mnT1m9rXX
- dLfk5JyIKKdHS1SVXOa5Ft8K/aj3oyNwq+IE9bDZhdVr1JVYijMSDbWYi4oTAWc5Z/IoAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprAIsWRmVeSWpSXmKPExsVy+t/xe7omlQpxBv032CxurTvHarFxxnpW
- iytf37NZnOj7wGpxedccNgdWj/vdx5k8+rasYvT4vEkugDlKz6Yov7QkVSEjv7jEVina0MJI
- z9DSQs/IxFLP0Ng81srIVEnfziYlNSezLLVI3y5BL2Pyqf3MBZvZKq787WVsYNzB2sXIySEh
- YCLx5UAjkM3FISSwlFHizLXjjF2MHEAJGYnj68sgaoQl/lzrYoOoec0ocXR6MxNIgk3ASmJi
- +ypGEFtYIE7i06ZPzCC2iECCxNPX89lAbGaBeInObQ1gNbwCdhI7Xp8Bs1kEVCVeL7sOViMq
- ECFxeMcsqBpBiZMzn7BA9KpL/Jl3iRnCFpe49WQ+E4QtL7H97RzmCYwCs5C0zELSMgtJyywk
- LQsYWVYxiqSWFuem5xYb6RUn5haX5qXrJefnbmIExsa2Yz+37GDsehd8iFGAg1GJh3dGkEKc
- EGtiWXFl7iFGCQ5mJRHekzNk44R4UxIrq1KL8uOLSnNSiw8xmgI9NJFZSjQ5Hxi3eSXxhqaG
- 5haWhubG5sZmFkrivB0CB2OEBNITS1KzU1MLUotg+pg4OKUaGEX2ZLVdb+9b9jC+xJYphYFV
- wXq3gYrN0Ut7N33LK7nwxKD6gGKc592DGnfsuZZuK/wsG3kvdYvWbcX7uw9s21Sy4M+kyXsn
- qWbJlc14sPl8N9fa/fMqc1/d8Fpe3b+nx1aq7oG7ffLJ30Z8oiXHJZLv+3c+Kb92OTxKwX+h
- gWzbF/b2iYqblyuxFGckGmoxFxUnAgBOhZfsowIAAA==
-X-CMS-MailID: 20200116145444eucas1p1b62a023ad7ea3722193c932761eb8493
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrDKsWRmVeSWpSXmKPExsWy7djPc7pbKxXiDCbdlLe4te4cq8XGGetZ
+ La58fc9msenxNVaLE30fWC0u75rDZtFyeQWzA7vH/e7jTB6bl9R7nP/fwu7Rt2UVo8fnTXIB
+ rFFcNimpOZllqUX6dglcGbO//WIueMJWcWx9A2sD413WLkZODgkBE4muP/+BbC4OIYEVjBLr
+ ft1hgnC+MEocPDGTGcL5zCjRcXQjXMus/lZ2iMRyRonDn/ZDVb1llDh/cAFYFZuAlcTE9lWM
+ ILawQJzEp02fwIpEBNoYJb6uagBbwizQzCjxe8cLNpAqXgE7iaZzN8E6WARUJdZe6wazRQUi
+ JD49OMwKUSMocXLmExYQm1lAXOLWk/lMELa8xPa3c8A2SAgsYpf4NP0/E8SxLhLtd9azQNjC
+ Eq+Ob2GHsGUkTk/uYYFoWMco8bfjBVT3dkaJ5ZP/sUFUWUvcOfcLyOYAWqEpsX6XPogpIeAo
+ Met6EITJJ3HjrSDEDXwSk7ZNZ4YI80p0tAlBzFCT2LBsAxvM1q6dK5khbA+Jzi0/mCYwKs5C
+ 8tksJJ/NQvLZLIQTFjCyrGIUTy0tzk1PLTbOSy3XK07MLS7NS9dLzs/dxAhMQ6f/Hf+6g3Hf
+ n6RDjAIcjEo8vB9CFOKEWBPLiitzDzFKcDArifCenCEbJ8SbklhZlVqUH19UmpNafIhRmoNF
+ SZzXeNHLWCGB9MSS1OzU1ILUIpgsEwenVANjSEPONAOmDDPrxo7Nn7ovnLOYsD3i8VzniXUT
+ t6sz7MuwfbNZ1nj6642s8znlJ7JP+D/lxOE502/Vzjv1PMrKNtjCqopH2uS72+1J5b8c/KTt
+ hF44cIfOKip8p3/2QdYek9fe/7Ul9YV4L8+Z5jTnxuErAi2sZ+p4vxubrJjr8KWZX2ZTahW3
+ EktxRqKhFnNRcSIA+7aL+z8DAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrKIsWRmVeSWpSXmKPExsVy+t/xu7pbKxXiDP6c4rS4te4cq8XGGetZ
+ La58fc9msenxNVaLE30fWC0u75rDZtFyeQWzA7vH/e7jTB6bl9R7nP/fwu7Rt2UVo8fnTXIB
+ rFF6NkX5pSWpChn5xSW2StGGFkZ6hpYWekYmlnqGxuaxVkamSvp2NimpOZllqUX6dgl6GbO/
+ /WIueMJWcWx9A2sD413WLkZODgkBE4lZ/a3sXYxcHEICSxklmh+0sXQxcgAlZCSOry+DqBGW
+ +HOtiw2i5jWjxOZZm9hBEmwCVhIT21cxgtjCAnESnzZ9YgYpEhFoY5SYv+UFI4jDLNDMKHFn
+ 3XomkCpeATuJpnM3wTpYBFQl1l7rBrNFBSIkDu+YxQhRIyhxcuYTFhCbWUBd4s+8S8wQtrjE
+ rSfzmSBseYntb+cwT2AUmIWkZRaSlllIWmYhaVnAyLKKUSS1tDg3PbfYUK84Mbe4NC9dLzk/
+ dxMjMIq2Hfu5eQfjpY3BhxgFOBiVeHhnBCnECbEmlhVX5h5ilOBgVhLhPTlDNk6INyWxsiq1
+ KD++qDQntfgQoynQQxOZpUST84ERnlcSb2hqaG5haWhubG5sZqEkztshcDBGSCA9sSQ1OzW1
+ ILUIpo+Jg1OqgbHq8b4z6/wiudeFce4KTbzVerD97Y7UQ4VaH6Z+2VrjfPtL5yRTGQmPF6bh
+ O/Jmf1lqVngzm7WhtO5Sb/GRQ7bfOVo5tmgJ+W3decsp5T5vlUV01IzkA2qnvCJ/a+3MfKnV
+ t1hFzOzBiT3GPE9nWal7+5x+Xd8gpvF+roi7b87HtKrVlxaJqCixFGckGmoxFxUnAgDDbEBi
+ uAIAAA==
+X-CMS-MailID: 20200116145653eucas1p2222fb48dd6fe1023a4152e687ec577d5
 X-Msg-Generator: CA
-X-RootMTR: 20200116145444eucas1p1b62a023ad7ea3722193c932761eb8493
+X-RootMTR: 20200116145653eucas1p2222fb48dd6fe1023a4152e687ec577d5
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200116145444eucas1p1b62a023ad7ea3722193c932761eb8493
-References: <CGME20200116145444eucas1p1b62a023ad7ea3722193c932761eb8493@eucas1p1.samsung.com>
+X-CMS-RootMailID: 20200116145653eucas1p2222fb48dd6fe1023a4152e687ec577d5
+References: <CGME20200116145653eucas1p2222fb48dd6fe1023a4152e687ec577d5@eucas1p2.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,7 +106,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc: Tony Prisk <linux@prisktech.co.nz>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -117,6 +120,8 @@ Use ->screen_buffer instead of ->screen_base to fix sparse warnings.
 
 Signed-off-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 ---
+Resend with Tony & linux-arm ML added to Cc:.
+
  drivers/video/fbdev/wm8505fb.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
