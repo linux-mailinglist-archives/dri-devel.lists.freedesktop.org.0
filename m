@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0456513E0FC
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 17:47:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF67F13E116
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 17:47:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12D7E6EDE3;
-	Thu, 16 Jan 2020 16:47:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC06E6EDE4;
+	Thu, 16 Jan 2020 16:47:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B43E56EDE3
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 16:46:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EB166EDE4
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 16:47:41 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id C1F81214AF;
- Thu, 16 Jan 2020 16:46:54 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id DC83821582;
+ Thu, 16 Jan 2020 16:47:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1579193218;
- bh=soEda4LnwxwIeFkNICBfyvXmeA/EOSoybIFXUCSfTdk=;
+ s=default; t=1579193261;
+ bh=UvBSdpWu94Cr/vu/swFwEY05gb5S7dZpvtQ4ZH8wg9Q=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=2lNxzOBxZ+h2GzGRm03Y5FhXSwC46k2i48rWeKuzRLyWbEdTY4C7ER2s+QmbqopEL
- HycMD/QgG9KvIgZDJvlvtNCzMYj/f0u03Uro5/gIhk4JHrFe5kTEfQHBBkF4x/ej4O
- XV4Em4ZwAt94IQBATbHCI4WyPecKx6Z088DYNKYQ=
+ b=gp3hh562FFufViCb7wQkEBNZAnn6v/3KTBRiBUX95XSgFlpQVNY+5hsDUc18mUdIH
+ gHtvhmjw43U4v6uKRieq0RqujkcW2LzYvkGqZQvjaNwda0z+W8HHmfe2DPdsNAefSK
+ MCi2ZtsF42iV/AoD6dyqzKNIbujVw4V8neZ1HbFs=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 048/205] drm: rcar_lvds: Fix color mismatches on
- R-Car H2 ES2.0 and later
-Date: Thu, 16 Jan 2020 11:40:23 -0500
-Message-Id: <20200116164300.6705-48-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 058/205] xprtrdma: Connection becomes unstable
+ after a reconnect
+Date: Thu, 16 Jan 2020 11:40:33 -0500
+Message-Id: <20200116164300.6705-58-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116164300.6705-1-sashal@kernel.org>
 References: <20200116164300.6705-1-sashal@kernel.org>
@@ -50,112 +50,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Ulrich Hecht <uli+renesas@fpond.eu>
+Cc: Sasha Levin <sashal@kernel.org>, linux-nfs@vger.kernel.org,
+ netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Chuck Lever <chuck.lever@oracle.com>,
+ Anna Schumaker <Anna.Schumaker@Netapp.com>, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Geert Uytterhoeven <geert+renesas@glider.be>
+From: Chuck Lever <chuck.lever@oracle.com>
 
-[ Upstream commit 3986457110a054466bf02f9c4a85aa2bba96177b ]
+[ Upstream commit a31b2f939219dd9bffdf01a45bd91f209f8cc369 ]
 
-Commit 5cca30ebe089be23 ("drm/rcar-du: Add LVDS_LANES quirk") states
-that LVDS lanes 1 and 3 are inverted on R-Car H2 ES1 only, and that the
-problem has been fixed in newer revisions.
+This is because xprt_request_get_cong() is allowing more than one
+RPC Call to be transmitted before the first Receive on the new
+connection. The first Receive fills the Receive Queue based on the
+server's credit grant. Before that Receive, there is only a single
+Receive WR posted because the client doesn't know the server's
+credit grant.
 
-However, the code didn't take into account the actual hardware revision,
-thus applying the quirk also on newer hardware revisions, causing green
-color reversals.
+Solution is to clear rq_cong on all outstanding rpc_rqsts when the
+the cwnd is reset. This is because an RPC/RDMA credit is good for
+one connection instance only.
 
-Fix this by applying the quirk when running on R-Car H2 ES1.x only.
-
-Reported-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Fixes: 5cca30ebe089be23 ("drm/rcar-du: Add LVDS_LANES quirk")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Fixes: 75891f502f5f ("SUNRPC: Support for congestion control ... ")
+Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+Signed-off-by: Anna Schumaker <Anna.Schumaker@Netapp.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/rcar-du/rcar_lvds.c | 28 +++++++++++++++++++++-------
- 1 file changed, 21 insertions(+), 7 deletions(-)
+ net/sunrpc/xprtrdma/transport.c |  3 +++
+ net/sunrpc/xprtrdma/verbs.c     | 22 ++++++++++++++++++++++
+ 2 files changed, 25 insertions(+)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-index 3fc7e6899cab..50c11a7f0467 100644
---- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-@@ -16,6 +16,7 @@
- #include <linux/of_graph.h>
- #include <linux/platform_device.h>
- #include <linux/slab.h>
-+#include <linux/sys_soc.h>
+diff --git a/net/sunrpc/xprtrdma/transport.c b/net/sunrpc/xprtrdma/transport.c
+index 160558b4135e..c67d465dc062 100644
+--- a/net/sunrpc/xprtrdma/transport.c
++++ b/net/sunrpc/xprtrdma/transport.c
+@@ -428,8 +428,11 @@ void xprt_rdma_close(struct rpc_xprt *xprt)
+ 	/* Prepare @xprt for the next connection by reinitializing
+ 	 * its credit grant to one (see RFC 8166, Section 3.3.3).
+ 	 */
++	spin_lock(&xprt->transport_lock);
+ 	r_xprt->rx_buf.rb_credits = 1;
++	xprt->cong = 0;
+ 	xprt->cwnd = RPC_CWNDSHIFT;
++	spin_unlock(&xprt->transport_lock);
  
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
-@@ -842,8 +843,23 @@ static int rcar_lvds_get_clocks(struct rcar_lvds *lvds)
- 	return 0;
+ out:
+ 	xprt->reestablish_timeout = 0;
+diff --git a/net/sunrpc/xprtrdma/verbs.c b/net/sunrpc/xprtrdma/verbs.c
+index 3a907537e2cf..f4b136504e96 100644
+--- a/net/sunrpc/xprtrdma/verbs.c
++++ b/net/sunrpc/xprtrdma/verbs.c
+@@ -75,6 +75,7 @@
+  * internal functions
+  */
+ static void rpcrdma_sendctx_put_locked(struct rpcrdma_sendctx *sc);
++static void rpcrdma_reqs_reset(struct rpcrdma_xprt *r_xprt);
+ static void rpcrdma_reps_destroy(struct rpcrdma_buffer *buf);
+ static void rpcrdma_mrs_create(struct rpcrdma_xprt *r_xprt);
+ static void rpcrdma_mrs_destroy(struct rpcrdma_buffer *buf);
+@@ -780,6 +781,7 @@ rpcrdma_ep_disconnect(struct rpcrdma_ep *ep, struct rpcrdma_ia *ia)
+ 	trace_xprtrdma_disconnect(r_xprt, rc);
+ 
+ 	rpcrdma_xprt_drain(r_xprt);
++	rpcrdma_reqs_reset(r_xprt);
  }
  
-+static const struct rcar_lvds_device_info rcar_lvds_r8a7790es1_info = {
-+	.gen = 2,
-+	.quirks = RCAR_LVDS_QUIRK_LANES,
-+	.pll_setup = rcar_lvds_pll_setup_gen2,
-+};
+ /* Fixed-size circular FIFO queue. This implementation is wait-free and
+@@ -1042,6 +1044,26 @@ struct rpcrdma_req *rpcrdma_req_create(struct rpcrdma_xprt *r_xprt, size_t size,
+ 	return NULL;
+ }
+ 
++/**
++ * rpcrdma_reqs_reset - Reset all reqs owned by a transport
++ * @r_xprt: controlling transport instance
++ *
++ * ASSUMPTION: the rb_allreqs list is stable for the duration,
++ * and thus can be walked without holding rb_lock. Eg. the
++ * caller is holding the transport send lock to exclude
++ * device removal or disconnection.
++ */
++static void rpcrdma_reqs_reset(struct rpcrdma_xprt *r_xprt)
++{
++	struct rpcrdma_buffer *buf = &r_xprt->rx_buf;
++	struct rpcrdma_req *req;
 +
-+static const struct soc_device_attribute lvds_quirk_matches[] = {
-+	{
-+		.soc_id = "r8a7790", .revision = "ES1.*",
-+		.data = &rcar_lvds_r8a7790es1_info,
-+	},
-+	{ /* sentinel */ }
-+};
++	list_for_each_entry(req, &buf->rb_allreqs, rl_all) {
++		/* Credits are valid only for one connection */
++		req->rl_slot.rq_cong = 0;
++	}
++}
 +
- static int rcar_lvds_probe(struct platform_device *pdev)
+ static struct rpcrdma_rep *rpcrdma_rep_create(struct rpcrdma_xprt *r_xprt,
+ 					      bool temp)
  {
-+	const struct soc_device_attribute *attr;
- 	struct rcar_lvds *lvds;
- 	struct resource *mem;
- 	int ret;
-@@ -857,6 +873,10 @@ static int rcar_lvds_probe(struct platform_device *pdev)
- 	lvds->dev = &pdev->dev;
- 	lvds->info = of_device_get_match_data(&pdev->dev);
- 
-+	attr = soc_device_match(lvds_quirk_matches);
-+	if (attr)
-+		lvds->info = attr->data;
-+
- 	ret = rcar_lvds_parse_dt(lvds);
- 	if (ret < 0)
- 		return ret;
-@@ -893,12 +913,6 @@ static const struct rcar_lvds_device_info rcar_lvds_gen2_info = {
- 	.pll_setup = rcar_lvds_pll_setup_gen2,
- };
- 
--static const struct rcar_lvds_device_info rcar_lvds_r8a7790_info = {
--	.gen = 2,
--	.quirks = RCAR_LVDS_QUIRK_LANES,
--	.pll_setup = rcar_lvds_pll_setup_gen2,
--};
--
- static const struct rcar_lvds_device_info rcar_lvds_gen3_info = {
- 	.gen = 3,
- 	.quirks = RCAR_LVDS_QUIRK_PWD,
-@@ -930,7 +944,7 @@ static const struct of_device_id rcar_lvds_of_table[] = {
- 	{ .compatible = "renesas,r8a7744-lvds", .data = &rcar_lvds_gen2_info },
- 	{ .compatible = "renesas,r8a774a1-lvds", .data = &rcar_lvds_gen3_info },
- 	{ .compatible = "renesas,r8a774c0-lvds", .data = &rcar_lvds_r8a77990_info },
--	{ .compatible = "renesas,r8a7790-lvds", .data = &rcar_lvds_r8a7790_info },
-+	{ .compatible = "renesas,r8a7790-lvds", .data = &rcar_lvds_gen2_info },
- 	{ .compatible = "renesas,r8a7791-lvds", .data = &rcar_lvds_gen2_info },
- 	{ .compatible = "renesas,r8a7793-lvds", .data = &rcar_lvds_gen2_info },
- 	{ .compatible = "renesas,r8a7795-lvds", .data = &rcar_lvds_gen3_info },
 -- 
 2.20.1
 
