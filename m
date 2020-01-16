@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C82313E3F8
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 18:05:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EB4C13E3FA
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 18:05:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25B866EE0D;
-	Thu, 16 Jan 2020 17:05:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 758146EE0B;
+	Thu, 16 Jan 2020 17:05:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32E646EE0B
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 17:05:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58B546EE0B
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 17:05:27 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id BA97F20728;
- Thu, 16 Jan 2020 17:05:19 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 85F3D2087E;
+ Thu, 16 Jan 2020 17:05:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1579194321;
- bh=w6wJVyJd/kuPH8qGD/8P6BTNCcpOsgYiYAKAiUexPA0=;
+ s=default; t=1579194327;
+ bh=2rpy/MMMrn6+0nPuWAz83Vpo/mL3rkWiZmO0V/DJzLU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SLBe0WM5Jn5GbB0wqBenH8ShF2pXCwow6GwqcxjeGvHJVHZ3BuZw1dUqiecnj0mfv
- 9S+GECfWMr/lezj8SIqxF7A5wTFmTDR0pH7rLVzBUR4UhkUMv07dskrgn2ep5dMseX
- Y0Ii4CjpQ8zGCfZteNLvp4upWlYK3xnECigzwN+w=
+ b=kG9O+YWIRmv+3gx+YVhUqsd/GVpBSZhg+RDoL1dglH9+OafK61gBiTaKM+lqHwQQA
+ ROhzvS1/zRwDyCi+/Z5kTgD4V81qSJpw3twIqy915XGoYBUduJIvRvzHgIkZuJqLtT
+ LPp79en7GBiU1ewtZYavS6to/ih6lcTVQPGhr73w=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 270/671] spi: tegra114: configure dma burst size
- to fifo trig level
-Date: Thu, 16 Jan 2020 11:58:28 -0500
-Message-Id: <20200116170509.12787-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 275/671] drm/fb-helper: generic: Call
+ drm_client_add() after setup is done
+Date: Thu, 16 Jan 2020 11:58:33 -0500
+Message-Id: <20200116170509.12787-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116170509.12787-1-sashal@kernel.org>
 References: <20200116170509.12787-1-sashal@kernel.org>
@@ -50,146 +50,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-spi@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Mark Brown <broonie@kernel.org>, Sowjanya Komatineni <skomatineni@nvidia.com>,
- linux-tegra@vger.kernel.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sasha Levin <sashal@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sowjanya Komatineni <skomatineni@nvidia.com>
-
-[ Upstream commit f4ce428c41fb22e3ed55496dded94df44cb920fa ]
-
-Fixes: Configure DMA burst size to be same as SPI TX/RX trigger levels
-to avoid mismatch.
-
-SPI FIFO trigger levels are calculated based on the transfer length.
-So this patch moves DMA slave configuration to happen before start
-of DMAs.
-
-Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
-Signed-off-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/spi/spi-tegra114.c | 52 ++++++++++++++++++++++----------------
- 1 file changed, 30 insertions(+), 22 deletions(-)
-
-diff --git a/drivers/spi/spi-tegra114.c b/drivers/spi/spi-tegra114.c
-index 5114b8008472..09cfae3abce2 100644
---- a/drivers/spi/spi-tegra114.c
-+++ b/drivers/spi/spi-tegra114.c
-@@ -529,6 +529,8 @@ static int tegra_spi_start_dma_based_transfer(
- 	u32 val;
- 	unsigned int len;
- 	int ret = 0;
-+	u8 dma_burst;
-+	struct dma_slave_config dma_sconfig = {0};
- 
- 	val = SPI_DMA_BLK_SET(tspi->curr_dma_words - 1);
- 	tegra_spi_writel(tspi, val, SPI_DMA_BLK);
-@@ -540,12 +542,16 @@ static int tegra_spi_start_dma_based_transfer(
- 		len = tspi->curr_dma_words * 4;
- 
- 	/* Set attention level based on length of transfer */
--	if (len & 0xF)
-+	if (len & 0xF) {
- 		val |= SPI_TX_TRIG_1 | SPI_RX_TRIG_1;
--	else if (((len) >> 4) & 0x1)
-+		dma_burst = 1;
-+	} else if (((len) >> 4) & 0x1) {
- 		val |= SPI_TX_TRIG_4 | SPI_RX_TRIG_4;
--	else
-+		dma_burst = 4;
-+	} else {
- 		val |= SPI_TX_TRIG_8 | SPI_RX_TRIG_8;
-+		dma_burst = 8;
-+	}
- 
- 	if (tspi->cur_direction & DATA_DIR_TX)
- 		val |= SPI_IE_TX;
-@@ -556,7 +562,18 @@ static int tegra_spi_start_dma_based_transfer(
- 	tegra_spi_writel(tspi, val, SPI_DMA_CTL);
- 	tspi->dma_control_reg = val;
- 
-+	dma_sconfig.device_fc = true;
- 	if (tspi->cur_direction & DATA_DIR_TX) {
-+		dma_sconfig.dst_addr = tspi->phys + SPI_TX_FIFO;
-+		dma_sconfig.dst_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
-+		dma_sconfig.dst_maxburst = dma_burst;
-+		ret = dmaengine_slave_config(tspi->tx_dma_chan, &dma_sconfig);
-+		if (ret < 0) {
-+			dev_err(tspi->dev,
-+				"DMA slave config failed: %d\n", ret);
-+			return ret;
-+		}
-+
- 		tegra_spi_copy_client_txbuf_to_spi_txbuf(tspi, t);
- 		ret = tegra_spi_start_tx_dma(tspi, len);
- 		if (ret < 0) {
-@@ -567,6 +584,16 @@ static int tegra_spi_start_dma_based_transfer(
- 	}
- 
- 	if (tspi->cur_direction & DATA_DIR_RX) {
-+		dma_sconfig.src_addr = tspi->phys + SPI_RX_FIFO;
-+		dma_sconfig.src_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
-+		dma_sconfig.src_maxburst = dma_burst;
-+		ret = dmaengine_slave_config(tspi->rx_dma_chan, &dma_sconfig);
-+		if (ret < 0) {
-+			dev_err(tspi->dev,
-+				"DMA slave config failed: %d\n", ret);
-+			return ret;
-+		}
-+
- 		/* Make the dma buffer to read by dma */
- 		dma_sync_single_for_device(tspi->dev, tspi->rx_dma_phys,
- 				tspi->dma_buf_size, DMA_FROM_DEVICE);
-@@ -626,7 +653,6 @@ static int tegra_spi_init_dma_param(struct tegra_spi_data *tspi,
- 	u32 *dma_buf;
- 	dma_addr_t dma_phys;
- 	int ret;
--	struct dma_slave_config dma_sconfig;
- 
- 	dma_chan = dma_request_slave_channel_reason(tspi->dev,
- 					dma_to_memory ? "rx" : "tx");
-@@ -646,19 +672,6 @@ static int tegra_spi_init_dma_param(struct tegra_spi_data *tspi,
- 		return -ENOMEM;
- 	}
- 
--	if (dma_to_memory) {
--		dma_sconfig.src_addr = tspi->phys + SPI_RX_FIFO;
--		dma_sconfig.src_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
--		dma_sconfig.src_maxburst = 0;
--	} else {
--		dma_sconfig.dst_addr = tspi->phys + SPI_TX_FIFO;
--		dma_sconfig.dst_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
--		dma_sconfig.dst_maxburst = 0;
--	}
--
--	ret = dmaengine_slave_config(dma_chan, &dma_sconfig);
--	if (ret)
--		goto scrub;
- 	if (dma_to_memory) {
- 		tspi->rx_dma_chan = dma_chan;
- 		tspi->rx_dma_buf = dma_buf;
-@@ -669,11 +682,6 @@ static int tegra_spi_init_dma_param(struct tegra_spi_data *tspi,
- 		tspi->tx_dma_phys = dma_phys;
- 	}
- 	return 0;
--
--scrub:
--	dma_free_coherent(tspi->dev, tspi->dma_buf_size, dma_buf, dma_phys);
--	dma_release_channel(dma_chan);
--	return ret;
- }
- 
- static void tegra_spi_deinit_dma_param(struct tegra_spi_data *tspi,
--- 
-2.20.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogTm9yYWxmIFRyw7hubmVzIDxub3JhbGZAdHJvbm5lcy5vcmc+CgpbIFVwc3RyZWFtIGNv
+bW1pdCA2ZTNmMTdlZTczZjdlM2MyZWYwZTJjOGZkODYyNGIyZWNlOGVmMmM5IF0KCkhvdHBsdWcg
+Y2FuIGhhcHBlbiB3aGlsZSBkcm1fZmJkZXZfZ2VuZXJpY19zZXR1cCgpIGlzIHJ1bm5pbmcgc28g
+bW92ZQpkcm1fY2xpZW50X2FkZCgpIGNhbGwgYWZ0ZXIgc2V0dXAgaXMgZG9uZSB0byBhdm9pZApk
+cm1fZmJkZXZfY2xpZW50X2hvdHBsdWcoKSBydW5uaW5nIGluIHR3byB0aHJlYWRzIGF0IHRoZSBz
+YW1lIHRpbWUuCgpGaXhlczogOTA2MGQ3ZjQ5Mzc2ICgiZHJtL2ZiLWhlbHBlcjogRmluaXNoIHRo
+ZSBnZW5lcmljIGZiZGV2IGVtdWxhdGlvbiIpCkNjOiBzdGFibGVAdmdlci5rZXJuZWwub3JnClJl
+cG9ydGVkLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgpTaWduZWQt
+b2ZmLWJ5OiBOb3JhbGYgVHLDuG5uZXMgPG5vcmFsZkB0cm9ubmVzLm9yZz4KUmV2aWV3ZWQtYnk6
+IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+Ckxpbms6IGh0dHBzOi8vcGF0
+Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9wYXRjaC9tc2dpZC8yMDE5MDQwMTE0MTM1OC4yNTMwOS0x
+LW5vcmFsZkB0cm9ubmVzLm9yZwpTaWduZWQtb2ZmLWJ5OiBTYXNoYSBMZXZpbiA8c2FzaGFsQGtl
+cm5lbC5vcmc+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2RybV9mYl9oZWxwZXIuYyB8IDQgKystLQog
+MSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1n
+aXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jIGIvZHJpdmVycy9ncHUvZHJtL2Ry
+bV9mYl9oZWxwZXIuYwppbmRleCAxYzg3YWQ2NjY3ZTcuLmRhOWEzODFkNmI1NyAxMDA2NDQKLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL2RybV9mYl9oZWxwZXIuYworKysgYi9kcml2ZXJzL2dwdS9kcm0v
+ZHJtX2ZiX2hlbHBlci5jCkBAIC0zMjU3LDggKzMyNTcsNiBAQCBpbnQgZHJtX2ZiZGV2X2dlbmVy
+aWNfc2V0dXAoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdW5zaWduZWQgaW50IHByZWZlcnJlZF9i
+cHApCiAJCXJldHVybiByZXQ7CiAJfQogCi0JZHJtX2NsaWVudF9hZGQoJmZiX2hlbHBlci0+Y2xp
+ZW50KTsKLQogCWlmICghcHJlZmVycmVkX2JwcCkKIAkJcHJlZmVycmVkX2JwcCA9IGRldi0+bW9k
+ZV9jb25maWcucHJlZmVycmVkX2RlcHRoOwogCWlmICghcHJlZmVycmVkX2JwcCkKQEAgLTMyNjcs
+NiArMzI2NSw4IEBAIGludCBkcm1fZmJkZXZfZ2VuZXJpY19zZXR1cChzdHJ1Y3QgZHJtX2Rldmlj
+ZSAqZGV2LCB1bnNpZ25lZCBpbnQgcHJlZmVycmVkX2JwcCkKIAogCWRybV9mYmRldl9jbGllbnRf
+aG90cGx1ZygmZmJfaGVscGVyLT5jbGllbnQpOwogCisJZHJtX2NsaWVudF9hZGQoJmZiX2hlbHBl
+ci0+Y2xpZW50KTsKKwogCXJldHVybiAwOwogfQogRVhQT1JUX1NZTUJPTChkcm1fZmJkZXZfZ2Vu
+ZXJpY19zZXR1cCk7Ci0tIAoyLjIwLjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2RyaS1kZXZlbAo=
