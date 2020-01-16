@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DF3013E277
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 17:56:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FBE013E2A5
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 17:57:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45A286EDFE;
-	Thu, 16 Jan 2020 16:56:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 906016EDFF;
+	Thu, 16 Jan 2020 16:57:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F2D36EDFE
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 16:56:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A44FE6EDFF
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 16:57:30 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 89CB821D56;
- Thu, 16 Jan 2020 16:56:12 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id CA39521582;
+ Thu, 16 Jan 2020 16:57:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1579193773;
- bh=eky8Oyc/mlnYyqa/Tz56oCTMeM3MztfP4EsUzaVbnpU=;
+ s=default; t=1579193850;
+ bh=loheZiKuFd82TFuV3kzeUih75ENh/ikI0zT5Mo6oE5k=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=cE2qgul8QaG2PQn+2SbeZqifJX3E7XyTSFAmEy89wEKqBmZl1gxYkQrsSr24NV6TJ
- 03IA5ft1ltEmL6ArVV1kOmzQkGYNr640wd5NJe+52a3AyMPfQSlCT2QUJZxYemXkVF
- clLjh2P1foDTlhoaisLcemoxo4F/u54c0pgUGtZE=
+ b=E0DzWE/hc1xl00uHZ04zFYvwWHTa5foSQHvRNc9gklXLaUWDoI1Bu2bwYy2djQikw
+ YHakyJxl2jMHl6WqRhisWqaesXv97e6Tmrc5dIgp++JTgMHPETMch8gNpWFvscA8lz
+ Dbh8576q0m1h/MmDvF6fom8IAUmm3INhvSI0JpjE=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 056/671] drm/dp_mst: Skip validating ports during
- destruction, just ref
-Date: Thu, 16 Jan 2020 11:44:47 -0500
-Message-Id: <20200116165502.8838-56-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 102/671] drm: Fix error handling in
+ drm_legacy_addctx
+Date: Thu, 16 Jan 2020 11:45:33 -0500
+Message-Id: <20200116165502.8838-102-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116165502.8838-1-sashal@kernel.org>
 References: <20200116165502.8838-1-sashal@kernel.org>
@@ -50,96 +50,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- Jerry Zuo <Jerry.Zuo@amd.com>, Sean Paul <seanpaul@chromium.org>,
- Dave Airlie <airlied@redhat.com>
+Cc: Sasha Levin <sashal@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ YueHaibing <yuehaibing@huawei.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lyude Paul <lyude@redhat.com>
+From: YueHaibing <yuehaibing@huawei.com>
 
-[ Upstream commit c54c7374ff44de5e609506aca7c0deae4703b6d1 ]
+[ Upstream commit c39191feed4540fed98badeb484833dcf659bb96 ]
 
-Jerry Zuo pointed out a rather obscure hotplugging issue that it seems I
-accidentally introduced into DRM two years ago.
+'ctx->handle' is unsigned, it never less than zero.
+This patch use int 'tmp_handle' to handle the err condition.
 
-Pretend we have a topology like this:
-
-|- DP-1: mst_primary
-   |- DP-4: active display
-   |- DP-5: disconnected
-   |- DP-6: active hub
-      |- DP-7: active display
-      |- DP-8: disconnected
-      |- DP-9: disconnected
-
-If we unplug DP-6, the topology starting at DP-7 will be destroyed but
-it's payloads will live on in DP-1's VCPI allocations and thus require
-removal. However, this removal currently fails because
-drm_dp_update_payload_part1() will (rightly so) try to validate the port
-before accessing it, fail then abort. If we keep going, eventually we
-run the MST hub out of bandwidth and all new allocations will start to
-fail (or in my case; all new displays just start flickering a ton).
-
-We could just teach drm_dp_update_payload_part1() not to drop the port
-ref in this case, but then we also need to teach
-drm_dp_destroy_payload_step1() to do the same thing, then hope no one
-ever adds anything to the that requires a validated port reference in
-drm_dp_destroy_connector_work(). Kind of sketchy.
-
-So let's go with a more clever solution: any port that
-drm_dp_destroy_connector_work() interacts with is guaranteed to still
-exist in memory until we say so. While said port might not be valid we
-don't really care: that's the whole reason we're destroying it in the
-first place! So, teach drm_dp_get_validated_port_ref() to use the all
-mighty current_work() function to avoid attempting to validate ports
-from the context of mgr->destroy_connector_work. I can't see any
-situation where this wouldn't be safe, and this avoids having to play
-whack-a-mole in the future of trying to work around port validation.
-
-Signed-off-by: Lyude Paul <lyude@redhat.com>
-Fixes: 263efde31f97 ("drm/dp/mst: Get validated port ref in drm_dp_update_payload_part1()")
-Reported-by: Jerry Zuo <Jerry.Zuo@amd.com>
-Cc: Jerry Zuo <Jerry.Zuo@amd.com>
-Cc: Harry Wentland <Harry.Wentland@amd.com>
-Cc: <stable@vger.kernel.org> # v4.6+
-Reviewed-by: Dave Airlie <airlied@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20181113224613.28809-1-lyude@redhat.com
-Signed-off-by: Sean Paul <seanpaul@chromium.org>
+Fixes: 62968144e673 ("drm: convert drm context code to use Linux idr")
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Link: https://patchwork.freedesktop.org/patch/msgid/20181229024907.12852-1-yuehaibing@huawei.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_dp_mst_topology.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_context.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-index 4d7715845306..58fe3945494c 100644
---- a/drivers/gpu/drm/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -1022,9 +1022,20 @@ static struct drm_dp_mst_port *drm_dp_mst_get_port_ref_locked(struct drm_dp_mst_
- static struct drm_dp_mst_port *drm_dp_get_validated_port_ref(struct drm_dp_mst_topology_mgr *mgr, struct drm_dp_mst_port *port)
+diff --git a/drivers/gpu/drm/drm_context.c b/drivers/gpu/drm/drm_context.c
+index f973d287696a..da5abf24f59f 100644
+--- a/drivers/gpu/drm/drm_context.c
++++ b/drivers/gpu/drm/drm_context.c
+@@ -361,23 +361,26 @@ int drm_legacy_addctx(struct drm_device *dev, void *data,
  {
- 	struct drm_dp_mst_port *rport = NULL;
+ 	struct drm_ctx_list *ctx_entry;
+ 	struct drm_ctx *ctx = data;
++	int tmp_handle;
+ 
+ 	if (!drm_core_check_feature(dev, DRIVER_KMS_LEGACY_CONTEXT) &&
+ 	    !drm_core_check_feature(dev, DRIVER_LEGACY))
+ 		return -EINVAL;
+ 
+-	ctx->handle = drm_legacy_ctxbitmap_next(dev);
+-	if (ctx->handle == DRM_KERNEL_CONTEXT) {
++	tmp_handle = drm_legacy_ctxbitmap_next(dev);
++	if (tmp_handle == DRM_KERNEL_CONTEXT) {
+ 		/* Skip kernel's context and get a new one. */
+-		ctx->handle = drm_legacy_ctxbitmap_next(dev);
++		tmp_handle = drm_legacy_ctxbitmap_next(dev);
+ 	}
+-	DRM_DEBUG("%d\n", ctx->handle);
+-	if (ctx->handle < 0) {
++	DRM_DEBUG("%d\n", tmp_handle);
++	if (tmp_handle < 0) {
+ 		DRM_DEBUG("Not enough free contexts.\n");
+ 		/* Should this return -EBUSY instead? */
+-		return -ENOMEM;
++		return tmp_handle;
+ 	}
+ 
++	ctx->handle = tmp_handle;
 +
- 	mutex_lock(&mgr->lock);
--	if (mgr->mst_primary)
--		rport = drm_dp_mst_get_port_ref_locked(mgr->mst_primary, port);
-+	/*
-+	 * Port may or may not be 'valid' but we don't care about that when
-+	 * destroying the port and we are guaranteed that the port pointer
-+	 * will be valid until we've finished
-+	 */
-+	if (current_work() == &mgr->destroy_connector_work) {
-+		kref_get(&port->kref);
-+		rport = port;
-+	} else if (mgr->mst_primary) {
-+		rport = drm_dp_mst_get_port_ref_locked(mgr->mst_primary,
-+						       port);
-+	}
- 	mutex_unlock(&mgr->lock);
- 	return rport;
- }
+ 	ctx_entry = kmalloc(sizeof(*ctx_entry), GFP_KERNEL);
+ 	if (!ctx_entry) {
+ 		DRM_DEBUG("out of memory\n");
 -- 
 2.20.1
 
