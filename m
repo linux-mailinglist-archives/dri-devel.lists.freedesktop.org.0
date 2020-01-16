@@ -1,51 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AF1613FB0C
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 22:06:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98CB513FB2A
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 22:16:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A11E6E291;
-	Thu, 16 Jan 2020 21:06:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 037B26E2A3;
+	Thu, 16 Jan 2020 21:16:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17DCF6E291
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 21:06:22 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00GL6IUU088314;
- Thu, 16 Jan 2020 15:06:18 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1579208778;
- bh=vYA+wvvgu2+aVUd78cyvNM3+t7Cx6lfmscrZXxzmqic=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=HgJQIB6vAjWsATme2AAO6LWTC+t2gUwqcbJdA1zC2buTHZTrh/J+g1NaU0Yf4Hh5t
- ENolx5RxS8WwBbaxfAeq8ygOFKC+BhSpaQfLSB7hHLUR7ar33bsXvG3HJ9kU8gcW4I
- EgwradSgAzVerejY6ljsc3LwlBxxZUr7C6DzClEc=
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00GL6ISA050989;
- Thu, 16 Jan 2020 15:06:18 -0600
-Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Thu, 16
- Jan 2020 15:06:17 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Thu, 16 Jan 2020 15:06:16 -0600
-Received: from jadmar.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00GL60ie107315;
- Thu, 16 Jan 2020 15:06:14 -0600
-From: Jyri Sarha <jsarha@ti.com>
-To: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>
-Subject: [PATCH v7 5/5] MAINTAINERS: add entry for tidss
-Date: Thu, 16 Jan 2020 23:06:00 +0200
-Message-ID: <a8d5b5dfad831b780d6d2639bd291089c4c5b0a9.1579202260.git.jsarha@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1579202260.git.jsarha@ti.com>
-References: <cover.1579202260.git.jsarha@ti.com>
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2F5D6E2A3
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 21:16:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579209404;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=XYpBIn2xi7ER9BDGUkOZA9lOy9JYb1E+lxLSXL5KsV0=;
+ b=eQNp5/MxMeVDUeh4PkZsLXJsQ7TnSNyj0KwqowD2wNTYzYksJ91edREQJbtsPtcx7ITa9d
+ GbknWVIDKBcSBvWZwVK6P0OMMVJCSB36YDq1P3wLZxi4m3Mw+1nY6D9uCgyWrDwS/C/5mQ
+ fiXe6gi7Ig3sI5XT9wtiBlmBCm9TmK4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-353-8SE2qs9WOcOQW2T5IJLV-A-1; Thu, 16 Jan 2020 16:16:41 -0500
+X-MC-Unique: 8SE2qs9WOcOQW2T5IJLV-A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E737184CACF;
+ Thu, 16 Jan 2020 21:16:37 +0000 (UTC)
+Received: from malachite.bss.redhat.com (dhcp-10-20-1-90.bss.redhat.com
+ [10.20.1.90])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5142D60C63;
+ Thu, 16 Jan 2020 21:16:35 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v3 0/5] drm/i915: eDP DPCD aux backlight fixes
+Date: Thu, 16 Jan 2020 16:16:07 -0500
+Message-Id: <20200116211623.53799-1-lyude@redhat.com>
 MIME-Version: 1.0
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,60 +55,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: yamonkar@cadence.com, praneeth@ti.com, sjakhade@cadence.com,
- robh+dt@kernel.org, peter.ujfalusi@ti.com, tomi.valkeinen@ti.com,
- laurent.pinchart@ideasonboard.com, subhajit_paul@ti.com, sam@ravnborg.org
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Lee Shawn C <shawn.c.lee@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add entry for tidss DRM driver.
+I recently got a ThinkPad X1 Extreme 2nd Generation for fixing some
+issues on, and noticed that out of the box the backlight doesn't work.
+Along the way of fixing that, I found a few issues with how i915 handles
+DPCD AUX backlight control and fixed them. Now I've got working
+backlight controls, hooray!
 
-Version history:
+Note that this patch series enables DPCD backlight controls by default.
+This time however, we ignore the backlight type advertised in the VBT
+(unless it's a custom backlight interface that doesn't use the standard
+VESA interface over AUX) and just trust the DPCD.
 
-v2: no change
+Lyude Paul (5):
+  drm/i915: Fix eDP DPCD aux max backlight calculations
+  drm/i915: Assume 100% brightness when not in DPCD control mode
+  drm/i915: Fix DPCD register order in intel_dp_aux_enable_backlight()
+  drm/i915: Don't use VBT for detecting DPCD backlight controls
+  drm/i915: Auto detect DPCD backlight support by default
 
-v3: - Move tidss entry after omapdrm
-    - Add "T:     git git://anongit.freedesktop.org/drm/drm-misc"
+ .../drm/i915/display/intel_display_types.h    |   3 +
+ .../drm/i915/display/intel_dp_aux_backlight.c | 175 ++++++++++++------
+ drivers/gpu/drm/i915/i915_params.c            |   2 +-
+ drivers/gpu/drm/i915/i915_params.h            |   2 +-
+ 4 files changed, 126 insertions(+), 56 deletions(-)
 
-v4: no change
-
-v5: no change
-
-v6: no change
-
-v7: no change
-
-Signed-off-by: Jyri Sarha <jsarha@ti.com>
----
- MAINTAINERS | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index aa9add598b7d..d8f65dc1dde8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5630,6 +5630,17 @@ S:	Maintained
- F:	drivers/gpu/drm/omapdrm/
- F:	Documentation/devicetree/bindings/display/ti/
- 
-+DRM DRIVERS FOR TI KEYSTONE
-+M:	Jyri Sarha <jsarha@ti.com>
-+M:	Tomi Valkeinen <tomi.valkeinen@ti.com>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Maintained
-+F:	drivers/gpu/drm/tidss/
-+F:	Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
-+F:	Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-+F:	Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
-+T:	git git://anongit.freedesktop.org/drm/drm-misc
-+
- DRM DRIVERS FOR V3D
- M:	Eric Anholt <eric@anholt.net>
- S:	Supported
 -- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki. Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+2.24.1
 
 _______________________________________________
 dri-devel mailing list
