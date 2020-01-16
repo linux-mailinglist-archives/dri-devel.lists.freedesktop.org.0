@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D18F413E250
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 17:55:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0D1213E253
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 17:55:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCA7A6EDF6;
-	Thu, 16 Jan 2020 16:55:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5BB26EDF8;
+	Thu, 16 Jan 2020 16:55:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 635846EDF6;
- Thu, 16 Jan 2020 16:55:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 792876EDF8
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 16:55:52 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 71BF22176D;
- Thu, 16 Jan 2020 16:55:34 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6AA70205F4;
+ Thu, 16 Jan 2020 16:55:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1579193735;
- bh=ivXiS/0NletdSdpGqEZ6JWiA8+PWPDz+IRO1QapDrGc=;
+ s=default; t=1579193752;
+ bh=iTZ3/mJbUdvgbPjh50KeuMkSDpA6gvzu10MlVUhBkFU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=1v6UBU29SX/oyp1Fn+SX21KPD4UG5aDrMwXExm8SUOAPMe8TVlHP/Am7W8CPw3fcm
- 5r+7IxKRPeniSC7aNzNhiovOZAWlwtPV4ZabfkZcYXsS5eJwSF2Jp71Gvs1c3PUe03
- 1Z31PiCrjCLCrv/nU1xlN+I961KHAWeT8oZ30zrE=
+ b=fY9OI06C20zNRd6kpxMKAzgl4ydmIe71Hd05zn80cwe1PczRrN03cFV7bSu8uFlz/
+ T1SIfPnPYyglFFLxuY47Hq4E3LP9A4eOOPOMrvZRu4102RcMu2rtL0T9lGfrd2Hixl
+ npwFyfOVagYsYciLNZjR/ciXRXDnWZaiBVxFEpLY=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 027/671] drm/msm: fix unsigned comparison with
- less than zero
-Date: Thu, 16 Jan 2020 11:44:18 -0500
-Message-Id: <20200116165502.8838-27-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 041/671] drm/sun4i: hdmi: Fix double flag
+ assignation
+Date: Thu, 16 Jan 2020 11:44:32 -0500
+Message-Id: <20200116165502.8838-41-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116165502.8838-1-sashal@kernel.org>
 References: <20200116165502.8838-1-sashal@kernel.org>
@@ -50,47 +50,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Colin Ian King <colin.king@canonical.com>,
- freedreno@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>, Maxime Ripard <maxime.ripard@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ Giulio Benetti <giulio.benetti@micronovasrl.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Colin Ian King <colin.king@canonical.com>
+From: Maxime Ripard <maxime.ripard@bootlin.com>
 
-[ Upstream commit dfdb3be43ef1195c491e6c3760b922acb52e3575 ]
+[ Upstream commit 1e0ff648940e603cab6c52cf3723017d30d78f30 ]
 
-The return from the call to _mixer_stages can be a negative error
-code however this is being assigned to an unsigned variable 'stages'
-hence the check is always false. Fix this by making 'stages' an
-int.
+The is_double flag is a boolean currently assigned to the value of the d
+variable, that is either 1 or 2. It means that this is_double variable is
+always set to true, even though the initial intent was to have it set to
+true when d is 2.
 
-Detected by Coccinelle ("Unsigned expression compared with zero:
-stages < 0")
+Fix this.
 
-Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
-Signed-off-by: Rob Clark <robdclark@gmail.com>
+Fixes: 9c5681011a0c ("drm/sun4i: Add HDMI support")
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Maxime Ripard <maxime.ripard@bootlin.com>
+Reviewed-by: Giulio Benetti <giulio.benetti@micronovasrl.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20181021163446.29135-2-maxime.ripard@bootlin.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 2 +-
+ drivers/gpu/drm/sun4i/sun4i_hdmi_tmds_clk.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-index 06be7cf7ce50..79bafea66354 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-@@ -310,7 +310,7 @@ static void dpu_hw_ctl_setup_blendstage(struct dpu_hw_ctl *ctx,
- 	u32 mixercfg = 0, mixercfg_ext = 0, mix, ext;
- 	u32 mixercfg_ext2 = 0, mixercfg_ext3 = 0;
- 	int i, j;
--	u8 stages;
-+	int stages;
- 	int pipes_per_stage;
- 
- 	stages = _mixer_stages(ctx->mixer_hw_caps, ctx->mixer_count, lm);
+diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_tmds_clk.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_tmds_clk.c
+index 3ecffa52c814..a74adec6c5dc 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_hdmi_tmds_clk.c
++++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_tmds_clk.c
+@@ -52,7 +52,7 @@ static unsigned long sun4i_tmds_calc_divider(unsigned long rate,
+ 			    (rate - tmp_rate) < (rate - best_rate)) {
+ 				best_rate = tmp_rate;
+ 				best_m = m;
+-				is_double = d;
++				is_double = (d == 2) ? true : false;
+ 			}
+ 		}
+ 	}
 -- 
 2.20.1
 
