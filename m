@@ -2,60 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FC6313FAA8
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 21:33:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B28C113FB04
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2020 22:06:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E7476E265;
-	Thu, 16 Jan 2020 20:33:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5052E6E28A;
+	Thu, 16 Jan 2020 21:06:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
- [216.228.121.143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6CEA6E265
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 20:33:20 +0000 (UTC)
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5e20c8570000>; Thu, 16 Jan 2020 12:32:23 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate102.nvidia.com (PGP Universal service);
- Thu, 16 Jan 2020 12:33:20 -0800
-X-PGP-Universal: processed;
- by hqpgpgate102.nvidia.com on Thu, 16 Jan 2020 12:33:20 -0800
-Received: from [10.2.160.8] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 16 Jan
- 2020 20:33:19 +0000
-Subject: Re: [PATCH v12 04/22] mm: devmap: refactor 1-based refcounting for
- ZONE_DEVICE pages
-To: Christoph Hellwig <hch@infradead.org>
-References: <20200107224558.2362728-1-jhubbard@nvidia.com>
- <20200107224558.2362728-5-jhubbard@nvidia.com>
- <20200115152306.GA19546@infradead.org>
- <4707f191-86f8-db4a-c3de-0a84b415b658@nvidia.com>
- <20200116093712.GA11011@infradead.org>
-From: John Hubbard <jhubbard@nvidia.com>
-X-Nvconfidentiality: public
-Message-ID: <ccf2723a-dcce-57d3-f63d-ee96dbf6653a@nvidia.com>
-Date: Thu, 16 Jan 2020 12:30:26 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33F6C6E28A
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2020 21:06:10 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00GL64LH086897;
+ Thu, 16 Jan 2020 15:06:04 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1579208764;
+ bh=Kihek3GVeQ/3lGAf1d3JBSrQsZoXyUUc67GHwTaD20M=;
+ h=From:To:CC:Subject:Date;
+ b=GNYeC7l9I4t6KkxfMT+qpowjDvwyW7REeES+t4vyt2ZT2ApJYWoELIsenYlcdOBQU
+ IlyTgvyXewuqAYP8Keewip/EY2OIfW8x0pOpDV6fVKZnmjCygOqbKAhfD/CKXrBOFN
+ W7OcXs9Vowr14ArzNz1K/CY6HxMgYy1yqhLPb+U8=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00GL64A1095172
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 16 Jan 2020 15:06:04 -0600
+Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Thu, 16
+ Jan 2020 15:06:03 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Thu, 16 Jan 2020 15:06:03 -0600
+Received: from jadmar.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00GL60iZ107315;
+ Thu, 16 Jan 2020 15:06:00 -0600
+From: Jyri Sarha <jsarha@ti.com>
+To: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>
+Subject: [PATCH v7 0/5] drm/tidss: New driver for TI Keystone platform Display
+ SubSystem
+Date: Thu, 16 Jan 2020 23:05:55 +0200
+Message-ID: <cover.1579202260.git.jsarha@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <20200116093712.GA11011@infradead.org>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1579206743; bh=EQpRDmAadXrYPrWI0G8MSYR7uqZas3jC8zZTGB2Hfnk=;
- h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
- Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
- X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
- Content-Transfer-Encoding;
- b=B3a+nJMY1e/PvYKAT7LBGlwa/kugx+AfoqbMvj/EyT3hxrpeJ7sQMsWMdJQlxzKho
- jy2YJ47pzKLca9QqrMI2qpXvMA46wU1dfzb3yzBY8NTIGraOJl+bg0Pq/59xdUBLNS
- /bnG7fSxkcGgsGNzlzCgQWOOUXWSDOgkuZxsp+8IlbnfinKUcliv6MqWXSulEsNyXv
- EIh2GmNEud9hkIp72ZuHMkWrhgwhMDnw4xjgxdJ2+W90cT6UoDxxzOl8PDPrjhQ9p0
- IklTRq4Mlrg+UVduRNOxi7jCeWI/98S5JYFUwVk8qaaNzULyUj0q2zlHy86g76FXcR
- ZxTytDejWJDcw==
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,73 +58,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Dave Chinner <david@fromorbit.com>,
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
- linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
- linux-kselftest@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
- Christoph Hellwig <hch@lst.de>, Jonathan Corbet <corbet@lwn.net>,
- linux-rdma@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
- Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@suse.cz>,
- =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
- linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- linux-block@vger.kernel.org,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Al Viro <viro@zeniv.linux.org.uk>,
- "Kirill A . Shutemov" <kirill@shutemov.name>,
- Dan Williams <dan.j.williams@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, bpf@vger.kernel.org,
- Magnus Karlsson <magnus.karlsson@intel.com>, Jens Axboe <axboe@kernel.dk>,
- netdev@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>,
- Mike Kravetz <mike.kravetz@oracle.com>
+Cc: yamonkar@cadence.com, praneeth@ti.com, sjakhade@cadence.com,
+ robh+dt@kernel.org, peter.ujfalusi@ti.com, tomi.valkeinen@ti.com,
+ laurent.pinchart@ideasonboard.com, subhajit_paul@ti.com, sam@ravnborg.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/16/20 1:37 AM, Christoph Hellwig wrote:
-> On Wed, Jan 15, 2020 at 01:19:41PM -0800, John Hubbard wrote:
->> On 1/15/20 7:23 AM, Christoph Hellwig wrote:
->> ...
->>>
->>> I'm really not sold on this scheme.  Note that I think it is
->>> particularly bad, but it also doesn't seem any better than what
->>> we had before, and it introduced quite a bit more code.
->>>
->>
->> Hi Christoph,
->>
->> All by itself, yes. But the very next patch (which needs a little
->> rework for other reasons, so not included here) needs to reuse some of
->> these functions within __unpin_devmap_managed_user_page():
-> 
-> Well, then combine it with the series that actually does the change.
+Changes since v6:
+- Rebase on top of drm-misc-next-2020-01-10
+- Fix all checkpatch.pl -q --emacs --strict --show-types issues
+  - all issues but these have been fixed:
+    - over 80 char lines in scale coefficients found in tidss_scale_coefs.c
+    - Co-developed-by and Signed-off-by: name/email do not match
+    - added, moved or deleted file(s), does MAINTAINERS need updating
+- Add Acked-by: Sam Ravnborg <sam@ravnborg.org> to "drm/tidss: New driver ..."
 
+Changes since v5:
+- Add Add Reviewed-by: from Rob Herring <robh@kernel.org> and
+  Benoit Parrot <bparrot@ti.com> to binding patches
+- Color property changes and fixes to the driver implementation patch
+  - Check CTM and gamma support from dispc_features when creating crtc
+  - Implement CTM support for k2g and fix k3 CTM implementation
+  - Remove gamma property persistence and always write color properties
+    in a new modeset
 
-OK, that makes sense. I just double-checked with a quick test run, that it
-doesn't have dependencies with the rest of this series, and it came out clean,
-so:
+Changes since v4:
+- itemize named resource property descriptions in dt binding
+- fix wp to wb in the ti,j721e-dss reg property description
+- remove fifo underflow irq handling, it is not an error and
+  it should be used for debug purposes only
+- memory tuning, prefetch plane fifo up to high-threshold value to
+  minimize possibility of underflows.
 
-Andrew, could you please remove just this one patch from mmotm and linux-next?
+Changes since v3:
+- Add descriptions some yaml binding properites
+- Remove redundant minItems directives from yaml bindings
+- Remove ports node from ti,k2g-dss yaml binding
+- no change to MAINTAINERS or to the driver code
 
+Changes since v2:
+- Add version history to commit messages
+- Fix yaml bindings now that got dt_binding_check dtbs_check working propery
+- Move tidss entry in MAINTAINERS after omapdrm and add "T: git
+  git://anongit.freedesktop.org/drm/drm-misc"
+- no change to driver code
 
-> 
-> Also my vaguely recollection is that we had some idea on how to get rid
-> of the off by one refcounting for the zone device pages, which would be
-> a much better outcome.
-> 
+Changes since the first version of the patch series [2]:
+- "drm/tidss: New driver for TI Keystone platform Display SubSystem"
+ - rebased on top of drm-next-2019-11-27
+ - sort all include lines in all files
+ - remove all include <drm/drmP.h>
+ - remove select "select VIDEOMODE_HELPERS"
+ - call dispc_vp_setup() later in tidss_crtc_atomic_flush() (there is no
+   to call it in new modeset case as it is also called in vp_enable())
+ - change probe sequence and drm_device allocation (follow example in drm_drv.c)
+ - use __maybe_unused instead of #ifdef for pm functions
+ - remove "struct drm_fbdev_cma *fbdev;" from driver data
+ - check panel connector type before connecting it
+- No change to binding or MAINTAINERS patches
 
-Yes, I recall that Dan Williams mentioned it, but I don't think he provided
-any details yet.
+There was couple of attempts upstream an earlier version of this
+driver about a year ago [1]. Back then I needed to stop my efforts to
+implement support for next Keystone DSS version, so now the driver
+supports three different Keystone DSS version on three different SoCs.
 
+I am starting the patch series versioning from the beginning because it
+has been over a year since the previous patch set and the structure of
+the driver has evolved quite a bit. However, all the earlier comments
+should be addressed in this series.
 
-thanks,
+[1] https://patchwork.freedesktop.org/series/44947/
+[2] https://lists.freedesktop.org/archives/dri-devel/2019-November/246542.html
+
+Jyri Sarha (5):
+  dt-bindings: display: ti,k2g-dss: Add dt-schema yaml binding
+  dt-bindings: display: ti,am65x-dss: Add dt-schema yaml binding
+  dt-bindings: display: ti,j721e-dss: Add dt-schema yaml binding
+  drm/tidss: New driver for TI Keystone platform Display SubSystem
+  MAINTAINERS: add entry for tidss
+
+ .../bindings/display/ti/ti,am65x-dss.yaml     |  152 +
+ .../bindings/display/ti/ti,j721e-dss.yaml     |  208 ++
+ .../bindings/display/ti/ti,k2g-dss.yaml       |  109 +
+ MAINTAINERS                                   |   11 +
+ drivers/gpu/drm/Kconfig                       |    2 +
+ drivers/gpu/drm/Makefile                      |    1 +
+ drivers/gpu/drm/tidss/Kconfig                 |   14 +
+ drivers/gpu/drm/tidss/Makefile                |   12 +
+ drivers/gpu/drm/tidss/tidss_crtc.c            |  377 +++
+ drivers/gpu/drm/tidss/tidss_crtc.h            |   46 +
+ drivers/gpu/drm/tidss/tidss_dispc.c           | 2774 +++++++++++++++++
+ drivers/gpu/drm/tidss/tidss_dispc.h           |  132 +
+ drivers/gpu/drm/tidss/tidss_dispc_regs.h      |  243 ++
+ drivers/gpu/drm/tidss/tidss_drv.c             |  285 ++
+ drivers/gpu/drm/tidss/tidss_drv.h             |   39 +
+ drivers/gpu/drm/tidss/tidss_encoder.c         |   88 +
+ drivers/gpu/drm/tidss/tidss_encoder.h         |   17 +
+ drivers/gpu/drm/tidss/tidss_irq.c             |  146 +
+ drivers/gpu/drm/tidss/tidss_irq.h             |   77 +
+ drivers/gpu/drm/tidss/tidss_kms.c             |  249 ++
+ drivers/gpu/drm/tidss/tidss_kms.h             |   15 +
+ drivers/gpu/drm/tidss/tidss_plane.c           |  217 ++
+ drivers/gpu/drm/tidss/tidss_plane.h           |   25 +
+ drivers/gpu/drm/tidss/tidss_scale_coefs.c     |  202 ++
+ drivers/gpu/drm/tidss/tidss_scale_coefs.h     |   22 +
+ 25 files changed, 5463 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
+ create mode 100644 drivers/gpu/drm/tidss/Kconfig
+ create mode 100644 drivers/gpu/drm/tidss/Makefile
+ create mode 100644 drivers/gpu/drm/tidss/tidss_crtc.c
+ create mode 100644 drivers/gpu/drm/tidss/tidss_crtc.h
+ create mode 100644 drivers/gpu/drm/tidss/tidss_dispc.c
+ create mode 100644 drivers/gpu/drm/tidss/tidss_dispc.h
+ create mode 100644 drivers/gpu/drm/tidss/tidss_dispc_regs.h
+ create mode 100644 drivers/gpu/drm/tidss/tidss_drv.c
+ create mode 100644 drivers/gpu/drm/tidss/tidss_drv.h
+ create mode 100644 drivers/gpu/drm/tidss/tidss_encoder.c
+ create mode 100644 drivers/gpu/drm/tidss/tidss_encoder.h
+ create mode 100644 drivers/gpu/drm/tidss/tidss_irq.c
+ create mode 100644 drivers/gpu/drm/tidss/tidss_irq.h
+ create mode 100644 drivers/gpu/drm/tidss/tidss_kms.c
+ create mode 100644 drivers/gpu/drm/tidss/tidss_kms.h
+ create mode 100644 drivers/gpu/drm/tidss/tidss_plane.c
+ create mode 100644 drivers/gpu/drm/tidss/tidss_plane.h
+ create mode 100644 drivers/gpu/drm/tidss/tidss_scale_coefs.c
+ create mode 100644 drivers/gpu/drm/tidss/tidss_scale_coefs.h
+
 -- 
-John Hubbard
-NVIDIA
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki. Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
