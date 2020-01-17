@@ -1,47 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E804F140C19
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 15:08:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49D1B140C2B
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 15:13:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFDC86F58E;
-	Fri, 17 Jan 2020 14:08:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AB986F58F;
+	Fri, 17 Jan 2020 14:13:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
- [209.85.210.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD59A6F58E
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2020 14:08:46 +0000 (UTC)
-Received: by mail-ot1-f68.google.com with SMTP id z9so20480649oth.5
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2020 06:08:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=N+Kvtznk/wQ3RQceXPlbXNebs+cmr/OsrKXgAi73pC8=;
- b=T6N7bg6JnYon5HcwwCCjBxl+f3p6n9oDPw7B7AvsxoKU03unjDaBULLqoQmIJKDlxB
- gMyDT69wYI8ZDjPttuG1fJ1EFCLHfmyTdnA4StItHEZ0sOosLpSXc01BATy86CfGWq+s
- 6YSydJcrymIcqc5W4W/TL1UyvFI6ah9eWjB96fIMrx1RVyXi+HJF2iVZQEed09aBaq0d
- lnUZZQ9ynJgJTSlXeDgOhBQ/RVsMtcaNY5rmdfWdtxpkqQZCMiwRUDr6gRMaFtejS2z4
- 2G5kOkTGYDihywaTaxefbuKCSwcxOqF0bOzJnhrLTl2gfxDYeT1WTvg7Amd7JUNZjTL1
- RBaw==
-X-Gm-Message-State: APjAAAWCrQg8EKMOQ66Gspa37HFDC8230BhxcPonxXX49ZIp0gwBbHPh
- QnGcoxN3l/fYzC+8qWxQVGjdL+H8DQsV/V+367Y=
-X-Google-Smtp-Source: APXvYqwfyMoS4OLZbI0D8YiBzxm1g6GgAYSbLMjZHjS79Rgj58kvMeYupqdn8up0R2mIakaN+MsqQVPiWg9tYoEVsD0=
-X-Received: by 2002:a05:6830:2141:: with SMTP id
- r1mr6202897otd.39.1579270125929; 
- Fri, 17 Jan 2020 06:08:45 -0800 (PST)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D7EE6F58F;
+ Fri, 17 Jan 2020 14:13:36 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 17 Jan 2020 06:13:35 -0800
+X-IronPort-AV: E=Sophos;i="5.70,330,1574150400"; d="scan'208";a="218918876"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 17 Jan 2020 06:13:31 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Andi Shyti <andi.shyti@intel.com>
+Subject: Re: [PATCH] drm/i915: Fix i915_error_state_store error defination
+In-Reply-To: <20200117140552.GB3238@intel.intel>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200117073436.6507-1-zhangxiaoxu5@huawei.com>
+ <20200117121550.GA3238@intel.intel> <87tv4ugr7y.fsf@intel.com>
+ <20200117140552.GB3238@intel.intel>
+Date: Fri, 17 Jan 2020 16:13:28 +0200
+Message-ID: <87muamgohj.fsf@intel.com>
 MIME-Version: 1.0
-References: <CGME20200116145157eucas1p2401abc6b00654d767e872edbd0338957@eucas1p2.samsung.com>
- <d98fea18-b72e-6d0f-33ac-1421738bd12b@samsung.com>
-In-Reply-To: <d98fea18-b72e-6d0f-33ac-1421738bd12b@samsung.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 17 Jan 2020 15:08:34 +0100
-Message-ID: <CAMuHMdVxesjdmL7asPwOP2xoS6quLs4-onT80afi7ui2GSZ-tg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] video: fbdev: sh_mobile_lcdcfb: add COMPILE_TEST
- support
-To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,33 +44,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: airlied@linux.ie, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, rodrigo.vivi@intel.com,
+ Zhang Xiaoxu <zhangxiaoxu5@huawei.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 16, 2020 at 3:52 PM Bartlomiej Zolnierkiewicz
-<b.zolnierkie@samsung.com> wrote:
-> Add COMPILE_TEST support to sh_mobile_lcdcfb driver for better compile
-> testing coverage.
+On Fri, 17 Jan 2020, Andi Shyti <andi.shyti@intel.com> wrote:
+> Hi Jani,
 >
-> Signed-off-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+>> >> Reported-by: Hulk Robot <hulkci@huawei.com>
+>> >
+>> > I've never been a fan of non human accounts, we had this discussion
+>> > already in a different mailing list. Could you please find a
+>> > different way of giving credit to your CI system?
+>> 
+>> I don't actually mind for Reported-by credits. The history is full of
+>> things like:
+>> 
+>>     Reported-by: kbuild test robot <lkp@intel.com>
+>>     Reported-by: syzbot+ec24e95ea483de0a24da@syzkaller.appspotmail.com
+>
+> That's just commit log unnecessary pollution, unwanted mail
+> reference... no one will ever answer at lkp@intel.com, why
+> reference it, then?
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+It's not about that, it's about giving credit to whom credit is due.
 
-Gr{oetje,eeting}s,
+>> Care to reference the discussion?
+>
+> Here in the Samsung list we had a discussion with another Huawei
+> developer about the Hulk Robot:
+>
+>   https://lkml.org/lkml/2019/9/4/635
 
-                        Geert
+Well, there's no consensus there either.
+
+Again, if they want to use that Reported-by: line, I'm fine with it.
+
+BR,
+Jani.
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
