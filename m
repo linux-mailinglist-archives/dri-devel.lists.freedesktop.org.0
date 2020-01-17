@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24AB3141129
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 19:54:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1432141140
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 19:57:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 475096F8C1;
-	Fri, 17 Jan 2020 18:53:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC1A16F8C3;
+	Fri, 17 Jan 2020 18:57:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40B1D6F8C1
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2020 18:53:58 +0000 (UTC)
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A23AB6F8C3
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2020 18:57:25 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id A857D20748;
- Fri, 17 Jan 2020 18:53:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1579287238;
- bh=Ggs4OoJBCkjO8db/zcQts4isiDP4L4RjiRCqQPSG+Do=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ckG2ELRNQQm99wQbw8vq+wWoAinNuDS1uWRMdwoY5ePHou+8BHw2vcCMGKAUN8cnt
- ikesXAuWEmHyUoev/Hc57X+zKChsZEh63Awa/wgJpxIhjGk0jINT32oVj2AD4iR5S0
- DS12dDaoxUdkAKnoTs+vFOzj/HyePGibWABa1HNY=
-Date: Fri, 17 Jan 2020 19:53:55 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v2 0/5] Add support for Pine64 PineTab
-Message-ID: <20200117185355.wmu3so53whvtbnhx@gilmour.lan>
-References: <20200116033636.512461-1-icenowy@aosc.io>
- <20200117185012.GC14298@ravnborg.org>
+ by asavdk3.altibox.net (Postfix) with ESMTPS id C90E120026;
+ Fri, 17 Jan 2020 19:57:23 +0100 (CET)
+Date: Fri, 17 Jan 2020 19:57:22 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Subject: Re: [PATCH] video: fbdev: arcfb: add COMPILE_TEST support
+Message-ID: <20200117185722.GA24508@ravnborg.org>
+References: <CGME20200116144909eucas1p1b247368aded82dad3ca8da852deaca1a@eucas1p1.samsung.com>
+ <acf2cc2e-614d-f0fb-ce40-cee62bfcde4c@samsung.com>
 MIME-Version: 1.0
-In-Reply-To: <20200117185012.GC14298@ravnborg.org>
+Content-Disposition: inline
+In-Reply-To: <acf2cc2e-614d-f0fb-ce40-cee62bfcde4c@samsung.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=hD80L64hAAAA:8
+ a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8 a=D1x47FpqbbcrrsTMZkUA:9
+ a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,75 +46,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-sunxi@googlegroups.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- linux-arm-kernel@lists.infradead.org, Icenowy Zheng <icenowy@aosc.io>
-Content-Type: multipart/mixed; boundary="===============0949807569=="
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0949807569==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="p4f53y6km3ucx2zs"
-Content-Disposition: inline
-
-
---p4f53y6km3ucx2zs
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Fri, Jan 17, 2020 at 07:50:12PM +0100, Sam Ravnborg wrote:
-> Hi Icenowy
->
-> On Thu, Jan 16, 2020 at 11:36:31AM +0800, Icenowy Zheng wrote:
-> > This patchset tries to add support for the PineTab tablet from Pine64.
-> >
-> > As it uses a specific MIPI-DSI panel, the support of the panel should be
-> > introduced first, with its DT binding.
-> >
-> > Then a device tree is added. Compared to v1 of the patchset, the
-> > accelerometer support is temporarily removed because a DT binding is
-> > lacked (although a proper driver exists).
-> >
-> > Icenowy Zheng (5):
-> >   dt-bindings: vendor-prefix: add Shenzhen Feixin Photoelectics Co., Ltd
-> >   dt-bindings: panel: add Feixin K101 IM2BA02 MIPI-DSI panel
-> >   drm/panel: Add Feixin K101 IM2BA02 panel
-> >   dt-bindings: arm: sunxi: add binding for PineTab tablet
-> >   arm64: dts: allwinner: a64: add support for PineTab
->
-> Thanks for the updates.
-> I have applied the first three patches to drm-misc-next.
-> The remaining two patches shall most likely go in via another tree.
-
-queued the last two for 5.7, thanks!
-Maxime
-
---p4f53y6km3ucx2zs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXiICwwAKCRDj7w1vZxhR
-xZQcAQCabPKDVEHD7EEKVMSsoVVvXNcUSRxlLRN7UZEzxKP8/QD/TvXs63UOJH6/
-6zRTD2fYEmgvB1Cr3YJC7JpuiB5qbgE=
-=a6tO
------END PGP SIGNATURE-----
-
---p4f53y6km3ucx2zs--
-
---===============0949807569==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+On Thu, Jan 16, 2020 at 03:49:07PM +0100, Bartlomiej Zolnierkiewicz wrote:
+> Add COMPILE_TEST support to arcfb driver for better compile
+> testing coverage.
+> 
+> Signed-off-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> ---
+>  drivers/video/fbdev/Kconfig |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> Index: b/drivers/video/fbdev/Kconfig
+> ===================================================================
+> --- a/drivers/video/fbdev/Kconfig
+> +++ b/drivers/video/fbdev/Kconfig
+> @@ -435,7 +435,7 @@ config FB_FM2
+>  
+>  config FB_ARC
+>  	tristate "Arc Monochrome LCD board support"
+> -	depends on FB && X86
+> +	depends on FB && (X86 || COMPILE_TEST)
+>  	select FB_SYS_FILLRECT
+>  	select FB_SYS_COPYAREA
+>  	select FB_SYS_IMAGEBLIT
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0949807569==--
