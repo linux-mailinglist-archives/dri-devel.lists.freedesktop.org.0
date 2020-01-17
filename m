@@ -1,39 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6652D1411CF
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 20:32:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 003BE1411ED
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 20:42:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F6B56F8DE;
-	Fri, 17 Jan 2020 19:32:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 421306F8F0;
+	Fri, 17 Jan 2020 19:42:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F3DA6F8DE
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2020 19:32:26 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id D152F803F0;
- Fri, 17 Jan 2020 20:32:24 +0100 (CET)
-Date: Fri, 17 Jan 2020 20:32:23 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: Re: [PATCH 0/6] video: fbdev: controlfb: small cleanup
-Message-ID: <20200117193223.GD24812@ravnborg.org>
-References: <CGME20200116140914eucas1p1a62794ad40589e818614176ea8e817ff@eucas1p1.samsung.com>
- <20200116140900.26363-1-b.zolnierkie@samsung.com>
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92D7D6F8FA
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2020 19:42:22 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id y11so23838708wrt.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2020 11:42:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=Vq1NSNs1p/oVy8zuKJ4lGBgJdW7jBrxS1hkW6fJhGzo=;
+ b=tJHDoz3toPgEZR2WylTSgeNsyxFLlb3uCO4adMDKFR6jaJKitIZ3nQTwBa3ySQZ5Mv
+ ArRDMhQRyTfvPVY7vw9Tr+Pvk8jNSASeazLs6LJxmpKKSEZ/YO3dV3p13Otpf+hFHGWA
+ MwI0s/KlMD3EQ8syohOh/5PsKfha352Mfrm8Kns7c6GKh7nD/KlqC4GJzXH5QOT9H1zT
+ ibX5e0wdRB7jO0UIXQ5OZDLh8d98VAPDbQ3DYe9bKH5ojTUXd9kXSx0zb6O7mETuQmcp
+ YuqOkffuIJn2fNrhnbL1vc4dvswYBOy85m+ZhG6JHizBUZoNJawLW5/YR8ZfLeRNtgSd
+ FFxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=Vq1NSNs1p/oVy8zuKJ4lGBgJdW7jBrxS1hkW6fJhGzo=;
+ b=COOPo/LIzmLi/9yDpR97qbo0mJGULCAb35FDEDDIz8r8xXeCqcA/dUDvUxdaD58WI2
+ cnXNT7CigXLHwfqXurN45uqmuARGKVCAYYgjN8GSq5rwfeK48iIfEE8flN5azVBcpqvO
+ 11RNlt4MQHGBFBswpFimwEZdJgPWV8HdaQVYJD7o/QKVNSMQptNhiU27UmlE4f3LeO1n
+ L1Y1g1pGQ01TwIvEa43IudLhU/nrnV9uL3MHKmv1qPNbx8uPPWo4x+p9J+W8kXWlw2r5
+ dDrB0G6btzbIIpHcSQXCS1eNB72C013tBJnLx7aOvNdZVcrZ5A7Dv5ZpKDZUV5zTdtZq
+ aAuA==
+X-Gm-Message-State: APjAAAX3LkanbgBJbxm1H90ebjj/7T2K22H0/wF7qyF0P4xX8QZGKrve
+ 0l7BFEdV7uiroQLBA1hk9ihQu0Fp
+X-Google-Smtp-Source: APXvYqyEJvUoBAqYhq2kTFB760fYq0rv//K7pY3u+SiPniJwg86VqtY6NWJvsXj9Wj+oNKBZJOfpEA==
+X-Received: by 2002:a5d:6a10:: with SMTP id m16mr4754921wru.411.1579290141319; 
+ Fri, 17 Jan 2020 11:42:21 -0800 (PST)
+Received: from localhost (108.78.124.78.rev.sfr.net. [78.124.78.108])
+ by smtp.gmail.com with ESMTPSA id x14sm841854wmj.42.2020.01.17.11.42.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Jan 2020 11:42:21 -0800 (PST)
+Date: Fri, 17 Jan 2020 19:41:51 +0000
+From: sylvain.bertrand@gmail.com
+To: bugzilla-daemon@bugzilla.kernel.org
+Subject: Re: [Bug 206231] R9 280X low performance with all games
+Message-ID: <20200117194151.GB3904@freedom>
+References: <bug-206231-2300@https.bugzilla.kernel.org/>
+ <bug-206231-2300-2nCXs4Vm2D@https.bugzilla.kernel.org/>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200116140900.26363-1-b.zolnierkie@samsung.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
- a=e5mUnYsNAAAA:8 a=52nNHdF23vC62uqb84gA:9 a=CjuIK1q_8ugA:10
- a=E9Po1WZjFZOl8hwRPBS3:22 a=Vxmtnl_E_bksehYqCbjh:22
+In-Reply-To: <bug-206231-2300-2nCXs4Vm2D@https.bugzilla.kernel.org/>
+User-Agent: Mutt/ (2018-04-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,59 +68,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Bartlomiej
+Wow, this from the first tomb raider, the one from 2013!! (7 years ago).
 
-On Thu, Jan 16, 2020 at 03:08:54PM +0100, Bartlomiej Zolnierkiewicz wrote:
-> Hi,
-> 
-> Small cleanup for controlfb driver:
-> 
-> - fix sparse warnings
-> - remove not working module support
-> - add COMPILE_TEST support
-> - remove redundant function prototypes
+Sorry I read the emails in the wrong order.
 
-Nice cleanup - with a few comments.
-The last three patches are the good ones.
-
-With my comments considered - and then up to you if you cahnge anything
-- then all patches are:
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-
-> 
-> Best regards,
-> --
-> Bartlomiej Zolnierkiewicz
-> Samsung R&D Institute Poland
-> Samsung Electronics
-> 
-> 
-> Bartlomiej Zolnierkiewicz (6):
->   video: fbdev: controlfb: fix sparse warning about using incorrect type
->   video: fbdev: controlfb: remove obsolete module support
->   video: fbdev: controlfb: add COMPILE_TEST support
->   video: fbdev: controlfb: remove function prototypes part #1
->   video: fbdev: controlfb: remove function prototypes part #2
->   video: fbdev: controlfb: remove function prototypes part #3
-> 
->  drivers/video/fbdev/Kconfig     |   2 +-
->  drivers/video/fbdev/controlfb.c | 810 +++++++++++++++-----------------
->  2 files changed, 383 insertions(+), 429 deletions(-)
-> 
-> -- 
-> 2.24.1
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+I don't know own this game, sorry. Another game perhaps?
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
