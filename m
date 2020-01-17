@@ -1,73 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FC97140F9C
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 18:04:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D23C140FC6
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 18:21:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EFD16F642;
-	Fri, 17 Jan 2020 17:04:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E01936F640;
+	Fri, 17 Jan 2020 17:21:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 314 seconds by postgrey-1.36 at gabe;
- Fri, 17 Jan 2020 17:04:28 UTC
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38E1E6F642
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2020 17:04:28 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 8947122022;
- Fri, 17 Jan 2020 11:59:12 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Fri, 17 Jan 2020 11:59:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=NBrDhIy8eEyYhuxfQaqDFlK5PD1
- nOIBhbHxOQiXIM/A=; b=EN2yOUmjgN0bvAvLK+0GRYiokaf/38It9Hh5+pOCRC6
- CO48owweftGksIgxq18Ru9qqKqqVBAGyAHkRwVSyYy5XbIHV0YJIXIO/dk8k2eVx
- 8pD+8R25WeiEdEiSV4NDfNRWYfiYe9Gn0gDTIING967LA2yDFAjYMk5Vk/YYBDeV
- uQQd6zxHacpB7MnFSuVTHVvOu1DW2f7ZO4eeKsyp7q78opgZrMfDh4ezqBCBqtdW
- WT/eR5UDlGwJupSQrhT0gV+xBP2DE6gi3zhTd+12e6duYTG9qqNLLUBiW8rTiuaB
- SXupCEpFgGMMktVlSH05XXTRiUw2rbJSY31aKUtOoXw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=NBrDhI
- y8eEyYhuxfQaqDFlK5PD1nOIBhbHxOQiXIM/A=; b=iAHrtXXO58x3KevYTmn+Nu
- yqJvL5VY1yUNQdCACdVct00zYFkL4o3uSZaJ1D4pXWiRdEqruinGdXEIxB5I0w/H
- 0YZbxsdQeCedyYeE2saAlzjclvLLpkFR3/Tj1xK+nxjN+eQINp+3J88fm/2d6oV5
- jcWFDugu/OA0l8S2u1+ovGnKpw9W3Bf3tVk4loTP1RXvdHxthVfKNb0LsSjJik1N
- 0jlCpt5QILgQiGNAo6wwAc211QPYYI1w+H+LovUZpzc9EkIbJuj/BbO2CspenW3I
- D9fw9D19riyawJsU8vfWrG6r8Wj4XVNyyqwW629Pq9T0P/gJ0hSXoxTTQm1w4sQw
- ==
-X-ME-Sender: <xms:4OchXiiJk837b64CCO8FEtGGWsRjocvuWoMiW8nbRLFVrL-HzaEn0g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrtdekgddtudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghgucfm
- jfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecukfhppeekfedrkeeirdekledruddtje
- enucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghhrdgtohhmnecuvehl
- uhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:4OchXvrdke6JP-2FvNqh9RM5U-tcGGKUaPiG0ejiVt6axHOs9Tnd9g>
- <xmx:4OchXtt5R1wbtnKou18ponl7pXSNKLSqCGiy3pgLN31WZOlNcEQTQw>
- <xmx:4OchXhY7zfE9xUMpAiTsWLFJnrMqdudHcvHeQJBaIYcIoa7_bCSACw>
- <xmx:4OchXlbuhvmcjrgt4ESEJOcdUkyLxFSAE5JmpiiA4L9jA2hTP3f3Xg>
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- by mail.messagingengine.com (Postfix) with ESMTPA id F2C073060AEC;
- Fri, 17 Jan 2020 11:59:11 -0500 (EST)
-Date: Fri, 17 Jan 2020 17:59:09 +0100
-From: Greg KH <greg@kroah.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH AUTOSEL 5.4 002/205] drm/panfrost: Add missing check for
- pfdev->regulator
-Message-ID: <20200117165909.GA1949937@kroah.com>
-References: <20200116164300.6705-1-sashal@kernel.org>
- <20200116164300.6705-2-sashal@kernel.org>
- <20200117161226.GA8472@arm.com>
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 261D76F640
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2020 17:21:12 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id p9so8215512wmc.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2020 09:21:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=Yl2YWb4I3WdSaLwdiM2MlUHuVZ8oh3MEvyMAvhN2BpI=;
+ b=pEXDhn32ldJYZ/Gdl9eMKp2DYFxmFxiSX+otOj2YLYEZxd7kFUSXi1xwf+sMkucmxn
+ Ri2GkRzbq3/+7AvlmqeTvZCGg0sAPp7GLJnqygsvgBh5w/hWzUF0kTv4fswjZkMR3z4N
+ Mfe9VIqwSzzovyoADr8cC/L6GGozNyRYJM1H5/xkCyh8ZV0BSuKtS+1N246Hvl7xTeOz
+ VwERvvkpU8Vkngu4PZpTRgPckR+l3nqM1LUacl7jq2+sN5xcqn9bUW8xTiJt/MkBrrCN
+ KImnQZTGIGVMwd2ad2ulcetMEUK4BDNGs3Iwo2mzPSQDmKl5HMlHl67rEUaqGKl6CNBU
+ vPxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=Yl2YWb4I3WdSaLwdiM2MlUHuVZ8oh3MEvyMAvhN2BpI=;
+ b=hCqWOQMPFzojAx4tXY0BDDkQkwIu/Q+6XzQkTNtzgkTwArXtA8PfXb3mrB+BPJd+U4
+ XlsGhCV/IaDe0BXHtT1IXwKDGGBJIzEciQFV/ODGGl088fNcudrgQRb4HVkl3Fnkev1M
+ Uw2tEttBkGF4A4Tzz/pmsP8AVFgi9k38O+2tor/RMa9e++DOWt2FMct/mqKEGAjCn2ce
+ 09YHq1z1qMLlyXaDK3WunLfgWD1at5ibVDRDrha8ijhP1Bbla4szO0ifhByi5Yv5VgX0
+ K00aOJFE93DOiz8PwbWtVHNrrQsprTrOHaIngpkArwj85WfRlJ4F0Nm/zdCRdMC2Lwp8
+ NGBw==
+X-Gm-Message-State: APjAAAUNx0zKBnEbVHfnpL0mOLoygnslwZFkE+WPWs4ejCwWWywedN17
+ DQnh+SXAFHtEF6XmFrX/oz7gznxJ
+X-Google-Smtp-Source: APXvYqwyEtEw8TDuGmgqiJi+L7IOtYNhLxlot5WjlVJwSoKOhdnkn2JPkIkc7lR1dQa7HJVhpm1ZpQ==
+X-Received: by 2002:a1c:9a84:: with SMTP id c126mr5827629wme.111.1579281670772; 
+ Fri, 17 Jan 2020 09:21:10 -0800 (PST)
+Received: from localhost (108.78.124.78.rev.sfr.net. [78.124.78.108])
+ by smtp.gmail.com with ESMTPSA id v62sm1668882wmg.3.2020.01.17.09.21.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Jan 2020 09:21:10 -0800 (PST)
+Date: Fri, 17 Jan 2020 17:20:40 +0000
+From: sylvain.bertrand@gmail.com
+To: bugzilla-daemon@bugzilla.kernel.org
+Subject: Re: [Bug 206231] R9 280X low performance with all games
+Message-ID: <20200117172040.GA31322@freedom>
+References: <bug-206231-2300@https.bugzilla.kernel.org/>
+ <bug-206231-2300-lyYmzPoNN2@https.bugzilla.kernel.org/>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200117161226.GA8472@arm.com>
+In-Reply-To: <bug-206231-2300-lyYmzPoNN2@https.bugzilla.kernel.org/>
+User-Agent: Mutt/ (2018-04-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,44 +68,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>,
- Dan Carpenter <dan.carpenter@oracle.com>
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 17, 2020 at 04:12:27PM +0000, Steven Price wrote:
-> On Thu, Jan 16, 2020 at 04:39:37PM +0000, Sasha Levin wrote:
-> > From: Steven Price <steven.price@arm.com>
-> > 
-> > [ Upstream commit 52282163dfa651849e905886845bcf6850dd83c2 ]
-> 
-> This commit is effectively already in 5.4. Confusingly there were two
-> versions of this upstream:
-> 
-> 52282163dfa6 ("drm/panfrost: Add missing check for pfdev->regulator")
-> c90f30812a79 ("drm/panfrost: Add missing check for pfdev->regulator")
-> 
-> It got merged both through a -fixes branch and through the normal merge
-> window. The two copies caused a bad merge in mainline and this was
-> effectively reverted in commit 603e398a3db2 ("drm/panfrost: Remove NULL
-> check for regulator").
-> 
-> c90f30812a79 is included in v5.4 so should already be in any v5.4.y
-> release.
+Owner and user of tahiti parts on amdgpu with a state of the art gfx stack
+poping in.
 
-Have I mentioned this month just how much I hate the way the DRM tree
-handles stable patches like this?  This kind of fallout is a pain for
-stable maintainers, I dred every time I see a drm patch tagged for
-stable.
+I own "rise of the tomb raider" which gnu/linux port is vulkan only, and vulkan
+is only available with the "amdgpu" kernel module (as far as I know).
 
-But we've been over this all before :(
+I have not bought "shadow of the tomb raider", which is vulkan only too (the
+port was coded by the same company).
 
-greg k-h
+I did clear "rise of the tomb raider" years ago, I cannot play it anymore
+because the driver seems to miscompile some shaders and does gpu vm faults
+(from my save file). I did open a bug.
+
+I heard 'southern islands' parts (tahiti...) do suffer from a critical "mip
+mapping" slowdown bug. That could explain the slugginesh of those hardware
+parts in 3d intense games (I did almost stop playing "rise of the tomb raider"
+because the 3d rendering was unpleasantly not smooth enough).
+
+If you want, we can try to compare our benchmarks?
+
+-- 
+Sylvain
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
