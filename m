@@ -2,42 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B874140ADF
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 14:36:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A656140B9B
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 14:51:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1751E6E041;
-	Fri, 17 Jan 2020 13:36:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9ED86F57B;
+	Fri, 17 Jan 2020 13:51:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93D236E041
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2020 13:36:51 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206017] Kernel 5.4.x unusable with GUI due to crashes (some hard)
-Date: Fri, 17 Jan 2020 13:36:51 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: paul.e.hill2@outlook.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-206017-2300-lL2X1Mz5fP@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-206017-2300@https.bugzilla.kernel.org/>
-References: <bug-206017-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CC3D6F579;
+ Fri, 17 Jan 2020 13:51:45 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 17 Jan 2020 05:51:38 -0800
+X-IronPort-AV: E=Sophos;i="5.70,330,1574150400"; d="scan'208";a="218913054"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 17 Jan 2020 05:51:33 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Wambui Karuga <wambui.karugax@gmail.com>, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch
+Subject: Re: [PATCH 0/4] drm/i915/display: conversion to new logging macros.
+In-Reply-To: <20200116130947.15464-1-wambui.karugax@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200116130947.15464-1-wambui.karugax@gmail.com>
+Date: Fri, 17 Jan 2020 15:51:30 +0200
+Message-ID: <87pnfigpi5.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,45 +43,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: intel-gfx@lists.freedesktop.org, sean@poorly.run,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=206017
+On Thu, 16 Jan 2020, Wambui Karuga <wambui.karugax@gmail.com> wrote:
+> This series converts the printk based logging macros in
+> drm/i915/display/intel_display.c to the new struct drm_device based
+> logging macros. This change was split into four for manageability and
+> due to the size of drm/i915/display/intel_display.c.
 
-Paul (paul.e.hill2@outlook.com) changed:
+Please still write more descriptive commit messages than "part N".
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |paul.e.hill2@outlook.com
+What are your basing your patches on? Our CI uses drm-tip, and it's
+failing to apply the patches.
 
---- Comment #13 from Paul (paul.e.hill2@outlook.com) ---
-Hello! 
-
-I am experiencing the same issue on 5.4.10 (Fedora 31, KDE Spin). I'm going to
-attempt the 'amdgpu.noretry=0' fix later today.
-
-I made the below bug report with Fedora:
-https://ask.fedoraproject.org/t/fedora-kde-amdgpu-issue/5026
+BR,
+Jani.
 
 
-Summarized: 
-gpu: Radeon Vega 10
 
-Issue: I discovered a lot of these entries within journalctl and dmesg after
-gui freezes:
-
-kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout, but soft
-recovered
-kernel: [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting for fences
-timed out!
-
-Thank you!
+>
+> Wambui Karuga (4):
+>   drm/i915/display: conversion to new logging macros part 1
+>   drm/i915/display: conversion to new logging macros part 2
+>   drm/i915/display: conversion to new logging macros part 3
+>   drm/i915/display: convert to new logging macros part 4.
+>
+>  drivers/gpu/drm/i915/display/intel_display.c | 1021 ++++++++++--------
+>  1 file changed, 596 insertions(+), 425 deletions(-)
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
