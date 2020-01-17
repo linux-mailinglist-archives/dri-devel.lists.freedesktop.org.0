@@ -2,43 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B84D3140FC7
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 18:21:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0222F141067
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 19:08:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 225996F643;
-	Fri, 17 Jan 2020 17:21:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 302F56F88F;
+	Fri, 17 Jan 2020 18:08:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3091D6F643
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2020 17:21:14 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206231] R9 280X low performance with all games
-Date: Fri, 17 Jan 2020 17:21:13 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: sylvain.bertrand@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-206231-2300-XlqXhq988J@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-206231-2300@https.bugzilla.kernel.org/>
-References: <bug-206231-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49B8E6F88F
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2020 18:08:25 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 549452002C;
+ Fri, 17 Jan 2020 19:08:18 +0100 (CET)
+Date: Fri, 17 Jan 2020 19:08:17 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Jitao Shi <jitao.shi@mediatek.com>
+Subject: Re: [PATCH v9 1/5] dt-bindings: display: panel: Add boe tv101wum-n16
+ panel bindings
+Message-ID: <20200117180817.GA17294@ravnborg.org>
+References: <20200116021511.22675-1-jitao.shi@mediatek.com>
+ <20200116021511.22675-2-jitao.shi@mediatek.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200116021511.22675-2-jitao.shi@mediatek.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
+ a=mpaa-ttXAAAA:8 a=gEfo2CItAAAA:8 a=pGLkceISAAAA:8 a=VwQbUJbxAAAA:8
+ a=e5mUnYsNAAAA:8 a=bHLQw6FTChaek29_IE4A:9 a=GUAa75DiEQyea0yL:21
+ a=icJfZ08v17ktqyR2:21 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+ a=6heAxKwa5pAsJatQ0mat:22 a=sptkURWiP4Gy88Gu7hUp:22
+ a=AjGcO6oz07-iQ99wixmX:22 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,37 +50,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: srv_heupstream@mediatek.com, David Airlie <airlied@linux.ie>,
+ stonea168@163.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, cawa.cheng@mediatek.com,
+ Thierry Reding <thierry.reding@gmail.com>, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, yingjoe.chen@mediatek.com,
+ eddie.huang@mediatek.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=206231
+Hi Jitao.
 
---- Comment #6 from Sylvain BERTRAND (sylvain.bertrand@gmail.com) ---
-Owner and user of tahiti parts on amdgpu with a state of the art gfx stack
-poping in.
+Looks good, much better than the individual files.
+Rob Herring is still listed as maintainer which I questioned in last
+feedback.
 
-I own "rise of the tomb raider" which gnu/linux port is vulkan only, and vulkan
-is only available with the "amdgpu" kernel module (as far as I know).
+With this resolved (kept only if Rob confirms), this is
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 
-I have not bought "shadow of the tomb raider", which is vulkan only too (the
-port was coded by the same company).
-
-I did clear "rise of the tomb raider" years ago, I cannot play it anymore
-because the driver seems to miscompile some shaders and does gpu vm faults
-(from my save file). I did open a bug.
-
-I heard 'southern islands' parts (tahiti...) do suffer from a critical "mip
-mapping" slowdown bug. That could explain the slugginesh of those hardware
-parts in 3d intense games (I did almost stop playing "rise of the tomb raider"
-because the 3d rendering was unpleasantly not smooth enough).
-
-If you want, we can try to compare our benchmarks?
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+On Thu, Jan 16, 2020 at 10:15:07AM +0800, Jitao Shi wrote:
+> Add documentation for "boe,tv101wum-n16", "auo,kd101n80-45na",
+> "boe,tv101wum-n53" and "auo,b101uan08.3" panels.
+> 
+> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> ---
+>  .../display/panel/boe,tv101wum-nl6.yaml       | 81 +++++++++++++++++++
+>  1 file changed, 81 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
+> new file mode 100644
+> index 000000000000..cc4e058f5eee
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
+> @@ -0,0 +1,81 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/boe,tv101wum-nl6.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: BOE TV101WUM-NL6 DSI Display Panel
+> +
+> +maintainers:
+> +  - Thierry Reding <thierry.reding@gmail.com>
+> +  - Sam Ravnborg <sam@ravnborg.org>
+> +  - Rob Herring <robh+dt@kernel.org>
+> +
+> +allOf:
+> +  - $ref: panel-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +        # BOE TV101WUM-NL6 10.1" WUXGA TFT LCD panel
+> +      - boe,tv101wum-nl6
+> +        # AUO KD101N80-45NA 10.1" WUXGA TFT LCD panel
+> +      - auo,kd101n80-45na
+> +        # BOE TV101WUM-N53 10.1" WUXGA TFT LCD panel
+> +      - boe,tv101wum-n53
+> +        # AUO B101UAN08.3 10.1" WUXGA TFT LCD panel
+> +      - auo,b101uan08.3
+> +
+> +  reg:
+> +    description: the virtual channel number of a DSI peripheral
+> +
+> +  enable-gpios:
+> +    description: a GPIO spec for the enable pin
+> +
+> +  pp1800-supply:
+> +    description: core voltage supply
+> +
+> +  avdd-supply:
+> +    description: phandle of the regulator that provides positive voltage
+> +
+> +  avee-supply:
+> +    description: phandle of the regulator that provides negative voltage
+> +
+> +  backlight:
+> +    description: phandle of the backlight device attached to the panel
+> +
+> +  port: true
+> +
+> +required:
+> + - compatible
+> + - reg
+> + - enable-gpios
+> + - pp1800-supply
+> + - avdd-supply
+> + - avee-supply
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    dsi {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +        panel@0 {
+> +            compatible = "boe,tv101wum-nl6";
+> +            reg = <0>;
+> +            enable-gpios = <&pio 45 0>;
+> +            avdd-supply = <&ppvarn_lcd>;
+> +            avee-supply = <&ppvarp_lcd>;
+> +            pp1800-supply = <&pp1800_lcd>;
+> +            backlight = <&backlight_lcd0>;
+> +            status = "okay";
+> +            port {
+> +                panel_in: endpoint {
+> +                    remote-endpoint = <&dsi_out>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> -- 
+> 2.21.0
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
