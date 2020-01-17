@@ -1,44 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F27C14111A
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 19:49:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B89E14111E
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 19:50:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F8286F8AE;
-	Fri, 17 Jan 2020 18:49:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DA376F8BF;
+	Fri, 17 Jan 2020 18:50:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58BA86F8AE
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2020 18:49:04 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206231] R9 280X low performance with all games
-Date: Fri, 17 Jan 2020 18:49:03 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: kentosama@whiteninjastudio.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-206231-2300-im80ecva19@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-206231-2300@https.bugzilla.kernel.org/>
-References: <bug-206231-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C33D6F8BF
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2020 18:50:16 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id A6FBE20028;
+ Fri, 17 Jan 2020 19:50:13 +0100 (CET)
+Date: Fri, 17 Jan 2020 19:50:12 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Icenowy Zheng <icenowy@aosc.io>
+Subject: Re: [PATCH v2 0/5] Add support for Pine64 PineTab
+Message-ID: <20200117185012.GC14298@ravnborg.org>
+References: <20200116033636.512461-1-icenowy@aosc.io>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200116033636.512461-1-icenowy@aosc.io>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=e5mUnYsNAAAA:8
+ a=E4uMMbyC_ska1DofYlAA:9 a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
+ a=pHzHmUro8NiASowvMSCR:22 a=6VlIyEUom7LUIeUMNQJH:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,43 +45,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-sunxi@googlegroups.com, linux-kernel@vger.kernel.org,
+ Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=206231
+Hi Icenowy
 
---- Comment #8 from kentosama (kentosama@whiteninjastudio.com) ---
-(In reply to Sylvain BERTRAND from comment #6)
-> Owner and user of tahiti parts on amdgpu with a state of the art gfx stack
-> poping in.
+On Thu, Jan 16, 2020 at 11:36:31AM +0800, Icenowy Zheng wrote:
+> This patchset tries to add support for the PineTab tablet from Pine64.
 > 
-> I own "rise of the tomb raider" which gnu/linux port is vulkan only, and
-> vulkan
-> is only available with the "amdgpu" kernel module (as far as I know).
+> As it uses a specific MIPI-DSI panel, the support of the panel should be
+> introduced first, with its DT binding.
 > 
-> I have not bought "shadow of the tomb raider", which is vulkan only too (the
-> port was coded by the same company).
+> Then a device tree is added. Compared to v1 of the patchset, the
+> accelerometer support is temporarily removed because a DT binding is
+> lacked (although a proper driver exists).
 > 
-> I did clear "rise of the tomb raider" years ago, I cannot play it anymore
-> because the driver seems to miscompile some shaders and does gpu vm faults
-> (from my save file). I did open a bug.
-> 
-> I heard 'southern islands' parts (tahiti...) do suffer from a critical "mip
-> mapping" slowdown bug. That could explain the slugginesh of those hardware
-> parts in 3d intense games (I did almost stop playing "rise of the tomb
-> raider"
-> because the 3d rendering was unpleasantly not smooth enough).
-> 
-> If you want, we can try to compare our benchmarks?
+> Icenowy Zheng (5):
+>   dt-bindings: vendor-prefix: add Shenzhen Feixin Photoelectics Co., Ltd
+>   dt-bindings: panel: add Feixin K101 IM2BA02 MIPI-DSI panel
+>   drm/panel: Add Feixin K101 IM2BA02 panel
+>   dt-bindings: arm: sunxi: add binding for PineTab tablet
+>   arm64: dts: allwinner: a64: add support for PineTab
 
-Sure, but I only have the first Tomb Raider, the one released in 2013 it seems
-to me. Do you know a command to record the game framerate log ?
+Thanks for the updates.
+I have applied the first three patches to drm-misc-next.
+The remaining two patches shall most likely go in via another tree.
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+	Sam
+
+> 
+>  .../devicetree/bindings/arm/sunxi.yaml        |   5 +
+>  .../display/panel/feixin,k101-im2ba02.yaml    |  55 ++
+>  .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+>  MAINTAINERS                                   |   6 +
+>  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+>  .../boot/dts/allwinner/sun50i-a64-pinetab.dts | 460 +++++++++++++++
+>  drivers/gpu/drm/panel/Kconfig                 |   9 +
+>  drivers/gpu/drm/panel/Makefile                |   1 +
+>  .../gpu/drm/panel/panel-feixin-k101-im2ba02.c | 526 ++++++++++++++++++
+>  9 files changed, 1065 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/feixin,k101-im2ba02.yaml
+>  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
+>  create mode 100644 drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c
+> 
+> -- 
+> 2.23.0
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
