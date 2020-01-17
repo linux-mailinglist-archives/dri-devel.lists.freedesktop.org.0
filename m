@@ -2,99 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E30A414079E
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 11:10:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4C1E1407B4
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 11:14:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4797F6F4CD;
-	Fri, 17 Jan 2020 10:10:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AFAE6F4D2;
+	Fri, 17 Jan 2020 10:14:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5480C6F4CD
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2020 10:10:50 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200117100508euoutp01bf710633ea82ef9da75e85175901b1ee~qpISTS2U01523615236euoutp01K
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2020 10:05:08 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200117100508euoutp01bf710633ea82ef9da75e85175901b1ee~qpISTS2U01523615236euoutp01K
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1579255508;
- bh=ZtzInfg5OMhRAkzieWaDxtpxgiMJMusa19oHNwl24u4=;
- h=Subject:To:From:Date:In-Reply-To:References:From;
- b=syMJm7fhZWHgpuMPqrPzZSfS/k5wMjt5A0TsnRbs2na2N/j16INP5qAhpVILhx1zD
- ldVfMfmLw5ZyhEPbRvHQc0S8CwDGCohVjs2EZLCcCfpEnF3jb73z0v4q8epsASQ0gh
- GbzGoW93AgzyJ3sySKBdwwMthGkxzCtOGCw7E5Q8=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200117100508eucas1p291be92060240444501ffa2eb20368c15~qpISDBrao1770017700eucas1p2v;
- Fri, 17 Jan 2020 10:05:08 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id EF.7B.60679.4D6812E5; Fri, 17
- Jan 2020 10:05:08 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20200117100507eucas1p267985dff857eeaf21972376057a1e68e~qpIRrJPAL1582515825eucas1p23;
- Fri, 17 Jan 2020 10:05:07 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200117100507eusmtrp1b89a487c1950b44afb34ba5afd1005c2~qpIRlVg6m3122531225eusmtrp1Y;
- Fri, 17 Jan 2020 10:05:07 +0000 (GMT)
-X-AuditID: cbfec7f4-0cbff7000001ed07-ee-5e2186d4510f
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 4A.46.07950.3D6812E5; Fri, 17
- Jan 2020 10:05:07 +0000 (GMT)
-Received: from [106.120.51.74] (unknown [106.120.51.74]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200117100507eusmtip153597002621da5078b4e930839190e3e~qpIRT7NqH1761117611eusmtip1j;
- Fri, 17 Jan 2020 10:05:07 +0000 (GMT)
-Subject: Re: [PATCH] drm/bridge: tfp410: add pclk limits
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Neil Armstrong
- <narmstrong@baylibre.com>
-From: Andrzej Hajda <a.hajda@samsung.com>
-Message-ID: <74052be2-5100-e5fa-ec87-eb56ed5838bf@samsung.com>
-Date: Fri, 17 Jan 2020 11:05:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 860846F4D2
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2020 10:14:50 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 206231] New: R9 280X low performance with all games
+Date: Fri, 17 Jan 2020 10:14:49 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: kentosama@whiteninjastudio.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-206231-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20200113134528.9851-1-tomi.valkeinen@ti.com>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprCKsWRmVeSWpSXmKPExsWy7djP87pX2hTjDLrXC1lc+fqezaJz4hJ2
- i0N90Rbr599ic2DxeH+jld1jdsdMVo/73ceZPI7f2M4UwBLFZZOSmpNZllqkb5fAlbHoFXfB
- a86KkxfmsDQwtnB0MXJySAiYSMx6voCxi5GLQ0hgBaNE37lXbCAJIYEvjBIvlvNB2J8ZJTbP
- d4BpWHC+gwmiYTmjxKFXbSwQzltGidW9v9hBqoQFLCROPtnADGKLCKxnlLjTYQNiswloSvzd
- fBNsA6+AncTi3tlg9SwCqhL3bnWA1YsKREg8ufKYFaJGUOLkzCcsIDangJXEv4eTmEBsZgF5
- ieats5khbHGJW0/mg10kIdDOLvHj/3U2iFNdJK51zmWHsIUlXh3fAmXLSJye3MMCYddL3F/R
- wgzR3MEosXXDTmaIhLXEnXO/gAZxAG3QlFi/Sx8i7Cix9+AVZpCwhACfxI23ghA38ElM2jYd
- Kswr0dEmBFGtKHH/7FaogeISSy98hbrMQ+LvypeMExgVZyH5chaSz2Yh+WwWwg0LGFlWMYqn
- lhbnpqcWG+WllusVJ+YWl+al6yXn525iBKaV0/+Of9nBuOtP0iFGAQ5GJR7eGUEKcUKsiWXF
- lbmHGCU4mJVEeE/OkI0T4k1JrKxKLcqPLyrNSS0+xCjNwaIkzmu86GWskEB6YklqdmpqQWoR
- TJaJg1OqgdGqVapgL8frAxPTu1+/NRb8tPjJ2e++l3nvbZK4WDH/Rf9M2WNT92V1LHJ46vUr
- Wcv5ftmO0K6Z87/tEZ+yKFJihkaafUG2Cucnb1a1TSzH8jbOXH6xxWdX5g37ngl1oWf2WwpP
- OD7nu7RwztHi+F0+j/wYlKrNLI9mhr874b35UHb7Z8n/5ZVKLMUZiYZazEXFiQBIdZ15JwMA
- AA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprHIsWRmVeSWpSXmKPExsVy+t/xu7qX2xTjDP5PNLG48vU9m0XnxCXs
- Fof6oi3Wz7/F5sDi8f5GK7vH7I6ZrB73u48zeRy/sZ0pgCVKz6Yov7QkVSEjv7jEVina0MJI
- z9DSQs/IxFLP0Ng81srIVEnfziYlNSezLLVI3y5BL2PRK+6C15wVJy/MYWlgbOHoYuTkkBAw
- kVhwvoOpi5GLQ0hgKaPE5i9XmCAS4hK7579lhrCFJf5c62KDKHrNKLG9bxtYQljAQuLkkw3M
- IAkRgfWMEue3XWeHqOpllFj46gUrSBWbgKbE38032UBsXgE7icW9s9lBbBYBVYl7tzrAJokK
- REi8/X2TFaJGUOLkzCcsIDangJXEv4eTwE5iFlCX+DPvEjOELS/RvHU2lC0ucevJfKYJjIKz
- kLTPQtIyC0nLLCQtCxhZVjGKpJYW56bnFhvpFSfmFpfmpesl5+duYgTGzbZjP7fsYOx6F3yI
- UYCDUYmHd0aQQpwQa2JZcWXuIUYJDmYlEd6TM2TjhHhTEiurUovy44tKc1KLDzGaAj03kVlK
- NDkfGNN5JfGGpobmFpaG5sbmxmYWSuK8HQIHY4QE0hNLUrNTUwtSi2D6mDg4pRoYtdcmLQtr
- lFy7/1fppScvu9dE7P6r7f8h/s0l55effvDEWn63eCYjVFCRVbjO+9Dh3qBVr0I38QVwVijz
- aAhqsa950nSHKT1jXenVZZsncMZLbq3fr1a+rNfT9OJLwZC+xiipm4EnGKTuyudG33///URH
- DNeUOXeWdm/cVCSqFlE8Z5Zpxww9JZbijERDLeai4kQAVZFi5rECAAA=
-X-CMS-MailID: 20200117100507eucas1p267985dff857eeaf21972376057a1e68e
-X-Msg-Generator: CA
-X-RootMTR: 20200113134541eucas1p2c48474f8c113c25aa0fe18d280bdb118
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200113134541eucas1p2c48474f8c113c25aa0fe18d280bdb118
-References: <CGME20200113134541eucas1p2c48474f8c113c25aa0fe18d280bdb118@eucas1p2.samsung.com>
- <20200113134528.9851-1-tomi.valkeinen@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,33 +51,199 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTMuMDEuMjAyMCAxNDo0NSwgVG9taSBWYWxrZWluZW4gd3JvdGU6Cj4gQWRkIHBpeGVsIGNs
-b2NrIGxpbWl0cyB0byB0aGUgZHJpdmVyIGFzIHBlciBURlA0MTAgZGF0YXNoZWV0OiBtaW4gMjVN
-SHosCj4gbWF4IDE2NU1Iei4KPgo+IFNpZ25lZC1vZmYtYnk6IFRvbWkgVmFsa2VpbmVuIDx0b21p
-LnZhbGtlaW5lbkB0aS5jb20+ClJldmlld2VkLWJ5OiBBbmRyemVqIEhhamRhIDxhLmhhamRhQHNh
-bXN1bmcuY29tPgoKwqAtLQpSZWdhcmRzCkFuZHJ6ZWoKCj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2Ry
-bS9icmlkZ2UvdGktdGZwNDEwLmMgfCAxMCArKysrKysrKysrCj4gIDEgZmlsZSBjaGFuZ2VkLCAx
-MCBpbnNlcnRpb25zKCspCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90
-aS10ZnA0MTAuYyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGktdGZwNDEwLmMKPiBpbmRleCA2
-ZjZkNmQxZTYwYWUuLmYzNzhhOGY3OWJjYiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
-YnJpZGdlL3RpLXRmcDQxMC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90aS10ZnA0
-MTAuYwo+IEBAIC0xNjcsMTAgKzE2NywyMCBAQCBzdGF0aWMgdm9pZCB0ZnA0MTBfZGlzYWJsZShz
-dHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlKQo+ICAJZ3Bpb2Rfc2V0X3ZhbHVlX2NhbnNsZWVwKGR2
-aS0+cG93ZXJkb3duLCAxKTsKPiAgfQo+ICAKPiArc3RhdGljIGVudW0gZHJtX21vZGVfc3RhdHVz
-IHRmcDQxMF9tb2RlX3ZhbGlkKHN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2UsCj4gKwkJCQkJICAg
-ICAgY29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKm1vZGUpCj4gK3sKPiArCWlmIChtb2Rl
-LT5jbG9jayA8IDI1MDAwIHx8IG1vZGUtPmNsb2NrID4gMTY1MDAwKQo+ICsJCXJldHVybiBNT0RF
-X0JBRDsKPiArCj4gKwlyZXR1cm4gTU9ERV9PSzsKPiArfQo+ICsKPiAgc3RhdGljIGNvbnN0IHN0
-cnVjdCBkcm1fYnJpZGdlX2Z1bmNzIHRmcDQxMF9icmlkZ2VfZnVuY3MgPSB7Cj4gIAkuYXR0YWNo
-CQk9IHRmcDQxMF9hdHRhY2gsCj4gIAkuZW5hYmxlCQk9IHRmcDQxMF9lbmFibGUsCj4gIAkuZGlz
-YWJsZQk9IHRmcDQxMF9kaXNhYmxlLAo+ICsJLm1vZGVfdmFsaWQJPSB0ZnA0MTBfbW9kZV92YWxp
-ZCwKPiAgfTsKPiAgCj4gIHN0YXRpYyB2b2lkIHRmcDQxMF9ocGRfd29ya19mdW5jKHN0cnVjdCB3
-b3JrX3N0cnVjdCAqd29yaykKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWwK
+https://bugzilla.kernel.org/show_bug.cgi?id=206231
+
+            Bug ID: 206231
+           Summary: R9 280X low performance with all games
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.4.0-2-amd64
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: kentosama@whiteninjastudio.com
+        Regression: No
+
+Created attachment 286855
+  --> https://bugzilla.kernel.org/attachment.cgi?id=286855&action=edit
+Low performance and low GPU usage with Tomb Raider (Linux native)
+
+Hello, I have been experiencing performance issues with my AMD R9 280X graphics
+card for several months.
+
+On all games (Linux native and Proton), my performance is very low, well below
+the capabilities of the graphics card.
+
+The problem occurred when I migrated my system from Windows to Debian 10. I
+updated Debian stable to sid in order to have the latest version of the kernel
+and mesa.
+
+When I launch a game, the performances are low and during very complex scenes,
+the framerate goes down to 10/15 fps with a very low GPU use ~ 18%. The only
+time I've seen GPU usage hit 98% is in the main menu in Dawn of War II.
+
+Changing the graphics settings or the screen resolution changes absolutely
+nothing.
+
+The only game that seems to work well is Shadow Warrior, whose GPU usage rarely
+exceeds 70%.
+
+I have never heard the fans work since my transition to Debian so I used the
+radeon-profile tool to make sure the fans work manually.
+
+I forced the use of the hight profile in order to increase the memory and
+processor frequency as much as possible, but no difference
+
+kentosama@teradrive:~$ uname -a
+Linux teradrive 5.4.0-2-amd64 #1 SMP Debian 5.4.8-1 (2020-01-05) x86_64
+GNU/Linux
+
+kentosama@teradrive:~$ glxinfo | grep OpenGL
+OpenGL vendor string: X.Org
+OpenGL renderer string: AMD Radeon HD 7900 Series (TAHITI, DRM 3.35.0,
+5.4.0-2-amd64, LLVM 9.0.1)
+OpenGL core profile version string: 4.5 (Core Profile) Mesa 19.3.2
+OpenGL core profile shading language version string: 4.50
+OpenGL core profile context flags: (none)
+OpenGL core profile profile mask: core profile
+OpenGL core profile extensions:
+OpenGL version string: 4.5 (Compatibility Profile) Mesa 19.3.2
+OpenGL shading language version string: 4.50
+OpenGL context flags: (none)
+OpenGL profile mask: compatibility profile
+OpenGL extensions:
+OpenGL ES profile version string: OpenGL ES 3.2 Mesa 19.3.2
+OpenGL ES profile shading language version string: OpenGL ES GLSL ES 3.20
+OpenGL ES profile extensions:
+
+kentosama@teradrive:~$ vblank_mode=0 glxgears
+ATTENTION: default value of option vblank_mode overridden by environment.
+25934 frames in 5.0 seconds = 5186.741 FPS
+25239 frames in 5.0 seconds = 5047.634 FPS
+25109 frames in 5.0 seconds = 5021.724 FPS
+26234 frames in 5.0 seconds = 5246.724 FPS
+27341 frames in 5.0 seconds = 5468.155 FPS
+26836 frames in 5.0 seconds = 5367.148 FPS
+27233 frames in 5.0 seconds = 5446.563 FPS
+26164 frames in 5.0 seconds = 5232.749 FPS
+26568 frames in 5.0 seconds = 5313.582 FPS
+25854 frames in 5.0 seconds = 5170.670 FPS
+26857 frames in 5.0 seconds = 5371.198 FPS
+25896 frames in 5.0 seconds = 5179.152 FPS
+26129 frames in 5.0 seconds = 5225.626 FPS
+26181 frames in 5.0 seconds = 5236.104 FPS
+25873 frames in 5.0 seconds = 5174.487 FPS
+26584 frames in 5.0 seconds = 5316.643 FPS
+26448 frames in 5.0 seconds = 5289.565 FPS
+27543 frames in 5.0 seconds = 5508.535 FPS
+26074 frames in 5.0 seconds = 5214.784 FPS
+26551 frames in 5.0 seconds = 5310.126 FPS
+27081 frames in 5.0 seconds = 5416.005 FPS
+26073 frames in 5.0 seconds = 5214.450 FPS
+25781 frames in 5.0 seconds = 5156.146 FPS
+26895 frames in 5.0 seconds = 5378.962 FPS
+26933 frames in 5.0 seconds = 5386.433 FPS
+26197 frames in 5.0 seconds = 5239.087 FPS
+26348 frames in 5.0 seconds = 5269.402 FPS
+27020 frames in 5.0 seconds = 5403.997 FPS
+26684 frames in 5.0 seconds = 5336.700 FPS
+26798 frames in 5.0 seconds = 5359.434 FPS
+27071 frames in 5.0 seconds = 5414.150 FPS
+26068 frames in 5.0 seconds = 5213.525 FPS
+25425 frames in 5.0 seconds = 5084.933 FPS
+25963 frames in 5.0 seconds = 5192.526 FPS
+26528 frames in 5.0 seconds = 5305.459 FPS
+29053 frames in 5.0 seconds = 5810.492 FPS
+25807 frames in 5.0 seconds = 5161.248 FPS
+25978 frames in 5.0 seconds = 5195.598 FPS
+25677 frames in 5.0 seconds = 5135.263 FPS
+26250 frames in 5.0 seconds = 5249.852 FPS
+26988 frames in 5.0 seconds = 5397.509 FPS
+26183 frames in 5.0 seconds = 5236.487 FPS
+25639 frames in 5.0 seconds = 5127.785 FPS
+26207 frames in 5.0 seconds = 5241.383 FPS
+25885 frames in 5.0 seconds = 5176.901 FPS
+25660 frames in 5.0 seconds = 5131.782 FPS
+25256 frames in 5.0 seconds = 5051.157 FPS
+26747 frames in 5.0 seconds = 5349.287 FPS
+27643 frames in 5.0 seconds = 5528.397 FPS
+26030 frames in 5.0 seconds = 5205.866 FPS
+26480 frames in 5.0 seconds = 5295.797 FPS
+26451 frames in 5.0 seconds = 5290.124 FPS
+26050 frames in 5.0 seconds = 5209.895 FPS
+26075 frames in 5.0 seconds = 5214.940 FPS
+26031 frames in 5.0 seconds = 5206.046 FPS
+26157 frames in 5.0 seconds = 5231.230 FPS
+26081 frames in 5.0 seconds = 5216.084 FPS
+27675 frames in 5.0 seconds = 5534.894 FPS
+26755 frames in 5.0 seconds = 5350.956 FPS
+25175 frames in 5.0 seconds = 5034.920 FPS
+
+kentosama@teradrive:~$ glmark2 -b "terrain"
+=======================================================
+    glmark2 2017.07
+=======================================================
+    OpenGL Information
+    GL_VENDOR:     X.Org
+    GL_RENDERER:   AMD Radeon HD 7900 Series (TAHITI, DRM 3.35.0,
+5.4.0-2-amd64, LLVM 9.0.1)
+    GL_VERSION:    4.5 (Compatibility Profile) Mesa 19.3.2
+=======================================================
+[terrain] <default>: FPS: 1367 FrameTime: 0.732 ms
+=======================================================
+                                  glmark2 Score: 1367 
+=======================================================
+
+kentosama@teradrive:~$ sudo cat /sys/kernel/debug/dri/0/amdgpu_pm_info
+Clock Gating Flags Mask: 0x0
+        Graphics Medium Grain Clock Gating: Off
+        Graphics Medium Grain memory Light Sleep: Off
+        Graphics Coarse Grain Clock Gating: Off
+        Graphics Coarse Grain memory Light Sleep: Off
+        Graphics Coarse Grain Tree Shader Clock Gating: Off
+        Graphics Coarse Grain Tree Shader Light Sleep: Off
+        Graphics Command Processor Light Sleep: Off
+        Graphics Run List Controller Light Sleep: Off
+        Graphics 3D Coarse Grain Clock Gating: Off
+        Graphics 3D Coarse Grain memory Light Sleep: Off
+        Memory Controller Light Sleep: Off
+        Memory Controller Medium Grain Clock Gating: Off
+        System Direct Memory Access Light Sleep: Off
+        System Direct Memory Access Medium Grain Clock Gating: Off
+        Bus Interface Medium Grain Clock Gating: Off
+        Bus Interface Light Sleep: Off
+        Unified Video Decoder Medium Grain Clock Gating: Off
+        Video Compression Engine Medium Grain Clock Gating: Off
+        Host Data Path Light Sleep: Off
+        Host Data Path Medium Grain Clock Gating: Off
+        Digital Right Management Medium Grain Clock Gating: Off
+        Digital Right Management Light Sleep: Off
+        Rom Medium Grain Clock Gating: Off
+        Data Fabric Medium Grain Clock Gating: Off
+        Address Translation Hub Medium Grain Clock Gating: Off
+        Address Translation Hub Light Sleep: Off
+
+uvd    vclk: 0 dclk: 0
+power level 3    sclk: 105000 mclk: 150000 vddc: 1200 vddci: 875 pcie gen: 2
+
+Is there anything I can do to regain "normal" performance?
+
+thank you so much
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
