@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1432141140
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 19:57:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 244F6141143
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 19:57:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC1A16F8C3;
-	Fri, 17 Jan 2020 18:57:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2278D6F8C4;
+	Fri, 17 Jan 2020 18:57:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A23AB6F8C3
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2020 18:57:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D7B36F8C4
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2020 18:57:40 +0000 (UTC)
 Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id C90E120026;
- Fri, 17 Jan 2020 19:57:23 +0100 (CET)
-Date: Fri, 17 Jan 2020 19:57:22 +0100
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 6195F20028;
+ Fri, 17 Jan 2020 19:57:38 +0100 (CET)
+Date: Fri, 17 Jan 2020 19:57:37 +0100
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: Re: [PATCH] video: fbdev: arcfb: add COMPILE_TEST support
-Message-ID: <20200117185722.GA24508@ravnborg.org>
-References: <CGME20200116144909eucas1p1b247368aded82dad3ca8da852deaca1a@eucas1p1.samsung.com>
- <acf2cc2e-614d-f0fb-ce40-cee62bfcde4c@samsung.com>
+Subject: Re: [PATCH 1/2] video: fbdev: w100fb: fix sparse warnings
+Message-ID: <20200117185737.GB24508@ravnborg.org>
+References: <CGME20200116145320eucas1p188ed7bed08623bc2c2ba6b863ff223d8@eucas1p1.samsung.com>
+ <d438108a-e569-a14a-a9b1-3fefd88fcadc@samsung.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <acf2cc2e-614d-f0fb-ce40-cee62bfcde4c@samsung.com>
+In-Reply-To: <d438108a-e569-a14a-a9b1-3fefd88fcadc@samsung.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
  a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
  a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=hD80L64hAAAA:8
- a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8 a=D1x47FpqbbcrrsTMZkUA:9
+ a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8 a=jGXlrUAzkbCyByQ0p6wA:9
  a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,29 +53,69 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 16, 2020 at 03:49:07PM +0100, Bartlomiej Zolnierkiewicz wrote:
-> Add COMPILE_TEST support to arcfb driver for better compile
-> testing coverage.
+On Thu, Jan 16, 2020 at 03:53:20PM +0100, Bartlomiej Zolnierkiewicz wrote:
+> * Add missing __iomem annotations where needed.
+> * Make w100fb_probe() static.
+> * Return NULL pointer (instead of using plain integer) in
+>   w100_get_xtal_tabl().
 > 
 > Signed-off-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
 > ---
->  drivers/video/fbdev/Kconfig |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/video/fbdev/w100fb.c |   18 ++++++++++--------
+>  1 file changed, 10 insertions(+), 8 deletions(-)
 > 
-> Index: b/drivers/video/fbdev/Kconfig
+> Index: b/drivers/video/fbdev/w100fb.c
 > ===================================================================
-> --- a/drivers/video/fbdev/Kconfig
-> +++ b/drivers/video/fbdev/Kconfig
-> @@ -435,7 +435,7 @@ config FB_FM2
+> --- a/drivers/video/fbdev/w100fb.c
+> +++ b/drivers/video/fbdev/w100fb.c
+> @@ -61,9 +61,9 @@ struct w100_pll_info *w100_get_xtal_tabl
+>  #define BITS_PER_PIXEL    16
 >  
->  config FB_ARC
->  	tristate "Arc Monochrome LCD board support"
-> -	depends on FB && X86
-> +	depends on FB && (X86 || COMPILE_TEST)
->  	select FB_SYS_FILLRECT
->  	select FB_SYS_COPYAREA
->  	select FB_SYS_IMAGEBLIT
+>  /* Remapped addresses for base cfg, memmapped regs and the frame buffer itself */
+> -static void *remapped_base;
+> -static void *remapped_regs;
+> -static void *remapped_fbuf;
+> +static void __iomem *remapped_base;
+> +static void __iomem *remapped_regs;
+> +static void __iomem *remapped_fbuf;
+>  
+>  #define REMAPPED_FB_LEN   0x15ffff
+>  
+> @@ -635,7 +635,7 @@ static int w100fb_resume(struct platform
+>  #endif
+>  
+>  
+> -int w100fb_probe(struct platform_device *pdev)
+> +static int w100fb_probe(struct platform_device *pdev)
+>  {
+>  	int err = -EIO;
+>  	struct w100fb_mach_info *inf;
+> @@ -807,10 +807,11 @@ static int w100fb_remove(struct platform
+>  
+>  static void w100_soft_reset(void)
+>  {
+> -	u16 val = readw((u16 *) remapped_base + cfgSTATUS);
+> -	writew(val | 0x08, (u16 *) remapped_base + cfgSTATUS);
+> +	u16 val = readw((u16 __iomem *)remapped_base + cfgSTATUS);
+> +
+> +	writew(val | 0x08, (u16 __iomem *)remapped_base + cfgSTATUS);
+>  	udelay(100);
+> -	writew(0x00, (u16 *) remapped_base + cfgSTATUS);
+> +	writew(0x00, (u16 __iomem *)remapped_base + cfgSTATUS);
+>  	udelay(100);
+>  }
+>  
+> @@ -1022,7 +1023,8 @@ struct w100_pll_info *w100_get_xtal_tabl
+>  			return pll_entry->pll_table;
+>  		pll_entry++;
+>  	} while (pll_entry->xtal_freq);
+> -	return 0;
+> +
+> +	return NULL;
+>  }
+>  
+>  
 > _______________________________________________
 > dri-devel mailing list
 > dri-devel@lists.freedesktop.org
