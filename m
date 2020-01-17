@@ -1,38 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B89E14111E
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 19:50:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDBE9141121
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2020 19:51:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DA376F8BF;
-	Fri, 17 Jan 2020 18:50:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D88CE6F8C0;
+	Fri, 17 Jan 2020 18:51:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C33D6F8BF
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2020 18:50:16 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54AE56F8C0
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2020 18:51:03 +0000 (UTC)
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id A6FBE20028;
- Fri, 17 Jan 2020 19:50:13 +0100 (CET)
-Date: Fri, 17 Jan 2020 19:50:12 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Icenowy Zheng <icenowy@aosc.io>
-Subject: Re: [PATCH v2 0/5] Add support for Pine64 PineTab
-Message-ID: <20200117185012.GC14298@ravnborg.org>
-References: <20200116033636.512461-1-icenowy@aosc.io>
+ by mail.kernel.org (Postfix) with ESMTPSA id BDAD82072B;
+ Fri, 17 Jan 2020 18:51:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1579287063;
+ bh=4ObExroSCWGNve5s7TIFQsVIfvlgT8E/TPphO4LISMo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Ydq2ZkRUsvqU3hkGtut5GGp6gk3tig3v5IzWC0YDjWoD1OmLFBzxqUTfVJgzpvthV
+ C4QSN44EN3HR2sdBc8jelB1x/Q4HC5rtFrq4GNGwiQTqXf5gNjEDSOIwad8hOUetBv
+ DP1Vk4rjtXYXfmA7q99VjJ7oaZG/v8V2VOrMwC7s=
+Date: Fri, 17 Jan 2020 19:51:00 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Stephan Gerhold <stephan@gerhold.net>
+Subject: Re: [PATCH v3 0/2] drm/modes: Apply video parameters with only
+ reflect option
+Message-ID: <20200117185100.dukz3e7np3z3df7k@gilmour.lan>
+References: <20200117153429.54700-1-stephan@gerhold.net>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200116033636.512461-1-icenowy@aosc.io>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=e5mUnYsNAAAA:8
- a=E4uMMbyC_ska1DofYlAA:9 a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
- a=pHzHmUro8NiASowvMSCR:22 a=6VlIyEUom7LUIeUMNQJH:22
+In-Reply-To: <20200117153429.54700-1-stephan@gerhold.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,64 +46,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-sunxi@googlegroups.com, linux-kernel@vger.kernel.org,
- Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============2050578624=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Icenowy
 
-On Thu, Jan 16, 2020 at 11:36:31AM +0800, Icenowy Zheng wrote:
-> This patchset tries to add support for the PineTab tablet from Pine64.
-> 
-> As it uses a specific MIPI-DSI panel, the support of the panel should be
-> introduced first, with its DT binding.
-> 
-> Then a device tree is added. Compared to v1 of the patchset, the
-> accelerometer support is temporarily removed because a DT binding is
-> lacked (although a proper driver exists).
-> 
-> Icenowy Zheng (5):
->   dt-bindings: vendor-prefix: add Shenzhen Feixin Photoelectics Co., Ltd
->   dt-bindings: panel: add Feixin K101 IM2BA02 MIPI-DSI panel
->   drm/panel: Add Feixin K101 IM2BA02 panel
->   dt-bindings: arm: sunxi: add binding for PineTab tablet
->   arm64: dts: allwinner: a64: add support for PineTab
+--===============2050578624==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="uwwjmypui72mlvgs"
+Content-Disposition: inline
 
-Thanks for the updates.
-I have applied the first three patches to drm-misc-next.
-The remaining two patches shall most likely go in via another tree.
 
-	Sam
+--uwwjmypui72mlvgs
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> 
->  .../devicetree/bindings/arm/sunxi.yaml        |   5 +
->  .../display/panel/feixin,k101-im2ba02.yaml    |  55 ++
->  .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
->  MAINTAINERS                                   |   6 +
->  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
->  .../boot/dts/allwinner/sun50i-a64-pinetab.dts | 460 +++++++++++++++
->  drivers/gpu/drm/panel/Kconfig                 |   9 +
->  drivers/gpu/drm/panel/Makefile                |   1 +
->  .../gpu/drm/panel/panel-feixin-k101-im2ba02.c | 526 ++++++++++++++++++
->  9 files changed, 1065 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/feixin,k101-im2ba02.yaml
->  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
->  create mode 100644 drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c
-> 
-> -- 
-> 2.23.0
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+On Fri, Jan 17, 2020 at 04:34:27PM +0100, Stephan Gerhold wrote:
+> At the moment, video mode parameters like video=540x960,reflect_x,
+> (without rotation set) are not taken into account when applying the
+> mode in drm_client_modeset.c.
+>
+> One of the reasons for this is that the calculation that
+> combines the panel_orientation with cmdline->rotation_reflection
+> does not handle the case when cmdline->rotation_reflection does
+> not have any rotation set.
+> (i.e. cmdline->rotation_reflection & DRM_MODE_ROTATE_MASK == 0)
+>
+> However, we really should not generate such a value in the first place.
+> Rotation values should have exactly one rotation angle set
+> (DRM_MODE_ROTATE_0 for "no rotation").
+>
+> This patch set changes the command line parser to make sure that we generate
+> only valid rotation values (defaulting to DRM_MODE_ROTATE_0).
+>
+> Finally it allows DRM_MODE_ROTATE_0 when applying the rotation from
+> the video mode parameters to make parameters without rotation work correctly.
+
+For both,
+Acked-by: Maxime Ripard <mripard@kernel.org>
+
+Thanks!
+Maxime
+
+--uwwjmypui72mlvgs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXiICFAAKCRDj7w1vZxhR
+xWDxAP45kBL/5cehzw/XENZhwg7OY1VXhJzlmwNrg1wAEuKOngD/f/wtyLXFhjFk
+rhQg2u9f3Jj0m2P+pKa+vdXTsl1jBgo=
+=B6rY
+-----END PGP SIGNATURE-----
+
+--uwwjmypui72mlvgs--
+
+--===============2050578624==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============2050578624==--
