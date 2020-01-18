@@ -2,22 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1A76141636
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Jan 2020 07:40:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79558141653
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Jan 2020 08:16:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E39246F9B2;
-	Sat, 18 Jan 2020 06:40:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D96ED6F9BA;
+	Sat, 18 Jan 2020 07:16:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8AAF6F9B2
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Jan 2020 06:40:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 975876F9BA
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Jan 2020 07:16:38 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206141] VCE UVD ring test failed -110
-Date: Sat, 18 Jan 2020 06:40:36 +0000
+Subject: [Bug 206155] amdgpu several warnings while booting Fiji GPU, GPU not
+ activated
+Date: Sat, 18 Jan 2020 07:16:38 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -25,7 +26,7 @@ X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
+X-Bugzilla-Severity: blocking
 X-Bugzilla-Who: janpieter.sollie@dommel.be
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: INVALID
@@ -33,9 +34,9 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-206141-2300-RaqInNFbgL@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-206141-2300@https.bugzilla.kernel.org/>
-References: <bug-206141-2300@https.bugzilla.kernel.org/>
+Message-ID: <bug-206155-2300-EP657ZQDBB@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-206155-2300@https.bugzilla.kernel.org/>
+References: <bug-206155-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -56,7 +57,7 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=206141
+https://bugzilla.kernel.org/show_bug.cgi?id=206155
 
 Janpieter Sollie (janpieter.sollie@dommel.be) changed:
 
@@ -65,12 +66,9 @@ Janpieter Sollie (janpieter.sollie@dommel.be) changed:
              Status|NEW                         |RESOLVED
          Resolution|---                         |INVALID
 
---- Comment #9 from Janpieter Sollie (janpieter.sollie@dommel.be) ---
-Thank you Alex! You helped the environment by making it unnecessary to trash a
-GPU :p.
-Anyway, this bug is definitely solved, thank you all! If there's anything I
-could do to pay back for the support, let me know.
-Janpieter
+--- Comment #4 from Janpieter Sollie (janpieter.sollie@dommel.be) ---
+Bug is invalid - caused by a HW gpu failure (#206141), disabling those rings
+fixed it completely
 
 -- 
 You are receiving this mail because:
