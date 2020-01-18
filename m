@@ -1,44 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED0B81416CD
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Jan 2020 10:34:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8898E1416DE
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Jan 2020 10:42:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 937D36F9DC;
-	Sat, 18 Jan 2020 09:34:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9D4D89350;
+	Sat, 18 Jan 2020 09:42:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4FA36F9DC
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Jan 2020 09:34:16 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206231] R9 280X low performance with all games
-Date: Sat, 18 Jan 2020 09:34:16 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: kentosama@whiteninjastudio.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-206231-2300-jEV1crEzGk@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-206231-2300@https.bugzilla.kernel.org/>
-References: <bug-206231-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D52A089350
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Jan 2020 09:42:01 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id C98AB803EF;
+ Sat, 18 Jan 2020 10:41:57 +0100 (CET)
+Date: Sat, 18 Jan 2020 10:41:56 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Benjamin Gaignard <benjamin.gaignard@st.com>
+Subject: Re: [PATCH v2] drm: fix parameters documentation style
+Message-ID: <20200118094156.GB12245@ravnborg.org>
+References: <20200114160135.14990-1-benjamin.gaignard@st.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200114160135.14990-1-benjamin.gaignard@st.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=8b9GpE9nAAAA:8
+ a=JfrnYn6hAAAA:8 a=e5mUnYsNAAAA:8 a=njsOEbNGQvRvgwHo9rwA:9
+ a=CjuIK1q_8ugA:10 a=T3LWEMljR5ZiDmsYVIUa:22 a=1CNFftbPRP8L7MoqJWF3:22
+ a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,31 +46,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: airlied@linux.ie, Randy Dunlap <rdunlap@infradead.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=206231
+Hi Benjamin
 
---- Comment #12 from Jacques Belosoukinski (kentosama@whiteninjastudio.com) ---
-The framerate with CS GO is not good with graphics on "high". I tried the Dust
-II map and I get a maximum of 90 fps in some places, a minimum of ~ 50 fps
-looking towards "middle" where the main door is.
+On Tue, Jan 14, 2020 at 05:01:35PM +0100, Benjamin Gaignard wrote:
+> Remove old documentation style and use new one to avoid warnings when
+> compiling with W=1
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
 
-It seems very weak to me.
+Thanks for the warning fixes.
+This is legacy stuff that is not even wired into the kernel-doc stuff.
+But that is no excuse for old-style comments.
 
-For Dota 2 with Vulkan, the game runs at more than 100 fps in some places, but
-with a some elements on the screen, it's more around ~ 60fps. I noticed that as
-with other games, GPU usage is always low when there is a need for performance.
+Applied to drm-misc-next.
 
-Screenshtos:
-https://i.ibb.co/BTknwjH/csgo.jpg
-https://i.ibb.co/c35Rxmg/dota2.jpg
+	Sam
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+> ---
+> CC: Randy Dunlap <rdunlap@infradead.org>
+> version 2:
+> - fix return documentation
+> 
+>  drivers/gpu/drm/drm_dma.c | 21 +++++++++++----------
+>  1 file changed, 11 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_dma.c b/drivers/gpu/drm/drm_dma.c
+> index e45b07890c5a..a7add55a85b4 100644
+> --- a/drivers/gpu/drm/drm_dma.c
+> +++ b/drivers/gpu/drm/drm_dma.c
+> @@ -42,10 +42,10 @@
+>  #include "drm_legacy.h"
+>  
+>  /**
+> - * Initialize the DMA data.
+> + * drm_legacy_dma_setup() - Initialize the DMA data.
+>   *
+> - * \param dev DRM device.
+> - * \return zero on success or a negative value on failure.
+> + * @dev: DRM device.
+> + * Return: zero on success or a negative value on failure.
+>   *
+>   * Allocate and initialize a drm_device_dma structure.
+>   */
+> @@ -71,9 +71,9 @@ int drm_legacy_dma_setup(struct drm_device *dev)
+>  }
+>  
+>  /**
+> - * Cleanup the DMA resources.
+> + * drm_legacy_dma_takedown() - Cleanup the DMA resources.
+>   *
+> - * \param dev DRM device.
+> + * @dev: DRM device.
+>   *
+>   * Free all pages associated with DMA buffers, the buffers and pages lists, and
+>   * finally the drm_device::dma structure itself.
+> @@ -120,10 +120,10 @@ void drm_legacy_dma_takedown(struct drm_device *dev)
+>  }
+>  
+>  /**
+> - * Free a buffer.
+> + * drm_legacy_free_buffer() - Free a buffer.
+>   *
+> - * \param dev DRM device.
+> - * \param buf buffer to free.
+> + * @dev: DRM device.
+> + * @buf: buffer to free.
+>   *
+>   * Resets the fields of \p buf.
+>   */
+> @@ -139,9 +139,10 @@ void drm_legacy_free_buffer(struct drm_device *dev, struct drm_buf * buf)
+>  }
+>  
+>  /**
+> - * Reclaim the buffers.
+> + * drm_legacy_reclaim_buffers() - Reclaim the buffers.
+>   *
+> - * \param file_priv DRM file private.
+> + * @dev: DRM device.
+> + * @file_priv: DRM file private.
+>   *
+>   * Frees each buffer associated with \p file_priv not already on the hardware.
+>   */
+> -- 
+> 2.15.0
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
