@@ -1,44 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 650E61419E0
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Jan 2020 22:32:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF4811419F9
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Jan 2020 23:05:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 036006E156;
-	Sat, 18 Jan 2020 21:32:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E52A16E15D;
+	Sat, 18 Jan 2020 22:05:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E56F6E157
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Jan 2020 21:32:17 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206231] R9 280X low performance with all games
-Date: Sat, 18 Jan 2020 21:32:17 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: sylvain.bertrand@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-206231-2300-Geaab7Lovk@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-206231-2300@https.bugzilla.kernel.org/>
-References: <bug-206231-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F29CD6E15D
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Jan 2020 22:05:03 +0000 (UTC)
+Subject: Re: [git pull] drm fixes for 5.5-rc7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1579385103;
+ bh=Ki1bVuApY32Y91Oiad9vnAjok3ZarWryih/b+RfdvzY=;
+ h=From:In-Reply-To:References:Date:To:Cc:From;
+ b=FBD8dPWfIZKJI5AWG+/xvRsyqq2wSKf+kZ8K1BtDmY+ggM8byC0/7uko0qTZKVKyc
+ 8Ls+1r0NOQwTk0ZOs5jDlcVQBL7TDI6cZk4Og6wo77n4Tj21U69sbYZsU4HxW7YTwv
+ BAQ81dIxum90q5L6rAfn5Rd4cI0bzgeLQ2olEis8=
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9tyCmZM2Nzy397APbb9-EcNyC-Bgz4Q_7hTcjaQpX6E1Pw@mail.gmail.com>
+References: <CAPM=9tyCmZM2Nzy397APbb9-EcNyC-Bgz4Q_7hTcjaQpX6E1Pw@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAPM=9tyCmZM2Nzy397APbb9-EcNyC-Bgz4Q_7hTcjaQpX6E1Pw@mail.gmail.com>
+X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
+ tags/drm-fixes-2020-01-19
+X-PR-Tracked-Commit-Id: f66d84c8b4db9a4f77f29e2d8fd521196c879582
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 244dc2689085d7ff478f7b61841e62e59bea4557
+Message-Id: <157938510363.7168.18142518179667876755.pr-tracker-bot@kernel.org>
+Date: Sat, 18 Jan 2020 22:05:03 +0000
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,50 +46,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=206231
+The pull request you sent on Sun, 19 Jan 2020 07:21:35 +1000:
 
---- Comment #18 from Sylvain BERTRAND (sylvain.bertrand@gmail.com) ---
-On Sat, Jan 18, 2020 at 08:59:14PM +0000, bugzilla-daemon@bugzilla.kernel.org
-wrote:
-> I downloaded the Vulkan DLC and active the FPS in Dota 2. I get between ~80
-> and
-> 90 fps :
+> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-01-19
 
-I have ~ the same fps (even though it can go somewhat below in intense team
-fights)
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/244dc2689085d7ff478f7b61841e62e59bea4557
 
-> For CSGO, i get between ~70 and +100fps :
-
-I have ~ the same for competitive maps.
-
-For danger zone maps, namely big open maps, csgo 3d engine has disastrous
-performance. Valve is aware of the problem. It seems there is a kind of cpu
-cap somewhere since max or lowest 3d settings does not seem to impact
-significantly the performance.
-
-Don't forget: I heard southern island parts suffer from a critical mip mapping
-bug/slowdown.
-
-----
-
-The real benchmark is how much time and how often the fps goes below 60 in the
-worst realistic conditions (average does not matter).
-
----- 
-
-I did re-install "rise of the tomb raider", I still get gpu vm faults.
-
-If I recall properly "bioshock infinite" is gpu nasty even though it is a GL
-game.
+Thank you!
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
