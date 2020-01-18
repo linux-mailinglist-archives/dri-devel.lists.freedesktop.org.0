@@ -2,70 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E3D61417A1
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Jan 2020 14:18:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 132741417D6
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Jan 2020 15:02:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 194026E07D;
-	Sat, 18 Jan 2020 13:18:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DED2B89F8E;
+	Sat, 18 Jan 2020 14:02:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3724F6E07D
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Jan 2020 13:18:39 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 9A6B221C08;
- Sat, 18 Jan 2020 08:18:37 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Sat, 18 Jan 2020 08:18:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=DRHAHJguT0zUvuL+HVAIgaDuT2H
- 2OklHFj7eOTL2buQ=; b=ZwOTVUgjw+v6z8Bwo66ELXgACYkpuH5IXBOnnR+EXIF
- MhVc9hgm/YTxCyyB6ax/p0J02hl7Pg5tAH+8co+df5iEtLSMLjD0fLdV4UaL2V5G
- GRIjLqJ5SlkjXrTtc0a0VGPAhfpPdr+xZVutRe7irHPnNSIwr5bz1LVK+NwgrtgJ
- bgEKT9bfu4m5TFWAc9KP8rPU0/jXpaypRyoUX/UyKOeINOucyhv73u+nP2kW3zLD
- VJrC2VUA3Fo8ny0jBaO5lwig3P86bQBV/MaPS60GhAE81CERkRsRv09J7XRuseys
- i1Zrsuxp1dxopbv3HrfCMvbXNsq2UzZSjAyXI/ZFL3Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=DRHAHJ
- guT0zUvuL+HVAIgaDuT2H2OklHFj7eOTL2buQ=; b=Se8pfQufQYd6K+LP1Jmq3v
- DszalQzijDvVM0b4lB06ljsdV2kXyA8NCtj1Ts/vfKKzn4qE7bmNmBy3TXwLCMiU
- 45+Lzt+jjJhF9NZjDo1f8EDDvdf7G2A5GP+bwhhyc+dQZ7alSADiEqGlAmEQLcPO
- U8VwB0qhOElvK1++AzmXwPQirijmYCiL4BQg82cAUGITgvB50BR2/Fi4gPtZcba9
- sgeLtP9APAalHE3QwbIPpHzO5f9Zspk1r8QXBHANLz69o3wSO06pRYFiccvMkg3Z
- 42BZXp9uz9Dd3UoTuxrKIaSkVlo0h7Isb8PDUpURuujrKsHX8ywBSh1lFqvqG76Q
- ==
-X-ME-Sender: <xms:rQUjXlhoLj1-gN48oh7dIKCyLRVZShngX3ZfUDEgiYs1W4BBjHx0LA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedruddtgdehtdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghgucfm
- jfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecukfhppeefjedrjedurddugeefrdduje
- dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomhenucev
- lhhushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:rQUjXuBtNILX2KHo6wEaYS6dMVIkAAlENYv7FAwsNf05GvLDSl9ULg>
- <xmx:rQUjXls9OulPIDmb3T9l-CVnHXOd1SonAsP5oAo7Hr6yEJjS7v8f1w>
- <xmx:rQUjXqIv06_7RDiQL7nDwgiUmAJGb5dBCOfu1JXVawvn2sUye0SFtQ>
- <xmx:rQUjXjXFU5ZqHBT-cohQoAaQOwMRw-27NeDTdPTP3chZMM4x3bcfpg>
-Received: from localhost (170.143.71.37.rev.sfr.net [37.71.143.170])
- by mail.messagingengine.com (Postfix) with ESMTPA id 080A430608AD;
- Sat, 18 Jan 2020 08:18:36 -0500 (EST)
-Date: Sat, 18 Jan 2020 14:18:35 +0100
-From: Greg KH <greg@kroah.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH AUTOSEL 5.4 002/205] drm/panfrost: Add missing check for
- pfdev->regulator
-Message-ID: <20200118131835.GA4734@kroah.com>
-References: <20200116164300.6705-1-sashal@kernel.org>
- <20200116164300.6705-2-sashal@kernel.org>
- <20200117161226.GA8472@arm.com>
- <20200117165909.GA1949937@kroah.com> <20200118081845.GF19765@kadam>
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B9C689F8E
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Jan 2020 14:02:15 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id y17so25284526wrh.5
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Jan 2020 06:02:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=Mx/XHEqC0srgOj0wDJPRlAsSQQIeN602CXOTKoXBgrI=;
+ b=sVHFQ/9YgSk+vaNtmyF1GXkw28PX2FDGabYlRYvfQXR3MHXGEQf58Q7OJTDsdpItFe
+ vnmEAXCdA7+vDQt8iJH1ZA49nrgA41XXl7Xk8kWdCVsnGj7TxSIw835EYiYsk7OrQqBl
+ 4ZJANXJ0WmsKJPxJlFYq2s/OU5gzZBPLyz9kujgmfZjCdetCr0llyG1CEtkraE26gCDC
+ my2bv6Na1Xga3zbIhXx3mPV5v1xzvqjqVieKl/+NYh+atZrYM/IuHj2UVssE6qD7OAJl
+ AmUJSk8mQPoeuZO4RdZMTMAkfqaHGS/W31BZUupoo9JJ4ENH2EH6VcHJqlYqT8QGzVjf
+ sReA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=Mx/XHEqC0srgOj0wDJPRlAsSQQIeN602CXOTKoXBgrI=;
+ b=FZdwPmwncKlaPjBfjDsY8+jSK7pQEgJZZHnmVxoFTOMG2arjYKIi0XoIhRdKv1TvVn
+ 0Lwdy70bcEEOiZcqO+eE+0CCXNb7sdOjI+Tw1sfLru0ybb9MxPOzBvOqMb7Bn5NnnjzF
+ GZbtlkhUdLHz4+p+/yG+wM4GnKILu3eUDvJTtpamG39pNvxCsr6LslYbUSU+90A8sFir
+ bluuvxDY/UnPWivUhp1uZFLBbaYJIHhkZsEtUDVE7060Po3aNZTsBK7aDG+zkcZnOGY4
+ 8+vpktMvT/l9yjOv9z0UYLJ24CL0q35R1MHgBn/20e/KQoT7+gfJhiTHbXbbNbpfarjv
+ FXtw==
+X-Gm-Message-State: APjAAAWHOH6V7IdmXsGRk8oBrpvEZCsyv78JALa2c9Vbh/Wpp/qBiJ1o
+ OCDk1PlQ+Rs5cQEIQS8wtZ6hqe1l
+X-Google-Smtp-Source: APXvYqyB7XYiAkB3i74PyEPco7ck8PKPtZLNOb81xCnMP7lmMS7uxroaS3X3GO3d5yIzXfsM9KNp7w==
+X-Received: by 2002:adf:f8c4:: with SMTP id f4mr8154245wrq.243.1579356134644; 
+ Sat, 18 Jan 2020 06:02:14 -0800 (PST)
+Received: from localhost (108.78.124.78.rev.sfr.net. [78.124.78.108])
+ by smtp.gmail.com with ESMTPSA id i16sm15051304wmb.36.2020.01.18.06.02.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 18 Jan 2020 06:02:14 -0800 (PST)
+Date: Sat, 18 Jan 2020 14:01:42 +0000
+From: sylvain.bertrand@gmail.com
+To: bugzilla-daemon@bugzilla.kernel.org
+Subject: Re: [Bug 206231] R9 280X low performance with all games
+Message-ID: <20200118140142.GA596@freedom>
+References: <bug-206231-2300@https.bugzilla.kernel.org/>
+ <bug-206231-2300-jEV1crEzGk@https.bugzilla.kernel.org/>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200118081845.GF19765@kadam>
+In-Reply-To: <bug-206231-2300-jEV1crEzGk@https.bugzilla.kernel.org/>
+User-Agent: Mutt/ (2018-04-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,54 +68,14 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jan 18, 2020 at 11:18:45AM +0300, Dan Carpenter wrote:
-> On Fri, Jan 17, 2020 at 05:59:09PM +0100, Greg KH wrote:
-> > On Fri, Jan 17, 2020 at 04:12:27PM +0000, Steven Price wrote:
-> > > On Thu, Jan 16, 2020 at 04:39:37PM +0000, Sasha Levin wrote:
-> > > > From: Steven Price <steven.price@arm.com>
-> > > > 
-> > > > [ Upstream commit 52282163dfa651849e905886845bcf6850dd83c2 ]
-> > > 
-> > > This commit is effectively already in 5.4. Confusingly there were two
-> > > versions of this upstream:
-> > > 
-> > > 52282163dfa6 ("drm/panfrost: Add missing check for pfdev->regulator")
-> > > c90f30812a79 ("drm/panfrost: Add missing check for pfdev->regulator")
-> > > 
-> > > It got merged both through a -fixes branch and through the normal merge
-> > > window. The two copies caused a bad merge in mainline and this was
-> > > effectively reverted in commit 603e398a3db2 ("drm/panfrost: Remove NULL
-> > > check for regulator").
-> > > 
-> > > c90f30812a79 is included in v5.4 so should already be in any v5.4.y
-> > > release.
-> > 
-> > Have I mentioned this month just how much I hate the way the DRM tree
-> > handles stable patches like this?  This kind of fallout is a pain for
-> > stable maintainers, I dred every time I see a drm patch tagged for
-> > stable.
-> > 
-> > But we've been over this all before :(
-> 
-> Another example is:
-> 
-> 29cd13cfd762 ("drm/v3d: Fix memory leak in v3d_submit_cl_ioctl")
-> 0d352a3a8a1f ("drm/v3d: don't leak bin job if v3d_job_init fails.")
-> 
-> Two fixes for a memory leak were merged so now it's a double free.  I
-> sent a patch on Jan 10 but no one responded.
+What is your CPU?
 
-Have a link to the patch?  I can't seem to find it :(
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
