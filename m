@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9F7C141893
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Jan 2020 18:03:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A014A1418BE
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Jan 2020 18:30:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E335D6E0FE;
-	Sat, 18 Jan 2020 17:03:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37B3A6E0B7;
+	Sat, 18 Jan 2020 17:30:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B23796E0FE
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Jan 2020 17:02:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 396E06E0B7
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Jan 2020 17:30:13 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206231] R9 280X low performance with all games
-Date: Sat, 18 Jan 2020 17:02:59 +0000
+Subject: [Bug 206225] nouveau: Screen distortion and lockup on resume
+Date: Sat, 18 Jan 2020 17:30:12 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -25,17 +25,17 @@ X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: sylvain.bertrand@gmail.com
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: imirkin@alum.mit.edu
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-206231-2300-kA3tcPsKAe@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-206231-2300@https.bugzilla.kernel.org/>
-References: <bug-206231-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-206225-2300-0B6Hopkuq4@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-206225-2300@https.bugzilla.kernel.org/>
+References: <bug-206225-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -56,28 +56,27 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=206231
+https://bugzilla.kernel.org/show_bug.cgi?id=206225
 
---- Comment #16 from Sylvain BERTRAND (sylvain.bertrand@gmail.com) ---
-On Sat, Jan 18, 2020 at 03:00:49PM +0000, bugzilla-daemon@bugzilla.kernel.org
-wrote:
-> https://ibb.co/GCmHFkf
-> https://ibb.co/ZXsvNZL
+Ilia Mirkin (imirkin@alum.mit.edu) changed:
 
-Still the unreadable screenshots. huh??
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |imirkin@alum.mit.edu
 
-> I use Gallium HUD with this options :
+--- Comment #6 from Ilia Mirkin (imirkin@alum.mit.edu) ---
+I see you have nouveau.config=PCRYPT=0 in your kernel config. Why did you add
+this -- was there some kind of issue with the engine? Did someone in #nouveau
+tell you to do it to help some issue? It's normally used for copy acceleration
+on G96 (which would, in turn, be used to copy off any vram data to ram on
+suspend).
 
-Gallium HUD does not work with vulkan (as far as I know), hence for dota2
-vulkan.
-In dota2 you have an option to display the 3d engine(valve source2) fps.
+The reason I ask is that starting with kernel 4.3, that will no longer have the
+effect of disabling PCRYPT. The new config to achieve that would be
+nouveau.config=cipher=0.
 
-In cs:go, there is a way to enable the 3d engine(valve source1) fps display.
-It is via the "console", see google.com.
-
-> My is CPU is an AMD FX 8320
-
-I have a FX9590, then our benchmarks should be mostly the same.
+Note that for G96, I don't think anything in firmware-misc-nonfree would affect
+it either way.
 
 -- 
 You are receiving this mail because:
