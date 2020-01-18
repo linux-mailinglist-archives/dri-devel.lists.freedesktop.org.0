@@ -2,37 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04F8B141794
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Jan 2020 14:04:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E3D61417A1
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Jan 2020 14:18:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95AB36E06B;
-	Sat, 18 Jan 2020 13:04:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 194026E07D;
+	Sat, 18 Jan 2020 13:18:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B3226E06B
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Jan 2020 13:04:23 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 3BB9820038;
- Sat, 18 Jan 2020 14:04:20 +0100 (CET)
-Date: Sat, 18 Jan 2020 14:04:18 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Oleksandr Suvorov <oleksandr.suvorov@toradex.com>
-Subject: Re: [PATCH 1/3] drm/panel: make LVDS panel driver DPI capable
-Message-ID: <20200118130418.GA13417@ravnborg.org>
-References: <20200115123401.2264293-1-oleksandr.suvorov@toradex.com>
- <20200115123401.2264293-2-oleksandr.suvorov@toradex.com>
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3724F6E07D
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Jan 2020 13:18:39 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 9A6B221C08;
+ Sat, 18 Jan 2020 08:18:37 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Sat, 18 Jan 2020 08:18:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=DRHAHJguT0zUvuL+HVAIgaDuT2H
+ 2OklHFj7eOTL2buQ=; b=ZwOTVUgjw+v6z8Bwo66ELXgACYkpuH5IXBOnnR+EXIF
+ MhVc9hgm/YTxCyyB6ax/p0J02hl7Pg5tAH+8co+df5iEtLSMLjD0fLdV4UaL2V5G
+ GRIjLqJ5SlkjXrTtc0a0VGPAhfpPdr+xZVutRe7irHPnNSIwr5bz1LVK+NwgrtgJ
+ bgEKT9bfu4m5TFWAc9KP8rPU0/jXpaypRyoUX/UyKOeINOucyhv73u+nP2kW3zLD
+ VJrC2VUA3Fo8ny0jBaO5lwig3P86bQBV/MaPS60GhAE81CERkRsRv09J7XRuseys
+ i1Zrsuxp1dxopbv3HrfCMvbXNsq2UzZSjAyXI/ZFL3Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=DRHAHJ
+ guT0zUvuL+HVAIgaDuT2H2OklHFj7eOTL2buQ=; b=Se8pfQufQYd6K+LP1Jmq3v
+ DszalQzijDvVM0b4lB06ljsdV2kXyA8NCtj1Ts/vfKKzn4qE7bmNmBy3TXwLCMiU
+ 45+Lzt+jjJhF9NZjDo1f8EDDvdf7G2A5GP+bwhhyc+dQZ7alSADiEqGlAmEQLcPO
+ U8VwB0qhOElvK1++AzmXwPQirijmYCiL4BQg82cAUGITgvB50BR2/Fi4gPtZcba9
+ sgeLtP9APAalHE3QwbIPpHzO5f9Zspk1r8QXBHANLz69o3wSO06pRYFiccvMkg3Z
+ 42BZXp9uz9Dd3UoTuxrKIaSkVlo0h7Isb8PDUpURuujrKsHX8ywBSh1lFqvqG76Q
+ ==
+X-ME-Sender: <xms:rQUjXlhoLj1-gN48oh7dIKCyLRVZShngX3ZfUDEgiYs1W4BBjHx0LA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedruddtgdehtdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghgucfm
+ jfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecukfhppeefjedrjedurddugeefrdduje
+ dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomhenucev
+ lhhushhtvghrufhiiigvpedt
+X-ME-Proxy: <xmx:rQUjXuBtNILX2KHo6wEaYS6dMVIkAAlENYv7FAwsNf05GvLDSl9ULg>
+ <xmx:rQUjXls9OulPIDmb3T9l-CVnHXOd1SonAsP5oAo7Hr6yEJjS7v8f1w>
+ <xmx:rQUjXqIv06_7RDiQL7nDwgiUmAJGb5dBCOfu1JXVawvn2sUye0SFtQ>
+ <xmx:rQUjXjXFU5ZqHBT-cohQoAaQOwMRw-27NeDTdPTP3chZMM4x3bcfpg>
+Received: from localhost (170.143.71.37.rev.sfr.net [37.71.143.170])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 080A430608AD;
+ Sat, 18 Jan 2020 08:18:36 -0500 (EST)
+Date: Sat, 18 Jan 2020 14:18:35 +0100
+From: Greg KH <greg@kroah.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [PATCH AUTOSEL 5.4 002/205] drm/panfrost: Add missing check for
+ pfdev->regulator
+Message-ID: <20200118131835.GA4734@kroah.com>
+References: <20200116164300.6705-1-sashal@kernel.org>
+ <20200116164300.6705-2-sashal@kernel.org>
+ <20200117161226.GA8472@arm.com>
+ <20200117165909.GA1949937@kroah.com> <20200118081845.GF19765@kadam>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200115123401.2264293-2-oleksandr.suvorov@toradex.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=m8ToADvmAAAA:8
- a=paNtN77jAlIXY0rMc8MA:9 a=CjuIK1q_8ugA:10 a=kCrBFHLFDAq2jDEeoMj9:22
+In-Reply-To: <20200118081845.GF19765@kadam>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,67 +78,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+Cc: Sasha Levin <sashal@kernel.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, Igor Opanyuk <igor.opanyuk@toradex.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Steven Price <steven.price@arm.com>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Oleksandr & Stafan.
-
-Thanks for the update to panel-lvds.
-
-
-On Wed, Jan 15, 2020 at 12:34:17PM +0000, Oleksandr Suvorov wrote:
-> From: Stefan Agner <stefan@agner.ch>
+On Sat, Jan 18, 2020 at 11:18:45AM +0300, Dan Carpenter wrote:
+> On Fri, Jan 17, 2020 at 05:59:09PM +0100, Greg KH wrote:
+> > On Fri, Jan 17, 2020 at 04:12:27PM +0000, Steven Price wrote:
+> > > On Thu, Jan 16, 2020 at 04:39:37PM +0000, Sasha Levin wrote:
+> > > > From: Steven Price <steven.price@arm.com>
+> > > > 
+> > > > [ Upstream commit 52282163dfa651849e905886845bcf6850dd83c2 ]
+> > > 
+> > > This commit is effectively already in 5.4. Confusingly there were two
+> > > versions of this upstream:
+> > > 
+> > > 52282163dfa6 ("drm/panfrost: Add missing check for pfdev->regulator")
+> > > c90f30812a79 ("drm/panfrost: Add missing check for pfdev->regulator")
+> > > 
+> > > It got merged both through a -fixes branch and through the normal merge
+> > > window. The two copies caused a bad merge in mainline and this was
+> > > effectively reverted in commit 603e398a3db2 ("drm/panfrost: Remove NULL
+> > > check for regulator").
+> > > 
+> > > c90f30812a79 is included in v5.4 so should already be in any v5.4.y
+> > > release.
+> > 
+> > Have I mentioned this month just how much I hate the way the DRM tree
+> > handles stable patches like this?  This kind of fallout is a pain for
+> > stable maintainers, I dred every time I see a drm patch tagged for
+> > stable.
+> > 
+> > But we've been over this all before :(
 > 
-> The LVDS panel driver has almost everything which is required to
-> describe a simple parallel RGB panel (also known as DPI, Display
-> Pixel Interface).
+> Another example is:
 > 
-> Signed-off-by: Stefan Agner <stefan@agner.ch>
-> Signed-off-by: Oleksandr Suvorov <oleksandr.suvorov@toradex.com>
-> ---
+> 29cd13cfd762 ("drm/v3d: Fix memory leak in v3d_submit_cl_ioctl")
+> 0d352a3a8a1f ("drm/v3d: don't leak bin job if v3d_job_init fails.")
+> 
+> Two fixes for a memory leak were merged so now it's a double free.  I
+> sent a patch on Jan 10 but no one responded.
 
-There are a few high-level things we need to have sorted out.
-
-The driver, when this patch is added, assumes that certain properties
-are now mandatory when using the panel-dpi compatible.
-  - data-mapping
-  - width-mm
-  - height-mm
-  - panel-timing
-
-But this does not match the panel-dpi binding.
-So we need the panel-dpi binding updated first.
-
-
-The current driver specify the connector type in drm_panel_init().
-But a DPI panel is assumed to use a DRM_MODE_CONNECTOR_DPI,
-and not a DRM_MODE_CONNECTOR_LVDS.
-So the drm_panel_init() call needs to take into account the type
-of binding.
-
-
-> @@ -257,7 +279,7 @@ static struct platform_driver panel_lvds_driver = {
->  	.probe		= panel_lvds_probe,
->  	.remove		= panel_lvds_remove,
->  	.driver		= {
-> -		.name	= "panel-lvds",
-> +		.name	= "panel-generic",
-
-I think changing the name of the driver like this is an UAPI change,
-which is not OK
-
->  		.of_match_table = panel_lvds_of_table,
->  	},
->  };
-
-	Sam
+Have a link to the patch?  I can't seem to find it :(
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
