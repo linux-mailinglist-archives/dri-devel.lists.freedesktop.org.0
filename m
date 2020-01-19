@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D42D3141E83
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Jan 2020 15:23:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D83F0141E9D
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Jan 2020 15:50:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF6546E3CB;
-	Sun, 19 Jan 2020 14:23:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7668E6E3DB;
+	Sun, 19 Jan 2020 14:50:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 369F46E3CB
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Jan 2020 14:23:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8489C6E3DB
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Jan 2020 14:50:11 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206231] R9 280X low performance with all games
-Date: Sun, 19 Jan 2020 14:23:09 +0000
+Subject: [Bug 206225] nouveau: Screen distortion and lockup on resume
+Date: Sun, 19 Jan 2020 14:50:11 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -25,17 +25,17 @@ X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: sylvain.bertrand@gmail.com
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: derchiller-foren@online.de
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-206231-2300-QxUbYrTKfl@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-206231-2300@https.bugzilla.kernel.org/>
-References: <bug-206231-2300@https.bugzilla.kernel.org/>
+Message-ID: <bug-206225-2300-IbnEUH5uKp@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-206225-2300@https.bugzilla.kernel.org/>
+References: <bug-206225-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -56,18 +56,21 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=206231
+https://bugzilla.kernel.org/show_bug.cgi?id=206225
 
---- Comment #20 from Sylvain BERTRAND (sylvain.bertrand@gmail.com) ---
-On Sun, Jan 19, 2020 at 01:11:15PM +0000, bugzilla-daemon@bugzilla.kernel.org
-wrote:
-> Tomb Raider: https://youtu.be/0olpvLBH9DA
+--- Comment #9 from Christoph Marz (derchiller-foren@online.de) ---
+Well, then this might sound strange:
 
-Indeed, this is obvious here
+I purged firmware-misc-nonfree, rebooted, sent the system to sleep and resumed,
+and the distortion was back.
 
-This vid rekt of the mip mapping hardware slow down bug... but I may be totally
-wrong
-due to the insane complexity of the GL stack.
+Instead of reinstalling it, I set nouveau.config=cipher=0 and tested again, and
+everything is fine. Furthermore, now I can use the firmware for Video
+Acceleration. Before, I always had distortion after resume with that firmware
+installed.
+
+So everything seems fine now, but is there any downside in disabling the crypt
+engine?
 
 -- 
 You are receiving this mail because:
