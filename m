@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4178141AFA
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Jan 2020 02:46:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AF12141AFB
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Jan 2020 02:46:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 875066E1A3;
-	Sun, 19 Jan 2020 01:46:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70F396E1A7;
+	Sun, 19 Jan 2020 01:46:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2A1B56E1A3
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Jan 2020 01:46:17 +0000 (UTC)
-X-UUID: 2224402434e14e11985b2fb348685f06-20200119
+ by gabe.freedesktop.org (Postfix) with ESMTP id B4DDC6E1A3
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Jan 2020 01:46:19 +0000 (UTC)
+X-UUID: 59440ec3e1d644e3a3dffd68aa4b00f4-20200119
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=ivEcPT8iEpAX9W6/VujM8EVm+W1Y9SnJ0dVmMcBNlH8=; 
- b=JuFvvO891DcZ8n2lL03BjCVmGunkGTzmVUznn4UsaKs09upEYnL+QRPJWBiiB2dNFUTEU+BJlu//RqqxBD6mX8FMxRJ6o0raK7R3UEPaERKaaYUxeCR1h1Ulb6GTvitsDmHqiYO0bvHC6Q5di9a5UF40MVkM0sVB0rDPj/HErTM=;
-X-UUID: 2224402434e14e11985b2fb348685f06-20200119
+ bh=+VvUdG5czMFQ6vj3bLpdxYbfWO+M89EVYUK9328VdMQ=; 
+ b=kBJZi2bef0+ZYnlTKEgbAB/DSr79Y5KcXRJzJZQ7JaLjKdDwt10wGPeZvM10pWoOyin0+tRMdVz8ks1HQ387GpavggzsnIWGGu5V1ZYcM7tx+R/Vh0SsyLNSytJAxdUY9WxfdOXVE6Se0JTSk3rXf7KR+k2fm3WAsLPO9yZwgbM=;
+X-UUID: 59440ec3e1d644e3a3dffd68aa4b00f4-20200119
 Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
  (envelope-from <jitao.shi@mediatek.com>)
  (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 1726624286; Sun, 19 Jan 2020 09:46:12 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33DR.mediatek.inc
- (172.27.6.106) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
- Sun, 19 Jan 2020 09:42:38 +0800
+ with ESMTP id 1445019353; Sun, 19 Jan 2020 09:46:17 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33N2.mediatek.inc
+ (172.27.4.76) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+ Sun, 19 Jan 2020 09:46:43 +0800
 Received: from mszsdclx1018.gcn.mediatek.inc (10.16.6.18) by
  MTKCAS36.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
- 15.0.1395.4 via Frontend Transport; Sun, 19 Jan 2020 09:45:02 +0800
+ 15.0.1395.4 via Frontend Transport; Sun, 19 Jan 2020 09:45:06 +0800
 From: Jitao Shi <jitao.shi@mediatek.com>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg
  <sam@ravnborg.org>, David Airlie <airlied@linux.ie>, Daniel Vetter
  <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
  <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v10 3/5] drm/panel: support for auo,
- kd101n80-45na wuxga dsi video mode panel
-Date: Sun, 19 Jan 2020 09:45:39 +0800
-Message-ID: <20200119014541.64273-4-jitao.shi@mediatek.com>
+Subject: [PATCH v10 4/5] drm/panel: support for boe,
+ tv101wum-n53 wuxga dsi video mode panel
+Date: Sun, 19 Jan 2020 09:45:40 +0800
+Message-ID: <20200119014541.64273-5-jitao.shi@mediatek.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200119014541.64273-1-jitao.shi@mediatek.com>
 References: <20200119014541.64273-1-jitao.shi@mediatek.com>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 8E08A057F485E67EEFF4661343877C52EE854D1E48A879BAE38A304BDE365EA22000:8
+X-TM-SNTS-SMTP: E92652DB935B8C4B9CBE49BB4E0082055E79ADBB6757440A24D486470C73F4BB2000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,117 +64,41 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Auo,kd101n80-45na's connector is same as boe,tv101wum-nl6.
+Boe,tv101wum-n53's connector is same as boe,tv101wum-nl6.
 The most codes can be reuse.
-So auo,kd101n80-45na and boe,tv101wum-nl6 use one driver file.
+So boe,tv101wum-n53 and boe,tv101wum-nl6 use one driver file.
 Add the different parts in driver data.
 
 Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/panel/Kconfig                 |  6 +-
- .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 64 +++++++++++++++++--
- 2 files changed, 61 insertions(+), 9 deletions(-)
+ .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 31 +++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index ca727c233a9a..b5413edd625b 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -30,13 +30,13 @@ config DRM_PANEL_BOE_HIMAX8279D
- 	  the host and has a built-in LED backlight.
- 
- config DRM_PANEL_BOE_TV101WUM_NL6
--	tristate "BOE TV101WUM 1200x1920 panel"
-+	tristate "BOE TV101WUM and AUO KD101N80 45NA 1200x1920 panel"
- 	depends on OF
- 	depends on DRM_MIPI_DSI
- 	depends on BACKLIGHT_CLASS_DEVICE
- 	help
--	  Say Y here if you want to support for BOE TV101WUM WUXGA PANEL
--	  DSI Video Mode panel
-+	  Say Y here if you want to support for BOE TV101WUM and AUO KD101N80
-+	  45NA WUXGA PANEL DSI Video Mode panel
- 
- config DRM_PANEL_LVDS
- 	tristate "Generic LVDS panel driver"
 diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-index 51fde588adc1..2160144ca51b 100644
+index 2160144ca51b..e77ea577d93a 100644
 --- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
 +++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-@@ -34,6 +34,7 @@ struct panel_desc {
- 	enum mipi_dsi_pixel_format format;
- 	const struct panel_init_cmd *init_cmds;
- 	unsigned int lanes;
-+	bool discharge_on_disable;
+@@ -593,6 +593,34 @@ static const struct panel_desc auo_kd101n80_45na_desc = {
+ 	.discharge_on_disable = true,
  };
  
- struct boe_panel {
-@@ -367,6 +368,15 @@ static const struct panel_init_cmd boe_init_cmd[] = {
- 	{},
- };
- 
-+static const struct panel_init_cmd auo_kd101n80_45na_init_cmd[] = {
-+	_INIT_DELAY_CMD(24),
-+	_INIT_DCS_CMD(0x11),
-+	_INIT_DELAY_CMD(120),
-+	_INIT_DCS_CMD(0x29),
-+	_INIT_DELAY_CMD(120),
-+	{},
-+};
-+
- static inline struct boe_panel *to_boe_panel(struct drm_panel *panel)
- {
- 	return container_of(panel, struct boe_panel, base);
-@@ -444,12 +454,22 @@ static int boe_panel_unprepare(struct drm_panel *panel)
- 	}
- 
- 	msleep(150);
--	gpiod_set_value(boe->enable_gpio, 0);
--	usleep_range(500, 1000);
--	regulator_disable(boe->avee);
--	regulator_disable(boe->avdd);
--	usleep_range(5000, 7000);
--	regulator_disable(boe->pp1800);
-+
-+	if (boe->desc->discharge_on_disable) {
-+		regulator_disable(boe->avee);
-+		regulator_disable(boe->avdd);
-+		usleep_range(5000, 7000);
-+		gpiod_set_value(boe->enable_gpio, 0);
-+		usleep_range(5000, 7000);
-+		regulator_disable(boe->pp1800);
-+	} else {
-+		gpiod_set_value(boe->enable_gpio, 0);
-+		usleep_range(500, 1000);
-+		regulator_disable(boe->avee);
-+		regulator_disable(boe->avdd);
-+		usleep_range(5000, 7000);
-+		regulator_disable(boe->pp1800);
-+	}
- 
- 	boe->prepared = false;
- 
-@@ -542,6 +562,35 @@ static const struct panel_desc boe_tv101wum_nl6_desc = {
- 	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
- 		      MIPI_DSI_MODE_LPM,
- 	.init_cmds = boe_init_cmd,
-+	.discharge_on_disable = false,
-+};
-+
-+static const struct drm_display_mode auo_kd101n80_45na_default_mode = {
-+	.clock = 157000,
++static const struct drm_display_mode boe_tv101wum_n53_default_mode = {
++	.clock = 159916,
 +	.hdisplay = 1200,
 +	.hsync_start = 1200 + 80,
 +	.hsync_end = 1200 + 80 + 24,
-+	.htotal = 1200 + 80 + 24 + 36,
++	.htotal = 1200 + 80 + 24 + 40,
 +	.vdisplay = 1920,
-+	.vsync_start = 1920 + 16,
-+	.vsync_end = 1920 + 16 + 4,
-+	.vtotal = 1920 + 16 + 4 + 16,
++	.vsync_start = 1920 + 20,
++	.vsync_end = 1920 + 20 + 4,
++	.vtotal = 1920 + 20 + 4 + 10,
 +	.vrefresh = 60,
++	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
 +};
 +
-+static const struct panel_desc auo_kd101n80_45na_desc = {
-+	.modes = &auo_kd101n80_45na_default_mode,
++static const struct panel_desc boe_tv101wum_n53_desc = {
++	.modes = &boe_tv101wum_n53_default_mode,
 +	.bpc = 8,
 +	.size = {
 +		.width_mm = 135,
@@ -184,17 +108,18 @@ index 51fde588adc1..2160144ca51b 100644
 +	.format = MIPI_DSI_FMT_RGB888,
 +	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
 +		      MIPI_DSI_MODE_LPM,
-+	.init_cmds = auo_kd101n80_45na_init_cmd,
-+	.discharge_on_disable = true,
- };
- 
++	.init_cmds = boe_init_cmd,
++};
++
  static int boe_panel_get_modes(struct drm_panel *panel,
-@@ -673,6 +722,9 @@ static const struct of_device_id boe_of_match[] = {
- 	{ .compatible = "boe,tv101wum-nl6",
- 	  .data = &boe_tv101wum_nl6_desc
+ 			       struct drm_connector *connector)
+ {
+@@ -725,6 +753,9 @@ static const struct of_device_id boe_of_match[] = {
+ 	{ .compatible = "auo,kd101n80-45na",
+ 	  .data = &auo_kd101n80_45na_desc
  	},
-+	{ .compatible = "auo,kd101n80-45na",
-+	  .data = &auo_kd101n80_45na_desc
++	{ .compatible = "boe,tv101wum-n53",
++	  .data = &boe_tv101wum_n53_desc
 +	},
  	{ /* sentinel */ }
  };
