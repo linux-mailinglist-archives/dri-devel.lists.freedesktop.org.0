@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D984A141F23
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Jan 2020 18:04:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03C69141F26
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Jan 2020 18:13:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7AF86E41B;
-	Sun, 19 Jan 2020 17:04:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 803786E416;
+	Sun, 19 Jan 2020 17:13:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 428106E41A
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Jan 2020 17:04:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9C126E416
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Jan 2020 17:13:00 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 201957] amdgpu: ring gfx timeout
-Date: Sun, 19 Jan 2020 17:04:47 +0000
+Date: Sun, 19 Jan 2020 17:13:00 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -26,14 +26,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: delentef@gmail.com
+X-Bugzilla-Who: mh@familie-heinz.name
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-201957-2300-81QH93TyaL@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-201957-2300-LfPx3QCUUV@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-201957-2300@https.bugzilla.kernel.org/>
 References: <bug-201957-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,10 +58,15 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=201957
 
---- Comment #28 from F. Delente (delentef@gmail.com) ---
-Created attachment 286901
-  --> https://bugzilla.kernel.org/attachment.cgi?id=286901&action=edit
-lspci output
+--- Comment #29 from Matthias Heinz (mh@familie-heinz.name) ---
+Hi. This bug is already reported here by me
+https://gitlab.freedesktop.org/drm/amd/issues/953
+
+If possible try a 5.5-rc kernel and see if it's fixed there. It's fixed - at
+least for me - in the drm-tree.
+
+Best regards
+Matthias
 
 -- 
 You are receiving this mail because:
