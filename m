@@ -1,64 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CA7A142F1F
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2020 17:01:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 764C5142F3F
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2020 17:06:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF8286E9DD;
-	Mon, 20 Jan 2020 16:01:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D92216E9ED;
+	Mon, 20 Jan 2020 16:06:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from vern.gendns.com (vern.gendns.com [98.142.107.122])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C34B6E9DD
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2020 16:01:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=lechnology.com; s=default; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=oetEg5fj/8NVUMsSSQOrxfgNlGM/ZZ/jjm0sZwoCSO4=; b=DQeNOKDjz9g1nGoGOuDajUmD3+
- gMdqW1mQqsYHpytC4feb++yYn3XPWDQOPhX/3gxTwp5Q2iLqiyWAsh/vc5Bc4ORx80wVg71E+QB0L
- yeZ9/YLAkahXl5poGpuT2uHekfU0KXec2cPJibm5lzX4IjfZyymJbkrpwhoI8kSWMUYy7nwtj23iy
- iTsPdyg8A4qH3XvK2wkOiaCOn3mCqBHr1BA7unu+NQjuJaGgegtgpn4r0AqkGMgMO5wyGG9EQNy9m
- NZTh0FAic/prdQteKCb3voaRDHyLkZfb7FLAmZLai4LQVZbEDJHQvNrxSNnbdFS9dRHTTT7uyhFDP
- sXvIvaUA==;
-Received: from 108-198-5-147.lightspeed.okcbok.sbcglobal.net
- ([108.198.5.147]:49460 helo=[192.168.0.134])
- by vern.gendns.com with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
- (Exim 4.92) (envelope-from <david@lechnology.com>)
- id 1itZTv-0006Fx-E5; Mon, 20 Jan 2020 11:00:51 -0500
-Subject: Re: [PATCH v2 1/5] dt-bindings: display: sitronix, st7735r: Convert to
- DT schema
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>
-References: <20200115124548.3951-1-geert+renesas@glider.be>
- <20200115124548.3951-2-geert+renesas@glider.be>
-From: David Lechner <david@lechnology.com>
-Message-ID: <ba21d2c8-ccc6-2704-fa1f-d28239700547@lechnology.com>
-Date: Mon, 20 Jan 2020 10:00:49 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+Received: from mail25.static.mailgun.info (mail25.static.mailgun.info
+ [104.130.122.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88CD46E9EC
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2020 16:06:48 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1579536408; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: Cc: To: From: Date: Sender;
+ bh=nlffCl3STfYmqgTS7203lXg1fzzQEMDeDDCr4puFepE=;
+ b=pYMT7fXCmG4/6Fs3ZE1pAVJv4NaGBCKpY+7uXT00P4/k3fRuExy3cxNnBMe69SpQwWDRtVvm
+ XNkL+kpmauP3aZ8FkBFaa5X/7j1QEagiMICHNis7SIbD6Sne+ykd3N7AzV6EtJet6fjVvDFA
+ ls99ohz7oI11k/r0ddgVbPXXRYk=
+X-Mailgun-Sending-Ip: 104.130.122.25
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e25d017.7fd56066f490-smtp-out-n01;
+ Mon, 20 Jan 2020 16:06:47 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id E9B11C43383; Mon, 20 Jan 2020 16:06:46 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=ham autolearn_force=no version=3.4.0
+Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: jcrouse)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id BEC28C433CB;
+ Mon, 20 Jan 2020 16:06:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org BEC28C433CB
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=jcrouse@codeaurora.org
+Date: Mon, 20 Jan 2020 09:06:40 -0700
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Subject: Re: [Freedreno] [PATCH v2] drm/msm: Add syncobj support.
+Message-ID: <20200120160639.GA19353@jcrouse1-lnx.qualcomm.com>
+Mail-Followup-To: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
+ freedreno@lists.freedesktop.org,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
+References: <20200116230417.12076-1-bas@basnieuwenhuizen.nl>
+ <20200117181726.GA19854@jcrouse1-lnx.qualcomm.com>
+ <CAP+8YyErHjk07CUGKuYsJyFNc8iL8uGTXSdAb1oMprH180XwyA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200115124548.3951-2-geert+renesas@glider.be>
-Content-Language: en-US
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - vern.gendns.com
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lechnology.com
-X-Get-Message-Sender-Via: vern.gendns.com: authenticated_id:
- davidmain+lechnology.com/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: vern.gendns.com: davidmain@lechnology.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Disposition: inline
+In-Reply-To: <CAP+8YyErHjk07CUGKuYsJyFNc8iL8uGTXSdAb1oMprH180XwyA@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,167 +72,303 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Chris Brandt <chris.brandt@renesas.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: freedreno@lists.freedesktop.org,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/15/20 6:45 AM, Geert Uytterhoeven wrote:
-> Convert the DT binding documentation for Sitronix ST7735R displays to DT
-> schema.
+On Fri, Jan 17, 2020 at 07:32:27PM +0100, Bas Nieuwenhuizen wrote:
+> On Fri, Jan 17, 2020 at 7:17 PM Jordan Crouse <jcrouse@codeaurora.org> wrote:
+> >
+> > On Fri, Jan 17, 2020 at 12:04:17AM +0100, Bas Nieuwenhuizen wrote:
+> > > This
+> > >
+> > > 1) Enables core DRM syncobj support.
+> > > 2) Adds options to the submission ioctl to wait/signal syncobjs.
+> > >
+> > > Just like the wait fence fd, this does inline waits. Using the
+> > > scheduler would be nice but I believe it is out of scope for
+> > > this work.
+> > >
+> > > Support for timeline syncobjs is implemented and the interface
+> > > is ready for it, but I'm not enabling it yet until there is
+> > > some code for turnip to use it.
+> > >
+> > > The reset is mostly in there because in the presence of waiting
+> > > and signalling the same semaphores, resetting them after
+> > > signalling can become very annoying.
+> > >
+> > > v2:
+> > >   - Fixed style issues
+> > >   - Removed a cleanup issue in a failure case
+> > >   - Moved to a copy_from_user per syncobj
+> >
+> > A few nits, but nothing serious.  This is looking good, thanks for the quick
+> > turn around.
+> >
+> > > Signed-off-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+
+<snip>
+
+> > > +out_syncobjs:
+> > > +     if (ret && *syncobjs) {
+> > > +             for (j = 0; j < i; ++j) {
+> >
+> > You could also walk backwards from i and save having another iterator:
+> >
+> > for( ; i >=0; i--)
 > 
-> Add a reference to the Adafruit 1.8" LCD while at it.
+> I thought about that but the slight annoyance is that from the API
+> perspective they're all unsigned so a >= 0 doesn't really work.
+
+
+> So we have 3 alternatives:
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v2:
->    - New.
-> ---
->   .../bindings/display/sitronix,st7735r.txt     | 35 ----------
->   .../bindings/display/sitronix,st7735r.yaml    | 65 +++++++++++++++++++
->   MAINTAINERS                                   |  2 +-
->   3 files changed, 66 insertions(+), 36 deletions(-)
->   delete mode 100644 Documentation/devicetree/bindings/display/sitronix,st7735r.txt
->   create mode 100644 Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
+> 1) check for INT32_MAX and then use signed
+> 2) keep the iterator
+> 3) do { ... } while (i-- != 0);
 > 
-> diff --git a/Documentation/devicetree/bindings/display/sitronix,st7735r.txt b/Documentation/devicetree/bindings/display/sitronix,st7735r.txt
-> deleted file mode 100644
-> index cd5c7186890a2be7..0000000000000000
-> --- a/Documentation/devicetree/bindings/display/sitronix,st7735r.txt
-> +++ /dev/null
-> @@ -1,35 +0,0 @@
-> -Sitronix ST7735R display panels
-> -
-> -This binding is for display panels using a Sitronix ST7735R controller in SPI
-> -mode.
-> -
-> -Required properties:
-> -- compatible:	"jianda,jd-t18003-t01", "sitronix,st7735r"
-> -- dc-gpios:	Display data/command selection (D/CX)
-> -- reset-gpios:	Reset signal (RSTX)
-> -
-> -The node for this driver must be a child node of a SPI controller, hence
-> -all mandatory properties described in ../spi/spi-bus.txt must be specified.
-> -
-> -Optional properties:
-> -- rotation:	panel rotation in degrees counter clockwise (0,90,180,270)
-> -- backlight:	phandle of the backlight device attached to the panel
-> -
-> -Example:
-> -
-> -	backlight: backlight {
-> -		compatible = "gpio-backlight";
-> -		gpios = <&gpio 44 GPIO_ACTIVE_HIGH>;
-> -	};
-> -
-> -	...
-> -
-> -	display@0{
-> -		compatible = "jianda,jd-t18003-t01", "sitronix,st7735r";
-> -		reg = <0>;
-> -		spi-max-frequency = <32000000>;
-> -		dc-gpios = <&gpio 43 GPIO_ACTIVE_HIGH>;
-> -		reset-gpios = <&gpio 80 GPIO_ACTIVE_HIGH>;
-> -		rotation = <270>;
-> -		backlight = &backlight;
-> -	};
-> diff --git a/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml b/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
-> new file mode 100644
-> index 0000000000000000..21bccc91f74255e1
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
-> @@ -0,0 +1,65 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/sitronix,st7735r.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Sitronix ST7735R Display Panels Device Tree Bindings
-> +
-> +maintainers:
-> +  - David Lechner <david@lechnology.com>
-> +
-> +description:
-> +  This binding is for display panels using a Sitronix ST7735R controller in
-> +  SPI mode.
-> +
-> +allOf:
-> +  - $ref: panel/panel-common.yaml#
+> I think 1 adds extra complexity for no good reason. (unless we want to
+> implicitly rely on that failing the kmalloc?) Happy to do 3 if we're
+> happy with a do while construct.
 
-not all of these properties are applicable.
+Ah, good point on the unsigned-ness. Keeping the iterator is fine.  No reason to
+try to be overly clever.
 
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - description:
-> +          Adafruit 1.8" 160x128 Color TFT LCD (Product ID 358 or 618)
-> +        items:
-> +          - enum:
-> +              - jianda,jd-t18003-t01
-> +          - const: sitronix,st7735r
-> +
-> +  spi-max-frequency:
-> +    maximum: 32000000
-> +
-> +  dc-gpios:
-> +    maxItems: 1
-> +    description: Display data/command selection (D/CX)
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - dc-gpios
-> +  - reset-gpios
-
-Missing optional rotation and backlight properties.
-
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    backlight: backlight {
-> +            compatible = "gpio-backlight";
-> +            gpios = <&gpio 44 GPIO_ACTIVE_HIGH>;
-> +    };
-> +
-> +    spi {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            display@0{
-> +                    compatible = "jianda,jd-t18003-t01", "sitronix,st7735r";
-> +                    reg = <0>;
-> +                    spi-max-frequency = <32000000>;
-> +                    dc-gpios = <&gpio 43 GPIO_ACTIVE_HIGH>;
-> +                    reset-gpios = <&gpio 80 GPIO_ACTIVE_HIGH>;
-> +                    rotation = <270>;
-> +            };
-> +    };
-> +
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index ea8262509bdd21ac..3007f83bd504194a 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -5382,7 +5382,7 @@ M:	David Lechner <david@lechnology.com>
->   T:	git git://anongit.freedesktop.org/drm/drm-misc
->   S:	Maintained
->   F:	drivers/gpu/drm/tiny/st7735r.c
-> -F:	Documentation/devicetree/bindings/display/sitronix,st7735r.txt
-> +F:	Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
->   
->   DRM DRIVER FOR SONY ACX424AKP PANELS
->   M:	Linus Walleij <linus.walleij@linaro.org>
 > 
+> >
+> > > +                     if ((*syncobjs)[j])
+> > > +                             drm_syncobj_put((*syncobjs)[j]);
+> > > +             }
+> > > +             kfree(*syncobjs);
+> > > +             *syncobjs = NULL;
+> > > +     }
+> > > +     return ret;
+> >
+> > if you wanted to you could return syncobjs or ERR_PTR instead of passing it by
+> > reference. I would probably chose that option personally but it is up to you.
+> 
+> How does this work wrt returning different error codes?
 
+For each error code, you would use the ERR_PTR() macro, so for example,
+
+return ERR_PTR(-ENOMEM);
+
+and then for the success path you would return the actual pointer,
+
+return syncobjs;
+
+The caller would use the IS_ERR() macro to check the return value. It can also
+get the error code back with PTR_ERR() to send to the upper levels.
+
+It is up to you. I personally like using ERR_PTR() but as long as the code works
+whichever method you choose is fine by me.
+> >
+> > > +}
+> > > +
+> > > +static void msm_reset_syncobjs(struct drm_syncobj **syncobjs,
+> > > +                               uint32_t nr_syncobjs)
+> > > +{
+> > > +     uint32_t i;
+> > > +
+> > > +     for (i = 0; syncobjs && i < nr_syncobjs; ++i) {
+> > > +             if (syncobjs[i])
+> > > +                     drm_syncobj_replace_fence(syncobjs[i], NULL);
+> > > +     }
+> > > +}
+> > > +
+> > > +static int msm_parse_post_deps(struct drm_device *dev,
+> > > +                               struct drm_file *file,
+> > > +                               uint64_t out_syncobjs_addr,
+> > > +                               uint32_t nr_out_syncobjs,
+> > > +                            uint32_t syncobj_stride,
+> > > +                               struct msm_submit_post_dep **post_deps)
+> > > +{
+> > > +     int ret = 0;
+> > > +     uint32_t i, j;
+> > > +
+> > > +     *post_deps = kmalloc_array(nr_out_syncobjs, sizeof(**post_deps),
+> > > +                                GFP_KERNEL | __GFP_NOWARN | __GFP_NORETRY);
+> > > +     if (!*post_deps) {
+> > > +             ret = -ENOMEM;
+> > > +             goto out_syncobjs;
+> >
+> > return -ENOMEM works fine.
+> >
+> > > +     }
+> > > +
+> > > +     for (i = 0; i < nr_out_syncobjs; ++i) {
+> > > +             uint64_t address = out_syncobjs_addr + i * syncobj_stride;
+> > > +
+> > > +             if (copy_from_user(&syncobj_desc,
+> > > +                                u64_to_user_ptr(address),
+> > > +                                min(syncobj_stride, sizeof(syncobj_desc)))) {
+> > > +                     ret = -EFAULT;
+> > > +                     goto out_syncobjs;
+> >
+> > You can break here.
+> >
+> > > +             }
+> > > +
+> > > +             (*post_deps)[i].point = syncobj_desc.point;
+> > > +             (*post_deps)[i].chain = NULL;
+> > > +
+> > > +             if (syncobj_desc.flags) {
+> > > +                     ret = -EINVAL;
+> > > +                     break;
+> > > +             }
+> > > +
+> > > +             if (syncobj_desc.point) {
+> > > +                     if (!drm_core_check_feature(dev,
+> > > +                                                 DRIVER_SYNCOBJ_TIMELINE)) {
+> > > +                             ret = -EOPNOTSUPP;
+> > > +                             break;
+> > > +                     }
+> > > +
+> > > +                     (*post_deps)[i].chain =
+> > > +                             kmalloc(sizeof(*(*post_deps)[i].chain),
+> > > +                                     GFP_KERNEL);
+> > > +                     if (!(*post_deps)[i].chain) {
+> > > +                             ret = -ENOMEM;
+> > > +                             break;
+> > > +                     }
+> > > +             }
+> > > +
+> > > +             (*post_deps)[i].syncobj =
+> > > +                     drm_syncobj_find(file, syncobj_desc.handle);
+> > > +             if (!(*post_deps)[i].syncobj) {
+> > > +                     ret = -EINVAL;
+> > > +                     break;
+> > > +             }
+> > > +     }
+> > > +
+> > > +     if (ret) {
+> > > +             for (j = 0; j <= i; ++j) {
+> >
+> > Same suggest as above, if you would prefer.
+> >
+> > > +                     kfree((*post_deps)[j].chain);
+> > > +                     if ((*post_deps)[j].syncobj)
+> > > +                             drm_syncobj_put((*post_deps)[j].syncobj);
+> > > +             }
+> > > +
+> > > +             kfree(*post_deps);
+> > > +             *post_deps = NULL;
+> > > +     }
+> > > +
+> > > +out_syncobjs:
+> > > +     return ret;
+> >
+> > This might also be a good spot to return post_deps / ERR_PTR.
+> >
+> > > +}
+> > > +
+> > > +static void msm_process_post_deps(struct msm_submit_post_dep *post_deps,
+> > > +                                  uint32_t count, struct dma_fence *fence)
+> > > +{
+> > > +     uint32_t i;
+> > > +
+> > > +     for (i = 0; post_deps && i < count; ++i) {
+> > > +             if (post_deps[i].chain) {
+> > > +                     drm_syncobj_add_point(post_deps[i].syncobj,
+> > > +                                           post_deps[i].chain,
+> > > +                                           fence, post_deps[i].point);
+> > > +                     post_deps[i].chain = NULL;
+> > > +             } else {
+> > > +                     drm_syncobj_replace_fence(post_deps[i].syncobj,
+> > > +                                               fence);
+> > > +             }
+> > > +     }
+> > > +}
+> > > +
+> > >  int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+> > >               struct drm_file *file)
+> > >  {
+> > > @@ -406,6 +593,8 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+> > >       struct sync_file *sync_file = NULL;
+> > >       struct msm_gpu_submitqueue *queue;
+> > >       struct msm_ringbuffer *ring;
+> > > +     struct msm_submit_post_dep *post_deps = NULL;
+> > > +     struct drm_syncobj **syncobjs_to_reset = NULL;
+> > >       int out_fence_fd = -1;
+> > >       struct pid *pid = get_pid(task_pid(current));
+> > >       unsigned i;
+> > > @@ -413,6 +602,9 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+> > >       if (!gpu)
+> > >               return -ENXIO;
+> > >
+> > > +     if (args->pad)
+> > > +             return -EINVAL;
+> > > +
+> >
+> > >       /* for now, we just have 3d pipe.. eventually this would need to
+> > >        * be more clever to dispatch to appropriate gpu module:
+> > >        */
+> > > @@ -460,9 +652,28 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+> > >                       return ret;
+> > >       }
+> > >
+> > > +     if (args->flags & MSM_SUBMIT_SYNCOBJ_IN) {
+> > > +             ret = msm_wait_deps(dev, file,
+> > > +                                 args->in_syncobjs, args->nr_in_syncobjs,
+> > > +                                 args->syncobj_stride, ring,
+> >
+> > If you wanted to, you could just pass args directly to the function so you
+> > didn't have to take it apart.
+> 
+> I think the advantage here is making it really explicit what part of
+> args is not used, and I don't feel the number of args has quite gone
+> out of control yet, but happy to change if insist.
+> 
+> (sorry, not seeing if this is a "you could do that" vs. a "I would
+> prefer if you do that, politely")
+
+This was a "you could do that". I try to not be too angry about matters of
+personal coding preference.
+
+> >
+> > Also, Rob - do we want to do the trick where we return
+> > sizeof(drm_msm_gem_submit_syncobj) if the input stride is zero?
+> 
+> Do you mean making this an in/out field and modifying it to return the
+> size if a stride of 0 has been given? If so, I don't see the point,
+> because userspace would not know what to fill any extra size with
+> (sure they can 0 initialize the extra part, but the kernel already
+> does that zero initializing the struct to be copied into).
+> 
+> or do you mean interpreting stride as
+> sizeof(drm_msm_gem_submit_syncobj) if the input stride is 0? In that
+> case I think that is just an invitation for userspace to set itself up
+> for incompatibility issues when the size actually changes. Let's
+> enforce doing it right.
+> 
+> (or did I misunderstand entirely?)
+
+The general idea is to build in a bit of compatibility for user space. Say for
+example that we add a new member to drm_mrm_gem_submit_syncobj and add support
+for it in the kernel and user space.  And then later the userspace library is
+used with an older kernel that (for the purposes of this experiment) supports
+the syncobj interface but not the expanded struct. If user space queried the
+size of the struct it could use the returned size from the kernel to determine
+if the expanded support was there or not. We do something similar to this for
+submitqueue queries [1].
+
+I couched it as a question because I'm not sure if that sort of query would
+be useful here and I'm not sure if somebody would go to the effort of setting
+up a (partial) submit just for the query, but we've been working on making
+ourselves more resilient so I figured I would raise the point.
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/gpu/drm/msm/msm_submitqueue.c#n122
+
+Jordan
+
+<snip>
+
+-- 
+The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
