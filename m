@@ -1,39 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2789143096
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2020 18:09:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25CD7143065
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2020 18:03:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D54CF6EA30;
-	Mon, 20 Jan 2020 17:09:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83DC16EA19;
+	Mon, 20 Jan 2020 17:03:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id C6C0689A88
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2020 16:21:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 81FB06EA19
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2020 17:03:46 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4EDB731B;
- Mon, 20 Jan 2020 08:21:01 -0800 (PST)
-Received: from [10.37.12.169] (unknown [10.37.12.169])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5C2703F6C4;
- Mon, 20 Jan 2020 08:20:51 -0800 (PST)
-Subject: Re: [PATCH 1/4] PM / EM: and devices to Energy Model
-To: Quentin Perret <qperret@google.com>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>
-References: <20200116152032.11301-1-lukasz.luba@arm.com>
- <20200116152032.11301-2-lukasz.luba@arm.com>
- <17b77e0c-9455-0479-d37b-c57717c784c7@arm.com>
- <20200120152804.GB164543@google.com>
-From: Lukasz Luba <lukasz.luba@arm.com>
-Message-ID: <453034e5-f7b9-20f7-4e26-5d0d7164edd1@arm.com>
-Date: Mon, 20 Jan 2020 16:20:49 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EC74E31B;
+ Mon, 20 Jan 2020 09:03:45 -0800 (PST)
+Received: from localhost (unknown [10.37.6.21])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 67D6C3F68E;
+ Mon, 20 Jan 2020 09:03:45 -0800 (PST)
+Date: Mon, 20 Jan 2020 17:03:43 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v3 4/7] drm/panfrost: Add support for multiple regulators
+Message-ID: <20200120170343.GE6852@sirena.org.uk>
+References: <20200114071602.47627-1-drinkcat@chromium.org>
+ <20200114071602.47627-5-drinkcat@chromium.org>
+ <7e82cac2-efbf-806b-8c2e-04dbd0482b50@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <20200120152804.GB164543@google.com>
-Content-Language: en-US
-X-Mailman-Approved-At: Mon, 20 Jan 2020 17:09:27 +0000
+In-Reply-To: <7e82cac2-efbf-806b-8c2e-04dbd0482b50@arm.com>
+X-Cookie: I invented skydiving in 1989!
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,79 +42,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nm@ti.com, juri.lelli@redhat.com, peterz@infradead.org,
- viresh.kumar@linaro.org, dri-devel@lists.freedesktop.org,
- bjorn.andersson@linaro.org, bsegall@google.com,
- alyssa.rosenzweig@collabora.com, Morten.Rasmussen@arm.com,
- amit.kucheria@verdurent.com, vincent.guittot@linaro.org, khilman@kernel.org,
- agross@kernel.org, daniel.lezcano@linaro.org, steven.price@arm.com,
- cw00.choi@samsung.com, mingo@redhat.com, linux-imx@nxp.com,
- rui.zhang@intel.com, mgorman@suse.de, linux-pm@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, s.hauer@pengutronix.de, rostedt@goodmis.org,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- Chris.Redpath@arm.com, linux-omap@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, airlied@linux.ie, javi.merino@arm.com,
- tomeu.vizoso@collabora.com, sboyd@kernel.org, shawnguo@kernel.org,
- rjw@rjwysocki.net, linux-kernel@vger.kernel.org, b.zolnierkie@samsung.com,
- kernel@pengutronix.de, sudeep.holla@arm.com, patrick.bellasi@matbug.net,
- ionela.voinescu@arm.com
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Nicolas Boichat <drinkcat@chromium.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>, hsinyi@chromium.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============0165992928=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+--===============0165992928==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="a1QUDc0q7S3U7/Jg"
+Content-Disposition: inline
 
-On 1/20/20 3:28 PM, Quentin Perret wrote:
-> On Monday 20 Jan 2020 at 15:53:35 (+0100), Dietmar Eggemann wrote:
->> Would be really nice if this wouldn't be required. We should really aim
->> for 1 framework == 1 set of interfaces.
->>
->> What happens if someone calls em_get_pd() on a CPU EM?
->>
->> E.g:
->>
->>   static struct perf_domain *pd_init(int cpu)
->>   {
->> -       struct em_perf_domain *obj = em_cpu_get(cpu);
->> +       struct device *dev = get_cpu_device(cpu);
->> +       struct em_perf_domain *obj = em_pd_get(dev);
->>          struct perf_domain *pd;
->>
->> Two versions of one functionality will confuse API user from the
->> beginning ...
-> 
-> Agreed, this looks a bit confusing. It should be trivial to make
-> em_dev_get() (or whatever we end up calling it) work for CPUs too,
-> though. And we could always have a em_cpu_get(int cpu) API that is a
-> basically a wrapper around em_dev_get() for convenience.
 
-The problem not only here is that we have a CPU index 'int cpu'
-and if we ask for device like:
+--a1QUDc0q7S3U7/Jg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-struct device *dev = get_cpu_device(cpu);
+On Mon, Jan 20, 2020 at 02:43:10PM +0000, Steven Price wrote:
 
-It might be not the same device that was used during the
-registration, when we had i.e. 4 CPUs for the same policy:
+> From discussions offline, I think I've come round to the view that
+> having a "soft PDC" in device tree isn't the right solution. Device tree
+> should be describing the hardware and that isn't actually a hardware
+> component.
 
-int cpu_id = cpumask_first(policy->cpus);
-struct device *cpu_dev = get_cpu_device(cpu_id);
-em_register_perf_domain(cpu_dev, nr_opp, &em_cb);
+You can use an implementation like that separately to it being in the
+device tree, it is perfectly possible to instantiate devices that have
+no representation at all in device tree based on other things that are
+there like board or SoC information, or as subdevices of things that are
+there.
 
-That's why the em_cpu_get() is different than em_get_pd(), mainly by:
-if (cpumask_test_cpu(cpu, em_span_cpus(em_pd)))
+--a1QUDc0q7S3U7/Jg
+Content-Type: application/pgp-signature; name="signature.asc"
 
-It won't be simple wrapper, let me think how it could be handled
-differently than it is now.
+-----BEGIN PGP SIGNATURE-----
 
-Regards,
-Lukasz
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl4l3W8ACgkQJNaLcl1U
+h9DW1Qf+O1rhi1Qf46h1FjTMYWukB9iEFgJeJZ9xZby51p6qFhhoaf/vJWQgPgqC
+PY+Tcxt1Dsk+84dKcLHXZVzsyFLanGZHI9TA2a0j5E1viknxKbaHP84RFmHU4y3s
+lJQbgllRUQwkDF2ixZWfipql08kA3v/54BnAN8RsmJMrFN6mpSojTwQlT7390aaA
+o2cjkfI/9GOUZ+mGsWzOmr/REEcE/+/aiFXvXnNFyRUzWHoHaEP3eIRegFGjp4E1
+kV3GIOpFTkavPF8xb5LRChqYobnVhIizFJiFnlV9h9g/jG7OG1SUifQEtbSsOBT7
+fvMX0psaSlV+9wp2Ei3MLvjGH1vemA==
+=zekS
+-----END PGP SIGNATURE-----
 
-> 
-> Thanks,
-> Quentin
-> 
+--a1QUDc0q7S3U7/Jg--
+
+--===============0165992928==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0165992928==--
