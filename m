@@ -1,34 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C12C1431D9
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2020 19:56:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E56431431E9
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2020 20:03:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 562DB6EAFA;
-	Mon, 20 Jan 2020 18:56:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 261486EB04;
+	Mon, 20 Jan 2020 19:02:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 082776EAFA
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2020 18:56:25 +0000 (UTC)
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com
- [66.24.58.225])
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D08DE6EB04
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2020 19:02:55 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 51569207FF;
- Mon, 20 Jan 2020 18:56:23 +0000 (UTC)
-Date: Mon, 20 Jan 2020 13:56:21 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v4] drm/trace: Buffer DRM logs in a ringbuffer
- accessible via debugfs
-Message-ID: <20200120135621.34346e38@gandalf.local.home>
-In-Reply-To: <20200116062722.GA8400@dvetter-linux.ger.corp.intel.com>
-References: <20200114172155.215463-1-sean@poorly.run>
- <20200116062722.GA8400@dvetter-linux.ger.corp.intel.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 3032120023;
+ Mon, 20 Jan 2020 20:02:50 +0100 (CET)
+Date: Mon, 20 Jan 2020 20:02:49 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: David Lechner <david@lechnology.com>
+Subject: [PATCH] dt-bindings: restrict properties for sitronix,st7735r
+Message-ID: <20200120190249.GA9619@ravnborg.org>
+References: <20200115124548.3951-1-geert+renesas@glider.be>
+ <20200115124548.3951-2-geert+renesas@glider.be>
+ <ba21d2c8-ccc6-2704-fa1f-d28239700547@lechnology.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <ba21d2c8-ccc6-2704-fa1f-d28239700547@lechnology.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
+ a=WZHNqt2aAAAA:8 a=VwQbUJbxAAAA:8 a=e5mUnYsNAAAA:8 a=UoRE_DPNZI_mX2jt1NQA:9
+ a=7Zwj6sZBwVKJAoWSPKxL6X1jA+E=:19 a=CjuIK1q_8ugA:10
+ a=E9Po1WZjFZOl8hwRPBS3:22 a=PrHl9onO2p7xFKlKy1af:22
+ a=AjGcO6oz07-iQ99wixmX:22 a=Vxmtnl_E_bksehYqCbjh:22
+ a=pHzHmUro8NiASowvMSCR:22 a=n87TN5wuljxrRezIQYnT:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,49 +50,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>,
- Sean Paul <seanpaul@chromium.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Chris Brandt <chris.brandt@renesas.com>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 16 Jan 2020 07:27:22 +0100
-Daniel Vetter <daniel@ffwll.ch> wrote:
+Hi David.
 
-> On Tue, Jan 14, 2020 at 12:21:43PM -0500, Sean Paul wrote:
-> > From: Sean Paul <seanpaul@chromium.org>
-> > 
-> > This patch uses a ring_buffer to keep a "flight recorder" (name credit Weston)
-> > of DRM logs for a specified set of debug categories. The user writes a
-> > bitmask of debug categories to the "trace_mask" node and can read log
-> > messages from the "trace" node.
-> > 
-> > These nodes currently exist in debugfs under the dri directory. I
-> > intended on exposing all of this through tracefs originally, but the
-> > tracefs entry points are not exposed, so there's no way to create
-> > tracefs files from drivers at the moment. I think it would be a
-> > worthwhile endeavour, but one requiring more time and conversation to
-> > ensure the drm traces fit somewhere sensible.  
+> > +allOf:
+> > +  - $ref: panel/panel-common.yaml#
 > 
-> Hm, since the idea is to ship this in production environments debugfs is
-> out. sysfs is also kinda the wrong thing, so maybe trying to get this
-> stuffed into tracefs is actually the way to go?
->
+> not all of these properties are applicable.
+> 
 
-Why not use normal tracepoints and the tracing infrastructure? You can
-add your own instance as rasdaemon does, which isn't affected by other
-tracing. There's code now to even create these instances and enable and
-disable events from within the kernel.
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - dc-gpios
+> > +  - reset-gpios
+> 
+> Missing optional rotation and backlight properties.
 
-  https://lore.kernel.org/lkml/1574276919-11119-1-git-send-email-divya.indi@oracle.com/
+Thanks for catching this. I have written a little .yaml files
+since I applied this - and learned a little more of the syntax.
 
-As this is tracefs, you can mount it without even compiling in debugfs.
+See attached patch for my attempt to fix this.
+Please review.
 
--- Steve
+	Sam
+
+From 6b54fb0a071c0732cd4bd5b88f456b5a85bcf4f2 Mon Sep 17 00:00:00 2001
+From: Sam Ravnborg <sam@ravnborg.org>
+Date: Mon, 20 Jan 2020 19:55:04 +0100
+Subject: [PATCH] dt-bindings: restrict properties for sitronix,st7735r
+
+David Lechner noticed (paraphrased):
+- not all properties from panel-common are applicable.
+- missing optional rotation and backlight properties
+
+Fix this by listing all allowed properties, and do not allow other properties.
+
+Fixes: abdd9e3705c8 ("dt-bindings: display: sitronix,st7735r: Convert to DT schema")
+Reported-by: David Lechner <david@lechnology.com>
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: David Lechner <david@lechnology.com>
+Cc: Rob Herring <robh@kernel.org>
+Cc: dri-devel@lists.freedesktop.org
+---
+ .../devicetree/bindings/display/sitronix,st7735r.yaml      | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml b/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
+index 8892d79e6e10..0cebaaefda03 100644
+--- a/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
++++ b/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
+@@ -39,12 +39,19 @@ properties:
+     maxItems: 1
+     description: Display data/command selection (D/CX)
+ 
++  backlight: true
++  reg: true
++  reset-gpios: true
++  rotation: true
++
+ required:
+   - compatible
+   - reg
+   - dc-gpios
+   - reset-gpios
+ 
++additionalProperties: false
++
+ examples:
+   - |
+     #include <dt-bindings/gpio/gpio.h>
+-- 
+2.20.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
