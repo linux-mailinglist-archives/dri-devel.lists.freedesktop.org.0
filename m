@@ -1,20 +1,20 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09ED1142520
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2020 09:24:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DE48142513
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2020 09:23:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9E9F6E7E6;
-	Mon, 20 Jan 2020 08:23:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29DAE6E5CF;
+	Mon, 20 Jan 2020 08:23:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EDC16E5CF;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 675B36E5D1;
  Mon, 20 Jan 2020 08:23:33 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id B609DB1E4;
+ by mx2.suse.de (Postfix) with ESMTP id B8468B213;
  Mon, 20 Jan 2020 08:23:30 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@linux.ie, daniel@ffwll.ch, alexander.deucher@amd.com,
@@ -28,10 +28,13 @@ To: airlied@linux.ie, daniel@ffwll.ch, alexander.deucher@amd.com,
  bskeggs@redhat.com, harry.wentland@amd.com, sunpeng.li@amd.com,
  jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
  rodrigo.vivi@intel.com
-Subject: [PATCH v3 00/22] drm: Clean up VBLANK callbacks in struct drm_driver
-Date: Mon, 20 Jan 2020 09:22:52 +0100
-Message-Id: <20200120082314.14756-1-tzimmermann@suse.de>
+Subject: [PATCH v3 01/22] drm: Remove internal setup of struct
+ drm_device.vblank_disable_immediate
+Date: Mon, 20 Jan 2020 09:22:53 +0100
+Message-Id: <20200120082314.14756-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200120082314.14756-1-tzimmermann@suse.de>
+References: <20200120082314.14756-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,145 +57,45 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VBLANK handlers in struct drm_driver are deprecated. Only legacy,
-non-KMS drivers are supposed to used them. DRM drivers with kernel
-modesetting are supposed to use VBLANK callbacks of the CRTC
-infrastructure.
-
-This patchset converts all DRM drivers to CRTC VBLANK callbacks and
-cleans up struct drm_driver. The remaining VBLANK callbacks in struct
-drm_driver are only used by legacy drivers.
-
-Patch 1 removes an additional setup step of vblank_disable_immediate
-in struct drm_device. This simplifies the integration of CRTC VBLANK
-callbacks in patch 3. If necessary, a future patch could move
-vblank_disable_immedate to struct drm_crtc, so that high-precision
-VBLANKs could be enabled on a per-CRTC basis.
-
-Patches 2 and 3 prepare the DRM infrastructure. These patches add
-get_scanout_position() to struct drm_crtc_helper_funcs,
-get_vblank_timestamp() to struct drm_crtc_funcs, and add helpers for
-the new interfaces.
-
-Patches 4 to 20 convert drivers over.
-
-In patch 21, all VBLANK callbacks are removed from struct drm_driver,
-except for get_vblank_counter(), enable_vblank(), and disable_vblank().
-These interfaces are moved to the legacy section at the end of the
-structure. Old helper code is now unused and being removed as well.
-Finally, patch 22 removes an older version of get_scanout_position()
-from the VBLANK interface.
-
-To cover all affected drivers, I build the patchset in x86, x86-64,
-arm and aarch64. I smoke-tested amdgpu, gma500, i915, radeon and vc4 on
-respective hardware.
+VBLANK interrupts can be disabled immediately or with a delay, where the
+latter is the default. The former option can be selected by setting
+get_vblank_timestamp and enabling vblank_disable_immediate in struct
+drm_device. Simplify the code in preparation of the removal of struct
+drm_device.get_vblank_timestamp.
 
 v3:
-	* refactor drm_calc_vbltimestamp_from_scanout_pos to share code
-	  with new helper (Villa, Jani)
-	* do more checks for crtc != NULL to cover non-KMS drivers (Ville)
-	* add function typedefs for readability (Ville)
-v2:
-	* reorder patches so the i915 can be converted without duplicating
-	  helper code.
-	* merged cleanup patches
-	* changed VBLANK function signatures in amdgpu (Alex)
+	* remove internal setup of vblank_disable_immediate
 
-Thomas Zimmermann (22):
-  drm: Remove internal setup of struct
-    drm_device.vblank_disable_immediate
-  drm: Add get_scanout_position() to struct drm_crtc_helper_funcs
-  drm: Add get_vblank_timestamp() to struct drm_crtc_funcs
-  drm/amdgpu: Convert to struct
-    drm_crtc_helper_funcs.get_scanout_position()
-  drm/amdgpu: Convert to CRTC VBLANK callbacks
-  drm/gma500: Convert to CRTC VBLANK callbacks
-  drm/i915: Convert to CRTC VBLANK callbacks
-  drm/nouveau: Convert to struct
-    drm_crtc_helper_funcs.get_scanout_position()
-  drm/nouveau: Convert to CRTC VBLANK callbacks
-  drm/radeon: Convert to struct
-    drm_crtc_helper_funcs.get_scanout_position()
-  drm/radeon: Convert to CRTC VBLANK callbacks
-  drm/msm: Convert to struct
-    drm_crtc_helper_funcs.get_scanout_position()
-  drm/msm: Convert to CRTC VBLANK callbacks
-  drm/stm: Convert to struct
-    drm_crtc_helper_funcs.get_scanout_position()
-  drm/stm: Convert to CRTC VBLANK callbacks
-  drm/sti: Convert to CRTC VBLANK callbacks
-  drm/vc4: Convert to struct
-    drm_crtc_helper_funcs.get_scanout_position()
-  drm/vc4: Convert to CRTC VBLANK callbacks
-  drm/vkms: Convert to CRTC VBLANK callbacks
-  drm/vmwgfx: Convert to CRTC VBLANK callbacks
-  drm: Clean-up VBLANK-related callbacks in struct drm_driver
-  drm: Remove legacy version of get_scanout_position()
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/drm_vblank.c | 13 -------------
+ 1 file changed, 13 deletions(-)
 
- drivers/gpu/drm/amd/amdgpu/amdgpu.h           |   6 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |  16 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  15 --
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c       |  21 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |   5 +
- drivers/gpu/drm/amd/amdgpu/dce_v10_0.c        |   5 +
- drivers/gpu/drm/amd/amdgpu/dce_v11_0.c        |   5 +
- drivers/gpu/drm/amd/amdgpu/dce_v6_0.c         |   5 +
- drivers/gpu/drm/amd/amdgpu/dce_v8_0.c         |   5 +
- drivers/gpu/drm/amd/amdgpu/dce_virtual.c      |   5 +
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  13 +-
- drivers/gpu/drm/drm_vblank.c                  | 141 ++++++++++------
- drivers/gpu/drm/gma500/cdv_intel_display.c    |   3 +
- drivers/gpu/drm/gma500/psb_drv.c              |   4 -
- drivers/gpu/drm/gma500/psb_drv.h              |   6 +-
- drivers/gpu/drm/gma500/psb_intel_display.c    |   3 +
- drivers/gpu/drm/gma500/psb_irq.c              |  12 +-
- drivers/gpu/drm/gma500/psb_irq.h              |   7 +-
- drivers/gpu/drm/i915/display/intel_display.c  |   7 +
- drivers/gpu/drm/i915/i915_drv.c               |   3 -
- drivers/gpu/drm/i915/i915_irq.c               |  20 ++-
- drivers/gpu/drm/i915/i915_irq.h               |   6 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      |   2 +
- drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c     |   2 +
- drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c     |  82 +++++++++
- drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c      |  95 -----------
- drivers/gpu/drm/msm/msm_drv.c                 |  10 +-
- drivers/gpu/drm/msm/msm_drv.h                 |   3 +
- drivers/gpu/drm/nouveau/dispnv04/crtc.c       |   4 +
- drivers/gpu/drm/nouveau/dispnv50/head.c       |   5 +
- drivers/gpu/drm/nouveau/nouveau_display.c     |  28 +---
- drivers/gpu/drm/nouveau/nouveau_display.h     |   6 +-
- drivers/gpu/drm/nouveau/nouveau_drm.c         |   5 -
- drivers/gpu/drm/radeon/atombios_crtc.c        |   1 +
- drivers/gpu/drm/radeon/radeon_display.c       |  25 ++-
- drivers/gpu/drm/radeon/radeon_drv.c           |  18 --
- drivers/gpu/drm/radeon/radeon_kms.c           |  29 ++--
- drivers/gpu/drm/radeon/radeon_legacy_crtc.c   |   3 +-
- drivers/gpu/drm/radeon/radeon_mode.h          |   6 +
- drivers/gpu/drm/sti/sti_crtc.c                |  11 +-
- drivers/gpu/drm/sti/sti_crtc.h                |   2 -
- drivers/gpu/drm/sti/sti_drv.c                 |   4 -
- drivers/gpu/drm/stm/drv.c                     |   2 -
- drivers/gpu/drm/stm/ltdc.c                    |  66 ++++----
- drivers/gpu/drm/stm/ltdc.h                    |   5 -
- drivers/gpu/drm/vc4/vc4_crtc.c                |  13 +-
- drivers/gpu/drm/vc4/vc4_drv.c                 |   3 -
- drivers/gpu/drm/vc4/vc4_drv.h                 |   4 -
- drivers/gpu/drm/vkms/vkms_crtc.c              |   9 +-
- drivers/gpu/drm/vkms/vkms_drv.c               |   1 -
- drivers/gpu/drm/vkms/vkms_drv.h               |   4 -
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |   3 -
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h           |   6 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           |   6 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c           |   3 +
- drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c          |   3 +
- drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c          |   3 +
- include/drm/drm_crtc.h                        |  46 +++++-
- include/drm/drm_drv.h                         | 156 +-----------------
- include/drm/drm_modeset_helper_vtables.h      |  47 ++++++
- include/drm/drm_vblank.h                      |  34 +++-
- 61 files changed, 551 insertions(+), 517 deletions(-)
-
---
+diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+index 1659b13b178c..326db52f2ad8 100644
+--- a/drivers/gpu/drm/drm_vblank.c
++++ b/drivers/gpu/drm/drm_vblank.c
+@@ -480,19 +480,6 @@ int drm_vblank_init(struct drm_device *dev, unsigned int num_crtcs)
+ 
+ 	DRM_INFO("Supports vblank timestamp caching Rev 2 (21.10.2013).\n");
+ 
+-	/* Driver specific high-precision vblank timestamping supported? */
+-	if (dev->driver->get_vblank_timestamp)
+-		DRM_INFO("Driver supports precise vblank timestamp query.\n");
+-	else
+-		DRM_INFO("No driver support for vblank timestamp query.\n");
+-
+-	/* Must have precise timestamping for reliable vblank instant disable */
+-	if (dev->vblank_disable_immediate && !dev->driver->get_vblank_timestamp) {
+-		dev->vblank_disable_immediate = false;
+-		DRM_INFO("Setting vblank_disable_immediate to false because "
+-			 "get_vblank_timestamp == NULL\n");
+-	}
+-
+ 	return 0;
+ 
+ err:
+-- 
 2.24.1
 
 _______________________________________________
