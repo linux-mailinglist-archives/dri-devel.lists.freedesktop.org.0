@@ -1,43 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B712814336D
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2020 22:34:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F305143379
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2020 22:42:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 774006FAB3;
-	Mon, 20 Jan 2020 21:34:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 289E56FAC6;
+	Mon, 20 Jan 2020 21:42:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62DF46EB3E;
- Mon, 20 Jan 2020 21:34:35 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 481lLG6Vcgz9sPK;
- Tue, 21 Jan 2020 08:34:30 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1579556073;
- bh=B/uaXNOzGmgYx5o+zZDaRq+uyNaotC/PaEI4OhmL6/U=;
- h=Date:From:To:Cc:Subject:From;
- b=JBcc76639Ocp2dtjOb89h6KEIrZHrNc76gi8rxRpVYHULgmOvMOm+/4DYaicgmAu3
- pn9dM+seyoL9/Xhygb0wuiC1eJEpKlIKL8Q/WoDUUKCoA6uJ+o3vvrmuAOykE8QUcH
- TtQ/Xn8qQe5gxVogUjoiK4Iu79289rmju09O7k70S1PwX4L0Qh9b7pprkSAwUjYit0
- Os8ZceP+1jmsEXuph1TfaGwU9FdeMZr5a6gK104S4ryRmuhKHggfLEOINlrW1u7Qx1
- 20JvLonvHgPhWpqNcGi8bkSCZp+gHhKjqBR+zQzMSMVm/RyZmYRBsJcyDJeSr2GJ0d
- RaY3CsRLFPZ0A==
-Date: Tue, 21 Jan 2020 08:34:24 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
- <dri-devel@lists.freedesktop.org>
-Subject: linux-next: build failure after merge of the drm-intel-fixes tree
-Message-ID: <20200121083424.66d98dc5@canb.auug.org.au>
+Received: from ste-pvt-msa2.bahnhof.se (ste-pvt-msa2.bahnhof.se
+ [213.80.101.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED9526EB49
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2020 21:42:27 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTP id 8E9C53F808;
+ Mon, 20 Jan 2020 22:42:25 +0100 (CET)
+Authentication-Results: ste-pvt-msa2.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=faf1ae0m; 
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
+ autolearn=ham autolearn_force=no
+Authentication-Results: ste-ftg-msa2.bahnhof.se (amavisd-new);
+ dkim=pass (1024-bit key) header.d=shipmail.org
+Received: from ste-pvt-msa2.bahnhof.se ([127.0.0.1])
+ by localhost (ste-ftg-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id yuPgZHCd6QZb; Mon, 20 Jan 2020 22:42:24 +0100 (CET)
+Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
+ [155.4.205.35]) (Authenticated sender: mb878879)
+ by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id 8CD683F5AE;
+ Mon, 20 Jan 2020 22:42:22 +0100 (CET)
+Received: from localhost.localdomain (h-205-35.A357.priv.bahnhof.se
+ [155.4.205.35])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id C972E36015F;
+ Mon, 20 Jan 2020 22:42:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1579556541; bh=1hfpruWmmcr84Q2I1i+/EsY2BuIp2Xw0myCoXR468Xk=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=faf1ae0mZ4Y8rumCHOqrAJ23AUNKNOvJfg597Mp7TG+tHhb7xyvxBUMQjsoPM4w5r
+ rgciU+jaSHK0Ce9aGXP9lj/DkNBpUY8pvQ8p4M9Wrn8llAHMt5QA/F5xFwB1JuPwkC
+ eqCc03iQI4ccDggyiQ7hDO5zJivL08QJtkHRC+G0=
+Subject: Re: [git pull] vmwgfx-next
+To: Dave Airlie <airlied@gmail.com>
+References: <20200116092934.5276-1-thomas_os@shipmail.org>
+ <CAPM=9tzVFe=O-0A-5PKdjBV-95aLvTaprzFuxxeai4y9PJKk9Q@mail.gmail.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28VMware=29?= <thomas_os@shipmail.org>
+Organization: VMware Inc.
+Message-ID: <a1a620ac-da80-d134-afde-3d6324cc8e0c@shipmail.org>
+Date: Mon, 20 Jan 2020 22:42:21 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <CAPM=9tzVFe=O-0A-5PKdjBV-95aLvTaprzFuxxeai4y9PJKk9Q@mail.gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,64 +71,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Matthew Auld <matthew.auld@intel.com>
-Content-Type: multipart/mixed; boundary="===============1557630631=="
+Cc: pv-drivers@vmware.com, Dave Airlie <airlied@redhat.com>,
+ Linux-graphics-maintainer <linux-graphics-maintainer@vmware.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1557630631==
-Content-Type: multipart/signed; boundary="Sig_/XwC9.aYjJCeolnFRpcIZ6sg";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-
---Sig_/XwC9.aYjJCeolnFRpcIZ6sg
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-Hi all,
-
-After merging the drm-intel-fixes tree, today's linux-next build (x86_64
-allmodconfig) failed like this:
-
-
-Caused by commit
-
-  d8fcca47e195 ("drm/i915/userptr: fix size calculation")
-
-I have reverted that commit for today.
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/XwC9.aYjJCeolnFRpcIZ6sg
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl4mHOAACgkQAVBC80lX
-0GyiIggAh+uEumRRLd/uzS0G2uWsepBy1Yq2Du+SZOvq5q6eXzxPFi3v4yq5G/Z3
-91kKDbUbXIq0bt+4ZeBWCVa9JHfac7zaD6v96oj0/WAGptURVMWs8IQzSeCE5ly8
-OaRbBIw0l/7R6oDXh0+UmePioF1mh1PiZ2uHQNmVgGS9ECzzGsHYst0WlWKbfrcW
-tF/i5GkROKKAy92QKh+SHQKa+QMi9qYOzffYXqyVbTmUD4BUit9Es86qFcYnMebu
-60CJT2QjE1vOcPeThd8mRGmHy9qrMlLypvMnEV4KmI4hDq3X9LR4GnDsms5Ej+nI
-AhoRQjAGR3OGYJqZGubAw/fwzQw1Zg==
-=0wfI
------END PGP SIGNATURE-----
-
---Sig_/XwC9.aYjJCeolnFRpcIZ6sg--
-
---===============1557630631==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1557630631==--
+T24gMS8yMC8yMCAxMDowOSBQTSwgRGF2ZSBBaXJsaWUgd3JvdGU6Cj4gT24gVGh1LCAxNiBKYW4g
+MjAyMCBhdCAxOTozMCwgVGhvbWFzIEhlbGxzdHLDtm0gKFZNd2FyZSkKPiA8dGhvbWFzX29zQHNo
+aXBtYWlsLm9yZz4gd3JvdGU6Cj4+IERhdmUsIERhbmllbAo+Pgo+PiBUaGUgbWFpbiA1LjYgLW5l
+eHQgcHVsbCBmcm9tIHZtd2dmeC4gTWlub3IgdGhpbmdzIGhlcmUgYW5kIHRoZXJlLCBhcyB3ZWxs
+Cj4+IGFzIGFuIGFkZGVkIGlvY3RsIGZvciBob3N0IG1lc3NhZ2luZyBhbmQgYSBjb3JyZXNwb25k
+aW5nIGFwaSB2ZXJzaW9uIGJ1bXAuCj4gSXMgdGhlcmUgdXNlcnNwYWNlIGZvciB0aGlzIGlvY3Rs
+IHNvbWV3aGVyZT8gSSBuZWVkIGEgcG9pbnRlciB0byBzb21lCj4gcmV2aWV3ZWQgdXNlcnNwYWNl
+IE1SIGZvciBNZXNhIG9yIG90aGVyIHRoaW5nIHRvIGFkZCBuZXcgdUFQSSB0bwo+IGRyaXZlcnMu
+Cj4KPiBEYXZlLgoKSXQncyBzdGlsbCBpbiBvdXIgaW50ZXJuYWwgcmVwby4gSSdsbCBwb3N0IGEg
+bWVzYSBwYXRjaCB0b21vcnJvdyBhbmQgCnNlbmQgeW91IGEgcG9pbnRlci4KClRoYW5rcywKVGhv
+bWFzCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
+LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
