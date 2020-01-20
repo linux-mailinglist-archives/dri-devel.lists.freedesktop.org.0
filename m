@@ -1,55 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2B67142B75
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2020 14:04:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19CE8142BEF
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2020 14:16:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 973946E945;
-	Mon, 20 Jan 2020 13:04:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D5246E93C;
+	Mon, 20 Jan 2020 13:16:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82E716E945
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2020 13:04:10 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00KD46lY079041;
- Mon, 20 Jan 2020 07:04:06 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1579525446;
- bh=ItlXxfvFqN86feRVM1/s/Fi+wNsFA84t0RI7ZpiCwMk=;
- h=Date:From:To:CC:Subject:References:In-Reply-To;
- b=uehzQ3hGgJC+c+wqcVC2f+/3m17dG/82ITuWTNpgnDtCNVWYHBaKF/I/+TCp6zhDy
- aT4KU2OtcchC5/sgZeG6fpl5c9xLOikXlmPXQqEmSnm3qlh/huc/PyNG6d88Gj6/P1
- lVbaRJgQ9iqsPpYY1DOUWE5mZJQ9Ib8enoDgJMj8=
-Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00KD46hf014202
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 20 Jan 2020 07:04:06 -0600
-Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Mon, 20
- Jan 2020 07:04:05 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Mon, 20 Jan 2020 07:04:05 -0600
-Received: from ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with SMTP id 00KD45E3033233;
- Mon, 20 Jan 2020 07:04:05 -0600
-Date: Mon, 20 Jan 2020 07:07:54 -0600
-From: Benoit Parrot <bparrot@ti.com>
-To: Jyri Sarha <jsarha@ti.com>
-Subject: Re: [PATCH v7 4/5] drm/tidss: New driver for TI Keystone platform
- Display SubSystem
-Message-ID: <20200120130753.tbectccc3qemiavg@ti.com>
-References: <cover.1579202260.git.jsarha@ti.com>
- <357b1aa13f28dba5fcb9f769bdac6d0d5ff966b3.1579202260.git.jsarha@ti.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 478AC6E93C
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2020 13:16:50 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id E5D74B166;
+ Mon, 20 Jan 2020 13:16:48 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@redhat.com, daniel.vetter@ffwll.ch, kraxel@redhat.com,
+ alexander.deucher@amd.com, noralf@tronnes.org, sam@ravnborg.org,
+ laurent.pinchart@ideasonboard.com, sschricker@suse.de
+Subject: [PATCH] drm/ast: Allocate initial CRTC state of the correct size
+Date: Mon, 20 Jan 2020 14:16:44 +0100
+Message-Id: <20200120131644.2264-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <357b1aa13f28dba5fcb9f769bdac6d0d5ff966b3.1579202260.git.jsarha@ti.com>
-User-Agent: NeoMutt/20171215
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,196 +37,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, yamonkar@cadence.com, praneeth@ti.com,
- sjakhade@cadence.com, dri-devel@lists.freedesktop.org, peter.ujfalusi@ti.com,
- robh+dt@kernel.org, tomi.valkeinen@ti.com, laurent.pinchart@ideasonboard.com,
- subhajit_paul@ti.com, sam@ravnborg.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Jyri Sarha <jsarha@ti.com> wrote on Fri [2020-Jan-17 00:09:29 +0200]:
-> This patch adds a new DRM driver for Texas Instruments DSS IPs used on
-> Texas Instruments Keystone K2G, AM65x, and J721e SoCs. The new DSS IP is
-> a major change to the older DSS IP versions, which are supported by
-> the omapdrm driver. While on higher level the Keystone DSS resembles
-> the older DSS versions, the registers are completely different and the
-> internal pipelines differ a lot.
-> 
-> DSS IP found on K2G is an "ultra-light" version, and has only a single
-> plane and a single output. The K3 DSS IPs are found on AM65x and J721E
-> SoCs. AM65x DSS has two video ports, one full video plane, and another
-> "lite" plane without scaling support. J721E has 4 video ports, 2 video
-> planes and 2 lite planes. AM65x DSS has also an integrated OLDI (LVDS)
-> output.
-> 
-> Version history:
-> 
-> v2: - rebased on top of drm-next-2019-11-27
->     - sort all include lines in all files
->     - remove all include <drm/drmP.h>
->     - remove select "select VIDEOMODE_HELPERS"
->     - call dispc_vp_setup() later in tidss_crtc_atomic_flush() (there is no
->       to call it in new modeset case as it is also called in vp_enable())
->     - change probe sequence and drm_device allocation (follow example in
->       drm_drv.c)
->     - use __maybe_unused instead of #ifdef for pm functions
->     - remove "struct drm_fbdev_cma *fbdev;" from driver data
->     - check panel connector type before connecting it
-> 
-> v3: no change
-> 
-> v4: no change
-> 
-> v5: - remove fifo underflow irq handling, it is not an error and
->       it should be used for debug purposes only
->     - memory tuning, prefetch plane fifo up to high-threshold value to
->       minimize possibility of underflows.
-> 
-> v6: - Check CTM and gamma support from dispc_features when creating crtc
->     - Implement CTM support for k2g and fix k3 CTM implementation
->     - Remove gamma property persistence and always write color properties
->       in a new modeset
-> 
-> v7: - Fix checkpatch.pl --strict issues
->     - Rebase on top of drm-misc-next-2020-01-10
-> 
-> Co-developed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> Signed-off-by: Jyri Sarha <jsarha@ti.com>
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> ---
-
-<snip>
-
-> +
-> +int dispc_init(struct tidss_device *tidss)
-> +{
-> +	struct device *dev = tidss->dev;
-> +	struct platform_device *pdev = to_platform_device(dev);
-> +	struct dispc_device *dispc;
-> +	const struct dispc_features *feat;
-> +	unsigned int i, num_fourccs;
-> +	int r = 0;
-> +
-> +	dev_dbg(dev, "%s\n", __func__);
-> +
-> +	feat = tidss->feat;
-> +
-> +	if (feat->subrev != DISPC_K2G) {
-> +		r = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(48));
-> +		if (r)
-> +			dev_warn(dev, "cannot set DMA masks to 48-bit\n");
-> +	}
-> +
-> +	dispc = devm_kzalloc(dev, sizeof(*dispc), GFP_KERNEL);
-> +	if (!dispc)
-> +		return -ENOMEM;
-> +
-> +	dispc->fourccs = devm_kcalloc(dev, ARRAY_SIZE(dispc_color_formats),
-> +				      sizeof(*dispc->fourccs), GFP_KERNEL);
-> +	if (!dispc->fourccs)
-> +		return -ENOMEM;
-> +
-> +	num_fourccs = 0;
-> +	for (i = 0; i < ARRAY_SIZE(dispc_color_formats); ++i) {
-> +		if (feat->errata.i2000 &&
-> +		    dispc_fourcc_is_yuv(dispc_color_formats[i].fourcc))
-> +			continue;
-> +		dispc->fourccs[num_fourccs++] = dispc_color_formats[i].fourcc;
-> +	}
-> +	dispc->num_fourccs = num_fourccs;
-> +	dispc->tidss = tidss;
-> +	dispc->dev = dev;
-> +	dispc->feat = feat;
-> +
-> +	dispc_common_regmap = dispc->feat->common_regs;
-> +
-> +	r = dispc_iomap_resource(pdev, dispc->feat->common,
-> +				 &dispc->base_common);
-> +	if (r)
-> +		return r;
-> +
-> +	for (i = 0; i < dispc->feat->num_planes; i++) {
-> +		r = dispc_iomap_resource(pdev, dispc->feat->vid_name[i],
-> +					 &dispc->base_vid[i]);
-> +		dev_dbg(dev, "%s: %u %s %d\n", __func__,
-> +			i, dispc->feat->vid_name[i], r);
-
-dispc_iomap_resource() already print an error trace when something is
-wrong. Not sure this dev_dbg add any info.
-
-> +		if (r)
-> +			return r;
-> +	}
-> +
-> +	for (i = 0; i < dispc->feat->num_vps; i++) {
-> +		u32 gamma_size = dispc->feat->vp_feat.color.gamma_size;
-> +		u32 *gamma_table;
-> +		struct clk *clk;
-> +
-> +		r = dispc_iomap_resource(pdev, dispc->feat->ovr_name[i],
-> +					 &dispc->base_ovr[i]);
-> +		dev_dbg(dev, "%s: %u %s %d\n", __func__,
-> +			i, dispc->feat->ovr_name[i], r);
-
-Same here.
-
-> +		if (r)
-> +			return r;
-> +
-> +		r = dispc_iomap_resource(pdev, dispc->feat->vp_name[i],
-> +					 &dispc->base_vp[i]);
-> +		dev_dbg(dev, "%s: %u %s %d\n", __func__,
-> +			i, dispc->feat->vp_name[i], r);
-
-And here.
-
-But with or without this change
-
-Reviewed-by: Benoit Parrot <bparrot@ti.com>
-
-> +		if (r)
-> +			return r;
-> +
-> +		clk = devm_clk_get(dev, dispc->feat->vpclk_name[i]);
-> +		if (IS_ERR(clk)) {
-> +			dev_err(dev, "%s: Failed to get clk %s:%ld\n", __func__,
-> +				dispc->feat->vpclk_name[i], PTR_ERR(clk));
-> +			return PTR_ERR(clk);
-> +		}
-> +		dispc->vp_clk[i] = clk;
-> +
-> +		gamma_table = devm_kmalloc_array(dev, gamma_size,
-> +						 sizeof(*gamma_table),
-> +						 GFP_KERNEL);
-> +		if (!gamma_table)
-> +			return -ENOMEM;
-> +		dispc->vp_data[i].gamma_table = gamma_table;
-> +	}
-> +
-> +	if (feat->subrev == DISPC_AM65X) {
-> +		r = dispc_init_am65x_oldi_io_ctrl(dev, dispc);
-> +		if (r)
-> +			return r;
-> +	}
-> +
-> +	dispc->fclk = devm_clk_get(dev, "fck");
-> +	if (IS_ERR(dispc->fclk)) {
-> +		dev_err(dev, "%s: Failed to get fclk: %ld\n",
-> +			__func__, PTR_ERR(dispc->fclk));
-> +		return PTR_ERR(dispc->fclk);
-> +	}
-> +	dev_dbg(dev, "DSS fclk %lu Hz\n", clk_get_rate(dispc->fclk));
-> +
-> +	of_property_read_u32(dispc->dev->of_node, "max-memory-bandwidth",
-> +			     &dispc->memory_bandwidth_limit);
-> +
-> +	tidss->dispc = dispc;
-> +
-> +	return 0;
-> +}
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhlIGFzdCBkcml2ZXIgaW5oZXJpdHMgZnJvbSBEUk0ncyBDUlRDIHN0YXRlLCBidXQgc3RpbGwg
+dXNlcyB0aGUgYXRvbWljCmhlbHBlciBmb3Igc3RydWN0IGRybV9jcnRjX2Z1bmNzLnJlc2V0LCBk
+cm1fYXRvbWljX2hlbHBlcl9jcnRjX3Jlc2V0KCkuCgpUaGUgaGVscGVyIG9ubHkgYWxsb2NhdGVz
+IGVub3VnaCBtZW1vcnkgZm9yIHRoZSBjb3JlIENSVEMgc3RhdGUuIFRoYXQKcmVzdWx0cyBpbiBh
+biBvdXQtb3VmLWJvdW5kcyBhY2Nlc3Mgd2hlbiBkdXBsaWNhdGluZyB0aGUgaW5pdGlhbCBDUlRD
+CnN0YXRlLiBTaW1wbGlmaWVkIGJhY2t0cmFjZSBzaG93biBiZWxvdzoKClsgICAyMS40NjkzMjFd
+ID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PQpbICAgMjEuNDY5NDM0XSBCVUc6IEtBU0FOOiBzbGFiLW91dC1vZi1ib3VuZHMg
+aW4gYXN0X2NydGNfYXRvbWljX2R1cGxpY2F0ZV9zdGF0ZSsweDg0LzB4MTAwIFthc3RdClsgICAy
+MS40Njk0NDVdIFJlYWQgb2Ygc2l6ZSA4IGF0IGFkZHIgZmZmZjg4ODAzNmMxYzVmOCBieSB0YXNr
+IHN5c3RlbWQtdWRldmQvMzgyClsgICAyMS40Njk0NTFdClsgICAyMS40Njk0NjRdIENQVTogMiBQ
+SUQ6IDM4MiBDb21tOiBzeXN0ZW1kLXVkZXZkIFRhaW50ZWQ6IEcgICAgICAgICAgICBFICAgICA1
+LjUuMC1yYzYtMS1kZWZhdWx0KyAjMjE0ClsgICAyMS40Njk0NzNdIEhhcmR3YXJlIG5hbWU6IFN1
+biBNaWNyb3N5c3RlbXMgU1VOIEZJUkUgWDIyNzAgTTIvU1VOIEZJUkUgWDIyNzAgTTIsIEJJT1Mg
+Mi4wNSAgICAwNy8wMS8yMDEwClsgICAyMS40Njk0ODBdIENhbGwgVHJhY2U6ClsgICAyMS40Njk1
+MDFdICBkdW1wX3N0YWNrKzB4YjgvMHgxMTAKWyAgIDIxLjQ2OTUyOF0gIHByaW50X2FkZHJlc3Nf
+ZGVzY3JpcHRpb24uY29uc3Rwcm9wLjArMHgxYi8weDFlMApbICAgMjEuNDY5NTU3XSAgPyBhc3Rf
+Y3J0Y19hdG9taWNfZHVwbGljYXRlX3N0YXRlKzB4ODQvMHgxMDAgW2FzdF0KWyAgIDIxLjQ2OTU4
+MV0gID8gYXN0X2NydGNfYXRvbWljX2R1cGxpY2F0ZV9zdGF0ZSsweDg0LzB4MTAwIFthc3RdClsg
+ICAyMS40Njk1OTddICBfX2thc2FuX3JlcG9ydC5jb2xkKzB4MWEvMHgzNQpbICAgMjEuNDY5NjQw
+XSAgPyBhc3RfY3J0Y19hdG9taWNfZHVwbGljYXRlX3N0YXRlKzB4ODQvMHgxMDAgW2FzdF0KWyAg
+IDIxLjQ2OTY2NV0gIGthc2FuX3JlcG9ydCsweGUvMHgyMApbICAgMjEuNDY5NjkzXSAgYXN0X2Ny
+dGNfYXRvbWljX2R1cGxpY2F0ZV9zdGF0ZSsweDg0LzB4MTAwIFthc3RdClsgICAyMS40Njk3MzNd
+ICBkcm1fYXRvbWljX2dldF9jcnRjX3N0YXRlKzB4YmYvMHgxYzAKWyAgIDIxLjQ2OTc2OF0gIF9f
+ZHJtX2F0b21pY19oZWxwZXJfc2V0X2NvbmZpZysweDgxLzB4NWEwClsgICAyMS40Njk4MDNdICA/
+IGRybV9hdG9taWNfcGxhbmVfY2hlY2srMHg2OTAvMHg2OTAKWyAgIDIxLjQ2OTg0M10gID8gZHJt
+X2NsaWVudF9yb3RhdGlvbisweGFlLzB4MjQwClsgICAyMS40Njk4NzZdICBkcm1fY2xpZW50X21v
+ZGVzZXRfY29tbWl0X2F0b21pYysweDIzMC8weDM5MApbICAgMjEuNDY5ODg4XSAgPyBfX211dGV4
+X2xvY2srMHg4ZjAvMHhiZTAKWyAgIDIxLjQ2OTkyOV0gID8gZHJtX2NsaWVudF9maXJtd2FyZV9j
+b25maWcuaXNyYS4wKzB4YTYwLzB4YTYwClsgICAyMS40Njk5NDhdICA/IGRybV9jbGllbnRfbW9k
+ZXNldF9jb21taXRfZm9yY2UrMHgyOC8weDIzMApbICAgMjEuNDcwMDMxXSAgPyBtZW1zZXQrMHgy
+MC8weDQwClsgICAyMS40NzAwNzhdICBkcm1fY2xpZW50X21vZGVzZXRfY29tbWl0X2ZvcmNlKzB4
+OTAvMHgyMzAKWyAgIDIxLjQ3MDExMF0gIGRybV9mYl9oZWxwZXJfcmVzdG9yZV9mYmRldl9tb2Rl
+X3VubG9ja2VkKzB4NWYvMHhjMApbICAgMjEuNDcwMTMyXSAgZHJtX2ZiX2hlbHBlcl9zZXRfcGFy
+KzB4NTkvMHg3MApbICAgMjEuNDcwMTU1XSAgZmJjb25faW5pdCsweDYxZC8weGFkMApbICAgMjEu
+NDcwMTg1XSAgPyBkcm1fZmJfaGVscGVyX3Jlc3RvcmVfZmJkZXZfbW9kZV91bmxvY2tlZCsweGMw
+LzB4YzAKWyAgIDIxLjQ3MDIzMl0gIHZpc3VhbF9pbml0KzB4MTg3LzB4MjQwClsgICAyMS40NzAy
+NjZdICBkb19iaW5kX2Nvbl9kcml2ZXIrMHgyZTMvMHg0NjAKWyAgIDIxLjQ3MDMyMV0gIGRvX3Rh
+a2Vfb3Zlcl9jb25zb2xlKzB4MjBhLzB4MjkwClsgICAyMS40NzAzNzFdICBkb19mYmNvbl90YWtl
+b3ZlcisweDg1LzB4MTAwClsgICAyMS40NzA0MDJdICByZWdpc3Rlcl9mcmFtZWJ1ZmZlcisweDJm
+ZC8weDQ5MApbICAgMjEuNDcwNDI1XSAgPyBremFsbG9jLmNvbnN0cHJvcC4wKzB4MTAvMHgxMApb
+ICAgMjEuNDcwNTAzXSAgX19kcm1fZmJfaGVscGVyX2luaXRpYWxfY29uZmlnX2FuZF91bmxvY2sr
+MHhmMi8weDE0MApbICAgMjEuNDcwNTMzXSAgZHJtX2ZiZGV2X2NsaWVudF9ob3RwbHVnKzB4MTYy
+LzB4MjUwClsgICAyMS40NzA1NjNdICBkcm1fZmJkZXZfZ2VuZXJpY19zZXR1cCsweGQyLzB4MTU1
+ClsgICAyMS40NzA2MDJdICBhc3RfZHJpdmVyX2xvYWQrMHg2ODgvMHg4NTAgW2FzdF0KPC4uLj4K
+WyAgIDIxLjQ3MjYyNV0gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09CgpBbGxvY2F0aW5nIGVub3VnaCBtZW1vcnkgZm9yIHN0
+cnVjdCBhc3RfY3J0Y19zdGF0ZSBpbiBhIGN1c3RvbSBhc3QgQ1JUQwpyZXNldCBoYW5kbGVyIGZp
+eGVzIHRoZSBwcm9ibGVtLgoKU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1t
+ZXJtYW5uQHN1c2UuZGU+CkZpeGVzOiA4M2JlNmEzY2ViMTEgKCJkcm0vYXN0OiBJbnRyb2R1Y2Ug
+c3RydWN0IGFzdF9jcnRjX3N0YXRlIikKQ2M6IEdlcmQgSG9mZm1hbm4gPGtyYXhlbEByZWRoYXQu
+Y29tPgpDYzogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KQ2M6IERhbmllbCBWZXR0
+ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+CkNjOiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5k
+ZXVjaGVyQGFtZC5jb20+CkNjOiAiTm9yYWxmIFRyw7hubmVzIiA8bm9yYWxmQHRyb25uZXMub3Jn
+PgpDYzogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPgpDYzogTGF1cmVudCBQaW5jaGFy
+dCA8bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2Ry
+bS9hc3QvYXN0X21vZGUuYyB8IDE5ICsrKysrKysrKysrKysrKysrKy0KIDEgZmlsZSBjaGFuZ2Vk
+LCAxOCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
+cHUvZHJtL2FzdC9hc3RfbW9kZS5jIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jCmlu
+ZGV4IDM0NjA4ZjA0OTllYi4uYjVhMGUyYTA1OTViIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9k
+cm0vYXN0L2FzdF9tb2RlLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jCkBA
+IC04ODIsNiArODgyLDIzIEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2NydGNfaGVscGVyX2Z1
+bmNzIGFzdF9jcnRjX2hlbHBlcl9mdW5jcyA9IHsKIAkuYXRvbWljX2Rpc2FibGUgPSBhc3RfY3J0
+Y19oZWxwZXJfYXRvbWljX2Rpc2FibGUsCiB9OwogCitzdGF0aWMgdm9pZCBhc3RfY3J0Y19yZXNl
+dChzdHJ1Y3QgZHJtX2NydGMgKmNydGMpCit7CisJc3RydWN0IGFzdF9jcnRjX3N0YXRlICphc3Rf
+c3RhdGU7CisKKwlpZiAoY3J0Yy0+c3RhdGUpIHsKKwkJY3J0Yy0+ZnVuY3MtPmF0b21pY19kZXN0
+cm95X3N0YXRlKGNydGMsIGNydGMtPnN0YXRlKTsKKwkJY3J0Yy0+c3RhdGUgPSBOVUxMOworCX0K
+KworCWFzdF9zdGF0ZSA9IGt6YWxsb2Moc2l6ZW9mKCphc3Rfc3RhdGUpLCBHRlBfS0VSTkVMKTsK
+KwlpZiAoIWFzdF9zdGF0ZSkKKwkJcmV0dXJuOworCisJY3J0Yy0+c3RhdGUgPSAmYXN0X3N0YXRl
+LT5iYXNlOworCWNydGMtPnN0YXRlLT5jcnRjID0gY3J0YzsKK30KKwogc3RhdGljIHZvaWQgYXN0
+X2NydGNfZGVzdHJveShzdHJ1Y3QgZHJtX2NydGMgKmNydGMpCiB7CiAJZHJtX2NydGNfY2xlYW51
+cChjcnRjKTsKQEAgLTkyMCw3ICs5MzcsNyBAQCBzdGF0aWMgdm9pZCBhc3RfY3J0Y19hdG9taWNf
+ZGVzdHJveV9zdGF0ZShzdHJ1Y3QgZHJtX2NydGMgKmNydGMsCiB9CiAKIHN0YXRpYyBjb25zdCBz
+dHJ1Y3QgZHJtX2NydGNfZnVuY3MgYXN0X2NydGNfZnVuY3MgPSB7Ci0JLnJlc2V0ID0gZHJtX2F0
+b21pY19oZWxwZXJfY3J0Y19yZXNldCwKKwkucmVzZXQgPSBhc3RfY3J0Y19yZXNldCwKIAkuc2V0
+X2NvbmZpZyA9IGRybV9jcnRjX2hlbHBlcl9zZXRfY29uZmlnLAogCS5nYW1tYV9zZXQgPSBkcm1f
+YXRvbWljX2hlbHBlcl9sZWdhY3lfZ2FtbWFfc2V0LAogCS5kZXN0cm95ID0gYXN0X2NydGNfZGVz
+dHJveSwKLS0gCjIuMjQuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVsCg==
