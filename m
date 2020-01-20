@@ -1,21 +1,21 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B5DA142518
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2020 09:24:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A2D142524
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2020 09:24:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBA536E7D9;
-	Mon, 20 Jan 2020 08:23:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 401826E7EC;
+	Mon, 20 Jan 2020 08:23:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E7BD6E5CE;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93B776E5D2;
  Mon, 20 Jan 2020 08:23:33 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 4AA25B228;
- Mon, 20 Jan 2020 08:23:31 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 1FA10B1EE;
+ Mon, 20 Jan 2020 08:23:32 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@linux.ie, daniel@ffwll.ch, alexander.deucher@amd.com,
  christian.koenig@amd.com, David1.Zhou@amd.com,
@@ -28,10 +28,10 @@ To: airlied@linux.ie, daniel@ffwll.ch, alexander.deucher@amd.com,
  bskeggs@redhat.com, harry.wentland@amd.com, sunpeng.li@amd.com,
  jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
  rodrigo.vivi@intel.com
-Subject: [PATCH v3 02/22] drm: Add get_scanout_position() to struct
- drm_crtc_helper_funcs
-Date: Mon, 20 Jan 2020 09:22:54 +0100
-Message-Id: <20200120082314.14756-3-tzimmermann@suse.de>
+Subject: [PATCH v3 03/22] drm: Add get_vblank_timestamp() to struct
+ drm_crtc_funcs
+Date: Mon, 20 Jan 2020 09:22:55 +0100
+Message-Id: <20200120082314.14756-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200120082314.14756-1-tzimmermann@suse.de>
 References: <20200120082314.14756-1-tzimmermann@suse.de>
@@ -52,214 +52,311 @@ Cc: linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Thomas Zimmermann <tzimmermann@suse.de>, nouveau@lists.freedesktop.org,
  freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIG5ldyBjYWxsYmFjayBnZXRfc2Nhbm91dF9wb3NpdGlvbigpIHJlYWRzIHRoZSBjdXJyZW50
-IGxvY2F0aW9uCm9mIHRoZSBzY2Fub3V0IHByb2Nlc3MuIFRoZSBvcGVyYXRpb24gaXMgY3VycmVu
-dGx5IGxvY2F0ZWQgaW4gc3RydWN0CmRybV9kcml2ZXIsIGJ1dCByZWFsbHkgYmVsb25ncyB0byB0
-aGUgQ1JUQy4gRHJpdmVycyB3aWxsIGJlIGNvbnZlcnRlZAppbiBzZXBhcmF0ZSBwYXRjaGVzLgoK
-VG8gaGVscCB3aXRoIHRoZSBjb252ZXJzaW9uLCB0aGUgdGltZXN0YW1wIGNhbGN1bGF0aW9uIGhh
-cyBiZWVuCm1vdmVkIGZyb20gZHJtX2NhbGNfdmJsdGltZXN0YW1wX2Zyb21fc2Nhbm91dHBvcygp
-IHRvCmRybV9jcnRjX3ZibGFua19oZWxwZXJfZ2V0X3ZibGFua190aW1lc3RhbXBfaW50ZXJuYWwo
-KS4gVGhlIGhlbHBlcgpmdW5jdGlvbiBzdXBwb3J0cyB0aGUgbmV3IGFuZCBvbGQgaW50ZXJmYWNl
-IG9mIGdldF9zY2Fub3V0X3Bvc2l0aW9uKCkuCmRybV9jYWxjX3ZibHRpbWVzdGFtcF9mcm9tX3Nj
-YW5vdXRwb3MoKSByZW1haW5zIGFzIGEgd3JhcHBlciBhcm91bmQKdGhlIG5ldyBmdW5jdGlvbi4K
-CkNhbGxiYWNrIGZ1bmN0aW9ucyByZXR1cm4gdGhlIHNjYW5vdXQgcG9zaXRpb24gZnJvbSB0aGUg
-Q1JUQy4gVGhlCmxlZ2FjeSB2ZXJzaW9uIG9mIHRoZSBpbnRlcmZhY2UgcmVjZWl2ZXMgdGhlIGRl
-dmljZSBhbmQgcGlwZSBpbmRleCwKdGhlIG1vZGVybiB2ZXJzaW9uIHJlY2VpdmVzIGEgcG9pbnRl
-ciB0byB0aGUgQ1JUQy4gV2Uga2VlcCB0aGUKbGVnYWN5IHZlcnNpb24gdW50aWwgYWxsIGRyaXZl
-cnMgaGF2ZSBiZWVuIGNvbnZlcnRlZC4KCnYzOgoJKiByZWZhY3RvciBkcm1fY2FsY192Ymx0aW1l
-c3RhbXBfZnJvbV9zY2Fub3V0cG9zKCkgdG8gbWluaW1pemUKCSAgY29kZSBkdXBsaWNhdGlvbgoJ
-KiBkZWZpbmUgdHlwZXMgZm9yIGdldF9zY2Fub3V0X3Bvc2l0aW9uKCkgY2FsbGJhY2tzCnYyOgoJ
-KiBmaXggbG9naWNhbCBvcCBpbiBkcm1fY2FsY192Ymx0aW1lc3RhbXBfZnJvbV9zY2Fub3V0cG9z
-KCkKClNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRl
-PgpUZXN0ZWQtYnk6IFlhbm5pY2sgRmVydHLDqSA8eWFubmljay5mZXJ0cmVAc3QuY29tPgotLS0K
-IGRyaXZlcnMvZ3B1L2RybS9kcm1fdmJsYW5rLmMgICAgICAgICAgICAgfCAxMDEgKysrKysrKysr
-KysrKysrKysrKy0tLS0KIGluY2x1ZGUvZHJtL2RybV9kcnYuaCAgICAgICAgICAgICAgICAgICAg
-fCAgIDcgKy0KIGluY2x1ZGUvZHJtL2RybV9tb2Rlc2V0X2hlbHBlcl92dGFibGVzLmggfCAgNDcg
-KysrKysrKysrKysKIGluY2x1ZGUvZHJtL2RybV92YmxhbmsuaCAgICAgICAgICAgICAgICAgfCAg
-MjIgKysrKysKIDQgZmlsZXMgY2hhbmdlZCwgMTU0IGluc2VydGlvbnMoKyksIDIzIGRlbGV0aW9u
-cygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fdmJsYW5rLmMgYi9kcml2ZXJz
-L2dwdS9kcm0vZHJtX3ZibGFuay5jCmluZGV4IDMyNmRiNTJmMmFkOC4uN2U5NjJjMjk3ODBjIDEw
-MDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3ZibGFuay5jCisrKyBiL2RyaXZlcnMvZ3B1
-L2RybS9kcm1fdmJsYW5rLmMKQEAgLTMwLDYgKzMwLDcgQEAKICNpbmNsdWRlIDxkcm0vZHJtX2Ny
-dGMuaD4KICNpbmNsdWRlIDxkcm0vZHJtX2Rydi5oPgogI2luY2x1ZGUgPGRybS9kcm1fZnJhbWVi
-dWZmZXIuaD4KKyNpbmNsdWRlIDxkcm0vZHJtX21vZGVzZXRfaGVscGVyX3Z0YWJsZXMuaD4KICNp
-bmNsdWRlIDxkcm0vZHJtX3ByaW50Lmg+CiAjaW5jbHVkZSA8ZHJtL2RybV92YmxhbmsuaD4KIApA
-QCAtNTc3LDcgKzU3OCw3IEBAIEVYUE9SVF9TWU1CT0woZHJtX2NhbGNfdGltZXN0YW1waW5nX2Nv
-bnN0YW50cyk7CiAgKiBJbXBsZW1lbnRzIGNhbGN1bGF0aW9uIG9mIGV4YWN0IHZibGFuayB0aW1l
-c3RhbXBzIGZyb20gZ2l2ZW4gZHJtX2Rpc3BsYXlfbW9kZQogICogdGltaW5ncyBhbmQgY3VycmVu
-dCB2aWRlbyBzY2Fub3V0IHBvc2l0aW9uIG9mIGEgQ1JUQy4gVGhpcyBjYW4gYmUgZGlyZWN0bHkK
-ICAqIHVzZWQgYXMgdGhlICZkcm1fZHJpdmVyLmdldF92YmxhbmtfdGltZXN0YW1wIGltcGxlbWVu
-dGF0aW9uIG9mIGEga21zIGRyaXZlcgotICogaWYgJmRybV9kcml2ZXIuZ2V0X3NjYW5vdXRfcG9z
-aXRpb24gaXMgaW1wbGVtZW50ZWQuCisgKiBpZiAmZHJtX2NydGNfaGVscGVyX2Z1bmNzLmdldF9z
-Y2Fub3V0X3Bvc2l0aW9uIGlzIGltcGxlbWVudGVkLgogICoKICAqIFRoZSBjdXJyZW50IGltcGxl
-bWVudGF0aW9uIG9ubHkgaGFuZGxlcyBzdGFuZGFyZCB2aWRlbyBtb2Rlcy4gRm9yIGRvdWJsZSBz
-Y2FuCiAgKiBhbmQgaW50ZXJsYWNlZCBtb2RlcyB0aGUgZHJpdmVyIGlzIHN1cHBvc2VkIHRvIGFk
-anVzdCB0aGUgaGFyZHdhcmUgbW9kZQpAQCAtNTk5LDI4ICs2MDAsODUgQEAgYm9vbCBkcm1fY2Fs
-Y192Ymx0aW1lc3RhbXBfZnJvbV9zY2Fub3V0cG9zKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCiAJ
-CQkJCSAgIGt0aW1lX3QgKnZibGFua190aW1lLAogCQkJCQkgICBib29sIGluX3ZibGFua19pcnEp
-CiB7Ci0Jc3RydWN0IHRpbWVzcGVjNjQgdHNfZXRpbWUsIHRzX3ZibGFua190aW1lOwotCWt0aW1l
-X3Qgc3RpbWUsIGV0aW1lOwotCWJvb2wgdmJsX3N0YXR1czsKIAlzdHJ1Y3QgZHJtX2NydGMgKmNy
-dGM7Ci0JY29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKm1vZGU7Ci0Jc3RydWN0IGRybV92
-YmxhbmtfY3J0YyAqdmJsYW5rID0gJmRldi0+dmJsYW5rW3BpcGVdOwotCWludCB2cG9zLCBocG9z
-LCBpOwotCWludCBkZWx0YV9ucywgZHVyYXRpb25fbnM7CiAKIAlpZiAoIWRybV9jb3JlX2NoZWNr
-X2ZlYXR1cmUoZGV2LCBEUklWRVJfTU9ERVNFVCkpCiAJCXJldHVybiBmYWxzZTsKIAogCWNydGMg
-PSBkcm1fY3J0Y19mcm9tX2luZGV4KGRldiwgcGlwZSk7CisJaWYgKCFjcnRjKQorCQlyZXR1cm4g
-ZmFsc2U7CiAKLQlpZiAocGlwZSA+PSBkZXYtPm51bV9jcnRjcyB8fCAhY3J0YykgeworCXJldHVy
-biBkcm1fY3J0Y192YmxhbmtfaGVscGVyX2dldF92YmxhbmtfdGltZXN0YW1wX2ludGVybmFsKGNy
-dGMsCisJCQkJCQkJCSAgICBtYXhfZXJyb3IsCisJCQkJCQkJCSAgICB2YmxhbmtfdGltZSwKKwkJ
-CQkJCQkJICAgIGluX3ZibGFua19pcnEsCisJCQkJCQkJCSAgICBjcnRjLT5oZWxwZXJfcHJpdmF0
-ZS0+Z2V0X3NjYW5vdXRfcG9zaXRpb24sCisJCQkJCQkJCSAgICBkZXYtPmRyaXZlci0+Z2V0X3Nj
-YW5vdXRfcG9zaXRpb24pOworfQorRVhQT1JUX1NZTUJPTChkcm1fY2FsY192Ymx0aW1lc3RhbXBf
-ZnJvbV9zY2Fub3V0cG9zKTsKKworLyoqCisgKiBkcm1fY3J0Y192YmxhbmtfaGVscGVyX2dldF92
-YmxhbmtfdGltZXN0YW1wX2ludGVybmFsIC0gcHJlY2lzZSB2YmxhbmsKKyAqICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB0aW1lc3RhbXAgaGVs
-cGVyCisgKiBAZGV2OiBEUk0gZGV2aWNlCisgKiBAcGlwZTogaW5kZXggb2YgQ1JUQyB3aG9zZSB2
-YmxhbmsgdGltZXN0YW1wIHRvIHJldHJpZXZlCisgKiBAbWF4X2Vycm9yOiBEZXNpcmVkIG1heGlt
-dW0gYWxsb3dhYmxlIGVycm9yIGluIHRpbWVzdGFtcHMgKG5hbm9zZWNzKQorICogICAgICAgICAg
-ICAgT24gcmV0dXJuIGNvbnRhaW5zIHRydWUgbWF4aW11bSBlcnJvciBvZiB0aW1lc3RhbXAKKyAq
-IEB2YmxhbmtfdGltZTogUG9pbnRlciB0byB0aW1lIHdoaWNoIHNob3VsZCByZWNlaXZlIHRoZSB0
-aW1lc3RhbXAKKyAqIEBpbl92YmxhbmtfaXJxOgorICogICAgIFRydWUgd2hlbiBjYWxsZWQgZnJv
-bSBkcm1fY3J0Y19oYW5kbGVfdmJsYW5rKCkuICBTb21lIGRyaXZlcnMKKyAqICAgICBuZWVkIHRv
-IGFwcGx5IHNvbWUgd29ya2Fyb3VuZHMgZm9yIGdwdS1zcGVjaWZpYyB2YmxhbmsgaXJxIHF1aXJr
-cworICogICAgIGlmIGZsYWcgaXMgc2V0LgorICogQGdldF9zY2Fub3V0X3Bvc2l0aW9uOgorICog
-ICAgIENhbGxiYWNrIGZ1bmN0aW9uIHRvIHJldHJpZXZlIHRoZSBzY2Fub3V0IHBvc2l0aW9uLiBT
-ZWUKKyAqICAgICBAc3RydWN0IGRybV9jcnRjX2hlbHBlcl9mdW5jcy5nZXRfc2Nhbm91dF9wb3Np
-dGlvbi4KKyAqIEBnZXRfc2Nhbm91dF9wb3NpdGlvbl9sZWdhY3k6CisgKiAgICAgQ2FsbGJhY2sg
-ZnVuY3Rpb24gdG8gcmV0cmlldmUgdGhlIHNjYW5vdXQgcG9zaXRpb24uIFNlZQorICogICAgIEBz
-dHJ1Y3QgZHJtX2RyaXZlci5nZXRfc2Nhbm91dF9wb3NpdGlvbi4KKyAqCisgKiBJbXBsZW1lbnRz
-IGNhbGN1bGF0aW9uIG9mIGV4YWN0IHZibGFuayB0aW1lc3RhbXBzIGZyb20gZ2l2ZW4gZHJtX2Rp
-c3BsYXlfbW9kZQorICogdGltaW5ncyBhbmQgY3VycmVudCB2aWRlbyBzY2Fub3V0IHBvc2l0aW9u
-IG9mIGEgQ1JUQy4KKyAqCisgKiBUaGUgY3VycmVudCBpbXBsZW1lbnRhdGlvbiBvbmx5IGhhbmRs
-ZXMgc3RhbmRhcmQgdmlkZW8gbW9kZXMuIEZvciBkb3VibGUgc2NhbgorICogYW5kIGludGVybGFj
-ZWQgbW9kZXMgdGhlIGRyaXZlciBpcyBzdXBwb3NlZCB0byBhZGp1c3QgdGhlIGhhcmR3YXJlIG1v
-ZGUKKyAqICh0YWtlbiBmcm9tICZkcm1fY3J0Y19zdGF0ZS5hZGp1c3RlZCBtb2RlIGZvciBhdG9t
-aWMgbW9kZXNldCBkcml2ZXJzKSB0bworICogbWF0Y2ggdGhlIHNjYW5vdXQgcG9zaXRpb24gcmVw
-b3J0ZWQuCisgKgorICogTm90ZSB0aGF0IGF0b21pYyBkcml2ZXJzIG11c3QgY2FsbCBkcm1fY2Fs
-Y190aW1lc3RhbXBpbmdfY29uc3RhbnRzKCkgYmVmb3JlCisgKiBlbmFibGluZyBhIENSVEMuIFRo
-ZSBhdG9taWMgaGVscGVycyBhbHJlYWR5IHRha2UgY2FyZSBvZiB0aGF0IGluCisgKiBkcm1fYXRv
-bWljX2hlbHBlcl91cGRhdGVfbGVnYWN5X21vZGVzZXRfc3RhdGUoKS4KKyAqCisgKiBSZXR1cm5z
-OgorICoKKyAqIFJldHVybnMgdHJ1ZSBvbiBzdWNjZXNzLCBhbmQgZmFsc2Ugb24gZmFpbHVyZSwg
-aS5lLiB3aGVuIG5vIGFjY3VyYXRlCisgKiB0aW1lc3RhbXAgY291bGQgYmUgYWNxdWlyZWQuCisg
-Ki8KK2Jvb2wKK2RybV9jcnRjX3ZibGFua19oZWxwZXJfZ2V0X3ZibGFua190aW1lc3RhbXBfaW50
-ZXJuYWwoCisJc3RydWN0IGRybV9jcnRjICpjcnRjLCBpbnQgKm1heF9lcnJvciwga3RpbWVfdCAq
-dmJsYW5rX3RpbWUsCisJYm9vbCBpbl92YmxhbmtfaXJxLAorCWRybV92YmxhbmtfZ2V0X3NjYW5v
-dXRfcG9zaXRpb25fZnVuYyBnZXRfc2Nhbm91dF9wb3NpdGlvbiwKKwlkcm1fdmJsYW5rX2dldF9z
-Y2Fub3V0X3Bvc2l0aW9uX2xlZ2FjeV9mdW5jIGdldF9zY2Fub3V0X3Bvc2l0aW9uX2xlZ2FjeSkK
-K3sKKwlzdHJ1Y3QgZHJtX2RldmljZSAqZGV2ID0gY3J0Yy0+ZGV2OworCXVuc2lnbmVkIGludCBw
-aXBlID0gY3J0Yy0+aW5kZXg7CisJc3RydWN0IGRybV92YmxhbmtfY3J0YyAqdmJsYW5rID0gJmRl
-di0+dmJsYW5rW3BpcGVdOworCXN0cnVjdCB0aW1lc3BlYzY0IHRzX2V0aW1lLCB0c192Ymxhbmtf
-dGltZTsKKwlrdGltZV90IHN0aW1lLCBldGltZTsKKwlib29sIHZibF9zdGF0dXM7CisJY29uc3Qg
-c3RydWN0IGRybV9kaXNwbGF5X21vZGUgKm1vZGU7CisJaW50IHZwb3MsIGhwb3MsIGk7CisJaW50
-IGRlbHRhX25zLCBkdXJhdGlvbl9uczsKKworCWlmIChwaXBlID49IGRldi0+bnVtX2NydGNzKSB7
-CiAJCURSTV9FUlJPUigiSW52YWxpZCBjcnRjICV1XG4iLCBwaXBlKTsKIAkJcmV0dXJuIGZhbHNl
-OwogCX0KIAogCS8qIFNjYW5vdXQgcG9zaXRpb24gcXVlcnkgbm90IHN1cHBvcnRlZD8gU2hvdWxk
-IG5vdCBoYXBwZW4uICovCi0JaWYgKCFkZXYtPmRyaXZlci0+Z2V0X3NjYW5vdXRfcG9zaXRpb24p
-IHsKLQkJRFJNX0VSUk9SKCJDYWxsZWQgZnJvbSBkcml2ZXIgdy9vIGdldF9zY2Fub3V0X3Bvc2l0
-aW9uKCkhP1xuIik7CisJaWYgKCFnZXRfc2Nhbm91dF9wb3NpdGlvbiAmJiAhZ2V0X3NjYW5vdXRf
-cG9zaXRpb25fbGVnYWN5KSB7CisJCURSTV9FUlJPUigiQ2FsbGVkIGZyb20gQ1JUQyB3L28gZ2V0
-X3NjYW5vdXRfcG9zaXRpb24oKSE/XG4iKTsKIAkJcmV0dXJuIGZhbHNlOwogCX0KIApAQCAtNjM1
-LDcgKzY5Myw2IEBAIGJvb2wgZHJtX2NhbGNfdmJsdGltZXN0YW1wX2Zyb21fc2Nhbm91dHBvcyhz
-dHJ1Y3QgZHJtX2RldmljZSAqZGV2LAogCWlmIChtb2RlLT5jcnRjX2Nsb2NrID09IDApIHsKIAkJ
-RFJNX0RFQlVHKCJjcnRjICV1OiBOb29wIGR1ZSB0byB1bmluaXRpYWxpemVkIG1vZGUuXG4iLCBw
-aXBlKTsKIAkJV0FSTl9PTl9PTkNFKGRybV9kcnZfdXNlc19hdG9taWNfbW9kZXNldChkZXYpKTsK
-LQogCQlyZXR1cm4gZmFsc2U7CiAJfQogCkBAIC02NTEsMTEgKzcwOCwxOSBAQCBib29sIGRybV9j
-YWxjX3ZibHRpbWVzdGFtcF9mcm9tX3NjYW5vdXRwb3Moc3RydWN0IGRybV9kZXZpY2UgKmRldiwK
-IAkJICogR2V0IHZlcnRpY2FsIGFuZCBob3Jpem9udGFsIHNjYW5vdXQgcG9zaXRpb24gdnBvcywg
-aHBvcywKIAkJICogYW5kIGJvdW5kaW5nIHRpbWVzdGFtcHMgc3RpbWUsIGV0aW1lLCBwcmUvcG9z
-dCBxdWVyeS4KIAkJICovCi0JCXZibF9zdGF0dXMgPSBkZXYtPmRyaXZlci0+Z2V0X3NjYW5vdXRf
-cG9zaXRpb24oZGV2LCBwaXBlLAotCQkJCQkJCSAgICAgICBpbl92YmxhbmtfaXJxLAotCQkJCQkJ
-CSAgICAgICAmdnBvcywgJmhwb3MsCi0JCQkJCQkJICAgICAgICZzdGltZSwgJmV0aW1lLAotCQkJ
-CQkJCSAgICAgICBtb2RlKTsKKwkJaWYgKGdldF9zY2Fub3V0X3Bvc2l0aW9uKSB7CisJCQl2Ymxf
-c3RhdHVzID0gZ2V0X3NjYW5vdXRfcG9zaXRpb24oY3J0YywKKwkJCQkJCQkgIGluX3ZibGFua19p
-cnEsCisJCQkJCQkJICAmdnBvcywgJmhwb3MsCisJCQkJCQkJICAmc3RpbWUsICZldGltZSwKKwkJ
-CQkJCQkgIG1vZGUpOworCQl9IGVsc2UgeworCQkJdmJsX3N0YXR1cyA9IGdldF9zY2Fub3V0X3Bv
-c2l0aW9uX2xlZ2FjeShkZXYsIHBpcGUsCisJCQkJCQkJCSBpbl92YmxhbmtfaXJxLAorCQkJCQkJ
-CQkgJnZwb3MsICZocG9zLAorCQkJCQkJCQkgJnN0aW1lLCAmZXRpbWUsCisJCQkJCQkJCSBtb2Rl
-KTsKKwkJfQogCiAJCS8qIFJldHVybiBhcyBuby1vcCBpZiBzY2Fub3V0IHF1ZXJ5IHVuc3VwcG9y
-dGVkIG9yIGZhaWxlZC4gKi8KIAkJaWYgKCF2Ymxfc3RhdHVzKSB7CkBAIC03MDcsNyArNzcyLDcg
-QEAgYm9vbCBkcm1fY2FsY192Ymx0aW1lc3RhbXBfZnJvbV9zY2Fub3V0cG9zKHN0cnVjdCBkcm1f
-ZGV2aWNlICpkZXYsCiAKIAlyZXR1cm4gdHJ1ZTsKIH0KLUVYUE9SVF9TWU1CT0woZHJtX2NhbGNf
-dmJsdGltZXN0YW1wX2Zyb21fc2Nhbm91dHBvcyk7CitFWFBPUlRfU1lNQk9MKGRybV9jcnRjX3Zi
-bGFua19oZWxwZXJfZ2V0X3ZibGFua190aW1lc3RhbXBfaW50ZXJuYWwpOwogCiAvKioKICAqIGRy
-bV9nZXRfbGFzdF92Ymx0aW1lc3RhbXAgLSByZXRyaWV2ZSByYXcgdGltZXN0YW1wIGZvciB0aGUg
-bW9zdCByZWNlbnQKZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9kcnYuaCBiL2luY2x1ZGUv
-ZHJtL2RybV9kcnYuaAppbmRleCBjZjEzNDcwODEwYTUuLmQwMDQ5ZTU3ODZmYyAxMDA2NDQKLS0t
-IGEvaW5jbHVkZS9kcm0vZHJtX2Rydi5oCisrKyBiL2luY2x1ZGUvZHJtL2RybV9kcnYuaApAQCAt
-MzYyLDExICszNjIsOCBAQCBzdHJ1Y3QgZHJtX2RyaXZlciB7CiAJICogVHJ1ZSBvbiBzdWNjZXNz
-LCBmYWxzZSBpZiBhIHJlbGlhYmxlIHNjYW5vdXQgcG9zaXRpb24gY291bnRlciBjb3VsZAogCSAq
-IG5vdCBiZSByZWFkIG91dC4KIAkgKgotCSAqIEZJWE1FOgotCSAqCi0JICogU2luY2UgdGhpcyBp
-cyBhIGhlbHBlciB0byBpbXBsZW1lbnQgQGdldF92YmxhbmtfdGltZXN0YW1wLCB3ZSBzaG91bGQK
-LQkgKiBtb3ZlIGl0IHRvICZzdHJ1Y3QgZHJtX2NydGNfaGVscGVyX2Z1bmNzLCBsaWtlIGFsbCB0
-aGUgb3RoZXIKLQkgKiBoZWxwZXItaW50ZXJuYWwgaG9va3MuCisJICogVGhpcyBpcyBkZXByZWNh
-dGVkIGFuZCBzaG91bGQgbm90IGJlIHVzZWQgYnkgbmV3IGRyaXZlcnMuCisJICogVXNlICZkcm1f
-Y3J0Y19oZWxwZXJfZnVuY3MuZ2V0X3NjYW5vdXRfcG9zaXRpb24gaW5zdGVhZC4KIAkgKi8KIAli
-b29sICgqZ2V0X3NjYW5vdXRfcG9zaXRpb24pIChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB1bnNp
-Z25lZCBpbnQgcGlwZSwKIAkJCQkgICAgICBib29sIGluX3ZibGFua19pcnEsIGludCAqdnBvcywg
-aW50ICpocG9zLApkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX21vZGVzZXRfaGVscGVyX3Z0
-YWJsZXMuaCBiL2luY2x1ZGUvZHJtL2RybV9tb2Rlc2V0X2hlbHBlcl92dGFibGVzLmgKaW5kZXgg
-NWE4N2YxYmQ3YTNmLi5lMzk4NTEyYmZkNWYgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvZHJtL2RybV9t
-b2Rlc2V0X2hlbHBlcl92dGFibGVzLmgKKysrIGIvaW5jbHVkZS9kcm0vZHJtX21vZGVzZXRfaGVs
-cGVyX3Z0YWJsZXMuaApAQCAtNDUwLDYgKzQ1MCw1MyBAQCBzdHJ1Y3QgZHJtX2NydGNfaGVscGVy
-X2Z1bmNzIHsKIAkgKi8KIAl2b2lkICgqYXRvbWljX2Rpc2FibGUpKHN0cnVjdCBkcm1fY3J0YyAq
-Y3J0YywKIAkJCSAgICAgICBzdHJ1Y3QgZHJtX2NydGNfc3RhdGUgKm9sZF9jcnRjX3N0YXRlKTsK
-KworCS8qKgorCSAqIEBnZXRfc2Nhbm91dF9wb3NpdGlvbjoKKwkgKgorCSAqIENhbGxlZCBieSB2
-YmxhbmsgdGltZXN0YW1waW5nIGNvZGUuCisJICoKKwkgKiBSZXR1cm5zIHRoZSBjdXJyZW50IGRp
-c3BsYXkgc2Nhbm91dCBwb3NpdGlvbiBmcm9tIGEgQ1JUQyBhbmQgYW4KKwkgKiBvcHRpb25hbCBh
-Y2N1cmF0ZSBrdGltZV9nZXQoKSB0aW1lc3RhbXAgb2Ygd2hlbiB0aGUgcG9zaXRpb24gd2FzCisJ
-ICogbWVhc3VyZWQuIE5vdGUgdGhhdCB0aGlzIGlzIGEgaGVscGVyIGNhbGxiYWNrIHdoaWNoIGlz
-IG9ubHkgdXNlZAorCSAqIGlmIGEgZHJpdmVyIHVzZXMgZHJtX2NhbGNfdmJsdGltZXN0YW1wX2Zy
-b21fc2Nhbm91dHBvcygpIGZvciB0aGUKKwkgKiBAZHJtX2RyaXZlci5nZXRfdmJsYW5rX3RpbWVz
-dGFtcCBjYWxsYmFjay4KKwkgKgorCSAqIFBhcmFtZXRlcnM6CisJICoKKwkgKiBjcnRjOgorCSAq
-ICAgICBUaGUgQ1JUQy4KKwkgKiBpbl92YmxhbmtfaXJxOgorCSAqICAgICBUcnVlIHdoZW4gY2Fs
-bGVkIGZyb20gZHJtX2NydGNfaGFuZGxlX3ZibGFuaygpLiBTb21lIGRyaXZlcnMKKwkgKiAgICAg
-bmVlZCB0byBhcHBseSBzb21lIHdvcmthcm91bmRzIGZvciBncHUtc3BlY2lmaWMgdmJsYW5rIGly
-cQorCSAqICAgICBxdWlya3MgaWYgdGhlIGZsYWcgaXMgc2V0LgorCSAqIHZwb3M6CisJICogICAg
-IFRhcmdldCBsb2NhdGlvbiBmb3IgY3VycmVudCB2ZXJ0aWNhbCBzY2Fub3V0IHBvc2l0aW9uLgor
-CSAqIGhwb3M6CisJICogICAgIFRhcmdldCBsb2NhdGlvbiBmb3IgY3VycmVudCBob3Jpem9udGFs
-IHNjYW5vdXQgcG9zaXRpb24uCisJICogc3RpbWU6CisJICogICAgIFRhcmdldCBsb2NhdGlvbiBm
-b3IgdGltZXN0YW1wIHRha2VuIGltbWVkaWF0ZWx5IGJlZm9yZQorCSAqICAgICBzY2Fub3V0IHBv
-c2l0aW9uIHF1ZXJ5LiBDYW4gYmUgTlVMTCB0byBza2lwIHRpbWVzdGFtcC4KKwkgKiBldGltZToK
-KwkgKiAgICAgVGFyZ2V0IGxvY2F0aW9uIGZvciB0aW1lc3RhbXAgdGFrZW4gaW1tZWRpYXRlbHkg
-YWZ0ZXIKKwkgKiAgICAgc2Nhbm91dCBwb3NpdGlvbiBxdWVyeS4gQ2FuIGJlIE5VTEwgdG8gc2tp
-cCB0aW1lc3RhbXAuCisJICogbW9kZToKKwkgKiAgICAgQ3VycmVudCBkaXNwbGF5IHRpbWluZ3Mu
-CisJICoKKwkgKiBSZXR1cm5zIHZwb3MgYXMgYSBwb3NpdGl2ZSBudW1iZXIgd2hpbGUgaW4gYWN0
-aXZlIHNjYW5vdXQgYXJlYS4KKwkgKiBSZXR1cm5zIHZwb3MgYXMgYSBuZWdhdGl2ZSBudW1iZXIg
-aW5zaWRlIHZibGFuaywgY291bnRpbmcgdGhlIG51bWJlcgorCSAqIG9mIHNjYW5saW5lcyB0byBn
-byB1bnRpbCBlbmQgb2YgdmJsYW5rLCBlLmcuLCAtMSBtZWFucyAib25lIHNjYW5saW5lCisJICog
-dW50aWwgc3RhcnQgb2YgYWN0aXZlIHNjYW5vdXQgLyBlbmQgb2YgdmJsYW5rLiIKKwkgKgorCSAq
-IFJldHVybnM6CisJICoKKwkgKiBUcnVlIG9uIHN1Y2Nlc3MsIGZhbHNlIGlmIGEgcmVsaWFibGUg
-c2Nhbm91dCBwb3NpdGlvbiBjb3VudGVyIGNvdWxkCisJICogbm90IGJlIHJlYWQgb3V0LgorCSAq
-LworCWJvb2wgKCpnZXRfc2Nhbm91dF9wb3NpdGlvbikoc3RydWN0IGRybV9jcnRjICpjcnRjLAor
-CQkJCSAgICAgYm9vbCBpbl92YmxhbmtfaXJxLCBpbnQgKnZwb3MsIGludCAqaHBvcywKKwkJCQkg
-ICAgIGt0aW1lX3QgKnN0aW1lLCBrdGltZV90ICpldGltZSwKKwkJCQkgICAgIGNvbnN0IHN0cnVj
-dCBkcm1fZGlzcGxheV9tb2RlICptb2RlKTsKIH07CiAKIC8qKgpkaWZmIC0tZ2l0IGEvaW5jbHVk
-ZS9kcm0vZHJtX3ZibGFuay5oIGIvaW5jbHVkZS9kcm0vZHJtX3ZibGFuay5oCmluZGV4IGMxNmM0
-NDA1MmIzZC4uMWM4NGU5OWIzZjRmIDEwMDY0NAotLS0gYS9pbmNsdWRlL2RybS9kcm1fdmJsYW5r
-LmgKKysrIGIvaW5jbHVkZS9kcm0vZHJtX3ZibGFuay5oCkBAIC0yMzgsNCArMjM4LDI2IEBAIHZv
-aWQgZHJtX2NhbGNfdGltZXN0YW1waW5nX2NvbnN0YW50cyhzdHJ1Y3QgZHJtX2NydGMgKmNydGMs
-CiB3YWl0X3F1ZXVlX2hlYWRfdCAqZHJtX2NydGNfdmJsYW5rX3dhaXRxdWV1ZShzdHJ1Y3QgZHJt
-X2NydGMgKmNydGMpOwogdm9pZCBkcm1fY3J0Y19zZXRfbWF4X3ZibGFua19jb3VudChzdHJ1Y3Qg
-ZHJtX2NydGMgKmNydGMsCiAJCQkJICAgdTMyIG1heF92YmxhbmtfY291bnQpOworCit0eXBlZGVm
-IGJvb2wgKCpkcm1fdmJsYW5rX2dldF9zY2Fub3V0X3Bvc2l0aW9uX2Z1bmMpKHN0cnVjdCBkcm1f
-Y3J0YyAqY3J0YywKKwkJCQkJCSAgICAgYm9vbCBpbl92YmxhbmtfaXJxLAorCQkJCQkJICAgICBp
-bnQgKnZwb3MsIGludCAqaHBvcywKKwkJCQkJCSAgICAga3RpbWVfdCAqc3RpbWUsIGt0aW1lX3Qg
-KmV0aW1lLAorCQkJCQkJICAgICBjb25zdCBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqbW9kZSk7
-CisKK3R5cGVkZWYgYm9vbCAoKmRybV92YmxhbmtfZ2V0X3NjYW5vdXRfcG9zaXRpb25fbGVnYWN5
-X2Z1bmMpKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCisJCQkJCQkJICAgIHVuc2lnbmVkIGludCBw
-aXBlLAorCQkJCQkJCSAgICBib29sIGluX3ZibGFua19pcnEsCisJCQkJCQkJICAgIGludCAqdnBv
-cywgaW50ICpocG9zLAorCQkJCQkJCSAgICBrdGltZV90ICpzdGltZSwga3RpbWVfdCAqZXRpbWUs
-CisJCQkJCQkJICAgIGNvbnN0IHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICptb2RlKTsKKworYm9v
-bAorZHJtX2NydGNfdmJsYW5rX2hlbHBlcl9nZXRfdmJsYW5rX3RpbWVzdGFtcF9pbnRlcm5hbChz
-dHJ1Y3QgZHJtX2NydGMgKmNydGMsCisJCQkJCQkgICAgIGludCAqbWF4X2Vycm9yLAorCQkJCQkJ
-ICAgICBrdGltZV90ICp2YmxhbmtfdGltZSwKKwkJCQkJCSAgICAgYm9vbCBpbl92YmxhbmtfaXJx
-LAorCQkJCQkJICAgICBkcm1fdmJsYW5rX2dldF9zY2Fub3V0X3Bvc2l0aW9uX2Z1bmMgZ2V0X3Nj
-YW5vdXRfcG9zaXRpb24sCisJCQkJCQkgICAgIGRybV92YmxhbmtfZ2V0X3NjYW5vdXRfcG9zaXRp
-b25fbGVnYWN5X2Z1bmMgZ2V0X3NjYW5vdXRfcG9zaXRpb25fbGVnYWN5KTsKKwogI2VuZGlmCi0t
-IAoyLjI0LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+The callback get_vblank_timestamp() is currently located in struct
+drm_driver, but really belongs into struct drm_crtc_funcs. Add an
+equivalent there. Driver will be converted in separate patches.
+
+The default implementation is drm_calc_vbltimestamp_from_scanoutpos().
+The patch adds drm_crtc_vblank_helper_get_vblank_timestamp(), which is
+an implementation for the CRTC callback.
+
+v3:
+	* use refactored timestamp calculation to minimize duplicated code
+	* do more checks for crtc != NULL to support legacy drivers
+v2:
+	* rename helper to drm_crtc_vblank_helper_get_vblank_timestamp()
+	* replace drm_calc_vbltimestamp_from_scanoutpos() with
+	  drm_crtc_vblank_helper_get_vblank_timestamp() in docs
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/drm_vblank.c             | 74 +++++++++++++++++++++---
+ include/drm/drm_crtc.h                   | 46 ++++++++++++++-
+ include/drm/drm_modeset_helper_vtables.h |  4 +-
+ include/drm/drm_vblank.h                 | 16 +++--
+ 4 files changed, 123 insertions(+), 17 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+index 7e962c29780c..fc297043e3ba 100644
+--- a/drivers/gpu/drm/drm_vblank.c
++++ b/drivers/gpu/drm/drm_vblank.c
+@@ -333,7 +333,9 @@ u64 drm_crtc_accurate_vblank_count(struct drm_crtc *crtc)
+ 	u64 vblank;
+ 	unsigned long flags;
+ 
+-	WARN_ONCE(drm_debug_enabled(DRM_UT_VBL) && !dev->driver->get_vblank_timestamp,
++	WARN_ONCE(drm_debug_enabled(DRM_UT_VBL) &&
++		  !crtc->funcs->get_vblank_timestamp &&
++		  !dev->driver->get_vblank_timestamp,
+ 		  "This function requires support for accurate vblank timestamps.");
+ 
+ 	spin_lock_irqsave(&dev->vblank_time_lock, flags);
+@@ -511,9 +513,9 @@ EXPORT_SYMBOL(drm_crtc_vblank_waitqueue);
+  *
+  * Calculate and store various constants which are later needed by vblank and
+  * swap-completion timestamping, e.g, by
+- * drm_calc_vbltimestamp_from_scanoutpos(). They are derived from CRTC's true
+- * scanout timing, so they take things like panel scaling or other adjustments
+- * into account.
++ * drm_crtc_vblank_helper_get_vblank_timestamp(). They are derived from
++ * CRTC's true scanout timing, so they take things like panel scaling or
++ * other adjustments into account.
+  */
+ void drm_calc_timestamping_constants(struct drm_crtc *crtc,
+ 				     const struct drm_display_mode *mode)
+@@ -577,8 +579,9 @@ EXPORT_SYMBOL(drm_calc_timestamping_constants);
+  *
+  * Implements calculation of exact vblank timestamps from given drm_display_mode
+  * timings and current video scanout position of a CRTC. This can be directly
+- * used as the &drm_driver.get_vblank_timestamp implementation of a kms driver
+- * if &drm_crtc_helper_funcs.get_scanout_position is implemented.
++ * used as the &drm_crtc_funcs.get_vblank_timestamp implementation of a kms
++ * driver if &drm_crtc_helper_funcs.get_scanout_position or
++ * &drm_driver.get_scanout_position is implemented.
+  *
+  * The current implementation only handles standard video modes. For double scan
+  * and interlaced modes the driver is supposed to adjust the hardware mode
+@@ -774,6 +777,48 @@ drm_crtc_vblank_helper_get_vblank_timestamp_internal(
+ }
+ EXPORT_SYMBOL(drm_crtc_vblank_helper_get_vblank_timestamp_internal);
+ 
++/**
++ * drm_crtc_vblank_helper_get_vblank_timestamp - precise vblank timestamp
++ *                                               helper
++ * @crtc: CRTC whose vblank timestamp to retrieve
++ * @max_error: Desired maximum allowable error in timestamps (nanosecs)
++ *             On return contains true maximum error of timestamp
++ * @vblank_time: Pointer to time which should receive the timestamp
++ * @in_vblank_irq:
++ *     True when called from drm_crtc_handle_vblank().  Some drivers
++ *     need to apply some workarounds for gpu-specific vblank irq quirks
++ *     if flag is set.
++ *
++ * Implements calculation of exact vblank timestamps from given drm_display_mode
++ * timings and current video scanout position of a CRTC. This can be directly
++ * used as the &drm_crtc_funcs.get_vblank_timestamp implementation of a kms
++ * driver if &drm_crtc_helper_funcs.get_scanout_position is implemented.
++ *
++ * The current implementation only handles standard video modes. For double scan
++ * and interlaced modes the driver is supposed to adjust the hardware mode
++ * (taken from &drm_crtc_state.adjusted mode for atomic modeset drivers) to
++ * match the scanout position reported.
++ *
++ * Note that atomic drivers must call drm_calc_timestamping_constants() before
++ * enabling a CRTC. The atomic helpers already take care of that in
++ * drm_atomic_helper_update_legacy_modeset_state().
++ *
++ * Returns:
++ *
++ * Returns true on success, and false on failure, i.e. when no accurate
++ * timestamp could be acquired.
++ */
++bool drm_crtc_vblank_helper_get_vblank_timestamp(struct drm_crtc *crtc,
++						 int *max_error,
++						 ktime_t *vblank_time,
++						 bool in_vblank_irq)
++{
++	return drm_crtc_vblank_helper_get_vblank_timestamp_internal(
++		crtc, max_error, vblank_time, in_vblank_irq,
++		crtc->helper_private->get_scanout_position, NULL);
++}
++EXPORT_SYMBOL(drm_crtc_vblank_helper_get_vblank_timestamp);
++
+ /**
+  * drm_get_last_vbltimestamp - retrieve raw timestamp for the most recent
+  *                             vblank interval
+@@ -799,15 +844,22 @@ static bool
+ drm_get_last_vbltimestamp(struct drm_device *dev, unsigned int pipe,
+ 			  ktime_t *tvblank, bool in_vblank_irq)
+ {
++	struct drm_crtc *crtc = drm_crtc_from_index(dev, pipe);
+ 	bool ret = false;
+ 
+ 	/* Define requested maximum error on timestamps (nanoseconds). */
+ 	int max_error = (int) drm_timestamp_precision * 1000;
+ 
+ 	/* Query driver if possible and precision timestamping enabled. */
+-	if (dev->driver->get_vblank_timestamp && (max_error > 0))
++	if (crtc && crtc->funcs->get_vblank_timestamp && max_error > 0) {
++		struct drm_crtc *crtc = drm_crtc_from_index(dev, pipe);
++
++		ret = crtc->funcs->get_vblank_timestamp(crtc, &max_error,
++							tvblank, in_vblank_irq);
++	} else if (dev->driver->get_vblank_timestamp && max_error > 0) {
+ 		ret = dev->driver->get_vblank_timestamp(dev, pipe, &max_error,
+ 							tvblank, in_vblank_irq);
++	}
+ 
+ 	/* GPU high precision timestamp query unsupported or failed.
+ 	 * Return current monotonic/gettimeofday timestamp as best estimate.
+@@ -1790,9 +1842,11 @@ int drm_wait_vblank_ioctl(struct drm_device *dev, void *data,
+ 
+ static void drm_handle_vblank_events(struct drm_device *dev, unsigned int pipe)
+ {
++	struct drm_crtc *crtc = drm_crtc_from_index(dev, pipe);
+ 	struct drm_pending_vblank_event *e, *t;
+ 	ktime_t now;
+ 	u64 seq;
++	bool high_prec;
+ 
+ 	assert_spin_locked(&dev->event_lock);
+ 
+@@ -1812,8 +1866,10 @@ static void drm_handle_vblank_events(struct drm_device *dev, unsigned int pipe)
+ 		send_vblank_event(dev, e, seq, now);
+ 	}
+ 
+-	trace_drm_vblank_event(pipe, seq, now,
+-			dev->driver->get_vblank_timestamp != NULL);
++	high_prec = crtc && crtc->funcs->get_vblank_timestamp ||
++		    dev->driver->get_vblank_timestamp;
++
++	trace_drm_vblank_event(pipe, seq, now, high_prec);
+ }
+ 
+ /**
+diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
+index 5e9b15a0e8c5..db46abbbf4e7 100644
+--- a/include/drm/drm_crtc.h
++++ b/include/drm/drm_crtc.h
+@@ -867,6 +867,47 @@ struct drm_crtc_funcs {
+ 	 * new drivers as the replacement of &drm_driver.disable_vblank hook.
+ 	 */
+ 	void (*disable_vblank)(struct drm_crtc *crtc);
++
++	/**
++	 * @get_vblank_timestamp:
++	 *
++	 * Called by drm_get_last_vbltimestamp(). Should return a precise
++	 * timestamp when the most recent vblank interval ended or will end.
++	 *
++	 * Specifically, the timestamp in @vblank_time should correspond as
++	 * closely as possible to the time when the first video scanline of
++	 * the video frame after the end of vblank will start scanning out,
++	 * the time immediately after end of the vblank interval. If the
++	 * @crtc is currently inside vblank, this will be a time in the future.
++	 * If the @crtc is currently scanning out a frame, this will be the
++	 * past start time of the current scanout. This is meant to adhere
++	 * to the OpenML OML_sync_control extension specification.
++	 *
++	 * Parameters:
++	 *
++	 * crtc:
++	 *     CRTC for which timestamp should be returned.
++	 * max_error:
++	 *     Maximum allowable timestamp error in nanoseconds.
++	 *     Implementation should strive to provide timestamp
++	 *     with an error of at most max_error nanoseconds.
++	 *     Returns true upper bound on error for timestamp.
++	 * vblank_time:
++	 *     Target location for returned vblank timestamp.
++	 * in_vblank_irq:
++	 *     True when called from drm_crtc_handle_vblank().  Some drivers
++	 *     need to apply some workarounds for gpu-specific vblank irq quirks
++	 *     if flag is set.
++	 *
++	 * Returns:
++	 *
++	 * True on success, false on failure, which means the core should
++	 * fallback to a simple timestamp taken in drm_crtc_handle_vblank().
++	 */
++	bool (*get_vblank_timestamp)(struct drm_crtc *crtc,
++				     int *max_error,
++				     ktime_t *vblank_time,
++				     bool in_vblank_irq);
+ };
+ 
+ /**
+@@ -974,11 +1015,12 @@ struct drm_crtc {
+ 	 * Programmed mode in hw, after adjustments for encoders, crtc, panel
+ 	 * scaling etc. Should only be used by legacy drivers, for high
+ 	 * precision vblank timestamps in
+-	 * drm_calc_vbltimestamp_from_scanoutpos().
++	 * drm_crtc_vblank_helper_get_vblank_timestamp().
+ 	 *
+ 	 * Note that atomic drivers should not use this, but instead use
+ 	 * &drm_crtc_state.adjusted_mode. And for high-precision timestamps
+-	 * drm_calc_vbltimestamp_from_scanoutpos() used &drm_vblank_crtc.hwmode,
++	 * drm_crtc_vblank_helper_get_vblank_timestamp() used
++	 * &drm_vblank_crtc.hwmode,
+ 	 * which is filled out by calling drm_calc_timestamping_constants().
+ 	 */
+ 	struct drm_display_mode hwmode;
+diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
+index e398512bfd5f..0afaf58da40d 100644
+--- a/include/drm/drm_modeset_helper_vtables.h
++++ b/include/drm/drm_modeset_helper_vtables.h
+@@ -459,8 +459,8 @@ struct drm_crtc_helper_funcs {
+ 	 * Returns the current display scanout position from a CRTC and an
+ 	 * optional accurate ktime_get() timestamp of when the position was
+ 	 * measured. Note that this is a helper callback which is only used
+-	 * if a driver uses drm_calc_vbltimestamp_from_scanoutpos() for the
+-	 * @drm_driver.get_vblank_timestamp callback.
++	 * if a driver uses drm_crtc_vblank_helper_get_vblank_timestamp()
++	 * for the @drm_crtc_funcs.get_vblank_timestamp callback.
+ 	 *
+ 	 * Parameters:
+ 	 *
+diff --git a/include/drm/drm_vblank.h b/include/drm/drm_vblank.h
+index 1c84e99b3f4f..4bfffe990828 100644
+--- a/include/drm/drm_vblank.h
++++ b/include/drm/drm_vblank.h
+@@ -174,13 +174,13 @@ struct drm_vblank_crtc {
+ 	unsigned int pipe;
+ 	/**
+ 	 * @framedur_ns: Frame/Field duration in ns, used by
+-	 * drm_calc_vbltimestamp_from_scanoutpos() and computed by
++	 * drm_crtc_vblank_helper_get_vblank_timestamp() and computed by
+ 	 * drm_calc_timestamping_constants().
+ 	 */
+ 	int framedur_ns;
+ 	/**
+ 	 * @linedur_ns: Line duration in ns, used by
+-	 * drm_calc_vbltimestamp_from_scanoutpos() and computed by
++	 * drm_crtc_vblank_helper_get_vblank_timestamp() and computed by
+ 	 * drm_calc_timestamping_constants().
+ 	 */
+ 	int linedur_ns;
+@@ -190,8 +190,8 @@ struct drm_vblank_crtc {
+ 	 *
+ 	 * Cache of the current hardware display mode. Only valid when @enabled
+ 	 * is set. This is used by helpers like
+-	 * drm_calc_vbltimestamp_from_scanoutpos(). We can't just access the
+-	 * hardware mode by e.g. looking at &drm_crtc_state.adjusted_mode,
++	 * drm_crtc_vblank_helper_get_vblank_timestamp(). We can't just access
++	 * the hardware mode by e.g. looking at &drm_crtc_state.adjusted_mode,
+ 	 * because that one is really hard to get from interrupt context.
+ 	 */
+ 	struct drm_display_mode hwmode;
+@@ -239,6 +239,10 @@ wait_queue_head_t *drm_crtc_vblank_waitqueue(struct drm_crtc *crtc);
+ void drm_crtc_set_max_vblank_count(struct drm_crtc *crtc,
+ 				   u32 max_vblank_count);
+ 
++/*
++ * Helpers for struct drm_crtc_funcs
++ */
++
+ typedef bool (*drm_vblank_get_scanout_position_func)(struct drm_crtc *crtc,
+ 						     bool in_vblank_irq,
+ 						     int *vpos, int *hpos,
+@@ -259,5 +263,9 @@ drm_crtc_vblank_helper_get_vblank_timestamp_internal(struct drm_crtc *crtc,
+ 						     bool in_vblank_irq,
+ 						     drm_vblank_get_scanout_position_func get_scanout_position,
+ 						     drm_vblank_get_scanout_position_legacy_func get_scanout_position_legacy);
++bool drm_crtc_vblank_helper_get_vblank_timestamp(struct drm_crtc *crtc,
++						 int *max_error,
++						 ktime_t *vblank_time,
++						 bool in_vblank_irq);
+ 
+ #endif
+-- 
+2.24.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
