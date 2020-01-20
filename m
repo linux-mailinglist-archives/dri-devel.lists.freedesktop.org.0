@@ -1,45 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2CBB1427E5
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2020 11:10:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9A4514287B
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2020 11:51:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 332796E898;
-	Mon, 20 Jan 2020 10:10:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 005616E8C1;
+	Mon, 20 Jan 2020 10:51:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
- [209.85.167.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7C206E898
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2020 10:10:49 +0000 (UTC)
-Received: by mail-oi1-f194.google.com with SMTP id d62so27999367oia.11
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2020 02:10:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8+qrvwPOgPvxahwyd5KQ9RV4ePgSqOg74nqe3gTMzKQ=;
- b=nwlsN13b2bNHLVkrln7ql06u5+kWzo6b/k3FYpyIOthPLZYRQf1UyOAHP3Rgs45zQq
- 3fZuVkYJz77wTJWa/6hOmX2y64lIUxL7bmpJdiWRJjJ5u1ZB/8vs5gYe0Yj7qmk3VFwC
- zIfR4X/9f65MMz4YclWAIusrBO5H+3nyiQj49z7reeS/UDmjSj+QaLY4J2RVsvcI5kpT
- IXfRbvDZsr0WrEqHc1Jf0pZGX6+SfNUl5aEEdh3269HX5NbBCRyK0IbrGEwf6CLxA4Fg
- 9rv/vc/O4Tf3p2bbnwg1SZPn5EiQIXTNGYWMSA5y//8bkpdJOf0DCpJuna0WowD7GhNX
- U8sw==
-X-Gm-Message-State: APjAAAXUIl0TaUcnoF+KLzjBJqPCMJg3Fc9X4IURvzoGjCtaJdVeFs7K
- CaB8qCAB8HSHQbe1ypNQfo+EJ9y/8t2Bv0n0a98=
-X-Google-Smtp-Source: APXvYqxBD1lgBtsNPuNMqT1o27W7Ir+ePtVv464K7y/05wcGh/xr4/6RJVBUe/4BzfIfkFWOB49rWDJJVkncf5LeRX0=
-X-Received: by 2002:aca:5905:: with SMTP id n5mr12459471oib.54.1579515048959; 
- Mon, 20 Jan 2020 02:10:48 -0800 (PST)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 597856E8C1
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2020 10:51:25 +0000 (UTC)
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
+ helo=dude02.pengutronix.de.)
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1itUeO-0000Bu-Vz; Mon, 20 Jan 2020 11:51:20 +0100
+From: Lucas Stach <l.stach@pengutronix.de>
+To: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+Subject: [PATCH] drm/scheduler: fix inconsistent locking of job_list_lock
+Date: Mon, 20 Jan 2020 11:51:19 +0100
+Message-Id: <20200120105119.10237-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20180802193909.GA11443@ravnborg.org>
- <20180802194536.10820-2-sam@ravnborg.org>
-In-Reply-To: <20180802194536.10820-2-sam@ravnborg.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 20 Jan 2020 11:10:37 +0100
-Message-ID: <CAMuHMdVP4UwGYuNcOphPO9F2pSCaHS1j-ODxYrv_LNOoo_4coA@mail.gmail.com>
-Subject: Re: [PATCH v1 2/5] pardata: new bus for parallel data access
-To: Sam Ravnborg <sam@ravnborg.org>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,78 +44,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org,
+ patchwork-lst@pengutronix.de
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
+1db8c142b6c5 (drm/scheduler: Add drm_sched_suspend/resume_timeout()) made
+the job_list_lock IRQ safe in as the suspend/resume calls were expected to
+be called from IRQ context. This usage never materialized in upstream.
+Instead amdgpu started locking the job_list_lock in an IRQ unsafe way in
+amdgpu_ib_preempt_mark_partial_job() and amdgpu_ib_preempt_job_recovery(),
+which leads to potential deadlock if one would actually start to call the
+drm_sched_suspend/resume_timeout functions from IRQ context.
 
-(stumbled on this accidentally)
+As no current user needs the locking to be IRQ safe, the local IRQ
+disable/enable is pure overhead. Fix the inconsistent locking by changing
+all uses of job_list_lock to use the IRQ unsafe locking primitives.
 
-On Thu, Aug 2, 2018 at 9:46 PM Sam Ravnborg <sam@ravnborg.org> wrote:
-> The pardata supports implement a simple bus for devices
-> that are connected using a parallel bus driven by GPIOs.
-> The is often used in combination with simple displays
-> that is often seen in older embedded designs.
-> There is a demand for this support also in the linux
-> kernel for HW designs that uses these kind of displays.
->
-> The pardata bus uses a platfrom_driver that when probed
-> creates devices for all child nodes in the DT,
-> which are then supposed to be handled by pardata_drivers.
->
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+---
+ drivers/gpu/drm/scheduler/sched_main.c | 38 ++++++++++----------------
+ 1 file changed, 15 insertions(+), 23 deletions(-)
 
-> --- /dev/null
-> +++ b/Documentation/driver-api/pardata.rst
-> @@ -0,0 +1,60 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=========================
-> +Parallel Data Bus/Drivers
-> +=========================
-> +
-> +Displays may be connected using a simple parallel bus.
-> +This is often seen in embedded systems with a simple MCU, but is also
-> +used in Linux based systems to a small extent.
-> +
-> +The bus looks like this:
-> +
-> +.. code-block:: none
-> +
-> +       ----+
-> +           |  DB0-DB7 or DB4-DB7      +----
-> +           ===/========================
-> +           |  E - enable              |  D
-> +           ----------------------------  I
-> +        C  |  Reset                   |  S
-> +        P  ----------------------------  P
-> +        U  |  Read/Write (one or two) |  L
-> +           ----------------------------  A
-> +           |  RS - instruction/data   |  Y
-> +           ----------------------------
-> +           |                          +----
-> +       ----+
-
-Oh, cool!  Looks like this can be used by the hd44780 driver.
-
-    Documentation/devicetree/bindings/auxdisplay/hit,hd44780.txt
-    drivers/auxdisplay/hd44780.c
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 3c57e84222ca..d1b24444dd99 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -220,8 +220,7 @@ EXPORT_SYMBOL(drm_sched_fault);
+  *
+  * Suspend the delayed work timeout for the scheduler. This is done by
+  * modifying the delayed work timeout to an arbitrary large value,
+- * MAX_SCHEDULE_TIMEOUT in this case. Note that this function can be
+- * called from an IRQ context.
++ * MAX_SCHEDULE_TIMEOUT in this case.
+  *
+  * Returns the timeout remaining
+  *
+@@ -250,43 +249,39 @@ EXPORT_SYMBOL(drm_sched_suspend_timeout);
+  * @sched: scheduler instance for which to resume the timeout
+  * @remaining: remaining timeout
+  *
+- * Resume the delayed work timeout for the scheduler. Note that
+- * this function can be called from an IRQ context.
++ * Resume the delayed work timeout for the scheduler.
+  */
+ void drm_sched_resume_timeout(struct drm_gpu_scheduler *sched,
+ 		unsigned long remaining)
+ {
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&sched->job_list_lock, flags);
++	spin_lock(&sched->job_list_lock);
+ 
+ 	if (list_empty(&sched->ring_mirror_list))
+ 		cancel_delayed_work(&sched->work_tdr);
+ 	else
+ 		mod_delayed_work(system_wq, &sched->work_tdr, remaining);
+ 
+-	spin_unlock_irqrestore(&sched->job_list_lock, flags);
++	spin_unlock(&sched->job_list_lock);
+ }
+ EXPORT_SYMBOL(drm_sched_resume_timeout);
+ 
+ static void drm_sched_job_begin(struct drm_sched_job *s_job)
+ {
+ 	struct drm_gpu_scheduler *sched = s_job->sched;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&sched->job_list_lock, flags);
++	spin_lock(&sched->job_list_lock);
+ 	list_add_tail(&s_job->node, &sched->ring_mirror_list);
+ 	drm_sched_start_timeout(sched);
+-	spin_unlock_irqrestore(&sched->job_list_lock, flags);
++	spin_unlock(&sched->job_list_lock);
+ }
+ 
+ static void drm_sched_job_timedout(struct work_struct *work)
+ {
+ 	struct drm_gpu_scheduler *sched;
+ 	struct drm_sched_job *job;
+-	unsigned long flags;
+ 
+ 	sched = container_of(work, struct drm_gpu_scheduler, work_tdr.work);
++
+ 	job = list_first_entry_or_null(&sched->ring_mirror_list,
+ 				       struct drm_sched_job, node);
+ 
+@@ -303,9 +298,9 @@ static void drm_sched_job_timedout(struct work_struct *work)
+ 		}
+ 	}
+ 
+-	spin_lock_irqsave(&sched->job_list_lock, flags);
++	spin_lock(&sched->job_list_lock);
+ 	drm_sched_start_timeout(sched);
+-	spin_unlock_irqrestore(&sched->job_list_lock, flags);
++	spin_unlock(&sched->job_list_lock);
+ }
+ 
+  /**
+@@ -368,7 +363,6 @@ EXPORT_SYMBOL(drm_sched_increase_karma);
+ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
+ {
+ 	struct drm_sched_job *s_job, *tmp;
+-	unsigned long flags;
+ 
+ 	kthread_park(sched->thread);
+ 
+@@ -388,9 +382,9 @@ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
+ 			 * remove job from ring_mirror_list.
+ 			 * Locking here is for concurrent resume timeout
+ 			 */
+-			spin_lock_irqsave(&sched->job_list_lock, flags);
++			spin_lock(&sched->job_list_lock);
+ 			list_del_init(&s_job->node);
+-			spin_unlock_irqrestore(&sched->job_list_lock, flags);
++			spin_unlock(&sched->job_list_lock);
+ 
+ 			/*
+ 			 * Wait for job's HW fence callback to finish using s_job
+@@ -433,7 +427,6 @@ EXPORT_SYMBOL(drm_sched_stop);
+ void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery)
+ {
+ 	struct drm_sched_job *s_job, *tmp;
+-	unsigned long flags;
+ 	int r;
+ 
+ 	/*
+@@ -462,9 +455,9 @@ void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery)
+ 	}
+ 
+ 	if (full_recovery) {
+-		spin_lock_irqsave(&sched->job_list_lock, flags);
++		spin_lock(&sched->job_list_lock);
+ 		drm_sched_start_timeout(sched);
+-		spin_unlock_irqrestore(&sched->job_list_lock, flags);
++		spin_unlock(&sched->job_list_lock);
+ 	}
+ 
+ 	kthread_unpark(sched->thread);
+@@ -648,7 +641,6 @@ static struct drm_sched_job *
+ drm_sched_get_cleanup_job(struct drm_gpu_scheduler *sched)
+ {
+ 	struct drm_sched_job *job;
+-	unsigned long flags;
+ 
+ 	/*
+ 	 * Don't destroy jobs while the timeout worker is running  OR thread
+@@ -659,7 +651,7 @@ drm_sched_get_cleanup_job(struct drm_gpu_scheduler *sched)
+ 	    __kthread_should_park(sched->thread))
+ 		return NULL;
+ 
+-	spin_lock_irqsave(&sched->job_list_lock, flags);
++	spin_lock(&sched->job_list_lock);
+ 
+ 	job = list_first_entry_or_null(&sched->ring_mirror_list,
+ 				       struct drm_sched_job, node);
+@@ -673,7 +665,7 @@ drm_sched_get_cleanup_job(struct drm_gpu_scheduler *sched)
+ 		drm_sched_start_timeout(sched);
+ 	}
+ 
+-	spin_unlock_irqrestore(&sched->job_list_lock, flags);
++	spin_unlock(&sched->job_list_lock);
+ 
+ 	return job;
+ }
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.20.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
