@@ -2,29 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD5B9143842
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2020 09:32:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8993D14384A
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2020 09:32:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75E6B6EBDB;
-	Tue, 21 Jan 2020 08:32:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B49B6EBE4;
+	Tue, 21 Jan 2020 08:32:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A64B6EA45
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2020 17:56:26 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: ezequiel) with ESMTPSA id 1B3482909DB
-Message-ID: <9387561825eb193625f8e04081e7814feb590a7e.camel@collabora.com>
-Subject: Re: [PATCH] drm: shrinker: Add a prefix on purging logs
-From: Ezequiel Garcia <ezequiel@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Date: Mon, 20 Jan 2020 14:56:18 -0300
-In-Reply-To: <20191214162049.10997-1-ezequiel@collabora.com>
-References: <20191214162049.10997-1-ezequiel@collabora.com>
-Organization: Collabora
-User-Agent: Evolution 3.34.1-2 
+X-Greylist: delayed 398 seconds by postgrey-1.36 at gabe;
+ Mon, 20 Jan 2020 18:18:32 UTC
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+ [66.111.4.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDEE16EABE
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2020 18:18:32 +0000 (UTC)
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+ by mailout.nyi.internal (Postfix) with ESMTP id 0A4A521D25;
+ Mon, 20 Jan 2020 13:11:52 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute7.internal (MEProxy); Mon, 20 Jan 2020 13:11:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=3eLX0e
+ f+TjguMEDNQ4OqQg1MbtOe1MZnC7yyN6gjokc=; b=J7JuvkDQay6+NBdblOPewo
+ RfJhDS3JUf0TWtuMcX/K5jGwDS+DYQXZbSyfL7aLx3XJVHJc86kle0a0PQoWy0zb
+ uRrXXyN+/XIX2kMU68B40hIjoq0pIjb3qUD6wBPFjfPgyYbgk+24BnVniW4cXVwk
+ cM5+3hKCLbGB2R0Q/szbK95h6NXXBihjkAlaF6sDuSQHFkW7fIVcCyGS9wDW/ArG
+ M80xbcpEbNLO81Wla/bfKr59DUUfKx36SudmTR/bX4Awzg9zi4losnWMUlxfgobV
+ 8v/9sSkmkqu4hGGegfoz2YYGFPSViNbJZGWRVI7OdYeNvCMBx34gHEHGIMnBT/LQ
+ ==
+X-ME-Sender: <xms:Zu0lXslUU6-MGtXpdNaemRY51oWdb94kEKtoBTL76xtyU7Pg50dm1A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrudeigdegiecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepofgrrhgvkhcu
+ ofgrrhgtiiihkhhofihskhhiqdfikphrvggtkhhiuceomhgrrhhmrghrvghksehinhhvih
+ hsihgslhgvthhhihhnghhslhgrsgdrtghomheqnecuffhomhgrihhnpehlihhnuhigfhho
+ uhhnuggrthhiohhnrdhorhhgnecukfhppeeluddrieehrdefgedrfeefnecuvehluhhsth
+ gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrrhhmrghrvghksehi
+ nhhvihhsihgslhgvthhhihhnghhslhgrsgdrtghomh
+X-ME-Proxy: <xmx:Zu0lXnoaJbkd_uCCkRJHVs_Qtq_KtTQ5GoLG4AUtHooRQGdGxzAetg>
+ <xmx:Zu0lXmAbXycj-ZHg1cCg2yo_pH2uZnhA0aA3LsppuUu2sjMbEawh8g>
+ <xmx:Zu0lXiElReVvpHFvWUg6rn9c3T1GOB1MGEp5OFSvKmPuSKe37bD3Ow>
+ <xmx:aO0lXkT8fumM0nUUeav2lWoz3rCOwjsGNqmDoUQFvyuhGJvG4rGAGg>
+Received: from mail-itl (ip5b412221.dynamic.kabel-deutschland.de [91.65.34.33])
+ by mail.messagingengine.com (Postfix) with ESMTPA id A7280306099E;
+ Mon, 20 Jan 2020 13:11:49 -0500 (EST)
+Date: Mon, 20 Jan 2020 19:11:46 +0100
+From: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?=
+ <marmarek@invisiblethingslab.com>
+To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Subject: Re: [PATCH] fbdev: wait for references go away
+Message-ID: <20200120181146.GL1314@mail-itl>
+References: <CGME20200120100025eucas1p21f5e2da0fd7c1fcb33cb47a97e9e645c@eucas1p2.samsung.com>
+ <20200120100014.23488-1-kraxel@redhat.com>
+ <d143e43b-8a38-940e-3ae5-e7b830a74bb3@samsung.com>
 MIME-Version: 1.0
+In-Reply-To: <d143e43b-8a38-940e-3ae5-e7b830a74bb3@samsung.com>
 X-Mailman-Approved-At: Tue, 21 Jan 2020 08:32:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -38,46 +72,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, kernel@collabora.com,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============0395089813=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU2F0LCAyMDE5LTEyLTE0IGF0IDEzOjIwIC0wMzAwLCBFemVxdWllbCBHYXJjaWEgd3JvdGU6
-Cj4gSXQncyBub3QgZW50aXJlbHkgb2J2aW91cyB3aHkgdGhlc2UgbWVzc2FnZXMgaGF2ZQo+ICJp
-bmZvIiBzZXZlcml0eS4gSW4gYW55IGNhc2UsIGFkZCBhIHByb3BlciBkcml2ZXIgcHJlZml4Cj4g
-dG8gZ2l2ZSB0aGUgdXNlciBhIGJpdCBvZiBjb250ZXh0IG9mIHdoZXJlIHRoZXkgYXJlIGNvbWlu
-ZyBmcm9tLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEV6ZXF1aWVsIEdhcmNpYSA8ZXplcXVpZWxAY29s
-bGFib3JhLmNvbT4KCkdlbnRsZSBwaW5nLgoKVGhhbmtzLApFemVxdWllbAoKPiAtLS0KPiAgZHJp
-dmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX3Nocmlua2VyLmMgICAgIHwgMiArKwo+ICBk
-cml2ZXJzL2dwdS9kcm0vbXNtL21zbV9nZW1fc2hyaW5rZXIuYyAgICAgICAgICAgfCAyICsrCj4g
-IGRyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9nZW1fc2hyaW5rZXIuYyB8IDIgKysK
-PiAgMyBmaWxlcyBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKykKPiAKPiBkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX3Nocmlua2VyLmMgYi9kcml2ZXJzL2dwdS9k
-cm0vaTkxNS9nZW0vaTkxNV9nZW1fc2hyaW5rZXIuYwo+IGluZGV4IDNhOTI2YTg3NTVjNi4uY2Qw
-MzcyYTFkOTM2IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dl
-bV9zaHJpbmtlci5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX3No
-cmlua2VyLmMKPiBAQCAtNCw2ICs0LDggQEAKPiAgICogQ29weXJpZ2h0IMKpIDIwMDgtMjAxNSBJ
-bnRlbCBDb3Jwb3JhdGlvbgo+ICAgKi8KPiAgCj4gKyNkZWZpbmUgcHJfZm10KGZtdCkgS0JVSUxE
-X01PRE5BTUUgIjogIiBmbXQKPiArCj4gICNpbmNsdWRlIDxsaW51eC9vb20uaD4KPiAgI2luY2x1
-ZGUgPGxpbnV4L3NjaGVkL21tLmg+Cj4gICNpbmNsdWRlIDxsaW51eC9zaG1lbV9mcy5oPgo+IGRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbXNtL21zbV9nZW1fc2hyaW5rZXIuYyBiL2RyaXZl
-cnMvZ3B1L2RybS9tc20vbXNtX2dlbV9zaHJpbmtlci5jCj4gaW5kZXggNzIyZDYxNjY4YTk3Li4w
-NjIwZDQ0MWEyY2MgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21zbS9tc21fZ2VtX3No
-cmlua2VyLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbXNtL21zbV9nZW1fc2hyaW5rZXIuYwo+
-IEBAIC00LDYgKzQsOCBAQAo+ICAgKiBBdXRob3I6IFJvYiBDbGFyayA8cm9iZGNsYXJrQGdtYWls
-LmNvbT4KPiAgICovCj4gIAo+ICsjZGVmaW5lIHByX2ZtdChmbXQpIEtCVUlMRF9NT0ROQU1FICI6
-ICIgZm10Cj4gKwo+ICAjaW5jbHVkZSAibXNtX2Rydi5oIgo+ICAjaW5jbHVkZSAibXNtX2dlbS5o
-Igo+ICAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2dl
-bV9zaHJpbmtlci5jIGIvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2dlbV9zaHJp
-bmtlci5jCj4gaW5kZXggNDU4ZjBmYTY4MTExLi5iOWQwZTgyMWMzZjYgMTAwNjQ0Cj4gLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2dlbV9zaHJpbmtlci5jCj4gKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2dlbV9zaHJpbmtlci5jCj4gQEAgLTYs
-NiArNiw4IEBACj4gICAqIEF1dGhvcjogUm9iIENsYXJrIDxyb2JkY2xhcmtAZ21haWwuY29tPgo+
-ICAgKi8KPiAgCj4gKyNkZWZpbmUgcHJfZm10KGZtdCkgS0JVSUxEX01PRE5BTUUgIjogIiBmbXQK
-PiArCj4gICNpbmNsdWRlIDxsaW51eC9saXN0Lmg+Cj4gIAo+ICAjaW5jbHVkZSA8ZHJtL2RybV9k
-ZXZpY2UuaD4KCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+
+--===============0395089813==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="p0HNO2YbtFeVXwJ3"
+Content-Disposition: inline
+
+
+--p0HNO2YbtFeVXwJ3
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] fbdev: wait for references go away
+
+On Mon, Jan 20, 2020 at 06:51:17PM +0100, Bartlomiej Zolnierkiewicz wrote:
+> I guess that a problem is happening during DRM driver load while fbdev
+> driver is loaded? I assume do_unregister_framebuffer() is called inside
+> do_remove_conflicting_framebuffers()?
+
+Yes, exactly. More details here:
+https://lists.linuxfoundation.org/pipermail/virtualization/2020-January/045=
+026.html
+
+> At first glance it seems to be an user-space issue as it should not be
+> holding references on /dev/fb0 while DRM driver is being loaded.
+
+How plymouth would know when exactly it needs to release /dev/fb0?
+
+--=20
+Best Regards,
+Marek Marczykowski-G=C3=B3recki
+Invisible Things Lab
+A: Because it messes up the order in which people normally read text.
+Q: Why is top-posting such a bad thing?
+
+--p0HNO2YbtFeVXwJ3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhrpukzGPukRmQqkK24/THMrX1ywFAl4l7WIACgkQ24/THMrX
+1ywYwQgAimDeFDny3c/ar866L78Bc5TRyJynEGGbFlnb9BR/gCc9gpS1tNCyemPC
+keqTV3PxXHMFaTPnrJi2ebuUP+Lmj/YOK+tCXB8+ipwMs3Z1HZv1DR7D4s3gDDzk
+To8b4e0RnxpCdQJ4xpOoWL+XcueHy+RB8FtEXqXyVJTW/bJWGYGnuyQVSubBKQxL
+TyEp6ASDocGLFX0QsSrdVEkuVF/PMdfbyu6Th9MwQMtMmd0s2BuepAfJhDP3js1f
+JlMnL3N1wscxFOWn1TSAGywTMbAjwRctGwrCcULMDME2STVryuH0VNWpapKIMQpj
+PUlDFH5CMVOKGjXo2OkywONz4gP7kQ==
+=2hqv
+-----END PGP SIGNATURE-----
+
+--p0HNO2YbtFeVXwJ3--
+
+--===============0395089813==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0395089813==--
