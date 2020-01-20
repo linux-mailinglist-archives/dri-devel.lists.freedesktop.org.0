@@ -1,103 +1,94 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42C34143091
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2020 18:09:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DDF414309D
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2020 18:09:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4977D6EA28;
-	Mon, 20 Jan 2020 17:09:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 200A36EA2B;
+	Mon, 20 Jan 2020 17:09:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR02-VE1-obe.outbound.protection.outlook.com
- (mail-ve1eur02on072e.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe06::72e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A6D76E884
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2020 09:59:03 +0000 (UTC)
+ (mail-ve1eur02on0604.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe06::604])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6F8C6E904
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2020 11:41:11 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MkoFKrTogMWxy0Lk2yo7zzyYfmH3F861Q5o8eKTDhYtC+QhcmWOwWDd0uvn12gNo3DIr+LlXYAkg/fIoJNuqZdem2GnRMugk09cUfoKT0LB3VGGXTUq759NxjoqhjiMbAi16GEQuUKYrF9jRzPdwdoo14JM2Hv5YT4iKe6RIEJtdmF19VvQBbSvnj3wnQ0NJhULCGj61DZqGUeNRrDORcwA921UVuQt8SwyPBAK189mYHP7Gt545UZthK/ty0NvaSB8rHTN+H5xa4UPzVKg8F/d1StuxpVEzWqKZht1HNBLxFUB0cOsh0d6AUMA5HKDzcxb04eyBDQALqclW72nZLw==
+ b=hv04nZf1aFeRD41MUFx1G0pWYNou+riGmwoNK7PBVSMhqxzjla/ptdPiINzQW5o0ZkLZ4sWQNRMOOGc5bVpKnR2rMlzw7sqKAV4XULjtXwySr5lHr+V+tAI5tFaHiDOUpQqzrtrtmW5WQy0ZMIfSo5YDcLFshFiWqMK4c6DH1fczaIBfLyXWTMPuyg8NoWQ4t+8Xr7w9GPO04UlaTu6LPTjml9+9ymFHYBZ33ee4ssvmKblT0D/hBS/TzOsi2k/VmbvfZuujVyJA/6S91lYRguwPtP2FubBM6wU9VGbc/IPi/N1QVxSyYH8V5XeQgrE6oNoWTloXBQJy95zKKZ0ang==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ssr32v6LCTK3JIU9ynN3fRim3VjdRpU7xkb5zM7VyjY=;
- b=O9rmq9mjmBS7IrCnJD4Avbl6zU9+mlfmymYD+x5ts/5Yqa8Ksz8Ac0rAZfVprtIMfQkjT8qjQCmJFm8qwm+YfF2vx+4N/gEQv0vh6hM4JhE3WCxe8AVf9GbPDfCG/Ob5V8DCNhIbTIK4Md20Hq7Qognfi9ch9g9qF2JR/Nm/Er9OFXmJoFVvF/Du2UpyyRqgmQ6I9ZeYt7SO6jkD8wUFy+2rY7Z812iqAMxFDKKFpQX3iZ7rxyst2LCBfCqIlWr63XGWSqJtTsq1h8RsYqDzESnkXje1fCScFAEftmk0amzCVj9ANJJ0dLgeL9MknvUTD1tR9WepO1RPGpISCoIRQw==
+ bh=VD3DOSJk+J7xH1Dm472pHLGyOA/mDcyI3NzfTo7jwnQ=;
+ b=PclAGbZZNCiL4E3hmC67TlEiUFmOgkxf41V/mhNT3En0povlhNiinDkXyRpxqcWXXDkHQ7rkPRTWuEZESLSuN3m6dJEEPkQ8gsgpDmFbs+PPIDoGLHkSvTh0LSM7J7U8Om3ocKHvf41XKoe0Rm+K4yVdsSihUXKekoxnH5SGNpLIIwgBz5hb0sQdv6FlJsg1rsVsJuMml+mLFnMvCytCqUqEJKYwpI3E1ofGS8a8nfUKQBywKaouwIUlJ25F23jbmgSGdNwje903nHBFGt72Vkk7/hH0LNUsYVkFLO6nVuZbeOe9rlIihA//Sdj0rgtgDp0/bpX6vjBqd0nIkhf6uA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=toradex.com; dmarc=pass action=none header.from=toradex.com;
- dkim=pass header.d=toradex.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=toradex.com;
- s=selector2;
+ smtp.mailfrom=nextfour.com; dmarc=pass action=none header.from=nextfour.com;
+ dkim=pass header.d=nextfour.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=NextfourGroupOy.onmicrosoft.com;
+ s=selector2-NextfourGroupOy-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ssr32v6LCTK3JIU9ynN3fRim3VjdRpU7xkb5zM7VyjY=;
- b=dHjbUSHenfx6O+TuW3jpKUrf6Bkpmk5BfLkXdm2LnxVQgN8GfDpbKdbzp67QC+tV3vVMYYtdPkW31o3RLGPxKK/MDAMr4zRq6WAUMyMD2/AKyT0diqh1aDtON3EsbLOpW66QPNNgplWf/4s8CMu3osGYKRQIOoB355LOtcDUej0=
-Received: from VI1PR05MB3279.eurprd05.prod.outlook.com (10.170.238.24) by
- VI1PR05MB4383.eurprd05.prod.outlook.com (52.133.14.142) with Microsoft SMTP
+ bh=VD3DOSJk+J7xH1Dm472pHLGyOA/mDcyI3NzfTo7jwnQ=;
+ b=WYwkh6Zu4m7Ks2oQOQgZntl7niUZaemHX5Kn7hGgZms+S9selpFTSORrztY46gzaIiskvqBnMjYFLqtD2KfNY7sq5Dgn/X036xSFj5krumLHYzOYMx1yqEePDvOEtrsDfI17ZwzH6EnUMl9e3GFSVmRbUWWlTY9f83Ogw1vZgrM=
+Received: from VI1PR03MB3775.eurprd03.prod.outlook.com (52.134.21.155) by
+ VI1PR03MB3006.eurprd03.prod.outlook.com (10.165.190.152) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2644.25; Mon, 20 Jan 2020 09:57:19 +0000
-Received: from VI1PR05MB3279.eurprd05.prod.outlook.com
- ([fe80::c14f:4592:515f:6e52]) by VI1PR05MB3279.eurprd05.prod.outlook.com
- ([fe80::c14f:4592:515f:6e52%7]) with mapi id 15.20.2644.024; Mon, 20 Jan 2020
- 09:57:19 +0000
-Received: from mail-qv1-f50.google.com (209.85.219.50) by
- BL0PR02CA0022.namprd02.prod.outlook.com (2603:10b6:207:3c::35) with Microsoft
+ 15.20.2644.23; Mon, 20 Jan 2020 11:41:09 +0000
+Received: from VI1PR03MB3775.eurprd03.prod.outlook.com
+ ([fe80::fdfe:b987:16ad:9de9]) by VI1PR03MB3775.eurprd03.prod.outlook.com
+ ([fe80::fdfe:b987:16ad:9de9%5]) with mapi id 15.20.2644.024; Mon, 20 Jan 2020
+ 11:41:09 +0000
+Received: from [10.10.10.144] (194.157.170.35) by
+ HE1PR05CA0308.eurprd05.prod.outlook.com (2603:10a6:7:93::39) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2644.23 via Frontend Transport; Mon, 20 Jan 2020 09:57:17 +0000
-Received: by mail-qv1-f50.google.com with SMTP id l14so13709949qvu.12 for
- <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2020 01:57:17 -0800 (PST)
-From: Oleksandr Suvorov <oleksandr.suvorov@toradex.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH 1/3] drm/panel: make LVDS panel driver DPI capable
-Thread-Topic: [PATCH 1/3] drm/panel: make LVDS panel driver DPI capable
-Thread-Index: AQHVy6AaSAxSVrzF8Em1sZu2z5QUEqfwaFUAgALwVwA=
-Date: Mon, 20 Jan 2020 09:57:17 +0000
-Message-ID: <CAGgjyvHVg9OBWqpBd9k1hf561VjFQwh3o9QUFcy1A=_KNnK2Gg@mail.gmail.com>
-References: <20200115123401.2264293-1-oleksandr.suvorov@toradex.com>
- <20200115123401.2264293-2-oleksandr.suvorov@toradex.com>
- <20200118130418.GA13417@ravnborg.org>
-In-Reply-To: <20200118130418.GA13417@ravnborg.org>
+ 15.20.2644.18 via Frontend Transport; Mon, 20 Jan 2020 11:41:08 +0000
+From: =?utf-8?B?TWlrYSBQZW50dGlsw6Q=?= <mika.penttila@nextfour.com>
+To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: rk3399 mipi phy force stop mode
+Thread-Topic: rk3399 mipi phy force stop mode
+Thread-Index: AQHVz4aBUtguwgPls0KEovK+RTT2dg==
+Date: Mon, 20 Jan 2020 11:41:08 +0000
+Message-ID: <7c86ac0d-507e-3bab-fee1-ce41ec08a665@nextfour.com>
 Accept-Language: en-US
 Content-Language: en-US
-X-MS-Has-Attach: 
+X-MS-Has-Attach: yes
 X-MS-TNEF-Correlator: 
-x-clientproxiedby: BL0PR02CA0022.namprd02.prod.outlook.com
- (2603:10b6:207:3c::35) To VI1PR05MB3279.eurprd05.prod.outlook.com
- (2603:10a6:802:1c::24)
+x-clientproxiedby: HE1PR05CA0308.eurprd05.prod.outlook.com
+ (2603:10a6:7:93::39) To VI1PR03MB3775.eurprd03.prod.outlook.com
+ (2603:10a6:803:2b::27)
 authentication-results: spf=none (sender IP is )
- smtp.mailfrom=oleksandr.suvorov@toradex.com; 
+ smtp.mailfrom=mika.penttila@nextfour.com; 
 x-ms-exchange-messagesentrepresentingtype: 1
-x-gm-message-state: APjAAAWDIfBEAIFFPkeLARVBZR1mo2WIXAYKnJJQvMvEDfPAnA8Nr4NF
- oP5VNMtHy0TLyxh18IayHk7RLEqeTex8KkqalFc=
-x-google-smtp-source: APXvYqx2o8Lt8nu/EioDnGjd8lcoS/06Zua8BfW+k3MuK6WuhLmFV+oXJs4g/YNYy3olQ9F8M+HdORYmNZ3gI3iAv/s=
-x-received: by 2002:a0c:c389:: with SMTP id o9mr20107719qvi.232.1579514233336; 
- Mon, 20 Jan 2020 01:57:13 -0800 (PST)
-x-gmail-original-message-id: <CAGgjyvHVg9OBWqpBd9k1hf561VjFQwh3o9QUFcy1A=_KNnK2Gg@mail.gmail.com>
-x-originating-ip: [209.85.219.50]
+x-pep-version: 2.0
+x-originating-ip: [194.157.170.35]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ad715d70-c8ab-431c-7caf-08d79d8f2227
-x-ms-traffictypediagnostic: VI1PR05MB4383:
-x-microsoft-antispam-prvs: <VI1PR05MB43835EEDBF4C49801C691B4CF9320@VI1PR05MB4383.eurprd05.prod.outlook.com>
+x-ms-office365-filtering-correlation-id: 48ac8670-75de-4f18-42e7-08d79d9da417
+x-ms-traffictypediagnostic: VI1PR03MB3006:
+x-microsoft-antispam-prvs: <VI1PR03MB3006608D12D78F621224751483320@VI1PR03MB3006.eurprd03.prod.outlook.com>
 x-ms-oob-tlc-oobclassifiers: OLM:9508;
 x-forefront-prvs: 0288CD37D9
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(366004)(136003)(396003)(376002)(346002)(39840400004)(199004)(189003)(6862004)(66946007)(478600001)(66476007)(64756008)(9686003)(71200400001)(66446008)(186003)(4326008)(26005)(66556008)(81166006)(86362001)(81156014)(8936002)(44832011)(8676002)(52116002)(54906003)(42186006)(55446002)(55236004)(316002)(53546011)(5660300002)(2906002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:VI1PR05MB4383;
- H:VI1PR05MB3279.eurprd05.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ SFS:(10009020)(346002)(136003)(396003)(376002)(366004)(39830400003)(199004)(189003)(316002)(16576012)(2906002)(2616005)(956004)(6916009)(8936002)(52116002)(81166006)(8676002)(81156014)(36756003)(508600001)(66946007)(66476007)(64756008)(186003)(66616009)(66556008)(66446008)(26005)(16526019)(86362001)(31696002)(4744005)(6486002)(5660300002)(31686004)(71200400001)(85182001);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR03MB3006;
+ H:VI1PR03MB3775.eurprd03.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: toradex.com does not designate
+received-spf: None (protection.outlook.com: nextfour.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: K21jP61xzQ+OGYFwfys7oP6XBYQ9HBzIjUW9I7vtaYOJWx6lQQWc3Qs9OONUSoKdVtJgiTYhqAo+x39Ff1ZuhCBhujfRrHjUFZUECzZY0GMPt4LCq0ejbKlszSyeS8tLKLGAoKwRbRwlBgIcHI0KSHox4KT4wdn3/o7T7CC2PEgBWwHm91PH01NZ/WtRNUuTBh5bjhpU61W77Yw3drS8JgcuFFS5QXfiXkMjnYw3aJyVpt4hJhVIckNv1idW284id22lCYYN18OFesO8kPV+bTkPHc/hiP7o7EeCW0X9vayh4aDQlEWq0SA+dfKzRFeooMhzItiGo7/T/WKFnHAqkUfQUhTq3JrARXOoAt3fU82f4e2hNKl5i5jhXqbTVf83jwTBtNpjXcqGpOhGbxf+AOGQYD2tlTL0UyU5b7wYIi6FeZ1xS0nZn1tKCkqAC748
+x-microsoft-antispam-message-info: 6UqbM2IRuE8OIt3/4Zzz+gy0+yWmhxnVFhEgpY+PWtwTAHSQlSpqYLwu4E29XOhzs1TMWwBlTrRVovaZGrxrBGyN8pCMt+YQ+KISS13Fb3GX/JPRmYwTXzlsX6OEMITJFSUV1A/4jCjqNnhfzUjuaGCzsQRfirdkTYJfEM/qo2bw7x0BX/pzBJDdkf3c12d7ePOYl9uA8GRku7CxI467QpicvGNqdv36i7lXXI5g45xegWfu+xutofBC+aTYnjBz+FR0hxvn0POPzgewLW2DS2QWk+Sdv6siU8jxXQtnxrDGysAKsgg+5VJqCi70d2t1G7iZ6QEMW+IJq1klkTb7LDVMgqEl2oGh+63qWfktjoDuPhQU8wFsxcBFrp31AONBXIht6z9xPJeRQ478zzwhW24mM39XM9WdjttZtKe7ZfxqhBgkgYB1C9Pi0t0vrXgn
 x-ms-exchange-transport-forked: True
-Content-ID: <6082D58B16250D41974F5985C4BFCD58@eurprd05.prod.outlook.com>
+Content-Type: multipart/mixed;
+ boundary="_002_7c86ac0d507e3babfee1ce41ec08a665nextfourcom_"
 MIME-Version: 1.0
-X-OriginatorOrg: toradex.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ad715d70-c8ab-431c-7caf-08d79d8f2227
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jan 2020 09:57:17.7790 (UTC)
+X-OriginatorOrg: nextfour.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 48ac8670-75de-4f18-42e7-08d79d9da417
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jan 2020 11:41:08.8156 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d9995866-0d9b-4251-8315-093f062abab4
+X-MS-Exchange-CrossTenant-id: 972e95c2-9290-4a02-8705-4014700ea294
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Xg9Yw7zAYhk9nBrlzmsEzfJOYBymWlXDdKRG5pMMIx+kJb4DjRtVEPz1UiBOYQhlvGSlO88omEvWtaZXvbHJlj2+eQwZJiaYimc69bFzFfs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR05MB4383
+X-MS-Exchange-CrossTenant-userprincipalname: fnIEho0Jk7IUSVDARf1/DkEWAsJf3mU0Rr77mwZgrGa+ydu9swnA5fVdIfZvmIkUYslpWbRJhg+HUQZgRR2kc+YHshv5Zcb67QrTeEv9540=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR03MB3006
 X-Mailman-Approved-At: Mon, 20 Jan 2020 17:09:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -111,78 +102,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marcel Ziswiler <marcel.ziswiler@toradex.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Oleksandr Suvorov <oleksandr.suvorov@toradex.com>,
- David Airlie <airlied@linux.ie>, Igor Opanyuk <igor.opanyuk@toradex.com>,
- Thierry Reding <thierry.reding@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
+--_002_7c86ac0d507e3babfee1ce41ec08a665nextfourcom_
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <A2EFCD65355E0D43971A44CAAD2DC3DF@eurprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 
-On Sat, Jan 18, 2020 at 3:04 PM Sam Ravnborg <sam@ravnborg.org> wrote:
-> >
-> > The LVDS panel driver has almost everything which is required to
-> > describe a simple parallel RGB panel (also known as DPI, Display
-> > Pixel Interface).
-> >
-> > ---
->
-> There are a few high-level things we need to have sorted out.
->
-> The driver, when this patch is added, assumes that certain properties
-> are now mandatory when using the panel-dpi compatible.
->   - data-mapping
->   - width-mm
->   - height-mm
->   - panel-timing
->
-> But this does not match the panel-dpi binding.
-> So we need the panel-dpi binding updated first.
->
->
-> The current driver specify the connector type in drm_panel_init().
-> But a DPI panel is assumed to use a DRM_MODE_CONNECTOR_DPI,
-> and not a DRM_MODE_CONNECTOR_LVDS.
-> So the drm_panel_init() call needs to take into account the type
-> of binding.
->
-Thanks, I'll fix it in 2nd version.
->
-> > @@ -257,7 +279,7 @@ static struct platform_driver panel_lvds_driver = {
-> >       .probe          = panel_lvds_probe,
-> >       .remove         = panel_lvds_remove,
-> >       .driver         = {
-> > -             .name   = "panel-lvds",
-> > +             .name   = "panel-generic",
->
-> I think changing the name of the driver like this is an UAPI change,
-> which is not OK
+SGksCgpXZSBhcmUgZGV2ZWxvcGluZyBhIGN1c3RvbSByazMzOTkgYmFzZWQgYm9hcmQuIFdlIGhh
+dmUgYSBuZWVkIGZvciB0aGUKTUlQSSBwaHkgZGF0YSBsYW5lcyB0byBjb21lIHVwIGluIHN0b3Ag
+KExQLTExKSBtb2RlIGFuZCBzdGF5IHRoZXJlIHVudGlsCmNvbW1hbmRlZC4gV2UgYXJlIGludGVy
+ZmFjaW5nIGEgVEkgU042NURTSTg0IG1pcGkgdG8gbHZkcyBicmlkZ2UsIGFuZCBpdApkZW1hbmRz
+IHRoZSBkYXRhIGxhbmVzIHRvIHN0YXkgaW4gTFAtMTEgc3RhdGUgZm9yIHRoZSB0aW1lIG9mIHRo
+ZQppbml0aWFsaXphdGlvbi4KCldoYXQgd2Ugc2VlIG5vdywgaXMgdGhhdCBkYXRhIGxpbmVzIGNv
+bWUgb3V0IG9mIExQLTExIGJlZm9yZSB0aGUgYnJpZGdlCmhhcyBjb25maWd1cmVkIGl0c2VsZiwg
+d2hpY2ggbGVhZHMgdG8gYnJpZGdlIG1hbGZ1bmN0aW9uLgoKSSBoYXZlIHRyaWVkIHRvIGFkZCBS
+SzMzOTlfRFNJMV9GT1JDRVRYU1RPUE1PREUgdG8KZHctbWlwaS1kc2ktcm9ja2NoaXAuYyBsaWtl
+IHRoaXMgOgoKwqDCoMKgIMKgwqDCoCAubGFuZWNmZzEgPSBISVdPUkRfVVBEQVRFKFJLMzM5OV9E
+U0kxX0ZPUkNFVFhTVE9QTU9ERSwKwqDCoMKgIMKgwqDCoCDCoMKgwqAgwqDCoMKgIMKgwqDCoCBS
+SzMzOTlfRFNJMV9UVVJORElTQUJMRSB8CsKgwqDCoCDCoMKgwqAgwqDCoMKgIMKgwqDCoCDCoMKg
+wqAgUkszMzk5X0RTSTFfRk9SQ0VUWFNUT1BNT0RFIHwKwqDCoMKgIMKgwqDCoCDCoMKgwqAgwqDC
+oMKgIMKgwqDCoCBSSzMzOTlfRFNJMV9GT1JDRVJYTU9ERSB8CsKgwqDCoCDCoMKgwqAgwqDCoMKg
+IMKgwqDCoCDCoMKgwqAgUkszMzk5X0RTSTFfRU5BQkxFKSwKCmJ1dCB0aGlzIGRvZXNuJ3QgZG8g
+dGhlIHRyaWNrLiBIb3cgY291bGQgd2UgcHV0IHRoZSBzdG9wIG1vZGUgb24sIGFuZAphZnRlciBi
+cmlkZ2UgY29uZmlnLCBnZXQgcmlkIG9mIGl0PwoKVGhhbmtzLApNaWthIFBlbnR0aWzDpApOZXh0
+Zm91ciBHcm91cAoKCg==
 
-I see 2 simple ways there:
-- keep the original platform driver name;
-- fork panel-lvds driver as panel-generic driver with dpi support.
+--_002_7c86ac0d507e3babfee1ce41ec08a665nextfourcom_
+Content-Type: application/pgp-keys; name="pEpkey.asc"
+Content-Description: pEpkey.asc
+Content-Disposition: attachment; filename="pEpkey.asc"; size=3157;
+	creation-date="Mon, 20 Jan 2020 11:41:08 GMT";
+	modification-date="Mon, 20 Jan 2020 11:41:08 GMT"
+Content-ID: <C69956DB2A9E064597F4C7A9C2F20264@eurprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 
-What solution do you prefer?
+LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tDQoNCm1RR05CRnZYMjBRQkRBREhm
+U1VzR2tvY2JsMCt0T1R5TXYyYnQxdVZnWVNDN09QQTE5d3FwWXZhTk9ZdjN1d0UNCnUxRmo0QUl3
+Tkp1cjZHZWlETzhheXZ0NHlMSzErUnQraGUxQzNlQmJvbnlPNGVIVml5QmdoYkdoN0JsM0xqemEN
+CndONVo2WmR0alBzZFVrUTROWGhoWXJDL041QXAwWi80U1VIOWwwMS9LdkgyTy9ERUZwUWVGekFY
+TG9DYVBFTnQNCmJ6bnNmdTlGN2VWV3FUa0ZtdTVLNkR3MFJaMzRHNlJQaGtFUG5Uc0VPWkZLbENT
+WkJUNFhXZWQ3dys3Y0d1R2YNCmJSVmNzQ3QwSThXNzlEQU12WTl0Qk4wOGVtUXZUeWsrWnF5SUNN
+UVFIR0dyVGhpcWVRbVZhNEcxYzBuaW5YWG0NCkNXaHZ4MUxiYUxlOFhuVG4rODV2SndTb092N2NH
+R00yUXJGY2sza1A4cGdsbEd1c0hsU0JNUkVwQWEvZmFKVk4NCmJXL1c1TS8yVGtuS3I0YjZjYWNq
+NjduOGVTalIxb0VsOVMxR09CM0xSYWRmYlJ2NDhVNXRsRFhtSlEwMHdURlcNCjZNZE5Oc0Q5dnRP
+OXJ6UkEyWlhNUnJxTTkxV0RReHdFYW9mTDc5RjU1a3E2eW5FQmJWNEdKbG11TTdHS1h4RWkNCjZw
+ZWIvVGNVeUN0YzBzRUFFUUVBQWJRclRXbHJZU0JRWlc1MGRHbHN3NlFnUEcxcGEyRXVjR1Z1ZEhS
+cGJHRkENCmJtVjRkR1p2ZFhJdVkyOXRQb2tCMUFRVEFRZ0FQZ0liQXdVTENRZ0hBZ1lWQ2drSUN3
+SUVGZ0lEQVFJZUFRSVgNCmdCWWhCRmF0YTJrVEl4ZWtsTWhPWU1RR2VjZnoyd3pGQlFKZHI5Z1VC
+UWtEdVc3TUFBb0pFTVFHZWNmejJ3ekYNCmZxME1BS1N1M2hIc1ZOZG1BaUEreDhYU3o4SEhVTnFo
+ZVEyM053U2MwZEJleDZibytGdVUwT1hLTmZhODRUZTgNCnpwQ2V5OU80bWY0L0ZyQ09temF5U2xh
+a2ZrRFZhQy9lSm5ETTV1Ny9yVy9pZnJ6a1pRMWdjcXpKcTJud1lTUzANCittbDZBcVpOYU9SWEFz
+bjlRNkZWZVlFR1BremNNK0pLcGxqQllwTUN0ckhqOG1JSCsxL0JOcGR4VGplVThPTSsNCmpKbTQy
+R1RtRXVDZGI3a1M1WXdFcTNTajZ3bXdnOFI3RFpnQTlraG9GMHcyUFdCYi9LNk1NMHZQZjZvTE9o
+RFANCk1KTXlaSjQzMUpJQ0FlTFl6V3ZCQitCdCtDYkRqQkpUcFBPYmRhYTd1VnVuOGlUVUJYZEc2
+RVNBY3VPUzlTMlENCnBRMkhVV3A1WkZxbWpmb0lCcklWTTFXSnVRZmgrSXBsWTc0MHhVUWVvd2VZ
+TVVndVFEekVFSVlPT3ZXNzVrMFANCkdUYUcxSjdJVktuRjcrRHIzcWxUd29vMWVpeVMzakxuYVlH
+VWRvS1h5dDVXcythU2liYWlIV1pUUkFQM3R6MWUNClFCUmU0Mml3aVBOUFlVOWNyaTNlMHkxT0VN
+M0Rqd0ErMmJGbm05aFEyaGVMQUV6ZkswWTBHMmJ6R00ydWJSN0INCnY2WnBBb2tCMUFRVEFRZ0FQ
+aFloQkZhdGEya1RJeGVrbE1oT1lNUUdlY2Z6Mnd6RkJRSmIxOXVMQWhzREJRa0INCjRUT0FCUXNK
+Q0FjQ0JoVUtDUWdMQWdRV0FnTUJBaDRCQWhlQUFBb0pFTVFHZWNmejJ3ekZWandMLzM1UzU0dEkN
+CmRXT0xGZXUzcHdUT3ZjKzY1SzR4V1l4cE5aMVRxWVltWW9pUG9IUERTT1pnUDlQeEV2eFk3ODZ1
+OTV4M0dPekkNCk9WbkFWRkxtYTZPeDdnbEVISThwYkNUZEs0ZTdZb2o0NHdqcWcyeTFoMWl4N2d4
+Ny94MEpyU2dadG9oMEJCeG0NCjM4UENTamg1QUtwTGt5ZmlhWktpblJUWE1SejROL0VPSHBKQlJv
+eHN5V2U4aFNsUFdGbXpRVE81SGJ5NzdNZ1ENCnAzajRLV1ZNYnUxdWVUQi9HZzgxN2hLTUViWFo5
+SnlMYVhmdDIxUjFvYU8zUDdwajhPWk9RN0F5OFBwWTlxbTgNCkVKZHo4R2VIUVZQMEhadHdJMXdZ
+YWFYS1FuMzVWRThVU21MNndUZmVtRW55bVFEMWUyYU9nVGNIb1NOR001a3gNCnNuQUd4VjcrK0pr
+Njh6K2hBVHpoajJ4SmpKNjRHdGoySlJFNU52T011RG4yM2QrcnlHblZjZmQwcHdTMU9UUEoNCmVK
+V3lZb0xCNm1sRUliT2NoUmhaeVFweGNNZktkdkJhTURNK0l2YXo0aWFldDhiWHlVdVhhMXBzR0o2
+NGpycUMNCnFiUDBzK2xBLzBPVTBidHNoTjNNWjZCSGxrR3A0WFBhSFFaVVc2dDlPSitrQnhaaXpl
+WjRvOTdRWUxrQmpRUmINCjE5dEpBUXdBcmJUTW8wbGFTaG1WODJXV1lBM1NjRmYzT3NyYmt2aTVN
+VGxyTkpTUTRjZGhNVmZHeVU2cmlOM2INCjU0OTVFQm1BQ21FRTduWjduQVJyYllUN0E1UENKUFpz
+YUU0Mnp3cTNBWjg5MEFvRWpqTEYrU2x1VUJHWmtaeisNCmxMQnhwTHh5aGxxQ2gwaUkyR3JnRVZG
+aGtlRExNSkZRT2ZUdm1HeVFRWXUzRllJMlpvNG9CcHFtaXd5WlZOaTgNCllKbUNZSksrMTFZT1I4
+U21SVC9nN3c1cG95Mldla3RIZmhJbUdwZE1FUmtUTnp6U3g5cmUra1NmRUlLRWxlQ2ENClhDZjNK
+VW4wWU1ZYlY3Z2lnV2RqR0tFYmZIODJYbm1qejFkd2pjcVBoRitUbHhsaHNvTDF3ZGh1eUJCTGpm
+SE8NCjEzLzh3YUQwRGxtdFpibmdCSW5kVkJDQmV0Qzl3cDk3MkdQamN5VkFQTHlHUWE5cGs1SklP
+Z0lVRWRNcjV0VG8NClkyZ0hqS2pKMzFrUk9FbDhWRnppdGt1K2ZzSXNaYmRQZnFwMmdPVW9xZ1ZF
+RGt5M0hZRmlhWnVsek5QVW1ZUlkNCkovR0hvOEFMVThoNE5TdkNkazk3Q3pIdmRrQjEvRThIMTlL
+dmswYVpIekZRY0JuaGt6cStuMFpiU2FUSlM3TTQNCmFxUmFJOGY3QUJFQkFBR0pBYndFR0FFSUFD
+WUNHd3dXSVFSV3JXdHBFeU1YcEpUSVRtREVCbm5IODlzTXhRVUMNClhhL1lGQVVKQTdsdXh3QUtD
+UkRFQm5uSDg5c014WUx4Qy85THUxeGpkVVRkbWQxMC81RXpBMWkwYmROQm9qQlkNCjNQSjRPNGJo
+R3BiOUtHbnhzaFRPRVduY05teXk0MHM4YUhMYmRyZ0VWS0N0a1Mra3dBcm1URmptazQ5R3pRaWUN
+CnJSTzJjTlUwV2tVZXBjWDl3cjUxcUtTYnJuZDdFMHJ6MHlNbXVXdlJIalJ0ejErRDhkUi9HSmhK
+ZFlyRUtxbmwNCnZQVm5yT05qNVp4WFc4d2pzZ1FtczVpTHVWUXp1eVJ5WDRROHhiSFJiYWlsWEVE
+TlUrSFRXUjU4YUFtdzRpeWwNCjI4N0x0RHd5VS9JU2M3T3FNMkVzVFBPaFNlWWpPbkxIWnZvdCt1
+ZnU2cU9HS2tBaUthTm53TjZwUkprVzF6S1kNCnFuUVJZMEhKNmt5cmoxWmFKdzFONEMzVm9wQkxq
+Qy9Qbm44dldBekgzNVJMKzJvaGs0MTY4ZEhhQXJVYVJOV0sNCnF1REFWK3psOGRsR0wySDVVMHlu
+cUxCNWtvU0NINHpnUURtY0gycHQyN3pCcXVxNE1ySzNwTC85emduWE9VeWENClZuUGVjTGRHakhS
+YTIyS2xkb05WT2Y0MWtJQ2wxTFo2ZllXcXhWWEl2ZUE2N0hTcWlmZHVjVVA5bjUwYVdUeWcNCkZx
+L1JFbVVlcmFVV2NZeWRFK0IrNFh0NXlJRi9WL1p3bTBvPQ0KPVoyVkoNCi0tLS0tRU5EIFBHUCBQ
+VUJMSUMgS0VZIEJMT0NLLS0tLS0NCg==
 
-> >               .of_match_table = panel_lvds_of_table,
-> >       },
-> >  };
->
->         Sam
+--_002_7c86ac0d507e3babfee1ce41ec08a665nextfourcom_
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
---
-Best regards
-Oleksandr Suvorov
-
-Toradex AG
-Altsagenstrasse 5 | 6048 Horw/Luzern | Switzerland | T: +41 41 500
-4800 (main line)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--_002_7c86ac0d507e3babfee1ce41ec08a665nextfourcom_--
