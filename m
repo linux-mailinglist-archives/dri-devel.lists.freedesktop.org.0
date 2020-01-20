@@ -1,52 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54DB2143336
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2020 22:02:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A1B614333D
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2020 22:10:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0FF96EB38;
-	Mon, 20 Jan 2020 21:02:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A90B56EA90;
+	Mon, 20 Jan 2020 21:09:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 727766EB3A
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2020 21:02:46 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00KL2gGd087409;
- Mon, 20 Jan 2020 15:02:42 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1579554163;
- bh=tc/nNYBdxoNbru9sN4KFT+Bvl79DZ5zz3QJTcBh3ppQ=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=QPOlVcz1xV7+oGsHRK8UMIqM+g1YzVAn5/sn6aC5xg352EsbwszL88n6v2TDYJ4E9
- LzCsWXpkpyUq869XCs0gkNnRkHwrrLmFEbz/eEhnLzPWqToe0EvqgNtCXRl80bZ7lr
- SBPvTih36EOrLEst0RFgvmasLt+tGjCA9gqimDDk=
-Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00KL2gfj021828
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 20 Jan 2020 15:02:42 -0600
-Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Mon, 20
- Jan 2020 15:02:41 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Mon, 20 Jan 2020 15:02:41 -0600
-Received: from jadmar.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00KL2PYc079658;
- Mon, 20 Jan 2020 15:02:39 -0600
-From: Jyri Sarha <jsarha@ti.com>
-To: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>
-Subject: [PATCH v8 5/5] MAINTAINERS: add entry for tidss
-Date: Mon, 20 Jan 2020 23:02:24 +0200
-Message-ID: <c74bab67540cf4345916999b518018e02085631c.1579553817.git.jsarha@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1579553817.git.jsarha@ti.com>
-References: <cover.1579553817.git.jsarha@ti.com>
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0DB06EA90
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2020 21:09:57 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id m30so374256lfp.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2020 13:09:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=pvaSgWMpb6splfUtGpHmUXkmUITklAkoFwnJKC0eF4Q=;
+ b=bb3x7cNOKn69RgFu74r3MQQiaEcUx6Pn/Z5yg+absJpmY61l/7WUXXhjQSMcVBE5XA
+ 6QismlDKAUEKuyBOxnlJTZLIRnIHONK1IQoUAx1lIMzz8WaQkI1phC/VXCzoE3D5cKsH
+ cCCMBdNjPbg+DOMuuiEX1+sFPKI8gDG2yc0lPUT+8H5Ajl4ePYrwp8VOclBiY/RPrLLl
+ 0JH7l4H4OclWA4SL8gO2nR3oaEitSsWsewfHwyvC0qvLPmC5HWYzA1L/HIxXRkZJy1TR
+ K0lgx9yjB/nuG5rD0JBGiBoXmXUqV2JcUy13YCjM59AGveh6/eWJnKdaf0VeSah1sr8b
+ Smtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=pvaSgWMpb6splfUtGpHmUXkmUITklAkoFwnJKC0eF4Q=;
+ b=HTVMoypGPoqyX+LxYFCkAZ4zVRaHk8Tcv2GPbWgLAOdisAXKTYRp1kWJlrGGiNq9z7
+ 1a2w85G2XZdOEnpBOt1p1Riq4NDfiXMFVDxBgwpGEj02sSqo9udEsH5qXHbH65h+J5Z9
+ UOB7Z6wVcVHTUxv0X3j4kOfxj7QsT8EnrPJj7LB7HoPAFH1jMdZa4uVpaqO/8uKHDYK+
+ +kn42eXoYJ4063W8YZRTnXTJO/wm0CwRaVZl/IkxDCMW6tc2GIIqUo+OLcaSP9jp+LoZ
+ vbrrmtV4p7X79yHFTy0zCb6SzbF/p7Rw22Q2lkm2DSRXf0BMSqVtoV6CpOqSbJ1Ajy1f
+ k6Lw==
+X-Gm-Message-State: APjAAAVjzqQnx0mcPunlsH8EzW9X12RDK7To6r9S7PKFOP570eEi7m+a
+ NERrNxGDn/5va6ABXgXKqschCQnu3ILeS9KdUtYxow==
+X-Google-Smtp-Source: APXvYqyP3N/1Y5S8MI3eAEuF0IHAdY13oenwTOuI07a1GDAe55pl/crQBfXIQGhS7urZQRAkeaEyKpc656E0JLiMA8U=
+X-Received: by 2002:a19:4849:: with SMTP id v70mr703151lfa.30.1579554596044;
+ Mon, 20 Jan 2020 13:09:56 -0800 (PST)
 MIME-Version: 1.0
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20200116092934.5276-1-thomas_os@shipmail.org>
+In-Reply-To: <20200116092934.5276-1-thomas_os@shipmail.org>
+From: Dave Airlie <airlied@gmail.com>
+Date: Tue, 21 Jan 2020 07:09:44 +1000
+Message-ID: <CAPM=9tzVFe=O-0A-5PKdjBV-95aLvTaprzFuxxeai4y9PJKk9Q@mail.gmail.com>
+Subject: Re: [git pull] vmwgfx-next
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28VMware=29?= <thomas_os@shipmail.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,65 +61,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: yamonkar@cadence.com, praneeth@ti.com, sjakhade@cadence.com, jsarha@ti.com,
- peter.ujfalusi@ti.com, tomi.valkeinen@ti.com,
- laurent.pinchart@ideasonboard.com, subhajit_paul@ti.com, sam@ravnborg.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: pv-drivers@vmware.com, Dave Airlie <airlied@redhat.com>,
+ Linux-graphics-maintainer <linux-graphics-maintainer@vmware.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add entry for tidss DRM driver.
-
-Version history:
-
-v2: no change
-
-v3: - Move tidss entry after omapdrm
-    - Add "T:     git git://anongit.freedesktop.org/drm/drm-misc"
-
-v4: no change
-
-v5: no change
-
-v6: no change
-
-v7: no change
-
-v8: - Add Reviewed-by: Benoit Parrot <bparrot@ti.com>
-
-Signed-off-by: Jyri Sarha <jsarha@ti.com>
-Reviewed-by: Benoit Parrot <bparrot@ti.com>
----
- MAINTAINERS | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index aa9add598b7d..d8f65dc1dde8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5630,6 +5630,17 @@ S:	Maintained
- F:	drivers/gpu/drm/omapdrm/
- F:	Documentation/devicetree/bindings/display/ti/
- 
-+DRM DRIVERS FOR TI KEYSTONE
-+M:	Jyri Sarha <jsarha@ti.com>
-+M:	Tomi Valkeinen <tomi.valkeinen@ti.com>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Maintained
-+F:	drivers/gpu/drm/tidss/
-+F:	Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
-+F:	Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-+F:	Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
-+T:	git git://anongit.freedesktop.org/drm/drm-misc
-+
- DRM DRIVERS FOR V3D
- M:	Eric Anholt <eric@anholt.net>
- S:	Supported
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki. Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCAxNiBKYW4gMjAyMCBhdCAxOTozMCwgVGhvbWFzIEhlbGxzdHLDtm0gKFZNd2FyZSkK
+PHRob21hc19vc0BzaGlwbWFpbC5vcmc+IHdyb3RlOgo+Cj4gRGF2ZSwgRGFuaWVsCj4KPiBUaGUg
+bWFpbiA1LjYgLW5leHQgcHVsbCBmcm9tIHZtd2dmeC4gTWlub3IgdGhpbmdzIGhlcmUgYW5kIHRo
+ZXJlLCBhcyB3ZWxsCj4gYXMgYW4gYWRkZWQgaW9jdGwgZm9yIGhvc3QgbWVzc2FnaW5nIGFuZCBh
+IGNvcnJlc3BvbmRpbmcgYXBpIHZlcnNpb24gYnVtcC4KCklzIHRoZXJlIHVzZXJzcGFjZSBmb3Ig
+dGhpcyBpb2N0bCBzb21ld2hlcmU/IEkgbmVlZCBhIHBvaW50ZXIgdG8gc29tZQpyZXZpZXdlZCB1
+c2Vyc3BhY2UgTVIgZm9yIE1lc2Egb3Igb3RoZXIgdGhpbmcgdG8gYWRkIG5ldyB1QVBJIHRvCmRy
+aXZlcnMuCgpEYXZlLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWwK
