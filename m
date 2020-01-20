@@ -2,60 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63250142416
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2020 08:09:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09ED1142520
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2020 09:24:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBF636E5A4;
-	Mon, 20 Jan 2020 07:09:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9E9F6E7E6;
+	Mon, 20 Jan 2020 08:23:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2FBD6E5A4
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2020 07:09:48 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id d73so13280751wmd.1
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Jan 2020 23:09:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=jC4BMofX4ULcGoP3faAtWvOIgbJpEDzUZLRdWTvccnE=;
- b=feubInFzc3vSXTqm0B3WoEVwqwIjV6G8LnNZyDfPXudQnsSspbO3+gOYzpFoyvrP/u
- zZKC788BEidBCJWOcVywx2UPa5pkIH6VOGocO0CAEZ2eJ0dpdeDcEuEsQ56S30kp6QnP
- KydSTXvcZC4N4kzk0AXCjuUT700NEaWBTt0f2m/Tr3hT9itBrCiyYQYDT/G+hpInxd4v
- 6SHZ4ke+jVf1rzVZnVAnOcbccwhSJdRiSb7/CBGrAmO6BPJERh0o+1zQRwzpxq2+Py0h
- YpKetGJJ3uaU5Ua/OvTx/hG3eYUJbrHb0VQ670wWKIjSTNxBq951pr7HTWT4wcrOujXR
- fDcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=jC4BMofX4ULcGoP3faAtWvOIgbJpEDzUZLRdWTvccnE=;
- b=nwDCOrJR2KGQ6hfXb7HgyDLoG7lu1Y7SX8MhcnAR1GANrqVv/UludO+5NWKKG33QNq
- Z/+EjZ8Q4Bby429Znvs+W+z5cdgo6TGuHwZovoe2sgJLs7cryIjty7KRipz4Lo8/PSx3
- yRZaqBkGpGbcN7w4jmW1CTEfTyvQmLPIOSlNl2VEf3isWSrnFymXt4Cd5wttXUE+RL/E
- 18qbr/jIXfD+WaThnM2MkcUpfxcFyV/yN2SDyGECpM6PqC9KygTvWPwNZQzgIP5u0ktB
- QKRvSD5drIoAbdETJL9MCCrShgq3ujMpumuTaU4uiwPLJzh9DW4ansYoFY8MJQfToQ8Q
- fbnA==
-X-Gm-Message-State: APjAAAWUuQtRpHxygCugQ062EIJAVvl+xbyL9mpvGHtmOXrWSaBszp9m
- sxkMep7r1DaGhD9v0dFRjdg=
-X-Google-Smtp-Source: APXvYqws5QWUBaccaF/hM5PNGQAiw6gh1OkE59RPb1vBC5q/3NoeLjQc4gNxSRIToglT7nNXnPJ7yg==
-X-Received: by 2002:a1c:a795:: with SMTP id q143mr17238611wme.52.1579504187566; 
- Sun, 19 Jan 2020 23:09:47 -0800 (PST)
-Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
- by smtp.gmail.com with ESMTPSA id b21sm11206535wmd.37.2020.01.19.23.09.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 19 Jan 2020 23:09:46 -0800 (PST)
-Date: Mon, 20 Jan 2020 08:09:43 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: allen <allen.chen@ite.com.tw>
-Subject: Re: [PATCH v6 2/4] Revert "drm/tegra: Move drm_dp_link helpers to
- Tegra DRM"
-Message-ID: <20200120070943.GA197819@ulmo>
-References: <1579488364-13182-1-git-send-email-allen.chen@ite.com.tw>
- <1579488364-13182-3-git-send-email-allen.chen@ite.com.tw>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EDC16E5CF;
+ Mon, 20 Jan 2020 08:23:33 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id B609DB1E4;
+ Mon, 20 Jan 2020 08:23:30 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@linux.ie, daniel@ffwll.ch, alexander.deucher@amd.com,
+ christian.koenig@amd.com, David1.Zhou@amd.com,
+ maarten.lankhorst@linux.intel.com, patrik.r.jakobsson@gmail.com,
+ robdclark@gmail.com, sean@poorly.run, benjamin.gaignard@linaro.org,
+ vincent.abriou@st.com, yannick.fertre@st.com, philippe.cornu@st.com,
+ mcoquelin.stm32@gmail.com, alexandre.torgue@st.com, eric@anholt.net,
+ rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
+ linux-graphics-maintainer@vmware.com, thellstrom@vmware.com,
+ bskeggs@redhat.com, harry.wentland@amd.com, sunpeng.li@amd.com,
+ jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com
+Subject: [PATCH v3 00/22] drm: Clean up VBLANK callbacks in struct drm_driver
+Date: Mon, 20 Jan 2020 09:22:52 +0100
+Message-Id: <20200120082314.14756-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <1579488364-13182-3-git-send-email-allen.chen@ite.com.tw>
-User-Agent: Mutt/1.13.1 (2019-12-14)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,108 +45,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>, David Airlie <airlied@linux.ie>,
- open list <linux-kernel@vger.kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Pi-Hsun Shih <pihsun@chromium.org>,
- "open list:DRM DRIVERS FOR NVIDIA TEGRA" <linux-tegra@vger.kernel.org>,
- Sean Paul <sean@poorly.run>
-Content-Type: multipart/mixed; boundary="===============1980407986=="
+Cc: linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, nouveau@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+VBLANK handlers in struct drm_driver are deprecated. Only legacy,
+non-KMS drivers are supposed to used them. DRM drivers with kernel
+modesetting are supposed to use VBLANK callbacks of the CRTC
+infrastructure.
 
---===============1980407986==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="nFreZHaLTZJo0R7j"
-Content-Disposition: inline
+This patchset converts all DRM drivers to CRTC VBLANK callbacks and
+cleans up struct drm_driver. The remaining VBLANK callbacks in struct
+drm_driver are only used by legacy drivers.
 
+Patch 1 removes an additional setup step of vblank_disable_immediate
+in struct drm_device. This simplifies the integration of CRTC VBLANK
+callbacks in patch 3. If necessary, a future patch could move
+vblank_disable_immedate to struct drm_crtc, so that high-precision
+VBLANKs could be enabled on a per-CRTC basis.
 
---nFreZHaLTZJo0R7j
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Patches 2 and 3 prepare the DRM infrastructure. These patches add
+get_scanout_position() to struct drm_crtc_helper_funcs,
+get_vblank_timestamp() to struct drm_crtc_funcs, and add helpers for
+the new interfaces.
 
-On Mon, Jan 20, 2020 at 10:44:32AM +0800, allen wrote:
-> IT6505 driver ite-it6505.c file using drm_dp_link helpers, so revert.
-> This reverts commit 9a42c7c647a9ad0f7ebb147a52eda3dcb7c84292.
->=20
-> Signed-off-by: Allen Chen <allen.chen@ite.com.tw>
-> ---
->  drivers/gpu/drm/drm_dp_helper.c | 128 ++++++
->  drivers/gpu/drm/tegra/Makefile  |   1 -
->  drivers/gpu/drm/tegra/dp.c      | 876 ----------------------------------=
-------
->  drivers/gpu/drm/tegra/dp.h      | 177 --------
->  drivers/gpu/drm/tegra/dpaux.c   |   1 -
->  drivers/gpu/drm/tegra/sor.c     |   1 -
->  include/drm/drm_dp_helper.h     |  16 +
->  7 files changed, 144 insertions(+), 1056 deletions(-)
->  delete mode 100644 drivers/gpu/drm/tegra/dp.c
->  delete mode 100644 drivers/gpu/drm/tegra/dp.h
+Patches 4 to 20 convert drivers over.
 
-Sorry, but no. Please just duplicate whatever information you need from
-these helpers into your driver. The decision was made recently to remove
-these helpers because they were a premature generalization and unlikely
-to be useful very widely. See this commit:
+In patch 21, all VBLANK callbacks are removed from struct drm_driver,
+except for get_vblank_counter(), enable_vblank(), and disable_vblank().
+These interfaces are moved to the legacy section at the end of the
+structure. Old helper code is now unused and being removed as well.
+Finally, patch 22 removes an older version of get_scanout_position()
+from the VBLANK interface.
 
-commit 9a42c7c647a9ad0f7ebb147a52eda3dcb7c84292
-Author: Thierry Reding <treding@nvidia.com>
-Date:   Mon Oct 21 16:34:37 2019 +0200
+To cover all affected drivers, I build the patchset in x86, x86-64,
+arm and aarch64. I smoke-tested amdgpu, gma500, i915, radeon and vc4 on
+respective hardware.
 
-    drm/tegra: Move drm_dp_link helpers to Tegra DRM
+v3:
+	* refactor drm_calc_vbltimestamp_from_scanout_pos to share code
+	  with new helper (Villa, Jani)
+	* do more checks for crtc != NULL to cover non-KMS drivers (Ville)
+	* add function typedefs for readability (Ville)
+v2:
+	* reorder patches so the i915 can be converted without duplicating
+	  helper code.
+	* merged cleanup patches
+	* changed VBLANK function signatures in amdgpu (Alex)
 
-    During the discussion of patches that enhance the drm_dp_link helpers it
-    was concluded that these helpers aren't very useful to begin with. After
-    all other drivers have been converted not to use these helpers anymore,
-    move these helpers into the last remaining user: Tegra DRM.
+Thomas Zimmermann (22):
+  drm: Remove internal setup of struct
+    drm_device.vblank_disable_immediate
+  drm: Add get_scanout_position() to struct drm_crtc_helper_funcs
+  drm: Add get_vblank_timestamp() to struct drm_crtc_funcs
+  drm/amdgpu: Convert to struct
+    drm_crtc_helper_funcs.get_scanout_position()
+  drm/amdgpu: Convert to CRTC VBLANK callbacks
+  drm/gma500: Convert to CRTC VBLANK callbacks
+  drm/i915: Convert to CRTC VBLANK callbacks
+  drm/nouveau: Convert to struct
+    drm_crtc_helper_funcs.get_scanout_position()
+  drm/nouveau: Convert to CRTC VBLANK callbacks
+  drm/radeon: Convert to struct
+    drm_crtc_helper_funcs.get_scanout_position()
+  drm/radeon: Convert to CRTC VBLANK callbacks
+  drm/msm: Convert to struct
+    drm_crtc_helper_funcs.get_scanout_position()
+  drm/msm: Convert to CRTC VBLANK callbacks
+  drm/stm: Convert to struct
+    drm_crtc_helper_funcs.get_scanout_position()
+  drm/stm: Convert to CRTC VBLANK callbacks
+  drm/sti: Convert to CRTC VBLANK callbacks
+  drm/vc4: Convert to struct
+    drm_crtc_helper_funcs.get_scanout_position()
+  drm/vc4: Convert to CRTC VBLANK callbacks
+  drm/vkms: Convert to CRTC VBLANK callbacks
+  drm/vmwgfx: Convert to CRTC VBLANK callbacks
+  drm: Clean-up VBLANK-related callbacks in struct drm_driver
+  drm: Remove legacy version of get_scanout_position()
 
-    If at some point these helpers are deemed more widely useful, they can
-    be moved out into the DRM DP helpers again.
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h           |   6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |  16 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  15 --
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c       |  21 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |   5 +
+ drivers/gpu/drm/amd/amdgpu/dce_v10_0.c        |   5 +
+ drivers/gpu/drm/amd/amdgpu/dce_v11_0.c        |   5 +
+ drivers/gpu/drm/amd/amdgpu/dce_v6_0.c         |   5 +
+ drivers/gpu/drm/amd/amdgpu/dce_v8_0.c         |   5 +
+ drivers/gpu/drm/amd/amdgpu/dce_virtual.c      |   5 +
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  13 +-
+ drivers/gpu/drm/drm_vblank.c                  | 141 ++++++++++------
+ drivers/gpu/drm/gma500/cdv_intel_display.c    |   3 +
+ drivers/gpu/drm/gma500/psb_drv.c              |   4 -
+ drivers/gpu/drm/gma500/psb_drv.h              |   6 +-
+ drivers/gpu/drm/gma500/psb_intel_display.c    |   3 +
+ drivers/gpu/drm/gma500/psb_irq.c              |  12 +-
+ drivers/gpu/drm/gma500/psb_irq.h              |   7 +-
+ drivers/gpu/drm/i915/display/intel_display.c  |   7 +
+ drivers/gpu/drm/i915/i915_drv.c               |   3 -
+ drivers/gpu/drm/i915/i915_irq.c               |  20 ++-
+ drivers/gpu/drm/i915/i915_irq.h               |   6 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      |   2 +
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c     |   2 +
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c     |  82 +++++++++
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c      |  95 -----------
+ drivers/gpu/drm/msm/msm_drv.c                 |  10 +-
+ drivers/gpu/drm/msm/msm_drv.h                 |   3 +
+ drivers/gpu/drm/nouveau/dispnv04/crtc.c       |   4 +
+ drivers/gpu/drm/nouveau/dispnv50/head.c       |   5 +
+ drivers/gpu/drm/nouveau/nouveau_display.c     |  28 +---
+ drivers/gpu/drm/nouveau/nouveau_display.h     |   6 +-
+ drivers/gpu/drm/nouveau/nouveau_drm.c         |   5 -
+ drivers/gpu/drm/radeon/atombios_crtc.c        |   1 +
+ drivers/gpu/drm/radeon/radeon_display.c       |  25 ++-
+ drivers/gpu/drm/radeon/radeon_drv.c           |  18 --
+ drivers/gpu/drm/radeon/radeon_kms.c           |  29 ++--
+ drivers/gpu/drm/radeon/radeon_legacy_crtc.c   |   3 +-
+ drivers/gpu/drm/radeon/radeon_mode.h          |   6 +
+ drivers/gpu/drm/sti/sti_crtc.c                |  11 +-
+ drivers/gpu/drm/sti/sti_crtc.h                |   2 -
+ drivers/gpu/drm/sti/sti_drv.c                 |   4 -
+ drivers/gpu/drm/stm/drv.c                     |   2 -
+ drivers/gpu/drm/stm/ltdc.c                    |  66 ++++----
+ drivers/gpu/drm/stm/ltdc.h                    |   5 -
+ drivers/gpu/drm/vc4/vc4_crtc.c                |  13 +-
+ drivers/gpu/drm/vc4/vc4_drv.c                 |   3 -
+ drivers/gpu/drm/vc4/vc4_drv.h                 |   4 -
+ drivers/gpu/drm/vkms/vkms_crtc.c              |   9 +-
+ drivers/gpu/drm/vkms/vkms_drv.c               |   1 -
+ drivers/gpu/drm/vkms/vkms_drv.h               |   4 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |   3 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h           |   6 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           |   6 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c           |   3 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c          |   3 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c          |   3 +
+ include/drm/drm_crtc.h                        |  46 +++++-
+ include/drm/drm_drv.h                         | 156 +-----------------
+ include/drm/drm_modeset_helper_vtables.h      |  47 ++++++
+ include/drm/drm_vblank.h                      |  34 +++-
+ 61 files changed, 551 insertions(+), 517 deletions(-)
 
-    Signed-off-by: Thierry Reding <treding@nvidia.com>
-    Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-    Link: https://patchwork.freedesktop.org/patch/msgid/20191021143437.1477=
-719-14-thierry.reding@gmail.com
-
-Your new driver here doesn't change that, in my opinion, so just follow
-what we did for other drivers and duplicate the corresponding code into
-the driver.
-
-Thierry
-
---nFreZHaLTZJo0R7j
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl4lUjQACgkQ3SOs138+
-s6G9LQ//RT0oF0cSY99rYD5a4Gq9xwF0NRauxZ2UB31AHTClEOxlB2UvUO3mGmAO
-guZ+9+1YTOL35FeRJIeE322/P+HOt7fp6iswZmIvVxfIHlp2+DjViefo/c3RVTCU
-EegQahcz6HMV3uxCn0R0h+ZspQustfsd6JSaqbb0/ByUwz5CtmBg78v1NX0svp/w
-v7bRIbANkre6CW7QoEZLQUuXcos81GYep0i4IxsjUFG0lavYTmt7sngYMWzio0Xu
-ynQEspvKmyTEQoHBvNzvRrqhJxyYIBWB4JPYsqmf3Swb/xixh+ibD0ojhj8kXeTw
-1OAFkzXRE4YnvaFwOBMTt84q7r40y+tolILK7M/e6pgOL3IBdeBothqQhFTbN88W
-bCGlip7H74N4E6tSkH1x2lZTeiaAr7q6nHZsMleUtgs8+xt05sK3cO08tAfRqqpW
-HsyN+1C5YP3hAq+XoTiWCU4OfcUX6QXsDoUwiFb/KeT6VoUuYVomHUzhAUDBmC/W
-38IZzaBs4wnhCCrko8KJT7znM5os9pGFnYxHpkw9RhBKBfDOMt5U8dNgfPmmJx1f
-nI8CjoxIGbP/rFrOL2yexacluAnFkoYy4+S81hnQT2C9Xoc1FtsUnB+xqpymiRtg
-M97YeTh5QL2UT6MYm+Ot/4GRLo+jLlHSeESvCtojJEXzL9PDElQ=
-=y4+8
------END PGP SIGNATURE-----
-
---nFreZHaLTZJo0R7j--
-
---===============1980407986==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+--
+2.24.1
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1980407986==--
