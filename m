@@ -1,30 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19CE8142BEF
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2020 14:16:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 122AE142C0E
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2020 14:27:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D5246E93C;
-	Mon, 20 Jan 2020 13:16:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F1036E951;
+	Mon, 20 Jan 2020 13:27:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 478AC6E93C
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2020 13:16:50 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id E5D74B166;
- Mon, 20 Jan 2020 13:16:48 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@redhat.com, daniel.vetter@ffwll.ch, kraxel@redhat.com,
- alexander.deucher@amd.com, noralf@tronnes.org, sam@ravnborg.org,
- laurent.pinchart@ideasonboard.com, sschricker@suse.de
-Subject: [PATCH] drm/ast: Allocate initial CRTC state of the correct size
-Date: Mon, 20 Jan 2020 14:16:44 +0100
-Message-Id: <20200120131644.2264-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.24.1
+Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12D906E951
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2020 13:27:23 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from localhost (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 19946558-1500050 for multiple; Mon, 20 Jan 2020 13:27:20 +0000
 MIME-Version: 1.0
+From: Chris Wilson <chris@chris-wilson.co.uk>
+User-Agent: alot/0.6
+To: Piper Fowler-Wright <piperfw@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20200118202842.3pl5jcvl2bjxlgs3@thinkpad.localdomain>
+In-Reply-To: <20200118202842.3pl5jcvl2bjxlgs3@thinkpad.localdomain>
+Message-ID: <157952683738.2218.17820890800251279279@skylake-alporthouse-com>
+Subject: Re: drm/i915 GPU hang
+Date: Mon, 20 Jan 2020 13:27:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -37,90 +38,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIGFzdCBkcml2ZXIgaW5oZXJpdHMgZnJvbSBEUk0ncyBDUlRDIHN0YXRlLCBidXQgc3RpbGwg
-dXNlcyB0aGUgYXRvbWljCmhlbHBlciBmb3Igc3RydWN0IGRybV9jcnRjX2Z1bmNzLnJlc2V0LCBk
-cm1fYXRvbWljX2hlbHBlcl9jcnRjX3Jlc2V0KCkuCgpUaGUgaGVscGVyIG9ubHkgYWxsb2NhdGVz
-IGVub3VnaCBtZW1vcnkgZm9yIHRoZSBjb3JlIENSVEMgc3RhdGUuIFRoYXQKcmVzdWx0cyBpbiBh
-biBvdXQtb3VmLWJvdW5kcyBhY2Nlc3Mgd2hlbiBkdXBsaWNhdGluZyB0aGUgaW5pdGlhbCBDUlRD
-CnN0YXRlLiBTaW1wbGlmaWVkIGJhY2t0cmFjZSBzaG93biBiZWxvdzoKClsgICAyMS40NjkzMjFd
-ID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PQpbICAgMjEuNDY5NDM0XSBCVUc6IEtBU0FOOiBzbGFiLW91dC1vZi1ib3VuZHMg
-aW4gYXN0X2NydGNfYXRvbWljX2R1cGxpY2F0ZV9zdGF0ZSsweDg0LzB4MTAwIFthc3RdClsgICAy
-MS40Njk0NDVdIFJlYWQgb2Ygc2l6ZSA4IGF0IGFkZHIgZmZmZjg4ODAzNmMxYzVmOCBieSB0YXNr
-IHN5c3RlbWQtdWRldmQvMzgyClsgICAyMS40Njk0NTFdClsgICAyMS40Njk0NjRdIENQVTogMiBQ
-SUQ6IDM4MiBDb21tOiBzeXN0ZW1kLXVkZXZkIFRhaW50ZWQ6IEcgICAgICAgICAgICBFICAgICA1
-LjUuMC1yYzYtMS1kZWZhdWx0KyAjMjE0ClsgICAyMS40Njk0NzNdIEhhcmR3YXJlIG5hbWU6IFN1
-biBNaWNyb3N5c3RlbXMgU1VOIEZJUkUgWDIyNzAgTTIvU1VOIEZJUkUgWDIyNzAgTTIsIEJJT1Mg
-Mi4wNSAgICAwNy8wMS8yMDEwClsgICAyMS40Njk0ODBdIENhbGwgVHJhY2U6ClsgICAyMS40Njk1
-MDFdICBkdW1wX3N0YWNrKzB4YjgvMHgxMTAKWyAgIDIxLjQ2OTUyOF0gIHByaW50X2FkZHJlc3Nf
-ZGVzY3JpcHRpb24uY29uc3Rwcm9wLjArMHgxYi8weDFlMApbICAgMjEuNDY5NTU3XSAgPyBhc3Rf
-Y3J0Y19hdG9taWNfZHVwbGljYXRlX3N0YXRlKzB4ODQvMHgxMDAgW2FzdF0KWyAgIDIxLjQ2OTU4
-MV0gID8gYXN0X2NydGNfYXRvbWljX2R1cGxpY2F0ZV9zdGF0ZSsweDg0LzB4MTAwIFthc3RdClsg
-ICAyMS40Njk1OTddICBfX2thc2FuX3JlcG9ydC5jb2xkKzB4MWEvMHgzNQpbICAgMjEuNDY5NjQw
-XSAgPyBhc3RfY3J0Y19hdG9taWNfZHVwbGljYXRlX3N0YXRlKzB4ODQvMHgxMDAgW2FzdF0KWyAg
-IDIxLjQ2OTY2NV0gIGthc2FuX3JlcG9ydCsweGUvMHgyMApbICAgMjEuNDY5NjkzXSAgYXN0X2Ny
-dGNfYXRvbWljX2R1cGxpY2F0ZV9zdGF0ZSsweDg0LzB4MTAwIFthc3RdClsgICAyMS40Njk3MzNd
-ICBkcm1fYXRvbWljX2dldF9jcnRjX3N0YXRlKzB4YmYvMHgxYzAKWyAgIDIxLjQ2OTc2OF0gIF9f
-ZHJtX2F0b21pY19oZWxwZXJfc2V0X2NvbmZpZysweDgxLzB4NWEwClsgICAyMS40Njk4MDNdICA/
-IGRybV9hdG9taWNfcGxhbmVfY2hlY2srMHg2OTAvMHg2OTAKWyAgIDIxLjQ2OTg0M10gID8gZHJt
-X2NsaWVudF9yb3RhdGlvbisweGFlLzB4MjQwClsgICAyMS40Njk4NzZdICBkcm1fY2xpZW50X21v
-ZGVzZXRfY29tbWl0X2F0b21pYysweDIzMC8weDM5MApbICAgMjEuNDY5ODg4XSAgPyBfX211dGV4
-X2xvY2srMHg4ZjAvMHhiZTAKWyAgIDIxLjQ2OTkyOV0gID8gZHJtX2NsaWVudF9maXJtd2FyZV9j
-b25maWcuaXNyYS4wKzB4YTYwLzB4YTYwClsgICAyMS40Njk5NDhdICA/IGRybV9jbGllbnRfbW9k
-ZXNldF9jb21taXRfZm9yY2UrMHgyOC8weDIzMApbICAgMjEuNDcwMDMxXSAgPyBtZW1zZXQrMHgy
-MC8weDQwClsgICAyMS40NzAwNzhdICBkcm1fY2xpZW50X21vZGVzZXRfY29tbWl0X2ZvcmNlKzB4
-OTAvMHgyMzAKWyAgIDIxLjQ3MDExMF0gIGRybV9mYl9oZWxwZXJfcmVzdG9yZV9mYmRldl9tb2Rl
-X3VubG9ja2VkKzB4NWYvMHhjMApbICAgMjEuNDcwMTMyXSAgZHJtX2ZiX2hlbHBlcl9zZXRfcGFy
-KzB4NTkvMHg3MApbICAgMjEuNDcwMTU1XSAgZmJjb25faW5pdCsweDYxZC8weGFkMApbICAgMjEu
-NDcwMTg1XSAgPyBkcm1fZmJfaGVscGVyX3Jlc3RvcmVfZmJkZXZfbW9kZV91bmxvY2tlZCsweGMw
-LzB4YzAKWyAgIDIxLjQ3MDIzMl0gIHZpc3VhbF9pbml0KzB4MTg3LzB4MjQwClsgICAyMS40NzAy
-NjZdICBkb19iaW5kX2Nvbl9kcml2ZXIrMHgyZTMvMHg0NjAKWyAgIDIxLjQ3MDMyMV0gIGRvX3Rh
-a2Vfb3Zlcl9jb25zb2xlKzB4MjBhLzB4MjkwClsgICAyMS40NzAzNzFdICBkb19mYmNvbl90YWtl
-b3ZlcisweDg1LzB4MTAwClsgICAyMS40NzA0MDJdICByZWdpc3Rlcl9mcmFtZWJ1ZmZlcisweDJm
-ZC8weDQ5MApbICAgMjEuNDcwNDI1XSAgPyBremFsbG9jLmNvbnN0cHJvcC4wKzB4MTAvMHgxMApb
-ICAgMjEuNDcwNTAzXSAgX19kcm1fZmJfaGVscGVyX2luaXRpYWxfY29uZmlnX2FuZF91bmxvY2sr
-MHhmMi8weDE0MApbICAgMjEuNDcwNTMzXSAgZHJtX2ZiZGV2X2NsaWVudF9ob3RwbHVnKzB4MTYy
-LzB4MjUwClsgICAyMS40NzA1NjNdICBkcm1fZmJkZXZfZ2VuZXJpY19zZXR1cCsweGQyLzB4MTU1
-ClsgICAyMS40NzA2MDJdICBhc3RfZHJpdmVyX2xvYWQrMHg2ODgvMHg4NTAgW2FzdF0KPC4uLj4K
-WyAgIDIxLjQ3MjYyNV0gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09CgpBbGxvY2F0aW5nIGVub3VnaCBtZW1vcnkgZm9yIHN0
-cnVjdCBhc3RfY3J0Y19zdGF0ZSBpbiBhIGN1c3RvbSBhc3QgQ1JUQwpyZXNldCBoYW5kbGVyIGZp
-eGVzIHRoZSBwcm9ibGVtLgoKU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1t
-ZXJtYW5uQHN1c2UuZGU+CkZpeGVzOiA4M2JlNmEzY2ViMTEgKCJkcm0vYXN0OiBJbnRyb2R1Y2Ug
-c3RydWN0IGFzdF9jcnRjX3N0YXRlIikKQ2M6IEdlcmQgSG9mZm1hbm4gPGtyYXhlbEByZWRoYXQu
-Y29tPgpDYzogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KQ2M6IERhbmllbCBWZXR0
-ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+CkNjOiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5k
-ZXVjaGVyQGFtZC5jb20+CkNjOiAiTm9yYWxmIFRyw7hubmVzIiA8bm9yYWxmQHRyb25uZXMub3Jn
-PgpDYzogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPgpDYzogTGF1cmVudCBQaW5jaGFy
-dCA8bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2Ry
-bS9hc3QvYXN0X21vZGUuYyB8IDE5ICsrKysrKysrKysrKysrKysrKy0KIDEgZmlsZSBjaGFuZ2Vk
-LCAxOCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
-cHUvZHJtL2FzdC9hc3RfbW9kZS5jIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jCmlu
-ZGV4IDM0NjA4ZjA0OTllYi4uYjVhMGUyYTA1OTViIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9k
-cm0vYXN0L2FzdF9tb2RlLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jCkBA
-IC04ODIsNiArODgyLDIzIEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2NydGNfaGVscGVyX2Z1
-bmNzIGFzdF9jcnRjX2hlbHBlcl9mdW5jcyA9IHsKIAkuYXRvbWljX2Rpc2FibGUgPSBhc3RfY3J0
-Y19oZWxwZXJfYXRvbWljX2Rpc2FibGUsCiB9OwogCitzdGF0aWMgdm9pZCBhc3RfY3J0Y19yZXNl
-dChzdHJ1Y3QgZHJtX2NydGMgKmNydGMpCit7CisJc3RydWN0IGFzdF9jcnRjX3N0YXRlICphc3Rf
-c3RhdGU7CisKKwlpZiAoY3J0Yy0+c3RhdGUpIHsKKwkJY3J0Yy0+ZnVuY3MtPmF0b21pY19kZXN0
-cm95X3N0YXRlKGNydGMsIGNydGMtPnN0YXRlKTsKKwkJY3J0Yy0+c3RhdGUgPSBOVUxMOworCX0K
-KworCWFzdF9zdGF0ZSA9IGt6YWxsb2Moc2l6ZW9mKCphc3Rfc3RhdGUpLCBHRlBfS0VSTkVMKTsK
-KwlpZiAoIWFzdF9zdGF0ZSkKKwkJcmV0dXJuOworCisJY3J0Yy0+c3RhdGUgPSAmYXN0X3N0YXRl
-LT5iYXNlOworCWNydGMtPnN0YXRlLT5jcnRjID0gY3J0YzsKK30KKwogc3RhdGljIHZvaWQgYXN0
-X2NydGNfZGVzdHJveShzdHJ1Y3QgZHJtX2NydGMgKmNydGMpCiB7CiAJZHJtX2NydGNfY2xlYW51
-cChjcnRjKTsKQEAgLTkyMCw3ICs5MzcsNyBAQCBzdGF0aWMgdm9pZCBhc3RfY3J0Y19hdG9taWNf
-ZGVzdHJveV9zdGF0ZShzdHJ1Y3QgZHJtX2NydGMgKmNydGMsCiB9CiAKIHN0YXRpYyBjb25zdCBz
-dHJ1Y3QgZHJtX2NydGNfZnVuY3MgYXN0X2NydGNfZnVuY3MgPSB7Ci0JLnJlc2V0ID0gZHJtX2F0
-b21pY19oZWxwZXJfY3J0Y19yZXNldCwKKwkucmVzZXQgPSBhc3RfY3J0Y19yZXNldCwKIAkuc2V0
-X2NvbmZpZyA9IGRybV9jcnRjX2hlbHBlcl9zZXRfY29uZmlnLAogCS5nYW1tYV9zZXQgPSBkcm1f
-YXRvbWljX2hlbHBlcl9sZWdhY3lfZ2FtbWFfc2V0LAogCS5kZXN0cm95ID0gYXN0X2NydGNfZGVz
-dHJveSwKLS0gCjIuMjQuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVsCg==
+Quoting Piper Fowler-Wright (2020-01-18 20:28:42)
+> I have recently (since the New Year) been experiencing regular GPU hangs
+> which typically render the system unusable. 
+> 
+> During the hangs the kernel buffer is filled with messages of the form
+> 
+> [ 8269.599926] [drm:gen8_reset_engines [i915]] *ERROR* rcs0 reset request timed out: {request: 00000001, RESET_CTL: 00000001}
+> [ 8269.600022] i915 0000:00:02.0: Resetting chip for hang on rcs0
+> [ 8269.601827] [drm:gen8_reset_engines [i915]] *ERROR* rcs0 reset request timed out: {request: 00000001, RESET_CTL: 00000001}
+> [ 8269.602595] [drm:gen8_reset_engines [i915]] *ERROR* rcs0 reset request timed out: {request: 00000001, RESET_CTL: 00000001}
+> [ 8277.705805] i915 0000:00:02.0: Resetting rcs0 for hang on rcs0
+> 
+
+Sadly it is known and the backport of the fix seems to have slipped
+through the stable@ cracks.
+
+It should be fixed in 5.5, which is in -rc7 already so should be usable.
+On the other hand, if the problem reoccurs, we need to use drm-tip as a
+known baseline for patching anyway.
+
+> etc.
+> 
+> Most recently the following message was displayed
+> 
+> [12796.753277] i915 0000:00:02.0: GPU HANG: ecode 9:1:0x00000000, hang on rcs0
+> [12796.753281] GPU hangs can indicate a bug anywhere in the entire gfx stack, including userspace.
+> [12796.753282] Please file a _new_ bug report on bugs.freedesktop.org against DRI -> DRM/Intel
+> [12796.753283] drm/i915 developers can then reassign to the right component if it's not a kernel issue.
+> [12796.753285] The GPU crash dump is required to analyze GPU hangs, so please always attach it.
+> [12796.753286] GPU crash dump saved to /sys/class/drm/card0/error
+> [12796.753304] i915 0000:00:02.0: Resetting rcs0 for hang on rcs0
+> 
+> Unfortunately, the /sys/class/drm/card0/error file contained only "No error
+> state collected". 
+
+It's only valid until the next reboot (since it's only kept in memory).
+ 
+> bugs.freedesktop.org is no longer in operation so I decided to post here. Please
+> redirect me to the correct list if this is one is not appropriate.
+
+Fyi, the bug list is at gitlab.freedesktop.org/drm/intel now.
+-Chris
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
