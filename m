@@ -2,57 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C102C14264D
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2020 09:58:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A9811427BC
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2020 11:00:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00F786E858;
-	Mon, 20 Jan 2020 08:58:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B96EC6E88F;
+	Mon, 20 Jan 2020 10:00:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B737D6E858;
- Mon, 20 Jan 2020 08:58:24 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id j1so32941676lja.2;
- Mon, 20 Jan 2020 00:58:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=Grea5Yl/X9sWRi3YTti/t+syG/I/moaJKqvJGBORKd4=;
- b=oho2bAZhhu9bDPgjqZ/4Q9P8w762RJsTPvGFkkTDDeRG/4NyhOI6N9CA1pJGTLhTBZ
- zNvZDSO4pahXD+Tcb/utc73ScY/Td5TGE5GdKhMFN0fWnSItTUhYQP4ef/pzScENC4kT
- EyyiqoN54f/n8OLWinvW5uftNzCntzYQPkAB2QBgx2ScbD3OJC1xBFNYEjxZhFeGC+J/
- LcDTN7THf7f9frmf3mEGpyMfA1M7S1GmubsBxZOwUplQhpgE3ws0BA4gLxsf/3JNu5RK
- m0Poa/9QH0pRddk1fWFYBVlLUoZ8yq9fzx0B5lZmvXeODhK1rn2e/HvCLE1oS6LzuETZ
- +SpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=Grea5Yl/X9sWRi3YTti/t+syG/I/moaJKqvJGBORKd4=;
- b=n4gnQZLjYqmqfhbQbpcV12GdzvvMyOB4wMtLdzQ5TFXY05SlFvomQNidYTPV3E70Lr
- sj9WLsUaukGbU0l3zWVsoUoR9F2WoH2ixJLx4wj765p1kt46VEl1zQsLWHBKCtbaq82e
- ZoHf+KQQFjRxKaoAONgfoRKT4JQn2ii/Fdq3wdlMr6S8o8xqdOcxfRow8CKEohO0bjnH
- /A/giM7qFBluAauap46sDFaN8T5RS1K8UpWTw4w0FCyIG30rZDZTyu9ssdVdYKd6xhro
- g+6TyVl+RxdTqY5ygeoQxwV1hfM1szEFbhnJ4cP71N0c2kB3aMyXxBlJXrhRvJ3Q/UU2
- hlAQ==
-X-Gm-Message-State: APjAAAXuyp2Vf143O4h9bWeQ9rL9l1UE7brZZQ7JmjCTeZyH7C9sfbpU
- q4ZHKqPv/G1nzgxZT20lT24=
-X-Google-Smtp-Source: APXvYqzz6Y+vQaI9agar1LBDQvgP4W5uI9PCdGlxvIv+gRJRx5tYIVQ4PU8bfiuUjUnTywhasUsWQQ==
-X-Received: by 2002:a2e:b0f5:: with SMTP id h21mr13498459ljl.9.1579510703079; 
- Mon, 20 Jan 2020 00:58:23 -0800 (PST)
-Received: from eldfell.localdomain ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id i1sm16361806lji.71.2020.01.20.00.58.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jan 2020 00:58:22 -0800 (PST)
-Date: Mon, 20 Jan 2020 10:58:12 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Matt Hoosier <matt.hoosier@gmail.com>
-Subject: Re: backend-drm and scanning really large resolutions
-Message-ID: <20200120105812.20c56b65@eldfell.localdomain>
-In-Reply-To: <CAJgxT3-cJu54Rn-9CstjaRHHtaJB_WK+R0RzKsDoK4TttDNFOg@mail.gmail.com>
-References: <CAJgxT3-cJu54Rn-9CstjaRHHtaJB_WK+R0RzKsDoK4TttDNFOg@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D76386E88F
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2020 10:00:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579514422;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=A5GcFGtVAQWVAj/IjmTO+b/muvDYD9pVj8U6MMH/3YE=;
+ b=NC42xYd9N+jq7GCvssjVvkbHqA/j/WnlyYgxAEVF7h9/j3qYiSotPBRrY9gxx3yrWoVuDq
+ za/VWA79JsM+qLwof3q2oXq5rd46pALC6v6cq+6lEbIz+A7O4Vk0FIgG56HeY/nKUlDdA7
+ 7ZOvhKymFcat4x43JEepVu8NMs4fq1s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-388-YPaqEMN3PyiBcHX6c_McOw-1; Mon, 20 Jan 2020 05:00:19 -0500
+X-MC-Unique: YPaqEMN3PyiBcHX6c_McOw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39584800590;
+ Mon, 20 Jan 2020 10:00:18 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-106.ams2.redhat.com
+ [10.36.116.106])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C398910013A7;
+ Mon, 20 Jan 2020 10:00:14 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 124DB16E36; Mon, 20 Jan 2020 11:00:14 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] fbdev: wait for references go away
+Date: Mon, 20 Jan 2020 11:00:13 +0100
+Message-Id: <20200120100014.23488-1-kraxel@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,123 +57,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- wayland mailing list <wayland-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============0465298333=="
+Cc: open list <linux-kernel@vger.kernel.org>,
+ "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ marmarek@invisiblethingslab.com, Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0465298333==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/4+U7XCeGFs5UsMy4qM+zkaG"; protocol="application/pgp-signature"
-
---Sig_/4+U7XCeGFs5UsMy4qM+zkaG
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, 17 Jan 2020 10:51:45 -0600
-Matt Hoosier <matt.hoosier@gmail.com> wrote:
-
-> Hi all,
->=20
-> I'm confronting a situation where the hardware with which I work is capab=
-le
-> of driving connectors at 4K or 8K, but doing so requires bonding the
-> scanning of multiple planes together.
->=20
-> The scenario is that you'd have a big primary framebuffer whose size is t=
-oo
-> large for an individual hardware scanning pipeline on the display
-> controller to traverse within its maximum allowed clock rate.
->=20
-> The hardware supplier's approach is to assign multiple planes, which in t=
-he
-> KMS driver map to hardware scanning pipelines, to each be responsible for
-> scanning a smaller section of the framebuffer. The planes are all assigned
-> to the same CRTC, and in concert with each other they cover the whole area
-> of the framebuffer and CRTC.
->=20
-> This sounds a little bit wild to me. I hadn't been aware it's even legal =
-to
-> have more than one plane treated a the source of scanout for a single
-> framebuffer. Maybe that distinction isn't really relevant nowadays with
-> universal plane support.
->=20
-> I'm wondering if anybody here knows whether this a legit approach for a
-> compositor's DRM backend to take?
-
-Hi,
-
-I was aware of tiled monitors that need two connectors driven by two
-CRTCs to cover the whole display, but that sounds new to me.
-Libweston/DRM still doesn't support tiled monitors.
-
-What a compositor's DRM-backend can or should do must be generic. It
-cannot be driver or hardware dependent, so handling your case specially
-in userspace would need KMS UAPI to communicate the need in the first
-place. (There is no shared library for "KMS userspace drivers", yet at
-least.)
-
-I am not aware of any KMS UAPI that would indicate the need to use two
-primary planes in a specific configuration for a specific video mode.
-I'm saying two primary planes, because that is the only way I can see
-this situation even hinted at userspace with the current UAPI. I also
-don't know if multiple primary planes is allowed, but it certainly is
-not expected by userspace, so userspace can't make use of it as is.
-
-The idea that comes to my mind is to hide all the details in the
-driver. Expose just one primary plane as usual, and if the video mode
-and FB actually need two scanout units, then steal one under the hood
-in the driver. If that makes another KMS plane (exposed to userspace)
-unusable, that is fine. Userspace with atomic modesetting needs to be
-checking with TEST_ONLY to see if a configuration is possible, and will
-fall back to something else.
-
-For legacy modesetting I guess you would need to pick between
-supporting the really large video modes vs. exposing all planes. But
-that's a no-brainer, since the legacy API for planes is practically
-unusable. Then again, I don't know if the kernel DRM core allows you to
-make such distinction.
-
-Btw. AFAIK there is nothing wrong with using the exact same FB on
-multiple planes simultaneously.
-
-
-Thanks,
-pq
-
---Sig_/4+U7XCeGFs5UsMy4qM+zkaG
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl4la6QACgkQI1/ltBGq
-qqcS0w//RRpH+O6OOjNk2HO+A7ZndOH2hzviBZ1H8HEMzPMpeGQd9vz8/VsCEWlA
-u01z4aSdD1jSJidOuCAVRgeSg0nli3hoAdPrXWcAyJL+SRKT8D3wwkNUXraM05rT
-kMhOVWV212cIrM2k9dka8cW+exXgv2J+4EgxMZtU6zydAny6extsNiJaIJIJFx2p
-jBtn0t8gPwUAfQuRy/t6QMEOEq6BWC4d58OFfDE0EAAAxWuFwSS8xrpsPcH0Jgvi
-k2h6f7N/NOBqjAw10uyU2HUmzhXLeEPkX7FRy4QTBPA6XX0YfXPAXOTtBhDVtxyR
-d/bUmWLYqrMxb2rLxbi1rE8SZdltC3n/nKTylzDKHUhhLEoD47gZk2YhqMnCJPG+
-zzW0GxvpZF8EYD97VkzaR+CBj53EXopUYT1cIw5hc/YBOuARmy5mXW6oTRWtoYlU
-+BP6y3R8C7XMwMS0pFbMkGZm3bASdhpx6TeUb+3TyQUzkkmYS6UjYpm0dtyAZpBQ
-dnjUFIYqzHa+4FfTWaapxR5wKAQfYjr28kqZp4SpWtuvfvMrPoMyvwYMyFMhMLUD
-HWJ+DbMt784hcFL+RLrQsmFXArfEPyqWQXQ3Ur/eNkBt3oZ31uTOnLYibHgfFC5K
-B7+/UbXoWcUf6lXDhS65jLSYgbRue01CA953PK82YC5g9y/I3A0=
-=2dtc
------END PGP SIGNATURE-----
-
---Sig_/4+U7XCeGFs5UsMy4qM+zkaG--
-
---===============0465298333==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0465298333==--
+UHJvYmxlbTogZG9fdW5yZWdpc3Rlcl9mcmFtZWJ1ZmZlcigpIG1pZ2h0IHJldHVybiBiZWZvcmUg
+dGhlIGRldmljZSBpcwpmdWxseSBjbGVhbmVkIHVwLCBkdWUgdG8gdXNlcnNwYWNlIGhhdmluZyBh
+IGZpbGUgaGFuZGxlIGZvciAvZGV2L2ZiMApvcGVuLiAgV2hpY2ggY2FuIHJlc3VsdCBpbiBkcm0g
+ZHJpdmVyIG5vdCBiZWluZyBhYmxlIHRvIGdyYWIgcmVzb3VyY2VzCihhbmQgZmFpbCBpbml0aWFs
+aXphdGlvbikgYmVjYXVzZSB0aGUgZmlybXdhcmUgZnJhbWVidWZmZXIgc3RpbGwgaG9sZHMKdGhl
+bS4gIFJlcG9ydGVkbHkgcGx5bW91dGggY2FuIHRyaWdnZXIgdGhpcy4KCkZpeCB0aGlzIGJ5IHRy
+eWluZyB0byB3YWl0IHVudGlsIGFsbCByZWZlcmVuY2VzIGFyZSBnb25lLiAgRG9uJ3Qgd2FpdApm
+b3JldmVyIHRob3VnaCBnaXZlbiB0aGF0IHVzZXJzcGFjZSBtaWdodCBrZWVwIHRoZSBmaWxlIGhh
+bmRsZSBvcGVuLgoKUmVwb3J0ZWQtYnk6IE1hcmVrIE1hcmN6eWtvd3NraS1Hw7NyZWNraSA8bWFy
+bWFyZWtAaW52aXNpYmxldGhpbmdzbGFiLmNvbT4KU2lnbmVkLW9mZi1ieTogR2VyZCBIb2ZmbWFu
+biA8a3JheGVsQHJlZGhhdC5jb20+Ci0tLQogZHJpdmVycy92aWRlby9mYmRldi9jb3JlL2ZibWVt
+LmMgfCA3ICsrKysrKysKIDEgZmlsZSBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKykKCmRpZmYgLS1n
+aXQgYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJtZW0uYyBiL2RyaXZlcnMvdmlkZW8vZmJk
+ZXYvY29yZS9mYm1lbS5jCmluZGV4IGQwNDU1NDk1OWVhNy4uMmVhOGFjMDViMDY1IDEwMDY0NAot
+LS0gYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJtZW0uYworKysgYi9kcml2ZXJzL3ZpZGVv
+L2ZiZGV2L2NvcmUvZmJtZW0uYwpAQCAtMzUsNiArMzUsNyBAQAogI2luY2x1ZGUgPGxpbnV4L2Zi
+Y29uLmg+CiAjaW5jbHVkZSA8bGludXgvbWVtX2VuY3J5cHQuaD4KICNpbmNsdWRlIDxsaW51eC9w
+Y2kuaD4KKyNpbmNsdWRlIDxsaW51eC9kZWxheS5oPgogCiAjaW5jbHVkZSA8YXNtL2ZiLmg+CiAK
+QEAgLTE3MDcsNiArMTcwOCw4IEBAIHN0YXRpYyB2b2lkIHVubGlua19mcmFtZWJ1ZmZlcihzdHJ1
+Y3QgZmJfaW5mbyAqZmJfaW5mbykKIAogc3RhdGljIHZvaWQgZG9fdW5yZWdpc3Rlcl9mcmFtZWJ1
+ZmZlcihzdHJ1Y3QgZmJfaW5mbyAqZmJfaW5mbykKIHsKKwlpbnQgbGltaXQgPSAxMDA7CisKIAl1
+bmxpbmtfZnJhbWVidWZmZXIoZmJfaW5mbyk7CiAJaWYgKGZiX2luZm8tPnBpeG1hcC5hZGRyICYm
+CiAJICAgIChmYl9pbmZvLT5waXhtYXAuZmxhZ3MgJiBGQl9QSVhNQVBfREVGQVVMVCkpCkBAIC0x
+NzI2LDYgKzE3MjksMTAgQEAgc3RhdGljIHZvaWQgZG9fdW5yZWdpc3Rlcl9mcmFtZWJ1ZmZlcihz
+dHJ1Y3QgZmJfaW5mbyAqZmJfaW5mbykKIAlmYmNvbl9mYl91bnJlZ2lzdGVyZWQoZmJfaW5mbyk7
+CiAJY29uc29sZV91bmxvY2soKTsKIAorCS8qIHRyeSB3YWl0IHVudGlsIGFsbCByZWZlcmVuY2Vz
+IGFyZSBnb25lICovCisJd2hpbGUgKGF0b21pY19yZWFkKCZmYl9pbmZvLT5jb3VudCkgPiAxICYm
+IC0tbGltaXQgPiAwKQorCQltc2xlZXAoMTApOworCiAJLyogdGhpcyBtYXkgZnJlZSBmYiBpbmZv
+ICovCiAJcHV0X2ZiX2luZm8oZmJfaW5mbyk7CiB9Ci0tIAoyLjE4LjEKCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
