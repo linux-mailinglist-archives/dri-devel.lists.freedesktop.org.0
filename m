@@ -2,40 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A45F143933
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2020 10:13:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D864D143947
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2020 10:17:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D6F46EC06;
-	Tue, 21 Jan 2020 09:13:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69FDC6EC0A;
+	Tue, 21 Jan 2020 09:17:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A7F96EC06;
- Tue, 21 Jan 2020 09:13:11 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 8FDAE20027;
- Tue, 21 Jan 2020 10:13:07 +0100 (CET)
-Date: Tue, 21 Jan 2020 10:13:06 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [[Intel-gfx] [PATCH v2 01/10] drm/print: introduce new struct
- drm_device based WARN* macros
-Message-ID: <20200121091306.GA29647@ravnborg.org>
-References: <20200115034455.17658-1-pankaj.laxminarayan.bharadiya@intel.com>
- <20200115034455.17658-2-pankaj.laxminarayan.bharadiya@intel.com>
- <87y2u9jav8.fsf@intel.com> <87muahfbjt.fsf@intel.com>
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59E626EC0A
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 09:17:27 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00L9HLj2055858;
+ Tue, 21 Jan 2020 03:17:21 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1579598242;
+ bh=EK8F+wf1AdYZgOLXnJMVZ09hokZ7tbYv9xRU1FSTRzs=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=wfr4pHuRJuyTm9b5+vwM+EWT1IWBEA9OMr2YAnCP+HqbV0uXxPAeyNM2Mr/cJXOrG
+ OPIoGujcxwGBpqF/i6z8jzBQaNA9pPucovg3C7Ki3qTN2b+55qc1KiKP/y4jMt1LMC
+ Rb8q+/jinktCvtifL4MXXcTMGVikA7/OFF3S0PWQ=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00L9HLr5069436
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 21 Jan 2020 03:17:21 -0600
+Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 21
+ Jan 2020 03:17:21 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Tue, 21 Jan 2020 03:17:21 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00L9HIs5112911;
+ Tue, 21 Jan 2020 03:17:19 -0600
+Subject: Re: [PATCH v8 5/5] MAINTAINERS: add entry for tidss
+To: Jyri Sarha <jsarha@ti.com>, <dri-devel@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>
+References: <cover.1579553817.git.jsarha@ti.com>
+ <c74bab67540cf4345916999b518018e02085631c.1579553817.git.jsarha@ti.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <2c00ee76-74b9-5bf1-edeb-4f748b09c2e7@ti.com>
+Date: Tue, 21 Jan 2020 11:17:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <87muahfbjt.fsf@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=QyXUC8HyAAAA:8
- a=7gkXJVJtAAAA:8 a=ARxESuRSxSw8adp43KQA:9 a=CjuIK1q_8ugA:10
- a=E9Po1WZjFZOl8hwRPBS3:22
+In-Reply-To: <c74bab67540cf4345916999b518018e02085631c.1579553817.git.jsarha@ti.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,41 +63,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- intel-gfx@lists.freedesktop.org, sudeep.dutt@intel.com,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: yamonkar@cadence.com, praneeth@ti.com, sjakhade@cadence.com,
+ peter.ujfalusi@ti.com, laurent.pinchart@ideasonboard.com, subhajit_paul@ti.com,
+ sam@ravnborg.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 21, 2020 at 10:39:34AM +0200, Jani Nikula wrote:
-> On Wed, 15 Jan 2020, Jani Nikula <jani.nikula@intel.com> wrote:
-> > On Wed, 15 Jan 2020, Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com> wrote:
-> >> Add new struct drm_device based WARN* macros. These are modeled after
-> >> the core kernel device based WARN* macros. These would be preferred
-> >> over the regular WARN* macros, where possible.
-> >>
-> >> These macros include device information in the backtrace, so we know
-> >> what device the warnings originate from.
-> >>
-> >> Knowing the device specific information in the backtrace would be
-> >> helpful in development all around.
-> >>
-> >> Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
-> >
-> > Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+On 20/01/2020 23:02, Jyri Sarha wrote:
+> Add entry for tidss DRM driver.
 > 
-> All, I'd really appreciate acks or reviews on this one to unblock the
-> rest. I think the patch is fine, but I'd like wider approval before
-> merging.
+> Version history:
+> 
+> v2: no change
+> 
+> v3: - Move tidss entry after omapdrm
+>      - Add "T:     git git://anongit.freedesktop.org/drm/drm-misc"
+> 
+> v4: no change
+> 
+> v5: no change
+> 
+> v6: no change
+> 
+> v7: no change
+> 
+> v8: - Add Reviewed-by: Benoit Parrot <bparrot@ti.com>
+> 
+> Signed-off-by: Jyri Sarha <jsarha@ti.com>
+> Reviewed-by: Benoit Parrot <bparrot@ti.com>
+> ---
+>   MAINTAINERS | 11 +++++++++++
+>   1 file changed, 11 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index aa9add598b7d..d8f65dc1dde8 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -5630,6 +5630,17 @@ S:	Maintained
+>   F:	drivers/gpu/drm/omapdrm/
+>   F:	Documentation/devicetree/bindings/display/ti/
+>   
+> +DRM DRIVERS FOR TI KEYSTONE
+> +M:	Jyri Sarha <jsarha@ti.com>
+> +M:	Tomi Valkeinen <tomi.valkeinen@ti.com>
+> +L:	dri-devel@lists.freedesktop.org
+> +S:	Maintained
+> +F:	drivers/gpu/drm/tidss/
+> +F:	Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
+> +F:	Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> +F:	Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
+> +T:	git git://anongit.freedesktop.org/drm/drm-misc
+> +
+>   DRM DRIVERS FOR V3D
+>   M:	Eric Anholt <eric@anholt.net>
+>   S:	Supported
+> 
 
-Patch looks good:
+Acked-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+  Tomi
 
-	Sam
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
