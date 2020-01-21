@@ -2,54 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 997EF1441C8
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2020 17:13:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 620B0144242
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2020 17:35:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 771036ED95;
-	Tue, 21 Jan 2020 16:13:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 758166E227;
+	Tue, 21 Jan 2020 16:35:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02B246ED95;
- Tue, 21 Jan 2020 16:13:07 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id f8so3553157edv.2;
- Tue, 21 Jan 2020 08:13:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ky6e6MtIcCiL3OmK7NLRQW36lXBOOSvY1e5ajjQQ8D0=;
- b=SmOTKTvd6xq5Bk9gbK8E9xPENLp6m/6amDXz8ejf1Fa2A9mTP0Ip4XSx5E4cSkQli/
- ckAMWHyWcHim2FSyhfr4PWk9FSd4OMky2iSMWngeqvCGxn0kPfrSdo22bCxUY1WXcpLc
- 63dZEI1C+Pt+BjwnFz7KZcHpiDFGExKiTuyNAtqr+Ul37eXVHrXHDviFurzLLJPp6+d7
- mPJIOib3MeC1SzU+2/Fc43yQRy2jQ+ZfJ6wPZpIWnyifJS3Y9jxuSlmzTx19Unya4zeI
- tYxMwBYNf+Xn4YbT9M12fwxgjqtj/GukZrncM0IF6CbE5AkodXx2b051CsWPZi/6xYyN
- /S3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ky6e6MtIcCiL3OmK7NLRQW36lXBOOSvY1e5ajjQQ8D0=;
- b=DjFA2e3/VhZtPjsKUFSRobcHFGiNKzYAw9creTuflFGRbJTxiHYOT06JFJZaiK2EpR
- KhfRmQxZL9P24x7D9AWMdRMk9ukBY5QCTw2JDTEd6b9Ddu9iS2KcZFaz0mXNC9J2Z7Js
- WpWkMf7bSEHbTrx4gAnDdOodmz6JM8hrRC0J+pFvompRvVluPeoSZyazYi3d9d6Y1TWB
- lT6ZKKFJ/9YX8jVKWEv2to82nKBYqVJFWrSq5rytfXgLF9jgS11jb3aTp7Bqi0qNpLIb
- SvRMB+I0d2B5qv+0lZQKaARNHlBvnMoKHVbciR1iG9+Vun++72sJA1p5AoApu+8eQM8l
- fZcw==
-X-Gm-Message-State: APjAAAXbMdh5ixrlbepVwwIHuB0jlFFVRSXr8KCeuDSGFBFIDOgIzHFF
- ZeIsaml3OD/xkVcs/S4PpdukZrfP563w9wf3S7E=
-X-Google-Smtp-Source: APXvYqxHGImshDdFVsYmJ7RJSVk1DDzgce5xfy11jd7a9jvDahmaVdaHHaU6wx58A1nOyUyP/juDCay3L2yFW6YUc5c=
-X-Received: by 2002:a17:906:19d8:: with SMTP id
- h24mr2495752ejd.166.1579623186465; 
- Tue, 21 Jan 2020 08:13:06 -0800 (PST)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14B856E227
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 16:35:46 +0000 (UTC)
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com
+ [209.85.219.52])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id CC86B206A2
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 16:35:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1579624545;
+ bh=nDBgrcmcVV+bME7/k9Et5yvKddM+pNs77UcTAgXEVDA=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=AlHP99hPMUQwdOTrU8hOg3UQ4C9Nl8xyD8D/EKnXg1Y2SxKH9QqZ6LUagDMdboyGl
+ x/MYMProHwITO84eRPYtUWIdNW3nbrRijEf0p29mnLkGCdQ2HM0WXO0erkS6V2jk4v
+ +vd6yB+I0j0pKSGcRZMWekPe90tcHTChuPYzcD2Q=
+Received: by mail-qv1-f52.google.com with SMTP id x1so1729481qvr.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 08:35:45 -0800 (PST)
+X-Gm-Message-State: APjAAAV3xF7E5QWCRZz0NY8tljER6Cxmj0Rct24bOW+pe/9ZoE01npik
+ AV/AZgQ0yQco+eDrCkG1IhngynqCFz4Qj9r1LA==
+X-Google-Smtp-Source: APXvYqyQgLWbbbl5h99b1XQndCN+P8UL2+GEct+U5tShIxZIptmCOtFZHqGHMWtJ3Tk8qCtmwxXHh/CRegYVZlcR054=
+X-Received: by 2002:a0c:f6cd:: with SMTP id d13mr5569919qvo.20.1579624544956; 
+ Tue, 21 Jan 2020 08:35:44 -0800 (PST)
 MIME-Version: 1.0
-References: <CAJgxT3-cJu54Rn-9CstjaRHHtaJB_WK+R0RzKsDoK4TttDNFOg@mail.gmail.com>
-In-Reply-To: <CAJgxT3-cJu54Rn-9CstjaRHHtaJB_WK+R0RzKsDoK4TttDNFOg@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 21 Jan 2020 08:12:55 -0800
-Message-ID: <CAF6AEGsS7TQEtBLX1ifHu1HV7AvrWBkpcOSrnGqdNH+0+Ji-Tw@mail.gmail.com>
-Subject: Re: backend-drm and scanning really large resolutions
-To: Matt Hoosier <matt.hoosier@gmail.com>
+References: <20191214045952.9452-1-ezequiel@collabora.com>
+ <a31030695321857e0c9fb478e7053f669bfbf6fa.camel@collabora.com>
+In-Reply-To: <a31030695321857e0c9fb478e7053f669bfbf6fa.camel@collabora.com>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 21 Jan 2020 10:35:33 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJKqPu+yFLPCiDeiBNbRnHZDs+=7tJBFXD+PiP2Kp9DJA@mail.gmail.com>
+Message-ID: <CAL_JsqJKqPu+yFLPCiDeiBNbRnHZDs+=7tJBFXD+PiP2Kp9DJA@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/panfrost: Prefix interrupt handlers' names
+To: Ezequiel Garcia <ezequiel@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,39 +54,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- wayland mailing list <wayland-devel@lists.freedesktop.org>
+Cc: Steven Price <steven.price@arm.com>,
+ Collabora Kernel ML <kernel@collabora.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 17, 2020 at 8:52 AM Matt Hoosier <matt.hoosier@gmail.com> wrote:
+On Mon, Jan 20, 2020 at 11:56 AM Ezequiel Garcia <ezequiel@collabora.com> wrote:
 >
-> Hi all,
+> On Sat, 2019-12-14 at 01:59 -0300, Ezequiel Garcia wrote:
+> > Currently, the interrupt lines requested by Panfrost
+> > use unmeaningful names, which adds some obscurity
+> > to interrupt introspection (i.e. any tool based
+> > on procfs' interrupts file).
+> >
+> > In order to improve this, prefix each requested
+> > interrupt with the module name: panfrost-{gpu,job,mmu}.
+> >
+> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 >
-> I'm confronting a situation where the hardware with which I work is capable of driving connectors at 4K or 8K, but doing so requires bonding the scanning of multiple planes together.
->
-> The scenario is that you'd have a big primary framebuffer whose size is too large for an individual hardware scanning pipeline on the display controller to traverse within its maximum allowed clock rate.
->
-> The hardware supplier's approach is to assign multiple planes, which in the KMS driver map to hardware scanning pipelines, to each be responsible for scanning a smaller section of the framebuffer. The planes are all assigned to the same CRTC, and in concert with each other they cover the whole area of the framebuffer and CRTC.
->
-> This sounds a little bit wild to me. I hadn't been aware it's even legal to have more than one plane treated a the source of scanout for a single framebuffer. Maybe that distinction isn't really relevant nowadays with universal plane support.
->
+> Gentle ping.
 
-fwiw, have a look at drm/msm/disp/mdp5/mdp5_plane, which will allocate
-one or two hwpipe's from the devices global atomic state, depending on
-scanout width.. the hwpipe (sspp) is the physical resource behind a
-plane, so essentially the kms planes are virtualized.  At some point
-if you have too many wide layers, the atomic test step will fail due
-to insufficient hwpipe's.  But this sort of scenario is the reason for
-the test step.
+Applied.
 
-BR,
--R
-
-> I'm wondering if anybody here knows whether this a legit approach for a compositor's DRM backend to take?
->
+Rob
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
