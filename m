@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8ABD144D71
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 09:22:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48E3F144D3B
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 09:21:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1AA56FAFA;
-	Wed, 22 Jan 2020 08:21:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2826E6F3DC;
+	Wed, 22 Jan 2020 08:21:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB7C26ED20;
- Tue, 21 Jan 2020 14:32:09 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id d16so3420057wre.10;
- Tue, 21 Jan 2020 06:32:09 -0800 (PST)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A47A6ED2D;
+ Tue, 21 Jan 2020 14:32:13 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id g17so3476872wro.2;
+ Tue, 21 Jan 2020 06:32:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:subject:date:message-id:in-reply-to:references;
- bh=IT//qMtbtxRD3keMQqlPTrb+eQNrrlZsz6D2ttnYJck=;
- b=kUH73IJBeSl+zazqNetwsi11WxkDFHvd4JLAWEFzHR88AT6QJ8iho5nPbLXGw6MxtB
- 2FvEO29diqUI52pS4V2yjoTg0DLeH6Oy3aFnVEU4SHq5rXViHM+3TMmnd53jDYgZ18Gr
- dPb0ZPq5/GriOIKzpg4XdeZ4o//9UdhrjYvWqIl8BXtqiZXkLP7mcRPtO+Ne4IQUCjGU
- P0EGwcYKzh3bkZaBkD4XmG+E0ET/a2tM67tznKb64FH+YhBEUFqU5oQPzQH0BAVsM9tX
- GVfuCKxETnX2yuLFoBCjHCrZ6FsT2tetdEpB0v2fR2SLJAxpG4dO3559InfEW3t4jm2g
- dClQ==
+ bh=R0xmmVCoR2GBppFOHhKKqiSMnSpBmqHLgezC2QrEWw4=;
+ b=OzdGyL9HPpK8FtXXPl2FiWn2zGkKNMjKlynrWJmQsGvafsWsTLZUrbLM5uvey0ktjh
+ /LCwQC5bqRuHtZRLjX6M+ukFHqbaI/B+JgasxN11+OFXjiMhFImiVif5lgKraPxVWy2f
+ Gj8BxJ9lrqoNnZ2fCifMq8em4Glj4/R7e7TCBfug0yEUzHIO6W93AXLg9mXnBouRbHHa
+ pXpu69q5jOtMsCZD1hfpEZDq6tXa8jR5a2Ob9Sd4QoPVR5Q/tL+ZQjPm4Ihtmp5d1eUx
+ 31otF45yNkRynvED5gIOj9/5KbDssXtw8rzQNynnpsbgjwOIIGhX1IDBFamwbHtyZ2Vn
+ 0ROA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references;
- bh=IT//qMtbtxRD3keMQqlPTrb+eQNrrlZsz6D2ttnYJck=;
- b=AV3xtJrq1G8q40dHis8lCIObOj4kqw781CKEHgB0lO0tP97lAS9oaomQ2IddsUP+po
- 3wagx5oCifzH3siu/Kzpq8s+wsDAo//P7F7L1HWNptte25EtjSuY6rPP6OoiStsTU3G4
- eUESsqvPi1/A/OV5my4Op7SRmwjvFSMuYeuVTueLZNnu3G8o68iXem3A+U7Rwt7qkn9X
- tbEiT8vBWLZ72EDQ/ApTpBsjEOq2+wMQEIMfK9pE2KxhkM8zAsdUqQ0W72i7biVbQ8do
- ewdM5Rg1YKjeK5BNsv7dQ4Kz++pc4pADqw9O2aR/TuiQE3Zk7bYC/JQHm15W/osvrzEO
- bCtA==
-X-Gm-Message-State: APjAAAX6IAe264JPLwd/G7guDRRkNuDiRtuLgRAzzU0eWxOFbeax4ZiO
- sa4WuJtNyXkThynlcFmpymOJ/WSm
-X-Google-Smtp-Source: APXvYqw7BIr2X5mpVimNYyuIdD/GpL3p2DVRhihOq4WkPRmBwNwYDblilSKG/2c6Ssb8zv909BtxKg==
-X-Received: by 2002:adf:ea88:: with SMTP id s8mr5571291wrm.293.1579617128425; 
- Tue, 21 Jan 2020 06:32:08 -0800 (PST)
+ bh=R0xmmVCoR2GBppFOHhKKqiSMnSpBmqHLgezC2QrEWw4=;
+ b=AZ6OwqdzsCie2jFbFjOe5C/LTVTa7xXAumf4ynIGg1gk6ciTmA3HtWyF2NRuM4ATum
+ Kt3+TL6uENR0N7g1o5Lh3yFxzRlE4voQe8Yd0H7RNOeI/KZ0+K0Y1i2yBuKUe+ZZiIqs
+ /1KoYX8s8B0DJFK256g/D8ERjtZ3mylrffvadwWkNQAUIHrfdBXNkVV3HjkYb5OU8fze
+ I1hSYBXnfeF7dayrzos6vwgG+jXl9d2M5Tl4OTrzBQz3SPRDQYMKYQNNGxNYIV79G/zl
+ hjIEiYwQxr/9fUz4W3tqc3aspqQwo9HeXrWzhwDgI5i/F90Q8ldAe4cE6We7pLAl5+2o
+ p6Uw==
+X-Gm-Message-State: APjAAAW1nzcMyyshJAPsIw9nl8umHq0V7tBoIRpErSoikY+Y+xOf8zmA
+ FAPRu56qp0LEj4SaIUjU+5g=
+X-Google-Smtp-Source: APXvYqxfg82+HvT3B4nao7EfsBiewEOy51gnCWEpt32Vwmt0XuHPVk3t+5l65JQmfvUcGahC7COtfA==
+X-Received: by 2002:a5d:558d:: with SMTP id i13mr5538116wrv.364.1579617131640; 
+ Tue, 21 Jan 2020 06:32:11 -0800 (PST)
 Received: from localhost.localdomain ([197.254.95.38])
- by smtp.googlemail.com with ESMTPSA id g2sm52781284wrw.76.2020.01.21.06.32.05
+ by smtp.googlemail.com with ESMTPSA id g2sm52781284wrw.76.2020.01.21.06.32.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jan 2020 06:32:07 -0800 (PST)
+ Tue, 21 Jan 2020 06:32:11 -0800 (PST)
 From: Wambui Karuga <wambui.karugax@gmail.com>
 To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
  rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 2/6] drm/i915/ddi: convert to struct drm_device log macros.
-Date: Tue, 21 Jan 2020 17:31:51 +0300
-Message-Id: <20200121143155.20856-3-wambui.karugax@gmail.com>
+Subject: [PATCH 3/6] drm/i915/power: convert to struct drm_device macros in
+ display/intel_display_power.c
+Date: Tue, 21 Jan 2020 17:31:52 +0300
+Message-Id: <20200121143155.20856-4-wambui.karugax@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200121143155.20856-1-wambui.karugax@gmail.com>
 References: <20200121143155.20856-1-wambui.karugax@gmail.com>
@@ -74,10 +75,9 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch converts various instances of the printk based logging macros
-into the struct drm_device based macros. This was achieved using the
-following coccinelle script for matching existing struct
-drm_i915_private devices:
+Converts various instances of the printk based logging macros in
+i915/display/intel_display_power.c to the struct drm_device based
+logging macros using the following coccinelle script:
 @rule1@
 identifier fn, T;
 @@
@@ -156,262 +156,508 @@ struct drm_i915_private *T = ...;
 ...+>
 }
 
-Checkpatch warnings were addressed manually.
+Checkpatch warnings were fixed manually.
 
 Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
 ---
- drivers/gpu/drm/i915/display/intel_ddi.c | 98 +++++++++++++++---------
- 1 file changed, 60 insertions(+), 38 deletions(-)
+ .../drm/i915/display/intel_display_power.c    | 177 ++++++++++--------
+ 1 file changed, 99 insertions(+), 78 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
-index 18a8186699f9..001e6e8fbd43 100644
---- a/drivers/gpu/drm/i915/display/intel_ddi.c
-+++ b/drivers/gpu/drm/i915/display/intel_ddi.c
-@@ -1076,7 +1076,8 @@ static void intel_wait_ddi_buf_idle(struct drm_i915_private *dev_priv,
- 		if (I915_READ(reg) & DDI_BUF_IS_IDLE)
- 			return;
- 	}
--	DRM_ERROR("Timeout waiting for DDI BUF %c idle bit\n", port_name(port));
-+	drm_err(&dev_priv->drm, "Timeout waiting for DDI BUF %c idle bit\n",
-+		port_name(port));
+diff --git a/drivers/gpu/drm/i915/display/intel_display_power.c b/drivers/gpu/drm/i915/display/intel_display_power.c
+index 21561acfa3ac..18d8bfdcb086 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_power.c
++++ b/drivers/gpu/drm/i915/display/intel_display_power.c
+@@ -159,7 +159,7 @@ intel_display_power_domain_str(enum intel_display_power_domain domain)
+ static void intel_power_well_enable(struct drm_i915_private *dev_priv,
+ 				    struct i915_power_well *power_well)
+ {
+-	DRM_DEBUG_KMS("enabling %s\n", power_well->desc->name);
++	drm_dbg_kms(&dev_priv->drm, "enabling %s\n", power_well->desc->name);
+ 	power_well->desc->ops->enable(dev_priv, power_well);
+ 	power_well->hw_enabled = true;
  }
- 
- static u32 hsw_pll_to_ddi_pll_sel(const struct intel_shared_dpll *pll)
-@@ -1229,7 +1230,8 @@ void hsw_fdi_link_train(struct intel_encoder *encoder,
- 
- 		temp = I915_READ(DP_TP_STATUS(PORT_E));
- 		if (temp & DP_TP_STATUS_AUTOTRAIN_DONE) {
--			DRM_DEBUG_KMS("FDI link training done on step %d\n", i);
-+			drm_dbg_kms(&dev_priv->drm,
-+				    "FDI link training done on step %d\n", i);
- 			break;
- 		}
- 
-@@ -1238,7 +1240,7 @@ void hsw_fdi_link_train(struct intel_encoder *encoder,
- 		 * Results in less fireworks from the state checker.
- 		 */
- 		if (i == ARRAY_SIZE(hsw_ddi_translations_fdi) * 2 - 1) {
--			DRM_ERROR("FDI link training failed!\n");
-+			drm_err(&dev_priv->drm, "FDI link training failed!\n");
- 			break;
- 		}
- 
-@@ -2005,7 +2007,8 @@ void intel_ddi_disable_transcoder_func(const struct intel_crtc_state *crtc_state
- 
- 	if (dev_priv->quirks & QUIRK_INCREASE_DDI_DISABLED_TIME &&
- 	    intel_crtc_has_type(crtc_state, INTEL_OUTPUT_HDMI)) {
--		DRM_DEBUG_KMS("Quirk Increase DDI disabled time\n");
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "Quirk Increase DDI disabled time\n");
- 		/* Quirk time at 100ms for reliable operation */
- 		msleep(100);
- 	}
-@@ -2183,20 +2186,23 @@ static void intel_ddi_get_encoder_pipes(struct intel_encoder *encoder,
- 	}
- 
- 	if (!*pipe_mask)
--		DRM_DEBUG_KMS("No pipe for [ENCODER:%d:%s] found\n",
--			      encoder->base.base.id, encoder->base.name);
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "No pipe for [ENCODER:%d:%s] found\n",
-+			    encoder->base.base.id, encoder->base.name);
- 
- 	if (!mst_pipe_mask && hweight8(*pipe_mask) > 1) {
--		DRM_DEBUG_KMS("Multiple pipes for [ENCODER:%d:%s] (pipe_mask %02x)\n",
--			      encoder->base.base.id, encoder->base.name,
--			      *pipe_mask);
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "Multiple pipes for [ENCODER:%d:%s] (pipe_mask %02x)\n",
-+			    encoder->base.base.id, encoder->base.name,
-+			    *pipe_mask);
- 		*pipe_mask = BIT(ffs(*pipe_mask) - 1);
- 	}
- 
- 	if (mst_pipe_mask && mst_pipe_mask != *pipe_mask)
--		DRM_DEBUG_KMS("Conflicting MST and non-MST state for [ENCODER:%d:%s] (pipe_mask %02x mst_pipe_mask %02x)\n",
--			      encoder->base.base.id, encoder->base.name,
--			      *pipe_mask, mst_pipe_mask);
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "Conflicting MST and non-MST state for [ENCODER:%d:%s] (pipe_mask %02x mst_pipe_mask %02x)\n",
-+			    encoder->base.base.id, encoder->base.name,
-+			    *pipe_mask, mst_pipe_mask);
- 	else
- 		*is_dp_mst = mst_pipe_mask;
- 
-@@ -2206,9 +2212,10 @@ static void intel_ddi_get_encoder_pipes(struct intel_encoder *encoder,
- 		if ((tmp & (BXT_PHY_CMNLANE_POWERDOWN_ACK |
- 			    BXT_PHY_LANE_POWERDOWN_ACK |
- 			    BXT_PHY_LANE_ENABLED)) != BXT_PHY_LANE_ENABLED)
--			DRM_ERROR("[ENCODER:%d:%s] enabled but PHY powered down? "
--				  "(PHY_CTL %08x)\n", encoder->base.base.id,
--				  encoder->base.name, tmp);
-+			drm_err(&dev_priv->drm,
-+				"[ENCODER:%d:%s] enabled but PHY powered down? "
-+				"(PHY_CTL %08x)\n", encoder->base.base.id,
-+				encoder->base.name, tmp);
- 	}
- 
- 	intel_display_power_put(dev_priv, encoder->power_domain, wakeref);
-@@ -2365,7 +2372,7 @@ static void skl_ddi_set_iboost(struct intel_encoder *encoder,
- 
- 	/* Make sure that the requested I_boost is valid */
- 	if (iboost && iboost != 0x1 && iboost != 0x3 && iboost != 0x7) {
--		DRM_ERROR("Invalid I_boost value %u\n", iboost);
-+		drm_err(&dev_priv->drm, "Invalid I_boost value %u\n", iboost);
- 		return;
- 	}
- 
-@@ -2617,7 +2624,9 @@ static void icl_ddi_combo_vswing_program(struct drm_i915_private *dev_priv,
- 		return;
- 
- 	if (level >= n_entries) {
--		DRM_DEBUG_KMS("DDI translation not found for level %d. Using %d instead.", level, n_entries - 1);
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "DDI translation not found for level %d. Using %d instead.",
-+			    level, n_entries - 1);
- 		level = n_entries - 1;
- 	}
- 
-@@ -2743,8 +2752,9 @@ static void icl_mg_phy_ddi_vswing_sequence(struct intel_encoder *encoder,
- 	ddi_translations = icl_mg_phy_ddi_translations;
- 	/* The table does not have values for level 3 and level 9. */
- 	if (level >= n_entries || level == 3 || level == 9) {
--		DRM_DEBUG_KMS("DDI translation not found for level %d. Using %d instead.",
--			      level, n_entries - 2);
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "DDI translation not found for level %d. Using %d instead.",
-+			    level, n_entries - 2);
- 		level = n_entries - 2;
- 	}
- 
-@@ -3324,7 +3334,8 @@ static void intel_ddi_enable_fec(struct intel_encoder *encoder,
- 
- 	if (intel_de_wait_for_set(dev_priv, intel_dp->regs.dp_tp_status,
- 				  DP_TP_STATUS_FEC_ENABLE_LIVE, 1))
--		DRM_ERROR("Timed out waiting for FEC Enable Status\n");
-+		drm_err(&dev_priv->drm,
-+			"Timed out waiting for FEC Enable Status\n");
+@@ -167,7 +167,7 @@ static void intel_power_well_enable(struct drm_i915_private *dev_priv,
+ static void intel_power_well_disable(struct drm_i915_private *dev_priv,
+ 				     struct i915_power_well *power_well)
+ {
+-	DRM_DEBUG_KMS("disabling %s\n", power_well->desc->name);
++	drm_dbg_kms(&dev_priv->drm, "disabling %s\n", power_well->desc->name);
+ 	power_well->hw_enabled = false;
+ 	power_well->desc->ops->disable(dev_priv, power_well);
  }
+@@ -289,8 +289,8 @@ static void hsw_wait_for_power_well_enable(struct drm_i915_private *dev_priv,
+ 	/* Timeout for PW1:10 us, AUX:not specified, other PWs:20 us. */
+ 	if (intel_de_wait_for_set(dev_priv, regs->driver,
+ 				  HSW_PWR_WELL_CTL_STATE(pw_idx), 1)) {
+-		DRM_DEBUG_KMS("%s power well enable timeout\n",
+-			      power_well->desc->name);
++		drm_dbg_kms(&dev_priv->drm, "%s power well enable timeout\n",
++			    power_well->desc->name);
  
- static void intel_ddi_disable_fec_state(struct intel_encoder *encoder,
-@@ -3407,7 +3418,8 @@ static void tgl_dc3co_exitline_compute_config(struct intel_encoder *encoder,
+ 		/* An AUX timeout is expected if the TBT DP tunnel is down. */
+ 		WARN_ON(!power_well->desc->hsw.is_tc_tbt);
+@@ -336,9 +336,10 @@ static void hsw_wait_for_power_well_disable(struct drm_i915_private *dev_priv,
+ 	if (disabled)
  		return;
  
- 	cstate->dc3co_exitline = crtc_vdisplay - exit_scanlines;
--	DRM_DEBUG_KMS("DC3CO exit scanlines %d\n", cstate->dc3co_exitline);
-+	drm_dbg_kms(&dev_priv->drm, "DC3CO exit scanlines %d\n",
-+		    cstate->dc3co_exitline);
- }
- 
- static void tgl_dc3co_exitline_get_config(struct intel_crtc_state *crtc_state)
-@@ -3856,8 +3868,9 @@ static void icl_disable_transcoder_port_sync(const struct intel_crtc_state *old_
- 	if (old_crtc_state->master_transcoder == INVALID_TRANSCODER)
- 		return;
- 
--	DRM_DEBUG_KMS("Disabling Transcoder Port Sync on Slave Transcoder %s\n",
--		      transcoder_name(old_crtc_state->cpu_transcoder));
+-	DRM_DEBUG_KMS("%s forced on (bios:%d driver:%d kvmr:%d debug:%d)\n",
+-		      power_well->desc->name,
+-		      !!(reqs & 1), !!(reqs & 2), !!(reqs & 4), !!(reqs & 8));
 +	drm_dbg_kms(&dev_priv->drm,
-+		    "Disabling Transcoder Port Sync on Slave Transcoder %s\n",
-+		    transcoder_name(old_crtc_state->cpu_transcoder));
- 
- 	I915_WRITE(TRANS_DDI_FUNC_CTL2(old_crtc_state->cpu_transcoder), 0);
++		    "%s forced on (bios:%d driver:%d kvmr:%d debug:%d)\n",
++		    power_well->desc->name,
++		    !!(reqs & 1), !!(reqs & 2), !!(reqs & 4), !!(reqs & 8));
  }
-@@ -4007,8 +4020,9 @@ static void intel_enable_ddi_hdmi(struct intel_encoder *encoder,
- 	if (!intel_hdmi_handle_sink_scrambling(encoder, connector,
- 					       crtc_state->hdmi_high_tmds_clock_ratio,
- 					       crtc_state->hdmi_scrambling))
--		DRM_ERROR("[CONNECTOR:%d:%s] Failed to configure sink scrambling/TMDS bit clock ratio\n",
--			  connector->base.id, connector->name);
+ 
+ static void gen9_wait_for_power_well_fuses(struct drm_i915_private *dev_priv,
+@@ -568,7 +569,8 @@ icl_tc_phy_aux_power_well_enable(struct drm_i915_private *dev_priv,
+ 
+ 		if (intel_de_wait_for_set(dev_priv, DKL_CMN_UC_DW_27(tc_port),
+ 					  DKL_CMN_UC_DW27_UC_HEALTH, 1))
+-			DRM_WARN("Timeout waiting TC uC health\n");
++			drm_warn(&dev_priv->drm,
++				 "Timeout waiting TC uC health\n");
+ 	}
+ }
+ 
+@@ -676,13 +678,15 @@ static void gen9_write_dc_state(struct drm_i915_private *dev_priv,
+ 	} while (rewrites < 100);
+ 
+ 	if (v != state)
+-		DRM_ERROR("Writing dc state to 0x%x failed, now 0x%x\n",
+-			  state, v);
 +		drm_err(&dev_priv->drm,
-+			"[CONNECTOR:%d:%s] Failed to configure sink scrambling/TMDS bit clock ratio\n",
-+			connector->base.id, connector->name);
++			"Writing dc state to 0x%x failed, now 0x%x\n",
++			state, v);
  
- 	/* Display WA #1143: skl,kbl,cfl */
- 	if (IS_GEN9_BC(dev_priv)) {
-@@ -4385,9 +4399,10 @@ void intel_ddi_get_config(struct intel_encoder *encoder,
- 			pipe_config->fec_enable =
- 				I915_READ(dp_tp_ctl) & DP_TP_CTL_FEC_ENABLE;
- 
--			DRM_DEBUG_KMS("[ENCODER:%d:%s] Fec status: %u\n",
--				      encoder->base.base.id, encoder->base.name,
--				      pipe_config->fec_enable);
-+			drm_dbg_kms(&dev_priv->drm,
-+				    "[ENCODER:%d:%s] Fec status: %u\n",
-+				    encoder->base.base.id, encoder->base.name,
-+				    pipe_config->fec_enable);
- 		}
- 
- 		break;
-@@ -4427,8 +4442,9 @@ void intel_ddi_get_config(struct intel_encoder *encoder,
- 		 * up by the BIOS, and thus we can't get the mode at module
- 		 * load.
- 		 */
--		DRM_DEBUG_KMS("pipe has %d bpp for eDP panel, overriding BIOS-provided max %d bpp\n",
--			      pipe_config->pipe_bpp, dev_priv->vbt.edp.bpp);
+ 	/* Most of the times we need one retry, avoid spam */
+ 	if (rewrites > 1)
+-		DRM_DEBUG_KMS("Rewrote dc state to 0x%x %d times\n",
+-			      state, rewrites);
 +		drm_dbg_kms(&dev_priv->drm,
-+			    "pipe has %d bpp for eDP panel, overriding BIOS-provided max %d bpp\n",
-+			    pipe_config->pipe_bpp, dev_priv->vbt.edp.bpp);
- 		dev_priv->vbt.edp.bpp = pipe_config->pipe_bpp;
- 	}
++			    "Rewrote dc state to 0x%x %d times\n",
++			    state, rewrites);
+ }
  
-@@ -4625,7 +4641,8 @@ static int intel_hdmi_reset_link(struct intel_encoder *encoder,
+ static u32 gen9_dc_mask(struct drm_i915_private *dev_priv)
+@@ -710,8 +714,9 @@ static void gen9_sanitize_dc_state(struct drm_i915_private *dev_priv)
  
- 	ret = drm_scdc_readb(adapter, SCDC_TMDS_CONFIG, &config);
- 	if (ret < 0) {
--		DRM_ERROR("Failed to read TMDS config: %d\n", ret);
-+		drm_err(&dev_priv->drm, "Failed to read TMDS config: %d\n",
-+			ret);
- 		return 0;
- 	}
+ 	val = I915_READ(DC_STATE_EN) & gen9_dc_mask(dev_priv);
  
-@@ -4770,7 +4787,8 @@ intel_ddi_max_lanes(struct intel_digital_port *intel_dport)
- 	 * so we use the proper lane count for our calculations.
+-	DRM_DEBUG_KMS("Resetting DC state tracking from %02x to %02x\n",
+-		      dev_priv->csr.dc_state, val);
++	drm_dbg_kms(&dev_priv->drm,
++		    "Resetting DC state tracking from %02x to %02x\n",
++		    dev_priv->csr.dc_state, val);
+ 	dev_priv->csr.dc_state = val;
+ }
+ 
+@@ -748,13 +753,13 @@ static void gen9_set_dc_state(struct drm_i915_private *dev_priv, u32 state)
+ 
+ 	val = I915_READ(DC_STATE_EN);
+ 	mask = gen9_dc_mask(dev_priv);
+-	DRM_DEBUG_KMS("Setting DC state from %02x to %02x\n",
+-		      val & mask, state);
++	drm_dbg_kms(&dev_priv->drm, "Setting DC state from %02x to %02x\n",
++		    val & mask, state);
+ 
+ 	/* Check if DMC is ignoring our DC state requests */
+ 	if ((val & mask) != dev_priv->csr.dc_state)
+-		DRM_ERROR("DC state mismatch (0x%x -> 0x%x)\n",
+-			  dev_priv->csr.dc_state, val & mask);
++		drm_err(&dev_priv->drm, "DC state mismatch (0x%x -> 0x%x)\n",
++			dev_priv->csr.dc_state, val & mask);
+ 
+ 	val &= ~mask;
+ 	val |= state;
+@@ -791,7 +796,7 @@ sanitize_target_dc_state(struct drm_i915_private *dev_priv,
+ 
+ static void tgl_enable_dc3co(struct drm_i915_private *dev_priv)
+ {
+-	DRM_DEBUG_KMS("Enabling DC3CO\n");
++	drm_dbg_kms(&dev_priv->drm, "Enabling DC3CO\n");
+ 	gen9_set_dc_state(dev_priv, DC_STATE_EN_DC3CO);
+ }
+ 
+@@ -799,7 +804,7 @@ static void tgl_disable_dc3co(struct drm_i915_private *dev_priv)
+ {
+ 	u32 val;
+ 
+-	DRM_DEBUG_KMS("Disabling DC3CO\n");
++	drm_dbg_kms(&dev_priv->drm, "Disabling DC3CO\n");
+ 	val = I915_READ(DC_STATE_EN);
+ 	val &= ~DC_STATE_DC3CO_STATUS;
+ 	I915_WRITE(DC_STATE_EN, val);
+@@ -814,7 +819,7 @@ static void bxt_enable_dc9(struct drm_i915_private *dev_priv)
+ {
+ 	assert_can_enable_dc9(dev_priv);
+ 
+-	DRM_DEBUG_KMS("Enabling DC9\n");
++	drm_dbg_kms(&dev_priv->drm, "Enabling DC9\n");
+ 	/*
+ 	 * Power sequencer reset is not needed on
+ 	 * platforms with South Display Engine on PCH,
+@@ -829,7 +834,7 @@ static void bxt_disable_dc9(struct drm_i915_private *dev_priv)
+ {
+ 	assert_can_disable_dc9(dev_priv);
+ 
+-	DRM_DEBUG_KMS("Disabling DC9\n");
++	drm_dbg_kms(&dev_priv->drm, "Disabling DC9\n");
+ 
+ 	gen9_set_dc_state(dev_priv, DC_STATE_DISABLE);
+ 
+@@ -928,7 +933,7 @@ static void gen9_enable_dc5(struct drm_i915_private *dev_priv)
+ {
+ 	assert_can_enable_dc5(dev_priv);
+ 
+-	DRM_DEBUG_KMS("Enabling DC5\n");
++	drm_dbg_kms(&dev_priv->drm, "Enabling DC5\n");
+ 
+ 	/* Wa Display #1183: skl,kbl,cfl */
+ 	if (IS_GEN9_BC(dev_priv))
+@@ -952,7 +957,7 @@ static void skl_enable_dc6(struct drm_i915_private *dev_priv)
+ {
+ 	assert_can_enable_dc6(dev_priv);
+ 
+-	DRM_DEBUG_KMS("Enabling DC6\n");
++	drm_dbg_kms(&dev_priv->drm, "Enabling DC6\n");
+ 
+ 	/* Wa Display #1183: skl,kbl,cfl */
+ 	if (IS_GEN9_BC(dev_priv))
+@@ -1163,9 +1168,10 @@ static void vlv_set_power_well(struct drm_i915_private *dev_priv,
+ 	vlv_punit_write(dev_priv, PUNIT_REG_PWRGT_CTRL, ctrl);
+ 
+ 	if (wait_for(COND, 100))
+-		DRM_ERROR("timeout setting power well state %08x (%08x)\n",
+-			  state,
+-			  vlv_punit_read(dev_priv, PUNIT_REG_PWRGT_CTRL));
++		drm_err(&dev_priv->drm,
++			"timeout setting power well state %08x (%08x)\n",
++			state,
++			vlv_punit_read(dev_priv, PUNIT_REG_PWRGT_CTRL));
+ 
+ #undef COND
+ 
+@@ -1467,9 +1473,10 @@ static void assert_chv_phy_status(struct drm_i915_private *dev_priv)
  	 */
- 	if (intel_ddi_a_force_4_lanes(intel_dport)) {
--		DRM_DEBUG_KMS("Forcing DDI_A_4_LANES for port A\n");
+ 	if (intel_de_wait_for_register(dev_priv, DISPLAY_PHY_STATUS,
+ 				       phy_status_mask, phy_status, 10))
+-		DRM_ERROR("Unexpected PHY_STATUS 0x%08x, expected 0x%08x (PHY_CONTROL=0x%08x)\n",
+-			  I915_READ(DISPLAY_PHY_STATUS) & phy_status_mask,
+-			   phy_status, dev_priv->chv_phy_control);
++		drm_err(&dev_priv->drm,
++			"Unexpected PHY_STATUS 0x%08x, expected 0x%08x (PHY_CONTROL=0x%08x)\n",
++			I915_READ(DISPLAY_PHY_STATUS) & phy_status_mask,
++			phy_status, dev_priv->chv_phy_control);
+ }
+ 
+ #undef BITS_SET
+@@ -1499,7 +1506,8 @@ static void chv_dpio_cmn_power_well_enable(struct drm_i915_private *dev_priv,
+ 	/* Poll for phypwrgood signal */
+ 	if (intel_de_wait_for_set(dev_priv, DISPLAY_PHY_STATUS,
+ 				  PHY_POWERGOOD(phy), 1))
+-		DRM_ERROR("Display PHY %d is not power up\n", phy);
++		drm_err(&dev_priv->drm, "Display PHY %d is not power up\n",
++			phy);
+ 
+ 	vlv_dpio_get(dev_priv);
+ 
+@@ -1529,8 +1537,9 @@ static void chv_dpio_cmn_power_well_enable(struct drm_i915_private *dev_priv,
+ 	dev_priv->chv_phy_control |= PHY_COM_LANE_RESET_DEASSERT(phy);
+ 	I915_WRITE(DISPLAY_PHY_CONTROL, dev_priv->chv_phy_control);
+ 
+-	DRM_DEBUG_KMS("Enabled DPIO PHY%d (PHY_CONTROL=0x%08x)\n",
+-		      phy, dev_priv->chv_phy_control);
++	drm_dbg_kms(&dev_priv->drm,
++		    "Enabled DPIO PHY%d (PHY_CONTROL=0x%08x)\n",
++		    phy, dev_priv->chv_phy_control);
+ 
+ 	assert_chv_phy_status(dev_priv);
+ }
+@@ -1557,8 +1566,9 @@ static void chv_dpio_cmn_power_well_disable(struct drm_i915_private *dev_priv,
+ 
+ 	vlv_set_power_well(dev_priv, power_well, false);
+ 
+-	DRM_DEBUG_KMS("Disabled DPIO PHY%d (PHY_CONTROL=0x%08x)\n",
+-		      phy, dev_priv->chv_phy_control);
++	drm_dbg_kms(&dev_priv->drm,
++		    "Disabled DPIO PHY%d (PHY_CONTROL=0x%08x)\n",
++		    phy, dev_priv->chv_phy_control);
+ 
+ 	/* PHY is fully reset now, so we can enable the PHY state asserts */
+ 	dev_priv->chv_phy_assert[phy] = true;
+@@ -1648,8 +1658,9 @@ bool chv_phy_powergate_ch(struct drm_i915_private *dev_priv, enum dpio_phy phy,
+ 
+ 	I915_WRITE(DISPLAY_PHY_CONTROL, dev_priv->chv_phy_control);
+ 
+-	DRM_DEBUG_KMS("Power gating DPIO PHY%d CH%d (DPIO_PHY_CONTROL=0x%08x)\n",
+-		      phy, ch, dev_priv->chv_phy_control);
++	drm_dbg_kms(&dev_priv->drm,
++		    "Power gating DPIO PHY%d CH%d (DPIO_PHY_CONTROL=0x%08x)\n",
++		    phy, ch, dev_priv->chv_phy_control);
+ 
+ 	assert_chv_phy_status(dev_priv);
+ 
+@@ -1679,8 +1690,9 @@ void chv_phy_powergate_lanes(struct intel_encoder *encoder,
+ 
+ 	I915_WRITE(DISPLAY_PHY_CONTROL, dev_priv->chv_phy_control);
+ 
+-	DRM_DEBUG_KMS("Power gating DPIO PHY%d CH%d lanes 0x%x (PHY_CONTROL=0x%08x)\n",
+-		      phy, ch, mask, dev_priv->chv_phy_control);
++	drm_dbg_kms(&dev_priv->drm,
++		    "Power gating DPIO PHY%d CH%d lanes 0x%x (PHY_CONTROL=0x%08x)\n",
++		    phy, ch, mask, dev_priv->chv_phy_control);
+ 
+ 	assert_chv_phy_status(dev_priv);
+ 
+@@ -1742,9 +1754,10 @@ static void chv_set_pipe_power_well(struct drm_i915_private *dev_priv,
+ 	vlv_punit_write(dev_priv, PUNIT_REG_DSPSSPM, ctrl);
+ 
+ 	if (wait_for(COND, 100))
+-		DRM_ERROR("timeout setting power well state %08x (%08x)\n",
+-			  state,
+-			  vlv_punit_read(dev_priv, PUNIT_REG_DSPSSPM));
++		drm_err(&dev_priv->drm,
++			"timeout setting power well state %08x (%08x)\n",
++			state,
++			vlv_punit_read(dev_priv, PUNIT_REG_DSPSSPM));
+ 
+ #undef COND
+ 
+@@ -4204,11 +4217,13 @@ static u32 get_allowed_dc_mask(const struct drm_i915_private *dev_priv,
+ 	} else if (enable_dc == -1) {
+ 		requested_dc = max_dc;
+ 	} else if (enable_dc > max_dc && enable_dc <= 4) {
+-		DRM_DEBUG_KMS("Adjusting requested max DC state (%d->%d)\n",
+-			      enable_dc, max_dc);
 +		drm_dbg_kms(&dev_priv->drm,
-+			    "Forcing DDI_A_4_LANES for port A\n");
- 		intel_dport->saved_port_bits |= DDI_A_4_LANES;
- 		max_lanes = 4;
- 	}
-@@ -4798,12 +4816,14 @@ void intel_ddi_init(struct drm_i915_private *dev_priv, enum port port)
- 		init_dp = true;
- 		init_lspcon = true;
- 		init_hdmi = false;
--		DRM_DEBUG_KMS("VBT says port %c has lspcon\n", port_name(port));
-+		drm_dbg_kms(&dev_priv->drm, "VBT says port %c has lspcon\n",
-+			    port_name(port));
++			    "Adjusting requested max DC state (%d->%d)\n",
++			    enable_dc, max_dc);
+ 		requested_dc = max_dc;
+ 	} else {
+-		DRM_ERROR("Unexpected value for enable_dc (%d)\n", enable_dc);
++		drm_err(&dev_priv->drm,
++			"Unexpected value for enable_dc (%d)\n", enable_dc);
+ 		requested_dc = max_dc;
  	}
  
- 	if (!init_dp && !init_hdmi) {
--		DRM_DEBUG_KMS("VBT says port %c is not DVI/HDMI/DP compatible, respect it\n",
--			      port_name(port));
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "VBT says port %c is not DVI/HDMI/DP compatible, respect it\n",
-+			    port_name(port));
+@@ -4227,7 +4242,7 @@ static u32 get_allowed_dc_mask(const struct drm_i915_private *dev_priv,
+ 		break;
+ 	}
+ 
+-	DRM_DEBUG_KMS("Allowed DC state mask %02x\n", mask);
++	drm_dbg_kms(&dev_priv->drm, "Allowed DC state mask %02x\n", mask);
+ 
+ 	return mask;
+ }
+@@ -4379,8 +4394,8 @@ bool intel_dbuf_slice_set(struct drm_i915_private *dev_priv,
+ 
+ 	status = I915_READ(reg) & DBUF_POWER_STATE;
+ 	if ((enable && !status) || (!enable && status)) {
+-		DRM_ERROR("DBus power %s timeout!\n",
+-			  enable ? "enable" : "disable");
++		drm_err(&dev_priv->drm, "DBus power %s timeout!\n",
++			enable ? "enable" : "disable");
+ 		return false;
+ 	}
+ 	return true;
+@@ -4410,7 +4425,8 @@ void icl_dbuf_slices_update(struct drm_i915_private *dev_priv,
+ 	bool ret;
+ 
+ 	if (req_slices > intel_dbuf_max_slices(dev_priv)) {
+-		DRM_ERROR("Invalid number of dbuf slices requested\n");
++		drm_err(&dev_priv->drm,
++			"Invalid number of dbuf slices requested\n");
  		return;
  	}
  
-@@ -4879,14 +4899,16 @@ void intel_ddi_init(struct drm_i915_private *dev_priv, enum port port)
- 	if (init_lspcon) {
- 		if (lspcon_init(intel_dig_port))
- 			/* TODO: handle hdmi info frame part */
--			DRM_DEBUG_KMS("LSPCON init success on port %c\n",
--				port_name(port));
+@@ -4436,7 +4452,7 @@ static void icl_dbuf_enable(struct drm_i915_private *dev_priv)
+ 
+ 	if (!(I915_READ(DBUF_CTL_S1) & DBUF_POWER_STATE) ||
+ 	    !(I915_READ(DBUF_CTL_S2) & DBUF_POWER_STATE))
+-		DRM_ERROR("DBuf power enable timeout\n");
++		drm_err(&dev_priv->drm, "DBuf power enable timeout\n");
+ 	else
+ 		/*
+ 		 * FIXME: for now pretend that we only have 1 slice, see
+@@ -4455,7 +4471,7 @@ static void icl_dbuf_disable(struct drm_i915_private *dev_priv)
+ 
+ 	if ((I915_READ(DBUF_CTL_S1) & DBUF_POWER_STATE) ||
+ 	    (I915_READ(DBUF_CTL_S2) & DBUF_POWER_STATE))
+-		DRM_ERROR("DBuf power disable timeout!\n");
++		drm_err(&dev_priv->drm, "DBuf power disable timeout!\n");
+ 	else
+ 		/*
+ 		 * FIXME: for now pretend that the first slice is always
+@@ -4487,13 +4503,13 @@ static void hsw_assert_cdclk(struct drm_i915_private *dev_priv)
+ 	 */
+ 
+ 	if (val & LCPLL_CD_SOURCE_FCLK)
+-		DRM_ERROR("CDCLK source is not LCPLL\n");
++		drm_err(&dev_priv->drm, "CDCLK source is not LCPLL\n");
+ 
+ 	if (val & LCPLL_PLL_DISABLE)
+-		DRM_ERROR("LCPLL is disabled\n");
++		drm_err(&dev_priv->drm, "LCPLL is disabled\n");
+ 
+ 	if ((val & LCPLL_REF_MASK) != LCPLL_REF_NON_SSC)
+-		DRM_ERROR("LCPLL not using non-SSC reference\n");
++		drm_err(&dev_priv->drm, "LCPLL not using non-SSC reference\n");
+ }
+ 
+ static void assert_can_disable_lcpll(struct drm_i915_private *dev_priv)
+@@ -4549,7 +4565,8 @@ static void hsw_write_dcomp(struct drm_i915_private *dev_priv, u32 val)
+ 	if (IS_HASWELL(dev_priv)) {
+ 		if (sandybridge_pcode_write(dev_priv,
+ 					    GEN6_PCODE_WRITE_D_COMP, val))
+-			DRM_DEBUG_KMS("Failed to write to D_COMP\n");
 +			drm_dbg_kms(&dev_priv->drm,
-+				    "LSPCON init success on port %c\n",
-+				    port_name(port));
- 		else
- 			/*
- 			 * LSPCON init faied, but DP init was success, so
- 			 * lets try to drive as DP++ port.
- 			 */
--			DRM_ERROR("LSPCON init failed on port %c\n",
++				    "Failed to write to D_COMP\n");
+ 	} else {
+ 		I915_WRITE(D_COMP_BDW, val);
+ 		POSTING_READ(D_COMP_BDW);
+@@ -4579,7 +4596,7 @@ static void hsw_disable_lcpll(struct drm_i915_private *dev_priv,
+ 
+ 		if (wait_for_us(I915_READ(LCPLL_CTL) &
+ 				LCPLL_CD_SOURCE_FCLK_DONE, 1))
+-			DRM_ERROR("Switching to FCLK failed\n");
++			drm_err(&dev_priv->drm, "Switching to FCLK failed\n");
+ 
+ 		val = I915_READ(LCPLL_CTL);
+ 	}
+@@ -4589,7 +4606,7 @@ static void hsw_disable_lcpll(struct drm_i915_private *dev_priv,
+ 	POSTING_READ(LCPLL_CTL);
+ 
+ 	if (intel_de_wait_for_clear(dev_priv, LCPLL_CTL, LCPLL_PLL_LOCK, 1))
+-		DRM_ERROR("LCPLL still locked\n");
++		drm_err(&dev_priv->drm, "LCPLL still locked\n");
+ 
+ 	val = hsw_read_dcomp(dev_priv);
+ 	val |= D_COMP_COMP_DISABLE;
+@@ -4598,7 +4615,7 @@ static void hsw_disable_lcpll(struct drm_i915_private *dev_priv,
+ 
+ 	if (wait_for((hsw_read_dcomp(dev_priv) &
+ 		      D_COMP_RCOMP_IN_PROGRESS) == 0, 1))
+-		DRM_ERROR("D_COMP RCOMP still in progress\n");
++		drm_err(&dev_priv->drm, "D_COMP RCOMP still in progress\n");
+ 
+ 	if (allow_power_down) {
+ 		val = I915_READ(LCPLL_CTL);
+@@ -4644,7 +4661,7 @@ static void hsw_restore_lcpll(struct drm_i915_private *dev_priv)
+ 	I915_WRITE(LCPLL_CTL, val);
+ 
+ 	if (intel_de_wait_for_set(dev_priv, LCPLL_CTL, LCPLL_PLL_LOCK, 5))
+-		DRM_ERROR("LCPLL not locked yet\n");
++		drm_err(&dev_priv->drm, "LCPLL not locked yet\n");
+ 
+ 	if (val & LCPLL_CD_SOURCE_FCLK) {
+ 		val = I915_READ(LCPLL_CTL);
+@@ -4653,7 +4670,8 @@ static void hsw_restore_lcpll(struct drm_i915_private *dev_priv)
+ 
+ 		if (wait_for_us((I915_READ(LCPLL_CTL) &
+ 				 LCPLL_CD_SOURCE_FCLK_DONE) == 0, 1))
+-			DRM_ERROR("Switching back to LCPLL failed\n");
 +			drm_err(&dev_priv->drm,
-+				"LSPCON init failed on port %c\n",
- 				port_name(port));
++				"Switching back to LCPLL failed\n");
  	}
  
+ 	intel_uncore_forcewake_put(&dev_priv->uncore, FORCEWAKE_ALL);
+@@ -4689,7 +4707,7 @@ static void hsw_enable_pc8(struct drm_i915_private *dev_priv)
+ {
+ 	u32 val;
+ 
+-	DRM_DEBUG_KMS("Enabling package C8+\n");
++	drm_dbg_kms(&dev_priv->drm, "Enabling package C8+\n");
+ 
+ 	if (HAS_PCH_LPT_LP(dev_priv)) {
+ 		val = I915_READ(SOUTH_DSPCLK_GATE_D);
+@@ -4705,7 +4723,7 @@ static void hsw_disable_pc8(struct drm_i915_private *dev_priv)
+ {
+ 	u32 val;
+ 
+-	DRM_DEBUG_KMS("Disabling package C8+\n");
++	drm_dbg_kms(&dev_priv->drm, "Disabling package C8+\n");
+ 
+ 	hsw_restore_lcpll(dev_priv);
+ 	intel_init_pch_refclk(dev_priv);
+@@ -4964,7 +4982,8 @@ static void tgl_bw_buddy_init(struct drm_i915_private *dev_priv)
+ 			break;
+ 
+ 	if (table[i].page_mask == 0) {
+-		DRM_DEBUG_DRIVER("Unknown memory configuration; disabling address buddy logic.\n");
++		drm_dbg(&dev_priv->drm,
++			"Unknown memory configuration; disabling address buddy logic.\n");
+ 		I915_WRITE(BW_BUDDY1_CTL, BW_BUDDY_DISABLE);
+ 		I915_WRITE(BW_BUDDY2_CTL, BW_BUDDY_DISABLE);
+ 	} else {
+@@ -5125,8 +5144,8 @@ static void chv_phy_control_init(struct drm_i915_private *dev_priv)
+ 
+ 	I915_WRITE(DISPLAY_PHY_CONTROL, dev_priv->chv_phy_control);
+ 
+-	DRM_DEBUG_KMS("Initial PHY_CONTROL=0x%08x\n",
+-		      dev_priv->chv_phy_control);
++	drm_dbg_kms(&dev_priv->drm, "Initial PHY_CONTROL=0x%08x\n",
++		    dev_priv->chv_phy_control);
+ }
+ 
+ static void vlv_cmnlane_wa(struct drm_i915_private *dev_priv)
+@@ -5142,7 +5161,7 @@ static void vlv_cmnlane_wa(struct drm_i915_private *dev_priv)
+ 	    I915_READ(DPIO_CTL) & DPIO_CMNRST)
+ 		return;
+ 
+-	DRM_DEBUG_KMS("toggling display PHY side reset\n");
++	drm_dbg_kms(&dev_priv->drm, "toggling display PHY side reset\n");
+ 
+ 	/* cmnlane needs DPLL registers */
+ 	disp2d->desc->ops->enable(dev_priv, disp2d);
+@@ -5417,13 +5436,13 @@ static void intel_power_domains_dump_info(struct drm_i915_private *i915)
+ 	for_each_power_well(i915, power_well) {
+ 		enum intel_display_power_domain domain;
+ 
+-		DRM_DEBUG_DRIVER("%-25s %d\n",
+-				 power_well->desc->name, power_well->count);
++		drm_dbg(&i915->drm, "%-25s %d\n",
++			power_well->desc->name, power_well->count);
+ 
+ 		for_each_power_domain(domain, power_well->desc->domains)
+-			DRM_DEBUG_DRIVER("  %-23s %d\n",
+-					 intel_display_power_domain_str(domain),
+-					 power_domains->domain_use_count[domain]);
++			drm_dbg(&i915->drm, "  %-23s %d\n",
++				intel_display_power_domain_str(domain),
++				power_domains->domain_use_count[domain]);
+ 	}
+ }
+ 
+@@ -5456,19 +5475,21 @@ static void intel_power_domains_verify_state(struct drm_i915_private *i915)
+ 		enabled = power_well->desc->ops->is_enabled(i915, power_well);
+ 		if ((power_well->count || power_well->desc->always_on) !=
+ 		    enabled)
+-			DRM_ERROR("power well %s state mismatch (refcount %d/enabled %d)",
+-				  power_well->desc->name,
+-				  power_well->count, enabled);
++			drm_err(&i915->drm,
++				"power well %s state mismatch (refcount %d/enabled %d)",
++				power_well->desc->name,
++				power_well->count, enabled);
+ 
+ 		domains_count = 0;
+ 		for_each_power_domain(domain, power_well->desc->domains)
+ 			domains_count += power_domains->domain_use_count[domain];
+ 
+ 		if (power_well->count != domains_count) {
+-			DRM_ERROR("power well %s refcount/domain refcount mismatch "
+-				  "(refcount %d/domains refcount %d)\n",
+-				  power_well->desc->name, power_well->count,
+-				  domains_count);
++			drm_err(&i915->drm,
++				"power well %s refcount/domain refcount mismatch "
++				"(refcount %d/domains refcount %d)\n",
++				power_well->desc->name, power_well->count,
++				domains_count);
+ 			dump_domain_info = true;
+ 		}
+ 	}
 -- 
 2.17.1
 
