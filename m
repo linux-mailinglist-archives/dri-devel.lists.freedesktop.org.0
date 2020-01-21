@@ -2,36 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59DE6143B70
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2020 11:53:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04459143C35
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2020 12:46:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B84C6EC5A;
-	Tue, 21 Jan 2020 10:53:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 224726EC8A;
+	Tue, 21 Jan 2020 11:46:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 814006EC60;
- Tue, 21 Jan 2020 10:53:41 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 21 Jan 2020 02:53:41 -0800
-X-IronPort-AV: E=Sophos;i="5.70,345,1574150400"; d="scan'208";a="374558654"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 21 Jan 2020 02:53:39 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/debugfs: also take per device driver features into
- account
-Date: Tue, 21 Jan 2020 12:53:31 +0200
-Message-Id: <20200121105331.6825-2-jani.nikula@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200121105331.6825-1-jani.nikula@intel.com>
-References: <20200121105331.6825-1-jani.nikula@intel.com>
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB5656EC7A
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 11:46:22 +0000 (UTC)
+Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
+ (mreue108 [212.227.15.145]) with ESMTPA (Nemesis) id
+ 1N5mSj-1jhyoV2BSN-017CgH; Tue, 21 Jan 2020 12:46:00 +0100
+From: Arnd Bergmann <arnd@arndb.de>
+To: Lucas Stach <l.stach@pengutronix.de>
+Subject: [PATCH] drm/etnaviv: only reject timeouts with tv_nsec >= 2 seconds
+Date: Tue, 21 Jan 2020 12:45:25 +0100
+Message-Id: <20200121114553.2667556-1-arnd@arndb.de>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Provags-ID: V03:K1:mC7FeQHazeOL/EsiloGVwenBqO1CqSzKh9a3azedjzvSyEdynvt
+ PTIDkCtpkmSAi0hqrYtN76EzktImZwsEkh0+c9a1+oN67MRE439lpwzjVi5IyhqBMsix/Vx
+ ifIKxKovG+T653zcUc8vdD0nVKWHd8AxwwkoaF51DpPrCMvQ6d624FEzGnKgvuIAkIAFp4Y
+ KI3camDDhBDgIB75lVIAA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:9P78OmeT3W0=:SH2hT2Gyde3yA/AfdHEewi
+ 9UYWvun/XZNKgNXHoEQkKw8tmTTgY1IFjtViM9tiCn20dQzXqDeKTUnw4/puATqhanXuGAjml
+ 4mqXuyhHPbPPmXmfKN7n14u1uY+0OHeWBp1ZAaUkkxdRYLeOjJfq57z2VhNnP813Dzhvoie0A
+ ix6fxh9pb9aEyR9Z541+Vr9l5s+a/gX6TS2+0VuZrx4MhpEgsSYpkqFpXOCFN2kljTVjrYSA0
+ SQSC24h5OGcq2HD2Y7GDBWzWkfWpABo5qm66hilTrfGxm89HZ3EHc01W3pe91YZ7U3hMSR3OW
+ D62+2Itr5NXjtNhvjidNeBd2UcqLfu7VoymS0X895yV92hwNnZQOqVhOdawxYAcihXzeZOzov
+ 1UKwsZv9IFebv9faPCPdHG2CRkOsFbhx+kZK8ZOwddoaHS3/KePFQZE3i9675NdwnrUzvmq9N
+ y0brONYTtiRHLfC079hEng50khqQG9Q3+9YicMrlQQwMTw2Tt2mncuQbXaAk1rPQjmm1enOLQ
+ C70OKrGiQNCaR8YsPOTa48OJhh2syTB1wgi1WGrgScEyZpTmTTWCL2Sh9rkfUmPPEVbNJT26G
+ XxlELPJs4QaCLaT26iGicdw0SKgPb2TEkO8cpAI51ghu0+XpVXgcUJW+A4J6smoNcq3GeX/J6
+ WCCrlkbTCr0lY2B8MrgypKacuQjDqXPif5uwJmd2grONww6wMfrzoTFAqdyJxjVEOnPbNbrmD
+ lFlPnGjmwnS/3xsCLTZrrR9u3EyM7Y1DVXMwe9LwSFzapRaJayFC9kqXk9KzLNQJhbD1SpdsD
+ q4TN7NSZfSOQZoCHf32AOxAfg/6l5nStTyKH3Txx+cF3PkFqo7A8ZCeF5LJeJ094CiUhNKfc9
+ oyoLcIVRJgqFsOVsDiDg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,41 +53,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
+ =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.velikov@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use drm_core_check_feature() to ensure both the driver features and the
-per-device driver features are taken into account when registering
-debugfs files.
-
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- drivers/gpu/drm/drm_debugfs.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-index eab0f2687cd6..af3531bf57d3 100644
---- a/drivers/gpu/drm/drm_debugfs.c
-+++ b/drivers/gpu/drm/drm_debugfs.c
-@@ -180,10 +180,7 @@ int drm_debugfs_create_files(const struct drm_info_list *files, int count,
- 	int i;
- 
- 	for (i = 0; i < count; i++) {
--		u32 features = files[i].driver_features;
--
--		if (features != 0 &&
--		    (dev->driver->driver_features & features) != features)
-+		if (!drm_core_check_feature(dev, files[i].driver_features))
- 			continue;
- 
- 		tmp = kmalloc(sizeof(struct drm_info_node), GFP_KERNEL);
--- 
-2.20.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QXMgR3VpZG8gR8O8bnRoZXIgcmVwb3J0ZWQsIGdldF9hYnNfdGltZW91dCgpIGluIHRoZSBldG5h
+dml2IHVzZXIgc3BhY2UKc29tZXRpbWVzIHBhc3NlcyB0aW1lb3V0cyB3aXRoIG5hbm9zZWNvbmQg
+dmFsdWVzIGxhcmdlciB0aGFuIDEwMDAwMDAwMDAsCndoaWNoIGdldHMgcmVqZWN0ZWQgYWZ0ZXIg
+bXkgZmlyc3QgcGF0Y2guCgpUbyBhdm9pZCBicmVha2luZyB0aGlzLCB3aGlsZSBhbHNvIG5vdCBh
+bGxvd2luZyBjb21wbGV0ZWx5IGFyYml0cmFyeQp2YWx1ZXMsIHNldCB0aGUgbGltaXQgdG8gMTk5
+OTk5OTk5OSBhbmQgdXNlIHNldF9ub3JtYWxpemVkX3RpbWVzcGVjNjQoKQp0byBnZXQgdGhlIGNv
+cnJlY3QgZm9ybWF0IGJlZm9yZSBjb21wYXJpbmcgaXQuCgpUaGlzIGFsc28gYWRkcmVzc2VzIHRo
+ZSBvZmYtYnktMSBnbGl0Y2ggcmVwb3J0ZWQgYnkgQmVuIEh1dGNoaW5ncy4KCkZpeGVzOiAxNzJh
+MjE2ZmYzMzQgKCJkcm0vZXRuYXZpdjogcmVqZWN0IHRpbWVvdXRzIHdpdGggdHZfbnNlYyA+PSBO
+U0VDX1BFUl9TRUMiKQpDYzogR3VpZG8gR8O8bnRoZXIgPGFneEBzaWd4Y3B1Lm9yZz4KTGluazog
+aHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9wYXRjaC8xMTI5MTA4OS8KU2lnbmVkLW9mZi1i
+eTogQXJuZCBCZXJnbWFubiA8YXJuZEBhcm5kYi5kZT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vZXRu
+YXZpdi9ldG5hdml2X2Rydi5jIHwgMTAgKysrKysrKy0tLQogZHJpdmVycy9ncHUvZHJtL2V0bmF2
+aXYvZXRuYXZpdl9kcnYuaCB8ICA2ICsrLS0tLQogMiBmaWxlcyBjaGFuZ2VkLCA5IGluc2VydGlv
+bnMoKyksIDcgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2V0bmF2
+aXYvZXRuYXZpdl9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZHJ2LmMK
+aW5kZXggM2ViMGY5MjIzYmVhLi5kOTQ3NDBjMTIzZDMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1
+L2RybS9ldG5hdml2L2V0bmF2aXZfZHJ2LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYv
+ZXRuYXZpdl9kcnYuYwpAQCAtMjkyLDcgKzI5MiwxMSBAQCBzdGF0aWMgaW50IGV0bmF2aXZfaW9j
+dGxfZ2VtX2NwdV9wcmVwKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEsCiAJaWYg
+KGFyZ3MtPm9wICYgfihFVE5BX1BSRVBfUkVBRCB8IEVUTkFfUFJFUF9XUklURSB8IEVUTkFfUFJF
+UF9OT1NZTkMpKQogCQlyZXR1cm4gLUVJTlZBTDsKIAotCWlmIChhcmdzLT50aW1lb3V0LnR2X25z
+ZWMgPiBOU0VDX1BFUl9TRUMpCisJLyoKKwkgKiBleGlzdGluZyB1c2VyIHNwYWNlIHBhc3NlcyBu
+b24tbm9ybWFsaXplZCB0aW1lc3BlY3MsIGJ1dCBuZXZlcgorCSAqIG1vcmUgdGhhbiAyIHNlY29u
+ZHMgd29ydGggb2YgbmFub3NlY29uZHMKKwkgKi8KKwlpZiAoYXJncy0+dGltZW91dC50dl9uc2Vj
+ID49ICgyICogTlNFQ19QRVJfU0VDKSkKIAkJcmV0dXJuIC1FSU5WQUw7CiAKIAlvYmogPSBkcm1f
+Z2VtX29iamVjdF9sb29rdXAoZmlsZSwgYXJncy0+aGFuZGxlKTsKQEAgLTM1OCw3ICszNjIsNyBA
+QCBzdGF0aWMgaW50IGV0bmF2aXZfaW9jdGxfd2FpdF9mZW5jZShzdHJ1Y3QgZHJtX2RldmljZSAq
+ZGV2LCB2b2lkICpkYXRhLAogCWlmIChhcmdzLT5mbGFncyAmIH4oRVROQV9XQUlUX05PTkJMT0NL
+KSkKIAkJcmV0dXJuIC1FSU5WQUw7CiAKLQlpZiAoYXJncy0+dGltZW91dC50dl9uc2VjID4gTlNF
+Q19QRVJfU0VDKQorCWlmIChhcmdzLT50aW1lb3V0LnR2X25zZWMgPj0gKDIgKiBOU0VDX1BFUl9T
+RUMpKQogCQlyZXR1cm4gLUVJTlZBTDsKIAogCWlmIChhcmdzLT5waXBlID49IEVUTkFfTUFYX1BJ
+UEVTKQpAQCAtNDEyLDcgKzQxNiw3IEBAIHN0YXRpYyBpbnQgZXRuYXZpdl9pb2N0bF9nZW1fd2Fp
+dChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLAogCWlmIChhcmdzLT5mbGFncyAm
+IH4oRVROQV9XQUlUX05PTkJMT0NLKSkKIAkJcmV0dXJuIC1FSU5WQUw7CiAKLQlpZiAoYXJncy0+
+dGltZW91dC50dl9uc2VjID4gTlNFQ19QRVJfU0VDKQorCWlmIChhcmdzLT50aW1lb3V0LnR2X25z
+ZWMgPj0gKDIgKiBOU0VDX1BFUl9TRUMpKQogCQlyZXR1cm4gLUVJTlZBTDsKIAogCWlmIChhcmdz
+LT5waXBlID49IEVUTkFfTUFYX1BJUEVTKQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2V0
+bmF2aXYvZXRuYXZpdl9kcnYuaCBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZHJ2
+LmgKaW5kZXggZWZjNjU2ZWZlYjBmLi4zZTQ3MDUwYWY3MDYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMv
+Z3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZHJ2LmgKKysrIGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2
+aXYvZXRuYXZpdl9kcnYuaApAQCAtMTA5LDEyICsxMDksMTAgQEAgc3RhdGljIGlubGluZSBzaXpl
+X3Qgc2l6ZV92c3RydWN0KHNpemVfdCBuZWxlbSwgc2l6ZV90IGVsZW1fc2l6ZSwgc2l6ZV90IGJh
+c2UpCiBzdGF0aWMgaW5saW5lIHVuc2lnbmVkIGxvbmcgZXRuYXZpdl90aW1lb3V0X3RvX2ppZmZp
+ZXMoCiAJY29uc3Qgc3RydWN0IGRybV9ldG5hdml2X3RpbWVzcGVjICp0aW1lb3V0KQogewotCXN0
+cnVjdCB0aW1lc3BlYzY0IHRzLCB0byA9IHsKLQkJLnR2X3NlYyA9IHRpbWVvdXQtPnR2X3NlYywK
+LQkJLnR2X25zZWMgPSB0aW1lb3V0LT50dl9uc2VjLAotCX07CisJc3RydWN0IHRpbWVzcGVjNjQg
+dHMsIHRvOwogCiAJa3RpbWVfZ2V0X3RzNjQoJnRzKTsKKwlzZXRfbm9ybWFsaXplZF90aW1lc3Bl
+YzY0KCZ0bywgdGltZW91dC0+dHZfc2VjLCB0aW1lb3V0LT50dl9uc2VjKTsKIAogCS8qIHRpbWVv
+dXRzIGJlZm9yZSAibm93IiBoYXZlIGFscmVhZHkgZXhwaXJlZCAqLwogCWlmICh0aW1lc3BlYzY0
+X2NvbXBhcmUoJnRvLCAmdHMpIDw9IDApCi0tIAoyLjI1LjAKCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
