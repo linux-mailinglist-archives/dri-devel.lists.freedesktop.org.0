@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46717144D3E
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 09:21:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F33CF144D7F
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 09:23:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 344FC6F3E2;
-	Wed, 22 Jan 2020 08:21:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F7AC6F403;
+	Wed, 22 Jan 2020 08:22:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C53236FADE;
- Tue, 21 Jan 2020 14:32:19 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id q6so3409580wro.9;
- Tue, 21 Jan 2020 06:32:19 -0800 (PST)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C849E6ED28;
+ Tue, 21 Jan 2020 14:32:22 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id z3so3472379wru.3;
+ Tue, 21 Jan 2020 06:32:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:subject:date:message-id:in-reply-to:references;
- bh=eX5dN8pc5/AqQ+ewdF/FEabxhls400zFnN0NLpFFaDA=;
- b=eAL75MWRemE56AlCJlVhLsDsLrAhVKygtm+5/hGMVxCEXNkFiVxDLRV3+hMFoBOOm9
- FGkX6TldQegc/uHiCibQlmjspUHMEclyuYSICDEiy7Nhx3mDa1QPutYrXB6JWdJ74s5b
- 0uWxKGzNeEX6hqzHjQdD5F6vPbr35ztd0wfMr1MgGFcqkbjg3KVSOcP762Mc1vgo2EcN
- qTkwMngOtDLYsZVUo9v4z15wloxFnMl6g0600hofW2buiBgfoqUTsrRq/RfiG/FFb45O
- 3tiOS1kmzbw8iPsA09jIsmIZr8rugBA0WvqjG0TCCA1bAu5GUhVgzDBZ2BK+/X3uRMDK
- ftww==
+ bh=k3sVQxFN9Jt4vZYxvCH5I4zJetCqBCSztJTvthu9bDk=;
+ b=ZDwNg6lkgAofDtTf4YmV3wzBHeoRWwk44Ita5Sw6pJugWuO+ycqpbPP8rQAsOtrRBX
+ FA9mFeMkyW8OeEEYZ45mPf8Lw9m7SzUAVyRrLE9+FmJU+N9lHAU+9f1YqsNesWmbxG0k
+ byes1QMC+z0zVhm5RurL/MO6DAkW5hSM5xJ39bNylC0dxHMLVOkpLEWfxeBBqoNvOrnw
+ Ye6lCM4bdsrNkuctLS15yDWnhAqWabZgpRhIJA8qeZ6sHk2UYyu+br4CRoWzFC5+LJ94
+ 8vmlzhFRsi97ONJqkBpMkOACxLZVw4DcmaXtA+wqtafh8oMXoX/hqTxUZpGkpi47NEqD
+ bEjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references;
- bh=eX5dN8pc5/AqQ+ewdF/FEabxhls400zFnN0NLpFFaDA=;
- b=YbZamyE81p1az2yVWkHWrK5ON555Qnj9QjnCfI+rKgnDH1sh4eT7hLtoafyOrmeEwT
- WO6Gc1sz8HuMQsSJD7nZ5Ey3V6awqlbnOGa7rxcWv5Nuv6JocLl0cIQJhuqRhDBpolZF
- RoYzfK7229llEcLO479iXwabqch+c35OZjEfAh9uO06MaJN7EmdDboEyUgMVcuhh8PwN
- 3I24CtN58ZphCquHLSgWziOtNSvLdToHKLqleukKpNrhL/EnCmcp2ayF2Iq4zrO9miJ9
- C684UQAM2AT2ul5lSJVxQxMFV0LXcz7JNDB5hT0r/R7b7bSBNk9JOa54RHW/BlQg4yy7
- uPEg==
-X-Gm-Message-State: APjAAAWxY/e3sOFbx1M0q3s8K24OzYywO2J0OEHCKWwIfib/biIQ57ys
- POtaRh2ZanqJ0+zKHlnxheA=
-X-Google-Smtp-Source: APXvYqz6InHDLh7rzauyvAAYGvJ6r9cK9ZIPHHmBGJEtEFBxO7YIdkD7pi+SR+8X9zP9jIRVa5jb8w==
-X-Received: by 2002:a5d:6344:: with SMTP id b4mr5496384wrw.414.1579617138212; 
- Tue, 21 Jan 2020 06:32:18 -0800 (PST)
+ bh=k3sVQxFN9Jt4vZYxvCH5I4zJetCqBCSztJTvthu9bDk=;
+ b=JlWN/UYR0zVZSmKDWJEBwVkitCQeL6CDQwkcEgGAKTu5oYRTtrcKtzHBQ1YMbKdRV7
+ 6AbZSDR8vCFRlXnwMwURT+bt1pjmbefOpzEmbgBSWsizNlJqiT9lKjZqH8MX1FmmdGXg
+ GUj6cRVN92uq5RKQkKki/ztHF5wDMkUBPl+S27aJVfQs1TAPLoDicWSCY8KTN8wdONUy
+ oKLprv13t9I1pfDsy89UbIeAeKHm4HFwina5HoUOnNLNuorVkXpycVeCLDrAgcKwlRh/
+ 9lecM9Q20ZHTe8T8ZW9G8Wkj6/K8e8Vx1gbBB4Vtw1rpUQDEy7+SEfKnNCiUyARbsIDv
+ Xx7Q==
+X-Gm-Message-State: APjAAAWralvyvZfo3k0+PcZQE7Rz5vStoWAcgCESEWkIVR+7tiHhPrAX
+ QIw+ocXGlQKjaTXs+ANyrA0=
+X-Google-Smtp-Source: APXvYqzdkYCRQpsDwAOkJcDDv5Rg9uCF5l895NTMvUl9TehindAQTkm+WcovDHuIwOCYso3EA42sCA==
+X-Received: by 2002:adf:e58b:: with SMTP id l11mr5559237wrm.402.1579617141285; 
+ Tue, 21 Jan 2020 06:32:21 -0800 (PST)
 Received: from localhost.localdomain ([197.254.95.38])
- by smtp.googlemail.com with ESMTPSA id g2sm52781284wrw.76.2020.01.21.06.32.15
+ by smtp.googlemail.com with ESMTPSA id g2sm52781284wrw.76.2020.01.21.06.32.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jan 2020 06:32:17 -0800 (PST)
+ Tue, 21 Jan 2020 06:32:20 -0800 (PST)
 From: Wambui Karuga <wambui.karugax@gmail.com>
 To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
  rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 5/6] drm/i915/opregion: conversion to struct drm_device
- logging macros.
-Date: Tue, 21 Jan 2020 17:31:54 +0300
-Message-Id: <20200121143155.20856-6-wambui.karugax@gmail.com>
+Subject: [PATCH 6/6] drm/i915/hdcp: conversion to struct drm_device based
+ logging macros
+Date: Tue, 21 Jan 2020 17:31:55 +0300
+Message-Id: <20200121143155.20856-7-wambui.karugax@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200121143155.20856-1-wambui.karugax@gmail.com>
 References: <20200121143155.20856-1-wambui.karugax@gmail.com>
@@ -75,9 +75,10 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This converts various instances of the printk based logging macros in
-i915/display/intel_opregion.c with the new struct drm_device based
-logging macros using the following coccinelle script:
+Converts various instances of the printk based logging macros in
+i915/display/intel_hdcp.c with the struct drm_device based macros using
+coccinelle. The script matches based on the existence of an existing
+struct drm_i915_private device:
 @rule1@
 identifier fn, T;
 @@
@@ -156,382 +157,404 @@ struct drm_i915_private *T = ...;
 ...+>
 }
 
-Checkpatch warnings were addressed manually.
+New checkpatch warnings were addressed manually.
 
 Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
 ---
- drivers/gpu/drm/i915/display/intel_opregion.c | 134 +++++++++++-------
- 1 file changed, 80 insertions(+), 54 deletions(-)
+ drivers/gpu/drm/i915/display/intel_hdcp.c | 138 +++++++++++++---------
+ 1 file changed, 81 insertions(+), 57 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_opregion.c b/drivers/gpu/drm/i915/display/intel_opregion.c
-index e59b4992ba1b..b54fe4dc0423 100644
---- a/drivers/gpu/drm/i915/display/intel_opregion.c
-+++ b/drivers/gpu/drm/i915/display/intel_opregion.c
-@@ -311,7 +311,7 @@ static int swsci(struct drm_i915_private *dev_priv,
- 	/* The spec tells us to do this, but we are the only user... */
- 	scic = swsci->scic;
- 	if (scic & SWSCI_SCIC_INDICATOR) {
--		DRM_DEBUG_DRIVER("SWSCI request already in progress\n");
-+		drm_dbg(&dev_priv->drm, "SWSCI request already in progress\n");
- 		return -EBUSY;
+diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
+index 0fdbd39f6641..01acf6c5d04d 100644
+--- a/drivers/gpu/drm/i915/display/intel_hdcp.c
++++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
+@@ -217,8 +217,9 @@ static int intel_hdcp_load_keys(struct drm_i915_private *dev_priv)
+ 		ret = sandybridge_pcode_write(dev_priv,
+ 					      SKL_PCODE_LOAD_HDCP_KEYS, 1);
+ 		if (ret) {
+-			DRM_ERROR("Failed to initiate HDCP key load (%d)\n",
+-			          ret);
++			drm_err(&dev_priv->drm,
++				"Failed to initiate HDCP key load (%d)\n",
++				ret);
+ 			return ret;
+ 		}
+ 	} else {
+@@ -245,7 +246,7 @@ static int intel_write_sha_text(struct drm_i915_private *dev_priv, u32 sha_text)
+ {
+ 	I915_WRITE(HDCP_SHA_TEXT, sha_text);
+ 	if (intel_de_wait_for_set(dev_priv, HDCP_REP_CTL, HDCP_SHA1_READY, 1)) {
+-		DRM_ERROR("Timed out waiting for SHA1 ready\n");
++		drm_err(&dev_priv->drm, "Timed out waiting for SHA1 ready\n");
+ 		return -ETIMEDOUT;
  	}
+ 	return 0;
+@@ -270,7 +271,8 @@ u32 intel_hdcp_get_repeater_ctl(struct drm_i915_private *dev_priv,
+ 			return HDCP_TRANSD_REP_PRESENT |
+ 			       HDCP_TRANSD_SHA1_M0;
+ 		default:
+-			DRM_ERROR("Unknown transcoder %d\n", cpu_transcoder);
++			drm_err(&dev_priv->drm, "Unknown transcoder %d\n",
++				cpu_transcoder);
+ 			return -EINVAL;
+ 		}
+ 	}
+@@ -287,7 +289,7 @@ u32 intel_hdcp_get_repeater_ctl(struct drm_i915_private *dev_priv,
+ 	case PORT_E:
+ 		return HDCP_DDIE_REP_PRESENT | HDCP_DDIE_SHA1_M0;
+ 	default:
+-		DRM_ERROR("Unknown port %d\n", port);
++		drm_err(&dev_priv->drm, "Unknown port %d\n", port);
+ 		return -EINVAL;
+ 	}
+ }
+@@ -762,25 +764,26 @@ static int _intel_hdcp_disable(struct intel_connector *connector)
+ 	enum transcoder cpu_transcoder = hdcp->cpu_transcoder;
+ 	int ret;
  
-@@ -335,7 +335,7 @@ static int swsci(struct drm_i915_private *dev_priv,
- 	/* Poll for the result. */
- #define C (((scic = swsci->scic) & SWSCI_SCIC_INDICATOR) == 0)
- 	if (wait_for(C, dslp)) {
--		DRM_DEBUG_DRIVER("SWSCI request timed out\n");
-+		drm_dbg(&dev_priv->drm, "SWSCI request timed out\n");
+-	DRM_DEBUG_KMS("[%s:%d] HDCP is being disabled...\n",
+-		      connector->base.name, connector->base.base.id);
++	drm_dbg_kms(&dev_priv->drm, "[%s:%d] HDCP is being disabled...\n",
++		    connector->base.name, connector->base.base.id);
+ 
+ 	hdcp->hdcp_encrypted = false;
+ 	I915_WRITE(HDCP_CONF(dev_priv, cpu_transcoder, port), 0);
+ 	if (intel_de_wait_for_clear(dev_priv,
+ 				    HDCP_STATUS(dev_priv, cpu_transcoder, port),
+ 				    ~0, ENCRYPT_STATUS_CHANGE_TIMEOUT_MS)) {
+-		DRM_ERROR("Failed to disable HDCP, timeout clearing status\n");
++		drm_err(&dev_priv->drm,
++			"Failed to disable HDCP, timeout clearing status\n");
  		return -ETIMEDOUT;
  	}
  
-@@ -344,7 +344,7 @@ static int swsci(struct drm_i915_private *dev_priv,
- 
- 	/* Note: scic == 0 is an error! */
- 	if (scic != SWSCI_SCIC_EXIT_STATUS_SUCCESS) {
--		DRM_DEBUG_DRIVER("SWSCI request error %u\n", scic);
-+		drm_dbg(&dev_priv->drm, "SWSCI request error %u\n", scic);
- 		return -EIO;
- 	}
- 
-@@ -448,10 +448,11 @@ static u32 asle_set_backlight(struct drm_i915_private *dev_priv, u32 bclp)
- 	struct opregion_asle *asle = dev_priv->opregion.asle;
- 	struct drm_device *dev = &dev_priv->drm;
- 
--	DRM_DEBUG_DRIVER("bclp = 0x%08x\n", bclp);
-+	drm_dbg(&dev_priv->drm, "bclp = 0x%08x\n", bclp);
- 
- 	if (acpi_video_get_backlight_type() == acpi_backlight_native) {
--		DRM_DEBUG_KMS("opregion backlight request ignored\n");
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "opregion backlight request ignored\n");
- 		return 0;
- 	}
- 
-@@ -468,7 +469,8 @@ static u32 asle_set_backlight(struct drm_i915_private *dev_priv, u32 bclp)
- 	 * Update backlight on all connectors that support backlight (usually
- 	 * only one).
- 	 */
--	DRM_DEBUG_KMS("updating opregion backlight %d/255\n", bclp);
-+	drm_dbg_kms(&dev_priv->drm, "updating opregion backlight %d/255\n",
-+		    bclp);
- 	drm_connector_list_iter_begin(dev, &conn_iter);
- 	for_each_intel_connector_iter(connector, &conn_iter)
- 		intel_panel_set_backlight_acpi(connector->base.state, bclp, 255);
-@@ -485,13 +487,13 @@ static u32 asle_set_als_illum(struct drm_i915_private *dev_priv, u32 alsi)
- {
- 	/* alsi is the current ALS reading in lux. 0 indicates below sensor
- 	   range, 0xffff indicates above sensor range. 1-0xfffe are valid */
--	DRM_DEBUG_DRIVER("Illum is not supported\n");
-+	drm_dbg(&dev_priv->drm, "Illum is not supported\n");
- 	return ASLC_ALS_ILLUM_FAILED;
- }
- 
- static u32 asle_set_pwm_freq(struct drm_i915_private *dev_priv, u32 pfmb)
- {
--	DRM_DEBUG_DRIVER("PWM freq is not supported\n");
-+	drm_dbg(&dev_priv->drm, "PWM freq is not supported\n");
- 	return ASLC_PWM_FREQ_FAILED;
- }
- 
-@@ -499,30 +501,36 @@ static u32 asle_set_pfit(struct drm_i915_private *dev_priv, u32 pfit)
- {
- 	/* Panel fitting is currently controlled by the X code, so this is a
- 	   noop until modesetting support works fully */
--	DRM_DEBUG_DRIVER("Pfit is not supported\n");
-+	drm_dbg(&dev_priv->drm, "Pfit is not supported\n");
- 	return ASLC_PFIT_FAILED;
- }
- 
- static u32 asle_set_supported_rotation_angles(struct drm_i915_private *dev_priv, u32 srot)
- {
--	DRM_DEBUG_DRIVER("SROT is not supported\n");
-+	drm_dbg(&dev_priv->drm, "SROT is not supported\n");
- 	return ASLC_ROTATION_ANGLES_FAILED;
- }
- 
- static u32 asle_set_button_array(struct drm_i915_private *dev_priv, u32 iuer)
- {
- 	if (!iuer)
--		DRM_DEBUG_DRIVER("Button array event is not supported (nothing)\n");
-+		drm_dbg(&dev_priv->drm,
-+			"Button array event is not supported (nothing)\n");
- 	if (iuer & ASLE_IUER_ROTATION_LOCK_BTN)
--		DRM_DEBUG_DRIVER("Button array event is not supported (rotation lock)\n");
-+		drm_dbg(&dev_priv->drm,
-+			"Button array event is not supported (rotation lock)\n");
- 	if (iuer & ASLE_IUER_VOLUME_DOWN_BTN)
--		DRM_DEBUG_DRIVER("Button array event is not supported (volume down)\n");
-+		drm_dbg(&dev_priv->drm,
-+			"Button array event is not supported (volume down)\n");
- 	if (iuer & ASLE_IUER_VOLUME_UP_BTN)
--		DRM_DEBUG_DRIVER("Button array event is not supported (volume up)\n");
-+		drm_dbg(&dev_priv->drm,
-+			"Button array event is not supported (volume up)\n");
- 	if (iuer & ASLE_IUER_WINDOWS_BTN)
--		DRM_DEBUG_DRIVER("Button array event is not supported (windows)\n");
-+		drm_dbg(&dev_priv->drm,
-+			"Button array event is not supported (windows)\n");
- 	if (iuer & ASLE_IUER_POWER_BTN)
--		DRM_DEBUG_DRIVER("Button array event is not supported (power)\n");
-+		drm_dbg(&dev_priv->drm,
-+			"Button array event is not supported (power)\n");
- 
- 	return ASLC_BUTTON_ARRAY_FAILED;
- }
-@@ -530,9 +538,11 @@ static u32 asle_set_button_array(struct drm_i915_private *dev_priv, u32 iuer)
- static u32 asle_set_convertible(struct drm_i915_private *dev_priv, u32 iuer)
- {
- 	if (iuer & ASLE_IUER_CONVERTIBLE)
--		DRM_DEBUG_DRIVER("Convertible is not supported (clamshell)\n");
-+		drm_dbg(&dev_priv->drm,
-+			"Convertible is not supported (clamshell)\n");
- 	else
--		DRM_DEBUG_DRIVER("Convertible is not supported (slate)\n");
-+		drm_dbg(&dev_priv->drm,
-+			"Convertible is not supported (slate)\n");
- 
- 	return ASLC_CONVERTIBLE_FAILED;
- }
-@@ -540,16 +550,17 @@ static u32 asle_set_convertible(struct drm_i915_private *dev_priv, u32 iuer)
- static u32 asle_set_docking(struct drm_i915_private *dev_priv, u32 iuer)
- {
- 	if (iuer & ASLE_IUER_DOCKING)
--		DRM_DEBUG_DRIVER("Docking is not supported (docked)\n");
-+		drm_dbg(&dev_priv->drm, "Docking is not supported (docked)\n");
- 	else
--		DRM_DEBUG_DRIVER("Docking is not supported (undocked)\n");
-+		drm_dbg(&dev_priv->drm,
-+			"Docking is not supported (undocked)\n");
- 
- 	return ASLC_DOCKING_FAILED;
- }
- 
- static u32 asle_isct_state(struct drm_i915_private *dev_priv)
- {
--	DRM_DEBUG_DRIVER("ISCT is not supported\n");
-+	drm_dbg(&dev_priv->drm, "ISCT is not supported\n");
- 	return ASLC_ISCT_STATE_FAILED;
- }
- 
-@@ -569,8 +580,8 @@ static void asle_work(struct work_struct *work)
- 	aslc_req = asle->aslc;
- 
- 	if (!(aslc_req & ASLC_REQ_MSK)) {
--		DRM_DEBUG_DRIVER("No request on ASLC interrupt 0x%08x\n",
--				 aslc_req);
-+		drm_dbg(&dev_priv->drm,
-+			"No request on ASLC interrupt 0x%08x\n", aslc_req);
- 		return;
- 	}
- 
-@@ -739,11 +750,12 @@ static void intel_didl_outputs(struct drm_i915_private *dev_priv)
- 	}
- 	drm_connector_list_iter_end(&conn_iter);
- 
--	DRM_DEBUG_KMS("%d outputs detected\n", i);
-+	drm_dbg_kms(&dev_priv->drm, "%d outputs detected\n", i);
- 
- 	if (i > max_outputs)
--		DRM_ERROR("More than %d outputs in connector list\n",
--			  max_outputs);
-+		drm_err(&dev_priv->drm,
-+			"More than %d outputs in connector list\n",
-+			max_outputs);
- 
- 	/* If fewer than max outputs, the list must be null terminated */
- 	if (i < max_outputs)
-@@ -823,7 +835,9 @@ static void swsci_setup(struct drm_i915_private *dev_priv)
- 		if (requested_callbacks) {
- 			u32 req = opregion->swsci_sbcb_sub_functions;
- 			if ((req & tmp) != req)
--				DRM_DEBUG_DRIVER("SWSCI BIOS requested (%08x) SBCB callbacks that are not supported (%08x)\n", req, tmp);
-+				drm_dbg(&dev_priv->drm,
-+					"SWSCI BIOS requested (%08x) SBCB callbacks that are not supported (%08x)\n",
-+					req, tmp);
- 			/* XXX: for now, trust the requested callbacks */
- 			/* opregion->swsci_sbcb_sub_functions &= tmp; */
- 		} else {
-@@ -831,9 +845,10 @@ static void swsci_setup(struct drm_i915_private *dev_priv)
- 		}
- 	}
- 
--	DRM_DEBUG_DRIVER("SWSCI GBDA callbacks %08x, SBCB callbacks %08x\n",
--			 opregion->swsci_gbda_sub_functions,
--			 opregion->swsci_sbcb_sub_functions);
-+	drm_dbg(&dev_priv->drm,
-+		"SWSCI GBDA callbacks %08x, SBCB callbacks %08x\n",
-+		opregion->swsci_gbda_sub_functions,
-+		opregion->swsci_sbcb_sub_functions);
- }
- 
- static int intel_no_opregion_vbt_callback(const struct dmi_system_id *id)
-@@ -867,15 +882,17 @@ static int intel_load_vbt_firmware(struct drm_i915_private *dev_priv)
- 
- 	ret = request_firmware(&fw, name, &dev_priv->drm.pdev->dev);
+ 	ret = hdcp->shim->toggle_signalling(intel_dig_port, false);
  	if (ret) {
--		DRM_ERROR("Requesting VBT firmware \"%s\" failed (%d)\n",
--			  name, ret);
-+		drm_err(&dev_priv->drm,
-+			"Requesting VBT firmware \"%s\" failed (%d)\n",
-+			name, ret);
+-		DRM_ERROR("Failed to disable HDCP signalling\n");
++		drm_err(&dev_priv->drm, "Failed to disable HDCP signalling\n");
  		return ret;
  	}
  
- 	if (intel_bios_is_valid_vbt(fw->data, fw->size)) {
- 		opregion->vbt_firmware = kmemdup(fw->data, fw->size, GFP_KERNEL);
- 		if (opregion->vbt_firmware) {
--			DRM_DEBUG_KMS("Found valid VBT firmware \"%s\"\n", name);
-+			drm_dbg_kms(&dev_priv->drm,
-+				    "Found valid VBT firmware \"%s\"\n", name);
- 			opregion->vbt = opregion->vbt_firmware;
- 			opregion->vbt_size = fw->size;
- 			ret = 0;
-@@ -883,7 +900,8 @@ static int intel_load_vbt_firmware(struct drm_i915_private *dev_priv)
- 			ret = -ENOMEM;
- 		}
- 	} else {
--		DRM_DEBUG_KMS("Invalid VBT firmware \"%s\"\n", name);
-+		drm_dbg_kms(&dev_priv->drm, "Invalid VBT firmware \"%s\"\n",
-+			    name);
- 		ret = -EINVAL;
+-	DRM_DEBUG_KMS("HDCP is disabled\n");
++	drm_dbg_kms(&dev_priv->drm, "HDCP is disabled\n");
+ 	return 0;
+ }
+ 
+@@ -790,11 +793,11 @@ static int _intel_hdcp_enable(struct intel_connector *connector)
+ 	struct drm_i915_private *dev_priv = connector->base.dev->dev_private;
+ 	int i, ret, tries = 3;
+ 
+-	DRM_DEBUG_KMS("[%s:%d] HDCP is being enabled...\n",
+-		      connector->base.name, connector->base.base.id);
++	drm_dbg_kms(&dev_priv->drm, "[%s:%d] HDCP is being enabled...\n",
++		    connector->base.name, connector->base.base.id);
+ 
+ 	if (!hdcp_key_loadable(dev_priv)) {
+-		DRM_ERROR("HDCP key Load is not possible\n");
++		drm_err(&dev_priv->drm, "HDCP key Load is not possible\n");
+ 		return -ENXIO;
  	}
  
-@@ -910,9 +928,10 @@ int intel_opregion_setup(struct drm_i915_private *dev_priv)
- 	BUILD_BUG_ON(sizeof(struct opregion_asle_ext) != 0x400);
- 
- 	pci_read_config_dword(pdev, ASLS, &asls);
--	DRM_DEBUG_DRIVER("graphic opregion physical addr: 0x%x\n", asls);
-+	drm_dbg(&dev_priv->drm, "graphic opregion physical addr: 0x%x\n",
-+		asls);
- 	if (asls == 0) {
--		DRM_DEBUG_DRIVER("ACPI OpRegion not supported!\n");
-+		drm_dbg(&dev_priv->drm, "ACPI OpRegion not supported!\n");
- 		return -ENOTSUPP;
+@@ -805,7 +808,8 @@ static int _intel_hdcp_enable(struct intel_connector *connector)
+ 		intel_hdcp_clear_keys(dev_priv);
  	}
- 
-@@ -925,21 +944,21 @@ int intel_opregion_setup(struct drm_i915_private *dev_priv)
- 	memcpy(buf, base, sizeof(buf));
- 
- 	if (memcmp(buf, OPREGION_SIGNATURE, 16)) {
--		DRM_DEBUG_DRIVER("opregion signature mismatch\n");
-+		drm_dbg(&dev_priv->drm, "opregion signature mismatch\n");
- 		err = -EINVAL;
- 		goto err_out;
- 	}
- 	opregion->header = base;
- 	opregion->lid_state = base + ACPI_CLID;
- 
--	DRM_DEBUG_DRIVER("ACPI OpRegion version %u.%u.%u\n",
--			 opregion->header->over.major,
--			 opregion->header->over.minor,
--			 opregion->header->over.revision);
-+	drm_dbg(&dev_priv->drm, "ACPI OpRegion version %u.%u.%u\n",
-+		opregion->header->over.major,
-+		opregion->header->over.minor,
-+		opregion->header->over.revision);
- 
- 	mboxes = opregion->header->mboxes;
- 	if (mboxes & MBOX_ACPI) {
--		DRM_DEBUG_DRIVER("Public ACPI methods supported\n");
-+		drm_dbg(&dev_priv->drm, "Public ACPI methods supported\n");
- 		opregion->acpi = base + OPREGION_ACPI_OFFSET;
- 		/*
- 		 * Indicate we handle monitor hotplug events ourselves so we do
-@@ -951,20 +970,20 @@ int intel_opregion_setup(struct drm_i915_private *dev_priv)
- 	}
- 
- 	if (mboxes & MBOX_SWSCI) {
--		DRM_DEBUG_DRIVER("SWSCI supported\n");
-+		drm_dbg(&dev_priv->drm, "SWSCI supported\n");
- 		opregion->swsci = base + OPREGION_SWSCI_OFFSET;
- 		swsci_setup(dev_priv);
- 	}
- 
- 	if (mboxes & MBOX_ASLE) {
--		DRM_DEBUG_DRIVER("ASLE supported\n");
-+		drm_dbg(&dev_priv->drm, "ASLE supported\n");
- 		opregion->asle = base + OPREGION_ASLE_OFFSET;
- 
- 		opregion->asle->ardy = ASLE_ARDY_NOT_READY;
- 	}
- 
- 	if (mboxes & MBOX_ASLE_EXT)
--		DRM_DEBUG_DRIVER("ASLE extension supported\n");
-+		drm_dbg(&dev_priv->drm, "ASLE extension supported\n");
- 
- 	if (intel_load_vbt_firmware(dev_priv) == 0)
- 		goto out;
-@@ -995,12 +1014,14 @@ int intel_opregion_setup(struct drm_i915_private *dev_priv)
- 		vbt = opregion->rvda;
- 		vbt_size = opregion->asle->rvds;
- 		if (intel_bios_is_valid_vbt(vbt, vbt_size)) {
--			DRM_DEBUG_KMS("Found valid VBT in ACPI OpRegion (RVDA)\n");
-+			drm_dbg_kms(&dev_priv->drm,
-+				    "Found valid VBT in ACPI OpRegion (RVDA)\n");
- 			opregion->vbt = vbt;
- 			opregion->vbt_size = vbt_size;
- 			goto out;
- 		} else {
--			DRM_DEBUG_KMS("Invalid VBT in ACPI OpRegion (RVDA)\n");
-+			drm_dbg_kms(&dev_priv->drm,
-+				    "Invalid VBT in ACPI OpRegion (RVDA)\n");
- 			memunmap(opregion->rvda);
- 			opregion->rvda = NULL;
- 		}
-@@ -1018,11 +1039,13 @@ int intel_opregion_setup(struct drm_i915_private *dev_priv)
- 		OPREGION_ASLE_EXT_OFFSET : OPREGION_SIZE;
- 	vbt_size -= OPREGION_VBT_OFFSET;
- 	if (intel_bios_is_valid_vbt(vbt, vbt_size)) {
--		DRM_DEBUG_KMS("Found valid VBT in ACPI OpRegion (Mailbox #4)\n");
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "Found valid VBT in ACPI OpRegion (Mailbox #4)\n");
- 		opregion->vbt = vbt;
- 		opregion->vbt_size = vbt_size;
- 	} else {
--		DRM_DEBUG_KMS("Invalid VBT in ACPI OpRegion (Mailbox #4)\n");
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "Invalid VBT in ACPI OpRegion (Mailbox #4)\n");
- 	}
- 
- out:
-@@ -1058,20 +1081,22 @@ intel_opregion_get_panel_type(struct drm_i915_private *dev_priv)
- 
- 	ret = swsci(dev_priv, SWSCI_GBDA_PANEL_DETAILS, 0x0, &panel_details);
  	if (ret) {
--		DRM_DEBUG_KMS("Failed to get panel details from OpRegion (%d)\n",
+-		DRM_ERROR("Could not load HDCP keys, (%d)\n", ret);
++		drm_err(&dev_priv->drm, "Could not load HDCP keys, (%d)\n",
++			ret);
+ 		return ret;
+ 	}
+ 
+@@ -817,13 +821,14 @@ static int _intel_hdcp_enable(struct intel_connector *connector)
+ 			return 0;
+ 		}
+ 
+-		DRM_DEBUG_KMS("HDCP Auth failure (%d)\n", ret);
++		drm_dbg_kms(&dev_priv->drm, "HDCP Auth failure (%d)\n", ret);
+ 
+ 		/* Ensuring HDCP encryption and signalling are stopped. */
+ 		_intel_hdcp_disable(connector);
+ 	}
+ 
+-	DRM_DEBUG_KMS("HDCP authentication failed (%d tries/%d)\n", tries, ret);
++	drm_dbg_kms(&dev_priv->drm,
++		    "HDCP authentication failed (%d tries/%d)\n", tries, ret);
+ 	return ret;
+ }
+ 
+@@ -854,10 +859,11 @@ static int intel_hdcp_check_link(struct intel_connector *connector)
+ 	}
+ 
+ 	if (WARN_ON(!intel_hdcp_in_use(dev_priv, cpu_transcoder, port))) {
+-		DRM_ERROR("%s:%d HDCP link stopped encryption,%x\n",
+-			  connector->base.name, connector->base.base.id,
+-			  I915_READ(HDCP_STATUS(dev_priv, cpu_transcoder,
+-						port)));
++		drm_err(&dev_priv->drm,
++			"%s:%d HDCP link stopped encryption,%x\n",
++			connector->base.name, connector->base.base.id,
++			I915_READ(HDCP_STATUS(dev_priv, cpu_transcoder,
++					      port)));
+ 		ret = -ENXIO;
+ 		hdcp->value = DRM_MODE_CONTENT_PROTECTION_DESIRED;
+ 		schedule_work(&hdcp->prop_work);
+@@ -872,12 +878,13 @@ static int intel_hdcp_check_link(struct intel_connector *connector)
+ 		goto out;
+ 	}
+ 
+-	DRM_DEBUG_KMS("[%s:%d] HDCP link failed, retrying authentication\n",
+-		      connector->base.name, connector->base.base.id);
++	drm_dbg_kms(&dev_priv->drm,
++		    "[%s:%d] HDCP link failed, retrying authentication\n",
++		    connector->base.name, connector->base.base.id);
+ 
+ 	ret = _intel_hdcp_disable(connector);
+ 	if (ret) {
+-		DRM_ERROR("Failed to disable hdcp (%d)\n", ret);
++		drm_err(&dev_priv->drm, "Failed to disable hdcp (%d)\n", ret);
+ 		hdcp->value = DRM_MODE_CONTENT_PROTECTION_DESIRED;
+ 		schedule_work(&hdcp->prop_work);
+ 		goto out;
+@@ -885,7 +892,7 @@ static int intel_hdcp_check_link(struct intel_connector *connector)
+ 
+ 	ret = _intel_hdcp_enable(connector);
+ 	if (ret) {
+-		DRM_ERROR("Failed to enable hdcp (%d)\n", ret);
++		drm_err(&dev_priv->drm, "Failed to enable hdcp (%d)\n", ret);
+ 		hdcp->value = DRM_MODE_CONTENT_PROTECTION_DESIRED;
+ 		schedule_work(&hdcp->prop_work);
+ 		goto out;
+@@ -944,7 +951,8 @@ hdcp2_prepare_ake_init(struct intel_connector *connector,
+ 
+ 	ret = comp->ops->initiate_hdcp2_session(comp->mei_dev, data, ake_data);
+ 	if (ret)
+-		DRM_DEBUG_KMS("Prepare_ake_init failed. %d\n", ret);
++		drm_dbg_kms(&dev_priv->drm, "Prepare_ake_init failed. %d\n",
++			    ret);
+ 	mutex_unlock(&dev_priv->hdcp_comp_mutex);
+ 
+ 	return ret;
+@@ -974,7 +982,8 @@ hdcp2_verify_rx_cert_prepare_km(struct intel_connector *connector,
+ 							 rx_cert, paired,
+ 							 ek_pub_km, msg_sz);
+ 	if (ret < 0)
+-		DRM_DEBUG_KMS("Verify rx_cert failed. %d\n", ret);
++		drm_dbg_kms(&dev_priv->drm, "Verify rx_cert failed. %d\n",
++			    ret);
+ 	mutex_unlock(&dev_priv->hdcp_comp_mutex);
+ 
+ 	return ret;
+@@ -998,7 +1007,7 @@ static int hdcp2_verify_hprime(struct intel_connector *connector,
+ 
+ 	ret = comp->ops->verify_hprime(comp->mei_dev, data, rx_hprime);
+ 	if (ret < 0)
+-		DRM_DEBUG_KMS("Verify hprime failed. %d\n", ret);
++		drm_dbg_kms(&dev_priv->drm, "Verify hprime failed. %d\n", ret);
+ 	mutex_unlock(&dev_priv->hdcp_comp_mutex);
+ 
+ 	return ret;
+@@ -1023,7 +1032,8 @@ hdcp2_store_pairing_info(struct intel_connector *connector,
+ 
+ 	ret = comp->ops->store_pairing_info(comp->mei_dev, data, pairing_info);
+ 	if (ret < 0)
+-		DRM_DEBUG_KMS("Store pairing info failed. %d\n", ret);
++		drm_dbg_kms(&dev_priv->drm, "Store pairing info failed. %d\n",
++			    ret);
+ 	mutex_unlock(&dev_priv->hdcp_comp_mutex);
+ 
+ 	return ret;
+@@ -1048,7 +1058,8 @@ hdcp2_prepare_lc_init(struct intel_connector *connector,
+ 
+ 	ret = comp->ops->initiate_locality_check(comp->mei_dev, data, lc_init);
+ 	if (ret < 0)
+-		DRM_DEBUG_KMS("Prepare lc_init failed. %d\n", ret);
++		drm_dbg_kms(&dev_priv->drm, "Prepare lc_init failed. %d\n",
++			    ret);
+ 	mutex_unlock(&dev_priv->hdcp_comp_mutex);
+ 
+ 	return ret;
+@@ -1073,7 +1084,8 @@ hdcp2_verify_lprime(struct intel_connector *connector,
+ 
+ 	ret = comp->ops->verify_lprime(comp->mei_dev, data, rx_lprime);
+ 	if (ret < 0)
+-		DRM_DEBUG_KMS("Verify L_Prime failed. %d\n", ret);
++		drm_dbg_kms(&dev_priv->drm, "Verify L_Prime failed. %d\n",
++			    ret);
+ 	mutex_unlock(&dev_priv->hdcp_comp_mutex);
+ 
+ 	return ret;
+@@ -1097,7 +1109,8 @@ static int hdcp2_prepare_skey(struct intel_connector *connector,
+ 
+ 	ret = comp->ops->get_session_key(comp->mei_dev, data, ske_data);
+ 	if (ret < 0)
+-		DRM_DEBUG_KMS("Get session key failed. %d\n", ret);
++		drm_dbg_kms(&dev_priv->drm, "Get session key failed. %d\n",
++			    ret);
+ 	mutex_unlock(&dev_priv->hdcp_comp_mutex);
+ 
+ 	return ret;
+@@ -1126,7 +1139,8 @@ hdcp2_verify_rep_topology_prepare_ack(struct intel_connector *connector,
+ 							 rep_topology,
+ 							 rep_send_ack);
+ 	if (ret < 0)
+-		DRM_DEBUG_KMS("Verify rep topology failed. %d\n", ret);
++		drm_dbg_kms(&dev_priv->drm,
++			    "Verify rep topology failed. %d\n", ret);
+ 	mutex_unlock(&dev_priv->hdcp_comp_mutex);
+ 
+ 	return ret;
+@@ -1151,7 +1165,7 @@ hdcp2_verify_mprime(struct intel_connector *connector,
+ 
+ 	ret = comp->ops->verify_mprime(comp->mei_dev, data, stream_ready);
+ 	if (ret < 0)
+-		DRM_DEBUG_KMS("Verify mprime failed. %d\n", ret);
++		drm_dbg_kms(&dev_priv->drm, "Verify mprime failed. %d\n", ret);
+ 	mutex_unlock(&dev_priv->hdcp_comp_mutex);
+ 
+ 	return ret;
+@@ -1174,7 +1188,8 @@ static int hdcp2_authenticate_port(struct intel_connector *connector)
+ 
+ 	ret = comp->ops->enable_hdcp_authentication(comp->mei_dev, data);
+ 	if (ret < 0)
+-		DRM_DEBUG_KMS("Enable hdcp auth failed. %d\n", ret);
++		drm_dbg_kms(&dev_priv->drm, "Enable hdcp auth failed. %d\n",
++			    ret);
+ 	mutex_unlock(&dev_priv->hdcp_comp_mutex);
+ 
+ 	return ret;
+@@ -1536,8 +1551,9 @@ static int hdcp2_enable_encryption(struct intel_connector *connector)
+ 	if (hdcp->shim->toggle_signalling) {
+ 		ret = hdcp->shim->toggle_signalling(intel_dig_port, true);
+ 		if (ret) {
+-			DRM_ERROR("Failed to enable HDCP signalling. %d\n",
+-				  ret);
++			drm_err(&dev_priv->drm,
++				"Failed to enable HDCP signalling. %d\n",
++				ret);
+ 			return ret;
+ 		}
+ 	}
+@@ -1582,13 +1598,14 @@ static int hdcp2_disable_encryption(struct intel_connector *connector)
+ 				      LINK_ENCRYPTION_STATUS,
+ 				      ENCRYPT_STATUS_CHANGE_TIMEOUT_MS);
+ 	if (ret == -ETIMEDOUT)
+-		DRM_DEBUG_KMS("Disable Encryption Timedout");
++		drm_dbg_kms(&dev_priv->drm, "Disable Encryption Timedout");
+ 
+ 	if (hdcp->shim->toggle_signalling) {
+ 		ret = hdcp->shim->toggle_signalling(intel_dig_port, false);
+ 		if (ret) {
+-			DRM_ERROR("Failed to disable HDCP signalling. %d\n",
+-				  ret);
++			drm_err(&dev_priv->drm,
++				"Failed to disable HDCP signalling. %d\n",
++				ret);
+ 			return ret;
+ 		}
+ 	}
+@@ -1691,9 +1708,10 @@ static int intel_hdcp2_check_link(struct intel_connector *connector)
+ 	}
+ 
+ 	if (WARN_ON(!intel_hdcp2_in_use(dev_priv, cpu_transcoder, port))) {
+-		DRM_ERROR("HDCP2.2 link stopped the encryption, %x\n",
+-			  I915_READ(HDCP2_STATUS(dev_priv, cpu_transcoder,
+-						 port)));
++		drm_err(&dev_priv->drm,
++			"HDCP2.2 link stopped the encryption, %x\n",
++			I915_READ(HDCP2_STATUS(dev_priv, cpu_transcoder,
++					       port)));
+ 		ret = -ENXIO;
+ 		hdcp->value = DRM_MODE_CONTENT_PROTECTION_DESIRED;
+ 		schedule_work(&hdcp->prop_work);
+@@ -1713,25 +1731,29 @@ static int intel_hdcp2_check_link(struct intel_connector *connector)
+ 		if (hdcp->value == DRM_MODE_CONTENT_PROTECTION_UNDESIRED)
+ 			goto out;
+ 
+-		DRM_DEBUG_KMS("HDCP2.2 Downstream topology change\n");
++		drm_dbg_kms(&dev_priv->drm,
++			    "HDCP2.2 Downstream topology change\n");
+ 		ret = hdcp2_authenticate_repeater_topology(connector);
+ 		if (!ret) {
+ 			hdcp->value = DRM_MODE_CONTENT_PROTECTION_ENABLED;
+ 			schedule_work(&hdcp->prop_work);
+ 			goto out;
+ 		}
+-		DRM_DEBUG_KMS("[%s:%d] Repeater topology auth failed.(%d)\n",
+-			      connector->base.name, connector->base.base.id,
 -			      ret);
 +		drm_dbg_kms(&dev_priv->drm,
-+			    "Failed to get panel details from OpRegion (%d)\n",
++			    "[%s:%d] Repeater topology auth failed.(%d)\n",
++			    connector->base.name, connector->base.base.id,
 +			    ret);
- 		return ret;
- 	}
- 
- 	ret = (panel_details >> 8) & 0xff;
- 	if (ret > 0x10) {
--		DRM_DEBUG_KMS("Invalid OpRegion panel type 0x%x\n", ret);
+ 	} else {
+-		DRM_DEBUG_KMS("[%s:%d] HDCP2.2 link failed, retrying auth\n",
+-			      connector->base.name, connector->base.base.id);
 +		drm_dbg_kms(&dev_priv->drm,
-+			    "Invalid OpRegion panel type 0x%x\n", ret);
- 		return -EINVAL;
++			    "[%s:%d] HDCP2.2 link failed, retrying auth\n",
++			    connector->base.name, connector->base.base.id);
  	}
  
- 	/* fall back to VBT panel type? */
- 	if (ret == 0x0) {
--		DRM_DEBUG_KMS("No panel type in OpRegion\n");
-+		drm_dbg_kms(&dev_priv->drm, "No panel type in OpRegion\n");
- 		return -ENODEV;
- 	}
+ 	ret = _intel_hdcp2_disable(connector);
+ 	if (ret) {
+-		DRM_ERROR("[%s:%d] Failed to disable hdcp2.2 (%d)\n",
+-			  connector->base.name, connector->base.base.id, ret);
++		drm_err(&dev_priv->drm,
++			"[%s:%d] Failed to disable hdcp2.2 (%d)\n",
++			connector->base.name, connector->base.base.id, ret);
+ 		hdcp->value = DRM_MODE_CONTENT_PROTECTION_DESIRED;
+ 		schedule_work(&hdcp->prop_work);
+ 		goto out;
+@@ -1739,9 +1761,10 @@ static int intel_hdcp2_check_link(struct intel_connector *connector)
  
-@@ -1081,7 +1106,8 @@ intel_opregion_get_panel_type(struct drm_i915_private *dev_priv)
- 	 * via a quirk list :(
- 	 */
- 	if (!dmi_check_system(intel_use_opregion_panel_type)) {
--		DRM_DEBUG_KMS("Ignoring OpRegion panel type (%d)\n", ret - 1);
+ 	ret = _intel_hdcp2_enable(connector);
+ 	if (ret) {
+-		DRM_DEBUG_KMS("[%s:%d] Failed to enable hdcp2.2 (%d)\n",
+-			      connector->base.name, connector->base.base.id,
+-			      ret);
 +		drm_dbg_kms(&dev_priv->drm,
-+			    "Ignoring OpRegion panel type (%d)\n", ret - 1);
- 		return -ENODEV;
++			    "[%s:%d] Failed to enable hdcp2.2 (%d)\n",
++			    connector->base.name, connector->base.base.id,
++			    ret);
+ 		hdcp->value = DRM_MODE_CONTENT_PROTECTION_DESIRED;
+ 		schedule_work(&hdcp->prop_work);
+ 		goto out;
+@@ -1772,7 +1795,7 @@ static int i915_hdcp_component_bind(struct device *i915_kdev,
+ {
+ 	struct drm_i915_private *dev_priv = kdev_to_i915(i915_kdev);
+ 
+-	DRM_DEBUG("I915 HDCP comp bind\n");
++	drm_dbg(&dev_priv->drm, "I915 HDCP comp bind\n");
+ 	mutex_lock(&dev_priv->hdcp_comp_mutex);
+ 	dev_priv->hdcp_master = (struct i915_hdcp_comp_master *)data;
+ 	dev_priv->hdcp_master->mei_dev = mei_kdev;
+@@ -1786,7 +1809,7 @@ static void i915_hdcp_component_unbind(struct device *i915_kdev,
+ {
+ 	struct drm_i915_private *dev_priv = kdev_to_i915(i915_kdev);
+ 
+-	DRM_DEBUG("I915 HDCP comp unbind\n");
++	drm_dbg(&dev_priv->drm, "I915 HDCP comp unbind\n");
+ 	mutex_lock(&dev_priv->hdcp_comp_mutex);
+ 	dev_priv->hdcp_master = NULL;
+ 	mutex_unlock(&dev_priv->hdcp_comp_mutex);
+@@ -1854,7 +1877,7 @@ static inline int initialize_hdcp_port_data(struct intel_connector *connector,
+ 					sizeof(struct hdcp2_streamid_type),
+ 					GFP_KERNEL);
+ 	if (!data->streams) {
+-		DRM_ERROR("Out of Memory\n");
++		drm_err(&dev_priv->drm, "Out of Memory\n");
+ 		return -ENOMEM;
  	}
  
+@@ -1888,7 +1911,8 @@ void intel_hdcp_component_init(struct drm_i915_private *dev_priv)
+ 	ret = component_add_typed(dev_priv->drm.dev, &i915_hdcp_component_ops,
+ 				  I915_COMPONENT_HDCP);
+ 	if (ret < 0) {
+-		DRM_DEBUG_KMS("Failed at component add(%d)\n", ret);
++		drm_dbg_kms(&dev_priv->drm, "Failed at component add(%d)\n",
++			    ret);
+ 		mutex_lock(&dev_priv->hdcp_comp_mutex);
+ 		dev_priv->hdcp_comp_added = false;
+ 		mutex_unlock(&dev_priv->hdcp_comp_mutex);
 -- 
 2.17.1
 
