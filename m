@@ -2,36 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BBA5144455
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2020 19:32:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BD15144477
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2020 19:41:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A5F86EE22;
-	Tue, 21 Jan 2020 18:32:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2FEA88ED6;
+	Tue, 21 Jan 2020 18:41:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8D1FA6EE22
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 18:32:51 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1DC861FB;
- Tue, 21 Jan 2020 10:32:51 -0800 (PST)
-Received: from localhost (unknown [10.37.6.21])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2F7533F6C4;
- Tue, 21 Jan 2020 10:32:50 -0800 (PST)
-Date: Tue, 21 Jan 2020 18:32:47 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH v2 2/2] drm: sun4i: hdmi: Add support for sun4i HDMI
- encoder audio
-Message-ID: <20200121183247.GL4656@sirena.org.uk>
-References: <20200120123326.30743-1-stefan@olimex.com>
- <20200120123326.30743-3-stefan@olimex.com>
- <20200121182905.pxs72ojqx5fz2gi3@gilmour.lan>
- <20200121182937.2ak72e4eklk4za2u@gilmour.lan>
+Received: from mail-ua1-x942.google.com (mail-ua1-x942.google.com
+ [IPv6:2607:f8b0:4864:20::942])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A35B88ED6
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 18:41:27 +0000 (UTC)
+Received: by mail-ua1-x942.google.com with SMTP id c7so1417448uaf.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 10:41:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=tkzJYN84v3RNdkCNeIa9f/kDG5CL2toNQb9rMlPqJm4=;
+ b=f7qC8pByfHB7te8LCHQsFp9BrBLjm86tSGSOhK9MtQn23OSyUw3ERD01X3mhSvW+CF
+ iQyAoa+iSgO3ITVSIIz9cavGY8LtpxJssQc7D6N5S0br5rgUNKyfpru/tTy00Yv9RWRg
+ Cii29O0ch+z/TSqTyMe5bPmgeGTLgt//FgXTMRoaO9JdP2Q+iatvax+21Zqlz9VaA36/
+ 4OSQiwn5JKeAZRK+V2Rxf93Oiq6m/aHaaRPqQC8hulf2cIFTLC/0qP7/FlFe2s86ACru
+ 1/6xl9IbXJttgfJisNABEcqA2YAlUSyXVPZynx3DSx9D6+4juCxYd2u9k6AIbT+61ZII
+ RFHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tkzJYN84v3RNdkCNeIa9f/kDG5CL2toNQb9rMlPqJm4=;
+ b=BL41nnOIZNwP9HWz4eb7HHWpNpe0Io1P70JEAgChdilAE9ilOyQyPdId3tumenAV3Y
+ PrJqKr27Y/kBSBd3owx0gQK1mZ6gxi/MOJfBCrVqDee1SgYKAjcPjuuSkNj094d8jlVx
+ LBaQl/9YpRHW7XiYkFd65FYUPd646qzvpjhhhwk1woQQ58HeUSjBsDdnmJzRiDIWekJf
+ ba6yRznMi2M41yixEP3yfY5QVhOQ2Iq/SxR9cTYn4sWFmu4ymUx0TH6VnrX4o8mOZ5wc
+ zckjrXM1sG16CALstTJXpdukUUJW1EXSAhaB0oNzCISqZzOFs6mpRkaGohOw+BpLc9b/
+ 16Wg==
+X-Gm-Message-State: APjAAAVVsVwlQ7rpkE3DGu1Rj6Rv78elZvJa2RNYXzyTRLY2shQ3conf
+ J92hI35P/2dbagvqPlI30D7dnmVBUVBsgkkch7M=
+X-Google-Smtp-Source: APXvYqx/yATKRlpemPjRDuHNPYrmXT+njy7PwdtnkXAIFihJGaHKmjpAowoBXsN1ybySBgMkdgnEbmt/AhRrdRy3lnQ=
+X-Received: by 2002:ab0:20a:: with SMTP id 10mr3913586uas.19.1579632086554;
+ Tue, 21 Jan 2020 10:41:26 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200121182937.2ak72e4eklk4za2u@gilmour.lan>
-X-Cookie: You too can wear a nose mitten.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190627213707.46094-1-john.stultz@linaro.org>
+In-Reply-To: <20190627213707.46094-1-john.stultz@linaro.org>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Tue, 21 Jan 2020 18:42:10 +0000
+Message-ID: <CACvgo51FwX54nstJO8qV0=2r6=o-Pxp+kWuz1UE6idK5nGNUcA@mail.gmail.com>
+Subject: Re: [PATCH v3] libdrm: modetest: Allow selecting modes by index
+To: John Stultz <john.stultz@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,72 +60,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stefan Mavrodiev <stefan@olimex.com>, David Airlie <airlied@linux.ie>,
- linux-sunxi@googlegroups.com, Vinod Koul <vkoul@kernel.org>,
- "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" <dmaengine@vger.kernel.org>,
- Dan Williams <dan.j.williams@intel.com>,
- "moderated list:ARM/Allwinner sunXi SoC support"
- <linux-arm-kernel@lists.infradead.org>
-Content-Type: multipart/mixed; boundary="===============0090561749=="
+Cc: Rob Clark <robdclark@chromium.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 27 Jun 2019 at 22:37, John Stultz <john.stultz@linaro.org> wrote:
+>
+> Often there are many similar modes, which cannot be selected
+> via modetest due to its simple string matching.
+>
+> This change adds a mode index in the display output, which can
+> then be used to specify a specific modeline to be set.
+>
+> Cc: Ilia Mirkin <imirkin@alum.mit.edu>
+> Cc: Rob Clark <robdclark@chromium.org>
+> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Reviewed-by: Ilia Mirkin <imirkin@alum.mit.edu>
+> Signed-off-by: John Stultz <john.stultz@linaro.org>
+> ---
+> v2: Reworked mode_str check per Ilia's suggestion
+> v3: Added index < 0 check per Ilia's suggestion
+> ---
+>  tests/modetest/modetest.c | 23 +++++++++++++++++------
+>  1 file changed, 17 insertions(+), 6 deletions(-)
+>
+> diff --git a/tests/modetest/modetest.c b/tests/modetest/modetest.c
+> index 9c85c07b..5e1b623a 100644
+> --- a/tests/modetest/modetest.c
+> +++ b/tests/modetest/modetest.c
+> @@ -204,9 +204,10 @@ static void dump_encoders(struct device *dev)
+>         printf("\n");
+>  }
+>
+> -static void dump_mode(drmModeModeInfo *mode)
+> +static void dump_mode(drmModeModeInfo *mode, int index)
+>  {
+> -       printf("  %s %d %d %d %d %d %d %d %d %d %d",
+> +       printf("  #%i %s %d %d %d %d %d %d %d %d %d %d",
+> +              index,
+>                mode->name,
+>                mode->vrefresh,
+>                mode->hdisplay,
 
---===============0090561749==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="gwtGiOGliFx8mAnm"
-Content-Disposition: inline
+Thanks John.
+Resolved a minor conflict in the above hunk and pushed to master.
 
-
---gwtGiOGliFx8mAnm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Tue, Jan 21, 2020 at 07:29:37PM +0100, Maxime Ripard wrote:
-
-> > Mark, our issue here is that we have a driver tied to a device that is
-> > an HDMI encoder. Obviously, we'll want to register into DRM, which is
-> > what we were doing so far, with the usual case where at remove /
-> > unbind time, in order to free the resources, we just retrieve our
-> > pointer to our private structure using the device's drvdata.
-
-> > Now, snd_soc_register_card also sets that pointer to the card we try
-> > to register, which is problematic. It seems that it's used to handle
-> > suspend / resume automatically, which in this case would be also not
-> > really fit for us (or rather, we would need to do more that just
-> > suspend the audio part).
-
-There's a drvdata field in the snd_soc_card for cases like this - would
-that work for you?
-
---gwtGiOGliFx8mAnm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl4nQ84ACgkQJNaLcl1U
-h9DTsQf/ZXhHyM/3fgvqMJFm1rMy0RUSq2MP43zhb1/fioi7vxLOoPvc5jQzGwUw
-0WCUnqbv87LZXwtMbvIx1TS2xVzFt1EvAuRX+XwwVYlmTP2svfRkN+pjdNGscEcY
-Y9dO1Klqekk2WyzZsQ9fkDM8hoJtjXZ0oFRrPlUsae9jbmymykgqmK48XLVKFd3x
-AaeVd0BuUIXA+6jlFqTBgaIA35TffdliRrgSxjwxoy3Jk+wrW562WgM/isGD2qjK
-Jn+alQQhlwRYsN3Xmuni7Fd4P9zf5r7o8twcyijEOH/Um76H8d+vSjrwI2tCJfAm
-c0+F7U3m8NTne3fCjVXvL4/ipHzMGQ==
-=km+F
------END PGP SIGNATURE-----
-
---gwtGiOGliFx8mAnm--
-
---===============0090561749==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0090561749==--
