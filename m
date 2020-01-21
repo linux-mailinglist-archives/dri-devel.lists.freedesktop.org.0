@@ -1,25 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2C1A144D2D
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 09:21:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C66CB144D80
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 09:23:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 641B76F3D1;
-	Wed, 22 Jan 2020 08:21:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D56CD6FAE7;
+	Wed, 22 Jan 2020 08:22:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 804946EC76
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 11:27:34 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dafna) with ESMTPSA id CBB7F29255D
-From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To: linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] dt-bindings: convert rockchip-drm.txt to rockchip-drm.yaml
-Date: Tue, 21 Jan 2020 12:27:18 +0100
-Message-Id: <20200121112718.18466-1-dafna.hirschfeld@collabora.com>
-X-Mailer: git-send-email 2.17.1
+Received: from olimex.com (olimex.com [184.105.72.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 773636EC7D
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 11:37:18 +0000 (UTC)
+Received: from 94.155.250.134 ([94.155.250.134]) by olimex.com with ESMTPSA
+ (ECDHE-RSA-AES128-GCM-SHA256:TLSv1.2:Kx=ECDH:Au=RSA:Enc=AESGCM(128):Mac=AEAD)
+ (SMTP-AUTH username stefan@olimex.com, mechanism PLAIN)
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 03:37:12 -0800
+Subject: Re: [PATCH 1/2] dmaengine: sun4i: Add support for cyclic requests
+ with dedicated DMA
+To: Vinod Koul <vkoul@kernel.org>, Maxime Ripard <mripard@kernel.org>
+References: <20200110141140.28527-1-stefan@olimex.com>
+ <20200110141140.28527-2-stefan@olimex.com> <20200115123137.GJ2818@vkoul-mobl>
+ <20200115170731.vt6twfhvuwjrbbup@gilmour.lan>
+ <20200121083514.GE2841@vkoul-mobl>
+From: Stefan Mavrodiev <stefan@olimex.com>
+Message-ID: <54b1a38f-3903-49b7-d20b-f97824a528ba@olimex.com>
+Date: Tue, 21 Jan 2020 13:37:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <20200121083514.GE2841@vkoul-mobl>
+Content-Language: en-US
 X-Mailman-Approved-At: Wed, 22 Jan 2020 08:21:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -33,104 +44,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- dafna.hirschfeld@collabora.com, airlied@linux.ie, dafna3@gmail.com,
- hjc@rock-chips.com, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org, helen.koike@collabora.com,
- robh+dt@kernel.org, kernel@collabora.com, ezequiel@collabora.com,
- Dafna Hirschfeld <dafna.hirschfeld@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Cc: Stefan Mavrodiev <stefan@olimex.com>, David Airlie <airlied@linux.ie>,
+ linux-sunxi@googlegroups.com, open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
+ Chen-Yu Tsai <wens@csie.org>,
+ "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" <dmaengine@vger.kernel.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ "moderated list:ARM/Allwinner sunXi SoC support"
+ <linux-arm-kernel@lists.infradead.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dafna Hirschfeld <dafna.hirschfeld@gmail.com>
 
-convert the binding file rockchip-drm.txt to yaml format.
-This was tested and verified with:
-make dt_binding_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/rockchip/rockchip-drm.yaml
-make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/rockchip/rockchip-drm.yaml
+On 1/21/20 10:35 AM, Vinod Koul wrote:
+> On 15-01-20, 18:07, Maxime Ripard wrote:
+>> On Wed, Jan 15, 2020 at 06:01:37PM +0530, Vinod Koul wrote:
+>>> On 10-01-20, 16:11, Stefan Mavrodiev wrote:
+>>>> Currently the cyclic transfers can be used only with normal DMAs. They
+>>>> can be used by pcm_dmaengine module, which is required for implementing
+>>>> sound with sun4i-hdmi encoder. This is so because the controller can
+>>>> accept audio only from a dedicated DMA.
+>>>>
+>>>> This patch enables them, following the existing style for the
+>>>> scatter/gather type transfers.
+>>> I presume you want this to go with drm tree (if not let me know) so:
+>>>
+>>> Acked-by: Vinod Koul <vkoul@kernel.org>
+>> There's no need for it to go through DRM, it can go through your tree :)
+> okay in that case I have applied now :), thanks
+>
+Hi,
 
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@gmail.com>
----
- .../display/rockchip/rockchip-drm.txt         | 19 ----------
- .../display/rockchip/rockchip-drm.yaml        | 38 +++++++++++++++++++
- 2 files changed, 38 insertions(+), 19 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip-drm.txt
- create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip-drm.yaml
+Should I keep this patch in the future series or drop it?
 
-diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-drm.txt b/Documentation/devicetree/bindings/display/rockchip/rockchip-drm.txt
-deleted file mode 100644
-index 5707af89319d..000000000000
---- a/Documentation/devicetree/bindings/display/rockchip/rockchip-drm.txt
-+++ /dev/null
-@@ -1,19 +0,0 @@
--Rockchip DRM master device
--================================
--
--The Rockchip DRM master device is a virtual device needed to list all
--vop devices or other display interface nodes that comprise the
--graphics subsystem.
--
--Required properties:
--- compatible: Should be "rockchip,display-subsystem"
--- ports: Should contain a list of phandles pointing to display interface port
--  of vop devices. vop definitions as defined in
--  Documentation/devicetree/bindings/display/rockchip/rockchip-vop.txt
--
--example:
--
--display-subsystem {
--	compatible = "rockchip,display-subsystem";
--	ports = <&vopl_out>, <&vopb_out>;
--};
-diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-drm.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-drm.yaml
-new file mode 100644
-index 000000000000..e4ef1a02196d
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-drm.yaml
-@@ -0,0 +1,38 @@
-+# SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/rockchip-drm.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Rockchip DRM master device
-+
-+maintainers:
-+  - Sandy Huang <hjc@rock-chips.com
-+  - Heiko Stuebner <heiko@sntech.de>
-+
-+description: |
-+  The Rockchip DRM master device is a virtual device needed to list all
-+  vop devices or other display interface nodes that comprise the
-+  graphics subsystem.
-+
-+properties:
-+  compatible:
-+    const: rockchip,display-subsystem
-+
-+  ports:
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-+    description: |
-+      Should contain a list of phandles pointing to display interface port
-+      of vop devices. vop definitions as defined in
-+      Documentation/devicetree/bindings/display/rockchip/rockchip-vop.txt
-+
-+required:
-+  - compatible
-+  - ports
-+
-+examples:
-+  - |
-+    display-subsystem {
-+        compatible = "rockchip,display-subsystem";
-+        ports = <&vopl_out>, <&vopb_out>;
-+    };
--- 
-2.17.1
+Best regards,
+Stefan Mavrodiev
 
 _______________________________________________
 dri-devel mailing list
