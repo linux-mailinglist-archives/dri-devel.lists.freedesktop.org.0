@@ -2,51 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4AFD14363E
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2020 05:37:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 577681436D1
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2020 06:54:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC9F06E0F9;
-	Tue, 21 Jan 2020 04:37:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 814AA6EBA6;
+	Tue, 21 Jan 2020 05:53:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com
- [IPv6:2607:f8b0:4864:20::f44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A75836E0F9
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 04:37:26 +0000 (UTC)
-Received: by mail-qv1-xf44.google.com with SMTP id n8so838466qvg.11
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2020 20:37:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tE6t4zYqaVXPST4AhwIQ9GsXTC/ddB8hjT5O44X4X2A=;
- b=Y437XdOv0Hto2lq+dzGstZ/dDsYcyHpK4I+DVf73M1v48j1EjilwkEp0HlSg8Iu9gL
- 0tTOS38rUYrM9yCpro7VwAwprgAfaJvNt0icSyt0cimanM+SnEp2Xre2R1C/rtGm8iVZ
- lRVWu7xtrpg+9KP77O5tLZX+QnE1zQQIxeaZk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tE6t4zYqaVXPST4AhwIQ9GsXTC/ddB8hjT5O44X4X2A=;
- b=lY7o7aYDxuB0C8TkoUaSZNBjOaQlgoIfx4KZC9e3gh1aZvqA25fnfxBgj/yTNPMIuS
- b9NHQRqxTj+Wdx5N872FODpd0c/QKhNu+DXJpWKp84juLM8iGzbR+fKVCzCxBU4dNrEo
- EBRs/1zTamxI4LgTbDw/zikkqQBAW752R+ZFk/eHlZTtl2Dp1bTT9+QzsbEW5/VKlU+X
- EvbCytw4Grh7uoTrN2xlWxX7hiHbxE267V5AqAFWCwg8uulrUWiAeRquOE3fc08MKkAn
- MtJeIlYoI4CfPQRV4doK/dA189sZ8tx8SF49D8n2T+gJqKcwZcezOSbAQp347UP301Ph
- iziw==
-X-Gm-Message-State: APjAAAW0MbPnk8p0K0YwxrLGWp5iHfri4x2KpoO5PhBTPYX9GqPaEtdV
- 6RdCsBgSgqku2KiCp0IJAkMSFxDwjZ7MkQyra35x3A==
-X-Google-Smtp-Source: APXvYqzdl4VdxIrAynyQuScJnrpT9ZczyRYljUJVkw1OCPfHpQClTp+aKVQtQGPPLLXXuyebvlkJ/h7fxsuCkIoPT4Y=
-X-Received: by 2002:a0c:f703:: with SMTP id w3mr3120793qvn.6.1579581445521;
- Mon, 20 Jan 2020 20:37:25 -0800 (PST)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7F7C6EBA6
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 05:53:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579586035;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=sCaBPZeEJdT4Pf0kOk3x5es44UV2mktFJpDyLiBTSXo=;
+ b=iNo4/UbHDrIf+NefCSUUB8vD2WqRFkzJcb7tQQLHKtmfgq7uowybyjNpwutyarDwp7kUDj
+ 47c+j6baA/LypBG5g6043qxwJVyNHHgQqZKKW1AOL4RO7TVTlVd/LqnMlV5ttlGDs4Tf7u
+ S6pGO8YcxoMMbwssLZ3z5zLhryrifF0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-375-oRE6kHfxMxCgz2UXM4ClGQ-1; Tue, 21 Jan 2020 00:53:51 -0500
+X-MC-Unique: oRE6kHfxMxCgz2UXM4ClGQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34ECA800A02;
+ Tue, 21 Jan 2020 05:53:50 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-106.ams2.redhat.com
+ [10.36.116.106])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A2D718433B;
+ Tue, 21 Jan 2020 05:53:49 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id AFC6516E36; Tue, 21 Jan 2020 06:53:48 +0100 (CET)
+Date: Tue, 21 Jan 2020 06:53:48 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Subject: Re: [PATCH] fbdev: wait for references go away
+Message-ID: <20200121055348.s4anrveo2z6avin6@sirius.home.kraxel.org>
+References: <CGME20200120100025eucas1p21f5e2da0fd7c1fcb33cb47a97e9e645c@eucas1p2.samsung.com>
+ <20200120100014.23488-1-kraxel@redhat.com>
+ <d143e43b-8a38-940e-3ae5-e7b830a74bb3@samsung.com>
 MIME-Version: 1.0
-References: <20200114071602.47627-1-drinkcat@chromium.org>
- <20200114071602.47627-5-drinkcat@chromium.org>
- <20200114151643.GW3897@sirena.org.uk>
-In-Reply-To: <20200114151643.GW3897@sirena.org.uk>
-From: Nicolas Boichat <drinkcat@chromium.org>
-Date: Tue, 21 Jan 2020 11:37:14 +0700
-Message-ID: <CANMq1KC_-g45wdGgGiBmEyVXAJMkKwsJBJXGBHOMJk_=NyfpYw@mail.gmail.com>
-Subject: Re: [PATCH v3 4/7] drm/panfrost: Add support for multiple regulators
-To: Mark Brown <broonie@kernel.org>
+Content-Disposition: inline
+In-Reply-To: <d143e43b-8a38-940e-3ae5-e7b830a74bb3@samsung.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,43 +62,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Devicetree List <devicetree@vger.kernel.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
- lkml <linux-kernel@vger.kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>, Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>
+Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+ marmarek@invisiblethingslab.com, dri-devel@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 14, 2020 at 10:16 PM Mark Brown <broonie@kernel.org> wrote:
->
-> On Tue, Jan 14, 2020 at 03:15:59PM +0800, Nicolas Boichat wrote:
->
-> >  - I couldn't find a way to detect the number of regulators in the
-> >    device tree, if we wanted to refuse to probe the device if there
-> >    are too many regulators, which might be required for safety, see
-> >    the thread on v2 [1].
->
-> You'd need to enumerate all the properties of the device and look
-> for things matching *-supply.
+  Hi,
 
-I see ,-) I was hoping for something slightly cleaner, or maybe an
-existing function in the core.
+> > open.  Which can result in drm driver not being able to grab resources
+> > (and fail initialization) because the firmware framebuffer still holds
+> > them.  Reportedly plymouth can trigger this.
+> 
+> Could you please describe issue some more?
+> 
+> I guess that a problem is happening during DRM driver load while fbdev
+> driver is loaded? I assume do_unregister_framebuffer() is called inside
+> do_remove_conflicting_framebuffers()?
 
-Steven: How strongly do you feel about this? If so I can add that
-check in the next revision.
+Yes.  Specifically bochs-drm.ko and efifb in virtual machines.
 
-Also, just a heads-up, I'm out for the next 2 weeks, I'll send v4 after that.
+> At first glance it seems to be an user-space issue as it should not be
+> holding references on /dev/fb0 while DRM driver is being loaded.
 
->
-> Reviewed-by: Mark Brown <broonie@kernel.org>
+Well, the drm driver is loaded by udev like everything else.
+
+Dunno what plymouth (graphical boot screen tool) does to handle the
+situation.  I guess listening to udev events.  So it should notice efifb
+going away and drop the /dev/fb0 reference, but this races against
+bochs-drm initializing.
+
+> > Fix this by trying to wait until all references are gone.  Don't wait
+> > forever though given that userspace might keep the file handle open.
+> 
+> Where does the 1s maximum delay come from?
+
+Pulled out something out of thin air which I expect being on the safe
+side.  plymouth responding on the udev event should need only a small
+fraction of that.
+
+cheers,
+  Gerd
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
