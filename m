@@ -2,53 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 150351439C3
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2020 10:47:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 453D71439CC
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2020 10:49:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E64506EAA5;
-	Tue, 21 Jan 2020 09:47:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B4066EC20;
+	Tue, 21 Jan 2020 09:49:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB29E6EAA5
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 09:47:13 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00L9lBCE064903;
- Tue, 21 Jan 2020 03:47:11 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1579600031;
- bh=XmNuQ+r6vNizXKdvvQytp3gbh3c3vUAbh3atkxIFtdA=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=ZBUktWpLhySYFmIUR6CM+Fi0JlMJcxfVlbGpy+63hgElYLw0O69+BwGFbT5WC1MAt
- zlFRocHdruIwLHbU9easnUTGU+P65NWPLXL7AZ54f9JKVoT4a3CDhjlEZbDABi4rYm
- ddx1j/k8uQnx3kmfaRuqb7fG5Oy/MzHi+7DGnPF4=
-Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00L9lBI8048097
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 21 Jan 2020 03:47:11 -0600
-Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 21
- Jan 2020 03:47:11 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Tue, 21 Jan 2020 03:47:11 -0600
-Received: from deskari.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00L9l9HV039517;
- Tue, 21 Jan 2020 03:47:09 -0600
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-To: <dri-devel@lists.freedesktop.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>
-Subject: [PATCH v2] drm/bridge: tfp410: add pclk limits
-Date: Tue, 21 Jan 2020 11:46:55 +0200
-Message-ID: <20200121094655.9092-1-tomi.valkeinen@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200113134528.9851-1-tomi.valkeinen@ti.com>
-References: <20200113134528.9851-1-tomi.valkeinen@ti.com>
+Received: from ste-pvt-msa2.bahnhof.se (ste-pvt-msa2.bahnhof.se
+ [213.80.101.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5B786EC20
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 09:49:20 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTP id 3EB4B3FA41;
+ Tue, 21 Jan 2020 10:49:19 +0100 (CET)
+Authentication-Results: ste-pvt-msa2.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=iuKCPMwf; 
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
+ autolearn=ham autolearn_force=no
+Authentication-Results: ste-ftg-msa2.bahnhof.se (amavisd-new);
+ dkim=pass (1024-bit key) header.d=shipmail.org
+Received: from ste-pvt-msa2.bahnhof.se ([127.0.0.1])
+ by localhost (ste-ftg-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id b3XU8BOaO6WM; Tue, 21 Jan 2020 10:49:18 +0100 (CET)
+Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
+ [155.4.205.35]) (Authenticated sender: mb878879)
+ by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id 3985F3FA22;
+ Tue, 21 Jan 2020 10:49:15 +0100 (CET)
+Received: from localhost.localdomain (h-205-35.A357.priv.bahnhof.se
+ [155.4.205.35])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 6FCDB360318;
+ Tue, 21 Jan 2020 10:49:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1579600155; bh=g0SZU5dMfapYFIcFHTjFoqeQ/9fMdof0GtTRDjDHVfQ=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=iuKCPMwfroLxJHYxsuAKiWzXRglPYzQpKE8ROKPPuMMRpvv66q1BGSp8sYBE0lbPN
+ uJSdHr7Gw38fu1iiw3/kpW79m99GGWyi/cM5uaLkFRtxcODm/MvfxKA8VI4COi6gBY
+ Kbu7xblKkcdQN8bfsW9DCow4yYd+xFX9kM0Y1Sjk=
+Subject: Re: [git pull] vmwgfx-next
+To: Dave Airlie <airlied@gmail.com>
+References: <20200116092934.5276-1-thomas_os@shipmail.org>
+ <CAPM=9tzVFe=O-0A-5PKdjBV-95aLvTaprzFuxxeai4y9PJKk9Q@mail.gmail.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28VMware=29?= <thomas_os@shipmail.org>
+Organization: VMware Inc.
+Message-ID: <1e3116f3-8277-9369-37a8-bbf0693ead87@shipmail.org>
+Date: Tue, 21 Jan 2020 10:49:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <CAPM=9tzVFe=O-0A-5PKdjBV-95aLvTaprzFuxxeai4y9PJKk9Q@mail.gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,55 +71,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: pv-drivers@vmware.com, Dave Airlie <airlied@redhat.com>,
+ Linux-graphics-maintainer <linux-graphics-maintainer@vmware.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add pixel clock limits to the driver as per TFP410 datasheet: min 25MHz,
-max 165MHz.
-
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/gpu/drm/bridge/ti-tfp410.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/drivers/gpu/drm/bridge/ti-tfp410.c b/drivers/gpu/drm/bridge/ti-tfp410.c
-index 6f6d6d1e60ae..108e8cd7ab68 100644
---- a/drivers/gpu/drm/bridge/ti-tfp410.c
-+++ b/drivers/gpu/drm/bridge/ti-tfp410.c
-@@ -167,10 +167,23 @@ static void tfp410_disable(struct drm_bridge *bridge)
- 	gpiod_set_value_cansleep(dvi->powerdown, 1);
- }
- 
-+static enum drm_mode_status tfp410_mode_valid(struct drm_bridge *bridge,
-+					      const struct drm_display_mode *mode)
-+{
-+	if (mode->clock < 25000)
-+		return MODE_CLOCK_LOW;
-+
-+	if (mode->clock > 165000)
-+		return MODE_CLOCK_HIGH;
-+
-+	return MODE_OK;
-+}
-+
- static const struct drm_bridge_funcs tfp410_bridge_funcs = {
- 	.attach		= tfp410_attach,
- 	.enable		= tfp410_enable,
- 	.disable	= tfp410_disable,
-+	.mode_valid	= tfp410_mode_valid,
- };
- 
- static void tfp410_hpd_work_func(struct work_struct *work)
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMS8yMC8yMCAxMDowOSBQTSwgRGF2ZSBBaXJsaWUgd3JvdGU6Cj4gT24gVGh1LCAxNiBKYW4g
+MjAyMCBhdCAxOTozMCwgVGhvbWFzIEhlbGxzdHLDtm0gKFZNd2FyZSkKPiA8dGhvbWFzX29zQHNo
+aXBtYWlsLm9yZz4gd3JvdGU6Cj4+IERhdmUsIERhbmllbAo+Pgo+PiBUaGUgbWFpbiA1LjYgLW5l
+eHQgcHVsbCBmcm9tIHZtd2dmeC4gTWlub3IgdGhpbmdzIGhlcmUgYW5kIHRoZXJlLCBhcyB3ZWxs
+Cj4+IGFzIGFuIGFkZGVkIGlvY3RsIGZvciBob3N0IG1lc3NhZ2luZyBhbmQgYSBjb3JyZXNwb25k
+aW5nIGFwaSB2ZXJzaW9uIGJ1bXAuCj4gSXMgdGhlcmUgdXNlcnNwYWNlIGZvciB0aGlzIGlvY3Rs
+IHNvbWV3aGVyZT8gSSBuZWVkIGEgcG9pbnRlciB0byBzb21lCj4gcmV2aWV3ZWQgdXNlcnNwYWNl
+IE1SIGZvciBNZXNhIG9yIG90aGVyIHRoaW5nIHRvIGFkZCBuZXcgdUFQSSB0bwo+IGRyaXZlcnMu
+Cj4KPiBEYXZlLgoKSGksIERhdmUsCgpNZXNhIHBhdGNoIHBvc3RlZDoKCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL2FyY2hpdmVzL21lc2EtZGV2LzIwMjAtSmFudWFyeS8yMjQwMTguaHRt
+bAoKVGhhbmtzLApUaG9tYXMKCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVsCg==
