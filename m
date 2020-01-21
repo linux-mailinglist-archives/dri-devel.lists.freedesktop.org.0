@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EFBF144D79
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 09:22:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43DEA144D2F
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 09:21:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EA936FB04;
-	Wed, 22 Jan 2020 08:21:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D16106F3D5;
+	Wed, 22 Jan 2020 08:21:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com
- [148.163.135.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 430966EBF6
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 08:41:29 +0000 (UTC)
-Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
- by mx0a-00128a01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 00L8be4c015298; Tue, 21 Jan 2020 03:41:10 -0500
-Received: from nwd2mta4.analog.com ([137.71.173.58])
- by mx0a-00128a01.pphosted.com with ESMTP id 2xkyta6tgt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Jan 2020 03:41:10 -0500
-Received: from ASHBMBX9.ad.analog.com (ashbmbx9.ad.analog.com [10.64.17.10])
- by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 00L8f9QR054542
- (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=FAIL); 
- Tue, 21 Jan 2020 03:41:09 -0500
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1779.2; Tue, 21 Jan
- 2020 03:41:08 -0500
-Received: from zeus.spd.analog.com (10.64.82.11) by ASHBMBX9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server id 15.1.1779.2 via Frontend
- Transport; Tue, 21 Jan 2020 03:41:03 -0500
-Received: from btogorean-pc.ad.analog.com ([10.48.65.146])
- by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 00L8Sm9c001010;
- Tue, 21 Jan 2020 03:40:58 -0500
-From: Bogdan Togorean <bogdan.togorean@analog.com>
-To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v4 3/3] dt-bindings: drm: bridge: adv7511: Add ADV7535 support
-Date: Tue, 21 Jan 2020 10:27:24 +0200
-Message-ID: <20200121082719.27972-4-bogdan.togorean@analog.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200121082719.27972-1-bogdan.togorean@analog.com>
-References: <20200121082719.27972-1-bogdan.togorean@analog.com>
-MIME-Version: 1.0
-X-ADIRoutedOnPrem: True
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-01-21_02:2020-01-20,
- 2020-01-21 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- bulkscore=0 phishscore=0 mlxlogscore=999 mlxscore=0 suspectscore=1
- impostorscore=0 spamscore=0 malwarescore=0 adultscore=0 priorityscore=1501
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-2001210073
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
+ [IPv6:2607:f8b0:4864:20::642])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1C6A6EBF3
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 08:51:19 +0000 (UTC)
+Received: by mail-pl1-x642.google.com with SMTP id p9so1035005plk.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 00:51:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=P5hzbJ/D5OQnnI17N1166eEm61xxCbFsprqagnG+VjE=;
+ b=Ymk0sIDLUtRA5jnvN237BnDeocFfzS6hjlNI2fkR9R2D7XqeCNhGmS42rPeLE+RJwo
+ qPyqv87g1lmqX77uYKOyUWIFwvqlLLZbMevBPP11jAinnRPdZvFbPwIuTw3d8AKqT4YF
+ 7Rz92fvubPQePAaLSyYrlgr9NKijk4ZBSj/SRjqXVlxmaGiW0stGv2/brSBtHXX+pMJJ
+ mkgqlc8YFY/L7uoEkTbG4ic1nKRP5PC70bBiQ/SynsSOmRMnFLeA3mIx4RASnbokb76F
+ RrJIt38wPtRPxu9IOyR+1Jm1Seme2G7dkmIQFG+hjmSTJaTXMkfqEYuKpwXeukmTGlFL
+ XYiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=P5hzbJ/D5OQnnI17N1166eEm61xxCbFsprqagnG+VjE=;
+ b=Ug1Lb49JLFMlzG70jZyjnUbY3zwo4OhYHiuAuqCP3if1JsN//Y41e0J3xkkvokWZ+j
+ xSe2eFtBXlJjvST9dUknvNgTKqEgGsibzRGi4TRlPLudkcJIEdAXkUVF4Rq7l1vS6mZ6
+ is38I2NvD/i97MwpLE01scAbfkTS12Lh5dEJldYe8GKFL+eeV+Smu2280OAIaMekw4fY
+ Jd8uckYB9Z5emm+9AndH+eIsGagokTWm/2TZT9/Bx9fr+VOFAJ/lhrjwVptphNudeCaX
+ //nbPCiDf2NelITolIGBAFBkosPKhLdtuItKjhYPjflLVgKfrxnEcRHjVOMvxmUvdV8G
+ ymfg==
+X-Gm-Message-State: APjAAAXJx2UOsMFcJMnQZRbtA3plwAXb8YrQ2eTvp6lRNhaKbQKi/8tz
+ 9dY+V4ncn4vtpT71sDZ8QGM=
+X-Google-Smtp-Source: APXvYqxLNFJNXGhVtmyJxWZmtSEhLCgcKQTy4Zjf+7DPNMokZpP8VYGTA5BWbGEalZpenUbExvlZ5g==
+X-Received: by 2002:a17:90a:22a5:: with SMTP id
+ s34mr4226979pjc.8.1579596679316; 
+ Tue, 21 Jan 2020 00:51:19 -0800 (PST)
+Received: from nj08008nbu.spreadtrum.com ([117.18.48.82])
+ by smtp.gmail.com with ESMTPSA id 80sm42820957pfw.123.2020.01.21.00.51.15
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+ Tue, 21 Jan 2020 00:51:18 -0800 (PST)
+From: Kevin Tang <kevin3.tang@gmail.com>
+To: airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
+ mark.rutland@arm.com, kevin3.tang@gmail.com
+Subject: [PATCH RFC v2 0/6] Add Unisoc's drm kms module
+Date: Tue, 21 Jan 2020 16:50:56 +0800
+Message-Id: <1579596662-15466-1-git-send-email-kevin3.tang@gmail.com>
+X-Mailer: git-send-email 2.7.4
 X-Mailman-Approved-At: Wed, 22 Jan 2020 08:21:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,96 +64,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, robdclark@chromium.org, jernej.skrabec@siol.net,
- narmstrong@baylibre.com, airlied@linux.ie, gregkh@linuxfoundation.org,
- jonas@kwiboo.se, wsa+renesas@sang-engineering.com,
- linux-kernel@vger.kernel.org, robh+dt@kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- alexander.deucher@amd.com, tglx@linutronix.de, sam@ravnborg.org,
- matt.redfearn@thinci.com, Bogdan Togorean <bogdan.togorean@analog.com>
+Cc: orsonzhai@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, zhang.lyra@gmail.com, baolin.wang@linaro.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ADV7535 is a part compatible with ADV7533 but it supports 1080p@60hz and
-v1p2 supply is fixed to 1.8V
+ChangeList:
+v1:
+1. only upstream modeset and atomic at first commit. 
+2. remove some unused code;
+3. use alpha and blend_mode properties;
+3. add yaml support;
+4. remove auto-adaptive panel driver;
+5. bugfix
 
-Signed-off-by: Bogdan Togorean <bogdan.togorean@analog.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- .../bindings/display/bridge/adi,adv7511.txt   | 23 ++++++++++---------
- 1 file changed, 12 insertions(+), 11 deletions(-)
+v2:
+1. add sprd crtc and plane module for KMS, preparing for multi crtc&encoder
+2. remove gem drivers, use generic CMA handlers
+3. remove redundant "module_init", all the sub modules loading by KMS
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/adi,adv7511.txt b/Documentation/devicetree/bindings/display/bridge/adi,adv7511.txt
-index 2c887536258c..e8ddec5d9d91 100644
---- a/Documentation/devicetree/bindings/display/bridge/adi,adv7511.txt
-+++ b/Documentation/devicetree/bindings/display/bridge/adi,adv7511.txt
-@@ -1,10 +1,10 @@
--Analog Device ADV7511(W)/13/33 HDMI Encoders
-+Analog Device ADV7511(W)/13/33/35 HDMI Encoders
- -----------------------------------------
- 
--The ADV7511, ADV7511W, ADV7513 and ADV7533 are HDMI audio and video transmitters
--compatible with HDMI 1.4 and DVI 1.0. They support color space conversion,
--S/PDIF, CEC and HDCP. ADV7533 supports the DSI interface for input pixels, while
--the others support RGB interface.
-+The ADV7511, ADV7511W, ADV7513, ADV7533 and ADV7535 are HDMI audio and video
-+transmitters compatible with HDMI 1.4 and DVI 1.0. They support color space
-+conversion, S/PDIF, CEC and HDCP. ADV7533/5 supports the DSI interface for input
-+pixels, while the others support RGB interface.
- 
- Required properties:
- 
-@@ -13,6 +13,7 @@ Required properties:
- 		"adi,adv7511w"
- 		"adi,adv7513"
- 		"adi,adv7533"
-+		"adi,adv7535"
- 
- - reg: I2C slave addresses
-   The ADV7511 internal registers are split into four pages exposed through
-@@ -52,14 +53,14 @@ The following input format properties are required except in "rgb 1x" and
- - bgvdd-supply: A 1.8V supply that powers up the BGVDD pin. This is
-   needed only for ADV7511.
- 
--The following properties are required for ADV7533:
-+The following properties are required for ADV7533 and ADV7535:
- 
- - adi,dsi-lanes: Number of DSI data lanes connected to the DSI host. It should
-   be one of 1, 2, 3 or 4.
- - a2vdd-supply: 1.8V supply that powers up the A2VDD pin on the chip.
- - v3p3-supply: A 3.3V supply that powers up the V3P3 pin on the chip.
- - v1p2-supply: A supply that powers up the V1P2 pin on the chip. It can be
--  either 1.2V or 1.8V.
-+  either 1.2V or 1.8V for ADV7533 but only 1.8V for ADV7535.
- 
- Optional properties:
- 
-@@ -71,9 +72,9 @@ Optional properties:
- - adi,embedded-sync: The input uses synchronization signals embedded in the
-   data stream (similar to BT.656). Defaults to separate H/V synchronization
-   signals.
--- adi,disable-timing-generator: Only for ADV7533. Disables the internal timing
--  generator. The chip will rely on the sync signals in the DSI data lanes,
--  rather than generate its own timings for HDMI output.
-+- adi,disable-timing-generator: Only for ADV7533 and ADV7535. Disables the
-+  internal timing generator. The chip will rely on the sync signals in the
-+  DSI data lanes, rather than generate its own timings for HDMI output.
- - clocks: from common clock binding: reference to the CEC clock.
- - clock-names: from common clock binding: must be "cec".
- - reg-names : Names of maps with programmable addresses.
-@@ -85,7 +86,7 @@ Required nodes:
- The ADV7511 has two video ports. Their connections are modelled using the OF
- graph bindings specified in Documentation/devicetree/bindings/graph.txt.
- 
--- Video port 0 for the RGB, YUV or DSI input. In the case of ADV7533, the
-+- Video port 0 for the RGB, YUV or DSI input. In the case of ADV7533/5, the
-   remote endpoint phandle should be a reference to a valid mipi_dsi_host device
-   node.
- - Video port 1 for the HDMI output
+Kevin Tang (6):
+  dt-bindings: display: add Unisoc's drm master bindings
+  drm/sprd: add Unisoc's drm kms master
+  dt-bindings: display: add Unisoc's dpu bindings
+  drm/sprd: add Unisoc's drm display controller driver
+  dt-bindings: display: add Unisoc's mipi dsi&dphy bindings
+  drm/sprd: add Unisoc's drm mipi dsi&dphy driver
+
+ .../devicetree/bindings/display/sprd/dphy.yaml     |   78 ++
+ .../devicetree/bindings/display/sprd/dpu.yaml      |   85 ++
+ .../devicetree/bindings/display/sprd/drm.yaml      |   38 +
+ .../devicetree/bindings/display/sprd/dsi.yaml      |  101 ++
+ drivers/gpu/drm/Kconfig                            |    2 +
+ drivers/gpu/drm/Makefile                           |    1 +
+ drivers/gpu/drm/sprd/Kconfig                       |   14 +
+ drivers/gpu/drm/sprd/Makefile                      |   17 +
+ drivers/gpu/drm/sprd/disp_lib.c                    |  134 ++
+ drivers/gpu/drm/sprd/disp_lib.h                    |   24 +
+ drivers/gpu/drm/sprd/dphy/Makefile                 |    7 +
+ drivers/gpu/drm/sprd/dphy/pll/Makefile             |    3 +
+ drivers/gpu/drm/sprd/dphy/pll/megacores_sharkle.c  |  626 +++++++++
+ drivers/gpu/drm/sprd/dphy/sprd_dphy_api.c          |  254 ++++
+ drivers/gpu/drm/sprd/dphy/sprd_dphy_hal.h          |  329 +++++
+ drivers/gpu/drm/sprd/dpu/Makefile                  |    7 +
+ drivers/gpu/drm/sprd/dpu/dpu_r2p0.c                |  886 ++++++++++++
+ drivers/gpu/drm/sprd/dsi/Makefile                  |    7 +
+ drivers/gpu/drm/sprd/dsi/core/Makefile             |    3 +
+ drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c      | 1169 ++++++++++++++++
+ drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.h      | 1417 ++++++++++++++++++++
+ drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c  |  375 ++++++
+ drivers/gpu/drm/sprd/dsi/sprd_dsi_api.c            |  544 ++++++++
+ drivers/gpu/drm/sprd/dsi/sprd_dsi_api.h            |   28 +
+ drivers/gpu/drm/sprd/dsi/sprd_dsi_hal.h            | 1102 +++++++++++++++
+ drivers/gpu/drm/sprd/sprd_crtc.c                   |  212 +++
+ drivers/gpu/drm/sprd/sprd_crtc.h                   |   98 ++
+ drivers/gpu/drm/sprd/sprd_dphy.c                   |  246 ++++
+ drivers/gpu/drm/sprd/sprd_dphy.h                   |  102 ++
+ drivers/gpu/drm/sprd/sprd_dpu.c                    |  458 +++++++
+ drivers/gpu/drm/sprd/sprd_dpu.h                    |  122 ++
+ drivers/gpu/drm/sprd/sprd_drm.c                    |  305 +++++
+ drivers/gpu/drm/sprd/sprd_drm.h                    |   16 +
+ drivers/gpu/drm/sprd/sprd_dsi.c                    |  652 +++++++++
+ drivers/gpu/drm/sprd/sprd_dsi.h                    |  192 +++
+ drivers/gpu/drm/sprd/sprd_plane.c                  |  393 ++++++
+ drivers/gpu/drm/sprd/sprd_plane.h                  |   36 +
+ 37 files changed, 10083 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/sprd/dphy.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/sprd/dpu.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/sprd/drm.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/sprd/dsi.yaml
+ create mode 100644 drivers/gpu/drm/sprd/Kconfig
+ create mode 100644 drivers/gpu/drm/sprd/Makefile
+ create mode 100644 drivers/gpu/drm/sprd/disp_lib.c
+ create mode 100644 drivers/gpu/drm/sprd/disp_lib.h
+ create mode 100644 drivers/gpu/drm/sprd/dphy/Makefile
+ create mode 100644 drivers/gpu/drm/sprd/dphy/pll/Makefile
+ create mode 100644 drivers/gpu/drm/sprd/dphy/pll/megacores_sharkle.c
+ create mode 100644 drivers/gpu/drm/sprd/dphy/sprd_dphy_api.c
+ create mode 100644 drivers/gpu/drm/sprd/dphy/sprd_dphy_hal.h
+ create mode 100644 drivers/gpu/drm/sprd/dpu/Makefile
+ create mode 100644 drivers/gpu/drm/sprd/dpu/dpu_r2p0.c
+ create mode 100644 drivers/gpu/drm/sprd/dsi/Makefile
+ create mode 100644 drivers/gpu/drm/sprd/dsi/core/Makefile
+ create mode 100644 drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c
+ create mode 100644 drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.h
+ create mode 100644 drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c
+ create mode 100644 drivers/gpu/drm/sprd/dsi/sprd_dsi_api.c
+ create mode 100644 drivers/gpu/drm/sprd/dsi/sprd_dsi_api.h
+ create mode 100644 drivers/gpu/drm/sprd/dsi/sprd_dsi_hal.h
+ create mode 100644 drivers/gpu/drm/sprd/sprd_crtc.c
+ create mode 100644 drivers/gpu/drm/sprd/sprd_crtc.h
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dphy.c
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dphy.h
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dpu.c
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dpu.h
+ create mode 100644 drivers/gpu/drm/sprd/sprd_drm.c
+ create mode 100644 drivers/gpu/drm/sprd/sprd_drm.h
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dsi.c
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dsi.h
+ create mode 100644 drivers/gpu/drm/sprd/sprd_plane.c
+ create mode 100644 drivers/gpu/drm/sprd/sprd_plane.h
+
 -- 
-2.24.1
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
