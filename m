@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12606143858
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2020 09:35:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0369A14386E
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2020 09:39:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C019D6EBE1;
-	Tue, 21 Jan 2020 08:35:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 778AC6EBE7;
+	Tue, 21 Jan 2020 08:39:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C04896EBE1
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 08:35:18 +0000 (UTC)
-Received: from localhost (unknown [171.76.119.14])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id C749F20661;
- Tue, 21 Jan 2020 08:35:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1579595718;
- bh=heTsX97URT+i6grSByTb7+bV4lKDgcTZRQJGkR1/X7k=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=sCrALuQ9saD06F1M+KuWYDpzQ7BvCCl+jMEOwG8342XNSZMuyYJmigYu5e77zxgc6
- L6Pv0e2nitaAKcfPvUaHK/r8+XNT2LTomHWalmLBUzp6HfnfZwIY66+u4yOSbIKrjU
- ZyyvvwDoLoISCnvRVqzouMDs+sgfBO7t/1O97Z14=
-Date: Tue, 21 Jan 2020 14:05:14 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH 1/2] dmaengine: sun4i: Add support for cyclic requests
- with dedicated DMA
-Message-ID: <20200121083514.GE2841@vkoul-mobl>
-References: <20200110141140.28527-1-stefan@olimex.com>
- <20200110141140.28527-2-stefan@olimex.com>
- <20200115123137.GJ2818@vkoul-mobl>
- <20200115170731.vt6twfhvuwjrbbup@gilmour.lan>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA3FA6EBE7;
+ Tue, 21 Jan 2020 08:39:41 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 21 Jan 2020 00:39:41 -0800
+X-IronPort-AV: E=Sophos;i="5.70,345,1574150400"; d="scan'208";a="219880620"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 21 Jan 2020 00:39:37 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>, daniel@ffwll.ch,
+ sam@ravnborg.org, sudeep.dutt@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>
+Subject: Re: [[Intel-gfx] [PATCH v2 01/10] drm/print: introduce new struct
+ drm_device based WARN* macros
+In-Reply-To: <87y2u9jav8.fsf@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200115034455.17658-1-pankaj.laxminarayan.bharadiya@intel.com>
+ <20200115034455.17658-2-pankaj.laxminarayan.bharadiya@intel.com>
+ <87y2u9jav8.fsf@intel.com>
+Date: Tue, 21 Jan 2020 10:39:34 +0200
+Message-ID: <87muahfbjt.fsf@intel.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200115170731.vt6twfhvuwjrbbup@gilmour.lan>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,40 +49,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stefan Mavrodiev <stefan@olimex.com>, David Airlie <airlied@linux.ie>,
- linux-sunxi@googlegroups.com, open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
- Chen-Yu Tsai <wens@csie.org>,
- "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" <dmaengine@vger.kernel.org>,
- Dan Williams <dan.j.williams@intel.com>,
- "moderated list:ARM/Allwinner sunXi SoC support"
- <linux-arm-kernel@lists.infradead.org>
+Cc: pankaj.laxminarayan.bharadiya@intel.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15-01-20, 18:07, Maxime Ripard wrote:
-> On Wed, Jan 15, 2020 at 06:01:37PM +0530, Vinod Koul wrote:
-> > On 10-01-20, 16:11, Stefan Mavrodiev wrote:
-> > > Currently the cyclic transfers can be used only with normal DMAs. They
-> > > can be used by pcm_dmaengine module, which is required for implementing
-> > > sound with sun4i-hdmi encoder. This is so because the controller can
-> > > accept audio only from a dedicated DMA.
-> > >
-> > > This patch enables them, following the existing style for the
-> > > scatter/gather type transfers.
-> >
-> > I presume you want this to go with drm tree (if not let me know) so:
-> >
-> > Acked-by: Vinod Koul <vkoul@kernel.org>
-> 
-> There's no need for it to go through DRM, it can go through your tree :)
+On Wed, 15 Jan 2020, Jani Nikula <jani.nikula@intel.com> wrote:
+> On Wed, 15 Jan 2020, Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com> wrote:
+>> Add new struct drm_device based WARN* macros. These are modeled after
+>> the core kernel device based WARN* macros. These would be preferred
+>> over the regular WARN* macros, where possible.
+>>
+>> These macros include device information in the backtrace, so we know
+>> what device the warnings originate from.
+>>
+>> Knowing the device specific information in the backtrace would be
+>> helpful in development all around.
+>>
+>> Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
+>
+> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
-okay in that case I have applied now :), thanks
+All, I'd really appreciate acks or reviews on this one to unblock the
+rest. I think the patch is fine, but I'd like wider approval before
+merging.
+
+I'm thinking of putting this in a topic branch and merging to both
+drm-intel-next-queued and drm-misc-next, so we can start converting i915
+to use this.
+
+BR,
+Jani.
+
+
+>
+>> ---
+>>  include/drm/drm_print.h | 29 +++++++++++++++++++++++++++++
+>>  1 file changed, 29 insertions(+)
+>>
+>> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+>> index 8f99d389792d..894a0b9437e2 100644
+>> --- a/include/drm/drm_print.h
+>> +++ b/include/drm/drm_print.h
+>> @@ -553,4 +553,33 @@ void __drm_err(const char *format, ...);
+>>  #define DRM_DEBUG_PRIME_RATELIMITED(fmt, ...)				\
+>>  	DRM_DEV_DEBUG_PRIME_RATELIMITED(NULL, fmt, ##__VA_ARGS__)
+>>  
+>> +/*
+>> + * struct drm_device based WARNs
+>> + *
+>> + * drm_WARN*() acts like WARN*(), but with the key difference of
+>> + * using device specific information so that we know from which device
+>> + * warning is originating from.
+>> + *
+>> + * Prefer drm_device based drm_WARN* over regular WARN*
+>> + */
+>> +
+>> +/* Helper for struct drm_device based WARNs */
+>> +#define drm_WARN(drm, condition, format, arg...)			\
+>> +	WARN(condition, "%s %s: " format,				\
+>> +			dev_driver_string((drm)->dev),			\
+>> +			dev_name((drm)->dev), ## arg)
+>> +
+>> +#define drm_WARN_ONCE(drm, condition, format, arg...)			\
+>> +	WARN_ONCE(condition, "%s %s: " format,				\
+>> +			dev_driver_string((drm)->dev),			\
+>> +			dev_name((drm)->dev), ## arg)
+>> +
+>> +#define drm_WARN_ON(drm, x)						\
+>> +	drm_WARN((drm), (x), "%s",					\
+>> +		 "drm_WARN_ON(" __stringify(x) ")")
+>> +
+>> +#define drm_WARN_ON_ONCE(drm, x)					\
+>> +	drm_WARN_ONCE((drm), (x), "%s",					\
+>> +		      "drm_WARN_ON_ONCE(" __stringify(x) ")")
+>> +
+>>  #endif /* DRM_PRINT_H_ */
 
 -- 
-~Vinod
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
