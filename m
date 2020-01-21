@@ -1,62 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB8F6143E0C
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2020 14:31:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D52C0143EDD
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2020 15:04:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72B426ECEB;
-	Tue, 21 Jan 2020 13:31:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47F9C6FADD;
+	Tue, 21 Jan 2020 14:04:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B07576ECEB
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 13:31:46 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id a5so2980404wmb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 05:31:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LCez1RWpkSYZX+SQqc5BY0aPqdFLfLcrLpCezMG9G1U=;
- b=evPs1aDN4XgdkM3QAq0Vt3zo9Zwf43OBhgqIcXmgNiyLJxTUGHMKEg/Q+B7/zi0cGT
- /rsGclHd1Rgfpon12GVdqs3oDyzI+7doJHvMKxOHV5wJ5bf78FDmXA0ueaXnh3FyIEch
- AFFopbx3USU45HE1RCuLdgvP7BCJ4Tu9LgRNXywPtzBa+86OCYeIRJxzQVvg9BUs1Klf
- yriZbJ+3FhBDD6mh3Cqbt6YKOxhPZvuALF7cDuBFFxrnZ4dZ72+gV4T8n0Ti5hTkG/SX
- cAOD5IgSnUEtAssKSH0JR5OrC2+onCXef44thwG7aG0g66Zi6LYXPg6vnVNRSdRm1Qtw
- gv+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LCez1RWpkSYZX+SQqc5BY0aPqdFLfLcrLpCezMG9G1U=;
- b=Fd1kwfqDRdNDyCuYZrHVSiMc5+5OU/Ixx1S8pHt/EsNFDYzQiqBo2A9TJNBQWB+wfZ
- ErViXjC57GoZLssE0WcgfDJQcqy5+ar+XbZ5SrRKp/5ILV2mVCpycrnaIrefSC9YXTjX
- 3nyK/x5Q/rCmyJpFI5pAbE9lBdLGuFq7e/xhd4XsQMFax43EKwhYVQOzfS+B9sMQKRPM
- h9qWnb4L21/EaCt7dQ1TyNPJQz3UjapgbpEB52DAJnIahYgTs9yhACBqWVTN+LOogyxc
- qRt9AJIhalsJu5esFjzKTQkNj/KC/XAmEhQSkim8z7r4cJJxFf0AR3DnwAbhMCjmommE
- sw4g==
-X-Gm-Message-State: APjAAAUqvebS6NUJyBaH4IBU9ouQ+4CpM3oNq0Czf4Uq28dhgYzDZo6W
- 4NhXo6AxrsOZcK7yWmqR2Z0B6Bwu
-X-Google-Smtp-Source: APXvYqwbpFyuXdPc0OzUce1GbmXL9Ncw4P0r1XmDWJJXqKBj4pmqPvyJ47/giEK1Mke/F6hJ8ellvw==
-X-Received: by 2002:a05:600c:108a:: with SMTP id
- e10mr4292921wmd.38.1579613505247; 
- Tue, 21 Jan 2020 05:31:45 -0800 (PST)
-Received: from laptop.fritz.box ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id x11sm3955284wmg.46.2020.01.21.05.31.43
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jan 2020 05:31:44 -0800 (PST)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/ttm: flush the fence on the bo after we individualize the
- reservation object
-Date: Tue, 21 Jan 2020 14:31:42 +0100
-Message-Id: <20200121133142.928-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.20.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 586356FADD
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 14:04:10 +0000 (UTC)
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com
+ [209.85.219.48])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0BCA024653
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 14:04:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1579615450;
+ bh=RhQe3QXk/zDnaa/l8gaC+5yGDQC5asHgWocfmrxWn1U=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=1h80Vw8QVXNxd4n7JvcbaRtmMqeKqWrPnqDFhed291FPeuclaS2/d8/YMXBSivp0t
+ 50gwjSr2Arq5PviP8O4Z82+GAU9E7DPIUT1b7Ird9NO822POQHM2jNX6tqA35blkzk
+ YPhyPq7t2X3GibQafNCYUvZ75qhPe24PvGRpGr/E=
+Received: by mail-qv1-f48.google.com with SMTP id y8so1465455qvk.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 06:04:10 -0800 (PST)
+X-Gm-Message-State: APjAAAVMsA+1vKcKY0TkgLdI3TPn1Z5qpjsfj7C2DUvovSS7837KBwXc
+ MXMZaUID0FOef5YUXTcK//5d2YIIQws3oOWU7Q==
+X-Google-Smtp-Source: APXvYqwJp13n5rPTJJDOXfMUKI9hXM9vs+rUXNz1Y5Q8u6qz7eER6mpKwoqon55uA3F4Uxi8MfmUkTp8hNPqSH0uU+Y=
+X-Received: by 2002:ad4:4511:: with SMTP id k17mr4650910qvu.135.1579615447751; 
+ Tue, 21 Jan 2020 06:04:07 -0800 (PST)
 MIME-Version: 1.0
+References: <20200121123445.29774-1-dafna.hirschfeld@collabora.com>
+In-Reply-To: <20200121123445.29774-1-dafna.hirschfeld@collabora.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Tue, 21 Jan 2020 08:03:55 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJv-gXOK=80nqnO0TB1P-+1+E_vDaN3XSymKQfSLVTBsQ@mail.gmail.com>
+Message-ID: <CAL_JsqJv-gXOK=80nqnO0TB1P-+1+E_vDaN3XSymKQfSLVTBsQ@mail.gmail.com>
+Subject: Re: [PATCH v2] dt-bindings: convert rockchip-drm.txt to
+ rockchip-drm.yaml
+To: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,32 +54,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, dafna3@gmail.com,
+ =?UTF-8?B?6buE5a626ZKX?= <hjc@rock-chips.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Helen Koike <helen.koike@collabora.com>,
+ Collabora Kernel ML <kernel@collabora.com>,
+ Ezequiel Garcia <ezequiel@collabora.com>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogeGluaHVpIHBhbiA8eGluaHVpLnBhbkBhbWQuY29tPgoKQXMgd2UgbW92ZSB0aGUgdHRt
-X2JvX2luZGl2aWR1YWxpemVfcmVzdigpIHVwd2FyZHMsIHdlIG5lZWQgZmx1c2ggdGhlCmNvcGll
-ZCBmZW5jZSB0b28uIE90aGVyd2lzZSB0aGUgZHJpdmVyIGtlZXBzIHdhaXRpbmcgZm9yIGZlbmNl
-LgoKcnVuJktpbGwga2ZkdGVzdCwgdGhlbiBwZXJmIHRvcC4KCiAgMjUuNTMlICBbdHRtXSAgICAg
-ICAgICAgICAgICAgICAgIFtrXSB0dG1fYm9fZGVsYXllZF9kZWxldGUKICAyNC4yOSUgIFtrZXJu
-ZWxdICAgICAgICAgICAgICAgICAgW2tdIGRtYV9yZXN2X3Rlc3Rfc2lnbmFsZWRfcmN1CiAgMTku
-NzIlICBba2VybmVsXSAgICAgICAgICAgICAgICAgIFtrXSB3d19tdXRleF9sb2NrCgpGaXg6IDM3
-OGUyZDViKCJkcm0vdHRtOiBmaXggdHRtX2JvX2NsZWFudXBfcmVmc19vcl9xdWV1ZSBvbmNlIG1v
-cmUiKQpTaWduZWQtb2ZmLWJ5OiB4aW5odWkgcGFuIDx4aW5odWkucGFuQGFtZC5jb20+ClJldmll
-d2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Ci0tLQog
-ZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYyB8IDQgKysrLQogMSBmaWxlIGNoYW5nZWQsIDMg
-aW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
-bS90dG0vdHRtX2JvLmMgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jCmluZGV4IDA2ZjZk
-NjUwODI3Zi4uMWZiYzM2ZjA1ZDg5IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0
-bV9iby5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMKQEAgLTQ5MSw4ICs0OTEs
-MTAgQEAgc3RhdGljIHZvaWQgdHRtX2JvX2NsZWFudXBfcmVmc19vcl9xdWV1ZShzdHJ1Y3QgdHRt
-X2J1ZmZlcl9vYmplY3QgKmJvKQogCiAJCWRtYV9yZXN2X3VubG9jayhiby0+YmFzZS5yZXN2KTsK
-IAl9Ci0JaWYgKGJvLT5iYXNlLnJlc3YgIT0gJmJvLT5iYXNlLl9yZXN2KQorCWlmIChiby0+YmFz
-ZS5yZXN2ICE9ICZiby0+YmFzZS5fcmVzdikgeworCQl0dG1fYm9fZmx1c2hfYWxsX2ZlbmNlcyhi
-byk7CiAJCWRtYV9yZXN2X3VubG9jaygmYm8tPmJhc2UuX3Jlc3YpOworCX0KIAogZXJyb3I6CiAJ
-a3JlZl9nZXQoJmJvLT5saXN0X2tyZWYpOwotLSAKMi4yMC4xCgpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Tue, Jan 21, 2020 at 6:35 AM Dafna Hirschfeld
+<dafna.hirschfeld@collabora.com> wrote:
+>
+> convert the binding file rockchip-drm.txt to yaml format.
+> This was tested and verified with:
+> make dt_binding_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/rockchip/rockchip-drm.yaml
+
+Also, make sure just 'make dt_binding_check' passes as that checks the
+example against all schemas.
+
+> make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/rockchip/rockchip-drm.yaml
+>
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> ---
+> Changes since v1:
+> - fixed worng sign-off
+> - fixed the path of the $id property to be the path of the yaml file
+>
+>  .../display/rockchip/rockchip-drm.txt         | 19 ----------
+>  .../display/rockchip/rockchip-drm.yaml        | 38 +++++++++++++++++++
+>  2 files changed, 38 insertions(+), 19 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip-drm.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip-drm.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-drm.txt b/Documentation/devicetree/bindings/display/rockchip/rockchip-drm.txt
+> deleted file mode 100644
+> index 5707af89319d..000000000000
+> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip-drm.txt
+> +++ /dev/null
+> @@ -1,19 +0,0 @@
+> -Rockchip DRM master device
+> -================================
+> -
+> -The Rockchip DRM master device is a virtual device needed to list all
+> -vop devices or other display interface nodes that comprise the
+> -graphics subsystem.
+> -
+> -Required properties:
+> -- compatible: Should be "rockchip,display-subsystem"
+> -- ports: Should contain a list of phandles pointing to display interface port
+> -  of vop devices. vop definitions as defined in
+> -  Documentation/devicetree/bindings/display/rockchip/rockchip-vop.txt
+> -
+> -example:
+> -
+> -display-subsystem {
+> -       compatible = "rockchip,display-subsystem";
+> -       ports = <&vopl_out>, <&vopb_out>;
+> -};
+> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-drm.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-drm.yaml
+> new file mode 100644
+> index 000000000000..538898ada9d1
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-drm.yaml
+> @@ -0,0 +1,38 @@
+> +# SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+
+Do you have rights to change the license? The default is GPL-2.0-only.
+Looks like Rockchip owns the copyright.
+
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/rockchip/rockchip-drm.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Rockchip DRM master device
+> +
+> +maintainers:
+> +  - Sandy Huang <hjc@rock-chips.com
+> +  - Heiko Stuebner <heiko@sntech.de>
+> +
+> +description: |
+> +  The Rockchip DRM master device is a virtual device needed to list all
+> +  vop devices or other display interface nodes that comprise the
+> +  graphics subsystem.
+> +
+> +properties:
+> +  compatible:
+> +    const: rockchip,display-subsystem
+> +
+> +  ports:
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    description: |
+> +      Should contain a list of phandles pointing to display interface port
+> +      of vop devices. vop definitions as defined in
+> +      Documentation/devicetree/bindings/display/rockchip/rockchip-vop.txt
+> +
+> +required:
+> +  - compatible
+> +  - ports
+
+Add:
+
+additionalProperties: false
+
+> +
+> +examples:
+> +  - |
+> +    display-subsystem {
+> +        compatible = "rockchip,display-subsystem";
+> +        ports = <&vopl_out>, <&vopb_out>;
+> +    };
+> --
+> 2.17.1
+>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
