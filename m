@@ -1,41 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92AFE144449
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2020 19:29:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26F71144446
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2020 19:29:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B6C96EE20;
-	Tue, 21 Jan 2020 18:29:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29F2B89BAB;
+	Tue, 21 Jan 2020 18:29:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB32E89BAB
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 18:29:39 +0000 (UTC)
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5F99A2087E;
- Tue, 21 Jan 2020 18:29:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1579631379;
- bh=51yKrmQlPgmeyaypex2fjkBrhPuOWZH0iB5oi4tqThI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=eW95Fo3d5uqoxtpENcsNkgmzU63zFhMaZKv/F5WPZkVNdlGolI/KGuuQD6Yy4aJQq
- V8kY9bvRwA+dJ8hUm4SrupskWqblO+Yd29STduEam1HvbJsehbxMNt2TpTkSSfPK56
- Vh4YONOIomQ6fZ9oTBMv4+iaqWFAJqUARF9h1rsE=
-Date: Tue, 21 Jan 2020 19:29:37 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Stefan Mavrodiev <stefan@olimex.com>, Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v2 2/2] drm: sun4i: hdmi: Add support for sun4i HDMI
- encoder audio
-Message-ID: <20200121182937.2ak72e4eklk4za2u@gilmour.lan>
-References: <20200120123326.30743-1-stefan@olimex.com>
- <20200120123326.30743-3-stefan@olimex.com>
- <20200121182905.pxs72ojqx5fz2gi3@gilmour.lan>
+Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com
+ [IPv6:2607:f8b0:4864:20::e43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B99C489BAB
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 18:29:38 +0000 (UTC)
+Received: by mail-vs1-xe43.google.com with SMTP id b4so2468883vsa.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 10:29:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=t42/af076FTYnTQqCeEzMAefnqlG8pmDXKGaC7/eBuI=;
+ b=U2cSzZZNLcV8APaxobe1tJuenunsV++88ADmAPCsWn1srTjzmGw614AuZ0FsW9xNg4
+ uDfKyPTfjAPNOmT4asj0fSVNo5sEv1kfNIgG9joFGzJe6UsEuXdlu6KVwcjNgn2kmayZ
+ OlXahMvPx0Xf40J0L+8/IeS9t4Oe//P+dkr2kcBeDu8A/zc/3//f5LIpexYUfZzZoEue
+ mkyh/mPGKivjfVsoI5W40U+Q+BiflYROS26GUAqqpNtr6A13vA6a0y4UQephwu9ISfM/
+ 4pQYrtbc6953m7BQDB74rEuxkVuYnJGe8KR9Kp1PfDqANMczq0oWrg8PTquGOQDRLZqA
+ /FvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=t42/af076FTYnTQqCeEzMAefnqlG8pmDXKGaC7/eBuI=;
+ b=tHQ9Jdrv9gYPAHdjN6vpPykUe6qAF5g1IQLingB5HjhJVZxFsgRhe16m27NsCSaaJ2
+ zl2I0eXnWZM3ZOBdBXoBgIrSpJyYaM0Sw+d/hsK4Rb1N77vhZKz4/P28nOXO5MzChyRD
+ NV5BUPcAfMpDcvPYlJlp3NRJWt3d0AUoT3T3Vr3kuZwhjtuIKlVX8NENv3UVTn/qylm5
+ 7CQuQ9ks1eXKZx/0j2ItIFmlIoMl8KPXwmiQ8Iqos4vLLZvtSGmbkdtaHD69e6KQDasW
+ 3VVGCpgBQV8KZsLpCFNyi9qTJV/MDEGiFJRntBmQAEukFDPIPI4NmanONMpPrYCEFP87
+ t6tA==
+X-Gm-Message-State: APjAAAXcFbXJOyeRCgIBG6A7WCpj/WjNfjs4LfXwYi8Eo7/SKOu/MEKV
+ 6h/7KAZRm8//RCvQah0UpkmQKjLNF+JOnnRZnwg=
+X-Google-Smtp-Source: APXvYqyMQZzxyVtnyYFD2ewP1MTwNrME2W+KIHO52QfhObobqy85gDSU8w4TkHeqI0KafiV/97pOUpmRFYGZwTHXyI4=
+X-Received: by 2002:a05:6102:7a4:: with SMTP id x4mr38421vsg.85.1579631377797; 
+ Tue, 21 Jan 2020 10:29:37 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200121182905.pxs72ojqx5fz2gi3@gilmour.lan>
+References: <20190722160823.26668-1-ezequiel@collabora.com>
+ <20190722160823.26668-2-ezequiel@collabora.com>
+In-Reply-To: <20190722160823.26668-2-ezequiel@collabora.com>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Tue, 21 Jan 2020 18:30:21 +0000
+Message-ID: <CACvgo53eDRHd-wQrt41UAfFzi_ZYUC2yXCRVx9ktrtiHB6_Q8g@mail.gmail.com>
+Subject: Re: [PATCH libdrm 2/2] modetest: Add a new "-r" option to set a
+ default mode
+To: Ezequiel Garcia <ezequiel@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,185 +62,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-sunxi@googlegroups.com,
- Vinod Koul <vkoul@kernel.org>,
- "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" <dmaengine@vger.kernel.org>,
- Dan Williams <dan.j.williams@intel.com>,
- "moderated list:ARM/Allwinner sunXi SoC support"
- <linux-arm-kernel@lists.infradead.org>
-Content-Type: multipart/mixed; boundary="===============0710209111=="
+Cc: rohan.garg@collabora.com, ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Ezequiel,
 
---===============0710209111==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="cag4omdmo5ru62iz"
-Content-Disposition: inline
+The first patch looks spot on. I'll commit it in a moment.
 
-
---cag4omdmo5ru62iz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Actually Cc'ing this time..
-
-On Tue, Jan 21, 2020 at 07:29:05PM +0100, Maxime Ripard wrote:
-> +Mark
+On Mon, 22 Jul 2019 at 17:08, Ezequiel Garcia <ezequiel@collabora.com> wrote:
 >
-> On Mon, Jan 20, 2020 at 02:33:26PM +0200, Stefan Mavrodiev wrote:
-> > Add HDMI audio support for the sun4i-hdmi encoder, used on
-> > the older Allwinner chips - A10, A20, A31.
-> >
-> > Most of the code is based on the BSP implementation. In it
-> > dditional formats are supported (S20_3LE and S24_LE), however
-> > there where some problems with them and only S16_LE is left.
+> This option finds the first connected connector and then
+> sets its preferred mode on it.
 >
-> What are those problems?
+> Set this option to be set when no mode or plane is set
+> explicitily. This allows to quickly test, in cases where
+> one just needs something displayed.
 >
-> > Signed-off-by: Stefan Mavrodiev <stefan@olimex.com>
-> > ---
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> ---
+>  tests/modetest/modetest.c | 81 ++++++++++++++++++++++++++++++++++++---
+>  1 file changed, 75 insertions(+), 6 deletions(-)
 >
-> > +static int sun4i_hdmi_audio_probe(struct platform_device *pdev)
-> > +{
-> > +	struct snd_soc_card *card = &sun4i_hdmi_audio_card;
-> > +	struct snd_soc_dai_link_component *comp;
-> > +	struct snd_soc_dai_link *link;
-> > +	struct device *dev = &pdev->dev;
-> > +	struct sun4i_hdmi_audio *priv;
-> > +	int ret;
-> > +
-> > +	ret = devm_snd_dmaengine_pcm_register(dev,
-> > +					      &sun4i_hdmi_audio_pcm_config, 0);
-> > +	if (ret) {
-> > +		dev_err(dev, "Failed registering PCM DMA component\n");
-> > +		return ret;
-> > +	}
-> > +
-> > +	ret = devm_snd_soc_register_component(dev,
-> > +					      &sun4i_hdmi_audio_component,
-> > +					      &sun4i_hdmi_audio_dai, 1);
-> > +	if (ret) {
-> > +		dev_err(dev, "Failed registering DAI component\n");
-> > +		return ret;
-> > +	}
-> > +
-> > +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> > +	if (!priv)
-> > +		return -ENOMEM;
-> > +
-> > +	priv->hdmi = dev->parent;
-> > +	dev->of_node = dev->parent->of_node;
-> > +
-> > +	link = devm_kzalloc(dev, sizeof(*link), GFP_KERNEL);
-> > +	if (!link)
-> > +		return -ENOMEM;
-> > +
-> > +	comp = devm_kzalloc(dev, sizeof(*comp) * 3, GFP_KERNEL);
-> > +	if (!comp)
-> > +		return -ENOMEM;
-> > +
-> > +	link->cpus = &comp[0];
-> > +	link->codecs = &comp[1];
-> > +	link->platforms = &comp[2];
-> > +
-> > +	link->num_cpus = 1;
-> > +	link->num_codecs = 1;
-> > +	link->num_platforms = 1;
-> > +
-> > +	link->playback_only = 1;
-> > +
-> > +	link->name = "SUN4I-HDMI";
-> > +	link->stream_name = "SUN4I-HDMI PCM";
-> > +
-> > +	link->codecs->name = dev_name(dev);
-> > +	link->codecs->dai_name	= sun4i_hdmi_audio_dai.name;
-> > +
-> > +	link->cpus->dai_name = dev_name(dev);
-> > +
-> > +	link->platforms->name = dev_name(dev);
-> > +
-> > +	link->dai_fmt = SND_SOC_DAIFMT_I2S;
-> > +
-> > +	card->dai_link = link;
-> > +	card->num_links = 1;
-> > +	card->dev = dev;
-> > +
-> > +	snd_soc_card_set_drvdata(card, priv);
-> > +	return devm_snd_soc_register_card(dev, card);
-> > +}
-> > +
-> > +static int sun4i_hdmi_audio_remove(struct platform_device *pdev)
-> > +{
-> > +	return 0;
-> > +}
-> > +
-> > +static struct platform_driver sun4i_hdmi_audio_driver = {
-> > +	.probe	= sun4i_hdmi_audio_probe,
-> > +	.remove	= sun4i_hdmi_audio_remove,
-> > +	.driver	= {
-> > +		.name = DRIVER_NAME,
-> > +	},
-> > +};
-> > +module_platform_driver(sun4i_hdmi_audio_driver);
-> > +
-> > +MODULE_AUTHOR("Stefan Mavrodiev <stefan@olimex.com");
-> > +MODULE_DESCRIPTION("Allwinner A10 HDMI Audio driver");
-> > +MODULE_LICENSE("GPL v2");
-> > +MODULE_ALIAS("platform:" DRIVER_NAME);
->
-> Sorry if I wasn't clear enough in the previous mail, I didn't suggest
-> to do a driver, this will open another can of worm (as kbuild already
-> pointed out), but to create a new device, and pass that new device to
-> ASoC's functions.
->
-> I tried that, and failed, so I guess it's not an option either.
->
-> Mark, our issue here is that we have a driver tied to a device that is
-> an HDMI encoder. Obviously, we'll want to register into DRM, which is
-> what we were doing so far, with the usual case where at remove /
-> unbind time, in order to free the resources, we just retrieve our
-> pointer to our private structure using the device's drvdata.
->
-> Now, snd_soc_register_card also sets that pointer to the card we try
-> to register, which is problematic. It seems that it's used to handle
-> suspend / resume automatically, which in this case would be also not
-> really fit for us (or rather, we would need to do more that just
-> suspend the audio part).
->
-> Is there anyway we can have that kind of setup? I believe vc4 is in a
-> similar situation, but they worked around it by storing the data they
-> want to access in a global pointer, but that only works for one device
-> which doesn't really suit us either.
->
-> Any suggestions?
-> Thanks!
-> Maxime
+> diff --git a/tests/modetest/modetest.c b/tests/modetest/modetest.c
+> index 5e628127a130..6042aaae7cca 100644
+> --- a/tests/modetest/modetest.c
+> +++ b/tests/modetest/modetest.c
 
---cag4omdmo5ru62iz
-Content-Type: application/pgp-signature; name="signature.asc"
+> @@ -1874,6 +1878,9 @@ static int pipe_resolve_connectors(struct device *dev, struct pipe_arg *pipe)
+>         char *endp;
+>
+>         for (i = 0; i < pipe->num_cons; i++) {
+> +               /* If set_preferred is used, the connector is already resolved. */
+> +               if (pipe->con_ids[i])
+> +                       continue;
+This seems rather non-intuitive. How about we guard invocation of this
+function altogether?
+For example (minimal whitespace changes), in main() we can use:
 
------BEGIN PGP SIGNATURE-----
+if (!set_preferred && pipe_resolve_connectors()....)
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXidDEQAKCRDj7w1vZxhR
-xcfQAP9h+bAMOK6CttQGExCiUhHsu7AAwXShhNOzsQ0EX4W+5wD9HoQMFxRS3p4X
-/GofiUq7GHDK4SgSeA3DOZKvj2lQdwk=
-=ZXb2
------END PGP SIGNATURE-----
 
---cag4omdmo5ru62iz--
+> +static int pipe_find_preferred(struct device *dev, struct pipe_arg *pipe)
+> +{
+> +       drmModeRes *res = dev->resources->res;
+> +       drmModeConnector *con = NULL;
+> +       char *con_str;
+> +       int i;
+> +
+> +       for (i = 0; i < res->count_connectors; i++) {
+> +               con = drmModeGetConnector(dev->fd, res->connectors[i]);
+> +               if (con->connection == DRM_MODE_CONNECTED)
+> +                       break;
+> +               drmModeFreeConnector(con);
+> +               con = NULL;
+> +       }
+> +
 
---===============0710209111==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> +
+> +       /* A CRTC possible will be chosen by pipe_find_crtc_and_mode. */
+> +       pipe->crtc_id = (uint32_t)-1;
+> +
+As-is this will pick the first connector, which may not work with all crtcs.
 
+How about we tweak the loop above to pick a connector for the given crtc_id?
+Feel free to do that as follow-up.
+
+
+>  int main(int argc, char **argv)
+
+>         int test_cursor = 0;
+> +       int set_preferred = 0;
+>         int use_atomic = 0;
+>         char *device = NULL;
+>         char *module = NULL;
+> @@ -1987,6 +2043,9 @@ int main(int argc, char **argv)
+>                 case 'v':
+>                         test_vsync = 1;
+>                         break;
+> +               case 'r':
+> +                       set_preferred = 1;
+> +                       break;
+>                 case 'w':
+>                         prop_args = realloc(prop_args,
+>                                            (prop_count + 1) * sizeof *prop_args);
+> @@ -2008,7 +2067,7 @@ int main(int argc, char **argv)
+>         }
+>
+>         if (!args || (args == 1 && use_atomic))
+> -               encoders = connectors = crtcs = planes = framebuffers = 1;
+> +               set_preferred = encoders = connectors = crtcs = planes = framebuffers = 1;
+>
+Did you mean to git add this? The variable set_preferred is already
+set as needed.
+
+Any reason why using atomic modeset (modetest -r -a), clears the
+screen while legacy (modetest -r) sets the usual pattern. What am I
+missing?
+
+Thanks
+Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0710209111==--
