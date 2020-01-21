@@ -1,34 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B97591442D9
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2020 18:11:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB06C1443D6
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2020 19:00:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D7A36EDD6;
-	Tue, 21 Jan 2020 17:11:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEE9388FD4;
+	Tue, 21 Jan 2020 18:00:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B3F86EDD6
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 17:11:30 +0000 (UTC)
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com
- [66.24.58.225])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 457E2206A2;
- Tue, 21 Jan 2020 17:11:26 +0000 (UTC)
-Date: Tue, 21 Jan 2020 12:11:24 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: lukasz.luba@arm.com
-Subject: Re: [PATCH 3/4] thermal: devfreq_cooling: Refactor code and switch
- to use Energy Model
-Message-ID: <20200121121124.1a1f3175@gandalf.local.home>
-In-Reply-To: <20200116152032.11301-4-lukasz.luba@arm.com>
-References: <20200116152032.11301-1-lukasz.luba@arm.com>
- <20200116152032.11301-4-lukasz.luba@arm.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
+ [209.85.167.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D07788FD4
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 18:00:51 +0000 (UTC)
+Received: by mail-oi1-f194.google.com with SMTP id p125so3405152oif.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 10:00:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=QHRMSNRShRtBYrUTeMfWPqqYtpJg6IFNDf8AuiA+bOc=;
+ b=hL6EeNioDU5y/JNwoeOCGePukp0NmXUkWy6xPRfja3lohQpql0fC06jo4nZc1/oeMc
+ aluD/+QWMHIot/KBxn47WW5n7XCG2Iu9zaS1dfgPUqCmFiBSP3ye9r55rvQac1unXd3O
+ 7CXys3n2y6zxL0NCsNnVl9MbayBfm6wQWxCtrWM8DwuXhCzYFFDC9xgW1gNIdUXcT5fx
+ zHWeWfpq+xpIyr5m6khvu71QGKGeRl476Cju4Z21i9gme5vqrh7TJzKfYldS6rBUYWK2
+ UCqAYAmeBw+9Oz1VPMGRZ9g678xLpmAd2x+to/q+YgthPR4NKgDrvTukPNiqI5LdU3sa
+ yQ0A==
+X-Gm-Message-State: APjAAAWc3LBHrv6S5m6KD/H2MEGejKbtb0QcHXwNANUpmjhqFoWTpe1s
+ JbB5BUeSVUNf6TiftQfwMA==
+X-Google-Smtp-Source: APXvYqyzppaF7bza95PNQiTUkKlMxTicfaxYaeuVH01PjAK3i3op5l4C39g5wjarGMwofRV3547y0w==
+X-Received: by 2002:aca:5fc6:: with SMTP id t189mr4028320oib.166.1579629650685; 
+ Tue, 21 Jan 2020 10:00:50 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id l13sm13748338otq.78.2020.01.21.10.00.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Jan 2020 10:00:49 -0800 (PST)
+Received: (nullmailer pid 858 invoked by uid 1000);
+ Tue, 21 Jan 2020 18:00:48 -0000
+Date: Tue, 21 Jan 2020 12:00:48 -0600
+From: Rob Herring <robh@kernel.org>
+To: allen <allen.chen@ite.com.tw>
+Subject: Re: [PATCH v6 3/4] dt-bindings: Add binding for IT6505.
+Message-ID: <20200121180048.GA407@bogus>
+References: <1579488364-13182-1-git-send-email-allen.chen@ite.com.tw>
+ <1579488364-13182-4-git-send-email-allen.chen@ite.com.tw>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <1579488364-13182-4-git-send-email-allen.chen@ite.com.tw>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,82 +61,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nm@ti.com, juri.lelli@redhat.com, daniel.lezcano@linaro.org,
- peterz@infradead.org, viresh.kumar@linaro.org, dri-devel@lists.freedesktop.org,
- bjorn.andersson@linaro.org, bsegall@google.com,
- alyssa.rosenzweig@collabora.com, Morten.Rasmussen@arm.com,
- amit.kucheria@verdurent.com, vincent.guittot@linaro.org, khilman@kernel.org,
- agross@kernel.org, b.zolnierkie@samsung.com, steven.price@arm.com,
- cw00.choi@samsung.com, mingo@redhat.com, linux-imx@nxp.com,
- rui.zhang@intel.com, mgorman@suse.de, linux-pm@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, s.hauer@pengutronix.de,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- Chris.Redpath@arm.com, linux-omap@vger.kernel.org, Dietmar.Eggemann@arm.com,
- linux-arm-kernel@lists.infradead.org, airlied@linux.ie, javi.merino@arm.com,
- tomeu.vizoso@collabora.com, qperret@google.com, sboyd@kernel.org,
- shawnguo@kernel.org, rjw@rjwysocki.net, linux-kernel@vger.kernel.org,
- kernel@pengutronix.de, sudeep.holla@arm.com, patrick.bellasi@matbug.net,
- ionela.voinescu@arm.com
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Pi-Hsun Shih <pihsun@chromium.org>,
+ Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>, David Airlie <airlied@linux.ie>,
+ Allen Chen <allen.chen@ite.com.tw>, open list <linux-kernel@vger.kernel.org>,
+ "open  list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 16 Jan 2020 15:20:31 +0000
-lukasz.luba@arm.com wrote:
+On Mon, 20 Jan 2020 10:44:33 +0800, allen wrote:
+> Add a DT binding documentation for IT6505.
+> 
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> Signed-off-by: Allen Chen <allen.chen@ite.com.tw>
+> Signed-off-by: Pi-Hsun Shih <pihsun@chromium.org>
+> ---
+>  .../bindings/display/bridge/ite,it6505.yaml        | 89 ++++++++++++++++++++++
+>  1 file changed, 89 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+> 
 
-> diff --git a/include/trace/events/thermal.h b/include/trace/events/thermal.h
-> index 135e5421f003..8a5f04888abd 100644
-> --- a/include/trace/events/thermal.h
-> +++ b/include/trace/events/thermal.h
-> @@ -153,31 +153,30 @@ TRACE_EVENT(thermal_power_cpu_limit,
->  TRACE_EVENT(thermal_power_devfreq_get_power,
->  	TP_PROTO(struct thermal_cooling_device *cdev,
->  		 struct devfreq_dev_status *status, unsigned long freq,
-> -		u32 dynamic_power, u32 static_power, u32 power),
-> +		u32 power),
->  
-> -	TP_ARGS(cdev, status,  freq, dynamic_power, static_power, power),
-> +	TP_ARGS(cdev, status,  freq, power),
->  
->  	TP_STRUCT__entry(
->  		__string(type,         cdev->type    )
->  		__field(unsigned long, freq          )
-> -		__field(u32,           load          )
-> -		__field(u32,           dynamic_power )
-> -		__field(u32,           static_power  )
-> +		__field(u32,           busy_time)
-> +		__field(u32,           total_time)
->  		__field(u32,           power)
->  	),
->  
->  	TP_fast_assign(
->  		__assign_str(type, cdev->type);
->  		__entry->freq = freq;
-> -		__entry->load = (100 * status->busy_time) / status->total_time;
-> -		__entry->dynamic_power = dynamic_power;
-> -		__entry->static_power = static_power;
-> +		__entry->busy_time = status->busy_time;
-> +		__entry->total_time = status->total_time;
->  		__entry->power = power;
->  	),
->  
-> -	TP_printk("type=%s freq=%lu load=%u dynamic_power=%u static_power=%u power=%u",
-> +	TP_printk("type=%s freq=%lu load=%u power=%u",
->  		__get_str(type), __entry->freq,
-> -		__entry->load, __entry->dynamic_power, __entry->static_power,
-> +		__entry->total_time == 0 ? 0 :
-> +			(100 * __entry->busy_time) / __entry->total_time,
->  		__entry->power)
->  );
->  
+My bot found errors running 'make dt_binding_check' on your patch:
 
-Tracing updates look fine to me. Having the division on the output
-makes more sense.
+Error: Documentation/devicetree/bindings/display/bridge/ite,it6505.example.dts:19.31-32 syntax error
+FATAL ERROR: Unable to parse input tree
+scripts/Makefile.lib:300: recipe for target 'Documentation/devicetree/bindings/display/bridge/ite,it6505.example.dt.yaml' failed
+make[1]: *** [Documentation/devicetree/bindings/display/bridge/ite,it6505.example.dt.yaml] Error 1
+Makefile:1263: recipe for target 'dt_binding_check' failed
+make: *** [dt_binding_check] Error 2
 
-Reviewed-by: Steven Rostedt (VMware) <rostedt@goodmis.org> # for tracing code
-
--- Steve
+See https://patchwork.ozlabs.org/patch/1225618
+Please check and re-submit.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
