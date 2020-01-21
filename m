@@ -1,55 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D1A01439A6
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2020 10:39:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89DCC1439BC
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2020 10:44:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B07F26EC1A;
-	Tue, 21 Jan 2020 09:39:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B4286EC1C;
+	Tue, 21 Jan 2020 09:44:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D52F6EC1A
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 09:39:31 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00L9dR66062753;
- Tue, 21 Jan 2020 03:39:27 -0600
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47DE66EC1C
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 09:44:21 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00L9iG36079851;
+ Tue, 21 Jan 2020 03:44:16 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1579599567;
- bh=JCpIWpKZmeZ+Ms921F9R3mQuzoHIAVicFLQDZsZzNhE=;
+ s=ti-com-17Q1; t=1579599856;
+ bh=pItoAbfEolhg+LEglLACW8jt7X3SSzdi0PRQ6gE8ed4=;
  h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=Rrg59eJV5PuvreL+/N0kkFvZN7EHJCCZNfiXRFMjJk/CJLOb3gDPsc0ZbzDAveb1s
- 5CThyPJu53v+wBLTd2X4FfsJfyZt1P5knAjxGl5zDplHPNMHAX9KgM4vr2yx2NekcV
- 3YUYP7qDHUQjw1iUkR9zWZ1iHgO9u36EVcksCM6Y=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00L9dRg3035119
+ b=cnNoOG9zjh8IqdpuGDCC1qxFqhLzn2yXtiP5B7EicJ1evmLlG914GVdXhQ8T40vyh
+ n83czwvdawq4yPip1nk5h/K+cpV7thV+JrqOPQg9La5cMW/aq4sTsfVKT/z1S+uVP6
+ 7TmcPV1K7Ipi4kTBB0VROpNAc5AUR4uYTgeD6aUk=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00L9iGWO110632
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 21 Jan 2020 03:39:27 -0600
-Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ Tue, 21 Jan 2020 03:44:16 -0600
+Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 21
- Jan 2020 03:39:26 -0600
+ Jan 2020 03:44:16 -0600
 Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE113.ent.ti.com
  (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Tue, 21 Jan 2020 03:39:26 -0600
+ Frontend Transport; Tue, 21 Jan 2020 03:44:16 -0600
 Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00L9dNBu024317;
- Tue, 21 Jan 2020 03:39:24 -0600
-Subject: Re: [PATCH v8 4/5] drm/tidss: New driver for TI Keystone platform
- Display SubSystem
-To: Jyri Sarha <jsarha@ti.com>, <dri-devel@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>
-References: <cover.1579553817.git.jsarha@ti.com>
- <96c8aa362a426a64086da92cb3b486c6cdce3e7f.1579553817.git.jsarha@ti.com>
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00L9iFGY032758;
+ Tue, 21 Jan 2020 03:44:15 -0600
+Subject: Re: [PATCH] drm/bridge: tfp410: add pclk limits
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20200113134528.9851-1-tomi.valkeinen@ti.com>
+ <20200117125307.GE5711@pendragon.ideasonboard.com>
 From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <a54d264d-ea83-3fb7-399d-58e84ed20058@ti.com>
-Date: Tue, 21 Jan 2020 11:39:23 +0200
+Message-ID: <4a74bb03-74d7-564d-3547-bd01b4eddc5d@ti.com>
+Date: Tue, 21 Jan 2020 11:44:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <96c8aa362a426a64086da92cb3b486c6cdce3e7f.1579553817.git.jsarha@ti.com>
+In-Reply-To: <20200117125307.GE5711@pendragon.ideasonboard.com>
 Content-Language: en-US
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,71 +62,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: yamonkar@cadence.com, praneeth@ti.com, sjakhade@cadence.com,
- peter.ujfalusi@ti.com, laurent.pinchart@ideasonboard.com, subhajit_paul@ti.com,
- sam@ravnborg.org
+Cc: dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20/01/2020 23:02, Jyri Sarha wrote:
-> This patch adds a new DRM driver for Texas Instruments DSS IPs used on
-> Texas Instruments Keystone K2G, AM65x, and J721e SoCs. The new DSS IP is
-> a major change to the older DSS IP versions, which are supported by
-> the omapdrm driver. While on higher level the Keystone DSS resembles
-> the older DSS versions, the registers are completely different and the
-> internal pipelines differ a lot.
+On 17/01/2020 14:53, Laurent Pinchart wrote:
+> Hi Tomi,
 > 
-> DSS IP found on K2G is an "ultra-light" version, and has only a single
-> plane and a single output. The K3 DSS IPs are found on AM65x and J721E
-> SoCs. AM65x DSS has two video ports, one full video plane, and another
-> "lite" plane without scaling support. J721E has 4 video ports, 2 video
-> planes and 2 lite planes. AM65x DSS has also an integrated OLDI (LVDS)
-> output.
+> Thank you for the patch.
 > 
-> Version history:
+> On Mon, Jan 13, 2020 at 03:45:28PM +0200, Tomi Valkeinen wrote:
+>> Add pixel clock limits to the driver as per TFP410 datasheet: min 25MHz,
+>> max 165MHz.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+>> ---
+>>   drivers/gpu/drm/bridge/ti-tfp410.c | 10 ++++++++++
+>>   1 file changed, 10 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/ti-tfp410.c b/drivers/gpu/drm/bridge/ti-tfp410.c
+>> index 6f6d6d1e60ae..f378a8f79bcb 100644
+>> --- a/drivers/gpu/drm/bridge/ti-tfp410.c
+>> +++ b/drivers/gpu/drm/bridge/ti-tfp410.c
+>> @@ -167,10 +167,20 @@ static void tfp410_disable(struct drm_bridge *bridge)
+>>   	gpiod_set_value_cansleep(dvi->powerdown, 1);
+>>   }
+>>   
+>> +static enum drm_mode_status tfp410_mode_valid(struct drm_bridge *bridge,
+>> +					      const struct drm_display_mode *mode)
+>> +{
+>> +	if (mode->clock < 25000 || mode->clock > 165000)
+>> +		return MODE_BAD;
 > 
-> v2: - rebased on top of drm-next-2019-11-27
->      - sort all include lines in all files
->      - remove all include <drm/drmP.h>
->      - remove select "select VIDEOMODE_HELPERS"
->      - call dispc_vp_setup() later in tidss_crtc_atomic_flush() (there is no
->        to call it in new modeset case as it is also called in vp_enable())
->      - change probe sequence and drm_device allocation (follow example in
->        drm_drv.c)
->      - use __maybe_unused instead of #ifdef for pm functions
->      - remove "struct drm_fbdev_cma *fbdev;" from driver data
->      - check panel connector type before connecting it
+> Shouldn't you return MODE_CLOCK_LOW AND MODE_CLOCK_HIGH respectively ?
+> Apart from that,
 > 
-> v3: no change
-> 
-> v4: no change
-> 
-> v5: - remove fifo underflow irq handling, it is not an error and
->        it should be used for debug purposes only
->      - memory tuning, prefetch plane fifo up to high-threshold value to
->        minimize possibility of underflows.
-> 
-> v6: - Check CTM and gamma support from dispc_features when creating crtc
->      - Implement CTM support for k2g and fix k3 CTM implementation
->      - Remove gamma property persistence and always write color properties
->        in a new modeset
-> 
-> v7: - Fix checkpatch.pl --strict issues
->      - Rebase on top of drm-misc-next-2020-01-10
-> 
-> v8: - Remove idle debug prints from dispc_init()
->      - Add Reviewed-by: Benoit Parrot <bparrot@ti.com>
-> 
-> Co-developed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> Signed-off-by: Jyri Sarha <jsarha@ti.com>
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> Reviewed-by: Benoit Parrot <bparrot@ti.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-You can add my SoB too:
+Indeed. I'll send a v2. Thanks!
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+  Tomi
 
 -- 
 Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
