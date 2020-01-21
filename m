@@ -1,41 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FA4D14376F
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2020 08:13:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B694143792
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2020 08:29:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2CA96EBB3;
-	Tue, 21 Jan 2020 07:13:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C62C6E1F6;
+	Tue, 21 Jan 2020 07:29:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54C056EBAF;
- Tue, 21 Jan 2020 07:13:39 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2020 23:13:38 -0800
-X-IronPort-AV: E=Sophos;i="5.70,345,1574150400"; d="scan'208";a="219856969"
-Received: from joloughl-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.11.51])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2020 23:13:35 -0800
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6000D6E1F6
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 07:29:33 +0000 (UTC)
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id B0F7721734;
+ Tue, 21 Jan 2020 07:29:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1579591773;
+ bh=qkBSjs+8ufPF7XL8qAf0QcnKCBadVCoM8RLnOVSXrZg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=vbXWSGJ45x04Ff/ti+Nhqn8t0ktcaI5YlVLOxEifVfMoZYEWaJCM9ScZAc2NnWbyE
+ 9KCTjoQIA++zGPPZBK6MqLHdWeLh3U9zLb9+KWDt41vAsiYmVuxcLtfbQin9BsmGId
+ GR56iSawr/BYN2hpAPT+s8Ab5f0KDVwcC/UW4AE8=
+Date: Tue, 21 Jan 2020 08:29:30 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v1 1/3] dt-bindings: display: add panel-timing.yaml
+Message-ID: <20200121072930.6qk2ylrb3p4qjfqz@gilmour.lan>
+References: <20200120200641.15047-1-sam@ravnborg.org>
+ <20200120200641.15047-2-sam@ravnborg.org>
 MIME-Version: 1.0
-In-Reply-To: <20200121083424.66d98dc5@canb.auug.org.au>
-References: <20200121083424.66d98dc5@canb.auug.org.au>
-Subject: Re: linux-next: build failure after merge of the drm-intel-fixes tree
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-To: DRI <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Stephen Rothwell <sfr@canb.auug.org.au>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date: Tue, 21 Jan 2020 09:13:24 +0200
-Message-ID: <157959080456.6877.8085345204229334781@jlahtine-desk.ger.corp.intel.com>
-User-Agent: alot/0.8.1
+Content-Disposition: inline
+In-Reply-To: <20200120200641.15047-2-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,30 +47,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Matthew Auld <matthew.auld@intel.com>
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Oleksandr Suvorov <oleksandr.suvorov@toradex.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Stephen Rothwell (2020-01-20 23:34:24)
-> Hi all,
-> 
-> After merging the drm-intel-fixes tree, today's linux-next build (x86_64
-> allmodconfig) failed like this:
-> 
-> 
-> Caused by commit
-> 
->   d8fcca47e195 ("drm/i915/userptr: fix size calculation")
-> 
-> I have reverted that commit for today.
+Hi,
 
-It was a missing git add while fixing a cherry-pick and is now fixed.
+On Mon, Jan 20, 2020 at 09:06:39PM +0100, Sam Ravnborg wrote:
+> Add meta-schema variant of panel-timing and
+> reference it from panel-common.yaml.
+>
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Oleksandr Suvorov <oleksandr.suvorov@toradex.com>
+> Cc: devicetree@vger.kernel.org
+> ---
+>  .../bindings/display/panel/panel-common.yaml  |   7 +-
+>  .../bindings/display/panel/panel-timing.yaml  | 253 ++++++++++++++++++
+>  2 files changed, 256 insertions(+), 4 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/panel-timing.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-common.yaml b/Documentation/devicetree/bindings/display/panel/panel-common.yaml
+> index ef8d8cdfcede..8070c439adbd 100644
+> --- a/Documentation/devicetree/bindings/display/panel/panel-common.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-common.yaml
+> @@ -54,13 +54,12 @@ properties:
+>
+>    # Display Timings
+>    panel-timing:
+> -    type: object
+>      description:
+>        Most display panels are restricted to a single resolution and
+>        require specific display timings. The panel-timing subnode expresses those
+> -      timings as specified in the timing subnode section of the display timing
+> -      bindings defined in
+> -      Documentation/devicetree/bindings/display/panel/display-timing.txt.
+> +      timings.
+> +    allOf:
+> +      - $ref: panel-timing.yaml#
+>
+>    # Connectivity
+>    port:
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-timing.yaml b/Documentation/devicetree/bindings/display/panel/panel-timing.yaml
+> new file mode 100644
+> index 000000000000..59891c7a58ee
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-timing.yaml
+> @@ -0,0 +1,253 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/panel-timing.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: panel timing bindings
+> +
+> +maintainers:
+> +  - Thierry Reding <thierry.reding@gmail.com>
+> +  - Sam Ravnborg <sam@ravnborg.org>
+> +
+> +description: |
+> +  There are different ways of describing the timing data data of a panel. The
+> +  devicetree representation corresponds to the one commonly found in datasheets
+> +  for panels. If a panel supports multiple signal timings, the native-mode
+> +  can be specified.
+> +
+> +  The parameters are defined as seen in the following illustration.
+> +
+> +  +----------+-------------------------------------+----------+-------+
+> +  |          |        ^                            |          |       |
+> +  |          |        |vback_porch                 |          |       |
+> +  |          |        v                            |          |       |
+> +  +----------#######################################----------+-------+
+> +  |          #        ^                            #          |       |
+> +  |          #        |                            #          |       |
+> +  |  hback   #        |                            #  hfront  | hsync |
+> +  |   porch  #        |       hactive              #  porch   |  len  |
+> +  |<-------->#<-------+--------------------------->#<-------->|<----->|
+> +  |          #        |                            #          |       |
+> +  |          #        |vactive                     #          |       |
+> +  |          #        |                            #          |       |
+> +  |          #        v                            #          |       |
+> +  +----------#######################################----------+-------+
+> +  |          |        ^                            |          |       |
+> +  |          |        |vfront_porch                |          |       |
+> +  |          |        v                            |          |       |
+> +  +----------+-------------------------------------+----------+-------+
+> +  |          |        ^                            |          |       |
+> +  |          |        |vsync_len                   |          |       |
+> +  |          |        v                            |          |       |
+> +  +----------+-------------------------------------+----------+-------+
+> +
+> +
+> +  The following is the panel timings shown with time on the x-axis.
+> +  This matches the timing diagrams often found in data sheets.
+> +
+> +              Active                 Front           Sync           Back
+> +              Region                 Porch                          Porch
+> +  <-----------------------><----------------><-------------><-------------->
+> +    //////////////////////|
+> +   ////////////////////// |
+> +  //////////////////////  |..................               ................
+> +                                             _______________
+> +
+> +  Timing can be specified either as a typical value or as a tuple
+> +  of min, typ, max values.
+> +
+> +properties:
+> +
+> +  clock-frequency:
+> +   $ref: /schemas/types.yaml#/definitions/uint32
+> +   description: |
+> +     Panel clock in Hz
+> +
+> +  hactive:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: |
+> +       Horizontal panel resolution in pixels
+> +
+> +  vactive:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: |
+> +      Verical panel resolution in pixels
+> +
+> +  hfront-porch:
+> +    description: |
+> +      Horizontal front porch panel timing
+> +    oneOf:
+> +      - allOf:
+> +        - $ref: /schemas/types.yaml#/definitions/uint32-array
+> +        - maxItems: 1
+> +          items:
+> +            description: typical number of pixels
 
-Regards, Joonas
+You have that on a number of occasions, but that could just be an
+uint32, right?
+
+> +      - allOf:
+> +        - $ref: /schemas/types.yaml#/definitions/uint32-array
+> +        - minItems: 3
+> +          maxItems: 3
+> +          items:
+> +            description: min, typ, max number of pixels
+
+When minItems and maxitems are equal, you can just set one, the other
+one will be filled by the DT schemas tools.
+
+> +  hsync-active:
+> +    description: |
+> +      Horizontal sync pulse.
+> +      If omitted then it is not used by the hardware
+> +    oneOf:
+> +      - const: 0
+> +        description: active low
+> +      - const: 1
+> +        description: active high
+
+You probably should use an enum here (and in other similar
+places). oneOf / anyOf / allOF errors are pretty cryptic, while it
+will it's really better with an enum.
+
+Thanks!
+Maxime
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
