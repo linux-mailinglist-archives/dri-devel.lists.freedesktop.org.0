@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 969431440FF
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2020 16:53:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AA4B14411F
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2020 17:00:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C05E16ED62;
-	Tue, 21 Jan 2020 15:53:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 631816ED77;
+	Tue, 21 Jan 2020 16:00:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03A986ED62
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 15:53:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 861DC6ED78
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 16:00:47 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 206231] R9 280X low performance with all games
-Date: Tue, 21 Jan 2020 15:53:24 +0000
+Date: Tue, 21 Jan 2020 16:00:47 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -26,14 +26,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: sylvain.bertrand@gmail.com
+X-Bugzilla-Who: alexdeucher@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-206231-2300-XuepPV0bdS@https.bugzilla.kernel.org/>
+Message-ID: <bug-206231-2300-tuvVPV9Sy9@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-206231-2300@https.bugzilla.kernel.org/>
 References: <bug-206231-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,33 +58,13 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=206231
 
---- Comment #22 from Sylvain BERTRAND (sylvain.bertrand@gmail.com) ---
-On Tue, Jan 21, 2020 at 08:01:49AM +0000, bugzilla-daemon@bugzilla.kernel.org
-wrote:
-> Yesterday, I compiled and installed the 5.4.13 kernel, but got no
-> improvements.
+--- Comment #23 from Alex Deucher (alexdeucher@gmail.com) ---
+(In reply to Sylvain BERTRAND from comment #22)
+> Only the AMD/mesa devs can reasonably deal with the insane complexity of the
+> GL
+> stack (linux(drm) + libdrm + llvm + mesa(GL) + xserver + xf86-video-amdgpu).
 
-Only the AMD/mesa devs can reasonably deal with the insane complexity of the GL
-stack (linux(drm) + libdrm + llvm + mesa(GL) + xserver + xf86-video-amdgpu).
-
-But they won't be able to do anything if you don't run the latest git version
-of the code (linux + mesa) and provide an easily reproducible and free (as in
-free beer) case (or some AMD/mesa devs own your games).
---------------------------------------------------------------------------------
-I run such a 64bits system. If you can reproduce the issue with a free (as in
-free beer) game, I'll be pleased to test it to see if it happens on my system.
-
-or
-
-You would need to compile and run the following linux kernel:
-"git://people.freedesktop.org/~agd5f/linux branch", "amd-staging-drm-next"
-branch
-
-Unfortunately, Southern Islands hardware shader compiler is llvm, you would
-need to compile the latest git llvm-project (a massive pain).
-
-Idem for libdrm, mesa, the xserver, and the amdgpu xserver driver.
---------------------------------------------------------------------------------
+Is this roughly the same model every GPU vendor uses. GPUs are complex.
 
 -- 
 You are receiving this mail because:
