@@ -2,56 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2450145E2E
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 22:37:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFC4F145E48
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 22:52:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07DE46F904;
-	Wed, 22 Jan 2020 21:37:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD83B6F90C;
+	Wed, 22 Jan 2020 21:52:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-xc41.google.com (mail-yw1-xc41.google.com
- [IPv6:2607:f8b0:4864:20::c41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7FCB6F901
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 21:37:27 +0000 (UTC)
-Received: by mail-yw1-xc41.google.com with SMTP id n184so541406ywc.3
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 13:37:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
- h=date:from:to:cc:subject:message-id:mime-version:content-disposition
- :user-agent; bh=qk+nYUbAhXfC1rJu3pYBHWtrahU4BzkSf6ZowkQfGIQ=;
- b=b6KbnKuY+Dpi2cvyND0YCkm/dIgFYDbr1HESZUb7Lh6y68F51Aw+l/9+f86Ju5297j
- 0GPQ8V1B0G2/YGcE2jxid8+FOUclcvGbY0R70b/WlChLUWpeVy5+FfE1ae230ZAagmbd
- fWOaXskcvlHHSVZgvHdKrkj3KC50Khcfk/O5MKNlcc0l5SGc+efvmzD1XhuhmT0JP557
- SliwwXlSkk5ZH987PeNnmLF6Qfv6nCx8nlP5oVtl9HENWihScD46Sa6qg+EssBYOPbZN
- xMFIIMK/jm+S/0YUQGDvCiJZk2B21Bo1q7Y3iZT3aKkZFidJ2ygC8a7GqJ331XU7Npfu
- QCNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition:user-agent;
- bh=qk+nYUbAhXfC1rJu3pYBHWtrahU4BzkSf6ZowkQfGIQ=;
- b=bCsM4omX32Uj3emLLhMTf3ITTg/oh4VZNYNp+K7QaMR856a8DlnpB4CHrc8ApkR0P8
- 3BzUaUGRyP8PcJPM8yocqDhXlQoBzy1NqiaiVcxTcUE15gRF3On2NHWH+77ftanZXzDD
- na4+AIKeDAsNbdifWi0HEIlnQ8DQxUK0kCzfTlat0G6aIuynM8Ou1gc6+TDlxS/eVwdZ
- L5yeCOZwbkC2Ng3Fpkb0SD+N/AVrpMCavQxGcc17Q1hrdiA96Misa9hE5/17LY1phm4e
- /yhDkiaNbWU3331B9TSkMXDsXScMdh4Vmilb5ntbPaYzKMJJC6rhywv+aMNdUnL2WgxJ
- lTMA==
-X-Gm-Message-State: APjAAAXEUQFizCRKWwVhBIYwbjlCxBYDJjUk5voEFh34qCuKk0mna15U
- CHukAOET4SiiRbtyTZEnUgNjseAcBjacGw==
-X-Google-Smtp-Source: APXvYqx2b6Zejp9ppQPCDQzwvF1/e4DoAcknRHLt2dFSCNXztFz5K0MKfqrmFfaV64OD9Xs5pNrp2Q==
-X-Received: by 2002:a81:334a:: with SMTP id z71mr8709975ywz.238.1579729047129; 
- Wed, 22 Jan 2020 13:37:27 -0800 (PST)
-Received: from localhost ([2620:0:1013:11:1e1:4760:6ce4:fc64])
- by smtp.gmail.com with ESMTPSA id h193sm18848102ywc.88.2020.01.22.13.37.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jan 2020 13:37:26 -0800 (PST)
-Date: Wed, 22 Jan 2020 16:37:25 -0500
-From: Sean Paul <sean@poorly.run>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20200122213725.GA22099@art_vandelay>
+Received: from pio-pvt-msa2.bahnhof.se (pio-pvt-msa2.bahnhof.se [79.136.2.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C72176F90E
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 21:52:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTP id 351B040283;
+ Wed, 22 Jan 2020 22:52:27 +0100 (CET)
+Authentication-Results: pio-pvt-msa2.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=l4xB613+; 
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
+ autolearn=ham autolearn_force=no
+Received: from pio-pvt-msa2.bahnhof.se ([127.0.0.1])
+ by localhost (pio-pvt-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id gBHKem6YwskI; Wed, 22 Jan 2020 22:52:26 +0100 (CET)
+Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
+ [155.4.205.35]) (Authenticated sender: mb878879)
+ by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id AC9FD4026C;
+ Wed, 22 Jan 2020 22:52:24 +0100 (CET)
+Received: from localhost.localdomain (h-205-35.A357.priv.bahnhof.se
+ [155.4.205.35])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id EE48A360057;
+ Wed, 22 Jan 2020 22:52:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1579729944; bh=CE+m6jz9osyaGNkFMzcG8nTiif0YN1jWHHmULGfPXgs=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=l4xB613+3TmCZRv5IMA+dZl5OQwyD2T8xC4xKAL39auq7BUpy18+xZKYPKgFvMnES
+ yUjsiAfAcWtOV91F1qOL3YajPDz+0eCNmG36F6wPIa/Bfezn+LrEM0sFXH9J34BaEo
+ zZlk0V+ZhOl7uD7YqzGd7JXEliuboDK7FPWRglM8=
+Subject: Re: [PATCH] drm: Release filp before global lock
+To: Chris Wilson <chris@chris-wilson.co.uk>, dri-devel@lists.freedesktop.org
+References: <20200122155637.496291-1-chris@chris-wilson.co.uk>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28VMware=29?= <thomas_os@shipmail.org>
+Organization: VMware Inc.
+Message-ID: <d5facf06-14d6-0203-f43c-22400588ab70@shipmail.org>
+Date: Wed, 22 Jan 2020 22:52:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200122155637.496291-1-chris@chris-wilson.co.uk>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,74 +67,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, Wayne Lin <Wayne.Lin@amd.com>,
- dri-devel@lists.freedesktop.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: intel-gfx@lists.freedesktop.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi, Chris,
 
-Hi Dave and Daniel,
-Back with what might be my last -misc pull request :-(
+On 1/22/20 4:56 PM, Chris Wilson wrote:
+> The file is not part of the global drm resource and can be released
+> prior to take the global mutex to drop the open_count (and potentially
+> close) the drm device.
+>
+> However, inside drm_close_helper() there are a number of dev->driver
+> callbacks that take the drm_device as the first parameter... Worryingly
+> some of those callbacks may be (implicitly) depending on the global
+> mutex.
 
-Just a couple fixes. We have our customary MST fix from AMD and a panfrost fix.
+I read this as you suspect that there are driver callbacks inside 
+drm_close_helper() that might need the global mutex held? But then it 
+wouldn't be safe to move the lock? Is there a strong motivation for 
+moving the locking in the first place? Also a minor nit below:
 
-Please pull!
+>
+> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> ---
+>   drivers/gpu/drm/drm_file.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+> index 92d16724f949..84ed313ee2e9 100644
+> --- a/drivers/gpu/drm/drm_file.c
+> +++ b/drivers/gpu/drm/drm_file.c
+> @@ -438,12 +438,12 @@ int drm_release(struct inode *inode, struct file *filp)
+>   	struct drm_minor *minor = file_priv->minor;
+>   	struct drm_device *dev = minor->dev;
+>   
+> -	mutex_lock(&drm_global_mutex);
+> -
+>   	DRM_DEBUG("open_count = %d\n", dev->open_count);
 
-drm-misc-fixes-2020-01-22-1:
--mst: Fix SST branch device handling (Wayne)
--panfrost: Fix mapping of globally visible BO's (Boris)
+The read of dev->open_count should still be inside the lock to be 
+consistent with the value that is decremented below. Perhaps move the 
+DRM_DEBUG()?
 
-Cc: Wayne Lin <Wayne.Lin@amd.com>
-CC: Boris Brezillon <boris.brezillon@collabora.com>
+>   
+>   	drm_close_helper(filp);
+>   
+> +	mutex_lock(&drm_global_mutex);
+> +
+>   	if (!--dev->open_count)
+>   		drm_lastclose(dev);
+>   
 
-Cheers, Sean
+Thanks,
+
+Thomas
 
 
-The following changes since commit 5a64967a2f3bbc01cc708ee43c7b0893089c61c4:
-
-  drm/dp_mst: Have DP_Tx send one msg at a time (2020-01-15 17:01:21 -0500)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2020-01-22-1
-
-for you to fetch changes up to bdefca2d8dc0f80bbe49e08bf52a717146490706:
-
-  drm/panfrost: Add the panfrost_gem_mapping concept (2020-01-21 10:32:55 -0600)
-
-----------------------------------------------------------------
--mst: Fix SST branch device handling (Wayne)
--panfrost: Fix mapping of globally visible BO's (Boris)
-
-Cc: Wayne Lin <Wayne.Lin@amd.com>
-CC: Boris Brezillon <boris.brezillon@collabora.com>
-
-----------------------------------------------------------------
-Boris Brezillon (1):
-      drm/panfrost: Add the panfrost_gem_mapping concept
-
-Wayne Lin (1):
-      drm/dp_mst: Handle SST-only branch device case
-
- drivers/gpu/drm/drm_dp_mst_topology.c            | 140 +++++++++++++----------
- drivers/gpu/drm/panfrost/panfrost_drv.c          |  91 +++++++++++++--
- drivers/gpu/drm/panfrost/panfrost_gem.c          | 124 +++++++++++++++++---
- drivers/gpu/drm/panfrost/panfrost_gem.h          |  41 ++++++-
- drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c |   3 +-
- drivers/gpu/drm/panfrost/panfrost_job.c          |  13 ++-
- drivers/gpu/drm/panfrost/panfrost_job.h          |   1 +
- drivers/gpu/drm/panfrost/panfrost_mmu.c          |  61 +++++-----
- drivers/gpu/drm/panfrost/panfrost_mmu.h          |   6 +-
- drivers/gpu/drm/panfrost/panfrost_perfcnt.c      |  34 ++++--
- 10 files changed, 380 insertions(+), 134 deletions(-)
-
--- 
-Sean Paul, Software Engineer, Google / Chromium OS
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
