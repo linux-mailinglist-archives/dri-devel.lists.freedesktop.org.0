@@ -1,43 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DE19145F29
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 00:35:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C17A1145F33
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 00:37:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FF796F936;
-	Wed, 22 Jan 2020 23:35:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC89B6F938;
+	Wed, 22 Jan 2020 23:37:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B54B6F936
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 23:35:44 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 413206F938
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 23:37:23 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 22 Jan 2020 15:37:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,351,1574150400"; d="scan'208";a="227828469"
+Received: from jhli-desk1.jf.intel.com ([10.54.74.160])
+ by orsmga003.jf.intel.com with ESMTP; 22 Jan 2020 15:37:13 -0800
+From: Juston Li <juston.li@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206231] R9 280X low performance with all games
-Date: Wed, 22 Jan 2020 23:35:43 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: sylvain.bertrand@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-206231-2300-s1m200HsCZ@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-206231-2300@https.bugzilla.kernel.org/>
-References: <bug-206231-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Subject: [PATCH v3 libdrm 1/2] include/drm: sync up drm.h
+Date: Wed, 22 Jan 2020 15:36:15 -0800
+Message-Id: <20200122233617.12725-1-juston.li@intel.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,37 +40,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Juston Li <juston.li@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=206231
+Adds DRM_IOCTL_MODE_GETFB2
 
---- Comment #27 from Sylvain BERTRAND (sylvain.bertrand@gmail.com) ---
-Dirt Rally is a GL game, not a vulkan game.
+Taken from drm-next-misc:
+        commit 3ff4c24bdb1f494c217c80348f9db4896043ed81
+        Author: Lyude Paul <lyude@redhat.com>
+        Date:   Fri Jan 17 17:47:48 2020 -0500
 
-It happens I have it in my library even though I don't recall to buy
-it.
+        drm/dp_mst: Fix indenting in drm_dp_mst_topology_mgr_set_mst()
 
-Anyway I did run the included benchmark:
-  - cpu governor to performance
-  - monitor refresh rate 144Hz
-  - 1920x1080
-  - 8xmsaa
-  - _no_ vsync
-  - everything to max
+Signed-off-by: Juston Li <juston.li@intel.com>
+---
+ include/drm/drm.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-avg fps: ~48fps
-low fps: ~30fps
-max fps: ~60fps
-
-I get several GPU vm faults in dmesg too, but no crash (like in vulkan "rise of
-the tomb raider").
-
+diff --git a/include/drm/drm.h b/include/drm/drm.h
+index ab9403397815..c7fd2a35fd7b 100644
+--- a/include/drm/drm.h
++++ b/include/drm/drm.h
+@@ -942,6 +942,8 @@ extern "C" {
+ #define DRM_IOCTL_SYNCOBJ_TRANSFER	DRM_IOWR(0xCC, struct drm_syncobj_transfer)
+ #define DRM_IOCTL_SYNCOBJ_TIMELINE_SIGNAL	DRM_IOWR(0xCD, struct drm_syncobj_timeline_array)
+ 
++#define DRM_IOCTL_MODE_GETFB2		DRM_IOWR(0xCE, struct drm_mode_fb_cmd2)
++
+ /**
+  * Device specific ioctls should only be in their respective headers
+  * The device specific ioctl range is from 0x40 to 0x9f.
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.21.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
