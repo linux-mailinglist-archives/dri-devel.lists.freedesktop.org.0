@@ -1,135 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DC28145356
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 12:01:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FB15145384
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 12:17:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 676506F49F;
-	Wed, 22 Jan 2020 11:01:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 219736F4AE;
+	Wed, 22 Jan 2020 11:17:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0014ca01.pphosted.com (mx0a-0014ca01.pphosted.com
- [208.84.65.235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AED5B6F49E
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 10:55:34 +0000 (UTC)
-Received: from pps.filterd (m0042385.ppops.net [127.0.0.1])
- by mx0a-0014ca01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 00MAkfEC012969; Wed, 22 Jan 2020 02:55:20 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=proofpoint;
- bh=t/fUOiWK9LMvZ8T8DdWvaYmBidWYxN6Yl4xPXR+P9p0=;
- b=Bq504RxBAJY4Ec9zcMoCBTUy9W/WoS7gXbCV9E45WIeIpmFVRVjBGFePoWypFboNp2iw
- JXuj2jgJjC7UDda60MGY/v3WTpddjrPHdzVjEl5jOS7nqtg+IZ/ppmWSWxeY3gBij2WV
- hdDuxt/uAn1bJFCHIvMD9CcD6FqGWg9KWQLjK7RmBdfTV+HDc1ZwRwqJSnyLZlf9eegp
- OIP9jX2ZCevuRIuGj0h+h8PJZxeKWLZlDz/30w2w6K4IdQls+bl8/+VSwxjXAV2o+bAx
- Dnnsu4ADZXCLkRcWMHla3tKXT4Xi/k/LotD9ietsXFCqHbbJcTfDig759O82lR7dLja2 WQ== 
-Received: from nam10-bn7-obe.outbound.protection.outlook.com
- (mail-bn7nam10lp2104.outbound.protection.outlook.com [104.47.70.104])
- by mx0a-0014ca01.pphosted.com with ESMTP id 2xkyf5mhnh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 22 Jan 2020 02:55:20 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hZbp85WRgvAOv3mCxnDOSSxnrBAXrILh/am8QatdMJAEzxxELMsbIERTUtTHI8p/5gtXA2ymkK/a2lD1BVWwtjdUlPDU8vas+wTbzXRDn/DVk+cpS9s/tGDXPbbCGEjaMFaJ3O+14T1B+wq8B0odqLPJBi+NzcZGyxOtYhxuLM6dFxW8V/5xfwf8J9yTLY7AhKVzUF8qDPP1AbpRRfvWLn2wIc1GBND3N4jtooIHmCNTfgqDAK6pWwhOoVP+E8/rRdrPr0b0k5FMwSXC8QsJM1RJsNqAMOGApzInQd5CP51/qA8X7rNNIV489dH0mWPGUGMg8FRFeQDDFt+vpNaK2w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t/fUOiWK9LMvZ8T8DdWvaYmBidWYxN6Yl4xPXR+P9p0=;
- b=SkaWoIbRsaUUX0JhtshLyHLuBFiqVLnwwAP3w+PGREKA5znarkPwDPLvi0zNDcdHpfcE075VbKp07Oo2o5BHg5vZIlZo/lfOWlXBpaPp2FdV6mZIwedwN1f3j2u26gsa5WKMELBkVO9jXuXvefsFsO4M+o3d6ZgSrQ2pAfouvqowGtulLXrTPDP0H7UIIzasp4s5gz612UOp2iEmX1jyTDENspmRwy6G8qL3MN7RrORMXk0Wkh5XM3YpNil3N0ZjhmN94967XPDp4UTzzZ3rUeYe8oNctBvdt3/oOaJ66O1+KbzGxpAW1r6du/NMaEKL59vV0x+TDBIk07hyHufRhQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 64.207.220.243) smtp.rcpttodomain=linux.ie smtp.mailfrom=cadence.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=cadence.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t/fUOiWK9LMvZ8T8DdWvaYmBidWYxN6Yl4xPXR+P9p0=;
- b=Gu5Q5sP5SUnfEqFr4uVYKJmCMiHv4kjENFSOgE2kE9JVPFyPdD8plucfRN4w2HZn5wCxH40kPiq5TagZFMUJLar5l+81IrSBaDN/ZQ4a2Ujth8usn9k4/DVcRq/oeEKQOT1OgOmScV51YsO50SkICtxuSfidBmzqZ0e2l+goaNU=
-Received: from CH2PR07CA0010.namprd07.prod.outlook.com (2603:10b6:610:20::23)
- by BYAPR07MB5509.namprd07.prod.outlook.com (2603:10b6:a03:a0::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2644.23; Wed, 22 Jan
- 2020 10:55:16 +0000
-Received: from DM6NAM12FT054.eop-nam12.prod.protection.outlook.com
- (2a01:111:f400:fe59::207) by CH2PR07CA0010.outlook.office365.com
- (2603:10b6:610:20::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2644.19 via Frontend
- Transport; Wed, 22 Jan 2020 10:55:16 +0000
-Received-SPF: Pass (protection.outlook.com: domain of cadence.com designates
- 64.207.220.243 as permitted sender) receiver=protection.outlook.com;
- client-ip=64.207.220.243; helo=wcmailrelayl01.cadence.com;
-Received: from wcmailrelayl01.cadence.com (64.207.220.243) by
- DM6NAM12FT054.mail.protection.outlook.com (10.13.178.109) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2665.6 via Frontend Transport; Wed, 22 Jan 2020 10:55:16 +0000
-Received: from maileu3.global.cadence.com (maileu3.cadence.com [10.160.88.99])
- by wcmailrelayl01.cadence.com (8.14.7/8.14.4) with ESMTP id
- 00MAt78f071698
- (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=OK);
- Wed, 22 Jan 2020 02:55:15 -0800
-X-CrossPremisesHeadersFilteredBySendConnector: maileu3.global.cadence.com
-Received: from maileu3.global.cadence.com (10.160.88.99) by
- maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
- 15.0.1367.3; Wed, 22 Jan 2020 11:55:07 +0100
-Received: from vleu-orange.cadence.com (10.160.88.83) by
- maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
- 15.0.1367.3 via Frontend Transport; Wed, 22 Jan 2020 11:55:07 +0100
-Received: from vleu-orange.cadence.com (localhost.localdomain [127.0.0.1])
- by vleu-orange.cadence.com (8.14.4/8.14.4) with ESMTP id 00MAt75w011168;
- Wed, 22 Jan 2020 11:55:07 +0100
-Received: (from yamonkar@localhost)
- by vleu-orange.cadence.com (8.14.4/8.14.4/Submit) id 00MAt7MK011160;
- Wed, 22 Jan 2020 11:55:07 +0100
-From: Yuti Amonkar <yamonkar@cadence.com>
-To: <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <robh+dt@kernel.org>,
- <maxime@cerno.tech>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <mark.rutland@arm.com>, <a.hajda@samsung.com>,
- <narmstrong@baylibre.com>, <Laurent.pinchart@ideasonboard.com>,
- <jonas@kwiboo.se>, <jernej.skrabec@siol.net>
-Subject: [PATCH v3 3/3] drm/mhdp: add j721e wrapper
-Date: Wed, 22 Jan 2020 11:55:01 +0100
-Message-ID: <1579690501-10698-4-git-send-email-yamonkar@cadence.com>
-X-Mailer: git-send-email 2.4.5
-In-Reply-To: <1579690501-10698-1-git-send-email-yamonkar@cadence.com>
-References: <1579690501-10698-1-git-send-email-yamonkar@cadence.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3CBB6F4AD
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 11:17:06 +0000 (UTC)
+Received: from localhost.localdomain (unknown
+ [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 0C2E9290289;
+ Wed, 22 Jan 2020 11:17:05 +0000 (GMT)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v7 00/12] drm: Add support for bus-format negotiation
+Date: Wed, 22 Jan 2020 12:16:48 +0100
+Message-Id: <20200122111700.1924960-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-X-OrganizationHeadersPreserved: maileu3.global.cadence.com
-X-EOPAttributedMessage: 0
-X-Forefront-Antispam-Report: CIP:64.207.220.243; IPV:; CTRY:US; EFV:NLI;
- SFV:NSPM;
- SFS:(10009020)(4636009)(376002)(346002)(396003)(136003)(39860400002)(36092001)(199004)(189003)(70586007)(8936002)(7416002)(8676002)(36756003)(336012)(86362001)(4326008)(70206006)(186003)(81156014)(81166006)(426003)(478600001)(2616005)(356004)(107886003)(6666004)(966005)(26005)(54906003)(110136005)(316002)(42186006)(36906005)(5660300002)(2906002)(2004002)(921003)(1121003)(83996005)(2101003);
- DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR07MB5509; H:wcmailrelayl01.cadence.com;
- FPR:; SPF:Pass; LANG:en; PTR:unused.mynethost.com; A:1; MX:1; 
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1cd0348d-0470-4aa7-6b51-08d79f299094
-X-MS-TrafficTypeDiagnostic: BYAPR07MB5509:
-X-Microsoft-Antispam-PRVS: <BYAPR07MB55099CFECAF76E3E97CBA008D20C0@BYAPR07MB5509.namprd07.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:418;
-X-Forefront-PRVS: 029097202E
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BsE4aFgVGxjH7jqECzmSPcUHjSLgDVh4sK3OJiNK1BogEYXCWbxvLv9AaBDmcohScz+vZetTgubb0TiIx1p4OUNROozgswrWArocxMigGsltnQUTwqFm99Z/cERQ6rE82uTfjjjQ1oArzhyjvJ/yYjgVMOo7/UVzhv3l26Pq5jvn+oaYu5vqnBB42yprm/1ecc3A9kpR8EECW6SRJRmmFPEPoq3NfHoCQS7/MNDvb7I/wyCTjBsgWcZSXn4axDaIQpaKMXtEe5l0BTupIDxR2zwAVyWq7Ya3BmJ4Q5yMFUJyUHH0Ism0754QK1/BabMXTMNjPenxkVrpcj+vi1o1+rNl/wTEetRN9uHJ9UIowekdy1zjjJfoHB87Va8kalmpq63pxkr+C8KI5UdFrDEpq+73mbZVaMB5ekDCxcLAdgXV8QgX+khUk8aDpfnQpXBD2WruZgra9IWQG8qZ/0Dl0RqaxZd/5tNa7DzqJeLRDobYcAM1X4Gt0i5fwFNmJCX1wNcH7tGH6JBFaz/bYebDK2CgZWrAKbvGlMAnGEp2oKp7EH5pIyEaQAD4ZHPoKcEztKP8+dDMyJVJ+jB9zgVVdGxkOX7XyuSjIedD4JKtWEwPbBC7eX9QkwPGCs0nu4MKKI37agQYk+ng5ROMxLMd/g==
-X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2020 10:55:16.3116 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1cd0348d-0470-4aa7-6b51-08d79f299094
-X-MS-Exchange-CrossTenant-Id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d36035c5-6ce6-4662-a3dc-e762e61ae4c9; Ip=[64.207.220.243];
- Helo=[wcmailrelayl01.cadence.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR07MB5509
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-01-17_05:2020-01-16,
- 2020-01-17 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check
- score=0 mlxlogscore=999
- bulkscore=0 lowpriorityscore=0 malwarescore=0 suspectscore=0 clxscore=1015
- priorityscore=1501 adultscore=0 spamscore=0 impostorscore=0 mlxscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-2001220099
-X-Mailman-Approved-At: Wed, 22 Jan 2020 11:01:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,248 +38,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mparab@cadence.com, yamonkar@cadence.com, praneeth@ti.com, jsarha@ti.com,
- tomi.valkeinen@ti.com, sjakhade@cadence.com
+Cc: Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
+ Mark Rutland <mark.rutland@arm.com>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Rob Herring <robh+dt@kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ devicetree@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com,
+ Sam Ravnborg <sam@ravnborg.org>, Chris Healy <cphealy@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add j721e wrapper for mhdp, which sets up the clock and data muxes.
+Hello,
 
-Signed-off-by: Yuti Amonkar <yamonkar@cadence.com>
----
- drivers/gpu/drm/bridge/Kconfig           | 12 +++++
- drivers/gpu/drm/bridge/Makefile          |  3 ++
- drivers/gpu/drm/bridge/cdns-mhdp-j721e.c | 79 ++++++++++++++++++++++++++++++++
- drivers/gpu/drm/bridge/cdns-mhdp-j721e.h | 55 ++++++++++++++++++++++
- drivers/gpu/drm/bridge/cdns-mhdp.c       | 14 +++++-
- drivers/gpu/drm/bridge/cdns-mhdp.h       |  1 +
- 6 files changed, 163 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/bridge/cdns-mhdp-j721e.c
- create mode 100644 drivers/gpu/drm/bridge/cdns-mhdp-j721e.h
+This patch series aims at adding support for runtime bus-format
+negotiation between all elements of the
+'encoder -> bridges -> connector/display' section of the pipeline.
 
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index 616c05f..6c366eb 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -48,6 +48,18 @@ config DRM_CDNS_MHDP
- 	  It takes a DPI stream as input and output it encoded
- 	  in DP format.
- 
-+if DRM_CDNS_MHDP
-+
-+config DRM_CDNS_MHDP_J721E
-+	bool "J721E Cadence DPI/DP wrapper support"
-+	default y
-+	help
-+	  Support J721E Cadence DPI/DP wrapper. This is a wrapper
-+	  which adds support for J721E related platform ops. It
-+	  initializes the J721e Display Port and sets up the
-+	  clock and data muxes.
-+endif
-+
- config DRM_DUMB_VGA_DAC
- 	tristate "Dumb VGA DAC Bridge support"
- 	depends on OF
-diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-index c1a0da7..d358184 100644
---- a/drivers/gpu/drm/bridge/Makefile
-+++ b/drivers/gpu/drm/bridge/Makefile
-@@ -20,3 +20,6 @@ obj-$(CONFIG_DRM_CDNS_MHDP) += mhdp8546.o
- obj-y += synopsys/
- 
- mhdp8546-objs := cdns-mhdp.o
-+ifeq ($(CONFIG_DRM_CDNS_MHDP_J721E),y)
-+	mhdp8546-objs += cdns-mhdp-j721e.o
-+endif
-diff --git a/drivers/gpu/drm/bridge/cdns-mhdp-j721e.c b/drivers/gpu/drm/bridge/cdns-mhdp-j721e.c
-new file mode 100644
-index 0000000..a87faf5
---- /dev/null
-+++ b/drivers/gpu/drm/bridge/cdns-mhdp-j721e.c
-@@ -0,0 +1,79 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * TI j721e Cadence MHDP DP wrapper
-+ *
-+ * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
-+ * Author: Jyri Sarha <jsarha@ti.com
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License version 2 as
-+ * published by the Free Software Foundation.
-+ */
-+
-+#include <linux/device.h>
-+#include <linux/io.h>
-+
-+#include "cdns-mhdp-j721e.h"
-+
-+#define	REVISION			0x00
-+#define	DPTX_IPCFG			0x04
-+#define	ECC_MEM_CFG			0x08
-+#define	DPTX_DSC_CFG			0x0c
-+#define	DPTX_SRC_CFG			0x10
-+#define	DPTX_VIF_SECURE_MODE_CFG	0x14
-+#define	DPTX_VIF_CONN_STATUS		0x18
-+#define	PHY_CLK_STATUS			0x1c
-+
-+#define DPTX_SRC_AIF_EN			BIT(16)
-+#define DPTX_SRC_VIF_3_IN30B		BIT(11)
-+#define DPTX_SRC_VIF_2_IN30B		BIT(10)
-+#define DPTX_SRC_VIF_1_IN30B		BIT(9)
-+#define DPTX_SRC_VIF_0_IN30B		BIT(8)
-+#define DPTX_SRC_VIF_3_SEL_DPI5		BIT(7)
-+#define DPTX_SRC_VIF_3_SEL_DPI3		0
-+#define DPTX_SRC_VIF_2_SEL_DPI4		BIT(6)
-+#define DPTX_SRC_VIF_2_SEL_DPI2		0
-+#define DPTX_SRC_VIF_1_SEL_DPI3		BIT(5)
-+#define DPTX_SRC_VIF_1_SEL_DPI1		0
-+#define DPTX_SRC_VIF_0_SEL_DPI2		BIT(4)
-+#define DPTX_SRC_VIF_0_SEL_DPI0		0
-+#define DPTX_SRC_VIF_3_EN		BIT(3)
-+#define DPTX_SRC_VIF_2_EN		BIT(2)
-+#define DPTX_SRC_VIF_1_EN		BIT(1)
-+#define DPTX_SRC_VIF_0_EN		BIT(0)
-+
-+/* TODO turn DPTX_IPCFG fw_mem_clk_en at pm_runtime_suspend. */
-+
-+int cdns_mhdp_j721e_init(struct cdns_mhdp_device *mhdp)
-+{
-+	struct platform_device *pdev = to_platform_device(mhdp->dev);
-+	struct resource *regs;
-+
-+	regs = platform_get_resource(pdev, IORESOURCE_MEM, 1);
-+	mhdp->j721e_regs = devm_ioremap_resource(&pdev->dev, regs);
-+	if (IS_ERR(mhdp->j721e_regs))
-+		return PTR_ERR(mhdp->j721e_regs);
-+
-+	return 0;
-+}
-+
-+void cdns_mhdp_j721e_fini(struct cdns_mhdp_device *mhdp)
-+{
-+}
-+
-+void cdns_mhdp_j721e_enable(struct cdns_mhdp_device *mhdp)
-+{
-+	/*
-+	 * Eneble VIF_0 and select DPI2 as its input. DSS0 DPI0 is connected
-+	 * to eDP DPI2. This is the only supported SST configuration on
-+	 * J721E.
-+	 */
-+	writel(DPTX_SRC_VIF_0_EN | DPTX_SRC_VIF_0_SEL_DPI2,
-+	       mhdp->j721e_regs + DPTX_SRC_CFG);
-+}
-+
-+void cdns_mhdp_j721e_disable(struct cdns_mhdp_device *mhdp)
-+{
-+	/* Put everything to defaults  */
-+	writel(0, mhdp->j721e_regs + DPTX_DSC_CFG);
-+}
-diff --git a/drivers/gpu/drm/bridge/cdns-mhdp-j721e.h b/drivers/gpu/drm/bridge/cdns-mhdp-j721e.h
-new file mode 100644
-index 0000000..bd53508
---- /dev/null
-+++ b/drivers/gpu/drm/bridge/cdns-mhdp-j721e.h
-@@ -0,0 +1,55 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * TI j721e Cadence MHDP DP wrapper
-+ *
-+ * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
-+ * Author: Jyri Sarha <jsarha@ti.com
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License version 2 as
-+ * published by the Free Software Foundation.
-+ */
-+
-+#ifndef CDNS_MHDP_J721E_H
-+#define CDNS_MHDP_J721E_H
-+
-+#include <linux/platform_device.h>
-+#include "cdns-mhdp.h"
-+
-+struct cdns_mhdp_j721e_wrap;
-+
-+#ifdef CONFIG_DRM_CDNS_MHDP_J721E
-+
-+int cdns_mhdp_j721e_init(struct cdns_mhdp_device *mhdp);
-+
-+void cdns_mhdp_j721e_fini(struct cdns_mhdp_device *mhdp);
-+
-+void cdns_mhdp_j721e_enable(struct cdns_mhdp_device *mhdp);
-+
-+void cdns_mhdp_j721e_disable(struct cdns_mhdp_device *mhdp);
-+
-+#else
-+
-+static inline
-+int cdns_mhdp_j721e_init(struct cdns_mhdp_device *mhdp)
-+{
-+	return 0;
-+}
-+
-+static inline
-+void cdns_mhdp_j721e_fini(struct cdns_mhdp_device *mhdp)
-+{
-+}
-+
-+static inline
-+void cdns_mhdp_j721e_sst_enable(struct cdns_mhdp_device *mhdp);
-+{
-+}
-+
-+static inline
-+void cdns_mhdp_j721e_sst_disable(struct cdns_mhdp_device *mhdp)
-+{
-+}
-+#endif /* CONFIG_DRM_CDNS_MHDP_J721E */
-+
-+#endif /* !CDNS_MHDP_J721E_H */
-diff --git a/drivers/gpu/drm/bridge/cdns-mhdp.c b/drivers/gpu/drm/bridge/cdns-mhdp.c
-index 0bc7fba..ac1f776 100644
---- a/drivers/gpu/drm/bridge/cdns-mhdp.c
-+++ b/drivers/gpu/drm/bridge/cdns-mhdp.c
-@@ -35,9 +35,21 @@
- #include <asm/unaligned.h>
- 
- #include "cdns-mhdp.h"
--
-+#include "cdns-mhdp-j721e.h"
-+
-+#ifdef CONFIG_DRM_CDNS_MHDP_J721E
-+static const struct mhdp_platform_ops mhdp_ti_j721e_ops = {
-+	.init = cdns_mhdp_j721e_init,
-+	.exit = cdns_mhdp_j721e_fini,
-+	.enable = cdns_mhdp_j721e_enable,
-+	.disable = cdns_mhdp_j721e_disable,
-+};
-+#endif
- static const struct of_device_id mhdp_ids[] = {
- 	{ .compatible = "cdns,mhdp8546", },
-+#ifdef CONFIG_DRM_CDNS_MHDP_J721E
-+	{ .compatible = "ti,j721e-mhdp8546", .data = &mhdp_ti_j721e_ops },
-+#endif
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, mhdp_ids);
-diff --git a/drivers/gpu/drm/bridge/cdns-mhdp.h b/drivers/gpu/drm/bridge/cdns-mhdp.h
-index 9acb89d..c9013be 100644
---- a/drivers/gpu/drm/bridge/cdns-mhdp.h
-+++ b/drivers/gpu/drm/bridge/cdns-mhdp.h
-@@ -335,6 +335,7 @@ struct mhdp_platform_ops {
- 
- struct cdns_mhdp_device {
- 	void __iomem *regs;
-+	void __iomem *j721e_regs;
- 
- 	struct device *dev;
- 	struct clk *clk;
+In order to support that, we need drm bridges to fully take part in the
+atomic state validation process, which requires adding a
+drm_bridge_state and a new drm_bridge_funcs.atomic_check() hook.
+Once those basic building blocks are in place, we can add new hooks to
+allow bus format negotiation (those are called just before
+->atomic_check()). The bus format selection is done at runtime by
+testing all possible combinations across the whole bridge chain until
+one is reported to work.
+
+v7 has refactored to address the drm -> drm_kms_helper -> drm circular
+dep issue we had on v6.
+
+A more detailed changelog is provided in each patch.
+
+This patch series is also available here [1].
+
+Thanks,
+
+Boris
+
+[1]https://github.com/bbrezillon/linux-0day/commits/drm-bridge-busfmt-v7
+
+Boris Brezillon (12):
+  drm/bridge: Add a drm_bridge_state object
+  drm/bridge: Patch atomic hooks to take a drm_bridge_state
+  drm/rcar-du: Plug atomic state hooks to the default implementation
+  drm/bridge: analogix: Plug atomic state hooks to the default
+    implementation
+  drm/bridge: Add an ->atomic_check() hook
+  drm/bridge: Add the necessary bits to support bus format negotiation
+  drm/imx: pd: Use bus format/flags provided by the bridge when
+    available
+  drm/bridge: lvds-codec: Implement basic bus format negotiation
+  dt-bindings: display: bridge: lvds-codec: Add new bus-width prop
+  drm/bridge: panel: Propage bus format/flags
+  drm/panel: simple: Fix the lt089ac29000 bus_format
+  ARM: dts: imx: imx51-zii-rdu1: Fix the display pipeline definition
+
+ .../bindings/display/bridge/lvds-codec.yaml   |   8 +
+ arch/arm/boot/dts/imx51-zii-rdu1.dts          |  24 +-
+ .../drm/bridge/analogix/analogix_dp_core.c    |  44 +-
+ drivers/gpu/drm/bridge/lvds-codec.c           |  64 ++-
+ drivers/gpu/drm/bridge/panel.c                |   4 +
+ drivers/gpu/drm/drm_atomic.c                  | 117 +++++
+ drivers/gpu/drm/drm_atomic_helper.c           |  73 +++-
+ drivers/gpu/drm/drm_atomic_state_helper.c     | 131 ++++++
+ drivers/gpu/drm/drm_bridge.c                  | 407 +++++++++++++++++-
+ drivers/gpu/drm/imx/parallel-display.c        | 176 ++++++--
+ drivers/gpu/drm/panel/panel-simple.c          |   2 +-
+ drivers/gpu/drm/rcar-du/rcar_lvds.c           |  11 +-
+ include/drm/drm_atomic.h                      |  76 ++++
+ include/drm/drm_atomic_helper.h               |   8 +
+ include/drm/drm_atomic_state_helper.h         |  13 +
+ include/drm/drm_bridge.h                      | 172 +++++++-
+ 16 files changed, 1249 insertions(+), 81 deletions(-)
+
 -- 
-2.4.5
+2.24.1
 
 _______________________________________________
 dri-devel mailing list
