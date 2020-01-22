@@ -2,36 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37137144EBF
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 10:31:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6BA9144FEE
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 10:42:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EEDC6F43E;
-	Wed, 22 Jan 2020 09:31:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB5FD6F456;
+	Wed, 22 Jan 2020 09:42:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9E696F43E;
- Wed, 22 Jan 2020 09:31:25 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 22 Jan 2020 01:31:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,349,1574150400"; d="scan'208";a="227619165"
-Received: from ideak-desk.fi.intel.com ([10.237.72.183])
- by orsmga003.jf.intel.com with ESMTP; 22 Jan 2020 01:31:23 -0800
-From: Imre Deak <imre.deak@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH libdrm v2] intel: drm_intel_bo_gem_create_from_* on platforms
- w/o HW tiling
-Date: Wed, 22 Jan 2020 11:31:22 +0200
-Message-Id: <20200122093122.15476-1-imre.deak@intel.com>
-X-Mailer: git-send-email 2.23.1
-In-Reply-To: <20200120164343.2262-1-imre.deak@intel.com>
-References: <20200120164343.2262-1-imre.deak@intel.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50B136F456
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 09:42:33 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id AF4BDB9C6;
+ Wed, 22 Jan 2020 09:42:30 +0000 (UTC)
+Subject: Re: [PATCH v3 1/4] drm: Add drm_crtc_has_vblank()
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20200120122051.25178-1-tzimmermann@suse.de>
+ <20200120122051.25178-2-tzimmermann@suse.de>
+ <20200122083139.GP43062@phenom.ffwll.local>
+ <3ad03b06-f9be-37c7-9cc7-044468cdf300@suse.de>
+ <20200122090405.GR43062@phenom.ffwll.local>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <c33b4684-9d43-d3ab-bc88-a89a635f63d3@suse.de>
+Date: Wed, 22 Jan 2020 10:42:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
+In-Reply-To: <20200122090405.GR43062@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,118 +67,276 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Eric Engestrom <eric@engestrom.ch>,
- Emil Velikov <emil.velikov@collabora.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: laurent.pinchart@ideasonboard.com, david@lechnology.com,
+ oleksandr_andrushchenko@epam.com, airlied@linux.ie, sean@poorly.run,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ hdegoede@redhat.com, kraxel@redhat.com, xen-devel@lists.xenproject.org,
+ sam@ravnborg.org, emil.velikov@collabora.com
+Content-Type: multipart/mixed; boundary="===============1568117681=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Platforms without a HW detiler doesn't support the get_tiling IOCTL.
-Fix the drm_intel_bo_gem_create_from_* functions assuming the default
-no-tiling, no-swizzling setting for the GEM buffer in this case.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1568117681==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="Kr4FBQgHbqqwjCZYPZWobCco0q64F0NlR"
 
-v2:
-- Add the missing gem handle IOCTL parameter. (Eric)
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--Kr4FBQgHbqqwjCZYPZWobCco0q64F0NlR
+Content-Type: multipart/mixed; boundary="CbcRnXutG6CAwBMbtZz7TPwfM6GQSRaNU";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: david@lechnology.com, oleksandr_andrushchenko@epam.com, airlied@linux.ie,
+ sam@ravnborg.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, hdegoede@redhat.com,
+ kraxel@redhat.com, xen-devel@lists.xenproject.org,
+ emil.velikov@collabora.com, sean@poorly.run,
+ laurent.pinchart@ideasonboard.com
+Message-ID: <c33b4684-9d43-d3ab-bc88-a89a635f63d3@suse.de>
+Subject: Re: [PATCH v3 1/4] drm: Add drm_crtc_has_vblank()
+References: <20200120122051.25178-1-tzimmermann@suse.de>
+ <20200120122051.25178-2-tzimmermann@suse.de>
+ <20200122083139.GP43062@phenom.ffwll.local>
+ <3ad03b06-f9be-37c7-9cc7-044468cdf300@suse.de>
+ <20200122090405.GR43062@phenom.ffwll.local>
+In-Reply-To: <20200122090405.GR43062@phenom.ffwll.local>
 
-Signed-off-by: Imre Deak <imre.deak@intel.com>
-Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
-Reviewed-by: Eric Engestrom <eric@engestrom.ch>
----
- intel/intel_bufmgr_gem.c | 43 +++++++++++++++++++++++++---------------
- 1 file changed, 27 insertions(+), 16 deletions(-)
+--CbcRnXutG6CAwBMbtZz7TPwfM6GQSRaNU
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/intel/intel_bufmgr_gem.c b/intel/intel_bufmgr_gem.c
-index fbf48730..ade13a4c 100644
---- a/intel/intel_bufmgr_gem.c
-+++ b/intel/intel_bufmgr_gem.c
-@@ -1069,6 +1069,28 @@ check_bo_alloc_userptr(drm_intel_bufmgr *bufmgr,
- 					  tiling_mode, stride, size, flags);
- }
- 
-+static int get_tiling_mode(drm_intel_bufmgr_gem *bufmgr_gem,
-+			   uint32_t gem_handle,
-+			   uint32_t *tiling_mode,
-+			   uint32_t *swizzle_mode)
-+{
-+	struct drm_i915_gem_get_tiling get_tiling = {
-+		.handle = gem_handle,
-+	};
-+	int ret;
-+
-+	ret = drmIoctl(bufmgr_gem->fd,
-+		       DRM_IOCTL_I915_GEM_GET_TILING,
-+		       &get_tiling);
-+	if (ret != 0 && errno != EOPNOTSUPP)
-+		return ret;
-+
-+	*tiling_mode = get_tiling.tiling_mode;
-+	*swizzle_mode = get_tiling.swizzle_mode;
-+
-+	return 0;
-+}
-+
- /**
-  * Returns a drm_intel_bo wrapping the given buffer object handle.
-  *
-@@ -1084,7 +1106,6 @@ drm_intel_bo_gem_create_from_name(drm_intel_bufmgr *bufmgr,
- 	drm_intel_bo_gem *bo_gem;
- 	int ret;
- 	struct drm_gem_open open_arg;
--	struct drm_i915_gem_get_tiling get_tiling;
- 
- 	/* At the moment most applications only have a few named bo.
- 	 * For instance, in a DRI client only the render buffers passed
-@@ -1146,16 +1167,11 @@ drm_intel_bo_gem_create_from_name(drm_intel_bufmgr *bufmgr,
- 	HASH_ADD(name_hh, bufmgr_gem->name_table,
- 		 global_name, sizeof(bo_gem->global_name), bo_gem);
- 
--	memclear(get_tiling);
--	get_tiling.handle = bo_gem->gem_handle;
--	ret = drmIoctl(bufmgr_gem->fd,
--		       DRM_IOCTL_I915_GEM_GET_TILING,
--		       &get_tiling);
-+	ret = get_tiling_mode(bufmgr_gem, bo_gem->gem_handle,
-+			      &bo_gem->tiling_mode, &bo_gem->swizzle_mode);
- 	if (ret != 0)
- 		goto err_unref;
- 
--	bo_gem->tiling_mode = get_tiling.tiling_mode;
--	bo_gem->swizzle_mode = get_tiling.swizzle_mode;
- 	/* XXX stride is unknown */
- 	drm_intel_bo_gem_set_in_aperture_size(bufmgr_gem, bo_gem, 0);
- 	DBG("bo_create_from_handle: %d (%s)\n", handle, bo_gem->name);
-@@ -2634,7 +2650,6 @@ drm_intel_bo_gem_create_from_prime(drm_intel_bufmgr *bufmgr, int prime_fd, int s
- 	int ret;
- 	uint32_t handle;
- 	drm_intel_bo_gem *bo_gem;
--	struct drm_i915_gem_get_tiling get_tiling;
- 
- 	pthread_mutex_lock(&bufmgr_gem->lock);
- 	ret = drmPrimeFDToHandle(bufmgr_gem->fd, prime_fd, &handle);
-@@ -2688,15 +2703,11 @@ drm_intel_bo_gem_create_from_prime(drm_intel_bufmgr *bufmgr, int prime_fd, int s
- 	bo_gem->has_error = false;
- 	bo_gem->reusable = false;
- 
--	memclear(get_tiling);
--	get_tiling.handle = bo_gem->gem_handle;
--	if (drmIoctl(bufmgr_gem->fd,
--		     DRM_IOCTL_I915_GEM_GET_TILING,
--		     &get_tiling))
-+	ret = get_tiling_mode(bufmgr_gem, handle,
-+			      &bo_gem->tiling_mode, &bo_gem->swizzle_mode);
-+	if (ret)
- 		goto err;
- 
--	bo_gem->tiling_mode = get_tiling.tiling_mode;
--	bo_gem->swizzle_mode = get_tiling.swizzle_mode;
- 	/* XXX stride is unknown */
- 	drm_intel_bo_gem_set_in_aperture_size(bufmgr_gem, bo_gem, 0);
- 
--- 
-2.23.1
+Hi
+
+Am 22.01.20 um 10:04 schrieb Daniel Vetter:
+> On Wed, Jan 22, 2020 at 09:53:42AM +0100, Thomas Zimmermann wrote:
+>> Hi
+>>
+>> Am 22.01.20 um 09:31 schrieb Daniel Vetter:
+>>> On Mon, Jan 20, 2020 at 01:20:48PM +0100, Thomas Zimmermann wrote:
+>>>> The new interface drm_crtc_has_vblank() return true if vblanking has=
+
+>>>> been initialized for a certain CRTC, or false otherwise. This functi=
+on
+>>>> will be useful for initializing CRTC state.
+>>>>
+>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>>> ---
+>>>>  drivers/gpu/drm/drm_vblank.c | 21 +++++++++++++++++++++
+>>>>  include/drm/drm_vblank.h     |  1 +
+>>>>  2 files changed, 22 insertions(+)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vbla=
+nk.c
+>>>> index 1659b13b178c..c20102899411 100644
+>>>> --- a/drivers/gpu/drm/drm_vblank.c
+>>>> +++ b/drivers/gpu/drm/drm_vblank.c
+>>>> @@ -501,6 +501,27 @@ int drm_vblank_init(struct drm_device *dev, uns=
+igned int num_crtcs)
+>>>>  }
+>>>>  EXPORT_SYMBOL(drm_vblank_init);
+>>>> =20
+>>>> +/**
+>>>> + * drm_crtc_has_vblank - test if vblanking has been initialized for=
+
+>>>> + *                       a CRTC
+>>>> + * @crtc: the CRTC
+>>>> + *
+>>>> + * Drivers may call this function to test if vblank support is
+>>>> + * initialized for a CRTC. For most hardware this means that vblank=
+ing
+>>>> + * can also be enabled on the CRTC.
+>>>> + *
+>>>> + * Returns:
+>>>> + * True if vblanking has been initialized for the given CRTC, false=
+
+>>>> + * otherwise.
+>>>> + */
+>>>> +bool drm_crtc_has_vblank(const struct drm_crtc *crtc)
+>>>
+>>> So making this specific to a CRTC sounds like a good idea. But it's n=
+ot
+>>> the reality, drm_vblank.c assumes that either everything or nothing
+>>> supports vblanks.
+>>>
+>>> The reason for dev->num_crtcs is historical baggage, it predates kms =
+by a
+>>> few years. For kms drivers the only two valid values are either 0 or
+>>> dev->mode_config.num_crtcs. Yes that's an entire different can of wor=
+ms
+>>> that's been irking me since forever (ideally drm_vblank_init would so=
+mehow
+>>> loose the num_crtcs argument for kms drivers, but some drivers call t=
+his
+>>> before they've done all the drm_crtc_init calls so it's complicated).=
+
+>>
+>> Maybe as a first step, drm_vblank_init() could use
+>> dev->mode_config.num_crtcs if the supplied number of CRTCs is zero.
+>>
+>>>
+>>> Hence drm_dev_has_vblank as I suggested. That would also allow you to=
+
+>>> replace a bunch of if (dev->num_crtcs) checks in drm_vblank.c, which
+>>> should help quite a bit in code readability.
+>>
+>> OK, but I still don't understand why this interface is better overall.=
+
+>> We don't loose anything by passing in the crtc instead of the device
+>> structure. And if there's ever a per-crtc vblank initialization, we'd
+>> have the interface in place already. The tests with "if
+>> (dev->num_crtcs)" could probably be removed in most places in any case=
+=2E
+>=20
+> You can't use it in drm_vblank.c code, because we only have the
+> drm_device, not the drm_crtc (in most places at least). Your other patc=
+h
+> series to deprecate the drm_device callbacks for vblanks is a huge step=
+
+> into the direction to fix that, but still more work needed: We'd
+> essentially need to copypaste drm_vblank.c into drm_crtc_vblank.c for k=
+ms
+> drivers, and in that copy switch from (dev, pipe) to crtc everywhere. P=
+lus
+> then move the drm_vblank structure into struct drm_crtc.
+>=20
+> Wrt removing the check: In a pile of cases it changes the return value,=
+
+> which matters both for vblank usage in helper code and the ioctl itself=
+=2E
+> From a quick look most of the checks that don't matter are already wrap=
+ped
+> in a WARN.
+>=20
+>> We should also consider forking the vblank code for non-KMS drivers.
+>> While working in this, I found the support for legacy drivers is getti=
+ng
+>> in the way at times. With such a fork, legacy drivers could continue
+>> using struct drm_vblank_crtc, while modern drivers could maybe store
+>> vblank state directly in struct drm_crtc.
+>=20
+> Hm if you want to do all that then the drm_crtc_has_vblank makes sense.=
+
+> But only after we've done the full split. So maybe make the public
+> function drm_crtc_has_vblank, which calls the internal-only
+> drm_has_vblank, and use that internally in drm_vblank.c?
+>=20
+> btw I still think a sub-struct for vblank stuff in drm_crtc makes sense=
+,
+> and drm_vblank_crtc seems to mostly fit the bill.
+>=20
+> That way we're at least not adding the the conversion pain of switching=
+
+> the vblank code over to drm_crtc fully.
+>=20
+> Thoughts?
+
+That all sounds good. Using struct drm_vblank_crtc with legacy and
+modern vblank functions, might allow us to continue to share some of the
+implementation.
+
+Wrt the current interface, drm_dev_has_vblank() is only called in a
+single place, so switching to drm_crtc_has_vblank() later would not be ha=
+rd.
+
+Best regards
+Thomas
+
+> -Daniel
+>=20
+>> Anyway, all this is for another patch. Unless you change your mind, I'=
+ll
+>> replace drm_crtc_has_vblank() with drm_dev_has_vblank() for the
+>> patchset's next iteration.
+>>
+>> Best regards
+>> Thomas
+>>
+>>>
+>>> Cheers, Daniel
+>>>
+>>>> +{
+>>>> +	struct drm_device *dev =3D crtc->dev;
+>>>> +
+>>>> +	return crtc->index < dev->num_crtcs;
+>>>> +}
+>>>> +EXPORT_SYMBOL(drm_crtc_has_vblank);
+>>>> +
+>>>>  /**
+>>>>   * drm_crtc_vblank_waitqueue - get vblank waitqueue for the CRTC
+>>>>   * @crtc: which CRTC's vblank waitqueue to retrieve
+>>>> diff --git a/include/drm/drm_vblank.h b/include/drm/drm_vblank.h
+>>>> index c16c44052b3d..531a6bc12b7e 100644
+>>>> --- a/include/drm/drm_vblank.h
+>>>> +++ b/include/drm/drm_vblank.h
+>>>> @@ -206,6 +206,7 @@ struct drm_vblank_crtc {
+>>>>  };
+>>>> =20
+>>>>  int drm_vblank_init(struct drm_device *dev, unsigned int num_crtcs)=
+;
+>>>> +bool drm_crtc_has_vblank(const struct drm_crtc *crtc);
+>>>>  u64 drm_crtc_vblank_count(struct drm_crtc *crtc);
+>>>>  u64 drm_crtc_vblank_count_and_time(struct drm_crtc *crtc,
+>>>>  				   ktime_t *vblanktime);
+>>>> --=20
+>>>> 2.24.1
+>>>>
+>>>
+>>
+>> --=20
+>> Thomas Zimmermann
+>> Graphics Driver Developer
+>> SUSE Software Solutions Germany GmbH
+>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+>> (HRB 36809, AG N=C3=BCrnberg)
+>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>>
+>=20
+>=20
+>=20
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--CbcRnXutG6CAwBMbtZz7TPwfM6GQSRaNU--
+
+--Kr4FBQgHbqqwjCZYPZWobCco0q64F0NlR
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl4oGQIACgkQaA3BHVML
+eiN5EQgArXdg09il/Ymt9AEbsv3GHpCMJ1VsFbmlHJy1OYjEMWi9+iVFWLjLIS9t
+ldUO+o9XTSKEhz/AjQMPAbF4yXHfNiQe0nnHbsU1NxdG/Ip6geQ4CfuP9xm37+kj
+0Vqd7olY6D/rXTSxcsCBd+ix07tuHOsHTHWMOJRS9/fvFYCZIBMkXVU/0c6Uo3MX
+3IbJSmJFwAohcE2I6/ZcmD4V35KROf/C/lgEzQcE7sU1zQfNLPqmFpMFjEten5xy
+zj6ZoUL2S9vD8Z11I4p7r1elgW/7VUveP0jTa6GjQEXg7I97UDlwdnwAAEX4GmKx
+adH1p7K3alJdRTafNZeokdY2j+fWFQ==
+=lYah
+-----END PGP SIGNATURE-----
+
+--Kr4FBQgHbqqwjCZYPZWobCco0q64F0NlR--
+
+--===============1568117681==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1568117681==--
