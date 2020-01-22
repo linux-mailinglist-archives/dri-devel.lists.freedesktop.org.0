@@ -1,74 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3515145F49
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 00:44:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9906145F4A
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 00:44:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 839C96F93C;
-	Wed, 22 Jan 2020 23:43:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C6556F93F;
+	Wed, 22 Jan 2020 23:44:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E80136F93C
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 23:43:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579736636;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ptdQoUA8cwG/cONLXbS6IYCmMYGKxH56JCiQdsrQvf8=;
- b=XemjnXfF+eQXjxahNLdxJUEKQhsGww3o9IKXEFbDgUXZZ5/lrZHpy7EndDzjRZ3jLpBdj3
- EHS5+PTfgTX4aFzWCLcojL7f0hP+YTR1qYZlwRKgNRWatiIPA3G4f7DllBDT7lh0m2EglI
- J8skx++B2p9zTy/478Oc+fpm6HA9tNE=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-284-knzWoYTVPgytcGZo0iJ4sA-1; Wed, 22 Jan 2020 18:43:53 -0500
-Received: by mail-qv1-f69.google.com with SMTP id g15so917769qvk.11
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 15:43:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=xB1GttdbT3t+7BmVYHCi+SL61EAOwYzXDDXUKLb+yKA=;
- b=NIrad9HekY1yz0wopiCk+UlwF33Yth8Zgv+eR51CA0nkZVF4Jaatk/j0cqhKHR6BUI
- dYF2V3ROQureKamVdj63nMg19sfZkj6NRNqdP1+C4XVTjSpC2706yLpHhXVlyayzw+1v
- a4fzHZkQOICltMS3LwjnrSDAb4IuCRwPctRBc68TQLjNcrANVb1yJXe6ptKapx3TDvdI
- LJQqaq2HPCCba/mctgcHMWUO19PG6Fb9e6Bi4ikmqy3b73Brbyh21T5a4PAJZhwjp481
- Ia0utaePR5nSOwCjHERWHoMT9SW61OAExnHuPNpjsvKtmGa0cRomJcfzDz+F1qr4TsMK
- JjDQ==
-X-Gm-Message-State: APjAAAWnkADxIpwSrgf/Cdzx2juyGKFgvzIds5Ba1ZUSqBeI7nAeP4+R
- cYUubUzuFdmhGtAliAYMaUI7lSvpD+tVCIDPTarl1aUX1nTGev+tOBfnZSanZt2TjMFqCd8LcZt
- SImk8JJicQOWhLvvvT/0JCP9ELD54
-X-Received: by 2002:a05:620a:4db:: with SMTP id
- 27mr13443396qks.146.1579736632702; 
- Wed, 22 Jan 2020 15:43:52 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzg0UCKLKoVY9Z3OtxOCjftnbr7zi/VmqEuXqfcFBxwvH7MQrJvnBBVQhlwACialzg1m07iuQ==
-X-Received: by 2002:a05:620a:4db:: with SMTP id
- 27mr13443368qks.146.1579736632418; 
- Wed, 22 Jan 2020 15:43:52 -0800 (PST)
-Received: from dhcp-10-20-1-90.bss.redhat.com ([144.121.20.162])
- by smtp.gmail.com with ESMTPSA id i5sm94751qtv.80.2020.01.22.15.43.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jan 2020 15:43:51 -0800 (PST)
-Message-ID: <bedb14c54b1cbd93117e2a64675ea31ad4b23d5a.camel@redhat.com>
-Subject: Re: [PATCH v2 1/2] drm/dp_mst: Fix clearing payload state on
- topology disable
-From: Lyude Paul <lyude@redhat.com>
-To: Ville =?ISO-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Date: Wed, 22 Jan 2020 18:43:50 -0500
-In-Reply-To: <20200122205153.GJ13686@intel.com>
-References: <20200122194321.14953-1-lyude@redhat.com>
- <20200122205153.GJ13686@intel.com>
-Organization: Red Hat
-User-Agent: Evolution 3.34.3 (3.34.3-1.fc31)
+Received: from o1.b.az.sendgrid.net (o1.b.az.sendgrid.net [208.117.55.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 532EE6F93E
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 23:44:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=subject:references:from:mime-version:in-reply-to:to:cc:content-type:
+ content-transfer-encoding;
+ s=001; bh=Ge8eIw6tIYZe+N8CbxZTXYvJBCtchNz4nNEMOvCTUFY=;
+ b=fyucdHmwJ/gZge8n8T83rrPMAYyfRbmrpAMRoIbr2OE7vHhtiyVbWkNpDfoKb+BlcAmF
+ bYTLoaUy9/AN+iymkV881tnFneqiTzPKwF5k0lnVu6ia0rnA6aZEX4haAPUOtRMpnybTzN
+ 4XfLbHKdrKpmwK6LDAXJoW2m9kqc0fXIU=
+Received: by filterdrecv-p3iad2-57f487d66-rgh5v with SMTP id
+ filterdrecv-p3iad2-57f487d66-rgh5v-18-5E28DE5B-6D
+ 2020-01-22 23:44:28.083522223 +0000 UTC m=+3193063.487138574
+Received: from [192.168.1.14] (unknown [98.128.173.80])
+ by ismtpd0002p1lon1.sendgrid.net (SG) with ESMTP id Oat9iBvaRmyf81NcXubgPw
+ Wed, 22 Jan 2020 23:44:27.709 +0000 (UTC)
+Subject: Re: [PATCH v7 06/12] drm/bridge: Add the necessary bits to support
+ bus format negotiation
+References: <20200122111700.1924960-1-boris.brezillon@collabora.com>
+ <20200122111700.1924960-7-boris.brezillon@collabora.com>
+From: Jonas Karlman <jonas@kwiboo.se>
+Message-ID: <5a15dda1-0791-c1b6-94aa-4fed25bbcca9@kwiboo.se>
+Date: Wed, 22 Jan 2020 23:44:28 +0000 (UTC)
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 MIME-Version: 1.0
-X-MC-Unique: knzWoYTVPgytcGZo0iJ4sA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20200122111700.1924960-7-boris.brezillon@collabora.com>
+X-SG-EID: =?us-ascii?Q?TdbjyGynYnRZWhH+7lKUQJL+ZxmxpowvO2O9SQF5CwCVrYgcwUXgU5DKUU3QxA?=
+ =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0h8oxUbNQUMvOGHbKX?=
+ =?us-ascii?Q?EfLWjbR46SLEdUxFLCDLoVXoq7Z1JtLh00PfxGg?=
+ =?us-ascii?Q?ptEjZgI15O4MflhY9w9lYDLC5uRANX7z0OWpBQq?=
+ =?us-ascii?Q?NiBWgQ=2Fo5aI+vRulN6TL7n1emw8sT3Uyw1IRwRV?=
+ =?us-ascii?Q?SKwjaQjeYrAwO4Ga1p0wbBDxuS=2FfHt2CuiIApXM?=
+ =?us-ascii?Q?c8f9dM2TtITkvwXEfkS+A=3D=3D?=
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,94 +58,613 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Wayne Lin <Wayne.Lin@amd.com>,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
+ Mark Rutland <mark.rutland@arm.com>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, devicetree@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, kernel@collabora.com,
+ Sam Ravnborg <sam@ravnborg.org>, Chris Healy <cphealy@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAyMDIwLTAxLTIyIGF0IDIyOjUxICswMjAwLCBWaWxsZSBTeXJqw6Rsw6Qgd3JvdGU6
-Cj4gT24gV2VkLCBKYW4gMjIsIDIwMjAgYXQgMDI6NDM6MjBQTSAtMDUwMCwgTHl1ZGUgUGF1bCB3
-cm90ZToKPiA+IFRoZSBpc3N1ZXMgY2F1c2VkIGJ5Ogo+ID4gCj4gPiA2NGU2MmJkZjA0YWIgKCJk
-cm0vZHBfbXN0OiBSZW1vdmUgVkNQSSB3aGlsZSBkaXNhYmxpbmcgdG9wb2xvZ3kgbWdyIikKPiA+
-IAo+ID4gUHJvbXB0ZWQgbWUgdG8gdGFrZSBhIGNsb3NlciBsb29rIGF0IGhvdyB3ZSBjbGVhciB0
-aGUgcGF5bG9hZCBzdGF0ZSBpbgo+ID4gZ2VuZXJhbCB3aGVuIGRpc2FibGluZyB0aGUgdG9wb2xv
-Z3ksIGFuZCBpdCB0dXJucyBvdXQgdGhlcmUncyBhY3R1YWxseQo+ID4gdHdvIHN1YnRsZSBpc3N1
-ZXMgaGVyZS4KPiA+IAo+ID4gVGhlIGZpcnN0IGlzIHRoYXQgd2UncmUgbm90IGdyYWJiaW5nICZt
-Z3IucGF5bG9hZF9sb2NrIHdoZW4gY2xlYXJpbmcgdGhlCj4gPiBwYXlsb2FkcyBpbiBkcm1fZHBf
-bXN0X3RvcG9sb2d5X21ncl9zZXRfbXN0KCkuIFNlZWluZyBhcyB0aGUgY2Fub25pY2FsCj4gPiBs
-b2NrIG9yZGVyIGlzICZtZ3IucGF5bG9hZF9sb2NrIC0+ICZtZ3IubG9jayAoYmVjYXVzZSB3ZSBh
-bHdheXMgd2FudAo+ID4gJm1nci5sb2NrIHRvIGJlIHRoZSBpbm5lci1tb3N0IGxvY2sgc28gdG9w
-b2xvZ3kgdmFsaWRhdGlvbiBhbHdheXMKPiA+IHdvcmtzKSwgdGhpcyBtYWtlcyBwZXJmZWN0IHNl
-bnNlLiBJdCBhbHNvIG1lYW5zIHRoYXQgLXRlY2huaWNhbGx5LSB0aGVyZQo+ID4gY291bGQgYmUg
-cmFjaW5nIGJldHdlZW4gc29tZW9uZSBjYWxsaW5nCj4gPiBkcm1fZHBfbXN0X3RvcG9sb2d5X21n
-cl9zZXRfbXN0KCkgdG8gZGlzYWJsZSB0aGUgdG9wb2xvZ3ksIGFsb25nIHdpdGggYQo+ID4gbW9k
-ZXNldCBvY2N1cnJpbmcgdGhhdCdzIG1vZGlmeWluZyB0aGUgcGF5bG9hZCBzdGF0ZSBhdCB0aGUg
-c2FtZSB0aW1lLgo+ID4gCj4gPiBUaGUgc2Vjb25kIGlzIHRoZSBtb3JlIG9idmlvdXMgaXNzdWUg
-dGhhdCBXYXluZSBMaW4gZGlzY292ZXJlZCwgdGhhdAo+ID4gd2UncmUgbm90IGNsZWFyaW5nIHBy
-b3Bvc2VkX3BheWxvYWRzIHdoZW4gZGlzYWJsaW5nIHRoZSB0b3BvbG9neS4KPiA+IAo+ID4gSSBh
-Y3R1YWxseSBjYW4ndCBzZWUgYW55IG9idmlvdXMgcGxhY2VzIHdoZXJlIHRoZSByYWNpbmcgY2F1
-c2VkIGJ5IHRoZQo+ID4gZmlyc3QgaXNzdWUgd291bGQgYnJlYWsgc29tZXRoaW5nLCBhbmQgaXQg
-Y291bGQgYmUgdGhhdCBzb21lIG9mIG91cgo+ID4gaGlnaGVyLWxldmVsIGxvY2tzIGFscmVhZHkg
-cHJldmVudCB0aGlzIGJ5IGhhcHBlbnN0YW5jZSwgYnV0IGJldHRlciBzYWZlCj4gPiB0aGVuIHNv
-cnJ5LiBTbywgbGV0J3MgbWFrZSBpdCBzbyB0aGF0IGRybV9kcF9tc3RfdG9wb2xvZ3lfbWdyX3Nl
-dF9tc3QoKQo+ID4gZmlyc3QgZ3JhYnMgJm1nci5wYXlsb2FkX2xvY2sgZm9sbG93ZWQgYnkgJm1n
-ci5sb2NrIHNvIHRoYXQgd2UgbmV2ZXIKPiA+IHJhY2Ugd2hlbiBtb2RpZnlpbmcgdGhlIHBheWxv
-YWQgc3RhdGUuIFRoZW4sIHdlIGFsc28gY2xlYXIKPiA+IHByb3Bvc2VkX3BheWxvYWRzIHRvIGZp
-eCB0aGUgb3JpZ2luYWwgaXNzdWUgb2YgZW5hYmxpbmcgYSBuZXcgdG9wb2xvZ3kKPiA+IHdpdGgg
-YSBkaXJ0eSBwYXlsb2FkIHN0YXRlLiBUaGlzIGRvZXNuJ3QgY2xlYXIgYW55IG9mIHRoZSBkcm1f
-ZHBfdmNwaQo+ID4gc3RydWN0dXJlcywgYnV0IHRob3NlIGFyZSBnZXR0aW5nIGRlc3Ryb3llZCBh
-bG9uZyB3aXRoIHRoZSBwb3J0cyBhbnl3YXkuCj4gPiAKPiA+IENoYW5nZXMgc2luY2UgdjE6Cj4g
-PiAqIFVzZSBzaXplb2YobWdyLT5wYXlsb2Fkc1swXSkvc2l6ZW9mKG1nci0+cHJvcG9zZWRfdmNw
-aXNbMF0pIGluc3RlYWQgLQo+ID4gICB2c3lyamFsYQo+ID4gCj4gPiBDYzogU2VhbiBQYXVsIDxz
-ZWFuQHBvb3JseS5ydW4+Cj4gPiBDYzogV2F5bmUgTGluIDxXYXluZS5MaW5AYW1kLmNvbT4KPiA+
-IENjOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+ID4g
-U2lnbmVkLW9mZi1ieTogTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4KPiA+IC0tLQo+ID4g
-IGRyaXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMgfCA3ICsrKysrKy0KPiA+ICAx
-IGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCj4gPiAKPiA+IGRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jCj4gPiBiL2Ry
-aXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMKPiA+IGluZGV4IDM2NDllODJiOTYz
-ZC4uMjNjZjQ2YmZlZjc0IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9t
-c3RfdG9wb2xvZ3kuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9tc3RfdG9wb2xv
-Z3kuYwo+ID4gQEAgLTM1MDEsNiArMzUwMSw3IEBAIGludCBkcm1fZHBfbXN0X3RvcG9sb2d5X21n
-cl9zZXRfbXN0KHN0cnVjdAo+ID4gZHJtX2RwX21zdF90b3BvbG9neV9tZ3IgKm1nciwgYm9vbCBt
-cwo+ID4gIAlpbnQgcmV0ID0gMDsKPiA+ICAJc3RydWN0IGRybV9kcF9tc3RfYnJhbmNoICptc3Ri
-ID0gTlVMTDsKPiA+ICAKPiA+ICsJbXV0ZXhfbG9jaygmbWdyLT5wYXlsb2FkX2xvY2spOwo+ID4g
-IAltdXRleF9sb2NrKCZtZ3ItPmxvY2spOwo+ID4gIAlpZiAobXN0X3N0YXRlID09IG1nci0+bXN0
-X3N0YXRlKQo+ID4gIAkJZ290byBvdXRfdW5sb2NrOwo+ID4gQEAgLTM1NTksNyArMzU2MCwxMCBA
-QCBpbnQgZHJtX2RwX21zdF90b3BvbG9neV9tZ3Jfc2V0X21zdChzdHJ1Y3QKPiA+IGRybV9kcF9t
-c3RfdG9wb2xvZ3lfbWdyICptZ3IsIGJvb2wgbXMKPiA+ICAJCS8qIHRoaXMgY2FuIGZhaWwgaWYg
-dGhlIGRldmljZSBpcyBnb25lICovCj4gPiAgCQlkcm1fZHBfZHBjZF93cml0ZWIobWdyLT5hdXgs
-IERQX01TVE1fQ1RSTCwgMCk7Cj4gPiAgCQlyZXQgPSAwOwo+ID4gLQkJbWVtc2V0KG1nci0+cGF5
-bG9hZHMsIDAsIG1nci0+bWF4X3BheWxvYWRzICogc2l6ZW9mKHN0cnVjdAo+ID4gZHJtX2RwX3Bh
-eWxvYWQpKTsKPiA+ICsJCW1lbXNldChtZ3ItPnBheWxvYWRzLCAwLAo+ID4gKwkJICAgICAgIG1n
-ci0+bWF4X3BheWxvYWRzICogc2l6ZW9mKG1nci0+cGF5bG9hZHNbMF0pKTsKPiA+ICsJCW1lbXNl
-dChtZ3ItPnByb3Bvc2VkX3ZjcGlzLCAwLAo+ID4gKwkJICAgICAgIG1nci0+bWF4X3BheWxvYWRz
-ICogc2l6ZW9mKG1nci0+cHJvcG9zZWRfdmNwaXNbMF0pKTsKPiA+ICAJCW1nci0+cGF5bG9hZF9t
-YXNrID0gMDsKPiA+ICAJCXNldF9iaXQoMCwgJm1nci0+cGF5bG9hZF9tYXNrKTsKPiA+ICAJCW1n
-ci0+dmNwaV9tYXNrID0gMDsKPiA+IEBAIC0zNTY4LDYgKzM1NzIsNyBAQCBpbnQgZHJtX2RwX21z
-dF90b3BvbG9neV9tZ3Jfc2V0X21zdChzdHJ1Y3QKPiA+IGRybV9kcF9tc3RfdG9wb2xvZ3lfbWdy
-ICptZ3IsIGJvb2wgbXMKPiA+ICAKPiA+ICBvdXRfdW5sb2NrOgo+ID4gIAltdXRleF91bmxvY2so
-Jm1nci0+bG9jayk7Cj4gPiArCW11dGV4X3VubG9jaygmbWdyLT5wYXlsb2FkX2xvY2spOwo+IAo+
-IExvY2tpbmcgb3JkZXIgbG9va3Mgc2FuZS4gTm90IGVudGlyZWx5IHN1cmUgd2hhdCB0aGUgaW1w
-bGljYXRpb25zIG9mCj4gY2xlYXJpbmcgYWxsIHRoYXQgc3R1ZmYgb3V0c2lkZSBvZiBhIHByb3Bl
-ciBtb2Rlc2V0IGlzLCBidXQgYXQgbGVhc3QKPiBpdCBtYXRjaGVzIHdoYXQgd2UgYWxyZWFkeSBk
-by4gU28KCmZ3aXcgLSBpdCdzIG5vdCBjbGVhcmluZyBhbnl0aGluZyBjdXJyZW50bHkgcHJvZ3Jh
-bW1lZCBpbiBodyBhdCB0aGF0IHBvaW50LAppdCdzIGp1c3QgY2xlYXJpbmcgdGhlIGFycmF5cyB3
-ZSB1c2UgZm9yIGtlZXBpbmcgdHJhY2sgb2YgcGVuZGluZy9jdXJyZW50CnBheWxvYWQgYWxsb2Nh
-dGlvbnMgc28gdGhlcmUncyBub3RoaW5nIGluIHRoZW0gdGhlIG5leHQgdGltZSB3ZSBlbmFibGUg
-TVNUIG9uCmEgZGlzcGxheS4gVGhpcyBpcyBiYXNpY2FsbHkgd2hhdCB3ZSB3YW50IGFueXdheSAt
-IG9uY2Ugd2UgZGlzYWJsZSBNU1QgdGhyb3VnaAp0aGUgRFBDRCwgd2Ugd29uJ3QgZW5kIHVwIHNl
-bmRpbmcgYW55IHBheWxvYWQgdXBkYXRlcyBhbnl3YXkgc28gdGhlc2UgZG9uJ3QKZ2V0IHVzZWQg
-aW4gdGhlIG1vZGVzZXRzIHRoYXQgZm9sbG93LgoKdGJoLCBwYXJ0IG9mIG1lIHdvbmRlcnMgaWYg
-d2UgY291bGQgaGFuZGxlIG1vcmUgb2YgdGhpcyBpbiBhdG9taWMgc3RhdGUgaW4gdGhlCmZ1dHVy
-ZSwgYnV0IEkgaGF2ZW4ndCBzZWVuIGEgZ29vZCBlbm91Z2ggcmVhc29uIHRvIHRyeSB0aGF0IHll
-dC4KPiAKPiBSZXZpZXdlZC1ieTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4
-LmludGVsLmNvbT4KPiAKPiA+ICAJaWYgKG1zdGIpCj4gPiAgCQlkcm1fZHBfbXN0X3RvcG9sb2d5
-X3B1dF9tc3RiKG1zdGIpOwo+ID4gIAlyZXR1cm4gcmV0Owo+ID4gLS0gCj4gPiAyLjI0LjEKLS0g
-CkNoZWVycywKCUx5dWRlIFBhdWwKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbAo=
+On 2020-01-22 12:16, Boris Brezillon wrote:
+> drm_bridge_state is extended to describe the input and output bus
+> configurations. These bus configurations are exposed through the
+> drm_bus_cfg struct which encodes the configuration of a physical
+> bus between two components in an output pipeline, usually between
+> two bridges, an encoder and a bridge, or a bridge and a connector.
+> 
+> The bus configuration is stored in drm_bridge_state separately for
+> the input and output buses, as seen from the point of view of each
+> bridge. The bus configuration of a bridge output is usually identical
+> to the configuration of the next bridge's input, but may differ if
+> the signals are modified between the two bridges, for instance by an
+> inverter on the board. The input and output configurations of a
+> bridge may differ if the bridge modifies the signals internally,
+> for instance by performing format conversion, or*modifying signals
+> polarities.
+> 
+> Bus format negotiation is automated by the core, drivers just have
+> to implement the ->atomic_get_{output,input}_bus_fmts() hooks if they
+> want to take part to this negotiation. Negotiation happens in reverse
+> order, starting from the last element of the chain (the one directly
+> connected to the display) up to the first element of the chain (the one
+> connected to the encoder).
+> During this negotiation all supported formats are tested until we find
+> one that works, meaning that the formats array should be in decreasing
+> preference order (assuming the driver has a preference order).
+> 
+> Note that the bus format negotiation works even if some elements in the
+> chain don't implement the ->atomic_get_{output,input}_bus_fmts() hooks.
+> In that case, the core advertises only MEDIA_BUS_FMT_FIXED and lets
+> the previous bridge element decide what to do (most of the time, bridge
+> drivers will pick a default bus format or extract this piece of
+> information from somewhere else, like a FW property).
+> 
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+> [narmstrong: fixed doc in include/drm/drm_bridge.h:69 fmt->format]
+> Reviewed by: Jernej Skrabec <jernej.skrabec@siol.net>
+> Tested-by: Jonas Karlman <jonas@kwiboo.se>
+> ---
+> Changes in v7:
+> * Adapt the code to deal with the fact that not all bridges in the
+>   chain have a bridge state
+> ---
+>  drivers/gpu/drm/drm_atomic_helper.c |  41 +++++
+>  drivers/gpu/drm/drm_bridge.c        | 253 +++++++++++++++++++++++++++-
+>  include/drm/drm_atomic.h            |  42 +++++
+>  include/drm/drm_atomic_helper.h     |   8 +
+>  include/drm/drm_bridge.h            |  82 +++++++++
+>  5 files changed, 425 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index afe14f72a824..ea1926b5bb80 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -3528,3 +3528,44 @@ int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL(drm_atomic_helper_legacy_gamma_set);
+> +
+> +/**
+> + * drm_atomic_helper_bridge_propagate_bus_fmt() - Propagate output format to
+> + *						  the input end of a bridge
+> + * @bridge: bridge control structure
+> + * @bridge_state: new bridge state
+> + * @crtc_state: new CRTC state
+> + * @conn_state: new connector state
+> + * @output_fmt: tested output bus format
+> + * @num_input_fmts: will contain the size of the returned array
+> + *
+> + * This helper is a pluggable implementation of the
+> + * &drm_bridge_funcs.atomic_get_input_bus_fmts operation for bridges that don't
+> + * modify the bus configuration between their input and their output. It
+> + * returns an array of input formats with a single element set to @output_fmt.
+> + *
+> + * RETURNS:
+> + * a valid format array of size @num_input_fmts, or NULL if the allocation
+> + * failed
+> + */
+> +u32 *
+> +drm_atomic_helper_bridge_propagate_bus_fmt(struct drm_bridge *bridge,
+> +					struct drm_bridge_state *bridge_state,
+> +					struct drm_crtc_state *crtc_state,
+> +					struct drm_connector_state *conn_state,
+> +					u32 output_fmt,
+> +					unsigned int *num_input_fmts)
+> +{
+> +	u32 *input_fmts;
+> +
+> +	input_fmts = kzalloc(sizeof(*input_fmts), GFP_KERNEL);
+> +	if (!input_fmts) {
+> +		*num_input_fmts = 0;
+> +		return NULL;
+> +	}
+> +
+> +	*num_input_fmts = 1;
+> +	input_fmts[0] = output_fmt;
+> +	return input_fmts;
+> +}
+> +EXPORT_SYMBOL(drm_atomic_helper_bridge_propagate_bus_fmt);
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index dd3a2a9f87d3..0c28816146ba 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -598,13 +598,247 @@ static int drm_atomic_bridge_check(struct drm_bridge *bridge,
+>  	return 0;
+>  }
+>  
+> +static int select_bus_fmt_recursive(struct drm_bridge *first_bridge,
+> +				    struct drm_bridge *cur_bridge,
+> +				    struct drm_crtc_state *crtc_state,
+> +				    struct drm_connector_state *conn_state,
+> +				    u32 out_bus_fmt)
+> +{
+> +	struct drm_bridge_state *cur_state;
+> +	unsigned int num_in_bus_fmts, i;
+> +	struct drm_bridge *prev_bridge;
+> +	u32 *in_bus_fmts;
+> +	int ret;
+> +
+> +	prev_bridge = drm_bridge_get_prev_bridge(cur_bridge);
+> +	cur_state = drm_atomic_get_new_bridge_state(crtc_state->state,
+> +						    cur_bridge);
+> +
+> +	/*
+> +	 * If bus format negotiation is not supported by this bridge, let's
+> +	 * pass MEDIA_BUS_FMT_FIXED to the previous bridge in the chain and
+> +	 * hope that it can handle this situation gracefully (by providing
+> +	 * appropriate default values).
+> +	 */
+> +	if (!cur_bridge->funcs->atomic_get_input_bus_fmts) {
+> +		if (cur_bridge != first_bridge) {
+> +			ret = select_bus_fmt_recursive(first_bridge,
+> +						       prev_bridge, crtc_state,
+> +						       conn_state,
+> +						       MEDIA_BUS_FMT_FIXED);
+> +			if (ret)
+> +				return ret;
+> +		}
+> +
+> +		/*
+> +		 * Driver does not implement the atomic state hooks, but that's
+> +		 * fine, as long as it does not access the bridge state.
+> +		 */
+> +		if (cur_state) {
+> +			cur_state->input_bus_cfg.format = MEDIA_BUS_FMT_FIXED;
+> +			cur_state->output_bus_cfg.format = out_bus_fmt;
+> +		}
+> +
+> +		return 0;
+> +	}
+> +
+> +	/*
+> +	 * If the driver implements ->atomic_get_input_bus_fmts() it
+> +	 * should also implement the atomic state hooks.
+> +	 */
+> +	if (WARN_ON(!cur_state))
+> +		return -EINVAL;
+> +
+> +	in_bus_fmts = cur_bridge->funcs->atomic_get_input_bus_fmts(cur_bridge,
+> +							cur_state,
+> +							crtc_state,
+> +							conn_state,
+> +							out_bus_fmt,
+> +							&num_in_bus_fmts);
+> +	if (!num_in_bus_fmts)
+> +		return -ENOTSUPP;
+> +	else if (!in_bus_fmts)
+> +		return -ENOMEM;
+> +
+> +	if (first_bridge == cur_bridge) {
+> +		cur_state->input_bus_cfg.format = in_bus_fmts[0];
+> +		cur_state->output_bus_cfg.format = out_bus_fmt;
+> +		kfree(in_bus_fmts);
+> +		return 0;
+> +	}
+> +
+> +	for (i = 0; i < num_in_bus_fmts; i++) {
+> +		ret = select_bus_fmt_recursive(first_bridge, prev_bridge,
+> +					       crtc_state, conn_state,
+> +					       in_bus_fmts[i]);
+> +		if (ret != -ENOTSUPP)
+> +			break;
+> +	}
+> +
+> +	if (!ret) {
+> +		cur_state->input_bus_cfg.format = in_bus_fmts[i];
+> +		cur_state->output_bus_cfg.format = out_bus_fmt;
+> +	}
+> +
+> +	kfree(in_bus_fmts);
+> +	return ret;
+> +}
+> +
+> +/*
+> + * This function is called by &drm_atomic_bridge_chain_check() just before
+> + * calling &drm_bridge_funcs.atomic_check() on all elements of the chain.
+> + * It performs bus format negotiation between bridge elements. The negotiation
+> + * happens in reverse order, starting from the last element in the chain up to
+> + * @bridge.
+> + *
+> + * Negotiation starts by retrieving supported output bus formats on the last
+> + * bridge element and testing them one by one. The test is recursive, meaning
+> + * that for each tested output format, the whole chain will be walked backward,
+> + * and each element will have to choose an input bus format that can be
+> + * transcoded to the requested output format. When a bridge element does not
+> + * support transcoding into a specific output format -ENOTSUPP is returned and
+> + * the next bridge element will have to try a different format. If none of the
+> + * combinations worked, -ENOTSUPP is returned and the atomic modeset will fail.
+> + *
+> + * This implementation is relying on
+> + * &drm_bridge_funcs.atomic_get_output_bus_fmts() and
+> + * &drm_bridge_funcs.atomic_get_input_bus_fmts() to gather supported
+> + * input/output formats.
+> + *
+> + * When &drm_bridge_funcs.atomic_get_output_bus_fmts() is not implemented by
+> + * the last element of the chain, &drm_atomic_bridge_chain_select_bus_fmts()
+> + * tries a single format: &drm_connector.display_info.bus_formats[0] if
+> + * available, MEDIA_BUS_FMT_FIXED otherwise.
+> + *
+> + * When &drm_bridge_funcs.atomic_get_input_bus_fmts() is not implemented,
+> + * &drm_atomic_bridge_chain_select_bus_fmts() skips the negotiation on the
+> + * bridge element that lacks this hook and asks the previous element in the
+> + * chain to try MEDIA_BUS_FMT_FIXED. It's up to bridge drivers to decide what
+> + * to do in that case (fail if they want to enforce bus format negotiation, or
+> + * provide a reasonable default if they need to support pipelines where not
+> + * all elements support bus format negotiation).
+> + */
+> +static int
+> +drm_atomic_bridge_chain_select_bus_fmts(struct drm_bridge *bridge,
+> +					struct drm_crtc_state *crtc_state,
+> +					struct drm_connector_state *conn_state)
+> +{
+> +	struct drm_connector *conn = conn_state->connector;
+> +	struct drm_encoder *encoder = bridge->encoder;
+> +	struct drm_bridge_state *last_bridge_state;
+> +	unsigned int i, num_out_bus_fmts;
+> +	struct drm_bridge *last_bridge;
+> +	u32 *out_bus_fmts;
+> +	int ret = 0;
+> +
+> +	last_bridge = list_last_entry(&encoder->bridge_chain,
+> +				      struct drm_bridge, chain_node);
+> +	last_bridge_state = drm_atomic_get_new_bridge_state(crtc_state->state,
+> +							    last_bridge);
+> +
+> +	if (last_bridge->funcs->atomic_get_output_bus_fmts) {
+> +		const struct drm_bridge_funcs *funcs = last_bridge->funcs;
+> +
+> +		/*
+> +		 * If the driver implements ->atomic_get_output_bus_fmts() it
+> +		 * should also implement the atomic state hooks.
+> +		 */
+> +		if (WARN_ON(last_bridge_state))
+
+This looks wrong, with this changed to WARN_ON(!last_bridge_state)
+my RK3328 HDMI2.0/YUV444/YUV420/10-bit branch at [1] starts working.
+
+With WARN_ON(last_bridge_state) I get:
+
+[    6.606658] WARNING: CPU: 0 PID: 167 at drivers/gpu/drm/drm_bridge.c:746 drm_atomic_bridge_chain_check+0x2b8/0x308
+[    6.606673] Hardware name: Pine64 Rock64 (DT)
+
+[    6.606754] Call trace:
+[    6.606759]  drm_atomic_bridge_chain_check+0x2b8/0x308
+[    6.606764]  drm_atomic_helper_check_modeset+0x89c/0xab8
+[    6.606768]  drm_atomic_helper_check+0x1c/0xa0
+[    6.606772]  drm_atomic_check_only+0x464/0x708
+[    6.606777]  drm_atomic_commit+0x18/0x58
+
+[1] https://github.com/Kwiboo/linux-rockchip/commits/next-20200122-bus-format
+
+Regards,
+Jonas
+
+> +			return -EINVAL;
+> +
+> +		out_bus_fmts = funcs->atomic_get_output_bus_fmts(last_bridge,
+> +							last_bridge_state,
+> +							crtc_state,
+> +							conn_state,
+> +							&num_out_bus_fmts);
+> +		if (!num_out_bus_fmts)
+> +			return -ENOTSUPP;
+> +		else if (!out_bus_fmts)
+> +			return -ENOMEM;
+> +	} else {
+> +		num_out_bus_fmts = 1;
+> +		out_bus_fmts = kmalloc(sizeof(*out_bus_fmts), GFP_KERNEL);
+> +		if (!out_bus_fmts)
+> +			return -ENOMEM;
+> +
+> +		if (conn->display_info.num_bus_formats &&
+> +		    conn->display_info.bus_formats)
+> +			out_bus_fmts[0] = conn->display_info.bus_formats[0];
+> +		else
+> +			out_bus_fmts[0] = MEDIA_BUS_FMT_FIXED;
+> +	}
+> +
+> +	for (i = 0; i < num_out_bus_fmts; i++) {
+> +		ret = select_bus_fmt_recursive(bridge, last_bridge, crtc_state,
+> +					       conn_state, out_bus_fmts[i]);
+> +		if (ret != -ENOTSUPP)
+> +			break;
+> +	}
+> +
+> +	kfree(out_bus_fmts);
+> +
+> +	return ret;
+> +}
+> +
+> +static void
+> +drm_atomic_bridge_propagate_bus_flags(struct drm_bridge *bridge,
+> +				      struct drm_connector *conn,
+> +				      struct drm_atomic_state *state)
+> +{
+> +	struct drm_bridge_state *bridge_state, *next_bridge_state;
+> +	struct drm_bridge *next_bridge;
+> +	u32 output_flags = 0;
+> +
+> +	bridge_state = drm_atomic_get_new_bridge_state(state, bridge);
+> +
+> +	/* No bridge state attached to this bridge => nothing to propagate. */
+> +	if (!bridge_state)
+> +		return;
+> +
+> +	next_bridge = drm_bridge_get_next_bridge(bridge);
+> +
+> +	/*
+> +	 * Let's try to apply the most common case here, that is, propagate
+> +	 * display_info flags for the last bridge, and propagate the input
+> +	 * flags of the next bridge element to the output end of the current
+> +	 * bridge when the bridge is not the last one.
+> +	 * There are exceptions to this rule, like when signal inversion is
+> +	 * happening at the board level, but that's something drivers can deal
+> +	 * with from their &drm_bridge_funcs.atomic_check() implementation by
+> +	 * simply overriding the flags value we've set here.
+> +	 */
+> +	if (!next_bridge) {
+> +		output_flags = conn->display_info.bus_flags;
+> +	} else {
+> +		next_bridge_state = drm_atomic_get_new_bridge_state(state,
+> +								next_bridge);
+> +		/*
+> +		 * No bridge state attached to the next bridge, just leave the
+> +		 * flags to 0.
+> +		 */
+> +		if (next_bridge_state)
+> +			output_flags = next_bridge_state->input_bus_cfg.flags;
+> +	}
+> +
+> +	bridge_state->output_bus_cfg.flags = output_flags;
+> +
+> +	/*
+> +	 * Propage the output flags to the input end of the bridge. Again, it's
+> +	 * not necessarily what all bridges want, but that's what most of them
+> +	 * do, and by doing that by default we avoid forcing drivers to
+> +	 * duplicate the "dummy propagation" logic.
+> +	 */
+> +	bridge_state->input_bus_cfg.flags = output_flags;
+> +}
+> +
+>  /**
+>   * drm_atomic_bridge_chain_check() - Do an atomic check on the bridge chain
+>   * @bridge: bridge control structure
+>   * @crtc_state: new CRTC state
+>   * @conn_state: new connector state
+>   *
+> - * Calls &drm_bridge_funcs.atomic_check() (falls back on
+> + * First trigger a bus format negotiation before calling
+> + * &drm_bridge_funcs.atomic_check() (falls back on
+>   * &drm_bridge_funcs.mode_fixup()) op for all the bridges in the encoder chain,
+>   * starting from the last bridge to the first. These are called before calling
+>   * &drm_encoder_helper_funcs.atomic_check()
+> @@ -616,16 +850,33 @@ int drm_atomic_bridge_chain_check(struct drm_bridge *bridge,
+>  				  struct drm_crtc_state *crtc_state,
+>  				  struct drm_connector_state *conn_state)
+>  {
+> +	struct drm_connector *conn = conn_state->connector;
+>  	struct drm_encoder *encoder;
+>  	struct drm_bridge *iter;
+> +	int ret;
+>  
+>  	if (!bridge)
+>  		return 0;
+>  
+> +	ret = drm_atomic_bridge_chain_select_bus_fmts(bridge, crtc_state,
+> +						      conn_state);
+> +	if (ret)
+> +		return ret;
+> +
+>  	encoder = bridge->encoder;
+>  	list_for_each_entry_reverse(iter, &encoder->bridge_chain, chain_node) {
+>  		int ret;
+>  
+> +		/*
+> +		 * Bus flags are propagated by default. If a bridge needs to
+> +		 * tweak the input bus flags for any reason, it should happen
+> +		 * in its &drm_bridge_funcs.atomic_check() implementation such
+> +		 * that preceding bridges in the chain can propagate the new
+> +		 * bus flags.
+> +		 */
+> +		drm_atomic_bridge_propagate_bus_flags(iter, conn,
+> +						      crtc_state->state);
+> +
+>  		ret = drm_atomic_bridge_check(iter, crtc_state, conn_state);
+>  		if (ret)
+>  			return ret;
+> diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
+> index 82a888769b3d..52d65a055491 100644
+> --- a/include/drm/drm_atomic.h
+> +++ b/include/drm/drm_atomic.h
+> @@ -995,6 +995,38 @@ drm_atomic_crtc_effectively_active(const struct drm_crtc_state *state)
+>  	return state->active || state->self_refresh_active;
+>  }
+>  
+> +/**
+> + * struct drm_bus_cfg - bus configuration
+> + *
+> + * This structure stores the configuration of a physical bus between two
+> + * components in an output pipeline, usually between two bridges, an encoder
+> + * and a bridge, or a bridge and a connector.
+> + *
+> + * The bus configuration is stored in &drm_bridge_state separately for the
+> + * input and output buses, as seen from the point of view of each bridge. The
+> + * bus configuration of a bridge output is usually identical to the
+> + * configuration of the next bridge's input, but may differ if the signals are
+> + * modified between the two bridges, for instance by an inverter on the board.
+> + * The input and output configurations of a bridge may differ if the bridge
+> + * modifies the signals internally, for instance by performing format
+> + * conversion, or modifying signals polarities.
+> + */
+> +struct drm_bus_cfg {
+> +	/**
+> +	 * @format: format used on this bus (one of the MEDIA_BUS_FMT_* format)
+> +	 *
+> +	 * This field should not be directly modified by drivers
+> +	 * (&drm_atomic_bridge_chain_select_bus_fmts() takes care of the bus
+> +	 * format negotiation).
+> +	 */
+> +	u32 format;
+> +
+> +	/**
+> +	 * @flags: DRM_BUS_* flags used on this bus
+> +	 */
+> +	u32 flags;
+> +};
+> +
+>  /**
+>   * struct drm_bridge_state - Atomic bridge state object
+>   */
+> @@ -1008,6 +1040,16 @@ struct drm_bridge_state {
+>  	 * @bridge: the bridge this state refers to
+>  	 */
+>  	struct drm_bridge *bridge;
+> +
+> +	/**
+> +	 * @input_bus_cfg: input bus configuration
+> +	 */
+> +	struct drm_bus_cfg input_bus_cfg;
+> +
+> +	/**
+> +	 * @output_bus_cfg: input bus configuration
+> +	 */
+> +	struct drm_bus_cfg output_bus_cfg;
+>  };
+>  
+>  static inline struct drm_bridge_state *
+> diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
+> index 9db3cac48f4f..b268180c97eb 100644
+> --- a/include/drm/drm_atomic_helper.h
+> +++ b/include/drm/drm_atomic_helper.h
+> @@ -224,4 +224,12 @@ drm_atomic_plane_disabling(struct drm_plane_state *old_plane_state,
+>  	return old_plane_state->crtc && !new_plane_state->crtc;
+>  }
+>  
+> +u32 *
+> +drm_atomic_helper_bridge_propagate_bus_fmt(struct drm_bridge *bridge,
+> +					struct drm_bridge_state *bridge_state,
+> +					struct drm_crtc_state *crtc_state,
+> +					struct drm_connector_state *conn_state,
+> +					u32 output_fmt,
+> +					unsigned int *num_input_fmts);
+> +
+>  #endif /* DRM_ATOMIC_HELPER_H_ */
+> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> index 04815ab948dd..e9f407993c8b 100644
+> --- a/include/drm/drm_bridge.h
+> +++ b/include/drm/drm_bridge.h
+> @@ -370,6 +370,72 @@ struct drm_bridge_funcs {
+>  	void (*atomic_destroy_state)(struct drm_bridge *bridge,
+>  				     struct drm_bridge_state *state);
+>  
+> +	/**
+> +	 * @atomic_get_output_bus_fmts:
+> +	 *
+> +	 * Return the supported bus formats on the output end of a bridge.
+> +	 * The returned array must be allocated with kmalloc() and will be
+> +	 * freed by the caller. If the allocation fails, NULL should be
+> +	 * returned. num_output_fmts must be set to the returned array size.
+> +	 * Formats listed in the returned array should be listed in decreasing
+> +	 * preference order (the core will try all formats until it finds one
+> +	 * that works).
+> +	 *
+> +	 * This method is only called on the last element of the bridge chain
+> +	 * as part of the bus format negotiation process that happens in
+> +	 * &drm_atomic_bridge_chain_select_bus_fmts().
+> +	 * This method is optional. When not implemented, the core will
+> +	 * fall back to &drm_connector.display_info.bus_formats[0] if
+> +	 * &drm_connector.display_info.num_bus_formats > 0,
+> +	 * or to MEDIA_BUS_FMT_FIXED otherwise.
+> +	 */
+> +	u32 *(*atomic_get_output_bus_fmts)(struct drm_bridge *bridge,
+> +					   struct drm_bridge_state *bridge_state,
+> +					   struct drm_crtc_state *crtc_state,
+> +					   struct drm_connector_state *conn_state,
+> +					   unsigned int *num_output_fmts);
+> +
+> +	/**
+> +	 * @atomic_get_input_bus_fmts:
+> +	 *
+> +	 * Return the supported bus formats on the input end of a bridge for
+> +	 * a specific output bus format.
+> +	 *
+> +	 * The returned array must be allocated with kmalloc() and will be
+> +	 * freed by the caller. If the allocation fails, NULL should be
+> +	 * returned. num_output_fmts must be set to the returned array size.
+> +	 * Formats listed in the returned array should be listed in decreasing
+> +	 * preference order (the core will try all formats until it finds one
+> +	 * that works). When the format is not supported NULL should be
+> +	 * returned and *num_output_fmts should be set to 0.
+> +	 *
+> +	 * This method is called on all elements of the bridge chain as part of
+> +	 * the bus format negotiation process that happens in
+> +	 * &drm_atomic_bridge_chain_select_bus_fmts().
+> +	 * This method is optional. When not implemented, the core will bypass
+> +	 * bus format negotiation on this element of the bridge without
+> +	 * failing, and the previous element in the chain will be passed
+> +	 * MEDIA_BUS_FMT_FIXED as its output bus format.
+> +	 *
+> +	 * Bridge drivers that need to support being linked to bridges that are
+> +	 * not supporting bus format negotiation should handle the
+> +	 * output_fmt == MEDIA_BUS_FMT_FIXED case appropriately, by selecting a
+> +	 * sensible default value or extracting this information from somewhere
+> +	 * else (FW property, &drm_display_mode, &drm_display_info, ...)
+> +	 *
+> +	 * Note: Even if input format selection on the first bridge has no
+> +	 * impact on the negotiation process (bus format negotiation stops once
+> +	 * we reach the first element of the chain), drivers are expected to
+> +	 * return accurate input formats as the input format may be used to
+> +	 * configure the CRTC output appropriately.
+> +	 */
+> +	u32 *(*atomic_get_input_bus_fmts)(struct drm_bridge *bridge,
+> +					  struct drm_bridge_state *bridge_state,
+> +					  struct drm_crtc_state *crtc_state,
+> +					  struct drm_connector_state *conn_state,
+> +					  u32 output_fmt,
+> +					  unsigned int *num_input_fmts);
+> +
+>  	/**
+>  	 * @atomic_check:
+>  	 *
+> @@ -384,6 +450,14 @@ struct drm_bridge_funcs {
+>  	 * called when &drm_bridge_funcs.atomic_check() is implemented, so only
+>  	 * one of them should be provided.
+>  	 *
+> +	 * If drivers need to tweak &drm_bridge_state.input_bus_cfg.flags or
+> +	 * &drm_bridge_state.output_bus_cfg.flags it should should happen in
+> +	 * this function. By default the &drm_bridge_state.output_bus_cfg.flags
+> +	 * field is set to the next bridge
+> +	 * &drm_bridge_state.input_bus_cfg.flags value or
+> +	 * &drm_connector.display_info.bus_flags if the bridge is the last
+> +	 * element in the chain.
+> +	 *
+>  	 * RETURNS:
+>  	 * zero if the check passed, a negative error code otherwise.
+>  	 */
+> @@ -571,6 +645,14 @@ void drm_atomic_bridge_chain_pre_enable(struct drm_bridge *bridge,
+>  void drm_atomic_bridge_chain_enable(struct drm_bridge *bridge,
+>  				    struct drm_atomic_state *state);
+>  
+> +u32 *
+> +drm_atomic_helper_bridge_propagate_bus_fmt(struct drm_bridge *bridge,
+> +					struct drm_bridge_state *bridge_state,
+> +					struct drm_crtc_state *crtc_state,
+> +					struct drm_connector_state *conn_state,
+> +					u32 output_fmt,
+> +					unsigned int *num_input_fmts);
+> +
+>  #ifdef CONFIG_DRM_PANEL_BRIDGE
+>  struct drm_bridge *drm_panel_bridge_add(struct drm_panel *panel);
+>  struct drm_bridge *drm_panel_bridge_add_typed(struct drm_panel *panel,
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
