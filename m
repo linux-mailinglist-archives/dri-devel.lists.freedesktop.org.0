@@ -2,109 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 925BF146348
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 09:19:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51C0E146350
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 09:20:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA3416FB25;
-	Thu, 23 Jan 2020 08:19:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B72D6FB26;
+	Thu, 23 Jan 2020 08:19:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53B5B6F603
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 17:02:04 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id z3so8152446wru.3
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 09:02:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6yEZAxxxHYV12v4fDlL+top5CchSxDt3hhEnOERCk/E=;
- b=K4mkXA6RgYkzeT0Rv8x5ic+MSLWPsJ7lETAUabyHh3rHjaPGJELBZ9PX1MqEIOcRl2
- xgoijdQBfTc2c/mQ02IdBAlbPWmbhx7SFUUATxOrjR31DCwkFfOf7e73siKqTDQTh91L
- kGXLqXpw9FMfSYgL2xVxXezDir3rCVARbBKhrnz8cJxZozn60+TEBAu5QqIQpZ2PIZVx
- J0+yi66sRk8Xxe9yLIkTyVJoRY9X3KT+HolvND3rY6E+4+KVnVSON/TsKBQ+HjznXAO8
- 0epTiXE7u4IGJJmOKQ8J+9gRPCVyCP3BMNd9ZJGwaEuPL4BwqaCDitW/k7xsc0d4+txN
- hCKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
- :message-id:date:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6yEZAxxxHYV12v4fDlL+top5CchSxDt3hhEnOERCk/E=;
- b=TXgAfes5ioesk0FiSpdanObIrvlIoxyvRxzxm7KtQezPhwoLEgRYzfRzNPW8LCy3Nr
- vSM5SNTmxvIwNvDHn6l1irACWA2ntAGUOw4rNhp42PoqtQWUOv2nTzbUQjuJfnJOgchT
- vRVsHteBnM8geLdTQd7tqEa97OpSHwDArNxXLSgTLB0zSQRAtxZG97husS1ouamTipkM
- 3JHcTngum/487rxcfJXOsz5/irzRg/WlUwpFBn1NkEsIqshQFjalscgz6UgVVVf7E+LA
- QYzrurgEZl3+LWjFuLcL4kdPcnzmrrZiNrUXqjEOFVc5kCkQOZvk305ru3IG3sTdYWST
- S8og==
-X-Gm-Message-State: APjAAAWiIGzJQcwV89qOuhv0bIXFNF7quDYASPJWIIahCND0BRYJjyzt
- RBCdt+gA5BQSbTEecoBu+3rPUA==
-X-Google-Smtp-Source: APXvYqxxw4sc6b+/uxE67ifj04r32qOp0umTqsdEYgouYvEcOhvyB7Xp1KIQ1mI8TAaAZ/SmGSMRFw==
-X-Received: by 2002:a5d:4602:: with SMTP id t2mr11748574wrq.37.1579712522950; 
- Wed, 22 Jan 2020 09:02:02 -0800 (PST)
-Received: from [10.44.66.8] ([212.45.67.2])
- by smtp.googlemail.com with ESMTPSA id x16sm4775064wmk.35.2020.01.22.09.02.01
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 22 Jan 2020 09:02:02 -0800 (PST)
-Subject: Re: [RFC PATCH v3 5/7] devfreq: exynos-bus: Add interconnect
- functionality to exynos-bus
-To: =?UTF-8?B?QXJ0dXIgxZp3aWdvxYQ=?= <a.swigon@samsung.com>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20191220115653.6487-1-a.swigon@samsung.com>
- <CGME20191220120145eucas1p295af63eed7b23982d8c49fcf875cec8c@eucas1p2.samsung.com>
- <20191220115653.6487-6-a.swigon@samsung.com>
-From: Georgi Djakov <georgi.djakov@linaro.org>
-Openpgp: preference=signencrypt
-Autocrypt: addr=georgi.djakov@linaro.org; prefer-encrypt=mutual; keydata=
- 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
- KEmKjLDvB0pePJkdTw==
-Message-ID: <15795421-db12-8466-bb7e-688e6625cf4a@linaro.org>
-Date: Wed, 22 Jan 2020 19:02:00 +0200
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95E256F886
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 19:09:12 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: ezequiel) with ESMTPSA id 57FAF28FD19
+From: Ezequiel Garcia <ezequiel@collabora.com>
+To: Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/rockchip: Add GEM create ioctl support
+Date: Wed, 22 Jan 2020 16:08:55 -0300
+Message-Id: <20200122190855.20385-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-In-Reply-To: <20191220115653.6487-6-a.swigon@samsung.com>
-Content-Language: en-US
 X-Mailman-Approved-At: Thu, 23 Jan 2020 08:19:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -118,138 +36,204 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: b.zolnierkie@samsung.com, sw0312.kim@samsung.com, krzk@kernel.org,
- cw00.choi@samsung.com, myungjoo.ham@samsung.com, leonard.crestez@nxp.com,
- m.szyprowski@samsung.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Tomasz Figa <tfiga@chromium.org>, Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, kernel@collabora.com,
+ Ezequiel Garcia <ezequiel@collabora.com>, linux-arm-kernel@lists.infradead.org,
+ Mark Yao <mark.yao@rock-chips.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgQXJ0dXIsCgpPbiAxMi8yMC8xOSAxMzo1NiwgQXJ0dXIgxZp3aWdvxYQgd3JvdGU6Cj4gVGhp
-cyBwYXRjaCBhZGRzIGludGVyY29ubmVjdCBmdW5jdGlvbmFsaXR5IHRvIHRoZSBleHlub3MtYnVz
-IGRldmZyZXEKPiBkcml2ZXIuCj4gCj4gVGhlIFNvQyB0b3BvbG9neSBpcyBhIGdyYXBoIChvciwg
-bW9yZSBzcGVjaWZpY2FsbHksIGEgdHJlZSkgYW5kIGl0cwo+IGVkZ2VzIGFyZSBzcGVjaWZpZWQg
-dXNpbmcgdGhlICdleHlub3MsaW50ZXJjb25uZWN0LXBhcmVudC1ub2RlJyBpbiB0aGUKPiBEVC4g
-RHVlIHRvIHVuc3BlY2lmaWVkIHJlbGF0aXZlIHByb2Jpbmcgb3JkZXIsIC1FUFJPQkVfREVGRVIg
-bWF5IGJlCj4gcHJvcGFnYXRlZCB0byBlbnN1cmUgdGhhdCB0aGUgcGFyZW50IGlzIHByb2JlZCBi
-ZWZvcmUgaXRzIGNoaWxkcmVuLgo+IAo+IEVhY2ggYnVzIGlzIG5vdyBhbiBpbnRlcmNvbm5lY3Qg
-cHJvdmlkZXIgYW5kIGFuIGludGVyY29ubmVjdCBub2RlIGFzIHdlbGwKPiAoY2YuIERvY3VtZW50
-YXRpb24vaW50ZXJjb25uZWN0L2ludGVyY29ubmVjdC5yc3QpLCBpLmUuIGV2ZXJ5IGJ1cyByZWdp
-c3RlcnMKPiBpdHNlbGYgYXMgYSBub2RlLiBOb2RlIElEcyBhcmUgbm90IGhhcmRjb2RlZCBidXQg
-cmF0aGVyIGFzc2lnbmVkIGF0CgpKdXN0IHRvIG5vdGUgdGhhdCB1c3VhbGx5IHRoZSBwcm92aWRl
-ciBjb25zaXN0cyBvZiBtdWx0aXBsZSBub2RlcyBhbmQgZWFjaCBub2RlCnJlcHJlc2VudHMgYSBz
-aW5nbGUgbWFzdGVyIG9yIHNsYXZlIHBvcnQgb24gdGhlIEFYSSBidXMgZm9yIGV4YW1wbGUuIEkg
-YW0gbm90CnN1cmUgd2hldGhlciB0aGlzIHJlcHJlc2VudHMgY29ycmVjdGx5IHRoZSBFeHlub3Mg
-aGFyZHdhcmUsIHNvIGl0J3MgdXAgdG8KeW91LgoKPiBydW50aW1lLCBpbiBwcm9iaW5nIG9yZGVy
-IChzdWJqZWN0IHRvIHRoZSBhYm92ZS1tZW50aW9uZWQgZXhjZXB0aW9uCj4gcmVnYXJkaW5nIHJl
-bGF0aXZlIG9yZGVyKS4gVGhpcyBhcHByb2FjaCBhbGxvd3MgZm9yIHVzaW5nIHRoaXMgZHJpdmVy
-IHdpdGgKPiB2YXJpb3VzIEV4eW5vcyBTb0NzLgoKVGhpcyBzb3VuZHMgZ29vZC4gSSBhbSB3b25k
-ZXJpbmcgd2hldGhlciBzdWNoIGR5bmFtaWMgcHJvYmluZyB3b3VsZCBiZSB1c2VmdWwKZm9yIG90
-aGVyIHBsYXRmb3JtcyB0b28uIFRoZW4gbWF5YmUgaXQgd291bGQgbWFrZSBzZW5zZSB0byBldmVu
-IGhhdmUgYSBjb21tb24gRFQKcHJvcGVydHksIGJ1dCB3ZSB3aWxsIHNlZS4KCklzIHRoaXMgZ29p
-bmcgdG8gYmUgdXNlZCBvbmx5IHRvZ2V0aGVyIHdpdGggZGV2ZnJlcT8KCj4gRnJlcXVlbmNpZXMg
-cmVxdWVzdGVkIHZpYSB0aGUgaW50ZXJjb25uZWN0IEFQSSBmb3IgYSBnaXZlbiBub2RlIGFyZQo+
-IHByb3BhZ2F0ZWQgdG8gZGV2ZnJlcSB1c2luZyBkZXZfcG1fcW9zX3VwZGF0ZV9yZXF1ZXN0KCku
-IFBsZWFzZSBub3RlIHRoYXQKPiBpdCBpcyBub3QgYW4gZXJyb3Igd2hlbiBDT05GSUdfSU5URVJD
-T05ORUNUIGlzICduJywgaW4gd2hpY2ggY2FzZSBhbGwKPiBpbnRlcmNvbm5lY3QgQVBJIGZ1bmN0
-aW9ucyBhcmUgbm8tb3AuCgpIb3cgYWJvdXQgdGhlIGNhc2Ugd2hlcmUgQ09ORklHX0lOVEVSQ09O
-TkVDVD1tLiBMb29rcyBsaWtlIHRoZSBidWlsZCB3aWxsIGZhaWwKaWYgQ09ORklHX0FSTV9FWFlO
-T1NfQlVTX0RFVkZSRVE9eSwgc28gdGhpcyBkZXBlbmRlbmN5IHNob3VsZCBiZSBleHByZXNzZWQg
-aW4KS2NvbmZpZy4KClRoYW5rcywKR2VvcmdpCgo+IAo+IFNpZ25lZC1vZmYtYnk6IEFydHVyIMWa
-d2lnb8WEIDxhLnN3aWdvbkBzYW1zdW5nLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9kZXZmcmVxL2V4
-eW5vcy1idXMuYyB8IDE0NCArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKwo+ICAx
-IGZpbGUgY2hhbmdlZCwgMTQ0IGluc2VydGlvbnMoKykKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9kZXZmcmVxL2V4eW5vcy1idXMuYyBiL2RyaXZlcnMvZGV2ZnJlcS9leHlub3MtYnVzLmMKPiBp
-bmRleCA5ZmRiMTg4OTE1ZTguLjY5NGE5NTgxZGNkYiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2Rl
-dmZyZXEvZXh5bm9zLWJ1cy5jCj4gKysrIGIvZHJpdmVycy9kZXZmcmVxL2V4eW5vcy1idXMuYwo+
-IEBAIC0xNCwxNCArMTQsMTkgQEAKPiAgI2luY2x1ZGUgPGxpbnV4L2RldmZyZXEtZXZlbnQuaD4K
-PiAgI2luY2x1ZGUgPGxpbnV4L2RldmljZS5oPgo+ICAjaW5jbHVkZSA8bGludXgvZXhwb3J0Lmg+
-Cj4gKyNpbmNsdWRlIDxsaW51eC9pZHIuaD4KPiArI2luY2x1ZGUgPGxpbnV4L2ludGVyY29ubmVj
-dC1wcm92aWRlci5oPgo+ICAjaW5jbHVkZSA8bGludXgvbW9kdWxlLmg+Cj4gICNpbmNsdWRlIDxs
-aW51eC9vZi5oPgo+ICAjaW5jbHVkZSA8bGludXgvcG1fb3BwLmg+Cj4gKyNpbmNsdWRlIDxsaW51
-eC9wbV9xb3MuaD4KPiAgI2luY2x1ZGUgPGxpbnV4L3BsYXRmb3JtX2RldmljZS5oPgo+ICAjaW5j
-bHVkZSA8bGludXgvcmVndWxhdG9yL2NvbnN1bWVyLmg+Cj4gIAo+ICAjZGVmaW5lIERFRkFVTFRf
-U0FUVVJBVElPTl9SQVRJTwk0MAo+ICAKPiArI2RlZmluZSBrYnBzX3RvX2toeih4KSAoKHgpIC8g
-OCkKPiArCj4gIHN0cnVjdCBleHlub3NfYnVzIHsKPiAgCXN0cnVjdCBkZXZpY2UgKmRldjsKPiAg
-Cj4gQEAgLTM1LDYgKzQwLDEyIEBAIHN0cnVjdCBleHlub3NfYnVzIHsKPiAgCXN0cnVjdCBvcHBf
-dGFibGUgKm9wcF90YWJsZTsKPiAgCXN0cnVjdCBjbGsgKmNsazsKPiAgCXVuc2lnbmVkIGludCBy
-YXRpbzsKPiArCj4gKwkvKiBPbmUgcHJvdmlkZXIgcGVyIGJ1cywgb25lIG5vZGUgcGVyIHByb3Zp
-ZGVyICovCj4gKwlzdHJ1Y3QgaWNjX3Byb3ZpZGVyIHByb3ZpZGVyOwo+ICsJc3RydWN0IGljY19u
-b2RlICpub2RlOwo+ICsKPiArCXN0cnVjdCBkZXZfcG1fcW9zX3JlcXVlc3QgcW9zX3JlcTsKPiAg
-fTsKPiAgCj4gIC8qCj4gQEAgLTIwNSw2ICsyMTYsMzkgQEAgc3RhdGljIHZvaWQgZXh5bm9zX2J1
-c19wYXNzaXZlX2V4aXQoc3RydWN0IGRldmljZSAqZGV2KQo+ICAJY2xrX2Rpc2FibGVfdW5wcmVw
-YXJlKGJ1cy0+Y2xrKTsKPiAgfQo+ICAKPiArc3RhdGljIGludCBleHlub3NfYnVzX2ljY19zZXQo
-c3RydWN0IGljY19ub2RlICpzcmMsIHN0cnVjdCBpY2Nfbm9kZSAqZHN0KQo+ICt7Cj4gKwlzdHJ1
-Y3QgZXh5bm9zX2J1cyAqc3JjX2J1cyA9IHNyYy0+ZGF0YSwgKmRzdF9idXMgPSBkc3QtPmRhdGE7
-Cj4gKwlzMzIgc3JjX2ZyZXEgPSBrYnBzX3RvX2toeihzcmMtPmF2Z19idyk7Cj4gKwlzMzIgZHN0
-X2ZyZXEgPSBrYnBzX3RvX2toeihkc3QtPmF2Z19idyk7Cj4gKwlpbnQgcmV0Owo+ICsKPiArCXJl
-dCA9IGRldl9wbV9xb3NfdXBkYXRlX3JlcXVlc3QoJnNyY19idXMtPnFvc19yZXEsIHNyY19mcmVx
-KTsKPiArCWlmIChyZXQgPCAwKSB7Cj4gKwkJZGV2X2VycihzcmNfYnVzLT5kZXYsICJmYWlsZWQg
-dG8gdXBkYXRlIFBNIFFvUyByZXF1ZXN0Iik7Cj4gKwkJcmV0dXJuIHJldDsKPiArCX0KPiArCj4g
-KwlyZXQgPSBkZXZfcG1fcW9zX3VwZGF0ZV9yZXF1ZXN0KCZkc3RfYnVzLT5xb3NfcmVxLCBkc3Rf
-ZnJlcSk7Cj4gKwlpZiAocmV0IDwgMCkgewo+ICsJCWRldl9lcnIoZHN0X2J1cy0+ZGV2LCAiZmFp
-bGVkIHRvIHVwZGF0ZSBQTSBRb1MgcmVxdWVzdCIpOwo+ICsJCXJldHVybiByZXQ7Cj4gKwl9Cj4g
-Kwo+ICsJcmV0dXJuIDA7Cj4gK30KPiArCj4gK3N0YXRpYyBzdHJ1Y3QgaWNjX25vZGUgKmV4eW5v
-c19idXNfaWNjX3hsYXRlKHN0cnVjdCBvZl9waGFuZGxlX2FyZ3MgKnNwZWMsCj4gKwkJCQkJICAg
-ICB2b2lkICpkYXRhKQo+ICt7Cj4gKwlzdHJ1Y3QgZXh5bm9zX2J1cyAqYnVzID0gZGF0YTsKPiAr
-Cj4gKwlpZiAoc3BlYy0+bnAgIT0gYnVzLT5kZXYtPm9mX25vZGUpCj4gKwkJcmV0dXJuIEVSUl9Q
-VFIoLUVJTlZBTCk7Cj4gKwo+ICsJcmV0dXJuIGJ1cy0+bm9kZTsKPiArfQo+ICsKPiAgc3RhdGlj
-IGludCBleHlub3NfYnVzX3BhcmVudF9wYXJzZV9vZihzdHJ1Y3QgZGV2aWNlX25vZGUgKm5wLAo+
-ICAJCQkJCXN0cnVjdCBleHlub3NfYnVzICpidXMpCj4gIHsKPiBAQCAtNDE5LDYgKzQ2Myw5NiBA
-QCBzdGF0aWMgaW50IGV4eW5vc19idXNfcHJvZmlsZV9pbml0X3Bhc3NpdmUoc3RydWN0IGV4eW5v
-c19idXMgKmJ1cywKPiAgCXJldHVybiAwOwo+ICB9Cj4gIAo+ICtzdGF0aWMgc3RydWN0IGljY19u
-b2RlICpleHlub3NfYnVzX2ljY19nZXRfcGFyZW50KHN0cnVjdCBleHlub3NfYnVzICpidXMpCj4g
-K3sKPiArCXN0cnVjdCBkZXZpY2Vfbm9kZSAqbnAgPSBidXMtPmRldi0+b2Zfbm9kZTsKPiArCXN0
-cnVjdCBvZl9waGFuZGxlX2FyZ3MgYXJnczsKPiArCWludCBudW0sIHJldDsKPiArCj4gKwludW0g
-PSBvZl9jb3VudF9waGFuZGxlX3dpdGhfYXJncyhucCwgImV4eW5vcyxpbnRlcmNvbm5lY3QtcGFy
-ZW50LW5vZGUiLAo+ICsJCQkJCSIjaW50ZXJjb25uZWN0LWNlbGxzIik7Cj4gKwlpZiAobnVtICE9
-IDEpCj4gKwkJcmV0dXJuIE5VTEw7IC8qIHBhcmVudCBub2RlcyBhcmUgb3B0aW9uYWwgKi8KPiAr
-Cj4gKwlyZXQgPSBvZl9wYXJzZV9waGFuZGxlX3dpdGhfYXJncyhucCwgImV4eW5vcyxpbnRlcmNv
-bm5lY3QtcGFyZW50LW5vZGUiLAo+ICsJCQkJCSIjaW50ZXJjb25uZWN0LWNlbGxzIiwgMCwgJmFy
-Z3MpOwo+ICsJaWYgKHJldCA8IDApCj4gKwkJcmV0dXJuIEVSUl9QVFIocmV0KTsKPiArCj4gKwlv
-Zl9ub2RlX3B1dChhcmdzLm5wKTsKPiArCj4gKwlyZXR1cm4gb2ZfaWNjX2dldF9mcm9tX3Byb3Zp
-ZGVyKCZhcmdzKTsKPiArfQo+ICsKPiArc3RhdGljIGludCBleHlub3NfYnVzX2ljY19pbml0KHN0
-cnVjdCBleHlub3NfYnVzICpidXMpCj4gK3sKPiArCXN0YXRpYyBERUZJTkVfSURBKGlkYSk7Cj4g
-Kwo+ICsJc3RydWN0IGRldmljZSAqZGV2ID0gYnVzLT5kZXY7Cj4gKwlzdHJ1Y3QgaWNjX3Byb3Zp
-ZGVyICpwcm92aWRlciA9ICZidXMtPnByb3ZpZGVyOwo+ICsJc3RydWN0IGljY19ub2RlICpub2Rl
-LCAqcGFyZW50X25vZGU7Cj4gKwlpbnQgaWQsIHJldDsKPiArCj4gKwkvKiBJbml0aWFsaXplIHRo
-ZSBpbnRlcmNvbm5lY3QgcHJvdmlkZXIgKi8KPiArCXByb3ZpZGVyLT5zZXQgPSBleHlub3NfYnVz
-X2ljY19zZXQ7Cj4gKwlwcm92aWRlci0+YWdncmVnYXRlID0gaWNjX3N0ZF9hZ2dyZWdhdGU7Cj4g
-Kwlwcm92aWRlci0+eGxhdGUgPSBleHlub3NfYnVzX2ljY194bGF0ZTsKPiArCXByb3ZpZGVyLT5k
-ZXYgPSBkZXY7Cj4gKwlwcm92aWRlci0+aW50ZXJfc2V0ID0gdHJ1ZTsKPiArCXByb3ZpZGVyLT5k
-YXRhID0gYnVzOwo+ICsKPiArCXJldCA9IGljY19wcm92aWRlcl9hZGQocHJvdmlkZXIpOwo+ICsJ
-aWYgKHJldCA8IDApCj4gKwkJcmV0dXJuIHJldDsKPiArCj4gKwlyZXQgPSBpZCA9IGlkYV9hbGxv
-YygmaWRhLCBHRlBfS0VSTkVMKTsKPiArCWlmIChyZXQgPCAwKQo+ICsJCWdvdG8gZXJyX2lkOwo+
-ICsKPiArCW5vZGUgPSBpY2Nfbm9kZV9jcmVhdGUoaWQpOwo+ICsJaWYgKElTX0VSUihub2RlKSkg
-ewo+ICsJCXJldCA9IFBUUl9FUlIobm9kZSk7Cj4gKwkJZ290byBlcnJfbm9kZTsKPiArCX0KPiAr
-Cj4gKwlidXMtPm5vZGUgPSBub2RlOwo+ICsJbm9kZS0+bmFtZSA9IGRldi0+b2Zfbm9kZS0+bmFt
-ZTsKPiArCW5vZGUtPmRhdGEgPSBidXM7Cj4gKwlpY2Nfbm9kZV9hZGQobm9kZSwgcHJvdmlkZXIp
-Owo+ICsKPiArCXBhcmVudF9ub2RlID0gZXh5bm9zX2J1c19pY2NfZ2V0X3BhcmVudChidXMpOwo+
-ICsJaWYgKElTX0VSUihwYXJlbnRfbm9kZSkpIHsKPiArCQlyZXQgPSBQVFJfRVJSKHBhcmVudF9u
-b2RlKTsKPiArCQlnb3RvIGVycl9wYXJlbnQ7Cj4gKwl9Cj4gKwo+ICsJaWYgKHBhcmVudF9ub2Rl
-KSB7Cj4gKwkJcmV0ID0gaWNjX2xpbmtfY3JlYXRlKG5vZGUsIHBhcmVudF9ub2RlLT5pZCk7Cj4g
-KwkJaWYgKHJldCA8IDApCj4gKwkJCWdvdG8gZXJyX3BhcmVudDsKPiArCX0KPiArCj4gKwlyZXQg
-PSBkZXZfcG1fcW9zX2FkZF9yZXF1ZXN0KGJ1cy0+ZGV2ZnJlcS0+ZGV2LnBhcmVudCwgJmJ1cy0+
-cW9zX3JlcSwKPiArCQkJCQlERVZfUE1fUU9TX01JTl9GUkVRVUVOQ1ksIDApOwo+ICsJaWYgKHJl
-dCA8IDApCj4gKwkJZ290byBlcnJfcmVxdWVzdDsKPiArCj4gKwlyZXR1cm4gMDsKPiArCj4gK2Vy
-cl9yZXF1ZXN0Ogo+ICsJaWYgKHBhcmVudF9ub2RlKQo+ICsJCWljY19saW5rX2Rlc3Ryb3kobm9k
-ZSwgcGFyZW50X25vZGUpOwo+ICtlcnJfcGFyZW50Ogo+ICsJaWNjX25vZGVfZGVsKG5vZGUpOwo+
-ICsJaWNjX25vZGVfZGVzdHJveShpZCk7Cj4gK2Vycl9ub2RlOgo+ICsJaWRhX2ZyZWUoJmlkYSwg
-aWQpOwo+ICtlcnJfaWQ6Cj4gKwlpY2NfcHJvdmlkZXJfZGVsKHByb3ZpZGVyKTsKPiArCj4gKwly
-ZXR1cm4gcmV0Owo+ICt9Cj4gKwo+ICBzdGF0aWMgaW50IGV4eW5vc19idXNfcHJvYmUoc3RydWN0
-IHBsYXRmb3JtX2RldmljZSAqcGRldikKPiAgewo+ICAJc3RydWN0IGRldmljZSAqZGV2ID0gJnBk
-ZXYtPmRldjsKPiBAQCAtNDY4LDYgKzYwMiwxNiBAQCBzdGF0aWMgaW50IGV4eW5vc19idXNfcHJv
-YmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikKPiAgCWlmIChyZXQgPCAwKQo+ICAJCWdv
-dG8gZXJyOwo+ICAKPiArCS8qCj4gKwkgKiBJbml0aWFsaXplIGludGVyY29ubmVjdCBwcm92aWRl
-ci4gQSByZXR1cm4gdmFsdWUgb2YgLUVOT1RTVVBQIG1lYW5zCj4gKwkgKiB0aGF0IENPTkZJR19J
-TlRFUkNPTk5FQ1QgaXMgZGlzYWJsZWQuCj4gKwkgKi8KPiArCXJldCA9IGV4eW5vc19idXNfaWNj
-X2luaXQoYnVzKTsKPiArCWlmIChyZXQgPCAwICYmIHJldCAhPSAtRU5PVFNVUFApIHsKPiArCQlk
-ZXZfZXJyKGRldiwgImZhaWxlZCB0byBpbml0aWFsaXplIHRoZSBpbnRlcmNvbm5lY3QgcHJvdmlk
-ZXIiKTsKPiArCQlnb3RvIGVycjsKPiArCX0KPiArCj4gIAltYXhfc3RhdGUgPSBidXMtPmRldmZy
-ZXEtPnByb2ZpbGUtPm1heF9zdGF0ZTsKPiAgCW1pbl9mcmVxID0gKGJ1cy0+ZGV2ZnJlcS0+cHJv
-ZmlsZS0+ZnJlcV90YWJsZVswXSAvIDEwMDApOwo+ICAJbWF4X2ZyZXEgPSAoYnVzLT5kZXZmcmVx
-LT5wcm9maWxlLT5mcmVxX3RhYmxlW21heF9zdGF0ZSAtIDFdIC8gMTAwMCk7Cj4gCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+From: Mark Yao <mark.yao@rock-chips.com>
+
+Add driver-specific GEM create/offset ioctls, to allow users
+to create objects of arbitrary size.
+
+These are required to allocate buffers to be shared with
+video decoder block, with hardware-specific needs such as
+macroblock alignment and extra room for motion vectors.
+
+Signed-off-by: Mark Yao <mark.yao@rock-chips.com>
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+---
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c | 11 ++++
+ drivers/gpu/drm/rockchip/rockchip_drm_gem.c | 21 +++++++
+ drivers/gpu/drm/rockchip/rockchip_drm_gem.h | 13 +++++
+ include/uapi/drm/rockchip_drm.h             | 61 +++++++++++++++++++++
+ 4 files changed, 106 insertions(+)
+ create mode 100644 include/uapi/drm/rockchip_drm.h
+
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+index ca12a35483f9..bd35a0b1aa5a 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+@@ -22,6 +22,7 @@
+ #include <drm/drm_of.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_vblank.h>
++#include <drm/rockchip_drm.h>
+ 
+ #include "rockchip_drm_drv.h"
+ #include "rockchip_drm_fb.h"
+@@ -206,6 +207,14 @@ static void rockchip_drm_unbind(struct device *dev)
+ 	drm_dev_put(drm_dev);
+ }
+ 
++static const struct drm_ioctl_desc rockchip_ioctls[] = {
++	DRM_IOCTL_DEF_DRV(ROCKCHIP_GEM_CREATE, rockchip_gem_create_ioctl,
++			  DRM_UNLOCKED | DRM_AUTH),
++	DRM_IOCTL_DEF_DRV(ROCKCHIP_GEM_MAP_OFFSET,
++			  rockchip_gem_map_offset_ioctl,
++			  DRM_UNLOCKED | DRM_AUTH),
++};
++
+ static const struct file_operations rockchip_drm_driver_fops = {
+ 	.owner = THIS_MODULE,
+ 	.open = drm_open,
+@@ -230,6 +239,8 @@ static struct drm_driver rockchip_drm_driver = {
+ 	.gem_prime_vmap		= rockchip_gem_prime_vmap,
+ 	.gem_prime_vunmap	= rockchip_gem_prime_vunmap,
+ 	.gem_prime_mmap		= rockchip_gem_mmap_buf,
++	.ioctls			= rockchip_ioctls,
++	.num_ioctls		= ARRAY_SIZE(rockchip_ioctls),
+ 	.fops			= &rockchip_drm_driver_fops,
+ 	.name	= DRIVER_NAME,
+ 	.desc	= DRIVER_DESC,
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
+index 0d1884684dcb..315fa67d5668 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
+@@ -12,6 +12,7 @@
+ #include <drm/drm_gem.h>
+ #include <drm/drm_prime.h>
+ #include <drm/drm_vma_manager.h>
++#include <drm/rockchip_drm.h>
+ 
+ #include "rockchip_drm_drv.h"
+ #include "rockchip_drm_gem.h"
+@@ -428,6 +429,26 @@ int rockchip_gem_dumb_create(struct drm_file *file_priv,
+ 	return PTR_ERR_OR_ZERO(rk_obj);
+ }
+ 
++int rockchip_gem_map_offset_ioctl(struct drm_device *drm, void *data,
++				  struct drm_file *file_priv)
++{
++	struct drm_rockchip_gem_map_off *args = data;
++
++	return drm_gem_dumb_map_offset(file_priv, drm, args->handle,
++				       &args->offset);
++}
++
++int rockchip_gem_create_ioctl(struct drm_device *dev, void *data,
++			      struct drm_file *file_priv)
++{
++	struct drm_rockchip_gem_create *args = data;
++	struct rockchip_gem_object *rk_obj;
++
++	rk_obj = rockchip_gem_create_with_handle(file_priv, dev, args->size,
++						 &args->handle);
++	return PTR_ERR_OR_ZERO(rk_obj);
++}
++
+ /*
+  * Allocate a sg_table for this GEM object.
+  * Note: Both the table's contents, and the sg_table itself must be freed by
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_gem.h b/drivers/gpu/drm/rockchip/rockchip_drm_gem.h
+index 7ffc541bea07..87fe58b05bf6 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_gem.h
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_gem.h
+@@ -50,4 +50,17 @@ void rockchip_gem_free_object(struct drm_gem_object *obj);
+ int rockchip_gem_dumb_create(struct drm_file *file_priv,
+ 			     struct drm_device *dev,
+ 			     struct drm_mode_create_dumb *args);
++
++/*
++ * request gem object creation and buffer allocation as the size
++ * that it is calculated with framebuffer information such as width,
++ * height and bpp.
++ */
++int rockchip_gem_create_ioctl(struct drm_device *dev, void *data,
++			      struct drm_file *file_priv);
++
++/* get buffer offset to map to user space. */
++int rockchip_gem_map_offset_ioctl(struct drm_device *dev, void *data,
++				  struct drm_file *file_priv);
++
+ #endif /* _ROCKCHIP_DRM_GEM_H */
+diff --git a/include/uapi/drm/rockchip_drm.h b/include/uapi/drm/rockchip_drm.h
+new file mode 100644
+index 000000000000..3185f72f36b9
+--- /dev/null
++++ b/include/uapi/drm/rockchip_drm.h
+@@ -0,0 +1,61 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++/*
++ * Copyright (c) Fuzhou Rockchip Electronics Co.Ltd
++ * Authors:
++ *       Mark Yao <yzq@rock-chips.com>
++ *
++ * base on exynos_drm.h
++ */
++
++#ifndef _ROCKCHIP_DRM_H
++#define _ROCKCHIP_DRM_H
++
++#include <drm/drm.h>
++
++#if defined(__cplusplus)
++extern "C" {
++#endif
++
++/**
++ * User-desired buffer creation information structure.
++ *
++ * @size: user-desired memory allocation size.
++ * @flags: user request for setting memory type or cache attributes.
++ * @handle: returned a handle to created gem object.
++ *     - this handle will be set by gem module of kernel side.
++ */
++struct drm_rockchip_gem_create {
++	uint64_t size;
++	uint32_t flags;
++	uint32_t handle;
++};
++
++/**
++ * A structure for getting buffer offset.
++ *
++ * @handle: a pointer to gem object created.
++ * @pad: just padding to be 64-bit aligned.
++ * @offset: relatived offset value of the memory region allocated.
++ *     - this value should be set by user.
++ */
++struct drm_rockchip_gem_map_off {
++	uint32_t handle;
++	uint32_t pad;
++	uint64_t offset;
++};
++
++#define DRM_ROCKCHIP_GEM_CREATE		0x00
++#define DRM_ROCKCHIP_GEM_MAP_OFFSET	0x01
++
++#define DRM_IOCTL_ROCKCHIP_GEM_CREATE	DRM_IOWR(DRM_COMMAND_BASE + \
++		DRM_ROCKCHIP_GEM_CREATE, struct drm_rockchip_gem_create)
++
++#define DRM_IOCTL_ROCKCHIP_GEM_MAP_OFFSET	DRM_IOWR(DRM_COMMAND_BASE + \
++		DRM_ROCKCHIP_GEM_MAP_OFFSET, struct drm_rockchip_gem_map_off)
++
++#if defined(__cplusplus)
++}
++#endif
++
++#endif /* _ROCKCHIP_DRM_H */
+-- 
+2.25.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
