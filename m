@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49C19145706
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 14:46:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 002DE145709
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 14:46:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D30A86F515;
-	Wed, 22 Jan 2020 13:46:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB5EA6F518;
+	Wed, 22 Jan 2020 13:46:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D60626F515;
- Wed, 22 Jan 2020 13:46:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D83EC6F517;
+ Wed, 22 Jan 2020 13:46:04 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 22 Jan 2020 05:45:59 -0800
-X-IronPort-AV: E=Sophos;i="5.70,350,1574150400"; d="scan'208";a="307529273"
+ 22 Jan 2020 05:46:04 -0800
+X-IronPort-AV: E=Sophos;i="5.70,350,1574150400"; d="scan'208";a="222038203"
 Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 22 Jan 2020 05:45:56 -0800
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 22 Jan 2020 05:46:02 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 6/7] drm/i915/bios: fill in DSC rc_model_size from VBT
-Date: Wed, 22 Jan 2020 15:45:12 +0200
-Message-Id: <257510948a786f11c1b6e8aeb9d29deb039d2adf.1579700414.git.jani.nikula@intel.com>
+Subject: [PATCH 7/7] drm/i915/dsi: use VBT data for rc_model_size
+Date: Wed, 22 Jan 2020 15:45:13 +0200
+Message-Id: <84d47eb5a07cf7d83b7c5401833d43ee554efc12.1579700414.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1579700414.git.jani.nikula@intel.com>
 References: <cover.1579700414.git.jani.nikula@intel.com>
@@ -51,38 +51,27 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The VBT fields match the DPCD data, so use the same helper.
+Stop overriding the VBT defined value for rc_model_size.
 
-Cc: Manasi Navare <manasi.d.navare@intel.com>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_bios.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/i915/display/icl_dsi.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_bios.c b/drivers/gpu/drm/i915/display/intel_bios.c
-index 70fb87e7afb6..26bcea77efc5 100644
---- a/drivers/gpu/drm/i915/display/intel_bios.c
-+++ b/drivers/gpu/drm/i915/display/intel_bios.c
-@@ -2427,16 +2427,11 @@ static void fill_dsc(struct intel_crtc_state *crtc_state,
- 			      crtc_state->dsc.slice_count);
+diff --git a/drivers/gpu/drm/i915/display/icl_dsi.c b/drivers/gpu/drm/i915/display/icl_dsi.c
+index 2ca4b0382eb9..a7457303c62e 100644
+--- a/drivers/gpu/drm/i915/display/icl_dsi.c
++++ b/drivers/gpu/drm/i915/display/icl_dsi.c
+@@ -1352,9 +1352,6 @@ static int gen11_dsi_dsc_compute_config(struct intel_encoder *encoder,
  
- 	/*
--	 * FIXME: Use VBT rc_buffer_block_size and rc_buffer_size for the
--	 * implementation specific physical rate buffer size. Currently we use
--	 * the required rate buffer model size calculated in
--	 * drm_dsc_compute_rc_parameters() according to VESA DSC Annex E.
--	 *
- 	 * The VBT rc_buffer_block_size and rc_buffer_size definitions
--	 * correspond to DP 1.4 DPCD offsets 0x62 and 0x63. The DP DSC
--	 * implementation should also use the DPCD (or perhaps VBT for eDP)
--	 * provided value for the buffer size.
-+	 * correspond to DP 1.4 DPCD offsets 0x62 and 0x63.
- 	 */
-+	vdsc_cfg->rc_model_size = drm_dsc_dp_rc_buffer_size(dsc->rc_buffer_block_size,
-+							    dsc->rc_buffer_size);
+ 	vdsc_cfg->convert_rgb = true;
  
- 	/* FIXME: DSI spec says bpc + 1 for this one */
- 	vdsc_cfg->line_buf_depth = VBT_DSC_LINE_BUFFER_DEPTH(dsc->line_buffer_depth);
+-	/* FIXME: initialize from VBT */
+-	vdsc_cfg->rc_model_size = DSC_RC_MODEL_SIZE_CONST;
+-
+ 	ret = intel_dsc_compute_params(encoder, crtc_state);
+ 	if (ret)
+ 		return ret;
 -- 
 2.20.1
 
