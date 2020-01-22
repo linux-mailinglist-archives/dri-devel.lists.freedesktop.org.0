@@ -2,53 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFA7F145D37
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 21:41:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6772145D4E
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 21:52:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4178D6F8CA;
-	Wed, 22 Jan 2020 20:41:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F22A6F8D9;
+	Wed, 22 Jan 2020 20:51:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 028F76F630;
- Wed, 22 Jan 2020 20:41:51 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id z3so576716wru.3;
- Wed, 22 Jan 2020 12:41:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Qdw7JpRHyaMu3FUJiTZyQrT3wWOYBrtmMuNGKfuANjs=;
- b=jScAA0k2ZSjJRzVDFGf6AVQaoZ7/K1FY8CbHEEq90AxBjy8ekR+45JRmO/0ZKdk6Kg
- HolN58FsABXvX0tQf6WilrBiNniN3MpjjigZRCj1XWp6C3eoivzbOklHINFEi8OL27jA
- X/DcKqhcH06lbEgqyARvuwGz/wNp2nJtn9jaPeEOGrEQrf+Ydlpp0V8yOVIwDCgaIELO
- fpA+MMeLLeLdDrGVu+xkHENnXqBZId0cRJOm0Xf5hCxio4w+J/s2MGxiZytyw/V8RC11
- Q2TUAjl8j39xITxRmKmcsMj5v05+OEtLstxXpmGZ12q+ax31L0QUT09p9+gOBbolA1u2
- cosw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Qdw7JpRHyaMu3FUJiTZyQrT3wWOYBrtmMuNGKfuANjs=;
- b=RYgJOOowGi5bdZdeXfakvZxOqCr7ZuZCfdQ54YKHq+R2POrG++TqlUgHllAGRVTb8s
- IhWLHI+FsCVO4KACjvg1jC0ehyVM8P3/QSkupTMxjNPpzGUeVxHklzpVf7DMt+3Zoz6G
- KaOb61ZskX4TqkFuXpKoEcOMixpOk3PQchFpI9dTqJL2QnxvFF+gPP+5ymKyAApAhC7j
- kofz6yZOi9qW4FVmI+ZmNzKpUyFvQhmDpBmAW2LHMaFC/9cKsa74T883k3JyFpMJsTyP
- lrPmwIrTI63F8cixdhwTktT5VZr/FQ8Gb9cLk96iAcISG8ylgmjksHjo8dRHmctD48wn
- d6Dw==
-X-Gm-Message-State: APjAAAVm4U445rY4aeOOsIdZgedgLg5XO0MNOgyL6oaSxlA5YpBnZIis
- LTh25tQa5+VmOI/hZngSNj8X4Pjmqk1Pl6DYxtc=
-X-Google-Smtp-Source: APXvYqyhX1wOGJFOsB5ufkPnKOsAev6KnrN0YHJmFBY/gUCypnbvRr913/FnV7MjADfTHjvVFEG82onnpl23B2MXdFE=
-X-Received: by 2002:adf:ec4c:: with SMTP id w12mr13775560wrn.124.1579725710701; 
- Wed, 22 Jan 2020 12:41:50 -0800 (PST)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A89936F8D9
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 20:51:57 +0000 (UTC)
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 22 Jan 2020 12:51:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,350,1574150400"; d="scan'208";a="222150759"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by fmsmga008.fm.intel.com with SMTP; 22 Jan 2020 12:51:53 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 22 Jan 2020 22:51:53 +0200
+Date: Wed, 22 Jan 2020 22:51:53 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Lyude Paul <lyude@redhat.com>
+Subject: Re: [PATCH v2 1/2] drm/dp_mst: Fix clearing payload state on
+ topology disable
+Message-ID: <20200122205153.GJ13686@intel.com>
+References: <20200122194321.14953-1-lyude@redhat.com>
 MIME-Version: 1.0
-References: <1579679591-116290-1-git-send-email-zhengbin13@huawei.com>
-In-Reply-To: <1579679591-116290-1-git-send-email-zhengbin13@huawei.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 22 Jan 2020 15:41:38 -0500
-Message-ID: <CADnq5_MOy+spK8MO8Sw96DOz6tstRBeDm-ZMGd8VNxN21sZBBQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/powerplay: use true,
- false for bool variable in smu7_hwmgr.c
-To: Zheng Bin <zhengbin13@huawei.com>
+Content-Disposition: inline
+In-Reply-To: <20200122194321.14953-1-lyude@redhat.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,75 +47,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Wayne Lin <Wayne.Lin@amd.com>,
+ Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 22, 2020 at 3:22 AM Zheng Bin <zhengbin13@huawei.com> wrote:
->
-> From: zhengbin <zhengbin13@huawei.com>
->
-> Fixes coccicheck warning:
->
-> drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c:723:2-50: WARNING: Assignment of 0/1 to bool variable
-> drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c:733:3-52: WARNING: Assignment of 0/1 to bool variable
-> drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c:747:3-51: WARNING: Assignment of 0/1 to bool variable
->
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: zhengbin <zhengbin13@huawei.com>
+On Wed, Jan 22, 2020 at 02:43:20PM -0500, Lyude Paul wrote:
+> The issues caused by:
+> =
 
-Applied.  thanks!
+> 64e62bdf04ab ("drm/dp_mst: Remove VCPI while disabling topology mgr")
+> =
 
-Alex
+> Prompted me to take a closer look at how we clear the payload state in
+> general when disabling the topology, and it turns out there's actually
+> two subtle issues here.
+> =
 
+> The first is that we're not grabbing &mgr.payload_lock when clearing the
+> payloads in drm_dp_mst_topology_mgr_set_mst(). Seeing as the canonical
+> lock order is &mgr.payload_lock -> &mgr.lock (because we always want
+> &mgr.lock to be the inner-most lock so topology validation always
+> works), this makes perfect sense. It also means that -technically- there
+> could be racing between someone calling
+> drm_dp_mst_topology_mgr_set_mst() to disable the topology, along with a
+> modeset occurring that's modifying the payload state at the same time.
+> =
+
+> The second is the more obvious issue that Wayne Lin discovered, that
+> we're not clearing proposed_payloads when disabling the topology.
+> =
+
+> I actually can't see any obvious places where the racing caused by the
+> first issue would break something, and it could be that some of our
+> higher-level locks already prevent this by happenstance, but better safe
+> then sorry. So, let's make it so that drm_dp_mst_topology_mgr_set_mst()
+> first grabs &mgr.payload_lock followed by &mgr.lock so that we never
+> race when modifying the payload state. Then, we also clear
+> proposed_payloads to fix the original issue of enabling a new topology
+> with a dirty payload state. This doesn't clear any of the drm_dp_vcpi
+> structures, but those are getting destroyed along with the ports anyway.
+> =
+
+> Changes since v1:
+> * Use sizeof(mgr->payloads[0])/sizeof(mgr->proposed_vcpis[0]) instead -
+>   vsyrjala
+> =
+
+> Cc: Sean Paul <sean@poorly.run>
+> Cc: Wayne Lin <Wayne.Lin@amd.com>
+> Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
 > ---
->  drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c b/drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c
-> index d70abad..bf04cfe 100644
-> --- a/drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c
-> +++ b/drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c
-> @@ -720,7 +720,7 @@ static int smu7_setup_dpm_tables_v0(struct pp_hwmgr *hwmgr)
->                 data->dpm_table.vddc_table.dpm_levels[i].value = allowed_vdd_mclk_table->entries[i].v;
->                 data->dpm_table.vddc_table.dpm_levels[i].param1 = std_voltage_table->entries[i].Leakage;
->                 /* param1 is for corresponding std voltage */
-> -               data->dpm_table.vddc_table.dpm_levels[i].enabled = 1;
-> +               data->dpm_table.vddc_table.dpm_levels[i].enabled = true;
->         }
->
->         data->dpm_table.vddc_table.count = allowed_vdd_sclk_table->count;
-> @@ -730,7 +730,7 @@ static int smu7_setup_dpm_tables_v0(struct pp_hwmgr *hwmgr)
->                 /* Initialize Vddci DPM table based on allow Mclk values */
->                 for (i = 0; i < allowed_vdd_mclk_table->count; i++) {
->                         data->dpm_table.vddci_table.dpm_levels[i].value = allowed_vdd_mclk_table->entries[i].v;
-> -                       data->dpm_table.vddci_table.dpm_levels[i].enabled = 1;
-> +                       data->dpm_table.vddci_table.dpm_levels[i].enabled = true;
->                 }
->                 data->dpm_table.vddci_table.count = allowed_vdd_mclk_table->count;
->         }
-> @@ -744,7 +744,7 @@ static int smu7_setup_dpm_tables_v0(struct pp_hwmgr *hwmgr)
->                  */
->                 for (i = 0; i < allowed_vdd_mclk_table->count; i++) {
->                         data->dpm_table.mvdd_table.dpm_levels[i].value = allowed_vdd_mclk_table->entries[i].v;
-> -                       data->dpm_table.mvdd_table.dpm_levels[i].enabled = 1;
-> +                       data->dpm_table.mvdd_table.dpm_levels[i].enabled = true;
->                 }
->                 data->dpm_table.mvdd_table.count = allowed_vdd_mclk_table->count;
->         }
-> --
-> 2.7.4
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>  drivers/gpu/drm/drm_dp_mst_topology.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> =
+
+> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_=
+dp_mst_topology.c
+> index 3649e82b963d..23cf46bfef74 100644
+> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> @@ -3501,6 +3501,7 @@ int drm_dp_mst_topology_mgr_set_mst(struct drm_dp_m=
+st_topology_mgr *mgr, bool ms
+>  	int ret =3D 0;
+>  	struct drm_dp_mst_branch *mstb =3D NULL;
+>  =
+
+> +	mutex_lock(&mgr->payload_lock);
+>  	mutex_lock(&mgr->lock);
+>  	if (mst_state =3D=3D mgr->mst_state)
+>  		goto out_unlock;
+> @@ -3559,7 +3560,10 @@ int drm_dp_mst_topology_mgr_set_mst(struct drm_dp_=
+mst_topology_mgr *mgr, bool ms
+>  		/* this can fail if the device is gone */
+>  		drm_dp_dpcd_writeb(mgr->aux, DP_MSTM_CTRL, 0);
+>  		ret =3D 0;
+> -		memset(mgr->payloads, 0, mgr->max_payloads * sizeof(struct drm_dp_payl=
+oad));
+> +		memset(mgr->payloads, 0,
+> +		       mgr->max_payloads * sizeof(mgr->payloads[0]));
+> +		memset(mgr->proposed_vcpis, 0,
+> +		       mgr->max_payloads * sizeof(mgr->proposed_vcpis[0]));
+>  		mgr->payload_mask =3D 0;
+>  		set_bit(0, &mgr->payload_mask);
+>  		mgr->vcpi_mask =3D 0;
+> @@ -3568,6 +3572,7 @@ int drm_dp_mst_topology_mgr_set_mst(struct drm_dp_m=
+st_topology_mgr *mgr, bool ms
+>  =
+
+>  out_unlock:
+>  	mutex_unlock(&mgr->lock);
+> +	mutex_unlock(&mgr->payload_lock);
+
+Locking order looks sane. Not entirely sure what the implications of
+clearing all that stuff outside of a proper modeset is, but at least
+it matches what we already do. So
+
+Reviewed-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+
+>  	if (mstb)
+>  		drm_dp_mst_topology_put_mstb(mstb);
+>  	return ret;
+> -- =
+
+> 2.24.1
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
