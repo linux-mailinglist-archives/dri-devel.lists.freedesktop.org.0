@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6EE714634E
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 09:20:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 057B0146351
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 09:20:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2ECFA6FB2D;
-	Thu, 23 Jan 2020 08:19:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AB866FB2C;
+	Thu, 23 Jan 2020 08:20:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11E886F8FB
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 21:33:55 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id y17so721786wrh.5
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 13:33:54 -0800 (PST)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F0576F8FD
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 21:34:00 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id 20so260668wmj.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 13:34:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=xlgFMAe3CXQknrnEstYCKTiflc61mrdbI7J8/Qg+nfc=;
- b=qEEMJ6KodmkvEJk1ow/4ZKAnTI/+H6b+jITcODtPTnFG7MbwU8vSoV3D3TA2z18VpH
- Qj3xLLnnzOIPwu4i2XVGV0RSirNHV5z2pjrXdtHHEKy4ajyrfF0jcLGrQFCz4RjL8CJq
- 7rgJlD6O0efiLXmbrARGJb4TnLTmkfqwjWrhr80/Zm2pho9vAb0ra57H3ANhd1gjqjYD
- BDEcLrSeor0SU5F1OIYlsj3aWLyOKHkcKSn+vdRKsdTf+NQNjd7vg7sM322tvfC6vnQU
- XjZxjC/AXQS//GBtBjQDuusPXj2WqjFs2OB7XJ7anmX40ZE13bJF7Kwc34cSZdI1jFG4
- R12g==
+ bh=hl6268zUhL6vsoc755Rban85Ann3f6TE2I9ILOnslGg=;
+ b=oucbbEHTYhjCotp2sb6ssDzQbFbvgrjA80hhWxIL7YS25Dr6LHB0jv2c3iYM073u6a
+ rLmIgfT7bKkqtZpwOYM5DDT4Xqh5QYIQkkbpM4n98QjKCuDwH8zeL+VBsGJvyxI4KelX
+ ZAU48wLgvuWmcPtEjQ217FAV1SIwk6NXCLY962Hz6gVBFEvStGGFwR3iAiBvp12Va12S
+ 4p5ByEIHGf4H8++XP3QL9c0nEJhP0rt2/tzjzkUx5cGOvPuq9pVlMPjI6Xr3E6cjFzaW
+ cMrq1D4lNTGLuZRD4sB3yb+3QoWa77lwWi6GPcOWeh/TSFKynEZgCtnYxEfNo3jv4MhB
+ iLrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=xlgFMAe3CXQknrnEstYCKTiflc61mrdbI7J8/Qg+nfc=;
- b=p+Rggy5B01Isyy1xFEZrPt4q1a/4mPL1PLa2467liONSR/CjqFsaLzMUZaXznrDeUJ
- 1LrF0Ozq7Fm6WCgpiweqyJcqJtfVPyy+qHaXtf/YrTypGG6KnJlu/4vXHhP7ATnYirXw
- BhClpkzqlHI2gr/TD5+Hp/WRBO43mxmDJJkU+7POKDb5tE5LKAHQTlkRLMBo/01lSbiW
- g0811Bq0G5kwHQeC3kAtZMQGh38cBoB7O9Nvnn8OzVpojok7VDAIyf6Ldltuf6lHs3u0
- M29n8C+BEXyENN0tCpHsdv8R5SJ6Oh7+zuAqpAw9Pu/HoupXZYEU9TwQ1ixwPDAgkwcT
- xOSg==
-X-Gm-Message-State: APjAAAVlPUUbfLuI9zLGMB4WN0VkAPluIWLY7Ph/Glyb89E/FlXACbGe
- J183llNJLUFDAuz50uoi/9g=
-X-Google-Smtp-Source: APXvYqzpnqhxzhO0Avyv6Bhhwq2PJP8KkLIfadSmpO8fWsYydMZxekW0ght2Xvxur4m5mB8jgzv7HQ==
-X-Received: by 2002:adf:e290:: with SMTP id v16mr13843989wri.16.1579728833822; 
- Wed, 22 Jan 2020 13:33:53 -0800 (PST)
+ bh=hl6268zUhL6vsoc755Rban85Ann3f6TE2I9ILOnslGg=;
+ b=CN9O7NUjQ24ipaT+NikqOdy0IMgPPxIiJRjQZJhu11drhzN6YseFJah4xAvlenpTqL
+ dcw91Da0qX9DKOpyepdPiDzqScM/C0hBv4C4fs3ma6VQgQcozOjur5lfWXFlAsKWmd9j
+ spMRTnTW+pmUAwfGTm5LWVRQ19Ovy87bkmg2yRu5iQkHyPzjcXPITL84IjVmFMHTfWF+
+ fuxlqv1EplsD9mF9D1OQyPjiihn/vgNcSAxjbyajKEBOIm33p+Lxo9tsGeMPcRnfOfTe
+ CjTOSkIJmNS/XZniKiv0e+y+Bz/QmvWrdQtC3iiENNwJnkn34ZSpV7wlaIvADr2m88al
+ iuyg==
+X-Gm-Message-State: APjAAAU28EZLnxEdXSTvBTYuZqOtzDpyO7Qag50XBvih7cRAzu5kOcaD
+ 8l3xB5amcSiX8c+OAX6XQVI=
+X-Google-Smtp-Source: APXvYqxYDmvDyU69o4TjdtM3UV/rvMxrU5zBZcwAOW20EVKAyf2Sy4b1T2lknJ/zStkHla1AsR9EPw==
+X-Received: by 2002:a7b:c190:: with SMTP id y16mr191530wmi.107.1579728838954; 
+ Wed, 22 Jan 2020 13:33:58 -0800 (PST)
 Received: from mail.broadcom.com ([192.19.231.250])
- by smtp.gmail.com with ESMTPSA id w8sm6474630wmd.2.2020.01.22.13.33.50
+ by smtp.gmail.com with ESMTPSA id w8sm6474630wmd.2.2020.01.22.13.33.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jan 2020 13:33:53 -0800 (PST)
+ Wed, 22 Jan 2020 13:33:58 -0800 (PST)
 From: Kamal Dasu <kdasu.kdev@gmail.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH V4 1/3] dt: bindings: brcmnand: Add support for flash-edu
-Date: Wed, 22 Jan 2020 16:33:11 -0500
-Message-Id: <20200122213313.35820-2-kdasu.kdev@gmail.com>
+Subject: [PATCH V4 2/3] arch: mips: brcm: Add 7425 flash-edu support
+Date: Wed, 22 Jan 2020 16:33:12 -0500
+Message-Id: <20200122213313.35820-3-kdasu.kdev@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200122213313.35820-1-kdasu.kdev@gmail.com>
 References: <20200122213313.35820-1-kdasu.kdev@gmail.com>
@@ -80,35 +80,32 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adding support for EBI DMA unit (EDU).
+Nand controller v5.0 and v6.0 have nand edu blocks that enable
+dma nand flash transfers. This allows for faster read and write
+access.
 
 Signed-off-by: Kamal Dasu <kdasu.kdev@gmail.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
+Acked-by: Paul Burton <paulburton@kernel.org>
+Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
 ---
- .../devicetree/bindings/mtd/brcm,brcmnand.txt          | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ arch/mips/boot/dts/brcm/bcm7425.dtsi | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/mtd/brcm,brcmnand.txt b/Documentation/devicetree/bindings/mtd/brcm,brcmnand.txt
-index 82156dc8f304..05651a654c66 100644
---- a/Documentation/devicetree/bindings/mtd/brcm,brcmnand.txt
-+++ b/Documentation/devicetree/bindings/mtd/brcm,brcmnand.txt
-@@ -35,11 +35,11 @@ Required properties:
-                      (optional) NAND flash cache range (if at non-standard offset)
- - reg-names        : a list of the names corresponding to the previous register
-                      ranges. Should contain "nand" and (optionally)
--                     "flash-dma" and/or "nand-cache".
--- interrupts       : The NAND CTLRDY interrupt and (if Flash DMA is available)
--                     FLASH_DMA_DONE
--- interrupt-names  : May be "nand_ctlrdy" or "flash_dma_done", if broken out as
--                     individual interrupts.
-+                     "flash-dma" or "flash-edu" and/or "nand-cache".
-+- interrupts       : The NAND CTLRDY interrupt, (if Flash DMA is available)
-+                     FLASH_DMA_DONE and if EDU is avaialble and used FLASH_EDU_DONE
-+- interrupt-names  : May be "nand_ctlrdy" or "flash_dma_done" or "flash_edu_done",
-+                     if broken out as individual interrupts.
-                      May be "nand", if the SoC has the individual NAND
-                      interrupts multiplexed behind another custom piece of
-                      hardware
+diff --git a/arch/mips/boot/dts/brcm/bcm7425.dtsi b/arch/mips/boot/dts/brcm/bcm7425.dtsi
+index 410e61ebaf9e..aa0b2d39c902 100644
+--- a/arch/mips/boot/dts/brcm/bcm7425.dtsi
++++ b/arch/mips/boot/dts/brcm/bcm7425.dtsi
+@@ -403,8 +403,8 @@
+ 			compatible = "brcm,brcmnand-v5.0", "brcm,brcmnand";
+ 			#address-cells = <1>;
+ 			#size-cells = <0>;
+-			reg-names = "nand";
+-			reg = <0x41b800 0x400>;
++			reg-names = "nand", "flash-edu";
++			reg = <0x41b800 0x400>, <0x41bc00 0x24>;
+ 			interrupt-parent = <&hif_l2_intc>;
+ 			interrupts = <24>;
+ 			status = "disabled";
 -- 
 2.17.1
 
