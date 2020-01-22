@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFA51145720
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 14:52:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82484145719
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 14:52:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4899D6F524;
-	Wed, 22 Jan 2020 13:52:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 265DC6E503;
+	Wed, 22 Jan 2020 13:52:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39CD66F4FC;
- Wed, 22 Jan 2020 12:58:03 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id q6so7116427wro.9;
- Wed, 22 Jan 2020 04:58:03 -0800 (PST)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F1DE6F4F9;
+ Wed, 22 Jan 2020 12:58:06 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id p17so7102355wma.1;
+ Wed, 22 Jan 2020 04:58:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:subject:date:message-id:in-reply-to:references;
- bh=bt9R4IUfdKy9S6qaalywmoVwyWqmbS9Q9iDFKXFGfA0=;
- b=cRub3YA/Rai6P2H3oWyFDT1GsKA8mAVTG7sde6pY47/kV6gpfSYoSADJ9CDBVZ4k/l
- l81MChK336ghdOmLaO7JJnpFbuYuT381sIlpoQXukr8EtblJ6i6VDkXa+oYDxPHgV8t5
- wtbSIhMs0rl3L4D4C8B4FVwFfJZX/kUNU6QcnbQnBCVSnnP8Bsmgrl3KibjSMpPKNtBU
- xFk7rBJXsWe3JjqQjasJls8/c7Nu03A5AXIbl3Jzdc6WL5qlqBEbDdb9q0okSPYGJNAG
- yXVgfvR6fbyRJ7lZx2PIGnC29CvWRdE8Sy3X49UcP4zn3FaprgCElRMtNKKnqpBY82iQ
- xm4g==
+ bh=eV/GSup/J+DPyjODj/IKt5fwIjXuxUSgJpb75W8LC6U=;
+ b=VHFXPAe4iU834A+nM/yebS6BcrV6A+JdNS2XMgAfq1IjA7eSoZcuX5Owoc2fy4soVJ
+ W7iqONNpfEOrg3PGPSFLYrEpYxEVLVYfqgPkVof6oeOig3QJgHjKnDGA2RNGiVYGVCvl
+ 65q4B3ZV954fCPQPmRXX04jTi7QpHMBZ+CgewH9i6xAiiIHxfLQUTjSmlfostp3y6+rA
+ /e2qi7prHVNlzYDxZ7861lc/sBfbbu4iS8CW4W5lLocX0Gq4ilpwmV9xgmih52tWbNQr
+ yRCtncVRaEcZkfVO7CvgyOFs0xkt/dKpsz42HZgQG6TcYiCMQIaqVh0IX6ZQKJ5sY+yS
+ KPgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references;
- bh=bt9R4IUfdKy9S6qaalywmoVwyWqmbS9Q9iDFKXFGfA0=;
- b=W+PTsO7yt9VnqzgNLPNMSFHv8JEgU4AtFmEnHYoh8m37J96qpHNnmy55yY+O4e1ZhW
- xZudMO95Glchvl+Mw9XmVdIv3omxJpTPtPI12Qv0GSu2ia/0Vv93ef6C5Vs2TLhltp2M
- SOLz9AIOBJJKs0pDXhoLea9Wh2GVSkGqqcQVmkYnVrwHYC5pySKHv7iX56FsSTrTwCY2
- hr/jh+Iz2OzoY36hD0A5xmE6IZyQVhc8gEsryStIn83Dzgz0cAIp9dpJQgb6Imy6ulxA
- bUnTGimFBekQlVK+eDqR8hnqjZOY3Z2qnoW+o/yXCF68tTmdXiSYlo9fY/xs7ivWRl1H
- XnNA==
-X-Gm-Message-State: APjAAAWaAARmouO3NysjC+NrYu6rofLYSZeNAej6WvdwkN2AKVDHfiLK
- 7UNK2yx2TvCCYofrTQB349k=
-X-Google-Smtp-Source: APXvYqw+wqdwLcy+K87uYLnppIVhlFaiV3QIpDzvO9Qe6m5xEXnRBKNNSfxDE5S/G8NiCKpVIIZPwA==
-X-Received: by 2002:a5d:6b47:: with SMTP id x7mr11450203wrw.277.1579697881606; 
- Wed, 22 Jan 2020 04:58:01 -0800 (PST)
+ bh=eV/GSup/J+DPyjODj/IKt5fwIjXuxUSgJpb75W8LC6U=;
+ b=S1CmSK2E3ZnQY2Z5lMkCvzcl6NWkXzSx4JPOdeR7pWHBZzf8xygg7ReJxDkNg/2qku
+ W0C7qil9ifFoeGtWWrONrI14nuA+2h2XWKL/NpEur7hOn+luLNbnrgww+sWvB/ZieDI1
+ VRRAN+U2AjcmxepT9rFNu2VzVtEf6PpOl3pyaR8Nkw+9dOfCrFOTa6z/TmzHABOCWCuS
+ 9Gwx94A2ostL0xNl1TAgffPAnsBjYe6joTHqRr5g/Aik62544UBOd9+O4QeQ2DGIWkzp
+ AQ7tXQ1mukrroMaUJ61+Odw9XWbWXOzdUCKKHCy4PCzsD8gVjJqTzkweene297ltULN6
+ DBnA==
+X-Gm-Message-State: APjAAAUXtbngAp7wc8IhCPxveFzR553TRYtMt/wgKzeAMzmQAQAv1038
+ UuW4gKEDJN2hZMjxamP4ISvWtnWntIY=
+X-Google-Smtp-Source: APXvYqwg1UmK/8t4IPer6lnKvVxW0UlqpaxYbwEOYeb1DCJgWunFozUH5IDawHx9YeRgeC99ZNE+oA==
+X-Received: by 2002:a05:600c:2c44:: with SMTP id
+ r4mr2889122wmg.140.1579697884756; 
+ Wed, 22 Jan 2020 04:58:04 -0800 (PST)
 Received: from localhost.localdomain ([197.254.95.38])
- by smtp.googlemail.com with ESMTPSA id p26sm3736109wmc.24.2020.01.22.04.57.58
+ by smtp.googlemail.com with ESMTPSA id p26sm3736109wmc.24.2020.01.22.04.58.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jan 2020 04:58:01 -0800 (PST)
+ Wed, 22 Jan 2020 04:58:04 -0800 (PST)
 From: Wambui Karuga <wambui.karugax@gmail.com>
 To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
  rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] drm/i915/gem: initial conversion to new logging macros
- using coccinelle
-Date: Wed, 22 Jan 2020 15:57:49 +0300
-Message-Id: <20200122125750.9737-2-wambui.karugax@gmail.com>
+Subject: [PATCH 2/2] drm/i915/gem: manual conversion to struct drm_device
+ logging macros.
+Date: Wed, 22 Jan 2020 15:57:50 +0300
+Message-Id: <20200122125750.9737-3-wambui.karugax@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200122125750.9737-1-wambui.karugax@gmail.com>
 References: <20200122125750.9737-1-wambui.karugax@gmail.com>
@@ -75,486 +76,244 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-First pass of conversion to the new struct drm_based device logging
-macros in the drm/i915/gem directory. This conversion was achieved using
-the following coccinelle script that transforms based on the existence
-of a straightforward struct drm_i915_private device:
-
-@rule1@
-identifier fn, T;
-@@
-
-fn(struct drm_i915_private *T,...) {
-<+...
-(
--DRM_INFO(
-+drm_info(&T->drm,
-...)
-|
--DRM_ERROR(
-+drm_err(&T->drm,
-...)
-|
--DRM_WARN(
-+drm_warn(&T->drm,
-...)
-|
--DRM_DEBUG(
-+drm_dbg(&T->drm,
-...)
-|
--DRM_DEBUG_DRIVER(
-+drm_dbg(&T->drm,
-...)
-|
--DRM_DEBUG_KMS(
-+drm_dbg_kms(&T->drm,
-...)
-|
--DRM_DEBUG_ATOMIC(
-+drm_dbg_atomic(&T->drm,
-...)
-)
-...+>
-}
-
-@rule2@
-identifier fn, T;
-@@
-
-fn(...) {
-...
-struct drm_i915_private *T = ...;
-<+...
-(
--DRM_INFO(
-+drm_info(&T->drm,
-...)
-|
--DRM_ERROR(
-+drm_err(&T->drm,
-...)
-|
--DRM_WARN(
-+drm_warn(&T->drm,
-...)
-|
--DRM_DEBUG(
-+drm_dbg(&T->drm,
-...)
-|
--DRM_DEBUG_KMS(
-+drm_dbg_kms(&T->drm,
-...)
-|
--DRM_DEBUG_DRIVER(
-+drm_dbg(&T->drm,
-...)
-|
--DRM_DEBUG_ATOMIC(
-+drm_dbg_atomic(&T->drm,
-...)
-)
-...+>
-}
-
-Checkpatch warnings were addressed manually.
+Convert most of the remaining uses of the printk based logging macros to
+the new struct drm_device based logging macros in drm/i915/gem.
+This also involves extracting the struct drm_i915_private device
+from various types, and using it in the various macros.
 
 Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_context.c   | 27 +++++----
- .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 37 +++++++-----
- drivers/gpu/drm/i915/gem/i915_gem_stolen.c    | 56 +++++++++++--------
- 3 files changed, 70 insertions(+), 50 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   | 41 +++++++++++--------
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 23 ++++++-----
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c     |  4 +-
+ 3 files changed, 40 insertions(+), 28 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index a2e57e62af30..5432da2abda0 100644
+index 5432da2abda0..28b8794695be 100644
 --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
 +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -708,8 +708,8 @@ i915_gem_create_context(struct drm_i915_private *i915, unsigned int flags)
- 
- 		ppgtt = i915_ppgtt_create(&i915->gt);
- 		if (IS_ERR(ppgtt)) {
--			DRM_DEBUG_DRIVER("PPGTT setup failed (%ld)\n",
--					 PTR_ERR(ppgtt));
-+			drm_dbg(&i915->drm, "PPGTT setup failed (%ld)\n",
-+				PTR_ERR(ppgtt));
- 			context_close(ctx);
- 			return ERR_CAST(ppgtt);
- 		}
-@@ -751,9 +751,9 @@ static void init_contexts(struct i915_gem_contexts *gc)
- void i915_gem_init__contexts(struct drm_i915_private *i915)
- {
- 	init_contexts(&i915->gem.contexts);
--	DRM_DEBUG_DRIVER("%s context support initialized\n",
--			 DRIVER_CAPS(i915)->has_logical_contexts ?
--			 "logical" : "fake");
-+	drm_dbg(&i915->drm, "%s context support initialized\n",
-+		DRIVER_CAPS(i915)->has_logical_contexts ?
-+		"logical" : "fake");
- }
- 
- void i915_gem_driver_release__contexts(struct drm_i915_private *i915)
-@@ -1624,6 +1624,7 @@ static int
- set_engines(struct i915_gem_context *ctx,
- 	    const struct drm_i915_gem_context_param *args)
- {
-+	struct drm_i915_private *i915 = ctx->i915;
- 	struct i915_context_param_engines __user *user =
- 		u64_to_user_ptr(args->value);
- 	struct set_engines set = { .ctx = ctx };
-@@ -1645,8 +1646,8 @@ set_engines(struct i915_gem_context *ctx,
- 	BUILD_BUG_ON(!IS_ALIGNED(sizeof(*user), sizeof(*user->engines)));
- 	if (args->size < sizeof(*user) ||
- 	    !IS_ALIGNED(args->size, sizeof(*user->engines))) {
--		DRM_DEBUG("Invalid size for engine array: %d\n",
--			  args->size);
-+		drm_dbg(&i915->drm, "Invalid size for engine array: %d\n",
-+			args->size);
- 		return -EINVAL;
- 	}
- 
-@@ -1682,8 +1683,9 @@ set_engines(struct i915_gem_context *ctx,
- 						  ci.engine_class,
- 						  ci.engine_instance);
- 		if (!engine) {
--			DRM_DEBUG("Invalid engine[%d]: { class:%d, instance:%d }\n",
--				  n, ci.engine_class, ci.engine_instance);
-+			drm_dbg(&i915->drm,
-+				"Invalid engine[%d]: { class:%d, instance:%d }\n",
-+				n, ci.engine_class, ci.engine_instance);
- 			__free_engines(set.engines, n);
- 			return -ENOENT;
- 		}
-@@ -2197,8 +2199,9 @@ int i915_gem_context_create_ioctl(struct drm_device *dev, void *data,
- 
- 	ext_data.fpriv = file->driver_priv;
- 	if (client_is_banned(ext_data.fpriv)) {
--		DRM_DEBUG("client %s[%d] banned from creating ctx\n",
--			  current->comm, task_pid_nr(current));
-+		drm_dbg(&i915->drm,
-+			"client %s[%d] banned from creating ctx\n",
-+			current->comm, task_pid_nr(current));
- 		return -EIO;
- 	}
- 
-@@ -2220,7 +2223,7 @@ int i915_gem_context_create_ioctl(struct drm_device *dev, void *data,
- 		goto err_ctx;
- 
- 	args->ctx_id = id;
--	DRM_DEBUG("HW context %d created\n", args->ctx_id);
-+	drm_dbg(&i915->drm, "HW context %d created\n", args->ctx_id);
- 
- 	return 0;
- 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-index 60c984e10c4a..61c0a837f163 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-@@ -420,6 +420,7 @@ eb_validate_vma(struct i915_execbuffer *eb,
- 		struct drm_i915_gem_exec_object2 *entry,
- 		struct i915_vma *vma)
- {
-+	struct drm_i915_private *i915 = eb->i915;
- 	if (unlikely(entry->flags & eb->invalid_flags))
- 		return -EINVAL;
- 
-@@ -443,8 +444,9 @@ eb_validate_vma(struct i915_execbuffer *eb,
- 	}
- 
- 	if (unlikely(vma->exec_flags)) {
--		DRM_DEBUG("Object [handle %d, index %d] appears more than once in object list\n",
--			  entry->handle, (int)(entry - eb->exec));
-+		drm_dbg(&i915->drm,
-+			"Object [handle %d, index %d] appears more than once in object list\n",
-+			entry->handle, (int)(entry - eb->exec));
- 		return -EINVAL;
- 	}
- 
-@@ -1330,6 +1332,7 @@ eb_relocate_entry(struct i915_execbuffer *eb,
- 		  struct i915_vma *vma,
- 		  const struct drm_i915_gem_relocation_entry *reloc)
- {
-+	struct drm_i915_private *i915 = eb->i915;
- 	struct i915_vma *target;
+@@ -1444,6 +1444,7 @@ set_engines__load_balance(struct i915_user_extension __user *base, void *data)
+ 	struct i915_context_engines_load_balance __user *ext =
+ 		container_of_user(base, typeof(*ext), base);
+ 	const struct set_engines *set = data;
++	struct drm_i915_private *i915 = set->ctx->i915;
+ 	struct intel_engine_cs *stack[16];
+ 	struct intel_engine_cs **siblings;
+ 	struct intel_context *ce;
+@@ -1451,24 +1452,25 @@ set_engines__load_balance(struct i915_user_extension __user *base, void *data)
+ 	unsigned int n;
  	int err;
  
-@@ -1340,7 +1343,7 @@ eb_relocate_entry(struct i915_execbuffer *eb,
+-	if (!HAS_EXECLISTS(set->ctx->i915))
++	if (!HAS_EXECLISTS(i915))
+ 		return -ENODEV;
  
- 	/* Validate that the target is in a valid r/w GPU domain */
- 	if (unlikely(reloc->write_domain & (reloc->write_domain - 1))) {
--		DRM_DEBUG("reloc with multiple write domains: "
-+		drm_dbg(&i915->drm, "reloc with multiple write domains: "
- 			  "target %d offset %d "
- 			  "read %08x write %08x",
- 			  reloc->target_handle,
-@@ -1351,7 +1354,7 @@ eb_relocate_entry(struct i915_execbuffer *eb,
- 	}
- 	if (unlikely((reloc->write_domain | reloc->read_domains)
- 		     & ~I915_GEM_GPU_DOMAINS)) {
--		DRM_DEBUG("reloc with read/write non-GPU domains: "
-+		drm_dbg(&i915->drm, "reloc with read/write non-GPU domains: "
- 			  "target %d offset %d "
- 			  "read %08x write %08x",
- 			  reloc->target_handle,
-@@ -1391,7 +1394,7 @@ eb_relocate_entry(struct i915_execbuffer *eb,
- 	/* Check that the relocation address is valid... */
- 	if (unlikely(reloc->offset >
- 		     vma->size - (eb->reloc_cache.use_64bit_reloc ? 8 : 4))) {
--		DRM_DEBUG("Relocation beyond object bounds: "
-+		drm_dbg(&i915->drm, "Relocation beyond object bounds: "
- 			  "target %d offset %d size %d.\n",
- 			  reloc->target_handle,
- 			  (int)reloc->offset,
-@@ -1399,7 +1402,7 @@ eb_relocate_entry(struct i915_execbuffer *eb,
+-	if (USES_GUC_SUBMISSION(set->ctx->i915))
++	if (USES_GUC_SUBMISSION(i915))
+ 		return -ENODEV; /* not implement yet */
+ 
+ 	if (get_user(idx, &ext->engine_index))
+ 		return -EFAULT;
+ 
+ 	if (idx >= set->engines->num_engines) {
+-		DRM_DEBUG("Invalid placement value, %d >= %d\n",
+-			  idx, set->engines->num_engines);
++		drm_dbg(&i915->drm, "Invalid placement value, %d >= %d\n",
++			idx, set->engines->num_engines);
  		return -EINVAL;
  	}
- 	if (unlikely(reloc->offset & 3)) {
--		DRM_DEBUG("Relocation not 4-byte aligned: "
-+		drm_dbg(&i915->drm, "Relocation not 4-byte aligned: "
- 			  "target %d offset %d.\n",
- 			  reloc->target_handle,
- 			  (int)reloc->offset);
-@@ -2075,6 +2078,7 @@ static int eb_parse_pipeline(struct i915_execbuffer *eb,
  
- static int eb_parse(struct i915_execbuffer *eb)
- {
-+	struct drm_i915_private *i915 = eb->i915;
- 	struct intel_engine_pool_node *pool;
- 	struct i915_vma *shadow, *trampoline;
- 	unsigned int len;
-@@ -2090,7 +2094,8 @@ static int eb_parse(struct i915_execbuffer *eb)
- 		 * post-scan tampering
- 		 */
- 		if (!eb->context->vm->has_read_only) {
--			DRM_DEBUG("Cannot prevent post-scan tampering without RO capable vm\n");
+ 	idx = array_index_nospec(idx, set->engines->num_engines);
+ 	if (set->engines->engines[idx]) {
+-		DRM_DEBUG("Invalid placement[%d], already occupied\n", idx);
++		drm_dbg(&i915->drm,
++			"Invalid placement[%d], already occupied\n", idx);
+ 		return -EEXIST;
+ 	}
+ 
+@@ -1500,12 +1502,13 @@ set_engines__load_balance(struct i915_user_extension __user *base, void *data)
+ 			goto out_siblings;
+ 		}
+ 
+-		siblings[n] = intel_engine_lookup_user(set->ctx->i915,
++		siblings[n] = intel_engine_lookup_user(i915,
+ 						       ci.engine_class,
+ 						       ci.engine_instance);
+ 		if (!siblings[n]) {
+-			DRM_DEBUG("Invalid sibling[%d]: { class:%d, inst:%d }\n",
+-				  n, ci.engine_class, ci.engine_instance);
 +			drm_dbg(&i915->drm,
-+				"Cannot prevent post-scan tampering without RO capable vm\n");
++				"Invalid sibling[%d]: { class:%d, inst:%d }\n",
++				n, ci.engine_class, ci.engine_instance);
+ 			err = -EINVAL;
+ 			goto out_siblings;
+ 		}
+@@ -1538,6 +1541,7 @@ set_engines__bond(struct i915_user_extension __user *base, void *data)
+ 	struct i915_context_engines_bond __user *ext =
+ 		container_of_user(base, typeof(*ext), base);
+ 	const struct set_engines *set = data;
++	struct drm_i915_private *i915 = set->ctx->i915;
+ 	struct i915_engine_class_instance ci;
+ 	struct intel_engine_cs *virtual;
+ 	struct intel_engine_cs *master;
+@@ -1548,14 +1552,15 @@ set_engines__bond(struct i915_user_extension __user *base, void *data)
+ 		return -EFAULT;
+ 
+ 	if (idx >= set->engines->num_engines) {
+-		DRM_DEBUG("Invalid index for virtual engine: %d >= %d\n",
+-			  idx, set->engines->num_engines);
++		drm_dbg(&i915->drm,
++			"Invalid index for virtual engine: %d >= %d\n",
++			idx, set->engines->num_engines);
+ 		return -EINVAL;
+ 	}
+ 
+ 	idx = array_index_nospec(idx, set->engines->num_engines);
+ 	if (!set->engines->engines[idx]) {
+-		DRM_DEBUG("Invalid engine at %d\n", idx);
++		drm_dbg(&i915->drm, "Invalid engine at %d\n", idx);
+ 		return -EINVAL;
+ 	}
+ 	virtual = set->engines->engines[idx]->engine;
+@@ -1573,11 +1578,12 @@ set_engines__bond(struct i915_user_extension __user *base, void *data)
+ 	if (copy_from_user(&ci, &ext->master, sizeof(ci)))
+ 		return -EFAULT;
+ 
+-	master = intel_engine_lookup_user(set->ctx->i915,
++	master = intel_engine_lookup_user(i915,
+ 					  ci.engine_class, ci.engine_instance);
+ 	if (!master) {
+-		DRM_DEBUG("Unrecognised master engine: { class:%u, instance:%u }\n",
+-			  ci.engine_class, ci.engine_instance);
++		drm_dbg(&i915->drm,
++			"Unrecognised master engine: { class:%u, instance:%u }\n",
++			ci.engine_class, ci.engine_instance);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -1590,12 +1596,13 @@ set_engines__bond(struct i915_user_extension __user *base, void *data)
+ 		if (copy_from_user(&ci, &ext->engines[n], sizeof(ci)))
+ 			return -EFAULT;
+ 
+-		bond = intel_engine_lookup_user(set->ctx->i915,
++		bond = intel_engine_lookup_user(i915,
+ 						ci.engine_class,
+ 						ci.engine_instance);
+ 		if (!bond) {
+-			DRM_DEBUG("Unrecognised engine[%d] for bonding: { class:%d, instance: %d }\n",
+-				  n, ci.engine_class, ci.engine_instance);
++			drm_dbg(&i915->drm,
++				"Unrecognised engine[%d] for bonding: { class:%d, instance: %d }\n",
++				n, ci.engine_class, ci.engine_instance);
  			return -EINVAL;
  		}
- 	} else {
-@@ -2371,8 +2376,9 @@ eb_select_legacy_ring(struct i915_execbuffer *eb,
  
- 	if (user_ring_id != I915_EXEC_BSD &&
- 	    (args->flags & I915_EXEC_BSD_MASK)) {
--		DRM_DEBUG("execbuf with non bsd ring but with invalid "
--			  "bsd dispatch flags: %d\n", (int)(args->flags));
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+index 61c0a837f163..cae0581d7e47 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+@@ -1924,7 +1924,7 @@ static int i915_reset_gen7_sol_offsets(struct i915_request *rq)
+ 	int i;
+ 
+ 	if (!IS_GEN(rq->i915, 7) || rq->engine->id != RCS0) {
+-		DRM_DEBUG("sol reset is gen7/rcs only\n");
++		drm_dbg(&rq->i915->drm, "sol reset is gen7/rcs only\n");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -2847,6 +2847,7 @@ int
+ i915_gem_execbuffer_ioctl(struct drm_device *dev, void *data,
+ 			  struct drm_file *file)
+ {
++	struct drm_i915_private *i915 = to_i915(dev);
+ 	struct drm_i915_gem_execbuffer *args = data;
+ 	struct drm_i915_gem_execbuffer2 exec2;
+ 	struct drm_i915_gem_exec_object *exec_list = NULL;
+@@ -2856,7 +2857,7 @@ i915_gem_execbuffer_ioctl(struct drm_device *dev, void *data,
+ 	int err;
+ 
+ 	if (!check_buffer_count(count)) {
+-		DRM_DEBUG("execbuf2 with %zd buffers\n", count);
++		drm_dbg(&i915->drm, "execbuf2 with %zd buffers\n", count);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -2881,8 +2882,9 @@ i915_gem_execbuffer_ioctl(struct drm_device *dev, void *data,
+ 	exec2_list = kvmalloc_array(count + 1, eb_element_size(),
+ 				    __GFP_NOWARN | GFP_KERNEL);
+ 	if (exec_list == NULL || exec2_list == NULL) {
+-		DRM_DEBUG("Failed to allocate exec list for %d buffers\n",
+-			  args->buffer_count);
 +		drm_dbg(&i915->drm,
-+			"execbuf with non bsd ring but with invalid "
-+			"bsd dispatch flags: %d\n", (int)(args->flags));
- 		return -1;
++			"Failed to allocate exec list for %d buffers\n",
++			args->buffer_count);
+ 		kvfree(exec_list);
+ 		kvfree(exec2_list);
+ 		return -ENOMEM;
+@@ -2891,8 +2893,8 @@ i915_gem_execbuffer_ioctl(struct drm_device *dev, void *data,
+ 			     u64_to_user_ptr(args->buffers_ptr),
+ 			     sizeof(*exec_list) * count);
+ 	if (err) {
+-		DRM_DEBUG("copy %d exec entries failed %d\n",
+-			  args->buffer_count, err);
++		drm_dbg(&i915->drm, "copy %d exec entries failed %d\n",
++			args->buffer_count, err);
+ 		kvfree(exec_list);
+ 		kvfree(exec2_list);
+ 		return -EFAULT;
+@@ -2939,6 +2941,7 @@ int
+ i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
+ 			   struct drm_file *file)
+ {
++	struct drm_i915_private *i915 = to_i915(dev);
+ 	struct drm_i915_gem_execbuffer2 *args = data;
+ 	struct drm_i915_gem_exec_object2 *exec2_list;
+ 	struct drm_syncobj **fences = NULL;
+@@ -2946,7 +2949,7 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
+ 	int err;
+ 
+ 	if (!check_buffer_count(count)) {
+-		DRM_DEBUG("execbuf2 with %zd buffers\n", count);
++		drm_dbg(&i915->drm, "execbuf2 with %zd buffers\n", count);
+ 		return -EINVAL;
  	}
  
-@@ -2386,8 +2392,9 @@ eb_select_legacy_ring(struct i915_execbuffer *eb,
- 			bsd_idx >>= I915_EXEC_BSD_SHIFT;
- 			bsd_idx--;
- 		} else {
--			DRM_DEBUG("execbuf with unknown bsd ring: %u\n",
--				  bsd_idx);
-+			drm_dbg(&i915->drm,
-+				"execbuf with unknown bsd ring: %u\n",
-+				bsd_idx);
- 			return -1;
- 		}
- 
-@@ -2395,7 +2402,8 @@ eb_select_legacy_ring(struct i915_execbuffer *eb,
+@@ -2958,14 +2961,14 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
+ 	exec2_list = kvmalloc_array(count + 1, eb_element_size(),
+ 				    __GFP_NOWARN | GFP_KERNEL);
+ 	if (exec2_list == NULL) {
+-		DRM_DEBUG("Failed to allocate exec list for %zd buffers\n",
+-			  count);
++		drm_dbg(&i915->drm, "Failed to allocate exec list for %zd buffers\n",
++			count);
+ 		return -ENOMEM;
  	}
- 
- 	if (user_ring_id >= ARRAY_SIZE(user_ring_map)) {
--		DRM_DEBUG("execbuf with unknown ring: %u\n", user_ring_id);
-+		drm_dbg(&i915->drm, "execbuf with unknown ring: %u\n",
-+			user_ring_id);
- 		return -1;
+ 	if (copy_from_user(exec2_list,
+ 			   u64_to_user_ptr(args->buffers_ptr),
+ 			   sizeof(*exec2_list) * count)) {
+-		DRM_DEBUG("copy %zd exec entries failed\n", count);
++		drm_dbg(&i915->drm, "copy %zd exec entries failed\n", count);
+ 		kvfree(exec2_list);
+ 		return -EFAULT;
  	}
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+index 54aca5c9101e..24f4cadea114 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+@@ -83,10 +83,12 @@ void __i915_gem_object_set_pages(struct drm_i915_gem_object *obj,
  
-@@ -2669,13 +2677,14 @@ i915_gem_do_execbuffer(struct drm_device *dev,
- 	}
+ int ____i915_gem_object_get_pages(struct drm_i915_gem_object *obj)
+ {
++	struct drm_i915_private *i915 = to_i915(obj->base.dev);
+ 	int err;
  
- 	if (unlikely(*eb.batch->exec_flags & EXEC_OBJECT_WRITE)) {
--		DRM_DEBUG("Attempting to use self-modifying batch buffer\n");
+ 	if (unlikely(obj->mm.madv != I915_MADV_WILLNEED)) {
+-		DRM_DEBUG("Attempting to obtain a purgeable object\n");
 +		drm_dbg(&i915->drm,
-+			"Attempting to use self-modifying batch buffer\n");
- 		err = -EINVAL;
- 		goto err_vma;
- 	}
- 	if (eb.batch_start_offset > eb.batch->size ||
- 	    eb.batch_len > eb.batch->size - eb.batch_start_offset) {
--		DRM_DEBUG("Attempting to use out-of-bounds batch\n");
-+		drm_dbg(&i915->drm, "Attempting to use out-of-bounds batch\n");
- 		err = -EINVAL;
- 		goto err_vma;
- 	}
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-index 451f3078d60d..52c92f4fcb56 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-@@ -110,8 +110,11 @@ static int i915_adjust_stolen(struct drm_i915_private *i915,
- 
- 		if (stolen[0].start != stolen[1].start ||
- 		    stolen[0].end != stolen[1].end) {
--			DRM_DEBUG_DRIVER("GTT within stolen memory at %pR\n", &ggtt_res);
--			DRM_DEBUG_DRIVER("Stolen memory adjusted to %pR\n", dsm);
-+			drm_dbg(&i915->drm,
-+				"GTT within stolen memory at %pR\n",
-+				&ggtt_res);
-+			drm_dbg(&i915->drm, "Stolen memory adjusted to %pR\n",
-+				dsm);
- 		}
++			"Attempting to obtain a purgeable object\n");
+ 		return -EFAULT;
  	}
  
-@@ -142,8 +145,9 @@ static int i915_adjust_stolen(struct drm_i915_private *i915,
- 		 * range. Apparently this works.
- 		 */
- 		if (!r && !IS_GEN(i915, 3)) {
--			DRM_ERROR("conflict detected with stolen region: %pR\n",
--				  dsm);
-+			drm_err(&i915->drm,
-+				"conflict detected with stolen region: %pR\n",
-+				dsm);
- 
- 			return -EBUSY;
- 		}
-@@ -171,8 +175,8 @@ static void g4x_get_stolen_reserved(struct drm_i915_private *i915,
- 					ELK_STOLEN_RESERVED);
- 	resource_size_t stolen_top = i915->dsm.end + 1;
- 
--	DRM_DEBUG_DRIVER("%s_STOLEN_RESERVED = %08x\n",
--			 IS_GM45(i915) ? "CTG" : "ELK", reg_val);
-+	drm_dbg(&i915->drm, "%s_STOLEN_RESERVED = %08x\n",
-+		IS_GM45(i915) ? "CTG" : "ELK", reg_val);
- 
- 	if ((reg_val & G4X_STOLEN_RESERVED_ENABLE) == 0)
- 		return;
-@@ -200,7 +204,7 @@ static void gen6_get_stolen_reserved(struct drm_i915_private *i915,
- {
- 	u32 reg_val = intel_uncore_read(uncore, GEN6_STOLEN_RESERVED);
- 
--	DRM_DEBUG_DRIVER("GEN6_STOLEN_RESERVED = %08x\n", reg_val);
-+	drm_dbg(&i915->drm, "GEN6_STOLEN_RESERVED = %08x\n", reg_val);
- 
- 	if (!(reg_val & GEN6_STOLEN_RESERVED_ENABLE))
- 		return;
-@@ -234,7 +238,7 @@ static void vlv_get_stolen_reserved(struct drm_i915_private *i915,
- 	u32 reg_val = intel_uncore_read(uncore, GEN6_STOLEN_RESERVED);
- 	resource_size_t stolen_top = i915->dsm.end + 1;
- 
--	DRM_DEBUG_DRIVER("GEN6_STOLEN_RESERVED = %08x\n", reg_val);
-+	drm_dbg(&i915->drm, "GEN6_STOLEN_RESERVED = %08x\n", reg_val);
- 
- 	if (!(reg_val & GEN6_STOLEN_RESERVED_ENABLE))
- 		return;
-@@ -262,7 +266,7 @@ static void gen7_get_stolen_reserved(struct drm_i915_private *i915,
- {
- 	u32 reg_val = intel_uncore_read(uncore, GEN6_STOLEN_RESERVED);
- 
--	DRM_DEBUG_DRIVER("GEN6_STOLEN_RESERVED = %08x\n", reg_val);
-+	drm_dbg(&i915->drm, "GEN6_STOLEN_RESERVED = %08x\n", reg_val);
- 
- 	if (!(reg_val & GEN6_STOLEN_RESERVED_ENABLE))
- 		return;
-@@ -289,7 +293,7 @@ static void chv_get_stolen_reserved(struct drm_i915_private *i915,
- {
- 	u32 reg_val = intel_uncore_read(uncore, GEN6_STOLEN_RESERVED);
- 
--	DRM_DEBUG_DRIVER("GEN6_STOLEN_RESERVED = %08x\n", reg_val);
-+	drm_dbg(&i915->drm, "GEN6_STOLEN_RESERVED = %08x\n", reg_val);
- 
- 	if (!(reg_val & GEN6_STOLEN_RESERVED_ENABLE))
- 		return;
-@@ -323,7 +327,7 @@ static void bdw_get_stolen_reserved(struct drm_i915_private *i915,
- 	u32 reg_val = intel_uncore_read(uncore, GEN6_STOLEN_RESERVED);
- 	resource_size_t stolen_top = i915->dsm.end + 1;
- 
--	DRM_DEBUG_DRIVER("GEN6_STOLEN_RESERVED = %08x\n", reg_val);
-+	drm_dbg(&i915->drm, "GEN6_STOLEN_RESERVED = %08x\n", reg_val);
- 
- 	if (!(reg_val & GEN6_STOLEN_RESERVED_ENABLE))
- 		return;
-@@ -342,7 +346,7 @@ static void icl_get_stolen_reserved(struct drm_i915_private *i915,
- {
- 	u64 reg_val = intel_uncore_read64(uncore, GEN6_STOLEN_RESERVED);
- 
--	DRM_DEBUG_DRIVER("GEN6_STOLEN_RESERVED = 0x%016llx\n", reg_val);
-+	drm_dbg(&i915->drm, "GEN6_STOLEN_RESERVED = 0x%016llx\n", reg_val);
- 
- 	*base = reg_val & GEN11_STOLEN_RESERVED_ADDR_MASK;
- 
-@@ -453,8 +457,9 @@ static int i915_gem_init_stolen(struct drm_i915_private *i915)
- 	 * it likely means we failed to read the registers correctly.
- 	 */
- 	if (!reserved_base) {
--		DRM_ERROR("inconsistent reservation %pa + %pa; ignoring\n",
--			  &reserved_base, &reserved_size);
-+		drm_err(&i915->drm,
-+			"inconsistent reservation %pa + %pa; ignoring\n",
-+			&reserved_base, &reserved_size);
- 		reserved_base = stolen_top;
- 		reserved_size = 0;
- 	}
-@@ -463,8 +468,9 @@ static int i915_gem_init_stolen(struct drm_i915_private *i915)
- 		(struct resource)DEFINE_RES_MEM(reserved_base, reserved_size);
- 
- 	if (!resource_contains(&i915->dsm, &i915->dsm_reserved)) {
--		DRM_ERROR("Stolen reserved area %pR outside stolen memory %pR\n",
--			  &i915->dsm_reserved, &i915->dsm);
-+		drm_err(&i915->drm,
-+			"Stolen reserved area %pR outside stolen memory %pR\n",
-+			&i915->dsm_reserved, &i915->dsm);
- 		return 0;
- 	}
- 
-@@ -472,9 +478,10 @@ static int i915_gem_init_stolen(struct drm_i915_private *i915)
- 	 * memory, so just consider the start. */
- 	reserved_total = stolen_top - reserved_base;
- 
--	DRM_DEBUG_DRIVER("Memory reserved for graphics device: %lluK, usable: %lluK\n",
--			 (u64)resource_size(&i915->dsm) >> 10,
--			 ((u64)resource_size(&i915->dsm) - reserved_total) >> 10);
-+	drm_dbg(&i915->drm,
-+		"Memory reserved for graphics device: %lluK, usable: %lluK\n",
-+		(u64)resource_size(&i915->dsm) >> 10,
-+		((u64)resource_size(&i915->dsm) - reserved_total) >> 10);
- 
- 	i915->stolen_usable_size =
- 		resource_size(&i915->dsm) - reserved_total;
-@@ -690,8 +697,9 @@ i915_gem_object_create_stolen_for_preallocated(struct drm_i915_private *i915,
- 	if (!drm_mm_initialized(&i915->mm.stolen))
- 		return ERR_PTR(-ENODEV);
- 
--	DRM_DEBUG_DRIVER("creating preallocated stolen object: stolen_offset=%pa, gtt_offset=%pa, size=%pa\n",
--			 &stolen_offset, &gtt_offset, &size);
-+	drm_dbg(&i915->drm,
-+		"creating preallocated stolen object: stolen_offset=%pa, gtt_offset=%pa, size=%pa\n",
-+		&stolen_offset, &gtt_offset, &size);
- 
- 	/* KISS and expect everything to be page-aligned */
- 	if (WARN_ON(size == 0) ||
-@@ -709,14 +717,14 @@ i915_gem_object_create_stolen_for_preallocated(struct drm_i915_private *i915,
- 	ret = drm_mm_reserve_node(&i915->mm.stolen, stolen);
- 	mutex_unlock(&i915->mm.stolen_lock);
- 	if (ret) {
--		DRM_DEBUG_DRIVER("failed to allocate stolen space\n");
-+		drm_dbg(&i915->drm, "failed to allocate stolen space\n");
- 		kfree(stolen);
- 		return ERR_PTR(ret);
- 	}
- 
- 	obj = __i915_gem_object_create_stolen(mem, stolen);
- 	if (IS_ERR(obj)) {
--		DRM_DEBUG_DRIVER("failed to allocate stolen object\n");
-+		drm_dbg(&i915->drm, "failed to allocate stolen object\n");
- 		i915_gem_stolen_remove_node(i915, stolen);
- 		kfree(stolen);
- 		return obj;
-@@ -746,7 +754,7 @@ i915_gem_object_create_stolen_for_preallocated(struct drm_i915_private *i915,
- 				   size, gtt_offset, obj->cache_level,
- 				   0);
- 	if (ret) {
--		DRM_DEBUG_DRIVER("failed to allocate stolen GTT space\n");
-+		drm_dbg(&i915->drm, "failed to allocate stolen GTT space\n");
- 		mutex_unlock(&ggtt->vm.mutex);
- 		goto err_pages;
- 	}
 -- 
 2.17.1
 
