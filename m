@@ -2,38 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93D2A1458E7
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 16:39:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F8541458E9
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 16:39:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 566AE6F592;
-	Wed, 22 Jan 2020 15:39:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 298F26F591;
+	Wed, 22 Jan 2020 15:39:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00EFA6F590;
- Wed, 22 Jan 2020 15:39:04 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 22 Jan 2020 07:32:56 -0800
-X-IronPort-AV: E=Sophos;i="5.70,350,1574150400"; d="scan'208";a="400039753"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 22 Jan 2020 07:32:52 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Sean Paul <sean@poorly.run>,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
-Subject: Re: [Intel-gfx] [ [PATCH v2 01/10] drm/print: introduce new struct
- drm_device based WARN* macros
-In-Reply-To: <CAMavQK+aXO5VMAwCu4jBbah6MkubnO+sUxd+av0A_=Ld_A9kzQ@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200115034455.17658-1-pankaj.laxminarayan.bharadiya@intel.com>
- <20200115034455.17658-2-pankaj.laxminarayan.bharadiya@intel.com>
- <CAMavQK+aXO5VMAwCu4jBbah6MkubnO+sUxd+av0A_=Ld_A9kzQ@mail.gmail.com>
-Date: Wed, 22 Jan 2020 17:32:49 +0200
-Message-ID: <87blqvecbi.fsf@intel.com>
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
+ [IPv6:2607:f8b0:4864:20::d43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 653A46F591
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 15:39:52 +0000 (UTC)
+Received: by mail-io1-xd43.google.com with SMTP id z8so7085124ioh.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 07:39:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=LPYMn23CRSFn9FsOGZ7gK4asj7UBREvKz/DGAe11fPc=;
+ b=RyiQn2S8ruDG+XtGvObpDYV9vu9w0E58M95EKgXIYYDw3yggczNST3pomddcxI3e5N
+ qFev6c2QX1/BRcbgzyHZ4+CYA4/WCAtFwDzML2WXoePqPCSirJR6ICxgtGFzM6tpa3z2
+ MaPM2+Hzr1Yljed371ODQ34ocLwuqCclh5QLS/7jzne8GqwhDaR4A6PEz4hNy0IxnX/H
+ p4IdYxCjjhOuHvvJSbsCQb4NtXgbEaH1foiNPL4C2ALZav8OE15gIXonWiS5rjlTaY6K
+ aiBEN1wpp+rFDbxS9XrZauwj66o/8OBeb8Ap5ID/7QA6HhharRcCljgJwK2jV9QI+UVc
+ rXLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=LPYMn23CRSFn9FsOGZ7gK4asj7UBREvKz/DGAe11fPc=;
+ b=sCsd02Eg3daiyyPttO/0FgzvjEzlnRRABbA9bDwhBuSDKpcdMEsWF9kGFf3z+pHJUC
+ sWSnhhvgV/DvpT+XKn5dqNEUCdsv0jEyvN7w4w5AW+SPnbSSlPtw/QwJwe44nxg1Qf/G
+ +Tc4rWhghw3E3wLs91/o8Bas4C9cB4D3uuZJ8IIACK9RrSxKYq52MnCHKjp5MoTe/OoH
+ m4OnMrf6LBBnt5tTjQIuYq2ONvZgrucl/zzf5q80sOX5mnyfelCdfx3EtlBqHTssLD56
+ 0LDNoP52rMdSDMSBlYCeoX5BgbURUCD3XWTKshCvkZ+V/n1HZOT5DmCdani+r5EFhF0L
+ GSng==
+X-Gm-Message-State: APjAAAWXEX0R56ISKZb5p1iPsNy8t1dmOMvHQHTtMOBDrnX2eoIs7TM8
+ m7IEhmnClW+vXvEEqgPGTufxeSooh4jS02j5jK19dQ==
+X-Google-Smtp-Source: APXvYqxAxS2CI9/d/sldMCQqGwDAJn9VbNJWNWBDGVEUCaxn0o75SVMwDB5QnEMReXW5IEMAMcbDpmf7Ymppok/EA4o=
+X-Received: by 2002:a02:4e46:: with SMTP id r67mr7641640jaa.118.1579707591669; 
+ Wed, 22 Jan 2020 07:39:51 -0800 (PST)
 MIME-Version: 1.0
+References: <20200114172155.215463-1-sean@poorly.run>
+ <20200116062722.GA8400@dvetter-linux.ger.corp.intel.com>
+ <20200120135621.34346e38@gandalf.local.home>
+ <20200122080650.GM43062@phenom.ffwll.local>
+In-Reply-To: <20200122080650.GM43062@phenom.ffwll.local>
+From: Sean Paul <sean@poorly.run>
+Date: Wed, 22 Jan 2020 10:39:15 -0500
+Message-ID: <CAMavQKKByEeG=i95nccVQDLNUjKFO+rkcGMSv0hG_SyyZvv6Pw@mail.gmail.com>
+Subject: Re: [PATCH v4] drm/trace: Buffer DRM logs in a ringbuffer accessible
+ via debugfs
+To: Daniel Vetter <daniel@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,100 +64,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- sudeep.dutt@intel.com, dri-devel <dri-devel@lists.freedesktop.org>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Sean Paul <seanpaul@chromium.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Steven Rostedt <rostedt@goodmis.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 22 Jan 2020, Sean Paul <sean@poorly.run> wrote:
-> On Tue, Jan 14, 2020 at 10:49 PM Pankaj Bharadiya
-> <pankaj.laxminarayan.bharadiya@intel.com> wrote:
->>
->> Add new struct drm_device based WARN* macros. These are modeled after
->> the core kernel device based WARN* macros. These would be preferred
->> over the regular WARN* macros, where possible.
->>
->> These macros include device information in the backtrace, so we know
->> what device the warnings originate from.
->>
->> Knowing the device specific information in the backtrace would be
->> helpful in development all around.
->>
->> Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
+On Wed, Jan 22, 2020 at 3:06 AM Daniel Vetter <daniel@ffwll.ch> wrote:
 >
-> Acked-by: Sean Paul <sean@poorly.run>
-
-Maarten and Maxime also provided their acks on IRC. Thanks for the
-review and acks, I've pushed this to a topic branch, sent the pull
-request for drm-misc-next [1], and pulled the same to
-drm-intel-next-queued [2] to unblock further work there.
-
-BR,
-Jani.
-
-
-[1] http://lore.kernel.org/r/87eevrecnf.fsf@intel.com
-[2] 7c7d5b1ce739 ("Merge tag 'topic/drm-warn-2020-01-22' of git://anongit.freedesktop.org/drm/drm-intel into drm-intel-next-queued")
-
-
-
+> On Mon, Jan 20, 2020 at 01:56:21PM -0500, Steven Rostedt wrote:
+> > On Thu, 16 Jan 2020 07:27:22 +0100
+> > Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > > On Tue, Jan 14, 2020 at 12:21:43PM -0500, Sean Paul wrote:
+> > > > From: Sean Paul <seanpaul@chromium.org>
+> > > >
+> > > > This patch uses a ring_buffer to keep a "flight recorder" (name credit Weston)
+> > > > of DRM logs for a specified set of debug categories. The user writes a
+> > > > bitmask of debug categories to the "trace_mask" node and can read log
+> > > > messages from the "trace" node.
+> > > >
+> > > > These nodes currently exist in debugfs under the dri directory. I
+> > > > intended on exposing all of this through tracefs originally, but the
+> > > > tracefs entry points are not exposed, so there's no way to create
+> > > > tracefs files from drivers at the moment. I think it would be a
+> > > > worthwhile endeavour, but one requiring more time and conversation to
+> > > > ensure the drm traces fit somewhere sensible.
+> > >
+> > > Hm, since the idea is to ship this in production environments debugfs is
+> > > out. sysfs is also kinda the wrong thing, so maybe trying to get this
+> > > stuffed into tracefs is actually the way to go?
+> > >
+> >
+> > Why not use normal tracepoints and the tracing infrastructure? You can
+> > add your own instance as rasdaemon does, which isn't affected by other
+> > tracing. There's code now to even create these instances and enable and
+> > disable events from within the kernel.
+> >
+> >   https://lore.kernel.org/lkml/1574276919-11119-1-git-send-email-divya.indi@oracle.com/
 >
->> ---
->>  include/drm/drm_print.h | 29 +++++++++++++++++++++++++++++
->>  1 file changed, 29 insertions(+)
->>
->> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
->> index 8f99d389792d..894a0b9437e2 100644
->> --- a/include/drm/drm_print.h
->> +++ b/include/drm/drm_print.h
->> @@ -553,4 +553,33 @@ void __drm_err(const char *format, ...);
->>  #define DRM_DEBUG_PRIME_RATELIMITED(fmt, ...)                          \
->>         DRM_DEV_DEBUG_PRIME_RATELIMITED(NULL, fmt, ##__VA_ARGS__)
->>
->> +/*
->> + * struct drm_device based WARNs
->> + *
->> + * drm_WARN*() acts like WARN*(), but with the key difference of
->> + * using device specific information so that we know from which device
->> + * warning is originating from.
->> + *
->> + * Prefer drm_device based drm_WARN* over regular WARN*
->> + */
->> +
->> +/* Helper for struct drm_device based WARNs */
->> +#define drm_WARN(drm, condition, format, arg...)                       \
->> +       WARN(condition, "%s %s: " format,                               \
->> +                       dev_driver_string((drm)->dev),                  \
->> +                       dev_name((drm)->dev), ## arg)
->> +
->> +#define drm_WARN_ONCE(drm, condition, format, arg...)                  \
->> +       WARN_ONCE(condition, "%s %s: " format,                          \
->> +                       dev_driver_string((drm)->dev),                  \
->> +                       dev_name((drm)->dev), ## arg)
->> +
->> +#define drm_WARN_ON(drm, x)                                            \
->> +       drm_WARN((drm), (x), "%s",                                      \
->> +                "drm_WARN_ON(" __stringify(x) ")")
->> +
->> +#define drm_WARN_ON_ONCE(drm, x)                                       \
->> +       drm_WARN_ONCE((drm), (x), "%s",                                 \
->> +                     "drm_WARN_ON_ONCE(" __stringify(x) ")")
->> +
->>  #endif /* DRM_PRINT_H_ */
->> --
->> 2.23.0
->>
->> _______________________________________________
->> Intel-gfx mailing list
->> Intel-gfx@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> Hm, without looking at the details this indeed seems like the thing we
+> want ... Sean?
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Ohh indeed, I think we could make this work. Thanks for the pointer, Steven!
+
+The only item that needs sorting is: how does userspace select which
+debug events are traced. I think we could solve both with another
+module parameter to sit beside drm.debug with the same semantics (call
+it drm.trace)?
+
+
+Sean
+
+> -Daniel
+>
+> >
+> > As this is tracefs, you can mount it without even compiling in debugfs.
+> >
+> > -- Steve
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
