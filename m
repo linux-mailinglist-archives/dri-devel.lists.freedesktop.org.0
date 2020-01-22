@@ -1,44 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45270145B7B
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 19:22:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E37A1145BB5
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 19:48:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D16CB6F634;
-	Wed, 22 Jan 2020 18:22:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A6186F64D;
+	Wed, 22 Jan 2020 18:47:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5640D6F634
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 18:22:22 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206231] R9 280X low performance with all games
-Date: Wed, 22 Jan 2020 18:22:21 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: kentosama@whiteninjastudio.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-206231-2300-7SD4w5sTHP@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-206231-2300@https.bugzilla.kernel.org/>
-References: <bug-206231-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D35066F64D
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 18:47:56 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 22 Jan 2020 10:44:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,350,1574150400"; d="scan'208";a="284680527"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by fmsmga001.fm.intel.com with SMTP; 22 Jan 2020 10:44:42 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 22 Jan 2020 20:44:41 +0200
+Date: Wed, 22 Jan 2020 20:44:41 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Lyude Paul <lyude@redhat.com>
+Subject: Re: [PATCH 2/2] drm/dp_mst: Fix clearing payload state on topology
+ disable
+Message-ID: <20200122184441.GE13686@intel.com>
+References: <20200117224749.128994-1-lyude@redhat.com>
+ <20200117224749.128994-2-lyude@redhat.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200117224749.128994-2-lyude@redhat.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,26 +49,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Wayne Lin <Wayne.Lin@amd.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=206231
+On Fri, Jan 17, 2020 at 05:47:49PM -0500, Lyude Paul wrote:
+> The issues caused by:
+> =
 
---- Comment #25 from Jacques Belosoukinski (kentosama@whiteninjastudio.com) ---
-I tried to compile the kernel "amd-staging-drm-next" but it's a horror, nothing
-works during compilation.
+> 64e62bdf04ab ("drm/dp_mst: Remove VCPI while disabling topology mgr")
+> =
 
-I just tried Dirt Rally which a Vulkan game, the performance is not good. I get
-an average of 30 fps at the benchmark result while the game is supposed to run
-at 60 fps in ultra setting.
+> Prompted me to take a closer look at how we clear the payload state in
+> general when disabling the topology, and it turns out there's actually
+> two subtle issues here.
+> =
 
-Could changing distrbution help?
+> The first is that we're not grabbing &mgr.payload_lock when clearing the
+> payloads in drm_dp_mst_topology_mgr_set_mst(). Seeing as the canonical
+> lock order is &mgr.payload_lock -> &mgr.lock (because we always want
+> &mgr.lock to be the inner-most lock so topology validation always
+> works), this makes perfect sense. It also means that -technically- there
+> could be racing between someone calling
+> drm_dp_mst_topology_mgr_set_mst() to disable the topology, along with a
+> modeset occurring that's modifying the payload state at the same time.
+> =
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+> The second is the more obvious issue that Wayne Lin discovered, that
+> we're not clearing proposed_payloads when disabling the topology.
+> =
+
+> I actually can't see any obvious places where the racing caused by the
+> first issue would break something, and it could be that some of our
+> higher-level locks already prevent this by happenstance, but better safe
+> then sorry. So, let's make it so that drm_dp_mst_topology_mgr_set_mst()
+> first grabs &mgr.payload_lock followed by &mgr.lock so that we never
+> race when modifying the payload state. Then, we also clear
+> proposed_payloads to fix the original issue of enabling a new topology
+> with a dirty payload state. This doesn't clear any of the drm_dp_vcpi
+> structures, but those are getting destroyed along with the ports anyway.
+> =
+
+> Cc: Sean Paul <sean@poorly.run>
+> Cc: Wayne Lin <Wayne.Lin@amd.com>
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> ---
+>  drivers/gpu/drm/drm_dp_mst_topology.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> =
+
+> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_=
+dp_mst_topology.c
+> index 89c2a7505cbd..58287f4c1baf 100644
+> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> @@ -3483,6 +3483,7 @@ int drm_dp_mst_topology_mgr_set_mst(struct drm_dp_m=
+st_topology_mgr *mgr, bool ms
+>  	int ret =3D 0;
+>  	struct drm_dp_mst_branch *mstb =3D NULL;
+>  =
+
+> +	mutex_lock(&mgr->payload_lock);
+>  	mutex_lock(&mgr->lock);
+>  	if (mst_state =3D=3D mgr->mst_state)
+>  		goto out_unlock;
+> @@ -3541,7 +3542,10 @@ int drm_dp_mst_topology_mgr_set_mst(struct drm_dp_=
+mst_topology_mgr *mgr, bool ms
+>  		/* this can fail if the device is gone */
+>  		drm_dp_dpcd_writeb(mgr->aux, DP_MSTM_CTRL, 0);
+>  		ret =3D 0;
+> -		memset(mgr->payloads, 0, mgr->max_payloads * sizeof(struct drm_dp_payl=
+oad));
+> +		memset(mgr->payloads, 0,
+> +		       mgr->max_payloads * sizeof(struct drm_dp_payload));
+> +		memset(mgr->proposed_vcpis, 0,
+> +		       mgr->max_payloads * sizeof(void*));
+
+void* is an odd choice.
+
+sizeof(foo[0]) would be more future proof (for both of these).
+
+Also might be a good idea to update the docs to mention
+max_payloads defines the size of these arrays.
+
+>  		mgr->payload_mask =3D 0;
+>  		set_bit(0, &mgr->payload_mask);
+>  		mgr->vcpi_mask =3D 0;
+> @@ -3550,6 +3554,7 @@ int drm_dp_mst_topology_mgr_set_mst(struct drm_dp_m=
+st_topology_mgr *mgr, bool ms
+>  =
+
+>  out_unlock:
+>  	mutex_unlock(&mgr->lock);
+> +	mutex_unlock(&mgr->payload_lock);
+>  	if (mstb)
+>  		drm_dp_mst_topology_put_mstb(mstb);
+>  	return ret;
+> -- =
+
+> 2.24.1
+> =
+
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
