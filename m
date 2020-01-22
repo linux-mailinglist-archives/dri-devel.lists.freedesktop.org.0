@@ -1,39 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9DF3144863
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 00:39:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 138851448FE
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 01:37:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67AEC6EE62;
-	Tue, 21 Jan 2020 23:39:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9196D6EB6B;
+	Wed, 22 Jan 2020 00:37:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C3426E356;
- Tue, 21 Jan 2020 23:38:58 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 21 Jan 2020 15:38:57 -0800
-X-IronPort-AV: E=Sophos;i="5.70,347,1574150400"; d="scan'208";a="220128817"
-Received: from ideak-desk.fi.intel.com ([10.237.72.183])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 21 Jan 2020 15:38:56 -0800
-Date: Wed, 22 Jan 2020 01:38:52 +0200
-From: Imre Deak <imre.deak@intel.com>
-To: Eric Engestrom <eric.engestrom@intel.com>
-Subject: Re: [PATCH libdrm] intel: drm_intel_bo_gem_create_from_* on
- platforms w/o HW tiling
-Message-ID: <20200121233852.GA11178@ideak-desk.fi.intel.com>
-References: <20200120164343.2262-1-imre.deak@intel.com>
- <20200121224048.f7b2kckdjqebnyhi@intel.com>
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91BA36EAD5;
+ Wed, 22 Jan 2020 00:37:44 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 482RM46tSvz9sRG;
+ Wed, 22 Jan 2020 11:37:35 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1579653461;
+ bh=PJKoeTUvZRzpyMSjdbuqjPU1o/xVBju6xZV9Su82U4I=;
+ h=Date:From:To:Cc:Subject:From;
+ b=DDz18igmUVSn515Aej90Gx/ujacrBQr1pEcvCH05DJCJwjmhp7HfRi2cgwMV5HHCv
+ EQRM6C9dMOEkQf70YVIArOilurLNRcPk2SrxjrrcjGcGQHU+z4rkvhvv8kNs6z4Eur
+ fvueZ3ogcWcW6nzl/9KZDhSCWWy+19hOwy2zftvpbsLnYfkxBCKxRKGCzKwLV9s6aP
+ DGW3pG1tVVRLtaleJ9oDc9cXqpJmqVBqNLbMb45/Bd6BS1u1nbrc36OgYAqmYEsYGe
+ zRXHDAG2nKcSAo418EjsbJfdYZoH7Z9U8o9kGhDI+Bmh+IwYWMS83Wc68Tdwx41c53
+ att7JtWEr8CNw==
+Date: Wed, 22 Jan 2020 11:37:31 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
+ <dri-devel@lists.freedesktop.org>
+Subject: linux-next: manual merge of the drm tree with the drm-intel-fixes tree
+Message-ID: <20200122113731.4566ffda@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200121224048.f7b2kckdjqebnyhi@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,127 +50,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Matthew Auld <matthew.auld@intel.com>
+Content-Type: multipart/mixed; boundary="===============1816041697=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 21, 2020 at 10:40:48PM +0000, Eric Engestrom wrote:
-> On Monday, 2020-01-20 18:43:43 +0200, Imre Deak wrote:
-> > Platforms without a HW detiler doesn't support the get_tiling IOCTL.
-> > Fix the drm_intel_bo_gem_create_from_* functions assuming the default
-> > no-tiling, no-swizzling setting for the GEM buffer in this case.
-> > 
-> > Signed-off-by: Imre Deak <imre.deak@intel.com>
-> > ---
-> >  intel/intel_bufmgr_gem.c | 42 +++++++++++++++++++++++++---------------
-> >  1 file changed, 26 insertions(+), 16 deletions(-)
-> > 
-> > diff --git a/intel/intel_bufmgr_gem.c b/intel/intel_bufmgr_gem.c
-> > index fbf48730..fc249ef1 100644
-> > --- a/intel/intel_bufmgr_gem.c
-> > +++ b/intel/intel_bufmgr_gem.c
-> > @@ -1069,6 +1069,27 @@ check_bo_alloc_userptr(drm_intel_bufmgr *bufmgr,
-> >  					  tiling_mode, stride, size, flags);
-> >  }
-> >  
-> > +static int get_tiling_mode(drm_intel_bufmgr_gem *bufmgr_gem,
-> > +			   uint32_t gem_handle,
-> > +			   uint32_t *tiling_mode,
-> > +			   uint32_t *swizzle_mode)
-> > +{
-> > +	struct drm_i915_gem_get_tiling get_tiling;
-> > +	int ret;
-> > +
-> > +	memclear(get_tiling);
-> > +	ret = drmIoctl(bufmgr_gem->fd,
-> > +		       DRM_IOCTL_I915_GEM_GET_TILING,
-> > +		       &get_tiling);
-> 
-> You're missing `get_tiling.handle = gem_handle;`
+--===============1816041697==
+Content-Type: multipart/signed; boundary="Sig_/Y+gwNNIz3WOk7KKp./fX9p.";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-Err, thanks for catching that, will resend fixing it.
+--Sig_/Y+gwNNIz3WOk7KKp./fX9p.
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-> Or better yet, just initialise `get_tiling` and get rid of the memclear():
->   struct drm_i915_gem_get_tiling get_tiling = {
->     .handle = gem_handle,
->   };
-> 
-> With either fix:
-> Reviewed-by: Eric Engestrom <eric@engestrom.ch>
-> 
-> FYI, I've posted the following MR for the equivalent Mesa changes:
-> https://gitlab.freedesktop.org/mesa/mesa/merge_requests/3497
-> 
-> > +	if (ret != 0 && errno != EOPNOTSUPP)
-> > +		return ret;
-> > +
-> > +	*tiling_mode = get_tiling.tiling_mode;
-> > +	*swizzle_mode = get_tiling.swizzle_mode;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  /**
-> >   * Returns a drm_intel_bo wrapping the given buffer object handle.
-> >   *
-> > @@ -1084,7 +1105,6 @@ drm_intel_bo_gem_create_from_name(drm_intel_bufmgr *bufmgr,
-> >  	drm_intel_bo_gem *bo_gem;
-> >  	int ret;
-> >  	struct drm_gem_open open_arg;
-> > -	struct drm_i915_gem_get_tiling get_tiling;
-> >  
-> >  	/* At the moment most applications only have a few named bo.
-> >  	 * For instance, in a DRI client only the render buffers passed
-> > @@ -1146,16 +1166,11 @@ drm_intel_bo_gem_create_from_name(drm_intel_bufmgr *bufmgr,
-> >  	HASH_ADD(name_hh, bufmgr_gem->name_table,
-> >  		 global_name, sizeof(bo_gem->global_name), bo_gem);
-> >  
-> > -	memclear(get_tiling);
-> > -	get_tiling.handle = bo_gem->gem_handle;
-> > -	ret = drmIoctl(bufmgr_gem->fd,
-> > -		       DRM_IOCTL_I915_GEM_GET_TILING,
-> > -		       &get_tiling);
-> > +	ret = get_tiling_mode(bufmgr_gem, bo_gem->gem_handle,
-> > +			      &bo_gem->tiling_mode, &bo_gem->swizzle_mode);
-> >  	if (ret != 0)
-> >  		goto err_unref;
-> >  
-> > -	bo_gem->tiling_mode = get_tiling.tiling_mode;
-> > -	bo_gem->swizzle_mode = get_tiling.swizzle_mode;
-> >  	/* XXX stride is unknown */
-> >  	drm_intel_bo_gem_set_in_aperture_size(bufmgr_gem, bo_gem, 0);
-> >  	DBG("bo_create_from_handle: %d (%s)\n", handle, bo_gem->name);
-> > @@ -2634,7 +2649,6 @@ drm_intel_bo_gem_create_from_prime(drm_intel_bufmgr *bufmgr, int prime_fd, int s
-> >  	int ret;
-> >  	uint32_t handle;
-> >  	drm_intel_bo_gem *bo_gem;
-> > -	struct drm_i915_gem_get_tiling get_tiling;
-> >  
-> >  	pthread_mutex_lock(&bufmgr_gem->lock);
-> >  	ret = drmPrimeFDToHandle(bufmgr_gem->fd, prime_fd, &handle);
-> > @@ -2688,15 +2702,11 @@ drm_intel_bo_gem_create_from_prime(drm_intel_bufmgr *bufmgr, int prime_fd, int s
-> >  	bo_gem->has_error = false;
-> >  	bo_gem->reusable = false;
-> >  
-> > -	memclear(get_tiling);
-> > -	get_tiling.handle = bo_gem->gem_handle;
-> > -	if (drmIoctl(bufmgr_gem->fd,
-> > -		     DRM_IOCTL_I915_GEM_GET_TILING,
-> > -		     &get_tiling))
-> > +	ret = get_tiling_mode(bufmgr_gem, handle,
-> > +			      &bo_gem->tiling_mode, &bo_gem->swizzle_mode);
-> > +	if (ret)
-> >  		goto err;
-> >  
-> > -	bo_gem->tiling_mode = get_tiling.tiling_mode;
-> > -	bo_gem->swizzle_mode = get_tiling.swizzle_mode;
-> >  	/* XXX stride is unknown */
-> >  	drm_intel_bo_gem_set_in_aperture_size(bufmgr_gem, bo_gem, 0);
-> >  
+Hi all,
+
+Today's linux-next merge of the drm tree got a conflict in:
+
+  drivers/gpu/drm/i915/i915_gem_gtt.c
+
+between commit:
+
+  ecc4d2a52df6 ("drm/i915/userptr: fix size calculation")
+
+from the drm-intel-fixes tree and commit:
+
+  2c86e55d2ab5 ("drm/i915/gtt: split up i915_gem_gtt")
+
+from the drm tree.
+
+I fixed it up (I used the latter version of the file and applied teh
+following merge fix patch) and can carry the fix as necessary. This is
+now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your
+tree is submitted for merging.  You may also want to consider
+cooperating with the maintainer of the conflicting tree to minimise any
+particularly complex conflicts.
+
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+Date: Wed, 22 Jan 2020 11:33:32 +1100
+Subject: [PATCH] fix up for "drm/i915/userptr: fix size calculation"
+
+Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+---
+ drivers/gpu/drm/i915/gt/gen6_ppgtt.c | 1 +
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c b/drivers/gpu/drm/i915/gt=
+/gen6_ppgtt.c
+index f10b2c41571c..f4fec7eb4064 100644
+--- a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
++++ b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
+@@ -131,6 +131,7 @@ static void gen6_ppgtt_insert_entries(struct i915_addre=
+ss_space *vm,
+=20
+ 	vaddr =3D kmap_atomic_px(i915_pt_entry(pd, act_pt));
+ 	do {
++		GEM_BUG_ON(iter.sg->length < I915_GTT_PAGE_SIZE);
+ 		vaddr[act_pte] =3D pte_encode | GEN6_PTE_ADDR_ENCODE(iter.dma);
+=20
+ 		iter.dma +=3D I915_GTT_PAGE_SIZE;
+diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/gt=
+/gen8_ppgtt.c
+index 077b8f7cf6cb..4d1de2d97d5c 100644
+--- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
++++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+@@ -379,6 +379,7 @@ gen8_ppgtt_insert_pte(struct i915_ppgtt *ppgtt,
+ 	pd =3D i915_pd_entry(pdp, gen8_pd_index(idx, 2));
+ 	vaddr =3D kmap_atomic_px(i915_pt_entry(pd, gen8_pd_index(idx, 1)));
+ 	do {
++		GEM_BUG_ON(iter->sg->length < I915_GTT_PAGE_SIZE);
+ 		vaddr[gen8_pd_index(idx, 0)] =3D pte_encode | iter->dma;
+=20
+ 		iter->dma +=3D I915_GTT_PAGE_SIZE;
+--=20
+2.24.0
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/Y+gwNNIz3WOk7KKp./fX9p.
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl4nmUsACgkQAVBC80lX
+0GyF+AgAntdfWyi+nWURGuUwXk/YgnDc0blPdAG4t5WCRt1+nMpn6MbILg3Tj3hX
+crgqIf/d0wuINZOzejwOF1ITIRDVfefqy2WzCAPfhnp3xEhcQViZy7dzjj7ywEYD
+LL27MO4rFnXObNpm/a1ShFZBPaU4Rzapug32308BQQlLLwX1X6fWaq4UiQJd3OK2
+sJrbqfbgBVRWsPhWi4MlfqVsKFQXOCTTN5To69sPHtggtWVTdLT7ezT6NZ+aulLz
+rm3mhaf7bX6dpyRp7lpwg8yJ2As4BqbKm7lKg1P+91qCeja+Z/41E44AmUWgTZVg
+MF54Hk2pkeMNc1wgSl4UwOvmUZ8x0g==
+=jspa
+-----END PGP SIGNATURE-----
+
+--Sig_/Y+gwNNIz3WOk7KKp./fX9p.--
+
+--===============1816041697==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1816041697==--
