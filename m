@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 925AD144D81
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 09:23:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB5C6144D64
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 09:22:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 567D36F42A;
-	Wed, 22 Jan 2020 08:22:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 280E16FAE3;
+	Wed, 22 Jan 2020 08:21:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from olimex.com (olimex.com [184.105.72.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D4116F382
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 06:26:33 +0000 (UTC)
-Received: from 94.155.250.134 ([94.155.250.134]) by olimex.com with ESMTPSA
- (ECDHE-RSA-AES128-GCM-SHA256:TLSv1.2:Kx=ECDH:Au=RSA:Enc=AESGCM(128):Mac=AEAD)
- (SMTP-AUTH username stefan@olimex.com, mechanism PLAIN)
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2020 22:26:28 -0800
-Subject: Re: [PATCH v2 2/2] drm: sun4i: hdmi: Add support for sun4i HDMI
- encoder audio
-To: Maxime Ripard <mripard@kernel.org>, Stefan Mavrodiev <stefan@olimex.com>
-References: <20200120123326.30743-1-stefan@olimex.com>
- <20200120123326.30743-3-stefan@olimex.com>
- <20200121182905.pxs72ojqx5fz2gi3@gilmour.lan>
-From: Stefan Mavrodiev <stefan@olimex.com>
-Message-ID: <7be957d3-9f04-f71c-3e63-910b0145a8cd@olimex.com>
-Date: Wed, 22 Jan 2020 08:26:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3710C6F3A2;
+ Wed, 22 Jan 2020 07:46:07 +0000 (UTC)
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 3B4837DF36E01906D82C;
+ Wed, 22 Jan 2020 15:46:03 +0800 (CST)
+Received: from huawei.com (10.90.53.225) by DGGEMS407-HUB.china.huawei.com
+ (10.3.19.207) with Microsoft SMTP Server id 14.3.439.0; Wed, 22 Jan 2020
+ 15:45:53 +0800
+From: Zheng Bin <zhengbin13@huawei.com>
+To: <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
+ <David1.Zhou@amd.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/amd/powerplay: use true,
+ false for bool variable in smu7_hwmgr.c
+Date: Wed, 22 Jan 2020 15:53:11 +0800
+Message-ID: <1579679591-116290-1-git-send-email-zhengbin13@huawei.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <20200121182905.pxs72ojqx5fz2gi3@gilmour.lan>
-Content-Language: en-US
+X-Originating-IP: [10.90.53.225]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Wed, 22 Jan 2020 08:21:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,177 +43,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-sunxi@googlegroups.com,
- Vinod Koul <vkoul@kernel.org>,
- "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" <dmaengine@vger.kernel.org>,
- Dan Williams <dan.j.williams@intel.com>,
- "moderated list:ARM/Allwinner sunXi SoC support"
- <linux-arm-kernel@lists.infradead.org>
+Cc: zhengbin13@huawei.com
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: zhengbin <zhengbin13@huawei.com>
 
-On 1/21/20 8:29 PM, Maxime Ripard wrote:
-> +Mark
->
-> On Mon, Jan 20, 2020 at 02:33:26PM +0200, Stefan Mavrodiev wrote:
->> Add HDMI audio support for the sun4i-hdmi encoder, used on
->> the older Allwinner chips - A10, A20, A31.
->>
->> Most of the code is based on the BSP implementation. In it
->> dditional formats are supported (S20_3LE and S24_LE), however
->> there where some problems with them and only S16_LE is left.
-> What are those problems?
-It was all noise. Guess it's some byte alignment issue, but
-I didn't manage to solve it.
->
->> Signed-off-by: Stefan Mavrodiev <stefan@olimex.com>
->> ---
->> +static int sun4i_hdmi_audio_probe(struct platform_device *pdev)
->> +{
->> +	struct snd_soc_card *card = &sun4i_hdmi_audio_card;
->> +	struct snd_soc_dai_link_component *comp;
->> +	struct snd_soc_dai_link *link;
->> +	struct device *dev = &pdev->dev;
->> +	struct sun4i_hdmi_audio *priv;
->> +	int ret;
->> +
->> +	ret = devm_snd_dmaengine_pcm_register(dev,
->> +					      &sun4i_hdmi_audio_pcm_config, 0);
->> +	if (ret) {
->> +		dev_err(dev, "Failed registering PCM DMA component\n");
->> +		return ret;
->> +	}
->> +
->> +	ret = devm_snd_soc_register_component(dev,
->> +					      &sun4i_hdmi_audio_component,
->> +					      &sun4i_hdmi_audio_dai, 1);
->> +	if (ret) {
->> +		dev_err(dev, "Failed registering DAI component\n");
->> +		return ret;
->> +	}
->> +
->> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
->> +	if (!priv)
->> +		return -ENOMEM;
->> +
->> +	priv->hdmi = dev->parent;
->> +	dev->of_node = dev->parent->of_node;
->> +
->> +	link = devm_kzalloc(dev, sizeof(*link), GFP_KERNEL);
->> +	if (!link)
->> +		return -ENOMEM;
->> +
->> +	comp = devm_kzalloc(dev, sizeof(*comp) * 3, GFP_KERNEL);
->> +	if (!comp)
->> +		return -ENOMEM;
->> +
->> +	link->cpus = &comp[0];
->> +	link->codecs = &comp[1];
->> +	link->platforms = &comp[2];
->> +
->> +	link->num_cpus = 1;
->> +	link->num_codecs = 1;
->> +	link->num_platforms = 1;
->> +
->> +	link->playback_only = 1;
->> +
->> +	link->name = "SUN4I-HDMI";
->> +	link->stream_name = "SUN4I-HDMI PCM";
->> +
->> +	link->codecs->name = dev_name(dev);
->> +	link->codecs->dai_name	= sun4i_hdmi_audio_dai.name;
->> +
->> +	link->cpus->dai_name = dev_name(dev);
->> +
->> +	link->platforms->name = dev_name(dev);
->> +
->> +	link->dai_fmt = SND_SOC_DAIFMT_I2S;
->> +
->> +	card->dai_link = link;
->> +	card->num_links = 1;
->> +	card->dev = dev;
->> +
->> +	snd_soc_card_set_drvdata(card, priv);
->> +	return devm_snd_soc_register_card(dev, card);
->> +}
->> +
->> +static int sun4i_hdmi_audio_remove(struct platform_device *pdev)
->> +{
->> +	return 0;
->> +}
->> +
->> +static struct platform_driver sun4i_hdmi_audio_driver = {
->> +	.probe	= sun4i_hdmi_audio_probe,
->> +	.remove	= sun4i_hdmi_audio_remove,
->> +	.driver	= {
->> +		.name = DRIVER_NAME,
->> +	},
->> +};
->> +module_platform_driver(sun4i_hdmi_audio_driver);
->> +
->> +MODULE_AUTHOR("Stefan Mavrodiev <stefan@olimex.com");
->> +MODULE_DESCRIPTION("Allwinner A10 HDMI Audio driver");
->> +MODULE_LICENSE("GPL v2");
->> +MODULE_ALIAS("platform:" DRIVER_NAME);
-> Sorry if I wasn't clear enough in the previous mail, I didn't suggest
-> to do a driver, this will open another can of worm (as kbuild already
-> pointed out), but to create a new device, and pass that new device to
-> ASoC's functions.
+Fixes coccicheck warning:
 
-The problem here is that I used sunxi_defconfig instead of the arch
-defconfig during testing. The difference is that in "our" config the
-modules are built-in and thus there is no module_init.
+drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c:723:2-50: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c:733:3-52: WARNING: Assignment of 0/1 to bool variable
+drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c:747:3-51: WARNING: Assignment of 0/1 to bool variable
 
-However I've managed to get it working in v3 (it's not submitted
-yet).
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: zhengbin <zhengbin13@huawei.com>
+---
+ drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-I've added separate entry in the Kconfig of type bool. This is to
-manage the SND_SOC dependency. The current patch will fail if
-SND_SOC=m and SUN4I_HDMI=y for example.
+diff --git a/drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c b/drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c
+index d70abad..bf04cfe 100644
+--- a/drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c
++++ b/drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c
+@@ -720,7 +720,7 @@ static int smu7_setup_dpm_tables_v0(struct pp_hwmgr *hwmgr)
+ 		data->dpm_table.vddc_table.dpm_levels[i].value = allowed_vdd_mclk_table->entries[i].v;
+ 		data->dpm_table.vddc_table.dpm_levels[i].param1 = std_voltage_table->entries[i].Leakage;
+ 		/* param1 is for corresponding std voltage */
+-		data->dpm_table.vddc_table.dpm_levels[i].enabled = 1;
++		data->dpm_table.vddc_table.dpm_levels[i].enabled = true;
+ 	}
 
-Then I've dropped this as it's useless:
+ 	data->dpm_table.vddc_table.count = allowed_vdd_sclk_table->count;
+@@ -730,7 +730,7 @@ static int smu7_setup_dpm_tables_v0(struct pp_hwmgr *hwmgr)
+ 		/* Initialize Vddci DPM table based on allow Mclk values */
+ 		for (i = 0; i < allowed_vdd_mclk_table->count; i++) {
+ 			data->dpm_table.vddci_table.dpm_levels[i].value = allowed_vdd_mclk_table->entries[i].v;
+-			data->dpm_table.vddci_table.dpm_levels[i].enabled = 1;
++			data->dpm_table.vddci_table.dpm_levels[i].enabled = true;
+ 		}
+ 		data->dpm_table.vddci_table.count = allowed_vdd_mclk_table->count;
+ 	}
+@@ -744,7 +744,7 @@ static int smu7_setup_dpm_tables_v0(struct pp_hwmgr *hwmgr)
+ 		 */
+ 		for (i = 0; i < allowed_vdd_mclk_table->count; i++) {
+ 			data->dpm_table.mvdd_table.dpm_levels[i].value = allowed_vdd_mclk_table->entries[i].v;
+-			data->dpm_table.mvdd_table.dpm_levels[i].enabled = 1;
++			data->dpm_table.mvdd_table.dpm_levels[i].enabled = true;
+ 		}
+ 		data->dpm_table.mvdd_table.count = allowed_vdd_mclk_table->count;
+ 	}
+--
+2.7.4
 
-> +module_platform_driver(sun4i_hdmi_audio_driver);
-> +
-> +MODULE_AUTHOR("Stefan Mavrodiev <stefan@olimex.com");
-> +MODULE_DESCRIPTION("Allwinner A10 HDMI Audio driver");
-> +MODULE_LICENSE("GPL v2");
-> +MODULE_ALIAS("platform:" DRIVER_NAME);
-In sun4i_hdmi_enc.c I've added __init and __exit
-functions where I register/unregister the additional platform_driver.
-Thus we get 2 platform drivers from one module, which is not something
-uncommon.
-
-If you like this approach I can submit v3.
-
->
-> I tried that, and failed, so I guess it's not an option either.
->
-> Mark, our issue here is that we have a driver tied to a device that is
-> an HDMI encoder. Obviously, we'll want to register into DRM, which is
-> what we were doing so far, with the usual case where at remove /
-> unbind time, in order to free the resources, we just retrieve our
-> pointer to our private structure using the device's drvdata.
->
-> Now, snd_soc_register_card also sets that pointer to the card we try
-> to register, which is problematic. It seems that it's used to handle
-> suspend / resume automatically, which in this case would be also not
-> really fit for us (or rather, we would need to do more that just
-> suspend the audio part).
->
-> Is there anyway we can have that kind of setup? I believe vc4 is in a
-> similar situation, but they worked around it by storing the data they
-> want to access in a global pointer, but that only works for one device
-> which doesn't really suit us either.
->
-> Any suggestions?
-> Thanks!
-> Maxime
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
