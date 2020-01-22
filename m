@@ -2,36 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70160144E79
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 10:16:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A18D144EA3
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 10:27:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F6BD6E4C4;
-	Wed, 22 Jan 2020 09:16:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 967DB6F43A;
+	Wed, 22 Jan 2020 09:27:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EB5C6E4C4;
- Wed, 22 Jan 2020 09:16:43 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 22 Jan 2020 01:16:43 -0800
-X-IronPort-AV: E=Sophos;i="5.70,349,1574150400"; d="scan'208";a="215840368"
-Received: from mlblandf-mobl2.amr.corp.intel.com (HELO localhost)
- ([10.252.37.232])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 22 Jan 2020 01:16:38 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Lyude Paul <lyude@redhat.com>, intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v4] drm/i915: Don't use VBT for detecting DPCD backlight
- controls
-In-Reply-To: <20200117232155.135579-1-lyude@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200116211623.53799-5-lyude@redhat.com>
- <20200117232155.135579-1-lyude@redhat.com>
-Date: Wed, 22 Jan 2020 11:17:32 +0200
-Message-ID: <87lfpzj1eb.fsf@intel.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F0306F43A
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 09:27:23 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id CAEAC28F6BA;
+ Wed, 22 Jan 2020 09:27:21 +0000 (GMT)
+Date: Wed, 22 Jan 2020 10:27:19 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v3 18/21] drm/bridge: panel: Propage bus format/flags
+Message-ID: <20200122102719.1149f6f6@collabora.com>
+In-Reply-To: <20191203101730.GP4730@pendragon.ideasonboard.com>
+References: <20191023154512.9762-1-boris.brezillon@collabora.com>
+ <20191023154512.9762-19-boris.brezillon@collabora.com>
+ <20191203101730.GP4730@pendragon.ideasonboard.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,88 +42,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, AceLan Kao <acelan.kao@canonical.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Perry Yuan <pyuan@redhat.com>,
- Lee Shawn C <shawn.c.lee@intel.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, dri-devel@lists.freedesktop.org,
+ Thierry Reding <thierry.reding@gmail.com>, kernel@collabora.com,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Chris Healy <cphealy@gmail.com>,
+ devicetree@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
+ Rob Herring <robh+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 17 Jan 2020, Lyude Paul <lyude@redhat.com> wrote:
-> Despite the fact that the VBT appears to have a field for specifying
-> that a system is equipped with a panel that supports standard VESA
-> backlight controls over the DP AUX channel, so far every system we've
-> spotted DPCD backlight control support on doesn't actually set this
-> field correctly and all have it set to INTEL_BACKLIGHT_DISPLAY_DDI.
->
-> While we don't know the exact reason for this VBT misuse, talking with
-> some vendors indicated that there's a good number of laptop panels out
-> there that supposedly support both PWM backlight controls and DPCD
-> backlight controls as a workaround until Intel supports DPCD backlight
-> controls across platforms universally. This being said, the X1 Extreme
-> 2nd Gen that I have here (note that Lenovo is not the hardware vendor
-> that informed us of this) PWM backlight controls are advertised, but
-> only DPCD controls actually function. I'm going to make an educated
-> guess here and say that on systems like this one, it's likely that PWM
-> backlight controls might have been intended to work but were never
-> really tested by QA.
->
-> Since we really need backlights to work without any extra module
-> parameters, let's take the risk here and rely on the standard DPCD caps
-> to tell us whether AUX backlight controls are supported or not. We still
-> check the VBT, just so we can print a debugging message on systems that
-> advertise DPCD backlight support on the panel but not in the VBT.
->
-> Changes since v3:
-> * Print a debugging message if we enable DPCD backlight control on a
->   device which doesn't report DPCD backlight controls in it's VBT,
->   instead of warning on custom panel backlight interfaces.
->
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> Bugzilla: https://bugs.freedesktop.org/show_bug.cgi?id=112376
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: Perry Yuan <pyuan@redhat.com>
-> Cc: AceLan Kao <acelan.kao@canonical.com>
+Hi Laurent,
 
-Thanks for the patch, pushed to dinq, fingers crossed! ;)
+Sorry for the late reply.
 
-BR,
-Jani.
+On Tue, 3 Dec 2019 12:17:30 +0200
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
 
-> ---
->  drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> index 77a759361c5c..0f8edc775375 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> @@ -328,15 +328,16 @@ intel_dp_aux_display_control_capable(struct intel_connector *connector)
->  int intel_dp_aux_init_backlight_funcs(struct intel_connector *intel_connector)
->  {
->  	struct intel_panel *panel = &intel_connector->panel;
-> -	struct drm_i915_private *dev_priv = to_i915(intel_connector->base.dev);
-> +	enum intel_backlight_type type =
-> +		to_i915(intel_connector->base.dev)->vbt.backlight.type;
->  
->  	if (i915_modparams.enable_dpcd_backlight == 0 ||
->  	    (i915_modparams.enable_dpcd_backlight == -1 &&
-> -	    dev_priv->vbt.backlight.type != INTEL_BACKLIGHT_VESA_EDP_AUX_INTERFACE))
-> +	     !intel_dp_aux_display_control_capable(intel_connector)))
->  		return -ENODEV;
->  
-> -	if (!intel_dp_aux_display_control_capable(intel_connector))
-> -		return -ENODEV;
-> +	if (type != INTEL_BACKLIGHT_VESA_EDP_AUX_INTERFACE)
-> +		DRM_DEBUG_DRIVER("Ignoring VBT backlight type\n");
->  
->  	panel->backlight.setup = intel_dp_aux_setup_backlight;
->  	panel->backlight.enable = intel_dp_aux_enable_backlight;
+> Hi Boris,
+> 
+> Thank you for the patch.
+> 
+> On Wed, Oct 23, 2019 at 05:45:09PM +0200, Boris Brezillon wrote:
+> > So that the previous bridge element in the chain knows which input
+> > format the panel bridge expects.
+> > 
+> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > ---
+> > Changes in v3:
+> > * Adjust things to match the new bus-format negotiation approach
+> > * Use drm_atomic_helper_bridge_propagate_bus_fmt
+> > * Don't implement ->atomic_check() (the core now takes care of bus
+> >   flags propagation)
+> > 
+> > Changes in v2:
+> > * Adjust things to match the new bus-format negotiation approach
+> > ---
+> >  drivers/gpu/drm/bridge/panel.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
+> > index f4e293e7cf64..a70c363a2bd0 100644
+> > --- a/drivers/gpu/drm/bridge/panel.c
+> > +++ b/drivers/gpu/drm/bridge/panel.c
+> > @@ -127,6 +127,7 @@ static const struct drm_bridge_funcs panel_bridge_bridge_funcs = {
+> >  	.enable = panel_bridge_enable,
+> >  	.disable = panel_bridge_disable,
+> >  	.post_disable = panel_bridge_post_disable,
+> > +	.atomic_get_input_bus_fmts = drm_atomic_helper_bridge_propagate_bus_fmt,  
+> 
+> Shouldn't the format be retrieved from the panel instead of from the
+> connector ? We're moving towards removing connector creation from
+> bridges, so I think it would be more future-proof.
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Right now the panel bus_format is not exposed by the drm_panel
+abstraction (only panel_simple have access to this information through
+their panel_desc). I'd rather not add new things to this series so I'm
+in favor of keeping the current implementation, but I add this idea
+(expose bus format through the drm_panel abstraction) to my TODO list.
+
+Thanks,
+
+Boris
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
