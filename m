@@ -1,37 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F107F145902
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 16:50:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC31A14591F
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 16:56:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 241F76F5A5;
-	Wed, 22 Jan 2020 15:50:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D77226F5B4;
+	Wed, 22 Jan 2020 15:56:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 864A26F5A5;
- Wed, 22 Jan 2020 15:50:45 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 22 Jan 2020 07:50:44 -0800
-X-IronPort-AV: E=Sophos;i="5.70,350,1574150400"; d="scan'208";a="215943488"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 22 Jan 2020 07:50:42 -0800
-From: Jani Nikula <jani.nikula@intel.com>
+Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C0446F5B0;
+ Wed, 22 Jan 2020 15:56:44 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from haswell.alporthouse.com (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP id 19972698-1500050 
+ for multiple; Wed, 22 Jan 2020 15:56:37 +0000
+From: Chris Wilson <chris@chris-wilson.co.uk>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 2/2] drm/debugfs: also take per device driver features into
- account
-Date: Wed, 22 Jan 2020 17:50:30 +0200
-Message-Id: <20200122155030.29304-2-jani.nikula@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200122155030.29304-1-jani.nikula@intel.com>
-References: <20200122155030.29304-1-jani.nikula@intel.com>
+Subject: [PATCH] drm: Release filp before global lock
+Date: Wed, 22 Jan 2020 15:56:37 +0000
+Message-Id: <20200122155637.496291-1-chris@chris-wilson.co.uk>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,32 +36,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VXNlIGRybV9jb3JlX2NoZWNrX2FsbF9mZWF0dXJlcygpIHRvIGVuc3VyZSBib3RoIHRoZSBkcml2
-ZXIgZmVhdHVyZXMgYW5kCnRoZSBwZXItZGV2aWNlIGRyaXZlciBmZWF0dXJlcyBhcmUgdGFrZW4g
-aW50byBhY2NvdW50IHdoZW4gcmVnaXN0ZXJpbmcKZGVidWdmcyBmaWxlcy4KCnYyOgotIHVzZSBk
-cm1fY29yZV9jaGVja19hbGxfZmVhdHVyZXMoKQoKQ2M6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUu
-c3lyamFsYUBsaW51eC5pbnRlbC5jb20+CkNjOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1h
-bm5Ac3VzZS5kZT4KU2lnbmVkLW9mZi1ieTogSmFuaSBOaWt1bGEgPGphbmkubmlrdWxhQGludGVs
-LmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX2RlYnVnZnMuYyB8IDUgKy0tLS0KIDEgZmls
-ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgNCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9k
-cml2ZXJzL2dwdS9kcm0vZHJtX2RlYnVnZnMuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZGVidWdm
-cy5jCmluZGV4IGVhYjBmMjY4N2NkNi4uMGM3MGI0YjIyYzhhIDEwMDY0NAotLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vZHJtX2RlYnVnZnMuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2RlYnVnZnMu
-YwpAQCAtMTgwLDEwICsxODAsNyBAQCBpbnQgZHJtX2RlYnVnZnNfY3JlYXRlX2ZpbGVzKGNvbnN0
-IHN0cnVjdCBkcm1faW5mb19saXN0ICpmaWxlcywgaW50IGNvdW50LAogCWludCBpOwogCiAJZm9y
-IChpID0gMDsgaSA8IGNvdW50OyBpKyspIHsKLQkJdTMyIGZlYXR1cmVzID0gZmlsZXNbaV0uZHJp
-dmVyX2ZlYXR1cmVzOwotCi0JCWlmIChmZWF0dXJlcyAhPSAwICYmCi0JCSAgICAoZGV2LT5kcml2
-ZXItPmRyaXZlcl9mZWF0dXJlcyAmIGZlYXR1cmVzKSAhPSBmZWF0dXJlcykKKwkJaWYgKCFkcm1f
-Y29yZV9jaGVja19hbGxfZmVhdHVyZXMoZGV2LCBmaWxlc1tpXS5kcml2ZXJfZmVhdHVyZXMpKQog
-CQkJY29udGludWU7CiAKIAkJdG1wID0ga21hbGxvYyhzaXplb2Yoc3RydWN0IGRybV9pbmZvX25v
-ZGUpLCBHRlBfS0VSTkVMKTsKLS0gCjIuMjAuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVsCg==
+The file is not part of the global drm resource and can be released
+prior to take the global mutex to drop the open_count (and potentially
+close) the drm device.
+
+However, inside drm_close_helper() there are a number of dev->driver
+callbacks that take the drm_device as the first parameter... Worryingly
+some of those callbacks may be (implicitly) depending on the global
+mutex.
+
+Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+---
+ drivers/gpu/drm/drm_file.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+index 92d16724f949..84ed313ee2e9 100644
+--- a/drivers/gpu/drm/drm_file.c
++++ b/drivers/gpu/drm/drm_file.c
+@@ -438,12 +438,12 @@ int drm_release(struct inode *inode, struct file *filp)
+ 	struct drm_minor *minor = file_priv->minor;
+ 	struct drm_device *dev = minor->dev;
+ 
+-	mutex_lock(&drm_global_mutex);
+-
+ 	DRM_DEBUG("open_count = %d\n", dev->open_count);
+ 
+ 	drm_close_helper(filp);
+ 
++	mutex_lock(&drm_global_mutex);
++
+ 	if (!--dev->open_count)
+ 		drm_lastclose(dev);
+ 
+-- 
+2.25.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
