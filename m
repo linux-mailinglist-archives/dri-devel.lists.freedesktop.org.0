@@ -2,64 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26657145E78
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 23:24:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5467145EE6
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 00:00:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3233A6F91C;
-	Wed, 22 Jan 2020 22:24:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E5C86F924;
+	Wed, 22 Jan 2020 23:00:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ste-pvt-msa2.bahnhof.se (ste-pvt-msa2.bahnhof.se
- [213.80.101.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B83C36F91C
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 22:24:00 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTP id B1EB03FAC2;
- Wed, 22 Jan 2020 23:23:58 +0100 (CET)
-Authentication-Results: ste-pvt-msa2.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=mni8ERxr; 
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
- autolearn=ham autolearn_force=no
-Authentication-Results: ste-ftg-msa2.bahnhof.se (amavisd-new);
- dkim=pass (1024-bit key) header.d=shipmail.org
-Received: from ste-pvt-msa2.bahnhof.se ([127.0.0.1])
- by localhost (ste-ftg-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id h2CEO6-a3GMQ; Wed, 22 Jan 2020 23:23:54 +0100 (CET)
-Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
- [155.4.205.35]) (Authenticated sender: mb878879)
- by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id 0F0693F9A3;
- Wed, 22 Jan 2020 23:23:52 +0100 (CET)
-Received: from localhost.localdomain (h-205-35.A357.priv.bahnhof.se
- [155.4.205.35])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 49AD8360057;
- Wed, 22 Jan 2020 23:23:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1579731832; bh=KBnnEy4+mqkvgMutng5IFBJWda7jJHzqxz+JFAKWvsg=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=mni8ERxrz4DSpS+23Nfe0vR8PoSmedfN1V55URPPU7S4eZ6/BEDNun9YSTWO2Jy31
- ZdmVXdzL3G9L1ULp/Uj774MS+pVR1v/27bWPUrpkCyFPfkTs7nZQiAu28G7/eRsSJy
- YCxyeN03F02Fe3EmSTPkVCPdXPUdLivJAw3O2xR8=
-Subject: Re: [PATCH] drm: Release filp before global lock
-To: Chris Wilson <chris@chris-wilson.co.uk>, dri-devel@lists.freedesktop.org
-References: <20200122155637.496291-1-chris@chris-wilson.co.uk>
- <d5facf06-14d6-0203-f43c-22400588ab70@shipmail.org>
- <157973043337.15024.17688241519297504558@skylake-alporthouse-com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28VMware=29?= <thomas_os@shipmail.org>
-Organization: VMware Inc.
-Message-ID: <50e74be7-20dc-b4b3-1e1b-eae68f5d05f3@shipmail.org>
-Date: Wed, 22 Jan 2020 23:23:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+Received: from mail-yw1-xc2d.google.com (mail-yw1-xc2d.google.com
+ [IPv6:2607:f8b0:4864:20::c2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C2486F923
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 23:00:50 +0000 (UTC)
+Received: by mail-yw1-xc2d.google.com with SMTP id v126so636467ywc.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 15:00:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=AzYz4egvav0esFkZ4BUy2lRzavIwB8v3jHypg9I93nc=;
+ b=PcWEXUpqj0wFRetSDSV+rQpnGOg8LwMJfPo0YfMiB/wwwWXRXGA39NY0qA4crqD2wS
+ BDMR8QCl6+UczpRKXFClcMKqEZwjj2ZlVULMhGmfa+jRKk7y78L5saQ+pbXd8eL+Qgt9
+ 8ndrsy6idRQ+NlQNZl3mF0BKv+Y5Gmr0PiyuUPGhXplzVRdON23Qd4gg131ztv6dMPFd
+ z0MwRXjPD51yuoz52IaG5fA2JgWsqiOEOrO75f6SynzDmWCEa0vra7wS8dTmal25EsFV
+ 1Q+sclO3syhU7Y9b0j9KvI1DITr1SunB8gpPpxgaQEzxG+bidAeT/jZcKh+Xu0j/f2nA
+ sj3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=AzYz4egvav0esFkZ4BUy2lRzavIwB8v3jHypg9I93nc=;
+ b=TI4StO4M9pR49cNhB7yhyHXj3n+BhvXnD/+Ti7sgFhB8BmZ8hUAXAmLNUstqxQThH9
+ ck3VDXZpF+w9Vajb7XmlQXXk9eBAL/9eKHUe8NqamVxOPziffD487ZGnXdDjBhvWgPqg
+ Yt8Qf6cWU/VPnJADweQiPTuvS7kCiaUfJS2F+5R5cdRr2zfQfQSfsLG8rhLsqVQdfneG
+ taF2HtNmGJm54+wMidrDnrYJe+DD36GaDlo9eoCGQ5mxtwk9W+5NPkDvWA4fVoqUq+Pn
+ PMWVI1kUCHQwrPMC7UeoTuUZgybF8jtkfoRd2JF4sDXT9rHlj+BL+w2XzeSrvjfvC1vY
+ z7EQ==
+X-Gm-Message-State: APjAAAWQmw2mSlMpw1vb0sCzo+DTYxPXriLhJNpgotk53yOLS900dTrq
+ +jyhztcBUKpSCaHb9/35EaUi0fs655STJNAixvWBC9hNLOk=
+X-Google-Smtp-Source: APXvYqx9YZoZqd0EYcFOugy3Bqj7Wtnr7faEXD5f9lSdR5MJ5dC+ijII8zNRAC1i3muL3aikx7v7kPSt51dEQtExF38=
+X-Received: by 2002:a81:9e0f:: with SMTP id m15mr3589603ywj.407.1579734049307; 
+ Wed, 22 Jan 2020 15:00:49 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <157973043337.15024.17688241519297504558@skylake-alporthouse-com>
-Content-Language: en-US
+From: Ben Skeggs <skeggsb@gmail.com>
+Date: Thu, 23 Jan 2020 09:00:38 +1000
+Message-ID: <CACAvsv51mZaRuT5R=VhbKSTPzd15L4FbDiPQ+wsF+C23c_fOAQ@mail.gmail.com>
+Subject: [PULL] nouveau-next 5.6 fixes
+To: ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Dave Airlie <airlied@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,49 +58,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMS8yMi8yMCAxMTowMCBQTSwgQ2hyaXMgV2lsc29uIHdyb3RlOgo+IFF1b3RpbmcgVGhvbWFz
-IEhlbGxzdHLDtm0gKFZNd2FyZSkgKDIwMjAtMDEtMjIgMjE6NTI6MjMpCj4+IEhpLCBDaHJpcywK
-Pj4KPj4gT24gMS8yMi8yMCA0OjU2IFBNLCBDaHJpcyBXaWxzb24gd3JvdGU6Cj4+PiBUaGUgZmls
-ZSBpcyBub3QgcGFydCBvZiB0aGUgZ2xvYmFsIGRybSByZXNvdXJjZSBhbmQgY2FuIGJlIHJlbGVh
-c2VkCj4+PiBwcmlvciB0byB0YWtlIHRoZSBnbG9iYWwgbXV0ZXggdG8gZHJvcCB0aGUgb3Blbl9j
-b3VudCAoYW5kIHBvdGVudGlhbGx5Cj4+PiBjbG9zZSkgdGhlIGRybSBkZXZpY2UuCj4+Pgo+Pj4g
-SG93ZXZlciwgaW5zaWRlIGRybV9jbG9zZV9oZWxwZXIoKSB0aGVyZSBhcmUgYSBudW1iZXIgb2Yg
-ZGV2LT5kcml2ZXIKPj4+IGNhbGxiYWNrcyB0aGF0IHRha2UgdGhlIGRybV9kZXZpY2UgYXMgdGhl
-IGZpcnN0IHBhcmFtZXRlci4uLiBXb3JyeWluZ2x5Cj4+PiBzb21lIG9mIHRob3NlIGNhbGxiYWNr
-cyBtYXkgYmUgKGltcGxpY2l0bHkpIGRlcGVuZGluZyBvbiB0aGUgZ2xvYmFsCj4+PiBtdXRleC4K
-Pj4gSSByZWFkIHRoaXMgYXMgeW91IHN1c3BlY3QgdGhhdCB0aGVyZSBhcmUgZHJpdmVyIGNhbGxi
-YWNrcyBpbnNpZGUKPj4gZHJtX2Nsb3NlX2hlbHBlcigpIHRoYXQgbWlnaHQgbmVlZCB0aGUgZ2xv
-YmFsIG11dGV4IGhlbGQ/IEJ1dCB0aGVuIGl0Cj4+IHdvdWxkbid0IGJlIHNhZmUgdG8gbW92ZSB0
-aGUgbG9jaz8gSXMgdGhlcmUgYSBzdHJvbmcgbW90aXZhdGlvbiBmb3IKPj4gbW92aW5nIHRoZSBs
-b2NraW5nIGluIHRoZSBmaXJzdCBwbGFjZT8gQWxzbyBhIG1pbm9yIG5pdCBiZWxvdzoKPiBUaGUg
-bnVtYmVyIG9mIHByb2Nlc3NlcyBzdHVjayBvbiAnRCcgZHVlIHRvIG11dGV4X2xvY2soJmdsb2Jh
-bCkgY2F1Z2h0IG15Cj4gYXR0ZW50aW9uIHdoaWxlIHRoZXkgd2VyZSBjbGVhbmluZyB1cCBmaWxl
-cy4gSSB0aGluayBldmVyeW9uZSBlbHNlIHdpbGwKPiBiZSBsZXNzIGltcHJlc3NlZCBpZiB0aGVp
-ciBkcml2ZXIgd2FzIHN0dWNrIGJlY2F1c2UgaTkxNSB3YXMgZnJlZWluZyBhCj4gdXNlcidzIGZp
-bHAuCgpVbmRlcnN0b29kLiBQZXJoYXBzIGEgc2hvcnQgbW90aXZhdGlvbiBpbiB0aGUgbG9nIG1l
-c3NhZ2U/Cgo+Pj4gU2lnbmVkLW9mZi1ieTogQ2hyaXMgV2lsc29uIDxjaHJpc0BjaHJpcy13aWxz
-b24uY28udWs+Cj4+PiAtLS0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fZmlsZS5jIHwgNCAr
-Ky0tCj4+PiAgICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygt
-KQo+Pj4KPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZpbGUuYyBiL2RyaXZl
-cnMvZ3B1L2RybS9kcm1fZmlsZS5jCj4+PiBpbmRleCA5MmQxNjcyNGY5NDkuLjg0ZWQzMTNlZTJl
-OSAxMDA2NDQKPj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmlsZS5jCj4+PiArKysgYi9k
-cml2ZXJzL2dwdS9kcm0vZHJtX2ZpbGUuYwo+Pj4gQEAgLTQzOCwxMiArNDM4LDEyIEBAIGludCBk
-cm1fcmVsZWFzZShzdHJ1Y3QgaW5vZGUgKmlub2RlLCBzdHJ1Y3QgZmlsZSAqZmlscCkKPj4+ICAg
-ICAgICBzdHJ1Y3QgZHJtX21pbm9yICptaW5vciA9IGZpbGVfcHJpdi0+bWlub3I7Cj4+PiAgICAg
-ICAgc3RydWN0IGRybV9kZXZpY2UgKmRldiA9IG1pbm9yLT5kZXY7Cj4+PiAgICAKPj4+IC0gICAg
-IG11dGV4X2xvY2soJmRybV9nbG9iYWxfbXV0ZXgpOwo+Pj4gLQo+Pj4gICAgICAgIERSTV9ERUJV
-Rygib3Blbl9jb3VudCA9ICVkXG4iLCBkZXYtPm9wZW5fY291bnQpOwo+PiBUaGUgcmVhZCBvZiBk
-ZXYtPm9wZW5fY291bnQgc2hvdWxkIHN0aWxsIGJlIGluc2lkZSB0aGUgbG9jayB0byBiZQo+PiBj
-b25zaXN0ZW50IHdpdGggdGhlIHZhbHVlIHRoYXQgaXMgZGVjcmVtZW50ZWQgYmVsb3cuIFBlcmhh
-cHMgbW92ZSB0aGUKPj4gRFJNX0RFQlVHKCk/Cj4gU3VyZS4gSXMgaXQgZXZlbiB3b3J0aCBhIGRl
-YnVnPwoKUHJvYmFibHkgYW4gb2xkIHJlbGljLiBJJ20gZmluZSB3aXRoIGxldHRpbmcgaXQgZ28u
-CgpUaGFua3MsCgpUaG9tYXMKCgoKPiAtQ2hyaXMKCgpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWwK
+Hey Dave,
+
+Just a couple of fixes to GP10x ACR support after the work, and a
+(fairly severe if you're running piglit a lot) memory leak fix.
+
+Ben.
+
+The following changes since commit afa3b96b058d87c2c44d1c83dadb2ba6998d03ce:
+
+  drm/nouveau/gr/tu10x: initial support (2020-01-15 10:50:30 +1000)
+
+are available in the Git repository at:
+
+  git://github.com/skeggsb/linux linux-5.6
+
+for you to fetch changes up to ee8642162a9edd40daafd3fb894e3fd3f909e361:
+
+  drm/nouveau: fix build error without CONFIG_IOMMU_API (2020-01-23
+08:56:51 +1000)
+
+----------------------------------------------------------------
+Ben Skeggs (1):
+      drm/nouveau/mmu: fix comptag memory leak
+
+Chen Zhou (1):
+      drm/nouveau: fix build error without CONFIG_IOMMU_API
+
+Thierry Reding (2):
+      drm/nouveau/pmu/gm20b,gp10b: Fix Falcon bootstrapping
+      drm/nouveau/gr/gp10b: Use gp100_grctx and gp100_gr_zbc
+
+YueHaibing (2):
+      drm/nouveau/kms/nv50: remove set but not unused variable 'nv_connector'
+      drm/nouveau/kms/nv04: remove set but not used variable 'width'
+
+ drivers/gpu/drm/nouveau/Kconfig                 | 1 +
+ drivers/gpu/drm/nouveau/dispnv04/arb.c          | 3 +--
+ drivers/gpu/drm/nouveau/dispnv50/disp.c         | 2 --
+ drivers/gpu/drm/nouveau/nvkm/core/memory.c      | 2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.h  | 1 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gp100.c  | 2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gp10b.c  | 4 ++--
+ drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gm20b.c | 9 +++++++--
+ drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp10b.c | 9 +++++++--
+ 9 files changed, 21 insertions(+), 12 deletions(-)
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
