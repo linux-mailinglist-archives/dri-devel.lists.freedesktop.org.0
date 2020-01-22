@@ -1,61 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60E4A144E2C
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 10:04:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4322C144E70
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 10:15:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA44D8991E;
-	Wed, 22 Jan 2020 09:04:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D6C56F409;
+	Wed, 22 Jan 2020 09:15:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7B328991E
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 09:04:09 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id a5so5973269wmb.0
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 01:04:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=9Q4FRwNx/JocClhIGe+6QCujENLgrh2wJ167L2g4zy4=;
- b=E4bSluBytPkj1awsfPRfyZGDEFNKVRugR9HvtPsLSYBvD44X8diTCIwhSONzDAYHlc
- e2wSSPwkjRZ+49IQC0jAXJc5Zrsa+Fi9pxlxTz/D5Wml1LTB6x07/zc7w8JYyGmpeRlm
- fMsIAXWgZaqQAqaaLxsaFikltGZOYF7XtDxJk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=9Q4FRwNx/JocClhIGe+6QCujENLgrh2wJ167L2g4zy4=;
- b=l4zWV3CuzTwDCvquI+ZoYAsD2BCdLKUSP2iG5j0qc3biv55/cMjjPeqnRikT/rfd6W
- BIDnggvrpTdBH9sV0P1UYIBRrXB9pzzTsJHiQkXgly+gPiGGpXSG5m1GfYvJqmCKjMTs
- hhKJxtBsDr5F4qSIPPMQwRW8gk+8QrAHMtcI6baqxB/3HNeK3mEMEww4mBehQ/3KY+Wo
- WmDAo/NzzUMjalXeHggOXmUzakeX/EsSRl+8/f4F6gbhsM4++WbT9USTkmKE0Y8AYUS8
- RFKfy+k7Ydm5WuMjkwBOZRf4KzZQgi9dqp7ililna2YbyVCB/ArCihSI0JuNAjA3IZK1
- s8OA==
-X-Gm-Message-State: APjAAAUiaJOhzzBs3IhwWaEvzxZgH7g6VYWnkvNW1DwjyFl/LTN49LjA
- OoQghP8qytjq/nEh4znjWaLqZqDDkTAPqQ==
-X-Google-Smtp-Source: APXvYqwlZ0Ge/3v4JUlon/sQ5WuD7yXn78aaTYfeCb+xAnnJAjk7qLTcItQG3KnEBIHESlQjZ6v6ow==
-X-Received: by 2002:a1c:9c4c:: with SMTP id f73mr1749016wme.125.1579683848353; 
- Wed, 22 Jan 2020 01:04:08 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z124sm3354211wmc.20.2020.01.22.01.04.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jan 2020 01:04:07 -0800 (PST)
-Date: Wed, 22 Jan 2020 10:04:05 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3 1/4] drm: Add drm_crtc_has_vblank()
-Message-ID: <20200122090405.GR43062@phenom.ffwll.local>
-References: <20200120122051.25178-1-tzimmermann@suse.de>
- <20200120122051.25178-2-tzimmermann@suse.de>
- <20200122083139.GP43062@phenom.ffwll.local>
- <3ad03b06-f9be-37c7-9cc7-044468cdf300@suse.de>
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDFC66F409
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 09:15:34 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00M9FMLM122955;
+ Wed, 22 Jan 2020 03:15:22 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1579684522;
+ bh=p6TXy9D8Jj5ZMAsUl92rse85KpLnXYI0D7il7xeObjo=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=uBtieWXwbpXSnRK/R3juokz75ZF07c3mFcuNzH5xfgGKpgBJPYDmetcojC/2gI9gN
+ 0VOEXTfL2++aG1uTJbYPyywW3QlkZZVZYsgZZaJUD4mknt6vWvHEYL0OY/TgmX2SW2
+ Ngi7YqDlsI0/rO0y0n5xfRIm29JqCAdjoS1cC6wk=
+Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00M9FM9x030906;
+ Wed, 22 Jan 2020 03:15:22 -0600
+Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Wed, 22
+ Jan 2020 03:15:22 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Wed, 22 Jan 2020 03:15:22 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00M9FJa9046831;
+ Wed, 22 Jan 2020 03:15:19 -0600
+Subject: Re: [PATCH 2/2] drm/bridge: Add tc358768 driver
+To: Andrzej Hajda <a.hajda@samsung.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <robh+dt@kernel.org>, <mark.rutland@arm.com>, <narmstrong@baylibre.com>
+References: <20191217101506.18910-1-peter.ujfalusi@ti.com>
+ <CGME20191217101520epcas1p4a2bdee0cab0c11670b74fbe9e9397835@epcas1p4.samsung.com>
+ <20191217101506.18910-3-peter.ujfalusi@ti.com>
+ <35d664fe-8091-2744-abf2-69828ebf1148@samsung.com>
+ <14306079-500d-09ca-df94-4cf72c43f858@ti.com>
+ <cdc941c5-681f-962b-7f99-ebfda6aaaa91@samsung.com>
+From: Peter Ujfalusi <peter.ujfalusi@ti.com>
+Message-ID: <e8774c16-c34c-adf8-fee5-17323dcd95bf@ti.com>
+Date: Wed, 22 Jan 2020 11:16:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <3ad03b06-f9be-37c7-9cc7-044468cdf300@suse.de>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+In-Reply-To: <cdc941c5-681f-962b-7f99-ebfda6aaaa91@samsung.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,189 +66,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: laurent.pinchart@ideasonboard.com, david@lechnology.com,
- oleksandr_andrushchenko@epam.com, airlied@linux.ie, sean@poorly.run,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- hdegoede@redhat.com, kraxel@redhat.com, xen-devel@lists.xenproject.org,
- sam@ravnborg.org, emil.velikov@collabora.com
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net, jonas@kwiboo.se,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ tomi.valkeinen@ti.com, Laurent.pinchart@ideasonboard.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 22, 2020 at 09:53:42AM +0100, Thomas Zimmermann wrote:
-> Hi
-> =
-
-> Am 22.01.20 um 09:31 schrieb Daniel Vetter:
-> > On Mon, Jan 20, 2020 at 01:20:48PM +0100, Thomas Zimmermann wrote:
-> >> The new interface drm_crtc_has_vblank() return true if vblanking has
-> >> been initialized for a certain CRTC, or false otherwise. This function
-> >> will be useful for initializing CRTC state.
-> >>
-> >> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> >> ---
-> >>  drivers/gpu/drm/drm_vblank.c | 21 +++++++++++++++++++++
-> >>  include/drm/drm_vblank.h     |  1 +
-> >>  2 files changed, 22 insertions(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank=
-.c
-> >> index 1659b13b178c..c20102899411 100644
-> >> --- a/drivers/gpu/drm/drm_vblank.c
-> >> +++ b/drivers/gpu/drm/drm_vblank.c
-> >> @@ -501,6 +501,27 @@ int drm_vblank_init(struct drm_device *dev, unsig=
-ned int num_crtcs)
-> >>  }
-> >>  EXPORT_SYMBOL(drm_vblank_init);
-> >>  =
-
-> >> +/**
-> >> + * drm_crtc_has_vblank - test if vblanking has been initialized for
-> >> + *                       a CRTC
-> >> + * @crtc: the CRTC
-> >> + *
-> >> + * Drivers may call this function to test if vblank support is
-> >> + * initialized for a CRTC. For most hardware this means that vblanking
-> >> + * can also be enabled on the CRTC.
-> >> + *
-> >> + * Returns:
-> >> + * True if vblanking has been initialized for the given CRTC, false
-> >> + * otherwise.
-> >> + */
-> >> +bool drm_crtc_has_vblank(const struct drm_crtc *crtc)
-> > =
-
-> > So making this specific to a CRTC sounds like a good idea. But it's not
-> > the reality, drm_vblank.c assumes that either everything or nothing
-> > supports vblanks.
-> > =
-
-> > The reason for dev->num_crtcs is historical baggage, it predates kms by=
- a
-> > few years. For kms drivers the only two valid values are either 0 or
-> > dev->mode_config.num_crtcs. Yes that's an entire different can of worms
-> > that's been irking me since forever (ideally drm_vblank_init would some=
-how
-> > loose the num_crtcs argument for kms drivers, but some drivers call this
-> > before they've done all the drm_crtc_init calls so it's complicated).
-> =
-
-> Maybe as a first step, drm_vblank_init() could use
-> dev->mode_config.num_crtcs if the supplied number of CRTCs is zero.
-> =
-
-> > =
-
-> > Hence drm_dev_has_vblank as I suggested. That would also allow you to
-> > replace a bunch of if (dev->num_crtcs) checks in drm_vblank.c, which
-> > should help quite a bit in code readability.
-> =
-
-> OK, but I still don't understand why this interface is better overall.
-> We don't loose anything by passing in the crtc instead of the device
-> structure. And if there's ever a per-crtc vblank initialization, we'd
-> have the interface in place already. The tests with "if
-> (dev->num_crtcs)" could probably be removed in most places in any case.
-
-You can't use it in drm_vblank.c code, because we only have the
-drm_device, not the drm_crtc (in most places at least). Your other patch
-series to deprecate the drm_device callbacks for vblanks is a huge step
-into the direction to fix that, but still more work needed: We'd
-essentially need to copypaste drm_vblank.c into drm_crtc_vblank.c for kms
-drivers, and in that copy switch from (dev, pipe) to crtc everywhere. Plus
-then move the drm_vblank structure into struct drm_crtc.
-
-Wrt removing the check: In a pile of cases it changes the return value,
-which matters both for vblank usage in helper code and the ioctl itself.
-From a quick look most of the checks that don't matter are already wrapped
-in a WARN.
-
-> We should also consider forking the vblank code for non-KMS drivers.
-> While working in this, I found the support for legacy drivers is getting
-> in the way at times. With such a fork, legacy drivers could continue
-> using struct drm_vblank_crtc, while modern drivers could maybe store
-> vblank state directly in struct drm_crtc.
-
-Hm if you want to do all that then the drm_crtc_has_vblank makes sense.
-But only after we've done the full split. So maybe make the public
-function drm_crtc_has_vblank, which calls the internal-only
-drm_has_vblank, and use that internally in drm_vblank.c?
-
-btw I still think a sub-struct for vblank stuff in drm_crtc makes sense,
-and drm_vblank_crtc seems to mostly fit the bill.
-
-That way we're at least not adding the the conversion pain of switching
-the vblank code over to drm_crtc fully.
-
-Thoughts?
--Daniel
-
-> Anyway, all this is for another patch. Unless you change your mind, I'll
-> replace drm_crtc_has_vblank() with drm_dev_has_vblank() for the
-> patchset's next iteration.
-> =
-
-> Best regards
-> Thomas
-> =
-
-> > =
-
-> > Cheers, Daniel
-> > =
-
-> >> +{
-> >> +	struct drm_device *dev =3D crtc->dev;
-> >> +
-> >> +	return crtc->index < dev->num_crtcs;
-> >> +}
-> >> +EXPORT_SYMBOL(drm_crtc_has_vblank);
-> >> +
-> >>  /**
-> >>   * drm_crtc_vblank_waitqueue - get vblank waitqueue for the CRTC
-> >>   * @crtc: which CRTC's vblank waitqueue to retrieve
-> >> diff --git a/include/drm/drm_vblank.h b/include/drm/drm_vblank.h
-> >> index c16c44052b3d..531a6bc12b7e 100644
-> >> --- a/include/drm/drm_vblank.h
-> >> +++ b/include/drm/drm_vblank.h
-> >> @@ -206,6 +206,7 @@ struct drm_vblank_crtc {
-> >>  };
-> >>  =
-
-> >>  int drm_vblank_init(struct drm_device *dev, unsigned int num_crtcs);
-> >> +bool drm_crtc_has_vblank(const struct drm_crtc *crtc);
-> >>  u64 drm_crtc_vblank_count(struct drm_crtc *crtc);
-> >>  u64 drm_crtc_vblank_count_and_time(struct drm_crtc *crtc,
-> >>  				   ktime_t *vblanktime);
-> >> -- =
-
-> >> 2.24.1
-> >>
-> > =
-
-> =
-
-> -- =
-
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-> (HRB 36809, AG N=FCrnberg)
-> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
-> =
-
-
-
-
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgQW5kcnplaiwKCk9uIDIyLzAxLzIwMjAgMTAuNDYsIEFuZHJ6ZWogSGFqZGEgd3JvdGU6Cj4+
+Pj4gK3N0cnVjdCB0YzM1ODc2OF9wcml2IHsKPj4+PiArCXN0cnVjdCBkZXZpY2UgKmRldjsKPj4+
+PiArCXN0cnVjdCByZWdtYXAgKnJlZ21hcDsKPj4+PiArCXN0cnVjdCBncGlvX2Rlc2MgKnJlc2V0
+X2dwaW87Cj4+Pj4gKwlzdHJ1Y3QgcmVndWxhdG9yX2J1bGtfZGF0YSBzdXBwbGllc1tBUlJBWV9T
+SVpFKHRjMzU4NzY4X3N1cHBsaWVzKV07Cj4+Pj4gKwlzdHJ1Y3QgY2xrICpyZWZjbGs7Cj4+Pj4g
+Kwo+Pj4+ICsJc3RydWN0IG1pcGlfZHNpX2hvc3QgZHNpX2hvc3Q7Cj4+Pj4gKwlzdHJ1Y3QgZHJt
+X2JyaWRnZSBicmlkZ2U7Cj4+Pj4gKwlzdHJ1Y3QgdGMzNTg3NjhfZHNpX291dHB1dCBvdXRwdXQ7
+Cj4+Pgo+Pj4gU2luY2UgdGMzNTg3NjhfZHNpX291dHB1dCBpcyB1c2VkIG9ubHkgaGVyZSwgeW91
+IGNhbiBkZWZpbmUgaXQgaGVyZSBhcwo+Pj4gd2VsbCwgdXAgdG8geW91Lgo+PiBJIHRoaW5rIEkg
+aGF2ZSBkb25lIGl0IGxpa2UgdGhpcyB0byBhdm9pZCB0aGlua2luZyBhYm91dCBwcmVmaXhlcyBm
+b3IKPj4gd2hhdCBpcyB1bmRlciB0aGUgdGMzNTg3NjhfZHNpX291dHB1dC4KPj4gSSdsbCB0YWtl
+IGEgbG9vayBpZiBpdCB3aWxsIGxvb2sgYmV0dGVyIHVucGFja2VkIGhlcmUuCj4gCj4gSSB0aG91
+Z2ggcmF0aGVyIGFib3V0IGluLXBsYWNlIGFub255bW91cyBzdHJ1Y3QgZGVmaW5pdGlvbjoKPiAK
+PiArwqDCoMKgIHN0cnVjdCB0YzM1ODc2OF9kc2lfb3V0cHV0IHsKPiArwqDCoMKgIMKgwqDCoCBz
+dHJ1Y3QgbWlwaV9kc2lfZGV2aWNlICpkZXY7Cj4gK8KgwqDCoCDCoMKgwqAgc3RydWN0IGRybV9w
+YW5lbCAqcGFuZWw7Cj4gK8KgwqDCoCDCoMKgwqAgc3RydWN0IGRybV9icmlkZ2UgKmJyaWRnZTsK
+PiArwqDCoMKgIH0gb3V0cHV0Owo+IAo+IEJ1dCwgYXMgSSBzYWlkIC0gdXAgdG8geW91LgoKSSBz
+ZWUuIEkgdGhpbmsgSSB3aWxsIGtlZXAgaG93IGl0IHdhcy4gVGhleSBhcmUgaW4gcHJveGltaXR5
+LCBzbyBlYXN5IHRvCmNoZWNrLgoKPj4+PiArCj4+Pj4gKwlyZWZjbGsgPSBjbGtfZ2V0X3JhdGUo
+cHJpdi0+cmVmY2xrKTsKPj4+PiArCj4+Pj4gKwliZXN0X2RpZmYgPSBVSU5UX01BWDsKPj4+PiAr
+CWJlc3RfcGxsID0gMDsKPj4+PiArCWJlc3RfcHJkID0gMDsKPj4+PiArCWJlc3RfZmJkID0gMDsK
+Pj4+PiArCj4+Pj4gKwlmb3IgKHByZCA9IDA7IHByZCA8IDE2OyArK3ByZCkgewo+Pj4+ICsJCXUz
+MiBkaXZpc29yID0gKHByZCArIDEpICogKDEgPDwgZnJzKTsKPj4+PiArCQl1MzIgZmJkOwo+Pj4+
+ICsKPj4+PiArCQlmb3IgKGZiZCA9IDA7IGZiZCA8IDUxMjsgKytmYmQpIHsKPj4+PiArCQkJdTMy
+IHBsbCwgZGlmZjsKPj4+PiArCj4+Pj4gKwkJCXBsbCA9ICh1MzIpZGl2X3U2NCgodTY0KXJlZmNs
+ayAqIChmYmQgKyAxKSwgZGl2aXNvcik7Cj4+Pj4gKwo+Pj4+ICsJCQlpZiAocGxsID49IG1heF9w
+bGwgfHwgcGxsIDwgbWluX3BsbCkKPj4+PiArCQkJCWNvbnRpbnVlOwo+Pj4+ICsKPj4+PiArCQkJ
+ZGlmZiA9IG1heChwbGwsIHRhcmdldF9wbGwpIC0gbWluKHBsbCwgdGFyZ2V0X3BsbCk7Cj4+Pj4g
+Kwo+Pj4+ICsJCQlpZiAoZGlmZiA8IGJlc3RfZGlmZikgewo+Pj4+ICsJCQkJYmVzdF9kaWZmID0g
+ZGlmZjsKPj4+PiArCQkJCWJlc3RfcGxsID0gcGxsOwo+Pj4+ICsJCQkJYmVzdF9wcmQgPSBwcmQ7
+Cj4+Pj4gKwkJCQliZXN0X2ZiZCA9IGZiZDsKPj4+PiArCQkJfQo+Pj4+ICsKPj4+PiArCQkJaWYg
+KGJlc3RfZGlmZiA9PSAwKQo+Pj4+ICsJCQkJYnJlYWs7Cj4+Pj4gKwkJfQo+Pj4+ICsKPj4+PiAr
+CQlpZiAoYmVzdF9kaWZmID09IDApCj4+Pj4gKwkJCWJyZWFrOwo+Pj4gd2h5IGFub3RoZXIgY2hl
+Y2sgaGVyZT8KPj4gVG8gYnJlYWsgb3V0IGZyb20gdGhlIHRvcCBmb3IoKSBsb29wIGFsc28gaW4g
+Y2FzZSBleGFjdCBtYXRjaCBoYXMgYmVlbgo+PiBmb3VuZC4KPiAKPiAKPiBBaGgsIE9LLiBTbyBt
+YXliZSB5b3Ugc2hvdWxkIHB1dCAiaWYgKGRpZmYgPT0gMCkgZ290byBmb3VuZCIgaW5zaWRlICJp
+Zgo+IChkaWZmIDwgYmVzdF9kaWZmKSIgYmxvY2ssIGluIHN1Y2ggY2FzZSBnb3RvIGlzIG5vdCBj
+b25zaWRlcmVkIGhhcm1mdWwKPiA6KSwgYW5kIGlzIG1vcmUgcmVhZGFibGUuCgpFeGFjdGx5IG15
+IHRob3VnaHRzIDspCgotIFDDqXRlcgoKVGV4YXMgSW5zdHJ1bWVudHMgRmlubGFuZCBPeSwgUG9y
+a2thbGFua2F0dSAyMiwgMDAxODAgSGVsc2lua2kuClktdHVubnVzL0J1c2luZXNzIElEOiAwNjE1
+NTIxLTQuIEtvdGlwYWlra2EvRG9taWNpbGU6IEhlbHNpbmtpCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
