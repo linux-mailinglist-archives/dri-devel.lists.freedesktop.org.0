@@ -2,36 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3A941459A7
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 17:22:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31963145B73
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 19:20:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33F5C6F5D9;
-	Wed, 22 Jan 2020 16:22:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FAB16F633;
+	Wed, 22 Jan 2020 18:20:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C06156F5D6;
- Wed, 22 Jan 2020 16:22:23 +0000 (UTC)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47FB26F633
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 18:20:26 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 22 Jan 2020 08:22:23 -0800
-X-IronPort-AV: E=Sophos;i="5.70,350,1574150400"; d="scan'208";a="220362495"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 22 Jan 2020 08:22:20 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>, daniel@ffwll.ch,
- sam@ravnborg.org, sudeep.dutt@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [[Intel-gfx] [PATCH v2 00/10] drm: Introduce struct drm_device
- based WARN* and use them in i915
-In-Reply-To: <20200115034455.17658-1-pankaj.laxminarayan.bharadiya@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200115034455.17658-1-pankaj.laxminarayan.bharadiya@intel.com>
-Date: Wed, 22 Jan 2020 18:22:17 +0200
-Message-ID: <878slzea12.fsf@intel.com>
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 22 Jan 2020 10:20:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,350,1574150400"; d="scan'208";a="275681796"
+Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
+ by FMSMGA003.fm.intel.com with ESMTP; 22 Jan 2020 10:20:25 -0800
+Received: from fmsmsx117.amr.corp.intel.com ([169.254.3.3]) by
+ FMSMSX106.amr.corp.intel.com ([169.254.5.175]) with mapi id 14.03.0439.000;
+ Wed, 22 Jan 2020 10:20:25 -0800
+From: "Souza, Jose" <jose.souza@intel.com>
+To: "Gupta, Anshuman" <anshuman.gupta@intel.com>
+Subject: Re: [PATCH v2 2/2] drm/i915/dc3co: Avoid full modeset when EXITLINE
+ needs to be changed
+Thread-Topic: [PATCH v2 2/2] drm/i915/dc3co: Avoid full modeset when
+ EXITLINE needs to be changed
+Thread-Index: AQHV0Jc5Eg9jBIc5i0CMfMtp925KnKf3MjQAgABT8wA=
+Date: Wed, 22 Jan 2020 18:20:24 +0000
+Message-ID: <7a265c01e556a61d8e03c8df360d0a07d0b49ffe.camel@intel.com>
+References: <20200121201314.184832-1-jose.souza@intel.com>
+ <20200121201314.184832-2-jose.souza@intel.com>
+ <20200122131955.GA24118@intel.com>
+In-Reply-To: <20200122131955.GA24118@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.24.12.154]
+Content-ID: <C6B6F79C0BA07A448338A5F578AB6FF5@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,167 +56,190 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pankaj.laxminarayan.bharadiya@intel.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 15 Jan 2020, Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com> wrote:
-> Device specific dev_WARN and dev_WARN_ONCE macros available in kernel
-> include device information in the backtrace, so we know what device
-> the warnings originate from.
->
-> Similar to this, add new struct drm_device based drm_WARN* macros. These
-> macros include device information in the backtrace, so we know
-> what device the warnings originate from. Knowing the device specific
-> information in the backtrace would be helpful in development all
-> around.
->
-> This patch series aims to convert calls of WARN(), WARN_ON(),
-> WARN_ONCE() and WARN_ON_ONCE() in i916 driver to use the drm
-> device-specific variants automatically wherever struct device pointer
-> is available.
->
-> To do this, this patch series -
->   - introduces new struct drm_device based WARN* macros
->   - automatically converts WARN* with device specific dev_WARN*
->     variants using coccinelle semantic patch scripts.
->
-> The goal is to convert all the calls of WARN* with drm_WARN* in i915,
-> but there are still cases where device pointer is not readily
-> available in some functions (or I missed them somehow) using WARN*
-> hence some manual churning is needed. Handle such remaining cases
-> separately later.
->
-> changes since v1:
->   - Address Jani's review comments
->     - Fix typo in comment of patch 0001
->     - Get rid of helper functions
->     - Split patches by directory 
->
-> Changes since RFC at [1]
->   - Introduce drm_WARN* macros and use them as suggested by Sam and Jani
->   - Get rid of extra local variables
->
-> [1] https://patchwork.freedesktop.org/series/71668/
->
->
-> Pankaj Bharadiya (10):
->   drm/print: introduce new struct drm_device based WARN* macros
-
-Pushed.
-
->   drm/i915/display: Make WARN* drm specific where drm_device ptr is available
->   drm/i915/display: Make WARN* drm specific where drm_priv ptr is available
-
-The above two conflict and need to be rebased.
-
->   drm/i915/display: Make WARN* drm specific where encoder ptr is available
->   drm/i915/gem: Make WARN* drm specific where drm_priv ptr is available
->   drm/i915/gt: Make WARN* drm specific where drm_priv ptr is available
-
-Pushed the above three.
-
->   drm/i915/gvt: Make WARN* drm specific where drm_priv ptr is available
->   drm/i915/gvt: Make WARN* drm specific where vgpu ptr is available
-
-The gvt patches need to be applied through the gvt tree and maintainers
-once they've backmerged the logging changes.
-
->   drm/i915: Make WARN* drm specific where drm_priv ptr is available
->   drm/i915: Make WARN* drm specific where uncore or stream ptr is available
-
-Pushed the above two.
-
-Thanks for the patches.
-
-BR,
-Jani.
-
->
->  drivers/gpu/drm/i915/display/icl_dsi.c        |  14 +-
->  drivers/gpu/drm/i915/display/intel_atomic.c   |   6 +-
->  drivers/gpu/drm/i915/display/intel_audio.c    |  19 +-
->  drivers/gpu/drm/i915/display/intel_bios.c     |  10 +-
->  drivers/gpu/drm/i915/display/intel_bw.c       |   3 +-
->  drivers/gpu/drm/i915/display/intel_cdclk.c    |  81 ++++---
->  drivers/gpu/drm/i915/display/intel_color.c    |   4 +-
->  .../gpu/drm/i915/display/intel_combo_phy.c    |   2 +-
->  .../gpu/drm/i915/display/intel_connector.c    |   3 +-
->  drivers/gpu/drm/i915/display/intel_crt.c      |  10 +-
->  drivers/gpu/drm/i915/display/intel_ddi.c      | 100 ++++----
->  drivers/gpu/drm/i915/display/intel_display.c  | 228 ++++++++++--------
->  .../drm/i915/display/intel_display_power.c    | 169 +++++++------
->  drivers/gpu/drm/i915/display/intel_dp.c       | 123 ++++++----
->  drivers/gpu/drm/i915/display/intel_dp_mst.c   |  10 +-
->  drivers/gpu/drm/i915/display/intel_dpio_phy.c |   3 +-
->  drivers/gpu/drm/i915/display/intel_dpll_mgr.c |  37 +--
->  drivers/gpu/drm/i915/display/intel_dsb.c      |   6 +-
->  .../i915/display/intel_dsi_dcs_backlight.c    |   2 +-
->  drivers/gpu/drm/i915/display/intel_dsi_vbt.c  |   5 +-
->  drivers/gpu/drm/i915/display/intel_fbc.c      |  23 +-
->  drivers/gpu/drm/i915/display/intel_fbdev.c    |  13 +-
->  drivers/gpu/drm/i915/display/intel_gmbus.c    |   3 +-
->  drivers/gpu/drm/i915/display/intel_hdcp.c     |  21 +-
->  drivers/gpu/drm/i915/display/intel_hdmi.c     |  71 +++---
->  drivers/gpu/drm/i915/display/intel_hotplug.c  |   7 +-
->  .../gpu/drm/i915/display/intel_lpe_audio.c    |   2 +-
->  drivers/gpu/drm/i915/display/intel_lvds.c     |   7 +-
->  drivers/gpu/drm/i915/display/intel_opregion.c |   7 +-
->  drivers/gpu/drm/i915/display/intel_overlay.c  |  14 +-
->  drivers/gpu/drm/i915/display/intel_panel.c    |  19 +-
->  drivers/gpu/drm/i915/display/intel_pipe_crc.c |   7 +-
->  drivers/gpu/drm/i915/display/intel_psr.c      |  32 +--
->  drivers/gpu/drm/i915/display/intel_sdvo.c     |  14 +-
->  drivers/gpu/drm/i915/display/intel_sprite.c   |   5 +-
->  drivers/gpu/drm/i915/display/intel_tc.c       |  18 +-
->  drivers/gpu/drm/i915/display/intel_vdsc.c     |   2 +-
->  drivers/gpu/drm/i915/display/vlv_dsi.c        |   2 +-
->  drivers/gpu/drm/i915/gem/i915_gem_pm.c        |   3 +-
->  drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |   3 +-
->  drivers/gpu/drm/i915/gem/i915_gem_shrinker.c  |  13 +-
->  drivers/gpu/drm/i915/gem/i915_gem_stolen.c    |  15 +-
->  drivers/gpu/drm/i915/gt/intel_engine_cs.c     |   8 +-
->  drivers/gpu/drm/i915/gt/intel_engine_user.c   |   3 +-
->  drivers/gpu/drm/i915/gt/intel_gtt.c           |   6 +-
->  drivers/gpu/drm/i915/gt/intel_mocs.c          |   4 +-
->  drivers/gpu/drm/i915/gt/intel_rc6.c           |   2 +-
->  .../gpu/drm/i915/gt/intel_ring_submission.c   |   7 +-
->  drivers/gpu/drm/i915/gt/intel_rps.c           |  20 +-
->  drivers/gpu/drm/i915/gt/intel_workarounds.c   |   2 +-
->  drivers/gpu/drm/i915/gvt/aperture_gm.c        |   6 +-
->  drivers/gpu/drm/i915/gvt/cfg_space.c          |  23 +-
->  drivers/gpu/drm/i915/gvt/cmd_parser.c         |   4 +-
->  drivers/gpu/drm/i915/gvt/display.c            |   6 +-
->  drivers/gpu/drm/i915/gvt/dmabuf.c             |   4 +-
->  drivers/gpu/drm/i915/gvt/edid.c               |  19 +-
->  drivers/gpu/drm/i915/gvt/gtt.c                |  21 +-
->  drivers/gpu/drm/i915/gvt/gvt.c                |   4 +-
->  drivers/gpu/drm/i915/gvt/handlers.c           |  22 +-
->  drivers/gpu/drm/i915/gvt/interrupt.c          |  15 +-
->  drivers/gpu/drm/i915/gvt/kvmgt.c              |  10 +-
->  drivers/gpu/drm/i915/gvt/mmio.c               |  30 ++-
->  drivers/gpu/drm/i915/gvt/mmio_context.c       |   8 +-
->  drivers/gpu/drm/i915/gvt/scheduler.c          |   6 +-
->  drivers/gpu/drm/i915/gvt/vgpu.c               |   6 +-
->  drivers/gpu/drm/i915/i915_drv.c               |  19 +-
->  drivers/gpu/drm/i915/i915_gem.c               |   7 +-
->  drivers/gpu/drm/i915/i915_gem_fence_reg.c     |  11 +-
->  drivers/gpu/drm/i915/i915_irq.c               |  85 ++++---
->  drivers/gpu/drm/i915/i915_perf.c              |  38 +--
->  drivers/gpu/drm/i915/i915_pmu.c               |   6 +-
->  drivers/gpu/drm/i915/intel_csr.c              |   4 +-
->  drivers/gpu/drm/i915/intel_pch.c              |  66 +++--
->  drivers/gpu/drm/i915/intel_pm.c               |  24 +-
->  drivers/gpu/drm/i915/intel_sideband.c         |   7 +-
->  drivers/gpu/drm/i915/intel_uncore.c           |  54 +++--
->  include/drm/drm_print.h                       |  29 +++
->  77 files changed, 1000 insertions(+), 722 deletions(-)
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCAyMDIwLTAxLTIyIGF0IDE4OjQ5ICswNTMwLCBBbnNodW1hbiBHdXB0YSB3cm90ZToN
+Cj4gT24gMjAyMC0wMS0yMSBhdCAxMjoxMzoxNCAtMDgwMCwgSm9zw6kgUm9iZXJ0byBkZSBTb3V6
+YSB3cm90ZToNCj4gPiBBIHJlY2VudCBjaGFuZ2UgaW4gQlNwZWMgYWxsb3cgdXMgdG8gY2hhbmdl
+IEVYVExJTkUgd2hpbGUNCj4gPiB0cmFuc2NvZGVyDQo+ID4gaXMgZW5hYmxlZCBzbyB0aGlzIGFs
+bG93IHVzIHRvIGNoYW5nZSBpdCBldmVuIHdoZW4gZG9pbmcgdGhlIGZpcnN0DQo+ID4gZmFzdHNl
+dCBhZnRlciB0YWtpbmcgb3ZlciBwcmV2aW91cyBoYXJkd2FyZSBzdGF0ZSBzZXQgYnkgQklPUy4N
+Cj4gPiBCSU9TIGRvbid0IGVuYWJsZSBQU1IsIHNvIGlmIHNpbmsgc3VwcG9ydHMgUFNSIGl0IHdp
+bGwgYmUgZW5hYmxlZA0KPiA+IG9uDQo+ID4gdGhlIGZpcnN0IGZhc3RzZXQsIHNvIG1vdmluZyB0
+aGUgRVhUTElORSBjb21wdXRlIGFuZCBzZXQgdG8gUFNSDQo+ID4gZmxvd3MNCj4gPiBhbGxvdyB1
+cyB0byBzaW1wbGZ5IGEgYnVuY2ggb2YgY29kZS4NCj4gPiANCj4gPiBUaGlzIHdpbGwgc2F2ZSBh
+IGxvdCBvZiB0aW1lIGluIGFsbCB0aGUgSUdUIHRlc3RzIHRoYXQgdXNlcyBDUkMsIGFzDQo+ID4g
+d2hlbiBQU1IyIGlzIGVuYWJsZWQgQ1JDcyBhcmUgbm90IGdlbmVyYXRlZCwgc28gd2Ugc3dpdGNo
+IHRvIFBTUjEsDQo+ID4gc28NCj4gPiB0aGUgcHJldmlvdXMgY29kZSB3b3VsZCBjb21wdXRlIGRj
+M2NvX2V4aXRsaW5lPTAgY2F1c2luZyBhIGZ1bGwNCj4gPiBtb2Rlc2V0IHRoYXQgd291bGQgc2h1
+dGRvd24gcGlwZSwgZW5hYmxlIGFuZCB0cmFpbiBsaW5rLg0KPiA+IA0KPiA+IHYyOiBvbmx5IHBy
+b2dyYW1taW5nIEVYVExJTkUgd2hlbiBEQzNDTyBpcyBlbmFibGVkDQo+ID4gDQo+ID4gQlNwZWM6
+IDQ5MTk2DQo+ID4gQ2M6IEltcmUgRGVhayA8aW1yZS5kZWFrQGludGVsLmNvbT4NCj4gPiBDYzog
+QW5zaHVtYW4gR3VwdGEgPGFuc2h1bWFuLmd1cHRhQGludGVsLmNvbT4NCj4gPiBTaWduZWQtb2Zm
+LWJ5OiBKb3PDqSBSb2JlcnRvIGRlIFNvdXphIDxqb3NlLnNvdXphQGludGVsLmNvbT4NCj4gPiAt
+LS0NCj4gPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kZGkuYyAgICAgfCA4
+NiAtLS0tLS0tLS0tLS0tLS0tDQo+ID4gLS0tLQ0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9k
+aXNwbGF5L2ludGVsX2Rpc3BsYXkuYyB8ICAxIC0NCj4gPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUv
+ZGlzcGxheS9pbnRlbF9wc3IuYyAgICAgfCA0NiArKysrKysrKysrKw0KPiA+ICAzIGZpbGVzIGNo
+YW5nZWQsIDQ2IGluc2VydGlvbnMoKyksIDg3IGRlbGV0aW9ucygtKQ0KPiA+IA0KPiA+IGRpZmYg
+LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RkaS5jDQo+ID4gYi9k
+cml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RkaS5jDQo+ID4gaW5kZXggYmJmMWMw
+YTI0M2EyLi5lNTJjM2NhZTI5NjUgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5
+MTUvZGlzcGxheS9pbnRlbF9kZGkuYw0KPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rp
+c3BsYXkvaW50ZWxfZGRpLmMNCj4gPiBAQCAtMzM0NCw4NiArMzM0NCw2IEBAIHN0YXRpYyB2b2lk
+DQo+ID4gaW50ZWxfZGRpX2Rpc2FibGVfZmVjX3N0YXRlKHN0cnVjdCBpbnRlbF9lbmNvZGVyICpl
+bmNvZGVyLA0KPiA+ICAJUE9TVElOR19SRUFEKGludGVsX2RwLT5yZWdzLmRwX3RwX2N0bCk7DQo+
+ID4gIH0NCj4gPiAgDQo+ID4gLXN0YXRpYyB2b2lkDQo+ID4gLXRnbF9jbGVhcl9wc3IyX3RyYW5z
+Y29kZXJfZXhpdGxpbmUoY29uc3Qgc3RydWN0IGludGVsX2NydGNfc3RhdGUNCj4gPiAqY3N0YXRl
+KQ0KPiA+IC17DQo+ID4gLQlzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqZGV2X3ByaXYgPSB0b19p
+OTE1KGNzdGF0ZS0+dWFwaS5jcnRjLQ0KPiA+ID5kZXYpOw0KPiA+IC0JdTMyIHZhbDsNCj4gPiAt
+DQo+ID4gLQlpZiAoIWNzdGF0ZS0+ZGMzY29fZXhpdGxpbmUpDQo+ID4gLQkJcmV0dXJuOw0KPiA+
+IC0NCj4gPiAtCXZhbCA9IEk5MTVfUkVBRChFWElUTElORShjc3RhdGUtPmNwdV90cmFuc2NvZGVy
+KSk7DQo+ID4gLQl2YWwgJj0gfihFWElUTElORV9NQVNLIHwgRVhJVExJTkVfRU5BQkxFKTsNCj4g
+PiAtCUk5MTVfV1JJVEUoRVhJVExJTkUoY3N0YXRlLT5jcHVfdHJhbnNjb2RlciksIHZhbCk7DQo+
+ID4gLX0NCj4gPiAtDQo+ID4gLXN0YXRpYyB2b2lkDQo+ID4gLXRnbF9zZXRfcHNyMl90cmFuc2Nv
+ZGVyX2V4aXRsaW5lKGNvbnN0IHN0cnVjdCBpbnRlbF9jcnRjX3N0YXRlDQo+ID4gKmNzdGF0ZSkN
+Cj4gPiAtew0KPiA+IC0JdTMyIHZhbCwgZXhpdF9zY2FubGluZXM7DQo+ID4gLQlzdHJ1Y3QgZHJt
+X2k5MTVfcHJpdmF0ZSAqZGV2X3ByaXYgPSB0b19pOTE1KGNzdGF0ZS0+dWFwaS5jcnRjLQ0KPiA+
+ID5kZXYpOw0KPiA+IC0NCj4gPiAtCWlmICghY3N0YXRlLT5kYzNjb19leGl0bGluZSkNCj4gPiAt
+CQlyZXR1cm47DQo+ID4gLQ0KPiA+IC0JZXhpdF9zY2FubGluZXMgPSBjc3RhdGUtPmRjM2NvX2V4
+aXRsaW5lOw0KPiA+IC0JZXhpdF9zY2FubGluZXMgPDw9IEVYSVRMSU5FX1NISUZUOw0KPiA+IC0J
+dmFsID0gSTkxNV9SRUFEKEVYSVRMSU5FKGNzdGF0ZS0+Y3B1X3RyYW5zY29kZXIpKTsNCj4gPiAt
+CXZhbCAmPSB+KEVYSVRMSU5FX01BU0sgfCBFWElUTElORV9FTkFCTEUpOw0KPiA+IC0JdmFsIHw9
+IGV4aXRfc2NhbmxpbmVzOw0KPiA+IC0JdmFsIHw9IEVYSVRMSU5FX0VOQUJMRTsNCj4gPiAtCUk5
+MTVfV1JJVEUoRVhJVExJTkUoY3N0YXRlLT5jcHVfdHJhbnNjb2RlciksIHZhbCk7DQo+ID4gLX0N
+Cj4gPiAtDQo+ID4gLXN0YXRpYyB2b2lkIHRnbF9kYzNjb19leGl0bGluZV9jb21wdXRlX2NvbmZp
+ZyhzdHJ1Y3QgaW50ZWxfZW5jb2Rlcg0KPiA+ICplbmNvZGVyLA0KPiA+IC0JCQkJCSAgICAgIHN0
+cnVjdCBpbnRlbF9jcnRjX3N0YXRlDQo+ID4gKmNzdGF0ZSkNCj4gPiAtew0KPiA+IC0JdTMyIGV4
+aXRfc2NhbmxpbmVzOw0KPiA+IC0Jc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmRldl9wcml2ID0g
+dG9faTkxNShjc3RhdGUtPnVhcGkuY3J0Yy0NCj4gPiA+ZGV2KTsNCj4gPiAtCXUzMiBjcnRjX3Zk
+aXNwbGF5ID0gY3N0YXRlLT5ody5hZGp1c3RlZF9tb2RlLmNydGNfdmRpc3BsYXk7DQo+ID4gLQ0K
+PiA+IC0JY3N0YXRlLT5kYzNjb19leGl0bGluZSA9IDA7DQo+ID4gLQ0KPiA+IC0JaWYgKCEoZGV2
+X3ByaXYtPmNzci5hbGxvd2VkX2RjX21hc2sgJiBEQ19TVEFURV9FTl9EQzNDTykpDQo+ID4gLQkJ
+cmV0dXJuOw0KPiA+IC0NCj4gPiAtCS8qIEIuU3BlY3M6NDkxOTYgREMzQ08gb25seSB3b3JrcyB3
+aXRoIHBpcGVBIGFuZCBERElBLiovDQo+ID4gLQlpZiAodG9faW50ZWxfY3J0Yyhjc3RhdGUtPnVh
+cGkuY3J0YyktPnBpcGUgIT0gUElQRV9BIHx8DQo+ID4gLQkgICAgZW5jb2Rlci0+cG9ydCAhPSBQ
+T1JUX0EpDQo+ID4gLQkJcmV0dXJuOw0KPiA+IC0NCj4gPiAtCWlmICghY3N0YXRlLT5oYXNfcHNy
+MiB8fCAhY3N0YXRlLT5ody5hY3RpdmUpDQo+ID4gLQkJcmV0dXJuOw0KPiA+IC0NCj4gPiAtCS8q
+DQo+ID4gLQkgKiBEQzNDTyBFeGl0IHRpbWUgMjAwdXMgQi5TcGVjIDQ5MTk2DQo+ID4gLQkgKiBQ
+U1IyIHRyYW5zY29kZXIgRWFybHkgRXhpdCBzY2FubGluZXMgPSBST1VORFVQKDIwMCAvIGxpbmUN
+Cj4gPiB0aW1lKSArIDENCj4gPiAtCSAqLw0KPiA+IC0JZXhpdF9zY2FubGluZXMgPQ0KPiA+IC0J
+CWludGVsX3VzZWNzX3RvX3NjYW5saW5lcygmY3N0YXRlLT5ody5hZGp1c3RlZF9tb2RlLA0KPiA+
+IDIwMCkgKyAxOw0KPiA+IC0NCj4gPiAtCWlmIChXQVJOX09OKGV4aXRfc2NhbmxpbmVzID4gY3J0
+Y192ZGlzcGxheSkpDQo+ID4gLQkJcmV0dXJuOw0KPiA+IC0NCj4gPiAtCWNzdGF0ZS0+ZGMzY29f
+ZXhpdGxpbmUgPSBjcnRjX3ZkaXNwbGF5IC0gZXhpdF9zY2FubGluZXM7DQo+ID4gLQlEUk1fREVC
+VUdfS01TKCJEQzNDTyBleGl0IHNjYW5saW5lcyAlZFxuIiwgY3N0YXRlLQ0KPiA+ID5kYzNjb19l
+eGl0bGluZSk7DQo+ID4gLX0NCj4gPiAtDQo+ID4gLXN0YXRpYyB2b2lkIHRnbF9kYzNjb19leGl0
+bGluZV9nZXRfY29uZmlnKHN0cnVjdCBpbnRlbF9jcnRjX3N0YXRlDQo+ID4gKmNydGNfc3RhdGUp
+DQo+ID4gLXsNCj4gPiAtCXUzMiB2YWw7DQo+ID4gLQlzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAq
+ZGV2X3ByaXYgPSB0b19pOTE1KGNydGNfc3RhdGUtDQo+ID4gPnVhcGkuY3J0Yy0+ZGV2KTsNCj4g
+PiAtDQo+ID4gLQlpZiAoSU5URUxfR0VOKGRldl9wcml2KSA8IDEyKQ0KPiA+IC0JCXJldHVybjsN
+Cj4gPiAtDQo+ID4gLQl2YWwgPSBJOTE1X1JFQUQoRVhJVExJTkUoY3J0Y19zdGF0ZS0+Y3B1X3Ry
+YW5zY29kZXIpKTsNCj4gPiAtDQo+ID4gLQlpZiAodmFsICYgRVhJVExJTkVfRU5BQkxFKQ0KPiA+
+IC0JCWNydGNfc3RhdGUtPmRjM2NvX2V4aXRsaW5lID0gdmFsICYgRVhJVExJTkVfTUFTSzsNCj4g
+PiAtfQ0KPiA+IC0NCj4gPiAgc3RhdGljIHZvaWQgdGdsX2RkaV9wcmVfZW5hYmxlX2RwKHN0cnVj
+dCBpbnRlbF9lbmNvZGVyICplbmNvZGVyLA0KPiA+ICAJCQkJICBjb25zdCBzdHJ1Y3QgaW50ZWxf
+Y3J0Y19zdGF0ZQ0KPiA+ICpjcnRjX3N0YXRlLA0KPiA+ICAJCQkJICBjb25zdCBzdHJ1Y3QgZHJt
+X2Nvbm5lY3Rvcl9zdGF0ZQ0KPiA+ICpjb25uX3N0YXRlKQ0KPiA+IEBAIC0zNDM2LDcgKzMzNTYs
+NiBAQCBzdGF0aWMgdm9pZCB0Z2xfZGRpX3ByZV9lbmFibGVfZHAoc3RydWN0DQo+ID4gaW50ZWxf
+ZW5jb2RlciAqZW5jb2RlciwNCj4gPiAgCWludCBsZXZlbCA9IGludGVsX2RkaV9kcF9sZXZlbChp
+bnRlbF9kcCk7DQo+ID4gIAllbnVtIHRyYW5zY29kZXIgdHJhbnNjb2RlciA9IGNydGNfc3RhdGUt
+PmNwdV90cmFuc2NvZGVyOw0KPiA+ICANCj4gPiAtCXRnbF9zZXRfcHNyMl90cmFuc2NvZGVyX2V4
+aXRsaW5lKGNydGNfc3RhdGUpOw0KPiA+ICAJaW50ZWxfZHBfc2V0X2xpbmtfcGFyYW1zKGludGVs
+X2RwLCBjcnRjX3N0YXRlLT5wb3J0X2Nsb2NrLA0KPiA+ICAJCQkJIGNydGNfc3RhdGUtPmxhbmVf
+Y291bnQsIGlzX21zdCk7DQo+ID4gIA0KPiA+IEBAIC0zODIyLDcgKzM3NDEsNiBAQCBzdGF0aWMg
+dm9pZCBpbnRlbF9kZGlfcG9zdF9kaXNhYmxlX2RwKHN0cnVjdA0KPiA+IGludGVsX2VuY29kZXIg
+KmVuY29kZXIsDQo+ID4gIAkJCQkJCSAgZGlnX3BvcnQtDQo+ID4gPmRkaV9pb19wb3dlcl9kb21h
+aW4pOw0KPiA+ICANCj4gPiAgCWludGVsX2RkaV9jbGtfZGlzYWJsZShlbmNvZGVyKTsNCj4gPiAt
+CXRnbF9jbGVhcl9wc3IyX3RyYW5zY29kZXJfZXhpdGxpbmUob2xkX2NydGNfc3RhdGUpOw0KPiA+
+ICB9DQo+ID4gIA0KPiA+ICBzdGF0aWMgdm9pZCBpbnRlbF9kZGlfcG9zdF9kaXNhYmxlX2hkbWko
+c3RydWN0IGludGVsX2VuY29kZXINCj4gPiAqZW5jb2RlciwNCj4gPiBAQCAtNDQwNiw5ICs0MzI0
+LDYgQEAgdm9pZCBpbnRlbF9kZGlfZ2V0X2NvbmZpZyhzdHJ1Y3QNCj4gPiBpbnRlbF9lbmNvZGVy
+ICplbmNvZGVyLA0KPiA+ICAJCWJyZWFrOw0KPiA+ICAJfQ0KPiA+ICANCj4gPiAtCWlmIChlbmNv
+ZGVyLT50eXBlID09IElOVEVMX09VVFBVVF9FRFApDQo+ID4gLQkJdGdsX2RjM2NvX2V4aXRsaW5l
+X2dldF9jb25maWcocGlwZV9jb25maWcpOw0KPiA+IC0NCj4gPiAgCXBpcGVfY29uZmlnLT5oYXNf
+YXVkaW8gPQ0KPiA+ICAJCWludGVsX2RkaV9pc19hdWRpb19lbmFibGVkKGRldl9wcml2LCBjcHVf
+dHJhbnNjb2Rlcik7DQo+ID4gIA0KPiA+IEBAIC00NDkwLDcgKzQ0MDUsNiBAQCBzdGF0aWMgaW50
+IGludGVsX2RkaV9jb21wdXRlX2NvbmZpZyhzdHJ1Y3QNCj4gPiBpbnRlbF9lbmNvZGVyICplbmNv
+ZGVyLA0KPiA+ICAJCXJldCA9IGludGVsX2hkbWlfY29tcHV0ZV9jb25maWcoZW5jb2RlciwgcGlw
+ZV9jb25maWcsDQo+ID4gY29ubl9zdGF0ZSk7DQo+ID4gIAl9IGVsc2Ugew0KPiA+ICAJCXJldCA9
+IGludGVsX2RwX2NvbXB1dGVfY29uZmlnKGVuY29kZXIsIHBpcGVfY29uZmlnLA0KPiA+IGNvbm5f
+c3RhdGUpOw0KPiA+IC0JCXRnbF9kYzNjb19leGl0bGluZV9jb21wdXRlX2NvbmZpZyhlbmNvZGVy
+LA0KPiA+IHBpcGVfY29uZmlnKTsNCj4gPiAgCX0NCj4gPiAgDQo+ID4gIAlpZiAocmV0KQ0KPiA+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rpc3BsYXku
+Yw0KPiA+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5LmMNCj4g
+PiBpbmRleCA0MjdhMmE0ZTRjZTYuLjBlZGRjZGVmM2NhZCAxMDA2NDQNCj4gPiAtLS0gYS9kcml2
+ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rpc3BsYXkuYw0KPiA+ICsrKyBiL2RyaXZl
+cnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheS5jDQo+ID4gQEAgLTEzNTc4LDcg
+KzEzNTc4LDYgQEAgaW50ZWxfcGlwZV9jb25maWdfY29tcGFyZShjb25zdCBzdHJ1Y3QNCj4gPiBp
+bnRlbF9jcnRjX3N0YXRlICpjdXJyZW50X2NvbmZpZywNCj4gPiAgDQo+ID4gIAlQSVBFX0NPTkZf
+Q0hFQ0tfSShwaXhlbF9tdWx0aXBsaWVyKTsNCj4gPiAgCVBJUEVfQ09ORl9DSEVDS19JKG91dHB1
+dF9mb3JtYXQpOw0KPiA+IC0JUElQRV9DT05GX0NIRUNLX0koZGMzY29fZXhpdGxpbmUpOw0KPiA+
+ICAJUElQRV9DT05GX0NIRUNLX0JPT0woaGFzX2hkbWlfc2luayk7DQo+ID4gIAlpZiAoKElOVEVM
+X0dFTihkZXZfcHJpdikgPCA4ICYmICFJU19IQVNXRUxMKGRldl9wcml2KSkgfHwNCj4gPiAgCSAg
+ICBJU19WQUxMRVlWSUVXKGRldl9wcml2KSB8fCBJU19DSEVSUllWSUVXKGRldl9wcml2KSkNCj4g
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9wc3IuYw0K
+PiA+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9wc3IuYw0KPiA+IGluZGV4
+IGZkZDdmOTM5NTNiMS4uZWIzZDEwMDM2YmVmIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1
+L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfcHNyLmMNCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
+aTkxNS9kaXNwbGF5L2ludGVsX3Bzci5jDQo+ID4gQEAgLTYwMCw2ICs2MDAsMzcgQEAgc3RhdGlj
+IHZvaWQNCj4gPiB0Z2xfZGlzYWxsb3dfZGMzY29fb25fcHNyMl9leGl0KHN0cnVjdCBkcm1faTkx
+NV9wcml2YXRlICpkZXZfcHJpdikNCj4gPiAgCXRnbF9wc3IyX2Rpc2FibGVfZGMzY28oZGV2X3By
+aXYpOw0KPiA+ICB9DQo+ID4gIA0KPiA+ICtzdGF0aWMgdm9pZA0KPiA+ICt0Z2xfZGMzY29fZXhp
+dGxpbmVfY29tcHV0ZV9jb25maWcoc3RydWN0IGludGVsX2RwICppbnRlbF9kcCwNCj4gPiArCQkJ
+CSAgc3RydWN0IGludGVsX2NydGNfc3RhdGUgKmNydGNfc3RhdGUpDQo+ID4gK3sNCj4gPiArCWNv
+bnN0IHUzMiBjcnRjX3ZkaXNwbGF5ID0gY3J0Y19zdGF0ZS0NCj4gPiA+dWFwaS5hZGp1c3RlZF9t
+b2RlLmNydGNfdmRpc3BsYXk7DQo+IEFzIHRoZXJlIGlzIHNwbGl0dXAgaW4gdWFwaSBhbmQgaHcs
+IHNoYWxsIHdlIHVzZSBody5hZGp1c3RlZF9tb2RlLA0KPiAob25lIG1vcmUgcGxhY2UgYmVsb3cg
+aW4gdGhpcyBmdW5jdGlvbikNCj4gSSBhbSBub3Qgc3VyZSBhYm91dCBpdCwgd2hhdCBpcyB1ciBv
+cGluaW9uIG9uIGl0Pw0KPiBSZXN0IG9mIHBhdGNoIGxvb2tzIGdvb2QgdG8gbWUsIHdpdGggYWJv
+dmUgY29tbWVudC4NCg0KRm9yIGVEUC9QU1IgY29kZSBpdCBkbyBub3QgbWF0dGVycyB3aGljaCBv
+bmUgd2UgdXNlLCBpdCBpcyB1c2VkIHRvDQpoYW5kbGUgSFcgc3RhdGUgaW4gdGhlIHNwZWNpYWwg
+bW9kZXMgd2hlcmUgMiBvciBtb3JlIHBpcGVzIGpvaW5zIHRvDQpvdXRwdXQgaW4gOGsrIGRpc3Bs
+YXlzLg0KDQpTbyBnb2luZyB0byBrZWVwIGl0IGFzIGlzIHRvIGF2b2lkIG1vcmUgY2hhbmdlcy4N
+Cg0KVGhuYWtzIGZvciB0aGUgcmV2aWV3cy4NCg0KPiBSZXZpZXdlZC1ieTogQW5zaHVtYW4gR3Vw
+dGEgPGFuc2h1bWFuLmd1cHRhQGludGVsLmNvbT4gDQo+ID4gKwlzdHJ1Y3QgaW50ZWxfZGlnaXRh
+bF9wb3J0ICpkaWdfcG9ydCA9IGRwX3RvX2RpZ19wb3J0KGludGVsX2RwKTsNCj4gPiArCXN0cnVj
+dCBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJpdiA9IGRwX3RvX2k5MTUoaW50ZWxfZHApOw0KPiA+
+ICsJdTMyIGV4aXRfc2NhbmxpbmVzOw0KPiA+ICsNCj4gPiArCWlmICghKGRldl9wcml2LT5jc3Iu
+YWxsb3dlZF9kY19tYXNrICYgRENfU1RBVEVfRU5fREMzQ08pKQ0KPiA+ICsJCXJldHVybjsNCj4g
+PiArDQo+ID4gKwkvKiBCLlNwZWNzOjQ5MTk2IERDM0NPIG9ubHkgd29ya3Mgd2l0aCBwaXBlQSBh
+bmQgRERJQS4qLw0KPiA+ICsJaWYgKHRvX2ludGVsX2NydGMoY3J0Y19zdGF0ZS0+dWFwaS5jcnRj
+KS0+cGlwZSAhPSBQSVBFX0EgfHwNCj4gPiArCSAgICBkaWdfcG9ydC0+YmFzZS5wb3J0ICE9IFBP
+UlRfQSkNCj4gPiArCQlyZXR1cm47DQo+ID4gKw0KPiA+ICsJLyoNCj4gPiArCSAqIERDM0NPIEV4
+aXQgdGltZSAyMDB1cyBCLlNwZWMgNDkxOTYNCj4gPiArCSAqIFBTUjIgdHJhbnNjb2RlciBFYXJs
+eSBFeGl0IHNjYW5saW5lcyA9IFJPVU5EVVAoMjAwIC8gbGluZQ0KPiA+IHRpbWUpICsgMQ0KPiA+
+ICsJICovDQo+ID4gKwlleGl0X3NjYW5saW5lcyA9DQo+ID4gKwkJaW50ZWxfdXNlY3NfdG9fc2Nh
+bmxpbmVzKCZjcnRjX3N0YXRlLQ0KPiA+ID51YXBpLmFkanVzdGVkX21vZGUsIDIwMCkgKyAxOw0K
+PiA+ICsNCj4gPiArCWlmIChXQVJOX09OKGV4aXRfc2NhbmxpbmVzID4gY3J0Y192ZGlzcGxheSkp
+DQo+ID4gKwkJcmV0dXJuOw0KPiA+ICsNCj4gPiArCWNydGNfc3RhdGUtPmRjM2NvX2V4aXRsaW5l
+ID0gY3J0Y192ZGlzcGxheSAtIGV4aXRfc2NhbmxpbmVzOw0KPiA+ICsJRFJNX0RFQlVHX0tNUygi
+REMzQ08gZXhpdCBzY2FubGluZXMgJWRcbiIsIGNydGNfc3RhdGUtDQo+ID4gPmRjM2NvX2V4aXRs
+aW5lKTsNCj4gPiArfQ0KPiA+ICsNCj4gPiAgc3RhdGljIGJvb2wgaW50ZWxfcHNyMl9jb25maWdf
+dmFsaWQoc3RydWN0IGludGVsX2RwICppbnRlbF9kcCwNCj4gPiAgCQkJCSAgICBzdHJ1Y3QgaW50
+ZWxfY3J0Y19zdGF0ZQ0KPiA+ICpjcnRjX3N0YXRlKQ0KPiA+ICB7DQo+ID4gQEAgLTY3MSw2ICs3
+MDIsNyBAQCBzdGF0aWMgYm9vbCBpbnRlbF9wc3IyX2NvbmZpZ192YWxpZChzdHJ1Y3QNCj4gPiBp
+bnRlbF9kcCAqaW50ZWxfZHAsDQo+ID4gIAkJcmV0dXJuIGZhbHNlOw0KPiA+ICAJfQ0KPiA+ICAN
+Cj4gPiArCXRnbF9kYzNjb19leGl0bGluZV9jb21wdXRlX2NvbmZpZyhpbnRlbF9kcCwgY3J0Y19z
+dGF0ZSk7DQo+ID4gIAlyZXR1cm4gdHJ1ZTsNCj4gPiAgfQ0KPiA+ICANCj4gPiBAQCAtNzg4LDYg
+KzgyMCwyMCBAQCBzdGF0aWMgdm9pZCBpbnRlbF9wc3JfZW5hYmxlX3NvdXJjZShzdHJ1Y3QNCj4g
+PiBpbnRlbF9kcCAqaW50ZWxfZHAsDQo+ID4gIAlJOTE1X1dSSVRFKEVEUF9QU1JfREVCVUcoZGV2
+X3ByaXYtPnBzci50cmFuc2NvZGVyKSwgbWFzayk7DQo+ID4gIA0KPiA+ICAJcHNyX2lycV9jb250
+cm9sKGRldl9wcml2KTsNCj4gPiArDQo+ID4gKwlpZiAoY3J0Y19zdGF0ZS0+ZGMzY29fZXhpdGxp
+bmUpIHsNCj4gPiArCQl1MzIgdmFsOw0KPiA+ICsNCj4gPiArCQkvKg0KPiA+ICsJCSAqIFRPRE86
+IGlmIGZ1dHVyZSBwbGF0Zm9ybXMgc3VwcG9ydHMgREMzQ08gaW4gbW9yZQ0KPiA+IHRoYW4gb25l
+DQo+ID4gKwkJICogdHJhbnNjb2RlciwgRVhJVExJTkUgd2lsbCBuZWVkIHRvIGJlIHVuc2V0IHdo
+ZW4NCj4gPiBkaXNhYmxpbmcgUFNSDQo+ID4gKwkJICovDQo+ID4gKwkJdmFsID0gSTkxNV9SRUFE
+KEVYSVRMSU5FKGNwdV90cmFuc2NvZGVyKSk7DQo+ID4gKwkJdmFsICY9IH5FWElUTElORV9NQVNL
+Ow0KPiA+ICsJCXZhbCB8PSBjcnRjX3N0YXRlLT5kYzNjb19leGl0bGluZSA8PCBFWElUTElORV9T
+SElGVDsNCj4gPiArCQl2YWwgfD0gRVhJVExJTkVfRU5BQkxFOw0KPiA+ICsJCUk5MTVfV1JJVEUo
+RVhJVExJTkUoY3B1X3RyYW5zY29kZXIpLCB2YWwpOw0KPiA+ICsJfQ0KPiA+ICB9DQo+ID4gIA0K
+PiA+ICBzdGF0aWMgdm9pZCBpbnRlbF9wc3JfZW5hYmxlX2xvY2tlZChzdHJ1Y3QgZHJtX2k5MTVf
+cHJpdmF0ZQ0KPiA+ICpkZXZfcHJpdiwNCj4gPiAtLSANCj4gPiAyLjI1LjANCj4gPiANCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
