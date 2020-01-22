@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25980145724
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 14:52:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44E39145723
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 14:52:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76B096F526;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D4F76F525;
 	Wed, 22 Jan 2020 13:52:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35F976F4AB;
- Wed, 22 Jan 2020 11:08:54 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id a5so6384849wmb.0;
- Wed, 22 Jan 2020 03:08:54 -0800 (PST)
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12D416F4AB;
+ Wed, 22 Jan 2020 11:08:57 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id z7so6727371wrl.13;
+ Wed, 22 Jan 2020 03:08:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KLhpJ1Y0mFBaix7Jj1N9RNg99kKnvrVnV/S35pUDP+0=;
- b=F8ZAxJLpX8Z70jplUF/2ZNzMcWTCx8EEz4JrMTEJYA3JG9CcJvowhY/7HtofSNZvM2
- 8CN0uzxLfGMqXmuH85V8CPG2msKOKoC3DLfUajUqVjbJn2WRvM2bTSO9uAlwOr56VbW/
- IzYKa7DI1abQEFmogx7wlB/7j456K29f8IgOPkYxvg0dtRyDsK0lvkox+KS97XblucHH
- Tppo5auQOa+OlGtfWEuQkw0sJNuAVXiY2Q/huGdlNF8VSYTwLJhOfibLmd2rWikXWJkh
- p+Wy4scxLxR6625E8rNs9i9XEw3vuyPs/zgg2LDqIX6ahKVmCo1+kxjKJKbx36suCya5
- osTw==
+ bh=euFqXnFPZI/UsPP0CUGmrBpvxtAwvX4hg7SGYai244U=;
+ b=VPXiS+OdWhDKPToFXYVPKAbnLl0aG3dndO2ZG/gaXdRgtBz0jYeV6ffOZV7RIAe4yj
+ /g/qv6f/H2dEpd6wXFYK+9FujfhZLdcdnGVes4nQcLTXyFFim3nUI3g7Gk10waLLYd2R
+ C4vxEkg+by2kZcmPfCCx/0zQbSOlIlPcGhoO8C4p90qs91fWJpaVPmOb52Mx3WROQADP
+ CclPEXO9of8vaQvN1t4cDOVvrdhwwrXeEaV8BvFxN5pQuipoM+P/xP+GmHrDNLozWSps
+ 5ixwWLxJAs6DMXL5U1rcTNy0thvcdQvc2QvqBdieSIKkIhY6jIVd1PQWPKbj5Uz1rcMF
+ f1ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KLhpJ1Y0mFBaix7Jj1N9RNg99kKnvrVnV/S35pUDP+0=;
- b=mRGukrfq6SFShvn5YvuElVsqj5izAEkex7BllMwELxJvY015c3zIu/lUTYGwkJ1ObX
- zeulH1TK8FWFbAxsTtby4xfb8MpHQQ12SXZkR/cm322nYiUSR0NwlqFylbJy31yRZSEE
- 6BamckaQwFgDFPWDko8wdQ9H78rGRMByqXecdCuKp7eF7I5982z1tjB/oiGKEqj8YNMY
- 5+KaHGJGbP2BgOrw+cM39evtWiGMHQPJ3eVMzG2tPbawCW4oE0uLCmuDMM9Iywk46QxT
- mlcW1NM3iTZMjdyQmbvwVxSaB439LYSn2H//OyQSCM8KnK7dXXYPNEWaeQU29KJax048
- QaFg==
-X-Gm-Message-State: APjAAAXXDy+Ztcbao1ABnEVYKu48Wo707nKRwaD/gkLdGyJEbtH3Lxxv
- fIhbi/uQiiuT+yTMksBCvK0=
-X-Google-Smtp-Source: APXvYqxS7U9Mw5JiuBZ6Pnc1g1bPCRaCfQDeHvPHBszGUOB0zwkOWjc0mWzLLdNp2xk5pav0rMTGyA==
-X-Received: by 2002:a1c:9e15:: with SMTP id h21mr2437513wme.95.1579691332786; 
- Wed, 22 Jan 2020 03:08:52 -0800 (PST)
+ bh=euFqXnFPZI/UsPP0CUGmrBpvxtAwvX4hg7SGYai244U=;
+ b=YeqwK5c9c2DHB1m9kLdqhiOd91F3azVFJNfLe55NOXmteypNfLQe1ZpS0coHamREZE
+ pMmGFf43WktqS+79k2zcVJ2HzcFd8wHrZhrR1yLiUca00OCQJikBWwV7iyDFknsbAVHc
+ /mdvuucP2dKJdni8p/WbaH5BhF5anEeZEKGpts+LKD7RDfGoF251HyVd0v8CkA8s4yUU
+ 9hF4b8Izw/MoYsqPjL+98gmCseU5I+NTNlIwpCm/ZpeQ9tYHYg92lGj6vpdtXbzGzjoL
+ CRmlRGRgDC4n/upe8ulbCo/5RRVoTNUmGXzYEwyyy+0/pZ36At5dmzR/WtcPsuX0Xglf
+ g53w==
+X-Gm-Message-State: APjAAAVXNxBGsioMa/W/BZBZnteSM0tgZ46WhR0zUQq+4zhR6+HOeMRQ
+ bmQo8k1m6xw0VL+8bVoc0D2zWR9P6sA=
+X-Google-Smtp-Source: APXvYqx+dQF8329DnOkhFe7cT7NL9tfQ84mLf5YqS3Q2eAioWh/CoaqZZimbQXhlqyef/ksvFLD3UA==
+X-Received: by 2002:a5d:528e:: with SMTP id c14mr10788239wrv.308.1579691335572; 
+ Wed, 22 Jan 2020 03:08:55 -0800 (PST)
 Received: from wambui.zuku.co.ke ([197.237.61.225])
- by smtp.googlemail.com with ESMTPSA id l3sm52454380wrt.29.2020.01.22.03.08.50
+ by smtp.googlemail.com with ESMTPSA id l3sm52454380wrt.29.2020.01.22.03.08.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jan 2020 03:08:52 -0800 (PST)
+ Wed, 22 Jan 2020 03:08:55 -0800 (PST)
 From: Wambui Karuga <wambui.karugax@gmail.com>
 To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
  rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH v2 1/6] drm/i915/dsi: conversion to struct drm_device log
- macros.
-Date: Wed, 22 Jan 2020 14:08:39 +0300
-Message-Id: <20200122110844.2022-2-wambui.karugax@gmail.com>
+Subject: [PATCH v2 2/6] drm/i915/ddi: convert to struct drm_device log macros.
+Date: Wed, 22 Jan 2020 14:08:40 +0300
+Message-Id: <20200122110844.2022-3-wambui.karugax@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200122110844.2022-1-wambui.karugax@gmail.com>
 References: <20200122110844.2022-1-wambui.karugax@gmail.com>
@@ -76,10 +75,10 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This converts the more straightforward instances of the printk based
-logging macros with the struct drm_device based logging macros.
-This transformation was achieved using coccinelle and the following
-script for matching an existing struct drm_i915_private device:
+This patch converts various instances of the printk based logging macros
+into the struct drm_device based macros. This was achieved using the
+following coccinelle script for matching existing struct
+drm_i915_private devices:
 @rule1@
 identifier fn, T;
 @@
@@ -158,290 +157,260 @@ struct drm_i915_private *T = ...;
 ...+>
 }
 
-New checkpatch warnings were fixed manually.
+Checkpatch warnings were addressed manually.
 
 Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
 ---
- drivers/gpu/drm/i915/display/icl_dsi.c | 82 ++++++++++++++++----------
- 1 file changed, 51 insertions(+), 31 deletions(-)
+ drivers/gpu/drm/i915/display/intel_ddi.c | 98 +++++++++++++++---------
+ 1 file changed, 60 insertions(+), 38 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/icl_dsi.c b/drivers/gpu/drm/i915/display/icl_dsi.c
-index a7457303c62e..1186a5df057e 100644
---- a/drivers/gpu/drm/i915/display/icl_dsi.c
-+++ b/drivers/gpu/drm/i915/display/icl_dsi.c
-@@ -55,7 +55,7 @@ static void wait_for_header_credits(struct drm_i915_private *dev_priv,
- {
- 	if (wait_for_us(header_credits_available(dev_priv, dsi_trans) >=
- 			MAX_HEADER_CREDIT, 100))
--		DRM_ERROR("DSI header credits not released\n");
-+		drm_err(&dev_priv->drm, "DSI header credits not released\n");
+diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+index bbf1c0a243a2..9416d6950853 100644
+--- a/drivers/gpu/drm/i915/display/intel_ddi.c
++++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+@@ -1076,7 +1076,8 @@ static void intel_wait_ddi_buf_idle(struct drm_i915_private *dev_priv,
+ 		if (I915_READ(reg) & DDI_BUF_IS_IDLE)
+ 			return;
+ 	}
+-	DRM_ERROR("Timeout waiting for DDI BUF %c idle bit\n", port_name(port));
++	drm_err(&dev_priv->drm, "Timeout waiting for DDI BUF %c idle bit\n",
++		port_name(port));
  }
  
- static void wait_for_payload_credits(struct drm_i915_private *dev_priv,
-@@ -63,7 +63,7 @@ static void wait_for_payload_credits(struct drm_i915_private *dev_priv,
- {
- 	if (wait_for_us(payload_credits_available(dev_priv, dsi_trans) >=
- 			MAX_PLOAD_CREDIT, 100))
--		DRM_ERROR("DSI payload credits not released\n");
-+		drm_err(&dev_priv->drm, "DSI payload credits not released\n");
- }
+ static u32 hsw_pll_to_ddi_pll_sel(const struct intel_shared_dpll *pll)
+@@ -1229,7 +1230,8 @@ void hsw_fdi_link_train(struct intel_encoder *encoder,
  
- static enum transcoder dsi_port_to_transcoder(enum port port)
-@@ -97,7 +97,8 @@ static void wait_for_cmds_dispatched_to_panel(struct intel_encoder *encoder)
- 		dsi->channel = 0;
- 		ret = mipi_dsi_dcs_nop(dsi);
- 		if (ret < 0)
--			DRM_ERROR("error sending DCS NOP command\n");
-+			drm_err(&dev_priv->drm,
-+				"error sending DCS NOP command\n");
- 	}
- 
- 	/* wait for header credits to be released */
-@@ -111,7 +112,7 @@ static void wait_for_cmds_dispatched_to_panel(struct intel_encoder *encoder)
- 		dsi_trans = dsi_port_to_transcoder(port);
- 		if (wait_for_us(!(I915_READ(DSI_LP_MSG(dsi_trans)) &
- 				  LPTX_IN_PROGRESS), 20))
--			DRM_ERROR("LPTX bit not cleared\n");
-+			drm_err(&dev_priv->drm, "LPTX bit not cleared\n");
- 	}
- }
- 
-@@ -129,7 +130,8 @@ static bool add_payld_to_queue(struct intel_dsi_host *host, const u8 *data,
- 
- 		free_credits = payload_credits_available(dev_priv, dsi_trans);
- 		if (free_credits < 1) {
--			DRM_ERROR("Payload credit not available\n");
-+			drm_err(&dev_priv->drm,
-+				"Payload credit not available\n");
- 			return false;
- 		}
- 
-@@ -154,7 +156,8 @@ static int dsi_send_pkt_hdr(struct intel_dsi_host *host,
- 	/* check if header credit available */
- 	free_credits = header_credits_available(dev_priv, dsi_trans);
- 	if (free_credits < 1) {
--		DRM_ERROR("send pkt header failed, not enough hdr credits\n");
-+		drm_err(&dev_priv->drm,
-+			"send pkt header failed, not enough hdr credits\n");
- 		return -1;
- 	}
- 
-@@ -286,7 +289,8 @@ static void configure_dual_link_mode(struct intel_encoder *encoder,
- 		dl_buffer_depth = hactive / 2 + intel_dsi->pixel_overlap;
- 
- 		if (dl_buffer_depth > MAX_DL_BUFFER_TARGET_DEPTH)
--			DRM_ERROR("DL buffer depth exceed max value\n");
-+			drm_err(&dev_priv->drm,
-+				"DL buffer depth exceed max value\n");
- 
- 		dss_ctl1 &= ~LEFT_DL_BUF_TARGET_DEPTH_MASK;
- 		dss_ctl1 |= LEFT_DL_BUF_TARGET_DEPTH(dl_buffer_depth);
-@@ -500,7 +504,8 @@ static void gen11_dsi_enable_ddi_buffer(struct intel_encoder *encoder)
- 		if (wait_for_us(!(I915_READ(DDI_BUF_CTL(port)) &
- 				  DDI_BUF_IS_IDLE),
- 				  500))
--			DRM_ERROR("DDI port:%c buffer idle\n", port_name(port));
-+			drm_err(&dev_priv->drm, "DDI port:%c buffer idle\n",
-+				port_name(port));
- 	}
- }
- 
-@@ -780,7 +785,7 @@ gen11_dsi_configure_transcoder(struct intel_encoder *encoder,
- 		dsi_trans = dsi_port_to_transcoder(port);
- 		if (wait_for_us((I915_READ(DSI_TRANS_FUNC_CONF(dsi_trans)) &
- 				LINK_READY), 2500))
--			DRM_ERROR("DSI link not ready\n");
-+			drm_err(&dev_priv->drm, "DSI link not ready\n");
- 	}
- }
- 
-@@ -836,11 +841,12 @@ gen11_dsi_set_transcoder_timings(struct intel_encoder *encoder,
- 
- 	/* minimum hactive as per bspec: 256 pixels */
- 	if (adjusted_mode->crtc_hdisplay < 256)
--		DRM_ERROR("hactive is less then 256 pixels\n");
-+		drm_err(&dev_priv->drm, "hactive is less then 256 pixels\n");
- 
- 	/* if RGB666 format, then hactive must be multiple of 4 pixels */
- 	if (intel_dsi->pixel_format == MIPI_DSI_FMT_RGB666 && hactive % 4 != 0)
--		DRM_ERROR("hactive pixels are not multiple of 4\n");
-+		drm_err(&dev_priv->drm,
-+			"hactive pixels are not multiple of 4\n");
- 
- 	/* program TRANS_HTOTAL register */
- 	for_each_dsi_port(port, intel_dsi->ports) {
-@@ -855,11 +861,12 @@ gen11_dsi_set_transcoder_timings(struct intel_encoder *encoder,
- 		    VIDEO_MODE_NON_BURST_WITH_SYNC_PULSE) {
- 			/* BSPEC: hsync size should be atleast 16 pixels */
- 			if (hsync_size < 16)
--				DRM_ERROR("hsync size < 16 pixels\n");
-+				drm_err(&dev_priv->drm,
-+					"hsync size < 16 pixels\n");
- 		}
- 
- 		if (hback_porch < 16)
--			DRM_ERROR("hback porch < 16 pixels\n");
-+			drm_err(&dev_priv->drm, "hback porch < 16 pixels\n");
- 
- 		if (intel_dsi->dual_link) {
- 			hsync_start /= 2;
-@@ -887,10 +894,10 @@ gen11_dsi_set_transcoder_timings(struct intel_encoder *encoder,
- 	}
- 
- 	if (vsync_end < vsync_start || vsync_end > vtotal)
--		DRM_ERROR("Invalid vsync_end value\n");
-+		drm_err(&dev_priv->drm, "Invalid vsync_end value\n");
- 
- 	if (vsync_start < vactive)
--		DRM_ERROR("vsync_start less than vactive\n");
-+		drm_err(&dev_priv->drm, "vsync_start less than vactive\n");
- 
- 	/* program TRANS_VSYNC register */
- 	for_each_dsi_port(port, intel_dsi->ports) {
-@@ -937,7 +944,8 @@ static void gen11_dsi_enable_transcoder(struct intel_encoder *encoder)
- 		/* wait for transcoder to be enabled */
- 		if (intel_de_wait_for_set(dev_priv, PIPECONF(dsi_trans),
- 					  I965_PIPECONF_ACTIVE, 10))
--			DRM_ERROR("DSI transcoder not enabled\n");
-+			drm_err(&dev_priv->drm,
-+				"DSI transcoder not enabled\n");
- 	}
- }
- 
-@@ -1048,7 +1056,8 @@ static void gen11_dsi_powerup_panel(struct intel_encoder *encoder)
- 		dsi = intel_dsi->dsi_hosts[port]->device;
- 		ret = mipi_dsi_set_maximum_return_packet_size(dsi, tmp);
- 		if (ret < 0)
--			DRM_ERROR("error setting max return pkt size%d\n", tmp);
-+			drm_err(&dev_priv->drm,
-+				"error setting max return pkt size%d\n", tmp);
- 	}
- 
- 	/* panel power on related mipi dsi vbt sequences */
-@@ -1120,7 +1129,8 @@ static void gen11_dsi_disable_transcoder(struct intel_encoder *encoder)
- 		/* wait for transcoder to be disabled */
- 		if (intel_de_wait_for_clear(dev_priv, PIPECONF(dsi_trans),
- 					    I965_PIPECONF_ACTIVE, 50))
--			DRM_ERROR("DSI trancoder not disabled\n");
-+			drm_err(&dev_priv->drm,
-+				"DSI trancoder not disabled\n");
- 	}
- }
- 
-@@ -1155,7 +1165,7 @@ static void gen11_dsi_deconfigure_trancoder(struct intel_encoder *encoder)
- 		if (wait_for_us((I915_READ(DSI_LP_MSG(dsi_trans)) &
- 				LINK_IN_ULPS),
- 				10))
--			DRM_ERROR("DSI link not in ULPS\n");
-+			drm_err(&dev_priv->drm, "DSI link not in ULPS\n");
- 	}
- 
- 	/* disable ddi function */
-@@ -1193,8 +1203,9 @@ static void gen11_dsi_disable_port(struct intel_encoder *encoder)
- 		if (wait_for_us((I915_READ(DDI_BUF_CTL(port)) &
- 				 DDI_BUF_IS_IDLE),
- 				 8))
--			DRM_ERROR("DDI port:%c buffer not idle\n",
--				  port_name(port));
-+			drm_err(&dev_priv->drm,
-+				"DDI port:%c buffer not idle\n",
-+				port_name(port));
- 	}
- 	gen11_dsi_gate_clocks(encoder);
- }
-@@ -1458,7 +1469,7 @@ static bool gen11_dsi_get_hw_state(struct intel_encoder *encoder,
- 			*pipe = PIPE_D;
+ 		temp = I915_READ(DP_TP_STATUS(PORT_E));
+ 		if (temp & DP_TP_STATUS_AUTOTRAIN_DONE) {
+-			DRM_DEBUG_KMS("FDI link training done on step %d\n", i);
++			drm_dbg_kms(&dev_priv->drm,
++				    "FDI link training done on step %d\n", i);
  			break;
- 		default:
--			DRM_ERROR("Invalid PIPE input\n");
-+			drm_err(&dev_priv->drm, "Invalid PIPE input\n");
- 			goto out;
  		}
  
-@@ -1582,7 +1593,8 @@ static void icl_dphy_param_init(struct intel_dsi *intel_dsi)
+@@ -1238,7 +1240,7 @@ void hsw_fdi_link_train(struct intel_encoder *encoder,
+ 		 * Results in less fireworks from the state checker.
+ 		 */
+ 		if (i == ARRAY_SIZE(hsw_ddi_translations_fdi) * 2 - 1) {
+-			DRM_ERROR("FDI link training failed!\n");
++			drm_err(&dev_priv->drm, "FDI link training failed!\n");
+ 			break;
+ 		}
+ 
+@@ -2005,7 +2007,8 @@ void intel_ddi_disable_transcoder_func(const struct intel_crtc_state *crtc_state
+ 
+ 	if (dev_priv->quirks & QUIRK_INCREASE_DDI_DISABLED_TIME &&
+ 	    intel_crtc_has_type(crtc_state, INTEL_OUTPUT_HDMI)) {
+-		DRM_DEBUG_KMS("Quirk Increase DDI disabled time\n");
++		drm_dbg_kms(&dev_priv->drm,
++			    "Quirk Increase DDI disabled time\n");
+ 		/* Quirk time at 100ms for reliable operation */
+ 		msleep(100);
+ 	}
+@@ -2183,20 +2186,23 @@ static void intel_ddi_get_encoder_pipes(struct intel_encoder *encoder,
+ 	}
+ 
+ 	if (!*pipe_mask)
+-		DRM_DEBUG_KMS("No pipe for [ENCODER:%d:%s] found\n",
+-			      encoder->base.base.id, encoder->base.name);
++		drm_dbg_kms(&dev_priv->drm,
++			    "No pipe for [ENCODER:%d:%s] found\n",
++			    encoder->base.base.id, encoder->base.name);
+ 
+ 	if (!mst_pipe_mask && hweight8(*pipe_mask) > 1) {
+-		DRM_DEBUG_KMS("Multiple pipes for [ENCODER:%d:%s] (pipe_mask %02x)\n",
+-			      encoder->base.base.id, encoder->base.name,
+-			      *pipe_mask);
++		drm_dbg_kms(&dev_priv->drm,
++			    "Multiple pipes for [ENCODER:%d:%s] (pipe_mask %02x)\n",
++			    encoder->base.base.id, encoder->base.name,
++			    *pipe_mask);
+ 		*pipe_mask = BIT(ffs(*pipe_mask) - 1);
+ 	}
+ 
+ 	if (mst_pipe_mask && mst_pipe_mask != *pipe_mask)
+-		DRM_DEBUG_KMS("Conflicting MST and non-MST state for [ENCODER:%d:%s] (pipe_mask %02x mst_pipe_mask %02x)\n",
+-			      encoder->base.base.id, encoder->base.name,
+-			      *pipe_mask, mst_pipe_mask);
++		drm_dbg_kms(&dev_priv->drm,
++			    "Conflicting MST and non-MST state for [ENCODER:%d:%s] (pipe_mask %02x mst_pipe_mask %02x)\n",
++			    encoder->base.base.id, encoder->base.name,
++			    *pipe_mask, mst_pipe_mask);
+ 	else
+ 		*is_dp_mst = mst_pipe_mask;
+ 
+@@ -2206,9 +2212,10 @@ static void intel_ddi_get_encoder_pipes(struct intel_encoder *encoder,
+ 		if ((tmp & (BXT_PHY_CMNLANE_POWERDOWN_ACK |
+ 			    BXT_PHY_LANE_POWERDOWN_ACK |
+ 			    BXT_PHY_LANE_ENABLED)) != BXT_PHY_LANE_ENABLED)
+-			DRM_ERROR("[ENCODER:%d:%s] enabled but PHY powered down? "
+-				  "(PHY_CTL %08x)\n", encoder->base.base.id,
+-				  encoder->base.name, tmp);
++			drm_err(&dev_priv->drm,
++				"[ENCODER:%d:%s] enabled but PHY powered down? "
++				"(PHY_CTL %08x)\n", encoder->base.base.id,
++				encoder->base.name, tmp);
+ 	}
+ 
+ 	intel_display_power_put(dev_priv, encoder->power_domain, wakeref);
+@@ -2365,7 +2372,7 @@ static void skl_ddi_set_iboost(struct intel_encoder *encoder,
+ 
+ 	/* Make sure that the requested I_boost is valid */
+ 	if (iboost && iboost != 0x1 && iboost != 0x3 && iboost != 0x7) {
+-		DRM_ERROR("Invalid I_boost value %u\n", iboost);
++		drm_err(&dev_priv->drm, "Invalid I_boost value %u\n", iboost);
+ 		return;
+ 	}
+ 
+@@ -2617,7 +2624,9 @@ static void icl_ddi_combo_vswing_program(struct drm_i915_private *dev_priv,
+ 		return;
+ 
+ 	if (level >= n_entries) {
+-		DRM_DEBUG_KMS("DDI translation not found for level %d. Using %d instead.", level, n_entries - 1);
++		drm_dbg_kms(&dev_priv->drm,
++			    "DDI translation not found for level %d. Using %d instead.",
++			    level, n_entries - 1);
+ 		level = n_entries - 1;
+ 	}
+ 
+@@ -2743,8 +2752,9 @@ static void icl_mg_phy_ddi_vswing_sequence(struct intel_encoder *encoder,
+ 	ddi_translations = icl_mg_phy_ddi_translations;
+ 	/* The table does not have values for level 3 and level 9. */
+ 	if (level >= n_entries || level == 3 || level == 9) {
+-		DRM_DEBUG_KMS("DDI translation not found for level %d. Using %d instead.",
+-			      level, n_entries - 2);
++		drm_dbg_kms(&dev_priv->drm,
++			    "DDI translation not found for level %d. Using %d instead.",
++			    level, n_entries - 2);
+ 		level = n_entries - 2;
+ 	}
+ 
+@@ -3324,7 +3334,8 @@ static void intel_ddi_enable_fec(struct intel_encoder *encoder,
+ 
+ 	if (intel_de_wait_for_set(dev_priv, intel_dp->regs.dp_tp_status,
+ 				  DP_TP_STATUS_FEC_ENABLE_LIVE, 1))
+-		DRM_ERROR("Timed out waiting for FEC Enable Status\n");
++		drm_err(&dev_priv->drm,
++			"Timed out waiting for FEC Enable Status\n");
+ }
+ 
+ static void intel_ddi_disable_fec_state(struct intel_encoder *encoder,
+@@ -3407,7 +3418,8 @@ static void tgl_dc3co_exitline_compute_config(struct intel_encoder *encoder,
+ 		return;
+ 
+ 	cstate->dc3co_exitline = crtc_vdisplay - exit_scanlines;
+-	DRM_DEBUG_KMS("DC3CO exit scanlines %d\n", cstate->dc3co_exitline);
++	drm_dbg_kms(&dev_priv->drm, "DC3CO exit scanlines %d\n",
++		    cstate->dc3co_exitline);
+ }
+ 
+ static void tgl_dc3co_exitline_get_config(struct intel_crtc_state *crtc_state)
+@@ -3856,8 +3868,9 @@ static void icl_disable_transcoder_port_sync(const struct intel_crtc_state *old_
+ 	if (old_crtc_state->master_transcoder == INVALID_TRANSCODER)
+ 		return;
+ 
+-	DRM_DEBUG_KMS("Disabling Transcoder Port Sync on Slave Transcoder %s\n",
+-		      transcoder_name(old_crtc_state->cpu_transcoder));
++	drm_dbg_kms(&dev_priv->drm,
++		    "Disabling Transcoder Port Sync on Slave Transcoder %s\n",
++		    transcoder_name(old_crtc_state->cpu_transcoder));
+ 
+ 	I915_WRITE(TRANS_DDI_FUNC_CTL2(old_crtc_state->cpu_transcoder), 0);
+ }
+@@ -4007,8 +4020,9 @@ static void intel_enable_ddi_hdmi(struct intel_encoder *encoder,
+ 	if (!intel_hdmi_handle_sink_scrambling(encoder, connector,
+ 					       crtc_state->hdmi_high_tmds_clock_ratio,
+ 					       crtc_state->hdmi_scrambling))
+-		DRM_ERROR("[CONNECTOR:%d:%s] Failed to configure sink scrambling/TMDS bit clock ratio\n",
+-			  connector->base.id, connector->name);
++		drm_err(&dev_priv->drm,
++			"[CONNECTOR:%d:%s] Failed to configure sink scrambling/TMDS bit clock ratio\n",
++			connector->base.id, connector->name);
+ 
+ 	/* Display WA #1143: skl,kbl,cfl */
+ 	if (IS_GEN9_BC(dev_priv)) {
+@@ -4385,9 +4399,10 @@ void intel_ddi_get_config(struct intel_encoder *encoder,
+ 			pipe_config->fec_enable =
+ 				I915_READ(dp_tp_ctl) & DP_TP_CTL_FEC_ENABLE;
+ 
+-			DRM_DEBUG_KMS("[ENCODER:%d:%s] Fec status: %u\n",
+-				      encoder->base.base.id, encoder->base.name,
+-				      pipe_config->fec_enable);
++			drm_dbg_kms(&dev_priv->drm,
++				    "[ENCODER:%d:%s] Fec status: %u\n",
++				    encoder->base.base.id, encoder->base.name,
++				    pipe_config->fec_enable);
+ 		}
+ 
+ 		break;
+@@ -4427,8 +4442,9 @@ void intel_ddi_get_config(struct intel_encoder *encoder,
+ 		 * up by the BIOS, and thus we can't get the mode at module
+ 		 * load.
+ 		 */
+-		DRM_DEBUG_KMS("pipe has %d bpp for eDP panel, overriding BIOS-provided max %d bpp\n",
+-			      pipe_config->pipe_bpp, dev_priv->vbt.edp.bpp);
++		drm_dbg_kms(&dev_priv->drm,
++			    "pipe has %d bpp for eDP panel, overriding BIOS-provided max %d bpp\n",
++			    pipe_config->pipe_bpp, dev_priv->vbt.edp.bpp);
+ 		dev_priv->vbt.edp.bpp = pipe_config->pipe_bpp;
+ 	}
+ 
+@@ -4625,7 +4641,8 @@ static int intel_hdmi_reset_link(struct intel_encoder *encoder,
+ 
+ 	ret = drm_scdc_readb(adapter, SCDC_TMDS_CONFIG, &config);
+ 	if (ret < 0) {
+-		DRM_ERROR("Failed to read TMDS config: %d\n", ret);
++		drm_err(&dev_priv->drm, "Failed to read TMDS config: %d\n",
++			ret);
+ 		return 0;
+ 	}
+ 
+@@ -4770,7 +4787,8 @@ intel_ddi_max_lanes(struct intel_digital_port *intel_dport)
+ 	 * so we use the proper lane count for our calculations.
  	 */
- 	prepare_cnt = DIV_ROUND_UP(ths_prepare_ns * 4, tlpx_ns);
- 	if (prepare_cnt > ICL_PREPARE_CNT_MAX) {
--		DRM_DEBUG_KMS("prepare_cnt out of range (%d)\n", prepare_cnt);
-+		drm_dbg_kms(&dev_priv->drm, "prepare_cnt out of range (%d)\n",
-+			    prepare_cnt);
- 		prepare_cnt = ICL_PREPARE_CNT_MAX;
- 	}
- 
-@@ -1590,28 +1602,33 @@ static void icl_dphy_param_init(struct intel_dsi *intel_dsi)
- 	clk_zero_cnt = DIV_ROUND_UP(mipi_config->tclk_prepare_clkzero -
- 				    ths_prepare_ns, tlpx_ns);
- 	if (clk_zero_cnt > ICL_CLK_ZERO_CNT_MAX) {
--		DRM_DEBUG_KMS("clk_zero_cnt out of range (%d)\n", clk_zero_cnt);
+ 	if (intel_ddi_a_force_4_lanes(intel_dport)) {
+-		DRM_DEBUG_KMS("Forcing DDI_A_4_LANES for port A\n");
 +		drm_dbg_kms(&dev_priv->drm,
-+			    "clk_zero_cnt out of range (%d)\n", clk_zero_cnt);
- 		clk_zero_cnt = ICL_CLK_ZERO_CNT_MAX;
++			    "Forcing DDI_A_4_LANES for port A\n");
+ 		intel_dport->saved_port_bits |= DDI_A_4_LANES;
+ 		max_lanes = 4;
+ 	}
+@@ -4798,12 +4816,14 @@ void intel_ddi_init(struct drm_i915_private *dev_priv, enum port port)
+ 		init_dp = true;
+ 		init_lspcon = true;
+ 		init_hdmi = false;
+-		DRM_DEBUG_KMS("VBT says port %c has lspcon\n", port_name(port));
++		drm_dbg_kms(&dev_priv->drm, "VBT says port %c has lspcon\n",
++			    port_name(port));
  	}
  
- 	/* trail cnt in escape clocks*/
- 	trail_cnt = DIV_ROUND_UP(tclk_trail_ns, tlpx_ns);
- 	if (trail_cnt > ICL_TRAIL_CNT_MAX) {
--		DRM_DEBUG_KMS("trail_cnt out of range (%d)\n", trail_cnt);
-+		drm_dbg_kms(&dev_priv->drm, "trail_cnt out of range (%d)\n",
-+			    trail_cnt);
- 		trail_cnt = ICL_TRAIL_CNT_MAX;
- 	}
- 
- 	/* tclk pre count in escape clocks */
- 	tclk_pre_cnt = DIV_ROUND_UP(mipi_config->tclk_pre, tlpx_ns);
- 	if (tclk_pre_cnt > ICL_TCLK_PRE_CNT_MAX) {
--		DRM_DEBUG_KMS("tclk_pre_cnt out of range (%d)\n", tclk_pre_cnt);
+ 	if (!init_dp && !init_hdmi) {
+-		DRM_DEBUG_KMS("VBT says port %c is not DVI/HDMI/DP compatible, respect it\n",
+-			      port_name(port));
 +		drm_dbg_kms(&dev_priv->drm,
-+			    "tclk_pre_cnt out of range (%d)\n", tclk_pre_cnt);
- 		tclk_pre_cnt = ICL_TCLK_PRE_CNT_MAX;
++			    "VBT says port %c is not DVI/HDMI/DP compatible, respect it\n",
++			    port_name(port));
+ 		return;
  	}
  
- 	/* tclk post count in escape clocks */
- 	tclk_post_cnt = DIV_ROUND_UP(mipi_config->tclk_post, tlpx_ns);
- 	if (tclk_post_cnt > ICL_TCLK_POST_CNT_MAX) {
--		DRM_DEBUG_KMS("tclk_post_cnt out of range (%d)\n", tclk_post_cnt);
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "tclk_post_cnt out of range (%d)\n",
-+			    tclk_post_cnt);
- 		tclk_post_cnt = ICL_TCLK_POST_CNT_MAX;
- 	}
- 
-@@ -1619,14 +1636,17 @@ static void icl_dphy_param_init(struct intel_dsi *intel_dsi)
- 	hs_zero_cnt = DIV_ROUND_UP(mipi_config->ths_prepare_hszero -
- 				   ths_prepare_ns, tlpx_ns);
- 	if (hs_zero_cnt > ICL_HS_ZERO_CNT_MAX) {
--		DRM_DEBUG_KMS("hs_zero_cnt out of range (%d)\n", hs_zero_cnt);
-+		drm_dbg_kms(&dev_priv->drm, "hs_zero_cnt out of range (%d)\n",
-+			    hs_zero_cnt);
- 		hs_zero_cnt = ICL_HS_ZERO_CNT_MAX;
- 	}
- 
- 	/* hs exit zero cnt in escape clocks */
- 	exit_zero_cnt = DIV_ROUND_UP(mipi_config->ths_exit, tlpx_ns);
- 	if (exit_zero_cnt > ICL_EXIT_ZERO_CNT_MAX) {
--		DRM_DEBUG_KMS("exit_zero_cnt out of range (%d)\n", exit_zero_cnt);
-+		drm_dbg_kms(&dev_priv->drm,
-+			    "exit_zero_cnt out of range (%d)\n",
-+			    exit_zero_cnt);
- 		exit_zero_cnt = ICL_EXIT_ZERO_CNT_MAX;
- 	}
- 
-@@ -1737,7 +1757,7 @@ void icl_dsi_init(struct drm_i915_private *dev_priv)
- 	mutex_unlock(&dev->mode_config.mutex);
- 
- 	if (!fixed_mode) {
--		DRM_ERROR("DSI fixed mode info missing\n");
-+		drm_err(&dev_priv->drm, "DSI fixed mode info missing\n");
- 		goto err;
- 	}
- 
-@@ -1763,7 +1783,7 @@ void icl_dsi_init(struct drm_i915_private *dev_priv)
- 	}
- 
- 	if (!intel_dsi_vbt_init(intel_dsi, MIPI_DSI_GENERIC_PANEL_ID)) {
--		DRM_DEBUG_KMS("no device found\n");
-+		drm_dbg_kms(&dev_priv->drm, "no device found\n");
- 		goto err;
+@@ -4879,14 +4899,16 @@ void intel_ddi_init(struct drm_i915_private *dev_priv, enum port port)
+ 	if (init_lspcon) {
+ 		if (lspcon_init(intel_dig_port))
+ 			/* TODO: handle hdmi info frame part */
+-			DRM_DEBUG_KMS("LSPCON init success on port %c\n",
+-				port_name(port));
++			drm_dbg_kms(&dev_priv->drm,
++				    "LSPCON init success on port %c\n",
++				    port_name(port));
+ 		else
+ 			/*
+ 			 * LSPCON init faied, but DP init was success, so
+ 			 * lets try to drive as DP++ port.
+ 			 */
+-			DRM_ERROR("LSPCON init failed on port %c\n",
++			drm_err(&dev_priv->drm,
++				"LSPCON init failed on port %c\n",
+ 				port_name(port));
  	}
  
 -- 
