@@ -2,33 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A18D144EA3
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 10:27:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37137144EBF
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2020 10:31:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 967DB6F43A;
-	Wed, 22 Jan 2020 09:27:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EEDC6F43E;
+	Wed, 22 Jan 2020 09:31:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F0306F43A
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 09:27:23 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id CAEAC28F6BA;
- Wed, 22 Jan 2020 09:27:21 +0000 (GMT)
-Date: Wed, 22 Jan 2020 10:27:19 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v3 18/21] drm/bridge: panel: Propage bus format/flags
-Message-ID: <20200122102719.1149f6f6@collabora.com>
-In-Reply-To: <20191203101730.GP4730@pendragon.ideasonboard.com>
-References: <20191023154512.9762-1-boris.brezillon@collabora.com>
- <20191023154512.9762-19-boris.brezillon@collabora.com>
- <20191203101730.GP4730@pendragon.ideasonboard.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9E696F43E;
+ Wed, 22 Jan 2020 09:31:25 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 22 Jan 2020 01:31:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,349,1574150400"; d="scan'208";a="227619165"
+Received: from ideak-desk.fi.intel.com ([10.237.72.183])
+ by orsmga003.jf.intel.com with ESMTP; 22 Jan 2020 01:31:23 -0800
+From: Imre Deak <imre.deak@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH libdrm v2] intel: drm_intel_bo_gem_create_from_* on platforms
+ w/o HW tiling
+Date: Wed, 22 Jan 2020 11:31:22 +0200
+Message-Id: <20200122093122.15476-1-imre.deak@intel.com>
+X-Mailer: git-send-email 2.23.1
+In-Reply-To: <20200120164343.2262-1-imre.deak@intel.com>
+References: <20200120164343.2262-1-imre.deak@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,73 +44,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Neil Armstrong <narmstrong@baylibre.com>, dri-devel@lists.freedesktop.org,
- Thierry Reding <thierry.reding@gmail.com>, kernel@collabora.com,
- Sam Ravnborg <sam@ravnborg.org>,
- Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
- Andrey Smirnov <andrew.smirnov@gmail.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, Chris Healy <cphealy@gmail.com>,
- devicetree@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- Rob Herring <robh+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Seung-Woo Kim <sw0312.kim@samsung.com>
+Cc: Eric Engestrom <eric@engestrom.ch>,
+ Emil Velikov <emil.velikov@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+Platforms without a HW detiler doesn't support the get_tiling IOCTL.
+Fix the drm_intel_bo_gem_create_from_* functions assuming the default
+no-tiling, no-swizzling setting for the GEM buffer in this case.
 
-Sorry for the late reply.
+v2:
+- Add the missing gem handle IOCTL parameter. (Eric)
 
-On Tue, 3 Dec 2019 12:17:30 +0200
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+Signed-off-by: Imre Deak <imre.deak@intel.com>
+Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
+Reviewed-by: Eric Engestrom <eric@engestrom.ch>
+---
+ intel/intel_bufmgr_gem.c | 43 +++++++++++++++++++++++++---------------
+ 1 file changed, 27 insertions(+), 16 deletions(-)
 
-> Hi Boris,
-> 
-> Thank you for the patch.
-> 
-> On Wed, Oct 23, 2019 at 05:45:09PM +0200, Boris Brezillon wrote:
-> > So that the previous bridge element in the chain knows which input
-> > format the panel bridge expects.
-> > 
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > ---
-> > Changes in v3:
-> > * Adjust things to match the new bus-format negotiation approach
-> > * Use drm_atomic_helper_bridge_propagate_bus_fmt
-> > * Don't implement ->atomic_check() (the core now takes care of bus
-> >   flags propagation)
-> > 
-> > Changes in v2:
-> > * Adjust things to match the new bus-format negotiation approach
-> > ---
-> >  drivers/gpu/drm/bridge/panel.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-> > index f4e293e7cf64..a70c363a2bd0 100644
-> > --- a/drivers/gpu/drm/bridge/panel.c
-> > +++ b/drivers/gpu/drm/bridge/panel.c
-> > @@ -127,6 +127,7 @@ static const struct drm_bridge_funcs panel_bridge_bridge_funcs = {
-> >  	.enable = panel_bridge_enable,
-> >  	.disable = panel_bridge_disable,
-> >  	.post_disable = panel_bridge_post_disable,
-> > +	.atomic_get_input_bus_fmts = drm_atomic_helper_bridge_propagate_bus_fmt,  
-> 
-> Shouldn't the format be retrieved from the panel instead of from the
-> connector ? We're moving towards removing connector creation from
-> bridges, so I think it would be more future-proof.
+diff --git a/intel/intel_bufmgr_gem.c b/intel/intel_bufmgr_gem.c
+index fbf48730..ade13a4c 100644
+--- a/intel/intel_bufmgr_gem.c
++++ b/intel/intel_bufmgr_gem.c
+@@ -1069,6 +1069,28 @@ check_bo_alloc_userptr(drm_intel_bufmgr *bufmgr,
+ 					  tiling_mode, stride, size, flags);
+ }
+ 
++static int get_tiling_mode(drm_intel_bufmgr_gem *bufmgr_gem,
++			   uint32_t gem_handle,
++			   uint32_t *tiling_mode,
++			   uint32_t *swizzle_mode)
++{
++	struct drm_i915_gem_get_tiling get_tiling = {
++		.handle = gem_handle,
++	};
++	int ret;
++
++	ret = drmIoctl(bufmgr_gem->fd,
++		       DRM_IOCTL_I915_GEM_GET_TILING,
++		       &get_tiling);
++	if (ret != 0 && errno != EOPNOTSUPP)
++		return ret;
++
++	*tiling_mode = get_tiling.tiling_mode;
++	*swizzle_mode = get_tiling.swizzle_mode;
++
++	return 0;
++}
++
+ /**
+  * Returns a drm_intel_bo wrapping the given buffer object handle.
+  *
+@@ -1084,7 +1106,6 @@ drm_intel_bo_gem_create_from_name(drm_intel_bufmgr *bufmgr,
+ 	drm_intel_bo_gem *bo_gem;
+ 	int ret;
+ 	struct drm_gem_open open_arg;
+-	struct drm_i915_gem_get_tiling get_tiling;
+ 
+ 	/* At the moment most applications only have a few named bo.
+ 	 * For instance, in a DRI client only the render buffers passed
+@@ -1146,16 +1167,11 @@ drm_intel_bo_gem_create_from_name(drm_intel_bufmgr *bufmgr,
+ 	HASH_ADD(name_hh, bufmgr_gem->name_table,
+ 		 global_name, sizeof(bo_gem->global_name), bo_gem);
+ 
+-	memclear(get_tiling);
+-	get_tiling.handle = bo_gem->gem_handle;
+-	ret = drmIoctl(bufmgr_gem->fd,
+-		       DRM_IOCTL_I915_GEM_GET_TILING,
+-		       &get_tiling);
++	ret = get_tiling_mode(bufmgr_gem, bo_gem->gem_handle,
++			      &bo_gem->tiling_mode, &bo_gem->swizzle_mode);
+ 	if (ret != 0)
+ 		goto err_unref;
+ 
+-	bo_gem->tiling_mode = get_tiling.tiling_mode;
+-	bo_gem->swizzle_mode = get_tiling.swizzle_mode;
+ 	/* XXX stride is unknown */
+ 	drm_intel_bo_gem_set_in_aperture_size(bufmgr_gem, bo_gem, 0);
+ 	DBG("bo_create_from_handle: %d (%s)\n", handle, bo_gem->name);
+@@ -2634,7 +2650,6 @@ drm_intel_bo_gem_create_from_prime(drm_intel_bufmgr *bufmgr, int prime_fd, int s
+ 	int ret;
+ 	uint32_t handle;
+ 	drm_intel_bo_gem *bo_gem;
+-	struct drm_i915_gem_get_tiling get_tiling;
+ 
+ 	pthread_mutex_lock(&bufmgr_gem->lock);
+ 	ret = drmPrimeFDToHandle(bufmgr_gem->fd, prime_fd, &handle);
+@@ -2688,15 +2703,11 @@ drm_intel_bo_gem_create_from_prime(drm_intel_bufmgr *bufmgr, int prime_fd, int s
+ 	bo_gem->has_error = false;
+ 	bo_gem->reusable = false;
+ 
+-	memclear(get_tiling);
+-	get_tiling.handle = bo_gem->gem_handle;
+-	if (drmIoctl(bufmgr_gem->fd,
+-		     DRM_IOCTL_I915_GEM_GET_TILING,
+-		     &get_tiling))
++	ret = get_tiling_mode(bufmgr_gem, handle,
++			      &bo_gem->tiling_mode, &bo_gem->swizzle_mode);
++	if (ret)
+ 		goto err;
+ 
+-	bo_gem->tiling_mode = get_tiling.tiling_mode;
+-	bo_gem->swizzle_mode = get_tiling.swizzle_mode;
+ 	/* XXX stride is unknown */
+ 	drm_intel_bo_gem_set_in_aperture_size(bufmgr_gem, bo_gem, 0);
+ 
+-- 
+2.23.1
 
-Right now the panel bus_format is not exposed by the drm_panel
-abstraction (only panel_simple have access to this information through
-their panel_desc). I'd rather not add new things to this series so I'm
-in favor of keeping the current implementation, but I add this idea
-(expose bus format through the drm_panel abstraction) to my TODO list.
-
-Thanks,
-
-Boris
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
