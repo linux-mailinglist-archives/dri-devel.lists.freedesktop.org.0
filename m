@@ -1,38 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A285F1465D8
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 11:35:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B9E81466F1
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 12:39:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9127F6FBD4;
-	Thu, 23 Jan 2020 10:35:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 511FD6FBF0;
+	Thu, 23 Jan 2020 11:39:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE3586FBD4;
- Thu, 23 Jan 2020 10:35:06 +0000 (UTC)
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 4EDF424125;
- Thu, 23 Jan 2020 10:35:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1579775706;
- bh=IXu+CLEblbAfeMyZJCmgJZsaCksImenwoK2df5bxwE4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cdk+7rh7vZ1sMNRBWjqf62EqgAM5TKCvX++XhGiwdL/tiBMAat16JRdq5a+GXn3wn
- R10QsyYOyfZ5JdG9gM70P3bvJtH8znbiOddJoAtiwjIb9hYLpxIWrMp40C3mr+/NTk
- J6Gw5vYN+2qNINcatwN5LIzJ0E1hB1cXmUlewSwE=
-Date: Thu, 23 Jan 2020 11:35:03 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PULL] topic/drm-warn for drm-misc-next
-Message-ID: <20200123103503.cgjqxbv6aw5pqtdp@gilmour.lan>
-References: <87eevrecnf.fsf@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 303216FA02;
+ Thu, 23 Jan 2020 11:39:54 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2020 03:39:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,353,1574150400"; d="scan'208";a="287853255"
+Received: from plaxmina-desktop.iind.intel.com ([10.145.162.62])
+ by fmsmga001.fm.intel.com with ESMTP; 23 Jan 2020 03:39:49 -0800
+From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
+To: jani.nikula@linux.intel.com, daniel@ffwll.ch,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [Intel-gfx] [PATCH v3 0/4] drm: Introduce struct drm_device based
+ WARN* and use them in i915
+Date: Thu, 23 Jan 2020 16:58:05 +0530
+Message-Id: <20200123112809.12185-1-pankaj.laxminarayan.bharadiya@intel.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <87eevrecnf.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,62 +42,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>
-Content-Type: multipart/mixed; boundary="===============0845122141=="
+Cc: pankaj.laxminarayan.bharadiya@intel.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Device specific dev_WARN and dev_WARN_ONCE macros available in kernel
+include device information in the backtrace, so we know what device
+the warnings originate from.
 
---===============0845122141==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="fvryeusxzof7xe6k"
-Content-Disposition: inline
+Similar to this, add new struct drm_device based drm_WARN* macros. These
+macros include device information in the backtrace, so we know
+what device the warnings originate from. Knowing the device specific
+information in the backtrace would be helpful in development all
+around.
+
+This patch series aims to convert calls of WARN(), WARN_ON(),
+WARN_ONCE() and WARN_ON_ONCE() in i915 driver to use the drm
+device-specific variants automatically wherever struct device pointer
+is available.
+
+To do this, this patch series -
+  - introduces new struct drm_device based WARN* macros
+  - automatically converts WARN* with device specific dev_WARN*
+    variants using coccinelle semantic patch scripts.
+
+The goal is to convert all the calls of WARN* with drm_WARN* in i915,
+but there are still cases where device pointer is not readily
+available in some functions (or I missed them somehow) using WARN*
+hence some manual churning is needed. Handle such remaining cases
+separately later.
+
+changes since v2:
+  - rebase pending unmerged patches on drm-tip
+
+changes since v1:
+  - Address Jani's review comments
+    - Fix typo in comment of patch 0001
+    - Get rid of helper functions
+    - Split patches by directory
+
+Changes since RFC at [1]
+  - Introduce drm_WARN* macros and use them as suggested by Sam and Jani
+  - Get rid of extra local variables
+
+[1] https://patchwork.freedesktop.org/series/71668/
 
 
---fvryeusxzof7xe6k
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Pankaj Bharadiya (4):
+  drm/i915/display: Make WARN* drm specific where drm_device ptr is available
+  drm/i915/display: Make WARN* drm specific where drm_priv ptr is available
+  drm/i915/gvt: Make WARN* drm specific where drm_priv ptr is available
+  drm/i915/gvt: Make WARN* drm specific where vgpu ptr is available
 
-On Wed, Jan 22, 2020 at 05:25:40PM +0200, Jani Nikula wrote:
->
-> Hi Maarten/Maxime,
->
-> Please pull the drm_device based drm_WARN* macros from the topic
-> branch. I'll pull the same to drm-intel-next-queued.
->
-> I like to use the topic branch here, because due to timing it'll take
-> forever for the full feature route through drm-next and backmerges.
->
-> The baseline was chosen using 'git merge-base drm-misc/drm-misc-next
-> drm-intel/drm-intel-next-queued'.
+ drivers/gpu/drm/i915/display/icl_dsi.c        |  14 +-
+ drivers/gpu/drm/i915/display/intel_atomic.c   |   6 +-
+ drivers/gpu/drm/i915/display/intel_audio.c    |  19 +-
+ drivers/gpu/drm/i915/display/intel_bios.c     |  10 +-
+ drivers/gpu/drm/i915/display/intel_bw.c       |   3 +-
+ drivers/gpu/drm/i915/display/intel_cdclk.c    |  81 ++++---
+ drivers/gpu/drm/i915/display/intel_color.c    |   4 +-
+ .../gpu/drm/i915/display/intel_combo_phy.c    |   2 +-
+ .../gpu/drm/i915/display/intel_connector.c    |   3 +-
+ drivers/gpu/drm/i915/display/intel_crt.c      |  10 +-
+ drivers/gpu/drm/i915/display/intel_ddi.c      |  94 ++++----
+ drivers/gpu/drm/i915/display/intel_display.c  | 218 ++++++++++--------
+ .../drm/i915/display/intel_display_power.c    | 167 ++++++++------
+ drivers/gpu/drm/i915/display/intel_dp.c       | 117 ++++++----
+ drivers/gpu/drm/i915/display/intel_dp_mst.c   |  10 +-
+ drivers/gpu/drm/i915/display/intel_dpio_phy.c |   3 +-
+ drivers/gpu/drm/i915/display/intel_dpll_mgr.c |  37 +--
+ drivers/gpu/drm/i915/display/intel_dsb.c      |   6 +-
+ .../i915/display/intel_dsi_dcs_backlight.c    |   2 +-
+ drivers/gpu/drm/i915/display/intel_dsi_vbt.c  |   5 +-
+ drivers/gpu/drm/i915/display/intel_fbc.c      |  23 +-
+ drivers/gpu/drm/i915/display/intel_fbdev.c    |  13 +-
+ drivers/gpu/drm/i915/display/intel_gmbus.c    |   3 +-
+ drivers/gpu/drm/i915/display/intel_hdcp.c     |  21 +-
+ drivers/gpu/drm/i915/display/intel_hdmi.c     |  51 ++--
+ drivers/gpu/drm/i915/display/intel_hotplug.c  |   7 +-
+ .../gpu/drm/i915/display/intel_lpe_audio.c    |   2 +-
+ drivers/gpu/drm/i915/display/intel_lvds.c     |   7 +-
+ drivers/gpu/drm/i915/display/intel_opregion.c |   7 +-
+ drivers/gpu/drm/i915/display/intel_overlay.c  |  12 +-
+ drivers/gpu/drm/i915/display/intel_panel.c    |  19 +-
+ drivers/gpu/drm/i915/display/intel_pipe_crc.c |   7 +-
+ drivers/gpu/drm/i915/display/intel_psr.c      |  34 +--
+ drivers/gpu/drm/i915/display/intel_sdvo.c     |  14 +-
+ drivers/gpu/drm/i915/display/intel_sprite.c   |   5 +-
+ drivers/gpu/drm/i915/display/intel_tc.c       |  17 +-
+ drivers/gpu/drm/i915/display/intel_vdsc.c     |   2 +-
+ drivers/gpu/drm/i915/display/vlv_dsi.c        |   2 +-
+ drivers/gpu/drm/i915/gvt/aperture_gm.c        |   6 +-
+ drivers/gpu/drm/i915/gvt/cfg_space.c          |  23 +-
+ drivers/gpu/drm/i915/gvt/cmd_parser.c         |   4 +-
+ drivers/gpu/drm/i915/gvt/display.c            |   6 +-
+ drivers/gpu/drm/i915/gvt/dmabuf.c             |   4 +-
+ drivers/gpu/drm/i915/gvt/edid.c               |  19 +-
+ drivers/gpu/drm/i915/gvt/gtt.c                |  21 +-
+ drivers/gpu/drm/i915/gvt/gvt.c                |   4 +-
+ drivers/gpu/drm/i915/gvt/handlers.c           |  22 +-
+ drivers/gpu/drm/i915/gvt/interrupt.c          |  15 +-
+ drivers/gpu/drm/i915/gvt/kvmgt.c              |  10 +-
+ drivers/gpu/drm/i915/gvt/mmio.c               |  30 ++-
+ drivers/gpu/drm/i915/gvt/mmio_context.c       |   8 +-
+ drivers/gpu/drm/i915/gvt/scheduler.c          |   6 +-
+ drivers/gpu/drm/i915/gvt/vgpu.c               |   6 +-
+ 53 files changed, 714 insertions(+), 527 deletions(-)
 
-Pulled, thanks!
-Maxime
-
---fvryeusxzof7xe6k
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXil21wAKCRDj7w1vZxhR
-xegJAQCcAUM3OaZ+tUtMN5vBVLi8xAVQlI0B+Td+y11hxL08TAEAssoUr161MoB+
-ZrrJm/1kr1FwQYilY/QHcERVi0lIsQ0=
-=Emd1
------END PGP SIGNATURE-----
-
---fvryeusxzof7xe6k--
-
---===============0845122141==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+-- 
+2.23.0
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0845122141==--
