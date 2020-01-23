@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63446146455
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 10:21:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E3FF146462
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 10:21:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE2E06FB70;
-	Thu, 23 Jan 2020 09:21:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E55976FB79;
+	Thu, 23 Jan 2020 09:21:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 853826FB70
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 09:21:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 026256FB70
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 09:21:32 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 35DAEB21D;
+ by mx2.suse.de (Postfix) with ESMTP id AB51AB21F;
  Thu, 23 Jan 2020 09:21:30 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
@@ -22,9 +22,9 @@ To: airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
  david@lechnology.com, noralf@tronnes.org, sean@poorly.run,
  oleksandr_andrushchenko@epam.com, sam@ravnborg.org,
  laurent.pinchart@ideasonboard.com, emil.velikov@collabora.com
-Subject: [PATCH v4 10/15] drm/repaper: Remove sending of vblank event
-Date: Thu, 23 Jan 2020 10:21:18 +0100
-Message-Id: <20200123092123.28368-11-tzimmermann@suse.de>
+Subject: [PATCH v4 11/15] drm/st7586: Remove sending of vblank event
+Date: Thu, 23 Jan 2020 10:21:19 +0100
+Message-Id: <20200123092123.28368-12-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200123092123.28368-1-tzimmermann@suse.de>
 References: <20200123092123.28368-1-tzimmermann@suse.de>
@@ -58,30 +58,30 @@ v4:
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- drivers/gpu/drm/tiny/repaper.c | 9 ---------
+ drivers/gpu/drm/tiny/st7586.c | 9 ---------
  1 file changed, 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/repaper.c
-index 76d179200775..183484595aea 100644
---- a/drivers/gpu/drm/tiny/repaper.c
-+++ b/drivers/gpu/drm/tiny/repaper.c
-@@ -33,7 +33,6 @@
+diff --git a/drivers/gpu/drm/tiny/st7586.c b/drivers/gpu/drm/tiny/st7586.c
+index 060cc756194f..9ef559dd3191 100644
+--- a/drivers/gpu/drm/tiny/st7586.c
++++ b/drivers/gpu/drm/tiny/st7586.c
+@@ -23,7 +23,6 @@
  #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_modes.h>
+ #include <drm/drm_mipi_dbi.h>
  #include <drm/drm_rect.h>
 -#include <drm/drm_vblank.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_simple_kms_helper.h>
  
-@@ -856,18 +855,10 @@ static void repaper_pipe_update(struct drm_simple_display_pipe *pipe,
- 				struct drm_plane_state *old_state)
+ /* controller-specific commands */
+ #define ST7586_DISP_MODE_GRAY	0x38
+@@ -159,18 +158,10 @@ static void st7586_pipe_update(struct drm_simple_display_pipe *pipe,
+ 			       struct drm_plane_state *old_state)
  {
  	struct drm_plane_state *state = pipe->plane.state;
 -	struct drm_crtc *crtc = &pipe->crtc;
  	struct drm_rect rect;
  
  	if (drm_atomic_helper_damage_merged(old_state, state, &rect))
- 		repaper_fb_dirty(state->fb);
+ 		st7586_fb_dirty(state->fb, &rect);
 -
 -	if (crtc->state->event) {
 -		spin_lock_irq(&crtc->dev->event_lock);
@@ -91,7 +91,7 @@ index 76d179200775..183484595aea 100644
 -	}
  }
  
- static const struct drm_simple_display_pipe_funcs repaper_pipe_funcs = {
+ static void st7586_pipe_enable(struct drm_simple_display_pipe *pipe,
 -- 
 2.24.1
 
