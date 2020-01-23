@@ -2,31 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8361B1479B3
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2020 09:52:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D6451479B2
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2020 09:52:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AADF6FF84;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 367D66FF8A;
 	Fri, 24 Jan 2020 08:52:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-blr-02.qualcomm.com (alexa-out-blr-02.qualcomm.com
- [103.229.18.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3A756FCEA;
- Thu, 23 Jan 2020 14:02:03 +0000 (UTC)
-Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
- by alexa-out-blr-02.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 23 Jan 2020 19:32:01 +0530
-Received: from harigovi-linux.qualcomm.com ([10.204.66.157])
- by ironmsg01-blr.qualcomm.com with ESMTP; 23 Jan 2020 19:31:41 +0530
-Received: by harigovi-linux.qualcomm.com (Postfix, from userid 2332695)
- id 1332A286A; Thu, 23 Jan 2020 19:31:39 +0530 (IST)
-From: Harigovindan P <harigovi@codeaurora.org>
-To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [v2] arm64: dts: sc7180: add display dt nodes
-Date: Thu, 23 Jan 2020 19:31:38 +0530
-Message-Id: <1579788098-22565-1-git-send-email-harigovi@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
+Received: from eu-smtp-delivery-151.mimecast.com
+ (eu-smtp-delivery-151.mimecast.com [146.101.78.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68C9B6FA1B
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 14:36:22 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-113-15wkTAANO_ibswgbp6HdbQ-1; Thu, 23 Jan 2020 14:36:17 +0000
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Thu, 23 Jan 2020 14:36:16 +0000
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000; 
+ Thu, 23 Jan 2020 14:36:16 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Chris Wilson' <chris@chris-wilson.co.uk>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH] drm: Inject a cond_resched() into long drm_clflush_sg()
+Thread-Topic: [PATCH] drm: Inject a cond_resched() into long drm_clflush_sg()
+Thread-Index: AQHVy+gMprmlNntzX0qJh6CaHCkwb6f4Wzrg
+Date: Thu, 23 Jan 2020 14:36:16 +0000
+Message-ID: <8d069732e2a54fb5aa3bffee5cd0d0f4@AcuMS.aculab.com>
+References: <20200115205245.2772800-1-chris@chris-wilson.co.uk>
+In-Reply-To: <20200115205245.2772800-1-chris@chris-wilson.co.uk>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
+MIME-Version: 1.0
+X-MC-Unique: 15wkTAANO_ibswgbp6HdbQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
 X-Mailman-Approved-At: Fri, 24 Jan 2020 08:52:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -40,244 +55,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Harigovindan P <harigovi@codeaurora.org>, linux-kernel@vger.kernel.org,
- seanpaul@chromium.org, kalyan_t@codeaurora.org, hoegsberg@chromium.org
-MIME-Version: 1.0
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add display, DSI hardware DT nodes for sc7180.
+From: Chris Wilson <chris@chris-wilson.co.uk>
+> Sent: 15 January 2020 20:53
+> 
+> Since we may try and flush the cachelines associated with large buffers
+> (an 8K framebuffer is about 128MiB, even before we try HDR), this leads
+> to unacceptably long latencies (when using a voluntary CONFIG_PREEMPT).
+> If we call cond_resched() between each sg chunk, that it about every 128
+> pages, we have a natural break point in which to check if the process
+> needs to be rescheduled. Naturally, this means that drm_clflush_sg() can
+> only be called from process context -- which is true at the moment. The
+> other clflush routines remain usable from atomic context.
+> 
+> Even though flushing large objects takes a demonstrable amount to time
+> to flush all the cachelines, clflush is still preferred over a
+> system-wide wbinvd as the latter has unpredictable latencies affecting
+> the whole system not just the local task.
 
-Changes in v1:
-	-Added display DT nodes for sc7180
-Changes in v2:
-	-Renamed node names
-	-Corrected code alignments
-	-Removed extra new line
-	-Added DISP AHB clock for register access
-	under display_subsystem node for global settings
+Any progress on this.
+I think the patch itself has it's whitespace messed up.
 
-Signed-off-by: Harigovindan P <harigovi@codeaurora.org>
----
- arch/arm64/boot/dts/qcom/sc7180-idp.dts |  57 +++++++++++++++
- arch/arm64/boot/dts/qcom/sc7180.dtsi    | 125 ++++++++++++++++++++++++++++++++
- 2 files changed, 182 insertions(+)
+I've just done a measurement on a newer system that supports clflushopt.
+drm_clflush_sg() took 400us for a 1920x1080 display.
+No idea how fast the cpus were running, somewhere between 800MHz and 4GHz
+depending on the whim of the hardware (probable at the low end).
+Considerably faster, and enough that calling cond_resched() every 4k
+is probably noticable.
+So every 128 pages is probably a reasonable compromise.
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7180-idp.dts b/arch/arm64/boot/dts/qcom/sc7180-idp.dts
-index 388f50a..f410614 100644
---- a/arch/arm64/boot/dts/qcom/sc7180-idp.dts
-+++ b/arch/arm64/boot/dts/qcom/sc7180-idp.dts
-@@ -232,6 +232,50 @@
- 	};
- };
- 
-+&dsi_controller {
-+	status = "okay";
-+
-+	vdda-supply = <&vreg_l3c_1p2>;
-+
-+	panel@0 {
-+		compatible = "visionox,rm69299-1080p-display";
-+		reg = <0>;
-+
-+		vdda-supply = <&vreg_l8c_1p8>;
-+		vdd3p3-supply = <&vreg_l18a_2p8>;
-+
-+		pinctrl-names = "default", "suspend";
-+		pinctrl-0 = <&disp_pins_default>;
-+		pinctrl-1 = <&disp_pins_default>;
-+
-+		reset-gpios = <&pm6150l_gpio 3 0>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			port@0 {
-+				reg = <0>;
-+				panel0_in: endpoint {
-+					remote-endpoint = <&dsi0_out>;
-+				};
-+			};
-+		};
-+	};
-+
-+	ports {
-+		port@1 {
-+			endpoint {
-+				remote-endpoint = <&panel0_in>;
-+				data-lanes = <0 1 2 3>;
-+			};
-+		};
-+	};
-+};
-+
-+&dsi_phy {
-+	status = "okay";
-+};
-+
- &qspi {
- 	status = "okay";
- 	pinctrl-names = "default";
-@@ -289,6 +333,19 @@
- 
- /* PINCTRL - additions to nodes defined in sc7180.dtsi */
- 
-+&pm6150l_gpio {
-+	disp_pins {
-+		disp_pins_default: disp_pins_default{
-+			pins = "gpio3";
-+			function = "func1";
-+			qcom,drive-strength = <2>;
-+			power-source = <0>;
-+			bias-disable;
-+			output-low;
-+		};
-+	};
-+};
-+
- &qspi_clk {
- 	pinconf {
- 		pins = "gpio63";
-diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-index 3bc3f64..81c3aab 100644
---- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-@@ -1184,6 +1184,131 @@
- 			#power-domain-cells = <1>;
- 		};
- 
-+		display_subsystem: mdss@ae00000 {
-+			compatible = "qcom,sc7180-mdss";
-+			reg = <0 0x0ae00000 0 0x1000>;
-+			reg-names = "mdss";
-+
-+			power-domains = <&dispcc MDSS_GDSC>;
-+
-+			clocks = <&gcc GCC_DISP_AHB_CLK>,
-+				 <&gcc GCC_DISP_HF_AXI_CLK>,
-+				 <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+				 <&dispcc DISP_CC_MDSS_MDP_CLK>;
-+			clock-names = "iface", "gcc_bus", "ahb", "core";
-+
-+			assigned-clocks = <&dispcc DISP_CC_MDSS_MDP_CLK>;
-+			assigned-clock-rates = <300000000>;
-+
-+			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-controller;
-+			#interrupt-cells = <1>;
-+
-+			iommus = <&apps_smmu 0x800 0x2>;
-+
-+			#address-cells = <2>;
-+			#size-cells = <2>;
-+			ranges;
-+
-+			display_controller: mdp@ae00000 {
-+				compatible = "qcom,sc7180-dpu";
-+				reg = <0 0x0ae00000 0 0x1000>,
-+				      <0 0x0ae01000 0 0x8f000>,
-+				      <0 0x0aeb0000 0 0x2008>,
-+				      <0 0x0af03000 0 0x16>;
-+				reg-names = "mdss", "mdp", "vbif", "disp_cc";
-+
-+				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+					 <&dispcc DISP_CC_MDSS_ROT_CLK>,
-+					 <&dispcc DISP_CC_MDSS_MDP_LUT_CLK>,
-+					 <&dispcc DISP_CC_MDSS_MDP_CLK>,
-+					 <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
-+				clock-names = "iface", "rot", "lut", "core",
-+					      "vsync";
-+				assigned-clocks = <&dispcc DISP_CC_MDSS_MDP_CLK>,
-+						  <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
-+				assigned-clock-rates = <300000000>,
-+						       <19200000>;
-+
-+				interrupt-parent = <&display_subsystem>;
-+				interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@0 {
-+						reg = <0>;
-+						dpu_intf1_out: endpoint {
-+							remote-endpoint = <&dsi0_in>;
-+						};
-+					};
-+				};
-+			};
-+
-+			dsi_controller: qcom,mdss_dsi_ctrl0@ae94000 {
-+				compatible = "qcom,mdss-dsi-ctrl";
-+				reg = <0 0x0ae94000 0 0x400>;
-+				reg-names = "dsi_ctrl";
-+
-+				interrupt-parent = <&display_subsystem>;
-+				interrupts = <4 IRQ_TYPE_LEVEL_HIGH>;
-+
-+				clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK>,
-+					 <&dispcc DISP_CC_MDSS_BYTE0_INTF_CLK>,
-+					 <&dispcc DISP_CC_MDSS_PCLK0_CLK>,
-+					 <&dispcc DISP_CC_MDSS_ESC0_CLK>,
-+					 <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+					 <&gcc GCC_DISP_HF_AXI_CLK>;
-+				clock-names = "byte",
-+					      "byte_intf",
-+					      "pixel",
-+					      "core",
-+					      "iface",
-+					      "bus";
-+
-+				phys = <&dsi_phy>;
-+				phy-names = "dsi";
-+
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@0 {
-+						reg = <0>;
-+						dsi0_in: endpoint {
-+							remote-endpoint = <&dpu_intf1_out>;
-+						};
-+					};
-+
-+					port@1 {
-+						reg = <1>;
-+						dsi0_out: endpoint {
-+						};
-+					};
-+				};
-+			};
-+
-+			dsi_phy: dsi-phy0@ae94400 {
-+				compatible = "qcom,dsi-phy-10nm";
-+				reg = <0 0x0ae94400 0 0x200>,
-+				      <0 0x0ae94600 0 0x280>,
-+				      <0 0x0ae94a00 0 0x1e0>;
-+				reg-names = "dsi_phy",
-+					    "dsi_phy_lane",
-+					    "dsi_pll";
-+
-+				#clock-cells = <1>;
-+				#phy-cells = <0>;
-+
-+				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>;
-+				clock-names = "iface";
-+			};
-+		};
-+
- 		pdc: interrupt-controller@b220000 {
- 			compatible = "qcom,sc7180-pdc", "qcom,pdc";
- 			reg = <0 0x0b220000 0 0x30000>;
--- 
-2.7.4
+	David
+
+
+> Reported-by: David Laight <David.Laight@ACULAB.COM>
+> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: David Laight <David.Laight@ACULAB.COM>
+> ---
+>  drivers/gpu/drm/drm_cache.c | 49 ++++++++++++++++++++++++++++++++++---
+>  1 file changed, 45 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_cache.c b/drivers/gpu/drm/drm_cache.c
+> index 03e01b000f7a..fbd2bb644544 100644
+> --- a/drivers/gpu/drm/drm_cache.c
+> +++ b/drivers/gpu/drm/drm_cache.c
+> @@ -112,23 +112,64 @@ drm_clflush_pages(struct page *pages[], unsigned long num_pages)
+>  }
+>  EXPORT_SYMBOL(drm_clflush_pages);
+> 
+> +static __always_inline struct sgt_iter {
+> +struct scatterlist *sgp;
+> +unsigned long pfn;
+> +unsigned int curr;
+> +unsigned int max;
+> +} __sgt_iter(struct scatterlist *sgl) {
+> +struct sgt_iter s = { .sgp = sgl };
+> +
+> +if (s.sgp) {
+> +s.max = s.curr = s.sgp->offset;
+> +s.max += s.sgp->length;
+> +s.pfn = page_to_pfn(sg_page(s.sgp));
+> +}
+> +
+> +return s;
+> +}
+> +
+> +static inline struct scatterlist *__sg_next_resched(struct scatterlist *sg)
+> +{
+> +if (sg_is_last(sg))
+> +return NULL;
+> +
+> +++sg;
+> +if (unlikely(sg_is_chain(sg))) {
+> +sg = sg_chain_ptr(sg);
+> +cond_resched();
+> +}
+> +return sg;
+> +}
+> +
+> +#define for_each_sgt_page(__pp, __iter, __sgt)\
+> +for ((__iter) = __sgt_iter((__sgt)->sgl);\
+> +     ((__pp) = (__iter).pfn == 0 ? NULL :\
+> +      pfn_to_page((__iter).pfn + ((__iter).curr >> PAGE_SHIFT))); \
+> +     (((__iter).curr += PAGE_SIZE) >= (__iter).max) ?\
+> +     (__iter) = __sgt_iter(__sg_next_resched((__iter).sgp)), 0 : 0)
+> +
+>  /**
+>   * drm_clflush_sg - Flush dcache lines pointing to a scather-gather.
+>   * @st: struct sg_table.
+>   *
+>   * Flush every data cache line entry that points to an address in the
+> - * sg.
+> + * sg. This may schedule between scatterlist chunks, in order to keep
+> + * the system preemption-latency down for large buffers.
+>   */
+>  void
+>  drm_clflush_sg(struct sg_table *st)
+>  {
+> +might_sleep();
+> +
+>  #if defined(CONFIG_X86)
+>  if (static_cpu_has(X86_FEATURE_CLFLUSH)) {
+> -struct sg_page_iter sg_iter;
+> +struct sgt_iter sg_iter;
+> +struct page *page;
+> 
+>  mb(); /*CLFLUSH is ordered only by using memory barriers*/
+> -for_each_sg_page(st->sgl, &sg_iter, st->nents, 0)
+> -drm_clflush_page(sg_page_iter_page(&sg_iter));
+> +for_each_sgt_page(page, sg_iter, st)
+> +drm_clflush_page(page);
+>  mb(); /*Make sure that all cache line entry is flushed*/
+> 
+>  return;
+> --
+> 2.25.0
+> 
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 
 _______________________________________________
 dri-devel mailing list
