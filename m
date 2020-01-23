@@ -2,39 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DAF2146A8B
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 15:01:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B64DA146AD9
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 15:06:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC0BE6FCE8;
-	Thu, 23 Jan 2020 14:00:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7F3A6E098;
+	Thu, 23 Jan 2020 14:06:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 200B06FD35;
- Thu, 23 Jan 2020 14:00:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC8316E098;
+ Thu, 23 Jan 2020 14:06:37 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id BA1C0B283;
- Thu, 23 Jan 2020 14:00:06 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 6C352AD45;
+ Thu, 23 Jan 2020 14:06:36 +0000 (UTC)
+Subject: Re: [PATCH v4 2/2] drm/debugfs: also take per device driver features
+ into account
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+References: <20200123124801.14958-1-jani.nikula@intel.com>
+ <20200123124801.14958-2-jani.nikula@intel.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@linux.ie, daniel@ffwll.ch, alexander.deucher@amd.com,
- christian.koenig@amd.com, David1.Zhou@amd.com,
- maarten.lankhorst@linux.intel.com, patrik.r.jakobsson@gmail.com,
- robdclark@gmail.com, sean@poorly.run, benjamin.gaignard@linaro.org,
- vincent.abriou@st.com, yannick.fertre@st.com, philippe.cornu@st.com,
- mcoquelin.stm32@gmail.com, alexandre.torgue@st.com, eric@anholt.net,
- rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
- linux-graphics-maintainer@vmware.com, thellstrom@vmware.com,
- bskeggs@redhat.com, harry.wentland@amd.com, sunpeng.li@amd.com,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com
-Subject: [PATCH v4 22/22] drm: Remove legacy version of get_scanout_position()
-Date: Thu, 23 Jan 2020 14:59:43 +0100
-Message-Id: <20200123135943.24140-23-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200123135943.24140-1-tzimmermann@suse.de>
-References: <20200123135943.24140-1-tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <6aa5cab2-6d5f-1a9e-6e04-261ef3476fdb@suse.de>
+Date: Thu, 23 Jan 2020 15:06:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
+In-Reply-To: <20200123124801.14958-2-jani.nikula@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,100 +65,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, nouveau@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: intel-gfx@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1709973672=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIGxlZ2FjeSB2ZXJzaW9uIG9mIGdldF9zY2Fub3V0X3Bvc2l0aW9uKCkgd2FzIG9ubHkgdXNl
-ZnVsIHdoaWxlCmRyaXZlcnMgc3RpbGwgdXNlZCBkcm1fZHJpdmVyLmdldF9zY2Fub3V0X3Bvc2l0
-aW9uKCkuIFdpdGggbm8gc3VjaApkcml2ZXJzIGxlZnQsIHRoZSByZWxhdGVkIHR5cGVkZWYgYW5k
-IGNvZGUgY2FuIGJlIHJlbW92ZWQKClNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0
-emltbWVybWFubkBzdXNlLmRlPgpSZXZpZXdlZC1ieTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5z
-eXJqYWxhQGxpbnV4LmludGVsLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX3ZibGFuay5j
-ICAgIHwgMjcgKysrKysrKy0tLS0tLS0tLS0tLS0tLS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vaTkx
-NS9pOTE1X2lycS5jIHwgIDIgKy0KIGluY2x1ZGUvZHJtL2RybV92YmxhbmsuaCAgICAgICAgfCAx
-MiArLS0tLS0tLS0tLS0KIDMgZmlsZXMgY2hhbmdlZCwgOSBpbnNlcnRpb25zKCspLCAzMiBkZWxl
-dGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3ZibGFuay5jIGIvZHJp
-dmVycy9ncHUvZHJtL2RybV92YmxhbmsuYwppbmRleCA5MGQ2MjQzMGE2YWUuLmFiMGEwZmNhNTg5
-YSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV92YmxhbmsuYworKysgYi9kcml2ZXJz
-L2dwdS9kcm0vZHJtX3ZibGFuay5jCkBAIC01NzYsOSArNTc2LDYgQEAgRVhQT1JUX1NZTUJPTChk
-cm1fY2FsY190aW1lc3RhbXBpbmdfY29uc3RhbnRzKTsKICAqIEBnZXRfc2Nhbm91dF9wb3NpdGlv
-bjoKICAqICAgICBDYWxsYmFjayBmdW5jdGlvbiB0byByZXRyaWV2ZSB0aGUgc2Nhbm91dCBwb3Np
-dGlvbi4gU2VlCiAgKiAgICAgQHN0cnVjdCBkcm1fY3J0Y19oZWxwZXJfZnVuY3MuZ2V0X3NjYW5v
-dXRfcG9zaXRpb24uCi0gKiBAZ2V0X3NjYW5vdXRfcG9zaXRpb25fbGVnYWN5OgotICogICAgIENh
-bGxiYWNrIGZ1bmN0aW9uIHRvIHJldHJpZXZlIHRoZSBzY2Fub3V0IHBvc2l0aW9uLiBTZWUKLSAq
-ICAgICBAc3RydWN0IGRybV9kcml2ZXIuZ2V0X3NjYW5vdXRfcG9zaXRpb24uCiAgKgogICogSW1w
-bGVtZW50cyBjYWxjdWxhdGlvbiBvZiBleGFjdCB2YmxhbmsgdGltZXN0YW1wcyBmcm9tIGdpdmVu
-IGRybV9kaXNwbGF5X21vZGUKICAqIHRpbWluZ3MgYW5kIGN1cnJlbnQgdmlkZW8gc2Nhbm91dCBw
-b3NpdGlvbiBvZiBhIENSVEMuCkBAIC02MDEsOCArNTk4LDcgQEAgYm9vbAogZHJtX2NydGNfdmJs
-YW5rX2hlbHBlcl9nZXRfdmJsYW5rX3RpbWVzdGFtcF9pbnRlcm5hbCgKIAlzdHJ1Y3QgZHJtX2Ny
-dGMgKmNydGMsIGludCAqbWF4X2Vycm9yLCBrdGltZV90ICp2YmxhbmtfdGltZSwKIAlib29sIGlu
-X3ZibGFua19pcnEsCi0JZHJtX3ZibGFua19nZXRfc2Nhbm91dF9wb3NpdGlvbl9mdW5jIGdldF9z
-Y2Fub3V0X3Bvc2l0aW9uLAotCWRybV92YmxhbmtfZ2V0X3NjYW5vdXRfcG9zaXRpb25fbGVnYWN5
-X2Z1bmMgZ2V0X3NjYW5vdXRfcG9zaXRpb25fbGVnYWN5KQorCWRybV92YmxhbmtfZ2V0X3NjYW5v
-dXRfcG9zaXRpb25fZnVuYyBnZXRfc2Nhbm91dF9wb3NpdGlvbikKIHsKIAlzdHJ1Y3QgZHJtX2Rl
-dmljZSAqZGV2ID0gY3J0Yy0+ZGV2OwogCXVuc2lnbmVkIGludCBwaXBlID0gY3J0Yy0+aW5kZXg7
-CkBAIC02MjAsNyArNjE2LDcgQEAgZHJtX2NydGNfdmJsYW5rX2hlbHBlcl9nZXRfdmJsYW5rX3Rp
-bWVzdGFtcF9pbnRlcm5hbCgKIAl9CiAKIAkvKiBTY2Fub3V0IHBvc2l0aW9uIHF1ZXJ5IG5vdCBz
-dXBwb3J0ZWQ/IFNob3VsZCBub3QgaGFwcGVuLiAqLwotCWlmICghZ2V0X3NjYW5vdXRfcG9zaXRp
-b24gJiYgIWdldF9zY2Fub3V0X3Bvc2l0aW9uX2xlZ2FjeSkgeworCWlmICghZ2V0X3NjYW5vdXRf
-cG9zaXRpb24pIHsKIAkJRFJNX0VSUk9SKCJDYWxsZWQgZnJvbSBDUlRDIHcvbyBnZXRfc2Nhbm91
-dF9wb3NpdGlvbigpIT9cbiIpOwogCQlyZXR1cm4gZmFsc2U7CiAJfQpAQCAtNjUxLDE5ICs2NDcs
-MTAgQEAgZHJtX2NydGNfdmJsYW5rX2hlbHBlcl9nZXRfdmJsYW5rX3RpbWVzdGFtcF9pbnRlcm5h
-bCgKIAkJICogR2V0IHZlcnRpY2FsIGFuZCBob3Jpem9udGFsIHNjYW5vdXQgcG9zaXRpb24gdnBv
-cywgaHBvcywKIAkJICogYW5kIGJvdW5kaW5nIHRpbWVzdGFtcHMgc3RpbWUsIGV0aW1lLCBwcmUv
-cG9zdCBxdWVyeS4KIAkJICovCi0JCWlmIChnZXRfc2Nhbm91dF9wb3NpdGlvbikgewotCQkJdmJs
-X3N0YXR1cyA9IGdldF9zY2Fub3V0X3Bvc2l0aW9uKGNydGMsCi0JCQkJCQkJICBpbl92Ymxhbmtf
-aXJxLAotCQkJCQkJCSAgJnZwb3MsICZocG9zLAotCQkJCQkJCSAgJnN0aW1lLCAmZXRpbWUsCi0J
-CQkJCQkJICBtb2RlKTsKLQkJfSBlbHNlIHsKLQkJCXZibF9zdGF0dXMgPSBnZXRfc2Nhbm91dF9w
-b3NpdGlvbl9sZWdhY3koZGV2LCBwaXBlLAotCQkJCQkJCQkgaW5fdmJsYW5rX2lycSwKLQkJCQkJ
-CQkJICZ2cG9zLCAmaHBvcywKLQkJCQkJCQkJICZzdGltZSwgJmV0aW1lLAotCQkJCQkJCQkgbW9k
-ZSk7Ci0JCX0KKwkJdmJsX3N0YXR1cyA9IGdldF9zY2Fub3V0X3Bvc2l0aW9uKGNydGMsIGluX3Zi
-bGFua19pcnEsCisJCQkJCQkgICZ2cG9zLCAmaHBvcywKKwkJCQkJCSAgJnN0aW1lLCAmZXRpbWUs
-CisJCQkJCQkgIG1vZGUpOwogCiAJCS8qIFJldHVybiBhcyBuby1vcCBpZiBzY2Fub3V0IHF1ZXJ5
-IHVuc3VwcG9ydGVkIG9yIGZhaWxlZC4gKi8KIAkJaWYgKCF2Ymxfc3RhdHVzKSB7CkBAIC03NTUs
-NyArNzQyLDcgQEAgYm9vbCBkcm1fY3J0Y192YmxhbmtfaGVscGVyX2dldF92YmxhbmtfdGltZXN0
-YW1wKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywKIHsKIAlyZXR1cm4gZHJtX2NydGNfdmJsYW5rX2hl
-bHBlcl9nZXRfdmJsYW5rX3RpbWVzdGFtcF9pbnRlcm5hbCgKIAkJY3J0YywgbWF4X2Vycm9yLCB2
-YmxhbmtfdGltZSwgaW5fdmJsYW5rX2lycSwKLQkJY3J0Yy0+aGVscGVyX3ByaXZhdGUtPmdldF9z
-Y2Fub3V0X3Bvc2l0aW9uLCBOVUxMKTsKKwkJY3J0Yy0+aGVscGVyX3ByaXZhdGUtPmdldF9zY2Fu
-b3V0X3Bvc2l0aW9uKTsKIH0KIEVYUE9SVF9TWU1CT0woZHJtX2NydGNfdmJsYW5rX2hlbHBlcl9n
-ZXRfdmJsYW5rX3RpbWVzdGFtcCk7CiAKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1
-L2k5MTVfaXJxLmMgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2lycS5jCmluZGV4IDI5YmY4
-NDc5OTlmNS4uMzI0NWY3YzVjODRmIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9p
-OTE1X2lycS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfaXJxLmMKQEAgLTg4Niw3
-ICs4ODYsNyBAQCBib29sIGludGVsX2NydGNfZ2V0X3ZibGFua190aW1lc3RhbXAoc3RydWN0IGRy
-bV9jcnRjICpjcnRjLCBpbnQgKm1heF9lcnJvciwKIHsKIAlyZXR1cm4gZHJtX2NydGNfdmJsYW5r
-X2hlbHBlcl9nZXRfdmJsYW5rX3RpbWVzdGFtcF9pbnRlcm5hbCgKIAkJY3J0YywgbWF4X2Vycm9y
-LCB2YmxhbmtfdGltZSwgaW5fdmJsYW5rX2lycSwKLQkJaTkxNV9nZXRfY3J0Y19zY2Fub3V0cG9z
-LCBOVUxMKTsKKwkJaTkxNV9nZXRfY3J0Y19zY2Fub3V0cG9zKTsKIH0KIAogaW50IGludGVsX2dl
-dF9jcnRjX3NjYW5saW5lKHN0cnVjdCBpbnRlbF9jcnRjICpjcnRjKQpkaWZmIC0tZ2l0IGEvaW5j
-bHVkZS9kcm0vZHJtX3ZibGFuay5oIGIvaW5jbHVkZS9kcm0vZHJtX3ZibGFuay5oCmluZGV4IDg3
-ZmNmNDAzNGQxZi4uNWVmOTQxMzdmZTc1IDEwMDY0NAotLS0gYS9pbmNsdWRlL2RybS9kcm1fdmJs
-YW5rLmgKKysrIGIvaW5jbHVkZS9kcm0vZHJtX3ZibGFuay5oCkBAIC0yNDYsMjIgKzI0NiwxMiBA
-QCB0eXBlZGVmIGJvb2wgKCpkcm1fdmJsYW5rX2dldF9zY2Fub3V0X3Bvc2l0aW9uX2Z1bmMpKHN0
-cnVjdCBkcm1fY3J0YyAqY3J0YywKIAkJCQkJCSAgICAga3RpbWVfdCAqZXRpbWUsCiAJCQkJCQkg
-ICAgIGNvbnN0IHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICptb2RlKTsKIAotdHlwZWRlZiBib29s
-ICgqZHJtX3ZibGFua19nZXRfc2Nhbm91dF9wb3NpdGlvbl9sZWdhY3lfZnVuYykoc3RydWN0IGRy
-bV9kZXZpY2UgKmRldiwKLQkJCQkJCQkgICAgdW5zaWduZWQgaW50IHBpcGUsCi0JCQkJCQkJICAg
-IGJvb2wgaW5fdmJsYW5rX2lycSwKLQkJCQkJCQkgICAgaW50ICp2cG9zLAotCQkJCQkJCSAgICBp
-bnQgKmhwb3MsCi0JCQkJCQkJICAgIGt0aW1lX3QgKnN0aW1lLAotCQkJCQkJCSAgICBrdGltZV90
-ICpldGltZSwKLQkJCQkJCQkgICAgY29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKm1vZGUp
-OwotCiBib29sCiBkcm1fY3J0Y192YmxhbmtfaGVscGVyX2dldF92YmxhbmtfdGltZXN0YW1wX2lu
-dGVybmFsKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywKIAkJCQkJCSAgICAgaW50ICptYXhfZXJyb3Is
-CiAJCQkJCQkgICAgIGt0aW1lX3QgKnZibGFua190aW1lLAogCQkJCQkJICAgICBib29sIGluX3Zi
-bGFua19pcnEsCi0JCQkJCQkgICAgIGRybV92YmxhbmtfZ2V0X3NjYW5vdXRfcG9zaXRpb25fZnVu
-YyBnZXRfc2Nhbm91dF9wb3NpdGlvbiwKLQkJCQkJCSAgICAgZHJtX3ZibGFua19nZXRfc2Nhbm91
-dF9wb3NpdGlvbl9sZWdhY3lfZnVuYyBnZXRfc2Nhbm91dF9wb3NpdGlvbl9sZWdhY3kpOworCQkJ
-CQkJICAgICBkcm1fdmJsYW5rX2dldF9zY2Fub3V0X3Bvc2l0aW9uX2Z1bmMgZ2V0X3NjYW5vdXRf
-cG9zaXRpb24pOwogYm9vbCBkcm1fY3J0Y192YmxhbmtfaGVscGVyX2dldF92YmxhbmtfdGltZXN0
-YW1wKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywKIAkJCQkJCSBpbnQgKm1heF9lcnJvciwKIAkJCQkJ
-CSBrdGltZV90ICp2YmxhbmtfdGltZSwKLS0gCjIuMjQuMQoKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1709973672==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="ovEXwzOuSh5e9Viug0g2OU7Cf9m4K3P9E"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--ovEXwzOuSh5e9Viug0g2OU7Cf9m4K3P9E
+Content-Type: multipart/mixed; boundary="2LIlq3fCIt5LTZALS3lrZAaBbUloCugqz";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org
+Message-ID: <6aa5cab2-6d5f-1a9e-6e04-261ef3476fdb@suse.de>
+Subject: Re: [PATCH v4 2/2] drm/debugfs: also take per device driver features
+ into account
+References: <20200123124801.14958-1-jani.nikula@intel.com>
+ <20200123124801.14958-2-jani.nikula@intel.com>
+In-Reply-To: <20200123124801.14958-2-jani.nikula@intel.com>
+
+--2LIlq3fCIt5LTZALS3lrZAaBbUloCugqz
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+
+
+Am 23.01.20 um 13:48 schrieb Jani Nikula:
+> Use drm_core_check_all_features() to ensure both the driver features an=
+d
+> the per-device driver features are taken into account when registering
+> debugfs files.
+>=20
+> v3:
+> - files[i].driver_features =3D=3D 0 actually means "don't care"
+>=20
+> v2:
+> - use drm_core_check_all_features()
+>=20
+> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  drivers/gpu/drm/drm_debugfs.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugf=
+s.c
+> index eab0f2687cd6..4e673d318503 100644
+> --- a/drivers/gpu/drm/drm_debugfs.c
+> +++ b/drivers/gpu/drm/drm_debugfs.c
+> @@ -182,8 +182,7 @@ int drm_debugfs_create_files(const struct drm_info_=
+list *files, int count,
+>  	for (i =3D 0; i < count; i++) {
+>  		u32 features =3D files[i].driver_features;
+> =20
+> -		if (features !=3D 0 &&
+> -		    (dev->driver->driver_features & features) !=3D features)
+> +		if (features && !drm_core_check_all_features(dev, features))
+>  			continue;
+
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+> =20
+>  		tmp =3D kmalloc(sizeof(struct drm_info_node), GFP_KERNEL);
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--2LIlq3fCIt5LTZALS3lrZAaBbUloCugqz--
+
+--ovEXwzOuSh5e9Viug0g2OU7Cf9m4K3P9E
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl4pqGcACgkQaA3BHVML
+eiPvDggAvNXv/gGvKMxZT7Q9Lw5hM3Lq0+AJeC1scquEu8apFmsGiKC+wu30dclW
+rS3mxDyBNUkwIuH+6cSHb60ATycGWR/u2UoHr6xsQwl5IqABEeyxwgZZPxqiZ+LB
+ZX5mUhBpbdRrRMMwJpB/5DrZqABQdsi8iFm9NqCghxVEzmhp+tpCKBBvzsDvx8cl
+OgNnOmb6Iq9HHlIy0/GW0lr1lOvPwBU0cKoB0NcY7zN+fpGdzMdwjb2qrxunSOP1
+UwobJORV5xIZa8zzKgcMhp0+tdnb1yxhXmwoaEg4henE17PQPBISgQ1Yc4hsLFew
+wm2vBlwR9uDJTgMVLZTLdBqUeadJHg==
+=QkKi
+-----END PGP SIGNATURE-----
+
+--ovEXwzOuSh5e9Viug0g2OU7Cf9m4K3P9E--
+
+--===============1709973672==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1709973672==--
