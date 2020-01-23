@@ -1,37 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA976146C94
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 16:24:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F07D1146D34
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 16:45:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90E9B6FD76;
-	Thu, 23 Jan 2020 15:24:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3B1F6FD91;
+	Thu, 23 Jan 2020 15:45:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B6886FD71;
- Thu, 23 Jan 2020 15:24:53 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 19984240-1500050 for multiple; Thu, 23 Jan 2020 15:24:46 +0000
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FADF6E0D1;
+ Thu, 23 Jan 2020 15:45:46 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2020 07:45:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,354,1574150400"; d="scan'208";a="307859382"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga001.jf.intel.com with SMTP; 23 Jan 2020 07:45:42 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 23 Jan 2020 17:45:42 +0200
+From: Ville Syrjala <ville.syrjala@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/3] drm/dp: Include the AUX CH name in the debug messages
+Date: Thu, 23 Jan 2020 17:45:40 +0200
+Message-Id: <20200123154542.12271-1-ville.syrjala@linux.intel.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-To: "Michael J . Ruhl" <michael.j.ruhl@intel.com>,
- Colin King <colin.king@canonical.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-From: Chris Wilson <chris@chris-wilson.co.uk>
-In-Reply-To: <20200123151406.51679-1-colin.king@canonical.com>
-References: <20200123151406.51679-1-colin.king@canonical.com>
-Message-ID: <157979308341.19995.6106728840274572701@skylake-alporthouse-com>
-User-Agent: alot/0.6
-Subject: Re: [PATCH][next] drm/i915/gem: fix null pointer dereference on vm
-Date: Thu, 23 Jan 2020 15:24:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,48 +42,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Colin King (2020-01-23 15:14:06)
-> From: Colin Ian King <colin.king@canonical.com>
-> 
-> Currently if the call to function context_get_vm_rcu returns
-> a null pointer for vm then the error exit path via label err_put
-> will call i915_vm_put on the null vm, causing a null pointer
-> dereference.  Fix this by adding a null check on vm and returning
-> without calling the i915_vm_put.
-> 
-> Fixes: 5dbd2b7be61e ("drm/i915/gem: Convert vm idr to xarray")
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
-
-Hmm. Actually, we can drop the rcu_read_lock as soon as we've acquire
-the local ref to ctx->vm. So something like,
-
-        if (!rcu_access_pointer(ctx->vm))
-                return -ENODEV;
-
--       err = -ENODEV;
-        rcu_read_lock();
-        vm = context_get_vm_rcu(ctx);
--       if (vm)
--               err = xa_alloc(&file_priv->vm_xa, &id, vm,
--                              xa_limit_32b, GFP_KERNEL);
-        rcu_read_unlock();
-+       if (!vm)
-+               return -ENODEV;
-+
-+       err = xa_alloc(&file_priv->vm_xa, &id, vm,
-+                      xa_limit_32b, GFP_KERNEL);
-        if (err)
-                goto err_put;
-
-would work.
--Chris
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KClRv
+IG1ha2UgaXQgZWFzaWVyIHRvIGZpZ3VyZSBvdXQgd2hhdCBjYXVzZWQgYSBwYXJ0aWN1bGFyIGRl
+YnVnCm1lc3NhZ2UgbGV0J3MgcHJpbnQgb3V0IGF1eC0+bmFtZS4KClNpZ25lZC1vZmYtYnk6IFZp
+bGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+Ci0tLQogZHJpdmVy
+cy9ncHUvZHJtL2RybV9kcF9oZWxwZXIuYyB8IDQ0ICsrKysrKysrKysrKysrKysrKystLS0tLS0t
+LS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDI1IGluc2VydGlvbnMoKyksIDE5IGRlbGV0aW9ucygt
+KQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfaGVscGVyLmMgYi9kcml2ZXJz
+L2dwdS9kcm0vZHJtX2RwX2hlbHBlci5jCmluZGV4IDVhMTAzZTliM2M4Ni4uZjhjZWRiYzNkYTVk
+IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX2hlbHBlci5jCisrKyBiL2RyaXZl
+cnMvZ3B1L2RybS9kcm1fZHBfaGVscGVyLmMKQEAgLTI1Nyw3ICsyNTcsOCBAQCBzdGF0aWMgaW50
+IGRybV9kcF9kcGNkX2FjY2VzcyhzdHJ1Y3QgZHJtX2RwX2F1eCAqYXV4LCB1OCByZXF1ZXN0LAog
+CQkJZXJyID0gcmV0OwogCX0KIAotCURSTV9ERUJVR19LTVMoIlRvbyBtYW55IHJldHJpZXMsIGdp
+dmluZyB1cC4gRmlyc3QgZXJyb3I6ICVkXG4iLCBlcnIpOworCURSTV9ERUJVR19LTVMoIiVzOiBU
+b28gbWFueSByZXRyaWVzLCBnaXZpbmcgdXAuIEZpcnN0IGVycm9yOiAlZFxuIiwKKwkJICAgICAg
+YXV4LT5uYW1lLCBlcnIpOwogCXJldCA9IGVycjsKIAogdW5sb2NrOgpAQCAtNjc4LDEwICs2Nzks
+MTEgQEAgc3RhdGljIGludCBkcm1fZHBfaTJjX2RvX21zZyhzdHJ1Y3QgZHJtX2RwX2F1eCAqYXV4
+LCBzdHJ1Y3QgZHJtX2RwX2F1eF9tc2cgKm1zZykKIAkJCSAqIEF2b2lkIHNwYW1taW5nIHRoZSBr
+ZXJuZWwgbG9nIHdpdGggdGltZW91dCBlcnJvcnMuCiAJCQkgKi8KIAkJCWlmIChyZXQgPT0gLUVU
+SU1FRE9VVCkKLQkJCQlEUk1fREVCVUdfS01TX1JBVEVMSU1JVEVEKCJ0cmFuc2FjdGlvbiB0aW1l
+ZCBvdXRcbiIpOworCQkJCURSTV9ERUJVR19LTVNfUkFURUxJTUlURUQoIiVzOiB0cmFuc2FjdGlv
+biB0aW1lZCBvdXRcbiIsCisJCQkJCQkJICBhdXgtPm5hbWUpOwogCQkJZWxzZQotCQkJCURSTV9E
+RUJVR19LTVMoInRyYW5zYWN0aW9uIGZhaWxlZDogJWRcbiIsIHJldCk7Ci0KKwkJCQlEUk1fREVC
+VUdfS01TKCIlczogdHJhbnNhY3Rpb24gZmFpbGVkOiAlZFxuIiwKKwkJCQkJICAgICAgYXV4LT5u
+YW1lLCByZXQpOwogCQkJcmV0dXJuIHJldDsKIAkJfQogCkBAIC02OTUsMTEgKzY5NywxMiBAQCBz
+dGF0aWMgaW50IGRybV9kcF9pMmNfZG9fbXNnKHN0cnVjdCBkcm1fZHBfYXV4ICphdXgsIHN0cnVj
+dCBkcm1fZHBfYXV4X21zZyAqbXNnKQogCQkJYnJlYWs7CiAKIAkJY2FzZSBEUF9BVVhfTkFUSVZF
+X1JFUExZX05BQ0s6Ci0JCQlEUk1fREVCVUdfS01TKCJuYXRpdmUgbmFjayAocmVzdWx0PSVkLCBz
+aXplPSV6dSlcbiIsIHJldCwgbXNnLT5zaXplKTsKKwkJCURSTV9ERUJVR19LTVMoIiVzOiBuYXRp
+dmUgbmFjayAocmVzdWx0PSVkLCBzaXplPSV6dSlcbiIsCisJCQkJICAgICAgYXV4LT5uYW1lLCBy
+ZXQsIG1zZy0+c2l6ZSk7CiAJCQlyZXR1cm4gLUVSRU1PVEVJTzsKIAogCQljYXNlIERQX0FVWF9O
+QVRJVkVfUkVQTFlfREVGRVI6Ci0JCQlEUk1fREVCVUdfS01TKCJuYXRpdmUgZGVmZXJcbiIpOwor
+CQkJRFJNX0RFQlVHX0tNUygiJXM6IG5hdGl2ZSBkZWZlclxuIiwgYXV4LT5uYW1lKTsKIAkJCS8q
+CiAJCQkgKiBXZSBjb3VsZCBjaGVjayBmb3IgSTJDIGJpdCByYXRlIGNhcGFiaWxpdGllcyBhbmQg
+aWYKIAkJCSAqIGF2YWlsYWJsZSBhZGp1c3QgdGhpcyBpbnRlcnZhbC4gV2UgY291bGQgYWxzbyBi
+ZQpAQCAtNzEzLDcgKzcxNiw4IEBAIHN0YXRpYyBpbnQgZHJtX2RwX2kyY19kb19tc2coc3RydWN0
+IGRybV9kcF9hdXggKmF1eCwgc3RydWN0IGRybV9kcF9hdXhfbXNnICptc2cpCiAJCQljb250aW51
+ZTsKIAogCQlkZWZhdWx0OgotCQkJRFJNX0VSUk9SKCJpbnZhbGlkIG5hdGl2ZSByZXBseSAlIzA0
+eFxuIiwgbXNnLT5yZXBseSk7CisJCQlEUk1fRVJST1IoIiVzOiBpbnZhbGlkIG5hdGl2ZSByZXBs
+eSAlIzA0eFxuIiwKKwkJCQkgIGF1eC0+bmFtZSwgbXNnLT5yZXBseSk7CiAJCQlyZXR1cm4gLUVS
+RU1PVEVJTzsKIAkJfQogCkBAIC03MjgsMTMgKzczMiwxMyBAQCBzdGF0aWMgaW50IGRybV9kcF9p
+MmNfZG9fbXNnKHN0cnVjdCBkcm1fZHBfYXV4ICphdXgsIHN0cnVjdCBkcm1fZHBfYXV4X21zZyAq
+bXNnKQogCQkJcmV0dXJuIHJldDsKIAogCQljYXNlIERQX0FVWF9JMkNfUkVQTFlfTkFDSzoKLQkJ
+CURSTV9ERUJVR19LTVMoIkkyQyBuYWNrIChyZXN1bHQ9JWQsIHNpemU9JXp1KVxuIiwKLQkJCQkg
+ICAgICByZXQsIG1zZy0+c2l6ZSk7CisJCQlEUk1fREVCVUdfS01TKCIlczogSTJDIG5hY2sgKHJl
+c3VsdD0lZCwgc2l6ZT0lenUpXG4iLAorCQkJCSAgICAgIGF1eC0+bmFtZSwgcmV0LCBtc2ctPnNp
+emUpOwogCQkJYXV4LT5pMmNfbmFja19jb3VudCsrOwogCQkJcmV0dXJuIC1FUkVNT1RFSU87CiAK
+IAkJY2FzZSBEUF9BVVhfSTJDX1JFUExZX0RFRkVSOgotCQkJRFJNX0RFQlVHX0tNUygiSTJDIGRl
+ZmVyXG4iKTsKKwkJCURSTV9ERUJVR19LTVMoIiVzOiBJMkMgZGVmZXJcbiIsIGF1eC0+bmFtZSk7
+CiAJCQkvKiBEUCBDb21wbGlhbmNlIFRlc3QgNC4yLjIuNSBSZXF1aXJlbWVudDoKIAkJCSAqIE11
+c3QgaGF2ZSBhdCBsZWFzdCA3IHJldHJpZXMgZm9yIEkyQyBkZWZlcnMgb24gdGhlCiAJCQkgKiB0
+cmFuc2FjdGlvbiB0byBwYXNzIHRoaXMgdGVzdApAQCAtNzQ4LDEyICs3NTIsMTMgQEAgc3RhdGlj
+IGludCBkcm1fZHBfaTJjX2RvX21zZyhzdHJ1Y3QgZHJtX2RwX2F1eCAqYXV4LCBzdHJ1Y3QgZHJt
+X2RwX2F1eF9tc2cgKm1zZykKIAkJCWNvbnRpbnVlOwogCiAJCWRlZmF1bHQ6Ci0JCQlEUk1fRVJS
+T1IoImludmFsaWQgSTJDIHJlcGx5ICUjMDR4XG4iLCBtc2ctPnJlcGx5KTsKKwkJCURSTV9FUlJP
+UigiJXM6IGludmFsaWQgSTJDIHJlcGx5ICUjMDR4XG4iLAorCQkJCSAgYXV4LT5uYW1lLCBtc2ct
+PnJlcGx5KTsKIAkJCXJldHVybiAtRVJFTU9URUlPOwogCQl9CiAJfQogCi0JRFJNX0RFQlVHX0tN
+UygidG9vIG1hbnkgcmV0cmllcywgZ2l2aW5nIHVwXG4iKTsKKwlEUk1fREVCVUdfS01TKCIlczog
+VG9vIG1hbnkgcmV0cmllcywgZ2l2aW5nIHVwXG4iLCBhdXgtPm5hbWUpOwogCXJldHVybiAtRVJF
+TU9URUlPOwogfQogCkBAIC03ODIsOCArNzg3LDggQEAgc3RhdGljIGludCBkcm1fZHBfaTJjX2Ry
+YWluX21zZyhzdHJ1Y3QgZHJtX2RwX2F1eCAqYXV4LCBzdHJ1Y3QgZHJtX2RwX2F1eF9tc2cgKm8K
+IAkJCXJldHVybiBlcnIgPT0gMCA/IC1FUFJPVE8gOiBlcnI7CiAKIAkJaWYgKGVyciA8IG1zZy5z
+aXplICYmIGVyciA8IHJldCkgewotCQkJRFJNX0RFQlVHX0tNUygiUGFydGlhbCBJMkMgcmVwbHk6
+IHJlcXVlc3RlZCAlenUgYnl0ZXMgZ290ICVkIGJ5dGVzXG4iLAotCQkJCSAgICAgIG1zZy5zaXpl
+LCBlcnIpOworCQkJRFJNX0RFQlVHX0tNUygiJXM6IFBhcnRpYWwgSTJDIHJlcGx5OiByZXF1ZXN0
+ZWQgJXp1IGJ5dGVzIGdvdCAlZCBieXRlc1xuIiwKKwkJCQkgICAgICBhdXgtPm5hbWUsIG1zZy5z
+aXplLCBlcnIpOwogCQkJcmV0ID0gZXJyOwogCQl9CiAKQEAgLTk2MiwxMSArOTY3LDEyIEBAIHN0
+YXRpYyB2b2lkIGRybV9kcF9hdXhfY3JjX3dvcmsoc3RydWN0IHdvcmtfc3RydWN0ICp3b3JrKQog
+CQl9CiAKIAkJaWYgKHJldCA9PSAtRUFHQUlOKSB7Ci0JCQlEUk1fREVCVUdfS01TKCJHZXQgQ1JD
+IGZhaWxlZCBhZnRlciByZXRyeWluZzogJWRcbiIsCi0JCQkJICAgICAgcmV0KTsKKwkJCURSTV9E
+RUJVR19LTVMoIiVzOiBHZXQgQ1JDIGZhaWxlZCBhZnRlciByZXRyeWluZzogJWRcbiIsCisJCQkJ
+ICAgICAgYXV4LT5uYW1lLCByZXQpOwogCQkJY29udGludWU7CiAJCX0gZWxzZSBpZiAocmV0KSB7
+Ci0JCQlEUk1fREVCVUdfS01TKCJGYWlsZWQgdG8gZ2V0IGEgQ1JDOiAlZFxuIiwgcmV0KTsKKwkJ
+CURSTV9ERUJVR19LTVMoIiVzOiBGYWlsZWQgdG8gZ2V0IGEgQ1JDOiAlZFxuIiwKKwkJCQkgICAg
+ICBhdXgtPm5hbWUsIHJldCk7CiAJCQljb250aW51ZTsKIAkJfQogCkBAIC0xMjQ3LDggKzEyNTMs
+OCBAQCBpbnQgZHJtX2RwX3JlYWRfZGVzYyhzdHJ1Y3QgZHJtX2RwX2F1eCAqYXV4LCBzdHJ1Y3Qg
+ZHJtX2RwX2Rlc2MgKmRlc2MsCiAKIAlkZXZfaWRfbGVuID0gc3RybmxlbihpZGVudC0+ZGV2aWNl
+X2lkLCBzaXplb2YoaWRlbnQtPmRldmljZV9pZCkpOwogCi0JRFJNX0RFQlVHX0tNUygiRFAgJXM6
+IE9VSSAlKnBoRCBkZXYtSUQgJSpwRSBIVy1yZXYgJWQuJWQgU1ctcmV2ICVkLiVkIHF1aXJrcyAw
+eCUwNHhcbiIsCi0JCSAgICAgIGlzX2JyYW5jaCA/ICJicmFuY2giIDogInNpbmsiLAorCURSTV9E
+RUJVR19LTVMoIiVzOiBEUCAlczogT1VJICUqcGhEIGRldi1JRCAlKnBFIEhXLXJldiAlZC4lZCBT
+Vy1yZXYgJWQuJWQgcXVpcmtzIDB4JTA0eFxuIiwKKwkJICAgICAgYXV4LT5uYW1lLCBpc19icmFu
+Y2ggPyAiYnJhbmNoIiA6ICJzaW5rIiwKIAkJICAgICAgKGludClzaXplb2YoaWRlbnQtPm91aSks
+IGlkZW50LT5vdWksCiAJCSAgICAgIGRldl9pZF9sZW4sIGlkZW50LT5kZXZpY2VfaWQsCiAJCSAg
+ICAgIGlkZW50LT5od19yZXYgPj4gNCwgaWRlbnQtPmh3X3JldiAmIDB4ZiwKLS0gCjIuMjQuMQoK
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
