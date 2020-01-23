@@ -1,46 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49C2A1479B6
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2020 09:52:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97E4B1479B9
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2020 09:53:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E90C36FF87;
-	Fri, 24 Jan 2020 08:52:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81E296FF8E;
+	Fri, 24 Jan 2020 08:53:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:e::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 608996FEA4
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 23:47:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
- Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=U+yXTvHHU03TXloUdyqgFfYwZHk55Ef51wCsDSsmGsI=; b=ehnX8wn1rWvYakIpMftcLUwVf
- EQ5CZGze3s398yhpeex6weLpOykg1lpVjuC0aRpMIXO/gAf3LTycguXj10WnZpK0UJ2cJeYfXHutx
- QDU+QVBJKtqeRAx3YCBl9aDqU0GMGZd6bflmPHNv2TYb+ewgI86HG9oFFDCmn6ZD+TeBqlyHIXSRn
- m1nkW7c6tEZshwfnXaTtLBynZ9LZkrXupkDa326tgMBks78cibrU9XujQALHKPOeZEO4c8JsYotV8
- 2J9jqMKPgTXxOYo+OEXrawSmrf3GceG939igGP/SZAroxFT2xbhT6gdt1dRXyvIAOhVoKzRGAiky4
- pWu1DT9tA==;
-Received: from [2601:1c0:6280:3f0::ed68]
- by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iumBg-0001QU-QQ; Thu, 23 Jan 2020 23:47:00 +0000
-Subject: Re: linux-next: Tree for Jan 23 (gpu/drm/panel/)
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20200123172101.2f31947c@canb.auug.org.au>
- <098616df-a696-9544-5ca2-c84ce9980999@infradead.org>
- <20200123194959.GA25073@ravnborg.org>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <6a610bdf-3227-fcad-6208-e1e7e085c940@infradead.org>
-Date: Thu, 23 Jan 2020 15:46:59 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+Received: from mail-yw1-xc61.google.com (mail-yw1-xc61.google.com
+ [IPv6:2607:f8b0:4864:20::c61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2CE36E18F
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 23:59:35 +0000 (UTC)
+Received: by mail-yw1-xc61.google.com with SMTP id n184so74657ywc.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 15:59:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=brkho-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xrSo2+pGduAw292a0r+TdBhJS9mLgXGxwVlVbyCbpLg=;
+ b=D7OYHpFLgk97teU0zZSRPPccfqMZUapF8TpobPPhIx/gWfpISr+LuVI6MDdnJDhbs4
+ apMzxOnEd3+jzgIMs070Vk+xjc6o+5gb0ZBitQOL2ahu20wsHITfv4+aW8aRmiJmh1wc
+ X8RIjb4s+cPG5CghTJHdXKgkuR5GSh1hrb9/twhckyMLrxupMtCJ0/9IkEIn6l0I3xXc
+ LSx1unKEneXQbbOETIQOHpnbCvX+y5yyKBvVoAvwQbe/AxUJ/cnuLNMKDF1FklNC3hsf
+ zYj6M9WePrwvnY+mhcncUZYDXnAXRSxHgb7XVYlLn3kGv7uWwXRruiT8Y0GO4JFyzjUv
+ 1QVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xrSo2+pGduAw292a0r+TdBhJS9mLgXGxwVlVbyCbpLg=;
+ b=hi0g15xOWN+G2wguTbnrJ4nKcYTll+nETQDNodafRwT5EFloTjNiBqvVg1DGnxC4p2
+ 4bb5klT+xoVhCxc4Vw8HMLfD9lckSCYRnNKXY3tM8S7K7S4Q4S80wH/HQCuK+VHkOLoz
+ yEALlscnp8GlHsLgWGYd/lzMYotvDpLSw2xiyaw4jAybYqohmFaFbGmNPcpPMphjRn2I
+ OQooUU2IFgkfXe5t5xce2yQ7bbjfc/+1bSfvtFNed57GZXcD0oUfI+8FfRPplORbzYos
+ XKJdMOFoSFUW+SmfJIglxdd7yb2B4cfchw7CVSZXWpbJfaTel+1JYHx2mnPtA06xkjs9
+ ZoNA==
+X-Gm-Message-State: APjAAAWsmKhmiCJB/mrMwEEl+mplt6oG3PI0mQJHbKb1cLD+BtQOHvRh
+ Dti4iXC2ylqAR6wb9+r5PqiF5MRgdYjmpDwif2uKi3Ri5X5Vqg==
+X-Google-Smtp-Source: APXvYqyitskCyEXAQcqS53IPFPyVLU9xyT5Uc39138IvOAogcA8kZveFb67zLpleAblvQ8kXm3+zAJJzhtKV
+X-Received: by 2002:a81:9c14:: with SMTP id m20mr163298ywa.143.1579823974817; 
+ Thu, 23 Jan 2020 15:59:34 -0800 (PST)
+Received: from hob1.nyc.corp.google.com ([100.118.32.120])
+ by smtp-relay.gmail.com with ESMTPS id i82sm591239ywg.11.2020.01.23.15.59.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Jan 2020 15:59:34 -0800 (PST)
+X-Relaying-Domain: brkho.com
+From: Brian Ho <brian@brkho.com>
+To: freedreno@lists.freedesktop.org
+Subject: [PATCH v3 0/2] drm/msm: Add the MSM_WAIT_IOVA ioctl
+Date: Thu, 23 Jan 2020 18:57:36 -0500
+Message-Id: <20200123235738.48182-1-brian@brkho.com>
+X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
 MIME-Version: 1.0
-In-Reply-To: <20200123194959.GA25073@ravnborg.org>
-Content-Language: en-US
 X-Mailman-Approved-At: Fri, 24 Jan 2020 08:52:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,65 +67,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: robdclark@chromium.org, Brian Ho <brian@brkho.com>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ hoegsberg@chromium.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/23/20 11:49 AM, Sam Ravnborg wrote:
-> Hi Randy.
-> 
-> Thanks - I think (kidding, this has bugged of for a long time).
-> 
-> On Thu, Jan 23, 2020 at 12:44:25AM -0800, Randy Dunlap wrote:
->> On 1/22/20 10:21 PM, Stephen Rothwell wrote:
->>> Hi all,
->>>
->>> Changes since 20200122:
->>>
->>
->>
->> on i386:
->>
->> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.ko] undefined!
->> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-rocktech-jh057n00900.ko] undefined!
->> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-raydium-rm68200.ko] undefined!
->> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.ko] undefined!
->> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.ko] undefined!
->> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-olimex-lcd-olinuxino.ko] undefined!
->> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.ko] undefined!
->> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.ko] undefined!
->> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-innolux-p079zca.ko] undefined!
->> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-ilitek-ili9881c.ko] undefined!
->> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-lvds.ko] undefined!
->> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-boe-himax8279d.ko]
->>
->>
->> Full randconfig file is attached.
-> 
-> I tried reproducing with latest drm-misc-next - no luck.
-> 
-> Can you check if you have:
-> 
-> 8d6cb2f7fb90018d9e3efdc9bc95e6da213a352f
->     drm/drm_panel: fix export of drm_panel_of_backlight, try #3
-> 
-> 
-> As we expect this to fix it for good.
-> Maybe the patch has not hit the right tree
-> and is thus not in -next.
+This patch set implements the MSM_WAIT_IOVA ioctl which lets
+userspace sleep until the value at a given iova reaches a certain
+condition. This is needed in turnip to implement the
+VK_QUERY_RESULT_WAIT_BIT flag for vkGetQueryPoolResults.
 
-Hi Sam,
+First, we add a GPU-wide wait queue that is signaled on all IRQs.
+We can then wait on this wait queue inside MSM_WAIT_IOVA until the
+condition is met.
 
-Sorry, I don't have the linux-next git tree so I can't check that commit.
+The corresponding merge request in mesa can be found at:
+https://gitlab.freedesktop.org/mesa/mesa/merge_requests/3279
+
+Changes in v2:
+    * Updated cleanup logic on error
+    * Added a mask
+    * 32 bit values by default
+
+Changes in v3:
+    * Fixed a bug where the mask was being applied incorrectly
+
+Brian Ho (2):
+  drm/msm: Add a GPU-wide wait queue
+  drm/msm: Add MSM_WAIT_IOVA ioctl
+
+ drivers/gpu/drm/msm/msm_drv.c | 61 +++++++++++++++++++++++++++++++++--
+ drivers/gpu/drm/msm/msm_gpu.c |  4 +++
+ drivers/gpu/drm/msm/msm_gpu.h |  3 ++
+ include/uapi/drm/msm_drm.h    | 14 ++++++++
+ 4 files changed, 80 insertions(+), 2 deletions(-)
 
 -- 
-~Randy
+2.25.0.341.g760bfbb309-goog
 
 _______________________________________________
 dri-devel mailing list
