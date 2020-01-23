@@ -1,57 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ADB614719A
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 20:16:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D38BA14721A
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 20:50:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31D686FE34;
-	Thu, 23 Jan 2020 19:16:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 552C26FE5D;
+	Thu, 23 Jan 2020 19:50:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
- [IPv6:2607:f8b0:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1EDB6FE34
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 19:16:38 +0000 (UTC)
-Received: by mail-pf1-x444.google.com with SMTP id n9so1963385pff.13
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 11:16:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=6wtdQZE06z+aORJTnpPZKoEwjECFJKRvpZenOyG2pbs=;
- b=fTwlNQnSmBYcTlW2X4DkUAm58zuHxoeu1OEc1vVlBWKcW7LfEspLDnJ4HX4efyba1l
- uObRu4eaRbt9SL8oC69dLx0ZzK8f0kGqGgDXBigb4khY/TnOqcOfpmpj0x3bKD/JteV6
- Jwk1lWXngMbf/5avCtsxAskWpmpWiUPoVg32g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=6wtdQZE06z+aORJTnpPZKoEwjECFJKRvpZenOyG2pbs=;
- b=eteMrCymYSAJ4tMnLvM126Ak/Xc7mCFEwJm6Uyvruc1YnX26SIg+sPerarnpxXhZc0
- qrxHc0GKwIvjNNwh/B2ar+03T+puTgqURCaYT4LqSsSJHIdxSvC7NWpECcD52RzgEvz1
- X/MXa1eXWCCwQ8bcf7cNoQmGPfApFPcDajDUq3gBXvCa/wXkECpWXcryfBFgNLJnq12Z
- uJHsBU7+sTxAkp4WxGZiBvEb3lJx1sVQoo/SMcysSjXOFcXGrf7E+wpfPw4RMjbJkyNe
- Aqt0wWfMuztu17dh9/fb2BXZxf4zsSgGYAGUuYkoU1pzYq8/qKNvwqzHW0Y3AoP+vAnE
- eCxw==
-X-Gm-Message-State: APjAAAWyvbzO7y3ZfyxOZu4gwyLKAcAaPSuTOelB4NyhEQJ8O4k21eov
- ibdnyKH88b0vc6BRyUVvmh9vmw==
-X-Google-Smtp-Source: APXvYqw0a9ZjVf1aQi0SykCpNbX3nRr/2knF42uGFzUQInRewtmQbXeOhyiUEjTVPoGuKU6GqXuSJg==
-X-Received: by 2002:a65:4d0b:: with SMTP id i11mr336402pgt.340.1579806998644; 
- Thu, 23 Jan 2020 11:16:38 -0800 (PST)
-Received: from localhost ([2620:15c:202:1:4fff:7a6b:a335:8fde])
- by smtp.gmail.com with ESMTPSA id w8sm3323441pfn.186.2020.01.23.11.16.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Jan 2020 11:16:38 -0800 (PST)
-Date: Thu, 23 Jan 2020 11:16:36 -0800
-From: Matthias Kaehlcke <mka@chromium.org>
-To: Jordan Crouse <jcrouse@codeaurora.org>
-Subject: Re: [PATCH] drm/msm: Fix a6xx GMU shutdown sequence
-Message-ID: <20200123191636.GY89495@google.com>
-References: <1579797756-10292-1-git-send-email-jcrouse@codeaurora.org>
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EE726FE5D
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 19:50:03 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 763698046E;
+ Thu, 23 Jan 2020 20:50:00 +0100 (CET)
+Date: Thu, 23 Jan 2020 20:49:59 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: linux-next: Tree for Jan 23 (gpu/drm/panel/)
+Message-ID: <20200123194959.GA25073@ravnborg.org>
+References: <20200123172101.2f31947c@canb.auug.org.au>
+ <098616df-a696-9544-5ca2-c84ce9980999@infradead.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1579797756-10292-1-git-send-email-jcrouse@codeaurora.org>
+In-Reply-To: <098616df-a696-9544-5ca2-c84ce9980999@infradead.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
+ a=92UefTgV_KLRBibrx7QA:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,58 +45,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Sharat Masetty <smasetty@codeaurora.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>, Sean Paul <sean@poorly.run>,
- Georgi Djakov <georgi.djakov@linaro.org>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jordan,
+Hi Randy.
 
-On Thu, Jan 23, 2020 at 09:42:36AM -0700, Jordan Crouse wrote:
-> Commit e812744c5f95 ("drm: msm: a6xx: Add support for A618") missed
-> updating the VBIF flush in a6xx_gmu_shutdown and instead
-> inserted the new sequence into a6xx_pm_suspend along with a redundant
-> GMU idle.
-> 
-> Move a6xx_bus_clear_pending_transactions to a6xx_gmu.c and use it in
-> the appropriate place in the shutdown routine and remove the redundant
-> idle call.
-> 
-> Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
-> ---
-> 
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 36 +++++++++++++++++++++++++----
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 43 -----------------------------------
->  2 files changed, 31 insertions(+), 48 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> index 983afea..f371227 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
->
-> ...
->
->  /* Gracefully try to shut down the GMU and by extension the GPU */
->  static void a6xx_gmu_shutdown(struct a6xx_gmu *gmu)
->  {
-> @@ -819,11 +849,7 @@ static void a6xx_gmu_shutdown(struct a6xx_gmu *gmu)
->  			return;
->  		}
->  
-> -		/* Clear the VBIF pipe before shutting down */
-> -		gpu_write(gpu, REG_A6XX_VBIF_XIN_HALT_CTRL0, 0xf);
-> -		spin_until((gpu_read(gpu, REG_A6XX_VBIF_XIN_HALT_CTRL1) & 0xf)
-> -			== 0xf);
-> -		gpu_write(gpu, REG_A6XX_VBIF_XIN_HALT_CTRL0, 0);
-> +		a6xx_bus_clear_pending_transactions(adreno_gpu);
+Thanks - I think (kidding, this has bugged of for a long time).
 
-With this the variable 'gpu' isn't used anymore in a6xx_gmu_shutdown(),
-please remove it.
+On Thu, Jan 23, 2020 at 12:44:25AM -0800, Randy Dunlap wrote:
+> On 1/22/20 10:21 PM, Stephen Rothwell wrote:
+> > Hi all,
+> > 
+> > Changes since 20200122:
+> > 
+> 
+> 
+> on i386:
+> 
+> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.ko] undefined!
+> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-rocktech-jh057n00900.ko] undefined!
+> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-raydium-rm68200.ko] undefined!
+> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.ko] undefined!
+> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.ko] undefined!
+> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-olimex-lcd-olinuxino.ko] undefined!
+> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.ko] undefined!
+> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.ko] undefined!
+> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-innolux-p079zca.ko] undefined!
+> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-ilitek-ili9881c.ko] undefined!
+> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-lvds.ko] undefined!
+> ERROR: "drm_panel_of_backlight" [drivers/gpu/drm/panel/panel-boe-himax8279d.ko]
+> 
+> 
+> Full randconfig file is attached.
+
+I tried reproducing with latest drm-misc-next - no luck.
+
+Can you check if you have:
+
+8d6cb2f7fb90018d9e3efdc9bc95e6da213a352f
+    drm/drm_panel: fix export of drm_panel_of_backlight, try #3
+
+
+As we expect this to fix it for good.
+Maybe the patch has not hit the right tree
+and is thus not in -next.
+
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
