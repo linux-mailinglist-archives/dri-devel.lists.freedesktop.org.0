@@ -1,20 +1,20 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BE6214645D
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 10:21:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91D32146466
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 10:21:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02ABD6FB73;
-	Thu, 23 Jan 2020 09:21:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD16D6FB74;
+	Thu, 23 Jan 2020 09:21:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86D8F6FB70
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 09:21:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 041986FB70
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 09:21:31 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 3F11BB215;
+ by mx2.suse.de (Postfix) with ESMTP id AF965B21C;
  Thu, 23 Jan 2020 09:21:29 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
@@ -22,9 +22,9 @@ To: airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
  david@lechnology.com, noralf@tronnes.org, sean@poorly.run,
  oleksandr_andrushchenko@epam.com, sam@ravnborg.org,
  laurent.pinchart@ideasonboard.com, emil.velikov@collabora.com
-Subject: [PATCH v4 08/15] drm/mipi-dbi: Remove sending of vblank event
-Date: Thu, 23 Jan 2020 10:21:16 +0100
-Message-Id: <20200123092123.28368-9-tzimmermann@suse.de>
+Subject: [PATCH v4 09/15] drm/qxl: Remove sending of vblank event
+Date: Thu, 23 Jan 2020 10:21:17 +0100
+Message-Id: <20200123092123.28368-10-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200123092123.28368-1-tzimmermann@suse.de>
 References: <20200123092123.28368-1-tzimmermann@suse.de>
@@ -58,39 +58,40 @@ v4:
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- drivers/gpu/drm/drm_mipi_dbi.c | 9 ---------
- 1 file changed, 9 deletions(-)
+ drivers/gpu/drm/qxl/qxl_display.c | 14 --------------
+ 1 file changed, 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
-index 16bff1be4b8a..13b753cb3f67 100644
---- a/drivers/gpu/drm/drm_mipi_dbi.c
-+++ b/drivers/gpu/drm/drm_mipi_dbi.c
-@@ -24,7 +24,6 @@
- #include <drm/drm_modes.h>
+diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
+index 16d73b22f3f5..ab4f8dd00400 100644
+--- a/drivers/gpu/drm/qxl/qxl_display.c
++++ b/drivers/gpu/drm/qxl/qxl_display.c
+@@ -31,7 +31,6 @@
+ #include <drm/drm_gem_framebuffer_helper.h>
+ #include <drm/drm_plane_helper.h>
  #include <drm/drm_probe_helper.h>
- #include <drm/drm_rect.h>
 -#include <drm/drm_vblank.h>
- #include <video/mipi_display.h>
  
- #define MIPI_DBI_MAX_SPI_READ_SPEED 2000000 /* 2MHz */
-@@ -299,18 +298,10 @@ void mipi_dbi_pipe_update(struct drm_simple_display_pipe *pipe,
- 			  struct drm_plane_state *old_state)
+ #include "qxl_drv.h"
+ #include "qxl_object.h"
+@@ -372,19 +371,6 @@ static void qxl_crtc_update_monitors_config(struct drm_crtc *crtc,
+ static void qxl_crtc_atomic_flush(struct drm_crtc *crtc,
+ 				  struct drm_crtc_state *old_crtc_state)
  {
- 	struct drm_plane_state *state = pipe->plane.state;
--	struct drm_crtc *crtc = &pipe->crtc;
- 	struct drm_rect rect;
- 
- 	if (drm_atomic_helper_damage_merged(old_state, state, &rect))
- 		mipi_dbi_fb_dirty(state->fb, &rect);
+-	struct drm_device *dev = crtc->dev;
+-	struct drm_pending_vblank_event *event;
+-	unsigned long flags;
 -
--	if (crtc->state->event) {
--		spin_lock_irq(&crtc->dev->event_lock);
--		drm_crtc_send_vblank_event(crtc, crtc->state->event);
--		spin_unlock_irq(&crtc->dev->event_lock);
+-	if (crtc->state && crtc->state->event) {
+-		event = crtc->state->event;
 -		crtc->state->event = NULL;
+-
+-		spin_lock_irqsave(&dev->event_lock, flags);
+-		drm_crtc_send_vblank_event(crtc, event);
+-		spin_unlock_irqrestore(&dev->event_lock, flags);
 -	}
+-
+ 	qxl_crtc_update_monitors_config(crtc, "flush");
  }
- EXPORT_SYMBOL(mipi_dbi_pipe_update);
  
 -- 
 2.24.1
