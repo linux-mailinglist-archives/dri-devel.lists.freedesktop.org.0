@@ -2,58 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2531B147192
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 20:14:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ADB614719A
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 20:16:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D9056FE33;
-	Thu, 23 Jan 2020 19:14:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31D686FE34;
+	Thu, 23 Jan 2020 19:16:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com
- [IPv6:2607:f8b0:4864:20::72e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2CC96FE31;
- Thu, 23 Jan 2020 19:14:32 +0000 (UTC)
-Received: by mail-qk1-x72e.google.com with SMTP id j20so4551619qka.10;
- Thu, 23 Jan 2020 11:14:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=F6dtyi0TxFJoF+T23AQH64PDgakD37qLEHUU/wMvAqo=;
- b=IB737zPJ2G+BvaTc8adyUa7tF614GBIlujgS5L+9PAbP2Xgo2yHJ41Ik1yol4PoyEI
- rXx5npJc3QSPTuzjNMgVu4zW9DMwEByrn++lLFIv765DdQrkDwZTlhfQeZBkRXmsqBMV
- R8Fnwnlr22mE4HSnXlV+Ij+OVsTG29Sa5aW/0flrPbzrC/uJdrD0l2U4jcb7LwX814pO
- yOOC4stigz8KU2kMTFzCgl4RSBx/8CFjn7CS94zYleKL1iIcMr2ZeBwtCjvDdfApzBiS
- VV/lV+y9GxHMFxlRH2flEVcOdI0sgaiMOEVFmDIRyy90n37gofo5W2E7+j1mqlzRwlp9
- KvXA==
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
+ [IPv6:2607:f8b0:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1EDB6FE34
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 19:16:38 +0000 (UTC)
+Received: by mail-pf1-x444.google.com with SMTP id n9so1963385pff.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 11:16:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=6wtdQZE06z+aORJTnpPZKoEwjECFJKRvpZenOyG2pbs=;
+ b=fTwlNQnSmBYcTlW2X4DkUAm58zuHxoeu1OEc1vVlBWKcW7LfEspLDnJ4HX4efyba1l
+ uObRu4eaRbt9SL8oC69dLx0ZzK8f0kGqGgDXBigb4khY/TnOqcOfpmpj0x3bKD/JteV6
+ Jwk1lWXngMbf/5avCtsxAskWpmpWiUPoVg32g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=F6dtyi0TxFJoF+T23AQH64PDgakD37qLEHUU/wMvAqo=;
- b=hQv6OtafX4z4R0qBqnSj/4l/210OWKvPsRpv/1CyODpNn99liFC13OwoY70wNLC4cM
- Go5nyDp7SodK5oUTcwIjX0HYn5jXzv4c077TJ0objKvSqy5D2MFunkVtlw1/wv04XxON
- ipSHUX6auW68zyWKW1bBGom0luDGLymkCV7MbnhPUhVia9EtV2Im4bXKCHDQTPwyJMW8
- Ru5FDvB3vi4whh5ABsV22Ih7YvlMc6Z2HKTKeHRvtdje3/YTIQVrUtivJLMvMB9xcdyj
- VqlKPwAahReVCaQ4K0NplXu6J2Hj/D9qgP+8kk7n+aZ71aF44k6U7rcm2vvHIDGsWwGJ
- kB9A==
-X-Gm-Message-State: APjAAAUsiHdxPK/2qDpKSsgsbrILYSaO91hihuG1LEuOh4NQGm6nbxzP
- 0CAWJWttYasDcamZ8JcbB4xwYFe1
-X-Google-Smtp-Source: APXvYqzJ2RQ+U8VUU1HCW3P4etofOu4ZmhxYAviF2VPhg74oXm3LgTKGQhu/aSBdGlNr1hOfTTyaUA==
-X-Received: by 2002:ae9:e910:: with SMTP id x16mr17291002qkf.90.1579806871640; 
- Thu, 23 Jan 2020 11:14:31 -0800 (PST)
-Received: from localhost.localdomain ([71.219.59.120])
- by smtp.gmail.com with ESMTPSA id 8sm1398272qkm.92.2020.01.23.11.14.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jan 2020 11:14:31 -0800 (PST)
-From: Alex Deucher <alexdeucher@gmail.com>
-X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
-To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- airlied@gmail.com, daniel.vetter@ffwll.ch
-Subject: [pull] amdgpu drm-fixes-5.5
-Date: Thu, 23 Jan 2020 14:14:24 -0500
-Message-Id: <20200123191424.3849-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.24.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=6wtdQZE06z+aORJTnpPZKoEwjECFJKRvpZenOyG2pbs=;
+ b=eteMrCymYSAJ4tMnLvM126Ak/Xc7mCFEwJm6Uyvruc1YnX26SIg+sPerarnpxXhZc0
+ qrxHc0GKwIvjNNwh/B2ar+03T+puTgqURCaYT4LqSsSJHIdxSvC7NWpECcD52RzgEvz1
+ X/MXa1eXWCCwQ8bcf7cNoQmGPfApFPcDajDUq3gBXvCa/wXkECpWXcryfBFgNLJnq12Z
+ uJHsBU7+sTxAkp4WxGZiBvEb3lJx1sVQoo/SMcysSjXOFcXGrf7E+wpfPw4RMjbJkyNe
+ Aqt0wWfMuztu17dh9/fb2BXZxf4zsSgGYAGUuYkoU1pzYq8/qKNvwqzHW0Y3AoP+vAnE
+ eCxw==
+X-Gm-Message-State: APjAAAWyvbzO7y3ZfyxOZu4gwyLKAcAaPSuTOelB4NyhEQJ8O4k21eov
+ ibdnyKH88b0vc6BRyUVvmh9vmw==
+X-Google-Smtp-Source: APXvYqw0a9ZjVf1aQi0SykCpNbX3nRr/2knF42uGFzUQInRewtmQbXeOhyiUEjTVPoGuKU6GqXuSJg==
+X-Received: by 2002:a65:4d0b:: with SMTP id i11mr336402pgt.340.1579806998644; 
+ Thu, 23 Jan 2020 11:16:38 -0800 (PST)
+Received: from localhost ([2620:15c:202:1:4fff:7a6b:a335:8fde])
+ by smtp.gmail.com with ESMTPSA id w8sm3323441pfn.186.2020.01.23.11.16.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Jan 2020 11:16:38 -0800 (PST)
+Date: Thu, 23 Jan 2020 11:16:36 -0800
+From: Matthias Kaehlcke <mka@chromium.org>
+To: Jordan Crouse <jcrouse@codeaurora.org>
+Subject: Re: [PATCH] drm/msm: Fix a6xx GMU shutdown sequence
+Message-ID: <20200123191636.GY89495@google.com>
+References: <1579797756-10292-1-git-send-email-jcrouse@codeaurora.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <1579797756-10292-1-git-send-email-jcrouse@codeaurora.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,40 +64,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Sharat Masetty <smasetty@codeaurora.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>, Sean Paul <sean@poorly.run>,
+ Georgi Djakov <georgi.djakov@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+Hi Jordan,
 
-Just one change to remove the experimental flag from renoir.
+On Thu, Jan 23, 2020 at 09:42:36AM -0700, Jordan Crouse wrote:
+> Commit e812744c5f95 ("drm: msm: a6xx: Add support for A618") missed
+> updating the VBIF flush in a6xx_gmu_shutdown and instead
+> inserted the new sequence into a6xx_pm_suspend along with a redundant
+> GMU idle.
+> 
+> Move a6xx_bus_clear_pending_transactions to a6xx_gmu.c and use it in
+> the appropriate place in the shutdown routine and remove the redundant
+> idle call.
+> 
+> Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
+> ---
+> 
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 36 +++++++++++++++++++++++++----
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 43 -----------------------------------
+>  2 files changed, 31 insertions(+), 48 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> index 983afea..f371227 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+>
+> ...
+>
+>  /* Gracefully try to shut down the GMU and by extension the GPU */
+>  static void a6xx_gmu_shutdown(struct a6xx_gmu *gmu)
+>  {
+> @@ -819,11 +849,7 @@ static void a6xx_gmu_shutdown(struct a6xx_gmu *gmu)
+>  			return;
+>  		}
+>  
+> -		/* Clear the VBIF pipe before shutting down */
+> -		gpu_write(gpu, REG_A6XX_VBIF_XIN_HALT_CTRL0, 0xf);
+> -		spin_until((gpu_read(gpu, REG_A6XX_VBIF_XIN_HALT_CTRL1) & 0xf)
+> -			== 0xf);
+> -		gpu_write(gpu, REG_A6XX_VBIF_XIN_HALT_CTRL0, 0);
+> +		a6xx_bus_clear_pending_transactions(adreno_gpu);
 
-The following changes since commit def9d2780727cec3313ed3522d0123158d87224d:
-
-  Linux 5.5-rc7 (2020-01-19 16:02:49 -0800)
-
-are available in the Git repository at:
-
-  git://people.freedesktop.org/~agd5f/linux tags/amd-drm-fixes-5.5-2020-01-23
-
-for you to fetch changes up to 23fe1390c7f13af417069fc0787f7cc82839a6bd:
-
-  drm/amdgpu: remove the experimental flag for renoir (2020-01-23 12:14:53 -0500)
-
-----------------------------------------------------------------
-amd-drm-fixes-5.5-2020-01-23:
-
-amdgpu:
-- remove the experimental flag from renoir
-
-----------------------------------------------------------------
-Alex Deucher (1):
-      drm/amdgpu: remove the experimental flag for renoir
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+With this the variable 'gpu' isn't used anymore in a6xx_gmu_shutdown(),
+please remove it.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
