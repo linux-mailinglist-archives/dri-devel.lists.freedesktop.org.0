@@ -1,38 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D186214614F
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 06:19:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8287F14626D
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 08:19:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DAE26F9AA;
-	Thu, 23 Jan 2020 05:19:29 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C46466F9A7;
- Thu, 23 Jan 2020 05:19:27 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 22 Jan 2020 21:19:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,352,1574150400"; 
- d="asc'?scan'208";a="216152482"
-Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.13.14])
- by orsmga007.jf.intel.com with ESMTP; 22 Jan 2020 21:19:24 -0800
-Date: Thu, 23 Jan 2020 13:07:27 +0800
-From: Zhenyu Wang <zhenyuw@linux.intel.com>
-To: Igor Druzhinin <igor.druzhinin@citrix.com>
-Subject: Re: [PATCH] drm/i915/gvt: fix high-order allocation failure on late
- load
-Message-ID: <20200123050727.GA25905@zhen-hp.sh.intel.com>
-References: <1579723824-25711-1-git-send-email-igor.druzhinin@citrix.com>
-MIME-Version: 1.0
-In-Reply-To: <1579723824-25711-1-git-send-email-igor.druzhinin@citrix.com>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3811C6FB0A;
+	Thu, 23 Jan 2020 07:19:24 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
+ [104.130.122.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37F1D6F9B7
+ for <dri-devel@freedesktop.org>; Thu, 23 Jan 2020 07:19:21 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1579763962; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=GEgbDb1BS32ifGcjv9cWytEuOjIKz9pOs581KwKPxxI=;
+ b=qR0crKU8FekWiTzcDIIQxvi8Vygd22XbVABe1a29/KOLkr8yzpCFpwyYsY9l2Vizi8kZqia5
+ l9p3iJQUwhHgW5Yh3BGSIQrdLMCeuv2Nmq50s63D+86Q2Bh10FMRD7srNQjBeCSueYbGcuNt
+ aLBviqw01XLXSjRAa0hiGkyN1FU=
+X-Mailgun-Sending-Ip: 104.130.122.26
+X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e2948f3.7fdd7ce35928-smtp-out-n01;
+ Thu, 23 Jan 2020 07:19:15 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 84BF0C433A2; Thu, 23 Jan 2020 07:19:15 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=ham autolearn_force=no version=3.4.0
+Received: from smasetty-linux.qualcomm.com
+ (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: smasetty)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 2622CC43383;
+ Thu, 23 Jan 2020 07:19:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 2622CC43383
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=smasetty@codeaurora.org
+From: Sharat Masetty <smasetty@codeaurora.org>
+To: freedreno@lists.freedesktop.org
+Subject: [PATCH v2 1/3] drm: msm: Add 618 gpu to the adreno gpu list
+Date: Thu, 23 Jan 2020 12:49:03 +0530
+Message-Id: <1579763945-10478-1-git-send-email-smasetty@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,96 +62,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
-Cc: airlied@linux.ie, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- rodrigo.vivi@intel.com, intel-gvt-dev@lists.freedesktop.org,
- zhi.a.wang@intel.com
-Content-Type: multipart/mixed; boundary="===============0701678212=="
+Cc: Sharat Masetty <smasetty@codeaurora.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@freedesktop.org, linux-kernel@vger.kernel.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This patch adds Adreno 618 entry and its associated properties
+to the gpulist entries.
 
---===============0701678212==
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="vkogqOf2sHV7VnPd"
-Content-Disposition: inline
+Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
+---
+ drivers/gpu/drm/msm/adreno/adreno_device.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-
---vkogqOf2sHV7VnPd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On 2020.01.22 20:10:24 +0000, Igor Druzhinin wrote:
-> If the module happens to be loaded later at runtime there is a chance
-> memory is already fragmented enough to fail allocation of firmware
-> blob storage and consequently GVT init. Since it doesn't seem to be
-> necessary to have the blob contiguous, use vmalloc() instead to avoid
-> the issue.
->=20
-> Signed-off-by: Igor Druzhinin <igor.druzhinin@citrix.com>
-> ---
->  drivers/gpu/drm/i915/gvt/firmware.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/i915/gvt/firmware.c b/drivers/gpu/drm/i915/g=
-vt/firmware.c
-> index 049775e..b0c1fda 100644
-> --- a/drivers/gpu/drm/i915/gvt/firmware.c
-> +++ b/drivers/gpu/drm/i915/gvt/firmware.c
-> @@ -146,7 +146,7 @@ void intel_gvt_free_firmware(struct intel_gvt *gvt)
->  		clean_firmware_sysfs(gvt);
-> =20
->  	kfree(gvt->firmware.cfg_space);
-> -	kfree(gvt->firmware.mmio);
-> +	vfree(gvt->firmware.mmio);
->  }
-> =20
->  static int verify_firmware(struct intel_gvt *gvt,
-> @@ -229,7 +229,7 @@ int intel_gvt_load_firmware(struct intel_gvt *gvt)
-> =20
->  	firmware->cfg_space =3D mem;
-> =20
-> -	mem =3D kmalloc(info->mmio_size, GFP_KERNEL);
-> +	mem =3D vmalloc(info->mmio_size);
->  	if (!mem) {
->  		kfree(path);
->  		kfree(firmware->cfg_space);
-> --=20
-> 2.7.4
->
-
-Looks fine to me. Thanks!
-
-Reviewed-by: Zhenyu Wang <zhenyuw@linux.intel.com>
-
---=20
-Open Source Technology Center, Intel ltd.
-
-$gpg --keyserver wwwkeys.pgp.net --recv-keys 4D781827
-
---vkogqOf2sHV7VnPd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCXikqDwAKCRCxBBozTXgY
-J+4uAJ96YbLIY0cQA9wjsw2Zc/jXBf4gXwCeMpf5uwvjnowmgSrYjEle8958Ezw=
-=DlrF
------END PGP SIGNATURE-----
-
---vkogqOf2sHV7VnPd--
-
---===============0701678212==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+index fbbdf86..cb3a6e5 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_device.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+@@ -167,6 +167,17 @@
+ 		.init = a5xx_gpu_init,
+ 		.zapfw = "a540_zap.mdt",
+ 	}, {
++		.rev = ADRENO_REV(6, 1, 8, ANY_ID),
++		.revn = 618,
++		.name = "A618",
++		.fw = {
++			[ADRENO_FW_SQE] = "a630_sqe.fw",
++			[ADRENO_FW_GMU] = "a630_gmu.bin",
++		},
++		.gmem = SZ_512K,
++		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
++		.init = a6xx_gpu_init,
++	}, {
+ 		.rev = ADRENO_REV(6, 3, 0, ANY_ID),
+ 		.revn = 630,
+ 		.name = "A630",
+-- 
+1.9.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0701678212==--
