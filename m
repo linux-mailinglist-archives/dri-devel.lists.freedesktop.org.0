@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5637146467
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 10:21:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2F0B14645A
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 10:21:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F5176FB7A;
-	Thu, 23 Jan 2020 09:21:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF3616FB77;
+	Thu, 23 Jan 2020 09:21:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACEAD6FB6E
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 09:21:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2888B6FB70
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 09:21:29 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 52279B204;
+ by mx2.suse.de (Postfix) with ESMTP id C48B6B206;
  Thu, 23 Jan 2020 09:21:27 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
@@ -22,9 +22,9 @@ To: airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
  david@lechnology.com, noralf@tronnes.org, sean@poorly.run,
  oleksandr_andrushchenko@epam.com, sam@ravnborg.org,
  laurent.pinchart@ideasonboard.com, emil.velikov@collabora.com
-Subject: [PATCH v4 04/15] drm/bochs: Remove sending of vblank event
-Date: Thu, 23 Jan 2020 10:21:12 +0100
-Message-Id: <20200123092123.28368-5-tzimmermann@suse.de>
+Subject: [PATCH v4 05/15] drm/cirrus: Remove sending of vblank event
+Date: Thu, 23 Jan 2020 10:21:13 +0100
+Message-Id: <20200123092123.28368-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200123092123.28368-1-tzimmermann@suse.de>
 References: <20200123092123.28368-1-tzimmermann@suse.de>
@@ -58,28 +58,25 @@ v4:
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- drivers/gpu/drm/bochs/bochs_kms.c | 9 ---------
- 1 file changed, 9 deletions(-)
+ drivers/gpu/drm/cirrus/cirrus.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/bochs/bochs_kms.c b/drivers/gpu/drm/bochs/bochs_kms.c
-index 3f0006c2470d..ff275faee88d 100644
---- a/drivers/gpu/drm/bochs/bochs_kms.c
-+++ b/drivers/gpu/drm/bochs/bochs_kms.c
-@@ -7,7 +7,6 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
+diff --git a/drivers/gpu/drm/cirrus/cirrus.c b/drivers/gpu/drm/cirrus/cirrus.c
+index 248c9f765c45..a91fb0d7282c 100644
+--- a/drivers/gpu/drm/cirrus/cirrus.c
++++ b/drivers/gpu/drm/cirrus/cirrus.c
+@@ -38,7 +38,6 @@
+ #include <drm/drm_modeset_helper_vtables.h>
  #include <drm/drm_probe_helper.h>
+ #include <drm/drm_simple_kms_helper.h>
 -#include <drm/drm_vblank.h>
  
- #include "bochs.h"
+ #define DRIVER_NAME "cirrus"
+ #define DRIVER_DESC "qemu cirrus vga"
+@@ -434,13 +433,6 @@ static void cirrus_pipe_update(struct drm_simple_display_pipe *pipe,
  
-@@ -57,16 +56,8 @@ static void bochs_pipe_update(struct drm_simple_display_pipe *pipe,
- 			      struct drm_plane_state *old_state)
- {
- 	struct bochs_device *bochs = pipe->crtc.dev->dev_private;
--	struct drm_crtc *crtc = &pipe->crtc;
- 
- 	bochs_plane_update(bochs, pipe->plane.state);
+ 	if (drm_atomic_helper_damage_merged(old_state, state, &rect))
+ 		cirrus_fb_blit_rect(pipe->plane.state->fb, &rect);
 -
 -	if (crtc->state->event) {
 -		spin_lock_irq(&crtc->dev->event_lock);
@@ -89,7 +86,7 @@ index 3f0006c2470d..ff275faee88d 100644
 -	}
  }
  
- static const struct drm_simple_display_pipe_funcs bochs_pipe_funcs = {
+ static const struct drm_simple_display_pipe_funcs cirrus_pipe_funcs = {
 -- 
 2.24.1
 
