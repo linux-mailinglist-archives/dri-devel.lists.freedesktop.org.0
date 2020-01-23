@@ -1,28 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEC31146301
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 09:06:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50858146307
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 09:07:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E2446F9C8;
-	Thu, 23 Jan 2020 08:06:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65F7A6FB1F;
+	Thu, 23 Jan 2020 08:07:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 291466F9C8
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 08:06:26 +0000 (UTC)
-Received: from ip092042140082.rev.nessus.at ([92.42.140.82] helo=phil.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.89) (envelope-from <heiko@sntech.de>)
- id 1iuXVN-0004gu-Fu; Thu, 23 Jan 2020 09:06:21 +0100
-From: Heiko Stuebner <heiko@sntech.de>
-To: Ezequiel Garcia <ezequiel@collabora.com>
-Subject: Re: [PATCH] drm/rockchip: Add GEM create ioctl support
-Date: Thu, 23 Jan 2020 09:06:20 +0100
-Message-ID: <2150585.39Qbo98K5S@phil>
-In-Reply-To: <20200122190855.20385-1-ezequiel@collabora.com>
-References: <20200122190855.20385-1-ezequiel@collabora.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D4486FB1F
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 08:07:05 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id BFF75292656;
+ Thu, 23 Jan 2020 08:07:03 +0000 (GMT)
+Date: Thu, 23 Jan 2020 09:07:00 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Jonas Karlman <jonas@kwiboo.se>
+Subject: Re: [PATCH v7 06/12] drm/bridge: Add the necessary bits to support
+ bus format negotiation
+Message-ID: <20200123090700.3b878cd5@collabora.com>
+In-Reply-To: <cc8ce5e0-f502-e3ee-e677-eeb7ad532513@kwiboo.se>
+References: <20200122111700.1924960-1-boris.brezillon@collabora.com>
+ <20200122111700.1924960-7-boris.brezillon@collabora.com>
+ <5a15dda1-0791-c1b6-94aa-4fed25bbcca9@kwiboo.se>
+ <20200123083933.64fc98be@collabora.com>
+ <cc8ce5e0-f502-e3ee-e677-eeb7ad532513@kwiboo.se>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -36,228 +46,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Douglas Anderson <dianders@chromium.org>, David Airlie <airlied@linux.ie>,
- Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org, Mark Yao <mark.yao@rock-chips.com>
+Cc: Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
+ Mark Rutland <mark.rutland@arm.com>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <a.hajda@samsung.com>, devicetree@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Rob Herring <robh+dt@kernel.org>, kernel@collabora.com,
+ Sam Ravnborg <sam@ravnborg.org>, Chris Healy <cphealy@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ezquiel,
+On Thu, 23 Jan 2020 07:52:59 +0000 (UTC)
+Jonas Karlman <jonas@kwiboo.se> wrote:
 
-Am Mittwoch, 22. Januar 2020, 20:08:55 CET schrieb Ezequiel Garcia:
-> From: Mark Yao <mark.yao@rock-chips.com>
+> On 2020-01-23 08:39, Boris Brezillon wrote:
+> > On Wed, 22 Jan 2020 23:44:28 +0000 (UTC)
+> > Jonas Karlman <jonas@kwiboo.se> wrote:
+> >   
+> >>> +static int
+> >>> +drm_atomic_bridge_chain_select_bus_fmts(struct drm_bridge *bridge,
+> >>> +					struct drm_crtc_state *crtc_state,
+> >>> +					struct drm_connector_state *conn_state)
+> >>> +{
+> >>> +	struct drm_connector *conn = conn_state->connector;
+> >>> +	struct drm_encoder *encoder = bridge->encoder;
+> >>> +	struct drm_bridge_state *last_bridge_state;
+> >>> +	unsigned int i, num_out_bus_fmts;
+> >>> +	struct drm_bridge *last_bridge;
+> >>> +	u32 *out_bus_fmts;
+> >>> +	int ret = 0;
+> >>> +
+> >>> +	last_bridge = list_last_entry(&encoder->bridge_chain,
+> >>> +				      struct drm_bridge, chain_node);
+> >>> +	last_bridge_state = drm_atomic_get_new_bridge_state(crtc_state->state,
+> >>> +							    last_bridge);
+> >>> +
+> >>> +	if (last_bridge->funcs->atomic_get_output_bus_fmts) {
+> >>> +		const struct drm_bridge_funcs *funcs = last_bridge->funcs;
+> >>> +
+> >>> +		/*
+> >>> +		 * If the driver implements ->atomic_get_output_bus_fmts() it
+> >>> +		 * should also implement the atomic state hooks.
+> >>> +		 */
+> >>> +		if (WARN_ON(last_bridge_state))    
+> >>
+> >> This looks wrong, with this changed to WARN_ON(!last_bridge_state)
+> >> my RK3328 HDMI2.0/YUV444/YUV420/10-bit branch at [1] starts working.
+> >>
+> >> With WARN_ON(last_bridge_state) I get:
+> >>
+> >> [    6.606658] WARNING: CPU: 0 PID: 167 at drivers/gpu/drm/drm_bridge.c:746 drm_atomic_bridge_chain_check+0x2b8/0x308
+> >> [    6.606673] Hardware name: Pine64 Rock64 (DT)
+> >>
+> >> [    6.606754] Call trace:
+> >> [    6.606759]  drm_atomic_bridge_chain_check+0x2b8/0x308
+> >> [    6.606764]  drm_atomic_helper_check_modeset+0x89c/0xab8
+> >> [    6.606768]  drm_atomic_helper_check+0x1c/0xa0
+> >> [    6.606772]  drm_atomic_check_only+0x464/0x708
+> >> [    6.606777]  drm_atomic_commit+0x18/0x58  
+> > 
+> > Add
+> > 
+> > const drm_bridge_funcs ... = {
+> > 	...
+> > 	.atomic_reset = drm_atomic_helper_bridge_reset,
+> > 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+> > 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+> > 	...
+> > };
+> > 
+> > and that should work.  
 > 
-> Add driver-specific GEM create/offset ioctls, to allow users
-> to create objects of arbitrary size.
+> That is what I added and what made that this warning is being triggered.
+> The comment state that atomic state is needed, but the check warns when there is a state.
 > 
-> These are required to allocate buffers to be shared with
-> video decoder block, with hardware-specific needs such as
-> macroblock alignment and extra room for motion vectors.
-
-Previously the use of this ioctl was to allow a custom xserver
-to allocate memory to hand over to a binary mali blob for rendering.
-The counter argument was that these dumb buffer should not be
-rendered into at all.
-
-Nowadays we have prime for buffer sharing between display ip
-and 3d-renderer, and somehow this seems to work also with
-binary blobs via libgbm or so. Not sure how this behaves with X11
-though but at least up to wayland that seems to work, so in current
-display pipelines there doesn't seem to be a need for such an ioctl
-anymore.
-
-So I guess my question to understand this is, shouldn't there be
-something similar done when sharing buffers with a video decoder?
-Instead of userspace requesting a buffer and then handing it to
-the hardware video decoder?
-
-Thanks
-Heiko
-
-> Signed-off-by: Mark Yao <mark.yao@rock-chips.com>
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
->  drivers/gpu/drm/rockchip/rockchip_drm_drv.c | 11 ++++
->  drivers/gpu/drm/rockchip/rockchip_drm_gem.c | 21 +++++++
->  drivers/gpu/drm/rockchip/rockchip_drm_gem.h | 13 +++++
->  include/uapi/drm/rockchip_drm.h             | 61 +++++++++++++++++++++
->  4 files changed, 106 insertions(+)
->  create mode 100644 include/uapi/drm/rockchip_drm.h
+> I have this:
 > 
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-> index ca12a35483f9..bd35a0b1aa5a 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-> @@ -22,6 +22,7 @@
->  #include <drm/drm_of.h>
->  #include <drm/drm_probe_helper.h>
->  #include <drm/drm_vblank.h>
-> +#include <drm/rockchip_drm.h>
->  
->  #include "rockchip_drm_drv.h"
->  #include "rockchip_drm_fb.h"
-> @@ -206,6 +207,14 @@ static void rockchip_drm_unbind(struct device *dev)
->  	drm_dev_put(drm_dev);
->  }
->  
-> +static const struct drm_ioctl_desc rockchip_ioctls[] = {
-> +	DRM_IOCTL_DEF_DRV(ROCKCHIP_GEM_CREATE, rockchip_gem_create_ioctl,
-> +			  DRM_UNLOCKED | DRM_AUTH),
-> +	DRM_IOCTL_DEF_DRV(ROCKCHIP_GEM_MAP_OFFSET,
-> +			  rockchip_gem_map_offset_ioctl,
-> +			  DRM_UNLOCKED | DRM_AUTH),
-> +};
-> +
->  static const struct file_operations rockchip_drm_driver_fops = {
->  	.owner = THIS_MODULE,
->  	.open = drm_open,
-> @@ -230,6 +239,8 @@ static struct drm_driver rockchip_drm_driver = {
->  	.gem_prime_vmap		= rockchip_gem_prime_vmap,
->  	.gem_prime_vunmap	= rockchip_gem_prime_vunmap,
->  	.gem_prime_mmap		= rockchip_gem_mmap_buf,
-> +	.ioctls			= rockchip_ioctls,
-> +	.num_ioctls		= ARRAY_SIZE(rockchip_ioctls),
->  	.fops			= &rockchip_drm_driver_fops,
->  	.name	= DRIVER_NAME,
->  	.desc	= DRIVER_DESC,
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
-> index 0d1884684dcb..315fa67d5668 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
-> @@ -12,6 +12,7 @@
->  #include <drm/drm_gem.h>
->  #include <drm/drm_prime.h>
->  #include <drm/drm_vma_manager.h>
-> +#include <drm/rockchip_drm.h>
->  
->  #include "rockchip_drm_drv.h"
->  #include "rockchip_drm_gem.h"
-> @@ -428,6 +429,26 @@ int rockchip_gem_dumb_create(struct drm_file *file_priv,
->  	return PTR_ERR_OR_ZERO(rk_obj);
->  }
->  
-> +int rockchip_gem_map_offset_ioctl(struct drm_device *drm, void *data,
-> +				  struct drm_file *file_priv)
-> +{
-> +	struct drm_rockchip_gem_map_off *args = data;
-> +
-> +	return drm_gem_dumb_map_offset(file_priv, drm, args->handle,
-> +				       &args->offset);
-> +}
-> +
-> +int rockchip_gem_create_ioctl(struct drm_device *dev, void *data,
-> +			      struct drm_file *file_priv)
-> +{
-> +	struct drm_rockchip_gem_create *args = data;
-> +	struct rockchip_gem_object *rk_obj;
-> +
-> +	rk_obj = rockchip_gem_create_with_handle(file_priv, dev, args->size,
-> +						 &args->handle);
-> +	return PTR_ERR_OR_ZERO(rk_obj);
-> +}
-> +
->  /*
->   * Allocate a sg_table for this GEM object.
->   * Note: Both the table's contents, and the sg_table itself must be freed by
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_gem.h b/drivers/gpu/drm/rockchip/rockchip_drm_gem.h
-> index 7ffc541bea07..87fe58b05bf6 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_gem.h
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_gem.h
-> @@ -50,4 +50,17 @@ void rockchip_gem_free_object(struct drm_gem_object *obj);
->  int rockchip_gem_dumb_create(struct drm_file *file_priv,
->  			     struct drm_device *dev,
->  			     struct drm_mode_create_dumb *args);
-> +
-> +/*
-> + * request gem object creation and buffer allocation as the size
-> + * that it is calculated with framebuffer information such as width,
-> + * height and bpp.
-> + */
-> +int rockchip_gem_create_ioctl(struct drm_device *dev, void *data,
-> +			      struct drm_file *file_priv);
-> +
-> +/* get buffer offset to map to user space. */
-> +int rockchip_gem_map_offset_ioctl(struct drm_device *dev, void *data,
-> +				  struct drm_file *file_priv);
-> +
->  #endif /* _ROCKCHIP_DRM_GEM_H */
-> diff --git a/include/uapi/drm/rockchip_drm.h b/include/uapi/drm/rockchip_drm.h
-> new file mode 100644
-> index 000000000000..3185f72f36b9
-> --- /dev/null
-> +++ b/include/uapi/drm/rockchip_drm.h
-> @@ -0,0 +1,61 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +
-> +/*
-> + * Copyright (c) Fuzhou Rockchip Electronics Co.Ltd
-> + * Authors:
-> + *       Mark Yao <yzq@rock-chips.com>
-> + *
-> + * base on exynos_drm.h
-> + */
-> +
-> +#ifndef _ROCKCHIP_DRM_H
-> +#define _ROCKCHIP_DRM_H
-> +
-> +#include <drm/drm.h>
-> +
-> +#if defined(__cplusplus)
-> +extern "C" {
-> +#endif
-> +
-> +/**
-> + * User-desired buffer creation information structure.
-> + *
-> + * @size: user-desired memory allocation size.
-> + * @flags: user request for setting memory type or cache attributes.
-> + * @handle: returned a handle to created gem object.
-> + *     - this handle will be set by gem module of kernel side.
-> + */
-> +struct drm_rockchip_gem_create {
-> +	uint64_t size;
-> +	uint32_t flags;
-> +	uint32_t handle;
-> +};
-> +
-> +/**
-> + * A structure for getting buffer offset.
-> + *
-> + * @handle: a pointer to gem object created.
-> + * @pad: just padding to be 64-bit aligned.
-> + * @offset: relatived offset value of the memory region allocated.
-> + *     - this value should be set by user.
-> + */
-> +struct drm_rockchip_gem_map_off {
-> +	uint32_t handle;
-> +	uint32_t pad;
-> +	uint64_t offset;
-> +};
-> +
-> +#define DRM_ROCKCHIP_GEM_CREATE		0x00
-> +#define DRM_ROCKCHIP_GEM_MAP_OFFSET	0x01
-> +
-> +#define DRM_IOCTL_ROCKCHIP_GEM_CREATE	DRM_IOWR(DRM_COMMAND_BASE + \
-> +		DRM_ROCKCHIP_GEM_CREATE, struct drm_rockchip_gem_create)
-> +
-> +#define DRM_IOCTL_ROCKCHIP_GEM_MAP_OFFSET	DRM_IOWR(DRM_COMMAND_BASE + \
-> +		DRM_ROCKCHIP_GEM_MAP_OFFSET, struct drm_rockchip_gem_map_off)
-> +
-> +#if defined(__cplusplus)
-> +}
-> +#endif
-> +
-> +#endif /* _ROCKCHIP_DRM_H */
+> static const struct drm_bridge_funcs dw_hdmi_bridge_funcs = {
+> 	...
+> 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+> 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+> 	.atomic_get_output_bus_fmts = dw_hdmi_bridge_atomic_get_output_bus_fmts,
+> 	.atomic_get_input_bus_fmts = dw_hdmi_bridge_atomic_get_input_bus_fmts,
+> 	.atomic_check = dw_hdmi_bridge_atomic_check,
+> 	.atomic_reset = drm_atomic_helper_bridge_reset,
+> 	...
+> };
 > 
+> and
+> 
+> static const struct drm_bridge_funcs dw_hdmi_rockchip_bridge_funcs = {
+> 	...
+> 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+> 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+> 	.atomic_get_input_bus_fmts = dw_hdmi_rockchip_get_input_bus_fmts,
+> 	.atomic_check = dw_hdmi_rockchip_bridge_atomic_check,
+> 	.atomic_reset = drm_atomic_helper_bridge_reset,
+> };
+> 
+> after applying the following I got a hdmi signal again
+> 
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index 0c28816146ba..7e7b0fac8f4f 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -743,7 +743,7 @@ drm_atomic_bridge_chain_select_bus_fmts(struct drm_bridge *bridge,
+>  		 * If the driver implements ->atomic_get_output_bus_fmts() it
+>  		 * should also implement the atomic state hooks.
+>  		 */
+> -		if (WARN_ON(last_bridge_state))
+> +		if (WARN_ON(!last_bridge_state))
+>  			return -EINVAL;
 
+My bad, I didn't read your email carefully. You're right, I'll fix it
+in v8.
 
+Thanks,
 
-
+Boris
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
