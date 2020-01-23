@@ -1,39 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2463146D3D
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 16:46:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52FC4146D9E
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 16:58:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E07CA6FD95;
-	Thu, 23 Jan 2020 15:46:47 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B8096FD95
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 15:46:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID;
- bh=EybSTW7nAojsrbMigS0VuJrqBhLXEfKwemDkQL61YDw=; 
- b=hREQRwPaJ0hcjFJeVMaj2jsgDr7c3KtPeusP7IqLI8a3kYOLQtKN1kyuOjUyWEWzDMazv50gyS3fdmWGupI6U1Rq/9wNjDEHFNNClsahnrEybsqiqHeo5QizbScgNbiHPs2ZGpTkDGvCjfTxRMNY5kACSTMljVDjp7wB8BHPqIM8X5QfafMF5txvQk9Mb4q1K0v9OJ7sqUA15/dHM72ZRBtKy5JzsHVyJ1Cj+gej4C9S0crCzfjbMNzqBp9/7i3dvNIrhD4qK6RRpbKJ4OCqLCSOl+ldwdnirlJ3WnhyAfeKtqQHGE/Xap+qesoqKq/2GKzmeybYUosDGC/HCBZq3w==;
-Received: from 78.26.117.91.dynamic.reverse-mundo-r.com ([91.117.26.78]
- helo=zeus) by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1iuegr-00089n-3Q; Thu, 23 Jan 2020 16:46:41 +0100
-Message-ID: <61f87e35445280d64b5f6955826c354580ab3e01.camel@igalia.com>
-Subject: Re: [PATCH AUTOSEL 5.4 003/205] drm/v3d: don't leak bin job if
- v3d_job_init fails.
-From: Iago Toral <itoral@igalia.com>
-To: Sasha Levin <sashal@kernel.org>
-Date: Thu, 23 Jan 2020 16:46:31 +0100
-In-Reply-To: <20200123141737.GC1706@sasha-vm>
-References: <20200116164300.6705-1-sashal@kernel.org>
- <20200116164300.6705-3-sashal@kernel.org>
- <cb93a21557216d1b389390c556f421132aac88f0.camel@igalia.com>
- <20200123141737.GC1706@sasha-vm>
-User-Agent: Evolution 3.32.1-2 
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA3116FD9C;
+	Thu, 23 Jan 2020 15:58:29 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
+ [104.130.122.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C0D06FD9C
+ for <dri-devel@freedesktop.org>; Thu, 23 Jan 2020 15:58:28 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1579795108; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: Cc: To: From: Date: Sender;
+ bh=cyM8CFsI8eeTQsNH7DLgcGWPSRi12+w5DPdW4N60rn0=;
+ b=CxuJN1WudjRlLCzmi/i4hoJZ0EfA4M+GGq3yjcrqgS/0olvLxYiKQahpx9Br00T7Q6qpREg4
+ pejavxuJNfTL8UD/wLQsD776oHEsipmzRB5QHET4gEBzdi1l6VGjQ+K6C0MTpR8VcMVyxfIV
+ fGnNGYjQD0Waz9mPXBoor+36Koo=
+X-Mailgun-Sending-Ip: 104.130.122.26
+X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e29c29d.7f19195637a0-smtp-out-n02;
+ Thu, 23 Jan 2020 15:58:21 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 465CAC4479F; Thu, 23 Jan 2020 15:58:20 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: jcrouse)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 43DF1C433CB;
+ Thu, 23 Jan 2020 15:58:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 43DF1C433CB
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=jcrouse@codeaurora.org
+Date: Thu, 23 Jan 2020 08:58:17 -0700
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: Sharat Masetty <smasetty@codeaurora.org>
+Subject: Re: [PATCH v2 1/3] drm: msm: Add 618 gpu to the adreno gpu list
+Message-ID: <20200123155817.GA20380@jcrouse1-lnx.qualcomm.com>
+Mail-Followup-To: Sharat Masetty <smasetty@codeaurora.org>,
+ freedreno@lists.freedesktop.org, dri-devel@freedesktop.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1579763945-10478-1-git-send-email-smasetty@codeaurora.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <1579763945-10478-1-git-send-email-smasetty@codeaurora.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,41 +70,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ dri-devel@freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2020-01-23 at 09:17 -0500, Sasha Levin wrote:
-> On Fri, Jan 17, 2020 at 08:25:30AM +0100, Iago Toral wrote:
-> > Hi Sasha,
-> > 
-> > 
-> > please notice that there were two separate patches that addressed
-> > the
-> > same issue and applying both simultaneously leads to a double free
-> > (which is what I see is happening with this patch: see the second
-> > call
-> > to kfree(bin) right below the one added here). This issue was
-> > raised
-> > previously here:
-> > 
-> > https://lists.freedesktop.org/archives/dri-devel/2019-October/241425.html
+On Thu, Jan 23, 2020 at 12:49:03PM +0530, Sharat Masetty wrote:
+> This patch adds Adreno 618 entry and its associated properties
+> to the gpulist entries.
 > 
-> I'll drop this patch for now. Any idea why upstream didn't pick up
-> the
-> fix yet? I see the problem still exists there.
+> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
 
-+Daniel
+I'm extremely confused - these have been in linux-next for weeks. Why are you
+sending them out again?
 
-I am not sure, when this issue was found Daniel added a few people on
-CC as heads-up, but maybe nobody actually got to fix the merge conflict
-in the end?
+Jordan
 
-Iago
+> ---
+>  drivers/gpu/drm/msm/adreno/adreno_device.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> index fbbdf86..cb3a6e5 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> @@ -167,6 +167,17 @@
+>  		.init = a5xx_gpu_init,
+>  		.zapfw = "a540_zap.mdt",
+>  	}, {
+> +		.rev = ADRENO_REV(6, 1, 8, ANY_ID),
+> +		.revn = 618,
+> +		.name = "A618",
+> +		.fw = {
+> +			[ADRENO_FW_SQE] = "a630_sqe.fw",
+> +			[ADRENO_FW_GMU] = "a630_gmu.bin",
+> +		},
+> +		.gmem = SZ_512K,
+> +		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+> +		.init = a6xx_gpu_init,
+> +	}, {
+>  		.rev = ADRENO_REV(6, 3, 0, ANY_ID),
+>  		.revn = 630,
+>  		.name = "A630",
+> -- 
+> 1.9.1
+> 
 
+-- 
+The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
