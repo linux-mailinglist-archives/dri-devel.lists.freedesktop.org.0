@@ -2,28 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66FC1146519
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 10:53:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01EA2146518
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 10:53:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F9406FB8B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 152B56FB88;
 	Thu, 23 Jan 2020 09:53:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 990BD6FB84;
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFEC56FB87;
  Thu, 23 Jan 2020 09:53:40 +0000 (UTC)
 Received: from localhost.localdomain (unknown
  [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D6D40293CA2;
- Thu, 23 Jan 2020 09:53:38 +0000 (GMT)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 70F26293CFD;
+ Thu, 23 Jan 2020 09:53:39 +0000 (GMT)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v8 03/12] drm/rcar-du: Plug atomic state hooks to the default
- implementation
-Date: Thu, 23 Jan 2020 10:53:24 +0100
-Message-Id: <20200123095333.2085810-4-boris.brezillon@collabora.com>
+Subject: [PATCH v8 04/12] drm/bridge: analogix: Plug atomic state hooks to the
+ default implementation
+Date: Thu, 23 Jan 2020 10:53:25 +0100
+Message-Id: <20200123095333.2085810-5-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200123095333.2085810-1-boris.brezillon@collabora.com>
 References: <20200123095333.2085810-1-boris.brezillon@collabora.com>
@@ -63,23 +64,23 @@ Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 Changes in v7:
 * New patch
 ---
- drivers/gpu/drm/rcar-du/rcar_lvds.c | 3 +++
+ drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-index 961519ce6634..06432c881e07 100644
---- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-@@ -684,6 +684,9 @@ static void rcar_lvds_detach(struct drm_bridge *bridge)
- static const struct drm_bridge_funcs rcar_lvds_bridge_ops = {
- 	.attach = rcar_lvds_attach,
- 	.detach = rcar_lvds_detach,
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+index 6fab71985cd4..dfb59a5fefea 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+@@ -1570,6 +1570,9 @@ static void analogix_dp_bridge_mode_set(struct drm_bridge *bridge,
+ }
+ 
+ static const struct drm_bridge_funcs analogix_dp_bridge_funcs = {
 +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
 +	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
 +	.atomic_reset = drm_atomic_helper_bridge_reset,
- 	.atomic_enable = rcar_lvds_atomic_enable,
- 	.atomic_disable = rcar_lvds_atomic_disable,
- 	.mode_fixup = rcar_lvds_mode_fixup,
+ 	.atomic_pre_enable = analogix_dp_bridge_atomic_pre_enable,
+ 	.atomic_enable = analogix_dp_bridge_atomic_enable,
+ 	.atomic_disable = analogix_dp_bridge_atomic_disable,
 -- 
 2.24.1
 
