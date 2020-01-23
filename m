@@ -1,104 +1,104 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B52AE1479B7
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2020 09:52:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 304031479B0
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2020 09:52:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 429A36FF89;
-	Fri, 24 Jan 2020 08:52:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D37296FF85;
+	Fri, 24 Jan 2020 08:52:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR03-VE1-obe.outbound.protection.outlook.com
- (mail-eopbgr50109.outbound.protection.outlook.com [40.107.5.109])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06F3D6FCB7
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 13:33:37 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (mail-db8eur05on20721.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e1a::721])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD1206FCBE
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 13:38:58 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Bu48LjLOTPZLNkp6x7ElmAzU/PyeQ9mG77qkhPjfF0DZN12qyllqsBp73IXQ3BjUJ1WQWRCD0ljwtxzYMHg7hAbNVOLMj9Srps9aLCOUZoEBREOS8z+mDMapCg0fLSRFkTOkdpRlH6gV8BeF19DWbiVmNoMghNaIGHjsJK24jKqX0eEsh8VOL1kvNpLsrSNo7yCrnCntcjSAkM6+gwM8YE7LFUVPoOb3vUBOeSPDnqEHOQ01gxICVPFNNQooo1AJTKhiwUbbS8ptxknU+KQiiG9v8Fxl6BsZB1rE8i9CtqLFmK5en/R7qKHbwmFK/hT53BSyk+6zEXjhZAceLraGmw==
+ b=cQfMylvaJ2XKbzaLGS4DNVsCbC3GR2lVrPCgrRuudCkreQ3kflS5g5fHT4KAvGrDAqowBv5QtCRI8Kt3gWthCbhKSMDXIT7qjY/Ieh/44/8N7nLSvnki3M72lo7yLX5w419aRgXIurpRphYhqdc4R2izjNFWA7aeO5l6OcogH0n+MsgrK5WdSeEfDOZjs8jejduIXjUJZYqGf0MHpBS24zQ6LnhqrUhynlgEwJTMqZ8JYD+EXczBQ6O/9YFJR9b2l5SV1qN/5xOG2yqLzJSIk2nbm76J9NxjOSOYOH1CVd1amOJ7OXay+mkPlBI+pfxND7AL/peLnoHvVHmvXaryfg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NyGYRwUAdl76/dnRq7nb6vRVMIRVtsTopT3zpbP2Hoo=;
- b=hcoU9xdkAoto0VRTCrEk7yHDP8bgKbjCNMD9fwXjA7otZocIc484gS2wsavnAl69nLGr9uAxGRoU4DTXflaPe27ne9JEtRbccOCxNzKlT8R89WqgtiVfiOFgmi+fpzhstaspQAPRzF7/SSLj94KZg54DUyiEQLdFsx1rOgkj3o9ZGQ2atVDh8wO18GSL5PmLpzoWQNbxdS0ZhVySZGtlz26fX3bqivKRQuEJDYF6kg9SCSDcdFKq5SkgNcLZewBAT6XZ0BSVVdJ0jeM82Mq2Oyf4MxLmLefN8Dng6dlxWQevelkVzallqdoPg4xrvLo3tUjdbd2iuqEf19HHRDqeng==
+ bh=2s3tlYFhgdSiLQm4ik4h3D6zxaVWhtbGDckbK+wvSM0=;
+ b=GIgi963HIeAK+17YLhQ5XtY4pKmms/NsesgwiKCqMih7l1CmOI+1SlY5DOmFHEwlq0GUXOF68oolT0gnhxGqFCS0abwybIDeMFWqZpY+/DzygLriryxNWZ7ryb+Hfg3pSp86SWNDK5AT8EkJqgx1ykuPu9dbGaIz5jDqk5ll9HCXoXBfWzY/RxyuW4OF6KlhYTaaf14jLVyWR9ywbTgIAmtLHeqHgWHPs1sxgsAZRRpD9KcqDYEd8D4Ki+cbJ3LUIF0NppUHOpVtSCLnDit8aygY0nIVZbm7mcrOOcqSxE1lgIB8nDy6YHo7AvjBZikNuK0OAnJhKfligQxtROyV5A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=toradex.com; dmarc=pass action=none header.from=toradex.com;
  dkim=pass header.d=toradex.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=toradex.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NyGYRwUAdl76/dnRq7nb6vRVMIRVtsTopT3zpbP2Hoo=;
- b=tlFp42Y0Ed9SiF8kHxeC+rqNbEbE0V/SyRDE15ltjRYz74RMhGSQ0AVtD+Zot3Lgu4cboqcuCflKK/EtPxmSFSpoCTLlx43vVloL2ErCCQmE+vIcf2lYRuHmXju/X/CuW3FUSxdze9sxV9OHVWHf2F63zmHj5sa6B1zUJex+pms=
+ bh=2s3tlYFhgdSiLQm4ik4h3D6zxaVWhtbGDckbK+wvSM0=;
+ b=HppJfty7vx/IHeoC9B/b1wIoL0oxts4nR7Oxnn3uUeiwmnOK3ZTONNPANfP20BUvgaAL3ggxh54faqym+6EyCVWIDxJ0A8sInkqeTvESgdOygpzWkguvRvNaNR6f4MsF+2c6gHasmdCKfBnd8adk+9bD085cEJAf9lS0kzmlhF4=
 Received: from VI1PR05MB3279.eurprd05.prod.outlook.com (10.170.238.24) by
- VI1PR05MB6768.eurprd05.prod.outlook.com (10.186.163.24) with Microsoft SMTP
+ VI1PR05MB4720.eurprd05.prod.outlook.com (20.176.6.17) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2644.28; Thu, 23 Jan 2020 13:33:35 +0000
+ 15.20.2644.22; Thu, 23 Jan 2020 13:38:48 +0000
 Received: from VI1PR05MB3279.eurprd05.prod.outlook.com
  ([fe80::c14f:4592:515f:6e52]) by VI1PR05MB3279.eurprd05.prod.outlook.com
  ([fe80::c14f:4592:515f:6e52%7]) with mapi id 15.20.2644.027; Thu, 23 Jan 2020
- 13:33:35 +0000
-Received: from mail-qk1-f173.google.com (209.85.222.173) by
- MN2PR20CA0045.namprd20.prod.outlook.com (2603:10b6:208:235::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2644.20 via Frontend
- Transport; Thu, 23 Jan 2020 13:33:34 +0000
-Received: by mail-qk1-f173.google.com with SMTP id v195so3336922qkb.11 for
- <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 05:33:33 -0800 (PST)
+ 13:38:48 +0000
+Received: from mail-qk1-f175.google.com (209.85.222.175) by
+ MN2PR04CA0021.namprd04.prod.outlook.com (2603:10b6:208:d4::34) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2644.20 via Frontend Transport; Thu, 23 Jan 2020 13:38:48 +0000
+Received: by mail-qk1-f175.google.com with SMTP id x1so3351864qkl.12 for
+ <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 05:38:48 -0800 (PST)
 From: Oleksandr Suvorov <oleksandr.suvorov@toradex.com>
 To: Marcel Ziswiler <marcel@ziswiler.com>
-Subject: Re: [PATCH v4 3/3] drm/panel: simple: add display timings for logic
+Subject: Re: [PATCH v4 2/3] dt-bindings: panel-simple: add bindings for logic
  technologies displays
-Thread-Topic: [PATCH v4 3/3] drm/panel: simple: add display timings for logic
+Thread-Topic: [PATCH v4 2/3] dt-bindings: panel-simple: add bindings for logic
  technologies displays
-Thread-Index: AQHV0fGspUwBsIOC+UqtQgRpcBDVdg==
-Date: Thu, 23 Jan 2020 13:33:34 +0000
-Message-ID: <CAGgjyvH1TPgVevuXyjY-m-+gxokTZHf84bHLRxtm=v4gDnz2xQ@mail.gmail.com>
+Thread-Index: AQHV0fGSiCgG8q+p4k6l4T/A2wrxsg==
+Date: Thu, 23 Jan 2020 13:38:48 +0000
+Message-ID: <CAGgjyvGJr+Yvn6D8i6k7N=uTNq7uWAqyJQv-Bn+samMn_km2BA@mail.gmail.com>
 References: <20200120080100.170294-1-marcel@ziswiler.com>
- <20200120080100.170294-3-marcel@ziswiler.com>
-In-Reply-To: <20200120080100.170294-3-marcel@ziswiler.com>
+ <20200120080100.170294-2-marcel@ziswiler.com>
+In-Reply-To: <20200120080100.170294-2-marcel@ziswiler.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-clientproxiedby: MN2PR20CA0045.namprd20.prod.outlook.com
- (2603:10b6:208:235::14) To VI1PR05MB3279.eurprd05.prod.outlook.com
+x-clientproxiedby: MN2PR04CA0021.namprd04.prod.outlook.com
+ (2603:10b6:208:d4::34) To VI1PR05MB3279.eurprd05.prod.outlook.com
  (2603:10a6:802:1c::24)
 authentication-results: spf=none (sender IP is )
  smtp.mailfrom=oleksandr.suvorov@toradex.com; 
 x-ms-exchange-messagesentrepresentingtype: 1
-x-gm-message-state: APjAAAWPu1jKx5P9j8OiwgtgM548yN6titfAI5n+0W1PPWCspQA24vE6
- 5jJjINnytGKWE5LJ1nV5UPCRtAWwuFMXY4lY3eo=
-x-google-smtp-source: APXvYqzXleXgx8VP42yU4MjCDPR0mp2ou+BKiHP60Ca9SQfsUq2Yh11AaCQGH7/c7GbRFGHccrzRgt4kRsho3OmaGcw=
-x-received: by 2002:a37:8ac4:: with SMTP id
- m187mr15707564qkd.277.1579786410499; Thu, 23 Jan 2020 05:33:30 -0800 (PST)
-x-gmail-original-message-id: <CAGgjyvH1TPgVevuXyjY-m-+gxokTZHf84bHLRxtm=v4gDnz2xQ@mail.gmail.com>
-x-originating-ip: [209.85.222.173]
+x-gm-message-state: APjAAAXpmJSXduoKDVgbKWiB+bSyGKyi3F2n87MSoPIrsLmQD+FR0Mbk
+ Kr5lwkyfovTCqzlnDbYFiKViSD+dv6h+C8UNjqg=
+x-google-smtp-source: APXvYqwHdoIm2gkZNB9+mft6eWjNU94wAAqcKZh4qyseww49f2rOVJB/HGbiuT0g+joW6oQL6DibWmbKodut6OB/6BM=
+x-received: by 2002:ac8:1851:: with SMTP id
+ n17mr16327905qtk.305.1579786367031; Thu, 23 Jan 2020 05:32:47 -0800 (PST)
+x-gmail-original-message-id: <CAGgjyvGJr+Yvn6D8i6k7N=uTNq7uWAqyJQv-Bn+samMn_km2BA@mail.gmail.com>
+x-originating-ip: [209.85.222.175]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a560d819-6123-460d-1a02-08d7a008d7fe
-x-ms-traffictypediagnostic: VI1PR05MB6768:
-x-microsoft-antispam-prvs: <VI1PR05MB676878198C564B6041B822AEF90F0@VI1PR05MB6768.eurprd05.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3513;
+x-ms-office365-filtering-correlation-id: 7b4f1c89-d822-4bf8-01b0-08d7a0099378
+x-ms-traffictypediagnostic: VI1PR05MB4720:
+x-microsoft-antispam-prvs: <VI1PR05MB472067B43FA4EA082C29CA4CF90F0@VI1PR05MB4720.eurprd05.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:400;
 x-forefront-prvs: 029174C036
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(39840400004)(396003)(136003)(346002)(366004)(376002)(199004)(189003)(8936002)(26005)(52116002)(186003)(53546011)(54906003)(42186006)(71200400001)(8676002)(316002)(44832011)(6862004)(107886003)(9686003)(4326008)(66446008)(66476007)(66556008)(64756008)(86362001)(55446002)(966005)(81166006)(81156014)(2906002)(66946007)(478600001)(5660300002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:VI1PR05MB6768;
+ SFS:(10019020)(4636009)(136003)(366004)(346002)(396003)(39840400004)(376002)(199004)(189003)(54906003)(9686003)(42186006)(966005)(316002)(5660300002)(66476007)(66556008)(81166006)(81156014)(66946007)(66446008)(6862004)(4326008)(478600001)(64756008)(8676002)(55446002)(186003)(8936002)(44832011)(86362001)(71200400001)(107886003)(52116002)(26005)(53546011)(2906002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:VI1PR05MB4720;
  H:VI1PR05MB3279.eurprd05.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; A:1; MX:1; 
 received-spf: None (protection.outlook.com: toradex.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: lqL5vlEmgmJPZoaRt5jATnNCX4twoMnMQHiKkhceSJmYZv8VOokRD1nLOF1mZDuLT8aESgOaZjEwhDokyMkkBxN0V2/Vy8NDACXradJNndt7kDtfw0OmvL8Vw82kFTpffGPXnozpddrwydB2Bp4wnDxum8/g3tFsjyOtabD8l70PmjoAZqCr/3ImvHj4dTNIKFtJmXbHplcp+hc+63kdulTka+WmSJFj2vJQQ/aodSq+ogzOU9Pw7gd/f9AI4YcrzYpgCSCvMgZGLtsYzV1izg5fTg62oblfcpyqvysFWDDpT029qFpvFwOUXnX3Qm3Ne2ou4+9AvIznMRcrT9xaWwrnlNF3hY2I2eqB8Ksj1HZMRovRWau7eLg0rSduuoV0pNVzkNsxmoW5ycKoDQO9H6ms6DPZcrTtTwvWxAlFmcdrw/EaTmqm6SKJSTN3LUxojsurLEBlQ6oOukTY27r7yC0iNDg0m0L6kzggnqXP628=
+x-microsoft-antispam-message-info: h4V0UXLwcp4akS5VBqvP3JhuGNi3ROpg5S8hTS+ELeE1Oa2CPifHPlB1rGbV4MXlN1r6cVDNB/FtEFz7QxFAEij/FNE/mnp+Zg10md96jH6EN3PQIFP/uS5YmXp+aRVqF7nnMwH/Pm6HMH5vKMA7rJ2tC0xAkQOPzsKVl9xsBF37FY3gstpCsmYuBCkTz5Nw0nal/wX4Zt+8W1FeRiStEOLNL9PwvkwG2DImspS7/6epQsLn1Vg6/iXd28bcAm+iEW5UC2Z7zFSc2cADDh10lhZUeKnZZ1MAGSHuXhCDdjQISwHe1d/7xJipNipiGv2wtg08xY5YfAVjXUFbdyuak9IDTy+z3gZTQ2aHaXvN/IlUt6OI5nytDvLIRiScJfWIMi3sNTVTo5BmPNheU02jI6mZkf6jMuiw6NB4oAiPvwyLTTEv79M5ebzqpTICJQqXWwBKczVvayO+xwqDW5MqATM4a8/pgWtZ0vm8CjMWsDY=
 x-ms-exchange-transport-forked: True
-Content-ID: <53FA65BB42171D4FAF7C4706CA31C9E1@eurprd05.prod.outlook.com>
+Content-ID: <A946DB4202CCB8418672E07C747BB701@eurprd05.prod.outlook.com>
 MIME-Version: 1.0
 X-OriginatorOrg: toradex.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a560d819-6123-460d-1a02-08d7a008d7fe
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jan 2020 13:33:34.3969 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7b4f1c89-d822-4bf8-01b0-08d7a0099378
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jan 2020 13:38:48.7188 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: d9995866-0d9b-4251-8315-093f062abab4
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: F2p2/OslnLF1dUjYiBWGBnVoZNEuupSKMleK26aq2tNQY4UwlwO/+8cRVktSW06GiOmsFUaiwhrTtGquWHKfFpY9CPoKh0sltmsdCLibtPY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR05MB6768
+X-MS-Exchange-CrossTenant-userprincipalname: 5smub5EFmvvTnhrBHCjkG9JtHlh7gvQ/zZxBIGOoRc6fmWHVoOoKbyLZGb3IF1ueV3/ED3NolF3GQgwqVFBCs8u7B/TNdfFm0ZDUGt1+KRk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR05MB4720
 X-Mailman-Approved-At: Fri, 24 Jan 2020 08:52:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -112,15 +112,15 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
  Marcel Ziswiler <marcel.ziswiler@toradex.com>,
  "j.bauer@endrich.com" <j.bauer@endrich.com>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Philippe Schenker <philippe.schenker@toradex.com>,
- "info@logictechno.com" <info@logictechno.com>,
- Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@linux.ie>,
- Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@linux.ie>, "info@logictechno.com" <info@logictechno.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -131,15 +131,15 @@ On Mon, Jan 20, 2020 at 10:02 AM Marcel Ziswiler <marcel@ziswiler.com> wrote:
 >
 > From: Marcel Ziswiler <marcel.ziswiler@toradex.com>
 >
-> Add display timings for the following 3 display panels manufactured by
-> Logic Technologies Limited:
+> Add bindings for the following 3 to be added display panels manufactured
+> by Logic Technologies Limited:
 >
 > - LT161010-2NHC e.g. as found in the Toradex Capacitive Touch Display
->   7" Parallel [1]
+> 7" Parallel [1]
 > - LT161010-2NHR e.g. as found in the Toradex Resistive Touch Display 7"
->   Parallel [2]
+> Parallel [2]
 > - LT170410-2WHC e.g. as found in the Toradex Capacitive Touch Display
->   10.1" LVDS [3]
+> 10.1" LVDS [3]
 >
 > Those panels may also be distributed by Endrich Bauelemente Vertriebs
 > GmbH [4].
@@ -150,112 +150,40 @@ On Mon, Jan 20, 2020 at 10:02 AM Marcel Ziswiler <marcel@ziswiler.com> wrote:
 > [4] https://www.endrich.com/isi50_isi30_tft-displays/lt170410-1whc_isi30
 >
 > Signed-off-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
-> Reviewed-by: Philippe Schenker <philippe.schenker@toradex.com>
-
 Reviewed-by: Oleksandr Suvorov <oleksandr.suvorov@toradex.com>
-
 >
 > ---
 >
 > Changes in v4:
-> - Added recently made mandatory connector_type information as pointed
->   out by Sam.
+> - Re-ordered commits as suggested by Sam and re-worded commit message.
 >
 > Changes in v3:
-> - Fix typo in pixelclock frequency for lt170410_2whc as recently
->   discovered by Philippe.
+> - Add it to recently introduced panel-simple.yaml instead as suggested
+>   by Sam.
 >
 > Changes in v2:
-> - Added Philippe's reviewed-by.
+> - New patch adding display panel bindings as well as suggested by Rob.
 >
->  drivers/gpu/drm/panel/panel-simple.c | 67 ++++++++++++++++++++++++++++
->  1 file changed, 67 insertions(+)
+>  .../devicetree/bindings/display/panel/panel-simple.yaml     | 6 ++++++
+>  1 file changed, 6 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index d6f77bc494c7..a0dd84e11db7 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -2107,6 +2107,64 @@ static const struct panel_desc lg_lp129qe = {
->         },
->  };
->
-> +static const struct display_timing logictechno_lt161010_2nh_timing = {
-> +       .pixelclock = { 26400000, 33300000, 46800000 },
-> +       .hactive = { 800, 800, 800 },
-> +       .hfront_porch = { 16, 210, 354 },
-> +       .hback_porch = { 46, 46, 46 },
-> +       .hsync_len = { 1, 20, 40 },
-> +       .vactive = { 480, 480, 480 },
-> +       .vfront_porch = { 7, 22, 147 },
-> +       .vback_porch = { 23, 23, 23 },
-> +       .vsync_len = { 1, 10, 20 },
-> +       .flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW |
-> +                DISPLAY_FLAGS_DE_HIGH | DISPLAY_FLAGS_PIXDATA_POSEDGE |
-> +                DISPLAY_FLAGS_SYNC_POSEDGE,
-> +};
-> +
-> +static const struct panel_desc logictechno_lt161010_2nh = {
-> +       .timings = &logictechno_lt161010_2nh_timing,
-> +       .num_timings = 1,
-> +       .size = {
-> +               .width = 154,
-> +               .height = 86,
-> +       },
-> +       .bus_format = MEDIA_BUS_FMT_RGB666_1X18,
-> +       .bus_flags = DRM_BUS_FLAG_DE_HIGH |
-> +                    DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE |
-> +                    DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE,
-> +       .connector_type = DRM_MODE_CONNECTOR_DPI,
-> +};
-> +
-> +static const struct display_timing logictechno_lt170410_2whc_timing = {
-> +       .pixelclock = { 68900000, 71100000, 73400000 },
-> +       .hactive = { 1280, 1280, 1280 },
-> +       .hfront_porch = { 23, 60, 71 },
-> +       .hback_porch = { 23, 60, 71 },
-> +       .hsync_len = { 15, 40, 47 },
-> +       .vactive = { 800, 800, 800 },
-> +       .vfront_porch = { 5, 7, 10 },
-> +       .vback_porch = { 5, 7, 10 },
-> +       .vsync_len = { 6, 9, 12 },
-> +       .flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW |
-> +                DISPLAY_FLAGS_DE_HIGH | DISPLAY_FLAGS_PIXDATA_POSEDGE |
-> +                DISPLAY_FLAGS_SYNC_POSEDGE,
-> +};
-> +
-> +static const struct panel_desc logictechno_lt170410_2whc = {
-> +       .timings = &logictechno_lt170410_2whc_timing,
-> +       .num_timings = 1,
-> +       .size = {
-> +               .width = 217,
-> +               .height = 136,
-> +       },
-> +       .bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
-> +       .bus_flags = DRM_BUS_FLAG_DE_HIGH |
-> +                    DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE |
-> +                    DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE,
-> +       .connector_type = DRM_MODE_CONNECTOR_LVDS,
-> +};
-> +
->  static const struct drm_display_mode mitsubishi_aa070mc01_mode = {
->         .clock = 30400,
->         .hdisplay = 800,
-> @@ -3417,6 +3475,15 @@ static const struct of_device_id platform_of_match[] = {
->         }, {
->                 .compatible = "logicpd,type28",
->                 .data = &logicpd_type_28,
-> +       }, {
-> +               .compatible = "logictechno,lt161010-2nhc",
-> +               .data = &logictechno_lt161010_2nh,
-> +       }, {
-> +               .compatible = "logictechno,lt161010-2nhr",
-> +               .data = &logictechno_lt161010_2nh,
-> +       }, {
-> +               .compatible = "logictechno,lt170410-2whc",
-> +               .data = &logictechno_lt170410_2whc,
->         }, {
->                 .compatible = "mitsubishi,aa070mc01-ca1",
->                 .data = &mitsubishi_aa070mc01,
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> index 4a8064e31793..f33c5d979f96 100644
+> --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> @@ -41,6 +41,12 @@ properties:
+>        - frida,frd350h54004
+>          # GiantPlus GPM940B0 3.0" QVGA TFT LCD panel
+>        - giantplus,gpm940b0
+> +        # Logic Technologies LT161010-2NHC 7" WVGA TFT Cap Touch Module
+> +      - logictechno,lt161010-2nhc
+> +        # Logic Technologies LT161010-2NHR 7" WVGA TFT Resistive Touch Module
+> +      - logictechno,lt161010-2nhr
+> +        # Logic Technologies LT170410-2WHC 10.1" 1280x800 IPS TFT Cap Touch Mod.
+> +      - logictechno,lt170410-2whc
+>          # Satoz SAT050AT40H12R2 5.0" WVGA TFT LCD panel
+>        - satoz,sat050at40h12r2
+>          # Sharp LS020B1DD01D 2.0" HQVGA TFT LCD panel
 > --
 > 2.24.1
 >
