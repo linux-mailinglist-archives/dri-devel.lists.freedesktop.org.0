@@ -1,36 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D00A146D38
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 16:45:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2463146D3D
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 16:46:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 047856FD94;
-	Thu, 23 Jan 2020 15:45:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E07CA6FD95;
+	Thu, 23 Jan 2020 15:46:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FA236FD93;
- Thu, 23 Jan 2020 15:45:52 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2020 07:45:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,354,1574150400"; d="scan'208";a="259899084"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga002.fm.intel.com with SMTP; 23 Jan 2020 07:45:49 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 23 Jan 2020 17:45:49 +0200
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/i915: Give aux channels a better name
-Date: Thu, 23 Jan 2020 17:45:42 +0200
-Message-Id: <20200123154542.12271-3-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200123154542.12271-1-ville.syrjala@linux.intel.com>
-References: <20200123154542.12271-1-ville.syrjala@linux.intel.com>
+Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B8096FD95
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 15:46:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID;
+ bh=EybSTW7nAojsrbMigS0VuJrqBhLXEfKwemDkQL61YDw=; 
+ b=hREQRwPaJ0hcjFJeVMaj2jsgDr7c3KtPeusP7IqLI8a3kYOLQtKN1kyuOjUyWEWzDMazv50gyS3fdmWGupI6U1Rq/9wNjDEHFNNClsahnrEybsqiqHeo5QizbScgNbiHPs2ZGpTkDGvCjfTxRMNY5kACSTMljVDjp7wB8BHPqIM8X5QfafMF5txvQk9Mb4q1K0v9OJ7sqUA15/dHM72ZRBtKy5JzsHVyJ1Cj+gej4C9S0crCzfjbMNzqBp9/7i3dvNIrhD4qK6RRpbKJ4OCqLCSOl+ldwdnirlJ3WnhyAfeKtqQHGE/Xap+qesoqKq/2GKzmeybYUosDGC/HCBZq3w==;
+Received: from 78.26.117.91.dynamic.reverse-mundo-r.com ([91.117.26.78]
+ helo=zeus) by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+ id 1iuegr-00089n-3Q; Thu, 23 Jan 2020 16:46:41 +0100
+Message-ID: <61f87e35445280d64b5f6955826c354580ab3e01.camel@igalia.com>
+Subject: Re: [PATCH AUTOSEL 5.4 003/205] drm/v3d: don't leak bin job if
+ v3d_job_init fails.
+From: Iago Toral <itoral@igalia.com>
+To: Sasha Levin <sashal@kernel.org>
+Date: Thu, 23 Jan 2020 16:46:31 +0100
+In-Reply-To: <20200123141737.GC1706@sasha-vm>
+References: <20200116164300.6705-1-sashal@kernel.org>
+ <20200116164300.6705-3-sashal@kernel.org>
+ <cb93a21557216d1b389390c556f421132aac88f0.camel@igalia.com>
+ <20200123141737.GC1706@sasha-vm>
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,32 +46,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KClRo
-ZSBhdXggY2ggaXMgdXNlZCBmb3IgbW9yZSB0aGFuIEREQywgc28gbGV0J3MgZ2l2ZSBpdCBhIGJl
-dHRlcgpuYW1lLiBGb3IgbWF4aW11bSBlYXNlIGxldCdzIGluY2x1ZGUgYm90aCB0aGUgQVVYIGNo
-IGlkZW50aWZpZXIKYW5kIHRoZSBwb3J0IGlkZW50aWZpZXIgKGZvciBjYXNlcyB3aGVyZSB0aGUg
-VkJUIGhhcyByZWRlZmluZWQKdGhlIHJlbGF0aW9uc2hpcCBvZiB0aGUgdHdvKS4KClNpZ25lZC1v
-ZmYtYnk6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+Ci0t
-LQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5jIHwgMyArKy0KIDEgZmls
-ZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9k
-cml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMgYi9kcml2ZXJzL2dwdS9kcm0v
-aTkxNS9kaXNwbGF5L2ludGVsX2RwLmMKaW5kZXggOTQxZjBmNmQ1NWMxLi5iNmNlODUxMGYwYWUg
-MTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYworKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMKQEAgLTE3NDAsNyArMTc0
-MCw4IEBAIGludGVsX2RwX2F1eF9pbml0KHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHApCiAJZHJt
-X2RwX2F1eF9pbml0KCZpbnRlbF9kcC0+YXV4KTsKIAogCS8qIEZhaWx1cmUgdG8gYWxsb2NhdGUg
-b3VyIHByZWZlcnJlZCBuYW1lIGlzIG5vdCBjcml0aWNhbCAqLwotCWludGVsX2RwLT5hdXgubmFt
-ZSA9IGthc3ByaW50ZihHRlBfS0VSTkVMLCAiRFBEREMtJWMiLAorCWludGVsX2RwLT5hdXgubmFt
-ZSA9IGthc3ByaW50ZihHRlBfS0VSTkVMLCAiQVVYICVjL3BvcnQgJWMiLAorCQkJCSAgICAgICBh
-dXhfY2hfbmFtZShkaWdfcG9ydC0+YXV4X2NoKSwKIAkJCQkgICAgICAgcG9ydF9uYW1lKGVuY29k
-ZXItPnBvcnQpKTsKIAlpbnRlbF9kcC0+YXV4LnRyYW5zZmVyID0gaW50ZWxfZHBfYXV4X3RyYW5z
-ZmVyOwogfQotLSAKMi4yNC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWwK
+On Thu, 2020-01-23 at 09:17 -0500, Sasha Levin wrote:
+> On Fri, Jan 17, 2020 at 08:25:30AM +0100, Iago Toral wrote:
+> > Hi Sasha,
+> > 
+> > 
+> > please notice that there were two separate patches that addressed
+> > the
+> > same issue and applying both simultaneously leads to a double free
+> > (which is what I see is happening with this patch: see the second
+> > call
+> > to kfree(bin) right below the one added here). This issue was
+> > raised
+> > previously here:
+> > 
+> > https://lists.freedesktop.org/archives/dri-devel/2019-October/241425.html
+> 
+> I'll drop this patch for now. Any idea why upstream didn't pick up
+> the
+> fix yet? I see the problem still exists there.
+
++Daniel
+
+I am not sure, when this issue was found Daniel added a few people on
+CC as heads-up, but maybe nobody actually got to fix the merge conflict
+in the end?
+
+Iago
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
