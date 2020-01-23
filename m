@@ -1,30 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D0BD146523
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 10:54:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B76514651E
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 10:54:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3893B6FB93;
-	Thu, 23 Jan 2020 09:54:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C7156F9DE;
+	Thu, 23 Jan 2020 09:53:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 287096FB8D;
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A91C56F9DE;
  Thu, 23 Jan 2020 09:53:44 +0000 (UTC)
 Received: from localhost.localdomain (unknown
  [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 58921293C9B;
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id DF99E293142;
  Thu, 23 Jan 2020 09:53:42 +0000 (GMT)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v8 09/12] dt-bindings: display: bridge: lvds-codec: Add new
- bus-width prop
-Date: Thu, 23 Jan 2020 10:53:30 +0100
-Message-Id: <20200123095333.2085810-10-boris.brezillon@collabora.com>
+Subject: [PATCH v8 10/12] drm/bridge: panel: Propage bus format/flags
+Date: Thu, 23 Jan 2020 10:53:31 +0100
+Message-Id: <20200123095333.2085810-11-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200123095333.2085810-1-boris.brezillon@collabora.com>
 References: <20200123095333.2085810-1-boris.brezillon@collabora.com>
@@ -56,39 +54,41 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the bus-width property to describe the input bus format.
+So that the previous bridge element in the chain knows which input
+format the panel bridge expects.
 
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
 Changes in v7:
-* Rebase on top of lvds-codec changes
-* Drop the data-mapping property
+* Set atomic state hooks explicitly
 
 Changes in v3:
-* New patch
----
- .../devicetree/bindings/display/bridge/lvds-codec.yaml    | 8 ++++++++
- 1 file changed, 8 insertions(+)
+* Adjust things to match the new bus-format negotiation approach
+* Use drm_atomic_helper_bridge_propagate_bus_fmt
+* Don't implement ->atomic_check() (the core now takes care of bus
+  flags propagation)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-index 8f373029f5d2..7c4e42f4de61 100644
---- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-@@ -55,6 +55,14 @@ properties:
-         description: |
-           For LVDS encoders, port 0 is the parallel input
-           For LVDS decoders, port 0 is the LVDS input
-+        properties:
-+          bus-width:
-+            allOf:
-+              - $ref: /schemas/types.yaml#/definitions/uint32
-+              - enum: [18, 24]
-+              - default: 24
-+          description:
-+            Number of data lines used to transmit the RGB data.
+Changes in v2:
+* Adjust things to match the new bus-format negotiation approach
+---
+ drivers/gpu/drm/bridge/panel.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
+index f66777e24968..dcc72bd7df30 100644
+--- a/drivers/gpu/drm/bridge/panel.c
++++ b/drivers/gpu/drm/bridge/panel.c
+@@ -127,6 +127,10 @@ static const struct drm_bridge_funcs panel_bridge_bridge_funcs = {
+ 	.enable = panel_bridge_enable,
+ 	.disable = panel_bridge_disable,
+ 	.post_disable = panel_bridge_post_disable,
++	.atomic_reset = drm_atomic_helper_bridge_reset,
++	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
++	.atomic_get_input_bus_fmts = drm_atomic_helper_bridge_propagate_bus_fmt,
+ };
  
-       port@1:
-         type: object
+ /**
 -- 
 2.24.1
 
