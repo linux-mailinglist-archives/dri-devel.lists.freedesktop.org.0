@@ -2,43 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96477146289
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 08:24:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C67D1462B4
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 08:37:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B73706FB10;
-	Thu, 23 Jan 2020 07:24:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B78256F9B8;
+	Thu, 23 Jan 2020 07:37:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F10776FB10
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 07:24:35 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id CDE0680487;
- Thu, 23 Jan 2020 08:24:30 +0100 (CET)
-Date: Thu, 23 Jan 2020 08:24:29 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: David Lechner <david@lechnology.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH] dt-bindings: restrict properties for sitronix,st7735r
-Message-ID: <20200123072429.GA11848@ravnborg.org>
-References: <20200115124548.3951-1-geert+renesas@glider.be>
- <20200115124548.3951-2-geert+renesas@glider.be>
- <ba21d2c8-ccc6-2704-fa1f-d28239700547@lechnology.com>
- <20200120190249.GA9619@ravnborg.org>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3548A6F9B8
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 07:37:22 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 74F1A28CE86;
+ Thu, 23 Jan 2020 07:37:20 +0000 (GMT)
+Date: Thu, 23 Jan 2020 08:37:17 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v7 01/12] drm/bridge: Add a drm_bridge_state object
+Message-ID: <20200123083717.1264d9b4@collabora.com>
+In-Reply-To: <20200122111700.1924960-2-boris.brezillon@collabora.com>
+References: <20200122111700.1924960-1-boris.brezillon@collabora.com>
+ <20200122111700.1924960-2-boris.brezillon@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200120190249.GA9619@ravnborg.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
- a=WZHNqt2aAAAA:8 a=VwQbUJbxAAAA:8 a=e5mUnYsNAAAA:8 a=hiXH8xowJhRCH_7nMvoA:9
- a=7Zwj6sZBwVKJAoWSPKxL6X1jA+E=:19 a=CjuIK1q_8ugA:10
- a=E9Po1WZjFZOl8hwRPBS3:22 a=PrHl9onO2p7xFKlKy1af:22
- a=AjGcO6oz07-iQ99wixmX:22 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,102 +42,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- linux-renesas-soc@vger.kernel.org, Chris Brandt <chris.brandt@renesas.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
+Cc: Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
+ Mark Rutland <mark.rutland@arm.com>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Rob Herring <robh+dt@kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ devicetree@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, kernel@collabora.com,
+ Sam Ravnborg <sam@ravnborg.org>, Chris Healy <cphealy@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 20, 2020 at 08:02:49PM +0100, Sam Ravnborg wrote:
-> Hi David.
-> 
-> > > +allOf:
-> > > +  - $ref: panel/panel-common.yaml#
-> > 
-> > not all of these properties are applicable.
-> > 
-> 
-> > > +required:
-> > > +  - compatible
-> > > +  - reg
-> > > +  - dc-gpios
-> > > +  - reset-gpios
-> > 
-> > Missing optional rotation and backlight properties.
-> 
-> Thanks for catching this. I have written a little .yaml files
-> since I applied this - and learned a little more of the syntax.
-> 
-> See attached patch for my attempt to fix this.
-> Please review.
+On Wed, 22 Jan 2020 12:16:49 +0100
+Boris Brezillon <boris.brezillon@collabora.com> wrote:
 
-Hi David, Geert.
-
-Any feedback on this patch?
-
-	Sam
-
-> 
-> 	Sam
-> 
-> >From 6b54fb0a071c0732cd4bd5b88f456b5a85bcf4f2 Mon Sep 17 00:00:00 2001
-> From: Sam Ravnborg <sam@ravnborg.org>
-> Date: Mon, 20 Jan 2020 19:55:04 +0100
-> Subject: [PATCH] dt-bindings: restrict properties for sitronix,st7735r
-> 
-> David Lechner noticed (paraphrased):
-> - not all properties from panel-common are applicable.
-> - missing optional rotation and backlight properties
-> 
-> Fix this by listing all allowed properties, and do not allow other properties.
-> 
-> Fixes: abdd9e3705c8 ("dt-bindings: display: sitronix,st7735r: Convert to DT schema")
-> Reported-by: David Lechner <david@lechnology.com>
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: David Lechner <david@lechnology.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: dri-devel@lists.freedesktop.org
-> ---
->  .../devicetree/bindings/display/sitronix,st7735r.yaml      | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml b/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
-> index 8892d79e6e10..0cebaaefda03 100644
-> --- a/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
-> +++ b/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
-> @@ -39,12 +39,19 @@ properties:
->      maxItems: 1
->      description: Display data/command selection (D/CX)
->  
-> +  backlight: true
-> +  reg: true
-> +  reset-gpios: true
-> +  rotation: true
 > +
->  required:
->    - compatible
->    - reg
->    - dc-gpios
->    - reset-gpios
->  
-> +additionalProperties: false
+> +/**
+> + * drm_atomic_get_bridge_state - get bridge state
+> + * @state: global atomic state object
+> + * @bridge: bridge to get state object for
+> + *
+> + * This function returns the bridge state for the given bridge, allocating it
+> + * if needed. It will also grab the relevant bridge lock to make sure that the
+> + * state is consistent.
+> + *
+> + * Returns:
+> + *
+> + * Either the allocated state or the error code encoded into the pointer. When
+> + * the error is EDEADLK then the w/w mutex code has detected a deadlock and the
+> + * entire atomic sequence must be restarted.
+> + */
+> +struct drm_bridge_state *
+> +drm_atomic_get_bridge_state(struct drm_atomic_state *state,
+> +			    struct drm_bridge *bridge)
+> +{
+> +	struct drm_private_state *obj_state;
 > +
->  examples:
->    - |
->      #include <dt-bindings/gpio/gpio.h>
-> -- 
-> 2.20.1
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> +	obj_state = drm_atomic_get_private_obj_state(state, &bridge->base);
+> +	if (IS_ERR(obj_state))
+> +		return ERR_CAST(obj_state);
+> +
+> +	return drm_priv_to_bridge_state(obj_state);
+> +}
+> +EXPORT_SYMBOL(drm_atomic_get_bridge_state);
+> +
+> +/**
+> + * drm_atomic_get_old_bridge_state - get old bridge state, if it exists
+> + * @state: global atomic state object
+> + * @bridge: bridge to grab
+> + *
+> + * This function returns the old bridge state for the given bridge, or NULL if
+> + * the bridge is not part of the global atomic state.
+> + */
+> +struct drm_bridge_state *
+> +drm_atomic_get_old_bridge_state(struct drm_atomic_state *state,
+> +				struct drm_bridge *bridge)
+> +{
+> +	struct drm_private_state *obj_state;
+> +
+> +	obj_state = drm_atomic_get_old_private_obj_state(state, &bridge->base);
+> +	if (!obj_state)
+> +		return NULL;
+> +
+> +	return drm_priv_to_bridge_state(obj_state);
+> +}
+> +EXPORT_SYMBOL(drm_atomic_get_old_bridge_state);
+> +
+> +/**
+> + * drm_atomic_get_new_bridge_state - get new bridge state, if it exists
+> + * @state: global atomic state object
+> + * @bridge: bridge to grab
+> + *
+> + * This function returns the new bridge state for the given bridge, or NULL if
+> + * the bridge is not part of the global atomic state.
+> + */
+> +struct drm_bridge_state *
+> +drm_atomic_get_new_bridge_state(struct drm_atomic_state *state,
+> +				struct drm_bridge *bridge)
+> +{
+> +	struct drm_private_state *obj_state;
+> +
+> +	obj_state = drm_atomic_get_new_private_obj_state(state, &bridge->base);
+> +	if (!obj_state)
+> +		return NULL;
+> +
+> +	return drm_priv_to_bridge_state(obj_state);
+> +}
+> +EXPORT_SYMBOL(drm_atomic_get_new_bridge_state);
+> +
+
+Oops, I placed those helpers in the #ifdef CONFIG_DEBUG_FS section.
+
+>  #endif
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
