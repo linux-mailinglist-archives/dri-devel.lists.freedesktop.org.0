@@ -2,20 +2,20 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A798C146A5A
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 15:00:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE163146A56
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 15:00:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51FD46FCF9;
-	Thu, 23 Jan 2020 14:00:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0D246FD1E;
+	Thu, 23 Jan 2020 14:00:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 811436FCCE;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E4326FCD1;
  Thu, 23 Jan 2020 13:59:57 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id BCB2DB358;
- Thu, 23 Jan 2020 13:59:53 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id A2F94B241;
+ Thu, 23 Jan 2020 13:59:54 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@linux.ie, daniel@ffwll.ch, alexander.deucher@amd.com,
  christian.koenig@amd.com, David1.Zhou@amd.com,
@@ -28,9 +28,10 @@ To: airlied@linux.ie, daniel@ffwll.ch, alexander.deucher@amd.com,
  bskeggs@redhat.com, harry.wentland@amd.com, sunpeng.li@amd.com,
  jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
  rodrigo.vivi@intel.com
-Subject: [PATCH v4 07/22] drm/i915: Convert to CRTC VBLANK callbacks
-Date: Thu, 23 Jan 2020 14:59:28 +0100
-Message-Id: <20200123135943.24140-8-tzimmermann@suse.de>
+Subject: [PATCH v4 08/22] drm/nouveau: Convert to struct
+ drm_crtc_helper_funcs.get_scanout_position()
+Date: Thu, 23 Jan 2020 14:59:29 +0100
+Message-Id: <20200123135943.24140-9-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200123135943.24140-1-tzimmermann@suse.de>
 References: <20200123135943.24140-1-tzimmermann@suse.de>
@@ -47,132 +48,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- nouveau@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, nouveau@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VkJMQU5LIGNhbGxiYWNrcyBpbiBzdHJ1Y3QgZHJtX2RyaXZlciBhcmUgZGVwcmVjYXRlZCBpbiBm
-YXZvciBvZiB0aGVpcgplcXVpdmFsZW50cyBpbiBzdHJ1Y3QgZHJtX2NydGNfZnVuY3MuIENvbnZl
-cnQgaTkxNSBvdmVyLgoKVGhlIGNhbGxiYWNrIHN0cnVjdCBkcm1fZHJpdmVyLmdldF9zY2Fub3V0
-X3Bvc2l0aW9uKCkgaXMgZGVwcmVjYXRlZAppbiBmYXZvciBvZiBzdHJ1Y3QgZHJtX2NydGNfaGVs
-cGVyX2Z1bmNzLmdldF9zY2Fub3V0X3Bvc2l0aW9uKCkuCmk5MTUgZG9lc24ndCB1c2UgQ1JUQyBo
-ZWxwZXJzLiBJbnN0ZWFkIHBhc3MgaTkxNSdzIGltcGxlbWVudGF0aW9uIG9mCmdldF9zY2Fub3V0
-X3Bvc2l0aW9uKCkgdG8gRFJNIGNvcmUncwpkcm1fY3J0Y192YmxhbmtfaGVscGVyX2dldF92Ymxh
-bmtfdGltZXN0YW1wX2ludGVybmFsKCkuCgp2MzoKCSogcmVuYW1lIGRjcnRjIHRvIF9jcnRjCgkq
-IHVzZSBpbnRlbF8gcHJlZml4IGZvciBpOTE1X2NydGNfZ2V0X3ZibGFua190aW1lc3RhbXAoKQoJ
-KiB1cGRhdGUgZm9yIGRybV9jcnRjX3ZibGFua19oZWxwZXJfZ2V0X3ZibGFua190aW1lc3RhbXBf
-aW50ZXJuYWwoKQp2MjoKCSogdXNlIERSTSdzIGltcGxlbWVudGF0aW9uIG9mIGdldF92Ymxhbmtf
-dGltZXN0YW1wKCkKCSogc2ltcGxpZnkgZnVuY3Rpb24gbmFtZXMKClNpZ25lZC1vZmYtYnk6IFRo
-b21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgpSZXZpZXdlZC1ieTogVmlsbGUg
-U3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KQWNrZWQtYnk6IEphbmkg
-TmlrdWxhIDxqYW5pLm5pa3VsYUBpbnRlbC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2k5MTUv
-ZGlzcGxheS9pbnRlbF9kaXNwbGF5LmMgfCAgNyArKysrKysrCiBkcml2ZXJzL2dwdS9kcm0vaTkx
-NS9pOTE1X2Rydi5jICAgICAgICAgICAgICB8ICAzIC0tLQogZHJpdmVycy9ncHUvZHJtL2k5MTUv
-aTkxNV9pcnEuYyAgICAgICAgICAgICAgfCAyMCArKysrKysrKysrKysrKystLS0tLQogZHJpdmVy
-cy9ncHUvZHJtL2k5MTUvaTkxNV9pcnEuaCAgICAgICAgICAgICAgfCAgNiArKy0tLS0KIDQgZmls
-ZXMgY2hhbmdlZCwgMjQgaW5zZXJ0aW9ucygrKSwgMTIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5LmMgYi9kcml2ZXJz
-L2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rpc3BsYXkuYwppbmRleCBkZDAzOTg3Y2MyNGYu
-LjJmNzEzNjBlMzY5NyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9p
-bnRlbF9kaXNwbGF5LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9k
-aXNwbGF5LmMKQEAgLTE2MzIzLDYgKzE2MzIzLDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1f
-Y3J0Y19mdW5jcyBiZHdfY3J0Y19mdW5jcyA9IHsKIAkuZ2V0X3ZibGFua19jb3VudGVyID0gZzR4
-X2dldF92YmxhbmtfY291bnRlciwKIAkuZW5hYmxlX3ZibGFuayA9IGJkd19lbmFibGVfdmJsYW5r
-LAogCS5kaXNhYmxlX3ZibGFuayA9IGJkd19kaXNhYmxlX3ZibGFuaywKKwkuZ2V0X3ZibGFua190
-aW1lc3RhbXAgPSBpbnRlbF9jcnRjX2dldF92YmxhbmtfdGltZXN0YW1wLAogfTsKIAogc3RhdGlj
-IGNvbnN0IHN0cnVjdCBkcm1fY3J0Y19mdW5jcyBpbGtfY3J0Y19mdW5jcyA9IHsKQEAgLTE2MzMx
-LDYgKzE2MzMyLDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fY3J0Y19mdW5jcyBpbGtfY3J0
-Y19mdW5jcyA9IHsKIAkuZ2V0X3ZibGFua19jb3VudGVyID0gZzR4X2dldF92YmxhbmtfY291bnRl
-ciwKIAkuZW5hYmxlX3ZibGFuayA9IGlsa19lbmFibGVfdmJsYW5rLAogCS5kaXNhYmxlX3ZibGFu
-ayA9IGlsa19kaXNhYmxlX3ZibGFuaywKKwkuZ2V0X3ZibGFua190aW1lc3RhbXAgPSBpbnRlbF9j
-cnRjX2dldF92YmxhbmtfdGltZXN0YW1wLAogfTsKIAogc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1f
-Y3J0Y19mdW5jcyBnNHhfY3J0Y19mdW5jcyA9IHsKQEAgLTE2MzM5LDYgKzE2MzQxLDcgQEAgc3Rh
-dGljIGNvbnN0IHN0cnVjdCBkcm1fY3J0Y19mdW5jcyBnNHhfY3J0Y19mdW5jcyA9IHsKIAkuZ2V0
-X3ZibGFua19jb3VudGVyID0gZzR4X2dldF92YmxhbmtfY291bnRlciwKIAkuZW5hYmxlX3ZibGFu
-ayA9IGk5NjVfZW5hYmxlX3ZibGFuaywKIAkuZGlzYWJsZV92YmxhbmsgPSBpOTY1X2Rpc2FibGVf
-dmJsYW5rLAorCS5nZXRfdmJsYW5rX3RpbWVzdGFtcCA9IGludGVsX2NydGNfZ2V0X3ZibGFua190
-aW1lc3RhbXAsCiB9OwogCiBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9jcnRjX2Z1bmNzIGk5NjVf
-Y3J0Y19mdW5jcyA9IHsKQEAgLTE2MzQ3LDYgKzE2MzUwLDcgQEAgc3RhdGljIGNvbnN0IHN0cnVj
-dCBkcm1fY3J0Y19mdW5jcyBpOTY1X2NydGNfZnVuY3MgPSB7CiAJLmdldF92YmxhbmtfY291bnRl
-ciA9IGk5MTVfZ2V0X3ZibGFua19jb3VudGVyLAogCS5lbmFibGVfdmJsYW5rID0gaTk2NV9lbmFi
-bGVfdmJsYW5rLAogCS5kaXNhYmxlX3ZibGFuayA9IGk5NjVfZGlzYWJsZV92YmxhbmssCisJLmdl
-dF92YmxhbmtfdGltZXN0YW1wID0gaW50ZWxfY3J0Y19nZXRfdmJsYW5rX3RpbWVzdGFtcCwKIH07
-CiAKIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2NydGNfZnVuY3MgaTkxNWdtX2NydGNfZnVuY3Mg
-PSB7CkBAIC0xNjM1NSw2ICsxNjM1OSw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2NydGNf
-ZnVuY3MgaTkxNWdtX2NydGNfZnVuY3MgPSB7CiAJLmdldF92YmxhbmtfY291bnRlciA9IGk5MTVf
-Z2V0X3ZibGFua19jb3VudGVyLAogCS5lbmFibGVfdmJsYW5rID0gaTkxNWdtX2VuYWJsZV92Ymxh
-bmssCiAJLmRpc2FibGVfdmJsYW5rID0gaTkxNWdtX2Rpc2FibGVfdmJsYW5rLAorCS5nZXRfdmJs
-YW5rX3RpbWVzdGFtcCA9IGludGVsX2NydGNfZ2V0X3ZibGFua190aW1lc3RhbXAsCiB9OwogCiBz
-dGF0aWMgY29uc3Qgc3RydWN0IGRybV9jcnRjX2Z1bmNzIGk5MTVfY3J0Y19mdW5jcyA9IHsKQEAg
-LTE2MzYzLDYgKzE2MzY4LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fY3J0Y19mdW5jcyBp
-OTE1X2NydGNfZnVuY3MgPSB7CiAJLmdldF92YmxhbmtfY291bnRlciA9IGk5MTVfZ2V0X3ZibGFu
-a19jb3VudGVyLAogCS5lbmFibGVfdmJsYW5rID0gaTh4eF9lbmFibGVfdmJsYW5rLAogCS5kaXNh
-YmxlX3ZibGFuayA9IGk4eHhfZGlzYWJsZV92YmxhbmssCisJLmdldF92YmxhbmtfdGltZXN0YW1w
-ID0gaW50ZWxfY3J0Y19nZXRfdmJsYW5rX3RpbWVzdGFtcCwKIH07CiAKIHN0YXRpYyBjb25zdCBz
-dHJ1Y3QgZHJtX2NydGNfZnVuY3MgaTh4eF9jcnRjX2Z1bmNzID0gewpAQCAtMTYzNzEsNiArMTYz
-NzcsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9jcnRjX2Z1bmNzIGk4eHhfY3J0Y19mdW5j
-cyA9IHsKIAkvKiBubyBodyB2YmxhbmsgY291bnRlciAqLwogCS5lbmFibGVfdmJsYW5rID0gaTh4
-eF9lbmFibGVfdmJsYW5rLAogCS5kaXNhYmxlX3ZibGFuayA9IGk4eHhfZGlzYWJsZV92Ymxhbmss
-CisJLmdldF92YmxhbmtfdGltZXN0YW1wID0gaW50ZWxfY3J0Y19nZXRfdmJsYW5rX3RpbWVzdGFt
-cCwKIH07CiAKIHN0YXRpYyBzdHJ1Y3QgaW50ZWxfY3J0YyAqaW50ZWxfY3J0Y19hbGxvYyh2b2lk
-KQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9kcnYuYyBiL2RyaXZlcnMv
-Z3B1L2RybS9pOTE1L2k5MTVfZHJ2LmMKaW5kZXggZjczODVhYmRkNzRiLi4zMGI5YmExMzZhODEg
-MTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfZHJ2LmMKKysrIGIvZHJpdmVy
-cy9ncHUvZHJtL2k5MTUvaTkxNV9kcnYuYwpAQCAtMjc2OSw5ICsyNzY5LDYgQEAgc3RhdGljIHN0
-cnVjdCBkcm1fZHJpdmVyIGRyaXZlciA9IHsKIAkuZ2VtX3ByaW1lX2V4cG9ydCA9IGk5MTVfZ2Vt
-X3ByaW1lX2V4cG9ydCwKIAkuZ2VtX3ByaW1lX2ltcG9ydCA9IGk5MTVfZ2VtX3ByaW1lX2ltcG9y
-dCwKIAotCS5nZXRfdmJsYW5rX3RpbWVzdGFtcCA9IGRybV9jYWxjX3ZibHRpbWVzdGFtcF9mcm9t
-X3NjYW5vdXRwb3MsCi0JLmdldF9zY2Fub3V0X3Bvc2l0aW9uID0gaTkxNV9nZXRfY3J0Y19zY2Fu
-b3V0cG9zLAotCiAJLmR1bWJfY3JlYXRlID0gaTkxNV9nZW1fZHVtYl9jcmVhdGUsCiAJLmR1bWJf
-bWFwX29mZnNldCA9IGk5MTVfZ2VtX2R1bWJfbW1hcF9vZmZzZXQsCiAKZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfaXJxLmMgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1
-X2lycS5jCmluZGV4IGFmYzZhYWQ5YmY4Yy4uMjliZjg0Nzk5OWY1IDEwMDY0NAotLS0gYS9kcml2
-ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2lycS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5
-MTVfaXJxLmMKQEAgLTc2MiwxMyArNzYyLDE1IEBAIHN0YXRpYyBpbnQgX19pbnRlbF9nZXRfY3J0
-Y19zY2FubGluZShzdHJ1Y3QgaW50ZWxfY3J0YyAqY3J0YykKIAlyZXR1cm4gKHBvc2l0aW9uICsg
-Y3J0Yy0+c2NhbmxpbmVfb2Zmc2V0KSAlIHZ0b3RhbDsKIH0KIAotYm9vbCBpOTE1X2dldF9jcnRj
-X3NjYW5vdXRwb3Moc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdW5zaWduZWQgaW50IGluZGV4LAot
-CQkJICAgICAgYm9vbCBpbl92YmxhbmtfaXJxLCBpbnQgKnZwb3MsIGludCAqaHBvcywKLQkJCSAg
-ICAgIGt0aW1lX3QgKnN0aW1lLCBrdGltZV90ICpldGltZSwKLQkJCSAgICAgIGNvbnN0IHN0cnVj
-dCBkcm1fZGlzcGxheV9tb2RlICptb2RlKQorc3RhdGljIGJvb2wgaTkxNV9nZXRfY3J0Y19zY2Fu
-b3V0cG9zKHN0cnVjdCBkcm1fY3J0YyAqX2NydGMsCisJCQkJICAgICBib29sIGluX3ZibGFua19p
-cnEsCisJCQkJICAgICBpbnQgKnZwb3MsIGludCAqaHBvcywKKwkJCQkgICAgIGt0aW1lX3QgKnN0
-aW1lLCBrdGltZV90ICpldGltZSwKKwkJCQkgICAgIGNvbnN0IHN0cnVjdCBkcm1fZGlzcGxheV9t
-b2RlICptb2RlKQogeworCXN0cnVjdCBkcm1fZGV2aWNlICpkZXYgPSBfY3J0Yy0+ZGV2OwogCXN0
-cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJpdiA9IHRvX2k5MTUoZGV2KTsKLQlzdHJ1Y3Qg
-aW50ZWxfY3J0YyAqY3J0YyA9IHRvX2ludGVsX2NydGMoZHJtX2NydGNfZnJvbV9pbmRleChkZXYs
-IGluZGV4KSk7CisJc3RydWN0IGludGVsX2NydGMgKmNydGMgPSB0b19pbnRlbF9jcnRjKF9jcnRj
-KTsKIAllbnVtIHBpcGUgcGlwZSA9IGNydGMtPnBpcGU7CiAJaW50IHBvc2l0aW9uOwogCWludCB2
-Ymxfc3RhcnQsIHZibF9lbmQsIGhzeW5jX3N0YXJ0LCBodG90YWwsIHZ0b3RhbDsKQEAgLTg3OSw2
-ICs4ODEsMTQgQEAgYm9vbCBpOTE1X2dldF9jcnRjX3NjYW5vdXRwb3Moc3RydWN0IGRybV9kZXZp
-Y2UgKmRldiwgdW5zaWduZWQgaW50IGluZGV4LAogCXJldHVybiB0cnVlOwogfQogCitib29sIGlu
-dGVsX2NydGNfZ2V0X3ZibGFua190aW1lc3RhbXAoc3RydWN0IGRybV9jcnRjICpjcnRjLCBpbnQg
-Km1heF9lcnJvciwKKwkJCQkgICAgIGt0aW1lX3QgKnZibGFua190aW1lLCBib29sIGluX3ZibGFu
-a19pcnEpCit7CisJcmV0dXJuIGRybV9jcnRjX3ZibGFua19oZWxwZXJfZ2V0X3ZibGFua190aW1l
-c3RhbXBfaW50ZXJuYWwoCisJCWNydGMsIG1heF9lcnJvciwgdmJsYW5rX3RpbWUsIGluX3ZibGFu
-a19pcnEsCisJCWk5MTVfZ2V0X2NydGNfc2Nhbm91dHBvcywgTlVMTCk7Cit9CisKIGludCBpbnRl
-bF9nZXRfY3J0Y19zY2FubGluZShzdHJ1Y3QgaW50ZWxfY3J0YyAqY3J0YykKIHsKIAlzdHJ1Y3Qg
-ZHJtX2k5MTVfcHJpdmF0ZSAqZGV2X3ByaXYgPSB0b19pOTE1KGNydGMtPmJhc2UuZGV2KTsKZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfaXJxLmggYi9kcml2ZXJzL2dwdS9k
-cm0vaTkxNS9pOTE1X2lycS5oCmluZGV4IDgxMmM0N2E5YzJkNi4uMjVmMjVjZDk1ODE4IDEwMDY0
-NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2lycS5oCisrKyBiL2RyaXZlcnMvZ3B1
-L2RybS9pOTE1L2k5MTVfaXJxLmgKQEAgLTEwMSwxMCArMTAxLDggQEAgdm9pZCBnZW44X2lycV9w
-b3dlcl93ZWxsX3Bvc3RfZW5hYmxlKHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJpdiwK
-IHZvaWQgZ2VuOF9pcnFfcG93ZXJfd2VsbF9wcmVfZGlzYWJsZShzdHJ1Y3QgZHJtX2k5MTVfcHJp
-dmF0ZSAqZGV2X3ByaXYsCiAJCQkJICAgICB1OCBwaXBlX21hc2spOwogCi1ib29sIGk5MTVfZ2V0
-X2NydGNfc2Nhbm91dHBvcyhzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB1bnNpZ25lZCBpbnQgcGlw
-ZSwKLQkJCSAgICAgIGJvb2wgaW5fdmJsYW5rX2lycSwgaW50ICp2cG9zLCBpbnQgKmhwb3MsCi0J
-CQkgICAgICBrdGltZV90ICpzdGltZSwga3RpbWVfdCAqZXRpbWUsCi0JCQkgICAgICBjb25zdCBz
-dHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqbW9kZSk7Citib29sIGludGVsX2NydGNfZ2V0X3ZibGFu
-a190aW1lc3RhbXAoc3RydWN0IGRybV9jcnRjICpjcnRjLCBpbnQgKm1heF9lcnJvciwKKwkJCQkg
-ICAgIGt0aW1lX3QgKnZibGFua190aW1lLCBib29sIGluX3ZibGFua19pcnEpOwogCiB1MzIgaTkx
-NV9nZXRfdmJsYW5rX2NvdW50ZXIoc3RydWN0IGRybV9jcnRjICpjcnRjKTsKIHUzMiBnNHhfZ2V0
-X3ZibGFua19jb3VudGVyKHN0cnVjdCBkcm1fY3J0YyAqY3J0Yyk7Ci0tIAoyLjI0LjEKCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+The callback struct drm_driver.get_scanout_position() is deprecated in
+favor of struct drm_crtc_helper_funcs.get_scanout_position(). Convert
+nouveau over.
+
+v4:
+	* add argument names in function declaration
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/nouveau/dispnv04/crtc.c   |  1 +
+ drivers/gpu/drm/nouveau/dispnv50/head.c   |  1 +
+ drivers/gpu/drm/nouveau/nouveau_display.c | 14 +++-----------
+ drivers/gpu/drm/nouveau/nouveau_display.h |  7 ++++---
+ drivers/gpu/drm/nouveau/nouveau_drm.c     |  1 -
+ 5 files changed, 9 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/dispnv04/crtc.c b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
+index 37c50ea8f847..17e9d1c078a0 100644
+--- a/drivers/gpu/drm/nouveau/dispnv04/crtc.c
++++ b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
+@@ -1258,6 +1258,7 @@ static const struct drm_crtc_helper_funcs nv04_crtc_helper_funcs = {
+ 	.mode_set_base = nv04_crtc_mode_set_base,
+ 	.mode_set_base_atomic = nv04_crtc_mode_set_base_atomic,
+ 	.disable = nv_crtc_disable,
++	.get_scanout_position = nouveau_display_scanoutpos,
+ };
+ 
+ static const uint32_t modeset_formats[] = {
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/head.c b/drivers/gpu/drm/nouveau/dispnv50/head.c
+index d9d64602947d..41852dd8fdbd 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/head.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/head.c
+@@ -413,6 +413,7 @@ nv50_head_atomic_check(struct drm_crtc *crtc, struct drm_crtc_state *state)
+ static const struct drm_crtc_helper_funcs
+ nv50_head_help = {
+ 	.atomic_check = nv50_head_atomic_check,
++	.get_scanout_position = nouveau_display_scanoutpos,
+ };
+ 
+ static void
+diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
+index 53f9bceaf17a..86f99dc8fcef 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_display.c
++++ b/drivers/gpu/drm/nouveau/nouveau_display.c
+@@ -136,21 +136,13 @@ nouveau_display_scanoutpos_head(struct drm_crtc *crtc, int *vpos, int *hpos,
+ }
+ 
+ bool
+-nouveau_display_scanoutpos(struct drm_device *dev, unsigned int pipe,
++nouveau_display_scanoutpos(struct drm_crtc *crtc,
+ 			   bool in_vblank_irq, int *vpos, int *hpos,
+ 			   ktime_t *stime, ktime_t *etime,
+ 			   const struct drm_display_mode *mode)
+ {
+-	struct drm_crtc *crtc;
+-
+-	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head) {
+-		if (nouveau_crtc(crtc)->index == pipe) {
+-			return nouveau_display_scanoutpos_head(crtc, vpos, hpos,
+-							       stime, etime);
+-		}
+-	}
+-
+-	return false;
++	return nouveau_display_scanoutpos_head(crtc, vpos, hpos,
++					       stime, etime);
+ }
+ 
+ static void
+diff --git a/drivers/gpu/drm/nouveau/nouveau_display.h b/drivers/gpu/drm/nouveau/nouveau_display.h
+index 6e8e66882e45..26d34f1a77da 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_display.h
++++ b/drivers/gpu/drm/nouveau/nouveau_display.h
+@@ -63,9 +63,10 @@ int  nouveau_display_suspend(struct drm_device *dev, bool runtime);
+ void nouveau_display_resume(struct drm_device *dev, bool runtime);
+ int  nouveau_display_vblank_enable(struct drm_device *, unsigned int);
+ void nouveau_display_vblank_disable(struct drm_device *, unsigned int);
+-bool  nouveau_display_scanoutpos(struct drm_device *, unsigned int,
+-				 bool, int *, int *, ktime_t *,
+-				 ktime_t *, const struct drm_display_mode *);
++bool nouveau_display_scanoutpos(struct drm_crtc *crtc,
++				bool in_vblank_irq, int *vpos, int *hpos,
++				ktime_t *stime, ktime_t *etime,
++				const struct drm_display_mode *mode);
+ 
+ int  nouveau_display_dumb_create(struct drm_file *, struct drm_device *,
+ 				 struct drm_mode_create_dumb *args);
+diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
+index b65ae817eabf..fcc036a08965 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_drm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
+@@ -1122,7 +1122,6 @@ driver_stub = {
+ 
+ 	.enable_vblank = nouveau_display_vblank_enable,
+ 	.disable_vblank = nouveau_display_vblank_disable,
+-	.get_scanout_position = nouveau_display_scanoutpos,
+ 	.get_vblank_timestamp = drm_calc_vbltimestamp_from_scanoutpos,
+ 
+ 	.ioctls = nouveau_ioctls,
+-- 
+2.24.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
