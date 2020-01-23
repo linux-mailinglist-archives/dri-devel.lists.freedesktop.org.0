@@ -2,42 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E775C145FCC
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 01:20:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CB3C145FD6
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 01:22:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5425F6F94D;
-	Thu, 23 Jan 2020 00:20:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F2AC6F94E;
+	Thu, 23 Jan 2020 00:22:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 613816F94D
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 00:20:04 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206231] R9 280X low performance with all games
-Date: Thu, 23 Jan 2020 00:20:03 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: kentosama@whiteninjastudio.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-206231-2300-XFt4gwgaij@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-206231-2300@https.bugzilla.kernel.org/>
-References: <bug-206231-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C1B46F94E;
+ Thu, 23 Jan 2020 00:22:19 +0000 (UTC)
+Received: from [82.43.126.140] (helo=localhost)
+ by youngberry.canonical.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <colin.king@canonical.com>)
+ id 1iuQGG-0003UT-I4; Thu, 23 Jan 2020 00:22:16 +0000
+From: Colin King <colin.king@canonical.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Zhou <David1.Zhou@amd.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/amd/amdgpu: fix spelling mistake "to" -> "too"
+Date: Thu, 23 Jan 2020 00:22:16 +0000
+Message-Id: <20200123002216.2832146-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,25 +41,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: kernel-janitors@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=206231
+From: Colin Ian King <colin.king@canonical.com>
 
---- Comment #29 from Jacques Belosoukinski (kentosama@whiteninjastudio.com) ---
-Indeed Dirt Rally is an OpenGL game. I thought it was Vulkan, because I didn't
-see the HUD from Gallium, but it was an error in the settings.
+There is a spelling mistake in a DRM_ERROR message. Fix it.
 
-The result benchmark in ultra (1920x1080, 8xmssa, no vsync):
-avg fps ~ 23fps
-min fps ~ 15fps
-max fps ~ 31fps
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c
+index ceb0dbf685f1..59ddba137946 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c
+@@ -652,7 +652,7 @@ static int amdgpu_vce_cs_reloc(struct amdgpu_cs_parser *p, uint32_t ib_idx,
+ 
+ 	if ((addr + (uint64_t)size) >
+ 	    (mapping->last + 1) * AMDGPU_GPU_PAGE_SIZE) {
+-		DRM_ERROR("BO to small for addr 0x%010Lx %d %d\n",
++		DRM_ERROR("BO too small for addr 0x%010Lx %d %d\n",
+ 			  addr, lo, hi);
+ 		return -EINVAL;
+ 	}
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.24.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
