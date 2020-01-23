@@ -2,54 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3A801473F2
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 23:41:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 535D514740B
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 23:53:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B45856FE8E;
-	Thu, 23 Jan 2020 22:41:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FBAE6E162;
+	Thu, 23 Jan 2020 22:53:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail25.static.mailgun.info (mail25.static.mailgun.info
- [104.130.122.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E75D6FE83
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 22:41:03 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1579819263; h=Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=sUyB0PskpQ3/B86Mj3Is2hoJIkdFr0MzGEv+qQmoFWc=;
- b=Vq1nSfDOpt+EcVE5Hs4lqvt/UZh8HIL4DSm1FVRizhNz/ptADa9osmgBOdJaQ9Qb5Yt3B09E
- l9lmN56Aa+JMXOFS3jZYvaYGElCO55AeTDUr4rscmX2YH4buhnXDAom1tXxGx6QvDeNS7K7H
- 8ZMeWdWtulSxunLvC/m/dZKVNMQ=
-X-Mailgun-Sending-Ip: 104.130.122.25
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e2a20f9.7fec225e88b8-smtp-out-n03;
- Thu, 23 Jan 2020 22:40:57 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 87864C447A1; Thu, 23 Jan 2020 22:40:57 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from abhinavk-linux.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 009CFC43383;
- Thu, 23 Jan 2020 22:40:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 009CFC43383
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=abhinavk@codeaurora.org
-From: Abhinav Kumar <abhinavk@codeaurora.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm: Parse Colorimetry data block from EDID
-Date: Thu, 23 Jan 2020 14:40:45 -0800
-Message-Id: <1579819245-21913-1-git-send-email-abhinavk@codeaurora.org>
-X-Mailer: git-send-email 1.9.1
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AA176E162
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 22:53:42 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id s144so2856601wme.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 14:53:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=RzehXyFhk4RWmRYlZn82JGLOATp9zf+NH5qUKpcy8D8=;
+ b=rQTZHwC4w47mEt2wu/i57DaU5ir05X12biMYMATiYCpFyTU/Yx9scpC9Ty9NWMSy3A
+ IlMObCRB0HOVQVJ+sJjK5u+piYKQIx10EIyNA0GEnOzzkggch6l/6+aIbgjSVB9sKp6A
+ Ynh+xJb3m5s/iSK+G/D47DejRG7yPMuU6+7zrwAMOqrUyKq2OCYC1tbtSCOAgBdLr1od
+ 1dRsUAYs2rQsKlSArQ3R3uvWJpJzkZilCqCJEJzrtGAcw7rPQd6WGYUXgDblznksXRks
+ 4cxd+Y4GDmrixDgQI6xyQDr7PMJdokt+BWmfoT9n+LKbd0/SPb8p/cFNoJtIPW3tabUE
+ Jl0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=RzehXyFhk4RWmRYlZn82JGLOATp9zf+NH5qUKpcy8D8=;
+ b=IXhB7iOfec/thZroe0WlX+UsPsM9D+HuEWl2bKgu6IM52MdeKHVlk6KGEEi3AhNrtG
+ VfX5WBXdGFFY2wFNB8QsSwgy78nbPeRBzW1XT8L1rDVgvl1yK86geGQfwYOOg62hc1TJ
+ uqphp6BHv3s5MiWJ/m5Nfp2GbNLKUrkCGYV++Xtc/YrO0Awcft6yQXQfwjpb2WcQqVpv
+ I3WqqRKwx/Oq9h0xAEqdum+5ycfmkW0j0dujidU3VdAlo4ht8fAWnW+yuLD6WRyCJBMw
+ xQjOpPKixv4izzy6lcV7h5PN9Z/XeRjekHGmOhJ1Nin2Dm3yRQHRO1vsCjZ41dgCHx2y
+ ELSg==
+X-Gm-Message-State: APjAAAUDANItgjTc7OkPi0k+E1UzNKHDAQj06dG7BZOTu3LKwdZbBhT+
+ P05ZONoWHeBek7HT6KcbJIP6GMO4
+X-Google-Smtp-Source: APXvYqyteXcIypkCMWGoF47BYZ7jeLl7uCgPYqlZtRJpurOtADMWmWdZc2lJ6n0nSR23UehcsvcozQ==
+X-Received: by 2002:a05:600c:2207:: with SMTP id
+ z7mr217603wml.138.1579820021216; 
+ Thu, 23 Jan 2020 14:53:41 -0800 (PST)
+Received: from localhost (108.78.124.78.rev.sfr.net. [78.124.78.108])
+ by smtp.gmail.com with ESMTPSA id n8sm4864837wrx.42.2020.01.23.14.53.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Jan 2020 14:53:40 -0800 (PST)
+Date: Thu, 23 Jan 2020 22:52:56 +0000
+From: sylvain.bertrand@gmail.com
+To: bugzilla-daemon@bugzilla.kernel.org
+Subject: Re: [Bug 206231] R9 280X low performance with all games
+Message-ID: <20200123225256.GA14725@freedom>
+References: <bug-206231-2300@https.bugzilla.kernel.org/>
+ <bug-206231-2300-YtDvlCsOCZ@https.bugzilla.kernel.org/>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <bug-206231-2300-YtDvlCsOCZ@https.bugzilla.kernel.org/>
+User-Agent: Mutt/ (2018-04-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,153 +69,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: adelva@google.com, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <abhinavk@codeaurora.org>, seanpaul@chromium.org,
- aravindh@codeaurora.org, Uma Shankar <uma.shankar@intel.com>
-MIME-Version: 1.0
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Uma Shankar <uma.shankar@intel.com>
+On Thu, Jan 23, 2020 at 10:05:26PM +0000, bugzilla-daemon@bugzilla.kernel.org wrote:
+> --- Comment #36 from Jacques Belosoukinski (kentosama@whiteninjastudio.com) ---
+> No, I do not have Windows on this computer. There are several benchmark results
+> available, moreover I noticed that Mesa has much lower performance compared to
+> DirectX on Dirt Rally and other games.
 
-CEA 861.3 spec adds colorimetry data block for HDMI.
-Parsing the block to get the colorimetry data from
-panel.
+ok. Then we don't have numbers to compare to and weight how much mesaGL is worse
+than dx for dirt rally 3D engine (modulo the hardware bugs/gpu vm faults/etc).
 
-This was posted by Uma Shankar at
-https://patchwork.kernel.org/patch/10861327/
+> New bench with ultra settings, 8 xmsaa and 1920x1080:
+> min: 14fps
+> average: 19fps
+> max: 27fps
 
-Modified by Abhinav Kumar:
-- Use macros to distinguish the bit fields for clarity
+I guess, one would use the presets to get a min fps close to 60fps and ajust
+with the advanced settings.
 
-Signed-off-by: Uma Shankar <uma.shankar@intel.com>
-Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
----
- drivers/gpu/drm/drm_edid.c  | 54 +++++++++++++++++++++++++++++++++++++++++++++
- include/drm/drm_connector.h |  3 +++
- include/drm/drm_edid.h      | 11 +++++++++
- 3 files changed, 68 insertions(+)
-
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 99769d6..148bfa4 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -3136,6 +3136,7 @@ static int drm_cvt_modes(struct drm_connector *connector,
- #define VIDEO_BLOCK     0x02
- #define VENDOR_BLOCK    0x03
- #define SPEAKER_BLOCK	0x04
-+#define COLORIMETRY_DATA_BLOCK		0x5
- #define HDR_STATIC_METADATA_BLOCK	0x6
- #define USE_EXTENDED_TAG 0x07
- #define EXT_VIDEO_CAPABILITY_BLOCK 0x00
-@@ -4199,6 +4200,57 @@ static void fixup_detailed_cea_mode_clock(struct drm_display_mode *mode)
- 	mode->clock = clock;
- }
- 
-+static bool cea_db_is_hdmi_colorimetry_data_block(const u8 *db)
-+{
-+	if (cea_db_tag(db) != USE_EXTENDED_TAG)
-+		return false;
-+
-+	if (db[1] != COLORIMETRY_DATA_BLOCK)
-+		return false;
-+
-+	if (cea_db_payload_len(db) < 2)
-+		return false;
-+
-+	return true;
-+}
-+
-+static void
-+drm_parse_colorimetry_data_block(struct drm_connector *connector, const u8 *db)
-+{
-+	struct drm_hdmi_info *info = &connector->display_info.hdmi;
-+
-+	/* As per CEA 861-G spec */
-+	/* Byte 3 Bit 0: xvYCC_601 */
-+	if (db[2] & BIT(0))
-+		info->colorimetry |= DRM_EDID_CLRMETRY_xvYCC_601;
-+	/* Byte 3 Bit 1: xvYCC_709 */
-+	if (db[2] & BIT(1))
-+		info->colorimetry |= DRM_EDID_CLRMETRY_xvYCC_709;
-+	/* Byte 3 Bit 2: sYCC_601 */
-+	if (db[2] & BIT(2))
-+		info->colorimetry |= DRM_EDID_CLRMETRY_sYCC_601;
-+	/* Byte 3 Bit 3: ADBYCC_601 */
-+	if (db[2] & BIT(3))
-+		info->colorimetry |= DRM_EDID_CLRMETRY_ADBYCC_601;
-+	/* Byte 3 Bit 4: ADB_RGB */
-+	if (db[2] & BIT(4))
-+		info->colorimetry |= DRM_EDID_CLRMETRY_ADB_RGB;
-+	/* Byte 3 Bit 5: BT2020_CYCC */
-+	if (db[2] & BIT(5))
-+		info->colorimetry |= DRM_EDID_CLRMETRY_BT2020_CYCC;
-+	/* Byte 3 Bit 6: BT2020_YCC */
-+	if (db[2] & BIT(6))
-+		info->colorimetry |= DRM_EDID_CLRMETRY_BT2020_YCC;
-+	/* Byte 3 Bit 7: BT2020_RGB */
-+	if (db[2] & BIT(7))
-+		info->colorimetry |= DRM_EDID_CLRMETRY_BT2020_RGB;
-+	/* Byte 4 Bit 7: DCI-P3 */
-+	if (db[3] & BIT(7))
-+		info->colorimetry |= DRM_EDID_CLRMETRY_DCI_P3;
-+
-+	DRM_DEBUG_KMS("Supported Colorimetry 0x%x\n", info->colorimetry);
-+}
-+
- static bool cea_db_is_hdmi_hdr_metadata_block(const u8 *db)
- {
- 	if (cea_db_tag(db) != USE_EXTENDED_TAG)
-@@ -4877,6 +4929,8 @@ static void drm_parse_cea_ext(struct drm_connector *connector,
- 			drm_parse_vcdb(connector, db);
- 		if (cea_db_is_hdmi_hdr_metadata_block(db))
- 			drm_parse_hdr_metadata_block(connector, db);
-+		if (cea_db_is_hdmi_colorimetry_data_block(db))
-+			drm_parse_colorimetry_data_block(connector, db);
- 	}
- }
- 
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 2219109..a996ee3 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -207,6 +207,9 @@ struct drm_hdmi_info {
- 
- 	/** @y420_dc_modes: bitmap of deep color support index */
- 	u8 y420_dc_modes;
-+
-+	/* @colorimetry: bitmap of supported colorimetry modes */
-+	u16 colorimetry;
- };
- 
- /**
-diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-index f0b03d4..6168c1c 100644
---- a/include/drm/drm_edid.h
-+++ b/include/drm/drm_edid.h
-@@ -224,6 +224,17 @@ struct detailed_timing {
- 				    DRM_EDID_YCBCR420_DC_36 | \
- 				    DRM_EDID_YCBCR420_DC_30)
- 
-+/* Supported Colorimetry from colorimetry data block */
-+#define DRM_EDID_CLRMETRY_xvYCC_601   (1 << 0)
-+#define DRM_EDID_CLRMETRY_xvYCC_709   (1 << 1)
-+#define DRM_EDID_CLRMETRY_sYCC_601    (1 << 2)
-+#define DRM_EDID_CLRMETRY_ADBYCC_601  (1 << 3)
-+#define DRM_EDID_CLRMETRY_ADB_RGB     (1 << 4)
-+#define DRM_EDID_CLRMETRY_BT2020_CYCC (1 << 5)
-+#define DRM_EDID_CLRMETRY_BT2020_YCC  (1 << 6)
-+#define DRM_EDID_CLRMETRY_BT2020_RGB  (1 << 7)
-+#define DRM_EDID_CLRMETRY_DCI_P3      (1 << 15)
-+
- /* ELD Header Block */
- #define DRM_ELD_HEADER_BLOCK_SIZE	4
- 
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+Sylvain
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
