@@ -1,43 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D9B21468C1
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 14:11:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34ABC146912
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 14:28:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7870B6E061;
-	Thu, 23 Jan 2020 13:11:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A1C36FCAF;
+	Thu, 23 Jan 2020 13:28:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 779FA6E061
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 13:11:14 +0000 (UTC)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D08986FCAE;
+ Thu, 23 Jan 2020 13:28:32 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2020 05:11:13 -0800
-X-IronPort-AV: E=Sophos;i="5.70,354,1574150400"; d="scan'208";a="220660992"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2020 05:28:32 -0800
+X-IronPort-AV: E=Sophos;i="5.70,354,1574150400"; d="scan'208";a="216257967"
 Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2020 05:11:08 -0800
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2020 05:28:28 -0800
 From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Christophe Leroy <christophe.leroy@c-s.fr>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Paul Mackerras <paulus@samba.org>, Michael Ellerman <mpe@ellerman.id.au>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Andrew Morton <akpm@linux-foundation.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, "H. Peter Anvin" <hpa@zytor.com>
-Subject: Re: [PATCH v3 2/7] uaccess: Tell user_access_begin() if it's for a
- write or not
-In-Reply-To: <e11a8f0670251267f87e3114e0bdbacb1eb72980.1579783936.git.christophe.leroy@c-s.fr>
+To: Wambui Karuga <wambui.karugax@gmail.com>, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/5] drm/i915: conversion to new drm logging macros.
+In-Reply-To: <20200121134559.17355-1-wambui.karugax@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <fed4f49349913cb6739dac647ba6a61d56b989d2.1579783936.git.christophe.leroy@c-s.fr>
- <e11a8f0670251267f87e3114e0bdbacb1eb72980.1579783936.git.christophe.leroy@c-s.fr>
-Date: Thu, 23 Jan 2020 15:11:05 +0200
-Message-ID: <8736c6e2s6.fsf@intel.com>
+References: <20200121134559.17355-1-wambui.karugax@gmail.com>
+Date: Thu, 23 Jan 2020 15:28:25 +0200
+Message-ID: <87zheecneu.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,32 +45,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: x86@kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 23 Jan 2020, Christophe Leroy <christophe.leroy@c-s.fr> wrote:
-> On 32 bits powerPC (book3s/32), only write accesses to user are
-> protected and there is no point spending time on unlocking for reads.
+On Tue, 21 Jan 2020, Wambui Karuga <wambui.karugax@gmail.com> wrote:
+> This series continues the conversion to the new struct drm_device based
+> logging macros in various files in drm/i915. These patches were
+> achieved both using coccinelle and manually.
 >
-> On 64 bits powerpc (book3s/64 at least), access can be granted
-> read only, write only or read/write.
->
-> Add an argument to user_access_begin() to tell when it's for write and
-> return an opaque key that will be used by user_access_end() to know
-> what was done by user_access_begin().
+> v2: rebase patches onto drm-tip to fix merge conflict in v1 series.
 
-IMHO an opaque key is a prime example of a case where the use of an
-opaque typedef is warranted. Nobody needs to know or care it's
-specifically an unsigned long.
+Pushed all to drm-intel-next-queued, many thanks for the patches, and
+keep up the good work!
 
 BR,
 Jani.
 
+
+>
+> Wambui Karuga (5):
+>   drm/i915/atomic: use struct drm_device logging macros for debug
+>   drm/i915/bios: convert to struct drm_device based logging macros.
+>   drm/i915/audio: convert to new struct drm_device logging macros.
+>   drm/i915/bw: convert to new drm_device based logging macros.
+>   drm/i915/cdclk: use new struct drm_device logging macros.
+>
+>  .../gpu/drm/i915/display/intel_atomic_plane.c |   9 +-
+>  drivers/gpu/drm/i915/display/intel_audio.c    |  73 ++--
+>  drivers/gpu/drm/i915/display/intel_bios.c     | 357 +++++++++++-------
+>  drivers/gpu/drm/i915/display/intel_bw.c       |  29 +-
+>  drivers/gpu/drm/i915/display/intel_cdclk.c    | 109 +++---
+>  5 files changed, 339 insertions(+), 238 deletions(-)
 
 -- 
 Jani Nikula, Intel Open Source Graphics Center
