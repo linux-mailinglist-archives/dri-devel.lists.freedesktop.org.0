@@ -2,60 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 140AA145FE5
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 01:25:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F0B3145FE6
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 01:25:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C10EE6F950;
-	Thu, 23 Jan 2020 00:25:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C18EB6F952;
+	Thu, 23 Jan 2020 00:25:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44D2A6F950
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 00:25:49 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id g17so1189512wro.2
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2020 16:25:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=kgSwU4Iqntjw2/TEF8d88fjDayicIOgOF+0jYe3E0dw=;
- b=pW8mRFoc1JdfSG4HzFbB84RvXAZLZkx6sPCp32OpVikhCFgbJ57I7Jy45P7FbfVH18
- 1oNxSlGSQoW4bKqfZLFibx8NNrVP/kW+xFZFnw2KR9X2kPbr7BR+eyQfprQLNaZwVhxP
- 8/b1V0c9ReQ7ipt/19MUHiZlr/V9r3l6Gg2pglXP3NfHDOk55oc8BDPTWW24xLNJJcEH
- PJm1ndPsct1P72Bpw/AGdE06KbMPu+5SCVIpWKYroSngOsHgC2EJGLxZKZWDinjEA2AE
- tq3j7l7J7TA0/F4z5Yz3l0NN3qp2rzXupc+/n+wN2M2KDAdfSdHlaHnEijIfpEP36qOe
- xqeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=kgSwU4Iqntjw2/TEF8d88fjDayicIOgOF+0jYe3E0dw=;
- b=TxHWTq1qWGTd75XFEZZCdF/EoETmXflVWdIo6xpoK1wQzgDM2K+N3Srq+RZs9N29o8
- 9DV3oHH09ce3oaCcwtWY7fAJRePvD+4+3gzGacHJgwvpRGNw3UfHlAWz9duU67OvxB3T
- Zu9JQ16FcdKh/eXFJOI7gJbQk5CJulOkRVMDOhBJ9PVGHdKNDz+1je6cDZhVrGa7unYf
- Pthj6x5z3lkZfDNOHhJKAAS9Eo+6c9M0j8aO/PDJW40/kUqnHjjHwFXlZQNVjXbEZJwo
- IPDVvXmX0gPm6X5GIBOSqUyRyCJ9R+/2+V8cqvVW5Y5X20FnY9qa3ZO1FZdhmzbR8Jn3
- hZMQ==
-X-Gm-Message-State: APjAAAVX9FGpoGYPIAOYzvcRucxlX6elImohcBt5pl0nLP9oS0YXX/G9
- 1p5gageKMmTHtZKvv3VjD8E=
-X-Google-Smtp-Source: APXvYqxjum58cx/pwP+png93anUk29sEkqHasfWjEOxYvJTCZIppvagltvugV0YUhdcBO3ocI/P/rw==
-X-Received: by 2002:adf:ea4f:: with SMTP id j15mr14115205wrn.356.1579739147843; 
- Wed, 22 Jan 2020 16:25:47 -0800 (PST)
-Received: from localhost (108.78.124.78.rev.sfr.net. [78.124.78.108])
- by smtp.gmail.com with ESMTPSA id b68sm451957wme.6.2020.01.22.16.25.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jan 2020 16:25:47 -0800 (PST)
-Date: Thu, 23 Jan 2020 00:25:05 +0000
-From: sylvain.bertrand@gmail.com
-To: bugzilla-daemon@bugzilla.kernel.org
-Subject: Re: [Bug 206231] R9 280X low performance with all games
-Message-ID: <20200123002505.GA16090@freedom>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 480CF6F953
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 00:25:51 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 206231] R9 280X low performance with all games
+Date: Thu, 23 Jan 2020 00:25:50 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: sylvain.bertrand@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-206231-2300-hJlMWhGpg7@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-206231-2300@https.bugzilla.kernel.org/>
 References: <bug-206231-2300@https.bugzilla.kernel.org/>
- <bug-206231-2300-XFt4gwgaij@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <bug-206231-2300-XFt4gwgaij@https.bugzilla.kernel.org/>
-User-Agent: Mutt/ (2018-04-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,12 +51,14 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+https://bugzilla.kernel.org/show_bug.cgi?id=206231
+
+--- Comment #30 from Sylvain BERTRAND (sylvain.bertrand@gmail.com) ---
 This is consistent with what I have.
 
 I did a clean benchmark run, but this time everything to low/off, but still
@@ -87,7 +72,8 @@ Still getting gpu vm faults in dmesg.
 I run everything git and amd-staging-drm-next no older than 1 week.
 
 -- 
-Sylvain
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
