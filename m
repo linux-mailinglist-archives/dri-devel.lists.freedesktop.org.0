@@ -1,30 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2F0B14645A
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 10:21:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C32A7146461
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2020 10:21:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF3616FB77;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3703A6FB76;
 	Thu, 23 Jan 2020 09:21:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2888B6FB70
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 918ED6FB72
  for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 09:21:29 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id C48B6B206;
- Thu, 23 Jan 2020 09:21:27 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 46D01B14A;
+ Thu, 23 Jan 2020 09:21:28 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, hdegoede@redhat.com,
  david@lechnology.com, noralf@tronnes.org, sean@poorly.run,
  oleksandr_andrushchenko@epam.com, sam@ravnborg.org,
  laurent.pinchart@ideasonboard.com, emil.velikov@collabora.com
-Subject: [PATCH v4 05/15] drm/cirrus: Remove sending of vblank event
-Date: Thu, 23 Jan 2020 10:21:13 +0100
-Message-Id: <20200123092123.28368-6-tzimmermann@suse.de>
+Subject: [PATCH v4 06/15] drm/gm12u320: Remove sending of vblank event
+Date: Thu, 23 Jan 2020 10:21:14 +0100
+Message-Id: <20200123092123.28368-7-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200123092123.28368-1-tzimmermann@suse.de>
 References: <20200123092123.28368-1-tzimmermann@suse.de>
@@ -58,25 +58,30 @@ v4:
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- drivers/gpu/drm/cirrus/cirrus.c | 8 --------
- 1 file changed, 8 deletions(-)
+ drivers/gpu/drm/tiny/gm12u320.c | 9 ---------
+ 1 file changed, 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/cirrus/cirrus.c b/drivers/gpu/drm/cirrus/cirrus.c
-index 248c9f765c45..a91fb0d7282c 100644
---- a/drivers/gpu/drm/cirrus/cirrus.c
-+++ b/drivers/gpu/drm/cirrus/cirrus.c
-@@ -38,7 +38,6 @@
+diff --git a/drivers/gpu/drm/tiny/gm12u320.c b/drivers/gpu/drm/tiny/gm12u320.c
+index 94fb1f593564..a48173441ae0 100644
+--- a/drivers/gpu/drm/tiny/gm12u320.c
++++ b/drivers/gpu/drm/tiny/gm12u320.c
+@@ -22,7 +22,6 @@
  #include <drm/drm_modeset_helper_vtables.h>
  #include <drm/drm_probe_helper.h>
  #include <drm/drm_simple_kms_helper.h>
 -#include <drm/drm_vblank.h>
  
- #define DRIVER_NAME "cirrus"
- #define DRIVER_DESC "qemu cirrus vga"
-@@ -434,13 +433,6 @@ static void cirrus_pipe_update(struct drm_simple_display_pipe *pipe,
+ static bool eco_mode;
+ module_param(eco_mode, bool, 0644);
+@@ -610,18 +609,10 @@ static void gm12u320_pipe_update(struct drm_simple_display_pipe *pipe,
+ 				 struct drm_plane_state *old_state)
+ {
+ 	struct drm_plane_state *state = pipe->plane.state;
+-	struct drm_crtc *crtc = &pipe->crtc;
+ 	struct drm_rect rect;
  
  	if (drm_atomic_helper_damage_merged(old_state, state, &rect))
- 		cirrus_fb_blit_rect(pipe->plane.state->fb, &rect);
+ 		gm12u320_fb_mark_dirty(pipe->plane.state->fb, &rect);
 -
 -	if (crtc->state->event) {
 -		spin_lock_irq(&crtc->dev->event_lock);
@@ -86,7 +91,7 @@ index 248c9f765c45..a91fb0d7282c 100644
 -	}
  }
  
- static const struct drm_simple_display_pipe_funcs cirrus_pipe_funcs = {
+ static const struct drm_simple_display_pipe_funcs gm12u320_pipe_funcs = {
 -- 
 2.24.1
 
