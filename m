@@ -1,47 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D6451479B2
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2020 09:52:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FBB11479B8
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2020 09:53:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 367D66FF8A;
-	Fri, 24 Jan 2020 08:52:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59D6F6FF8C;
+	Fri, 24 Jan 2020 08:52:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from eu-smtp-delivery-151.mimecast.com
- (eu-smtp-delivery-151.mimecast.com [146.101.78.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68C9B6FA1B
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 14:36:22 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-113-15wkTAANO_ibswgbp6HdbQ-1; Thu, 23 Jan 2020 14:36:17 +0000
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Thu, 23 Jan 2020 14:36:16 +0000
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000; 
- Thu, 23 Jan 2020 14:36:16 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Chris Wilson' <chris@chris-wilson.co.uk>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH] drm: Inject a cond_resched() into long drm_clflush_sg()
-Thread-Topic: [PATCH] drm: Inject a cond_resched() into long drm_clflush_sg()
-Thread-Index: AQHVy+gMprmlNntzX0qJh6CaHCkwb6f4Wzrg
-Date: Thu, 23 Jan 2020 14:36:16 +0000
-Message-ID: <8d069732e2a54fb5aa3bffee5cd0d0f4@AcuMS.aculab.com>
-References: <20200115205245.2772800-1-chris@chris-wilson.co.uk>
-In-Reply-To: <20200115205245.2772800-1-chris@chris-wilson.co.uk>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
+ [IPv6:2607:f8b0:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D4086E116
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 18:41:32 +0000 (UTC)
+Received: by mail-pf1-x443.google.com with SMTP id w62so1930526pfw.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 10:41:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=j0uL3hKYvtloUNrrY22cT3PaCoUxzpbH8NZr/Q8o0KA=;
+ b=CXNEFTP2R4F8SHBCz2/5Zzdx0sFdYTih2TDfK4G9t9F6FHZEmAQKe0jRZsvWKlCcZm
+ GsCdp4VMOvYqWBylaMYFz3jK3aq5yW7KLIk9EOW1a+lhEGwwJc5UTxUJw4vSEFwE3swT
+ 5fpKlAPcs1LsnegZtNxXem+dbUFnvIaJ2Yw4bNrTE5ryTxqMyHEiBhBrmnGjzJulXbM4
+ pU2tl6X779VkXBEvQvwcJO9VT38bD2quKReEXD+esMMg1qNlTCjuwBlnXoboXpi5UAJd
+ 1Sp1m/j9HlOv1HBL4587gw6zAFpwao4JsPMNwWlunVSVhcrE8gzHY1z0Q8W5h1bl5RYV
+ Av7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=j0uL3hKYvtloUNrrY22cT3PaCoUxzpbH8NZr/Q8o0KA=;
+ b=lSTuNk+tWv+Ax+E/cFzp56ulOGHqjZ50q1HSJ4YnVYIxWdlDR7ink/AiBo7kvpm9Xd
+ cCOPbCt83CjoDiN+dGmnnV7RC/+tP+/S8uvaAQtqbzIHthB0kLMoa5M3FEZqKD8TJFV4
+ ZhSabqCfJ63UQkE7vcMlUK3/ZQOZ1WyS8us5poPkj0HMhZgdK0RkiwuFZcOMm/4j2uxb
+ dCWPumi8L9J+y1quiHg6TDRsnFDHa3VrgGCtIrdH5NHXnKwSuRRAlAt7tR6wDaWUUYxG
+ uU9xaGha0eLim8STKmsojd2wBEfpohuskPxtPj69iu4sGZJeshbIFnQi1hajehU0Auk7
+ QBag==
+X-Gm-Message-State: APjAAAX4mD5++yQbjZaGCyeVFa3sM8zkskkneSFU97XETnIMl+tDcsjB
+ fTOr0xk7/R66pGW/ztWi9XKyNmWcVjg=
+X-Google-Smtp-Source: APXvYqx+qa1v2W0iU2GnJArGqft14UWP8j2yatf2YzptCIB13C6YZQGrwUgPc9NPu/VFtVapmAU0PA==
+X-Received: by 2002:a63:1807:: with SMTP id y7mr182102pgl.94.1579804892350;
+ Thu, 23 Jan 2020 10:41:32 -0800 (PST)
+Received: from yoga (104-188-17-28.lightspeed.sndgca.sbcglobal.net.
+ [104.188.17.28])
+ by smtp.gmail.com with ESMTPSA id g24sm3547441pfk.92.2020.01.23.10.41.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Jan 2020 10:41:31 -0800 (PST)
+Date: Thu, 23 Jan 2020 10:41:29 -0800
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Harigovindan P <harigovi@codeaurora.org>
+Subject: Re: [v2] arm64: dts: sc7180: add display dt nodes
+Message-ID: <20200123184129.GW1511@yoga>
+References: <1579781700-7253-1-git-send-email-harigovi@codeaurora.org>
 MIME-Version: 1.0
-X-MC-Unique: 15wkTAANO_ibswgbp6HdbQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
+Content-Disposition: inline
+In-Reply-To: <1579781700-7253-1-git-send-email-harigovi@codeaurora.org>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-Mailman-Approved-At: Fri, 24 Jan 2020 08:52:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,131 +69,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ seanpaul@chromium.org, kalyan_t@codeaurora.org, hoegsberg@chromium.org,
+ freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Wilson <chris@chris-wilson.co.uk>
-> Sent: 15 January 2020 20:53
+On Thu 23 Jan 04:15 PST 2020, Harigovindan P wrote:
+
+> Add display, DSI hardware DT nodes for sc7180.
 > 
-> Since we may try and flush the cachelines associated with large buffers
-> (an 8K framebuffer is about 128MiB, even before we try HDR), this leads
-> to unacceptably long latencies (when using a voluntary CONFIG_PREEMPT).
-> If we call cond_resched() between each sg chunk, that it about every 128
-> pages, we have a natural break point in which to check if the process
-> needs to be rescheduled. Naturally, this means that drm_clflush_sg() can
-> only be called from process context -- which is true at the moment. The
-> other clflush routines remain usable from atomic context.
+> Changes in v1:
+> 	-Added display DT nodes for sc7180
+> Changes in v2:
+> 	-Renamed node names
+> 	-Corrected code alignments
+> 	-Removed extra new line
+
+Please keep the changelist after the '---' for the dts patches.
+
 > 
-> Even though flushing large objects takes a demonstrable amount to time
-> to flush all the cachelines, clflush is still preferred over a
-> system-wide wbinvd as the latter has unpredictable latencies affecting
-> the whole system not just the local task.
-
-Any progress on this.
-I think the patch itself has it's whitespace messed up.
-
-I've just done a measurement on a newer system that supports clflushopt.
-drm_clflush_sg() took 400us for a 1920x1080 display.
-No idea how fast the cpus were running, somewhere between 800MHz and 4GHz
-depending on the whim of the hardware (probable at the low end).
-Considerably faster, and enough that calling cond_resched() every 4k
-is probably noticable.
-So every 128 pages is probably a reasonable compromise.
-
-	David
-
-
-> Reported-by: David Laight <David.Laight@ACULAB.COM>
-> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: David Laight <David.Laight@ACULAB.COM>
+> Signed-off-by: Harigovindan P <harigovi@codeaurora.org>
 > ---
->  drivers/gpu/drm/drm_cache.c | 49 ++++++++++++++++++++++++++++++++++---
->  1 file changed, 45 insertions(+), 4 deletions(-)
+>  arch/arm64/boot/dts/qcom/sc7180-idp.dts |  57 +++++++++++++++
+>  arch/arm64/boot/dts/qcom/sc7180.dtsi    | 125 ++++++++++++++++++++++++++++++++
+>  2 files changed, 182 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/drm_cache.c b/drivers/gpu/drm/drm_cache.c
-> index 03e01b000f7a..fbd2bb644544 100644
-> --- a/drivers/gpu/drm/drm_cache.c
-> +++ b/drivers/gpu/drm/drm_cache.c
-> @@ -112,23 +112,64 @@ drm_clflush_pages(struct page *pages[], unsigned long num_pages)
->  }
->  EXPORT_SYMBOL(drm_clflush_pages);
-> 
-> +static __always_inline struct sgt_iter {
-> +struct scatterlist *sgp;
-> +unsigned long pfn;
-> +unsigned int curr;
-> +unsigned int max;
-> +} __sgt_iter(struct scatterlist *sgl) {
-> +struct sgt_iter s = { .sgp = sgl };
+> diff --git a/arch/arm64/boot/dts/qcom/sc7180-idp.dts b/arch/arm64/boot/dts/qcom/sc7180-idp.dts
+> index 388f50a..f410614 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7180-idp.dts
+> +++ b/arch/arm64/boot/dts/qcom/sc7180-idp.dts
+> @@ -232,6 +232,50 @@
+>  	};
+>  };
+>  
+> +&dsi_controller {
+> +	status = "okay";
 > +
-> +if (s.sgp) {
-> +s.max = s.curr = s.sgp->offset;
-> +s.max += s.sgp->length;
-> +s.pfn = page_to_pfn(sg_page(s.sgp));
-> +}
+> +	vdda-supply = <&vreg_l3c_1p2>;
 > +
-> +return s;
-> +}
+> +	panel@0 {
+> +		compatible = "visionox,rm69299-1080p-display";
+> +		reg = <0>;
 > +
-> +static inline struct scatterlist *__sg_next_resched(struct scatterlist *sg)
-> +{
-> +if (sg_is_last(sg))
-> +return NULL;
+> +		vdda-supply = <&vreg_l8c_1p8>;
+> +		vdd3p3-supply = <&vreg_l18a_2p8>;
 > +
-> +++sg;
-> +if (unlikely(sg_is_chain(sg))) {
-> +sg = sg_chain_ptr(sg);
-> +cond_resched();
-> +}
-> +return sg;
-> +}
+> +		pinctrl-names = "default", "suspend";
+> +		pinctrl-0 = <&disp_pins_default>;
+> +		pinctrl-1 = <&disp_pins_default>;
 > +
-> +#define for_each_sgt_page(__pp, __iter, __sgt)\
-> +for ((__iter) = __sgt_iter((__sgt)->sgl);\
-> +     ((__pp) = (__iter).pfn == 0 ? NULL :\
-> +      pfn_to_page((__iter).pfn + ((__iter).curr >> PAGE_SHIFT))); \
-> +     (((__iter).curr += PAGE_SIZE) >= (__iter).max) ?\
-> +     (__iter) = __sgt_iter(__sg_next_resched((__iter).sgp)), 0 : 0)
-> +
->  /**
->   * drm_clflush_sg - Flush dcache lines pointing to a scather-gather.
->   * @st: struct sg_table.
->   *
->   * Flush every data cache line entry that points to an address in the
-> - * sg.
-> + * sg. This may schedule between scatterlist chunks, in order to keep
-> + * the system preemption-latency down for large buffers.
->   */
->  void
->  drm_clflush_sg(struct sg_table *st)
->  {
-> +might_sleep();
-> +
->  #if defined(CONFIG_X86)
->  if (static_cpu_has(X86_FEATURE_CLFLUSH)) {
-> -struct sg_page_iter sg_iter;
-> +struct sgt_iter sg_iter;
-> +struct page *page;
-> 
->  mb(); /*CLFLUSH is ordered only by using memory barriers*/
-> -for_each_sg_page(st->sgl, &sg_iter, st->nents, 0)
-> -drm_clflush_page(sg_page_iter_page(&sg_iter));
-> +for_each_sgt_page(page, sg_iter, st)
-> +drm_clflush_page(page);
->  mb(); /*Make sure that all cache line entry is flushed*/
-> 
->  return;
-> --
-> 2.25.0
-> 
+> +		reset-gpios = <&pm6150l_gpio 3 0>;
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+Please replace the 0 here with GPIO_ACTIVE_HIGH
 
+> +
+> +		ports {
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +			port@0 {
+> +				reg = <0>;
+> +				panel0_in: endpoint {
+> +					remote-endpoint = <&dsi0_out>;
+> +				};
+> +			};
+> +		};
+> +	};
+[..]
+> diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> index 3bc3f64..81c3aab 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> @@ -1184,6 +1184,131 @@
+>  			#power-domain-cells = <1>;
+>  		};
+>  
+> +		display_subsystem: mdss@ae00000 {
+
+It was the name, not the label, that Stephen asked you to make generic.
+
+> +			compatible = "qcom,sc7180-mdss";
+> +			reg = <0 0x0ae00000 0 0x1000>;
+> +			reg-names = "mdss";
+> +
+[..]
+> +			display_controller: mdp@ae00000 {
+
+mdp: display-controller@ae00000 {
+
+[..]
+> +			};
+> +
+> +			dsi_controller: qcom,mdss_dsi_ctrl0@ae94000 {
+
+In particular you shouldn't have qcom, in the node name.
+
+[..]
+> +
+> +			dsi_phy: dsi-phy0@ae94400 {
+
+phy@ae94400
+
+Regards,
+Bjorn
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
