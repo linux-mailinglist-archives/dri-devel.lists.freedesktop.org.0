@@ -1,59 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E943147522
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2020 00:59:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD200147546
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2020 01:07:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12C3B6E17E;
-	Thu, 23 Jan 2020 23:59:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F6B76E176;
+	Fri, 24 Jan 2020 00:07:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83C676E178
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 23:58:59 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id y17so5310702wrh.5
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 15:58:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=basnieuwenhuizen-nl.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Myx0ylhVODnhnxewA7QLsuWIoyc8am0f1slLKxo8VaU=;
- b=yR5+McHzEoM+ohSVnQ85fTeeivb3Alirqm4+v4IhYd+qll68+k9eavk1sqib+sucLB
- PgNivyAQpBOu/Y3TmAvPLisayEYOnv/YlvXcBW4AA0AnKp7Lr6XUv3zKNGQIXiN9wjUi
- Kl0IDaDaGB5x2iuQqmcEgEdTY2XClgVE+s0FOkpusQY16nAW8gh6UjzM+yAbEHdkxLJq
- LPHvZKV9IJafeoQY1/VeoxdJMHS7oY4eoNSPEjK76xVbwSnqLWjPib2X7AGencpxN60z
- wi8NEiiYUTzpqjIyrfX6C9aYascZD2b/a6RuVZS99gpveu54N1I5eKC1ll0s2kCf0Ak1
- +nsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Myx0ylhVODnhnxewA7QLsuWIoyc8am0f1slLKxo8VaU=;
- b=XblgfyICZPJmhDDU9pqm/Ji06oAhhRigwfREqtW8VS5LWv0DMMXVRcNJWEzYTIXEkX
- D7WChn7myERZghTagRKtjFhIYXjqDXcVy5DaWladBusTKVVoJVfVwXyuoW46YLr8rXkb
- eUIGCBI9u1EsMPmps7la1YC5L0/s/tCVK1+gX3J8nFCiB3pKcDr6Y+vMSj+NEs9MuH1q
- w3JGJjJ73LiCzNjYCM1f2p2Z2+803GXQykEWP8y9xdOkB8jN3ykTtNpwJTijh3LW59oO
- jbuxOeeau5H7jKkNzwwgSWMJbTEqiK45IRQL9qSe0Drju3m0Ar0v4W8y/SofRwBmeOT0
- 93FQ==
-X-Gm-Message-State: APjAAAWMMTpwhqTFjvovdtjl50cYlxrrSpzV54qkTkLXpFVwDOVIEY0l
- 1QgEMpna0eLSYYcGZlU1+tMENw==
-X-Google-Smtp-Source: APXvYqx3FjjhDlRBs6LguuKcIiJuTfjQZhLJ7Sl3eNP1Np9EFs/jqVD5vrXjD+DA8U217V4RkczGEg==
-X-Received: by 2002:adf:e5cb:: with SMTP id a11mr639987wrn.28.1579823938122;
- Thu, 23 Jan 2020 15:58:58 -0800 (PST)
-Received: from localhost.localdomain
- ([2a02:aa12:a77f:2000:7285:c2ff:fe4e:b21b])
- by smtp.gmail.com with ESMTPSA id e18sm4888192wrw.70.2020.01.23.15.58.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jan 2020 15:58:57 -0800 (PST)
-From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-To: freedreno@lists.freedesktop.org
-Subject: [PATCH v3] drm/msm: Add syncobj support.
-Date: Fri, 24 Jan 2020 00:57:10 +0100
-Message-Id: <20200123235710.28673-1-bas@basnieuwenhuizen.nl>
-X-Mailer: git-send-email 2.25.0
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 674026E187
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2020 00:07:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579824436;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=6MlL98tE2HsGeMaYno7PPmn4gDFAOvEvYJ8JHfbl71o=;
+ b=biuC+DBR3m4sapcz9IALRuVyNaEbcAU4VF6wQlRG+KWGvvEvu85szZI8T5a8K58ZAQua27
+ tXUavcgOfmMXOtJzF4sFBMDtHOCdJ0DrsGC38cTv1SB2ARPXeOS6l/vUlOV9JQkHJVVCVW
+ bKTZQRHSSHR3UT8pRkwhAhhUwbCsd9w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-116-rYs5f4gzNyy736q3p4x9cQ-1; Thu, 23 Jan 2020 19:07:12 -0500
+X-MC-Unique: rYs5f4gzNyy736q3p4x9cQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82886800D48;
+ Fri, 24 Jan 2020 00:07:09 +0000 (UTC)
+Received: from malachite.redhat.com (ovpn-124-168.rdu2.redhat.com
+ [10.10.124.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 661AD60BF3;
+ Fri, 24 Jan 2020 00:07:03 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: amd-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/amd/dm/mst: Ignore payload update failures on disable
+Date: Thu, 23 Jan 2020 19:06:42 -0500
+Message-Id: <20200124000643.99859-1-lyude@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,410 +55,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Martin Tsai <martin.tsai@amd.com>, dri-devel@lists.freedesktop.org,
+ Sam Ravnborg <sam@ravnborg.org>, Leo Li <sunpeng.li@amd.com>,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ David Francis <David.Francis@amd.com>, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Alvin Lee <alvin.lee2@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Mikita Lipski <mikita.lipski@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jean Delvare <jdelvare@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This
+Disabling a display on MST can potentially happen after the entire MST
+topology has been removed, which means that we can't communicate with
+the topology at all in this scenario. Likewise, this also means that we
+can't properly update payloads on the topology and as such, it's a good
+idea to ignore payload update failures when disabling displays.
+Currently, amdgpu makes the mistake of halting the payload update
+process when any payload update failures occur, resulting in leaving
+DC's local copies of the payload tables out of date.
 
-1) Enables core DRM syncobj support.
-2) Adds options to the submission ioctl to wait/signal syncobjs.
+This ends up causing problems with hotplugging MST topologies, and
+causes modesets on the second hotplug to fail like so:
 
-Just like the wait fence fd, this does inline waits. Using the
-scheduler would be nice but I believe it is out of scope for
-this work.
+[drm] Failed to updateMST allocation table forpipe idx:1
+------------[ cut here ]------------
+WARNING: CPU: 5 PID: 1511 at
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link.c:2677
+update_mst_stream_alloc_table+0x11e/0x130 [amdgpu]
+Modules linked in: cdc_ether usbnet fuse xt_conntrack nf_conntrack
+nf_defrag_ipv6 libcrc32c nf_defrag_ipv4 ipt_REJECT nf_reject_ipv4
+nft_counter nft_compat nf_tables nfnetlink tun bridge stp llc sunrpc
+vfat fat wmi_bmof uvcvideo snd_hda_codec_realtek snd_hda_codec_generic
+snd_hda_codec_hdmi videobuf2_vmalloc snd_hda_intel videobuf2_memops
+videobuf2_v4l2 snd_intel_dspcfg videobuf2_common crct10dif_pclmul
+snd_hda_codec videodev crc32_pclmul snd_hwdep snd_hda_core
+ghash_clmulni_intel snd_seq mc joydev pcspkr snd_seq_device snd_pcm
+sp5100_tco k10temp i2c_piix4 snd_timer thinkpad_acpi ledtrig_audio snd
+wmi soundcore video i2c_scmi acpi_cpufreq ip_tables amdgpu(O)
+rtsx_pci_sdmmc amd_iommu_v2 gpu_sched mmc_core i2c_algo_bit ttm
+drm_kms_helper syscopyarea sysfillrect sysimgblt fb_sys_fops cec drm
+crc32c_intel serio_raw hid_multitouch r8152 mii nvme r8169 nvme_core
+rtsx_pci pinctrl_amd
+CPU: 5 PID: 1511 Comm: gnome-shell Tainted: G           O      5.5.0-rc7Lyude-Test+ #4
+Hardware name: LENOVO FA495SIT26/FA495SIT26, BIOS R12ET22W(0.22 ) 01/31/2019
+RIP: 0010:update_mst_stream_alloc_table+0x11e/0x130 [amdgpu]
+Code: 28 00 00 00 75 2b 48 8d 65 e0 5b 41 5c 41 5d 41 5e 5d c3 0f b6 06
+49 89 1c 24 41 88 44 24 08 0f b6 46 01 41 88 44 24 09 eb 93 <0f> 0b e9
+2f ff ff ff e8 a6 82 a3 c2 66 0f 1f 44 00 00 0f 1f 44 00
+RSP: 0018:ffffac428127f5b0 EFLAGS: 00010202
+RAX: 0000000000000002 RBX: ffff8d1e166eee80 RCX: 0000000000000000
+RDX: ffffac428127f668 RSI: ffff8d1e166eee80 RDI: ffffac428127f610
+RBP: ffffac428127f640 R08: ffffffffc03d94a8 R09: 0000000000000000
+R10: ffff8d1e24b02000 R11: ffffac428127f5b0 R12: ffff8d1e1b83d000
+R13: ffff8d1e1bea0b08 R14: 0000000000000002 R15: 0000000000000002
+FS:  00007fab23ffcd80(0000) GS:ffff8d1e28b40000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f151f1711e8 CR3: 00000005997c0000 CR4: 00000000003406e0
+Call Trace:
+ ? mutex_lock+0xe/0x30
+ dc_link_allocate_mst_payload+0x9a/0x210 [amdgpu]
+ ? dm_read_reg_func+0x39/0xb0 [amdgpu]
+ ? core_link_enable_stream+0x656/0x730 [amdgpu]
+ core_link_enable_stream+0x656/0x730 [amdgpu]
+ dce110_apply_ctx_to_hw+0x58e/0x5d0 [amdgpu]
+ ? dcn10_verify_allow_pstate_change_high+0x1d/0x280 [amdgpu]
+ ? dcn10_wait_for_mpcc_disconnect+0x3c/0x130 [amdgpu]
+ dc_commit_state+0x292/0x770 [amdgpu]
+ ? add_timer+0x101/0x1f0
+ ? ttm_bo_put+0x1a1/0x2f0 [ttm]
+ amdgpu_dm_atomic_commit_tail+0xb59/0x1ff0 [amdgpu]
+ ? amdgpu_move_blit.constprop.0+0xb8/0x1f0 [amdgpu]
+ ? amdgpu_bo_move+0x16d/0x2b0 [amdgpu]
+ ? ttm_bo_handle_move_mem+0x118/0x570 [ttm]
+ ? ttm_bo_validate+0x134/0x150 [ttm]
+ ? dm_plane_helper_prepare_fb+0x1b9/0x2a0 [amdgpu]
+ ? _cond_resched+0x15/0x30
+ ? wait_for_completion_timeout+0x38/0x160
+ ? _cond_resched+0x15/0x30
+ ? wait_for_completion_interruptible+0x33/0x190
+ commit_tail+0x94/0x130 [drm_kms_helper]
+ drm_atomic_helper_commit+0x113/0x140 [drm_kms_helper]
+ drm_atomic_helper_set_config+0x70/0xb0 [drm_kms_helper]
+ drm_mode_setcrtc+0x194/0x6a0 [drm]
+ ? _cond_resched+0x15/0x30
+ ? mutex_lock+0xe/0x30
+ ? drm_mode_getcrtc+0x180/0x180 [drm]
+ drm_ioctl_kernel+0xaa/0xf0 [drm]
+ drm_ioctl+0x208/0x390 [drm]
+ ? drm_mode_getcrtc+0x180/0x180 [drm]
+ amdgpu_drm_ioctl+0x49/0x80 [amdgpu]
+ do_vfs_ioctl+0x458/0x6d0
+ ksys_ioctl+0x5e/0x90
+ __x64_sys_ioctl+0x16/0x20
+ do_syscall_64+0x55/0x1b0
+ entry_SYSCALL_64_after_hwframe+0x44/0xa9
+RIP: 0033:0x7fab2121f87b
+Code: 0f 1e fa 48 8b 05 0d 96 2c 00 64 c7 00 26 00 00 00 48 c7 c0 ff ff
+ff ff c3 66 0f 1f 44 00 00 f3 0f 1e fa b8 10 00 00 00 0f 05 <48> 3d 01
+f0 ff ff 73 01 c3 48 8b 0d dd 95 2c 00 f7 d8 64 89 01 48
+RSP: 002b:00007ffd045f9068 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007ffd045f90a0 RCX: 00007fab2121f87b
+RDX: 00007ffd045f90a0 RSI: 00000000c06864a2 RDI: 000000000000000b
+RBP: 00007ffd045f90a0 R08: 0000000000000000 R09: 000055dbd2985d10
+R10: 000055dbd2196280 R11: 0000000000000246 R12: 00000000c06864a2
+R13: 000000000000000b R14: 0000000000000000 R15: 000055dbd2196280
+---[ end trace 6ea888c24d2059cd ]---
 
-Support for timeline syncobjs is implemented and the interface
-is ready for it, but I'm not enabling it yet until there is
-some code for turnip to use it.
+Note as well, I have only been able to reproduce this on setups with 2
+MST displays.
 
-The reset is mostly in there because in the presence of waiting
-and signalling the same semaphores, resetting them after
-signalling can become very annoying.
-
-v2:
-  - Fixed style issues
-  - Removed a cleanup issue in a failure case
-  - Moved to a copy_from_user per syncobj
-
-v3:
- - Fixed a missing declaration introduced in v2
- - Reworked to use ERR_PTR/PTR_ERR
- - Simplified failure gotos.
-
-Signed-off-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Cc: stable@vger.kernel.org
 ---
- drivers/gpu/drm/msm/msm_drv.c        |   6 +-
- drivers/gpu/drm/msm/msm_gem_submit.c | 232 ++++++++++++++++++++++++++-
- include/uapi/drm/msm_drm.h           |  24 ++-
- 3 files changed, 258 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index c84f0a8b3f2c..5246b41798df 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -37,9 +37,10 @@
-  * - 1.4.0 - softpin, MSM_RELOC_BO_DUMP, and GEM_INFO support to set/get
-  *           GEM object's debug name
-  * - 1.5.0 - Add SUBMITQUERY_QUERY ioctl
-+ * - 1.6.0 - Syncobj support
-  */
- #define MSM_VERSION_MAJOR	1
--#define MSM_VERSION_MINOR	5
-+#define MSM_VERSION_MINOR	6
- #define MSM_VERSION_PATCHLEVEL	0
- 
- static const struct drm_mode_config_funcs mode_config_funcs = {
-@@ -988,7 +989,8 @@ static struct drm_driver msm_driver = {
- 	.driver_features    = DRIVER_GEM |
- 				DRIVER_RENDER |
- 				DRIVER_ATOMIC |
--				DRIVER_MODESET,
-+				DRIVER_MODESET |
-+				DRIVER_SYNCOBJ,
- 	.open               = msm_open,
- 	.postclose           = msm_postclose,
- 	.lastclose          = drm_fb_helper_lastclose,
-diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index be5327af16fa..11045f56b815 100644
---- a/drivers/gpu/drm/msm/msm_gem_submit.c
-+++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -8,7 +8,9 @@
- #include <linux/sync_file.h>
- #include <linux/uaccess.h>
- 
-+#include <drm/drm_drv.h>
- #include <drm/drm_file.h>
-+#include <drm/drm_syncobj.h>
- 
- #include "msm_drv.h"
- #include "msm_gpu.h"
-@@ -394,6 +396,186 @@ static void submit_cleanup(struct msm_gem_submit *submit)
- 	ww_acquire_fini(&submit->ticket);
- }
- 
-+
-+struct msm_submit_post_dep {
-+	struct drm_syncobj *syncobj;
-+	uint64_t point;
-+	struct dma_fence_chain *chain;
-+};
-+
-+static struct drm_syncobj **msm_wait_deps(struct drm_device *dev,
-+                                          struct drm_file *file,
-+                                          uint64_t in_syncobjs_addr,
-+                                          uint32_t nr_in_syncobjs,
-+                                          size_t syncobj_stride,
-+                                          struct msm_ringbuffer *ring)
-+{
-+	struct drm_syncobj **syncobjs = NULL;
-+	struct drm_msm_gem_submit_syncobj syncobj_desc = {0};
-+	int ret = 0;
-+	uint32_t i, j;
-+
-+	syncobjs = kcalloc(nr_in_syncobjs, sizeof(*syncobjs),
-+	                   GFP_KERNEL | __GFP_NOWARN | __GFP_NORETRY);
-+	if (!syncobjs)
-+		return ERR_PTR(-ENOMEM);
-+
-+	for (i = 0; i < nr_in_syncobjs; ++i) {
-+		uint64_t address = in_syncobjs_addr + i * syncobj_stride;
-+		struct dma_fence *fence;
-+
-+		if (copy_from_user(&syncobj_desc,
-+			           u64_to_user_ptr(address),
-+			           min(syncobj_stride, sizeof(syncobj_desc)))) {
-+			ret = -EFAULT;
-+			break;
-+		}
-+
-+		if (syncobj_desc.point &&
-+		    !drm_core_check_feature(dev, DRIVER_SYNCOBJ_TIMELINE)) {
-+			ret = -EOPNOTSUPP;
-+			break;
-+		}
-+
-+		if (syncobj_desc.flags & ~MSM_SUBMIT_SYNCOBJ_FLAGS) {
-+			ret = -EINVAL;
-+			break;
-+		}
-+
-+		ret = drm_syncobj_find_fence(file, syncobj_desc.handle,
-+		                             syncobj_desc.point, 0, &fence);
-+		if (ret)
-+			break;
-+
-+		if (!dma_fence_match_context(fence, ring->fctx->context))
-+			ret = dma_fence_wait(fence, true);
-+
-+		dma_fence_put(fence);
-+		if (ret)
-+			break;
-+
-+		if (syncobj_desc.flags & MSM_SUBMIT_SYNCOBJ_RESET) {
-+			syncobjs[i] =
-+				drm_syncobj_find(file, syncobj_desc.handle);
-+			if (!syncobjs[i]) {
-+				ret = -EINVAL;
-+				break;
-+			}
-+		}
-+	}
-+
-+	if (ret) {
-+		for (j = 0; j <= i; ++j) {
-+			if (syncobjs[j])
-+				drm_syncobj_put(syncobjs[j]);
-+		}
-+		kfree(syncobjs);
-+		return ERR_PTR(ret);
-+	}
-+	return syncobjs;
-+}
-+
-+static void msm_reset_syncobjs(struct drm_syncobj **syncobjs,
-+                               uint32_t nr_syncobjs)
-+{
-+	uint32_t i;
-+
-+	for (i = 0; syncobjs && i < nr_syncobjs; ++i) {
-+		if (syncobjs[i])
-+			drm_syncobj_replace_fence(syncobjs[i], NULL);
-+	}
-+}
-+
-+static struct msm_submit_post_dep *msm_parse_post_deps(struct drm_device *dev,
-+                                                       struct drm_file *file,
-+                                                       uint64_t syncobjs_addr,
-+                                                       uint32_t nr_syncobjs,
-+                                                       size_t syncobj_stride)
-+{
-+	struct msm_submit_post_dep *post_deps;
-+	struct drm_msm_gem_submit_syncobj syncobj_desc = {0};
-+	int ret = 0;
-+	uint32_t i, j;
-+
-+	post_deps = kmalloc_array(nr_syncobjs, sizeof(*post_deps),
-+	                          GFP_KERNEL | __GFP_NOWARN | __GFP_NORETRY);
-+	if (!post_deps)
-+		return ERR_PTR(-ENOMEM);
-+
-+	for (i = 0; i < nr_syncobjs; ++i) {
-+		uint64_t address = syncobjs_addr + i * syncobj_stride;
-+
-+		if (copy_from_user(&syncobj_desc,
-+			           u64_to_user_ptr(address),
-+			           min(syncobj_stride, sizeof(syncobj_desc)))) {
-+			ret = -EFAULT;
-+			break;
-+		}
-+
-+		post_deps[i].point = syncobj_desc.point;
-+		post_deps[i].chain = NULL;
-+
-+		if (syncobj_desc.flags) {
-+			ret = -EINVAL;
-+			break;
-+		}
-+
-+		if (syncobj_desc.point) {
-+			if (!drm_core_check_feature(dev,
-+			                            DRIVER_SYNCOBJ_TIMELINE)) {
-+				ret = -EOPNOTSUPP;
-+				break;
-+			}
-+
-+			post_deps[i].chain =
-+				kmalloc(sizeof(*post_deps[i].chain),
-+				        GFP_KERNEL);
-+			if (!post_deps[i].chain) {
-+				ret = -ENOMEM;
-+				break;
-+			}
-+		}
-+
-+		post_deps[i].syncobj =
-+			drm_syncobj_find(file, syncobj_desc.handle);
-+		if (!post_deps[i].syncobj) {
-+			ret = -EINVAL;
-+			break;
-+		}
-+	}
-+
-+	if (ret) {
-+		for (j = 0; j <= i; ++j) {
-+			kfree(post_deps[j].chain);
-+			if (post_deps[j].syncobj)
-+				drm_syncobj_put(post_deps[j].syncobj);
-+		}
-+
-+		kfree(post_deps);
-+		return ERR_PTR(ret);
-+	}
-+
-+	return post_deps;
-+}
-+
-+static void msm_process_post_deps(struct msm_submit_post_dep *post_deps,
-+                                  uint32_t count, struct dma_fence *fence)
-+{
-+	uint32_t i;
-+
-+	for (i = 0; post_deps && i < count; ++i) {
-+		if (post_deps[i].chain) {
-+			drm_syncobj_add_point(post_deps[i].syncobj,
-+			                      post_deps[i].chain,
-+			                      fence, post_deps[i].point);
-+			post_deps[i].chain = NULL;
-+		} else {
-+			drm_syncobj_replace_fence(post_deps[i].syncobj,
-+			                          fence);
-+		}
-+	}
-+}
-+
- int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- 		struct drm_file *file)
- {
-@@ -406,6 +588,8 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- 	struct sync_file *sync_file = NULL;
- 	struct msm_gpu_submitqueue *queue;
- 	struct msm_ringbuffer *ring;
-+	struct msm_submit_post_dep *post_deps = NULL;
-+	struct drm_syncobj **syncobjs_to_reset = NULL;
- 	int out_fence_fd = -1;
- 	struct pid *pid = get_pid(task_pid(current));
- 	unsigned i;
-@@ -413,6 +597,9 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- 	if (!gpu)
- 		return -ENXIO;
- 
-+	if (args->pad)
-+		return -EINVAL;
-+
- 	/* for now, we just have 3d pipe.. eventually this would need to
- 	 * be more clever to dispatch to appropriate gpu module:
- 	 */
-@@ -460,9 +647,29 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- 			return ret;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+index 069b7a6f5597..252fa60c6775 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+@@ -216,6 +216,7 @@ bool dm_helpers_dp_mst_write_payload_allocation_table(
+ 		drm_dp_mst_reset_vcpi_slots(mst_mgr, mst_port);
  	}
  
-+	if (args->flags & MSM_SUBMIT_SYNCOBJ_IN) {
-+		syncobjs_to_reset = msm_wait_deps(dev, file,
-+		                                  args->in_syncobjs,
-+		                                  args->nr_in_syncobjs,
-+		                                  args->syncobj_stride, ring);
-+		if (IS_ERR(syncobjs_to_reset))
-+			return PTR_ERR(syncobjs_to_reset);
-+	}
-+
-+	if (args->flags & MSM_SUBMIT_SYNCOBJ_OUT) {
-+		post_deps = msm_parse_post_deps(dev, file,
-+		                                args->out_syncobjs,
-+		                                args->nr_out_syncobjs,
-+		                                args->syncobj_stride);
-+		if (IS_ERR(post_deps)) {
-+			ret = PTR_ERR(post_deps);
-+			goto out_post_unlock;
-+		}
-+	}
-+
- 	ret = mutex_lock_interruptible(&dev->struct_mutex);
- 	if (ret)
--		return ret;
-+		goto out_post_unlock;
++	/* If disabling, it's OK for this to fail */
+ 	ret = drm_dp_update_payload_part1(mst_mgr);
  
- 	if (args->flags & MSM_SUBMIT_FENCE_FD_OUT) {
- 		out_fence_fd = get_unused_fd_flags(O_CLOEXEC);
-@@ -586,6 +793,11 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- 		args->fence_fd = out_fence_fd;
- 	}
+ 	/* mst_mgr->->payloads are VC payload notify MST branch using DPCD or
+@@ -225,7 +226,7 @@ bool dm_helpers_dp_mst_write_payload_allocation_table(
  
-+	msm_reset_syncobjs(syncobjs_to_reset, args->nr_in_syncobjs);
-+	msm_process_post_deps(post_deps, args->nr_out_syncobjs,
-+	                      submit->fence);
-+
-+
- out:
- 	submit_cleanup(submit);
- 	if (ret)
-@@ -594,5 +806,23 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- 	if (ret && (out_fence_fd >= 0))
- 		put_unused_fd(out_fence_fd);
- 	mutex_unlock(&dev->struct_mutex);
-+
-+out_post_unlock:
-+	if (!IS_ERR_OR_NULL(post_deps)) {
-+		for (i = 0; i < args->nr_out_syncobjs; ++i) {
-+			kfree(post_deps[i].chain);
-+			drm_syncobj_put(post_deps[i].syncobj);
-+		}
-+		kfree(post_deps);
-+	}
-+
-+	if (!IS_ERR_OR_NULL(syncobjs_to_reset)) {
-+		for (i = 0; i < args->nr_in_syncobjs; ++i) {
-+			if (syncobjs_to_reset[i])
-+				drm_syncobj_put(syncobjs_to_reset[i]);
-+		}
-+		kfree(syncobjs_to_reset);
-+	}
-+
- 	return ret;
- }
-diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
-index 0b85ed6a3710..19806eb3a8e8 100644
---- a/include/uapi/drm/msm_drm.h
-+++ b/include/uapi/drm/msm_drm.h
-@@ -217,13 +217,28 @@ struct drm_msm_gem_submit_bo {
- #define MSM_SUBMIT_FENCE_FD_IN   0x40000000 /* enable input fence_fd */
- #define MSM_SUBMIT_FENCE_FD_OUT  0x20000000 /* enable output fence_fd */
- #define MSM_SUBMIT_SUDO          0x10000000 /* run submitted cmds from RB */
-+#define MSM_SUBMIT_SYNCOBJ_IN    0x08000000 /* enable input syncobj */
-+#define MSM_SUBMIT_SYNCOBJ_OUT   0x04000000 /* enable output syncobj */
- #define MSM_SUBMIT_FLAGS                ( \
- 		MSM_SUBMIT_NO_IMPLICIT   | \
- 		MSM_SUBMIT_FENCE_FD_IN   | \
- 		MSM_SUBMIT_FENCE_FD_OUT  | \
- 		MSM_SUBMIT_SUDO          | \
-+		MSM_SUBMIT_SYNCOBJ_IN    | \
-+		MSM_SUBMIT_SYNCOBJ_OUT   | \
- 		0)
+ 	get_payload_table(aconnector, proposed_table);
  
-+#define MSM_SUBMIT_SYNCOBJ_RESET 0x00000001 /* Reset syncobj after wait. */
-+#define MSM_SUBMIT_SYNCOBJ_FLAGS        ( \
-+		MSM_SUBMIT_SYNCOBJ_RESET | \
-+		0)
-+
-+struct drm_msm_gem_submit_syncobj {
-+	__u32 handle;     /* in, syncobj handle. */
-+	__u32 flags;      /* in, from MSM_SUBMIT_SYNCOBJ_FLAGS */
-+	__u64 point;      /* in, timepoint for timeline syncobjs. */
-+};
-+
- /* Each cmdstream submit consists of a table of buffers involved, and
-  * one or more cmdstream buffers.  This allows for conditional execution
-  * (context-restore), and IB buffers needed for per tile/bin draw cmds.
-@@ -236,7 +251,14 @@ struct drm_msm_gem_submit {
- 	__u64 bos;            /* in, ptr to array of submit_bo's */
- 	__u64 cmds;           /* in, ptr to array of submit_cmd's */
- 	__s32 fence_fd;       /* in/out fence fd (see MSM_SUBMIT_FENCE_FD_IN/OUT) */
--	__u32 queueid;         /* in, submitqueue id */
-+	__u32 queueid;        /* in, submitqueue id */
-+	__u64 in_syncobjs;    /* in, ptr to to array of drm_msm_gem_submit_syncobj */
-+	__u64 out_syncobjs;   /* in, ptr to to array of drm_msm_gem_submit_syncobj */
-+	__u32 nr_in_syncobjs; /* in, number of entries in in_syncobj */
-+	__u32 nr_out_syncobjs; /* in, number of entries in out_syncobj. */
-+	__u32 syncobj_stride; /* in, stride of syncobj arrays. */
-+	__u32 pad;            /*in, reserved for future use, always 0. */
-+
- };
+-	if (ret)
++	if (ret && !enable)
+ 		return false;
  
- /* The normal way to synchronize with the GPU is just to CPU_PREP on
+ 	return true;
+@@ -299,9 +300,9 @@ bool dm_helpers_dp_mst_send_payload_allocation(
+ 	if (!mst_mgr->mst_state)
+ 		return false;
+ 
++	/* If disabling, it's OK for this to fail */
+ 	ret = drm_dp_update_payload_part2(mst_mgr);
+-
+-	if (ret)
++	if (enable && ret)
+ 		return false;
+ 
+ 	if (!enable)
 -- 
-2.25.0
+2.24.1
 
 _______________________________________________
 dri-devel mailing list
