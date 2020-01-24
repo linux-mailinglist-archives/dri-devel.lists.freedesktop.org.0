@@ -2,61 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 732C51479B1
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2020 09:52:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F6F214797E
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2020 09:38:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4015B6FF8B;
-	Fri, 24 Jan 2020 08:52:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6FC66FF68;
+	Fri, 24 Jan 2020 08:38:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-xc62.google.com (mail-yw1-xc62.google.com
- [IPv6:2607:f8b0:4864:20::c62])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0EE76FEA5
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 23:59:51 +0000 (UTC)
-Received: by mail-yw1-xc62.google.com with SMTP id i126so61779ywe.7
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 15:59:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brkho-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=XkieX+lARW7jwwokHZn19MDXFxT+kUy0zHmwNjMdulo=;
- b=TG08TXKztCGbirXV6G1fy/G5h2JPYKTRpwTr5NDhYAC9FlbjFTEysoVWk63mFgSC2p
- 0si89LjNS/Kj+XvzCqDXcVCySiuwSO9REulyHuxCZBYcaACRk0R1OOwrVrhmsVvQfShP
- HBB2c2+4cFmq9+zEe6wQvnNZXzDStJIlwZwhpZ3z2Dk7EAQ/J7odBM4G98Kgm2qrPmYf
- Pa2VynKmTPsfuLsoxeOxVh7eVdFp/Jt+EBdSboipvjHonh9hQbmpnLCmYaiyQenVe4nF
- kmF7FEvPJJzpJ6L5U4Lcc1KoGguFl2APFAkEQC2Z48TFXN4okshC9KGGPJJ6zzuB8fKZ
- 0MCw==
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57B736FF67;
+ Fri, 24 Jan 2020 08:38:21 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id r19so1550416ljg.3;
+ Fri, 24 Jan 2020 00:38:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=3kBwqqX5a4iLML1ghecnd++9ov87RfIlksT5zBEt2IE=;
+ b=BXlI3KO7Z6J5X/CZyyrw2MoZ/E8DW/gzg3ObfIqXyygcJcWC8X6Tn8MhJ0cUVI7iPJ
+ SfZ6G4LWEV+cTxmyJgRYFT2immBHmfKfN/41LFGusklAiK1R7ujLOWHmllVsMC6KsK32
+ oUVj5/sRN6vJSJO/Ar6/gDdMqY8+ZoTw0KkbnbWMf1udxjcWMCz2oi574QQXZOvqMJbc
+ VKsOy1nULKzmiZ7MYdzvdXnSrwDb7vt0aDyyIONzN3mTmUeBA1KZFv0bWx2ymmFFxYvo
+ Di/T7gf8P7VloDGFdkxh6eBg4pOI+KK50/ZW5//ZU/0L4CtUSMaeOLF4iA7qEup2CVZj
+ 8/TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=XkieX+lARW7jwwokHZn19MDXFxT+kUy0zHmwNjMdulo=;
- b=RkAW9kEr+oO4Tj15te+VMvCPFTZmOlXyU6Lov4hcJZe8s0SsQ5brdvKu1mryOEgX7H
- Zoywq5o6meaomJwFikm6iPC4t8e0foK7zBDPnTMh2AQAad8U5EhoJL5PInRgYUTgwOyu
- zVuhaX4oHY7kUvMbSmSQMc72gHerbAHHMfeV/gOLXLkslOnBDTX/3x9ntZuiHS+MpA3l
- +dO6vYXNCpRBMW2KAgdC4pLawSl+fsxqzq3xaQ6sJg2VUlGBOe9G3VwtzDzYUKs1stds
- VtCfDDRQz2qp6NlmGTuDLBx3g0OyHusmhYKajSnwu3t+hwA8T/MAVjyh6zyRPUN2d9lE
- qDuA==
-X-Gm-Message-State: APjAAAVaK2I2lW8RWjA6u1yXkkF9ltEHPQYqLSfnk4Ox/GCLHYAkltHY
- f9OgduDJKbstrx7eGYBzrS6JErl9ip6uZ3KvVVkjtDPOWq1xvw==
-X-Google-Smtp-Source: APXvYqyNb7l2M3Y21n67mPcv2NN0GqSRUmdlYWCjqiOEL6AOYJWcIF95BSaX2iBxD91TZWVYUcAS56Ea7say
-X-Received: by 2002:a0d:c5c2:: with SMTP id h185mr157830ywd.287.1579823990901; 
- Thu, 23 Jan 2020 15:59:50 -0800 (PST)
-Received: from hob1.nyc.corp.google.com ([100.118.32.120])
- by smtp-relay.gmail.com with ESMTPS id i82sm591239ywg.11.2020.01.23.15.59.50
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=3kBwqqX5a4iLML1ghecnd++9ov87RfIlksT5zBEt2IE=;
+ b=GPu0R0fhSgtsI9RNKjC7OBmT+5V7ZYEizi2jRfQaJ3jrRLOon31wxuQZXf14naMy48
+ ocbDfBAsVaZzMHWHq897345lE1m54FBxE8IMP5AQmR1CI0oXlrCdjTcgP1XTyAMTLWt9
+ W2vg1bIUMjVyY7yHVeUyY5gyNhuvgtTPPTeLfDs74kAtB/T287lcp8ZxvTYVToLirGgT
+ IFUcKnI6KyemqQT1qoT9XcX202QRiDw4JcMeyT7Hss8UmHZW6EAz3iyQ2P+zgXqjznOk
+ h03M7F7S9hFSP8bC2pl5X0JUTZeN+nah0+FDVa7EdsY3Q/dbWkgL0jPgxXAZCSKiKkJO
+ N05g==
+X-Gm-Message-State: APjAAAU/Iod3qy/FX4nLmL8zaHTDH+7xCh0UHZbQCi9jp7JT9IH6rkkP
+ cGbU358Rc6VtWYUagN+2l/E=
+X-Google-Smtp-Source: APXvYqzzBU328Z+3Znbd9e2L+8Gp5UVVXGVjlFa6f4sipN0KAglycNtcSCjwTnXMw/wny41/de+DTQ==
+X-Received: by 2002:a2e:93c5:: with SMTP id p5mr1609723ljh.192.1579855099570; 
+ Fri, 24 Jan 2020 00:38:19 -0800 (PST)
+Received: from eldfell.localdomain ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id k1sm2634118lji.43.2020.01.24.00.38.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jan 2020 15:59:50 -0800 (PST)
-X-Relaying-Domain: brkho.com
-From: Brian Ho <brian@brkho.com>
-To: freedreno@lists.freedesktop.org
-Subject: [PATCH v3 2/2] drm/msm: Add MSM_WAIT_IOVA ioctl
-Date: Thu, 23 Jan 2020 18:57:38 -0500
-Message-Id: <20200123235738.48182-3-brian@brkho.com>
-X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
-In-Reply-To: <20200123235738.48182-1-brian@brkho.com>
-References: <20200123235738.48182-1-brian@brkho.com>
+ Fri, 24 Jan 2020 00:38:19 -0800 (PST)
+Date: Fri, 24 Jan 2020 10:38:15 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Matt Hoosier <matt.hoosier@gmail.com>
+Subject: Re: backend-drm and scanning really large resolutions
+Message-ID: <20200124103815.510be59b@eldfell.localdomain>
+In-Reply-To: <20200124102505.31baceb3@eldfell.localdomain>
+References: <CAJgxT3-cJu54Rn-9CstjaRHHtaJB_WK+R0RzKsDoK4TttDNFOg@mail.gmail.com>
+ <20200120105812.20c56b65@eldfell.localdomain>
+ <CAJgxT3-XVipi_k8LDaEjJjCj6ReBNLUyjF=xhkK1v0vceP_t6w@mail.gmail.com>
+ <20200124102505.31baceb3@eldfell.localdomain>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-Mailman-Approved-At: Fri, 24 Jan 2020 08:52:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,163 +68,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, Brian Ho <brian@brkho.com>,
- David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- hoegsberg@chromium.org, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ wayland mailing list <wayland-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============1672492704=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implements an ioctl to wait until a value at a given iova is greater
-than or equal to a supplied value.
+--===============1672492704==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/Znp2/VguCMhoDUTS9kpj7L."; protocol="application/pgp-signature"
 
-This will initially be used by turnip (open-source Vulkan driver for
-QC in mesa) for occlusion queries where the userspace driver can
-block on a query becoming available before continuing via
-vkGetQueryPoolResults.
+--Sig_/Znp2/VguCMhoDUTS9kpj7L.
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Change-Id: I1413fc34b7eb8ba569c765ad65126e9024341730
-Signed-off-by: Brian Ho <brian@brkho.com>
----
- drivers/gpu/drm/msm/msm_drv.c | 61 +++++++++++++++++++++++++++++++++--
- include/uapi/drm/msm_drm.h    | 14 ++++++++
- 2 files changed, 73 insertions(+), 2 deletions(-)
+On Fri, 24 Jan 2020 10:25:05 +0200
+Pekka Paalanen <ppaalanen@gmail.com> wrote:
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index c84f0a8b3f2c..f746ac86bca3 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -36,10 +36,11 @@
-  *           MSM_GEM_INFO ioctl.
-  * - 1.4.0 - softpin, MSM_RELOC_BO_DUMP, and GEM_INFO support to set/get
-  *           GEM object's debug name
-- * - 1.5.0 - Add SUBMITQUERY_QUERY ioctl
-+ * - 1.5.0 - Add SUBMITQUEUE_QUERY ioctl
-+ * - 1.6.0 - Add WAIT_IOVA ioctl
-  */
- #define MSM_VERSION_MAJOR	1
--#define MSM_VERSION_MINOR	5
-+#define MSM_VERSION_MINOR	6
- #define MSM_VERSION_PATCHLEVEL	0
- 
- static const struct drm_mode_config_funcs mode_config_funcs = {
-@@ -952,6 +953,61 @@ static int msm_ioctl_submitqueue_close(struct drm_device *dev, void *data,
- 	return msm_submitqueue_remove(file->driver_priv, id);
- }
- 
-+static int msm_ioctl_wait_iova(struct drm_device *dev, void *data,
-+		struct drm_file *file)
-+{
-+	struct msm_drm_private *priv = dev->dev_private;
-+	struct drm_gem_object *obj;
-+	struct drm_msm_wait_iova *args = data;
-+	ktime_t timeout = to_ktime(args->timeout);
-+	unsigned long remaining_jiffies = timeout_to_jiffies(&timeout);
-+	struct msm_gpu *gpu = priv->gpu;
-+	void *base_vaddr;
-+	uint64_t *vaddr;
-+	int ret;
-+
-+	if (args->pad)
-+		return -EINVAL;
-+
-+	if (!gpu)
-+		return -ENODEV;
-+
-+	obj = drm_gem_object_lookup(file, args->handle);
-+	if (!obj)
-+		return -ENOENT;
-+
-+	if (args->offset + sizeof(*vaddr) < args->offset ||
-+		args->offset + sizeof(*vaddr) > obj->size) {
-+		ret = -EINVAL;
-+		goto err_put_gem_object;
-+	}
-+
-+	base_vaddr = msm_gem_get_vaddr(obj);
-+	if (IS_ERR(base_vaddr)) {
-+		ret = PTR_ERR(base_vaddr);
-+		goto err_put_gem_object;
-+	}
-+
-+	vaddr = base_vaddr + args->offset;
-+
-+	/* TODO: Support 64 bit reference values with a flag. */
-+	ret = wait_event_interruptible_timeout(gpu->event,
-+			(int32_t)((uint32_t)(*vaddr & args->mask) -
-+					  (uint32_t)args->value) >= 0,
-+			remaining_jiffies);
-+
-+	if (ret == 0)
-+		ret = -ETIMEDOUT;
-+	else if (ret > 0)
-+		ret = 0;
-+
-+    msm_gem_put_vaddr(obj);
-+
-+err_put_gem_object:
-+	drm_gem_object_put_unlocked(obj);
-+	return ret;
-+}
-+
- static const struct drm_ioctl_desc msm_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(MSM_GET_PARAM,    msm_ioctl_get_param,    DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(MSM_GEM_NEW,      msm_ioctl_gem_new,      DRM_RENDER_ALLOW),
-@@ -964,6 +1020,7 @@ static const struct drm_ioctl_desc msm_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_NEW,   msm_ioctl_submitqueue_new,   DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_CLOSE, msm_ioctl_submitqueue_close, DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_QUERY, msm_ioctl_submitqueue_query, DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(MSM_WAIT_IOVA, msm_ioctl_wait_iova, DRM_RENDER_ALLOW),
- };
- 
- static const struct vm_operations_struct vm_ops = {
-diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
-index 0b85ed6a3710..d4eac312f56e 100644
---- a/include/uapi/drm/msm_drm.h
-+++ b/include/uapi/drm/msm_drm.h
-@@ -298,6 +298,18 @@ struct drm_msm_submitqueue_query {
- 	__u32 pad;
- };
- 
-+/* This ioctl blocks until the value at bo + offset is greater than or equal
-+ * to the reference value.
-+ */
-+struct drm_msm_wait_iova {
-+	__u32 handle;          /* in, GEM handle */
-+	__u32 pad;
-+	struct drm_msm_timespec timeout;   /* in */
-+	__u64 offset;          /* in, offset into bo */
-+	__u64 mask;            /* in, mask of the value at bo + offset */
-+	__u64 value;           /* in, reference value, 32 bits */
-+};
-+
- #define DRM_MSM_GET_PARAM              0x00
- /* placeholder:
- #define DRM_MSM_SET_PARAM              0x01
-@@ -315,6 +327,7 @@ struct drm_msm_submitqueue_query {
- #define DRM_MSM_SUBMITQUEUE_NEW        0x0A
- #define DRM_MSM_SUBMITQUEUE_CLOSE      0x0B
- #define DRM_MSM_SUBMITQUEUE_QUERY      0x0C
-+#define DRM_MSM_WAIT_IOVA      0x0D
- 
- #define DRM_IOCTL_MSM_GET_PARAM        DRM_IOWR(DRM_COMMAND_BASE + DRM_MSM_GET_PARAM, struct drm_msm_param)
- #define DRM_IOCTL_MSM_GEM_NEW          DRM_IOWR(DRM_COMMAND_BASE + DRM_MSM_GEM_NEW, struct drm_msm_gem_new)
-@@ -327,6 +340,7 @@ struct drm_msm_submitqueue_query {
- #define DRM_IOCTL_MSM_SUBMITQUEUE_NEW    DRM_IOWR(DRM_COMMAND_BASE + DRM_MSM_SUBMITQUEUE_NEW, struct drm_msm_submitqueue)
- #define DRM_IOCTL_MSM_SUBMITQUEUE_CLOSE  DRM_IOW (DRM_COMMAND_BASE + DRM_MSM_SUBMITQUEUE_CLOSE, __u32)
- #define DRM_IOCTL_MSM_SUBMITQUEUE_QUERY  DRM_IOW (DRM_COMMAND_BASE + DRM_MSM_SUBMITQUEUE_QUERY, struct drm_msm_submitqueue_query)
-+#define DRM_IOCTL_MSM_WAIT_IOVA        DRM_IOW (DRM_COMMAND_BASE + DRM_MSM_WAIT_IOVA, struct drm_msm_wait_iova)
- 
- #if defined(__cplusplus)
- }
--- 
-2.25.0.341.g760bfbb309-goog
+> On Tue, 21 Jan 2020 08:51:26 -0600
+> Matt Hoosier <matt.hoosier@gmail.com> wrote:
+>=20
+> > On Mon, Jan 20, 2020 at 2:58 AM Pekka Paalanen <ppaalanen@gmail.com> wr=
+ote:
+> >  =20
+> > > On Fri, 17 Jan 2020 10:51:45 -0600
+> > > Matt Hoosier <matt.hoosier@gmail.com> wrote:
+> > >   =20
+> > > > Hi all,
+> > > >
+> > > > I'm confronting a situation where the hardware with which I work is=
+   =20
+> > > capable   =20
+> > > > of driving connectors at 4K or 8K, but doing so requires bonding the
+> > > > scanning of multiple planes together.
+> > > >
+> > > > The scenario is that you'd have a big primary framebuffer whose siz=
+e is   =20
+> > > too   =20
+> > > > large for an individual hardware scanning pipeline on the display
+> > > > controller to traverse within its maximum allowed clock rate.
+> > > >
+> > > > The hardware supplier's approach is to assign multiple planes, whic=
+h in   =20
+> > > the   =20
+> > > > KMS driver map to hardware scanning pipelines, to each be responsib=
+le for
+> > > > scanning a smaller section of the framebuffer. The planes are all  =
+ =20
+> > > assigned   =20
+> > > > to the same CRTC, and in concert with each other they cover the who=
+le   =20
+> > > area   =20
+> > > > of the framebuffer and CRTC.
+> > > >
+> > > > This sounds a little bit wild to me. I hadn't been aware it's even =
+legal   =20
+> > > to   =20
+> > > > have more than one plane treated a the source of scanout for a sing=
+le
+> > > > framebuffer. Maybe that distinction isn't really relevant nowadays =
+with
+> > > > universal plane support.
+> > > >
+> > > > I'm wondering if anybody here knows whether this a legit approach f=
+or a
+> > > > compositor's DRM backend to take?   =20
+> > >   =20
+> >=20
+> > Hi Pekka; thanks for the reply.
+> >=20
+> >  =20
+> > >
+> > > Hi,
+> > >
+> > > I was aware of tiled monitors that need two connectors driven by two
+> > > CRTCs to cover the whole display, but that sounds new to me.
+> > > Libweston/DRM still doesn't support tiled monitors.
+> > >
+> > > What a compositor's DRM-backend can or should do must be generic. It
+> > > cannot be driver or hardware dependent, so handling your case special=
+ly
+> > > in userspace would need KMS UAPI to communicate the need in the first
+> > > place. (There is no shared library for "KMS userspace drivers", yet at
+> > > least.)
+> > >
+> > > I am not aware of any KMS UAPI that would indicate the need to use two
+> > > primary planes in a specific configuration for a specific video mode.
+> > > I'm saying two primary planes, because that is the only way I can see
+> > > this situation even hinted at userspace with the current UAPI. I also
+> > > don't know if multiple primary planes is allowed, but it certainly is
+> > > not expected by userspace, so userspace can't make use of it as is.
+> > >   =20
+> >=20
+> > Just to double-check: I think we're still talking here about
+> > universal-plane mode, so we only mean "primary plane" in an informal se=
+nse? =20
+>=20
+> Hi,
+>=20
+> I'm talking in both universal-planes and atomic modesetting mode. I
+> always talk from the userspace point of view as I'm not a kernel
+> developer. In my mind, the concept of "primary plane" does not exist
+> before universal planes. There is only drmModeSetCrtc() in the
+> pre-atomic world and that acts on a CRTC, not a plane, and assumes
+> the FB must cover the whole CRTC area exactly and without scaling.
+>=20
+> IOW, there is no legacy UAPI that you could even use to poke more than
+> one (primary) plane AFAIU.
+
+...
+
+> Besides, Weston is not at all the only display server you'd have to
+> patch. There is Xorg/modesetting, every single DE that runs with
+> Wayland, and all apps written for KMS directly. Even more, you also get
+> to fix all apps that use DRM leases, which likely includes things like
+> VR compositors.
+
+Btw. GNOME/Wayland (Mutter) is only getting into atomic modesetting
+soon(?), it has had a long road of re-architecting to get into a
+position where it can start implementing atomic KMS usage. And
+Xorg/modesetting is still legacy-only too, in spite of the poor attempt
+to make it atomic which had to be disabled on the kernel DRM side, and
+probably unlikely to ever be atomic really due to the amount of work
+needed to make it fit in IIUC.
+
+
+Thanks,
+pq
+
+--Sig_/Znp2/VguCMhoDUTS9kpj7L.
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl4qrPcACgkQI1/ltBGq
+qqdPSA//c9NSFKqyCDfjbZokksIgvnDzDsGgpN0ma304QzhB5VbRIOaHdmBb0w+M
+Tk03cuLgZrizw7RJub5iY/eiQXPRh5xGxtD3E4jVuzONDdu/PW8TX8riaKMyyzHA
+/n1O7wZrxahk3sqLaNBDnRpFYFtvWtRDErn5hcWowAXcarfCw9DhQ7U76wakzlLk
+24af+Re9Gh8WtOr3IEOS23I9R48j3Zw38IzdXovaIIzXxRdVaklSxYnsTK4Pm2TO
+sDENP5zg46K8zAymdyuCfUdICUvwCimzyFElgQVOsBbcD9GymG5MQZelNLPpkAfk
+8aeNIaBUIBe8y3XJ22xL2w+7ODJkT5Lspa7r6E+0y45lOj0mJ2mKfTc8CktoD0C3
+aQH9fagYTXtNpm4HNEFdF8+pgYmj67WxxKf2mqbotn33Aj/e1ABuNw5gv1ui27Bv
+wKLIYH8HRVAkxoGm/s7k6BHUyt5tR62aFosYCyYajyqgxWYPNViMy+RVo0rCP0Wp
+pQ6tfPWVV90fU+5pjD2+40Wx83/xmmrmRe6Mmlg+H0NQdLoG/m5cS28USj3NwvJJ
+UOCTmJZUlWNKm1rqtu9vPTD0pJ2eCSuaY9n3uL+B4FbpmpHH537kFXl5hzIn/VIV
+1rrTAsuo1s3Zu9JR5W/ZUhoyap0JTvx3kFCXB/VtwsJEG9Z/WWY=
+=BFfm
+-----END PGP SIGNATURE-----
+
+--Sig_/Znp2/VguCMhoDUTS9kpj7L.--
+
+--===============1672492704==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1672492704==--
