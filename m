@@ -2,48 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6173147F09
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2020 11:55:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 585B5147F0B
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2020 11:55:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBAD66E311;
-	Fri, 24 Jan 2020 10:55:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E0318941E;
+	Fri, 24 Jan 2020 10:55:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B931C6E311
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2020 10:55:09 +0000 (UTC)
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AAB56E31C
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2020 10:55:13 +0000 (UTC)
 Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00OAsvDZ034357;
- Fri, 24 Jan 2020 04:54:57 -0600
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00OAt08m071790;
+ Fri, 24 Jan 2020 04:55:00 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1579863297;
- bh=bRACksJu8JiBS+khTO48e5dJhe7RC9xUnMwi71V2VYQ=;
- h=From:To:CC:Subject:Date;
- b=LTOjVsJkcRfZXVvtffG5RrBvnvS4ilJ9CP8RuVJOiI8kHBaQOxEOh0LNBiHVzbRRQ
- n9svpgXhJ8quSdSEvS0AelzcM5EQu794LoohTfRZyK0RMZE/cTGtQSXoImVWbgTSnv
- mQzX4gCnoBDE2l/r0VxpZTs4YdpTrkaSpEesNCMw=
-Received: from DFLE106.ent.ti.com (dfle106.ent.ti.com [10.64.6.27])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00OAsvm2023711;
- Fri, 24 Jan 2020 04:54:57 -0600
-Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ s=ti-com-17Q1; t=1579863300;
+ bh=bSzMhNpfR2tSQKzeTTnZQyCy3i+6+xWTPWNXD5SYymo=;
+ h=From:To:CC:Subject:Date:In-Reply-To:References;
+ b=q0KWYOzjQiVGxU9NVW8skzdO5v5IjVqWqjTJeV7MfT2M7Yp8zPpdQOOioycUpM/Zu
+ yK78o/9WNtGwXuCa9gIF6BffDumpu1KxwnYblN0dZc/1hqFef+frdH2u9dm8xoQwXa
+ l3UqM3tzPZ0PYnIrljVj8kWdPxBpMJnjDE/+H1/0=
+Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00OAt0Ru023748;
+ Fri, 24 Jan 2020 04:55:00 -0600
+Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Fri, 24
- Jan 2020 04:54:57 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ Jan 2020 04:55:00 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Fri, 24 Jan 2020 04:54:57 -0600
+ Frontend Transport; Fri, 24 Jan 2020 04:55:00 -0600
 Received: from feketebors.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00OAsrHp078085;
- Fri, 24 Jan 2020 04:54:54 -0600
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00OAsrHq078085;
+ Fri, 24 Jan 2020 04:54:57 -0600
 From: Peter Ujfalusi <peter.ujfalusi@ti.com>
 To: <airlied@linux.ie>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
  <mark.rutland@arm.com>, <a.hajda@samsung.com>, <narmstrong@baylibre.com>
-Subject: [PATCH v2 0/2] drm/bridge: Support for Toshiba tc358768 RGB to DSI
- bridge
-Date: Fri, 24 Jan 2020 12:55:35 +0200
-Message-ID: <20200124105537.21651-1-peter.ujfalusi@ti.com>
+Subject: [PATCH v2 1/2] dt-bindings: display: bridge: Add documentation for
+ Toshiba tc358768
+Date: Fri, 24 Jan 2020 12:55:36 +0200
+Message-ID: <20200124105537.21651-2-peter.ujfalusi@ti.com>
 X-Mailer: git-send-email 2.25.0
+In-Reply-To: <20200124105537.21651-1-peter.ujfalusi@ti.com>
+References: <20200124105537.21651-1-peter.ujfalusi@ti.com>
 MIME-Version: 1.0
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,55 +68,178 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+TC358768/TC358778 is a Parallel RGB to MIPI DSI bridge.
 
-Changes since v1:
-DT bindings document:
-- Removed MaxItems for the regulators
-- additionalProperties: false added to port@1
-
-Driver:
-- Year is now 2020
-- Includes shorted
-- The three letter members of the private struct documented 0 they are named as
-  in the datasheet
-- Error handling for the IO functions is following what sil-sii8620.c does
-- regmap regcache is disabled along with refcache_sync() and volatile callback
-  for regmap
-- The hw enable and disable functions got separated
-- Taken the suggested simplifactions from Andrzej for tc358768_calc_pll() and
-  tc358768_dsi_host_transfer()
-- The driver no longer stores the drm_display_mode, it relies on
-  priv->bridge.encoder->crtc->state->adjusted_mode where it needs it
-- tc358768_calc_pll() can be used for verification only to not modify the state
-- refcounting added for hw enable state as a dsi transfer was shutting down the
-  bridge when it was already enabled.
-
-Tested on top of drm-next + LED backlight patches + DT patches on dra7-evm with
-osd101t2045 (panel-simple) and osd101t2587 panel drivers.
-
-Cover letter from v1:
-TC358768 is a parallel RGB to MIPI DSI bridge.
-
-The initial driver supports MIPI_DSI_MODE_VIDEO, MIPI_DSI_FMT_RGB888 and
-only write is implemented for mipi_dsi_host_ops.transfer due to lack of hardware
-where other modes can be tested.
-
-Regards,
-Peter
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
 ---
-Peter Ujfalusi (2):
-  dt-bindings: display: bridge: Add documentation for Toshiba tc358768
-  drm/bridge: Add tc358768 driver
-
- .../display/bridge/toshiba,tc358768.yaml      | 158 +++
- drivers/gpu/drm/bridge/Kconfig                |  10 +
- drivers/gpu/drm/bridge/Makefile               |   1 +
- drivers/gpu/drm/bridge/tc358768.c             | 992 ++++++++++++++++++
- 4 files changed, 1161 insertions(+)
+ .../display/bridge/toshiba,tc358768.yaml      | 158 ++++++++++++++++++
+ 1 file changed, 158 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
- create mode 100644 drivers/gpu/drm/bridge/tc358768.c
 
+diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
+new file mode 100644
+index 000000000000..8dd8cca39a77
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
+@@ -0,0 +1,158 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/toshiba,tc358768.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Toschiba TC358768/TC358778 Parallel RGB to MIPI DSI bridge
++
++maintainers:
++  - Peter Ujfalusi <peter.ujfalusi@ti.com>
++
++description: |
++  The TC358768/TC358778 is bridge device which converts RGB to DSI.
++
++properties:
++  compatible:
++    enum:
++      - toshiba,tc358768
++      - toshiba,tc358778
++
++  reg:
++    maxItems: 1
++    description: base I2C address of the device
++
++  reset-gpios:
++    maxItems: 1
++    description: GPIO connected to active low RESX pin
++
++  vddc-supply:
++    description: Regulator for 1.2V internal core power.
++
++  vddmipi-supply:
++    description: Regulator for 1.2V for the MIPI.
++
++  vddio-supply:
++    description: Regulator for 1.8V - 3.3V IO power.
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    const: refclk
++
++  ports:
++    type: object
++
++    properties:
++      "#address-cells":
++        const: 1
++
++      "#size-cells":
++        const: 0
++
++      port@0:
++        type: object
++        additionalProperties: false
++
++        description: |
++          Video port for RGB input
++
++        properties:
++          reg:
++            const: 0
++
++        patternProperties:
++          endpoint:
++            type: object
++            additionalProperties: false
++
++            properties:
++              data-lines:
++                enum: [ 16, 18, 24 ]
++
++              remote-endpoint: true
++
++        required:
++          - reg
++
++      port@1:
++        type: object
++        additionalProperties: false
++
++        description: |
++          Video port for DSI output (panel or connector).
++
++        properties:
++          reg:
++            const: 1
++
++        patternProperties:
++          endpoint:
++            type: object
++            additionalProperties: false
++
++            properties:
++              remote-endpoint: true
++
++        required:
++          - reg
++
++    required:
++      - "#address-cells"
++      - "#size-cells"
++      - port@0
++      - port@1
++
++required:
++  - compatible
++  - reg
++  - vddc-supply
++  - vddmipi-supply
++  - vddio-supply
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c1 {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      dsi_bridge: tc358768@0e {
++        compatible = "toshiba,tc358768";
++        reg = <0x0e>;
++
++        clocks = <&tc358768_refclk>;
++        clock-names = "refclk";
++
++        /* GPIO line is inverted before going to the bridge */
++        reset-gpios = <&pcf_display_board 0 1 /* GPIO_ACTIVE_LOW */>;
++
++        vddc-supply = <&v1_2d>;
++        vddmipi-supply = <&v1_2d>;
++        vddio-supply = <&v3_3d>;
++
++        dsi_bridge_ports: ports {
++          #address-cells = <1>;
++          #size-cells = <0>;
++
++          port@0 {
++            reg = <0>;
++            rgb_in: endpoint {
++              remote-endpoint = <&dpi_out>;
++              data-lines = <24>;
++            };
++          };
++
++          port@1 {
++            reg = <1>;
++            dsi_out: endpoint {
++              remote-endpoint = <&lcd_in>;
++            };
++          };
++        };
++      };
++    };
++    
 -- 
 Peter
 
