@@ -2,50 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A67C514786D
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2020 07:03:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5D2B147954
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2020 09:25:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA04E6FF11;
-	Fri, 24 Jan 2020 06:03:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98F5F6FF53;
+	Fri, 24 Jan 2020 08:25:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E52106FF11
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2020 06:03:17 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id y19so382876lfl.9
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2020 22:03:17 -0800 (PST)
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3291A6FF53;
+ Fri, 24 Jan 2020 08:25:17 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id c23so580210lfi.7;
+ Fri, 24 Jan 2020 00:25:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=zEdYPtIr5Rj3i3xej5EyjAn95dEVZ50fUuhaeqXUW1I=;
- b=IRFfwyu1B895wr30zPmlPm8PYsbUOvEBdoHQUyQ/AeyYyVDH1aLRD6jEnxElOfNgFS
- ckgnBnCu1jNWtjAZVH3rXv4qT9ryueQ8vtEbDBa+Q8KzFXsHeb7Ozj1LORiSrVhIED9t
- YHzL7v3w3WY+95Pwg3+CTiTb93HzYt3ZQJMPgCLpCp3Iq+oyPSkOu7Nc16UFG10aAz3a
- gAMyU6uj8hORY7spN1Ck9RkzBeV+PNjY+tVL4btqZDvwILGXkGaJoKQOUFEA1a5woJ7p
- YaDlbpIK8wZ8n5lyAhSLqVvZCqcv1zoBOUt4OjAqlnt76l94xwGTFkqMM3rsf3ev8RV2
- hgkg==
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=5DLKk6gU0FC8uw8HjUV23kmaHM4elbziixtS1AYEZeo=;
+ b=GecEV73mxkWch550JelUTS0xTNrKZNb8ZN+lavzRkRfafB396iZQj++WamiPtC8xP2
+ I3xYdFdsBghxcfTS9A6BL5VCjljSCYOC6aIXZIXzPKVEHwNbiMfjkIp+Fb+P6obKcQ2g
+ kv0/gYKYIaqwSf7JI7QLp1CvJhxd7LSYvaqdiMalHcAOligKGkjM+BAmgWJX+RDru9UE
+ ffwMR0eKfBwAODlDlNpxx0DjP53wXAR49vlyEdMyFwI+f43Glej56Z9x2CpxYEOFAa72
+ J52BvkBFZlBC7d0weLOeotal9IFVa0qRd17K1kId2AiKFrzdNdj4XsU02n57rfNnEPpF
+ ju4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=zEdYPtIr5Rj3i3xej5EyjAn95dEVZ50fUuhaeqXUW1I=;
- b=Dc0ecfppmBcczWsHyT7YTtDFbY5M/9TQrhL/wkehruby0PH+MV1ehCk9WgmO200aL1
- VhYc1wtA1dIs/icIISph9dXKtF7qCSBWDSj0boya2+lCdyS3GSTrFW1NIYhINUEMfOw/
- SxhMcVnBD4+zeb4hScevfK+7FHYJdCvP3c9MBLl9MpdkKZwqFkTGsP//UC0yfcRslC0o
- MUnixp14PEm2Hlc388TKqnEG2G0vVPBnhIhXvKQkT+IWbHsQ5g8r0v55foa943to6EPz
- FMKg5lkjNxgs+HQoEXeEgqa/VbUzfAhKSf9lBMZhvrNAn3Y+WzZusFHRXsK2qP3vqLQR
- PdWQ==
-X-Gm-Message-State: APjAAAWvNLvFnau1bCwIYUen8ADQdjg4a6SptGAIi7JEZgFSzo12SLwo
- ifjmyCy0bXmNAEc6dzAojK49inacqhceH3WplvU=
-X-Google-Smtp-Source: APXvYqzo7XanGadzPh7lXKC+qfgcHEFVXzkKcERZu7mKj6XG4Vns2PGd9FGlG/WtO32iOgfdTpkQCPVkkoEvgk7yrrU=
-X-Received: by 2002:a19:9d0:: with SMTP id 199mr649062lfj.110.1579845796081;
- Thu, 23 Jan 2020 22:03:16 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=5DLKk6gU0FC8uw8HjUV23kmaHM4elbziixtS1AYEZeo=;
+ b=Yv+NlagaVlFOcMNNbtbGgFY9TpbO7TSI7Ah0ntn9j0xBi8J/Dye/26mqpBUfW7OTb7
+ TTXgh37srNu3oLrXIkru8T/ZGGZQhO32K+c1QPpa9H8ABFPzZdJ3WxOHkj0uVqWTst0q
+ GF7h4JbRrhM6QnVHICnlOZQLs4fnV44biU0Xfyi3cSB9LbOdpgZcqZ1zMscP/wIQf/bO
+ rjpai5dQV+a75FMa8gmQOC1Tg0aSVDymJwyh2w0rANPzulkUy6uKFjQyGvvSrt026k67
+ dF8rN41gU96tBuG3XBJPrLMOSEsYxPTGvTHQ7MWHmKITOeNxu0W1wBdNHSfjQcnFLhIF
+ Gd0w==
+X-Gm-Message-State: APjAAAWuVfau+TDwuoVwt8pX/Bvi5M96sj6synpI9Cj17qGQAE9wN81Y
+ mytKiV2Wlqt558LnEtfOqho=
+X-Google-Smtp-Source: APXvYqzPYro5/r7k1V26N+i8DOkorNXDUELOIetMzdJfvbXidwHZf3LM/WUa+pA7U5yBiNNCKt2YUw==
+X-Received: by 2002:a19:c3ce:: with SMTP id t197mr869152lff.174.1579854315440; 
+ Fri, 24 Jan 2020 00:25:15 -0800 (PST)
+Received: from eldfell.localdomain ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id t10sm2627433lji.61.2020.01.24.00.25.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Jan 2020 00:25:15 -0800 (PST)
+Date: Fri, 24 Jan 2020 10:25:05 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Matt Hoosier <matt.hoosier@gmail.com>
+Subject: Re: backend-drm and scanning really large resolutions
+Message-ID: <20200124102505.31baceb3@eldfell.localdomain>
+In-Reply-To: <CAJgxT3-XVipi_k8LDaEjJjCj6ReBNLUyjF=xhkK1v0vceP_t6w@mail.gmail.com>
+References: <CAJgxT3-cJu54Rn-9CstjaRHHtaJB_WK+R0RzKsDoK4TttDNFOg@mail.gmail.com>
+ <20200120105812.20c56b65@eldfell.localdomain>
+ <CAJgxT3-XVipi_k8LDaEjJjCj6ReBNLUyjF=xhkK1v0vceP_t6w@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 24 Jan 2020 16:03:04 +1000
-Message-ID: <CAPM=9ty8zJzPMuvaO4=AuvviKjqMO-VXbZgs+f93wiPFFhg0kw@mail.gmail.com>
-Subject: [git pull] drm fixes for 5.5-rc8/final
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,114 +67,223 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ wayland mailing list <wayland-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============0227958719=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+--===============0227958719==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/O1qRYexNRWU23AP2NRb3IDm"; protocol="application/pgp-signature"
 
-This one has a core mst fix and two i915 fixes. amdgpu just enables
-some hw outside experimental.
+--Sig_/O1qRYexNRWU23AP2NRb3IDm
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-The panfrost fix is a little bigger than I'd like at this stage but it
-fixes a fairly fundamental problem with global shared buffers in that
-driver, and since it's confined to that driver and I've taken a look
-at it, I think it's fine to get into the tree now, so it can get
-stable propagated as well.
+On Tue, 21 Jan 2020 08:51:26 -0600
+Matt Hoosier <matt.hoosier@gmail.com> wrote:
 
-Dave.
+> On Mon, Jan 20, 2020 at 2:58 AM Pekka Paalanen <ppaalanen@gmail.com> wrot=
+e:
+>=20
+> > On Fri, 17 Jan 2020 10:51:45 -0600
+> > Matt Hoosier <matt.hoosier@gmail.com> wrote:
+> > =20
+> > > Hi all,
+> > >
+> > > I'm confronting a situation where the hardware with which I work is =
+=20
+> > capable =20
+> > > of driving connectors at 4K or 8K, but doing so requires bonding the
+> > > scanning of multiple planes together.
+> > >
+> > > The scenario is that you'd have a big primary framebuffer whose size =
+is =20
+> > too =20
+> > > large for an individual hardware scanning pipeline on the display
+> > > controller to traverse within its maximum allowed clock rate.
+> > >
+> > > The hardware supplier's approach is to assign multiple planes, which =
+in =20
+> > the =20
+> > > KMS driver map to hardware scanning pipelines, to each be responsible=
+ for
+> > > scanning a smaller section of the framebuffer. The planes are all =20
+> > assigned =20
+> > > to the same CRTC, and in concert with each other they cover the whole=
+ =20
+> > area =20
+> > > of the framebuffer and CRTC.
+> > >
+> > > This sounds a little bit wild to me. I hadn't been aware it's even le=
+gal =20
+> > to =20
+> > > have more than one plane treated a the source of scanout for a single
+> > > framebuffer. Maybe that distinction isn't really relevant nowadays wi=
+th
+> > > universal plane support.
+> > >
+> > > I'm wondering if anybody here knows whether this a legit approach for=
+ a
+> > > compositor's DRM backend to take? =20
+> > =20
+>=20
+> Hi Pekka; thanks for the reply.
+>=20
+>=20
+> >
+> > Hi,
+> >
+> > I was aware of tiled monitors that need two connectors driven by two
+> > CRTCs to cover the whole display, but that sounds new to me.
+> > Libweston/DRM still doesn't support tiled monitors.
+> >
+> > What a compositor's DRM-backend can or should do must be generic. It
+> > cannot be driver or hardware dependent, so handling your case specially
+> > in userspace would need KMS UAPI to communicate the need in the first
+> > place. (There is no shared library for "KMS userspace drivers", yet at
+> > least.)
+> >
+> > I am not aware of any KMS UAPI that would indicate the need to use two
+> > primary planes in a specific configuration for a specific video mode.
+> > I'm saying two primary planes, because that is the only way I can see
+> > this situation even hinted at userspace with the current UAPI. I also
+> > don't know if multiple primary planes is allowed, but it certainly is
+> > not expected by userspace, so userspace can't make use of it as is.
+> > =20
+>=20
+> Just to double-check: I think we're still talking here about
+> universal-plane mode, so we only mean "primary plane" in an informal sens=
+e?
 
-drm-fixes-2020-01-24:
-drm fixes for 5.5-rc8
+Hi,
 
-core/mst:
-- Fix SST branch device handling
+I'm talking in both universal-planes and atomic modesetting mode. I
+always talk from the userspace point of view as I'm not a kernel
+developer. In my mind, the concept of "primary plane" does not exist
+before universal planes. There is only drmModeSetCrtc() in the
+pre-atomic world and that acts on a CRTC, not a plane, and assumes
+the FB must cover the whole CRTC area exactly and without scaling.
 
-amdgpu:
-- enable renoir outside experimental
+IOW, there is no legacy UAPI that you could even use to poke more than
+one (primary) plane AFAIU.
 
-i915:
-- Avoid overflow with huge userptr objects
-- uAPI fix to correctly handle negative values in
-  engine->uabi_class/instance (cc: stable)
+> This problem would crop up on any attempt to attach a huge framebuffer to=
+ a
+> single plane (whether it happened to be the bottom z-sorted one or a
+> something used as an overlay).
 
-panfrost:
-- Fix mapping of globally visible BO's (Boris)
-The following changes since commit def9d2780727cec3313ed3522d0123158d87224d:
+Traditionally hardware has required that a CRTC must have exactly one
+primary plane enabled and that plane must cover the whole CRTC area
+exactly. Otherwise the CRTC will not light up. Therefore userspace has
+been written with this assumption, so it special-cases the primary
+plane. Some KMS programs might try other things first, but this is the
+baseline they expect to be the right thing to do when nothing else
+works.
 
-  Linux 5.5-rc7 (2020-01-19 16:02:49 -0800)
+Non-primary planes, that is overlays and underlays (both as type
+"overlay" in universal planes), and cursors kind of, are traditionally
+much more flexible, but I don't know of any userspace that would
+attempt to use more than one plane to present one FB. If using a
+non-primary plane fails on the first try, userspace doesn't know why -
+there are a million things it could attempt to change, so it probably
+just doesn't bother. Documenting what fallback strategies to try would
+be nice on one hand, but OTOH the more strategies there are, the more
+time it will take for userspace to search that solution space.
 
-are available in the Git repository at:
+> > The idea that comes to my mind is to hide all the details in the
+> > driver. Expose just one primary plane as usual, and if the video mode
+> > and FB actually need two scanout units, then steal one under the hood
+> > in the driver. If that makes another KMS plane (exposed to userspace)
+> > unusable, that is fine. Userspace with atomic modesetting needs to be
+> > checking with TEST_ONLY to see if a configuration is possible, and will
+> > fall back to something else.
+> > =20
+>=20
+> I think that's about the only approach that would make sense. Who would be
+> a good person to sanity-check that with? Daniel V? Daniel S?
 
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-01-24
+Daniel Vetter is an authority to me in these matters.
 
-for you to fetch changes up to 49412f6636bab17dbdc25e36d6482013e4188c88:
+> I suppose in principle that if this is a valid corner-case of the KMS api,
+> then maybe it wouldn't be wrong to enhance compositors DRM backends to
+> progressively attempt attaching more and more planes to scan a framebuffer
+> if the drmModeAtomicCommit(DRM_MODE_ATOMIC_TEST_ONLY) fails for the base
+> case. But whether anybody in the Weston world would want that patch is
+> probably another story...
 
-  Merge tag 'amd-drm-fixes-5.5-2020-01-23' of
-git://people.freedesktop.org/~agd5f/linux into drm-fixes (2020-01-24
-08:58:12 +1000)
+I suspect that would lead to a mess on both kernel and userspace sides,
+since once you establish something like that, you cannot get rid of it.
+You would need to document it as UAPI that if userspace fails to enable
+the primary plane in isolation, then it needs to try with more primary
+planes splitting the FB among them in a specific way. What way?
+Horizontally? Vertically? Both? How future-proof is that?
 
-----------------------------------------------------------------
-drm fixes for 5.5-rc8
+Besides, Weston is not at all the only display server you'd have to
+patch. There is Xorg/modesetting, every single DE that runs with
+Wayland, and all apps written for KMS directly. Even more, you also get
+to fix all apps that use DRM leases, which likely includes things like
+VR compositors.
 
-core/mst:
-- Fix SST branch device handling
+Hiding all this inside your driver in the kernel is a much more
+attractive approach to me. Userspace will always be shooting in the
+dark, but the driver knows its constraints. I don't see the use of
+multiple hwpipes or whatever as something the userspace would want to
+control explicitly. Userspace just wants the hardware to work, it
+doesn't care how.
 
-amdgpu:
-- enable renoir outside experimental
 
-i915:
-- Avoid overflow with huge userptr objects
-- uAPI fix to correctly handle negative values in
-  engine->uabi_class/instance (cc: stable)
+Thanks,
+pq
 
-panfrost:
-- Fix mapping of globally visible BO's (Boris)
+> > For legacy modesetting I guess you would need to pick between
+> > supporting the really large video modes vs. exposing all planes. But
+> > that's a no-brainer, since the legacy API for planes is practically
+> > unusable. Then again, I don't know if the kernel DRM core allows you to
+> > make such distinction.
+> >
+> > Btw. AFAIK there is nothing wrong with using the exact same FB on
+> > multiple planes simultaneously.
+> >
+> >
+> > Thanks,
+> > pq
+> > =20
 
-----------------------------------------------------------------
-Alex Deucher (1):
-      drm/amdgpu: remove the experimental flag for renoir
 
-Boris Brezillon (1):
-      drm/panfrost: Add the panfrost_gem_mapping concept
+--Sig_/O1qRYexNRWU23AP2NRb3IDm
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-Dave Airlie (3):
-      Merge tag 'drm-misc-fixes-2020-01-22-1' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
-      Merge tag 'drm-intel-fixes-2020-01-23' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
-      Merge tag 'amd-drm-fixes-5.5-2020-01-23' of
-git://people.freedesktop.org/~agd5f/linux into drm-fixes
+-----BEGIN PGP SIGNATURE-----
 
-Matthew Auld (1):
-      drm/i915/userptr: fix size calculation
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl4qqeEACgkQI1/ltBGq
+qqfH0A/+LGrJT0+Op9hU8F2Y5NW/5vLfDaAEO7jk5bWvo2P6bAf8Ik5QS6pmImgg
+Faj3Jnb/qKRHo7JRRxAexgn9UcedSc1ifbp1fddXpSUXfVMDU7yZJZxhfJgJb/wR
+B46GaN+RMYKE3LcAhwf4E6ycYeuXikwUX6uVafqDxC8sya19HlvBefk8jmdKG848
+er253Bb3aEzpY9CDxGpRMcasoxzRwehYJPTIW3uCyETbVEz1o7UnkNFIeF623tHk
+IWUWWi053HWnuiYMt2oWG3X1/nYYQniKMxKufJ3TgdcixT1BBSQbtnmrm0DlEsdU
+VoScPOrorLo4beEPpy0Qtm9UW9m1RC1JeEn++FJ5c+C9zY6NNhnpcphOvfkPyiFN
+Ts5MZTNVoDpn4vbmzlb/7lAiYNAGm50NACZIc0yuO8Fq3ISB02B0f0xoQiwK3TBR
+YYr8y9nlcqVXMERiCxMuf6ezqXqiQ2oIwFzGzk6cdwz1YQ1+SIhDkOemA24ExVUM
+kb4HCdC1QHEBSWAZrGqfXv3Ebc2IVcFVuvLoOH/CxHZzc1JX54KypzZJRWbshrP6
+lOsNeRmxktIxCsyhnOkGh4wqWHh/m+vQ20dtRQy8dAsPV5Waxasm24FpaAjCu9cg
+w4/jEpS08T8HzqB45KCFrik1CTsHKflSVQ1aoRBuWKjkqhrRE2I=
+=rA+1
+-----END PGP SIGNATURE-----
 
-Tvrtko Ursulin (1):
-      drm/i915: Align engine->uabi_class/instance with i915_drm.h
+--Sig_/O1qRYexNRWU23AP2NRb3IDm--
 
-Wayne Lin (1):
-      drm/dp_mst: Handle SST-only branch device case
+--===============0227958719==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c          |   2 +-
- drivers/gpu/drm/drm_dp_mst_topology.c            | 140 +++++++++++++----------
- drivers/gpu/drm/i915/gem/i915_gem_busy.c         |  12 +-
- drivers/gpu/drm/i915/gem/i915_gem_userptr.c      |   9 +-
- drivers/gpu/drm/i915/gt/intel_engine_types.h     |   4 +-
- drivers/gpu/drm/i915/i915_gem_gtt.c              |   2 +
- drivers/gpu/drm/panfrost/panfrost_drv.c          |  91 +++++++++++++--
- drivers/gpu/drm/panfrost/panfrost_gem.c          | 124 +++++++++++++++++---
- drivers/gpu/drm/panfrost/panfrost_gem.h          |  41 ++++++-
- drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c |   3 +-
- drivers/gpu/drm/panfrost/panfrost_job.c          |  13 ++-
- drivers/gpu/drm/panfrost/panfrost_job.h          |   1 +
- drivers/gpu/drm/panfrost/panfrost_mmu.c          |  61 +++++-----
- drivers/gpu/drm/panfrost/panfrost_mmu.h          |   6 +-
- drivers/gpu/drm/panfrost/panfrost_perfcnt.c      |  34 ++++--
- 15 files changed, 396 insertions(+), 147 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0227958719==--
