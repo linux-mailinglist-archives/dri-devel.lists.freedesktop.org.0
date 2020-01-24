@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BD1D148D4A
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2020 19:00:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEE71148DAF
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2020 19:18:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D27F56E406;
-	Fri, 24 Jan 2020 18:00:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1F3C6E445;
+	Fri, 24 Jan 2020 18:18:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DABF6E406
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2020 18:00:04 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 5.5-rc8/final
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1579888803;
- bh=Nubgd0VnKoemhsq3MYyl9oVwFq/tKKocTSnqxjr2ugo=;
- h=From:In-Reply-To:References:Date:To:Cc:From;
- b=xzAQYkoSgymiCK+fx7yMP07TZEghDlGzoTPa65lnZnzPrIBNyHlYlN+bqNIJYjpSo
- JntS324sCNy9W0QHjgFE3bK4TtBBXfR8vRxjXHCGkALk472FGV5vjm7QYC/38TVyXR
- k1DaXM7BNTHQk8iTqrtB97CpWVx8ePtlN++4k5o0=
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9ty8zJzPMuvaO4=AuvviKjqMO-VXbZgs+f93wiPFFhg0kw@mail.gmail.com>
-References: <CAPM=9ty8zJzPMuvaO4=AuvviKjqMO-VXbZgs+f93wiPFFhg0kw@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAPM=9ty8zJzPMuvaO4=AuvviKjqMO-VXbZgs+f93wiPFFhg0kw@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2020-01-24
-X-PR-Tracked-Commit-Id: 49412f6636bab17dbdc25e36d6482013e4188c88
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 274adbff45e3c26c65b2e103581d2ab5834b0b7c
-Message-Id: <157988880389.9531.3140625412730040133.pr-tracker-bot@kernel.org>
-Date: Fri, 24 Jan 2020 18:00:03 +0000
-To: Dave Airlie <airlied@gmail.com>
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D4C06E445
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2020 18:18:17 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 66DCF2001F;
+ Fri, 24 Jan 2020 19:18:13 +0100 (CET)
+Date: Fri, 24 Jan 2020 19:18:12 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v1 1/4] drm/tiny/repaper: Make driver OF-independent
+Message-ID: <20200124181812.GA7883@ravnborg.org>
+References: <20200122105403.30035-1-andriy.shevchenko@linux.intel.com>
+ <20200124164233.GA6043@ravnborg.org>
+ <20200124173134.GJ32742@smile.fi.intel.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200124173134.GJ32742@smile.fi.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
+ a=KfoDjS5_q7SDp-6UDooA:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,28 +46,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-MIME-Version: 1.0
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ David Lechner <david@lechnology.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 24 Jan 2020 16:03:04 +1000:
+Hi Andy.
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-01-24
+On Fri, Jan 24, 2020 at 07:31:34PM +0200, Andy Shevchenko wrote:
+> On Fri, Jan 24, 2020 at 05:42:33PM +0100, Sam Ravnborg wrote:
+> > On Wed, Jan 22, 2020 at 12:54:00PM +0200, Andy Shevchenko wrote:
+> > > There is one OF call in the driver that limits its area of use.
+> > > Replace it to generic device_get_match_data() and get rid of OF dependency.
+> > > 
+> > > While here, cast SPI driver data to certain enumerator type.
+> 
+> > >  enum repaper_model {
+> > > +	EXXXXCSXXX = 0,
+> > >  	E1144CS021 = 1,
+> > >  	E1190CS021,
+> > >  	E2200CS021,
+> > The new enum value is not used in the following - is it necessary?
+> 
+> Yes. It explicitly prevents to use 0 for real device.
+> 
+> This is due to device_get_match_data() returns content of data pointer and thus
+> we may not distinguish 0 from NULL pointer.
+A name that told this was not a valid name would be descriptive.
+As it is now it looks like a wildcard that matches everythign else.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/274adbff45e3c26c65b2e103581d2ab5834b0b7c
+With a more descriptive name:
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 
-Thank you!
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
