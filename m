@@ -1,60 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8D13148BB2
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2020 17:15:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD611148BB6
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2020 17:16:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A59AC72B0F;
-	Fri, 24 Jan 2020 16:15:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF58D72B14;
+	Fri, 24 Jan 2020 16:16:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4363772B0F
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2020 16:15:18 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id c14so2640831wrn.7
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2020 08:15:18 -0800 (PST)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACABD72B14
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2020 16:16:50 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id y17so2659078wrh.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2020 08:16:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=subject:to:cc:references:from:autocrypt:organization:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=AVrpBO0wM6PJZyKmeW7Oe50GH3QGjDS0AA9Zq5wGB9c=;
- b=koXgOTaSB7EZDZVcCjz29oB/lGV9BVlwYTJE5RQk+g2jwYM6KaYUqQY1hItK5A05m+
- 8AAaKAk100no2BUJLoGbV7DlaGLJrVOSnjnvHY6Dh5/mQ8xwvkJPJLKNmw80+5CtttRp
- FcUrjwKM7ZdpsAJ0n1wi4Nap9c7zZ7w8lh5XhEkHj1SN0dZhi805+ILHlzy87eI1h8AJ
- 1EycPij79D5d8QTdJ9m69f0StEXa6sgxAvn+Gsh6Arz8AaCl7gaKHOMKrRQVjee2TIXm
- R3/k7a81DFYqgw9zqmMIIA+MGMxM55ZAnO9Y0b6/MTlRiwD42izk26k/GRVIvThKNL+Q
- HylQ==
+ bh=fF7N/MCM8zw/b0CsqgWcwDf5NtOvWVCbSBSqw3wDGIs=;
+ b=RXw4kSulN3AuUgSgybjCjcJfW8G+s8LpH0Mee7skAedUu8VGRQhq75iweYbHtMC9DB
+ 9RZRnP396U2TTb7KRflKVDuAhnQh07C8fflL16WgMURX8XIaHGtcRKdHQBs8KC0J/NnA
+ uPlguFX+mJpG/DQsqZ/3ZSYGe3Z5o7g0dMdo5e7u7+IUjaynsYLo9GZBuh7zq6tt1Pqi
+ cbYlf/EMh+VpLn5HInLi153PymjoS0s5ar3EfzfTf9u5g5Z6yXMcu4ZL+9VBoFvR8YaT
+ +2JfXcQ6+jaEQP2HsDD5/1zoEub29UWwTh+ic6NSAYEuxTkAxCyZREWdN2JVY/wZrfie
+ mFIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=AVrpBO0wM6PJZyKmeW7Oe50GH3QGjDS0AA9Zq5wGB9c=;
- b=ZzJznkj1GSqhgroGCDvj4d0mh1zFB6UnU24U9xcKRWVwti0kMDhxIjWqKOPGrqRrb7
- YrmPCny9usxKDGmg9fHiDNjGSoBf6RCFDd2bsxzguHKeWt5dkBw0kNa1tk8fcZ+TKjFi
- EOgvRfEsXys8sue6mgukcIw5Ps4WbQ55H4R+oLzk7cHSixeCAnsD+JBnFYk44JUo1HoA
- nJddOKbz5c33b5NoltFbyUzf8ukn8Ko105dP3pcU8QEHtxGugcXx8r1ji5p9y0yWVln0
- ptCT6F9vy2/3QFBjTm/C+X2Pfyss3je+C91tB4Zuxj5khOb4OvqCPRi6+pzjKfjTSE1K
- wxaw==
-X-Gm-Message-State: APjAAAV5zJOrEfJgjoj4CruvhpofIxwQlF5Jm8UU53VzVwQ+L9lDz5yY
- IG2kQWAA5tPYeGUoUzgOdrzzWg==
-X-Google-Smtp-Source: APXvYqzbJ6at3E8kPzipEmpN7SlhxO1q5rYzcvPEEnZ/28OYSNQnqddTmqttAI/Ry2X8zXYUqrMtdg==
-X-Received: by 2002:adf:ef0b:: with SMTP id e11mr5431375wro.128.1579882516794; 
- Fri, 24 Jan 2020 08:15:16 -0800 (PST)
+ bh=fF7N/MCM8zw/b0CsqgWcwDf5NtOvWVCbSBSqw3wDGIs=;
+ b=PqxR3FTLZ7i1H7hC5GpLYUzb7bcC0TTDQYnr2bFEhZ9FRE+VPuM7oaf+ia1h6jDTci
+ WRVJLL5v00LE6zZ+UB3D6qxpCCNv4xp3jBnIG+99wCSkt6mX3WkZADWpp66TPD6ugHw2
+ dKGRpe3/giG4pgmc2bQxbqKNFpizdDG18q7jOjSJ6AYHFnGfwLhqowqAlJ3MsrGDaL4X
+ LL79qP08HQq6CCejfqa6J7X/nDp0LSZC2UINY2uj7oBlFcKbvuDOS4axNElAKT+8zLk5
+ f+ILFsrlITSQSZbYj33WoP8KRuNXVnscI1z5JbrZ4+RY583oyy/vUXerK10Gd4oR7K5M
+ dBbg==
+X-Gm-Message-State: APjAAAXdJwsPjqh9pxo06q5mqmKYmeqV+Bx+rVDJSa5URXdgQsYM0A3w
+ czYTGKFheo3Sc3kGsk7jQgS6lA==
+X-Google-Smtp-Source: APXvYqxvf45vNf/lFHy2oN+ojxsuLnLxWt9S35ZiunDnsTdpKgeHB69OSntqrw7cI4qpE/uXKsJYEQ==
+X-Received: by 2002:adf:e5ca:: with SMTP id a10mr5523300wrn.347.1579882609216; 
+ Fri, 24 Jan 2020 08:16:49 -0800 (PST)
 Received: from [10.1.2.12] (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr.
  [90.63.244.31])
- by smtp.gmail.com with ESMTPSA id i8sm8231389wro.47.2020.01.24.08.15.15
+ by smtp.gmail.com with ESMTPSA id b10sm8562404wrt.90.2020.01.24.08.16.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Jan 2020 08:15:16 -0800 (PST)
-Subject: Re: [PATCH v8 04/12] drm/bridge: analogix: Plug atomic state hooks to
- the default implementation
+ Fri, 24 Jan 2020 08:16:48 -0800 (PST)
+Subject: Re: [PATCH v8 10/12] drm/bridge: panel: Propage bus format/flags
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  dri-devel@lists.freedesktop.org
 References: <20200123095333.2085810-1-boris.brezillon@collabora.com>
- <20200123095333.2085810-5-boris.brezillon@collabora.com>
+ <20200123095333.2085810-11-boris.brezillon@collabora.com>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -106,12 +105,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  zR8QplXA5kogS4kLe/7/JmlDMO8Zgm9vKLHSUeesLOrjdZ59EcjldNNBszRZQgEhwaarfz46
  BSwxi7g3Mu7u5kUByanqHyA=
 Organization: Baylibre
-Message-ID: <bc1add6b-3b87-e65e-3d9e-27e8e6890278@baylibre.com>
-Date: Fri, 24 Jan 2020 17:15:15 +0100
+Message-ID: <6138b625-fe5a-6529-af49-8cae383e1b42@baylibre.com>
+Date: Fri, 24 Jan 2020 17:16:47 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20200123095333.2085810-5-boris.brezillon@collabora.com>
+In-Reply-To: <20200123095333.2085810-11-boris.brezillon@collabora.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -139,31 +138,41 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 23/01/2020 10:53, Boris Brezillon wrote:
-> This is needed to pass a bridge state to all atomic hooks, if we don't
-> do that, the core can't duplicate/create bridge states.
+> So that the previous bridge element in the chain knows which input
+> format the panel bridge expects.
 > 
 > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 > ---
 > Changes in v7:
-> * New patch
-> ---
->  drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 3 +++
->  1 file changed, 3 insertions(+)
+> * Set atomic state hooks explicitly
 > 
-> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> index 6fab71985cd4..dfb59a5fefea 100644
-> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> @@ -1570,6 +1570,9 @@ static void analogix_dp_bridge_mode_set(struct drm_bridge *bridge,
->  }
->  
->  static const struct drm_bridge_funcs analogix_dp_bridge_funcs = {
+> Changes in v3:
+> * Adjust things to match the new bus-format negotiation approach
+> * Use drm_atomic_helper_bridge_propagate_bus_fmt
+> * Don't implement ->atomic_check() (the core now takes care of bus
+>   flags propagation)
+> 
+> Changes in v2:
+> * Adjust things to match the new bus-format negotiation approach
+> ---
+>  drivers/gpu/drm/bridge/panel.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
+> index f66777e24968..dcc72bd7df30 100644
+> --- a/drivers/gpu/drm/bridge/panel.c
+> +++ b/drivers/gpu/drm/bridge/panel.c
+> @@ -127,6 +127,10 @@ static const struct drm_bridge_funcs panel_bridge_bridge_funcs = {
+>  	.enable = panel_bridge_enable,
+>  	.disable = panel_bridge_disable,
+>  	.post_disable = panel_bridge_post_disable,
+> +	.atomic_reset = drm_atomic_helper_bridge_reset,
 > +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
 > +	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-> +	.atomic_reset = drm_atomic_helper_bridge_reset,
->  	.atomic_pre_enable = analogix_dp_bridge_atomic_pre_enable,
->  	.atomic_enable = analogix_dp_bridge_atomic_enable,
->  	.atomic_disable = analogix_dp_bridge_atomic_disable,
+> +	.atomic_get_input_bus_fmts = drm_atomic_helper_bridge_propagate_bus_fmt,
+>  };
+>  
+>  /**
 > 
 
 Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
