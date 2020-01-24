@@ -2,38 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEE71148DAF
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2020 19:18:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62BCA148DBF
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2020 19:27:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1F3C6E445;
-	Fri, 24 Jan 2020 18:18:18 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D4C06E445
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2020 18:18:17 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 66DCF2001F;
- Fri, 24 Jan 2020 19:18:13 +0100 (CET)
-Date: Fri, 24 Jan 2020 19:18:12 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v1 1/4] drm/tiny/repaper: Make driver OF-independent
-Message-ID: <20200124181812.GA7883@ravnborg.org>
-References: <20200122105403.30035-1-andriy.shevchenko@linux.intel.com>
- <20200124164233.GA6043@ravnborg.org>
- <20200124173134.GJ32742@smile.fi.intel.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id D44BA72B51;
+	Fri, 24 Jan 2020 18:27:02 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail25.static.mailgun.info (mail25.static.mailgun.info
+ [104.130.122.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16B7672B50
+ for <dri-devel@freedesktop.org>; Fri, 24 Jan 2020 18:27:01 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1579890421; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: Cc: To: From: Date: Sender;
+ bh=vIZY+m9EMe+TETKYgTmMIG1//fE/Z8Pwfi9rqiJvXtM=;
+ b=Lr8EoO8IxjUiCclqn+Y3dyEesMBvM8FG6PqGaWsyRYKVHHmNW1YqgJ0Vbwzti6050T8GscIB
+ P4CFx8lLuSRQaPPrsZHIEdtZ2vRbf0bj0QAURqOyZ+iXw9RlHIYnHshlTCiTl6cQrmHTIQZQ
+ rEcIdKCU1KjQJaxpzqhdMyKljO0=
+X-Mailgun-Sending-Ip: 104.130.122.25
+X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e2b36f2.7efe91f9de68-smtp-out-n02;
+ Fri, 24 Jan 2020 18:26:58 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 2D636C43383; Fri, 24 Jan 2020 18:26:57 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=ham autolearn_force=no version=3.4.0
+Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: jcrouse)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 54D3AC433CB;
+ Fri, 24 Jan 2020 18:26:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 54D3AC433CB
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=jcrouse@codeaurora.org
+Date: Fri, 24 Jan 2020 11:26:54 -0700
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: Akhil P Oommen <akhilpo@codeaurora.org>
+Subject: Re: [PATCH] drm/msm/a6xx: Correct the highestbank configuration
+Message-ID: <20200124182654.GA17149@jcrouse1-lnx.qualcomm.com>
+Mail-Followup-To: Akhil P Oommen <akhilpo@codeaurora.org>,
+ freedreno@lists.freedesktop.org, dri-devel@freedesktop.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ smasetty@codeaurora.org
+References: <1579868411-20837-1-git-send-email-akhilpo@codeaurora.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200124173134.GJ32742@smile.fi.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
- a=KfoDjS5_q7SDp-6UDooA:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+In-Reply-To: <1579868411-20837-1-git-send-email-akhilpo@codeaurora.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,42 +71,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- David Lechner <david@lechnology.com>
+Cc: linux-arm-msm@vger.kernel.org, smasetty@codeaurora.org,
+ freedreno@lists.freedesktop.org, dri-devel@freedesktop.org,
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andy.
-
-On Fri, Jan 24, 2020 at 07:31:34PM +0200, Andy Shevchenko wrote:
-> On Fri, Jan 24, 2020 at 05:42:33PM +0100, Sam Ravnborg wrote:
-> > On Wed, Jan 22, 2020 at 12:54:00PM +0200, Andy Shevchenko wrote:
-> > > There is one OF call in the driver that limits its area of use.
-> > > Replace it to generic device_get_match_data() and get rid of OF dependency.
-> > > 
-> > > While here, cast SPI driver data to certain enumerator type.
+On Fri, Jan 24, 2020 at 05:50:11PM +0530, Akhil P Oommen wrote:
+> Highest bank bit configuration is different for a618 gpu. Update
+> it with the correct configuration which is the reset value incidentally.
 > 
-> > >  enum repaper_model {
-> > > +	EXXXXCSXXX = 0,
-> > >  	E1144CS021 = 1,
-> > >  	E1190CS021,
-> > >  	E2200CS021,
-> > The new enum value is not used in the following - is it necessary?
+> Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
+> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
 > 
-> Yes. It explicitly prevents to use 0 for real device.
-> 
-> This is due to device_get_match_data() returns content of data pointer and thus
-> we may not distinguish 0 from NULL pointer.
-A name that told this was not a valid name would be descriptive.
-As it is now it looks like a wildcard that matches everythign else.
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index daf0780..536d196 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -470,10 +470,12 @@ static int a6xx_hw_init(struct msm_gpu *gpu)
+>  	/* Select CP0 to always count cycles */
+>  	gpu_write(gpu, REG_A6XX_CP_PERFCTR_CP_SEL_0, PERF_CP_ALWAYS_COUNT);
+>  
+> -	gpu_write(gpu, REG_A6XX_RB_NC_MODE_CNTL, 2 << 1);
+> -	gpu_write(gpu, REG_A6XX_TPL1_NC_MODE_CNTL, 2 << 1);
+> -	gpu_write(gpu, REG_A6XX_SP_NC_MODE_CNTL, 2 << 1);
+> -	gpu_write(gpu, REG_A6XX_UCHE_MODE_CNTL, 2 << 21);
+> +	if (adreno_is_a630(adreno_gpu)) {
+> +		gpu_write(gpu, REG_A6XX_RB_NC_MODE_CNTL, 2 << 1);
+> +		gpu_write(gpu, REG_A6XX_TPL1_NC_MODE_CNTL, 2 << 1);
+> +		gpu_write(gpu, REG_A6XX_SP_NC_MODE_CNTL, 2 << 1);
+> +		gpu_write(gpu, REG_A6XX_UCHE_MODE_CNTL, 2 << 21);
+> +	}
 
-With a more descriptive name:
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+it shouldn't come as a surprise that everything in the a6xx family is going to
+have a highest bank bit setting. Even though the a618 uses the reset value, I
+think it would be less confusing to future folks if we explicitly program it:
 
+if (adreno_is_a630(adreno_dev))
+  hbb = 2;
+else
+  hbb = 0;
 
-	Sam
+....
+
+Jordan
+
+-- 
+The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
