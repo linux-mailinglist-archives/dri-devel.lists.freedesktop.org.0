@@ -1,52 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA1DD147F0E
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2020 11:55:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90A07147F62
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2020 12:03:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA20C6E312;
-	Fri, 24 Jan 2020 10:55:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5181B72A23;
+	Fri, 24 Jan 2020 11:03:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15E7A6E312
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2020 10:55:13 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00OAt4uL071832;
- Fri, 24 Jan 2020 04:55:04 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1579863304;
- bh=CRHeCMGXlxNYbsG4X/H/yIktIZk9I7gBu6Z0t0NnPh8=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=IH8OTlYh1CO4HurAaWhhsoNd6dOfZayPiEKM4yq47da931hOdVfpgNsoVgcH/zLfT
- 9ejVrwnUDUPHsA8Uu8bokWltzd/V4PRnBOjdIrzv2VGZDtw6Ta6yGACots3CcRB8h7
- N0Fh0yi0dBRXKI7lwTU9Mck3hoCHK0U0I7TEaKrM=
-Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00OAt4Og024196;
- Fri, 24 Jan 2020 04:55:04 -0600
-Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Fri, 24
- Jan 2020 04:55:03 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Fri, 24 Jan 2020 04:55:03 -0600
-Received: from feketebors.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00OAsrHr078085;
- Fri, 24 Jan 2020 04:55:00 -0600
-From: Peter Ujfalusi <peter.ujfalusi@ti.com>
-To: <airlied@linux.ie>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
- <mark.rutland@arm.com>, <a.hajda@samsung.com>, <narmstrong@baylibre.com>
-Subject: [PATCH v2 2/2] drm/bridge: Add tc358768 driver
-Date: Fri, 24 Jan 2020 12:55:37 +0200
-Message-ID: <20200124105537.21651-3-peter.ujfalusi@ti.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200124105537.21651-1-peter.ujfalusi@ti.com>
-References: <20200124105537.21651-1-peter.ujfalusi@ti.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC69D72A23;
+ Fri, 24 Jan 2020 11:03:02 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 24 Jan 2020 03:03:02 -0800
+X-IronPort-AV: E=Sophos;i="5.70,357,1574150400"; d="scan'208";a="220989031"
+Received: from omarkovx-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.249.37.60])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 24 Jan 2020 03:02:55 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Rajat Jain <rajatja@google.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>, Daniel
+ Vetter <daniel@ffwll.ch>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, Chris
+ Wilson <chris@chris-wilson.co.uk>, Imre Deak <imre.deak@intel.com>,
+ =?utf-8?Q?Jos=C3=A9?= Roberto de Souza <jose.souza@intel.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, gregkh@linuxfoundation.org,
+ mathewk@google.com, Daniel Thompson <daniel.thompson@linaro.org>, Jonathan
+ Corbet <corbet@lwn.net>, Pavel Machek <pavel@denx.de>,
+ seanpaul@google.com, Duncan Laurie <dlaurie@google.com>,
+ jsbarnes@google.com, Thierry Reding <thierry.reding@gmail.com>
+Subject: Re: [PATCH v5 1/3] drm/i915: Move the code to populate ACPI device ID
+ into intel_acpi
+In-Reply-To: <20191220200353.252399-1-rajatja@google.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20191220200353.252399-1-rajatja@google.com>
+Date: Fri, 24 Jan 2020 13:03:54 +0200
+Message-ID: <87y2txglph.fsf@intel.com>
 MIME-Version: 1.0
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,1065 +57,289 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net, jonas@kwiboo.se,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- tomi.valkeinen@ti.com, Laurent.pinchart@ideasonboard.com
+Cc: Rajat Jain <rajatja@google.com>, rajatxjain@gmail.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add basic support for the Toshiba TC358768 RGB to DSI bridge.
-Not all the features of the TC358768 is implemented by the initial driver:
-MIPI_DSI_MODE_VIDEO and MIPI_DSI_FMT_RGB888 is only supported and tested.
+On Fri, 20 Dec 2019, Rajat Jain <rajatja@google.com> wrote:
+> Move the code that populates the ACPI device ID for devices, into
+> more appripriate intel_acpi.c. This is done in preparation for more
+> users of this code (in next patch).
 
-Only write is implemented for mipi_dsi_host_ops.transfer.
+Sorry for the delay, thanks for the patch, pushed to
+drm-intel-next-queued.
 
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
----
- drivers/gpu/drm/bridge/Kconfig    |  10 +
- drivers/gpu/drm/bridge/Makefile   |   1 +
- drivers/gpu/drm/bridge/tc358768.c | 992 ++++++++++++++++++++++++++++++
- 3 files changed, 1003 insertions(+)
- create mode 100644 drivers/gpu/drm/bridge/tc358768.c
+BR,
+Jani.
 
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index 0b9ca5862455..3fef3513bdd0 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -122,6 +122,16 @@ config DRM_TOSHIBA_TC358767
- 	---help---
- 	  Toshiba TC358767 eDP bridge chip driver.
- 
-+config DRM_TOSHIBA_TC358768
-+	tristate "Toshiba TC358768 MIPI DSI bridge"
-+	depends on OF
-+	select DRM_KMS_HELPER
-+	select REGMAP_I2C
-+	select DRM_PANEL
-+	select DRM_MIPI_DSI
-+	help
-+	  Toshiba TC358768AXBG/TC358778XBG DSI bridge chip driver.
-+
- config DRM_TI_TFP410
- 	tristate "TI TFP410 DVI/HDMI bridge"
- 	depends on OF
-diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-index cd16ce830270..06fc265de0ef 100644
---- a/drivers/gpu/drm/bridge/Makefile
-+++ b/drivers/gpu/drm/bridge/Makefile
-@@ -11,6 +11,7 @@ obj-$(CONFIG_DRM_SII9234) += sii9234.o
- obj-$(CONFIG_DRM_THINE_THC63LVD1024) += thc63lvd1024.o
- obj-$(CONFIG_DRM_TOSHIBA_TC358764) += tc358764.o
- obj-$(CONFIG_DRM_TOSHIBA_TC358767) += tc358767.o
-+obj-$(CONFIG_DRM_TOSHIBA_TC358768) += tc358768.o
- obj-$(CONFIG_DRM_I2C_ADV7511) += adv7511/
- obj-$(CONFIG_DRM_TI_SN65DSI86) += ti-sn65dsi86.o
- obj-$(CONFIG_DRM_TI_TFP410) += ti-tfp410.o
-diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
-new file mode 100644
-index 000000000000..5e12b1390254
---- /dev/null
-+++ b/drivers/gpu/drm/bridge/tc358768.c
-@@ -0,0 +1,992 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ *  Copyright (C) 2020 Texas Instruments Incorporated - http://www.ti.com
-+ *  Author: Peter Ujfalusi <peter.ujfalusi@ti.com>
-+ */
-+
-+#include <linux/clk.h>
-+#include <linux/device.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/regmap.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/slab.h>
-+
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_crtc_helper.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_of.h>
-+#include <drm/drm_panel.h>
-+#include <video/mipi_display.h>
-+#include <video/videomode.h>
-+
-+/* Global (16-bit addressable) */
-+#define TC358768_CHIPID			0x0000
-+#define TC358768_SYSCTL			0x0002
-+#define TC358768_CONFCTL		0x0004
-+#define TC358768_VSDLY			0x0006
-+#define TC358768_DATAFMT		0x0008
-+#define TC358768_GPIOEN			0x000E
-+#define TC358768_GPIODIR		0x0010
-+#define TC358768_GPIOIN			0x0012
-+#define TC358768_GPIOOUT		0x0014
-+#define TC358768_PLLCTL0		0x0016
-+#define TC358768_PLLCTL1		0x0018
-+#define TC358768_CMDBYTE		0x0022
-+#define TC358768_PP_MISC		0x0032
-+#define TC358768_DSITX_DT		0x0050
-+#define TC358768_FIFOSTATUS		0x00F8
-+
-+/* Debug (16-bit addressable) */
-+#define TC358768_VBUFCTRL		0x00E0
-+#define TC358768_DBG_WIDTH		0x00E2
-+#define TC358768_DBG_VBLANK		0x00E4
-+#define TC358768_DBG_DATA		0x00E8
-+
-+/* TX PHY (32-bit addressable) */
-+#define TC358768_CLW_DPHYCONTTX		0x0100
-+#define TC358768_D0W_DPHYCONTTX		0x0104
-+#define TC358768_D1W_DPHYCONTTX		0x0108
-+#define TC358768_D2W_DPHYCONTTX		0x010C
-+#define TC358768_D3W_DPHYCONTTX		0x0110
-+#define TC358768_CLW_CNTRL		0x0140
-+#define TC358768_D0W_CNTRL		0x0144
-+#define TC358768_D1W_CNTRL		0x0148
-+#define TC358768_D2W_CNTRL		0x014C
-+#define TC358768_D3W_CNTRL		0x0150
-+
-+/* TX PPI (32-bit addressable) */
-+#define TC358768_STARTCNTRL		0x0204
-+#define TC358768_DSITXSTATUS		0x0208
-+#define TC358768_LINEINITCNT		0x0210
-+#define TC358768_LPTXTIMECNT		0x0214
-+#define TC358768_TCLK_HEADERCNT		0x0218
-+#define TC358768_TCLK_TRAILCNT		0x021C
-+#define TC358768_THS_HEADERCNT		0x0220
-+#define TC358768_TWAKEUP		0x0224
-+#define TC358768_TCLK_POSTCNT		0x0228
-+#define TC358768_THS_TRAILCNT		0x022C
-+#define TC358768_HSTXVREGCNT		0x0230
-+#define TC358768_HSTXVREGEN		0x0234
-+#define TC358768_TXOPTIONCNTRL		0x0238
-+#define TC358768_BTACNTRL1		0x023C
-+
-+/* TX CTRL (32-bit addressable) */
-+#define TC358768_DSI_CONTROL		0x040C
-+#define TC358768_DSI_STATUS		0x0410
-+#define TC358768_DSI_INT		0x0414
-+#define TC358768_DSI_INT_ENA		0x0418
-+#define TC358768_DSICMD_RDFIFO		0x0430
-+#define TC358768_DSI_ACKERR		0x0434
-+#define TC358768_DSI_ACKERR_INTENA	0x0438
-+#define TC358768_DSI_ACKERR_HALT	0x043c
-+#define TC358768_DSI_RXERR		0x0440
-+#define TC358768_DSI_RXERR_INTENA	0x0444
-+#define TC358768_DSI_RXERR_HALT		0x0448
-+#define TC358768_DSI_ERR		0x044C
-+#define TC358768_DSI_ERR_INTENA		0x0450
-+#define TC358768_DSI_ERR_HALT		0x0454
-+#define TC358768_DSI_CONFW		0x0500
-+#define TC358768_DSI_LPCMD		0x0500
-+#define TC358768_DSI_RESET		0x0504
-+#define TC358768_DSI_INT_CLR		0x050C
-+#define TC358768_DSI_START		0x0518
-+
-+/* DSITX CTRL (16-bit addressable) */
-+#define TC358768_DSICMD_TX		0x0600
-+#define TC358768_DSICMD_TYPE		0x0602
-+#define TC358768_DSICMD_WC		0x0604
-+#define TC358768_DSICMD_WD0		0x0610
-+#define TC358768_DSICMD_WD1		0x0612
-+#define TC358768_DSICMD_WD2		0x0614
-+#define TC358768_DSICMD_WD3		0x0616
-+#define TC358768_DSI_EVENT		0x0620
-+#define TC358768_DSI_VSW		0x0622
-+#define TC358768_DSI_VBPR		0x0624
-+#define TC358768_DSI_VACT		0x0626
-+#define TC358768_DSI_HSW		0x0628
-+#define TC358768_DSI_HBPR		0x062A
-+#define TC358768_DSI_HACT		0x062C
-+
-+static const char * const tc358768_supplies[] = {
-+	"vddc", "vddmipi", "vddio"
-+};
-+
-+struct tc358768_dsi_output {
-+	struct mipi_dsi_device *dev;
-+	struct drm_panel *panel;
-+	struct drm_bridge *bridge;
-+};
-+
-+struct tc358768_priv {
-+	struct device *dev;
-+	struct regmap *regmap;
-+	struct gpio_desc *reset_gpio;
-+	struct regulator_bulk_data supplies[ARRAY_SIZE(tc358768_supplies)];
-+	struct clk *refclk;
-+	int enabled;
-+	int error;
-+
-+	struct mipi_dsi_host dsi_host;
-+	struct drm_bridge bridge;
-+	struct tc358768_dsi_output output;
-+
-+	u32 pd_lines; /* number of Parallel Port Input Data Lines */
-+	u32 dsi_lanes; /* number of DSI Lanes */
-+
-+	/* Parameters for PLL programming */
-+	u32 fbd;	/* PLL feedback divider */
-+	u32 prd;	/* PLL input divider */
-+	u32 frs;	/* PLL Freqency range for HSCK (post divider) */
-+
-+	u32 dsiclk;	/* pll_clk / 2 */
-+};
-+
-+static inline struct tc358768_priv *dsi_host_to_tc358768(struct mipi_dsi_host
-+							 *host)
-+{
-+	return container_of(host, struct tc358768_priv, dsi_host);
-+}
-+
-+static inline struct tc358768_priv *bridge_to_tc358768(struct drm_bridge
-+						       *bridge)
-+{
-+	return container_of(bridge, struct tc358768_priv, bridge);
-+}
-+
-+static int tc358768_clear_error(struct tc358768_priv *priv)
-+{
-+	int ret = priv->error;
-+
-+	priv->error = 0;
-+	return ret;
-+}
-+
-+static void tc358768_write(struct tc358768_priv *priv, u32 reg, u32 val)
-+{
-+	size_t count = 2;
-+
-+	if (priv->error)
-+		return;
-+
-+	/* 16-bit register? */
-+	if (reg < 0x100 || reg >= 0x600)
-+		count = 1;
-+
-+	priv->error = regmap_bulk_write(priv->regmap, reg, &val, count);
-+}
-+
-+static void tc358768_read(struct tc358768_priv *priv, u32 reg, u32 *val)
-+{
-+	size_t count = 2;
-+
-+	if (priv->error)
-+		return;
-+
-+	/* 16-bit register? */
-+	if (reg < 0x100 || reg >= 0x600) {
-+		*val = 0;
-+		count = 1;
-+	}
-+
-+	priv->error = regmap_bulk_read(priv->regmap, reg, val, count);
-+}
-+
-+static void tc358768_update_bits(struct tc358768_priv *priv, u32 reg, u32 mask,
-+				 u32 val)
-+{
-+	u32 tmp, orig;
-+
-+	tc358768_read(priv, reg, &orig);
-+	tmp = orig & ~mask;
-+	tmp |= val & mask;
-+	if (tmp != orig)
-+		tc358768_write(priv, reg, tmp);
-+}
-+
-+static int tc358768_sw_reset(struct tc358768_priv *priv)
-+{
-+	/* Assert Reset */
-+	tc358768_write(priv, TC358768_SYSCTL, 1);
-+	/* Release Reset, Exit Sleep */
-+	tc358768_write(priv, TC358768_SYSCTL, 0);
-+
-+	return tc358768_clear_error(priv);
-+}
-+
-+static void tc358768_hw_enable(struct tc358768_priv *priv)
-+{
-+	int ret;
-+
-+	if (priv->enabled++ > 0)
-+		return;
-+
-+	ret = regulator_bulk_enable(ARRAY_SIZE(priv->supplies), priv->supplies);
-+	if (ret < 0)
-+		dev_err(priv->dev, "error enabling regulators (%d)\n", ret);
-+
-+	if (priv->reset_gpio)
-+		usleep_range(200, 300);
-+
-+	/*
-+	 * The RESX is active low (GPIO_ACTIVE_LOW).
-+	 * DEASSERT (value = 0) the reset_gpio to enable the chip
-+	 */
-+	gpiod_set_value_cansleep(priv->reset_gpio, 0);
-+
-+	/* wait for encoder clocks to stabilize */
-+	usleep_range(1000, 2000);
-+}
-+
-+static void tc358768_hw_disable(struct tc358768_priv *priv)
-+{
-+	int ret;
-+
-+	if (--priv->enabled != 0)
-+		return;
-+
-+	/*
-+	 * The RESX is active low (GPIO_ACTIVE_LOW).
-+	 * ASSERT (value = 1) the reset_gpio to disable the chip
-+	 */
-+	gpiod_set_value_cansleep(priv->reset_gpio, 1);
-+
-+	ret = regulator_bulk_disable(ARRAY_SIZE(priv->supplies),
-+				     priv->supplies);
-+	if (ret < 0)
-+		dev_err(priv->dev, "error disabling regulators (%d)\n", ret);
-+}
-+
-+static u32 tc358768_pll_to_pclk(struct tc358768_priv *priv, u32 pll_clk)
-+{
-+	return (u32)div_u64((u64)pll_clk * priv->dsi_lanes, priv->pd_lines);
-+}
-+
-+static u32 tc358768_pclk_to_pll(struct tc358768_priv *priv, u32 pclk)
-+{
-+	return (u32)div_u64((u64)pclk * priv->pd_lines, priv->dsi_lanes);
-+}
-+
-+static int tc358768_calc_pll(struct tc358768_priv *priv,
-+			     const struct drm_display_mode *mode,
-+			     bool verify_only)
-+{
-+	const u32 frs_limits[] = {
-+		1000000000,
-+		500000000,
-+		250000000,
-+		125000000,
-+		62500000
-+	};
-+	unsigned long refclk;
-+	u32 prd, target_pll, i, max_pll, min_pll;
-+	u32 frs, best_diff, best_pll, best_prd, best_fbd;
-+
-+	target_pll = tc358768_pclk_to_pll(priv, mode->clock * 1000);
-+
-+	/* pll_clk = RefClk * [(FBD + 1)/ (PRD + 1)] * [1 / (2^FRS)] */
-+
-+	for (i = 0; i < ARRAY_SIZE(frs_limits); i++)
-+		if (target_pll >= frs_limits[i])
-+			break;
-+
-+	if (i == ARRAY_SIZE(frs_limits) || i == 0)
-+		return -EINVAL;
-+
-+	frs = i - 1;
-+	max_pll = frs_limits[i - 1];
-+	min_pll = frs_limits[i];
-+
-+	refclk = clk_get_rate(priv->refclk);
-+
-+	best_diff = UINT_MAX;
-+	best_pll = 0;
-+	best_prd = 0;
-+	best_fbd = 0;
-+
-+	for (prd = 0; prd < 16; ++prd) {
-+		u32 divisor = (prd + 1) * (1 << frs);
-+		u32 fbd;
-+
-+		for (fbd = 0; fbd < 512; ++fbd) {
-+			u32 pll, diff;
-+
-+			pll = (u32)div_u64((u64)refclk * (fbd + 1), divisor);
-+
-+			if (pll >= max_pll || pll < min_pll)
-+				continue;
-+
-+			diff = max(pll, target_pll) - min(pll, target_pll);
-+
-+			if (diff < best_diff) {
-+				best_diff = diff;
-+				best_pll = pll;
-+				best_prd = prd;
-+				best_fbd = fbd;
-+			}
-+
-+			if (best_diff == 0)
-+				goto found;
-+		}
-+	}
-+
-+found:
-+	if (best_diff == UINT_MAX) {
-+		dev_err(priv->dev, "could not find suitable PLL setup\n");
-+		return -EINVAL;
-+	}
-+
-+	if (verify_only)
-+		return 0;
-+
-+	priv->fbd = best_fbd;
-+	priv->prd = best_prd;
-+	priv->frs = frs;
-+	priv->dsiclk = best_pll / 2;
-+
-+	return 0;
-+}
-+
-+static int tc358768_dsi_host_attach(struct mipi_dsi_host *host,
-+				    struct mipi_dsi_device *dev)
-+{
-+	struct tc358768_priv *priv = dsi_host_to_tc358768(host);
-+	struct drm_bridge *bridge;
-+	struct drm_panel *panel;
-+	struct device_node *ep;
-+	int ret;
-+
-+	if (dev->lanes > 4) {
-+		dev_err(priv->dev, "unsupported number of data lanes(%u)\n",
-+			dev->lanes);
-+		return -EINVAL;
-+	}
-+
-+	/*
-+	 * tc358768 supports both Video and Pulse mode, but the driver only
-+	 * implements Video (event) mode currently
-+	 */
-+	if (!(dev->mode_flags & MIPI_DSI_MODE_VIDEO)) {
-+		dev_err(priv->dev, "Only MIPI_DSI_MODE_VIDEO is supported\n");
-+		return -ENOTSUPP;
-+	}
-+
-+	/*
-+	 * tc358768 supports RGB888, RGB666, RGB666_PACKED and RGB565, but only
-+	 * RGB888 is verified.
-+	 */
-+	if (dev->format != MIPI_DSI_FMT_RGB888) {
-+		dev_warn(priv->dev, "Only MIPI_DSI_FMT_RGB888 tested!\n");
-+		return -ENOTSUPP;
-+	}
-+
-+	ret = drm_of_find_panel_or_bridge(host->dev->of_node, 1, 0, &panel,
-+					  &bridge);
-+	if (ret)
-+		return ret;
-+
-+	if (panel) {
-+		bridge = drm_panel_bridge_add_typed(panel,
-+						    DRM_MODE_CONNECTOR_DSI);
-+		if (IS_ERR(bridge))
-+			return PTR_ERR(bridge);
-+	}
-+
-+	priv->output.dev = dev;
-+	priv->output.bridge = bridge;
-+	priv->output.panel = panel;
-+
-+	priv->dsi_lanes = dev->lanes;
-+
-+	/* get input ep (port0/endpoint0) */
-+	ret = -EINVAL;
-+	ep = of_graph_get_endpoint_by_regs(host->dev->of_node, 0, 0);
-+	if (ep) {
-+		ret = of_property_read_u32(ep, "data-lines", &priv->pd_lines);
-+
-+		of_node_put(ep);
-+	}
-+
-+	if (ret)
-+		priv->pd_lines = mipi_dsi_pixel_format_to_bpp(dev->format);
-+
-+	drm_bridge_add(&priv->bridge);
-+
-+	return 0;
-+}
-+
-+static int tc358768_dsi_host_detach(struct mipi_dsi_host *host,
-+				    struct mipi_dsi_device *dev)
-+{
-+	struct tc358768_priv *priv = dsi_host_to_tc358768(host);
-+
-+	drm_bridge_remove(&priv->bridge);
-+	if (priv->output.panel)
-+		drm_panel_bridge_remove(priv->output.bridge);
-+
-+	return 0;
-+}
-+
-+static ssize_t tc358768_dsi_host_transfer(struct mipi_dsi_host *host,
-+					  const struct mipi_dsi_msg *msg)
-+{
-+	struct tc358768_priv *priv = dsi_host_to_tc358768(host);
-+	struct mipi_dsi_packet packet;
-+	int ret;
-+
-+	if (msg->rx_len) {
-+		dev_warn(priv->dev, "MIPI rx is not supported\n");
-+		return -ENOTSUPP;
-+	}
-+
-+	if (msg->tx_len > 8) {
-+		dev_warn(priv->dev, "Maximum 8 byte MIPI tx is supported\n");
-+		return -ENOTSUPP;
-+	}
-+
-+	ret = mipi_dsi_create_packet(&packet, msg);
-+	if (ret)
-+		return ret;
-+
-+	tc358768_hw_enable(priv);
-+
-+	if (mipi_dsi_packet_format_is_short(msg->type)) {
-+		tc358768_write(priv, TC358768_DSICMD_TYPE,
-+			       (0x10 << 8) | (packet.header[0] & 0x3f));
-+		tc358768_write(priv, TC358768_DSICMD_WC, 0);
-+		tc358768_write(priv, TC358768_DSICMD_WD0,
-+			       (packet.header[2] << 8) | packet.header[1]);
-+	} else {
-+		int i;
-+
-+		tc358768_write(priv, TC358768_DSICMD_TYPE,
-+			       (0x40 << 8) | (packet.header[0] & 0x3f));
-+		tc358768_write(priv, TC358768_DSICMD_WC, packet.payload_length);
-+		for (i = 0; i < packet.payload_length; i += 2) {
-+			u16 val = packet.payload[i];
-+
-+			if (i + 1 < packet.payload_length)
-+				val |= packet.payload[i + 1] << 8;
-+
-+			tc358768_write(priv, TC358768_DSICMD_WD0 + i, val);
-+		}
-+	}
-+
-+	/* start transfer */
-+	tc358768_write(priv, TC358768_DSICMD_TX, 1);
-+
-+	tc358768_hw_disable(priv);
-+
-+	return tc358768_clear_error(priv);
-+}
-+
-+static const struct mipi_dsi_host_ops tc358768_dsi_host_ops = {
-+	.attach = tc358768_dsi_host_attach,
-+	.detach = tc358768_dsi_host_detach,
-+	.transfer = tc358768_dsi_host_transfer,
-+};
-+
-+static int tc358768_bridge_attach(struct drm_bridge *bridge)
-+{
-+	struct tc358768_priv *priv = bridge_to_tc358768(bridge);
-+
-+	if (!drm_core_check_feature(bridge->dev, DRIVER_ATOMIC)) {
-+		dev_err(priv->dev, "needs atomic updates support\n");
-+		return -ENOTSUPP;
-+	}
-+
-+	return drm_bridge_attach(bridge->encoder, priv->output.bridge, bridge);
-+}
-+
-+static enum drm_mode_status
-+tc358768_bridge_mode_valid(struct drm_bridge *bridge,
-+			   const struct drm_display_mode *mode)
-+{
-+	struct tc358768_priv *priv = bridge_to_tc358768(bridge);
-+
-+	if (tc358768_calc_pll(priv, mode, true))
-+		return MODE_CLOCK_RANGE;
-+
-+	return MODE_OK;
-+}
-+
-+static void tc358768_bridge_disable(struct drm_bridge *bridge)
-+{
-+	struct tc358768_priv *priv = bridge_to_tc358768(bridge);
-+	int ret;
-+
-+	/* set FrmStop */
-+	tc358768_update_bits(priv, TC358768_PP_MISC, BIT(15), BIT(15));
-+
-+	/* wait at least for one frame */
-+	msleep(50);
-+
-+	/* clear PP_en */
-+	tc358768_update_bits(priv, TC358768_CONFCTL, BIT(6), 0);
-+
-+	/* set RstPtr */
-+	tc358768_update_bits(priv, TC358768_PP_MISC, BIT(14), BIT(14));
-+
-+	ret = tc358768_clear_error(priv);
-+	if (ret)
-+		dev_warn(priv->dev, "Software disable failed: %d\n", ret);
-+
-+	tc358768_hw_disable(priv);
-+}
-+
-+static int tc358768_setup_pll(struct tc358768_priv *priv,
-+			      const struct drm_display_mode *mode)
-+{
-+	u32 fbd, prd, frs;
-+	int ret;
-+
-+	ret = tc358768_calc_pll(priv, mode, false);
-+	if (ret) {
-+		dev_err(priv->dev, "PLL calculation failed: %d\n", ret);
-+		return ret;
-+	}
-+
-+	fbd = priv->fbd;
-+	prd = priv->prd;
-+	frs = priv->frs;
-+
-+	dev_dbg(priv->dev, "PLL: refclk %lu, fbd %u, prd %u, frs %u\n",
-+		clk_get_rate(priv->refclk), fbd, prd, frs);
-+	dev_dbg(priv->dev, "PLL: pll_clk: %u, DSIClk %u, DSIByteClk %u\n",
-+		priv->dsiclk * 2, priv->dsiclk, priv->dsiclk / 4);
-+	dev_dbg(priv->dev, "PLL: pclk %u (panel: %u)\n",
-+		tc358768_pll_to_pclk(priv, priv->dsiclk * 2),
-+		mode->clock * 1000);
-+
-+	/* PRD[15:12] FBD[8:0] */
-+	tc358768_write(priv, TC358768_PLLCTL0, (prd << 12) | fbd);
-+
-+	/* FRS[11:10] LBWS[9:8] CKEN[4] RESETB[1] EN[0] */
-+	tc358768_write(priv, TC358768_PLLCTL1,
-+		       (frs << 10) | (0x2 << 8) | BIT(1) | BIT(0));
-+
-+	/* wait for lock */
-+	usleep_range(1000, 2000);
-+
-+	/* FRS[11:10] LBWS[9:8] CKEN[4] PLL_CKEN[4] RESETB[1] EN[0] */
-+	tc358768_write(priv, TC358768_PLLCTL1,
-+		       (frs << 10) | (0x2 << 8) | BIT(4) | BIT(1) | BIT(0));
-+
-+	return tc358768_clear_error(priv);
-+}
-+
-+#define TC358768_PRECISION	1000
-+static u32 tc358768_ns_to_cnt(u32 ns, u32 period_nsk)
-+{
-+	return (ns * TC358768_PRECISION + period_nsk) / period_nsk;
-+}
-+
-+static u32 tc358768_to_ns(u32 nsk)
-+{
-+	return (nsk / TC358768_PRECISION);
-+}
-+
-+static void tc358768_bridge_enable(struct drm_bridge *bridge)
-+{
-+	struct tc358768_priv *priv = bridge_to_tc358768(bridge);
-+	struct mipi_dsi_device *dsi_dev = priv->output.dev;
-+	u32 val, val2, lptxcnt, hact, data_type;
-+	const struct drm_display_mode *mode;
-+	u32 dsibclk_nsk, dsiclk_nsk, ui_nsk, phy_delay_nsk;
-+	u32 dsiclk, dsibclk;
-+	int ret, i;
-+
-+	tc358768_hw_enable(priv);
-+
-+	ret = tc358768_sw_reset(priv);
-+	if (ret) {
-+		dev_err(priv->dev, "Software reset failed: %d\n", ret);
-+		return;
-+	}
-+
-+	mode = &bridge->encoder->crtc->state->adjusted_mode;
-+	ret = tc358768_setup_pll(priv, mode);
-+	if (ret) {
-+		dev_err(priv->dev, "PLL setup failed: %d\n", ret);
-+		return;
-+	}
-+
-+	dsiclk = priv->dsiclk;
-+	dsibclk = dsiclk / 4;
-+
-+	/* Data Format Control Register */
-+	val = BIT(2) | BIT(1) | BIT(0); /* rdswap_en | dsitx_en | txdt_en */
-+	switch (dsi_dev->format) {
-+	case MIPI_DSI_FMT_RGB888:
-+		val |= (0x3 << 4);
-+		hact = mode->hdisplay * 3;
-+		data_type = MIPI_DSI_PACKED_PIXEL_STREAM_24;
-+		break;
-+	case MIPI_DSI_FMT_RGB666:
-+		val |= (0x4 << 4);
-+		hact = mode->hdisplay * 3;
-+		data_type = MIPI_DSI_PACKED_PIXEL_STREAM_18;
-+		break;
-+
-+	case MIPI_DSI_FMT_RGB666_PACKED:
-+		val |= (0x4 << 4) | BIT(3);
-+		hact = mode->hdisplay * 18 / 8;
-+		data_type = MIPI_DSI_PIXEL_STREAM_3BYTE_18;
-+		break;
-+
-+	case MIPI_DSI_FMT_RGB565:
-+		val |= (0x5 << 4);
-+		hact = mode->hdisplay * 2;
-+		data_type = MIPI_DSI_PACKED_PIXEL_STREAM_16;
-+		break;
-+	default:
-+		dev_err(priv->dev, "Invalid data format (%u)\n",
-+			dsi_dev->format);
-+		return;
-+	}
-+
-+	/* VSDly[9:0] */
-+	tc358768_write(priv, TC358768_VSDLY, 1);
-+
-+	tc358768_write(priv, TC358768_DATAFMT, val);
-+	tc358768_write(priv, TC358768_DSITX_DT, data_type);
-+
-+	/* Enable D-PHY (HiZ->LP11) */
-+	tc358768_write(priv, TC358768_CLW_CNTRL, 0x0000);
-+	/* Enable lanes */
-+	for (i = 0; i < dsi_dev->lanes; i++)
-+		tc358768_write(priv, TC358768_D0W_CNTRL + i * 4, 0x0000);
-+
-+	/* DSI Timings */
-+	dsibclk_nsk = (u32)div_u64((u64)1000000000 * TC358768_PRECISION,
-+				  dsibclk);
-+	dsiclk_nsk = (u32)div_u64((u64)1000000000 * TC358768_PRECISION, dsiclk);
-+	ui_nsk = dsiclk_nsk / 2;
-+	phy_delay_nsk = dsibclk_nsk + 2 * dsiclk_nsk;
-+	dev_dbg(priv->dev, "dsiclk_nsk: %u\n", dsiclk_nsk);
-+	dev_dbg(priv->dev, "ui_nsk: %u\n", ui_nsk);
-+	dev_dbg(priv->dev, "dsibclk_nsk: %u\n", dsibclk_nsk);
-+	dev_dbg(priv->dev, "phy_delay_nsk: %u\n", phy_delay_nsk);
-+
-+	/* LP11 > 100us for D-PHY Rx Init */
-+	val = tc358768_ns_to_cnt(100 * 1000, dsibclk_nsk) - 1;
-+	dev_dbg(priv->dev, "LINEINITCNT: 0x%x\n", val);
-+	tc358768_write(priv, TC358768_LINEINITCNT, val);
-+
-+	/* LPTimeCnt > 50ns */
-+	val = tc358768_ns_to_cnt(50, dsibclk_nsk) - 1;
-+	lptxcnt = val;
-+	dev_dbg(priv->dev, "LPTXTIMECNT: 0x%x\n", val);
-+	tc358768_write(priv, TC358768_LPTXTIMECNT, val);
-+
-+	/* 38ns < TCLK_PREPARE < 95ns */
-+	val = tc358768_ns_to_cnt(65, dsibclk_nsk) - 1;
-+	/* TCLK_PREPARE > 300ns */
-+	val2 = tc358768_ns_to_cnt(300 + tc358768_to_ns(3 * ui_nsk),
-+				  dsibclk_nsk);
-+	val |= (val2 - tc358768_to_ns(phy_delay_nsk - dsibclk_nsk)) << 8;
-+	dev_dbg(priv->dev, "TCLK_HEADERCNT: 0x%x\n", val);
-+	tc358768_write(priv, TC358768_TCLK_HEADERCNT, val);
-+
-+	/* TCLK_TRAIL > 60ns + 3*UI */
-+	val = 60 + tc358768_to_ns(3 * ui_nsk);
-+	val = tc358768_ns_to_cnt(val, dsibclk_nsk) - 5;
-+	dev_dbg(priv->dev, "TCLK_TRAILCNT: 0x%x\n", val);
-+	tc358768_write(priv, TC358768_TCLK_TRAILCNT, val);
-+
-+	/* 40ns + 4*UI < THS_PREPARE < 85ns + 6*UI */
-+	val = 50 + tc358768_to_ns(4 * ui_nsk);
-+	val = tc358768_ns_to_cnt(val, dsibclk_nsk) - 1;
-+	/* THS_ZERO > 145ns + 10*UI */
-+	val2 = tc358768_ns_to_cnt(145 - tc358768_to_ns(ui_nsk), dsibclk_nsk);
-+	val |= (val2 - tc358768_to_ns(phy_delay_nsk)) << 8;
-+	dev_dbg(priv->dev, "THS_HEADERCNT: 0x%x\n", val);
-+	tc358768_write(priv, TC358768_THS_HEADERCNT, val);
-+
-+	/* TWAKEUP > 1ms in lptxcnt steps */
-+	val = tc358768_ns_to_cnt(1020000, dsibclk_nsk);
-+	val = val / (lptxcnt + 1) - 1;
-+	dev_dbg(priv->dev, "TWAKEUP: 0x%x\n", val);
-+	tc358768_write(priv, TC358768_TWAKEUP, val);
-+
-+	/* TCLK_POSTCNT > 60ns + 52*UI */
-+	val = tc358768_ns_to_cnt(60 + tc358768_to_ns(52 * ui_nsk),
-+				 dsibclk_nsk) - 3;
-+	dev_dbg(priv->dev, "TCLK_POSTCNT: 0x%x\n", val);
-+	tc358768_write(priv, TC358768_TCLK_POSTCNT, val);
-+
-+	/* 60ns + 4*UI < THS_PREPARE < 105ns + 12*UI */
-+	val = tc358768_ns_to_cnt(60 + tc358768_to_ns(15 * ui_nsk),
-+				 dsibclk_nsk) - 5;
-+	dev_dbg(priv->dev, "THS_TRAILCNT: 0x%x\n", val);
-+	tc358768_write(priv, TC358768_THS_TRAILCNT, val);
-+
-+	val = BIT(0);
-+	for (i = 0; i < dsi_dev->lanes; i++)
-+		val |= BIT(i + 1);
-+	tc358768_write(priv, TC358768_HSTXVREGEN, val);
-+
-+	if (!(dsi_dev->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS))
-+		tc358768_write(priv, TC358768_TXOPTIONCNTRL, 0x1);
-+
-+	/* TXTAGOCNT[26:16] RXTASURECNT[10:0] */
-+	val = tc358768_to_ns((lptxcnt + 1) * dsibclk_nsk * 4);
-+	val = tc358768_ns_to_cnt(val, dsibclk_nsk) - 1;
-+	val2 = tc358768_ns_to_cnt(tc358768_to_ns((lptxcnt + 1) * dsibclk_nsk),
-+				  dsibclk_nsk) - 2;
-+	val |= val2 << 16;
-+	dev_dbg(priv->dev, "BTACNTRL1: 0x%x\n", val);
-+	tc358768_write(priv, TC358768_BTACNTRL1, val);
-+
-+	/* START[0] */
-+	tc358768_write(priv, TC358768_STARTCNTRL, 1);
-+
-+	/* Set event mode */
-+	tc358768_write(priv, TC358768_DSI_EVENT, 1);
-+
-+	/* vsw (+ vbp) */
-+	tc358768_write(priv, TC358768_DSI_VSW,
-+		       mode->vtotal - mode->vsync_start);
-+	/* vbp (not used in event mode) */
-+	tc358768_write(priv, TC358768_DSI_VBPR, 0);
-+	/* vact */
-+	tc358768_write(priv, TC358768_DSI_VACT, mode->vdisplay);
-+
-+	/* (hsw + hbp) * byteclk * ndl / pclk */
-+	val = (u32)div_u64((mode->htotal - mode->hsync_start) *
-+			   ((u64)priv->dsiclk / 4) * priv->dsi_lanes,
-+			   mode->clock * 1000);
-+	tc358768_write(priv, TC358768_DSI_HSW, val);
-+	/* hbp (not used in event mode) */
-+	tc358768_write(priv, TC358768_DSI_HBPR, 0);
-+	/* hact (bytes) */
-+	tc358768_write(priv, TC358768_DSI_HACT, hact);
-+
-+	/* VSYNC polarity */
-+	if (!(mode->flags & DRM_MODE_FLAG_NVSYNC))
-+		tc358768_update_bits(priv, TC358768_CONFCTL, BIT(5), BIT(5));
-+	/* HSYNC polarity */
-+	if (mode->flags & DRM_MODE_FLAG_PHSYNC)
-+		tc358768_update_bits(priv, TC358768_PP_MISC, BIT(0), BIT(0));
-+
-+	/* Start DSI Tx */
-+	tc358768_write(priv, TC358768_DSI_START, 0x1);
-+
-+	/* Configure DSI_Control register */
-+	val = (6 << 29) | (0x3 << 24); /* CLEAR, DSI_Control */
-+	val |= BIT(7) | BIT(5) | 0x3 << 1 | BIT(0);
-+	tc358768_write(priv, TC358768_DSI_CONFW, val);
-+
-+	val = (5 << 29) | (0x3 << 24); /* SET, DSI_Control */
-+	if (!(dsi_dev->mode_flags & MIPI_DSI_MODE_LPM))
-+		val |= BIT(7);
-+	if (!(dsi_dev->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS))
-+		val |= BIT(5);
-+	val |= (dsi_dev->lanes - 1) << 1;
-+	if (dsi_dev->mode_flags & MIPI_DSI_MODE_EOT_PACKET)
-+		val |= BIT(0);
-+	tc358768_write(priv, TC358768_DSI_CONFW, val);
-+
-+	val = (6 << 29) | (0x3 << 24); /* CLEAR, DSI_Control */
-+	val |= 0x8000; /* DSI mode */
-+	tc358768_write(priv, TC358768_DSI_CONFW, val);
-+
-+	/* clear FrmStop and RstPtr */
-+	tc358768_update_bits(priv, TC358768_PP_MISC, 0x3 << 14, 0);
-+
-+	/* set PP_en */
-+	tc358768_update_bits(priv, TC358768_CONFCTL, BIT(6), BIT(6));
-+
-+	ret = tc358768_clear_error(priv);
-+	if (ret) {
-+		dev_err(priv->dev, "Bridge enable failed: %d\n", ret);
-+		tc358768_bridge_disable(bridge);
-+	}
-+}
-+
-+static const struct drm_bridge_funcs tc358768_bridge_funcs = {
-+	.attach = tc358768_bridge_attach,
-+	.mode_valid = tc358768_bridge_mode_valid,
-+	.disable = tc358768_bridge_disable,
-+	.enable = tc358768_bridge_enable,
-+};
-+
-+static const struct drm_bridge_timings default_tc358768_timings = {
-+	.input_bus_flags = DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE
-+		 | DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE
-+		 | DRM_BUS_FLAG_DE_HIGH,
-+};
-+
-+static bool tc358768_is_reserved_reg(unsigned int reg)
-+{
-+	switch (reg) {
-+	case 0x114 ... 0x13f:
-+	case 0x200:
-+	case 0x20c:
-+	case 0x400 ... 0x408:
-+	case 0x41c ... 0x42f:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
-+static bool tc358768_writeable_reg(struct device *dev, unsigned int reg)
-+{
-+	if (tc358768_is_reserved_reg(reg))
-+		return false;
-+
-+	switch (reg) {
-+	case TC358768_CHIPID:
-+	case TC358768_FIFOSTATUS:
-+	case TC358768_DSITXSTATUS ... (TC358768_DSITXSTATUS + 2):
-+	case TC358768_DSI_CONTROL ... (TC358768_DSI_INT_ENA + 2):
-+	case TC358768_DSICMD_RDFIFO ... (TC358768_DSI_ERR_HALT + 2):
-+		return false;
-+	default:
-+		return true;
-+	}
-+}
-+
-+static bool tc358768_readable_reg(struct device *dev, unsigned int reg)
-+{
-+	if (tc358768_is_reserved_reg(reg))
-+		return false;
-+
-+	switch (reg) {
-+	case TC358768_STARTCNTRL:
-+	case TC358768_DSI_CONFW ... (TC358768_DSI_CONFW + 2):
-+	case TC358768_DSI_INT_CLR ... (TC358768_DSI_INT_CLR + 2):
-+	case TC358768_DSI_START ... (TC358768_DSI_START + 2):
-+	case TC358768_DBG_DATA:
-+		return false;
-+	default:
-+		return true;
-+	}
-+}
-+
-+static const struct regmap_config tc358768_regmap_config = {
-+	.name = "tc358768",
-+	.reg_bits = 16,
-+	.val_bits = 16,
-+	.max_register = TC358768_DSI_HACT,
-+	.cache_type = REGCACHE_NONE,
-+	.writeable_reg = tc358768_writeable_reg,
-+	.readable_reg = tc358768_readable_reg,
-+	.reg_format_endian = REGMAP_ENDIAN_BIG,
-+	.val_format_endian = REGMAP_ENDIAN_BIG,
-+};
-+
-+static const struct i2c_device_id tc358768_i2c_ids[] = {
-+	{ "tc358768", 0 },
-+	{ "tc358778", 0 },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(i2c, tc358768_i2c_ids);
-+
-+static const struct of_device_id tc358768_of_ids[] = {
-+	{ .compatible = "toshiba,tc358768", },
-+	{ .compatible = "toshiba,tc358778", },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, tc358768_of_ids);
-+
-+static int tc358768_get_regulators(struct tc358768_priv *priv)
-+{
-+	int i, ret;
-+
-+	for (i = 0; i < ARRAY_SIZE(priv->supplies); ++i)
-+		priv->supplies[i].supply = tc358768_supplies[i];
-+
-+	ret = devm_regulator_bulk_get(priv->dev, ARRAY_SIZE(priv->supplies),
-+				      priv->supplies);
-+	if (ret < 0)
-+		dev_err(priv->dev, "failed to get regulators: %d\n", ret);
-+
-+	return ret;
-+}
-+
-+static int tc358768_i2c_probe(struct i2c_client *client,
-+			      const struct i2c_device_id *id)
-+{
-+	struct tc358768_priv *priv;
-+	struct device *dev = &client->dev;
-+	struct device_node *np = dev->of_node;
-+	int ret;
-+
-+	if (!np)
-+		return -ENODEV;
-+
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	dev_set_drvdata(dev, priv);
-+	priv->dev = dev;
-+
-+	ret = tc358768_get_regulators(priv);
-+	if (ret)
-+		return ret;
-+
-+	priv->refclk = devm_clk_get(dev, "refclk");
-+	if (IS_ERR(priv->refclk))
-+		return PTR_ERR(priv->refclk);
-+
-+	/*
-+	 * RESX is low active, to disable tc358768 initially (keep in reset)
-+	 * the gpio line must be LOW. This is the ASSERTED state of
-+	 * GPIO_ACTIVE_LOW (GPIOD_OUT_HIGH == ASSERTED).
-+	 */
-+	priv->reset_gpio  = devm_gpiod_get_optional(dev, "reset",
-+						    GPIOD_OUT_HIGH);
-+	if (IS_ERR(priv->reset_gpio))
-+		return PTR_ERR(priv->reset_gpio);
-+
-+	priv->regmap = devm_regmap_init_i2c(client, &tc358768_regmap_config);
-+	if (IS_ERR(priv->regmap)) {
-+		dev_err(dev, "Failed to init regmap\n");
-+		return PTR_ERR(priv->regmap);
-+	}
-+
-+	priv->dsi_host.dev = dev;
-+	priv->dsi_host.ops = &tc358768_dsi_host_ops;
-+
-+	priv->bridge.funcs = &tc358768_bridge_funcs;
-+	priv->bridge.timings = &default_tc358768_timings;
-+	priv->bridge.of_node = np;
-+
-+	i2c_set_clientdata(client, priv);
-+
-+	ret = mipi_dsi_host_register(&priv->dsi_host);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int tc358768_i2c_remove(struct i2c_client *client)
-+{
-+	struct tc358768_priv *priv = i2c_get_clientdata(client);
-+
-+	mipi_dsi_host_unregister(&priv->dsi_host);
-+
-+	return 0;
-+}
-+
-+static struct i2c_driver tc358768_driver = {
-+	.driver = {
-+		.name = "tc358768",
-+		.of_match_table = tc358768_of_ids,
-+	},
-+	.id_table = tc358768_i2c_ids,
-+	.probe = tc358768_i2c_probe,
-+	.remove	= tc358768_i2c_remove,
-+};
-+module_i2c_driver(tc358768_driver);
-+
-+MODULE_AUTHOR("Peter Ujfalusi <peter.ujfalusi@ti.com>");
-+MODULE_DESCRIPTION("TC358768AXBG/TC358778XBG DSI bridge");
-+MODULE_LICENSE("GPL v2");
+>
+> Signed-off-by: Rajat Jain <rajatja@google.com>
+> ---
+> v5: same as v4
+> v4: Same as v3
+> v3: * Renamed the function to intel_acpi_*
+>     * Used forward declaration for structure instead of header file inclusion.
+>     * Fix a typo
+> v2: v1 doesn't exist. Found existing code in i915 driver to assign the ACPI ID
+>     which is what I plan to re-use.
+>
+>  drivers/gpu/drm/i915/display/intel_acpi.c     | 89 +++++++++++++++++++
+>  drivers/gpu/drm/i915/display/intel_acpi.h     |  5 ++
+>  drivers/gpu/drm/i915/display/intel_opregion.c | 80 +----------------
+>  3 files changed, 98 insertions(+), 76 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_acpi.c b/drivers/gpu/drm/i915/display/intel_acpi.c
+> index 3456d33feb46..e21fb14d5e07 100644
+> --- a/drivers/gpu/drm/i915/display/intel_acpi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_acpi.c
+> @@ -10,6 +10,7 @@
+>  
+>  #include "i915_drv.h"
+>  #include "intel_acpi.h"
+> +#include "intel_display_types.h"
+>  
+>  #define INTEL_DSM_REVISION_ID 1 /* For Calpella anyway... */
+>  #define INTEL_DSM_FN_PLATFORM_MUX_INFO 1 /* No args */
+> @@ -156,3 +157,91 @@ void intel_register_dsm_handler(void)
+>  void intel_unregister_dsm_handler(void)
+>  {
+>  }
+> +
+> +/*
+> + * ACPI Specification, Revision 5.0, Appendix B.3.2 _DOD (Enumerate All Devices
+> + * Attached to the Display Adapter).
+> + */
+> +#define ACPI_DISPLAY_INDEX_SHIFT		0
+> +#define ACPI_DISPLAY_INDEX_MASK			(0xf << 0)
+> +#define ACPI_DISPLAY_PORT_ATTACHMENT_SHIFT	4
+> +#define ACPI_DISPLAY_PORT_ATTACHMENT_MASK	(0xf << 4)
+> +#define ACPI_DISPLAY_TYPE_SHIFT			8
+> +#define ACPI_DISPLAY_TYPE_MASK			(0xf << 8)
+> +#define ACPI_DISPLAY_TYPE_OTHER			(0 << 8)
+> +#define ACPI_DISPLAY_TYPE_VGA			(1 << 8)
+> +#define ACPI_DISPLAY_TYPE_TV			(2 << 8)
+> +#define ACPI_DISPLAY_TYPE_EXTERNAL_DIGITAL	(3 << 8)
+> +#define ACPI_DISPLAY_TYPE_INTERNAL_DIGITAL	(4 << 8)
+> +#define ACPI_VENDOR_SPECIFIC_SHIFT		12
+> +#define ACPI_VENDOR_SPECIFIC_MASK		(0xf << 12)
+> +#define ACPI_BIOS_CAN_DETECT			(1 << 16)
+> +#define ACPI_DEPENDS_ON_VGA			(1 << 17)
+> +#define ACPI_PIPE_ID_SHIFT			18
+> +#define ACPI_PIPE_ID_MASK			(7 << 18)
+> +#define ACPI_DEVICE_ID_SCHEME			(1ULL << 31)
+> +
+> +static u32 acpi_display_type(struct intel_connector *connector)
+> +{
+> +	u32 display_type;
+> +
+> +	switch (connector->base.connector_type) {
+> +	case DRM_MODE_CONNECTOR_VGA:
+> +	case DRM_MODE_CONNECTOR_DVIA:
+> +		display_type = ACPI_DISPLAY_TYPE_VGA;
+> +		break;
+> +	case DRM_MODE_CONNECTOR_Composite:
+> +	case DRM_MODE_CONNECTOR_SVIDEO:
+> +	case DRM_MODE_CONNECTOR_Component:
+> +	case DRM_MODE_CONNECTOR_9PinDIN:
+> +	case DRM_MODE_CONNECTOR_TV:
+> +		display_type = ACPI_DISPLAY_TYPE_TV;
+> +		break;
+> +	case DRM_MODE_CONNECTOR_DVII:
+> +	case DRM_MODE_CONNECTOR_DVID:
+> +	case DRM_MODE_CONNECTOR_DisplayPort:
+> +	case DRM_MODE_CONNECTOR_HDMIA:
+> +	case DRM_MODE_CONNECTOR_HDMIB:
+> +		display_type = ACPI_DISPLAY_TYPE_EXTERNAL_DIGITAL;
+> +		break;
+> +	case DRM_MODE_CONNECTOR_LVDS:
+> +	case DRM_MODE_CONNECTOR_eDP:
+> +	case DRM_MODE_CONNECTOR_DSI:
+> +		display_type = ACPI_DISPLAY_TYPE_INTERNAL_DIGITAL;
+> +		break;
+> +	case DRM_MODE_CONNECTOR_Unknown:
+> +	case DRM_MODE_CONNECTOR_VIRTUAL:
+> +		display_type = ACPI_DISPLAY_TYPE_OTHER;
+> +		break;
+> +	default:
+> +		MISSING_CASE(connector->base.connector_type);
+> +		display_type = ACPI_DISPLAY_TYPE_OTHER;
+> +		break;
+> +	}
+> +
+> +	return display_type;
+> +}
+> +
+> +void intel_acpi_device_id_update(struct drm_i915_private *dev_priv)
+> +{
+> +	struct drm_device *drm_dev = &dev_priv->drm;
+> +	struct intel_connector *connector;
+> +	struct drm_connector_list_iter conn_iter;
+> +	u8 display_index[16] = {};
+> +
+> +	/* Populate the ACPI IDs for all connectors for a given drm_device */
+> +	drm_connector_list_iter_begin(drm_dev, &conn_iter);
+> +	for_each_intel_connector_iter(connector, &conn_iter) {
+> +		u32 device_id, type;
+> +
+> +		device_id = acpi_display_type(connector);
+> +
+> +		/* Use display type specific display index. */
+> +		type = (device_id & ACPI_DISPLAY_TYPE_MASK)
+> +			>> ACPI_DISPLAY_TYPE_SHIFT;
+> +		device_id |= display_index[type]++ << ACPI_DISPLAY_INDEX_SHIFT;
+> +
+> +		connector->acpi_device_id = device_id;
+> +	}
+> +	drm_connector_list_iter_end(&conn_iter);
+> +}
+> diff --git a/drivers/gpu/drm/i915/display/intel_acpi.h b/drivers/gpu/drm/i915/display/intel_acpi.h
+> index 1c576b3fb712..e8b068661d22 100644
+> --- a/drivers/gpu/drm/i915/display/intel_acpi.h
+> +++ b/drivers/gpu/drm/i915/display/intel_acpi.h
+> @@ -6,12 +6,17 @@
+>  #ifndef __INTEL_ACPI_H__
+>  #define __INTEL_ACPI_H__
+>  
+> +struct drm_i915_private;
+> +
+>  #ifdef CONFIG_ACPI
+>  void intel_register_dsm_handler(void);
+>  void intel_unregister_dsm_handler(void);
+> +void intel_acpi_device_id_update(struct drm_i915_private *i915);
+>  #else
+>  static inline void intel_register_dsm_handler(void) { return; }
+>  static inline void intel_unregister_dsm_handler(void) { return; }
+> +static inline
+> +void intel_acpi_device_id_update(struct drm_i915_private *i915) { return; }
+>  #endif /* CONFIG_ACPI */
+>  
+>  #endif /* __INTEL_ACPI_H__ */
+> diff --git a/drivers/gpu/drm/i915/display/intel_opregion.c b/drivers/gpu/drm/i915/display/intel_opregion.c
+> index 969ade623691..6422384f199e 100644
+> --- a/drivers/gpu/drm/i915/display/intel_opregion.c
+> +++ b/drivers/gpu/drm/i915/display/intel_opregion.c
+> @@ -35,6 +35,7 @@
+>  #include "display/intel_panel.h"
+>  
+>  #include "i915_drv.h"
+> +#include "intel_acpi.h"
+>  #include "intel_display_types.h"
+>  #include "intel_opregion.h"
+>  
+> @@ -242,29 +243,6 @@ struct opregion_asle_ext {
+>  #define SWSCI_SBCB_POST_VBE_PM		SWSCI_FUNCTION_CODE(SWSCI_SBCB, 19)
+>  #define SWSCI_SBCB_ENABLE_DISABLE_AUDIO	SWSCI_FUNCTION_CODE(SWSCI_SBCB, 21)
+>  
+> -/*
+> - * ACPI Specification, Revision 5.0, Appendix B.3.2 _DOD (Enumerate All Devices
+> - * Attached to the Display Adapter).
+> - */
+> -#define ACPI_DISPLAY_INDEX_SHIFT		0
+> -#define ACPI_DISPLAY_INDEX_MASK			(0xf << 0)
+> -#define ACPI_DISPLAY_PORT_ATTACHMENT_SHIFT	4
+> -#define ACPI_DISPLAY_PORT_ATTACHMENT_MASK	(0xf << 4)
+> -#define ACPI_DISPLAY_TYPE_SHIFT			8
+> -#define ACPI_DISPLAY_TYPE_MASK			(0xf << 8)
+> -#define ACPI_DISPLAY_TYPE_OTHER			(0 << 8)
+> -#define ACPI_DISPLAY_TYPE_VGA			(1 << 8)
+> -#define ACPI_DISPLAY_TYPE_TV			(2 << 8)
+> -#define ACPI_DISPLAY_TYPE_EXTERNAL_DIGITAL	(3 << 8)
+> -#define ACPI_DISPLAY_TYPE_INTERNAL_DIGITAL	(4 << 8)
+> -#define ACPI_VENDOR_SPECIFIC_SHIFT		12
+> -#define ACPI_VENDOR_SPECIFIC_MASK		(0xf << 12)
+> -#define ACPI_BIOS_CAN_DETECT			(1 << 16)
+> -#define ACPI_DEPENDS_ON_VGA			(1 << 17)
+> -#define ACPI_PIPE_ID_SHIFT			18
+> -#define ACPI_PIPE_ID_MASK			(7 << 18)
+> -#define ACPI_DEVICE_ID_SCHEME			(1 << 31)
+> -
+>  #define MAX_DSLP	1500
+>  
+>  static int swsci(struct drm_i915_private *dev_priv,
+> @@ -662,54 +640,12 @@ static void set_did(struct intel_opregion *opregion, int i, u32 val)
+>  	}
+>  }
+>  
+> -static u32 acpi_display_type(struct intel_connector *connector)
+> -{
+> -	u32 display_type;
+> -
+> -	switch (connector->base.connector_type) {
+> -	case DRM_MODE_CONNECTOR_VGA:
+> -	case DRM_MODE_CONNECTOR_DVIA:
+> -		display_type = ACPI_DISPLAY_TYPE_VGA;
+> -		break;
+> -	case DRM_MODE_CONNECTOR_Composite:
+> -	case DRM_MODE_CONNECTOR_SVIDEO:
+> -	case DRM_MODE_CONNECTOR_Component:
+> -	case DRM_MODE_CONNECTOR_9PinDIN:
+> -	case DRM_MODE_CONNECTOR_TV:
+> -		display_type = ACPI_DISPLAY_TYPE_TV;
+> -		break;
+> -	case DRM_MODE_CONNECTOR_DVII:
+> -	case DRM_MODE_CONNECTOR_DVID:
+> -	case DRM_MODE_CONNECTOR_DisplayPort:
+> -	case DRM_MODE_CONNECTOR_HDMIA:
+> -	case DRM_MODE_CONNECTOR_HDMIB:
+> -		display_type = ACPI_DISPLAY_TYPE_EXTERNAL_DIGITAL;
+> -		break;
+> -	case DRM_MODE_CONNECTOR_LVDS:
+> -	case DRM_MODE_CONNECTOR_eDP:
+> -	case DRM_MODE_CONNECTOR_DSI:
+> -		display_type = ACPI_DISPLAY_TYPE_INTERNAL_DIGITAL;
+> -		break;
+> -	case DRM_MODE_CONNECTOR_Unknown:
+> -	case DRM_MODE_CONNECTOR_VIRTUAL:
+> -		display_type = ACPI_DISPLAY_TYPE_OTHER;
+> -		break;
+> -	default:
+> -		MISSING_CASE(connector->base.connector_type);
+> -		display_type = ACPI_DISPLAY_TYPE_OTHER;
+> -		break;
+> -	}
+> -
+> -	return display_type;
+> -}
+> -
+>  static void intel_didl_outputs(struct drm_i915_private *dev_priv)
+>  {
+>  	struct intel_opregion *opregion = &dev_priv->opregion;
+>  	struct intel_connector *connector;
+>  	struct drm_connector_list_iter conn_iter;
+>  	int i = 0, max_outputs;
+> -	int display_index[16] = {};
+>  
+>  	/*
+>  	 * In theory, did2, the extended didl, gets added at opregion version
+> @@ -721,20 +657,12 @@ static void intel_didl_outputs(struct drm_i915_private *dev_priv)
+>  	max_outputs = ARRAY_SIZE(opregion->acpi->didl) +
+>  		ARRAY_SIZE(opregion->acpi->did2);
+>  
+> +	intel_acpi_device_id_update(dev_priv);
+> +
+>  	drm_connector_list_iter_begin(&dev_priv->drm, &conn_iter);
+>  	for_each_intel_connector_iter(connector, &conn_iter) {
+> -		u32 device_id, type;
+> -
+> -		device_id = acpi_display_type(connector);
+> -
+> -		/* Use display type specific display index. */
+> -		type = (device_id & ACPI_DISPLAY_TYPE_MASK)
+> -			>> ACPI_DISPLAY_TYPE_SHIFT;
+> -		device_id |= display_index[type]++ << ACPI_DISPLAY_INDEX_SHIFT;
+> -
+> -		connector->acpi_device_id = device_id;
+>  		if (i < max_outputs)
+> -			set_did(opregion, i, device_id);
+> +			set_did(opregion, i, connector->acpi_device_id);
+>  		i++;
+>  	}
+>  	drm_connector_list_iter_end(&conn_iter);
+
 -- 
-Peter
-
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
