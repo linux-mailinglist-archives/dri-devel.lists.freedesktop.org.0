@@ -1,117 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD611148BB6
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2020 17:16:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7950D148BC9
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2020 17:19:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF58D72B14;
-	Fri, 24 Jan 2020 16:16:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0386272B16;
+	Fri, 24 Jan 2020 16:19:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACABD72B14
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2020 16:16:50 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id y17so2659078wrh.5
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2020 08:16:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:autocrypt:organization:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=fF7N/MCM8zw/b0CsqgWcwDf5NtOvWVCbSBSqw3wDGIs=;
- b=RXw4kSulN3AuUgSgybjCjcJfW8G+s8LpH0Mee7skAedUu8VGRQhq75iweYbHtMC9DB
- 9RZRnP396U2TTb7KRflKVDuAhnQh07C8fflL16WgMURX8XIaHGtcRKdHQBs8KC0J/NnA
- uPlguFX+mJpG/DQsqZ/3ZSYGe3Z5o7g0dMdo5e7u7+IUjaynsYLo9GZBuh7zq6tt1Pqi
- cbYlf/EMh+VpLn5HInLi153PymjoS0s5ar3EfzfTf9u5g5Z6yXMcu4ZL+9VBoFvR8YaT
- +2JfXcQ6+jaEQP2HsDD5/1zoEub29UWwTh+ic6NSAYEuxTkAxCyZREWdN2JVY/wZrfie
- mFIw==
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9773172B16
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2020 16:19:36 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id p17so42547wmb.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2020 08:19:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=ZtTFjM7gwNFyJkqnt0+3c7ymoa36h9gPq1IfauXoWoU=;
+ b=C87qLhdLr/SRqiRMt5XD8avoD0P6RV0+kvlLJ1UanuIplfXUVIy7X7uIMx76qchcnf
+ qxxk1+Ps68Lm01gN7OMz0CyoIrxwkdRcZlhmiwqJ9K3Ppd24Z7vwTcS5/tGPzogCmETx
+ d5yB+uMxqjwGZ+gqKrSjmXnBhqXGLDOE5FyReHSianQZmM9soxZ0tRrzd7ptYwrqZwio
+ oTZltS75q2B1zjTab3o8UcTmHKPTbRCiLJre/lJJiiHzucDAgrMbx2fog5amA4byAVzg
+ hKZ6iYA9SPdn9TGE2kX8cJ77TlYxpV3DqjdIAZrPyihxUnzcqupr0agyK4tOzkmvjM4x
+ +yvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :organization:message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=fF7N/MCM8zw/b0CsqgWcwDf5NtOvWVCbSBSqw3wDGIs=;
- b=PqxR3FTLZ7i1H7hC5GpLYUzb7bcC0TTDQYnr2bFEhZ9FRE+VPuM7oaf+ia1h6jDTci
- WRVJLL5v00LE6zZ+UB3D6qxpCCNv4xp3jBnIG+99wCSkt6mX3WkZADWpp66TPD6ugHw2
- dKGRpe3/giG4pgmc2bQxbqKNFpizdDG18q7jOjSJ6AYHFnGfwLhqowqAlJ3MsrGDaL4X
- LL79qP08HQq6CCejfqa6J7X/nDp0LSZC2UINY2uj7oBlFcKbvuDOS4axNElAKT+8zLk5
- f+ILFsrlITSQSZbYj33WoP8KRuNXVnscI1z5JbrZ4+RY583oyy/vUXerK10Gd4oR7K5M
- dBbg==
-X-Gm-Message-State: APjAAAXdJwsPjqh9pxo06q5mqmKYmeqV+Bx+rVDJSa5URXdgQsYM0A3w
- czYTGKFheo3Sc3kGsk7jQgS6lA==
-X-Google-Smtp-Source: APXvYqxvf45vNf/lFHy2oN+ojxsuLnLxWt9S35ZiunDnsTdpKgeHB69OSntqrw7cI4qpE/uXKsJYEQ==
-X-Received: by 2002:adf:e5ca:: with SMTP id a10mr5523300wrn.347.1579882609216; 
- Fri, 24 Jan 2020 08:16:49 -0800 (PST)
-Received: from [10.1.2.12] (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr.
- [90.63.244.31])
- by smtp.gmail.com with ESMTPSA id b10sm8562404wrt.90.2020.01.24.08.16.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Jan 2020 08:16:48 -0800 (PST)
-Subject: Re: [PATCH v8 10/12] drm/bridge: panel: Propage bus format/flags
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org
-References: <20200123095333.2085810-1-boris.brezillon@collabora.com>
- <20200123095333.2085810-11-boris.brezillon@collabora.com>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- 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
- BSwxi7g3Mu7u5kUByanqHyA=
-Organization: Baylibre
-Message-ID: <6138b625-fe5a-6529-af49-8cae383e1b42@baylibre.com>
-Date: Fri, 24 Jan 2020 17:16:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=ZtTFjM7gwNFyJkqnt0+3c7ymoa36h9gPq1IfauXoWoU=;
+ b=pPCOmc3NS8wqBFYfuPlfl+U+vp596Sz26QQojswjyhEJhlbtQZVbBs+UOX92K26Tw3
+ B+2IRCfw54bhaPbYqoG3AN+DokUsvzgH8NlZrdBl9wtHVc21YwgjrGEM7nkHvSJ60aEd
+ cY2sKz61FWAC4WZ3Sz3SBXSZq9m/8Vt9a+wRYyF4wDiEgwla+M3MBDfE5UrrbuGGIBW4
+ Rz/c6QRMj5W7wRmNme50LRjDHeEPfDVXpPju9FuiXzR4OYl4qYwrgDTowIrDrbi79mYl
+ jWWjyvvrOSu/YP5oyE+8FGsbNvLFYPeO6A+VbkoI4WqZoh12kx5FcXCp1juUIX5sjhEA
+ O2ow==
+X-Gm-Message-State: APjAAAU1Z7V7KiqBf2M0fo5Kmj47U7r/qAL+I20kOLJvwkEFKYW4xy+O
+ 41A1oq+M1TGYCrgYl6jNASZKlCgX
+X-Google-Smtp-Source: APXvYqx99Rl5NYGocIM+mk/qyageIqEv6hW82BCIOpSg3nazcy9DNiih0b7hEujf7U1QTMSNvEz6kQ==
+X-Received: by 2002:a1c:bc46:: with SMTP id m67mr40544wmf.40.1579882775246;
+ Fri, 24 Jan 2020 08:19:35 -0800 (PST)
+Received: from localhost (108.78.124.78.rev.sfr.net. [78.124.78.108])
+ by smtp.gmail.com with ESMTPSA id b17sm8119018wrx.15.2020.01.24.08.19.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Jan 2020 08:19:34 -0800 (PST)
+Date: Fri, 24 Jan 2020 16:18:48 +0000
+From: sylvain.bertrand@gmail.com
+To: bugzilla-daemon@bugzilla.kernel.org
+Subject: Re: [Bug 206231] R9 280X low performance with all games
+Message-ID: <20200124161848.GA21856@freedom>
+References: <bug-206231-2300@https.bugzilla.kernel.org/>
+ <bug-206231-2300-u1O3yJjHWt@https.bugzilla.kernel.org/>
 MIME-Version: 1.0
-In-Reply-To: <20200123095333.2085810-11-boris.brezillon@collabora.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <bug-206231-2300-u1O3yJjHWt@https.bugzilla.kernel.org/>
+User-Agent: Mutt/ (2018-04-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,58 +68,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
- Mark Rutland <mark.rutland@arm.com>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Jonas Karlman <jonas@kwiboo.se>, Andrey Smirnov <andrew.smirnov@gmail.com>,
- Rob Herring <robh+dt@kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
- devicetree@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- intel-gfx-trybot@lists.freedesktop.org, kernel@collabora.com,
- Sam Ravnborg <sam@ravnborg.org>, Chris Healy <cphealy@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/01/2020 10:53, Boris Brezillon wrote:
-> So that the previous bridge element in the chain knows which input
-> format the panel bridge expects.
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> ---
-> Changes in v7:
-> * Set atomic state hooks explicitly
-> 
-> Changes in v3:
-> * Adjust things to match the new bus-format negotiation approach
-> * Use drm_atomic_helper_bridge_propagate_bus_fmt
-> * Don't implement ->atomic_check() (the core now takes care of bus
->   flags propagation)
-> 
-> Changes in v2:
-> * Adjust things to match the new bus-format negotiation approach
-> ---
->  drivers/gpu/drm/bridge/panel.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-> index f66777e24968..dcc72bd7df30 100644
-> --- a/drivers/gpu/drm/bridge/panel.c
-> +++ b/drivers/gpu/drm/bridge/panel.c
-> @@ -127,6 +127,10 @@ static const struct drm_bridge_funcs panel_bridge_bridge_funcs = {
->  	.enable = panel_bridge_enable,
->  	.disable = panel_bridge_disable,
->  	.post_disable = panel_bridge_post_disable,
-> +	.atomic_reset = drm_atomic_helper_bridge_reset,
-> +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-> +	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-> +	.atomic_get_input_bus_fmts = drm_atomic_helper_bridge_propagate_bus_fmt,
->  };
->  
->  /**
-> 
+WOW: I did reproduce with dirt rally. I could not see it because the game must
+not be restarted to "uncripple" the renderer. I used the number or rendered frames
+and I go from an horrible 3000-5000 frames to a wooping 11000 frames, not to mention
+the game is now ~playable to max/ultra settings. I had to run 2 times in
+a row the benchmark to "uncripple" the renderer, or fool around with the msaa
+settings (without restarting).
 
-Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+And I get ~11000 frames with msaax8 or msaaoff (and I can clearly see when it
+is on or off).
+
+Since you can reproduce with other games-->Yep, it is very probably a set
+driver/weird hardware critical bugs (modulo the numerous visual glitches and
+gpu vm faults).
+
+@alex: this one is nasty and probably will ruin the gaming experience (and
+benchmarks!) on many games.
+
+(@Jacques: Proton games do not do. Only native GL and/or vulkan, that to remove
+any proton bugs)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
