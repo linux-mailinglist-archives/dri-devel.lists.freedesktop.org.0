@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55571147769
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2020 04:56:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FFAE147766
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2020 04:56:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D474D6FF08;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 717586FF01;
 	Fri, 24 Jan 2020 03:56:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A30356FEE2
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA7C66FEE9
  for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2020 03:55:46 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 607C13CB4;
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id DEEAB3CB3;
  Fri, 24 Jan 2020 04:55:33 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1579838133;
- bh=h7+lRCsz3NwSNmvZ5+ngX1e38IS0t26BwkJE8mYmVXo=;
+ s=mail; t=1579838134;
+ bh=Jddy46XKE+nqpYvFHEkFbqgtL2B9BJAPLMfQJ7QUEMg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VUfsbfrtU7HsqxS4NhXAgWPkQaElU4GUdl7TTPaOodGdme/vWF0Huz3LddvR6UkUs
- jLLg6+Ge0CBhYLusdGtPV9U96JGZ/dTfneVD8Wz/CuPMaZVijmzP7sC3EQcrV16KbU
- 1vOznu11dKjqax4gkFsPAtM/DvdgnL8DsP/UZ0k4=
+ b=NwFP41aIVCHmQ8xXeI3pKfGJ1nghcev/xK59yZQyvraojIG6nrqlaHhK+BptYojLK
+ GkoD6fbdgpjBIzsL+hB8TkzQ8C4P+5eiO4bvRI7XCyPF6k0tHTZ2J/6HLbObUbAYEk
+ QlEzybo1u62R0mMkectFSiMjSxFcMwJxP6WVze6U=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 50/52] drm/omap: dss: Remove unused omap_dss_device
- operations
-Date: Fri, 24 Jan 2020 05:54:43 +0200
-Message-Id: <20200124035445.1830-51-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v5 51/52] drm/omap: dss: Inline the omapdss_display_get()
+ function
+Date: Fri, 24 Jan 2020 05:54:44 +0200
+Message-Id: <20200124035445.1830-52-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200124035445.1830-1-laurent.pinchart@ideasonboard.com>
 References: <20200124035445.1830-1-laurent.pinchart@ideasonboard.com>
@@ -54,166 +54,69 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The omap_dss_device .pre_enable(), .post_disable() and .set_timings()
-are not used anymore. Remove them.
+Inline the omapdss_display_get() in its only caller to simplify the
+code.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 ---
- drivers/gpu/drm/omapdrm/dss/base.c     | 26 ---------------
- drivers/gpu/drm/omapdrm/dss/omapdss.h  |  6 ----
- drivers/gpu/drm/omapdrm/omap_encoder.c | 44 +++-----------------------
- 3 files changed, 5 insertions(+), 71 deletions(-)
+ drivers/gpu/drm/omapdrm/dss/display.c | 9 ---------
+ drivers/gpu/drm/omapdrm/dss/omapdss.h | 1 -
+ drivers/gpu/drm/omapdrm/omap_drv.c    | 7 ++++---
+ 3 files changed, 4 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/base.c b/drivers/gpu/drm/omapdrm/dss/base.c
-index 455b410f7401..c7650a7c155d 100644
---- a/drivers/gpu/drm/omapdrm/dss/base.c
-+++ b/drivers/gpu/drm/omapdrm/dss/base.c
-@@ -234,18 +234,6 @@ void omapdss_device_disconnect(struct omap_dss_device *src,
+diff --git a/drivers/gpu/drm/omapdrm/dss/display.c b/drivers/gpu/drm/omapdrm/dss/display.c
+index 8a3f61f5825f..3b82158b1bfd 100644
+--- a/drivers/gpu/drm/omapdrm/dss/display.c
++++ b/drivers/gpu/drm/omapdrm/dss/display.c
+@@ -40,15 +40,6 @@ void omapdss_display_init(struct omap_dss_device *dssdev)
  }
- EXPORT_SYMBOL_GPL(omapdss_device_disconnect);
+ EXPORT_SYMBOL_GPL(omapdss_display_init);
  
--void omapdss_device_pre_enable(struct omap_dss_device *dssdev)
+-struct omap_dss_device *omapdss_display_get(struct omap_dss_device *output)
 -{
--	if (!dssdev)
--		return;
+-	while (output->next)
+-		output = output->next;
 -
--	omapdss_device_pre_enable(dssdev->next);
--
--	if (dssdev->ops && dssdev->ops->pre_enable)
--		dssdev->ops->pre_enable(dssdev);
+-	return omapdss_device_get(output);
 -}
--EXPORT_SYMBOL_GPL(omapdss_device_pre_enable);
+-EXPORT_SYMBOL_GPL(omapdss_display_get);
 -
- void omapdss_device_enable(struct omap_dss_device *dssdev)
+ int omapdss_display_get_modes(struct drm_connector *connector,
+ 			      const struct videomode *vm)
  {
- 	if (!dssdev)
-@@ -272,20 +260,6 @@ void omapdss_device_disable(struct omap_dss_device *dssdev)
- }
- EXPORT_SYMBOL_GPL(omapdss_device_disable);
- 
--void omapdss_device_post_disable(struct omap_dss_device *dssdev)
--{
--	if (!dssdev)
--		return;
--
--	if (dssdev->ops && dssdev->ops->post_disable)
--		dssdev->ops->post_disable(dssdev);
--
--	omapdss_device_post_disable(dssdev->next);
--
--	dssdev->state = OMAP_DSS_DISPLAY_DISABLED;
--}
--EXPORT_SYMBOL_GPL(omapdss_device_post_disable);
--
- /* -----------------------------------------------------------------------------
-  * Components Handling
-  */
 diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-index 2e5453df2293..64aedc50cb0b 100644
+index 64aedc50cb0b..6ecbc7273032 100644
 --- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
 +++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-@@ -342,15 +342,11 @@ struct omap_dss_device_ops {
- 	void (*disconnect)(struct omap_dss_device *dssdev,
- 			struct omap_dss_device *dst);
- 
--	void (*pre_enable)(struct omap_dss_device *dssdev);
- 	void (*enable)(struct omap_dss_device *dssdev);
- 	void (*disable)(struct omap_dss_device *dssdev);
--	void (*post_disable)(struct omap_dss_device *dssdev);
- 
- 	int (*check_timings)(struct omap_dss_device *dssdev,
- 			     struct drm_display_mode *mode);
--	void (*set_timings)(struct omap_dss_device *dssdev,
--			    const struct drm_display_mode *mode);
- 
- 	int (*get_modes)(struct omap_dss_device *dssdev,
- 			 struct drm_connector *connector);
-@@ -450,10 +446,8 @@ int omapdss_device_connect(struct dss_device *dss,
- 			   struct omap_dss_device *dst);
- void omapdss_device_disconnect(struct omap_dss_device *src,
- 			       struct omap_dss_device *dst);
--void omapdss_device_pre_enable(struct omap_dss_device *dssdev);
- void omapdss_device_enable(struct omap_dss_device *dssdev);
- void omapdss_device_disable(struct omap_dss_device *dssdev);
--void omapdss_device_post_disable(struct omap_dss_device *dssdev);
- 
- int omap_dss_get_num_overlay_managers(void);
- 
-diff --git a/drivers/gpu/drm/omapdrm/omap_encoder.c b/drivers/gpu/drm/omapdrm/omap_encoder.c
-index 18a79dde6815..ae4b867a67a3 100644
---- a/drivers/gpu/drm/omapdrm/omap_encoder.c
-+++ b/drivers/gpu/drm/omapdrm/omap_encoder.c
-@@ -113,13 +113,8 @@ static void omap_encoder_mode_set(struct drm_encoder *encoder,
- 	bus_flags = connector->display_info.bus_flags;
- 	omap_encoder_update_videomode_flags(&vm, bus_flags);
- 
--	/* Set timings for all devices in the display pipeline. */
-+	/* Set timings for the dss manager. */
- 	dss_mgr_set_timings(output, &vm);
--
--	for (dssdev = output; dssdev; dssdev = dssdev->next) {
--		if (dssdev->ops && dssdev->ops->set_timings)
--			dssdev->ops->set_timings(dssdev, adjusted_mode);
--	}
+@@ -432,7 +432,6 @@ static inline bool omapdss_is_initialized(void)
  }
  
- static void omap_encoder_disable(struct drm_encoder *encoder)
-@@ -132,26 +127,10 @@ static void omap_encoder_disable(struct drm_encoder *encoder)
+ void omapdss_display_init(struct omap_dss_device *dssdev);
+-struct omap_dss_device *omapdss_display_get(struct omap_dss_device *output);
+ int omapdss_display_get_modes(struct drm_connector *connector,
+ 			      const struct videomode *vm);
  
- 	/*
- 	 * Disable the chain of external devices, starting at the one at the
--	 * internal encoder's output.
-+	 * internal encoder's output. This is used for DSI outputs only, as
-+	 * dssdev->next is NULL for all other outputs.
- 	 */
- 	omapdss_device_disable(dssdev->next);
--
--	/*
--	 * Disable the internal encoder. This will disable the DSS output. The
--	 * DSI is treated as an exception as DSI pipelines still use the legacy
--	 * flow where the pipeline output controls the encoder.
--	 */
--	if (dssdev->type != OMAP_DISPLAY_TYPE_DSI) {
--		if (dssdev->ops && dssdev->ops->disable)
--			dssdev->ops->disable(dssdev);
--		dssdev->state = OMAP_DSS_DISPLAY_DISABLED;
--	}
--
--	/*
--	 * Perform the post-disable operations on the chain of external devices
--	 * to complete the display pipeline disable.
--	 */
--	omapdss_device_post_disable(dssdev->next);
- }
+diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
+index e6a065030523..cdafd7ef1c32 100644
+--- a/drivers/gpu/drm/omapdrm/omap_drv.c
++++ b/drivers/gpu/drm/omapdrm/omap_drv.c
+@@ -207,11 +207,12 @@ static int omap_display_id(struct omap_dss_device *output)
+ 	struct device_node *node = NULL;
  
- static void omap_encoder_enable(struct drm_encoder *encoder)
-@@ -162,23 +141,10 @@ static void omap_encoder_enable(struct drm_encoder *encoder)
+ 	if (output->next) {
+-		struct omap_dss_device *display;
++		struct omap_dss_device *display = output;
++
++		while (display->next)
++			display = display->next;
  
- 	dev_dbg(dev->dev, "enable(%s)\n", dssdev->name);
+-		display = omapdss_display_get(output);
+ 		node = display->dev->of_node;
+-		omapdss_device_put(display);
+ 	} else if (output->bridge) {
+ 		struct drm_bridge *bridge = output->bridge;
  
--	/* Prepare the chain of external devices for pipeline enable. */
--	omapdss_device_pre_enable(dssdev->next);
--
--	/*
--	 * Enable the internal encoder. This will enable the DSS output. The
--	 * DSI is treated as an exception as DSI pipelines still use the legacy
--	 * flow where the pipeline output controls the encoder.
--	 */
--	if (dssdev->type != OMAP_DISPLAY_TYPE_DSI) {
--		if (dssdev->ops && dssdev->ops->enable)
--			dssdev->ops->enable(dssdev);
--		dssdev->state = OMAP_DSS_DISPLAY_ACTIVE;
--	}
--
- 	/*
- 	 * Enable the chain of external devices, starting at the one at the
--	 * internal encoder's output.
-+	 * internal encoder's output. This is used for DSI outputs only, as
-+	 * dssdev->next is NULL for all other outputs.
- 	 */
- 	omapdss_device_enable(dssdev->next);
- }
 -- 
 Regards,
 
