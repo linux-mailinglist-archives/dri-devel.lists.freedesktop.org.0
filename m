@@ -2,42 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00500149621
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Jan 2020 15:42:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D1FF149625
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Jan 2020 15:51:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 057486E86E;
-	Sat, 25 Jan 2020 14:42:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A5356E871;
+	Sat, 25 Jan 2020 14:51:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BD186E86E
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Jan 2020 14:42:27 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 205497] Attempt to read amd gpu id causes a freeze
-Date: Sat, 25 Jan 2020 14:42:26 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: albertogomezmarin@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-205497-2300-3WQ9sAP1kM@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-205497-2300@https.bugzilla.kernel.org/>
-References: <bug-205497-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0A7F6E86F;
+ Sat, 25 Jan 2020 14:51:13 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 25 Jan 2020 06:51:13 -0800
+X-IronPort-AV: E=Sophos;i="5.70,361,1574150400"; d="scan'208";a="221320385"
+Received: from akoshoki-mobl.ccr.corp.intel.com (HELO localhost)
+ ([10.252.51.198])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 25 Jan 2020 06:51:10 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>, daniel@ffwll.ch,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH v3 0/4] drm: Introduce struct drm_device based
+ WARN* and use them in i915
+In-Reply-To: <20200123112809.12185-1-pankaj.laxminarayan.bharadiya@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200123112809.12185-1-pankaj.laxminarayan.bharadiya@intel.com>
+Date: Sat, 25 Jan 2020 16:51:08 +0200
+Message-ID: <87a76bd1yb.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,24 +45,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: pankaj.laxminarayan.bharadiya@intel.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=205497
+On Thu, 23 Jan 2020, Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com> wrote:
+> changes since v2:
+>   - rebase pending unmerged patches on drm-tip
 
---- Comment #21 from albertogomezmarin@gmail.com ---
-(In reply to Luya Tshimbalanga from comment #20)
-> I confirm the fix landed on kernel 5.4. Thanks Alex for a quick
-> investigation. Closing this report.
+Alas, these conflict already... please rebase. :/
 
-For me It Is happening again, i dont know since what kernel. Ivhace an Asus
-with ryzen 5 3550H
+BR,
+Jani.
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
