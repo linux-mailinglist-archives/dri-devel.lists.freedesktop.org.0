@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23475149C6C
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2020 20:05:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ED2A149CC8
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2020 21:20:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AF086E237;
-	Sun, 26 Jan 2020 19:05:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F2F66EA09;
+	Sun, 26 Jan 2020 20:20:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7B296E9F2
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2020 19:05:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AF496EA09
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2020 20:20:06 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206231] R9 280X low performance with all games
-Date: Sun, 26 Jan 2020 19:05:34 +0000
+Subject: [Bug 206299] [nouveau/xen] RTX 20XX instant reboot
+Date: Sun, 26 Jan 2020 20:20:05 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -25,17 +25,17 @@ X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: sylvain.bertrand@gmail.com
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: frederic.epitre@orange.fr
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-206231-2300-KUG4StOdu7@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-206231-2300@https.bugzilla.kernel.org/>
-References: <bug-206231-2300@https.bugzilla.kernel.org/>
+Message-ID: <bug-206299-2300-yD2wkOXd7a@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-206299-2300@https.bugzilla.kernel.org/>
+References: <bug-206299-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -51,34 +51,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=206231
-
---- Comment #45 from Sylvain BERTRAND (sylvain.bertrand@gmail.com) ---
-On Fri, Jan 24, 2020 at 09:47:44PM +0000, bugzilla-daemon@bugzilla.kernel.org
-wrote:
-> In other words, this presumes the shaders submitted for compilation by dirt
-> rally engine are different each time the game is run ???
-
-It may be related to the brand new
-mesa/src/gallium/auxiliary/util/u_live_shader_cache.c
-
-I don't know the inner details of this (I stay away from anything GL), but it
-seems there are some GL shader usages which which will trigger a full
-compilation of an already compiled shader.
-
-@alex, maybe that's what you were talking about?
-
-As I said, I may be totally wrong though.
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDYyOTkKCi0tLSBD
+b21tZW50ICM3IGZyb20gRnLDqWTDqXJpYyBQaWVycmV0IChmcmVkZXJpYy5lcGl0cmVAb3Jhbmdl
+LmZyKSAtLS0KV2l0aCBNYXJlaywgd2UgdGhpbmsgdG8gZm91bmQgdGhlIHByb2JsZW0uIEluIG52
+NTBfZGlzcF9jaGFuX210aGQgZnVuY3Rpb24sIHRoZQpleGFjdCBOVUxMIHBvaW50ZXIgcmVmZXJl
+bmNlIGlzIG10aGQtPmRhdGFbMF0tPm10aGQuIFByZWNpc2VseSwgIG10aGQtPmRhdGEgaXMKbm90
+IG51bGwgYnV0IG10aGQtPmRhdGFbMF0gc2VlbXMgc28uCgpUcnlpbmcgdG8gYWNjZXNzIG10aGQt
+PmRhdGFbMF0gd2UgZ2V0OgogIEJVRzoga2VybmVsIE5VTEwgcG9pbnRlciBkZXJlZmVyZW5jZSwg
+YWRkcmVzczogMDAwMDAwMDAwMDAwMDAxMAp3aGlsZSB0cnlpbmcgdG8gYWNjZXNzIG10aGQtPmRh
+dGFbMF0tPm10aGQsIHdlIGdldDoKICBCVUc6IGtlcm5lbCBOVUxMIHBvaW50ZXIgZGVyZWZlcmVu
+Y2UsIGFkZHJlc3M6IDAwMDAwMDAwMDAwMDAwMjAKClNvIHRoaXMgaXMgZXhhY3RseSB0aGUgaXNz
+dWUuIEFueSBpZGVhIHdoeSBtdGhkLT5kYXRhIGFuZCBub3QgbXRoZC0+ZGF0YVswXT8KCi0tIApZ
+b3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUg
+YXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVsCg==
