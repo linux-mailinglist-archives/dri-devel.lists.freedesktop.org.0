@@ -2,38 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8106814998C
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2020 08:43:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28D0D149B35
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2020 16:02:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDAD76E1F4;
-	Sun, 26 Jan 2020 07:43:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CDC56E219;
+	Sun, 26 Jan 2020 15:02:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEFDA6E1F4
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2020 07:43:15 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3F5A120842;
- Sun, 26 Jan 2020 07:43:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1580024594;
- bh=CHQkFKUOmA5YtxD0wl33gMO4LhTAp+CGsnM+wPrpj4g=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Sv8cfWWrjgWlhTkSLAseYHSMMz5heUhQH7G8yEWDDNSrAyjHsTZt046fLNytyWlGC
- 5ablhIqnxhtetOADvRZsOgnLesHwFhFcxPJmFCWVBjuvLeLiEZBgFFyU9lbfZDgHlQ
- VlZFT0ZK4sDWcVqqvNL8mjszgVRWM4culvdiHriI=
-Date: Sun, 26 Jan 2020 08:17:24 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Rich Felker <dalias@libc.org>
-Subject: Re: [PATCH] matroxfb: add Matrox MGA-G200eW board support
-Message-ID: <20200126071724.GA3520745@kroah.com>
-References: <20200125195506.GA16638@brightrain.aerifal.cx>
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E48CB6E219
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2020 15:02:09 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 206299] [nouveau/xen] RTX 20XX instant reboot
+Date: Sun, 26 Jan 2020 15:02:09 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: frederic.epitre@orange.fr
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-206299-2300-0qJb3yMxiE@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-206299-2300@https.bugzilla.kernel.org/>
+References: <bug-206299-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200125195506.GA16638@brightrain.aerifal.cx>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,23 +51,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
- dri-devel@lists.freedesktop.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jan 25, 2020 at 02:55:06PM -0500, Rich Felker wrote:
-> Signed-off-by: Rich Felker <dalias@libc.org>
-> --
-
-I know I don't accept patches without any changelog text, don't know
-about other subsystem maintainers...
-
-greg k-h
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDYyOTkKCi0tLSBD
+b21tZW50ICM0IGZyb20gRnLDqWTDqXJpYyBQaWVycmV0IChmcmVkZXJpYy5lcGl0cmVAb3Jhbmdl
+LmZyKSAtLS0KSGksCldoaWxlIGRlYnVnZ2luZyBpdCBJIGZvdW5kIHRoZSBleGNlcHRpb24gY29t
+ZXMgZnJvbSBndjEwMF9kaXNwX2ludHJfZXhjX290aGVyCmluIGd2MTAwLmMgYmVjYXVzZSBzdGF0
+ID0gMHgwMDAwMTgwMC4KCkknbSB0cnlpbmcgdG8gZmlndXJlIG91dCB3aGF0IG1lc3NlZCB1cCBp
+biB0aGUgJ2Rpc3AnIHN0cnVjdHVyZSBidXQgSSdtIGRvaW5nCml0IHN0ZXAgYnkgc3RlcCBieSBm
+aXJzdCBzZWFyY2hpbmcgZm9yIE5VTEwgcG9pbnRlcnMuIEFueSBhZHZpY2UgZm9yIGhvdyB0bwpw
+cm9jZWVkPyAKClRoYW5rIHlvdS4KCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVj
+YXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
