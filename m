@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14861149D08
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2020 22:30:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02265149D0B
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2020 22:30:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C5528918E;
-	Sun, 26 Jan 2020 21:30:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 134206E250;
+	Sun, 26 Jan 2020 21:30:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 597266E260
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2020 21:30:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1ECD46E250
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2020 21:30:38 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 205915] AMDGPU: Screen flicker after resume from suspend
-Date: Sun, 26 Jan 2020 21:30:10 +0000
+Date: Sun, 26 Jan 2020 21:30:37 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -32,8 +32,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
-Message-ID: <bug-205915-2300-U2xAJSSRfl@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-205915-2300-cj0a5Lq1XW@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-205915-2300@https.bugzilla.kernel.org/>
 References: <bug-205915-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,17 +58,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=205915
 
-Manuel Ullmann (labre@posteo.de) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
- Attachment #286981|0                           |1
-        is obsolete|                            |
-
---- Comment #7 from Manuel Ullmann (labre@posteo.de) ---
-Created attachment 286983
-  --> https://bugzilla.kernel.org/attachment.cgi?id=286983&action=edit
-Xorg log of good commit 50575eb5b339683ee148189beae5eb53ccb3158b
+--- Comment #8 from Manuel Ullmann (labre@posteo.de) ---
+Created attachment 286985
+  --> https://bugzilla.kernel.org/attachment.cgi?id=286985&action=edit
+Kernel log of good commit 50575eb5b339683ee148189beae5eb53ccb3158b
 
 -- 
 You are receiving this mail because:
