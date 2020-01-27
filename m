@@ -1,41 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2A9614A061
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2020 10:01:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DFCA14A065
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2020 10:03:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70E526EA68;
-	Mon, 27 Jan 2020 09:01:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0368B6EA6A;
+	Mon, 27 Jan 2020 09:03:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19C486EA66;
- Mon, 27 Jan 2020 09:01:54 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 27 Jan 2020 01:01:54 -0800
-X-IronPort-AV: E=Sophos;i="5.70,369,1574150400"; d="scan'208";a="221675620"
-Received: from jpanina-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.52.12])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 27 Jan 2020 01:01:51 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: "Bharadiya\,Pankaj" <pankaj.laxminarayan.bharadiya@intel.com>
-Subject: Re: [[Intel-gfx] [PATCH v2 00/10] drm: Introduce struct drm_device
- based WARN* and use them in i915
-In-Reply-To: <20200127081423.GB8711@plaxmina-desktop.iind.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200115034455.17658-1-pankaj.laxminarayan.bharadiya@intel.com>
- <878slzea12.fsf@intel.com>
- <20200123090041.GA804@plaxmina-desktop.iind.intel.com>
- <87blquik9y.fsf@intel.com>
- <20200127081423.GB8711@plaxmina-desktop.iind.intel.com>
-Date: Mon, 27 Jan 2020 11:01:52 +0200
-Message-ID: <874kwhclxb.fsf@intel.com>
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CDBE6EA6A
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2020 09:03:22 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id y17so10157389wrh.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2020 01:03:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=0c7TxVVv/ROhBFifrzZCbsD5mXBJAiDdSRLFFk3J88I=;
+ b=klRG52Ug7tW+mHJlleIxTjFJRG4GG6Epcllq+8eC/nXsgaHZAXIgUa0pk2wwim/kNk
+ erZlPnKxB0RH2Vmy7eQMDGZiO6jQpyHYLoTYkfIL1Sx91IpqqqrTUx0AOPMz9Y5EdXHU
+ sBHDoCRV1sl4GLZ11zhcoEfbQ7HphaKuuu8VI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=0c7TxVVv/ROhBFifrzZCbsD5mXBJAiDdSRLFFk3J88I=;
+ b=k0OoVs+8Pt48CbZl/+Q9uj0BB002bV/6vJU6S0/ez4csPWjzENtFeZOKfONj/w1cVG
+ IpEbkn/8B1JToIsT7FQqBYzTzKdZqm0GiSWqEVZG63AkI9AoAI09NKo4HJZbvBqAbuti
+ Q4t2swmGiU2DUh/C0JmT2d0LsT2fpMSFdmb+XwmE7L9fMW4k0aLGSEYtJOiDd+HKy0hp
+ c1Bbzu80KPM+9Wb9Wc2I3LAZ4oYBhH9G4Knk5d9Ku1wBmgc3dqGAgYXK/49je8wh7twz
+ zEXYOHAoT35pxFgHPvnk/iE7rqSleKA1xMx6kxYPLMsVSLnMttOA291OgbPCt5glBy0X
+ /XyQ==
+X-Gm-Message-State: APjAAAXFNdIgO8DVk1J0ZJ5EQk2kIR8jWQDlkVWChdOnlKSSyK3jUHMW
+ ZDYPQZSd5WZlk5a7dCXvbHed/g==
+X-Google-Smtp-Source: APXvYqyMDCtWe5p10Sf6lm8asi+S/vDsAzjtTrcnwfxxOaWcVdddwoc/+lOtpMxyFYrpECqd2eALwg==
+X-Received: by 2002:a5d:4481:: with SMTP id j1mr20026740wrq.348.1580115800841; 
+ Mon, 27 Jan 2020 01:03:20 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id p26sm16820454wmc.24.2020.01.27.01.03.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Jan 2020 01:03:20 -0800 (PST)
+Date: Mon, 27 Jan 2020 10:03:18 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: David Lechner <david@lechnology.com>
+Subject: Re: [PATCH v1 4/4] drm/tiny/st7735r: No need to set ->owner for
+ spi_register_driver()
+Message-ID: <20200127090318.GT43062@phenom.ffwll.local>
+References: <20200122105403.30035-1-andriy.shevchenko@linux.intel.com>
+ <20200122105403.30035-4-andriy.shevchenko@linux.intel.com>
+ <1c816dbf-912e-993b-60b1-6c17a0cdcfd2@lechnology.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <1c816dbf-912e-993b-60b1-6c17a0cdcfd2@lechnology.com>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,43 +67,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- sam@ravnborg.org, sudeep.dutt@intel.com
+Cc: David Airlie <airlied@linux.ie>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 27 Jan 2020, "Bharadiya,Pankaj" <pankaj.laxminarayan.bharadiya@intel.com> wrote:
-> On Thu, Jan 23, 2020 at 11:39:37AM +0200, Jani Nikula wrote:
->> On Thu, 23 Jan 2020, "Bharadiya,Pankaj" <pankaj.laxminarayan.bharadiya@intel.com> wrote:
->> > Will rebase remaining patches and submit.
->> 
->> Please also add a patch to convert MISSING_CASE(),
->
-> Will do.
->
->> and another to remove
->> the WARN_ON/WARN_ON_ONCE "overrides" that we have in i915_utils.h.
->
-> Still i915 driver wil have many calls to WARN_ON* after this patch
-> series gets merged.
->
-> Shall I remove WARN_ON/WARN_ON_ONCE "overrides" so that existing
-> callers will fallback to original WARN_ON* implementation until
-> complete conversion is done? Just want to double confirm on this
-> before I submit a patch.
+On Wed, Jan 22, 2020 at 10:00:58AM -0600, David Lechner wrote:
+> On 1/22/20 4:54 AM, Andy Shevchenko wrote:
+> > The spi_register_driver() will set the ->owner member to THIS_MODULE.
+> > 
+> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > ---
+> Reviewed-by: David Lechner <david@lechnology.com>
 
-I think when you have most of them converted, we can throw away the
-"overrides". I'll let you be the judge.
-
-BR,
-Jani.
-
-
-
+Btw to avoid confusion: Since your committer (and work in this area)
+everyone else will assume you're going to push this. If not, then you have
+to be explicit about that (or the patch will simply get lost). But best is
+you just go ahead and push it.
+-Daniel
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
