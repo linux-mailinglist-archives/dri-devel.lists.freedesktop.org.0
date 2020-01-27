@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6DBB14A1E5
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2020 11:24:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B1CB14A1E7
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2020 11:24:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14C8A6EAD0;
-	Mon, 27 Jan 2020 10:24:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 803DA6EAD1;
+	Mon, 27 Jan 2020 10:24:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17D2A6EAD0
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2020 10:24:36 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id g1so6187537wmh.4
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2020 02:24:36 -0800 (PST)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CB956EAD1
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2020 10:24:46 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id c9so10502861wrw.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2020 02:24:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=subject:to:cc:references:from:autocrypt:organization:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
  bh=e8XiUJc48Ck9NgIQJouBn3+nOBIDdV61sKUPzsQLf54=;
- b=BmqRpO6sb4v2SDvrnUg+hlV5F9vfEqgbms8598OgxEzg3cbz+muKBSwu/ET8bRAPRi
- ljoAoVkY2ppehk1c5vnyIeDtR6fbi+bFbknkCyyFoegSkhTvQjrmVK6yGROq0p8YRdzR
- y3mhcec1RHDDGtcn26/dBcynDQHYxK1x56xXBk0KklOBaUy3KUsRv59KOgps8+2TOj5u
- 37O7OdOAxiiyyfJlFjN1ODfuKt9fVS2ddX4YawLvTJPWsUvKZSimaBd31oH9WzfgFnLC
- pGwplDkF6NEB1Aopoh4gDN0esVkI9/KunsZ90pou/fVxEuYYz3i54em47m3NGWYdRBuF
- NCyA==
+ b=MlCOmXauYb1kKbyPyGIWGXau33+vQoWGZr1VKVpnqzLXLiSfr/teJFSLW/VhqnBLvF
+ KiZKrBrGlkEntQ+Z5NU6ulOlAfSs0eGIa9m2X9FCGa/OnySK1BsaPhOHD6r+7Sql6J8W
+ dUY5WRAfDdjJEnN/uTOlRGXYVy1IFKyO4KuNMbELKxta8q7N7GsGYxWjTUHf6q6gwqun
+ D3iRoWAHgnfU14+kWB7Kn0OBTRfPqVJvQe6aYAYo5BNMyUj5WmHfGWFYcOdNKcPiXF/5
+ Mi/9RkS7qEpz8ao3HkmxrhPQKezaZiUDJtYZsIyhIjp9z3tzWGv+BfhRfbTt6SfhWwEc
+ OXeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
  bh=e8XiUJc48Ck9NgIQJouBn3+nOBIDdV61sKUPzsQLf54=;
- b=qaxyvfDDWCvP1H83RB6L1Xz9Fi5V10Gr8tYFJyHV9921UFZ49ShyYUe8EjskIBRzx0
- Ns79e0uqMoxhKiJ7lJCnJtheEEU/bPzMZWpuqS/nBbGLZ4vYW/GE0JdQU4eqf04HdELu
- R+dGho+rq/UTdEFt+5CmRvy1pOhwgyHsz/N4BS6Se73Y1Nejghyc9c3uWE6FPiWch3Vz
- VteUSei5DF/HjoTH9VvqauwRKrAli3vxBHUhTGAlf12+tKBmDzBjrbBLm1CyI6INCEGZ
- gNtanX2Gr5AsICKRWAsrHgwZVwayAVe6hX+KZMnDXz4Hbm59edL/hjndwA+uibIBu+Lm
- 5ECA==
-X-Gm-Message-State: APjAAAWE5ILbuM95V3pYx/SC82lZmSVFAvCHeK/7EgH2ou6rYhHbDq9B
- +V7ui1D5w1CS9VxtSUcGvx+Y5w==
-X-Google-Smtp-Source: APXvYqyzqzQAnmr0mj+hEoh+osfnbWk4hgO7GexWVd3fXCAnVlxBSMagbBtz+wk6shLKRAf9WOJjhA==
-X-Received: by 2002:a1c:a4c3:: with SMTP id n186mr11172933wme.25.1580120674554; 
- Mon, 27 Jan 2020 02:24:34 -0800 (PST)
+ b=qCDUTRkGNWcGuadP8Kznr8pt9WWAoq5wAnE5hqwXGaERvW2hQpU4iey3jLkotg70bx
+ zi8JZVFAHWYI6+44w6ZIPKAT8RfcTgD3kcaeTbP8ovNODh03c8LSNucyW6CzVbkNCmlA
+ n4MoLD/+Vc483pgB8nkcB6eN3WkwaNONXOnKsi+YewXzVpEZQZBzmOQ7RR5GxeaD7K99
+ nUBf/CmsSPbP2+/dQZ9rv5/JY9jEvaFWrUy3CwlpbeVQYDcd8Rntr416ivdl8XcRJMwD
+ rLQ8RTm2x0unVpZvfAcVB7yNkEF0WF730Gi6yUy7sR5UonL2p8XJcCeXywTxTDPV8pO8
+ Z0vg==
+X-Gm-Message-State: APjAAAWgRes0+hMusfQNVZax5KAYNRpGSNVApFbAhTmWb+0BBRA1CEWE
+ Y78LjrJjsewvVVLhZY5s0BKbNw==
+X-Google-Smtp-Source: APXvYqzjKd+9HlHj33dcQx0Uxo1PPTxZBbf6yJKeVlK5AzHKE33gUgu5dccY/7KN30YK2pqlLnloiA==
+X-Received: by 2002:adf:f28c:: with SMTP id k12mr21714681wro.360.1580120684924; 
+ Mon, 27 Jan 2020 02:24:44 -0800 (PST)
 Received: from [10.1.2.12] (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr.
  [90.63.244.31])
- by smtp.gmail.com with ESMTPSA id s8sm19696736wrt.57.2020.01.27.02.24.33
+ by smtp.gmail.com with ESMTPSA id t8sm20161992wrp.69.2020.01.27.02.24.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Jan 2020 02:24:34 -0800 (PST)
+ Mon, 27 Jan 2020 02:24:44 -0800 (PST)
 Subject: Re: [PATCH v8 03/12] drm/rcar-du: Plug atomic state hooks to the
  default implementation
 To: Boris Brezillon <boris.brezillon@collabora.com>,
@@ -106,8 +106,8 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  zR8QplXA5kogS4kLe/7/JmlDMO8Zgm9vKLHSUeesLOrjdZ59EcjldNNBszRZQgEhwaarfz46
  BSwxi7g3Mu7u5kUByanqHyA=
 Organization: Baylibre
-Message-ID: <ea3bcd67-bd4d-64ec-00aa-a9ee137aca1a@baylibre.com>
-Date: Mon, 27 Jan 2020 11:24:33 +0100
+Message-ID: <3f0da385-f4c2-f7ed-c381-7993b2a641ca@baylibre.com>
+Date: Mon, 27 Jan 2020 11:24:43 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
