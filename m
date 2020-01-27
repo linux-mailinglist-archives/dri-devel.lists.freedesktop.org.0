@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A35BE14AA10
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2020 19:49:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9C4C14AB0A
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2020 21:13:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 388056E90B;
-	Mon, 27 Jan 2020 18:49:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 765F16E9EB;
+	Mon, 27 Jan 2020 20:13:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
- [209.85.210.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 664696E90B
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2020 18:49:41 +0000 (UTC)
-Received: by mail-ot1-f65.google.com with SMTP id r27so9423529otc.8
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2020 10:49:41 -0800 (PST)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B58136E9EB;
+ Mon, 27 Jan 2020 20:13:51 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id t14so8516279wmi.5;
+ Mon, 27 Jan 2020 12:13:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jZqAnZBwcnhyQqDJBqIeAARnv2kOsFYQ9h/65oqYJNc=;
+ b=I9ggXdNplkom7TI2aomDIxCSwPVq7O2O3ylck0bFQYFgKX5Vk6rnte7i658A8xV6z0
+ wmiUySOv2wK0y7w633siiKEx6JOAGevj/jLyUkyCaCKU5AZmXrV6xXAnm3D+Z1vTwkuH
+ UiunR55xaUpY9a0X5F1X48ixkgOFIDbHN7D3cVoHwDpEJSTp6FclcP+I9EE+XR3HYUiL
+ ij8gh2fw7bC7+8Vp72l6dz2QIhGspWgdMyKMT88SANIdx+GDNFtERcgVw+bm3gQdZv2R
+ InWKYwhh2Muv/Bb/H63GoWuINchdphyKqPERFDZsMzhoH7mdmXVmC1rW/HuFvEYtjJPE
+ eO0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=hGBm/FHBYQPO3SnIsbIyzOljZ22wv42ASP4mKhEoOFM=;
- b=G2yHwjTVt/P6cXojlHlvQJjPYpobPcHUcJd8dXRzXPw+bikGh01p6LJyW7qHu1o/CZ
- v/YJ3fexcurtRGu8d4a1XpNU91f9pVz3OnNFSFsdc+vWx15foYGlYy0c96Qf4/nkrSJe
- 0aMag0XDN4Een82YEunGt9Hw3zCY+E1KE91WPmyNiPw8eXxWJsUrcTRfigAwPoYSwwee
- Ym7LZr9pje2PgHvRht/LH1Plg5qEZSBXcEZWRl2/+pqgk+CsqxSv+fe8+4POl7iPbxTB
- EjXcp7Paib1HnsrCa6Bvz1spWN0vUgDof6cBMQxzTX5u7gW7TYwBLIzXTMXJ2f8RN7t3
- hLSA==
-X-Gm-Message-State: APjAAAWnieZGt1myrFrkCJhZMMXZbDTlFGzOpkWN05J3E9GYH3VIAmts
- RlZcoVQ75TqSf5aTfGF7sw==
-X-Google-Smtp-Source: APXvYqyJiWy4dlUsawGnDmHPwC0KvTg3gRd2eqBgWW0mBSa+a6zqBV8eI8voaNEYtpy9DO4pEOPbkg==
-X-Received: by 2002:a9d:784b:: with SMTP id c11mr13010105otm.246.1580150980656; 
- Mon, 27 Jan 2020 10:49:40 -0800 (PST)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id w20sm3119264otj.21.2020.01.27.10.49.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jan 2020 10:49:40 -0800 (PST)
-Received: (nullmailer pid 11942 invoked by uid 1000);
- Mon, 27 Jan 2020 18:49:39 -0000
-Date: Mon, 27 Jan 2020 12:49:39 -0600
-From: Rob Herring <robh@kernel.org>
-To: Peter Ujfalusi <peter.ujfalusi@ti.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: display: bridge: Add documentation
- for Toshiba tc358768
-Message-ID: <20200127184939.GA4237@bogus>
-References: <20200127105634.7638-1-peter.ujfalusi@ti.com>
- <20200127105634.7638-2-peter.ujfalusi@ti.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jZqAnZBwcnhyQqDJBqIeAARnv2kOsFYQ9h/65oqYJNc=;
+ b=gwTkglcKrwggGR9W0keiAK9Zwn2c6Ra1sEYakrpiSYwsYUmFoA62xb9Giw68rQqeLR
+ W93QDl8lbxw+PK35mnW2GEQDPBh0KAC05A9rLsGXjQfC/MzCbwOUroxCvDxaULMUWW49
+ GBFOtREBuw19/L/WewrdCm/h7SRXVtSylAO/svZ6XWDfymWaXh0VwU/bCXx/MRy9lXu2
+ ZmsLYCeIMzOp+e22ZmHvL3vOHpEO6DeqvIsjE5CuqBGL2rDvFHJiVqoTDCnaeGn+9nir
+ Pv8UcHbwTP/tZRhh1JtTrsvtDTcq3g//zRuXyF6kv7gb8c8B/LeVxzA+mIfPeChUGypD
+ 0X4w==
+X-Gm-Message-State: APjAAAWUo9aSNXjqu51Z4cpEE+wsnQc6X91vSBhS279pHICcw2800uiE
+ SHlpdnW8sDkqr92ukZwjXlWavyh1XefVPgiOOhc=
+X-Google-Smtp-Source: APXvYqwlN+rBTe7uyFI9aWzv0Aywb7BH112o8q2fCzdWoixSvVh7yVuI2k81MSNszj3fsA84LxG5T+1k+CxY8qX0scs=
+X-Received: by 2002:a1c:9a56:: with SMTP id c83mr372759wme.79.1580156030302;
+ Mon, 27 Jan 2020 12:13:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200127105634.7638-2-peter.ujfalusi@ti.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200117133305.113280-1-colin.king@canonical.com>
+ <5E21C422.6040708@bfs.de>
+In-Reply-To: <5E21C422.6040708@bfs.de>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 27 Jan 2020 15:13:38 -0500
+Message-ID: <CADnq5_NEgC5u0t_m+nWiOVTptFwrxeGKVpQwegF9s-51tjhWEQ@mail.gmail.com>
+Subject: Re: [PATCH][next] drm/amd/display: fix for-loop with incorrectly
+ sized loop counter
+To: walter harms <wharms@bfs.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,202 +62,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, jernej.skrabec@siol.net,
- narmstrong@baylibre.com, airlied@linux.ie, jonas@kwiboo.se,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- a.hajda@samsung.com, tomi.valkeinen@ti.com, Laurent.pinchart@ideasonboard.com
+Cc: Leo Li <sunpeng.li@amd.com>, kernel-janitors@vger.kernel.org,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Wenjing Liu <Wenjing.Liu@amd.com>, David Airlie <airlied@linux.ie>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Colin King <colin.king@canonical.com>, Nikola Cornij <Nikola.Cornij@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 27, 2020 at 12:56:33PM +0200, Peter Ujfalusi wrote:
-> TC358768/TC358778 is a Parallel RGB to MIPI DSI bridge.
-> 
-> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
-> ---
->  .../display/bridge/toshiba,tc358768.yaml      | 158 ++++++++++++++++++
->  1 file changed, 158 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
-> new file mode 100644
-> index 000000000000..8dd8cca39a77
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
-> @@ -0,0 +1,158 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/toshiba,tc358768.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Toschiba TC358768/TC358778 Parallel RGB to MIPI DSI bridge
-> +
-> +maintainers:
-> +  - Peter Ujfalusi <peter.ujfalusi@ti.com>
-> +
-> +description: |
-> +  The TC358768/TC358778 is bridge device which converts RGB to DSI.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - toshiba,tc358768
-> +      - toshiba,tc358778
-> +
-> +  reg:
-> +    maxItems: 1
-> +    description: base I2C address of the device
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description: GPIO connected to active low RESX pin
-> +
-> +  vddc-supply:
-> +    description: Regulator for 1.2V internal core power.
-> +
-> +  vddmipi-supply:
-> +    description: Regulator for 1.2V for the MIPI.
-> +
-> +  vddio-supply:
-> +    description: Regulator for 1.8V - 3.3V IO power.
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    const: refclk
-> +
-> +  ports:
-> +    type: object
-> +
-> +    properties:
-> +      "#address-cells":
-> +        const: 1
-> +
-> +      "#size-cells":
-> +        const: 0
-> +
-> +      port@0:
-> +        type: object
-> +        additionalProperties: false
-> +
-> +        description: |
-> +          Video port for RGB input
-> +
-> +        properties:
-> +          reg:
-> +            const: 0
-> +
-> +        patternProperties:
-> +          endpoint:
-> +            type: object
-> +            additionalProperties: false
-> +
-> +            properties:
-> +              data-lines:
-> +                enum: [ 16, 18, 24 ]
-> +
-> +              remote-endpoint: true
-> +
-> +        required:
-> +          - reg
-> +
-> +      port@1:
-> +        type: object
-> +        additionalProperties: false
-> +
-> +        description: |
-> +          Video port for DSI output (panel or connector).
-> +
-> +        properties:
-> +          reg:
-> +            const: 1
-> +
-> +        patternProperties:
-> +          endpoint:
-> +            type: object
-> +            additionalProperties: false
-> +
-> +            properties:
-> +              remote-endpoint: true
-> +
-> +        required:
-> +          - reg
-> +
-> +    required:
-> +      - "#address-cells"
-> +      - "#size-cells"
-> +      - port@0
-> +      - port@1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - vddc-supply
-> +  - vddmipi-supply
-> +  - vddio-supply
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c1 {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      dsi_bridge: tc358768@0e {
+Applied with Walter's comment included.
 
-Generic node names and no leading 0s:
+Thanks!
 
-dsi-bridge@e
+Alex
 
-> +        compatible = "toshiba,tc358768";
-> +        reg = <0x0e>;
-> +
-> +        clocks = <&tc358768_refclk>;
-> +        clock-names = "refclk";
-> +
-> +        /* GPIO line is inverted before going to the bridge */
-> +        reset-gpios = <&pcf_display_board 0 1 /* GPIO_ACTIVE_LOW */>;
-
-You just need to add the include for the define to work.
-
-> +
-> +        vddc-supply = <&v1_2d>;
-> +        vddmipi-supply = <&v1_2d>;
-> +        vddio-supply = <&v3_3d>;
-> +
-> +        dsi_bridge_ports: ports {
-> +          #address-cells = <1>;
-> +          #size-cells = <0>;
-> +
-> +          port@0 {
-> +            reg = <0>;
-> +            rgb_in: endpoint {
-> +              remote-endpoint = <&dpi_out>;
-> +              data-lines = <24>;
-> +            };
-> +          };
-> +
-> +          port@1 {
-> +            reg = <1>;
-> +            dsi_out: endpoint {
-> +              remote-endpoint = <&lcd_in>;
-> +            };
-> +          };
-> +        };
-> +      };
-> +    };
-> +    
-> -- 
-> Peter
-> 
-> Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-> Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-> 
+On Fri, Jan 17, 2020 at 9:45 AM walter harms <wharms@bfs.de> wrote:
+>
+>
+>
+> Am 17.01.2020 14:33, schrieb Colin King:
+> > From: Colin Ian King <colin.king@canonical.com>
+> >
+> > A for-loop is iterating from 0 up to 1000 however the loop variable count
+> > is a u8 and hence not large enough.  Fix this by making count an int.
+> > Also remove the redundant initialization of count since this is never used
+> > and add { } on the loop statement make the loop block clearer.
+> >
+> > Addresses-Coverity: ("Operands don't affect result")
+> > Fixes: ed581a0ace44 ("drm/amd/display: wait for update when setting dpg test pattern")
+> > Signed-off-by: Colin Ian King <colin.king@canonical.com>
+> > ---
+> >  drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c | 5 +++--
+> >  1 file changed, 3 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+> > index 6ab298c65247..cbed738a4246 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+> > +++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+> > @@ -3680,7 +3680,7 @@ static void set_crtc_test_pattern(struct dc_link *link,
+> >                       struct pipe_ctx *odm_pipe;
+> >                       enum controller_dp_color_space controller_color_space;
+> >                       int opp_cnt = 1;
+> > -                     uint8_t count = 0;
+> > +                     int count;
+> >
+> >                       switch (test_pattern_color_space) {
+> >                       case DP_TEST_PATTERN_COLOR_SPACE_RGB:
+> > @@ -3725,11 +3725,12 @@ static void set_crtc_test_pattern(struct dc_link *link,
+> >                               width,
+> >                               height);
+> >                       /* wait for dpg to blank pixel data with test pattern */
+> > -                     for (count = 0; count < 1000; count++)
+> > +                     for (count = 0; count < 1000; count++) {
+> >                               if (opp->funcs->dpg_is_blanked(opp))
+> >                                       break;
+> >                               else
+> >                                       udelay(100);
+> > +                     }
+> >               }
+> >       }
+> >       break;
+>
+> Nitpick:
+> the else is useless you can remove it.
+>
+> re,
+>  wh
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
