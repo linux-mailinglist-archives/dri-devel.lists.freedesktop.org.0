@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93D7C14A0B2
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2020 10:27:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D93314A0C0
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2020 10:30:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F07DA6EA98;
-	Mon, 27 Jan 2020 09:27:37 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A60F6E4DE
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2020 09:27:36 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id p9so6012048wmc.2
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2020 01:27:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=KCvaWt6A09uUnPUQY2eagh89VwK5vSNfLo8WDux5qqc=;
- b=WwdF6iGb12VWL9H2rv3WhvoAybPOkH6xbAZ8MK3OfQpogUNFZX5SeCF/TrMyBt2/Ec
- TxVL5itiLi8TiCpSWLhOKhhHU4U2OcQpCXzPCzbRwUl3VJCIkzvcYpmGputgePCnU/G+
- Amc4Qeuo1lMd/V36WBDcXNU6tLF6+pgm0prr0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=KCvaWt6A09uUnPUQY2eagh89VwK5vSNfLo8WDux5qqc=;
- b=KFcQEkNKbehsCES90SWxjlknuMxQ/sJ/jXx3CIa6lkPE0fo+loqljWk/XgGZqP2IN1
- q44Fb0JVE4+7A2l8Jy0W+qtmPwJOpc6kEx5aabnUBMyFIZsczzvRzrOk16cd+4qff58q
- LdpllDajOsG44uYslxvPSxt4O+zBFk07lCakGF3YCgICu9B2Gi3r2Z1G/sTwz8F9UoJy
- Z1WWuHNDBpTlcLobRUwz7HqQZR1M9mXbp9S6gAN/3hWBGzbdY/2feshapEsH/oR63sTZ
- wAznzOyZyCzPLcnEsU50uxOHHLpNbbO5WNgCjhc9XsRHcH8xj59WPVhHXdADgRoD6b4j
- j5VA==
-X-Gm-Message-State: APjAAAVxFobwkW2ntTn0QkS9uaPjT/ZldwTmnJFrxp9DC4q1e7uyDWeo
- F7Z5BfH+5f3jaccluVVq+7uRS/S+kytlgw==
-X-Google-Smtp-Source: APXvYqzmE5plAzUSHViv+K14DCCqJsLeuyQs10UkiYHt0/ttnXu7nc7lblaIuJnASVl4w1w/eJKVXw==
-X-Received: by 2002:a1c:e246:: with SMTP id z67mr13302674wmg.52.1580117255117; 
- Mon, 27 Jan 2020 01:27:35 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id p26sm16895622wmc.24.2020.01.27.01.27.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jan 2020 01:27:34 -0800 (PST)
-Date: Mon, 27 Jan 2020 10:27:32 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Chris Wilson <chris@chris-wilson.co.uk>
-Subject: Re: [PATCH 1/2] drm: Release filp before global lock
-Message-ID: <20200127092732.GY43062@phenom.ffwll.local>
-References: <20200124125627.125042-1-chris@chris-wilson.co.uk>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200124125627.125042-1-chris@chris-wilson.co.uk>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+	by gabe.freedesktop.org (Postfix) with ESMTP id 823A86EA9A;
+	Mon, 27 Jan 2020 09:30:03 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail25.static.mailgun.info (mail25.static.mailgun.info
+ [104.130.122.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E3316EA9A
+ for <dri-devel@freedesktop.org>; Mon, 27 Jan 2020 09:30:01 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1580117402; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=e4USnjXRXyYpvzEafaY8Ez4fqxbL6C3DKZRswygMwzg=;
+ b=mTBEPIakA3xLdmycGRtO46oPIb3pIkoBFbMZ69jY9JRIA40I8eHB8cAR29RgOUuzp7EnUKiu
+ d93awpy5Bf+Y5duZfpE1XNCyJ0wq4Viglzgl/+3N/XYMakcpPxReg3rLjIISE+C4duqrdOah
+ DPgi5/SjrH5Gs5m4fg6gXrFshc4=
+X-Mailgun-Sending-Ip: 104.130.122.25
+X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e2ead98.7f5b78bc1ce0-smtp-out-n01;
+ Mon, 27 Jan 2020 09:30:00 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 340DDC43383; Mon, 27 Jan 2020 09:30:00 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=ham autolearn_force=no version=3.4.0
+Received: from smasetty-linux.qualcomm.com
+ (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: smasetty)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 129C5C4479F;
+ Mon, 27 Jan 2020 09:29:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 129C5C4479F
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=smasetty@codeaurora.org
+From: Sharat Masetty <smasetty@codeaurora.org>
+To: freedreno@lists.freedesktop.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH v2] arm64: dts: qcom: sc7180: Add A618 gpu dt blob
+Date: Mon, 27 Jan 2020 14:59:50 +0530
+Message-Id: <1580117390-6057-1-git-send-email-smasetty@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,155 +63,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, intel-gfx@lists.freedesktop.org,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas_os@shipmail.org>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: linux-arm-msm@vger.kernel.org, Sharat Masetty <smasetty@codeaurora.org>,
+ linux-kernel@vger.kernel.org, bjorn.andersson@linaro.org,
+ dri-devel@freedesktop.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 24, 2020 at 12:56:26PM +0000, Chris Wilson wrote:
-> The file is not part of the global drm resource and can be released
-> prior to take the global mutex to drop the open_count (and potentially
-> close) the drm device. As the global mutex is indeed global, not only
-> within the device but across devices, a slow file release mechanism can
-> bottleneck the entire system.
-> =
+This patch adds the required dt nodes and properties
+to enabled A618 GPU.
 
-> However, inside drm_close_helper() there are a number of dev->driver
-> callbacks that take the drm_device as the first parameter... Worryingly
-> some of those callbacks may be (implicitly) depending on the global
-> mutex.
-> =
+Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
+---
+ arch/arm64/boot/dts/qcom/sc7180.dtsi | 103 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 103 insertions(+)
 
-> v2: Drop the debug message for the open-count, it's included with the
-> drm_file_free() debug message -- and for good measure make that up as
-> reading outside of the mutex.
-> =
-
-> v3: Separate the calling of the filp cleanup outside of
-> drm_global_mutex into a new drm_release_noglobal() hook, so that we can
-> phase the transition. drm/savage relies on the global mutex, and there
-> may be more, so be cautious.
-> =
-
-> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Thomas Hellstr=F6m (VMware) <thomas_os@shipmail.org>
-> Acked-by: Thomas Hellstr=F6m (VMware) <thomas_os@shipmail.org>
-> ---
->  drivers/gpu/drm/drm_file.c      | 36 ++++++++++++++++++++++++++++++++-
->  drivers/gpu/drm/i915/i915_drv.c |  2 +-
->  include/drm/drm_file.h          |  1 +
->  3 files changed, 37 insertions(+), 2 deletions(-)
-> =
-
-> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-> index 92d16724f949..e25306c49cc6 100644
-> --- a/drivers/gpu/drm/drm_file.c
-> +++ b/drivers/gpu/drm/drm_file.c
-> @@ -220,7 +220,7 @@ void drm_file_free(struct drm_file *file)
->  	DRM_DEBUG("pid =3D %d, device =3D 0x%lx, open_count =3D %d\n",
->  		  task_pid_nr(current),
->  		  (long)old_encode_dev(file->minor->kdev->devt),
-> -		  dev->open_count);
-> +		  READ_ONCE(dev->open_count));
->  =
-
->  	if (drm_core_check_feature(dev, DRIVER_LEGACY) &&
->  	    dev->driver->preclose)
-> @@ -455,6 +455,40 @@ int drm_release(struct inode *inode, struct file *fi=
-lp)
->  }
->  EXPORT_SYMBOL(drm_release);
->  =
-
-> +/**
-> + * drm_release_noglobal - release method for DRM file
-> + * @inode: device inode
-> + * @filp: file pointer.
-> + *
-> + * This function may be used by drivers as their &file_operations.release
-> + * method. It frees any resources associated with the open file prior to=
- taking
-> + * the drm_global_mutex, which then calls the &drm_driver.postclose driv=
-er
-> + * callback. If this is the last open file for the DRM device also proce=
-eds to
-> + * call the &drm_driver.lastclose driver callback.
-> + *
-> + * RETURNS:
-> + *
-> + * Always succeeds and returns 0.
-> + */
-> +int drm_release_noglobal(struct inode *inode, struct file *filp)
-> +{
-> +	struct drm_file *file_priv =3D filp->private_data;
-> +	struct drm_minor *minor =3D file_priv->minor;
-> +	struct drm_device *dev =3D minor->dev;
-> +
-> +	drm_close_helper(filp);
-> +
-> +	mutex_lock(&drm_global_mutex);
-> +	if (!--dev->open_count)
-> +		drm_lastclose(dev);
-> +	mutex_unlock(&drm_global_mutex);
-
-btw my rough idea for lastclose is that we're just going to make it racy,
-and then use the master lock and drm_client infrastructure to handle
-fights between fbcon and a restarted compositor. That's already how that's
-handled everywhere else. We might need to cut over drivers to the generic
-fbcon stuff (or at least steal parts of the drm_client stuff I think), but
-not sure.
--Daniel
-
-> +
-> +	drm_minor_release(minor);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_release_noglobal);
-> +
->  /**
->   * drm_read - read method for DRM file
->   * @filp: file pointer
-> diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_=
-drv.c
-> index e9b42e962032..5a5846d892f4 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.c
-> +++ b/drivers/gpu/drm/i915/i915_drv.c
-> @@ -2673,7 +2673,7 @@ const struct dev_pm_ops i915_pm_ops =3D {
->  static const struct file_operations i915_driver_fops =3D {
->  	.owner =3D THIS_MODULE,
->  	.open =3D drm_open,
-> -	.release =3D drm_release,
-> +	.release =3D drm_release_noglobal,
->  	.unlocked_ioctl =3D drm_ioctl,
->  	.mmap =3D i915_gem_mmap,
->  	.poll =3D drm_poll,
-> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-> index 8b099b347817..19df8028a6c4 100644
-> --- a/include/drm/drm_file.h
-> +++ b/include/drm/drm_file.h
-> @@ -374,6 +374,7 @@ int drm_open(struct inode *inode, struct file *filp);
->  ssize_t drm_read(struct file *filp, char __user *buffer,
->  		 size_t count, loff_t *offset);
->  int drm_release(struct inode *inode, struct file *filp);
-> +int drm_release_noglobal(struct inode *inode, struct file *filp);
->  __poll_t drm_poll(struct file *filp, struct poll_table_struct *wait);
->  int drm_event_reserve_init_locked(struct drm_device *dev,
->  				  struct drm_file *file_priv,
-> -- =
-
-> 2.25.0
-> =
-
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+index b859431..277d84d 100644
+--- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+@@ -7,6 +7,7 @@
+ 
+ #include <dt-bindings/clock/qcom,gcc-sc7180.h>
+ #include <dt-bindings/clock/qcom,rpmh.h>
++#include <dt-bindings/clock/qcom,gpucc-sc7180.h>
+ #include <dt-bindings/interrupt-controller/arm-gic.h>
+ #include <dt-bindings/interconnect/qcom,sc7180.h>
+ #include <dt-bindings/phy/phy-qcom-qusb2.h>
+@@ -1619,6 +1620,108 @@
+ 			#interconnect-cells = <1>;
+ 			qcom,bcm-voters = <&apps_bcm_voter>;
+ 		};
++
++		gpu: gpu@5000000 {
++			compatible = "qcom,adreno-618.0", "qcom,adreno";
++			#stream-id-cells = <16>;
++			reg = <0 0x05000000 0 0x40000>, <0 0x0509e000 0 0x1000>,
++				<0 0x05061000 0 0x800>;
++			reg-names = "kgsl_3d0_reg_memory", "cx_mem", "cx_dbgc";
++			interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
++			iommus = <&adreno_smmu 0>;
++			operating-points-v2 = <&gpu_opp_table>;
++			interconnects = <&gem_noc MASTER_GFX3D &mc_virt SLAVE_EBI1>;
++			qcom,gmu = <&gmu>;
++
++			gpu_opp_table: opp-table {
++				compatible = "operating-points-v2";
++
++				opp-800000000 {
++					opp-hz = /bits/ 64 <800000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_TURBO>;
++				};
++
++				opp-650000000 {
++					opp-hz = /bits/ 64 <650000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_NOM_L1>;
++				};
++
++				opp-565000000 {
++					opp-hz = /bits/ 64 <565000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_NOM>;
++				};
++
++				opp-430000000 {
++					opp-hz = /bits/ 64 <430000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
++				};
++
++				opp-355000000 {
++					opp-hz = /bits/ 64 <355000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
++				};
++
++				opp-267000000 {
++					opp-hz = /bits/ 64 <267000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
++				};
++
++				opp-180000000 {
++					opp-hz = /bits/ 64 <180000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
++				};
++			};
++		};
++
++		adreno_smmu: iommu@5040000 {
++			compatible = "qcom,sc7180-smmu-v2", "qcom,smmu-v2";
++			reg = <0 0x05040000 0 0x10000>;
++			#iommu-cells = <1>;
++			#global-interrupts = <2>;
++			interrupts = <GIC_SPI 229 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 231 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 364 IRQ_TYPE_EDGE_RISING>,
++					<GIC_SPI 365 IRQ_TYPE_EDGE_RISING>,
++					<GIC_SPI 366 IRQ_TYPE_EDGE_RISING>,
++					<GIC_SPI 367 IRQ_TYPE_EDGE_RISING>,
++					<GIC_SPI 368 IRQ_TYPE_EDGE_RISING>,
++					<GIC_SPI 369 IRQ_TYPE_EDGE_RISING>,
++					<GIC_SPI 370 IRQ_TYPE_EDGE_RISING>,
++					<GIC_SPI 371 IRQ_TYPE_EDGE_RISING>;
++			clocks = <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
++				<&gcc GCC_GPU_CFG_AHB_CLK>,
++				<&gcc GCC_DDRSS_GPU_AXI_CLK>;
++
++			clock-names = "bus", "iface", "mem_iface_clk";
++			power-domains = <&gpucc CX_GDSC>;
++		};
++
++		gmu: gmu@506a000 {
++			compatible="qcom,adreno-gmu-618", "qcom,adreno-gmu";
++			reg = <0 0x0506a000 0 0x31000>, <0 0x0b290000 0 0x10000>,
++				<0 0x0b490000 0 0x10000>;
++			reg-names = "gmu", "gmu_pdc", "gmu_pdc_seq";
++			interrupts = <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
++				   <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "hfi", "gmu";
++			clocks = <&gpucc GPU_CC_CX_GMU_CLK>,
++			       <&gpucc GPU_CC_CXO_CLK>,
++			       <&gcc GCC_DDRSS_GPU_AXI_CLK>,
++			       <&gcc GCC_GPU_MEMNOC_GFX_CLK>;
++			clock-names = "gmu", "cxo", "axi", "memnoc";
++			power-domains = <&gpucc CX_GDSC>;
++			iommus = <&adreno_smmu 5>;
++			operating-points-v2 = <&gmu_opp_table>;
++
++			gmu_opp_table: opp-table {
++				compatible = "operating-points-v2";
++
++				opp-200000000 {
++					opp-hz = /bits/ 64 <200000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
++				};
++			};
++		};
+ 	};
+ 
+ 	thermal-zones {
+-- 
+1.9.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
