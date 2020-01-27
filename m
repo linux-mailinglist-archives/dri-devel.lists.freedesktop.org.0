@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87FAC149E3F
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2020 03:30:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B61A149E66
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2020 04:31:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CD246E2A8;
-	Mon, 27 Jan 2020 02:30:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B47A36E2C7;
+	Mon, 27 Jan 2020 03:30:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AD996E2A8
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2020 02:30:07 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C2C86E22F
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2020 03:30:55 +0000 (UTC)
+X-Amp-Result: UNSCANNABLE
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2020 18:29:41 -0800
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 26 Jan 2020 19:30:54 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.70,368,1574150400"; 
- d="gz'50?scan'50,208,50";a="303451629"
+ d="gz'50?scan'50,208,50";a="427165144"
 Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
- by fmsmga001.fm.intel.com with ESMTP; 26 Jan 2020 18:29:38 -0800
+ by fmsmga005.fm.intel.com with ESMTP; 26 Jan 2020 19:30:52 -0800
 Received: from kbuild by lkp-server01 with local (Exim 4.89)
  (envelope-from <lkp@intel.com>)
- id 1ivu9i-0006OF-Dv; Mon, 27 Jan 2020 10:29:38 +0800
-Date: Mon, 27 Jan 2020 10:29:06 +0800
+ id 1ivv6x-000FKW-Sr; Mon, 27 Jan 2020 11:30:51 +0800
+Date: Mon, 27 Jan 2020 11:30:07 +0800
 From: kbuild test robot <lkp@intel.com>
-To: Yifan Zhang <yifan1.zhang@amd.com>
-Subject: [radeon-alex:amd-19.50 1962/2713] include/kcl/kcl_drm.h:191:9:
- error: too few arguments to function 'drm_encoder_init'
-Message-ID: <202001271004.kPlR3vfg%lkp@intel.com>
+To: Slava Grigorev <slava.grigorev@amd.com>
+Subject: [radeon-alex:amd-19.50 1963/2713] include/kcl/kcl_drm.h:206:10:
+ error: too few arguments to function 'drm_crtc_init_with_planes'
+Message-ID: <202001271105.6rfKrOSE%lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="jsfcnrh7tbwhqhu2"
+Content-Type: multipart/mixed; boundary="fia7pte7abuelvb2"
 Content-Disposition: inline
 User-Agent: NeoMutt/20170113 (1.7.2)
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -48,27 +47,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Feifei Xu <Feifei.Xu@amd.com>, kbuild-all@lists.01.org,
- Chengming Gui <Jack.Gui@amd.com>, dri-devel@lists.freedesktop.org
+Cc: Yifan Zhang <yifan1.zhang@amd.com>, kbuild-all@lists.01.org,
+ Chengming Gui <Jack.Gui@amd.com>, dri-devel@lists.freedesktop.org,
+ Feifei Xu <Feifei.Xu@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---jsfcnrh7tbwhqhu2
+--fia7pte7abuelvb2
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Yifan,
+Hi Slava,
 
 FYI, the error/warning still remains.
 
 tree:   git://people.freedesktop.org/~agd5f/linux.git amd-19.50
 head:   f9a0b7ad3447d7766dda9923e63a5f4d0be7ce47
-commit: 35781c0b8d19ed0d1bdb8cfa85780841ea7985ff [1962/2713] drm/amdkcl: Test whether drm_encoder_init() wants name
+commit: f2e0d469732d27bc612df52b42094309ba5877d9 [1963/2713] drm/amdkcl: Test whether drm_crtc_init_with_planes() wants name
 config: i386-allyesconfig (attached as .config)
 compiler: gcc-7 (Debian 7.5.0-3) 7.5.0
 reproduce:
-        git checkout 35781c0b8d19ed0d1bdb8cfa85780841ea7985ff
+        git checkout f2e0d469732d27bc612df52b42094309ba5877d9
         # save the attached .config to linux build tree
         make ARCH=i386 
 
@@ -91,7 +91,7 @@ All errors (new ones prefixed by >>):
    In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
                     from <command-line>:0:
    include/kcl/kcl_drm.h: In function 'kcl_drm_encoder_init':
->> include/kcl/kcl_drm.h:191:9: error: too few arguments to function 'drm_encoder_init'
+   include/kcl/kcl_drm.h:191:9: error: too few arguments to function 'drm_encoder_init'
      return drm_encoder_init(dev, encoder, funcs,
             ^~~~~~~~~~~~~~~~
    In file included from include/drm/drm_modeset_helper_vtables.h:33:0,
@@ -102,26 +102,40 @@ All errors (new ones prefixed by >>):
    include/drm/drm_encoder.h:183:5: note: declared here
     int drm_encoder_init(struct drm_device *dev,
         ^~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/backport/backport.h:6:0,
+                    from <command-line>:0:
+   include/kcl/kcl_drm.h: In function 'kcl_drm_crtc_init_with_planes':
+>> include/kcl/kcl_drm.h:206:10: error: too few arguments to function 'drm_crtc_init_with_planes'
+      return drm_crtc_init_with_planes(dev, crtc, primary,
+             ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/drm/drmP.h:68:0,
+                    from include/kcl/kcl_drm.h:6,
+                    from drivers/gpu/drm/ttm/backport/backport.h:6,
+                    from <command-line>:0:
+   include/drm/drm_crtc.h:1120:5: note: declared here
+    int drm_crtc_init_with_planes(struct drm_device *dev,
+        ^~~~~~~~~~~~~~~~~~~~~~~~~
 
-vim +/drm_encoder_init +191 include/kcl/kcl_drm.h
+vim +/drm_crtc_init_with_planes +206 include/kcl/kcl_drm.h
 
-5027d12c82b867 changzhu     2019-04-03  181  
-950c9c93299ece Junwei Zhang 2016-12-23  182  static inline int kcl_drm_encoder_init(struct drm_device *dev,
-950c9c93299ece Junwei Zhang 2016-12-23  183  		      struct drm_encoder *encoder,
-950c9c93299ece Junwei Zhang 2016-12-23  184  		      const struct drm_encoder_funcs *funcs,
-950c9c93299ece Junwei Zhang 2016-12-23  185  		      int encoder_type, const char *name, ...)
-950c9c93299ece Junwei Zhang 2016-12-23  186  {
-35781c0b8d19ed Yifan Zhang  2019-07-15  187  #if defined(HAVE_DRM_ENCODER_INIT_VALID_WITH_NAME)
-950c9c93299ece Junwei Zhang 2016-12-23  188  	return drm_encoder_init(dev, encoder, funcs,
-950c9c93299ece Junwei Zhang 2016-12-23  189  			 encoder_type, name);
-950c9c93299ece Junwei Zhang 2016-12-23  190  #else
-950c9c93299ece Junwei Zhang 2016-12-23 @191  	return drm_encoder_init(dev, encoder, funcs,
-950c9c93299ece Junwei Zhang 2016-12-23  192  			 encoder_type);
-950c9c93299ece Junwei Zhang 2016-12-23  193  #endif
-950c9c93299ece Junwei Zhang 2016-12-23  194  }
-950c9c93299ece Junwei Zhang 2016-12-23  195  
+950c9c93299ece Junwei Zhang   2016-12-23  195  
+950c9c93299ece Junwei Zhang   2016-12-23  196  static inline int kcl_drm_crtc_init_with_planes(struct drm_device *dev, struct drm_crtc *crtc,
+950c9c93299ece Junwei Zhang   2016-12-23  197  			      struct drm_plane *primary,
+950c9c93299ece Junwei Zhang   2016-12-23  198  			      struct drm_plane *cursor,
+950c9c93299ece Junwei Zhang   2016-12-23  199  			      const struct drm_crtc_funcs *funcs,
+950c9c93299ece Junwei Zhang   2016-12-23  200  			      const char *name, ...)
+950c9c93299ece Junwei Zhang   2016-12-23  201  {
+f2e0d469732d27 Slava Grigorev 2018-07-17  202  #if defined(HAVE_DRM_CRTC_INIT_WITH_PLANES_VALID_WITH_NAME)
+950c9c93299ece Junwei Zhang   2016-12-23  203  		return drm_crtc_init_with_planes(dev, crtc, primary,
+950c9c93299ece Junwei Zhang   2016-12-23  204  				 cursor, funcs, name);
+950c9c93299ece Junwei Zhang   2016-12-23  205  #else
+950c9c93299ece Junwei Zhang   2016-12-23 @206  		return drm_crtc_init_with_planes(dev, crtc, primary,
+950c9c93299ece Junwei Zhang   2016-12-23  207  				 cursor, funcs);
+950c9c93299ece Junwei Zhang   2016-12-23  208  #endif
+950c9c93299ece Junwei Zhang   2016-12-23  209  }
+950c9c93299ece Junwei Zhang   2016-12-23  210  
 
-:::::: The code at line 191 was first introduced by commit
+:::::: The code at line 206 was first introduced by commit
 :::::: 950c9c93299eceb8cca4b12eb09a04a48d383ec6 drm/amdkcl: [4.5] fix drm encoder and plane functions
 
 :::::: TO: Junwei Zhang <Jerry.Zhang@amd.com>
@@ -131,12 +145,12 @@ vim +/drm_encoder_init +191 include/kcl/kcl_drm.h
 0-DAY kernel test infrastructure                 Open Source Technology Center
 https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org Intel Corporation
 
---jsfcnrh7tbwhqhu2
+--fia7pte7abuelvb2
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICIFELl4AAy5jb25maWcAlDzbctw2su/5iinnJamtJLpZdp1TesCAIAcZkmAAcDTjF5Yi
+H4sICPlSLl4AAy5jb25maWcAlDzbctw2su/5iinnJamtJLpZdp1TesCAIAcZkmAAcDTjF5Yi
 j72qtSUfSd6N//50A7w0QFDObqXWYjeujb6jMT/+8OOKfX1++HzzfHd78+nTt9XH4/3x8eb5
 +H714e7T8X9XmVrVyq5EJu2v0Li8u//61293528vV69/Pfv15JfH29PV9vh4f/y04g/3H+4+
 foXedw/3P/z4A/z3IwA/f4GBHv9n9fH29pc3q5+y4593N/erN7++ht7nP/s/oClXdS6LjvNO
@@ -1400,7 +1414,7 @@ LgdorNisgu633qmaO8N4vYkrqhmnJ0AvyDjtFGWtkHGbh/XosBz1g8OmQYeNZZpZZD5OZKoW
 t6cOTX+M+n/pCaG8g3Qc7qLm8gxEFuijnZAifrTec8wTN95XU7Xx3IkqZLitQ2hzp5VEgy9v
 UVIINBwTzb0Cvf7JK/QmgYKG/fUqvTEhh+0nYNd7glE5+H9FuF3KUlYEAA==
 
---jsfcnrh7tbwhqhu2
+--fia7pte7abuelvb2
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -1411,4 +1425,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---jsfcnrh7tbwhqhu2--
+--fia7pte7abuelvb2--
