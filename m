@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9C4C14AB0A
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2020 21:13:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16BC714AB0D
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2020 21:15:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 765F16E9EB;
-	Mon, 27 Jan 2020 20:13:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 150976E9F0;
+	Mon, 27 Jan 2020 20:15:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B58136E9EB;
- Mon, 27 Jan 2020 20:13:51 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id t14so8516279wmi.5;
- Mon, 27 Jan 2020 12:13:51 -0800 (PST)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11E346E9F0;
+ Mon, 27 Jan 2020 20:15:37 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id b6so13151191wrq.0;
+ Mon, 27 Jan 2020 12:15:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jZqAnZBwcnhyQqDJBqIeAARnv2kOsFYQ9h/65oqYJNc=;
- b=I9ggXdNplkom7TI2aomDIxCSwPVq7O2O3ylck0bFQYFgKX5Vk6rnte7i658A8xV6z0
- wmiUySOv2wK0y7w633siiKEx6JOAGevj/jLyUkyCaCKU5AZmXrV6xXAnm3D+Z1vTwkuH
- UiunR55xaUpY9a0X5F1X48ixkgOFIDbHN7D3cVoHwDpEJSTp6FclcP+I9EE+XR3HYUiL
- ij8gh2fw7bC7+8Vp72l6dz2QIhGspWgdMyKMT88SANIdx+GDNFtERcgVw+bm3gQdZv2R
- InWKYwhh2Muv/Bb/H63GoWuINchdphyKqPERFDZsMzhoH7mdmXVmC1rW/HuFvEYtjJPE
- eO0w==
+ :cc; bh=agHNCqMi2QnjkHYFDl9fzq4MYwJXHO3unwi3HdF8igA=;
+ b=gmMfzbSlLI8I4dMWkE1xcW3fKrfjOA76rLQZmtKlKIY2pVegucYllK/T/qTuxjcCxe
+ 6WqR2yM8o5KMtlyIexeNoPLR1smpY3NaZiOWiRgTllZh/octMKu/pUouosJcxpBST/06
+ TxFGjmZB8w12MmpUzmkunpeoTnl3gl5wU7GU7EqjjyXmj517dOtwWgvooRQ9z2G4V1Mp
+ rxmvUbISmX0i+8Ahw5YQHh0fvaZxR/XXRTN8H2KL7IVYvirjnwAFWh6RogWJek3lQXL0
+ 6b/CUicdyOA7rVxspjR4fNrFYMWBjOk923KJffD/bbmW6LO9I9lKF7VRp6qkM8kf4mVA
+ oD0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=jZqAnZBwcnhyQqDJBqIeAARnv2kOsFYQ9h/65oqYJNc=;
- b=gwTkglcKrwggGR9W0keiAK9Zwn2c6Ra1sEYakrpiSYwsYUmFoA62xb9Giw68rQqeLR
- W93QDl8lbxw+PK35mnW2GEQDPBh0KAC05A9rLsGXjQfC/MzCbwOUroxCvDxaULMUWW49
- GBFOtREBuw19/L/WewrdCm/h7SRXVtSylAO/svZ6XWDfymWaXh0VwU/bCXx/MRy9lXu2
- ZmsLYCeIMzOp+e22ZmHvL3vOHpEO6DeqvIsjE5CuqBGL2rDvFHJiVqoTDCnaeGn+9nir
- Pv8UcHbwTP/tZRhh1JtTrsvtDTcq3g//zRuXyF6kv7gb8c8B/LeVxzA+mIfPeChUGypD
- 0X4w==
-X-Gm-Message-State: APjAAAWUo9aSNXjqu51Z4cpEE+wsnQc6X91vSBhS279pHICcw2800uiE
- SHlpdnW8sDkqr92ukZwjXlWavyh1XefVPgiOOhc=
-X-Google-Smtp-Source: APXvYqwlN+rBTe7uyFI9aWzv0Aywb7BH112o8q2fCzdWoixSvVh7yVuI2k81MSNszj3fsA84LxG5T+1k+CxY8qX0scs=
-X-Received: by 2002:a1c:9a56:: with SMTP id c83mr372759wme.79.1580156030302;
- Mon, 27 Jan 2020 12:13:50 -0800 (PST)
+ bh=agHNCqMi2QnjkHYFDl9fzq4MYwJXHO3unwi3HdF8igA=;
+ b=s0rjVlcIaqh1u0IMzeUXkKmK91HZN2iZRxChiYDEflhTtDMX7j0SIst8ewlYGWxsQB
+ VNd9U/+LGt+DKdyTfTQckhoCZAeFgKxuu/umsELi7H1PMDlBuhM1yNZbFVTBiPtPMeBd
+ lytHZPxWMrV9HOjRuOBoxwdQEohc87Vc2h+YO3MSEjpJvDLdeKGlXEvN6/UN5TyTLqv4
+ rUBHKbxR7wXJfvNjZLIaVWnHxhryuURSSF1JDrOVFiXMATiJ1iCnIrvtdO7HaYoVKwcO
+ PkEUZo6j0C+/uOhVT/bBKMyUUN/+fMIRhM4FDaKl31jUFiuKLqgXe5KyaUZoxrmFcWnS
+ SCmg==
+X-Gm-Message-State: APjAAAWS7oet03rgZa2fRr5UCsYk1WHP2h1GqIeS8Ng3pXu1Ep0Xyw/l
+ miKrUrrRFz9P+al+u0Hp5ZQknNP7pBihgZ8NBY8=
+X-Google-Smtp-Source: APXvYqyhY0W5KNwrFS0LgQjqbO91CASwWkBDEMItwLG4El9WqtCluD5nWBgT4qRjEx7Olrk/EeKveMwsWoz5c7yF45o=
+X-Received: by 2002:a5d:5091:: with SMTP id a17mr23523903wrt.362.1580156135555; 
+ Mon, 27 Jan 2020 12:15:35 -0800 (PST)
 MIME-Version: 1.0
-References: <20200117133305.113280-1-colin.king@canonical.com>
- <5E21C422.6040708@bfs.de>
-In-Reply-To: <5E21C422.6040708@bfs.de>
+References: <20200125202613.13448-1-colin.king@canonical.com>
+In-Reply-To: <20200125202613.13448-1-colin.king@canonical.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 27 Jan 2020 15:13:38 -0500
-Message-ID: <CADnq5_NEgC5u0t_m+nWiOVTptFwrxeGKVpQwegF9s-51tjhWEQ@mail.gmail.com>
-Subject: Re: [PATCH][next] drm/amd/display: fix for-loop with incorrectly
- sized loop counter
-To: walter harms <wharms@bfs.de>
+Date: Mon, 27 Jan 2020 15:15:20 -0500
+Message-ID: <CADnq5_Md7yW+QXhoLVT-HUvjap7YPYe4xp6gRAuBpt-9+EHVzw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/powerplay: fix spelling mistake "Attemp" ->
+ "Attempt"
+To: Colin King <colin.king@canonical.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,78 +61,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, kernel-janitors@vger.kernel.org,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
  LKML <linux-kernel@vger.kernel.org>,
  amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Wenjing Liu <Wenjing.Liu@amd.com>, David Airlie <airlied@linux.ie>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Colin King <colin.king@canonical.com>, Nikola Cornij <Nikola.Cornij@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied with Walter's comment included.
-
-Thanks!
+Applied.  Thanks!
 
 Alex
 
-On Fri, Jan 17, 2020 at 9:45 AM walter harms <wharms@bfs.de> wrote:
+On Sat, Jan 25, 2020 at 3:26 PM Colin King <colin.king@canonical.com> wrote:
 >
+> From: Colin Ian King <colin.king@canonical.com>
 >
+> There are several spelling mistakes in PP_ASSERT_WITH_CODE messages.
+> Fix these.
 >
-> Am 17.01.2020 14:33, schrieb Colin King:
-> > From: Colin Ian King <colin.king@canonical.com>
-> >
-> > A for-loop is iterating from 0 up to 1000 however the loop variable count
-> > is a u8 and hence not large enough.  Fix this by making count an int.
-> > Also remove the redundant initialization of count since this is never used
-> > and add { } on the loop statement make the loop block clearer.
-> >
-> > Addresses-Coverity: ("Operands don't affect result")
-> > Fixes: ed581a0ace44 ("drm/amd/display: wait for update when setting dpg test pattern")
-> > Signed-off-by: Colin Ian King <colin.king@canonical.com>
-> > ---
-> >  drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c | 5 +++--
-> >  1 file changed, 3 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-> > index 6ab298c65247..cbed738a4246 100644
-> > --- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-> > +++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-> > @@ -3680,7 +3680,7 @@ static void set_crtc_test_pattern(struct dc_link *link,
-> >                       struct pipe_ctx *odm_pipe;
-> >                       enum controller_dp_color_space controller_color_space;
-> >                       int opp_cnt = 1;
-> > -                     uint8_t count = 0;
-> > +                     int count;
-> >
-> >                       switch (test_pattern_color_space) {
-> >                       case DP_TEST_PATTERN_COLOR_SPACE_RGB:
-> > @@ -3725,11 +3725,12 @@ static void set_crtc_test_pattern(struct dc_link *link,
-> >                               width,
-> >                               height);
-> >                       /* wait for dpg to blank pixel data with test pattern */
-> > -                     for (count = 0; count < 1000; count++)
-> > +                     for (count = 0; count < 1000; count++) {
-> >                               if (opp->funcs->dpg_is_blanked(opp))
-> >                                       break;
-> >                               else
-> >                                       udelay(100);
-> > +                     }
-> >               }
-> >       }
-> >       break;
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+> ---
+>  drivers/gpu/drm/amd/powerplay/smumgr/vega12_smumgr.c | 12 ++++++------
+>  drivers/gpu/drm/amd/powerplay/smumgr/vega20_smumgr.c | 12 ++++++------
+>  2 files changed, 12 insertions(+), 12 deletions(-)
 >
-> Nitpick:
-> the else is useless you can remove it.
+> diff --git a/drivers/gpu/drm/amd/powerplay/smumgr/vega12_smumgr.c b/drivers/gpu/drm/amd/powerplay/smumgr/vega12_smumgr.c
+> index a3915bfcce81..275dbf65f1a0 100644
+> --- a/drivers/gpu/drm/amd/powerplay/smumgr/vega12_smumgr.c
+> +++ b/drivers/gpu/drm/amd/powerplay/smumgr/vega12_smumgr.c
+> @@ -128,20 +128,20 @@ int vega12_enable_smc_features(struct pp_hwmgr *hwmgr,
+>         if (enable) {
+>                 PP_ASSERT_WITH_CODE(smu9_send_msg_to_smc_with_parameter(hwmgr,
+>                                 PPSMC_MSG_EnableSmuFeaturesLow, smu_features_low) == 0,
+> -                               "[EnableDisableSMCFeatures] Attemp to enable SMU features Low failed!",
+> +                               "[EnableDisableSMCFeatures] Attempt to enable SMU features Low failed!",
+>                                 return -EINVAL);
+>                 PP_ASSERT_WITH_CODE(smu9_send_msg_to_smc_with_parameter(hwmgr,
+>                                 PPSMC_MSG_EnableSmuFeaturesHigh, smu_features_high) == 0,
+> -                               "[EnableDisableSMCFeatures] Attemp to enable SMU features High failed!",
+> +                               "[EnableDisableSMCFeatures] Attempt to enable SMU features High failed!",
+>                                 return -EINVAL);
+>         } else {
+>                 PP_ASSERT_WITH_CODE(smu9_send_msg_to_smc_with_parameter(hwmgr,
+>                                 PPSMC_MSG_DisableSmuFeaturesLow, smu_features_low) == 0,
+> -                               "[EnableDisableSMCFeatures] Attemp to disable SMU features Low failed!",
+> +                               "[EnableDisableSMCFeatures] Attempt to disable SMU features Low failed!",
+>                                 return -EINVAL);
+>                 PP_ASSERT_WITH_CODE(smu9_send_msg_to_smc_with_parameter(hwmgr,
+>                                 PPSMC_MSG_DisableSmuFeaturesHigh, smu_features_high) == 0,
+> -                               "[EnableDisableSMCFeatures] Attemp to disable SMU features High failed!",
+> +                               "[EnableDisableSMCFeatures] Attempt to disable SMU features High failed!",
+>                                 return -EINVAL);
+>         }
 >
-> re,
->  wh
+> @@ -158,13 +158,13 @@ int vega12_get_enabled_smc_features(struct pp_hwmgr *hwmgr,
+>
+>         PP_ASSERT_WITH_CODE(smu9_send_msg_to_smc(hwmgr,
+>                         PPSMC_MSG_GetEnabledSmuFeaturesLow) == 0,
+> -                       "[GetEnabledSMCFeatures] Attemp to get SMU features Low failed!",
+> +                       "[GetEnabledSMCFeatures] Attempt to get SMU features Low failed!",
+>                         return -EINVAL);
+>         smc_features_low = smu9_get_argument(hwmgr);
+>
+>         PP_ASSERT_WITH_CODE(smu9_send_msg_to_smc(hwmgr,
+>                         PPSMC_MSG_GetEnabledSmuFeaturesHigh) == 0,
+> -                       "[GetEnabledSMCFeatures] Attemp to get SMU features High failed!",
+> +                       "[GetEnabledSMCFeatures] Attempt to get SMU features High failed!",
+>                         return -EINVAL);
+>         smc_features_high = smu9_get_argument(hwmgr);
+>
+> diff --git a/drivers/gpu/drm/amd/powerplay/smumgr/vega20_smumgr.c b/drivers/gpu/drm/amd/powerplay/smumgr/vega20_smumgr.c
+> index 0db57fb83d30..49e5ef3e3876 100644
+> --- a/drivers/gpu/drm/amd/powerplay/smumgr/vega20_smumgr.c
+> +++ b/drivers/gpu/drm/amd/powerplay/smumgr/vega20_smumgr.c
+> @@ -316,20 +316,20 @@ int vega20_enable_smc_features(struct pp_hwmgr *hwmgr,
+>         if (enable) {
+>                 PP_ASSERT_WITH_CODE((ret = vega20_send_msg_to_smc_with_parameter(hwmgr,
+>                                 PPSMC_MSG_EnableSmuFeaturesLow, smu_features_low)) == 0,
+> -                               "[EnableDisableSMCFeatures] Attemp to enable SMU features Low failed!",
+> +                               "[EnableDisableSMCFeatures] Attempt to enable SMU features Low failed!",
+>                                 return ret);
+>                 PP_ASSERT_WITH_CODE((ret = vega20_send_msg_to_smc_with_parameter(hwmgr,
+>                                 PPSMC_MSG_EnableSmuFeaturesHigh, smu_features_high)) == 0,
+> -                               "[EnableDisableSMCFeatures] Attemp to enable SMU features High failed!",
+> +                               "[EnableDisableSMCFeatures] Attempt to enable SMU features High failed!",
+>                                 return ret);
+>         } else {
+>                 PP_ASSERT_WITH_CODE((ret = vega20_send_msg_to_smc_with_parameter(hwmgr,
+>                                 PPSMC_MSG_DisableSmuFeaturesLow, smu_features_low)) == 0,
+> -                               "[EnableDisableSMCFeatures] Attemp to disable SMU features Low failed!",
+> +                               "[EnableDisableSMCFeatures] Attempt to disable SMU features Low failed!",
+>                                 return ret);
+>                 PP_ASSERT_WITH_CODE((ret = vega20_send_msg_to_smc_with_parameter(hwmgr,
+>                                 PPSMC_MSG_DisableSmuFeaturesHigh, smu_features_high)) == 0,
+> -                               "[EnableDisableSMCFeatures] Attemp to disable SMU features High failed!",
+> +                               "[EnableDisableSMCFeatures] Attempt to disable SMU features High failed!",
+>                                 return ret);
+>         }
+>
+> @@ -347,12 +347,12 @@ int vega20_get_enabled_smc_features(struct pp_hwmgr *hwmgr,
+>
+>         PP_ASSERT_WITH_CODE((ret = vega20_send_msg_to_smc(hwmgr,
+>                         PPSMC_MSG_GetEnabledSmuFeaturesLow)) == 0,
+> -                       "[GetEnabledSMCFeatures] Attemp to get SMU features Low failed!",
+> +                       "[GetEnabledSMCFeatures] Attempt to get SMU features Low failed!",
+>                         return ret);
+>         smc_features_low = vega20_get_argument(hwmgr);
+>         PP_ASSERT_WITH_CODE((ret = vega20_send_msg_to_smc(hwmgr,
+>                         PPSMC_MSG_GetEnabledSmuFeaturesHigh)) == 0,
+> -                       "[GetEnabledSMCFeatures] Attemp to get SMU features High failed!",
+> +                       "[GetEnabledSMCFeatures] Attempt to get SMU features High failed!",
+>                         return ret);
+>         smc_features_high = vega20_get_argument(hwmgr);
+>
+> --
+> 2.24.0
 >
 > _______________________________________________
 > dri-devel mailing list
