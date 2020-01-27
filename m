@@ -1,59 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5A1214A9F3
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2020 19:42:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A35BE14AA10
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2020 19:49:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D50E66E8AA;
-	Mon, 27 Jan 2020 18:42:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 388056E90B;
+	Mon, 27 Jan 2020 18:49:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 884B86E8A2
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2020 18:42:34 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 097A7B13C;
- Mon, 27 Jan 2020 18:42:31 +0000 (UTC)
-Subject: Re: [PATCH v4 01/15] drm: Initialize struct drm_crtc_state.no_vblank
- from device settings
-To: Emil Velikov <emil.l.velikov@gmail.com>
-References: <20200123092123.28368-1-tzimmermann@suse.de>
- <20200123092123.28368-2-tzimmermann@suse.de>
- <CACvgo53YvKjPNNshZoTjJehHyOX6e05kJ5gAXtjwxs+oLLv7vw@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <183782e6-164c-bae8-90e0-906edb059a1d@suse.de>
-Date: Mon, 27 Jan 2020 19:42:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+ [209.85.210.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 664696E90B
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2020 18:49:41 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id r27so9423529otc.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2020 10:49:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=hGBm/FHBYQPO3SnIsbIyzOljZ22wv42ASP4mKhEoOFM=;
+ b=G2yHwjTVt/P6cXojlHlvQJjPYpobPcHUcJd8dXRzXPw+bikGh01p6LJyW7qHu1o/CZ
+ v/YJ3fexcurtRGu8d4a1XpNU91f9pVz3OnNFSFsdc+vWx15foYGlYy0c96Qf4/nkrSJe
+ 0aMag0XDN4Een82YEunGt9Hw3zCY+E1KE91WPmyNiPw8eXxWJsUrcTRfigAwPoYSwwee
+ Ym7LZr9pje2PgHvRht/LH1Plg5qEZSBXcEZWRl2/+pqgk+CsqxSv+fe8+4POl7iPbxTB
+ EjXcp7Paib1HnsrCa6Bvz1spWN0vUgDof6cBMQxzTX5u7gW7TYwBLIzXTMXJ2f8RN7t3
+ hLSA==
+X-Gm-Message-State: APjAAAWnieZGt1myrFrkCJhZMMXZbDTlFGzOpkWN05J3E9GYH3VIAmts
+ RlZcoVQ75TqSf5aTfGF7sw==
+X-Google-Smtp-Source: APXvYqyJiWy4dlUsawGnDmHPwC0KvTg3gRd2eqBgWW0mBSa+a6zqBV8eI8voaNEYtpy9DO4pEOPbkg==
+X-Received: by 2002:a9d:784b:: with SMTP id c11mr13010105otm.246.1580150980656; 
+ Mon, 27 Jan 2020 10:49:40 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id w20sm3119264otj.21.2020.01.27.10.49.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Jan 2020 10:49:40 -0800 (PST)
+Received: (nullmailer pid 11942 invoked by uid 1000);
+ Mon, 27 Jan 2020 18:49:39 -0000
+Date: Mon, 27 Jan 2020 12:49:39 -0600
+From: Rob Herring <robh@kernel.org>
+To: Peter Ujfalusi <peter.ujfalusi@ti.com>
+Subject: Re: [PATCH v3 1/2] dt-bindings: display: bridge: Add documentation
+ for Toshiba tc358768
+Message-ID: <20200127184939.GA4237@bogus>
+References: <20200127105634.7638-1-peter.ujfalusi@ti.com>
+ <20200127105634.7638-2-peter.ujfalusi@ti.com>
 MIME-Version: 1.0
-In-Reply-To: <CACvgo53YvKjPNNshZoTjJehHyOX6e05kJ5gAXtjwxs+oLLv7vw@mail.gmail.com>
+Content-Disposition: inline
+In-Reply-To: <20200127105634.7638-2-peter.ujfalusi@ti.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,179 +62,203 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: david@lechnology.com, oleksandr_andrushchenko@epam.com,
- Dave Airlie <airlied@linux.ie>, Sam Ravnborg <sam@ravnborg.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
- Hans de Goede <hdegoede@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- xen-devel@lists.xenproject.org, Emil Velikov <emil.velikov@collabora.com>,
- Sean Paul <sean@poorly.run>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: multipart/mixed; boundary="===============1669228699=="
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, jernej.skrabec@siol.net,
+ narmstrong@baylibre.com, airlied@linux.ie, jonas@kwiboo.se,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ a.hajda@samsung.com, tomi.valkeinen@ti.com, Laurent.pinchart@ideasonboard.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1669228699==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="xOxj5EAc8eozWsu9aetd70iPvMav8MAEx"
+On Mon, Jan 27, 2020 at 12:56:33PM +0200, Peter Ujfalusi wrote:
+> TC358768/TC358778 is a Parallel RGB to MIPI DSI bridge.
+> 
+> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
+> ---
+>  .../display/bridge/toshiba,tc358768.yaml      | 158 ++++++++++++++++++
+>  1 file changed, 158 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
+> new file mode 100644
+> index 000000000000..8dd8cca39a77
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
+> @@ -0,0 +1,158 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/toshiba,tc358768.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Toschiba TC358768/TC358778 Parallel RGB to MIPI DSI bridge
+> +
+> +maintainers:
+> +  - Peter Ujfalusi <peter.ujfalusi@ti.com>
+> +
+> +description: |
+> +  The TC358768/TC358778 is bridge device which converts RGB to DSI.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - toshiba,tc358768
+> +      - toshiba,tc358778
+> +
+> +  reg:
+> +    maxItems: 1
+> +    description: base I2C address of the device
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description: GPIO connected to active low RESX pin
+> +
+> +  vddc-supply:
+> +    description: Regulator for 1.2V internal core power.
+> +
+> +  vddmipi-supply:
+> +    description: Regulator for 1.2V for the MIPI.
+> +
+> +  vddio-supply:
+> +    description: Regulator for 1.8V - 3.3V IO power.
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    const: refclk
+> +
+> +  ports:
+> +    type: object
+> +
+> +    properties:
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +      port@0:
+> +        type: object
+> +        additionalProperties: false
+> +
+> +        description: |
+> +          Video port for RGB input
+> +
+> +        properties:
+> +          reg:
+> +            const: 0
+> +
+> +        patternProperties:
+> +          endpoint:
+> +            type: object
+> +            additionalProperties: false
+> +
+> +            properties:
+> +              data-lines:
+> +                enum: [ 16, 18, 24 ]
+> +
+> +              remote-endpoint: true
+> +
+> +        required:
+> +          - reg
+> +
+> +      port@1:
+> +        type: object
+> +        additionalProperties: false
+> +
+> +        description: |
+> +          Video port for DSI output (panel or connector).
+> +
+> +        properties:
+> +          reg:
+> +            const: 1
+> +
+> +        patternProperties:
+> +          endpoint:
+> +            type: object
+> +            additionalProperties: false
+> +
+> +            properties:
+> +              remote-endpoint: true
+> +
+> +        required:
+> +          - reg
+> +
+> +    required:
+> +      - "#address-cells"
+> +      - "#size-cells"
+> +      - port@0
+> +      - port@1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - vddc-supply
+> +  - vddmipi-supply
+> +  - vddio-supply
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c1 {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      dsi_bridge: tc358768@0e {
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---xOxj5EAc8eozWsu9aetd70iPvMav8MAEx
-Content-Type: multipart/mixed; boundary="plrgK2rFyOclW2N2pxB9OddQThC5DZIA4";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Emil Velikov <emil.l.velikov@gmail.com>
-Cc: Dave Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
- david@lechnology.com, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Sean Paul <sean@poorly.run>, oleksandr_andrushchenko@epam.com,
- Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Emil Velikov <emil.velikov@collabora.com>, xen-devel@lists.xenproject.org,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
-Message-ID: <183782e6-164c-bae8-90e0-906edb059a1d@suse.de>
-Subject: Re: [PATCH v4 01/15] drm: Initialize struct drm_crtc_state.no_vblank
- from device settings
-References: <20200123092123.28368-1-tzimmermann@suse.de>
- <20200123092123.28368-2-tzimmermann@suse.de>
- <CACvgo53YvKjPNNshZoTjJehHyOX6e05kJ5gAXtjwxs+oLLv7vw@mail.gmail.com>
-In-Reply-To: <CACvgo53YvKjPNNshZoTjJehHyOX6e05kJ5gAXtjwxs+oLLv7vw@mail.gmail.com>
+Generic node names and no leading 0s:
 
---plrgK2rFyOclW2N2pxB9OddQThC5DZIA4
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+dsi-bridge@e
 
-Hi Emil
+> +        compatible = "toshiba,tc358768";
+> +        reg = <0x0e>;
+> +
+> +        clocks = <&tc358768_refclk>;
+> +        clock-names = "refclk";
+> +
+> +        /* GPIO line is inverted before going to the bridge */
+> +        reset-gpios = <&pcf_display_board 0 1 /* GPIO_ACTIVE_LOW */>;
 
-Am 27.01.20 um 19:12 schrieb Emil Velikov:
-> Hi Thomas,
->=20
-> On Thu, 23 Jan 2020 at 09:21, Thomas Zimmermann <tzimmermann@suse.de> w=
-rote:
->=20
->> @@ -174,12 +174,22 @@ struct drm_crtc_state {
->>          * @no_vblank:
->>          *
->>          * Reflects the ability of a CRTC to send VBLANK events. This =
-state
->> -        * usually depends on the pipeline configuration, and the main=
- usuage
->> -        * is CRTCs feeding a writeback connector operating in oneshot=
- mode.
->> -        * In this case the VBLANK event is only generated when a job =
-is queued
->> -        * to the writeback connector, and we want the core to fake VB=
-LANK
->> -        * events when this part of the pipeline hasn't changed but ot=
-hers had
->> -        * or when the CRTC and connectors are being disabled.
->> +        * usually depends on the pipeline configuration. If set to tr=
-ue, DRM
->> +        * atomic helpers will sendout a fake VBLANK event during disp=
-lay
->> +        * updates.
->> +        *
->> +        * One usage is for drivers and/or hardware without support fo=
-r VBLANK
->> +        * interrupts. Such drivers typically do not initialize vblank=
-ing
->> +        * (i.e., call drm_vblank_init() wit the number of CRTCs). For=
- CRTCs
->> +        * without initialized vblanking, the field is initialized to =
-true and
->> +        * a VBLANK event will be send out on each update of the displ=
-ay
->> +        * pipeline.
->> +        *
->> +        * Another usage is CRTCs feeding a writeback connector operat=
-ing in
->> +        * oneshot mode. In this case the VBLANK event is only generat=
-ed when
->> +        * a job is queued to the writeback connector, and we want the=
- core
->> +        * to fake VBLANK events when this part of the pipeline hasn't=
- changed
->> +        * but others had or when the CRTC and connectors are being di=
-sabled.
->>          *
->=20
-> Perhaps it's just me, yet the following ideas would make the topic
-> significantly easier and clearer.
->=20
->  - adding explicit "fake" when talking about drm/atomic _helpers_
-> generating/sending a VBLANK event.
-> For example, in 15/15 the commit message says "fake", while inline
-> comment omits it... Leading to the confusion pointed out.
+You just need to add the include for the define to work.
 
-No problem on being more precise here. I'll update the docs accordingly.
-
->=20
-> - s/no_vblank/fake_vblank/g or s/no_vblank/no_hw_vblank/g
-> Simple and concise. With slight inclination towards the former wording =
-:-)
-
-I'd prefer to not change the field's name. The current name 'no_vblank'
-indicates state and lets helpers decide what to do with it. The name
-'fake_vblank' indicates an instruction to the helpers, telling them what
-to do. It does neither seem to fit into drm_crtc_state, nor into the
-overall concept.
-
-Best regards
-Thomas
-
->=20
-> If you and Daniel agree with the rename, then the first sentence of
-> the description should probably be tweaked.
->=20
-> HTH
-> Emil
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---plrgK2rFyOclW2N2pxB9OddQThC5DZIA4--
-
---xOxj5EAc8eozWsu9aetd70iPvMav8MAEx
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl4vLxMACgkQaA3BHVML
-eiMniQgAoMHRhI6ErQBZBW15wxr+4WFi1xiReRxPUJNhDs1YsUJvsMwE0AXBHbkh
-j5lmVFmbd5rv/EMgDYibBpMVY/zAL1EYuuqxdEVS6YmhH63SUWNtIvcfnIakofEK
-2MvRXne7UCX1Nh0l1vxr3iYailXChIGSC4FLQb3SrgDUGKGZw+pBEIH+7w4hwXOY
-yVIPmaCLUXIcjBX1Wu6CA0IP2BinpAVa+6lpUJ7H2628CVTzwV5p7VyZhtEUawlJ
-KR4W0gb1z864Biqs0IA2Ukp7WKHY51L96JhqwWofJULi5xIsmFptyW/gVND3MBW8
-O0CfSFppbmZQhlT+vO3wof3qZmTbGg==
-=b1dk
------END PGP SIGNATURE-----
-
---xOxj5EAc8eozWsu9aetd70iPvMav8MAEx--
-
---===============1669228699==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+> +
+> +        vddc-supply = <&v1_2d>;
+> +        vddmipi-supply = <&v1_2d>;
+> +        vddio-supply = <&v3_3d>;
+> +
+> +        dsi_bridge_ports: ports {
+> +          #address-cells = <1>;
+> +          #size-cells = <0>;
+> +
+> +          port@0 {
+> +            reg = <0>;
+> +            rgb_in: endpoint {
+> +              remote-endpoint = <&dpi_out>;
+> +              data-lines = <24>;
+> +            };
+> +          };
+> +
+> +          port@1 {
+> +            reg = <1>;
+> +            dsi_out: endpoint {
+> +              remote-endpoint = <&lcd_in>;
+> +            };
+> +          };
+> +        };
+> +      };
+> +    };
+> +    
+> -- 
+> Peter
+> 
+> Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+> Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1669228699==--
