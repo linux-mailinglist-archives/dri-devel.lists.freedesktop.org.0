@@ -2,54 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FEF114AC2E
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2020 23:39:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE03E14AC6C
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 00:09:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A77336EC17;
-	Mon, 27 Jan 2020 22:39:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2115C6EC1D;
+	Mon, 27 Jan 2020 23:09:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4F336EC14;
- Mon, 27 Jan 2020 22:39:05 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id z7so13650524wrl.13;
- Mon, 27 Jan 2020 14:39:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Q0s5fqFPrXjNwEOb2lXn2YSX1DXSdvN7n06j/4ASEm0=;
- b=urMGPWK8OCin/TlOB3KhvdGJa5o3YRnaz+gnsc4JzpCIMr2/rf6pWOClHeYJQ2M11F
- NAhZ8JgZrkrCHwbABOOkZ5MTOlTCyEJOJK7QAiyzaNtnyx3DQnrx50AB3NDzT2ujZPR2
- xwyOH1zXz+ZRZyMw/IFngbxdzxbG792E4poT2SwMTVT2FNUB2lHpiH6ZtqDqXd8Btdm0
- CCqKqYVJktzMCyEnNwNiC+A3oLXei/gHlv+qSgrT8loftIVVLV1Rqi6hLIsipMGwck+0
- CLZaGl46GgMcRnZ++glF6pd+nzf4uEC0b4SQva264a6jt0IUmVWeJaqGBxD9lJ8Ft9yJ
- pieQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Q0s5fqFPrXjNwEOb2lXn2YSX1DXSdvN7n06j/4ASEm0=;
- b=EUJH0ExYGxqVM2X6t2NHlO6ofRPtCW/isrtNgTH3V7BTs9YI9SVup9nwP93hraSyk9
- L74dH/eL0aq375y/XwA1NoZeqBR5broWg7Kbevj0CDSibaWVarXM85qdOufT0G63tF3g
- lb8puvsoe08BPdCrFv29MgFqlDzo6UoIbsv7P+FmoUSKtIRkOkQz8CW1Wjbn3iinjTaj
- QMtdS744u/epO4nG2nXqInvTHKQKC7n7+TUHzYCxo8SUAG0UNqpye5p8QoYMXLQZ7+il
- Lcw3sCQNyVnyIaE2rwGOJfztwnNBEv4N2pYCmIKTWsKofMDLg+r9qW1OazkIVb4A9uYa
- bwCQ==
-X-Gm-Message-State: APjAAAU4cNSzPJxVhftooH082LfdjzgaiRj5BWg1FP0j57UwcGBjsi7J
- YL7d8qDZsrAJvo7tzlWO4/JrrzOODPwEnOIUwEE=
-X-Google-Smtp-Source: APXvYqyPTHpLb//wKBSGFP2cTRrxclJulNeDGpxESp3qHATtfmAB/wniVhycXmvuJMt+PHHPdogqtvviQRoDyZqr3h0=
-X-Received: by 2002:a5d:5091:: with SMTP id a17mr24047747wrt.362.1580164744512; 
- Mon, 27 Jan 2020 14:39:04 -0800 (PST)
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3972F6EC1D;
+ Mon, 27 Jan 2020 23:09:12 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 48656B6LLXz9sNF;
+ Tue, 28 Jan 2020 10:09:06 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1580166549;
+ bh=Lee0wghCHwfvG/dzrUHoE66Ck0s/ZaMLkLJ+nlT/0rc=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=TbMlOArIxRnWUdkNloo/Qe4xvugQ6tNq7SRlev/JvSsL+1hxPU83t3xQzppSTen/i
+ GaXDowQQPQya6moo9SPI4p4RXnI3b/adEc9BNRxLOehk4Sz2o+8K3W+QzUGvnv4A1p
+ 51qqKlWk8hIwlXHEVdqWHzSVf0QSYawtS/36SBDxwf8/CIhYKxBAEx/WxQwlmsl1yy
+ Cy6vl/1ORlP201qfO8tpgkp9VuJXyGB2u/Y53YD62aM4kF0Q2JNYszxIJJ1W84nijA
+ 2vXfrcP5Ok/VfCYVT9UYyzClUQPy0zkvxn/0hsULUbfYNdQuCVC2Kpf+wvDTfar0OC
+ up/zXQQfbGHxg==
+Date: Tue, 28 Jan 2020 10:09:06 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@linux.ie>
+Subject: Re: linux-next: manual merge of the generic-ioremap tree with the
+ drm-intel tree
+Message-ID: <20200128100906.12a51b44@canb.auug.org.au>
+In-Reply-To: <20200108170803.1c91b20d@canb.auug.org.au>
+References: <20200108170803.1c91b20d@canb.auug.org.au>
 MIME-Version: 1.0
-References: <20200124200231.10517-1-ville.syrjala@linux.intel.com>
- <20200124200231.10517-8-ville.syrjala@linux.intel.com>
-In-Reply-To: <20200124200231.10517-8-ville.syrjala@linux.intel.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 27 Jan 2020 17:38:51 -0500
-Message-ID: <CADnq5_P4z0XFouqQ5idxgBUeT1CSLScgNarKOZ0C2JnKt02ehw@mail.gmail.com>
-Subject: Re: [PATCH 8/8] drm/edid: Dump bogus 18 byte descriptors
-To: Ville Syrjala <ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,69 +49,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Christoph Hellwig <hch@lst.de>, Matthew Auld <matthew.auld@intel.com>
+Content-Type: multipart/mixed; boundary="===============1984060659=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBKYW4gMjQsIDIwMjAgYXQgMzowMyBQTSBWaWxsZSBTeXJqYWxhCjx2aWxsZS5zeXJq
-YWxhQGxpbnV4LmludGVsLmNvbT4gd3JvdGU6Cj4KPiBGcm9tOiBWaWxsZSBTeXJqw6Rsw6QgPHZp
-bGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+Cj4gSSdtIGN1cmlvdXMgaWYgdGhlcmUgYXJl
-IGFueSBib2d1cyAxOCBieXRlIGRlc2NyaXB0b3JzIGFyb3VuZC4KPiBMZXQncyBkdW1wIHRoZW0g
-b3V0IGlmIHdlIGVuY291bnRlciB0aGVtLgo+Cj4gTm90IHN1cmUgd2UnZCBhY3R1YWxseSB3YW50
-IHRoaXMsIGJ1dCBhdCBsZWFzdCBJIGdldCB0byBzZWUKPiBpZiBvdXIgQ0kgaGFzIGFueXRoaW5n
-IHRoYXQgaGl0cyB0aGlzIDopCj4KPiBTaWduZWQtb2ZmLWJ5OiBWaWxsZSBTeXJqw6Rsw6QgPHZp
-bGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgoKQWNrZWQtYnk6IEFsZXggRGV1Y2hlciA8YWxl
-eGFuZGVyLmRldWNoZXJAYW1kLmNvbT4KCj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fZWRp
-ZC5jIHwgMjIgKysrKysrKysrKysrKysrKysrKy0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgMTkgaW5z
-ZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vZHJtX2VkaWQuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jCj4gaW5kZXggOGU3NmVm
-ZTE2NTRkLi40ZDgzMDNlNTY1MzYgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9l
-ZGlkLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYwo+IEBAIC0yMjAyLDYgKzIy
-MDIsMTIgQEAgc3RhdGljIGJvb2wgaXNfZGlzcGxheV9kZXNjcmlwdG9yKGNvbnN0IHU4IGRbMThd
-LCB1OCB0YWcpCj4gICAgICAgICAgICAgICAgIGRbMl0gPT0gMHgwMCAmJiBkWzNdID09IHRhZzsK
-PiAgfQo+Cj4gK3N0YXRpYyBib29sIGlzX2FueV9kaXNwbGF5X2Rlc2NyaXB0b3IoY29uc3QgdTgg
-ZFsxOF0pCj4gK3sKPiArICAgICAgIHJldHVybiBkWzBdID09IDB4MDAgJiYgZFsxXSA9PSAweDAw
-ICYmCj4gKyAgICAgICAgICAgICAgIGRbMl0gPT0gMHgwMDsKPiArfQo+ICsKPiAgc3RhdGljIGJv
-b2wgaXNfZGV0YWlsZWRfdGltaW5nX2Rlc2NyaXB0b3IoY29uc3QgdTggZFsxOF0pCj4gIHsKPiAg
-ICAgICAgIHJldHVybiBkWzBdICE9IDB4MDAgfHwgZFsxXSAhPSAweDAwOwo+IEBAIC0yMjA5LDYg
-KzIyMTUsMTUgQEAgc3RhdGljIGJvb2wgaXNfZGV0YWlsZWRfdGltaW5nX2Rlc2NyaXB0b3IoY29u
-c3QgdTggZFsxOF0pCj4KPiAgdHlwZWRlZiB2b2lkIGRldGFpbGVkX2NiKGNvbnN0IHN0cnVjdCBk
-ZXRhaWxlZF90aW1pbmcgKnRpbWluZywgdm9pZCAqY2xvc3VyZSk7Cj4KPiArc3RhdGljIHZvaWQg
-ZG9fZGV0YWlsZWRfYmxvY2soY29uc3QgdTggZFsxOF0sIGRldGFpbGVkX2NiICpjYiwgdm9pZCAq
-Y2xvc3VyZSkKPiArewo+ICsgICAgICAgaWYgKCFpc19kZXRhaWxlZF90aW1pbmdfZGVzY3JpcHRv
-cihkKSAmJgo+ICsgICAgICAgICAgICFpc19hbnlfZGlzcGxheV9kZXNjcmlwdG9yKGQpKQo+ICsg
-ICAgICAgICAgICAgICBEUk1fV0FSTigiVW5yZWNvZ25pemVkIDE4IGJ5dGUgZGVzY3JpcHRvcjog
-JSpwaFxuIiwgMTgsIGQpOwo+ICsKPiArICAgICAgIGNiKChjb25zdCBzdHJ1Y3QgZGV0YWlsZWRf
-dGltaW5nICopZCwgY2xvc3VyZSk7Cj4gK30KPiArCj4gIHN0YXRpYyB2b2lkCj4gIGNlYV9mb3Jf
-ZWFjaF9kZXRhaWxlZF9ibG9jayhjb25zdCB1OCAqZXh0LCBkZXRhaWxlZF9jYiAqY2IsIHZvaWQg
-KmNsb3N1cmUpCj4gIHsKPiBAQCAtMjIyMSw3ICsyMjM2LDcgQEAgY2VhX2Zvcl9lYWNoX2RldGFp
-bGVkX2Jsb2NrKGNvbnN0IHU4ICpleHQsIGRldGFpbGVkX2NiICpjYiwgdm9pZCAqY2xvc3VyZSkK
-Pgo+ICAgICAgICAgbiA9ICgxMjcgLSBkKSAvIDE4Owo+ICAgICAgICAgZm9yIChpID0gMDsgaSA8
-IG47IGkrKykKPiAtICAgICAgICAgICAgICAgY2IoKGNvbnN0IHN0cnVjdCBkZXRhaWxlZF90aW1p
-bmcgKikoZGV0X2Jhc2UgKyAxOCAqIGkpLCBjbG9zdXJlKTsKPiArICAgICAgICAgICAgICAgZG9f
-ZGV0YWlsZWRfYmxvY2soZGV0X2Jhc2UgKyAxOCAqIGksIGNiLCBjbG9zdXJlKTsKPiAgfQo+Cj4g
-IHN0YXRpYyB2b2lkCj4gQEAgLTIyMzQsNyArMjI0OSw3IEBAIHZ0Yl9mb3JfZWFjaF9kZXRhaWxl
-ZF9ibG9jayhjb25zdCB1OCAqZXh0LCBkZXRhaWxlZF9jYiAqY2IsIHZvaWQgKmNsb3N1cmUpCj4g
-ICAgICAgICAgICAgICAgIHJldHVybjsgLyogdW5rbm93biB2ZXJzaW9uICovCj4KPiAgICAgICAg
-IGZvciAoaSA9IDA7IGkgPCBuOyBpKyspCj4gLSAgICAgICAgICAgICAgIGNiKChjb25zdCBzdHJ1
-Y3QgZGV0YWlsZWRfdGltaW5nICopKGRldF9iYXNlICsgMTggKiBpKSwgY2xvc3VyZSk7Cj4gKyAg
-ICAgICAgICAgICAgIGRvX2RldGFpbGVkX2Jsb2NrKGRldF9iYXNlICsgMTggKiBpLCBjYiwgY2xv
-c3VyZSk7Cj4gIH0KPgo+ICBzdGF0aWMgdm9pZAo+IEBAIC0yMjQ3LDcgKzIyNjIsOCBAQCBkcm1f
-Zm9yX2VhY2hfZGV0YWlsZWRfYmxvY2soY29uc3QgdTggKnJhd19lZGlkLCBkZXRhaWxlZF9jYiAq
-Y2IsIHZvaWQgKmNsb3N1cmUpCj4gICAgICAgICAgICAgICAgIHJldHVybjsKPgo+ICAgICAgICAg
-Zm9yIChpID0gMDsgaSA8IEVESURfREVUQUlMRURfVElNSU5HUzsgaSsrKQo+IC0gICAgICAgICAg
-ICAgICBjYigmKGVkaWQtPmRldGFpbGVkX3RpbWluZ3NbaV0pLCBjbG9zdXJlKTsKPiArICAgICAg
-ICAgICAgICAgZG9fZGV0YWlsZWRfYmxvY2soKGNvbnN0IHU4ICopJmVkaWQtPmRldGFpbGVkX3Rp
-bWluZ3NbaV0sCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGNiLCBjbG9zdXJl
-KTsKPgo+ICAgICAgICAgZm9yIChpID0gMTsgaSA8PSByYXdfZWRpZFsweDdlXTsgaSsrKSB7Cj4g
-ICAgICAgICAgICAgICAgIGNvbnN0IHU4ICpleHQgPSByYXdfZWRpZCArIChpICogRURJRF9MRU5H
-VEgpOwo+IC0tCj4gMi4yNC4xCj4KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9kcmktZGV2ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVsCg==
+--===============1984060659==
+Content-Type: multipart/signed; boundary="Sig_/297FrBGGBY7qmNBqHuQblq4";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+
+--Sig_/297FrBGGBY7qmNBqHuQblq4
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+Hi all,
+
+On Wed, 8 Jan 2020 17:08:03 +1100 Stephen Rothwell <sfr@canb.auug.org.au> w=
+rote:
+>
+> Today's linux-next merge of the generic-ioremap tree got a conflict in:
+>=20
+>   drivers/gpu/drm/i915/i915_gem_gtt.c
+>=20
+> between commit:
+>=20
+>   2c86e55d2ab5 ("drm/i915/gtt: split up i915_gem_gtt")
+>=20
+> from the drm-intel tree and commit:
+>=20
+>   4bdc0d676a64 ("remove ioremap_nocache and devm_ioremap_nocache")
+>=20
+> from the generic-ioremap tree.
+>=20
+> I fixed it up (I used the file from the former and added the following
+> merge fix patch) and can carry the fix as necessary. This is now fixed
+> as far as linux-next is concerned, but any non trivial conflicts should
+> be mentioned to your upstream maintainer when your tree is submitted for
+> merging.  You may also want to consider cooperating with the maintainer
+> of the conflicting tree to minimise any particularly complex conflicts.
+>=20
+> From: Stephen Rothwell <sfr@canb.auug.org.au>
+> Date: Wed, 8 Jan 2020 17:04:59 +1100
+> Subject: [PATCH] fix up for "drm/i915/gtt: split up i915_gem_gtt"
+>=20
+> Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> ---
+>  drivers/gpu/drm/i915/gt/intel_ggtt.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/=
+gt/intel_ggtt.c
+> index 99189cdba8a9..1a2b5dcde960 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> @@ -801,7 +801,7 @@ static int ggtt_probe_common(struct i915_ggtt *ggtt, =
+u64 size)
+>  	 * readback check when writing GTT PTE entries.
+>  	 */
+>  	if (IS_GEN9_LP(i915) || INTEL_GEN(i915) >=3D 10)
+> -		ggtt->gsm =3D ioremap_nocache(phys_addr, size);
+> +		ggtt->gsm =3D ioremap(phys_addr, size);
+>  	else
+>  		ggtt->gsm =3D ioremap_wc(phys_addr, size);
+>  	if (!ggtt->gsm) {
+> --=20
+> 2.24.0
+
+This is now a conflict between the drm tree and Linus' tree.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/297FrBGGBY7qmNBqHuQblq4
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl4vbZIACgkQAVBC80lX
+0GyPUwf/cOdH8wGIQF8qDXYMHIg7zAjgBwqmSw20bgsp8uol38cquKMzkcYUu75A
+bAPpcHWSqTuIpZLg77W4Ne6oty9YbkqcMKtPyz5gOBZaNShSLRBN7jJwpqwQu1Ct
+hJ3erBLNpklZjqOzFtQfPJm8FDQrQzHy/iRyfex+R90pjVcZEXP1vZlDN0o3LWER
+9HysEeK/qjYY1bu79Bd4sHp/Cg+B8RNXCI1Tf9rlo1hgKoeqVTBeh1qLyQ9iU+NJ
+/nRgPlQK1VpidM1mj2PLmVuzZS0QdAt6ArL6nLQFepvRX+v0arUaD/hsaeT8UVMD
+S8muodtczl45alwxZxOB1EnV7KDAxA==
+=KJKx
+-----END PGP SIGNATURE-----
+
+--Sig_/297FrBGGBY7qmNBqHuQblq4--
+
+--===============1984060659==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1984060659==--
