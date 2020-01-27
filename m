@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DABFE14A7A9
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2020 17:00:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD45814A7AD
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2020 17:00:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A10C6E152;
-	Mon, 27 Jan 2020 16:00:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 934786E1C0;
+	Mon, 27 Jan 2020 16:00:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51F7D6E0F2
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2020 16:00:44 +0000 (UTC)
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A191D6E1A8
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2020 16:00:47 +0000 (UTC)
 Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00RG0c6n053211;
- Mon, 27 Jan 2020 10:00:38 -0600
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00RG0fa9064867;
+ Mon, 27 Jan 2020 10:00:41 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1580140838;
- bh=ffjylmFI4PGeo+Du9vsGbCExJgtUxATCvewUydE/0Vo=;
+ s=ti-com-17Q1; t=1580140841;
+ bh=91B4o/mN6pjqjkIh9PLWUDgGygICrgA+57FkJnyfyEQ=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=nVTfkbEHubvtIqaRJtaC/zllDhurXMLZL9+RqNHHm6G//iKzR/8J5ipcWs7bKttLk
- l7FKUrQxjGuL7PhAhqFog1KoydhvBO+MB7EI7VHIg1n770K5yrIsVxqISrJ86810I5
- uEvA6bQLmK4HOGnYlJc6kedJAhREzYw/IN5LAosk=
-Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00RG0c4H130204
+ b=uIX6mhTVsSbgjUdIt0YWhBiIEy790Li3nC6oQlJPR4X8jnYD0zQryGPLvcnSQtm75
+ VuK0OV+gq7TqH3H4D/bfaKYv1PdtGoqewHu1+9HXAwP7wDNhfQjjMIwZUSckJ7XfQA
+ fzxB/WQ/1pVf2dSoCOgteEMMxH47Zr+rwrMIK5YE=
+Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00RG0fMH130270
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 27 Jan 2020 10:00:38 -0600
-Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+ Mon, 27 Jan 2020 10:00:41 -0600
+Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Mon, 27
- Jan 2020 10:00:38 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ Jan 2020 10:00:40 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Mon, 27 Jan 2020 10:00:37 -0600
+ Frontend Transport; Mon, 27 Jan 2020 10:00:40 -0600
 Received: from jadmar.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00RG0XSI056344;
- Mon, 27 Jan 2020 10:00:35 -0600
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00RG0XSJ056344;
+ Mon, 27 Jan 2020 10:00:38 -0600
 From: Jyri Sarha <jsarha@ti.com>
 To: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>
-Subject: [PATCH v9 1/5] dt-bindings: display: ti,
- k2g-dss: Add dt-schema yaml binding
-Date: Mon, 27 Jan 2020 18:00:28 +0200
-Message-ID: <270297321f0768c10e241d289e3ac10e39cf12a9.1580129724.git.jsarha@ti.com>
+Subject: [PATCH v9 2/5] dt-bindings: display: ti,
+ am65x-dss: Add dt-schema yaml binding
+Date: Mon, 27 Jan 2020 18:00:29 +0200
+Message-ID: <1799656fb8cc42ca698fc29bbc80c1bae442d6d3.1580129724.git.jsarha@ti.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1580129724.git.jsarha@ti.com>
 References: <cover.1580129724.git.jsarha@ti.com>
@@ -68,20 +68,20 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add dt-schema yaml bindig for K2G DSS, an ultra-light version of TI
-Keystone Display SubSystem.
+Add dt-schema yaml bindig for AM65x DSS, AM65x version TI Keystone
+Display SubSystem.
 
 Version history:
 
 v2: no change
 
 v3: - Add ports node
+    - use allOf in ti,am65x-oldi-io-ctrl to add both $ref and maxItems
     - Add includes to dts example
     - reindent dts example
 
 v4: - Add descriptions to reg and clocks properties
     - Remove minItems when its value is the same as maxItems value
-    - Remove ports node
 
 v5: - itemize reg and clocks properties' descriptions
 
@@ -92,69 +92,76 @@ v7: no change
 
 v8: no change
 
-v9: - Remove ports-node from the dts example
-
 Signed-off-by: Jyri Sarha <jsarha@ti.com>
 Reviewed-by: Rob Herring <robh@kernel.org>
 Reviewed-by: Benoit Parrot <bparrot@ti.com>
 ---
- .../bindings/display/ti/ti,k2g-dss.yaml       | 106 ++++++++++++++++++
- 1 file changed, 106 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
+ .../bindings/display/ti/ti,am65x-dss.yaml     | 152 ++++++++++++++++++
+ 1 file changed, 152 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
 
-diff --git a/Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
+diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
 new file mode 100644
-index 000000000000..385bd060ccf9
+index 000000000000..cac61a998203
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
-@@ -0,0 +1,106 @@
++++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+@@ -0,0 +1,152 @@
 +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
 +# Copyright 2019 Texas Instruments Incorporated
 +%YAML 1.2
 +---
-+$id: "http://devicetree.org/schemas/display/ti/ti,k2g-dss.yaml#"
++$id: "http://devicetree.org/schemas/display/ti/ti,am65x-dss.yaml#"
 +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
 +
-+title: Texas Instruments K2G Display Subsystem
++title: Texas Instruments AM65x Display Subsystem
 +
 +maintainers:
 +  - Jyri Sarha <jsarha@ti.com>
 +  - Tomi Valkeinen <tomi.valkeinen@ti.com>
 +
 +description: |
-+  The K2G DSS is an ultra-light version of TI Keystone Display
-+  SubSystem. It has only one output port and video plane. The
-+  output is DPI.
++  The AM65x TI Keystone Display SubSystem with two output ports and
++  two video planes. The first video port supports OLDI and the second
++  supports DPI format. The fist plane is full video plane with all
++  features and the second is a "lite plane" without scaling support.
 +
 +properties:
 +  compatible:
-+    const: ti,k2g-dss
++    const: ti,am65x-dss
 +
 +  reg:
++    description:
++      Addresses to each DSS memory region described in the SoC's TRM.
 +    items:
-+      - description: cfg DSS top level
-+      - description: common DISPC common
-+      - description: VID1 video plane 1
++      - description: common DSS register area
++      - description: VIDL1 light video plane
++      - description: VID video plane
 +      - description: OVR1 overlay manager for vp1
++      - description: OVR2 overlay manager for vp2
 +      - description: VP1 video port 1
++      - description: VP2 video port 2
 +
 +  reg-names:
 +    items:
-+      - const: cfg
 +      - const: common
-+      - const: vid1
++      - const: vidl1
++      - const: vid
 +      - const: ovr1
++      - const: ovr2
 +      - const: vp1
++      - const: vp2
 +
 +  clocks:
 +    items:
 +      - description: fck DSS functional clock
 +      - description: vp1 Video Port 1 pixel clock
++      - description: vp2 Video Port 2 pixel clock
 +
 +  clock-names:
 +    items:
 +      - const: fck
 +      - const: vp1
++      - const: vp2
 +
 +  interrupts:
 +    maxItems: 1
@@ -163,11 +170,41 @@ index 000000000000..385bd060ccf9
 +    maxItems: 1
 +    description: phandle to the associated power domain
 +
-+  port:
++  ports:
 +    type: object
 +    description:
-+      Port as described in Documentation/devictree/bindings/graph.txt.
-+      The DSS DPI output port node
++      Ports as described in Documentation/devictree/bindings/graph.txt
++    properties:
++      "#address-cells":
++        const: 1
++
++      "#size-cells":
++        const: 0
++
++      port@0:
++        type: object
++        description:
++          The DSS OLDI output port node form video port 1
++
++      port@1:
++        type: object
++        description:
++          The DSS DPI output port node from video port 2
++
++    required:
++      - "#address-cells"
++      - "#size-cells"
++
++  ti,am65x-oldi-io-ctrl:
++    allOf:
++      - $ref: "/schemas/types.yaml#/definitions/phandle-array"
++      - maxItems: 1
++    description:
++      phandle to syscon device node mapping OLDI IO_CTRL registers.
++      The mapped range should point to OLDI_DAT0_IO_CTRL, map it and
++      following OLDI_DAT1_IO_CTRL, OLDI_DAT2_IO_CTRL, OLDI_DAT3_IO_CTRL,
++      and OLDI_CLK_IO_CTRL registers. This property is needed for OLDI
++      interface to work.
 +
 +  max-memory-bandwidth:
 +    $ref: /schemas/types.yaml#/definitions/uint32
@@ -182,7 +219,7 @@ index 000000000000..385bd060ccf9
 +  - clocks
 +  - clock-names
 +  - interrupts
-+  - port
++  - ports
 +
 +additionalProperties: false
 +
@@ -190,27 +227,34 @@ index 000000000000..385bd060ccf9
 +  - |
 +    #include <dt-bindings/interrupt-controller/arm-gic.h>
 +    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/soc/ti,sci_pm_domain.h>
 +
-+    dss: dss@02540000 {
-+            compatible = "ti,k2g-dss";
-+            reg =   <0x02540000 0x400>,
-+                    <0x02550000 0x1000>,
-+                    <0x02557000 0x1000>,
-+                    <0x0255a800 0x100>,
-+                    <0x0255ac00 0x100>;
-+            reg-names = "cfg", "common", "vid1", "ovr1", "vp1";
-+            clocks =        <&k2g_clks 0x2 0>,
-+                            <&k2g_clks 0x2 1>;
-+            clock-names = "fck", "vp1";
-+            interrupts = <GIC_SPI 247 IRQ_TYPE_EDGE_RISING>;
-+
-+            power-domains = <&k2g_pds 0x2>;
-+
-+            max-memory-bandwidth = <230000000>;
-+
-+            port {
-+                    dpi_out: endpoint {
-+                            remote-endpoint = <&sii9022_in>;
++    dss: dss@04a00000 {
++            compatible = "ti,am65x-dss";
++            reg =   <0x0 0x04a00000 0x0 0x1000>, /* common */
++                    <0x0 0x04a02000 0x0 0x1000>, /* vidl1 */
++                    <0x0 0x04a06000 0x0 0x1000>, /* vid */
++                    <0x0 0x04a07000 0x0 0x1000>, /* ovr1 */
++                    <0x0 0x04a08000 0x0 0x1000>, /* ovr2 */
++                    <0x0 0x04a0a000 0x0 0x1000>, /* vp1 */
++                    <0x0 0x04a0b000 0x0 0x1000>; /* vp2 */
++            reg-names = "common", "vidl1", "vid",
++                    "ovr1", "ovr2", "vp1", "vp2";
++            ti,am65x-oldi-io-ctrl = <&dss_oldi_io_ctrl>;
++            power-domains = <&k3_pds 67 TI_SCI_PD_EXCLUSIVE>;
++            clocks =        <&k3_clks 67 1>,
++                            <&k3_clks 216 1>,
++                            <&k3_clks 67 2>;
++            clock-names = "fck", "vp1", "vp2";
++            interrupts = <GIC_SPI 166 IRQ_TYPE_EDGE_RISING>;
++            ports {
++                    #address-cells = <1>;
++                    #size-cells = <0>;
++                    port@0 {
++                            reg = <0>;
++                            oldi_out0: endpoint {
++                                    remote-endpoint = <&lcd_in0>;
++                            };
 +                    };
 +            };
 +    };
