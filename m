@@ -2,54 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E90514A602
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2020 15:27:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D98914A6FB
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2020 16:13:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E481E6E516;
-	Mon, 27 Jan 2020 14:27:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9879E6EBDA;
+	Mon, 27 Jan 2020 15:13:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
- [209.85.167.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F4D16E4D7
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2020 14:27:19 +0000 (UTC)
-Received: by mail-oi1-f196.google.com with SMTP id z64so6800926oia.4
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2020 06:27:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=ex/Vz3wX/g9HFdy28JpEbqVZXRZ73mjVXy3JN9csMIU=;
- b=KBEntWIzodi3Yy7D78TnvZa+TUn7ZS2KW6iqdFYq8IQLyN2n4BPKQvnMjktcD5XdOZ
- 01QisSGFQ02yEZUyt383DAKbaAJ3XDTNSRLjiXOq/t4vbzHO6zhyoFW0vGJQDPDkJD2E
- pM2xcc4x/tr5oUegovU/3mIUkpKhiDAYRPI92T2zvCDRWwOxbcjFcXICVrF4gahtv09u
- eWFwmRm5B1LQB5DNRISJJgp365Y9FrkFDlip7xXuoI+OoFHviB2BSxDqwUBqDTEBe2s1
- Kym4R+WanWdi/qNCxj1acrMTjuYcJxQuMKxfnePzxdJqikRWhPHeNp8aK63pTyvlht1u
- yXCA==
-X-Gm-Message-State: APjAAAUBiDn+BlTvD3/wTD/LL7GjZXcDub2Mf19GWpA/OOJO3AhhVkdh
- X1aq+rVR1Gg+JF5Zo3Beng==
-X-Google-Smtp-Source: APXvYqyir024SUWVI341ABEbH3M1KuLPM8D4LvZPtpyviODJx/tjaS2QhxNbgMaSNSZSKOYciY2OEg==
-X-Received: by 2002:aca:e146:: with SMTP id y67mr7212323oig.93.1580135238334; 
- Mon, 27 Jan 2020 06:27:18 -0800 (PST)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id j186sm4787555oih.55.2020.01.27.06.27.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jan 2020 06:27:17 -0800 (PST)
-Received: (nullmailer pid 31278 invoked by uid 1000);
- Mon, 27 Jan 2020 14:27:17 -0000
-Date: Mon, 27 Jan 2020 08:27:17 -0600
-From: Rob Herring <robh@kernel.org>
-To: Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: add binding for tft displays based
- on ilitek,ili9486
-Message-ID: <20200127142717.GA30789@bogus>
-References: <cover.1580059987.git.kamlesh.gurudasani@gmail.com>
- <a37d95cbfc9603265ed15916cdd2fb69e8c5f041.1580059987.git.kamlesh.gurudasani@gmail.com>
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A94A6EBDA
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2020 15:13:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds201912;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=AvcaQHsGf9q8P8sr76j5zYnoRvlA6Weltg5yBROc9io=; b=jmNKNB2jUmpStk2+x6J2mw3h3z
+ ifM19Ka74VaAik4/+Bm71A0xaC7h06D4VcvrdDd9HJzKc8/KsLaMV7ajTTQsViXBb3Juab5+vZ6LP
+ y+tlRh+2GBofOMtOrQ56Jc7y0BmqyQCi2pi9tgIkS07ek3CC6a3+NWdgZoQUt8ubwVbJ6RM5EW1AZ
+ MetEEI9wWbYDvgY3hWRcb59oX3rg0JeBKtcKLMpK3qV0sYOcax0mxX/Y+Uy45+pG9K+0yyg6VQ0JQ
+ yvuYi0khvPgxi+ECTbmACGc3fjYonc5m0CCQEGDIPmSsltDv2iupDRXdqGXgFlWS0M/awPBwNT1ZV
+ m2qQ1eEA==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:62464
+ helo=[192.168.10.61])
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1iw64h-0004LR-Ao; Mon, 27 Jan 2020 16:13:15 +0100
+Subject: Re: [PATCH v4 3/3] drm/tinydrm: add support for tft displays based on
+ ilitek,ili9486
+To: Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
+References: <cover.1580134320.git.kamlesh.gurudasani@gmail.com>
+ <eb5672abbdb89d7018793c76d7193bfb78a2ea88.1580134320.git.kamlesh.gurudasani@gmail.com>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <79733e99-2c47-05e2-dbe8-5116001f44b4@tronnes.org>
+Date: Mon, 27 Jan 2020 16:13:13 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <a37d95cbfc9603265ed15916cdd2fb69e8c5f041.1580059987.git.kamlesh.gurudasani@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <eb5672abbdb89d7018793c76d7193bfb78a2ea88.1580134320.git.kamlesh.gurudasani@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,40 +56,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 26 Jan 2020 23:12:00 +0530, Kamlesh Gurudasani wrote:
-> This binding is for the tft displays based on ilitek,ili9486.
-> ozzmaker,piscreen and waveshare,rpi-lcd-35 are such displays
-> 
-> Signed-off-by: Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>
-> ---
-> 
-> v2 changes:
-> * Changing file from txt to yaml format
-> * removed ilitek,ili9486 from compatible string
-> ---
->  .../bindings/display/ilitek,ili9486.yaml           | 79 ++++++++++++++++++++++
->  1 file changed, 79 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/ilitek,ili9486.yaml
-> 
-
-My bot found errors running 'make dt_binding_check' on your patch:
-
-Documentation/devicetree/bindings/display/simple-framebuffer.example.dts:21.16-37.11: Warning (chosen_node_is_root): /example-0/chosen: chosen node must be at root node
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/ilitek,ili9486.example.dt.yaml: display@0: compatible: ['waveshare,rpi-lcd-35'] is not valid under any of the given schemas (Possible causes of the failure):
-	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/ilitek,ili9486.example.dt.yaml: display@0: compatible: ['waveshare,rpi-lcd-35'] is too short
-	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/ilitek,ili9486.example.dt.yaml: display@0: compatible:0: 'waveshare,rpi-lcd-35' is not one of ['ozzmaker,piscreen']
-
-See https://patchwork.ozlabs.org/patch/1229397
-Please check and re-submit.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CgpEZW4gMjcuMDEuMjAyMCAxNS4yNiwgc2tyZXYgS2FtbGVzaCBHdXJ1ZGFzYW5pOgo+IFRoaXMg
+YWRkcyBzdXBwb3J0IGZvdCBpbGl0ZWssaWxpOTQ4NiBiYXNlZCBkaXNwbGF5cyB3aXRoIHNoaWZ0
+IHJlZ2lzdGVyCj4gaW4gZnJvbnQgb2YgY29udHJvbGxlci4KPiBPenptYWtlcixQaXNjcmVlbiBh
+bmQgV2F2ZXNoYXJlLHJwaS1sY2QtMzUgYXJlIHN1Y2ggZGlzcGxheXMuCj4gCj4gU2lnbmVkLW9m
+Zi1ieTogS2FtbGVzaCBHdXJ1ZGFzYW5pIDxrYW1sZXNoLmd1cnVkYXNhbmlAZ21haWwuY29tPgo+
+IC0tLQoKUmV2aWV3ZWQtYnk6IE5vcmFsZiBUcsO4bm5lcyA8bm9yYWxmQHRyb25uZXMub3JnPgoK
+V2hlbiB5b3UgcmVzZW5kIGl0J3MgaW1wb3J0YW50IHRoYXQgeW91IGFkZCBhbnkgci1iJ3Mgb3Ig
+YWNrJ3MgeW91J3ZlCmFscmVhZHkgcmVjZWl2ZWQuIFRoaXMgcHJldmVudHMgZG91YmxlIHdvcmsg
+KHNvbWUgcmV2aWV3IGEgbG9hZCBvZgpwYXRjaGVzIGFuZCBjYW4ndCBiZSBleHBlY3RlZCB0byBy
+ZW1lbWJlciB0aGVtIGFsbCkgYW5kIGl0IGhlbHBzIHRoZQptYWludGFpbmVyIGdldHRpbmcgY29u
+ZmlkZW5jZSB0aGF0IHRoZSBwYXRjaCBpcyBzb2xpZCB3aGVuIG90aGVycyBoYXZlCmxvb2tlZCBh
+dCBpdC4KCk5vIG5lZWQgdG8gcmVzZW5kIGFnYWluIGp1c3QgZm9yIHRoaXMsIGJ1dCBpZiB5b3Ug
+bmVlZCBhbm90aGVyIHJlc3BpbiwKcmVtZW1iZXIgdG8gYWRkIG15IHItYi4KCk5vcmFsZi4KX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
