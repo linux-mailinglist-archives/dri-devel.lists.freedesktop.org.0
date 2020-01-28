@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4584114BFC0
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 19:28:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5CD214BFC3
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 19:28:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 155836EF41;
-	Tue, 28 Jan 2020 18:28:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B4D56EF44;
+	Tue, 28 Jan 2020 18:28:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 375E86EF41;
- Tue, 28 Jan 2020 18:28:38 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B05606EF42;
+ Tue, 28 Jan 2020 18:28:43 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2020 10:28:37 -0800
+ by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 28 Jan 2020 10:28:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,374,1574150400"; d="scan'208";a="310820083"
+X-IronPort-AV: E=Sophos;i="5.70,374,1574150400"; d="scan'208";a="310820504"
 Received: from plaxmina-desktop.iind.intel.com ([10.145.162.62])
- by fmsmga001.fm.intel.com with ESMTP; 28 Jan 2020 10:28:34 -0800
+ by fmsmga001.fm.intel.com with ESMTP; 28 Jan 2020 10:28:39 -0800
 From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 To: jani.nikula@linux.intel.com, daniel@ffwll.ch,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
  =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>, Daniel Drake <drake@endlessm.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Subject: [Intel-gfx] [PATCH v5 10/21] drm/i915/display/fbc: Make WARN* drm
- specific where drm_priv ptr is available
-Date: Tue, 28 Jan 2020 23:45:52 +0530
-Message-Id: <20200128181603.27767-11-pankaj.laxminarayan.bharadiya@intel.com>
+ Lyude Paul <lyude@redhat.com>
+Subject: [Intel-gfx] [PATCH v5 11/21] drm/i915/fbdev: Make WARN* drm specific
+ where drm_device ptr is available
+Date: Tue, 28 Jan 2020 23:45:53 +0530
+Message-Id: <20200128181603.27767-12-pankaj.laxminarayan.bharadiya@intel.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200128181603.27767-1-pankaj.laxminarayan.bharadiya@intel.com>
 References: <20200128181603.27767-1-pankaj.laxminarayan.bharadiya@intel.com>
@@ -56,156 +56,118 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm specific WARN* calls include device information in the
+Drm specific drm_WARN* calls include device information in the
 backtrace, so we know what device the warnings originate from.
 
 Covert all the calls of WARN* with device specific drm_WARN*
-variants in functions where drm_i915_private struct pointer is readily
+variants in functions where drm_device struct pointer is readily
 available.
 
 The conversion was done automatically with below coccinelle semantic
-patch.
+patch. checkpatch errors/warnings are fixed manually.
 
 @rule1@
 identifier func, T;
 @@
 func(...) {
 ...
-struct drm_i915_private *T = ...;
-<+...
+struct drm_device *T = ...;
+<...
 (
 -WARN(
-+drm_WARN(&T->drm,
++drm_WARN(T,
 ...)
 |
 -WARN_ON(
-+drm_WARN_ON(&T->drm,
++drm_WARN_ON(T,
 ...)
 |
 -WARN_ONCE(
-+drm_WARN_ONCE(&T->drm,
++drm_WARN_ONCE(T,
 ...)
 |
 -WARN_ON_ONCE(
-+drm_WARN_ON_ONCE(&T->drm,
++drm_WARN_ON_ONCE(T,
 ...)
 )
-...+>
+...>
 }
 
 @rule2@
 identifier func, T;
 @@
-func(struct drm_i915_private *T,...) {
-<+...
+func(struct drm_device *T,...) {
+<...
 (
 -WARN(
-+drm_WARN(&T->drm,
++drm_WARN(T,
 ...)
 |
 -WARN_ON(
-+drm_WARN_ON(&T->drm,
++drm_WARN_ON(T,
 ...)
 |
 -WARN_ONCE(
-+drm_WARN_ONCE(&T->drm,
++drm_WARN_ONCE(T,
 ...)
 |
 -WARN_ON_ONCE(
-+drm_WARN_ON_ONCE(&T->drm,
++drm_WARN_ON_ONCE(T,
 ...)
 )
-...+>
+...>
 }
 
 Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_fbc.c | 23 ++++++++++++-----------
- 1 file changed, 12 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/i915/display/intel_fbdev.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_fbc.c b/drivers/gpu/drm/i915/display/intel_fbc.c
-index 2a3f1333c8ff..c27e007d5e04 100644
---- a/drivers/gpu/drm/i915/display/intel_fbc.c
-+++ b/drivers/gpu/drm/i915/display/intel_fbc.c
-@@ -412,7 +412,7 @@ static void intel_fbc_deactivate(struct drm_i915_private *dev_priv,
- {
- 	struct intel_fbc *fbc = &dev_priv->fbc;
+diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
+index 1e98e432c9fa..b4ff77225236 100644
+--- a/drivers/gpu/drm/i915/display/intel_fbdev.c
++++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
+@@ -191,7 +191,7 @@ static int intelfb_create(struct drm_fb_helper *helper,
+ 		drm_framebuffer_put(&intel_fb->base);
+ 		intel_fb = ifbdev->fb = NULL;
+ 	}
+-	if (!intel_fb || WARN_ON(!intel_fb_obj(&intel_fb->base))) {
++	if (!intel_fb || drm_WARN_ON(dev, !intel_fb_obj(&intel_fb->base))) {
+ 		DRM_DEBUG_KMS("no BIOS fb, allocating a new one\n");
+ 		ret = intelfb_alloc(helper, sizes);
+ 		if (ret)
+@@ -410,9 +410,9 @@ static bool intel_fbdev_init_bios(struct drm_device *dev,
+ 		if (!crtc->state->active)
+ 			continue;
  
--	WARN_ON(!mutex_is_locked(&fbc->lock));
-+	drm_WARN_ON(&dev_priv->drm, !mutex_is_locked(&fbc->lock));
+-		WARN(!crtc->primary->state->fb,
+-		     "re-used BIOS config but lost an fb on crtc %d\n",
+-		     crtc->base.id);
++		drm_WARN(dev, !crtc->primary->state->fb,
++			 "re-used BIOS config but lost an fb on crtc %d\n",
++			 crtc->base.id);
+ 	}
  
- 	if (fbc->active)
- 		intel_fbc_hw_deactivate(dev_priv);
-@@ -476,7 +476,8 @@ static int intel_fbc_alloc_cfb(struct drm_i915_private *dev_priv,
- 	struct drm_mm_node *uninitialized_var(compressed_llb);
+ 
+@@ -439,7 +439,8 @@ int intel_fbdev_init(struct drm_device *dev)
+ 	struct intel_fbdev *ifbdev;
  	int ret;
  
--	WARN_ON(drm_mm_node_allocated(&fbc->compressed_fb));
-+	drm_WARN_ON(&dev_priv->drm,
-+		    drm_mm_node_allocated(&fbc->compressed_fb));
+-	if (WARN_ON(!HAS_DISPLAY(dev_priv) || !INTEL_DISPLAY_ENABLED(dev_priv)))
++	if (drm_WARN_ON(dev, !HAS_DISPLAY(dev_priv) ||
++			!INTEL_DISPLAY_ENABLED(dev_priv)))
+ 		return -ENODEV;
  
- 	ret = find_compression_threshold(dev_priv, &fbc->compressed_fb,
- 					 size, fb_cpp);
-@@ -562,7 +563,7 @@ static bool stride_is_valid(struct drm_i915_private *dev_priv,
- 			    unsigned int stride)
- {
- 	/* This should have been caught earlier. */
--	if (WARN_ON_ONCE((stride & (64 - 1)) != 0))
-+	if (drm_WARN_ON_ONCE(&dev_priv->drm, (stride & (64 - 1)) != 0))
- 		return false;
- 
- 	/* Below are the additional FBC restrictions. */
-@@ -670,8 +671,8 @@ static void intel_fbc_update_state_cache(struct intel_crtc *crtc,
- 	cache->fb.format = fb->format;
- 	cache->fb.stride = fb->pitches[0];
- 
--	WARN_ON(plane_state->flags & PLANE_HAS_FENCE &&
--		!plane_state->vma->fence);
-+	drm_WARN_ON(&dev_priv->drm, plane_state->flags & PLANE_HAS_FENCE &&
-+		    !plane_state->vma->fence);
- 
- 	if (plane_state->flags & PLANE_HAS_FENCE &&
- 	    plane_state->vma->fence)
-@@ -937,9 +938,9 @@ static void __intel_fbc_disable(struct drm_i915_private *dev_priv)
- 	struct intel_fbc *fbc = &dev_priv->fbc;
- 	struct intel_crtc *crtc = fbc->crtc;
- 
--	WARN_ON(!mutex_is_locked(&fbc->lock));
--	WARN_ON(!fbc->crtc);
--	WARN_ON(fbc->active);
-+	drm_WARN_ON(&dev_priv->drm, !mutex_is_locked(&fbc->lock));
-+	drm_WARN_ON(&dev_priv->drm, !fbc->crtc);
-+	drm_WARN_ON(&dev_priv->drm, fbc->active);
- 
- 	DRM_DEBUG_KMS("Disabling FBC on pipe %c\n", pipe_name(crtc->pipe));
- 
-@@ -953,7 +954,7 @@ static void __intel_fbc_post_update(struct intel_crtc *crtc)
- 	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
- 	struct intel_fbc *fbc = &dev_priv->fbc;
- 
--	WARN_ON(!mutex_is_locked(&fbc->lock));
-+	drm_WARN_ON(&dev_priv->drm, !mutex_is_locked(&fbc->lock));
- 
- 	if (fbc->crtc != crtc)
- 		return;
-@@ -1146,7 +1147,7 @@ void intel_fbc_enable(struct intel_atomic_state *state,
- 		__intel_fbc_disable(dev_priv);
- 	}
- 
--	WARN_ON(fbc->active);
-+	drm_WARN_ON(&dev_priv->drm, fbc->active);
- 
- 	intel_fbc_update_state_cache(crtc, crtc_state, plane_state);
- 
-@@ -1213,7 +1214,7 @@ void intel_fbc_global_disable(struct drm_i915_private *dev_priv)
- 
- 	mutex_lock(&fbc->lock);
- 	if (fbc->crtc) {
--		WARN_ON(fbc->crtc->active);
-+		drm_WARN_ON(&dev_priv->drm, fbc->crtc->active);
- 		__intel_fbc_disable(dev_priv);
- 	}
- 	mutex_unlock(&fbc->lock);
+ 	ifbdev = kzalloc(sizeof(struct intel_fbdev), GFP_KERNEL);
+@@ -569,7 +570,7 @@ void intel_fbdev_set_suspend(struct drm_device *dev, int state, bool synchronous
+ 		 * to all the printk activity.  Try to keep it out of the hot
+ 		 * path of resume if possible.
+ 		 */
+-		WARN_ON(state != FBINFO_STATE_RUNNING);
++		drm_WARN_ON(dev, state != FBINFO_STATE_RUNNING);
+ 		if (!console_trylock()) {
+ 			/* Don't block our own workqueue as this can
+ 			 * be run in parallel with other i915.ko tasks.
 -- 
 2.23.0
 
