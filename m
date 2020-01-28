@@ -2,54 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4E7114ACA8
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 00:40:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 988A214AF0D
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 06:26:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A377A6E9CE;
-	Mon, 27 Jan 2020 23:40:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C9CB6EC7E;
+	Tue, 28 Jan 2020 05:26:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
- [104.130.122.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 105FF6EB27
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2020 23:40:24 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1580168426; h=Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=d74wUAmSb8IYWC70SlwNLpBtbPMqEnwBpMkYDFfe8U0=;
- b=UEKVw+isvW23xkklGuCCkn2JFMx4JO9YX/U96Hbcyt0NlLIXWilwEWusDqVr4HOOtX7wWaz9
- LI/5A4W6It1ZYKmBYuJ2YYV10km2RU3d8sCWTfeddR6/lTaUxENhTr3qHkQsCliepiy2V05W
- Hz3HFsnAy8W6QUu9AAtFhH9LxWc=
-X-Mailgun-Sending-Ip: 104.130.122.26
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e2f74dd.7f4b377dd998-smtp-out-n02;
- Mon, 27 Jan 2020 23:40:13 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id D6D42C447A3; Mon, 27 Jan 2020 23:40:12 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from abhinavk-linux.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 827AAC43383;
- Mon, 27 Jan 2020 23:40:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 827AAC43383
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=abhinavk@codeaurora.org
-From: Abhinav Kumar <abhinavk@codeaurora.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm: Parse Colorimetry data block from EDID
-Date: Mon, 27 Jan 2020 15:40:06 -0800
-Message-Id: <1580168406-23808-1-git-send-email-abhinavk@codeaurora.org>
-X-Mailer: git-send-email 1.9.1
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 265356EC7E;
+ Tue, 28 Jan 2020 05:26:41 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 27 Jan 2020 21:26:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,372,1574150400"; d="scan'208";a="229182709"
+Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.99.66.154])
+ by orsmga003.jf.intel.com with ESMTP; 27 Jan 2020 21:26:13 -0800
+Date: Tue, 28 Jan 2020 10:56:15 +0530
+From: Ramalingam C <ramalingam.c@intel.com>
+To: Sean Paul <sean@poorly.run>
+Subject: Re: [Intel-gfx] [PATCH v2] drm/hdcp: optimizing the srm handling
+Message-ID: <20200128052615.GA9540@intel.com>
+References: <20200127181231.5380-1-ramalingam.c@intel.com>
+ <20200127211032.GA56834@art_vandelay>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200127211032.GA56834@art_vandelay>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,151 +45,362 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: adelva@google.com, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <abhinavk@codeaurora.org>, swboyd@chromium.org,
- seanpaul@chromium.org, aravindh@codeaurora.org,
- Uma Shankar <uma.shankar@intel.com>
-MIME-Version: 1.0
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Sean Paul <seanpaul@chromium.org>, dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Uma Shankar <uma.shankar@intel.com>
+On 2020-01-27 at 16:10:32 -0500, Sean Paul wrote:
+> On Mon, Jan 27, 2020 at 11:42:31PM +0530, Ramalingam C wrote:
+> > As we are not using the sysfs infrastructure anymore, link to it is
+> > removed. And global srm data and mutex to protect it are removed,
+> > with required handling at revocation check function.
+> > 
+> > v2:
+> >   srm_data is dropped and few more comments are addressed.
+> > 
+> > Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+> > Suggested-by: Sean Paul <seanpaul@chromium.org>
+> > ---
+> >  drivers/gpu/drm/drm_hdcp.c     | 144 ++++++++++++---------------------
+> >  drivers/gpu/drm/drm_internal.h |   4 -
+> >  drivers/gpu/drm/drm_sysfs.c    |   2 -
+> >  include/drm/drm_hdcp.h         |   4 +-
+> >  4 files changed, 55 insertions(+), 99 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_hdcp.c b/drivers/gpu/drm/drm_hdcp.c
+> > index 9191633a3c43..30749a13108e 100644
+> > --- a/drivers/gpu/drm/drm_hdcp.c
+> > +++ b/drivers/gpu/drm/drm_hdcp.c
+> > @@ -23,14 +23,6 @@
+> >  
+> >  #include "drm_internal.h"
+> >  
+> > -static struct hdcp_srm {
+> > -	u32 revoked_ksv_cnt;
+> > -	u8 *revoked_ksv_list;
+> > -
+> > -	/* Mutex to protect above struct member */
+> > -	struct mutex mutex;
+> > -} *srm_data;
+> > -
+> >  static inline void drm_hdcp_print_ksv(const u8 *ksv)
+> >  {
+> >  	DRM_DEBUG("\t%#02x, %#02x, %#02x, %#02x, %#02x\n",
+> > @@ -91,7 +83,8 @@ static inline u32 get_vrl_length(const u8 *buf)
+> >  	return drm_hdcp_be24_to_cpu(buf);
+> >  }
+> >  
+> > -static int drm_hdcp_parse_hdcp1_srm(const u8 *buf, size_t count)
+> > +static int drm_hdcp_parse_hdcp1_srm(const u8 *buf, size_t count,
+> > +				    u8 *revoked_ksv_list, u32 *revoked_ksv_cnt)
+> 
+> Shouldn't this be u8 **revoked_ksv_list since you want to return the pointer for
+> use in the caller?  I'm surprised any of this worked when you tested it...
+Not tested yet. And forgot to add RFC too. Sorry for wasting your time.
 
-CEA 861.3 spec adds colorimetry data block for HDMI.
-Parsing the block to get the colorimetry data from
-panel.
-
-This was posted by Uma Shankar at
-https://patchwork.kernel.org/patch/10861327/
-
-Modified by Abhinav Kumar:
-- Use macros to distinguish the bit fields for clarity
-
-Changes in v2:
-- Use the drm_edid.h macros in drm_edid.c (Stephen Boyd)
-
-Signed-off-by: Uma Shankar <uma.shankar@intel.com>
-Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
----
- drivers/gpu/drm/drm_edid.c  | 45 +++++++++++++++++++++++++++++++++++++++++++++
- include/drm/drm_connector.h |  3 +++
- include/drm/drm_edid.h      | 14 ++++++++++++++
- 3 files changed, 62 insertions(+)
-
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 99769d6..9a82fb8 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -3136,6 +3136,7 @@ static int drm_cvt_modes(struct drm_connector *connector,
- #define VIDEO_BLOCK     0x02
- #define VENDOR_BLOCK    0x03
- #define SPEAKER_BLOCK	0x04
-+#define COLORIMETRY_DATA_BLOCK		0x5
- #define HDR_STATIC_METADATA_BLOCK	0x6
- #define USE_EXTENDED_TAG 0x07
- #define EXT_VIDEO_CAPABILITY_BLOCK 0x00
-@@ -4199,6 +4200,48 @@ static void fixup_detailed_cea_mode_clock(struct drm_display_mode *mode)
- 	mode->clock = clock;
- }
- 
-+static bool cea_db_is_hdmi_colorimetry_data_block(const u8 *db)
-+{
-+	if (cea_db_tag(db) != USE_EXTENDED_TAG)
-+		return false;
-+
-+	if (db[1] != COLORIMETRY_DATA_BLOCK)
-+		return false;
-+
-+	if (cea_db_payload_len(db) < 2)
-+		return false;
-+
-+	return true;
-+}
-+
-+static void
-+drm_parse_colorimetry_data_block(struct drm_connector *connector, const u8 *db)
-+{
-+	struct drm_hdmi_info *info = &connector->display_info.hdmi;
-+
-+	if (db[2] & DRM_EDID_CLRMETRY_xvYCC_601)
-+		info->colorimetry |= DRM_EDID_CLRMETRY_xvYCC_601;
-+	if (db[2] & DRM_EDID_CLRMETRY_xvYCC_709)
-+		info->colorimetry |= DRM_EDID_CLRMETRY_xvYCC_709;
-+	if (db[2] & DRM_EDID_CLRMETRY_sYCC_601)
-+		info->colorimetry |= DRM_EDID_CLRMETRY_sYCC_601;
-+	if (db[2] & DRM_EDID_CLRMETRY_ADBYCC_601)
-+		info->colorimetry |= DRM_EDID_CLRMETRY_ADBYCC_601;
-+	if (db[2] & DRM_EDID_CLRMETRY_ADB_RGB)
-+		info->colorimetry |= DRM_EDID_CLRMETRY_ADB_RGB;
-+	if (db[2] & DRM_EDID_CLRMETRY_BT2020_CYCC)
-+		info->colorimetry |= DRM_EDID_CLRMETRY_BT2020_CYCC;
-+	if (db[2] & DRM_EDID_CLRMETRY_BT2020_YCC)
-+		info->colorimetry |= DRM_EDID_CLRMETRY_BT2020_YCC;
-+	if (db[2] & DRM_EDID_CLRMETRY_BT2020_RGB)
-+		info->colorimetry |= DRM_EDID_CLRMETRY_BT2020_RGB;
-+	/* Byte 4 Bit 7: DCI-P3 */
-+	if (db[3] & BIT(7))
-+		info->colorimetry |= DRM_EDID_CLRMETRY_DCI_P3;
-+
-+	DRM_DEBUG_KMS("Supported Colorimetry 0x%x\n", info->colorimetry);
-+}
-+
- static bool cea_db_is_hdmi_hdr_metadata_block(const u8 *db)
- {
- 	if (cea_db_tag(db) != USE_EXTENDED_TAG)
-@@ -4877,6 +4920,8 @@ static void drm_parse_cea_ext(struct drm_connector *connector,
- 			drm_parse_vcdb(connector, db);
- 		if (cea_db_is_hdmi_hdr_metadata_block(db))
- 			drm_parse_hdr_metadata_block(connector, db);
-+		if (cea_db_is_hdmi_colorimetry_data_block(db))
-+			drm_parse_colorimetry_data_block(connector, db);
- 	}
- }
- 
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 2219109..a996ee3 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -207,6 +207,9 @@ struct drm_hdmi_info {
- 
- 	/** @y420_dc_modes: bitmap of deep color support index */
- 	u8 y420_dc_modes;
-+
-+	/* @colorimetry: bitmap of supported colorimetry modes */
-+	u16 colorimetry;
- };
- 
- /**
-diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-index f0b03d4..4f22f22 100644
---- a/include/drm/drm_edid.h
-+++ b/include/drm/drm_edid.h
-@@ -224,6 +224,20 @@ struct detailed_timing {
- 				    DRM_EDID_YCBCR420_DC_36 | \
- 				    DRM_EDID_YCBCR420_DC_30)
- 
-+/*
-+ * Supported Colorimetry from colorimetry data block
-+ * as per CEA 861-G spec
-+ */
-+#define DRM_EDID_CLRMETRY_xvYCC_601   (1 << 0)
-+#define DRM_EDID_CLRMETRY_xvYCC_709   (1 << 1)
-+#define DRM_EDID_CLRMETRY_sYCC_601    (1 << 2)
-+#define DRM_EDID_CLRMETRY_ADBYCC_601  (1 << 3)
-+#define DRM_EDID_CLRMETRY_ADB_RGB     (1 << 4)
-+#define DRM_EDID_CLRMETRY_BT2020_CYCC (1 << 5)
-+#define DRM_EDID_CLRMETRY_BT2020_YCC  (1 << 6)
-+#define DRM_EDID_CLRMETRY_BT2020_RGB  (1 << 7)
-+#define DRM_EDID_CLRMETRY_DCI_P3      (1 << 15)
-+
- /* ELD Header Block */
- #define DRM_ELD_HEADER_BLOCK_SIZE	4
- 
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+-Ram
+> 
+> >  {
+> >  	struct hdcp_srm_header *header;
+> >  	u32 vrl_length, ksv_count;
+> > @@ -131,29 +124,28 @@ static int drm_hdcp_parse_hdcp1_srm(const u8 *buf, size_t count)
+> >  	ksv_count = drm_hdcp_get_revoked_ksv_count(buf, vrl_length);
+> >  	if (!ksv_count) {
+> >  		DRM_DEBUG("Revoked KSV count is 0\n");
+> > -		return count;
+> > +		return 0;
+> >  	}
+> >  
+> > -	kfree(srm_data->revoked_ksv_list);
+> > -	srm_data->revoked_ksv_list = kcalloc(ksv_count, DRM_HDCP_KSV_LEN,
+> > -					     GFP_KERNEL);
+> > -	if (!srm_data->revoked_ksv_list) {
+> > +	revoked_ksv_list = kcalloc(ksv_count, DRM_HDCP_KSV_LEN, GFP_KERNEL);
+> > +	if (!revoked_ksv_list) {
+> >  		DRM_ERROR("Out of Memory\n");
+> >  		return -ENOMEM;
+> >  	}
+> >  
+> > -	if (drm_hdcp_get_revoked_ksvs(buf, srm_data->revoked_ksv_list,
+> > +	if (drm_hdcp_get_revoked_ksvs(buf, revoked_ksv_list,
+> >  				      vrl_length) != ksv_count) {
+> > -		srm_data->revoked_ksv_cnt = 0;
+> > -		kfree(srm_data->revoked_ksv_list);
+> > +		*revoked_ksv_cnt = 0;
+> > +		kfree(revoked_ksv_list);
+> >  		return -EINVAL;
+> >  	}
+> >  
+> > -	srm_data->revoked_ksv_cnt = ksv_count;
+> > -	return count;
+> > +	*revoked_ksv_cnt = ksv_count;
+> > +	return 0;
+> >  }
+> >  
+> > -static int drm_hdcp_parse_hdcp2_srm(const u8 *buf, size_t count)
+> > +static int drm_hdcp_parse_hdcp2_srm(const u8 *buf, size_t count,
+> > +				    u8 *revoked_ksv_list, u32 *revoked_ksv_cnt)
+> 
+> Same comment here, this should be u8 **
+> 
+> >  {
+> >  	struct hdcp_srm_header *header;
+> >  	u32 vrl_length, ksv_count, ksv_sz;
+> > @@ -195,13 +187,11 @@ static int drm_hdcp_parse_hdcp2_srm(const u8 *buf, size_t count)
+> >  	ksv_count = (*buf << 2) | DRM_HDCP_2_KSV_COUNT_2_LSBITS(*(buf + 1));
+> >  	if (!ksv_count) {
+> >  		DRM_DEBUG("Revoked KSV count is 0\n");
+> > -		return count;
+> > +		return 0;
+> >  	}
+> >  
+> > -	kfree(srm_data->revoked_ksv_list);
+> > -	srm_data->revoked_ksv_list = kcalloc(ksv_count, DRM_HDCP_KSV_LEN,
+> > -					     GFP_KERNEL);
+> > -	if (!srm_data->revoked_ksv_list) {
+> > +	revoked_ksv_list = kcalloc(ksv_count, DRM_HDCP_KSV_LEN, GFP_KERNEL);
+> > +	if (!revoked_ksv_list) {
+> >  		DRM_ERROR("Out of Memory\n");
+> >  		return -ENOMEM;
+> >  	}
+> > @@ -210,10 +200,10 @@ static int drm_hdcp_parse_hdcp2_srm(const u8 *buf, size_t count)
+> >  	buf += DRM_HDCP_2_NO_OF_DEV_PLUS_RESERVED_SZ;
+> >  
+> >  	DRM_DEBUG("Revoked KSVs: %d\n", ksv_count);
+> > -	memcpy(srm_data->revoked_ksv_list, buf, ksv_sz);
+> > +	memcpy(revoked_ksv_list, buf, ksv_sz);
+> >  
+> > -	srm_data->revoked_ksv_cnt = ksv_count;
+> > -	return count;
+> > +	*revoked_ksv_cnt = ksv_count;
+> > +	return 0;
+> >  }
+> >  
+> >  static inline bool is_srm_version_hdcp1(const u8 *buf)
+> > @@ -226,18 +216,22 @@ static inline bool is_srm_version_hdcp2(const u8 *buf)
+> >  	return *buf == (u8)(DRM_HDCP_2_SRM_ID << 4 | DRM_HDCP_2_INDICATOR);
+> >  }
+> >  
+> > -static void drm_hdcp_srm_update(const u8 *buf, size_t count)
+> > +static void drm_hdcp_srm_update(const u8 *buf, size_t count,
+> > +				u8 *revoked_ksv_list, u32 *revoked_ksv_cnt)
+> 
+> and here
+> 
+> >  {
+> >  	if (count < sizeof(struct hdcp_srm_header))
+> >  		return;
+> >  
+> >  	if (is_srm_version_hdcp1(buf))
+> > -		drm_hdcp_parse_hdcp1_srm(buf, count);
+> > +		drm_hdcp_parse_hdcp1_srm(buf, count, revoked_ksv_list,
+> > +					 revoked_ksv_cnt);
+> >  	else if (is_srm_version_hdcp2(buf))
+> > -		drm_hdcp_parse_hdcp2_srm(buf, count);
+> > +		drm_hdcp_parse_hdcp2_srm(buf, count, revoked_ksv_list,
+> > +					 revoked_ksv_cnt);
+> >  }
+> >  
+> > -static void drm_hdcp_request_srm(struct drm_device *drm_dev)
+> > +static void drm_hdcp_request_srm(struct drm_device *drm_dev,
+> > +				 u8 *revoked_ksv_list, u32 *revoked_ksv_cnt)
+> 
+> and here
+> 
+> >  {
+> >  	char fw_name[36] = "display_hdcp_srm.bin";
+> >  	const struct firmware *fw;
+> > @@ -250,7 +244,8 @@ static void drm_hdcp_request_srm(struct drm_device *drm_dev)
+> >  		goto exit;
+> >  
+> >  	if (fw->size && fw->data)
+> > -		drm_hdcp_srm_update(fw->data, fw->size);
+> > +		drm_hdcp_srm_update(fw->data, fw->size, revoked_ksv_list,
+> > +				    revoked_ksv_cnt);
+> >  
+> >  exit:
+> >  	release_firmware(fw);
+> > @@ -279,70 +274,37 @@ static void drm_hdcp_request_srm(struct drm_device *drm_dev)
+> >   * https://www.digital-cp.com/sites/default/files/specifications/HDCP%20on%20HDMI%20Specification%20Rev2_2_Final1.pdf
+> >   *
+> >   * Returns:
+> > - * TRUE on any of the KSV is revoked, else FALSE.
+> > + * Count of the revoked KSVs.
+> 
+> What about on error?
+> 
+> >   */
+> > -bool drm_hdcp_check_ksvs_revoked(struct drm_device *drm_dev, u8 *ksvs,
+> > -				 u32 ksv_count)
+> > +int drm_hdcp_check_ksvs_revoked(struct drm_device *drm_dev, u8 *ksvs_in,
+> > +				u32 ksv_count)
+> >  {
+> > -	u32 rev_ksv_cnt, cnt, i, j;
+> > -	u8 *rev_ksv_list;
+> > -
+> > -	if (!srm_data)
+> > -		return false;
+> > -
+> > -	mutex_lock(&srm_data->mutex);
+> > -	drm_hdcp_request_srm(drm_dev);
+> > -
+> > -	rev_ksv_cnt = srm_data->revoked_ksv_cnt;
+> > -	rev_ksv_list = srm_data->revoked_ksv_list;
+> > -
+> > -	/* If the Revoked ksv list is empty */
+> > -	if (!rev_ksv_cnt || !rev_ksv_list) {
+> > -		mutex_unlock(&srm_data->mutex);
+> > -		return false;
+> > -	}
+> > -
+> > -	for  (cnt = 0; cnt < ksv_count; cnt++) {
+> > -		rev_ksv_list = srm_data->revoked_ksv_list;
+> > -		for (i = 0; i < rev_ksv_cnt; i++) {
+> > -			for (j = 0; j < DRM_HDCP_KSV_LEN; j++)
+> > -				if (ksvs[j] != rev_ksv_list[j]) {
+> > -					break;
+> > -				} else if (j == (DRM_HDCP_KSV_LEN - 1)) {
+> > -					DRM_DEBUG("Revoked KSV is ");
+> > -					drm_hdcp_print_ksv(ksvs);
+> > -					mutex_unlock(&srm_data->mutex);
+> > -					return true;
+> > -				}
+> > -			/* Move the offset to next KSV in the revoked list */
+> > -			rev_ksv_list += DRM_HDCP_KSV_LEN;
+> > +	u8 *revoked_ksv_list = NULL, *ksvs, *list_itr;
+> 
+> Where is revoked_ksv_list freed?
+> 
+> > +	u32 revoked_ksv_cnt = 0, i, j;
+> > +	int ret = 0;
+> > +
+> > +	drm_hdcp_request_srm(drm_dev, revoked_ksv_list, &revoked_ksv_cnt);
+> 
+> This can't fail?
+> 
+> > +	list_itr = revoked_ksv_list;
+> > +
+> > +	for (i = 0; i < revoked_ksv_cnt; i++) {
+> > +		ksvs = ksvs_in;
+> > +		for  (j = 0; j < ksv_count; j++) {
+> 
+> 
+> You can save yourself the iterators if you just generate the offsets like:
+> 
+>         for (i = 0; i < revoked_ksv_cnt; i++) {
+>                 u8 *a = &ksvs_in[j * DRM_HDCP_KSV_LEN];
+>                 for  (j = 0; j < ksv_count; j++) {
+>                         u8 *b = &revoked_ksv_list[i * DRM_HDCP_KSV_LEN];
+> 
+>                         if (!memcmp(a, b, DRM_HDCP_KSV_LEN)) {
+>                                 ...
+>                         }
+> 
+> 
+> 
+> 
+> > +			if (!memcmp(ksvs, list_itr, DRM_HDCP_KSV_LEN)) {
+> > +				DRM_DEBUG("Revoked KSV is ");
+> > +				drm_hdcp_print_ksv(ksvs);
+> > +				ret++;
+> > +			}
+> > +			/* Iterate to next ksv_offset */
+> > +			ksvs += DRM_HDCP_KSV_LEN;
+> >  		}
+> > -
+> > -		/* Iterate to next ksv_offset */
+> > -		ksvs += DRM_HDCP_KSV_LEN;
+> > +		/* Move the offset to next KSV in the revoked list */
+> > +		list_itr += DRM_HDCP_KSV_LEN;
+> >  	}
+> > -	mutex_unlock(&srm_data->mutex);
+> > -	return false;
+> > -}
+> > -EXPORT_SYMBOL_GPL(drm_hdcp_check_ksvs_revoked);
+> > -
+> > -int drm_setup_hdcp_srm(struct class *drm_class)
+> > -{
+> > -	srm_data = kzalloc(sizeof(*srm_data), GFP_KERNEL);
+> > -	if (!srm_data)
+> > -		return -ENOMEM;
+> > -	mutex_init(&srm_data->mutex);
+> >  
+> > -	return 0;
+> > -}
+> > -
+> > -void drm_teardown_hdcp_srm(struct class *drm_class)
+> > -{
+> > -	if (srm_data) {
+> > -		kfree(srm_data->revoked_ksv_list);
+> > -		kfree(srm_data);
+> > -	}
+> > +	kfree(revoked_ksv_list);
+> > +	return ret;
+> >  }
+> > +EXPORT_SYMBOL_GPL(drm_hdcp_check_ksvs_revoked);
+> >  
+> >  static struct drm_prop_enum_list drm_cp_enum_list[] = {
+> >  	{ DRM_MODE_CONTENT_PROTECTION_UNDESIRED, "Undesired" },
+> > diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+> > index 6937bf923f05..a34c7f8373fa 100644
+> > --- a/drivers/gpu/drm/drm_internal.h
+> > +++ b/drivers/gpu/drm/drm_internal.h
+> > @@ -235,7 +235,3 @@ int drm_syncobj_query_ioctl(struct drm_device *dev, void *data,
+> >  void drm_framebuffer_print_info(struct drm_printer *p, unsigned int indent,
+> >  				const struct drm_framebuffer *fb);
+> >  int drm_framebuffer_debugfs_init(struct drm_minor *minor);
+> > -
+> > -/* drm_hdcp.c */
+> > -int drm_setup_hdcp_srm(struct class *drm_class);
+> > -void drm_teardown_hdcp_srm(struct class *drm_class);
+> > diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
+> > index dd2bc85f43cc..2e83c3d72af9 100644
+> > --- a/drivers/gpu/drm/drm_sysfs.c
+> > +++ b/drivers/gpu/drm/drm_sysfs.c
+> > @@ -85,7 +85,6 @@ int drm_sysfs_init(void)
+> >  	}
+> >  
+> >  	drm_class->devnode = drm_devnode;
+> > -	drm_setup_hdcp_srm(drm_class);
+> >  	return 0;
+> >  }
+> >  
+> > @@ -98,7 +97,6 @@ void drm_sysfs_destroy(void)
+> >  {
+> >  	if (IS_ERR_OR_NULL(drm_class))
+> >  		return;
+> > -	drm_teardown_hdcp_srm(drm_class);
+> >  	class_remove_file(drm_class, &class_attr_version.attr);
+> >  	class_destroy(drm_class);
+> >  	drm_class = NULL;
+> > diff --git a/include/drm/drm_hdcp.h b/include/drm/drm_hdcp.h
+> > index 06a11202a097..d512089b873f 100644
+> > --- a/include/drm/drm_hdcp.h
+> > +++ b/include/drm/drm_hdcp.h
+> > @@ -288,8 +288,8 @@ struct hdcp_srm_header {
+> >  struct drm_device;
+> >  struct drm_connector;
+> >  
+> > -bool drm_hdcp_check_ksvs_revoked(struct drm_device *dev,
+> > -				 u8 *ksvs, u32 ksv_count);
+> > +int drm_hdcp_check_ksvs_revoked(struct drm_device *dev,
+> > +				u8 *ksvs, u32 ksv_count);
+> >  int drm_connector_attach_content_protection_property(
+> >  		struct drm_connector *connector, bool hdcp_content_type);
+> >  void drm_hdcp_update_content_protection(struct drm_connector *connector,
+> > -- 
+> > 2.20.1
+> > 
+> > _______________________________________________
+> > Intel-gfx mailing list
+> > Intel-gfx@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> 
+> -- 
+> Sean Paul, Software Engineer, Google / Chromium OS
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
