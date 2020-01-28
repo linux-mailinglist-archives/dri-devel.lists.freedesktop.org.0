@@ -2,40 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72C7314BFB0
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 19:27:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2FF714BFB2
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 19:28:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69A406EF2D;
-	Tue, 28 Jan 2020 18:27:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B06C6EF32;
+	Tue, 28 Jan 2020 18:27:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EACD6EF2D;
- Tue, 28 Jan 2020 18:27:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2C826EF32;
+ Tue, 28 Jan 2020 18:27:57 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2020 10:27:45 -0800
+ 28 Jan 2020 10:27:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,374,1574150400"; d="scan'208";a="310816807"
+X-IronPort-AV: E=Sophos;i="5.70,374,1574150400"; d="scan'208";a="310817477"
 Received: from plaxmina-desktop.iind.intel.com ([10.145.162.62])
- by fmsmga001.fm.intel.com with ESMTP; 28 Jan 2020 10:27:41 -0800
+ by fmsmga001.fm.intel.com with ESMTP; 28 Jan 2020 10:27:53 -0800
 From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 To: jani.nikula@linux.intel.com, daniel@ffwll.ch,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
  =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Matt Roper <matthew.d.roper@intel.com>,
- Aditya Swarup <aditya.swarup@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: [Intel-gfx] [PATCH v5 02/21] drm/i915/display/audio: Make WARN* drm
+ Chris Wilson <chris@chris-wilson.co.uk>, Imre Deak <imre.deak@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Subject: [Intel-gfx] [PATCH v5 04/21] drm/i915/display/crt: Make WARN* drm
  specific where drm_priv ptr is available
-Date: Tue, 28 Jan 2020 23:45:44 +0530
-Message-Id: <20200128181603.27767-3-pankaj.laxminarayan.bharadiya@intel.com>
+Date: Tue, 28 Jan 2020 23:45:46 +0530
+Message-Id: <20200128181603.27767-5-pankaj.laxminarayan.bharadiya@intel.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200128181603.27767-1-pankaj.laxminarayan.bharadiya@intel.com>
 References: <20200128181603.27767-1-pankaj.laxminarayan.bharadiya@intel.com>
@@ -66,7 +64,7 @@ variants in functions where drm_i915_private struct pointer is readily
 available.
 
 The conversion was done automatically with below coccinelle semantic
-patch. checkpatch errors/warnings are fixed manually.
+patch.
 
 @rule1@
 identifier func, T;
@@ -122,83 +120,58 @@ func(struct drm_i915_private *T,...) {
 
 Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_audio.c | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/i915/display/intel_crt.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_audio.c b/drivers/gpu/drm/i915/display/intel_audio.c
-index 3926b9b9a09f..5ffacb9c3982 100644
---- a/drivers/gpu/drm/i915/display/intel_audio.c
-+++ b/drivers/gpu/drm/i915/display/intel_audio.c
-@@ -571,7 +571,7 @@ static void ilk_audio_codec_disable(struct intel_encoder *encoder,
- 		     encoder->base.base.id, encoder->base.name,
- 		     pipe_name(pipe));
- 
--	if (WARN_ON(port == PORT_A))
-+	if (drm_WARN_ON(&dev_priv->drm, port == PORT_A))
- 		return;
- 
- 	if (HAS_PCH_IBX(dev_priv)) {
-@@ -622,7 +622,7 @@ static void ilk_audio_codec_enable(struct intel_encoder *encoder,
- 		    encoder->base.base.id, encoder->base.name,
- 		    pipe_name(pipe), drm_eld_size(eld));
- 
--	if (WARN_ON(port == PORT_A))
-+	if (drm_WARN_ON(&dev_priv->drm, port == PORT_A))
- 		return;
- 
- 	/*
-@@ -818,7 +818,7 @@ static void glk_force_audio_cdclk(struct drm_i915_private *dev_priv,
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 	state = drm_atomic_state_alloc(&dev_priv->drm);
--	if (WARN_ON(!state))
-+	if (drm_WARN_ON(&dev_priv->drm, !state))
- 		return;
- 
- 	state->acquire_ctx = &ctx;
-@@ -839,7 +839,7 @@ static void glk_force_audio_cdclk(struct drm_i915_private *dev_priv,
- 		goto retry;
- 	}
- 
--	WARN_ON(ret);
-+	drm_WARN_ON(&dev_priv->drm, ret);
- 
- 	drm_atomic_state_put(state);
- 
-@@ -927,7 +927,7 @@ static int i915_audio_component_get_cdclk_freq(struct device *kdev)
+diff --git a/drivers/gpu/drm/i915/display/intel_crt.c b/drivers/gpu/drm/i915/display/intel_crt.c
+index d250ddde0296..d1ab2e796a56 100644
+--- a/drivers/gpu/drm/i915/display/intel_crt.c
++++ b/drivers/gpu/drm/i915/display/intel_crt.c
+@@ -230,7 +230,7 @@ static void hsw_disable_crt(struct intel_encoder *encoder,
  {
- 	struct drm_i915_private *dev_priv = kdev_to_i915(kdev);
+ 	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
  
--	if (WARN_ON_ONCE(!HAS_DDI(dev_priv)))
-+	if (drm_WARN_ON_ONCE(&dev_priv->drm, !HAS_DDI(dev_priv)))
- 		return -ENODEV;
+-	WARN_ON(!old_crtc_state->has_pch_encoder);
++	drm_WARN_ON(&dev_priv->drm, !old_crtc_state->has_pch_encoder);
  
- 	return dev_priv->cdclk.hw.cdclk;
-@@ -950,7 +950,8 @@ static struct intel_encoder *get_saved_enc(struct drm_i915_private *dev_priv,
+ 	intel_set_pch_fifo_underrun_reporting(dev_priv, PIPE_A, false);
+ }
+@@ -258,7 +258,7 @@ static void hsw_post_disable_crt(struct intel_encoder *encoder,
  
- 	/* MST */
- 	if (pipe >= 0) {
--		if (WARN_ON(pipe >= ARRAY_SIZE(dev_priv->av_enc_map)))
-+		if (drm_WARN_ON(&dev_priv->drm,
-+				pipe >= ARRAY_SIZE(dev_priv->av_enc_map)))
- 			return NULL;
+ 	intel_ddi_fdi_post_disable(encoder, old_crtc_state, old_conn_state);
  
- 		encoder = dev_priv->av_enc_map[pipe];
-@@ -1069,10 +1070,12 @@ static int i915_audio_component_bind(struct device *i915_kdev,
- 	struct drm_i915_private *dev_priv = kdev_to_i915(i915_kdev);
- 	int i;
+-	WARN_ON(!old_crtc_state->has_pch_encoder);
++	drm_WARN_ON(&dev_priv->drm, !old_crtc_state->has_pch_encoder);
  
--	if (WARN_ON(acomp->base.ops || acomp->base.dev))
-+	if (drm_WARN_ON(&dev_priv->drm, acomp->base.ops || acomp->base.dev))
- 		return -EEXIST;
+ 	intel_set_pch_fifo_underrun_reporting(dev_priv, PIPE_A, true);
+ }
+@@ -269,7 +269,7 @@ static void hsw_pre_pll_enable_crt(struct intel_encoder *encoder,
+ {
+ 	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
  
--	if (WARN_ON(!device_link_add(hda_kdev, i915_kdev, DL_FLAG_STATELESS)))
-+	if (drm_WARN_ON(&dev_priv->drm,
-+			!device_link_add(hda_kdev, i915_kdev,
-+					 DL_FLAG_STATELESS)))
- 		return -ENOMEM;
+-	WARN_ON(!crtc_state->has_pch_encoder);
++	drm_WARN_ON(&dev_priv->drm, !crtc_state->has_pch_encoder);
  
- 	drm_modeset_lock_all(&dev_priv->drm);
+ 	intel_set_pch_fifo_underrun_reporting(dev_priv, PIPE_A, false);
+ }
+@@ -282,7 +282,7 @@ static void hsw_pre_enable_crt(struct intel_encoder *encoder,
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+ 	enum pipe pipe = crtc->pipe;
+ 
+-	WARN_ON(!crtc_state->has_pch_encoder);
++	drm_WARN_ON(&dev_priv->drm, !crtc_state->has_pch_encoder);
+ 
+ 	intel_set_cpu_fifo_underrun_reporting(dev_priv, pipe, false);
+ 
+@@ -299,7 +299,7 @@ static void hsw_enable_crt(struct intel_encoder *encoder,
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+ 	enum pipe pipe = crtc->pipe;
+ 
+-	WARN_ON(!crtc_state->has_pch_encoder);
++	drm_WARN_ON(&dev_priv->drm, !crtc_state->has_pch_encoder);
+ 
+ 	intel_crt_set_dpms(encoder, crtc_state, DRM_MODE_DPMS_ON);
+ 
 -- 
 2.23.0
 
