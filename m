@@ -2,100 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C9E014BCB8
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 16:21:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E165C14BCED
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 16:35:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A91FA6EE72;
-	Tue, 28 Jan 2020 15:21:05 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 794AB6EE72
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 15:21:04 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200128152102euoutp02fc55f778d313c3b52fd8f25ab5747c93~uFiPZYdhq0305203052euoutp02k
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 15:21:02 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200128152102euoutp02fc55f778d313c3b52fd8f25ab5747c93~uFiPZYdhq0305203052euoutp02k
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1580224862;
- bh=c+5xU8gjZGqZjMpG2KUe0/mMVcXhBH61/Bs24x6Qd9E=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=dgP5Cmdgrm5YxCNjiD/5RvX7yjhLmxAqyPjPu3ro6u0bk1bNFKviQdwvFj8Zg7V5J
- oSEJdTC8bowWSKt1jQarYKJunXXaI+mQYiZGSwjHUNHkjUTRYx36cxpgrPdf7T7+m1
- ScAXLUKw/5FT7s4+E2f1aGdGoyj/kWme5Ui8D5Po=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200128152102eucas1p148763110247c0d5e63b0020bbaca8430~uFiPFWOFA0561805618eucas1p1F;
- Tue, 28 Jan 2020 15:21:02 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 0A.EB.60679.D51503E5; Tue, 28
- Jan 2020 15:21:01 +0000 (GMT)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200128152101eucas1p1cfd0983fb01439e55279b62448fd8072~uFiOT7HZM0549005490eucas1p1G;
- Tue, 28 Jan 2020 15:21:01 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200128152101eusmtrp25a14db7a27e704195c3240e0c3a66a8f~uFiOTP5Va0521105211eusmtrp2H;
- Tue, 28 Jan 2020 15:21:01 +0000 (GMT)
-X-AuditID: cbfec7f4-0e5ff7000001ed07-38-5e30515d39da
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 69.42.07950.D51503E5; Tue, 28
- Jan 2020 15:21:01 +0000 (GMT)
-Received: from [106.120.51.71] (unknown [106.120.51.71]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200128152058eusmtip25574867aae5217c7a627d828c12d11db~uFiMGp6sN0896708967eusmtip24;
- Tue, 28 Jan 2020 15:20:58 +0000 (GMT)
-Subject: Re: [PATCH] fbdev: wait for references go away
-To: Gerd Hoffmann <kraxel@redhat.com>
-From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Message-ID: <e16f568b-c629-b81e-ec3a-7c7dd6edb766@samsung.com>
-Date: Tue, 28 Jan 2020 16:20:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2DBA6EE04;
+	Tue, 28 Jan 2020 15:35:31 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail25.static.mailgun.info (mail25.static.mailgun.info
+ [104.130.122.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E64F46E0C8
+ for <dri-devel@freedesktop.org>; Tue, 28 Jan 2020 15:35:29 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1580225729; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: Cc: To: From: Date: Sender;
+ bh=OAcEYdNBjmrheJryVcIbMHDRSTe55eH2xPjNsqjLvVM=;
+ b=Pr+45ni7sjK3N5YOxVyYO78EGB9NSP8mhS/lvPMZyMwb2tc5SOkyb8lFNJqhAc7DpqPdeuIb
+ yv1I8eI4WI3vC0tepSaT3oJrm3qKyFUuRd5SDWJ2PSL7xRst4ox1qyRMO/5SvgGdybPx0AoV
+ rZxWyKRY9/lWV8gI3QdltbI+KzA=
+X-Mailgun-Sending-Ip: 104.130.122.25
+X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e3054c0.7f660bd30b90-smtp-out-n03;
+ Tue, 28 Jan 2020 15:35:28 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id CB008C433A2; Tue, 28 Jan 2020 15:35:27 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: jcrouse)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 592F1C43383;
+ Tue, 28 Jan 2020 15:35:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 592F1C43383
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=jcrouse@codeaurora.org
+Date: Tue, 28 Jan 2020 08:35:24 -0700
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: Doug Anderson <dianders@chromium.org>
+Subject: Re: [PATCH v2] arm64: dts: qcom: sc7180: Add A618 gpu dt blob
+Message-ID: <20200128153524.GA30489@jcrouse1-lnx.qualcomm.com>
+Mail-Followup-To: Doug Anderson <dianders@chromium.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, dri-devel@freedesktop.org,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Matthias Kaehlcke <mka@chromium.org>,
+ Rob Clark <robdclark@chromium.org>
+References: <1580117390-6057-1-git-send-email-smasetty@codeaurora.org>
+ <CAD=FV=VFVC6XJ=OXJCSd2_oij5vggKnTedGP0Gj4KHC50QH0SQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200121055348.s4anrveo2z6avin6@sirius.home.kraxel.org>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprDKsWRmVeSWpSXmKPExsWy7djPc7qxgQZxBu92aFpc+fqezeLZrZPM
- Fif6PrBaXN41h83ic+MuFgdWj95999g97ncfZ/J4v+8qm8fnTXIBLFFcNimpOZllqUX6dglc
- Gae23GMpOCRYseFXL1sD40/eLkYODgkBE4nNf1S7GLk4hARWMEpc/DuXDcL5wihx49cqFgjn
- M6NEw+0HTF2MnGAdMz61QlUtZ5TYefU6C0hCSOAto8SKE+YgtrCAucSjD6+YQWwRAVWJhf+W
- sII0MAusZ5TYt+YJI0iCTcBKYmL7KjCbV8BOoul5I9ggFqCGnes2gsVFBSIkPj04zApRIyhx
- cuYTsBpOAVeJEwdOs4HYzALiEreezGeCsOUltr+dwwyyTEJgHrvEu9cTWSDOdpGYsXUJ1AvC
- Eq+Ob2GHsGUk/u8EaQZpWMco8bfjBVT3dkaJ5ZP/sUFUWUvcOfeLDRRkzAKaEut36UOEHSW+
- NC1hh4Qkn8SNt4IQR/BJTNo2nRkizCvR0SYEUa0msWHZBjaYtV07VzJPYFSaheS1WUjemYXk
- nVkIexcwsqxiFE8tLc5NTy02ykst1ytOzC0uzUvXS87P3cQITDOn/x3/soNx15+kQ4wCHIxK
- PLwzVAzihFgTy4orcw8xSnAwK4nwdjIBhXhTEiurUovy44tKc1KLDzFKc7AoifMaL3oZKySQ
- nliSmp2aWpBaBJNl4uCUamAUt7ZqCZf5taek+fon4U01hStc9D9bm6yczbr03CXmXRNMetOD
- 5Wd+OHHPIe+gDn+rqUZ96w6241cUXmRUGHpk/fCZaCvCdF073sIy6IBDl92ngNksL7avTYqd
- UqXfbpizwOpqYOj/SxcU99lt2a/fKi16aCKj2Itp37QFFrsq+fc42AUesldiKc5INNRiLipO
- BAAlr2qRLwMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPIsWRmVeSWpSXmKPExsVy+t/xe7qxgQZxBsu7+SyufH3PZvHs1klm
- ixN9H1gtLu+aw2bxuXEXiwOrR+++e+we97uPM3m833eVzePzJrkAlig9m6L80pJUhYz84hJb
- pWhDCyM9Q0sLPSMTSz1DY/NYKyNTJX07m5TUnMyy1CJ9uwS9jFNb7rEUHBKs2PCrl62B8Sdv
- FyMnh4SAicSMT61sXYxcHEICSxklpjUcZe9i5ABKyEgcX18GUSMs8edaF1TNa0aJN68fMYIk
- hAXMJR59eMUMYosIqEos/LeEFaSIWWA9o8Sm32uZITp+MUqsunubBaSKTcBKYmL7KrBuXgE7
- iabnjWBxFqDunes2gsVFBSIkDu+YBVUjKHFy5hOwGk4BV4kTB06zgdjMAuoSf+ZdYoawxSVu
- PZnPBGHLS2x/O4d5AqPQLCTts5C0zELSMgtJywJGllWMIqmlxbnpucVGesWJucWleel6yfm5
- mxiBkbXt2M8tOxi73gUfYhTgYFTi4XVQMogTYk0sK67MPcQowcGsJMLbyQQU4k1JrKxKLcqP
- LyrNSS0+xGgK9NxEZinR5Hxg1OeVxBuaGppbWBqaG5sbm1koifN2CByMERJITyxJzU5NLUgt
- gulj4uCUamDc0F02x0DtocPOKfaOa29m/fkccfFOdW3WevkTU/vF7EzdpE4VCS2+euKTUUsn
- f/U3E8PJW+7NfZLeMHn1wQ3eCoahl6OXFDD7rf7R8PTXtFsb/Bk+CXz5lpbNYp+/t8z0GsOM
- 8GfX5dcc3GMvdU3pblRVT6lW0EXxTElJ75ryJjulDQybu/KUWIozEg21mIuKEwGC5rG5wgIA
- AA==
-X-CMS-MailID: 20200128152101eucas1p1cfd0983fb01439e55279b62448fd8072
-X-Msg-Generator: CA
-X-RootMTR: 20200120100025eucas1p21f5e2da0fd7c1fcb33cb47a97e9e645c
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200120100025eucas1p21f5e2da0fd7c1fcb33cb47a97e9e645c
-References: <CGME20200120100025eucas1p21f5e2da0fd7c1fcb33cb47a97e9e645c@eucas1p2.samsung.com>
- <20200120100014.23488-1-kraxel@redhat.com>
- <d143e43b-8a38-940e-3ae5-e7b830a74bb3@samsung.com>
- <20200121055348.s4anrveo2z6avin6@sirius.home.kraxel.org>
+Content-Disposition: inline
+In-Reply-To: <CAD=FV=VFVC6XJ=OXJCSd2_oij5vggKnTedGP0Gj4KHC50QH0SQ@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,73 +78,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
- marmarek@invisiblethingslab.com, dri-devel@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Sharat Masetty <smasetty@codeaurora.org>, LKML <linux-kernel@vger.kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Matthias Kaehlcke <mka@chromium.org>, dri-devel@freedesktop.org,
+ freedreno <freedreno@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 1/21/20 6:53 AM, Gerd Hoffmann wrote:
->   Hi,
+On Mon, Jan 27, 2020 at 02:29:53PM -0800, Doug Anderson wrote:
+> Hi,
 > 
->>> open.  Which can result in drm driver not being able to grab resources
->>> (and fail initialization) because the firmware framebuffer still holds
->>> them.  Reportedly plymouth can trigger this.
->>
->> Could you please describe issue some more?
->>
->> I guess that a problem is happening during DRM driver load while fbdev
->> driver is loaded? I assume do_unregister_framebuffer() is called inside
->> do_remove_conflicting_framebuffers()?
+> On Mon, Jan 27, 2020 at 1:30 AM Sharat Masetty <smasetty@codeaurora.org> wrote:
+> >
+> > This patch adds the required dt nodes and properties
+> > to enabled A618 GPU.
+> >
+> > Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
+> > ---
+> >  arch/arm64/boot/dts/qcom/sc7180.dtsi | 103 +++++++++++++++++++++++++++++++++++
+> >  1 file changed, 103 insertions(+)
 > 
-> Yes.  Specifically bochs-drm.ko and efifb in virtual machines.
+> Note that +Matthias Kaehlcke commented on v1 your patch:
 > 
->> At first glance it seems to be an user-space issue as it should not be
->> holding references on /dev/fb0 while DRM driver is being loaded.
+> https://lore.kernel.org/r/20191204220033.GH228856@google.com/
 > 
-> Well, the drm driver is loaded by udev like everything else.
+> ...so he should have been CCed on v2.  I would also note that some of
+> the comments below are echos of what Matthias already said in the
+> previous version but just weren't addressed.
 > 
-> Dunno what plymouth (graphical boot screen tool) does to handle the
-> situation.  I guess listening to udev events.  So it should notice efifb
-> going away and drop the /dev/fb0 reference, but this races against
-> bochs-drm initializing.
-
-It has been a week and there have been no alternative proposals to
-address the problem so I incline to accepting this approach..
-
-However please rework the patch slightly:
-
-- Don't wait in the usual fb_info removal code-path, only in the driver
-  replacement one. You can achieve this by adding additional "bool wait"
-  parameter to do_unregister_framebuffer()
-
-- Add a FIXME comment just before the wait loop with the description of
-  the issue (the above explanation of the race between plymouth and udev
-  would be fine) so we will remember why this workaround is needed.
-
-- Change patch summary to something more descriptive (i.e. to "fbdev:
-  workaround race on driver replacement").
-
-Best regards,
---
-Bartlomiej Zolnierkiewicz
-Samsung R&D Institute Poland
-Samsung Electronics
-
->>> Fix this by trying to wait until all references are gone.  Don't wait
->>> forever though given that userspace might keep the file handle open.
->>
->> Where does the 1s maximum delay come from?
 > 
-> Pulled out something out of thin air which I expect being on the safe
-> side.  plymouth responding on the udev event should need only a small
-> fraction of that.
+> > diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> > index b859431..277d84d 100644
+> > --- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> > +++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> > @@ -7,6 +7,7 @@
+> >
+> >  #include <dt-bindings/clock/qcom,gcc-sc7180.h>
+> >  #include <dt-bindings/clock/qcom,rpmh.h>
+> > +#include <dt-bindings/clock/qcom,gpucc-sc7180.h>
 > 
-> cheers,
->   Gerd
+> Header files should be sorted alphabetically.  ...or, even better,
+> base your patch atop mine:
+> 
+> https://lore.kernel.org/r/20200124144154.v2.10.I1a4b93fb005791e29a9dcf288fc8bd459a555a59@changeid/
+> 
+> ...which adds the gpucc header file so you don't have to.  ...and when
+> you do so, email out a Reviewed-by and/or Tested-by for my patch.  ;-)
+> 
+> 
+> >  #include <dt-bindings/interrupt-controller/arm-gic.h>
+> >  #include <dt-bindings/interconnect/qcom,sc7180.h>
+> >  #include <dt-bindings/phy/phy-qcom-qusb2.h>
+> > @@ -1619,6 +1620,108 @@
+> >                         #interconnect-cells = <1>;
+> >                         qcom,bcm-voters = <&apps_bcm_voter>;
+> >                 };
+> > +
+> > +               gpu: gpu@5000000 {
+> > +                       compatible = "qcom,adreno-618.0", "qcom,adreno";
+> 
+> Though it's not controversial, please send a patch to:
+> 
+> Documentation/devicetree/bindings/display/msm/gmu.txt
+> 
+> ...to add 'qcom,adreno-618.0', like:
+> 
+>     for example:
+>       "qcom,adreno-gmu-618.0", "qcom,adreno-gmu"
+>       "qcom,adreno-gmu-630.2", "qcom,adreno-gmu"
+> 
+> Probably as part of this you will be asked to convert this file to
+> yaml.  IMO we don't need to block landing this patch on the effort to
+> convert it to yaml, but you should still work on it.  ...or maybe
+> Jordan wants to work on it?
+
+I'll toss it on my to-do list. There always seems to be something more urgent
+but I should just bite the bullet and get it done.
+
+Jordan
+
+-- 
+The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
