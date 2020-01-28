@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C99114C72F
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2020 09:06:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBBC314C729
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2020 09:06:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C34C06F478;
-	Wed, 29 Jan 2020 08:06:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04CA26E209;
+	Wed, 29 Jan 2020 08:06:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-blr-01.qualcomm.com (alexa-out-blr-01.qualcomm.com
- [103.229.18.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66E156E05F;
- Tue, 28 Jan 2020 13:37:21 +0000 (UTC)
-Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
- by alexa-out-blr-01.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 28 Jan 2020 19:07:19 +0530
-Received: from harigovi-linux.qualcomm.com ([10.204.66.157])
- by ironmsg01-blr.qualcomm.com with ESMTP; 28 Jan 2020 19:06:58 +0530
-Received: by harigovi-linux.qualcomm.com (Postfix, from userid 2332695)
- id 3F74E282F; Tue, 28 Jan 2020 19:06:58 +0530 (IST)
-From: Harigovindan P <harigovi@codeaurora.org>
-To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [v1] arm64: dts: sc7180: add dsi controller and phy entries for idp
- dts
-Date: Tue, 28 Jan 2020 19:06:57 +0530
-Message-Id: <1580218617-30293-1-git-send-email-harigovi@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
+Received: from olimex.com (olimex.com [IPv6:2001:470:0:1f2::b869:4820])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E9D76E07F
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 14:06:56 +0000 (UTC)
+Received: from localhost.localdomain ([94.155.250.134])
+ by olimex.com with ESMTPSA
+ (ECDHE-RSA-AES128-GCM-SHA256:TLSv1.2:Kx=ECDH:Au=RSA:Enc=AESGCM(128):Mac=AEAD)
+ (SMTP-AUTH username stefan@olimex.com, mechanism PLAIN)
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 06:06:52 -0800
+From: Stefan Mavrodiev <stefan@olimex.com>
+To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-kernel@vger.kernel.org (open list),
+ dri-devel@lists.freedesktop.org (open list:DRM DRIVERS FOR ALLWINNER A10),
+ linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC
+ support)
+Subject: [PATCH v3 0/1] Add support for sun4i HDMI audio
+Date: Tue, 28 Jan 2020 16:06:41 +0200
+Message-Id: <20200128140642.8404-1-stefan@olimex.com>
+X-Mailer: git-send-email 2.17.1
 X-Mailman-Approved-At: Wed, 29 Jan 2020 08:06:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -41,105 +41,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Harigovindan P <harigovi@codeaurora.org>, linux-kernel@vger.kernel.org,
- seanpaul@chromium.org, kalyan_t@codeaurora.org, hoegsberg@chromium.org
+Cc: linux-sunxi@googlegroups.com, Stefan Mavrodiev <stefan@olimex.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adding dsi controller and phy entries for idp dt.
+This patch series add support for HDMI audio for sun4i HDMI encored.
+The code uses some parts from the Allwinners's BSP kernel.
 
-Signed-off-by: Harigovindan P <harigovi@codeaurora.org>
----
- arch/arm64/boot/dts/qcom/sc7180-idp.dts | 56 +++++++++++++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
+In the previous patch series there was additional patch enabling the
+cyclic DMA transfers. It was accepted, so it's omitted here.
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7180-idp.dts b/arch/arm64/boot/dts/qcom/sc7180-idp.dts
-index 388f50a..9f42367 100644
---- a/arch/arm64/boot/dts/qcom/sc7180-idp.dts
-+++ b/arch/arm64/boot/dts/qcom/sc7180-idp.dts
-@@ -7,6 +7,7 @@
- 
- /dts-v1/;
- 
-+#include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/regulator/qcom,rpmh-regulator.h>
- #include "sc7180.dtsi"
- #include "pm6150.dtsi"
-@@ -232,6 +233,50 @@
- 	};
- };
- 
-+&dsi_controller {
-+	status = "okay";
-+
-+	vdda-supply = <&vreg_l3c_1p2>;
-+
-+	panel@0 {
-+		compatible = "visionox,rm69299-1080p-display";
-+		reg = <0>;
-+
-+		vdda-supply = <&vreg_l8c_1p8>;
-+		vdd3p3-supply = <&vreg_l18a_2p8>;
-+
-+		pinctrl-names = "default", "suspend";
-+		pinctrl-0 = <&disp_pins_default>;
-+		pinctrl-1 = <&disp_pins_default>;
-+
-+		reset-gpios = <&pm6150l_gpio 3 GPIO_ACTIVE_HIGH>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			port@0 {
-+				reg = <0>;
-+				panel0_in: endpoint {
-+					remote-endpoint = <&dsi0_out>;
-+				};
-+			};
-+		};
-+	};
-+
-+	ports {
-+		port@1 {
-+			endpoint {
-+				remote-endpoint = <&panel0_in>;
-+				data-lanes = <0 1 2 3>;
-+			};
-+		};
-+	};
-+};
-+
-+&dsi_phy {
-+	status = "okay";
-+};
-+
- &qspi {
- 	status = "okay";
- 	pinctrl-names = "default";
-@@ -289,6 +334,17 @@
- 
- /* PINCTRL - additions to nodes defined in sc7180.dtsi */
- 
-+&pm6150l_gpio {
-+	disp_pins_default: disp-pins-default{
-+		pins = "gpio3";
-+		function = "func1";
-+		qcom,drive-strength = <2>;
-+		power-source = <0>;
-+		bias-disable;
-+		output-low;
-+	};
-+};
-+
- &qspi_clk {
- 	pinconf {
- 		pins = "gpio63";
+The patch is tested on A20 chip. For the other chips, only the addresses
+of the registers are checked.
+
+Changes for v3:
+ - Dropped the patch which enable the cyclic DMA transfers
+ - In v2, a separate platform_driver was created. However this is not
+   practical and the idea is dropped.
+ - Since this module depends on SND_SOC, a new Kconfig entry is added. When
+   SND_SOC is not enabled, the audio part is not initialized.
+ - The "big" issue with v1 was that snd_soc_register_card() overwrites
+   the driver_data pointer. To resolve this issue, the original pointer is
+   stored as drvdata of the card. Then before card unregistering, the
+   pointer is restored. This is done by calling additional destroy function.
+
+Changes for v2:
+ - Create a new platform driver instead of using the HDMI encoder
+ - Expose a new kcontrol to the userspace holding the ELD data
+ - Wrap all macro arguments in parentheses
+
+Stefan Mavrodiev (1):
+  drm: sun4i: hdmi: Add support for sun4i HDMI encoder audio
+
+ drivers/gpu/drm/sun4i/Kconfig            |  11 +
+ drivers/gpu/drm/sun4i/Makefile           |   3 +
+ drivers/gpu/drm/sun4i/sun4i_hdmi.h       |  37 ++
+ drivers/gpu/drm/sun4i/sun4i_hdmi_audio.c | 450 +++++++++++++++++++++++
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c   |  14 +
+ 5 files changed, 515 insertions(+)
+ create mode 100644 drivers/gpu/drm/sun4i/sun4i_hdmi_audio.c
+
 -- 
-2.7.4
-
+2.17.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
