@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 397E314C147
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 20:53:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F09A714C19E
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 21:32:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D75476F3CB;
-	Tue, 28 Jan 2020 19:53:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E95946F3F5;
+	Tue, 28 Jan 2020 20:32:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
- [IPv6:2607:f8b0:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 034E16F3CB
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 19:53:25 +0000 (UTC)
-Received: by mail-pg1-x542.google.com with SMTP id x8so7560294pgk.8
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 11:53:25 -0800 (PST)
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CE0D6F3F6
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 20:32:24 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id r11so7630275pgf.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 12:32:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=fd0Bf5ciOLDTzu4NvqY5lz18CA8ytAWcDkClCt4wOyA=;
- b=VzBbyfrXVyTu7+qADXfLaD3EjrI4fRju5zzq6rggViLj1t/lQA5k01gHSHLjHTTFQD
- 1W4boLRmulXdcHOS3sn7t2I4ZwVPsNWq2uq9VvKzMNc/jboiF6Mml59qVjX5mB5mZQaL
- ZOuCxQKhPWuI9boE0o/Y/80zNA7ioPQIGtPa4=
+ bh=ou5WOu7VfwZ76/Tpb4nFYplCE03cb+mvprqzOSe8BeY=;
+ b=Fq9IgoEGk1XnnT33IfofL6cze71y8yseMo4RTglFvYjfOiiFEHohk3X2ZwzW6obsSQ
+ JGLTF9Wwo/azBiJ72vO/K8fXg05WMJzqe89NKs9eYC5HmfjEtN8R3aty9yUewttbOA2k
+ y2Z1/UBWU7klja4flHnxu2Il/S5jBz7DTgQeU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=fd0Bf5ciOLDTzu4NvqY5lz18CA8ytAWcDkClCt4wOyA=;
- b=St2jSjNcm2G9tFboobyBx5Fcp8uazaMlrCj9dFWh0dFDUMdeKntcPW8WEcvD49k/JY
- U54pMJlSXHd4bVzZOxvkGLp82a/pgzqVXvNuU44l+Qx0od57bbaXqLOKTqig99z13c3Z
- /flWpP3FJCzwSvBMpZAG8lbT7kdZ9o7jcVbq6jIQW7attU+wmLVVN8Rui4W3YyuWHgBD
- eaVB4qLmrPzLIf8BFsmgKpOQfDRSGg1XAM24EflnZwTbQVNrddcIKc/cbzH6xt4Z5eMV
- GrJpVq5bm0qpL3KXchrgOL/YbRaQ9bfefyTDbYLSu90Mx2UX6YljVzUthNuwkhB1nobk
- rEeQ==
-X-Gm-Message-State: APjAAAU6gYeATgG5s9m97d9LloVjHZthfMslkf7xDDebWk+XMia3kx+4
- mzqDLU2wmZ34FIt0uRhNaevI7Q==
-X-Google-Smtp-Source: APXvYqxnNBwdER95BEHw3GteU6AfO0/0iBE9siRHXhDTs3M6ALIsjR66bbcQH9s8Amw+OkFTtECJBw==
-X-Received: by 2002:a65:484d:: with SMTP id i13mr27036413pgs.32.1580241205473; 
- Tue, 28 Jan 2020 11:53:25 -0800 (PST)
+ bh=ou5WOu7VfwZ76/Tpb4nFYplCE03cb+mvprqzOSe8BeY=;
+ b=gmyvlTn/ZD3L1Faf6kLFa1HjjkYmetyPkgXe4sRTPCQDt4CXaz4fZC/A+0YZ+N2y8N
+ edLRCouPM75GiBEkDu+8OKMxUk27ud/Or8Sm/m63tFWPWRGjJwzAiJsarbUdZUwemdHz
+ sN1M5anvsuXBKqVG+ncV+6XDEXXs8Qsuy7ND/ZD/ONH93d8S3uXydieRbo5djtfXM5lM
+ DKcN3UYSXP877YRnEKVAprdlBLYnTj4Kw/OdGWT+z9lhAit862UmVltlGGmFP/bbdLfj
+ qOuVo2g2JEaRL0jG7m539SngSw3zqIMipcu4+6KNtLVOyuzlAldPeN6ua/rLtdkTb5K4
+ +HEw==
+X-Gm-Message-State: APjAAAW/riJlcmXLNVdXdwm+kiXf/BSmcqp1/gmhEJ891kxoIOTLLeuC
+ UNFcObL4jMlQyiLyVGiFma55ew==
+X-Google-Smtp-Source: APXvYqzk/RCeSgih6aYRRZY6EYuOxyQ3AHi0iBRGvjfg9rwaUzCUjS6yYJBDVRHFkAOT5eesEFor9A==
+X-Received: by 2002:a63:d40d:: with SMTP id a13mr27443204pgh.9.1580243543869; 
+ Tue, 28 Jan 2020 12:32:23 -0800 (PST)
 Received: from localhost ([2620:15c:202:1:4fff:7a6b:a335:8fde])
- by smtp.gmail.com with ESMTPSA id w3sm20442356pgj.48.2020.01.28.11.53.24
+ by smtp.gmail.com with ESMTPSA id b12sm16516982pfr.26.2020.01.28.12.32.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Jan 2020 11:53:24 -0800 (PST)
-Date: Tue, 28 Jan 2020 11:53:23 -0800
+ Tue, 28 Jan 2020 12:32:23 -0800 (PST)
+Date: Tue, 28 Jan 2020 12:32:22 -0800
 From: Matthias Kaehlcke <mka@chromium.org>
 To: Harigovindan P <harigovi@codeaurora.org>
-Subject: Re: [v1] arm64: dts: sc7180: add dsi controller and phy entries for
- idp dts
-Message-ID: <20200128195323.GC46072@google.com>
-References: <1580218617-30293-1-git-send-email-harigovi@codeaurora.org>
+Subject: Re: [v4] arm64: dts: sc7180: add display dt nodes
+Message-ID: <20200128203222.GD46072@google.com>
+References: <1580217884-21932-1-git-send-email-harigovi@codeaurora.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1580218617-30293-1-git-send-email-harigovi@codeaurora.org>
+In-Reply-To: <1580217884-21932-1-git-send-email-harigovi@codeaurora.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,115 +75,92 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Tue, Jan 28, 2020 at 07:06:57PM +0530, Harigovindan P wrote:
-> Adding dsi controller and phy entries for idp dt.
+On Tue, Jan 28, 2020 at 06:54:44PM +0530, Harigovindan P wrote:
+> Add display, DSI hardware DT nodes for sc7180.
 > 
 > Signed-off-by: Harigovindan P <harigovi@codeaurora.org>
 > ---
->  arch/arm64/boot/dts/qcom/sc7180-idp.dts | 56 +++++++++++++++++++++++++++++++++
->  1 file changed, 56 insertions(+)
 > 
-> diff --git a/arch/arm64/boot/dts/qcom/sc7180-idp.dts b/arch/arm64/boot/dts/qcom/sc7180-idp.dts
-> index 388f50a..9f42367 100644
-> --- a/arch/arm64/boot/dts/qcom/sc7180-idp.dts
-> +++ b/arch/arm64/boot/dts/qcom/sc7180-idp.dts
-> @@ -7,6 +7,7 @@
+> Changes in v1:
+> 	-Added display DT nodes for sc7180
+> Changes in v2:
+> 	-Renamed node names
+> 	-Corrected code alignments
+> 	-Removed extra new line
+> 	-Added DISP AHB clock for register access
+> 	under display_subsystem node for global settings
+> Changes in v3:
+> 	-Modified node names
+> 	-Modified hard coded values
+> 	-Removed mdss reg entry
+> Changes in v4:
+> 	-Reverting mdp node name
+> 	-Setting status to disabled in main SOC dtsi file
+> 	-Replacing _ to - for node names
+> 	-Adding clock dependency patch link
+> 	-Splitting idp dt file to a separate patch
+> 
+> This patch has dependency on the below series
+> https://lkml.org/lkml/2019/12/27/73
+>  arch/arm64/boot/dts/qcom/sc7180.dtsi | 128 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 128 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> index 3bc3f64..c3883af 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> @@ -1184,6 +1184,134 @@
+>  			#power-domain-cells = <1>;
+>  		};
 >  
->  /dts-v1/;
->  
-> +#include <dt-bindings/gpio/gpio.h>
->  #include <dt-bindings/regulator/qcom,rpmh-regulator.h>
->  #include "sc7180.dtsi"
->  #include "pm6150.dtsi"
-> @@ -232,6 +233,50 @@
->  	};
->  };
->  
-> +&dsi_controller {
-> +	status = "okay";
+> +		mdss: mdss@ae00000 {
+> +			compatible = "qcom,sc7180-mdss";
+> +			reg = <0 0x0ae00000 0 0x1000>;
+> +			reg-names = "mdss";
 > +
-> +	vdda-supply = <&vreg_l3c_1p2>;
+> +			power-domains = <&dispcc MDSS_GDSC>;
 > +
-> +	panel@0 {
-> +		compatible = "visionox,rm69299-1080p-display";
-
-This depends on the series "Add support for rm69299 Visionox panel
-driver and add devicetree bindings for visionox panel"
-(https://patchwork.kernel.org/cover/11320773/) which hasn't landed
-IIUC. This should be mentioned after '---'.
-
-> +		reg = <0>;
+> +			clocks = <&gcc GCC_DISP_AHB_CLK>,
+> +				 <&gcc GCC_DISP_HF_AXI_CLK>,
+> +				 <&dispcc DISP_CC_MDSS_AHB_CLK>,
+> +				 <&dispcc DISP_CC_MDSS_MDP_CLK>;
+> +			clock-names = "iface", "gcc_bus", "ahb", "core";
 > +
-> +		vdda-supply = <&vreg_l8c_1p8>;
-> +		vdd3p3-supply = <&vreg_l18a_2p8>;
+> +			assigned-clocks = <&dispcc DISP_CC_MDSS_MDP_CLK>;
+> +			assigned-clock-rates = <300000000>;
 > +
-> +		pinctrl-names = "default", "suspend";
-> +		pinctrl-0 = <&disp_pins_default>;
-> +		pinctrl-1 = <&disp_pins_default>;
-
-Is there a point for listing a suspend configuration if it is the same
-as the default?
-
-> +		reset-gpios = <&pm6150l_gpio 3 GPIO_ACTIVE_HIGH>;
+> +			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> +			interrupt-controller;
+> +			#interrupt-cells = <1>;
 > +
-> +		ports {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			port@0 {
-> +				reg = <0>;
-> +				panel0_in: endpoint {
-> +					remote-endpoint = <&dsi0_out>;
-
-The 'dsi0_out' node is added by 'arm64: dts: sc7180: add display dt nodes'
-(https://patchwork.kernel.org/patch/11354253/), which has not landed. So
-either you should list it as dependency below the commit message, or
-(probably better) send the two patches in the same series.
-
-> +				};
-> +			};
-> +		};
-> +	};
+> +			iommus = <&apps_smmu 0x800 0x2>;
 > +
-> +	ports {
-> +		port@1 {
-> +			endpoint {
-> +				remote-endpoint = <&panel0_in>;
-> +				data-lanes = <0 1 2 3>;
-> +			};
-> +		};
-> +	};
-> +};
+> +			#address-cells = <2>;
+> +			#size-cells = <2>;
+> +			ranges;
 > +
-> +&dsi_phy {
-
-Also this node does not exist yet, it also depends on the patch mentioned
-above.
-
-> +	status = "okay";
-> +};
+> +			mdss_mdp: mdp@ae01000 {
+> +				compatible = "qcom,sc7180-dpu";
+> +				reg = <0 0x0ae01000 0 0x8f000>,
+> +				      <0 0x0aeb0000 0 0x2008>,
+> +				      <0 0x0af03000 0 0x16>;
+> +				reg-names = "mdp", "vbif", "disp_cc";
 > +
->  &qspi {
->  	status = "okay";
->  	pinctrl-names = "default";
-> @@ -289,6 +334,17 @@
->  
->  /* PINCTRL - additions to nodes defined in sc7180.dtsi */
->  
-> +&pm6150l_gpio {
-> +	disp_pins_default: disp-pins-default{
+> +				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
+> +					 <&dispcc DISP_CC_MDSS_ROT_CLK>,
+> +					 <&dispcc DISP_CC_MDSS_MDP_LUT_CLK>,
+> +					 <&dispcc DISP_CC_MDSS_MDP_CLK>,
+> +					 <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
+> +				clock-names = "iface", "rot", "lut", "core",
+> +					      "vsync";
+> +				assigned-clocks = <&dispcc DISP_CC_MDSS_MDP_CLK>,
+> +						  <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
+> +				assigned-clock-rates = <300000000>,
+> +						       <19200000>;
 
-nit: missing blank before curly brace
+The clock rate for DISP_CC_MDSS_MDP_CLK is already specified in the
+parent node, do we really want/need to specify it twice?
 
-If there is no suspend configuration you can get rid of the 'default'
-suffix.
-
-Since this is only a single pin I would suggest to use a name that
-describes the function of the pin or the name used in the schematic
-instead of 'disp-pins'.
-
-Thanks
-
-Matthias
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
