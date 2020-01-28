@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAA8A14C2CA
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 23:16:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C73C814C2D0
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 23:16:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B7886F43A;
-	Tue, 28 Jan 2020 22:16:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B15FA6F43F;
+	Tue, 28 Jan 2020 22:16:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail25.static.mailgun.info (mail25.static.mailgun.info
  [104.130.122.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1C766E141
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 22:16:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98F996F439
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 22:16:30 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1580249785; h=References: In-Reply-To: Message-Id: Date:
+ s=smtp; t=1580249790; h=References: In-Reply-To: Message-Id: Date:
  Subject: Cc: To: From: Sender;
- bh=hRAmtp8agzDIfoZcf0u0nxp0G1YHZjq1uYqYKLAl4IU=;
- b=k9bINw+6I7zgj3bnTVqJM9su75wRardKGbqwA4GAH+dNqwP38fRaEbKAboq17RHMxwft6/ly
- xmx1Ane3ty8N5mej9vjtBNjO/C3FDlmCbM5aszIRc1IbuzKp2ezVrFA6Gkic9ppOVMWH8TVl
- gQKpXOCwzu3guqnQulIo04F3gm4=
+ bh=Llw2kTJ4XUeuT4T/F2T53za68YIhWHzkSvM16vklV7s=;
+ b=GQHVdOKG66u18uQdp7NU17M1hcim6myTJGX9LqbiNNUo4aOmG+QhW5JhVukMjiyWeE3Xxrpm
+ gzv3N9h7Ty0gaxckkidNHzRyXCF5suXuZtG1INZMdB+SjyJHiOJk+lG2plX8xLhcSG8Iyqhb
+ MWpzU1w+esPA6gkquG3C6z/oAGk=
 X-Mailgun-Sending-Ip: 104.130.122.25
 X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e30b2b8.7ff62936ace0-smtp-out-n03;
- Tue, 28 Jan 2020 22:16:24 -0000 (UTC)
+ by mxa.mailgun.org with ESMTP id 5e30b2bc.7f1adef063b0-smtp-out-n01;
+ Tue, 28 Jan 2020 22:16:28 -0000 (UTC)
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 4CFE5C447A2; Tue, 28 Jan 2020 22:16:24 +0000 (UTC)
+ id 22C9DC447A6; Tue, 28 Jan 2020 22:16:25 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
@@ -38,18 +38,18 @@ Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id B95D4C4479C;
- Tue, 28 Jan 2020 22:16:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org B95D4C4479C
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 143DFC433CB;
+ Tue, 28 Jan 2020 22:16:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 143DFC433CB
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  spf=none smtp.mailfrom=jcrouse@codeaurora.org
 From: Jordan Crouse <jcrouse@codeaurora.org>
 To: iommu@lists.linux-foundation.org
-Subject: [PATCH v1 5/6] drm/msm/gpu: Add ttbr0 to the memptrs
-Date: Tue, 28 Jan 2020 15:16:09 -0700
-Message-Id: <1580249770-1088-6-git-send-email-jcrouse@codeaurora.org>
+Subject: [PATCH v1 6/6] drm/msm/a6xx: Support per-instance pagetables
+Date: Tue, 28 Jan 2020 15:16:10 -0700
+Message-Id: <1580249770-1088-7-git-send-email-jcrouse@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1580249770-1088-1-git-send-email-jcrouse@codeaurora.org>
 References: <1580249770-1088-1-git-send-email-jcrouse@codeaurora.org>
@@ -66,7 +66,8 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- will@kernel.org, robin.murphy@arm.com, dri-devel@lists.freedesktop.org,
+ will@kernel.org, Sharat Masetty <smasetty@codeaurora.org>,
+ robin.murphy@arm.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  Sean Paul <sean@poorly.run>, linux-arm-kernel@lists.infradead.org
 MIME-Version: 1.0
@@ -75,27 +76,137 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Targets that support per-instance pagetable switching will have to keep
-track of which pagetable belongs to each instance to be able to recover
-for preemption.
+Add support for per-instance pagetables for a6xx targets. Add support
+to handle split pagetables and create a new instance if the needed
+IOMMU support exists and insert the necessary PM4 commands to trigger
+a pagetable switch at the beginning of a user command.
 
 Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
 ---
 
- drivers/gpu/drm/msm/msm_ringbuffer.h | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 89 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 89 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.h b/drivers/gpu/drm/msm/msm_ringbuffer.h
-index 7764373..c5822bd 100644
---- a/drivers/gpu/drm/msm/msm_ringbuffer.h
-+++ b/drivers/gpu/drm/msm/msm_ringbuffer.h
-@@ -29,6 +29,7 @@ struct msm_gpu_submit_stats {
- struct msm_rbmemptrs {
- 	volatile uint32_t rptr;
- 	volatile uint32_t fence;
-+	volatile uint64_t ttbr0;
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 9bec603c..e1a257e 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -12,6 +12,62 @@
  
- 	volatile struct msm_gpu_submit_stats stats[MSM_GPU_SUBMIT_STATS_COUNT];
+ #define GPU_PAS_ID 13
+ 
++static void a6xx_set_pagetable(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
++		struct msm_file_private *ctx)
++{
++	u64 ttbr;
++	u32 asid;
++
++	if (!msm_iommu_get_ptinfo(ctx->aspace->mmu, &ttbr, &asid))
++		return;
++
++	ttbr = ttbr | ((u64) asid) << 48;
++
++	/* Turn off protected mode */
++	OUT_PKT7(ring, CP_SET_PROTECTED_MODE, 1);
++	OUT_RING(ring, 0);
++
++	/* Turn on APIV mode to access critical regions */
++	OUT_PKT4(ring, REG_A6XX_CP_MISC_CNTL, 1);
++	OUT_RING(ring, 1);
++
++	/* Make sure the ME is synchronized before staring the update */
++	OUT_PKT7(ring, CP_WAIT_FOR_ME, 0);
++
++	/* Execute the table update */
++	OUT_PKT7(ring, CP_SMMU_TABLE_UPDATE, 4);
++	OUT_RING(ring, lower_32_bits(ttbr));
++	OUT_RING(ring, upper_32_bits(ttbr));
++	/* CONTEXTIDR is currently unused */
++	OUT_RING(ring, 0);
++	/* CONTEXTBANK is currently unused */
++	OUT_RING(ring, 0);
++
++	/*
++	 * Write the new TTBR0 to the preemption records - this will be used to
++	 * reload the pagetable if the current ring gets preempted out.
++	 */
++	OUT_PKT7(ring, CP_MEM_WRITE, 4);
++	OUT_RING(ring, lower_32_bits(rbmemptr(ring, ttbr0)));
++	OUT_RING(ring, upper_32_bits(rbmemptr(ring, ttbr0)));
++	OUT_RING(ring, lower_32_bits(ttbr));
++	OUT_RING(ring, upper_32_bits(ttbr));
++
++	/* Invalidate the draw state so we start off fresh */
++	OUT_PKT7(ring, CP_SET_DRAW_STATE, 3);
++	OUT_RING(ring, 0x40000);
++	OUT_RING(ring, 1);
++	OUT_RING(ring, 0);
++
++	/* Turn off APRIV */
++	OUT_PKT4(ring, REG_A6XX_CP_MISC_CNTL, 1);
++	OUT_RING(ring, 0);
++
++	/* Turn off protected mode */
++	OUT_PKT7(ring, CP_SET_PROTECTED_MODE, 1);
++	OUT_RING(ring, 1);
++}
++
+ static inline bool _a6xx_check_idle(struct msm_gpu *gpu)
+ {
+ 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+@@ -89,6 +145,8 @@ static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit,
+ 	struct msm_ringbuffer *ring = submit->ring;
+ 	unsigned int i;
+ 
++	a6xx_set_pagetable(gpu, ring, ctx);
++
+ 	get_stats_counter(ring, REG_A6XX_RBBM_PERFCTR_CP_0_LO,
+ 		rbmemptr_stats(ring, index, cpcycles_start));
+ 
+@@ -878,6 +936,36 @@ static unsigned long a6xx_gpu_busy(struct msm_gpu *gpu)
+ 	return (unsigned long)busy_time;
+ }
+ 
++static struct msm_gem_address_space*
++a6xx_create_instance_space(struct msm_gpu *gpu)
++{
++	struct msm_gem_address_space *aspace;
++	struct iommu_domain *iommu;
++	struct msm_mmu *mmu;
++
++	if (!iommu_dev_has_feature(&gpu->pdev->dev, IOMMU_DEV_FEAT_AUX))
++		return gpu->aspace;
++
++	iommu = iommu_domain_alloc(&platform_bus_type);
++	if (!iommu)
++		return gpu->aspace;
++
++	mmu = msm_iommu_new_instance(&gpu->pdev->dev, iommu);
++	if (IS_ERR(mmu)) {
++		iommu_domain_free(iommu);
++		return gpu->aspace;
++	}
++
++	aspace = msm_gem_address_space_create(mmu, "gpu",
++		0x100000000ULL, 0x1ffffffffULL);
++	if (IS_ERR(aspace)) {
++		mmu->funcs->destroy(mmu);
++		return gpu->aspace;
++	}
++
++	return aspace;
++}
++
+ static struct msm_gem_address_space *
+ a6xx_create_address_space(struct msm_gpu *gpu, struct platform_device *pdev)
+ {
+@@ -951,6 +1039,7 @@ static const struct adreno_gpu_funcs funcs = {
+ 		.gpu_state_put = a6xx_gpu_state_put,
+ #endif
+ 		.create_address_space = a6xx_create_address_space,
++		.create_instance_space = a6xx_create_instance_space,
+ 	},
+ 	.get_timestamp = a6xx_get_timestamp,
  };
 -- 
 2.7.4
