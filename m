@@ -2,52 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9475B14BDF5
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 17:44:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20BEF14BE05
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 17:49:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EF1D6E0E1;
-	Tue, 28 Jan 2020 16:44:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B570F6EEB5;
+	Tue, 28 Jan 2020 16:49:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
- [IPv6:2607:f8b0:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 707B46E0E1
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 16:44:15 +0000 (UTC)
-Received: by mail-oi1-x242.google.com with SMTP id z64so10947245oia.4
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 08:44:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=18/Y5u07knvHEJdaTlkeKYn//3ntjh8d0eQZR8UfAuA=;
- b=fo1svL6SfClSU67atd4IEu0wO/bcT44gO3Ucu2cLiX5Zm0Uxke0k2jhidQvHtSRlvH
- pDzoSmCUWA3G1oOqjcYxuFnkknsTSn2HrTOuE4T6GY9eTZaYuQdUtAA+ubXE0bQwGndA
- rh79FRWol9I3eNVbeyIVWlaaBPyuZsi6wk+C8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=18/Y5u07knvHEJdaTlkeKYn//3ntjh8d0eQZR8UfAuA=;
- b=n4ULIcJOLel4S+oAa7n/oqmoMoiu6MVbgZEw5WTkJtzGqc4245dYfJ4xKdXdKVzlBc
- iBnuY3mf5YHXNzAjDPwHW5Bd8+Pp3BAg7Nb/UfnfDSiT8QnhgE7ibWp/wPui+vEXaOu+
- mS4cOEZTN6uimwREPwo/AIWz06nrHsM/YX3E06TyHR23lTyiJZwwZuN7wUMzTkTooV5r
- oRZDJhIVD64MliwAiNdwQVOfyhlMYJDR3Jj/b+DzZY5hJjXERLqfEkqRHWlcYLPeOqcf
- l9jrUcjcxXUc6Sr19NByMJT8L4H6DVoYdbnqe/FhD7NShMZB25BGGb91OUTsDcsIjSfd
- clXg==
-X-Gm-Message-State: APjAAAW2qBnXOB6fUlrdMZPNq6xVZZKYGHAM8/9LMuLmrjwooX7D+MfA
- M11dh9n1MPurGAE8Ab7cHv8c5/aRvlFpB+xWNrpv6A==
-X-Google-Smtp-Source: APXvYqwyM99y4aXPw7e6nSfcN/k4HEDw2+3XC0/UO/afm8IyM+ySpJUpy65/PZx0NiyJdKxUVVF0OSUVsHdVkzPH3s8=
-X-Received: by 2002:aca:2407:: with SMTP id n7mr3505084oic.14.1580229854725;
- Tue, 28 Jan 2020 08:44:14 -0800 (PST)
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [62.209.51.94])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 752CE6EEB5
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 16:49:54 +0000 (UTC)
+Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 00SGlDtY023385; Tue, 28 Jan 2020 17:49:38 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
+ h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=STMicroelectronics;
+ bh=CIHFy0mpXNHWYOHODkLgaAdMxCyVoBTuoV1E4uG8N4s=;
+ b=BJ150Xf73hbnN0bLEEf+2Tp+7lOBzGmIVeJRu4sx9uRKodntTP0B8dXoWCQ09pGsRtXX
+ aPCLIE7SIeIlQMTPryODHZrE5AN8GdshrcWtZ7J6cm4dDRYsNKYo24gQ4blIPAhbxMPC
+ KNjN8nDWfUjxXKXffDzHNlDp767Ex6s0X7dDsdjyjwcC7Be77Yx/SIHITl/IGZtzehtz
+ HkXBc9drImE8Ex0wpMgoROWJRhKXKHkucx1xPCJXmdphrbG4d2P2fJeG5iy5bgWlK9Yg
+ vD01uh4AAlkPjCAjm8NXstDxHqU5rAXhdmPqkE7X+/q3DNQ1/0Cz4+ORrWR4hTU4GvlD wA== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com with ESMTP id 2xrcaxxwuh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Jan 2020 17:49:38 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id B6916100038;
+ Tue, 28 Jan 2020 17:49:35 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 9FF0721CA94;
+ Tue, 28 Jan 2020 17:49:35 +0100 (CET)
+Received: from SFHDAG6NODE3.st.com (10.75.127.18) by SFHDAG3NODE2.st.com
+ (10.75.127.8) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Tue, 28 Jan
+ 2020 17:49:35 +0100
+Received: from SFHDAG6NODE3.st.com ([fe80::d04:5337:ab17:b6f6]) by
+ SFHDAG6NODE3.st.com ([fe80::d04:5337:ab17:b6f6%20]) with mapi id
+ 15.00.1473.003; Tue, 28 Jan 2020 17:49:35 +0100
+From: Philippe CORNU <philippe.cornu@st.com>
+To: Benjamin GAIGNARD <benjamin.gaignard@st.com>, Maxime Ripard
+ <maxime@cerno.tech>
+Subject: Re: [PATCH v2] dt-bindings: display: Convert etnaviv to json-schema
+Thread-Topic: [PATCH v2] dt-bindings: display: Convert etnaviv to json-schema
+Thread-Index: AQHV1bPFvwodev/kWkOXWkWfzChdiaf/6nAAgAAHB4CAAEgqAA==
+Date: Tue, 28 Jan 2020 16:49:35 +0000
+Message-ID: <7acf71bb-092d-14f4-8208-6d906a993211@st.com>
+References: <20200128082013.15951-1-benjamin.gaignard@st.com>
+ <20200128120600.oagnindklixjyieo@gilmour.lan>
+ <a7fa1b43-a188-9d06-73ec-16bcd4012207@st.com>
+In-Reply-To: <a7fa1b43-a188-9d06-73ec-16bcd4012207@st.com>
+Accept-Language: fr-FR, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.49]
+Content-ID: <85CDDBF742537543A477C23D8CA2A1C8@st.com>
 MIME-Version: 1.0
-References: <20200120100014.23488-1-kraxel@redhat.com>
- <CAKMK7uGMTLoyMnfLmx3r9+qf6sMXcrKT_EgO78f=Gw0Oi51kWQ@mail.gmail.com>
-In-Reply-To: <CAKMK7uGMTLoyMnfLmx3r9+qf6sMXcrKT_EgO78f=Gw0Oi51kWQ@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 28 Jan 2020 17:44:03 +0100
-Message-ID: <CAKMK7uFgGQdd1V3-ux6dGhUXFNvsFJvCiA8eNW9RK=nNdsK3OA@mail.gmail.com>
-Subject: Re: [PATCH] fbdev: wait for references go away
-To: Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-01-28_05:2020-01-28,
+ 2020-01-28 signatures=0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,112 +80,194 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marmarek@invisiblethingslab.com,
- "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "mark.rutland@arm.com" <mark.rutland@arm.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ Pierre Yves MORDRET <pierre-yves.mordret@st.com>,
+ "linux+etnaviv@armlinux.org.uk" <linux+etnaviv@armlinux.org.uk>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBKYW4gMjgsIDIwMjAgYXQgNTozOSBQTSBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3
-bGwuY2g+IHdyb3RlOgo+Cj4gT24gTW9uLCBKYW4gMjAsIDIwMjAgYXQgMTE6MDAgQU0gR2VyZCBI
-b2ZmbWFubiA8a3JheGVsQHJlZGhhdC5jb20+IHdyb3RlOgo+ID4KPiA+IFByb2JsZW06IGRvX3Vu
-cmVnaXN0ZXJfZnJhbWVidWZmZXIoKSBtaWdodCByZXR1cm4gYmVmb3JlIHRoZSBkZXZpY2UgaXMK
-PiA+IGZ1bGx5IGNsZWFuZWQgdXAsIGR1ZSB0byB1c2Vyc3BhY2UgaGF2aW5nIGEgZmlsZSBoYW5k
-bGUgZm9yIC9kZXYvZmIwCj4gPiBvcGVuLiAgV2hpY2ggY2FuIHJlc3VsdCBpbiBkcm0gZHJpdmVy
-IG5vdCBiZWluZyBhYmxlIHRvIGdyYWIgcmVzb3VyY2VzCj4gPiAoYW5kIGZhaWwgaW5pdGlhbGl6
-YXRpb24pIGJlY2F1c2UgdGhlIGZpcm13YXJlIGZyYW1lYnVmZmVyIHN0aWxsIGhvbGRzCj4gPiB0
-aGVtLiAgUmVwb3J0ZWRseSBwbHltb3V0aCBjYW4gdHJpZ2dlciB0aGlzLgo+ID4KPiA+IEZpeCB0
-aGlzIGJ5IHRyeWluZyB0byB3YWl0IHVudGlsIGFsbCByZWZlcmVuY2VzIGFyZSBnb25lLiAgRG9u
-J3Qgd2FpdAo+ID4gZm9yZXZlciB0aG91Z2ggZ2l2ZW4gdGhhdCB1c2Vyc3BhY2UgbWlnaHQga2Vl
-cCB0aGUgZmlsZSBoYW5kbGUgb3Blbi4KPiA+Cj4gPiBSZXBvcnRlZC1ieTogTWFyZWsgTWFyY3p5
-a293c2tpLUfDs3JlY2tpIDxtYXJtYXJla0BpbnZpc2libGV0aGluZ3NsYWIuY29tPgo+ID4gU2ln
-bmVkLW9mZi1ieTogR2VyZCBIb2ZmbWFubiA8a3JheGVsQHJlZGhhdC5jb20+Cj4KPiAoTWlzc2Vk
-IHRoaXMgYmVjYXVzZSBsY2EsIHNvIGEgYml0IGxhdGUpCj4KPiBUaGlzIGlzbid0IHJlYWxseSBo
-b3cgZHJpdmVyIHVubG9hZCBpcyBzdXBwb3NlZCB0byBoYXBwZW4uIEluc3RlYWQ6Cj4KPiAtIERy
-aXZlciB1bmxvYWQgc3RhcnRzCj4gLSBEcml2ZXIgY2FsbHMgdGhlIGZvb191bnJlZ2lzdGVyIGZ1
-bmN0aW9uLCB3aGljaCBzdG9wcyBuZXcgdXNlcnNwYWNlCj4gZnJvbSBnZXR0aW5nIGF0IHRoZSBk
-cml2ZXIuIElmIHlvdSdyZSBzdWJzeXN0ZW0gaXMgZ29vZCAoaS5lLiBkcm0KPiBzaW5jZSBOb3Jh
-bGYgZml4ZWQgaXQpIHRoaXMgd2lsbCBhbHNvIHN1ZmZpY2llbnRseSBzeW5jaHJvbml6ZSB3aXRo
-Cj4gYW55IHBlbmRpbmcgaW9jdGwuCj4gLSBJbXBvcnRhbnQ6IFRoaXMgZG9lcyBfbm90XyB3YWl0
-IHVudGlsIHVzZXJzcGFjZSBjbG9zZXMgYWxsCj4gcmVmZXJlbmNlcy4gWW91IGNhbid0IGZvcmNl
-IHRoYXQuCj4gLSBEcml2ZXIgcmVsZWFzZXMgYWxsIGh3IHN0cnVjdHVyZXMgYW5kIG1hcHBpbmdz
-IGFuZCBldmVyeXRoaW5nIGVsc2UuCj4gV2l0aCBmYmRldiB0aGlzIGlzIGN1cnJlbnRseSBub3Qg
-ZnVsbHkgcmFjZSBmcmVlIGJlY2F1c2Ugbm8gb25lIGlzCj4gc3luY2hyb25pemluZyB3aXRoIHVz
-ZXJzcGFjZSBldmVyeXdoZXJlIGNvcnJlY3RseS4KPgo+IC4uLiBtdWNoIHRpbWUgY2FuIHBhc3Mg
-Li4uCj4KPiAtIFVzZXJzcGFjZSByZWxlYXNlcyB0aGUgbGFzdCByZWZlcmVuY2VzLCB3aGljaCB0
-cmlnZ2VycyB0aGUgZmluYWwKPiBkZXN0cm95IHN0dWZmIGFuZCB3aGljaCByZWxlYXNlcyB0aGUg
-bWVtb3J5IG9jY3VwaWVkIGJ5IHZhcmlvdXMKPiBzdHJ1Y3R1cmVzIHN0aWxsIChidXQgbm90IGFu
-eXRoaW5nIHJlbGVhdGVkIHRvIGh3IG9yIGFueXRoaW5nIGVsc2UKPiByZWFsbHkpLgo+Cj4gU28g
-dGhlcmUncyB0d28gYml0czoKPgo+IDEuIFN5bmNocm9uaXppbmcgd2l0aCBwZW5kaW5nIGlvY3Rs
-cy4gVGhpcyBpcyBtb3N0bHkgdGhlcmUgYWxyZWFkeQo+IHdpdGggbG9ja19mYl9pbmZvL3VubG9j
-a19mYl9pbmZvLiBGcm9tIGEgcXVpY2sgbG9vayB0aGUgbWlzc2luZyBiaXQKPiBzZWVtcyB0byBi
-ZSB0aGF0IHRoZSB1bnJlZ2lzdGVyIGNvZGUgaXMgbm90IHRha2luZyB0aGF0IGxvY2ssIGFuZCBz
-bwo+IG5vdCBzdWZmaWNpZW50bHkgc3luY2hyb25pemluZyBhZ2FpbnN0IGNvbmN1cnJlbnQgaW9j
-dGwgY2FsbHMgYW5kCj4gb3RoZXIgc3R1ZmYuIFBsdXMgd291bGQgbmVlZCB0byBhdWRpdCBhbGwg
-ZW50cnkgcG9pbnRzLgoKQ29ycmVjdGlvbjogVGhlIGNoZWNrIGhlcmUgaXMgZmlsZV9mYl9pbmZv
-KCksIHdoaWNoIGNoZWNrcyBmb3IKdW5yZWdpc3Rlci4gRXhjZXB0IGl0J3MgdG90YWxseSByYWN5
-IGFuZCBtaXNzZXMgdGhlIGVuZCBtYXJrZXIgKHVubGlrZQpkcm1fZGV2X2VudGVyL2V4aXQgaW4g
-ZHJtKS4gU28gYnVuY2ggb2Ygd29yayB0byBkbyBoZXJlIHRvby4gVGhlCmxvY2tfZmJfaW5mbyBp
-cyBwdXJlbHkgbG9ja2luZywgbm90IGxpZmV0aW1lIChhbmQgSSB0aGluayBpbiBhIGJ1bmNoCm9m
-IHBsYWNlcyB3YXkgdG9vIGxhdGUpLgoKPiAxYS4gZmJjb24gd29ya3MgZGlmZmVyZW50bHkuIERv
-bid0IGxvb2sgdG9vIGNsb3NlbHksIGJ1dCB0aGlzIGlzIGFsc28KPiBub3QgdGhlIHByb2JsZW0g
-eW91ciBmYWNpbmcgaGVyZS4KPgo+IDIuIFJlZmNvdW50aW5nIG9mIHRoZSBmYiBzdHJ1Y3R1cmUg
-YW5kIGh3IHRlYXJkb3duLiBUaGF0J3Mgd2hhdCdzCj4gdHJhY2tlZCBpbiBmYl9pbmZvLT5jb3Vu
-dC4gTW9zdCBsaWtlbHkgdGhlIGZiZGV2IGRyaXZlciB5b3UgaGF2ZSBoYXMgYQo+IHdyb25nIHNw
-bGl0IGJldHdlZW4gdGhlIGh3IHRlYXJkb3duIGNvZGUgYW5kIHdoYXQncyBpbiBmYl9kZXN0cm95
-LiBJZgo+IHlvdSBoYXZlIGFueSBodyBjbGVhbnVwIGNvZGUgaW4gZmJfZGVzdHJveSB0aGF0IGRy
-aXZlciBpcyBidWdneS4gZWZpZmIKPiBpcyB2ZXJ5IGJ1Z2d5IGluIHRoYXQgYXJlYSA6LSkgU2Ft
-ZSBmb3Igb2ZmYiwgc2ltcGxlZmIsIHZlc2FmYiBhbmQKPiB2ZXNhMTZmYi4KPgo+IFdlIG1pZ2h0
-IG5lZWQgYSBuZXcgZmJfdW5yZWdpc3RlciBjYWxsYmFjayBmb3IgdGhlc2UgZHJpdmVycyB0byBi
-ZQo+IGFibGUgdG8gZml4IHRoaXMgcHJvcGVybHkuIEJlY2F1c2UgdGhlIHVucmVnaXN0ZXIgY29t
-ZXMgZnJvbSB0aGUgZmJkZXYKPiBjb3JlLCBhbmQgbm90IHRoZSBkcml2ZXIgYXMgdXN1YWwsIHNv
-IHRoZSB1c3VhbCBkcml2ZXIgdW5sb2FkIHNlcXVlbmNlCj4gZG9lc250IHdvcms6Cj4KPiBkcm1f
-ZGV2X3VucmVnaXN0ZXIoKTsKPiAuLi4gcmVsZWFzZSBhbGwgaHcgcmVzb3VyY2UgLi4uCj4KPiBk
-cm1fZGV2X3B1dCgpOwo+Cj4gT3IgaW4gdGVybXMgb2YgZmJkZXY6Cj4KPiB1bnJlZ2lzdGVyX2Zy
-YW1lYnVmZmVyKGluZm8pOwo+IC4uLiByZWxlYXNlIGFsbCBodyByZXNvdXJjZXMgLi4uIDwtIGV2
-ZXJ5b25lIGdldHMgdGhpcyB3cm9uZwo+IGZyYW1lYnVmZmVyX3JlbGVhc2UoaW5mbyk7IDwtIGFs
-c28gd3JvbmcgYmVjYXVzZSBub3QgcmVmY291bnRlZCwKPiBob29yYXksIHRoaXMgc2hvdWxkIGJl
-IG1vdmVkIHRvIHRvIGVuZCBvZiB0aGUgLT5mYl9kZXN0cm95IGNhbGxiYWNrCj4KPiBTbyB3ZSBu
-ZWVkIGEgY2FsbGJhY2sgdG8gcHV0IHRoZSAicmVsZWFzZSBhbGwgaHcgcmVzb3VyY2VzIiBzdGVw
-IGludG8KPiB0aGUgZmxvdyBhdCB0aGUgcmlnaHQgcGxhY2UuIEFub3RoZXIgb3B0aW9uIChzbGln
-aHRseSBsZXNzIG1pZGxheWVyKQo+IHdvdWxkIGJlIHRvIGFkZCBhIGZiX3Rha2VvdmVyIGhvb2ss
-IGZvciB0aGVzZSBwbGF0Zm9ybXMgZHJpdmVycywgd2hpY2gKPiB3b3VsZCB0aGVuIGRvIHRoZSBh
-Ym92ZSBzZXF1ZW5jZSAobGlrZSBhdCBkcml2ZXIgdW5sb2FkKS4KPgo+IEFsc28gYWRkaW5nIE5v
-cmFsZiwgc2luY2UgaGUncyBmaXhlZCB1cCBhbGwgdGhlIGRybSBzdHVmZiBpbiB0aGlzIGFyZWEK
-PiBpbiB0aGUgcGFzdC4KPgo+IENoZWVycywgRGFuaWVsCj4KPiA+IC0tLQo+ID4gIGRyaXZlcnMv
-dmlkZW8vZmJkZXYvY29yZS9mYm1lbS5jIHwgNyArKysrKysrCj4gPiAgMSBmaWxlIGNoYW5nZWQs
-IDcgaW5zZXJ0aW9ucygrKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2
-L2NvcmUvZmJtZW0uYyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYm1lbS5jCj4gPiBpbmRl
-eCBkMDQ1NTQ5NTllYTcuLjJlYThhYzA1YjA2NSAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvdmlk
-ZW8vZmJkZXYvY29yZS9mYm1lbS5jCj4gPiArKysgYi9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUv
-ZmJtZW0uYwo+ID4gQEAgLTM1LDYgKzM1LDcgQEAKPiA+ICAjaW5jbHVkZSA8bGludXgvZmJjb24u
-aD4KPiA+ICAjaW5jbHVkZSA8bGludXgvbWVtX2VuY3J5cHQuaD4KPiA+ICAjaW5jbHVkZSA8bGlu
-dXgvcGNpLmg+Cj4gPiArI2luY2x1ZGUgPGxpbnV4L2RlbGF5Lmg+Cj4gPgo+ID4gICNpbmNsdWRl
-IDxhc20vZmIuaD4KPiA+Cj4gPiBAQCAtMTcwNyw2ICsxNzA4LDggQEAgc3RhdGljIHZvaWQgdW5s
-aW5rX2ZyYW1lYnVmZmVyKHN0cnVjdCBmYl9pbmZvICpmYl9pbmZvKQo+ID4KPiA+ICBzdGF0aWMg
-dm9pZCBkb191bnJlZ2lzdGVyX2ZyYW1lYnVmZmVyKHN0cnVjdCBmYl9pbmZvICpmYl9pbmZvKQo+
-ID4gIHsKPiA+ICsgICAgICAgaW50IGxpbWl0ID0gMTAwOwo+ID4gKwo+ID4gICAgICAgICB1bmxp
-bmtfZnJhbWVidWZmZXIoZmJfaW5mbyk7Cj4gPiAgICAgICAgIGlmIChmYl9pbmZvLT5waXhtYXAu
-YWRkciAmJgo+ID4gICAgICAgICAgICAgKGZiX2luZm8tPnBpeG1hcC5mbGFncyAmIEZCX1BJWE1B
-UF9ERUZBVUxUKSkKPiA+IEBAIC0xNzI2LDYgKzE3MjksMTAgQEAgc3RhdGljIHZvaWQgZG9fdW5y
-ZWdpc3Rlcl9mcmFtZWJ1ZmZlcihzdHJ1Y3QgZmJfaW5mbyAqZmJfaW5mbykKPiA+ICAgICAgICAg
-ZmJjb25fZmJfdW5yZWdpc3RlcmVkKGZiX2luZm8pOwo+ID4gICAgICAgICBjb25zb2xlX3VubG9j
-aygpOwo+ID4KPiA+ICsgICAgICAgLyogdHJ5IHdhaXQgdW50aWwgYWxsIHJlZmVyZW5jZXMgYXJl
-IGdvbmUgKi8KPiA+ICsgICAgICAgd2hpbGUgKGF0b21pY19yZWFkKCZmYl9pbmZvLT5jb3VudCkg
-PiAxICYmIC0tbGltaXQgPiAwKQo+ID4gKyAgICAgICAgICAgICAgIG1zbGVlcCgxMCk7Cj4gPiAr
-Cj4gPiAgICAgICAgIC8qIHRoaXMgbWF5IGZyZWUgZmIgaW5mbyAqLwo+ID4gICAgICAgICBwdXRf
-ZmJfaW5mbyhmYl9pbmZvKTsKPiA+ICB9Cj4gPiAtLQo+ID4gMi4xOC4xCj4gPgo+ID4gX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiA+IGRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKPiA+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+IGh0dHBz
-Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCj4KPgo+
-Cj4gLS0KPiBEYW5pZWwgVmV0dGVyCj4gU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0
-aW9uCj4gKzQxICgwKSA3OSAzNjUgNTcgNDggLSBodHRwOi8vYmxvZy5mZndsbC5jaAoKCgotLSAK
-RGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KKzQxICgw
-KSA3OSAzNjUgNTcgNDggLSBodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Hi Benjamin,
+
+
+On 1/28/20 1:31 PM, Benjamin GAIGNARD wrote:
+> =
+
+> On 1/28/20 1:06 PM, Maxime Ripard wrote:
+>> Hi Benjamin,
+>>
+>> On Tue, Jan 28, 2020 at 09:20:13AM +0100, Benjamin Gaignard wrote:
+>>> Convert etnaviv bindings to yaml format.
+>>>
+>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
+>>> ---
+>>>    .../bindings/display/etnaviv/etnaviv-drm.txt       | 36 -----------
+>>>    .../devicetree/bindings/gpu/vivante,gc.yaml        | 72 ++++++++++++=
+++++++++++
+>>>    2 files changed, 72 insertions(+), 36 deletions(-)
+>>>    delete mode 100644 Documentation/devicetree/bindings/display/etnaviv=
+/etnaviv-drm.txt
+>>>    create mode 100644 Documentation/devicetree/bindings/gpu/vivante,gc.=
+yaml
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/display/etnaviv/etnaviv-=
+drm.txt b/Documentation/devicetree/bindings/display/etnaviv/etnaviv-drm.txt
+>>> deleted file mode 100644
+>>> index 8def11b16a24..000000000000
+>>> --- a/Documentation/devicetree/bindings/display/etnaviv/etnaviv-drm.txt
+>>> +++ /dev/null
+>>> @@ -1,36 +0,0 @@
+>>> -Vivante GPU core devices
+>>> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+>>> -
+>>> -Required properties:
+>>> -- compatible: Should be "vivante,gc"
+>>> -  A more specific compatible is not needed, as the cores contain chip
+>>> -  identification registers at fixed locations, which provide all the
+>>> -  necessary information to the driver.
+>>> -- reg: should be register base and length as documented in the
+>>> -  datasheet
+>>> -- interrupts: Should contain the cores interrupt line
+>>> -- clocks: should contain one clock for entry in clock-names
+>>> -  see Documentation/devicetree/bindings/clock/clock-bindings.txt
+>>> -- clock-names:
+>>> -   - "bus":    AXI/master interface clock
+>>> -   - "reg":    AHB/slave interface clock
+>>> -               (only required if GPU can gate slave interface independ=
+ently)
+>>> -   - "core":   GPU core clock
+>>> -   - "shader": Shader clock (only required if GPU has feature PIPE_3D)
+>>> -
+>>> -Optional properties:
+>>> -- power-domains: a power domain consumer specifier according to
+>>> -  Documentation/devicetree/bindings/power/power_domain.txt
+>>> -
+>>> -example:
+>>> -
+>>> -gpu_3d: gpu@130000 {
+>>> -	compatible =3D "vivante,gc";
+>>> -	reg =3D <0x00130000 0x4000>;
+>>> -	interrupts =3D <0 9 IRQ_TYPE_LEVEL_HIGH>;
+>>> -	clocks =3D <&clks IMX6QDL_CLK_GPU3D_AXI>,
+>>> -	         <&clks IMX6QDL_CLK_GPU3D_CORE>,
+>>> -	         <&clks IMX6QDL_CLK_GPU3D_SHADER>;
+>>> -	clock-names =3D "bus", "core", "shader";
+>>> -	power-domains =3D <&gpc 1>;
+>>> -};
+>>> diff --git a/Documentation/devicetree/bindings/gpu/vivante,gc.yaml b/Do=
+cumentation/devicetree/bindings/gpu/vivante,gc.yaml
+>>> new file mode 100644
+>>> index 000000000000..c4f549c0d750
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/gpu/vivante,gc.yaml
+>>> @@ -0,0 +1,72 @@
+>>> +# SPDX-License-Identifier: GPL-2.0
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/gpu/vivante,gc.yaml#
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: Vivante GPU Bindings
+>>> +
+>>> +description: Vivante GPU core devices
+>>> +
+>>> +maintainers:
+>>> +  -  Lucas Stach <l.stach@pengutronix.de>
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    const: vivante,gc
+>>> +
+>>> +  reg:
+>>> +    maxItems: 1
+>>> +
+>>> +  interrupts:
+>>> +    maxItems: 1
+>>> +
+>>> +  clocks:
+>>> +    items:
+>>> +      - description: AXI/master interface clock
+>>> +      - description: GPU core clock
+>>> +      - description: Shader clock (only required if GPU has feature PI=
+PE_3D)
+>>> +      - description: AHB/slave interface clock (only required if GPU c=
+an gate slave interface independently)
+>> Can you have an AHB slave interface clock without a shader clock?
+> =
+
+> No because the items in the list are ordered so you need to have, in
+> order: "bus", "core", "shader", "reg"
+> =
+
+> If it is needed to allow any number of clock in any order I could write
+> it like this:
+> =
+
+> clocks:
+> =
+
+>   =A0 minItems: 1
+> =
+
+>   =A0 maxItems: 4
+> =
+
+> clock-names:
+> =
+
+>   =A0 items:
+> =
+
+>   =A0=A0=A0 enum: [ bus, core, shader, reg]
+> =
+
+>   =A0 minItems: 1
+> =
+
+>   =A0 maxItems: 4
+> =
+
+> Benjamin
+
+
+Thank you for your patch,
+
+I confirm that your last proposal with enum would be better.
+
+With that,
+Reviewed-by: Philippe Cornu <philippe.cornu@st.com>
+
+Philippe :-)
+
+
+> =
+
+>>
+>>> +    minItems: 2
+>>> +    maxItems: 4
+>>> +
+>>> +  clock-names:
+>>> +    items:
+>>> +      - const: bus
+>>> +      - const: core
+>>> +      - const: shader
+>>> +      - const: reg
+>>> +    minItems: 2
+>>> +    maxItems: 4
+>> If so, that check will fail, since it would expect a clock named
+>> shader on the 3rd item.
+>>
+>> It looks good otherwise, thanks!
+>> Maxime
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
