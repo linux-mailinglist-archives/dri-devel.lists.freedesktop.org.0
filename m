@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5632C14BC5B
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 15:53:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3BF914BC5F
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2020 15:55:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F8E36EE6B;
-	Tue, 28 Jan 2020 14:53:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B50389E3F;
+	Tue, 28 Jan 2020 14:55:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
  [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD0086EE69
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 14:53:49 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id t23so2853750wmi.1
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 06:53:49 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F48E8972C
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 14:55:20 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id a5so2860579wmb.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2020 06:55:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=YMynlCfkYHuFeP3sWLwxA34LTuWohzR96F2yHt85c04=;
- b=CVFoiZf1WCN2QCev5EQo/SCqM/62/IU98jN4CrVauc7cXr8OUh8pqZGJNTZFIPn6pv
- V/FAjZK/Km5w+IjghE9uoLPLKEzAj+UkRftuew1V38I9RwWfcwq67RnFugBeal+Ie6fQ
- qHPXemAvjsgtKVhgxC4CRUZLFUTWXtjg0Gwtc=
+ bh=/37CTIlAaeXXaG0RCavAIVg7uVtFN5ZHj7kky3b54o8=;
+ b=Z+/Eh0pZRMXXMMoZglHAl7gO8OiuoUTnGeixEHqNFbPOsBfr1W4wNHZIeCtwJyh8C3
+ NdUvsh2ObcnF3GOuu6X9NWgr9Vnvmp+Fm4Zd8YQYtICVzJry0+wUmHzdrldrEGTO4IpM
+ YWpSgnajJ0dzqi5Du6AVU/TxPPUF8Ft0VTjR8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=YMynlCfkYHuFeP3sWLwxA34LTuWohzR96F2yHt85c04=;
- b=r8DDgZJzig8RSZihCVllE1EVtOaiy4CPJDGgGHAAKK8Nz7k5Z+MG9NUemaqMIjMd+R
- I3r8Jp7lEaPW+0HNGEIaFpriy5ZXI5a+K6ZsjkjWgScstnmwsuqxnpxLLX0N6kQvqXc3
- /4MFqylmokwkDNTDqJLSdeLiOdwGVWpHAX2ARvsbveJ0oUG2ha5LSdqDCkEvKKyp8zwM
- KF8OTDR1KrzSKDHkTrCeLXxVOR8o9q5yLxbrVXMxCYLFeAzmF1yoMxnUAdmwzKVtPbQJ
- FGaphnC0h1XURFzrnSYCsNT/tK6p7Cdtw5oZ1ogrW5lz4ASZrONNLBpYSxnjO+sNsozx
- Un/w==
-X-Gm-Message-State: APjAAAV6R/7KkbagoOveJSWvC7AiIh4I5tBCpGtNNWYJQD4QLT0vgi18
- X3fbnwpJrV2IoXXhi+WzbANqotoAecDFdA==
-X-Google-Smtp-Source: APXvYqxc96Q3AkcwIKn0yM19+bMyVPyFb3SObWGqjyjeHQupc3pH0DlH4B/1GvTQV3zsI3Mueya5Mg==
-X-Received: by 2002:a05:600c:2409:: with SMTP id
- 9mr5446131wmp.109.1580223228269; 
- Tue, 28 Jan 2020 06:53:48 -0800 (PST)
+ bh=/37CTIlAaeXXaG0RCavAIVg7uVtFN5ZHj7kky3b54o8=;
+ b=ZWtqCzQHegWxR3iVTRMJC2TShrFDw31VJfc33iRmAj4Te67VsA5D9dU2nJFlkMBNQH
+ 4kUxDWuaDSbGaRxShggjxcbckITHGuSTn158mPQOIe1XwHP734zRH9SM7C0fSDxk1bak
+ iDlnfCIFb45XEp7TFpG8ulp+rbeBFd+HPj8Itd1VcGYS2S/bxMn9qMAz5KUWjGnocLFE
+ Cy4Lm5F4PEQ62m9komaUbAL3sSbulq/84hmZKxMakIECJRYdadasj/qaGHS0ACMtFj0p
+ 7mchkS54GButtUBMrseQWaxEPuNUPZgIs9v0zuJxCjrdj3+OEhlxKvzBKcojtZC4uTn3
+ MGYw==
+X-Gm-Message-State: APjAAAUpvvHhbskxjtuYp11qXC3EgSaQnP0qGgtrL78rXCkUVl5aGd3H
+ MKqZqYlh7NV+tFP8vhLdyQc67g==
+X-Google-Smtp-Source: APXvYqyZ1NosJQJOIGOxM5GMUTczmANweV1SYzUUpV9pHwkpkrFkhgD1+XAknsflD6v+5dk/zmRlkw==
+X-Received: by 2002:a05:600c:20c6:: with SMTP id
+ y6mr5518856wmm.95.1580223318672; 
+ Tue, 28 Jan 2020 06:55:18 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id y20sm3296409wmj.23.2020.01.28.06.53.47
+ by smtp.gmail.com with ESMTPSA id l3sm25782566wrt.29.2020.01.28.06.55.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 06:53:47 -0800 (PST)
-Date: Tue, 28 Jan 2020 15:53:45 +0100
+ Tue, 28 Jan 2020 06:55:17 -0800 (PST)
+Date: Tue, 28 Jan 2020 15:55:16 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 1/4] drm: Complain if drivers still use the ->load callback
-Message-ID: <20200128145345.GD43062@phenom.ffwll.local>
+To: Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
+Subject: Re: [PATCH 2/4] drm/fbdev-helper: don't force restores
+Message-ID: <20200128145516.GE43062@phenom.ffwll.local>
 References: <20200128104602.1459802-1-daniel.vetter@ffwll.ch>
- <8ccf8e5f-426e-5433-ace0-dc351e610b83@suse.de>
+ <20200128104602.1459802-2-daniel.vetter@ffwll.ch>
+ <098c0e3c-e885-ac32-9c71-77ba75cb33c6@tronnes.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <8ccf8e5f-426e-5433-ace0-dc351e610b83@suse.de>
+In-Reply-To: <098c0e3c-e885-ac32-9c71-77ba75cb33c6@tronnes.org>
 X-Operating-System: Linux phenom 5.3.0-3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,95 +77,124 @@ Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 28, 2020 at 02:41:06PM +0100, Thomas Zimmermann wrote:
-> Hi
+On Tue, Jan 28, 2020 at 12:52:05PM +0100, Noralf Tr=F8nnes wrote:
 > =
 
-> Am 28.01.20 um 11:45 schrieb Daniel Vetter:
-> > Kinda time to get this sorted. The locking around this really is not
-> > nice.
+> =
+
+> Den 28.01.2020 11.45, skrev Daniel Vetter:
+> > Instead check for master status, in case we've raced.
 > > =
 
+> > This is the last exception to the general rule that we restore fbcon
+> > only when there's no master active. Compositors are supposed to drop
+> > their master status before they switch to a different console back to
+> > text mode (or just switch to text mode directly, without a vt switch).
+> > =
+
+> > This is known to break some subtests of kms_fbcon_fbt in igt, but they'=
+re
+> > just wrong - it does a graphics/text mode switch for the vt without
+> > updating the master status.
+> > =
+
+> > Also add a comment to the drm_client->restore hook that this is expected
+> > going forward from all clients (there's currently just one).
+> > =
+
+> > v2: Also drop the force in pan_display
+> > =
+
+> > Cc: Noralf Tr=F8nnes <noralf@tronnes.org>
 > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 > > ---
-> >  drivers/gpu/drm/drm_drv.c | 6 ++++++
-> >  include/drm/drm_drv.h     | 3 +++
-> >  2 files changed, 9 insertions(+)
+> >  drivers/gpu/drm/drm_fb_helper.c | 14 ++------------
+> >  include/drm/drm_client.h        |  5 +++++
+> >  2 files changed, 7 insertions(+), 12 deletions(-)
 > > =
 
-> > diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> > index 7c18a980cd4b..8deff75b484c 100644
-> > --- a/drivers/gpu/drm/drm_drv.c
-> > +++ b/drivers/gpu/drm/drm_drv.c
-> > @@ -948,6 +948,12 @@ int drm_dev_register(struct drm_device *dev, unsig=
-ned long flags)
+> > diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_h=
+elper.c
+> > index 4c7cbce7bae7..926187a82255 100644
+> > --- a/drivers/gpu/drm/drm_fb_helper.c
+> > +++ b/drivers/gpu/drm/drm_fb_helper.c
+> > @@ -250,17 +250,7 @@ int drm_fb_helper_restore_fbdev_mode_unlocked(stru=
+ct drm_fb_helper *fb_helper)
+> >  		return 0;
 > >  =
 
-> >  	mutex_lock(&drm_global_mutex);
+> >  	mutex_lock(&fb_helper->lock);
+> > -	/*
+> > -	 * TODO:
+> > -	 * We should bail out here if there is a master by dropping _force.
+> > -	 * Currently these igt tests fail if we do that:
+> > -	 * - kms_fbcon_fbt@psr
+> > -	 * - kms_fbcon_fbt@psr-suspend
+> > -	 *
+> > -	 * So first these tests need to be fixed so they drop master or don't
+> > -	 * have an fd open.
+> > -	 */
+> > -	ret =3D drm_client_modeset_commit_force(&fb_helper->client);
+> > +	ret =3D drm_client_modeset_commit(&fb_helper->client);
 > >  =
 
-> > +	if (dev->driver->load) {
-> > +		if (!drm_core_check_feature(dev, DRIVER_LEGACY))
-> > +			DRM_INFO("drm driver %s is using deprecated ->load callback\n",
-> > +				 dev->driver->name);
-> > +	}
-> > +
-> >  	ret =3D drm_minor_register(dev, DRM_MINOR_RENDER);
-> >  	if (ret)
-> >  		goto err_minors;
-> > diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-> > index 77685ed7aa65..77bc63de0a91 100644
-> > --- a/include/drm/drm_drv.h
-> > +++ b/include/drm/drm_drv.h
-> > @@ -173,6 +173,9 @@ struct drm_driver {
-> >  	 *
-> >  	 * This is deprecated, do not use!
-> >  	 *
-> > +	 * FIXME: A few non-DRIVER_LEGACY drivers still use this, and should =
-be
-> > +	 * converted.
-> > +	 *
+> >  	do_delayed =3D fb_helper->delayed_hotplug;
+> >  	if (do_delayed)
+> > @@ -1357,7 +1347,7 @@ static int pan_display_atomic(struct fb_var_scree=
+ninfo *var,
+> >  =
+
+> >  	pan_set(fb_helper, var->xoffset, var->yoffset);
+> >  =
+
+> > -	ret =3D drm_client_modeset_commit_force(&fb_helper->client);
+> > +	ret =3D drm_client_modeset_commit(&fb_helper->client);
 > =
 
-> I recently converted several of them. The status here is that only
-> radeon and amdgpu still use load. I've only not been able to convert
-> them because they do some debugfs registering that relies on the device
-> being registered early. I've not had time to convert the code.
+> This needs _force because drm_fb_helper_pan_display() already holds the
+> locks.
 
-Oh nice, this sounds great. We have an outreachy project to helpt simplify
-the debugfs stuff, so might be worth waiting for that. I guess I'll keep
-this patch meanwhile (expect if Alex or Harry ack it, they'll see the
-fallout if we merge this early).
+Geez, now I remember again why I did _not_ include this in v1 :-/
+
+> With that fixed:
+> Reviewed-by: Noralf Tr=F8nnes <noralf@tronnes.org>
+> =
+
+> Maybe a better and more descriptive name would have been
+> drm_client_modeset_commit_locked().
+
+This sounds like a good idea, I'll do a patch for this. I'll need to
+resend the series anyway to be able to co-test it with the igt side fix.
+
+Thanks for your review.
 -Daniel
 
-
-> On the patch:
 > =
 
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Noralf.
 > =
 
-> =
-
-> >  	 * Returns:
+> >  	if (!ret) {
+> >  		info->var.xoffset =3D var->xoffset;
+> >  		info->var.yoffset =3D var->yoffset;
+> > diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
+> > index 5cf2c5dd8b1e..d01d311023ac 100644
+> > --- a/include/drm/drm_client.h
+> > +++ b/include/drm/drm_client.h
+> > @@ -44,6 +44,11 @@ struct drm_client_funcs {
+> >  	 * returns zero gets the privilege to restore and no more clients are
+> >  	 * called. This callback is not called after @unregister has been cal=
+led.
 > >  	 *
-> >  	 * Zero on success, non-zero value on failure.
+> > +	 * Note that the core does not guarantee exclusion against concurrent
+> > +	 * drm_open(). Clients need to ensure this themselves, for example by
+> > +	 * using drm_master_internal_acquire() and
+> > +	 * drm_master_internal_release().
+> > +	 *
+> >  	 * This callback is optional.
+> >  	 */
+> >  	int (*restore)(struct drm_client_dev *client);
 > > =
-
-> =
-
-> -- =
-
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-> (HRB 36809, AG N=FCrnberg)
-> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
-> =
-
-
-
 
 
 -- =
